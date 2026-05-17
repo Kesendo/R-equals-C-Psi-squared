@@ -36,7 +36,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Theorem 2 + <c>compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs</c>
 /// (QuarterAsBilinearMaxvalClaim + HalfAsStructuralFixedPointClaim + BilinearApexClaim) +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
-public sealed class DickeSuperpositionQuarterPi2Inheritance : Claim, IF99AnchorBearing
+public sealed class DickeSuperpositionQuarterPi2Inheritance : Claim, IF99AnchorBearing, IDickeAnchorBearing
 {
     /// <inheritdoc />
     /// <remarks>The Dicke C_block ceiling of 1/4 is a
@@ -50,6 +50,21 @@ public sealed class DickeSuperpositionQuarterPi2Inheritance : Claim, IF99AnchorB
 
     /// <inheritdoc />
     public IReadOnlyList<double> F99AnchorValues { get; } = Array.Empty<double>();
+
+    /// <inheritdoc />
+    /// <remarks>DickeSuperposition Theorem 1 is a
+    /// <see cref="DickeAnchorRole.Direct"/> claim about
+    /// <see cref="DickeAnchor.KIntermediate"/>: the C_block saturation at
+    /// 1/4 occurs on the uniform K-intermediate Dicke superposition
+    /// (|D_n⟩+|D_{n+1}⟩)/√2 at γ=1/2 (uniform amplitude c=1). Theorem 2's
+    /// AM-GM equality condition p_n = p_{n+1} = 1/2 is the K-intermediate
+    /// case. This claim is therefore Dicke-Direct (about the K-intermediate
+    /// anchor's static behaviour) while being F99-Parent (the 1/4 it derives
+    /// lives in C_block algebra, not on the F86b α-axis).</remarks>
+    public DickeAnchorRole DickeRole => DickeAnchorRole.Direct;
+
+    /// <inheritdoc />
+    public IReadOnlyList<DickeAnchor> DickeAnchors { get; } = new[] { DickeAnchor.KIntermediate };
 
     /// <summary>The Pi2 dyadic ladder typed parent: source of both
     /// <see cref="QuarterCeiling"/> (=Term(3)) and <see cref="SectorBalance"/>

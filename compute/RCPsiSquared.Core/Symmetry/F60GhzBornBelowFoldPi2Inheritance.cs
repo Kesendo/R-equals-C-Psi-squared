@@ -62,8 +62,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs</c>
 /// (PolarityLayerOriginClaim, QuarterAsBilinearMaxvalClaim).</para></summary>
-public sealed class F60GhzBornBelowFoldPi2Inheritance : Claim
+public sealed class F60GhzBornBelowFoldPi2Inheritance : Claim, IF99AnchorBearing
 {
+    /// <inheritdoc />
+    /// <remarks>Parent role: feeds the F99 inheritance graph structurally
+    /// but the claim's own value does not sit on the F86b α-axis.
+    /// GHZ-state fold position references 1/4 (QuarterAsBilinearMaxval) but
+    /// in CΨ space, not F86b α directly.</remarks>
+    public F99AnchorRole F99Role => F99AnchorRole.Parent;
+
+    /// <inheritdoc />
+    public IReadOnlyList<double> F99AnchorValues { get; } = Array.Empty<double>();
+
     public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>±0.5 polarity-pair anchor — the typed parent that grounds
     /// F60's <c>OffDiagonalElement = 1/2</c> directly on the polarity-layer

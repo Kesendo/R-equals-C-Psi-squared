@@ -65,7 +65,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>docs/water/README.md</c> § "Findings since May 4". Script:
 /// <c>simulations/water/proton_chain_dicke_anchor.py</c>.</para>
 /// </summary>
-public sealed class KIntermediateAsymptoteQuarterInheritance : Claim, IF99AnchorBearing
+public sealed class KIntermediateAsymptoteQuarterInheritance : Claim, IF99AnchorBearing, IDickeAnchorBearing
 {
     /// <inheritdoc />
     /// <remarks>F98 is a <see cref="F99AnchorRole.Direct"/> claim about the
@@ -77,6 +77,16 @@ public sealed class KIntermediateAsymptoteQuarterInheritance : Claim, IF99Anchor
 
     /// <inheritdoc />
     public IReadOnlyList<double> F99AnchorValues { get; } = new[] { 3.0 / 8.0 };
+
+    /// <inheritdoc />
+    /// <remarks>F98 is a <see cref="DickeAnchorRole.Direct"/> claim about
+    /// <see cref="DickeAnchor.KIntermediate"/> specifically: the long-time
+    /// asymptote (N+2)/[4(N+1)] → 1/4 is the dynamic behaviour of the
+    /// K-intermediate Dicke superposition ψ = (|D_{N/2−1}⟩ + |D_{N/2}⟩)/√2.</remarks>
+    public DickeAnchorRole DickeRole => DickeAnchorRole.Direct;
+
+    /// <inheritdoc />
+    public IReadOnlyList<DickeAnchor> DickeAnchors { get; } = new[] { DickeAnchor.KIntermediate };
 
     /// <summary>The 1/4 asymptote target. Typed parent.</summary>
     public QuarterAsBilinearMaxvalClaim Quarter { get; }

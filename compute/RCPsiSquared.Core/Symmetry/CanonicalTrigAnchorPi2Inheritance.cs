@@ -60,8 +60,21 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>docs/carbon/DEPTH_3_ANCHOR_DERIVED.md</c>,
 /// <c>simulations/carbon/depth_3_anchor_derivation.py</c>.</para>
 /// </summary>
-public sealed class CanonicalTrigAnchorPi2Inheritance : Claim, IF99AnchorBearing
+public sealed class CanonicalTrigAnchorPi2Inheritance : Claim, IF99AnchorBearing, IDickeAnchorBearing
 {
+    /// <inheritdoc />
+    /// <remarks>F99 covers all three uniform-Dicke <see cref="DickeAnchor"/>
+    /// cases as a strict subset of its 5-anchor sin²(θ)/2 mechanism:
+    /// Mirror (γ=1, α=0) ⊂ F99 0°-anchor,
+    /// KIntermediate (γ=1/2, α=3/8) ⊂ F99 60°-anchor,
+    /// Generic (γ=0, α=1/2) ⊂ F99 90°-anchor. The remaining two F99 anchors
+    /// (1/8 at γ=√3/2, 1/4 at γ=√2/2) are non-uniform Dicke and F99-only.</remarks>
+    public DickeAnchorRole DickeRole => DickeAnchorRole.Covers;
+
+    /// <inheritdoc />
+    public IReadOnlyList<DickeAnchor> DickeAnchors { get; } =
+        new[] { DickeAnchor.Mirror, DickeAnchor.KIntermediate, DickeAnchor.Generic };
+
     /// <summary>The 90° anchor (Generic Dicke at γ = 0). Typed parent.</summary>
     public HalfAsStructuralFixedPointClaim Half { get; }
 

@@ -26,8 +26,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>docs/ANALYTICAL_FORMULAS.md</c> F86 +
 /// <c>compute/RCPsiSquared.Core/F86/TPeakLaw.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
-public sealed class F86TPeakPi2Inheritance : Claim
+public sealed class F86TPeakPi2Inheritance : Claim, IF99AnchorBearing
 {
+    /// <inheritdoc />
+    /// <remarks>Parent role: feeds the F99 inheritance graph structurally
+    /// but the claim's own value does not sit on the F86b α-axis.
+    /// 1/4 mirror reading on inversion identity a_{-1}·a_3 = 4·(1/4) = 1 via
+    /// Quarter, not direct F86b α.</remarks>
+    public F99AnchorRole F99Role => F99AnchorRole.Parent;
+
+    /// <inheritdoc />
+    public IReadOnlyList<double> F99AnchorValues { get; } = Array.Empty<double>();
+
     public Pi2DyadicLadderClaim Ladder { get; }
     public TPeakLaw TPeak { get; }
     /// <summary>The "4" denominator in F86's <c>t_peak = 1/(4γ₀)</c>. Exactly equal to

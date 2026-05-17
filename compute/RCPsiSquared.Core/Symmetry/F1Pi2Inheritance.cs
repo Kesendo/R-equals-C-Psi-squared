@@ -34,8 +34,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs</c>.</para></summary>
-public sealed class F1Pi2Inheritance : Claim
+public sealed class F1Pi2Inheritance : Claim, IF99AnchorBearing
 {
+    /// <inheritdoc />
+    /// <remarks>Parent role: feeds the F99 inheritance graph structurally
+    /// but the claim's own value does not sit on the F86b α-axis.
+    /// F1 palindrome shift is dimensional (the "2" in Π·L·Π⁻¹ = -L - 2Σγ·I
+    /// is a_0 on the dyadic ladder = qubit dimension), not an F86b α value.</remarks>
+    public F99AnchorRole F99Role => F99AnchorRole.Parent;
+
+    /// <inheritdoc />
+    public IReadOnlyList<double> F99AnchorValues { get; } = Array.Empty<double>();
+
     public Pi2DyadicLadderClaim Ladder { get; }
     public Pi2I4MemoryLoopClaim MemoryLoop { get; }
 

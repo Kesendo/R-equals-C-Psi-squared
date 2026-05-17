@@ -65,8 +65,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/F86/F71MirrorInvariance.cs</c> +
 /// <c>compute/RCPsiSquared.Core/F71/F86MirrorGeneralisationLink.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/F71MirrorSymmetryPi2Inheritance.cs</c>.</para></summary>
-public sealed class F86F71MirrorPi2Inheritance : Claim
+public sealed class F86F71MirrorPi2Inheritance : Claim, IF99AnchorBearing
 {
+    /// <inheritdoc />
+    /// <remarks>Parent role: feeds the F99 inheritance graph structurally
+    /// but the claim's own value does not sit on the F86b α-axis.
+    /// F71 spatial mirror anchor is structural (no specific α value);
+    /// inheritance graph parent only.</remarks>
+    public F99AnchorRole F99Role => F99AnchorRole.Parent;
+
+    /// <inheritdoc />
+    public IReadOnlyList<double> F99AnchorValues { get; } = Array.Empty<double>();
+
     public F71MirrorSymmetryPi2Inheritance F71 { get; }
     public F86MirrorGeneralisationLink F86Link { get; }
     /// <summary>The mirror partner of bond b under F71 spatial reflection: N−2−b.

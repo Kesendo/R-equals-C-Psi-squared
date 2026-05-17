@@ -77,8 +77,17 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (sibling claim) +
 /// <c>compute/RCPsiSquared.Core/Symmetry/F61BitAParityPi2Inheritance.cs</c>
 /// (cited parity selection rule).</para></summary>
-public sealed class F62WStateBornBelowFoldPi2Inheritance : Claim
+public sealed class F62WStateBornBelowFoldPi2Inheritance : Claim, IF99AnchorBearing
 {
+    /// <inheritdoc />
+    /// <remarks>Parent role: feeds the F99 inheritance graph structurally
+    /// but the claim's own value does not sit on the F86b α-axis.
+    /// W-state fold mirror to F60, same mechanism via Quarter.</remarks>
+    public F99AnchorRole F99Role => F99AnchorRole.Parent;
+
+    /// <inheritdoc />
+    public IReadOnlyList<double> F99AnchorValues { get; } = Array.Empty<double>();
+
     public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>1/4 = (1/2)² bilinear-apex maxval — the typed parent that
     /// grounds F62's <c>FoldPosition</c> directly on the Quarter axis (same
