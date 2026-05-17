@@ -359,6 +359,7 @@ the palindrome provides the right side for free.
 - K_3 N=3 anomaly investigation (2026-05-17): [`simulations/f50_topology_anomaly_sweep.py`](../../simulations/f50_topology_anomaly_sweep.py)
 - Per-weight breakdown across topologies (2026-05-17): [`simulations/f50_per_weight_breakdown.py`](../../simulations/f50_per_weight_breakdown.py)
 - Spin-isotypic decomposition (2026-05-17 late evening): [`simulations/f50_spin_isotypic_decomposition.py`](../../simulations/f50_spin_isotypic_decomposition.py)
+- Max-spin closed-form via Dicke endpoint ladder rungs (2026-05-17 night): [`simulations/f50_max_spin_closed_form.py`](../../simulations/f50_max_spin_closed_form.py)
 - Native C# verification + anomaly test: `compute/RCPsiSquared.Core.Tests/Symmetry/F50NativeEigenvalueCountTests.cs`
 
 ---
@@ -591,13 +592,42 @@ For K_3 N=3 weight-1: single-block excess vs chain = 6 − 4 = 2 (from S=1/2 blo
 
 For K_4 N=4 weight-2: single-block contribution = 4 (chain) → 31 (K_4) = +27 single-block excess. Multi-block contribution = 9 (chain) → 5 (K_4) = −4 multi-block diff. Net excess = +23 ✓.
 
+**Closed-form for max-spin contribution (2026-05-17, Tier 1 derived):**
+
+For the max-spin block (S = N/2, m_S = 1, dim N+1 = symmetric subspace), the pure-weight-w sym-supported operator space has a complete closed-form, bit-exact for N = 2..5 across all w:
+
+    single_block(S = N/2, w) = { 2  if w = 0 or w = N
+                                  4  if 1 ≤ w ≤ N-1 }
+
+    Σ_w single_block(S = N/2, w) = 4N
+    Multi-weight in max-spin block = (N+1)² − 4N = (N−1)²
+
+The explicit operators are the **Dicke-endpoint ladder rungs** between |D_0⟩ = |0⟩^N and |D_N⟩ = |1⟩^N:
+
+| w | Basis of pure-weight-w max-spin ops | Dim |
+|---|-------------------------------------|-----|
+| 0 | `|D_0⟩⟨D_0|, |D_N⟩⟨D_N|` (diagonal endpoint projectors) | 2 |
+| 1..N-1 | `|D_0⟩⟨D_w| ± h.c., |D_{N-w}⟩⟨D_N| ± h.c.` (two endpoint-anchored rungs, real + imag) | 4 |
+| N | `|D_0⟩⟨D_N| + h.c., i(|D_0⟩⟨D_N| − h.c.)` (full-ladder jump) | 2 |
+
+Explicit identification of the w=0 endpoint projectors (derived from `Π_i (I ± Z_i)`):
+- `|D_0⟩⟨D_0| = (1/2^N) · Σ_k e_k(Z_1, ..., Z_N) = (1/2^N) · Π_i (I + Z_i)`
+- `|D_N⟩⟨D_N| = (1/2^N) · Σ_k (-1)^k e_k(Z_1, ..., Z_N) = (1/2^N) · Π_i (I − Z_i)`
+
+where e_k is the k-th elementary symmetric polynomial in Z-operators (verified bit-exact for N = 2..5).
+
+**Multi-weight identification:** the (N−1)² multi-weight ops in M(N+1) correspond to the (N−1)² **middle-Dicke transitions** |D_k⟩⟨D_l| for k, l ∈ {1, ..., N-1}. These intrinsically mix multiple Pauli weights when expanded (whereas endpoint-anchored rungs are pure-weight). Count check: 4N pure-weight + (N−1)² multi-weight = N² + 2N + 1 = (N+1)² ✓.
+
+**Structural reason:** the extreme Dicke states |D_0⟩ = |0⟩^N and |D_N⟩ = |1⟩^N are SINGLE computational basis states (not superpositions), so operators involving them have clean Pauli weight expansions. Middle Dicke states |D_k⟩ for 1 ≤ k ≤ N-1 are superpositions of C(N, k) computational states, and off-diagonal ops between middle states generate multi-weight Pauli expansions.
+
+**Consequence for F50:** the max-spin contribution to ker(K_N, w) is weight-uniform (always 2 or 4 per weight, never different at central vs edge weights). Therefore the **central-weight excess of K_N over chain is entirely a sub-max-spin phenomenon**, confirming the empirical observation that the K_N anomaly comes from the lower-spin sectors concentrating their mass at central weights.
+
 **What remains open for the full closed-form:**
 
-- Closed-form for the max-spin "edge 2 / interior 4" pattern. Conjecture: the count `4N = 4 + 4(N−1)` reflects the symmetric subspace dim `N+1` and the 4 free SU(2)-rep generators (X, Y, Z, I projected onto the multiplet). A character-theoretic derivation should be straightforward but isn't yet written.
-- Closed-form for sub-max central-weight counts. The values (2, 26, 1, 22, 8, 38, 124, 0, 30) don't fit a single obvious combinatorial family as functions of (m_S, 2S+1, N, w). The K_6 S=0 vanishing and K_6 S=2 even-w-only patterns suggest a parity selection rule depending on (N − 2S) mod 2 or similar; an explicit Wigner-Eckart-style derivation is the natural next step.
-- The same decomposition needs to be checked for ring/star/K_N−e (sub-K_N graphs) where multiple spin sectors persist but with different multiplicities — the F1 palindrome structure is preserved by the F1 = Π involution but the spin-isotypic decomposition is graph-specific.
+- Closed-form for sub-max central-weight counts as `f(m_S, 2S+1, N, w)` with parity rule. The values (2, 26, 1, 22, 8, 38, 124, 0, 30) for K_3..K_6 lower-spin sectors don't fit a single obvious combinatorial family. The K_6 S=0 vanishing and K_6 S=2 even-w-only patterns suggest a parity selection rule depending on (N − 2S) mod 2; an explicit Wigner-Eckart-style derivation is the natural next step (the max-spin closed-form above shows the approach is feasible).
+- Extension of the closed-form to ring/star/K_N−e (sub-K_N graphs) where multiple spin sectors persist but with different multiplicities; the max-spin pattern (2, 4, ..., 4, 2) likely generalizes since the symmetric subspace is graph-independent, but lower-spin structure depends on the graph's automorphism group.
 
-**Status:** Tier 2 empirical structural pattern; the decomposition formula `central-weight-excess = Σ_{S < N/2} single_block(S, central) + multi-block diff` reduces the open question from a single opaque count to a structured sum where each piece has identifiable algebraic origin. Full closed-form for each piece is the remaining work.
+**Status:** Max-spin closed-form is Tier 1 derived (bit-exact verification N=2..5, structural identification of basis ops). Sub-max closed-form remains Tier 2 empirical pattern. Together they reduce the central-weight excess question to: "what is the closed-form for sub-max single_block counts?", a strict refinement of the original opaque question.
 
 ### Open questions (refined post-resolution)
 
