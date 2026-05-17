@@ -89,9 +89,15 @@ public class KleinFourGroupSelfPairedSparseLBuilderTests
         // SparseShiftInvertArnoldi. The 4 sub-blocks contribute disjoint slow modes (by
         // Klein symmetry), so total slow modes ≈ 4 × K — a 4× coverage improvement over
         // Phase 2's single sweep on the full (5, 5) sector.
+        //
+        // Phase 3d: at numIter=80 with PreconditionerKind.Identity the 4th Ritz value
+        // converges to machine precision on the Klein sub-blocks (verified at N=6, 8 in
+        // Build_SparseShiftInvertWithIdentityPrecond_RecoversGenuineEigenvalues). The
+        // returned slow modes are STRICT eigenvalues (matching Phase 2 outputs), not
+        // garbage Ritz values from saturated BiCGStab.
         const double gamma = 0.05;
         const int K = 4;
-        const int numIter = 16;
+        const int numIter = 80;
         var gammaArr = Enumerable.Repeat(gamma, 10).ToArray();
 
         var sigma = new Complex(0, 0.001);  // shift just off the steady state at λ = 0
@@ -105,20 +111,18 @@ public class KleinFourGroupSelfPairedSparseLBuilderTests
             var buildTime = swChi.Elapsed;
 
             swChi.Restart();
-            // Note: BiCGStab inner solver saturates at maxIter on Klein sub-blocks at N=10
-            // (mean 1000 iter at this budget; Phase 2 JW path converges at ~22 iter mean).
-            // Jacobi preconditioning on the Klein character-projected matrix is less
-            // effective than on the JW basis — root cause unclear, candidate Phase 3d
-            // follow-up. Ritz values are therefore APPROXIMATE (not strict eigenvalues)
-            // but the slow-mode region they identify lines up with Phase 2's results from
-            // the full (5, 5) sector: e.g., (-0.200, 0) and (-0.182, 0) recovered in
-            // distinct Klein sub-blocks, matching the Phase 2 JwSlaterPairF1PalindromeProbe
-            // output. The science value: 4 distinct Klein characters → ~16 slow modes
-            // (4 per character) vs Phase 2's 4 from the same target wall budget.
+            // Phase 3d fix: Klein computational-basis sub-blocks are NOT diagonally
+            // dominant (diagonal = only -2γ·hamming, off-diagonal = ±iJ; magnitudes
+            // comparable, many rows have exact-zero diagonal). Jacobi precond therefore
+            // amplifies near-zero shifted diagonals (~1/σ ≈ 1000 at σ=(0, 0.001)),
+            // destabilising BiCGStab → saturates at maxIter without converging.
+            // PreconditionerKind.Identity preserves the natural conditioning of (L − σI)
+            // and lets BiCGStab converge to its natural rate.
             var result = SparseShiftInvertArnoldi.Run(
                 sparse.SectorDim, sparse.RowPtr, sparse.ColIdx, sparse.Values,
                 sigma, numEig: K, numIter, randomSeed: 1,
-                innerTolerance: 1e-6, innerMaxIter: 1000);
+                innerTolerance: 1e-8, innerMaxIter: 1000,
+                preconditioner: PreconditionerKind.Identity);
             var arnoldiTime = swChi.Elapsed;
 
             perSubBlockSlow[chi] = result.Eigenvalues;
@@ -138,6 +142,49 @@ public class KleinFourGroupSelfPairedSparseLBuilderTests
         Assert.Equal(4 * K, totalSlow);
         _out.WriteLine($"Phase 3c reconnaissance: {totalSlow} slow modes from 4 Klein sub-blocks " +
                        $"in {swAll.Elapsed.TotalSeconds:F1} s total.");
+    }
+
+    [Theory]
+    [InlineData(6, KleinCharacter.PlusPlus)]
+    [InlineData(6, KleinCharacter.MinusMinus)]
+    [InlineData(8, KleinCharacter.PlusPlus)]
+    public void Build_SparseShiftInvertWithIdentityPrecond_RecoversGenuineEigenvalues(
+        int N, KleinCharacter character)
+    {
+        // Strict-eigenvalue witness: the slow modes returned by SparseShiftInvertArnoldi
+        // with Identity preconditioning must be GENUINE eigenvalues of the dense Klein
+        // sub-block (no garbage Ritz values from non-converged BiCGStab). Per slow mode λ,
+        // check that some eigenvalue of the dense sub-block is within ε of λ.
+        const double gamma = 0.05;
+        var gammaArr = Enumerable.Repeat(gamma, N).ToArray();
+        var refinement = KleinFourGroupSelfPairedRefinement.Build(N);
+        var dense = refinement.BuildSubBlockL(character, gammaArr);
+        var denseEigs = dense.Evd().EigenValues.ToArray();
+
+        var sparse = KleinFourGroupSelfPairedSparseLBuilder.Build(N, character, gammaArr);
+        var sigma = new Complex(0, 0.001);
+        int numEig = Math.Min(4, sparse.SectorDim - 2);
+        // Deeper Ritz values converge slower; raise numIter and innerMaxIter to give the
+        // 4th Ritz value enough budget to reach machine precision at small N. At
+        // dim=1298 (N=8) we need ~80 Arnoldi steps for the 4th Ritz value to converge.
+        int numIter = Math.Min(80, sparse.SectorDim - 1);
+
+        var result = SparseShiftInvertArnoldi.Run(
+            sparse.SectorDim, sparse.RowPtr, sparse.ColIdx, sparse.Values,
+            sigma, numEig, numIter, randomSeed: 1,
+            innerTolerance: 1e-12, innerMaxIter: 5000,
+            preconditioner: PreconditionerKind.Identity);
+
+        _out.WriteLine($"N={N} χ={character}: dim {sparse.SectorDim}, " +
+                       $"inner BiCGStab mean {result.MeanInnerIterations:F1} iter");
+        foreach (var lam in result.Eigenvalues)
+        {
+            double minDist = denseEigs.Min(e => (e - lam).Magnitude);
+            _out.WriteLine($"  recovered λ = ({lam.Real:F6}, {lam.Imaginary:F6}); " +
+                           $"nearest dense eig at distance {minDist:G3}");
+            Assert.True(minDist < 1e-6,
+                $"Recovered λ={lam} is not a genuine eigenvalue (nearest dense eig at distance {minDist:G3})");
+        }
     }
 
     [Fact]

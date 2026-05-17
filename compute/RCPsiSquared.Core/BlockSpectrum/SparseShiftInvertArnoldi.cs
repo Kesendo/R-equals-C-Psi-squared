@@ -24,10 +24,18 @@ public static class SparseShiftInvertArnoldi
     /// <paramref name="dim"/>. Returns the <paramref name="numEig"/> eigenvalues nearest
     /// <paramref name="sigma"/>, sorted by ascending |λ − σ|; plus diagnostic outputs
     /// (deflation flag, terminal Hessenberg subdiagonal magnitude, BiCGStab inner-iter
-    /// counts per outer step).</summary>
+    /// counts per outer step).
+    ///
+    /// <para><paramref name="preconditioner"/> selects between Jacobi (diagonal) and Identity
+    /// (no preconditioning). Jacobi is the default; Identity is sometimes required when the
+    /// CSR matrix is not diagonally dominant (e.g. off-diagonal hopping dominates over
+    /// dissipator-only diagonal entries, like in the Klein-projected computational basis at
+    /// N=10 (5,5) where many rows have exact-zero diagonal). On such matrices, Jacobi inverse
+    /// amplifies near-zero shifted diagonals to ~1/σ ≈ 1000, destabilising BiCGStab.</para></summary>
     public static ShiftInvertResult Run(int dim, int[] rowPtr, int[] colIdx, Complex[] values,
         Complex sigma, int numEig, int numIter, int randomSeed,
-        double innerTolerance, int innerMaxIter)
+        double innerTolerance, int innerMaxIter,
+        PreconditionerKind preconditioner = PreconditionerKind.Jacobi)
     {
         if (rowPtr is null) throw new ArgumentNullException(nameof(rowPtr));
         if (colIdx is null) throw new ArgumentNullException(nameof(colIdx));
@@ -46,7 +54,9 @@ public static class SparseShiftInvertArnoldi
         if (innerTolerance <= 0) throw new ArgumentOutOfRangeException(nameof(innerTolerance));
         if (innerMaxIter < 1) throw new ArgumentOutOfRangeException(nameof(innerMaxIter));
 
-        var jacobiInv = BuildJacobiInverse(dim, rowPtr, colIdx, values, sigma);
+        var preconditionerDiag = preconditioner == PreconditionerKind.Jacobi
+            ? BuildJacobiInverse(dim, rowPtr, colIdx, values, sigma)
+            : BuildIdentityInverse(dim);
 
         var V = new Complex[numIter + 1][];
         V[0] = KrylovOps.RandomNormalized(dim, randomSeed);
@@ -60,7 +70,7 @@ public static class SparseShiftInvertArnoldi
 
         for (int j = 0; j < numIter; j++)
         {
-            int innerSteps = SolveShiftedSystem(dim, rowPtr, colIdx, values, sigma, jacobiInv,
+            int innerSteps = SolveShiftedSystem(dim, rowPtr, colIdx, values, sigma, preconditionerDiag,
                 V[j], w, innerTolerance, innerMaxIter);
             innerIters.Add(innerSteps);
 
@@ -194,6 +204,19 @@ public static class SparseShiftInvertArnoldi
         return maxIter;
     }
 
+    /// <summary>Identity preconditioner: M = I, M^{−1} = I. Returns all-ones for use in
+    /// the same per-element preconditioning step. For matrices that are NOT diagonally
+    /// dominant (e.g. Klein-projected computational-basis sub-blocks where the diagonal is
+    /// only the dissipator −2γ·hamming, much smaller than off-diagonal hopping ±iJ),
+    /// Jacobi preconditioning amplifies near-zero shifted diagonals to ~1/σ and destabilises
+    /// BiCGStab; using Identity instead preserves the natural conditioning of (L − σI).</summary>
+    private static Complex[] BuildIdentityInverse(int dim)
+    {
+        var inv = new Complex[dim];
+        for (int i = 0; i < dim; i++) inv[i] = Complex.One;
+        return inv;
+    }
+
     /// <summary>Pre-compute jacobiInv[α] = 1 / (L[α, α] − σ) with a floor fallback to
     /// avoid division by near-zero on near-singular shifts.</summary>
     private static Complex[] BuildJacobiInverse(int dim, int[] rowPtr, int[] colIdx,
@@ -214,6 +237,19 @@ public static class SparseShiftInvertArnoldi
         }
         return jacobiInv;
     }
+}
+
+/// <summary>Preconditioner selector for <see cref="SparseShiftInvertArnoldi.Run"/>.
+/// Jacobi (diagonal) is the default and is appropriate when the CSR matrix has dominant
+/// diagonal entries (e.g. JW Slater-pair Liouvillian where −i(ε_L − ε_K) lives on the
+/// diagonal). Identity (no preconditioning) is required when the CSR matrix is structurally
+/// not diagonally dominant — notably the Klein-projected computational-basis sub-block,
+/// where the diagonal is only the dissipator term and many rows have exact-zero diagonal,
+/// so Jacobi inverse amplifies BiCGStab residuals catastrophically.</summary>
+public enum PreconditionerKind
+{
+    Jacobi,
+    Identity,
 }
 
 /// <summary>Output of <see cref="SparseShiftInvertArnoldi.Run"/>: the recovered eigenvalues

@@ -114,14 +114,34 @@ the modes both runs sample (e.g. the steady state at (0, 0) and the (−0.200, 0
 slow-decay mode in ++; (−0.182, 0) in +-) AND extend coverage with Klein-character-
 specific modes inaccessible to Phase 2 (e.g. (−0.336) in +-, (−0.313) in -+).
 
-**Honest caveat: BiCGStab convergence on Klein sub-blocks.** Inner BiCGStab saturates
-at the iteration cap (~1000 iter) on Klein sub-blocks at N=10, vs ~22 iter mean for
-the Phase 2 JW path. Root cause: Jacobi preconditioning is less effective on the
-Klein character-projected matrix; the Ritz values from the non-converged Krylov
-subspace are therefore APPROXIMATE (not strict) eigenvalues, though the slow-mode
-*region* they identify is correct (cross-check against Phase 2 outputs). Phase 3d
-candidate: better preconditioner (ILU, polynomial, block-Jacobi) to recover Phase 2
-inner-iter performance.
+**Phase 3d (closed): correct preconditioner choice → strict eigenvalues.** The initial
+Phase 3c run used Jacobi preconditioning by default and observed BiCGStab saturating
+at the iteration cap (~1000 iter, vs Phase 2 JW's ~22 mean) — Ritz values were
+APPROXIMATE (not strict eigenvalues), a "Falle" per Tom's principle that nothing is
+imprecise in the quantum domain. Root cause diagnosed: Klein computational-basis
+sub-blocks have diagonal = only −2γ·hamming (max magnitude 1.0; many rows exactly 0
+for diagonal-projector orbits) and off-diagonal = ±iJ (magnitude 1.0). The matrix is
+NOT diagonally dominant, so Jacobi preconditioner amplifies near-zero shifted diagonals
+to ~1/σ ≈ 1000 at σ = (0, 0.001), destabilising BiCGStab. The JW basis used in Phase 2
+has ε-dominant diagonals (Hamiltonian eigen-energy differences on the diagonal), making
+Jacobi appropriate there. The fix is structural: `SparseShiftInvertArnoldi.Run`
+exposes a `PreconditionerKind` parameter (default `Jacobi` for backward compatibility,
+`Identity` for non-diagonally-dominant matrices). With `PreconditionerKind.Identity`
+and numIter=80 at N=10 (5, 5), all 16 slow modes converge to machine precision
+(1e-10 to 1e-13 distance from dense eigenvalues at small N), and the recovered slow
+modes exactly reproduce Phase 2's outputs:
+
+| Phase 2 slow mode (full sector) | Klein sub-block | Recovered (Phase 3d) |
+|---|---|---|
+| (0, 0) steady state | ++ | (0.0, 0.0) machine precision |
+| (−0.182, 0) | +- | (−0.182, 0) × 4 (degenerate) |
+| (−0.200, 0) | ++ | (−0.200, 0) × 2 (degenerate) |
+| (−0.163, ±0.239) | -- | (−0.163, ±0.238) conjugate pair |
+
+Plus Klein-character-specific modes inaccessible to Phase 2 (e.g. (−0.288) in ++,
+(−0.287, ±0.069) in -+, (−0.322, ±0.070) in --). Wall time at N=10 (5, 5):
+~65 s total for 16 slow modes across 4 sub-blocks (vs Phase 2's 8 s for 4 modes).
+4× spectral coverage at ~8× wall time, all strict eigenvalues.
 
 ## Phase 3a: Prosen rapidities for the one-sided sectors (2026-05-17)
 
