@@ -149,10 +149,24 @@ eigenoperator has components at multiple weights (w=0, w=2, w=4, ...),
 and the combination of different dephasing rates averages to exactly
 Re = −4γ.
 
-This phenomenon was also observed at weight 1 for Ring/Complete at
-N = 3 (d_real(1) = 8 > 2N = 6). It is rare but structurally important:
-d_real(k) counts ALL eigenvalues at a grid position, not just those
-from weight-k.
+The same `d_real(k) > ker(w=k)` discrepancy was originally suspected
+to also explain the **Ring/Complete N = 3 weight-1 anomaly** (d_real(1)
+= 8 > 2N = 6). **2026-05-17 update / correction:** native C# verification
+of F50 + explicit per-weight Pauli decomposition of the 2 K_3 extras
+shows they are **pure weight-1** (`|c_α|² in weight-1 sector = 1.000000`,
+all other weight sectors exactly zero). The K_3 N=3 anomaly is NOT
+multi-weight mixing; the extras live entirely inside the weight-1
+sector. The correct attribution is the **2-dim standard irreducible
+representation of S_3 = Aut(K_3)** acting on the weight-1 c=1 Pauli
+strings — see [`PROOF_WEIGHT1_DEGENERACY § Appendix (2026-05-17)`](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md)
+for the proof's Step-5 gap analysis (matrix-commutator vs conjugation-
+action) and the structural identification.
+
+The Chain N=4 weight-2 `+1` excess at Re = −4γ remains an honest
+multi-weight-mixing case (verified there explicitly via the eigenoperator's
+multi-weight Pauli content). Multi-weight mixing and irrep-induced extras
+are two distinct mechanisms for `d_real(k) > ker(w=k)`; the K_3 N=3 case
+exemplifies the latter.
 
 ---
 
@@ -182,20 +196,35 @@ from weight-k.
 
 ## What this means for the project
 
-1. **Weight 1 is special.** The clean d_real(1) = 2N formula with its
-   topology-independent SWAP proof is the exception, not the rule.
-   Weight 2 and beyond are governed by more complex representation
-   theory.
+1. **Weight 1 is special, except K_3 N=3.** The clean `d_real(1) = 2N`
+   formula with its topology-independent SWAP proof is the exception
+   for k ≥ 2 (this document) but is itself violated at one specific
+   small-graph case: the K_3 (= triangle, ring at N=3, complete on 3
+   vertices) gives `d_real(1) = 8` instead of `2N = 6`. The 2 extras
+   are weight-1 operators in the S_3 standard 2-dim irrep, not multi-
+   weight mixing — see [`PROOF_WEIGHT1_DEGENERACY § Appendix (2026-05-17)`](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md).
+   So even weight 1 has irrep structure beyond the trivial; it just
+   needs one specific graph (K_3) to surface. Weight 2 and beyond are
+   governed by more complex representation theory across many graphs.
 
-2. **The topology matters.** A universal formula d_real(k, N) for k ≥ 2
+2. **The topology matters.** A universal formula `d_real(k, N)` for k ≥ 2
    does not exist. Any formula must incorporate the bond structure
-   of the graph.
+   of the graph. At k = 1 the same holds in degenerate form: K_3 N=3
+   is the unique counterexample to topology-independence.
 
 3. **The palindrome is deeper than the kernel.** The palindrome
-   d_real(k) = d_real(N−k) holds for every topology (proven via Π
-   conjugation). But the individual values d_real(k) depend on the
+   `d_real(k) = d_real(N − k)` holds for every topology (proven via Π
+   conjugation). But the individual values `d_real(k)` depend on the
    topology. The palindrome is a spectral symmetry; the degeneracy
    counts are dynamical.
+
+4. **The Trivial/Alternating/Mixed table is the right framework.**
+   Today's K_3 N=3 weight-1 anomaly slots into this document's table
+   format with one new row (and one refined "Standard (2-dim, S_3)"
+   column inside what was previously labeled "Mixed"). The table at
+   weight-2 (N ≥ 4) entries in the "Mixed" column are also good
+   candidates for irrep-by-irrep refinement; doing this systematically
+   is open.
 
 ---
 

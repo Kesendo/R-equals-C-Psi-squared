@@ -283,6 +283,11 @@ graph automorphism group `Aut(G)` and its irrep structure on the weight-1
 Pauli-string sector? K_3 N=3 with `Aut = S_3` has 2 extras from the
 S_3 standard rep; do larger graphs with high symmetry have similar
 extras that simply land in higher-weight sectors (not weight-1)?
+[`experiments/WEIGHT2_KERNEL.md`](../experiments/WEIGHT2_KERNEL.md)
+(April 2026) already provides the Trivial/Alternating/Mixed irrep
+decomposition framework for weight-2 kernels at N=3..6; today's
+weight-1 K_3 N=3 finding extends the same format to weight-1 with the
+Standard (2-dim, S_3) column.
 **Replaces:** eigenvector analysis at the first grid position;
 numerical counting of purely-real eigenvalues (modulo the K_3 N=3 case).
 **Source:** [Weight-1 Degeneracy Proof](proofs/PROOF_WEIGHT1_DEGENERACY.md)

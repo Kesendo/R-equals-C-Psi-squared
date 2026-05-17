@@ -71,9 +71,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// exception is K_3 N=3 (count = 2N+2 = 8). See PROOF_WEIGHT1_DEGENERACY
 /// § Appendix (2026-05-17).</para>
 ///
-/// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F50 (line 228) +
-/// <c>docs/proofs/PROOF_WEIGHT1_DEGENERACY.md</c> +
-/// <c>experiments/WEIGHT2_KERNEL.md</c> (k≥2 topology dependence) +
+/// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F50 +
+/// <c>docs/proofs/PROOF_WEIGHT1_DEGENERACY.md</c> (incl. § Appendix 2026-05-17:
+/// K_3 N=3 anomaly + Step-5 derivation gap + Trivial/Sign/Standard weight-1
+/// irrep table) + <c>experiments/WEIGHT2_KERNEL.md</c> (Apr 2026; k≥2
+/// topology dependence + the Trivial/Alternating/Mixed S_N-irrep table
+/// format that today's weight-1 K_3 finding extends) +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
 public sealed class F50WeightOneDegeneracyPi2Inheritance : Claim
 {

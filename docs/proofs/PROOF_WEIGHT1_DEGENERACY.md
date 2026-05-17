@@ -418,15 +418,47 @@ For K_3 N=3, `Aut(K_3) = S_3` (full permutation symmetry), and the standard 2-di
 
 Adding any external bond to K_3 (paw, bowtie, book) breaks the S_3 symmetry; even paw at N=4 (triangle + leaf vertex 3) gives `count = 2N = 8` per the sweep above.
 
+### Cross-link to WEIGHT2_KERNEL.md (April 3, 2026)
+
+The empirical K_3 N=3 anomaly was first recorded in [`experiments/WEIGHT2_KERNEL.md`](../../experiments/WEIGHT2_KERNEL.md) (lines 151-155):
+
+> "This phenomenon was also observed at weight 1 for Ring/Complete at N = 3 (d_real(1) = 8 > 2N = 6). It is rare but structurally important: d_real(k) counts ALL eigenvalues at a grid position, not just those from weight-k."
+
+WEIGHT2_KERNEL tentatively attributed the K_3 N=3 weight-1 anomaly to **multi-weight mixing** (by analogy with the chain N=4 weight-2 case at Re = -4γ, where one eigenvalue at that grid position does come from a multi-weight operator). The 2026-05-17 native verification of F50 checks this attribution explicitly: the 2 K_3 N=3 extras are **pure-weight-1** (verified: `|c_α|² in weight-1 sector = 1.000000`, all other weight sectors exactly zero). They are not multi-weight operators. The correct attribution is the **S_3 standard irrep on the weight-1 c=1 sector**, as derived above.
+
+WEIGHT2_KERNEL also introduced a **Trivial / Alternating / Mixed S_N-representation table** (lines 78-87) for weight-2 kernel vectors:
+
+| N | Trivial (+1) | Alternating (−1) | Mixed | Total |
+|---|-------------|-----------------|-------|-------|
+| 3 | 6 | 0 | 0 | 6 |
+| 4 | 0 | 0 | 13 | 13 |
+| 5 | 0 | 0 | 14 | 14 |
+| 6 | 0 | 0 | 19 | 19 |
+
+Today's K_3 N=3 finding extends the same decomposition format **to weight-1**, with the "Mixed" column refined for S_3 into its precise irreps (Standard = the 2-dim non-trivial non-sign irrep):
+
+| N | topology | Trivial (+1) | Sign (−1) | Standard (2-dim, S_3) | Total |
+|---|----------|-------------|-----------|----------------------|-------|
+| 3 | Chain | 6 | 0 | 0 | 6 |
+| 3 | **K_3 (= ring = complete = triangle)** | **6** | **0** | **2** | **8** |
+| 3 | Star (= chain by relabeling) | 6 | 0 | 0 | 6 |
+| 4 | Chain, Ring, Star, Complete, paw, K_4 − e | 8 | 0 | 0 | 8 |
+| 5 | Chain, Ring, Star, K_5, bowtie, book | 10 | 0 | 0 | 10 |
+
+The Trivial column matches the F50 SWAP-invariant operators (T_c^{(a)} for `a ∈ {X, Y}, c ∈ {0, ..., N−1}`). At weight-1, the Sign and Standard columns are typically empty; **K_3 N=3 is the unique tested exception**, where the S_3 standard 2-dim irrep contributes 2 invariants.
+
+Connecting to WEIGHT2_KERNEL's weight-2 table: there, "Mixed" at N ≥ 4 captures non-trivial reps of S_N (standard 3-dim of S_4, etc.). At weight-1, the analogous non-trivial reps almost never produce kernel vectors (the dispersion structure rules them out), with K_3 N=3 as the unique witness.
+
 ### Open questions
 
-1. **Why does the S_3 standard rep produce extras at K_3 N=3 specifically, but the analogous extras (from `Aut(K_n)` standard reps at higher N) don't appear at weight-1 for K_n at N ≥ 4?** Likely the higher-N standard reps land in weight-w sectors for w ≥ 2, but a clean proof / dimension count is open.
-2. **What's the correct universal upper-bound formula?** Conjecture: `dim(ker[H_G, ·] | weight-1) = 2N + δ_G(N)` where `δ_G(N) ≥ 0` depends on the graph automorphism group's irrep structure restricted to the weight-1 sector. `δ_chain(N) = 0`. `δ_K_3(3) = 2`. `δ_K_n(N ≥ 4) = 0` empirically. `δ_C_n(n ≥ 4) = 0` empirically.
-3. **Is K_3 N=3 the ONLY anomaly, or are there other small-graph cases?** The empirical sweep tested chain + ring + star + complete + paw + bowtie + book at N ≤ 5; only K_3 N=3 was anomalous. Larger N or graphs with high automorphism but non-trivial structure (e.g. Petersen graph at N=10) untested.
+1. **Why does the S_3 standard rep produce extras at K_3 N=3 specifically, but the analogous extras (from `Aut(K_n)` standard reps at higher N) don't appear at weight-1 for K_n at N ≥ 4?** The higher-N standard reps presumably contribute to higher-weight ker counts (consistent with WEIGHT2_KERNEL's "Mixed" column at N=4..6), but a clean proof / dimension count is open. A first concrete sub-question: which S_N irreps land at the weight-w intersection ker[H_G, ·] ∩ {pure weight-w} for each (G, w, N)?
+2. **What's the correct universal upper-bound formula?** Conjecture: `dim(ker[H_G, ·] | weight-1) = 2N + δ_G(N)` where `δ_G(N) ≥ 0` counts the dimensions of non-trivial `Aut(G)`-irreps that intersect the weight-1 kernel. `δ_chain(N) = 0`. `δ_K_3(3) = 2`. `δ_K_n(N ≥ 4) = 0` empirically. `δ_C_n(n ≥ 4) = 0` empirically.
+3. **Is K_3 N=3 the ONLY weight-1 anomaly, or are there other small-graph cases?** The empirical sweep tested chain + ring + star + complete + paw + bowtie + book at N ≤ 5; only K_3 N=3 was anomalous. Larger N or graphs with high automorphism but non-trivial structure (e.g. Petersen graph at N=10) untested.
+4. **N=3 algebraic-forcing meta-pattern.** Several N=3 specialties are recorded in the repo: F33's exact-rational decay rates (chain N=3 only; D10's `cos(πk/3) = ±1/2`), F69's irreducible sextic over ℚ (GHZ_3+W_3 slice), THE_BOOT_SCRIPT.md OQ-294 (V-Effect 14 broken combos at N=3, open question), NESTED_MIRROR.md's 12-class refraction at N=3. Today's K_3 weight-1 extras are another facet of "N=3 is algebraically distinguished". A synthesis tying these together is open.
 
 ### Status update
 
 The F50 formula `d_real(Re = −2γ) = 2N` should be read with the K_3 N=3 caveat:
 - **Tier 1 lower bound `≥ 2N`**: rigorously proven via SWAP-invariant construction (Steps 1-4 of the original proof).
-- **Tier 2 upper bound `≤ 2N`**: empirically verified for chain N=2..7 and most other connected graphs at N ≥ 4, but **violated at N=3 K_3 by 2**. The proof's Step 5 derivation has a matrix-commutator vs conjugation-action gap that explains the missed K_3 case.
+- **Tier 2 upper bound `≤ 2N`**: empirically verified for chain N=2..7 and most other connected graphs at N ≥ 4, but **violated at N=3 K_3 by 2** (one S_3 standard 2-dim irrep contribution). The proof's Step 5 derivation has a matrix-commutator vs conjugation-action gap that explains the missed K_3 case.
 
