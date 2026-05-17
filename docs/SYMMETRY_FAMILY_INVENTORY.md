@@ -66,6 +66,46 @@ The combinatorial table above is unchanged — joint-popcount + F71 + X⊗N stil
 
 **Phase 2 timing at N=10 (5,5)** (Jacobi-preconditioned BiCGStab, commodity hardware): sparse build ~3 s, two-shift probe with K=4 per end at numIter=20, inner tol 1e-8 ~8 s. Inner BiCGStab mean iter dropped from ~866 (pre-Jacobi) to ~22 (post-Jacobi commit `45e6a40`), a ~40× wall-clock improvement.
 
+## Phase 3b: Klein 4-group internal symmetry on self-paired sectors (2026-05-17)
+
+The X⊗N global charge-conjugation primitive `XGlobalChargeConjugationPairing` halves the
+number of distinct sector eig-calls by pairing (p_c, p_r) ↔ (N−p_c, N−p_r). At even N
+the sector (N/2, N/2) is X⊗N-self-paired — its pair *is itself* — so the inter-sector
+halving cannot apply. But X⊗N is still a Z₂ symmetry of that sector's Liouville-space
+basis, and combined with the F71 chain spatial mirror (also Z₂, commutes with X⊗N) it
+generates the Klein four-group K = {1, F71, X⊗N, F71·X⊗N} acting *internally* on the
+(N/2, N/2) basis. K splits the sector into 4 character sub-blocks (++, +-, -+, --).
+
+This closes the gap between the inventory's advertised "≈ 16k max-block at N=10" (which
+was implicitly assuming the Klein splitting) and the previously delivered 31752 dim from
+F71 alone. The Klein refinement primitive
+`compute/RCPsiSquared.Core/BlockSpectrum/KleinFourGroupSelfPairedRefinement.cs` builds:
+
+| Klein character | (++) | (+-) | (-+) | (--) | sum |
+|-----------------|------|------|------|------|-----|
+| Sub-block dim at N=10 (5, 5) | 16132 | 15620 | 15620 | 16132 | 63504 ✓ |
+
+Per sub-block element-wise construction (no full sector L materialised): ~19 s per sub-block
+at N=10 (5, 5), mean nnz per row 10.7 — **sparse**, 0.07 % density, ~170 k nnz vs 260 M
+dense entries. Cross-validated at N=4 (2, 2), N=6 (3, 3), N=8 (4, 4): union of the 4
+sub-block dense Evds matches the direct `PerBlockLiouvillianBuilder` sector Evd as a
+multiset within 1e-9.
+
+**Where the literature does not go.** Medvedyeva-Essler-Prosen (2016) reach N=10 via
+the imaginary-U Bethe ansatz — analytic, doesn't need K splitting. For our
+computational path, K on self-paired sectors is repo-specific (F71 spatial Z₂ ×
+X⊗N charge Z₂ both typed primitives, combination unique to this codebase).
+
+**Phase 3c (open).** Per-sub-block dense Evd at dim 16132 is blocked by the
+.NET/MKL int32 array-size cap (16132² × 16 byte = 4.2 GB > 2 GB managed marshaling
+limit; same constraint compute/RCPsiSquared.Compute solved at N=8 via NativeMemory +
+ILP64 LAPACK in MklDirect.cs). BUT the reconnaissance shows each sub-block is sparse
+(mean 10.7 nnz per row), so the natural Phase 3c is *not* to port the dense ILP64
+path — it's to store the sub-blocks as CSR sparse matrices and reuse the Phase 2
+`JwSlaterPairShiftInvertArnoldi` machinery for per-sub-block top-K extraction. That
+delivers 4×top-K slow modes per (5, 5) sweep, the most slow-mode coverage we can
+get without overnight runs.
+
 ## Phase 3a: Prosen rapidities for the one-sided sectors (2026-05-17)
 
 The (p_c = 0, p_r = m) sectors of chain XY + uniform Z-dephasing admit a closed-form
@@ -105,4 +145,5 @@ state at λ=0) to fast (m=N=10, λ=−2Σγ = −1.0 at γ=0.05) range uniformly
 - F91/F92/F93 algebraic proofs: `docs/proofs/PROOF_F91_GAMMA_NINETY_DEGREES.md`, `docs/proofs/PROOF_F92_BOND_ANTI_PALINDROMIC_J.md`, `docs/proofs/PROOF_F93_DETUNING_ANTI_PALINDROMIC.md`.
 - Phase 2 N=10 push primitives: `compute/RCPsiSquared.Core/BlockSpectrum/JordanWigner/JwSlaterPairBasis.cs`, `JwSlaterPairLProjection.cs`, `JwSlaterPairSparseLBuilder.cs`, `JwSlaterPairArnoldiEig.cs`, `JwSlaterPairShiftInvertArnoldi.cs`, `JwSlaterPairF1PalindromeProbe.cs`, `KrylovOps.cs`.
 - Phase 3a Prosen leaf: `compute/RCPsiSquared.Core/BlockSpectrum/Prosen/OneSidedSectorClosedForm.cs`.
+- Phase 3b Klein-4 refinement: `compute/RCPsiSquared.Core/BlockSpectrum/KleinFourGroupSelfPairedRefinement.cs`.
 - Synthesis: `reflections/ON_THE_SYMMETRY_FAMILY.md`, `reflections/ON_THE_NINETY_DEGREE_GAMMA.md`.
