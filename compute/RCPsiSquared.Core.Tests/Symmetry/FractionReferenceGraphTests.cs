@@ -58,20 +58,26 @@ public class FractionReferenceGraphTests
     }
 
     [Fact]
-    public void MirrorClaimEdge_AtZeroSelfRoot()
+    public void PolarityConvergenceEdge_AtZeroSelfLoop()
     {
         var g = new FractionReferenceGraph();
         var from = g.ReferencesFrom(0.0);
+        // The (0,0) self-loop now carries Polarity direction (NOT Backward),
+        // documenting the ±γ → α=0 folding convergence per
+        // PolarityLayerOriginClaim. This is the structural alignment fix
+        // from 2026-05-17 night agent investigation.
         Assert.Contains(from, r => Math.Abs(r.ToFraction - 0.0) < 1e-12
-                                    && r.DocumentingClaim.Contains("XGlobalEigenstateMirror"));
+                                    && r.Direction == FractionReferenceDirection.Polarity
+                                    && r.DocumentingClaim.Contains("XGlobalEigenstateMirror")
+                                    && r.DocumentingClaim.Contains("PolarityLayerOrigin"));
     }
 
     [Fact]
-    public void AllF99Ankers_BackwardReachZero_TomStructuralClaim()
+    public void AllF99Ankers_ConvergeToMirrorAxis_TomStructuralClaim()
     {
         var g = new FractionReferenceGraph();
-        Assert.True(g.AllAnkersReachZeroBackward(),
-            "Tom's claim: every F99 anker has a backward-reference chain that ends at 0");
+        Assert.True(g.AllAnkersConvergeToMirrorAxis(),
+            "Tom's claim: every F99 anker has a backward-reference chain to α=0 (the polarity-mirror convergence point on the folded α-axis)");
     }
 
     [Fact]
@@ -114,7 +120,7 @@ public class FractionReferenceGraphTests
         var rendered = g.Render();
         Assert.Contains("F99 ankers:", rendered);
         Assert.Contains("Q basis ankers:", rendered);
-        Assert.Contains("AllAnkersReachZeroBackward = True", rendered);
+        Assert.Contains("AllAnkersConvergeToMirrorAxis = True", rendered);
         Assert.Contains("Multi-edge fraction pairs", rendered);
         _out.WriteLine(rendered);
     }

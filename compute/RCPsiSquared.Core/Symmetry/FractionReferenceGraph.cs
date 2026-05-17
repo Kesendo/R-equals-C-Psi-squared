@@ -3,14 +3,24 @@ using System.Text;
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>The static catalog of fraction-to-fraction references in the
-/// framework's algebra, plus query methods for walking the graph.
+/// framework's algebra (α-axis coordinates), plus query methods for walking
+/// the graph.
 ///
 /// <para>Tonight's structural observation (Tom + Claude 2026-05-17 night):
 /// the "Level" structure isn't a stack — it's the WEB OF REFERENCES between
-/// fractions. Each anker fraction in {0, 1/8, 1/4, 3/8, 1/2} is a node;
-/// each operation (squaring, F86b α(γ), F98 long-time asymptote, Π²-parity
-/// complement, ...) is an edge. 0 is the root of the back-reference tree
-/// (all back-trajectories end at the Mirror endpoint, via F86b α(γ=1) = 0).</para>
+/// fractions. Each anker fraction in {0, 1/8, 1/4, 3/8, 1/2} is a node on
+/// the α-axis; each operation (squaring, F86b α(γ), F98 long-time asymptote,
+/// Π²-parity complement, ...) is an edge.</para>
+///
+/// <para><b>Important: this graph lives on the α-axis [0, 1/2], which is
+/// ALREADY the folded picture under F86b α(γ) = (1−γ²)/2.</b> Two γ-values
+/// ±|γ| map to the same α, so the α-axis cannot itself express polarity
+/// mirror partners. 0 is therefore NOT a back-reference root — it is the
+/// convergence point where the ±γ-polarity sides meet under folding.
+/// The proper polarity-mirror structure lives on the γ-axis in a
+/// separate map (see <c>PolarityMirrorMap</c>), and the existing typed
+/// <see cref="PolarityLayerOriginClaim"/> already documents 0 as the active
+/// substrate axis, not a passive midpoint or tree root.</para>
 ///
 /// <para><b>Operationally</b>: the basis Q = J/γ₀ then evaluates these
 /// references at specific Q-anchors. At Q=1 (Balance), F99 anker fractions
@@ -63,9 +73,9 @@ public sealed class FractionReferenceGraph
             new(1.0 / 2.0, 0.0, "F86b α(γ) backward: γ=0 to γ=1 traverses non-anker continuum down to 0",
                 FractionReferenceDirection.Backward, "CanonicalTrigAnchorPi2Inheritance"),
 
-            // === Mirror endpoint as universal back-reference root ===
-            new(0.0, 0.0, "Mirror root: X⊗N|ψ⟩ = ±|ψ⟩ ⟹ γ=±1 ⟹ α=0; no back-reference past 0",
-                FractionReferenceDirection.Backward, "XGlobalEigenstateMirrorPi2Inheritance"),
+            // === α=0 as polarity-mirror convergence (NOT root) ===
+            new(0.0, 0.0, "Mirror convergence: X⊗N|ψ⟩ = ±|ψ⟩ at γ=+1 OR γ=-1 both fold to α=0 via (1−γ²)/2; the ±γ-polarity sides meet here, NOT a tree root (see PolarityLayerOriginClaim, PolarityMirrorMap on γ-axis)",
+                FractionReferenceDirection.Polarity, "XGlobalEigenstateMirrorPi2Inheritance + PolarityLayerOriginClaim"),
 
             // === F99 canonical-trig adjacency (anker chain via cos at canonical angles) ===
             new(1.0 / 2.0, 3.0 / 8.0, "F99 canonical-trig adjacent: γ=cos(60°)=1/2 ↔ γ=cos(90°)=0, α 3/8 ↔ 1/2",
@@ -122,7 +132,7 @@ public sealed class FractionReferenceGraph
 
     /// <summary>Walk all backward references from <paramref name="start"/>
     /// recursively, collecting reached fractions. Returns the set of
-    /// fractions reachable by following backward arrows.</summary>
+    /// fractions reachable by following backward arrows on the α-axis.</summary>
     public IReadOnlySet<double> BackwardClosure(double start)
     {
         var visited = new HashSet<double>();
@@ -134,7 +144,9 @@ public sealed class FractionReferenceGraph
             double current = queue.Dequeue();
             foreach (var r in BackwardFrom(current))
             {
-                if (Math.Abs(r.ToFraction - r.FromFraction) < Tol) continue; // self-loops at 0 root
+                // Skip self-loops at α=0 (the Polarity convergence edge is not
+                // a backward step; it documents that ±γ both fold to α=0).
+                if (Math.Abs(r.ToFraction - r.FromFraction) < Tol) continue;
                 if (!visited.Any(v => Math.Abs(v - r.ToFraction) < Tol))
                 {
                     visited.Add(r.ToFraction);
@@ -145,13 +157,16 @@ public sealed class FractionReferenceGraph
         return visited;
     }
 
-    /// <summary>Verify Tom's claim: every F99 anker can reach 0 via backward
-    /// references. 0 is the universal back-reference root.</summary>
-    public bool AllAnkersReachZeroBackward()
+    /// <summary>Verify the structural claim: every F99 anker can reach α=0
+    /// via backward references on the α-axis. α=0 is the Mirror convergence
+    /// point where ±γ-polarity sides meet under (1−γ²)/2 folding — NOT a
+    /// tree root (per <see cref="PolarityLayerOriginClaim"/> which types 0
+    /// as the active substrate axis, not a passive midpoint).</summary>
+    public bool AllAnkersConvergeToMirrorAxis()
     {
         foreach (var anker in F99Ankers)
         {
-            if (Math.Abs(anker) < Tol) continue; // 0 trivially reaches itself
+            if (Math.Abs(anker) < Tol) continue; // α=0 trivially is itself
             var closure = BackwardClosure(anker);
             if (!closure.Any(v => Math.Abs(v) < Tol)) return false;
         }
@@ -203,6 +218,7 @@ public sealed class FractionReferenceGraph
                     FractionReferenceDirection.Forward  => "→",
                     FractionReferenceDirection.Backward => "↞",
                     FractionReferenceDirection.Mirror   => "↔",
+                    FractionReferenceDirection.Polarity => "⇌",
                     _ => "?",
                 };
                 sb.AppendLine($"    {arrow} {F(r.ToFraction)}  [{r.Operation}]");
@@ -220,7 +236,10 @@ public sealed class FractionReferenceGraph
         }
         sb.AppendLine();
 
-        sb.AppendLine($"Universal back-root verification: AllAnkersReachZeroBackward = {AllAnkersReachZeroBackward()}");
+        sb.AppendLine($"Mirror-axis convergence: AllAnkersConvergeToMirrorAxis = {AllAnkersConvergeToMirrorAxis()}");
+        sb.AppendLine("  (α=0 is the convergence point where ±γ-polarity sides meet under");
+        sb.AppendLine("  (1−γ²)/2 folding, NOT a tree root — see PolarityLayerOriginClaim");
+        sb.AppendLine("  and PolarityMirrorMap on the γ-axis for the unfolded polarity structure.)");
         return sb.ToString();
     }
 
