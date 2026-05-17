@@ -47,8 +47,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// </list>
 ///
 /// <para>This claim is the first Mirror-endpoint Direct. The α=1/2 Generic
-/// endpoint is the natural next candidate (Tom + Claude 2026-05-17 night
-/// gap-walk).</para>
+/// endpoint is the natural next candidate.</para>
 ///
 /// <para>Anchors: <c>compute/RCPsiSquared.Core/Symmetry/DickeAnchor.cs</c>
 /// (enum where this anchor is named Mirror) +

@@ -1,13 +1,12 @@
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>Direction of a fraction-to-fraction reference. Tom's structural
-/// observation (2026-05-17 night): non-anker fractions point FORWARD to
-/// their nearest anker; anker fractions point BACKWARD through non-anker
-/// trajectories on the α-axis. The α-axis is the folded picture under
-/// α = (1−γ²)/2; the true polarity-mirror structure lives on the γ-axis
-/// (in a separate <c>PolarityMirrorMap</c>), and 0 is NOT a root but the
-/// convergence point where the ±γ-polarity sides meet under folding (per
-/// <see cref="PolarityLayerOriginClaim"/>).
+/// <summary>Direction of a fraction-to-fraction reference. Non-anker
+/// fractions point FORWARD to their nearest anker; anker fractions point
+/// BACKWARD through non-anker trajectories on the α-axis. The α-axis is the
+/// folded picture under α = (1−γ²)/2; the true polarity-mirror structure
+/// lives on the γ-axis (in a separate <c>PolarityMirrorMap</c>), and 0 is
+/// NOT a root but the convergence point where the ±γ-polarity sides meet
+/// under folding (per <see cref="PolarityLayerOriginClaim"/>).
 ///
 /// <para><b>Forward</b>: non-anker → anker, or smaller-anker → larger-anker
 /// upward in the α-axis. The arrow points toward more-structured.</para>

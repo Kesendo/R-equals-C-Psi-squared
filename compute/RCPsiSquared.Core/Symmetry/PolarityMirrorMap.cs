@@ -6,18 +6,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// complementary to <see cref="FractionReferenceGraph"/> (which lives on the
 /// α-axis, the folded picture under α = (1−γ²)/2).
 ///
-/// <para>Tom's 2026-05-17 night observation: the F99 ankers each (except
-/// α=1/2 at γ=0) have TWO γ-realizations ±|γ|. These polarity-mirror
-/// partners both map to the same α via the symmetric F86b formula
-/// (1−γ²)/2. The α-axis cannot express this pairing because it's already
-/// folded; the γ-axis is where the unfolded polarity structure lives.</para>
+/// <para>Each F99 anker (except α=1/2 at γ=0) has TWO γ-realizations ±|γ|.
+/// These polarity-mirror partners both map to the same α via the symmetric
+/// F86b formula (1−γ²)/2. The α-axis cannot express this pairing because
+/// it's already folded; the γ-axis is where the unfolded polarity structure
+/// lives.</para>
 ///
 /// <para><b>Already typed in the framework</b>:
 /// <see cref="PolarityLayerOriginClaim"/> documents 0 as the active substrate
 /// axis with +0/−0 internal structure flanked by ±0.5 polarity at d=2.
 /// <see cref="States.PolarityState"/> implements |+⟩/|−⟩ eigenstates as
 /// typed API. <see cref="XGlobalEigenstateMirrorPi2Inheritance"/>
-/// (built 2026-05-17 night) covers both γ=+1 and γ=−1 in its
+/// covers both γ=+1 and γ=−1 in its
 /// <c>AlphaFromGammaAtMirror</c> evaluation. This map collects the
 /// γ-pairs into one queryable structure.</para>
 ///
@@ -47,7 +47,7 @@ public sealed class PolarityMirrorMap
     {
         /// <summary>True if γ_plus = γ_minus (the Generic γ=0 case where
         /// the polarity mirror is the identity).</summary>
-        public bool IsSelfMirror => Math.Abs(GammaPlus - GammaMinus) < 1e-12;
+        public bool IsSelfMirror => Math.Abs(GammaPlus - GammaMinus) < AnchorConstants.Tol;
 
         /// <summary>The folding identity: α = (1−γ²)/2 should equal
         /// AlphaImage for both γ_plus and γ_minus (and trivially does so
@@ -86,8 +86,6 @@ public sealed class PolarityMirrorMap
                 DocumentingClaim: "CanonicalTrigAnchorPi2Inheritance (F99, 90° anchor) + DickeAnchor.Generic"),
         };
 
-    private const double Tol = 1e-12;
-
     public IReadOnlyList<PolarityPair> Pairs { get; }
 
     public PolarityMirrorMap() : this(CanonicalPairs) { }
@@ -116,8 +114,8 @@ public sealed class PolarityMirrorMap
         {
             double alphaPlus = pair.FoldedAlpha(pair.GammaPlus);
             double alphaMinus = pair.FoldedAlpha(pair.GammaMinus);
-            if (Math.Abs(alphaPlus - pair.AlphaImage) > Tol) return false;
-            if (Math.Abs(alphaMinus - pair.AlphaImage) > Tol) return false;
+            if (Math.Abs(alphaPlus - pair.AlphaImage) > AnchorConstants.Tol) return false;
+            if (Math.Abs(alphaMinus - pair.AlphaImage) > AnchorConstants.Tol) return false;
         }
         return true;
     }
@@ -125,14 +123,14 @@ public sealed class PolarityMirrorMap
     /// <summary>Find the polarity pair whose α-image matches the given α.
     /// Returns null if no pair matches.</summary>
     public PolarityPair? PairForAlpha(double alpha) =>
-        Pairs.FirstOrDefault(p => Math.Abs(p.AlphaImage - alpha) < Tol);
+        Pairs.FirstOrDefault(p => Math.Abs(p.AlphaImage - alpha) < AnchorConstants.Tol);
 
     /// <summary>Find the polarity pair containing the given γ value (either
     /// side). Returns null if no pair contains it.</summary>
     public PolarityPair? PairForGamma(double gamma) =>
         Pairs.FirstOrDefault(p =>
-            Math.Abs(p.GammaPlus - gamma) < Tol ||
-            Math.Abs(p.GammaMinus - gamma) < Tol);
+            Math.Abs(p.GammaPlus - gamma) < AnchorConstants.Tol ||
+            Math.Abs(p.GammaMinus - gamma) < AnchorConstants.Tol);
 
     /// <summary>Render the γ-axis pair structure as a printable table.</summary>
     public string Render()

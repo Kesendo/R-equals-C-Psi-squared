@@ -6,11 +6,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// framework's algebra (α-axis coordinates), plus query methods for walking
 /// the graph.
 ///
-/// <para>Tonight's structural observation (Tom + Claude 2026-05-17 night):
-/// the "Level" structure isn't a stack — it's the WEB OF REFERENCES between
-/// fractions. Each anker fraction in {0, 1/8, 1/4, 3/8, 1/2} is a node on
-/// the α-axis; each operation (squaring, F86b α(γ), F98 long-time asymptote,
-/// Π²-parity complement, ...) is an edge.</para>
+/// <para>The "Level" structure isn't a stack — it's the WEB OF REFERENCES
+/// between fractions. Each anker fraction in {0, 1/8, 1/4, 3/8, 1/2} is a
+/// node on the α-axis; each operation (squaring, F86b α(γ), F98 long-time
+/// asymptote, Π²-parity complement, ...) is an edge.</para>
 ///
 /// <para><b>Important: this graph lives on the α-axis [0, 1/2], which is
 /// ALREADY the folded picture under F86b α(γ) = (1−γ²)/2.</b> Two γ-values
@@ -24,14 +23,14 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para><b>Operationally</b>: the basis Q = J/γ₀ then evaluates these
 /// references at specific Q-anchors. At Q=1 (Balance), F99 anker fractions
-/// land directly in the Liouvillian Im=0 spectrum at small N (verified
-/// 2026-05-17 night in <c>simulations/wave_breaking_q_anchor_scan.py</c>).
-/// The static reference graph IS algebraic; the Q-basis chooses WHICH
-/// references become dynamically visible.</para>
+/// land directly in the Liouvillian Im=0 spectrum at small N (verified in
+/// <c>simulations/wave_breaking_q_anchor_scan.py</c>). The static reference
+/// graph IS algebraic; the Q-basis chooses WHICH references become
+/// dynamically visible.</para>
 ///
 /// <para><b>Edges curated here</b> (not exhaustive): the references encoded
-/// in existing typed claims as of the 2026-05-17 night build state. New
-/// edges are added as new claims surface new operations between fractions.</para>
+/// in existing typed claims. New edges are added as new claims surface new
+/// operations between fractions.</para>
 /// </summary>
 public sealed class FractionReferenceGraph
 {
@@ -104,8 +103,6 @@ public sealed class FractionReferenceGraph
                 FractionReferenceDirection.Backward, "wave_breaking_q_anchor_scan.py"),
         };
 
-    private const double Tol = 1e-12;
-
     public IReadOnlyList<FractionReference> References { get; }
 
     public FractionReferenceGraph() : this(StandardReferences) { }
@@ -118,11 +115,11 @@ public sealed class FractionReferenceGraph
     /// <summary>All references whose source is the given fraction (within
     /// tolerance 1e-12).</summary>
     public IReadOnlyList<FractionReference> ReferencesFrom(double fromFraction) =>
-        References.Where(r => Math.Abs(r.FromFraction - fromFraction) < Tol).ToList();
+        References.Where(r => Math.Abs(r.FromFraction - fromFraction) < AnchorConstants.Tol).ToList();
 
     /// <summary>All references whose target is the given fraction.</summary>
     public IReadOnlyList<FractionReference> ReferencesTo(double toFraction) =>
-        References.Where(r => Math.Abs(r.ToFraction - toFraction) < Tol).ToList();
+        References.Where(r => Math.Abs(r.ToFraction - toFraction) < AnchorConstants.Tol).ToList();
 
     /// <summary>References from the given fraction in a specific direction.</summary>
     public IReadOnlyList<FractionReference> BackwardFrom(double fromFraction) =>
@@ -146,8 +143,8 @@ public sealed class FractionReferenceGraph
             {
                 // Skip self-loops at α=0 (the Polarity convergence edge is not
                 // a backward step; it documents that ±γ both fold to α=0).
-                if (Math.Abs(r.ToFraction - r.FromFraction) < Tol) continue;
-                if (!visited.Any(v => Math.Abs(v - r.ToFraction) < Tol))
+                if (Math.Abs(r.ToFraction - r.FromFraction) < AnchorConstants.Tol) continue;
+                if (!visited.Any(v => Math.Abs(v - r.ToFraction) < AnchorConstants.Tol))
                 {
                     visited.Add(r.ToFraction);
                     queue.Enqueue(r.ToFraction);
@@ -166,9 +163,9 @@ public sealed class FractionReferenceGraph
     {
         foreach (var anker in F99Ankers)
         {
-            if (Math.Abs(anker) < Tol) continue; // α=0 trivially is itself
+            if (Math.Abs(anker) < AnchorConstants.Tol) continue; // α=0 trivially is itself
             var closure = BackwardClosure(anker);
-            if (!closure.Any(v => Math.Abs(v) < Tol)) return false;
+            if (!closure.Any(v => Math.Abs(v) < AnchorConstants.Tol)) return false;
         }
         return true;
     }
@@ -198,7 +195,7 @@ public sealed class FractionReferenceGraph
         sb.AppendLine("Fraction Reference Graph");
         sb.AppendLine(new string('=', 88));
         sb.AppendLine();
-        sb.AppendLine($"  F99 ankers: {string.Join(", ", F99Ankers.Select(F))}");
+        sb.AppendLine($"  F99 ankers: {string.Join(", ", F99Ankers.Select(AnchorConstants.FormatEighthFraction))}");
         sb.AppendLine($"  Q basis ankers: {string.Join(", ", QBasisAnkers)}");
         sb.AppendLine($"  Total edges: {References.Count}");
         sb.AppendLine();
@@ -210,7 +207,7 @@ public sealed class FractionReferenceGraph
 
         foreach (var group in bySource)
         {
-            sb.AppendLine($"  From {F(group.Key)}:");
+            sb.AppendLine($"  From {AnchorConstants.FormatEighthFraction(group.Key)}:");
             foreach (var r in group)
             {
                 string arrow = r.Direction switch
@@ -221,7 +218,7 @@ public sealed class FractionReferenceGraph
                     FractionReferenceDirection.Polarity => "⇌",
                     _ => "?",
                 };
-                sb.AppendLine($"    {arrow} {F(r.ToFraction)}  [{r.Operation}]");
+                sb.AppendLine($"    {arrow} {AnchorConstants.FormatEighthFraction(r.ToFraction)}  [{r.Operation}]");
                 sb.AppendLine($"      (from {r.DocumentingClaim})");
             }
             sb.AppendLine();
@@ -232,7 +229,7 @@ public sealed class FractionReferenceGraph
         var counts = EdgeCounts().OrderByDescending(kv => kv.Value);
         foreach (var (pair, count) in counts.Where(kv => kv.Value > 1))
         {
-            sb.AppendLine($"  {F(pair.Item1)} → {F(pair.Item2)}: {count} viewpoints");
+            sb.AppendLine($"  {AnchorConstants.FormatEighthFraction(pair.Item1)} → {AnchorConstants.FormatEighthFraction(pair.Item2)}: {count} viewpoints");
         }
         sb.AppendLine();
 
@@ -243,16 +240,4 @@ public sealed class FractionReferenceGraph
         return sb.ToString();
     }
 
-    private static string F(double v)
-    {
-        if (Math.Abs(v) < Tol) return "0";
-        if (Math.Abs(v - 1.0 / 8.0) < Tol) return "1/8";
-        if (Math.Abs(v - 1.0 / 4.0) < Tol) return "1/4";
-        if (Math.Abs(v - 3.0 / 8.0) < Tol) return "3/8";
-        if (Math.Abs(v - 1.0 / 2.0) < Tol) return "1/2";
-        if (Math.Abs(v - 5.0 / 8.0) < Tol) return "5/8";
-        if (Math.Abs(v - 7.0 / 8.0) < Tol) return "7/8";
-        if (Math.Abs(v - 1.0) < Tol) return "1";
-        return v.ToString("G6");
-    }
 }

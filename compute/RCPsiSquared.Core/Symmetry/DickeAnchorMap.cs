@@ -17,10 +17,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// third anchors {1/8, 1/4} (depth-3 and silver-Dicke) are non-uniform Dicke
 /// and live only in F99's lens.</para>
 ///
-/// <para>This is the second I*Bearing + *Map pair built tonight (after
-/// F99AnchorMap). The pattern is now established: tiny interface + map +
-/// test confirms what we have and surfaces what's missing, for any closed
-/// finite anchor set.</para>
+/// <para>Sibling of <see cref="F99AnchorMap"/>: same I*Bearing + *Map
+/// pattern (tiny interface + map + test) applied to a different anchor set.
+/// The pattern is reusable for any closed finite anchor set; further maps
+/// (Klein 4-cells, etc.) would follow the same shape.</para>
 /// </summary>
 public sealed class DickeAnchorMap
 {
@@ -109,8 +109,8 @@ public sealed class DickeAnchorMap
             string label = AnchorLabels[anchor];
             var direct = DirectClaimsAt(anchor);
             var covers = CoversClaimsAt(anchor);
-            string directStr = direct.Count == 0 ? "(GAP)" : string.Join(", ", direct.Select(ShortName));
-            string coversStr = covers.Count == 0 ? "—" : string.Join(", ", covers.Select(ShortName));
+            string directStr = direct.Count == 0 ? "(GAP)" : string.Join(", ", direct.Select(AnchorConstants.ShortClaimName));
+            string coversStr = covers.Count == 0 ? "—" : string.Join(", ", covers.Select(AnchorConstants.ShortClaimName));
             sb.AppendLine($"  {name,-16} {label,-50} {directStr,-30}");
             sb.AppendLine($"  {"",-16} {"  covered by:",-50} {coversStr}");
         }
@@ -123,7 +123,7 @@ public sealed class DickeAnchorMap
         sb.AppendLine($"  Gap anchors:     {GapAnchors.Count} of {CanonicalAnchors.Count} anchors  " +
                       $"({string.Join(", ", GapAnchors)})");
         sb.AppendLine($"  Parent claims:   {ParentClaims.Count} feeding the inheritance graph " +
-                      $"({string.Join(", ", ParentClaims.Select(ShortName))})");
+                      $"({string.Join(", ", ParentClaims.Select(AnchorConstants.ShortClaimName))})");
         sb.AppendLine($"  Covers claims:   {_claims.Count(t => t.Bearing.DickeRole == DickeAnchorRole.Covers)} multi-anchor theorem(s)");
 
         if (GapAnchors.Count > 0)
@@ -144,13 +144,4 @@ public sealed class DickeAnchorMap
         return sb.ToString();
     }
 
-    private static string ShortName(Claim c)
-    {
-        var t = c.GetType().Name;
-        if (t.EndsWith("Pi2Inheritance"))
-            t = t[..^"Pi2Inheritance".Length];
-        if (t.EndsWith("Claim"))
-            t = t[..^"Claim".Length];
-        return t;
-    }
 }

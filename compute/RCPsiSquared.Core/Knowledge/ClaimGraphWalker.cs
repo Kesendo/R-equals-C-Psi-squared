@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Reflection;
 
 namespace RCPsiSquared.Core.Knowledge;
@@ -7,13 +8,10 @@ namespace RCPsiSquared.Core.Knowledge;
 /// <see cref="Claim"/> or a subclass, recursively, collecting every reachable
 /// claim into a set.
 ///
-/// <para>This operationalises the structural property Tom named on
-/// 2026-05-17 night: "durch die Vererbung wird die ganze Information immer
-/// mittransportiert und ist von überall aus rekonstruierbar, der Bauplan."
-/// Every Claim that has typed parent injections (via constructor) carries
-/// those parents as public properties. The walker treats those property
-/// edges as the inheritance graph, and a traversal from any starting node
-/// reaches the full upstream foundation set.</para>
+/// <para>The Bauplan property: every Claim with typed parent injections
+/// (via constructor) carries those parents as public properties. The walker
+/// treats those property edges as the inheritance graph, and a traversal
+/// from any starting node reaches the full upstream foundation set.</para>
 ///
 /// <para>What this verifies: from a topically distant claim (e.g. F97
 /// Mandelbrot cardioid, which is about complex-c geometry), the walker
@@ -62,14 +60,26 @@ public static class ClaimGraphWalker
         where TInterface : class
         => WalkReachable(root).OfType<TInterface>().ToList();
 
+    // Property list per Type never changes; cache to avoid re-scanning on
+    // every BFS visit. Test runs that walk the graph from multiple roots
+    // visit the same claim types repeatedly.
+    private static readonly ConcurrentDictionary<Type, PropertyInfo[]> _propCache = new();
+
     private static IEnumerable<Claim> TypedClaimProperties(Claim c)
     {
-        Type t = c.GetType();
-        foreach (var prop in t.GetProperties(BindingFlags.Instance | BindingFlags.Public))
+        PropertyInfo[] props = _propCache.GetOrAdd(c.GetType(), t =>
+            t.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+             .Where(p => typeof(Claim).IsAssignableFrom(p.PropertyType)
+                         && p.GetIndexParameters().Length == 0)
+             .ToArray());
+        foreach (var prop in props)
         {
-            if (!typeof(Claim).IsAssignableFrom(prop.PropertyType)) continue;
-            if (prop.GetIndexParameters().Length != 0) continue;
             Claim? value;
+            // Bare catch is intentional: some Claim subclass property getters
+            // throw on partially-constructed claims (e.g. when a typed parent
+            // is being walked during inheritance graph construction). The
+            // walker treats inaccessible parents as not-yet-reachable rather
+            // than failing the whole traversal.
             try { value = prop.GetValue(c) as Claim; }
             catch { continue; }
             if (value is not null) yield return value;

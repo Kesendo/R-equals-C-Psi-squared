@@ -99,7 +99,7 @@ def main():
     print("=" * 86)
     print()
     print(f"  γ₀ = {GAMMA_0} (fixed), J = Q·γ₀ varied")
-    print(f"  Original baseline: Q=20 (J=1.0) gives fraction = (3/8)^⌈N/2⌉")
+    print(f"  Original baseline: Q=20 (J=1.0) gives fraction = (3/8)^⌊N/2⌋")
     print(f"  Test: does the fraction shift at Q ∈ {{1, 1.5, 2}}?")
     print()
 

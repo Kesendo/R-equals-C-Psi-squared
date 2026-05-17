@@ -10,13 +10,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// include it in a multi-anchor theorem. Gaps (anchors with no Direct claim)
 /// are surfaced explicitly via <see cref="GapAnchors"/>.
 ///
-/// <para>This is the operational answer to Tom's question (2026-05-17 night):
-/// "wenn man sich dann den Print der Vererbung anschaut, sieht man die
-/// offenen Lücken?" The map walks all IF99AnchorBearing claims passed in,
-/// tabulates by anchor value, and the rendered print shows immediately which
-/// F99 anchors have dedicated typed claims and which are only covered by F99
-/// itself (= the open vantage-lens lücken the framework has not yet built
-/// dedicated tooling for).</para>
+/// <para>The map walks all IF99AnchorBearing claims passed in, tabulates by
+/// anchor value, and the rendered print shows immediately which F99 anchors
+/// have dedicated typed claims and which are only covered by F99 itself
+/// (= the open vantage-lens lücken the framework has not yet built dedicated
+/// tooling for).</para>
 ///
 /// <para>Construction is explicit (claims passed in via constructor): there is
 /// no global registry walk. This keeps the map auditable — the test/caller
@@ -39,8 +37,6 @@ public sealed class F99AnchorMap
             [3.0 / 8.0] = "γ=1/2 (K-intermediate, uniform Dicke c=1)",
             [1.0 / 2.0] = "γ=0 (Generic, any Π²-odd: W, GHZ, Bell)",
         };
-
-    private const double Tol = 1e-12;
 
     private readonly IReadOnlyList<(Claim Claim, IF99AnchorBearing Anchor)> _claims;
 
@@ -67,7 +63,7 @@ public sealed class F99AnchorMap
     /// the given anchor value (within tolerance 1e-12).</summary>
     public IReadOnlyList<Claim> DirectClaimsAt(double anchor) =>
         _claims.Where(t => t.Anchor.F99Role == F99AnchorRole.Direct
-                           && t.Anchor.F99AnchorValues.Any(a => Math.Abs(a - anchor) < Tol))
+                           && t.Anchor.F99AnchorValues.Any(a => Math.Abs(a - anchor) < AnchorConstants.Tol))
                .Select(t => t.Claim)
                .ToList();
 
@@ -75,7 +71,7 @@ public sealed class F99AnchorMap
     /// the given anchor value.</summary>
     public IReadOnlyList<Claim> CoversClaimsAt(double anchor) =>
         _claims.Where(t => t.Anchor.F99Role == F99AnchorRole.Covers
-                           && t.Anchor.F99AnchorValues.Any(a => Math.Abs(a - anchor) < Tol))
+                           && t.Anchor.F99AnchorValues.Any(a => Math.Abs(a - anchor) < AnchorConstants.Tol))
                .Select(t => t.Claim)
                .ToList();
 
@@ -114,12 +110,12 @@ public sealed class F99AnchorMap
 
         foreach (var anchor in CanonicalAnchors)
         {
-            string alpha = AlphaLabel(anchor);
+            string alpha = AnchorConstants.FormatEighthFraction(anchor);
             string label = AnchorLabels[anchor];
             var direct = DirectClaimsAt(anchor);
             var covers = CoversClaimsAt(anchor);
-            string directStr = direct.Count == 0 ? "(GAP)" : string.Join(", ", direct.Select(c => ShortName(c)));
-            string coversStr = covers.Count == 0 ? "—"     : string.Join(", ", covers.Select(c => ShortName(c)));
+            string directStr = direct.Count == 0 ? "(GAP)" : string.Join(", ", direct.Select(AnchorConstants.ShortClaimName));
+            string coversStr = covers.Count == 0 ? "—"     : string.Join(", ", covers.Select(AnchorConstants.ShortClaimName));
             sb.AppendLine($"  {alpha,-8} {label,-50} {directStr,-30} {coversStr}");
         }
 
@@ -127,11 +123,11 @@ public sealed class F99AnchorMap
         sb.AppendLine("Coverage summary");
         sb.AppendLine(new string('-', 88));
         sb.AppendLine($"  Direct claims:   {CoveredAnchors.Count} of {CanonicalAnchors.Count} anchors  " +
-                      $"({string.Join(", ", CoveredAnchors.Select(AlphaLabel))})");
+                      $"({string.Join(", ", CoveredAnchors.Select(AnchorConstants.FormatEighthFraction))})");
         sb.AppendLine($"  Gap anchors:     {GapAnchors.Count} of {CanonicalAnchors.Count} anchors  " +
-                      $"({string.Join(", ", GapAnchors.Select(AlphaLabel))})");
+                      $"({string.Join(", ", GapAnchors.Select(AnchorConstants.FormatEighthFraction))})");
         sb.AppendLine($"  Parent claims:   {ParentClaims.Count} feeding the inheritance graph " +
-                      $"({string.Join(", ", ParentClaims.Select(ShortName))})");
+                      $"({string.Join(", ", ParentClaims.Select(AnchorConstants.ShortClaimName))})");
         sb.AppendLine($"  Covers claims:   {_claims.Count(t => t.Anchor.F99Role == F99AnchorRole.Covers)} multi-anchor theorem(s)");
 
         if (GapAnchors.Count > 0)
@@ -140,36 +136,16 @@ public sealed class F99AnchorMap
             sb.AppendLine("Open lücken (F99 anchors with no Direct claim of their own):");
             foreach (var gap in GapAnchors)
             {
-                sb.AppendLine($"  α = {AlphaLabel(gap)}: {AnchorLabels[gap]}");
+                sb.AppendLine($"  α = {AnchorConstants.FormatEighthFraction(gap)}: {AnchorLabels[gap]}");
             }
             sb.AppendLine();
             sb.AppendLine("Each gap is a vantage-lens not yet built. F99 covers all five anchors");
             sb.AppendLine("as one theorem (α = sin²(θ)/2 at the five canonical trig angles), but");
             sb.AppendLine("dedicated Direct claims would let us anchor analysis tooling at each");
-            sb.AppendLine("vantage individually (per the 'anchors as vantages' reading from");
-            sb.AppendLine("2026-05-17 night: each anchor IS a sichtweise; choosing one selects what");
-            sb.AppendLine("counts as foreground/stable vs background/wave-breaking).");
+            sb.AppendLine("vantage individually — each anchor is a sichtweise; choosing one");
+            sb.AppendLine("selects what counts as foreground/stable vs background/wave-breaking.");
         }
         return sb.ToString();
     }
 
-    private static string AlphaLabel(double anchor)
-    {
-        if (Math.Abs(anchor)             < Tol) return "0";
-        if (Math.Abs(anchor - 1.0 / 8.0) < Tol) return "1/8";
-        if (Math.Abs(anchor - 1.0 / 4.0) < Tol) return "1/4";
-        if (Math.Abs(anchor - 3.0 / 8.0) < Tol) return "3/8";
-        if (Math.Abs(anchor - 1.0 / 2.0) < Tol) return "1/2";
-        return anchor.ToString("G6");
-    }
-
-    private static string ShortName(Claim c)
-    {
-        var t = c.GetType().Name;
-        if (t.EndsWith("Pi2Inheritance"))
-            t = t[..^"Pi2Inheritance".Length];
-        if (t.EndsWith("Claim"))
-            t = t[..^"Claim".Length];
-        return t;
-    }
 }

@@ -44,10 +44,9 @@ public enum F99AnchorRole
 /// <see cref="F99AnchorMap"/> to walk the graph, tabulate anchor coverage, and
 /// surface gaps (F99 anchors with no Direct claim).
 ///
-/// <para>This is the "ein Wert einbinden zum parent" Tom asked for
-/// (2026-05-17 night): a single piece of metadata per claim that, when
-/// printed across the inheritance graph, surfaces the open lücken
-/// immediately.</para>
+/// <para>One piece of metadata per claim suffices: when the inheritance
+/// graph is printed, the open lücken (anchors with no Direct claim) surface
+/// immediately from the Role distribution.</para>
 /// </summary>
 public interface IF99AnchorBearing
 {
