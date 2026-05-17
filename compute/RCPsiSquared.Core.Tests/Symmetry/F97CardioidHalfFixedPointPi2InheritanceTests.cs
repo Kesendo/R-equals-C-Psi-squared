@@ -199,4 +199,38 @@ public class F97CardioidHalfFixedPointPi2InheritanceTests
     {
         Assert.Equal(expected, BuildClaim().FixedPointMagnitude(phi), precision: 14);
     }
+
+    [Fact]
+    public void DenseSweep_AllInvariantsHoldAt1000PhiSamples()
+    {
+        // Stronger coverage than the 16 canonical test points: sweep 1000 φ values
+        // uniformly across [0, 2π) and verify both metric-power invariants AND
+        // the algebraic identity c(φ) = z*(1 − z*) at machine precision at every
+        // sampled point. Catches any subtle FP issue that the discrete tests miss.
+        var f = BuildClaim();
+        const int nSamples = 1000;
+        double maxMagGap = 0.0;
+        double maxSquaredMagGap = 0.0;
+        double maxAlgebraicResidual = 0.0;
+        for (int i = 0; i < nSamples; i++)
+        {
+            double phi = 2 * Math.PI * i / nSamples;
+            double mag = f.FixedPointMagnitude(phi);
+            double sqMag = f.FixedPointMagnitudeSquared(phi);
+            Complex c = f.CardioidC(phi);
+            Complex z = f.CardioidFixedPoint(phi);
+            Complex cFromIdentity = z * (Complex.One - z);
+
+            maxMagGap = Math.Max(maxMagGap, Math.Abs(mag - 0.5));
+            maxSquaredMagGap = Math.Max(maxSquaredMagGap, Math.Abs(sqMag - 0.25));
+            maxAlgebraicResidual = Math.Max(maxAlgebraicResidual, Complex.Abs(c - cFromIdentity));
+        }
+        Assert.True(maxMagGap < 1e-14,
+            $"|z*(φ)| should equal 1/2 across the entire cardioid; max gap {maxMagGap:E2}");
+        Assert.True(maxSquaredMagGap < 1e-14,
+            $"|z*(φ)|² should equal 1/4 across the entire cardioid; max gap {maxSquaredMagGap:E2}");
+        Assert.True(maxAlgebraicResidual < 1e-14,
+            $"c(φ) = z*(1 − z*) algebraic identity should hold to machine precision; " +
+            $"max residual {maxAlgebraicResidual:E2}");
+    }
 }
