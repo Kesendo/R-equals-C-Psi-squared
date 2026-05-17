@@ -679,7 +679,7 @@ For K_4 N=4 w=2: excess = 23 = 1 (sign-rep antisym from S=0) + 22 (other irreps 
 
 A complete closed-form formula `f(N, S, w)` exists in principle via Schur-Weyl + character theory, but writing it as a single closed expression rather than a sum-over-irreps remains open.
 
-### Open questions (refined post-resolution; resolved Q1/Q2 retired 2026-05-17 evening)
+### Open questions (refined post-resolution; resolved Q1/Q2/Q4 retired 2026-05-17 evening)
 
 > **Q1 (matrix-commutator vs left-action gap) — RESOLVED 2026-05-17 morning.** The gap
 > is fully characterized in the appendix above (§ "The Schur class-sum gap and its
@@ -717,10 +717,25 @@ A complete closed-form formula `f(N, S, w)` exists in principle via Schur-Weyl +
    S=2). The Schur-Weyl per-S_N-irrep decomposition of the 22 piece is open and would
    complete the closed-form via Frobenius reciprocity character calculations.
 
-3. **Empirical sweep beyond chain + ring + star + K_N + small graphs (Q4).** The
-   tested set was at N ≤ 5; Petersen graph (N=10, vertex- and edge-transitive) and
-   hypercube Q_3 (N=8, edge-transitive with Aut size 48) are natural next graphs
-   with high automorphism but non-K_N structure. Untested.
+> **Q4 (does any other high-Aut graph beyond K_3 N=3 anomalize) — RESOLVED 2026-05-17
+> evening.** The n_XY=1 commutant sweep via efficient rank-of-`[H, ·]`-on-n_XY=1
+> subspace (`simulations/f50_weight1_commutant_efficient.py`, bypasses the
+> 4^N × 4^N dense Liouvillian via the observation that L A = -2γ A forces
+> n_XY(A) = 1, and `[H, ·]` restricted to the n_XY=1 subspace is a 2N · 2^(N−1)
+> × O(N²) · 2^(N−1) sparse matrix). Tested high-Aut graphs all show δ = 0:
+>
+> | graph | N | Aut size | dim ker | δ |
+> |-------|---|----------|---------|---|
+> | K_{3,3} (bipartite, edge-transitive) | 6 | 72 | 12 | 0 |
+> | Q_3 hypercube (edge-transitive) | 8 | 48 | 16 | 0 |
+> | Möbius-Kantor M_8 (Cayley Z_8 with {±1, ±3}) | 8 | 96 | 16 | 0 |
+> | Petersen (vertex+edge transitive) | 10 | 120 | 20 | 0 |
+>
+> Consistent with the Q2 resolution: K_3 N=3 is uniquely anomalous because central
+> weight = 1 coincides with the F50-tracked weight ONLY at N=3. For N ≥ 4 the
+> central weight is ≥ 2 (where the excess does live, e.g. K_4 w=2 excess = 23),
+> so weight-1 has no excess regardless of graph automorphism. K_3 N=3 remains the
+> unique weight-1 anomaly in this sweep.
 
 4. **N=3 algebraic-forcing meta-pattern (Q5).** Several N=3 specialties are recorded
    in the repo: F33's exact-rational decay rates (chain N=3 only; D10's
