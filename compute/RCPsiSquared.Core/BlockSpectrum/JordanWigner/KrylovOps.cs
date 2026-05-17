@@ -3,10 +3,13 @@ using System.Numerics;
 namespace RCPsiSquared.Core.BlockSpectrum.JordanWigner;
 
 /// <summary>Shared low-level complex-vector operations used by the Krylov-subspace
-/// primitives <see cref="JwSlaterPairArnoldiEig"/> and <see cref="JwSlaterPairShiftInvertArnoldi"/>.
-/// Hand-rolled for-loops (no LINQ) to avoid per-call delegate allocations on the BiCGStab
-/// and MGS hot paths; thread-safe (no static state).</summary>
-internal static class KrylovOps
+/// primitives <see cref="JwSlaterPairArnoldiEig"/>, <see cref="JwSlaterPairShiftInvertArnoldi"/>,
+/// and the generic <see cref="BlockSpectrum.SparseShiftInvertArnoldi"/> + the Klein sparse
+/// shift-invert path on self-paired sectors. Hand-rolled for-loops (no LINQ) to avoid
+/// per-call delegate allocations on the BiCGStab and MGS hot paths; thread-safe (no static
+/// state). Public so the algorithm in <c>BlockSpectrum/SparseShiftInvertArnoldi.cs</c> can
+/// share the same primitives.</summary>
+public static class KrylovOps
 {
     /// <summary>Σ |x_i|² — the squared L² norm of a complex vector.</summary>
     public static double NormSquared(Complex[] x)

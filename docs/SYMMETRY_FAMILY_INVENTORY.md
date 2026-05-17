@@ -96,15 +96,32 @@ the imaginary-U Bethe ansatz — analytic, doesn't need K splitting. For our
 computational path, K on self-paired sectors is repo-specific (F71 spatial Z₂ ×
 X⊗N charge Z₂ both typed primitives, combination unique to this codebase).
 
-**Phase 3c (open).** Per-sub-block dense Evd at dim 16132 is blocked by the
-.NET/MKL int32 array-size cap (16132² × 16 byte = 4.2 GB > 2 GB managed marshaling
-limit; same constraint compute/RCPsiSquared.Compute solved at N=8 via NativeMemory +
-ILP64 LAPACK in MklDirect.cs). BUT the reconnaissance shows each sub-block is sparse
-(mean 10.7 nnz per row), so the natural Phase 3c is *not* to port the dense ILP64
-path — it's to store the sub-blocks as CSR sparse matrices and reuse the Phase 2
-`JwSlaterPairShiftInvertArnoldi` machinery for per-sub-block top-K extraction. That
-delivers 4×top-K slow modes per (5, 5) sweep, the most slow-mode coverage we can
-get without overnight runs.
+**Phase 3c (delivered).** The dense Evd on Klein sub-blocks at dim 16132 is blocked by
+the .NET/MKL int32 array-size cap (4.2 GB > 2 GB managed marshaling limit), but the
+sub-blocks are *sparse* (mean 10.86 nnz per row at N=10 (5, 5), 0.017 % density,
+~170 k nnz per sub-block, ~7 MB sparse storage vs 4.2 GB dense). Phase 3c stores
+each sub-block as CSR and extracts top-K slow modes via per-sub-block shift-invert
+Arnoldi:
+
+| Primitive | Role |
+|---|---|
+| `KleinFourGroupSelfPairedSparseLBuilder` | Direct sparse-CSR build of one Klein character sub-block, element-wise reconstruction of `KleinFourGroupSelfPairedRefinement.BuildSubBlockL`. At N=10 all 4 sub-blocks build in ~0.4 s total. |
+| `SparseShiftInvertArnoldi` | Generic shift-invert Arnoldi on any CSR matrix (extracted from `JwSlaterPairShiftInvertArnoldi`'s algorithm). Inner BiCGStab with Jacobi preconditioning; outer Modified Gram-Schmidt Arnoldi. Reusable by both the JW Slater-pair pipeline AND the Klein sub-block pipeline (a single source of algorithmic truth). `KrylovOps` promoted from `internal` to `public` to share the complex-vector primitives. |
+
+At N=10 (5, 5), top-4 slow modes per Klein sub-block (16 modes total) in ~22 s wall.
+The slow modes match Phase 2 `JwSlaterPairF1PalindromeProbe` on the full sector for
+the modes both runs sample (e.g. the steady state at (0, 0) and the (−0.200, 0)
+slow-decay mode in ++; (−0.182, 0) in +-) AND extend coverage with Klein-character-
+specific modes inaccessible to Phase 2 (e.g. (−0.336) in +-, (−0.313) in -+).
+
+**Honest caveat: BiCGStab convergence on Klein sub-blocks.** Inner BiCGStab saturates
+at the iteration cap (~1000 iter) on Klein sub-blocks at N=10, vs ~22 iter mean for
+the Phase 2 JW path. Root cause: Jacobi preconditioning is less effective on the
+Klein character-projected matrix; the Ritz values from the non-converged Krylov
+subspace are therefore APPROXIMATE (not strict) eigenvalues, though the slow-mode
+*region* they identify is correct (cross-check against Phase 2 outputs). Phase 3d
+candidate: better preconditioner (ILU, polynomial, block-Jacobi) to recover Phase 2
+inner-iter performance.
 
 ## Phase 3a: Prosen rapidities for the one-sided sectors (2026-05-17)
 
@@ -146,4 +163,5 @@ state at λ=0) to fast (m=N=10, λ=−2Σγ = −1.0 at γ=0.05) range uniformly
 - Phase 2 N=10 push primitives: `compute/RCPsiSquared.Core/BlockSpectrum/JordanWigner/JwSlaterPairBasis.cs`, `JwSlaterPairLProjection.cs`, `JwSlaterPairSparseLBuilder.cs`, `JwSlaterPairArnoldiEig.cs`, `JwSlaterPairShiftInvertArnoldi.cs`, `JwSlaterPairF1PalindromeProbe.cs`, `KrylovOps.cs`.
 - Phase 3a Prosen leaf: `compute/RCPsiSquared.Core/BlockSpectrum/Prosen/OneSidedSectorClosedForm.cs`.
 - Phase 3b Klein-4 refinement: `compute/RCPsiSquared.Core/BlockSpectrum/KleinFourGroupSelfPairedRefinement.cs`.
+- Phase 3c sparse Klein + shift-invert: `compute/RCPsiSquared.Core/BlockSpectrum/KleinFourGroupSelfPairedSparseLBuilder.cs` + `compute/RCPsiSquared.Core/BlockSpectrum/SparseShiftInvertArnoldi.cs`.
 - Synthesis: `reflections/ON_THE_SYMMETRY_FAMILY.md`, `reflections/ON_THE_NINETY_DEGREE_GAMMA.md`.
