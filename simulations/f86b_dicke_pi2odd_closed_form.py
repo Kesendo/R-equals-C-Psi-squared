@@ -13,8 +13,32 @@ brute force, kept so the verification doesn't share code paths with the proof.
 from __future__ import annotations
 
 import sys
+from enum import Enum
 import numpy as np
 from itertools import combinations, product
+
+
+class DickeAnchor(Enum):
+    """Mirrors RCPsiSquared.Core.Symmetry.DickeAnchor (C# enum).
+
+    Π²-odd anchor classification for (|D_n⟩+|D_{n+1}⟩)/√2 on N qubits.
+    """
+    MIRROR = ("Dicke-mirror", 1.0, 0.0)
+    K_INTERMEDIATE = ("Dicke-K-int", 0.5, 3.0 / 8.0)
+    GENERIC = ("generic", 0.0, 0.5)
+
+    def __init__(self, label, gamma, alpha_total):
+        self.label = label
+        self.gamma = gamma
+        self.alpha_total = alpha_total
+
+    @staticmethod
+    def classify(N, n):
+        if 2 * n + 1 == N:
+            return DickeAnchor.MIRROR
+        if N % 2 == 0 and n in (N // 2 - 1, N // 2):
+            return DickeAnchor.K_INTERMEDIATE
+        return DickeAnchor.GENERIC
 
 if sys.platform == "win32":
     try:
@@ -112,17 +136,16 @@ def main():
             gamma = overlap_gamma(N, n)
             alpha_cf = alpha_total_closed_form(N, n)
             alpha_br = alpha_total_brute(N, n)
-            if 2 * n + 1 == N:
-                cat = "Dicke-mirror"
-            elif (N % 2 == 0) and n in [N // 2 - 1, N // 2]:
-                cat = "Dicke-K-int"
-            else:
-                cat = "generic"
-            ok = abs(alpha_cf - alpha_br) < 1e-10
+            anchor = DickeAnchor.classify(N, n)
+            ok = (
+                abs(alpha_cf - alpha_br) < 1e-10
+                and abs(alpha_cf - anchor.alpha_total) < 1e-10
+                and abs(gamma - anchor.gamma) < 1e-10
+            )
             if not ok:
                 all_pass = False
             marker = "✓" if ok else "✗"
-            print(f"  {N:>3} {n:>3} {cat:>15} {gamma:>13.6f} {alpha_cf:>10.6f} {alpha_br:>10.6f} {marker:>3}")
+            print(f"  {N:>3} {n:>3} {anchor.label:>15} {gamma:>13.6f} {alpha_cf:>10.6f} {alpha_br:>10.6f} {marker:>3}")
     print()
     print(f"  ALL CHECKS PASS: {all_pass}")
     print()

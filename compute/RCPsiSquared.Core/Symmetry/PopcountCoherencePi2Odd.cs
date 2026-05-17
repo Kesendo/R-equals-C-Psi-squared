@@ -196,19 +196,17 @@ public static class PopcountCoherencePi2Odd
     // Structural inheritance from F88.
 
     /// <summary>True iff the Dicke superposition (|D_n⟩ + |D_{n+1}⟩)/√2 sits at the
-    /// X⊗N-symmetric popcount-mirror configuration, where 2n + 1 = N (odd N only).
-    /// At this anchor the state is X⊗N-symmetric, hence Π²-EVEN-only;
-    /// Π²-odd-fraction-within-memory = 0. Sibling node of <see cref="IsHdComplement"/>
-    /// under the X⊗N-symmetry root in the class-level inheritance graph.</summary>
-    public static bool IsDickeMirror(int N, int n) => 2 * n + 1 == N;
+    /// X⊗N-symmetric popcount-mirror configuration (<see cref="DickeAnchor.Mirror"/>).
+    /// Sibling node of <see cref="IsHdComplement"/> under the X⊗N-symmetry root in
+    /// the class-level inheritance graph.</summary>
+    public static bool IsDickeMirror(int N, int n) =>
+        DickeAnchorExtensions.Classify(N, n) == DickeAnchor.Mirror;
 
     /// <summary>True iff Dicke superposition (|D_n⟩ + |D_{n+1}⟩)/√2 sits at a
-    /// K-intermediate configuration: even N and (n = N/2 − 1 or n = N/2).
-    /// At this anchor total Π²-odd-of-ρ = 3/8 (Tier 1 derived via X⊗N-eigenbasis
-    /// decomposition; see <see cref="Pi2OddTotalDickeSuperposition"/> for the
-    /// closed-form proof).</summary>
+    /// K-intermediate configuration (<see cref="DickeAnchor.KIntermediate"/>);
+    /// see <see cref="Pi2OddTotalDickeSuperposition"/> for the α_total = 3/8 proof.</summary>
     public static bool IsDickeKIntermediate(int N, int n) =>
-        (N % 2 == 0) && (n == N / 2 - 1 || n == N / 2);
+        DickeAnchorExtensions.Classify(N, n) == DickeAnchor.KIntermediate;
 
     /// <summary>Total Π²-odd-of-ρ for Dicke superposition (|D_n⟩ + |D_{n+1}⟩)/√2:
     /// α_total = (1 − γ²)/2 where γ = ⟨ψ|X⊗N|ψ⟩. Three anchors 0 / 3/8 / 1/2
@@ -216,12 +214,8 @@ public static class PopcountCoherencePi2Odd
     /// derivation: <c>docs/proofs/PROOF_F86B_UNIVERSAL_SHAPE.md</c> §Statement 2.
     /// Same orthogonal-symmetry mechanism as F50's max-spin Dicke endpoint ladder
     /// rungs ([PROOF_WEIGHT1_DEGENERACY § max-spin closed-form]).</summary>
-    public static double Pi2OddTotalDickeSuperposition(int N, int n)
-    {
-        if (IsDickeMirror(N, n)) return 0.0;
-        if (IsDickeKIntermediate(N, n)) return 3.0 / 8.0;
-        return 0.5;
-    }
+    public static double Pi2OddTotalDickeSuperposition(int N, int n) =>
+        DickeAnchorExtensions.Classify(N, n).AlphaTotal();
 
     /// <summary>Closed-form Π²-odd-fraction-within-memory for Dicke superposition
     /// |ψ⟩ = (|D_n⟩ + |D_{n+1}⟩)/√2. Static fraction s and α_static reuse the
