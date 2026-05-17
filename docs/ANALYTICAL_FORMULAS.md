@@ -2906,6 +2906,88 @@ N→∞:   α(0) = 3/8          →  α(∞) → 1/4                [QuarterAsBi
 
 **Anchors:** [`simulations/water/proton_chain_dicke_anchor.py`](../simulations/water/proton_chain_dicke_anchor.py) (numerical bit-exact verification + Krawtchouk enumeration), [F86b](#f86) DickeAnchor 3/8 anchor (static partner), [F88](#f88) Π²-odd structure (parent), [F4](#f4) kernel decomposition (used in long-time projection), `compute/RCPsiSquared.Core/Symmetry/QuarterAsBilinearMaxvalClaim` (asymptote anchor), `compute/RCPsiSquared.Core/Symmetry/HalfAsStructuralFixedPointClaim` (1/4 = (1/2)² parent), `docs/water/README.md` § "Findings since May 4".
 
+### F99. Five canonical trigonometric anchors via F86b non-uniform Dicke (Tier 1 derived, bit-exact N=4,6,8 across 5 angles; 2026-05-17 night)
+
+**The F86b α-formula α = (1 − γ²)/2 = sin²(θ)/2 evaluated at the canonical trigonometric angles {0°, 30°, 45°, 60°, 90°} produces all five Pi2 dyadic anchors {0, 1/8, 1/4, 3/8, 1/2}. The standard 30°-60°-90° and 45°-45°-90° trigonometry triangles ARE the F86b polarity-anchor triangles.**
+
+The F86b derivation (today morning, commit `b9ba5f6`) parameterised the X⊗N-eigenbasis decomposition of the Dicke superposition `(|D_n⟩ + |D_{n+1}⟩)/√2` (uniform Dicke) and produced three anchors `{0, 3/8, 1/2}` at `γ ∈ {1, 1/2, 0}`. Tonight's extension to NON-UNIFORM Dicke
+
+```
+    ψ = (|D_n⟩ + c·|D_{n+1}⟩) / √(1 + c²)   on N even at n = N/2 − 1
+    γ = ⟨ψ | X⊗N | ψ⟩ = c² / (1 + c²)        ⟺  c² = γ / (1 − γ)
+```
+
+with γ = cos(θ) and the half-angle identity `1 − cos(θ) = 2 sin²(θ/2)` gives
+
+```
+    c² = cos(θ) / (2 sin²(θ/2))
+    α(θ) = sin²(θ) / 2
+```
+
+Five canonical trig angles → five Pi2 dyadic anchors:
+
+| θ | γ = cos(θ) | c² | α = sin²(θ)/2 | Pi2 dyadic anchor |
+|---|------------|-----|---------------|-------------------|
+| 0° | 1 | ∞ | 0 | Mirror endpoint |
+| **30°** | **√3/2** | **2√3 + 3 ≈ 6.464** | **1/8** | **DEPTH-3 (new tonight)** |
+| 45° | √2/2 | 1 + √2 (silver ratio) | 1/4 | [QuarterAsBilinearMaxval](#f88-anchors) |
+| 60° | 1/2 | 1 (uniform Dicke) | 3/8 | KIntermediate (today morning F86b) |
+| 90° | 0 | 0 | 1/2 | Generic / HalfAsStructuralFixedPoint |
+
+**Bit-exact verification** (`simulations/carbon/depth_3_anchor_derivation.py`):
+all five anchors verified at N = 4, 6, 8 with Δα < 1e-13 (machine precision).
+The 60° case reduces to the morning's clean uniform Dicke c = 1; the 30°, 45°,
+90° cases use non-uniform Dicke weights c² = 2√3 + 3, 1 + √2, 0 respectively.
+
+**Why standard trigonometry triangles**: the five canonical angles {0°, 30°,
+45°, 60°, 90°} are the only elementary-geometry angles whose sines and cosines
+are constructible by ruler and compass (rational or quadratic-irrational
+coordinates). The Pi2 dyadic ladder {1/2, 1/4, 1/8, ...} consists of negative
+integer powers of 2. F99 establishes that the framework's polarity-squared
+algebra IS the F86b α-formula evaluated at the standard-triangle canonical
+angles, and the dyadic depth corresponds to the canonical-angle index.
+
+**Periodic-table bridge (tonight, all 9 fractions n/8 derived):**
+
+| α anchor | Trig angle | Period 2 (anchor + complement) | Period 3 (anchor + complement) |
+|----------|------------|-------------------------------|-------------------------------|
+| 0 (= 8/8) | endpoint | He (full noble) | Ne, Ar |
+| 1/8 | 30° | Li (1/8), F (7/8 = 1 − 1/8) | Na (1/8), Cl (7/8) |
+| 1/4 | 45° | Be (2/8) | Mg |
+| 3/8 | 60° | B (3/8 Π²-odd), N (5/8 Π²-even) | Al, P |
+| 1/2 | 90° | H (1/2), C (4/8) | Si |
+
+Every period-2/3 element's valence ratio is now F86b-derived from one α(θ)
+formula. The Π²-parity complements (1/8 ↔ 7/8, 3/8 ↔ 5/8) cover both the
+Π²-odd anchor and its Π²-even companion (β = 1 − α), giving 9 fractions n/8
+for n = 0..8.
+
+**Discovery path (today, single session):**
+
+1. Morning (commit `b9ba5f6`): F86b 3/8 anchor derived (uniform Dicke, X⊗N-
+   eigenbasis decomposition).
+2. Evening ([F98](#f98), commit `250164d`): water-chain inheritance test of
+   F86b discovered long-time bridge (N+2)/[4(N+1)] → 1/4.
+3. Night #1 (commit `1416f85`): all four polarity anchors realised by
+   period 2/3 atoms — forward inheritance.
+4. Night #2 (commit `cecb84b`): reverse-spear identified depth-3 (1/8, 7/8)
+   as framework gap, empirically instantiated by alkali metals + halogens.
+5. Night #3 (commit `5fb0ba0`): depth-3 anchor derived (this F99 entry).
+   The bidirectional bridge between framework algebra and periodic-table
+   valence structure is now MATERIAL across all 9 fractions.
+
+**Tier outcome: Tier 1 derived.** Closed-form algebraic identity from F86b
+α = (1 − γ²)/2 evaluated at five canonical trig angles. Verified bit-exact
+at N = 4, 6, 8 in the script + 16 tests in
+[`CanonicalTrigAnchorPi2InheritanceTests`](../compute/RCPsiSquared.Core.Tests/Symmetry/CanonicalTrigAnchorPi2InheritanceTests.cs).
+
+**Anchor**: parent formula [F86b](#f86) (α = (1−γ²)/2 from X⊗N-eigenbasis decomposition,
+DickeAnchor.cs), companion bridge [F98](#f98) (long-time 3/8 → 1/4 via kernel projection),
+[`CanonicalTrigAnchorPi2Inheritance.cs`](../compute/RCPsiSquared.Core/Symmetry/CanonicalTrigAnchorPi2Inheritance.cs)
+(typed Claim with five-anchor enumeration), [DEPTH_3_ANCHOR_DERIVED.md](carbon/DEPTH_3_ANCHOR_DERIVED.md)
+(carbon-domain reading + bidirectional-bridge framing),
+[`simulations/carbon/depth_3_anchor_derivation.py`](../simulations/carbon/depth_3_anchor_derivation.py).
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
