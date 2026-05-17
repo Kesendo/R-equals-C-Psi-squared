@@ -126,7 +126,29 @@ The EP-rotation universality of Statement 2 is the dynamic consequence: a Q-reso
 
 - **X⊗N-symmetry root**: the HD = N pair-state anchor (GHZ_N, Bell states, intra-sector complement pairs) and the **Dicke-mirror anchor** (|D_n⟩ + |D_{N − n − 1}⟩)/√2 at popcount-mirror 2n+1 = N share a single algebraic mechanism. Both classes are X⊗N-eigenstates; X⊗N · σ_α · X⊗N = (−1)^{bit_b(α)} · σ_α, so X⊗N-eigenstates have ⟨σ_α⟩ = 0 for all Π²-odd σ_α. The two F-axes converge: F60 reads such states as pair-CΨ = 0 (partial-trace blindness), F88 reads them as Π²-EVEN-only (projection blindness). Two structurally-distinct state-class families (HD = N pair vs. Dicke-mirror multi-state) inherit Π²-classicality from a single root symmetry, an instance of the broader F-chain inheritance pattern (cf. `project_algebra_is_inheritance.md` in memory).
 
-The Dicke superposition (|D_n⟩ + |D_{n+1}⟩)/√2 has its own three-anchor structure for total Π²-odd-of-ρ: 0 (Dicke-mirror, 2n+1 = N), 3/8 (Dicke-K-intermediate, even N with n ∈ {N/2 − 1, N/2}), 1/2 (generic). The K-intermediate 3/8 anchor is bit-exact verified at N = 4, 6, 8 but the analytical proof remains open (likely combines bit-permutation symmetry of Dicke states with K_{N/2}(s; N) = 0 for odd s).
+The Dicke superposition (|D_n⟩ + |D_{n+1}⟩)/√2 has its own three-anchor structure for total Π²-odd-of-ρ: 0 (Dicke-mirror, 2n+1 = N), 3/8 (Dicke-K-intermediate, even N with n ∈ {N/2 − 1, N/2}), 1/2 (generic).
+
+**Closed-form proof (Tier 1 derived, 2026-05-17):**
+
+    α_total = (1 − γ²)/2     where γ = ⟨ψ|X⊗N|ψ⟩
+
+Proof (4 lines):
+
+1. Decompose ψ = c_+ψ_+ + c_-ψ_- where ψ_± are X⊗N-eigenstates (eigenvalues ±1), with |c_+|² + |c_-|² = 1.
+2. ρ = |ψ⟩⟨ψ| splits under X⊗N conjugation into Π²-EVEN diagonal blocks (|c_±|²·|ψ_±⟩⟨ψ_±|) and Π²-ODD off-diagonal blocks (c_+c_-*·|ψ_+⟩⟨ψ_-| + h.c.), since X⊗N · σ_α · X⊗N = (−1)^{bit_b(α)} σ_α.
+3. Π²-ODD Frobenius² = 2·|c_+c_-|² = 2·|c_+|²·|c_-|² (the two off-diagonal terms are Hilbert-Schmidt orthogonal).
+4. With γ = ⟨ψ|X⊗N|ψ⟩ and the standard decomposition |c_±|² = (1±γ)/2: α_total = 2·(1+γ)(1−γ)/4 = (1−γ²)/2.
+
+The three anchors follow from X⊗N's action on Dicke pairs: X⊗N maps |D_k⟩ → |D_{N−k}⟩, so X⊗N|ψ⟩ = (|D_{N−n}⟩+|D_{N−n−1}⟩)/√2. The overlap γ = (1/2)·(δ_{n,N−n} + δ_{n,N−n−1} + δ_{n+1,N−n} + δ_{n+1,N−n−1}) hits exactly three values depending on which Kronecker deltas align with the (n, n+1) pair:
+
+- **Mirror (N odd, 2n+1=N)**: both δ_{n,N−n−1} and δ_{n+1,N−n} hit → γ = 1 → α = 0. ψ is X⊗N-eigenstate, no Π²-odd content.
+- **K-intermediate (N even, n=N/2)**: only δ_{n,N−n} hits → γ = 1/2 → α = 3/8.
+- **K-intermediate (N even, n=N/2−1)**: only δ_{n+1,N−n−1} hits → γ = 1/2 → α = 3/8.
+- **Generic**: no δ hits → γ = 0 → α = 1/2.
+
+Bit-exact verified for N = 3..7 across all (n, n+1) pairs ([`simulations/f86b_dicke_pi2odd_closed_form.py`](../../simulations/f86b_dicke_pi2odd_closed_form.py)). The proof uses the same orthogonal-symmetry-decomposition mechanism that produced F50's max-spin Dicke endpoint ladder rungs (commit 5523171, [PROOF_WEIGHT1_DEGENERACY § max-spin closed-form](PROOF_WEIGHT1_DEGENERACY.md)): symmetry under X⊗N (or equivalently Π = Z⊗N for the F50 case) gives an eigenbasis decomposition that makes the operator algebra computation explicit, replacing the opaque Krawtchouk sum with a clean ±1-eigenspace overlap.
+
+The mechanism extends the F88 algebraic-inheritance principle (`compute/RCPsiSquared.Core/Symmetry/PopcountCoherencePi2Odd.cs`): the **X⊗N-symmetry root** that gives HD = N pair states (GHZ_N, Bell, intra-complements) their Π²-classical content also gives the Dicke superposition its three-anchor structure, but with finer 4-element δ-resolution because the Dicke superposition is a 2-state superposition (not a single state) under X⊗N.
 
 The 4-mode-basis vectors {|c_1⟩, |c_3⟩, |u_0⟩, |v_0⟩} from [`FourModeBasis`](../../compute/RCPsiSquared.Core/Decomposition/FourModeBasis.cs) all report Π²-odd/mem = 0.5000 when embedded as density matrices; per-qubit [`BlochAxisReading`](../../compute/RCPsiSquared.Diagnostics/Foundation/BlochAxisReading.cs) makes the probe-vs-EP-partner orthogonality visible as a **single-body fingerprint**: |c_1⟩ has 1-body Pauli content (X+ per qubit), while |c_3⟩, |u_0⟩, |v_0⟩ have **zero** 1-body Bloch (their content is purely multi-body). The probe-EP-partner orthogonality central to the 4-mode structure manifests at the per-qubit reading.
 

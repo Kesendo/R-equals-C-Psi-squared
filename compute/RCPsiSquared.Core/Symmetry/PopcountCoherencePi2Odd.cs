@@ -43,11 +43,12 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         <see cref="StaticFraction"/>, and indirectly any multi-state superposition
 ///         that matches a pair state's {w_n} (W states, Bonding-Bell-Pair, Dicke
 ///         superposition all inherit static-side via this).</item>
-///   <item><b>Dicke bit-permutation symmetry × K_{N/2}-vanishing</b>:
+///   <item><b>X⊗N-eigenbasis decomposition</b> (orthogonal-symmetry root,
+///         shared with F50 max-spin Dicke endpoint ladder rungs):
 ///         <see cref="Pi2OddTotalDickeSuperposition"/>, <see cref="Pi2OddInMemoryDickeSuperposition"/>,
-///         <see cref="IsDickeKIntermediate"/>. Three Dicke α_total anchors (0 / 3/8 / 1/2)
-///         from this combination; 3/8 K-intermediate is bit-exact verified, analytical
-///         proof open.</item>
+///         <see cref="IsDickeKIntermediate"/>. Closed-form α_total = (1−γ²)/2 with
+///         γ = ⟨ψ|X⊗N|ψ⟩; three anchors 0 / 3/8 / 1/2 follow from γ ∈ {0, 1/2, 1}
+///         (Tier 1 derived 2026-05-17).</item>
 /// </list>
 /// </summary>
 public static class PopcountCoherencePi2Odd
@@ -189,8 +190,10 @@ public static class PopcountCoherencePi2Odd
     // in (N, n): 0 at popcount-mirror (X⊗N-symmetric → Π²-EVEN-only state),
     // 3/8 at K-intermediate (even N, n or n+1 = N/2), 1/2 generic.
     //
-    // Verified bit-exact at N = 3..8 across all (n, n+1) pairs; analytical proof
-    // of the 3/8 K-intermediate anchor remains open.
+    // Closed-form derived 2026-05-17: α_total = (1 − γ²)/2 with γ = ⟨ψ|X⊗N|ψ⟩.
+    // γ ∈ {0, 1/2, 1} from X⊗N's four-Kronecker-delta action on Dicke pairs gives
+    // the three anchors directly. See PROOF_F86B_UNIVERSAL_SHAPE.md (closed-form
+    // proof block under Statement 2 / Structural inheritance from F88).
 
     /// <summary>True iff the Dicke superposition (|D_n⟩ + |D_{n+1}⟩)/√2 sits at the
     /// X⊗N-symmetric popcount-mirror configuration, where 2n + 1 = N (odd N only).
@@ -201,17 +204,38 @@ public static class PopcountCoherencePi2Odd
 
     /// <summary>True iff Dicke superposition (|D_n⟩ + |D_{n+1}⟩)/√2 sits at a
     /// K-intermediate configuration: even N and (n = N/2 − 1 or n = N/2).
-    /// At this anchor total Π²-odd-of-ρ = 3/8 (verified bit-exact N = 4, 6, 8;
-    /// analytical proof open).</summary>
+    /// At this anchor total Π²-odd-of-ρ = 3/8 (Tier 1 derived 2026-05-17 via
+    /// X⊗N-eigenbasis decomposition; see <see cref="Pi2OddTotalDickeSuperposition"/>
+    /// for the closed-form proof).</summary>
     public static bool IsDickeKIntermediate(int N, int n) =>
         (N % 2 == 0) && (n == N / 2 - 1 || n == N / 2);
 
-    /// <summary>Total Π²-odd-of-ρ for Dicke superposition (|D_n⟩ + |D_{n+1}⟩)/√2.
-    /// Three anchors:
-    /// 0 at popcount-mirror (2n + 1 = N, odd N, state is X⊗N-symmetric);
-    /// 3/8 at K-intermediate (even N, n ∈ {N/2 − 1, N/2});
-    /// 1/2 generic. Differs from pair-state's universal 1/2 due to bit-permutation
-    /// symmetry of Dicke states constraining off-diagonal Π²-odd content.</summary>
+    /// <summary>Total Π²-odd-of-ρ for Dicke superposition (|D_n⟩ + |D_{n+1}⟩)/√2,
+    /// closed-form via X⊗N-eigenbasis decomposition (Tier 1 derived 2026-05-17).
+    ///
+    /// <para><b>Theorem.</b> α_total = (1 − γ²)/2 where γ = ⟨ψ|X⊗N|ψ⟩.</para>
+    ///
+    /// <para><b>Proof (4 lines).</b> (1) Decompose ψ = c_+ψ_+ + c_-ψ_- with ψ_±
+    /// the X⊗N-eigenstates (eigenvalues ±1). (2) ρ splits under X⊗N conjugation
+    /// into Π²-EVEN diagonal (|c_±|²·|ψ_±⟩⟨ψ_±|) + Π²-ODD off-diagonal
+    /// (c_+c_-*·|ψ_+⟩⟨ψ_-| + h.c.). (3) Π²-ODD Frobenius² = 2·|c_+|²·|c_-|².
+    /// (4) |c_±|² = (1±γ)/2, so α_total = 2·(1+γ)(1−γ)/4 = (1−γ²)/2.</para>
+    ///
+    /// <para><b>Three anchors.</b> X⊗N maps |D_k⟩ → |D_{N−k}⟩, so X⊗N|ψ⟩ =
+    /// (|D_{N−n}⟩+|D_{N−n−1}⟩)/√2. The overlap γ = (1/2)·(δ_{n,N−n} + δ_{n,N−n−1}
+    /// + δ_{n+1,N−n} + δ_{n+1,N−n−1}) hits exactly {0, 1/2, 1}:</para>
+    /// <list type="bullet">
+    ///   <item>Dicke-mirror (N odd, 2n+1=N): γ = 1 → α = 0 (X⊗N-eigenstate).</item>
+    ///   <item>Dicke-K-intermediate (N even, n ∈ {N/2−1, N/2}): γ = 1/2 → α = 3/8.</item>
+    ///   <item>Generic: γ = 0 → α = 1/2.</item>
+    /// </list>
+    ///
+    /// <para>Same orthogonal-symmetry mechanism as F50's max-spin Dicke endpoint
+    /// ladder rungs ([PROOF_WEIGHT1_DEGENERACY § max-spin closed-form]); replaces
+    /// the prior opaque Krawtchouk computation with a clean ±1-eigenspace overlap.
+    /// Bit-exact verified N = 3..7 via
+    /// <c>simulations/f86b_dicke_pi2odd_closed_form.py</c>.</para>
+    /// </summary>
     public static double Pi2OddTotalDickeSuperposition(int N, int n)
     {
         if (IsDickeMirror(N, n)) return 0.0;
