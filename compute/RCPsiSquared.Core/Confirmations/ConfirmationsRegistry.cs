@@ -227,7 +227,7 @@ public static class ConfirmationsRegistry
                 "Pair B_high [13,14] Ω=0.25: t_cross = 2.814 μs, arg_measured = -123.50°, arg_predicted = -130.31°, residual = +6.81°. " +
                 "(Pair B_high Ω=0.13 produced no magnitude crossing in the delay window: higher T2 + lower Ω left the trajectory above the real-axis crossing threshold.) " +
                 "Residuals monotonically shrink as Ω increases (15.7° → 9.2° at Ω 0.13 → 0.25 on Pair A_mid), consistent with a roughly constant natural-Kingston drift contribution becoming a smaller fraction of the driven rotation.",
-            HardwareData: "external: AIEvolution.UI/experiments/ibm_quantum_tomography/results/cusp_complex_phase_hardware_ibm_kingston_omega0.{130,250}_20260516_*.json",
+            HardwareData: "data/ibm_f95_angle_steering_may2026/cusp_complex_phase_hardware_ibm_kingston_omega0.{130,250}_20260516_*.json (+ matching PNGs and partial-run JSONs; see README.md in that directory for details)",
             ExperimentDoc: "experiments/CPSI_COMPLEX_PLANE.md (conceptual predecessor; F95 closed form derived 2026-05-16 same day)",
             FrameworkPrimitive: "F95AngleAtQuadraticZeroPi2Inheritance (θ(c;b) = arctan(√(c/b² − 1))) + " +
                 "F25 Lindblad CΨ trajectory + complex CΨ_com signed-sum-of-off-diagonals extension",
