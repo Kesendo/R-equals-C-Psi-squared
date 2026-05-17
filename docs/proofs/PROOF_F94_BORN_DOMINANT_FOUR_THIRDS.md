@@ -81,9 +81,66 @@ Sixteen (γ, J, t) configurations sampled in the deep perturbative regime (Q²·
 
 The bit-exact closed form gives 4/3 = 1.33333.... The 0.3% residual is leading O(Q³K⁴) correction with positive or negative sign depending on the (Q, K) point, accumulating to a small negative bias in the mean of the sample.
 
+## Structural decomposition of the integer 8
+
+Enumerating all 4·4·4·3·3·3 = 1728 (bond_1, bond_2, site, ordering, component_1, component_2) sextuples that the sym3 expansion produces and computing each one's ⟨00|_pair element directly (`simulations/_born_rule_sym3_decomposition.py`), exactly 32 sextuples are non-vanishing. Each non-vanishing diagram contributes the same value: **1/4 in the J = γ = 1 normalization** (equivalently 4 in "bare Pauli" units before the (J/4)² Heisenberg coupling factor is restored). Hence
+
+    8 = 32 × (1/4)
+
+The 32 surviving diagrams split into 3 disjoint cells by (ordering, c_1, c_2):
+
+| Cell | (ord, c_1, c_2) | bond-pair rule | site rule | # diagrams | value |
+|------|-----------------|----------------|-----------|------------|-------|
+| A | (ord = 1, X, X) | adjacent, share a kept-pair site (0 or 2) | s ∈ |+⟩ sites = {1, 3} | 4 × 2 = 8 | 2 |
+| B | (ord = 2, X, X) | self ∪ (adjacent, share a kept-pair site) | s ∈ b_1 endpoints | 8 × 2 = 16 | 4 |
+| C | (ord = 2, Y, Y) | self only | s ∈ b_1 endpoints | 4 × 2 = 8 | 2 |
+| **total** | | | | **32** | **8** |
+
+Three structural rules govern the survival:
+
+1. **Component-pair rule.** Only (X, X) and (Y, Y) survive. All cross components (X, Y), (Y, X), (X, Z), (Z, X), (Y, Z), (Z, Y) cancel by direct enumeration, and (Z, Z) is zero in every (b_1, b_2, s, ordering) cell. A clean structural reason for the (Z, Z) cancellation traces through Z-anticommutation bit-parity on the |+⟩ sites of ρ_0 and the |00⟩-pair Z-basis projection at the end; the empirical statement here is that no (Z, Z) sextuple survives. The ratio of surviving XX to surviving YY is 24 : 8 = 3 : 1.
+
+2. **Ordering rule.** Only ord = 1 (L'_dis acts first on ρ_0, total 2) and ord = 2 (L'_dis acts in the middle, total 6) contribute. Ord = 3 (L'_dis last, i.e., L'_dis on [H, [H, ρ_0]]) gives zero in every cell by direct enumeration. The ratio is 2 : 6 = 1 : 3, mirroring the XX : YY ratio (also 1 : 3, but with the roles reversed).
+
+3. **Bond-pair rule.** For ord = 1, only **adjacent bond pairs sharing a kept-pair site** (vertex 0 or 2) survive: there are exactly 4 such ordered pairs out of the 8 adjacent pairs. For ord = 2, both **self pairs** (all 4) and the same 4 **kept-side adjacent pairs** survive — 8 bond pairs total for ord = 2 + XX. For ord = 2 + YY, only the 4 self pairs survive (the kept-side adjacent contribution that exists for XX vanishes for YY due to the absence of Y content in ρ_0 = |0+0+⟩⟨0+0+|).
+
+   The adjacent bond pairs that share a |+⟩ site (vertex 1 or 3) — 4 ordered pairs — contribute zero in every cell: the propagation must enter or exit through the measured pair (0, 2), not through traced-out sites.
+
+### Uniformity remark
+
+All 32 surviving diagrams contribute the *same* value 1/4 with the *same* sign. The 1696 non-contributing sextuples are individually zero (within machine precision in the enumeration), not pairs that cancel. So **the F94 coefficient is a pure counting result**: nothing in the answer depends on a precise cancellation; it depends only on which structural cells survive. This is the strongest form a Dyson-series coefficient can take.
+
+### Alternative topological cut
+
+The same 32 split orthogonally by bond-pair topology:
+
+| | self pairs (b_1 = b_2) | adj-bond pairs (share kept site) | total |
+|---|------|-----|-------|
+| XX | 8 (4 bonds × 2 sites, ord = 2) | 16 (4 adj × 2 sites × {ord 1, ord 2}) | 24 |
+| YY | 8 (4 bonds × 2 sites, ord = 2) | 0 | 8 |
+| total | 16 | 16 | 32 |
+
+Sixteen self-bond-pair diagrams (8 XX + 8 YY, all ord = 2) and sixteen adjacent-bond-pair diagrams (all XX, 8 ord = 1 + 8 ord = 2). Both subsets contribute 16 × (1/4) = 4, summing to 8.
+
+### Reading 4/3 against the Pi2 anchors
+
+The coefficient now reads:
+
+    4/3 = (32 surviving diagrams) / (a_{−1} · 3!)
+        = 32 / (4 · 6)
+        = 32 / 24
+
+with:
+
+- **32**: structural surviving-diagram count (the integer that this decomposition makes bit-explicit; equals 2^5)
+- **a_{−1} = 4**: Pi2 dyadic-ladder term (the same "4" that appears in F86 t_peak = 1/(4γ₀) and F77's MM correction denominator), sitting in the denominator via the (J/4)² = (1/a_{−1})² Heisenberg-coupling normalization that each bond Hamiltonian carries
+- **3! = 6**: Taylor factorial of the t³ term
+
+Equivalent reading via the typed-claim sibling: 4/3 = a_{−1} / 3, with a_{−1} appearing in the numerator after the (1/a_{−1}) factor cancels into the per-diagram contribution. Both readings hold; the structural decomposition above is the bit-explained derivation, the a_{−1}/3 reading is the typed-anchor inheritance.
+
 ## Universality remarks
 
-The form Q² · K³ for the dominant-outcome deviation is universal across (initial state, Hamiltonian, dissipator): it is the dimensional shape of the leading 3rd-order Dyson term with one γ-vertex and two H-vertices, applicable wherever the dominant outcome's direct 1st-order γ correction vanishes by parity / commutation. The coefficient 4/3 is specific to this setup. The structural decomposition of the integer 8 in terms of typed Pi2 anchors (bonds × sites × orderings, projected by initial-state Pauli content) is open; a hand calculation would clarify which factors of 4, 2, 3 combine to 8.
+The form Q² · K³ for the dominant-outcome deviation is universal across (initial state, Hamiltonian, dissipator): it is the dimensional shape of the leading 3rd-order Dyson term with one γ-vertex and two H-vertices, applicable wherever the dominant outcome's direct 1st-order γ correction vanishes by parity / commutation. The coefficient 4/3 is specific to this setup. The structural decomposition of 8 just above shows that the coefficient counts a clean 32 surviving Dyson diagrams modulated by the Heisenberg-bond and Taylor normalizations; a different (initial-state, Hamiltonian, dissipator) triple would change the surviving-diagram count and possibly the per-diagram value, but the general 4/3 = N_diagrams / (a_{−1} · 3!) form should hold whenever Heisenberg-style (J/4)·XYZ bonds and Z-dephasing apply.
 
 The subdominant outcomes of the same setup (|01⟩, |10⟩, |11⟩) have non-vanishing 1st-order γ contribution and therefore Δ ∝ K (linear) rather than ∝ Q²·K³. Their leading coefficients are separately Tier-1-derivable via a 1st-order Dyson term:
 
@@ -103,6 +160,7 @@ The "4" in 4/3 is plausibly the Pi2 dyadic ladder's a_{−1} = 4 (the same "4" i
 
 - Numerical verification: [`simulations/_born_rule_delta_dominant_coefficient.py`](../../simulations/_born_rule_delta_dominant_coefficient.py)
 - Symbolic derivation: [`simulations/_born_rule_tier1_derivation.py`](../../simulations/_born_rule_tier1_derivation.py)
+- Structural decomposition (32 surviving diagrams enumeration): [`simulations/_born_rule_sym3_decomposition.py`](../../simulations/_born_rule_sym3_decomposition.py)
 - Q-K invariance test: [`simulations/_born_rule_carrier_Q_sweep.py`](../../simulations/_born_rule_carrier_Q_sweep.py)
 - 2D (Q, K) map: [`simulations/_born_rule_delta_QK_map.py`](../../simulations/_born_rule_delta_QK_map.py)
 - Companion reflection (the path): [`reflections/ON_HOW_FOUR_THIRDS_APPEARED.md`](../../reflections/ON_HOW_FOUR_THIRDS_APPEARED.md)

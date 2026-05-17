@@ -31,11 +31,35 @@ namespace RCPsiSquared.Core.Symmetry;
 /// 3 orderings of (H, H, L)) under the partial trace and initial-state
 /// projection.</para>
 ///
+/// <para><b>Bit-explained structural decomposition of 8</b> (2026-05-17,
+/// <c>simulations/_born_rule_sym3_decomposition.py</c>): direct enumeration of all
+/// 1728 (b₁, b₂, s, ord, c₁, c₂) sextuples shows exactly 32 non-vanishing
+/// diagrams, each contributing 1/4 (raw Pauli value 4, normalized by the (J/4)² =
+/// 1/a_{−1}² Heisenberg coupling), so
+/// </para>
+///
+/// <code>
+///   8 = 32 × (1/4) = (Cell A: 8) + (Cell B: 16) + (Cell C: 8)
+///
+///   Cell A: ord=1, (XX, XX), adj bonds sharing a kept-pair site, s ∈ |+⟩ sites
+///   Cell B: ord=2, (XX, XX), self ∪ adj-kept bonds, s ∈ b₁ endpoints
+///   Cell C: ord=2, (YY, YY), self bonds only, s ∈ b₁ endpoints
+/// </code>
+///
+/// <para>Alternative topological cut: 16 self-bond-pair diagrams (8 XX + 8 YY,
+/// all ord=2) + 16 adj-bond-pair diagrams (all XX, 8 ord=1 + 8 ord=2). See the
+/// "Structural decomposition" section in <c>PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md</c>
+/// for the structural rules (component-pair, ordering, bond-pair).</para>
+///
 /// <para><b>Pi2-Foundation anchoring:</b> the "4" in the coefficient 4/3 is
 /// exactly <c>a_{−1} = 4</c> on the dyadic ladder (<see cref="Pi2DyadicLadderClaim"/>),
 /// the same "4" that appears in F86 t_peak = 1/(4γ₀) and F77's MM correction
-/// denominator. The "3" is the Taylor 3! ratio. The reduction 8/6 = 4/3 is
-/// algebraically forced.</para>
+/// denominator. Two complementary readings:
+/// (1) <c>4/3 = a_{−1}/3</c> as a typed-anchor inheritance;
+/// (2) <c>4/3 = 32/(a_{−1} · 3!) = 32/24</c> from the structural decomposition,
+/// where 32 = surviving diagram count and a_{−1} sits in the denominator via the
+/// (J/4)² coupling normalization. Both readings hold; the second is bit-explained,
+/// the first is anchor-typed.</para>
 ///
 /// <para><b>Universal Carrier signature:</b> Δ_i is Q-K-invariant (no separate
 /// γ-dependence when (J, γ) are scaled together at fixed Q). This is the
@@ -90,12 +114,44 @@ public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
 
     /// <summary>The Dyson sym3 partial-trace integer: <b>8 bit-exact</b>. The
     /// structural sum from 4 bonds × 4 sites × 3 orderings collapsing under
-    /// partial-trace + initial-state projection. Open structural decomposition
-    /// (combinatorial breakdown by hand): see <see cref="Pi2OpenQuestions"/>.</summary>
+    /// partial-trace + initial-state projection. Bit-explained as
+    /// 8 = 32 × (1/4) where 32 = <see cref="SurvivingDysonDiagrams"/> and 1/4 =
+    /// the (J/4)² Heisenberg-coupling normalization per diagram; see the
+    /// "Structural decomposition of 8" section in PROOF_F94 for the cell table.</summary>
     public const int Sym3PartialTraceInteger = 8;
 
     /// <summary>The Taylor 3! prefactor in the t³ term of e^{Lt}: 6 = 3·2·1.</summary>
     public const int TaylorThreeFactorial = 6;
+
+    /// <summary>Total surviving (b₁, b₂, s, ordering, c₁, c₂) Dyson diagrams out of
+    /// the 4·4·4·3·3·3 = 1728 a-priori sextuples in sym3. Bit-exact by direct
+    /// enumeration (`simulations/_born_rule_sym3_decomposition.py`); each
+    /// surviving diagram contributes 1/4 in J = γ = 1 normalization, so the
+    /// total is 32 × (1/4) = 8 = <see cref="Sym3PartialTraceInteger"/>.</summary>
+    public const int SurvivingDysonDiagrams = 32;
+
+    /// <summary>Per-diagram raw Pauli-contraction integer before the (J/4)² = 1/16
+    /// Heisenberg-coupling normalization is restored. 4 per surviving diagram,
+    /// uniform across all 32, by the (1, X, X) and (Y, Y) component selection and
+    /// the kept-site bond-pair rule (see PROOF_F94 "Structural decomposition").</summary>
+    public const int RawPauliPerDiagram = 4;
+
+    /// <summary>Cell A: ord = 1, (XX, XX), bond-pair must be adjacent and share a
+    /// kept-pair site (vertex 0 or 2). Site must be a |+⟩ site (1 or 3) because
+    /// L'_dis acts on ρ_0 first and only |+⟩-site dephasing is non-zero on the
+    /// initial state. 4 bond pairs × 2 |+⟩ sites = 8 diagrams; total value = 2.</summary>
+    public const int CellA_Ord1XX_AdjKeptSide = 8;
+
+    /// <summary>Cell B: ord = 2, (XX, XX), bond-pair self ∪ (adjacent sharing a
+    /// kept-pair site). 8 bond pairs × 2 b₁-endpoint sites = 16 diagrams;
+    /// total value = 4.</summary>
+    public const int CellB_Ord2XX_SelfOrAdjKeptSide = 16;
+
+    /// <summary>Cell C: ord = 2, (YY, YY), bond-pair self only (the adjacent-kept
+    /// contribution that exists for XX vanishes for YY because ρ_0 = |0+0+⟩⟨0+0+|
+    /// has no Y content). 4 self bond pairs × 2 b₁-endpoint sites = 8 diagrams;
+    /// total value = 2.</summary>
+    public const int CellC_Ord2YY_Self = 8;
 
     /// <summary>1/4 = (1/2)² bilinear-apex maxval, mirror partner of <see cref="FourFactor"/>
     /// via the dyadic-ladder inversion identity <c>a_{−1} · a_3 = 4 · (1/4) = 1</c>.
@@ -151,6 +207,22 @@ public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
         return Math.Abs(fromLadder - fromSym3) < 1e-15;
     }
 
+    /// <summary>Drift indicator: the cell counts must reconstruct
+    /// <see cref="SurvivingDysonDiagrams"/> = 32.</summary>
+    public bool CellCountsSumToSurvivingDiagrams() =>
+        CellA_Ord1XX_AdjKeptSide + CellB_Ord2XX_SelfOrAdjKeptSide + CellC_Ord2YY_Self
+            == SurvivingDysonDiagrams;
+
+    /// <summary>Drift indicator: surviving diagrams × per-diagram raw Pauli value /
+    /// a_{−1}² (the (J/4)² coupling normalization squared) must equal the sym3
+    /// integer 8. Bit-exact via integer arithmetic.</summary>
+    public bool StructuralDecompositionRecoversSym3()
+    {
+        long aMinus1Sq = (long)FourFactor * (long)FourFactor;  // 16
+        long product = (long)SurvivingDysonDiagrams * RawPauliPerDiagram;  // 128
+        return product == Sym3PartialTraceInteger * aMinus1Sq;  // 128 == 8 × 16
+    }
+
     /// <summary>Mirror-partner identity drift check: <c>FourFactor · OneOverFourFactor</c>
     /// should equal 1 bit-exactly via the dyadic-ladder inversion symmetry
     /// <c>a_n · a_{2−n} = 1</c>. Live via <see cref="Pi2DyadicLadderClaim.ProductWithMirrorPartner"/>.</summary>
@@ -182,7 +254,9 @@ public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
 
     public override string Summary =>
         $"Δ_|00⟩ = ({Coefficient:G6})·Q²·K³ in deep perturbative regime; coefficient = " +
-        $"sym3({Sym3PartialTraceInteger}) / 3!({TaylorThreeFactorial}) = 4/3 bit-exact; " +
+        $"sym3({Sym3PartialTraceInteger}) / 3!({TaylorThreeFactorial}) = " +
+        $"{SurvivingDysonDiagrams} surviving Dyson diagrams / (a_{{-1}}·3!) = 4/3 bit-exact " +
+        $"(cells: {CellA_Ord1XX_AdjKeptSide}+{CellB_Ord2XX_SelfOrAdjKeptSide}+{CellC_Ord2YY_Self}); " +
         $"Q-K-invariant per Universal Carrier; setup-specific to |0+0+⟩ N=4 Heisenberg + Z-deph pair (0,2) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -195,9 +269,21 @@ public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
             yield return InspectableNode.RealScalar("Sym3PartialTraceInteger", Sym3PartialTraceInteger);
             yield return InspectableNode.RealScalar("TaylorThreeFactorial (3!)", TaylorThreeFactorial);
             yield return new InspectableNode("Drift checks",
-                summary: $"CoefficientAgreesWithSym3: {CoefficientAgreesWithSym3()}; MirrorPartnerProductIsOne: {MirrorPartnerProductIsOne()}");
+                summary: $"CoefficientAgreesWithSym3: {CoefficientAgreesWithSym3()}; " +
+                         $"MirrorPartnerProductIsOne: {MirrorPartnerProductIsOne()}; " +
+                         $"CellCountsSumToSurvivingDiagrams: {CellCountsSumToSurvivingDiagrams()}; " +
+                         $"StructuralDecompositionRecoversSym3: {StructuralDecompositionRecoversSym3()}");
             yield return new InspectableNode("Pi2-Foundation anchoring",
                 summary: "'4' = a_{-1} on dyadic ladder; mirror partner 1/4 = a_3 via inversion a_n·a_{2-n} = 1; '3' is the surviving denominator after Dyson sym3 (= 8) reduced by Taylor 3! prefactor.");
+            yield return new InspectableNode("Structural decomposition of 8 (bit-explained)",
+                summary: $"8 = {SurvivingDysonDiagrams} surviving Dyson diagrams × 1/4 = " +
+                         $"Cell A ({CellA_Ord1XX_AdjKeptSide} ord-1 XX adj-kept) + " +
+                         $"Cell B ({CellB_Ord2XX_SelfOrAdjKeptSide} ord-2 XX self+adj-kept) + " +
+                         $"Cell C ({CellC_Ord2YY_Self} ord-2 YY self-only); " +
+                         $"alt cut: 16 self-bond-pair + 16 adj-bond-pair diagrams; " +
+                         $"4/3 = {SurvivingDysonDiagrams}/(a_{{-1}} · 3!) = " +
+                         $"{SurvivingDysonDiagrams}/({(int)FourFactor} · {TaylorThreeFactorial}) = " +
+                         $"{SurvivingDysonDiagrams}/{(int)FourFactor * TaylorThreeFactorial}.");
             double sampleQ = 20.0, sampleK = 0.0143;
             yield return new InspectableNode("Sample evaluation",
                 summary: $"Δ_|00⟩(Q={sampleQ}, K={sampleK}) = {DeltaDominant(sampleQ, sampleK):G6} (matches Carrier-sweep verification point)");

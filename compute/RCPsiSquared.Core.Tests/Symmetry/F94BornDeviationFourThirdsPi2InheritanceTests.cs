@@ -175,4 +175,72 @@ public class F94BornDeviationFourThirdsPi2InheritanceTests
         Assert.Contains("BORN_RULE_MIRROR.md", f.Anchor);
         Assert.Contains("Pi2DyadicLadderClaim.cs", f.Anchor);
     }
+
+    [Fact]
+    public void SurvivingDysonDiagrams_IsExactlyThirtyTwo()
+    {
+        // Bit-exact via direct enumeration in simulations/_born_rule_sym3_decomposition.py
+        // (2026-05-17): 32 of the 4·4·4·3·3·3 = 1728 (b₁, b₂, s, ord, c₁, c₂) sextuples
+        // contribute non-zero to ⟨00|_pair Tr_{1,3}[sym3·ρ_0]|00⟩_pair.
+        Assert.Equal(32, F94BornDeviationFourThirdsPi2Inheritance.SurvivingDysonDiagrams);
+    }
+
+    [Fact]
+    public void RawPauliPerDiagram_IsExactlyFour()
+    {
+        // Each surviving diagram contributes raw Pauli value 4 (uniform across all 32),
+        // which after the (J/4)² = 1/16 Heisenberg coupling normalization becomes 1/4.
+        Assert.Equal(4, F94BornDeviationFourThirdsPi2Inheritance.RawPauliPerDiagram);
+    }
+
+    [Fact]
+    public void CellCounts_SumToThirtyTwo()
+    {
+        // Cell A (ord=1, XX, adj-kept) = 8
+        // Cell B (ord=2, XX, self ∪ adj-kept) = 16
+        // Cell C (ord=2, YY, self only) = 8
+        // 8 + 16 + 8 = 32 = SurvivingDysonDiagrams
+        Assert.Equal(8, F94BornDeviationFourThirdsPi2Inheritance.CellA_Ord1XX_AdjKeptSide);
+        Assert.Equal(16, F94BornDeviationFourThirdsPi2Inheritance.CellB_Ord2XX_SelfOrAdjKeptSide);
+        Assert.Equal(8, F94BornDeviationFourThirdsPi2Inheritance.CellC_Ord2YY_Self);
+        Assert.True(BuildClaim().CellCountsSumToSurvivingDiagrams());
+    }
+
+    [Fact]
+    public void StructuralDecomposition_RecoversSym3Integer()
+    {
+        // 32 surviving diagrams × 4 raw / 16 (= a_{-1}²) = 8 = Sym3PartialTraceInteger.
+        // Equivalently: 32 × 4 = 128 = 8 × 16. Bit-exact via integer arithmetic.
+        Assert.True(BuildClaim().StructuralDecompositionRecoversSym3());
+    }
+
+    [Fact]
+    public void StructuralDecomposition_Yields4ThirdsFromAlternativeFormula()
+    {
+        // 4/3 = SurvivingDysonDiagrams / (a_{-1} · 3!) = 32 / (4 · 6) = 32/24.
+        // Complement to the typed-anchor reading 4/3 = a_{-1} / 3.
+        var f = BuildClaim();
+        int a_minus_1 = (int)f.FourFactor;
+        double structural =
+            (double)F94BornDeviationFourThirdsPi2Inheritance.SurvivingDysonDiagrams
+            / (a_minus_1 * F94BornDeviationFourThirdsPi2Inheritance.TaylorThreeFactorial);
+        Assert.Equal(4.0 / 3.0, structural, precision: 15);
+        Assert.Equal(f.Coefficient, structural, precision: 15);
+    }
+
+    [Fact]
+    public void TopologicalCut_SelfAndAdjEachContribute16()
+    {
+        // Alternative cut: 16 self-bond-pair diagrams (8 XX + 8 YY, all ord=2)
+        // + 16 adj-bond-pair diagrams (all XX, 8 ord=1 + 8 ord=2) = 32.
+        // From the cell breakdown:
+        //   self = (XX self in Cell B = 8) + (YY self in Cell C = 8) = 16
+        //   adj  = (XX adj in Cell A = 8) + (XX adj in Cell B = 8) = 16
+        int self_diagrams = 8 + 8;  // XX self (Cell B half) + YY self (Cell C)
+        int adj_diagrams = 8 + 8;   // XX adj (Cell A) + XX adj (Cell B half)
+        Assert.Equal(16, self_diagrams);
+        Assert.Equal(16, adj_diagrams);
+        Assert.Equal(F94BornDeviationFourThirdsPi2Inheritance.SurvivingDysonDiagrams,
+            self_diagrams + adj_diagrams);
+    }
 }
