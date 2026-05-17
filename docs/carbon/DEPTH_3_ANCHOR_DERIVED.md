@@ -1,4 +1,4 @@
-# F99: Depth-3 Anchor Derived — the Bridge Goes Both Ways with Material
+# F99: Depth-3 Anchor Derived, the Bridge Goes Both Ways with Material
 
 **Date:** 2026-05-17 night (fifth stack of the day)
 **Status:** Tier 1 derived (bit-exact N = 4, 6, 8 across 5 canonical trig angles)
@@ -24,7 +24,7 @@ The session arc:
 
 4. **Night #2** ([SPEAR_REVERSED](SPEAR_REVERSED.md)): reverse-spear identified
    that N/P at 5/8 are the F86b Π²-EVEN companion (mis-labelled). Li, Na, F, Cl
-   at 1/8 and 7/8 are GENUINE framework gaps — depth-3 dyadic with no F-formula.
+   at 1/8 and 7/8 are GENUINE framework gaps: depth-3 dyadic with no F-formula.
 
 5. **Night #3** (this commit): the depth-3 anchor is DERIVED. Bit-exact verification
    on N = 4, 6, 8 closes the gap that the periodic table empirically pointed at
@@ -101,7 +101,7 @@ weights c² = 2√3 + 3, 1 + √2, 0 respectively. All bit-exact, N-independent.
 
 ---
 
-## The bidirectional bridge — material, not just concept
+## The bidirectional bridge: material, not just concept
 
 This morning we said "the framework's polarity-squared algebra is structurally
 present at depth-3 on the dyadic ladder but operationally underived." Three
@@ -122,7 +122,7 @@ Forward closure (World prompted Framework derivation)
   Framework gap pointed-at  →  c² = 2√3+3 derivation closes it (this commit)
 ```
 
-The bridge goes both ways with MATERIAL — not just as a conceptual claim that
+The bridge goes both ways with MATERIAL, not just as a conceptual claim that
 "inheritance is bidirectional", but with explicit derivations and bit-exact
 verifications crossing the bridge in each direction.
 
@@ -179,7 +179,7 @@ F86b α formula α = sin²(θ)/2 at five canonical trig angles + the endpoint
 **Reverse direction has material entry points**: the framework can now be
 asked "where's the next gap on the dyadic ladder?" The depth-4 dyadic anchors
 (1/16, 3/16, ..., 15/16) are not directly producible by F86b at canonical trig
-angles — they would require non-elementary angles like 15°, 22.5°, 18°, etc.
+angles; they would require non-elementary angles like 15°, 22.5°, 18°, etc.
 Whether the framework's algebra has a natural extension to these (e.g. via
 higher-order Dicke compositions, or via the F86c bond-class structure at higher
 chromaticity c, or via some other route) is the next open question.
@@ -187,7 +187,7 @@ chromaticity c, or via some other route) is the next open question.
 The periodic table doesn't help much further here: d-block elements (transition
 metals) have 10-shell occupation, breaking out of the dyadic-octet structure
 entirely. Depth-4 dyadic would map to (hypothetical) period-2/3 elements with
-16-slot valence shells — not how the periodic table is structured. So the
+16-slot valence shells, not how the periodic table is structured. So the
 periodic table's hint is exhausted at depth-3; further extensions need a
 different external probe.
 
@@ -215,7 +215,7 @@ Anchors : The five canonical trig angles {0, 30, 45, 60, 90}° produce
 
 1. **Why specifically `c² = γ/(1-γ)` and not some other functional form?** The
    non-uniform Dicke parametrisation produces this specific c²(γ) relationship.
-   Is there a structural reason for this functional form — e.g., a maximum-
+   Is there a structural reason for this functional form, e.g., a maximum-
    entropy or minimum-Frobenius constraint that picks this specific
    amplitude ratio?
 

@@ -1,10 +1,10 @@
 # Period 2 + 3 Atoms Sit on the Framework's Polarity Anchors
 
 **Date:** 2026-05-17 night
-**Status:** Tier 2 (combinatorial fact, no derivation needed — the valence ratios are exact)
+**Status:** Tier 2 (combinatorial fact, no derivation needed; the valence ratios are exact)
 **Script:** [`simulations/carbon/period_2_at_framework_anchors.py`](../../simulations/carbon/period_2_at_framework_anchors.py)
 **Reading:** load-bearing evidence for `project_no_classicalization` and
-`project_one_world_two_readings` — "wir leben selbst in der Quantenwelt, es gibt
+`project_one_world_two_readings`: "wir leben selbst in der Quantenwelt, es gibt
 kein 'Klassisch'"
 
 ---
@@ -22,7 +22,7 @@ ladder, all proven (or freshly derived) in 2026:
 | **3/4** | polarity-complement of Quarter | 1 − 1/4; F86b α_total at γ² > 1 boundary; F88 popcount-mirror complement |
 
 Test: every element from H through Ar has its valence-electron / valence-shell-
-slots ratio computed as a `fractions.Fraction`. The question — which fractions
+slots ratio computed as a `fractions.Fraction`. The question: which fractions
 land on the framework anchors above.
 
 ---
@@ -46,7 +46,7 @@ H from period 1 (1s¹ of 2 slots) also hits **1/2** = Half exactly.
 
 ---
 
-## CHNOPS — biological elements ∩ framework anchors
+## CHNOPS: biological elements ∩ framework anchors
 
 CHNOPS (Carbon, Hydrogen, Nitrogen, Oxygen, Phosphorus, Sulfur) makes up
 >99% of living matter:
@@ -62,9 +62,9 @@ CHNOPS (Carbon, Hydrogen, Nitrogen, Oxygen, Phosphorus, Sulfur) makes up
 
 **Four of six CHNOPS elements are framework-anchored** (H, C at 1/2; O, S at
 3/4 = 1 − 1/4). The TWO off-anchor CHNOPS members (N and P at 5/8) are
-**structural connectors** — they form the negatively-charged backbones of
+**structural connectors**: they form the negatively-charged backbones of
 proteins (N-terminus, amide bonds) and nucleic acids (phosphate diester).
-The on-anchor four (H, C, O, S) are the **functional groups** — they carry
+The on-anchor four (H, C, O, S) are the **functional groups**: they carry
 the chemistry. The pattern: framework-anchored = function; off-anchor =
 structural connector.
 
@@ -84,12 +84,12 @@ The closed form: α_total = (1 − γ²)/2 with γ = ⟨ψ|X⊗N|ψ⟩; the KInt
 case has γ = 1/2, giving α_total = 3/8.
 
 12 hours later tonight, the same 3/8 turns up as **boron's valence-electron /
-octet ratio**. Boron is the smallest electron-deficient element — it has only
+octet ratio**. Boron is the smallest electron-deficient element: it has only
 3 valence electrons of 8 octet slots, leading to its exotic 3-center 2-electron
 bonds (BH₃ trimers, B₁₂ icosahedra). The "intermediate" element between
 Be (1/4) and C (1/2).
 
-This is not "boron is K-intermediate-Dicke" in any physical sense — the qubit-
+This is not "boron is K-intermediate-Dicke" in any physical sense; the qubit-
 level math and the atomic-shell occupation are different things. What the
 coincidence DOES say: both the framework's algebra and the periodic table
 quantise the same polarity-axis at the same rational anchors, including the
@@ -136,7 +136,7 @@ quantised at the same rational fractions the framework's algebra names on
 the qubit dyadic ladder.
 
 What this is NOT: a claim that biology is "quantum-mechanical" in any
-operational sense (that's already common knowledge — quantum chemistry is
+operational sense (that's already common knowledge; quantum chemistry is
 the description of bonds). What this IS: a claim that the SPECIFIC FRAMEWORK
 FRACTIONS pinning the framework's polarity-squared algebra also pin the
 valence ratios of the atoms of life. The framework's `1/2`-`1/4`-`3/8`-`3/4`
@@ -160,10 +160,10 @@ Six elements in periods 1-3 are off-anchor:
 Pattern: all off-anchor elements sit at **1/8 offsets** from the nearest
 anchor. They form a coherent secondary lattice on the dyadic ladder one rung
 below the framework's primary anchors. The biological roles of off-anchor
-elements skew toward **electrolyte and structural-connector functions** —
+elements skew toward **electrolyte and structural-connector functions**:
 Li/Na/Cl as ion gradients across membranes; N/P as backbone phosphate /
 amide bonds. The on-anchor elements skew toward **chemistry-doing functional
-groups** — H/C/O/S as the functional reactive centres.
+groups**: H/C/O/S as the functional reactive centres.
 
 (Tentative pattern, would need broader biochemistry verification.)
 

@@ -14,7 +14,7 @@ valence ratios did not match the first-tier framework anchors {1/4, 3/8, 1/2,
 3/4}.
 
 Tom asked: "lass uns den Spieß mal umdrehen, was sind deren Anker, vielleicht
-fehlen sie ja auf unserer Quantenseite?" — let us flip the question: what
+fehlen sie ja auf unserer Quantenseite?", let us flip the question: what
 ARE their anchors, maybe they're missing on our quantum side?
 
 Flipping the direction of the inheritance argument:
@@ -58,20 +58,20 @@ docs, not in the periodic table.
 Structural reading: **B/Al at 3/8 (Π²-odd / memory) and N/P at 5/8 (Π²-even /
 static) are duals of the SAME F86b derivation on opposite parity sides**.
 Together they form a parity-pair across the F86b 3/8 anchor. Today morning's
-F86b derivation produces BOTH 3/8 and 5/8 simultaneously — the framework
+F86b derivation produces BOTH 3/8 and 5/8 simultaneously; the framework
 already names both; we just hadn't called the 5/8 face out as a named anchor
 because we were tracking α (the Π²-odd side) only.
 
-### (3) Genuine framework gaps — depth-3 dyadic, no F-formula
+### (3) Genuine framework gaps: depth-3 dyadic, no F-formula
 
 | n/8 | Pi2DyadicLadder position | Period 2 | Period 3 |
 |-----|--------------------------|----------|----------|
-| **1/8** | **a_3 = (1/2)³ — on the ladder, NO F-formula derives it** | Li | Na |
-| **7/8** | **depth-3 polarity-complement — same gap, complemented** | F | Cl |
+| **1/8** | **a_3 = (1/2)³, on the ladder, NO F-formula derives it** | Li | Na |
+| **7/8** | **depth-3 polarity-complement, same gap, complemented** | F | Cl |
 
-Li, Na, F, Cl are at 1/8 and 7/8 — on the dyadic ladder at depth 3 (third power
+Li, Na, F, Cl are at 1/8 and 7/8, on the dyadic ladder at depth 3 (third power
 of polarity Half), but **no current F-formula in the framework lands exactly at
-α = 1/8**. The F86b formula `α = (1 − γ²)/2` would require γ = √3/2 — irrational,
+α = 1/8**. The F86b formula `α = (1 − γ²)/2` would require γ = √3/2, irrational,
 not realisable via clean equal-weight Dicke superpositions. So depth-3 is
 **structurally present** on the dyadic ladder but **operationally underived**
 on the F-formula registry.
@@ -117,8 +117,8 @@ F86b derivation produces them at γ = 1/2 cleanly). The framework is
 ## What the periodic table reveals
 
 The framework's polarity-squared algebra is incomplete at depth-3 in a
-specific, named way. The periodic table — entirely independent empirical
-structure with 150+ years of chemistry data — instantiates the missing
+specific, named way. The periodic table, entirely independent empirical
+structure with 150+ years of chemistry data, instantiates the missing
 depth-3 anchor as the valence ratio of alkali metals (Li, Na, K, Rb, Cs at 1/8)
 and halogens (F, Cl, Br, I at 7/8).
 
@@ -132,7 +132,7 @@ reactive and biologically active groups in the periodic table:
   organic substituent; I as thyroid hormone constituent.
 
 The framework's depth-3 anchor maps to chemistry's most STRUCTURE-FORMING
-ions and substituents — the elements that drive electrolyte gradients, ion
+ions and substituents: the elements that drive electrolyte gradients, ion
 channels, ionic bonds. Off-anchor in the previous reading; depth-3-pointing
 in this reading.
 
@@ -175,15 +175,15 @@ pointers at the place to look.
 
 Tom's reverse-spear question produced three different findings in one stack:
 
-1. **Identified a labelling miss** — 5/8 IS on the framework side (F86b Π²-even
+1. **Identified a labelling miss**: 5/8 IS on the framework side (F86b Π²-even
    companion). N and P are not off-anchor; they're the dual face of B and Al.
 
-2. **Made the depth-3 gap explicit** — 1/8 and 7/8 are on the dyadic ladder
+2. **Made the depth-3 gap explicit**: 1/8 and 7/8 are on the dyadic ladder
    but have no F-formula derivation. The framework's polarity-squared algebra
    is complete at depth-2 (Half + Quarter), partial at depth-3 (F86b 3/8 and
    5/8 catch combinations), incomplete at the pure depth-3 anchors.
 
-3. **Re-framed the periodic table as a structural probe** — instead of the
+3. **Re-framed the periodic table as a structural probe**: instead of the
    framework predicting where atoms sit (forward inheritance), the periodic
    table points at framework anchors yet to be derived (reverse inheritance).
    Chemistry's 150-year empirical base becomes a checking-tool for framework
@@ -198,7 +198,7 @@ Tom's reverse-spear question produced three different findings in one stack:
   [PERIOD_2_AT_FRAMEWORK_ANCHORS](PERIOD_2_AT_FRAMEWORK_ANCHORS.md),
   [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md)
 - Framework anchors: [F86b DickeAnchor.cs](../../compute/RCPsiSquared.Core/Symmetry/DickeAnchor.cs)
-  (produces 3/8 AND 5/8 simultaneously — the 5/8 face named here for the first time);
+  (produces 3/8 AND 5/8 simultaneously; the 5/8 face named here for the first time);
   [F98 KIntermediate bridge](../ANALYTICAL_FORMULAS.md#f98) (today morning's discovery);
   [Pi2KnowledgeBaseClaims.cs](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs)
   (Half, Quarter)

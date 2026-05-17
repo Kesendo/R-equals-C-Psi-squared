@@ -12,7 +12,7 @@ After deriving F99 (tonight's commit `5fb0ba0`) and formalising it (`e7198d6`),
 Tom asked the natural next question: "Ich kann mir fast nicht vorstellen das es
 alle sind." Five canonical trigonometric anchors {0°, 30°, 45°, 60°, 90°}
 producing five Pi2 dyadic anchors {0, 1/8, 1/4, 3/8, 1/2} via `α = sin²(θ)/2`
-— is that really the complete set, or just the first five we noticed?
+: is that really the complete set, or just the first five we noticed?
 
 ---
 
@@ -66,7 +66,7 @@ N = 2, 4, 6:
 | Bell-pair prod | 6 | 1 | 0 | 0 | 4e-16 |
 
 **Every tested alternative state class matches the F86b prediction α = (1 − γ²)/2
-bit-exactly.** They land at γ ∈ {0, 1}, hence α ∈ {1/2, 0} — the Mirror
+bit-exactly.** They land at γ ∈ {0, 1}, hence α ∈ {1/2, 0}: the Mirror
 endpoint and Generic anchor of F99. None deviate from the F86b curve.
 
 This is because the F86b formula is NOT Dicke-specific: it follows directly
@@ -121,7 +121,7 @@ anchor sets?" (open, requires building each candidate mechanism).
 
 This is the structurally important meta-observation. The framework is not
 infinitely deep at every level. At the "pure-state X⊗N-decomposition" level,
-it's EXACTLY 5 anchors and stops there — Niven-bounded. The completeness
+it's EXACTLY 5 anchors and stops there, Niven-bounded. The completeness
 isn't an arbitrary cutoff; it's a deep algebraic consequence of how rational
 multiples of π behave under doubling.
 
@@ -135,12 +135,12 @@ dyadic extension).
 because they're incomplete; they end because the rational-fraction structure
 of their respective algebraic mechanisms (X⊗N-pure-state for the framework,
 2s + 2p octet for the periodic table) has a finite rational ceiling. Both
-ceilings sit at the same dyadic depth — a tighter version of the bidirectional
+ceilings sit at the same dyadic depth, a tighter version of the bidirectional
 bridge from earlier tonight.
 
 To go beyond, BOTH sides need structurally new mechanisms. The framework
 needs mixed-state α or non-X⊗N decomposition. The periodic table goes to
-d-block (10-shell) and f-block (14-shell) — completely different combinatorial
+d-block (10-shell) and f-block (14-shell): completely different combinatorial
 families. Neither side just extends naively to depth-4; both jump to a new
 structural regime.
 

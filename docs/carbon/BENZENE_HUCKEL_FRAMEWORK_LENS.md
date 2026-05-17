@@ -11,20 +11,20 @@ chain, cyclobutadiene C₄ ring, cyclopropenyl cation C₃ ring.
 
 ## The 86-year structural inheritance
 
-Coulson and Rushbrooke (1940) proved that ALTERNANT hydrocarbons — those whose
-carbon framework is bipartite — have molecular orbital spectra that are
+Coulson and Rushbrooke (1940) proved that ALTERNANT hydrocarbons, those whose
+carbon framework is bipartite, have molecular orbital spectra that are
 **palindromic around α** (the on-site Coulomb integral): for every MO at energy
 α + x there is a corresponding MO at α − x. Every chemist learns this in their
 first MO theory course.
 
 The R=CΨ² framework's F1 palindrome theorem (proven 2026, `docs/proofs/MIRROR_SYMMETRY_PROOF.md`)
 says that the Liouvillian spectrum of chain XY + Z-dephasing is closed under
-λ → −λ − 2·Σγ — palindromic around the centre −Σγ. Today's water-domain F86b 3/8
+λ → −λ − 2·Σγ, palindromic around the centre −Σγ. Today's water-domain F86b 3/8
 inheritance experiment uncovered a new dynamic bridge (F98, `(N+2)/[4(N+1)] → 1/4`)
 on top of the same F1 substrate.
 
-**Through the framework lens — and this is the structural observation worth
-making explicit — Coulson-Rushbrooke and F1 are the same theorem at two physical
+**Through the framework lens, and this is the structural observation worth
+making explicit, Coulson-Rushbrooke and F1 are the same theorem at two physical
 levels.** Both palindromes are induced by a bipartite-graph Z₂ involution; both
 pin every eigenvalue to its mirror partner around a structural centre (α for C-R,
 −Σγ for F1); both break exactly when the bipartite structure is absent.
@@ -35,8 +35,8 @@ pin every eigenvalue to its mirror partner around a structural centre (α for C-
 | F1 (R=CΨ²) | 2026 | Qubit Level 0 (Liouvillian) | −Σγ | Π conjugation on truly-class H + Z-deph | F1-Brecher (T1, depolarising, transverse h) |
 
 The structural mechanism is the same; the physical instantiations differ. The
-framework's `project_qubit_as_inheritance_lens` reading — that the qubit-level
-machinery inherits to higher-level systems via four embedding conditions — is
+framework's `project_qubit_as_inheritance_lens` reading, that the qubit-level
+machinery inherits to higher-level systems via four embedding conditions, is
 literally true here: the same Z₂-palindrome structure flows from qubit Liouvillian
 to molecular orbitals via the bipartite-graph mechanism that both physical levels
 admit.
@@ -58,7 +58,7 @@ machine precision (pair-sum deviation < 1e-15). Energies in units of β:
 | Hexatriene C₆ chain | −1.802, −1.247, −0.445, +0.445, +1.247, +1.802 | 3 pairs at 0 ✓ |
 | Cyclobutadiene C₄ ring | −2, 0, 0, +2 | 2 pairs at 0 ✓ |
 
-The 1.618 / 0.618 pattern in C₁₀ is the golden ratio φ and its reciprocal — both
+The 1.618 / 0.618 pattern in C₁₀ is the golden ratio φ and its reciprocal; both
 appear in cos(πk/(N+1)) at N = 10 / 4 etc, the same OBC sine-mode dispersion the
 framework uses in `XyJordanWignerModes`.
 
@@ -66,7 +66,7 @@ framework uses in `XyJordanWignerModes`.
 
 **Cyclopropenyl cation C₃⁺** (3-ring, odd cycle, non-bipartite, 2π aromatic per
 4n+2 with n=0): spectrum {α + 2β, α − β, α − β}. Pair sum (α + 2β) + (α − β) = 2α − β,
-**deviation = β from 2α — palindrome explicitly violated.** This is the carbon-Level-1
+**deviation = β from 2α, palindrome explicitly violated.** This is the carbon-Level-1
 analog of an F87 Brecher in the framework: the structural mechanism (bipartite
 graph / truly-class Hamiltonian) is broken, and the palindrome fails.
 
@@ -80,12 +80,13 @@ cyclopropenyl satisfies only the latter.
 
 ## The 4n+2 vs 4n distinction lives in OCCUPATION, not palindrome
 
-Both benzene (6π, 4n+2) and cyclobutadiene (4π, 4n) have palindromic spectra —
+Both benzene (6π, 4n+2) and cyclobutadiene (4π, 4n) have palindromic spectra;
 the difference is NOT in the spectrum's symmetry but in WHERE the HOMO sits:
 
 - **4n+2 (aromatic)**: HOMO sits BELOW α at an isolated paired energy; LUMO sits
-  ABOVE α at the palindrome partner. Closed-shell, stable. Benzene: HOMO at −β,
-  LUMO at +β, gap = 2β.
+  ABOVE α at the palindrome partner. Closed-shell, stable. Benzene (β < 0):
+  HOMO at α + β = α − |β| (below α), LUMO at α − β = α + |β| (above α),
+  gap = 2|β|.
 - **4n (anti-aromatic)**: HOMO and LUMO sit DEGENERATE AT α (the palindrome centre).
   Half-filled non-bonding pair → Jahn-Teller unstable → distortion to localised
   bonds. Cyclobutadiene: HOMO = LUMO = 0β, gap = 0β.
@@ -101,7 +102,7 @@ where the framework's Π acts trivially. A HOMO sitting AT the palindrome centre
 (4n case) means the half-filled state sits in the trivial Klein character; a HOMO
 BELOW the centre (4n+2 case) means the closed-shell state spans Klein-mixed
 characters. This is testable via the framework's `KleinFourGroupSelfPairedRefinement`
-applied to the benzene/cyclobutadiene MO-basis Liouvillians — open follow-up.
+applied to the benzene/cyclobutadiene MO-basis Liouvillians; open follow-up.
 
 ---
 
@@ -129,9 +130,9 @@ applied to the benzene/cyclobutadiene MO-basis Liouvillians — open follow-up.
    first direct framework test on a carbon substrate.
 
 2. **Is there a benzene analog of the F98 (N+2)/[4(N+1)] → 1/4 long-time bridge?**
-   F98 was derived for any truly-class Hamiltonian + Z-deph on N qubits — the bond
+   F98 was derived for any truly-class Hamiltonian + Z-deph on N qubits; the bond
    topology drops out. If benzene's Liouvillian inherits the same truly-class
-   structure (which it should — Hückel ring is alternant), F98 should hold with N = 6
+   structure (which it should, since Hückel ring is alternant), F98 should hold with N = 6
    giving α(∞) = 8/28 = 2/7.
 
 3. **Klein-4-group character of HOMO at palindrome centre as aromaticity criterion?**
@@ -154,8 +155,8 @@ applied to the benzene/cyclobutadiene MO-basis Liouvillians — open follow-up.
 
 ## Why this might matter beyond "nice analogy"
 
-The Coulson-Rushbrooke ↔ F1 identification is structurally clean — both are bipartite-
-graph Z₂ palindromes — but more importantly it puts the framework's F-results on a
+The Coulson-Rushbrooke ↔ F1 identification is structurally clean (both are bipartite-
+graph Z₂ palindromes), but more importantly it puts the framework's F-results on a
 KNOWN HIGH-DATA SUBSTRATE. Carbon chemistry has 86 years of organic-chemistry data
 verifying Coulson-Rushbrooke across thousands of molecules. The framework's F1 has 6
 months of QPU + computational verification.
@@ -164,7 +165,7 @@ Every alternant hydrocarbon whose MO spectrum satisfies Coulson-Rushbrooke is
 empirical evidence that the framework's Z₂-palindrome mechanism inherits to the
 chemistry level. Conversely, every framework F-result that has a Hückel-equivalent
 prediction (e.g. F86b's 3/8 Dicke anchor → benzene's half-filled p-shell) is
-testable against decades of organic-chemistry data — both validating the inheritance
+testable against decades of organic-chemistry data, both validating the inheritance
 and surfacing new framework-derived chemistry predictions that weren't asked.
 
 The carbon domain is the structurally-cleanest LARGE-DATA substrate for the framework.

@@ -1,11 +1,14 @@
 # Carbon Domain (Quantum Carbon, V-Effect, Conjugated Systems)
 
 Consolidation folder for the carbon thread, mirroring `docs/water/` as a substrate
-domain. The carbon material had been scattered across HIERARCHY_OF_INCOMPLETENESS,
-QUBIT_NECESSITY, V_EFFECT_PALINDROME, V_EFFECT_BOUNDARY_LOCALIZATION, periodic_palindrome.py,
-COMPLEXITY_THRESHOLD, UNIVERSAL_PALINDROME_CONDITION, plus glancing references in
-several other places. This folder collects pointers + open questions; new carbon-
-specific tests will land here as they get built.
+domain. The carbon material had been scattered across [HIERARCHY_OF_INCOMPLETENESS](../HIERARCHY_OF_INCOMPLETENESS.md),
+[QUBIT_NECESSITY](../QUBIT_NECESSITY.md), [V_EFFECT_PALINDROME](../../experiments/V_EFFECT_PALINDROME.md),
+[V_EFFECT_BOUNDARY_LOCALIZATION](../../experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md),
+[periodic_palindrome.py](../../simulations/periodic_palindrome.py),
+[COMPLEXITY_THRESHOLD](../../hypotheses/COMPLEXITY_THRESHOLD.md),
+[UNIVERSAL_PALINDROME_CONDITION](../../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md),
+plus glancing references in several other places. This folder collects pointers + open
+questions; new carbon-specific tests will land here as they get built.
 
 ---
 
@@ -14,29 +17,29 @@ specific tests will land here as they get built.
 Single-evening dive that opened up the bidirectional bridge from the framework
 to the periodic table. Each doc is one step in the chain; read top-to-bottom:
 
-1. [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md) — Coulson-Rushbrooke
+1. [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md): Coulson-Rushbrooke
    (1940) on alternant hydrocarbons is the F1 palindrome inherited to the π-electron
    spectrum. Verified bit-exact on benzene, butadiene, hexatriene, cyclobutadiene,
    cyclopropenyl, cyclodecapentaene.
-2. [QUARTER_HALF_IN_CARBON](QUARTER_HALF_IN_CARBON.md) — three layers of carbon
+2. [QUARTER_HALF_IN_CARBON](QUARTER_HALF_IN_CARBON.md): three layers of carbon
    structure (sp/sp²/sp³ hybridisation s-character, aromatic ring HOMO position,
    valence-shell occupation) all hit the framework's polarity anchors 1/4 and 1/2.
-3. [PERIOD_2_AT_FRAMEWORK_ANCHORS](PERIOD_2_AT_FRAMEWORK_ANCHORS.md) — period 2/3
+3. [PERIOD_2_AT_FRAMEWORK_ANCHORS](PERIOD_2_AT_FRAMEWORK_ANCHORS.md): period 2/3
    element valence ratios populate the framework's Pi2 dyadic anchors at every step.
    4 of 6 CHNOPS elements land on framework anchors; the off-anchor exceptions are
    identified.
-4. [SPEAR_REVERSED](SPEAR_REVERSED.md) — reverse-spear: use the periodic table as a
+4. [SPEAR_REVERSED](SPEAR_REVERSED.md): reverse-spear, use the periodic table as a
    diagnostic for the framework's gaps. Period 2/3 atoms hit 8 of 9 dyadic anchors;
    the depth-3 gap (1/8 + 7/8) is exactly the framework's missing F99 row.
-5. [DEPTH_3_ANCHOR_DERIVED](DEPTH_3_ANCHOR_DERIVED.md) — F99 derivation: the
+5. [DEPTH_3_ANCHOR_DERIVED](DEPTH_3_ANCHOR_DERIVED.md): F99 derivation, the
    non-uniform Dicke superposition at γ = √3/2 gives α = 1/8, closing the depth-3
    gap. Five canonical trig angles {0°, 30°, 45°, 60°, 90°} produce the five Pi2
    dyadic anchors {0, 1/8, 1/4, 3/8, 1/2} via `α = sin²(θ)/2`.
-6. [F99_NIVEN_COMPLETENESS](F99_NIVEN_COMPLETENESS.md) — Niven's theorem (1956) closes
+6. [F99_NIVEN_COMPLETENESS](F99_NIVEN_COMPLETENESS.md): Niven's theorem (1956) closes
    F99: the five anchors are EXHAUSTIVE for the F86b α = sin²(θ)/2 mechanism on any
    pure state. No more rational anchors via this route. Mixed states, different
    decomposition bases, and different Lindblad classes are the only paths to depth-4.
-7. [OFF_NIVEN_AS_WAVE_BREAKING](OFF_NIVEN_AS_WAVE_BREAKING.md) — the off-Niven
+7. [OFF_NIVEN_AS_WAVE_BREAKING](OFF_NIVEN_AS_WAVE_BREAKING.md): the off-Niven
    constructible angles {15°, 18°, 22.5°, 36°, 54°, 72°, ...} populate the same
    constructible-angle landscape with irrational-algebraic α (silver-, golden-, and
    √3-ratio families). They ARE the source of V-Effect gain V(N) = 2cos²(π/(2N))
@@ -84,7 +87,7 @@ at Level 1.
   half-classical and half-quantum, and precisely where the palindrome breaks when a second
   bond is added."
 - [V_EFFECT_BOUNDARY_LOCALIZATION.md](../../experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md):
-  "the 14 of 36 mode-pairs break" is **strictly confined to boundary sectors** — the
+  "the 14 of 36 mode-pairs break" is **strictly confined to boundary sectors**, the
   carbon-like incomplete shells where chemistry happens.
 - The V-Effect 14/19/3 trichotomy refined the original 14/22 split (per `project_v_effect_combinatorial`);
   carbon's structural locus is the boundary sectors that supply the 14 broken pairs.
@@ -107,7 +110,7 @@ at Level 1.
 - [`docs/water/`](../water/): hydrogen-bond proton qubit, Grotthuss chains, F86b 3/8 anchor
   inheritance verified (today's [F98](../ANALYTICAL_FORMULAS.md#f98) bridge from the same
   substrate-grounded experiment).
-- [DNA_BASE_PAIRING.md](../../experiments/DNA_BASE_PAIRING.md): G-C / A-T base-pair tests —
+- [DNA_BASE_PAIRING.md](../../experiments/DNA_BASE_PAIRING.md): G-C / A-T base-pair tests,
   carbon-scaffolded but not analysed through the carbon-as-qubit lens specifically.
 - [simulations/neural/](../../simulations/neural/): Wilson-Cowan and C. elegans inheritance
   tests for the framework. Not chemistry-substrate but parallel inheritance.
@@ -140,13 +143,13 @@ the analogous conditions are tentative (candidates marked T to flag):
 
 4. **Q in framework range** (Tier 4 candidate). Need Q = J/γ ~ 1 for the F86 EP-resonance
    window. For π-conjugated systems at room T: J (π-bond, ~2.4 eV) vs γ (phonon dephasing,
-   ~ 25 meV at kT) gives Q ~ 100 — DEEP QUANTUM regime, beyond the Q_peak window. Cold
+   ~ 25 meV at kT) gives Q ~ 100, DEEP QUANTUM regime, beyond the Q_peak window. Cold
    or vibrationally-shielded variants needed for direct framework window match. Same
    classical-side limit story as room-T water (J/γ ~ 0.01).
 
 The conditions are speculative until tested. The water domain established 4 clean conditions
 because the proton-in-double-well is uniquely qubit-shaped. For carbon the 2-state DOF
-identification is the open structural question — there is no single canonical choice yet.
+identification is the open structural question; there is no single canonical choice yet.
 
 ---
 
@@ -174,7 +177,7 @@ identification is the open structural question — there is no single canonical 
 
 2. **Does benzene's Hückel spectrum show F1 palindrome under vibrational dephasing?** The
    Hückel matrix for C₆ ring is a tridiagonal-with-corner exactly the framework's ring
-   topology. Eigenvalues at ±2J, ±J, ±J, 0 — already palindromic on the bond-energy axis.
+   topology. Eigenvalues at ±2J, ±J, ±J, 0, already palindromic on the bond-energy axis.
    The framework prediction is the LIOUVILLIAN palindrome under dephasing, which would
    require building the open-system L explicitly. First sanity check: matches the F1
    pair-sum-constant structure.
@@ -204,11 +207,11 @@ identification is the open structural question — there is no single canonical 
 Following the `docs/water/` pattern: new carbon-specific docs land here as they get
 written, with `simulations/carbon/` holding scripts. Candidates:
 
-- `BENZENE_PI_QUBIT.md` (Tier 2) — N=6 ring with π-electron qubit-per-carbon model
-- `GRAPHENE_K_POINT_EP.md` (Tier 3) — Dirac cone as F86a 2-level EP test
-- `POLYACETYLENE_F92_INHERITANCE.md` (Tier 2) — SSH ↔ F92 anti-palindromic-J connection
-- `CARBYNE_GROTTHUSS_ANALOG.md` (Tier 2) — sp-linear chain as direct framework substrate
-- `PERIODIC_PALINDROME_V_EFFECT_LINK.md` (Tier 2) — quantitative match between periodic-
+- `BENZENE_PI_QUBIT.md` (Tier 2): N=6 ring with π-electron qubit-per-carbon model
+- `GRAPHENE_K_POINT_EP.md` (Tier 3): Dirac cone as F86a 2-level EP test
+- `POLYACETYLENE_F92_INHERITANCE.md` (Tier 2): SSH ↔ F92 anti-palindromic-J connection
+- `CARBYNE_GROTTHUSS_ANALOG.md` (Tier 2): sp-linear chain as direct framework substrate
+- `PERIODIC_PALINDROME_V_EFFECT_LINK.md` (Tier 2): quantitative match between periodic-
   table data and V-Effect 14/19/3 prediction
 
 None of these exist yet. The folder is open for the next session that wants to build

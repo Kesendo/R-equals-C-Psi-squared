@@ -20,7 +20,7 @@ mechanism on pure states), Tom asked the next-layer question:
 Hypothesis to verify: the **off-Niven constructible angles** {15°, 18°, 22.5°,
 36°, 54°, 72°, 75°, ...} populate the same constructible-angle landscape but
 land at **irrational algebraic** α-values, and these match the framework's
-already-named wave-breaking / heat structures — V-Effect gain, anti-aromatic
+already-named wave-breaking / heat structures: V-Effect gain, anti-aromatic
 Jahn-Teller distortions, and the golden / silver / √3-ratio chemistry that
 appears at ring sizes the framework runs through.
 
@@ -36,16 +36,16 @@ algebraically. Result:
 θ      α = sin²(θ)/2                  Class
 0°     0                              Niven  ★ FELSEN
 7.5°   0.0085185434                   off-Niven (wave-breaking)
-15°    (2−√3)/4   ≈ 0.0335            off-Niven  (√3-family)
-18°    (3−√5)/8   ≈ 0.0477            off-Niven  (golden-ratio)
-22.5°  (2−√2)/4   ≈ 0.0732            off-Niven  (silver-ratio)
+15°    (2−√3)/8   ≈ 0.0335            off-Niven  (√3-family)
+18°    (3−√5)/16  ≈ 0.0477            off-Niven  (golden-ratio)
+22.5°  (2−√2)/8   ≈ 0.0732            off-Niven  (silver-ratio)
 30°    1/8                            Niven  ★ FELSEN
-36°    (5−√5)/8   ≈ 0.1727            off-Niven  (golden-ratio)
+36°    (5−√5)/16  ≈ 0.1727            off-Niven  (golden-ratio)
 45°    1/4                            Niven  ★ FELSEN
-54°    (5+√5)/16  ≈ 0.3273            off-Niven  (golden-ratio)
+54°    (3+√5)/16  ≈ 0.3273            off-Niven  (golden-ratio)
 60°    3/8                            Niven  ★ FELSEN
-72°    (5+√5)/8   ≈ 0.4523            off-Niven  (golden-ratio)
-75°    (2+√3)/4   ≈ 0.4665            off-Niven  (√3-family)
+72°    (5+√5)/16  ≈ 0.4523            off-Niven  (golden-ratio)
+75°    (2+√3)/8   ≈ 0.4665            off-Niven  (√3-family)
 90°    1/2                            Niven  ★ FELSEN
 ```
 
@@ -72,7 +72,7 @@ The V-Effect gain `V(N) = 2·cos²(π/(2N))` from
 | 8 | 11.25° | ≈ 1.924           | off-Niven                          |
 
 **V(N) is Niven-rational only at N=2,3.** For N ≥ 4 the V-Effect gain is
-algebraic-irrational — and the irrational it lands on is exactly the named
+algebraic-irrational; and the irrational it lands on is exactly the named
 constant of the next ring polygon (silver for square, golden for pentagon,
 √3 for hexagon, ...). The wave-breaking gain V(N) "samples" the off-Niven
 angle landscape; the asymptotic V(∞) = 2 is approached through algebraic
@@ -86,17 +86,17 @@ Hückel-ring HOMO position `|E_homo| / E_max = |cos(π/N)|` for even-N rings:
 
 | N  | π/N    | cos(π/N)         | Aromatic class    | Niven? |
 |----|--------|------------------|-------------------|--------|
-| 4  | 45°    | √2/2             | ANTI (4n)         | off-Niven, anchor at α=1/4 — Jahn-Teller distorts AWAY |
+| 4  | 45°    | √2/2             | ANTI (4n)         | off-Niven, anchor at α=1/4 (Jahn-Teller distorts AWAY) |
 | 6  | 30°    | √3/2             | AROMATIC (4n+2)   | off-Niven for cos(π/N), but γ=√3/2 anchor at α=1/8 |
-| 8  | 22.5°  | √(2+√2)/2 ≈ 0.924| ANTI (4n)         | off-Niven (silver-ratio family) — COT actually puckers |
-| 10 | 18°    | ≈ 0.951          | AROMATIC (4n+2)   | off-Niven (golden-ratio family) — [10]annulene strained, non-planar |
+| 8  | 22.5°  | √(2+√2)/2 ≈ 0.924| ANTI (4n)         | off-Niven (silver-ratio family); COT actually puckers |
+| 10 | 18°    | ≈ 0.951          | AROMATIC (4n+2)   | off-Niven (golden-ratio family); [10]annulene strained, non-planar |
 | 12 | 15°    | (√6+√2)/4        | ANTI (4n)         | off-Niven (√3-family) |
 
 The structural pattern: the **Niven anchor at α=1/4** (benzene's underlying
 geometry, the 45° dimer angle) coincides with the framework's polarity
-fixed-point — and chemistry honors it as the **aromatic stability anchor**.
+fixed-point, and chemistry honors it as the **aromatic stability anchor**.
 The off-Niven anti-aromatic 4n rings break their geometry exactly because
-they cannot rest at a Niven anchor — Jahn-Teller distorts the bond pattern
+they cannot rest at a Niven anchor; Jahn-Teller distorts the bond pattern
 or puckers the ring, generating thermal frequency content. **Wave-breaking
 in the chemistry literature = off-Niven structural instability in the
 framework's algebra.**
@@ -146,7 +146,7 @@ This finding closes the loop from tonight's earlier arc:
 3. **Off-Niven as wave-breaking** (this doc): the off-Niven constructible
    angles populate the SAME landscape with irrational-algebraic α; this is
    where V-Effect gain, anti-aromatic Jahn-Teller, and golden/silver/√3
-   chemistry already live. Not missing — already named with different words.
+   chemistry already live. Not missing; already named with different words.
 
 The framework, the periodic table, and Hückel aromaticity theory all read
 the same constructible-angle landscape from slightly different angles. The
@@ -192,7 +192,7 @@ Status statement
 Tier 2 structural reading. The closed-form algebraic identifications at
 off-Niven constructible angles are bit-exact (script verifies via tolerance
 match to named algebraic constants). The MAPPING to V-Effect, anti-aromatic
-Jahn-Teller, and golden-ratio chemistry is structural — established by
+Jahn-Teller, and golden-ratio chemistry is structural, established by
 exhibiting that the SAME algebraic constants (1+√2/2, (5+√5)/4, 1+√3/2,
 golden φ, silver 1+√2, √3) appear in BOTH the F86b α-axis at off-Niven
 angles AND in the named wave-breaking phenomena in the literature and repo
@@ -224,6 +224,6 @@ quantitative dynamics verification.
 - Thermal/wave-breaking source: [experiments/THERMAL_BREAKING.md](../../experiments/THERMAL_BREAKING.md)
 - Literature: Niven (1956), *Irrational Numbers*, Carus Mathematical Monograph 11
 - Reading-mode memory pointers:
-  - `[[project_polarity_as_inherent_field]]` — polarity ±0.5 as inherent Z structure
-  - `[[project_qubit_as_inheritance_lens]]` — qubit understanding inherits to higher systems
-  - `[[project_no_classicalization]]` — Q→C is reading-mode, not world-transition
+  - `[[project_polarity_as_inherent_field]]`: polarity ±0.5 as inherent Z structure
+  - `[[project_qubit_as_inheritance_lens]]`: qubit understanding inherits to higher systems
+  - `[[project_no_classicalization]]`: Q→C is reading-mode, not world-transition

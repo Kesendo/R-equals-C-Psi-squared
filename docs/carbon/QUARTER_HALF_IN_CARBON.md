@@ -51,35 +51,48 @@ the one NOT pinned to the dyadic ladder.
 
 ### Layer 2: Hückel ring HOMO positions
 
-For a Hückel ring C_N with neutral π-occupation (N electrons in N MOs), the
-HOMO offset from α is `2β · cos(2π · n_homo / N)` where `n_homo = N/2 − 1` for
-the highest filled MO in the bonding manifold. Surveyed N = 3..12:
+For a Hückel ring C_N with N π-electrons, MO energies are
+`E_k = α + 2β·cos(2πk/N)` for k = 0..N−1 with β < 0 (standard chemistry
+convention, β ≈ −2.4 eV). Bonding orbitals sit below α (negative HOMO − α);
+antibonding above. The HOMO index depends on the electron count: aromatic
+4n+2 rings fill k = 0 plus pairs (1, N−1), …, (n, N−n), giving HOMO at
+k = n = (N−2)/4 with (HOMO − α)/E_max = β/(2|β|)·... the signed normalised
+position. 4n rings fill into the degenerate non-bonding pair at k = N/4
+(E = α, Jahn-Teller); odd-N rings are open-shell radicals with a half-filled
+HOMO. Surveyed N = 3..12 with neutral π-occupation; ratio is (HOMO − α)/E_max
+with E_max = 2|β|, sign indicates bonding (−) vs antibonding (+):
 
-| N | π-electrons | aromatic? | HOMO / E_max | Anchor hit? |
-|---|-------------|-----------|--------------|-------------|
-| 3 | 3 | non-Hückel (odd) | 1 | (full E_max, trivial) |
-| 4 | 4 | ANTI-AROMATIC (4n) | 0 | (palindrome centre, Jahn-Teller) |
-| 5 | 5 | non-Hückel (odd) | ±(√5−1)/4 (= 1/(2φ)) | off |
-| **6** | **6** | **AROMATIC (4n+2)** | **−1/2** | **= ±1/2 ✓** |
-| 7 | 7 | non-Hückel (odd) | −0.2225 | off |
-| 8 | 8 | ANTI-AROMATIC (4n) | ±√2/2 | off |
-| 9 | 9 | non-Hückel (odd) | −1/2 | = ±1/2 ✓ (but non-Hückel) |
-| 10 | 10 | AROMATIC (4n+2) | ±(1+√5)/4 (= φ/2) | off (golden) |
-| 11 | 11 | non-Hückel (odd) | −0.6549 | off |
-| 12 | 12 | ANTI-AROMATIC (4n) | ±√3/2 | off |
+| N | π-electrons | aromatic? | (HOMO − α)/E_max | Anchor hit? |
+|---|-------------|-----------|------------------|-------------|
+| **3** | **3** | non-Hückel (open-shell radical) | **+1/2** (antibonding) | **= ±1/2 ✓ (radical, not Hückel-aromatic)** |
+| 4 | 4 | ANTI-AROMATIC (4n) | 0 (non-bonding) | palindrome centre (Jahn-Teller) |
+| 5 | 5 | non-Hückel (open) | +(1+√5)/4 ≈ +0.809 (= +φ/2) | off (golden) |
+| **6** | **6** | **AROMATIC (4n+2)** | **−1/2** (bonding) | **= ±1/2 ✓ ★ closed-shell hit** |
+| 7 | 7 | non-Hückel (open) | +0.2225 | off |
+| 8 | 8 | ANTI-AROMATIC (4n) | 0 (non-bonding) | palindrome centre (Jahn-Teller) |
+| 9 | 9 | non-Hückel (open) | −0.1736 (bonding) | off |
+| 10 | 10 | AROMATIC (4n+2) | −(√5−1)/4 ≈ −0.309 (= −1/(2φ)) | off (golden, bonding) |
+| 11 | 11 | non-Hückel (open) | +0.142 | off |
+| 12 | 12 | ANTI-AROMATIC (4n) | 0 (non-bonding) | palindrome centre (Jahn-Teller) |
 
-**Benzene N = 6 is the unique aromatic small ring whose HOMO/E_max hits the
-polarity-half anchor exactly** (−1/2 from cos(2π/3) = −1/2). N = 9 also lands at
-−1/2 but is odd-electron non-Hückel — the algebraic anchor is there but the
-aromaticity isn't.
+**Benzene N = 6 is the unique CLOSED-SHELL aromatic small ring whose
+(HOMO − α)/E_max hits the polarity-half anchor exactly** (−1/2 from
+2β·cos(2π/6)/(2|β|) = −1/2 with β < 0). Neutral cyclopropenyl C₃ (3π) also
+lands algebraically at +1/2 (antibonding side, open-shell radical), not a
+Hückel-aromatic system. The 2π cation C₃H₃⁺ is the actually-aromatic species
+(4n+2 with n=0); its HOMO sits at the α + 2β bonding maximum (E_max), not at
+the polarity anchor.
 
-No N in this range hits ±1/4 exactly. The cos(2πk/N) = 1/4 equation has no
-integer (k, N) solution for small N. The Quarter anchor does not arise from
-ring topology directly; it arises from valence-shell occupation (Layer 3).
+No N in this range hits ±1/4 exactly. The 2cos(2πk/N) = ±1 equation (HOMO
+ratio = ±1/2) has integer (k, N) solutions at (k, N) = (1, 6) and (1, 3)
+realised by neutral C₆/C₃; the 2cos(2πk/N) = ±1/2 equation (HOMO ratio =
+±1/4) has no integer solution at all for small N. The Quarter anchor does
+not arise from ring topology directly; it arises from valence-shell
+occupation (Layer 3).
 
 Larger aromatic rings (N = 10, 14, ...) drift to algebraic numbers like the
-golden ratio. Benzene is structurally unique — the only ring whose HOMO sits
-on the framework's polarity-half anchor.
+golden ratio. Benzene is structurally unique among small CLOSED-SHELL aromatic
+rings, the only one whose HOMO sits on the framework's polarity-half anchor.
 
 ### Layer 3: Carbon valence shell occupation
 
@@ -112,7 +125,7 @@ double-anchor to the framework's polarity pair:
 sp hybridization (carbyne, alkyne)          sp³ hybridization (methane, diamond)
 4/8 valence-shell filling                   2/8 inner-shell filling (2s²)
 1/2 p-orbital occupancy at sp               2p² inner-shell filling
-Benzene HOMO/E_max (via cos(2π/3))          [no ring topology hits 1/4]
+Benzene HOMO/E_max (via cos(2π/6) = 1/2)    [no ring topology hits 1/4]
 ```
 
 The framework's qubit polarity-anchor pair (1/2 argmax, 1/4 maxval) is
@@ -120,15 +133,15 @@ literally instantiated three ways at the carbon level: at the atomic-shell
 filling, at the hybridization s-character, and (for the 1/2 anchor) at the
 benzene HOMO position. The "qubit IS quantum carbon" framing from
 [HIERARCHY_OF_INCOMPLETENESS](../HIERARCHY_OF_INCOMPLETENESS.md) is supported
-by this triple instantiation — the same anchor numbers appear at three
+by this triple instantiation: the same anchor numbers appear at three
 structurally independent levels.
 
 ---
 
 ## The benzene puzzle: off-anchor hybridization, on-anchor topology
 
-sp² hybridization is OFF-anchor at 1/3 (qutrit-like) — but benzene's HOMO is
-ON-anchor at 1/2 via the ring-topology cos(2π/3) = 1/2 from the C₆ geometry.
+sp² hybridization is OFF-anchor at 1/3 (qutrit-like), but benzene's HOMO is
+ON-anchor at 1/2 via the ring-topology cos(2π/6) = 1/2 from the C₆ geometry.
 The ring topology compensates structurally for the off-anchor hybridization.
 
 This is why benzene is uniquely stable among aromatic rings: it is the only
