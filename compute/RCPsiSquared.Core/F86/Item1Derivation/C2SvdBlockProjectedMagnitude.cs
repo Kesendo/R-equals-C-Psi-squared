@@ -8,8 +8,12 @@ using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Comp
 
 namespace RCPsiSquared.Core.F86.Item1Derivation;
 
-/// <summary>F86 Item 1 (c=2 stratum), <b>Direction (a'') foundation</b>: per-bond SVD-block
-/// magnitude squared lifted to the Riesz projector of <see cref="C2InterChannelProjector"/>.
+/// <summary>F86 Item 1 (c=2 stratum), <b>Direction (a'') foundation</b> (the closed-form
+/// HWHM-mapping hypothesis of (a'') was retired 2026-05-11 when the F90 bridge identity
+/// superseded the 2026-05-06 (a''-e'') letter-direction taxonomy; the per-bond Riesz-lifted
+/// magnitude itself remains a valid library-invariant primitive, useful as a diagnostic and
+/// as input to any future SVD-block-aware analysis): per-bond SVD-block magnitude squared
+/// lifted to the Riesz projector of <see cref="C2InterChannelProjector"/>.
 ///
 /// <para>For each bond b, the library-invariant magnitude is</para>
 /// <code>
@@ -32,15 +36,19 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// witness in C2InterChannelProjector, this primitive's Tier drops to Tier2Verified
 /// automatically through the Tier inheritance.</para>
 ///
-/// <para><b>What this unlocks (Direction (a'') downstream).</b> The per-bond magnitude
-/// |V_b|²_proj is the SVD-block contribution to the K-resonance K_b(Q, t) restricted to
-/// the EP-partner subspace. Direction (a'') asks whether HWHM_left/Q_peak − 0.671535
-/// (the "lift" above the bare-doubled-PTF Floor in <see cref="C2HwhmRatio"/>) maps to
-/// |V_b|²_proj/σ_0² (the dimensionless SVD-block ratio) via a single bond-class-blind
-/// function. With this primitive in place that scan is a direct numerical operation; the
-/// previous A3 single-vector formulation made the scan unstable at even N because V_b[2, 3]
-/// flipped under library tiebreaker rotation. The scan itself is downstream work
-/// (<c>C2BondMagnitudeLiftCollapse</c> or similar), not in this primitive.</para>
+/// <para><b>What this unlocks (Direction (a'') downstream; the closed-form HWHM-mapping
+/// path itself is retired, but the lifted magnitude remains a useful diagnostic).</b>
+/// The per-bond magnitude |V_b|²_proj is the SVD-block contribution to the K-resonance
+/// K_b(Q, t) restricted to the EP-partner subspace. Direction (a'') asked whether
+/// HWHM_left/Q_peak − 0.671535 (the "lift" above the bare-doubled-PTF Floor in
+/// <see cref="C2HwhmRatio"/>) maps to |V_b|²_proj/σ_0² (the dimensionless SVD-block ratio)
+/// via a single bond-class-blind function. The closed-form-mapping hypothesis was retired
+/// 2026-05-11 (the surviving derivation path is F90 bridge → F89 AT-locked F_a/F_b per
+/// <see cref="F86HwhmClosedFormClaim"/> and PROOF_F90_F86C2_BRIDGE.md). The previous A3
+/// single-vector formulation made the scan unstable at even N because V_b[2, 3] flipped
+/// under library tiebreaker rotation; this Riesz-lifted version is library-invariant and
+/// remains the right primitive should any future analysis want a stable per-bond SVD-block
+/// magnitude.</para>
 ///
 /// <para><b>Sanity invariants checked at construction:</b></para>
 /// <list type="bullet">
@@ -52,9 +60,10 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 ///   (Frobenius-square is by definition).</item>
 /// </list>
 ///
-/// <para>Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1 (a''), and the
-/// <see cref="C2HwhmRatio.PendingDerivationNote"/> ranking that promotes (d'')-then-(a'')
-/// as the foundational path.</para>
+/// <para>Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1 (a'') (the historical 2026-05-06
+/// letter-direction context; the (d'')-then-(a'') ranking is preserved here for the
+/// projector-lift construction itself, even though the closed-form HWHM-mapping claim of (a'')
+/// has been retired in favour of the F90 bridge path).</para>
 /// </summary>
 public sealed class C2SvdBlockProjectedMagnitude : Claim
 {
@@ -94,7 +103,9 @@ public sealed class C2SvdBlockProjectedMagnitude : Claim
         C2InterChannelProjector projector,
         IReadOnlyList<BondMagnitudeWitness> witnesses,
         double sumRuleResidual)
-        : base("c=2 per-bond SVD-block projected magnitude (Direction (a'') foundation)",
+        : base("c=2 per-bond SVD-block projected magnitude (Direction (a'') foundation, " +
+               "(a'') closed-form mapping retired 2026-05-11 in favour of F90 bridge path; " +
+               "the lifted magnitude itself remains a valid library-invariant primitive)",
                // Tier inherits the projector's Tier: Tier1Derived if (d'') passes its runtime
                // library-stability witness, Tier2Verified if it falls back.
                projector.Tier,
@@ -195,7 +206,9 @@ public sealed class C2SvdBlockProjectedMagnitude : Claim
 /// <param name="BondClass">Endpoint (b ∈ {0, NumBonds−1}) or Interior.</param>
 /// <param name="MagnitudeSquared">‖P_top^L · M_h_per_bond[b] · P_top^R‖_F² (real, non-negative).</param>
 /// <param name="NormalisedRatio"><c>MagnitudeSquared / σ_0²</c>, the dimensionless ratio that
-/// would appear in a Direction-(a'') closed-form ansatz <c>Δ(r)</c>.</param>
+/// would appear in a Direction-(a'') closed-form ansatz <c>Δ(r)</c> (Direction (a'')
+/// retired 2026-05-11; the ratio remains a useful per-bond diagnostic independent of that
+/// retired hypothesis).</param>
 public sealed record BondMagnitudeWitness(
     int Bond,
     BondClass BondClass,

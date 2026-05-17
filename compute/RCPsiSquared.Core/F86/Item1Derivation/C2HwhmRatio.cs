@@ -19,14 +19,17 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// are open. Auto-promotes to Tier1Derived when <see cref="IsAnalyticallyDerived"/>
 /// flips to true.</para>
 ///
-/// <para>See <see cref="BuildPendingDerivationNote"/> for current next directions
-/// (a''-e''), the 2026-05-06 Direction (b) doubled-PTF derivation, and the
-/// 2026-05-06 falsification of the probe-block 2-level resonance hypothesis
-/// (bond-class signature lives in SVD-block V_b[2,3], not probe-block; 4-mode
-/// reduction structurally insufficient for full HWHM lift). Empirical pipeline uses
-/// the full-block <see cref="ResonanceScan"/> (the 4-mode <see cref="C2KShape"/> is
-/// bond-class-blind for HWHM ratio per F86KB's "4-mode minimal effective insufficient"
-/// note). Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1 (c=2), Stage D2.</para>
+/// <para>See <see cref="BuildPendingDerivationNote"/> for the active surviving
+/// derivation path (F89 AT-locked F_a/F_b via the F90 bridge identity, per
+/// <see cref="F86HwhmClosedFormClaim"/> and PROOF_F90_F86C2_BRIDGE.md). The 2026-05-06
+/// (a''-e'') letter-direction taxonomy is preserved as historical context in this docstring
+/// but was superseded 2026-05-11: (a''), (c''), (e'') retired (see
+/// <see cref="C2DirectionAFalsificationProbe"/> and
+/// <see cref="C2DirectionCFalsificationProbe"/>), (b'') survived and was numerically
+/// closed via F90. Empirical pipeline uses the full-block <see cref="ResonanceScan"/>
+/// (the 4-mode <see cref="C2KShape"/> is bond-class-blind for HWHM ratio per F86KB's
+/// "4-mode minimal effective insufficient" note). Anchor:
+/// <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1 (c=2), Stage D2.</para>
 /// </summary>
 public sealed class C2HwhmRatio : Claim
 {
@@ -46,9 +49,10 @@ public sealed class C2HwhmRatio : Claim
     /// Universal across g_eff. This is the FLOOR contribution from the SVD-block 2-level EP
     /// rotation alone. Empirical Interior (0.7506) and Endpoint (0.7728) both sit above this
     /// floor; the gap (~0.08-0.10) is structurally explained but its closed-form constants
-    /// per bond class are open. Refined next directions (a''-e'') in
-    /// <see cref="PendingDerivationNote"/> after the 2026-05-06 falsification of the
-    /// probe-block 2-level resonance hypothesis.
+    /// per bond class are open. The 2026-05-06 (a''-e'') letter directions were superseded
+    /// 2026-05-11 by the F90 bridge path; the surviving derivation route lives in
+    /// <see cref="F86HwhmClosedFormClaim"/> and the active
+    /// <see cref="PendingDerivationNote"/> built by <see cref="BuildPendingDerivationNote"/>.
     ///
     /// <para>This is a Tier1Derived sub-result inside the class-level Tier1Candidate verdict.
     /// Source: <c>docs/superpowers/syntheses/2026-05-06-direction-b-attempt.md</c>.</para></summary>
@@ -58,11 +62,11 @@ public sealed class C2HwhmRatio : Claim
 
     /// <summary>The composed C2KShape primitive (Stage D1). NOT used by the empirical
     /// pipeline that builds the witnesses (which goes via the full-block
-    /// <see cref="ResonanceScan"/> for bond-class fidelity). Held here as the
-    /// composition access point for the next-direction (a) work — first-order
-    /// perturbation in the cross-block — which will use C2KShape directly to
-    /// derive the closed-form HWHM_left/Q_peak. Lazily built on first access; the
-    /// empirical-pipeline path skips it entirely.</summary>
+    /// <see cref="ResonanceScan"/> for bond-class fidelity). Originally held here as the
+    /// composition access point for the historical next-direction (a) work (first-order
+    /// perturbation in the cross-block; demoted 2026-05-06 evening, see ANALYTICAL_FORMULAS
+    /// F86b dated entries). Retained as a composition access point for any future direct-K
+    /// callers; lazily built on first access; the empirical-pipeline path skips it entirely.</summary>
     public C2KShape KShape => _kShape.Value;
 
     private readonly Lazy<C2KShape> _kShape;

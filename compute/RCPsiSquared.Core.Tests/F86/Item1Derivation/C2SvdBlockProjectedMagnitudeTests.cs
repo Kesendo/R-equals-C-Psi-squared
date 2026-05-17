@@ -122,12 +122,14 @@ public class C2SvdBlockProjectedMagnitudeTests
     [InlineData(8)]
     public void EndpointMean_DiffersFromInteriorMean(int N)
     {
-        // The bond-class signature is the empirical anchor of (a''): Endpoint and Interior
-        // must produce distinguishable mean magnitudes. Existing C2BondCoupling
-        // CrossBlockWitnesses already shows Endpoint < Interior in |V_b cross|_F at c=2
-        // N=5..8 (PROOF_F86_QPEAK Statement B2). Our SVD-block magnitude is a different
-        // observable but should still split per bond class (the question (a'') asks is
-        // whether HWHM-lift maps to it via a single function).
+        // The bond-class signature is the empirical anchor of (a'') (the closed-form
+        // HWHM-mapping hypothesis of (a'') was retired 2026-05-11 in favour of the F90
+        // bridge path; the SVD-block magnitude itself remains a valid library-invariant
+        // diagnostic, and this test continues to verify it splits per bond class):
+        // Endpoint and Interior must produce distinguishable mean magnitudes. Existing
+        // C2BondCoupling CrossBlockWitnesses already shows Endpoint < Interior in
+        // |V_b cross|_F at c=2 N=5..8 (PROOF_F86_QPEAK Statement B2). Our SVD-block
+        // magnitude is a different observable but should still split per bond class.
         var m = C2SvdBlockProjectedMagnitude.Build(C2Block(N));
         double endpoint = m.NormalisedRatioMean(BondClass.Endpoint);
         double interior = m.NormalisedRatioMean(BondClass.Interior);

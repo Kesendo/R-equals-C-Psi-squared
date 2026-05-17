@@ -29,12 +29,16 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// </para>
 ///
 /// <para><b>Why this is the foundational lift.</b> Direction (a'') (per-bond SVD-block
-/// resonance via <c>V_b[2,3]</c>) inherits the A3 single-vector obstruction at even N because
-/// the <c>⟨u_0 | M_H_per_bond[b] | v_0⟩</c> matrix element depends on the library tiebreaker.
+/// resonance via <c>V_b[2,3]</c>; later retired with the rest of the 2026-05-06 (a''-e'')
+/// letter taxonomy when the F90 bridge identity superseded that approach 2026-05-11) inherits
+/// the A3 single-vector obstruction at even N because the
+/// <c>⟨u_0 | M_H_per_bond[b] | v_0⟩</c> matrix element depends on the library tiebreaker.
 /// Lifting to <c>Tr(P_top^{(L)} · M_H_per_bond[b] · P_top^{(R)} · M_H_per_bond[b]^†)</c> is
 /// library-invariant by construction, removing the obstruction without solving the
 /// closed-form-singular-vector problem. This same lift unblocks any cross-block-based
-/// derivation (a''/c'') that fails to converge against the A3 single-vector reference.</para>
+/// derivation (a''/c'', both retired) that fails to converge against the A3 single-vector
+/// reference; the lift itself remains valid as a primitive independent of the retired
+/// letter directions.</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1 (A3 obstruction) and
 /// <c>compute/RCPsiSquared.Core/F86/Item1Derivation/C2InterChannelAnalytical.cs</c>

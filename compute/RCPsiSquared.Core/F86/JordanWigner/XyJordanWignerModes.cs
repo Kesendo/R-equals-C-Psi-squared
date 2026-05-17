@@ -20,12 +20,17 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 /// </list>
 ///
 /// <para>This primitive is the foundation for the JW free-fermion track in Item 1'
-/// Direction (b''). After the (c'') falsification (FourModePartial verdict in
-/// <see cref="Item1Derivation.C2DirectionCFalsificationProbe"/>: 4-mode reduction
-/// reproduces Interior HWHM exactly but fails Endpoint by 0.28-0.50), the JW track is the
-/// structurally honest path for deriving the closed-form Endpoint HWHM/Q_peak constant.
-/// T2 (<c>C2BlockJwDecomposition</c>, per-bond (k1, k2) bilinear coefficients) and T3
-/// (<c>C2BondKModeProfile</c>, per-bond k-mode profile) build on this primitive.</para>
+/// Direction (b'') — the single surviving 2026-05-06 letter direction (the (a''), (c''),
+/// (e'') directions of the same taxonomy are retired). After the (c'') falsification
+/// (FourModePartial verdict in <see cref="Item1Derivation.C2DirectionCFalsificationProbe"/>:
+/// 4-mode reduction reproduces Interior HWHM exactly but fails Endpoint by 0.28-0.50), the
+/// JW track became the structurally honest path for deriving the closed-form Endpoint
+/// HWHM/Q_peak constant; the 2026-05-11 F90 bridge identity then numerically closed
+/// Direction (b'') by exhibiting the F89 path-(N−1) equivalence per bond, so the remaining
+/// JW-track work targets the analytical AT-locked F_a/F_b derivation rather than the
+/// numerical structure itself. T2 (<c>C2BlockJwDecomposition</c>, per-bond (k1, k2) bilinear
+/// coefficients) and T3 (<c>C2BondKModeProfile</c>, per-bond k-mode profile) build on this
+/// primitive.</para>
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1' Direction (b'') (JW track
 /// foundation; the proof's "Item 1 (status update 2026-05-05)" section frames the open

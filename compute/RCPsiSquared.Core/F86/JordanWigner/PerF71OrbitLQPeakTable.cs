@@ -39,7 +39,10 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 /// (Endpoint + ⌊(N−1)/2⌋−1 Interior orbits + optional self-paired central orbit at even
 /// N). The Endpoint vs Interior split is the load-bearing structure for the
 /// BareDoubledPtfXPeak ≈ 2.197 floor and the per-bond `g_eff_probe(Endpoint) ≈
-/// g_eff_probe(Interior)/1.6` candidate from F86 Item 1' Direction (a').</para>
+/// g_eff_probe(Interior)/1.6` candidate from F86 Item 1' Direction (a') (Direction (a')
+/// itself was falsified 2026-05-06; the Endpoint vs Interior bond-class split survived
+/// the retirement and is the load-bearing structure for the F86b' sub-class HWHM_ratio
+/// predictor and the F90 bridge identity that closed the surviving Direction (b'')).</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1' Direction (b'') (JW track) +
 /// <c>docs/proofs/PROOF_C1_MIRROR_SYMMETRY.md</c> for the F71 mirror-pair algebra.</para>
