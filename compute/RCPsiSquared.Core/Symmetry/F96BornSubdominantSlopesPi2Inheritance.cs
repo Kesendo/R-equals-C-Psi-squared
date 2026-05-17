@@ -85,6 +85,19 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>Tier1Derived: bit-exact symbolic via the Dyson + unitary matrix
 /// elements; numerical Lindblad gives independent confirmation.</para>
 ///
+/// <para><b>Diagnostic application (2026-05-17):</b> the canonical slopes
+/// −(16/9) and −(8/3) are universal across chain, ring, K_4 topologies on
+/// the canonical |0+0+⟩ pair (0,2) lens (F94/F96 are blind to bond-graph
+/// detail like K_4 vs ring; the diagonal bonds fall in symmetric blind spots).
+/// Any measured deviation from these exact rational slopes — in the per-K
+/// linear-response regime where higher-order corrections are negligible — is
+/// a direct signature of (state, pair)-symmetry break: hardware noise,
+/// asymmetric γ_l, crosstalk to the traced-out qubits, or a non-|0+0+⟩
+/// initial state. The robustness of the slopes against K_4-vs-ring (bond
+/// connectivity invisible at this lens) is the diagnostic's stability property:
+/// it flags symmetry breaks, not irrelevant connectivity variations. See
+/// PROOF_F94 § Diagnostic application for the full signature table.</para>
+///
 /// <para>Anchors: <c>docs/proofs/PROOF_F96_BORN_SUBDOMINANT_SLOPES.md</c> +
 /// <c>docs/ANALYTICAL_FORMULAS.md</c> F96 +
 /// <c>simulations/_born_rule_subdominant_dyson.py</c> (symbolic + Lindblad,

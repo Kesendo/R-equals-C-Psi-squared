@@ -93,6 +93,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (Bell+ CΨ closed form), F60 (GHZ pair-CΨ), F62 (W-state pair-CΨ) at the
 /// per-outcome Born-deviation layer.</para>
 ///
+/// <para><b>Diagnostic application (2026-05-17): F94 as a (state, pair)-symmetry
+/// signature.</b> The canonical sym3 matrix-element vector across the four
+/// outcomes is (+8, −4, −4, 0). This signature is the same for ring and K_4
+/// (F94 is blind to the diagonal bonds (0,2), (1,3) which fall in the
+/// "symmetric blind spots" of the |0+0+⟩ pair (0,2) lens). A measured
+/// deviation from this signature localizes a symmetry break:
+/// (+5, −4, −1, 0) indicates chain-like asymmetry, (·, −3, +3, ·)
+/// antisymmetric shift indicates initial-state asymmetric across the (0, 2)
+/// pair, and slope_|01⟩ ≠ −16/9 in the per-K linear regime indicates
+/// hardware noise or calibration drift breaking the symmetric structure.
+/// See PROOF_F94 § Diagnostic application for the full signature table.</para>
+///
 /// <para>Anchors: <c>docs/proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md</c> +
 /// <c>docs/ANALYTICAL_FORMULAS.md</c> F94 +
 /// <c>simulations/_born_rule_tier1_derivation.py</c> (symbolic, bit-exact) +

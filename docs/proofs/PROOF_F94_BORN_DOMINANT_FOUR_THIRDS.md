@@ -142,6 +142,35 @@ Equivalent reading via the typed-claim sibling: 4/3 = a_{−1} / 3, with a_{−1
 
 The form Q² · K³ for the dominant-outcome deviation is universal across (initial state, Hamiltonian, dissipator): it is the dimensional shape of the leading 3rd-order Dyson term with one γ-vertex and two H-vertices, applicable wherever the dominant outcome's direct 1st-order γ correction vanishes by parity / commutation. The coefficient 4/3 is specific to this setup. The structural decomposition of 8 just above shows that the coefficient counts a clean 32 surviving Dyson diagrams modulated by the Heisenberg-bond and Taylor normalizations; a different (initial-state, Hamiltonian, dissipator) triple would change the surviving-diagram count and possibly the per-diagram value, but the general 4/3 = N_diagrams / (a_{−1} · 3!) form should hold whenever Heisenberg-style (J/4)·XYZ bonds and Z-dephasing apply.
 
+## Diagnostic application: F94 as a (state, pair)-symmetry signature
+
+F94's canonical lens — |0+0+⟩ N=4 Heisenberg ring + Z-dephasing, pair (0, 2) — gives bit-exact integer matrix elements per outcome:
+
+    ⟨00|_pair Tr_{1,3}[sym3 · ρ_0] |00⟩_pair = +8
+    ⟨01|_pair Tr_{1,3}[sym3 · ρ_0] |01⟩_pair = −4
+    ⟨10|_pair Tr_{1,3}[sym3 · ρ_0] |10⟩_pair = −4
+    ⟨11|_pair Tr_{1,3}[sym3 · ρ_0] |11⟩_pair =  0
+
+This (+8, −4, −4, 0) signature characterizes the "canonical symmetric" configuration. Empirically ([`simulations/f94_topology_visibility_probe.py`](../../simulations/f94_topology_visibility_probe.py), 2026-05-17):
+
+- **K_4 (full graph at N=4) gives the same signature**: F94 is blind to the diagonal bonds (0,2) and (1,3) because they fall in the "symmetric blind spots" of the lens — bond (0,2) connects the two kept-pair sites (both prepared as |0⟩, Z-eigenstates → bond commutator vanishes), bond (1,3) connects the two traced-out sites (both prepared as |+⟩, X-eigenstates → contribution traces out to zero). This blindness is the diagnostic's robustness: F94 reads (+8, −4, −4, 0) for ring or K_4 equivalently.
+- **Chain gives (+5, −4, −1, 0)**: the chain breaks the 0 ↔ 2 reflection that ring and K_4 share, and the |10⟩ outcome drops from −4 to −1. The K_4 vs chain difference is +3 at |00⟩, 0 at |01⟩, −3 at |10⟩, 0 at |11⟩ — a topology-asymmetry signature.
+- **Asymmetric initial states** (|++00⟩, |10+0⟩): F94 shifts in antisymmetric patterns between bit-flip-paired outcomes. The K_4 vs ring shift becomes visible: |++00⟩ pair (0,2) gives (0, −3, +3, 0) K_4 − Ring difference, |10+0⟩ pair (0,1) gives (−1, 0, +1, 0).
+
+This makes F94 a **(state, pair)-symmetry signature tool**:
+
+| Measured F94 sym3 signature | Diagnosed condition |
+|------------------------------|---------------------|
+| (+8, −4, −4, 0) | Canonical symmetric: \|0+0+⟩ + ring/K_4 (or equivalent) |
+| (+5, −4, −1, 0) | Chain-like asymmetry: missing one bond breaks 0 ↔ 2 reflection |
+| (·, −3, +3, ·) antisymmetric shift | Initial state asymmetric across the (0, 2) pair |
+| Slope_|01⟩ ≠ −16/9 in the per-K linear regime | Hardware noise or calibration drift breaking the symmetry |
+| Sym3 \|11⟩ ≠ 0 | Crosstalk or asymmetric γ_l producing subdominant-outcome leakage |
+
+The robustness against K_4 vs ring (bond-graph detail invisible) is exactly the right diagnostic property: we want a tool that flags actual (state, pair) symmetry breaks, not every irrelevant connectivity variation. F94's specific integer ratios are the canonical "this is the expected algebra" signature; any deviation localizes the kind of break.
+
+For hardware applications (e.g., the Kingston-style runs): measuring F94 sym3 on a |0+0+⟩-like prepared Bell+ variant gives a direct check that the hardware faithfully realizes the symmetric Heisenberg + Z-dephasing structure. The deviation signature pin-points the failure mode (asymmetric γ_l, missing bonds, crosstalk, etc.) without needing full process tomography.
+
 The subdominant outcomes of the same setup (|01⟩, |10⟩, |11⟩) have non-vanishing 1st-order γ contribution and therefore Δ ∝ K (linear) rather than ∝ Q²·K³. Their leading coefficients are separately Tier-1-derivable via a 1st-order Dyson term:
 
     ΔP_i^{(1)}(t) = γ t · ⟨i|_pair Tr_{1,3}[L'_dis · ρ_0] |i⟩_pair
