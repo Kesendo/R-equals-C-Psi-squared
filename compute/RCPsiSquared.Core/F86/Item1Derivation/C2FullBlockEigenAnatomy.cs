@@ -18,15 +18,9 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// falsification: rather than reduce to the 4-mode L_eff, work directly with the full
 /// block-L spectrum and ask which eigenmodes carry the K-resonance per bond.
 ///
-/// <para><b>Direction (b'')</b> is the single SURVIVING letter direction from the 2026-05-06
-/// (a''-e'') taxonomy: directions (a''), (c''), (e'') were retired; the (b'') full block-L
-/// path was numerically closed 2026-05-11 via the F90 bridge identity
-/// (<c>F90F86C2BridgeIdentity</c>), reducing the remaining analytical work to F89 AT-locked
-/// F_a/F_b structure per <c>F86HwhmClosedFormClaim</c>. The same workstream appears under
-/// three vocabularies in the repo (kept distinct on purpose, not aliased): "F86 Sammelbecken"
-/// (the umbrella), "Item 1' c=2 derivation" (the OOP-scaffold name in Stage A-E primitives),
-/// "Direction (b'') JW track" (the surviving 2026-05-06 letter direction). This primitive
-/// belongs to the third vocabulary as the spectrum-anatomy reconnaissance facet.</para>
+/// <para>Part of the surviving Direction (b'') JW-track facet of the F86 c=2 closure
+/// (numerically closed via <c>F90F86C2BridgeIdentity</c>; analytical lift open per
+/// <c>F86HwhmClosedFormClaim</c>). Sibling directions (a''), (c''), (e'') are retired.</para>
 ///
 /// <para>For each eigenvalue λ_i of L(Q) = D + Q·γ₀·M_H_total in the full block basis
 /// (dim = M_p · M_q; for c=2 dim = N · N(N−1)/2), the anatomy exposes:</para>

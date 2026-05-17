@@ -8,12 +8,11 @@ using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Comp
 
 namespace RCPsiSquared.Core.F86.Item1Derivation;
 
-/// <summary>F86 Item 1 (c=2 stratum), <b>Direction (a'') foundation</b> (the closed-form
-/// HWHM-mapping hypothesis of (a'') was retired 2026-05-11 when the F90 bridge identity
-/// superseded the 2026-05-06 (a''-e'') letter-direction taxonomy; the per-bond Riesz-lifted
-/// magnitude itself remains a valid library-invariant primitive, useful as a diagnostic and
-/// as input to any future SVD-block-aware analysis): per-bond SVD-block magnitude squared
-/// lifted to the Riesz projector of <see cref="C2InterChannelProjector"/>.
+/// <summary>F86 Item 1 (c=2 stratum): per-bond SVD-block magnitude squared lifted to the
+/// Riesz projector of <see cref="C2InterChannelProjector"/>. (Originally the Direction (a'')
+/// foundation; the (a'') closed-form HWHM-mapping hypothesis was retired when the F90 bridge
+/// identity superseded the letter-direction taxonomy. The library-invariant magnitude itself
+/// remains a useful diagnostic.)
 ///
 /// <para>For each bond b, the library-invariant magnitude is</para>
 /// <code>
@@ -103,9 +102,7 @@ public sealed class C2SvdBlockProjectedMagnitude : Claim
         C2InterChannelProjector projector,
         IReadOnlyList<BondMagnitudeWitness> witnesses,
         double sumRuleResidual)
-        : base("c=2 per-bond SVD-block projected magnitude (Direction (a'') foundation, " +
-               "(a'') closed-form mapping retired 2026-05-11 in favour of F90 bridge path; " +
-               "the lifted magnitude itself remains a valid library-invariant primitive)",
+        : base("c=2 per-bond SVD-block projected magnitude",
                // Tier inherits the projector's Tier: Tier1Derived if (d'') passes its runtime
                // library-stability witness, Tier2Verified if it falls back.
                projector.Tier,
@@ -205,10 +202,9 @@ public sealed class C2SvdBlockProjectedMagnitude : Claim
 /// <param name="Bond">Bond index in [0, NumBonds-1].</param>
 /// <param name="BondClass">Endpoint (b ∈ {0, NumBonds−1}) or Interior.</param>
 /// <param name="MagnitudeSquared">‖P_top^L · M_h_per_bond[b] · P_top^R‖_F² (real, non-negative).</param>
-/// <param name="NormalisedRatio"><c>MagnitudeSquared / σ_0²</c>, the dimensionless ratio that
-/// would appear in a Direction-(a'') closed-form ansatz <c>Δ(r)</c> (Direction (a'')
-/// retired 2026-05-11; the ratio remains a useful per-bond diagnostic independent of that
-/// retired hypothesis).</param>
+/// <param name="NormalisedRatio"><c>MagnitudeSquared / σ_0²</c>, the dimensionless ratio
+/// that would have appeared in the retired Direction-(a'') closed-form ansatz <c>Δ(r)</c>;
+/// kept as a per-bond diagnostic.</param>
 public sealed record BondMagnitudeWitness(
     int Bond,
     BondClass BondClass,

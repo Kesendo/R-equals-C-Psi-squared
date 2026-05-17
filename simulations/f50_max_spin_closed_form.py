@@ -1,28 +1,13 @@
 #!/usr/bin/env python3
-"""F50 max-spin closed-form: Dicke endpoint ladder rungs (Tier 1 derived).
+"""F50 max-spin closed-form verification: Dicke endpoint ladder rungs.
 
-For Heisenberg + Z-deph on K_N (or any graph with the same max-spin block), the
-max-spin (= symmetric subspace, S = N/2, dim N+1) contribution to ker[H, ·] per
-weight w has a complete closed-form:
+Canonical statement and proof: docs/proofs/PROOF_WEIGHT1_DEGENERACY.md
+§Spin-isotypic decomposition / max-spin closed-form.
 
-    single_block(S = N/2, w) = { 2  if w = 0 or w = N
-                                  4  if 1 ≤ w ≤ N-1 }
-
-    Σ_w single_block(S = N/2, w) = 4N
-    Multi-weight in max-spin block = (N+1)² − 4N = (N−1)²
-
-Explicit basis (verified bit-exact for N = 2..5):
-
-  w = 0  (edge):     |D_0⟩⟨D_0|, |D_N⟩⟨D_N|
-  w = N  (edge):     |D_0⟩⟨D_N| + h.c., i(|D_0⟩⟨D_N| − h.c.)
-  1 ≤ w ≤ N-1:      |D_0⟩⟨D_w| ± h.c., |D_{N-w}⟩⟨D_N| ± h.c.
-
-Endpoint projectors closed-form (derived from Π_i (I ± Z_i)):
-  |D_0⟩⟨D_0| = (1/2^N) · Σ_k e_k(Z_1, ..., Z_N)        = (1/2^N) · Π_i (I + Z_i)
-  |D_N⟩⟨D_N| = (1/2^N) · Σ_k (-1)^k e_k(Z_1, ..., Z_N) = (1/2^N) · Π_i (I − Z_i)
-
-Multi-weight identification: the (N−1)² multi-weight ops in M(N+1) correspond
-to the (N−1)² middle-Dicke transitions |D_k⟩⟨D_l| for k, l ∈ {1, ..., N-1}.
+Checks that the conjectured Dicke endpoint basis spans the empirically-extracted
+pure-weight-w sym-supported subspace for N = 2..5 across all w. Two routes:
+(1) brute SVD nullspace of (I - P_sym⊗P_sym) on weight-w Pauli ops; (2) the
+proposed closed-form basis {|D_0⟩⟨D_w| ± h.c., |D_{N-w}⟩⟨D_N| ± h.c.}.
 """
 from __future__ import annotations
 

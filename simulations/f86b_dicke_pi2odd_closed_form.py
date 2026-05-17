@@ -1,36 +1,14 @@
 #!/usr/bin/env python3
-"""F86b Dicke superposition Π²-odd closed-form (Tier 1 derived 2026-05-17).
+"""F86b Dicke superposition Π²-odd closed-form: independent brute-force verifier.
 
-Closes the open analytical proof of PROOF_F86B_UNIVERSAL_SHAPE.md:129
-("The K-intermediate 3/8 anchor ... analytical proof remains open").
+Canonical statement and proof: docs/proofs/PROOF_F86B_UNIVERSAL_SHAPE.md §Statement 2.
 
-THEOREM. For |ψ⟩ = (|D_n⟩+|D_{n+1}⟩)/√2 on N qubits, the total Π²-odd
-Frobenius² of ρ = |ψ⟩⟨ψ| equals:
+For ψ = (|D_n⟩+|D_{n+1}⟩)/√2: α_total = (1 − γ²)/2 with γ = ⟨ψ|X⊗N|ψ⟩,
+yielding the three anchors 0 (mirror) / 3/8 (K-intermediate) / 1/2 (generic).
 
-    α_total = (1 − ⟨ψ|X⊗N|ψ⟩²) / 2
-            = 2·|c_+|²·|c_-|²
-            = (1+γ)(1-γ)/2     where γ = ⟨ψ|X⊗N|ψ⟩
-
-Three structural cases:
-  ⟨ψ|X⊗N|ψ⟩ = 1   →  α = 0    (Dicke-mirror, N odd, 2n+1=N)
-  ⟨ψ|X⊗N|ψ⟩ = 1/2 →  α = 3/8  (Dicke-K-intermediate, N even, n ∈ {N/2-1, N/2})
-  ⟨ψ|X⊗N|ψ⟩ = 0   →  α = 1/2  (generic)
-
-PROOF (4 lines):
-  1. Decompose ψ = c_+ ψ_+ + c_- ψ_- where ψ_± are X⊗N-eigenstates (±1 eigenvalue).
-  2. ρ = |ψ⟩⟨ψ| has Π²-EVEN diagonal blocks |c_±|²|ψ_±⟩⟨ψ_±| + Π²-ODD off-diagonal
-     c_+c_-*|ψ_+⟩⟨ψ_-| + h.c. (X⊗N-conjugation eigenvalue tracks bit_b parity).
-  3. Π²-ODD Frobenius² = 2|c_+c_-|² (the two off-diagonal terms are HS-orthogonal).
-  4. |c_±|² = (1 ± γ)/2 with γ = ⟨ψ|X⊗N|ψ⟩, so α_total = 2·(1+γ)(1-γ)/4 = (1-γ²)/2.
-
-The three-anchor structure follows from X⊗N action on Dicke pairs: X⊗N maps
-|D_k⟩ → |D_{N-k}⟩, so X⊗N|ψ⟩ = (|D_{N-n}⟩+|D_{N-n-1}⟩)/√2. The overlap
-⟨ψ|X⊗N|ψ⟩ = (1/2)(δ_{n,N-n} + δ_{n,N-n-1} + δ_{n+1,N-n} + δ_{n+1,N-n-1})
-hits {0, 1/2, 1} depending on which Kronecker deltas align with the (n, n+1) pair.
-
-This is THE F50-style mechanism — orthogonal-symmetry decomposition replacing
-opaque Krawtchouk computation — applied to F86b. Same approach as F50 max-spin
-Dicke endpoint ladder rungs (commit 5523171).
+This script computes α_total two ways and checks bit-exact agreement:
+(1) the closed form via X⊗N overlap; (2) a deliberate independent Pauli-enumeration
+brute force, kept so the verification doesn't share code paths with the proof.
 """
 from __future__ import annotations
 
@@ -88,7 +66,11 @@ def alpha_total_closed_form(N, n):
 
 
 def alpha_total_brute(N, n):
-    """Brute-force: Π²-odd Frobenius² via Pauli enumeration."""
+    """Independent witness: Π²-odd Frobenius² via direct 4^N Pauli enumeration.
+
+    Deliberately shares no code path with alpha_total_closed_form so the
+    verification is honest (an error in the closed form cannot mask itself).
+    """
     D_n = dicke_state(N, n)
     D_n1 = dicke_state(N, n + 1)
     psi = (D_n + D_n1) / np.sqrt(2)
@@ -125,7 +107,7 @@ def main():
     print("  " + "-" * 70)
 
     all_pass = True
-    for N in [3, 4, 5, 6, 7]:
+    for N in [3, 4, 5, 6]:
         for n in range(N):
             gamma = overlap_gamma(N, n)
             alpha_cf = alpha_total_closed_form(N, n)

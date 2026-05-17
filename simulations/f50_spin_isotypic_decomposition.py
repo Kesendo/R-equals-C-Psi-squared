@@ -1,51 +1,14 @@
 #!/usr/bin/env python3
-"""F50 spin-isotypic decomposition: closed-form attempt for K_N central-weight excess.
+"""F50 spin-isotypic decomposition of the per-weight ker for K_N.
 
-Computes the per-spin × per-weight pure-weight ker dimension for K_N, separating
-the "single-block" contribution (operators supported entirely in one spin sector)
-from "multi-block" contribution (operators that span multiple spin sectors but
-remain pure-weight Pauli combinations).
+Canonical statement: docs/proofs/PROOF_WEIGHT1_DEGENERACY.md
+§Spin-isotypic decomposition (partial closed-form for central-weight excess).
 
-Findings (2026-05-17):
-
-  Single-block decomposition (per spin S, count of pure-weight-w Pauli
-  combinations supported only in the S=eigenspace block):
-
-    Max-spin (S = N/2, m=1, dim N+1): UNIVERSAL palindromic pattern
-        (2, 4, 4, ..., 4, 2), sum = 4N for all N >= 3.
-
-    Sub-max spin (S < N/2): concentrates pure-weight content at CENTRAL
-    weights only. Width and parity of the central window depends on
-    (m, d, N) in a non-trivial way.
-
-  Empirical sub-max patterns:
-    K_3 S=1/2  (m=2, d=2):           (0, 2, 2, 0)         w=1,2 (central window 2)
-    K_4 S=1    (m=3, d=3):           (0, 0, 26, 0, 0)     w=2 only
-    K_4 S=0    (m=2, d=1):           (0, 0, 1, 0, 0)      w=2 only
-    K_5 S=3/2  (m=4, d=4):           (0, 0, 22, 22, 0, 0) w=2,3 (central window 2)
-    K_5 S=1/2  (m=5, d=2):           (0, 0, 8, 8, 0, 0)   w=2,3 (central window 2)
-    K_6 S=2    (m=5, d=5):           (0, 0, 38, 0, 38, 0, 0) w=2,4 (NOT w=3, parity!)
-    K_6 S=1    (m=9, d=3):           (0, 0, 30, 124, 30, 0, 0) w=2,3,4
-    K_6 S=0    (m=5, d=1):           (0, 0, 0, 0, 0, 0, 0)  ALL ZERO
-
-  Multi-block contribution: weight-w operators that span multiple spin
-  sectors block-diagonally. At K_3 N=3 w=1 multi-block = 2, identical to
-  chain N=3 w=1 multi-block = 2. So the K_3 anomaly (+2 over chain) is
-  ENTIRELY in single-block.
-
-  Step toward closed-form:
-    ker(K_N, w) = sum_S single_block(K_N, S, w) + multi_block(K_N, w)
-    central_weight_excess(K_N) = (max-spin contributes uniformly across w)
-                                + (sub-max contributes concentrated at central w)
-
-  The max-spin palindromic 4N pattern is the universal "baseline" present
-  at every K_N. The "anomaly" relative to chain comes from sub-max sectors
-  concentrating their pure-weight mass at central weights.
-
-  Open question remaining: closed-form for sub-max central pure-weight counts
-  as f(m, d, N). The parity structure at K_6 (S=2 only even w, S=0 vanishes)
-  suggests the spin-isotypic decomposition needs to be refined by an additional
-  parity / symmetry label beyond just (m, d).
+Computes the per-spin × per-weight pure-weight ker dimension for K_N (N=3..6),
+splitting into single-block (operators supported in one spin sector) and
+multi-block (block-diagonal across multiple spin sectors) contributions. The
+max-spin baseline (2, 4, ..., 4, 2) is universal; sub-max sectors concentrate
+their mass at central weights and drive the K_N central-weight excess over chain.
 """
 from __future__ import annotations
 

@@ -1,29 +1,12 @@
 #!/usr/bin/env python3
-"""F50 sub-max antisymmetric Pauli orbit identification (Tier 1 for small cases).
+"""F50 sub-max sign-rep antisymmetric Pauli orbit verifier.
 
-For sub-max spin sectors at K_N, the **sign-rep (antisymmetric) contribution**
-to pure-weight ker is identified as totally antisymmetric Pauli tensors over
-distinct-letter multisets:
+Canonical statement: docs/proofs/PROOF_WEIGHT1_DEGENERACY.md
+§Partial closed-form for sub-max via antisymmetric Pauli orbits.
 
-    sign-rep contribution(K_N, S, w) = # distinct-letter Pauli multisets
-                                       of weight w on N sites
-
-Distinct-letter multiset: w letters from {X, Y} and N-w letters from {Z, I},
-with ALL N letters distinct (no repeats). Since |{X, Y, Z, I}| = 4:
-
-    distinct_multisets(N, w) = C(2, w) · C(2, N-w)   [zero if w > 2 or N-w > 2]
-
-Verified bit-exact:
-  K_3 S=1/2 pattern (0, 2, 2, 0)         = distinct-multiset count ✓
-  K_4 S=0   pattern (0, 0, 1, 0, 0)      = distinct-multiset count ✓
-  K_6 S=0   pattern (0, 0, 0, 0, 0, 0, 0) = distinct-multiset count = 0 ✓
-
-The K_6 S=0 vanishing is structurally predicted: at N≥5, no way to have 4+
-distinct letters in N positions, so sign-rep antisym ops don't exist.
-
-The antisym rule does NOT capture sub-max sectors at N ≥ 4 with non-sign-rep
-S_N-irrep contributions (K_4 S=1, K_5, K_6 S=1/2/etc.). Those require character
-calculations on the full Schur-Weyl decomposition of weight-w Pauli orbits.
+Checks that for each distinct-letter weight-w multiset on N sites, the totally
+antisymmetric Pauli tensor over the orbit is supported entirely in the
+corresponding sub-max block (K_3 S=1/2, K_4 S=0, K_6 S=0 vanishing).
 """
 from __future__ import annotations
 
