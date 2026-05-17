@@ -507,6 +507,49 @@ Extending the per-weight breakdown to chain/ring/star/K_4-e/K_4 at N=4 and chain
 - The micro-structure of the central-weight extras: what specific S_N-irrep + spin alignment produces them, and why K_N has the largest count.
 - Higher N: does the pattern hold at N ≥ 6? (Untested today but no reason to expect deviation.)
 
+### F94/F96/F97 cross-check (do today's other formulas help?)
+
+Asked: can F94's sym3 closed form (4/3 Q²K³ for |0+0+⟩ pair (0,2)) or F96's universal subdominant slopes (-16/9, -8/3) detect K_4 vs Ring topology dependence?
+
+Test ([`simulations/f94_topology_visibility_probe.py`](../../simulations/f94_topology_visibility_probe.py)): compute F94's sym3 matrix element for all 4 outcomes on |0+0+⟩ pair (0,2) at chain, ring, K_4.
+
+| Outcome | Chain | Ring | K_4 |
+|---------|-------|------|-----|
+| sym3 \|00⟩ | +5 | +8 | **+8** (= Ring) |
+| sym3 \|01⟩ | -4 | -4 | **-4** (= Ring) |
+| sym3 \|10⟩ | -1 | -4 | **-4** (= Ring) |
+| sym3 \|11⟩ | 0 | 0 | **0** (= Ring) |
+
+K_4 and Ring give bit-identical Dyson matrix elements across all 4 outcomes. F96's slopes are also identical (chain, ring, K_4 all give -16/9 and -8/3 for the |01⟩ and |11⟩ subdominant slopes). F94/F96 are **blind to the K_4 vs Ring topology distinction** at this canonical lens.
+
+**Why the blindness:** the two extra K_4 bonds vs Ring are (0,2) and (1,3) — the "diagonal" bonds. For |0+0+⟩ initial state and pair (0,2) measurement:
+- Bond (0,2) connects the two kept-pair sites (both prepared as |0⟩, Z eigenstates), so [Z_0 Z_2, |0,·,0,·⟩] = 0 and the (0,2) bond's contributions vanish.
+- Bond (1,3) connects the two traced-out sites (both prepared as |+⟩, X eigenstates), so its contributions trace out to zero on the pair (0,2) observable.
+
+Both extra K_4 bonds fall in the **symmetric blind spots** of this specific (state, pair) lens.
+
+For asymmetric initial states, F94's sym3 DOES detect K_4 vs Ring:
+
+| Lens | Ring sym3 | K_4 sym3 | K_4 − Ring |
+|------|-----------|----------|------------|
+| \|++00⟩ pair (0,2) | (-0.5, -0.5, 1.5, -0.5) | (-0.5, -3.5, 4.5, -0.5) | (0, **-3**, **+3**, 0) |
+| \|10+0⟩ pair (0,1) | (-2, -2, 5, -1) | (-3, -2, 6, -1) | (**-1**, 0, **+1**, 0) |
+
+The K_4 − Ring difference is an **antisymmetric integer shift between outcomes differing by one bit flip**. Magnitudes 1-3, much smaller than F50's +23 central-weight excess at K_4 N=4 weight-2.
+
+**Conclusion:** F94/F96 and F50 are **complementary lenses** on the same Heisenberg + Z-deph topology dependence:
+
+| Lens | What it tracks | K_4 vs Ring sensitivity |
+|------|----------------|------------------------|
+| F94 sym3 (|0+0+⟩, pair (0,2)) | Specific observable on specific state | Blind (symmetric blind spots) |
+| F94 sym3 (\|++00⟩ etc.) | Same observable on asymmetric state | Visible: integer shifts (1-3) |
+| F50 weight-1 ker | Full operator algebra, state-independent | Invisible at w=1 for N ≥ 4 (= 2N) |
+| F50 weight-w ker (w = central) | Full operator algebra, state-independent | Visible: large excess (+23 at K_4 N=4 w=2) |
+
+No direct closed-form transfer from F94/F96 to F50's central-weight excess. But the structural lesson is consistent: K_4's extra bonds produce **bond-commutator cancellation patterns** that show up as small shifts in observable-specific lenses (F94 with asymmetric states) and as large excesses in operator-algebra-level counts (F50 central weight).
+
+The F94/F96/F97 framework is the right toolkit for tracking specific Heisenberg + Z-deph observables; F50 is the right toolkit for tracking the operator algebra's universal degeneracy structure. Both are needed to fully characterize the Heisenberg + Z-deph topology family.
+
 ### Open questions (refined post-resolution)
 
 1. **The naive class-sum-scalar conjecture is empirically falsified (tested 2026-05-17).** Initial conjecture: "for graph G where bonds form a single conjugacy class of `Aut(G)`, the dimension excess equals the sum over Aut(G)-irreps ρ with class-sum scalar = 0 of `mult(ρ, weight-1) × dim(ρ)`". This predicts K_3 N=3 excess = 2 (S_3 standard rep, χ(t)=0, mult 2) ✓, but predicts K_4 N=4 excess = 8 (from (2,2) S_4 irrep, χ(t)=0, mult 4) ✗ — empirical excess at K_4 N=4 is 0. The mechanism: Schur's class-sum scalar acts via **left-multiplication** on the group algebra, but `[H, A] = 0` is a **matrix-commutator** condition on the operator space; these are different actions. Even when class-sum left-multiplies as zero on an irrep, `[class-sum, A] = 0` need not hold for operators A in that irrep's isotypic component (the operator space decomposes differently under conjugation vs left-multiplication). See `simulations/f50_irrep_decomposition_probe.py` for the explicit falsification.
