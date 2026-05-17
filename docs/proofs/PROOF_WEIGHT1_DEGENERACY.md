@@ -418,6 +418,34 @@ For K_3 N=3, `Aut(K_3) = S_3` (full permutation symmetry), and the standard 2-di
 
 Adding any external bond to K_3 (paw, bowtie, book) breaks the S_3 symmetry; even paw at N=4 (triangle + leaf vertex 3) gives `count = 2N = 8` per the sweep above.
 
+### Matrix-commutator framework: the right structural angle (2026-05-17 evening)
+
+The right view of `[H, A] = 0`: it is the centralizer condition `A ∈ Centr(H) = {A : HA = AH}`, and `dim(Centr(H)) = Σ_λ m_λ²` where m_λ is the multiplicity of H-eigenvalue λ (this is the standard centralizer-of-a-matrix formula).
+
+For the Heisenberg ring on small N, K_n is fully `S_N`-permutation-symmetric, so H eigenvalues split by total-spin sector. The H spectrum is therefore strongly degenerate. For K_3 N=3 the spectrum is exactly 2 eigenvalues, each with multiplicity 4 (= S = 3/2 multiplet, dim 4; and S = 1/2 multiplet doubled, dim 4):
+
+- K_3 N=3: H spec = (+3J/4 mult 4) ⊕ (−3J/4 mult 4). `dim(Centr) = 16 + 16 = 32`.
+- Chain N=3: H spec = (−1 mult 2) ⊕ (0 mult 2) ⊕ (+1/2 mult 4). `dim(Centr) = 4 + 4 + 16 = 24`.
+
+K_3's full centralizer is 8 dimensions larger than chain's. Of these 8 extra centralizer dimensions, how are they distributed across pure-weight sectors? Empirical per-weight breakdown at N=3:
+
+| weight w | chain dim(ker[H, ·]|_w) | K_3 dim(ker[H, ·]|_w) | excess |
+|---|---|---|---|
+| 0 | 4 | 4 | 0 |
+| 1 | 6 | 8 | **+2** |
+| 2 | 6 | 8 | **+2** |
+| 3 | 4 | 4 | 0 |
+| Σ (pure-weight) | 20 | 24 | **+4** |
+| Centralizer total | 24 | 32 | **+8** |
+
+**Two key structural facts:**
+
+1. **Palindrome pair.** The weight-1 anomaly is paired with a weight-2 anomaly of the same size (+2). This is the F1 palindrome symmetry `w ↔ N − w` (here `N = 3`, so `w = 1 ↔ w = 2`); the 2 K_3 N=3 extras at weight-1 have palindromic partners at weight-2. Together they contribute 4 extra centralizer dimensions in pure-weight sectors.
+
+2. **Multi-weight tail.** The remaining 4 extra centralizer dimensions live in multi-weight operators (operators with components in multiple weight sectors simultaneously). Chain's centralizer is dominated by pure-weight operators (20 of 24 = 83%); K_3's centralizer has 4 multi-weight operators that chain lacks (24 of 32 = 75% pure-weight). The multi-weight mechanism observed in [`WEIGHT2_KERNEL.md`](../../experiments/WEIGHT2_KERNEL.md) for Chain N=4 weight-2 (`d_real(2) = 14 > ker(w=2) = 13`) is the same kind of phenomenon: H's spin symmetry allows operators whose dephasing decay rates average to a specific target via cross-weight cancellation.
+
+The matrix-commutator picture also clarifies why `Aut(G)`-irrep arguments (Schur class-sum scalar = 0) don't directly predict ker contributions: those arguments use the group-algebra LEFT-multiplication structure, while `[H, A] = 0` is matrix commutation. The centralizer `Centr(H)` decomposes as `⊕_λ M(d_λ)` (matrix algebras on each H-eigenspace), and the weight-w intersection with this depends on how Pauli weight aligns with the eigenspace projectors — a graph-and-N specific algebraic question.
+
 ### Cross-link to WEIGHT2_KERNEL.md (April 3, 2026)
 
 The empirical K_3 N=3 anomaly was first recorded in [`experiments/WEIGHT2_KERNEL.md`](../../experiments/WEIGHT2_KERNEL.md) (lines 151-155):

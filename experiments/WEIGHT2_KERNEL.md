@@ -54,7 +54,7 @@ it is a structural discovery about where the symmetry protection ends.
 
 | N | Chain | Star | Complete | w=2 sector dim |
 |---|-------|------|----------|----------------|
-| 3 | 6 | - | - | 24 |
+| 3 | 6 | - | **8 (= K_3, +2)** | 24 |
 | 4 | 13* | 16 | 36 | 96 |
 | 5 | 14 | 30 | 54 | 320 |
 | 6 | 19 | - | - | 960 |
@@ -62,7 +62,16 @@ it is a structural discovery about where the symmetry protection ends.
 *Chain N=4: d_real(2) = 14, but ker([H,·]|_{w=2}) = 13. One eigenvalue
 at Re = −0.2 comes from multi-weight mixing (not a pure w=2 mode).
 
-All other values match d_real(k=2) exactly.
+**2026-05-17 added: K_3 (= ring = complete at N=3) gives ker = 8 at weight-2,
+not 6 like chain. This is the palindromic partner (w → N − w = 3 − 2 = 1)
+of the K_3 N=3 weight-1 anomaly recently identified as the 2-dim standard
+irrep of S_3 = Aut(K_3). The F1 palindrome forces the +2 excess at w=1 and
+the +2 excess at w=2 to pair up. See [`PROOF_WEIGHT1_DEGENERACY § Appendix
+(2026-05-17)`](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) for the
+matrix-commutator framework and per-weight centralizer breakdown that
+exposes the pairing.**
+
+All other (non-K_3-N=3) values match d_real(k=2) exactly.
 
 ### SWAP eigenvalue structure: the key difference from weight 1
 
