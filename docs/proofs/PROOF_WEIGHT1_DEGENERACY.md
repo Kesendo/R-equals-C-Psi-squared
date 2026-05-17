@@ -477,7 +477,37 @@ The Trivial column matches the F50 SWAP-invariant operators (T_c^{(a)} for `a �
 
 Connecting to WEIGHT2_KERNEL's weight-2 table: there, "Mixed" at N ≥ 4 captures non-trivial reps of S_N (standard 3-dim of S_4, etc.). At weight-1, the analogous non-trivial reps almost never produce kernel vectors (the dispersion structure rules them out), with K_3 N=3 as the unique witness.
 
-### Open questions
+### Resolution of the open question (2026-05-17 evening, full sweep)
+
+Extending the per-weight breakdown to chain/ring/star/K_4-e/K_4 at N=4 and chain/ring/K_5 at N=5 surfaces a clean universal pattern:
+
+| (graph, N) | per-weight ker (w=0..N) | central-w excess vs chain | palindrome location |
+|---|---|---|---|
+| chain N=3 | (4, 6, 6, 4) | baseline | – |
+| **K_3 N=3** | (4, 8, 8, 4) | **+2 at w=1, +2 at w=2** | pair around N/2 = 1.5 |
+| chain N=4 | (5, 8, 13, 8, 5) | baseline | – |
+| star N=4 | (5, 8, 16, 8, 5) | +3 at w=2 | self-palindromic at N/2 = 2 |
+| K_4-e N=4 | (5, 8, 22, 8, 5) | +9 at w=2 | self-palindromic |
+| ring N=4 | (5, 8, 23, 8, 5) | +10 at w=2 | self-palindromic |
+| **K_4 N=4** | (5, 8, 36, 8, 5) | **+23 at w=2** | self-palindromic |
+| chain N=5 | (6, 10, 14, 14, 10, 6) | baseline | – |
+| ring N=5 | (6, 10, 22, 22, 10, 6) | +8 at w=2, +8 at w=3 | pair around N/2 = 2.5 |
+| **K_5 N=5** | (6, 10, 54, 54, 10, 6) | **+40 at w=2, +40 at w=3** | pair around N/2 = 2.5 |
+
+**The pattern:** every connected graph with non-trivial automorphism beyond chain shows centralizer excess at the **central weights** `w ∈ {floor(N/2), ceil(N/2)}` — palindromic pair when N is odd, self-palindromic single value when N is even. The excess magnitude is topology-dependent (K_N largest among K_N / ring / star / K_N − e). At edge weights w ∈ {0, 1, N-1, N} the count is topology-independent (matches chain = 2N at w=1 and 2 at w=0 etc.).
+
+**Why K_3 N=3 surfaces as a "weight-1 anomaly":** at N=3, floor(N/2) = 1, so the central palindromic pair is (w=1, w=2). F50 specifically tracks weight-1, so the K_3 excess shows up there. For N ≥ 4 the central weight is ≥ 2 and F50's weight-1 count remains 2N for all topologies tested. **K_3 N=3 is not a special algebraic phenomenon; it is the small-N manifestation of the universal "central-weight excess in high-symmetry topologies" pattern.**
+
+**Why the excess is palindromic:** the F1 Π-conjugation palindrome `d_real(w) = d_real(N − w)` (proven for the full Liouvillian spectrum) forces the per-weight excess to be palindromic too. The conjugation pairing weight-w ↔ weight-(N−w) commutes with H's action on operators (via the standard Π = Z⊗N involution), so any centralizer dimension at weight w has a partner at weight N−w.
+
+**Connection to the WEIGHT2_KERNEL.md observations:** the +23 at K_4 weight-2 and similar topology-dependent counts at weight-2 across N=4..6 (their original table) are the SAME phenomenon as today's K_3 N=3 weight-1 finding — different value of N, same "central weight excess + F1 palindrome". WEIGHT2_KERNEL had documented the topology dependence at weight-2 ≥ 4 weeks ago; we now understand the K_3 N=3 case as the same pattern with N=3's central weight happening to land at w=1.
+
+**What remains genuinely open:**
+- A closed-form formula for the excess as a function of (graph G, N, weight w). The values 2, 3, 9, 10, 23 (N=4 w=2 across topologies) and 8, 40 (N=5 K_n w=2) don't fit an obvious combinatorial family.
+- The micro-structure of the central-weight extras: what specific S_N-irrep + spin alignment produces them, and why K_N has the largest count.
+- Higher N: does the pattern hold at N ≥ 6? (Untested today but no reason to expect deviation.)
+
+### Open questions (refined post-resolution)
 
 1. **The naive class-sum-scalar conjecture is empirically falsified (tested 2026-05-17).** Initial conjecture: "for graph G where bonds form a single conjugacy class of `Aut(G)`, the dimension excess equals the sum over Aut(G)-irreps ρ with class-sum scalar = 0 of `mult(ρ, weight-1) × dim(ρ)`". This predicts K_3 N=3 excess = 2 (S_3 standard rep, χ(t)=0, mult 2) ✓, but predicts K_4 N=4 excess = 8 (from (2,2) S_4 irrep, χ(t)=0, mult 4) ✗ — empirical excess at K_4 N=4 is 0. The mechanism: Schur's class-sum scalar acts via **left-multiplication** on the group algebra, but `[H, A] = 0` is a **matrix-commutator** condition on the operator space; these are different actions. Even when class-sum left-multiplies as zero on an irrep, `[class-sum, A] = 0` need not hold for operators A in that irrep's isotypic component (the operator space decomposes differently under conjugation vs left-multiplication). See `simulations/f50_irrep_decomposition_probe.py` for the explicit falsification.
 

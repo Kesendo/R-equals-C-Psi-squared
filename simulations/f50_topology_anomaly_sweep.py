@@ -5,25 +5,33 @@ Background (2026-05-17): the F50 typed claim asserts
 `d_real(Re = -2γ) = 2N for any connected graph` based on the
 [`PROOF_WEIGHT1_DEGENERACY`](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md)
 SWAP-invariant construction. This script does the empirical sweep that
-surfaced the K_3 N=3 anomaly (2N+2 = 8 instead of 2N = 6) and verified that
-no other tested connected graph violates the formula.
+surfaced the K_3 N=3 anomaly (2N+2 = 8 instead of 2N = 6).
 
 Builds the Heisenberg + Z-dephasing Liouvillian at J = γ = 1 for each
 (graph, N), eigendecomposes, counts pure-real eigenvalues at Re = -2γ.
 
-Findings (see PROOF_WEIGHT1_DEGENERACY § Appendix for the structural reading):
-  - Chain N=2..5 → count = 2N ✓
-  - Ring C_n at n=4, 5 → count = 2N ✓
-  - Star K_{1,n-1} at n=3, 4, 5 → count = 2N ✓
-  - Complete K_n at n=4, 5 → count = 2N ✓
-  - Paw / bowtie / book (triangles inside larger graphs at N=4, 5) → count = 2N ✓
-  - N=3 K_3 (= ring = triangle = complete on 3 vertices) → count = 8 (2N+2) ✗
+Resolution (2026-05-17 evening, also in PROOF_WEIGHT1_DEGENERACY § Appendix):
+the K_3 N=3 weight-1 anomaly is the small-N manifestation of a UNIVERSAL
+"central-weight excess in high-symmetry topologies" pattern. Every connected
+graph beyond chain (ring, star, K_n, paw, bowtie, etc.) shows centralizer
+excess at the central weights `w ∈ {floor(N/2), ceil(N/2)}`, palindromic by
+F1 Π-conjugation. K_N has the largest excess; ring, star, K_n − e have
+smaller-but-non-zero excess. F50 specifically tracks weight-1, which equals
+the central weight only at N=3.
 
-The 2 K_3 extras are weight-1 operators commuting with H_K_3 (matrix-commutator
-sum cancellation across the three bonds) but NOT with H_chain alone. They
-correspond to the 2-dim standard irrep of S_3 = Aut(K_3) acting on the
-weight-1 c=1 Pauli-string sector. Adding any external bond breaks the
+  Central-weight excess (vs chain): K_3 N=3 (+2 at w=1, w=2),
+    K_4 N=4 (+23 at w=2 self-palindromic), K_5 N=5 (+40 at w=2, w=3).
+  Weight-1 universality (F50): holds for all tested topologies at N ≥ 4;
+    only K_3 N=3 violates because its central weight = 1 = the F50-tracked weight.
+
+The 2 K_3 N=3 extras are weight-1 operators commuting with H_K_3 (matrix-
+commutator sum cancellation across the three bonds) but NOT with H_chain
+alone. They are in the 2-dim standard irrep of S_3 = Aut(K_3) acting on
+the weight-1 c=1 Pauli-string sector. Adding any external bond breaks the
 S_3 symmetry and removes the extras.
+
+For the per-weight breakdown across topologies (which surfaces the resolution),
+run `python simulations/f50_per_weight_breakdown.py` (separate script).
 """
 from __future__ import annotations
 

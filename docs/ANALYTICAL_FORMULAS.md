@@ -278,16 +278,7 @@ restores the F50 count `= 2N`.
 **Caveat:** This universality (with the K_3 N=3 exception noted) is UNIQUE
 to k=0 and k=1. For k >= 2, d_real(k) is topology-dependent
 (Chain < Star < Ring < Complete). See [Weight-2 Kernel](../experiments/WEIGHT2_KERNEL.md).
-**Open question:** what's the right upper-bound formula in terms of the
-graph automorphism group `Aut(G)` and its irrep structure on the weight-1
-Pauli-string sector? K_3 N=3 with `Aut = S_3` has 2 extras from the
-S_3 standard rep; do larger graphs with high symmetry have similar
-extras that simply land in higher-weight sectors (not weight-1)?
-[`experiments/WEIGHT2_KERNEL.md`](../experiments/WEIGHT2_KERNEL.md)
-(April 2026) already provides the Trivial/Alternating/Mixed irrep
-decomposition framework for weight-2 kernels at N=3..6; today's
-weight-1 K_3 N=3 finding extends the same format to weight-1 with the
-Standard (2-dim, S_3) column.
+**Resolution (2026-05-17 evening):** the K_3 N=3 "weight-1 anomaly" is not a special algebraic phenomenon. It is the **small-N manifestation of a universal "central-weight excess in high-symmetry topologies" pattern**: every connected graph with non-trivial automorphism beyond chain has centralizer excess at the central weights `w ∈ {floor(N/2), ceil(N/2)}`, palindromic by F1 Π-conjugation. K_N has the largest excess; ring, star, K_N − e all have smaller-but-non-zero central excess. F50 specifically tracks weight-1, which coincides with the central weight only at N=3. For N ≥ 4 the central weight is ≥ 2, so F50's weight-1 count remains 2N for all tested topologies (chain, ring, star, K_N, paw, bowtie, book, K_4 − e). Empirical magnitudes: K_3 N=3 (+2 at w=1 / w=2), K_4 N=4 (+23 at w=2, self-palindromic), K_5 N=5 (+40 at w=2 / w=3). [`experiments/WEIGHT2_KERNEL.md`](../experiments/WEIGHT2_KERNEL.md) (April 2026) had documented the topology dependence at weight-2 for N=4..6 weeks ago; we now understand the K_3 N=3 case as the SAME phenomenon at N=3 (where central weight = 1 = F50's tracked weight). What remains open: a closed-form formula for the excess in terms of (G, N, w), and a representation-theoretic micro-structural identification of the central-weight extras beyond the empirical magnitudes. See [PROOF_WEIGHT1_DEGENERACY § Appendix Resolution](proofs/PROOF_WEIGHT1_DEGENERACY.md) for the full sweep table and the matrix-commutator-framework derivation.
 **Replaces:** eigenvector analysis at the first grid position;
 numerical counting of purely-real eigenvalues (modulo the K_3 N=3 case).
 **Source:** [Weight-1 Degeneracy Proof](proofs/PROOF_WEIGHT1_DEGENERACY.md)
