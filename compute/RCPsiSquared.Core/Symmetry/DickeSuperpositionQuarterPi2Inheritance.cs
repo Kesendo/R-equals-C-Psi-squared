@@ -51,17 +51,22 @@ public sealed class DickeSuperpositionQuarterPi2Inheritance : Claim, IF99AnchorB
     /// <inheritdoc />
     public IReadOnlyList<double> F99AnchorValues { get; } = Array.Empty<double>();
 
-    private readonly Pi2DyadicLadderClaim _ladder;
+    /// <summary>The Pi2 dyadic ladder typed parent: source of both
+    /// <see cref="QuarterCeiling"/> (=Term(3)) and <see cref="SectorBalance"/>
+    /// (=Term(2)). Public to keep the parent edge Bauplan-traceable via
+    /// <see cref="Knowledge.ClaimGraphWalker"/> (uniform with F98's
+    /// StaticSide property, F99's F98LongTime property, etc.).</summary>
+    public Pi2DyadicLadderClaim Ladder { get; }
 
     /// <summary>The 1/4 ceiling on C_block: <see cref="Pi2DyadicLadderClaim.Term"/>(3) =
     /// <c>a_3</c> (= QuarterAsBilinearMaxval = (1/d)² for d=2).</summary>
-    public double QuarterCeiling => _ladder.Term(3);
+    public double QuarterCeiling => Ladder.Term(3);
 
     /// <summary>The 1/2 sector balance at AM-GM saturation:
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(2) = <c>a_2</c>
     /// (= HalfAsStructuralFixedPoint = 1/d for d=2). Required for equality in
     /// Theorem 2: <c>p_n = p_{n+1} = 1/2</c>.</summary>
-    public double SectorBalance => _ladder.Term(2);
+    public double SectorBalance => Ladder.Term(2);
 
     /// <summary>The AM-GM bilinear identity manifest: <c>(1/2)² = 1/4</c>, equivalently
     /// <c>SectorBalance² = QuarterCeiling</c>. This is the algebraic content of
@@ -129,7 +134,7 @@ public sealed class DickeSuperpositionQuarterPi2Inheritance : Claim, IF99AnchorB
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (QuarterAsBilinearMaxval, HalfAsStructuralFixedPoint typed) + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     {
-        _ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
         Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
         Half = half ?? throw new ArgumentNullException(nameof(half));
     }
