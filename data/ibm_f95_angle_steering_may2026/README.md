@@ -111,6 +111,16 @@ The run is described and analyzed in:
 
 The JSON files are the authoritative record. The PNGs are convenience renders from the run script.
 
+## Reproducing the analysis
+
+Zero QPU cost; the F97 lens reads from the JSON files in this directory:
+
+```bash
+python simulations/kingston_f97_lens.py
+```
+
+The script computes complex CΨ_com from the per-delay 4×4 density matrices, tabulates magnitude / argument / F97 fixed-point magnitude along each trajectory, and finds the |c| = 1/4 crossings (matching the Confirmation entry's t_cross / arg_cross values exactly) plus the |c| = 1/2 crossings (none in this dataset; the Bell+-like initial state starts at the cusp magnitude). Three F97 framing findings drop out: (i) all trajectories live entirely inside the cardioid; (ii) the |c| = 1/4 crossings are off-cusp (arg ≈ −85° to −125°, not arg = 0); (iii) the F97 Half magnitude |c| = 1/2 is unreachable from this initial state.
+
 ## Original location
 
 The files were copied from the live-run output directory:
