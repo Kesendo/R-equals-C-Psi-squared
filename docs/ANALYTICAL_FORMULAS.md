@@ -2840,6 +2840,72 @@ By contrast, `|c(φ)|² = 5/16 − (1/4)·cos(φ)` is **not** invariant around t
 
 **Anchor:** [`PROOF_F97_CARDIOID_HALF_FIXED_POINT.md`](proofs/PROOF_F97_CARDIOID_HALF_FIXED_POINT.md), [`simulations/_cardioid_parametrization_tier1.py`](../simulations/_cardioid_parametrization_tier1.py). F95 companion (real-c angle): [F95](#f95). Hardware 2D-extension precursor: [`experiments/CPSI_COMPLEX_PLANE.md`](../experiments/CPSI_COMPLEX_PLANE.md) (Kingston 2026-04-16). Februar boundary precursor: [`experiments/BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md). Mandelbrot connection synthesis: [`experiments/MANDELBROT_CONNECTION.md`](../experiments/MANDELBROT_CONNECTION.md). Quarter-boundary roadmap (Layer 7 next-move slot): [`docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md`](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md).
 
+### F98. KIntermediate Dicke long-time Π²-odd asymptote = (N+2)/[4(N+1)] → 1/4 (Tier 1 derived, bit-exact N=4..16; 2026-05-17)
+
+**Two paired closed forms bridging the F86b 3/8 K-intermediate Dicke anchor (static, t=0) to the QuarterAsBilinearMaxval 1/4 universal boundary (asymptotic, N→∞):**
+
+For even N, the Dicke superposition `ψ = (|D_{N/2−1}⟩ + |D_{N/2}⟩) / √2` evolved under any truly-class (F87) Hamiltonian + uniform Z-dephasing on N qubits projects onto `ker L = span(P_0, …, P_N)` (per F4). The Π²-odd Frobenius² fraction at t = ∞ takes a closed form determined by two purely combinatorial identities:
+
+```
+(F98a)  ‖P_{N/2−1}_odd‖² = C(N, N/2−1) / 2
+(F98b)  α(∞)_KIntermediate(N even) = (N + 2) / [4·(N + 1)]
+```
+
+with asymptote `α(∞) → 1/4` as `N → ∞` (the [`QuarterAsBilinearMaxvalClaim`](#f88-anchors) = `HalfAsStructuralFixedPoint²` = Mandelbrot cardioid maxval = CΨ fold boundary).
+
+**Derivation:**
+
+`P_n = Σ_{b: pc(b) = n} |b⟩⟨b| = (1/2^N) Σ_S K_{|S|}(n; N)·σ_S^Z` in Pauli basis, where `K_k(n; N) = Σ_{b: pc(b) = n} (−1)^{|S ∩ b|}` is the binary Krawtchouk number for any fixed S with `|S| = k`. The Π²-odd part is `Σ_{k odd}`. Two facts:
+
+- **Mid-popcount Krawtchouk parity vanishing**: `K_k(N/2; N) = 0` for all odd k, hence `‖P_{N/2}_odd‖² = 0`.
+- **Sub-mid half-rank identity (F98a)**: `(1/2^N) Σ_{k odd} C(N, k)·K_k(N/2−1; N)² = C(N, N/2−1) / 2`. Equivalently, the Π²-odd Frobenius² of `P_{N/2−1}` is exactly half its rank. Verified bit-exact N = 4..16 via direct Krawtchouk enumeration.
+
+For the KIntermediate Dicke superposition `ρ_∞ = (1/2)/C(N, m)·P_m + (1/2)/C(N, m+1)·P_{m+1}` with `m = N/2 − 1`:
+
+```
+‖ρ_∞‖²     = (1/4) · [1/C(N, m) + 1/C(N, m+1)]
+‖ρ_∞_odd‖² = (1/4) · [C(N, m)/2] / C(N, m)²  =  1 / [8·C(N, m)]      (since P_{m+1}_odd = 0)
+```
+
+Using Pascal's `C(N, m) + C(N, m+1) = C(N+1, m+1)`:
+
+```
+α(∞) = ‖ρ_∞_odd‖² / ‖ρ_∞‖²
+     = C(N, m+1) / [2·C(N+1, m+1)]
+     = (N + 2) / [4·(N + 1)]    (F98b)
+```
+
+Verified bit-exact for N = 4 (= 3/10), 6 (= 2/7), 8 (= 5/18), 10 (= 3/11), 12 (= 7/26), 14 (= 4/15), 16 (= 9/34) via [`simulations/water/proton_chain_dicke_anchor.py`](../simulations/water/proton_chain_dicke_anchor.py). The bond topology drops out because the long-time limit projects onto `ker L` for any connected graph (per F4); the formula holds for chain, ring, star, K_N, Petersen, etc.
+
+**The 3/8 → 1/4 bridge:**
+
+The morning's F86b 3/8 K-intermediate Dicke anchor (Tier 1 derived 2026-05-17 via X⊗N-eigenbasis decomposition, `compute/RCPsiSquared.Core/Symmetry/DickeAnchor.cs`) names the **static** Π²-odd Frobenius² total of the KIntermediate Dicke superposition at t = 0:
+
+```
+α(t = 0) = 3/8       (F86b, this morning, static F88-anchor)
+α(t → ∞) = (N+2)/[4(N+1)] → 1/4    (F98, tonight, long-time-limit bridge)
+```
+
+`3/8` and `1/4` are not unrelated constants — they are the two endpoints of an explicit N-dependent decay curve traversed by KIntermediate Dicke states under truly-class Hamiltonian + Z-dephasing dynamics. Both sit on the dyadic-ladder / polarity-squared algebra:
+
+- `3/8 = (1/2)·(3/4)` = `HalfAsStructuralFixedPoint · (1 − 1/4)`, the X⊗N-eigenbasis γ = 1/2 input combined with the `(1 − γ²)/2` F86b formula.
+- `1/4 = (1/2)² = HalfAsStructuralFixedPoint²` = `QuarterAsBilinearMaxval` = the Mandelbrot cardioid maxval. The maxval-side bilinear apex.
+
+**Numerical trace:**
+
+```
+N=4:   α(0) = 3/8 = 0.375  →  α(∞) = 3/10 ≈ 0.300       (Δ to 1/4 = 1/20)
+N=10:  α(0) = 3/8 = 0.375  →  α(∞) = 3/11 ≈ 0.273       (Δ to 1/4 = 1/44)
+N=20:  α(0) = 3/8 = 0.375  →  α(∞) = 11/42 ≈ 0.262      (Δ to 1/4 = 1/84)
+N→∞:   α(0) = 3/8          →  α(∞) → 1/4                [QuarterAsBilinearMaxval]
+```
+
+**Why the asymptote is 1/4 and not 3/8:** the kernel projection averages the static F86b anchor against the rank weighting of the two adjacent popcount sectors. For mid-popcount `P_{N/2}` the Π²-odd content vanishes (Krawtchouk parity); for `P_{N/2−1}` it is exactly half-rank (F98a). The mix weights `1/C(N, m) : 1/C(N, m+1)` approach unity at large N (sectors become equally weighted under uniform amplitude), and the Π²-odd fraction is driven purely by half-rank inheritance from `P_{N/2−1}` — landing at `1/4` because the half-rank halving compounds with the kernel-balance halving to give `(1/2)² = 1/4`.
+
+**Discovery path:** the water-chain inheritance test ([`simulations/water/proton_chain_dicke_anchor.py`](../simulations/water/proton_chain_dicke_anchor.py)) for the morning's F86b anchor uncovered F98 by asking a NEW question — not "what is α at t = 0" (closed-form F86b) but "what is α at t = ∞ under truly-class Heisenberg + Z-dephasing on the chemistry-substrate-grounded proton chain". The water script saw `α → 3/10` for N = 4 at t = 100; the small-fraction structure suggested an algebraic closed form, verified bit-exact N = 4..16, then derived via Krawtchouk + Pascal.
+
+**Anchors:** [`simulations/water/proton_chain_dicke_anchor.py`](../simulations/water/proton_chain_dicke_anchor.py) (numerical bit-exact verification + Krawtchouk enumeration), [F86b](#f86) DickeAnchor 3/8 anchor (static partner), [F88](#f88) Π²-odd structure (parent), [F4](#f4) kernel decomposition (used in long-time projection), `compute/RCPsiSquared.Core/Symmetry/QuarterAsBilinearMaxvalClaim` (asymptote anchor), `compute/RCPsiSquared.Core/Symmetry/HalfAsStructuralFixedPointClaim` (1/4 = (1/2)² parent), `docs/water/README.md` § "Findings since May 4".
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
