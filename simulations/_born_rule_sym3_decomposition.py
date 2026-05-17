@@ -18,9 +18,7 @@ bonds dominate? do XX/YY/ZZ contribute equally? what is the site-ordering patter
 from __future__ import annotations
 
 import sys
-from pathlib import Path
 from collections import defaultdict
-from fractions import Fraction
 
 import numpy as np
 
@@ -212,7 +210,7 @@ def main():
     print()
 
     print("=" * 70)
-    print("Sum by (component_pair, site) — the structural cell")
+    print("Sum by (component_pair, site): the structural cell")
     print("=" * 70)
     by_cc_s = defaultdict(float)
     for (b1, b2, s, ordering, c1, c2), v in contributions.items():
@@ -226,7 +224,7 @@ def main():
     print()
 
     print("=" * 70)
-    print("Sum by (ordering, component_pair) — the dynamic cell")
+    print("Sum by (ordering, component_pair): the dynamic cell")
     print("=" * 70)
     by_ord_cc = defaultdict(float)
     for (b1, b2, s, ordering, c1, c2), v in contributions.items():

@@ -101,8 +101,10 @@ public sealed class F97CardioidHalfFixedPointPi2Inheritance : Claim
     public const double B = 0.5;
 
     /// <summary>The framework's threshold b² = 1/4 (QuarterAsBilinearMaxval),
-    /// magnitude of c at the φ = 0 cusp of the cardioid.</summary>
-    public const double Threshold = 0.25;
+    /// magnitude of c at the φ = 0 cusp of the cardioid. Derived from
+    /// <see cref="B"/> at compile time so the algebraic identity is
+    /// structural, not asserted.</summary>
+    public const double Threshold = B * B;
 
     /// <summary>1/2 magnitude pinned to the cardioid via HalfAsStructuralFixedPoint.</summary>
     public HalfAsStructuralFixedPointClaim Half { get; }

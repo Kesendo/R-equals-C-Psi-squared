@@ -7,8 +7,8 @@ trajectory c(t) = CΨ_com(t) traces spirals in the complex-c plane. Two F97
 questions on the data:
 
   (Q1) Does c(t) cross the cardioid boundary at any t? At what t and arg?
-       — the Kingston spirals can be checked against the cardioid curve, not
-         just against the cusp at c = 1/4.
+       The Kingston spirals can be checked against the cardioid curve, not
+       just against the cusp at c = 1/4.
 
   (Q2) For each c(t) along the trajectory, what is the corresponding F97
        fixed point z*(c) = (1 - sqrt(1 - 4c)) / 2 and how does |z*(t)| evolve?
@@ -21,14 +21,19 @@ questions on the data:
        the cardioid. So the trajectory may cross |c| = 1/4 (cusp threshold,
        F95's b²) AND |c| = 1/2 (Half threshold, F97's b) at distinct times.
        Two F97-anchor-typed crossings per trajectory.
+
+Reads `data/ibm_f95_angle_steering_may2026/*.json`. Reuses the canonical
+CΨ_complex and trajectory-extraction helpers from `hardware_cpsi_cplane.py`.
 """
 from __future__ import annotations
 
 import sys
 import json
-import glob
 from pathlib import Path
+
 import numpy as np
+
+from hardware_cpsi_cplane import extract_trajectory
 
 if sys.platform == "win32":
     try:
@@ -37,39 +42,14 @@ if sys.platform == "win32":
         pass
 
 
-def cpsi_com_from_rho(rho_real, rho_imag, d=4):
-    """Compute complex CΨ_com from a 4×4 density matrix.
-
-    CΨ_com = C · Ψ_com where C = Tr(ρ²) (purity) and
-    Ψ_com = 2 · Σ_{i<j} ρ_{ij} / (d − 1) (signed-sum-of-off-diagonals).
-
-    Per CPSI_COMPLEX_PLANE.md definition.
-    """
-    rho = np.array(rho_real) + 1j * np.array(rho_imag)
-    purity = np.trace(rho @ rho).real
-    # Signed sum of upper-triangle off-diagonals
-    signed_sum = sum(rho[i, j] for i in range(d) for j in range(i + 1, d))
-    psi_com = 2 * signed_sum / (d - 1)
-    return purity * psi_com
-
-
-def cardioid_c(phi, b=0.5):
-    """Mandelbrot cardioid at b = 1/2: c(phi) = b·e^(iphi) − b²·e^(2iphi)."""
-    e_iphi = np.exp(1j * phi)
-    return b * e_iphi - (b ** 2) * (e_iphi ** 2)
-
-
 def f97_fixed_point(c, b=0.5):
     """Period-1 attracting fixed point of z² + c: z* = (1 - sqrt(1 - 4c)) / 2.
 
     Returns the inner branch (smaller |z*| for c inside the cardioid;
     z* on the cardioid for c on the boundary).
     """
-    # b² - c = 1/4 - c at b = 1/2
-    disc = b ** 2 - c
-    sqrt_d = np.sqrt(disc)
-    z_minus = b - sqrt_d  # inner branch
-    return z_minus
+    disc = b ** 2 - c  # 1/4 - c at b = 1/2
+    return b - np.sqrt(disc)
 
 
 def linear_interp(t_a, t_b, y_a, y_b, target):
@@ -81,11 +61,15 @@ def linear_interp(t_a, t_b, y_a, y_b, target):
 
 def analyze_pair(pair_data, pair_label, omega):
     """Compute F97-lens analysis on one pair's trajectory."""
-    delays = pair_data["delays_us"]
-    traj = pair_data["trajectory"]
+    tr = extract_trajectory(pair_data)
+    times = tr["t_us"]
+    c_values_list = tr["cpsi_complex"]
+    pair_info = tr["pair"] or pair_data.get("pair", {})
+
     print(f"--- {pair_label} (Ω = {omega} rad/μs) ---")
-    print(f"  qubits: {pair_data['pair']['qubits']}")
-    print(f"  γ = {pair_data['pair']['gamma_per_us']:.3e} μs⁻¹")
+    print(f"  qubits: {pair_info.get('qubits', '?')}")
+    if "gamma_per_us" in pair_info:
+        print(f"  γ = {pair_info['gamma_per_us']:.3e} μs⁻¹")
     print()
 
     print(f"  {'t (μs)':>8} {'|CΨ_com|':>10} {'arg(c) (°)':>12} "
@@ -93,13 +77,10 @@ def analyze_pair(pair_data, pair_label, omega):
     print("  " + "-" * 78)
 
     c_values = []
-    for entry in traj:
-        t = entry["t_us"]
-        c = cpsi_com_from_rho(entry["rho2_real"], entry["rho2_imag"], d=4)
+    for t, c in zip(times, c_values_list):
         z_star = f97_fixed_point(c)
         c_values.append((t, c, z_star))
-        # On the cardioid <=> |z*| ≈ 1/2 (b)
-        gap = abs(z_star) - 0.5
+        gap = abs(z_star) - 0.5  # On the cardioid <=> |z*| ≈ 1/2 (b)
         on_card = "yes" if abs(gap) < 0.01 else f"({gap:+.3f})"
         print(f"  {t:>8.3f} {abs(c):>10.5f} {np.degrees(np.angle(c)):>+12.2f} "
               f"{abs(z_star):>10.5f} {gap:>+14.6f} {on_card:>14}")
@@ -109,7 +90,6 @@ def analyze_pair(pair_data, pair_label, omega):
     print("  F97-anchor crossings (linear interp between adjacent delays):")
     targets = [("|c| = 1/4 (Quarter cusp)", 0.25), ("|c| = 1/2 (Half cardioid)", 0.5)]
     for label, target in targets:
-        # Find the two delays bracketing the crossing
         found = False
         for i in range(len(c_values) - 1):
             t_a, c_a, _ = c_values[i]
@@ -117,16 +97,14 @@ def analyze_pair(pair_data, pair_label, omega):
             ma, mb = abs(c_a), abs(c_b)
             if (ma - target) * (mb - target) < 0:
                 t_cross = linear_interp(t_a, t_b, ma, mb, target)
-                # Interp the arg as well
                 arg_a, arg_b = np.angle(c_a), np.angle(c_b)
-                # Unwrap close to actual measured values
+                # Unwrap across the ±π discontinuity
                 if abs(arg_a - arg_b) > np.pi:
                     if arg_b < arg_a:
                         arg_b += 2 * np.pi
                     else:
                         arg_a += 2 * np.pi
                 arg_cross = arg_a + (target - ma) / (mb - ma) * (arg_b - arg_a)
-                # Normalize to (-180, 180]
                 arg_cross_deg = np.degrees(arg_cross)
                 while arg_cross_deg > 180:
                     arg_cross_deg -= 360

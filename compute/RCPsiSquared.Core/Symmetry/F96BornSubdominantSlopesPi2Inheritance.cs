@@ -115,10 +115,10 @@ public sealed class F96BornSubdominantSlopesPi2Inheritance : Claim
 
     /// <summary>Raw unitary matrix element <c>U_4^{(11)} · 2 = 3</c>: equivalent
     /// to <c>U_4^{(11)} = 3/2</c>. Stored as integer numerator with implicit
-    /// denominator 2 (= 2! / a_{−1} · 2) for bit-exact rational arithmetic.</summary>
+    /// denominator 2 for bit-exact rational arithmetic.</summary>
     public const int U4_DoubleFlipped_TimesTwo = 3;
 
-    /// <summary>F94's typed parent — the 4/3 unit that F96 elaborates.</summary>
+    /// <summary>F94's typed parent: the 4/3 unit that F96 elaborates.</summary>
     public F94BornDeviationFourThirdsPi2Inheritance F94 { get; }
 
     /// <summary>The single-flip subdominant slope: <c>−16/9 = −(4/3)²</c>
@@ -181,14 +181,8 @@ public sealed class F96BornSubdominantSlopesPi2Inheritance : Claim
     /// <summary>Sum of per-outcome Δ over all 4 outcomes in F94's setup, at
     /// given (Q, K). Useful for trace-preservation drift checks (sum should
     /// be close to 0 since ΔP integrates to 0 across outcomes).</summary>
-    public double DeltaSumAllFourOutcomes(double Q, double K)
-    {
-        double dominant = F94.DeltaDominant(Q, K);
-        double single_01 = DeltaSingleFlipped(K);
-        double single_10 = DeltaSingleFlipped(K);
-        double double_11 = DeltaDoubleFlipped(K);
-        return dominant + single_01 + single_10 + double_11;
-    }
+    public double DeltaSumAllFourOutcomes(double Q, double K) =>
+        F94.DeltaDominant(Q, K) + 2.0 * DeltaSingleFlipped(K) + DeltaDoubleFlipped(K);
 
     public F96BornSubdominantSlopesPi2Inheritance(
         F94BornDeviationFourThirdsPi2Inheritance f94,
