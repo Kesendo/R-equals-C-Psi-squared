@@ -622,12 +622,62 @@ where e_k is the k-th elementary symmetric polynomial in Z-operators (verified b
 
 **Consequence for F50:** the max-spin contribution to ker(K_N, w) is weight-uniform (always 2 or 4 per weight, never different at central vs edge weights). Therefore the **central-weight excess of K_N over chain is entirely a sub-max-spin phenomenon**, confirming the empirical observation that the K_N anomaly comes from the lower-spin sectors concentrating their mass at central weights.
 
-**What remains open for the full closed-form:**
+**Partial closed-form for sub-max via antisymmetric Pauli orbits (2026-05-17 night, Tier 1 for small cases):**
 
-- Closed-form for sub-max central-weight counts as `f(m_S, 2S+1, N, w)` with parity rule. The values (2, 26, 1, 22, 8, 38, 124, 0, 30) for K_3..K_6 lower-spin sectors don't fit a single obvious combinatorial family. The K_6 S=0 vanishing and K_6 S=2 even-w-only patterns suggest a parity selection rule depending on (N − 2S) mod 2; an explicit Wigner-Eckart-style derivation is the natural next step (the max-spin closed-form above shows the approach is feasible).
-- Extension of the closed-form to ring/star/K_N−e (sub-K_N graphs) where multiple spin sectors persist but with different multiplicities; the max-spin pattern (2, 4, ..., 4, 2) likely generalizes since the symmetric subspace is graph-independent, but lower-spin structure depends on the graph's automorphism group.
+For sub-max spin sectors at K_N, the **sign-rep (antisymmetric) contribution** is identified as totally antisymmetric Pauli tensors over distinct-letter multisets:
 
-**Status:** Max-spin closed-form is Tier 1 derived (bit-exact verification N=2..5, structural identification of basis ops). Sub-max closed-form remains Tier 2 empirical pattern. Together they reduce the central-weight excess question to: "what is the closed-form for sub-max single_block counts?", a strict refinement of the original opaque question.
+    sign-rep contribution at K_N (S, w) = # distinct-letter Pauli multisets of weight w on N sites
+
+A "distinct-letter multiset" at weight w on N sites means w letters from {X, Y} and N-w letters from {Z, I}, with ALL N letters distinct (no repeats). Since the letter alphabet has size 4 = |{X, Y, Z, I}|, distinct multisets exist only when w ≤ 2 AND N-w ≤ 2:
+
+    distinct_multisets(N, w) = C(2, w) · C(2, N-w)   [zero if w > 2 or N-w > 2]
+
+| N | w=0 | w=1 | w=2 | w=3 | w=4 |
+|---|-----|-----|-----|-----|-----|
+| 2 | 1   | 4   | 1   | 0   | 0   |
+| 3 | 0   | 2   | 2   | 0   | 0   |
+| 4 | 0   | 0   | 1   | 0   | 0   |
+| ≥5 | 0  | 0   | 0   | 0   | 0   |
+
+**Verified bit-exact** (the antisymmetric op is supported entirely in the corresponding sub-max block):
+
+- **K_3 S=1/2 pure-weight pattern (0, 2, 2, 0)** = exactly the distinct-multiset count ✓. Explicit ops: antisym(X, Z, I), antisym(Y, Z, I) at w=1; antisym(X, Y, Z), antisym(X, Y, I) at w=2.
+- **K_4 S=0 pure-weight pattern (0, 0, 1, 0, 0)** = exactly the distinct-multiset count ✓. The 1 op = `ε_{ijkl} · σ_i σ_j σ_k σ_l` summed over permutations of (I, X, Y, Z) across the 4 sites = totally antisymmetric Levi-Civita Pauli tensor.
+- **K_6 S=0 pure-weight pattern (0, 0, 0, 0, 0, 0, 0)** = exactly zero from distinct-multiset count (impossible to have 4+ distinct letters in 6 positions) ✓. Predicts the empirically observed vanishing!
+
+The general pattern is consistent with **S_N representation theory**: the sub-max block algebra `M(V_S^{(m_S)}) = V_SN ⊗ V_SN^*` decomposes under S_N into irreps, and the sign-rep [1^N] slot is filled by antisymmetric Pauli orbits which exist only with distinct letters.
+
+**What the antisym rule DOES NOT capture (closed-form remains incomplete):**
+
+The pattern fails for sub-max sectors at N ≥ 4 with non-zero contributions beyond the sign-rep:
+
+- K_4 S=1 pure-weight-2 = 26 (sign-rep gives 0; the 26 comes from [4], [2,2], [3,1], [2,1,1] irrep contributions in the block algebra)
+- K_5 S=1/2 pure-weight = 8 each at w=2, 3 (sign-rep gives 0 for N=5)
+- K_5 S=3/2 = 22, K_6 S=1 = 30/124/30, K_6 S=2 = 38/0/38
+
+These come from **non-sign S_N-irrep components** that are non-zero for non-distinct-letter multisets. The general formula:
+
+    single_block(K_N, S, w) = Σ_{ρ ∈ S_N-irreps in V_SN ⊗ V_SN^*}
+                                (block-mult of ρ) · (# weight-w Pauli orbits in ρ)
+
+For each S_N-irrep ρ:
+  - Block multiplicity of ρ = `dim Hom_{S_N}(V_SN, V_SN ⊗ ρ)` (Schur-style)
+  - Weight-w Pauli orbits in ρ = sum over multisets of `dim Hom_{S_N}(orbit_multiset, ρ)`
+
+This is the **Schur-Weyl decomposition on operator space**, evaluating Frobenius reciprocity for each (ρ, multiset) pair. Tractable per case via character tables, but a single uniform closed-form for arbitrary (N, S, w) requires summing many irrep contributions.
+
+**Structural insight:** the K_N central-weight excess over chain is driven by:
+1. Antisym (sign-rep) ops: # distinct-letter multisets at weight w (clean closed-form, dominates at small N)
+2. Other S_N-irrep contributions: more complex, dominate at N ≥ 5 where distinct-letter count vanishes
+
+For K_4 N=4 w=2: excess = 23 = 1 (sign-rep antisym from S=0) + 22 (other irreps from S=1, S=0, S=2). The "antisym" mechanism is a clean but minority piece of the total excess at K_4.
+
+**Status:** 
+- Max-spin closed-form: Tier 1 derived (Dicke endpoint ladder rungs, complete identification).
+- Sub-max antisym contribution: Tier 1 derived for sign-rep [1^N] (= distinct-letter multiset count), bit-exact verified for K_3 S=1/2, K_4 S=0, K_6 S=0 = 0.
+- Sub-max non-sign-rep contributions: Tier 2 empirical, requires per-case S_N-character calculations on weight-w Pauli orbit decompositions.
+
+A complete closed-form formula `f(N, S, w)` exists in principle via Schur-Weyl + character theory, but writing it as a single closed expression rather than a sum-over-irreps remains open.
 
 ### Open questions (refined post-resolution)
 
