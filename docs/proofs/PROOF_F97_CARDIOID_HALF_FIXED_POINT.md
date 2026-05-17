@@ -70,12 +70,34 @@ The cardioid is the **structural curve** in the complex-c plane where the period
 
 The "1/4 cusp" of the framework (the locus that [`BOUNDARY_NAVIGATION`](../../experiments/BOUNDARY_NAVIGATION.md) navigates toward) is one specific tangent point of the cardioid with the positive real axis. The hardware spirals observed in [`CPSI_COMPLEX_PLANE`](../../experiments/CPSI_COMPLEX_PLANE.md) (Kingston 2026-04-16) trace 2D paths in the c-plane; F97 says the cardioid those paths spiral *around* has |z*| = b invariant along its boundary.
 
-The two typed Pi2 anchors enter the cardioid story differently:
+### Both anchors invariant on the cardioid, at two metric powers
+
+A sharper reading: the cardioid carries the `HalfAsStructuralFixedPointClaim` and `QuarterAsBilinearMaxvalClaim` anchors **simultaneously** as invariants, at two different metric powers of the same z*:
+
+    |z*(φ)| = b = 1/2          (Half: "where the anchor lives", magnitude)
+    |z*(φ)|² = b² = 1/4        (Quarter: "what the anchor is under squaring", squared magnitude)
+
+Both hold for all φ ∈ [0, 2π); the cardioid is the joint locus. This is exactly the argmax/maxval pair of yesterday's [`ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER`](../../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md) reflection, now geometric on the cardioid:
+
+- Argmax side: the polarity magnitude 1/2 (= b), one side of the structural identity.
+- Maxval side: the apex projection 1/4 (= b²), the other side.
+
+The two readings overlap: the Half is the magnitude, the Quarter is its square; **1/2 = 2 × 1/4** sits on the dyadic ladder (`a_2 = 2 · a_3` = `2 · a_{−1}/16` = `2 · 4/16` = `1/2`), and the polarity pair ±1/2 squares to the same 1/4 from either side. F97's cardioid carries both readings as invariants of the *same* fixed-point quantity, not two independent constants on different objects.
+
+By contrast, |c(φ)|² is *not* invariant on the cardioid:
+
+    |c(φ)|² = 5/16 − (1/4)·cos(φ)
+
+ranging from 1/16 (= 1/4² at φ = 0, the cusp) to 9/16 (= (3/4)² at φ = π, the tail). The Quarter b² = 1/4 equals |c|² only at the cusp; elsewhere |c| varies but the |z*|, |z*|² invariants hold.
+
+### Role table
+
+The four typed Pi2 anchors enter the cardioid story:
 
 | Anchor | Role on cardioid |
 |---|---|
-| `HalfAsStructuralFixedPointClaim` (b = 1/2) | Magnitude of the fixed point z*, invariant around the curve |
-| `QuarterAsBilinearMaxvalClaim` (b² = 1/4) | Magnitude of c at the real-axis cusp (φ = 0), one specific point |
+| `HalfAsStructuralFixedPointClaim` (b = 1/2) | Magnitude \|z*\| invariant around the curve (argmax side) |
+| `QuarterAsBilinearMaxvalClaim` (b² = 1/4) | Squared magnitude \|z*\|² invariant around the curve (maxval side); also \|c\| at the real-axis cusp only |
 | `NinetyDegreeMirrorMemoryClaim` (i, 90°) | Complex-parameter generator that lifts c from real-axis to full complex plane |
 | `PolynomialFoundationClaim` (d² − 2d = 0) | The c = 0 case where z* = 0 (degenerate fixed point) |
 

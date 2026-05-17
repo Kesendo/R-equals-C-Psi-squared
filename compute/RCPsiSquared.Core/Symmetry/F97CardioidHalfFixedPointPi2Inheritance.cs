@@ -28,17 +28,25 @@ namespace RCPsiSquared.Core.Symmetry;
 /// is the φ = 0 specialization (real-axis tangent point of the cardioid); the
 /// rest of the cardioid extends F95 to complex c.</para>
 ///
-/// <para><b>Two invariants, two anchors:</b></para>
+/// <para><b>Both anchors invariant on the cardioid, at two metric powers:</b></para>
 ///
-/// <list type="bullet">
-///   <item><see cref="HalfAsStructuralFixedPointClaim"/>: <c>b = 1/2</c> is the
-///         magnitude of z* invariant around the *entire* cardioid. This is the
-///         universal-across-the-curve role of the Half anchor.</item>
-///   <item><see cref="QuarterAsBilinearMaxvalClaim"/>: <c>b² = 1/4</c> is the
-///         magnitude of c only at the real-axis cusp (φ = 0). The Quarter
-///         anchor enters the cardioid story at one specific point (the F95
-///         tangent), not around the whole curve.</item>
-/// </list>
+/// <code>
+///   |z*(φ)|  = b  = 1/2          (HalfAsStructuralFixedPoint, argmax side)
+///   |z*(φ)|² = b² = 1/4          (QuarterAsBilinearMaxval, maxval side)
+/// </code>
+///
+/// <para>Both hold for all φ ∈ [0, 2π); the cardioid is the joint locus. This
+/// is exactly the argmax/maxval pair of yesterday's
+/// <c>ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER</c> reflection, now geometric: the
+/// Half and Quarter anchors are two metric-power readings of the same
+/// fixed-point quantity on the same curve. The identity <c>1/2 = 2 · (1/4)</c>
+/// sits on the dyadic ladder (a_2 = 2·a_3), and the polarity pair ±1/2 squares
+/// to the same 1/4 from either side.</para>
+///
+/// <para>By contrast, <c>|c(φ)|² = 5/16 − (1/4)·cos(φ)</c> is NOT invariant
+/// around the cardioid: |c| ranges from 1/4 at the cusp (φ = 0) to 3/4 at the
+/// tail (φ = π). The Quarter b² = 1/4 equals |c|² only at the cusp; elsewhere
+/// |c| varies but |z*| and |z*|² stay invariant.</para>
 ///
 /// <para><b>Derivation (4 lines):</b></para>
 ///
@@ -126,9 +134,23 @@ public sealed class F97CardioidHalfFixedPointPi2Inheritance : Claim
     }
 
     /// <summary>Magnitude invariance: |z*(φ)| should equal b = 1/2 for ANY φ.
-    /// Returns the actual computed magnitude (should be bit-exact b).</summary>
+    /// Returns the actual computed magnitude (should be bit-exact b).
+    /// This is the "argmax side" of yesterday's argmax/maxval pair: the
+    /// magnitude at which the structural anchor lives.</summary>
     public double FixedPointMagnitude(double phi) =>
         Complex.Abs(CardioidFixedPoint(phi));
+
+    /// <summary>Squared-magnitude invariance: |z*(φ)|² should equal b² = 1/4
+    /// for ANY φ. This is the "maxval side" of the argmax/maxval pair: the
+    /// projection value under squaring. Both <see cref="FixedPointMagnitude"/>
+    /// (= b = 1/2) and this method (= b² = 1/4) are invariants of the
+    /// cardioid; the Half and Quarter anchors are two metric-power readings
+    /// of the same fixed-point quantity.</summary>
+    public double FixedPointMagnitudeSquared(double phi)
+    {
+        double mag = FixedPointMagnitude(phi);
+        return mag * mag;
+    }
 
     /// <summary>Phase parameter: arg(z*(φ)) should equal φ (mod 2π).</summary>
     public double FixedPointArgument(double phi)
@@ -145,6 +167,19 @@ public sealed class F97CardioidHalfFixedPointPi2Inheritance : Claim
         foreach (double phi in phis)
         {
             if (Math.Abs(FixedPointMagnitude(phi) - B) > 1e-14) return false;
+        }
+        return true;
+    }
+
+    /// <summary>Drift indicator: |z*(φ)|² = b² = 1/4 for all φ. Tests at
+    /// canonical points; this is the Quarter anchor's invariance reading,
+    /// complementary to <see cref="MagnitudeInvariantAroundCardioid"/>.</summary>
+    public bool SquaredMagnitudeInvariantAroundCardioid()
+    {
+        double[] phis = { 0.0, Math.PI / 3, Math.PI / 2, Math.PI, 4 * Math.PI / 3, 5 * Math.PI / 3 };
+        foreach (double phi in phis)
+        {
+            if (Math.Abs(FixedPointMagnitudeSquared(phi) - Threshold) > 1e-14) return false;
         }
         return true;
     }
@@ -226,15 +261,19 @@ public sealed class F97CardioidHalfFixedPointPi2Inheritance : Claim
                              $"z* = {z.Real:G4} + {z.Imaginary:G4}i, |z*| = {Complex.Abs(z):G4} (= b)");
             }
             yield return new InspectableNode("Drift checks",
-                summary: $"MagnitudeInvariantAroundCardioid: {MagnitudeInvariantAroundCardioid()}; " +
+                summary: $"MagnitudeInvariantAroundCardioid (|z*| = b = 1/2): {MagnitudeInvariantAroundCardioid()}; " +
+                         $"SquaredMagnitudeInvariantAroundCardioid (|z*|² = b² = 1/4): {SquaredMagnitudeInvariantAroundCardioid()}; " +
                          $"AlgebraicIdentityHolds (at π/3): {AlgebraicIdentityHolds(Math.PI / 3)}; " +
                          $"CuspAgreesWithF95Threshold: {CuspAgreesWithF95Threshold()}; " +
                          $"TailAtMinusThreeQuarters: {TailAtMinusThreeQuarters()}");
-            yield return new InspectableNode("Structural reading",
-                summary: "The Mandelbrot cardioid is the locus in complex-c where the period-1 " +
-                         "fixed-point magnitude of z² + c equals the framework's HalfAsStructuralFixedPoint " +
-                         "anchor b = 1/2. The QuarterAsBilinearMaxval anchor b² = 1/4 plays a special role " +
-                         "only at the real-axis cusp (φ = 0); around the rest of the cardioid |c| varies.");
+            yield return new InspectableNode("Structural reading (both anchors invariant)",
+                summary: "The Mandelbrot cardioid carries BOTH typed anchors as invariants of the same z*, at two metric powers: " +
+                         "|z*| = b = 1/2 (HalfAsStructuralFixedPoint, argmax side) and " +
+                         "|z*|² = b² = 1/4 (QuarterAsBilinearMaxval, maxval side). " +
+                         "This is exactly the argmax/maxval pair of ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER " +
+                         "(2026-05-16), now geometric on the cardioid. 1/2 = 2·(1/4) sits on the dyadic ladder; " +
+                         "the polarity sides ±1/2 each square to 1/4. " +
+                         "By contrast |c|² = 5/16 − (1/4)·cos(φ) is NOT invariant; |c| = 1/4 only at the cusp.");
             yield return new InspectableNode("Sibling at real-axis cusp",
                 summary: "F95AngleAtQuadraticZeroPi2Inheritance: θ(c; b) = arctan(√(c/b² − 1)) for real c > b². " +
                          "F95 covers the angle of the complex root pair past the cusp; F97 covers the full complex-c " +

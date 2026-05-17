@@ -97,6 +97,28 @@ public class F97CardioidHalfFixedPointPi2InheritanceTests
     }
 
     [Fact]
+    public void SquaredMagnitudeInvariantAroundCardioid_DriftCheck()
+    {
+        // |z*(φ)|² = b² = 1/4 = QuarterAsBilinearMaxval for ALL φ.
+        // Complementary "maxval-side" reading of the cardioid invariant,
+        // paired with MagnitudeInvariantAroundCardioid (argmax side).
+        // Realizes yesterday's ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER pattern.
+        Assert.True(BuildClaim().SquaredMagnitudeInvariantAroundCardioid());
+    }
+
+    [Theory]
+    [InlineData(0.0)]
+    [InlineData(0.7853981633974483)]   // π/4
+    [InlineData(1.5707963267948966)]   // π/2
+    [InlineData(3.141592653589793)]    // π
+    [InlineData(4.71238898038469)]     // 3π/2
+    public void FixedPointMagnitudeSquared_IsAlwaysOneQuarter(double phi)
+    {
+        // |z*(φ)|² = b² = 1/4 = Threshold for all φ on the cardioid
+        Assert.Equal(0.25, BuildClaim().FixedPointMagnitudeSquared(phi), precision: 14);
+    }
+
+    [Fact]
     public void CuspAgreesWithF95Threshold_DriftCheck()
     {
         // At φ = 0, c = 1/4 exactly (matches F95's b² = QuarterAsBilinearMaxval)

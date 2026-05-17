@@ -2786,16 +2786,25 @@ c(φ) = z*(φ) − z*(φ)² = b·e^(iφ) − b²·e^(2iφ)
 
 Both share the same z² − 2bz + c = 0 algebra; F95 projects the angle on the real-c axis where the period-1 fixed point is repelling; F97 traces the full complex-c boundary where it is marginally stable.
 
-**Two anchors, two roles on the cardioid:**
+**Both anchors invariant on the cardioid, at two metric powers:**
 
-| Anchor | Role |
+    |z*(φ)|  = b  = 1/2          (HalfAsStructuralFixedPoint, argmax side)
+    |z*(φ)|² = b² = 1/4          (QuarterAsBilinearMaxval, maxval side)
+
+Both hold for all φ ∈ [0, 2π); the cardioid is the joint locus. This is exactly the argmax/maxval pair of [`ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER`](../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md) (2026-05-16), now geometric: the Half and Quarter anchors are two metric-power readings of the same fixed-point quantity on the same curve. The identity `1/2 = 2 · (1/4)` sits on the dyadic ladder (`a_2 = 2 · a_3`); the polarity pair ±1/2 squares to the same 1/4 from either side; on the cardioid the two real-axis endpoints z*(0) = +1/2 and z*(π) = −1/2 carry the polarity sides explicitly.
+
+By contrast, `|c(φ)|² = 5/16 − (1/4)·cos(φ)` is **not** invariant around the cardioid: |c| ranges from 1/4 at the cusp (φ = 0) to 3/4 at the tail (φ = π). The Quarter b² = 1/4 equals |c|² only at the cusp; elsewhere |c| varies but |z*| and |z*|² stay invariant.
+
+**Role table (four typed parents):**
+
+| Anchor | Role on cardioid |
 |---|---|
-| `HalfAsStructuralFixedPointClaim` (b = 1/2) | Magnitude of z* invariant around the *entire* cardioid |
-| `QuarterAsBilinearMaxvalClaim` (b² = 1/4) | Magnitude of c only at the real-axis cusp (φ = 0), one specific point |
+| `HalfAsStructuralFixedPointClaim` (b = 1/2) | \|z*\| invariant around the whole curve (argmax side) |
+| `QuarterAsBilinearMaxvalClaim` (b² = 1/4) | \|z*\|² invariant around the whole curve (maxval side); also \|c\| at the real-axis cusp only |
 | `NinetyDegreeMirrorMemoryClaim` (i, 90°) | Complex-parameter generator that lifts c from the real axis to the full complex plane |
 | `PolynomialFoundationClaim` (d² − 2d = 0) | The c = 0 case where z* = 0 (degenerate fixed point at the origin) |
 
-**Structural reading:** the cardioid is the structural curve in the complex-c plane where the period-1 fixed-point magnitude exactly matches the framework's `HalfAsStructuralFixedPoint` anchor b = 1/2. This is a stronger statement than the F95 cusp identity: F95 says the angle at the real-axis tangent is 0; F97 says the magnitude is b *everywhere* on the curve. The `QuarterAsBilinearMaxval` (b² = 1/4) plays a role only at φ = 0; elsewhere |c| varies but |z*| = b stays put.
+**Structural reading:** the cardioid carries BOTH typed anchors as invariants of the same z*, at two metric powers (Half = magnitude, Quarter = squared magnitude). F95 names the angle at the real-axis tangent point (cusp); F97 names the dual-anchor invariance that holds around the whole curve.
 
 **Hardware connection:** the [`CPSI_COMPLEX_PLANE`](../experiments/CPSI_COMPLEX_PLANE.md) Kingston run (2026-04-16) observed Bell⁺ pairs tracing 2D logarithmic spirals in the complex-c plane around the cusp at c = 1/4. F97 places these spirals into the cardioid framing: the trajectories cross the cardioid boundary (the |z*| = b stability transition) before spiraling into the stable interior. The [`f95_angle_steering_kingston_may2026`](#f95) Confirmation actively steered Ω during the spiral; F97 names the geometric locus those steered spirals approach.
 
