@@ -66,10 +66,43 @@ The combinatorial table above is unchanged — joint-popcount + F71 + X⊗N stil
 
 **Phase 2 timing at N=10 (5,5)** (Jacobi-preconditioned BiCGStab, commodity hardware): sparse build ~3 s, two-shift probe with K=4 per end at numIter=20, inner tol 1e-8 ~8 s. Inner BiCGStab mean iter dropped from ~866 (pre-Jacobi) to ~22 (post-Jacobi commit `45e6a40`), a ~40× wall-clock improvement.
 
+## Phase 3a: Prosen rapidities for the one-sided sectors (2026-05-17)
+
+The (p_c = 0, p_r = m) sectors of chain XY + uniform Z-dephasing admit a closed-form
+spectrum without any diagonalisation. The dissipator reduces to a constant `−2γm`
+(Hamming distance of any m-fermion ket from the vacuum bra is exactly m), and `H|0⟩ = 0`
+removes the unitary contribution from the bra side, so `L_(0,m) = −iH_m − 2γm·I` and
+
+```
+λ_S  =  Σ_{k∈S} β_k  =  −2γm − i·Σ_{k∈S} ε_k     for  S ⊆ {1..N},  |S| = m
+```
+
+where `β_k = −2γ − i·ε_k` are the **N Prosen rapidities** of the model and
+`ε_k = 2J·cos(πk/(N+1))` is the OBC sine-mode dispersion. This is the simplest leaf of
+Medvedyeva-Essler-Prosen's (2016) imaginary-Hubbard programme — the (m, m̃) sectors with
+m, m̃ ≥ 1 require the imaginary-U Bethe ansatz (not yet implemented in the repo).
+
+`compute/RCPsiSquared.Core/BlockSpectrum/Prosen/OneSidedSectorClosedForm.cs` returns the
+rapidities + full sector spectrum as subset sums. Tests cross-validate against
+`PerBlockLiouvillianBuilder.BuildBlockZ` dense Evd (multiset match within 1e-10 at
+N=3..6), verify the rapidities match `XyJordanWignerModes.Dispersion`, confirm the X⊗N
+charge-conjugation pair (p_c = N, p_r = N−m) has equal spectrum, and check the F1 mirror
+predictions `−λ − 2·Σγ` of every (0, m) eigenvalue appear somewhere in the full per-block
+spectrum (F1's Π-mediated mirror distributes across sectors, not a simple sector
+permutation).
+
+**Combinatorial coverage at N=10.** Summing C(10, m) for m = 0..N gives 2^N = 1024
+eigenvalues per one-sided family. With sister sectors (m, 0) → complex conjugates of
+(0, m), and X⊗N pairs (N, N−m) and (N−m, N) → equal spectra, four 1024-eigenvalue
+families are accessible analytically: ~4 k of the ~1 M total N=10 eigenvalues, all in
+closed form. Each (0, m) sector sits at Re λ = −2γm so spans the slow (m=0, steady
+state at λ=0) to fast (m=N=10, λ=−2Σγ = −1.0 at γ=0.05) range uniformly.
+
 ## Cross-references
 
 - `JointPopcountSectors`, `F71MirrorBlockRefinement`, `F71BilateralBlockRefinement`, `F71AntiPalindromicGammaSpectralInvariance`: see `compute/RCPsiSquared.Core/BlockSpectrum/`.
 - `F1`, `F71`, `F91`, F92, F93: see `docs/ANALYTICAL_FORMULAS.md`.
 - F91/F92/F93 algebraic proofs: `docs/proofs/PROOF_F91_GAMMA_NINETY_DEGREES.md`, `docs/proofs/PROOF_F92_BOND_ANTI_PALINDROMIC_J.md`, `docs/proofs/PROOF_F93_DETUNING_ANTI_PALINDROMIC.md`.
-- N=10 push primitives: `compute/RCPsiSquared.Core/BlockSpectrum/JordanWigner/JwSlaterPairBasis.cs`, `JwSlaterPairLProjection.cs`, `JwSlaterPairSparseLBuilder.cs`, `JwSlaterPairArnoldiEig.cs`, `JwSlaterPairShiftInvertArnoldi.cs`, `JwSlaterPairF1PalindromeProbe.cs`, `KrylovOps.cs`.
+- Phase 2 N=10 push primitives: `compute/RCPsiSquared.Core/BlockSpectrum/JordanWigner/JwSlaterPairBasis.cs`, `JwSlaterPairLProjection.cs`, `JwSlaterPairSparseLBuilder.cs`, `JwSlaterPairArnoldiEig.cs`, `JwSlaterPairShiftInvertArnoldi.cs`, `JwSlaterPairF1PalindromeProbe.cs`, `KrylovOps.cs`.
+- Phase 3a Prosen leaf: `compute/RCPsiSquared.Core/BlockSpectrum/Prosen/OneSidedSectorClosedForm.cs`.
 - Synthesis: `reflections/ON_THE_SYMMETRY_FAMILY.md`, `reflections/ON_THE_NINETY_DEGREE_GAMMA.md`.
