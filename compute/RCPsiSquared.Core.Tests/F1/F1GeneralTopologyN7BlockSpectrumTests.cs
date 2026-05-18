@@ -11,7 +11,7 @@ using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Comp
 
 namespace RCPsiSquared.Core.Tests.F1;
 
-/// <summary>F1 general-topology verification — C# half of the closure for the last F1
+/// <summary>F1 general-topology verification: C# half of the closure for the last F1
 /// OpenQuestion ("general topology beyond chain/ring/star/K_N").
 ///
 /// <para>The Python half lives in <c>simulations/_f1_general_topology_verify.py</c>
@@ -31,7 +31,7 @@ namespace RCPsiSquared.Core.Tests.F1;
 ///         partner λ_k + 2σ + λ_pair = 0 must hold, i.e., {λ} = {−2σ − λ}. This is the
 ///         spectral content of the F1 identity Π·L·Π⁻¹ = −L − 2σ·I; the test asserts it
 ///         as a multiset identity across the full 4^7 = 16 384 eigenvalues. Multiple
-///         graph topologies (chain, ring, star, disconnected) are exercised — the only
+///         graph topologies (chain, ring, star, disconnected) are exercised; the only
 ///         path that scales to N=7 in a test budget (full L_vec at N=7 is 16384² = 4 GB,
 ///         past the .NET 2 GB array limit).</item>
 ///   <item><b>N=5 self-test</b> that the block infrastructure is loss-free in the
@@ -181,7 +181,7 @@ public class F1GeneralTopologyN7BlockSpectrumTests
     }
 
     // ----------------------------------------------------------------------
-    // Test 9: dogfood sanity at N=5 — block-decomposed sum equals dense sum
+    // Test 9: dogfood sanity at N=5, block-decomposed sum equals dense sum
     // for ‖L‖²_F on the infrastructure's proper domain (XY + Z-deph).
     // ----------------------------------------------------------------------
 

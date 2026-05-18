@@ -22,7 +22,7 @@ record extension that closes the OpenQuestion: it confirms the closed form
 bit-exactly for arbitrary graphs at the verified-N range.
 
 Hamiltonian choice: Heisenberg (XX+YY+ZZ) is "truly" (Π²-even), so the F1 residual
-vanishes identically and c_H = 0 — useless for verifying the scaling. We use the
+vanishes identically and c_H = 0: useless for verifying the scaling. We use the
 canonical non-truly bilinear XX+YZ per bond, matching PalindromeResidualScalingClaim's
 anchor in compute/RCPsiSquared.Core/F1/PalindromeResidualScalingClaim.cs (XX+YZ at
 N=2 gives c_H). For weighted edges (section 5), the bond count B is interpreted as

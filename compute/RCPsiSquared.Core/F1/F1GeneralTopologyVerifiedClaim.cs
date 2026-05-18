@@ -145,7 +145,7 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
             yield return new InspectableNode("C# verification test class",
                 summary: AnchorTestPath);
             yield return new InspectableNode("sister Tier-1 claim",
-                summary: "PalindromeResidualScalingClaim — the (B, D2) closed form whose universality this record verifies");
+                summary: "PalindromeResidualScalingClaim: the (B, D2) closed form whose universality this record verifies");
         }
     }
 }

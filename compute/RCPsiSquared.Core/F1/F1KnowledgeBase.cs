@@ -29,7 +29,7 @@ namespace RCPsiSquared.Core.F1;
 ///         record (<see cref="GeneralTopologyVerification"/>) that extends the
 ///         (B, D2) parameterisation to disconnected, weighted, and random connected
 ///         graphs at N=5, 6, 7.</item>
-///   <item>Open: <see cref="OpenQuestions"/> is EMPTY as of 2026-05-18 — the first
+///   <item>Open: <see cref="OpenQuestions"/> is EMPTY as of 2026-05-18: the first
 ///         time the F1 family is open-question-free. All four items from the May 2026
 ///         sprint closed: T1 closed form (Tier-1 derived), depol closed form (Tier-1
 ///         derived), non-uniform γ (negative-result closure), and general topology

@@ -46,7 +46,7 @@ public class F1OpenQuestionsRegistrationTests
     [Fact]
     public void RegisterF1OpenQuestions_StandardIsEmpty()
     {
-        // F1 family is open-question-free as of 2026-05-18 — first time the
+        // F1 family is open-question-free as of 2026-05-18: first time the
         // collection is empty. See F1OpenQuestions XML doc for the per-item
         // closure references (T1 closed form, depol closed form, non-uniform γ
         // negative result, general topology synthesis proof + verification record).

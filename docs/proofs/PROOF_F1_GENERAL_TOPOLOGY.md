@@ -34,7 +34,7 @@ Summing M = Σ_e M_e (linearity of L in H and of Π·(·)·Π⁻¹) and taking t
 
     ‖M(N, G)‖²_F  =  Σ_e ‖M_e‖²_F.
 
-For the main class each ‖M_e‖²_F equals the per-bond constant c_H · 4^(N−2) (Lemma 1 of PROOF_CROSS_TERM_FORMULA, multiplied by the Liouville-space extension factor 4^(N−2)). The sum over E(G) gives the bond-count B(G) prefactor. For the single-body class, the per-site contributions get a degree-weighted assembly (each Iσ + σI bond term contributes to the site at both endpoints), giving the D2(G) / 2 prefactor (see OPERATOR_RIGIDITY_ACROSS_CUSP.md "Algebraic origin" for the derivation of why D2 enters the single-body case). Both prefactors are linear in graph invariants — no higher-order topological dependence (cycle count, triangle count, hub presence) ever appears in the residual norm closed form.
+For the main class each ‖M_e‖²_F equals the per-bond constant c_H · 4^(N−2) (Lemma 1 of PROOF_CROSS_TERM_FORMULA, multiplied by the Liouville-space extension factor 4^(N−2)). The sum over E(G) gives the bond-count B(G) prefactor. For the single-body class, the per-site contributions get a degree-weighted assembly (each Iσ + σI bond term contributes to the site at both endpoints), giving the D2(G) / 2 prefactor (see OPERATOR_RIGIDITY_ACROSS_CUSP.md "Algebraic origin" for the derivation of why D2 enters the single-body case). Both prefactors are linear in graph invariants; no higher-order topological dependence (cycle count, triangle count, hub presence) ever appears in the residual norm closed form.
 
 This establishes universality of (B, D2) parameterisation across any **connected** graph.
 
@@ -48,7 +48,7 @@ For G = G_1 ⊔ G_2 a disjoint union of two connected components, the bond set E
 
 using B(G) = B(G_1) + B(G_2) for disjoint unions. The degree-squared sum D2(G) is similarly component-additive: D2(G) = Σ_i deg_G(i)² = D2(G_1) + D2(G_2) since the degree of each site only counts edges to its own component.
 
-This generalises to any finite number of components by induction. **The dimensional factor 4^(N − 2) uses the global N (all qubits), not per-component sizes** — the Liouville-space extension factor is a property of the ambient Hilbert space, not the connected component.
+This generalises to any finite number of components by induction. **The dimensional factor 4^(N − 2) uses the global N (all qubits), not per-component sizes**: the Liouville-space extension factor is a property of the ambient Hilbert space, not the connected component.
 
 ### Section 3. Weighted edges
 
@@ -82,9 +82,13 @@ Scripts and tests:
 - Python verification: [`simulations/_f1_general_topology_verify.py`](../../simulations/_f1_general_topology_verify.py)
 - C# graph-aware + N=7 dogfood tests: [`compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs`](../../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs)
 
+### Why N=7 uses palindromic-pairing rather than the scaling formula
+
+N=7 cannot use the block decomposition (`JointPopcountSectorBuilder` + `LiouvillianBlockSpectrum.ComputeSpectrumPerBlock`) for scaling-formula verification because the block infrastructure requires popcount-conserving H, which restricts to F1-truly H (Π²-even, palindrome-preserving) where ‖M‖²_F = 0 vacuously. The non-truly Hamiltonians used by the scaling-formula tests (XX+YZ, Π²-mixed) break popcount conservation and fall outside the block infrastructure's scope. So the non-truly XX+YZ scaling tests are done with the full dense `PalindromeResidual.Build` at N = 5 (graph-aware mode), and the N = 7 dogfood test exercises the F1 palindromic-pairing identity {λ} = {−2σ − λ} on the block-decomposed spectrum: the testable content of the F1 identity on the truly-H domain where the block path applies, and the only path that scales to N = 7 in a test budget (the full L_vec at N = 7 is 16384² = 4 GB, past the .NET 2 GB array limit).
+
 ## Closure note
 
-This proof closes the last F1 OpenQuestion. Together with the 2026-05-18 closures of the T1 amplitude-damping closed form ([PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md](PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md)), depolarizing-noise closed form ([PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md](PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md)), and non-uniform γ closure ([PROOF_F1_NONUNIFORM_GAMMA.md](PROOF_F1_NONUNIFORM_GAMMA.md)), the F1 family has **zero open structural questions** as of 2026-05-18 — the first time the F1 family's `OpenQuestions` collection is empty.
+This proof closes the last F1 OpenQuestion. Together with the 2026-05-18 closures of the T1 amplitude-damping closed form ([PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md](PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md)), depolarizing-noise closed form ([PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md](PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md)), and non-uniform γ closure ([PROOF_F1_NONUNIFORM_GAMMA.md](PROOF_F1_NONUNIFORM_GAMMA.md)), the F1 family has **zero open structural questions** as of 2026-05-18: the first time the F1 family's `OpenQuestions` collection is empty.
 
 ## Cross-references
 
