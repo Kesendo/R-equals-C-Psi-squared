@@ -33,16 +33,33 @@ if sys.platform == "win32":
 
 sys.path.insert(0, "simulations")
 
+import framework as fw  # noqa: E402
 from framework.lindblad import (  # noqa: E402
     lindbladian_z_dephasing,
     palindrome_residual,
 )
-from framework.pauli import _build_bilinear  # noqa: E402
 
 
 # --------------------------------------------------------------------------- #
 # Helpers                                                                     #
 # --------------------------------------------------------------------------- #
+
+
+def _bilinear_chain_h(N: int, terms: list[tuple[str, str, float]]) -> np.ndarray:
+    """Build H = Σ_l Σ_term coeff·σ_a^l σ_b^{l+1} on an open chain.
+
+    Inline (script-local) construction from public framework primitives
+    (`fw.site_op`), avoiding a reach into framework's `_build_bilinear`
+    helper. Matches the framework's bilinear builder by construction
+    (verified bit-exactly via the verification asserts in main()).
+    """
+    d = 2 ** N
+    H = np.zeros((d, d), dtype=complex)
+    bonds = [(b, b + 1) for b in range(N - 1)]
+    for (i, j) in bonds:
+        for (la, lb, coeff) in terms:
+            H = H + coeff * fw.site_op(N, i, la) @ fw.site_op(N, j, lb)
+    return H
 
 
 def m_norm_squared(N: int, H: np.ndarray, gamma_l: list[float]) -> float:
@@ -54,15 +71,13 @@ def m_norm_squared(N: int, H: np.ndarray, gamma_l: list[float]) -> float:
 
 def soft_xy_yx_chain(N: int) -> np.ndarray:
     """Soft (Π²-odd) Hamiltonian XY+YX on a chain (non-zero ‖M_H‖²; tests γ-independence)."""
-    bonds = [(b, b + 1) for b in range(N - 1)]
-    return _build_bilinear(N, bonds, [("X", "Y", 1.0), ("Y", "X", 1.0)])
+    return _bilinear_chain_h(N, [("X", "Y", 1.0), ("Y", "X", 1.0)])
 
 
 def main_xx_yz_chain(N: int) -> np.ndarray:
     """Main (Π²-mixed) Hamiltonian XX+YZ on a chain; matches the anchor of
     PalindromeResidualScalingClaim.Verify (XX+YZ at N=2 gives c_H)."""
-    bonds = [(b, b + 1) for b in range(N - 1)]
-    return _build_bilinear(N, bonds, [("X", "X", 1.0), ("Y", "Z", 1.0)])
+    return _bilinear_chain_h(N, [("X", "X", 1.0), ("Y", "Z", 1.0)])
 
 
 def gamma_patterns(N: int, seed: int = 42) -> list[tuple[str, list[float]]]:
