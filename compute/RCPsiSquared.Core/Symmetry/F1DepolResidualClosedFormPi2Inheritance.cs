@@ -58,16 +58,22 @@ public sealed class F1DepolResidualClosedFormPi2Inheritance : Claim
     public Pi2DyadicLadderClaim Ladder { get; }
     public Pi2OperatorSpaceMirrorClaim Mirror { get; }
 
-    /// <summary>The qubit operator-space dimension squared, <c>d² = 4</c>, read
-    /// from <see cref="Pi2OperatorSpaceMirrorClaim.PairAt"/>(1). Same anchor as
-    /// <c>a_{−1}</c> on the dyadic ladder.</summary>
-    public double DSquared => Mirror.PairAt(1)?.OperatorSpace ?? 4.0;
+    /// <summary>The qubit operator-space dimension squared, <c>d² = 4</c>, read as
+    /// <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c> on the Pi2 dyadic
+    /// ladder. Matches the F1T1 sibling at
+    /// <see cref="F1T1AmplitudeDampingPi2Inheritance.FourMultiplier"/> (identical
+    /// <c>a_{−1} = 4</c> role). Cross-check available via
+    /// <see cref="Pi2OperatorSpaceMirrorClaim.PairAt"/>(1).OperatorSpace, which feeds
+    /// <see cref="DSquaredMinusOne"/>.</summary>
+    public double DSquared => Ladder.Term(-1);
 
-    /// <summary>The non-identity Pauli count per qubit, <c>d² − 1 = 3</c>. Same
-    /// anchor as <see cref="F5DepolarizingErrorPi2Inheritance.DSquaredMinusOne"/>;
+    /// <summary>The non-identity Pauli count per qubit, <c>d² − 1 = 3</c>. Read from
+    /// <see cref="Pi2OperatorSpaceMirrorClaim.PairAt"/>(1).OperatorSpace − 1 so the
+    /// operator-space-pair semantic (number of non-identity Paulis) is anchored on the
+    /// mirror, parallel to <see cref="F5DepolarizingErrorPi2Inheritance.DSquaredMinusOne"/>;
     /// this is the foundation the F5 scalar error's "3" denominator and the depol
     /// closed form's "9 = 3²" denominator share.</summary>
-    public double DSquaredMinusOne => DSquared - 1.0;
+    public double DSquaredMinusOne => (Mirror.PairAt(1)?.OperatorSpace ?? 4.0) - 1.0;
 
     /// <summary>The per-Pauli depolarizing rate <c>d²/(d²−1) = 4/3</c>. Each of
     /// the <c>d²−1 = 3</c> non-identity Paulis is pumped at this rate by a unit
@@ -86,16 +92,22 @@ public sealed class F1DepolResidualClosedFormPi2Inheritance : Claim
     /// <c>|tr(M_l)|² · 4^(N−2)</c> and <c>|tr(M_l)| ∝ d²</c> at γ=1.</summary>
     public double CrossSiteCoefficient => DSquared * DSquared;
 
-    /// <summary>Live re-composition of the local coefficient from the Pi2-derived
-    /// primitives. Drift between the algebraic value and
+    /// <summary>Drift check: re-derives the local coefficient from Pi2 primitives.
+    /// Tests compare this against
     /// <see cref="RCPsiSquared.Core.F1.F1DepolResidualClosedForm.LocalCoefficient"/>
-    /// surfaces here.</summary>
+    /// (a separate hardcoded constant on the parent closed form) to catch divergence
+    /// between the algebraic Pi2-derived value and the parent's pinned number. The
+    /// expression body is intentionally a forward to <see cref="LocalCoefficient"/>:
+    /// the Pi2 derivation IS the live recomposition, the parent's constant is the
+    /// independent reference.</summary>
     public double LiveLocalCoefficient => LocalCoefficient;
 
-    /// <summary>Live re-composition of the cross-site coefficient from the
-    /// Pi2-derived primitives. Drift between the algebraic value and
+    /// <summary>Drift check: re-derives the cross-site coefficient from Pi2 primitives.
+    /// Tests compare this against
     /// <see cref="RCPsiSquared.Core.F1.F1DepolResidualClosedForm.CrossSiteCoefficient"/>
-    /// surfaces here.</summary>
+    /// (a separate hardcoded constant on the parent closed form) to catch divergence
+    /// between the algebraic Pi2-derived value and the parent's pinned number. Same
+    /// Pi2-vs-parent split as <see cref="LiveLocalCoefficient"/>.</summary>
     public double LiveCrossSiteCoefficient => CrossSiteCoefficient;
 
     public F1DepolResidualClosedFormPi2Inheritance(Pi2DyadicLadderClaim ladder, Pi2OperatorSpaceMirrorClaim mirror)

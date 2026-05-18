@@ -34,7 +34,7 @@ namespace RCPsiSquared.Runtime.F1Family;
 ///   <item>F1PalindromeIdentity → F1DepolResidualClosedForm.</item>
 /// </list>
 ///
-/// <para><b>SingleBody scaling — deliberately omitted.</b> The
+/// <para><b>SingleBody scaling: deliberately omitted.</b> The
 /// <see cref="F1KnowledgeBase"/> also exposes a <c>SingleBodyScaling</c> Tier-1 property
 /// (the same <see cref="PalindromeResidualScalingClaim"/> type with
 /// <see cref="HamiltonianClass.SingleBody"/>). The runtime

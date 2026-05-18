@@ -82,7 +82,10 @@ public class F1DepolResidualClosedFormPi2InheritanceRegistrationTests
     {
         // Missing-parent guard for F1PalindromeIdentity: F1Family is the only
         // upstream registration that brings F1PalindromeIdentity into the builder.
-        Assert.Throws<InvariantViolationException>(() =>
+        // Pin the specific Rule string ("MissingParent") to catch a regression
+        // where the same exception type would surface for an unrelated reason
+        // (e.g. Cycle, AnchorFileMissing, TierInheritance).
+        var ex = Assert.Throws<InvariantViolationException>(() =>
             new ClaimRegistryBuilder()
                 .RegisterPi2Family()
                 .RegisterPi2DyadicLadder()
@@ -92,14 +95,19 @@ public class F1DepolResidualClosedFormPi2InheritanceRegistrationTests
                 // Missing: RegisterF1Family
                 .RegisterF1DepolResidualClosedFormPi2Inheritance()
                 .Build());
+
+        Assert.Equal("MissingParent", ex.Rule);
+        Assert.Contains("F1PalindromeIdentity", ex.Message);
     }
 
     [Fact]
     public void RegisterF1DepolResidualPi2Inheritance_WithoutPi2Mirror_Throws()
     {
         // Missing-parent guard for Pi2OperatorSpaceMirrorClaim: needed for the
-        // DSquared = 4 anchor that flows into (16/9, 16).
-        Assert.Throws<InvariantViolationException>(() =>
+        // DSquaredMinusOne = 3 anchor that flows into (16/9, 16) (DSquared itself
+        // now flows from Pi2DyadicLadderClaim.Term(-1), but DSquaredMinusOne still
+        // anchors on the mirror's operator-space-pair semantic).
+        var ex = Assert.Throws<InvariantViolationException>(() =>
             new ClaimRegistryBuilder()
                 .RegisterF1Family(DefaultChain())
                 .RegisterPi2Family()
@@ -109,5 +117,8 @@ public class F1DepolResidualClosedFormPi2InheritanceRegistrationTests
                 // Missing: RegisterPi2OperatorSpaceMirror
                 .RegisterF1DepolResidualClosedFormPi2Inheritance()
                 .Build());
+
+        Assert.Equal("MissingParent", ex.Rule);
+        Assert.Contains("Pi2OperatorSpaceMirrorClaim", ex.Message);
     }
 }
