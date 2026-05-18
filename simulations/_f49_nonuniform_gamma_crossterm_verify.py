@@ -1,14 +1,25 @@
-"""F49 cross-term `‖{L_H, L_Dc}‖²` under non-uniform γ — Phase 1 verification.
+"""F49 cross-term `‖{L_H, L_Dc}‖²` under non-uniform γ — Phase 1 verification + Phase 2 assertions.
 
-Exploratory data-gathering. Distinguishes three hypotheses for the planning-agent's
-candidate non-uniform F49 closed form, which predicts 204.8 at N=3 Heisenberg
-γ=[0.1, 0.2, 0.3] but does not match the previously-reported truth 163.84:
+Phase 1 (commit 1c6701c, exploratory): distinguished three hypotheses for the
+planning-agent's candidate non-uniform F49 closed form, which predicts 204.8 at
+N=3 Heisenberg γ=[0.1, 0.2, 0.3] but does not match the previously-reported truth
+163.84:
 
   (i)  N=3-only artifact (overlapping bonds at site 1 violate "disjoint bond
        supports" of PROOF_CROSS_TERM_FORMULA Lemma 3 corollary).
   (ii) General formula gap (architect's G(bond, H) is wrong at all N).
   (iii) Centering mismatch (truth 163.84 used a different L_Dc centering than
        the architect's F1-centered L_D + Σγ·I assumption).
+
+Phase 1 conclusion: none of (i), (ii), (iii) applies. The 204.8 value was a hand-calc
+slip (‖L_H^bond‖² is 384 at N=3 Heisenberg J=1, not 480); the closed form is correct
+at the F1-centered L_Dc, all tested N ∈ {3, 4, 5}, all four H classes (Heisenberg,
+Ising, XY, soft XY+YX).
+
+Phase 2 (this commit) bolts assertion logic onto the exploratory print structure:
+each (N, H, γ) row asserts |candidate − truth| < 1e-10, and a final assertion-block
+summary prints "All N=3,4,5 × 4-H-classes Phase 2 closed-form formula verified
+bit-exact". Script exits 0 on success; AssertionError surfaces any future regression.
 
 Sections:
   1. Multi-centering at N=3 Heisenberg γ=[0.1, 0.2, 0.3]: four candidate L_Dc
@@ -19,9 +30,14 @@ Sections:
      G(bond, H) decomposition.
   5. If hypothesis (iii) is confirmed: report corrected formula under the
      identified centering.
+  6. (Phase 2) Final assertion block.
 
-Output: stdout only, structured per section. Reports a CONCLUSION at the end
-naming hypothesis (i/ii/iii) with the specific numbers that drive the decision.
+Output: stdout only, structured per section. Phase 1 narrative preserved; Phase 2
+assertions added inline at scan rows + final block.
+
+Cross-references:
+  - docs/proofs/PROOF_F49_NONUNIFORM_GAMMA_EXTENSION.md
+  - compute/RCPsiSquared.Core/F1/F49NonUniformCrossTermClaim.cs
 """
 from __future__ import annotations
 
@@ -113,6 +129,34 @@ def _anticomm_norm_sq(A: np.ndarray, B: np.ndarray) -> float:
     """‖{A, B}‖²_F = ‖AB + BA‖²_F."""
     AC = A @ B + B @ A
     return _frob_sq(AC)
+
+
+# --------------------------------------------------------------------------- #
+# Phase 2: assertion tracking                                                 #
+# --------------------------------------------------------------------------- #
+
+
+_PHASE2_TOLERANCE = 1e-10
+_PHASE2_RESULTS: list[dict] = []
+
+
+def _assert_match(label: str, candidate: float, truth: float, *, tol: float = _PHASE2_TOLERANCE) -> None:
+    """Phase 2 inline assertion: record + check |candidate − truth| < tol.
+
+    Records (label, candidate, truth, gap) in _PHASE2_RESULTS for the final summary
+    block; raises AssertionError immediately on mismatch.
+    """
+    gap = candidate - truth
+    _PHASE2_RESULTS.append({
+        "label": label,
+        "candidate": candidate,
+        "truth": truth,
+        "gap": gap,
+    })
+    assert abs(gap) < tol, (
+        f"Phase 2 assertion FAILED at {label}: candidate={candidate!r}, "
+        f"truth={truth!r}, gap={gap!r}, tol={tol!r}."
+    )
 
 
 # --------------------------------------------------------------------------- #
@@ -311,12 +355,17 @@ def section_2_architect_candidate(section_1_data: dict) -> dict:
         truth = section_1_data["results"][truth_label]["value"]
         print(f"  Truth at the identified centering ({truth_label.split()[0]}): {truth:.6f}")
         print(f"  Gap (candidate − truth) = {candidate - truth:+.6f}")
+        # Phase 2 assertion: N=3 Heisenberg γ=[0.1, 0.2, 0.3] anchor pinned bit-exact.
+        _assert_match("N=3 Heisenberg γ=[0.1, 0.2, 0.3]", candidate, truth)
     else:
         # Fall back to F1-centered for the architect-derivation comparison.
         print(f"  WARN: section 1 did not identify a centering equal to 163.84.")
         truth_a = section_1_data["results"]["(a) F1-centered  L_D + (Σγ)·I"]["value"]
         print(f"  Truth at F1-centered (architect's assumed centering): {truth_a:.6f}")
         print(f"  Gap (candidate − F1 truth) = {candidate - truth_a:+.6f}")
+        # Phase 2 assertion: F1-centered is the architect's intended centering;
+        # any future regression here surfaces immediately.
+        _assert_match("N=3 Heisenberg γ=[0.1, 0.2, 0.3] (F1-centered fallback)", candidate, truth_a)
     print()
 
     return {
@@ -391,6 +440,8 @@ def _scan_n_for_h(N_list: list[int], H_builder, h_class_terms,
         print(f"      gap = candidate − truth(F1) = {gap_F1:+.6f}  "
               f"({rel_gap_F1 * 100:+.2f}%)")
         print()
+        # Phase 2 assertion: each (N, γ) row in the N-scan is pinned bit-exact.
+        _assert_match(f"{class_label} N={N} γ_l=0.05·(l+1)", candidate, truth_F1)
     return out
 
 
@@ -463,6 +514,8 @@ def section_4_cross_h_class(scan_results: list[dict]) -> dict:
             "truth": truth, "candidate": candidate, "gap": gap, "rel_gap": rel_gap,
             "match": match,
         }
+        # Phase 2 assertion: each H-class row at N=4 γ=[0.05, 0.10, 0.15, 0.20] is pinned bit-exact.
+        _assert_match(f"{label} N=4 γ=[0.05, 0.10, 0.15, 0.20]", candidate, truth)
     return out
 
 
@@ -622,10 +675,39 @@ def conclude(section_1_data, section_2_data, scan_results, section_4_data,
 # --------------------------------------------------------------------------- #
 
 
-def main() -> int:
-    print("F49 NON-UNIFORM γ CROSS-TERM — PHASE 1 VERIFICATION")
+def section_6_phase2_assertion_summary() -> None:
+    """Phase 2: roll up every inline _assert_match into a single block.
+
+    Phase 1's exploratory print structure is preserved above; this block confirms
+    that every (N, H, γ) anchor visited along the way pinned bit-exact to the
+    closed form within tolerance _PHASE2_TOLERANCE.
+    """
     print("=" * 78)
-    print("Distinguishes hypotheses (i) N=3-only, (ii) general gap, (iii) centering.")
+    print("SECTION 6 (Phase 2): closed-form assertion summary")
+    print("=" * 78)
+    if not _PHASE2_RESULTS:
+        print("  WARN: no Phase 2 assertions registered; check that section runners are wired.")
+        return
+    print(f"  tolerance: |candidate − truth| < {_PHASE2_TOLERANCE:.0e}")
+    print(f"  registered checks: {len(_PHASE2_RESULTS)}")
+    print()
+    print("  pinned anchors:")
+    for row in _PHASE2_RESULTS:
+        print(f"    {row['label']}: candidate={row['candidate']:.6f}, "
+              f"truth={row['truth']:.6f}, gap={row['gap']:+.2e}")
+    # All inline _assert_match calls have already raised AssertionError on any gap;
+    # if we get here, the run is bit-exact across all registered anchors.
+    print()
+    print("  All N=3,4,5 × 4-H-classes Phase 2 closed-form formula verified bit-exact.")
+    print()
+
+
+def main() -> int:
+    print("F49 NON-UNIFORM γ CROSS-TERM — PHASE 1 VERIFICATION + PHASE 2 ASSERTIONS")
+    print("=" * 78)
+    print("Phase 1: distinguishes hypotheses (i) N=3-only, (ii) general gap, (iii) centering.")
+    print("Phase 2: asserts |candidate − truth| < 1e-10 at each (N, H, γ) anchor and rolls up")
+    print("         into a final 'All ... verified bit-exact' summary; AssertionError on regression.")
     print()
 
     section_1_data = section_1_multi_centering()
@@ -635,6 +717,9 @@ def main() -> int:
     section_5_data = section_5_centering_correction(section_1_data)
 
     conclude(section_1_data, section_2_data, scan_results, section_4_data, section_5_data)
+
+    # Phase 2 final assertion block (every inline _assert_match has already raised on mismatch).
+    section_6_phase2_assertion_summary()
     return 0
 
 
