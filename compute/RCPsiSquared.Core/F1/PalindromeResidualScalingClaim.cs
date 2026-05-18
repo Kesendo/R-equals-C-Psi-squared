@@ -9,8 +9,9 @@ using RCPsiSquared.Core.Symmetry;
 namespace RCPsiSquared.Core.F1;
 
 /// <summary>Closed-form Frobenius-norm scaling of the F1-palindrome residual M for
-/// non-truly Hamiltonian classes (Tier 1 derived; verified bit-exact across chain, ring,
-/// star, K_N at N = 4, 5).
+/// non-truly Hamiltonian classes (Tier 1 derived; verified bit-exact across arbitrary
+/// connected and disconnected graphs at N = 4..7, including random Erdős-Rényi and
+/// weighted edges).
 ///
 /// <code>
 ///     ‖M(N, G)‖²_F  =  c_H · F(N, G)
@@ -31,6 +32,19 @@ namespace RCPsiSquared.Core.F1;
 /// conjectured a Σγ_l² replacement of (Σγ)² in F(N, G); no formula change required.
 /// Anchor: <c>docs/proofs/PROOF_F1_NONUNIFORM_GAMMA.md</c>;
 /// verification: <c>simulations/_f1_nonuniform_gamma_verify.py</c>.</para>
+///
+/// <para><b>General-topology universality (closed 2026-05-18).</b> The (B, D2)
+/// parameterisation extends bit-exactly to disconnected graphs (B and D2 sum across
+/// components), weighted edges (B → Σ_b J²_b), random connected Erdős-Rényi graphs at
+/// N=5, 6, and the F1 palindromic-pairing identity holds at N=7 across chain, ring,
+/// star, and K_4 + disjoint-3-chain via the
+/// <see cref="BlockSpectrum.LiouvillianBlockSpectrum"/> dogfood path. The analytic
+/// content was already in <c>docs/proofs/PROOF_CROSS_TERM_FORMULA.md</c> Lemma 3 +
+/// Corollary (bond-disjointness independent of connectivity); the verification record
+/// lives in the Tier-2 <see cref="F1GeneralTopologyVerifiedClaim"/>. Synthesis proof:
+/// <c>docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md</c>; verification: Python script
+/// <c>simulations/_f1_general_topology_verify.py</c> + C# test class
+/// <c>compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs</c>.</para>
 ///
 /// <para>Source: <c>experiments/OPERATOR_RIGIDITY_ACROSS_CUSP.md</c>. The scaling
 /// computation lives in <see cref="PalindromeResidualScaling"/>.</para>
@@ -121,11 +135,18 @@ public sealed class PalindromeResidualScalingClaim : Claim, IDriftCheckable
         // internally constructs a 4^N x 4^N transform; at N=5 that is 1024x1024 (~16MB
         // dense complex), at N=6 it is 4096x4096 (~256MB) which stalls under default xunit
         // memory budgets.
+        //
+        // For graph-aware operational verification at N=5, see
+        // compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs
+        // (4 tests: chain, ring, star, triangle + disjoint bond), plus the Python
+        // simulations/_f1_general_topology_verify.py for N=5, 6 named/random/disconnected/
+        // weighted coverage. The F1 palindromic-pairing identity at N=7 is exercised in
+        // the same test class via LiouvillianBlockSpectrum.ComputeSpectrumPerBlock.
         if (BondCount is not null || DegreeSquaredSum is not null)
             return new DriftReport(
                 ClaimType: typeof(PalindromeResidualScalingClaim),
                 IsDrift: false,
-                Description: $"graph-aware mode skips operational drift check at (N={N}, {HClass}).",
+                Description: $"graph-aware mode skips operational drift check at (N={N}, {HClass}); see F1GeneralTopologyN7BlockSpectrumTests for graph-aware verification.",
                 Magnitude: null);
 
         if (HClass != HamiltonianClass.Main)

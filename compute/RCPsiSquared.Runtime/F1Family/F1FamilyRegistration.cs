@@ -8,7 +8,9 @@ namespace RCPsiSquared.Runtime.F1Family;
 /// <summary>Builder extension that registers the F1 family: <see cref="ChainSystemPrimitive"/>,
 /// then <see cref="F1PalindromeIdentity"/>, then five Tier-1-derived F1 children that the
 /// <see cref="F1KnowledgeBase"/> exposes as top-level properties (the KB's sixth Tier-1
-/// child <c>SingleBodyScaling</c> is the omitted one; see the SingleBody paragraph below):
+/// child <c>SingleBodyScaling</c> is the omitted one; see the SingleBody paragraph below),
+/// plus the Tier-2-verified <see cref="F1GeneralTopologyVerifiedClaim"/> general-topology
+/// verification record:
 ///
 /// <list type="bullet">
 ///   <item><see cref="PalindromeResidualScalingClaim"/> (<see cref="HamiltonianClass.Main"/>):
@@ -20,6 +22,11 @@ namespace RCPsiSquared.Runtime.F1Family;
 ///   <item><see cref="F1DepolResidualClosedForm"/>: ‖M(depol)‖² = 4^(N−1)·[(16/9)·Σγ² + 16·(Σγ)²].</item>
 ///   <item><see cref="F49NonUniformCrossTermClaim"/>: ‖{L_H, L_Dc}‖² = 4·Σ_b ‖L_H^bond‖²·Σ_{m∉bond}γ_m² +
 ///         Σ_b G(bond, H)·(γ_i−γ_j)²; F49's non-uniform γ extension.</item>
+///   <item><see cref="F1GeneralTopologyVerifiedClaim"/> (Tier 2): verification record
+///         that the (B, D2) parameterisation of ‖M(N, G)‖² extends bit-exactly to
+///         disconnected, weighted, and random connected graphs at N=5..7. Depends on
+///         <see cref="PalindromeResidualScalingClaim"/> (the closed form whose
+///         universality is verified) and <see cref="F1PalindromeIdentity"/> (parent F1).</item>
 /// </list>
 ///
 /// <para>Dependency edges (parent → child):</para>
@@ -38,6 +45,11 @@ namespace RCPsiSquared.Runtime.F1Family;
 ///   <item>F1PalindromeIdentity → F49NonUniformCrossTermClaim (extends F49 by relaxing
 ///         the uniform-γ assumption; the F1 σ-shift L_Dc = L_D + σ·I that frames the
 ///         cross-term is the F1 identity's centering convention).</item>
+///   <item>F1PalindromeIdentity → F1GeneralTopologyVerifiedClaim (the master F1
+///         identity grounds the verification record).</item>
+///   <item>PalindromeResidualScalingClaim → F1GeneralTopologyVerifiedClaim (the
+///         verification record asserts universality of the (B, D2) parameterisation
+///         carried by the scaling claim).</item>
 /// </list>
 ///
 /// <para><b>SingleBody scaling: deliberately omitted.</b> The
@@ -54,13 +66,13 @@ namespace RCPsiSquared.Runtime.F1Family;
 /// behaviour). The KB still exposes both classes for inspection.</para></summary>
 public static class F1FamilyRegistration
 {
-    /// <summary>Register the seven F1-family Claims (ChainSystemPrimitive +
+    /// <summary>Register the eight F1-family Claims (ChainSystemPrimitive +
     /// F1PalindromeIdentity + PalindromeResidualScalingClaim + F1T1ResidualClosedForm +
     /// F1T1ResidualPi2Decomposition + F1DepolResidualClosedForm +
-    /// F49NonUniformCrossTermClaim) for a given <paramref name="chain"/>. Default
-    /// Hamiltonian class for the scaling claim is <see cref="HamiltonianClass.Main"/>;
-    /// chain bond count and degree-squared sum default to <c>null</c> (use
-    /// <c>FactorChain</c>).</summary>
+    /// F49NonUniformCrossTermClaim + F1GeneralTopologyVerifiedClaim) for a given
+    /// <paramref name="chain"/>. Default Hamiltonian class for the scaling claim is
+    /// <see cref="HamiltonianClass.Main"/>; chain bond count and degree-squared sum
+    /// default to <c>null</c> (use <c>FactorChain</c>).</summary>
     public static ClaimRegistryBuilder RegisterF1Family(
         this ClaimRegistryBuilder builder,
         ChainSystem chain,
@@ -101,6 +113,16 @@ public static class F1FamilyRegistration
             {
                 _ = b.Get<F1PalindromeIdentity>();
                 return new F49NonUniformCrossTermClaim();
+            })
+            .Register<F1GeneralTopologyVerifiedClaim>(b =>
+            {
+                // The general-topology verification record is anchored to the (B, D2)
+                // closed form of PalindromeResidualScalingClaim and the master F1
+                // identity. Both parents are pulled into the dependency graph so the
+                // Tier-2 verified record sits downstream of its Tier-1 anchors.
+                _ = b.Get<F1PalindromeIdentity>();
+                _ = b.Get<PalindromeResidualScalingClaim>();
+                return new F1GeneralTopologyVerifiedClaim();
             });
     }
 }

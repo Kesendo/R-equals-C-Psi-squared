@@ -37,7 +37,22 @@ public class F1OpenQuestionsRegistrationTests
         var registry = BuildWithF1OpenQuestions();
         var collection = registry.Get<OpenQuestionCollection<F1Marker>>();
         Assert.Equal(F1OpenQuestions.Standard.Count, collection.Items.Count);
-        Assert.Same(F1OpenQuestions.Standard[0], collection.Items[0]);
+        // F1OpenQuestions.Standard is empty as of 2026-05-18 (all four F1 items
+        // closed in the May 2026 sprint); the registered collection inherits the
+        // empty list. The Same-reference assertion at index 0 from the pre-closure
+        // version is no longer applicable.
+    }
+
+    [Fact]
+    public void RegisterF1OpenQuestions_StandardIsEmpty()
+    {
+        // F1 family is open-question-free as of 2026-05-18 — first time the
+        // collection is empty. See F1OpenQuestions XML doc for the per-item
+        // closure references (T1 closed form, depol closed form, non-uniform γ
+        // negative result, general topology synthesis proof + verification record).
+        var registry = BuildWithF1OpenQuestions();
+        var collection = registry.Get<OpenQuestionCollection<F1Marker>>();
+        Assert.Empty(collection.Items);
     }
 
     [Fact]

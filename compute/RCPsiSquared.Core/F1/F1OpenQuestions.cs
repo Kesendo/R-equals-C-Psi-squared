@@ -3,37 +3,34 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.F1;
 
 /// <summary>Open theoretical items for the F1 family: directions where the palindrome
-/// identity breaks, partially survives, or generalises. Anchored at the F1 "Breaks for"
-/// clause and the OPERATOR_RIGIDITY scaling experiment.
+/// identity breaks, partially survives, or generalises. The F1 family has ZERO open
+/// structural questions as of 2026-05-18; all four items closed in the May 2026 sprint:
 ///
-/// <para>The earlier "T1 amplitude damping: full closed form" item was closed on
-/// 2026-05-18 by <c>docs/proofs/PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md</c> and now lives
-/// as the Tier-1-derived <see cref="F1T1ResidualClosedForm"/> claim on
-/// <see cref="F1KnowledgeBase"/>.</para>
+/// <list type="bullet">
+///   <item><b>"T1 amplitude damping: full closed form"</b> closed by
+///         <c>docs/proofs/PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md</c>; typed as the Tier-1-
+///         derived <see cref="F1T1ResidualClosedForm"/> claim.</item>
+///   <item><b>"depolarizing noise: residual scaling"</b> closed by
+///         <c>docs/proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md</c>; typed as the
+///         Tier-1-derived <see cref="F1DepolResidualClosedForm"/> claim.</item>
+///   <item><b>"non-uniform γ_i: site-dependent dephasing"</b> closed by
+///         <c>docs/proofs/PROOF_F1_NONUNIFORM_GAMMA.md</c> as a NEGATIVE result: the
+///         H-block scaling factor F(N, G) on
+///         <see cref="PalindromeResidualScalingClaim"/> is γ-independent (the
+///         conjectured Σγ_l² replacement of (Σγ)² does not occur); no formula change
+///         required.</item>
+///   <item><b>"general topology beyond chain/ring/star/K_N"</b> closed by
+///         <c>docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md</c>; the (B, D2)
+///         parameterisation extends bit-exactly to disconnected, weighted, and random
+///         connected graphs at N=5, 6, 7. Verification record typed as the Tier-2-
+///         verified <see cref="F1GeneralTopologyVerifiedClaim"/>. The analytic content
+///         was already settled in <c>docs/proofs/PROOF_CROSS_TERM_FORMULA.md</c>
+///         Lemma 3 + Corollary (bond-disjointness universal across any graph).</item>
+/// </list>
 ///
-/// <para>The earlier "depolarizing noise: residual scaling" item was closed on
-/// 2026-05-18 by <c>docs/proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md</c> and now lives
-/// as the Tier-1-derived <see cref="F1DepolResidualClosedForm"/> claim on
-/// <see cref="F1KnowledgeBase"/>.</para>
-///
-/// <para>The earlier "non-uniform γ_i: site-dependent dephasing" item was closed on
-/// 2026-05-18 by <c>docs/proofs/PROOF_F1_NONUNIFORM_GAMMA.md</c> as a NEGATIVE result:
-/// the H-block scaling factor F(N, G) on <see cref="PalindromeResidualScalingClaim"/>
-/// is γ-independent (the conjectured Σγ_l² replacement of (Σγ)² does not occur); no
-/// formula change required.</para></summary>
+/// <para>First time the F1 family's <see cref="Standard"/> collection is empty;
+/// downstream <c>OpenQuestionCollection&lt;F1Marker&gt;</c> registration reflects this.</para></summary>
 public static class F1OpenQuestions
 {
-    private const string Anchor = "docs/ANALYTICAL_FORMULAS.md F1 \"Breaks for\" clause";
-
-    public static IReadOnlyList<OpenQuestion> Standard { get; } = new[]
-    {
-        new OpenQuestion(
-            "general topology beyond chain/ring/star/K_N",
-            "PalindromeResidualScaling is bit-exact verified on chain, ring, star, K_N at N = 4, 5. " +
-            "Open: extend the verification (and prove generality) for arbitrary connected graphs, " +
-            "including disconnected components and weighted edges.",
-            "Sample random graphs at N = 5..7; check the F(N, G) prediction against full L numerical residual; " +
-            "if confirmed, the proof is straightforward by graph induction.",
-            "experiments/OPERATOR_RIGIDITY_ACROSS_CUSP.md"),
-    };
+    public static IReadOnlyList<OpenQuestion> Standard { get; } = Array.Empty<OpenQuestion>();
 }

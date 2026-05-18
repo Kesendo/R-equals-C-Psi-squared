@@ -25,14 +25,16 @@ namespace RCPsiSquared.Core.F1;
 ///         (<see cref="F49NonUniformCrossTerm"/>).</item>
 ///   <item>Tier-2 verified: hardware confirmations from
 ///         <see cref="ConfirmationsRegistry"/> that exercise F1 / palindrome trichotomy
-///         on Marrakesh and related machines.</item>
-///   <item>Open: <see cref="OpenQuestions"/>: general topology beyond chain/ring/star/K_N.
-///         The earlier non-uniform γ_i item closed on 2026-05-18 by
-///         <c>docs/proofs/PROOF_F1_NONUNIFORM_GAMMA.md</c> as a negative result;
-///         see <see cref="PalindromeResidualScalingClaim"/> XML doc for the γ-independence
-///         statement. The F49 cross-term follow-up item from that proof closed
-///         (positive result) by <c>docs/proofs/PROOF_F49_NONUNIFORM_GAMMA_EXTENSION.md</c>
-///         and <see cref="F49NonUniformCrossTerm"/>.</item>
+///         on Marrakesh and related machines; plus the general-topology verification
+///         record (<see cref="GeneralTopologyVerification"/>) that extends the
+///         (B, D2) parameterisation to disconnected, weighted, and random connected
+///         graphs at N=5, 6, 7.</item>
+///   <item>Open: <see cref="OpenQuestions"/> is EMPTY as of 2026-05-18 — the first
+///         time the F1 family is open-question-free. All four items from the May 2026
+///         sprint closed: T1 closed form (Tier-1 derived), depol closed form (Tier-1
+///         derived), non-uniform γ (negative-result closure), and general topology
+///         (synthesis proof + verification record). See <see cref="F1OpenQuestions"/>
+///         XML doc for the per-item closure references.</item>
 /// </list>
 /// </summary>
 public sealed class F1KnowledgeBase : IInspectable
@@ -54,6 +56,7 @@ public sealed class F1KnowledgeBase : IInspectable
     public F1T1ResidualPi2Decomposition T1ResidualPi2Decomposition { get; }
     public F1DepolResidualClosedForm DepolResidualClosedForm { get; }
     public F49NonUniformCrossTermClaim F49NonUniformCrossTerm { get; }
+    public F1GeneralTopologyVerifiedClaim GeneralTopologyVerification { get; }
     public IReadOnlyList<HardwareConfirmationClaim> HardwareConfirmations { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
 
@@ -75,6 +78,7 @@ public sealed class F1KnowledgeBase : IInspectable
         T1ResidualPi2Decomposition = new F1T1ResidualPi2Decomposition();
         DepolResidualClosedForm = new F1DepolResidualClosedForm();
         F49NonUniformCrossTerm = new F49NonUniformCrossTermClaim();
+        GeneralTopologyVerification = new F1GeneralTopologyVerifiedClaim();
 
         HardwareConfirmations = HardwareConfirmationClaim.LookupAll(_f1ConfirmationNames);
 
@@ -102,8 +106,14 @@ public sealed class F1KnowledgeBase : IInspectable
                 T1ResidualClosedForm, T1ResidualPi2Decomposition, DepolResidualClosedForm,
                 F49NonUniformCrossTerm);
 
-            yield return InspectableNode.Group("Tier 2 (hardware-verified)",
-                HardwareConfirmations.Cast<IInspectable>().ToArray());
+            // Tier 2 group includes the hardware confirmations + the
+            // general-topology verification record (numerical sweep across N=5..7).
+            var tier2Children = new List<IInspectable>(HardwareConfirmations.Count + 1)
+            {
+                GeneralTopologyVerification,
+            };
+            tier2Children.AddRange(HardwareConfirmations);
+            yield return InspectableNode.Group("Tier 2 (verified)", tier2Children.ToArray());
 
             yield return InspectableNode.Group("open questions",
                 OpenQuestions.Cast<IInspectable>().ToArray());

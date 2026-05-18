@@ -14,19 +14,20 @@ public class F1FamilyRegistrationTests
             HType: HamiltonianType.XY, Topology: TopologyKind.Chain);
 
     [Fact]
-    public void RegisterF1Family_BuildsSevenClaims()
+    public void RegisterF1Family_BuildsEightClaims()
     {
         var registry = new ClaimRegistryBuilder()
             .RegisterF1Family(DefaultChain())
             .Build();
 
-        // Seven entries: ChainSystemPrimitive + F1PalindromeIdentity +
+        // Eight entries: ChainSystemPrimitive + F1PalindromeIdentity +
         // PalindromeResidualScalingClaim + F1T1ResidualClosedForm +
         // F1T1ResidualPi2Decomposition + F1DepolResidualClosedForm +
-        // F49NonUniformCrossTermClaim. SingleBody scaling deliberately omitted
-        // (builder is type-keyed; see F1FamilyRegistration XML docs for the
-        // Option-B rationale).
-        Assert.Equal(7, registry.All().Count());
+        // F49NonUniformCrossTermClaim + F1GeneralTopologyVerifiedClaim (added
+        // 2026-05-18 alongside the last F1 OpenQuestion closure).
+        // SingleBody scaling deliberately omitted (builder is type-keyed; see
+        // F1FamilyRegistration XML docs for the Option-B rationale).
+        Assert.Equal(8, registry.All().Count());
         Assert.True(registry.Contains<ChainSystemPrimitive>());
         Assert.True(registry.Contains<F1PalindromeIdentity>());
         Assert.True(registry.Contains<PalindromeResidualScalingClaim>());
@@ -34,6 +35,42 @@ public class F1FamilyRegistrationTests
         Assert.True(registry.Contains<F1T1ResidualPi2Decomposition>());
         Assert.True(registry.Contains<F1DepolResidualClosedForm>());
         Assert.True(registry.Contains<F49NonUniformCrossTermClaim>());
+        Assert.True(registry.Contains<F1GeneralTopologyVerifiedClaim>());
+    }
+
+    [Fact]
+    public void RegisterF1Family_F1GeneralTopologyVerifiedClaim_Resolves()
+    {
+        var registry = new ClaimRegistryBuilder()
+            .RegisterF1Family(DefaultChain())
+            .Build();
+
+        var general = registry.Get<F1GeneralTopologyVerifiedClaim>();
+        Assert.NotNull(general);
+        Assert.Equal(Tier.Tier2Verified, general.Tier);
+        // Spot-check the verification metadata survived the registry round-trip.
+        Assert.Equal(new[] { 5, 6, 7 }, general.VerifiedNValues);
+        Assert.True(general.DisconnectedComponentsVerified);
+        Assert.True(general.WeightedEdgesVerified);
+        Assert.True(general.SingleBodyClassVerified);
+    }
+
+    [Fact]
+    public void RegisterF1Family_F1GeneralTopology_AncestorsContainScalingClaimAndF1Identity()
+    {
+        // The general-topology verification record sits downstream of its analytic
+        // anchors: F1PalindromeIdentity (the master) and PalindromeResidualScalingClaim
+        // (the closed form whose graph universality this record verifies).
+        var registry = new ClaimRegistryBuilder()
+            .RegisterF1Family(DefaultChain())
+            .Build();
+
+        var ancestors = registry.AncestorsOf<F1GeneralTopologyVerifiedClaim>()
+            .Select(c => c.GetType()).ToHashSet();
+
+        Assert.Contains(typeof(F1PalindromeIdentity), ancestors);
+        Assert.Contains(typeof(PalindromeResidualScalingClaim), ancestors);
+        Assert.Contains(typeof(ChainSystemPrimitive), ancestors);
     }
 
     [Fact]

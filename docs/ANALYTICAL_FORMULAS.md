@@ -49,6 +49,13 @@ any N; non-uniform γ per qubit. Two Π families (P1, P4).
 - F1 σ-shift = 0 (depol's per-Pauli-string diagonal cannot be absorbed by a constant σ·I)
 - Anchor: [PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM](proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md); typed: F1DepolResidualClosedForm
 
+**General-topology universality (closed 2026-05-18):**
+- The (B, D2) parameterisation of ‖M(N, G)‖²_F = c_H · F(N, G) extends bit-exactly to all connected graphs (path, cycle, star, K_N, K_{2,N−2}, random connected Erdős-Rényi), disconnected components (B and D2 sum across components), weighted edges (B → Σ_b J²_b), and the single-body class (D2/2 prefactor).
+- Verification record: Python at N=5, 6 across named/random/disconnected/weighted/single-body; C# graph-aware at N=5 across chain/ring/star/disconnected; C# F1 palindromic-pairing identity at N=7 across chain/ring/star/K_4 + disjoint-3-chain via `LiouvillianBlockSpectrum.ComputeSpectrumPerBlock`.
+- The substantive analytic content was already established in [PROOF_CROSS_TERM_FORMULA](proofs/PROOF_CROSS_TERM_FORMULA.md) Lemma 3 + Corollary (bond-disjointness independent of connectivity); this closure adds the disconnected + weighted-edge sections plus the verification record.
+- Closes the last F1 OpenQuestion ("general topology beyond chain/ring/star/K_N"); F1 family open-question count is ZERO as of 2026-05-18 (first time empty).
+- Anchor: [PROOF_F1_GENERAL_TOPOLOGY](proofs/PROOF_F1_GENERAL_TOPOLOGY.md); verification: [simulations/_f1_general_topology_verify.py](../simulations/_f1_general_topology_verify.py) + [F1GeneralTopologyN7BlockSpectrumTests](../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs); typed: F1GeneralTopologyVerifiedClaim (Tier 2 verified).
+
 ### F2. w=1 Liouvillian dispersion relation (Tier 1, proven D10)
 
     omega_k = 4J * (1 - cos(pi*k/N)),    k = 1, ..., N-1

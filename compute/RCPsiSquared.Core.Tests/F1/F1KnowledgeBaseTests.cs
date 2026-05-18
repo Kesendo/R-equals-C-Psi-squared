@@ -62,18 +62,15 @@ public class F1KnowledgeBaseTests
     }
 
     [Fact]
-    public void OpenQuestions_HasOneSubstantiveItem()
+    public void OpenQuestions_IsEmpty()
     {
-        // T1 / depol / non-uniform γ items all closed 2026-05-18; see F1OpenQuestions
-        // XML doc for the per-item closure references (proof markdown + typed claim).
+        // All four items closed 2026-05-18: T1 closed form (Tier 1), depol closed form
+        // (Tier 1), non-uniform γ (negative-result closure), general topology
+        // (synthesis proof + Tier-2 verification record). See F1OpenQuestions XML doc
+        // for the per-item closure references (proof markdown + typed claim). First
+        // time the F1 family's open-question collection is empty.
         var open = F1OpenQuestions.Standard;
-        Assert.Single(open);
-        Assert.All(open, q => Assert.Equal(Tier.OpenQuestion, q.Tier));
-        Assert.Contains(open, q => q.Name.Contains("general topology"));
-        Assert.DoesNotContain(open, q => q.Name.Contains("non-uniform"));
-        Assert.DoesNotContain(open, q => q.Name.Contains("site-dependent"));
-        Assert.DoesNotContain(open, q => q.Name.Contains("T1 amplitude"));
-        Assert.DoesNotContain(open, q => q.Name.Contains("depolarizing"));
+        Assert.Empty(open);
     }
 
     [Fact]
@@ -89,12 +86,29 @@ public class F1KnowledgeBaseTests
         Assert.NotNull(kb.T1ResidualPi2Decomposition);
         Assert.NotNull(kb.DepolResidualClosedForm);
         Assert.NotNull(kb.F49NonUniformCrossTerm);
+        Assert.NotNull(kb.GeneralTopologyVerification);
         Assert.NotEmpty(kb.HardwareConfirmations);
-        Assert.NotEmpty(kb.OpenQuestions);
+        // OpenQuestions is empty as of 2026-05-18 (all four F1 items closed); see
+        // F1OpenQuestions XML doc for the per-item closure references.
+        Assert.Empty(kb.OpenQuestions);
 
         // Top-level tree: N node + Tier 1 group + Tier 2 group + open questions group
         IInspectable root = kb;
         Assert.Equal(4, root.Children.Count());
+    }
+
+    [Fact]
+    public void F1KnowledgeBase_GeneralTopologyVerification_IsTier2Verified()
+    {
+        var kb = new F1KnowledgeBase(N: 5);
+        Assert.Equal(Tier.Tier2Verified, kb.GeneralTopologyVerification.Tier);
+        Assert.Contains("PROOF_F1_GENERAL_TOPOLOGY", kb.GeneralTopologyVerification.Anchor);
+        // Spot-check the verified-N set and the topology counts stayed stable across
+        // the typed-claim round-trip.
+        Assert.Equal(new[] { 5, 6, 7 }, kb.GeneralTopologyVerification.VerifiedNValues);
+        Assert.True(kb.GeneralTopologyVerification.DisconnectedComponentsVerified);
+        Assert.True(kb.GeneralTopologyVerification.WeightedEdgesVerified);
+        Assert.True(kb.GeneralTopologyVerification.SingleBodyClassVerified);
     }
 
     [Fact]
@@ -122,18 +136,20 @@ public class F1KnowledgeBaseTests
     }
 
     [Fact]
-    public void F1KnowledgeBase_TierInventoryLine_HasT1dT2vAndOpen()
+    public void F1KnowledgeBase_TierInventoryLine_HasT1dT2vAndNoOpen()
     {
         var kb = new F1KnowledgeBase(N: 5);
         string line = kb.TierInventoryLine();
         // 7 Tier-1 derived: F1 + main + single-body + T1 closed form + T1 Π²-decomposition +
-        // depol + F49 non-uniform γ cross-term (added 2026-05-18 alongside the
-        // PROOF_F1_NONUNIFORM_GAMMA "Open follow-ups" closure).
-        // 1 open after the T1, depol, and non-uniform γ closures on 2026-05-18: only
-        // "general topology beyond chain/ring/star/K_N" remains.
+        // depol + F49 non-uniform γ cross-term.
+        // Tier-2 verified bumped from N hardware confirmations (3) to N+1 with the new
+        // F1GeneralTopologyVerifiedClaim general-topology verification record (2026-05-18).
+        // Open questions: ZERO after the 2026-05-18 general-topology closure (last F1
+        // OpenQuestion resolved via PROOF_F1_GENERAL_TOPOLOGY.md + F1GeneralTopologyVerifiedClaim).
+        // TierInventoryLine skips empty tiers, so "open=" should not appear in the line at all.
         Assert.Contains("T1d=7", line);
         Assert.Contains("T2v=", line);
-        Assert.Contains("open=1", line);
+        Assert.DoesNotContain("open=", line);
     }
 
     [Fact]
