@@ -1,7 +1,7 @@
-"""F49 cross-term `‖{L_H, L_Dc}‖²` under non-uniform γ — Phase 1 verification + Phase 2 assertions.
+"""F49 cross-term `‖{L_H, L_Dc}‖²` under non-uniform γ: Phase 1 verification + Phase 2 assertions.
 
 Phase 1 (commit 1c6701c, exploratory): distinguished three hypotheses for the
-planning-agent's candidate non-uniform F49 closed form, which predicts 204.8 at
+earlier-session candidate non-uniform F49 closed form, which predicts 204.8 at
 N=3 Heisenberg γ=[0.1, 0.2, 0.3] but does not match the previously-reported truth
 163.84:
 
@@ -296,7 +296,7 @@ def section_2_architect_candidate(section_1_data: dict) -> dict:
     heis_terms = [("X", "X", 1.0), ("Y", "Y", 1.0), ("Z", "Z", 1.0)]
 
     # First verify the hand-computable ‖L_H^bond‖² for a Heisenberg bond at J=1.
-    # The planning agent claims 480.
+    # The earlier-session hand-anchor claimed 480.
     bond01 = (0, 1)
     norm_bond_sq = _bond_LH_norm_sq(N, bond01, heis_terms)
     print(f"  ‖L_H^bond‖² for Heisenberg bond (0,1) at N=3, J=1: {norm_bond_sq:.6f}")
@@ -347,7 +347,7 @@ def section_2_architect_candidate(section_1_data: dict) -> dict:
     print(f"  Spectator part total:  {spectator_part:.6f}")
     print(f"  Asymmetry part total:  {asymmetry_part:.6f}")
     print(f"  Candidate formula:     {candidate:.6f}")
-    print(f"  Architect claim (planning-agent):  204.8")
+    print(f"  Earlier-session hand-anchor claim: 204.8")
     print()
 
     truth_label = section_1_data["truth_match"]
@@ -573,18 +573,18 @@ def conclude(section_1_data, section_2_data, scan_results, section_4_data,
 
     truth_label = section_1_data["truth_match"]
 
-    # Sanity-check the planning agent's hand-computation: did the claimed
+    # Sanity-check the earlier-session hand-computation: did the claimed
     # ‖L_H^bond‖² = 480 match the measurement?
     bond_norm_sq = section_2_data["bond_diag"][0]["norm_LH_bond_sq"]
     bond_claim = 480.0
     bond_anchor_correct = abs(bond_norm_sq - bond_claim) < 1e-6
-    print(f"  Planning-agent hand-anchor cross-check:")
+    print(f"  Earlier-session hand-anchor cross-check:")
     print(f"    claim:    ‖L_H^bond‖² = {bond_claim} for Heisenberg bond at J=1")
     print(f"    measured: ‖L_H^bond‖² = {bond_norm_sq}")
     print(f"    {'CONSISTENT' if bond_anchor_correct else 'WRONG: hand-anchor off by factor ' + f'{bond_claim / bond_norm_sq:.4f}'}")
     print()
 
-    # If (iii) — centering mismatch — that's the answer.
+    # If (iii), centering mismatch, that's the answer.
     if section_5_data.get("applies"):
         print(f"  Hypothesis (iii) CONFIRMED: centering mismatch.")
         print(f"  Truth 163.84 corresponds to {truth_label}, NOT")
@@ -594,7 +594,7 @@ def conclude(section_1_data, section_2_data, scan_results, section_4_data,
 
     # Examine N-scan to distinguish (i) vs (ii) vs no-gap.
     if not scan_results:
-        print("  No scan data — cannot distinguish (i) vs (ii).")
+        print("  No scan data: cannot distinguish (i) vs (ii).")
         return
 
     n3_row = next((r for r in scan_results if r["N"] == 3), None)
@@ -634,9 +634,8 @@ def conclude(section_1_data, section_2_data, scan_results, section_4_data,
         print(f"  all four tested H-classes (Heisenberg, Ising, XY, XY+YX).")
         print()
         if not bond_anchor_correct:
-            print(f"  The planning-agent's reported 'candidate = 204.8' was a")
-            print(f"  HAND-CALCULATION ERROR: they used ‖L_H^bond‖² = {bond_claim:.0f}")
-            print(f"  but the correct value at N=3, Heisenberg, J=1 is {bond_norm_sq:.0f}.")
+            print(f"  The earlier 204.8 hand-anchor used ‖L_H^bond‖² = {bond_claim:.0f};")
+            print(f"  the correct value at N=3, Heisenberg, J=1 (Phase 1 verified) is {bond_norm_sq:.0f}.")
             print(f"  With the correct value, candidate = {arch_cand:.4f}, matching the")
             print(f"  truth {anchor_truth:.4f} exactly.")
             print()
@@ -667,7 +666,7 @@ def conclude(section_1_data, section_2_data, scan_results, section_4_data,
         print(f"  → Phase 2: architect needs another round; surface specific class mismatches.")
         return
 
-    print(f"  Mixed result — manually inspect the N-scan and class sanity tables above.")
+    print(f"  Mixed result: manually inspect the N-scan and class sanity tables above.")
 
 
 # --------------------------------------------------------------------------- #
@@ -703,7 +702,7 @@ def section_6_phase2_assertion_summary() -> None:
 
 
 def main() -> int:
-    print("F49 NON-UNIFORM γ CROSS-TERM — PHASE 1 VERIFICATION + PHASE 2 ASSERTIONS")
+    print("F49 NON-UNIFORM γ CROSS-TERM: PHASE 1 VERIFICATION + PHASE 2 ASSERTIONS")
     print("=" * 78)
     print("Phase 1: distinguishes hypotheses (i) N=3-only, (ii) general gap, (iii) centering.")
     print("Phase 2: asserts |candidate − truth| < 1e-10 at each (N, H, γ) anchor and rolls up")

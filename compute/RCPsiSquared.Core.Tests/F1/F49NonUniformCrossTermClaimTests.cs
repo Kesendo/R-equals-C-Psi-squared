@@ -96,7 +96,7 @@ public class F49NonUniformCrossTermClaimTests
     [Fact]
     public void PredictXyChain_HasZeroAsymmetryPart()
     {
-        // XY G-fraction = 0 ⟹ formula reduces to spectator-only. N=3 γ=[0.1, 0.2, 0.3] Ising J=1,
+        // XY G-fraction = 0 ⟹ formula reduces to spectator-only. N=3 γ=[0.1, 0.2, 0.3] XY (XX+YY) J=1,
         // bondNormSquared=256: spectator = 4·256·(0.09+0.01) = 102.40; asymmetry = 0.
         double predicted = F49NonUniformCrossTermClaim.PredictXyChain(
             N: 3, gamma: new[] { 0.1, 0.2, 0.3 }, bondNormSquared: XyBondNormSqN3);
