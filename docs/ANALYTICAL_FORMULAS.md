@@ -34,8 +34,7 @@ any N; non-uniform γ per qubit. Two Π families (P1, P4).
 - Π²-decomposition (Pythagorean orthogonal):
   - ‖M_anti(T1)‖²_F = 4^(N−1)·Σγ²  (F82/F84 amplitude-damping side)
   - ‖M_sym(T1)‖²_F  = 4^(N−1)·[2·Σγ²+4·(Σγ)²]  (Π²-even complement)
-  - Anchor: PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md Step 7; typed: F1T1ResidualPi2Decomposition
-- Anchor: [PROOF_F1_T1_RESIDUAL_CLOSED_FORM](proofs/PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md); typed: F1T1ResidualClosedForm
+- Anchor: [PROOF_F1_T1_RESIDUAL_CLOSED_FORM](proofs/PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md) (Statement + Step 7); typed: F1T1ResidualClosedForm, F1T1ResidualPi2Decomposition
 
 ### F2. w=1 Liouvillian dispersion relation (Tier 1, proven D10)
 

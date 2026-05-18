@@ -64,34 +64,25 @@ public sealed class F1T1ResidualPi2Decomposition : Claim
     { }
 
     /// <summary>Predicted ‖M_anti(T1)‖²_F (Π²-antisymmetric / F82-F84 amplitude-damping side).</summary>
-    public static double PredictAntisymmetric(int N, IReadOnlyList<double> gammaT1)
-    {
-        if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), $"N must be ≥ 2; got {N}");
-        if (gammaT1.Count != N)
-            throw new ArgumentException(
-                $"gammaT1 length ({gammaT1.Count}) must equal N ({N}).", nameof(gammaT1));
-        double sumSq = 0.0;
-        double sum = 0.0;
-        for (int l = 0; l < N; l++)
-        {
-            sumSq += gammaT1[l] * gammaT1[l];
-            sum += gammaT1[l];
-        }
-        return Math.Pow(4, N - 1) *
-               (AntisymmetricLocalCoefficient * sumSq + AntisymmetricCrossCoefficient * sum * sum);
-    }
+    public static double PredictAntisymmetric(int N, IReadOnlyList<double> gammaT1) =>
+        PredictWithCoefficients(N, gammaT1, AntisymmetricLocalCoefficient, AntisymmetricCrossCoefficient);
 
     /// <summary>Convenience overload for uniform γ_T1: ‖M_anti(T1)‖²_F = 4^(N−1) · N · γ²_T1.</summary>
-    public static double PredictAntisymmetricUniform(int N, double gammaT1)
-    {
-        if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), $"N must be ≥ 2; got {N}");
-        // Σγ² = N·γ², (Σγ)² = N²·γ² → 4^(N−1) · γ² · (1·N + 0·N²) = 4^(N−1) · N · γ².
-        return Math.Pow(4, N - 1) * gammaT1 * gammaT1 *
-               (AntisymmetricLocalCoefficient * N + AntisymmetricCrossCoefficient * N * N);
-    }
+    public static double PredictAntisymmetricUniform(int N, double gammaT1) =>
+        PredictUniformWithCoefficients(N, gammaT1, AntisymmetricLocalCoefficient, AntisymmetricCrossCoefficient);
 
     /// <summary>Predicted ‖M_sym(T1)‖²_F (Π²-symmetric complement; cooperative cross-site piece lives here).</summary>
-    public static double PredictSymmetric(int N, IReadOnlyList<double> gammaT1)
+    public static double PredictSymmetric(int N, IReadOnlyList<double> gammaT1) =>
+        PredictWithCoefficients(N, gammaT1, SymmetricLocalCoefficient, SymmetricCrossCoefficient);
+
+    /// <summary>Convenience overload for uniform γ_T1: ‖M_sym(T1)‖²_F = 4^(N−1) · γ² · (2N + 4N²).</summary>
+    public static double PredictSymmetricUniform(int N, double gammaT1) =>
+        PredictUniformWithCoefficients(N, gammaT1, SymmetricLocalCoefficient, SymmetricCrossCoefficient);
+
+    /// <summary>Shared kernel for the explicit-γ Predict variants: 4^(N−1) · (localCoeff·Σγ² + crossCoeff·(Σγ)²).
+    /// Validates N ≥ 2 and gammaT1.Count == N before computing.</summary>
+    private static double PredictWithCoefficients(
+        int N, IReadOnlyList<double> gammaT1, double localCoeff, double crossCoeff)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), $"N must be ≥ 2; got {N}");
         if (gammaT1.Count != N)
@@ -104,16 +95,17 @@ public sealed class F1T1ResidualPi2Decomposition : Claim
             sumSq += gammaT1[l] * gammaT1[l];
             sum += gammaT1[l];
         }
-        return Math.Pow(4, N - 1) *
-               (SymmetricLocalCoefficient * sumSq + SymmetricCrossCoefficient * sum * sum);
+        return Math.Pow(4, N - 1) * (localCoeff * sumSq + crossCoeff * sum * sum);
     }
 
-    /// <summary>Convenience overload for uniform γ_T1: ‖M_sym(T1)‖²_F = 4^(N−1) · γ² · (2N + 4N²).</summary>
-    public static double PredictSymmetricUniform(int N, double gammaT1)
+    /// <summary>Shared kernel for the uniform-γ Predict variants: 4^(N−1) · γ² · (localCoeff·N + crossCoeff·N²).
+    /// Validates N ≥ 2.</summary>
+    private static double PredictUniformWithCoefficients(
+        int N, double gammaT1, double localCoeff, double crossCoeff)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), $"N must be ≥ 2; got {N}");
-        return Math.Pow(4, N - 1) * gammaT1 * gammaT1 *
-               (SymmetricLocalCoefficient * N + SymmetricCrossCoefficient * N * N);
+        // Σγ² = N·γ², (Σγ)² = N²·γ² → 4^(N−1) · γ² · (localCoeff·N + crossCoeff·N²).
+        return Math.Pow(4, N - 1) * gammaT1 * gammaT1 * (localCoeff * N + crossCoeff * N * N);
     }
 
     public override string DisplayName =>
@@ -145,9 +137,17 @@ public sealed class F1T1ResidualPi2Decomposition : Claim
             yield return new InspectableNode("derivation",
                 summary: "Step 7 of PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md: F81's Π·M·Π⁻¹ = M − 2·D_{T1, odd} " +
                          "collapses M_anti onto D_{T1, odd}; the Π²-orthogonal complement carries the remainder");
+            // Example anchor (N=3, γ_T1=0.1): values computed from this class's own Predict methods
+            // and the parent F1T1ResidualClosedForm to avoid hardcoded comparison strings; section 6 of
+            // simulations/_f1_t1_residual_verify.py matches these to machine precision.
+            const int exampleN = 3;
+            const double exampleGamma = 0.1;
+            double exampleAnti = PredictAntisymmetricUniform(exampleN, exampleGamma);
+            double exampleSym = PredictSymmetricUniform(exampleN, exampleGamma);
+            double exampleTotal = F1T1ResidualClosedForm.PredictUniform(exampleN, exampleGamma);
             yield return new InspectableNode("verification",
-                summary: "section 6 of simulations/_f1_t1_residual_verify.py: N=3 uniform γ_T1=0.1 → " +
-                         "‖M‖²=7.2, ‖M_anti‖²=0.48, ‖M_sym‖²=6.72 (machine precision)");
+                summary: $"section 6 of simulations/_f1_t1_residual_verify.py: N={exampleN} uniform γ_T1={exampleGamma} → " +
+                         $"‖M‖²={exampleTotal:F2}, ‖M_anti‖²={exampleAnti:F2}, ‖M_sym‖²={exampleSym:F2} (machine precision)");
         }
     }
 }
