@@ -23,13 +23,21 @@ public class F86MainRegistrationTests
     }
 
     [Fact]
-    public void RegisterF86Main_AllTier1Derived()
+    public void RegisterF86Main_TierMix_FourTier1DerivedPlusOneCandidate()
     {
         var registry = new ClaimRegistryBuilder()
             .RegisterF86Main(gammaZero: 0.05, gEff: 1.0)
             .Build();
 
-        Assert.All(registry.All(), c => Assert.Equal(Tier.Tier1Derived, c.Tier));
+        // Four of five claims are Tier1Derived; DressedModeWeightClaim is
+        // Tier1Candidate by design — its hardcoded W anchors 0.99 / 0.31 are
+        // documented as "specific values unverified per (c, N)" in the claim's
+        // own ctor. Asserting per-claim keeps the honest tier surface visible.
+        Assert.Equal(Tier.Tier1Derived, registry.Get<ChiralAiiiClassification>().Tier);
+        Assert.Equal(Tier.Tier1Derived, registry.Get<F71MirrorInvariance>().Tier);
+        Assert.Equal(Tier.Tier1Derived, registry.Get<TPeakLaw>().Tier);
+        Assert.Equal(Tier.Tier1Derived, registry.Get<QEpLaw>().Tier);
+        Assert.Equal(Tier.Tier1Candidate, registry.Get<DressedModeWeightClaim>().Tier);
     }
 
     [Fact]

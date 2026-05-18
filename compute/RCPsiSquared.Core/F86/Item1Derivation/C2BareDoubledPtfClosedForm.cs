@@ -145,7 +145,7 @@ public sealed class C2BareDoubledPtfClosedForm : Claim
     public C2BareDoubledPtfClosedForm()
         : base("F86 c=2 bare-doubled-PTF closed form: K_b(x) explicit analytical expression in two regimes (post-EP cos, pre-EP cosh, EP limit −5·e⁻²/12); underlies the universal constants x_peak = 2.196910329331 (= C2HwhmRatio.BareDoubledPtfXPeak) and HWHM_left/x_peak = 0.671535517861 (= C2HwhmRatio.BareDoubledPtfHwhmRatio rounded to 6 places); x_half = 0.721607 sits in pre-EP regime so both closed forms are required for the HWHM evaluation",
                Tier.Tier1Derived,
-               "compute/RCPsiSquared.Core/F86/Item1Derivation/C2HwhmRatio.cs (universal constants), docs/superpowers/syntheses/2026-05-06-direction-b-attempt.md (model setup), simulations/_f86_doubled_ptf_bare_floor_derivation.py (sympy derivation + brute Duhamel verification, residual ≤ 7e-17 at 7 sample x); transcendental constants reproducible via the explicit closed forms; per-bond-class lift to 0.7506/0.7728 remains L4-blocked (PROOF_F86B_OBSTRUCTION.md) and out of scope")
+               "compute/RCPsiSquared.Core/F86/Item1Derivation/C2HwhmRatio.cs (universal constants), docs/superpowers/syntheses/2026-05-06-direction-b-attempt.md (model setup), simulations/_f86_doubled_ptf_bare_floor_derivation.py (sympy derivation + brute Duhamel verification; residual ≤ 7e-17 at 7 sample x; transcendental constants reproducible via the explicit closed forms; per-bond-class lift to 0.7506/0.7728 remains L4-blocked; out of scope), docs/proofs/PROOF_F86B_OBSTRUCTION.md (per-bond-class lift L4-blocked)")
     { }
 
     public override string DisplayName => "F86 c=2 bare-doubled-PTF K_b closed form (post-EP cos + pre-EP cosh)";

@@ -15,6 +15,7 @@ public class F84ThermalAmplitudeDampingPi2InheritanceRegistrationTests
             .RegisterF88bStaticDyadicAnchor()
             .RegisterPi2OperatorSpaceMirror()
             .RegisterPi2I4MemoryLoop()
+            .RegisterF1PalindromeIdentity()
             .RegisterF81Pi2Inheritance()
             .RegisterF82T1AmplitudeDampingPi2Inheritance();
 

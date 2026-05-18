@@ -10,6 +10,7 @@ public class F71MirrorSymmetryPi2InheritanceRegistrationTests
     private static ClaimRegistryBuilder BuildBaseRegistry() =>
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
+            .RegisterPi2DyadicLadder()
             .RegisterHalfIntegerMirror(N: 5);
 
     [Fact]

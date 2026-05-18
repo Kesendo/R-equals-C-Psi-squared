@@ -14,7 +14,8 @@ public class F81Pi2InheritanceRegistrationTests
             .RegisterF88bPopcountCoherence()
             .RegisterF88bStaticDyadicAnchor()
             .RegisterPi2OperatorSpaceMirror()
-            .RegisterPi2I4MemoryLoop();
+            .RegisterPi2I4MemoryLoop()
+            .RegisterF1PalindromeIdentity();
 
     [Fact]
     public void RegisterF81Pi2Inheritance_AddsClaim()

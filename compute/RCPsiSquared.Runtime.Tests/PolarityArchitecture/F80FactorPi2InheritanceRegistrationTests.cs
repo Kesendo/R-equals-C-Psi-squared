@@ -12,7 +12,8 @@ public class F80FactorPi2InheritanceRegistrationTests
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
-            .RegisterPi2I4MemoryLoop();
+            .RegisterPi2I4MemoryLoop()
+            .RegisterF1PalindromeIdentity();
 
     [Fact]
     public void RegisterF80FactorPi2Inheritance_AddsClaim()
