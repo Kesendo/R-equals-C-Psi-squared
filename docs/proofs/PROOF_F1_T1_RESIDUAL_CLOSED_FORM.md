@@ -78,7 +78,7 @@ Conjugating D_{T1, local} (with γ = 1) by Π gives
                   ⎢  0     i    −1     0    ⎥
                   ⎣  0     0     0    −1/2  ⎦
 
-(The (Z, I) entry of D, value +1, maps to the (I, X) channel under Π but the X-column of the Y→iZ rule sends it back into the (X, ·) block — full computation in [`simulations/_f1_t1_residual_verify.py`](../../simulations/_f1_t1_residual_verify.py) Section 6.)
+(The (Z, I) entry of D, value +1, maps to the (I, X) channel under Π but the X-column of the Y→iZ rule sends it back into the (X, ·) block; full computation in [`simulations/_f1_t1_residual_verify.py`](../../simulations/_f1_t1_residual_verify.py) Section 6.)
 
 ### Step 3: Per-site M_l = Π · D · Π⁻¹ + D
 
@@ -164,7 +164,7 @@ At N = 3, uniform γ_T1 = 0.1: ‖M‖² = 7.2, ‖M_anti‖² = 0.48, ‖M_sym�
 
 [`simulations/_f1_t1_residual_verify.py`](../../simulations/_f1_t1_residual_verify.py) verifies the closed form in six sections:
 
-1. **F1 sanity.** ‖M‖² for pure Z-dephasing and for Heisenberg + Z-dephasing is at machine precision (∼ 6·10⁻³¹ at N = 3) — confirms the framework's Π is the right one and that ‖M‖² is genuinely orthogonal in the F1 blocks.
+1. **F1 sanity.** ‖M‖² for pure Z-dephasing and for Heisenberg + Z-dephasing is at machine precision (∼ 6·10⁻³¹ at N = 3): confirms the framework's Π is the right one and that ‖M‖² is genuinely orthogonal in the F1 blocks.
 2. **Pure T1 numerical fit.** At N = 2, 3, 4, 5 (both uniform γ_T1 = 0.1 and non-uniform γ_T1 = [0.05, 0.10, ..., 0.05·N]) the fitted (a, b) = (3.000000, 4.000000) exactly; the predicted ‖M(T1)‖² matches the numerical value to within ~10⁻¹³ (the floating-point limit at these problem sizes).
 3. **Orthogonality H ⊥ T1 for truly H.** Heisenberg H has ‖M‖² = 0; adding T1 gives exactly ‖M(T1)‖² with zero cross-term.
 4. **Orthogonality with Z-dephasing.** Adding Z-dephasing to the H+T1 setup leaves ‖M‖² = ‖M(T1)‖² (since Z and H both contribute 0).
@@ -194,21 +194,21 @@ The closed form makes the F1 T1-block residual a quantitative, **Hamiltonian-ind
 
 ### Repository entries
 
-- **F1 palindrome equation** ([`docs/ANALYTICAL_FORMULAS.md` F1](../ANALYTICAL_FORMULAS.md#f1-palindrome-equation-tier-1-proven), [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md)) — the underlying Π·L·Π⁻¹ + L + 2Σγ·I = 0 identity for Z-dephasing.
-- **F49 Frobenius residual scaling** ([`docs/ANALYTICAL_FORMULAS.md` F49](../ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven), [PROOF_CROSS_TERM_FORMULA.md](PROOF_CROSS_TERM_FORMULA.md)) — companion closed form for the Hamiltonian block.
-- **F82 T1 dissipator correction** ([`docs/ANALYTICAL_FORMULAS.md` F82](../ANALYTICAL_FORMULAS.md#f82-pi-conjugation-of-m-under-t1-amplitude-damping-tier-1-proven), [PROOF_F82_T1_DISSIPATOR_CORRECTION.md](PROOF_F82_T1_DISSIPATOR_CORRECTION.md)) — isolates the Π²-anti-symmetric piece ‖D_{T1, odd}‖_F = √(Σγ²) · 2^(N−1); related but different quantity.
-- **F84 Amplitude damping (thermal)** ([`docs/ANALYTICAL_FORMULAS.md` F84](../ANALYTICAL_FORMULAS.md#f84-pi-conjugation-of-m-under-thermal-amplitude-damping-tier-1-proven), [PROOF_F84_AMPLITUDE_DAMPING.md](PROOF_F84_AMPLITUDE_DAMPING.md)) — F82's thermal generalization.
+- **F1 palindrome equation** ([`docs/ANALYTICAL_FORMULAS.md` F1](../ANALYTICAL_FORMULAS.md#f1-palindrome-equation-tier-1-proven), [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md)): the underlying Π·L·Π⁻¹ + L + 2Σγ·I = 0 identity for Z-dephasing.
+- **F49 Frobenius residual scaling** ([`docs/ANALYTICAL_FORMULAS.md` F49](../ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven), [PROOF_CROSS_TERM_FORMULA.md](PROOF_CROSS_TERM_FORMULA.md)): companion closed form for the Hamiltonian block.
+- **F82 T1 dissipator correction** ([`docs/ANALYTICAL_FORMULAS.md` F82](../ANALYTICAL_FORMULAS.md#f82-pi-conjugation-of-m-under-t1-amplitude-damping-tier-1-proven), [PROOF_F82_T1_DISSIPATOR_CORRECTION.md](PROOF_F82_T1_DISSIPATOR_CORRECTION.md)): isolates the Π²-anti-symmetric piece ‖D_{T1, odd}‖_F = √(Σγ²) · 2^(N−1); related but different quantity.
+- **F84 Amplitude damping (thermal)** ([`docs/ANALYTICAL_FORMULAS.md` F84](../ANALYTICAL_FORMULAS.md#f84-pi-conjugation-of-m-under-thermal-amplitude-damping-tier-1-proven), [PROOF_F84_AMPLITUDE_DAMPING.md](PROOF_F84_AMPLITUDE_DAMPING.md)): F82's thermal generalization.
 
 ### Typed claims
 
-- [`compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs`](../../compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs) — Tier-1-derived typed claim for this closed form, registered on `F1KnowledgeBase`. Replaces the earlier `F1OpenQuestions` item 2 entry, which was closed by this proof on 2026-05-18.
-- [`compute/RCPsiSquared.Core/F1/PalindromeResidualScalingClaim.cs`](../../compute/RCPsiSquared.Core/F1/PalindromeResidualScalingClaim.cs) — companion claim covering the Hamiltonian (non-truly) part of ‖M‖²_F.
-- [`framework.HARDWARE_DISSIPATORS['T1']`](../../simulations/framework/lindblad.py) — already records `{'c1': 3.0, 'c2': 4.0}`; this proof derives the entries.
+- [`compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs`](../../compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs): Tier-1-derived typed claim for this closed form, registered on `F1KnowledgeBase`. Replaces the earlier `F1OpenQuestions` item 2 entry, which was closed by this proof on 2026-05-18.
+- [`compute/RCPsiSquared.Core/F1/PalindromeResidualScalingClaim.cs`](../../compute/RCPsiSquared.Core/F1/PalindromeResidualScalingClaim.cs): companion claim covering the Hamiltonian (non-truly) part of ‖M‖²_F.
+- [`framework.HARDWARE_DISSIPATORS['T1']`](../../simulations/framework/lindblad.py): already records `{'c1': 3.0, 'c2': 4.0}`; this proof derives the entries.
 
 ### Scripts
 
-- [`simulations/_f1_t1_residual_verify.py`](../../simulations/_f1_t1_residual_verify.py) — the verification script for this proof.
+- [`simulations/_f1_t1_residual_verify.py`](../../simulations/_f1_t1_residual_verify.py): the verification script for this proof.
 
 ### Memory
 
-- `project_palindrome_frobenius_scaling` — recorded the empirical (3, 4) anchor on 2026-04-29; analytical derivation thread closed 2026-05-18 by this proof.
+- `project_palindrome_frobenius_scaling`: recorded the empirical (3, 4) anchor on 2026-04-29; analytical derivation thread closed 2026-05-18 by this proof.
