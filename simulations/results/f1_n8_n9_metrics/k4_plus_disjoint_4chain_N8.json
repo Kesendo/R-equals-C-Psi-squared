@@ -1,0 +1,85 @@
+﻿{
+  "N": 8,
+  "TopologyName": "K_4 on {0,1,2,3} \u002B disjoint 4-chain on {4,5,6,7} (9 bonds, disconnected, two components)",
+  "TotalWallSeconds": 224.5458501,
+  "ComputeSpectrumWallSeconds": 199.1101492,
+  "EffectiveSpeedupOverDense": 515.1818188940466,
+  "MaxPairingDistance": 2.564956153826899E-07,
+  "MeanPairingDistance": 1.83759069235993E-09,
+  "MedianPairingDistance": 2.1556631856153974E-14,
+  "P99PairingDistance": 7.381716480225866E-08,
+  "OutlierPairCount": 1746,
+  "MinPairingDistance": 0,
+  "SpectrumSize": 65536,
+  "MinReal": -8.000000000000087,
+  "MaxReal": 5.936123648436112E-15,
+  "MinImag": -5.366025403784457,
+  "MaxImag": 5.366025403784457,
+  "DissipationGap": 0.13615633940246516,
+  "KernelDimension": 25,
+  "PureImaginaryCount": 0,
+  "RealEigenvalueCount": 5064,
+  "DistinctBinnedEigenvalueCount": 5812,
+  "SectorCount": 81,
+  "PrimarySectorCount": 41,
+  "MaxBlockSize": 4900,
+  "MaxBlockSectorPCol": 4,
+  "MaxBlockSectorPRow": 4,
+  "Top3BlockSizes": [
+    4900,
+    3920,
+    3920
+  ],
+  "TotalBlockCubicCost": 546360462244,
+  "JValue": 1,
+  "GammaValue": 0.5,
+  "SigmaShift": -8,
+  "HamiltonianClass": "Heisenberg XXX (XX\u002BYY\u002BZZ) at J=1.0, uniform Z-dephasing \u03B3=0.5",
+  "Bonds": [
+    {
+      "Site1": 0,
+      "Site2": 1,
+      "J": 1
+    },
+    {
+      "Site1": 0,
+      "Site2": 2,
+      "J": 1
+    },
+    {
+      "Site1": 0,
+      "Site2": 3,
+      "J": 1
+    },
+    {
+      "Site1": 1,
+      "Site2": 2,
+      "J": 1
+    },
+    {
+      "Site1": 1,
+      "Site2": 3,
+      "J": 1
+    },
+    {
+      "Site1": 2,
+      "Site2": 3,
+      "J": 1
+    },
+    {
+      "Site1": 4,
+      "Site2": 5,
+      "J": 1
+    },
+    {
+      "Site1": 5,
+      "Site2": 6,
+      "J": 1
+    },
+    {
+      "Site1": 6,
+      "Site2": 7,
+      "J": 1
+    }
+  ]
+}

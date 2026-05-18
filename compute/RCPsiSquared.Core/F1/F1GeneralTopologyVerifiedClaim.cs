@@ -20,8 +20,8 @@ namespace RCPsiSquared.Core.F1;
 ///         (p ∈ {0.3, 0.5, 0.7}, 10 samples each, reject-and-resample disconnected),
 ///         all bit-exact.</item>
 ///   <item><b>Disconnected components:</b> two disjoint 3-chains at N=6 (Python) +
-///         triangle + disjoint bond at N=5 (C#) + K_4 + disjoint 3-chain at N=7 (C#)
-///         all verified.</item>
+///         triangle + disjoint bond at N=5 (C#) + K_4 + disjoint 3-chain at N=7 (C#) +
+///         K_4 + disjoint 4-chain at N=8 (C#, opt-in SLOW_N8) all verified.</item>
 ///   <item><b>Weighted edges:</b> N=4 chain with per-bond couplings (1, 2, 3),
 ///         B → Σ J²_b substitution, bit-exact.</item>
 ///   <item><b>Single-body class:</b> N=5 chain with IY+YI per-bond bilinear,
@@ -36,6 +36,41 @@ namespace RCPsiSquared.Core.F1;
 ///         multiset identity {λ_k} = {−2σ − λ_k} verified across all 16 384 eigenvalues
 ///         per topology to tolerance 1e-7 (the only path that scales to N=7 in a test
 ///         budget; full L_vec is 4 GB, past the .NET 2 GB array limit).</item>
+///   <item><b>N=8 F1 palindromic-pairing via the same block path:</b> chain / ring /
+///         star / K_4 + disjoint 4-chain at N=8 with Heisenberg (XX+YY+ZZ) + Z-dephasing,
+///         the multiset identity {λ_k} = {−2σ − λ_k} verified across all 65 536 eigenvalues
+///         per topology to tolerance 1e-6 (relaxed from the N=7 dogfood's 1e-7 envelope:
+///         max observed pairing distance sits in the low-1e-7 range on the largest blocks,
+///         the relaxation absorbs the accumulation from 81 block diagonalisations at sector
+///         dims up to 4900² for N=8 vs 64 blocks at 1225² for N=7). Opt-in only
+///         (<c>[Trait("Category","SLOW_N8")]</c>); the block path is the only route at N=8
+///         (full L_vec at N=8 is 68.7 GB, past the .NET 2 GB array limit; the largest
+///         joint-popcount block is 4900² ≈ 0.38 GB, comfortably in commodity RAM). Confirms
+///         the LiouvillianBlockSpectrum N=8-capable claim under load on four distinct graph
+///         topologies. Full <see cref="F1SpectrumStatistics"/> metric capture per system
+///         to <c>simulations/results/f1_n8_n9_metrics/&lt;topology&gt;_N8.json</c>
+///         (wall-time profile, pairing-precision histogram, spectrum-structure invariants,
+///         block-decomposition cost picture, Hamiltonian + dissipator setup).</item>
+///   <item><b>N=9 chain spot-check — infrastructure-ceiling finding (2026-05-18):</b>
+///         The N=9 test (<c>F1GeneralTopologyN9BlockSpectrumChainTests</c>, opt-in
+///         <c>[Trait("Category","SLOW_N9")]</c>) is wired end-to-end but exits via
+///         <see cref="Xunit.Skip"/> because the LP64 MathNet MKL P/Invoke
+///         (<c>MklLinearAlgebraProvider.EigenDecomp</c>) caps individual native
+///         <c>Complex[]</c> arrays at 2 GB (134 217 728 elements, i.e. an 11 585² square
+///         matrix max), independent of the <c>AllowVeryLargeObjects</c> CLR flag. At N=9
+///         the largest joint-popcount block is C(9, 4) · C(9, 5) = 15 876² ≈ 4 GB,
+///         exceeding the marshalling ceiling and throwing
+///         <c>System.ArgumentException : Array size exceeds addressing limitations</c>
+///         from <c>MngdNativeArrayMarshaler.ConvertSpaceToNative</c> after ~1m 44s on the
+///         first attempt. <b>This is an infrastructure ceiling, not a violation of F1:</b>
+///         the F1 palindromic-pairing identity itself is exact at every finite N; only the
+///         per-block Evd P/Invoke route is unable to host the largest sector. Reaching N=9
+///         requires routing the dominant block through
+///         <c>RCPsiSquared.Compute.MklDirect</c>'s NativeMemory + ILP64 LAPACK path (the
+///         same recipe <c>RCPsiSquared.Compute.Liouvillian.BuildDirectNative</c> uses for
+///         the N=8 dense Liouvillian). Bridging that into <c>RCPsiSquared.Core</c> is a
+///         separate scope; the SkippableFact preserves the test so a future bridge
+///         re-enables it without touching the test code.</item>
 /// </list>
 ///
 /// <para><b>Pragmatic infrastructure note.</b> The
@@ -54,7 +89,14 @@ namespace RCPsiSquared.Core.F1;
 ///   <item>Python verification script:
 ///         <c>simulations/_f1_general_topology_verify.py</c></item>
 ///   <item>C# verification tests:
-///         <c>compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs</c></item>
+///         <c>compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs</c> (default-run)
+///         + <c>compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs</c>
+///         (opt-in SLOW_N8 trait, four [Fact] methods at N=8)
+///         + <c>compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN9BlockSpectrumChainTests.cs</c>
+///         (opt-in SLOW_N9 trait, single chain [Fact] at N=9).</item>
+///   <item>Shared metrics utility:
+///         <see cref="F1SpectrumStatistics"/>
+///         (TopologyMetrics record + Compute + JSON serialisation).</item>
 ///   <item>Underlying analytic anchor:
 ///         <c>docs/proofs/PROOF_CROSS_TERM_FORMULA.md</c> Lemma 3 + Corollary.</item>
 ///   <item>Sister F1 claim (Tier 1):
@@ -65,14 +107,52 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
 {
     /// <summary>N values across which the verification record covers Python + C# combined:
     /// 5 (C# graph-aware + Python), 6 (Python random + named + disconnected), 7 (C# F1
-    /// palindromic-pairing via block spectrum).</summary>
-    public IReadOnlyList<int> VerifiedNValues { get; } = new[] { 5, 6, 7 };
+    /// palindromic-pairing via block spectrum, default-run), 8 (C# F1 palindromic-pairing
+    /// via the same block path, opt-in SLOW_N8 trait). N=9 wired but blocked by an
+    /// LP64 MKL P/Invoke marshalling ceiling — see <see cref="ScaleFrontierBlockedAtN"/>
+    /// and the class XML doc for the 2026-05-18 finding.</summary>
+    public IReadOnlyList<int> VerifiedNValues { get; } = new[] { 5, 6, 7, 8 };
+
+    /// <summary>Block-spectrum dogfood reach: the N values at which
+    /// <see cref="BlockSpectrum.LiouvillianBlockSpectrum.ComputeSpectrumPerBlock"/> has
+    /// been exercised end-to-end (per-block Evd + multiset assertion + metric capture)
+    /// inside the F1 family. 5 is the N=5 dense self-test from the N=7 file; 6 is the
+    /// reach for the parent <see cref="BlockSpectrum.LiouvillianBlockSpectrum"/> bit-exact
+    /// witness; 7 is the default-run dogfood; 8 is the opt-in SLOW_N8 sweep across 4
+    /// topologies.</summary>
+    public IReadOnlyList<int> ScaleUpToN { get; } = new[] { 5, 6, 7, 8 };
+
+    /// <summary>N at which the block-spectrum dogfood path is blocked by an external
+    /// infrastructure ceiling rather than by F1 itself. At N=9 the largest joint-popcount
+    /// block (C(9, 4) · C(9, 5) = 15 876² ≈ 4 GB) exceeds the LP64 MathNet MKL
+    /// <c>MngdNativeArrayMarshaler.ConvertSpaceToNative</c> 2 GB single-native-array
+    /// ceiling. The F1 palindromic-pairing identity itself is exact at every finite N;
+    /// only the per-block Evd P/Invoke route is unable to host the largest sector.
+    /// Bridging requires routing the dominant block through
+    /// <c>RCPsiSquared.Compute.MklDirect</c>'s NativeMemory + ILP64 LAPACK path. The
+    /// N=9 test class (<c>F1GeneralTopologyN9BlockSpectrumChainTests</c>) is preserved
+    /// as a <see cref="Xunit.SkippableFactAttribute"/> so a future bridge re-enables it
+    /// without test-code change. <see langword="null"/> means no infrastructure ceiling
+    /// is currently identified above the verified set.</summary>
+    public int? ScaleFrontierBlockedAtN { get; } = 9;
+
+    /// <summary>Reason string for <see cref="ScaleFrontierBlockedAtN"/>; surfaced via
+    /// the inspectable tree so a future reader can find the blocker without digging
+    /// into the source comments.</summary>
+    public string? ScaleFrontierBlockerReason { get; } =
+        "LP64 MathNet MKL P/Invoke marshaller caps individual Complex[] arrays at 2 GB " +
+        "(MngdNativeArrayMarshaler.ConvertSpaceToNative). N=9 max block C(9,4)·C(9,5) = 15876² ≈ 4 GB " +
+        "exceeds the ceiling. F1 identity itself is exact at every finite N; bridging requires routing " +
+        "the dominant block through RCPsiSquared.Compute.MklDirect's NativeMemory + ILP64 LAPACK path.";
 
     /// <summary>Number of distinct named graph topologies verified: path, cycle, star,
     /// K_N, K_{2,N−2} at each of N=5, 6 (10 graphs via Python) + chain/ring/star/triangle +
     /// disjoint-bond at N=5 (4 via C#) + chain/ring/star/K_4 + disjoint-3-chain at N=7
-    /// (4 via C#). Total = 18 named graph instances.</summary>
-    public int NamedGraphsVerified { get; } = 18;
+    /// (4 via C#) + chain/ring/star/K_4 + disjoint-4-chain at N=8 (4 via C#, opt-in
+    /// SLOW_N8). Total = 22 named graph instances. N=9 chain is wired but currently
+    /// blocked at the LP64 MKL marshalling ceiling; see
+    /// <see cref="ScaleFrontierBlockedAtN"/>.</summary>
+    public int NamedGraphsVerified { get; } = 22;
 
     /// <summary>Number of random connected Erdős-Rényi graphs verified at N=5, 6:
     /// 30 per N (3 densities × 10 samples), total 60.</summary>
@@ -80,7 +160,8 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
 
     /// <summary>Disconnected component verification: two disjoint 3-chains at N=6
     /// (Python) + triangle + disjoint bond at N=5 (C#) + K_4 + disjoint 3-chain at N=7
-    /// (C#). All bit-exact / within tight tolerance.</summary>
+    /// (C#) + K_4 + disjoint 4-chain at N=8 (C#, opt-in SLOW_N8). All bit-exact / within
+    /// tight tolerance.</summary>
     public bool DisconnectedComponentsVerified { get; } = true;
 
     /// <summary>Weighted edges verified: N=4 chain with per-bond couplings J = (1, 2, 3)
@@ -94,17 +175,53 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
     /// <summary>Anchor script path (Python verification, sections 1-6).</summary>
     public string AnchorScriptPath { get; } = "simulations/_f1_general_topology_verify.py";
 
-    /// <summary>Anchor test path (C# verification, 9 [Fact] methods).</summary>
+    /// <summary>Anchor test paths (C# verification): the default-run N=7 file with
+    /// 9 [Fact] methods, plus the opt-in SLOW_N8 file with 4 [Fact] methods at N=8 and
+    /// the opt-in SLOW_N9 file with the single chain [Fact] at N=9.</summary>
     public string AnchorTestPath { get; } =
         "compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs";
+
+    /// <summary>Opt-in (<c>[Trait("Category","SLOW_N8")]</c>) N=8 dogfood test class:
+    /// chain / ring / star / K_4 + disjoint 4-chain Heisenberg + Z-dephasing at N=8 via
+    /// <see cref="BlockSpectrum.LiouvillianBlockSpectrum.ComputeSpectrumPerBlock"/>,
+    /// verifies F1 palindromic pairing {λ} = {−2σ − λ} across 65 536 eigenvalues per
+    /// topology to tolerance 1e-6. Run via <c>--filter "Category=SLOW_N8"</c>.</summary>
+    public string AnchorTestPathN8 { get; } =
+        "compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs";
+
+    /// <summary>Opt-in (<c>[Trait("Category","SLOW_N9")]</c>) N=9 chain spot-check test
+    /// class: single Heisenberg chain at N=9, would verify F1 palindromic pairing across
+    /// 262 144 eigenvalues to tolerance 1e-5 if the LP64 MKL marshalling ceiling could be
+    /// crossed. Currently exits via <see cref="Xunit.Skip"/> with the diagnostic in
+    /// <see cref="ScaleFrontierBlockerReason"/>. Once the ILP64 / NativeMemory bridge
+    /// lands the test re-enables itself without code change. Run via
+    /// <c>--filter "Category=SLOW_N9"</c>.</summary>
+    public string AnchorTestPathN9 { get; } =
+        "compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN9BlockSpectrumChainTests.cs";
 
     /// <summary>Synthesis proof path.</summary>
     public string ProofAnchorPath { get; } = "docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md";
 
+    /// <summary>Persisted metric JSON files written by the N=8 SLOW_N8 dogfood. Each
+    /// entry is a repo-relative path; the file at the path contains the full
+    /// <see cref="F1SpectrumStatistics.TopologyMetrics"/> record for that system
+    /// (wall-time profile, pairing-precision histogram, spectrum-structure invariants,
+    /// block-decomposition cost picture, Hamiltonian + dissipator setup). Look here for
+    /// the recorded numbers, do not re-derive. <c>chain_N9.json</c> will land here once
+    /// the ILP64 bridge described in <see cref="ScaleFrontierBlockerReason"/> is in
+    /// place.</summary>
+    public IReadOnlyList<string> SpectrumMetricsDataFiles { get; } = new[]
+    {
+        "simulations/results/f1_n8_n9_metrics/chain_N8.json",
+        "simulations/results/f1_n8_n9_metrics/ring_N8.json",
+        "simulations/results/f1_n8_n9_metrics/star_N8.json",
+        "simulations/results/f1_n8_n9_metrics/k4_plus_disjoint_4chain_N8.json",
+    };
+
     public F1GeneralTopologyVerifiedClaim()
-        : base("F1 general topology verification: (B, D2) closed form extends to disconnected + weighted + random graphs at N=5..7",
+        : base("F1 general topology verification: (B, D2) closed form extends to disconnected + weighted + random graphs at N=5..8; N=9 is wired but blocked at the LP64 MKL P/Invoke marshalling ceiling",
                Tier.Tier2Verified,
-               "docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md + simulations/_f1_general_topology_verify.py + compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs")
+               "docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md + simulations/_f1_general_topology_verify.py + compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs + SLOW_N8 + SLOW_N9 SkippableFact dogfood tests")
     { }
 
     public override string DisplayName =>
@@ -128,10 +245,12 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
                          "for arbitrary connected/disconnected graphs G, uniform or weighted edges, uniform or non-uniform per-site γ_l.");
             yield return new InspectableNode("verified N values",
                 summary: string.Join(", ", VerifiedNValues));
+            yield return new InspectableNode("block-spectrum dogfood scale-up",
+                summary: string.Join(", ", ScaleUpToN));
             yield return InspectableNode.RealScalar("named graphs verified", NamedGraphsVerified);
             yield return InspectableNode.RealScalar("random connected Erdős-Rényi graphs verified", RandomGraphsVerified);
             yield return new InspectableNode("disconnected components verified",
-                summary: DisconnectedComponentsVerified ? "yes (N=5 + N=6 + N=7)" : "no");
+                summary: DisconnectedComponentsVerified ? "yes (N=5 + N=6 + N=7 + N=8 opt-in)" : "no");
             yield return new InspectableNode("weighted edges verified",
                 summary: WeightedEdgesVerified ? "yes (N=4 chain, J = (1, 2, 3))" : "no");
             yield return new InspectableNode("single-body class verified",
@@ -142,8 +261,18 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
                 summary: ProofAnchorPath);
             yield return new InspectableNode("Python verification script",
                 summary: AnchorScriptPath);
-            yield return new InspectableNode("C# verification test class",
+            yield return new InspectableNode("C# verification test class (default-run, N=7)",
                 summary: AnchorTestPath);
+            yield return new InspectableNode("C# verification test class (opt-in SLOW_N8, N=8)",
+                summary: AnchorTestPathN8);
+            yield return new InspectableNode("C# verification test class (opt-in SLOW_N9, N=9 chain SkippableFact)",
+                summary: AnchorTestPathN9);
+            yield return new InspectableNode("scale-frontier infrastructure ceiling",
+                summary: ScaleFrontierBlockedAtN is { } blockedN
+                    ? $"N={blockedN} blocked: {ScaleFrontierBlockerReason}"
+                    : "none");
+            yield return new InspectableNode("spectrum metrics data files",
+                summary: string.Join("; ", SpectrumMetricsDataFiles));
             yield return new InspectableNode("sister Tier-1 claim",
                 summary: "PalindromeResidualScalingClaim: the (B, D2) closed form whose universality this record verifies");
         }

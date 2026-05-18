@@ -49,10 +49,17 @@ public class F1FamilyRegistrationTests
         Assert.NotNull(general);
         Assert.Equal(Tier.Tier2Verified, general.Tier);
         // Spot-check the verification metadata survived the registry round-trip.
-        Assert.Equal(new[] { 5, 6, 7 }, general.VerifiedNValues);
+        // VerifiedNValues bumped to {5, 6, 7, 8} on 2026-05-18 when the SLOW_N8 sweep
+        // landed (4 N=8 Heisenberg topologies via the block-spectrum dogfood).
+        // N=9 is wired but blocked at the LP64 MKL marshalling ceiling — see
+        // F1GeneralTopologyVerifiedClaim.ScaleFrontierBlockedAtN.
+        Assert.Equal(new[] { 5, 6, 7, 8 }, general.VerifiedNValues);
+        Assert.Equal(new[] { 5, 6, 7, 8 }, general.ScaleUpToN);
+        Assert.Equal(9, general.ScaleFrontierBlockedAtN);
         Assert.True(general.DisconnectedComponentsVerified);
         Assert.True(general.WeightedEdgesVerified);
         Assert.True(general.SingleBodyClassVerified);
+        Assert.NotEmpty(general.SpectrumMetricsDataFiles);
     }
 
     [Fact]

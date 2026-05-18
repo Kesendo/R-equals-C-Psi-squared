@@ -1,0 +1,75 @@
+﻿{
+  "N": 8,
+  "TopologyName": "chain (7 bonds)",
+  "TotalWallSeconds": 225.8058432,
+  "ComputeSpectrumWallSeconds": 208.0475199,
+  "EffectiveSpeedupOverDense": 515.1818188940466,
+  "MaxPairingDistance": 4.1569005121313347E-13,
+  "MeanPairingDistance": 3.4753188733751294E-14,
+  "MedianPairingDistance": 2.969177268859266E-14,
+  "P99PairingDistance": 1.1110386918320642E-13,
+  "OutlierPairCount": 0,
+  "MinPairingDistance": 0,
+  "SpectrumSize": 65536,
+  "MinReal": -8.000000000000066,
+  "MaxReal": 3.3978150329441853E-15,
+  "MinImag": -5.124932598687911,
+  "MaxImag": 5.124932598687911,
+  "DissipationGap": 0.034353634474466474,
+  "KernelDimension": 9,
+  "PureImaginaryCount": 0,
+  "RealEigenvalueCount": 1320,
+  "DistinctBinnedEigenvalueCount": 35135,
+  "SectorCount": 81,
+  "PrimarySectorCount": 41,
+  "MaxBlockSize": 4900,
+  "MaxBlockSectorPCol": 4,
+  "MaxBlockSectorPRow": 4,
+  "Top3BlockSizes": [
+    4900,
+    3920,
+    3920
+  ],
+  "TotalBlockCubicCost": 546360462244,
+  "JValue": 1,
+  "GammaValue": 0.5,
+  "SigmaShift": -8,
+  "HamiltonianClass": "Heisenberg XXX (XX\u002BYY\u002BZZ) at J=1.0, uniform Z-dephasing \u03B3=0.5",
+  "Bonds": [
+    {
+      "Site1": 0,
+      "Site2": 1,
+      "J": 1
+    },
+    {
+      "Site1": 1,
+      "Site2": 2,
+      "J": 1
+    },
+    {
+      "Site1": 2,
+      "Site2": 3,
+      "J": 1
+    },
+    {
+      "Site1": 3,
+      "Site2": 4,
+      "J": 1
+    },
+    {
+      "Site1": 4,
+      "Site2": 5,
+      "J": 1
+    },
+    {
+      "Site1": 5,
+      "Site2": 6,
+      "J": 1
+    },
+    {
+      "Site1": 6,
+      "Site2": 7,
+      "J": 1
+    }
+  ]
+}

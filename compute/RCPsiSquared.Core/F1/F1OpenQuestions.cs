@@ -22,10 +22,13 @@ namespace RCPsiSquared.Core.F1;
 ///   <item><b>"general topology beyond chain/ring/star/K_N"</b> closed by
 ///         <c>docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md</c>; the (B, D2)
 ///         parameterisation extends bit-exactly to disconnected, weighted, and random
-///         connected graphs at N=5, 6, 7. Verification record typed as the Tier-2-
-///         verified <see cref="F1GeneralTopologyVerifiedClaim"/>. The analytic content
-///         was already settled in <c>docs/proofs/PROOF_CROSS_TERM_FORMULA.md</c>
-///         Lemma 3 + Corollary (bond-disjointness universal across any graph).</item>
+///         connected graphs at N=5, 6, 7, 8 (N=8 via the opt-in SLOW_N8 block-spectrum
+///         dogfood with full <see cref="F1SpectrumStatistics"/> metric capture; N=9 is
+///         wired as a SkippableFact but blocked at the LP64 MKL marshalling ceiling).
+///         Verification record typed as the Tier-2-verified
+///         <see cref="F1GeneralTopologyVerifiedClaim"/>. The analytic content was already
+///         settled in <c>docs/proofs/PROOF_CROSS_TERM_FORMULA.md</c> Lemma 3 + Corollary
+///         (bond-disjointness universal across any graph).</item>
 /// </list>
 ///
 /// <para>First time the F1 family's <see cref="Standard"/> collection is empty;

@@ -28,7 +28,12 @@ namespace RCPsiSquared.Core.F1;
 ///         on Marrakesh and related machines; plus the general-topology verification
 ///         record (<see cref="GeneralTopologyVerification"/>) that extends the
 ///         (B, D2) parameterisation to disconnected, weighted, and random connected
-///         graphs at N=5, 6, 7.</item>
+///         graphs at N=5, 6, 7, 8 (N=8 via the opt-in SLOW_N8 block-spectrum dogfood
+///         with full <see cref="F1SpectrumStatistics"/> metric capture under
+///         <c>simulations/results/f1_n8_n9_metrics/</c>). N=9 is wired as a
+///         <see cref="Xunit.SkippableFactAttribute"/> but blocked at the LP64 MKL
+///         P/Invoke marshalling ceiling; see
+///         <see cref="F1GeneralTopologyVerifiedClaim.ScaleFrontierBlockedAtN"/>.</item>
 ///   <item>Open: <see cref="OpenQuestions"/> is EMPTY as of 2026-05-18: the first
 ///         time the F1 family is open-question-free. All four items from the May 2026
 ///         sprint closed: T1 closed form (Tier-1 derived), depol closed form (Tier-1
