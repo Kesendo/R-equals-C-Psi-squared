@@ -9,21 +9,20 @@ namespace RCPsiSquared.Core.F1;
 /// <para>The earlier "T1 amplitude damping: full closed form" item was closed on
 /// 2026-05-18 by <c>docs/proofs/PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md</c> and now lives
 /// as the Tier-1-derived <see cref="F1T1ResidualClosedForm"/> claim on
-/// <see cref="F1KnowledgeBase"/>.</para></summary>
+/// <see cref="F1KnowledgeBase"/>.</para>
+///
+/// <para>The earlier "depolarizing noise: residual scaling" item was closed on
+/// 2026-05-18 by <c>docs/proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md</c> and now lives
+/// as the Tier-1-derived <see cref="F1DepolResidualClosedForm"/> claim on
+/// <see cref="F1KnowledgeBase"/>. The original item asked about graph-parameter (B, D2)
+/// dependence; the proof shows depol is per-site only, so the residual scales purely
+/// with (Σγ², (Σγ)²) without any B / D2 dependence.</para></summary>
 public static class F1OpenQuestions
 {
     private const string Anchor = "docs/ANALYTICAL_FORMULAS.md F1 \"Breaks for\" clause";
 
     public static IReadOnlyList<OpenQuestion> Standard { get; } = new[]
     {
-        new OpenQuestion(
-            "depolarizing noise: residual scaling",
-            "F1 breaks under depolarizing noise with residual error (2/3)Σγ, linear in γ and N. " +
-            "Open: derive the closed-form ‖M_depol‖² scaling and its dependence on graph parameters " +
-            "(B, D2), analogous to the main / single-body scaling for non-truly Hamiltonians.",
-            "Repeat the bond-sum + spectator-variance + disjoint-supports argument with the depolarizing " +
-            "Lindblad operators in place of Z-dephasing.",
-            Anchor),
         new OpenQuestion(
             "non-uniform γ_i: site-dependent dephasing",
             "F1 holds for site-dependent γ_i (the identity is per-site additive in the Klein parities). " +

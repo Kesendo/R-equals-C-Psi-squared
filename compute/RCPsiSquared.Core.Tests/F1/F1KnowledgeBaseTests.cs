@@ -62,18 +62,19 @@ public class F1KnowledgeBaseTests
     }
 
     [Fact]
-    public void OpenQuestions_HasThreeSubstantiveItems()
+    public void OpenQuestions_HasTwoSubstantiveItems()
     {
         var open = F1OpenQuestions.Standard;
-        // The earlier "T1 amplitude damping: full closed form" item was closed on
-        // 2026-05-18 by PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md and is now the
-        // Tier-1-derived F1T1ResidualClosedForm claim on F1KnowledgeBase.
-        Assert.Equal(3, open.Count);
+        // Earlier "T1 amplitude damping: full closed form" item closed on 2026-05-18 by
+        // PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md (Tier-1-derived F1T1ResidualClosedForm).
+        // Earlier "depolarizing noise: residual scaling" item closed on 2026-05-18 by
+        // PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md (Tier-1-derived F1DepolResidualClosedForm).
+        Assert.Equal(2, open.Count);
         Assert.All(open, q => Assert.Equal(Tier.OpenQuestion, q.Tier));
-        Assert.Contains(open, q => q.Name.Contains("depolarizing"));
         Assert.Contains(open, q => q.Name.Contains("non-uniform γ_i"));
         Assert.Contains(open, q => q.Name.Contains("general topology"));
         Assert.DoesNotContain(open, q => q.Name.Contains("T1 amplitude"));
+        Assert.DoesNotContain(open, q => q.Name.Contains("depolarizing"));
     }
 
     [Fact]
@@ -86,6 +87,8 @@ public class F1KnowledgeBaseTests
         Assert.NotNull(kb.MainScaling);
         Assert.NotNull(kb.SingleBodyScaling);
         Assert.NotNull(kb.T1ResidualClosedForm);
+        Assert.NotNull(kb.T1ResidualPi2Decomposition);
+        Assert.NotNull(kb.DepolResidualClosedForm);
         Assert.NotEmpty(kb.HardwareConfirmations);
         Assert.NotEmpty(kb.OpenQuestions);
 
@@ -123,11 +126,11 @@ public class F1KnowledgeBaseTests
     {
         var kb = new F1KnowledgeBase(N: 5);
         string line = kb.TierInventoryLine();
-        // 5 Tier-1 derived (F1 + main + single-body + T1 closed form + T1 Π²-decomposition),
-        // Tier-2 verified hardware confirmations, 3 open after T1 closure.
-        Assert.Contains("T1d=5", line);
+        // 6 Tier-1 derived (F1 + main + single-body + T1 closed form + T1 Π²-decomposition + depol
+        // closed form), Tier-2 verified hardware confirmations, 2 open after T1 + depol closures.
+        Assert.Contains("T1d=6", line);
         Assert.Contains("T2v=", line);
-        Assert.Contains("open=3", line);
+        Assert.Contains("open=2", line);
     }
 
     [Fact]

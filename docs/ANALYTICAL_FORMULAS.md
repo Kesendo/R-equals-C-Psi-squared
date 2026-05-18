@@ -36,6 +36,12 @@ any N; non-uniform γ per qubit. Two Π families (P1, P4).
   - ‖M_sym(T1)‖²_F  = 4^(N−1)·[2·Σγ²+4·(Σγ)²]  (Π²-even complement)
 - Anchor: [PROOF_F1_T1_RESIDUAL_CLOSED_FORM](proofs/PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md) (Statement + Step 7); typed: F1T1ResidualClosedForm, F1T1ResidualPi2Decomposition
 
+**Depolarizing-noise residual (closed form, 2026-05-18):**
+- ‖M(depol)‖²_F = 4^(N−1)·[(16/9)·Σγ² + 16·(Σγ)²]  (H-independent, γ_Z-independent, topology-independent; bit-exact N=2..5)
+- Π²-decomposition: trivial, M_l is Pauli-basis-diagonal ⟹ M_anti = 0; F5's (2/3)Σγ scalar is the complementary scalar diagnostic
+- F1 σ-shift = 0 (depol's per-Pauli-string diagonal cannot be absorbed by a constant σ·I)
+- Anchor: [PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM](proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md); typed: F1DepolResidualClosedForm
+
 ### F2. w=1 Liouvillian dispersion relation (Tier 1, proven D10)
 
     omega_k = 4J * (1 - cos(pi*k/N)),    k = 1, ..., N-1

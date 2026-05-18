@@ -17,14 +17,15 @@ namespace RCPsiSquared.Core.F1;
 ///   <item>Tier-1 derived: <see cref="PalindromeIdentity"/> (F1 itself), main and
 ///         single-body residual scaling claims (<see cref="MainScaling"/>,
 ///         <see cref="SingleBodyScaling"/>), the T1 amplitude-damping closed form
-///         (<see cref="T1ResidualClosedForm"/>), and its Π²-orthogonal Pythagorean
+///         (<see cref="T1ResidualClosedForm"/>) and its Π²-orthogonal Pythagorean
 ///         split into M_anti (F82/F84 amplitude-damping content) and M_sym
-///         (<see cref="T1ResidualPi2Decomposition"/>).</item>
+///         (<see cref="T1ResidualPi2Decomposition"/>), and the depolarizing-noise
+///         closed form (<see cref="DepolResidualClosedForm"/>) with trivial
+///         Π²-decomposition (M_anti = 0) and σ-shift = 0.</item>
 ///   <item>Tier-2 verified: hardware confirmations from
 ///         <see cref="ConfirmationsRegistry"/> that exercise F1 / palindrome trichotomy
 ///         on Marrakesh and related machines.</item>
-///   <item>Open: <see cref="OpenQuestions"/>: depolarizing noise scaling, site-dependent γ,
-///         general topology.</item>
+///   <item>Open: <see cref="OpenQuestions"/>: site-dependent γ, general topology.</item>
 /// </list>
 /// </summary>
 public sealed class F1KnowledgeBase : IInspectable
@@ -44,6 +45,7 @@ public sealed class F1KnowledgeBase : IInspectable
     public PalindromeResidualScalingClaim SingleBodyScaling { get; }
     public F1T1ResidualClosedForm T1ResidualClosedForm { get; }
     public F1T1ResidualPi2Decomposition T1ResidualPi2Decomposition { get; }
+    public F1DepolResidualClosedForm DepolResidualClosedForm { get; }
     public IReadOnlyList<HardwareConfirmationClaim> HardwareConfirmations { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
 
@@ -63,6 +65,7 @@ public sealed class F1KnowledgeBase : IInspectable
         SingleBodyScaling = new PalindromeResidualScalingClaim(N, HamiltonianClass.SingleBody, bondCount, degreeSquaredSum);
         T1ResidualClosedForm = new F1T1ResidualClosedForm();
         T1ResidualPi2Decomposition = new F1T1ResidualPi2Decomposition();
+        DepolResidualClosedForm = new F1DepolResidualClosedForm();
 
         HardwareConfirmations = HardwareConfirmationClaim.LookupAll(_f1ConfirmationNames);
 
@@ -86,7 +89,8 @@ public sealed class F1KnowledgeBase : IInspectable
                 summary: $"{N} qubits, {1L << (2 * N)}-dim Pauli-string operator space");
 
             yield return InspectableNode.Group("Tier 1 (derived)",
-                PalindromeIdentity, MainScaling, SingleBodyScaling, T1ResidualClosedForm, T1ResidualPi2Decomposition);
+                PalindromeIdentity, MainScaling, SingleBodyScaling,
+                T1ResidualClosedForm, T1ResidualPi2Decomposition, DepolResidualClosedForm);
 
             yield return InspectableNode.Group("Tier 2 (hardware-verified)",
                 HardwareConfirmations.Cast<IInspectable>().ToArray());

@@ -56,6 +56,9 @@ For hardware-confirmed predictions on top of these formulas, see
 | `BondPerturbation.Build` | ∂L/∂J_b — variation Liouvillian, used by the PTF / EQ-022 (b1) workflow |
 | `PalindromeResidualScaling.FactorChain(N, cls)` | closed-form ‖M‖²_F = c_H · F(N) for chain (F1 + OPERATOR_RIGIDITY_ACROSS_CUSP.md) |
 | `PalindromeResidualScaling.AdjacentRatio(N, cls)` | ‖M(N+1)‖²/‖M(N)‖² closed form |
+| `F1.F1T1ResidualClosedForm` | **F1 T1 block**: ‖M(T1)‖²_F = 4^(N−1)·[3·Σγ² + 4·(Σγ)²]; per-site M_l with ‖M_l‖²=7, |tr(M_l)|²=16. Tier 1 derived (PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md) |
+| `F1.F1T1ResidualPi2Decomposition` | **F1 T1 block Π²-split**: ‖M_anti‖²=4^(N−1)·Σγ² (F82/F84 amplitude-damping side); ‖M_sym‖²=4^(N−1)·[2·Σγ²+4·(Σγ)²]. Pythagorean orthogonal split of F1T1ResidualClosedForm. Tier 1 derived |
+| `F1.F1DepolResidualClosedForm` | **F1 depol block**: ‖M(depol)‖²_F = 4^(N−1)·[(16/9)·Σγ² + 16·(Σγ)²]; per-site M_l = diag(−4/3, −4/3, −8/3, −8/3) with ‖M_l‖²=160/9, |tr(M_l)|²=64. Π²-decomposition trivial (M_anti=0); σ-shift=0; H/Z/topology-independent. Closes earlier F5 scalar diagnostic to full Frobenius. Tier 1 derived (PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md) |
 | `DissipatorClosedForms.C1C2FromPauli(α, β, δ)` | per-class palindrome-residual c1, c2 from Pauli decomposition |
 | `DissipatorClosedForms.D2FromPauli(...)` | universal cross-term d2 = 32·‖c1_traceless‖²·‖c2_traceless‖² |
 | `HardwareDissipators.{T1, T1Pump, Tphi, XNoise, YNoise}` | hardware-relevant dissipator class table with c1, c2 constants |
