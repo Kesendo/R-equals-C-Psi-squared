@@ -29,6 +29,14 @@ any N; non-uniform γ per qubit. Two Π families (P1, P4).
 **Replaces:** palindrome verification (54,118 eigenvalues at N=8).
 **Source:** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)
 
+**T1 amplitude-damping residual (closed form, 2026-05-18):**
+- ‖M(T1)‖²_F = 4^(N−1)·[3·Σγ²+4·(Σγ)²]  (H-independent, γ_Z-independent; bit-exact N=2..5)
+- Π²-decomposition (Pythagorean orthogonal):
+  - ‖M_anti(T1)‖²_F = 4^(N−1)·Σγ²  (F82/F84 amplitude-damping side)
+  - ‖M_sym(T1)‖²_F  = 4^(N−1)·[2·Σγ²+4·(Σγ)²]  (Π²-even complement)
+  - Anchor: PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md Step 7; typed: F1T1ResidualPi2Decomposition
+- Anchor: [PROOF_F1_T1_RESIDUAL_CLOSED_FORM](proofs/PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md); typed: F1T1ResidualClosedForm
+
 ### F2. w=1 Liouvillian dispersion relation (Tier 1, proven D10)
 
     omega_k = 4J * (1 - cos(pi*k/N)),    k = 1, ..., N-1

@@ -123,9 +123,9 @@ public class F1KnowledgeBaseTests
     {
         var kb = new F1KnowledgeBase(N: 5);
         string line = kb.TierInventoryLine();
-        // 4 Tier-1 derived (F1 + main + single-body + T1 closed form),
+        // 5 Tier-1 derived (F1 + main + single-body + T1 closed form + T1 Π²-decomposition),
         // Tier-2 verified hardware confirmations, 3 open after T1 closure.
-        Assert.Contains("T1d=4", line);
+        Assert.Contains("T1d=5", line);
         Assert.Contains("T2v=", line);
         Assert.Contains("open=3", line);
     }

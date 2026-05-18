@@ -161,3 +161,15 @@ F84 closes the dissipator side of the Π-decomposition picture:
 - Two-qubit dissipators (correlated decay, ZZ-cross-channel decoherence): the per-site analysis generalizes; cross-site correlations may add new structure.
 - Higher-body dissipators: same conceptual framework; explicit closed forms case-by-case.
 - Hardware extraction from process tomography: combining F84 with process-tomography-derived L gives a temperature-independent vacuum-rate readout.
+
+---
+
+## F1 T1-residual Pythagorean closure (2026-05-18)
+
+The F82/F84 amplitude-damping content is exactly the Π²-antisymmetric half of the full F1 T1-residual `M = Π·L·Π⁻¹ + L + 2Σγ·I`. Under Π²-orthogonality the residual norm splits Pythagorean,
+
+    ‖M(T1)‖²_F      = 4^(N−1) · [ 3·Σγ²_T1 + 4·(Σγ_T1)² ]
+    ‖M_anti(T1)‖²_F = 4^(N−1) · Σγ²_T1                             (this proof; = ‖D_{T1, odd}‖²_F)
+    ‖M_sym(T1)‖²_F  = 4^(N−1) · [ 2·Σγ²_T1 + 4·(Σγ_T1)² ]           (Π²-even complement)
+
+with `‖M_anti‖² + ‖M_sym‖² = ‖M‖²` bit-exact. The anti side is purely local (coefficients (1, 0)); the cooperative cross-site `4·(Σγ)²` term lives entirely in the Π²-symmetric complement and is invisible to F81 / F82 / F84 diagnostics. Derivation: [`PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md`](PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md) Step 7 (uses the F81 identity Π·M·Π⁻¹ = M − 2·D_{T1, odd} to collapse M_anti onto D_{T1, odd}). Typed claims: [`F1T1ResidualClosedForm.cs`](../../compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs) (parent total) and [`F1T1ResidualPi2Decomposition.cs`](../../compute/RCPsiSquared.Core/F1/F1T1ResidualPi2Decomposition.cs) (this split).

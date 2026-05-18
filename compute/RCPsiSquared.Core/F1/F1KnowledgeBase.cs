@@ -16,8 +16,10 @@ namespace RCPsiSquared.Core.F1;
 /// <list type="bullet">
 ///   <item>Tier-1 derived: <see cref="PalindromeIdentity"/> (F1 itself), main and
 ///         single-body residual scaling claims (<see cref="MainScaling"/>,
-///         <see cref="SingleBodyScaling"/>), and the T1 amplitude-damping closed form
-///         (<see cref="T1ResidualClosedForm"/>).</item>
+///         <see cref="SingleBodyScaling"/>), the T1 amplitude-damping closed form
+///         (<see cref="T1ResidualClosedForm"/>), and its Π²-orthogonal Pythagorean
+///         split into M_anti (F82/F84 amplitude-damping content) and M_sym
+///         (<see cref="T1ResidualPi2Decomposition"/>).</item>
 ///   <item>Tier-2 verified: hardware confirmations from
 ///         <see cref="ConfirmationsRegistry"/> that exercise F1 / palindrome trichotomy
 ///         on Marrakesh and related machines.</item>
@@ -41,6 +43,7 @@ public sealed class F1KnowledgeBase : IInspectable
     public PalindromeResidualScalingClaim MainScaling { get; }
     public PalindromeResidualScalingClaim SingleBodyScaling { get; }
     public F1T1ResidualClosedForm T1ResidualClosedForm { get; }
+    public F1T1ResidualPi2Decomposition T1ResidualPi2Decomposition { get; }
     public IReadOnlyList<HardwareConfirmationClaim> HardwareConfirmations { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
 
@@ -59,6 +62,7 @@ public sealed class F1KnowledgeBase : IInspectable
         MainScaling = new PalindromeResidualScalingClaim(N, HamiltonianClass.Main, bondCount, degreeSquaredSum);
         SingleBodyScaling = new PalindromeResidualScalingClaim(N, HamiltonianClass.SingleBody, bondCount, degreeSquaredSum);
         T1ResidualClosedForm = new F1T1ResidualClosedForm();
+        T1ResidualPi2Decomposition = new F1T1ResidualPi2Decomposition();
 
         HardwareConfirmations = HardwareConfirmationClaim.LookupAll(_f1ConfirmationNames);
 
@@ -82,7 +86,7 @@ public sealed class F1KnowledgeBase : IInspectable
                 summary: $"{N} qubits, {1L << (2 * N)}-dim Pauli-string operator space");
 
             yield return InspectableNode.Group("Tier 1 (derived)",
-                PalindromeIdentity, MainScaling, SingleBodyScaling, T1ResidualClosedForm);
+                PalindromeIdentity, MainScaling, SingleBodyScaling, T1ResidualClosedForm, T1ResidualPi2Decomposition);
 
             yield return InspectableNode.Group("Tier 2 (hardware-verified)",
                 HardwareConfirmations.Cast<IInspectable>().ToArray());
