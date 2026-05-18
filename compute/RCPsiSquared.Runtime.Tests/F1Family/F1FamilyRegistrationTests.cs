@@ -14,16 +14,107 @@ public class F1FamilyRegistrationTests
             HType: HamiltonianType.XY, Topology: TopologyKind.Chain);
 
     [Fact]
-    public void RegisterF1Family_BuildsThreeClaims()
+    public void RegisterF1Family_BuildsSixClaims()
     {
         var registry = new ClaimRegistryBuilder()
             .RegisterF1Family(DefaultChain())
             .Build();
 
-        Assert.Equal(3, registry.All().Count());
+        // Six entries: ChainSystemPrimitive + F1PalindromeIdentity +
+        // PalindromeResidualScalingClaim + F1T1ResidualClosedForm +
+        // F1T1ResidualPi2Decomposition + F1DepolResidualClosedForm.
+        // SingleBody scaling deliberately omitted (builder is type-keyed; see
+        // F1FamilyRegistration XML docs for the Option-B rationale).
+        Assert.Equal(6, registry.All().Count());
         Assert.True(registry.Contains<ChainSystemPrimitive>());
         Assert.True(registry.Contains<F1PalindromeIdentity>());
         Assert.True(registry.Contains<PalindromeResidualScalingClaim>());
+        Assert.True(registry.Contains<F1T1ResidualClosedForm>());
+        Assert.True(registry.Contains<F1T1ResidualPi2Decomposition>());
+        Assert.True(registry.Contains<F1DepolResidualClosedForm>());
+    }
+
+    [Fact]
+    public void RegisterF1Family_F1T1ResidualClosedForm_Resolves()
+    {
+        var registry = new ClaimRegistryBuilder()
+            .RegisterF1Family(DefaultChain())
+            .Build();
+
+        var t1 = registry.Get<F1T1ResidualClosedForm>();
+        Assert.NotNull(t1);
+        Assert.Equal(Tier.Tier1Derived, t1.Tier);
+        // Spot-check the closed-form constants survived the registry round-trip:
+        Assert.Equal(3.0, F1T1ResidualClosedForm.LocalCoefficient, precision: 14);
+        Assert.Equal(4.0, F1T1ResidualClosedForm.CrossSiteCoefficient, precision: 14);
+    }
+
+    [Fact]
+    public void RegisterF1Family_F1T1ResidualPi2Decomposition_Resolves()
+    {
+        var registry = new ClaimRegistryBuilder()
+            .RegisterF1Family(DefaultChain())
+            .Build();
+
+        var pi2Decomp = registry.Get<F1T1ResidualPi2Decomposition>();
+        Assert.NotNull(pi2Decomp);
+        Assert.Equal(Tier.Tier1Derived, pi2Decomp.Tier);
+        // Anti + sym Pythagorean closure on the constants:
+        Assert.Equal(F1T1ResidualClosedForm.LocalCoefficient,
+            F1T1ResidualPi2Decomposition.AntisymmetricLocalCoefficient +
+            F1T1ResidualPi2Decomposition.SymmetricLocalCoefficient, precision: 14);
+        Assert.Equal(F1T1ResidualClosedForm.CrossSiteCoefficient,
+            F1T1ResidualPi2Decomposition.AntisymmetricCrossCoefficient +
+            F1T1ResidualPi2Decomposition.SymmetricCrossCoefficient, precision: 14);
+    }
+
+    [Fact]
+    public void RegisterF1Family_F1DepolResidualClosedForm_Resolves()
+    {
+        var registry = new ClaimRegistryBuilder()
+            .RegisterF1Family(DefaultChain())
+            .Build();
+
+        var depol = registry.Get<F1DepolResidualClosedForm>();
+        Assert.NotNull(depol);
+        Assert.Equal(Tier.Tier1Derived, depol.Tier);
+        Assert.Equal(16.0 / 9.0, F1DepolResidualClosedForm.LocalCoefficient, precision: 14);
+        Assert.Equal(16.0, F1DepolResidualClosedForm.CrossSiteCoefficient, precision: 14);
+    }
+
+    [Fact]
+    public void RegisterF1Family_F1T1Pi2Decomposition_AncestorsContainT1ClosedForm()
+    {
+        // The Pythagorean closure edge: F1T1ResidualPi2Decomposition depends on
+        // F1T1ResidualClosedForm in the dependency graph (the decomposition closes
+        // the parent total bit-exact via anti + sym = (3·Σγ² + 4·(Σγ)²)).
+        var registry = new ClaimRegistryBuilder()
+            .RegisterF1Family(DefaultChain())
+            .Build();
+
+        var ancestors = registry.AncestorsOf<F1T1ResidualPi2Decomposition>()
+            .Select(c => c.GetType()).ToHashSet();
+
+        Assert.Contains(typeof(F1T1ResidualClosedForm), ancestors);
+        Assert.Contains(typeof(F1PalindromeIdentity), ancestors);
+    }
+
+    [Fact]
+    public void RegisterF1Family_SingleBody_RejectedAsDuplicateRegistration()
+    {
+        // Architectural guard for the Option-B rationale documented in
+        // F1FamilyRegistration: PalindromeResidualScalingClaim is type-keyed, so a
+        // second registration with a different HamiltonianClass collides with the
+        // first one this method already wires for Main. Attempting it from the
+        // outside (after RegisterF1Family ran) must surface DuplicateRegistration.
+        var ex = Assert.Throws<InvariantViolationException>(() =>
+            new ClaimRegistryBuilder()
+                .RegisterF1Family(DefaultChain())
+                .Register<PalindromeResidualScalingClaim>(_ =>
+                    new PalindromeResidualScalingClaim(N: 5, HamiltonianClass.SingleBody)));
+
+        Assert.Equal("DuplicateRegistration", ex.Rule);
+        Assert.Contains("PalindromeResidualScalingClaim", ex.Message);
     }
 
     [Fact]
