@@ -38,12 +38,25 @@ public sealed class FractionReferenceGraph
     public static IReadOnlyList<double> F99Ankers { get; } =
         new[] { 0.0, 1.0 / 8.0, 1.0 / 4.0, 3.0 / 8.0, 1.0 / 2.0 };
 
-    /// <summary>The Q-anker basis values for "set the basis Q = J/γ₀": at
-    /// each Q the simulator parametrises differently, and different
-    /// references become dynamically visible per
-    /// <c>simulations/wave_breaking_q_anchor_scan.py</c>.</summary>
+    /// <summary>The 3 wave-breaking-scan Q-anker basis values {1.0, 1.5, 2.0} — the
+    /// subset of the canonical 9 Q-anchors that have explicit dynamical-visibility
+    /// documented in <c>simulations/wave_breaking_q_anchor_scan.py</c>. The full
+    /// 9-anchor structure (including onset edges 0.2/0.35, peak start 1.2, c=3 Q_peak
+    /// 1.6, peak end / c=4,5 Q_peak 1.8, Endpoint orbit candidate 2.5) is typed in
+    /// <see cref="QAnchorMap"/>; this property derives from
+    /// <see cref="QAnchorMap.CanonicalAnchors"/> by filtering for the wave-breaking-scan
+    /// source.</summary>
     public static IReadOnlyList<double> QBasisAnkers { get; } =
-        new[] { 1.0, 1.5, 2.0 };
+        QAnchorMap.CanonicalAnchors
+            .Where(a => a.DocumentingSource.Contains("wave_breaking_q_anchor_scan"))
+            .Select(a => a.Q)
+            .ToList();
+
+    /// <summary>All 9 named Q-anchors per <see cref="QAnchorMap"/>: onset edges 0.2 /
+    /// 0.35, Balance 1.0, peak band {1.2, 1.5, 1.6, 1.8} (incl. c-specific Q_peak),
+    /// Q_EP idealized 2.0, Endpoint orbit candidate 2.5.</summary>
+    public static IReadOnlyList<double> NamedQAnchors { get; } =
+        QAnchorMap.CanonicalAnchors.Select(a => a.Q).ToList();
 
     /// <summary>The standard catalog of fraction references, hard-coded from
     /// the typed claims that establish each operation. Adding a new claim
@@ -87,10 +100,17 @@ public sealed class FractionReferenceGraph
                 FractionReferenceDirection.Backward, "CanonicalTrigAnchorPi2Inheritance"),
 
             // === Π²-parity complements (periodic-table fractions n/8 ↔ (8−n)/8) ===
+            // The full n/8 ↔ (8−n)/8 complement family at valence n: three non-trivial
+            // pairs + one self-mirror at n=4 (carbon). Pair-sum-constant is the F1
+            // periodic palindrome over periods 2-6 (project_periodic_palindrome).
             new(1.0 / 8.0, 7.0 / 8.0, "Π²-parity complement: Li/Na (1/8) ↔ F/Cl (7/8) periodic-table",
                 FractionReferenceDirection.Mirror, "project_v_effect_combinatorial memory"),
+            new(1.0 / 4.0, 3.0 / 4.0, "Π²-parity complement: Be/Mg (1/4) ↔ O/S (3/4) periodic-table (alkaline-earth ↔ chalcogen, F1 palindrome)",
+                FractionReferenceDirection.Mirror, "project_v_effect_combinatorial memory + project_periodic_palindrome"),
             new(3.0 / 8.0, 5.0 / 8.0, "Π²-parity complement: B/Al (3/8) ↔ N/P (5/8) periodic-table",
                 FractionReferenceDirection.Mirror, "project_v_effect_combinatorial memory"),
+            new(1.0 / 2.0, 1.0 / 2.0, "Π²-parity self-mirror at n=4: carbon (C/Si/Ge) is its own complement (4/8 ↔ 4/8); structural parallel to PolarityMirrorMap γ=0 self-mirror",
+                FractionReferenceDirection.Mirror, "project_v_effect_combinatorial memory + project_periodic_palindrome"),
 
             // === Q-basis observation edges (Q=1 Balance hits F99 ankers in Liouvillian Im=0) ===
             // These are observation/dynamic edges, not algebraic. They show what the basis Q=J/γ₀

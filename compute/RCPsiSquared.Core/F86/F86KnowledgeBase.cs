@@ -43,6 +43,15 @@ public sealed class F86KnowledgeBase : IInspectable
     public PerBondQPeakWitnessTable EndpointPerBondTable { get; }
     public PerBondQPeakWitnessTable InteriorPerBondTable { get; }
     public PerF71OrbitObservation PerOrbitSubstructure { get; }
+
+    /// <summary>The canonical Q-anchors on the Q = J/γ₀ axis as typed records with
+    /// per-anchor (Q, J@γ₀=0.05, band, role, tier, source) metadata. See
+    /// <see cref="QAnchorMap"/> for the full list. Block-independent (the anchors are
+    /// framework-wide, not per-block); constructed eagerly mirroring
+    /// <see cref="PerBlockQPeaks"/>.</summary>
+    public QAnchorMap QAnchors { get; }
+
+    private readonly Lazy<InspectableNode> _qAnchorsChildrenGroup;
     public DressedModeWeightClaim DressedModeWeight { get; }
     public ChiralAiiiClassification AlgebraicClass { get; }
     public F71MirrorInvariance F71Mirror { get; }
@@ -65,7 +74,7 @@ public sealed class F86KnowledgeBase : IInspectable
     /// <summary>Block-independent meta-claim: the F86 local EP at real Q_EP and the
     /// FRAGILE_BRIDGE global EP in the complex-γ plane are the same exceptional-point
     /// structure under shared AIII chiral algebra, validated empirically by the c=2
-    /// N=5..8 Petermann-K sweep (2026-05-06). <see cref="Knowledge.Tier.Tier2Verified"/>:
+    /// N=5..8 Petermann-K sweep. <see cref="Knowledge.Tier.Tier2Verified"/>:
     /// shared algebra + real-axis hit empirically pinned; complex-γ analytic continuation
     /// is the documented gap. Exposed at the KB root for any block, not just c=2 — the
     /// algebraic statement is shared across all c. Lazy: a single static-data Claim with
@@ -88,6 +97,18 @@ public sealed class F86KnowledgeBase : IInspectable
 
     private readonly Lazy<PolarityInheritanceLink> _polarityInheritanceLink;
 
+    /// <summary>F86 schema-level meta-claim (Tier1Derived): Q_peak ∈ {2 − 1/2, 2 + 1/2} =
+    /// {1.5, 2.5} via composition of two Tier1Derived parents: idealised <see cref="QEpLaw"/>
+    /// at g_eff = 1 (Q_EP_central = 2) and <see cref="Symmetry.HalfAsStructuralFixedPointClaim"/>
+    /// (polarity magnitude r = 1/2). Companion to <see cref="PolarityInheritanceLink"/>
+    /// (Tier2Verified, holds the bit-exact witness table with ~10% finite-size deviation):
+    /// the schema is Tier1Derived, the bit-exact value is Tier2Verified, the closed form
+    /// for the deviations is blocked by PROOF_F86B_OBSTRUCTION (six tested routes).
+    /// Block-independent; resolves to a process-wide
+    /// <see cref="PolarityPairQPeakDecompositionClaim.Shared"/> singleton.</summary>
+    public PolarityPairQPeakDecompositionClaim PolarityPairQPeakDecomposition =>
+        PolarityPairQPeakDecompositionClaim.Shared;
+
     /// <summary>F86 meta-claim (Tier1Derived): in the 2-level reduction L_eff, the real
     /// part −4γ₀ = −2γ₀·2 is the mirror axis of the channel pair (−2γ₀, −6γ₀); the EP is
     /// the coalescence onto it; g_eff lives in the imaginary part as the branch's relative
@@ -106,7 +127,7 @@ public sealed class F86KnowledgeBase : IInspectable
     /// <summary>F89 per-Bloch-mode σ_n extraction via R†·S·R diagonal at the c=2 stratum
     /// (Tier 2 verified). Bit-exact match against
     /// <see cref="F89UnifiedFaClosedFormClaim.Sigma"/> for path-3..9 (path-7 closed form
-    /// derived 2026-05-13 via this anatomy; boundary case nBlock = N = k+1, no bare site).
+    /// derived via this anatomy; boundary case nBlock = N = k+1, no bare site).
     /// Non-null iff <c>Block.C == 2</c>. Lazily built on first access,
     /// the full-block eigendecomposition runs only once and only on read.</summary>
     public C2FullBlockSigmaAnatomy? FullBlockSigmaAnatomy => _fullBlockSigmaAnatomy.Value;
@@ -125,7 +146,7 @@ public sealed class F86KnowledgeBase : IInspectable
 
     private readonly Lazy<IbmBlockCpsiHardwareTable> _ibmBlockCpsiHardwareTable;
 
-    /// <summary>F90 c=2 ↔ F89 bridge identity (Tier1Derived 2026-05-11): F86 c=2 K_b(Q,t)
+    /// <summary>F90 c=2 ↔ F89 bridge identity (Tier1Derived): F86 c=2 K_b(Q,t)
     /// IS F89 path-(N−1) (SE,DE) per-bond Hellmann-Feynman, modulo F89-J = 2·F86-J convention.
     /// Bit-exact verified at 20/22 bonds across N=5..8 including orbit escapes. Resolves
     /// Direction (b'') (full block-L derivation, NOT 4-mode) numerically Tier-1; closed-form
@@ -196,6 +217,14 @@ public sealed class F86KnowledgeBase : IInspectable
         EndpointPerBondTable = PerBondQPeakWitnessTable.BuildEndpoint(block.GammaZero, WitnessCache);
         InteriorPerBondTable = PerBondQPeakWitnessTable.BuildInterior(block.GammaZero, WitnessCache);
         PerOrbitSubstructure = new PerF71OrbitObservation();
+        QAnchors = new QAnchorMap();
+        _qAnchorsChildrenGroup = new Lazy<InspectableNode>(() =>
+            InspectableNode.Group("named Q-anchors (Q = J/γ₀ axis)",
+                QAnchors.Anchors.Select(a =>
+                    (IInspectable)new InspectableNode(
+                        displayName: $"Q = {a.Q:F3}",
+                        summary: $"{a.Role}, J(γ₀=0.05) = {a.JAtGamma0Point05:G4}, θ = {a.ThetaDegrees():F1}°, {a.Tier.Label()}"))
+                    .ToArray()));
 
         DressedModeWeight = new DressedModeWeightClaim();
         AlgebraicClass = new ChiralAiiiClassification();
@@ -237,7 +266,7 @@ public sealed class F86KnowledgeBase : IInspectable
 
         // F89 per-Bloch-mode sigma anatomy (Tier2Verified): extracts σ_n via R†·S·R diagonal
         // for all F_a modes of the c=2 uniform-J block-L. Bit-exact vs F89UnifiedFaClosedFormClaim
-        // for path-3..7 (path-7 closed form derived 2026-05-13 from this anatomy).
+        // for path-3..7 (path-7 closed form derived from this anatomy).
         // Only meaningful at c=2 (throws otherwise); null for all other c.
         _fullBlockSigmaAnatomy = new Lazy<C2FullBlockSigmaAnatomy?>(() =>
             block.C == 2 ? C2FullBlockSigmaAnatomy.Build(block) : null);
@@ -245,12 +274,11 @@ public sealed class F86KnowledgeBase : IInspectable
         // Block-independent Tier-2-Verified table: IBM 2026-04-26 framework_snapshots
         // through Theorem 2's C_block lens. Static-data Claim, no compute cost; lazy
         // construction only on first read. The Quarter parent is the universal 1/4
-        // ceiling against which every witness row is asserted (typed 2026-05-16,
-        // Wave 5 of inheritance-map sweep).
+        // ceiling against which every witness row is asserted.
         _ibmBlockCpsiHardwareTable = new Lazy<IbmBlockCpsiHardwareTable>(
             () => new IbmBlockCpsiHardwareTable(new Symmetry.QuarterAsBilinearMaxvalClaim()));
 
-        // F90 bridge identity (Tier1Derived 2026-05-11): F86 c=2 K_b ↔ F89 path-(N−1)
+        // F90 bridge identity (Tier1Derived): F86 c=2 K_b ↔ F89 path-(N−1)
         // per-bond Hellmann-Feynman. Block-independent — the algebraic statement is
         // c=2-stratum-wide and N-independent (verified bit-exact at N=5..8). Cheap to build
         // (constructor only stores typed parent edges); lazy for consistency with sibling
@@ -295,6 +323,8 @@ public sealed class F86KnowledgeBase : IInspectable
             yield return new InspectableNode("Block (CoherenceBlock)",
                 summary: $"N={Block.N}, n={Block.LowerPopcount}, c={Block.C}, γ₀={Block.GammaZero:G3}");
 
+            yield return _qAnchorsChildrenGroup.Value;
+
             yield return InspectableNode.Group("Tier 1 (derived)",
                 CollectTier1Derived().ToArray());
 
@@ -331,6 +361,7 @@ public sealed class F86KnowledgeBase : IInspectable
         yield return F71Mirror;
         yield return F86HwhmClosedForm;
         yield return LEffMirrorAxis;
+        yield return PolarityPairQPeakDecomposition;
         // F90 bridge identity is c=2-stratum specific (only the c=2 K_b ↔ F89 path-(N−1)
         // identity is verified bit-exact). Surface it under Tier 1 derived for c=2 blocks.
         if (Block.C == 2) yield return F89BridgeIdentity;

@@ -38,6 +38,10 @@ public static class AnchorConstants
         return t;
     }
 
+    /// <summary>Convert an angle in radians to degrees. Used by F95-based claims
+    /// that surface θ = arctan(Q) as a human-readable angle.</summary>
+    public static double RadiansToDegrees(double radians) => radians * 180.0 / Math.PI;
+
     /// <summary>Pretty-print common eighth-fractions; falls back to G6 numeric
     /// format for anything else. Covers the full dyadic-ladder positions
     /// surfaced by the F99 anker set plus its Π²-parity complements.</summary>

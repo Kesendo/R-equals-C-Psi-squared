@@ -35,7 +35,28 @@ public class FractionReferenceGraphTests
     [Fact]
     public void QBasisAnkers_AreCanonicalThree()
     {
+        // The 3 wave-breaking-scan anchors; now derived from QAnchorMap.CanonicalAnchors
+        // by filtering for the wave_breaking_q_anchor_scan source.
         Assert.Equal(new[] { 1.0, 1.5, 2.0 }, FractionReferenceGraph.QBasisAnkers);
+    }
+
+    [Fact]
+    public void NamedQAnchors_AreCanonicalTen_IncludingSqrt3()
+    {
+        // Full Q-anchor structure typed in QAnchorMap: onset edges, Balance, peak band
+        // (with c-specific Q_peak + Q=√3 canonical θ=60°), Q_EP idealized, Endpoint.
+        var named = FractionReferenceGraph.NamedQAnchors;
+        Assert.Equal(10, named.Count);
+        Assert.Contains(0.2, named);
+        Assert.Contains(0.35, named);
+        Assert.Contains(1.0, named);
+        Assert.Contains(1.2, named);
+        Assert.Contains(1.5, named);
+        Assert.Contains(1.6, named);
+        Assert.Contains(named, q => Math.Abs(q - Math.Sqrt(3.0)) < 1e-12);
+        Assert.Contains(1.8, named);
+        Assert.Contains(2.0, named);
+        Assert.Contains(2.5, named);
     }
 
     [Fact]
@@ -102,15 +123,36 @@ public class FractionReferenceGraphTests
     }
 
     [Fact]
-    public void Pi2ParityMirrors_ArePresentForOneEighthAndThreeEighths()
+    public void Pi2ParityMirrors_AreCompleteForAllValenceComplements()
     {
         var g = new FractionReferenceGraph();
-        // 1/8 ↔ 7/8 and 3/8 ↔ 5/8 should exist as Mirror direction
+        // Full n/8 ↔ (8−n)/8 family: three non-trivial pairs + one self-mirror at n=4.
+        // Periodic-table reading: alkali↔halogen, alkaline-earth↔chalcogen,
+        // boron-group↔nitrogen-group, carbon-self.
         var mirrors = g.References.Where(r => r.Direction == FractionReferenceDirection.Mirror).ToList();
         Assert.Contains(mirrors, r => Math.Abs(r.FromFraction - 1.0 / 8.0) < 1e-12
                                        && Math.Abs(r.ToFraction - 7.0 / 8.0) < 1e-12);
+        Assert.Contains(mirrors, r => Math.Abs(r.FromFraction - 1.0 / 4.0) < 1e-12
+                                       && Math.Abs(r.ToFraction - 3.0 / 4.0) < 1e-12);
         Assert.Contains(mirrors, r => Math.Abs(r.FromFraction - 3.0 / 8.0) < 1e-12
                                        && Math.Abs(r.ToFraction - 5.0 / 8.0) < 1e-12);
+    }
+
+    [Fact]
+    public void Pi2ParitySelfMirror_AtHalfAlpha_ParallelsGammaZeroPolarity()
+    {
+        // Carbon (n=4) is its own Π²-parity complement: 4/8 ↔ 4/8. This is
+        // structurally parallel to PolarityMirrorMap's γ=0 Generic self-mirror,
+        // and α=1/2 is the F86b image of γ=0 — same fixed point under
+        // (1−γ²)/2 folding. Distinct from α=0's Polarity self-loop (which
+        // documents ±γ → α=0 convergence, not Π²-parity).
+        var g = new FractionReferenceGraph();
+        var halfMirrorSelf = g.References.Where(r =>
+            r.Direction == FractionReferenceDirection.Mirror
+            && Math.Abs(r.FromFraction - 0.5) < 1e-12
+            && Math.Abs(r.ToFraction - 0.5) < 1e-12).ToList();
+        Assert.Single(halfMirrorSelf);
+        Assert.Contains("carbon", halfMirrorSelf[0].Operation);
     }
 
     [Fact]

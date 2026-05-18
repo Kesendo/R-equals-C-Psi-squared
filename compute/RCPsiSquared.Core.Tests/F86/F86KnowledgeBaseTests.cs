@@ -96,10 +96,20 @@ public class F86KnowledgeBaseTests
         Assert.Equal(BondClass.Endpoint, kb.EndpointShape.BondClass);
         Assert.Equal(2, kb.Retracted.Count);
 
-        // Top-level tree: Block + Tier1 derived + Tier1 candidate + Tier2 empirical
-        // + retracted + open questions + 4-mode note
+        Assert.Equal(10, kb.QAnchors.Anchors.Count);
+        Assert.NotNull(kb.QAnchors.AnkerAt(1.0));
+        Assert.NotNull(kb.QAnchors.AnkerAt(1.5));
+        Assert.NotNull(kb.QAnchors.AnkerAt(2.0));
+        Assert.NotNull(kb.QAnchors.AnkerAt(2.5));
+
+        Assert.Equal(Tier.Tier1Derived, kb.PolarityPairQPeakDecomposition.Tier);
+        Assert.Equal(2.5, PolarityPairQPeakDecompositionClaim.EndpointQPeakSchema);
+        Assert.Equal(1.5, PolarityPairQPeakDecompositionClaim.InteriorQPeakSchema);
+
+        // Top-level tree: Block + named Q-anchors + Tier1 derived + Tier1 candidate
+        // + Tier2 empirical + retracted + open questions + 4-mode note
         IInspectable root = kb;
-        Assert.Equal(7, root.Children.Count());
+        Assert.Equal(8, root.Children.Count());
     }
 
     [Fact]
