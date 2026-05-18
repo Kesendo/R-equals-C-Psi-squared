@@ -2,6 +2,7 @@ using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.F1;
 using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Lindblad;
+using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Runtime.F1Family;
 using RCPsiSquared.Runtime.ObjectManager;
 
@@ -14,20 +15,22 @@ public class F1FamilyRegistrationTests
             HType: HamiltonianType.XY, Topology: TopologyKind.Chain);
 
     [Fact]
-    public void RegisterF1Family_BuildsEightClaims()
+    public void RegisterF1Family_BuildsNineClaims()
     {
         var registry = new ClaimRegistryBuilder()
             .RegisterF1Family(DefaultChain())
             .Build();
 
-        // Eight entries: ChainSystemPrimitive + F1PalindromeIdentity +
+        // Nine entries: ChainSystemPrimitive + F1PalindromeIdentity +
         // PalindromeResidualScalingClaim + F1T1ResidualClosedForm +
         // F1T1ResidualPi2Decomposition + F1DepolResidualClosedForm +
         // F49NonUniformCrossTermClaim + F1GeneralTopologyVerifiedClaim (added
-        // 2026-05-18 alongside the last F1 OpenQuestion closure).
+        // 2026-05-18 alongside the last F1 OpenQuestion closure) +
+        // F4KernelDimensionByComponentsClaim (added 2026-05-18 as the F4
+        // disconnected-graph bridge from the F1 SLOW_N8 sweep).
         // SingleBody scaling deliberately omitted (builder is type-keyed; see
         // F1FamilyRegistration XML docs for the Option-B rationale).
-        Assert.Equal(8, registry.All().Count());
+        Assert.Equal(9, registry.All().Count());
         Assert.True(registry.Contains<ChainSystemPrimitive>());
         Assert.True(registry.Contains<F1PalindromeIdentity>());
         Assert.True(registry.Contains<PalindromeResidualScalingClaim>());
@@ -36,6 +39,43 @@ public class F1FamilyRegistrationTests
         Assert.True(registry.Contains<F1DepolResidualClosedForm>());
         Assert.True(registry.Contains<F49NonUniformCrossTermClaim>());
         Assert.True(registry.Contains<F1GeneralTopologyVerifiedClaim>());
+        Assert.True(registry.Contains<F4KernelDimensionByComponentsClaim>());
+    }
+
+    [Fact]
+    public void RegisterF1Family_F4KernelDimensionByComponents_Resolves_AndIsTier1Candidate()
+    {
+        var registry = new ClaimRegistryBuilder()
+            .RegisterF1Family(DefaultChain())
+            .Build();
+
+        var kernelDim = registry.Get<F4KernelDimensionByComponentsClaim>();
+        Assert.NotNull(kernelDim);
+        Assert.Equal(Tier.Tier1Candidate, kernelDim.Tier);
+        // The four N=8 anchors survived the registry round-trip.
+        Assert.Equal(4, kernelDim.EmpiricalAnchorsN8.Count);
+        Assert.Equal(9, kernelDim.Predict(new[] { 8 }));        // chain/ring/star N=8
+        Assert.Equal(25, kernelDim.Predict(new[] { 4, 4 }));    // K_4 + disjoint 4-chain N=8
+    }
+
+    [Fact]
+    public void RegisterF1Family_F4KernelDim_AncestorsContainF1Identity()
+    {
+        // The F4 bridge is wired with F1PalindromeIdentity as its parent (Tier 1
+        // derived, strength 5, allowed to anchor a Tier 1 candidate child strength 4).
+        // The "sister" relationship to F1GeneralTopologyVerifiedClaim lives in the
+        // claim's XML doc and the proof markdown, not as a direct dependency edge
+        // (Tier 2 verified strength 3 is weaker than Tier 1 candidate strength 4, so
+        // a direct edge would violate Tier inheritance).
+        var registry = new ClaimRegistryBuilder()
+            .RegisterF1Family(DefaultChain())
+            .Build();
+
+        var ancestors = registry.AncestorsOf<F4KernelDimensionByComponentsClaim>()
+            .Select(c => c.GetType()).ToHashSet();
+
+        Assert.Contains(typeof(F1PalindromeIdentity), ancestors);
+        Assert.Contains(typeof(ChainSystemPrimitive), ancestors);
     }
 
     [Fact]

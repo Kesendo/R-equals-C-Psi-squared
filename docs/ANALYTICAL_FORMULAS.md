@@ -185,6 +185,12 @@ Exact for chain topology, lower bound for higher-symmetry topologies.
 **Replaces:** null-space computation of Liouvillian.
 **Source:** [Cavity Modes Formula](../experiments/CAVITY_MODES_FORMULA.md)
 
+- **Disconnected-graph extension (Tier 1 candidate, 2026-05-18):**
+  - `dim ker L_H = Π_c (|c| + 1)` over connected components c of the graph G.
+  - Predicts kernel dim = N+1 for any single connected component (chain / ring / star / K_N / arbitrary connected, matches the F4 popcount-sector count); predicts 5·5 = 25 for K_4 + disjoint 4-chain at N=8 (bit-exact verified, all four N=8 SLOW_N8 topologies).
+  - Anchor: [PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS](proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md); typed: `F4KernelDimensionByComponentsClaim` ([compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs](../compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs)).
+  - **Open analytic step:** the lower bound dim ker L_H ≥ Π_c (|c|+1) is established by popcount projectors + tensor-sum kernel factorisation; the matching upper bound (popcount basis exhausts the per-component kernel) is observed bit-exactly at every tested (N, G) but a fully formal proof closes Tier 1 candidate → Tier 1 derived.
+
 ### F5. Depolarizing error (Tier 1, proven)
 
     error = gamma * 2*(N-2)/3

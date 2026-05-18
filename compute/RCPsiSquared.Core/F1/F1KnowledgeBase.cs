@@ -2,6 +2,7 @@ using RCPsiSquared.Core.Confirmations;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Lindblad;
+using RCPsiSquared.Core.Symmetry;
 
 namespace RCPsiSquared.Core.F1;
 
@@ -40,6 +41,15 @@ namespace RCPsiSquared.Core.F1;
 ///         derived), non-uniform γ (negative-result closure), and general topology
 ///         (synthesis proof + verification record). See <see cref="F1OpenQuestions"/>
 ///         XML doc for the per-item closure references.</item>
+///   <item>Tier-1 candidate bridge from the F1 N=8 SLOW_N8 sweep
+///         (<see cref="KernelDimensionByComponents"/>): F4 disconnected-graph extension
+///         dim ker L_H = Π_c (|c|+1) over connected components c. Bit-exact across
+///         the four N=8 topologies captured in
+///         <see cref="F1GeneralTopologyVerifiedClaim.SpectrumMetricsDataFiles"/>;
+///         the bonus discovery surfaced by that sweep. Lives on the F1 KB as a
+///         bridge because the data came from F1 work, even though the formula itself
+///         is structurally a child of F4 (parent
+///         <see cref="F4StationaryModeCountPi2Inheritance"/>).</item>
 /// </list>
 /// </summary>
 public sealed class F1KnowledgeBase : IInspectable
@@ -62,6 +72,19 @@ public sealed class F1KnowledgeBase : IInspectable
     public F1DepolResidualClosedForm DepolResidualClosedForm { get; }
     public F49NonUniformCrossTermClaim F49NonUniformCrossTerm { get; }
     public F1GeneralTopologyVerifiedClaim GeneralTopologyVerification { get; }
+
+    /// <summary>F4 disconnected-graph extension surfaced by the F1 SLOW_N8 sweep
+    /// (2026-05-18): dim ker L_H = Π_c (|c|+1) over connected components c. The
+    /// formula itself is structurally a child of F4 (parent
+    /// <see cref="F4StationaryModeCountPi2Inheritance"/>), but it surfaces on the
+    /// F1 KB as a bridge because the four bit-exact N=8 anchors live in the same
+    /// JSON files written by the F1 sweep (see
+    /// <see cref="F1GeneralTopologyVerifiedClaim.SpectrumMetricsDataFiles"/>).
+    /// Tier 1 candidate; promotion to Tier 1 derived requires the upper-bound
+    /// step documented in <c>PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS</c>
+    /// § "Open analytic step".</summary>
+    public F4KernelDimensionByComponentsClaim KernelDimensionByComponents { get; }
+
     public IReadOnlyList<HardwareConfirmationClaim> HardwareConfirmations { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
 
@@ -84,6 +107,7 @@ public sealed class F1KnowledgeBase : IInspectable
         DepolResidualClosedForm = new F1DepolResidualClosedForm();
         F49NonUniformCrossTerm = new F49NonUniformCrossTermClaim();
         GeneralTopologyVerification = new F1GeneralTopologyVerifiedClaim();
+        KernelDimensionByComponents = new F4KernelDimensionByComponentsClaim();
 
         HardwareConfirmations = HardwareConfirmationClaim.LookupAll(_f1ConfirmationNames);
 
@@ -111,8 +135,14 @@ public sealed class F1KnowledgeBase : IInspectable
                 T1ResidualClosedForm, T1ResidualPi2Decomposition, DepolResidualClosedForm,
                 F49NonUniformCrossTerm);
 
+            // Tier 1 candidate group: bonus discoveries from the F1 N=8 sweep that
+            // surface here as bridges even though their formula owner is another
+            // F-theorem (currently F4 via KernelDimensionByComponents).
+            yield return InspectableNode.Group("Tier 1 (candidate)",
+                KernelDimensionByComponents);
+
             // Tier 2 group includes the hardware confirmations + the
-            // general-topology verification record (numerical sweep across N=5..7).
+            // general-topology verification record (numerical sweep across N=5..8).
             var tier2Children = new List<IInspectable>(HardwareConfirmations.Count + 1)
             {
                 GeneralTopologyVerification,

@@ -87,14 +87,17 @@ public class F1KnowledgeBaseTests
         Assert.NotNull(kb.DepolResidualClosedForm);
         Assert.NotNull(kb.F49NonUniformCrossTerm);
         Assert.NotNull(kb.GeneralTopologyVerification);
+        Assert.NotNull(kb.KernelDimensionByComponents);
         Assert.NotEmpty(kb.HardwareConfirmations);
         // OpenQuestions is empty as of 2026-05-18 (all four F1 items closed); see
         // F1OpenQuestions XML doc for the per-item closure references.
         Assert.Empty(kb.OpenQuestions);
 
-        // Top-level tree: N node + Tier 1 group + Tier 2 group + open questions group
+        // Top-level tree: N node + Tier 1 (derived) group + Tier 1 (candidate) group
+        // (added 2026-05-18 with the F4 kernel-dim-by-components bridge) + Tier 2
+        // (verified) group + open questions group.
         IInspectable root = kb;
-        Assert.Equal(4, root.Children.Count());
+        Assert.Equal(5, root.Children.Count());
     }
 
     [Fact]
@@ -146,20 +149,40 @@ public class F1KnowledgeBaseTests
     }
 
     [Fact]
-    public void F1KnowledgeBase_TierInventoryLine_HasT1dT2vAndNoOpen()
+    public void F1KnowledgeBase_TierInventoryLine_HasT1dT1cT2vAndNoOpen()
     {
         var kb = new F1KnowledgeBase(N: 5);
         string line = kb.TierInventoryLine();
         // 7 Tier-1 derived: F1 + main + single-body + T1 closed form + T1 Π²-decomposition +
         // depol + F49 non-uniform γ cross-term.
+        // 1 Tier-1 candidate (added 2026-05-18): F4 kernel-dim-by-components bridge surfaced
+        // by the F1 SLOW_N8 sweep (formula owned by F4 family; lives on F1 KB because the
+        // four bit-exact anchors live in the F1 N=8 JSON metric files).
         // Tier-2 verified bumped from N hardware confirmations (3) to N+1 with the new
         // F1GeneralTopologyVerifiedClaim general-topology verification record (2026-05-18).
         // Open questions: ZERO after the 2026-05-18 general-topology closure (last F1
         // OpenQuestion resolved via PROOF_F1_GENERAL_TOPOLOGY.md + F1GeneralTopologyVerifiedClaim).
         // TierInventoryLine skips empty tiers, so "open=" should not appear in the line at all.
         Assert.Contains("T1d=7", line);
+        Assert.Contains("T1c=1", line);
         Assert.Contains("T2v=", line);
         Assert.DoesNotContain("open=", line);
+    }
+
+    [Fact]
+    public void F1KnowledgeBase_KernelDimensionByComponents_IsTier1Candidate_AndBridgeAnchored()
+    {
+        // Wire-in spot check for the F4 disconnected-graph bridge: the F1 KB exposes
+        // it as a top-level property; its tier is Tier 1 candidate (4 N=8 anchors, no
+        // analytic upper-bound proof yet); the anchor mentions both the new proof file
+        // and the F1 SLOW_N8 metric data files where the four kernel-dim numbers live.
+        var kb = new F1KnowledgeBase(N: 5);
+        Assert.Equal(Tier.Tier1Candidate, kb.KernelDimensionByComponents.Tier);
+        Assert.Contains("PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS", kb.KernelDimensionByComponents.Anchor);
+        Assert.Contains("f1_n8_n9_metrics", kb.KernelDimensionByComponents.Anchor);
+        // 4 N=8 anchors bit-exact: chain/ring/star = 9, K_4+disjoint-4-chain = 25.
+        Assert.Equal(9, kb.KernelDimensionByComponents.Predict(new[] { 8 }));
+        Assert.Equal(25, kb.KernelDimensionByComponents.Predict(new[] { 4, 4 }));
     }
 
     [Fact]
