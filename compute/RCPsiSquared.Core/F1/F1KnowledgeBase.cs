@@ -24,7 +24,12 @@ namespace RCPsiSquared.Core.F1;
 ///   <item>Tier-2 verified: hardware confirmations from
 ///         <see cref="ConfirmationsRegistry"/> that exercise F1 / palindrome trichotomy
 ///         on Marrakesh and related machines.</item>
-///   <item>Open: <see cref="OpenQuestions"/>: site-dependent γ, general topology.</item>
+///   <item>Open: <see cref="OpenQuestions"/>: general topology beyond chain/ring/star/K_N.
+///         The earlier non-uniform γ_i item closed on 2026-05-18 by
+///         <c>docs/proofs/PROOF_F1_NONUNIFORM_GAMMA.md</c> (negative result: the H-block
+///         scaling factor F(N, G) is γ-independent because M_D = 0 per Pauli string
+///         under the F1 σ-shift; no formula change to
+///         <see cref="PalindromeResidualScalingClaim"/> required).</item>
 /// </list>
 /// </summary>
 public sealed class F1KnowledgeBase : IInspectable

@@ -29,6 +29,13 @@ any N; non-uniform γ per qubit. Two Π families (P1, P4).
 **Replaces:** palindrome verification (54,118 eigenvalues at N=8).
 **Source:** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)
 
+**H-block residual is γ-independent (uniform AND non-uniform γ; closed 2026-05-18):**
+- The dissipator-block residual M_D = Π·L_D·Π⁻¹ + L_D + 2Σγ·I vanishes per Pauli string for arbitrary per-site γ_l, because the per-site Z-dephasing kernel is proportional to I_4 and the F1 σ-shift `2Σγ·I` cancels the sum exactly.
+- Hence ‖M‖²_F = ‖M_H‖²_F = c_H · F(N, G) for every γ pattern; the `(Σγ)²·4^N` scalar-diagonal piece does NOT appear (it is absorbed into the σ-shift, not added alongside).
+- Distinct from T1/depol siblings below, whose per-site kernels are NOT proportional to I and so DO have non-trivial Σγ² and (Σγ)² structure surviving any σ-shift choice.
+- Closes the earlier F1 OpenQuestion conjecturing a Σγ_l² replacement of (Σγ)² in F(N, G); the conjecture was incorrect, no formula change to F(N, G) is required.
+- Anchor: [PROOF_F1_NONUNIFORM_GAMMA](proofs/PROOF_F1_NONUNIFORM_GAMMA.md); verification: [simulations/_f1_nonuniform_gamma_verify.py](../simulations/_f1_nonuniform_gamma_verify.py); typed: PalindromeResidualScalingClaim (unchanged; XML doc notes γ-independence).
+
 **T1 amplitude-damping residual (closed form, 2026-05-18):**
 - ‖M(T1)‖²_F = 4^(N−1)·[3·Σγ²+4·(Σγ)²]  (H-independent, γ_Z-independent; bit-exact N=2..5)
 - Π²-decomposition (Pythagorean orthogonal):

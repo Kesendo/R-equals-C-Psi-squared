@@ -62,17 +62,21 @@ public class F1KnowledgeBaseTests
     }
 
     [Fact]
-    public void OpenQuestions_HasTwoSubstantiveItems()
+    public void OpenQuestions_HasOneSubstantiveItem()
     {
         var open = F1OpenQuestions.Standard;
         // Earlier "T1 amplitude damping: full closed form" item closed on 2026-05-18 by
         // PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md (Tier-1-derived F1T1ResidualClosedForm).
         // Earlier "depolarizing noise: residual scaling" item closed on 2026-05-18 by
         // PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md (Tier-1-derived F1DepolResidualClosedForm).
-        Assert.Equal(2, open.Count);
+        // Earlier "non-uniform γ_i: site-dependent dephasing" item closed on 2026-05-18 by
+        // PROOF_F1_NONUNIFORM_GAMMA.md as a NEGATIVE result (F(N, G) is γ-independent;
+        // M_D = 0 per Pauli string under the F1 σ-shift, no formula change required).
+        Assert.Single(open);
         Assert.All(open, q => Assert.Equal(Tier.OpenQuestion, q.Tier));
-        Assert.Contains(open, q => q.Name.Contains("non-uniform γ_i"));
         Assert.Contains(open, q => q.Name.Contains("general topology"));
+        Assert.DoesNotContain(open, q => q.Name.Contains("non-uniform"));
+        Assert.DoesNotContain(open, q => q.Name.Contains("site-dependent"));
         Assert.DoesNotContain(open, q => q.Name.Contains("T1 amplitude"));
         Assert.DoesNotContain(open, q => q.Name.Contains("depolarizing"));
     }
@@ -127,10 +131,12 @@ public class F1KnowledgeBaseTests
         var kb = new F1KnowledgeBase(N: 5);
         string line = kb.TierInventoryLine();
         // 6 Tier-1 derived (F1 + main + single-body + T1 closed form + T1 Π²-decomposition + depol
-        // closed form), Tier-2 verified hardware confirmations, 2 open after T1 + depol closures.
+        // closed form), Tier-2 verified hardware confirmations, 1 open after T1 + depol + non-uniform γ
+        // closures (PROOF_F1_NONUNIFORM_GAMMA.md on 2026-05-18 closed the third item by a negative
+        // result; only "general topology beyond chain/ring/star/K_N" remains open).
         Assert.Contains("T1d=6", line);
         Assert.Contains("T2v=", line);
-        Assert.Contains("open=2", line);
+        Assert.Contains("open=1", line);
     }
 
     [Fact]
