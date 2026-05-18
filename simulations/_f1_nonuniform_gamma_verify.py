@@ -48,15 +48,14 @@ from framework.lindblad import (  # noqa: E402
 def _bilinear_chain_h(N: int, terms: list[tuple[str, str, float]]) -> np.ndarray:
     """Build H = Σ_l Σ_term coeff·σ_a^l σ_b^{l+1} on an open chain.
 
-    Inline (script-local) construction from public framework primitives
-    (`fw.site_op`), avoiding a reach into framework's `_build_bilinear`
-    helper. Matches the framework's bilinear builder by construction
-    (verified bit-exactly via the verification asserts in main()).
+    Script-local construction from the public framework primitive `fw.site_op`,
+    so this verify script does not depend on `framework.pauli._build_bilinear`
+    (which is private). Matches the framework's bilinear builder by construction.
     """
     d = 2 ** N
     H = np.zeros((d, d), dtype=complex)
-    bonds = [(b, b + 1) for b in range(N - 1)]
-    for (i, j) in bonds:
+    for i in range(N - 1):
+        j = i + 1
         for (la, lb, coeff) in terms:
             H = H + coeff * fw.site_op(N, i, la) @ fw.site_op(N, j, lb)
     return H

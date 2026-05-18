@@ -24,20 +24,16 @@ namespace RCPsiSquared.Core.F1;
 /// N alone, independent of γ, J, topology, and equals 4·N/(N−1) (main) or
 /// 4·(2N−1)/(2N−3) (single-body).</para>
 ///
-/// <para><b>γ-independence (uniform AND non-uniform γ, closed 2026-05-18).</b> The
-/// closed-form scaling F(N, G) holds verbatim for arbitrary per-site γ_l, not only the
-/// uniform case. The dissipator-block residual M_D = Π·L_D·Π⁻¹ + L_D + 2Σγ·I vanishes
-/// per Pauli string for any γ pattern, because the per-site Z-dephasing kernel is
-/// proportional to the identity and the F1 σ-shift `2Σγ·I` cancels the sum exactly
-/// (Step 4 of <c>docs/proofs/PROOF_F1_NONUNIFORM_GAMMA.md</c>). Hence ‖M‖²_F = ‖M_H‖²_F
-/// for every γ pattern, with M_H carrying no γ dependence by construction. This closes
-/// the earlier F1 OpenQuestion that conjectured a Σγ_l² replacement of (Σγ)² in F(N, G).
-/// The conjecture was incorrect; no formula change is required.</para>
+/// <para><b>γ-independence (uniform AND non-uniform γ, closed 2026-05-18).</b> F(N, G)
+/// holds verbatim for arbitrary per-site γ_l: the dissipator-block residual
+/// M_D = Π·L_D·Π⁻¹ + L_D + 2Σγ·I vanishes per Pauli string, so ‖M‖²_F = ‖M_H‖²_F and
+/// M_H carries no γ dependence by construction. Closes the earlier F1 OpenQuestion that
+/// conjectured a Σγ_l² replacement of (Σγ)² in F(N, G); no formula change required.
+/// Anchor: <c>docs/proofs/PROOF_F1_NONUNIFORM_GAMMA.md</c>;
+/// verification: <c>simulations/_f1_nonuniform_gamma_verify.py</c>.</para>
 ///
 /// <para>Source: <c>experiments/OPERATOR_RIGIDITY_ACROSS_CUSP.md</c>. The scaling
-/// computation lives in <see cref="PalindromeResidualScaling"/>. γ-independence anchor:
-/// <c>docs/proofs/PROOF_F1_NONUNIFORM_GAMMA.md</c>;
-/// verification: <c>simulations/_f1_nonuniform_gamma_verify.py</c>.</para>
+/// computation lives in <see cref="PalindromeResidualScaling"/>.</para>
 /// </summary>
 public sealed class PalindromeResidualScalingClaim : Claim, IDriftCheckable
 {

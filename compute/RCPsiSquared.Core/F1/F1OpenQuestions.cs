@@ -18,11 +18,9 @@ namespace RCPsiSquared.Core.F1;
 ///
 /// <para>The earlier "non-uniform γ_i: site-dependent dephasing" item was closed on
 /// 2026-05-18 by <c>docs/proofs/PROOF_F1_NONUNIFORM_GAMMA.md</c> as a NEGATIVE result:
-/// the H-block residual scaling factor F(N, G) is γ-independent because the per-site
-/// Z-dephasing dissipator kernel is proportional to the identity, so the F1 σ-shift
-/// `2Σγ·I` cancels the per-Pauli-string diagonal of `Π·L_D·Π⁻¹ + L_D` exactly for
-/// arbitrary γ patterns. The conjectured Σγ_l² scaling does not occur; no formula
-/// change to <see cref="PalindromeResidualScalingClaim"/> is required.</para></summary>
+/// the H-block scaling factor F(N, G) on <see cref="PalindromeResidualScalingClaim"/>
+/// is γ-independent (the conjectured Σγ_l² replacement of (Σγ)² does not occur); no
+/// formula change required.</para></summary>
 public static class F1OpenQuestions
 {
     private const string Anchor = "docs/ANALYTICAL_FORMULAS.md F1 \"Breaks for\" clause";

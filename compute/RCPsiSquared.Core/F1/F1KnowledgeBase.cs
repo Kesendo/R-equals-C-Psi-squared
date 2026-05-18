@@ -26,10 +26,9 @@ namespace RCPsiSquared.Core.F1;
 ///         on Marrakesh and related machines.</item>
 ///   <item>Open: <see cref="OpenQuestions"/>: general topology beyond chain/ring/star/K_N.
 ///         The earlier non-uniform γ_i item closed on 2026-05-18 by
-///         <c>docs/proofs/PROOF_F1_NONUNIFORM_GAMMA.md</c> (negative result: the H-block
-///         scaling factor F(N, G) is γ-independent because M_D = 0 per Pauli string
-///         under the F1 σ-shift; no formula change to
-///         <see cref="PalindromeResidualScalingClaim"/> required).</item>
+///         <c>docs/proofs/PROOF_F1_NONUNIFORM_GAMMA.md</c> as a negative result;
+///         see <see cref="PalindromeResidualScalingClaim"/> XML doc for the γ-independence
+///         statement.</item>
 /// </list>
 /// </summary>
 public sealed class F1KnowledgeBase : IInspectable
