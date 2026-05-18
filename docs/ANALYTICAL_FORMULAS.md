@@ -998,14 +998,14 @@ At N≥3: cross term ~2% of ||L_c²||, γ-independent.
 
 ### F49. Cross-term formula (Tier 1, proven)
 
-    R(N) = ||{L_H, L_Dc}|| / (||L_H|| · ||L_Dc||) = √((N-2) / (N · 4^(N-1)))
+    R(N) = ‖{L_H, L_Dc}‖ / (‖L_H‖ · ‖L_Dc‖) = √((N-2) / (N · 4^(N-1)))
 
 Equivalently: R(N)² = 4(N-2) / (N · 4^N). At N=2: R = 0 (exact
 Pythagorean decomposition). At N=3: R = 1/√48. At N=4: R = 1/√128.
 
-Follows from the key identity ||{L_H, L_Dc}||² = 4γ²(N-2)||L_H||²
+Follows from the key identity ‖{L_H, L_Dc}‖² = 4γ²(N-2)‖L_H‖²
 (bond-sum rule + spectator variance + disjoint bond supports) and
-||L_Dc||² = γ² · 4^N · N.
+‖L_Dc‖² = γ² · 4^N · N.
 
 γ-independent, J-independent, topology-independent. Depends only on N.
 
@@ -1020,7 +1020,7 @@ Uniform Z-dephasing, any graph, all N >= 2.
 
 ### F49b. Centered dissipator norm (Tier 1, proven)
 
-    ||L_Dc||² = γ² · 4^N · N
+    ‖L_Dc‖² = γ² · 4^N · N
 
 where L_Dc = L_D + Nγ·I is the centered dissipator for uniform
 Z-dephasing. Auxiliary lemma used in the proof of F49.
