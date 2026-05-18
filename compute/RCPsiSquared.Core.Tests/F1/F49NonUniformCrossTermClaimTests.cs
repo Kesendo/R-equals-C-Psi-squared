@@ -14,6 +14,15 @@ public class F49NonUniformCrossTermClaimTests
     private const double XyBondNormSqN3 = 256.0;
     private const double XyBondNormSqN4 = 1024.0;
 
+    // Canonical N=3 γ triple used across the Phase-1 anchor row tests.
+    private static double[] GammaN3() => new[] { 0.1, 0.2, 0.3 };
+
+    // Per-bond (bondNormSq, gFraction) arrays for a graph with <paramref name="bondCount"/>
+    // Heisenberg bonds sharing the same per-bond superoperator norm.
+    private static (double[] bondNorms, double[] gFractions) UniformHeisenberg(int bondCount, double bondNormSq) =>
+        (Enumerable.Repeat(bondNormSq, bondCount).ToArray(),
+         Enumerable.Repeat(F49NonUniformCrossTermClaim.GHeisenbergFraction, bondCount).ToArray());
+
     [Fact]
     public void Tier_IsTier1Derived()
     {
@@ -64,7 +73,7 @@ public class F49NonUniformCrossTermClaimTests
         //   asymmetry: (4/3)·384·((γ_0−γ_1)²+(γ_1−γ_2)²) = (4/3)·384·(0.01+0.01) = 10.24
         //   total: 163.84 (matches truth at F1-centered L_Dc, Section 1 of verify script).
         double predicted = F49NonUniformCrossTermClaim.PredictHeisenbergChain(
-            N: 3, gamma: new[] { 0.1, 0.2, 0.3 }, bondNormSquared: HeisenbergBondNormSqN3);
+            N: 3, gamma: GammaN3(), bondNormSquared: HeisenbergBondNormSqN3);
         Assert.Equal(163.84, predicted, 12);
     }
 
@@ -89,7 +98,7 @@ public class F49NonUniformCrossTermClaimTests
         //   asymmetry: 4·128·((0.01)+(0.01)) = 10.24
         //   total: 61.44 (independently verified in section 4 of the verify script at N=4 cross-class).
         double predicted = F49NonUniformCrossTermClaim.PredictIsingChain(
-            N: 3, gamma: new[] { 0.1, 0.2, 0.3 }, bondNormSquared: IsingBondNormSqN3);
+            N: 3, gamma: GammaN3(), bondNormSquared: IsingBondNormSqN3);
         Assert.Equal(61.44, predicted, 12);
     }
 
@@ -99,7 +108,7 @@ public class F49NonUniformCrossTermClaimTests
         // XY G-fraction = 0 ⟹ formula reduces to spectator-only. N=3 γ=[0.1, 0.2, 0.3] XY (XX+YY) J=1,
         // bondNormSquared=256: spectator = 4·256·(0.09+0.01) = 102.40; asymmetry = 0.
         double predicted = F49NonUniformCrossTermClaim.PredictXyChain(
-            N: 3, gamma: new[] { 0.1, 0.2, 0.3 }, bondNormSquared: XyBondNormSqN3);
+            N: 3, gamma: GammaN3(), bondNormSquared: XyBondNormSqN3);
         Assert.Equal(102.40, predicted, 12);
     }
 
@@ -109,9 +118,9 @@ public class F49NonUniformCrossTermClaimTests
         // Soft XY+YX has the same G-fraction = 0 and the same per-bond intrinsic norm structure
         // as XY at N=3 (256 for J=1). Predictions therefore coincide at γ=[0.1, 0.2, 0.3].
         double predictedSoft = F49NonUniformCrossTermClaim.PredictSoftXyYxChain(
-            N: 3, gamma: new[] { 0.1, 0.2, 0.3 }, bondNormSquared: XyBondNormSqN3);
+            N: 3, gamma: GammaN3(), bondNormSquared: XyBondNormSqN3);
         double predictedXy = F49NonUniformCrossTermClaim.PredictXyChain(
-            N: 3, gamma: new[] { 0.1, 0.2, 0.3 }, bondNormSquared: XyBondNormSqN3);
+            N: 3, gamma: GammaN3(), bondNormSquared: XyBondNormSqN3);
         Assert.Equal(predictedXy, predictedSoft, 12);
         Assert.Equal(102.40, predictedSoft, 12);
     }
@@ -124,13 +133,7 @@ public class F49NonUniformCrossTermClaimTests
         const int N = 4;
         var gamma = new[] { 0.05, 0.10, 0.15, 0.20 };
         var bondEdges = new (int i, int j)[] { (0, 1), (1, 2), (2, 3) };
-        var bondNorms = new[] { HeisenbergBondNormSqN4, HeisenbergBondNormSqN4, HeisenbergBondNormSqN4 };
-        var gFractions = new[]
-        {
-            F49NonUniformCrossTermClaim.GHeisenbergFraction,
-            F49NonUniformCrossTermClaim.GHeisenbergFraction,
-            F49NonUniformCrossTermClaim.GHeisenbergFraction,
-        };
+        var (bondNorms, gFractions) = UniformHeisenberg(bondEdges.Length, HeisenbergBondNormSqN4);
         double general = F49NonUniformCrossTermClaim.Predict(N, gamma, bondEdges, bondNorms, gFractions);
         double specialised = F49NonUniformCrossTermClaim.PredictHeisenbergChain(N, gamma, HeisenbergBondNormSqN4);
         Assert.Equal(specialised, general, 10);
@@ -150,14 +153,7 @@ public class F49NonUniformCrossTermClaimTests
         const int N = 4;
         var gamma = new[] { 0.05, 0.10, 0.15, 0.20 };
         var bondEdges = new (int i, int j)[] { (0, 1), (1, 2), (2, 3), (0, 3) };
-        var bondNorms = new[] { HeisenbergBondNormSqN4, HeisenbergBondNormSqN4, HeisenbergBondNormSqN4, HeisenbergBondNormSqN4 };
-        var gFractions = new[]
-        {
-            F49NonUniformCrossTermClaim.GHeisenbergFraction,
-            F49NonUniformCrossTermClaim.GHeisenbergFraction,
-            F49NonUniformCrossTermClaim.GHeisenbergFraction,
-            F49NonUniformCrossTermClaim.GHeisenbergFraction,
-        };
+        var (bondNorms, gFractions) = UniformHeisenberg(bondEdges.Length, HeisenbergBondNormSqN4);
         double predicted = F49NonUniformCrossTermClaim.Predict(N, gamma, bondEdges, bondNorms, gFractions);
         Assert.Equal(983.04, predicted, 10);
     }
@@ -197,21 +193,22 @@ public class F49NonUniformCrossTermClaimTests
         Assert.Contains("must equal N", exChain.Message);
 
         // General: bondNormSquaredPerBond.Count != bondEdges.Count.
+        var heisenbergG = F49NonUniformCrossTermClaim.GHeisenbergFraction;
         var exBondNorm = Assert.Throws<ArgumentException>(
             () => F49NonUniformCrossTermClaim.Predict(
-                N: 3, gamma: new[] { 0.1, 0.2, 0.3 },
+                N: 3, gamma: GammaN3(),
                 bondEdges: new (int, int)[] { (0, 1), (1, 2) },
                 bondNormSquaredPerBond: new[] { HeisenbergBondNormSqN3 },
-                gFractionPerBond: new[] { 4.0 / 3.0, 4.0 / 3.0 }));
+                gFractionPerBond: new[] { heisenbergG, heisenbergG }));
         Assert.Contains("must equal bondEdges length", exBondNorm.Message);
 
         // General: gFractionPerBond.Count != bondEdges.Count.
         var exGFraction = Assert.Throws<ArgumentException>(
             () => F49NonUniformCrossTermClaim.Predict(
-                N: 3, gamma: new[] { 0.1, 0.2, 0.3 },
+                N: 3, gamma: GammaN3(),
                 bondEdges: new (int, int)[] { (0, 1), (1, 2) },
                 bondNormSquaredPerBond: new[] { HeisenbergBondNormSqN3, HeisenbergBondNormSqN3 },
-                gFractionPerBond: new[] { 4.0 / 3.0 }));
+                gFractionPerBond: new[] { heisenbergG }));
         Assert.Contains("must equal bondEdges length", exGFraction.Message);
 
         // General: gamma.Count != N.
@@ -220,16 +217,16 @@ public class F49NonUniformCrossTermClaimTests
                 N: 3, gamma: new[] { 0.1, 0.2 },
                 bondEdges: new (int, int)[] { (0, 1), (1, 2) },
                 bondNormSquaredPerBond: new[] { HeisenbergBondNormSqN3, HeisenbergBondNormSqN3 },
-                gFractionPerBond: new[] { 4.0 / 3.0, 4.0 / 3.0 }));
+                gFractionPerBond: new[] { heisenbergG, heisenbergG }));
         Assert.Contains("must equal N", exGamma.Message);
     }
 
     [Fact]
     public void Predict_RejectsInvalidBondIndices()
     {
-        var gamma = new[] { 0.1, 0.2, 0.3 };
+        var gamma = GammaN3();
         var bondNorms = new[] { HeisenbergBondNormSqN3 };
-        var gFractions = new[] { 4.0 / 3.0 };
+        var gFractions = new[] { F49NonUniformCrossTermClaim.GHeisenbergFraction };
 
         // Out of range (j >= N).
         var exOob = Assert.Throws<ArgumentException>(
@@ -269,7 +266,7 @@ public class F49NonUniformCrossTermClaimTests
     {
         var ex = Assert.Throws<ArgumentOutOfRangeException>(
             () => F49NonUniformCrossTermClaim.PredictHeisenbergChain(
-                N: 3, gamma: new[] { 0.1, 0.2, 0.3 }, bondNormSquared: -1.0));
+                N: 3, gamma: GammaN3(), bondNormSquared: -1.0));
         Assert.Contains("bondNormSquared must be ≥ 0", ex.Message);
     }
 

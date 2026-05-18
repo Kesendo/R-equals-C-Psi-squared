@@ -10,39 +10,30 @@ namespace RCPsiSquared.Core.F1;
 /// to arbitrary site-dependent {γ_l}, with the F1-centered dissipator L_Dc := L_D + σ·I
 /// (σ = Σ_l γ_l). The closed form splits the cross-term into a spectator part (per-bond,
 /// depending on Σ_{m ∉ bond} γ_m²) plus a bond-asymmetry part (per-bond, depending on
-/// (γ_i − γ_j)² with a per-Pauli-class coefficient G(bond, H)):</para>
+/// (γ_i − γ_j)² with a per-Pauli-class coefficient G(bond, H) = <c>4·‖L_{ZZ-part of H}^bond‖²_F</c>;
+/// only the ZZ-fraction of each bond Hamiltonian carries (γ_i − γ_j)² sensitivity):</para>
 ///
 /// <code>
 ///     ‖{L_H, L_Dc}‖²_F  =  4 · Σ_b ‖L_H^bond_b‖²_F · Σ_{m ∉ bond_b} γ_m²        (spectator)
 ///                        +     Σ_b G(bond_b, H) · (γ_{i_b} − γ_{j_b})²            (bond-asymmetry)
 /// </code>
 ///
-/// <para>The bond-asymmetry coefficient G(bond, H) is exactly <c>4·‖L_{ZZ-class part of H}^bond‖²_F</c>:
-/// only the ZZ-fraction of each bond Hamiltonian carries (γ_i − γ_j)² sensitivity. For canonical
-/// H-classes the ZZ-fraction is fixed by the bond Pauli decomposition, giving these per-class
-/// G fractions (i.e., G / ‖L_H^bond‖²_F):</para>
-///
-/// <list type="bullet">
-///   <item><b>Heisenberg J·(XX+YY+ZZ):</b> ZZ is 1/3 of the bond norm ⟹ G/‖L_H^bond‖² = <c>4/3</c>.</item>
-///   <item><b>Ising J·ZZ:</b> ZZ is 100% of the bond norm ⟹ G/‖L_H^bond‖² = <c>4</c>.</item>
-///   <item><b>XY J·(XX+YY):</b> no ZZ content ⟹ G/‖L_H^bond‖² = <c>0</c> (spectator-only).</item>
-///   <item><b>Soft Π²-odd J·(XY+YX):</b> no ZZ content ⟹ G/‖L_H^bond‖² = <c>0</c> (spectator-only).</item>
-/// </list>
+/// <para>Per-class G fractions (G/‖L_H^bond‖²_F): see the <see cref="GHeisenbergFraction"/>,
+/// <see cref="GIsingFraction"/>, <see cref="GXyFraction"/>, <see cref="GSoftXyYxFraction"/>
+/// constants.</para>
 ///
 /// <para><b>Convention on <c>bondNormSquared</c>:</b> the per-bond Frobenius norm squared
 /// <c>‖L_H^bond_b‖²_F</c> is computed on the FULL N-qubit Pauli-string operator space (spectator
 /// I-tensors included). For a single Heisenberg J = 1 bond this equals 384 at N = 3, 1536 at N = 4,
 /// 6144 at N = 5; each step multiplies by 4 (one additional spectator contributes <c>tr(I_4) = 4</c>
 /// to the Frobenius-norm tensor calculation). Intrinsic local 2-qubit norms are 96 / 32 / 64 / 64
-/// for Heisenberg / Ising / XY / XY+YX respectively. This is the convention used by
-/// <c>_bond_LH_norm_sq</c> in <c>simulations/_f49_nonuniform_gamma_crossterm_verify.py</c>; the
-/// typed claim accepts the same caller-supplied value (Predict methods are linear in
-/// <c>bondNormSquared</c>, so any consistent convention works as long as caller and theorem agree).</para>
+/// for Heisenberg / Ising / XY / XY+YX respectively. Matches <c>_bond_LH_norm_sq</c> in
+/// <c>simulations/_f49_nonuniform_gamma_crossterm_verify.py</c>; the Predict methods are linear in
+/// <c>bondNormSquared</c>, so any consistent convention works as long as caller and theorem agree.</para>
 ///
-/// <para>The uniform-γ F49 identity <c>4γ²·(N−2)·‖L_H‖²_F</c> ([F49 / PROOF_CROSS_TERM_FORMULA]) is
-/// recovered as the γ_l ≡ γ special case: bond-asymmetry vanishes (γ_i = γ_j); the spectator part
-/// collapses to <c>4γ²·(N−2)·Σ_b ‖L_H^bond_b‖²_F = 4γ²·(N−2)·‖L_H‖²_F</c> by the disjoint-bond-supports
-/// lemma.</para>
+/// <para>Uniform γ_l ≡ γ recovers F49's <c>4γ²·(N−2)·‖L_H‖²_F</c>
+/// ([F49 / PROOF_CROSS_TERM_FORMULA]): bond-asymmetry vanishes (γ_i = γ_j); the spectator part
+/// collapses via the disjoint-bond-supports lemma.</para>
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F49_NONUNIFORM_GAMMA_EXTENSION.md</c> (Steps 1-6).
 /// Closes the "Open follow-ups" item of <c>docs/proofs/PROOF_F1_NONUNIFORM_GAMMA.md</c>.
@@ -146,17 +137,7 @@ public sealed class F49NonUniformCrossTermClaim : Claim
         for (int b = 0; b < bondEdges.Count; b++)
         {
             (int i, int j) = bondEdges[b];
-            double bondNormSq = bondNormSquaredPerBond[b];
-            double gFraction = gFractionPerBond[b];
-            double spectatorSum = 0.0;
-            for (int m = 0; m < N; m++)
-            {
-                if (m == i || m == j) continue;
-                spectatorSum += gamma[m] * gamma[m];
-            }
-            double deltaGamma = gamma[i] - gamma[j];
-            total += SpectatorPrefactor * bondNormSq * spectatorSum
-                   + gFraction * bondNormSq * deltaGamma * deltaGamma;
+            total += BondContribution(N, gamma, i, j, bondNormSquaredPerBond[b], gFractionPerBond[b]);
         }
         return total;
     }
@@ -171,20 +152,24 @@ public sealed class F49NonUniformCrossTermClaim : Claim
                 $"bondNormSquared must be ≥ 0; got {bondNormSquared}");
         double total = 0.0;
         for (int b = 0; b < N - 1; b++)
-        {
-            int i = b;
-            int j = b + 1;
-            double spectatorSum = 0.0;
-            for (int m = 0; m < N; m++)
-            {
-                if (m == i || m == j) continue;
-                spectatorSum += gamma[m] * gamma[m];
-            }
-            double deltaGamma = gamma[i] - gamma[j];
-            total += SpectatorPrefactor * bondNormSquared * spectatorSum
-                   + gFraction * bondNormSquared * deltaGamma * deltaGamma;
-        }
+            total += BondContribution(N, gamma, i: b, j: b + 1, bondNormSquared, gFraction);
         return total;
+    }
+
+    /// <summary>Single-bond contribution to <c>‖{L_H, L_Dc}‖²_F</c>:
+    /// <c>4·bondNormSq·Σ_{m ∉ {i,j}} γ_m² + gFraction·bondNormSq·(γ_i − γ_j)²</c>.</summary>
+    private static double BondContribution(
+        int N, IReadOnlyList<double> gamma, int i, int j, double bondNormSq, double gFraction)
+    {
+        double spectatorSum = 0.0;
+        for (int m = 0; m < N; m++)
+        {
+            if (m == i || m == j) continue;
+            spectatorSum += gamma[m] * gamma[m];
+        }
+        double deltaGamma = gamma[i] - gamma[j];
+        return SpectatorPrefactor * bondNormSq * spectatorSum
+             + gFraction * bondNormSq * deltaGamma * deltaGamma;
     }
 
     private static void ValidateCommon(int N, IReadOnlyList<double> gamma)
