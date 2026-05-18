@@ -26,7 +26,7 @@ choose X or Y (2 choices), choose I or Z for each remaining site
 (2^(N−1) choices).
 
 **Liouvillian in Pauli basis:** L = L_H + L_D where L_H = −i[H, ·] and
-L_D = Σ_k γ_k D[Z_k]. The dissipator is diagonal: L_D(σ) = −2γ · n_XY(σ) · σ,
+L_D = Σ_k γ_k D_{Z_k}. The dissipator is diagonal: L_D(σ) = −2γ · n_XY(σ) · σ,
 where n_XY(σ) is the XY-weight. For w=1 strings, L_D(σ) = −2γ · σ.
 
 ## Proof
@@ -38,7 +38,7 @@ For any Pauli string σ with XY-weight 1:
     L_D(σ) = −2γ · σ
 
 This follows from the Z-dephasing dissipator eigenvalue formula
-(proven in the Mirror Symmetry Proof, Step 1): D[Z_k] acting on σ
+(proven in the Mirror Symmetry Proof, Step 1): D_{Z_k} acting on σ
 contributes −2γ_k if site k has X or Y, and 0 if site k has I or Z.
 For uniform γ and exactly one XY site, the total is −2γ.
 

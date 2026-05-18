@@ -43,7 +43,7 @@ Let σ_α be a w=0 Pauli string: σ_α = ⊗_l σ_{α_l} with α_l ∈ {I, Z}. T
 Both σ_{α_l} = I and σ_{α_l} = Z commute with Z_l. Therefore Z_l · σ_α · Z_l = σ_α, and:
 
 ```
-D[Z_l](σ_α) = Z_l · σ_α · Z_l − σ_α = 0     for σ_α in w=0.
+D_{Z_l}(σ_α) = Z_l · σ_α · Z_l − σ_α = 0     for σ_α in w=0.
 ```
 
 The full Z-dephasing dissipator gives zero on the w=0 sector.
@@ -121,9 +121,9 @@ Z_l · X_l · Z_l = −X_l (anti-commutation). Z_l · Y_l · Z_l = −Y_l. Eithe
 
 For the full string: Z_l σ_β Z_l = (−1) · σ_β (the −1 comes from the site l where Z anti-commutes; all other sites are unchanged since Z_l commutes with σ_{β_m} for m ≠ l, regardless of σ_{β_m}, because [Z_l, anything on site m] = 0).
 
-So D[Z_l](σ_β) = Z_l σ_β Z_l − σ_β = −σ_β − σ_β = −2 σ_β.
+So D_{Z_l}(σ_β) = Z_l σ_β Z_l − σ_β = −σ_β − σ_β = −2 σ_β.
 
-Total dissipator: Σ_l γ_l · D[Z_l](σ_β) = Σ_l γ_l · (−2 σ_β) = −2 Σγ · σ_β.
+Total dissipator: Σ_l γ_l · D_{Z_l}(σ_β) = Σ_l γ_l · (−2 σ_β) = −2 Σγ · σ_β.
 
 ```
 dissipator(σ_β) = −2Σγ · σ_β   for σ_β in w=N.

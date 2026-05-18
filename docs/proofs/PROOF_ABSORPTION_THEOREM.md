@@ -64,12 +64,12 @@ analytically the same day.
 
 Consider an N-qubit system governed by the Lindblad master equation:
 
-    dρ/dt = L(ρ) = -i[H, ρ] + Σ_k γ_k D[Z_k](ρ)
+    dρ/dt = L(ρ) = -i[H, ρ] + Σ_k γ_k D_{Z_k}(ρ)
 
 where H is a real Hermitian Hamiltonian (e.g. the Heisenberg chain),
 Z_k is the Pauli-Z operator on site k, and the Lindblad dissipator is:
 
-    D[Z_k](ρ) = Z_k ρ Z_k - ρ
+    D_{Z_k}(ρ) = Z_k ρ Z_k - ρ
 
 The Liouvillian L acts on the space of density matrices (dimension d²
 where d = 2^N). We work with the vectorized form: L is a d² × d² matrix
@@ -78,7 +78,7 @@ acting on vec(ρ).
 **Decomposition.** The Liouvillian splits as L = L_H + L_D where:
 
     L_H = -i[H, ·]         (Hamiltonian part)
-    L_D = Σ_k γ_k D[Z_k]   (dissipative part)
+    L_D = Σ_k γ_k D_{Z_k}   (dissipative part)
 
 **The Pauli basis.** The 4^N tensor products of {I, X, Y, Z} form an
 orthogonal basis for the d² × d² operator space:
@@ -146,14 +146,14 @@ eigenvalues -2γ n_XY.**
 The dissipator for Z-dephasing at rate γ on site k acts on a single-site
 Pauli operator σ as:
 
-    D[Z_k](σ) = Z_k σ Z_k - σ
+    D_{Z_k}(σ) = Z_k σ Z_k - σ
 
 Since Z commutes with I and Z, and anticommutes with X and Y:
 
-    D[Z](I) = ZIZ - I = I - I = 0
-    D[Z](Z) = ZZZ - Z = Z - Z = 0
-    D[Z](X) = ZXZ - X = -X - X = -2X
-    D[Z](Y) = ZYZ - Y = -Y - Y = -2Y
+    D_{Z}(I) = ZIZ - I = I - I = 0
+    D_{Z}(Z) = ZZZ - Z = Z - Z = 0
+    D_{Z}(X) = ZXZ - X = -X - X = -2X
+    D_{Z}(Y) = ZYZ - Y = -Y - Y = -2Y
 
 Each X or Y factor on site k contributes -2γ_k to the eigenvalue.
 For a multi-site Pauli string P_α with n_XY(P_α) factors in {X,Y}:

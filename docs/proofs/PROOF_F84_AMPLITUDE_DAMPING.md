@@ -19,7 +19,7 @@ with closed form:
 
 where Δγ_l = γ_↓_l − γ_↑_l is the *net* cooling rate at site l. F82 is recovered as the special case γ_↑_l = 0 (vacuum bath / zero temperature).
 
-**Corollary (single-Pauli channel cancellation):** Pure Pauli-channel dissipators D[Z], D[X], D[Y] are Π²-symmetric and contribute zero to f81_violation. Only σ⁻ (cooling) and σ⁺ (heating) channels are Π²-anti-symmetric. Consequently, F81 violations on hardware are diagnostic of **population-inverting channels** (energy-emitting/absorbing transitions), not of phase-only or bit-flip-only noise.
+**Corollary (single-Pauli channel cancellation):** Pure Pauli-channel dissipators D_{Z}, D_{X}, D_{Y} are Π²-symmetric and contribute zero to f81_violation. Only σ⁻ (cooling) and σ⁺ (heating) channels are Π²-anti-symmetric. Consequently, F81 violations on hardware are diagnostic of **population-inverting channels** (energy-emitting/absorbing transitions), not of phase-only or bit-flip-only noise.
 
 ---
 
@@ -48,13 +48,13 @@ The violation is symmetric in γ_↓ ↔ γ_↑: only the net |γ_↓ − γ_↑
 
 For each single-qubit Pauli σ_β, c σ_β c is again a single-qubit Pauli (with sign ±1 depending on whether [c, σ_β] = 0 or {c, σ_β} = 0). Hence D[c] is diagonal in the single-qubit Pauli basis:
 
-  - D[Z](σ_β) = γ · (Z σ_β Z − σ_β) = 0 if σ_β commutes with Z (β ∈ {I, Z}); = −2γ σ_β if σ_β anticommutes with Z (β ∈ {X, Y}).
-  - D[X](σ_β) = 0 for β ∈ {I, X}; = −2γ σ_β for β ∈ {Y, Z}.
-  - D[Y](σ_β) = 0 for β ∈ {I, Y}; = −2γ σ_β for β ∈ {X, Z}.
+  - D_{Z}(σ_β) = γ · (Z σ_β Z − σ_β) = 0 if σ_β commutes with Z (β ∈ {I, Z}); = −2γ σ_β if σ_β anticommutes with Z (β ∈ {X, Y}).
+  - D_{X}(σ_β) = 0 for β ∈ {I, X}; = −2γ σ_β for β ∈ {Y, Z}.
+  - D_{Y}(σ_β) = 0 for β ∈ {I, Y}; = −2γ σ_β for β ∈ {X, Z}.
 
 In each case the matrix is diagonal in Pauli basis. The Π² conjugation factor (-1)^{bit_b(γ)+bit_b(β)} on a diagonal entry (γ = β) is (-1)^{2·bit_b(β)} = +1 always. Hence Π²-symmetric, ‖D[c]_odd‖ = 0. ∎
 
-This Lemma confirms empirically what was verified by direct computation: D[Z], D[X], D[Y] all give ‖D_odd‖_F = 0 exactly.
+This Lemma confirms empirically what was verified by direct computation: D_{Z}, D_{X}, D_{Y} all give ‖D_odd‖_F = 0 exactly.
 
 ---
 
@@ -98,7 +98,7 @@ Taking the square root:
 
 The full Lindbladian under H + Z-dephasing + amplitude damping decomposes as L = L_H + L_Z + L_{AmplDamp}. The Π²-conjugation analysis from PROOF_F82 Step 4 generalizes:
 
-  - L_Z (Z-dephasing) commutes with Π² (Pauli-Channel Cancellation Lemma applied to D[Z]). Π²·L_Z·Π⁻² = L_Z, no contribution to D_odd.
+  - L_Z (Z-dephasing) commutes with Π² (Pauli-Channel Cancellation Lemma applied to D_{Z}). Π²·L_Z·Π⁻² = L_Z, no contribution to D_odd.
   - L_{AmplDamp} = γ_↓ · L_{σ⁻} + γ_↑ · L_{σ⁺}. Both σ⁻ and σ⁺ contribute Π²-anti-symmetric parts; their combined D_odd has the (Z, I) site-l entry of value Δγ_l = γ_↓_l − γ_↑_l (Step 1).
 
 Substituting into the palindrome equation as in PROOF_F82 Step 5:
@@ -145,9 +145,9 @@ F84 closes the dissipator side of the Π-decomposition picture:
 
 | Channel | Π²-action | Contribution to f81_violation |
 |---------|-----------|-------------------------------|
-| Z-dephasing D[Z] | symmetric | 0 |
-| X-noise D[X] | symmetric | 0 |
-| Y-noise D[Y] | symmetric | 0 |
+| Z-dephasing D_{Z} | symmetric | 0 |
+| X-noise D_{X} | symmetric | 0 |
+| Y-noise D_{Y} | symmetric | 0 |
 | T1 cooling σ⁻ | anti-symmetric | +γ_↓_l per site |
 | T1 heating σ⁺ | anti-symmetric | −γ_↑_l per site |
 | Combined amplitude damping | anti-symmetric (net) | Δγ_l = γ_↓_l − γ_↑_l per site |
