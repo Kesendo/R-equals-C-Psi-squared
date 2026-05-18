@@ -1042,6 +1042,44 @@ any graph, all N >= 2.
 **Source:** [Proof](proofs/PROOF_CROSS_TERM_CROSSING.md),
 [Experiment](../experiments/CROSS_TERM_CROSSING.md)
 
+### F49d. Non-uniform γ extension (Tier 1, proven)
+
+    ‖{L_H, L_Dc}‖²_F  =  4 · Σ_b ‖L_H^bond_b‖²_F · Σ_{m ∉ bond_b} γ_m²        (spectator part)
+                       +     Σ_b G(bond_b, H) · (γ_{i_b} − γ_{j_b})²            (bond-asymmetry part)
+
+with L_Dc := L_D + σ·I and σ := Σ_l γ_l. The bond-asymmetry coefficient is
+G(bond_b, H) = 4 · ‖L_{ZZ-class part of H_b}^bond_b‖²_F: only the ZZ-fraction
+of each bond Hamiltonian carries (γ_i − γ_j)² sensitivity, because only
+ZZ-class bond transitions hit A = ε_i(α) + ε_i(β) = ±2 (XY-class transitions
+all have A = 0).
+
+Per-class G fractions (G(bond, H) / ‖L_H^bond‖²_F):
+
+| H class                 | G / ‖L_H^bond‖² | reason                       |
+|-------------------------|-----------------|------------------------------|
+| Heisenberg J·(XX+YY+ZZ) | 4 / 3           | ZZ is 1/3 of the bond norm   |
+| Ising J·ZZ              | 4               | ZZ is 100% of the bond norm  |
+| XY J·(XX+YY)            | 0               | no ZZ content                |
+| Soft Π²-odd J·(XY+YX)   | 0               | no ZZ content                |
+
+Uniform γ_l ≡ γ recovers F49's `4γ²·(N−2)·‖L_H‖²_F` (bond-asymmetry vanishes;
+spectator part collapses via the disjoint-bond-supports lemma). The convention
+on ‖L_H^bond‖²_F is the full N-qubit operator-space norm (spectator I-tensors
+included): 384 / 1536 / 6144 for Heisenberg J=1 at N = 3, 4, 5.
+
+**Valid for:** any shadow-balanced bond Hamiltonian (Heisenberg, Ising, XY,
+soft XY+YX, and any sum of such bond terms), any graph topology, any
+non-uniform γ pattern on Z-dephasing, all N ≥ 2.
+**Breaks for:** shadow-crossing couplings (F49c regime; bond-sum rule fails).
+**Verified:** N = 3, 4, 5 across all four canonical H classes
+([`simulations/_f49_nonuniform_gamma_crossterm_verify.py`](../simulations/_f49_nonuniform_gamma_crossterm_verify.py),
+Phase 1 commit `1c6701c` + Phase 2 assertions).
+**Replaces:** the F1-OpenQuestion-era conjecture that the cross-term gains
+a Σγ_l² factor (closed by this extension; the structure is per-bond
+spectator + per-bond asymmetry, not a single Σγ_l² term).
+**Source:** [Proof](proofs/PROOF_F49_NONUNIFORM_GAMMA_EXTENSION.md),
+typed claim [`F49NonUniformCrossTermClaim`](../compute/RCPsiSquared.Core/F1/F49NonUniformCrossTermClaim.cs)
+
 ---
 
 ## Cockpit and Diagnostics (replace full tomography)

@@ -14,24 +14,26 @@ public class F1FamilyRegistrationTests
             HType: HamiltonianType.XY, Topology: TopologyKind.Chain);
 
     [Fact]
-    public void RegisterF1Family_BuildsSixClaims()
+    public void RegisterF1Family_BuildsSevenClaims()
     {
         var registry = new ClaimRegistryBuilder()
             .RegisterF1Family(DefaultChain())
             .Build();
 
-        // Six entries: ChainSystemPrimitive + F1PalindromeIdentity +
+        // Seven entries: ChainSystemPrimitive + F1PalindromeIdentity +
         // PalindromeResidualScalingClaim + F1T1ResidualClosedForm +
-        // F1T1ResidualPi2Decomposition + F1DepolResidualClosedForm.
-        // SingleBody scaling deliberately omitted (builder is type-keyed; see
-        // F1FamilyRegistration XML docs for the Option-B rationale).
-        Assert.Equal(6, registry.All().Count());
+        // F1T1ResidualPi2Decomposition + F1DepolResidualClosedForm +
+        // F49NonUniformCrossTermClaim. SingleBody scaling deliberately omitted
+        // (builder is type-keyed; see F1FamilyRegistration XML docs for the
+        // Option-B rationale).
+        Assert.Equal(7, registry.All().Count());
         Assert.True(registry.Contains<ChainSystemPrimitive>());
         Assert.True(registry.Contains<F1PalindromeIdentity>());
         Assert.True(registry.Contains<PalindromeResidualScalingClaim>());
         Assert.True(registry.Contains<F1T1ResidualClosedForm>());
         Assert.True(registry.Contains<F1T1ResidualPi2Decomposition>());
         Assert.True(registry.Contains<F1DepolResidualClosedForm>());
+        Assert.True(registry.Contains<F49NonUniformCrossTermClaim>());
     }
 
     [Fact]
@@ -80,6 +82,41 @@ public class F1FamilyRegistrationTests
         Assert.Equal(Tier.Tier1Derived, depol.Tier);
         Assert.Equal(16.0 / 9.0, F1DepolResidualClosedForm.LocalCoefficient, precision: 14);
         Assert.Equal(16.0, F1DepolResidualClosedForm.CrossSiteCoefficient, precision: 14);
+    }
+
+    [Fact]
+    public void RegisterF1Family_F49NonUniformCrossTermClaim_Resolves()
+    {
+        var registry = new ClaimRegistryBuilder()
+            .RegisterF1Family(DefaultChain())
+            .Build();
+
+        var f49 = registry.Get<F49NonUniformCrossTermClaim>();
+        Assert.NotNull(f49);
+        Assert.Equal(Tier.Tier1Derived, f49.Tier);
+        // Per-class G-fractions survived the registry round-trip:
+        Assert.Equal(4.0 / 3.0, F49NonUniformCrossTermClaim.GHeisenbergFraction, precision: 14);
+        Assert.Equal(4.0, F49NonUniformCrossTermClaim.GIsingFraction, precision: 14);
+        Assert.Equal(0.0, F49NonUniformCrossTermClaim.GXyFraction, precision: 14);
+        Assert.Equal(0.0, F49NonUniformCrossTermClaim.GSoftXyYxFraction, precision: 14);
+        Assert.Equal(4.0, F49NonUniformCrossTermClaim.SpectatorPrefactor, precision: 14);
+    }
+
+    [Fact]
+    public void RegisterF1Family_F49NonUniformCrossTerm_AncestorsContainF1Identity()
+    {
+        // Dependency edge: F49NonUniformCrossTermClaim depends on F1PalindromeIdentity
+        // (the F1 σ-shift L_Dc = L_D + σ·I that frames the cross-term is the F1 identity's
+        // centering convention).
+        var registry = new ClaimRegistryBuilder()
+            .RegisterF1Family(DefaultChain())
+            .Build();
+
+        var ancestors = registry.AncestorsOf<F49NonUniformCrossTermClaim>()
+            .Select(c => c.GetType()).ToHashSet();
+
+        Assert.Contains(typeof(F1PalindromeIdentity), ancestors);
+        Assert.Contains(typeof(ChainSystemPrimitive), ancestors);
     }
 
     [Fact]

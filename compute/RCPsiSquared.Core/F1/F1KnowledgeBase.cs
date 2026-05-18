@@ -19,8 +19,10 @@ namespace RCPsiSquared.Core.F1;
 ///         <see cref="SingleBodyScaling"/>), the T1 amplitude-damping closed form
 ///         (<see cref="T1ResidualClosedForm"/>) and its Π²-orthogonal Pythagorean
 ///         split into M_anti (F82/F84 amplitude-damping content) and M_sym
-///         (<see cref="T1ResidualPi2Decomposition"/>), and the depolarizing-noise
-///         closed form (<see cref="DepolResidualClosedForm"/>).</item>
+///         (<see cref="T1ResidualPi2Decomposition"/>), the depolarizing-noise
+///         closed form (<see cref="DepolResidualClosedForm"/>), and the F49
+///         non-uniform γ cross-term closed form
+///         (<see cref="F49NonUniformCrossTerm"/>).</item>
 ///   <item>Tier-2 verified: hardware confirmations from
 ///         <see cref="ConfirmationsRegistry"/> that exercise F1 / palindrome trichotomy
 ///         on Marrakesh and related machines.</item>
@@ -28,7 +30,9 @@ namespace RCPsiSquared.Core.F1;
 ///         The earlier non-uniform γ_i item closed on 2026-05-18 by
 ///         <c>docs/proofs/PROOF_F1_NONUNIFORM_GAMMA.md</c> as a negative result;
 ///         see <see cref="PalindromeResidualScalingClaim"/> XML doc for the γ-independence
-///         statement.</item>
+///         statement. The F49 cross-term follow-up item from that proof closed
+///         (positive result) by <c>docs/proofs/PROOF_F49_NONUNIFORM_GAMMA_EXTENSION.md</c>
+///         and <see cref="F49NonUniformCrossTerm"/>.</item>
 /// </list>
 /// </summary>
 public sealed class F1KnowledgeBase : IInspectable
@@ -49,6 +53,7 @@ public sealed class F1KnowledgeBase : IInspectable
     public F1T1ResidualClosedForm T1ResidualClosedForm { get; }
     public F1T1ResidualPi2Decomposition T1ResidualPi2Decomposition { get; }
     public F1DepolResidualClosedForm DepolResidualClosedForm { get; }
+    public F49NonUniformCrossTermClaim F49NonUniformCrossTerm { get; }
     public IReadOnlyList<HardwareConfirmationClaim> HardwareConfirmations { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
 
@@ -69,6 +74,7 @@ public sealed class F1KnowledgeBase : IInspectable
         T1ResidualClosedForm = new F1T1ResidualClosedForm();
         T1ResidualPi2Decomposition = new F1T1ResidualPi2Decomposition();
         DepolResidualClosedForm = new F1DepolResidualClosedForm();
+        F49NonUniformCrossTerm = new F49NonUniformCrossTermClaim();
 
         HardwareConfirmations = HardwareConfirmationClaim.LookupAll(_f1ConfirmationNames);
 
@@ -93,7 +99,8 @@ public sealed class F1KnowledgeBase : IInspectable
 
             yield return InspectableNode.Group("Tier 1 (derived)",
                 PalindromeIdentity, MainScaling, SingleBodyScaling,
-                T1ResidualClosedForm, T1ResidualPi2Decomposition, DepolResidualClosedForm);
+                T1ResidualClosedForm, T1ResidualPi2Decomposition, DepolResidualClosedForm,
+                F49NonUniformCrossTerm);
 
             yield return InspectableNode.Group("Tier 2 (hardware-verified)",
                 HardwareConfirmations.Cast<IInspectable>().ToArray());

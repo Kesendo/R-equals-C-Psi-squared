@@ -6,8 +6,8 @@ using RCPsiSquared.Runtime.ObjectManager;
 namespace RCPsiSquared.Runtime.F1Family;
 
 /// <summary>Builder extension that registers the F1 family: <see cref="ChainSystemPrimitive"/>,
-/// then <see cref="F1PalindromeIdentity"/>, then four Tier-1-derived F1 children that the
-/// <see cref="F1KnowledgeBase"/> exposes as top-level properties (the KB's fifth Tier-1
+/// then <see cref="F1PalindromeIdentity"/>, then five Tier-1-derived F1 children that the
+/// <see cref="F1KnowledgeBase"/> exposes as top-level properties (the KB's sixth Tier-1
 /// child <c>SingleBodyScaling</c> is the omitted one; see the SingleBody paragraph below):
 ///
 /// <list type="bullet">
@@ -18,6 +18,8 @@ namespace RCPsiSquared.Runtime.F1Family;
 ///   <item><see cref="F1T1ResidualPi2Decomposition"/>: Π²-orthogonal Pythagorean split of
 ///         the T1 residual into (anti, sym) parts; depends on F1T1ResidualClosedForm.</item>
 ///   <item><see cref="F1DepolResidualClosedForm"/>: ‖M(depol)‖² = 4^(N−1)·[(16/9)·Σγ² + 16·(Σγ)²].</item>
+///   <item><see cref="F49NonUniformCrossTermClaim"/>: ‖{L_H, L_Dc}‖² = 4·Σ_b ‖L_H^bond‖²·Σ_{m∉bond}γ_m² +
+///         Σ_b G(bond, H)·(γ_i−γ_j)²; F49's non-uniform γ extension.</item>
 /// </list>
 ///
 /// <para>Dependency edges (parent → child):</para>
@@ -33,6 +35,9 @@ namespace RCPsiSquared.Runtime.F1Family;
 ///   <item>F1T1ResidualClosedForm → F1T1ResidualPi2Decomposition (the Π²-decomposition
 ///         closes the parent total Pythagorically: (anti) + (sym) = (3·Σγ² + 4·(Σγ)²)).</item>
 ///   <item>F1PalindromeIdentity → F1DepolResidualClosedForm.</item>
+///   <item>F1PalindromeIdentity → F49NonUniformCrossTermClaim (extends F49 by relaxing
+///         the uniform-γ assumption; the F1 σ-shift L_Dc = L_D + σ·I that frames the
+///         cross-term is the F1 identity's centering convention).</item>
 /// </list>
 ///
 /// <para><b>SingleBody scaling: deliberately omitted.</b> The
@@ -49,12 +54,13 @@ namespace RCPsiSquared.Runtime.F1Family;
 /// behaviour). The KB still exposes both classes for inspection.</para></summary>
 public static class F1FamilyRegistration
 {
-    /// <summary>Register the six F1-family Claims (ChainSystemPrimitive +
+    /// <summary>Register the seven F1-family Claims (ChainSystemPrimitive +
     /// F1PalindromeIdentity + PalindromeResidualScalingClaim + F1T1ResidualClosedForm +
-    /// F1T1ResidualPi2Decomposition + F1DepolResidualClosedForm) for a given
-    /// <paramref name="chain"/>. Default Hamiltonian class for the scaling claim is
-    /// <see cref="HamiltonianClass.Main"/>; chain bond count and degree-squared sum
-    /// default to <c>null</c> (use <c>FactorChain</c>).</summary>
+    /// F1T1ResidualPi2Decomposition + F1DepolResidualClosedForm +
+    /// F49NonUniformCrossTermClaim) for a given <paramref name="chain"/>. Default
+    /// Hamiltonian class for the scaling claim is <see cref="HamiltonianClass.Main"/>;
+    /// chain bond count and degree-squared sum default to <c>null</c> (use
+    /// <c>FactorChain</c>).</summary>
     public static ClaimRegistryBuilder RegisterF1Family(
         this ClaimRegistryBuilder builder,
         ChainSystem chain,
@@ -90,6 +96,11 @@ public static class F1FamilyRegistration
             {
                 _ = b.Get<F1PalindromeIdentity>();
                 return new F1DepolResidualClosedForm();
+            })
+            .Register<F49NonUniformCrossTermClaim>(b =>
+            {
+                _ = b.Get<F1PalindromeIdentity>();
+                return new F49NonUniformCrossTermClaim();
             });
     }
 }

@@ -156,7 +156,7 @@ The Z-dephasing case is the only F1 dissipator where the σ-shift exactly cancel
 - **F1 H-block scaling** ([PalindromeResidualScalingClaim](../../compute/RCPsiSquared.Core/F1/PalindromeResidualScalingClaim.cs), [OPERATOR_RIGIDITY_ACROSS_CUSP.md](../../experiments/OPERATOR_RIGIDITY_ACROSS_CUSP.md)): ‖M_H‖²_F = c_H · F(N, G). This proof confirms it is γ-independent.
 - **F1 T1 closed form** ([PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md](PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md), [F1T1ResidualClosedForm](../../compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs)): sibling dissipator-block closed form for T1; demonstrates that T1 DOES carry both Σγ² and (Σγ)² structure, unlike Z-dephasing.
 - **F1 depol closed form** ([PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md](PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md), [F1DepolResidualClosedForm](../../compute/RCPsiSquared.Core/F1/F1DepolResidualClosedForm.cs)): sibling for depol; same conclusion as T1.
-- **F49 cross-term formula** ([`docs/ANALYTICAL_FORMULAS.md` F49](../ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven), [PROOF_CROSS_TERM_FORMULA.md](PROOF_CROSS_TERM_FORMULA.md)): the cross-term `‖{L_H, L_Dc}‖²` may pick up γ_l dependence under non-uniform γ. Numerical exploration at N=3 with Heisenberg H + γ=[0.1, 0.2, 0.3] suggests an additional per-bond asymmetry term beyond the uniform-γ closed form, but the candidate correction has not yet matched the observed deviation; see ["Open follow-ups"](#open-follow-ups) below for the current status.
+- **F49 cross-term formula** ([`docs/ANALYTICAL_FORMULAS.md` F49](../ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven), [PROOF_CROSS_TERM_FORMULA.md](PROOF_CROSS_TERM_FORMULA.md)): the cross-term `‖{L_H, L_Dc}‖²` does pick up γ_l dependence under non-uniform γ; the closed form is derived in [PROOF_F49_NONUNIFORM_GAMMA_EXTENSION](PROOF_F49_NONUNIFORM_GAMMA_EXTENSION.md) as spectator + bond-asymmetry parts with per-class G(bond, H) = 4·‖L_{ZZ-part}^bond‖². See ["Resolved follow-ups"](#resolved-follow-ups) below for the closure summary.
 
 ### Typed claims
 
@@ -171,8 +171,22 @@ The Z-dephasing case is the only F1 dissipator where the σ-shift exactly cancel
 
 - `project_palindrome_frobenius_scaling`: F1 H-block scaling memory; now γ-independent.
 
-## Open follow-ups
+## Resolved follow-ups
 
-While the H-block closure is clean, the F49 cross-term formula `‖{L_H, L_Dc}‖² = 4γ²·(N−2)·‖L_H‖²` was derived under uniform γ. Numerical exploration at N = 3 with Heisenberg H (XX+YY+ZZ) and non-uniform γ = [0.1, 0.2, 0.3] gives truth ‖{L_H, L_Dc}‖² = 163.84 vs uniform-formula prediction 153.60 (using γ̄ = 0.2): the formula is incomplete under non-uniform γ.
+The F49 cross-term formula `‖{L_H, L_Dc}‖² = 4γ²·(N−2)·‖L_H‖²` was derived under uniform γ. Numerical exploration at N = 3 with Heisenberg H (XX+YY+ZZ) and non-uniform γ = [0.1, 0.2, 0.3] gave truth `‖{L_H, L_Dc}‖² = 163.84` vs uniform-formula prediction 153.60 (using γ̄ = 0.2): the formula was incomplete under non-uniform γ.
 
-A natural candidate correction is a per-bond-asymmetry term `4·(γ_i − γ_j)²·M_non_balanced(bond)`, vanishing when γ_i = γ_j (uniform within a bond) and also vanishing for couplings where every transition has one X+Y letter at each site (e.g., XY, XX, YY individually; the XX+YY balance preserves this regime). This candidate has not yet been shown to close the truth-vs-prediction gap above, and a typed F49NonUniformGammaExtensionClaim is not added in this commit; nailing down the closed form requires per-Hamiltonian enumeration of bond transition classes, beyond the scope of the F1-H-block closure proven here.
+**Closed 2026-05-18 by [PROOF_F49_NONUNIFORM_GAMMA_EXTENSION](PROOF_F49_NONUNIFORM_GAMMA_EXTENSION.md) and typed claim [F49NonUniformCrossTermClaim](../../compute/RCPsiSquared.Core/F1/F49NonUniformCrossTermClaim.cs).** The closed form is
+
+    ‖{L_H, L_Dc}‖²_F  =  4 · Σ_b ‖L_H^bond_b‖²_F · Σ_{m ∉ bond_b} γ_m²        (spectator part)
+                       +     Σ_b G(bond_b, H) · (γ_{i_b} − γ_{j_b})²            (bond-asymmetry part)
+
+with G(bond_b, H) = 4·‖L_{ZZ-class part of H_b}^bond_b‖²_F. The candidate-correction intuition recorded above ("per-bond-asymmetry term vanishing when γ_i = γ_j or when every transition has one X+Y letter") was structurally correct; the proof closes it via direct enumeration of A := ε_i(α) + ε_i(β) on the 16 Pauli-pair bond transitions, finding A = ±2 on ZZ-class bond terms (which preserve bit_a-class at each site) and A = 0 on XY-class bond terms (which flip bit_a at both sites simultaneously). Per-class G fractions:
+
+| H class                 | G / ‖L_H^bond‖² |
+|-------------------------|-----------------|
+| Heisenberg J·(XX+YY+ZZ) | 4 / 3           |
+| Ising J·ZZ              | 4               |
+| XY J·(XX+YY)            | 0               |
+| Soft Π²-odd J·(XY+YX)   | 0               |
+
+The N = 3 Heisenberg γ = [0.1, 0.2, 0.3] anchor decomposes as spectator 153.60 + asymmetry 10.24 = **163.84**, matching truth bit-exact. Verified at N = 3, 4, 5 across all four canonical H classes ([`simulations/_f49_nonuniform_gamma_crossterm_verify.py`](../../simulations/_f49_nonuniform_gamma_crossterm_verify.py), Phase 1 + Phase 2). Uniform γ recovers F49's `4γ²·(N−2)·‖L_H‖²_F` as a corollary.

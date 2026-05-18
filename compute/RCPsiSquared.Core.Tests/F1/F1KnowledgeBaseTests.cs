@@ -88,6 +88,7 @@ public class F1KnowledgeBaseTests
         Assert.NotNull(kb.T1ResidualClosedForm);
         Assert.NotNull(kb.T1ResidualPi2Decomposition);
         Assert.NotNull(kb.DepolResidualClosedForm);
+        Assert.NotNull(kb.F49NonUniformCrossTerm);
         Assert.NotEmpty(kb.HardwareConfirmations);
         Assert.NotEmpty(kb.OpenQuestions);
 
@@ -125,10 +126,12 @@ public class F1KnowledgeBaseTests
     {
         var kb = new F1KnowledgeBase(N: 5);
         string line = kb.TierInventoryLine();
-        // 6 Tier-1 derived: F1 + main + single-body + T1 closed form + T1 Π²-decomposition + depol.
+        // 7 Tier-1 derived: F1 + main + single-body + T1 closed form + T1 Π²-decomposition +
+        // depol + F49 non-uniform γ cross-term (added 2026-05-18 alongside the
+        // PROOF_F1_NONUNIFORM_GAMMA "Open follow-ups" closure).
         // 1 open after the T1, depol, and non-uniform γ closures on 2026-05-18: only
         // "general topology beyond chain/ring/star/K_N" remains.
-        Assert.Contains("T1d=6", line);
+        Assert.Contains("T1d=7", line);
         Assert.Contains("T2v=", line);
         Assert.Contains("open=1", line);
     }
