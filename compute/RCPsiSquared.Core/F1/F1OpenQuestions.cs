@@ -14,9 +14,7 @@ namespace RCPsiSquared.Core.F1;
 /// <para>The earlier "depolarizing noise: residual scaling" item was closed on
 /// 2026-05-18 by <c>docs/proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md</c> and now lives
 /// as the Tier-1-derived <see cref="F1DepolResidualClosedForm"/> claim on
-/// <see cref="F1KnowledgeBase"/>. The original item asked about graph-parameter (B, D2)
-/// dependence; the proof shows depol is per-site only, so the residual scales purely
-/// with (Σγ², (Σγ)²) without any B / D2 dependence.</para></summary>
+/// <see cref="F1KnowledgeBase"/>.</para></summary>
 public static class F1OpenQuestions
 {
     private const string Anchor = "docs/ANALYTICAL_FORMULAS.md F1 \"Breaks for\" clause";

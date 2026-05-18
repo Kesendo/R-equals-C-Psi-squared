@@ -20,8 +20,7 @@ namespace RCPsiSquared.Core.F1;
 ///         (<see cref="T1ResidualClosedForm"/>) and its Π²-orthogonal Pythagorean
 ///         split into M_anti (F82/F84 amplitude-damping content) and M_sym
 ///         (<see cref="T1ResidualPi2Decomposition"/>), and the depolarizing-noise
-///         closed form (<see cref="DepolResidualClosedForm"/>) with trivial
-///         Π²-decomposition (M_anti = 0) and σ-shift = 0.</item>
+///         closed form (<see cref="DepolResidualClosedForm"/>).</item>
 ///   <item>Tier-2 verified: hardware confirmations from
 ///         <see cref="ConfirmationsRegistry"/> that exercise F1 / palindrome trichotomy
 ///         on Marrakesh and related machines.</item>

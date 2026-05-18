@@ -12,9 +12,7 @@ namespace RCPsiSquared.Core.F1;
 ///
 /// <para>In the framework's orthonormal Pauli-string basis. The (16/9, 16) pair
 /// derives from the per-site kernel M_l = Π·D_depol·Π⁻¹ + D_depol with
-/// ‖M_l‖²_F = 160/9 and |tr(M_l)|² = 64: multi-site assembly via
-/// tr(M_l† M_l′) = |tr(M_l)|² · 4^(N−2) for l ≠ l′ gives
-/// (160/9 − 16)·Σγ² + 16·(Σγ)² = (16/9)·Σγ² + 16·(Σγ)².</para>
+/// ‖M_l‖²_F = 160/9 and |tr(M_l)|² = 64.</para>
 ///
 /// <para>Structural properties:
 /// <list type="bullet">
@@ -24,13 +22,12 @@ namespace RCPsiSquared.Core.F1;
 ///   <item>Per-site ((16/9)·Σγ²) + cross-site (16·(Σγ)²) split; cooperative piece dominates
 ///         as N grows (ratio 9·N for uniform γ, faster than T1's (4/3)·N).</item>
 ///   <item><b>Π²-decomposition is trivial:</b> M_l is Pauli-basis-diagonal, so
-///         Π·M·Π⁻¹ = M exactly and M_anti = 0. Contrast T1 where M_anti = D_{T1, odd}
-///         carries F82/F84 amplitude-damping content; depol has no σ⁻-style off-diagonal
-///         Pauli-basis channel (no (Z, I) entry).</item>
+///         Π·M·Π⁻¹ = M exactly and M_anti = 0. Contrast T1, whose M_anti = D_{T1, odd}
+///         carries F82/F84 amplitude-damping content.</item>
 ///   <item><b>F1 σ-shift = 0 for depol</b>, NOT Σγ as for Z-dephasing. M_l = diag(−4/3, −4/3, −8/3, −8/3)
-///         has two distinct diagonal values that no constant 2σ·I shift can equalise. The
-///         closed form is the bare residual Π·L·Π⁻¹ + L. Consistent with F5's scalar (2/3)Σγ
-///         (different observable of the same broken palindrome: trace projection vs full Frobenius).</item>
+///         has two distinct diagonal values that no constant 2σ·I shift can equalise; the
+///         closed form is the bare residual Π·L·Π⁻¹ + L. F5's scalar (2/3)Σγ is the
+///         complementary trace-projection diagnostic of the same broken palindrome.</item>
 /// </list></para>
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md</c> (Steps 1-7).
@@ -109,9 +106,8 @@ public sealed class F1DepolResidualClosedForm : Claim
                 summary: "depol block Frobenius-orthogonal to H and Z blocks; cross-terms vanish identically; " +
                          "no graph-parameter (B, D2) dependence (depol is per-site only)");
             yield return new InspectableNode("Π²-decomposition (trivial)",
-                summary: "M_l is Pauli-basis-diagonal ⟹ Π·M·Π⁻¹ = M exactly ⟹ M_anti = 0 (no F82/F84-style " +
-                         "amplitude-damping content; depol has no σ⁻-style off-diagonal Pauli-basis channel). " +
-                         "Companion F1DepolResidualPi2Decomposition omitted: a 150-line class for one fact M_anti = 0.");
+                summary: "M_l is Pauli-basis-diagonal ⟹ Π·M·Π⁻¹ = M exactly ⟹ M_anti = 0 " +
+                         "(contrast T1, whose M_anti = D_{T1, odd} carries F82/F84 amplitude-damping content)");
             yield return new InspectableNode("F1 σ-shift = 0",
                 summary: "M_l has two distinct diagonal values (−4/3 on (I, X), −8/3 on (Y, Z)); no constant " +
                          "2σ·I can equalise them. Closed form is bare Π·L·Π⁻¹ + L (σ = 0), not the F1-convention " +

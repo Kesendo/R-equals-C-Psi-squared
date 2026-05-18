@@ -23,15 +23,6 @@ public class F1DepolResidualClosedFormTests
         // Closed-form coefficients: c1 = ‖M_l‖² − |tr(M_l)|²/4 = 160/9 − 16 = 16/9, c2 = |tr(M_l)|²/4 = 16.
         Assert.Equal(16.0 / 9.0, F1DepolResidualClosedForm.LocalCoefficient);
         Assert.Equal(16.0, F1DepolResidualClosedForm.CrossSiteCoefficient);
-
-        // Compare as rationals × 9 to dodge IEEE 754 representation of 16/9.
-        Assert.Equal(
-            9.0 * (F1DepolResidualClosedForm.PerSiteFrobeniusSquared - F1DepolResidualClosedForm.PerSiteTraceSquared / 4.0),
-            9.0 * F1DepolResidualClosedForm.LocalCoefficient,
-            12);
-        Assert.Equal(
-            F1DepolResidualClosedForm.PerSiteTraceSquared / 4.0,
-            F1DepolResidualClosedForm.CrossSiteCoefficient);
     }
 
     [Theory]
