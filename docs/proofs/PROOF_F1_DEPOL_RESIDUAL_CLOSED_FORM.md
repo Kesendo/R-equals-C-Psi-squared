@@ -124,7 +124,7 @@ Substituting into the Frobenius norm of M_depol:
                  = 4^(N−1) · [ ((160/9) − 16) · Σ_l γ²_l  +  16 · (Σ_l γ_l)² ]
                  = **4^(N−1) · [ (16/9) · Σ_l γ²_l  +  16 · (Σ_l γ_l)² ]**.    ∎
 
-Hence (c_1, c_2) = (16/9, 16) is derived from `‖M_l‖²_F − |tr(M_l)|² = 160/9 − 64 = 160/9 − 576/9 = −416/9`, then dividing by 4: the local coefficient is `‖M_l‖²_F − |tr(M_l)|²/4 = 160/9 − 16 = 160/9 − 144/9 = 16/9`, and the cross-site coefficient is `|tr(M_l)|²/4 = 64/4 = 16`.
+Hence the local coefficient is `‖M_l‖²_F − |tr(M_l)|²/4 = 160/9 − 144/9 = 16/9` and the cross-site coefficient is `|tr(M_l)|²/4 = 64/4 = 16`, giving `(c_1, c_2) = (16/9, 16)`.
 
 ### Step 6: Π²-decomposition is trivial (M_anti = 0)
 
@@ -166,7 +166,7 @@ Numerical confirmation at N = 3, uniform γ = 0.1: ‖M‖² with σ = 0 is 23.8
 4. **Orthogonality with Z-dephasing (H + Z + depol).** Adding Z-dephasing to the H + depol setup leaves ‖M‖² = ‖M(depol)‖² (since Z and H both contribute 0 to ‖M‖²).
 5. **Orthogonality with soft (Π²-odd) H (XY+YX).** Soft H gives non-zero ‖M(H)‖² (the F49 closed-form prediction); adding depol gives exactly ‖M(H)‖² + ‖M(depol)‖² with cross-term ~10⁻¹³.
 6. **Per-site M_l kernel.** Displays D_depol, Π, M_l in the single-site Pauli basis and walks through `tr(M_l) = −8`, `|tr|² = 64`, `‖M_l‖² = 160/9`, then the multi-site assembly `4^(N−1) · [(160/9 − 16)·Σγ² + 16·(Σγ)²] = 4^(N−1) · [(16/9)·Σγ² + 16·(Σγ)²]`.
-7. **Π²-trivial split.** Asserts `‖M − Π·M·Π⁻¹‖_F < 1e-13` and `‖M − Π²·M·Π²⁻¹‖_F < 1e-13` at N = 2, 3, 4 — M_anti(depol) = 0 exactly.
+7. **Π²-trivial split.** Asserts `‖M − Π·M·Π⁻¹‖_F < 1e-13` and `‖M − Π²·M·Π²⁻¹‖_F < 1e-13` at N = 2, 3, 4: M_anti(depol) = 0 exactly.
 
 All verifications pass at machine precision. Summary of section-2 numerics:
 
@@ -174,8 +174,8 @@ All verifications pass at machine precision. Summary of section-2 numerics:
 |---|-----------------|--------------------------|----------------|
 | 2 | obs 2.702222 = pred 2.702222 | obs 1.528889 = pred 1.528889 | (1.777778, 16.000000) |
 | 3 | obs 23.893333 = pred 23.893333 | obs 24.035556 = pred 24.035556 | (1.777778, 16.000000) |
-| 4 | obs 168.391111 = pred 168.391111 | — | (1.777778, 16.000000) |
-| 5 | obs 1046.755556 = pred 1046.755556 | — | (1.777778, 16.000000) |
+| 4 | obs 168.391111 = pred 168.391111 | n/a | (1.777778, 16.000000) |
+| 5 | obs 1046.755556 = pred 1046.755556 | n/a | (1.777778, 16.000000) |
 
 (1.777778 = 16/9 to 6 decimals.)
 
@@ -194,21 +194,21 @@ The closed form makes the F1 depol-block residual a quantitative, **Hamiltonian-
 
 ### Repository entries
 
-- **F1 palindrome equation** ([`docs/ANALYTICAL_FORMULAS.md` F1](../ANALYTICAL_FORMULAS.md#f1-palindrome-equation-tier-1-proven), [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md)) — the underlying Π·L·Π⁻¹ + L + 2Σγ·I = 0 identity for Z-dephasing.
-- **F5 depolarizing error** ([`docs/ANALYTICAL_FORMULAS.md` F5](../ANALYTICAL_FORMULAS.md), [DEPOLARIZING_PALINDROME.md](../../experiments/DEPOLARIZING_PALINDROME.md)) — the scalar `(2/3)Σγ` diagnostic; complementary scalar projection of the same broken palindrome.
-- **F49 Frobenius residual scaling** ([`docs/ANALYTICAL_FORMULAS.md` F49](../ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven), [PROOF_CROSS_TERM_FORMULA.md](PROOF_CROSS_TERM_FORMULA.md)) — companion closed form for the Hamiltonian block.
-- **F1 T1-residual closed form** ([PROOF_F1_T1_RESIDUAL_CLOSED_FORM](PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md)) — sibling closed form for amplitude damping; contrasts with depol via the Π²-decomposition non-triviality (T1's M_anti = D_{T1, odd}, depol's M_anti = 0).
+- **F1 palindrome equation** ([`docs/ANALYTICAL_FORMULAS.md` F1](../ANALYTICAL_FORMULAS.md#f1-palindrome-equation-tier-1-proven), [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md)): the underlying Π·L·Π⁻¹ + L + 2Σγ·I = 0 identity for Z-dephasing.
+- **F5 depolarizing error** ([`docs/ANALYTICAL_FORMULAS.md` F5](../ANALYTICAL_FORMULAS.md), [DEPOLARIZING_PALINDROME.md](../../experiments/DEPOLARIZING_PALINDROME.md)): the scalar `(2/3)Σγ` diagnostic; complementary scalar projection of the same broken palindrome.
+- **F49 Frobenius residual scaling** ([`docs/ANALYTICAL_FORMULAS.md` F49](../ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven), [PROOF_CROSS_TERM_FORMULA.md](PROOF_CROSS_TERM_FORMULA.md)): companion closed form for the Hamiltonian block.
+- **F1 T1-residual closed form** ([PROOF_F1_T1_RESIDUAL_CLOSED_FORM](PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md)): sibling closed form for amplitude damping; contrasts with depol via the Π²-decomposition non-triviality (T1's M_anti = D_{T1, odd}, depol's M_anti = 0).
 
 ### Typed claims
 
-- [`compute/RCPsiSquared.Core/F1/F1DepolResidualClosedForm.cs`](../../compute/RCPsiSquared.Core/F1/F1DepolResidualClosedForm.cs) — Tier-1-derived typed claim for this closed form, registered on `F1KnowledgeBase`. Replaces the earlier `F1OpenQuestions` item "depolarizing noise: residual scaling", which was closed by this proof on 2026-05-18.
-- [`compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs`](../../compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs) — sibling T1 closed-form claim.
-- [`compute/RCPsiSquared.Core/Symmetry/F5DepolarizingErrorPi2Inheritance.cs`](../../compute/RCPsiSquared.Core/Symmetry/F5DepolarizingErrorPi2Inheritance.cs) — F5 scalar error claim with Pi2-Foundation inheritance.
+- [`compute/RCPsiSquared.Core/F1/F1DepolResidualClosedForm.cs`](../../compute/RCPsiSquared.Core/F1/F1DepolResidualClosedForm.cs): Tier-1-derived typed claim for this closed form, registered on `F1KnowledgeBase`. Replaces the earlier `F1OpenQuestions` item "depolarizing noise: residual scaling", which was closed by this proof on 2026-05-18.
+- [`compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs`](../../compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs): sibling T1 closed-form claim.
+- [`compute/RCPsiSquared.Core/Symmetry/F5DepolarizingErrorPi2Inheritance.cs`](../../compute/RCPsiSquared.Core/Symmetry/F5DepolarizingErrorPi2Inheritance.cs): F5 scalar error claim with Pi2-Foundation inheritance.
 
 ### Scripts
 
-- [`simulations/_f1_depol_residual_verify.py`](../../simulations/_f1_depol_residual_verify.py) — the verification script for this proof.
+- [`simulations/_f1_depol_residual_verify.py`](../../simulations/_f1_depol_residual_verify.py): the verification script for this proof.
 
 ### Memory
 
-- `project_palindrome_frobenius_scaling` — recorded the per-class dissipator Frobenius scaling pattern on 2026-04-29; depol arm closed 2026-05-18 by this proof.
+- `project_palindrome_frobenius_scaling`: recorded the per-class dissipator Frobenius scaling pattern on 2026-04-29; depol arm closed 2026-05-18 by this proof.

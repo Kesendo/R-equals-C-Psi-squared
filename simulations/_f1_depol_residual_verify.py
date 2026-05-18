@@ -188,7 +188,7 @@ def section_3_orthogonality_truly_h() -> None:
               f"‖M‖²(depol only) = {only_depol:.6f}    "
               f"‖M‖²(H + depol) = {together:.6f}    "
               f"cross = {cross:+.3e}")
-        # Heisenberg with σ = 0 has residual = 2·Σγ_Z·I = 0 since γ_Z = 0 here, so M(H only, σ=0) = 0.
+        # Heisenberg-only L with σ=0: M = Π·L_H·Π⁻¹ + L_H vanishes because Heisenberg is Π²-even (no σ-shift involved here).
         assert abs(cross) < 1e-10, f"N={N} cross-term too large: {cross:.3e}"
 
 
