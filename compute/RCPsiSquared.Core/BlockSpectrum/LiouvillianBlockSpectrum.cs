@@ -4,6 +4,7 @@ using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
+using RCPsiSquared.Core.Numerics;
 using RCPsiSquared.Core.SymmetryFamily;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
@@ -52,7 +53,10 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// <see cref="DebugAssertPopcountConservingH"/>) throws an
 /// <see cref="InvalidOperationException"/> when the contract is violated; in RELEASE
 /// builds the assertion is stripped (no production-perf cost). Callers must validate H
-/// structurally before invoking on a hot path.</para>
+/// structurally before invoking on a hot path. Both methods ensure MKL is initialized
+/// via <see cref="MathNetSetup.EnsureInitialized"/> on entry, so no caller needs to
+/// pre-initialize; the lazy global guard makes the redundant call free after the
+/// assembly-level <c>CoreModuleInitializer</c> has already run.</para>
 ///
 /// <para>Anchors: <c>compute/RCPsiSquared.Core/BlockSpectrum/JointPopcountSectors.cs</c>
 /// (parent Claim, block-diagonal structure), <c>compute/RCPsiSquared.Core/BlockSpectrum/JointPopcountSectorBuilder.cs</c>
@@ -95,6 +99,10 @@ public sealed class LiouvillianBlockSpectrum : Claim
             throw new ArgumentException(
                 $"L must be ({liouvilleDim})×({liouvilleDim}) for N={N}; got {L.RowCount}×{L.ColumnCount}.",
                 nameof(L));
+
+        // Belt-and-braces with CoreModuleInitializer: makes the MKL dependency
+        // self-documenting at the API boundary; the lazy guard makes it free after first call.
+        MathNetSetup.EnsureInitialized();
 
         var decomp = JointPopcountSectorBuilder.Build(N);
         DebugAssertBlockDiagonalL(L, decomp);
@@ -174,6 +182,10 @@ public sealed class LiouvillianBlockSpectrum : Claim
         if (gammaPerSite.Count != N)
             throw new ArgumentException($"gamma list length {gammaPerSite.Count} != N={N}", nameof(gammaPerSite));
         DebugAssertPopcountConservingH(H, N);
+
+        // Belt-and-braces with CoreModuleInitializer: makes the MKL dependency
+        // self-documenting at the API boundary; the lazy guard makes it free after first call.
+        MathNetSetup.EnsureInitialized();
 
         int liouvilleDim = 1 << (2 * N);
         var decomp = JointPopcountSectorBuilder.Build(N);
