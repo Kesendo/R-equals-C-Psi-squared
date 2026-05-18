@@ -131,15 +131,14 @@ public sealed class F1T1ResidualPi2Decomposition : Claim
             yield return new InspectableNode("Pythagorean closure",
                 summary: "anti + sym = (1+2)·Σγ² + (0+4)·(Σγ)² = 3·Σγ² + 4·(Σγ)² (parent F1T1ResidualClosedForm total)");
             yield return new InspectableNode("anti side identification",
-                summary: "for pure T1, M_anti = D_{T1, odd} (F81 identity); ‖D_{T1, odd}‖_F = √(Σγ²)·2^(N−1) (F82 closed form)");
+                summary: "for pure T1, M_anti = D_{T1, odd} via F81's Π·M·Π⁻¹ = M − 2·D_{T1, odd}; " +
+                         "‖D_{T1, odd}‖_F = √(Σγ²)·2^(N−1) (F82 closed form)");
             yield return new InspectableNode("F82/F84 cross-reference",
                 summary: "anti side maps to F82 σ⁻ (vacuum) closed form; F84 generalises to thermal Δγ = γ_↓ − γ_↑");
             yield return new InspectableNode("derivation",
-                summary: "Step 7 of PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md: F81's Π·M·Π⁻¹ = M − 2·D_{T1, odd} " +
-                         "collapses M_anti onto D_{T1, odd}; the Π²-orthogonal complement carries the remainder");
-            // Example anchor (N=3, γ_T1=0.1): values computed from this class's own Predict methods
-            // and the parent F1T1ResidualClosedForm to avoid hardcoded comparison strings; section 6 of
-            // simulations/_f1_t1_residual_verify.py matches these to machine precision.
+                summary: "Step 7 of PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md: M_anti collapses onto D_{T1, odd}; " +
+                         "the Π²-orthogonal complement carries the remainder");
+            // Example values are computed (not hardcoded) so they stay in sync with the formulas above.
             const int exampleN = 3;
             const double exampleGamma = 0.1;
             double exampleAnti = PredictAntisymmetricUniform(exampleN, exampleGamma);
