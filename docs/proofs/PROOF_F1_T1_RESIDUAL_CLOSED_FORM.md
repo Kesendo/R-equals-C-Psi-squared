@@ -12,7 +12,7 @@ Let L = L_H + L_Z + L_T1 be the Lindbladian for a 2-bilinear Pauli Hamiltonian H
 
 In the framework's orthonormal Pauli-string basis (the basis used by `palindrome_residual` in [`framework/lindblad.py`](../../simulations/framework/lindblad.py); see also [F49](../ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven) and [the F49 Frobenius dictionary in `project_palindrome_frobenius_scaling`](../../experiments/OPERATOR_RIGIDITY_ACROSS_CUSP.md)), the residual norm decomposes orthogonally as
 
-    ‖M‖²_F = 2^(N+2) · n_YZ · ‖H_{non-truly}‖²_F  +  4^(N−1) · [ 3 · Σ_l γ^{T1}²_l  +  4 · (Σ_l γ^{T1}_l)² ].
+    ‖M‖²_F = 2^(N+2) · n_YZ · ‖H‖²_F  +  4^(N−1) · [ 3 · Σ_l γ^{T1}²_l  +  4 · (Σ_l γ^{T1}_l)² ].
 
 The H part is the F49 closed form ([`docs/ANALYTICAL_FORMULAS.md` F49](../ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven), proven separately). This document closes the T1 part:
 
@@ -43,7 +43,7 @@ Memory [`project_palindrome_frobenius_scaling`](../../) recorded the per-class d
 
     ‖M(L_T1)‖²_F = 4^(N−1) · [ c_1 · Σ_l γ²_T1_l + c_2 · (Σ_l γ_T1_l)² ]
 
-with (c_1, c_2) = (3, 4) for σ⁻ amplitude damping, tabulated in the framework as `HARDWARE_DISSIPATORS['T1']` in [`framework/lindblad.py`](../../simulations/framework/lindblad.py) and registered as an [F1 open question](../../compute/RCPsiSquared.Core/F1/F1OpenQuestions.cs) (item 2 — "T1 amplitude damping: full closed form"). Verified bit-exact at N = 3..6, but analytical derivation was open. This document derives the (3, 4) pair from first principles.
+with (c_1, c_2) = (3, 4) for σ⁻ amplitude damping, tabulated in the framework as `HARDWARE_DISSIPATORS['T1']` in [`framework/lindblad.py`](../../simulations/framework/lindblad.py). The entry was previously registered as an F1 open question ("T1 amplitude damping: full closed form"); verified bit-exact at N = 3..6, but analytical derivation was open. This document derives the (3, 4) pair from first principles, promoting the entry to the Tier-1-derived [`F1T1ResidualClosedForm`](../../compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs) claim on `F1KnowledgeBase`.
 
 ## Proof
 
@@ -201,7 +201,7 @@ The closed form makes the F1 T1-block residual a quantitative, **Hamiltonian-ind
 
 ### Typed claims
 
-- [`compute/RCPsiSquared.Core/F1/F1OpenQuestions.cs`](../../compute/RCPsiSquared.Core/F1/F1OpenQuestions.cs) item 2 ("T1 amplitude damping: full closed form") — closed by this proof; can be moved to a Tier 1 derived claim in `F1KnowledgeBase`.
+- [`compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs`](../../compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs) — Tier-1-derived typed claim for this closed form, registered on `F1KnowledgeBase`. Replaces the earlier `F1OpenQuestions` item 2 entry, which was closed by this proof on 2026-05-18.
 - [`compute/RCPsiSquared.Core/F1/PalindromeResidualScalingClaim.cs`](../../compute/RCPsiSquared.Core/F1/PalindromeResidualScalingClaim.cs) — companion claim covering the Hamiltonian (non-truly) part of ‖M‖²_F.
 - [`framework.HARDWARE_DISSIPATORS['T1']`](../../simulations/framework/lindblad.py) — already records `{'c1': 3.0, 'c2': 4.0}`; this proof derives the entries.
 

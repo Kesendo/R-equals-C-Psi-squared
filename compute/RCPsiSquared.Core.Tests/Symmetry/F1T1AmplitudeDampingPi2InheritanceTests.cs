@@ -17,9 +17,11 @@ public class F1T1AmplitudeDampingPi2InheritanceTests
     [Fact]
     public void Tier_IsTier1Candidate()
     {
-        // The closed form is empirically verified N=3..6 but the analytic derivation is
-        // open (F1 open-question Item 2). The Pi2-Foundation anchoring is conditional on
-        // the formula being correct; Tier1Candidate matches the parent formula's tier.
+        // The closed form itself is now Tier1Derived (PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md,
+        // 2026-05-18); see F1T1ResidualClosedForm. The Pi2-Foundation ladder-index map
+        // here (2^(N+2) ↔ a_{−(N+1)}, 4^(N−1) ↔ a_{3−2N}, 4 ↔ a_{−1}) is a separate
+        // algebraic statement that has not been independently derived, so this Pi2-
+        // inheritance claim remains Tier1Candidate pending that derivation.
         Assert.Equal(Tier.Tier1Candidate, Build().Tier);
     }
 
@@ -115,11 +117,12 @@ public class F1T1AmplitudeDampingPi2InheritanceTests
     }
 
     [Fact]
-    public void Anchor_References_F82_AndF1OpenQuestions_AndPi2Foundation()
+    public void Anchor_References_F82_AndF1T1ClosedForm_AndPi2Foundation()
     {
         var f = Build();
         Assert.Contains("ANALYTICAL_FORMULAS.md", f.Anchor);
-        Assert.Contains("F1OpenQuestions.cs", f.Anchor);
+        Assert.Contains("PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md", f.Anchor);
+        Assert.Contains("F1T1ResidualClosedForm.cs", f.Anchor);
         Assert.Contains("F1PalindromeIdentity.cs", f.Anchor);
         Assert.Contains("Pi2DyadicLadderClaim.cs", f.Anchor);
         Assert.Contains("Pi2OperatorSpaceMirrorClaim.cs", f.Anchor);

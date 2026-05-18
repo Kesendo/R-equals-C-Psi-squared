@@ -4,17 +4,18 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>F1's palindrome residual under T1 amplitude damping (per
-/// <c>memory/project_palindrome_frobenius_scaling.md</c> + F1 open-question Item 2)
-/// has the empirical closed form:
+/// <c>memory/project_palindrome_frobenius_scaling.md</c> and the now-derived
+/// <c>F1T1ResidualClosedForm</c> on <c>F1KnowledgeBase</c>) has the closed form:
 ///
 /// <code>
 ///   ‖M‖² = 2^(N+2) · n_YZ · ‖H‖²_F  +  4^(N−1) · [3 · Σγ_T1²  +  4 · (Σγ_T1)²]
 /// </code>
 ///
-/// <para>verified bit-exact at N = 3..6. Each scaling factor and integer multiplier
-/// in this formula sits on the Pi2-Foundation. The analytic derivation is the
-/// open Tier 1 promotion path (F1 open-question Item 2); this claim makes the
-/// Pi2-Foundation anchoring of the existing empirical formula explicit.</para>
+/// <para>verified bit-exact at N = 3..6 and analytically derived in
+/// <c>docs/proofs/PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md</c> (2026-05-18; closes the
+/// former F1 open-question Item 2). Each scaling factor and integer multiplier in
+/// this formula sits on the Pi2-Foundation; this claim makes the Pi2-Foundation
+/// anchoring of the formula explicit.</para>
 ///
 /// <list type="bullet">
 ///   <item><b>"2^(N+2)" prefactor of the H-part</b>: <c>a_{−(N+1)}</c> on the Pi2
@@ -28,24 +29,26 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         <c>4^(N−2)</c>; this T1 piece uses <c>4^(N−1)</c>).</item>
 ///   <item><b>"4" multiplier</b> in <c>4·(Σγ_T1)²</c>: exactly <c>a_{−1}</c> on the
 ///         Pi2 dyadic ladder = d² for 1 qubit. Same anchor used by F86 t_peak and
-///         F49 (via Pi2OperatorSpaceMirror).</item>
+///         F49 (via Pi2OperatorSpaceMirror). The proof identifies this 4 as
+///         <c>|tr(M_l)|² / 4 = 16 / 4 = 4</c>.</item>
 ///   <item><b>"3" multiplier</b> in <c>3·Σγ_T1²</c>: small integer from the T1
-///         dissipator algebra; not directly a Pi2 anchor but algebraically clean.
+///         dissipator algebra (<c>‖M_l‖²_F − |tr(M_l)|² / 4 = 7 − 4 = 3</c>); not
+///         a direct Pi2 anchor but derived in PROOF_F1_T1_RESIDUAL_CLOSED_FORM.
 ///         Documented as such; not claimed as Pi2-Foundation inheritance.</item>
 /// </list>
 ///
-/// <para>Tier outcome: <b>Tier1Candidate</b>. The closed form itself is currently
-/// Tier1Candidate (verified N=3..6 empirically; analytic derivation open per
-/// F1 open-question Item 2). The Pi2-Anker readings of its constants are
-/// algebraic-trivial composition once the formula is granted. When the analytic
-/// derivation lands, this claim's status (and the underlying formula's status)
-/// promotes to Tier1Derived together.</para>
+/// <para>Tier outcome: <b>Tier1Candidate</b>. The parent closed form is now
+/// Tier1Derived in <see cref="RCPsiSquared.Core.F1.F1T1ResidualClosedForm"/>, but
+/// the Pi2-Foundation reading of its individual constants is a separate algebraic
+/// composition statement that has not been independently formalised here; it
+/// remains a candidate pending a dedicated derivation of the ladder-index map.</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F82 + F84 (T1-related closed
-/// forms; the F82/F84 closed forms cover the 2^(N−1) F81-anti-component, this
-/// claim's H-part 2^(N+2) and full-‖M‖² scaling are the open extension) +
-/// <c>compute/RCPsiSquared.Core/F1/F1OpenQuestions.cs</c> (Item 2: T1 amplitude
-/// damping full closed form) +
+/// forms; the F82/F84 closed forms cover the 2^(N−1) F81-anti-component) +
+/// <c>docs/proofs/PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md</c> (the analytic derivation
+/// of the full T1 closed form) +
+/// <c>compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs</c> (the typed
+/// Tier1Derived claim) +
 /// <c>compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs</c> (the parent F1
 /// identity whose residual ‖M‖² is being scaled) +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c> +
@@ -100,10 +103,11 @@ public sealed class F1T1AmplitudeDampingPi2Inheritance : Claim
     public int T1PartOperatorSpaceQubitCount(int N) => N - 1;
 
     public F1T1AmplitudeDampingPi2Inheritance(Pi2DyadicLadderClaim ladder, Pi2OperatorSpaceMirrorClaim mirror)
-        : base("F1 T1-amplitude-damping ‖M‖² scaling factors inherit from Pi2-Foundation (analytic derivation: Tier 1 candidate)",
+        : base("F1 T1-amplitude-damping ‖M‖² scaling factors inherit from Pi2-Foundation (Pi2 ladder-index map: Tier 1 candidate)",
                Tier.Tier1Candidate,
                "docs/ANALYTICAL_FORMULAS.md F82 + " +
-               "compute/RCPsiSquared.Core/F1/F1OpenQuestions.cs + " +
+               "docs/proofs/PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md + " +
+               "compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs + " +
                "compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs")
@@ -116,18 +120,18 @@ public sealed class F1T1AmplitudeDampingPi2Inheritance : Claim
         "F1 T1-amplitude-damping closed-form factors as Pi2-Foundation inheritance";
 
     public override string Summary =>
-        $"‖M‖² = 2^(N+2)·n_YZ·‖H‖² + 4^(N−1)·[3·Σγ² + 4·(Σγ)²]: 2^(N+2) = a_{{−(N+1)}}, 4^(N−1) = a_{{3−2N}} = d² für (N−1) qubits, 4 = a_{{−1}}; analytic derivation open ({Tier.Label()})";
+        $"‖M‖² = 2^(N+2)·n_YZ·‖H‖² + 4^(N−1)·[3·Σγ² + 4·(Σγ)²]: 2^(N+2) = a_{{−(N+1)}}, 4^(N−1) = a_{{3−2N}} = d² für (N−1) qubits, 4 = a_{{−1}}; Pi2 ladder-index map: {Tier.Label()}";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
-            yield return new InspectableNode("empirical closed form",
-                summary: "‖M‖² = 2^(N+2)·n_YZ·‖H‖²_F + 4^(N−1)·[3·Σγ_T1² + 4·(Σγ_T1)²]; verified bit-exact N=3..6");
+            yield return new InspectableNode("closed form",
+                summary: "‖M‖² = 2^(N+2)·n_YZ·‖H‖²_F + 4^(N−1)·[3·Σγ_T1² + 4·(Σγ_T1)²]; verified bit-exact N=3..6 and analytically derived in PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md (2026-05-18)");
             yield return new InspectableNode("Pi2-Foundation anchoring",
                 summary: "2^(N+2) = a_{−(N+1)} (ladder); 4^(N−1) = a_{3−2N} (ladder, = d² für (N−1) qubits via OperatorSpaceMirror); 4 = a_{−1}");
             yield return new InspectableNode("3 multiplier",
-                summary: "small integer from T1 dissipator algebra; documented but not a direct Pi2-Foundation anchor");
+                summary: "small integer from T1 dissipator algebra (‖M_l‖²_F − |tr(M_l)|²/4 = 7 − 4 = 3); documented but not a direct Pi2-Foundation anchor");
             yield return InspectableNode.RealScalar("FourMultiplier (= a_{-1})", FourMultiplier);
             yield return InspectableNode.RealScalar("ThreeMultiplier", ThreeMultiplier);
             for (int N = 2; N <= 6; N++)
@@ -138,7 +142,7 @@ public sealed class F1T1AmplitudeDampingPi2Inheritance : Claim
                              $"T1-part prefactor 4^(N−1) = {T1PartPrefactor(N)} (a_{T1PartLadderIndex(N)} = d² for {T1PartOperatorSpaceQubitCount(N)} qubits)");
             }
             yield return new InspectableNode("Tier1 promotion path",
-                summary: "F1 open-question Item 2: derive the closed form analytically (currently empirical N=3..6); when proven, this claim and parent formula promote to Tier1Derived together");
+                summary: "the parent T1 closed form is now Tier1Derived (PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md); promoting the Pi2-Foundation ladder-index map here to Tier1Derived needs an independent algebraic derivation of the −(N+1) / 3−2N / −1 mapping");
         }
     }
 }

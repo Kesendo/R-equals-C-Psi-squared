@@ -4,7 +4,12 @@ namespace RCPsiSquared.Core.F1;
 
 /// <summary>Open theoretical items for the F1 family: directions where the palindrome
 /// identity breaks, partially survives, or generalises. Anchored at the F1 "Breaks for"
-/// clause and the OPERATOR_RIGIDITY scaling experiment.</summary>
+/// clause and the OPERATOR_RIGIDITY scaling experiment.
+///
+/// <para>The earlier "T1 amplitude damping: full closed form" item was closed on
+/// 2026-05-18 by <c>docs/proofs/PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md</c> and now lives
+/// as the Tier-1-derived <see cref="F1T1ResidualClosedForm"/> claim on
+/// <see cref="F1KnowledgeBase"/>.</para></summary>
 public static class F1OpenQuestions
 {
     private const string Anchor = "docs/ANALYTICAL_FORMULAS.md F1 \"Breaks for\" clause";
@@ -19,23 +24,6 @@ public static class F1OpenQuestions
             "Repeat the bond-sum + spectator-variance + disjoint-supports argument with the depolarizing " +
             "Lindblad operators in place of Z-dephasing.",
             Anchor),
-        // CLOSED 2026-05-18 by docs/proofs/PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md.
-        // ‖M(T1)‖²_F = 4^(N−1) · [3·Σγ²_T1 + 4·(Σγ_T1)²] derived from the per-site
-        // M_l = Π·D_T1·Π⁻¹ + D_T1 kernel: ‖M_l‖²_F = 7, tr(M_l) = −4. Multi-site
-        // assembly via tr(M_l† M_l′) = |tr(M_l)|² · 4^(N−2) for l ≠ l′ gives
-        // (7 − 4)·Σγ² + 4·(Σγ)². Verified N = 2..5 in simulations/_f1_t1_residual_verify.py.
-        // Kept as a registered entry for now so the proof reference stays discoverable
-        // via the typed knowledge layer; once promoted to a Tier1Derived claim, remove this.
-        new OpenQuestion(
-            "T1 amplitude damping: full closed form (CLOSED 2026-05-18)",
-            "‖M(T1)‖²_F = 4^(N−1)·[3·Σγ²_T1 + 4·(Σγ_T1)²] in the framework's orthonormal Pauli " +
-            "basis. T1 part is H-independent, γ_Z-independent, Frobenius-orthogonal to the H and " +
-            "Z-dephasing blocks. The (3, 4) pair derives from the single-site kernel " +
-            "‖M_l‖²_F = 7 and |tr(M_l)|² = 16, combined via per-site / identity-elsewhere assembly.",
-            "Closed; see docs/proofs/PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md (Steps 1-5) for the " +
-            "derivation and simulations/_f1_t1_residual_verify.py for bit-exact verification N=2..5.",
-            "docs/proofs/PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md; " +
-            "memory: project_palindrome_frobenius_scaling (T1 extension section, derivation 2026-05-18)"),
         new OpenQuestion(
             "non-uniform γ_i: site-dependent dephasing",
             "F1 holds for site-dependent γ_i (the identity is per-site additive in the Klein parities). " +

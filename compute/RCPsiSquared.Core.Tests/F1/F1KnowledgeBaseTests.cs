@@ -62,15 +62,18 @@ public class F1KnowledgeBaseTests
     }
 
     [Fact]
-    public void OpenQuestions_HasFourSubstantiveItems()
+    public void OpenQuestions_HasThreeSubstantiveItems()
     {
         var open = F1OpenQuestions.Standard;
-        Assert.Equal(4, open.Count);
+        // The earlier "T1 amplitude damping: full closed form" item was closed on
+        // 2026-05-18 by PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md and is now the
+        // Tier-1-derived F1T1ResidualClosedForm claim on F1KnowledgeBase.
+        Assert.Equal(3, open.Count);
         Assert.All(open, q => Assert.Equal(Tier.OpenQuestion, q.Tier));
         Assert.Contains(open, q => q.Name.Contains("depolarizing"));
-        Assert.Contains(open, q => q.Name.Contains("T1 amplitude"));
         Assert.Contains(open, q => q.Name.Contains("non-uniform γ_i"));
         Assert.Contains(open, q => q.Name.Contains("general topology"));
+        Assert.DoesNotContain(open, q => q.Name.Contains("T1 amplitude"));
     }
 
     [Fact]
@@ -82,6 +85,7 @@ public class F1KnowledgeBaseTests
         Assert.NotNull(kb.PalindromeIdentity);
         Assert.NotNull(kb.MainScaling);
         Assert.NotNull(kb.SingleBodyScaling);
+        Assert.NotNull(kb.T1ResidualClosedForm);
         Assert.NotEmpty(kb.HardwareConfirmations);
         Assert.NotEmpty(kb.OpenQuestions);
 
@@ -119,10 +123,11 @@ public class F1KnowledgeBaseTests
     {
         var kb = new F1KnowledgeBase(N: 5);
         string line = kb.TierInventoryLine();
-        // 3 Tier-1 derived (F1 + main + single-body), 4 Tier-2 verified, 4 open
-        Assert.Contains("T1d=3", line);
+        // 4 Tier-1 derived (F1 + main + single-body + T1 closed form),
+        // Tier-2 verified hardware confirmations, 3 open after T1 closure.
+        Assert.Contains("T1d=4", line);
         Assert.Contains("T2v=", line);
-        Assert.Contains("open=4", line);
+        Assert.Contains("open=3", line);
     }
 
     [Fact]

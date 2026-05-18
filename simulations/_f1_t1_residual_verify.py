@@ -54,7 +54,14 @@ def m_norm_squared(N: int, H: np.ndarray, gamma_z_l: list[float],
 
 
 def predict_t1_only(N: int, gamma_t1_l: list[float]) -> float:
-    """Closed form ‖M(T1)‖²_F = 4^(N−1) · [3·Σγ² + 4·(Σγ)²]."""
+    """Closed form ‖M(T1)‖²_F = 4^(N−1) · [3·Σγ² + 4·(Σγ)²].
+
+    Verification-local reimplementation of just the T1 half so the script can
+    isolate the T1 block without computing the H+T1 sum. For the full H+T1
+    closed form (F49 H block plus this T1 block) use the framework's
+    ``fw.predict_residual_norm_squared_from_terms(chain, terms, gamma_t1=...)``
+    in `framework/diagnostics/f49_frobenius_scaling.py`.
+    """
     sum_sq = sum(g * g for g in gamma_t1_l)
     sum_g_sq = sum(gamma_t1_l) ** 2
     return float(4 ** (N - 1)) * (3.0 * sum_sq + 4.0 * sum_g_sq)
@@ -200,6 +207,18 @@ def section_6_per_site_kernel() -> None:
         [0, 0, 1j, 0],  # Z row receives iY
     ], dtype=complex)
     Pi_inv = Pi.conj().T
+
+    # Cross-check: the hand-built per-site Π must equal the framework's
+    # per-site Π (i.e. build_pi_full at N=1 in the Z-dephasing convention).
+    # This catches any future drift between the script-local Π and the
+    # framework's `build_pi_full`-derived Π used by `palindrome_residual`
+    # everywhere else in this script.
+    from framework.symmetry import build_pi_full  # noqa: E402
+    Pi_framework = build_pi_full(1, dephase_letter='Z')
+    assert np.allclose(Pi, Pi_framework, atol=1e-12), (
+        "hand-built per-site Π disagrees with framework build_pi_full(N=1, 'Z'): "
+        f"max |Δ| = {np.max(np.abs(Pi - Pi_framework)):.3e}"
+    )
 
     M_per_site = Pi @ D @ Pi_inv + D
     norm_sq_per = float(np.real(np.trace(M_per_site.conj().T @ M_per_site)))
