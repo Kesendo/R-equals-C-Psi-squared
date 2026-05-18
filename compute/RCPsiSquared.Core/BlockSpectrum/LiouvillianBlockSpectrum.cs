@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
@@ -65,6 +66,46 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 public sealed class LiouvillianBlockSpectrum : Claim
 {
     private readonly JointPopcountSectors _sectors;
+
+    /// <summary>Per-block eigensolver selection knob for
+    /// <see cref="ComputeSpectrumPerBlock(ComplexMatrix, IReadOnlyList{double}, int, EigenPath)"/>.
+    /// The default <see cref="Auto"/> picks <see cref="MathNet"/> for blocks below
+    /// <see cref="Lp64ComplexCeiling"/> and <see cref="MklDirectNative"/> above; the explicit
+    /// overrides exist only for the parity-witness test
+    /// <c>PerBlockLiouvillianBuilderNativeMemoryParityTests</c> which forces both paths on the
+    /// same small block to demonstrate bit-exact agreement.</summary>
+    public enum EigenPath
+    {
+        /// <summary>Auto-select by block size: MathNet for size ≤ <see cref="Lp64ComplexCeiling"/>,
+        /// MklDirect + NativeMemory + ILP64 above. The production default.</summary>
+        Auto = 0,
+        /// <summary>Force the MathNet <c>Matrix&lt;Complex&gt;.Evd()</c> path on every block.
+        /// Will throw inside MathNet's marshaller for blocks &gt; <see cref="Lp64ComplexCeiling"/>.
+        /// Test-only.</summary>
+        MathNet = 1,
+        /// <summary>Force the <see cref="MklDirect.EigenvaluesOnlyNative"/> path on every block.
+        /// Allocates and frees a native column-major Complex buffer per block. Test-only; the
+        /// production code uses <see cref="Auto"/> which only takes this branch above the
+        /// LP64 ceiling.</summary>
+        MklDirectNative = 2,
+    }
+
+    /// <summary>Largest square Complex block (size n × n with n² ≤ 134 217 728) whose total
+    /// byte count (n² × 16) fits inside the LP64 2 GB single-native-array marshalling ceiling
+    /// enforced by MathNet's <c>MklLinearAlgebraProvider.EigenDecomp</c>. n = 11 585 gives
+    /// n² × 16 ≈ 2.147 GB (just inside the marshaller's <c>int.MaxValue</c> byte limit when the
+    /// fixed-pinned <c>Complex[]</c> is rounded into a single P/Invoke array). Blocks at or
+    /// below this size are routed through MathNet's well-tested managed wrapper; blocks above
+    /// are routed through <see cref="MklDirect.EigenvaluesOnlyNative"/> on a
+    /// <see cref="NativeMemory.AllocZeroed(nuint)"/>-backed buffer, which also auto-selects
+    /// ILP64 when n &gt; 46 340 (n² &gt; <c>int.MaxValue</c>; not currently reachable at
+    /// joint-popcount block sizes for N ≤ 12).
+    ///
+    /// <para>The threshold is the same value the N=9 test
+    /// (<c>F1GeneralTopologyN9BlockSpectrumChainTests.Lp64EvdSquareMatrixCeiling</c>) uses for
+    /// its pre-flight check; keeping both in sync means a future bump (e.g. if MathNet relaxes
+    /// the marshaller) only needs updating one constant per file.</para></summary>
+    public const int Lp64ComplexCeiling = 11_585;
 
     public LiouvillianBlockSpectrum(JointPopcountSectors sectors)
         : base("LiouvillianBlockSpectrum: per-block eig over (N+1)² joint popcount sectors yields the same spectrum (multiset) as direct full-L eig; bit-exact verified at N=3,4,5.",
@@ -157,20 +198,43 @@ public sealed class LiouvillianBlockSpectrum : Claim
     /// <summary>Compute the full Liouvillian spectrum without materialising the full
     /// (4^N) × (4^N) L matrix. Each per-block matrix is built directly from the
     /// Hilbert-space Hamiltonian (size 2^N × 2^N) via
-    /// <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/>, eigendecomposed, and discarded
-    /// before the next block. This is the only path that scales past N=6 on commodity
-    /// hardware (full L exceeds .NET 2 GB array-size limit at N=7+).
+    /// <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/> (MathNet path) or
+    /// <see cref="PerBlockLiouvillianBuilder.BuildBlockZIntoNativeMemory"/> (MklDirect +
+    /// NativeMemory + ILP64 path), eigendecomposed, and discarded before the next block.
+    /// This is the only path that scales past N=6 on commodity hardware (full L exceeds
+    /// .NET 2 GB array-size limit at N=7+).
+    ///
+    /// <para>Eigensolver selection is automatic by block size: blocks at or below
+    /// <see cref="Lp64ComplexCeiling"/> (11 585² ≈ 2 GB Complex matrix) go through MathNet's
+    /// well-tested managed wrapper; blocks above the ceiling route through
+    /// <see cref="MklDirect.EigenvaluesOnlyNative"/> on a
+    /// <see cref="NativeMemory.AllocZeroed(nuint)"/>-backed column-major buffer. The bridge
+    /// unlocks N ≥ 9 where the largest joint-popcount sector exceeds the LP64 marshaller's
+    /// 2 GB cap (N=9 max block C(9, 4) · C(9, 5) = 15 876² ≈ 4 GB; see
+    /// <c>F1GeneralTopologyN9BlockSpectrumChainTests</c>).</para>
     ///
     /// <para>Uses the X⊗N pairing optimisation: only ~half of joint-popcount sectors are
     /// eigendecomposed; the other half copy from their X⊗N-partner. See
     /// <see cref="SymmetryFamily.XGlobalChargeConjugationPairing"/> for the pairing rule.</para></summary>
-    /// <param name="H">Hilbert-space Hamiltonian, dense 2^N × 2^N (cheap even at N=8: 256×256).
+    /// <param name="H">Hilbert-space Hamiltonian, dense 2^N × 2^N (cheap even at N=9: 512×512).
     /// Must be popcount-conserving (see class Contract); non-conserving H gives silently
     /// wrong spectra.</param>
     /// <param name="gammaPerSite">Per-site Z-dephasing rates (length N).</param>
     /// <param name="N">Qubit count.</param>
     /// <returns>Flat array of 4^N eigenvalues, concatenated block-by-block.</returns>
-    public static Complex[] ComputeSpectrumPerBlock(ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N)
+    public static Complex[] ComputeSpectrumPerBlock(ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N) =>
+        ComputeSpectrumPerBlock(H, gammaPerSite, N, EigenPath.Auto);
+
+    /// <summary>Test-aware overload that lets the parity witness force a specific eigensolver
+    /// path on every block. Production callers should use the parameterless overload (or pass
+    /// <see cref="EigenPath.Auto"/> explicitly) which routes by block size against
+    /// <see cref="Lp64ComplexCeiling"/>.</summary>
+    /// <param name="path">Force the MathNet path, force the MklDirect + NativeMemory path,
+    /// or let the per-block size decide. <see cref="EigenPath.MathNet"/> will throw inside
+    /// MathNet's marshaller for blocks larger than the LP64 ceiling — use
+    /// <see cref="EigenPath.Auto"/> in production code.</param>
+    public static Complex[] ComputeSpectrumPerBlock(
+        ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N, EigenPath path)
     {
         if (H is null) throw new ArgumentNullException(nameof(H));
         int hilbertDim = 1 << N;
@@ -215,7 +279,16 @@ public sealed class LiouvillianBlockSpectrum : Claim
 
         // BLAS-oversubscription strategy (c): outer DOP ≈ ProcessorCount/4 leaves room for
         // MKL inside the largest sectors' Evd. See ComputeSpectrum for the rationale.
-        int outerDop = Math.Max(1, Environment.ProcessorCount / 4);
+        //
+        // EigenPath.MklDirectNative serialises (DOP=1) because each block can hold ~4 GB
+        // of NativeMemory while LAPACK runs; allowing multiple large MklDirect blocks
+        // concurrently risks running the working set past 128 GB on N=9 chains where
+        // the four largest paired-primary sectors each carry ≥ 1 GB of block data.
+        // Smaller MathNet blocks at the same N are unaffected (they live below the
+        // ceiling and use ProcessorCount/4 outer DOP).
+        int outerDop = path == EigenPath.MklDirectNative
+            ? 1
+            : Math.Max(1, Environment.ProcessorCount / 4);
         var po = new ParallelOptions { MaxDegreeOfParallelism = outerDop };
 
         // Phase 2: parallel eig on primary sectors only.
@@ -235,11 +308,7 @@ public sealed class LiouvillianBlockSpectrum : Claim
                 for (int k = 0; k < size; k++)
                     flatIndices[k] = perm[sector.Offset + k];
 
-                var block = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, flatIndices);
-                var blockEigs = block.Evd().EigenValues;
-                var arr = new Complex[size];
-                for (int i = 0; i < size; i++) arr[i] = blockEigs[i];
-                primaryEigs[sIdx] = arr;
+                primaryEigs[sIdx] = SolveSectorBlock(H, gammaPerSite, flatIndices, size, path);
             });
 
         // Phase 3: sequential write to output array (primaries + followers). Followers copy
@@ -252,6 +321,59 @@ public sealed class LiouvillianBlockSpectrum : Claim
             for (int i = 0; i < eigs.Length; i++) spectrum[write + i] = eigs[i];
         }
         return spectrum;
+    }
+
+    /// <summary>Per-block eigensolver dispatch. <see cref="EigenPath.Auto"/> picks MathNet for
+    /// blocks at or below <see cref="Lp64ComplexCeiling"/> (well-tested wrapper, MKL multi-
+    /// threaded BLAS-3) and MklDirect + NativeMemory + ILP64-aware for blocks above (bypasses
+    /// the LP64 2 GB marshaller cap). Explicit overrides serve the parity-witness test only.
+    ///
+    /// <para>The MklDirect path allocates a single native column-major Complex buffer per
+    /// block, calls <see cref="MklDirect.EigenvaluesOnlyNative"/> which automatically routes
+    /// to ILP64 OpenBLAS when n &gt; 46 340, and frees the buffer in a <c>finally</c>. The
+    /// LAPACK convention is that <c>zgeev</c> destroys the input matrix, so the buffer has
+    /// single-use semantics; we discard it once eigenvalues are out.</para></summary>
+    private static unsafe Complex[] SolveSectorBlock(
+        ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int[] flatIndices, int size,
+        EigenPath path)
+    {
+        bool useNative = path switch
+        {
+            EigenPath.MathNet => false,
+            EigenPath.MklDirectNative => true,
+            // Auto: route by block size against the LP64 ceiling. The decisive cutoff comes
+            // from the LP64 MathNet MklLinearAlgebraProvider.EigenDecomp marshaller cap; any
+            // block of size > 11 585 would throw "Array size exceeds addressing limitations"
+            // out of MngdNativeArrayMarshaler.ConvertSpaceToNative if routed via MathNet.
+            _ => size > Lp64ComplexCeiling,
+        };
+
+        if (!useNative)
+        {
+            // MathNet path: identical to the pre-bridge behaviour, exercised at every block
+            // size up through N=8 in the SLOW_N8 dogfood. Bit-exact lineage preserved.
+            var block = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, flatIndices);
+            var blockEigs = block.Evd().EigenValues;
+            var arr = new Complex[size];
+            for (int i = 0; i < size; i++) arr[i] = blockEigs[i];
+            return arr;
+        }
+
+        // MklDirect + NativeMemory + ILP64-aware path: the bridge that unlocks N ≥ 9.
+        IntPtr ptr = PerBlockLiouvillianBuilder.BuildBlockZIntoNativeMemory(H, gammaPerSite, flatIndices);
+        try
+        {
+            // EigenvaluesOnlyNative auto-selects LP64 vs ILP64 based on size against the 46 340
+            // threshold (sqrt(int.MaxValue)). For block sizes 11 586..46 340 it stays on LP64
+            // OpenBLAS but reads from NativeMemory rather than a managed Complex[], which is
+            // precisely the marshaller bypass we need. Above 46 340 (not reachable until
+            // N ≥ 13 joint-popcount sectors) it switches to ILP64 OpenBLAS automatically.
+            return MklDirect.EigenvaluesOnlyNative(ptr, size);
+        }
+        finally
+        {
+            NativeMemory.Free((void*)ptr);
+        }
     }
 
     public override string DisplayName =>

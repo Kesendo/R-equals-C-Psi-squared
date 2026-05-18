@@ -15,40 +15,27 @@ namespace RCPsiSquared.Core.Tests.F1;
 /// <summary>F1 general-topology N=9 chain spot-check via
 /// <see cref="LiouvillianBlockSpectrum.ComputeSpectrumPerBlock"/>.
 ///
-/// <para><b>Infrastructure ceiling discovered 2026-05-18.</b> At N=9 the max joint-popcount
-/// block is C(9, 4) · C(9, 5) = 15 876, i.e. 15 876² × 16 B ≈ 4 GB. MathNet's LP64
-/// <c>MklLinearAlgebraProvider.EigenDecomp</c> P/Invoke calls
-/// <c>System.StubHelpers.MngdNativeArrayMarshaler.ConvertSpaceToNative</c>, which enforces
-/// a hard 2 GB single-native-array limit independent of the <c>AllowVeryLargeObjects</c>
-/// CLR flag. The block-spectrum path therefore caps at N=8 on the LP64 MKL route. A
-/// 2026-05-18 attempt to run this test threw a paired
-/// <c>System.ArgumentException : Array size exceeds addressing limitations</c> from the
-/// marshaller after ~1m 44s of setup and the first eig attempt on the largest sector.</para>
+/// <para><b>LP64 bridge landed 2026-05-18.</b> At N=9 the max joint-popcount block is
+/// C(9, 4) · C(9, 5) = 15 876, i.e. 15 876² × 16 B ≈ 4 GB, exceeding MathNet's LP64
+/// <c>MklLinearAlgebraProvider.EigenDecomp</c> 2 GB single-native-array marshalling ceiling.
+/// <see cref="LiouvillianBlockSpectrum.ComputeSpectrumPerBlock"/> now auto-routes blocks
+/// larger than <see cref="LiouvillianBlockSpectrum.Lp64ComplexCeiling"/> (11 585²) through
+/// <c>RCPsiSquared.Core.Numerics.MklDirect</c>'s NativeMemory + ILP64-aware LAPACK path,
+/// bypassing the marshaller cap. Bit-exact parity vs MathNet at small N is witnessed by
+/// <c>PerBlockLiouvillianBuilderNativeMemoryParityTests</c>.</para>
 ///
-/// <para><b>This test is marked <see cref="SkippableFactAttribute"/> rather than removed,</b>
-/// so it stays discoverable for the future ILP64 bridge. When N=9 becomes reachable
-/// (e.g. via <c>RCPsiSquared.Compute.MklDirect</c>'s NativeMemory + ILP64 LAPACK route
-/// promoted into Core or invoked from a parallel test fixture), the
-/// <see cref="Skip.If"/> call below can be lifted. The test class is kept under
-/// <c>[Trait("Category", "SLOW_N9")]</c> so it remains opt-in even after the ceiling is
-/// bridged.</para>
-///
-/// <para>The infrastructure ceiling is the load-bearing finding from the 2026-05-18 SLOW_N8
-/// + SLOW_N9 sweep: the F1 palindromic-pairing identity itself is fine at every finite N;
-/// what changed at N=9 is that the LP64 MKL P/Invoke marshaller cannot host the largest
-/// per-block Evd call. See [PROOF_F1_GENERAL_TOPOLOGY.md § Scale frontier] for the
-/// proof-side write-up.</para>
+/// <para>The test is opt-in under <c>[Trait("Category", "SLOW_N9")]</c> because the largest
+/// sector pair (C(9, 4) · C(9, 5) = 15 876² each) holds ~4 GB native memory per block during
+/// its zgeev call; the per-block serialisation built into the MklDirect branch
+/// (<c>EigenPath.MklDirectNative</c>) caps wall-time but stays well inside the dev machine's
+/// 128 GB envelope.</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md</c> (scale-frontier section
-/// updated with the infrastructure-ceiling finding),
-/// <see cref="F1GeneralTopologyVerifiedClaim"/> (typed claim's <c>VerifiedNValues</c>
-/// stays at {5, 6, 7, 8}; the <c>ScaleFrontierBlockedAt</c> field documents the N=9
-/// blocker), <see cref="F1SpectrumStatistics"/> (shared metrics utility, ready to
-/// receive the N=9 capture once the bridge lands),
-/// <c>compute/RCPsiSquared.Compute/MklDirect.cs</c> (the NativeMemory + ILP64 LAPACK
-/// route that bridges past LP64 marshalling, used by
-/// <c>RCPsiSquared.Compute.Liouvillian.BuildDirectNative</c> at N=8 dense and would
-/// extend to N=9 per-block).</para></summary>
+/// updated with the bridge landing), <see cref="F1GeneralTopologyVerifiedClaim"/>,
+/// <see cref="F1SpectrumStatistics"/> (shared metrics utility),
+/// <see cref="LiouvillianBlockSpectrum"/> (the per-block dispatch + Lp64ComplexCeiling
+/// constant), <c>compute/RCPsiSquared.Core/Numerics/MklDirect.cs</c> (the NativeMemory +
+/// ILP64 LAPACK route that bridges past LP64 marshalling).</para></summary>
 public class F1GeneralTopologyN9BlockSpectrumChainTests
 {
     private readonly ITestOutputHelper _out;
@@ -59,8 +46,11 @@ public class F1GeneralTopologyN9BlockSpectrumChainTests
     /// The native marshaller <c>MngdNativeArrayMarshaler.ConvertSpaceToNative</c> caps
     /// individual <c>Complex[]</c> P/Invoke arrays at 2 GB; with 16 B per Complex that is
     /// 134 217 728 elements, i.e. a 11 585² square matrix. Block size 15 876² (N=9 max)
-    /// exceeds this; block size 4 900² (N=8 max) is comfortably below.</summary>
-    public const int Lp64EvdSquareMatrixCeiling = 11_585;
+    /// exceeds this; block size 4 900² (N=8 max) is comfortably below.
+    /// <para>Kept in lockstep with <see cref="LiouvillianBlockSpectrum.Lp64ComplexCeiling"/>
+    /// (the central constant the production dispatch uses) so a downstream reader sees the
+    /// same number from either side.</para></summary>
+    public const int Lp64EvdSquareMatrixCeiling = LiouvillianBlockSpectrum.Lp64ComplexCeiling;
 
     private static Bond[] ChainBonds(int N) =>
         Enumerable.Range(0, N - 1).Select(i => new Bond(i, i + 1, 1.0)).ToArray();
@@ -79,7 +69,7 @@ public class F1GeneralTopologyN9BlockSpectrumChainTests
         return PauliHamiltonian.Bilinear(N, bonds, terms).ToMatrix();
     }
 
-    [SkippableFact]
+    [Fact]
     [Trait("Category", "SLOW_N9")]
     public void Chain_HeisenbergN9_F1PalindromicPairingViaBlockSpectrum()
     {
@@ -91,26 +81,11 @@ public class F1GeneralTopologyN9BlockSpectrumChainTests
         const string Topology = "chain (8 bonds)";
         const string JsonFileName = "chain_N9.json";
 
-        // Skip pre-flight: the LP64 MKL P/Invoke marshaller caps at 11 585² per Evd call.
-        // At N=9 the max joint-popcount block is 15 876², exceeding the ceiling. Skipping
-        // surfaces the infrastructure gap without aborting the test run; the test stays
-        // discoverable so an ILP64 bridge can re-enable it.
-        int maxBlockSize = (int)JointPopcountSectors.MaxSectorSize(N);
-        long maxBlockBytes = (long)maxBlockSize * maxBlockSize * 16;
-        double maxBlockGb = maxBlockBytes / (double)(1L << 30);
-        Skip.If(maxBlockSize > Lp64EvdSquareMatrixCeiling,
-            $"N={N} max joint-popcount block is {maxBlockSize}² = {(long)maxBlockSize * maxBlockSize:N0} " +
-            $"complex elements ({maxBlockGb:F2} GB), exceeding the LP64 MKL P/Invoke 2 GB single-array " +
-            $"marshalling ceiling ({Lp64EvdSquareMatrixCeiling}² max square matrix). 2026-05-18 finding: " +
-            $"the block-spectrum path caps at N=8 on the LP64 route; reaching N=9 requires routing the " +
-            $"dominant block through RCPsiSquared.Compute.MklDirect's NativeMemory + ILP64 LAPACK path " +
-            $"(see compute/RCPsiSquared.Compute/MklDirect.cs). Until that bridge lands this test is " +
-            $"skipped, not failed: the F1 palindromic-pairing identity itself is exact at every finite N; " +
-            $"only the numerical machinery hits the ceiling here.");
-
-        // The remainder of the test runs only once the ceiling is bridged. Implementation is
-        // intentionally complete so a future enabling of the path triggers immediate full
-        // metric capture without further code change.
+        // LP64 bridge in place: ComputeSpectrumPerBlock auto-routes blocks larger than
+        // Lp64ComplexCeiling (11 585²) through MklDirect + NativeMemory + ILP64-aware LAPACK,
+        // bypassing the MathNet marshaller's 2 GB single-array cap. The N=9 chain max block
+        // is 15 876² ≈ 4 GB, comfortably above the ceiling so the MklDirect branch carries
+        // the load.
         var bonds = ChainBonds(N);
 
         var totalSw = Stopwatch.StartNew();

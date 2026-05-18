@@ -5,6 +5,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <!-- Required by PerBlockLiouvillianBuilderNativeMemoryParityTests for per-cell native-buffer
+         inspection of BuildBlockZIntoNativeMemory. Test code only; the production unsafe surface
+         lives in RCPsiSquared.Core. -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
