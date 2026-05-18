@@ -11,8 +11,8 @@ public class F61BitAParityPi2InheritanceRegistrationTests
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
-            .RegisterF88PopcountCoherence()
-            .RegisterF88StaticDyadicAnchor()
+            .RegisterF88bPopcountCoherence()
+            .RegisterF88bStaticDyadicAnchor()
             .RegisterPi2OperatorSpaceMirror()
             .RegisterPi2I4MemoryLoop()
             .RegisterF38Pi2InvolutionPi2Inheritance()
@@ -121,7 +121,7 @@ public class F61BitAParityPi2InheritanceRegistrationTests
             new ClaimRegistryBuilder()
                 .RegisterPi2Family()
                 .RegisterPi2DyadicLadder()
-                // Missing: F88* + Pi2OperatorSpaceMirror + Pi2I4MemoryLoop + F38 + F63
+                // Missing: F88b* + Pi2OperatorSpaceMirror + Pi2I4MemoryLoop + F38 + F63
                 .RegisterF61BitAParityPi2Inheritance()
                 .Build());
     }

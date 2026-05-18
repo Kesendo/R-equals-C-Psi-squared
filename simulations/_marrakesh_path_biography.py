@@ -1,4 +1,4 @@
-"""Pull the 91-day biography for each qubit on our F88-Lens experimental paths,
+"""Pull the 91-day biography for each qubit on our F88b-Lens experimental paths,
 applying _qubit_biography classifier to the freshly fetched Marrakesh history.
 
 Cross-references:
@@ -6,8 +6,8 @@ Cross-references:
 - `_qubit_biography.py`: full classifier (used here)
 - `docs/BOTH_SIDES_VISIBLE.md`: original Torino 180-day analysis
 
-Question: which path qubits are stable archetypes (good for F88-Lens) vs
-volatile (bad for F88-Lens)? The 5-day window gave a snapshot; 91 days gives
+Question: which path qubits are stable archetypes (good for F88b-Lens) vs
+volatile (bad for F88b-Lens)? The 5-day window gave a snapshot; 91 days gives
 the regime each qubit actually lives in.
 """
 from __future__ import annotations
@@ -39,7 +39,7 @@ NAMED_PATHS = [
 
 
 def main():
-    print(f"Marrakesh 91-day biography for F88-Lens experimental paths")
+    print(f"Marrakesh 91-day biography for F88b-Lens experimental paths")
     print("=" * 78)
     by_qubit = load_history(HISTORY)
 
@@ -92,9 +92,9 @@ def main():
         print()
 
     print("Reading:")
-    print("  Path-quality on F88-Lens timescale = (a) per-qubit archetype + (b) co-stability.")
+    print("  Path-quality on F88b-Lens timescale = (a) per-qubit archetype + (b) co-stability.")
     print("  Pulse-stable + silent-stable are reliable; lifecycle is moderate; twitch is")
-    print("  unreliable (the F88-Lens reading on a twitcher will jitter day-to-day).")
+    print("  unreliable (the F88b-Lens reading on a twitcher will jitter day-to-day).")
 
 
 if __name__ == "__main__":

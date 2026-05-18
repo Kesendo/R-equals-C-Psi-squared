@@ -18,7 +18,7 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// SU(2)-rotation-equivalent.</para>
 ///
 /// <para><b>Two readings unified.</b> The same multi-axis polarity layer
-/// (Z₂² at k=2, Z₂³ at k≥3, per F88) is read from <em>outside</em> by transverse-field
+/// (Z₂² at k=2, Z₂³ at k≥3, per F88a) is read from <em>outside</em> by transverse-field
 /// Brecher (h_y·Y or h_x·X breaking Z⊗N from the bit_a axis) or from <em>inside</em> by
 /// dissipative resonance (F87-hardness in the matched Klein cell). Brecher and Hardness
 /// are the two poles of dissipator-letter resonance; this Claim names the structural

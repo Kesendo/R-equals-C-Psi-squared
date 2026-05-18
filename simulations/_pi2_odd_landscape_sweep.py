@@ -1,4 +1,4 @@
-"""F88 Π²-odd/memory landscape across popcount-coherence configurations.
+"""F88b Π²-odd/memory landscape across popcount-coherence configurations.
 
 For each popcount-coherence state |ψ⟩ = (|p⟩+|q⟩)/√2 with popcount(p) = n_p,
 n_q = n_p+1, sweep N = 3..10 and verify the closed form
@@ -11,7 +11,7 @@ projection; computed both via the explicit Krawtchouk sum and via a
 three-anchor closed form, cross-checked against each other.
 
 Canonical statement, derivation, and verified table: see
-docs/proofs/PROOF_F86_QPEAK.md §Structural inheritance from F88. C#
+docs/proofs/PROOF_F86_QPEAK.md §Structural inheritance from F88b. C#
 counterpart: compute/RCPsiSquared.Core/Symmetry/PopcountCoherencePi2Odd.cs.
 """
 from __future__ import annotations
@@ -173,7 +173,7 @@ def first_hd_pair(N, np_, nq, hd_target):
 
 
 def main():
-    print("F88 Π²-odd/memory landscape across popcount-coherence (n_p, n_p+1) configurations")
+    print("F88b Π²-odd/memory landscape across popcount-coherence (n_p, n_p+1) configurations")
     print("=" * 96)
     print()
     print(f"{'N':>2} {'(n_p, n_q)':>10} {'mirror':>7} {'static':>10} {'α (closed)':>11} {'α (numeric)':>12} {'odd/mem (predict)':>18} {'odd/mem (numeric)':>18}")

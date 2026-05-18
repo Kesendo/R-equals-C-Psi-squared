@@ -2429,7 +2429,7 @@ The trichotomy uses F1 as its **discriminator** (M as the test object), F49 / F8
 
 The Marrakesh hardware confirmation (2026-04-26, ibm_marrakesh job `d7mjnjjaq2pc73a1pk4g`, observable ⟨X₀ Z₂⟩) measured Δ(soft − truly) = −0.722, matching the Trotter-n3 prediction of −0.723 (residual 0.001; the 0.0014 figure cited in the Confirmations registry is computed against an unrounded predicted value); see [`data/ibm_soft_break_april2026/`](../data/ibm_soft_break_april2026/). The classifier was extracted into a free function on 2026-04-30 (commit 23b2154) and given the filename `f77_trichotomy.py` after the function's existing internal label, even though the registry F77 slot was already occupied by MM(0). The dephase-axis extension (commit 435c4b2, 2026-05-01) generalised the classifier to X, Y, Z dephasing letters. F87 is the registry-formal entry for the trichotomy, filed retrospectively on 2026-05-03 alongside the typed `F87KnowledgeBase` cleanup that surfaced the F77/F87 naming collision.
 
-**Π² classifier dependence on dephase letter** (commit 435c4b2). Per `PiOperator.SquaredEigenvalue`, the Π²-class index is bit_b for Z- and Y-dephasing and bit_a for X-dephasing (Π_Y shares Π_Z's bit_a-flip convention; Π_X flips bit_b instead). The (bit_a, bit_b) parity pairs are Z = (0, 1), X = (1, 0), Y = (1, 1) in the PauliLetter convention. **F87 hardness is defined combinatorially via Pauli-pair compatibility (commit 81caf67), not via any 4-cell label.** As a post-hoc structural reading, however, F87 hardness empirically corresponds to the (bit_a, bit_b) parity cell matching the dissipator letter: anywhere else produces a Π-violation that the spectrum-pairing test detects. The (Π²_Z, Π²_X) two-axis decomposition is treated separately as F88 below; F87 itself uses only one axis (Π²_Z under Z-dephasing). Verified at N=4, k=3 across 294 Z₂³-homogeneous pairs.
+**Π² classifier dependence on dephase letter** (commit 435c4b2). Per `PiOperator.SquaredEigenvalue`, the Π²-class index is bit_b for Z- and Y-dephasing and bit_a for X-dephasing (Π_Y shares Π_Z's bit_a-flip convention; Π_X flips bit_b instead). The (bit_a, bit_b) parity pairs are Z = (0, 1), X = (1, 0), Y = (1, 1) in the PauliLetter convention. **F87 hardness is defined combinatorially via Pauli-pair compatibility (commit 81caf67), not via any 4-cell label.** As a post-hoc structural reading, however, F87 hardness empirically corresponds to the (bit_a, bit_b) parity cell matching the dissipator letter: anywhere else produces a Π-violation that the spectrum-pairing test detects. The (Π²_Z, Π²_X) two-axis decomposition is treated separately as F88a below; F87 itself uses only one axis (Π²_Z under Z-dephasing). Verified at N=4, k=3 across 294 Z₂³-homogeneous pairs.
 
 **Valid for:** uniform single-letter dephasing on any graph; arbitrary k-body Pauli terms (k ≥ 2; F85 lifts the criterion to higher body); dephase letter ∈ {X, Y, Z} (SU(2)-rotation-equivalent under (bit_a, bit_b) cell permutation).
 **Breaks for:** depolarizing noise (F1 itself breaks with linear-in-γ residual, see F5); non-uniform γ_i or graph asymmetries that already break F1.
@@ -2438,7 +2438,9 @@ The Marrakesh hardware confirmation (2026-04-26, ibm_marrakesh job `d7mjnjjaq2pc
 **Hardware:** [`palindrome_trichotomy`](../simulations/framework/confirmations.py) Marrakesh 2026-04-26; [`f83_pi2_class_signature_marrakesh`](../simulations/framework/confirmations.py) Marrakesh 2026-04-30; [`pi_protected_xiz_yzzy`](../simulations/framework/confirmations.py) Marrakesh 2026-04-26 (first-time-on-hardware Π-protection on YZ+ZY soft).
 **Source:** [V_EFFECT_FINE_STRUCTURE](../experiments/V_EFFECT_FINE_STRUCTURE.md), [MARRAKESH_THREE_LAYERS](../experiments/MARRAKESH_THREE_LAYERS.md), [`reflections/ON_THE_RESIDUAL.md`](../reflections/ON_THE_RESIDUAL.md), memory entries `project_v_effect_combinatorial`, `project_hardware_finale_apr2026`, `project_f77_f87_rename`.
 
-### F88. Two-axis Π² decomposition of Pauli operator space (Tier 1, structural finding 2026-05-03)
+### F88a. Two-axis Π² decomposition of Pauli operator space (Tier 1, structural finding 2026-05-03)
+
+> **F88 split.** F88 was historically a single registry slot; it carries two structurally distinct claims that share an algebraic root: **F88a** (operator-level Klein decomposition, this entry) and **F88b** (state-level popcount-coherence Π²-odd / memory closed form, next entry). Both inherit from the same Π² involution; F88a names the operator-cells, F88b reads ρ's projection through them. The split was formalised 2026-05-18.
 
 The F1-palindrome operator Π depends on the dephasing letter (cf. F1, F87). Its square Π² acts diagonally on every Pauli string σ_α with eigenvalue ±1, and the parity that determines this eigenvalue depends on which dephase letter parametrises Π:
 
@@ -2473,6 +2475,36 @@ The X-flip pattern is empirically locked across all 4 fingerprint cases; the str
 **Verified:** N=3 chain, J=1, γ_Z=0.05 across 6 representative Hamiltonians spanning the 5 F87 class-types (Truly Heisenberg, Truly XY-only, Pi2EvenNonTruly, Pi2OddPure subgroup A, Pi2OddPure subgroup B, Mixed) + 4 Marrakesh f83 fingerprint observables. Bit-exact at machine precision (`Pi2KleinViewTests`, `Pi2KleinHardwareViewTests`, `Pi2KleinIsFinerThanPi2ClassTests`).
 **Replaces:** the implicit assumption that F87's 4-way Pi2Class captures the full Π²-decomposition. The Klein view is genuinely finer; Pi2Class.Mixed has two Klein sub-types we had not previously distinguished.
 **Source:** `compute/RCPsiSquared.Core/Symmetry/Pi2Projection.cs` (`KleinSplit` + `KleinDecomposition`); test files above. Discovery: 2026-05-03 session, after building the raw Π² layer and asking what the second dephase axis would reveal. Π itself is the project's discovery (F1 palindrome operator, `MIRROR_SYMMETRY_PROOF`); the (Π²_Z, Π²_X) two-axis decomposition that this section names is also a project finding. The "Klein" tag throughout this section is borrowed nomenclature for the resulting Z₂ × Z₂ four-cell algebra (the canonical name for that group is the Klein four-group / Vierergruppe, after Felix Klein); the underlying structure is ours, the label is textbook shorthand.
+**See F88b** below for the state-level corollary: popcount-coherence Π²-odd / memory closed form via Krawtchouk reflection-orthogonality, which lifts F88a's operator-level Π²_Z eigenvalue into ρ-space.
+
+### F88b. Popcount-coherence Π²-odd / memory closed form (Tier 1 derived, state-level inheritance from F88a, 2026-05-04)
+
+For popcount-coherence pair states `|ψ⟩ = (|p⟩ + |q⟩)/√2` with popcount(p) = n_p, popcount(q) = n_q, HD(p, q) = h, the Π²-odd fraction of the dynamical (memory) part of ρ has a closed form driven by Krawtchouk reflection-orthogonality of F88a's Π²_Z eigenvalue (−1)^Σ bit_b:
+
+    Π²-odd / memory  =  ┌  0                          if HD = N (Π²-classical)
+                        └  (1/2 − α · s) / (1 − s)     otherwise
+
+with **three α anchors** (all closed form, derived from a single Krawtchouk identity):
+
+- **α = 0** at popcount-mirror `n_p + n_q = N` (covers inter-mirror `n_p ≠ n_q` and intra-mirror `n_p = n_q = N/2` at even N). Reflection-driven cancellation `K_{N−n}(s; N) = (−1)^s K_n(s; N)` collapses odd-s contributions between sectors.
+- **α = C(N, N/2) / (2 · (C(N, n_other) + C(N, N/2)))** at K-intermediate (even N, exactly one of {n_p, n_q} equal to N/2). The adjacent special case `n_other = N/2 ± 1` simplifies to `(N+2)/(4(N+1))`.
+- **α = 1/2** generic (none of the indicators above).
+
+**Static fraction** `s` is HD/bit-position invariant:
+- Inter-sector (`n_p ≠ n_q`):  `s = 1/(4·C(N, n_p)) + 1/(4·C(N, n_q))`
+- Intra-sector (`n_p = n_q`):  `s = 1/C(N, n)`
+
+**HD = N anchor (Π²-classical):** GHZ_N, Bell states at N=2, intra-sector all-bits-differ states. Off-diagonal `Re(|p⟩⟨q|)` has only X-and-even-Y-count Pauli strings; with no matching bits there is no Z content; all surviving terms are Π²-even.
+
+**Multi-state Dicke extension** for `(|D_n⟩ + |D_{n+1}⟩)/√2` (the canonical F86b K_CC_pr probe at adjacent popcount-(n, n+1)): the total Π²-odd of ρ has closed form `α_total = (1 − γ²)/2` with `γ = ⟨ψ|X⊗N|ψ⟩ ∈ {0, 1/2, 1}`, giving anchors **{1/2, 3/8, 0}** at popcount-mirror / K-intermediate / generic respectively. Used in F98 (long-time bridge to QuarterAsBilinearMaxval) and F99 (canonical-θ trigonometric anchors).
+
+**Inheritance from F88a:** F88a's Π²_Z eigenvalue (−1)^Σ bit_b on the Pauli operator-level Klein decomposition is the algebraic root. F88b lifts this to ρ-space via popcount-weight invariance of L's kernel (= span{P_n} for Heisenberg + Z-dephasing) plus the Krawtchouk reflection-orthogonality lemma. F88a names the operator cells; F88b reads ρ's projection through them.
+
+**Hardware lens (the "F88b-Lens"):** state-level Π²-odd-fraction-within-memory as a diagnostic for the F87 trichotomy on real-hardware reduced ρ. On Marrakesh 2026-04-26 framework_snapshots (job `d7mt7jbaq2pc73a24220`, qubits [0,1,2]), differentiates F87 truly/soft/hard at ~25× state-level ratio (0.030 / 0.744 / 0.276); see [OPEN_THREAD_GAMMA0_INFORMATION](../review/OPEN_THREAD_GAMMA0_INFORMATION.md) Update 2026-05-18 for the four-channel readout (F87 inheritance + h_y leak + T1 + Trotter-asymmetry hypothesis).
+
+**Valid for:** all `(N, n_p, n_q, HD)`; structural anchors universal.
+**Verified:** 213 configurations N = 2..7 bit-exact (max deviation 8.88e−16); multi-state Dicke extension bit-exact N = 3..8.
+**Source:** [`docs/proofs/PROOF_F86B_UNIVERSAL_SHAPE.md`](proofs/PROOF_F86B_UNIVERSAL_SHAPE.md) §"F88b: popcount-coherence Π²-odd / memory closed form" (full proof + Krawtchouk lemma + verified state-level table); `compute/RCPsiSquared.Core/Symmetry/PopcountCoherencePi2Odd.cs` (closed-form predictor `Pi2OddInMemory` + Krawtchouk verifier `AlphaKrawtchouk` + Dicke superposition extension); `compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs` (state-level d=0 axis ⊕ d=2-axis Π²-split, the diagnostic bridge primitive); `simulations/_f88b_lens_ibm_framework_snapshots.py` (hardware lens script, after 2026-05-18 rename).
 
 ### F89. Topology orbit closure for spatial-sum coherence under uniform multi-bond XY (Tier 1 derived, verified 2026-05-11)
 
@@ -2851,7 +2883,7 @@ For even N, the Dicke superposition `ψ = (|D_{N/2−1}⟩ + |D_{N/2}⟩) / √2
 (F98b)  α(∞)_KIntermediate(N even) = (N + 2) / [4·(N + 1)]
 ```
 
-with asymptote `α(∞) → 1/4` as `N → ∞` (the [`QuarterAsBilinearMaxvalClaim`](#f88-anchors) = `HalfAsStructuralFixedPoint²` = Mandelbrot cardioid maxval = CΨ fold boundary).
+with asymptote `α(∞) → 1/4` as `N → ∞` (the [`QuarterAsBilinearMaxvalClaim`](#f88b) = `HalfAsStructuralFixedPoint²` = Mandelbrot cardioid maxval = CΨ fold boundary).
 
 **Derivation:**
 
@@ -2882,7 +2914,7 @@ Verified bit-exact for N = 4 (= 3/10), 6 (= 2/7), 8 (= 5/18), 10 (= 3/11), 12 (=
 The morning's F86b 3/8 K-intermediate Dicke anchor (Tier 1 derived 2026-05-17 via X⊗N-eigenbasis decomposition, `compute/RCPsiSquared.Core/Symmetry/DickeAnchor.cs`) names the **static** Π²-odd Frobenius² total of the KIntermediate Dicke superposition at t = 0:
 
 ```
-α(t = 0) = 3/8       (F86b, this morning, static F88-anchor)
+α(t = 0) = 3/8       (F86b, this morning, static F88b-anchor)
 α(t → ∞) = (N+2)/[4(N+1)] → 1/4    (F98, tonight, long-time-limit bridge)
 ```
 
@@ -2904,7 +2936,7 @@ N→∞:   α(0) = 3/8          →  α(∞) → 1/4                [QuarterAsBi
 
 **Discovery path:** the water-chain inheritance test ([`simulations/water/proton_chain_dicke_anchor.py`](../simulations/water/proton_chain_dicke_anchor.py)) for the morning's F86b anchor uncovered F98 by asking a NEW question — not "what is α at t = 0" (closed-form F86b) but "what is α at t = ∞ under truly-class Heisenberg + Z-dephasing on the chemistry-substrate-grounded proton chain". The water script saw `α → 3/10` for N = 4 at t = 100; the small-fraction structure suggested an algebraic closed form, verified bit-exact N = 4..16, then derived via Krawtchouk + Pascal.
 
-**Anchors:** [`simulations/water/proton_chain_dicke_anchor.py`](../simulations/water/proton_chain_dicke_anchor.py) (numerical bit-exact verification + Krawtchouk enumeration), [F86b](#f86) DickeAnchor 3/8 anchor (static partner), [F88](#f88) Π²-odd structure (parent), [F4](#f4) kernel decomposition (used in long-time projection), `compute/RCPsiSquared.Core/Symmetry/QuarterAsBilinearMaxvalClaim` (asymptote anchor), `compute/RCPsiSquared.Core/Symmetry/HalfAsStructuralFixedPointClaim` (1/4 = (1/2)² parent), `docs/water/README.md` § "Findings since May 4".
+**Anchors:** [`simulations/water/proton_chain_dicke_anchor.py`](../simulations/water/proton_chain_dicke_anchor.py) (numerical bit-exact verification + Krawtchouk enumeration), [F86b](#f86) DickeAnchor 3/8 anchor (static partner), [F88b](#f88b) Π²-odd state-level structure (parent), [F4](#f4) kernel decomposition (used in long-time projection), `compute/RCPsiSquared.Core/Symmetry/QuarterAsBilinearMaxvalClaim` (asymptote anchor), `compute/RCPsiSquared.Core/Symmetry/HalfAsStructuralFixedPointClaim` (1/4 = (1/2)² parent), `docs/water/README.md` § "Findings since May 4".
 
 ### F99. Five canonical trigonometric anchors via F86b non-uniform Dicke (Tier 1 derived, bit-exact N=4,6,8 across 5 angles; 2026-05-17 night)
 
@@ -2930,7 +2962,7 @@ Five canonical trig angles → five Pi2 dyadic anchors:
 |---|------------|-----|---------------|-------------------|
 | 0° | 1 | ∞ | 0 | Mirror endpoint |
 | **30°** | **√3/2** | **2√3 + 3 ≈ 6.464** | **1/8** | **DEPTH-3 (new tonight)** |
-| 45° | √2/2 | 1 + √2 (silver ratio) | 1/4 | [QuarterAsBilinearMaxval](#f88-anchors) |
+| 45° | √2/2 | 1 + √2 (silver ratio) | 1/4 | [QuarterAsBilinearMaxval](#f88b) |
 | 60° | 1/2 | 1 (uniform Dicke) | 3/8 | KIntermediate (today morning F86b) |
 | 90° | 0 | 0 | 1/2 | Generic / HalfAsStructuralFixedPoint |
 

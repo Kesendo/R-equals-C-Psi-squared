@@ -19,7 +19,7 @@ ladder, all proven (or freshly derived) in 2026:
 | **1/4** | `QuarterAsBilinearMaxval` | maxval of p·(1−p) = (1/2)²; Mandelbrot cardioid maxval; F97 |
 | **3/8** | F86b KIntermediate Dicke α_total | **derived this morning (2026-05-17, commit b9ba5f6)** via X⊗N-eigenbasis decomp |
 | **1/2** | `HalfAsStructuralFixedPoint` | argmax of p·(1−p); polarity-pair {−1/2, +1/2}; d=2 selector |
-| **3/4** | polarity-complement of Quarter | 1 − 1/4; F86b α_total at γ² > 1 boundary; F88 popcount-mirror complement |
+| **3/4** | polarity-complement of Quarter | 1 − 1/4; F86b α_total at γ² > 1 boundary; F88b popcount-mirror complement |
 
 Test: every element from H through Ar has its valence-electron / valence-shell-
 slots ratio computed as a `fractions.Fraction`. The question: which fractions

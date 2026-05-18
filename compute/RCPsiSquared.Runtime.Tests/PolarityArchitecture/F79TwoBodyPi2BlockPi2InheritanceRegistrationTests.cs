@@ -21,8 +21,8 @@ public class F79TwoBodyPi2BlockPi2InheritanceRegistrationTests
             .RegisterPi2DyadicLadder()
             .RegisterPi2I4MemoryLoop()
             .RegisterF1Pi2Inheritance()
-            .RegisterF88PopcountCoherence()
-            .RegisterF88StaticDyadicAnchor()
+            .RegisterF88bPopcountCoherence()
+            .RegisterF88bStaticDyadicAnchor()
             .RegisterPi2OperatorSpaceMirror();
 
     [Fact]
@@ -87,8 +87,8 @@ public class F79TwoBodyPi2BlockPi2InheritanceRegistrationTests
                 .RegisterPi2Family()
                 .RegisterPi2DyadicLadder()
                 .RegisterPi2I4MemoryLoop()
-                .RegisterF88PopcountCoherence()
-                .RegisterF88StaticDyadicAnchor()
+                .RegisterF88bPopcountCoherence()
+                .RegisterF88bStaticDyadicAnchor()
                 .RegisterPi2OperatorSpaceMirror()
                 .RegisterF79TwoBodyPi2BlockPi2Inheritance()
                 .Build());

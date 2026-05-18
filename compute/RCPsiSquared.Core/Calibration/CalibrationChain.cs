@@ -16,9 +16,9 @@ namespace RCPsiSquared.Core.Calibration;
 /// and the best 5-chain is [1, 2, 3, 4, 5] (score ≈ 1247). The same scoring ranks the
 /// soft_break path [48, 49, 50] (score ≈ 682) above the framework_snapshots path
 /// [0, 1, 2] (score ≈ 597) by ~14%; the corresponding state-level truly-baseline
-/// downstream of F88-Lens is 23× cleaner on [48, 49, 50] (see
-/// <c>project_f88_lens_ibm_marrakesh.md</c>). The score gap and the F88 ratio are
-/// related but not equal: better calibration → cleaner truly-baseline, with the F88
+/// downstream of F88b-Lens is 23× cleaner on [48, 49, 50] (see
+/// <c>project_f88b_lens_ibm_marrakesh.md</c>). The score gap and the F88b ratio are
+/// related but not equal: better calibration → cleaner truly-baseline, with the F88b
 /// reading amplifying the per-qubit difference at the state level.</para>
 /// </summary>
 public sealed record CalibrationChain(

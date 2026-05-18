@@ -54,7 +54,7 @@ public static class KnowledgeCommand
 
     internal static ClaimRegistry BuildRegistry()
     {
-        // Full registry: foundations + Pi2-axes + F88 closed form + F-formula
+        // Full registry: foundations + Pi2-axes + F88b closed form + F-formula
         // inheritance claims + open questions. Order does not matter (the builder
         // resolves topologically), but grouping reflects the inheritance structure.
         var defaultChain = new ChainSystem(
@@ -75,10 +75,10 @@ public static class KnowledgeCommand
             .RegisterPi2DyadicLadder()
             .RegisterPi2I4MemoryLoop()
             .RegisterPi2Involution()
-            // F88 closed form (memory side anchors)
-            .RegisterF88PopcountCoherence()
-            .RegisterF88StaticDyadicAnchor()
-            .RegisterF88PopcountPairLens(N: defaultChain.N, np: 1, nq: 2)
+            // F88b closed form (memory side anchors)
+            .RegisterF88bPopcountCoherence()
+            .RegisterF88bStaticDyadicAnchor()
+            .RegisterF88bPopcountPairLens(N: defaultChain.N, np: 1, nq: 2)
             // Operator-space mirror (number-side ↔ operator-side per qubit)
             .RegisterPi2OperatorSpaceMirror()
             // Spectrum foundation

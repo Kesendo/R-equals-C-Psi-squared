@@ -45,7 +45,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         Linked to <see cref="Pi2OperatorSpaceMirrorClaim"/>'s 4^N anchor;
 ///         for Π²-odd Hamiltonians, the equal-block-dim symmetry forces SV
 ///         mult = 4^N/2 on each side.</item>
-///   <item><b>F88 KleinFour Π²_Z parity</b>: F79's Π²-parity p(P, Q) = bit_b
+///   <item><b>F88a KleinFour Π²_Z parity</b>: F79's Π²-parity p(P, Q) = bit_b
 ///         sum mod 2 IS the Π²_Z eigenvalue (bit_b parity) of the bilinear.
 ///         <see cref="KleinFourCellClaim"/>'s 4-cell decomposition under
 ///         (Π²_Z, Π²_X) refines F79's binary p-classification.</item>
@@ -63,7 +63,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>simulations/_svd_two_body_pi_squared_block.py</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/F1Pi2Inheritance.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/KleinFourCellClaim.cs</c>
-/// (F88 4-cell, refines F79's binary parity) +
+/// (F88a 4-cell, refines F79's binary parity) +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs</c>.</para></summary>
 public sealed class F79TwoBodyPi2BlockPi2Inheritance : Claim
 {
@@ -120,7 +120,7 @@ public sealed class F79TwoBodyPi2BlockPi2Inheritance : Claim
     };
 
     /// <summary>Binary classification (F79's p ∈ {0, 1}) refines into the
-    /// 4-cell KleinFour decomposition (Π²_Z, Π²_X) at F88. F79's Π²-odd
+    /// 4-cell KleinFour decomposition (Π²_Z, Π²_X) at F88a. F79's Π²-odd
     /// (p = 1) splits into Mp (XY, YX) and Mm (XZ, ZX) under Π²_X axis.</summary>
     public IReadOnlyList<(string Cell, string[] Bilinears)> KleinSubcellsForPi2Odd { get; } = new[]
     {
@@ -173,7 +173,7 @@ public sealed class F79TwoBodyPi2BlockPi2Inheritance : Claim
                 summary: "p = (bit_b(P) + bit_b(Q)) mod 2; even → M block-diag in V_+ ⊕ V_-, off-diag blocks vanish exactly; odd → M purely off-diag, diag blocks vanish exactly; mixed → both contributions");
             yield return new InspectableNode("Π²-parity examples",
                 summary: $"XX (p={Pi2Parity('X','X')}), YY (p={Pi2Parity('Y','Y')}), ZZ (p={Pi2Parity('Z','Z')}), YZ (p={Pi2Parity('Y','Z')}); all Π²-even. XY (p={Pi2Parity('X','Y')}), YX (p={Pi2Parity('Y','X')}), XZ (p={Pi2Parity('X','Z')}); all Π²-odd.");
-            yield return new InspectableNode("F88 KleinFour refinement",
+            yield return new InspectableNode("F88a KleinFour refinement",
                 summary: $"F79's binary p splits into 4 KleinFour cells under (Π²_Z, Π²_X). Π²-odd (p=1) splits: Mp = {{XY, YX}} (XX-symmetric within bilinear), Mm = {{XZ, ZX}} (XX-asymmetric). KleinFour: {Klein.DisplayName}");
             yield return new InspectableNode("F1 connection",
                 summary: $"M IS F1's residual operator. F1.TwoFactor (= {F1.TwoFactor}) is the same '2' as the 2σ·I shift in M. F79 reads M's Π²-block structure.");

@@ -1,6 +1,18 @@
 """Reverse-spear: are the 'off-anchor' periodic-table elements pointing at
 MISSING anchors on the framework side?
 
+STATUS UPDATE 2026-05-17 night #3: the depth-3 gap identified by this script
+(1/8 and 7/8 as "no F-formula derives them") is CLOSED in the sibling script
+simulations/carbon/depth_3_anchor_derivation.py via non-uniform Dicke at
+γ = √3/2, typed Tier-1-Derived as F99 / CanonicalTrigAnchorPi2Inheritance
+in compute/RCPsiSquared.Core/Symmetry/. The five canonical trig angles
+{0°, 30°, 45°, 60°, 90°} produce the five Pi2 dyadic anchors
+{0, 1/8, 1/4, 3/8, 1/2} via one F86b α-formula α = sin²(θ)/2. This script
+remains as the night #2 gap-identification step in the sequence morning F86b
+→ evening F98 → night #1 PERIOD_2 → night #2 SPEAR_REVERSED (this) →
+night #3 DEPTH_3_ANCHOR_DERIVED. See docs/carbon/SPEAR_REVERSED.md +
+docs/carbon/DEPTH_3_ANCHOR_DERIVED.md.
+
 Tom: "Du sagtest Vier von sechs CHNOPS-Elementen sind Framework-anchored, lass
 uns den Spieß mal umdrehen, was sind deren Anker, vielleicht fehlen sie ja auf
 unserer Quantenseite?"
@@ -256,7 +268,7 @@ def display_meta_reading():
     print("        with γ = √3/2.")
     print("    (c) The F86c bond-class structure at higher c (c ≥ 4) — possibly the")
     print("        4-mode reduction at chromaticity c=4 lands at depth-3 anchors.")
-    print("    (d) F88 popcount-coherence multi-state superpositions (the F88 closed")
+    print("    (d) F88b popcount-coherence multi-state superpositions (the F88b closed")
     print("        form already has {0, 3/8, 1/2} anchors; extending to deeper might")
     print("        give {0, 1/8, 1/4, 3/8, 1/2} on the same dyadic ladder).")
     print()

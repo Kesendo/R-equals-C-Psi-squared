@@ -11,15 +11,15 @@ Reports for each:
 
 Then prints the per-path drift across the four-day window: T2 and score
 deltas show how much the calibration moved between the two experiment runs,
-which directly bears on the F88-Lens truly-baseline noise floor reading
+which directly bears on the F88b-Lens truly-baseline noise floor reading
 (0.0013 on path [48, 49, 50] for soft_break, 0.0102 for zn_mirror Heisenberg
 on the same path; the path-quality didn't change much between runs, so the
-~10× soft→Heisenberg gap is in the F88 reading, not the substrate).
+~10× soft→Heisenberg gap is in the F88b reading, not the substrate).
 
 Reading: with the corrected docstring (see commit b588e2d), the framing is
-that calibration score is the *input*, F88-Lens state-level number is the
+that calibration score is the *input*, F88b-Lens state-level number is the
 *consequence*. The score gap between paths is ~14% (linear in qubit
-quality); the F88 truly-baseline gap is 23× because the state-level reading
+quality); the F88b truly-baseline gap is 23× because the state-level reading
 amplifies per-qubit dephasing nonlinearly.
 """
 from __future__ import annotations
@@ -114,13 +114,13 @@ def main():
     print("Reading:")
     print("  - Calibration score gap between paths (~14% [48,49,50] vs [0,1,2]) is")
     print("    the linear per-qubit-quality input.")
-    print("  - F88-Lens state-level truly-baseline gap (~23× on same paths) is the")
+    print("  - F88b-Lens state-level truly-baseline gap (~23× on same paths) is the")
     print("    consequence: dephasing accumulated through the circuit amplifies the")
-    print("    per-qubit difference nonlinearly. Score and F88 reading move in the")
+    print("    per-qubit difference nonlinearly. Score and F88b reading move in the")
     print("    same direction but at different magnitudes; the score predicts the")
-    print("    ordering, not the absolute F88 ratio.")
+    print("    ordering, not the absolute F88b ratio.")
     print("  - Best chains [4,3,2] and [1,2,3,4,5] outscore the documented soft_break")
-    print("    path [48,49,50]; running F88-Lens on those would be a clean follow-up")
+    print("    path [48,49,50]; running F88b-Lens on those would be a clean follow-up")
     print("    to test whether the truly-baseline goes below 0.0013.")
 
 

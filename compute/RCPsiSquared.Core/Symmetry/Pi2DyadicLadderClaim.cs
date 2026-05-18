@@ -178,7 +178,7 @@ public sealed class Pi2DyadicLadderClaim : Claim, IF99AnchorBearing
             yield return new InspectableNode("n=1 (self-mirror pivot)",
                 summary: "a_1 = 1.0; identity scale, fixpoint of the inversion a_n ↔ a_{2−n}");
             yield return new InspectableNode("n≥4 (memory side, open prediction)",
-                summary: "a_4=0.125, a_5=0.0625, ...; algebra-continued; F88 dyadic-N singleton-mirror lands here (commit 6ef2cb9)");
+                summary: "a_4=0.125, a_5=0.0625, ...; algebra-continued; F88b dyadic-N singleton-mirror lands here (commit 6ef2cb9)");
         }
     }
 }

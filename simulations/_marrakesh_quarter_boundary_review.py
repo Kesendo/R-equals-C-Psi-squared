@@ -11,10 +11,10 @@ cadence. The same plot for Marrakesh on its 5-day window (Heron r2, 156 qubits):
   side decays faster than the palindromic mirror, T2 << 2·T1)
 - Which qubits FLIP across the boundary between Apr-25 and Apr-30 (a 5-day-window
   oscillator candidate, comparable to Torino's Q98/Q72)
-- Where the F88-Lens experimental paths sit on this map
+- Where the F88b-Lens experimental paths sit on this map
 
 Reading: a qubit that flips between Apr-25 and Apr-30 is one whose CΨ regime
-identity is unstable on F88-Lens-experiment timescale. Picking such a qubit means
+identity is unstable on F88b-Lens-experiment timescale. Picking such a qubit means
 the r-regime in which the Hamiltonian is run is not the same regime the
 calibration suggested. The C# `IbmCalibration` score does not currently include
 the r-boundary signal; this review tests whether it should.
@@ -144,7 +144,7 @@ def main():
     print(f"  - Marrakesh has a meaningful sub-population of qubits in the CΨ-quantum")
     print(f"    regime (r < {R_THRESHOLD}). Daily-T2 drift can flip individual qubits across")
     print(f"    the boundary on the same timescale as our QPU experiments.")
-    print(f"  - Path qubits sitting near the boundary are calibration-fragile for F88-Lens:")
+    print(f"  - Path qubits sitting near the boundary are calibration-fragile for F88b-Lens:")
     print(f"    the r-regime at submission time may not match the regime at execution.")
     print(f"  - The Torino 6-month-history finding (16/133 ≈ 12% oscillators) gives the")
     print(f"    long-window prior; the Marrakesh 5-day-window count is the consistency")

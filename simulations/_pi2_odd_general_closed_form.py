@@ -1,4 +1,4 @@
-"""F88 Π²-odd/memory generalised closed form: numerical verifier.
+"""F88b Π²-odd/memory generalised closed form: numerical verifier.
 
 Sweeps all popcount-coherence pair states (|p⟩+|q⟩)/√2 at N = 2..7 (any
 popcount pair n_p, n_q, any HD compatible with popcount difference) and
@@ -7,7 +7,7 @@ state-level reading (kernel projection + Pauli-basis Π²-projection).
 
 Closed form, anchor structure (mirror, K-intermediate, generic, HD = N
 Π²-classical), and connection to F60 documented in
-docs/proofs/PROOF_F86_QPEAK.md §Structural inheritance from F88. C# port:
+docs/proofs/PROOF_F86_QPEAK.md §Structural inheritance from F88b. C# port:
 compute/RCPsiSquared.Core/Symmetry/PopcountCoherencePi2Odd.cs.
 """
 from __future__ import annotations
@@ -95,7 +95,7 @@ def coherence_state(N, p_bits, q_bits, sign=+1):
 def kernel_projection_popcount(rho, N):
     """ρ_d0 = Σ_n (Tr(P_n · ρ) / Tr(P_n²)) · P_n with P_n the popcount-n sector
     projector. For Heisenberg + Z-dephasing, kernel of L = span{P_n}, so this is
-    the canonical state-level kernel projector. Shared helper for the F88-Lens
+    the canonical state-level kernel projector. Shared helper for the F88b-Lens
     sweep + multi-state probe."""
     d = 2**N
     rho_d0 = np.zeros_like(rho)
@@ -149,7 +149,7 @@ def first_pair(N, n_p, n_q, hd):
 
 
 def main():
-    print("F88 generalised closed form vs numerical verification")
+    print("F88b generalised closed form vs numerical verification")
     print("=" * 110)
     print(f"{'N':>3} {'n_p':>4} {'n_q':>4} {'HD':>3} {'category':<22} {'static':>9} {'α (closed)':>11} {'predict':>10} {'numeric':>10} {'dev':>10}")
     print("-" * 110)

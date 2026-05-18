@@ -25,7 +25,7 @@ three hardware regimes:
     uniform-quantum:    γ_l = (γ_high, γ_high, γ_high)
     regime-mixed:       γ_l = (γ_high, γ_low, γ_low)
 
-Then partial-trace over q1 to get reduced ρ on (q0, q2), apply F88-Lens,
+Then partial-trace over q1 to get reduced ρ on (q0, q2), apply F88b-Lens,
 read truly-baseline (Π²-odd memory fraction). Compare across regimes.
 
 Hardware anchors (Marrakesh + Kingston, 2026-04-26 / 05-05):
@@ -47,7 +47,7 @@ import numpy as np
 from scipy.linalg import expm
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _f88_lens_ibm_framework_snapshots import f88_lens_2qubit, PAULIS
+from _f88b_lens_ibm_framework_snapshots import f88b_lens_2qubit, PAULIS
 
 N = 3
 T_EVAL = 0.8
@@ -171,7 +171,7 @@ def main():
         for profile_name, gamma_l in PROFILES.items():
             rho_t = evolve(rho0, h, gamma_l, T_EVAL)
             rho_q02 = partial_trace_q1(rho_t)
-            lens = f88_lens_2qubit(rho_q02)
+            lens = f88b_lens_2qubit(rho_q02)
             results[(cat, profile_name)] = lens["pi2_odd_in_memory"]
             print(f"  {cat:<22} {profile_name:<22} {lens['pi2_odd_in_memory']:>16.6f}")
 
@@ -189,7 +189,7 @@ def main():
         for profile_name, gamma_l in PROFILES.items():
             rho_t = evolve_trotter(rho0, h, gamma_l, T_EVAL, n_trotter=3)
             rho_q02 = partial_trace_q1(rho_t)
-            lens = f88_lens_2qubit(rho_q02)
+            lens = f88b_lens_2qubit(rho_q02)
             trotter_results[(cat, profile_name)] = lens["pi2_odd_in_memory"]
             print(f"  {cat:<22} {profile_name:<22} {lens['pi2_odd_in_memory']:>16.6f}")
 

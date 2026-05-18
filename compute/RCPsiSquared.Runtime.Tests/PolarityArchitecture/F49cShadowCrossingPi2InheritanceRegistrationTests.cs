@@ -11,8 +11,8 @@ public class F49cShadowCrossingPi2InheritanceRegistrationTests
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
-            .RegisterF88PopcountCoherence()
-            .RegisterF88StaticDyadicAnchor()
+            .RegisterF88bPopcountCoherence()
+            .RegisterF88bStaticDyadicAnchor()
             .RegisterPi2OperatorSpaceMirror();
 
     [Fact]
@@ -102,7 +102,7 @@ public class F49cShadowCrossingPi2InheritanceRegistrationTests
             new ClaimRegistryBuilder()
                 .RegisterPi2Family()
                 .RegisterPi2DyadicLadder()
-                // Missing: F88* + Pi2OperatorSpaceMirror
+                // Missing: F88b* + Pi2OperatorSpaceMirror
                 .RegisterF49cShadowCrossingPi2Inheritance()
                 .Build());
     }

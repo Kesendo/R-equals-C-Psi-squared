@@ -86,7 +86,7 @@ public sealed record RegimeSummary(
         ClassicalCount == Path.Count ? RegimeVerdict.UniformClassical :
         RegimeVerdict.RegimeMixed;
 
-    /// <summary>Recommended pre-submit gate for F88-Lens / F87-trichotomy
+    /// <summary>Recommended pre-submit gate for F88b-Lens / F87-trichotomy
     /// experiments where the truly-baseline matters. True iff
     /// <see cref="IsAddressable"/> AND <see cref="IsRegimeUniform"/>.
     ///

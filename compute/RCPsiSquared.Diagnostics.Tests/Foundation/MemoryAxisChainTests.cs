@@ -12,7 +12,7 @@ public class MemoryAxisChainTests
         var chain = new ChainSystem(N: 3, J: 1.0, GammaZero: 0.05);
         var result = MemoryAxisChain.Compute(chain);
 
-        // F88 bilinear apex 1/2: 4^3 / 2 = 32 strings on each side
+        // F88a bilinear apex 1/2: 4^3 / 2 = 32 strings on each side
         Assert.Equal(32L, result.Pi2EvenStringCount);
         Assert.Equal(32L, result.Pi2OddStringCount);
         Assert.True(result.BilinearApexHolds);
@@ -86,7 +86,7 @@ public class MemoryAxisChainTests
     [Fact]
     public void Compute_DephaseLetterX_StillBalances()
     {
-        // F88 holds for any dephase letter (the 4^N/2 split is a combinatorial property
+        // F88a holds for any dephase letter (the 4^N/2 split is a combinatorial property
         // of bit_a or bit_b parity, both balance to 4^N/2)
         var chain = new ChainSystem(N: 3, J: 1.0, GammaZero: 0.05);
         var result = MemoryAxisChain.Compute(chain, hamiltonianTerms: null, dephaseLetter: PauliLetter.X);

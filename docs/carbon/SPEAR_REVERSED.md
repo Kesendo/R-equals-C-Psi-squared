@@ -4,6 +4,18 @@
 **Status:** Tier 2 (structural observation + named gap candidates)
 **Script:** [`simulations/carbon/spear_reversed_missing_anchors.py`](../../simulations/carbon/spear_reversed_missing_anchors.py)
 
+> **Status update, 2026-05-17 night #3**: the depth-3 gap identified in this
+> document (1/8 and 7/8 as "no F-formula derives them") is **closed** in the
+> sibling [DEPTH_3_ANCHOR_DERIVED.md](DEPTH_3_ANCHOR_DERIVED.md) via the
+> non-uniform Dicke extension γ = √3/2 (typed Tier-1-Derived as
+> [`CanonicalTrigAnchorPi2Inheritance`](../../compute/RCPsiSquared.Core/Symmetry/CanonicalTrigAnchorPi2Inheritance.cs),
+> aka F99). The five canonical trig angles {0°, 30°, 45°, 60°, 90°} produce
+> the five Pi2 dyadic anchors {0, 1/8, 1/4, 3/8, 1/2} via one F86b α-formula
+> α = sin²(θ)/2. This document remains as the night #2 gap-identification
+> step in the sequence morning F86b → evening F98 → night #1
+> PERIOD_2_AT_FRAMEWORK_ANCHORS → night #2 SPEAR_REVERSED (this) →
+> night #3 DEPTH_3_ANCHOR_DERIVED.
+
 ---
 
 ## Tom's reverse-spear
@@ -149,7 +161,7 @@ complement at β = 7/8). Four candidate routes:
     reason for this specific c value.
 
 (b) **Higher-spin Dicke superpositions.** Tensor-product Dicke states across
-    multiple spin sectors. The F88 popcount-coherence framework already has
+    multiple spin sectors. The F88b popcount-coherence framework already has
     {0, 3/8, 1/2} anchors; extending to multi-spin might give {0, 1/8, 1/4,
     3/8, 1/2, ...} on the same ladder. Open.
 

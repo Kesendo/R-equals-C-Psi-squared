@@ -1,4 +1,4 @@
-"""F88-Lens applied to today's Kingston run on uniform-quantum chain [43, 56, 63].
+"""F88b-Lens applied to today's Kingston run on uniform-quantum chain [43, 56, 63].
 
 The hardware run (job d7sqjpiudops73976960, 2026-05-05 10:28 UTC) is the
 first F87 trichotomy test on a uniform-quantum CZ-coupled triple. Multi-day
@@ -6,7 +6,7 @@ biographies confirm all three qubits PulseStable across 91 days (mean r
 in [0.09, 0.10], all crossing the boundary on > 95% of days, deeply
 quantum-side).
 
-Question: how does the F88-Lens Π²-odd-memory reading on this chain compare
+Question: how does the F88b-Lens Π²-odd-memory reading on this chain compare
 to the regime-mixed Marrakesh [0, 1, 2] (April 26, framework_snapshots) and
 the uniform-classical Marrakesh [48, 49, 50] (April 26, soft_break)? The
 BOTH_SIDES_VISIBLE update flagged the 22.8× truly-baseline gap (Marrakesh
@@ -23,7 +23,7 @@ if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _f88_lens_ibm_framework_snapshots import reconstruct_2qubit_rho, f88_lens_2qubit
+from _f88b_lens_ibm_framework_snapshots import reconstruct_2qubit_rho, f88b_lens_2qubit
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -37,12 +37,12 @@ def lens_for(json_path):
     out = {}
     for cat, exp in data["expectations"].items():
         rho = reconstruct_2qubit_rho(exp)
-        out[cat] = f88_lens_2qubit(rho)
+        out[cat] = f88b_lens_2qubit(rho)
     return data, out
 
 
 def main():
-    print("F88-Lens cross-regime comparison: Kingston uniform-quantum vs Marrakesh uniform-classical")
+    print("F88b-Lens cross-regime comparison: Kingston uniform-quantum vs Marrakesh uniform-classical")
     print("=" * 78)
 
     sb_kingston, lens_kingston = lens_for(KINGSTON_JSON)
@@ -72,7 +72,7 @@ def main():
             print(f"  {label:<22} {k:>12.4f} {m:>12.4f} {ratio:>8.2f}×")
 
     print()
-    print("Full per-category F88-Lens output (Kingston uniform-quantum):")
+    print("Full per-category F88b-Lens output (Kingston uniform-quantum):")
     print(f"  {'category':<22} {'trace':>8} {'purity':>8} {'static':>9} {'memory':>9} {'Π²-odd/mem':>12}")
     print("  " + "-" * 70)
     for cat in ["truly_unbroken", "pi2_odd_pure", "pi2_even_nontruly", "mixed_anti_one_sixth"]:

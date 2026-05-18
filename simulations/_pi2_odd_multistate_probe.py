@@ -1,11 +1,11 @@
-"""F88-Lens probe on multi-state-superposition pure states.
+"""F88b-Lens probe on multi-state-superposition pure states.
 
-F88's closed form covers pure pair states |ψ⟩ = (|p⟩ + |q⟩)/√2. Real
+F88b's closed form covers pure pair states |ψ⟩ = (|p⟩ + |q⟩)/√2. Real
 hardware-prepared states often involve more than two computational-basis
 terms: Dicke superpositions, bonding-mode pair states (|vac⟩ + |ψ_k⟩)/√2,
 W states, GHZ-style states with phase structure, etc.
 
-This script probes whether such multi-state-superpositions inherit F88's
+This script probes whether such multi-state-superpositions inherit F88b's
 pair-state formula via the popcount-weight invariant (static fraction
 depends only on Σ_n w_n²/C(N,n) where w_n = Σ_{i: popcount(b_i)=n} |c_i|²),
 or whether the off-diagonal multi-state structure shifts Π²-odd/memory
@@ -85,9 +85,9 @@ def density_matrix(psi):
 
 
 def main():
-    print("F88-Lens probe on multi-state superpositions")
+    print("F88b-Lens probe on multi-state superpositions")
     print("=" * 90)
-    print(f"{'state class':<46} {'N':>3} {'pop weights':<22} {'static':>9} {'Π²-odd/mem':>11} {'pair F88 predict':>18}")
+    print(f"{'state class':<46} {'N':>3} {'pop weights':<22} {'static':>9} {'Π²-odd/mem':>11} {'pair F88b predict':>18}")
     print("-" * 90)
 
     cases = []
@@ -123,7 +123,7 @@ def main():
         result_num = numerical_pi2_odd_in_memory(rho, N)
         static_num = float(np.linalg.norm(kernel_projection_popcount(rho, N), "fro") ** 2 / np.linalg.norm(rho, "fro") ** 2)
 
-        # Pair-state F88 prediction at the same popcount-weights
+        # Pair-state F88b prediction at the same popcount-weights
         n_p, n_q = pop_pair
         if hd is None:
             # Default to HD = |n_q − n_p| (lowest possible compatible HD)

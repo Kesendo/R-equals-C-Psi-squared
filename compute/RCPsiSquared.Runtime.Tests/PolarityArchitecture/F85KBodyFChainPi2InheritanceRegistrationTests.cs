@@ -19,8 +19,8 @@ public class F85KBodyFChainPi2InheritanceRegistrationTests
             .RegisterF1Family(DefaultChain())
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
-            .RegisterF88PopcountCoherence()
-            .RegisterF88StaticDyadicAnchor()
+            .RegisterF88bPopcountCoherence()
+            .RegisterF88bStaticDyadicAnchor()
             .RegisterPi2OperatorSpaceMirror()
             .RegisterF49Pi2Inheritance()
             .RegisterF83AntiFractionPi2Inheritance();

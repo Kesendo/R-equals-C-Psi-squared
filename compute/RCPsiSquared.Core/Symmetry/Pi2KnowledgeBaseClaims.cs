@@ -67,7 +67,7 @@ public sealed class QubitDimensionalAnchorClaim : Claim
 ///
 /// <para>This claim is the root of the Pi2KB's <b>angle branch</b> (90° lineage). It
 /// derives directly from <see cref="F1PalindromeIdentity"/> via the squaring step, and is
-/// then read further as the lineage Π²=I (root) → <see cref="KleinFourCellClaim"/> (F88
+/// then read further as the lineage Π²=I (root) → <see cref="KleinFourCellClaim"/> (F88a
 /// two-axis decomposition) → <see cref="NinetyDegreeMirrorMemoryClaim"/> (90° rotation
 /// channel between H and M, F80's i). The parent edge to F1 was prose-only before this
 /// constructor injection.</para>
@@ -84,7 +84,7 @@ public sealed class Pi2InvolutionClaim : Claim
         : base("Π² commutes with L (squared from F1 palindrome)",
                Tier.Tier1Derived,
                "compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs (parent: F1 squared) + " +
-               "docs/ANALYTICAL_FORMULAS.md F1 + F88")
+               "docs/ANALYTICAL_FORMULAS.md F1 + F88a")
     {
         F1 = f1 ?? throw new ArgumentNullException(nameof(f1));
     }
@@ -110,7 +110,7 @@ public sealed class Pi2InvolutionClaim : Claim
     }
 }
 
-/// <summary>F88 two-axis Π² decomposition (Tier 1 derived). The 4^N Pauli operator space
+/// <summary>F88a two-axis Π² decomposition (Tier 1 derived). The 4^N Pauli operator space
 /// decomposes into 4 Klein cells under (Π²_Z, Π²_X). The Z-axis counts bit_b parity
 /// (Z- and Y-dephasing share this), the X-axis counts bit_a parity (X-dephasing). For
 /// 2-body bilinears the cells are: Pp = {XX, YY, ZZ} (truly), Pm = {YZ, ZY} (Π²-even
@@ -118,12 +118,12 @@ public sealed class Pi2InvolutionClaim : Claim
 public sealed class KleinFourCellClaim : Claim
 {
     public KleinFourCellClaim()
-        : base("F88 two-axis Π² decomposition: (Π²_Z, Π²_X) → 4 Klein cells",
+        : base("F88a two-axis Π² decomposition: (Π²_Z, Π²_X) → 4 Klein cells",
                Tier.Tier1Derived,
-               "docs/ANALYTICAL_FORMULAS.md F88")
+               "docs/ANALYTICAL_FORMULAS.md F88a")
     { }
 
-    public override string DisplayName => "F88 Klein 4-cell decomposition";
+    public override string DisplayName => "F88a Klein 4-cell decomposition";
 
     public override string Summary =>
         "Pauli operator space splits into Pp / Pm / Mp / Mm via (Π²_Z, Π²_X). 2-body bilinears: 3 truly in Pp, 2 non-truly Π²-even in Pm, 4 Π²-odd split across Mp + Mm";

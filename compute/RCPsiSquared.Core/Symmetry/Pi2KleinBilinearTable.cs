@@ -15,7 +15,7 @@ public sealed class Pi2KleinBilinearTable : Claim
     public Pi2KleinBilinearTable()
         : base("9 Pauli-pair bilinears × 4 Klein cells",
                Tier.Tier2Empirical,
-               "docs/ANALYTICAL_FORMULAS.md F88 + Pi2KleinViewTests")
+               "docs/ANALYTICAL_FORMULAS.md F88a + Pi2KleinViewTests")
     {
         var letters = new[] { PauliLetter.X, PauliLetter.Y, PauliLetter.Z };
         var entries = new List<KleinBilinearEntry>();

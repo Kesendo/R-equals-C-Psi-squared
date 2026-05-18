@@ -14,7 +14,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///         <see cref="Pi2DyadicLadderClaim.OperatorSpaceIndexForN"/>.</item>
 ///   <item><see cref="QuarterAsBilinearMaxvalClaim"/>: the n=3 lower-side anchor
 ///         (1/4 = 1/4^1) for N=1.</item>
-///   <item><see cref="F88StaticDyadicAnchor"/>: the F88 dyadic-N singleton-mirror
+///   <item><see cref="F88bStaticDyadicAnchor"/>: the F88b dyadic-N singleton-mirror
 ///         anchors at n=5, 7, ... that pin the lower side for N=2, 3, ...</item>
 /// </list>
 ///
@@ -27,8 +27,8 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///
 /// <para>Requires: <see cref="Pi2FamilyRegistration.RegisterPi2Family"/>,
 /// <see cref="Pi2DyadicLadderRegistration.RegisterPi2DyadicLadder"/>,
-/// <see cref="F88PopcountCoherenceRegistration.RegisterF88PopcountCoherence"/>,
-/// <see cref="F88StaticDyadicAnchorRegistration.RegisterF88StaticDyadicAnchor"/> in
+/// <see cref="F88bPopcountCoherenceRegistration.RegisterF88bPopcountCoherence"/>,
+/// <see cref="F88bStaticDyadicAnchorRegistration.RegisterF88bStaticDyadicAnchor"/> in
 /// the builder pipeline before this extension. The builder errors with
 /// <c>MissingParent</c> if any are absent.</para></summary>
 public static class Pi2OperatorSpaceMirrorRegistration
@@ -39,7 +39,7 @@ public static class Pi2OperatorSpaceMirrorRegistration
         {
             _ = b.Get<Pi2DyadicLadderClaim>();           // ladder + inversion identity
             _ = b.Get<QuarterAsBilinearMaxvalClaim>();   // N=1 lower-side anchor (1/4)
-            _ = b.Get<F88StaticDyadicAnchor>();          // N≥2 lower-side anchors via F88
+            _ = b.Get<F88bStaticDyadicAnchor>();          // N≥2 lower-side anchors via F88b
             return new Pi2OperatorSpaceMirrorClaim();
         });
 }

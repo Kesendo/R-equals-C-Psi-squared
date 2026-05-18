@@ -163,7 +163,7 @@ identification is the open structural question; there is no single canonical cho
 | **Cyclobutadiene C₄** | 4 | ring | Anti-aromatic, Jahn-Teller distortion | Counter-test: F1 break at anti-aromatic? |
 | **Naphthalene C₁₀** | 10 | fused bicyclic | Two fused rings, larger N, F71 across central bond | F86 Q_peak per-bond prediction |
 | **Graphene (finite patch)** | scalable | 2D honeycomb | Dirac points (= 2-level EP candidate?) | F86a Q_EP = 2/g_eff at K-point |
-| **Fullerene C₆₀** | 60 | icosahedral closed | Highly symmetric, HOMO-LUMO Buckminsterfullerene | F88 popcount-coherence on Dicke-like cooperative π-states |
+| **Fullerene C₆₀** | 60 | icosahedral closed | Highly symmetric, HOMO-LUMO Buckminsterfullerene | F88b popcount-coherence on Dicke-like cooperative π-states |
 | **Polyacetylene (CH=CH)ₙ** | scalable | chain | Soliton modes, SSH model | F71 anti-palindromic-J inheritance from F92 |
 | **Carbyne (sp linear)** | scalable | chain | Direct framework chain analog | Cleanest 1:1 with proton water chain |
 

@@ -7,7 +7,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// F79 2-body Π²-block decomposition. Three typed parent edges:
 ///
 /// <list type="bullet">
-///   <item><see cref="KleinFourCellClaim"/>: F88 4-cell (Π²_Z, Π²_X) refines
+///   <item><see cref="KleinFourCellClaim"/>: F88a 4-cell (Π²_Z, Π²_X) refines
 ///         F79's binary p-classification. F79's Π²-odd splits into Mp/Mm
 ///         under Π²_X axis.</item>
 ///   <item><see cref="Pi2OperatorSpaceMirrorClaim"/>: provides 4^N operator

@@ -24,7 +24,7 @@ public class MemoryAxisChainExploration
     [Fact]
     public void DumpPi2PartitionAcrossN()
     {
-        _output.WriteLine("=== Π² eigenvalue partition (F88 bilinear apex 1/2) ===");
+        _output.WriteLine("=== Π² eigenvalue partition (F88a bilinear apex 1/2) ===");
         _output.WriteLine($"{"N",3} {"4^N",10} {"even (+1)",12} {"odd (-1)",12} {"apex",6}");
         _output.WriteLine(new string('-', 50));
 

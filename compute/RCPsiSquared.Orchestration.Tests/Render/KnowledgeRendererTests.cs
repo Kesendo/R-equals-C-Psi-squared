@@ -26,7 +26,7 @@ public class KnowledgeRendererTests
         var registry = new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterF86PolarityLink()
-            .RegisterF88PopcountCoherence()
+            .RegisterF88bPopcountCoherence()
             .Build();
         var renderer = new KnowledgeRenderer(registry);
 
@@ -45,7 +45,7 @@ public class KnowledgeRendererTests
         var registry = new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterF86PolarityLink()
-            .RegisterF88PopcountCoherence()
+            .RegisterF88bPopcountCoherence()
             .Build();
         var renderer = new KnowledgeRenderer(registry);
 

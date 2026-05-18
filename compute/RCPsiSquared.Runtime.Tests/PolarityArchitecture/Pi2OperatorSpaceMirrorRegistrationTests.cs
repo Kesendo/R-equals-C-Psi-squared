@@ -11,8 +11,8 @@ public class Pi2OperatorSpaceMirrorRegistrationTests
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
-            .RegisterF88PopcountCoherence()
-            .RegisterF88StaticDyadicAnchor();
+            .RegisterF88bPopcountCoherence()
+            .RegisterF88bStaticDyadicAnchor();
 
     [Fact]
     public void RegisterPi2OperatorSpaceMirror_AddsClaim()
@@ -46,7 +46,7 @@ public class Pi2OperatorSpaceMirrorRegistrationTests
 
         Assert.Contains(typeof(Pi2DyadicLadderClaim), ancestors);
         Assert.Contains(typeof(QuarterAsBilinearMaxvalClaim), ancestors);
-        Assert.Contains(typeof(F88StaticDyadicAnchor), ancestors);
+        Assert.Contains(typeof(F88bStaticDyadicAnchor), ancestors);
     }
 
     [Fact]
@@ -90,14 +90,14 @@ public class Pi2OperatorSpaceMirrorRegistrationTests
     [Fact]
     public void RegisterPi2OperatorSpaceMirror_WithoutF88Anchor_Throws()
     {
-        // Without F88StaticDyadicAnchor registered, the inheritance edge to N≥2 anchors
+        // Without F88bStaticDyadicAnchor registered, the inheritance edge to N≥2 anchors
         // cannot be drawn.
         Assert.Throws<InvariantViolationException>(() =>
             new ClaimRegistryBuilder()
                 .RegisterPi2Family()
                 .RegisterPi2DyadicLadder()
-                .RegisterF88PopcountCoherence()
-                // Missing: RegisterF88StaticDyadicAnchor
+                .RegisterF88bPopcountCoherence()
+                // Missing: RegisterF88bStaticDyadicAnchor
                 .RegisterPi2OperatorSpaceMirror()
                 .Build());
     }

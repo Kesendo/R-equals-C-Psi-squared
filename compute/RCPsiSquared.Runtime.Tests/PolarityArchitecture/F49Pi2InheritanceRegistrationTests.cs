@@ -20,8 +20,8 @@ public class F49Pi2InheritanceRegistrationTests
             .RegisterF1Family(DefaultChain())
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
-            .RegisterF88PopcountCoherence()
-            .RegisterF88StaticDyadicAnchor()
+            .RegisterF88bPopcountCoherence()
+            .RegisterF88bStaticDyadicAnchor()
             .RegisterPi2OperatorSpaceMirror();
 
     [Fact]
@@ -75,7 +75,7 @@ public class F49Pi2InheritanceRegistrationTests
                 .RegisterF1Family(DefaultChain())
                 .RegisterPi2Family()
                 .RegisterPi2DyadicLadder()
-                // Missing: RegisterF88PopcountCoherence + RegisterF88StaticDyadicAnchor + RegisterPi2OperatorSpaceMirror
+                // Missing: RegisterF88bPopcountCoherence + RegisterF88bStaticDyadicAnchor + RegisterPi2OperatorSpaceMirror
                 .RegisterF49Pi2Inheritance()
                 .Build());
     }

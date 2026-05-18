@@ -23,7 +23,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// Tier1Derived; all parents are Tier1Derived (5 ≥ 5).</para>
 ///
 /// <para>Requires upstream registrations: F1Family, Pi2Family, Pi2DyadicLadder,
-/// F88PopcountCoherence + F88StaticDyadicAnchor + Pi2OperatorSpaceMirror.</para></summary>
+/// F88bPopcountCoherence + F88bStaticDyadicAnchor + Pi2OperatorSpaceMirror.</para></summary>
 public static class F5DepolarizingErrorPi2InheritanceRegistration
 {
     public static ClaimRegistryBuilder RegisterF5DepolarizingErrorPi2Inheritance(

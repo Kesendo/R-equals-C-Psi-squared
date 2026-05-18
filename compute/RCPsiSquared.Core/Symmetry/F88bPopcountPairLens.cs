@@ -3,10 +3,10 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>F88 Π²-odd memory closed-form lens for a specific popcount-pair coherence
+/// <summary>F88b Π²-odd memory closed-form lens for a specific popcount-pair coherence
 /// configuration (N, n_p, n_q). Wraps the static helpers in
 /// <see cref="PopcountCoherencePi2Odd"/> as a typed parameterised Claim so the runtime
-/// can register one F88 fact per coherence block (e.g. c=2 stratum at N=6 with
+/// can register one F88b fact per coherence block (e.g. c=2 stratum at N=6 with
 /// n_p=1, n_q=2) and expose it queryable through the registry.
 ///
 /// <para>Tier1Derived: the α anchors are proven analytically via Krawtchouk
@@ -26,10 +26,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (1/2 − α·s) / (1 − s) with s = static-fraction; HD = N (full bit-flip / Π²-classical
 /// anchor: GHZ_N, Bell, intra-complements) collapses to 0.</para>
 ///
-/// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F88 +
-/// <c>docs/proofs/PROOF_F86_QPEAK.md</c> (Structural inheritance from F88) +
+/// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F88b +
+/// <c>docs/proofs/PROOF_F86_QPEAK.md</c> (Structural inheritance from F88b) +
 /// <c>compute/RCPsiSquared.Core/Symmetry/PopcountCoherencePi2Odd.cs</c> (the static helpers).</para></summary>
-public sealed class F88PopcountPairLens : Claim
+public sealed class F88bPopcountPairLens : Claim
 {
     public int N { get; }
     public int Np { get; }
@@ -56,15 +56,15 @@ public sealed class F88PopcountPairLens : Claim
     /// <summary>The 1/2 generic α fallback.</summary>
     public const double GenericAlpha = 0.5;
 
-    public F88PopcountPairLens(int N, int np, int nq)
-        : base($"F88 popcount-pair lens (N={N}, n_p={np}, n_q={nq})",
+    public F88bPopcountPairLens(int N, int np, int nq)
+        : base($"F88b popcount-pair lens (N={N}, n_p={np}, n_q={nq})",
                Tier.Tier1Derived,
-               "docs/ANALYTICAL_FORMULAS.md F88 + " +
-               "docs/proofs/PROOF_F86_QPEAK.md (Structural inheritance from F88) + " +
+               "docs/ANALYTICAL_FORMULAS.md F88b + " +
+               "docs/proofs/PROOF_F86_QPEAK.md (Structural inheritance from F88b) + " +
                "compute/RCPsiSquared.Core/Symmetry/PopcountCoherencePi2Odd.cs")
     {
         if (N < 2)
-            throw new ArgumentOutOfRangeException(nameof(N), N, "F88PopcountPairLens requires N ≥ 2.");
+            throw new ArgumentOutOfRangeException(nameof(N), N, "F88bPopcountPairLens requires N ≥ 2.");
         if (np < 0 || np > N)
             throw new ArgumentOutOfRangeException(nameof(np), np, $"n_p must be in [0, {N}]; got {np}.");
         if (nq < 0 || nq > N)
@@ -91,7 +91,7 @@ public sealed class F88PopcountPairLens : Claim
         PopcountCoherencePi2Odd.Pi2OddInMemory(N, Np, Nq, hd);
 
     public override string DisplayName =>
-        $"F88 lens (N={N}, n_p={Np}, n_q={Nq}, {Kind})";
+        $"F88b lens (N={N}, n_p={Np}, n_q={Nq}, {Kind})";
 
     public override string Summary =>
         $"α = {Alpha:G6} ({Kind}); s = {StaticFraction:G6}; verifier-drift = {Math.Abs(Alpha - AlphaVerifier):E2} ({Tier.Label()})";
@@ -115,7 +115,7 @@ public sealed class F88PopcountPairLens : Claim
     }
 }
 
-/// <summary>Three-way classification of an (N, n_p, n_q) configuration under F88's
+/// <summary>Three-way classification of an (N, n_p, n_q) configuration under F88b's
 /// Krawtchouk reflection-orthogonality lemma. Determines which closed-form branch
 /// produces α.</summary>
 public enum ConfigurationKind

@@ -27,8 +27,8 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///
 /// <para>Requires: <see cref="Pi2FamilyRegistration.RegisterPi2Family"/> +
 /// <see cref="Pi2DyadicLadderRegistration.RegisterPi2DyadicLadder"/> +
-/// <see cref="F88PopcountCoherenceRegistration.RegisterF88PopcountCoherence"/> +
-/// <see cref="F88StaticDyadicAnchorRegistration.RegisterF88StaticDyadicAnchor"/> +
+/// <see cref="F88bPopcountCoherenceRegistration.RegisterF88bPopcountCoherence"/> +
+/// <see cref="F88bStaticDyadicAnchorRegistration.RegisterF88bStaticDyadicAnchor"/> +
 /// <see cref="Pi2OperatorSpaceMirrorRegistration.RegisterPi2OperatorSpaceMirror"/> +
 /// <see cref="Pi2I4MemoryLoopRegistration.RegisterPi2I4MemoryLoop"/>
 /// in the builder pipeline.</para></summary>

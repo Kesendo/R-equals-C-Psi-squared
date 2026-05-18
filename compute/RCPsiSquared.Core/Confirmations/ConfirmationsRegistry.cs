@@ -194,7 +194,7 @@ public static class ConfirmationsRegistry
             Date: "2026-05-05",
             Machine: "ibm_kingston",
             JobId: "d7sqjpiudops73976960",
-            Observable: "F88-Lens Π²-odd-memory across F87 trichotomy on uniform-quantum chain",
+            Observable: "F88b-Lens Π²-odd-memory across F87 trichotomy on uniform-quantum chain",
             PredictedValue:
                 "regime-uniformity hypothesis: a uniform-quantum chain's truly-baseline should be near a uniform-classical chain's, both well below the regime-mixed value 0.0297 (Marrakesh [0,1,2] framework_snapshots). " +
                 "soft-pumping should remain hardware-substrate-independent at ~0.74.",
@@ -203,8 +203,8 @@ public static class ConfirmationsRegistry
                 "truly is 13.5× lower than the regime-mixed Marrakesh [0,1,2] (0.0297) and only 1.69× higher than uniform-classical Marrakesh [48,49,50] (0.0013); the 22.8× gap between regime-mixed and uniform-classical from the original framework_snapshots vs soft_break comparison sits an order of magnitude wider than the within-uniform variation. " +
                 "soft is 3.1% from Marrakesh's 0.7646: substrate-independent within shot noise.",
             HardwareData: "data/ibm_soft_break_april2026/soft_break_ibm_kingston_20260505_102806.json",
-            ExperimentDoc: "simulations/_f88_lens_ibm_kingston_uniform_quantum.py",
-            FrameworkPrimitive: "F88-Lens (kernel projection + Π²-odd Pauli enumeration on reduced 2-qubit ρ)",
+            ExperimentDoc: "simulations/_f88b_lens_ibm_kingston_uniform_quantum.py",
+            FrameworkPrimitive: "F88b-Lens (kernel projection + Π²-odd Pauli enumeration on reduced 2-qubit ρ)",
             Description:
                 "First F87 trichotomy hardware test on a uniform-quantum CZ-coupled triple. Path [43, 56, 63] on Kingston, all three qubits classified PulseStable across the 91-day biography window (r mean 0.10 / 0.09 / 0.10, all crossing > 95%). " +
                 "Result confirms regime-uniformity hypothesis: BOTH uniform-classical (Marrakesh [48,49,50] truly = 0.0013) AND uniform-quantum (Kingston [43,56,63] truly = 0.0022) give clean truly-baselines, while regime-mixed (Marrakesh [0,1,2] truly = 0.0297) is an order of magnitude dirtier. " +

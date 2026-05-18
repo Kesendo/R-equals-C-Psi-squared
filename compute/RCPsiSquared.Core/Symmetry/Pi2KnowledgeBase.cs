@@ -13,7 +13,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>The Π² Klein layer is the foundational structural primitive that underlies the
 /// F-chain (F1 palindrome → F87 trichotomy → F80–F85 dissipator analysis): Π² acts
 /// diagonally on Pauli strings as ±1, and its (Π²_Z, Π²_X) two-axis decomposition
-/// classifies the 4^N Pauli operator space into 4 Klein cells (F88).</para>
+/// classifies the 4^N Pauli operator space into 4 Klein cells (F88a).</para>
 ///
 /// <para>What's in here:</para>
 /// <list type="bullet">
@@ -24,7 +24,11 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         <see cref="ArgmaxMaxvalPair"/> (1/2 and 1/4 close as one parabola's pair),
 ///         <see cref="MirrorRegime"/>, <see cref="HalfFixedPoint"/> (three faces close),
 ///         <see cref="MirrorMemory"/> (90° back to the mirror, F80's i),
-///         <see cref="PolarityLayerOrigin"/></item>
+///         <see cref="PolarityLayerOrigin"/>,
+///         <see cref="CanonicalTrigAnchor"/> (F99: five canonical trig angles
+///         {0°, 30°, 45°, 60°, 90°} → five Pi2 dyadic anchors {0, 1/8, 1/4, 3/8, 1/2}
+///         via α = sin²(θ)/2, closing the depth-3 gap identified in
+///         <c>docs/carbon/SPEAR_REVERSED.md</c>)</item>
 ///   <item>Tier-2 empirical: <see cref="BilinearTable"/> (9 Pauli-pair × 4 cells)</item>
 ///   <item>Tier-2 hardware-verified: <see cref="HardwareConfirmations"/> (Marrakesh f83
 ///         X-axis-flip pattern)</item>
@@ -67,6 +71,7 @@ public sealed class Pi2KnowledgeBase : IInspectable
     public PolynomialDiscriminantAnchorClaim Discriminant { get; }
     public AbsorptionTheoremClaim AbsorptionTheorem { get; }
     public UniversalCarrierClaim UniversalCarrier { get; }
+    public CanonicalTrigAnchorPi2Inheritance CanonicalTrigAnchor { get; }
     public Pi2KleinBilinearTable BilinearTable { get; }
     public IReadOnlyList<HardwareConfirmationClaim> HardwareConfirmations { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
@@ -91,6 +96,14 @@ public sealed class Pi2KnowledgeBase : IInspectable
         Discriminant = new PolynomialDiscriminantAnchorClaim(PolynomialFoundation, RootAnchor, DyadicLadder);
         AbsorptionTheorem = new AbsorptionTheoremClaim(DyadicLadder);
         UniversalCarrier = new UniversalCarrierClaim(AbsorptionTheorem, DyadicLadder, Discriminant);
+        // F99 closure: 5 canonical trig angles → 5 dyadic anchors via α = sin²(θ)/2.
+        // F98 (KIntermediate long-time bridge to 1/4) is F99's third typed parent;
+        // constructed locally here since F98 is not itself a Pi2KB top-level property.
+        // The F98 sub-tree remains reachable through CanonicalTrigAnchor.F98LongTime
+        // (typed-Claim graph walk).
+        var dickeSuperposition = new DickeSuperpositionQuarterPi2Inheritance(DyadicLadder, QuarterAsBilinearMaxval, HalfFixedPoint);
+        var f98LongTime = new KIntermediateAsymptoteQuarterInheritance(QuarterAsBilinearMaxval, HalfFixedPoint, dickeSuperposition);
+        CanonicalTrigAnchor = new CanonicalTrigAnchorPi2Inheritance(HalfFixedPoint, QuarterAsBilinearMaxval, f98LongTime);
         BilinearTable = new Pi2KleinBilinearTable();
         HardwareConfirmations = HardwareConfirmationClaim.LookupAll(_hardwareConfirmationNames);
         OpenQuestions = Pi2OpenQuestions.Standard;
@@ -101,7 +114,7 @@ public sealed class Pi2KnowledgeBase : IInspectable
         $"{(Chain.N % 2 == 1 ? "half-integer" : "integer")}-mirror)";
 
     public string Summary =>
-        $"Π² involution + Klein 4-cell decomposition (F88); apex 1/2 anchor; " +
+        $"Π² involution + Klein 4-cell decomposition (F88a); apex 1/2 anchor; " +
         $"{HardwareConfirmations.Count} hardware confirmations; {OpenQuestions.Count} open items";
 
     public IEnumerable<IInspectable> Children
@@ -113,7 +126,22 @@ public sealed class Pi2KnowledgeBase : IInspectable
                          $"topology={Chain.Topology}, H={Chain.HType}");
 
             yield return InspectableNode.Group("Tier 1 (derived)",
-                PolynomialFoundation, RootAnchor, Involution, KleinDecomposition, BilinearApex, QuarterAsBilinearMaxval, ArgmaxMaxvalPair, MirrorRegime, HalfFixedPoint, MirrorMemory, PolarityLayerOrigin, DyadicLadder, Discriminant, AbsorptionTheorem, UniversalCarrier);
+                PolynomialFoundation,
+                RootAnchor,
+                Involution,
+                KleinDecomposition,
+                BilinearApex,
+                QuarterAsBilinearMaxval,
+                ArgmaxMaxvalPair,
+                MirrorRegime,
+                HalfFixedPoint,
+                MirrorMemory,
+                PolarityLayerOrigin,
+                DyadicLadder,
+                Discriminant,
+                AbsorptionTheorem,
+                UniversalCarrier,
+                CanonicalTrigAnchor);
 
             yield return InspectableNode.Group("Tier 2 (empirical)",
                 BilinearTable);

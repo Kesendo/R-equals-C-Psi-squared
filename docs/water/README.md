@@ -44,7 +44,7 @@ conditions hold:
    same picosecond scale) → Q is in the framework's testable range.
 
 Under these conditions the F-chain (F1 → F4 → F49 → F71 → F77 → F78 → F79 →
-F80 → F81 → F82 → F83 → F84 → F85 → F86 → F87 → F88) inherits to the chemistry
+F80 → F81 → F82 → F83 → F84 → F85 → F86 → F87 → F88a → F88b) inherits to the chemistry
 without re-derivation.
 
 ## Comparison to Hardware
@@ -145,7 +145,7 @@ Open follow-up directions, parked here to be picked up when we next walk past:
   α = 1/2 elsewhere; Π²-odd/memory = (1/2 − α·s) / (1 − s). Bit-exact
   verified N = 3..16 (Krawtchouk) and N = 3..6 (vs. MemoryAxisRho).
   Implementation: [`PopcountCoherencePi2Odd.cs`](../../compute/RCPsiSquared.Core/Symmetry/PopcountCoherencePi2Odd.cs)
-  + tests; refinement landed in [PROOF_F86_QPEAK §Statement 2 Structural inheritance from F88](../proofs/PROOF_F86_QPEAK.md).
+  + tests; refinement landed in [PROOF_F86B_UNIVERSAL_SHAPE §F88b popcount-coherence closed form](../proofs/PROOF_F86B_UNIVERSAL_SHAPE.md).
 
 - **DNA Phase 6 (Watson-Crick ↔ Hoogsteen tautomers).** Pre-existing in
   `proton_water_chain.py`'s Phase 6 sketch; not yet run with the 2026-05-04

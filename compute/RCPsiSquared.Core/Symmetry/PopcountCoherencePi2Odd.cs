@@ -15,7 +15,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>Canonical statement, structural reasons (Krawtchouk reflection
 /// K_{N−n}(s; N) = (−1)^s K_n(s; N) at popcount-mirror; K_{N/2}(s; N) = 0 for odd s
 /// at K-intermediate), and verified table: see
-/// <c>docs/proofs/PROOF_F86_QPEAK.md</c> §Structural inheritance from F88.
+/// <c>docs/proofs/PROOF_F86_QPEAK.md</c> §Structural inheritance from F88b.
 /// Python verifier (213 cases at N = 2..7, max deviation 8.88e−16):
 /// <c>simulations/_pi2_odd_general_closed_form.py</c>.</para>
 ///
@@ -37,7 +37,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         <see cref="IsHdComplement"/> (HD = N pair states: GHZ_N, Bell, intra-complements),
 ///         <see cref="IsDickeMirror"/> (Dicke-mirror multi-state, 2n + 1 = N).
 ///         Two structurally-distinct state-class families, one shared root. F60
-///         (pair-CΨ = 0) and F88 (Π²-odd = 0) are two access paths to this same root.</item>
+///         (pair-CΨ = 0) and F88b (Π²-odd = 0) are two access paths to this same root.</item>
 ///   <item><b>Popcount-weight invariance</b>
 ///         (kernel of L = span{P_n}, only sees w_n = Σ_i |c_i|² · [popcount(b_i) = n]):
 ///         <see cref="StaticFraction"/>, and indirectly any multi-state superposition
@@ -193,7 +193,7 @@ public static class PopcountCoherencePi2Odd
     // Closed form: α_total = (1 − γ²)/2 with γ = ⟨ψ|X⊗N|ψ⟩. γ ∈ {0, 1/2, 1}
     // from X⊗N's four-Kronecker-delta action on Dicke pairs gives the three
     // anchors directly. See PROOF_F86B_UNIVERSAL_SHAPE.md §Statement 2 /
-    // Structural inheritance from F88.
+    // Structural inheritance from F88b.
 
     /// <summary>True iff the Dicke superposition (|D_n⟩ + |D_{n+1}⟩)/√2 sits at the
     /// X⊗N-symmetric popcount-mirror configuration (<see cref="DickeAnchor.Mirror"/>).

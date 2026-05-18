@@ -23,8 +23,8 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///
 /// <para>Requires upstream registrations: <see cref="F1Family.F1FamilyRegistration.RegisterF1Family"/>
 /// + <see cref="Pi2DyadicLadderRegistration.RegisterPi2DyadicLadder"/> +
-/// <see cref="F88PopcountCoherenceRegistration.RegisterF88PopcountCoherence"/> +
-/// <see cref="F88StaticDyadicAnchorRegistration.RegisterF88StaticDyadicAnchor"/> +
+/// <see cref="F88bPopcountCoherenceRegistration.RegisterF88bPopcountCoherence"/> +
+/// <see cref="F88bStaticDyadicAnchorRegistration.RegisterF88bStaticDyadicAnchor"/> +
 /// <see cref="Pi2OperatorSpaceMirrorRegistration.RegisterPi2OperatorSpaceMirror"/>.</para></summary>
 public static class F1T1AmplitudeDampingPi2InheritanceRegistration
 {

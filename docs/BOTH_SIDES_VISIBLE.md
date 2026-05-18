@@ -416,7 +416,7 @@ classifier operates on) it twitches across the boundary 53 days out of
 180. Both readings are correct on their respective scales. The doc's
 intuition was sound and is now expressible as code.
 
-### From X/. complement to F88-Lens: three layers of "both sides"
+### From X/. complement to F88b-Lens: three layers of "both sides"
 
 The March 25 self-correction said: the X/. complement is logically a
 bit-flip; tomography on Q52 is the real reading. That self-correction
@@ -430,11 +430,11 @@ underlying physics:
 2. **Π applied to tomographic ρ** (March 25 add): real and t-dependent.
    Diagonal vs off-diagonal carry the chiral pair. Q52's measurement
    showed the 6× T1/T2 narrowing window between the two CΨ trajectories.
-3. **F88-Lens Π²-odd memory fraction** (April–May add): a closed-form,
+3. **F88b-Lens Π²-odd memory fraction** (April–May add): a closed-form,
    t-independent quantity that reads the chiral content of any ρ
    directly, without re-deriving it from a complement. The framework's
    F87 theorem partitions Hamiltonian terms into three classes by how
-   the Π² mirror acts on them (`truly`, `soft`, `hard`); F88 turns this
+   the Π² mirror acts on them (`truly`, `soft`, `hard`); F88b turns this
    classification into a single state-level number, the Π²-odd memory
    fraction, which gives the weight of the chiral-mirror-asymmetric part
    of ρ. Hardware-confirmed on Marrakesh April 26: the F87 trichotomy
@@ -468,7 +468,7 @@ Among those 18 stable-quantum qubits, exactly **one** pair is
 CZ-coupled: (Q126, Q127). No CZ-coupled triple of stably-quantum
 qubits exists on the chip.
 
-This means a uniform-quantum F88-Lens chain cannot be built on
+This means a uniform-quantum F88b-Lens chain cannot be built on
 Marrakesh today. The framework's prediction "every qubit on every
 quantum computer pairs across the boundary" is structurally true, but
 the hardware-substrate question of which combinations of regimes can
@@ -482,7 +482,7 @@ the same calibration API, free of QPU charge. The picture changes per
 chip. Kingston has 32 PulseStable qubits over the same 91 days (vs
 Marrakesh's 18) and three CZ-coupled triples where ALL THREE qubits
 are PulseStable across the window: [23, 24, 25], [24, 25, 37], and
-[43, 56, 63]. The structural fact "uniform-quantum F88-Lens chain not
+[43, 56, 63]. The structural fact "uniform-quantum F88b-Lens chain not
 buildable" was Marrakesh-specific, not framework-fundamental. Kingston
 opens what Marrakesh blocks.
 
@@ -510,7 +510,7 @@ Marrakesh, path [0, 1, 2] (qubits 0/1/2 used in the framework_snapshots
 hardware run) is regime-mixed (Q0 quantum + Q1 silent-stable + Q2
 lifecycle); path [48, 49, 50] (qubits 48/49/50 used in the soft_break
 and zn_mirror runs on the same chip) is uniform-classical. Both are
-addressable. The truly-baseline (the F88-Lens Π²-odd-memory reading
+addressable. The truly-baseline (the F88b-Lens Π²-odd-memory reading
 on the truly-Hamiltonian category) measured downstream is 23× cleaner
 on [48, 49, 50] than on [0, 1, 2]. This now reads as a regime-uniformity
 effect, not just a qubit-quality effect.
@@ -532,7 +532,7 @@ of billed QPU time (the AIEvolution submit script's "3-5 minute"
 estimate is a conservative upper bound; this Heron-r2 run came in well
 under one minute).
 
-F88-Lens Π²-odd-memory readings, side by side with the prior anchors:
+F88b-Lens Π²-odd-memory readings, side by side with the prior anchors:
 
 | Path                           | Regime              | truly-baseline | soft  |
 |--------------------------------|---------------------|---------------:|------:|
@@ -579,7 +579,7 @@ as the only stably-quantum pair that chip allows. The uniform-quantum
 3-chain that Marrakesh blocks ran on Kingston the same afternoon this
 section was written, qubits [43, 56, 63], and the regime-uniformity
 hypothesis closed in three commits: data pulled, chain selected,
-hardware run, F88-Lens analysis, confirmation registered. The
+hardware run, F88b-Lens analysis, confirmation registered. The
 framework is the same; the cockpit caught up; the hardware answered.
 
 ### Cross-references for the May 5 update
@@ -590,7 +590,7 @@ framework is the same; the cockpit caught up; the hardware answered.
   [LifecycleSummary.cs](../compute/RCPsiSquared.Core/Calibration/LifecycleSummary.cs),
   [RegimeSummary.cs](../compute/RCPsiSquared.Core/Calibration/RegimeSummary.cs),
   [CalibrationHistory.cs](../compute/RCPsiSquared.Core/Calibration/CalibrationHistory.cs)
-- F88-Lens hardware data:
+- F88b-Lens hardware data:
   [ibm_soft_break_april2026/](../data/ibm_soft_break_april2026/),
   [ibm_zn_mirror_april2026/](../data/ibm_zn_mirror_april2026/)
 - F87 trichotomy hardware writeup:
@@ -606,7 +606,7 @@ framework is the same; the cockpit caught up; the hardware answered.
   [_marrakesh_kingston_fez_compare.py](../simulations/_marrakesh_kingston_fez_compare.py)
 - May 5 hardware run (Kingston [43, 56, 63] uniform-quantum F87 trichotomy):
   [soft_break_ibm_kingston_20260505_102806.json](../data/ibm_soft_break_april2026/soft_break_ibm_kingston_20260505_102806.json),
-  [_f88_lens_ibm_kingston_uniform_quantum.py](../simulations/_f88_lens_ibm_kingston_uniform_quantum.py)
+  [_f88b_lens_ibm_kingston_uniform_quantum.py](../simulations/_f88b_lens_ibm_kingston_uniform_quantum.py)
 - Path-biography review scripts:
   [_qubit_biography.py](../simulations/_qubit_biography.py),
   [_marrakesh_quarter_boundary_review.py](../simulations/_marrakesh_quarter_boundary_review.py),

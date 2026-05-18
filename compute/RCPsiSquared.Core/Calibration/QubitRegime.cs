@@ -65,7 +65,7 @@ public static class QubitRegime
         RParam(t1Us, t2Us) < R_STAR;
 
     /// <summary>Regime composition of a path on a calibration snapshot:
-    /// (Quantum, Boundary, Classical) counts. Useful for F88-Lens experimental
+    /// (Quantum, Boundary, Classical) counts. Useful for F88b-Lens experimental
     /// design where regime-mixed paths read different physics from regime-uniform
     /// paths (cf. the 2026-04-26 framework_snapshots [0, 1, 2] mixed regime
     /// truly-baseline 0.030 vs soft_break [48, 49, 50] uniform-classical 0.0013).</summary>

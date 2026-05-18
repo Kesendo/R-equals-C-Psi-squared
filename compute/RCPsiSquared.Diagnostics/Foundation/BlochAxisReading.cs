@@ -33,7 +33,7 @@ public sealed record QubitBlochReading(int QubitIndex, double Rx, double Ry, dou
     /// <summary>Dominant Bloch axis: 'X', 'Y', 'Z', or 'I' (maximally mixed). Under the
     /// framework's standard Z-dephasing convention the axis also reports the qubit's
     /// Π²-class: 'X' is Π²-even, 'Y' and 'Z' are Π²-odd. The bit_a/bit_b roles shift
-    /// under X-dephasing; see F88 in <c>docs/ANALYTICAL_FORMULAS.md</c>.</summary>
+    /// under X-dephasing; see F88a in <c>docs/ANALYTICAL_FORMULAS.md</c>.</summary>
     public char DominantAxis
     {
         get

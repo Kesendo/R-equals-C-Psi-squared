@@ -221,7 +221,7 @@ public class PopcountCoherencePi2OddTests
         Assert.Equal(expected, PopcountCoherencePi2Odd.IsHdComplement(N, hd));
     }
 
-    // ──────────── Dicke superposition (multi-state F88 extension) ────────────
+    // ──────────── Dicke superposition (multi-state F88b extension) ────────────
 
     [Theory]
     [InlineData(3, 1, 0.0)]                  // mirror N=3 (1+2=3=N, X⊗N-symmetric)

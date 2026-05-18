@@ -13,7 +13,7 @@ public class KnowledgeCliPolarityArchitectureTests
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterF86PolarityLink()
-            .RegisterF88PopcountCoherence()
+            .RegisterF88bPopcountCoherence()
             .Build();
 
     [Fact]
@@ -22,7 +22,7 @@ public class KnowledgeCliPolarityArchitectureTests
         var cli = new KnowledgeCli(BuildPolarityRegistry());
         var output = cli.Render(new KnowledgeQuery.Tier(KnowledgeTier.Tier1Derived));
 
-        // 7 Pi2 + 1 F88 = 8 Tier1Derived claims (F86 is Tier2Verified, not in this filter)
+        // 7 Pi2 + 1 F88b = 8 Tier1Derived claims (F86 is Tier2Verified, not in this filter)
         Assert.Contains("PolynomialFoundationClaim", output);
         Assert.Contains("QubitDimensionalAnchorClaim", output);
         Assert.Contains("NinetyDegreeMirrorMemoryClaim", output);
@@ -52,7 +52,7 @@ public class KnowledgeCliPolarityArchitectureTests
         var cli = new KnowledgeCli(BuildPolarityRegistry());
         var output = cli.Render(new KnowledgeQuery.Descendants(typeof(PolynomialFoundationClaim)));
 
-        // 8 descendants: 6 Pi2 (everything except the trunk) + F86 + F88
+        // 8 descendants: 6 Pi2 (everything except the trunk) + F86 + F88b
         Assert.Contains("8 Claim(s)", output);
         Assert.Contains("PolarityInheritanceLink", output);
         Assert.Contains("PopcountCoherenceClaim", output);

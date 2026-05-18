@@ -13,7 +13,7 @@ public class InheritanceGraphTests
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterF86PolarityLink()
-            .RegisterF88PopcountCoherence()
+            .RegisterF88bPopcountCoherence()
             .Build();
 
     [Fact]

@@ -7,7 +7,7 @@ using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Comp
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
-/// <summary>Lock for the F88-Lens hardware result on IBM Marrakesh framework_snapshots
+/// <summary>Lock for the F88b-Lens hardware result on IBM Marrakesh framework_snapshots
 /// (2026-04-26, job d7mt7jbaq2pc73a24220). The snapshot D F87-trichotomy categories
 /// (truly / soft / hard, |+−+⟩ at t = 0.8 with bilinear Hamiltonians, 9-Pauli
 /// tomography on (q0, q2)) reconstruct to 2-qubit reduced ρ that, when run through
@@ -15,7 +15,7 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// differentiating the trichotomy by ~25× between truly and soft. Source data
 /// transcribed from
 /// <c>D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography\results\framework_snapshots_ibm_marrakesh_20260426_105948.json</c>;
-/// Python counterpart: <c>simulations/_f88_lens_ibm_framework_snapshots.py</c>.
+/// Python counterpart: <c>simulations/_f88b_lens_ibm_framework_snapshots.py</c>.
 /// </summary>
 public class IbmFrameworkSnapshotsTrichotomyTests
 {

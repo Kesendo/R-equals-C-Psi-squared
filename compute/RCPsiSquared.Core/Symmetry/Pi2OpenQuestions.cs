@@ -11,7 +11,7 @@ public static class Pi2OpenQuestions
     {
         new OpenQuestion(
             "X-axis-flip mechanism for Marrakesh f83 fingerprint observables",
-            "Empirical pattern (F88, locked in Pi2KleinHardwareViewTests): each H-class diagnostic " +
+            "Empirical pattern (F88a, locked in Pi2KleinHardwareViewTests): each H-class diagnostic " +
             "observable lives in the Klein cell that is the X-axis flip of the M-active H bilinear " +
             "cell. Why does the framework's diagnostic prescription land here algebraically? The " +
             "structural reason is open.",
@@ -43,12 +43,12 @@ public static class Pi2OpenQuestions
         new OpenQuestion(
             "k-body Klein extension (Schicht 1+2 for k ≥ 3 Pauli terms)",
             "F85 lifts F87 trichotomy to arbitrary k-body Pauli terms. The Klein decomposition " +
-            "naturally extends (Π²_Z and Π²_X act diagonally on any Pauli string), but the F88 " +
+            "naturally extends (Π²_Z and Π²_X act diagonally on any Pauli string), but the F88a " +
             "table-of-9-bilinears would generalise to a much larger combinatorial structure at " +
             "k ≥ 3. Open: characterise the k-body Klein cells and their scaling.",
             "Enumerate k-body Pauli strings by Klein cell; check whether the bilinear apex 1/2 " +
             "still characterises slow-mode distributions or whether the structure changes.",
-            "F85 + F88 + Task #53 (k-body extension)"),
+            "F85 + F88a + Task #53 (k-body extension)"),
         new OpenQuestion(
             "Half-integer-mirror regime and slow-mode Klein structure",
             "Tom's half-integer family w_XY = N/2 distinguishes odd N (half-integer, no modes on " +

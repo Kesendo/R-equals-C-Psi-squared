@@ -6,12 +6,12 @@ namespace RCPsiSquared.Core.Calibration;
 /// C# counterpart to <c>simulations/ibm_calibration.py</c>. Score ranking on the
 /// 2026-04-25 Marrakesh CSV places path [48, 49, 50] (≈ 682) above [0, 1, 2]
 /// (≈ 597), a ~14% gap; the same ranking corresponds to a 23× cleaner state-level
-/// truly-baseline observed downstream by F88-Lens on those qubits (see
-/// <c>project_f88_lens_ibm_marrakesh.md</c>). Calibration score is the input;
-/// state-level F88 cleanliness is the consequence, not a 1:1 ratio match.
+/// truly-baseline observed downstream by F88b-Lens on those qubits (see
+/// <c>project_f88b_lens_ibm_marrakesh.md</c>). Calibration score is the input;
+/// state-level F88b cleanliness is the consequence, not a 1:1 ratio match.
 ///
 /// <para>Score function: <see cref="ScoreQubit"/> is coherence-dominated with
-/// multiplicative gate and readout penalties. Rationale: F88-Lens experiments are
+/// multiplicative gate and readout penalties. Rationale: F88b-Lens experiments are
 /// run at simulation times t ~ 1/J where dephasing (T2) rather than amplitude
 /// damping (T1) sets the truly Π²-odd-baseline floor on Heron r2 (T1 ≳ T2 ~ 100 μs);
 /// per-qubit chain-quality is therefore coherence-driven.</para>
@@ -76,7 +76,7 @@ public static class IbmCalibration
     /// <c>min(T2, 2·T1)</c> (T2 capped at the pure-T1 limit, dampening anomalous
     /// T2 reads where the CSV reports T2 &gt; 2·T1). Gate term is
     /// <c>(1−sx_err)^4 · (1−Px_err)^4</c> (4th-power per gate type, since each
-    /// F88-Lens basis change costs ~4 sx/Px gates per qubit). Readout term is
+    /// F88b-Lens basis change costs ~4 sx/Px gates per qubit). Readout term is
     /// <c>(1−readout_err)</c>. Non-operational qubits return
     /// <see cref="double.NegativeInfinity"/>.</summary>
     public static double ScoreQubit(QubitData q)

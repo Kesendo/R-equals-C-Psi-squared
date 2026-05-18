@@ -5,17 +5,17 @@ using RCPsiSquared.Runtime.PolarityArchitecture;
 
 namespace RCPsiSquared.Runtime.Tests.PolarityArchitecture;
 
-public class F88PopcountCoherenceRegistrationTests
+public class F88bPopcountCoherenceRegistrationTests
 {
     [Fact]
     public void RegisterF88_AddsDualParentClaim()
     {
         var registry = new ClaimRegistryBuilder()
             .RegisterPi2Family()
-            .RegisterF88PopcountCoherence()
+            .RegisterF88bPopcountCoherence()
             .Build();
 
-        Assert.Equal(10, registry.All().Count()); // 9 Pi2 + 1 F88
+        Assert.Equal(10, registry.All().Count()); // 9 Pi2 + 1 F88b
         Assert.True(registry.Contains<PopcountCoherenceClaim>());
     }
 
@@ -24,7 +24,7 @@ public class F88PopcountCoherenceRegistrationTests
     {
         var registry = new ClaimRegistryBuilder()
             .RegisterPi2Family()
-            .RegisterF88PopcountCoherence()
+            .RegisterF88bPopcountCoherence()
             .Build();
 
         var ancestors = registry.AncestorsOf<PopcountCoherenceClaim>()
@@ -44,7 +44,7 @@ public class F88PopcountCoherenceRegistrationTests
     {
         var registry = new ClaimRegistryBuilder()
             .RegisterPi2Family()
-            .RegisterF88PopcountCoherence()
+            .RegisterF88bPopcountCoherence()
             .Build();
 
         var order = registry.TopologicalOrder.ToList();

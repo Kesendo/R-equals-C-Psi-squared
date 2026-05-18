@@ -1,11 +1,11 @@
 """Search for a uniform-quantum-side CZ-coupled chain on Marrakesh.
 
-Question: the F88-Lens reading on path [0, 1, 2] (mixed regimes) gave
+Question: the F88b-Lens reading on path [0, 1, 2] (mixed regimes) gave
 truly-baseline 0.0297; on [48, 49, 50] (uniform classical-side) it gave
 0.0013 (23× cleaner). The 91-day biography review surfaced Q0 as the only
 stable quantum-side qubit on any documented path. What if we find a chain
 that is uniform-QUANTUM-side (all qubits with r << 0.213, all pulse-stable
-over 91 days)? Run F88-Lens on that and we can test whether the truly-
+over 91 days)? Run F88b-Lens on that and we can test whether the truly-
 baseline reads cleaner *or* dirtier than uniform-classical, separating
 "good qubits" from "regime-uniform qubits" as causes of the 23× effect.
 
@@ -132,7 +132,7 @@ def main():
         print(f"  - Found {len(found_triples)} fully-quantum-stable CZ-coupled triples:")
         for t in found_triples:
             print(f"      {list(t)}")
-        print("  - Running F88-Lens on one of these tests the regime-uniformity hypothesis.")
+        print("  - Running F88b-Lens on one of these tests the regime-uniformity hypothesis.")
         print("    Predict: truly-baseline cleaner than the regime-mixed [0,1,2] (0.030)")
         print("    and possibly comparable to or different from uniform-classical")
         print("    [48,49,50] (0.0013).")

@@ -21,7 +21,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// <para>Requires: <see cref="Pi2FamilyRegistration.RegisterPi2Family"/> +
 /// <see cref="Pi2DyadicLadderRegistration.RegisterPi2DyadicLadder"/> +
 /// the F81 chain (Pi2OperatorSpaceMirror + Pi2I4MemoryLoop +
-/// F88PopcountCoherence + F88StaticDyadicAnchor + F81Pi2Inheritance).</para></summary>
+/// F88bPopcountCoherence + F88bStaticDyadicAnchor + F81Pi2Inheritance).</para></summary>
 public static class F82T1AmplitudeDampingPi2InheritanceRegistration
 {
     public static ClaimRegistryBuilder RegisterF82T1AmplitudeDampingPi2Inheritance(

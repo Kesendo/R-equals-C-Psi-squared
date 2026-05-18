@@ -23,7 +23,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <para><b>The four steps walked</b>:
 /// <list type="number">
 ///   <item>Π eigenvalue partition: 4^N Pauli strings split into Π²-even (eigenvalue +1)
-///         and Π²-odd (eigenvalue −1), each subspace of size 4^N / 2 (F88 bilinear apex 1/2).</item>
+///         and Π²-odd (eigenvalue −1), each subspace of size 4^N / 2 (F88a bilinear apex 1/2).</item>
 ///   <item>Π scaled by 1/2: spectrum {+1, −1} shifted toward 0 by 0.5 = the structural
 ///         pair {+0.5, −0.5} on the d = 2 memory axis. Static anchor; see
 ///         <see cref="MemoryAxisChainResult.StructuralPair"/>.</item>
@@ -48,7 +48,7 @@ public sealed record MemoryAxisChainResult(
     long Pi2OddStringCount,
     IReadOnlyDictionary<double, int>? F80ImaginarySpectrum)
 {
-    /// <summary>F88 bilinear apex 1/2: the Π²-even and Π²-odd subspaces have equal
+    /// <summary>F88a bilinear apex 1/2: the Π²-even and Π²-odd subspaces have equal
     /// cardinality (4^N / 2 each). Combinatorial identity, holds for any N ≥ 1.</summary>
     public bool BilinearApexHolds => Pi2EvenStringCount == Pi2OddStringCount;
 

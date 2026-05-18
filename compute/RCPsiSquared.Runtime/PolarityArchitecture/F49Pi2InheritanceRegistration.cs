@@ -21,7 +21,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// <para>Requires: <see cref="F1Family.F1FamilyRegistration.RegisterF1Family"/> for
 /// PalindromeResidualScalingClaim + <see cref="Pi2DyadicLadderRegistration.RegisterPi2DyadicLadder"/>
 /// + <see cref="Pi2OperatorSpaceMirrorRegistration.RegisterPi2OperatorSpaceMirror"/>
-/// (which itself transitively requires F88StaticDyadicAnchor).</para></summary>
+/// (which itself transitively requires F88bStaticDyadicAnchor).</para></summary>
 public static class F49Pi2InheritanceRegistration
 {
     public static ClaimRegistryBuilder RegisterF49Pi2Inheritance(

@@ -45,7 +45,7 @@ public sealed record QubitLifecycleStats(
 /// T2 in 5 days, Q3 gained 30%, Q49 lost 23%. <see cref="RegimeSummary"/> only
 /// sees one snapshot at a time; this workflow looks at the trajectory and
 /// flags <see cref="LifecycleArchetype.Twitch"/> qubits before they jitter
-/// the F88-Lens reading.</para>
+/// the F88b-Lens reading.</para>
 ///
 /// <para>Loaded via <see cref="CalibrationHistory.Load"/> from the daily-
 /// calibration CSV produced by <c>data/ibm_history/ibm_history_analysis.py
@@ -97,7 +97,7 @@ public sealed record LifecycleSummary(
     ///
     /// <para>A twitch qubit will read different physics from one day to the
     /// next at the same calibration score, which makes any cross-day comparison
-    /// (e.g. F88-Lens replication, F87 trichotomy reproduction) noisy in a
+    /// (e.g. F88b-Lens replication, F87 trichotomy reproduction) noisy in a
     /// way that single-snapshot regime-checks cannot detect. Pair this gate
     /// with <see cref="RegimeSummary.IsRecommendedForSubmit"/> to cover both
     /// snapshot regime composition and multi-day stability.</para></summary>

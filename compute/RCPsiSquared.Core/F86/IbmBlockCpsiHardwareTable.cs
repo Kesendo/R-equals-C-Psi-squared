@@ -46,7 +46,7 @@ public enum BlockCpsiScenario
 ///   <item>Hard       block(0,1) &gt; block(1,2) → ratio &gt; 1 (Π²-odd-broken, weaker than Soft)</item>
 /// </list>
 /// <para>The Π²-odd-driven Hamiltonians (Soft, Hard) break the popcount-block symmetry
-/// that Truly and Heisenberg preserve. Whether this ratio is derivable from F88
+/// that Truly and Heisenberg preserve. Whether this ratio is derivable from F88b
 /// popcount-coherence remains an OpenQuestion (see <see cref="OpenQuestionPi2OddAsymmetryDerivation"/>);
 /// the live numerical values come from <see cref="IdealAsymmetryRatios"/>.</para>
 ///
@@ -121,12 +121,12 @@ public sealed class IbmBlockCpsiHardwareTable : Claim
 
     /// <summary>Open question: is the Π²-odd block(0,1) / block(1,2) asymmetry ratio
     /// (Soft and Hard each > 1, Heisenberg and Truly each = 1) derivable in closed form
-    /// from F88 popcount-coherence at the operator level? Closure path: match against
+    /// from F88b popcount-coherence at the operator level? Closure path: match against
     /// <see cref="Symmetry.PopcountCoherencePi2Odd"/> at the matching (n_p, n_q, HD)
     /// shape, plus Π²-odd integral on |+−+⟩.</summary>
     public string OpenQuestionPi2OddAsymmetryDerivation =>
         "Is the Π²-odd block(0,1)/block(1,2) asymmetry ratio (Soft and Hard each > 1, " +
-        "Heisenberg and Truly each = 1) derivable in closed form from F88 popcount-coherence " +
+        "Heisenberg and Truly each = 1) derivable in closed form from F88b popcount-coherence " +
         "+ Π²-odd integral on |+−+⟩? Tier-1-promotion path for the empirical pattern documented here.";
 
     public static IReadOnlyList<BlockCpsiScenario> Scenarios { get; } = new[]
@@ -147,7 +147,7 @@ public sealed class IbmBlockCpsiHardwareTable : Claim
         get
         {
             yield return new InspectableNode("source pipeline",
-                summary: "simulations/_block_cpsi_lens_ibm_snapshots.py (one-shot exploration; reuses reconstruct_2qubit_rho from _f88_lens_ibm_framework_snapshots)");
+                summary: "simulations/_block_cpsi_lens_ibm_snapshots.py (one-shot exploration; reuses reconstruct_2qubit_rho from _f88b_lens_ibm_framework_snapshots)");
             yield return new InspectableNode("run date",
                 summary: $"{RunDate}; initial = {InitialState}, t = {EvalTime}, J = {CouplingJ}, n_trotter = {TrotterSteps}");
             yield return new InspectableNode("Theorem 2 ceiling",

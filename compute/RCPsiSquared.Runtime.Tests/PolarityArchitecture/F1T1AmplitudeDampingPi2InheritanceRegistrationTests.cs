@@ -20,8 +20,8 @@ public class F1T1AmplitudeDampingPi2InheritanceRegistrationTests
             .RegisterF1Family(DefaultChain())
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
-            .RegisterF88PopcountCoherence()
-            .RegisterF88StaticDyadicAnchor()
+            .RegisterF88bPopcountCoherence()
+            .RegisterF88bStaticDyadicAnchor()
             .RegisterPi2OperatorSpaceMirror();
 
     [Fact]
@@ -96,8 +96,8 @@ public class F1T1AmplitudeDampingPi2InheritanceRegistrationTests
             new ClaimRegistryBuilder()
                 .RegisterPi2Family()
                 .RegisterPi2DyadicLadder()
-                .RegisterF88PopcountCoherence()
-                .RegisterF88StaticDyadicAnchor()
+                .RegisterF88bPopcountCoherence()
+                .RegisterF88bStaticDyadicAnchor()
                 .RegisterPi2OperatorSpaceMirror()
                 // Missing: RegisterF1Family
                 .RegisterF1T1AmplitudeDampingPi2Inheritance()

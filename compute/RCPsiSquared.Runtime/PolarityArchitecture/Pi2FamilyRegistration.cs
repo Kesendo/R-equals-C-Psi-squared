@@ -10,7 +10,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///   PolynomialFoundationClaim (trunk: d²−2d=0 ↔ R=CΨ²)
 ///     ├── QubitDimensionalAnchorClaim (1/2 = 1/d)
 ///     │   ├── PolarityLayerOriginClaim (+0/-0)
-///     │   │   └── KleinFourCellClaim (F88 4-cell)
+///     │   │   └── KleinFourCellClaim (F88a 4-cell)
 ///     │   ├── BilinearApexClaim (apex 1/2)
 ///     │   │   └── ArgmaxMaxvalPairClaim (joins 1/2 and 1/4)
 ///     │   ├── HalfAsStructuralFixedPointClaim (three faces)

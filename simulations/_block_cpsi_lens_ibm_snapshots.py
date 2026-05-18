@@ -10,7 +10,7 @@ continuous-time ideal evolution.
 
 Question: how close to the 1/4 boundary do real hardware states sit, and does
 the Theorem 2 lens differentiate the F87 trichotomy (truly / soft / hard) the
-same way the F88 lens did at the operator level?
+same way the F88b lens did at the operator level?
 
 Snapshot configurations (all from |+−+⟩ at N=3, t=0.8, J=1.0):
   - heisenberg : H = (J/4) Σ_b (X_b X_{b+1} + Y_b Y_{b+1} + Z_b Z_{b+1})
@@ -33,7 +33,7 @@ if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _f88_lens_ibm_framework_snapshots import (  # noqa: E402
+from _f88b_lens_ibm_framework_snapshots import (  # noqa: E402
     I2,
     SX,
     SY,

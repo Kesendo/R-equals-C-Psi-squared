@@ -17,10 +17,10 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item>N=1: 4 ↔ 1/4. Memory side is <see cref="QuarterAsBilinearMaxvalClaim"/>
 ///         (n=3 anchor on the ladder); upper side is the Pauli basis cardinality
 ///         {I, X, Y, Z} for one qubit.</item>
-///   <item>N=2: 16 ↔ 1/16. Memory side is the F88 dyadic-N=8 singleton-mirror static
-///         (encoded in <c>F88StaticDyadicAnchor</c>, k=3, n=5 anchor); upper side is
+///   <item>N=2: 16 ↔ 1/16. Memory side is the F88b dyadic-N=8 singleton-mirror static
+///         (encoded in <c>F88bStaticDyadicAnchor</c>, k=3, n=5 anchor); upper side is
 ///         16 Pauli strings on two qubits.</item>
-///   <item>N=3: 64 ↔ 1/64. Memory side is F88 dyadic-N=32 singleton-mirror static
+///   <item>N=3: 64 ↔ 1/64. Memory side is F88b dyadic-N=32 singleton-mirror static
 ///         (k=5, n=7); upper side is 64 Pauli strings on three qubits.</item>
 ///   <item>N≥4: open prediction territory; the algebraic identity holds, the
 ///         physical anchors are not yet pinned.</item>

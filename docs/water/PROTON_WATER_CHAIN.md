@@ -234,7 +234,7 @@ with ρ₀ the Dicke probe in the (n, n+1) block, S_kernel the spatial-sum coher
 
 Both classes match within tolerance. F71 mirror (the spatial reflection symmetry across the chain centre) is bit-exact across bond pairs (0 ↔ 3, 1 ↔ 2). The Interior right-wing HWHM+/Q* = 2.02 reproduces the asymmetric long-tail signature of the EP rotation (eigenvalues coalesce at finite J·g_eff = 2γ₀, the Q > Q_peak branch decays slower than the Q < Q_peak branch).
 
-State-level diagnostic at the interior Q_peak (γ = 0.638) on the popcount-coherence state |ψ⟩ = (|00011⟩ + |00111⟩) / √2 (a HD = 1 superposition of one popcount-2 and one popcount-3 computational-basis state). The Π²-odd / memory column reports the Frobenius² fraction of Π²-odd Pauli content (Π²-parity = (Y-count + Z-count) mod 2 per F88) within (ρ − kernel-projection); selected rows from t = 0..50:
+State-level diagnostic at the interior Q_peak (γ = 0.638) on the popcount-coherence state |ψ⟩ = (|00011⟩ + |00111⟩) / √2 (a HD = 1 superposition of one popcount-2 and one popcount-3 computational-basis state). The Π²-odd / memory column reports the Frobenius² fraction of Π²-odd Pauli content (Π²-parity = (Y-count + Z-count) mod 2 per F88a) within (ρ − kernel-projection); selected rows from t = 0..50:
 
 | t | static / total | memory / total | Π²-odd / memory | per-proton \|r\| (q0..q4) |
 |---|----------------|----------------|------------------|---------------------------|

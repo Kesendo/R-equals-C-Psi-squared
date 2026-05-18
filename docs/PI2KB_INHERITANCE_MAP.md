@@ -45,7 +45,7 @@ PolynomialFoundationClaim                  Pi2KnowledgeBaseClaims.cs:441
 │       │
 │       └── 53 × F*Pi2Inheritance leaves    compute/RCPsiSquared.Core/Symmetry/F*Pi2Inheritance.cs
 │              F1, F25, F33, F38, F49b, F60, F62, F65, F73, F75, F76, F80,
-│              F81, F82, F83, F84, F85, F86 family, F87, F88, F89, F90,
+│              F81, F82, F83, F84, F85, F86 family, F87, F88a, F88b, F89, F90,
 │              F91, F92, F93, …
 │
 ├── angle-branch (90° lineage)
@@ -58,7 +58,7 @@ PolynomialFoundationClaim                  Pi2KnowledgeBaseClaims.cs:441
 │   │   │   ──── ctor injects F1PalindromeIdentity (2026-05-16) ────
 │   │   │
 │   │   └── KleinFourCellClaim              :108
-│   │          F88 two-axis (Π²_Z, Π²_X) → 4 Klein cells
+│   │          F88a two-axis (Π²_Z, Π²_X) → 4 Klein cells
 │   │
 │   └── Pi2I4MemoryLoopClaim                Pi2I4MemoryLoopClaim.cs
 │          i⁴ = 1 (Z₄ closure of 90° rotations)

@@ -3,7 +3,7 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>The Pi2 dyadic halving ladder a_n = 2^(1−n) inherits into F88's closed form
+/// <summary>The Pi2 dyadic halving ladder a_n = 2^(1−n) inherits into F88b's closed form
 /// at the singleton-vs-nearly-full popcount-mirror configurations on dyadic-N chains.
 /// The identity is exact and bit-exact verified:
 ///
@@ -11,7 +11,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   StaticFraction(N = 2^k, n_p = 1, n_q = 2^k − 1) = 1 / (2 · N) = 2^(−(k+1)) = a_(k+2)
 /// </code>
 ///
-/// <para>Derivation: at popcount-mirror (n_p + n_q = N), F88's static-fraction reduces to
+/// <para>Derivation: at popcount-mirror (n_p + n_q = N), F88b's static-fraction reduces to
 /// 1 / (2 · C(N, n_p)). At the singleton-mirror config n_p = 1, n_q = N − 1, we have
 /// C(N, 1) = N. When N is dyadic (N = 2^k), this gives 1 / (2 · 2^k) = 2^(−(k+1)). The
 /// Pi2 dyadic ladder a_n = 2^(1−n) places this value at index n = k+2, so:</para>
@@ -24,10 +24,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// </list>
 ///
 /// <para><b>Inheritance reading (Tom 2026-05-08):</b> "die Anker sind vererbt." The dyadic
-/// halving ladder is not a separate fact — it propagates into F88 via the binomial structure
+/// halving ladder is not a separate fact — it propagates into F88b via the binomial structure
 /// of the kernel projection. d=2 (PolynomialFoundationClaim) → 1/d = 1/2
 /// (QubitDimensionalAnchorClaim) → C(2^k, 1) = 2^k (binomial inheritance) →
-/// StaticFraction = 1/(2·2^k) (F88 closed form) → a_(k+2) on the Pi2 ladder. One algebra,
+/// StaticFraction = 1/(2·2^k) (F88b closed form) → a_(k+2) on the Pi2 ladder. One algebra,
 /// inherited through layers. Locus 7 in the inheritance graph (parallel to F-chain Locus 1,
 /// Handshake Locus 2, Π-palindrome Locus 3, etc.; see <c>memory/project_algebra_is_inheritance.md</c>).</para>
 ///
@@ -35,10 +35,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// dyadic-N reduction are analytic. Verified bit-exact at the dyadic anchors via
 /// <see cref="PopcountCoherencePi2Odd.StaticFraction"/>.</para>
 ///
-/// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F88 + <c>docs/proofs/PROOF_F86_QPEAK.md</c>
-/// (Structural inheritance from F88) +
+/// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F88b + <c>docs/proofs/PROOF_F86_QPEAK.md</c>
+/// (Structural inheritance from F88b) +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c> (the parent ladder).</para></summary>
-public sealed class F88StaticDyadicAnchor : Claim
+public sealed class F88bStaticDyadicAnchor : Claim
 {
     /// <summary>One typed entry on the dyadic-N inheritance: (k, N=2^k, static=1/2^(k+1),
     /// ladder index n=k+2, Pi2DyadicLadder cross-reference).</summary>
@@ -50,11 +50,11 @@ public sealed class F88StaticDyadicAnchor : Claim
         new DyadicMirrorWitness(K: 5, N: 32, StaticFraction: 1.0 / 64.0,  LadderIndex: 7),
     };
 
-    public F88StaticDyadicAnchor()
-        : base("F88 dyadic-N singleton-mirror static-fraction inherits Pi2 halving ladder",
+    public F88bStaticDyadicAnchor()
+        : base("F88b dyadic-N singleton-mirror static-fraction inherits Pi2 halving ladder",
                Tier.Tier1Derived,
-               "docs/ANALYTICAL_FORMULAS.md F88 + " +
-               "docs/proofs/PROOF_F86_QPEAK.md (Structural inheritance from F88) + " +
+               "docs/ANALYTICAL_FORMULAS.md F88b + " +
+               "docs/proofs/PROOF_F86_QPEAK.md (Structural inheritance from F88b) + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     { }
 
@@ -72,7 +72,7 @@ public sealed class F88StaticDyadicAnchor : Claim
     public double LadderTerm(int ladderIndex) => Math.Pow(2.0, 1 - ladderIndex);
 
     public override string DisplayName =>
-        "F88 dyadic-N singleton-mirror inherits Pi2 halving ladder";
+        "F88b dyadic-N singleton-mirror inherits Pi2 halving ladder";
 
     public override string Summary =>
         $"StaticFraction(N=2^k, 1, 2^k−1) = 1/(2N) = a_(k+2); {Witnesses.Count} dyadic anchors pinned k=2..5 ({Tier.Label()})";
@@ -90,7 +90,7 @@ public sealed class F88StaticDyadicAnchor : Claim
     }
 }
 
-/// <summary>One witness on the dyadic-N inheritance: chain length N=2^k, F88 static-fraction
+/// <summary>One witness on the dyadic-N inheritance: chain length N=2^k, F88b static-fraction
 /// at the singleton-mirror config, the matching Pi2 dyadic-ladder index n=k+2.</summary>
 public sealed record DyadicMirrorWitness(
     int K,
