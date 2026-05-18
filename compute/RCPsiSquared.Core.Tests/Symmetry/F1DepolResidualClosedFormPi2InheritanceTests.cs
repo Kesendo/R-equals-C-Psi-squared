@@ -29,9 +29,11 @@ public class F1DepolResidualClosedFormPi2InheritanceTests
     }
 
     [Fact]
-    public void DSquared_IsExactlyFour_FromMirror()
+    public void DSquared_IsExactlyFour_FromLadder()
     {
-        // d² = 4 from Pi2OperatorSpaceMirrorClaim.PairAt(1).OperatorSpace.
+        // d² = 4 from Pi2DyadicLadderClaim.Term(-1) = a_{-1}. (Cross-check
+        // available via Pi2OperatorSpaceMirrorClaim.PairAt(1).OperatorSpace
+        // which feeds DSquaredMinusOne below.)
         var f = Build();
         Assert.Equal(4.0, f.DSquared, precision: 14);
     }

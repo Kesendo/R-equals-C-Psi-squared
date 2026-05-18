@@ -13,11 +13,13 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///   <item><see cref="F1PalindromeIdentity"/>: the F1 palindrome identity whose
 ///         depolarizing residual ‖M‖² is being decomposed (registered via
 ///         <see cref="F1Family.F1FamilyRegistration.RegisterF1Family"/>).</item>
-///   <item><see cref="Pi2DyadicLadderClaim"/>: provides the ladder index for
-///         <c>a_{−1} = d²</c> (the multiplier in the cross-site coefficient).</item>
-///   <item><see cref="Pi2OperatorSpaceMirrorClaim"/>: pins <c>d² = 4</c> at N=1
-///         via <see cref="Pi2OperatorSpaceMirrorClaim.PairAt"/>(1).OperatorSpace,
-///         from which <c>d² − 1 = 3</c> (and hence 16/9 = (4/3)²) is derived.</item>
+///   <item><see cref="Pi2DyadicLadderClaim"/>: provides <c>a_{−1} = d² = 4</c>
+///         (the multiplier in the cross-site coefficient, also feeding the numerator
+///         of the per-Pauli rate).</item>
+///   <item><see cref="Pi2OperatorSpaceMirrorClaim"/>: pins <c>d² − 1 = 3</c> via
+///         <see cref="Pi2OperatorSpaceMirrorClaim.PairAt"/>(1).OperatorSpace − 1
+///         (the non-identity Pauli count, denominator of the per-Pauli rate;
+///         hence 16/9 = (4/3)²).</item>
 /// </list>
 ///
 /// <para>Tier consistency: <see cref="F1DepolResidualClosedFormPi2Inheritance"/> is

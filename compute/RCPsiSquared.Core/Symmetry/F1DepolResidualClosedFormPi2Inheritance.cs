@@ -32,16 +32,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>(16/9) / 16 = 1/9 = (1/(d²−1))²</c>: same square of the same
 /// <c>1/(d²−1)</c> that gives F5 its <c>2/3</c> at the linear level.</para>
 ///
-/// <para><b>Tier outcome: Tier1Derived.</b> Unlike T1's analogue
-/// <see cref="F1T1AmplitudeDampingPi2Inheritance"/> (Tier1Candidate because
-/// T1's <c>c_1 = 3</c> is not Pi2-anchored), both depol coefficients (16/9, 16)
-/// reduce to clean Pi2-Foundation expressions in <c>d²</c> and <c>d²−1</c>.
-/// That is what makes this claim a derived Pi2 inheritance: the squaring of
-/// the per-Pauli rate is exactly what cleans both coefficients into trivial
-/// algebra over the Pi2 primitives. Contrast F5: F5's coefficient is also
-/// clean (<c>2/3</c>), but at the linear scalar level; squaring it would give
-/// (4/9), not 16/9, because F5's "2" is <c>d</c>-anchored and the depol
-/// closed-form "2" inside <c>d²/(d²−1)</c> is actually <c>d²</c>-anchored.</para>
+/// <para><b>Tier outcome: Tier1Derived.</b> Both depol coefficients reduce to clean
+/// Pi2-Foundation expressions in <c>d²</c> and <c>d²−1</c>; squaring the per-Pauli rate
+/// is what cleans the algebra into Pi2 primitives. Contrast T1's analogue
+/// <see cref="F1T1AmplitudeDampingPi2Inheritance"/> (Tier1Candidate, T1's <c>c_1 = 3</c>
+/// is not Pi2-anchored). Contrast F5: F5's coefficient is also clean (<c>2/3</c>) but at
+/// the linear scalar level; squaring it would give (4/9), not 16/9, because F5's "2" is
+/// <c>d</c>-anchored and the depol closed-form "2" inside <c>d²/(d²−1)</c> is actually
+/// <c>d²</c>-anchored.</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F1 depol bullet +
 /// <c>docs/proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md</c> +
@@ -92,22 +90,17 @@ public sealed class F1DepolResidualClosedFormPi2Inheritance : Claim
     /// <c>|tr(M_l)|² · 4^(N−2)</c> and <c>|tr(M_l)| ∝ d²</c> at γ=1.</summary>
     public double CrossSiteCoefficient => DSquared * DSquared;
 
-    /// <summary>Drift check: re-derives the local coefficient from Pi2 primitives.
-    /// Tests compare this against
-    /// <see cref="RCPsiSquared.Core.F1.F1DepolResidualClosedForm.LocalCoefficient"/>
-    /// (a separate hardcoded constant on the parent closed form) to catch divergence
-    /// between the algebraic Pi2-derived value and the parent's pinned number. The
-    /// expression body is intentionally a forward to <see cref="LocalCoefficient"/>:
-    /// the Pi2 derivation IS the live recomposition, the parent's constant is the
-    /// independent reference.</summary>
+    /// <summary>Drift-check alias for <see cref="LocalCoefficient"/>. Tests compare this
+    /// against the parent's hardcoded
+    /// <see cref="RCPsiSquared.Core.F1.F1DepolResidualClosedForm.LocalCoefficient"/> constant
+    /// to catch divergence between the algebraic Pi2-derived value and the parent's pinned
+    /// number. The forward is intentional: the Pi2 derivation IS the live recomposition,
+    /// the parent's constant is the independent reference.</summary>
     public double LiveLocalCoefficient => LocalCoefficient;
 
-    /// <summary>Drift check: re-derives the cross-site coefficient from Pi2 primitives.
-    /// Tests compare this against
+    /// <summary>Drift-check alias for <see cref="CrossSiteCoefficient"/>; compared against
     /// <see cref="RCPsiSquared.Core.F1.F1DepolResidualClosedForm.CrossSiteCoefficient"/>
-    /// (a separate hardcoded constant on the parent closed form) to catch divergence
-    /// between the algebraic Pi2-derived value and the parent's pinned number. Same
-    /// Pi2-vs-parent split as <see cref="LiveLocalCoefficient"/>.</summary>
+    /// in tests. Same Pi2-vs-parent split as <see cref="LiveLocalCoefficient"/>.</summary>
     public double LiveCrossSiteCoefficient => CrossSiteCoefficient;
 
     public F1DepolResidualClosedFormPi2Inheritance(Pi2DyadicLadderClaim ladder, Pi2OperatorSpaceMirrorClaim mirror)

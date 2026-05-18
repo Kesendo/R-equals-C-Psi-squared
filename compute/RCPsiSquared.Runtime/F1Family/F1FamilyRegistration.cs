@@ -6,8 +6,9 @@ using RCPsiSquared.Runtime.ObjectManager;
 namespace RCPsiSquared.Runtime.F1Family;
 
 /// <summary>Builder extension that registers the F1 family: <see cref="ChainSystemPrimitive"/>,
-/// then <see cref="F1PalindromeIdentity"/>, then five Tier-1-derived F1 children that the
-/// <see cref="F1KnowledgeBase"/> exposes as top-level properties:
+/// then <see cref="F1PalindromeIdentity"/>, then four Tier-1-derived F1 children that the
+/// <see cref="F1KnowledgeBase"/> exposes as top-level properties (the KB's fifth Tier-1
+/// child <c>SingleBodyScaling</c> is the omitted one; see the SingleBody paragraph below):
 ///
 /// <list type="bullet">
 ///   <item><see cref="PalindromeResidualScalingClaim"/> (<see cref="HamiltonianClass.Main"/>):
