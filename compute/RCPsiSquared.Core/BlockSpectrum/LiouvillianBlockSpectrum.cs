@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.Inspection;
@@ -37,6 +38,22 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// <c>LiouvillianBlockSpectrumTests</c>. Source of L: <see cref="Pauli.PauliHamiltonian.XYChain"/>
 /// composed with <see cref="Lindblad.PauliDephasingDissipator.BuildZ"/>.</para>
 ///
+/// <para><b>Contract.</b> Both <see cref="ComputeSpectrum"/> and
+/// <see cref="ComputeSpectrumPerBlock"/> require that the input Liouvillian (or its
+/// underlying Hamiltonian) be block-diagonal in the joint-popcount basis. This holds
+/// for popcount-conserving H (XX+YY, ZZ, XXZ, Heisenberg, any sum of these) and FAILS
+/// for H that breaks popcount conservation (XX+YZ, XY+YX, anything with shadow-crossing
+/// Pauli pairs like X_iZ_j or Y_iZ_j). Calling with non-popcount-conserving H returns
+/// silently wrong spectra: the per-block eigenvalues miss the cross-sector entries of L,
+/// so <c>Σ_blocks ‖L_b‖²_F ≠ ‖L_full‖²_F</c> and the spectrum is incomplete. The 2026-05-18
+/// F1 general-topology N=7 dogfood discovered this empirically (XX+YZ at N=5 gave block
+/// sum 4403 vs dense 16691, factor ~3.8 off). In DEBUG builds a sample-based assertion in
+/// each entry point (<see cref="DebugAssertBlockDiagonalL"/> and
+/// <see cref="DebugAssertPopcountConservingH"/>) throws an
+/// <see cref="InvalidOperationException"/> when the contract is violated; in RELEASE
+/// builds the assertion is stripped (no production-perf cost). Callers must validate H
+/// structurally before invoking on a hot path.</para>
+///
 /// <para>Anchors: <c>compute/RCPsiSquared.Core/BlockSpectrum/JointPopcountSectors.cs</c>
 /// (parent Claim, block-diagonal structure), <c>compute/RCPsiSquared.Core/BlockSpectrum/JointPopcountSectorBuilder.cs</c>
 /// (basis permutation + sector ranges), <c>compute/RCPsiSquared.Core.Tests/BlockSpectrum/LiouvillianBlockSpectrumTests.cs</c>
@@ -66,7 +83,8 @@ public sealed class LiouvillianBlockSpectrum : Claim
     /// which avoids materialising the permuted 4^N × 4^N matrix.</para></summary>
     /// <param name="L">The Liouvillian L = -i[H, ·] + dissipator, in the row-major
     /// <c>flat = row·d + col</c> convention used by <see cref="Lindblad.LindbladianBuilder"/>
-    /// and <see cref="Lindblad.PauliDephasingDissipator"/>. Must be (4^N) × (4^N).</param>
+    /// and <see cref="Lindblad.PauliDephasingDissipator"/>. Must be (4^N) × (4^N).
+    /// Must be block-diagonal in the joint-popcount basis (see class Contract).</param>
     /// <param name="N">Qubit count; must satisfy <c>L.RowCount == 4^N</c>.</param>
     /// <returns>Flat array of 4^N eigenvalues, concatenated block-by-block.</returns>
     public static Complex[] ComputeSpectrum(ComplexMatrix L, int N)
@@ -79,6 +97,7 @@ public sealed class LiouvillianBlockSpectrum : Claim
                 nameof(L));
 
         var decomp = JointPopcountSectorBuilder.Build(N);
+        DebugAssertBlockDiagonalL(L, decomp);
         var perm = decomp.Permutation;
         var spectrum = new Complex[liouvilleDim];
 
@@ -137,7 +156,9 @@ public sealed class LiouvillianBlockSpectrum : Claim
     /// <para>Uses the X⊗N pairing optimisation: only ~half of joint-popcount sectors are
     /// eigendecomposed; the other half copy from their X⊗N-partner. See
     /// <see cref="SymmetryFamily.XGlobalChargeConjugationPairing"/> for the pairing rule.</para></summary>
-    /// <param name="H">Hilbert-space Hamiltonian, dense 2^N × 2^N (cheap even at N=8: 256×256).</param>
+    /// <param name="H">Hilbert-space Hamiltonian, dense 2^N × 2^N (cheap even at N=8: 256×256).
+    /// Must be popcount-conserving (see class Contract); non-conserving H gives silently
+    /// wrong spectra.</param>
     /// <param name="gammaPerSite">Per-site Z-dephasing rates (length N).</param>
     /// <param name="N">Qubit count.</param>
     /// <returns>Flat array of 4^N eigenvalues, concatenated block-by-block.</returns>
@@ -152,6 +173,7 @@ public sealed class LiouvillianBlockSpectrum : Claim
         if (gammaPerSite is null) throw new ArgumentNullException(nameof(gammaPerSite));
         if (gammaPerSite.Count != N)
             throw new ArgumentException($"gamma list length {gammaPerSite.Count} != N={N}", nameof(gammaPerSite));
+        DebugAssertPopcountConservingH(H, N);
 
         int liouvilleDim = 1 << (2 * N);
         var decomp = JointPopcountSectorBuilder.Build(N);
@@ -238,6 +260,75 @@ public sealed class LiouvillianBlockSpectrum : Claim
                 summary: "N=5: ≈ 50×, N=6: ≈ 110×, N=7: ≈ 250×, N=8: ≈ 515×");
             yield return new InspectableNode("N=8 max block",
                 summary: $"size {JointPopcountSectors.MaxSectorSize(8)} (vs full 4^8 = 65536)");
+        }
+    }
+
+    /// <summary>DEBUG-only sample-based check that L is block-diagonal in the joint-popcount
+    /// basis. Picks 20 random index pairs from distinct sectors and asserts each
+    /// <c>|L[f1, f2]| &lt; 1e-12</c>. Throws <see cref="InvalidOperationException"/> on the
+    /// first violation, with sector labels in the message. Stripped from RELEASE builds.</summary>
+    [Conditional("DEBUG")]
+    private static void DebugAssertBlockDiagonalL(ComplexMatrix L, JointPopcountSectorBuilder.Decomposition decomp)
+    {
+        const double Tol = 1e-12;
+        const int Samples = 20;
+        var ranges = decomp.SectorRanges;
+        int sectorCount = ranges.Count;
+        if (sectorCount < 2) return;
+
+        var rng = new Random(0);
+        for (int sample = 0; sample < Samples; sample++)
+        {
+            int sA = rng.Next(sectorCount);
+            int sB = rng.Next(sectorCount);
+            while (sB == sA) sB = rng.Next(sectorCount);
+            var rangeA = ranges[sA];
+            var rangeB = ranges[sB];
+            if (rangeA.Size == 0 || rangeB.Size == 0) continue;
+            int f1 = decomp.Permutation[rangeA.Offset + rng.Next(rangeA.Size)];
+            int f2 = decomp.Permutation[rangeB.Offset + rng.Next(rangeB.Size)];
+            double mag = L[f1, f2].Magnitude;
+            if (mag > Tol)
+                throw new InvalidOperationException(
+                    $"LiouvillianBlockSpectrum.ComputeSpectrum contract violation: L is NOT block-diagonal " +
+                    $"in joint-popcount basis. Found |L[{f1}, {f2}]| = {mag:E3} between sectors " +
+                    $"(p_c={rangeA.PCol}, p_r={rangeA.PRow}) and (p_c={rangeB.PCol}, p_r={rangeB.PRow}) " +
+                    $"(tolerance {Tol:E0}). This routine requires popcount-conserving H; " +
+                    $"non-conserving H (e.g., XX+YZ, XY+YX) silently returns wrong spectra. See class XML doc.");
+        }
+    }
+
+    /// <summary>DEBUG-only sample-based check that H is popcount-conserving in the 2^N
+    /// Hilbert basis. Picks 20 random index pairs (i, j) with <c>popcount(i) != popcount(j)</c>
+    /// and asserts each <c>|H[i, j]| &lt; 1e-12</c>. Throws on the first violation. Stripped
+    /// from RELEASE builds.</summary>
+    [Conditional("DEBUG")]
+    private static void DebugAssertPopcountConservingH(ComplexMatrix H, int N)
+    {
+        const double Tol = 1e-12;
+        const int Samples = 20;
+        int d = 1 << N;
+        if (d < 2) return;
+
+        var rng = new Random(0);
+        int found = 0;
+        for (int attempt = 0; attempt < Samples * 8 && found < Samples; attempt++)
+        {
+            int i = rng.Next(d);
+            int j = rng.Next(d);
+            int pi = BitOperations.PopCount((uint)i);
+            int pj = BitOperations.PopCount((uint)j);
+            if (pi == pj) continue;
+            found++;
+            double mag = H[i, j].Magnitude;
+            if (mag > Tol)
+                throw new InvalidOperationException(
+                    $"LiouvillianBlockSpectrum.ComputeSpectrumPerBlock contract violation: H is NOT " +
+                    $"popcount-conserving. Found |H[{i}, {j}]| = {mag:E3} between popcount {pi} and {pj} " +
+                    $"(tolerance {Tol:E0}). This routine requires popcount-conserving H (XX+YY, ZZ, XXZ, " +
+                    $"Heisenberg, sums of these). Non-conserving H (e.g., XX+YZ, XY+YX, X_iZ_j) silently " +
+                    $"returns wrong spectra because L is no longer block-diagonal in the joint-popcount " +
+                    $"basis. See class XML doc.");
         }
     }
 }
