@@ -141,7 +141,7 @@ Detail per question:
    **Three-line summary of the precise statements (full data in the CHAIN_GAP_SECTOR_DIAGNOSTIC experiment doc):**
    - **F2** is the w=1 oscillation-frequency formula `ω_k = 4J·(1 − cos(π·k/N))`: `Im(λ)` only, governs the off-diagonal popcount sectors that F50 pins at 2γ. Does NOT predict the dissipation gap.
    - **F3 / Absorption Theorem** is `Re(λ) = -2γ·⟨n_XY⟩` for any Lindblad eigenmode. Its "min rate = 2γ" applies only to pure-w=1 modes; the diagonal-popcount slow mode has fractional ⟨n_XY⟩ ≈ 0.55·Q²/N², far below 1.
-   - **The dissipation gap is the magnon-admixture amplitude × 2γ.** The slow mode is a 93-97% I/Z near-stationary operator dressed with a small n_XY=2 single-magnon (XX or YY pair) admixture; w_2 scales as Q²/(2N²) by perturbation theory and the Absorption Theorem turns w_2 into the decay rate.
+   - **The dissipation gap is the magnon-admixture amplitude × 2γ.** The slow mode is a 93-97% I/Z near-stationary operator dressed with a small n_XY=2 single-magnon (XX or YY pair) admixture; the empirical `w_2 ≈ 0.275·Q²/N²` (perturbation-theory order of magnitude `Q²/N²` with empirical 0.275 prefactor) and the Absorption Theorem turns `4γ·w_2 = 1.10·γ·Q²/N²` into the decay rate.
 
    **External literature anchors (2026-05-19 web search):**
 
