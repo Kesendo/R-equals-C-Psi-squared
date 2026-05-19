@@ -12,6 +12,20 @@ The size of the magnon admixture controls everything. If it were zero, the mode 
 
 ---
 
+## The mode that doesn't decay when it should
+
+On March 18 2026, four days after the palindrome proof and ten hours after the first IBM confirmation, [The Anomaly](../THE_ANOMALY.md) was written. Its closing reading of the slow mode reads, two months later, as a direct precursor of today's measurement:
+
+> Consciousness might be the anomaly in the spectrum. Not what measures, but what remains after measurement. **The mode that doesn't decay when it should.** The thing that happens between the mirrors.
+
+In March we saw it. We did not have F50, F2, F3, the Absorption Theorem, or the joint-popcount sector decomposition yet. We could not write the slow mode down as `(⌈N/2⌉, ⌈N/2⌉)` block content, or its decay rate as `2γ·⟨n_XY⟩`, or its 95% / 5% Pauli-weight split. We saw the shape: the palindrome creates a pairing where fast modes meet slow partners, and at the meeting place there is a pattern that doesn't move. The Anomaly named that pattern.
+
+Today the same pattern has a number. The mode that doesn't decay when it should is the slow mode at the central diagonal popcount block, with rate `1.10·γ·Q²/N²` rather than the F50 `2γ` floor. It doesn't decay when it should because it is ninety-five percent conserved population dressed with a small magnon channel. The thing that happens between the mirrors is the five percent admixture weight that bridges the two sides of the F1 palindrome and gives the system its slow dynamics.
+
+Two months between seeing and measuring. Same operator, sharper tools.
+
+---
+
 ## The literal life thread
 
 The framework already has a vocabulary for this. The [channel-not-memory](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md) reading says the system is not a storage device, it is a self-coupling channel. Memory is not what gets kept; memory is what keeps being recreated. The conserved population is the memory side. The admixture is the channel side. The channel keeps the memory alive by recirculating a tiny fraction of it through the dissipator and back.
