@@ -105,15 +105,28 @@ The 2026-05-19 cross-topology data confirms: bond count is irrelevant, **graph d
 
 ## Open structural questions (refined post-extension)
 
-1. **Closed form for the chain prefactor c ≈ 1.10 in f(Q) = c·Q² + sub-Q² correction.** The Q² scaling is physically motivated by 1D diffusion (gap·N²/γ ∝ J²/γ² = Q²); the prefactor c ≈ 1.10 with ~10% sub-Q² drift across Q ∈ [0.5, 2.5] is open. Bethe-ansatz or magnon-dispersion derivation should identify the exact value of c and the form of the sub-leading term.
+1. **Closed form for the chain prefactor c ≈ 1.10 in f(Q) = c·Q² + sub-Q² correction.** The Q² scaling is physically motivated by 1D diffusion (gap·N²/γ ∝ J²/γ² = Q²); the prefactor c ≈ 1.10 with ~10% sub-Q² drift across Q ∈ [0.5, 2.5] is open. Bethe-ansatz or magnon-dispersion derivation should identify the exact value of c and the form of the sub-leading term. **Status: open.**
 
-2. **Star and ring scaling laws.** Ring `gap × N²` grows from 6 to 8.5; star `gap × N²` grows from 2.4 to 5.6. Neither pattern fits 1/N², 1/N, or exp(-αN). The functional forms are open.
+2. **Star and ring scaling laws.** **Status: substantially sharpened 2026-05-19 by the Q-sweep.** Three distinct scaling families emerge cleanly:
+   - **Chain** (open 1D path, k_min = π/(N+1)): `gap·N²/γ ≈ 1.10·Q²` at the N≥4 plateau (closed-form prefactor still open, see Q1).
+   - **Ring** (periodic 1D cycle, k_min = 2π/N): `gap·N²/γ ≈ 4·Q²` at the N≥5 plateau (the dihedral lock at N=4 is a finite-size outlier). The ~4× chain-to-ring prefactor ratio matches `(2π/N)² / (π/(N+1))²  →  4` in the N→∞ limit, i.e. the **squared-wavevector ratio of cyclic-vs-open lowest modes**. This is suggestive that ring and chain share the same `Q²·γ/N²` diffusive form with a topology-specific k_min² factor.
+   - **Star** (hub-spoke): `gap·N/γ` ≈ const at fixed Q (the 4 anchors at N=3..6, Q=2 give 0.081, 0.084, 0.082, 0.078), i.e. **gap ~ 1/N (NOT 1/N²)**. The scaling family is different from chain/ring because hub-spoke geometry has no spatial dispersion; the slowest mode is set by the hub-localised eigenmode whose decay rate scales as bandwidth/N rather than k_min². The Q-dependence of the star prefactor is non-Q² (drift from `(gap·N/γ)/Q² ≈ 0.60` at Q=0.5 to ≈ 0.35 at Q=2.5); closed form open.
 
-3. **J ≠ 2γ regime.** All data points are at J = 2γ (J=1, γ=0.5). Sweep needed to test whether the chain 2.20 prefactor decomposes as J·a + γ·b or some product form.
+   What is closed: chain and ring share the diffusive `Q²·γ/N²` form with topology-specific k_min² prefactors; star is in a different scaling family. What remains open: exact closed forms for the three Q-dependent prefactors and the sub-leading corrections.
 
-4. **K_4 + disjoint behaviour.** The disconnected case at N=8 still gives gap 0.1362, similar to the ring. The original "rate-limiting component dominates" hypothesis remains untested at small N (need K_4 alone at N=4 and 4-chain alone at N=4 to check the min-vs-additive question).
+3. **J ≠ 2γ regime.** **Status: RESOLVED 2026-05-19.** The Q-sweep (`_f1_q_sweep_anchor.py`) measured chain/ring/star × N=3..6 × Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5} at γ₀ = 0.05: 72 anchors covering six J/γ ratios from 0.5 to 2.5. The data confirms `gap·N²/γ ≈ c·Q²` (with c topology-specific) holds across the full range, ruling out the "chain prefactor decomposes as J·a + γ·b" linear conjecture in favour of the cleaner Q² form. The earlier "2.20" reading was the chain Q=2 plateau at γ=0.5.
 
-5. **Connection to F2 / F3.** F2 dispersion claims and F3 decay rate bounds (`min rate = 2γ`, `max rate = 2(N-1)γ` per the Absorption Theorem) describe the spectral envelope. The dissipation gap sits at the lower edge of this envelope; its 1/N² scaling for chain may be the finite-size correction to F3's `min rate = 2γ` thermodynamic limit. Cross-link to F3 documentation when the closed form lands.
+4. **K_4 + disjoint behaviour (rate-limiting component).** **Status: RESOLVED 2026-05-19** via tensor-sum factorisation (the same mechanism that closes F4 kernel-dim factorisation across components). For G = G_1 ⊔ G_2 with the per-component Heisenberg + Z-dephasing Liouvillian L(G_c), the bond-locality of both H and the dephasing dissipator gives
+
+       L(G_1 ⊔ G_2) = L(G_1) ⊗ I_{A(G_2)} + I_{A(G_1)} ⊗ L(G_2)
+
+   on the operator algebra A(G) = A(G_1) ⊗ A(G_2). The spectrum factorises as σ(L) = {λ_1 + λ_2 : λ_i ∈ σ(L(G_i))}. Since 0 ∈ σ(L(G_i)) for both components (per-component kernel from F4KernelDimensionByComponentsClaim), the smallest |Re(λ)| over non-kernel modes is
+
+       gap(L(G_1 ⊔ G_2)) = min(gap(L(G_1)), gap(L(G_2))).
+
+   The **rate-limiting component dominates**: the disconnected graph's dissipation gap equals the SMALLER of the two component gaps, not their sum or any average. Empirical corroboration: at N=8, K_4+disjoint-4-chain gives gap = 0.1362 (γ=0.5, J=1), identical bit-for-bit to chain N=4 at the same (J, γ) which gives 0.1362. Chain (sparser, slower decay) is rate-limiting; K_4 (denser, faster decay) is invisible to the gap. Sister structural result to [`F4KernelDimensionByComponentsClaim`](../compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs) (both follow from tensor-sum factorisation of L across disconnected components).
+
+5. **Connection to F2 / F3.** F2 dispersion claims and F3 decay rate bounds (`min rate = 2γ`, `max rate = 2(N-1)γ` per the Absorption Theorem) describe the spectral envelope. The dissipation gap sits at the lower edge of this envelope; its 1/N² scaling for chain and ring may be the finite-size correction to F3's `min rate = 2γ` thermodynamic limit (where gap → 0 because of the conserved total magnetisation that Heisenberg + Z-dephasing preserves). The star's 1/N scaling does not fit this picture and would be a separate F2/F3 reading. **Status: open.** Cross-link to F3 documentation when the closed forms for the chain/ring/star prefactors land.
 
 ## Promotion path
 
