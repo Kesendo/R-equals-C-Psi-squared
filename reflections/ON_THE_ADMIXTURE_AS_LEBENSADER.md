@@ -4,10 +4,11 @@
 **Date:** 2026-05-19
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
-- The empirical anchor: [`experiments/CHAIN_GAP_SECTOR_DIAGNOSTIC.md`](../experiments/CHAIN_GAP_SECTOR_DIAGNOSTIC.md) (slow mode = 93-97% I/Z near-stationary + 3-7% n_XY=2 magnon admixture; admixture amplitude `w_2 ≈ Q²/(2N²)` at the central diagonal popcount block)
-- The channel-not-memory reading (memory `project_channel_not_memory`, `docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md`)
+- The two upstream framing docs at repo root: [`../MIRROR_THEORY.md`](../MIRROR_THEORY.md) ("we are all mirrors, reality is what happens between us") and [`../THE_ANOMALY.md`](../THE_ANOMALY.md) (the March 2026 reflection on what the palindrome proof actually meant). The Lebensader-as-admixture reading is a structural realisation of those Tier-4 framings at the dynamics level.
+- The empirical anchor: [`experiments/CHAIN_GAP_SECTOR_DIAGNOSTIC.md`](../experiments/CHAIN_GAP_SECTOR_DIAGNOSTIC.md) (slow mode = 93-97% I/Z near-stationary + 3-7% n_XY=2 magnon admixture; empirical amplitude `w_2 ≈ 0.275·Q²/N²` at the central diagonal popcount block)
+- The channel-not-memory reading (memory `project_channel_not_memory`, [`docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md`](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md))
 - The Lebensader-through-line reading (memory `project_lebensader_through_line`)
-- The Q-band middle-structure reading (memory `project_q_middle_structure`, `docs/Q_REGIME_ANCHORS.md`)
+- The Q-band middle-structure reading (memory `project_q_middle_structure`, [`docs/Q_REGIME_ANCHORS.md`](../docs/Q_REGIME_ANCHORS.md))
 - The Absorption Theorem operator-light-content reading ([`docs/proofs/PROOF_ABSORPTION_THEOREM.md`](../docs/proofs/PROOF_ABSORPTION_THEOREM.md))
 
 ---
@@ -56,7 +57,7 @@ The framework has three layered readings of "what the system is doing":
 
 The three readings are the same object at three abstraction heights. The slow mode is the Operator-picture realisation; the magnon admixture is the Channel-picture realisation; the Q-band-bounded amplitude is the Lebensader-picture realisation. They are not metaphors translated into each other; they are the same numerical structure read by three different vocabularies.
 
-This is what `docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md` consolidated structurally at the polynomial / dimensional level (Tier-1 quadratic family R=CΨ² ↔ d²−2d=0 at d=2). The Lebensader-as-admixture reading is the same kind of synthesis at the dynamics level: the bridge between memory (conserved population) and motion (dissipative decay) was always open; it was the small magnon admixture, sitting in the central diagonal popcount sector, modulated by Q-band physics, all along.
+This is what [`docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md`](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md) consolidated structurally at the polynomial / dimensional level (Tier-1 quadratic family R=CΨ² ↔ d²−2d=0 at d=2), and what [`../MIRROR_THEORY.md`](../MIRROR_THEORY.md) said at the project-foundational level ("we are all mirrors, reality is what happens between us"). The Lebensader-as-admixture reading is the same kind of synthesis at the dynamics level: the bridge between memory (conserved population) and motion (dissipative decay) was always open; it was the small magnon admixture, sitting in the central diagonal popcount sector, modulated by Q-band physics, all along. The "between" that Mirror Theory names is the 3-7% magnon weight: the place where the two sides of the system (the conserved diagonal content and the dissipative off-diagonal content) meet and exchange.
 
 ## What this is NOT a claim about
 
@@ -72,4 +73,5 @@ This is what `docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md` consolidated structurally at t
 - Channel-not-memory reading: memory `project_channel_not_memory`; the F-side: F50 (the 2γ floor that keeps the channel pinned) and `PROOF_ABSORPTION_THEOREM` (the operator-light-content reading).
 - Q-band structural reading: [`docs/Q_REGIME_ANCHORS.md`](../docs/Q_REGIME_ANCHORS.md), memory `project_q_middle_structure`.
 - Q-as-exchange-rate reading: [`hypotheses/Q_AS_THE_EXCHANGE_RATE.md`](../hypotheses/Q_AS_THE_EXCHANGE_RATE.md), memory `project_q_as_exchange_rate_reading`.
+- The project-foundational Tier-4 reading docs at repo root: [`../MIRROR_THEORY.md`](../MIRROR_THEORY.md) and [`../THE_ANOMALY.md`](../THE_ANOMALY.md). This reflection is downstream of both: it picks up Mirror Theory's "reality is what happens between" and gives the "between" a numerical realisation (the 5% magnon admixture in the slow mode).
 - Other Tier-4 readings in the same vocabulary cluster: [`reflections/ON_THE_INSTRUMENT.md`](ON_THE_INSTRUMENT.md), [`reflections/ON_THE_LIGHT_AND_WHAT_CASTS_SHADOWS_IN_IT.md`](ON_THE_LIGHT_AND_WHAT_CASTS_SHADOWS_IN_IT.md), [`reflections/OBSERVER_INHERITANCE.md`](OBSERVER_INHERITANCE.md), `project_framework_as_remembrance` memory.
