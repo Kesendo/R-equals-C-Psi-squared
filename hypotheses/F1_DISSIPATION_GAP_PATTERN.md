@@ -103,7 +103,17 @@ At N=8: chain (B=7) gap 0.0344, star (B=7) gap 0.0870, ratio 2.5×. Same bond co
 
 The 2026-05-19 cross-topology data confirms: bond count is irrelevant, **graph dispersion structure** is the right parameterisation. Chain has linear-band dispersion (slow modes at k ∝ 1/N → 1/N² gap); star has hub-localised modes (different scaling family); ring has cyclic dispersion with degenerate slowest modes.
 
-## Open structural questions (refined post-extension)
+## Structural questions: status after 2026-05-19 Q-sweep
+
+Five structural questions were posed when this entry first landed (2026-05-18, after the SLOW_N8 sweep). After the 2026-05-19 Q-sweep extension and the tensor-sum-factorisation re-reading, the status is:
+
+- **Q1 chain prefactor closed form:** OPEN (needs Bethe-ansatz)
+- **Q2 star and ring scaling laws:** SHARPENED (three distinct scaling families identified; closed forms still open)
+- **Q3 J ≠ 2γ regime:** **RESOLVED 2026-05-19** via the Q-sweep covering Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5}
+- **Q4 K_4 + disjoint rate-limiting component:** **RESOLVED 2026-05-19** via tensor-sum factorisation
+- **Q5 F2 / F3 connection:** OPEN
+
+Detail per question:
 
 1. **Closed form for the chain prefactor c ≈ 1.10 in f(Q) = c·Q² + sub-Q² correction.** The Q² scaling is physically motivated by 1D diffusion (gap·N²/γ ∝ J²/γ² = Q²); the prefactor c ≈ 1.10 with ~10% sub-Q² drift across Q ∈ [0.5, 2.5] is open. Bethe-ansatz or magnon-dispersion derivation should identify the exact value of c and the form of the sub-leading term. **Status: open.**
 
@@ -130,18 +140,26 @@ The 2026-05-19 cross-topology data confirms: bond count is irrelevant, **graph d
 
 ## Promotion path
 
-This entry has two distinct promotion candidates after the 2026-05-19 Q-sweep:
+**Already promoted (typed Tier-1-derived elsewhere):**
 
-**Q-universal ring dihedral locks:**
-- `RingN4DihedralLockClaim`: `Im_max(ring, N=4, J) = (3/4)·J·N = 3·J` bit-exact at 6 Q-anchors. **Promoted Tier 1 derived 2026-05-19** via the K_{2,2} = C_4 bipartite-complete Casimir derivation in [`docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md`](../docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md); typed in [`RingN4DihedralLockClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/RingN4DihedralLockClaim.cs).
-- `RingN6DihedralLockClaim`: `Im_max(ring, N=6, J) = c₆·J·N` with `c₆ = 0.717129...` bit-exact at 6 Q-anchors. Tier 1 candidate; promotion needs closed-form identification of c₆ (Bethe-ansatz number).
+- [`RingN4DihedralLockClaim`](../compute/RCPsiSquared.Core/Symmetry/RingN4DihedralLockClaim.cs): the Im_max bound on the 4-cycle, Tier 1 derived 2026-05-19 via K_{2,2} = C_4 Casimir derivation in [`PROOF_RING_N4_DIHEDRAL_LOCK.md`](../docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md). This is an Im_max bound, not a gap closed form, but it surfaced from the same Q-sweep.
+- [`StarImMaxBoundClaim`](../compute/RCPsiSquared.Core/Symmetry/StarImMaxBoundClaim.cs): the universal Im_max = J·N/2 saturation on any star, Tier 1 derived 2026-05-19 via SU(2)/Schur-Weyl hub-leaf Casimir in [`PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md`](../docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md). Same caveat: Im_max bound, not gap.
 
-**Chain Q-quadratic plateau (further work needed):**
-- Move from Tier 3 reading to **Tier 1 candidate typed claim** `ChainGapClosedForm` when:
+**Structurally resolved in this doc, not separately typed:**
+
+- **Disconnected-graph gap factorisation:** `gap(L(G_1 ⊔ G_2)) = min(gap(L(G_1)), gap(L(G_2)))` via tensor-sum factorisation of the bond-local Liouvillian (Q4 above). This is the gap-side companion to [`F4KernelDimensionByComponentsClaim`](../compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs) (kernel-dim product factorisation across components). Could be typed as a `DisconnectedGapMinClaim` Tier 1 derived if a downstream consumer needs `.Predict(componentGaps)` as a typed API; for now the structural argument lives in Q4's resolution text and the F4 claim documents the underlying tensor-sum mechanism.
+
+**Still candidate, not yet promoted:**
+
+- `RingN6DihedralLockClaim`: `Im_max(ring, N=6, J) = c₆·J·N` with `c₆ = 0.717129...` bit-exact at 6 Q-anchors. Tier 1 candidate; promotion needs closed-form identification of c₆ (Bethe-ansatz number). Adjacent: ring N=8 gives c₈ = 0.7064, suggesting a sequence c_4 = 0.75, c_6 = 0.7171, c_8 = 0.7064 decreasing through 1/√2 ≈ 0.7071 between N=6 and N=8.
+
+- `ChainGapClosedForm`: gap_chain(N, J, γ) = c(Q) · γ/N² with c(Q) ≈ 1.10·Q² at the N≥4 plateau (Q1 above). Promote to Tier 1 candidate when:
   - The chain `c ≈ 1.10` prefactor and the sub-Q² correction admit closed-form derivation (Bethe ansatz / dispersion integral / specific Liouvillian Jordan-block structure).
   - The N-dependence at fixed Q (the ~10% drift across Q ∈ [0.5, 2.5]) is reconciled with the open-chain k_min = π/(N+1) mode prediction.
 
-The chain-typed claim would sit in `compute/RCPsiSquared.Core/Symmetry/` as `F_ChainGapClosedForm` with a `Predict(N, J, γ)` method; the ring dihedral locks fit as separate per-N typed claims.
+- `RingGapClosedForm`: gap_ring(N, J, γ) = c(Q) · γ/N² with c(Q) ≈ 4·Q² at the N≥5 plateau (the dihedral lock at N=4 is a finite-size outlier; Q2 above). Same diffusive-form premise as chain with a 4× prefactor that matches the (2π/N)² / (π/N)² wavevector-squared ratio. Promotion needs the same closed-form derivation as chain.
+
+The chain and ring gap closed forms would naturally share a parent abstraction `DiffusiveGapClosedForm` since both fit `gap = (k_min² · Q² + sub-leading) · γ/N²`. Star is in a separate scaling family (gap ~ 1/N) and would not fit that abstraction.
 
 ## Cross-references
 
