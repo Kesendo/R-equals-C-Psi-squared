@@ -110,6 +110,16 @@ public sealed class StarImMaxBoundClaim : Claim
         "simulations/results/q_sweep_anchor/star_N6_Q2.5000.json",
         // N=8 Marrakesh-convention anchor (Q=2 at γ=0.5, J=1) from SLOW_N8 sweep.
         "simulations/results/f1_n8_n9_metrics/star_N8.json",
+        // Python redundant cross-checks at γ=0.5, J=1 (Q=2) for N=3..6. Same
+        // Q-column as the q_sweep_anchor Q=2 row above, but computed with a
+        // different code path (numpy dense eigvals on the full Liouvillian rather
+        // than the framework Lindbladian helper). Useful for independent verification
+        // that the Marrakesh-convention Im/σ = 1 reading is reproduced by two
+        // unrelated implementations.
+        "simulations/results/f1_n8_n9_metrics/star_N3_python.json",
+        "simulations/results/f1_n8_n9_metrics/star_N4_python.json",
+        "simulations/results/f1_n8_n9_metrics/star_N5_python.json",
+        "simulations/results/f1_n8_n9_metrics/star_N6_python.json",
     };
 
     /// <summary>Predict the maximum imaginary spectral spread of the

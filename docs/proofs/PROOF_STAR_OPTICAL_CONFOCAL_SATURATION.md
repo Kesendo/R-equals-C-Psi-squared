@@ -35,7 +35,9 @@ All 24 anchors match Im/σ = Q/2 to machine precision. Output JSON files: `simul
 
 **N=8 Q=2 anchor (Marrakesh convention γ=0.5, J=1):** Im_max = 4.000000000000002, σ = N·γ = 4, Im/σ = 1.0 bit-exact (one bit at machine precision). From the SLOW_N8 sweep (`star_N8.json`, commit 89f725e). Equivalent statement: Im_max = J·N/2 = 4 at J=1, N=8.
 
-29 total bit-exact anchors across N ∈ {3, 4, 5, 6, 8} and Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5}.
+**Python redundant cross-checks at Q=2 (γ=0.5, J=1) for N=3..6:** `simulations/results/f1_n8_n9_metrics/star_N{3..6}_python.json` reproduce the Q=2 column of the Q-sweep table above (Im/σ = 1.0 bit-exact) via a different code path (`numpy.linalg.eigvals` on the full Liouvillian rather than the framework `lindbladian_z_dephasing` helper). 4 additional bit-exact anchors, useful as an independent-implementation cross-check.
+
+29 total bit-exact anchors across N ∈ {3, 4, 5, 6, 8} and Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5}: 24 Q-sweep + 1 SLOW_N8 + 4 Python cross-checks (the Python anchors overlap with the Q-sweep at Q=2, so the 24 + 4 are 4 redundant verifications, not 28 independent points).
 
 ## Proof
 
@@ -56,7 +58,11 @@ Using the standard total-spin Casimir identity S⃗_0 · S⃗_L = (1/2)(S²_tot 
     H_star  =  (J/2) · (S²_tot − S²_0 − S²_L)
             =  (J/2) · (S_tot(S_tot+1) − 3/4 − S_L(S_L+1)).
 
-The hub is a single spin-1/2 site, so S_0 = 1/2 always and S²_0 = 3/4. The leaf total S_L takes values in {0, 1, ..., (N−1)/2} for odd N−1 leaves, or {0, 1, ..., (N−1)/2} for even N−1 leaves (general: S_L ∈ {(N−1)/2 mod 1, ..., (N−1)/2}). Coupling the spin-1/2 hub to S_L gives two possible totals: S_tot = S_L + 1/2 (hub aligned with leaves) or S_tot = S_L − 1/2 (hub anti-aligned), provided S_L ≥ 1/2.
+The hub is a single spin-1/2 site, so S_0 = 1/2 always and S²_0 = 3/4. The leaf total S_L is the result of coupling N−1 spin-1/2's, so it takes:
+- integer values 0, 1, 2, ..., (N−1)/2 when N−1 is even (i.e. N odd);
+- half-integer values 1/2, 3/2, ..., (N−1)/2 when N−1 is odd (i.e. N even).
+
+In both cases the maximum is S_L,max = (N−1)/2 (the fully-aligned ferromagnetic leaf state). Coupling the spin-1/2 hub to S_L gives two possible totals: S_tot = S_L + 1/2 (hub aligned with leaves) or S_tot = S_L − 1/2 (hub anti-aligned, provided S_L ≥ 1/2; the S_L = 0 sector only has S_tot = 1/2).
 
 For each fixed S_L sector, H_star has exactly two eigenvalues:
 

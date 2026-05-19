@@ -58,18 +58,18 @@ Using the standard total-spin Casimir identity S⃗_A · S⃗_B = (1/2)(S²_tot 
 
     H  =  (J/2) · (S²_tot − S²_A − S²_B).
 
-Each sublattice contains two spin-1/2 sites, so S_A, S_B ∈ {0, 1}. Coupling the two total sublattice spins (Clebsch-Gordan), S_tot ∈ {|S_A − S_B|, ..., S_A + S_B}. The full eigenvalue list is:
+Each sublattice contains two spin-1/2 sites, so S_A, S_B ∈ {0, 1}. Each (S_A, S_B) pair has its own internal Clebsch-Gordan multiplicity m_inner from coupling 1/2 ⊗ 1/2 → S_A (and 1/2 ⊗ 1/2 → S_B): m_inner = 1 for the singlet S = 0, m_inner = 1 for the triplet S = 1 (there is exactly one way to make each from two spin-1/2). Then coupling S⃗_A and S⃗_B gives S_tot ∈ {|S_A − S_B|, ..., S_A + S_B}, with the (2S_tot + 1) M_tot states inside each S_tot multiplet. The full eigenvalue list and the dimensions are:
 
-| (S_A, S_B) | S_tot | E = (J/2)·(S_tot(S_tot+1) − S_A(S_A+1) − S_B(S_B+1)) | (2S_A+1)·(2S_B+1)·(2S_tot+1) state count |
+| (S_A, S_B) | S_tot | E = (J/2)·(S_tot(S_tot+1) − S_A(S_A+1) − S_B(S_B+1)) | dimension = m_inner(A) · m_inner(B) · (2S_tot+1) |
 |---|---:|---:|---:|
-| (0, 0) | 0 | (J/2)·(0 − 0 − 0) = **0**     | 1·1·1 = 1 |
-| (0, 1) | 1 | (J/2)·(2 − 0 − 2) = **0**     | 1·3·3 = 3 (but inner CG weights are 1·1, count Hilbert-space dim 3 = 2S_tot+1) |
-| (1, 0) | 1 | (J/2)·(2 − 2 − 0) = **0**     | 3·1·3 = 3 |
-| (1, 1) | 0 | (J/2)·(0 − 2 − 2) = **−2J**   | 3·3·1 = 1 (the inner-CG singlet) |
-| (1, 1) | 1 | (J/2)·(2 − 2 − 2) = **−J**    | 3·3·3 = 3 (the inner-CG triplet) |
-| (1, 1) | 2 | (J/2)·(6 − 2 − 2) = **+J**    | 3·3·5 = 5 (the inner-CG quintuplet) |
+| (0, 0) | 0 | (J/2)·(0 − 0 − 0) = **0**     | 1 · 1 · 1 = 1 |
+| (0, 1) | 1 | (J/2)·(2 − 0 − 2) = **0**     | 1 · 1 · 3 = 3 |
+| (1, 0) | 1 | (J/2)·(2 − 2 − 0) = **0**     | 1 · 1 · 3 = 3 |
+| (1, 1) | 0 | (J/2)·(0 − 2 − 2) = **−2J**   | 1 · 1 · 1 = 1 (outer-CG singlet of two inner triplets) |
+| (1, 1) | 1 | (J/2)·(2 − 2 − 2) = **−J**    | 1 · 1 · 3 = 3 (outer-CG triplet) |
+| (1, 1) | 2 | (J/2)·(6 − 2 − 2) = **+J**    | 1 · 1 · 5 = 5 (outer-CG quintuplet) |
 
-Total Hilbert space dimension: 1 + 3 + 3 + 1 + 3 + 5 = 16 = 2^4 ✓.
+The inner-CG multiplicities m_inner(A) and m_inner(B) are both 1 because two spin-1/2's couple into each of S = 0, S = 1 in exactly one way. The dimensions tracked are then just (2S_tot + 1) per row. Total Hilbert space dimension: 1 + 3 + 3 + 1 + 3 + 5 = 16 = 2^4 ✓.
 
 The eigenvalue multiset of H is therefore
 

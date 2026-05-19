@@ -52,6 +52,18 @@ namespace RCPsiSquared.Core.F1;
 ///         bridge because the data came from F1 work, even though the formula itself
 ///         is structurally a child of F4 (parent
 ///         <see cref="F4StationaryModeCountPi2Inheritance"/>).</item>
+///   <item>Tier-1 derived topology Im-max bound: Ring N=4
+///         (<see cref="RingN4DihedralLock"/>) saturates Im_max(ring, N=4, J) =
+///         (3/4)·J·N = 3·J Q-universally via the C_4 = K_{2,2} bipartite-complete
+///         Casimir factorisation; 6 Q-sweep anchors bit-exact. See
+///         <c>docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md</c>.</item>
+///   <item>Tier-1 derived topology Im-max bound: Star
+///         (<see cref="StarImMaxBound"/>) saturates Im_max(star, N, J) = J·N/2
+///         Q-universally for any N ≥ 3 via the SU(2)/Schur-Weyl hub-leaf Casimir
+///         factorisation H_star = J·S⃗_0·S⃗_L; 24 Q-sweep + 1 N=8 + 4 Python anchors
+///         all bit-exact (29 anchors total). The Marrakesh-convention "Im/σ = 1
+///         ↔ J = 2γ" reading is the Q = 2 specialization of the universal
+///         Im/σ = Q/2 lock. See <c>docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md</c>.</item>
 /// </list>
 /// </summary>
 public sealed class F1KnowledgeBase : IInspectable

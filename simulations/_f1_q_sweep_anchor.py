@@ -15,7 +15,7 @@ Goal: pin down three structural hypotheses surfaced by the Q=1.5 vs Q=2.0 split:
   H1 (star saturation, universal): Im_max(star, N, J) = J·N/2 for all Q.
       → Im/σ = Q/2 should hold flat across all 6 anchors, not just Q=2.
 
-  H2 (ring N=4 dihedral lock): Im_max(ring, N=4) = 3·J·N/8 → Im/σ = 3Q/4.
+  H2 (ring N=4 dihedral lock): Im_max(ring, N=4) = (3/4)·J·N = 3·J → Im/σ = 3Q/4.
       → Test 6 Q-values to confirm the 3Q/4 line; if it holds, the bound is
         a typed claim candidate. N=6 ring (if it also locks) would give a
         second dihedral-symmetric witness.
@@ -125,7 +125,7 @@ def main() -> None:
     # H2: ring N=4 Im/σ should equal 3Q/4
     # ----------------------------------------------------------------------
     print("\n" + "=" * 110)
-    print("H2: RING N=4 Im/σ vs 3Q/4 (predicted Im_max(ring, N=4) = 3·J·N/8)")
+    print("H2: RING N=4 Im/σ vs 3Q/4 (predicted Im_max(ring, N=4) = (3/4)·J·N = 3·J)")
     print("-" * 110)
     print(f"{'Q':>8} {'predicted 3Q/4':>15} {'observed Im/σ':>15} {'relative error':>16}")
     for Q, _ in Q_ANCHORS:
