@@ -22,9 +22,10 @@ namespace RCPsiSquared.Core.F1;
 ///   <item><b>"general topology beyond chain/ring/star/K_N"</b> closed by
 ///         <c>docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md</c>; the (B, D2)
 ///         parameterisation extends bit-exactly to disconnected, weighted, and random
-///         connected graphs at N=5, 6, 7, 8 (N=8 via the opt-in SLOW_N8 block-spectrum
-///         dogfood with full <see cref="F1SpectrumStatistics"/> metric capture; N=9 is
-///         wired as a SkippableFact but blocked at the LP64 MKL marshalling ceiling).
+///         connected graphs at N=5, 6, 7, 8, 9 (N=8 via the opt-in SLOW_N8 block-spectrum
+///         dogfood, N=9 chain via the SLOW_N9 dogfood routed through the
+///         <c>MklDirect</c> ILP64 bridge that landed 2026-05-19, both with full
+///         <see cref="F1SpectrumStatistics"/> metric capture).
 ///         Verification record typed as the Tier-2-verified
 ///         <see cref="F1GeneralTopologyVerifiedClaim"/>. The analytic content was already
 ///         settled in <c>docs/proofs/PROOF_CROSS_TERM_FORMULA.md</c> Lemma 3 + Corollary

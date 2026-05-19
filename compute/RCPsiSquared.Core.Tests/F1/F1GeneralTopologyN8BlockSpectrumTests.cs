@@ -51,11 +51,12 @@ namespace RCPsiSquared.Core.Tests.F1;
 /// slips in.</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md</c> (synthesis,
-/// verification-record table populated from the SLOW_N8 JSON capture),
+/// verification-record table populated from the SLOW_N8 + SLOW_N9 JSON capture),
 /// <see cref="F1GeneralTopologyVerifiedClaim"/> (typed Tier-2 claim,
-/// <c>VerifiedNValues = {5, 6, 7, 8}</c>; N=9 is wired in
-/// <c>F1GeneralTopologyN9BlockSpectrumChainTests</c> as a SkippableFact but blocked at
-/// the LP64 MKL marshalling ceiling — see
+/// <c>VerifiedNValues = {5, 6, 7, 8, 9}</c>; N=9 ran 2026-05-19 via the
+/// <c>MklDirect</c> ILP64 bridge in
+/// <c>F1GeneralTopologyN9BlockSpectrumChainTests</c>; new frontier at N=10 is
+/// memory-pressure rather than the LP64 ceiling, see
 /// <see cref="F1GeneralTopologyVerifiedClaim.ScaleFrontierBlockedAtN"/>),
 /// <c>F1GeneralTopologyN7BlockSpectrumTests</c> (the N=7 dogfood whose pattern
 /// this file mirrors at the next N), <see cref="F1SpectrumStatistics"/>
