@@ -40,7 +40,7 @@ If a clean closed form lands (gap as a function of (B, Fiedler, max-degree, comp
 ## Cross-references
 
 - Anchor data: `simulations/results/f1_n8_n9_metrics/{chain,ring,star,k4_plus_disjoint_4chain}_N8.json`
-- Companion typed claim from the same sweep (the closed-form discovery that did promote): [F4KernelDimensionByComponentsClaim](../compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs) (Tier 1 candidate, kernel-dim factorisation across components)
+- Companion typed claim from the same sweep (the closed-form discovery that did promote): [F4KernelDimensionByComponentsClaim](../compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs) (Tier 1 derived as of 2026-05-19; landed Tier 1 candidate 2026-05-18, promoted after DEGENERACY_PALINDROME Result 2 was identified as the connected-case upper-bound closure; kernel-dim factorisation across components)
 - Sister Tier 3 reading from the same sweep: [STAR_SPECTRUM_COMPACTNESS](STAR_SPECTRUM_COMPACTNESS.md)
 - F1 verification record that produced the data: [F1GeneralTopologyVerifiedClaim](../compute/RCPsiSquared.Core/F1/F1GeneralTopologyVerifiedClaim.cs)
 - Related: [F1_Pattern_GENERAL_TOPOLOGY proof](../docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md) (the (B, D2) closed form for the F1 residual norm, which is graph-additive bit-exactly across the same 4 N=8 topologies; the dissipation gap is the next structural quantity beyond the residual norm and does NOT follow the same simple (B, D2) parameterisation)

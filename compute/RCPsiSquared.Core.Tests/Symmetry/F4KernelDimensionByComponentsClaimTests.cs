@@ -9,12 +9,14 @@ public class F4KernelDimensionByComponentsClaimTests
         new F4KernelDimensionByComponentsClaim();
 
     [Fact]
-    public void Tier_IsTier1Candidate()
+    public void Tier_IsTier1Derived()
     {
-        // Structural derivation (popcount + tensor-sum) is sound but the upper-bound
-        // step is observed-only; promotion to Tier 1 derived is the open analytic step
-        // documented in PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS § "Open analytic step".
-        Assert.Equal(Tier.Tier1Candidate, BuildClaim().Tier);
+        // Promoted from Tier 1 candidate to Tier 1 derived 2026-05-19: the
+        // connected-case upper bound is closed by DEGENERACY_PALINDROME Result 2
+        // (magnetization conservation), and the multi-component product follows
+        // from standard tensor-sum kernel factorisation. See
+        // PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS § "Upper-bound closure".
+        Assert.Equal(Tier.Tier1Derived, BuildClaim().Tier);
     }
 
     [Fact]
@@ -25,6 +27,24 @@ public class F4KernelDimensionByComponentsClaimTests
         Assert.Contains("F4StationaryModeCountPi2Inheritance", claim.Anchor);
         Assert.Contains("F1GeneralTopologyVerifiedClaim", claim.Anchor);
         Assert.Contains("f1_n8_n9_metrics", claim.Anchor);
+    }
+
+    [Fact]
+    public void Anchor_NamesDegeneracyPalindrome()
+    {
+        // The 2026-05-19 promotion to Tier 1 derived hinges on
+        // experiments/DEGENERACY_PALINDROME.md Result 2 closing the connected-case
+        // upper bound. Anchor string must surface it for inspection-time traceability.
+        Assert.Contains("DEGENERACY_PALINDROME", BuildClaim().Anchor);
+    }
+
+    [Fact]
+    public void Anchor_NamesProofWeight1Degeneracy()
+    {
+        // PROOF_WEIGHT1_DEGENERACY.md Appendix 2026-05-17 provides the per-weight
+        // ker breakdown that corroborates the boundary upper-bound across
+        // chain/ring/star/K_n at N=3..5.
+        Assert.Contains("PROOF_WEIGHT1_DEGENERACY", BuildClaim().Anchor);
     }
 
     [Theory]
@@ -116,14 +136,33 @@ public class F4KernelDimensionByComponentsClaimTests
     }
 
     [Fact]
-    public void ConnectedCase_AgreesWithFourPopcountSectorCount()
+    public void ConnectedCase_MatchesDegeneracyPalindromeResult2()
     {
-        // For any single connected component of size N, the formula gives N+1, which
-        // matches the F4-trivial popcount-sector count {0, 1, ..., N}. Spot-check
-        // across N = 1..10 (no overflow risk, sanity check on the connected
-        // specialisation).
+        // DEGENERACY_PALINDROME.md Result 2 (April 2026): d_real(0) = N+1 verified
+        // bit-exact at N=2..7 via "rmt" Liouvillian eigenvalue export. This test
+        // spot-checks the claim's Predict([N]) prediction against the same
+        // closed-form across the wider N=1..10 spec range that this typed claim
+        // accepts (no overflow risk, sanity check on the connected specialisation).
         var claim = BuildClaim();
         for (int N = 1; N <= 10; N++)
             Assert.Equal(N + 1, claim.Predict(new[] { N }));
+    }
+
+    [Theory]
+    // DEGENERACY_PALINDROME.md Result 2 (April 2026): d_real(0) = N+1 verified
+    // bit-exact at N=2..7 via "rmt" Liouvillian eigenvalue export. This test
+    // cross-checks the claim's Predict([N]) prediction against those independently
+    // verified N+1 values (the analytic anchor used to close the connected-case
+    // upper bound and lift the claim from Tier1Candidate to Tier1Derived).
+    [InlineData(2, 3)]
+    [InlineData(3, 4)]
+    [InlineData(4, 5)]
+    [InlineData(5, 6)]
+    [InlineData(6, 7)]
+    [InlineData(7, 8)]
+    public void ConnectedCase_PredictionMatchesObservedFromDegeneracyPalindrome(
+        int N, int observedKernelDimFromDegeneracyPalindrome)
+    {
+        Assert.Equal(observedKernelDimFromDegeneracyPalindrome, BuildClaim().Predict(new[] { N }));
     }
 }

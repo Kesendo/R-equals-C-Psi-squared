@@ -28,20 +28,23 @@ namespace RCPsiSquared.Runtime.F1Family;
 ///         disconnected, weighted, and random connected graphs at N=5..7. Depends on
 ///         <see cref="PalindromeResidualScalingClaim"/> (the closed form whose
 ///         universality is verified) and <see cref="F1PalindromeIdentity"/> (parent F1).</item>
-///   <item><see cref="F4KernelDimensionByComponentsClaim"/> (Tier 1 candidate, added
-///         2026-05-18): F4 disconnected-graph extension dim ker L_H = Π_c (|c|+1)
-///         surfaced by the F1 SLOW_N8 sweep. The formula owner is the F4 family
-///         (parent F4 = <see cref="F4StationaryModeCountPi2Inheritance"/>) but the
-///         claim sits inside the F1 registration because the four bit-exact N=8
-///         anchors live in the same JSON metric files written by the F1 sweep.
-///         Depends on <see cref="F1GeneralTopologyVerifiedClaim"/> (the SLOW_N8 sweep
-///         that produced the anchor JSON files); note the parent is Tier 2 verified
-///         and this claim is Tier 1 candidate (strength 4) — allowed because
-///         <see cref="TierStrength"/> assigns Tier 2 verified strength 3 &lt;
-///         Tier 1 candidate 4, so the direct edge would violate the inheritance
-///         check. Workaround: depend on <see cref="F1PalindromeIdentity"/>
-///         (Tier 1 derived, strength 5) which is the topology-order anchor of the
-///         entire F1 family.</item>
+///   <item><see cref="F4KernelDimensionByComponentsClaim"/> (Tier 1 derived,
+///         promoted 2026-05-19; originally landed Tier 1 candidate 2026-05-18): F4
+///         disconnected-graph extension dim ker L_H = Π_c (|c|+1) surfaced by the F1
+///         SLOW_N8 sweep. The formula owner is the F4 family (parent F4 =
+///         <see cref="F4StationaryModeCountPi2Inheritance"/>) but the claim sits
+///         inside the F1 registration because the four bit-exact N=8 anchors live in
+///         the same JSON metric files written by the F1 sweep. The connected-case
+///         upper bound is closed by DEGENERACY_PALINDROME Result 2 (magnetization
+///         conservation); the multi-component product follows from standard
+///         tensor-sum kernel factorisation. Parent edge: depend on
+///         <see cref="F1PalindromeIdentity"/> (Tier 1 derived, strength 5) which is
+///         the topology-order anchor of the entire F1 family. The same edge that
+///         served the Tier 1 candidate (strength 4) child satisfies the now
+///         Tier 1 derived (strength 5) child (<see cref="TierStrength"/> check
+///         5 ≥ 5). <see cref="F1GeneralTopologyVerifiedClaim"/> (Tier 2 verified,
+///         strength 3) cannot serve as direct parent; the sister-relationship is
+///         documented in the claim's XML doc and proof file instead.</item>
 /// </list>
 ///
 /// <para>Dependency edges (parent → child):</para>
@@ -142,14 +145,16 @@ public static class F1FamilyRegistration
             .Register<F4KernelDimensionByComponentsClaim>(b =>
             {
                 // F4 disconnected-graph extension surfaced by the F1 SLOW_N8 sweep
-                // (2026-05-18). The claim's formula owner is F4 (parent), but the
-                // anchors live in the F1 SLOW_N8 JSON metric files. We pull
-                // F1PalindromeIdentity (Tier 1 derived, strength 5) as the explicit
-                // parent to satisfy Tier-inheritance: a Tier 1 candidate (strength 4)
-                // child needs a parent of strength ≥ 4. F1GeneralTopologyVerifiedClaim
-                // (Tier 2 verified, strength 3) cannot serve as parent directly; the
-                // sister-relationship is documented in the claim's XML doc and proof
-                // file instead.
+                // (2026-05-18). Promoted Tier 1 candidate → Tier 1 derived 2026-05-19
+                // after DEGENERACY_PALINDROME Result 2 was identified as the closure
+                // of the connected-case upper bound. The claim's formula owner is F4
+                // (parent), but the anchors live in the F1 SLOW_N8 JSON metric files.
+                // We pull F1PalindromeIdentity (Tier 1 derived, strength 5) as the
+                // explicit parent: a Tier 1 derived (strength 5) child needs a parent
+                // of strength ≥ 5, and 5 ≥ 5 holds.
+                // F1GeneralTopologyVerifiedClaim (Tier 2 verified, strength 3) cannot
+                // serve as parent directly; the sister-relationship is documented in
+                // the claim's XML doc and proof file instead.
                 _ = b.Get<F1PalindromeIdentity>();
                 return new F4KernelDimensionByComponentsClaim();
             });

@@ -41,11 +41,13 @@ namespace RCPsiSquared.Core.F1;
 ///         derived), non-uniform γ (negative-result closure), and general topology
 ///         (synthesis proof + verification record). See <see cref="F1OpenQuestions"/>
 ///         XML doc for the per-item closure references.</item>
-///   <item>Tier-1 candidate bridge from the F1 N=8 SLOW_N8 sweep
+///   <item>Tier-1 derived bridge from the F1 N=8 SLOW_N8 sweep
 ///         (<see cref="KernelDimensionByComponents"/>): F4 disconnected-graph extension
-///         dim ker L_H = Π_c (|c|+1) over connected components c. Bit-exact across
-///         the four N=8 topologies captured in
-///         <see cref="F1GeneralTopologyVerifiedClaim.SpectrumMetricsDataFiles"/>;
+///         dim ker L_H = Π_c (|c|+1) over connected components c. Promoted from
+///         Tier 1 candidate to Tier 1 derived 2026-05-19 after DEGENERACY_PALINDROME
+///         Result 2 (magnetization conservation) was identified as the closure of
+///         the per-component upper bound. Bit-exact across the four N=8 topologies
+///         captured in <see cref="F1GeneralTopologyVerifiedClaim.SpectrumMetricsDataFiles"/>;
 ///         the bonus discovery surfaced by that sweep. Lives on the F1 KB as a
 ///         bridge because the data came from F1 work, even though the formula itself
 ///         is structurally a child of F4 (parent
@@ -80,9 +82,11 @@ public sealed class F1KnowledgeBase : IInspectable
     /// F1 KB as a bridge because the four bit-exact N=8 anchors live in the same
     /// JSON files written by the F1 sweep (see
     /// <see cref="F1GeneralTopologyVerifiedClaim.SpectrumMetricsDataFiles"/>).
-    /// Tier 1 candidate; promotion to Tier 1 derived requires the upper-bound
-    /// step documented in <c>PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS</c>
-    /// § "Open analytic step".</summary>
+    /// Tier 1 derived (promoted 2026-05-19): connected-case upper bound closed by
+    /// <c>experiments/DEGENERACY_PALINDROME.md</c> Result 2 (magnetization
+    /// conservation), multi-component product follows from standard tensor-sum
+    /// kernel factorisation. See <c>PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS</c>
+    /// § "Upper-bound closure (resolved 2026-05-18)".</summary>
     public F4KernelDimensionByComponentsClaim KernelDimensionByComponents { get; }
 
     public IReadOnlyList<HardwareConfirmationClaim> HardwareConfirmations { get; }
@@ -130,16 +134,14 @@ public sealed class F1KnowledgeBase : IInspectable
             yield return new InspectableNode("N (chain length)",
                 summary: $"{N} qubits, {1L << (2 * N)}-dim Pauli-string operator space");
 
+            // Tier 1 (derived) group: F1 master + scaling + closed forms + the F4
+            // disconnected-graph bridge (promoted from Tier 1 candidate to Tier 1
+            // derived 2026-05-19; closure via DEGENERACY_PALINDROME Result 2 for the
+            // connected-case upper bound plus standard tensor-sum kernel factorisation).
             yield return InspectableNode.Group("Tier 1 (derived)",
                 PalindromeIdentity, MainScaling, SingleBodyScaling,
                 T1ResidualClosedForm, T1ResidualPi2Decomposition, DepolResidualClosedForm,
-                F49NonUniformCrossTerm);
-
-            // Tier 1 candidate group: bonus discoveries from the F1 N=8 sweep that
-            // surface here as bridges even though their formula owner is another
-            // F-theorem (currently F4 via KernelDimensionByComponents).
-            yield return InspectableNode.Group("Tier 1 (candidate)",
-                KernelDimensionByComponents);
+                F49NonUniformCrossTerm, KernelDimensionByComponents);
 
             // Tier 2 group includes the hardware confirmations + the
             // general-topology verification record (numerical sweep across N=5..8).

@@ -33,17 +33,29 @@ namespace RCPsiSquared.Core.Symmetry;
 /// restricted to the popcount-conserving (joint-J = 0 invariant) sector: each total-spin
 /// J multiplet contributes one popcount-eigenvalue, the J=N/2 fully-symmetric multiplet
 /// covers popcount {0, 1, ..., N}. The new content here is the multiplicative
-/// factorisation across components, which the four N=8 data anchors verify but no
-/// analytic proof has been written yet.</para>
+/// factorisation across components, which the four N=8 data anchors verify and which
+/// follows analytically from per-component closure (DEGENERACY_PALINDROME Result 2)
+/// plus the standard tensor-sum kernel factorisation (see Tier 1 derived paragraph
+/// below).</para>
 ///
-/// <para><b>Tier 1 candidate (not Tier 1 derived).</b> The structural argument
-/// (popcount conservation + tensor-sum decomposition of L_H across components) is
-/// hand-wavable to a rigorous proof but no formal write-up exists yet. The 4 N=8
-/// anchors are bit-exact (kernel dim is an integer; no rounding tolerance). Promotion
-/// to Tier 1 derived requires the formal tensor-sum argument plus an analytic count
-/// of the joint-J = 0 kernel basis per component; see
-/// <c>docs/proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md</c> for the synthesis
-/// sketch and the open analytic step.</para>
+/// <para><b>Tier 1 derived (2026-05-19).</b> The connected-case upper bound
+/// <c>dim ker L_H(G_c) ≤ |c|+1</c> is closed by
+/// <c>experiments/DEGENERACY_PALINDROME.md</c> Result 2 (magnetization conservation:
+/// the only operators satisfying both <c>[H, Q] = 0</c> and <c>D(Q) = 0</c> are the
+/// |c|+1 diagonal functions of total S_z, i.e. the identity plus the |c| popcount
+/// projectors P_n; nothing else can be added to exhaust the kernel). Combined with
+/// the popcount-projector lower-bound construction (Section 1 of
+/// <c>PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md</c>) this gives the per-component
+/// equality <c>dim ker L_H(G_c) = |c|+1</c>. The multi-component product follows
+/// from per-component closure plus standard tensor-sum factorisation of L_H across
+/// disjoint components (Section 2 of the proof file): for
+/// <c>L_H(G) = L_H(G_1) ⊗ I + I ⊗ L_H(G_2)</c> the kernel factorises as
+/// <c>ker L_H(G) = ker L_H(G_1) ⊗ ker L_H(G_2)</c> (standard Lyapunov/Sylvester
+/// kernel result). Together: <c>dim ker L_H(G) = Π_c (|c|+1)</c>. The 4 N=8 anchors
+/// remain bit-exact corroboration of the now-closed derivation (kernel dim is an
+/// integer, no rounding tolerance). The per-weight ker breakdown in
+/// <c>docs/proofs/PROOF_WEIGHT1_DEGENERACY.md</c> Appendix (2026-05-17) corroborates
+/// the boundary upper-bound across chain / ring / star / K_n at N=3..5.</para>
 ///
 /// <para><b>What this claim is NOT.</b> It is not F4 itself (the Clebsch-Gordan
 /// closed form for Stat(N) = Σ_J m(J)·(2J+1)² which counts ALL stationary modes,
@@ -53,9 +65,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// agree at the connected case for the trivial popcount-only sector (J=N/2:
 /// m = 1, contributes 1 kernel mode per popcount value → N+1 total).</para>
 ///
-/// <para>Anchors: <c>docs/proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md</c> (new) +
-/// <c>compute/RCPsiSquared.Core/Symmetry/F4StationaryModeCountPi2Inheritance.cs</c> (parent F4) +
-/// <c>compute/RCPsiSquared.Core/F1/F1GeneralTopologyVerifiedClaim.cs</c> (sister Tier 2 verification record) +
+/// <para>Anchors: <c>docs/proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md</c> (primary) +
+/// <c>experiments/DEGENERACY_PALINDROME.md</c> (Result 2: <c>d_real(0) = N+1</c>, proven via magnetization conservation; this is the connected-case upper-bound closure) +
+/// <c>compute/RCPsiSquared.Core/Symmetry/F4StationaryModeCountPi2Inheritance.cs</c> (parent F4 Clebsch-Gordan) +
+/// <c>compute/RCPsiSquared.Core/F1/F1GeneralTopologyVerifiedClaim.cs</c> (sister Tier 2 verification record / data record) +
+/// <c>docs/proofs/PROOF_WEIGHT1_DEGENERACY.md</c> (Appendix 2026-05-17: per-weight ker breakdown corroborates the boundary upper-bound across chain/ring/star/K_n at N=3..5) +
 /// the four <c>simulations/results/f1_n8_n9_metrics/&lt;topology&gt;_N8.json</c> data files.</para></summary>
 public sealed class F4KernelDimensionByComponentsClaim : Claim
 {
@@ -115,10 +129,12 @@ public sealed class F4KernelDimensionByComponentsClaim : Claim
 
     public F4KernelDimensionByComponentsClaim()
         : base("F4 disconnected-graph extension: dim ker L_H = Π_c (|c|+1) over connected components c; bit-exact at N=8 across 4 topologies (chain/ring/star/K_4+disjoint-4-chain)",
-               Tier.Tier1Candidate,
-               "docs/proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md + " +
-               "compute/RCPsiSquared.Core/Symmetry/F4StationaryModeCountPi2Inheritance.cs (parent F4) + " +
-               "compute/RCPsiSquared.Core/F1/F1GeneralTopologyVerifiedClaim.cs (sister Tier 2 verification record) + " +
+               Tier.Tier1Derived,
+               "docs/proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md (primary) + " +
+               "experiments/DEGENERACY_PALINDROME.md (Result 2: d_real(0) = N+1, proven via magnetization conservation) + " +
+               "compute/RCPsiSquared.Core/Symmetry/F4StationaryModeCountPi2Inheritance.cs (parent F4 Clebsch-Gordan) + " +
+               "compute/RCPsiSquared.Core/F1/F1GeneralTopologyVerifiedClaim.cs (sister Tier 2 verification record / data record) + " +
+               "docs/proofs/PROOF_WEIGHT1_DEGENERACY.md (Appendix 2026-05-17: per-weight ker breakdown corroborates the boundary upper-bound) + " +
                "simulations/results/f1_n8_n9_metrics/{chain,ring,star,k4_plus_disjoint_4chain}_N8.json")
     { }
 
@@ -135,8 +151,8 @@ public sealed class F4KernelDimensionByComponentsClaim : Claim
             yield return new InspectableNode("statement",
                 summary: "For graph G with connected components c, dim ker L_H(G) = Π_c (|c|+1). Specialises to N+1 for any single connected component of size N (matches F4 popcount-sector count).");
 
-            yield return new InspectableNode("Tier 1 candidate (not derived)",
-                summary: "Structural argument (popcount conservation + tensor-sum L_H = ⊕_c L_H(G_c)) is sound; 4 bit-exact N=8 anchors. Formal proof open: see PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md § \"Open analytic step\".");
+            yield return new InspectableNode("Tier 1 derived",
+                summary: "Connected-case upper bound dim ker ≤ |c|+1 closed by DEGENERACY_PALINDROME Result 2 (magnetization conservation: identity + |c| popcount projectors exhaust the kernel); multi-component product follows from tensor-sum kernel factorisation L_H(G) = L_H(G_1) ⊗ I + I ⊗ L_H(G_2). 4 bit-exact N=8 anchors corroborate. See PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md § \"Upper-bound closure (resolved 2026-05-18)\".");
 
             yield return new InspectableNode("relationship to F4 (parent)",
                 summary: "F4 itself gives Stat(N) = Σ_J m(J)·(2J+1)² (full multiplet weight on a connected Heisenberg chain); this claim restricts to the popcount label and extends multiplicatively across disconnected components. F4 + this claim cover both axes (multiplet structure within a component, factorisation across components).");

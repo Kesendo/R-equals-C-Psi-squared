@@ -43,7 +43,7 @@ public class F1FamilyRegistrationTests
     }
 
     [Fact]
-    public void RegisterF1Family_F4KernelDimensionByComponents_Resolves_AndIsTier1Candidate()
+    public void RegisterF1Family_F4KernelDimensionByComponents_Resolves_AndIsTier1Derived()
     {
         var registry = new ClaimRegistryBuilder()
             .RegisterF1Family(DefaultChain())
@@ -51,7 +51,11 @@ public class F1FamilyRegistrationTests
 
         var kernelDim = registry.Get<F4KernelDimensionByComponentsClaim>();
         Assert.NotNull(kernelDim);
-        Assert.Equal(Tier.Tier1Candidate, kernelDim.Tier);
+        // Promoted from Tier 1 candidate to Tier 1 derived 2026-05-19: connected-case
+        // upper bound closed by DEGENERACY_PALINDROME Result 2 (magnetization
+        // conservation); multi-component product follows from standard tensor-sum
+        // kernel factorisation.
+        Assert.Equal(Tier.Tier1Derived, kernelDim.Tier);
         // The four N=8 anchors survived the registry round-trip.
         Assert.Equal(4, kernelDim.EmpiricalAnchorsN8.Count);
         Assert.Equal(9, kernelDim.Predict(new[] { 8 }));        // chain/ring/star N=8
@@ -62,11 +66,13 @@ public class F1FamilyRegistrationTests
     public void RegisterF1Family_F4KernelDim_AncestorsContainF1Identity()
     {
         // The F4 bridge is wired with F1PalindromeIdentity as its parent (Tier 1
-        // derived, strength 5, allowed to anchor a Tier 1 candidate child strength 4).
-        // The "sister" relationship to F1GeneralTopologyVerifiedClaim lives in the
-        // claim's XML doc and the proof markdown, not as a direct dependency edge
-        // (Tier 2 verified strength 3 is weaker than Tier 1 candidate strength 4, so
-        // a direct edge would violate Tier inheritance).
+        // derived, strength 5). After the 2026-05-19 promotion the bridge is itself
+        // Tier 1 derived (strength 5), and the inheritance check 5 ≥ 5 still holds
+        // through the same edge. The "sister" relationship to
+        // F1GeneralTopologyVerifiedClaim lives in the claim's XML doc and the proof
+        // markdown, not as a direct dependency edge (Tier 2 verified strength 3 is
+        // weaker than Tier 1 derived strength 5, so a direct edge would still violate
+        // Tier inheritance).
         var registry = new ClaimRegistryBuilder()
             .RegisterF1Family(DefaultChain())
             .Build();
