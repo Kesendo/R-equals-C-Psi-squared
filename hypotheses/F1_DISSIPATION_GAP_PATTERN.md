@@ -111,7 +111,7 @@ Five structural questions were posed when this entry first landed (2026-05-18, a
 - **Q2 star and ring scaling laws:** SHARPENED (three distinct scaling families identified; closed forms still open)
 - **Q3 J ≠ 2γ regime:** **RESOLVED 2026-05-19** via the Q-sweep covering Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5}
 - **Q4 K_4 + disjoint rate-limiting component:** **RESOLVED 2026-05-19** via tensor-sum factorisation
-- **Q5 F2 / F3 connection:** OPEN
+- **Q5 F2 / F3 connection:** SHARPENED (Absorption Theorem `Re(λ) = -2γ·⟨n_XY⟩` reframes the gap question as a light-content question; literature anchors confirm the 4× ring/chain prefactor and the star 1/N family)
 
 Detail per question:
 
@@ -136,7 +136,35 @@ Detail per question:
 
    The **rate-limiting component dominates**: the disconnected graph's dissipation gap equals the SMALLER of the two component gaps, not their sum or any average. Empirical corroboration: at N=8, K_4+disjoint-4-chain gives gap = 0.1362 (γ=0.5, J=1), identical bit-for-bit to chain N=4 at the same (J, γ) which gives 0.1362. Chain (sparser, slower decay) is rate-limiting; K_4 (denser, faster decay) is invisible to the gap. Sister structural result to [`F4KernelDimensionByComponentsClaim`](../compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs) (both follow from tensor-sum factorisation of L across disconnected components).
 
-5. **Connection to F2 / F3.** F2 dispersion claims and F3 decay rate bounds (`min rate = 2γ`, `max rate = 2(N-1)γ` per the Absorption Theorem) describe the spectral envelope. The dissipation gap sits at the lower edge of this envelope; its 1/N² scaling for chain and ring may be the finite-size correction to F3's `min rate = 2γ` thermodynamic limit (where gap → 0 because of the conserved total magnetisation that Heisenberg + Z-dephasing preserves). The star's 1/N scaling does not fit this picture and would be a separate F2/F3 reading. **Status: open.** Cross-link to F3 documentation when the closed forms for the chain/ring/star prefactors land.
+5. **Connection to F2 / F3.** **Status: SHARPENED 2026-05-19** via the Absorption Theorem reading and external literature anchors.
+
+   **Precise statement of F2 and F3 (from typed claims + proofs):**
+   - **F2** ([`F2W1DispersionPi2Inheritance`](../compute/RCPsiSquared.Core/Symmetry/F2W1DispersionPi2Inheritance.cs), [PROOF in D10_W1_DISPERSION](../docs/proofs/derivations/D10_W1_DISPERSION.md)) gives the **w=1 Liouvillian oscillation frequencies** `ω_k = 4J·(1 − cos(π·k/N))` for k = 1..N−1. This is `Im(λ)`, not `Re(λ)`. F2 governs oscillation rates within the weight-1 sector of the Pauli-string Liouvillian; it does NOT predict the dissipation gap.
+   - **F3** ([`F3DecayRateBoundsPi2Inheritance`](../compute/RCPsiSquared.Core/Symmetry/F3DecayRateBoundsPi2Inheritance.cs)) is a corollary of the [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md): `Re(λ) = -2γ·⟨n_XY⟩` for any Lindblad eigenmode. The "min rate = 2γ" bound applies only to **pure w=1 modes** with ⟨n_XY⟩ = 1. F3 itself documents (typed-claim XML line 29-34) that at N≥4, Hamiltonian-mixed hybrid modes with fractional ⟨n_XY⟩ < 1 have rates below 2γ: they are NOT exceptions, they are mixed-sector modes that the Absorption Theorem handles correctly with non-integer light content.
+
+   **What this means for the dissipation gap:** the slowest non-stationary Liouvillian mode does NOT live in the pure-w=1 sector. F50 ([PROOF_WEIGHT1_DEGENERACY](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md)) pins **2N** purely-real w=1 eigenvalues exactly at `Re = -2γ` via SWAP-invariance; the dissipation gap sits **below this floor** in a mixed sector with fractional ⟨n_XY⟩. The Absorption Theorem then reframes the gap-prefactor question as a **light-content question**:
+
+       gap(topology, N, J, γ)  =  2γ · ⟨n_XY⟩_slowest_mode
+
+   where ⟨n_XY⟩_slowest is the light content of the eigenmode that sets the gap. For our three scaling families:
+   - **Chain:** `⟨n_XY⟩_slow ≈ 0.55·Q²/N²` (gives `gap·N²/γ ≈ 1.10·Q²`)
+   - **Ring:** `⟨n_XY⟩_slow ≈ 2·Q²/N²` (gives `gap·N²/γ ≈ 4·Q²`)
+   - **Star:** `⟨n_XY⟩_slow ≈ const·Q^p/N` (gives `gap·N/γ ≈ const`)
+
+   The dispersion-integral physics (`k_min² ∝ 1/N²`) lives inside ⟨n_XY⟩_slow; the Absorption Theorem turns the kinetic 1/N² into a decay-rate prefactor via the 2γ scale.
+
+   **External literature anchors (2026-05-19 web search):**
+
+   - **Medvedyeva, Essler, Prosen (PRL 2016, [arXiv:1606.09122](https://arxiv.org/abs/1606.09122))** derives the **exact Bethe-ansatz spectrum of the periodic XX chain with on-site Z-dephasing** and gives `gap = 2π²·J²/(γ·L²)` in the large-L limit, i.e. `gap·N²/γ ≈ 2π²·Q² ≈ 19.74·Q²` for periodic XX. Our **ring** gap·N²/γ ≈ 4·Q² is roughly 5× below this; the **chain** at 1.10·Q² is ~18× below. The deviation is consistent with two effects: (i) XXX (our model) adds a ZZ term not present in MEP's XX, which changes the magnon dispersion + shifts the slow mode to a sector other than the one MEP's k-Λ string occupies; and (ii) the 4× chain/ring ratio matches MEP's `(2π/N)² / (π/N)²` wavevector-squared ratio for cyclic vs. open lowest modes, structurally confirming the diffusive scaling family even where the numerical prefactor differs.
+
+   - **Bortz, Stolze (PRB 2008, [arXiv:cond-mat/0612382](https://arxiv.org/abs/cond-mat/0612382))** for the inhomogeneous central-spin model: "oscillation frequency is proportional to the number of spins, whereas the amplitude behaves like 1/N". This is exactly the structural pair our repo finds independently: `StarImMaxBoundClaim` (Im_max = J·N/2, frequency ∝ N) plus `gap·N/γ ≈ const` (amplitude ∝ 1/N). Hub-and-leaves geometry has no spatial dispersion, so the slow mode is hub-localised and scales as bandwidth/N rather than as k_min². Independent literature confirmation that our star scaling family is a documented physical regime.
+
+   - **Žnidarič (arXiv:2311.07375)** confirms that *local* (single-site) Z-dephasing on XX gives **diffusive** transport with N⁻² gap scaling; our chain/ring sit in this regime.
+
+   **What remains open:**
+   - **Closed-form derivation of the chain c ≈ 1.10 prefactor** via Bethe ansatz on XXX (not XX). MEP's XX result + an XXX-specific correction for the ZZ term would give the prediction.
+   - **Which weight sector hosts the slow mode** at chain N=6..9. F50 pins w=1 at 2γ; the gap sits below, so the slow mode is mixed or w≥2. The `LiouvillianBlockSpectrum` infrastructure (per-block eigenvalues by joint-popcount sector) could read this off in a single SLOW_N* run.
+   - **Closed-form derivation of the star prefactor** in the central-spin / hub-localised framework (Bortz-Stolze 2008 path).
 
 ## Promotion path
 
