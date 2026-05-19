@@ -124,12 +124,7 @@ public sealed class StarImMaxBoundClaim : Claim
         if (N < MinN)
             throw new ArgumentOutOfRangeException(nameof(N),
                 $"Star saturation derivation requires N ≥ {MinN}; got N = {N}.");
-        if (!double.IsFinite(J))
-            throw new ArgumentException(
-                $"J must be finite; got {J}.", nameof(J));
-        if (J < 0)
-            throw new ArgumentException(
-                $"J must be non-negative; got {J}.", nameof(J));
+        CasimirBoundClaimHelpers.RequireFiniteNonNegative(J, nameof(J));
         return Coefficient * J * N;
     }
 
@@ -137,12 +132,7 @@ public sealed class StarImMaxBoundClaim : Claim
     /// Q = J/γ. Returns <c>(1/2) · Q</c> (independent of N, by Q-universality).</summary>
     public double PredictImOverSigma(double Q)
     {
-        if (!double.IsFinite(Q))
-            throw new ArgumentException(
-                $"Q must be finite; got {Q}.", nameof(Q));
-        if (Q < 0)
-            throw new ArgumentException(
-                $"Q must be non-negative; got {Q}.", nameof(Q));
+        CasimirBoundClaimHelpers.RequireFiniteNonNegative(Q, nameof(Q));
         return Coefficient * Q;
     }
 
@@ -150,25 +140,19 @@ public sealed class StarImMaxBoundClaim : Claim
     /// inspectable tree (4 N-values × 6 Q-values). Each tuple is (Q label, N, Q value,
     /// predicted Im/σ, observed Im/σ). All 24 hit bit-exact (rel. err &lt; 1e-14);
     /// observed values are taken from the JSON <c>MaxImag</c> field of the data
-    /// files listed in <see cref="AnchorDataFiles"/>, divided by σ = N·γ₀.</summary>
+    /// files listed in <see cref="AnchorDataFiles"/>, divided by σ = N·γ₀. Q labels
+    /// and Q values come from <see cref="CasimirBoundClaimHelpers.QSweepAnchorLabels"/>
+    /// (shared with <see cref="RingN4DihedralLockClaim.EmpiricalAnchors"/>).</summary>
     public IReadOnlyList<(string QLabel, int N, double Q, double PredictedImOverSigma, double ObservedImOverSigma)> EmpiricalAnchors { get; } =
         BuildEmpiricalAnchors();
 
     private static (string, int, double, double, double)[] BuildEmpiricalAnchors()
     {
-        var qValues = new (string label, double q)[]
-        {
-            ("Q=0.5 sub-balance",    0.5),
-            ("Q=1.0 Balance",        1.0),
-            ("Q=1.5 F86 Q_peak c=2", 1.5),
-            ("Q=√3 canonical 60°",   1.7320508075688772),
-            ("Q=2.0 Q_EP idealized", 2.0),
-            ("Q=2.5 Endpoint orbit", 2.5),
-        };
-        var rows = new (string, int, double, double, double)[6 * 4];
+        var labels = CasimirBoundClaimHelpers.QSweepAnchorLabels;
+        var rows = new (string, int, double, double, double)[labels.Count * 4];
         int i = 0;
         for (int N = 3; N <= 6; N++)
-            foreach (var (label, q) in qValues)
+            foreach (var (label, q) in labels)
             {
                 double pred = 0.5 * q;
                 rows[i++] = (label, N, q, pred, pred); // observed = predicted to machine precision

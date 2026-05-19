@@ -103,12 +103,7 @@ public sealed class RingN4DihedralLockClaim : Claim
     /// J → −J as the spectral spread, but the convention is J ≥ 0).</para></summary>
     public double Predict(double J)
     {
-        if (!double.IsFinite(J))
-            throw new ArgumentException(
-                $"J must be finite; got {J}.", nameof(J));
-        if (J < 0)
-            throw new ArgumentException(
-                $"J must be non-negative; got {J}.", nameof(J));
+        CasimirBoundClaimHelpers.RequireFiniteNonNegative(J, nameof(J));
         return Coefficient * J * N;
     }
 
@@ -116,30 +111,40 @@ public sealed class RingN4DihedralLockClaim : Claim
     /// Q = J/γ. Returns <c>(3/4) · Q</c>.</summary>
     public double PredictImOverSigma(double Q)
     {
-        if (!double.IsFinite(Q))
-            throw new ArgumentException(
-                $"Q must be finite; got {Q}.", nameof(Q));
-        if (Q < 0)
-            throw new ArgumentException(
-                $"Q must be non-negative; got {Q}.", nameof(Q));
+        CasimirBoundClaimHelpers.RequireFiniteNonNegative(Q, nameof(Q));
         return Coefficient * Q;
     }
 
     /// <summary>The six Q-sweep anchor rows surfaced as a typed table for the
     /// inspectable tree. Each tuple is (Q label, Q value, predicted Im/σ, observed Im/σ,
-    /// relative error). Observed values are taken from the JSON <c>MaxImag</c> field
-    /// of the data files listed in <see cref="AnchorDataFiles"/>, divided by
-    /// <c>σ = N · γ₀ = 4 · 0.05 = 0.2</c>.</summary>
-    public IReadOnlyList<(string QLabel, double Q, double PredictedImOverSigma, double ObservedImOverSigma, double RelError)> EmpiricalAnchors { get; } =
-        new (string, double, double, double, double)[]
+    /// relative error). Q labels and Q values come from
+    /// <see cref="CasimirBoundClaimHelpers.QSweepAnchorLabels"/> (shared with
+    /// <see cref="StarImMaxBoundClaim.EmpiricalAnchors"/>). Observed values are taken
+    /// from the JSON <c>MaxImag</c> field of the data files listed in
+    /// <see cref="AnchorDataFiles"/>, divided by <c>σ = N · γ₀ = 4 · 0.05 = 0.2</c>;
+    /// they match the prediction <c>(3/4)·Q</c> bit-exactly so the
+    /// <c>ObservedImOverSigma</c> column is just the predicted value (the rel-error
+    /// column carries the actual machine-precision deviation).</summary>
+    public IReadOnlyList<(string QLabel, double Q, double PredictedImOverSigma, double ObservedImOverSigma, double RelError)> EmpiricalAnchors { get; }
+        = BuildEmpiricalAnchors();
+
+    // Per-anchor relative errors observed in the Q-sweep at γ₀=0.05 (one per Q in
+    // CasimirBoundClaimHelpers.QSweepAnchorLabels, in order). All bit-exact.
+    private static readonly double[] _relErrors =
+        new[] { 1.5e-16, 1.0e-15, 7.9e-16, 5.1e-16, 3.3e-15, 5.1e-15 };
+
+    private static (string, double, double, double, double)[] BuildEmpiricalAnchors()
+    {
+        var labels = CasimirBoundClaimHelpers.QSweepAnchorLabels;
+        var rows = new (string, double, double, double, double)[labels.Count];
+        for (int i = 0; i < labels.Count; i++)
         {
-            ("Q=0.5 sub-balance",        0.5,                0.375000, 0.375000, 1.5e-16),
-            ("Q=1.0 Balance",            1.0,                0.750000, 0.750000, 1.0e-15),
-            ("Q=1.5 F86 Q_peak c=2",     1.5,                1.125000, 1.125000, 7.9e-16),
-            ("Q=√3 canonical 60°",       1.7320508075688772, 1.299038, 1.299038, 5.1e-16),
-            ("Q=2.0 Q_EP idealized",     2.0,                1.500000, 1.500000, 3.3e-15),
-            ("Q=2.5 Endpoint orbit",     2.5,                1.875000, 1.875000, 5.1e-15),
-        };
+            var (label, q) = labels[i];
+            double pred = (3.0 / 4.0) * q;
+            rows[i] = (label, q, pred, pred, _relErrors[i]);
+        }
+        return rows;
+    }
 
     public RingN4DihedralLockClaim()
         : base("Ring N=4 dihedral lock: Im_max(ring, N=4, J) = (3/4)·J·N = 3·J, Q-universal; closed form via K_{2,2} = C_4 bipartite-complete + Casimir spectrum {−2J, −J, 0³, J}; bit-exact at 6 Q-values from the 2026-05-19 Q-sweep",
