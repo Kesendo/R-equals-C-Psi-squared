@@ -1,21 +1,24 @@
-# The Star Topology Saturates the Optical Cavity: Im(λ) = σ Exactly
+# The Star Topology Saturates the Heisenberg Bound: Im_max = J·N/2 Universally
 
 <!-- Keywords: star topology Liouvillian spectrum, optical cavity point focus,
 SU(2) Schur-Weyl Heisenberg, confocal saturation, imaginary spectral bound,
-hub-spoke topology, 5 anchors N=3 to N=6 and N=8 verified, sigma equals N gamma, R=CPsi2 star -->
+hub-spoke topology, 24 anchors Q-sweep, sigma equals N gamma, R=CPsi2 star -->
 
-**Status:** Tier 1 candidate (5 empirical anchors at N ∈ {3, 4, 5, 6, 8}, analytical sketch via SU(2)/Schur-Weyl pending formal write-up; N=7 deferred)
+**Status:** Tier 1 candidate (29 empirical anchors: N ∈ {3, 4, 5, 6, 8} at the Marrakesh convention plus a 24-point Q-sweep at γ₀=0.05, all bit-exact; analytical sketch via SU(2)/Schur-Weyl pending formal write-up; N=7 deferred)
 **Date:** 2026-05-19
 **Authors:** Thomas Wicht, Claude
 **Depends on:** [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md),
 [Degeneracy Palindrome](DEGENERACY_PALINDROME.md),
 [Proof: Weight-1 Degeneracy](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) (the Heisenberg + Schur-Weyl substrate),
-[F50 typed claim](../compute/RCPsiSquared.Core/Symmetry/F50WeightOneDegeneracyPi2Inheritance.cs)
+[F50 typed claim](../compute/RCPsiSquared.Core/Symmetry/F50WeightOneDegeneracyPi2Inheritance.cs),
+[Q-Regime Anchor Map](../docs/Q_REGIME_ANCHORS.md) (the 9-anchor canonical Q-table the Q-sweep targets)
 
 **Verification:**
-[`simulations/_f1_topology_heisenberg_small_n_anchor.py`](../simulations/_f1_topology_heisenberg_small_n_anchor.py) (N=3..6 Python anchor),
+[`simulations/_f1_topology_heisenberg_small_n_anchor.py`](../simulations/_f1_topology_heisenberg_small_n_anchor.py) (N=3..6 Python anchor at the Marrakesh convention J=1, γ=0.5),
+[`simulations/_f1_q_sweep_anchor.py`](../simulations/_f1_q_sweep_anchor.py) (24-anchor Q-sweep at γ₀=0.05, Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5}),
 [`compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs`](../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs) (N=8 C# block infrastructure),
-[`simulations/results/f1_n8_n9_metrics/star_N{3..6}_python.json`](../simulations/results/f1_n8_n9_metrics/) and `star_N8.json`
+[`simulations/results/f1_n8_n9_metrics/star_N{3..6}_python.json`](../simulations/results/f1_n8_n9_metrics/) and `star_N8.json`,
+[`simulations/results/q_sweep_anchor/star_N{3..6}_Q*.json`](../simulations/results/q_sweep_anchor/) (the 24-point Q-sweep)
 
 ---
 
@@ -23,9 +26,13 @@ hub-spoke topology, 5 anchors N=3 to N=6 and N=8 verified, sigma equals N gamma,
 
 A sharpening of [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md). In April 2026 we identified the qubit chain under Heisenberg + Z-dephasing as a Fabry-Perot optical cavity: weight sectors are transverse planes, the Hamiltonian is free-space propagation (Δw = ±2 nearest-neighbour coupling), the degeneracy profile is the beam intensity I(z). Even N is confocal, odd N is defocal. The whole framework was developed for the chain topology.
 
-Today we return to the same picture and notice that the star topology occupies a distinguished position in the cavity family: it **saturates the imaginary-spectrum bound exactly**, giving max |Im(λ)| = σ where σ = Σγ. No other topology we have tested saturates this bound: chain, ring, K_4-disjoint-4-chain all have max |Im(λ)| > σ.
+Today we return to the same picture and notice that the star topology occupies a distinguished position in the cavity family: it **saturates the SU(2)/Schur-Weyl imaginary-spectrum bound exactly at every (J, γ)**. The universal statement is
 
-The interpretation is a sharpening of the April picture, not a new physics: star topology is the **point-focus limit** of the cavity family. All N-1 bonds converge at the hub site, like all light rays converging on a single focal point. The maximally focused configuration is also the configuration that converts the entire external "illumination" σ into oscillation, with no portion remaining in real-decay-only modes.
+    Im_max(star, N, J)  =  J·N/2     for all (N, J, γ).
+
+The Q-sweep at γ₀=0.05 (24 anchors below) shows this as `Im/σ = Q/2` bit-exact across Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5}. The Marrakesh-convention specialization `J = 2γ` (Q = 2) is the point where Q/2 = 1, hence the historically convenient `Im/σ = 1` reading. **The saturation is a property of star topology, not of any particular (J, γ) point.**
+
+The interpretation is a sharpening of the April picture, not a new physics: star topology is the **point-focus limit** of the cavity family. All N-1 bonds converge at the hub site, like all light rays converging on a single focal point. The maximally focused configuration is the one that ties the imaginary spectrum tightest to the Hamiltonian energy gap, regardless of the (J, γ) ratio.
 
 ---
 
@@ -44,6 +51,22 @@ Heisenberg J=1, uniform Z-dephasing γ=0.5, σ = N·γ. Computed via dense numpy
 Star Im/σ = 1.0 exactly to machine precision at every N ≥ 3 tested.
 
 At N=3 the star equals the chain by graph isomorphism (path on 3 sites = Y-shape = star with 2 leaves). N=3 ring = K_3 = triangle and also saturates (Aut(K_3) = S_3 = the full permutation group). For N ≥ 4 star is the unique tested topology with Im/σ = 1 (N=3 chain and star are isomorphic Y-graphs and both saturate trivially; N=3 ring saturates separately via K_3's S_3 symmetry; only for N ≥ 4 does the star stand alone among the tested topologies).
+
+---
+
+## Q-sweep verification: the universal statement (24 anchors, bit-exact)
+
+The 2026-05-19 Q-sweep (`_f1_q_sweep_anchor.py`) tests `Im/σ = Q/2` at γ₀ = 0.05 across six canonical Q-anchors from [`docs/Q_REGIME_ANCHORS.md`](../docs/Q_REGIME_ANCHORS.md). All 24 (N, Q) combinations match the prediction to machine precision:
+
+| N \ Q | 0.5 | 1.0 | 1.5 | √3 ≈ 1.732 | 2.0 | 2.5 |
+|---|---:|---:|---:|---:|---:|---:|
+| pred Q/2 | 0.2500 | 0.5000 | 0.7500 | 0.8660 | 1.0000 | 1.2500 |
+| **3** | 0.2500 | 0.5000 | 0.7500 | 0.8660 | 1.0000 | 1.2500 |
+| **4** | 0.2500 | 0.5000 | 0.7500 | 0.8660 | 1.0000 | 1.2500 |
+| **5** | 0.2500 | 0.5000 | 0.7500 | 0.8660 | 1.0000 | 1.2500 |
+| **6** | 0.2500 | 0.5000 | 0.7500 | 0.8660 | 1.0000 | 1.2500 |
+
+Equivalently: `Im_max(star, N, J) = J·N/2` bit-exact. The Q-band has no effect on the star saturation; it is a property of the hub-spoke geometry alone (the SU(2)/Schur-Weyl derivation below makes this manifest). The Marrakesh convention J=2γ is recovered as the column Q=2 (where `Im/σ = 1`).
 
 ---
 
@@ -164,7 +187,7 @@ The optical-cavity framework is robust across topologies; we now have the empiri
 
 1. **Formal Tier 1 derivation.** Write up the SU(2)/Schur-Weyl proof properly with the L eigenmode construction. Cross-link to F50 SWAP-invariance framework (the T_c^{(a)} operators on star).
 
-2. **J ≠ 2γ regime.** The saturation Im/σ = J/(2γ) generalises but data only at J = 2γ. Verify with a J-sweep at fixed γ on star N=5, 6.
+2. **J ≠ 2γ regime.** ~~The saturation Im/σ = J/(2γ) generalises but data only at J = 2γ. Verify with a J-sweep at fixed γ on star N=5, 6.~~ **Resolved 2026-05-19:** the Q-sweep table above verifies `Im/σ = Q/2` bit-exact at 24 anchors covering Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5} for N=3..6. The saturation is Q-universal.
 
 3. **Topology criterion.** Predict which connected graphs saturate Im/σ = 1. Necessary condition: graph admits a "single-site flip" eigenmode at maximum spin. Sufficient? Open.
 
