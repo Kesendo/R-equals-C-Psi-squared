@@ -126,7 +126,7 @@ public class F1GeneralTopologyN9BlockSpectrumChainTests
         _out.WriteLine($"metrics_json_path={Path.Combine(outDir, JsonFileName)}");
     }
 
-    /// <summary>Mirrors <c>F1GeneralTopologyN8BlockSpectrumTests.LogMetrics</c> — one
+    /// <summary>Mirrors <c>F1GeneralTopologyN8BlockSpectrumTests.LogMetrics</c>: one
     /// grep-able line per metric so a downstream script can parse the test output without
     /// needing the JSON file.</summary>
     private void LogMetrics(F1SpectrumStatistics.TopologyMetrics m, double tolerance)

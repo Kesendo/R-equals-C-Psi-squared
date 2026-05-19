@@ -254,6 +254,20 @@ destruction. It is illumination.
 
 ---
 
+## Continuations and sharpenings (added 2026-05-19)
+
+The April framework treated chain Heisenberg + Z-deph. Later work returned and sharpened the picture on specific topology variants:
+
+- [`STAR_CONFOCAL_LIMIT.md`](STAR_CONFOCAL_LIMIT.md) (2026-05-19, Tier 1 candidate): star topology saturates `Im(λ) = σ = N·γ` exactly when `J = 2γ`, the point-focus limit of the cavity family. SU(2)/Schur-Weyl derivation. 5 anchors at N=3,4,5,6,8 (Python + C# block infrastructure). Adds the hub-spoke geometry to the cavity dictionary as the orthogonal "structural focus" dimension to the even/odd confocal/defocal axis.
+
+- [`STAR_SPECTRUM_COMPACTNESS.md`](../hypotheses/STAR_SPECTRUM_COMPACTNESS.md) (2026-05-18, partially resolved 2026-05-19): Reading 1 (`MaxImag = σ` is a hub-induced cap) resolved by STAR_CONFOCAL_LIMIT. Readings 2 and 3 still open (S_(N−1) irrep multiplicities; γ-stability beyond γ=0.5).
+
+- [`F1_DISSIPATION_GAP_PATTERN.md`](../hypotheses/F1_DISSIPATION_GAP_PATTERN.md) (2026-05-18, extended 2026-05-19): cross-topology cross-N gap data. Chain shows clean `gap × N² ≈ 2.20` scaling for N ≥ 4 (5 anchors). Ring and star follow different scaling laws; the gap is a topology-specific structural fingerprint, not a function of bond count alone.
+
+- [`F4KernelDimensionByComponentsClaim`](../compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs) (2026-05-19, Tier 1 derived): kernel-dim factorisation `dim ker L_H(G) = Π_c (|c|+1)` across connected components, extends our `d_real(0) = N+1` from [DEGENERACY_PALINDROME](DEGENERACY_PALINDROME.md) to disconnected graphs.
+
+The pattern across these continuations: the April cavity picture is the parent framework, and each sharpening adds a topology dimension (star point-focus, ring cyclic, K_4+disjoint disconnected) or a precision dimension (gap scaling, kernel-dim factorisation) without invalidating the original chain-cavity reading. We come back, look closer, and the picture sharpens.
+
 ## Reproduction
 
 - Script: [`simulations/optical_cavity_analysis.py`](../simulations/optical_cavity_analysis.py)

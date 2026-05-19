@@ -53,7 +53,7 @@ public class F4KernelDimensionByComponentsClaimTests
     // Note: chain N=8, ring N=8, star N=8 all have component-spec [8] → 9; they are
     // three distinct topologies sharing the same prediction. The InlineData rows
     // collapse to two distinct component-spec inputs ([8] and [4, 4]); the four
-    // labelled topology rows are spelled out in EmpiricalAnchorsN8_HasFourRows_AllMatchPredict
+    // labelled topology rows are spelled out in EmpiricalAnchors_HasFiveRows_AllMatchPredict
     // below to keep the topology labels (chain/ring/star) and observed values in the
     // record without the xUnit1025 duplicate-InlineData warning.
     [InlineData(new[] { 8 },        9)]    // chain N=8 = ring N=8 = star N=8 (component spec [8])
@@ -100,38 +100,46 @@ public class F4KernelDimensionByComponentsClaimTests
     }
 
     [Fact]
-    public void EmpiricalAnchorsN8_HasFourRows_AllMatchPredict()
+    public void EmpiricalAnchors_HasFiveRows_AllMatchPredict()
     {
         var claim = BuildClaim();
-        Assert.Equal(4, claim.EmpiricalAnchorsN8.Count);
+        // 4 rows from the N=8 SLOW_N8 sweep (2026-05-18) + 1 row from the N=9 chain
+        // MklDirect-bridge run (2026-05-19). Property name `EmpiricalAnchorsN8` is kept
+        // for API stability; the table now spans N=8 + N=9.
+        Assert.Equal(5, claim.EmpiricalAnchorsN8.Count);
         foreach (var (topology, sizes, predicted, observed) in claim.EmpiricalAnchorsN8)
         {
             // Predicted column equals the in-line Predict computation.
             Assert.Equal(predicted, claim.Predict(sizes));
-            // Observed column equals the predicted column (bit-exact at every N=8 row).
+            // Observed column equals the predicted column (bit-exact at every row).
             Assert.Equal(predicted, observed);
             Assert.False(string.IsNullOrWhiteSpace(topology));
         }
     }
 
     [Fact]
-    public void EmpiricalAnchorsN8_TopologyLabels_AreDistinctAndN8()
+    public void EmpiricalAnchors_TopologyLabels_AreDistinctAndCarryN8OrN9()
     {
         var claim = BuildClaim();
         var labels = claim.EmpiricalAnchorsN8.Select(a => a.Topology).ToList();
         Assert.Equal(labels.Count, labels.Distinct().Count());
-        Assert.All(labels, label => Assert.Contains("N=8", label));
+        Assert.All(labels, label =>
+            Assert.True(label.Contains("N=8") || label.Contains("N=9"),
+                $"Empirical anchor label '{label}' should mention N=8 or N=9; the anchor table covers the 2026-05-18 SLOW_N8 sweep + 2026-05-19 N=9 chain bridge."));
     }
 
     [Fact]
-    public void AnchorDataFiles_HasFourN8JsonPaths()
+    public void AnchorDataFiles_HasFiveN8AndN9JsonPaths()
     {
         var claim = BuildClaim();
-        Assert.Equal(4, claim.AnchorDataFiles.Count);
+        // 4 N=8 JSONs (chain, ring, star, K_4+disjoint-4-chain) from the SLOW_N8 sweep
+        // 2026-05-18 + 1 N=9 chain JSON from the MklDirect-bridge run 2026-05-19.
+        Assert.Equal(5, claim.AnchorDataFiles.Count);
         Assert.All(claim.AnchorDataFiles, path =>
         {
             Assert.Contains("f1_n8_n9_metrics", path);
-            Assert.EndsWith("_N8.json", path);
+            Assert.True(path.EndsWith("_N8.json") || path.EndsWith("_N9.json"),
+                $"Anchor data file '{path}' should end with _N8.json or _N9.json.");
         });
     }
 

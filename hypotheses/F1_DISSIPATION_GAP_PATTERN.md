@@ -1,8 +1,8 @@
 # F1 Dissipation Gap Pattern
 
-**Tier 3 (reading, not yet a typed claim).** Observation surfaced from the F1 SLOW_N8 sweep on 2026-05-18 (commit 89f725e). The dissipation gap (slowest decay = min{|Re(λ)| : Re(λ) < 0}) of the Heisenberg + Z-dephasing Liouvillian at fixed N=8, J=1, γ=0.5 varies non-trivially across topologies. Bond count alone does not predict it; connectivity / branching geometry also enters.
+**Tier 3 (reading) sharpened to Tier 3 (empirical scaling).** Observation surfaced from the F1 SLOW_N8 sweep on 2026-05-18 (commit 89f725e) with the 4 N=8 anchors. Extended 2026-05-19 with chain/ring/star × N=3..6 Python anchors plus the N=9 chain run via the MklDirect bridge (commit abb2d52). The dissipation gap of the Heisenberg + Z-dephasing Liouvillian shows a clean **chain-topology scaling law** `gap × N² ≈ 2.20` for N ≥ 4, with ring and star following different patterns. Bond count alone does not predict it; the per-topology scaling shape is the structural fingerprint.
 
-## Observed gaps at N=8
+## Observed gaps at N=8 (initial 4-point anchor)
 
 From the four `simulations/results/f1_n8_n9_metrics/<topology>_N8.json` files' `DissipationGap` fields (commit 89f725e). All four configurations share Heisenberg XXX (XX+YY+ZZ) at J=1.0 with uniform Z-dephasing γ=0.5.
 
@@ -13,29 +13,87 @@ From the four `simulations/results/f1_n8_n9_metrics/<topology>_N8.json` files' `
 | ring N=8        | 8 | 1 | 0.1339 |
 | K_4 + disjoint 4-chain N=8 | 9 | 2 | 0.1362 |
 
-## Why this is not just gap ∝ B(G)
+## Cross-topology cross-N extension (2026-05-19 Python anchors)
 
-If the gap scaled with bond count alone, chain and star (both B=7) should have the same value. They differ by a factor 2.5×. The star concentrates dispersal around the hub; the chain spreads it linearly. Connectivity / branching / spectral radius of the graph Laplacian appears to enter beyond the bond count.
+Python anchors via `simulations/_f1_topology_heisenberg_small_n_anchor.py` extended chain, ring, star to N=3..6 dense numpy eigvals. The same Heisenberg J=1, γ=0.5 convention. JSON files at `simulations/results/f1_n8_n9_metrics/{chain,ring,star}_N{3..6}_python.json`.
 
-## Open structural questions
+| Topology | N | Dissipation gap | gap × N² | Notes |
+|---|---:|---:|---:|---|
+| chain | 3 | 0.2697 | **2.43** | boundary case, also = star N=3 (Y-graph isomorphism) |
+| chain | 4 | 0.1362 | **2.18** | |
+| chain | 5 | 0.0884 | **2.21** | |
+| chain | 6 | 0.0607 | **2.18** | |
+| chain | 8 | 0.0344 | **2.20** | C# block-spectrum, matches Python pattern |
+| chain | 9 | 0.02728 | **2.21** | C# block-spectrum via MklDirect bridge 2026-05-19, predicted 2.20/81 = 0.02716, observed 0.02728 (within 0.4 %) |
+| ring | 3 | 0.8278 | 7.45 | = K_3 = triangle |
+| ring | 4 | 0.3795 | 6.07 | |
+| ring | 5 | 0.3173 | 7.93 | |
+| ring | 6 | 0.2300 | 8.28 | |
+| ring | 8 | 0.1339 | 8.57 | |
+| star | 3 | 0.2697 | 2.43 | isomorphic to chain N=3 |
+| star | 4 | 0.2099 | 3.36 | |
+| star | 5 | 0.1637 | 4.09 | |
+| star | 6 | 0.1300 | 4.68 | |
+| star | 8 | 0.0870 | 5.57 | |
 
-The data is too thin to pose anything tighter than candidates. Three readings that the four-point pattern is consistent with:
+## The chain-topology scaling law: gap × N² ≈ 2.20 (Tier 3 empirical)
 
-1. **Graph-Laplacian spectral gap.** The Liouvillian dissipation gap could correlate with the second-smallest eigenvalue of the underlying graph Laplacian (Fiedler value). Star and chain at N=8 have well-separated Fiedler values; star = 1 (hub-driven), chain = 2(1 − cos(π/N)) ≈ 0.152. Direction proportional but the ratio doesn't match the observed gap ratio (0.0870 / 0.0344 ≈ 2.53 vs 1 / 0.152 ≈ 6.6). Could be a function-of-Fiedler relationship, not strict proportionality.
+For chain Heisenberg at J=1, γ=0.5, the dissipation gap satisfies
 
-2. **Hub vertex contribution.** Star at N=8 has degree-7 hub plus 7 leaves; ring has all-degree-2 sites; chain has end vertices of degree 1 and interior degree 2. The hub may push the slow mode toward a localised structure that decays faster than the chain's spread-out modes. Suggests a degree-distribution-driven correction to the Laplacian-gap reading.
+    gap(chain, N) · N²  ≈  2.20  ± 0.02   for N ≥ 4
 
-3. **Disconnected components add or compete?** K_4 + 4-chain (0.1362) sits within 2% of ring (0.1339), even though K_4 is much more strongly connected than ring. One reading: the rate-limiting component dominates the gap (the slow side of a parallel coupling), so the 4-chain piece of K_4 + 4-chain sets the floor and brings the disconnected case below what K_4-alone would give. Testable by computing the gap for K_4 alone at N=4 and the 4-chain alone at N=4 and checking whether K_4 + 4-chain gap = min(K_4 gap at N=4, 4-chain gap at N=4) or some other combination rule.
+across **5 data points** in the flat plateau (N=4, 5, 6, 8, 9; N=3 is a boundary case at 2.43, Y-graph isomorphism with star, breaks the chain-specific limit; N=7 is absent because no chain anchor exists at that N in the current sweep). The flat plateau across N ∈ {4, 5, 6, 8, 9} is the cleanest topology-specific scaling observation in the data, predictive to 0.4 % at N=9 (predicted 2.20/81 = 0.02716, observed 0.02728).
 
-## Not yet a typed claim
+**Physical interpretation.** A 1D dispersive chain Hamiltonian + per-site Z-dephasing produces a "diffusive" Liouvillian. The slowest decay mode has wavevector k_min ∝ 1/N (open-boundary modes); the decay rate scales as γ · k_min² ∝ 1/N². The prefactor 2.20 packs the J=2γ coefficient + chain Hamiltonian structure factor into a single number that has not yet been derived in closed form.
 
-This entry stays in `hypotheses/` (Tier 3) until at least three more data points land:
+**The constant 2.20 is not obviously a clean expression** of π², 4γJ, γ²+J², or other obvious combinations:
 
-- A second N (N=7 or N=9 once the ILP64 bridge is in place) to test whether the gap ordering chain < star < ring < disconnected holds at other system sizes.
-- A wider graph zoo at N=8 (path, K_4 + K_4, double-star, wheel, complete bipartite) to test the hub-vs-spread hypothesis.
-- One γ value above and one below 0.5 to test whether the relative ordering is γ-stable or γ-band-dependent.
+- 4γJ = 4 · 0.5 · 1 = 2.00 (off by 9% from 2.20)
+- 4γ² + J² = 1.25 (off significantly)
+- π²·γ²/2 ≈ 1.23 (no)
+- 2(J² + γ²) = 2.5 (no)
 
-If a clean closed form lands (gap as a function of (B, Fiedler, max-degree, components)), promote to Tier 1 candidate in `compute/RCPsiSquared.Core/Symmetry/` with a `Predict(graphInvariants)` method and the data table as anchors.
+The prefactor likely involves a more delicate dispersion-integral evaluation. Closed form is open.
+
+**N=9 chain verification (2026-05-19, landed):** prediction `gap ≈ 2.20/81 = 0.02716` versus observed `gap = 0.02728` from the MklDirect bridge run. Match within 0.4 %. The chain `gap × N² ≈ 2.20` empirical scaling now spans N ∈ {4, 5, 6, 8, 9} (5 anchors; N=7 chain not in the current sweep); the flat plateau survives the N=9 extension.
+
+## Ring and star follow different patterns
+
+Ring N=3..8: `gap × N²` ranges 6.07 → 8.57, **not flat**. The ring's cyclic symmetry creates additional degeneracies and the dispersion structure differs from open chain. No clean scaling law identified.
+
+Star N=3..8: `gap × N²` grows monotonically 2.43 → 3.36 → 4.09 → 4.68 → 5.57, **not 1/N² scaling**. The hub-spoke geometry produces a different gap-scaling family. Star's spectral structure connects to the SU(2)/Schur-Weyl decomposition (see [`STAR_CONFOCAL_LIMIT.md`](STAR_CONFOCAL_LIMIT.md) for the related Im(λ) = σ saturation observation).
+
+The three topologies have qualitatively different scaling laws, consistent with the original observation that bond count alone does not predict the gap. The right framework distinguishes:
+- **Chain (1D open path)**: clean 1/N² diffusive scaling
+- **Ring (1D periodic)**: distinct pattern from chain, likely tied to cyclic dispersion + degeneracy
+- **Star (hub-spoke)**: distinct pattern tied to maximally-confocal geometry, slower N-decay than chain
+
+## Why bond count alone fails (sharpened)
+
+At N=8: chain (B=7) gap 0.0344, star (B=7) gap 0.0870, ratio 2.5×. Same bond count, different geometry. Even more starkly at small N where the difference grows: chain N=4 (B=3) gap 0.136, star N=4 (B=3) gap 0.210, ratio 1.54.
+
+The 2026-05-19 cross-topology data confirms: bond count is irrelevant, **graph dispersion structure** is the right parameterisation. Chain has linear-band dispersion (slow modes at k ∝ 1/N → 1/N² gap); star has hub-localised modes (different scaling family); ring has cyclic dispersion with degenerate slowest modes.
+
+## Open structural questions (refined post-extension)
+
+1. **Closed form for the chain prefactor 2.20.** The 1/N² scaling is physically motivated by 1D diffusion; the prefactor 2.20 ≈ 4γJ (with J=1, γ=0.5 → 2.00) is empirically off by 9% from the simplest scaling. Bethe-ansatz or magnon-dispersion derivation may identify the exact coefficient.
+
+2. **Star and ring scaling laws.** Ring `gap × N²` grows from 6 to 8.5; star `gap × N²` grows from 2.4 to 5.6. Neither pattern fits 1/N², 1/N, or exp(-αN). The functional forms are open.
+
+3. **J ≠ 2γ regime.** All data points are at J = 2γ (J=1, γ=0.5). Sweep needed to test whether the chain 2.20 prefactor decomposes as J·a + γ·b or some product form.
+
+4. **K_4 + disjoint behaviour.** The disconnected case at N=8 still gives gap 0.1362, similar to the ring. The original "rate-limiting component dominates" hypothesis remains untested at small N (need K_4 alone at N=4 and 4-chain alone at N=4 to check the min-vs-additive question).
+
+5. **Connection to F2 / F3.** F2 dispersion claims and F3 decay rate bounds (`min rate = 2γ`, `max rate = 2(N-1)γ` per the Absorption Theorem) describe the spectral envelope. The dissipation gap sits at the lower edge of this envelope; its 1/N² scaling for chain may be the finite-size correction to F3's `min rate = 2γ` thermodynamic limit. Cross-link to F3 documentation when the closed form lands.
+
+## Promotion path
+
+This entry can move from Tier 3 reading to **Tier 1 candidate typed claim** when:
+- The chain 2.20 prefactor admits a closed-form derivation (Bethe ansatz / dispersion integral / specific Liouvillian Jordan-block structure).
+- The ring and star scaling families are characterized (even if the formulas differ across topologies, having three closed forms in hand is enough).
+- The J ≠ 2γ sweep confirms whichever dependence emerges (linear in J or γ, joint product, or independent).
+
+In that case the typed claim sits in `compute/RCPsiSquared.Core/Symmetry/` as `F_DissipationGapClosedForm` (or similar) with a `Predict(topology, N, J, γ)` method dispatching on topology family.
 
 ## Cross-references
 

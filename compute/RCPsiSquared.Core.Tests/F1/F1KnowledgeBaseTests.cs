@@ -110,20 +110,21 @@ public class F1KnowledgeBaseTests
         Assert.Contains("PROOF_F1_GENERAL_TOPOLOGY", kb.GeneralTopologyVerification.Anchor);
         // Spot-check the verified-N set and the topology counts stayed stable across
         // the typed-claim round-trip.
-        // N=9 verified up to the infrastructure ceiling but blocked at the LP64 MKL
-        // P/Invoke marshalling cap (2026-05-18); see ScaleFrontierBlockedAtN below.
-        Assert.Equal(new[] { 5, 6, 7, 8 }, kb.GeneralTopologyVerification.VerifiedNValues);
-        Assert.Equal(new[] { 5, 6, 7, 8 }, kb.GeneralTopologyVerification.ScaleUpToN);
-        Assert.Equal(9, kb.GeneralTopologyVerification.ScaleFrontierBlockedAtN);
+        // N=9 chain was crossed 2026-05-19 via the MklDirect bridge (commit abb2d52);
+        // the new frontier at N=10 is memory-pressure rather than LP64 marshalling.
+        // See ScaleFrontierBlockedAtN below.
+        Assert.Equal(new[] { 5, 6, 7, 8, 9 }, kb.GeneralTopologyVerification.VerifiedNValues);
+        Assert.Equal(new[] { 5, 6, 7, 8, 9 }, kb.GeneralTopologyVerification.ScaleUpToN);
+        Assert.Equal(10, kb.GeneralTopologyVerification.ScaleFrontierBlockedAtN);
         Assert.False(string.IsNullOrWhiteSpace(kb.GeneralTopologyVerification.ScaleFrontierBlockerReason));
         Assert.True(kb.GeneralTopologyVerification.DisconnectedComponentsVerified);
         Assert.True(kb.GeneralTopologyVerification.WeightedEdgesVerified);
         Assert.True(kb.GeneralTopologyVerification.SingleBodyClassVerified);
         Assert.NotEmpty(kb.GeneralTopologyVerification.SpectrumMetricsDataFiles);
-        // chain_N9 is NOT in the metric set yet (test is skipped at the infrastructure
-        // ceiling); chain_N8 is (one of the 4 captured N=8 sweeps).
+        // chain_N9 landed 2026-05-19 alongside the MklDirect bridge (commit abb2d52);
+        // chain_N8 is one of the 4 captured N=8 sweeps.
         Assert.Contains("chain_N8.json", string.Join(";", kb.GeneralTopologyVerification.SpectrumMetricsDataFiles));
-        Assert.DoesNotContain("chain_N9.json", string.Join(";", kb.GeneralTopologyVerification.SpectrumMetricsDataFiles));
+        Assert.Contains("chain_N9.json", string.Join(";", kb.GeneralTopologyVerification.SpectrumMetricsDataFiles));
     }
 
     [Fact]

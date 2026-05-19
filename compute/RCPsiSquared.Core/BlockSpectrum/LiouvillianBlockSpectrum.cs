@@ -231,7 +231,7 @@ public sealed class LiouvillianBlockSpectrum : Claim
     /// <see cref="Lp64ComplexCeiling"/>.</summary>
     /// <param name="path">Force the MathNet path, force the MklDirect + NativeMemory path,
     /// or let the per-block size decide. <see cref="EigenPath.MathNet"/> will throw inside
-    /// MathNet's marshaller for blocks larger than the LP64 ceiling — use
+    /// MathNet's marshaller for blocks larger than the LP64 ceiling; use
     /// <see cref="EigenPath.Auto"/> in production code.</param>
     public static Complex[] ComputeSpectrumPerBlock(
         ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N, EigenPath path)

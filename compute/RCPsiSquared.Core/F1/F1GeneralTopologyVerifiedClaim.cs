@@ -51,26 +51,23 @@ namespace RCPsiSquared.Core.F1;
 ///         to <c>simulations/results/f1_n8_n9_metrics/&lt;topology&gt;_N8.json</c>
 ///         (wall-time profile, pairing-precision histogram, spectrum-structure invariants,
 ///         block-decomposition cost picture, Hamiltonian + dissipator setup).</item>
-///   <item><b>N=9 chain spot-check — infrastructure-ceiling finding (2026-05-18):</b>
+///   <item><b>N=9 chain via MklDirect bridge (2026-05-19, verified):</b>
 ///         The N=9 test (<c>F1GeneralTopologyN9BlockSpectrumChainTests</c>, opt-in
-///         <c>[Trait("Category","SLOW_N9")]</c>) is wired end-to-end but exits via
-///         <see cref="Xunit.Skip"/> because the LP64 MathNet MKL P/Invoke
-///         (<c>MklLinearAlgebraProvider.EigenDecomp</c>) caps individual native
-///         <c>Complex[]</c> arrays at 2 GB (134 217 728 elements, i.e. an 11 585² square
-///         matrix max), independent of the <c>AllowVeryLargeObjects</c> CLR flag. At N=9
-///         the largest joint-popcount block is C(9, 4) · C(9, 5) = 15 876² ≈ 4 GB,
-///         exceeding the marshalling ceiling and throwing
-///         <c>System.ArgumentException : Array size exceeds addressing limitations</c>
-///         from <c>MngdNativeArrayMarshaler.ConvertSpaceToNative</c> after ~1m 44s on the
-///         first attempt. <b>This is an infrastructure ceiling, not a violation of F1:</b>
-///         the F1 palindromic-pairing identity itself is exact at every finite N; only the
-///         per-block Evd P/Invoke route is unable to host the largest sector. Reaching N=9
-///         requires routing the dominant block through
-///         <c>RCPsiSquared.Compute.MklDirect</c>'s NativeMemory + ILP64 LAPACK path (the
-///         same recipe <c>RCPsiSquared.Compute.Liouvillian.BuildDirectNative</c> uses for
-///         the N=8 dense Liouvillian). Bridging that into <c>RCPsiSquared.Core</c> is a
-///         separate scope; the SkippableFact preserves the test so a future bridge
-///         re-enables it without touching the test code.</item>
+///         <c>[Trait("Category","SLOW_N9")]</c>) reaches the largest joint-popcount block
+///         C(9, 4) · C(9, 5) = 15 876² ≈ 4 GB via the
+///         <see cref="BlockSpectrum.LiouvillianBlockSpectrum.Lp64ComplexCeiling"/> bridge
+///         to <see cref="BlockSpectrum.PerBlockLiouvillianBuilder.BuildBlockZIntoNativeMemory"/>
+///         + <c>RCPsiSquared.Core.Numerics.MklDirect.EigenvaluesOnlyNative</c> (NativeMemory
+///         + ILP64-aware zgeev). The full 262 144-eigenvalue spectrum is computed, F1
+///         palindromic pairing {λ_k} = {−2σ − λ_k} verified bit-exact across all eigenvalues
+///         to tolerance 1e-5 (observed max pairing distance ≈ 3.5e-13). Wall time 3h 24m on
+///         the 128 GB / 24-core dev machine; effective speedup over the dense N=9 Liouvillian
+///         (which would be 262 144² × 16 B ≈ 1.1 TB) is ≈ 645×, exceeding the LiouvillianBlockSpectrum
+///         docstring N=8 promise of 515×. Full <see cref="F1SpectrumStatistics"/> metric capture
+///         to <c>simulations/results/f1_n8_n9_metrics/chain_N9.json</c> (kernel dim = 10 matching
+///         F4KernelDim prediction; MinReal = −9.0 exact matching the F1 corollary; gap × N² = 2.21
+///         matching the chain dissipation-gap scaling F1_DISSIPATION_GAP_PATTERN to 0.4%; 0 outlier
+///         pairs in the palindromic identity).</item>
 /// </list>
 ///
 /// <para><b>Pragmatic infrastructure note.</b> The
@@ -108,10 +105,9 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
     /// <summary>N values across which the verification record covers Python + C# combined:
     /// 5 (C# graph-aware + Python), 6 (Python random + named + disconnected), 7 (C# F1
     /// palindromic-pairing via block spectrum, default-run), 8 (C# F1 palindromic-pairing
-    /// via the same block path, opt-in SLOW_N8 trait). N=9 wired but blocked by an
-    /// LP64 MKL P/Invoke marshalling ceiling — see <see cref="ScaleFrontierBlockedAtN"/>
-    /// and the class XML doc for the 2026-05-18 finding.</summary>
-    public IReadOnlyList<int> VerifiedNValues { get; } = new[] { 5, 6, 7, 8 };
+    /// via the same block path, opt-in SLOW_N8 trait), 9 (C# F1 palindromic-pairing chain
+    /// via the MklDirect bridge, opt-in SLOW_N9 trait, landed 2026-05-19).</summary>
+    public IReadOnlyList<int> VerifiedNValues { get; } = new[] { 5, 6, 7, 8, 9 };
 
     /// <summary>Block-spectrum dogfood reach: the N values at which
     /// <see cref="BlockSpectrum.LiouvillianBlockSpectrum.ComputeSpectrumPerBlock"/> has
@@ -120,39 +116,51 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
     /// reach for the parent <see cref="BlockSpectrum.LiouvillianBlockSpectrum"/> bit-exact
     /// witness; 7 is the default-run dogfood; 8 is the opt-in SLOW_N8 sweep across 4
     /// topologies.</summary>
-    public IReadOnlyList<int> ScaleUpToN { get; } = new[] { 5, 6, 7, 8 };
+    public IReadOnlyList<int> ScaleUpToN { get; } = new[] { 5, 6, 7, 8, 9 };
 
     /// <summary>N at which the block-spectrum dogfood path is blocked by an external
-    /// infrastructure ceiling rather than by F1 itself. At N=9 the largest joint-popcount
-    /// block (C(9, 4) · C(9, 5) = 15 876² ≈ 4 GB) exceeds the LP64 MathNet MKL
-    /// <c>MngdNativeArrayMarshaler.ConvertSpaceToNative</c> 2 GB single-native-array
-    /// ceiling. The F1 palindromic-pairing identity itself is exact at every finite N;
-    /// only the per-block Evd P/Invoke route is unable to host the largest sector.
-    /// Bridging requires routing the dominant block through
-    /// <c>RCPsiSquared.Compute.MklDirect</c>'s NativeMemory + ILP64 LAPACK path. The
-    /// N=9 test class (<c>F1GeneralTopologyN9BlockSpectrumChainTests</c>) is preserved
-    /// as a <see cref="Xunit.SkippableFactAttribute"/> so a future bridge re-enables it
-    /// without test-code change. <see langword="null"/> means no infrastructure ceiling
+    /// infrastructure ceiling rather than by F1 itself. The previous frontier sat at
+    /// N=9 because the largest joint-popcount block (C(9, 4) · C(9, 5) = 15 876² ≈ 4 GB)
+    /// exceeded the LP64 MathNet MKL <c>MngdNativeArrayMarshaler.ConvertSpaceToNative</c>
+    /// 2 GB single-native-array ceiling; that frontier was crossed 2026-05-19 (commit
+    /// <c>abb2d52</c>) by bridging blocks &gt;
+    /// <see cref="BlockSpectrum.LiouvillianBlockSpectrum.Lp64ComplexCeiling"/> through
+    /// <c>MklDirect.EigenvaluesOnlyNative</c>'s NativeMemory + ILP64-aware zgeev. The
+    /// N=9 test class (<c>F1GeneralTopologyN9BlockSpectrumChainTests</c>) is now a
+    /// regular <c>[Fact]</c> under <c>[Trait("Category", "SLOW_N9")]</c> with no
+    /// <c>Skip.If</c> guard. The new frontier at N=10 is a memory-pressure ceiling
+    /// (max block C(10,5)² = 63 504² complex ≈ 64 GB native); see
+    /// <see cref="ScaleFrontierBlockerReason"/>. The F1 palindromic-pairing identity
+    /// itself is exact at every finite N; only the per-block Evd compute scaling is
+    /// the new bottleneck. <see langword="null"/> means no infrastructure ceiling
     /// is currently identified above the verified set.</summary>
-    public int? ScaleFrontierBlockedAtN { get; } = 9;
+    public int? ScaleFrontierBlockedAtN { get; } = 10;
 
     /// <summary>Reason string for <see cref="ScaleFrontierBlockedAtN"/>; surfaced via
     /// the inspectable tree so a future reader can find the blocker without digging
-    /// into the source comments.</summary>
+    /// into the source comments. N=9 was the previous frontier (LP64 marshalling ceiling)
+    /// and was crossed 2026-05-19 via the MklDirect bridge in
+    /// <see cref="BlockSpectrum.LiouvillianBlockSpectrum.ComputeSpectrumPerBlock"/>. The
+    /// new frontier at N=10 is a memory-pressure ceiling (max block C(10,5)² = 63 504² ≈
+    /// 64 GB native, fits on the 128 GB dev machine but tight on the parallel
+    /// outer-DOP path); needs profiling rather than an LP64 bridge.</summary>
     public string? ScaleFrontierBlockerReason { get; } =
-        "LP64 MathNet MKL P/Invoke marshaller caps individual Complex[] arrays at 2 GB " +
-        "(MngdNativeArrayMarshaler.ConvertSpaceToNative). N=9 max block C(9,4)·C(9,5) = 15876² ≈ 4 GB " +
-        "exceeds the ceiling. F1 identity itself is exact at every finite N; bridging requires routing " +
-        "the dominant block through RCPsiSquared.Compute.MklDirect's NativeMemory + ILP64 LAPACK path.";
+        "Memory-pressure ceiling: N=10 max block C(10,5)² = 63504² complex ≈ 64 GB native. " +
+        "Fits on the 128 GB / 24-core dev machine but exhausts the parallel outer-DOP=6 budget " +
+        "(6 × 64 GB > 128 GB). Sequential outer-DOP would work but at ~hours-to-days wall-time. " +
+        "N=9 was the previous LP64-marshalling frontier and was crossed 2026-05-19 via the " +
+        "MklDirect bridge. F1 identity itself remains exact at every finite N; only the per-block " +
+        "Evd compute scaling is the new bottleneck.";
 
     /// <summary>Number of distinct named graph topologies verified: path, cycle, star,
     /// K_N, K_{2,N−2} at each of N=5, 6 (10 graphs via Python) + chain/ring/star/triangle +
     /// disjoint-bond at N=5 (4 via C#) + chain/ring/star/K_4 + disjoint-3-chain at N=7
     /// (4 via C#) + chain/ring/star/K_4 + disjoint-4-chain at N=8 (4 via C#, opt-in
-    /// SLOW_N8). Total = 22 named graph instances. N=9 chain is wired but currently
-    /// blocked at the LP64 MKL marshalling ceiling; see
-    /// <see cref="ScaleFrontierBlockedAtN"/>.</summary>
-    public int NamedGraphsVerified { get; } = 22;
+    /// SLOW_N8) + chain at N=9 (1 via C# SLOW_N9 MklDirect bridge, landed 2026-05-19).
+    /// Total = 23 named graph instances. The N=9 frontier was crossed via the MklDirect
+    /// bridge; the next frontier (N=10) is memory-pressure rather than LP64 marshalling,
+    /// see <see cref="ScaleFrontierBlockedAtN"/>.</summary>
+    public int NamedGraphsVerified { get; } = 23;
 
     /// <summary>Number of random connected Erdős-Rényi graphs verified at N=5, 6:
     /// 30 per N (3 densities × 10 samples), total 60.</summary>
@@ -190,11 +198,12 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
         "compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs";
 
     /// <summary>Opt-in (<c>[Trait("Category","SLOW_N9")]</c>) N=9 chain spot-check test
-    /// class: single Heisenberg chain at N=9, would verify F1 palindromic pairing across
-    /// 262 144 eigenvalues to tolerance 1e-5 if the LP64 MKL marshalling ceiling could be
-    /// crossed. Currently exits via <see cref="Xunit.Skip"/> with the diagnostic in
-    /// <see cref="ScaleFrontierBlockerReason"/>. Once the ILP64 / NativeMemory bridge
-    /// lands the test re-enables itself without code change. Run via
+    /// class: single Heisenberg chain at N=9, verifies F1 palindromic pairing across
+    /// 262 144 eigenvalues to tolerance 1e-5. Verified 2026-05-19 via the MklDirect
+    /// bridge (commit <c>abb2d52</c>); the <c>Skip.If</c> guard against the LP64 ceiling
+    /// was removed when the bridge landed and the test now runs as a regular
+    /// <c>[Fact]</c>. Per-system metrics persisted to
+    /// <c>simulations/results/f1_n8_n9_metrics/chain_N9.json</c>. Run via
     /// <c>--filter "Category=SLOW_N9"</c>.</summary>
     public string AnchorTestPathN9 { get; } =
         "compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN9BlockSpectrumChainTests.cs";
@@ -202,26 +211,27 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
     /// <summary>Synthesis proof path.</summary>
     public string ProofAnchorPath { get; } = "docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md";
 
-    /// <summary>Persisted metric JSON files written by the N=8 SLOW_N8 dogfood. Each
-    /// entry is a repo-relative path; the file at the path contains the full
-    /// <see cref="F1SpectrumStatistics.TopologyMetrics"/> record for that system
-    /// (wall-time profile, pairing-precision histogram, spectrum-structure invariants,
-    /// block-decomposition cost picture, Hamiltonian + dissipator setup). Look here for
-    /// the recorded numbers, do not re-derive. <c>chain_N9.json</c> will land here once
-    /// the ILP64 bridge described in <see cref="ScaleFrontierBlockerReason"/> is in
-    /// place.</summary>
+    /// <summary>Persisted metric JSON files written by the N=8 SLOW_N8 dogfood and the
+    /// N=9 SLOW_N9 chain dogfood. Each entry is a repo-relative path; the file at the
+    /// path contains the full <see cref="F1SpectrumStatistics.TopologyMetrics"/> record
+    /// for that system (wall-time profile, pairing-precision histogram, spectrum-structure
+    /// invariants, block-decomposition cost picture, Hamiltonian + dissipator setup).
+    /// Look here for the recorded numbers, do not re-derive. <c>chain_N9.json</c> was
+    /// added 2026-05-19 after the MklDirect bridge landed (commit <c>abb2d52</c>) and
+    /// the N=9 chain test crossed the previous LP64 frontier.</summary>
     public IReadOnlyList<string> SpectrumMetricsDataFiles { get; } = new[]
     {
         "simulations/results/f1_n8_n9_metrics/chain_N8.json",
         "simulations/results/f1_n8_n9_metrics/ring_N8.json",
         "simulations/results/f1_n8_n9_metrics/star_N8.json",
         "simulations/results/f1_n8_n9_metrics/k4_plus_disjoint_4chain_N8.json",
+        "simulations/results/f1_n8_n9_metrics/chain_N9.json",
     };
 
     public F1GeneralTopologyVerifiedClaim()
-        : base("F1 general topology verification: (B, D2) closed form extends to disconnected + weighted + random graphs at N=5..8; N=9 is wired but blocked at the LP64 MKL P/Invoke marshalling ceiling",
+        : base("F1 general topology verification: (B, D2) closed form extends to disconnected + weighted + random graphs at N=5..9; N=9 chain reached 2026-05-19 via the MklDirect bridge; next frontier N=10 is memory-pressure rather than LP64 marshalling",
                Tier.Tier2Verified,
-               "docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md + simulations/_f1_general_topology_verify.py + compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs + SLOW_N8 + SLOW_N9 SkippableFact dogfood tests")
+               "docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md + simulations/_f1_general_topology_verify.py + compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN{7,8,9}BlockSpectrumTests.cs (SLOW_N{8,9} opt-in traits for the larger N) + MklDirect bridge for N=9")
     { }
 
     public override string DisplayName =>
@@ -250,7 +260,7 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
             yield return InspectableNode.RealScalar("named graphs verified", NamedGraphsVerified);
             yield return InspectableNode.RealScalar("random connected Erdős-Rényi graphs verified", RandomGraphsVerified);
             yield return new InspectableNode("disconnected components verified",
-                summary: DisconnectedComponentsVerified ? "yes (N=5 + N=6 + N=7 + N=8 opt-in)" : "no");
+                summary: DisconnectedComponentsVerified ? "yes (N=5 + N=6 + N=7 + N=8 opt-in; N=9 chain only)" : "no");
             yield return new InspectableNode("weighted edges verified",
                 summary: WeightedEdgesVerified ? "yes (N=4 chain, J = (1, 2, 3))" : "no");
             yield return new InspectableNode("single-body class verified",
@@ -265,7 +275,7 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
                 summary: AnchorTestPath);
             yield return new InspectableNode("C# verification test class (opt-in SLOW_N8, N=8)",
                 summary: AnchorTestPathN8);
-            yield return new InspectableNode("C# verification test class (opt-in SLOW_N9, N=9 chain SkippableFact)",
+            yield return new InspectableNode("C# verification test class (opt-in SLOW_N9, N=9 chain via MklDirect bridge)",
                 summary: AnchorTestPathN9);
             yield return new InspectableNode("scale-frontier infrastructure ceiling",
                 summary: ScaleFrontierBlockedAtN is { } blockedN

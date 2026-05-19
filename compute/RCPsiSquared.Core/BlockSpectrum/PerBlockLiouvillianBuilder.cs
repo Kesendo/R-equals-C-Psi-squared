@@ -11,13 +11,13 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// <para>For a sector with Liouville-space flat indices <c>S = { f_0, f_1, … }</c>
 /// (each <c>f = r·d + c</c>, d = 2^N), this routine returns the sector block
 /// <c>B[i,j] = L[f_i, f_j]</c> by computing matrix elements on the fly from the
-/// Hilbert-space Hamiltonian <c>H</c> (size 2^N × 2^N — cheap even at N=8) plus the
+/// Hilbert-space Hamiltonian <c>H</c> (size 2^N × 2^N, cheap even at N=8) plus the
 /// per-site Z-dephasing rates.</para>
 ///
 /// <para>Memory profile: a single block of size <c>S</c> costs <c>S² × 16 bytes</c>.
 /// For N=8 the largest joint-popcount sector has C(8,4)² = 4900 entries → ~384 MB per
 /// block; with F71 refinement that halves to ~190 MB. The full L would cost
-/// (4^8)² × 16 = 68.7 GB — explicitly avoided here.</para>
+/// (4^8)² × 16 = 68.7 GB, explicitly avoided here.</para>
 ///
 /// <para>Convention: matches <see cref="Lindblad.PauliDephasingDissipator.BuildZ"/>
 /// row-major <c>flat = row · d + col</c> layout, with <c>L = -i (H⊗I − I⊗Hᵀ) +

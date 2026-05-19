@@ -56,10 +56,12 @@ public class F1FamilyRegistrationTests
         // conservation); multi-component product follows from standard tensor-sum
         // kernel factorisation.
         Assert.Equal(Tier.Tier1Derived, kernelDim.Tier);
-        // The four N=8 anchors survived the registry round-trip.
-        Assert.Equal(4, kernelDim.EmpiricalAnchorsN8.Count);
+        // The four N=8 anchors + the N=9 chain anchor (MklDirect bridge 2026-05-19)
+        // survived the registry round-trip.
+        Assert.Equal(5, kernelDim.EmpiricalAnchorsN8.Count);
         Assert.Equal(9, kernelDim.Predict(new[] { 8 }));        // chain/ring/star N=8
         Assert.Equal(25, kernelDim.Predict(new[] { 4, 4 }));    // K_4 + disjoint 4-chain N=8
+        Assert.Equal(10, kernelDim.Predict(new[] { 9 }));       // chain N=9 (MklDirect bridge)
     }
 
     [Fact]
@@ -95,17 +97,18 @@ public class F1FamilyRegistrationTests
         Assert.NotNull(general);
         Assert.Equal(Tier.Tier2Verified, general.Tier);
         // Spot-check the verification metadata survived the registry round-trip.
-        // VerifiedNValues bumped to {5, 6, 7, 8} on 2026-05-18 when the SLOW_N8 sweep
-        // landed (4 N=8 Heisenberg topologies via the block-spectrum dogfood).
-        // N=9 is wired but blocked at the LP64 MKL marshalling ceiling — see
+        // VerifiedNValues bumped to {5, 6, 7, 8, 9} on 2026-05-19 when the N=9 chain
+        // SLOW_N9 dogfood landed via the MklDirect bridge (commit abb2d52). The new
+        // frontier at N=10 is memory-pressure rather than LP64 marshalling; see
         // F1GeneralTopologyVerifiedClaim.ScaleFrontierBlockedAtN.
-        Assert.Equal(new[] { 5, 6, 7, 8 }, general.VerifiedNValues);
-        Assert.Equal(new[] { 5, 6, 7, 8 }, general.ScaleUpToN);
-        Assert.Equal(9, general.ScaleFrontierBlockedAtN);
+        Assert.Equal(new[] { 5, 6, 7, 8, 9 }, general.VerifiedNValues);
+        Assert.Equal(new[] { 5, 6, 7, 8, 9 }, general.ScaleUpToN);
+        Assert.Equal(10, general.ScaleFrontierBlockedAtN);
         Assert.True(general.DisconnectedComponentsVerified);
         Assert.True(general.WeightedEdgesVerified);
         Assert.True(general.SingleBodyClassVerified);
         Assert.NotEmpty(general.SpectrumMetricsDataFiles);
+        Assert.Contains("chain_N9.json", string.Join(";", general.SpectrumMetricsDataFiles));
     }
 
     [Fact]

@@ -19,13 +19,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// L_H(G) = L_H(G_1) ⊕ L_H(G_2) ⊕ ... and the joint kernel is the tensor product
 /// of per-component kernels, giving the multiplicative formula above.
 ///
-/// <para><b>Empirical anchors (bit-exact, N=8 F1 SLOW_N8 sweep 2026-05-18):</b></para>
+/// <para><b>Empirical anchors (bit-exact):</b> 4 anchors from the N=8 F1 SLOW_N8 sweep 2026-05-18 plus 1 anchor from the N=9 chain MklDirect-bridge run 2026-05-19.</para>
 ///
 /// <list type="table">
 ///   <item>chain N=8, 1 component, sizes {8}: predicted 9, observed 9.</item>
 ///   <item>ring N=8, 1 component, sizes {8}: predicted 9, observed 9.</item>
 ///   <item>star N=8, 1 component, sizes {8}: predicted 9, observed 9.</item>
 ///   <item>K_4 + disjoint 4-chain N=8, 2 components, sizes {4, 4}: predicted 5·5 = 25, observed 25.</item>
+///   <item>chain N=9, 1 component, sizes {9}: predicted 10, observed 10 (via the MklDirect bridge 2026-05-19, the first cross-N anchor verifying the connected-case formula at the new scale frontier).</item>
 /// </list>
 ///
 /// <para>The connected-graph case (kernel dim = N+1 for one component of size N)
@@ -70,7 +71,25 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/F4StationaryModeCountPi2Inheritance.cs</c> (parent F4 Clebsch-Gordan) +
 /// <c>compute/RCPsiSquared.Core/F1/F1GeneralTopologyVerifiedClaim.cs</c> (sister Tier 2 verification record / data record) +
 /// <c>docs/proofs/PROOF_WEIGHT1_DEGENERACY.md</c> (Appendix 2026-05-17: per-weight ker breakdown corroborates the boundary upper-bound across chain/ring/star/K_n at N=3..5) +
-/// the four <c>simulations/results/f1_n8_n9_metrics/&lt;topology&gt;_N8.json</c> data files.</para></summary>
+/// the four <c>simulations/results/f1_n8_n9_metrics/&lt;topology&gt;_N8.json</c> data files.</para>
+///
+/// <para><b>Sister sharpenings from the same 2026-05-18 / 2026-05-19 N=8 + Python anchor sweep.</b> Three companion
+/// documents in <c>experiments/</c> and <c>hypotheses/</c> capture the other structural findings the same data
+/// surfaced, each extending an existing April 2026 framework rather than introducing new physics:
+/// <list type="bullet">
+///   <item><c>experiments/STAR_CONFOCAL_LIMIT.md</c> (Tier 1 candidate, 2026-05-19): star topology saturates
+///         <c>Im(λ) = σ = N·γ</c> exactly when J = 2γ, via SU(2) / Schur-Weyl hub-spoke decomposition.
+///         The point-focus limit of the OPTICAL_CAVITY_ANALYSIS framework. 5 anchors at N=3..6 + N=8.</item>
+///   <item><c>hypotheses/F1_DISSIPATION_GAP_PATTERN.md</c> (Tier 3, extended 2026-05-19): cross-topology
+///         cross-N gap data. Chain shows clean <c>gap × N² ≈ 2.20</c> for N ≥ 4 (5 anchors); ring and star
+///         follow different scaling laws. Bond count alone does not predict the gap.</item>
+///   <item><c>hypotheses/STAR_SPECTRUM_COMPACTNESS.md</c> (Tier 3, partially resolved 2026-05-19): Reading 1
+///         (MaxImag = σ cap) closed by STAR_CONFOCAL_LIMIT; Reading 2 (S_(N−1) irrep multiplicity accounting
+///         for the 30× distinct-binned ratio) still open.</item>
+/// </list>
+/// These four documents together (this claim + the three sister readings) form the May 2026 sharpening of the
+/// April 2026 spectrum-structure framework (DEGENERACY_PALINDROME + WEIGHT2_KERNEL + BURES_DEGENERACY +
+/// OPTICAL_CAVITY_ANALYSIS).</para></summary>
 public sealed class F4KernelDimensionByComponentsClaim : Claim
 {
     /// <summary>Repo-relative paths of the four N=8 SLOW_N8 sweep JSON files whose
@@ -82,6 +101,7 @@ public sealed class F4KernelDimensionByComponentsClaim : Claim
         "simulations/results/f1_n8_n9_metrics/ring_N8.json",
         "simulations/results/f1_n8_n9_metrics/star_N8.json",
         "simulations/results/f1_n8_n9_metrics/k4_plus_disjoint_4chain_N8.json",
+        "simulations/results/f1_n8_n9_metrics/chain_N9.json",
     };
 
     /// <summary>Predict the kernel dimension of the Heisenberg Liouvillian for a graph
@@ -125,10 +145,11 @@ public sealed class F4KernelDimensionByComponentsClaim : Claim
             ("ring N=8",                        new[] { 8 },    9,  9),
             ("star N=8",                        new[] { 8 },    9,  9),
             ("K_4 + disjoint 4-chain N=8",      new[] { 4, 4 }, 25, 25),
+            ("chain N=9 (MklDirect bridge)",    new[] { 9 },    10, 10),
         };
 
     public F4KernelDimensionByComponentsClaim()
-        : base("F4 disconnected-graph extension: dim ker L_H = Π_c (|c|+1) over connected components c; bit-exact at N=8 across 4 topologies (chain/ring/star/K_4+disjoint-4-chain)",
+        : base("F4 disconnected-graph extension: dim ker L_H = Π_c (|c|+1) over connected components c; bit-exact at N=8 across 4 topologies (chain/ring/star/K_4+disjoint-4-chain) + N=9 chain via the MklDirect bridge 2026-05-19",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md (primary) + " +
                "experiments/DEGENERACY_PALINDROME.md (Result 2: d_real(0) = N+1, proven via magnetization conservation) + " +
@@ -142,7 +163,7 @@ public sealed class F4KernelDimensionByComponentsClaim : Claim
         "F4 disconnected-graph extension: dim ker L_H = Π_c (|c|+1)";
 
     public override string Summary =>
-        $"dim ker L_H = Π_c (|c|+1) over connected components c; verified bit-exact at N=8 on chain/ring/star (1 component, dim=9) and K_4 + disjoint 4-chain (2 components, dim=5·5=25); {Tier.Label()}";
+        $"dim ker L_H = Π_c (|c|+1) over connected components c; verified bit-exact at N=8 on chain/ring/star (1 component, dim=9) and K_4 + disjoint 4-chain (2 components, dim=5·5=25), plus N=9 chain (1 component, dim=10) via the MklDirect bridge 2026-05-19; {Tier.Label()}";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -152,7 +173,7 @@ public sealed class F4KernelDimensionByComponentsClaim : Claim
                 summary: "For graph G with connected components c, dim ker L_H(G) = Π_c (|c|+1). Specialises to N+1 for any single connected component of size N (matches F4 popcount-sector count).");
 
             yield return new InspectableNode("Tier 1 derived",
-                summary: "Connected-case upper bound dim ker ≤ |c|+1 closed by DEGENERACY_PALINDROME Result 2 (magnetization conservation: identity + |c| popcount projectors exhaust the kernel); multi-component product follows from tensor-sum kernel factorisation L_H(G) = L_H(G_1) ⊗ I + I ⊗ L_H(G_2). 4 bit-exact N=8 anchors corroborate. See PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md § \"Upper-bound closure (resolved 2026-05-18)\".");
+                summary: "Connected-case upper bound dim ker ≤ |c|+1 closed by DEGENERACY_PALINDROME Result 2 (magnetization conservation: identity + |c| popcount projectors exhaust the kernel); multi-component product follows from tensor-sum kernel factorisation L_H(G) = L_H(G_1) ⊗ I + I ⊗ L_H(G_2). 5 bit-exact anchors corroborate (4 at N=8 + 1 at N=9 chain). See PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md § \"Upper-bound closure (resolved 2026-05-18)\".");
 
             yield return new InspectableNode("relationship to F4 (parent)",
                 summary: "F4 itself gives Stat(N) = Σ_J m(J)·(2J+1)² (full multiplet weight on a connected Heisenberg chain); this claim restricts to the popcount label and extends multiplicatively across disconnected components. F4 + this claim cover both axes (multiplet structure within a component, factorisation across components).");
