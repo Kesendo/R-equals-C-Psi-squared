@@ -11,8 +11,9 @@ namespace RCPsiSquared.Runtime.F1Family;
 /// <see cref="F1KnowledgeBase"/> exposes as top-level properties (the KB's sixth Tier-1
 /// child <c>SingleBodyScaling</c> is the omitted one; see the SingleBody paragraph below),
 /// plus the Tier-2-verified <see cref="F1GeneralTopologyVerifiedClaim"/> general-topology
-/// verification record, plus two F1-anchored bridges into adjacent families
-/// (<see cref="F4KernelDimensionByComponentsClaim"/> and <see cref="RingN4DihedralLockClaim"/>):
+/// verification record, plus three F1-anchored topology-bound bridges
+/// (<see cref="F4KernelDimensionByComponentsClaim"/>, <see cref="RingN4DihedralLockClaim"/>,
+/// <see cref="StarImMaxBoundClaim"/>):
 ///
 /// <list type="bullet">
 ///   <item><see cref="PalindromeResidualScalingClaim"/> (<see cref="HamiltonianClass.Main"/>):
@@ -59,6 +60,20 @@ namespace RCPsiSquared.Runtime.F1Family;
 ///         Im-max bound lives in the L-spectrum the F1 palindrome partitions, and
 ///         the eigenmode-construction machinery is shared with the F4 kernel-dim
 ///         sister bridge above. See <c>docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md</c>.</item>
+///   <item><see cref="StarImMaxBoundClaim"/> (Tier 1 derived, 2026-05-19):
+///         <c>Im_max(star, N, J) = J·N/2</c> Q-universal saturation surfaced by
+///         the same Q-sweep (24 anchors at γ₀=0.05) plus the SLOW_N8 anchor at
+///         <c>star_N8.json</c>. Closed form via the SU(2)/Schur-Weyl hub-leaf
+///         Casimir factorisation <c>H_star = J·S⃗_0·S⃗_L</c> on the star bipartite
+///         split A = {hub}, B = {N-1 leaves}; maximum-leaf-spin S_L = (N-1)/2
+///         ferromagnetic sector gives the ΔE_max = J·N/2 realised by the
+///         <c>|Ψ_+⟩⟨Ψ_−|</c> eigenmode between the S_tot = N/2 fully-aligned and
+///         the S_tot = (N-2)/2 hub-anti-aligned states. Same proof skeleton as
+///         <see cref="RingN4DihedralLockClaim"/> with sublattice sizes (1, N-1)
+///         instead of (2, 2); the Marrakesh-convention <c>Im/σ = 1 ↔ J = 2γ</c>
+///         reading is the Q=2 column of the universal <c>Im/σ = Q/2</c> lock.
+///         Parent edge: <see cref="F1PalindromeIdentity"/> (Tier 1 derived,
+///         strength 5). See <c>docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md</c>.</item>
 /// </list>
 ///
 /// <para>Dependency edges (parent → child):</para>
@@ -98,14 +113,15 @@ namespace RCPsiSquared.Runtime.F1Family;
 /// behaviour). The KB still exposes both classes for inspection.</para></summary>
 public static class F1FamilyRegistration
 {
-    /// <summary>Register the ten F1-family Claims (ChainSystemPrimitive +
+    /// <summary>Register the eleven F1-family Claims (ChainSystemPrimitive +
     /// F1PalindromeIdentity + PalindromeResidualScalingClaim + F1T1ResidualClosedForm +
     /// F1T1ResidualPi2Decomposition + F1DepolResidualClosedForm +
     /// F49NonUniformCrossTermClaim + F1GeneralTopologyVerifiedClaim +
-    /// F4KernelDimensionByComponentsClaim + RingN4DihedralLockClaim) for a given
-    /// <paramref name="chain"/>. Default Hamiltonian class for the scaling claim is
-    /// <see cref="HamiltonianClass.Main"/>; chain bond count and degree-squared sum
-    /// default to <c>null</c> (use <c>FactorChain</c>).</summary>
+    /// F4KernelDimensionByComponentsClaim + RingN4DihedralLockClaim +
+    /// StarImMaxBoundClaim) for a given <paramref name="chain"/>. Default
+    /// Hamiltonian class for the scaling claim is <see cref="HamiltonianClass.Main"/>;
+    /// chain bond count and degree-squared sum default to <c>null</c> (use
+    /// <c>FactorChain</c>).</summary>
     public static ClaimRegistryBuilder RegisterF1Family(
         this ClaimRegistryBuilder builder,
         ChainSystem chain,
@@ -192,6 +208,26 @@ public static class F1FamilyRegistration
                 // kernel-dim sister claim above.
                 _ = b.Get<F1PalindromeIdentity>();
                 return new RingN4DihedralLockClaim();
+            })
+            .Register<StarImMaxBoundClaim>(b =>
+            {
+                // Star Im-max saturation surfaced by the 2026-05-19 Q-sweep extension
+                // of the F1 SLOW_N8 + N=9 chain bridge sprint: Im_max(star, N, J) =
+                // J·N/2 Q-universal for any N ≥ 3, derived from the SU(2)/Schur-Weyl
+                // hub-leaf Casimir factorisation H_star = J·S⃗_0·S⃗_L. The maximum-leaf-
+                // spin S_L = (N-1)/2 ferromagnetic sector gives ΔE_max = J·N/2,
+                // realised by the Liouvillian eigenmode between the S_tot = N/2
+                // fully-aligned state and the S_tot = (N-2)/2 hub-anti-aligned state.
+                // Pure-dephasing dissipator only adds real decay so no L-mode can
+                // exceed the H-spread bound. Tier 1 derived; see
+                // PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md.
+                //
+                // Parent edge: F1PalindromeIdentity (Tier 1 derived, strength 5)
+                // serves, same as for the Ring N=4 sister bound above. The two
+                // claims share the same proof skeleton (bipartite split → all-pairs
+                // bonding → Casimir → maximum-S_tot ferromagnet eigenmode).
+                _ = b.Get<F1PalindromeIdentity>();
+                return new StarImMaxBoundClaim();
             });
     }
 }

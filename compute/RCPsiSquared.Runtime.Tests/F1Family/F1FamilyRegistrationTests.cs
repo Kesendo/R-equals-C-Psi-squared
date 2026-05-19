@@ -15,13 +15,13 @@ public class F1FamilyRegistrationTests
             HType: HamiltonianType.XY, Topology: TopologyKind.Chain);
 
     [Fact]
-    public void RegisterF1Family_BuildsTenClaims()
+    public void RegisterF1Family_BuildsElevenClaims()
     {
         var registry = new ClaimRegistryBuilder()
             .RegisterF1Family(DefaultChain())
             .Build();
 
-        // Ten entries: ChainSystemPrimitive + F1PalindromeIdentity +
+        // Eleven entries: ChainSystemPrimitive + F1PalindromeIdentity +
         // PalindromeResidualScalingClaim + F1T1ResidualClosedForm +
         // F1T1ResidualPi2Decomposition + F1DepolResidualClosedForm +
         // F49NonUniformCrossTermClaim + F1GeneralTopologyVerifiedClaim (added
@@ -30,10 +30,13 @@ public class F1FamilyRegistrationTests
         // disconnected-graph bridge from the F1 SLOW_N8 sweep) +
         // RingN4DihedralLockClaim (added 2026-05-19 from the Q-sweep extension:
         // K_{2,2} = C_4 bipartite-complete + Casimir spectrum closes the
-        // (3/4)·J·N Im-max bound in closed form).
+        // (3/4)·J·N Im-max bound in closed form) +
+        // StarImMaxBoundClaim (added 2026-05-19 from the same Q-sweep: SU(2)/
+        // Schur-Weyl hub-leaf Casimir on H_star = J·S⃗_0·S⃗_L closes the
+        // J·N/2 saturation in closed form, sister derivation to RingN4).
         // SingleBody scaling deliberately omitted (builder is type-keyed; see
         // F1FamilyRegistration XML docs for the Option-B rationale).
-        Assert.Equal(10, registry.All().Count());
+        Assert.Equal(11, registry.All().Count());
         Assert.True(registry.Contains<ChainSystemPrimitive>());
         Assert.True(registry.Contains<F1PalindromeIdentity>());
         Assert.True(registry.Contains<PalindromeResidualScalingClaim>());
@@ -44,6 +47,54 @@ public class F1FamilyRegistrationTests
         Assert.True(registry.Contains<F1GeneralTopologyVerifiedClaim>());
         Assert.True(registry.Contains<F4KernelDimensionByComponentsClaim>());
         Assert.True(registry.Contains<RingN4DihedralLockClaim>());
+        Assert.True(registry.Contains<StarImMaxBoundClaim>());
+    }
+
+    [Fact]
+    public void RegisterF1Family_StarImMaxBound_Resolves_AndIsTier1Derived()
+    {
+        var registry = new ClaimRegistryBuilder()
+            .RegisterF1Family(DefaultChain())
+            .Build();
+
+        var starClaim = registry.Get<StarImMaxBoundClaim>();
+        Assert.NotNull(starClaim);
+        // Landed Tier 1 derived 2026-05-19: closed form via SU(2)/Schur-Weyl
+        // hub-leaf Casimir + maximum-S_L=(N-1)/2 ferromagnet eigenmode
+        // construction (see PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md).
+        Assert.Equal(Tier.Tier1Derived, starClaim.Tier);
+        Assert.Equal(3, starClaim.MinN);
+        Assert.Equal(0.5, starClaim.Coefficient, precision: 14);
+        // The 24 Q-sweep anchors survived the registry round-trip (6 Q × 4 N).
+        Assert.Equal(24, starClaim.EmpiricalAnchors.Count);
+        // Predict scales linearly with N and J: (1/2)·J·N.
+        Assert.Equal(0.5 * 0.1 * 5, starClaim.Predict(N: 5, J: 0.1), precision: 14);
+        Assert.Equal(0.5 * 1.0 * 8, starClaim.Predict(N: 8, J: 1.0), precision: 14);
+        // Im/σ ratio is (1/2)·Q universally (N-independent dimensionless form).
+        Assert.Equal(0.5 * 1.5, starClaim.PredictImOverSigma(Q: 1.5), precision: 14);
+        Assert.Equal(0.5 * 2.0, starClaim.PredictImOverSigma(Q: 2.0), precision: 14);
+        // N < 3 not supported (degenerate star).
+        Assert.Throws<ArgumentOutOfRangeException>(
+            () => starClaim.Predict(N: 2, J: 1.0));
+    }
+
+    [Fact]
+    public void RegisterF1Family_StarImMaxBound_AncestorsContainF1Identity()
+    {
+        // The Star Im-max bound is wired with F1PalindromeIdentity as its
+        // parent (Tier 1 derived, strength 5), same as RingN4DihedralLockClaim.
+        // The Im-max bound lives in the L-spectrum the F1 palindrome partitions;
+        // the eigenmode-construction machinery is shared across all three
+        // topology-bound sister claims (F4, RingN4, Star).
+        var registry = new ClaimRegistryBuilder()
+            .RegisterF1Family(DefaultChain())
+            .Build();
+
+        var ancestors = registry.AncestorsOf<StarImMaxBoundClaim>()
+            .Select(c => c.GetType()).ToHashSet();
+
+        Assert.Contains(typeof(F1PalindromeIdentity), ancestors);
+        Assert.Contains(typeof(ChainSystemPrimitive), ancestors);
     }
 
     [Fact]

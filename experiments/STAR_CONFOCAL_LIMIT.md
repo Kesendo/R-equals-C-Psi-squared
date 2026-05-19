@@ -4,7 +4,7 @@
 SU(2) Schur-Weyl Heisenberg, confocal saturation, imaginary spectral bound,
 hub-spoke topology, 24 anchors Q-sweep, sigma equals N gamma, R=CPsi2 star -->
 
-**Status:** Tier 1 candidate (29 empirical anchors: N ∈ {3, 4, 5, 6, 8} at the Marrakesh convention plus a 24-point Q-sweep at γ₀=0.05, all bit-exact; analytical sketch via SU(2)/Schur-Weyl pending formal write-up; N=7 deferred)
+**Status:** Tier 1 derived (formal proof written 2026-05-19 as [`PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md`](../docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md), typed as [`StarImMaxBoundClaim`](../compute/RCPsiSquared.Core/Symmetry/StarImMaxBoundClaim.cs); 29 empirical anchors bit-exact: N ∈ {3, 4, 5, 6, 8} at the Marrakesh convention plus a 24-point Q-sweep at γ₀=0.05; N=7 deferred)
 **Date:** 2026-05-19
 **Authors:** Thomas Wicht, Claude
 **Depends on:** [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md),
@@ -136,20 +136,13 @@ The star topology converts the **entire external illumination σ into oscillatio
 
 ## Tier 1 derivation status
 
-The SU(2)/Schur-Weyl sketch above establishes the bound `max |Im(λ_L)| ≤ J·N/2` rigorously for star topology. With J=2γ this gives `≤ σ`. **Saturation** (equality) is observed empirically at all tested N ∈ {3, 4, 5, 6, 8} (5 anchors, bit-exact to machine precision; N=7 deferred).
+**Resolved 2026-05-19** as [`docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md`](../docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md) and typed as [`StarImMaxBoundClaim`](../compute/RCPsiSquared.Core/Symmetry/StarImMaxBoundClaim.cs) Tier 1 derived. The two formal steps the original sketch had left open are closed in the proof file:
 
-The formal Tier 1 derived statement requires showing that the bound is achieved (not just bounded above): explicitly construct the L eigenmode that hits ω = J·N/2. This is the Liouvillian transition between the two extremal H_star eigenstates:
+1. **Construction of the realising L-eigenmode.** The proof file Section 4 shows `|Ψ_+⟩⟨Ψ_−|` between the maximally-aligned ferromagnet (S_tot = N/2 at maximum S_L = (N-1)/2) and the hub-anti-aligned state (S_tot = (N-2)/2 at the same S_L) is an eigenoperator of `−i[H, ·]` with `Im(λ_L) = J·N/2` exactly. The pure-dephasing dissipator commutes with the H-eigenbasis projectors in the operator inner product and adds only real (negative) decay rates, so the imaginary part J·N/2 is preserved.
 
-    |Ψ_+⟩ = |S_L = (N-1)/2, S_tot = N/2⟩  (maximally ferromagnetic, hub aligned with leaves)
-    |Ψ_-⟩ = |S_L = (N-1)/2, S_tot = (N-2)/2⟩  (hub anti-aligned with leaves)
+2. **Upper-bound rigour.** Section 5 of the proof file: every L-eigenoperator with non-zero Im part is a linear combination of rank-1 products `|α⟩⟨β|` with H-eigenstates; the maximum `|Im(λ_L)|` is bounded by `max{|ω_α − ω_β| : α, β ∈ σ(H)} = ΔE_max(H_star) = J·N/2`. Combined with the realising mode in step 1, the bound is achieved exactly.
 
-The Liouvillian eigenmode `|Ψ_+⟩⟨Ψ_-|` has Im(λ_L) = ω(|Ψ_+⟩) − ω(|Ψ_-|) = ΔE_max = J·N/2 = σ exactly.
-
-A formal proof would need:
-1. Verify that `|Ψ_+⟩⟨Ψ_-|` is in the kernel of the dissipator (`L_D(|Ψ_+⟩⟨Ψ_-|) = ?`). Since the dissipator only adds real decay, Im is preserved across L_D's eigenmodes.
-2. Verify that no L eigenmode has |Im| > J·N/2 (the H spectrum bound is the tight bound).
-
-Both steps are tractable but not yet written formally. Promotion to Tier 1 derived pending the formal Step 1+2 proof, which slots cleanly into the existing F50/PROOF_WEIGHT1_DEGENERACY analytical framework.
+The saturation is Q-universal: `Im_max(star, N, J) = J·N/2` for any (J, γ); the Marrakesh-convention `Im/σ = 1 ↔ J = 2γ` reading is the Q=2 specialization. Verified at 29 (N, Q) anchors bit-exact (24 Q-sweep + 5 Marrakesh-convention).
 
 ---
 
@@ -185,7 +178,7 @@ The optical-cavity framework is robust across topologies; we now have the empiri
 
 ## Open questions
 
-1. **Formal Tier 1 derivation.** Write up the SU(2)/Schur-Weyl proof properly with the L eigenmode construction. Cross-link to F50 SWAP-invariance framework (the T_c^{(a)} operators on star).
+1. ~~**Formal Tier 1 derivation.** Write up the SU(2)/Schur-Weyl proof properly with the L eigenmode construction. Cross-link to F50 SWAP-invariance framework (the T_c^{(a)} operators on star).~~ **Resolved 2026-05-19:** [`docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md`](../docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md) writes the SU(2)/Schur-Weyl derivation explicitly (hub-leaf Casimir + realising L-eigenmode + no-mode-exceeds-bound argument). Typed claim: [`StarImMaxBoundClaim`](../compute/RCPsiSquared.Core/Symmetry/StarImMaxBoundClaim.cs) Tier 1 derived.
 
 2. **J ≠ 2γ regime.** ~~The saturation Im/σ = J/(2γ) generalises but data only at J = 2γ. Verify with a J-sweep at fixed γ on star N=5, 6.~~ **Resolved 2026-05-19:** the Q-sweep table above verifies `Im/σ = Q/2` bit-exact at 24 anchors covering Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5} for N=3..6. The saturation is Q-universal.
 

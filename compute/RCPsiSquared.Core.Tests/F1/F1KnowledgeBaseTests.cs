@@ -89,6 +89,7 @@ public class F1KnowledgeBaseTests
         Assert.NotNull(kb.GeneralTopologyVerification);
         Assert.NotNull(kb.KernelDimensionByComponents);
         Assert.NotNull(kb.RingN4DihedralLock);
+        Assert.NotNull(kb.StarImMaxBound);
         Assert.NotEmpty(kb.HardwareConfirmations);
         // OpenQuestions is empty as of 2026-05-18 (all four F1 items closed); see
         // F1OpenQuestions XML doc for the per-item closure references.
@@ -157,19 +158,21 @@ public class F1KnowledgeBaseTests
     {
         var kb = new F1KnowledgeBase(N: 5);
         string line = kb.TierInventoryLine();
-        // 8 Tier-1 derived (was 7 until 2026-05-19): F1 + main + single-body + T1 closed
-        // form + T1 Π²-decomposition + depol + F49 non-uniform γ cross-term +
+        // 10 Tier-1 derived (was 8 earlier on 2026-05-19): F1 + main + single-body +
+        // T1 closed form + T1 Π²-decomposition + depol + F49 non-uniform γ cross-term +
         // F4 kernel-dim-by-components (promoted from Tier 1 candidate to Tier 1 derived
         // 2026-05-19 after DEGENERACY_PALINDROME Result 2 was identified as the closure
-        // of the connected-case upper bound).
-        // Tier-1 candidate: ZERO after the 2026-05-19 promotion. TierInventoryLine skips
+        // of the connected-case upper bound) + RingN4DihedralLock (2026-05-19, K_{2,2} =
+        // C_4 Casimir derivation) + StarImMaxBound (2026-05-19, SU(2)/Schur-Weyl
+        // hub-leaf Casimir derivation).
+        // Tier-1 candidate: ZERO after the 2026-05-19 promotions. TierInventoryLine skips
         // empty tiers, so "T1c=" should not appear in the line at all.
         // Tier-2 verified bumped from N hardware confirmations (3) to N+1 with the new
         // F1GeneralTopologyVerifiedClaim general-topology verification record (2026-05-18).
         // Open questions: ZERO after the 2026-05-18 general-topology closure (last F1
         // OpenQuestion resolved via PROOF_F1_GENERAL_TOPOLOGY.md + F1GeneralTopologyVerifiedClaim).
         // TierInventoryLine skips empty tiers, so "open=" should not appear in the line at all.
-        Assert.Contains("T1d=8", line);
+        Assert.Contains("T1d=10", line);
         Assert.DoesNotContain("T1c=", line);
         Assert.Contains("T2v=", line);
         Assert.DoesNotContain("open=", line);

@@ -101,8 +101,23 @@ public sealed class F1KnowledgeBase : IInspectable
     /// F1 KB alongside <see cref="KernelDimensionByComponents"/> because the
     /// empirical anchors come from the same Q-sweep that the F1 family scaffolded;
     /// the formula itself is an Im-max bound, conceptually a sister to the star
-    /// saturation in <c>STAR_CONFOCAL_LIMIT.md</c>.</summary>
+    /// saturation in <see cref="StarImMaxBound"/>.</summary>
     public RingN4DihedralLockClaim RingN4DihedralLock { get; }
+
+    /// <summary>Star Im-max saturation surfaced by the 2026-05-19 Q-sweep and the
+    /// 2026-05-18 SLOW_N8 sweep: Im_max(star, N, J) = (1/2)·J·N Q-universally for
+    /// any N ≥ 3. The star Hamiltonian H_star = J·S⃗_0·S⃗_L (hub spin · total leaf
+    /// spin) factors through SU(2)/Schur-Weyl Casimir; the maximum-leaf-spin
+    /// S_L = (N-1)/2 ferromagnetic sector gives ΔE_max = J·N/2 realised by the
+    /// Liouvillian eigenmode between the S_tot = N/2 fully-aligned state and the
+    /// S_tot = (N-2)/2 hub-anti-aligned state. Pure-dephasing dissipator only adds
+    /// real decay so no L-mode can exceed the H-spread bound. Tier 1 derived; see
+    /// <c>PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md</c>. The Marrakesh-convention
+    /// reading <c>Im/σ = 1 ↔ J = 2γ</c> is the Q=2 specialization of the
+    /// universal <c>Im/σ = Q/2</c> lock. Sister bound to <see cref="RingN4DihedralLock"/>
+    /// via the same Casimir technique (star uses sublattice sizes |A|=1, |B|=N-1;
+    /// ring N=4 uses |A|=|B|=2).</summary>
+    public StarImMaxBoundClaim StarImMaxBound { get; }
 
     public IReadOnlyList<HardwareConfirmationClaim> HardwareConfirmations { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
@@ -128,6 +143,7 @@ public sealed class F1KnowledgeBase : IInspectable
         GeneralTopologyVerification = new F1GeneralTopologyVerifiedClaim();
         KernelDimensionByComponents = new F4KernelDimensionByComponentsClaim();
         RingN4DihedralLock = new RingN4DihedralLockClaim();
+        StarImMaxBound = new StarImMaxBoundClaim();
 
         HardwareConfirmations = HardwareConfirmationClaim.LookupAll(_f1ConfirmationNames);
 
@@ -156,11 +172,15 @@ public sealed class F1KnowledgeBase : IInspectable
             // connected-case upper bound plus standard tensor-sum kernel factorisation)
             // + the Ring N=4 dihedral lock (Tier 1 derived 2026-05-19; closure via
             // K_{2,2} = C_4 bipartite-complete + Casimir spectrum, see
-            // PROOF_RING_N4_DIHEDRAL_LOCK.md).
+            // PROOF_RING_N4_DIHEDRAL_LOCK.md) + the Star Im-max saturation
+            // (Tier 1 derived 2026-05-19; closure via SU(2)/Schur-Weyl hub-leaf
+            // Casimir + maximum-S_L ferromagnet eigenmode, see
+            // PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md).
             yield return InspectableNode.Group("Tier 1 (derived)",
                 PalindromeIdentity, MainScaling, SingleBodyScaling,
                 T1ResidualClosedForm, T1ResidualPi2Decomposition, DepolResidualClosedForm,
-                F49NonUniformCrossTerm, KernelDimensionByComponents, RingN4DihedralLock);
+                F49NonUniformCrossTerm, KernelDimensionByComponents, RingN4DihedralLock,
+                StarImMaxBound);
 
             // Tier 2 group includes the hardware confirmations + the
             // general-topology verification record (numerical sweep across N=5..8).
