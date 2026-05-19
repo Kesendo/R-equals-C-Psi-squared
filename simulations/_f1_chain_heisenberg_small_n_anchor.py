@@ -37,21 +37,25 @@ import framework as fw  # noqa: E402
 from framework.lindblad import lindbladian_z_dephasing  # noqa: E402
 
 
-def heisenberg_chain_h(N: int, J: float = 1.0) -> np.ndarray:
-    """H = (J/4) Σ_b (X_i X_j + Y_i Y_j + Z_i Z_j) on chain bonds (i, i+1).
+def chain_bonds(N: int) -> list[tuple[int, int]]:
+    """Bond list (i, i+1) for the open chain on N sites."""
+    return [(i, i + 1) for i in range(N - 1)]
+
+
+def heisenberg_graph_h(N: int, bonds: list[tuple[int, int]], J: float = 1.0) -> np.ndarray:
+    """H = (J/4) Σ_b (X_i X_j + Y_i Y_j + Z_i Z_j) on the given bond list.
 
     Matches the C# F1GeneralTopologyN{7,8,9}BlockSpectrumChainTests convention.
+    Shared by the chain anchor script and the cross-topology extension
+    `_f1_topology_heisenberg_small_n_anchor.py`.
     """
-    d = 2 ** N
-    H = np.zeros((d, d), dtype=complex)
-    bonds = [(i, i + 1) for i in range(N - 1)]
-    for (i, j) in bonds:
-        H = H + (J / 4.0) * (
-            fw.site_op(N, i, "X") @ fw.site_op(N, j, "X")
-            + fw.site_op(N, i, "Y") @ fw.site_op(N, j, "Y")
-            + fw.site_op(N, i, "Z") @ fw.site_op(N, j, "Z")
-        )
-    return H
+    terms = [("X", "X", J / 4.0), ("Y", "Y", J / 4.0), ("Z", "Z", J / 4.0)]
+    return fw._build_bilinear(N, bonds, terms)
+
+
+def heisenberg_chain_h(N: int, J: float = 1.0) -> np.ndarray:
+    """Convenience wrapper: Heisenberg H on the open chain at N."""
+    return heisenberg_graph_h(N, chain_bonds(N), J=J)
 
 
 def compute_palindromic_pairing_distances(

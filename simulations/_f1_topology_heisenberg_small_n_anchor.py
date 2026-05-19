@@ -24,29 +24,14 @@ if sys.platform == "win32":
 
 sys.path.insert(0, "simulations")
 
-import framework as fw  # noqa: E402
 from framework.lindblad import lindbladian_z_dephasing  # noqa: E402
 
 from _f1_chain_heisenberg_small_n_anchor import (  # noqa: E402
+    chain_bonds,
     compute_palindromic_pairing_distances,
     compute_spectrum_structure,
+    heisenberg_graph_h,
 )
-
-
-def heisenberg_graph_h(N: int, bonds: list[tuple[int, int]], J: float = 1.0) -> np.ndarray:
-    d = 2 ** N
-    H = np.zeros((d, d), dtype=complex)
-    for (i, j) in bonds:
-        H = H + (J / 4.0) * (
-            fw.site_op(N, i, "X") @ fw.site_op(N, j, "X")
-            + fw.site_op(N, i, "Y") @ fw.site_op(N, j, "Y")
-            + fw.site_op(N, i, "Z") @ fw.site_op(N, j, "Z")
-        )
-    return H
-
-
-def chain_bonds(N: int) -> list[tuple[int, int]]:
-    return [(i, i + 1) for i in range(N - 1)]
 
 
 def ring_bonds(N: int) -> list[tuple[int, int]]:

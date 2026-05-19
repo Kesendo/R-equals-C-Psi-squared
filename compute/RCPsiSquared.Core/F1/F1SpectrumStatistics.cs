@@ -277,6 +277,65 @@ public static class F1SpectrumStatistics
         File.WriteAllText(fullPath, ToJson(metrics), System.Text.Encoding.UTF8);
     }
 
+    /// <summary>Resolve <c>simulations/results/f1_n8_n9_metrics/</c> by walking up from
+    /// the test assembly's base directory until <c>simulations/results/</c> exists, then
+    /// descending into the shared metrics subdirectory. Mirrors
+    /// <c>TestHelpers.Eq014GroundTruth.FindResultsDirectory</c>'s pattern; shared by the
+    /// N=8 (SLOW_N8, four topologies) and N=9 (SLOW_N9, chain) F1 dogfood test classes
+    /// so a future N=10 test reuses the same anchor without re-deriving.</summary>
+    public static string ResolveMetricsDirectory()
+    {
+        var dir = new DirectoryInfo(AppContext.BaseDirectory);
+        while (dir != null)
+        {
+            var candidate = Path.Combine(dir.FullName, "simulations", "results");
+            if (Directory.Exists(candidate))
+                return Path.Combine(candidate, "f1_n8_n9_metrics");
+            dir = dir.Parent;
+        }
+        throw new DirectoryNotFoundException(
+            $"Cannot locate simulations/results/ by walking up from {AppContext.BaseDirectory}.");
+    }
+
+    /// <summary>Write one grep-able line per metric (snake_case keys, "metric=value" form)
+    /// to the provided sink. The sink is typically <c>ITestOutputHelper.WriteLine</c>; a
+    /// downstream script can parse the test output without needing the JSON file. Shared
+    /// by the N=8 (SLOW_N8) and N=9 (SLOW_N9) F1 dogfood test classes; the format is
+    /// stable so a future N=10 reuse keeps the same keys.</summary>
+    public static void LogMetrics(TopologyMetrics m, double tolerance, Action<string> writeLine)
+    {
+        if (writeLine is null) throw new ArgumentNullException(nameof(writeLine));
+        writeLine($"system: N={m.N} topology=\"{m.TopologyName}\" H={m.HamiltonianClass} J={m.JValue} γ={m.GammaValue} σ_shift={m.SigmaShift}");
+        writeLine($"metric=total_wall_seconds value={m.TotalWallSeconds:F3}");
+        writeLine($"metric=compute_spectrum_wall_seconds value={m.ComputeSpectrumWallSeconds:F3}");
+        writeLine($"metric=effective_speedup_over_dense value={m.EffectiveSpeedupOverDense:F1}");
+        writeLine($"metric=tolerance value={tolerance:E0}");
+        writeLine($"metric=max_pairing_distance value={m.MaxPairingDistance:E3}");
+        writeLine($"metric=mean_pairing_distance value={m.MeanPairingDistance:E3}");
+        writeLine($"metric=median_pairing_distance value={m.MedianPairingDistance:E3}");
+        writeLine($"metric=p99_pairing_distance value={m.P99PairingDistance:E3}");
+        writeLine($"metric=min_pairing_distance value={m.MinPairingDistance:E3}");
+        writeLine($"metric=outlier_pair_count value={m.OutlierPairCount}");
+        writeLine($"metric=spectrum_size value={m.SpectrumSize}");
+        writeLine($"metric=min_real value={m.MinReal:E6}");
+        writeLine($"metric=max_real value={m.MaxReal:E6}");
+        writeLine($"metric=min_imag value={m.MinImag:E6}");
+        writeLine($"metric=max_imag value={m.MaxImag:E6}");
+        writeLine($"metric=dissipation_gap value={m.DissipationGap:E6}");
+        writeLine($"metric=kernel_dimension value={m.KernelDimension}");
+        writeLine($"metric=pure_imaginary_count value={m.PureImaginaryCount}");
+        writeLine($"metric=real_eigenvalue_count value={m.RealEigenvalueCount}");
+        writeLine($"metric=distinct_binned_eigenvalue_count value={m.DistinctBinnedEigenvalueCount}");
+        writeLine($"metric=sector_count value={m.SectorCount}");
+        writeLine($"metric=primary_sector_count value={m.PrimarySectorCount}");
+        writeLine($"metric=max_block_size value={m.MaxBlockSize} sector=(p_c={m.MaxBlockSectorPCol},p_r={m.MaxBlockSectorPRow})");
+        writeLine($"metric=top3_block_sizes value=[{string.Join(",", m.Top3BlockSizes)}]");
+        writeLine($"metric=total_block_cubic_cost value={m.TotalBlockCubicCost}");
+        writeLine($"N={m.N} Heisenberg ({m.TopologyName}): {m.SpectrumSize} eigenvalues, " +
+                  $"{m.TotalWallSeconds:F1}s total, σ_shift = {m.SigmaShift}, tolerance = {tolerance:E0}, " +
+                  $"max pairing distance = {m.MaxPairingDistance:E3}, palindromic pairing OK");
+    }
+
     /// <summary>Greedy nearest-neighbour matching: for each <c>actual[i]</c>, find the
     /// closest still-unmatched <c>expected[j]</c> by Euclidean (Magnitude) distance and
     /// record that distance. Returns the array of N matched distances. Same algorithm as

@@ -224,66 +224,13 @@ public class F1GeneralTopologyN8BlockSpectrumTests
             totalWallSeconds: totalSw.Elapsed.TotalSeconds,
             computeSpectrumWallSeconds: computeSw.Elapsed.TotalSeconds);
 
-        // Grep-friendly metric log (one line per quantity, "metric=value").
-        LogMetrics(metrics, Tolerance);
+        // Grep-friendly metric log (one line per quantity, "metric=value"); shared
+        // helper in F1SpectrumStatistics is reused by the N=9 chain test class.
+        F1SpectrumStatistics.LogMetrics(metrics, Tolerance, _out.WriteLine);
 
         // Persist JSON to simulations/results/f1_n8_n9_metrics/<jsonFileName>.
-        string outDir = ResolveMetricsDirectory();
+        string outDir = F1SpectrumStatistics.ResolveMetricsDirectory();
         F1SpectrumStatistics.WriteJson(metrics, outDir, jsonFileName);
         _out.WriteLine($"metrics_json_path={Path.Combine(outDir, jsonFileName)}");
-    }
-
-    /// <summary>Write a single line per metric to the xUnit test output for
-    /// grep-able inspection (e.g. <c>dotnet test ... | grep "metric=max_pairing_distance"</c>).
-    /// Keys are stable and snake_case so a downstream script can parse them.</summary>
-    private void LogMetrics(F1SpectrumStatistics.TopologyMetrics m, double tolerance)
-    {
-        _out.WriteLine($"system: N={m.N} topology=\"{m.TopologyName}\" H={m.HamiltonianClass} J={m.JValue} γ={m.GammaValue} σ_shift={m.SigmaShift}");
-        _out.WriteLine($"metric=total_wall_seconds value={m.TotalWallSeconds:F3}");
-        _out.WriteLine($"metric=compute_spectrum_wall_seconds value={m.ComputeSpectrumWallSeconds:F3}");
-        _out.WriteLine($"metric=effective_speedup_over_dense value={m.EffectiveSpeedupOverDense:F1}");
-        _out.WriteLine($"metric=tolerance value={tolerance:E0}");
-        _out.WriteLine($"metric=max_pairing_distance value={m.MaxPairingDistance:E3}");
-        _out.WriteLine($"metric=mean_pairing_distance value={m.MeanPairingDistance:E3}");
-        _out.WriteLine($"metric=median_pairing_distance value={m.MedianPairingDistance:E3}");
-        _out.WriteLine($"metric=p99_pairing_distance value={m.P99PairingDistance:E3}");
-        _out.WriteLine($"metric=min_pairing_distance value={m.MinPairingDistance:E3}");
-        _out.WriteLine($"metric=outlier_pair_count value={m.OutlierPairCount}");
-        _out.WriteLine($"metric=spectrum_size value={m.SpectrumSize}");
-        _out.WriteLine($"metric=min_real value={m.MinReal:E6}");
-        _out.WriteLine($"metric=max_real value={m.MaxReal:E6}");
-        _out.WriteLine($"metric=min_imag value={m.MinImag:E6}");
-        _out.WriteLine($"metric=max_imag value={m.MaxImag:E6}");
-        _out.WriteLine($"metric=dissipation_gap value={m.DissipationGap:E6}");
-        _out.WriteLine($"metric=kernel_dimension value={m.KernelDimension}");
-        _out.WriteLine($"metric=pure_imaginary_count value={m.PureImaginaryCount}");
-        _out.WriteLine($"metric=real_eigenvalue_count value={m.RealEigenvalueCount}");
-        _out.WriteLine($"metric=distinct_binned_eigenvalue_count value={m.DistinctBinnedEigenvalueCount}");
-        _out.WriteLine($"metric=sector_count value={m.SectorCount}");
-        _out.WriteLine($"metric=primary_sector_count value={m.PrimarySectorCount}");
-        _out.WriteLine($"metric=max_block_size value={m.MaxBlockSize} sector=(p_c={m.MaxBlockSectorPCol},p_r={m.MaxBlockSectorPRow})");
-        _out.WriteLine($"metric=top3_block_sizes value=[{string.Join(",", m.Top3BlockSizes)}]");
-        _out.WriteLine($"metric=total_block_cubic_cost value={m.TotalBlockCubicCost}");
-        _out.WriteLine($"N={m.N} Heisenberg ({m.TopologyName}): {m.SpectrumSize} eigenvalues, " +
-                       $"{m.TotalWallSeconds:F1}s total, σ_shift = {m.SigmaShift}, tolerance = {tolerance:E0}, " +
-                       $"max pairing distance = {m.MaxPairingDistance:E3}, palindromic pairing OK");
-    }
-
-    /// <summary>Resolve <c>simulations/results/f1_n8_n9_metrics/</c> by walking up from
-    /// the test assembly's base directory until <c>simulations/results/</c> exists,
-    /// then descending into the metrics subdirectory. Mirrors
-    /// <c>TestHelpers.Eq014GroundTruth.FindResultsDirectory</c>'s pattern.</summary>
-    private static string ResolveMetricsDirectory()
-    {
-        var dir = new DirectoryInfo(AppContext.BaseDirectory);
-        while (dir != null)
-        {
-            var candidate = Path.Combine(dir.FullName, "simulations", "results");
-            if (Directory.Exists(candidate))
-                return Path.Combine(candidate, "f1_n8_n9_metrics");
-            dir = dir.Parent;
-        }
-        throw new DirectoryNotFoundException(
-            $"Cannot locate simulations/results/ by walking up from {AppContext.BaseDirectory}.");
     }
 }
