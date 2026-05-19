@@ -89,6 +89,21 @@ public sealed class F1KnowledgeBase : IInspectable
     /// § "Upper-bound closure (resolved 2026-05-18)".</summary>
     public F4KernelDimensionByComponentsClaim KernelDimensionByComponents { get; }
 
+    /// <summary>Ring N=4 dihedral lock surfaced by the 2026-05-19 Q-sweep:
+    /// Im_max(ring, N=4, J) = (3/4)·J·N = 3·J Q-universal. The 4-cycle is
+    /// graph-isomorphic to the bipartite-complete graph K_{2,2}, so the Heisenberg
+    /// Hamiltonian factors through total sublattice spins (H = J·S⃗_A·S⃗_B). The
+    /// Casimir spectrum {−2J, −J, 0³, +J} pins the maximum H eigenvalue gap to 3J,
+    /// which the Liouvillian eigenmode |Ψ_+⟩⟨Ψ_−| between the S_tot=2 ferromagnet
+    /// and the (S_A=1, S_B=1, S_tot=0) singlet realises exactly. Pure-dephasing
+    /// dissipator only adds real decay so no L-mode can exceed the H-spread bound.
+    /// Tier 1 derived; see <c>PROOF_RING_N4_DIHEDRAL_LOCK.md</c>. Surfaces on the
+    /// F1 KB alongside <see cref="KernelDimensionByComponents"/> because the
+    /// empirical anchors come from the same Q-sweep that the F1 family scaffolded;
+    /// the formula itself is an Im-max bound, conceptually a sister to the star
+    /// saturation in <c>STAR_CONFOCAL_LIMIT.md</c>.</summary>
+    public RingN4DihedralLockClaim RingN4DihedralLock { get; }
+
     public IReadOnlyList<HardwareConfirmationClaim> HardwareConfirmations { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
 
@@ -112,6 +127,7 @@ public sealed class F1KnowledgeBase : IInspectable
         F49NonUniformCrossTerm = new F49NonUniformCrossTermClaim();
         GeneralTopologyVerification = new F1GeneralTopologyVerifiedClaim();
         KernelDimensionByComponents = new F4KernelDimensionByComponentsClaim();
+        RingN4DihedralLock = new RingN4DihedralLockClaim();
 
         HardwareConfirmations = HardwareConfirmationClaim.LookupAll(_f1ConfirmationNames);
 
@@ -137,11 +153,14 @@ public sealed class F1KnowledgeBase : IInspectable
             // Tier 1 (derived) group: F1 master + scaling + closed forms + the F4
             // disconnected-graph bridge (promoted from Tier 1 candidate to Tier 1
             // derived 2026-05-19; closure via DEGENERACY_PALINDROME Result 2 for the
-            // connected-case upper bound plus standard tensor-sum kernel factorisation).
+            // connected-case upper bound plus standard tensor-sum kernel factorisation)
+            // + the Ring N=4 dihedral lock (Tier 1 derived 2026-05-19; closure via
+            // K_{2,2} = C_4 bipartite-complete + Casimir spectrum, see
+            // PROOF_RING_N4_DIHEDRAL_LOCK.md).
             yield return InspectableNode.Group("Tier 1 (derived)",
                 PalindromeIdentity, MainScaling, SingleBodyScaling,
                 T1ResidualClosedForm, T1ResidualPi2Decomposition, DepolResidualClosedForm,
-                F49NonUniformCrossTerm, KernelDimensionByComponents);
+                F49NonUniformCrossTerm, KernelDimensionByComponents, RingN4DihedralLock);
 
             // Tier 2 group includes the hardware confirmations + the
             // general-topology verification record (numerical sweep across N=5..8).

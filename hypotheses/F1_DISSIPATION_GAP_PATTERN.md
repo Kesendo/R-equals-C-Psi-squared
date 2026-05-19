@@ -72,10 +72,10 @@ The Q-sweep surfaced two clean Q-universal patterns for ring topology that were 
 
 **Ring N=4** (the 4-cycle = K_{2,2} = bipartite complete on 2+2):
 
-    Im_max(ring, N=4, J)  =  3·J·N/8     (bit-exact at every Q tested)
+    Im_max(ring, N=4, J)  =  (3/4)·J·N  =  3·J     (bit-exact at every Q tested)
     ↔  Im/σ  =  3Q/4
 
-verified at Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5} to relative error < 5·10⁻¹⁵ (machine precision). This is a clean rational saturation: ring N=4 carries 50% more imaginary spread than star N=4 (`3J·N/8` vs `J·N/2 = 4J·N/8`), traceable to the dihedral D_4 symmetry of the 4-cycle and its bipartite-complete structure.
+verified at Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5} to relative error < 5·10⁻¹⁵ (machine precision). This is a clean rational saturation: ring N=4 carries 50% more imaginary spread than star N=4 ((3/4)·J·N vs (1/2)·J·N), traceable to the bipartite-complete structure (4 bonds in K_{2,2} vs 3 in the N=4 star). Closed-form derivation via the Casimir spectrum `{−2J, −J, 0³, +J}` of `H = J·S⃗_A·S⃗_B` with sublattice totals S⃗_A = S⃗_0 + S⃗_2, S⃗_B = S⃗_1 + S⃗_3 (see [`docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md`](../docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md)). Typed Tier 1 derived as [`RingN4DihedralLockClaim`](../compute/RCPsiSquared.Core/Symmetry/RingN4DihedralLockClaim.cs) 2026-05-19.
 
 **Ring N=6** (dihedral D_6 = D_3·Z_2):
 
@@ -84,7 +84,7 @@ verified at Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5} to relative error < 5·10⁻¹
 
 verified at the same 6 Q-anchors. The numerical value `0.717129` is constant to 6+ decimal places across all Q's (a Q-universal lock), but the closed-form analytical expression is not yet identified (not π/something, not a simple rational, not √2/2 or other obvious algebraic). Likely a Bethe-ansatz number from the 6-cycle Heisenberg dispersion. Open for derivation.
 
-These two locks are topology-N specific bit-exact saturation laws. Candidates for typed claims `RingN4DihedralLock` (clean rational, immediately Tier-1 derivable from the bipartite-complete structure) and `RingN6DihedralLock` (Tier-1 candidate pending closed-form identification). The dihedral-lock pattern at even N is itself a question: does ring N=8 also Q-universally saturate at some N-specific constant?
+These two locks are topology-N specific bit-exact saturation laws. **Ring N=4 promoted Tier 1 derived 2026-05-19** as [`RingN4DihedralLockClaim`](../compute/RCPsiSquared.Core/Symmetry/RingN4DihedralLockClaim.cs) via the K_{2,2} bipartite-complete Casimir derivation. **Ring N=6 stays Tier-2 empirical** pending closed-form identification of the transcendental constant 0.717129... (likely Bethe-ansatz, see [`docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md`](../docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md) section "Why this is N=4-specific" for why the simple Casimir argument does not extend). The dihedral-lock pattern at even N is itself a question: does ring N=8 also Q-universally saturate at some N-specific constant? Existing N=8 ring data at Q=2 (γ=0.5, J=1) gives `Im/σ = 1.4128 = 0.7064·Q`, suggesting a trend `c_4 = 0.75, c_6 = 0.7171, c_8 = 0.7064` that may converge to 1/√2 ≈ 0.7071 as N → ∞ (Bethe-ansatz dispersion limit).
 
 ## Ring and star follow different patterns
 
@@ -119,8 +119,8 @@ The 2026-05-19 cross-topology data confirms: bond count is irrelevant, **graph d
 
 This entry has two distinct promotion candidates after the 2026-05-19 Q-sweep:
 
-**Q-universal ring dihedral locks (immediate candidates):**
-- `RingN4DihedralLockClaim`: `Im_max(ring, N=4, J) = 3·J·N/8` bit-exact at 6 Q-anchors. Tier 1 derivation via the 4-cycle = K_{2,2} bipartite-complete dispersion is tractable; promote when written up.
+**Q-universal ring dihedral locks:**
+- `RingN4DihedralLockClaim`: `Im_max(ring, N=4, J) = (3/4)·J·N = 3·J` bit-exact at 6 Q-anchors. **Promoted Tier 1 derived 2026-05-19** via the K_{2,2} = C_4 bipartite-complete Casimir derivation in [`docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md`](../docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md); typed in [`RingN4DihedralLockClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/RingN4DihedralLockClaim.cs).
 - `RingN6DihedralLockClaim`: `Im_max(ring, N=6, J) = c₆·J·N` with `c₆ = 0.717129...` bit-exact at 6 Q-anchors. Tier 1 candidate; promotion needs closed-form identification of c₆ (Bethe-ansatz number).
 
 **Chain Q-quadratic plateau (further work needed):**

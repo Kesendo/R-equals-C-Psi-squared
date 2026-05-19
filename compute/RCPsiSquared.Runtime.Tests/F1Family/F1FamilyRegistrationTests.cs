@@ -15,22 +15,25 @@ public class F1FamilyRegistrationTests
             HType: HamiltonianType.XY, Topology: TopologyKind.Chain);
 
     [Fact]
-    public void RegisterF1Family_BuildsNineClaims()
+    public void RegisterF1Family_BuildsTenClaims()
     {
         var registry = new ClaimRegistryBuilder()
             .RegisterF1Family(DefaultChain())
             .Build();
 
-        // Nine entries: ChainSystemPrimitive + F1PalindromeIdentity +
+        // Ten entries: ChainSystemPrimitive + F1PalindromeIdentity +
         // PalindromeResidualScalingClaim + F1T1ResidualClosedForm +
         // F1T1ResidualPi2Decomposition + F1DepolResidualClosedForm +
         // F49NonUniformCrossTermClaim + F1GeneralTopologyVerifiedClaim (added
         // 2026-05-18 alongside the last F1 OpenQuestion closure) +
         // F4KernelDimensionByComponentsClaim (added 2026-05-18 as the F4
-        // disconnected-graph bridge from the F1 SLOW_N8 sweep).
+        // disconnected-graph bridge from the F1 SLOW_N8 sweep) +
+        // RingN4DihedralLockClaim (added 2026-05-19 from the Q-sweep extension:
+        // K_{2,2} = C_4 bipartite-complete + Casimir spectrum closes the
+        // (3/4)·J·N Im-max bound in closed form).
         // SingleBody scaling deliberately omitted (builder is type-keyed; see
         // F1FamilyRegistration XML docs for the Option-B rationale).
-        Assert.Equal(9, registry.All().Count());
+        Assert.Equal(10, registry.All().Count());
         Assert.True(registry.Contains<ChainSystemPrimitive>());
         Assert.True(registry.Contains<F1PalindromeIdentity>());
         Assert.True(registry.Contains<PalindromeResidualScalingClaim>());
@@ -40,6 +43,51 @@ public class F1FamilyRegistrationTests
         Assert.True(registry.Contains<F49NonUniformCrossTermClaim>());
         Assert.True(registry.Contains<F1GeneralTopologyVerifiedClaim>());
         Assert.True(registry.Contains<F4KernelDimensionByComponentsClaim>());
+        Assert.True(registry.Contains<RingN4DihedralLockClaim>());
+    }
+
+    [Fact]
+    public void RegisterF1Family_RingN4DihedralLock_Resolves_AndIsTier1Derived()
+    {
+        var registry = new ClaimRegistryBuilder()
+            .RegisterF1Family(DefaultChain())
+            .Build();
+
+        var lockClaim = registry.Get<RingN4DihedralLockClaim>();
+        Assert.NotNull(lockClaim);
+        // Landed Tier 1 derived 2026-05-19: closed form via K_{2,2} = C_4 bipartite-
+        // complete + Casimir spectrum + Liouvillian eigenmode construction (see
+        // PROOF_RING_N4_DIHEDRAL_LOCK.md).
+        Assert.Equal(Tier.Tier1Derived, lockClaim.Tier);
+        Assert.Equal(4, lockClaim.N);
+        Assert.Equal(0.75, lockClaim.Coefficient, precision: 14);
+        // The six Q-sweep anchors survived the registry round-trip.
+        Assert.Equal(6, lockClaim.EmpiricalAnchors.Count);
+        // Predict scales linearly with J at N=4: 3·J.
+        Assert.Equal(3.0 * 0.1, lockClaim.Predict(J: 0.1), precision: 14);
+        Assert.Equal(3.0 * 1.0, lockClaim.Predict(J: 1.0), precision: 14);
+        // Im/σ ratio is (3/4)·Q universally.
+        Assert.Equal(0.75 * 1.5, lockClaim.PredictImOverSigma(Q: 1.5), precision: 14);
+        Assert.Equal(0.75 * 2.0, lockClaim.PredictImOverSigma(Q: 2.0), precision: 14);
+    }
+
+    [Fact]
+    public void RegisterF1Family_RingN4DihedralLock_AncestorsContainF1Identity()
+    {
+        // The ring N=4 dihedral lock is wired with F1PalindromeIdentity as its
+        // parent (Tier 1 derived, strength 5). The Im-max bound lives in the
+        // L-spectrum the F1 palindrome partitions; the eigenmode-construction
+        // machinery is the same one F4KernelDimensionByComponentsClaim uses for
+        // its connected-case upper-bound closure.
+        var registry = new ClaimRegistryBuilder()
+            .RegisterF1Family(DefaultChain())
+            .Build();
+
+        var ancestors = registry.AncestorsOf<RingN4DihedralLockClaim>()
+            .Select(c => c.GetType()).ToHashSet();
+
+        Assert.Contains(typeof(F1PalindromeIdentity), ancestors);
+        Assert.Contains(typeof(ChainSystemPrimitive), ancestors);
     }
 
     [Fact]

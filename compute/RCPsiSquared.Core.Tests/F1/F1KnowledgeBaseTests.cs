@@ -88,6 +88,7 @@ public class F1KnowledgeBaseTests
         Assert.NotNull(kb.F49NonUniformCrossTerm);
         Assert.NotNull(kb.GeneralTopologyVerification);
         Assert.NotNull(kb.KernelDimensionByComponents);
+        Assert.NotNull(kb.RingN4DihedralLock);
         Assert.NotEmpty(kb.HardwareConfirmations);
         // OpenQuestions is empty as of 2026-05-18 (all four F1 items closed); see
         // F1OpenQuestions XML doc for the per-item closure references.
