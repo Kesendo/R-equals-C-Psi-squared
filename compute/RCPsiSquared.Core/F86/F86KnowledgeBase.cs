@@ -157,6 +157,18 @@ public sealed class F86KnowledgeBase : IInspectable
 
     private readonly Lazy<F90F86C2BridgeIdentity> _f89BridgeIdentity;
 
+    /// <summary>F86e c=2 meta-claim (Tier1Derived): the inter-channel SVD-top singular value
+    /// σ_0 IS the operator norm of the commutator [Π_HD1, M_H]. On the c=2 block HD ∈ {1, 3}
+    /// only, so Π_HD1 + Π_HD3 = I and V_inter = Π_HD1·M_H·(I−Π_HD1); the lemma
+    /// ‖P·M·(1−P)‖ = ‖[P, M]‖ then gives σ_0 = ‖[Π_HD1, M_H]‖. Non-null iff <c>Block.C == 2</c>
+    /// — the identity is c=2-specific (at c ≥ 3 the HD spectrum has more than two values).
+    /// Lazily built on first access: the underlying InterChannelSvd plus the square-projector
+    /// commutator norm run only once and only on read. See
+    /// <see cref="SigmaZeroCommutatorNormClaim"/>.</summary>
+    public SigmaZeroCommutatorNormClaim? SigmaZeroCommutatorNorm => _sigmaZeroCommutatorNorm.Value;
+
+    private readonly Lazy<SigmaZeroCommutatorNormClaim?> _sigmaZeroCommutatorNorm;
+
     public IReadOnlyList<RetractedClaim> Retracted { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
     public InspectableNode FourModeInsufficiencyNote { get; }
@@ -291,6 +303,12 @@ public sealed class F86KnowledgeBase : IInspectable
             return new F90F86C2BridgeIdentity(f89, atLock);
         });
 
+        // F86e σ_0 = ‖[Π_HD1, M_H]‖ identity (Tier1Derived): c=2-specific (needs
+        // Π_HD1 + Π_HD3 = I). Lazy so the InterChannelSvd + square-projector commutator
+        // norm are paid only on first read; null for all c ≠ 2 blocks.
+        _sigmaZeroCommutatorNorm = new Lazy<SigmaZeroCommutatorNormClaim?>(() =>
+            block.C == 2 ? SigmaZeroCommutatorNormClaim.Build(block) : null);
+
         Retracted = RetractedClaim.Standard;
         OpenQuestions = F86OpenQuestions.Standard;
 
@@ -365,6 +383,8 @@ public sealed class F86KnowledgeBase : IInspectable
         // F90 bridge identity is c=2-stratum specific (only the c=2 K_b ↔ F89 path-(N−1)
         // identity is verified bit-exact). Surface it under Tier 1 derived for c=2 blocks.
         if (Block.C == 2) yield return F89BridgeIdentity;
+        // σ_0 = ‖[Π_HD1, M_H]‖ is c=2-specific (needs Π_HD1 + Π_HD3 = I). Non-null only at c=2.
+        if (SigmaZeroCommutatorNorm is not null) yield return SigmaZeroCommutatorNorm;
     }
 
     private IEnumerable<IInspectable> CollectTier1Candidate()
