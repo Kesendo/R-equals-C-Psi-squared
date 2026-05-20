@@ -14,8 +14,9 @@ namespace RCPsiSquared.Core.F71;
 /// <list type="bullet">
 ///   <item>Tier-1 derived: <see cref="MirrorOperator"/> (R, R²=I), <see cref="BondOrbits"/>
 ///         (orbit decomposition), <see cref="C1Identity"/> (c₁ closed-form mirror identity),
-///         <see cref="F86Generalisation"/> (Q_peak mirror cross-reference to F86 KB).</item>
-///   <item>Open: <see cref="OpenQuestions"/>: non-uniform J/γ extension, asymmetric ρ₀,
+///         <see cref="F86Generalisation"/> (Q_peak mirror cross-reference to F86 KB),
+///         <see cref="MirrorJParity"/> (F100: c₁/Q_peak mirror deviation odd in J_anti).</item>
+///   <item>Open: <see cref="OpenQuestions"/>: non-uniform γ extension, asymmetric ρ₀,
 ///         per-orbit Q_peak derivation.</item>
 /// </list>
 ///
@@ -31,6 +32,7 @@ public sealed class F71KnowledgeBase : IInspectable
     public F71BondOrbitDecomposition BondOrbits { get; }
     public C1MirrorIdentity C1Identity { get; }
     public F86MirrorGeneralisationLink F86Generalisation { get; }
+    public C1QPeakMirrorJParity MirrorJParity { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
 
     public F71KnowledgeBase(int N)
@@ -41,6 +43,7 @@ public sealed class F71KnowledgeBase : IInspectable
         BondOrbits = new F71BondOrbitDecomposition(N);
         C1Identity = new C1MirrorIdentity();
         F86Generalisation = new F86MirrorGeneralisationLink();
+        MirrorJParity = new C1QPeakMirrorJParity();
         OpenQuestions = F71OpenQuestions.Standard;
     }
 
@@ -49,7 +52,7 @@ public sealed class F71KnowledgeBase : IInspectable
     public string Summary =>
         $"chain-mirror R on {1 << N}-dim Hilbert space; {BondOrbits.NumOrbits} bond orbits " +
         $"({(BondOrbits.HasSelfPairedCentralOrbit ? "self-paired central present" : "no self-paired central")}); " +
-        $"c₁ identity + F86 generalisation, {OpenQuestions.Count} open items";
+        $"c₁ identity + F86 generalisation + F100 non-uniform-J parity, {OpenQuestions.Count} open items";
 
     public IEnumerable<IInspectable> Children
     {
@@ -59,7 +62,7 @@ public sealed class F71KnowledgeBase : IInspectable
                 summary: $"{N} qubits, {N - 1} bonds, {1 << N}-dim Hilbert space");
 
             yield return InspectableNode.Group("Tier 1 (derived)",
-                MirrorOperator, BondOrbits, C1Identity, F86Generalisation);
+                MirrorOperator, BondOrbits, C1Identity, F86Generalisation, MirrorJParity);
 
             yield return InspectableNode.Group("open questions",
                 OpenQuestions.Cast<IInspectable>().ToArray());

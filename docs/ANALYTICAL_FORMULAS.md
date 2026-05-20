@@ -1676,7 +1676,7 @@ for all bond indices b ∈ {0, ..., N−2} and any reflection-symmetric initial 
 Proof: the F86 observable is `K_b(Q, t) = 2·Re ⟨ρ(t)| S_kernel | ∂ρ/∂J_b ⟩`. Under R, every component is invariant (uniform Z-dephasing L_D, uniform-J Hamiltonian H_xy, the Dicke probe, and the spatial-sum kernel S), while the bond-flip transforms as `R · ∂L/∂J_b · R⁻¹ = ∂L/∂J_{N−2−b}`. Hence K_b(Q, t) = K_{N−2−b}(Q, t) as functions of (Q, t), and their argmax-Q values coincide. Numerical verification: max deviation < 10⁻¹⁰ across c=2 N=5..7 and c=3 N=5..6 (`F86NewIdeasTests.F71MirrorInvariance_PerBondQPeak_BitExactSymmetricUnderBondMirror`). The per-F71-orbit substructure observed in F86 (Interior bonds not uniform within the F71-orbit grouping; central self-paired bond differs from flanking) refines the simple Endpoint/Interior dichotomy into a per-orbit classification: the F71 symmetry gives the pairing, not the value. See [PROOF_F86C_F71_MIRROR Statement 3](proofs/PROOF_F86C_F71_MIRROR.md#statement-3-f71-spatial-mirror-invariance-of-per-bond-q_peak-tier-1-derived).
 
 **Valid for:** any Hamiltonian with \[H, R\] = 0 (uniform coupling on a symmetric graph), any dissipator with \[D, R_sup\] = 0 (uniform or R-symmetric dephasing), any initial state that is reflection-symmetric in per-site purities. Purely kinematic.
-**Breaks for:** non-uniform coupling J_b ≠ J_{N−2−b}; non-uniform dephasing γ_i ≠ γ_{N−1−i}; initial states without reflection symmetry in purity.
+**Breaks for:** non-uniform coupling J_b ≠ J_{N−2−b}; non-uniform dephasing γ_i ≠ γ_{N−1−i}; initial states without reflection symmetry in purity. The non-uniform-J breakdown is now characterised by [F100](#f100): it is graceful, with the bond-mirror deviation D(b) = c₁(b) − c₁(N−2−b) exactly odd in the F71-anti-palindromic component of J (zero for any palindromic J, leading-order linear in the asymmetry).
 **Verified:** N = 3, 4, 5, 6 for ψ_1+vac and ψ_2+vac; residuals < 10⁻⁹. Source: [`eq021_obc_sine_basis.py`](../simulations/eq021_obc_sine_basis.py), [`c1_veffect_scaling_small.py`](../simulations/c1_veffect_scaling_small.py).
 **Replaces:** empirical observation of mirror-symmetric c₁ bond profiles with an analytical kinematic proof.
 **Scripts:** [`eq021_obc_sine_basis.py`](../simulations/eq021_obc_sine_basis.py).
@@ -3092,6 +3092,28 @@ DickeAnchor.cs), companion bridge [F98](#f98) (long-time 3/8 → 1/4 via kernel 
 (typed Claim with five-anchor enumeration), [DEPTH_3_ANCHOR_DERIVED.md](carbon/DEPTH_3_ANCHOR_DERIVED.md)
 (carbon-domain reading + bidirectional-bridge framing),
 [`simulations/carbon/depth_3_anchor_derivation.py`](../simulations/carbon/depth_3_anchor_derivation.py).
+
+---
+
+### F100. F71 c₁/Q_peak bond-mirror deviation is exactly odd in the F71-anti-palindromic J (observable-side twin of F92) (Tier 1 derived, algebraic + numerically verified N=3,4,5; 2026-05-20)
+
+**For an N-qubit XY chain with uniform Z-dephasing and bond-coupling profile J = (J_0, ..., J_{N−2}), the F71 bond-mirror deviation of the closure-breaking coefficient c₁ (and of the F86c per-bond Q_peak observable),**
+
+    D(b) := c₁(b) − c₁(N−2−b)
+
+**is an exactly odd function of the F71-anti-palindromic component of J.** Write the mirrored profile F71(J)_b := J_{N−2−b} and split J = J_sym + J_anti with J_sym = (J + F71(J))/2 (F71-palindromic) and J_anti = (J − F71(J))/2 (F71-anti-palindromic). Then in (J_sym, J_anti) coordinates D(b; J_sym, −J_anti) = −D(b; J_sym, J_anti), to all orders.
+
+**Palindromic survival:** J_anti = 0 ⟹ D = −D ⟹ D = 0. The F71 c₁/Q_peak bond-mirror holds for every palindromic J, however non-uniform J_sym is. F71 never required uniform J; it requires palindromic J. Uniform is merely the simplest palindromic profile.
+
+**Graceful breakdown:** the Taylor series of D in J_anti has odd powers only, so D is leading-order linear in the asymmetry B_b = J_b − J_{N−2−b} = 2(J_anti)_b. Graceful, not a hard violation. The leading coefficient κ_b is the c₁-gradient at J_sym and generically depends on J_sym (Tier 2 empirical); the parity argument fixes the oddness, not the coefficient.
+
+**Derivation (Tier 1):** R-equivariance of the PROOF_C1 apparatus for a non-uniform base profile gives Step 1, c₁(b; J) = c₁(N−2−b; F71(J)), since R_sup·L(J)·R_sup = L(F71(J)) relabels bond b to bond N−2−b. Step 2: D(b; J) = c₁(b; J) − c₁(b; F71(J)), so D(b; F71(J)) = −D(b; J), which with F71(J) = J_sym − J_anti is the oddness. The identical R-conjugation argument applies to F86c's per-bond observable K_b(Q, t), built R-equivariantly: ΔQ_peak(b) is odd in J_anti, zero for palindromic J.
+
+**Connection to F92:** observable-side twin of F92. F92 (spectrum side) = the F71-refined diagonal-block eigenvalue multiset depends only on J_sym (J_anti invisible to the spectrum). F100 (observable side) = the c₁/Q_peak bond-mirror deviation depends only on J_anti, and oddly. Two faces of one J_sym/J_anti split.
+
+**Verified:** N = 3, 4, 5 via the full 4^N Liouvillian, no truncation; probe states ψ_1+vac and ψ_2+vac, base profile swept over s ∈ {0, ±0.04, ±0.08, ±0.12} along a linear-ramp J_anti direction, 4 palindromic J_sym profiles. Palindromic-survival max\|D(s=0)\| ≤ 4.0e−10; oddness residual max\|D(+s)+D(−s)\| ≤ 1.0e−9; even-power (constant, quadratic) fit coefficients ≤ ~3e−8. The leading coefficient κ shows 76% / 62% / 143% relative spread across the 4 J_sym profiles at N=3 / 4 / 5, confirming the J_sym-dependence.
+
+**Anchor:** [`PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md`](proofs/PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md), [`C1QPeakMirrorJParity.cs`](../compute/RCPsiSquared.Core/F71/C1QPeakMirrorJParity.cs), source [PROOF_C1_MIRROR_SYMMETRY](proofs/PROOF_C1_MIRROR_SYMMETRY.md), spectrum-side twin [F92](#f92), witness [`simulations/_f71_nonuniform_j_verification.py`](../simulations/_f71_nonuniform_j_verification.py), `docs/SYMMETRY_FAMILY_INVENTORY.md`.
 
 ---
 

@@ -186,11 +186,18 @@ Therefore:
 
 ---
 
+## Generalisation to non-uniform J (F100)
+
+The proof above takes uniform J as a hypothesis (Ingredient 4: \[L_A, R_sup\] = 0 requires uniform coupling). F100 extends it: the mirror identity holds not just for uniform J but for every **palindromic** J (J_b = J_{N−2−b}), however non-uniform the palindromic part is. Uniform is merely the simplest palindromic profile.
+
+For a general non-uniform J the bond-mirror **breaks gracefully, not hard**. Write the mirrored profile F71(J)_b := J_{N−2−b} and split J = J_sym + J_anti into its F71-palindromic and F71-anti-palindromic parts. The R-equivariant version of this proof's apparatus gives c₁(b; J) = c₁(N−2−b; F71(J)), from which the deviation D(b) = c₁(b) − c₁(N−2−b) is an **exactly odd function of J_anti**: D(b; J_sym, −J_anti) = −D(b; J_sym, J_anti). Hence D = 0 for any palindromic J (J_anti = 0), and D is leading-order linear in the bond asymmetry B_b = J_b − J_{N−2−b} otherwise. See [F100 in ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md#f100) and [PROOF_F100_C1_QPEAK_MIRROR_J_PARITY](PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md).
+
 ## Relation to other results
 
 - **F1 (Palindrome):** The Π operator is a different symmetry (Pauli conjugation, not spatial reflection). F71 uses spatial R, not Π. Both are involutions that commute with the uniform-chain Liouvillian, but they act differently: Π maps XY-weight w to N−w, R maps site i to site N−1−i.
 - **F70 (ΔN selection rule):** F70 restricts WHICH sectors contribute to c₁. F71 restricts the SPATIAL structure of c₁ across bonds. Complementary, not overlapping.
 - **EQ-019 (bond-position dependence):** F71 halves the independent components of the c₁ bond profile: only ⌈(N−1)/2⌉ values are independent instead of N−1.
+- **F100 (non-uniform-J generalisation):** extends F71 from uniform to palindromic J; non-uniform J breaks the bond-mirror gracefully, with the deviation odd in the F71-anti-palindromic component of J.
 
 ---
 

@@ -5,18 +5,20 @@ namespace RCPsiSquared.Runtime.F71Family;
 
 /// <summary>Registers the F71 mirror-symmetry family: <see cref="C1MirrorIdentity"/> as
 /// the analytic identity, two N-parameterised consequences (<see cref="F71MirrorOperator"/>,
-/// <see cref="F71BondOrbitDecomposition"/>), and the cross-F86 generalisation
+/// <see cref="F71BondOrbitDecomposition"/>), the cross-F86 generalisation
 /// (<see cref="F86MirrorGeneralisationLink"/>) that lifts c₁(b) = c₁(N−2−b) to
-/// Q_peak(b) = Q_peak(N−2−b).
+/// Q_peak(b) = Q_peak(N−2−b), and the F100 non-uniform-J extension
+/// (<see cref="C1QPeakMirrorJParity"/>).
 ///
 /// <code>
 ///   C1MirrorIdentity (analytic identity)
 ///     ├── F71MirrorOperator (N-parameterised)
 ///     ├── F71BondOrbitDecomposition (N-parameterised)
-///     └── F86MirrorGeneralisationLink (cross-KB lift to F86)
+///     ├── F86MirrorGeneralisationLink (cross-KB lift to F86)
+///     └── C1QPeakMirrorJParity (F100: graceful breakdown under non-uniform J)
 /// </code>
 ///
-/// <para>All four claims are Tier1Derived. F71MirrorOperator and F71BondOrbitDecomposition
+/// <para>All five claims are Tier1Derived. F71MirrorOperator and F71BondOrbitDecomposition
 /// take an N argument; the registration takes the same N so the Runtime instance matches
 /// the F1Family <see cref="ChainSystemPrimitive"/> N value used elsewhere.</para></summary>
 public static class F71FamilyRegistration
@@ -40,5 +42,10 @@ public static class F71FamilyRegistration
             {
                 _ = b.Get<C1MirrorIdentity>();
                 return new F86MirrorGeneralisationLink();
+            })
+            .Register<C1QPeakMirrorJParity>(b =>
+            {
+                _ = b.Get<C1MirrorIdentity>();
+                return new C1QPeakMirrorJParity();
             });
 }
