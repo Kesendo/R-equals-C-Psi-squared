@@ -76,7 +76,7 @@ public sealed class C1QPeakMirrorJParity : Claim
 
     /// <summary>Norm ‖J_anti‖ = sqrt(Σ_b J_anti[b]²) of the anti-palindromic component:
     /// the deviation of J from being F71-palindromic. Zero iff J_b = J_{N−2−b} for all b.
-    /// The c₁/Q_peak bond-mirror deviation D vanishes iff this is zero — the palindromic-axis
+    /// The c₁/Q_peak bond-mirror deviation D vanishes iff this is zero; it is the palindromic-axis
     /// twin of F92's AntiPalindromicDeviation.</summary>
     public static double PalindromicDeviation(IReadOnlyList<double> bondJ)
     {
@@ -86,7 +86,7 @@ public sealed class C1QPeakMirrorJParity : Claim
         return Math.Sqrt(sum);
     }
 
-    /// <summary>True iff J is F71-palindromic (J_b = J_{N−2−b} ∀b) within tolerance — the
+    /// <summary>True iff J is F71-palindromic (J_b = J_{N−2−b} ∀b) within tolerance: the
     /// regime in which the c₁/Q_peak bond-mirror identity D(b) = 0 holds exactly.</summary>
     public static bool IsPalindromic(IReadOnlyList<double> bondJ, double tolerance = 1e-10)
         => PalindromicDeviation(bondJ) < tolerance;

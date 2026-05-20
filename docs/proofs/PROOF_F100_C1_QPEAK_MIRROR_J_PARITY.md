@@ -37,7 +37,7 @@ c₁(b; J) is the EQ-018 closure-breaking coefficient at bond b for base profile
 
 ## Algebraic proof
 
-### Step 1 — F71-conjugation parity of c₁
+### Step 1. F71-conjugation parity of c₁
 
 The superoperator R_sup(·) = R(·)R satisfies
 
@@ -49,7 +49,7 @@ because R relabels the coupling at bond b to bond N−2−b. The PROOF_C1 appara
 
 For palindromic J (F71(J) = J) this is exactly PROOF_C1's c₁(b) = c₁(N−2−b).
 
-### Step 2 — oddness via the J_sym / J_anti split
+### Step 2. Oddness via the J_sym / J_anti split
 
 With D(b; J) := c₁(b; J) − c₁(N−2−b; J), apply Step 1 with b → N−2−b: c₁(N−2−b; J) = c₁(b; F71(J)). Hence
 

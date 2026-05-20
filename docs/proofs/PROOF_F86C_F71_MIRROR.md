@@ -70,14 +70,14 @@ Three sub-effects visible: (a) F71-pairing identity (Tier 1, Statement 3); (b) *
 
 ---
 
-## Spawned generalisations: F91 / F92 / F93
+## Spawned generalisations: F91 / F92 / F93 / F100
 
 The F71-mirror lineage outgrew F86 and earned its own F-numbers, the **F71-anti-palindromic spectral-invariance trio** (all Tier 1 derived, 2026-05-12):
 
-- **F91** — F71-anti-palindromic γ spectral invariance (= 90° in γ-space, Pi2-Z₄'s parameter side): the F71-refined diagonal-block eigenvalue multiset is invariant under γ-distributions satisfying the anti-palindromic condition. See [PROOF_F91_GAMMA_NINETY_DEGREES](PROOF_F91_GAMMA_NINETY_DEGREES.md).
-- **F92** — F71-anti-palindromic J spectral invariance (J-side Pi2-Z₄ twin of F91): same invariance under inhomogeneous bond couplings J_b. See [PROOF_F92_BOND_ANTI_PALINDROMIC_J](PROOF_F92_BOND_ANTI_PALINDROMIC_J.md).
-- **F93** — F71-anti-palindromic h spectral invariance (h-detuning Pi2-Z₄ twin of F91/F92): same invariance under per-site longitudinal detuning h_l. See [PROOF_F93_DETUNING_ANTI_PALINDROMIC](PROOF_F93_DETUNING_ANTI_PALINDROMIC.md).
-- **F100** — c₁/Q_peak observable-side graceful-breakdown member: under a non-uniform bond profile J the F71 bond-mirror deviation D(b) = c₁(b) − c₁(N−2−b) (and the analogous ΔQ_peak(b)) is exactly odd in the F71-anti-palindromic component of J, hence zero for palindromic J. F100 extends Statement 3 above (uniform-J Q_peak mirror) to non-uniform J: the spatial mirror breaks gracefully, not hard. It is the observable-side twin of F92's spectrum-side invariance. See [PROOF_F100_C1_QPEAK_MIRROR_J_PARITY](PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md).
+- **F91**: F71-anti-palindromic γ spectral invariance (= 90° in γ-space, Pi2-Z₄'s parameter side): the F71-refined diagonal-block eigenvalue multiset is invariant under γ-distributions satisfying the anti-palindromic condition. See [PROOF_F91_GAMMA_NINETY_DEGREES](PROOF_F91_GAMMA_NINETY_DEGREES.md).
+- **F92**: F71-anti-palindromic J spectral invariance (J-side Pi2-Z₄ twin of F91): same invariance under inhomogeneous bond couplings J_b. See [PROOF_F92_BOND_ANTI_PALINDROMIC_J](PROOF_F92_BOND_ANTI_PALINDROMIC_J.md).
+- **F93**: F71-anti-palindromic h spectral invariance (h-detuning Pi2-Z₄ twin of F91/F92): same invariance under per-site longitudinal detuning h_l. See [PROOF_F93_DETUNING_ANTI_PALINDROMIC](PROOF_F93_DETUNING_ANTI_PALINDROMIC.md).
+- **F100**: c₁/Q_peak observable-side graceful-breakdown member: under a non-uniform bond profile J the F71 bond-mirror deviation D(b) = c₁(b) − c₁(N−2−b) (and the analogous ΔQ_peak(b)) is exactly odd in the F71-anti-palindromic component of J, hence zero for palindromic J. F100 extends Statement 3 above (uniform-J Q_peak mirror) to non-uniform J: the spatial mirror breaks gracefully, not hard. It is the observable-side twin of F92's spectrum-side invariance. See [PROOF_F100_C1_QPEAK_MIRROR_J_PARITY](PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md).
 
 F86c is the uniform-J Q_peak-observable instance of the F71 spatial mirror; F91/F92/F93 are the parameter-side spectral generalisations; F100 is the c₁/Q_peak observable-side graceful-breakdown member for non-uniform J.
 
