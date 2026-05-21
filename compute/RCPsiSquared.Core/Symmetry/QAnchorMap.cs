@@ -3,12 +3,12 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>Typed Q-anchor map on the Q = J/γ₀ axis. The 9 canonical Q-anchors with
+/// <summary>Typed Q-anchor map on the Q = J/γ₀ axis. The 10 canonical Q-anchors with
 /// their viewpoints (Q, J at γ₀=0.05, band, role, tier, source), parallel to
 /// <see cref="FractionReferenceGraph"/> on the α-axis and <see cref="PolarityMirrorMap"/>
 /// on the γ-axis.
 ///
-/// <para><b>Canonical 9 anchors</b> (per <c>docs/Q_REGIME_ANCHORS.md</c>):
+/// <para><b>Canonical 10 anchors</b> (per <c>docs/Q_REGIME_ANCHORS.md</c>):
 /// onset edges 0.2 / 0.35, Balance 1.0, peak band 1.2 / 1.5 / 1.6 / 1.8, plateau
 /// Q_EP 2.0, Endpoint orbit candidate 2.5.</para>
 ///
@@ -37,7 +37,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// </summary>
 public sealed class QAnchorMap
 {
-    /// <summary>The 9 canonical Q-anchors. Constructed from the typed claims and
+    /// <summary>The 10 canonical Q-anchors. Constructed from the typed claims and
     /// documented Q-band edges they reference.</summary>
     public static IReadOnlyList<QBasisAnker> CanonicalAnchors { get; } =
         new QBasisAnker[]

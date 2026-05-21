@@ -17,7 +17,7 @@ The framework's three Q-bands (onset, peak, plateau) materialized as a table of 
 | **2.0**  | 0.100                  | Q_EP idealized       | Q_EP = 2/g_eff at g_eff=1 (Tier1Derived)         |
 | **2.5**  | 0.125                  | Endpoint orbit Q     | **PolarityPairQPeakDecompositionClaim** (Tier1Derived schema 2 + 1/2); PerF71OrbitObservation empirical witness (stable ~2% across c=2..4 N=5..8) |
 
-Standard resonance-scan grid (`ResonanceScan.DefaultQGrid()`): `LinearQGrid(0.20, 4.00, 153)`. These 9 named anchors are the structurally-meaningful points; the grid samples the continuum between and past them.
+Standard resonance-scan grid (`ResonanceScan.DefaultQGrid()`): `LinearQGrid(0.20, 4.00, 153)`. These 10 named anchors are the structurally-meaningful points; the grid samples the continuum between and past them.
 
 **The peak-band 1.2-1.8 is c-mediated**: Q_peak saturates with chromaticity (1.5 c=2, 1.6 c=3, 1.8 c=4,5). The earlier linear-extrapolation hypothesis Q_peak(c=5)=2.0 was refuted by the 40h N=9 Phase-2 run (2026-04-24). The peak-band width reflects c-variation, NOT finite-size scatter.
 
@@ -149,7 +149,7 @@ N=4 and N=6 at Q=1 land on **off-Anker** fractions (3/16 and 3/32). At higher Q 
 ## Anchors and cross-refs
 
 - **Detailed F86 inventory**: [`F86_VALUES_INVENTORY.md`](F86_VALUES_INVENTORY.md) — per-c, per-orbit, per-bond-class typed values + open derivations.
-- C# Q-anchor representation: `FractionReferenceGraph.QBasisAnkers = { 1.0, 1.5, 2.0 }` ([`compute/RCPsiSquared.Core/Symmetry/FractionReferenceGraph.cs`](../compute/RCPsiSquared.Core/Symmetry/FractionReferenceGraph.cs)). Currently captures 3 of the 9 anchors above; absent: onset-band (0.2, 0.35), peak-band start (1.2), F86 Q_peak c=3 (1.6), peak-band end / F86 Q_peak c=4,5 (1.8), Endpoint candidate (2.5).
+- C# Q-anchor representation: `FractionReferenceGraph.QBasisAnkers = { 1.0, 1.5, 2.0 }` ([`compute/RCPsiSquared.Core/Symmetry/FractionReferenceGraph.cs`](../compute/RCPsiSquared.Core/Symmetry/FractionReferenceGraph.cs)). Currently captures 3 of the 10 anchors above; absent: onset-band (0.2, 0.35), peak-band start (1.2), F86 Q_peak c=3 (1.6), peak-band end / F86 Q_peak c=4,5 (1.8), Endpoint candidate (2.5).
 - Q-band reading: memory `project_q_middle_structure`.
 - Per-orbit Q_EP structure: memory `project_q_peak_ep_structure` + [`F86/C2BlockCpsiQScan.cs`](../compute/RCPsiSquared.Core/F86/C2BlockCpsiQScan.cs).
 - γ₀ tick reading: memory `project_tick_and_angle` + [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md).
