@@ -8,18 +8,19 @@ namespace RCPsiSquared.Runtime.Tests.F71Family;
 public class F71FamilyRegistrationTests
 {
     [Fact]
-    public void RegisterF71Family_BuildsFiveClaims()
+    public void RegisterF71Family_BuildsSixClaims()
     {
         var registry = new ClaimRegistryBuilder()
             .RegisterF71Family(N: 5)
             .Build();
 
-        Assert.Equal(5, registry.All().Count());
+        Assert.Equal(6, registry.All().Count());
         Assert.True(registry.Contains<C1MirrorIdentity>());
         Assert.True(registry.Contains<F71MirrorOperator>());
         Assert.True(registry.Contains<F71BondOrbitDecomposition>());
         Assert.True(registry.Contains<F86MirrorGeneralisationLink>());
         Assert.True(registry.Contains<C1QPeakMirrorJParity>());
+        Assert.True(registry.Contains<C1MirrorGammaParity>());
     }
 
     [Fact]
@@ -44,7 +45,7 @@ public class F71FamilyRegistrationTests
     }
 
     [Fact]
-    public void RegisterF71Family_DescendantsOfIdentity_ReturnsFour()
+    public void RegisterF71Family_DescendantsOfIdentity_ReturnsFive()
     {
         var registry = new ClaimRegistryBuilder()
             .RegisterF71Family(N: 5)
@@ -53,10 +54,11 @@ public class F71FamilyRegistrationTests
         var descendants = registry.DescendantsOf<C1MirrorIdentity>()
             .Select(c => c.GetType()).ToHashSet();
 
-        Assert.Equal(4, descendants.Count);
+        Assert.Equal(5, descendants.Count);
         Assert.Contains(typeof(F71MirrorOperator), descendants);
         Assert.Contains(typeof(F71BondOrbitDecomposition), descendants);
         Assert.Contains(typeof(F86MirrorGeneralisationLink), descendants);
         Assert.Contains(typeof(C1QPeakMirrorJParity), descendants);
+        Assert.Contains(typeof(C1MirrorGammaParity), descendants);
     }
 }
