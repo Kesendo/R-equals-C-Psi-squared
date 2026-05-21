@@ -1,7 +1,7 @@
 # PROOF F100: F71 c₁/Q_peak bond-mirror deviation is exactly odd in the F71-anti-palindromic J (observable-side twin of F92)
 
 **Status:** Tier 1 derived (algebraic R-equivariance argument on the PROOF_C1 apparatus + numerical empirical witness at N=3, 4, 5, residuals < 1e-9)
-**Date:** 2026-05-20
+**Date:** 2026-05-20; 2026-05-21 (κ-obstruction section added)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Typed claim:** [`C1QPeakMirrorJParity.cs`](../../compute/RCPsiSquared.Core/F71/C1QPeakMirrorJParity.cs)
 
@@ -71,7 +71,7 @@ D is exactly odd in J_anti at fixed J_sym, to all orders. ∎
 
 - **Palindromic survival:** J_anti = 0 ⟹ D = −D ⟹ D = 0. The F71 c₁/Q_peak bond-mirror holds for **every** palindromic J, however non-uniform J_sym is. F71 never required uniform J; it requires palindromic J. Uniform is merely the simplest palindromic profile.
 - **Graceful breakdown:** the Taylor series of D in J_anti has odd powers only, so D is leading-order linear in the asymmetry parameter B_b = J_b − J_{N−2−b} = 2(J_anti)_b. Graceful, not a hard violation.
-- **J_sym-dependence (Tier 2 empirical):** the leading coefficient κ_b is the c₁-gradient evaluated at J_sym and generically depends on J_sym. The parity argument fixes the oddness, NOT the coefficient.
+- **J_sym-dependence (Tier 2 empirical):** the leading coefficient κ_b is the c₁-gradient evaluated at J_sym and generically depends on J_sym. The parity argument fixes the oddness, NOT the coefficient. κ_b admits no closed form; see the section "The leading coefficient κ" below.
 - **Q_peak:** the identical R-conjugation argument applies to F86c's per-bond observable K_b(Q, t), built R-equivariantly: K_b(Q, t; J) = K_{N−2−b}(Q, t; F71(J)), so ΔQ_peak(b) is odd in J_anti, zero for palindromic J. c₁ is numerically verified; Q_peak follows by the identical argument.
 
 ## Empirical witness
@@ -94,6 +94,24 @@ F92 and F100 are the two faces of the same J_sym / J_anti split, read on differe
 - **F100 (observable side):** the c₁/Q_peak bond-mirror deviation D depends only on J_anti, and depends on it as an exactly odd function. F100 is the *deviation* statement: the bond-mirror observable sees J_anti, and sees only J_anti.
 
 Together they account for the full split. The spectrum-side twin keeps J_anti out of the eigenvalues; the observable-side twin localises the entire bond-mirror deviation in J_anti and proves it odd. On the palindromic orbit J_anti = 0 the deviation vanishes and F100 reduces to PROOF_C1's c₁(b) = c₁(N−2−b), now seen to hold for every palindromic J, not only uniform J.
+
+## The leading coefficient κ: no closed form
+
+F100 fixes the *parity* of D(b) exactly: its Taylor series in J_anti has odd powers only (Tier 1 derived, above). It does not fix the *magnitude*. Writing the leading term
+
+    D(b; s) = κ_b · s + O(s³)
+
+with s the amplitude along a fixed anti-palindromic direction, κ_b is the leading coefficient, equivalently the c₁-gradient ∂c₁(b)/∂(J_anti) at the palindromic base J_sym. This section records why κ_b admits no closed form (analysis 2026-05-21).
+
+**The obstruction, by inheritance from c₁.** κ_b is a derivative of c₁. The closure-breaking coefficient c₁ is bilinear in the initial state with a kernel K; EQ-018 was the dedicated search for K's closed form, and it closed only the endpoint bonds (via F73), leaving the interior open: "interior kernel values remain non-closed", "their closed form remains open". Operationally the c₁ the F100 pipeline uses is the LSQ α-rescaling fit on per-site purity ([PROOF_C1_MIRROR_SYMMETRY](PROOF_C1_MIRROR_SYMMETRY.md)), which EQ-018 found is "rational, not bilinear" and probe-specific, not a universal kernel entry. Either way, c₁ has no closed form at an interior bond: the bilinear kernel's interior entries are non-closed, and the operational LSQ c₁ is not a closed form at all. A closed form for κ_b in (N, b, J_sym) would require a closed-form, differentiable expression for c₁(b; J); none is available. κ_b can be no more closed than c₁, and c₁ is a fit. The argument is self-standing: it does not route through F86's g_eff, the exceptional point, or the OBC sine-sum structure.
+
+**The empirical signature confirms it.** The witness [`_f71_nonuniform_j_verification.py`](../../simulations/_f71_nonuniform_j_verification.py) measured κ_b across N=3, 4, 5 and four palindromic J_sym profiles. κ shows no bond-position law, no J_sym law, no N-scaling, sign changes between J_sym magnitudes, and a relative J_sym-spread that reaches 143% at N=5 (76% / 62% / 143% at N=3 / 4 / 5). That is the signature of a structureless residue, not of a function awaiting its formula.
+
+**Same family as F86's g_eff; F89's closure does not rescue it.** κ_b is the same kind of object as F86's coupling g_eff: a non-primitive, bond-position-dependent residue downstream of a projection or fit (cf. [PROOF_F86B_OBSTRUCTION](PROOF_F86B_OBSTRUCTION.md)). F89's path-polynomial closed form D_k (Tier 1 derived) does not transfer to it: F89 closes D_k *via* the orbit-polynomial reduction, which exploits Bloch-orbit symmetry and discards exactly the per-bond cross matrix elements a per-bond coefficient needs (verified negative, [`f86_geff_via_f90_bridge_probe.py`](../../simulations/f86_geff_via_f90_bridge_probe.py)). The route that closes an orbit-symmetric quantity is structurally the route that strips a per-bond one; this is the reduced-model route, obstruction L4 of the F86b catalogue, where every finite reduction proved insufficient for the per-bond signal.
+
+**What κ does have: the open positive direction.** "No closed form" is not "nothing". κ_b is accessible to first-order Lindblad perturbation theory: it can be written as a formal expression in the eigenvalues, slow-mode eigenvectors, and first-order J-derivatives of L(J_sym), the slow-mode eigenvector-mixing series. That expression would *explain* κ's J_sym-dependence (through the eigenvector-mixing matrix elements) and would show whether the large N=5 spread reflects a near-degeneracy in the slow-mode sector, lifting κ from a Tier-2 empirical residue to a Tier-1 structural object expressed in the primitive basis. It is still not a closed form: the palindromic-J slow modes the series is built from have themselves no closed form for general N (open-boundary XY with arbitrary palindromic couplings is not exactly solvable). The honest open direction for κ is that formal spectral expression, not a closed form.
+
+**Methodological frame.** This is F100's instance of the lesson that what survives a closed-form effort is the symmetry, not the number ([`ON_THE_Q_AXIS_AND_THE_PTF_LESSON`](../../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md)): F100's parity, D odd in J_anti, is the Tier-1-derived symmetry that survived; κ_b is the number that, by construction, is the residue. κ_b stays Tier 2 empirical.
 
 ## Anchors
 

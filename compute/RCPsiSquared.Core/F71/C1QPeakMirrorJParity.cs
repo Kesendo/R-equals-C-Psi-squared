@@ -26,7 +26,9 @@ namespace RCPsiSquared.Core.F71;
 ///         Taylor series of D in J_anti has odd powers only, so the breakdown is graceful
 ///         (leading-order linear in B_b = J_b − J_{N−2−b}), never a hard jump.</item>
 ///   <item>The leading coefficient κ_b generically DEPENDS on J_sym (Tier 2 empirical):
-///         the parity argument fixes the oddness, not the coefficient.</item>
+///         the parity argument fixes the oddness, not the coefficient. κ_b admits no
+///         closed form: it is ∂c₁/∂J and c₁ is itself a non-closed numerical fit. See the
+///         κ-obstruction section of <c>docs/proofs/PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md</c>.</item>
 /// </list>
 ///
 /// <para>Mechanism (cf. <c>docs/proofs/PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md</c>): the F71
@@ -109,7 +111,7 @@ public sealed class C1QPeakMirrorJParity : Claim
             yield return new InspectableNode("graceful breakdown",
                 summary: "Taylor of D in J_anti has odd powers only → leading-order linear in B_b = J_b − J_{N−2−b}; no hard violation");
             yield return new InspectableNode("J_sym-dependence (Tier 2 empirical)",
-                summary: "the leading coefficient κ_b depends on J_sym; parity fixes the oddness, not κ; 62–143% relative κ spread across J_sym profiles, N=3,4,5");
+                summary: "the leading coefficient κ_b depends on J_sym; parity fixes the oddness, not κ; 62–143% relative κ spread across J_sym profiles, N=3,4,5; κ has no closed form (∂c₁/∂J, c₁ itself a non-closed numerical fit; see PROOF_F100)");
             yield return new InspectableNode("scope: c₁ and Q_peak",
                 summary: "covers c₁ (closure-breaking coefficient) and Q_peak (F86c per-bond observable); the identical F71-conjugation argument");
             yield return new InspectableNode("twin of F92",
