@@ -41,7 +41,7 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 /// BareDoubledPtfXPeak ≈ 2.197 floor and the per-bond `g_eff_probe(Endpoint) ≈
 /// g_eff_probe(Interior)/1.6` candidate from F86 Item 1' Direction (a') (Direction (a')
 /// itself was falsified 2026-05-06; the Endpoint vs Interior bond-class split survived
-/// the retirement and is the load-bearing structure for the F86b' sub-class HWHM_ratio
+/// the retirement and is the load-bearing structure for the F86b₂ sub-class HWHM_ratio
 /// predictor and the F90 bridge identity that closed the surviving Direction (b'')).</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1' Direction (b'') (JW track) +

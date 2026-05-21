@@ -35,7 +35,7 @@ public class F95AngleAtQuadraticZeroPi2InheritanceTests
     {
         // The threshold IS b² for the discriminant zero crossing.
         double b = F95AngleAtQuadraticZeroPi2Inheritance.B;
-        Assert.Equal(b * b, F95AngleAtQuadraticZeroPi2Inheritance.Threshold, precision: 15);
+        Assert.Equal(F95AngleAtQuadraticZeroPi2Inheritance.Threshold, b * b, precision: 15);
     }
 
     [Theory]

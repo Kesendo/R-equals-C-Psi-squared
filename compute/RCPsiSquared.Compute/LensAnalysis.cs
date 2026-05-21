@@ -274,8 +274,6 @@ public static class LensAnalysis
             }
             log($"  {seCandidates.Count} SE candidates, first non-SE={firstNonSE}");
 
-            // Build DenseMatrix once for all targeted solves (single 4GB copy)
-            DenseMatrix? R = null;
             foreach (int mi in seCandidates)
             {
                 if (lensState != null) break;

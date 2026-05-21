@@ -38,6 +38,9 @@ public class F88bStaticDyadicAnchorTests
     public void DyadicSingletonMirror_StaticFractionEqualsLadderTerm(
         int k, int N, double expected, int ladderIndex)
     {
+        // The InlineData row is internally consistent: N = 2^k, ladder index = k + 2.
+        Assert.Equal(1 << k, N);
+        Assert.Equal(k + 2, ladderIndex);
         var anchor = new F88bStaticDyadicAnchor();
         Assert.Equal(expected, anchor.LiveStaticFraction(N), precision: 12);
         Assert.Equal(expected, anchor.LadderTerm(ladderIndex), precision: 12);

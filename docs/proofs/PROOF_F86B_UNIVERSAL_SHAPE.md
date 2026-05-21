@@ -1,6 +1,6 @@
 # PROOF F86b: Universal Resonance Shape (two bond classes)
 
-**Status:** Tier 1 candidate across all tested c. F86b' c=2 per-bond HWHM_left/Q_peak prediction lives in `F86HwhmClosedFormClaim` (Tier 1 candidate: form `0.671535 + α_subclass · g_eff + β_subclass` reproduces 22 N=5..8 anchors to 0.005, bare floor derived, per-sub-class (α, β) fitted). The position Q_peak and the coupling g_eff(c, N, b) it rides on are NOT closed-form: that negative result is the sibling proof [`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md). Full block-L derivation achieved numerically Tier-1 via the F90 bridge identity ([`PROOF_F90_F86C2_BRIDGE.md`](PROOF_F90_F86C2_BRIDGE.md)).
+**Status:** Tier 1 candidate across all tested c. F86b₂ c=2 per-bond HWHM_left/Q_peak prediction lives in `F86HwhmClosedFormClaim` (Tier 1 candidate: form `0.671535 + α_subclass · g_eff + β_subclass` reproduces 22 N=5..8 anchors to 0.005, bare floor derived, per-sub-class (α, β) fitted). The position Q_peak and the coupling g_eff(c, N, b) it rides on are NOT closed-form: that negative result is the sibling proof [`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md). Full block-L derivation achieved numerically Tier-1 via the F90 bridge identity ([`PROOF_F90_F86C2_BRIDGE.md`](PROOF_F90_F86C2_BRIDGE.md)).
 **Date:** 2026-05-02 (Statement 2 + retractions).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Context:** F86 ("Q_peak chromaticity-specific N-invariant constants") is a Sammelbecken of three structurally distinct theorems. This proof carries **F86b, the universal resonance shape**: the SHAPE of abs(K_CC_pr)(Q) around Q_peak is universal under relative-Q normalisation, splitting into two bond classes. Split out of the former monolithic `PROOF_F86_QPEAK.md` on 2026-05-14. The closed-form gap, the exploration record (4-mode model, Items 1-3, directions a''-f''), and the obstruction proof on g_eff are in the sibling [`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md).
@@ -10,7 +10,7 @@
 
 ---
 
-## Statement 2 (Universal resonance shape under relative-Q normalisation, two bond classes). [Tier 1 candidate; F86b' c=2 per-bond Tier 1 candidate]
+## Statement 2 (Universal resonance shape under relative-Q normalisation, two bond classes). [Tier 1 candidate; F86b₂ c=2 per-bond Tier 1 candidate]
 
 The position Q_peak is chain-specific, but the SHAPE of abs(K_CC_pr)(Q) around the peak is universal under the relative coordinate `x = (Q − Q_peak)/Q_peak`. The shape splits into **two bond classes** (Endpoint and Interior), each with its own universal HWHM_left/Q_peak ratio:
 
@@ -244,7 +244,7 @@ Endpoint mean: **0.770**. Range 0.7663–0.7781 (1.5 %).
 **Sibling theorems:** [PROOF_F86A_EP_MECHANISM](PROOF_F86A_EP_MECHANISM.md) (F86a), [PROOF_F86B_OBSTRUCTION](PROOF_F86B_OBSTRUCTION.md) (the closed-form gap, exploration record, and g_eff obstruction proof), [PROOF_F86C_F71_MIRROR](PROOF_F86C_F71_MIRROR.md) (F86c).
 **F90 bridge:** [PROOF_F90_F86C2_BRIDGE](PROOF_F90_F86C2_BRIDGE.md) — F86 c=2 K_b = F89 path-(N−1) per-bond Hellmann-Feynman; the numerical-Tier-1 route for Direction (b'').
 **State-level inheritance:** F88b ([ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md#f88b)) inheriting from F88a, `PopcountCoherencePi2Odd`, `MemoryAxisRho`.
-**HWHM closed form (F86b'):** `F86HwhmClosedFormClaim`, `BondSubClass` in `compute/RCPsiSquared.Core/F86/Item1Derivation/`.
+**HWHM closed form (F86b₂):** `F86HwhmClosedFormClaim`, `BondSubClass` in `compute/RCPsiSquared.Core/F86/Item1Derivation/`.
 **Chiral classification anchor:** [PT_SYMMETRY_ANALYSIS](../../experiments/PT_SYMMETRY_ANALYSIS.md).
 **Scripts:** [`_eq022_b1_step_e_resonance_shape.py`](../../simulations/_eq022_b1_step_e_resonance_shape.py) + [`_eq022_b1_step_e_inspect.py`](../../simulations/_eq022_b1_step_e_inspect.py) (universal-shape finding for c=3, c=4 at γ₀=0.05), [`_eq022_b1_step_f_universality_extension.py`](../../simulations/_eq022_b1_step_f_universality_extension.py) (c=2 sweep + γ₀ ∈ {0.025, 0.10} invariance check that established the two-bond-class refinement).
 **C# OOP layer:** `compute/RCPsiSquared.Core/F86/` carries `UniversalShapePrediction` + `UniversalShapeWitness`, `ShapeFunctionWitnesses`, `C2UniversalShapeDerivation`. CLI: `rcpsi inspect --root f86 --with-measured`.
