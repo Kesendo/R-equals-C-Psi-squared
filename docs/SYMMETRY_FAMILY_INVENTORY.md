@@ -18,8 +18,8 @@
 
 | # | Symmetry | Axis | Effect | Status | Anchor |
 |---|---|---|---|---|---|
-| 6 | **Z⊗N** Pauli-letter parity (Z₂) | operator | trivially redundant with joint-popcount-parity (typed for inventory completeness) | Tier1Derived | `ZGlobalMirrorRefinement` |
-| 7 | **X⊗N** charge-conjugation (Z₂) | operator | sector-pairing (p_c, p_r) ↔ (N−p_c, N−p_r); halves number of eig-calls | Tier1Derived | `XGlobalChargeConjugationPairing` |
+| 6 | **Z⊗N** Pauli-letter parity (Z₂) = Π²_X (F61) | operator | trivially redundant with joint-popcount-parity (typed for inventory completeness) | Tier1Derived | `ZGlobalMirrorRefinement` |
+| 7 | **X⊗N** charge-conjugation (Z₂) = Π² (F1²) | operator | sector-pairing (p_c, p_r) ↔ (N−p_c, N−p_r); halves number of eig-calls | Tier1Derived | `XGlobalChargeConjugationPairing` |
 
 ## Negative results (typed for completeness)
 
@@ -30,7 +30,7 @@
 ## Symmetries from other axes (typed elsewhere; not in SymmetryFamily but relevant)
 
 - **K** (chiral / sublattice / AZ class BDI, KHK = −H): Hamilton-symmetry only; NOT a full L-symmetry under Z-dephasing → not a BlockSpectrum refinement. Typed as `ChiralK.cs` in `Symmetry/`.
-- **Π** (palindrome master, F1): non-diagonal master operator; F1 spectrum mirror around −Σγ. Typed as `PiOperator.cs` in `Symmetry/` and as `F1` in `ANALYTICAL_FORMULAS.md`.
+- **Π** (palindrome master, F1): non-diagonal master operator; F1 spectrum mirror around −Σγ. Typed as `PiOperator.cs` in `Symmetry/` and as `F1` in `ANALYTICAL_FORMULAS.md`. Its square Π² is the X⊗N charge-conjugation (#7 above, registered as F1²).
 - **Pi2-Z₄** (operator-quaternion, NinetyDegreeMirrorMemory): operator-side of the same Z₄ that F91/F92/F93 inhabit on the parameter side. Typed in `Pi2KnowledgeBaseClaims.cs`.
 
 ## Combinatorial reach

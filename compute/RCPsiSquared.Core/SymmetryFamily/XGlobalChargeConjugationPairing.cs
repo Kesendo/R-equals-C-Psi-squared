@@ -10,6 +10,13 @@ namespace RCPsiSquared.Core.SymmetryFamily;
 /// X⊗N commutes with L, so paired sectors share spectra: full eig over one sector
 /// gives the spectrum of its X⊗N-pair for free.
 ///
+/// <para>X⊗N is Π², the square of the F1 palindrome conjugation Π (registered as F1²
+/// in docs/ANALYTICAL_FORMULAS.md). Π sends Y→iZ and Z→iY per site, so Π² flips the
+/// sign of every Y and Z and fixes I and X, acting on a Pauli string as (−1)^{n_Y+n_Z},
+/// the same X⊗N action recorded in this claim's anchor string. The repo typed X⊗N
+/// (here, 2026-05-12) and Π² (PiOperator.SquaredEigenvalue) independently; the identity
+/// was recognised 2026-05-21.</para>
+///
 /// <para>Algorithmic gain: halves the number of distinct eigendecompositions needed at
 /// any N. Block sizes are unchanged; this is sector-pairing, not sector-splitting.</para>
 ///

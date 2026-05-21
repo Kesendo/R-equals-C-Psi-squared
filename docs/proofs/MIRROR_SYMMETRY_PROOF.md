@@ -138,6 +138,13 @@ density matrix, the "classical" part) with coherences (X, Y = off-diagonal
 elements, the "quantum" part), with a phase factor i on the Y ↔ Z swap.
 In other words: Π exchanges what a system *is* with what it *could become*.
 
+**Π² is the charge-conjugation X⊗N (F1²):** Π is order 4 (Π⁴ = I). Squaring the
+per-site rule, Π² fixes I and X and sends Y → −Y, Z → −Z, so on a Pauli string Π²
+acts as (−1)^{n_Y+n_Z}. That is exactly conjugation by the global X-string
+X⊗N = ⊗_l X_l. This corollary, Π² = X⊗N, is registered as F1² in
+[ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md); X⊗N is the BlockSpectrum builder's
+sector-pairing shortcut (`XGlobalChargeConjugationPairing`).
+
 ---
 ## The Proof (3 steps)
 

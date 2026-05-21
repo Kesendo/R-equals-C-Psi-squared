@@ -40,7 +40,11 @@ public static class PiOperator
     }
 
     /// <summary>Π² eigenvalue on a Pauli string. For Z- and Y-dephasing this is (−1)^Π²-parity
-    /// where parity counts bit_b mod 2; for X-dephasing it counts bit_a mod 2.</summary>
+    /// where parity counts bit_b mod 2; for X-dephasing it counts bit_a mod 2.
+    ///
+    /// <para>For Z-dephasing this Π² is exactly the global charge-conjugation X⊗N = ⊗_l X_l,
+    /// registered as F1² in ANALYTICAL_FORMULAS.md: both act on a Pauli string as
+    /// (−1)^{n_Y+n_Z}. Typed independently as SymmetryFamily/XGlobalChargeConjugationPairing.</para></summary>
     public static int SquaredEigenvalue(IReadOnlyList<PauliLetter> letters, PauliLetter dephaseLetter = PauliLetter.Z)
     {
         if (dephaseLetter == PauliLetter.I)

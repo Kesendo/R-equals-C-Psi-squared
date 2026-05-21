@@ -73,15 +73,17 @@ For hardware-confirmed predictions on top of these formulas, see
 | C# | F-formula |
 |----|-----------|
 | `PiOperator.ActOnLetter(letter, dephase)` | per-letter Π action with phases (Z: I↔X, Y↔Z with i^bit_b) |
-| `PiOperator.SquaredEigenvalue(letters, dephase)` | Π² eigenvalue: bit_b parity for Z/Y dephasing, bit_a for X |
+| `PiOperator.SquaredEigenvalue(letters, dephase)` | Π² eigenvalue: bit_b parity for Z/Y dephasing, bit_a for X; for Z-dephasing this Π² is the X⊗N charge-conjugation (**F1²**) |
 | `PiOperator.BuildFull(N, dephase)` | Π in the 4^N Pauli-string basis, used by `PalindromeResidual` |
 | `PalindromeResidual.Build(L, N, σ, dephase)` | **F1**: Π·L·Π⁻¹ + L + 2σ·I residual; zero for Z-dephased XY/Heisenberg |
+| `XGlobalChargeConjugationPairing` (SymmetryFamily/) | **F1²**: X⊗N = Π², the square of the F1 palindrome conjugation; acts on a Pauli string as (−1)^{n_Y+n_Z}; pairs joint-popcount sectors (p_c, p_r) ↔ (N−p_c, N−p_r); the BlockSpectrum builder's sector-pairing shortcut. Tier 1 derived |
 | `ChainMirror.Build(N)` | **F71**: chain-mirror R \|b₀…b_{N-1}⟩ = \|b_{N-1}…b₀⟩, R²=I |
 | `ChainMirror.SymmetricProjector` / `AntisymmetricProjector` | F71 ± eigenspace projectors |
 | `ChainMirror.BondMirrorBasis(N)` | F71 sym/asym basis on the (N−1)-dim bond-input space |
 | `ChiralK.BuildFull(N)` | K = ⊗_{odd i} Z_i; K H_xy K = −H_xy (Altland-Zirnbauer class BDI) |
 | `ChiralK.ClassifyHamiltonian(H, N)` | K-even / K-odd / K-mixed |
-| `ZGlobalMirror.Build(N)` | Z⊗N global Z-string (used by `chain.zn_mirror_diagnostic`) |
+| `ZGlobalMirror.Build(N)` | Z⊗N global Z-string = Π²_X (bit_a parity (−1)^{n_XY}; F1² bit_a twin); used by `chain.zn_mirror_diagnostic` |
+| `F61BitAParityPi2Inheritance` (Symmetry/) | **F61**: [L, Π²_X] = 0; Π²_X = (−1)^{n_XY} = bit_a parity = the global Z-string Z⊗N (F1² bit_a twin). Tier 1 derived |
 | `HdChannelBasis.Build(block)` | channel-uniform projectors P; M_H_total is diagonal in this basis (extends F73 to all c) |
 | `F89TopologyOrbitClosure` (Symmetry/) | **F89**: S(t) for ρ_cc + uniform-J multi-bond XY depends only on the S_N-orbit of the bond set; for chain B, orbit = topology class (sorted multiset of connected-path-lengths). Tier 1 derived |
 | `F89TopologyOrbitClosure.S0ClosedForm(N)` | **F89**: S(0) = (N−1)/N for ρ_cc, probe-only closed form |

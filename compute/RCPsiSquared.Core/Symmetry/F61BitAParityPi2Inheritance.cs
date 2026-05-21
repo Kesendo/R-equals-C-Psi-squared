@@ -19,6 +19,11 @@ namespace RCPsiSquared.Core.Symmetry;
 ///     3. No SE state can excite an odd-n_XY eigenmode (overlap = 0)
 /// </code>
 ///
+/// <para>This Π²_X operator is the global Z-string Z⊗N = ⊗_l Z_l: the (−1)^n_XY action
+/// is conjugation by Z⊗N, typed as <c>ZGlobalMirror</c>. The operator identity
+/// Z⊗N = Π²_X is the bit_a twin of F1² (X⊗N = Π²_Z), registered as a corollary of F61
+/// in <c>docs/ANALYTICAL_FORMULAS.md</c>.</para>
+///
 /// <para>F61 is the bit_a Z₂ companion to F63's bit_b Z₂. The Pauli letter set
 /// {I, X, Y, Z} factorises as <c>C₂ × C₂</c> indexed by <c>(bit_a, bit_b) =
 /// (n_XY, w_YZ)</c>; the two Z₂ symmetries of L admitted by the d = 2 Pauli

@@ -29,6 +29,29 @@ any N; non-uniform γ per qubit. Two Π families (P1, P4).
 **Replaces:** palindrome verification (54,118 eigenvalues at N=8).
 **Source:** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)
 
+**The global charge-conjugation X⊗N is Π² (F1², corollary, 2026-05-21):**
+- The square of the palindrome conjugation acts on each Pauli string σ as
+  (−1)^{n_Y+n_Z}·σ: Π sends Y→iZ, Z→iY per site, so Π² sends Y→−Y, Z→−Z and
+  fixes I, X. That is exactly conjugation by the global X-string X⊗N = ⊗_l X_l.
+  Hence Π² = X⊗N.
+- X⊗N commutes with the chain XY + Z-dephasing Liouvillian L; it pairs the
+  joint-popcount sectors (p_c, p_r) ↔ (N−p_c, N−p_r), so paired sectors share
+  spectra. This is the BlockSpectrum builder's sector-pairing shortcut, which
+  halves the number of eigendecompositions.
+- Π is order 4; F1² = Π² is its even power, the one the builder already runs
+  on. The odd power Π is an open builder shortcut (a further factor 2;
+  BlockSpectrumOpenQuestions, the F1-palindrome-halving item).
+- The repo held both halves typed but unconnected until now:
+  PiOperator.SquaredEigenvalue returns Π²'s eigenvalue (−1)^{Σ bit_b} =
+  (−1)^{n_Y+n_Z}; XGlobalChargeConjugationPairing carries the X⊗N action
+  (−1)^{n_Y+n_Z}. The same function under two names. X⊗N was first seen
+  empirically (DEGENERACY_HUNT.md, April 2026), typed independently
+  2026-05-12, identified as Π² on 2026-05-21.
+- The bit_a counterpart: the other Pauli Z₂ parity, Π²_X = Z⊗N (the global
+  Z-string), is registered as a corollary of F61.
+- Anchor: PiOperator.cs (SquaredEigenvalue), XGlobalChargeConjugationPairing.cs,
+  SYMMETRY_FAMILY_INVENTORY.md #7, MIRROR_SYMMETRY_PROOF.md.
+
 **H-block residual is γ-independent (uniform AND non-uniform γ; closed 2026-05-18):**
 - The dissipator-block residual M_D = Π·L_D·Π⁻¹ + L_D + 2Σγ·I vanishes per Pauli string for arbitrary per-site γ_l, because the per-site Z-dephasing kernel is proportional to I_4 and the F1 σ-shift `2Σγ·I` cancels the sum exactly.
 - Hence ‖M‖²_F = ‖M_H‖²_F = c_H · F(N, G) for every γ pattern.
@@ -1351,6 +1374,21 @@ profiles). Second slow mode SE Frobenius ratio < 1e-3 in all 64. Data:
 `simulations/results/lens_survey/lens_survey_scaling.txt`.
 **Source:** [Proof](proofs/PROOF_PARITY_SELECTION_RULE.md)
 
+**The global Z-string Z⊗N is Π²_X (bit_a twin of F1², corollary, 2026-05-21):**
+- Π²_X, the square of the X-dephasing palindrome conjugation, acts on each
+  Pauli string σ as (−1)^{n_XY}·σ, the bit_a parity (n_XY counts the X and Y
+  letters of σ). That is exactly conjugation by the global Z-string
+  Z⊗N = ⊗_l Z_l. Hence Z⊗N = Π²_X.
+- This is the bit_a counterpart of F1² (X⊗N = Π²_Z). F61 above proves L
+  commutes with Π²_X; this corollary names that operator: it is the global
+  Z-string Z⊗N.
+- The repo held it typed three times, unconnected, until now: ZGlobalMirror
+  (Z⊗N·σ·Z⊗N = (−1)^{n_XY}), F61BitAParityPi2Inheritance (Π²_X = (−1)^{n_XY}),
+  and the F88a two-axis section (Π²_X = (−1)^{Σ bit_a}). The same function
+  under three names; identified as the operator Z⊗N on 2026-05-21.
+- Anchor: ZGlobalMirror.cs, F61BitAParityPi2Inheritance.cs,
+  SYMMETRY_FAMILY_INVENTORY.md #6.
+
 ### F62. CΨ(0) for W_N (Tier 1, analytical, verified N=2-10)
 
     CΨ(0) = 2(N^2 - 4N + 8) / (3N^3)
@@ -2554,6 +2592,8 @@ Z- and Y-dephasing collapse onto the same Π² character. X-dephasing gives the 
     Pm = (Π²_Z = +1, Π²_X = −1)   contains 2-body Π²-even non-truly bilinears  (YZ, ZY)
     Mp = (Π²_Z = −1, Π²_X = +1)   contains 2-body Π²-odd subgroup A             (XY, YX)
     Mm = (Π²_Z = −1, Π²_X = −1)   contains 2-body Π²-odd subgroup B             (XZ, ZX)
+
+The two axes are the global Pauli strings: Π²_Z = X⊗N (registered as F1²) and Π²_X = Z⊗N (the bit_a twin of F1², a corollary of F61).
 
 **Refinement of F87 + Pi2Class (the algebraic 4-way over term lists)**: F87's spectral 3-way `Truly / Soft / Hard` and the algebraic 4-way `Pi2Class` (`Truly / Pi2OddPure / Pi2EvenNonTruly / Mixed`) both use only the Π²_Z axis. Adding Π²_X reveals genuine sub-structure:
 
