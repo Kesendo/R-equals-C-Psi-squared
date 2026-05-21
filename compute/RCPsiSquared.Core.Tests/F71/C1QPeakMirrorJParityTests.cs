@@ -9,8 +9,10 @@ namespace RCPsiSquared.Core.Tests.F71;
 /// F71-anti-palindromic J-component (graceful breakdown of F71 under non-uniform J).
 ///
 /// <para>These tests cover the typed claim's Tier and its J_sym / J_anti decomposition
-/// helpers. The numerical c₁ verification (oddness + palindromic survival, N=3,4,5)
-/// lives in <c>simulations/_f71_nonuniform_j_verification.py</c> and is recorded in
+/// helpers. The numerical verification lives in the witness scripts: c₁ in
+/// <c>simulations/_f71_nonuniform_j_verification.py</c> (oddness + palindromic survival,
+/// N=3,4,5), Q_peak in <c>simulations/_f100_qpeak_nonuniform_j_verification.py</c>
+/// (N=4,5,6 plus a c=3 spot check). Both are recorded in
 /// <c>docs/proofs/PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md</c>.</para></summary>
 public sealed class C1QPeakMirrorJParityTests
 {

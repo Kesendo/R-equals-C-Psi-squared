@@ -1,7 +1,7 @@
 # PROOF F100: F71 c₁/Q_peak bond-mirror deviation is exactly odd in the F71-anti-palindromic J (observable-side twin of F92)
 
-**Status:** Tier 1 derived (algebraic R-equivariance argument on the PROOF_C1 apparatus + numerical empirical witness at N=3, 4, 5, residuals < 1e-9)
-**Date:** 2026-05-20; 2026-05-21 (κ-obstruction section added)
+**Status:** Tier 1 derived (algebraic R-equivariance argument on the PROOF_C1 apparatus + numerical empirical witnesses for c₁ and Q_peak, residuals ≤ 1e-9)
+**Date:** 2026-05-20; 2026-05-21 (κ-obstruction section + Q_peak numerical witness added)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Typed claim:** [`C1QPeakMirrorJParity.cs`](../../compute/RCPsiSquared.Core/F71/C1QPeakMirrorJParity.cs)
 
@@ -72,9 +72,11 @@ D is exactly odd in J_anti at fixed J_sym, to all orders. ∎
 - **Palindromic survival:** J_anti = 0 ⟹ D = −D ⟹ D = 0. The F71 c₁/Q_peak bond-mirror holds for **every** palindromic J, however non-uniform J_sym is. F71 never required uniform J; it requires palindromic J. Uniform is merely the simplest palindromic profile.
 - **Graceful breakdown:** the Taylor series of D in J_anti has odd powers only, so D is leading-order linear in the asymmetry parameter B_b = J_b − J_{N−2−b} = 2(J_anti)_b. Graceful, not a hard violation.
 - **J_sym-dependence (Tier 2 empirical):** the leading coefficient κ_b is the c₁-gradient evaluated at J_sym and generically depends on J_sym. The parity argument fixes the oddness, NOT the coefficient. κ_b admits no closed form; see the section "The leading coefficient κ" below.
-- **Q_peak:** the identical R-conjugation argument applies to F86c's per-bond observable K_b(Q, t), built R-equivariantly: K_b(Q, t; J) = K_{N−2−b}(Q, t; F71(J)), so ΔQ_peak(b) is odd in J_anti, zero for palindromic J. c₁ is numerically verified; Q_peak follows by the identical argument.
+- **Q_peak:** the identical R-conjugation argument applies to F86c's per-bond observable K_b(Q, t), built R-equivariantly: K_b(Q, t; J) = K_{N−2−b}(Q, t; F71(J)), so ΔQ_peak(b) is odd in J_anti, zero for palindromic J. Both c₁ and Q_peak are numerically witnessed (see Empirical witness).
 
 ## Empirical witness
+
+### c₁ (closure-breaking coefficient)
 
 Witness script: [`simulations/_f71_nonuniform_j_verification.py`](../../simulations/_f71_nonuniform_j_verification.py). c₁ is extracted via the α-rescaling pipeline on per-site purity, probe states ψ_1+vac and ψ_2+vac. The base profile J = J_sym + s·J_anti_dir is swept over s ∈ {0, ±0.04, ±0.08, ±0.12} with a linear-ramp J_anti direction, across 4 palindromic J_sym profiles (uniform 0.8 / 1.0 / 1.2 plus one non-uniform palindromic "valley"). The full 4^N Liouvillian is used, no truncation.
 
@@ -85,6 +87,19 @@ Witness script: [`simulations/_f71_nonuniform_j_verification.py`](../../simulati
 | 5 | 4.0e−10 | 1.0e−9 | 4.05 |
 
 Even-power coefficients (constant and quadratic, from a cubic fit of D vs s) are below ~3e−8, confirming only odd powers survive. The leading coefficient κ shows 76% / 62% / 143% relative spread across the 4 J_sym profiles at N=3 / 4 / 5, confirming the J_sym-dependence. N=3, 4, 5 verified; N=6 not required (three independent N suffice).
+
+### Q_peak (per-bond resonance)
+
+Witness script: [`simulations/_f100_qpeak_nonuniform_j_verification.py`](../../simulations/_f100_qpeak_nonuniform_j_verification.py). The F86c per-bond observable K_b(Q, t) = 2 Re⟨ρ(t)|S|∂ρ/∂J_b⟩ is read at the F86a EP time t_peak = 1/(4γ₀), where the secular t·exp(−4γ₀t) response peaks and K_b(Q, t_peak) is a cleanly single-peaked function of Q; Q_peak(b) = argmax_Q |K_b(Q, t_peak)| is parabola-refined on a Q-grid. (F100's parity holds for K_b at any fixed t, R-equivariance being per-t, so the EP-time reading is a clean and valid choice; a max-over-t reading additionally samples the off-resonance oscillatory tail.) The non-uniform profile enters as a global multiplier on a fixed shape Ĵ: L(Q) = D + Σ_b (Q·γ₀·Ĵ_b)·M_H_b, with Ĵ(s) = Ĵ_sym + s·Ĵ_anti swept exactly as for c₁. A gate first reproduces the uniform-J F86c mirror Q_peak(b) = Q_peak(N−2−b) to ≤ 1.6e−12, validating the block engine against the canonical C# `C2BondLQPeakScan`. The deviation D(b) = Q_peak(b) − Q_peak(N−2−b), taken on the F71 bond pairs, is then swept across c=2 (N=4, 5, 6) and a block-agnostic c=3 spot check (N=5):
+
+| case | palindromic survival max\|D(s=0)\| | oddness max\|D(+s)+D(−s)\| | typ \|ΔQ_peak\| at max s |
+|---|---|---|---|
+| N=4, c=2 | 2.1e−13 | 1.5e−12 | 0.43 |
+| N=5, c=2 | 3.1e−12 | 4.4e−12 | 0.40 |
+| N=6, c=2 | 1.4e−12 | 7.3e−12 | 0.54 |
+| N=5, c=3 | 3.9e−13 | 1.9e−12 | 0.34 |
+
+Survival holds for the non-uniform palindromic "valley" profile as well as for uniform J; oddness and the even-power coefficients sit at floating-point zero against a real ΔQ_peak signal of order 0.4. The leading coefficient κ_b is again shape-dependent (15–39% relative spread between the uniform and valley J_sym shapes), the same structureless-residue character the κ section records for c₁.
 
 ## Connection to F92
 
@@ -119,6 +134,6 @@ with s the amplitude along a fixed anti-palindromic direction, κ_b is the leadi
 - Source proof for the uniform-J base case: [PROOF_C1_MIRROR_SYMMETRY](PROOF_C1_MIRROR_SYMMETRY.md).
 - Spectrum-side twin: [PROOF_F92_BOND_ANTI_PALINDROMIC_J](PROOF_F92_BOND_ANTI_PALINDROMIC_J.md).
 - F86c per-bond Q_peak mirror (uniform J): [PROOF_F86C_F71_MIRROR](PROOF_F86C_F71_MIRROR.md).
-- Empirical witness: [`simulations/_f71_nonuniform_j_verification.py`](../../simulations/_f71_nonuniform_j_verification.py).
+- Empirical witnesses: [`simulations/_f71_nonuniform_j_verification.py`](../../simulations/_f71_nonuniform_j_verification.py) (c₁), [`simulations/_f100_qpeak_nonuniform_j_verification.py`](../../simulations/_f100_qpeak_nonuniform_j_verification.py) (Q_peak).
 - F-entry: [F100 in ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md).
 - Inventory: [`docs/SYMMETRY_FAMILY_INVENTORY.md`](../SYMMETRY_FAMILY_INVENTORY.md).

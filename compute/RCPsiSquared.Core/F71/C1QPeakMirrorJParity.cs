@@ -39,8 +39,9 @@ namespace RCPsiSquared.Core.F71;
 /// c₁/Q_peak bond-mirror deviation lives in J_anti.</para>
 ///
 /// <para>Scope: covers c₁ (closure-breaking coefficient, vac+SE) and Q_peak (F86c per-bond
-/// observable; the identical F71-conjugation argument). c₁ verified bit-exact at N=3,4,5
-/// (<c>simulations/_f71_nonuniform_j_verification.py</c>).</para>
+/// observable; the identical F71-conjugation argument). Both numerically witnessed with
+/// residuals ≤ 1e-9: c₁ at N=3,4,5 (<c>simulations/_f71_nonuniform_j_verification.py</c>),
+/// Q_peak at N=4,5,6 (<c>simulations/_f100_qpeak_nonuniform_j_verification.py</c>).</para>
 /// </summary>
 public sealed class C1QPeakMirrorJParity : Claim
 {
