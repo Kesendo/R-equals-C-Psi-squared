@@ -170,7 +170,7 @@ def per_bond_K_curves(N, n, gamma_0, j_shape, Q_grid):
     S_kernel = fw.spatial_sum_coherence_kernel(N, n)
     nb = N - 1
     j_shape = np.asarray(j_shape, dtype=float)
-    t = T_PEAK
+    t = 1.0 / (4.0 * gamma_0)                          # F86a EP time, from the passed gamma_0
 
     curves = np.zeros((nb, len(Q_grid)))
     for iQ, Q in enumerate(Q_grid):
