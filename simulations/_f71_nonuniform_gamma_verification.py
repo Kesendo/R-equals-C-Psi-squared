@@ -200,7 +200,9 @@ def probe_states(N):
 
 
 def f71_mirror(profile):
-    """F71 chain-mirror on a bond profile: bond b <-> bond N-2-b."""
+    """F71 chain-mirror: reverse a profile array. Maps a per-site profile under
+    site l <-> N-1-l (used here for gamma) or a per-bond profile under bond
+    b <-> N-2-b. The reversal [::-1] is the same operation for either."""
     return np.array(profile)[::-1]
 
 
@@ -360,7 +362,7 @@ def analyse_N(N, c1, s_values, pairs, state_names):
     kappa_max_inf = max(kappa_inf, default=0.0)
     D_typ_inf = max((r["D_typ_max"] for r in inf), default=0.0)
 
-    jsym_spread = []
+    gsym_spread = []
     for st in state_names:
         for pr in pairs:
             ks = [r["kappa"] for r in records
@@ -369,11 +371,11 @@ def analyse_N(N, c1, s_values, pairs, state_names):
                       and r["pair"] == pr and r["informative"]]
             if len(ks_inf) >= 2 and max(abs(k) for k in ks_inf) > 1e-4:
                 spread = max(ks) - min(ks)
-                jsym_spread.append({
+                gsym_spread.append({
                     "state": st, "pair": pr, "kappa_range": float(spread),
                     "kappa_rel_spread": float(spread / max(abs(k) for k in ks_inf)),
                 })
-    max_rel_spread = max((j["kappa_rel_spread"] for j in jsym_spread), default=0.0)
+    max_rel_spread = max((j["kappa_rel_spread"] for j in gsym_spread), default=0.0)
 
     print(f"\n  --- N={N} verdict ---", flush=True)
     print(f"  (a) palindromic survival   max|D(s=0)|        = {survival:.2e}"
@@ -411,7 +413,7 @@ def analyse_N(N, c1, s_values, pairs, state_names):
         "criterion_d_max_rel_kappa_spread": max_rel_spread,
         "typ_D_informative": D_typ_inf,
         "records": records,
-        "jsym_spread": jsym_spread,
+        "gsym_spread": gsym_spread,
     }
 
 

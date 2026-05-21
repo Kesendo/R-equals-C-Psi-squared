@@ -479,7 +479,7 @@
           "D_typ_max": 0.49953907597408564
         }
       ],
-      "jsym_spread": [
+      "gsym_spread": [
         {
           "state": "psi1+vac",
           "pair": [
@@ -1098,7 +1098,7 @@
           "D_typ_max": 0.22410683121391461
         }
       ],
-      "jsym_spread": [
+      "gsym_spread": [
         {
           "state": "psi1+vac",
           "pair": [
@@ -1962,7 +1962,7 @@
           "D_typ_max": 0.6211604940738947
         }
       ],
-      "jsym_spread": [
+      "gsym_spread": [
         {
           "state": "psi1+vac",
           "pair": [
