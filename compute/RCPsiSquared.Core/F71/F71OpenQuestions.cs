@@ -6,6 +6,9 @@ namespace RCPsiSquared.Core.F71;
 /// the bond-mirror identity is expected to break, partially survive, or generalise. Anchored
 /// at the F71 "Breaks for" clause in <c>docs/ANALYTICAL_FORMULAS.md</c>.
 ///
+/// <para>Open (the two items in <see cref="Standard"/>): asymmetric initial states
+/// (per-site purity reflection), and the per-F71-orbit Q_peak substructure.</para>
+///
 /// <para>Closed: "non-uniform J_b" was resolved 2026-05-20 by F100
 /// (<see cref="C1QPeakMirrorJParity"/>, proof
 /// <c>docs/proofs/PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md</c>). "non-uniform γ_i:
