@@ -71,7 +71,7 @@ public sealed class IbmBlockCpsiHardwareTable : Claim
         : base(
             name: "IBM 2026-04-26 framework_snapshots through Theorem 2 C_block lens",
             tier: Tier.Tier2Verified,
-            anchor: "simulations/_block_cpsi_lens_ibm_snapshots.py + simulations/results/_block_cpsi_lens_ibm_snapshots.txt + docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md (Theorem 2) + compute/RCPsiSquared.Core/Symmetry/QuarterAsBilinearMaxvalClaim (typed parent — Theorem 2 ceiling)")
+            anchor: "simulations/_block_cpsi_lens_ibm_snapshots.py + simulations/results/_block_cpsi_lens_ibm_snapshots.txt + docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md (Theorem 2) + compute/RCPsiSquared.Core/Symmetry/QuarterAsBilinearMaxvalClaim (typed parent, Theorem 2 ceiling)")
     {
         Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
     }

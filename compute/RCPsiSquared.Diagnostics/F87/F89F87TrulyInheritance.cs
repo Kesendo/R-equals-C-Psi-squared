@@ -84,7 +84,7 @@ public sealed class F89F87TrulyInheritance : Claim
     public F89F87TrulyInheritance(F87TrichotomyClassification trichotomy)
         : base("F89 ↔ F87 bridge: F89 bond Hamiltonian H_b = J·(XX+YY) is F87-Truly; the AT-lock Re(λ_n) = −2γ₀ on F_a modes is the n_diff=1 instance of F87-Truly's bit-exact Absorption Theorem (Π·L·Π⁻¹ + L + 2σ·I = 0)",
                Tier.Tier1Derived,
-               "F87CanonicalWitness 'XX+YY' (Truly anchor); F89PathKAtLockMechanismClaim (Re(λ) = −2γ₀ on F_a); AbsorptionTheoremClaim.HammingComplementPairSum (per-coherence rate 2γ₀·n_diff); docs/ANALYTICAL_FORMULAS.md F87 + F89; docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md § AT-lock")
+               "docs/ANALYTICAL_FORMULAS.md F87 + F89 + docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md")
     {
         _trichotomy = trichotomy ?? throw new ArgumentNullException(nameof(trichotomy));
     }

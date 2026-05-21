@@ -72,7 +72,11 @@ public sealed class PolarityPairQPeakDecompositionClaim : Claim
     /// around which the polarity pair sits).</summary>
     public QubitDimensionalAnchorClaim DimensionalAnchor { get; }
 
-    private PolarityPairQPeakDecompositionClaim(
+    /// <summary>Constructs the schema claim from its three Tier1Derived Pi2-Foundation
+    /// parents. Public so the typed-knowledge registry can wire it with the registry's
+    /// parent instances; the parameterless <see cref="Build"/> / <see cref="Shared"/>
+    /// factories remain for standalone callers that want a fresh canonical parent chain.</summary>
+    public PolarityPairQPeakDecompositionClaim(
         HalfAsStructuralFixedPointClaim half,
         PolarityLayerOriginClaim polarityOrigin,
         QubitDimensionalAnchorClaim dimensionalAnchor)

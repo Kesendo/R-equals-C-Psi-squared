@@ -3,32 +3,6 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Runtime.ObjectManager;
 
-/// <summary>Locate the repository root by walking up from the current process directory until
-/// a directory containing <c>CLAUDE.md</c> is found. Returns <c>null</c> if no such ancestor
-/// exists (e.g. the test process is running in an isolated temp directory).</summary>
-file static class RepoRootLocator
-{
-    // Lazy<T> guarantees thread-safe single-execution and observably-published result.
-    // Replaces a hand-rolled (_cached, _searched) pair that had a race window where
-    // _searched was set true before _cached was assigned, causing parallel xunit runs
-    // to observe null and skip repo-root resolution.
-    private static readonly Lazy<string?> _root = new(SearchUpForRepoRoot, isThreadSafe: true);
-
-    public static string? Find() => _root.Value;
-
-    private static string? SearchUpForRepoRoot()
-    {
-        var dir = new DirectoryInfo(AppContext.BaseDirectory);
-        while (dir != null)
-        {
-            if (File.Exists(Path.Combine(dir.FullName, "CLAUDE.md")))
-                return dir.FullName;
-            dir = dir.Parent;
-        }
-        return null;
-    }
-}
-
 /// <summary>γ-style builder. Each <see cref="Register{T}"/> call records a factory lambda;
 /// the lambda's <c>b.Get&lt;X&gt;()</c> calls double as edge declarations. <see cref="Build"/>
 /// performs topological resolution by deferred construction: factories that touch unresolved

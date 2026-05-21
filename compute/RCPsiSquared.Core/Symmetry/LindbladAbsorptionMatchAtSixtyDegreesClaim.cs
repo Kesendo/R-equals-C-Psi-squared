@@ -90,7 +90,11 @@ public sealed class LindbladAbsorptionMatchAtSixtyDegreesClaim : Claim
     public double F95AngleAtQSqrt3Degrees =>
         AnchorConstants.RadiansToDegrees(Math.Atan(QValue));
 
-    private LindbladAbsorptionMatchAtSixtyDegreesClaim(
+    /// <summary>Constructs the composition claim from its three Tier1Derived parents.
+    /// Public so the typed-knowledge registry can wire it with the registry's parent
+    /// instances; the parameterless <see cref="Build"/> / <see cref="Shared"/> factories
+    /// remain for standalone callers that want a fresh canonical parent chain.</summary>
+    public LindbladAbsorptionMatchAtSixtyDegreesClaim(
         F95AngleAtQuadraticZeroPi2Inheritance f95,
         AbsorptionTheoremClaim absorption,
         CanonicalTrigAnchorPi2Inheritance canonicalTrig)

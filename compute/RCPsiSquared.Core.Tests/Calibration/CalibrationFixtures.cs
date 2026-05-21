@@ -1,4 +1,5 @@
 using RCPsiSquared.Core.Calibration;
+using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Tests.Calibration;
 
@@ -8,26 +9,10 @@ namespace RCPsiSquared.Core.Tests.Calibration;
 /// archetype-shape needs covering.</summary>
 internal static class CalibrationFixtures
 {
-    /// <summary>Walks up from the test binary directory until it finds the
-    /// repo root (identified by MIRROR_THEORY.md plus the compute/ directory).</summary>
-    public static string FindRepoRoot()
-    {
-        var dir = new DirectoryInfo(AppContext.BaseDirectory);
-        while (dir != null)
-        {
-            if (File.Exists(Path.Combine(dir.FullName, "MIRROR_THEORY.md"))
-             && Directory.Exists(Path.Combine(dir.FullName, "compute")))
-                return dir.FullName;
-            dir = dir.Parent;
-        }
-        throw new InvalidOperationException(
-            $"could not locate repository root starting from {AppContext.BaseDirectory}");
-    }
-
     /// <summary>Loaded once per test session: the 2026-04-25 Marrakesh
     /// calibration snapshot from <c>data/ibm_calibration_snapshots/</c>.</summary>
     public static readonly Lazy<IReadOnlyList<QubitData>> Marrakesh20260425 = new(() =>
-        IbmCalibration.Load(Path.Combine(FindRepoRoot(),
+        IbmCalibration.Load(Path.Combine(RepoRootLocator.Require(),
             "data", "ibm_calibration_snapshots",
             "ibm_marrakesh_calibrations_2026-04-25T11_28_00Z.csv")));
 
@@ -35,7 +20,7 @@ internal static class CalibrationFixtures
     /// from <c>data/ibm_history/results/ibm_marrakesh_history.csv</c>
     /// (2026-02-04 to 2026-05-05, 156 qubits × 91 days).</summary>
     public static readonly Lazy<IReadOnlyDictionary<int, QubitTimeline>> Marrakesh91d = new(() =>
-        CalibrationHistory.Load(Path.Combine(FindRepoRoot(),
+        CalibrationHistory.Load(Path.Combine(RepoRootLocator.Require(),
             "data", "ibm_history", "results", "ibm_marrakesh_history.csv")));
 
     /// <summary>Synthetic timeline of <paramref name="days"/> calibration

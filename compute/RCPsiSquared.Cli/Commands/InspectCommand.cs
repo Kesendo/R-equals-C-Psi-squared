@@ -10,6 +10,7 @@ using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Resonance;
 using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Diagnostics.F87;
+using RCPsiSquared.Diagnostics.Knowledge;
 using RCPsiSquared.Visualization.Inspection;
 
 namespace RCPsiSquared.Cli.Commands;
@@ -195,7 +196,7 @@ public static class InspectCommand
     {
         int maxDepth = (int)(p.OptionalDouble("max-depth") ?? 4);
         string? exportJson = p.OptionalString("export-json");
-        var registry = KnowledgeCommand.BuildRegistry();
+        var registry = KnowledgeRegistryFactory.BuildDefault();
         var claim = registry.All().FirstOrDefault(c => c.GetType().Name == claimName);
         if (claim is null)
         {

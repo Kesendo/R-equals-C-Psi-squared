@@ -32,11 +32,9 @@ public class CoreAnchorAuditTests
 
     private static void AuditAssembly(Assembly assembly, string label, int minProbed)
     {
-        var claimTypes = assembly.GetTypes()
-            .Where(t => !t.IsAbstract && typeof(Claim).IsAssignableFrom(t))
-            .ToList();
+        var claimTypes = ClaimReflection.ConcreteClaimTypesIn(assembly).ToList();
 
-        var repoRoot = FindRepoRoot();
+        var repoRoot = RepoRootLocator.Find();
         Assert.NotNull(repoRoot);
 
         var failures = new List<string>();
@@ -83,17 +81,5 @@ public class CoreAnchorAuditTests
         Assert.True(failures.Count == 0,
             $"Stale anchor files in {label} ({failures.Count}):\n  - " +
             string.Join("\n  - ", failures));
-    }
-
-    private static string? FindRepoRoot()
-    {
-        var dir = new DirectoryInfo(AppContext.BaseDirectory);
-        while (dir != null)
-        {
-            if (File.Exists(Path.Combine(dir.FullName, "CLAUDE.md")))
-                return dir.FullName;
-            dir = dir.Parent;
-        }
-        return null;
     }
 }
