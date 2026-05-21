@@ -60,14 +60,14 @@ public class F71KnowledgeBaseTests
     }
 
     [Fact]
-    public void OpenQuestions_HasThreeSubstantiveItems_NonUniformJClosedByF100()
+    public void OpenQuestions_HasTwoSubstantiveItems_NonUniformGammaClosedByF101()
     {
         var open = F71OpenQuestions.Standard;
-        // The "non-uniform J_b" item was closed by F100 (C1QPeakMirrorJParity); 3 remain.
-        Assert.Equal(3, open.Count);
+        // "non-uniform J_b" closed by F100, "non-uniform γ_i" closed by F101; 2 remain.
+        Assert.Equal(2, open.Count);
         Assert.All(open, q => Assert.Equal(Tier.OpenQuestion, q.Tier));
         Assert.DoesNotContain(open, q => q.Name.Contains("non-uniform J_b"));
-        Assert.Contains(open, q => q.Name.Contains("non-uniform γ_i"));
+        Assert.DoesNotContain(open, q => q.Name.Contains("non-uniform γ_i"));
         Assert.Contains(open, q => q.Name.Contains("asymmetric initial states"));
         Assert.Contains(open, q => q.Name.Contains("per-F71-orbit substructure"));
     }
@@ -82,6 +82,7 @@ public class F71KnowledgeBaseTests
         Assert.NotNull(kb.C1Identity);
         Assert.NotNull(kb.F86Generalisation);
         Assert.NotNull(kb.MirrorJParity);
+        Assert.NotNull(kb.MirrorGammaParity);
         Assert.NotNull(kb.OpenQuestions);
 
         // Top-level tree: N node + Tier 1 derived group + open questions group
@@ -97,13 +98,13 @@ public class F71KnowledgeBaseTests
     }
 
     [Fact]
-    public void F71KnowledgeBase_ClaimsAtTier1Derived_ContainsFiveClaims()
+    public void F71KnowledgeBase_ClaimsAtTier1Derived_ContainsSixClaims()
     {
         var kb = new F71KnowledgeBase(N: 5);
         var t1 = kb.ClaimsAtTier(Tier.Tier1Derived).ToList();
         // F71MirrorOperator + F71BondOrbitDecomposition + C1MirrorIdentity
-        // + F86MirrorGeneralisationLink + C1QPeakMirrorJParity
-        Assert.Equal(5, t1.Count);
+        // + F86MirrorGeneralisationLink + C1QPeakMirrorJParity + C1MirrorGammaParity
+        Assert.Equal(6, t1.Count);
     }
 
     [Fact]
@@ -111,9 +112,9 @@ public class F71KnowledgeBaseTests
     {
         var kb = new F71KnowledgeBase(N: 5);
         string line = kb.TierInventoryLine();
-        Assert.Contains("T1d=5", line);
-        // 3 OpenQuestion items now appear individually in the tree (no wrapper claim).
-        Assert.Contains("open=3", line);
+        Assert.Contains("T1d=6", line);
+        // 2 OpenQuestion items now appear individually in the tree (no wrapper claim).
+        Assert.Contains("open=2", line);
     }
 
     [Fact]
@@ -122,8 +123,8 @@ public class F71KnowledgeBaseTests
         var kb = new F71KnowledgeBase(N: 5);
         var anchors = kb.AnchorsReferenced();
         Assert.NotEmpty(anchors);
-        // All five Tier-1 claims have distinct anchors.
-        Assert.True(anchors.Count >= 5, $"expected ≥5 distinct anchors, got {anchors.Count}");
+        // All six Tier-1 claims have distinct anchors.
+        Assert.True(anchors.Count >= 6, $"expected ≥6 distinct anchors, got {anchors.Count}");
     }
 
     [Fact]

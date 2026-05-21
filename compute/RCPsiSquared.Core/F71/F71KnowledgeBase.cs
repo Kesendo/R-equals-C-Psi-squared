@@ -15,9 +15,9 @@ namespace RCPsiSquared.Core.F71;
 ///   <item>Tier-1 derived: <see cref="MirrorOperator"/> (R, R²=I), <see cref="BondOrbits"/>
 ///         (orbit decomposition), <see cref="C1Identity"/> (c₁ closed-form mirror identity),
 ///         <see cref="F86Generalisation"/> (Q_peak mirror cross-reference to F86 KB),
-///         <see cref="MirrorJParity"/> (F100: c₁/Q_peak mirror deviation odd in J_anti).</item>
-///   <item>Open: <see cref="OpenQuestions"/>: non-uniform γ extension, asymmetric ρ₀,
-///         per-orbit Q_peak derivation.</item>
+///         <see cref="MirrorJParity"/> (F100: c₁/Q_peak mirror deviation odd in J_anti),
+///         <see cref="MirrorGammaParity"/> (F101: c₁ mirror deviation odd in γ_anti).</item>
+///   <item>Open: <see cref="OpenQuestions"/>: non-uniform ρ₀, per-orbit Q_peak derivation.</item>
 /// </list>
 ///
 /// <para>The F71 → F86 link is a Tier-1 derived cross-reference, not a duplicate of the
@@ -33,6 +33,7 @@ public sealed class F71KnowledgeBase : IInspectable
     public C1MirrorIdentity C1Identity { get; }
     public F86MirrorGeneralisationLink F86Generalisation { get; }
     public C1QPeakMirrorJParity MirrorJParity { get; }
+    public C1MirrorGammaParity MirrorGammaParity { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
 
     public F71KnowledgeBase(int N)
@@ -44,6 +45,7 @@ public sealed class F71KnowledgeBase : IInspectable
         C1Identity = new C1MirrorIdentity();
         F86Generalisation = new F86MirrorGeneralisationLink();
         MirrorJParity = new C1QPeakMirrorJParity();
+        MirrorGammaParity = new C1MirrorGammaParity();
         OpenQuestions = F71OpenQuestions.Standard;
     }
 
@@ -52,7 +54,7 @@ public sealed class F71KnowledgeBase : IInspectable
     public string Summary =>
         $"chain-mirror R on {1 << N}-dim Hilbert space; {BondOrbits.NumOrbits} bond orbits " +
         $"({(BondOrbits.HasSelfPairedCentralOrbit ? "self-paired central present" : "no self-paired central")}); " +
-        $"c₁ identity + F86 generalisation + F100 non-uniform-J parity, {OpenQuestions.Count} open items";
+        $"c₁ identity + F86 generalisation + F100 non-uniform-J parity + F101 non-uniform-γ parity, {OpenQuestions.Count} open items";
 
     public IEnumerable<IInspectable> Children
     {
@@ -62,7 +64,7 @@ public sealed class F71KnowledgeBase : IInspectable
                 summary: $"{N} qubits, {N - 1} bonds, {1 << N}-dim Hilbert space");
 
             yield return InspectableNode.Group("Tier 1 (derived)",
-                MirrorOperator, BondOrbits, C1Identity, F86Generalisation, MirrorJParity);
+                MirrorOperator, BondOrbits, C1Identity, F86Generalisation, MirrorJParity, MirrorGammaParity);
 
             yield return InspectableNode.Group("open questions",
                 OpenQuestions.Cast<IInspectable>().ToArray());
