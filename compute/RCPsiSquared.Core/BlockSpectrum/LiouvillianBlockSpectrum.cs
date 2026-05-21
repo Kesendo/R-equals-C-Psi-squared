@@ -213,9 +213,15 @@ public sealed class LiouvillianBlockSpectrum : Claim
     /// 2 GB cap (N=9 max block C(9, 4) · C(9, 5) = 15 876² ≈ 4 GB; see
     /// <c>F1GeneralTopologyN9BlockSpectrumChainTests</c>).</para>
     ///
-    /// <para>Uses the X⊗N pairing optimisation: only ~half of joint-popcount sectors are
-    /// eigendecomposed; the other half copy from their X⊗N-partner. See
-    /// <see cref="SymmetryFamily.XGlobalChargeConjugationPairing"/> for the pairing rule.</para></summary>
+    /// <para>Uses the F1 Π-orbit pairing optimisation: the F1 palindrome conjugation Π is
+    /// order-4 and on joint-popcount labels acts as the whole-sector cycle
+    /// (p_c, p_r) ↦ (N − p_r, p_c), grouping the (N+1)² sectors into orbits of 4. Only one
+    /// "primary" sector per orbit is eigendecomposed; the three followers are derived from
+    /// it, the Π²-image (X⊗N partner) by a verbatim spectrum copy and the Π/Π³-images by the
+    /// F1 reflection λ ↦ −2·Σγ − λ. This quarters the eigendecomposition count (the X⊗N
+    /// pairing of <see cref="SymmetryFamily.XGlobalChargeConjugationPairing"/>, which Π²
+    /// equals, only halved it). See <see cref="SymmetryFamily.F1PalindromeOrbitPairing"/> for
+    /// the orbit rule.</para></summary>
     /// <param name="H">Hilbert-space Hamiltonian, dense 2^N × 2^N (cheap even at N=9: 512×512).
     /// Must be popcount-conserving (see class Contract); non-conserving H gives silently
     /// wrong spectra.</param>
@@ -247,6 +253,11 @@ public sealed class LiouvillianBlockSpectrum : Claim
             throw new ArgumentException($"gamma list length {gammaPerSite.Count} != N={N}", nameof(gammaPerSite));
         DebugAssertPopcountConservingH(H, N);
 
+        // F1 palindrome reflection constant: the genuine Σ of per-site Z-dephasing rates
+        // (NOT N·γ), so non-uniform γ stays exact. F1 maps a sector's spectrum to its
+        // Π-image's via λ ↦ −2·Σγ − λ (docs/proofs/MIRROR_SYMMETRY_PROOF.md).
+        double sumGamma = gammaPerSite.Sum();
+
         // Belt-and-braces with CoreModuleInitializer: makes the MKL dependency
         // self-documenting at the API boundary; the lazy guard makes it free after first call.
         MathNetSetup.EnsureInitialized();
@@ -266,15 +277,18 @@ public sealed class LiouvillianBlockSpectrum : Claim
             cum += decomp.SectorRanges[i].Size;
         }
 
-        // X⊗N pairing (Tier 1, XGlobalChargeConjugationPairing): the chain XY+Z-deph L
-        // commutes with the global X-string operator, which on joint-popcount labels maps
-        // (p_c, p_r) ↔ (N - p_c, N - p_r). Paired sectors share spectrum exactly. We compute
-        // eig only on "primary" sectors (lex-smaller of each pair, plus all self-paired
-        // sectors at even N) and copy the result onto follower sectors. Primaries are sorted
-        // descending by size so the largest sector starts first under Parallel.ForEach,
-        // overlapping its wall-time with smaller sectors' work.
+        // F1 Π-orbit pairing (Tier 1, F1PalindromeOrbitPairing): the chain XY+Z-deph L
+        // satisfies the F1 palindrome Π·L·Π⁻¹ = −L − 2·Σγ·I. Π is order-4 and on joint-
+        // popcount labels acts as the whole-sector cycle (p_c, p_r) ↦ (N − p_r, p_c),
+        // grouping the (N+1)² sectors into orbits of 4 (plus the single Π-fixed (N/2, N/2)
+        // sector at even N). This subsumes the X⊗N pairing (Π² = X⊗N): one eigendecomposition
+        // per orbit feeds three followers. We compute eig only on the lex-smallest "primary"
+        // of each orbit (plus the Π-fixed sector) and derive the followers in Phase 3 — the
+        // Π²-image by a verbatim spectrum copy, the Π/Π³-images by the F1 reflection
+        // λ ↦ −2·Σγ − λ. Primaries are sorted descending by size so the largest sector starts
+        // first under Parallel.ForEach, overlapping its wall-time with smaller sectors' work.
         var (primarySectorIndices, followerToPrimary) =
-            XGlobalChargeConjugationPairing.PartitionByXNPairing(
+            F1PalindromeOrbitPairing.PartitionByPiOrbit(
                 N, decomp.SectorRanges, s => (s.PCol, s.PRow), s => s.Size);
 
         // BLAS-oversubscription strategy (c): outer DOP ≈ ProcessorCount/4 leaves room for
@@ -311,14 +325,35 @@ public sealed class LiouvillianBlockSpectrum : Claim
                 primaryEigs[sIdx] = SolveSectorBlock(H, gammaPerSite, flatIndices, size, path);
             });
 
-        // Phase 3: sequential write to output array (primaries + followers). Followers copy
-        // the eigenvalue array of their X⊗N-partner sector (same multiset of eigenvalues).
+        // Phase 3: sequential write to output array (primaries + followers). A primary writes
+        // its own eigenvalues verbatim. A follower derives its eigenvalues from its orbit
+        // primary's: an X⊗N-image follower (Π²-image) copies them verbatim (X⊗N is a genuine
+        // symmetry); a Π/Π³-image follower reflects each λ through the F1 palindrome map
+        // λ ↦ −2·Σγ − λ. The eigenvalue MULTISET is what each sector needs; the per-block
+        // ordering within a follower is irrelevant since the output is a flat union.
         for (int sIdx = 0; sIdx < sectorCount; sIdx++)
         {
-            int sourceIdx = primaryEigs.ContainsKey(sIdx) ? sIdx : followerToPrimary[sIdx];
-            var eigs = primaryEigs[sourceIdx];
             int write = writeOffsets[sIdx];
-            for (int i = 0; i < eigs.Length; i++) spectrum[write + i] = eigs[i];
+            if (primaryEigs.ContainsKey(sIdx))
+            {
+                var eigs = primaryEigs[sIdx];
+                for (int i = 0; i < eigs.Length; i++) spectrum[write + i] = eigs[i];
+                continue;
+            }
+
+            var follower = followerToPrimary[sIdx];
+            var primary = primaryEigs[follower.PrimaryIndex];
+            if (follower.Kind == F1PalindromeOrbitPairing.F1FollowerKind.XnCopy)
+            {
+                for (int i = 0; i < primary.Length; i++) spectrum[write + i] = primary[i];
+            }
+            else
+            {
+                // F1Reflect: λ ↦ −2·Σγ − λ (real part reflected about −Σγ; imaginary negated).
+                for (int i = 0; i < primary.Length; i++)
+                    spectrum[write + i] = new Complex(
+                        -2.0 * sumGamma - primary[i].Real, -primary[i].Imaginary);
+            }
         }
         return spectrum;
     }

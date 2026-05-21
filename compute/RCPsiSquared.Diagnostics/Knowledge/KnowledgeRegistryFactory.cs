@@ -59,6 +59,7 @@ public static class KnowledgeRegistryFactory
             .RegisterSymmetryFamilyInventory()
             .RegisterZGlobalMirrorRefinement()
             .RegisterXGlobalChargeConjugationPairing()
+            .RegisterF1PalindromeOrbitPairing()
             .RegisterF92BondAntiPalindromicJSpectralInvariance()
             .RegisterF93DetuningAntiPalindromicSpectralInvariance()
             .RegisterJointPopcountSectors()

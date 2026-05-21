@@ -235,9 +235,17 @@ public sealed class F71MirrorBlockRefinement : Claim
     /// <para>Memory footprint is per-block: O(blockSize²) only, never O(4^N · 4^N). This is
     /// the path used by the CLI smoke runs at N=7, 8 where full-L cannot be allocated.</para>
     ///
-    /// <para>Uses the X⊗N pairing optimisation: only ~half of joint-popcount sectors are
-    /// eigendecomposed; the other half copy from their X⊗N-partner. See
-    /// <see cref="SymmetryFamily.XGlobalChargeConjugationPairing"/> for the pairing rule.</para></summary>
+    /// <para>Uses the F1 Π-orbit pairing optimisation: the F1 palindrome conjugation Π is
+    /// order-4 and on joint-popcount labels acts as the whole-sector cycle
+    /// (p_c, p_r) ↦ (N − p_r, p_c), grouping the (N+1)² sectors into orbits of 4. Π commutes
+    /// with the F71 mirror P_F71 ⊗ P_F71, so the orbit grouping respects F71 parity. Only one
+    /// "primary" sector per orbit is eigendecomposed; the three followers are derived from it,
+    /// the Π²-image (X⊗N partner) by a verbatim copy of both the F71-even and F71-odd sub-
+    /// arrays and the Π/Π³-images by the F1 reflection λ ↦ −2·Σγ − λ applied to both. This
+    /// quarters the eigendecomposition count (the X⊗N pairing of
+    /// <see cref="SymmetryFamily.XGlobalChargeConjugationPairing"/>, which Π² equals, only
+    /// halved it). See <see cref="SymmetryFamily.F1PalindromeOrbitPairing"/> for the orbit
+    /// rule.</para></summary>
     /// <param name="H">Hilbert-space Hamiltonian, dense 2^N × 2^N.</param>
     /// <param name="gammaPerSite">Per-site Z-dephasing rates (length N).</param>
     /// <param name="N">Qubit count.</param>
@@ -253,6 +261,11 @@ public sealed class F71MirrorBlockRefinement : Claim
         if (gammaPerSite is null) throw new ArgumentNullException(nameof(gammaPerSite));
         if (gammaPerSite.Count != N)
             throw new ArgumentException($"gamma list length {gammaPerSite.Count} != N={N}", nameof(gammaPerSite));
+
+        // F1 palindrome reflection constant: the genuine Σ of per-site Z-dephasing rates
+        // (NOT N·γ), so non-uniform γ stays exact. F1 maps a sector's spectrum to its
+        // Π-image's via λ ↦ −2·Σγ − λ (docs/proofs/MIRROR_SYMMETRY_PROOF.md).
+        double sumGamma = gammaPerSite.Sum();
 
         int liouvilleDim = 1 << (2 * N);
         int d = hilbertDim;
@@ -277,16 +290,21 @@ public sealed class F71MirrorBlockRefinement : Claim
             cum += baseDecomp.SectorRanges[i].Size;
         }
 
-        // X⊗N pairing (Tier 1, XGlobalChargeConjugationPairing): chain XY+Z-deph L commutes
-        // with X⊗N, which on joint-popcount labels maps (p_c, p_r) ↔ (N - p_c, N - p_r).
-        // X⊗N also commutes with F71 (both global, commutative super-operations), so the
-        // pairing extends to F71-refined sub-sectors with parity preserved: the F71-even of
-        // (p_c, p_r) shares spectrum with F71-even of (N - p_c, N - p_r), same for odd.
-        // Compute eig only on primary sectors (lex-smaller of each pair, plus all self-paired
-        // sectors at even N) and copy onto follower sectors. Primaries are sorted descending
-        // by size so the largest starts first under Parallel.ForEach.
+        // F1 Π-orbit pairing (Tier 1, F1PalindromeOrbitPairing): chain XY+Z-deph L satisfies
+        // the F1 palindrome Π·L·Π⁻¹ = −L − 2·Σγ·I. Π is order-4 and on joint-popcount labels
+        // acts as the whole-sector cycle (p_c, p_r) ↦ (N − p_r, p_c), grouping the (N+1)²
+        // sectors into orbits of 4 (plus the Π-fixed (N/2, N/2) at even N). Π commutes with
+        // the F71 mirror P_F71 ⊗ P_F71 (Π is site-local, P_F71 is a site-permutation; verified
+        // by the Pi_CommutesWith_F71MirrorPair test), so the orbit grouping extends to F71-
+        // refined sub-sectors with parity preserved: the F71-even sub-block maps to the F71-
+        // even sub-block of the Π-image sector, the F71-odd to the F71-odd. We compute eig
+        // only on the lex-smallest "primary" of each orbit (plus the Π-fixed sector) and
+        // derive the followers in Phase 3 — the Π²-image (X⊗N partner) by a verbatim copy of
+        // BOTH sub-arrays, the Π/Π³-images by the F1 reflection λ ↦ −2·Σγ − λ applied to BOTH
+        // sub-arrays. Primaries are sorted descending by size so the largest starts first
+        // under Parallel.ForEach.
         var (primarySectorIndices, followerToPrimary) =
-            XGlobalChargeConjugationPairing.PartitionByXNPairing(
+            F1PalindromeOrbitPairing.PartitionByPiOrbit(
                 N, baseDecomp.SectorRanges, s => (s.PCol, s.PRow), s => s.Size);
 
         // BLAS-oversubscription strategy (c): outer DOP ≈ ProcessorCount/4. See
@@ -353,15 +371,46 @@ public sealed class F71MirrorBlockRefinement : Claim
 
         // Phase 3: sequential write to output array. Each sector writes its even-block
         // eigenvalues then its odd-block eigenvalues in the same layout the original code
-        // produced, copying from the X⊗N-partner if this is a follower sector.
+        // produced. A primary writes its own (even, odd) arrays verbatim. A follower derives
+        // them from its orbit primary's: an X⊗N-image follower (Π²-image) copies both arrays
+        // verbatim (X⊗N is a genuine symmetry); a Π/Π³-image follower reflects each λ in
+        // BOTH arrays through the F1 palindrome map λ ↦ −2·Σγ − λ. Π commutes with the F71
+        // mirror, so the reflection respects F71 parity: even stays even, odd stays odd.
         for (int sIdx = 0; sIdx < sectorCount; sIdx++)
         {
-            int sourceIdx = primaryEigs.ContainsKey(sIdx) ? sIdx : followerToPrimary[sIdx];
-            var (evenArr, oddArr) = primaryEigs[sourceIdx];
             int write = writeOffsets[sIdx];
-            for (int i = 0; i < evenArr.Length; i++) spectrum[write + i] = evenArr[i];
-            write += evenArr.Length;
-            for (int i = 0; i < oddArr.Length; i++) spectrum[write + i] = oddArr[i];
+            (Complex[] Even, Complex[] Odd) source;
+            bool reflect;
+            if (primaryEigs.ContainsKey(sIdx))
+            {
+                source = primaryEigs[sIdx];
+                reflect = false;
+            }
+            else
+            {
+                var follower = followerToPrimary[sIdx];
+                source = primaryEigs[follower.PrimaryIndex];
+                reflect = follower.Kind == F1PalindromeOrbitPairing.F1FollowerKind.F1Reflect;
+            }
+
+            var (evenArr, oddArr) = source;
+            if (!reflect)
+            {
+                for (int i = 0; i < evenArr.Length; i++) spectrum[write + i] = evenArr[i];
+                write += evenArr.Length;
+                for (int i = 0; i < oddArr.Length; i++) spectrum[write + i] = oddArr[i];
+            }
+            else
+            {
+                // F1Reflect: λ ↦ −2·Σγ − λ on both the F71-even and F71-odd sub-arrays.
+                for (int i = 0; i < evenArr.Length; i++)
+                    spectrum[write + i] = new Complex(
+                        -2.0 * sumGamma - evenArr[i].Real, -evenArr[i].Imaginary);
+                write += evenArr.Length;
+                for (int i = 0; i < oddArr.Length; i++)
+                    spectrum[write + i] = new Complex(
+                        -2.0 * sumGamma - oddArr[i].Real, -oddArr[i].Imaginary);
+            }
         }
         return spectrum;
     }

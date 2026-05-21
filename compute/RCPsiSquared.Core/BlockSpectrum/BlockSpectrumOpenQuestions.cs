@@ -17,35 +17,21 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 ///
 /// <para>The recurring shape of these items: a result already proven, sitting as a typed
 /// claim or a proof, that is not yet wired into a compute path and so abbreviates nothing
-/// yet. The frontier is our own under-exploited theorems (F1, F80, F89 below) plus the one
+/// yet. The frontier is our own under-exploited theorems (F80, F89 below) plus the one
 /// genuinely unbuilt engine (the full Prosen two-sided reduction); it is defined by what this
-/// repository has and has not built, not by the published literature.</para></summary>
+/// repository has and has not built, not by the published literature.</para>
+///
+/// <para>The first item, "F1 palindrome as a spectrum-halving builder step", was closed
+/// 2026-05-22: Π acts on the joint-popcount sector labels as the whole-sector cycle
+/// (p_c, p_r) ↦ (N − p_r, p_c), grouping the (N+1)² sectors into orbits of 4. The builder
+/// now eigendecomposes one primary per orbit and derives three followers (the Π²-image by a
+/// verbatim copy, the Π/Π³-images by the F1 reflection λ ↦ −2Σγ − λ); see
+/// <see cref="SymmetryFamily.F1PalindromeOrbitPairing"/> and the orbit-pairing wiring in
+/// <see cref="LiouvillianBlockSpectrum"/> and <see cref="F71MirrorBlockRefinement"/>.</para></summary>
 public static class BlockSpectrumOpenQuestions
 {
     public static IReadOnlyList<OpenQuestion> Standard { get; } = new[]
     {
-        new OpenQuestion(
-            "F1 palindrome as a spectrum-halving builder step",
-            "The F1 palindrome (every Liouvillian eigenvalue λ pairs with −2Σγ − λ, via the " +
-            "conjugation operator Π) is the project's flagship symmetry, but the spectrum " +
-            "builder does not exploit it for speed: F1 enters only as a two-shift verification " +
-            "probe (JwSlaterPairF1PalindromeProbe), never as a computational shortcut. " +
-            "LiouvillianBlockSpectrum already halves eigensolver work for the X⊗N symmetry via " +
-            "XGlobalChargeConjugationPairing (eigendecompose one sector of each pair, copy the " +
-            "partner). Whether F1 yields the analogous factor of 2 depends on how Π acts on the " +
-            "joint-popcount sector labels (p_c, p_r): if Π pairs distinct sectors, the builder " +
-            "can eigendecompose one and reflect the partner's spectrum through λ ↦ −2Σγ − λ; if " +
-            "Π is intra-sector (each block merely internally palindromic), a dense Evd captures " +
-            "no saving and the question is whether a palindrome-aware structured eigensolver can.",
-            "Determine the action of Π on the joint-popcount sector labels. If it is a sector " +
-            "pairing, add an F1-palindrome partition analogous to XGlobalChargeConjugationPairing " +
-            "plus a follower-copy step reflecting each primary sector's spectrum through " +
-            "λ ↦ −2Σγ − λ. If Π is intra-sector, assess whether a structured eigensolver " +
-            "recovers the factor.",
-            "docs/ANALYTICAL_FORMULAS.md F1; " +
-            "compute/RCPsiSquared.Core/BlockSpectrum/JordanWigner/JwSlaterPairF1PalindromeProbe.cs; " +
-            "XGlobalChargeConjugationPairing (the X⊗N pairing this would parallel)"),
-
         new OpenQuestion(
             "F80 spectral map Spec(M) = ±2i·Spec(H) wired as a builder skip",
             "F80 proves a closed map from the Hamiltonian spectrum to the spectrum of the " +
