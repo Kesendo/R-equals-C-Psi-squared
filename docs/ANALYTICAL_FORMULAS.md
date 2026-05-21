@@ -2343,6 +2343,23 @@ For a uniform N-qubit XY (or Heisenberg) chain with Z-dephasing γ₀, the J-der
 - **F86b. Universal resonance shape, two bond classes** \[Tier 1 candidate\]: K_class(Q)/|K|_max = f_class(Q/Q_EP); HWHM_left/Q_peak ≈ 0.756 (Interior) and 0.770 (Endpoint); EP-rotation universality.
 - **F86c. F71 spatial-mirror invariance of per-bond Q_peak** \[Tier 1 derived\]: Q_peak(b) = Q_peak(N−2−b) bit-exactly.
 
+**Sub-ID partition (2026-05-20).** The three-theorem grouping is the coarse view; F86b is itself a Sammelbecken. The fine partition distinguishes ten separately-defensible sub-claims (canonical inventory: [`F86_VALUES_INVENTORY.md`](F86_VALUES_INVENTORY.md); proof hub: [`PROOF_F86_QPEAK.md`](proofs/PROOF_F86_QPEAK.md)):
+
+| Sub-ID | Content | Tier | Home |
+|--------|---------|------|------|
+| F86a | EP mechanism: t_peak, Q_EP, dressed pair, AIII chiral, L_eff mirror | Tier 1 derived | §F86a; `TPeakLaw.cs`, `QEpLaw.cs`, `LEffMirrorAxisClaim.cs` |
+| F86b₁ | Bare 2×2 K_b closed forms; x_peak = 2.196910, ratio = 0.671535 | Tier 1 derived | `C2BareDoubledPtfClosedForm.cs` |
+| F86b₂ | Sub-class HWHM-ratio lift 0.671535 + α·g_eff + β (the §F86b' subsection) | Tier 1 candidate | `F86HwhmClosedFormClaim.cs` |
+| F86b₃ | Universal shape: Interior 0.756, Endpoint 0.770 | Tier 1 candidate | §F86b; `UniversalShapePrediction.cs` |
+| F86b₄ | Dicke-K 3/8 anchor via X⊗N-eigenbasis | Tier 1 derived | [`docs/water/README.md`](water/README.md) |
+| F86b₅ | Polarity-pair Q_peak ∈ {1.5, 2.5} = 2 ± 1/2 (schema) | Tier 1 schema | `PolarityPairQPeakDecompositionClaim.cs` |
+| F86c | F71 spatial mirror Q_peak(b) = Q_peak(N−2−b) | Tier 1 derived | §F86c |
+| F86d | Endpoint orbit Q ≈ 2.5 (9 (c, N) combos, ~2% N-variation) | Tier 2 empirical (promotion candidate) | §F86d; `PerF71OrbitObservation.cs` |
+| F86e | σ_0(c=2) = ‖[Π_HD1, M_H]‖ commutator / Schur-multiplier norm | Tier 1 derived | §F86e; `SigmaZeroCommutatorNormClaim.cs` |
+| F86_block | g_eff(c, N, b) closed-form blocked, six routes proven | Negative Tier 1 | [`PROOF_F86B_OBSTRUCTION.md`](proofs/PROOF_F86B_OBSTRUCTION.md) |
+
+Counts: 6× Tier 1 derived, 2× Tier 1 candidate (F86b₂, F86b₃), 1× Tier 1 schema (F86b₅), 1× Tier 2 promotion candidate (F86d). The §F86b' subsection below is sub-ID F86b₂; the heading keeps the pre-partition label. Two open fronts remain: F86b₂ Direction (b'') and F86d Tier-1 promotion.
+
 Empirical data, the γ₀-extraction protocol, and cross-cutting connections (PTF, framework primitives, scripts, proof, source) sit at this umbrella level since they touch all three theorems.
 
 **Per-block Q_peak (Q_SCALE convention, relative-J derivative ΔJ = 0.05·J):**
@@ -2473,6 +2490,18 @@ Endpoints (b = 0 and b = N−2) form one F71 orbit; interior bonds split into fu
 The F86c symmetry pairs bonds bit-exactly but does NOT supply the per-orbit Q_peak value. F86a remains responsible for the underlying g_eff(c, N, bond_position); F86b's universal shape applies within each bond class. The three theorems compose: F86a gives the EP-time and EP-location, F86b gives the resonance shape around Q_peak in relative-Q coordinates, F86c pairs symmetry-equivalent bonds.
 
 **Connection to PTF.** The same machinery that produces PTF's per-site α_i closure law (bilinear J-perturbation observables, eigenvector mixing under V_L) produces Q_peak at the (n, n+1)-block level. PTF's per-site is the c=1 (vac-SE) instance; F86's c ≥ 2 cases are the natural higher-chromaticity siblings. t_peak = 1/(4γ₀) is the EP time-scale universal to all c, one (n, n+1)-block analogue of PTF's α-fitting time window.
+
+#### F86d. Endpoint orbit Q ≈ 2.5 \[Tier 2 empirical; promotion candidate\]
+
+Within the F71 spatial-mirror orbits (F86c), the Endpoint orbit (bonds b ∈ {0, N−2}) carries a stable per-orbit Q_peak ≈ 2.5: across 9 tested (c, N) combinations (c=2..4, N=5..8) the value sits in [2.39, 2.61], a ~2% N-variation. Stability across c and N makes it an anchor candidate, but a structural derivation (candidate route: SU(2) / Schur-Weyl on the F71 first orbit) is open, so it is not promoted. Source: [`PerF71OrbitObservation.cs`](../compute/RCPsiSquared.Core/F86/PerF71OrbitObservation.cs).
+
+#### F86e. σ_0 as a commutator / Schur-multiplier norm \[Tier 1 derived\]
+
+On the c=2 coherence block the inter-channel SVD top singular value σ_0 (the natural g_eff that feeds F86a's Q_EP) is the operator norm of a commutator:
+
+    σ_0 = ‖[Π_HD1, M_H]‖
+
+with Π_HD1 the Hamming-distance-1 subspace projector and M_H the block Hamiltonian super-operator. The c=2 block has HD ∈ {1, 3} only, so Π_HD1 + Π_HD3 = I and the inter-channel coupling V_inter = Π_HD1·M_H·(I − Π_HD1); the lemma ‖P·M·(1 − P)‖ = ‖[P, M]‖ then gives the identity. It is c=2-specific: at c ≥ 3 the HD spectrum has more than two values. In the F89 (SE, DE) Bloch / OBC-sine basis M_H is diagonal, so [Π_HD1, M_H] is the Hadamard product Π̃_HD1 ⊙ ΔDiff and σ_0 is a Schur-multiplier norm. The N→∞ asymptote σ_0(c=2, ∞) ≈ 2.8629 is non-elementary by characterisation: the Δ-ordered commutator is neither Toeplitz nor Hankel, ruling out a Fourier-symbol supremum and a Nehari symbol distance (2√2 is the N=7 finite-size crossing, not the limit). The c ≥ 3 σ_0 asymptote stays open. Source: [`SigmaZeroCommutatorNormClaim.cs`](../compute/RCPsiSquared.Core/F86/SigmaZeroCommutatorNormClaim.cs); proof hub [PROOF_F86_QPEAK](proofs/PROOF_F86_QPEAK.md).
 
 **Framework primitives (`framework.coherence_block`):**
 

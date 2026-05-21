@@ -171,4 +171,36 @@ public class F86KnowledgeBaseTests
         var openQ = F86OpenQuestions.Standard[0];
         Assert.Contains("Open question", InspectionJsonExporter.ToJson(openQ));
     }
+
+    [Fact]
+    public void F86KnowledgeBase_TierGroups_HoldOnlyClaimsOfMatchingTier()
+    {
+        // Guards the drift where a Claim is appended to the wrong CollectTierX() bucket and
+        // then displays under a tier group whose label contradicts the claim's own Tier.
+        // Checks the claims placed directly into each tier group; intentional mixed-tier
+        // sub-group tables (EP traversal, per-block Q_peak) are coherent units, not recursed.
+        var block = new CoherenceBlock(N: 5, n: 1, gammaZero: 0.05); // c=2 exercises every group
+        var kb = new F86KnowledgeBase(block);
+
+        var mismatches = new List<string>();
+        foreach (var top in kb.Children)
+        {
+            if (top is not InspectableNode group) continue;
+            Tier[]? allowed = group.DisplayName switch
+            {
+                "Tier 1 (derived)"   => new[] { Tier.Tier1Derived },
+                "Tier 1 (candidate)" => new[] { Tier.Tier1Candidate },
+                "Tier 2"             => new[] { Tier.Tier2Verified, Tier.Tier2Empirical },
+                _ => null,
+            };
+            if (allowed is null) continue;
+            foreach (var child in group.Children)
+                if (child is Claim claim && Array.IndexOf(allowed, claim.Tier) < 0)
+                    mismatches.Add($"{claim.GetType().Name} is {claim.Tier} under \"{group.DisplayName}\"");
+        }
+
+        Assert.True(mismatches.Count == 0,
+            "Claim(s) under a tier group that contradicts their own Tier:\n  - "
+            + string.Join("\n  - ", mismatches));
+    }
 }

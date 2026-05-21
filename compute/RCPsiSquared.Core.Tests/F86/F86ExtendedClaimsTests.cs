@@ -179,6 +179,18 @@ public class F86ExtendedClaimsTests
     }
 
     [Fact]
+    public void OpenQuestion_Item5_ReflectsF86eC2Closure()
+    {
+        // F86e closed the c=2 σ_0 case (commutator norm = Schur-multiplier norm); Item 5 was
+        // reframed 2026-05-21 to scope the remaining open work to c ≥ 3.
+        var item5 = F86OpenQuestions.Standard[2];
+        Assert.Contains("Item 5", item5.Name);
+        Assert.Contains("F86e", item5.Description);
+        Assert.Contains("Schur-multiplier", item5.Description);
+        Assert.Contains("OPEN is c", item5.Description);
+    }
+
+    [Fact]
     public void ChiralAiiiClassification_IsTier1Derived_AndNotPT()
     {
         var classification = new ChiralAiiiClassification();

@@ -33,12 +33,21 @@ namespace RCPsiSquared.Core.F86;
 /// more than two values, so Π_HD1 + Π_HD3 ≠ I and the substitution Π_HD3 = I − Π_HD1 fails.
 /// The constructor therefore rejects any block with <c>block.C != 2</c>.</para>
 ///
-/// <para>Reference σ_0 values (γ-independent — V_inter uses only M_H, not the dissipator D):
+/// <para><b>Bloch-basis Hadamard form.</b> In the F89 (SE, DE) Bloch / OBC-sine operator
+/// basis M_H is diagonal (multiplication by Δ = E_k − E_{k₁} − E_{k₂}), so the commutator
+/// is the Hadamard (Schur) product [Π_HD1, M_H] = Π̃_HD1 ⊙ ΔDiff with ΔDiff[a, b] = Δ_b − Δ_a
+/// (verified bit-exact). σ_0 is thus a Schur-multiplier norm. The Δ-ordered commutator is
+/// neither Toeplitz (diagonal CV ≈ 0.37, non-vanishing) nor Hankel (anti-diagonal CV grows
+/// with N), so the σ_0(N→∞) asymptote is neither a Fourier-symbol supremum nor a Nehari
+/// symbol distance; it is a genuine Schur-multiplier-norm constant. This characterises the
+/// non-elementarity of the F86e asymptote rather than removing it.</para>
+///
+/// <para>Reference σ_0 values (γ-independent, V_inter uses only M_H, not the dissipator D):
 /// σ_0(N=5) = 2.7650951722, σ_0(N=7) = 2.8284271247 (= 2√2, the
 /// <see cref="SigmaZeroChromaticityScaling.SigmaZeroSweetSpotIdentity_C2N7"/> sweet-spot
 /// crossing), σ_0(N=8) = 2.8393460323.</para>
 ///
-/// <para>Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1 (c=2) — this claim sharpens
+/// <para>Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1 (c=2): this claim sharpens
 /// the F86e σ_0 quantity from "top singular value of a coupling block" to "operator norm of
 /// a commutator", a basis-free algebraic characterisation.</para>
 /// </summary>
@@ -78,7 +87,7 @@ public sealed class SigmaZeroCommutatorNormClaim : Claim
             throw new ArgumentException(
                 $"SigmaZeroCommutatorNormClaim applies only to the c=2 stratum; got c={block.C} " +
                 $"(N={block.N}, n={block.LowerPopcount}). The identity σ_0 = ‖[Π_HD1, M_H]‖ relies on " +
-                "Π_HD1 + Π_HD3 = I, which holds only when HD ∈ {1, 3} — i.e. only at chromaticity 2.",
+                "Π_HD1 + Π_HD3 = I, which holds only when HD ∈ {1, 3}, i.e. only at chromaticity 2.",
                 nameof(block));
 
         double sigma0 = InterChannelSvd.Build(block, hd1: 1, hd2: 3).Sigma0;

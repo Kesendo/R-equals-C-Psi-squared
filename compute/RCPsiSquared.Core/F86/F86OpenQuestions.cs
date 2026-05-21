@@ -27,26 +27,28 @@ public static class F86OpenQuestions
             "Iterate the 4-mode construction over k; concatenate the orthonormal subspaces; project full block-L; numerical verification at c=3, c=4 first.",
             "docs/proofs/PROOF_F86_QPEAK.md Item 4'"),
         new OpenQuestion(
-            "Item 5: derive the true σ_0(c, N → ∞) asymptote (earlier 2√(2(c−1)) refuted as crossing)",
-            "σ_0(c=2) grows monotonically past 2√2: σ_0(N=7..18) = 2.8284, 2.8393, 2.8483, 2.8525, " +
-            "2.8561, 2.8579, 2.8596, 2.8604, 2.8612, 2.8616, 2.8620, 2.8623 (the earlier 2√(2(c−1)) " +
-            "conjecture was a trajectory crossing at N=7, not an asymptote). Parity-split Aitken on " +
-            "even-N and odd-N subsequences converges to σ_0(c=2, N → ∞) ≈ 2.8628 ± 1e-4 — sharpening " +
-            "the earlier ~2.85..2.89 band by ~50×. Verified γ-independent (bit-exact across γ ∈ {0.01, " +
-            "0.5, 5.0}). Surviving structure: monotone growth within each c; σ_0·√(3/8) bridge to " +
-            "g_eff_E (Δ ≤ 0.01 for N ≥ 6); newly noted even/odd-N parity in the convergence rate " +
-            "(successive Δ's halve in pairs). Closed-form candidates ruled out at 1e-4 precision: " +
-            "2√2 (REJECTED as asymptote, retained as N=7 sweet-spot crossing), √(41/5) ≈ 2.86356, " +
-            "√(8 + π/16) ≈ 2.86292.",
-            "OBC sine-mode algebra applied to inter-HD-channel coupling; Bogoliubov / JW free-fermion " +
-            "transform may make finite-size corrections transparent. The true asymptote likely involves " +
-            "an OBC band-edge factor. Polynomial-in-1/N fits are unstable (leading coefficient drifts " +
-            "2.85 → 2.91 across degrees 1–5), so simple algebraic-correction ansätze are inadequate " +
-            "and the band-edge integral is the natural next step. Higher-c sweet-spot N_c* (where " +
-            "σ_0/√(2(c−1)) crosses 2.0) remains unknown: c=3 N=11 ratio is 1.973 (still below 2.0); " +
-            "c=4 N=8 ratio is 0.890 (far below). Cross-c ratios are NOT c-independent (1.012, 0.987, " +
-            "0.890 at current max N), so the closed form is structurally per-c, not multiplicative.",
-            "docs/proofs/PROOF_F86_QPEAK.md Item 5 (open); " +
-            "compute/RCPsiSquared.Core.Tests/F86/SigmaZeroAsymptoteReconTests.cs (numerical recon, this session)"),
+            "Item 5: derive the σ_0(c ≥ 3, N → ∞) asymptote (the c=2 case is closed by F86e)",
+            "F86e closed the c=2 case. σ_0(c=2) = ‖[Π_HD1, M_H]‖ is a commutator operator norm " +
+            "(typed `SigmaZeroCommutatorNormClaim`, Tier1Derived, bit-exact N=5..8); in the F89 " +
+            "Bloch / OBC-sine basis it is the Schur-multiplier norm ‖Π̃_HD1 ⊙ ΔDiff‖. Its asymptote " +
+            "σ_0(c=2, N → ∞) ≈ 2.8629 ± 1e-4 (parity-split Aitken over even-N / odd-N subsequences, " +
+            "γ-independent) is non-elementary by characterisation, not by gap: the Δ-ordered " +
+            "commutator is neither Toeplitz (diagonal CV ≈ 0.37) nor Hankel (anti-diagonal CV grows " +
+            "with N), so the asymptote is neither a Fourier-symbol supremum nor a Nehari symbol " +
+            "distance, but a genuine Schur-multiplier-norm constant. Closed-form candidates stay " +
+            "ruled out at 1e-4 precision: 2√2 (the N=7 finite-size crossing, not the limit), " +
+            "√(41/5) ≈ 2.86356, √(8 + π/16) ≈ 2.86292. What remains OPEN is c ≥ 3, where the " +
+            "commutator identity does not hold (the HD spectrum has more than two values, so " +
+            "Π_HD1 + Π_HD3 ≠ I): the higher-c sweet-spot N_c* where σ_0/√(2(c−1)) crosses 2.0 is " +
+            "unknown (c=3 N=11 ratio 1.973, c=4 N=8 ratio 0.890), and the cross-c ratios are NOT " +
+            "c-independent (1.012, 0.987, 0.890 at current max N), so any c ≥ 3 closed form is " +
+            "structurally per-c, not multiplicative.",
+            "For c ≥ 3 the two-channel (HD ∈ {1, 3}) commutator reduction no longer applies; the " +
+            "multi-HD-channel coupling structure (cf. Item 4') is the prerequisite. The c=2 " +
+            "Schur-multiplier-norm characterisation is the template: the open question is whether " +
+            "the c ≥ 3 σ_0 is a multi-band Schur-multiplier norm carrying the same non-elementary " +
+            "verdict, or admits a per-c OBC band-edge closed form.",
+            "docs/proofs/PROOF_F86_QPEAK.md (F86e resolved 2026-05-20: c=2 closed, c ≥ 3 open); " +
+            "compute/RCPsiSquared.Core/F86/SigmaZeroChromaticityScaling.cs (c ≥ 3 empirical σ_0 scaling)"),
     };
 }

@@ -11,19 +11,27 @@ namespace RCPsiSquared.Core.F86;
 /// <summary>"Everything we know about F86" as a typed OOP knowledge graph attached to a
 /// <see cref="CoherenceBlock"/>. The root <see cref="IInspectable"/> for <c>--root f86</c>.
 ///
-/// <para>Contents:</para>
+/// <para>Below the block node and the named Q-anchor map, the claims are organised into
+/// five groups; the c=2-only members appear only when <c>Block.C == 2</c>:</para>
 /// <list type="bullet">
-///   <item>Tier-1 derived: <see cref="TPeakLaw"/> (universal), <see cref="QEpLaw"/> at the
-///         block's natural g_eff (= σ_0 from <see cref="InterChannelSvd"/>),
-///         <see cref="TwoLevelEpModel"/> traversed at multiple Q values to show pre/at/post-EP.</item>
-///   <item>Tier-1 candidate: <see cref="UniversalShapePrediction"/> for Interior + Endpoint
-///         with empirical <see cref="UniversalShapeWitness"/> data points across c=2..4
-///         N=5..8. For c=2 specifically, <see cref="C2UniversalShapeDerivation"/> wraps
-///         the Stage D2 <c>C2HwhmRatio</c> with empirical anchor + directional Endpoint &gt;
-///         Interior split derived.</item>
-///   <item>Retracted: the two refuted closed forms (<see cref="RetractedClaim.Standard"/>).</item>
-///   <item>4-mode insufficiency: the minimal effective fails to reproduce the universal
-///         shape numerically (answered: no).</item>
+///   <item><b>Tier 1 (derived)</b>: <see cref="TPeakLaw"/>, <see cref="QEpLaw"/>,
+///         <see cref="TwoLevelEpModel"/> (pre/at/post-EP traversal and the higher-k
+///         hierarchy), <see cref="ChiralAiiiClassification"/>, <see cref="F71MirrorInvariance"/>,
+///         <see cref="LEffMirrorAxisClaim"/>, <see cref="PolarityPairQPeakDecompositionClaim"/>;
+///         c=2-only <see cref="F90F86C2BridgeIdentity"/> and the F86e identity
+///         <see cref="SigmaZeroCommutatorNormClaim"/> (σ_0 = ‖[Π_HD1, M_H]‖).</item>
+///   <item><b>Tier 1 (candidate)</b>: <see cref="UniversalShapePrediction"/> for Interior
+///         and Endpoint with <see cref="UniversalShapeWitness"/> data across c=2..4 N=5..8,
+///         <see cref="ShapeFunctionWitnesses"/>, <see cref="DressedModeWeightClaim"/>,
+///         <see cref="F86HwhmClosedFormClaim"/>; c=2-only <see cref="C2UniversalShapeDerivation"/>.</item>
+///   <item><b>Tier 2</b> (verified and empirical): <see cref="SigmaZeroChromaticityScaling"/>,
+///         the per-block and per-bond Q_peak tables, <see cref="PerF71OrbitObservation"/>,
+///         <see cref="LocalGlobalEpLink"/>, <see cref="PolarityInheritanceLink"/>,
+///         <see cref="IbmBlockCpsiHardwareTable"/>; c=2-only the live orbit-K and
+///         full-block σ-anatomy tables.</item>
+///   <item><b>Retracted</b>: the two refuted closed forms (<see cref="RetractedClaim.Standard"/>).</item>
+///   <item><b>Open questions</b>: <see cref="F86OpenQuestions.Standard"/>, the items still
+///         missing for full Tier-1 promotion, followed by the 4-mode insufficiency note.</item>
 /// </list>
 /// </summary>
 public sealed class F86KnowledgeBase : IInspectable
@@ -349,8 +357,8 @@ public sealed class F86KnowledgeBase : IInspectable
             yield return InspectableNode.Group("Tier 1 (candidate)",
                 CollectTier1Candidate().ToArray());
 
-            yield return InspectableNode.Group("Tier 2 (empirical)",
-                CollectTier2Empirical().ToArray());
+            yield return InspectableNode.Group("Tier 2",
+                CollectTier2().ToArray());
 
             yield return InspectableNode.Group("retracted",
                 Retracted.Cast<IInspectable>().ToArray());
@@ -374,10 +382,8 @@ public sealed class F86KnowledgeBase : IInspectable
         if (HigherKLevels.Count > 1)
             yield return InspectableNode.Group("higher-k EP hierarchy (decay times 1/(4γ₀·k))",
                 HigherKLevels.Cast<IInspectable>().ToArray());
-        yield return DressedModeWeight;
         yield return AlgebraicClass;
         yield return F71Mirror;
-        yield return F86HwhmClosedForm;
         yield return LEffMirrorAxis;
         yield return PolarityPairQPeakDecomposition;
         // F90 bridge identity is c=2-stratum specific (only the c=2 K_b ↔ F89 path-(N−1)
@@ -393,17 +399,19 @@ public sealed class F86KnowledgeBase : IInspectable
         yield return EndpointShape;
         yield return InteriorShapeFunction;
         yield return EndpointShapeFunction;
-        yield return Sigma0Scaling;
+        yield return DressedModeWeight;
+        yield return F86HwhmClosedForm;
         // c=2 top-level synthesis from Stages A–D: only present for c=2 blocks.
         if (C2UniversalShape is not null)
             yield return C2UniversalShape;
     }
 
-    private IEnumerable<IInspectable> CollectTier2Empirical()
+    private IEnumerable<IInspectable> CollectTier2()
     {
         if (OrbitKTable is not null) yield return OrbitKTable;
         if (FullBlockSigmaAnatomy is not null) yield return FullBlockSigmaAnatomy;
 
+        yield return Sigma0Scaling;
         yield return InspectableNode.Group("per-block Q_peak (Q_SCALE convention)",
             PerBlockQPeaks.Cast<IInspectable>().ToArray());
         yield return EndpointPerBondTable;

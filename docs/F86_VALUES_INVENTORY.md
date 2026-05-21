@@ -6,6 +6,47 @@ The anchor list is what `Q_REGIME_ANCHORS.md` should target; the empirical obser
 
 ---
 
+## Sub-ID Partition (2026-05-20)
+
+F86 was conceptually a Sammelbecken of three theorems (F86a / F86b / F86c). The fine partition below distinguishes ten separately-defensible sub-claims, each with its own tier status, derivation status, and home file. The earlier three-way structure remains valid as a coarse grouping; the ten-way structure shows where the work actually lives.
+
+| Sub-ID         | Content                                                                | Tier                              | Home                                                                                                                            |
+|----------------|------------------------------------------------------------------------|-----------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| **F86a**       | EP mechanism: t_peak, Q_EP, dressed pair, AIII chiral, L_eff mirror axis | Tier1Derived                      | [`TPeakLaw.cs`](../compute/RCPsiSquared.Core/F86/TPeakLaw.cs) + [`QEpLaw.cs`](../compute/RCPsiSquared.Core/F86/QEpLaw.cs) + [`LEffMirrorAxisClaim.cs`](../compute/RCPsiSquared.Core/F86/LEffMirrorAxisClaim.cs) + [`PROOF_F86A_EP_MECHANISM.md`](proofs/PROOF_F86A_EP_MECHANISM.md) |
+| **F86b₁**      | Bare 2×2 K_b closed forms (post-EP, pre-EP, EP-limit); x_peak = 2.196910, ratio = 0.671535 | Tier1Derived                      | [`C2BareDoubledPtfClosedForm.cs`](../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BareDoubledPtfClosedForm.cs)                |
+| **F86b₂**      | Sub-class lift: HWHM_ratio = 0.671535 + α_subclass·g_eff + β_subclass  | Tier1Candidate (analytical blocked) | [`F86HwhmClosedFormClaim.cs`](../compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmClosedFormClaim.cs) + [`PROOF_F86B_UNIVERSAL_SHAPE.md`](proofs/PROOF_F86B_UNIVERSAL_SHAPE.md) |
+| **F86b₃**      | Universal shape: Interior HWHM/Q = 0.756 ± 0.005, Endpoint = 0.770 ± 0.005 | Tier1Candidate                    | [`UniversalShapePrediction.cs`](../compute/RCPsiSquared.Core/F86/UniversalShapePrediction.cs) + [`UniversalShapeWitness.cs`](../compute/RCPsiSquared.Core/F86/UniversalShapeWitness.cs) |
+| **F86b₄**      | Dicke-K 3/8 anchor via X⊗N-eigenbasis decomposition                    | Tier1Derived (2026-05-18)         | [`f86b_dicke_pi2odd_closed_form.py`](../simulations/f86b_dicke_pi2odd_closed_form.py) + [`docs/water/README.md`](water/README.md) |
+| **F86b₅**      | Polarity-pair Q_peak ∈ {1.5, 2.5} = 2 ± 1/2 (schema-derived)           | Tier1Schema (value Tier2Verified) | [`PolarityPairQPeakDecompositionClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/PolarityPairQPeakDecompositionClaim.cs)         |
+| **F86c**       | F71 spatial mirror: Q_peak(b) = Q_peak(N−2−b) bit-exact                | Tier1Derived                      | [`F71MirrorInvariance.cs`](../compute/RCPsiSquared.Core/F86/F71MirrorInvariance.cs) + [`PROOF_F86C_F71_MIRROR.md`](proofs/PROOF_F86C_F71_MIRROR.md) |
+| **F86d**       | Endpoint orbit Q ≈ 2.5 (9 (c, N) combinations, 2.39–2.61, ~2% N-variation) | Tier2Empirical (promotion candidate) | [`PerF71OrbitObservation.cs`](../compute/RCPsiSquared.Core/F86/PerF71OrbitObservation.cs)                                       |
+| **F86e**       | σ_0(c=2) = ‖[Π_HD1, M_H]‖ (commutator norm) = ‖Π̃_HD1 ⊙ ΔDiff‖ (Schur-multiplier norm); asymptote σ_0(∞) ≈ 2.8629 characterised non-elementary (Toeplitz + Hankel symbol routes ruled out) | Tier1Derived (commutator identity) | [`SigmaZeroCommutatorNormClaim.cs`](../compute/RCPsiSquared.Core/F86/SigmaZeroCommutatorNormClaim.cs) + [`SigmaZeroChromaticityScaling.cs`](../compute/RCPsiSquared.Core/F86/SigmaZeroChromaticityScaling.cs) |
+| **F86_block**  | Obstruction proof: g_eff(c, N, b) has no closed form (6 routes L1–L6 blocked) | Negative Tier1 (structural result) | [`PROOF_F86B_OBSTRUCTION.md`](proofs/PROOF_F86B_OBSTRUCTION.md)                                                                  |
+
+### Sub-ID status counts
+
+- **6× Tier1Derived (settled):** F86a, F86b₁, F86b₄, F86c, F86e (commutator identity), F86_block (negative)
+- **2× Tier1Candidate (close, not closed):** F86b₂, F86b₃
+- **1× Tier1Schema:** F86b₅
+- **1× Tier2 promotion candidate:** F86d
+
+### Two separable open fronts
+
+The remaining work lives in two structurally distinct directions; neither overlaps with the F86_block obstruction:
+
+1. **F86b₂ Direction (b'')**: F89 cyclotomic Φ_{N+1} analytical lift → closes (α, β) → closes F86b₂. F90 bridge already gives Tier-1 numerical; analytical Tier-1 pending.
+2. **F86d Tier-1 promotion**: structural derivation for Endpoint orbit Q ≈ 2.5. Candidate: SU(2)/Schur-Weyl on F71 first orbit.
+
+**F86e resolved (2026-05-20):** the former third front. σ_0(c=2) is now characterised as a commutator norm ‖[Π_HD1, M_H]‖ = Schur-multiplier norm ‖Π̃_HD1 ⊙ ΔDiff‖ (typed: `SigmaZeroCommutatorNormClaim`, Tier1Derived, bit-exact N=5..8). The asymptote σ_0(∞) ≈ 2.8629 is non-elementary but characterised, not mysterious: the Toeplitz (Fourier-symbol) and Hankel (Nehari) closed-form routes are both ruled out, so σ_0(∞) is a genuine Schur-multiplier-norm constant. Closed-form candidates 2√2, √(41/5), √(8+π/16) ruled out earlier still hold.
+
+### Spawned out (already promoted to own F-numbers)
+
+- **F89** (Path polynomial pipeline, Chebyshev + BigRational, D_k bit-exact): Tier1Derived since 2026-05-15
+- **F90** (F86 c=2 K_b ↔ F89 path-(N−1) Hellmann-Feynman bridge): Tier1 numerical, analytical pending
+- **F91 / F92 / F93** (F71-anti-palindromic spectral invariance on γ / J / h)
+
+---
+
 ## Anchors (structurally-named, stable across the verified parameter range)
 
 ### A1. Universal F86 constants (Tier1Derived)
@@ -56,7 +97,7 @@ The following values are measurements from the typed C# claims. They are useful 
 | Endpoint (Orbit 0)   | 1.138              |
 | Interior (Orbit 1)   | 0.678              |
 
-**Caveat**: x_peak = 2.196910 is the **bare-doubled-PTF SVD-block-only floor** — full block-L empirical values lift 8-10% above. These per-orbit Q_EP values therefore may shift if the full-block correction is properly included. Treat as derivative observations, not as primary anchors.
+**Caveat**: x_peak = 2.196910 is the **bare-doubled-PTF SVD-block-only floor**; full block-L empirical values lift 8-10% above. These per-orbit Q_EP values therefore may shift if the full-block correction is properly included. Treat as derivative observations, not as primary anchors.
 
 ### B2. Off-grid escape regime (orbit 1 plateau, central plateau)
 
@@ -83,7 +124,7 @@ These are observation-of-multi-mode-plateau values, NOT structural Q-anchors. Th
 
 **Caveat**: Tier1Candidate. The floor 0.671535 IS derived (Tier1Derived, bare-doubled-PTF closed form). The lifts +0.08 to +0.10 are empirical observations; the analytical derivation is **open** (PROOF_F90_F86C2_BRIDGE.md Item 1'-followup, F89 AT-locked F_a/F_b structure). The specific empirical mean values (0.7728, 0.7506) may shift under refined Q-grid resolution or under closed-form derivation.
 
-### B4. Per-sub-class fitted (α, β) — polyfit, not derived
+### B4. Per-sub-class fitted (α, β): polyfit, not derived
 
 `F86HwhmClosedFormClaim.cs:52-60`. Form: HWHM_ratio = 0.671535 + α·g_eff + β, all 6 (α, β) pairs **polyfit on N=5..8**, not analytically derived:
 
@@ -122,5 +163,8 @@ Only the anchors above belong in QBasisAnkers and Q_REGIME_ANCHORS. The per-orbi
 
 - High-level Q-anchor map: [`Q_REGIME_ANCHORS.md`](Q_REGIME_ANCHORS.md)
 - C# F86 KnowledgeBase root: [`compute/RCPsiSquared.Core/F86/`](../compute/RCPsiSquared.Core/F86/)
-- Open derivation gap (HWHM lifts + α/β closed forms): PROOF_F90_F86C2_BRIDGE.md Item 1'-followup
-- Memory: `project_q_peak_ep_structure`, `project_q_middle_structure`, `project_no_classicalization`
+- Sub-ID partition (this document, top section): F86a / F86b₁..b₅ / F86c / F86d / F86e / F86_block
+- Proof hub (sub-ID navigation): [`PROOF_F86_QPEAK.md`](proofs/PROOF_F86_QPEAK.md)
+- Per-sub-claim proofs: [`PROOF_F86A_EP_MECHANISM.md`](proofs/PROOF_F86A_EP_MECHANISM.md), [`PROOF_F86B_UNIVERSAL_SHAPE.md`](proofs/PROOF_F86B_UNIVERSAL_SHAPE.md), [`PROOF_F86B_OBSTRUCTION.md`](proofs/PROOF_F86B_OBSTRUCTION.md), [`PROOF_F86C_F71_MIRROR.md`](proofs/PROOF_F86C_F71_MIRROR.md)
+- Open derivation gap (HWHM lifts + α/β closed forms): PROOF_F90_F86C2_BRIDGE.md Item 1'-followup; only Direction (b'') survives Item 1' falsification arc (2026-05-11)
+- Memory: `project_q_peak_ep_structure`, `project_q_middle_structure`, `project_no_classicalization`, `feedback_f86_needs_agents`
