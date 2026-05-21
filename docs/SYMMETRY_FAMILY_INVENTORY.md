@@ -178,9 +178,10 @@ state at λ=0) to fast (m=N=10, λ=−2Σγ = −1.0 at γ=0.05) range uniformly
 ## Cross-references
 
 - `JointPopcountSectors`, `F71MirrorBlockRefinement`, `F71BilateralBlockRefinement`, `F71AntiPalindromicGammaSpectralInvariance`: see `compute/RCPsiSquared.Core/BlockSpectrum/`.
-- `F1`, `F71`, `F91`, F92, F93, F100: see `docs/ANALYTICAL_FORMULAS.md`.
+- `F1`, `F71`, `F91`, F92, F93, F100, F101: see `docs/ANALYTICAL_FORMULAS.md`.
 - F91/F92/F93 algebraic proofs: `docs/proofs/PROOF_F91_GAMMA_NINETY_DEGREES.md`, `docs/proofs/PROOF_F92_BOND_ANTI_PALINDROMIC_J.md`, `docs/proofs/PROOF_F93_DETUNING_ANTI_PALINDROMIC.md`.
 - F100 (observable-side twin of F92): `docs/proofs/PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md`. The c₁/Q_peak bond-mirror deviation is exactly odd in the F71-anti-palindromic J component; where F92 keeps J_anti out of the diagonal-block spectrum, F100 localises the entire bond-mirror deviation in J_anti. Typed as `C1QPeakMirrorJParity` in `compute/RCPsiSquared.Core/F71/`.
+- F101 (observable-side twin of F91): `docs/proofs/PROOF_F101_C1_MIRROR_GAMMA_PARITY.md`. The c₁ bond-mirror deviation is exactly odd in the F71-anti-palindromic component of the per-site γ profile; where F91 keeps γ_anti out of the diagonal-block spectrum, F101 localises the entire bond-mirror deviation in γ_anti. c₁ only (the F86c Q_peak observable needs a scalar γ₀). Typed as `C1MirrorGammaParity` in `compute/RCPsiSquared.Core/F71/`.
 - Phase 2 N=10 push primitives: `compute/RCPsiSquared.Core/BlockSpectrum/JordanWigner/JwSlaterPairBasis.cs`, `JwSlaterPairLProjection.cs`, `JwSlaterPairSparseLBuilder.cs`, `JwSlaterPairArnoldiEig.cs`, `JwSlaterPairShiftInvertArnoldi.cs`, `JwSlaterPairF1PalindromeProbe.cs`, `KrylovOps.cs`.
 - Phase 3a Prosen leaf: `compute/RCPsiSquared.Core/BlockSpectrum/Prosen/OneSidedSectorClosedForm.cs`.
 - Phase 3b Klein-4 refinement: `compute/RCPsiSquared.Core/BlockSpectrum/KleinFourGroupSelfPairedRefinement.cs`.

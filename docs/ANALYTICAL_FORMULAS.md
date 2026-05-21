@@ -1676,7 +1676,7 @@ for all bond indices b ∈ {0, ..., N−2} and any reflection-symmetric initial 
 Proof: the F86 observable is `K_b(Q, t) = 2·Re ⟨ρ(t)| S_kernel | ∂ρ/∂J_b ⟩`. Under R, every component is invariant (uniform Z-dephasing L_D, uniform-J Hamiltonian H_xy, the Dicke probe, and the spatial-sum kernel S), while the bond-flip transforms as `R · ∂L/∂J_b · R⁻¹ = ∂L/∂J_{N−2−b}`. Hence K_b(Q, t) = K_{N−2−b}(Q, t) as functions of (Q, t), and their argmax-Q values coincide. Numerical verification: max deviation < 10⁻¹⁰ across c=2 N=5..7 and c=3 N=5..6 (`F86NewIdeasTests.F71MirrorInvariance_PerBondQPeak_BitExactSymmetricUnderBondMirror`). The per-F71-orbit substructure observed in F86 (Interior bonds not uniform within the F71-orbit grouping; central self-paired bond differs from flanking) refines the simple Endpoint/Interior dichotomy into a per-orbit classification: the F71 symmetry gives the pairing, not the value. See [PROOF_F86C_F71_MIRROR Statement 3](proofs/PROOF_F86C_F71_MIRROR.md#statement-3-f71-spatial-mirror-invariance-of-per-bond-q_peak-tier-1-derived).
 
 **Valid for:** any Hamiltonian with \[H, R\] = 0 (uniform coupling on a symmetric graph), any dissipator with \[D, R_sup\] = 0 (uniform or R-symmetric dephasing), any initial state that is reflection-symmetric in per-site purities. Purely kinematic.
-**Breaks for:** non-uniform coupling J_b ≠ J_{N−2−b}; non-uniform dephasing γ_i ≠ γ_{N−1−i}; initial states without reflection symmetry in purity. The non-uniform-J breakdown is now characterised by [F100](#f100): it is graceful, with the bond-mirror deviation D(b) = c₁(b) − c₁(N−2−b) exactly odd in the F71-anti-palindromic component of J (zero for any palindromic J, leading-order linear in the asymmetry).
+**Breaks for:** non-uniform coupling J_b ≠ J_{N−2−b}; non-uniform dephasing γ_i ≠ γ_{N−1−i}; initial states without reflection symmetry in purity. The non-uniform-J breakdown is now characterised by [F100](#f100): it is graceful, with the bond-mirror deviation D(b) = c₁(b) − c₁(N−2−b) exactly odd in the F71-anti-palindromic component of J (zero for any palindromic J, leading-order linear in the asymmetry). The non-uniform-γ breakdown is characterised by [F101](#f101): the bond-mirror deviation D(b) = c₁(b) − c₁(N−2−b) is exactly odd in the F71-anti-palindromic component of the per-site γ profile (zero for any palindromic γ, leading-order linear in the asymmetry).
 **Verified:** N = 3, 4, 5, 6 for ψ_1+vac and ψ_2+vac; residuals < 10⁻⁹. Source: [`eq021_obc_sine_basis.py`](../simulations/eq021_obc_sine_basis.py), [`c1_veffect_scaling_small.py`](../simulations/c1_veffect_scaling_small.py).
 **Replaces:** empirical observation of mirror-symmetric c₁ bond profiles with an analytical kinematic proof.
 **Scripts:** [`eq021_obc_sine_basis.py`](../simulations/eq021_obc_sine_basis.py).
@@ -3143,6 +3143,30 @@ DickeAnchor.cs), companion bridge [F98](#f98) (long-time 3/8 → 1/4 via kernel 
 **Verified:** N = 3, 4, 5 via the full 4^N Liouvillian, no truncation; probe states ψ_1+vac and ψ_2+vac, base profile swept over s ∈ {0, ±0.04, ±0.08, ±0.12} along a linear-ramp J_anti direction, 4 palindromic J_sym profiles. Palindromic-survival max\|D(s=0)\| ≤ 4.0e−10; oddness residual max\|D(+s)+D(−s)\| ≤ 1.0e−9; even-power (constant, quadratic) fit coefficients ≤ ~3e−8. The leading coefficient κ shows 76% / 62% / 143% relative spread across the 4 J_sym profiles at N=3 / 4 / 5, confirming the J_sym-dependence.
 
 **Anchor:** [`PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md`](proofs/PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md), [`C1QPeakMirrorJParity.cs`](../compute/RCPsiSquared.Core/F71/C1QPeakMirrorJParity.cs), source [PROOF_C1_MIRROR_SYMMETRY](proofs/PROOF_C1_MIRROR_SYMMETRY.md), spectrum-side twin [F92](#f92), witness [`simulations/_f71_nonuniform_j_verification.py`](../simulations/_f71_nonuniform_j_verification.py), `docs/SYMMETRY_FAMILY_INVENTORY.md`.
+
+---
+
+### F101. F71 c₁ bond-mirror deviation is exactly odd in the F71-anti-palindromic γ (observable-side twin of F91) (Tier 1 derived, algebraic + numerically verified N=3,4,5; 2026-05-21)
+
+**For an N-qubit XY chain with uniform coupling J and a per-site Z-dephasing profile γ = (γ_0, ..., γ_{N−1}), the F71 bond-mirror deviation of the closure-breaking coefficient c₁,**
+
+    D(b) := c₁(b) − c₁(N−2−b)
+
+**is an exactly odd function of the F71-anti-palindromic component of γ.** Write the mirrored profile F71(γ)_l := γ_{N−1−l} (site-mirror l ↔ N−1−l) and split γ = γ_sym + γ_anti with γ_sym = (γ + F71(γ))/2 (F71-palindromic) and γ_anti = (γ − F71(γ))/2 (F71-anti-palindromic). Then D(b; γ_sym, −γ_anti) = −D(b; γ_sym, γ_anti), to all orders.
+
+**Palindromic survival:** γ_anti = 0 ⟹ D = −D ⟹ D = 0. The F71 c₁ bond-mirror holds for every palindromic γ, however non-uniform γ_sym is. F71 never required uniform γ; it requires palindromic (R-symmetric) γ. The symmetric component of γ still pairs bonds.
+
+**Graceful breakdown:** the Taylor series of D in γ_anti has odd powers only, so D is leading-order linear in the per-site asymmetry. Graceful, not a hard violation. The leading coefficient κ_γ is the c₁-gradient at γ_sym and generically depends on γ_sym (Tier 2 empirical); the parity argument fixes the oddness, not the coefficient. κ_γ has no closed form (∂c₁/∂γ, c₁ itself a non-closed numerical fit).
+
+**Derivation (Tier 1):** R-equivariance of the PROOF_C1 apparatus gives Step 1, c₁(b; γ) = c₁(N−2−b; F71(γ)), since the dephasing dissipator D[ρ] = Σ_l γ_l (Z_l ρ Z_l − ρ) is linear in each γ_l and R_sup·L(γ)·R_sup = L(F71(γ)) relabels site l ↔ N−1−l. Step 2: D(b; γ) = c₁(b; γ) − c₁(b; F71(γ)), so D(b; F71(γ)) = −D(b; γ), which with F71(γ) = γ_sym − γ_anti is the oddness.
+
+**Connection to F91:** observable-side twin of F91. F91 (spectrum side) = the F71-refined diagonal-block eigenvalue multiset depends only on γ_sym (the pair-sums S_l = γ_l + γ_{N−1−l} = 2·γ_sym[l]; γ_anti invisible to the spectrum). F101 (observable side) = the c₁ bond-mirror deviation depends only on γ_anti, and oddly. Two faces of one γ_sym/γ_anti split. The J-side observable twin is F100.
+
+**Scope:** c₁ only. The F86c per-bond Q_peak observable is not covered: its Q-axis Q = J/γ₀ and EP time t_peak = 1/(4γ₀) are defined against a scalar γ₀, which a non-uniform per-site γ does not provide. The γ_avg-anchored Q_peak route and the h-detuning observable twin follow by the same parameter-agnostic argument and are noted in PROOF_F101 as separable extensions.
+
+**Verified:** N = 3, 4, 5 via the exact (N+1)²-dim popcount-sector restriction (bit-identical to the full 4^N Liouvillian, Gate-1 self-test, maximum difference 0); probe states ψ_1+vac and ψ_2+vac, base profile swept over s ∈ {0, ±0.01, ±0.02, ±0.03} along a linear-ramp γ_anti direction, 4 palindromic γ_sym profiles, J held uniform. Palindromic-survival max\|D(s=0)\| ≤ 1.3e−9 and oddness residual max\|D(+s)+D(−s)\| ≤ 4.4e−9, against an O(1) deviation signal (typical \|D\| from 0.6 at N=3 to 2.3 at N=5); the oddness residual is the direct machine-zero even-power probe. The leading coefficient κ_γ shows a 76 to 128 percent relative spread across the 4 γ_sym profiles, confirming the γ_sym-dependence (Tier 2 empirical, no closed form).
+
+**Anchor:** [`PROOF_F101_C1_MIRROR_GAMMA_PARITY.md`](proofs/PROOF_F101_C1_MIRROR_GAMMA_PARITY.md), [`C1MirrorGammaParity.cs`](../compute/RCPsiSquared.Core/F71/C1MirrorGammaParity.cs), source [PROOF_C1_MIRROR_SYMMETRY](proofs/PROOF_C1_MIRROR_SYMMETRY.md), spectrum-side twin [F91](#f91), J-side observable twin [F100](#f100), witness [`simulations/_f71_nonuniform_gamma_verification.py`](../simulations/_f71_nonuniform_gamma_verification.py), `docs/SYMMETRY_FAMILY_INVENTORY.md`.
 
 ---
 
