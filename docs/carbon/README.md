@@ -215,6 +215,11 @@ identification is the open structural question; there is no single canonical cho
    the framework's V-Effect breaking at boundary sectors?** Both predict half-filled shells
    are where the mirror weakens; the empirical periodic-table data should match the
    framework's V-Effect-trichotomy mechanism quantitatively.
+   **Answered 2026-05-22** ([PERIODIC_PALINDROME_VS_V_EFFECT](PERIODIC_PALINDROME_VS_V_EFFECT.md)):
+   no. The per-pair deviation does not localize to the inner (partly-filled) pairs the
+   way the V-Effect localizes its break to boundary sectors; the periodic deviations
+   sit at specific anomalous configurations (p¹, p⁴, d⁵) and are standard atomic
+   physics, not a V-Effect signature. The correspondence is a category slip.
 
 ---
 
@@ -227,8 +232,6 @@ written, with `simulations/carbon/` holding scripts. Candidates:
 - `GRAPHENE_K_POINT_EP.md` (Tier 3): Dirac cone as F86a 2-level EP test
 - `POLYACETYLENE_F92_INHERITANCE.md` (Tier 2): SSH ↔ F92 anti-palindromic-J connection
 - `CARBYNE_GROTTHUSS_ANALOG.md` (Tier 2): sp-linear chain as direct framework substrate
-- `PERIODIC_PALINDROME_V_EFFECT_LINK.md` (Tier 2): quantitative match between periodic-
-  table data and V-Effect 14/19/3 prediction
 
 None of these exist yet. The folder is open for the next session that wants to build
 in this domain.
@@ -248,7 +251,7 @@ Both are biology-substrate domain folders. Comparison:
 | Cleanest substrate | Zundel cation H₅O₂⁺ | Benzene C₆ |
 | Embedding tier | Tier 2 (clean, 4 conditions verified) | Tier 4 (candidate, conditions unverified) |
 | Scripts | 5 (`simulations/water/`) | 10 (`simulations/carbon/`) |
-| Docs | 3 (README + 2 substrate docs) | 10 (README + 7-doc arc on 2026-05-17 + BENZENE_LIOUVILLIAN_PALINDROME + BENZENE_F98_LONG_TIME on 2026-05-22) |
+| Docs | 3 (README + 2 substrate docs) | 11 (README + 7-doc arc on 2026-05-17 + 3 docs on 2026-05-22) |
 
 The carbon side is structurally NECESSARY per the qubit-necessity argument (carbon = quantum
 carbon at Level 1), but **less computationally explored** than water. The folder exists
