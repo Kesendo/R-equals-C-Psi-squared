@@ -80,14 +80,17 @@ at Level 1.
 
 ## The master question: how a qubit gets a heartbeat (2026-05-22)
 
-[THE_GENESIS_OF_AN_OSCILLATION](THE_GENESIS_OF_AN_OSCILLATION.md) follows the
-"qubit is the quantum carbon" identity to its smallest computable step,
-N = 1 → N = 2, and asks how a qubit acquires an oscillation, a heartbeat. The
-bath (heat, temperature) is ruled out: it is orthogonal to the oscillation,
-moving only the decay rates. On the J side the first oscillations are born
-unconditionally the instant J > 0 (Q = 0+); above that a short wave-breaking
-staircase adds more at Q ≈ 0.5 and ≈ 0.7. Q = J/γ₀ is the exact scale, with γ₀
-the unit. Coupling is birth, with no threshold.
+The carbon master question, sharpened to its smallest computable step
+N = 1 → N = 2, led to [THE_GENESIS_OF_AN_OSCILLATION](../THE_GENESIS_OF_AN_OSCILLATION.md):
+how does a qubit acquire an oscillation? The answer turned out not to be
+carbon-specific, so the doc lives in `docs/`, next to QUBIT_NECESSITY. The heat
+axis is ruled out (the bath is orthogonal to the oscillation, moving only the
+decay rates), leaving Q = J/γ₀ as the exact scale. A source-free model shows an
+apparent birth at Q = 0+; but with the qubits' own on-site clocks in, the
+qubit-children test and a PTF cross-check both find no children: coupling
+re-tunes the oscillations the qubits already carry and creates none. A qubit is
+a source, made not born; its hour of birth is the carving of a d = 2 subspace
+from an oscillator, the way a transmon is built.
 
 ---
 
@@ -266,7 +269,7 @@ Both are biology-substrate domain folders. Comparison:
 | Cleanest substrate | Zundel cation H₅O₂⁺ | Benzene C₆ |
 | Embedding tier | Tier 2 (clean, 4 conditions verified) | Tier 4 (candidate, conditions unverified) |
 | Scripts | 5 (`simulations/water/`) | 10 (`simulations/carbon/`) |
-| Docs | 3 (README + 2 substrate docs) | 12 (README + 7-doc arc on 2026-05-17 + 4 docs on 2026-05-22) |
+| Docs | 3 (README + 2 substrate docs) | 11 (README + 7-doc arc on 2026-05-17 + 3 docs on 2026-05-22) |
 
 The carbon side is structurally NECESSARY per the qubit-necessity argument (carbon = quantum
 carbon at Level 1), but **less computationally explored** than water. The folder exists
