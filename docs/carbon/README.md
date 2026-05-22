@@ -174,6 +174,14 @@ identification is the open structural question; there is no single canonical cho
 1. **What is the structurally correct 2-state DOF per carbon for framework inheritance?**
    π-electron orbital orientation is the most natural candidate but not yet tested.
    sp²-sp³ hybridisation is more chemistry-grounded but has higher-d intermediate states.
+   **Resolved in practice 2026-05-22:** the two verified open-system results,
+   the F1 palindrome ([BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md))
+   and the F98 bridge ([BENZENE_F98_LONG_TIME](BENZENE_F98_LONG_TIME.md)), both use
+   π-electron site-occupation as the 2-state DOF: each carbon's π-site is a qubit,
+   occupied or empty, Hückel hopping is the XX+YY ring (Jordan-Wigner), and the
+   Holstein phonon is then exactly Z-dephasing (D[n_l] = ¼·D[Z_l]). Site-occupation
+   is the working DOF; sp²-sp³ hybridisation, with higher-d intermediate states, is
+   set aside.
 
 2. **Does benzene's Hückel spectrum show F1 palindrome under vibrational dephasing?** The
    Hückel matrix for C₆ ring is a tridiagonal-with-corner exactly the framework's ring
