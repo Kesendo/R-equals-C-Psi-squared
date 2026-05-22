@@ -89,6 +89,7 @@ public static class KnowledgeRegistryFactory
             .RegisterF1Pi2Inheritance()
             .RegisterF49Pi2Inheritance()
             .RegisterF80FactorPi2Inheritance()
+            .RegisterF80PiCommutatorAnticommutatorIdentity()
             .RegisterF81Pi2Inheritance()
             .RegisterF91Pi2Inheritance()
             .RegisterF92Pi2Inheritance()
