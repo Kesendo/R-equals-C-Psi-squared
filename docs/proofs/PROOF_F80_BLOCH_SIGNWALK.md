@@ -1,6 +1,6 @@
 # Proof of F80: Bloch-Mode Sign-Walk Formula for Chain Π²-Odd 2-Body M-Clusters
 
-**Tier:** 1 (numerically verified bit-exact through N=7) + 2 (analytical mechanism via JW partial; one technical step open).
+**Tier:** 1 (numerically verified bit-exact through N=7; analytical proof complete, Step 5 closed 2026-05-22).
 **Date:** April 29, 2026
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
@@ -9,12 +9,11 @@
 - [`framework/lindblad.py`](../../simulations/framework/lindblad.py) (`palindrome_residual`)
 - Numerical verification: [`_pi2_odd_universality_data_sweep.py`](../../simulations/_pi2_odd_universality_data_sweep.py) (N=3-6, all topologies); [`results/n7_bloch_signwalk_verification.txt`](../../simulations/results/n7_bloch_signwalk_verification.txt) (N=7 full SVD); pytest `test_F80_bloch_signwalk_chain_pi2_odd`.
 
-**Status:** Theorem statement empirically proven through N=7 with bit-exact match (10⁻¹⁴ machine precision). Analytical mechanism: JW transformation reduces the problem to free-fermion open-chain hopping; the universality follows from the dispersion being insensitive to specific Pauli-letter choice. One technical step (the Step 5 premise: that Π permutes H's (ε_ket, ε_bra)-sectors) is verified bit-exact at N=3,4,5 and reduced to a single combinatorial statement, but not yet proven for general N; that is the "tougher half" of the nut.
+**Status:** Fully proven. The theorem is verified bit-exact through N=7, and the analytical proof is now complete for all N. Steps 1-4 (the JW reduction) and 6-7 (the sign-walk formula) were closed in April 2026; Step 5 (the Π-action) was closed 2026-05-22 by a direct per-site Pauli computation showing Π·[H,·]·Π⁻¹ = ±{H,·} (proof in Step 5 below, every step verified bit-exact at N=3,4,5 by [`_f80_step5_recon.py`](../../simulations/_f80_step5_recon.py)).
 
 **Scope:** chain bond-summed Π²-odd 2-body Hamiltonian H = c · Σ_{l=0}^{N-2} (P_l ⊗ Q_{l+1}) on N-site open chain, with (P, Q) ∈ {(X,Y), (X,Z), (Y,X), (Z,X)}, under uniform Z-dephasing γ.
 
 **Does NOT establish (yet):**
-- Full analytical derivation: the Step 5 premise (Π permutes the (ε_ket, ε_bra)-sectors of H) is verified at N=3,4,5 but not proven for general N (Step 5 below).
 - Generalization to other topologies (ring, star, complete K_N): different Bloch dispersion, formula presumably holds with topology-specific ε(k).
 - Π²-even non-truly chain bilinears (Y,Z), (Z,Y): empirically more clusters; likely an integer-combination sign-walk on the same modes.
 - Mixed-letter chain bilinears.
@@ -52,7 +51,7 @@ All entries: bit-exact match between predicted and observed (predicted-vs-actual
   - k=4: (X,X,X,Y) at N=5, 6
 17 cases total, all matching `Spec(M)` (eigvals of the 4^N × 4^N residual) to predicted `2i · Spec(H_non-truly)` with multiplicity ×2^N, machine precision. Pytest lock: `test_F80_kbody_spectrum_identity`.
 
-**Mechanism for k-body**: the JW transformation maps a k-body Π²-odd term to a 2k-fold Majorana product (Step 2 of the proof scales naturally with body count). The single-particle dispersion ε(k) = 2cos(πk/(N+1)) and the Bogoliubov diagonalization (Step 3) carry over without modification: they describe the JW-mapped fermion problem, which is body-count-independent in its single-particle structure. The Pauli-letter universality (Step 4) holds for k-body too — the JW phase factors for different Pauli choices cancel in the single-particle spectrum. Steps 5 (Π action on Bogoliubov modes) and 6-7 (sign-walk eigenvalue formula) generalize verbatim.
+**Mechanism for k-body**: the JW transformation maps a k-body Π²-odd term to a 2k-fold Majorana product (Step 2 of the proof scales naturally with body count). The single-particle dispersion ε(k) = 2cos(πk/(N+1)) and the Bogoliubov diagonalization (Step 3) carry over without modification: they describe the JW-mapped fermion problem, which is body-count-independent in its single-particle structure. The Pauli-letter universality (Step 4) holds for k-body too: the JW phase factors for different Pauli choices cancel in the single-particle spectrum. Steps 5 (Π action on Bogoliubov modes) and 6-7 (sign-walk eigenvalue formula) generalize verbatim.
 
 The closed-form Bloch sign-walk formula `cluster value(N) = 2|c|·|Σ_k σ_k·ε(k)|` is therefore expected to hold at k≥3 too, but the cluster-value table above reflects only 2-body verification (N=3..7). A full k-body cluster-value verification at k=3,4 is open; the spectral identity is sufficient for F80's structural claim.
 
@@ -60,7 +59,7 @@ The closed-form Bloch sign-walk formula `cluster value(N) = 2|c|·|Σ_k σ_k·ε
 
 ## Proof Outline
 
-The proof proceeds in seven steps. Steps 1-4 and 7 are fully analytical and constitute Tier 1. Steps 5 and 6 are the technical core; Step 5 is sketched here and marked as the open formal completion (Tier 2).
+The proof proceeds in seven steps, all analytical. Steps 1-4 set up the JW reduction and the single-particle dispersion; Steps 6-7 give the sign-walk formula. Step 5, the Π-action, was the last open step; it is closed below (2026-05-22) by a direct per-site Pauli computation.
 
 ### Step 1 (JW transformation of chain (X,Y))
 
@@ -116,7 +115,7 @@ For the other three Π²-odd Pauli pairs (X,Z), (Y,X), (Z,X), the JW transformat
 
 Crucially, all four cases give the **same single-particle spectrum** ε(k) = 2c·cos(πk/(N+1)); they differ only in which Majorana operators (γ or γ') participate and the specific phases. The "same spectrum across letter choices" is the JW-level origin of the F79 universality: the Pauli letters control which Majorana sublattice carries the bilinear, but the dispersion of the resulting hopping chain is identical (because hopping is between adjacent sites with magnitude c regardless of which Majorana indices).
 
-### Step 5 (Direct structural identity, updated 2026-04-29)
+### Step 5 (Direct structural identity; proof closed 2026-05-22)
 
 After Step 4, we have established that all 4 Π²-odd Pauli pairs give the same JW-derived single-particle Bloch dispersion. The remaining task, historically expected to be technical, is to derive the explicit form of M's spectrum in terms of this dispersion.
 
@@ -139,19 +138,41 @@ where E_k = 4|c|·cos(πk/(N+1)) are the Bogoliubov single-particle energies der
 - M nontrivial eigenvalues (imaginary parts): {±2√5, ±2} (each multiplicity 64 in 256-dim operator space).
 - Ratio: M-eigenvalue (imag) = 2 × H-eigenvalue. ✓
 
-**Why this is the structural answer.** L_H = −i[H, ·] acts on operator space with eigenvalues i(λ_a − λ_b) for all pairs of H-eigenvalues. The Π-conjugation T_Π plus addition T_Π·L_H·T_Π⁻¹ + L_H projects out all but the "particle-hole-symmetric" pairs: those where λ_b = −λ_a (since H has particle-hole symmetry from being a Majorana bilinear). For these pairs, M-eigenvalue = i(λ_a − (−λ_a)) = 2iλ_a. This gives M's spectrum directly as 2i × H's (positive) spectrum, doubled by ±.
+**Why this is the structural answer.** L_H = −i[H, ·] acts on operator space with eigenvalues i(λ_a − λ_b) for all pairs of H-eigenvalues. The remaining task is to show what the Π-conjugation does to it. The proof below settles it directly, in the Pauli-string basis, without the Bogoliubov construction.
 
-**What remains formal.** Proving this projection rigorously requires showing T_Π's action on L_H eigenvectors |a⟩⟨b̅| (where b̅ is the particle-hole conjugate of b) has the right structure. This is a much smaller technical step than constructing T_Π in the full Bogoliubov basis. Numerical verification at N=4-7 is bit-exact at machine precision.
+**Step 5 proof (2026-05-22, Tom + Claude).** The claim is Π·[H,·]·Π⁻¹ = ±{H,·}; it follows from a per-site Pauli computation, independent of Steps 1-4 (which re-enter only through the E → −E symmetry of Spec(H) used in the M-consequence at the end). Every step is verified bit-exact at N=3,4,5 by [`_f80_step5_recon.py`](../../simulations/_f80_step5_recon.py).
 
-**Step 5 mechanism (2026-05-22, Tom + Claude), verified bit-exact at N=3,4,5.** The reconnaissance script [`_f80_step5_recon.py`](../../simulations/_f80_step5_recon.py) identified the structure of Π directly. It is cleaner than the "projection onto particle-hole pairs" language above, and it shows M is *literally* (not merely unitarily) equal to -2i·(H⊗I_bra).
+*Π is a signed permutation of Pauli strings.* On the 4^N Pauli-string basis Π acts site-wise, Π(P₀ ⊗ ··· ⊗ P_{N-1}) = ⊗_l μ(P_l), with the single-qubit map μ(I) = X, μ(X) = I, μ(Y) = iZ, μ(Z) = iY (the framework Π, [`framework/symmetry.py`](../../simulations/framework/symmetry.py)).
 
-Work in the H-eigen-operator basis σ_(a,b) = |E_a⟩⟨E_b| and group these operators into **(ε_ket, ε_bra) sectors**: σ_(a,b) and σ_(a',b') share a sector iff E_a = E_{a'} and E_b = E_{b'}. On each sector L_H is a *scalar*, L_H = −i·(ε_ket − ε_bra)·I, because the energy difference is constant there.
+*Per-site identities.* Write c_P(a) = +1 if the single-qubit Paulis a and P commute, −1 if they anticommute. Evaluating on a ∈ {I, X, Y, Z}:
 
-The reconnaissance verified, gauge-checked and bit-exact at N=3,4,5: **Π is a permutation of these sectors.** Π carries each (ε_ket, ε_bra) sector onto exactly one sector through a full unitary block (all singular values 1); the count of nonzero sector-blocks equals the count of sectors (4 at N=3, 16 at N=4 and N=5) and the map is a bijection. The unitary inside a block is gauge (it depends on the arbitrary basis chosen inside the degenerate H-eigenspaces); the sector permutation π itself is gauge-invariant.
+    (I)   μ(X·a) = +c_X(a) · X · μ(a)
+    (II)  μ(Y·a) = −c_Y(a) · Y · μ(a)
+    (III) μ(Z·a) = +c_Z(a) · Z · μ(a)
 
-Once Π is known to be a sector permutation, M is diagonal at once. L_H is scalar per sector, so Π·L_H·Π⁻¹ is scalar per sector (the value −i·diff(S) carried to sector π(S)), hence diagonal; M = L_H + Π·L_H·Π⁻¹ is a sum of two diagonals. The permutation satisfies **sum(π(S)) = diff(S)** (verified bit-exact), the particle-hole content; it makes the M-diagonal entry on sector S' equal −i·diff(S') − i·sum(S') = −2i·ε_ket(S'). Hence M = -2i·(H⊗I_bra) exactly, and equivalently **Π·[H,·]·Π⁻¹ = {H,·}**: Π conjugates the commutator superoperator into the anticommutator.
+(Check of (II) at a = I: μ(Y·I) = μ(Y) = iZ, and −c_Y(I)·Y·μ(I) = −(+1)·Y·X = −(−iZ) = iZ.) Write ε_P for the leading sign: ε_X = ε_Z = +1, ε_Y = −1.
 
-**The open premise is now sharp, finite and gauge-free:** prove that Π permutes the (ε_ket, ε_bra) sectors with sum∘π = diff, for general N. This replaces the earlier "construct T_Π in the Bogoliubov basis" task; it is a statement about Π and H's eigenspaces alone, and Steps 1-4 (the JW reduction) feed directly into it.
+*Bond lemma.* Let bond_l = P_l ⊗ Q_{l+1} be one Heisenberg bond and R any Pauli string. Π acts site-wise, so (I)/(II)/(III) at sites l, l+1 (and μ elsewhere) give
+
+    Π(bond_l · R) = (ε_P·ε_Q) · σ(l,R) · bond_l · Π(R),
+
+where σ(l,R) = c_P(R_l)·c_Q(R_{l+1}) ∈ {±1} is the sign of bond_l against R (commute / anticommute).
+
+*Π flips every bond relation.* μ preserves c_X and flips c_Y and c_Z: its swaps I↔X and Y↔Z keep both members in one X-commutation class, but move each across the Y- and Z-commutation classes. A Π²-odd bond carries exactly one X, so σ(l, ΠR) = −σ(l, R) for all four pairs.
+
+*Conclusion.* For Pauli strings, [bond_l, R] = 2·bond_l·R when they anticommute and 0 when they commute; {bond_l, R} is the reverse. So [H, R] = 2·Σ_{l : σ(l,R) = −1} bond_l·R. Apply Π; on those bonds σ(l,R) = −1, so the bond lemma gives Π(bond_l·R) = −(ε_P·ε_Q)·bond_l·ΠR, and
+
+    Π[H, R] = −(ε_P·ε_Q) · 2·Σ_{l : σ(l,R) = −1} bond_l·ΠR.
+
+By the flip, {l : σ(l,R) = −1} = {l : σ(l,ΠR) = +1}, the bonds that commute with ΠR, so that sum is exactly {H, ΠR}. Hence, for every Pauli string R,
+
+    Π·[H,·]·Π⁻¹ = s · {H,·},    s = −ε_P·ε_Q.
+
+For the four Π²-odd pairs s = +1 for (X,Y) and (Y,X), s = −1 for (X,Z) and (Z,X). ∎
+
+*Consequence for M.* M = L_H + Π·L_H·Π⁻¹ = −i[H,·] − i·s·{H,·}. For s = +1, M = −2i·(H⊗I_bra); for s = −1, M = +2i·(I_ket⊗Hᵀ). Both give Spec(M) = ±2i·Spec(H), the F80 structural identity: the imaginary spectrum 2i·Spec(H) is what Step 5 establishes, and the ± reflects the E → −E symmetry of Spec(H) supplied by the Steps 1-2 JW reduction (H is a Majorana bilinear). The argument is per-site and per-bond, hence **N-independent: it holds for every N.** The bit-exact checks at N=3,4,5 confirm each step separately: the three identities, the bond lemma, the flip, and Π·[H,·]·Π⁻¹ = s·{H,·} for all four pairs.
+
+*Geometric picture (the H-eigenbasis view).* The same fact in the H-eigen-operator basis σ_(a,b) = |E_a⟩⟨E_b|: group these operators into (ε_ket, ε_bra) sectors (fixed ket and bra energy). Π is a permutation of those sectors, full-unitary blocks, gauge-checked bit-exact at N=3,4,5; L_H is the scalar −i(ε_ket − ε_bra) on each sector, so Π·L_H·Π⁻¹ is again scalar per sector, hence diagonal, and M is a sum of two diagonals. The Pauli-string proof above is the basis-free version of that picture.
 
 ### Step 6+7 (Direct conclusion via Step 5)
 
@@ -165,7 +186,7 @@ In terms of ε(k) = E_k / 2 = 2cos(πk/(N+1)):
 
     cluster value(N) = 2|c| · |Σ_{k=1}^{⌊N/2⌋} σ_k · ε(k)|, σ_k ∈ {±1}
 
-with multiplicity 4^N / (number of distinct sign-walk values). This is the F80 formula. ∎ (modulo formal completion of the projection-to-particle-hole-pairs argument in Step 5)
+with multiplicity 4^N / (number of distinct sign-walk values). This is the F80 formula. ∎
 
 ---
 
@@ -185,9 +206,9 @@ What F80 reveals is the **explicit spectral shape** of this mirror-defect for ch
 
     **‖M‖²_F = 4 · ‖H‖²_F · 2^N**   (Frobenius norm exactly proportional to H's)
 
-So M is **literally equal** to -2i · (H ⊗ I_bra), where I_bra is the identity on the bra-factor of operator space (dim 2^N). The mirror-defect has the **same spectrum** as the Hamiltonian (×2i) and the **same Frobenius norm** (×4·2^N) because it *is* H ⊗ I_bra up to the -2i scalar.
+So, for the (X,Y) and (Y,X) bond pairs, M is **literally equal** to -2i · (H ⊗ I_bra), where I_bra is the identity on the bra-factor of operator space (dim 2^N); the pairs (X,Z) and (Z,X) instead give M = +2i·(I_ket⊗Hᵀ) (Step 5 proof, sign s = −1). The mirror-defect has the **same spectrum** as the Hamiltonian (×2i) and the **same Frobenius norm** (×4·2^N) because it *is* H ⊗ I_bra up to the -2i scalar.
 
-**Correction (2026-05-22, Tom + Claude).** An earlier version of this passage hedged that M was only *unitarily equivalent* to -2i·(H⊗I_bra), with a unitary that "scrambles eigenvectors". That hedge was wrong. The Step 5 reconnaissance ([`_f80_step5_recon.py`](../../simulations/_f80_step5_recon.py)) verified bit-exact at N=3,4,5 that M is literally -2i·(H⊗I_bra): in the σ_(a,b) basis its off-diagonal norm is machine zero (~10⁻¹³) and every diagonal entry is -2i·E_a. There is no scrambling; the eigenvectors of M are exactly the H-eigen-operators σ_(a,b).
+**Correction (2026-05-22, Tom + Claude).** An earlier version of this passage hedged that M was only *unitarily equivalent* to -2i·(H⊗I_bra), with a unitary that "scrambles eigenvectors". That hedge was wrong. The Step 5 reconnaissance ([`_f80_step5_recon.py`](../../simulations/_f80_step5_recon.py)) verified bit-exact at N=3,4,5 that M is literally -2i·(H⊗I_bra): in the σ_(a,b) basis its off-diagonal norm is machine zero (~10⁻¹³) and every diagonal entry is -2i·E_a. There is no scrambling; the eigenvectors of M are exactly the H-eigen-operators σ_(a,b). The −2i·(H⊗I_bra) form is the (X,Y) and (Y,X) representative; the pairs (X,Z) and (Z,X) give M = +2i·(I_ket⊗Hᵀ) instead (by the Step 5 proof, s = −1), with the same Spec(M) = ±2i·Spec(H).
 
 This is structurally remarkable:
 
@@ -201,7 +222,7 @@ This is structurally remarkable:
 | Layer | Statement | Object |
 |-------|-----------|--------|
 | State (Zero Is The Mirror) | Π·L_H·Π⁻¹ = -L_H − 2σ·I (truly), eigenvalues ±λ | Liouvillian L spectrum |
-| Operator (F80) | M = Π·L_H·Π⁻¹ + L_H = -2i·H⊗I (non-truly chain Π²-odd) | M residual = H ⊗ I |
+| Operator (F80) | M = Π·L_H·Π⁻¹ + L_H = -2i·H⊗I or +2i·I⊗Hᵀ (non-truly chain Π²-odd; which one is the Step 5 sign s) | M residual ∝ H |
 | Spinor (Majorana 1937) | ψ = ψ^c, particle = antiparticle | Self-conjugate fermion field |
 
 All three are different abstraction levels of the same phenomenon: an **involutive symmetry (Π or C) that picks out a self-conjugate subspace, with the residual being a structured deviation from perfect self-conjugacy**.
@@ -230,6 +251,8 @@ The discovery of the structural identity Spec(M) = ±2i·Spec(H) is the recognit
 
 ## The "tough nut": what the data revealed
 
+**Note (2026-05-22).** Like the Majorana-bridge section, this section predates the Step 5 proof and narrates Π as *projecting* L_H onto particle-hole-symmetric pairs. That picture is superseded: the Step 5 proof derives Π·[H,·]·Π⁻¹ = ±{H,·} directly by a per-site Pauli computation, with no projection. The narrative below is kept as the history of how the result was found.
+
 The empirical investigation in the data sweep at higher N (3-7) revealed a much cleaner structural identity than the originally-imagined "explicit T_Π factorization in Bogoliubov basis":
 
     Spec(M) = ±2i · Spec_{nontrivial}(H_{state-level})
@@ -240,7 +263,7 @@ What the framework's Π effectively does: it projects L_H = −i[H, ·] (which h
 
 This is why the numerical signature was so clean: the structure was simpler than it looked.
 
-**The remaining formal step**: proving the projection-to-particle-hole-pairs argument rigorously. This is a much smaller technical task than originally framed. Numerical verification at N=3, 4, 5, 6, 7 (all 4 Pauli pairs) is bit-exact at machine precision.
+**Update 2026-05-22: closed.** The formal step is done, though not through the "projection" picture: the per-site Pauli proof in Step 5 derives Π·[H,·]·Π⁻¹ = ±{H,·} directly. Numerical verification at N=3, 4, 5, 6, 7 (all 4 Pauli pairs) is bit-exact at machine precision.
 
 What enabled the discovery: comparing M's eigenvalues directly to H's many-body eigenvalues (instead of decomposing M into Bogoliubov modes and trying to factor T_Π through that basis). The brute-force data sweep at higher N made the relationship visible.
 
@@ -270,13 +293,13 @@ What enabled the discovery: comparing M's eigenvalues directly to H's many-body 
 | Test | Path | N range | Result |
 |------|------|---------|--------|
 | Bit-exact cluster prediction | `_pi2_odd_universality_data_sweep.py` | 3-6 | All match |
-| Bit-exact cluster prediction (N=7 full SVD) | `_n7_bloch_signwalk_verification.txt` | 7 | All 4 clusters at predicted values, mult 4096 each |
-| Independent eigsh check (N=7) | `_n7_eigsh_check.txt` | 7 | Top eigenvalues of M·M† match SV² predictions |
+| Bit-exact cluster prediction (N=7 full SVD) | `n7_bloch_signwalk_verification.txt` | 7 | All 4 clusters at predicted values, mult 4096 each |
+| Independent eigsh check (N=7) | `n7_eigsh_check.txt` | 7 | Top eigenvalues of M·M† match SV² predictions |
 | Universality across (X,Y)/(X,Z)/(Y,X)/(Z,X) | sweep | 3-6 | 100% (all 4 give bit-identical clusters) |
 | Pytest lock | `test_F80_bloch_signwalk_chain_pi2_odd` | 4, 5 | Passes |
 
 ---
 
-## Open formal completion
+## Status: closed
 
-The remaining analytical work is the Step 5 premise, sharpened by the 2026-05-22 reconnaissance: prove that **Π permutes the (ε_ket, ε_bra) sectors of H with sum∘π = diff**, for general N. Given that one combinatorial fact, M = -2i·(H⊗I_bra) and the F80 spectral identity follow immediately (see the Step 5 mechanism above). This replaces the earlier "construct T_Π in the Bogoliubov basis" framing with a gauge-free, finite statement about Π and H's eigenspaces. The premise is verified bit-exact and gauge-checked at N=3,4,5 ([`_f80_step5_recon.py`](../../simulations/_f80_step5_recon.py)); the empirical match at N=3-7 for the spectral identity, plus the structural parallel to F78 (which IS fully proven), makes the general-N proof a high-priority, well-bounded task.
+As of 2026-05-22 F80 is fully proven, all seven steps analytical. The last open step, Step 5 (the Π-action), is closed by the per-site Pauli proof above: Π·[H,·]·Π⁻¹ = s·{H,·} with s = −ε_P·ε_Q, an N-independent computation verified bit-exact at N=3,4,5 ([`_f80_step5_recon.py`](../../simulations/_f80_step5_recon.py)). What remains genuinely open is only the scope already listed under "Does NOT establish": other topologies, the Π²-even non-truly pairs, mixed-letter bilinears, and a full k-body cluster-value verification.

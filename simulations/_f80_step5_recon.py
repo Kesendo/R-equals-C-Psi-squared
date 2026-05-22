@@ -236,6 +236,72 @@ sum_to_diff = all(np.isclose(uniqE[t // K] + uniqE[t % K], uniqE[s // K] - uniqE
 print(f"  the blocks form a sector permutation π: bijection = {is_bijection}")
 print(f"  π converts sum to diff  (sum(π(s)) = diff(s)) ...... {sum_to_diff}")
 
+# --- Step 5 proof verification (2026-05-22). ---
+# Π·[H,·]·Π⁻¹ = {H,·} reduces to a per-site Pauli computation. For each bond
+# bond_l = X_l Y_{l+1} and every Pauli string Q,  Π(bond_l·Q) = −σ(l,Q)·bond_l·Π(Q),
+# σ = +1/−1 as bond_l commutes/anticommutes with Q. On the anticommuting bonds (those
+# [H,·] keeps) this is Π(bond_l·Q) = bond_l·Π(Q); Π also flips commute<->anticommute,
+# so Π[H,Q] = {H,Π Q}. The per-site core is μ(P·a) = ε_P·c_P(a)·P·μ(a) with
+# ε_X = ε_Z = +1, ε_Y = −1, c = commute sign; (I)/(II)/(III) checked directly below.
+Pi1 = np.zeros((4, 4), dtype=complex)
+for _k in range(4):
+    _nk, _ph = PI_LETTER[_k]
+    Pi1 += _ph * np.outer(PAULI[_nk].reshape(-1), PAULI[_k].reshape(-1).conj()) / 2
+
+
+def mu1(A):
+    return (Pi1 @ A.reshape(-1)).reshape(2, 2)
+
+
+def apply_pi(O):
+    return (Pi @ O.reshape(-1)).reshape(d, d)
+
+
+def csign(P, A):
+    return 1 if np.allclose(P @ A, A @ P) else -1
+
+
+id_I = all(np.allclose(mu1(X @ a), csign(X, a) * X @ mu1(a)) for a in PAULI)
+id_II = all(np.allclose(mu1(Y @ a), -csign(Y, a) * Y @ mu1(a)) for a in PAULI)
+bonds = [site(X, l) @ site(Y, l + 1) for l in range(N - 1)]
+bond_lemma = True
+flip_ok = True
+for _letters in itertools.product(range(4), repeat=N):
+    Q = kron_all([PAULI[L] for L in _letters])
+    PiQ = apply_pi(Q)
+    for bond in bonds:
+        if not np.allclose(apply_pi(bond @ Q), -csign(bond, Q) * bond @ PiQ):
+            bond_lemma = False
+        if csign(bond, PiQ) != -csign(bond, Q):
+            flip_ok = False
+id_III = all(np.allclose(mu1(Z @ a), csign(Z, a) * Z @ mu1(a)) for a in PAULI)
+eye = np.eye(d)
+Pi_inv = np.linalg.inv(Pi)
+comm = np.kron(H, eye) - np.kron(eye, H.T)
+anti = np.kron(H, eye) + np.kron(eye, H.T)
+pi_comm = np.allclose(Pi @ comm @ Pi_inv, anti)
+print("\nStep 5 proof verification (per-site identities + bond lemma):")
+print(f"  (I)   μ(X·a) = c_X(a)·X·μ(a) ................. {id_I}")
+print(f"  (II)  μ(Y·a) = −c_Y(a)·Y·μ(a) ................ {id_II}")
+print(f"  (III) μ(Z·a) = c_Z(a)·Z·μ(a) ................. {id_III}")
+print(f"  bond lemma Π(bond·Q) = −σ·bond·Π(Q), all {4 ** N} Q  {bond_lemma}")
+print(f"  Π flips every bond relation, σ(l,ΠQ) = −σ(l,Q) ... {flip_ok}")
+print(f"  => Π·[H,·]·Π⁻¹ = {{H,·}} for H = Σ X_l Y_(l+1) . {pi_comm}")
+print("  all four Π²-odd pairs, sign s where Π·[H,·]·Π⁻¹ = s·{H,·}:")
+for pn, P, qn, Qm in [("X", X, "Y", Y), ("X", X, "Z", Z),
+                      ("Y", Y, "X", X), ("Z", Z, "X", X)]:
+    Hp = sum(site(P, l) @ site(Qm, l + 1) for l in range(N - 1))
+    cp = np.kron(Hp, eye) - np.kron(eye, Hp.T)
+    ap = np.kron(Hp, eye) + np.kron(eye, Hp.T)
+    conj = Pi @ cp @ Pi_inv
+    if np.allclose(conj, ap):
+        s = "+1   M = -2i(H⊗I_bra)"
+    elif np.allclose(conj, -ap):
+        s = "-1   M = +2i(I_ket⊗Hᵀ)"
+    else:
+        s = "??   not ±{H,·}"
+    print(f"    ({pn},{qn}): s = {s}")
+
 # Heatmaps.
 outdir = "simulations/results/f80_step5_recon"
 os.makedirs(outdir, exist_ok=True)
