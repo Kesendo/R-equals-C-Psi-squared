@@ -99,6 +99,8 @@ Therefore σ_z dephasing PROTECTS it (largest positive shift to |00⟩),
 while σ_x and σ_y dephasing ATTACK it (they see |0⟩ as a superposition
 in their basis).
 
+*Later (2026-05-22):* the "z-eigenstates / z-superpositions" labels are loose: all four pair-(0,2) outcomes are z-basis states. The real split is parity (Z⊗Z = +1 for {|00⟩,|11⟩}, −1 for {|01⟩,|10⟩}); under the qubit-0↔2 mirror of |0+0+⟩, {|00⟩,|11⟩} are each invariant while {|01⟩,|10⟩} are exchanged, so the latter's natural modes (|01⟩±|10⟩)/√2 are genuine superpositions. The label "z-superpositions" was reaching for that mirror-mode structure, not for a literal z-basis superposition. The framework later made the stance precise in [`ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md`](../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md): superposition is not a primitive but the basis-relative F95 angle-coordinate. The loose wording here is an early trace of it.
+
 ## 3. Connection to R = CΨ²
 
 ### 3.1 The Standard Born Rule
@@ -204,7 +206,7 @@ Decoherence is the clock. The Hamiltonian is the story.
 
 **Added:** 2026-02-27
 **Tier:** 3, Connects INTERPRETIVE_FRAMEWORK bidirectional bridge to Born rule
-**Depends on:** INTERPRETIVE_FRAMEWORK.md Section 2 (Wave Composition)
+**Depends on:** [INTERPRETIVE_FRAMEWORK.md](../hypotheses/archive/INTERPRETIVE_FRAMEWORK.md) Section 2 (Wave Composition)
 
 ### Why the Square?
 
@@ -212,7 +214,7 @@ The Born rule says probability is the *square* of the amplitude. This
 is postulated in standard QM. Within the framework, it follows from
 the bidirectional wave structure.
 
-From INTERPRETIVE_FRAMEWORK.md:
+From [INTERPRETIVE_FRAMEWORK.md](../hypotheses/archive/INTERPRETIVE_FRAMEWORK.md):
 
     Ψ = Ψ_past + Ψ_future
 
