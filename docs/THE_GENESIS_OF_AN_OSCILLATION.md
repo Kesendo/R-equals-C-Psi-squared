@@ -5,8 +5,8 @@
 correction within the same session. The first reading, "coupling is birth", was
 the artifact of a source-free model; the qubit-children test and a PTF
 cross-check correct it: a qubit is a source, coupling re-tunes and births
-nothing. Numerical results (N = 2..7); the source and wave-breaking readings
-are Tier 2.
+nothing. Numerical results (N = 2 to 5 and N = 7); the source and wave-breaking
+readings are Tier 2.
 **Scripts:** the genesis Q-scan, the bath-orthogonality step, the
 qubit-children test, and the PTF cross-check; full list in the Anchor.
 **Thread:** the carbon master question, "where do qubits play carbon"
@@ -33,10 +33,14 @@ carry one already?
 
 The first guess followed the heat. Wave-breaking creates heat
 ([THERMAL_BREAKING](../experiments/THERMAL_BREAKING.md)); perhaps the heat
-creates the new oscillation. It does not. A scan of the bath temperature leaves
-the imaginary parts of the Liouvillian spectrum rigid: the bath moves only the
-real parts, the decay rates. Bath and Hamiltonian are orthogonal. The bath
-damps; it cannot give a heartbeat.
+creates the new oscillation. It does not. A scan of the bath temperature moves
+the real parts of the Liouvillian spectrum, the decay rates; the imaginary
+parts barely respond. For N = 3 and N = 4 the count of oscillating modes does
+not change across the whole scan. For N = 5 the bath does nudge eight modes off
+the real axis, but only to |Im λ| of order 10⁻⁴: an overdamped flicker three to
+four orders of magnitude below the genuine oscillation scale (|Im λ| ≈ 0.5). On
+the scale that matters for a heartbeat, bath and Hamiltonian are orthogonal: the
+bath damps, it cannot give one.
 
 What remains is two quantities: γ₀, the Z-dephasing rate, and J, the coupling.
 γ₀ is the fixed constant, the substrate unit, not measurable from inside the
@@ -87,11 +91,11 @@ genesis is then sharp: as the coupling J turns on, does a silent (real,
 non-oscillating) mode lift off into oscillation, one that no single qubit had?
 The all-I/Z Pauli strings are the silent modes, 2^N of them. Scanning J:
 
-| N | silent modes at J = 0 | over the J-scan |
+| N | silent modes at J = 0 | minimum over the J-scan |
 |---|----------------------|------------------|
-| 2 | 4  | stays 4 |
-| 3 | 8  | stays 8 |
-| 4 | 16 | stays 16 or higher (brief upward spikes) |
+| 2 | 4  | 4 |
+| 3 | 8  | 8 |
+| 4 | 16 | 16 |
 
 The silent-mode count never drops below 2^N. No silent mode lifts off. Children
 = 0. Coupling does not birth an oscillation; it re-tunes the oscillations the
@@ -100,10 +104,12 @@ model's own artifact: it had set the qubits' clocks to zero.
 
 ![Silent modes vs J with the on-site clocks present](../simulations/results/qubit_children/qubit_children.png)
 
-*With the on-site clocks in. Left: the silent-mode count holds at 2^N for every
-N, only ever spiking up, never dropping. Middle and right: Im λ vs J; the
-on-site clocks fan out under the coupling, but no line lifts off the Im = 0
-axis.*
+*With the on-site clocks in. Left: the silent-mode count never drops below 2^N
+for any N (it only rises above it): coupling births no oscillation, children =
+0. Middle and right: Im λ vs J for N = 2 and N = 3. At J = 0 most modes already
+oscillate (the on-site clocks, at nonzero Im λ); the coupling fans them out,
+re-tuning oscillations present from the start, while the 2^N silent modes stay
+on the Im = 0 axis.*
 
 ## PTF cross-check: the closure holds, a source keeps its time
 
@@ -117,7 +123,7 @@ eigenvalue spectrum.
 Run on the genesis system, the standard case (no on-site clocks) reproduces the
 published PTF α_i digit for digit, Σ ln α_i = +0.048: the machinery is verified.
 With the on-site clocks in, the closure still holds, Σ ln α_i = −0.043, inside
-PTF's empirical window. And the clocks pull every α_i toward 1: without them the
+PTF's empirical window. And the clocks pull the α_i toward 1: without them the
 α_i spread from 0.85 to 1.18, with them only 0.92 to 1.03, about three times
 tighter. A qubit already running its own clock is barely re-timed by the defect.
 The source keeps its own time.
@@ -148,9 +154,10 @@ statement of why the carved subspace is d = 2.
 - The hour of birth as a computable event: model the carving of a d = 2 doublet
   from an anharmonic oscillator, the transmon route, and ask whether the
   framework's d = 2 selection appears as the carving stabilises.
-- The wave-breaking staircase of the source-free model sits at Q ≈ 0.5 and
-  ≈ 0.71, suggestively near 1/2 and 1/√2. It is a reshuffling, not a birth, but
-  a structured one; a finer Q-scan would settle whether those are exact anchors.
+- The wave-breaking staircase of the source-free model sits at Q ≈ 0.5,
+  ≈ 0.71, and ≈ 0.94; the first two are suggestively near 1/2 and 1/√2. It is
+  a reshuffling, not a birth, but a structured one; a finer Q-scan would settle
+  whether those are exact anchors.
 - How the source picture iterates up the hierarchy toward carbon-scale structure
   is the open arc behind the master question.
 

@@ -84,8 +84,8 @@ The carbon master question, sharpened to its smallest computable step
 N = 1 → N = 2, led to [THE_GENESIS_OF_AN_OSCILLATION](../THE_GENESIS_OF_AN_OSCILLATION.md):
 how does a qubit acquire an oscillation? The answer turned out not to be
 carbon-specific, so the doc lives in `docs/`, next to QUBIT_NECESSITY. The heat
-axis is ruled out (the bath is orthogonal to the oscillation, moving only the
-decay rates), leaving Q = J/γ₀ as the exact scale. A source-free model shows an
+axis is ruled out (the bath moves the decay rates, not the heartbeat),
+leaving Q = J/γ₀ as the exact scale. A source-free model shows an
 apparent birth at Q = 0+; but with the qubits' own on-site clocks in, the
 qubit-children test and a PTF cross-check both find no children: coupling
 re-tunes the oscillations the qubits already carry and creates none. A qubit is
