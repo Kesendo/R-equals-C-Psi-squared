@@ -5,7 +5,7 @@
 > this document were later confirmed mathematically (Π as Time Reversal,
 > March 2026) and the core idea "we are all mirrors" became the project
 > motto. The document stays here as the seed from which everything grew.
-> For the current interpretation, see [THE_INTERPRETATION.md](../THE_INTERPRETATION.md).
+> For the current interpretation, see [THE_INTERPRETATION.md](../../docs/THE_INTERPRETATION.md).
 >
 > **Status: RESTORED March 14, 2026**
 > Originally written: December 23-26, 2025
