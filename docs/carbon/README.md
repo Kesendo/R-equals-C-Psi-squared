@@ -216,10 +216,12 @@ identification is the open structural question; there is no single canonical cho
    are where the mirror weakens; the empirical periodic-table data should match the
    framework's V-Effect-trichotomy mechanism quantitatively.
    **Answered 2026-05-22** ([PERIODIC_PALINDROME_VS_V_EFFECT](PERIODIC_PALINDROME_VS_V_EFFECT.md)):
-   no. The per-pair deviation does not localize to the inner (partly-filled) pairs the
-   way the V-Effect localizes its break to boundary sectors; the periodic deviations
-   sit at specific anomalous configurations (p¹, p⁴, d⁵) and are standard atomic
-   physics, not a V-Effect signature. The correspondence is a category slip.
+   the correspondence is structural, not quantitative. The periodic table is a
+   Level-1 instance of the V-Effect's incompleteness hierarchy (HIERARCHY_OF_INCOMPLETENESS),
+   and that structural picture stands; but the Level-0 boundary-sector quantitative
+   mechanism does not transfer. The periodic-palindrome deviations sit at specific
+   atomic-physics anomalies (p¹, p⁴, d⁵), not at a re-appearance of the XY-weight
+   boundary break.
 
 ---
 

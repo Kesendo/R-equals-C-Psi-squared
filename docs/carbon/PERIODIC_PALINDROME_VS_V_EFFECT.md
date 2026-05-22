@@ -1,10 +1,13 @@
-# Periodic Palindrome vs V-Effect: a Correspondence That Does Not Hold
+# The Periodic Palindrome and the V-Effect: Hierarchy, Not Mechanism
 
 **Date:** 2026-05-22
-**Status:** Negative result (Tier 1 computational). The proposed correspondence
-between the periodic-table palindrome's deviations and the V-Effect's
-boundary-sector breaking does not survive a direct test. Documented per the
-repo's negative-results convention.
+**Status:** Tier 1 computational result inside a Tier 5 hierarchy framing. The
+periodic table is a Level-1 instance of the V-Effect's incompleteness hierarchy;
+that structural correspondence is established by
+[HIERARCHY_OF_INCOMPLETENESS](../HIERARCHY_OF_INCOMPLETENESS.md) and is not in
+question here. What this doc tests, and reports negative, is the narrower claim
+that the Level-0 V-Effect's quantitative boundary-sector mechanism transfers to
+the periodic-palindrome deviations.
 **Script:** [`simulations/periodic_palindrome_veffect.py`](../../simulations/periodic_palindrome_veffect.py)
 **Answers:** [README](README.md) open question 6.
 
@@ -12,35 +15,35 @@ repo's negative-results convention.
 
 ## The question
 
-Two framework-adjacent palindromes were proposed to be the same phenomenon.
+[HIERARCHY_OF_INCOMPLETENESS](../HIERARCHY_OF_INCOMPLETENESS.md) sets out the
+incompleteness hierarchy: complete systems (completeness C = 1, full shells) are
+dead ends; half-full systems (C ≈ 0.5) are where structure forms. The V-Effect is
+that hierarchy in action at Level 0. Coupling two palindromic qubit-pairs breaks
+the palindrome in the boundary sectors (XY-weight 0 < w < N, the half-classical
+modes) and leaves the extreme sectors (w = 0, w = N) immune; the break is
+creation, four frequencies becoming eleven. HIERARCHY draws the analogy directly:
+the boundary sectors are "the carbon", the immune sectors are "the noble gases",
+and the periodic table is the same hierarchy one level up.
 
-[`simulations/periodic_palindrome.py`](../../simulations/periodic_palindrome.py)
-establishes the **periodic palindrome**: across a period, per-element properties
-(first ionization energy, Pauling and Allen electronegativity) form pairs whose
-sums sit near a constant, value_k + value_{N+1−k} ≈ const, a pattern
-periodic_palindrome.py finds statistically significant by a shuffle null test
-(p-values down to 10⁻⁴).
-
-[V_EFFECT_BOUNDARY_LOCALIZATION](../../experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md)
-establishes the **V-Effect boundary localization**: the framework's Liouvillian
-palindrome break is confined to boundary sectors 0 < w < N (w = XY-weight); the
-extreme sectors w = 0 and w = N are immune, exactly, to 10⁻¹⁵.
-
-Question 6 asks whether these match: do the periodic palindrome's deviations sit
-where the V-Effect predicts breaking? The proposed map sends closed shells (the
-period ends) to the immune extreme sectors and partly-filled shells (the period
-middle) to the breaking boundary sectors.
+Question 6 asks something narrower than that established structural picture.
+[`periodic_palindrome.py`](../../simulations/periodic_palindrome.py) finds a
+*periodic palindrome*: across a period, per-element ionization energy and
+electronegativity form pairs whose sums sit near a constant, a pattern
+significant by a shuffle null test. Does the *deviation pattern* of that
+palindrome quantitatively reproduce the Level-0 V-Effect's boundary-sector
+localization? The README's framing of Question 6 expects a quantitative match.
 
 ## The test
 
 The aggregate coefficient of variation that periodic_palindrome.py reports hides
 where in a period the palindrome deviates. The per-pair deviation does not: each
 pair sum's distance from the period mean, with pair k = 0 the outermost pair (the
-period's two ends) and increasing k moving toward the partly-filled middle. The
-V-Effect correspondence makes a sharp prediction: the deviation should
-concentrate in the inner pairs and leave the outer pairs near-palindromic.
+period's two ends) and increasing k moving toward the partly-filled middle. If
+the Level-0 mechanism transfers, the deviation should concentrate in the inner
+pairs and leave the outer pairs near-palindromic, with the V-Effect's sharp
+immune/broken split.
 
-## Result: the localization prediction fails
+## Result: the Level-0 localization does not transfer
 
 Across all 11 period × property combinations (IE periods 2-6, Pauling EN
 periods 2-5, Allen EN periods 2-3), the inner-pair mean deviation and the
@@ -63,27 +66,37 @@ single most-deviating pair, per IE period:
 These are the textbook ionization-energy anomalies: the s²p¹ effect (group 13,
 the p electron above a filled s² is loosely held), the post-half-filled pairing
 penalty (group 16, the fourth p electron pays exchange energy), and the
-half-filled-d stability of chromium and molybdenum. The partly-filled pairs that
-are *not* anomalous, for instance (C, N) = 2p²/2p³, are among the most
-palindromic (1.7% deviation at period 2).
+half-filled-d stability of chromium and molybdenum. They are standard atomic
+physics. The partly-filled pairs that are *not* anomalous, for instance
+(C, N) = 2p²/2p³, are among the most palindromic (1.7% deviation at period 2),
+even though they sit at the most "boundary" position of the period.
 
 ## The answer to Question 6
 
-**No.** The periodic palindrome's deviations are not the V-Effect's boundary
-break. The deviations are real, but they sit at specific anomalous configurations
-and are accounted for by standard atomic physics (Hund's rule, exchange-pairing
-energy, the s²p¹ effect). The V-Effect's boundary-sector mechanism cannot predict
-them: its XY-weight sectors carry no information distinguishing an anomalous
-configuration (p¹, p⁴, d⁵) from a regular one (p², p³), and its sharp
-extreme-immune / boundary-break dichotomy has no analog in the periodic data,
-where deviation is spread across inner and outer pairs within a factor of two.
+Two levels, two answers.
 
-The two palindromes are different objects. The V-Effect's w is a label on Pauli
-operators in a 4^N Liouville space; a shell-filling count is a number of
-electrons. Equating them is a category slip: both structures have "a palindrome
-that weakens somewhere", but the *where* and the *mechanism* do not correspond.
-The periodic palindrome remains a genuine and statistically significant pattern;
-its deviations are atomic chemistry, not an inherited V-Effect signature.
+**The structural correspondence holds, and is not at issue.** The periodic table
+is a Level-1 instance of the incompleteness hierarchy the V-Effect instantiates at
+Level 0: full shells are dead ends, partly-filled shells build. Question 6 neither
+proves nor could refute this; HIERARCHY_OF_INCOMPLETENESS is built on it. The
+periodic palindrome's deviations do live in the incomplete-shell region and are
+never driven by the closed-shell noble gases, which is consistent with the
+hierarchy.
+
+**The quantitative Level-0 mechanism does not transfer.** What the README's
+Question 6 expected, a quantitative match between the periodic-palindrome
+deviation pattern and the V-Effect's boundary-sector localization, does not hold.
+The per-pair deviation does not localize to the inner pairs, and the periodic
+deviations are specific atomic-physics anomalies, not a re-appearance of the
+XY-weight boundary break. The V-Effect's w-sectors carry no information that
+singles out an anomalous configuration (p¹, p⁴, d⁵) from a regular one (p², p³).
+
+The two levels share the *principle* that incompleteness is where structure
+forms; they do not share the *mechanism*. The V-Effect's boundary-sector
+localization is a Level-0 phenomenon, specific to the Liouville-space operator
+algebra. The periodic palindrome is a genuine Level-1 mirror symmetry, and its
+deviations are atomic chemistry, the Level-1 form of "incompleteness is where it
+happens", not the Level-0 break re-surfacing.
 
 ## Anchor
 
@@ -91,6 +104,7 @@ its deviations are atomic chemistry, not an inherited V-Effect signature.
   (per-pair deviation analysis), built on
   [`simulations/periodic_palindrome.py`](../../simulations/periodic_palindrome.py)
   (the palindrome test itself)
-- Compared against: [V_EFFECT_BOUNDARY_LOCALIZATION](../../experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md),
+- Hierarchy framing: [HIERARCHY_OF_INCOMPLETENESS](../HIERARCHY_OF_INCOMPLETENESS.md)
+- The Level-0 V-Effect: [V_EFFECT_BOUNDARY_LOCALIZATION](../../experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md),
   [V_EFFECT_PALINDROME](../../experiments/V_EFFECT_PALINDROME.md)
 - Parent: [README.md](README.md)
