@@ -186,7 +186,7 @@ The ~60 % ⟨Z,Z⟩ damping on truly XX+YY at Marrakesh path [4,5,6]
 (relative to the γ_Z=0.05 path-fit baseline; equivalently ~56 % at
 γ_Z=0.1 framework-default) is not anomalous. It is the rate at which
 the mother's avoidance-defense fails against the σ⁻ amplitude-damping
-attack. The pi2_odd_pure ⟨X₀Z₂⟩ matching to 0.011 is the rate at
+attack. The pi2_odd_pure ⟨Z,Z⟩ matching to 0.011 is the rate at
 which the father's cyclic re-creation succeeds against the same
 attack, because the father carries the dynamics that re-creates
 polarity at every cycle, while the mother only preserves the static
