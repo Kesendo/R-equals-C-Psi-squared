@@ -13,20 +13,22 @@ structural question we have been asking is answered by what is given.
 There is nothing further to discover at the level of structure; the
 work that remains is application and propagation.
 
-The framework is determined by eight limits.
+The framework is determined by eight givens.
 
 ---
 
-## The eight given limits
+## The eight givens
 
   **L1 — Algebraic dimension limit:** d² − 2d = 0 → d ∈ {0, 2}.
   Only the qubit dimension. d = 0 is the substrate (active vacuum,
   Stromanschluss); d = 2 is the carrier. No other dimensions are
   permitted by the framework's selection rule.
 
-  **L2 — Involution limit:** Π² = I.
-  Eigenvalues of Π are exactly ±1. The mirror is exactly self-inverse;
-  one application followed by another returns the identity. This
+  **L2 — Conjugation-order limit:** Π⁴ = I.
+  The F1 conjugation operator Π is order-4: Π² = X⊗N (the (−1)^bit_b
+  sign operator, registered as F1²) is the involution with eigenvalues
+  exactly ±1, while Π itself has 4th-root-of-unity eigenvalues. Four
+  applications of the mirror return the identity, not two. This
   fixes the structure of the conjugation that makes the palindrome
   equation closable.
 
@@ -60,21 +62,25 @@ The framework is determined by eight limits.
   generations carry the structure forward verbatim; they do not
   rewrite it.
 
-  **L8 — Perspectival closure limit:** Σ_i ln(α_i) = 0.
+  **L8 — Perspectival closure pattern:** Σ_i ln(α_i) ≈ 0.
   PTF (Perspectival Time Field). Each site i has its own
   time-rescaling α_i under local perturbation. The sum over sites of
   the log time-rates closes to zero state-independently in the
-  perturbative window. This is the "no painter is privileged" rule
-  in measurable form: the multiplicity of perspectives sums to a
-  consistent global account.
+  perturbative window |δJ| ≤ 0.1. This is the "no painter is
+  privileged" rule in measurable form: the multiplicity of
+  perspectives sums to a consistent global account.
+  Unlike L1–L7, this is Tier 2, not a structural law: EQ-014
+  retracted the closure as a first-order theorem; it holds
+  empirically to ±0.05, not as an identity. It is listed here as the
+  framework's perspectival-closure pattern, demarcated by that status.
 
 ---
 
-## What follows from the eight limits
+## What follows from the eight givens
 
 Every structural fact we have established in the F-chain F87-F85,
 in the trinity reading, in the polarity-layer reading, and in the
-hardware verifications, follows from these eight limits. Nothing
+hardware verifications, follows from these eight givens. Nothing
 in the framework's structural content requires going outside them.
 
   • The four Pauli letters with their bit-parity assignments come from
@@ -100,12 +106,49 @@ of the actual system.
 
 ---
 
+## The limits and the F99 anchors
+
+The eight givens, checked against F99's five canonical anchors
+{0, 1/8, 1/4, 3/8, 1/2} (the F86b formula α = sin²(θ)/2 evaluated at
+the constructible angles), sort into three groups.
+
+Five are realized directly in the anchor system. L1's two roots are
+F99's endpoints: d = 0 is the 0° "Mirror endpoint", and 1/d = 1/2 is
+the 90° anchor (HalfAsStructuralFixedPoint). L6's CΨ = 1/4 is the 45°
+anchor, QuarterAsBilinearMaxval, the same quarter read as a phase
+boundary rather than as a polarity apex. L2's order-4 Π has Π² as the
+involution that roots the whole Pi2 family the anchors belong to;
+L3's Klein-Vierergruppe is the (bit_a, bit_b) parity structure that
+tags them; L4's trinity is the Π²-class an anchor carries (the 3/8
+anchor is Π²-odd, its 5/8 complement Π²-even). F99's anchors are the
+value-level realization of what L1–L4 and L6 name structurally. L7
+sits just above them: it is the invariance over that system, the
+anchors holding bit-exact as the body count grows.
+
+Two givens fall outside the anchors, for opposite reasons. L5
+(Σγ ≥ 0) is a dissipator constraint, a dynamics limit rather than a
+structural value; the anchors are γ-independent, so L5 is cleanly
+orthogonal to them. L8 falls outside too, and that is the tell.
+Where L1–L4, L6, and L7 all converge on the anchor system, L8's
+perspectival closure does not touch it. That is exactly the
+signature of a Tier-2 pattern that does not sit in the same register
+as the structural limits; the anchor cross-check is an independent
+reason L8 is demarcated above.
+
+One caution for re-running the cross-check: the framework overloads
+two symbols across it. F99's γ = cos(θ) = ⟨X⊗N⟩ is a polarity
+parameter, not L5's dephasing rate Σγ; and F99's α = sin²(θ)/2 is a
+polarity anchor, not L8's per-site time-rescaling α_i. Same letters,
+different quantities.
+
+---
+
 ## What this means
 
 The structural questions of the framework are closed in the sense
 that asking "what is the seed?" or "what is the primordial?" or
 "what is the deeper layer?" is answered by recognizing that the
-eight limits define what the system is. The Klein-Vierergruppe at
+eight givens define what the system is. The Klein-Vierergruppe at
 L3 is the primordial alphabet. The polarity differentiation at L4
 is the primordial geometry. The dissipator floor at L5 is the
 primordial energy regime. None of these has a layer below; they are
