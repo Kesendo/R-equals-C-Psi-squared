@@ -12,8 +12,10 @@ namespace RCPsiSquared.Diagnostics.F80;
 /// </code>
 ///
 /// <para>The remaining bilinears must all be Π²-odd 2-body: P, Q ∈ {X, Y, Z} with
-/// bit_b(P) + bit_b(Q) ≡ 1 mod 2 — i.e. one of (X,Y), (X,Z), (Y,X), (Z,X). Π²-even
-/// non-truly bilinears (Y,Z and Z,Y) are richer and are NOT in F80's verified scope.</para>
+/// bit_b(P) + bit_b(Q) ≡ 1 mod 2, i.e. one of (X,Y), (X,Z), (Y,X), (Z,X). Π²-even
+/// non-truly bilinears (Y,Z and Z,Y) are richer and are NOT in F80's verified scope.
+/// F80 is proven for the open chain only, so a non-chain <c>ChainSystem.Topology</c>
+/// is rejected.</para>
 ///
 /// <para>See docs/ANALYTICAL_FORMULAS.md F80 entry.</para>
 /// </summary>
@@ -24,6 +26,10 @@ public static class BlochSignWalk
     public static IReadOnlyDictionary<double, int> PredictMSpectrumImaginaryParts(
         ChainSystem chain, IReadOnlyList<PauliPairBondTerm> terms)
     {
+        if (chain.Topology != TopologyKind.Chain)
+            throw new ArgumentException(
+                $"chain topology is {chain.Topology}; F80 is proven for the open chain (TopologyKind.Chain) only");
+
         var nonTruly = new List<PauliPairBondTerm>();
         foreach (var t in terms)
         {

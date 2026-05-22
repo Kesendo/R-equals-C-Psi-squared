@@ -38,9 +38,10 @@ any N; non-uniform γ per qubit. Two Π families (P1, P4).
   joint-popcount sectors (p_c, p_r) ↔ (N−p_c, N−p_r), so paired sectors share
   spectra. This is the BlockSpectrum builder's sector-pairing shortcut, which
   halves the number of eigendecompositions.
-- Π is order 4; F1² = Π² is its even power, the one the builder already runs
-  on. The odd power Π is an open builder shortcut (a further factor 2;
-  BlockSpectrumOpenQuestions, the F1-palindrome-halving item).
+- Π is order 4; F1² = Π² is its even power. The full order-4 Π is now also a
+  builder shortcut: F1PalindromeOrbitPairing (wired 2026-05-22) groups the
+  joint-popcount sectors into Π-orbits of 4, eigendecomposing one primary per
+  orbit, subsuming the Π² = X⊗N pairing with a further factor 2.
 - The repo held both halves typed but unconnected until now:
   PiOperator.SquaredEigenvalue returns Π²'s eigenvalue (−1)^{Σ bit_b} =
   (−1)^{n_Y+n_Z}; XGlobalChargeConjugationPairing carries the X⊗N action

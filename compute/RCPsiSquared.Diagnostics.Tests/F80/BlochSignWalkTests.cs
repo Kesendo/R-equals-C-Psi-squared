@@ -72,4 +72,14 @@ public class BlochSignWalkTests
         var terms = new[] { new PauliPairBondTerm(PauliLetter.I, PauliLetter.Y) };
         Assert.Throws<ArgumentException>(() => BlochSignWalk.PredictMSpectrumImaginaryParts(chain, terms));
     }
+
+    [Fact]
+    public void NonChainTopology_IsRejected()
+    {
+        // F80's Bloch sign-walk is proven for the open chain only; a star/ring ChainSystem
+        // is rejected rather than silently producing an unverified spectrum.
+        var chain = new ChainSystem(N: 3, J: 1.0, GammaZero: 0.05, Topology: TopologyKind.Star);
+        var terms = new[] { new PauliPairBondTerm(PauliLetter.X, PauliLetter.Y) };
+        Assert.Throws<ArgumentException>(() => BlochSignWalk.PredictMSpectrumImaginaryParts(chain, terms));
+    }
 }
