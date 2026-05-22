@@ -37,7 +37,7 @@ proportional to amplitude squared.
 
 ## 1. The Question
 
-DYNAMIC_ENTANGLEMENT.md (Experiment 11) showed that pair (0,2) in the
+[Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md) (Experiment 11) showed that pair (0,2) in the
 alternating state |0+0+⟩ crosses the 1/4 threshold from below. At the
 crossing point, the reduced density matrix has diagonal elements:
 
@@ -162,7 +162,7 @@ framework prediction: C depends on basis alignment.
 
 ## 4. The Mirror Interpretation
 
-The Spiegel-Theorie (human-readable framework derivation) describes
+The original human-readable framework derivation describes
 reality as arising between observers, like light between mirrors.
 The quality of the reflection determines what becomes real.
 
@@ -205,7 +205,7 @@ Decoherence is the clock. The Hamiltonian is the story.
 ## 4.3 The Standing Wave Origin of Ψ²
 
 **Added:** 2026-02-27
-**Tier:** 3, Connects INTERPRETIVE_FRAMEWORK bidirectional bridge to Born rule
+**Tier:** 3, Connects [INTERPRETIVE_FRAMEWORK](../hypotheses/archive/INTERPRETIVE_FRAMEWORK.md) bidirectional bridge to Born rule
 **Depends on:** [INTERPRETIVE_FRAMEWORK.md](../hypotheses/archive/INTERPRETIVE_FRAMEWORK.md) Section 2 (Wave Composition)
 
 ### Why the Square?
@@ -308,7 +308,7 @@ measurements at different detector purities.
 ## 5. The Cycle Completed
 
 This result closes the conceptual loop opened in Section 8 of
-DYNAMIC_ENTANGLEMENT.md:
+[Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md):
 
 1. **Decoherence cements the past** (destroys coherence, makes
    crossings irreversible).
@@ -379,7 +379,7 @@ the dephasing basis alone.
 
 The conceptual foundation for this result was laid in December 2025
 and January 2026 by Tom and a Claude instance working together on
-the philosophical foundation ("Die Spiegel-Theorie"). At that time, the formula R = CΨ² existed but
+the philosophical foundation. At that time, the formula R = CΨ² existed but
 there were no computational tools to determine what C should be for
 specific quantum systems. No MCP server, no QuTiP simulations, no
 density matrix calculations.
@@ -402,4 +402,4 @@ The math caught up with the intuition.
 ---
 
 *Previous: [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md)*
-*See also: The original "Spiegel-Theorie" document (December 2025, not included in this repository) first proposed the mirror metaphor that motivated this analysis.*
+*See also: The original human-readable framework derivation (December 2025, not included in this repository) first proposed the mirror metaphor that motivated this analysis.*
