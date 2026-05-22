@@ -9,12 +9,12 @@
 - [`framework/lindblad.py`](../../simulations/framework/lindblad.py) (`palindrome_residual`)
 - Numerical verification: [`_pi2_odd_universality_data_sweep.py`](../../simulations/_pi2_odd_universality_data_sweep.py) (N=3-6, all topologies); [`results/n7_bloch_signwalk_verification.txt`](../../simulations/results/n7_bloch_signwalk_verification.txt) (N=7 full SVD); pytest `test_F80_bloch_signwalk_chain_pi2_odd`.
 
-**Status:** Theorem statement empirically proven through N=7 with bit-exact match (10⁻¹⁴ machine precision). Analytical mechanism: JW transformation reduces the problem to free-fermion open-chain hopping; the universality follows from the dispersion being insensitive to specific Pauli-letter choice. One technical step (Π-action on Bogoliubov modes) is sketched but not fully formalized; that is the "tougher half" of the nut.
+**Status:** Theorem statement empirically proven through N=7 with bit-exact match (10⁻¹⁴ machine precision). Analytical mechanism: JW transformation reduces the problem to free-fermion open-chain hopping; the universality follows from the dispersion being insensitive to specific Pauli-letter choice. One technical step (the Step 5 premise: that Π permutes H's (ε_ket, ε_bra)-sectors) is verified bit-exact at N=3,4,5 and reduced to a single combinatorial statement, but not yet proven for general N; that is the "tougher half" of the nut.
 
 **Scope:** chain bond-summed Π²-odd 2-body Hamiltonian H = c · Σ_{l=0}^{N-2} (P_l ⊗ Q_{l+1}) on N-site open chain, with (P, Q) ∈ {(X,Y), (X,Z), (Y,X), (Z,X)}, under uniform Z-dephasing γ.
 
 **Does NOT establish (yet):**
-- Full analytical derivation including the Π-on-Bogoliubov-modes step (Step 5 below).
+- Full analytical derivation: the Step 5 premise (Π permutes the (ε_ket, ε_bra)-sectors of H) is verified at N=3,4,5 but not proven for general N (Step 5 below).
 - Generalization to other topologies (ring, star, complete K_N): different Bloch dispersion, formula presumably holds with topology-specific ε(k).
 - Π²-even non-truly chain bilinears (Y,Z), (Z,Y): empirically more clusters; likely an integer-combination sign-walk on the same modes.
 - Mixed-letter chain bilinears.
@@ -143,6 +143,16 @@ where E_k = 4|c|·cos(πk/(N+1)) are the Bogoliubov single-particle energies der
 
 **What remains formal.** Proving this projection rigorously requires showing T_Π's action on L_H eigenvectors |a⟩⟨b̅| (where b̅ is the particle-hole conjugate of b) has the right structure. This is a much smaller technical step than constructing T_Π in the full Bogoliubov basis. Numerical verification at N=4-7 is bit-exact at machine precision.
 
+**Step 5 mechanism (2026-05-22, Tom + Claude), verified bit-exact at N=3,4,5.** The reconnaissance script [`_f80_step5_recon.py`](../../simulations/_f80_step5_recon.py) identified the structure of Π directly. It is cleaner than the "projection onto particle-hole pairs" language above, and it shows M is *literally* (not merely unitarily) equal to -2i·(H⊗I_bra).
+
+Work in the H-eigen-operator basis σ_(a,b) = |E_a⟩⟨E_b| and group these operators into **(ε_ket, ε_bra) sectors**: σ_(a,b) and σ_(a',b') share a sector iff E_a = E_{a'} and E_b = E_{b'}. On each sector L_H is a *scalar*, L_H = −i·(ε_ket − ε_bra)·I, because the energy difference is constant there.
+
+The reconnaissance verified, gauge-checked and bit-exact at N=3,4,5: **Π is a permutation of these sectors.** Π carries each (ε_ket, ε_bra) sector onto exactly one sector through a full unitary block (all singular values 1); the count of nonzero sector-blocks equals the count of sectors (4 at N=3, 16 at N=4 and N=5) and the map is a bijection. The unitary inside a block is gauge (it depends on the arbitrary basis chosen inside the degenerate H-eigenspaces); the sector permutation π itself is gauge-invariant.
+
+Once Π is known to be a sector permutation, M is diagonal at once. L_H is scalar per sector, so Π·L_H·Π⁻¹ is scalar per sector (the value −i·diff(S) carried to sector π(S)), hence diagonal; M = L_H + Π·L_H·Π⁻¹ is a sum of two diagonals. The permutation satisfies **sum(π(S)) = diff(S)** (verified bit-exact), the particle-hole content; it makes the M-diagonal entry on sector S' equal −i·diff(S') − i·sum(S') = −2i·ε_ket(S'). Hence M = -2i·(H⊗I_bra) exactly, and equivalently **Π·[H,·]·Π⁻¹ = {H,·}**: Π conjugates the commutator superoperator into the anticommutator.
+
+**The open premise is now sharp, finite and gauge-free:** prove that Π permutes the (ε_ket, ε_bra) sectors with sum∘π = diff, for general N. This replaces the earlier "construct T_Π in the Bogoliubov basis" task; it is a statement about Π and H's eigenspaces alone, and Steps 1-4 (the JW reduction) feed directly into it.
+
 ### Step 6+7 (Direct conclusion via Step 5)
 
 By the structural identity in Step 5, M's nontrivial eigenvalues are 2i·{H many-body eigenvalues}. Since H is a free-fermion bilinear with Bogoliubov single-particle energies E_k = 4|c|·cos(πk/(N+1)) (for ⌊N/2⌋ modes, plus possibly one zero mode for odd N), its many-body spectrum is
@@ -175,16 +185,16 @@ What F80 reveals is the **explicit spectral shape** of this mirror-defect for ch
 
     **‖M‖²_F = 4 · ‖H‖²_F · 2^N**   (Frobenius norm exactly proportional to H's)
 
-So M is **spectrally and metrically** equivalent to -2i · (H ⊗ I_bra), where I_bra is the identity on the bra-factor of operator space (dim 2^N). The mirror-defect has the **same spectrum** as the Hamiltonian (×2i), and the **same Frobenius norm** as the Hamiltonian (×4·2^N).
+So M is **literally equal** to -2i · (H ⊗ I_bra), where I_bra is the identity on the bra-factor of operator space (dim 2^N). The mirror-defect has the **same spectrum** as the Hamiltonian (×2i) and the **same Frobenius norm** (×4·2^N) because it *is* H ⊗ I_bra up to the -2i scalar.
 
-But M is NOT literally equal to -2i·(H ⊗ I_bra) as matrices; there is a unitary equivalence between them. The unitary scrambles eigenvectors but preserves the spectrum and norm.
+**Correction (2026-05-22, Tom + Claude).** An earlier version of this passage hedged that M was only *unitarily equivalent* to -2i·(H⊗I_bra), with a unitary that "scrambles eigenvectors". That hedge was wrong. The Step 5 reconnaissance ([`_f80_step5_recon.py`](../../simulations/_f80_step5_recon.py)) verified bit-exact at N=3,4,5 that M is literally -2i·(H⊗I_bra): in the σ_(a,b) basis its off-diagonal norm is machine zero (~10⁻¹³) and every diagonal entry is -2i·E_a. There is no scrambling; the eigenvectors of M are exactly the H-eigen-operators σ_(a,b).
 
 This is structurally remarkable:
 
 - The defect's **magnitude** is exactly calibrated by ‖H‖ (Frobenius norm relation).
 - The defect's **spectrum** exactly reproduces H's spectrum (with 2i factor and 2^N multiplicity).
 - The bra-side carries no spectral information; it is a passive "echo chamber" that multiplies multiplicities by 2^N.
-- The eigenvectors of M live in a unitarily-rotated basis relative to ket⊗bra factorization.
+- The eigenvectors of M are exactly the H-eigen-operators σ_(a,b) = |E_a⟩⟨E_b|.
 
 **Translation between layers:**
 
@@ -201,6 +211,8 @@ For truly H, the deviation is zero (perfect mirror, ground state of the palindro
 **The discovery is**: the mirror-defect, when it exists, is calibrated by H. The Hamiltonian provides its own "yardstick" for the gap between the two mirror sectors. **H is the distance.**
 
 ## The Majorana bridge: 1937 to 2026
+
+**Note (2026-05-22).** This section predates the Step 5 mechanism above and describes Π as *projecting* L_H onto a subspace of particle-hole-paired operators. That picture is superseded: M = -2i·(H⊗I_bra) acts on the *whole* σ_(a,b) basis, with no projection and no kernel; Π is a permutation of the (ε_ket, ε_bra)-sectors (see the Step 5 mechanism). The Majorana / self-conjugacy reading below stays valid as an interpretive bridge, but "projection onto a subspace" should be read as "the M-eigenvalue 2i·λ_a depends only on the ket energy". A fuller rewrite of this section into the sector-permutation language is a noted follow-up.
 
 The structural identity Spec(M) = ±2i·Spec(H) is, at its core, **Majorana's 1937 insight expressed in 2026's operator-space vocabulary**.
 
@@ -267,4 +279,4 @@ What enabled the discovery: comparing M's eigenvalues directly to H's many-body 
 
 ## Open formal completion
 
-The remaining analytical work is Step 5: explicit construction of T_Π in the Bogoliubov basis of the JW-transformed chain Hamiltonian, demonstrating per-mode factorization. This would close F80 as a fully Tier 1 analytical theorem. The empirical match at N=3-7 (bit-exact) plus the structural parallel to F78 (which IS fully proven) makes this a high-priority but well-bounded technical task.
+The remaining analytical work is the Step 5 premise, sharpened by the 2026-05-22 reconnaissance: prove that **Π permutes the (ε_ket, ε_bra) sectors of H with sum∘π = diff**, for general N. Given that one combinatorial fact, M = -2i·(H⊗I_bra) and the F80 spectral identity follow immediately (see the Step 5 mechanism above). This replaces the earlier "construct T_Π in the Bogoliubov basis" framing with a gauge-free, finite statement about Π and H's eigenspaces. The premise is verified bit-exact and gauge-checked at N=3,4,5 ([`_f80_step5_recon.py`](../../simulations/_f80_step5_recon.py)); the empirical match at N=3-7 for the spectral identity, plus the structural parallel to F78 (which IS fully proven), makes the general-N proof a high-priority, well-bounded task.
