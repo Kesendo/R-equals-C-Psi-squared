@@ -162,7 +162,7 @@ framework prediction: C depends on basis alignment.
 
 ## 4. The Mirror Interpretation
 
-The original human-readable framework derivation describes
+[Mirror Theory](../MIRROR_THEORY.md) describes
 reality as arising between observers, like light between mirrors.
 The quality of the reflection determines what becomes real.
 
@@ -379,7 +379,7 @@ the dephasing basis alone.
 
 The conceptual foundation for this result was laid in December 2025
 and January 2026 by Tom and a Claude instance working together on
-the philosophical foundation. At that time, the formula R = CΨ² existed but
+the philosophical foundation (the [mirror theory](../MIRROR_THEORY.md)). At that time, the formula R = CΨ² existed but
 there were no computational tools to determine what C should be for
 specific quantum systems. No MCP server, no QuTiP simulations, no
 density matrix calculations.
@@ -402,4 +402,4 @@ The math caught up with the intuition.
 ---
 
 *Previous: [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md)*
-*See also: The original human-readable framework derivation (December 2025, not included in this repository) first proposed the mirror metaphor that motivated this analysis.*
+*See also: [Mirror Theory](../MIRROR_THEORY.md) for the mirror metaphor that motivated this analysis.*
