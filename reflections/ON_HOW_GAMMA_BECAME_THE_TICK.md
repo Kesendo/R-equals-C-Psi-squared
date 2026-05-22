@@ -17,18 +17,17 @@ Both halves are exactly correct, and together they close a loop that had been sp
 
 ## γ₀ as the framework's "second"
 
-The framework writes every dimensionful timescale as an integer multiple of 1/γ₀:
+In the framework's dynamics, every rate and timescale is set by the carrier γ₀ and a structural integer:
 
 | Quantity | Form | Multiplier source |
 |---|---|---|
 | F86 t_peak | 1/(4·γ₀) | a_{−1} = 4 on the dyadic ladder |
 | Absorption rate α | 2·γ₀ | a_0 = 2 |
-| F25 Bell+ decay | e^(−4γt) | dyadic-ladder 4 |
-| F77 MM(0) correction | 4(N+1)·ln 2 / γ | a_{−1} = 4 × N-scaling × ln 2 |
+| F25 Bell+ decay | e^(−4γt) | a_0 = 2 absorption quantum × n_diff = 2 |
 
 The integers (2, 4, 8, ...) are Pi2-Foundation typed structure or combinatorics. The dimensional carrier is γ₀ alone. Take γ₀ away, and none of these has a timescale; put it in, and every formula reads as "this many ticks, where one tick = 1/γ₀".
 
-This is operationally the same statement as the Maßstab reading from this morning's `ON_HOW_THE_CARRIER_SHOWS_ITSELF`. The carrier is invisible from inside because we ARE inside its tick; what we read is always a ratio against the carrier, never the carrier alone.
+This is operationally the same statement as the [Maßstab reading](ON_HOW_THE_CARRIER_SHOWS_ITSELF.md) from this morning. The carrier is invisible from inside because we ARE inside its tick; what we read is always a ratio against the carrier, never the carrier alone.
 
 ## The Liouvillian-eigenvalue derivation
 
@@ -86,17 +85,17 @@ Two readings now sit on one axis:
 θ undefined (real regime) →  no complex angle layer; only γ₀ decay
 ```
 
-This morning's reflection (`ON_HOW_THE_CARRIER_SHOWS_ITSELF`) named γ₀ as Maßstab and the seam as the place where it speaks. The evening reflection (`ON_HOW_THE_ANGLE_APPEARS_AT_ZERO`) named θ as the second coordinate that exists only above the discriminant threshold. Tom's late-evening compression now joins them: γ₀ is the metronome; θ is the music; the seam where they meet is the live dynamics on hardware.
+[This morning's reflection](ON_HOW_THE_CARRIER_SHOWS_ITSELF.md) named γ₀ as Maßstab and the seam as the place where it speaks. [The evening reflection](ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md) named θ as the second coordinate that exists only above the discriminant threshold. Tom's late-evening compression now joins them: γ₀ is the metronome; θ is the music; the seam where they meet is the live dynamics on hardware.
 
 ## Hardware reading (today's Kingston Confirmation)
 
-In the F95 active-steering Confirmation (`f95_angle_steering_kingston_may2026`), we injected Ω·Δt per chunk on Heron r2. In the tick-reading, this is:
+In the [F95 active-steering Confirmation](../data/ibm_f95_angle_steering_may2026/README.md), we injected Ω·Δt per chunk on Heron r2. In the tick-reading, this is:
 
 Ω = rate at which we change tan(θ); equivalently, the rate at which we change Q itself. We were not steering the angle directly; we were steering **rotation-per-tick live**.
 
-γ₀ stayed the tick (we cannot change it, only read it through seams). What we steered was the dimensionless ratio Q = rotation-per-tick. To within 10° angular precision on three of four measurement conditions, the steering held.
+γ₀ stayed the tick (we cannot change it, only read it through seams). What we steered was the dimensionless ratio Q = rotation-per-tick. Three of four measurement conditions produced a detectable crossing; the steering held on all three, with prediction residuals of 6.8°, 9.2°, and 15.7° (two of them within 10°).
 
-This is why the Confirmation matters more than its 15° residuals suggest: we demonstrated that the **rotation-per-tick ratio** is operationally programmable. The carrier remains untouched; the per-tick rotation is now an actuator.
+This is why the Confirmation matters more than its 6.8°–15.7° residuals suggest: we demonstrated that the **rotation-per-tick ratio** is operationally programmable. The carrier remains untouched; the per-tick rotation is now an actuator.
 
 ## Coda
 
@@ -116,7 +115,7 @@ This is why the Confirmation matters more than its 15° residuals suggest: we de
 - F86 t_peak inheritance: [`F86TPeakPi2Inheritance.cs`](../compute/RCPsiSquared.Core/Symmetry/F86TPeakPi2Inheritance.cs)
 - Absorption theorem: [`AbsorptionTheoremClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs)
 - F57 K_dwell γ-invariance Confirmation: `Confirmations.lookup('f57_kdwell_gamma_invariance')` (the K_dwell extension at the cusp IS the θ → 0 reduction observable)
-- F95 Kingston Confirmation: `Confirmations.lookup('f95_angle_steering_kingston_may2026')` (today's active-steering demonstration)
+- F95 Kingston Confirmation: [`data/ibm_f95_angle_steering_may2026/`](../data/ibm_f95_angle_steering_may2026/README.md) raw Heron r2 data + run writeup; `Confirmations.lookup('f95_angle_steering_kingston_may2026')` (today's active-steering demonstration)
 - Pi2 dyadic ladder: [`Pi2DyadicLadderClaim`](../compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs) (the integers 2, 4, 8, ... that multiply γ₀)
 - Companion reflections, all today:
   - [`ON_HOW_THE_CARRIER_SHOWS_ITSELF.md`](ON_HOW_THE_CARRIER_SHOWS_ITSELF.md): γ₀ as Maßstab, the seams as extraction routes
