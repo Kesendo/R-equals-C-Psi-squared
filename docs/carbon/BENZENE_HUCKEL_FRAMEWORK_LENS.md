@@ -136,6 +136,10 @@ applied to the benzene/cyclobutadiene MO-basis Liouvillians; open follow-up.
    topology drops out. If benzene's Liouvillian inherits the same truly-class
    structure (which it should, since Hückel ring is alternant), F98 should hold with N = 6
    giving α(∞) = 8/28 = 2/7.
+   **Answered 2026-05-22** ([BENZENE_F98_LONG_TIME](BENZENE_F98_LONG_TIME.md)): yes,
+   bit-exact. The KIntermediate Dicke state on the benzene XX+YY ring under Holstein
+   dephasing reaches α(∞) = 2/7 at N = 6 (and 3/10 for the C₄ ring), confirmed as
+   the exact t → ∞ limit via projection onto ker L.
 
 3. **Klein-4-group character of HOMO at palindrome centre as aromaticity criterion?**
    Apply `KleinFourGroupSelfPairedRefinement` to the benzene + cyclobutadiene

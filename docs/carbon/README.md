@@ -198,6 +198,10 @@ identification is the open structural question; there is no single canonical cho
 5. **Is there a carbon analog of the F98 (N+2)/[4(N+1)] → 1/4 long-time bridge?** The
    bridge is bond-topology-agnostic (only requires truly-class Hamiltonian + Z-deph);
    any carbon substrate with the four embedding conditions would inherit it.
+   **Answered 2026-05-22** ([BENZENE_F98_LONG_TIME](BENZENE_F98_LONG_TIME.md)): yes,
+   bit-exact. The KIntermediate Dicke state on the benzene XX+YY ring under Holstein
+   dephasing traverses the F98 bridge to α(∞) = 3/10 for the C₄ ring and 2/7 for the
+   C₆ benzene ring; the dynamics lands on the exact F98 long-time state ρ_∞.
 
 6. **Does the periodic palindrome's deviation-at-half-filled-shell pattern correspond to
    the framework's V-Effect breaking at boundary sectors?** Both predict half-filled shells
@@ -235,8 +239,8 @@ Both are biology-substrate domain folders. Comparison:
 | Q range | Bulk water Q ~ 0.01 classical; Zundel Q ~ 4.8 quantum | Conjugated π-bonds Q ~ 100 deep-quantum |
 | Cleanest substrate | Zundel cation H₅O₂⁺ | Benzene C₆ |
 | Embedding tier | Tier 2 (clean, 4 conditions verified) | Tier 4 (candidate, conditions unverified) |
-| Scripts | 5 (`simulations/water/`) | 8 (`simulations/carbon/`, after 2026-05-17 arc) |
-| Docs | 3 (README + 2 substrate docs) | 9 (README + 7-doc arc on 2026-05-17 + BENZENE_LIOUVILLIAN_PALINDROME on 2026-05-22) |
+| Scripts | 5 (`simulations/water/`) | 10 (`simulations/carbon/`) |
+| Docs | 3 (README + 2 substrate docs) | 10 (README + 7-doc arc on 2026-05-17 + BENZENE_LIOUVILLIAN_PALINDROME + BENZENE_F98_LONG_TIME on 2026-05-22) |
 
 The carbon side is structurally NECESSARY per the qubit-necessity argument (carbon = quantum
 carbon at Level 1), but **less computationally explored** than water. The folder exists
