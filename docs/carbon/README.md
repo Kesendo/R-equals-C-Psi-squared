@@ -181,6 +181,10 @@ identification is the open structural question; there is no single canonical cho
    The framework prediction is the LIOUVILLIAN palindrome under dephasing, which would
    require building the open-system L explicitly. First sanity check: matches the F1
    pair-sum-constant structure.
+   **Answered 2026-05-22** ([BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md)):
+   conditionally yes. The open-system F1 palindrome holds under Holstein on-site
+   dephasing (= the framework's Z-dephasing) and breaks under Peierls/SSH bond
+   dephasing; verified on the C₄ and C₆ rings.
 
 3. **Is the V-Effect 14/19/3 trichotomy observable in benzene's electronic spectrum?**
    The framework predicts 14 truly + 19 soft + 3 hard at N=3; what's the N=6 prediction
@@ -232,7 +236,7 @@ Both are biology-substrate domain folders. Comparison:
 | Cleanest substrate | Zundel cation H₅O₂⁺ | Benzene C₆ |
 | Embedding tier | Tier 2 (clean, 4 conditions verified) | Tier 4 (candidate, conditions unverified) |
 | Scripts | 5 (`simulations/water/`) | 8 (`simulations/carbon/`, after 2026-05-17 arc) |
-| Docs | 3 (README + 2 substrate docs) | 8 (README + 7-doc arc on 2026-05-17) |
+| Docs | 3 (README + 2 substrate docs) | 9 (README + 7-doc arc on 2026-05-17 + BENZENE_LIOUVILLIAN_PALINDROME on 2026-05-22) |
 
 The carbon side is structurally NECESSARY per the qubit-necessity argument (carbon = quantum
 carbon at Level 1), but **less computationally explored** than water. The folder exists

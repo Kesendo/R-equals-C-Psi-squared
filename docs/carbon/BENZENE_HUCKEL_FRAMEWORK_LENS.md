@@ -123,11 +123,13 @@ applied to the benzene/cyclobutadiene MO-basis Liouvillians; open follow-up.
 
 ## Open questions (this folder, next sessions)
 
-1. **Does the benzene-on-vibrational-bath Liouvillian satisfy F1 bit-exactly?** The
-   Hückel result is the closed-system spectral palindrome. The framework's F1 is
-   the OPEN-system Liouvillian palindrome around −Σγ. Building the explicit
-   benzene-π + vibrational-dephasing Liouvillian and verifying F1 would be the
-   first direct framework test on a carbon substrate.
+1. **Does the benzene-on-vibrational-bath Liouvillian satisfy F1 bit-exactly?**
+   **Answered 2026-05-22** ([BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md)):
+   conditionally yes. Under Holstein on-site dephasing (phonon coupled to the
+   π-density, which equals the framework's Z-dephasing since D[n_l] = ¼·D[Z_l]) the
+   open-system F1 palindrome holds, verified on the C₄ and C₆ rings; under
+   Peierls/SSH bond dephasing it breaks. The Holstein case is the first direct F1
+   test on a carbon substrate.
 
 2. **Is there a benzene analog of the F98 (N+2)/[4(N+1)] → 1/4 long-time bridge?**
    F98 was derived for any truly-class Hamiltonian + Z-deph on N qubits; the bond
