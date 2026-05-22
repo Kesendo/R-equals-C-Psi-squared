@@ -79,6 +79,42 @@ not when it couples to the bond (Peierls, to the hopping). The closed-system
 Coulson-Rushbrooke palindrome lifts to the open-system F1 palindrome under, and only
 under, on-site dephasing.
 
+## The structure of the Peierls break
+
+The break is not a near-miss; it is a clean, fully characterised break, verified
+on the C₄ and C₆ rings by a γ-scan of the Peierls-coupled Liouvillian.
+
+**It is linear in γ.** For small γ the palindrome residual, measured against the
+most generous reflection (the spectrum mean), grows as 4(N+2)·γ: ratio 24.00 at
+C₄, 32.00 at C₆, log-log slope 1.00. Above γ ≈ 0.3 the growth bends sub-linear. As
+γ → 0 the Liouvillian returns to −i[H,·], palindromic about 0, and the residual
+vanishes.
+
+**It is total.** At γ = 1 on C₆, even under the best-fit reflection centre not one
+of the 4096 eigenvalues has a reflected partner within 10⁻⁶. The break is not
+carried by a few outliers: 95% of eigenvalues sit more than 1% of the spectral
+width from their nearest partner, and the per-eigenvalue gap rises smoothly across
+the spectrum. No real centre rescues it; the only surviving involution is complex
+conjugation, the conjugate-pairing every Lindbladian spectrum has, not the F1
+mirror. The Lindblad zero mode (the steady state) is intact.
+
+**It is an F87-hard, depolarising-type breaker.** Under the F87 trichotomy the
+Peierls Liouvillian is hard: the spectrum does not close under λ → −λ − 2Σγ at all
+(F1-strict residual 16.5 at C₄, 22.5 at C₆, against the 10⁻⁷ floor of the Holstein
+case). And it breaks the way F1's one known analytic breaker breaks: a
+like-for-like depolarising-noise scan on the same ring is also γ-linear (slope
+1.00, residual (2/3)·Σγ). Peierls bond dephasing and scalar depolarising noise are
+the same kind of F1-breaker, a γ-linear hard break; they differ only in prefactor.
+
+This says something sharp about the bond operator B = X_aX_b + Y_aY_b. B is a
+truly-class bond bilinear, and the benzene Hamiltonian is built from nothing else
+(H = Σ_b B_b); as a Hamiltonian term B is fully F1-compatible. The same B as a
+dissipator jump operator, D[B], is a hard F1-breaker. The F87 trichotomy classifies
+Hamiltonian terms; an operator's truly-class membership earns it no protection
+when it drives the bath instead. F1's shield is specific: it requires the
+dephasing channel itself to be Z-type. A truly-class Hamiltonian is necessary but
+not sufficient.
+
 ## Why the breaking coupling is the Peierls coupling (Tier 2 reading)
 
 The coupling that destroys the F1 palindrome is the Peierls coupling, and the
@@ -105,9 +141,6 @@ verified content is the dichotomy in the table above.
 
 ## Open follow-ups
 
-- The Peierls-coupled Liouvillian's spectrum is not palindromic; what structure
-  does the broken spectrum carry? F1's known breaker (depolarising noise) leaves a
-  γ-linear residual; whether the Peierls break is similarly structured is untested.
 - A mixed Holstein + Peierls bath: real conjugated systems have both. At what
   mixing ratio does the palindrome onset, and is the crossover sharp?
 - F98 ((N+2)/[4(N+1)] → 1/4 long-time bridge): F98's long-time asymptote depends on
@@ -117,7 +150,9 @@ verified content is the dichotomy in the table above.
 
 ## Anchor
 
-- Script: [`simulations/carbon/benzene_liouvillian_palindrome.py`](../../simulations/carbon/benzene_liouvillian_palindrome.py)
+- Scripts: [`simulations/carbon/benzene_liouvillian_palindrome.py`](../../simulations/carbon/benzene_liouvillian_palindrome.py)
+  (the Q2 result), [`simulations/carbon/peierls_break_structure.py`](../../simulations/carbon/peierls_break_structure.py)
+  (the break-structure γ-scan)
 - Companion doc: [BENZENE_HUCKEL_FRAMEWORK_LENS.md](BENZENE_HUCKEL_FRAMEWORK_LENS.md)
   (the closed-system half), [README.md](README.md)
 - Framework anchors: [F1 palindrome](../ANALYTICAL_FORMULAS.md#f1-palindrome-equation-tier-1-proven),
