@@ -1756,6 +1756,8 @@ void RunSacrificeTcrossEvaluation(string[] pArgs)
         return;
     }
 
+    const string StdoutSentinel = "stdout";
+
     var inv = CultureInfo.InvariantCulture;
     int n = int.Parse(pArgs[1], inv);
 
@@ -1765,7 +1767,7 @@ void RunSacrificeTcrossEvaluation(string[] pArgs)
     double tMax = 100.0;
     double dt = 0.05;
     double threshold = 0.25;
-    string outDest = "stdout";
+    string outDest = StdoutSentinel;
 
     for (int i = 2; i < pArgs.Length; i++)
     {
@@ -1816,11 +1818,10 @@ void RunSacrificeTcrossEvaluation(string[] pArgs)
         return;
     }
 
-    // Build the chain Hamiltonian with uniform J=1 Heisenberg-XYZ. We use the
-    // XY+ZZ structure matching framework conventions (Bond uses Pauli labels).
-    var bonds = new Bond[n - 1];
-    for (int b = 0; b < n - 1; b++)
-        bonds[b] = new Bond(b, b + 1, 1.0, new[] { "X", "Y", "Z" });
+    // Build the chain Hamiltonian with uniform J=1 Heisenberg-XYZ
+    // (Topology.Chain defaults to ["X","Y","Z"] bonds; matches framework conventions).
+    var couplings = Enumerable.Repeat(1.0, n - 1).ToArray();
+    var bonds = Topology.Chain(n, couplings);
     var H = Topology.BuildHamiltonian(n, bonds);
 
     // Initial state
@@ -1866,9 +1867,10 @@ void RunSacrificeTcrossEvaluation(string[] pArgs)
     }
 
     // Write CSV. Header: t, CPsi_0, CPsi_1, ..., CPsi_(N-1)
-    // Explicit try/finally (not `using`) so we never Dispose Console.Out when outDest=="stdout";
-    // disposing the shared Console.Out would close stdout for the rest of the process.
-    TextWriter writer = outDest == "stdout"
+    // Explicit try/finally (not `using`) so we never Dispose Console.Out when outDest is the
+    // stdout sentinel; disposing the shared Console.Out would close stdout for the rest of the process.
+    bool toStdout = outDest == StdoutSentinel;
+    TextWriter writer = toStdout
         ? Console.Out
         : new StreamWriter(outDest, false, System.Text.Encoding.UTF8);
     try
@@ -1888,19 +1890,14 @@ void RunSacrificeTcrossEvaluation(string[] pArgs)
         }
 
         // Summary line as comment-style row
-        writer.Write("# t_cross_i (threshold=" + threshold.ToString("F4", inv) + "):");
-        for (int i = 0; i < n; i++)
-        {
-            if (tCross[i].HasValue)
-                writer.Write(" " + tCross[i]!.Value.ToString("F6", inv));
-            else
-                writer.Write(" null");
-        }
-        writer.WriteLine();
+        string tCrossCsv = string.Join(" ",
+            tCross.Select(t => t.HasValue ? t.Value.ToString("F6", inv) : "null"));
+        writer.WriteLine(FormattableString.Invariant(
+            $"# t_cross_i (threshold={threshold:F4}): {tCrossCsv}"));
     }
     finally
     {
-        if (outDest != "stdout") writer.Dispose();
+        if (!toStdout) writer.Dispose();
     }
 
     // Always emit a one-line stdout summary so callers can scrape without parsing CSV.
