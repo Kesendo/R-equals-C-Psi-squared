@@ -2,6 +2,7 @@
 
 **Status:** Hypothesis (Tier 5 synthesis). Each link in the chain is individually proven or computed (Tier 1-2). The reading of the chain as a unified mechanism is interpretation.
 **Date:** April 11, 2026
+**Last updated:** May 23, 2026
 **Authors:** Thomas Wicht, Claude (Opus 4.6)
 **Depends on:**
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (palindromic spectrum, Tier 1)
