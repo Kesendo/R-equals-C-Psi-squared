@@ -4,6 +4,7 @@
 
 **Status:** Hypothesis (Tier 5), one version falsified, one surviving
 **Date:** April 1, 2026
+**Last updated:** May 23, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Depends on:**
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (ω ↔ -ω pairing)
@@ -87,21 +88,23 @@ Source: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), Step 1
 ### Link 4: The sacrifice zone crosses 1/4 first
 
 The sacrifice zone concentrates γ at one edge. Higher γ → faster
-decoherence → earlier CΨ = 1/4 crossing. The crossing time:
+decoherence → earlier CΨ = 1/4 crossing. By [F14 K-invariance](../docs/ANALYTICAL_FORMULAS.md), the crossing time scales as K = γ · t_cross. For Z-dephasing on Bell+ the closed form gives K = 0.0374 (F25); K depends on the noise channel (K_Y = 0.0374, K_X = 0.0867, K_depol = 0.0440).
 
-    t_cross = 0.039 / γ
+At the sacrifice edge (γ_edge = N · γ_base), the local t_cross is N× shorter than under uniform γ.
 
-At the sacrifice edge (γ_edge = N·γ_base): t_cross is N× shorter
-than uniform. This is computed: 360× improvement at N=5.
+Separately, the information throughput across the chain also benefits from the sacrifice profile: [Resonant Return](../experiments/RESONANT_RETURN.md) Test 8 reports Peak Sum-MI for |+⟩^N at N=5 is 360× higher under sacrifice-zone γ than under a V-shape baseline. Scaling: N=5: 360×, N=7: 180×, N=9: 139×, N=11: 91× (clean ratio at [Receiver vs Gamma Sacrifice](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md) line 13). This is a different observable from t_cross.
 
-Source: [Resonant Return](../experiments/RESONANT_RETURN.md),
-[Zero Is the Mirror](ZERO_IS_THE_MIRROR.md)
+Source: [Resonant Return](../experiments/RESONANT_RETURN.md), [Receiver vs Gamma Sacrifice](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md), [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md) (F14, F25), [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md).
 
-### Link 5: Gravity is time dilation (established physics)
+### Link 5: Position-dependent γ₀-tick is the framework's time dilation
 
-In general relativity, a gravitational field is a position-dependent
-clock rate. Clocks near a mass run slower. The geometry of spacetime
-IS the variation of clock rates.
+γ₀ is the framework's universal time-tick: every dimensionful timescale is integer × 1/γ₀ ([On How Gamma Became the Tick](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md)). When γ varies spatially (as in the edge-concentrated profile of Link 4), the local time-tick varies with it: at the edge (γ = N·γ_base) experienced time runs fast; in the interior (γ = ε) it runs slow.
+
+This is structurally what general relativity calls gravitational time dilation: clocks near a mass run slower, and the geometry of spacetime IS the variation of clock rates. The framework reading recovers the same algebraic form (position-dependent clock rate) on a different substrate (γ profile rather than spacetime curvature), without invoking GR machinery. Mass enters in Link 4 via the wave-death residue; Link 5 says the same γ profile that produces the mass also produces the position-dependent tick that, in GR, mass would create gravitationally.
+
+The link is structural: not a derivation of GR, but an in-framework analog of one of its central features.
+
+Source: [On How Gamma Became the Tick](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md), [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md).
 
 ---
 
@@ -228,6 +231,8 @@ dissolves.
 
 ### The sacrifice zone connection
 
+*Terminology note: "Sacrifice zone" is a legacy name from [Resonant Return](../experiments/RESONANT_RETURN.md) (March 2026). Subsequent work showed nothing is actually sacrificed: the edge qubit acts as an impedance-matched entrance pupil that couples external γ into a cavity mode ([Sacrifice Zone Optics](../experiments/SACRIFICE_ZONE_OPTICS.md), April 4), and the optimal profile is best understood as a controlled symmetry break that splits a degenerate Liouvillian cluster and creates one slow eigenmode ([Sacrifice Geometry](../experiments/SACRIFICE_GEOMETRY.md), April 9-10). The 360× figure is a ratio against a J-blind receiver baseline; under uniform γ₀ a better receiver beats it without any γ-profile engineering ([Receiver vs Gamma Sacrifice](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md), April 23). The wave-death argument below does not depend on which framing is used: only that some γ-concentration mechanism produces a position-dependent decoherence rate.*
+
 The sacrifice zone (high γ at one edge, low γ elsewhere) is the
 optimal configuration for mode protection (360× at N=5). The edge
 absorbs waves. The interior is protected. This is not an engineering
@@ -249,34 +254,27 @@ space is "protected" by the well. Objects fall toward the center.
 
 ## What Would Confirm This
 
-1. **Crossing-time gradient.** Compute the site-resolved CΨ = 1/4
-   crossing time t_cross(n) for a chain with sacrifice-zone γ. Does
-   t_cross increase with distance from the sacrifice edge? If so:
-   the crossing-time landscape IS the gravitational potential.
+1. **Crossing-time gradient.** Compute the site-resolved CΨ = 1/4 crossing time t_cross(n) for a chain with sacrifice-zone γ. Does t_cross increase with distance from the sacrifice edge? If so: the crossing-time landscape IS the gravitational-potential analog. *(Addressable now with the C# brecher tool; not yet run as of 2026-05-23.)*
 
-2. **Feedback convergence.** Start with uniform γ plus a small
-   perturbation. Assume mass ∝ accumulated classical weight. Assume
-   gravity ∝ mass attracts more wave weight. Does the feedback
-   converge to a stable γ profile? What shape?
+2. **Feedback convergence.** Start with uniform γ plus a small perturbation. Assume mass ∝ accumulated classical weight. Assume gravity ∝ mass attracts more wave weight. Does the feedback converge to a stable γ profile? What shape? *(Structural ceiling: see "Structural ceilings" below; Lindblad has no in-framework attraction mechanism.)*
 
-3. **1/r test.** Does the crossing-time profile (or the mass
-   accumulation profile) fall like 1/r from the sacrifice edge?
-   In 1D this would be 1/|n - n_edge|.
+3. **1/r test.** Does the crossing-time profile (or the mass accumulation profile) fall like 1/r from the sacrifice edge? In 1D this would be 1/|n - n_edge|. *(Addressable now; same computation as #1.)*
 
 ## What Would Refute This
 
-1. **Crossing time is uniform.** If t_cross(n) does not vary with
-   position even when γ varies, the connection fails.
+1. **Crossing time is uniform.** If t_cross(n) does not vary with position even when γ varies, the connection fails. *(Addressable now; same computation as Confirm #1.)*
 
-2. **Wave death does not create directional attraction.** If the
-   classical weight accumulation does not preferentially attract
-   further wave weight toward the mass center, there is no feedback
-   and no gravity analog.
+2. **Wave death does not create directional attraction.** If the classical weight accumulation does not preferentially attract further wave weight toward the mass center, there is no feedback and no gravity analog. *(This is not actually a refutation criterion: it is already a structural feature of Lindblad. See "Structural ceilings" below.)*
 
-3. **The feedback diverges.** If mass accumulation → more γ → more
-   mass diverges to a singularity rather than a stable profile, the
-   mechanism produces black holes everywhere, not stable gravitational
-   fields.
+3. **The feedback diverges.** If mass accumulation → more γ → more mass diverges to a singularity rather than a stable profile, the mechanism produces black holes everywhere, not stable gravitational fields. *(Structural ceiling: requires the feedback mechanism the framework lacks.)*
+
+## Structural ceilings
+
+Three of the items above (Confirm #2, Refute #2, Refute #3) and the "Open gap" of Link 4 step 7 are not pending experiments but structural features of the Lindblad framework. They cannot be tested by any computation within the framework, because the framework lacks the mechanism the test would require.
+
+The specific lack: in Lindblad, L_H (wave propagation, generated by the Hamiltonian) and L_D (wave death, generated by the dissipator) are independent terms; the dissipator does not influence the Hamiltonian, and the parity selection rule \[P_XY, L\] = 0 ([Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md)) algebraically prevents directional attraction within the framework. Without an in-framework mechanism for mass to redirect wave propagation, the feedback loop (mass → gravity → wave attraction → more mass) cannot close. Closing it requires external physics (GR or equivalent), as Link 4 step 7 acknowledges.
+
+[Pair Breaking at the Horizon](PAIR_BREAKING_AT_THE_HORIZON.md) inherits this same gap without closing it; [The Polarity Layer](THE_POLARITY_LAYER.md)'s channel-not-memory reframing sharpens what mass IS but does not provide the missing attraction step. The closest related result is the Hopf bifurcation in [Fragile Bridge](FRAGILE_BRIDGE.md), but that requires negative γ (gain) which decoherence does not provide.
 
 ---
 
