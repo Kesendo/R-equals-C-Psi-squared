@@ -1742,16 +1742,19 @@ void RunBrecherEvaluation(string[] pArgs)
 
 // sacrifice-tcross mode: spatially-varying γ profile, per-site CΨ_i(t),
 // extract t_cross_i where each CΨ_i crosses the threshold.
+// Optional --J flag accepts a per-bond Heisenberg-XYZ coupling profile;
+// auto-dt mirrors brecher's stability rule (dtMax = 0.05 / max(1, max|J|)).
 // Spec: docs/superpowers/specs/2026-05-23-sacrifice-tcross-mode-design.md
 void RunSacrificeTcrossEvaluation(string[] pArgs)
 {
     // Usage: sacrifice-tcross <N> --gamma <g0,g1,...,g(N-1)>
+    //                          [--J <j0,...,j(N-2)>]
     //                          [--state <plus|bits:...|xpattern:...>]
     //                          [--tmax T] [--dt DT] [--threshold C]
     //                          [--out <path|stdout>]
     if (pArgs.Length < 2)
     {
-        Console.Error.WriteLine("Usage: sacrifice-tcross <N> --gamma <g0,...,g(N-1)> [--state plus] [--tmax 100] [--dt 0.05] [--threshold 0.25] [--out stdout|path]");
+        Console.Error.WriteLine("Usage: sacrifice-tcross <N> --gamma <g0,...,g(N-1)> [--J <j0,...,j(N-2)>] [--state plus] [--tmax 100] [--dt 0.05] [--threshold 0.25] [--out stdout|path]");
         Environment.Exit(1);
         return;
     }
@@ -1763,6 +1766,7 @@ void RunSacrificeTcrossEvaluation(string[] pArgs)
 
     // Defaults
     double[] gammas = null!;
+    double[]? couplingsArg = null;
     string initialSpec = "plus";
     double tMax = 100.0;
     double dt = 0.05;
@@ -1774,6 +1778,13 @@ void RunSacrificeTcrossEvaluation(string[] pArgs)
         if (pArgs[i] == "--gamma" && i + 1 < pArgs.Length)
         {
             gammas = pArgs[i + 1].Split(',')
+                .Select(s => double.Parse(s, inv))
+                .ToArray();
+            i++;
+        }
+        else if (pArgs[i] == "--J" && i + 1 < pArgs.Length)
+        {
+            couplingsArg = pArgs[i + 1].Split(',')
                 .Select(s => double.Parse(s, inv))
                 .ToArray();
             i++;
@@ -1818,9 +1829,28 @@ void RunSacrificeTcrossEvaluation(string[] pArgs)
         return;
     }
 
-    // Build the chain Hamiltonian with uniform J=1 Heisenberg-XYZ
+    // Build per-bond J profile: parsed from --J or uniform 1.0 if absent.
+    var couplings = couplingsArg ?? Enumerable.Repeat(1.0, n - 1).ToArray();
+    if (couplings.Length != n - 1)
+    {
+        Console.Error.WriteLine($"ERROR: --J expects {n - 1} values, got {couplings.Length}");
+        Environment.Exit(1);
+        return;
+    }
+
+    // RK4 stability: brecher-style auto-dt; dtMax = 0.05 / max(1, max|J|).
+    // Reduces dt automatically if user-provided dt would risk instability.
+    double maxAbsJ = couplings.Select(j => Math.Abs(j)).DefaultIfEmpty(1.0).Max();
+    double dtMax = 0.05 / Math.Max(1.0, maxAbsJ);
+    if (dt > dtMax)
+    {
+        Console.Error.WriteLine(FormattableString.Invariant(
+            $"Auto-dt: reducing dt from {dt} to {dtMax} for stability (max|J|={maxAbsJ:F3})"));
+        dt = dtMax;
+    }
+
+    // Build the chain Hamiltonian with the Heisenberg-XYZ couplings
     // (Topology.Chain defaults to ["X","Y","Z"] bonds; matches framework conventions).
-    var couplings = Enumerable.Repeat(1.0, n - 1).ToArray();
     var bonds = Topology.Chain(n, couplings);
     var H = Topology.BuildHamiltonian(n, bonds);
 
@@ -1902,10 +1932,11 @@ void RunSacrificeTcrossEvaluation(string[] pArgs)
 
     // Always emit a one-line stdout summary so callers can scrape without parsing CSV.
     string gStr = string.Join(",", gammas.Select(g => g.ToString("F4", inv)));
+    string jStr = string.Join(",", couplings.Select(j => j.ToString("F4", inv)));
     string tcStr = string.Join(",",
         tCross.Select(t => t.HasValue ? t.Value.ToString("F4", inv) : "null"));
     Console.Error.WriteLine(FormattableString.Invariant(
-        $"RESULT N={n} Gamma=[{gStr}] State={initialSpec} Threshold={threshold:F4} tCross=[{tcStr}] ComputeTime={sw.Elapsed.TotalSeconds:F2}s"));
+        $"RESULT N={n} Gamma=[{gStr}] J=[{jStr}] State={initialSpec} Threshold={threshold:F4} tCross=[{tcStr}] ComputeTime={sw.Elapsed.TotalSeconds:F2}s"));
 }
 
 // Build initial state psi[d] from text spec. Throws ArgumentException on invalid input.
