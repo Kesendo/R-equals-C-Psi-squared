@@ -51,6 +51,17 @@ if (args.Length >= 1 && args[0] == "bond-isolate")
 }
 
 // ============================================================
+// SACRIFICE-TCROSS MODE: per-site CΨ_i(t) under spatially-varying γ + t_cross extraction
+// ============================================================
+if (args.Length >= 1 && args[0] == "sacrifice-tcross")
+{
+    try { Control.UseNativeMKL(); } catch { }
+    Control.MaxDegreeOfParallelism = Environment.ProcessorCount;
+    RunSacrificeTcrossEvaluation(args);
+    return;
+}
+
+// ============================================================
 // VERIFY BOND-ISOLATE HELPERS: smoke checks for T1-T4 (Tom 2026-05-11)
 // ============================================================
 if (args.Length >= 1 && args[0] == "verify-bond-isolate-helpers")
@@ -58,6 +69,17 @@ if (args.Length >= 1 && args[0] == "verify-bond-isolate-helpers")
     try { Control.UseNativeMKL(); } catch { }
     Control.MaxDegreeOfParallelism = Environment.ProcessorCount;
     RunVerifyBondIsolateHelpers();
+    return;
+}
+
+// ============================================================
+// VERIFY SACRIFICE-TCROSS HELPERS: smoke checks for PerSiteCPsi, BracketCrossingTime
+// ============================================================
+if (args.Length >= 1 && args[0] == "verify-sacrifice-tcross-helpers")
+{
+    try { Control.UseNativeMKL(); } catch { }
+    Control.MaxDegreeOfParallelism = Environment.ProcessorCount;
+    RunVerifySacrificeTcrossHelpers();
     return;
 }
 
@@ -216,6 +238,37 @@ double SpatialSumCoherenceS(Matrix<Complex> rho, int n)
     return s;
 }
 
+// Per-site CΨ_i: partial-trace ρ down to site i (single qubit), then compute CΨ.
+// For a single qubit (d=2), Ψ = L1/(d-1) = 2·|ρ_01| (Hermitian), C = Tr(ρ²).
+double[] PerSiteCPsi(Matrix<Complex> rho, int n)
+{
+    var result = new double[n];
+    for (int i = 0; i < n; i++)
+    {
+        var rhoI = DensityMatrixTools.PartialTrace(rho, n, new[] { i });
+        result[i] = DensityMatrixTools.ComputeCPsi(rhoI).CPsi;
+    }
+    return result;
+}
+
+// Find first t where observable(t) crosses below threshold via bracketed linear interpolation.
+// Returns null if no crossing in the window or input is malformed.
+double? BracketCrossingTime(double[] tGrid, double[] observable, double threshold)
+{
+    if (tGrid.Length != observable.Length || tGrid.Length < 2) return null;
+    for (int k = 1; k < tGrid.Length; k++)
+    {
+        if (observable[k - 1] >= threshold && observable[k] < threshold)
+        {
+            double denom = observable[k - 1] - observable[k];
+            if (denom <= 0) return tGrid[k]; // degenerate, snap to right bracket
+            double frac = (observable[k - 1] - threshold) / denom;
+            return tGrid[k - 1] + frac * (tGrid[k] - tGrid[k - 1]);
+        }
+    }
+    return null;
+}
+
 // Smoke checks for T1-T4. Run via:
 //   dotnet run -c Release -- verify-bond-isolate-helpers
 void RunVerifyBondIsolateHelpers()
@@ -342,6 +395,63 @@ void RunVerifyBondIsolateHelpers()
 
     Console.WriteLine($"=== {(failures == 0 ? "ALL PASS" : $"{failures} FAILURE(S)")} ===");
     if (failures != 0) Environment.ExitCode = 1;
+}
+
+// Smoke checks for PerSiteCPsi and BracketCrossingTime. Run via:
+//   dotnet run -c Release -- verify-sacrifice-tcross-helpers
+void RunVerifySacrificeTcrossHelpers()
+{
+    var inv = CultureInfo.InvariantCulture;
+    Console.WriteLine("=== sacrifice-tcross helpers smoke check ===");
+    int failures = 0;
+
+    // Test 1: PerSiteCPsi on |+⟩^3 returns 1.0 at every site.
+    // |+⟩^N is a product state, so ρ_i = |+⟩⟨+| for each i, giving C=1, Ψ=1, CΨ=1.
+    {
+        int n = 3;
+        int d = 1 << n;
+        var psi = new Complex[d];
+        double norm = 1.0 / Math.Sqrt(d);
+        for (int i = 0; i < d; i++) psi[i] = norm;
+        var rho = DensityMatrixTools.PureState(psi);
+        var cpsi = PerSiteCPsi(rho, n);
+
+        double maxErr = 0;
+        for (int i = 0; i < n; i++) maxErr = Math.Max(maxErr, Math.Abs(cpsi[i] - 1.0));
+        bool ok = maxErr < 1e-10;
+        Console.WriteLine(string.Format(inv,
+            "  PerSiteCPsi(|+⟩^3) = [{0:F6}, {1:F6}, {2:F6}] maxErr={3:E2} {4}",
+            cpsi[0], cpsi[1], cpsi[2], maxErr, ok ? "PASS" : "FAIL"));
+        if (!ok) failures++;
+    }
+
+    // Test 2: BracketCrossingTime on a known monotone decreasing observable.
+    // Linear interp between (2.0, 0.6) and (3.0, 0.4) at threshold 0.5 gives t = 2.5.
+    {
+        var tGrid = new[] { 0.0, 1.0, 2.0, 3.0, 4.0 };
+        var obs = new[] { 1.0, 0.8, 0.6, 0.4, 0.2 };
+        double? tc = BracketCrossingTime(tGrid, obs, 0.5);
+        bool ok = tc.HasValue && Math.Abs(tc.Value - 2.5) < 1e-10;
+        Console.WriteLine(string.Format(inv,
+            "  BracketCrossingTime(threshold=0.5) = {0:F6} expected 2.5 {1}",
+            tc ?? double.NaN, ok ? "PASS" : "FAIL"));
+        if (!ok) failures++;
+    }
+
+    // Test 3: BracketCrossingTime returns null when no crossing happens in the window.
+    {
+        var tGrid = new[] { 0.0, 1.0, 2.0, 3.0, 4.0 };
+        var noCrossObs = new[] { 1.0, 0.9, 0.8, 0.7, 0.6 };
+        double? tc = BracketCrossingTime(tGrid, noCrossObs, 0.5);
+        bool ok = !tc.HasValue;
+        Console.WriteLine("  BracketCrossingTime no-crossing = " +
+            (tc.HasValue ? $"{tc.Value:F6}" : "null") + " expected null " +
+            (ok ? "PASS" : "FAIL"));
+        if (!ok) failures++;
+    }
+
+    Console.WriteLine($"=== sacrifice-tcross helpers: {(failures == 0 ? "ALL PASS" : $"{failures} FAILURES")} ===");
+    if (failures > 0) Environment.Exit(1);
 }
 
 // ============================================================
@@ -1628,6 +1738,172 @@ void RunBrecherEvaluation(string[] pArgs)
     string jStr = string.Join(",", couplings.Select(j => j.ToString("F6", CultureInfo.InvariantCulture)));
     Console.WriteLine(FormattableString.Invariant(
         $"RESULT N={n} J=[{jStr}] Initial={initialSpec} Gamma={gammaVal:F4} PeakSumMI={bestSumMI:F6} PeakT={bestT:F2} SumMI5={sumMI5:F6} PeakMI0N={bestMI0N:F6} PeakT_MI0N={bestT_MI0N:F2} MI0N5={mi0N_at_t5:F6} PeakMM={bestMM:F6} PeakT_MM={bestT_MM:F2} MM5={mm5:F6} ComputeTime={sw.Elapsed.TotalSeconds:F2}s"));
+}
+
+// sacrifice-tcross mode: spatially-varying γ profile, per-site CΨ_i(t),
+// extract t_cross_i where each CΨ_i crosses the threshold.
+// Spec: docs/superpowers/specs/2026-05-23-sacrifice-tcross-mode-design.md
+void RunSacrificeTcrossEvaluation(string[] pArgs)
+{
+    // Usage: sacrifice-tcross <N> --gamma <g0,g1,...,g(N-1)>
+    //                          [--state <plus|bits:...|xpattern:...>]
+    //                          [--tmax T] [--dt DT] [--threshold C]
+    //                          [--out <path|stdout>]
+    if (pArgs.Length < 2)
+    {
+        Console.Error.WriteLine("Usage: sacrifice-tcross <N> --gamma <g0,...,g(N-1)> [--state plus] [--tmax 100] [--dt 0.05] [--threshold 0.25] [--out stdout|path]");
+        Environment.Exit(1);
+        return;
+    }
+
+    var inv = CultureInfo.InvariantCulture;
+    int n = int.Parse(pArgs[1], inv);
+    int d = 1 << n;
+
+    // Defaults
+    double[] gammas = null!;
+    string initialSpec = "plus";
+    double tMax = 100.0;
+    double dt = 0.05;
+    double threshold = 0.25;
+    string outPath = "stdout";
+
+    for (int i = 2; i < pArgs.Length; i++)
+    {
+        if (pArgs[i] == "--gamma" && i + 1 < pArgs.Length)
+        {
+            gammas = pArgs[i + 1].Split(',')
+                .Select(s => double.Parse(s, inv))
+                .ToArray();
+            i++;
+        }
+        else if (pArgs[i] == "--state" && i + 1 < pArgs.Length)
+        {
+            initialSpec = pArgs[i + 1];
+            i++;
+        }
+        else if (pArgs[i] == "--tmax" && i + 1 < pArgs.Length)
+        {
+            tMax = double.Parse(pArgs[i + 1], inv);
+            i++;
+        }
+        else if (pArgs[i] == "--dt" && i + 1 < pArgs.Length)
+        {
+            dt = double.Parse(pArgs[i + 1], inv);
+            i++;
+        }
+        else if (pArgs[i] == "--threshold" && i + 1 < pArgs.Length)
+        {
+            threshold = double.Parse(pArgs[i + 1], inv);
+            i++;
+        }
+        else if (pArgs[i] == "--out" && i + 1 < pArgs.Length)
+        {
+            outPath = pArgs[i + 1];
+            i++;
+        }
+    }
+
+    if (gammas is null)
+    {
+        Console.Error.WriteLine("ERROR: --gamma is required (comma-separated list of N values)");
+        Environment.Exit(1);
+        return;
+    }
+    if (gammas.Length != n)
+    {
+        Console.Error.WriteLine($"ERROR: --gamma expects {n} values, got {gammas.Length}");
+        Environment.Exit(1);
+        return;
+    }
+
+    // Build the chain Hamiltonian with uniform J=1 Heisenberg-XYZ. We use the
+    // XY+ZZ structure matching framework conventions (Bond uses Pauli labels).
+    var bonds = new Bond[n - 1];
+    for (int b = 0; b < n - 1; b++)
+        bonds[b] = new Bond(b, b + 1, 1.0, new[] { "X", "Y", "Z" });
+    var H = Topology.BuildHamiltonian(n, bonds);
+
+    // Initial state
+    Complex[] psi;
+    try { psi = BuildInitialStatePsi(initialSpec, n); }
+    catch (ArgumentException ex)
+    {
+        Console.Error.WriteLine($"ERROR: {ex.Message}");
+        Environment.Exit(1);
+        return;
+    }
+    var rho0 = DensityMatrixTools.PureState(psi);
+
+    // Measurement grid: uniform every dt for crossing-time precision.
+    var tMeasList = new List<double>();
+    for (double t = dt; t < tMax + 1e-9; t += dt) tMeasList.Add(t);
+    var tMeas = tMeasList.ToArray();
+
+    // Storage for per-site CΨ trajectory.
+    int nT = tMeas.Length;
+    var cpsiTrajectory = new double[nT, n];
+    int sampleIdx = 0;
+
+    var prop = new LindbladPropagator(H, gammas, n);
+    var sw = Stopwatch.StartNew();
+
+    prop.Propagate(rho0, tMax, dt, tMeas, (t, rho) =>
+    {
+        var perSite = PerSiteCPsi(rho, n);
+        for (int i = 0; i < n; i++) cpsiTrajectory[sampleIdx, i] = perSite[i];
+        sampleIdx++;
+    });
+
+    sw.Stop();
+
+    // Extract per-site t_cross.
+    var tCross = new double?[n];
+    for (int i = 0; i < n; i++)
+    {
+        var obsI = new double[nT];
+        for (int k = 0; k < nT; k++) obsI[k] = cpsiTrajectory[k, i];
+        tCross[i] = BracketCrossingTime(tMeas, obsI, threshold);
+    }
+
+    // Write CSV. Header: t, CPsi_0, CPsi_1, ..., CPsi_(N-1)
+    using TextWriter writer = outPath == "stdout"
+        ? Console.Out
+        : new StreamWriter(outPath, false, System.Text.Encoding.UTF8);
+
+    // Header
+    writer.Write("t");
+    for (int i = 0; i < n; i++) writer.Write($",CPsi_{i}");
+    writer.WriteLine();
+
+    // Rows
+    for (int k = 0; k < nT; k++)
+    {
+        writer.Write(tMeas[k].ToString("F6", inv));
+        for (int i = 0; i < n; i++)
+            writer.Write("," + cpsiTrajectory[k, i].ToString("F6", inv));
+        writer.WriteLine();
+    }
+
+    // Summary line as comment-style row
+    writer.Write("# t_cross_i (threshold=" + threshold.ToString("F4", inv) + "):");
+    for (int i = 0; i < n; i++)
+    {
+        if (tCross[i].HasValue)
+            writer.Write(" " + tCross[i]!.Value.ToString("F6", inv));
+        else
+            writer.Write(" null");
+    }
+    writer.WriteLine();
+
+    if (outPath != "stdout") writer.Dispose();
+
+    // Always emit a one-line stdout summary so callers can scrape without parsing CSV.
+    string gStr = string.Join(",", gammas.Select(g => g.ToString("F4", inv)));
+    string tcStr = string.Join(",",
+        tCross.Select(t => t.HasValue ? t.Value.ToString("F4", inv) : "null"));
+    Console.Error.WriteLine(FormattableString.Invariant(
+        $"RESULT N={n} Gamma=[{gStr}] State={initialSpec} Threshold={threshold:F4} tCross=[{tcStr}] ComputeTime={sw.Elapsed.TotalSeconds:F2}s"));
 }
 
 // Build initial state psi[d] from text spec. Throws ArgumentException on invalid input.
