@@ -450,6 +450,32 @@ void RunVerifySacrificeTcrossHelpers()
         if (!ok) failures++;
     }
 
+    // Test 4: BuildInitialStatePsi("dickepair:1", 3) = (|000> + |D_1>) / sqrt(2)
+    // |D_1> = (|001> + |010> + |100>) / sqrt(3) so psi[0] = 1/sqrt(2),
+    // psi[1] = psi[2] = psi[4] = 1/sqrt(6), psi[3] = psi[5] = psi[6] = psi[7] = 0.
+    {
+        var psi = BuildInitialStatePsi("dickepair:1", 3);
+        double invSqrt2 = 1.0 / Math.Sqrt(2.0);
+        double invSqrt6 = 1.0 / Math.Sqrt(6.0);
+        double err0 = Math.Abs(psi[0].Real - invSqrt2) + Math.Abs(psi[0].Imaginary);
+        double err1 = Math.Abs(psi[1].Real - invSqrt6) + Math.Abs(psi[1].Imaginary);
+        double err2 = Math.Abs(psi[2].Real - invSqrt6) + Math.Abs(psi[2].Imaginary);
+        double err4 = Math.Abs(psi[4].Real - invSqrt6) + Math.Abs(psi[4].Imaginary);
+        double zeroErr = 0;
+        foreach (int z in new[] { 3, 5, 6, 7 })
+            zeroErr = Math.Max(zeroErr, Math.Abs(psi[z].Real) + Math.Abs(psi[z].Imaginary));
+        double normSq = 0;
+        for (int i = 0; i < psi.Length; i++)
+            normSq += psi[i].Real * psi[i].Real + psi[i].Imaginary * psi[i].Imaginary;
+        double normErr = Math.Abs(normSq - 1.0);
+        double maxAmpErr = Math.Max(Math.Max(err0, err1), Math.Max(err2, err4));
+        bool ok = maxAmpErr < 1e-12 && zeroErr < 1e-12 && normErr < 1e-12;
+        Console.WriteLine(string.Format(inv,
+            "  BuildInitialStatePsi(dickepair:1, N=3): psi[0]={0:F6} psi[1]={1:F6} psi[2]={2:F6} psi[4]={3:F6} maxAmpErr={4:E2} zeroErr={5:E2} normErr={6:E2} {7}",
+            psi[0].Real, psi[1].Real, psi[2].Real, psi[4].Real, maxAmpErr, zeroErr, normErr, ok ? "PASS" : "FAIL"));
+        if (!ok) failures++;
+    }
+
     Console.WriteLine($"=== sacrifice-tcross helpers: {(failures == 0 ? "ALL PASS" : $"{failures} FAILURES")} ===");
     if (failures > 0) Environment.ExitCode = 1;
 }
@@ -1749,12 +1775,12 @@ void RunSacrificeTcrossEvaluation(string[] pArgs)
 {
     // Usage: sacrifice-tcross <N> --gamma <g0,g1,...,g(N-1)>
     //                          [--J <j0,...,j(N-2)>]
-    //                          [--state <plus|bits:...|xpattern:...>]
+    //                          [--state <plus|bits:...|xpattern:...|bonding:k|dickepair:k>]
     //                          [--tmax T] [--dt DT] [--threshold C]
     //                          [--out <path|stdout>]
     if (pArgs.Length < 2)
     {
-        Console.Error.WriteLine("Usage: sacrifice-tcross <N> --gamma <g0,...,g(N-1)> [--J <j0,...,j(N-2)>] [--state plus] [--tmax 100] [--dt 0.05] [--threshold 0.25] [--out stdout|path]");
+        Console.Error.WriteLine("Usage: sacrifice-tcross <N> --gamma <g0,...,g(N-1)> [--J <j0,...,j(N-2)>] [--state plus|bits:...|xpattern:...|bonding:k|dickepair:k] [--tmax 100] [--dt 0.05] [--threshold 0.25] [--out stdout|path]");
         Environment.Exit(1);
         return;
     }
@@ -2020,7 +2046,37 @@ Complex[] BuildInitialStatePsi(string spec, int n)
         return psi;
     }
 
-    throw new ArgumentException($"Unknown initial-state spec '{spec}'. Valid: plus | bits:<bin> | xpattern:<+/-/0/1> | bonding:<k>");
+    if (spec.StartsWith("dickepair:"))
+    {
+        // Dicke-pair (vacuum + symmetric Dicke at popcount k):
+        //   |dickepair_k> = (|0>^N + |D_k>) / sqrt(2)
+        //   |D_k>         = (1 / sqrt(C(N, k))) * sum_{|i| = k} |i>   (equal-amplitude over all popcount-k indices)
+        // Distinct from `bonding:k` (F65 sinusoidal single-excitation mode): there the popcount-1
+        // amplitudes are sin-weighted; here every popcount-k index has identical amplitude.
+        // Note: k=0 collapses |0>^N + |D_0> = 2|0>^N (degenerate); reject up front.
+        string kStr = spec.Substring("dickepair:".Length);
+        int k;
+        if (!int.TryParse(kStr, NumberStyles.Integer, CultureInfo.InvariantCulture, out k))
+            throw new ArgumentException($"dickepair: expected integer k, got '{kStr}'");
+        if (k < 1 || k > n)
+            throw new ArgumentException($"dickepair: k={k} must be in [1, N={n}] (k=0 is degenerate with |0>^N)");
+
+        int dickeCount = 0;
+        for (int i = 0; i < d; i++)
+            if (System.Numerics.BitOperations.PopCount((uint)i) == k) dickeCount++;
+        // C(N, k) is always >= 1 for k in [1, N], so dickeCount > 0 here.
+
+        var psi = new Complex[d];
+        double inv2 = 1.0 / Math.Sqrt(2.0);
+        double dickeAmp = inv2 / Math.Sqrt(dickeCount);
+        psi[0] = inv2;
+        for (int i = 1; i < d; i++)
+            if (System.Numerics.BitOperations.PopCount((uint)i) == k)
+                psi[i] = dickeAmp;
+        return psi;
+    }
+
+    throw new ArgumentException($"Unknown initial-state spec '{spec}'. Valid: plus | bits:<bin> | xpattern:<+/-/0/1> | bonding:<k> | dickepair:<k>");
 }
 
 // ============================================================
