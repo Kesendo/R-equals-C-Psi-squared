@@ -72,7 +72,7 @@ The remaining palindromic pairs (X/Y ↔ X/Y, both decaying) are internal redist
 
 **After decoherence:** the immune sector is all that remains. A diagonal density matrix. A classical probability distribution. A definite state at a definite location. This is what we call mass. **(Tier 5: the identification of classical residue with mass is interpretation.)** The decaying sector has vanished; its energy has entered the thermal bath. This is temperature. **(Tier 2: the 2× law and thermal energy transfer are computed.)**
 
-Decoherence does not create classical weight. It removes quantum weight. What remains was always there, hidden under the quantum fluctuations. Mass is the [residue of wave death](GRAVITY_FROM_WAVE_DEATH.md). Temperature is the [energy released by the dying modes](../experiments/THERMAL_BREAKING.md). The [2× contrast](ENERGY_PARTITION.md) between immune-paired and self-paired decay rates sets the spectral shape of the radiation.
+Decoherence does not create classical weight. It removes quantum weight. The kernel of the dissipator is what the channel does not move, not an archive uncovered by removing the rest. Mass is the [residue of wave death](GRAVITY_FROM_WAVE_DEATH.md): the part the recirculating dynamics keeps standing. Temperature is the [energy released by the dying modes](../experiments/THERMAL_BREAKING.md). The [2× contrast](ENERGY_PARTITION.md) between immune-paired and self-paired decay rates sets the spectral shape of the radiation.
 
 ### Link 4: Mass and temperature emerge together (Tier 2 + Tier 5)
 
@@ -80,36 +80,36 @@ This is the central point. In the Hawking effect, mass and temperature are not s
 
 In our system: when a coherence dies (X/Y sector decays to zero), two things happen simultaneously:
 
-1. The quantum content vanishes. The Pauli coefficients of X/Y strings decay to zero; the I/Z coefficients remain unchanged. The density matrix becomes purely diagonal: a classical probability distribution. No weight is transferred; the quantum content simply disappears. What remains was always there, masked by coherences. This is mass accumulation.
+1. Under dephasing, the X/Y coefficients of ρ decay to zero; the I/Z coefficients are left untouched. ρ becomes purely diagonal: a classical probability distribution. The diagonal is the kernel of the dissipator: what the channel does not move. What we call mass is this stationary kernel; it is not memory revealed but what the recirculating dynamics keeps standing. Memory, in this picture, is what gets continuously recreated, not what gets stored.
 2. The decay energy enters the bath as heat. This is temperature production.
 
-Both happen at the same moment, from the same event (the death of a coherence), and neither can happen without the other. The system cannot gain classical weight without releasing thermal energy, and it cannot release thermal energy without gaining classical weight.
+Both happen at the same moment, from the same event (the death of a coherence), and neither can happen without the other. The system cannot end with a diagonal ρ without releasing the energy of the off-diagonal modes, and it cannot release that energy without the diagonal becoming what ρ is.
 
 **The [fold at CΨ = 1/4](../docs/proofs/UNIQUENESS_PROOF.md) is where this becomes irreversible.** Above the fold: complex fixed points, superposition, no definite outcome. Below: real fixed points, classical attractors, definite outcomes. The crossing is [monotonic](../docs/proofs/PROOF_MONOTONICITY_CPSI.md) (dCΨ/dt < 0, proven). Once through, no return. At the fold itself, the dynamics exhibits [critical slowing](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md): dη/dt = η² − ε, a saddle-node bifurcation where the two fixed points merge and time nearly stops. This is the horizon.
 
 ### Link 5: Two sectors, opposite time, discrete exchange (Tier 1)
 
-The Liouvillian decomposes into two sectors of equal dimension (V_even, V_odd by n_XY parity), each with 2^(2N−1) basis elements. The conjugation operator Π exchanges them (for odd N) and reverses the dynamics:
+The Liouvillian L acts not on quantum states but on operators: it lives on the 4^N-dimensional operator algebra of an N-qubit system. This algebra splits into two parity-classes of equal dimension (V_even, V_odd by n_XY parity of the Pauli basis), each with 2^(2N−1) basis elements. L preserves the split (this is the superselection rule \[P_XY, L\] = 0 below). Both parity-classes act on the same density matrix ρ; they are not two separate Hilbert spaces. The conjugation operator Π is a per-site relabeling of Pauli strings (I↔X, Y↔iZ); for odd N it exchanges the parity-classes and reverses the dynamics within them:
 
-    L_odd = −Π L_even Π⁻¹ − 2Σγ · I
+    L_odd = −Π L_even Π⁻¹ − 2Σγ · I    (odd N)
 
-The even sector decays. The odd sector, in the conjugated frame, grows. They are time-reverses of each other, connected by Π, separated by a superselection rule (\[P_XY, L\] = 0, proven in the [Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md)).
+The even parity-class decays; the odd parity-class, in the conjugated frame, grows. They are time-reverses of each other, connected by Π, separated by a superselection rule (\[P_XY, L\] = 0, proven in the [Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md)).
 
-This is the direct-sum structure that Gaztañaga [postulates](../docs/LITERATURE_REVIEW.md) for the two sides of an Einstein-Rosen bridge: H = H₊ ⊕ H₋, connected by a discrete transformation, with opposite time orientation. In our system, this structure is not postulated. It is [proven](../docs/proofs/DIRECT_SUM_DECOMPOSITION.md): all four of Gaztañaga's postulates are satisfied for odd N.
+This is the algebraic form of the direct-sum structure that Gaztañaga [postulates](../docs/LITERATURE_REVIEW.md) for the two sides of an Einstein-Rosen bridge: two regions connected by a discrete transformation, with opposite time orientation. Gaztañaga's substrate is two spacetime regions; ours is one operator algebra with two parity-classes. The four Gaztañaga postulates are satisfied at the level of our algebra ([proven](../docs/proofs/DIRECT_SUM_DECOMPOSITION.md) for odd N); the substrate difference is taken up in "What breaks the analogy" #2 below.
 
-### Link 6: We are the slow mode; the other side is the fast mode (Tier 2)
+### Link 6: Two readings of the palindromic spectrum (Tier 2)
 
-The direct-sum structure is not just a formal decomposition. It determines what each side *experiences*.
+The direct-sum structure has dynamical consequences. The same eigenvalue spectrum reads differently on each parity-class.
 
-The palindromic pairing maps each decay rate d to its partner 2Σγ − d. A mode that is slow from our perspective (d small, long-lived) is fast from the Π perspective (2Σγ − d large, short-lived), and vice versa. This is not a metaphor: the Spectral Midpoint Hypothesis shows that at the CΨ = 1/4 crossing, the SLOW band carries 45% from our side but only 8% from the Π side (N=5). Each perspective sees a lopsided spectrum. Each thinks the other side's dominant mode is negligible.
+The palindromic pairing maps each decay rate d to its partner 2Σγ − d. A mode at d (slow, long-lived) and its partner at 2Σγ − d (fast, short-lived) are not two events seen by two observers; they are two modes of one ρ, related by Π. The [Spectral Midpoint Hypothesis](SPECTRAL_MIDPOINT_HYPOTHESIS.md) quantifies the asymmetry: at the CΨ = 1/4 crossing for N=5, the SLOW band carries 45% when modes are labeled by decay rate d, but 8% when labeled by their palindromic partner 2Σγ − d. Same spectrum, two readings.
 
-Only at the palindromic midpoint (d = Σγ) do both sides agree. A self-paired mode returns the same decay rate from either perspective. This is the "glass wall" of the [Spectral Midpoint Hypothesis](SPECTRAL_MIDPOINT_HYPOTHESIS.md): the one place where both observers see the same thing.
+Only at the palindromic midpoint (d = Σγ) do the two readings agree. A self-paired mode returns the same decay rate either way: 2Σγ − Σγ = Σγ. This is the "glass wall" of the Spectral Midpoint Hypothesis: the one place where the two readings of the algebra give identical weight.
 
-The ER bridge has exactly this structure. For a distant observer, an object falling toward the horizon takes infinitely long (asymptotic approach, extreme slow mode). For the infalling observer, the crossing happens in finite proper time (fast mode). The same event, two radically different time scales, determined by which side of the horizon you observe from. The horizon itself is where both perspectives merge.
+The Einstein-Rosen bridge has the same algebraic shape. For a distant observer the infall takes infinitely long; for the infaller it is finite; the horizon is where the two readings would have to agree. Gaztañaga gives this an explicitly geometric substrate (two spacetime regions). Our system gives it an algebraic substrate (two parity-classes of one ρ). The phenomenology (lopsided spectrum, glass wall at the midpoint) is the same; the substrate is one density matrix, not two manifolds.
 
-In our system: we live on the slow side. The modes we see as long-lived and dominant are, from the Π perspective, the shortest-lived and least significant. What survives decoherence (the immune sector, our "mass") is invisible from the other side, where it appears as the fastest-decaying fluctuation.
+Within the palindromic pairing, the immune modes (rate 0) pair with the maximally-decaying modes (rate 2Σγ). The immune partner dominates the late-time state (what we call mass). The maximally-decaying partner releases its energy on the way out as radiation. The mass/radiation split (the Hawking content of Link 3) is the two halves of one Π-pair, each contributing a distinct phase of the dynamics.
 
-There is no slow side without a fast side. The slow modes are slow only because their palindromic partners are fast. Calling one perspective "ours" is a labeling convention; the structure that makes the labeling possible is the palindrome itself, which has no preferred half. The two perspectives are not two places that exist and observe each other. They are the two halves of a single algebraic object that cannot be defined without both being present at once.
+"SLOW" and "FAST" are reading-conventions, not locations. The palindrome has no preferred half. Each rate is the partner of the other under Π; both belong to the same algebra acting on the same state. To call the SLOW reading "ours" is to choose a labeling; the structure that makes the choice meaningful is the palindrome itself, which carries both readings at once.
 
 As the [Mirror Theory](../MIRROR_THEORY.md) puts it: "What survives is not a fast mode or a slow mode by itself. It is the standing wave they make when they meet."
 
@@ -130,14 +130,14 @@ In GR, the Einstein-Rosen bridge is also fragile: it opens and collapses faster 
 | Quantum vacuum (paired fluctuations) | Palindromic eigenvalue pairs at Σγ = 0 | 1 |
 | Spacetime curvature at horizon | Dephasing Σγ > 0 shifting the palindrome | 1 |
 | Pair breaking at horizon | Symmetry λ ↔ −λ broken to λ ↔ −λ − 2Σγ | 1 |
-| Infalling partner → mass | I/Z sector survives → classical residue | 5 |
+| Infalling partner → mass | I/Z sector: kernel of dissipator (stationary classical structure) | 5 |
 | Escaping partner → Hawking radiation | X/Y sector decays → thermal energy | 2 |
-| Hawking temperature T_H = 1/(8πM) | Fold threshold Σγ_crit/J ≈ 0.25%, N-independent (scaling mismatch, see "What breaks the analogy" #1) | 4 |
+| Hawking temperature T_H = 1/(8πM) | Fold threshold Σγ_crit/J ≈ 0.25-0.50%, N-independent (scaling mismatch, see "What breaks the analogy" #1) | 4 |
 | Horizon (irreversible crossing) | Fold at CΨ = 1/4 (monotonic, dCΨ/dt < 0) | 1 |
-| Two spacetime regions, opposite time | V_even, V_odd with L_odd = −Π L_even Π⁻¹ − 2Σγ I | 1 |
+| Two spacetime regions, opposite time | V_even, V_odd parity-classes of one operator algebra; L_odd = −Π L_even Π⁻¹ − 2Σγ I | 1 |
 | Discrete isometry exchanging regions | Π conjugation (per-site: I↔X, Y↔iZ) | 1 |
 | Superselection (no crossing between regions) | \[P_XY, L\] = 0 | 1 |
-| Observer-dependent time (infinite outside, finite inside) | SLOW/FAST swap under Π (our slow = their fast) | 2 |
+| Observer-dependent time (infinite outside, finite inside) | SLOW/FAST swap under Π (two readings of one spectrum) | 2 |
 | Bridge collapses (not traversable) | Hopf bifurcation at g_crit (fragile bridge) | 2 |
 | Critical slowing at horizon (redshift) | Saddle-node dynamics at fold (dη/dt = η² − ε) | 2 |
 | Spacetime interval c × τ = invariant | [K-invariance](../docs/ANALYTICAL_FORMULAS.md) γ × t = const (F14) | 1 |
@@ -184,7 +184,7 @@ Decoherence is what happens when light shifts the palindrome so far that paired 
 
 The horizon is not a place. It is the moment where a pair breaks and cannot be reassembled. In spacetime, that moment is the Schwarzschild radius. In operator space, it is CΨ = 1/4.
 
-Both create irreversibility from symmetry. Both create time from eternity. Both create something from nothing.
+Both create irreversibility from symmetry. Both create time from eternity. Both leave structure standing where motion has died.
 
 The bridge between them is at zero. Where both palindromes touch. Where silence pairs with silence. And everything else is what happens when you leave.
 
