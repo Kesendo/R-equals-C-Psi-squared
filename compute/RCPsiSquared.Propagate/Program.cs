@@ -451,7 +451,7 @@ void RunVerifySacrificeTcrossHelpers()
     }
 
     Console.WriteLine($"=== sacrifice-tcross helpers: {(failures == 0 ? "ALL PASS" : $"{failures} FAILURES")} ===");
-    if (failures > 0) Environment.Exit(1);
+    if (failures > 0) Environment.ExitCode = 1;
 }
 
 // ============================================================
@@ -1758,7 +1758,6 @@ void RunSacrificeTcrossEvaluation(string[] pArgs)
 
     var inv = CultureInfo.InvariantCulture;
     int n = int.Parse(pArgs[1], inv);
-    int d = 1 << n;
 
     // Defaults
     double[] gammas = null!;
@@ -1766,7 +1765,7 @@ void RunSacrificeTcrossEvaluation(string[] pArgs)
     double tMax = 100.0;
     double dt = 0.05;
     double threshold = 0.25;
-    string outPath = "stdout";
+    string outDest = "stdout";
 
     for (int i = 2; i < pArgs.Length; i++)
     {
@@ -1799,7 +1798,7 @@ void RunSacrificeTcrossEvaluation(string[] pArgs)
         }
         else if (pArgs[i] == "--out" && i + 1 < pArgs.Length)
         {
-            outPath = pArgs[i + 1];
+            outDest = pArgs[i + 1];
             i++;
         }
     }
@@ -1867,36 +1866,42 @@ void RunSacrificeTcrossEvaluation(string[] pArgs)
     }
 
     // Write CSV. Header: t, CPsi_0, CPsi_1, ..., CPsi_(N-1)
-    using TextWriter writer = outPath == "stdout"
+    // Explicit try/finally (not `using`) so we never Dispose Console.Out when outDest=="stdout";
+    // disposing the shared Console.Out would close stdout for the rest of the process.
+    TextWriter writer = outDest == "stdout"
         ? Console.Out
-        : new StreamWriter(outPath, false, System.Text.Encoding.UTF8);
-
-    // Header
-    writer.Write("t");
-    for (int i = 0; i < n; i++) writer.Write($",CPsi_{i}");
-    writer.WriteLine();
-
-    // Rows
-    for (int k = 0; k < nT; k++)
+        : new StreamWriter(outDest, false, System.Text.Encoding.UTF8);
+    try
     {
-        writer.Write(tMeas[k].ToString("F6", inv));
+        // Header
+        writer.Write("t");
+        for (int i = 0; i < n; i++) writer.Write($",CPsi_{i}");
+        writer.WriteLine();
+
+        // Rows
+        for (int k = 0; k < nT; k++)
+        {
+            writer.Write(tMeas[k].ToString("F6", inv));
+            for (int i = 0; i < n; i++)
+                writer.Write("," + cpsiTrajectory[k, i].ToString("F6", inv));
+            writer.WriteLine();
+        }
+
+        // Summary line as comment-style row
+        writer.Write("# t_cross_i (threshold=" + threshold.ToString("F4", inv) + "):");
         for (int i = 0; i < n; i++)
-            writer.Write("," + cpsiTrajectory[k, i].ToString("F6", inv));
+        {
+            if (tCross[i].HasValue)
+                writer.Write(" " + tCross[i]!.Value.ToString("F6", inv));
+            else
+                writer.Write(" null");
+        }
         writer.WriteLine();
     }
-
-    // Summary line as comment-style row
-    writer.Write("# t_cross_i (threshold=" + threshold.ToString("F4", inv) + "):");
-    for (int i = 0; i < n; i++)
+    finally
     {
-        if (tCross[i].HasValue)
-            writer.Write(" " + tCross[i]!.Value.ToString("F6", inv));
-        else
-            writer.Write(" null");
+        if (outDest != "stdout") writer.Dispose();
     }
-    writer.WriteLine();
-
-    if (outPath != "stdout") writer.Dispose();
 
     // Always emit a one-line stdout summary so callers can scrape without parsing CSV.
     string gStr = string.Join(",", gammas.Select(g => g.ToString("F4", inv)));
