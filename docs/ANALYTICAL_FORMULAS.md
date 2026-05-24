@@ -3355,5 +3355,40 @@ the enum balance.
 
 ---
 
+### F107. F87 Truly Classification Forces y_par = 0 (Tier 1 derived, closed-form corollary of F85)
+
+After F103/F105/F106 anchored 4524 truly classifications empirically (all with
+y_par = 0, zero with y_par = 1), F107 derives this in closed form as a direct
+corollary of F85's k-body truly criterion, extended from F85's Z-dephasing
+proof to all three dephase letters (X, Y, Z) via the per-dephase Π² eigenvalue
+rule (`PiOperator.SquaredEigenvalue`) combined with dissipator commutativity
+(F84 Pauli-Channel Cancellation Lemma). F107 is the first DERIVED-not-EMPIRICAL
+Claim in the F87 Z₂³ refinement family.
+
+**Per-dephase truly criteria** (each combining Π²-even with dissipator-commute):
+
+- Z-dephase: #Y even AND #Z even
+- X-dephase: #X even AND #Y even
+- Y-dephase: #Y even AND #Z even
+
+All three include `#Y even` as a sub-condition. Since `y_par = #Y mod 2`,
+every truly term has y_par = 0; every truly y_par-homogeneous pair has shared
+y_par = 0. Bit-exact verification across all 64 k=3 + 256 k=4 letter
+sequences × 3 dephase letters (`TrulyYParityZeroPurityTests.VerifyOnTerm_*`).
+
+**Open siblings**: F108 hard appears only in diagonal Klein cells (formal
+proof of the F87 dissipator-resonance law); F109 mother (0,0) soft is
+y_par=1-pure (medium difficulty, requires Pauli-pair compatibility analysis
+layered on F102); F110 hard cells y_par-pure with Y-inversion (higher
+difficulty, requires per-dephase-letter algebra).
+
+**Source:** [Proof](proofs/PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md);
+`compute/RCPsiSquared.Core/Symmetry/TrulyYParityZeroPurity.cs`;
+parent: PROOF_F85_KBODY_GENERALIZATION.md (k-body truly criterion under
+Z-dephasing); helpers: `TrulyYParityZeroPurity.TrulyCriterionHolds(term, dephase)`
+and `TrulyYParityZeroPurity.VerifyOnTerm(term, dephase)`.
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*

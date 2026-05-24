@@ -193,6 +193,11 @@ public static class KnowledgeRegistryFactory
             // YParityClaims grows from 3 to 4. Frozen counts captured via SLOW_F106_BATCH
             // tool run; tests k-stability where F105 confirmed N-stability.
             .RegisterF87Z2CubedRefinementN4K4()
+            // YParity-axis F107: F87 truly classification forces y_par = 0 (closed-form,
+            // all dephase letters). First DERIVED-not-EMPIRICAL Claim in the family;
+            // direct corollary of F85's k-body truly criterion. PolarityCubeMap's
+            // YParityClaims grows from 4 to 5.
+            .RegisterTrulyYParityZeroPurity()
             // Polarity cube map (cubic Z₂³ architecture inventory; aggregates every IZ2AxisClaim)
             // Must come AFTER every Pi²-Inheritance Claim registration above so its b.Get<T>()
             // dependencies resolve. Currently snapshot-only; rebuild registry to refresh.
