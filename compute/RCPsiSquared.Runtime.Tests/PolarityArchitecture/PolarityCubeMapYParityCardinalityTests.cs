@@ -17,10 +17,11 @@ public class PolarityCubeMapYParityCardinalityTests
     {
         // F102 (YParityIndependenceAtK3) + F103 (F87Z2CubedRefinementN4K3) + F105
         // (F87Z2CubedRefinementN5K3) + F106 (F87Z2CubedRefinementN4K4) + F107
-        // (TrulyYParityZeroPurity, the first derived-not-empirical Claim) are the
-        // current Z2Axis.YParity members. When a new regime lands (F108+ etc), bump
-        // this expected value to match.
-        const int expectedCount = 5;
+        // (TrulyYParityZeroPurity, first derived-not-empirical) + F109
+        // (MotherSoftYParityOnePurity, second derived-not-empirical, closed-form
+        // modulo F108 Part 1) are the current Z2Axis.YParity members. When a new
+        // regime lands (F108/F110+ etc), bump this expected value to match.
+        const int expectedCount = 6;
 
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var cubeMap = registry.Get<PolarityCubeMap>();

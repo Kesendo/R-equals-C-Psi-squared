@@ -3390,5 +3390,48 @@ and `TrulyYParityZeroPurity.VerifyOnTerm(term, dephase)`.
 
 ---
 
+### F109. Mother Sector Soft is y_par = 1 Pure (Tier 1 derived modulo F108 Part 1)
+
+Sister to F107 on the y_par axis. F107 pinned the y_par signature of truly cells
+across all dephase letters; F109 pins the y_par signature of mother sector
+(Klein (0, 0)) soft cells.
+
+**Theorem (F109):** Under any single-letter dephase channel (Z, X, or Y), every
+Pauli pair classified as soft and located in the Mother sector Klein (0, 0) has
+shared y_par = 1.
+
+**Derivation chain:**
+
+1. Klein (0, 0) constraint (bit_a = 0 AND bit_b = 0) forces all three letter
+   counts #X, #Y, #Z to share the same parity (all even or all odd).
+2. Per F107 per-dephase truly criteria, combined with Step 1's same-parity:
+   Klein (0, 0) truly = all three counts even (y_par = 0).
+3. Klein (0, 0) non-truly = all three counts odd (y_par = 1).
+4. Klein (0, 0) is Π²-EVEN under every dephase letter (bit_b = 0 for Z/Y;
+   bit_a = 0 for X).
+5. **Open dependency (F108 Part 1):** Π²-even non-truly pairs are soft (not
+   hard). Empirically verified across 5346+ pairs in F103/F105/F106; closed-form
+   block-restricted palindrome lemma on Π²-eigenspace decomposition of L is
+   currently open.
+6. Klein (0, 0) soft term ⟹ y_par = 1; y_par-homogeneous pair: shared y_par = 1.
+
+**Empirical confirmation:** F103 mother soft (0, 21) × 3 dephase; F105 same;
+F106 (0, 300) × 3. Total 1026 mother-soft classifications, all y_par = 1, zero
+y_par = 0. F109 explains this bit-exactly modulo Step 5.
+
+**Cross-letter spot-check:** Klein (0, 0) non-truly k=3 terms are the 6
+XYZ-permutations (only triple with all-odd and sum ≤ 3). Unordered pairs with
+self: 6·7/2 = 21 (matches F103/F105). At k=4: 24 letter sequences (3 non-I + 1 I),
+24·25/2 = 300 (matches F106).
+
+**Source:** [Proof](proofs/PROOF_F109_MOTHER_SOFT_Y_PARITY_ONE_PURITY.md);
+`compute/RCPsiSquared.Core/Symmetry/MotherSoftYParityOnePurity.cs`;
+parents: PROOF_F107 + PROOF_F85; depends on open F108 Part 1
+(Π²-even-soft block-palindrome lemma); helpers:
+`MotherSoftYParityOnePurity.IsMotherNonTrulyCandidate(term)` and
+`MotherSoftYParityOnePurity.VerifyOnTerm(term)`.
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*

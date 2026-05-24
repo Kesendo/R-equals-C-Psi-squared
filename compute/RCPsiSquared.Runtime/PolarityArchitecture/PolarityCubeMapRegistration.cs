@@ -102,6 +102,7 @@ public static class PolarityCubeMapRegistration
             z2AxisClaims.Add(b.Get<F87Z2CubedRefinementN5K3>());
             z2AxisClaims.Add(b.Get<F87Z2CubedRefinementN4K4>());
             z2AxisClaims.Add(b.Get<TrulyYParityZeroPurity>());
+            z2AxisClaims.Add(b.Get<MotherSoftYParityOnePurity>());
             // Cubic3-axis Claims (Stage 2b+)
             z2AxisClaims.Add(b.Get<KleinEightCellClaim>());
             z2AxisClaims.Add(b.Get<ZGlobalMirrorRefinement>());

@@ -198,6 +198,11 @@ public static class KnowledgeRegistryFactory
             // direct corollary of F85's k-body truly criterion. PolarityCubeMap's
             // YParityClaims grows from 4 to 5.
             .RegisterTrulyYParityZeroPurity()
+            // YParity-axis F109: mother sector Klein (0,0) soft is y_par=1 pure across
+            // all dephase letters. Sister to F107; together pin truly + mother-soft
+            // y_par signature. Closed-form modulo F108 Part 1 (Π²-even-soft).
+            // PolarityCubeMap's YParityClaims grows from 5 to 6.
+            .RegisterMotherSoftYParityOnePurity()
             // Cubic3-axis (Stage 2b): the 8-cell Z₂³ decomposition (bit_a, bit_b, y_par).
             // First Cubic3-axis Claim; PolarityCubeMap's Cubic3Claims grows from 0 to 1.
             // Structural anchor for F87 Z₂³ refinement work (F103/F105/F106).
