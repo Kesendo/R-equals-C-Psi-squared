@@ -43,9 +43,19 @@ public sealed class F1Pi2Inheritance : Claim, IF99AnchorBearing, IZ2AxisClaim
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
     /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
-    /// (no bit_a twin is typed for this Claim; this is an open slot in the
-    /// cubic-architecture coverage).</summary>
+    /// (the F1²-twin F61BitAParityPi2Inheritance IS typed independently, but
+    /// is not wired here as a reference because the dependency would invert the
+    /// F1-foundational vs F61-derived ordering. See <see cref="BitATwinStatus"/>
+    /// for the structural classification.</summary>
     public Claim? BitATwin => null;
+
+    /// <summary>F1's bit_a-twin is F61BitAParityPi2Inheritance, which IS already
+    /// typed and registered. The "twin slot" is unfilled only in the sense that
+    /// the BitATwin reference here is null; the twin Claim itself exists.
+    /// Classified as <see cref="BitATwinClassification.TrivialNotYetTyped"/>:
+    /// wiring the reference is mechanical low-cost work.</summary>
+    public BitATwinClassification BitATwinStatus =>
+        BitATwinClassification.TrivialNotYetTyped;
     /// <inheritdoc />
     /// <remarks>Parent role: feeds the F99 inheritance graph structurally
     /// but the claim's own value does not sit on the F86b α-axis.

@@ -24,4 +24,21 @@ public interface IZ2AxisClaim
     /// sibling Claim if one exists, or <c>null</c> if the twin slot is unfilled.
     /// For all other axes: always <c>null</c>.</summary>
     Claim? BitATwin { get; }
+
+    /// <summary>Structural classification of the BitA-twin slot for this Claim.
+    /// Default implementation derives the status from <see cref="Z2Axis"/> and
+    /// <see cref="BitATwin"/>: non-BitB axes return
+    /// <see cref="BitATwinClassification.NotApplicableForThisAxis"/>; BitB Claims
+    /// with non-null <see cref="BitATwin"/> return
+    /// <see cref="BitATwinClassification.Filled"/>; BitB Claims with null
+    /// <see cref="BitATwin"/> default to
+    /// <see cref="BitATwinClassification.NeedsDerivation"/>. Per-Claim authors
+    /// override to refine into <see cref="BitATwinClassification.TrivialNotYetTyped"/>
+    /// or <see cref="BitATwinClassification.BitBSpecific"/> as appropriate.</summary>
+    BitATwinClassification BitATwinStatus =>
+        Z2Axis != Z2Axis.BitB
+            ? BitATwinClassification.NotApplicableForThisAxis
+            : BitATwin is not null
+                ? BitATwinClassification.Filled
+                : BitATwinClassification.NeedsDerivation;
 }

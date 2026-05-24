@@ -100,4 +100,71 @@ public class PolarityCubeMapTests
         Assert.NotNull(kb.PolarityCubeMap);
         Assert.True(kb.PolarityCubeMap.TotalClaims >= 1);
     }
+
+    private sealed class FakeBitBClaimTrivialNotYetTyped : Claim, IZ2AxisClaim
+    {
+        public FakeBitBClaimTrivialNotYetTyped() : base("fake BitB trivial", Tier.Tier1Derived, "test") { }
+        public override string DisplayName => "fake BitB trivial";
+        public override string Summary => "fake BitB trivial";
+        public Z2Axis Z2Axis => Z2Axis.BitB;
+        public Claim? BitATwin => null;
+        public BitATwinClassification BitATwinStatus => BitATwinClassification.TrivialNotYetTyped;
+    }
+
+    private sealed class FakeBitBClaimBitBSpecific : Claim, IZ2AxisClaim
+    {
+        public FakeBitBClaimBitBSpecific() : base("fake BitB specific", Tier.Tier1Derived, "test") { }
+        public override string DisplayName => "fake BitB specific";
+        public override string Summary => "fake BitB specific";
+        public Z2Axis Z2Axis => Z2Axis.BitB;
+        public Claim? BitATwin => null;
+        public BitATwinClassification BitATwinStatus => BitATwinClassification.BitBSpecific;
+    }
+
+    [Fact]
+    public void BitATwinStatus_DefaultBehavior_MapsBitBNullToNeedsDerivation()
+    {
+        // Default IZ2AxisClaim.BitATwinStatus impl: BitB + null BitATwin → NeedsDerivation.
+        IZ2AxisClaim claim = new FakeBitBClaim();
+        Assert.Equal(BitATwinClassification.NeedsDerivation, claim.BitATwinStatus);
+    }
+
+    [Fact]
+    public void BitATwinStatus_DefaultBehavior_MapsNonBitBToNotApplicable()
+    {
+        // Default IZ2AxisClaim.BitATwinStatus impl: non-BitB axis → NotApplicableForThisAxis.
+        IZ2AxisClaim bitA = new FakeBitAClaim();
+        IZ2AxisClaim klein2 = new FakeKlein2Claim();
+        Assert.Equal(BitATwinClassification.NotApplicableForThisAxis, bitA.BitATwinStatus);
+        Assert.Equal(BitATwinClassification.NotApplicableForThisAxis, klein2.BitATwinStatus);
+    }
+
+    [Fact]
+    public void BitATwinStatusBreakdown_AggregatesAcrossBitBClaims()
+    {
+        // Three BitB Claims with distinct status overrides + one BitA + one Klein2.
+        // BitA/Klein2 should NOT count toward any of the breakdown buckets
+        // (they're NotApplicableForThisAxis).
+        var claims = new List<IZ2AxisClaim>
+        {
+            new FakeBitBClaim(),                       // default → NeedsDerivation
+            new FakeBitBClaimTrivialNotYetTyped(),     // override → TrivialNotYetTyped
+            new FakeBitBClaimBitBSpecific(),           // override → BitBSpecific
+            new FakeBitAClaim(),                       // → NotApplicableForThisAxis
+            new FakeKlein2Claim(),                     // → NotApplicableForThisAxis
+        };
+
+        var map = new PolarityCubeMap(claims);
+
+        Assert.Equal(1, map.TrivialNotYetTypedTwinSlots);
+        Assert.Equal(1, map.NeedsDerivationTwinSlots);
+        Assert.Equal(1, map.BitBSpecificTwinSlots);
+
+        Assert.Single(map.TrivialNotYetTypedTwinSlotNames);
+        Assert.Equal("FakeBitBClaimTrivialNotYetTyped", map.TrivialNotYetTypedTwinSlotNames[0]);
+
+        // OpenBitATwinSlots still counts all 3 BitB (none have BitATwin); the
+        // breakdown REFINES the open count, doesn't replace it.
+        Assert.Equal(3, map.OpenBitATwinSlots);
+    }
 }

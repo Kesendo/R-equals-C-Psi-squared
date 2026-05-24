@@ -43,6 +43,32 @@ public sealed class PolarityCubeMap : Claim
                   .OrderBy(n => n)
                   .ToList();
 
+    /// <summary>BitB Claims whose BitA twin is mechanically derivable but not yet
+    /// typed as a separate Claim (e.g., F1Pi2Inheritance whose twin F61 IS typed
+    /// but not wired as the BitATwin reference). Future low-cost work to fill.</summary>
+    public int TrivialNotYetTypedTwinSlots =>
+        BitBClaims.Count(c => c.BitATwinStatus == BitATwinClassification.TrivialNotYetTyped);
+
+    /// <summary>BitB Claims whose BitA twin would require new substantive derivation
+    /// (not a mechanical letter swap). Future medium-to-high effort to fill.</summary>
+    public int NeedsDerivationTwinSlots =>
+        BitBClaims.Count(c => c.BitATwinStatus == BitATwinClassification.NeedsDerivation);
+
+    /// <summary>BitB Claims with no meaningful BitA twin (e.g., F1T1's amplitude
+    /// damping intrinsically breaks bit_a symmetry per F61's BreakConditions, so
+    /// no bit_a-axis analog exists). No filling work required.</summary>
+    public int BitBSpecificTwinSlots =>
+        BitBClaims.Count(c => c.BitATwinStatus == BitATwinClassification.BitBSpecific);
+
+    /// <summary>Sub-list of unfilled BitA-twin slot names categorized as
+    /// <see cref="BitATwinClassification.TrivialNotYetTyped"/>. These are the
+    /// natural first batch for Stage 2a fill work.</summary>
+    public IReadOnlyList<string> TrivialNotYetTypedTwinSlotNames =>
+        BitBClaims.Where(c => c.BitATwinStatus == BitATwinClassification.TrivialNotYetTyped)
+                  .Select(c => c.GetType().Name)
+                  .OrderBy(n => n)
+                  .ToList();
+
     public PolarityCubeMap(IReadOnlyList<IZ2AxisClaim> allClaims)
         : base("Polarity Cube Map: cubic Z₂³ architecture inventory across the Pi²-Inheritance claim set",
                // Tier2Empirical (not Tier1Derived) because the snapshot can include
@@ -87,10 +113,21 @@ public sealed class PolarityCubeMap : Claim
             yield return InspectableNode.RealScalar("Cubic3 count (full Z₂³)", Cubic3Claims.Count);
             yield return InspectableNode.RealScalar("Open BitA twin slots", OpenBitATwinSlots);
             yield return InspectableNode.RealScalar("Twin coverage ratio", TwinCoverageRatio);
+            yield return new InspectableNode("BitA twin slot breakdown (Stage 2a)",
+                summary: $"trivial-not-typed: {TrivialNotYetTypedTwinSlots}, " +
+                         $"needs-derivation: {NeedsDerivationTwinSlots}, " +
+                         $"bit_b-specific: {BitBSpecificTwinSlots}");
+
+            if (TrivialNotYetTypedTwinSlotNames.Count > 0)
+            {
+                yield return new InspectableNode("Trivial-not-yet-typed BitA twin slots (low-cost fill targets)",
+                    summary: string.Join(", ", TrivialNotYetTypedTwinSlotNames.Take(10)) +
+                             (TrivialNotYetTypedTwinSlotNames.Count > 10 ? $" ... (+{TrivialNotYetTypedTwinSlotNames.Count - 10} more)" : ""));
+            }
 
             if (UnfilledTwinSlotNames.Count > 0)
             {
-                yield return new InspectableNode("Unfilled BitA twin slots (top 10)",
+                yield return new InspectableNode("All unfilled BitA twin slots (top 10)",
                     summary: string.Join(", ", UnfilledTwinSlotNames.Take(10)) +
                              (UnfilledTwinSlotNames.Count > 10 ? $" ... (+{UnfilledTwinSlotNames.Count - 10} more)" : ""));
             }

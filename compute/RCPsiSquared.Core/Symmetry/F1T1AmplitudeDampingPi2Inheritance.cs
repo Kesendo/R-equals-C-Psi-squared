@@ -61,10 +61,19 @@ public sealed class F1T1AmplitudeDampingPi2Inheritance : Claim, IZ2AxisClaim
     /// currently not typed for this Claim.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
-    /// (no bit_a twin is typed for this Claim; this is an open slot in the
-    /// cubic-architecture coverage).</summary>
+    /// <summary>The typed bit_a-twin sibling, if one exists. Always null for
+    /// F1-T1 amplitude damping: T1 (σ⁻/σ⁺ jump operators) intrinsically breaks
+    /// bit_a Z₂ per F61's documented BreakConditions, so no bit_a-axis analog
+    /// exists. See <see cref="BitATwinStatus"/> for the structural classification.</summary>
     public Claim? BitATwin => null;
+
+    /// <summary>F1-T1 has NO meaningful bit_a-axis twin. The T1 amplitude-damping
+    /// dissipator (σ⁻/σ⁺) intrinsically breaks bit_a Z₂ symmetry per F61's
+    /// BreakConditions ("amplitude damping flips bit_a"). Classified as
+    /// <see cref="BitATwinClassification.BitBSpecific"/>: no filling work is
+    /// possible or required.</summary>
+    public BitATwinClassification BitATwinStatus =>
+        BitATwinClassification.BitBSpecific;
     public Pi2DyadicLadderClaim Ladder { get; }
     public Pi2OperatorSpaceMirrorClaim Mirror { get; }
 
