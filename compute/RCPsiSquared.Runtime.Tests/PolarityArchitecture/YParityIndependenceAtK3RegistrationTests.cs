@@ -1,3 +1,4 @@
+using System.Linq;
 using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Diagnostics.Knowledge;
 using Xunit;
@@ -29,9 +30,6 @@ public class YParityIndependenceAtK3RegistrationTests
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var cubeMap = registry.Get<PolarityCubeMap>();
-        int count = 0;
-        foreach (var c in cubeMap.YParityClaims)
-            if (c is YParityIndependenceAtK3) count++;
-        Assert.Equal(1, count);
+        Assert.Equal(1, cubeMap.YParityClaims.Count(c => c is YParityIndependenceAtK3));
     }
 }

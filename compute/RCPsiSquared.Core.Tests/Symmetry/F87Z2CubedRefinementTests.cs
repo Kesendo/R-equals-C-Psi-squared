@@ -96,20 +96,19 @@ public class F87Z2CubedRefinementTests
         var claim = new F87Z2CubedRefinement();
         Assert.Equal(6, claim.OffDiagonalSoft.Cells.Count);
 
-        // Pattern B (3 cells): sum 76 each
-        var patternB = new[]
+        // Pattern B (3 cells): proportional to (Klein, y_par) enum breakdown
+        // (0,1) and (1,0) Klein cells have enum split (55, 21); (1,1) has inverted (21, 55).
+        var expectedPatternB = new Dictionary<(int KleinA, int KleinB, char Dephase), (int YPar0, int YPar1)>
         {
-            ((0, 1), 'Y'),
-            ((1, 1), 'Z'),
-            ((1, 1), 'X'),
+            { (0, 1, 'Y'), (55, 21) },
+            { (1, 1, 'Z'), (21, 55) },
+            { (1, 1, 'X'), (21, 55) },
         };
-        foreach (var key in patternB)
+        foreach (var (key, expected) in expectedPatternB)
         {
-            var (kA, kB) = key.Item1;
-            var dephase = key.Item2;
-            var cellKey = (kA, kB, dephase);
-            var counts = claim.OffDiagonalSoft.Cells[cellKey];
-            Assert.Equal(76, counts.YPar0 + counts.YPar1);
+            var actual = claim.OffDiagonalSoft.Cells[key];
+            Assert.Equal(expected, actual);
+            Assert.Equal(76, actual.YPar0 + actual.YPar1);
         }
 
         // Pattern C (3 cells): sum 21 each, YPar0 == 0
