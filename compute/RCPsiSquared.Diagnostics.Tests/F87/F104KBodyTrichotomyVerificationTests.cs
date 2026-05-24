@@ -9,7 +9,7 @@ namespace RCPsiSquared.Diagnostics.Tests.F87;
 
 /// <summary>F104 verification: re-classify F103's 294 N=4 k=3 Z₂³-homogeneous pairs
 /// in C# (via the new <see cref="PauliPairTrichotomy.Classify"/> k≥3 overload) and
-/// assert per-cell counts match <see cref="F87Z2CubedRefinement"/>'s frozen records
+/// assert per-cell counts match <see cref="F87Z2CubedRefinementN4K3"/>'s frozen records
 /// bit-exactly. Closes F103's explicit out-of-scope item "C# k≥3 classifier lift".
 ///
 /// <para>Runtime: ~30-60s for 882 classifications (294 pairs × 3 dephase letters).
@@ -37,7 +37,7 @@ public class F104KBodyTrichotomyVerificationTests : IClassFixture<F104CountsFixt
     public void Verification_TrulyCountsMatch_F103_FrozenAnchor()
     {
         var counts = _fixture.Counts;
-        var f103 = new F87Z2CubedRefinement();
+        var f103 = new F87Z2CubedRefinementN4K3();
 
         int totalTruly = counts
             .Where(kv => kv.Key.Cls == TrichotomyClass.Truly)
@@ -54,7 +54,7 @@ public class F104KBodyTrichotomyVerificationTests : IClassFixture<F104CountsFixt
     public void Verification_HardDiagonalCounts_MatchF103()
     {
         var counts = _fixture.Counts;
-        var f103 = new F87Z2CubedRefinement();
+        var f103 = new F87Z2CubedRefinementN4K3();
 
         Assert.Equal(f103.HardDiagonal.ZDephKlein01,
             (counts.GetValueOrDefault(((0, 1), 'Z', 0, TrichotomyClass.Hard)),
@@ -71,7 +71,7 @@ public class F104KBodyTrichotomyVerificationTests : IClassFixture<F104CountsFixt
     public void Verification_SoftCounts_AllPatternsMatch_F103()
     {
         var counts = _fixture.Counts;
-        var f103 = new F87Z2CubedRefinement();
+        var f103 = new F87Z2CubedRefinementN4K3();
 
         // DiagonalSoft 13:13 universal
         Assert.Equal(f103.DiagonalSoft.ZDephKlein01,
@@ -112,7 +112,7 @@ public class F104KBodyTrichotomyVerificationTests : IClassFixture<F104CountsFixt
         // F103's frozen records matches the C# re-classification bit-exactly. Catches
         // any drift not caught by the per-record tests above.
         var counts = _fixture.Counts;
-        var f103 = new F87Z2CubedRefinement();
+        var f103 = new F87Z2CubedRefinementN4K3();
 
         // Truly: 300 total, 0 y_par=1
         int trulyTotal = counts.Where(kv => kv.Key.Cls == TrichotomyClass.Truly).Sum(kv => kv.Value);

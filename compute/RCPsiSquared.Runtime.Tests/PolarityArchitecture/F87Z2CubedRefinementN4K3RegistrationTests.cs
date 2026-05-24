@@ -4,13 +4,13 @@ using Xunit;
 
 namespace RCPsiSquared.Runtime.Tests.PolarityArchitecture;
 
-public class F87Z2CubedRefinementRegistrationTests
+public class F87Z2CubedRefinementN4K3RegistrationTests
 {
     [Fact]
-    public void F87Z2CubedRefinement_IsRegistered_AfterBuildDefault()
+    public void F87Z2CubedRefinementN4K3_IsRegistered_AfterBuildDefault()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
-        var claim = registry.Get<F87Z2CubedRefinement>();
+        var claim = registry.Get<F87Z2CubedRefinementN4K3>();
         Assert.NotNull(claim);
         Assert.Equal(Z2Axis.YParity, claim.Z2Axis);
     }
@@ -18,7 +18,7 @@ public class F87Z2CubedRefinementRegistrationTests
     [Fact]
     public void PolarityCubeMap_YParityClaims_ContainsExactlyTwo()
     {
-        // F102 + F103 are the only Z2Axis.YParity members in PolarityCubeMap; expect count == 2.
+        // F102 + F103 (N4K3) are the only Z2Axis.YParity members in PolarityCubeMap; expect count == 2.
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var cubeMap = registry.Get<PolarityCubeMap>();
         Assert.NotNull(cubeMap);
@@ -26,10 +26,10 @@ public class F87Z2CubedRefinementRegistrationTests
     }
 
     [Fact]
-    public void PolarityCubeMap_YParityClaims_IncludesF87Z2CubedRefinement()
+    public void PolarityCubeMap_YParityClaims_IncludesF87Z2CubedRefinementN4K3()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var cubeMap = registry.Get<PolarityCubeMap>();
-        Assert.Contains(cubeMap.YParityClaims, c => c is F87Z2CubedRefinement);
+        Assert.Contains(cubeMap.YParityClaims, c => c is F87Z2CubedRefinementN4K3);
     }
 }

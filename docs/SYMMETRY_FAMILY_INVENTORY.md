@@ -27,7 +27,7 @@
 |---|---|---|---|---|---|
 | 8 | PolarityCubeMap | aggregator | Z2Axis classification of all Pi²-Inheritance Claims | gap-detection via null BitATwin (Tier2Empirical, snapshot strength bounded by weakest contributing parent; cubic architecture itself is Tier1Derived) | `PolarityCubeMap` (added 2026-05-24) |
 | 10 | YParityIndependenceAtK3 | YParity (term-level Z₂) | classifies Pauli terms by n_Y mod 2 | independent of Klein at k_body≥3 (Tier1Derived; F102) | `YParityIndependenceAtK3` (added 2026-05-24) |
-| 11 | F87Z2CubedRefinement | YParity (term-level Z₂) | refines F87 trichotomy at k=3 with five sub-statements (truly y_par=0-pure, hard diagonal 42:8 with Y-inversion, diagonal soft 13:13, mother soft y_par=1-pure, off-diagonal soft Pattern B + C) | empirical anchor at N=4 (294 pairs; Tier1Derived; F103) | `F87Z2CubedRefinement` (added 2026-05-24) |
+| 11 | F87Z2CubedRefinementN4K3 | YParity (term-level Z₂) | refines F87 trichotomy at k=3 with five sub-statements (truly y_par=0-pure, hard diagonal 42:8 with Y-inversion, diagonal soft 13:13, mother soft y_par=1-pure, off-diagonal soft Pattern B + C) | empirical anchor at N=4 (294 pairs; Tier1Derived; F103). First derived class of `F87Z2CubedRefinementBase` | `F87Z2CubedRefinementN4K3` (added 2026-05-24) |
 
 ## Negative results (typed for completeness)
 

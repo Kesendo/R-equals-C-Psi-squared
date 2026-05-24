@@ -179,9 +179,10 @@ public static class KnowledgeRegistryFactory
             // above but BEFORE RegisterPolarityCubeMap so the cube map's b.Get<...>()
             // dependency resolves.
             .RegisterYParityIndependenceAtK3()
-            // YParity-axis F103: Z₂³ refinement of F87 trichotomy at k=3 (N=4 anchor).
-            // Second YParity-axis Claim; PolarityCubeMap's YParityClaims grows from 1 to 2.
-            .RegisterF87Z2CubedRefinement()
+            // YParity-axis F103: Z₂³ refinement of F87 trichotomy at N=4 k=3.
+            // First concrete derived class of F87Z2CubedRefinementBase; PolarityCubeMap's
+            // YParityClaims grows from 1 to 2.
+            .RegisterF87Z2CubedRefinementN4K3()
             // Polarity cube map (cubic Z₂³ architecture inventory; aggregates every IZ2AxisClaim)
             // Must come AFTER every Pi²-Inheritance Claim registration above so its b.Get<T>()
             // dependencies resolve. Currently snapshot-only; rebuild registry to refresh.

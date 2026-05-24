@@ -3286,7 +3286,8 @@ selection rule; hardware confirmation of k≥3 F87 (all 5 Marrakesh F87
 confirmations are k=2).
 
 **Source:** [Proof](proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md);
-`compute/RCPsiSquared.Core/Symmetry/F87Z2CubedRefinement.cs`;
+`compute/RCPsiSquared.Core/Symmetry/F87Z2CubedRefinementN4K3.cs`
+(derived from `F87Z2CubedRefinementBase.cs`);
 regenerate empirical anchor via `simulations/f87_z2cubed_split_n4_k3.py` (~60s).
 
 ---
