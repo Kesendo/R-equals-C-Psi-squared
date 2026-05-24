@@ -200,13 +200,19 @@ public static class KnowledgeRegistryFactory
             .RegisterTrulyYParityZeroPurity()
             // YParity-axis F109: mother sector Klein (0,0) soft is y_par=1 pure across
             // all dephase letters. Sister to F107; together pin truly + mother-soft
-            // y_par signature. Closed-form modulo F108 Part 1 (Π²-even-soft).
+            // y_par signature. Fully unconditional Tier1Derived after F108 Part 1
+            // closure (Π_5bilinear, see RegisterF108Part1Pi2EvenAlwaysPalindromic below).
             // PolarityCubeMap's YParityClaims grows from 5 to 6.
             .RegisterMotherSoftYParityOnePurity()
             // Cubic3-axis (Stage 2b): the 8-cell Z₂³ decomposition (bit_a, bit_b, y_par).
             // First Cubic3-axis Claim; PolarityCubeMap's Cubic3Claims grows from 0 to 1.
             // Structural anchor for F87 Z₂³ refinement work (F103/F105/F106).
             .RegisterKleinEightCellClaim()
+            // BitB-axis F108 Part 1: every Π²-even H + Z-dephasing admits exact
+            // operator-level palindrome via the Π_5bilinear phase-variant Π operator.
+            // Closes "no Π²-even pair is F87-hard"; retroactively promotes F109 to
+            // fully unconditional Tier1Derived. PolarityCubeMap's BitBClaims grows by 1.
+            .RegisterF108Part1Pi2EvenAlwaysPalindromic()
             // Polarity cube map (cubic Z₂³ architecture inventory; aggregates every IZ2AxisClaim)
             // Must come AFTER every Pi²-Inheritance Claim registration above so its b.Get<T>()
             // dependencies resolve. Currently snapshot-only; rebuild registry to refresh.

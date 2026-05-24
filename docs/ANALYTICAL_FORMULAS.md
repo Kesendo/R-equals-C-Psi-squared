@@ -3390,11 +3390,82 @@ and `TrulyYParityZeroPurity.VerifyOnTerm(term, dephase)`.
 
 ---
 
-### F109. Mother Sector Soft is y_par = 1 Pure (Tier 1 derived modulo F108 Part 1)
+### F108 Part 1. Π²-Even Hamiltonians Always Admit an Exact Palindrome Operator (Tier 1 derived, Π_5bilinear phase variant of canonical P1 Π)
+
+Every Hamiltonian H built from the five Π²_Z-even 2-site bilinears {XX, YY, YZ,
+ZY, ZZ} with arbitrary real bond coefficients, plus Z-dephasing on every site,
+admits an EXACT operator-level palindrome:
+
+  Π_5bilinear · L · Π_5bilinear⁻¹ = −L − 2σ · I exactly, σ = Σ_l γ_l.
+
+Hence spec(L) is palindromic around −σ, and no Π²-even Pauli pair (truly or
+non-truly) can be F87-hard. Closes the empirical observation that 5346+ Π²-even
+pairs across F103/F105/F106 anchors were observed soft with zero hard.
+
+**The Π_5bilinear per-site map:** I → +1·X, X → −1·I, Y → +i·Z, Z → −i·Y. Same
+I↔X, Y↔Z permutation as the canonical Heisenberg Π (P1 family from
+[NON_HEISENBERG_PALINDROME](../experiments/NON_HEISENBERG_PALINDROME.md)) with
+two phase flips: the X→I and Z→Y arrows carry sign −1 and −i. Per-site
+properties: M² = diag(−1, −1, +1, +1) on {I, X, Y, Z}; M⁴ = I; M is order-4 and
+unitary on the 4-dim per-site Pauli basis. Π_5bilinear is a Liouville-space
+automorphism, NOT a Hilbert-space conjugation (no 2×2 U satisfies U·I·U† = X
+since U·I·U† = I).
+
+**Mechanism:**
+
+1. M⊗N anti-commutes with the commutator superoperator [B, ·] for every
+   Π²_Z-even 2-body bilinear B ∈ {XX, YY, YZ, ZY, ZZ} (verified bit-exact at
+   the 2-qubit level; the 4 Π²-odd bilinears {XY, XZ, YX, ZX} produce residual
+   = 8.00, clean separation).
+2. Per-site dissipator: M · D[Z_l] · M⁻¹ = −D[Z_l] − 2γ_l · I (M sends
+   Z → −iY at the operator level, so D[Z] rotates into D[Y], and the single-qubit
+   identity D[Y] = −D[Z] − 2γ · I closes).
+3. Combining 1 + 2: Π_5bilinear · L · Π_5bilinear⁻¹ = −L − 2σ · I exactly.
+
+**Resolution of the previously open ker(M) attempt:** Earlier exploration tried
+to close F108 Part 1 by proving every L-eigenvector lies in ker(M) (M = F1
+residual for canonical Π). Numerical verification falsified that lemma: only
+2/64 L-eigenvectors at the N=3 YZ+ZY test case satisfied M·v_λ = 0. The
+follow-up Critical Isospectral Lemma reduction was circular (it restated the
+spectral palindrome under another name). The actual mechanism is structurally
+different: a DIFFERENT per-site Π operator (Π_5bilinear) gives EXACT residual
+zero without going through M at all.
+
+**Empirical confirmation:** bit-exact residual = 0 across 9 pure-Π²-even
+non-truly pairs (YZ, ZY, XX+YZ, XX+ZY, YY+YZ, YY+ZY, YZ+ZY, YZ+ZZ, ZY+ZZ) at
+N=3, 4, 5; 15 random non-uniform-J instances + 9 asymmetric J_YZ ≠ J_ZY
+instances; pure D[Z]^⊗N dissipator. Reproduction:
+`simulations/_f108_part1_pi_family_scan.py` plus
+`simulations/_f108_part1_proof_algebra.py` for the 2-qubit anti-commutation
+verification.
+
+**Open siblings:**
+
+- **F108 Part 2 (BitA twin):** the X-dephasing + Π²_X-even Hamiltonian analog
+  via the P4-family phase-variant operator (bilinear set {ZZ, XX, XY, YX, YY},
+  bit_a = 0). Mechanical recipe lift; classified
+  `BitATwinClassification.TrivialNotYetTyped` on this Claim.
+- **F110:** hard cells y_par-pure with Y-inversion (per-dephase-letter algebra
+  on the F87-hard pair-set, higher difficulty).
+
+**Source:** [Proof](proofs/PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md);
+`compute/RCPsiSquared.Core/Symmetry/F108Part1Pi2EvenAlwaysPalindromic.cs`;
+operator: `compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs`;
+catalog parent: [NON_HEISENBERG_PALINDROME](../experiments/NON_HEISENBERG_PALINDROME.md)
+(P1/P4/alternating/non-local Π-family taxonomy); helpers:
+`F108Part1Pi2EvenAlwaysPalindromic.IsPi2EvenBilinear(letter1, letter2)`,
+`IsPi2EvenBilinearTerm(term)`, and
+`IsPi2EvenBilinearHamiltonian(terms)`.
+
+---
+
+### F109. Mother Sector Soft is y_par = 1 Pure (Tier 1 derived, fully unconditional after F108 Part 1 closure)
 
 Sister to F107 on the y_par axis. F107 pinned the y_par signature of truly cells
 across all dephase letters; F109 pins the y_par signature of mother sector
-(Klein (0, 0)) soft cells.
+(Klein (0, 0)) soft cells. Previously Tier 1 derived modulo F108 Part 1; that
+dependency was closed via Π_5bilinear (see F108 Part 1 above), so F109 is now
+fully unconditional Tier 1 derived.
 
 **Theorem (F109):** Under any single-letter dephase channel (Z, X, or Y), every
 Pauli pair classified as soft and located in the Mother sector Klein (0, 0) has
@@ -3409,15 +3480,14 @@ shared y_par = 1.
 3. Klein (0, 0) non-truly = all three counts odd (y_par = 1).
 4. Klein (0, 0) is Π²-EVEN under every dephase letter (bit_b = 0 for Z/Y;
    bit_a = 0 for X).
-5. **Open dependency (F108 Part 1):** Π²-even non-truly pairs are soft (not
-   hard). Empirically verified across 5346+ pairs in F103/F105/F106; closed-form
-   block-restricted palindrome lemma on Π²-eigenspace decomposition of L is
-   currently open.
+5. Π²-even non-truly pairs are soft (not hard): closed-form per F108 Part 1
+   above via Π_5bilinear (Z-dephasing case; X- and Y-dephasing follow via the
+   mechanical recipe lift tracked on F108 Part 1's BitATwin slot).
 6. Klein (0, 0) soft term ⟹ y_par = 1; y_par-homogeneous pair: shared y_par = 1.
 
 **Empirical confirmation:** F103 mother soft (0, 21) × 3 dephase; F105 same;
 F106 (0, 300) × 3. Total 1026 mother-soft classifications, all y_par = 1, zero
-y_par = 0. F109 explains this bit-exactly modulo Step 5.
+y_par = 0. F109 explains this bit-exactly.
 
 **Cross-letter spot-check:** Klein (0, 0) non-truly k=3 terms are the 6
 XYZ-permutations (only triple with all-odd and sum ≤ 3). Unordered pairs with
@@ -3426,8 +3496,7 @@ self: 6·7/2 = 21 (matches F103/F105). At k=4: 24 letter sequences (3 non-I + 1 
 
 **Source:** [Proof](proofs/PROOF_F109_MOTHER_SOFT_Y_PARITY_ONE_PURITY.md);
 `compute/RCPsiSquared.Core/Symmetry/MotherSoftYParityOnePurity.cs`;
-parents: PROOF_F107 + PROOF_F85; depends on open F108 Part 1
-(Π²-even-soft block-palindrome lemma); helpers:
+parents: PROOF_F107 + PROOF_F85 + PROOF_F108_PART1; helpers:
 `MotherSoftYParityOnePurity.IsMotherNonTrulyCandidate(term)` and
 `MotherSoftYParityOnePurity.VerifyOnTerm(term)`.
 

@@ -106,6 +106,8 @@ public static class PolarityCubeMapRegistration
             // Cubic3-axis Claims (Stage 2b+)
             z2AxisClaims.Add(b.Get<KleinEightCellClaim>());
             z2AxisClaims.Add(b.Get<ZGlobalMirrorRefinement>());
+            // BitB-axis Claims (F108+) closing F87-hardness questions on Π²-even cells
+            z2AxisClaims.Add(b.Get<F108Part1Pi2EvenAlwaysPalindromic>());
             return new PolarityCubeMap(z2AxisClaims);
         });
 }

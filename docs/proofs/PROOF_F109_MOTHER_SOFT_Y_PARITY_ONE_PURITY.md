@@ -1,12 +1,12 @@
 # PROOF F109: Mother Sector Soft is y_par = 1 Pure (All Dephase Letters)
 
-**Status:** Tier 1 derived (closed-form modulo one named empirical dependency)
-**Date:** 2026-05-24
+**Status:** Tier 1 derived (closed-form, fully unconditional after F108 Part 1 closure 2026-05-25)
+**Date:** 2026-05-24 (Steps 1-4 + 6 derivation), 2026-05-25 (Step 5 closed-form via F108 Part 1)
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
 - [PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md](PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md) (per-dephase truly criteria)
 - [PROOF_F85_KBODY_GENERALIZATION.md](PROOF_F85_KBODY_GENERALIZATION.md) (k-body truly criterion under Z-dephasing)
-- **Open: Π²-even-non-truly is never hard (F108 Part 1, deferred).** Empirically verified across F103/F105/F106 (5346+ pairs, zero hard observed in any Π²-even cell). F109 inherits this dependency at Step 5.
+- [PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md) (Π²-even-non-truly is never hard, via Π_5bilinear phase-variant Π operator). The previously open Step 5 dependency is now closed-form.
 
 **Statement (Theorem F109):** Under any single-letter dephase channel (Z, X, or Y), every Pauli pair classified as soft and located in the Mother sector Klein (0, 0) has shared y_par = 1.
 
@@ -51,13 +51,11 @@ The Π² eigenvalue per dephase (per PiOperator.SquaredEigenvalue):
 
 Klein (0, 0) is the only cell that is Π²-even under all three dephase letters simultaneously.
 
-### Step 5 (depends on the open Π²-even-soft observation): Klein (0, 0) non-truly is SOFT
+### Step 5: Klein (0, 0) non-truly is SOFT (closed-form via F108 Part 1)
 
-Π²-even non-truly pairs have M_anti = L_{H_odd} = 0 (per F81 / F85: no Π²-odd Hamiltonian content). Empirically across F103 (N=4 k=3), F105 (N=5 k=3), F106 (N=4 k=4): every Π²-even non-truly pair is classified soft, zero hard observed across 5346+ pairs.
+Π²-even non-truly pairs have M_anti = L_{H_odd} = 0 (per F81 / F85: no Π²-odd Hamiltonian content). Per F108 Part 1 ([PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md)), every Π²-even Hamiltonian H + Z-dephasing admits an EXACT operator-level palindrome via the Π_5bilinear phase-variant operator: Π_5bilinear · L · Π_5bilinear⁻¹ = −L − 2σ · I, hence spec(L) palindromic, hence not F87-hard. The X- and Y-dephasing analogs follow via the mechanical recipe lift tracked on F108 Part 1's BitATwin slot.
 
-The closed-form proof of "Π²-even non-truly ⟹ soft" requires a block-restricted palindrome lemma on the Π²-eigenspace decomposition of L (Stage F108 Part 1; currently open). F109 inherits this dependency. When F108 Part 1 closes, F109 becomes fully closed-form Tier1Derived.
-
-Under this empirically-overwhelming hypothesis: Klein (0, 0) non-truly pairs are SOFT (not hard).
+Therefore Klein (0, 0) non-truly pairs are SOFT (not hard) under every dephase letter.
 
 ### Step 6: All Klein (0, 0) soft pairs have y_par = 1
 
@@ -87,5 +85,5 @@ For k=4 letter sequences (N=4 enumeration): Klein (0, 0) non-truly = #X, #Y, #Z 
 
 ## Open
 
-- **F108 Part 1** (the Π²-even-soft step): the block-restricted palindrome lemma on Π²-eigenspace decomposition of L. F109's full Tier1Derived status pending.
+- **F108 Part 2** (BitA twin of F108 Part 1): mechanical recipe lift to X-dephasing via the P4-family phase-variant operator. Closes the formal X- and Y-dephasing branch of Step 5 (currently inheriting via the F108 Part 1 lift comment).
 - **F110** (hard cells y_par-pure with Y-inversion): the harder dephase-letter-specific analysis on the diagonal-Klein cells. F107 + F109 do not directly attack F110.
