@@ -54,7 +54,6 @@ public sealed class PolarityCubeMap : Claim
                // across the full Pi²-Inheritance claim set without artificially restricting
                // which Claims may participate.
                Tier.Tier2Empirical,
-               "docs/superpowers/specs/2026-05-24-polarity-cube-map-design.md + " +
                "docs/PI2KB_INHERITANCE_MAP.md + " +
                "docs/SYMMETRY_FAMILY_INVENTORY.md")
     {

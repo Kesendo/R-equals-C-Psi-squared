@@ -25,13 +25,13 @@
 
 | # | Symmetry | Axis | Effect | Status | Anchor |
 |---|---|---|---|---|---|
-| PolarityCubeMap | aggregator | Z2Axis classification of all Pi²-Inheritance Claims; gap-detection via null BitATwin | Tier2Empirical (snapshot strength bounded by weakest contributing parent; cubic architecture itself is Tier1Derived) | `PolarityCubeMap` (added 2026-05-24) |
+| 8 | PolarityCubeMap | aggregator | Z2Axis classification of all Pi²-Inheritance Claims | gap-detection via null BitATwin (Tier2Empirical, snapshot strength bounded by weakest contributing parent; cubic architecture itself is Tier1Derived) | `PolarityCubeMap` (added 2026-05-24) |
 
 ## Negative results (typed for completeness)
 
 | # | Symmetry | Status | Anchor |
 |---|---|---|---|
-| 8 | **F71_col × F71_row** factor-4 split | Tier2Empirical (does NOT hold: Z⊗Z dissipator correlates both sides; only diagonal product survives) | `F71BilateralBlockRefinement` |
+| 9 | **F71_col × F71_row** factor-4 split | Tier2Empirical (does NOT hold: Z⊗Z dissipator correlates both sides; only diagonal product survives) | `F71BilateralBlockRefinement` |
 
 ## Symmetries from other axes (typed elsewhere; not in SymmetryFamily but relevant)
 

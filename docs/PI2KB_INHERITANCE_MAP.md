@@ -165,12 +165,12 @@ Every Pi²-Inheritance Claim now carries a `Z2Axis` enum classification:
 
 | Z2Axis value | Meaning | Current count |
 |--------------|---------|---------------|
-| BitB | Π²_Z = X⊗N axis (F1² family, n_Y + n_Z parity) | ~55 |
+| BitB | Π²_Z = X⊗N axis (F1² family, n_Y + n_Z parity) | 63 (verified by `Pi2InheritanceZ2AxisTests`) |
 | BitA | Π²_X = Z⊗N axis (F61 family, n_X + n_Y parity) | 1 (F61 only) |
-| Klein2 | Uses both Π²_Z and Π²_X axes (Klein-Vierergruppe) | 4-5 |
+| Klein2 | Uses both Π²_Z and Π²_X axes (Klein-Vierergruppe) | 4 (F79, F89F88aKlein, Pi2KleinBilinearTable, ZGlobalMirrorRefinement) + KleinFourCellClaim |
 | YParity | Independent term-level Y-parity refinement (k≥3 only) | 0 |
 | Cubic3 | Uses all three Z₂ classifiers (full Z₂³) | 0 |
-| NotApplicable | Utility / non-Π²-axis Claim | varies |
+| NotApplicable | Foundation Claims (Pi2InvolutionClaim, etc.) | 1+ |
 
 BitB Claims expose a nullable `BitATwin` pointer that is currently null for all
 of them (except via parent-edge inheritance, which is NOT twinship). The
