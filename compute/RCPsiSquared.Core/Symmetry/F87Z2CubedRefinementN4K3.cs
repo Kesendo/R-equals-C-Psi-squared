@@ -1,3 +1,4 @@
+using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
@@ -79,4 +80,17 @@ public sealed class F87Z2CubedRefinementN4K3 : F87Z2CubedRefinementBase
 
     public override string DisplayName =>
         "F103 F87 Z₂³ refinement (N=4 k=3, 294 pairs, 5 sub-statements)";
+
+    protected override IEnumerable<IInspectable> ExtraChildren
+    {
+        get
+        {
+            foreach (var child in base.ExtraChildren)
+                yield return child;
+            yield return new InspectableNode("Scope (closed and out-of-scope items)",
+                summary: "Closed by F104 (C# k_body=3 classifier lift verified bit-exact). " +
+                         "Out of scope: N>4 or k>3 generalization (F105+ series), closed-form " +
+                         "derivation of 42:8, hardware confirmation of k>=3 F87.");
+        }
+    }
 }
