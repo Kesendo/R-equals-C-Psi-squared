@@ -50,11 +50,11 @@ public static class PauliPairTrichotomy
         return TrichotomyClass.Hard;
     }
 
-    /// <summary>k≥2 overload: accepts a list of <see cref="PauliTerm"/> templates
-    /// (each with Letters of length k ≤ N and a coefficient) and classifies the
-    /// resulting chain Hamiltonian using the sliding-window k-body builder
-    /// (<see cref="PauliKBodyChainExtensions.ChainKBody"/>). Parallels Python
-    /// framework's <c>classify_pauli_pair</c> k-body dispatch path.
+    /// <summary>k-body template overload (homogeneous k, no mixing): accepts a list
+    /// of <see cref="PauliTerm"/> templates (each with Letters of length k ≤ N and a
+    /// coefficient) and classifies the resulting chain Hamiltonian using the
+    /// sliding-window k-body builder (<see cref="PauliKBodyChainExtensions.ChainKBody"/>).
+    /// Parallels Python framework's <c>classify_pauli_pair</c> k-body dispatch path.
     ///
     /// <para>Mixed-body (k=2 + k≥3 in the same call) is NOT supported here; use
     /// only k=2 templates via this overload to mirror the existing
