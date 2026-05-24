@@ -6,17 +6,19 @@ using Xunit;
 
 namespace RCPsiSquared.Diagnostics.Tests.F87;
 
-/// <summary>F105 one-shot enumeration tool: re-classify the 294 Z₂³-homogeneous +
-/// Y-par-homogeneous k=3 Pauli pairs at N=5 (same enumeration as F103, larger chain)
-/// via F104's <see cref="PauliPairTrichotomy.Classify"/> k-body overload, and export
-/// a 4×3×2×3 count grid to <c>simulations/results/f87_z2cubed_split_n5_k3_counts.json</c>
-/// for human inspection and to feed the F105 Claim's frozen counts.
+/// <summary>F106 one-shot enumeration tool: classify the 4248 Z₂³-homogeneous +
+/// Y-par-homogeneous k=4 Pauli pairs at N=4 (new enumeration vs F103/F105's 294
+/// at k=3) via F104's <see cref="PauliPairTrichotomy.Classify"/> k-body overload,
+/// export a 4×3×2×3 count grid to
+/// <c>simulations/results/f87_z2cubed_split_n4_k4_counts.json</c> for human
+/// inspection and to feed the F106 Claim's frozen counts.
 ///
-/// <para>Runtime: ~3h batch at N=5 (per-call ~12s, 882 classifications). Tagged
-/// SLOW_F105_BATCH so it skips by default in CI; re-run manually via
-/// <c>--filter "Category=SLOW_F105_BATCH"</c>.</para></summary>
-[Trait("Category", "SLOW_F105_BATCH")]
-public class F87Z2CubedEnumerationN5K3Tool
+/// <para>Runtime: ~2-3min PLINQ at N=4 (per-call ~0.2s sequential, 12744
+/// classifications; PLINQ on 24 cores saturates). Tagged SLOW_F106_BATCH so it
+/// skips by default in CI; re-run manually via
+/// <c>--filter "Category=SLOW_F106_BATCH"</c>.</para></summary>
+[Trait("Category", "SLOW_F106_BATCH")]
+public class F87Z2CubedEnumerationN4K4Tool
 {
     private static readonly PauliLetter[] DephaseLetters =
         { PauliLetter.Z, PauliLetter.X, PauliLetter.Y };
@@ -24,33 +26,32 @@ public class F87Z2CubedEnumerationN5K3Tool
     [Fact]
     public void EnumerateClassifyAndExportToJson()
     {
-        var chain = new ChainSystem(N: 5, J: 1.0, GammaZero: 0.05);
+        var chain = new ChainSystem(N: 4, J: 1.0, GammaZero: 0.05);
 
-        var items = Z2HomogeneousKBodyEnumeration.Enumerate(3);
-        Assert.Equal(294, items.Count);
+        var items = Z2HomogeneousKBodyEnumeration.Enumerate(4);
+        Assert.Equal(4248, items.Count);
 
         var counts = ClassifyAndGroup(chain, items);
 
         var json = SerializeToJson(counts);
 
-        string outDir = Path.Combine(
-            FindRepoRoot(), "simulations", "results");
+        string outDir = Path.Combine(FindRepoRoot(), "simulations", "results");
         Directory.CreateDirectory(outDir);
-        string outPath = Path.Combine(outDir, "f87_z2cubed_split_n5_k3_counts.json");
+        string outPath = Path.Combine(outDir, "f87_z2cubed_split_n4_k4_counts.json");
         File.WriteAllText(outPath, json);
 
-        // Sanity: total classifications across grid = 882 (294 pairs × 3 dephase letters).
+        // Sanity: total classifications across grid = 12744 (4248 pairs × 3 dephase letters).
         int total = counts.Values.Sum();
-        Assert.Equal(882, total);
+        Assert.Equal(12744, total);
     }
 
     private static Dictionary<((int A, int B) Klein, char Dephase, int YPar, TrichotomyClass Cls), int> ClassifyAndGroup(
         ChainSystem chain,
         List<(PauliTerm Term1, PauliTerm Term2, (int A, int B) Klein, int YPar)> items)
     {
-        // Parallelize over (pair × dephase letter). PauliPairTrichotomy.Classify is pure
-        // (constructs fresh H/L/M per call); ChainSystem and PauliTerm are immutable records.
-        // 882 independent classifications saturate all available cores via PLINQ.
+        // Parallelize over (pair × dephase letter). PauliPairTrichotomy.Classify is pure;
+        // ChainSystem and PauliTerm are immutable records. 12744 classifications saturate
+        // 24 cores via PLINQ.
         var classifications = items
             .SelectMany(item => DephaseLetters.Select(d => (item, dephase: d)))
             .AsParallel()
@@ -85,10 +86,10 @@ public class F87Z2CubedEnumerationN5K3Tool
         }
         return JsonSerializer.Serialize(new
         {
-            n = 5,
-            k = 3,
-            total_pairs = 294,
-            total_classifications = 882,
+            n = 4,
+            k = 4,
+            total_pairs = 4248,
+            total_classifications = 12744,
             grid,
         }, new JsonSerializerOptions { WriteIndented = true });
     }

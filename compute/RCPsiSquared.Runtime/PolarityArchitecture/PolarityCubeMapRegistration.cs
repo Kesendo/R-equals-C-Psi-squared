@@ -100,6 +100,7 @@ public static class PolarityCubeMapRegistration
             z2AxisClaims.Add(b.Get<YParityIndependenceAtK3>());
             z2AxisClaims.Add(b.Get<F87Z2CubedRefinementN4K3>());
             z2AxisClaims.Add(b.Get<F87Z2CubedRefinementN5K3>());
+            z2AxisClaims.Add(b.Get<F87Z2CubedRefinementN4K4>());
             z2AxisClaims.Add(b.Get<ZGlobalMirrorRefinement>());
             return new PolarityCubeMap(z2AxisClaims);
         });

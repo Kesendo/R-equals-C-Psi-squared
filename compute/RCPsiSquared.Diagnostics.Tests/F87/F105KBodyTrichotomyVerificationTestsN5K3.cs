@@ -1,4 +1,3 @@
-using System.Numerics;
 using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Pauli;
 using RCPsiSquared.Core.Symmetry;
@@ -32,7 +31,7 @@ public class F105KBodyTrichotomyVerificationTestsN5K3 : IClassFixture<F105Counts
     [Fact]
     public void Verification_Enumerate294Pairs_TotalCountMatches()
     {
-        var items = F105CountsFixtureN5K3.EnumerateZ2HomogeneousK3();
+        var items = Z2HomogeneousKBodyEnumeration.Enumerate(3);
         Assert.Equal(294, items.Count);
     }
 
@@ -175,9 +174,6 @@ public class F105KBodyTrichotomyVerificationTestsN5K3 : IClassFixture<F105Counts
 /// <see cref="Lazy{T}"/> with ExecutionAndPublication mode.</summary>
 public sealed class F105CountsFixtureN5K3
 {
-    private static readonly PauliLetter[] AllLetters =
-        { PauliLetter.I, PauliLetter.X, PauliLetter.Y, PauliLetter.Z };
-
     private static readonly PauliLetter[] DephaseLetters =
         { PauliLetter.Z, PauliLetter.X, PauliLetter.Y };
 
@@ -195,60 +191,6 @@ public sealed class F105CountsFixtureN5K3
 
     private static ChainSystem MakeChainN5() => new(N: 5, J: 1.0, GammaZero: 0.05);
 
-    /// <summary>Enumerate unordered (term1, term2) pairs at k=3 such that both terms
-    /// are non-trivial (not all-I), share the same Klein index, and share the same
-    /// Y-parity. Same algorithm as F104's <c>EnumerateZ2HomogeneousK3</c>; pair count
-    /// is N-independent at k=3 (294 pairs regardless of chain length).</summary>
-    public static List<(PauliTerm Term1, PauliTerm Term2, (int A, int B) Klein, int YPar)> EnumerateZ2HomogeneousK3()
-    {
-        var seen = new HashSet<string>();
-        var items = new List<(PauliTerm, PauliTerm, (int, int), int)>();
-
-        foreach (var a in AllLetters)
-            foreach (var b in AllLetters)
-                foreach (var c in AllLetters)
-                {
-                    var term1Letters = new[] { a, b, c };
-                    if (term1Letters.All(l => l == PauliLetter.I)) continue;
-                    var term1 = new PauliTerm(term1Letters, Complex.One);
-
-                    foreach (var d in AllLetters)
-                        foreach (var e in AllLetters)
-                            foreach (var f in AllLetters)
-                            {
-                                var term2Letters = new[] { d, e, f };
-                                if (term2Letters.All(l => l == PauliLetter.I)) continue;
-                                var term2 = new PauliTerm(term2Letters, Complex.One);
-
-                                if (term1.KleinIndex != term2.KleinIndex) continue;
-                                if (term1.YParity != term2.YParity) continue;
-
-                                string key1 = LettersKey(term1Letters);
-                                string key2 = LettersKey(term2Letters);
-                                string key = string.Compare(key1, key2, StringComparison.Ordinal) <= 0
-                                    ? key1 + "|" + key2
-                                    : key2 + "|" + key1;
-                                if (!seen.Add(key)) continue;
-
-                                items.Add((term1, term2, term1.KleinIndex, term1.YParity));
-                            }
-                }
-
-        return items;
-    }
-
-    private static string LettersKey(IReadOnlyList<PauliLetter> letters) =>
-        string.Concat(letters.Select(LetterChar));
-
-    private static char LetterChar(PauliLetter l) => l switch
-    {
-        PauliLetter.I => 'I',
-        PauliLetter.X => 'X',
-        PauliLetter.Y => 'Y',
-        PauliLetter.Z => 'Z',
-        _ => throw new ArgumentOutOfRangeException(nameof(l)),
-    };
-
     private static char DephaseChar(PauliLetter l) => l switch
     {
         PauliLetter.Z => 'Z',
@@ -259,14 +201,16 @@ public sealed class F105CountsFixtureN5K3
 
     /// <summary>Classify all 294 enumerated pairs × 3 dephase letters at N=5 and group
     /// by (Klein, dephase letter, y_par, trichotomy class). Returns a fully-populated
-    /// count grid for downstream assertion.</summary>
+    /// count grid for downstream assertion. Enumeration delegated to
+    /// <see cref="Z2HomogeneousKBodyEnumeration.Enumerate"/> (shared single source of
+    /// truth across F104/F105/F106).</summary>
     private static Dictionary<((int A, int B) Klein, char Dephase, int YPar, TrichotomyClass Cls), int> ClassifyAndGroup()
     {
         // Parallelize over (pair × dephase letter). PauliPairTrichotomy.Classify is pure
         // (constructs fresh H/L/M per call); ChainSystem and PauliTerm are immutable records.
         // 882 independent classifications saturate all available cores via PLINQ.
         var chain = MakeChainN5();
-        var classifications = EnumerateZ2HomogeneousK3()
+        var classifications = Z2HomogeneousKBodyEnumeration.Enumerate(3)
             .SelectMany(item => DephaseLetters.Select(d => (item, dephase: d)))
             .AsParallel()
             .Select(x =>

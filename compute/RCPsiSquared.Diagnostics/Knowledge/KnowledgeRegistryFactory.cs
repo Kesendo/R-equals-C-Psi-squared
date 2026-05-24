@@ -188,6 +188,11 @@ public static class KnowledgeRegistryFactory
             // YParityClaims grows from 2 to 3. Frozen counts captured via SLOW_F105_BATCH
             // tool run; F85-predicted to match F103 bit-exactly (N-stability).
             .RegisterF87Z2CubedRefinementN5K3()
+            // YParity-axis F106: Z₂³ refinement of F87 trichotomy at N=4 k=4.
+            // Third concrete derived class of F87Z2CubedRefinementBase; PolarityCubeMap's
+            // YParityClaims grows from 3 to 4. Frozen counts captured via SLOW_F106_BATCH
+            // tool run; tests k-stability where F105 confirmed N-stability.
+            .RegisterF87Z2CubedRefinementN4K4()
             // Polarity cube map (cubic Z₂³ architecture inventory; aggregates every IZ2AxisClaim)
             // Must come AFTER every Pi²-Inheritance Claim registration above so its b.Get<T>()
             // dependencies resolve. Currently snapshot-only; rebuild registry to refresh.

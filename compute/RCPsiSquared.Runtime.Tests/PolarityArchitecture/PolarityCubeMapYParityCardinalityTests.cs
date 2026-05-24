@@ -16,9 +16,10 @@ public class PolarityCubeMapYParityCardinalityTests
     public void PolarityCubeMap_YParityClaims_TotalCount_MatchesExpected()
     {
         // F102 (YParityIndependenceAtK3) + F103 (F87Z2CubedRefinementN4K3) + F105
-        // (F87Z2CubedRefinementN5K3) are the current Z2Axis.YParity members. When a new
-        // regime lands (F106 N4K4, F107+ etc), bump this expected value to match.
-        const int expectedCount = 3;
+        // (F87Z2CubedRefinementN5K3) + F106 (F87Z2CubedRefinementN4K4) are the current
+        // Z2Axis.YParity members. When a new regime lands (F107+ etc), bump this
+        // expected value to match.
+        const int expectedCount = 4;
 
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var cubeMap = registry.Get<PolarityCubeMap>();

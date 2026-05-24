@@ -1,0 +1,224 @@
+{
+  "n": 4,
+  "k": 4,
+  "total_pairs": 4248,
+  "total_classifications": 12744,
+  "grid": [
+    {
+      "klein_a": 0,
+      "klein_b": 0,
+      "dephase": "X",
+      "y_par": 0,
+      "trichotomy": "truly",
+      "count": 780
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 0,
+      "dephase": "X",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 300
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 0,
+      "dephase": "Y",
+      "y_par": 0,
+      "trichotomy": "truly",
+      "count": 780
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 0,
+      "dephase": "Y",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 300
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 0,
+      "dephase": "Z",
+      "y_par": 0,
+      "trichotomy": "truly",
+      "count": 780
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 0,
+      "dephase": "Z",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 300
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 1,
+      "dephase": "X",
+      "y_par": 0,
+      "trichotomy": "truly",
+      "count": 528
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 1,
+      "dephase": "X",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 528
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 1,
+      "dephase": "Y",
+      "y_par": 0,
+      "trichotomy": "soft",
+      "count": 528
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 1,
+      "dephase": "Y",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 528
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 1,
+      "dephase": "Z",
+      "y_par": 0,
+      "trichotomy": "hard",
+      "count": 228
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 1,
+      "dephase": "Z",
+      "y_par": 0,
+      "trichotomy": "soft",
+      "count": 300
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 1,
+      "dephase": "Z",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 528
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 0,
+      "dephase": "X",
+      "y_par": 0,
+      "trichotomy": "hard",
+      "count": 228
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 0,
+      "dephase": "X",
+      "y_par": 0,
+      "trichotomy": "soft",
+      "count": 300
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 0,
+      "dephase": "X",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 528
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 0,
+      "dephase": "Y",
+      "y_par": 0,
+      "trichotomy": "truly",
+      "count": 528
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 0,
+      "dephase": "Y",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 528
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 0,
+      "dephase": "Z",
+      "y_par": 0,
+      "trichotomy": "truly",
+      "count": 528
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 0,
+      "dephase": "Z",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 528
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 1,
+      "dephase": "X",
+      "y_par": 0,
+      "trichotomy": "soft",
+      "count": 528
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 1,
+      "dephase": "X",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 528
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 1,
+      "dephase": "Y",
+      "y_par": 0,
+      "trichotomy": "soft",
+      "count": 528
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 1,
+      "dephase": "Y",
+      "y_par": 1,
+      "trichotomy": "hard",
+      "count": 228
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 1,
+      "dephase": "Y",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 300
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 1,
+      "dephase": "Z",
+      "y_par": 0,
+      "trichotomy": "soft",
+      "count": 528
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 1,
+      "dephase": "Z",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 528
+    }
+  ]
+}

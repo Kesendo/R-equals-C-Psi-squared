@@ -3317,5 +3317,43 @@ accelerated to ~12 min via PLINQ in the Task 7 run.
 
 ---
 
+### F106. F87 Trichotomy Z₂³ Refinement at k=4 N=4 (Tier 1 derived, k-stability test of F103)
+
+After F105 confirmed F85's N-stability lift to the y_par sub-refinement at k=3
+(N=4 to N=5 counts identical), F106 anchors at k=4 N=4 to test the orthogonal
+axis: k-stability. F85 does not predict k-stability of the y_par sub-refinement;
+the Klein (0,0) enum balance shifts from 45/21 at k=3 to 780/300 at k=4, and the
+structural worry was that "mother soft is y_par=1-pure" would break.
+
+**Method:** 12744 classifications (4248 pairs × 3 dephase letters) at N=4 via
+F104's `PauliPairTrichotomy.Classify(IReadOnlyList<PauliTerm>, ...)`. SLOW_F106_BATCH
+tool (~2-3min PLINQ on 24 cores; actual run 3m 59s).
+
+**Observed outcome (mixed k-stability at k=4):**
+
+- TrulyCounts: 3924 total, y_par=1 count 0. Y_par=0-purity HELD bit-structurally.
+- HardDiagonalSplit: (228, 0) / (228, 0) / (0, 228). 42:8 ratio at k=3 BROKE
+  (sharpened to fully pure 228:0 / 0:228); Y-inversion structure HELD qualitatively.
+- DiagonalSoftSplit: (300, 528) / (300, 528) / (528, 300). 13:13 y_par-symmetry
+  at k=3 BROKE (asymmetric 300:528 with Y-inversion).
+- MotherSoftCounts: (0, 300) / (0, 300) / (0, 300). Y_par=1-purity HELD
+  bit-structurally despite the (0,0) enum-balance shift; only the counts
+  re-scaled from k=3's (0, 21) to k=4's (0, 300).
+- OffDiagonalSoftPatterns: 6 cells. 3 cells preserve Pattern C analog (0, 528);
+  3 cells (which at k=3 were asymmetric Pattern B (55, 21)/(21, 55)) became
+  fully y_par-symmetric (528, 528) at k=4.
+
+The two purity statements (truly y_par=0-pure, mother soft y_par=1-pure) are
+genuine y_par-axis invariants that survive across k; the mixed-ratio statements
+(42:8 hard, 13:13 soft, Pattern B asymmetry) were k-specific and re-shape with
+the enum balance.
+
+**Source:** [Proof](proofs/PROOF_F106_F87_Z2_CUBED_REFINEMENT_N4K4.md);
+`compute/RCPsiSquared.Core/Symmetry/F87Z2CubedRefinementN4K4.cs`
+(derived from `F87Z2CubedRefinementBase.cs`); empirical anchor:
+`simulations/results/f87_z2cubed_split_n4_k4_counts.json`.
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*
