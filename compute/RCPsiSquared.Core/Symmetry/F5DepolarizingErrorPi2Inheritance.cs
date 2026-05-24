@@ -40,8 +40,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// identity which BREAKS for depolarizing, with this measured residual) +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs</c>.</para></summary>
-public sealed class F5DepolarizingErrorPi2Inheritance : Claim
+public sealed class F5DepolarizingErrorPi2Inheritance : Claim, IZ2AxisClaim
 {
+
+    /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). The
+    /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X / F61 axis) is
+    /// currently not typed for this Claim.</summary>
+    public Z2Axis Z2Axis => Z2Axis.BitB;
+
+    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
+    /// (no bit_a twin is typed for this Claim; this is an open slot in the
+    /// cubic-architecture coverage).</summary>
+    public Claim? BitATwin => null;
     public Pi2DyadicLadderClaim Ladder { get; }
     public Pi2OperatorSpaceMirrorClaim Mirror { get; }
     /// <summary>The "2" multiplier in F5's <c>2·(N−2)/3</c>. Exactly equal to

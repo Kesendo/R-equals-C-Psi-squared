@@ -75,6 +75,7 @@ public sealed class Pi2KnowledgeBase : IInspectable
     public Pi2KleinBilinearTable BilinearTable { get; }
     public IReadOnlyList<HardwareConfirmationClaim> HardwareConfirmations { get; }
     public IReadOnlyList<OpenQuestion> OpenQuestions { get; }
+    public PolarityCubeMap PolarityCubeMap { get; }
 
     public Pi2KnowledgeBase(ChainSystem chain)
     {
@@ -107,6 +108,20 @@ public sealed class Pi2KnowledgeBase : IInspectable
         BilinearTable = new Pi2KleinBilinearTable();
         HardwareConfirmations = HardwareConfirmationClaim.LookupAll(_hardwareConfirmationNames);
         OpenQuestions = Pi2OpenQuestions.Standard;
+
+        // Aggregate all IZ2AxisClaim instances directly owned by Pi2KnowledgeBase.
+        // Pi2-Inheritance Claims registered via Schicht-1 PolarityArchitecture are not
+        // directly accessible here; PolarityCubeMap on Pi2KnowledgeBase represents only
+        // the Pi2KnowledgeBase-rooted view. A fuller view that aggregates Schicht-1
+        // registrations lives in PolarityCubeMapRegistration (compute/RCPsiSquared.Runtime).
+        // Defensive 'as' casts (rather than direct adds) so the aggregation survives if a
+        // future refactor changes the typed property type without adopting IZ2AxisClaim.
+        var z2AxisClaims = new List<IZ2AxisClaim>();
+        if ((Claim)Involution is IZ2AxisClaim involutionZ2) z2AxisClaims.Add(involutionZ2);
+        if ((Claim)KleinDecomposition is IZ2AxisClaim kleinZ2) z2AxisClaims.Add(kleinZ2);
+        if ((Claim)CanonicalTrigAnchor is IZ2AxisClaim trigZ2) z2AxisClaims.Add(trigZ2);
+        if ((Claim)BilinearTable is IZ2AxisClaim bilinearZ2) z2AxisClaims.Add(bilinearZ2);
+        PolarityCubeMap = new PolarityCubeMap(z2AxisClaims);
     }
 
     public string DisplayName =>
@@ -144,7 +159,8 @@ public sealed class Pi2KnowledgeBase : IInspectable
                 CanonicalTrigAnchor);
 
             yield return InspectableNode.Group("Tier 2 (empirical)",
-                BilinearTable);
+                BilinearTable,
+                PolarityCubeMap);
 
             yield return InspectableNode.Group("Tier 2 (hardware-verified)",
                 HardwareConfirmations.Cast<IInspectable>().ToArray());

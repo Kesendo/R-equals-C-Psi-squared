@@ -115,8 +115,14 @@ public sealed class Pi2InvolutionClaim : Claim
 /// (Z- and Y-dephasing share this), the X-axis counts bit_a parity (X-dephasing). For
 /// 2-body bilinears the cells are: Pp = {XX, YY, ZZ} (truly), Pm = {YZ, ZY} (Π²-even
 /// non-truly), Mp = {XY, YX} (Π²-odd subgroup A), Mm = {XZ, ZX} (Π²-odd subgroup B).</summary>
-public sealed class KleinFourCellClaim : Claim
+public sealed class KleinFourCellClaim : Claim, IZ2AxisClaim
 {
+    /// <summary>Klein-Vierergruppe Z₂ × Z₂: uses both Π²_Z and Π²_X axes.</summary>
+    public Z2Axis Z2Axis => Z2Axis.Klein2;
+
+    /// <summary>Klein2 Claims do not carry a BitATwin slot.</summary>
+    public Claim? BitATwin => null;
+
     public KleinFourCellClaim()
         : base("F88a two-axis Π² decomposition: (Π²_Z, Π²_X) → 4 Klein cells",
                Tier.Tier1Derived,

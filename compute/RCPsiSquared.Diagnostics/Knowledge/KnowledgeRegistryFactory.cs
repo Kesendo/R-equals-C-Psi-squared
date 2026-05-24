@@ -174,6 +174,10 @@ public static class KnowledgeRegistryFactory
             .RegisterF86HwhmClosedFormClaim()
             .RegisterIbmBlockCpsiHardwareTable()
             .RegisterPolarityPairQPeakDecompositionClaim()
+            // Polarity cube map (cubic Z₂³ architecture inventory; aggregates every IZ2AxisClaim)
+            // Must come AFTER every Pi²-Inheritance Claim registration above so its b.Get<T>()
+            // dependencies resolve. Currently snapshot-only; rebuild registry to refresh.
+            .RegisterPolarityCubeMap()
             // Open questions
             .RegisterF1OpenQuestions()
             .RegisterF86OpenQuestions()

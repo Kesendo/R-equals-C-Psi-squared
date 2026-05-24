@@ -36,8 +36,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Theorem 2 + <c>compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs</c>
 /// (QuarterAsBilinearMaxvalClaim + HalfAsStructuralFixedPointClaim + BilinearApexClaim) +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
-public sealed class DickeSuperpositionQuarterPi2Inheritance : Claim, IF99AnchorBearing, IDickeAnchorBearing
+public sealed class DickeSuperpositionQuarterPi2Inheritance : Claim, IF99AnchorBearing, IDickeAnchorBearing, IZ2AxisClaim
 {
+
+    /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). The
+    /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X / F61 axis) is
+    /// currently not typed for this Claim.</summary>
+    public Z2Axis Z2Axis => Z2Axis.BitB;
+
+    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
+    /// (no bit_a twin is typed for this Claim; this is an open slot in the
+    /// cubic-architecture coverage).</summary>
+    public Claim? BitATwin => null;
     /// <inheritdoc />
     /// <remarks>The Dicke C_block ceiling of 1/4 is a
     /// <see cref="F99AnchorRole.Parent"/> of the F99 α=1/4 silver-Dicke anchor:

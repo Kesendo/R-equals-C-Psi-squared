@@ -65,8 +65,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs</c>
 /// (QuarterAsBilinearMaxvalClaim).</para></summary>
-public sealed class F64CavityModeExposurePi2Inheritance : Claim
+public sealed class F64CavityModeExposurePi2Inheritance : Claim, IZ2AxisClaim
 {
+
+    /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). The
+    /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X / F61 axis) is
+    /// currently not typed for this Claim.</summary>
+    public Z2Axis Z2Axis => Z2Axis.BitB;
+
+    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
+    /// (no bit_a twin is typed for this Claim; this is an open slot in the
+    /// cubic-architecture coverage).</summary>
+    public Claim? BitATwin => null;
     public Pi2DyadicLadderClaim Ladder { get; }
     public QuarterAsBilinearMaxvalClaim Quarter { get; }
     /// <summary>The "2" in α = 2γ_B·|a_B|² (Liouvillian eigenvalue convention).

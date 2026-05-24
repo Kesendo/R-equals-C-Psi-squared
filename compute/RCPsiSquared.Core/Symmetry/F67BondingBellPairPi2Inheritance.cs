@@ -48,8 +48,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/F65XxChainSpectrumPi2Inheritance.cs</c>
 /// (source of bonding-mode amplitude and α_k closed form) +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
-public sealed class F67BondingBellPairPi2Inheritance : Claim
+public sealed class F67BondingBellPairPi2Inheritance : Claim, IZ2AxisClaim
 {
+
+    /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). The
+    /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X / F61 axis) is
+    /// currently not typed for this Claim.</summary>
+    public Z2Axis Z2Axis => Z2Axis.BitB;
+
+    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
+    /// (no bit_a twin is typed for this Claim; this is an open slot in the
+    /// cubic-architecture coverage).</summary>
+    public Claim? BitATwin => null;
     public Pi2DyadicLadderClaim Ladder { get; }
     public F65XxChainSpectrumPi2Inheritance F65 { get; }
     /// <summary>The "4" numerator in α_1 = (4γ₀/(N+1))·sin². Live transitively from

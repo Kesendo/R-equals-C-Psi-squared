@@ -8,8 +8,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Self-computing: for each of the 9 non-identity 2-body bilinears (P, Q) ∈ {X, Y, Z}²,
 /// the cell is determined by (Π²_Z, Π²_X) eigenvalues from <see cref="PiOperator.SquaredEigenvalue"/>
 /// applied to the letter pair.</summary>
-public sealed class Pi2KleinBilinearTable : Claim
+public sealed class Pi2KleinBilinearTable : Claim, IZ2AxisClaim
 {
+    /// <summary>Klein-Vierergruppe Z₂ × Z₂: uses both Π²_Z and Π²_X axes.</summary>
+    public Z2Axis Z2Axis => Z2Axis.Klein2;
+
+    /// <summary>Klein2 Claims do not carry a BitATwin slot.</summary>
+    public Claim? BitATwin => null;
+
     public IReadOnlyList<KleinBilinearEntry> Entries { get; }
 
     public Pi2KleinBilinearTable()

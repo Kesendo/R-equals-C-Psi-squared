@@ -111,7 +111,7 @@ public class F61BitAParityPi2InheritanceRegistrationTests
             .RegisterF61BitAParityPi2Inheritance()
             .Build();
 
-        Assert.Equal("bit_a (n_XY)", registry.Get<F61BitAParityPi2Inheritance>().Z2Axis);
+        Assert.Equal(Z2Axis.BitA, registry.Get<F61BitAParityPi2Inheritance>().Z2Axis);
     }
 
     [Fact]

@@ -158,3 +158,24 @@ This is the meta-pattern that the inheritance tree formalises: every Tier1Derive
 - Bridge framing: `docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md`
 - F-formula registry: `docs/ANALYTICAL_FORMULAS.md`
 - Symmetry-axis inventory (parallel structure on the dynamics-symmetry side): `docs/SYMMETRY_FAMILY_INVENTORY.md`
+
+## Z2Axis classification (added 2026-05-24)
+
+Every Pi²-Inheritance Claim now carries a `Z2Axis` enum classification:
+
+| Z2Axis value | Meaning | Current count |
+|--------------|---------|---------------|
+| BitB | Π²_Z = X⊗N axis (F1² family, n_Y + n_Z parity) | ~55 |
+| BitA | Π²_X = Z⊗N axis (F61 family, n_X + n_Y parity) | 1 (F61 only) |
+| Klein2 | Uses both Π²_Z and Π²_X axes (Klein-Vierergruppe) | 4-5 |
+| YParity | Independent term-level Y-parity refinement (k≥3 only) | 0 |
+| Cubic3 | Uses all three Z₂ classifiers (full Z₂³) | 0 |
+| NotApplicable | Utility / non-Π²-axis Claim | varies |
+
+BitB Claims expose a nullable `BitATwin` pointer that is currently null for all
+of them (except via parent-edge inheritance, which is NOT twinship). The
+`PolarityCubeMap` typed Claim aggregates this inventory and exposes it via
+`rcpsi inspect PolarityCubeMap`.
+
+Source: `compute/RCPsiSquared.Core/Symmetry/Z2Axis.cs`,
+`IZ2AxisClaim.cs`, `PolarityCubeMap.cs`.

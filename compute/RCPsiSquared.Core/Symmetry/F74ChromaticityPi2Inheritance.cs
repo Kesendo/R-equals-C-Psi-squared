@@ -49,8 +49,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F74 (line 1652) +
 /// <c>experiments/Q_SCALE_THREE_BANDS.md</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
-public sealed class F74ChromaticityPi2Inheritance : Claim
+public sealed class F74ChromaticityPi2Inheritance : Claim, IZ2AxisClaim
 {
+
+    /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). The
+    /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X / F61 axis) is
+    /// currently not typed for this Claim.</summary>
+    public Z2Axis Z2Axis => Z2Axis.BitB;
+
+    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
+    /// (no bit_a twin is typed for this Claim; this is an open slot in the
+    /// cubic-architecture coverage).</summary>
+    public Claim? BitATwin => null;
     public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>The "2" in pure rate 2γ₀·HD. Live from Pi2DyadicLadder a_0.</summary>
     public double RateCoefficient => Ladder.Term(0);

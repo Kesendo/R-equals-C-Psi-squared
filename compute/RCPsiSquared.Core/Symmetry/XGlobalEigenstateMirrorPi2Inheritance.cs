@@ -56,8 +56,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/F86b proof references</c>
 /// (universal F86b shape α = (1−γ²)/2 from X⊗N-eigenbasis decomposition).</para>
 /// </summary>
-public sealed class XGlobalEigenstateMirrorPi2Inheritance : Claim, IF99AnchorBearing, IDickeAnchorBearing
+public sealed class XGlobalEigenstateMirrorPi2Inheritance : Claim, IF99AnchorBearing, IDickeAnchorBearing, IZ2AxisClaim
 {
+
+    /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). The
+    /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X / F61 axis) is
+    /// currently not typed for this Claim.</summary>
+    public Z2Axis Z2Axis => Z2Axis.BitB;
+
+    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
+    /// (no bit_a twin is typed for this Claim; this is an open slot in the
+    /// cubic-architecture coverage).</summary>
+    public Claim? BitATwin => null;
     /// <summary>The Half polarity parent: 2·(1/2) = 1 gives the X⊗N
     /// eigenvalue endpoints γ = ±1.</summary>
     public HalfAsStructuralFixedPointClaim Half { get; }

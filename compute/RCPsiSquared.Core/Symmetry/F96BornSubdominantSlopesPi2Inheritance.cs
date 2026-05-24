@@ -105,8 +105,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// reflection that named the empirical subdominant slopes as the next step).
 /// Sibling: <see cref="F94BornDeviationFourThirdsPi2Inheritance"/>
 /// (dominant-outcome closed form, the 4/3 unit that F96 elaborates).</para></summary>
-public sealed class F96BornSubdominantSlopesPi2Inheritance : Claim
+public sealed class F96BornSubdominantSlopesPi2Inheritance : Claim, IZ2AxisClaim
 {
+
+    /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). The
+    /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X / F61 axis) is
+    /// currently not typed for this Claim.</summary>
+    public Z2Axis Z2Axis => Z2Axis.BitB;
+
+    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
+    /// (no bit_a twin is typed for this Claim; this is an open slot in the
+    /// cubic-architecture coverage).</summary>
+    public Claim? BitATwin => null;
     public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>The setup this claim applies to (specific to F94's setup;
     /// inherits N = 4).</summary>

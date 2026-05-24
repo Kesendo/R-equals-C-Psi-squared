@@ -21,6 +21,12 @@
 | 6 | **Z⊗N** Pauli-letter parity (Z₂) = Π²_X (F61) | operator | trivially redundant with joint-popcount-parity (typed for inventory completeness) | Tier1Derived | `ZGlobalMirrorRefinement` |
 | 7 | **X⊗N** charge-conjugation (Z₂) = Π² (F1²) | operator | sector-pairing (p_c, p_r) ↔ (N−p_c, N−p_r); halves number of eig-calls | Tier1Derived | `XGlobalChargeConjugationPairing` |
 
+## Architecture aggregators (do not split or pair; report inventory state)
+
+| # | Symmetry | Axis | Effect | Status | Anchor |
+|---|---|---|---|---|---|
+| PolarityCubeMap | aggregator | Z2Axis classification of all Pi²-Inheritance Claims; gap-detection via null BitATwin | Tier2Empirical (snapshot strength bounded by weakest contributing parent; cubic architecture itself is Tier1Derived) | `PolarityCubeMap` (added 2026-05-24) |
+
 ## Negative results (typed for completeness)
 
 | # | Symmetry | Status | Anchor |

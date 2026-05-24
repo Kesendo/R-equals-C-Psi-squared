@@ -65,8 +65,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>compute/RCPsiSquared.Core/Symmetry/KleinFourCellClaim.cs</c>
 /// (F88a 4-cell, refines F79's binary parity) +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs</c>.</para></summary>
-public sealed class F79TwoBodyPi2BlockPi2Inheritance : Claim
+public sealed class F79TwoBodyPi2BlockPi2Inheritance : Claim, IZ2AxisClaim
 {
+    /// <summary>Klein-Vierergruppe Z₂ × Z₂: uses both Π²_Z and Π²_X axes.</summary>
+    public Z2Axis Z2Axis => Z2Axis.Klein2;
+
+    /// <summary>Klein2 Claims do not carry a BitATwin slot.</summary>
+    public Claim? BitATwin => null;
+
     public KleinFourCellClaim Klein { get; }
     public Pi2OperatorSpaceMirrorClaim Mirror { get; }
     public F1Pi2Inheritance F1 { get; }

@@ -76,7 +76,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>simulations/results/lens_survey/lens_survey_scaling.txt</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/F63LCommutesPi2Pi2Inheritance.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
-public sealed class F61BitAParityPi2Inheritance : Claim
+public sealed class F61BitAParityPi2Inheritance : Claim, IZ2AxisClaim
 {
     public F63LCommutesPi2Pi2Inheritance F63 { get; }
     public Pi2DyadicLadderClaim Ladder { get; }
@@ -114,9 +114,14 @@ public sealed class F61BitAParityPi2Inheritance : Claim
     public bool BlockCountAgreesWithF63() =>
         Math.Abs(BlockCount - F63.BlockCount) < 1e-12;
 
-    /// <summary>The Z₂ axis F61 covers: <c>"bit_a (n_XY)"</c>. Identifier for
-    /// the bit_a / n_XY parity reading. F63's axis is <c>"bit_b (w_YZ)"</c>.</summary>
-    public string Z2Axis => "bit_a (n_XY)";
+    /// <summary>The Z₂ axis F61 covers: bit_a (Π²_X = Z⊗N). F63 covers bit_b
+    /// (Π²_Z = X⊗N). Together they generate the maximal Klein-Vierergruppe of
+    /// independent Π² operators per F34/QUBIT_NECESSITY.</summary>
+    public Z2Axis Z2Axis => Z2Axis.BitA;
+
+    /// <summary>F61 sits on the BitA axis; the BitATwin slot is always null
+    /// (BitATwin is meaningful only for BitB Claims).</summary>
+    public Claim? BitATwin => null;
 
     /// <summary>SE accessibility ceiling: every single-excitation density
     /// matrix has purely even n_XY content, so SE optimisers can ONLY reach
@@ -169,7 +174,7 @@ public sealed class F61BitAParityPi2Inheritance : Claim
                 summary: "BlockCount = 4 = a_{-1} (shared with F63); PerBlockDim = 4^(N−1) = a_{3−2N} (shared); same shifts as F38, F39, F1-T1");
             yield return InspectableNode.RealScalar("BlockCount (= a_{-1} = 4)", BlockCount);
             yield return new InspectableNode("Z₂ axis",
-                summary: $"F61 covers: {Z2Axis}; F63 covers: bit_b (w_YZ)");
+                summary: $"F61 covers: bit_a (n_XY); F63 covers: bit_b (w_YZ); enum classification: {Z2Axis}");
             yield return new InspectableNode("SE accessibility corollary",
                 summary: "every SE density matrix has purely even n_XY → SE optimisers can ONLY reach even-n_XY modes; if a slower odd-n_XY mode exists, its rate is structurally beyond SE optimisation reach");
             yield return new InspectableNode("F61 break conditions (broader than F63)",

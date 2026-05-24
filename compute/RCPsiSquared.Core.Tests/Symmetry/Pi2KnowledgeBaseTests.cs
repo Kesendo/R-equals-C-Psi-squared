@@ -30,7 +30,8 @@ public class Pi2KnowledgeBaseTests
         Assert.NotEmpty(kb.HardwareConfirmations);
         Assert.NotEmpty(kb.OpenQuestions);
 
-        // Top-level: Chain + Tier 1 + Tier 2 empirical + Tier 2 hardware + open questions
+        // Top-level: Chain + Tier 1 + Tier 2 empirical (now also holds PolarityCubeMap) +
+        // Tier 2 hardware + open questions
         IInspectable root = kb;
         Assert.Equal(5, root.Children.Count());
     }
@@ -44,8 +45,11 @@ public class Pi2KnowledgeBaseTests
         // 16 top-level properties + 2 nested (CanonicalTrigAnchor.F98LongTime
         // and F98LongTime.StaticSide DickeSuperposition, both locally constructed in
         // Pi2KB's ctor since neither is itself a top-level KB property).
+        // PolarityCubeMap (added 2026-05-24) is Tier2Empirical (snapshot strength bounded by
+        // its weakest parent contributor), so it does not count toward this Tier1Derived
+        // total even though it is a top-level KB property.
         // .Distinct() factors out the 4 re-yields of HalfFixedPoint/QuarterAsBilinearMaxval
-        // through F99 + F98 ExtraChildren — those are reference-equal to the top-level
+        // through F99 + F98 ExtraChildren, those are reference-equal to the top-level
         // instances since the ctor passes them in. Robust to future re-yields of existing
         // parents in the same way.
         int distinctTier1 = kb.AllClaims()

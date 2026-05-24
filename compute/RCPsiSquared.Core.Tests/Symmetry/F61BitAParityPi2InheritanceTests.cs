@@ -34,9 +34,9 @@ public class F61BitAParityPi2InheritanceTests
     }
 
     [Fact]
-    public void Z2Axis_IsBitANXY()
+    public void Z2Axis_IsBitA()
     {
-        Assert.Equal("bit_a (n_XY)", BuildClaim().Z2Axis);
+        Assert.Equal(Z2Axis.BitA, BuildClaim().Z2Axis);
     }
 
     [Theory]

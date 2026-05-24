@@ -40,8 +40,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <see cref="F88bPopcountPairLens"/> (state-level α anchors),
 /// <see cref="F89TopologyOrbitClosure"/> (F89's bond-graph orbit closure),
 /// <c>docs/ANALYTICAL_FORMULAS.md</c> F88a + F88b + F89.</para></summary>
-public sealed class F89F88aKleinPpAnchor : Claim
+public sealed class F89F88aKleinPpAnchor : Claim, IZ2AxisClaim
 {
+    /// <summary>Klein-Vierergruppe Z₂ × Z₂: uses both Π²_Z and Π²_X axes.</summary>
+    public Z2Axis Z2Axis => Z2Axis.Klein2;
+
+    /// <summary>Klein2 Claims do not carry a BitATwin slot.</summary>
+    public Claim? BitATwin => null;
+
     public const string F89BondKleinCell = "Pp";
     public const int F89BondPi2ZEigenvalue = +1;
     public const int F89BondPi2XEigenvalue = +1;

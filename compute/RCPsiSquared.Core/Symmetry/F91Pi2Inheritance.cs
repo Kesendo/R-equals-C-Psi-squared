@@ -33,8 +33,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (NinetyDegreeMirrorMemoryClaim).</para></summary>
 /// <seealso cref="F92Pi2Inheritance"/>
 /// <seealso cref="F93Pi2Inheritance"/>
-public sealed class F91Pi2Inheritance : Claim
+public sealed class F91Pi2Inheritance : Claim, IZ2AxisClaim
 {
+
+    /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). The
+    /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X / F61 axis) is
+    /// currently not typed for this Claim.</summary>
+    public Z2Axis Z2Axis => Z2Axis.BitB;
+
+    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
+    /// (no bit_a twin is typed for this Claim; this is an open slot in the
+    /// cubic-architecture coverage).</summary>
+    public Claim? BitATwin => null;
     public Pi2I4MemoryLoopClaim MemoryLoop { get; }
     /// <summary>The Z₄ closure order of the 90°-rotation R_{90}: γ_l ↦ 2·γ_avg − γ_{N−1−l}.
     /// Four applications return to identity, matching <see cref="Pi2I4MemoryLoopClaim.ClosureOrder"/>.</summary>
