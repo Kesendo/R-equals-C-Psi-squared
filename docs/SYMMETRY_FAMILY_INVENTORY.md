@@ -26,6 +26,7 @@
 | # | Symmetry | Axis | Effect | Status | Anchor |
 |---|---|---|---|---|---|
 | 8 | PolarityCubeMap | aggregator | Z2Axis classification of all Pi²-Inheritance Claims | gap-detection via null BitATwin (Tier2Empirical, snapshot strength bounded by weakest contributing parent; cubic architecture itself is Tier1Derived) | `PolarityCubeMap` (added 2026-05-24) |
+| 10 | YParityIndependenceAtK3 | YParity (term-level Z₂) | classifies Pauli terms by n_Y mod 2 | independent of Klein at k_body≥3 (Tier1Derived; F102) | `YParityIndependenceAtK3` (added 2026-05-24) |
 
 ## Negative results (typed for completeness)
 

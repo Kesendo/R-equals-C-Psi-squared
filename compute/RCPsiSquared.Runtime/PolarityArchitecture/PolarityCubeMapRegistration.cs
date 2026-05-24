@@ -96,6 +96,8 @@ public static class PolarityCubeMapRegistration
             z2AxisClaims.Add(b.Get<F89F88aKleinPpAnchor>());
             z2AxisClaims.Add(b.Get<Pi2InvolutionClaim>());
             z2AxisClaims.Add(b.Get<Pi2KleinBilinearTable>());
+            // YParity-axis Claims (1): F102
+            z2AxisClaims.Add(b.Get<YParityIndependenceAtK3>());
             z2AxisClaims.Add(b.Get<ZGlobalMirrorRefinement>());
             return new PolarityCubeMap(z2AxisClaims);
         });

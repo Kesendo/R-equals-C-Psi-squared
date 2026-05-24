@@ -3211,5 +3211,38 @@ DickeAnchor.cs), companion bridge [F98](#f98) (long-time 3/8 → 1/4 via kernel 
 
 ---
 
+### F102. Y-Parity Term-Level Z₂ Independence at k_body≥3 (Tier 1 derived, verified)
+
+For any Pauli string σ = ⊗_l σ_α_l on N qubits:
+
+    y_par(σ) = n_Y(σ) mod 2     (term-level Y-parity classifier)
+    bit_a(σ) = (n_X + n_Y) mod 2    (F61 Π²_X axis)
+    bit_b(σ) = (n_Y + n_Z) mod 2    (F63 Π²_Z axis)
+
+At k_body=2 (the 9 Pauli bilinears XX, XY, XZ, YX, YY, YZ, ZX, ZY, ZZ),
+the identity y_par = bit_a XOR bit_b holds. More generally the identity
+holds iff k_body is even.
+
+At k_body=3 (and odd k_body in general), y_par and (bit_a XOR bit_b)
+differ by 1: y_par = (k_body + (bit_a XOR bit_b)) mod 2. So Y-parity
+is independent of the Klein (bit_a, bit_b) signature once k_body
+ranges over both even and odd values.
+
+**Canonical k_body=3 demonstration:** XYZ has (bit_a, bit_b, y_par) = (0, 0, 1);
+II...I has (0, 0, 0). Both share Klein (0, 0) but differ on y_par,
+exhibiting the Z₂³ structure of the cubic polarity layer.
+
+**Operator vs term level:** per F34/QUBIT_NECESSITY there is no third
+independent Π²-operator (Π²_Y collapses to Π²_Z at the operator level).
+F102 is a term-level classifier statement, not an operator-level
+Pi²-Inheritance.
+
+**Source:** [Proof](proofs/PROOF_F102_YPARITY_INDEPENDENCE.md);
+`compute/RCPsiSquared.Core/Symmetry/YParityIndependenceAtK3.cs`;
+witness `compute/RCPsiSquared.Core.Tests/Pauli/PauliHamiltonianKleinHelpersTests.cs`
+(XYZ_AtK3_IsKleinHomogeneousButZ2HomogeneityRefinesViaYParity).
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*

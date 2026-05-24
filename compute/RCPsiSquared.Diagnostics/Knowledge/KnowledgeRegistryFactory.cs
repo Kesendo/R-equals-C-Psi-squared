@@ -174,6 +174,11 @@ public static class KnowledgeRegistryFactory
             .RegisterF86HwhmClosedFormClaim()
             .RegisterIbmBlockCpsiHardwareTable()
             .RegisterPolarityPairQPeakDecompositionClaim()
+            // YParity-axis seed (F102): standalone Tier1Derived Claim filling the cubic
+            // Z₂³ architecture's YParity slot. Must come AFTER every Pi²-Inheritance Claim
+            // above but BEFORE RegisterPolarityCubeMap so the cube map's b.Get<...>()
+            // dependency resolves.
+            .RegisterYParityIndependenceAtK3()
             // Polarity cube map (cubic Z₂³ architecture inventory; aggregates every IZ2AxisClaim)
             // Must come AFTER every Pi²-Inheritance Claim registration above so its b.Get<T>()
             // dependencies resolve. Currently snapshot-only; rebuild registry to refresh.
