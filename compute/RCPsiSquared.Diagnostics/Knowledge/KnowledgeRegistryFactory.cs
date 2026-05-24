@@ -198,6 +198,10 @@ public static class KnowledgeRegistryFactory
             // direct corollary of F85's k-body truly criterion. PolarityCubeMap's
             // YParityClaims grows from 4 to 5.
             .RegisterTrulyYParityZeroPurity()
+            // Cubic3-axis (Stage 2b): the 8-cell Z₂³ decomposition (bit_a, bit_b, y_par).
+            // First Cubic3-axis Claim; PolarityCubeMap's Cubic3Claims grows from 0 to 1.
+            // Structural anchor for F87 Z₂³ refinement work (F103/F105/F106).
+            .RegisterKleinEightCellClaim()
             // Polarity cube map (cubic Z₂³ architecture inventory; aggregates every IZ2AxisClaim)
             // Must come AFTER every Pi²-Inheritance Claim registration above so its b.Get<T>()
             // dependencies resolve. Currently snapshot-only; rebuild registry to refresh.

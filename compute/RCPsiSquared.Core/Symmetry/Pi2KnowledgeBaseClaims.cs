@@ -156,6 +156,77 @@ public sealed class KleinFourCellClaim : Claim, IZ2AxisClaim
     }
 }
 
+/// <summary>F88a + F102 8-cell Z₂³ decomposition (Tier 1 derived). The Pauli operator
+/// space refines further when the third Z₂ axis (y_par = (#Y) mod 2) is included:
+/// (bit_a, bit_b, y_par) ∈ {0, 1}³ produces 8 cells.
+///
+/// <para>Per F102, y_par is independent of (bit_a, bit_b) only at k_body ≥ 3:</para>
+/// <list type="bullet">
+///   <item>At k_body=2 (bilinears): y_par = bit_a XOR bit_b ⟹ only 4 of 8 cells populated;
+///         the 8-cell structure collapses to F88a's Klein 4-cell.</item>
+///   <item>At k_body=3: y_par = (3 + bit_a XOR bit_b) mod 2 = 1 − bit_a XOR bit_b
+///         ⟹ only 4 of 8 cells populated (the OPPOSITE 4 vs k=2).</item>
+///   <item>At k_body=4 (and even k in general): y_par = bit_a XOR bit_b, same 4 as k=2.</item>
+///   <item>For ENUMERATIONS spanning multiple k_body values (e.g., k=3 letter sequences
+///         with I-padded lower k_body terms): all 8 cells populated.</item>
+/// </list>
+///
+/// <para>Z2Axis: <see cref="Z2Axis.Cubic3"/> (the third axis, currently the only
+/// fully Z₂³-cubic Claim). This Claim is the structural anchor for F87 Z₂³
+/// refinement work (F103/F105/F106) which enumerates Klein+y_par-homogeneous
+/// pairs across these 8 cells under each dephase letter.</para></summary>
+public sealed class KleinEightCellClaim : Claim, IZ2AxisClaim
+{
+    /// <summary>Full Z₂³ cubic decomposition: uses bit_a, bit_b, AND y_par.</summary>
+    public Z2Axis Z2Axis => Z2Axis.Cubic3;
+
+    /// <summary>Cubic3 Claims do not carry a BitATwin slot.</summary>
+    public Claim? BitATwin => null;
+
+    public KleinEightCellClaim()
+        : base("F88a + F102 8-cell Z₂³ decomposition: (bit_a, bit_b, y_par) → 8 cells; collapses to 4 at fixed k_body parity",
+               Tier.Tier1Derived,
+               "docs/ANALYTICAL_FORMULAS.md F88a + F102 + " +
+               "docs/proofs/PROOF_F102_YPARITY_INDEPENDENCE.md")
+    { }
+
+    public override string DisplayName => "Z₂³ 8-cell decomposition (bit_a, bit_b, y_par)";
+
+    public override string Summary =>
+        "(bit_a, bit_b, y_par) ∈ {0,1}³ produces 8 cells. At fixed even k_body: y_par = bit_a XOR bit_b ⟹ 4 cells populated. " +
+        "At fixed odd k_body: y_par = 1 − bit_a XOR bit_b ⟹ the OPPOSITE 4 cells populated. " +
+        "Mixed-k_body enumerations populate all 8.";
+
+    protected override IEnumerable<IInspectable> ExtraChildren
+    {
+        get
+        {
+            yield return new InspectableNode("(0,0,0) Mother / no Y-letter",
+                summary: "Klein (0,0) y_par=0: k_body=0 (excluded) or k_body=2 with #X+#Y even, #Y even (so #X even, #Z even); e.g., II, XX, ZZ, XXII");
+            yield return new InspectableNode("(0,0,1) Mother / odd-Y",
+                summary: "Klein (0,0) y_par=1: requires #Y odd AND bit_a XOR bit_b = 0; only at odd k_body (k=3: XYZ-perms; k=5: ...)");
+            yield return new InspectableNode("(0,1,0) Z-Klein / no-Y",
+                summary: "Klein (0,1) y_par=0: bit_a=0, bit_b=1, #Y even. Matches Z's Klein index. k_body=2: ZZ (truly under Z). k_body=3 even-Y: ZZZ etc.");
+            yield return new InspectableNode("(0,1,1) Z-Klein / odd-Y",
+                summary: "Klein (0,1) y_par=1: bit_a=0, bit_b=1, #Y odd. Only at odd k_body. k=3: requires #X+#Y even ∧ #Y+#Z odd ∧ #Y odd ⟹ #X odd, #Z even");
+            yield return new InspectableNode("(1,0,0) X-Klein / no-Y",
+                summary: "Klein (1,0) y_par=0: bit_a=1, bit_b=0, #Y even. Matches X's Klein index. k_body=2: XX (truly under X)");
+            yield return new InspectableNode("(1,0,1) X-Klein / odd-Y",
+                summary: "Klein (1,0) y_par=1: bit_a=1, bit_b=0, #Y odd. Only at odd k_body. k=3: requires specific (#X, #Y, #Z) parities");
+            yield return new InspectableNode("(1,1,0) Y-Klein / no-Y (paradoxical)",
+                summary: "Klein (1,1) y_par=0: matches Y's Klein index but #Y even. k_body=2: XZ (Π²-odd subgroup B). The cell exists despite Y-match because #Y can be 0 mod 2");
+            yield return new InspectableNode("(1,1,1) Y-Klein / odd-Y (canonical Y-cell)",
+                summary: "Klein (1,1) y_par=1: matches Y's Klein index AND has odd Y. k_body=1: single Y. k_body=3: Y plus 2 same-Klein letters");
+            yield return new InspectableNode("collapse to 4 at fixed k_body",
+                summary: "F102: at k_body=2 (or even k in general) y_par = bit_a XOR bit_b; at k_body=3 (or odd k) y_par = 1 − bit_a XOR bit_b. Fixed-parity slices the cube into 4 cells");
+            yield return new InspectableNode("F87 Z₂³ refinement anchoring",
+                summary: "F103/F105/F106 enumerate (Klein × dephase × y_par × trichotomy) over Z₂³-homogeneous pairs; this 8-cell decomposition is the structural backdrop");
+            yield return new InspectableNode("F88a relation",
+                summary: "F88a's Pp/Pm/Mp/Mm are the 4 (Klein, y_par-collapsed) cells at k_body=2: Pp=(0,0,0), Pm=(1,0,0), Mp=(0,1,0), Mm=(1,1,0). The 8-cell extends this with the y_par axis");
+        }
+    }
+}
+
 /// <summary>Bilinear apex 1/2 (Tier 1 derived). The framework's recurring 0.5 anchor: any
 /// bilinear form p·(1−p) in a probability variable is maximised at p = 1/2. Manifestations:
 /// F81 50/50 split for pure Π²-odd; F83 anti-fraction at r=0; balanced Π² partition
