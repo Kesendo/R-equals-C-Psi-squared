@@ -103,7 +103,7 @@ public class F87Z2CubedEnumerationN5K3Tool
             .ToList();
 
         return classifications
-            .GroupBy(c => ((c.Klein, c.Dephase, c.YPar, c.Cls)))
+            .GroupBy(c => (c.Klein, c.Dephase, c.YPar, c.Cls))
             .ToDictionary(g => g.Key, g => g.Count());
     }
 
