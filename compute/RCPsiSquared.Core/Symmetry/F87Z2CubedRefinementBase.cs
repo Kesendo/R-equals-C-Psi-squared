@@ -37,10 +37,10 @@ public abstract class F87Z2CubedRefinementBase : Claim, IZ2AxisClaim
     /// Independent of N for k=3 (294); k=4 yields 4248; etc.</summary>
     public abstract int TotalPairs { get; }
 
-    public abstract TrulyYParityZeroPurity TrulyPurity { get; }
-    public abstract HardDiagonalSplit42To8 HardDiagonal { get; }
-    public abstract DiagonalSoftSplit13To13 DiagonalSoft { get; }
-    public abstract MotherSoftYParityOnePurity MotherSoft { get; }
+    public abstract TrulyCounts TrulyPurity { get; }
+    public abstract HardDiagonalSplit HardDiagonal { get; }
+    public abstract DiagonalSoftSplit DiagonalSoft { get; }
+    public abstract MotherSoftCounts MotherSoft { get; }
     public abstract OffDiagonalSoftPatterns OffDiagonalSoft { get; }
 
     protected F87Z2CubedRefinementBase(string displayName, Tier tier, string anchor)
@@ -83,19 +83,19 @@ public abstract class F87Z2CubedRefinementBase : Claim, IZ2AxisClaim
     }
 }
 
-public sealed record TrulyYParityZeroPurity(int TotalTrulyClassifications, int YParityOneCount);
+public sealed record TrulyCounts(int TotalTrulyClassifications, int YParityOneCount);
 
-public sealed record HardDiagonalSplit42To8(
+public sealed record HardDiagonalSplit(
     (int YPar0, int YPar1) ZDephKlein01,
     (int YPar0, int YPar1) XDephKlein10,
     (int YPar0, int YPar1) YDephKlein11);
 
-public sealed record DiagonalSoftSplit13To13(
+public sealed record DiagonalSoftSplit(
     (int YPar0, int YPar1) ZDephKlein01,
     (int YPar0, int YPar1) XDephKlein10,
     (int YPar0, int YPar1) YDephKlein11);
 
-public sealed record MotherSoftYParityOnePurity(
+public sealed record MotherSoftCounts(
     (int YPar0, int YPar1) ZDephCounts,
     (int YPar0, int YPar1) XDephCounts,
     (int YPar0, int YPar1) YDephCounts);

@@ -25,10 +25,10 @@ public sealed class F87Z2CubedRefinementN5K3 : F87Z2CubedRefinementBase
     public override int K => 3;
     public override int TotalPairs => 294;
 
-    public override TrulyYParityZeroPurity TrulyPurity { get; }
-    public override HardDiagonalSplit42To8 HardDiagonal { get; }
-    public override DiagonalSoftSplit13To13 DiagonalSoft { get; }
-    public override MotherSoftYParityOnePurity MotherSoft { get; }
+    public override TrulyCounts TrulyPurity { get; }
+    public override HardDiagonalSplit HardDiagonal { get; }
+    public override DiagonalSoftSplit DiagonalSoft { get; }
+    public override MotherSoftCounts MotherSoft { get; }
     public override OffDiagonalSoftPatterns OffDiagonalSoft { get; }
 
     public F87Z2CubedRefinementN5K3()
@@ -38,21 +38,21 @@ public sealed class F87Z2CubedRefinementN5K3 : F87Z2CubedRefinementBase
                "docs/proofs/PROOF_F105_F87_Z2_CUBED_REFINEMENT_N5K3.md + " +
                "simulations/results/f87_z2cubed_split_n5_k3_counts.json")
     {
-        TrulyPurity = new TrulyYParityZeroPurity(
+        TrulyPurity = new TrulyCounts(
             TotalTrulyClassifications: 300,
             YParityOneCount: 0);
 
-        HardDiagonal = new HardDiagonalSplit42To8(
+        HardDiagonal = new HardDiagonalSplit(
             ZDephKlein01: (42, 8),
             XDephKlein10: (42, 8),
             YDephKlein11: (8, 42));
 
-        DiagonalSoft = new DiagonalSoftSplit13To13(
+        DiagonalSoft = new DiagonalSoftSplit(
             ZDephKlein01: (13, 13),
             XDephKlein10: (13, 13),
             YDephKlein11: (13, 13));
 
-        MotherSoft = new MotherSoftYParityOnePurity(
+        MotherSoft = new MotherSoftCounts(
             ZDephCounts: (0, 21),
             XDephCounts: (0, 21),
             YDephCounts: (0, 21));
