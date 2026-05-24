@@ -1,0 +1,28 @@
+using RCPsiSquared.Core.Symmetry;
+using RCPsiSquared.Diagnostics.Knowledge;
+using Xunit;
+
+namespace RCPsiSquared.Runtime.Tests.PolarityArchitecture;
+
+/// <summary>Dedicated cumulative-cardinality assertion for the YParity-axis bucket
+/// in <see cref="PolarityCubeMap"/>. This file is the single point of truth for the
+/// expected total count of Z2Axis.YParity claims; each new regime (F102, F103, F105,
+/// future F106, F107) bumps the count here rather than editing one regime's test
+/// file. Per-regime <c>F87Z2CubedRefinement{NxKy}RegistrationTests</c> files assert
+/// only their own claim's membership.</summary>
+public class PolarityCubeMapYParityCardinalityTests
+{
+    [Fact]
+    public void PolarityCubeMap_YParityClaims_TotalCount_MatchesExpected()
+    {
+        // F102 (YParityIndependenceAtK3) + F103 (F87Z2CubedRefinementN4K3) + F105
+        // (F87Z2CubedRefinementN5K3) are the current Z2Axis.YParity members. When a new
+        // regime lands (F106 N4K4, F107+ etc), bump this expected value to match.
+        const int expectedCount = 3;
+
+        var registry = KnowledgeRegistryFactory.BuildDefault();
+        var cubeMap = registry.Get<PolarityCubeMap>();
+        Assert.NotNull(cubeMap);
+        Assert.Equal(expectedCount, cubeMap.YParityClaims.Count);
+    }
+}
