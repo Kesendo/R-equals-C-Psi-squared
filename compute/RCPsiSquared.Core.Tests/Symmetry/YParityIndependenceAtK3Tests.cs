@@ -59,17 +59,20 @@ public class YParityIndependenceAtK3Tests
     {
         // At k_body=1 (single non-I letter embedded in a multi-position tensor),
         // y_par = n_Y mod 2 while bit_a XOR bit_b = (n_X + n_Z) mod 2 = 1 - n_Y mod 2.
-        // They differ by 1, so the identity always fails.
-        var ix = new PauliTerm(new[] { PauliLetter.I, PauliLetter.X }, Complex.One);
-        var iy = new PauliTerm(new[] { PauliLetter.I, PauliLetter.Y }, Complex.One);
-        var iz = new PauliTerm(new[] { PauliLetter.I, PauliLetter.Z }, Complex.One);
+        // They differ by 1, so the identity always fails. Parity is position-independent,
+        // so both right-position (IX, IY, IZ) and left-position (XI, YI, ZI) k_body=1
+        // pairs must violate the identity.
+        var nonIdentityLetters = new[] { PauliLetter.X, PauliLetter.Y, PauliLetter.Z };
+        foreach (var letter in nonIdentityLetters)
+        {
+            var rightPos = new PauliTerm(new[] { PauliLetter.I, letter }, Complex.One);
+            Assert.False(YParityIndependenceAtK3.K2CollapseIdentityHolds(rightPos),
+                $"k_body=1 right-position (I, {letter}) should violate the k_body=2 collapse identity");
 
-        Assert.False(YParityIndependenceAtK3.K2CollapseIdentityHolds(ix),
-            "k_body=1 IX should violate the k_body=2 collapse identity");
-        Assert.False(YParityIndependenceAtK3.K2CollapseIdentityHolds(iy),
-            "k_body=1 IY should violate the k_body=2 collapse identity");
-        Assert.False(YParityIndependenceAtK3.K2CollapseIdentityHolds(iz),
-            "k_body=1 IZ should violate the k_body=2 collapse identity");
+            var leftPos = new PauliTerm(new[] { letter, PauliLetter.I }, Complex.One);
+            Assert.False(YParityIndependenceAtK3.K2CollapseIdentityHolds(leftPos),
+                $"k_body=1 left-position ({letter}, I) should violate the k_body=2 collapse identity");
+        }
     }
 
     [Fact]
