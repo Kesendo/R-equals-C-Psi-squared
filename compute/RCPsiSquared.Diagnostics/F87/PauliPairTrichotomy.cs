@@ -50,6 +50,44 @@ public static class PauliPairTrichotomy
         return TrichotomyClass.Hard;
     }
 
+    /// <summary>k≥2 overload: accepts a list of <see cref="PauliTerm"/> templates
+    /// (each with Letters of length k ≤ N and a coefficient) and classifies the
+    /// resulting chain Hamiltonian using the sliding-window k-body builder
+    /// (<see cref="PauliKBodyChainExtensions.ChainKBody"/>). Parallels Python
+    /// framework's <c>classify_pauli_pair</c> k-body dispatch path.
+    ///
+    /// <para>Mixed-body (k=2 + k≥3 in the same call) is NOT supported here; use
+    /// only k=2 templates via this overload to mirror the existing
+    /// <see cref="PauliPairBondTerm"/> overload, or only k≥3 templates for the
+    /// F104 use case. Mixing requires two separate Classify calls and external
+    /// H-sum; out of scope for F104.</para>
+    ///
+    /// <para>Pipeline identical to the k=2 overload: build H via ChainKBody,
+    /// build L via dephasing dissipator, build M via palindrome residual, then
+    /// truly-test (‖M‖_F &lt; opTolerance) followed by soft/hard test
+    /// (greedy multiset eigenvalue pairing).</para></summary>
+    public static TrichotomyClass Classify(ChainSystem chain, IReadOnlyList<PauliTerm> termTemplates,
+        double opTolerance = 1e-10, double spectrumTolerance = 1e-6,
+        PauliLetter dephaseLetter = PauliLetter.Z)
+    {
+        if (termTemplates.Count == 0) return TrichotomyClass.Truly;
+
+        var H = termTemplates.ChainKBody(chain.N);
+        var gammaList = Enumerable.Repeat(chain.GammaZero, chain.N).ToArray();
+        var L = PauliDephasingDissipator.Build(H, gammaList, dephaseLetter);
+        double sigma = chain.SigmaGamma;
+
+        var M = PalindromeResidual.Build(L, chain.N, sigma, dephaseLetter);
+        double opNorm = M.FrobeniusNorm();
+        if (opNorm < opTolerance) return TrichotomyClass.Truly;
+
+        var evd = L.Evd();
+        var evals = evd.EigenValues.ToArray();
+        if (SpectrumPairs(evals, sigma, spectrumTolerance))
+            return TrichotomyClass.Soft;
+        return TrichotomyClass.Hard;
+    }
+
     /// <summary>Greedy pairing: for each unused λ, find the closest unused λ' to the target
     /// −λ−2σ. A self-pair (λ ≈ −σ, fixed point of the involution) consumes only λ.
     /// Returns true if every pairing distance is within <paramref name="tolerance"/>.</summary>
