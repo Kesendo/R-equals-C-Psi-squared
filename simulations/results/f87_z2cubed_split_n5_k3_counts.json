@@ -1,0 +1,248 @@
+{
+  "n": 5,
+  "k": 3,
+  "total_pairs": 294,
+  "total_classifications": 882,
+  "grid": [
+    {
+      "klein_a": 0,
+      "klein_b": 0,
+      "dephase": "X",
+      "y_par": 0,
+      "trichotomy": "truly",
+      "count": 45
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 0,
+      "dephase": "X",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 21
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 0,
+      "dephase": "Y",
+      "y_par": 0,
+      "trichotomy": "truly",
+      "count": 45
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 0,
+      "dephase": "Y",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 21
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 0,
+      "dephase": "Z",
+      "y_par": 0,
+      "trichotomy": "truly",
+      "count": 45
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 0,
+      "dephase": "Z",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 21
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 1,
+      "dephase": "X",
+      "y_par": 0,
+      "trichotomy": "truly",
+      "count": 55
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 1,
+      "dephase": "X",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 21
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 1,
+      "dephase": "Y",
+      "y_par": 0,
+      "trichotomy": "soft",
+      "count": 55
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 1,
+      "dephase": "Y",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 21
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 1,
+      "dephase": "Z",
+      "y_par": 0,
+      "trichotomy": "hard",
+      "count": 42
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 1,
+      "dephase": "Z",
+      "y_par": 0,
+      "trichotomy": "soft",
+      "count": 13
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 1,
+      "dephase": "Z",
+      "y_par": 1,
+      "trichotomy": "hard",
+      "count": 8
+    },
+    {
+      "klein_a": 0,
+      "klein_b": 1,
+      "dephase": "Z",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 13
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 0,
+      "dephase": "X",
+      "y_par": 0,
+      "trichotomy": "hard",
+      "count": 42
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 0,
+      "dephase": "X",
+      "y_par": 0,
+      "trichotomy": "soft",
+      "count": 13
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 0,
+      "dephase": "X",
+      "y_par": 1,
+      "trichotomy": "hard",
+      "count": 8
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 0,
+      "dephase": "X",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 13
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 0,
+      "dephase": "Y",
+      "y_par": 0,
+      "trichotomy": "truly",
+      "count": 55
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 0,
+      "dephase": "Y",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 21
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 0,
+      "dephase": "Z",
+      "y_par": 0,
+      "trichotomy": "truly",
+      "count": 55
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 0,
+      "dephase": "Z",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 21
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 1,
+      "dephase": "X",
+      "y_par": 0,
+      "trichotomy": "soft",
+      "count": 21
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 1,
+      "dephase": "X",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 55
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 1,
+      "dephase": "Y",
+      "y_par": 0,
+      "trichotomy": "hard",
+      "count": 8
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 1,
+      "dephase": "Y",
+      "y_par": 0,
+      "trichotomy": "soft",
+      "count": 13
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 1,
+      "dephase": "Y",
+      "y_par": 1,
+      "trichotomy": "hard",
+      "count": 42
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 1,
+      "dephase": "Y",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 13
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 1,
+      "dephase": "Z",
+      "y_par": 0,
+      "trichotomy": "soft",
+      "count": 21
+    },
+    {
+      "klein_a": 1,
+      "klein_b": 1,
+      "dephase": "Z",
+      "y_par": 1,
+      "trichotomy": "soft",
+      "count": 55
+    }
+  ]
+}

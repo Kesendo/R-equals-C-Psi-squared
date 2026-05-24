@@ -3292,5 +3292,30 @@ regenerate empirical anchor via `simulations/f87_z2cubed_split_n4_k3.py` (~60s).
 
 ---
 
+### F105. F87 Trichotomy Z₂³ Refinement at k_body=3 N=5 (Tier 1 derived, N-stability test of F103)
+
+F105 anchors the F87 Z₂³ refinement at N=5 k=3 using the same 294 Z₂³-homogeneous
+Pauli pair enumeration as F103, classified via F104's C# k-body classifier.
+
+F85 (k-body generalization) predicts the Π²-class trichotomy is N-stable for any
+k. F105 tests whether this lifts to the y_par sub-refinement.
+
+**Observed outcome:** F85's N-stability prediction is CONFIRMED at the y_par axis:
+F105's 5 sub-statement counts at N=5 k=3 are bit-exactly identical to F103's at
+N=4 k=3 (truly 300 / 0 y_par=1; hard diagonal (42, 8) / (42, 8) / (8, 42);
+diagonal soft (13, 13) ×3; mother soft (0, 21) ×3; off-diagonal Pattern B +
+Pattern C cells unchanged). The cubic Z₂³ architecture is N-invariant in its
+sub-cell structure at k=3.
+
+**Method:** 882 classifications via the SLOW_F105_BATCH tool; ~3h dense batch,
+accelerated to ~12 min via PLINQ in the Task 7 run.
+
+**Source:** [Proof](proofs/PROOF_F105_F87_Z2_CUBED_REFINEMENT_N5K3.md);
+`compute/RCPsiSquared.Core/Symmetry/F87Z2CubedRefinementN5K3.cs`
+(derived from `F87Z2CubedRefinementBase.cs`); empirical anchor:
+`simulations/results/f87_z2cubed_split_n5_k3_counts.json`.
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*

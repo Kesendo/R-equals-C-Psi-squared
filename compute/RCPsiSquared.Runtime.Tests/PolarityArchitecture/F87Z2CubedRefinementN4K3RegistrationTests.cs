@@ -16,13 +16,13 @@ public class F87Z2CubedRefinementN4K3RegistrationTests
     }
 
     [Fact]
-    public void PolarityCubeMap_YParityClaims_ContainsExactlyTwo()
+    public void PolarityCubeMap_YParityClaims_ContainsExactlyThree()
     {
-        // F102 + F103 (N4K3) are the only Z2Axis.YParity members in PolarityCubeMap; expect count == 2.
+        // F102 + F103 (N4K3) + F105 (N5K3) are the Z2Axis.YParity members in PolarityCubeMap; expect count == 3.
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var cubeMap = registry.Get<PolarityCubeMap>();
         Assert.NotNull(cubeMap);
-        Assert.Equal(2, cubeMap.YParityClaims.Count);
+        Assert.Equal(3, cubeMap.YParityClaims.Count);
     }
 
     [Fact]
