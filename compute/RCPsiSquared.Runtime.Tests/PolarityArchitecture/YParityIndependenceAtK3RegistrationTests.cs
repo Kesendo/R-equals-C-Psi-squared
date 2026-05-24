@@ -1,4 +1,3 @@
-using System.Linq;
 using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Diagnostics.Knowledge;
 using Xunit;
