@@ -56,19 +56,15 @@ public class F104KBodyTrichotomyVerificationTests : IClassFixture<F104CountsFixt
         var counts = _fixture.Counts;
         var f103 = new F87Z2CubedRefinement();
 
-        var zHard = ((0, 1), 'Z');
-        var xHard = ((1, 0), 'X');
-        var yHard = ((1, 1), 'Y');
-
         Assert.Equal(f103.HardDiagonal.ZDephKlein01,
-            (counts.GetValueOrDefault((zHard.Item1, zHard.Item2, 0, TrichotomyClass.Hard)),
-             counts.GetValueOrDefault((zHard.Item1, zHard.Item2, 1, TrichotomyClass.Hard))));
+            (counts.GetValueOrDefault(((0, 1), 'Z', 0, TrichotomyClass.Hard)),
+             counts.GetValueOrDefault(((0, 1), 'Z', 1, TrichotomyClass.Hard))));
         Assert.Equal(f103.HardDiagonal.XDephKlein10,
-            (counts.GetValueOrDefault((xHard.Item1, xHard.Item2, 0, TrichotomyClass.Hard)),
-             counts.GetValueOrDefault((xHard.Item1, xHard.Item2, 1, TrichotomyClass.Hard))));
+            (counts.GetValueOrDefault(((1, 0), 'X', 0, TrichotomyClass.Hard)),
+             counts.GetValueOrDefault(((1, 0), 'X', 1, TrichotomyClass.Hard))));
         Assert.Equal(f103.HardDiagonal.YDephKlein11,
-            (counts.GetValueOrDefault((yHard.Item1, yHard.Item2, 0, TrichotomyClass.Hard)),
-             counts.GetValueOrDefault((yHard.Item1, yHard.Item2, 1, TrichotomyClass.Hard))));
+            (counts.GetValueOrDefault(((1, 1), 'Y', 0, TrichotomyClass.Hard)),
+             counts.GetValueOrDefault(((1, 1), 'Y', 1, TrichotomyClass.Hard))));
     }
 
     [Fact]
