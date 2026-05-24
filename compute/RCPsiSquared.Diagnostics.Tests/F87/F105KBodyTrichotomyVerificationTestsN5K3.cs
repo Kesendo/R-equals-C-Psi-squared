@@ -262,22 +262,23 @@ public sealed class F105CountsFixtureN5K3
     /// count grid for downstream assertion.</summary>
     private static Dictionary<((int A, int B) Klein, char Dephase, int YPar, TrichotomyClass Cls), int> ClassifyAndGroup()
     {
+        // Parallelize over (pair × dephase letter). PauliPairTrichotomy.Classify is pure
+        // (constructs fresh H/L/M per call); ChainSystem and PauliTerm are immutable records.
+        // 882 independent classifications saturate all available cores via PLINQ.
         var chain = MakeChainN5();
-        var counts = new Dictionary<((int, int), char, int, TrichotomyClass), int>();
-
-        foreach (var item in EnumerateZ2HomogeneousK3())
-        {
-            var templates = new[] { item.Term1, item.Term2 };
-            foreach (var dephase in DephaseLetters)
+        var classifications = EnumerateZ2HomogeneousK3()
+            .SelectMany(item => DephaseLetters.Select(d => (item, dephase: d)))
+            .AsParallel()
+            .Select(x =>
             {
-                var cls = PauliPairTrichotomy.Classify(chain, templates,
-                    dephaseLetter: dephase);
-                var key = (item.Klein, DephaseChar(dephase), item.YPar, cls);
-                counts.TryGetValue(key, out int existing);
-                counts[key] = existing + 1;
-            }
-        }
+                var templates = new[] { x.item.Term1, x.item.Term2 };
+                var cls = PauliPairTrichotomy.Classify(chain, templates, dephaseLetter: x.dephase);
+                return (x.item.Klein, Dephase: DephaseChar(x.dephase), x.item.YPar, Cls: cls);
+            })
+            .ToList();
 
-        return counts;
+        return classifications
+            .GroupBy(c => (c.Klein, c.Dephase, c.YPar, c.Cls))
+            .ToDictionary(g => g.Key, g => g.Count());
     }
 }
