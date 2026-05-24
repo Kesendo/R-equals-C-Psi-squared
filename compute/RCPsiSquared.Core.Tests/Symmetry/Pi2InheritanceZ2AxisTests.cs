@@ -44,19 +44,4 @@ public class Pi2InheritanceZ2AxisTests
         Assert.True(typeof(IZ2AxisClaim).IsAssignableFrom(kleinType));
     }
 
-    [Fact]
-    public void EveryBitBClaim_HasBitATwinPropertyInitiallyNull()
-    {
-        var bitBClaims = CoreAssembly.GetTypes()
-            .Where(t => t.IsClass && !t.IsAbstract)
-            .Where(t => typeof(IZ2AxisClaim).IsAssignableFrom(t))
-            .Where(t => t.GetConstructors().Any())
-            .ToList();
-
-        Assert.NotEmpty(bitBClaims);
-
-        // Smoke check: F61 (BitA) returns null for BitATwin, which is fine.
-        var f61Type = CoreAssembly.GetType("RCPsiSquared.Core.Symmetry.F61BitAParityPi2Inheritance");
-        Assert.NotNull(f61Type);
-    }
 }

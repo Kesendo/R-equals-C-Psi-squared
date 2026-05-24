@@ -94,6 +94,7 @@ public static class PolarityCubeMapRegistration
             z2AxisClaims.Add(b.Get<QubitNecessityPi2Inheritance>());
             z2AxisClaims.Add(b.Get<KleinFourCellClaim>());
             z2AxisClaims.Add(b.Get<F89F88aKleinPpAnchor>());
+            z2AxisClaims.Add(b.Get<Pi2InvolutionClaim>());
             z2AxisClaims.Add(b.Get<Pi2KleinBilinearTable>());
             z2AxisClaims.Add(b.Get<ZGlobalMirrorRefinement>());
             return new PolarityCubeMap(z2AxisClaims);

@@ -72,13 +72,21 @@ public sealed class QubitDimensionalAnchorClaim : Claim
 /// channel between H and M, F80's i). The parent edge to F1 was prose-only before this
 /// constructor injection.</para>
 /// </summary>
-public sealed class Pi2InvolutionClaim : Claim
+public sealed class Pi2InvolutionClaim : Claim, IZ2AxisClaim
 {
     /// <summary>The F1 palindrome identity whose squaring produces this Π²-involution
     /// statement. Injected via the constructor so that the inheritance edge
     /// <c>F1PalindromeIdentity → Pi2InvolutionClaim</c> is typed in the Claim graph
     /// (not just stated in prose).</summary>
     public F1PalindromeIdentity F1 { get; }
+
+    /// <summary>Pi2InvolutionClaim is foundation-level (the Π²² = I involution
+    /// property itself), not classified on a specific Z₂ axis. Marked NotApplicable
+    /// so it appears in the PolarityCubeMap inventory as a foundation Claim.</summary>
+    public Z2Axis Z2Axis => Z2Axis.NotApplicable;
+
+    /// <summary>Foundation Claim; no BitATwin slot.</summary>
+    public Claim? BitATwin => null;
 
     public Pi2InvolutionClaim(F1PalindromeIdentity f1)
         : base("Π² commutes with L (squared from F1 palindrome)",

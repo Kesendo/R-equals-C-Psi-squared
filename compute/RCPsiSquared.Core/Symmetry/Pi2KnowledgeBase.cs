@@ -114,13 +114,16 @@ public sealed class Pi2KnowledgeBase : IInspectable
         // directly accessible here; PolarityCubeMap on Pi2KnowledgeBase represents only
         // the Pi2KnowledgeBase-rooted view. A fuller view that aggregates Schicht-1
         // registrations lives in PolarityCubeMapRegistration (compute/RCPsiSquared.Runtime).
-        // Defensive 'as' casts (rather than direct adds) so the aggregation survives if a
-        // future refactor changes the typed property type without adopting IZ2AxisClaim.
-        var z2AxisClaims = new List<IZ2AxisClaim>();
-        if ((Claim)Involution is IZ2AxisClaim involutionZ2) z2AxisClaims.Add(involutionZ2);
-        if ((Claim)KleinDecomposition is IZ2AxisClaim kleinZ2) z2AxisClaims.Add(kleinZ2);
-        if ((Claim)CanonicalTrigAnchor is IZ2AxisClaim trigZ2) z2AxisClaims.Add(trigZ2);
-        if ((Claim)BilinearTable is IZ2AxisClaim bilinearZ2) z2AxisClaims.Add(bilinearZ2);
+        // All four typed Pi2 properties now implement IZ2AxisClaim directly
+        // (Pi2InvolutionClaim = NotApplicable; KleinFourCellClaim = Klein2;
+        // CanonicalTrigAnchorPi2Inheritance = BitB; Pi2KleinBilinearTable = Klein2).
+        var z2AxisClaims = new List<IZ2AxisClaim>
+        {
+            Involution,
+            KleinDecomposition,
+            CanonicalTrigAnchor,
+            BilinearTable,
+        };
         PolarityCubeMap = new PolarityCubeMap(z2AxisClaims);
     }
 

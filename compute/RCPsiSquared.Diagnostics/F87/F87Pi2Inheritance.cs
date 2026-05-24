@@ -27,7 +27,7 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <c>experiments/V_EFFECT_FINE_STRUCTURE.md</c> +
 /// <c>compute/RCPsiSquared.Diagnostics/F87/F87TrichotomyClassification.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/F1Pi2Inheritance.cs</c>.</para></summary>
-public sealed class F87Pi2Inheritance : Claim
+public sealed class F87Pi2Inheritance : Claim, IZ2AxisClaim
 {
     private readonly F1Pi2Inheritance _f1Inheritance;
 
@@ -36,6 +36,16 @@ public sealed class F87Pi2Inheritance : Claim
     /// "2" inside the F1 closed form; F87 inherits its number-level constant from
     /// the Pi2 dyadic ladder via F1.</summary>
     public double TransitivelyInheritedTwoFactor => _f1Inheritance.TwoFactor;
+
+    /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). F87's
+    /// trichotomy refines along this axis. The bit_a-twin is currently not
+    /// typed for F87.</summary>
+    public Z2Axis Z2Axis => Z2Axis.BitB;
+
+    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
+    /// (no bit_a twin is typed for F87; open slot in the cubic-architecture
+    /// coverage).</summary>
+    public Claim? BitATwin => null;
 
     public F87Pi2Inheritance(F1Pi2Inheritance f1Inheritance)
         : base("F87 trichotomy inherits from Pi2-Foundation: discriminator via F1 (2 = a_0)",
