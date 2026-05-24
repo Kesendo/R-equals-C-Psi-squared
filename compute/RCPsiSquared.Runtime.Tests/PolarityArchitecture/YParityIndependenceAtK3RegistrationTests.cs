@@ -16,20 +16,22 @@ public class YParityIndependenceAtK3RegistrationTests
     }
 
     [Fact]
-    public void PolarityCubeMap_YParityClaims_ContainsExactlyOne()
+    public void PolarityCubeMap_YParityClaims_IncludesYParityIndependenceAtK3()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var cubeMap = registry.Get<PolarityCubeMap>();
         Assert.NotNull(cubeMap);
-        Assert.Single(cubeMap.YParityClaims);
+        Assert.Contains(cubeMap.YParityClaims, c => c is YParityIndependenceAtK3);
     }
 
     [Fact]
-    public void PolarityCubeMap_YParityClaim_IsYParityIndependenceAtK3()
+    public void PolarityCubeMap_YParityIndependenceAtK3_AppearsExactlyOnce()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var cubeMap = registry.Get<PolarityCubeMap>();
-        var yParityClaim = Assert.Single(cubeMap.YParityClaims);
-        Assert.IsType<YParityIndependenceAtK3>(yParityClaim);
+        int count = 0;
+        foreach (var c in cubeMap.YParityClaims)
+            if (c is YParityIndependenceAtK3) count++;
+        Assert.Equal(1, count);
     }
 }

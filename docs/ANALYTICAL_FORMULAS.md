@@ -3244,5 +3244,52 @@ witness `compute/RCPsiSquared.Core.Tests/Pauli/PauliHamiltonianKleinHelpersTests
 
 ---
 
+### F103. F87 Trichotomy Z₂³ Refinement at k_body=3 (Tier 1 derived, N=4 anchor)
+
+After F102 established that Y-parity y_par = n_Y mod 2 is independent of the
+Klein (bit_a, bit_b) signature at k_body≥3, F103 captures how Y-parity actually
+refines the existing F87 trichotomy (truly / soft / hard) at k_body=3 with
+empirical anchor at N=4.
+
+**Empirical setup:** 294 Z₂³-homogeneous + Y-par-homogeneous k_body=3 Pauli
+pairs at N=4, each classified under Z, X, Y single-letter dephasing via
+`classify_pauli_pair`, bucketed by (Klein × dephase letter × y_par ×
+trichotomy class).
+
+**Five structural sub-statements:**
+
+1. *Truly is y_par=0-pure.* Across all 12 (Klein × dephase) cells, every truly
+   classification has y_par=0; total truly across the grid = 300, y_par=1
+   truly count = 0.
+
+2. *Hard in diagonal cells (Klein matches dephase letter) splits 42:8 with
+   Y-inversion.* Z-deph in Klein (0,1) hard = (42, 8); X-deph in (1,0) hard =
+   (42, 8); Y-deph in (1,1) hard = (8, 42). The Y-deph swap reflects that Y
+   carries y_par=1.
+
+3. *Same diagonal cells contain a soft 13:13 y_par-symmetric split.* Sum 26
+   per cell; unlike hard's 42:8 asymmetry, soft is y_par-symmetric in these
+   cells.
+
+4. *Mother sector (0,0) soft is y_par=1-pure.* All 3 letter cells in Klein
+   (0,0) soft equal (0, 21).
+
+5. *Off-diagonal soft (6 cells: Klein non-mother and Klein ≠ dephase Klein)
+   splits into Pattern B + Pattern C.* Pattern B (3 cells, proportional to
+   (Klein, y_par) enumeration breakdown): (0,1) Y-deph = (55, 21); (1,1)
+   Z-deph = (21, 55); (1,1) X-deph = (21, 55). Pattern C (3 cells, y_par=1-pure):
+   (0,1) X-deph = (0, 21); (1,0) Z-deph = (0, 21); (1,0) Y-deph = (0, 21).
+
+**Open questions:** Closed-form derivation of the 42:8 split; N>4 and k>3
+universality; the (pair Klein, dephase letter) → (Pattern B vs Pattern C)
+selection rule; hardware confirmation of k≥3 F87 (all 5 Marrakesh F87
+confirmations are k=2).
+
+**Source:** [Proof](proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md);
+`compute/RCPsiSquared.Core/Symmetry/F87Z2CubedRefinement.cs`;
+regenerate empirical anchor via `simulations/f87_z2cubed_split_n4_k3.py` (~60s).
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*
