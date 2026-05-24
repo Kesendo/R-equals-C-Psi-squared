@@ -1,9 +1,7 @@
-using System.Linq;
 using System.Reflection;
 using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Diagnostics.F87;
-using Xunit;
 
 namespace RCPsiSquared.Diagnostics.Tests.F87;
 

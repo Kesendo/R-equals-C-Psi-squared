@@ -1,8 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
+using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Symmetry;
-using Xunit;
 
 namespace RCPsiSquared.Core.Tests.Symmetry;
 
@@ -96,7 +94,7 @@ public class PolarityCubeMapTests
     public void RealPi2KnowledgeBase_ConstructsPolarityCubeMap()
     {
         // Smoke test with the real Pi2KnowledgeBase.
-        var chain = new RCPsiSquared.Core.ChainSystems.ChainSystem(N: 3, J: 1.0, GammaZero: 0.05);
+        var chain = new ChainSystem(N: 3, J: 1.0, GammaZero: 0.05);
         var kb = new Pi2KnowledgeBase(chain);
 
         Assert.NotNull(kb.PolarityCubeMap);

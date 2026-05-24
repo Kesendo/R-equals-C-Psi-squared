@@ -1,8 +1,6 @@
-using System.Linq;
 using System.Reflection;
 using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Symmetry;
-using Xunit;
 
 namespace RCPsiSquared.Core.Tests.Symmetry;
 

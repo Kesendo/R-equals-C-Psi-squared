@@ -1,5 +1,6 @@
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
+using RCPsiSquared.Core.Symmetry;
 
 namespace RCPsiSquared.Core.SymmetryFamily;
 
@@ -10,10 +11,10 @@ namespace RCPsiSquared.Core.SymmetryFamily;
 /// joint-popcount-parity classification. Typed for inventory completeness only; does
 /// not produce a new sector splitting beyond <see cref="BlockSpectrum.JointPopcountSectors"/>.
 /// See <c>compute/RCPsiSquared.Core/Symmetry/ZGlobalMirror.cs</c> for the raw operator.</summary>
-public sealed class ZGlobalMirrorRefinement : Claim, RCPsiSquared.Core.Symmetry.IZ2AxisClaim
+public sealed class ZGlobalMirrorRefinement : Claim, IZ2AxisClaim
 {
     /// <summary>Klein-Vierergruppe Z₂ × Z₂: uses both Π²_Z and Π²_X axes.</summary>
-    public RCPsiSquared.Core.Symmetry.Z2Axis Z2Axis => RCPsiSquared.Core.Symmetry.Z2Axis.Klein2;
+    public Z2Axis Z2Axis => Z2Axis.Klein2;
 
     /// <summary>Klein2 Claims do not carry a BitATwin slot.</summary>
     public Claim? BitATwin => null;
