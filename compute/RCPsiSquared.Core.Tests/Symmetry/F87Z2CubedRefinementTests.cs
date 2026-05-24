@@ -112,18 +112,15 @@ public class F87Z2CubedRefinementTests
         }
 
         // Pattern C (3 cells): sum 21 each, YPar0 == 0
-        var patternC = new[]
+        var patternC = new (int KleinA, int KleinB, char Dephase)[]
         {
-            ((0, 1), 'X'),
-            ((1, 0), 'Z'),
-            ((1, 0), 'Y'),
+            (0, 1, 'X'),
+            (1, 0, 'Z'),
+            (1, 0, 'Y'),
         };
         foreach (var key in patternC)
         {
-            var (kA, kB) = key.Item1;
-            var dephase = key.Item2;
-            var cellKey = (kA, kB, dephase);
-            var counts = claim.OffDiagonalSoft.Cells[cellKey];
+            var counts = claim.OffDiagonalSoft.Cells[key];
             Assert.Equal(0, counts.YPar0);
             Assert.Equal(21, counts.YPar1);
         }
