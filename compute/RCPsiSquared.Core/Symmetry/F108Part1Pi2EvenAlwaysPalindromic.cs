@@ -29,8 +29,10 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         at the 2-qubit level; 4 Π²-odd bilinears produce residual = 8.00, clean
 ///         separation).</item>
 ///   <item>Q · L_H · Q⁻¹ = −L_H for any linear combination of Π²-even bilinears.</item>
-///   <item>Q · D[Z_l] · Q⁻¹ = −D[Z_l] − 2γ_l·I per site (mechanism: M sends
-///         Z → −iY at the operator level, so D[Z] rotates into D[Y] = −D[Z] − 2γ·I).</item>
+///   <item>Q · D[Z_l] · Q⁻¹ = −D[Z_l] − 2γ_l·I per site, via diagonal permutation in
+///         the Pauli basis: D[Z]_pauli = γ·diag(0, −2, −2, 0) on {I, X, Y, Z}; M's
+///         (I↔X, Y↔Z) swap permutes the diagonal to γ·diag(−2, 0, 0, −2) =
+///         −D[Z]_pauli − 2γ·I_4 (phase factors cancel pairwise on each 2-cycle).</item>
 ///   <item>Combining 2+3: Q · L · Q⁻¹ = −L − 2σ·I exactly, σ = Σγ.</item>
 ///   <item>spec(L) = spec(Q·L·Q⁻¹) = {−λ − 2σ : λ ∈ spec(L)}: palindromic around −σ.
 ///         Hence no Π²-even pair can be F87-hard.</item>
@@ -43,11 +45,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>simulations/_f108_part1_pi_family_scan.py</c>.</para>
 ///
 /// <para>Implements <see cref="IZ2AxisClaim"/> with <see cref="Z2Axis.BitB"/>; the
-/// BitA twin (X-dephasing + Π²_X-even Hamiltonians via the analogous P4-family
-/// phase-variant operator) is structurally similar but requires its own derivation
-/// of the per-site permutation + phases; classified as
-/// <see cref="BitATwinClassification.TrivialNotYetTyped"/> since the recipe lifts
-/// mechanically. Proof:
+/// BitA twin (F108 Part 2, X-dephasing + Π²_X-even Hamiltonians via the analogous
+/// P4-family phase-variant operator) requires its own derivation of the per-site
+/// permutation + phases + bilinear set + D[X] identity; classified as
+/// <see cref="BitATwinClassification.NeedsDerivation"/> (the bit_a-axis statement
+/// involves different algebra than the bit_b-axis one). Proof:
 /// <c>docs/proofs/PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md</c>.</para></summary>
 public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
 {
@@ -57,20 +59,22 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
     /// <summary>The typed BitA-twin (X-dephasing + Π²_X-even Hamiltonians) is not
-    /// yet implemented as a separate Claim. The recipe lifts mechanically by
-    /// swapping the dephase letter Z↔X and constructing the analogous P4-family
-    /// phase-variant operator (~one-page derivation). See
-    /// <see cref="BitATwinStatus"/>.</summary>
+    /// yet implemented as a separate Claim; see <see cref="BitATwinStatus"/>.</summary>
     public Claim? BitATwin => null;
 
-    /// <summary>The BitA-twin (F108 Part 1 under X-dephasing) is a mechanical recipe
-    /// lift of this Claim — swap Z-deph with X-deph, swap Π²_Z-even bilinears
-    /// {XX, YY, YZ, ZY, ZZ} with the Π²_X-even set {ZZ, YY, YX, XY, XX} (= bit_a=0
-    /// bilinears), and construct the analogous phase-variant of the X-dephase Π.
-    /// Bounded work, not yet performed; classified
-    /// <see cref="BitATwinClassification.TrivialNotYetTyped"/>.</summary>
+    /// <summary>The BitA-twin (F108 Part 2, F108 Part 1 under X-dephasing) is NOT a
+    /// mechanical letter-swap mirror. The lift requires four pieces of new structural
+    /// content: (a) a different per-site Π operator (analogous Π_5bilinear-X-variant,
+    /// likely in the P4 family with its own phase choices); (b) a different Π²_X-even
+    /// bilinear set (the bit_a parity = 0 pairs at the bilinear level, i.e.,
+    /// {XX, XY, YX, YY, ZZ}); (c) a re-derived per-bond anti-commutation algebra
+    /// {Q, [B, ·]} = 0 against that new bilinear set; (d) a new per-site D[X]
+    /// dissipator identity Q·D[X]·Q⁻¹ = −D[X] − 2γ·I. Each piece needs verification.
+    /// Classified <see cref="BitATwinClassification.NeedsDerivation"/> rather than
+    /// TrivialNotYetTyped: the bit_a-axis statement involves different algebra than
+    /// the bit_b-axis one even if the structural pattern transfers.</summary>
     public BitATwinClassification BitATwinStatus =>
-        BitATwinClassification.TrivialNotYetTyped;
+        BitATwinClassification.NeedsDerivation;
 
     /// <summary>The five Π²_Z-even 2-site bilinears that Π_5bilinear handles
     /// with exact palindrome residual. {XX, YY, YZ, ZY, ZZ} = the bit_b=0 subset
@@ -130,9 +134,11 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
         "For H = Σ_b α_b · B_b with B_b ∈ {XX, YY, YZ, ZY, ZZ} bilinears and α_b ∈ ℝ, " +
         "and Z-dephasing on every site: Π_5bilinear · L · Π_5bilinear⁻¹ = −L − 2σ·I exactly.";
 
-    /// <summary>The F87 corollary: no Π²-even pair can be hard.</summary>
+    /// <summary>The F87 corollary, scoped to Z-dephasing (the F108 Part 1 proof's
+    /// scope). The X- and Y-dephasing analogs are tracked on the BitATwin slot
+    /// (see <see cref="BitATwinStatus"/>) and are not covered by this Claim.</summary>
     public string F87Corollary =>
-        "No Π²-even Pauli pair (truly or non-truly) is F87-hard; every such pair has palindromic spec(L).";
+        "Under Z-dephasing: no Π²_Z-even Pauli pair (truly or non-truly) is F87-hard; every such pair has palindromic spec(L).";
 
     public F108Part1Pi2EvenAlwaysPalindromic()
         : base("F108 Part 1: Π²-even H + Z-dephasing always admits exact operator-level palindrome via Π_5bilinear",
@@ -169,7 +175,8 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
                 summary: "F109 (mother sector Klein (0,0) soft y_par=1 purity) was Tier1Derived modulo F108 Part 1; " +
                          "F108 Part 1 closure promotes F109 to fully unconditional Tier1Derived");
             yield return new InspectableNode("Open siblings",
-                summary: "F108 Part 2 (BitA twin via X-deph + P4-family phase variant): TrivialNotYetTyped. " +
+                summary: "F108 Part 2 (BitA twin via X-deph + P4-family phase variant): NeedsDerivation. " +
+                         "F108 Part 3 (Y-deph analog, no covering Claim yet). " +
                          "F110 (hard cells y_par-pure with Y-inversion): higher difficulty, per-dephase-letter algebra");
         }
     }

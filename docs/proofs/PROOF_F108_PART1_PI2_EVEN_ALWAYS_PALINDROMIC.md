@@ -67,7 +67,15 @@ In vec basis: D[Z_l] = γ_l · (Z_l ⊗ Z_l* − I_{d²}). Per site, conjugation
 
   M · D[Z] · M⁻¹ = −D[Z] − 2γ · I_4.
 
-This is verified bit-exactly at the 1-qubit level (residual = 0). The mechanism: M sends Z → −i·Y at the operator level, so the conjugation rotates D[Z] = γ·(Z ⊗ Z* − I_4) into γ·(−iY ⊗ +iY − I_4) = γ·(Y ⊗ Y − I_4) = D[Y]. The single-qubit identity D[Y] = −D[Z] − 2γ · I_4 (a direct consequence of σ_X² + σ_Y² + σ_Z² = 3·I on the Pauli basis when combined with the identity-subtraction term) closes the per-site case.
+This is verified bit-exactly at the 1-qubit level (residual = 0). The mechanism is a diagonal permutation in the Pauli basis. The single-qubit Z-dephasing dissipator, expressed in the {I, X, Y, Z} Pauli basis, is the diagonal super-operator
+
+  D[Z]_pauli = γ · diag(0, −2, −2, 0)
+
+(zeros on the {I, Z} commuting sector, −2γ on the {X, Y} anti-commuting sector). M is the per-site signed permutation with permutation (I↔X, Y↔Z) and phases (+1 on I→X, −1 on X→I, +i on Y→Z, −i on Z→Y); the conjugation M · D · M⁻¹ for a diagonal D in this basis simply permutes the diagonal entries by the underlying letter permutation (the phase factors cancel pairwise: e.g. on the (Y, Z) swap, +i · (entry at Z) · (−i) gives back the original entry). Applying the swap (I↔X, Y↔Z) to diag(0, −2γ, −2γ, 0) yields
+
+  M · D[Z]_pauli · M⁻¹ = γ · diag(−2, 0, 0, −2) = −D[Z]_pauli − 2γ · I_4.
+
+The identity transfers from the Pauli basis to the standard vec basis by the unitary change-of-basis T, since both sides of the identity are unchanged by similarity. Bit-exact at machine precision.
 
 **Consequence for the dissipator part of L:** L_D = Σ_l D[Z_l] is a sum of single-site terms. M acts as a per-site product Q = M^⊗N, so
 

@@ -81,8 +81,9 @@ for r in range(4):
                               else f"{M2[r,c]:+.2f}"
                               for c in range(4)) + "]")
 print()
-print("M^2 acts as: I -> -I, X -> -X, Y -> -Y, Z -> -Z   (since I<->X)")
-print("So M^2 = -I_4 on the entire Pauli label space.")
+print("M^2 acts as: I -> -I, X -> -X (from I<->X 2-cycle with phase product +1*-1 = -1),")
+print("            Y -> +Y, Z -> +Z (from Y<->Z 2-cycle with phase product +i*-i = +1).")
+print("So M^2 = diag(-1, -1, +1, +1) on {I, X, Y, Z} (NOT -I_4); M is order-4.")
 print()
 
 # Anti-commutator with commutator superoperators
@@ -182,27 +183,34 @@ err = np.linalg.norm(conj - target)
 print(f"1-site check: ||Q D[Z] Q^-1 - (-D[Z] - 2 gamma I)|| = {err:.4e}")
 print()
 
-# Also: M @ Z column = -i * Y column, so Q maps Z -> -i Y at operator level
-# in the Lindblad sense, D[c L] = |c|^2 D[L], hence D[-i Y] = D[Y].
-print("Algebraic chain:")
-print("  Q acts on Z at the operator level as: Z -> -i * Y")
-print("  D[c L] = |c|^2 D[L], so D[-i Y] = D[Y]")
-print("  Combining Hamiltonian-anti-commutation with this dissipator identity:")
-print("    Q L Q^-1 = -L_H + L_{D[Y]} (per site, modulo identity terms)")
-print("    But D[Y] = -D[Z] - 2 gamma I  (per site, on operator space)?")
+# Correct mechanism: M conjugation of the SUPER-OPERATOR D[Z] is a diagonal
+# permutation in the Pauli basis. In the Pauli basis on a single qubit,
+# D[Z]_pauli is diagonal: D[Z]_pauli = gamma * diag(0, -2, -2, 0) on {I, X, Y, Z}.
+# M's per-site (I<->X, Y<->Z) swap permutes those diagonal entries by 2-cycle:
+#   diag(0, -2, -2, 0) -> diag(-2, 0, 0, -2) = -diag(0, -2, -2, 0) - 2*gamma*I.
+# Phase factors cancel pairwise on each 2-cycle (+1*-1 on I<->X, +i*-i on Y<->Z).
+print("Algebraic chain (CORRECTED):")
+print("  M conjugation of D[Z] in Pauli basis = diagonal permutation")
+print("  D[Z]_pauli = gamma * diag(0, -2, -2, 0) on {I, X, Y, Z}")
+print("  (I<->X, Y<->Z) swap permutes entries: -> gamma * diag(-2, 0, 0, -2)")
+print("  = -D[Z]_pauli - 2*gamma*I_4")
+print("  (phase factors cancel pairwise on each 2-cycle: +1*-1 on I<->X, +i*-i on Y<->Z)")
 print()
-print("Verify: D[Y_l] vs D[Z_l] (single qubit):")
+print("NOTE: The naive chain 'M sends Z -> -i*Y at the operator level, so D[Z]")
+print("rotates into D[Y]' is INCORRECT because M is a Liouville-space automorphism,")
+print("not a Hilbert-space conjugation rho -> U*rho*U^dag. Verify D[Y] vs target:")
 D_Y = sigma * (np.kron(sy, sy.conj()) - np.eye(4))
-print(f"  D[Y] eigenvalues: {sorted(np.linalg.eigvals(D_Y).real)}")
-print(f"  D[Z] eigenvalues: {sorted(np.linalg.eigvals(D_Z).real)}")
-print(f"  -D[Z] - 2 gamma I eigenvalues: {sorted(np.linalg.eigvals(-D_Z - 2*sigma*np.eye(4)).real)}")
-print(f"  D[Y] == -D[Z] - 2 gamma I? {np.allclose(D_Y, -D_Z - 2*sigma*np.eye(4))}")
+print(f"  D[Y] eigenvalues:               {sorted(np.linalg.eigvals(D_Y).real)}")
+print(f"  D[Z] eigenvalues:               {sorted(np.linalg.eigvals(D_Z).real)}")
+print(f"  -D[Z] - 2 gamma I eigenvalues:  {sorted(np.linalg.eigvals(-D_Z - 2*sigma*np.eye(4)).real)}")
+print(f"  D[Y] == -D[Z] - 2 gamma I (as MATRICES, not just spectra)? {np.allclose(D_Y, -D_Z - 2*sigma*np.eye(4))}")
+print("  ^ spectrum agrees but the matrices differ; the rotates-into-D[Y] chain fails.")
 print()
-print(f"  Better: Q D[Z] Q^-1 vs -D[Z] - 2 gamma I:  match = {np.allclose(conj, target)}")
+print(f"  Correct mechanism check: Q D[Z] Q^-1 vs -D[Z] - 2 gamma I:  match = {np.allclose(conj, target)}")
 print()
 print("So the full identity Pi L Pi^-1 = -L - 2 sigma I splits as:")
-print("  - Hamiltonian: Pi L_H Pi^-1 = -L_H   (from Pi^2-even non-truly anti-comm)")
-print("  - Dissipator: Pi L_D Pi^-1 = -L_D - 2 sigma I  (per-site Z -> -iY check)")
+print("  - Hamiltonian: Pi L_H Pi^-1 = -L_H   (from Pi^2-even bilinear anti-comm)")
+print("  - Dissipator: Pi L_D Pi^-1 = -L_D - 2 sigma I  (per-site diagonal-permutation in Pauli basis)")
 print()
 print("=" * 72)
 print("F108 Part 1 proof sketch")
@@ -224,10 +232,11 @@ print("""
          exactly in the commutator of any Pi^2-even bilinear.)
 
     (b) Per-site dissipator: Q D[Z] Q^-1 = -D[Z] - 2 gamma I.
-        (Verified above. Algebraically: M sends Z -> -i Y, so
-         D[Z] = D[Z, .] gets sent to D[-iY] = D[Y]; combined with
-         the identity-subtraction in the standard Lindblad form,
-         this equals -D[Z] - 2 gamma I.)
+        (Verified above. Algebraically: D[Z]_pauli = gamma * diag(0, -2, -2, 0)
+         on {I, X, Y, Z}; M's (I<->X, Y<->Z) per-site swap permutes the
+         diagonal entries to gamma * diag(-2, 0, 0, -2) = -D[Z]_pauli - 2*gamma*I_4.
+         Phase factors cancel pairwise on each 2-cycle: +1*-1 on I<->X, +i*-i
+         on Y<->Z.)
 
     (c) Combining (a) over all bilinears and (b) over all sites:
             Pi L Pi^{-1}

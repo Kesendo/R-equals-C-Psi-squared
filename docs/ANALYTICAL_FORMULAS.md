@@ -3417,9 +3417,11 @@ since U·I·U† = I).
    Π²_Z-even 2-body bilinear B ∈ {XX, YY, YZ, ZY, ZZ} (verified bit-exact at
    the 2-qubit level; the 4 Π²-odd bilinears {XY, XZ, YX, ZX} produce residual
    = 8.00, clean separation).
-2. Per-site dissipator: M · D[Z_l] · M⁻¹ = −D[Z_l] − 2γ_l · I (M sends
-   Z → −iY at the operator level, so D[Z] rotates into D[Y], and the single-qubit
-   identity D[Y] = −D[Z] − 2γ · I closes).
+2. Per-site dissipator: M · D[Z_l] · M⁻¹ = −D[Z_l] − 2γ_l · I via diagonal
+   permutation in the Pauli basis. D[Z]_pauli = γ · diag(0, −2, −2, 0) on
+   {I, X, Y, Z}; M's (I↔X, Y↔Z) swap permutes the diagonal entries to
+   γ · diag(−2, 0, 0, −2) = −D[Z]_pauli − 2γ · I_4 (phase factors cancel
+   pairwise on each 2-cycle).
 3. Combining 1 + 2: Π_5bilinear · L · Π_5bilinear⁻¹ = −L − 2σ · I exactly.
 
 **Resolution of the previously open ker(M) attempt:** Earlier exploration tried
@@ -3443,8 +3445,11 @@ verification.
 
 - **F108 Part 2 (BitA twin):** the X-dephasing + Π²_X-even Hamiltonian analog
   via the P4-family phase-variant operator (bilinear set {ZZ, XX, XY, YX, YY},
-  bit_a = 0). Mechanical recipe lift; classified
-  `BitATwinClassification.TrivialNotYetTyped` on this Claim.
+  bit_a = 0). Requires a new per-site Π operator, re-derived per-bond
+  anti-commutation against the bit_a-axis bilinear set, and a new D[X] per-site
+  identity; classified `BitATwinClassification.NeedsDerivation` on this Claim.
+- **F108 Part 3 (Y-dephasing analog):** analogous derivation for the Π²_Y-even
+  bilinear set + D[Y] per-site identity. No covering Claim yet.
 - **F110:** hard cells y_par-pure with Y-inversion (per-dephase-letter algebra
   on the F87-hard pair-set, higher difficulty).
 
@@ -3459,13 +3464,15 @@ catalog parent: [NON_HEISENBERG_PALINDROME](../experiments/NON_HEISENBERG_PALIND
 
 ---
 
-### F109. Mother Sector Soft is y_par = 1 Pure (Tier 1 derived, fully unconditional after F108 Part 1 closure)
+### F109. Mother Sector Soft is y_par = 1 Pure (Tier 1 derived; Z-dephasing branch closed-form via F108 Part 1, X- and Y-dephasing branches empirically anchored)
 
 Sister to F107 on the y_par axis. F107 pinned the y_par signature of truly cells
 across all dephase letters; F109 pins the y_par signature of mother sector
-(Klein (0, 0)) soft cells. Previously Tier 1 derived modulo F108 Part 1; that
-dependency was closed via Π_5bilinear (see F108 Part 1 above), so F109 is now
-fully unconditional Tier 1 derived.
+(Klein (0, 0)) soft cells. Previously Tier 1 derived modulo F108 Part 1; the
+Z-dephasing branch of that dependency was closed via Π_5bilinear (see F108 Part 1
+above) on 2026-05-25. The X- and Y-dephasing branches of Step 5 remain
+empirically anchored only, awaiting F108 Part 2 (X-deph) and F108 Part 3
+(Y-deph) respectively.
 
 **Theorem (F109):** Under any single-letter dephase channel (Z, X, or Y), every
 Pauli pair classified as soft and located in the Mother sector Klein (0, 0) has
@@ -3480,14 +3487,18 @@ shared y_par = 1.
 3. Klein (0, 0) non-truly = all three counts odd (y_par = 1).
 4. Klein (0, 0) is Π²-EVEN under every dephase letter (bit_b = 0 for Z/Y;
    bit_a = 0 for X).
-5. Π²-even non-truly pairs are soft (not hard): closed-form per F108 Part 1
-   above via Π_5bilinear (Z-dephasing case; X- and Y-dephasing follow via the
-   mechanical recipe lift tracked on F108 Part 1's BitATwin slot).
+5. Π²-even non-truly pairs are soft (not hard): closed-form for Z-dephasing
+   per F108 Part 1 above via Π_5bilinear. X-dephasing branch awaits F108
+   Part 2 (NeedsDerivation BitATwin slot on F108 Part 1); Y-dephasing branch
+   has no covering Claim yet. Until those land, the X- and Y-dephasing
+   branches of Step 5 are empirically anchored only (1026 mother-soft cells
+   across F103/F105/F106, zero y_par=0).
 6. Klein (0, 0) soft term ⟹ y_par = 1; y_par-homogeneous pair: shared y_par = 1.
 
 **Empirical confirmation:** F103 mother soft (0, 21) × 3 dephase; F105 same;
 F106 (0, 300) × 3. Total 1026 mother-soft classifications, all y_par = 1, zero
-y_par = 0. F109 explains this bit-exactly.
+y_par = 0. F109 explains this bit-exactly: Z-dephasing branch closed-form,
+X- and Y-dephasing branches empirically anchored.
 
 **Cross-letter spot-check:** Klein (0, 0) non-truly k=3 terms are the 6
 XYZ-permutations (only triple with all-odd and sum ≤ 3). Unordered pairs with

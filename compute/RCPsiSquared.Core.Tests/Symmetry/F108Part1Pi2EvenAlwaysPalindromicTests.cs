@@ -36,13 +36,15 @@ public class F108Part1Pi2EvenAlwaysPalindromicTests
     }
 
     [Fact]
-    public void BitATwinStatus_IsTrivialNotYetTyped()
+    public void BitATwinStatus_IsNeedsDerivation()
     {
-        // F108 Part 1 under X-dephasing is a mechanical recipe lift (swap Z↔X
-        // dephasing, swap bilinear set, construct analogous P4-family phase
-        // variant). Bounded one-page derivation; not yet implemented.
+        // F108 Part 1 under X-dephasing (F108 Part 2) is NOT a mechanical
+        // letter-swap mirror: it requires a new per-site Π operator, a different
+        // Π²_X-even bilinear set, re-derived per-bond anti-commutation, and a new
+        // D[X] per-site identity. Classified NeedsDerivation rather than
+        // TrivialNotYetTyped per BitATwinClassification's enum docstring.
         var claim = new F108Part1Pi2EvenAlwaysPalindromic();
-        Assert.Equal(BitATwinClassification.TrivialNotYetTyped, claim.BitATwinStatus);
+        Assert.Equal(BitATwinClassification.NeedsDerivation, claim.BitATwinStatus);
     }
 
     [Fact]
@@ -207,6 +209,7 @@ public class F108Part1Pi2EvenAlwaysPalindromicTests
     [Theory]
     [InlineData(3)]
     [InlineData(4)]
+    [InlineData(5)]
     public void AllNinePi2EvenNonTrulyPairs_ResidualIsZero_AtN(int N)
     {
         // Mirrors the 9-pair Phase 2 enumeration in

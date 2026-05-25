@@ -24,14 +24,15 @@ public class F108Part1Pi2EvenAlwaysPalindromicRegistrationTests
     }
 
     [Fact]
-    public void F108Part1Pi2EvenAlwaysPalindromic_HasTrivialNotYetTypedBitATwin()
+    public void F108Part1Pi2EvenAlwaysPalindromic_HasNeedsDerivationBitATwin()
     {
-        // The BitA twin (F108 Part 2 under X-dephasing) is a mechanical recipe lift
-        // via the P4-family phase-variant operator. Not yet implemented; tracked as
-        // TrivialNotYetTyped so PolarityCubeMap's "low-cost fill targets" list
-        // surfaces it.
+        // The BitA twin (F108 Part 2 under X-dephasing) is NOT a mechanical
+        // letter-swap mirror: it requires new structural derivation work (new
+        // per-site Π operator + new bilinear set + new D[X] identity). Classified
+        // NeedsDerivation so PolarityCubeMap surfaces it as substantive open work,
+        // not as a low-cost fill target.
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var claim = registry.Get<F108Part1Pi2EvenAlwaysPalindromic>();
-        Assert.Equal(BitATwinClassification.TrivialNotYetTyped, claim.BitATwinStatus);
+        Assert.Equal(BitATwinClassification.NeedsDerivation, claim.BitATwinStatus);
     }
 }
