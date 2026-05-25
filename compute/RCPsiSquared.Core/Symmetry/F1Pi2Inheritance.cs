@@ -42,20 +42,21 @@ public sealed class F1Pi2Inheritance : Claim, IF99AnchorBearing, IZ2AxisClaim
     /// currently not typed for this Claim.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
-    /// (the F1²-twin F61BitAParityPi2Inheritance IS typed independently, but
-    /// is not wired here as a reference because the dependency would invert the
-    /// F1-foundational vs F61-derived ordering. See <see cref="BitATwinStatus"/>
-    /// for the structural classification.</summary>
-    public Claim? BitATwin => null;
+    /// <summary>The typed bit_a-twin sibling: <see cref="F61BitAParityPi2Inheritance"/>
+    /// (F1² on the Π²_X axis, i.e., Z⊗N as the bit_a parity operator) when
+    /// constructed via the registry; <c>null</c> when constructed directly
+    /// without the optional F61 ctor parameter (unit-test backward compat).
+    /// Wired 2026-05-25 as a Schicht-1 closure of the previously unfilled
+    /// twin slot. No cycle: F61 → F63 → F38 chain does not pass through F1.</summary>
+    public Claim? BitATwin => F61BitATwin;
 
-    /// <summary>F1's bit_a-twin is F61BitAParityPi2Inheritance, which IS already
-    /// typed and registered. The "twin slot" is unfilled only in the sense that
-    /// the BitATwin reference here is null; the twin Claim itself exists.
-    /// Classified as <see cref="BitATwinClassification.TrivialNotYetTyped"/>:
-    /// wiring the reference is mechanical low-cost work.</summary>
+    /// <summary>Filled when F1Pi2Inheritance was constructed with the F61 ctor
+    /// parameter (the registry path); TrivialNotYetTyped when constructed
+    /// without (the legacy unit-test path).</summary>
     public BitATwinClassification BitATwinStatus =>
-        BitATwinClassification.TrivialNotYetTyped;
+        F61BitATwin is not null
+            ? BitATwinClassification.Filled
+            : BitATwinClassification.TrivialNotYetTyped;
     /// <inheritdoc />
     /// <remarks>Parent role: feeds the F99 inheritance graph structurally
     /// but the claim's own value does not sit on the F86b α-axis.
@@ -69,16 +70,24 @@ public sealed class F1Pi2Inheritance : Claim, IF99AnchorBearing, IZ2AxisClaim
     public Pi2DyadicLadderClaim Ladder { get; }
     public Pi2I4MemoryLoopClaim MemoryLoop { get; }
 
-    /// <summary>F1 master palindrome identity — the typed parent. This claim's
+    /// <summary>F1 master palindrome identity, the typed parent. This claim's
     /// entire purpose is to lift F1's "2" coefficient and "−1" sign flip into the
     /// Pi2-Foundation lineage; before 2026-05-16 the F1PalindromeIdentity was
     /// referenced only by file-path string in the anchor field (a "ghost
-    /// inheritance"). Added 2026-05-16 (Wave 6a) as a typed ctor parent — this
+    /// inheritance"). Added 2026-05-16 (Wave 6a) as a typed ctor parent: this
     /// is the single highest-leverage closure in the inheritance map sweep
     /// because F41, F43, F44, F68, F78, F79 all take <see cref="F1Pi2Inheritance"/>
     /// as a typed parent; promoting F1 here brings them all into the F1
     /// PalindromeIdentity lineage transitively without per-class ctor changes.</summary>
     public F1.F1PalindromeIdentity F1 { get; }
+
+    /// <summary>F1's bit_a-twin: F61BitAParityPi2Inheritance (F1² on Π²_X axis,
+    /// Z⊗N as bit_a parity operator). Wired 2026-05-25 to close the previously
+    /// TrivialNotYetTyped BitA-twin slot. No cycle: F61's ctor chain (F61 → F63
+    /// → F38) does not pass through F1. Nullable: legacy unit tests construct
+    /// without F61 (BitATwinStatus stays TrivialNotYetTyped in that path); the
+    /// registry-built F1Pi2Inheritance always has F61 wired (Filled).</summary>
+    public F61BitAParityPi2Inheritance? F61BitATwin { get; }
 
     /// <summary>The "2" coefficient in F1's "−L − 2Σγ·I" closed form. Exactly equal to
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = <c>a_0</c> = d (qubit dimension).</summary>
@@ -92,17 +101,20 @@ public sealed class F1Pi2Inheritance : Claim, IF99AnchorBearing, IZ2AxisClaim
     public F1Pi2Inheritance(
         F1.F1PalindromeIdentity f1,
         Pi2DyadicLadderClaim ladder,
-        Pi2I4MemoryLoopClaim memoryLoop)
-        : base("F1 palindrome's 2 coefficient inherits from Pi2-Foundation (2 = a_0); sign flip = Z₄ i²; master identity = F1PalindromeIdentity",
+        Pi2I4MemoryLoopClaim memoryLoop,
+        F61BitAParityPi2Inheritance? f61BitATwin = null)
+        : base("F1 palindrome's 2 coefficient inherits from Pi2-Foundation (2 = a_0); sign flip = Z₄ i²; master identity = F1PalindromeIdentity; bit_a-twin = F61",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F1 + docs/proofs/MIRROR_SYMMETRY_PROOF.md + " +
                "compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs (typed master parent) + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
-               "compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs")
+               "compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs + " +
+               "compute/RCPsiSquared.Core/Symmetry/F61BitAParityPi2Inheritance.cs (typed bit_a-twin, registry-only)")
     {
         F1 = f1 ?? throw new ArgumentNullException(nameof(f1));
         Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
         MemoryLoop = memoryLoop ?? throw new ArgumentNullException(nameof(memoryLoop));
+        F61BitATwin = f61BitATwin;
     }
 
     public override string DisplayName =>

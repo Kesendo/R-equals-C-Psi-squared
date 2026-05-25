@@ -20,7 +20,14 @@ public class F1Pi2InheritanceRegistrationTests
             .RegisterF1Family(DefaultChain())
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
-            .RegisterPi2I4MemoryLoop();
+            .RegisterPi2I4MemoryLoop()
+            // F38 → F63 → F61: required for F1Pi2Inheritance's bit_a-twin
+            .RegisterF88bPopcountCoherence()
+            .RegisterF88bStaticDyadicAnchor()
+            .RegisterPi2OperatorSpaceMirror()
+            .RegisterF38Pi2InvolutionPi2Inheritance()
+            .RegisterF63LCommutesPi2Pi2Inheritance()
+            .RegisterF61BitAParityPi2Inheritance();
 
     [Fact]
     public void RegisterF1Pi2Inheritance_AddsClaim()
@@ -33,7 +40,7 @@ public class F1Pi2InheritanceRegistrationTests
     }
 
     [Fact]
-    public void RegisterF1Pi2Inheritance_AncestorsContainAllThreeParents()
+    public void RegisterF1Pi2Inheritance_AncestorsContainAllFourParents()
     {
         var registry = BuildBaseRegistry()
             .RegisterF1Pi2Inheritance()
@@ -45,6 +52,20 @@ public class F1Pi2InheritanceRegistrationTests
         Assert.Contains(typeof(F1PalindromeIdentity), ancestors);
         Assert.Contains(typeof(Pi2DyadicLadderClaim), ancestors);
         Assert.Contains(typeof(Pi2I4MemoryLoopClaim), ancestors);
+        Assert.Contains(typeof(F61BitAParityPi2Inheritance), ancestors);
+    }
+
+    [Fact]
+    public void RegisterF1Pi2Inheritance_BitATwin_IsF61_WhenRegistryBuilt()
+    {
+        var registry = BuildBaseRegistry()
+            .RegisterF1Pi2Inheritance()
+            .Build();
+
+        var f1 = registry.Get<F1Pi2Inheritance>();
+        Assert.NotNull(f1.BitATwin);
+        Assert.IsType<F61BitAParityPi2Inheritance>(f1.BitATwin);
+        Assert.Equal(BitATwinClassification.Filled, f1.BitATwinStatus);
     }
 
     [Fact]

@@ -85,7 +85,13 @@ public static class KnowledgeRegistryFactory
             // via per-Registration discard-Get edges; absorption quantum 2γ₀ from a_0)
             .RegisterAbsorptionTheoremClaim()
             .RegisterF86LEffMirrorAxis()
-            // F-formula Pi2-Foundation inheritance claims
+            // F-formula Pi2-Foundation inheritance claims.
+            // F63 + F61 registered first because F1Pi2Inheritance now ctor-takes F61 as
+            // its bit_a-twin (2026-05-25 closure of the TrivialNotYetTyped twin slot);
+            // F61 in turn takes F63 which takes F38.
+            .RegisterF38Pi2InvolutionPi2Inheritance()
+            .RegisterF63LCommutesPi2Pi2Inheritance()
+            .RegisterF61BitAParityPi2Inheritance()
             .RegisterF1Pi2Inheritance()
             .RegisterF49Pi2Inheritance()
             .RegisterF80FactorPi2Inheritance()
@@ -103,13 +109,11 @@ public static class KnowledgeRegistryFactory
             .RegisterDickeSuperpositionQuarterPi2Inheritance()
             .RegisterF39DetPiPi2Inheritance()
             .RegisterF49bCenteredDissipatorPi2Inheritance()
-            .RegisterF38Pi2InvolutionPi2Inheritance()
+            // F38 / F63 / F61 hoisted up (see above), required by F1Pi2Inheritance
             .RegisterF49cShadowCrossingPi2Inheritance()
             .RegisterF25CPsiBellPlusPi2Inheritance()
             .RegisterF57DwellTimeQuarterPi2Inheritance()
             .RegisterF66PoleModesPi2Inheritance()
-            .RegisterF63LCommutesPi2Pi2Inheritance()
-            .RegisterF61BitAParityPi2Inheritance()
             .RegisterF77MmSaturationPi2Inheritance()
             .RegisterF60GhzBornBelowFoldPi2Inheritance()
             .RegisterF83AntiFractionPi2Inheritance()
