@@ -262,6 +262,16 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
                 summary: SubclaimC_PureMixedPairHard);
             yield return new InspectableNode("Subclaim (d) OPEN: (Mixed, Mixed) pair is SOFT",
                 summary: SubclaimD_MixedMixedPairSoft_OPEN);
+            yield return new InspectableNode("Sister claims on YParity axis",
+                summary: "F107 (truly ⟹ y_par=0, Tier1Derived). F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived). " +
+                         "F109 (mother soft ⟹ y_par=1, Tier1Derived unconditional). " +
+                         "F110 (HardCellYInversionPattern, Tier1Candidate): empirical Y-inversion across k=3 and k=4. " +
+                         "F111 (THIS, Tier1Candidate): sharper structural rule than F110 Aspect B; F111 implies F110 Aspect B at k=N=4 as immediate corollary.");
+            yield return new InspectableNode("Open siblings",
+                summary: "Subclaim (d) Mixed+Mixed = soft closed-form: blocking subclaim for F111 promotion to Tier1Derived. " +
+                         "F110 Aspect C (k=3 ratio 42:8 closed-form derivation): open per F103 Section 5. " +
+                         "Pure-D Template Rule at k > 4 or N > 4: empirically unverified. " +
+                         "Hardware QPU confirmation at k ≥ 3: open (no F87 QPU confirmations beyond Marrakesh k = 2).");
         }
     }
 }
