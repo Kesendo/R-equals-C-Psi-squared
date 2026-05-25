@@ -6,6 +6,7 @@ from .f49_frobenius_scaling import (
 )
 from .f80_bloch_signwalk import predict_M_spectrum_pi2_odd
 from .f81_pi_decomposition import pi_decompose_M, recover_H_odd_from_M_anti
+from .polarity_coordinates import polarity_coordinates
 from .f82_t1_dissipator import (
     predict_T1_dissipator_violation,
     estimate_T1_from_violation,
