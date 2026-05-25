@@ -99,17 +99,129 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
     /// <summary>Per-cell structural decomposition at k = N = 4: 36 Pure+Pure +
     /// 192 Pure+Mixed + 0 Mixed+Mixed = 228 hard. Matches F106 N = 4 k = 4 across
     /// all three dephase letters.</summary>
-    public string Decomposition =>
-        "Per diagonal cell at k = N = 4: Pure+Pure 36 hard + Pure+Mixed 192 hard + " +
-        "Mixed+Mixed 0 hard (300 soft) = 228 hard pairs (matches F106 228:0).";
+    public string DecompositionPerCell =>
+        "Per diagonal cell at k=N=4 (count of pairs by template-membership): " +
+        "Pure-Pure pairs: 8*9/2 = 36 (all HARD); " +
+        "Pure-Mixed pairs: 8*24 = 192 (all HARD); " +
+        "Mixed-Mixed pairs: 24*25/2 = 300 (all SOFT). " +
+        "Total hard: 36 + 192 + 0 = 228 (matches F106 anchor exactly, across all 3 dephase letters Z, X, Y).";
+
+    /// <summary>Subclaim (a), empirically verified, heuristic mechanism: pure-D
+    /// single-term Hamiltonians at k=N=4 in the diagonal cell are F87-HARD.
+    /// Mechanism: D[D] commutes with pure-D H (the dissipator letter D commutes
+    /// with itself), so L = -i[H, .] + L_D has additive independent spectra;
+    /// the combined spectrum is non-palindromic around -σ.</summary>
+    public string SubclaimA_PureDSingleTermHard =>
+        "Pure-D single-term H at k=N=4 in diagonal cell is F87-HARD. Mechanism: D[D] commutes with pure-D H, so L = L_H + L_D has additive independent spectra; combined spectrum non-palindromic.";
+
+    /// <summary>Subclaim (b), empirically verified, no closed-form mechanism:
+    /// mixed single-term Hamiltonians at k=N=4 in the diagonal cell (contain
+    /// non-D non-I letters) are F87-SOFT (palindromic spec, M ≠ 0).</summary>
+    public string SubclaimB_MixedSingleTermSoft =>
+        "Mixed single-term H at k=N=4 in diagonal cell is F87-SOFT (palindromic spec, M ≠ 0). Closed-form mechanism open.";
+
+    /// <summary>Subclaim (c), empirically verified, no closed-form mechanism:
+    /// pair (Pure-D, Mixed) Hamiltonians at k=N=4 are F87-HARD.</summary>
+    public string SubclaimC_PureMixedPairHard =>
+        "Pair (Pure-D, Mixed) H at k=N=4 in diagonal cell is F87-HARD. Closed-form mechanism open.";
+
+    /// <summary>Subclaim (d), empirically verified, BLOCKING SUBCLAIM:
+    /// pair (Mixed, Mixed) Hamiltonians at k=N=4 are F87-SOFT (palindromic spec).
+    /// Sum of two soft H can generically be hard; the operator-level mechanism
+    /// for this Mixed+Mixed sum-soft is open and is the gap preventing F111
+    /// promotion from Tier1Candidate to Tier1Derived.</summary>
+    public string SubclaimD_MixedMixedPairSoft_OPEN =>
+        "Pair (Mixed, Mixed) H at k=N=4 in diagonal cell is F87-SOFT. Sum of two soft H can generically be hard; no operator-level mechanism found (Task 1 BLOCKED). Closing this subclaim would promote F111 to Tier1Derived.";
+
+    /// <summary>F87 Y-inversion corollary (parallel to F110's F87Corollary): every
+    /// pure-D template T has y_par(T) = y_par(D) by construction (templates contain
+    /// only D and I; #Y(template) = #Y(D) since I has #Y=0; only Y has #Y=1 mod 2
+    /// of itself). Combined with the F111 rule, every F87-hard pair at k=N=4 in the
+    /// diagonal cell satisfies y_par(pair) = y_par(D); the F106 N=4 k=4 228:0 split
+    /// across {Z, X, Y} is a Pure-D Template Rule corollary.</summary>
+    public string YInversionCorollary =>
+        "Pure-D templates have y_par = y_par(D) by construction (templates contain only D and I; #Y(template) = #Y(D) since I has #Y=0; only Y has #Y=1 mod 2 of itself). Therefore at k=N=4 in diagonal cell, every F87-hard pair has y_par(pair) = y_par(D). Equivalently: F106 N=4 k=4 228:0 split across {Z, X, Y} is a Pure-D Template Rule corollary.";
 
     /// <summary>The single open subclaim blocking full Tier1Derived promotion:
     /// Mixed+Mixed ⟹ soft at k = N = 4. Empirically 300 per cell, 900 total across
-    /// the 3 dephase letters; operator-level closed-form open.</summary>
+    /// the 3 dephase letters; operator-level closed-form open. Alias of
+    /// <see cref="SubclaimD_MixedMixedPairSoft_OPEN"/> at the subclaim-naming level.</summary>
     public string OpenSubclaim =>
         "Subclaim (d): Mixed+Mixed pair (both terms contain at least one non-D non-I letter) " +
         "⟹ soft at k = N = 4. Empirically verified: 300 per cell × 3 dephase letters = 900 " +
         "Mixed+Mixed pairs all soft, zero F87-hard. Operator-level proof open.";
+
+    // ============================================================
+    // Pure-D Template Rule helpers (static)
+    // ============================================================
+
+    /// <summary>Returns true iff <paramref name="term"/> is a pure-<paramref name="dephase"/>
+    /// template, i.e., contains only the letter <paramref name="dephase"/> and the identity I
+    /// (no other non-I letter). E.g., for D = Z, only Z and I; mixed terms with at least one
+    /// X or Y are NOT pure-Z templates.</summary>
+    public static bool IsPureDTemplate(PauliTerm term, PauliLetter dephase)
+    {
+        if (term is null) throw new ArgumentNullException(nameof(term));
+        if (dephase == PauliLetter.I)
+            throw new ArgumentException(
+                $"dephase must be X, Y, or Z; got {dephase}", nameof(dephase));
+        foreach (var letter in term.Letters)
+        {
+            if (letter != PauliLetter.I && letter != dephase) return false;
+        }
+        return true;
+    }
+
+    /// <summary>Returns true iff the pair (<paramref name="p"/>, <paramref name="q"/>)
+    /// lies in the F111 scope: k = N = 4 strings (both terms have length 4) in the diagonal
+    /// Klein cell (D.BitA(), D.BitB()) for the given <paramref name="dephase"/> letter.</summary>
+    public static bool IsInDiagonalCellAtK4N4(PauliTerm p, PauliTerm q, PauliLetter dephase)
+    {
+        if (p is null) throw new ArgumentNullException(nameof(p));
+        if (q is null) throw new ArgumentNullException(nameof(q));
+        if (dephase == PauliLetter.I)
+            throw new ArgumentException(
+                $"dephase must be X, Y, or Z; got {dephase}", nameof(dephase));
+        if (p.N != 4 || q.N != 4) return false;
+        var expectedKlein = (dephase.BitA(), dephase.BitB());
+        return p.KleinIndex == expectedKlein && q.KleinIndex == expectedKlein;
+    }
+
+    /// <summary>Pure-D Template Rule prediction: returns the F111-predicted F87-hardness
+    /// for the pair (<paramref name="p"/>, <paramref name="q"/>) under <paramref name="dephase"/>.
+    /// Returns false if the pair is outside F111 scope (not in the diagonal cell at k = N = 4).
+    /// Returns true iff at least one of P, Q is a pure-D template.</summary>
+    public static bool IsPredictedHardAtK4N4(PauliTerm p, PauliTerm q, PauliLetter dephase)
+    {
+        if (p is null) throw new ArgumentNullException(nameof(p));
+        if (q is null) throw new ArgumentNullException(nameof(q));
+        if (dephase == PauliLetter.I)
+            throw new ArgumentException(
+                $"dephase must be X, Y, or Z; got {dephase}", nameof(dephase));
+        if (!IsInDiagonalCellAtK4N4(p, q, dephase)) return false;
+        return IsPureDTemplate(p, dephase) || IsPureDTemplate(q, dephase);
+    }
+
+    /// <summary>F110 Aspect B corollary check: if the Pure-D Template Rule predicts
+    /// the pair (<paramref name="p"/>, <paramref name="q"/>) to be F87-hard under
+    /// <paramref name="dephase"/>, then both terms must carry y_par = y_par(D).
+    /// Returns true when: (a) the rule does NOT predict hard (corollary vacuous), or
+    /// (b) the pair is not y_par-homogeneous (corollary scope excludes it), or
+    /// (c) the predicted-hard pair satisfies y_par(p) = y_par(q) = y_par(D).
+    /// Returns false only when the rule predicts hard, the pair is y_par-homogeneous,
+    /// and the shared y_par differs from y_par(D), i.e., the corollary fails.</summary>
+    public static bool VerifyYInversionCorollaryAtK4N4(PauliTerm p, PauliTerm q, PauliLetter dephase)
+    {
+        if (p is null) throw new ArgumentNullException(nameof(p));
+        if (q is null) throw new ArgumentNullException(nameof(q));
+        if (dephase == PauliLetter.I)
+            throw new ArgumentException(
+                $"dephase must be X, Y, or Z; got {dephase}", nameof(dephase));
+        if (!IsPredictedHardAtK4N4(p, q, dephase)) return true;
+        if (p.YParity != q.YParity) return true;
+        var expectedYpar = dephase.BitA() & dephase.BitB();
+        return p.YParity == expectedYpar;
+    }
 
     public HardCellPureDTemplate()
         : base("F111 hard-cell pure-D template rule: at k = N = 4 in diagonal Klein cell for dephase D, pair is F87-hard iff at least one term is a pure-D template. Tier1Candidate (empirical anchor F106 N = 4 k = 4 across 3 dephase letters; open subclaim Mixed+Mixed = soft closed-form).",
@@ -139,6 +251,17 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
         get
         {
             yield return new InspectableNode("Theorem", summary: Theorem);
+            yield return new InspectableNode("Y-inversion corollary", summary: YInversionCorollary);
+            yield return new InspectableNode("F110 Aspect B corollary", summary: F110AspectBCorollary);
+            yield return new InspectableNode("Per-cell decomposition", summary: DecompositionPerCell);
+            yield return new InspectableNode("Subclaim (a): pure-D single-term H is HARD",
+                summary: SubclaimA_PureDSingleTermHard);
+            yield return new InspectableNode("Subclaim (b): mixed single-term H is SOFT",
+                summary: SubclaimB_MixedSingleTermSoft);
+            yield return new InspectableNode("Subclaim (c): (Pure-D, Mixed) pair is HARD",
+                summary: SubclaimC_PureMixedPairHard);
+            yield return new InspectableNode("Subclaim (d) OPEN: (Mixed, Mixed) pair is SOFT",
+                summary: SubclaimD_MixedMixedPairSoft_OPEN);
         }
     }
 }
