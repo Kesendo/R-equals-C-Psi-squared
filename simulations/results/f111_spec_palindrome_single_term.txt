@@ -1,0 +1,110 @@
+========================================================================================
+F111 single-term verification: classify each k=4 H in diagonal cell
+Started: 2026-05-25 13:30:51.800112
+========================================================================================
+
+Setup: N=4, k=4, gamma=0.05
+Classify each k=4 single-term Hamiltonian in the diagonal Klein cell,
+split by y_par(template). The F111 claim implies: off-y_par(D) sector
+should be all SOFT (no hard).
+
+========================================================================================
+DEPHASE Z (diagonal Klein = (0, 1), y_par(D) = 0)
+========================================================================================
+
+-- ON-y_par(D) (y_par=0): 32 templates --
+    truly:    0
+     soft:   24
+     hard:    8
+    Sample hard templates:
+      IIIZ: ||M||=3.200e+01, max_spec_err=4.000e-01
+      IIZI: ||M||=3.200e+01, max_spec_err=4.000e-01
+      IZII: ||M||=3.200e+01, max_spec_err=4.000e-01
+      IZZZ: ||M||=3.200e+01, max_spec_err=2.000e-01
+      ZIII: ||M||=3.200e+01, max_spec_err=4.000e-01
+    Sample soft templates:
+      IXXZ: ||M||=3.200e+01, max_spec_err=7.639e-15
+      IXZX: ||M||=3.200e+01, max_spec_err=1.551e-14
+      IYYZ: ||M||=3.200e+01, max_spec_err=9.973e-15
+      IYZY: ||M||=3.200e+01, max_spec_err=9.978e-15
+      IZXX: ||M||=3.200e+01, max_spec_err=8.253e-15
+
+-- OFF-y_par(D) (y_par=1): 32 templates --
+    truly:    0
+     soft:   32
+     hard:    0
+    Sample soft templates:
+      IIXY: ||M||=3.200e+01, max_spec_err=7.774e-15
+      IIYX: ||M||=3.200e+01, max_spec_err=1.312e-14
+      IXIY: ||M||=3.200e+01, max_spec_err=1.211e-14
+      IXYI: ||M||=3.200e+01, max_spec_err=9.133e-15
+      IYIX: ||M||=3.200e+01, max_spec_err=1.503e-14
+
+========================================================================================
+DEPHASE X (diagonal Klein = (1, 0), y_par(D) = 0)
+========================================================================================
+
+-- ON-y_par(D) (y_par=0): 32 templates --
+    truly:    0
+     soft:   24
+     hard:    8
+    Sample hard templates:
+      IIIX: ||M||=3.200e+01, max_spec_err=2.000e-01
+      IIXI: ||M||=3.200e+01, max_spec_err=2.000e-01
+      IXII: ||M||=3.200e+01, max_spec_err=2.000e-01
+      IXXX: ||M||=3.200e+01, max_spec_err=2.000e-01
+      XIII: ||M||=3.200e+01, max_spec_err=2.000e-01
+    Sample soft templates:
+      IXYY: ||M||=3.200e+01, max_spec_err=2.172e-14
+      IXZZ: ||M||=3.200e+01, max_spec_err=1.690e-14
+      IYXY: ||M||=3.200e+01, max_spec_err=1.754e-14
+      IYYX: ||M||=3.200e+01, max_spec_err=8.951e-15
+      IZXZ: ||M||=3.200e+01, max_spec_err=1.266e-14
+
+-- OFF-y_par(D) (y_par=1): 32 templates --
+    truly:    0
+     soft:   32
+     hard:    0
+    Sample soft templates:
+      IIYZ: ||M||=3.200e+01, max_spec_err=1.425e-14
+      IIZY: ||M||=3.200e+01, max_spec_err=1.337e-14
+      IYIZ: ||M||=3.200e+01, max_spec_err=1.251e-14
+      IYZI: ||M||=3.200e+01, max_spec_err=1.266e-14
+      IZIY: ||M||=3.200e+01, max_spec_err=1.266e-14
+
+========================================================================================
+DEPHASE Y (diagonal Klein = (1, 1), y_par(D) = 1)
+========================================================================================
+
+-- ON-y_par(D) (y_par=1): 32 templates --
+    truly:    0
+     soft:   24
+     hard:    8
+    Sample hard templates:
+      IIIY: ||M||=3.200e+01, max_spec_err=2.000e-01
+      IIYI: ||M||=3.200e+01, max_spec_err=2.000e-01
+      IYII: ||M||=3.200e+01, max_spec_err=2.000e-01
+      IYYY: ||M||=3.200e+01, max_spec_err=2.000e-01
+      YIII: ||M||=3.200e+01, max_spec_err=2.000e-01
+    Sample soft templates:
+      IXXY: ||M||=3.200e+01, max_spec_err=1.997e-14
+      IXYX: ||M||=3.200e+01, max_spec_err=3.309e-14
+      IYXX: ||M||=3.200e+01, max_spec_err=1.565e-14
+      IYZZ: ||M||=3.200e+01, max_spec_err=2.663e-14
+      IZYZ: ||M||=3.200e+01, max_spec_err=2.917e-14
+
+-- OFF-y_par(D) (y_par=0): 32 templates --
+    truly:    0
+     soft:   32
+     hard:    0
+    Sample soft templates:
+      IIXZ: ||M||=3.200e+01, max_spec_err=1.085e-14
+      IIZX: ||M||=3.200e+01, max_spec_err=1.177e-14
+      IXIZ: ||M||=3.200e+01, max_spec_err=2.301e-14
+      IXZI: ||M||=3.200e+01, max_spec_err=1.181e-14
+      IZIX: ||M||=3.200e+01, max_spec_err=1.734e-14
+
+========================================================================================
+Done: 2026-05-25 13:34:08.503685
+Log: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\f111_spec_palindrome_single_term.txt
+========================================================================================

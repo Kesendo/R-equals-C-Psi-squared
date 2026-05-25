@@ -1,0 +1,77 @@
+========================================================================================
+F111 pair verification: classify all pairs in OFF-y_par(D) at k=4 N=4
+Started: 2026-05-25 13:46:27.753551
+========================================================================================
+
+Setup: N=4, k=4, gamma=0.05
+Expected per F111 claim: off-y_par(D) sector has 0 hard pairs.
+
+========================================================================================
+DEPHASE Z (diagonal Klein = (0, 1), y_par(D) = 0)
+========================================================================================
+
+-- ON-y_par(D) pairs (y_par=0, 32 templates, 528 pairs) --
+  truly=0, soft=300, hard=228
+  EXPECTED per F106: hard=228
+
+-- OFF-y_par(D) pairs (y_par=1, 32 templates, 528 pairs) --
+  truly=0, soft=528, hard=0
+  EXPECTED per F111: hard=0
+  F111 verification for dephase Z: PASS
+
+-- Hard ON pair analysis (first 10) --
+  Pure-Pure pairs: 36
+  Pure-Mixed pairs (sum, both orderings): 192
+  Mixed-Mixed pairs: 0
+  Total: 228
+
+========================================================================================
+DEPHASE X (diagonal Klein = (1, 0), y_par(D) = 0)
+========================================================================================
+
+-- ON-y_par(D) pairs (y_par=0, 32 templates, 528 pairs) --
+  truly=0, soft=300, hard=228
+  EXPECTED per F106: hard=228
+
+-- OFF-y_par(D) pairs (y_par=1, 32 templates, 528 pairs) --
+  truly=0, soft=528, hard=0
+  EXPECTED per F111: hard=0
+  F111 verification for dephase X: PASS
+
+-- Hard ON pair analysis (first 10) --
+  Pure-Pure pairs: 36
+  Pure-Mixed pairs (sum, both orderings): 192
+  Mixed-Mixed pairs: 0
+  Total: 228
+
+========================================================================================
+DEPHASE Y (diagonal Klein = (1, 1), y_par(D) = 1)
+========================================================================================
+
+-- ON-y_par(D) pairs (y_par=1, 32 templates, 528 pairs) --
+  truly=0, soft=300, hard=228
+  EXPECTED per F106: hard=228
+
+-- OFF-y_par(D) pairs (y_par=0, 32 templates, 528 pairs) --
+  truly=0, soft=528, hard=0
+  EXPECTED per F111: hard=0
+  F111 verification for dephase Y: PASS
+
+-- Hard ON pair analysis (first 10) --
+  Pure-Pure pairs: 36
+  Pure-Mixed pairs (sum, both orderings): 192
+  Mixed-Mixed pairs: 0
+  Total: 228
+
+========================================================================================
+Summary across dephase letters:
+========================================================================================
+D   |  On hard |  On total |  Off hard |  Off total
+Z   |      228 |       528 |         0 |        528
+X   |      228 |       528 |         0 |        528
+Y   |      228 |       528 |         0 |        528
+
+========================================================================================
+Done: 2026-05-25 15:22:19.921913
+Log: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\f111_pair_off_ypar_verify.txt
+========================================================================================

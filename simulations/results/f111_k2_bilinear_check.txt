@@ -1,0 +1,85 @@
+========================================================================================
+F111: Pi2-D-odd bilinear classification (off-y_par(D) at k=2)
+Started: 2026-05-25 13:38:11.519055
+========================================================================================
+
+Single-bilinear classification across N:
+
+Dephase Z, off-y_par bilinears: ['XY', 'YX']
+  XY at N=2: cls= soft, ||M||=8.000e+00, spec_err=1.343e-15
+  XY at N=3: cls= soft, ||M||=2.263e+01, spec_err=9.833e-15
+  XY at N=4: cls= soft, ||M||=5.543e+01, spec_err=5.907e-14
+  XY at N=5: cls= soft, ||M||=1.280e+02, spec_err=1.087e-13
+  YX at N=2: cls= soft, ||M||=8.000e+00, spec_err=2.443e-15
+  YX at N=3: cls= soft, ||M||=2.263e+01, spec_err=1.258e-14
+  YX at N=4: cls= soft, ||M||=5.543e+01, spec_err=5.196e-14
+  YX at N=5: cls= soft, ||M||=1.280e+02, spec_err=7.918e-14
+
+Dephase X, off-y_par bilinears: ['YZ', 'ZY']
+  YZ at N=2: cls= soft, ||M||=8.000e+00, spec_err=1.857e-15
+  YZ at N=3: cls= soft, ||M||=2.263e+01, spec_err=1.253e-14
+  YZ at N=4: cls= soft, ||M||=5.543e+01, spec_err=4.421e-14
+  YZ at N=5: cls= soft, ||M||=1.280e+02, spec_err=9.238e-14
+  ZY at N=2: cls= soft, ||M||=8.000e+00, spec_err=2.318e-15
+  ZY at N=3: cls= soft, ||M||=2.263e+01, spec_err=1.650e-14
+  ZY at N=4: cls= soft, ||M||=5.543e+01, spec_err=4.381e-14
+  ZY at N=5: cls= soft, ||M||=1.280e+02, spec_err=1.110e-13
+
+Dephase Y, off-y_par bilinears: ['XZ', 'ZX']
+  XZ at N=2: cls= soft, ||M||=8.000e+00, spec_err=1.555e-15
+  XZ at N=3: cls= soft, ||M||=2.263e+01, spec_err=1.322e-14
+  XZ at N=4: cls= soft, ||M||=5.543e+01, spec_err=3.790e-14
+  XZ at N=5: cls= soft, ||M||=1.280e+02, spec_err=9.687e-14
+  ZX at N=2: cls= soft, ||M||=8.000e+00, spec_err=1.123e-15
+  ZX at N=3: cls= soft, ||M||=2.263e+01, spec_err=9.803e-15
+  ZX at N=4: cls= soft, ||M||=5.543e+01, spec_err=3.653e-14
+  ZX at N=5: cls= soft, ||M||=1.280e+02, spec_err=7.467e-14
+
+Pair classification (pairs of off-y_par bilinears):
+
+Dephase Z, off-y_par bilinear pairs:
+  (XY, XY) at N=2: cls= soft, ||M||=1.600e+01, spec_err=8.058e-15
+  (XY, XY) at N=3: cls= soft, ||M||=4.525e+01, spec_err=2.568e-14
+  (XY, XY) at N=4: cls= soft, ||M||=1.109e+02, spec_err=7.461e-14
+  (XY, XY) at N=5: cls= soft, ||M||=2.560e+02, spec_err=1.883e-13
+  (XY, YX) at N=2: cls= soft, ||M||=1.131e+01, spec_err=2.221e-15
+  (XY, YX) at N=3: cls= soft, ||M||=3.200e+01, spec_err=1.338e-14
+  (XY, YX) at N=4: cls= soft, ||M||=7.838e+01, spec_err=5.507e-14
+  (XY, YX) at N=5: cls= soft, ||M||=1.810e+02, spec_err=1.010e-13
+  (YX, YX) at N=2: cls= soft, ||M||=1.600e+01, spec_err=2.967e-15
+  (YX, YX) at N=3: cls= soft, ||M||=4.525e+01, spec_err=1.614e-14
+  (YX, YX) at N=4: cls= soft, ||M||=1.109e+02, spec_err=7.949e-14
+  (YX, YX) at N=5: cls= soft, ||M||=2.560e+02, spec_err=1.946e-13
+
+Dephase X, off-y_par bilinear pairs:
+  (YZ, YZ) at N=2: cls= soft, ||M||=1.600e+01, spec_err=2.204e-15
+  (YZ, YZ) at N=3: cls= soft, ||M||=4.525e+01, spec_err=2.140e-14
+  (YZ, YZ) at N=4: cls= soft, ||M||=1.109e+02, spec_err=8.532e-14
+  (YZ, YZ) at N=5: cls= soft, ||M||=2.560e+02, spec_err=1.689e-13
+  (YZ, ZY) at N=2: cls= soft, ||M||=1.131e+01, spec_err=3.353e-15
+  (YZ, ZY) at N=3: cls= soft, ||M||=3.200e+01, spec_err=1.898e-14
+  (YZ, ZY) at N=4: cls= soft, ||M||=7.838e+01, spec_err=4.993e-14
+  (YZ, ZY) at N=5: cls= soft, ||M||=1.810e+02, spec_err=1.386e-13
+  (ZY, ZY) at N=2: cls= soft, ||M||=1.600e+01, spec_err=5.776e-15
+  (ZY, ZY) at N=3: cls= soft, ||M||=4.525e+01, spec_err=2.318e-14
+  (ZY, ZY) at N=4: cls= soft, ||M||=1.109e+02, spec_err=8.357e-14
+  (ZY, ZY) at N=5: cls= soft, ||M||=2.560e+02, spec_err=1.886e-13
+
+Dephase Y, off-y_par bilinear pairs:
+  (XZ, XZ) at N=2: cls= soft, ||M||=1.600e+01, spec_err=3.146e-15
+  (XZ, XZ) at N=3: cls= soft, ||M||=4.525e+01, spec_err=1.608e-14
+  (XZ, XZ) at N=4: cls= soft, ||M||=1.109e+02, spec_err=7.366e-14
+  (XZ, XZ) at N=5: cls= soft, ||M||=2.560e+02, spec_err=2.540e-13
+  (XZ, ZX) at N=2: cls= soft, ||M||=1.131e+01, spec_err=3.185e-15
+  (XZ, ZX) at N=3: cls= soft, ||M||=3.200e+01, spec_err=8.225e-15
+  (XZ, ZX) at N=4: cls= soft, ||M||=7.838e+01, spec_err=4.474e-14
+  (XZ, ZX) at N=5: cls= soft, ||M||=1.810e+02, spec_err=1.147e-13
+  (ZX, ZX) at N=2: cls= soft, ||M||=1.600e+01, spec_err=4.479e-15
+  (ZX, ZX) at N=3: cls= soft, ||M||=4.525e+01, spec_err=3.289e-14
+  (ZX, ZX) at N=4: cls= soft, ||M||=1.109e+02, spec_err=7.823e-14
+  (ZX, ZX) at N=5: cls= soft, ||M||=2.560e+02, spec_err=1.619e-13
+
+========================================================================================
+Done: 2026-05-25 13:42:38.176947
+Log: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\f111_k2_bilinear_check.txt
+========================================================================================

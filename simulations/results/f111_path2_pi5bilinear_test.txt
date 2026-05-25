@@ -1,0 +1,118 @@
+========================================================================================
+F111 Path 2: Pi_5bilinear residual on k=4 off-y_par(D) Hamiltonians
+Started: 2026-05-25 13:03:10.863129
+========================================================================================
+
+Setup: N=4, k=4, gamma=0.05, sigma=0.2
+
+F111 claim: at k=4 N=4, every F87-hard pair in diagonal Klein cell
+has y_par = y_par(D). Equivalently: off-y_par(D) sector contains NO hard pairs.
+
+If Pi_5bilinear achieves residual = 0 on off-y_par(D) k=4 Hamiltonians,
+then by Pi-operator-level palindrome -> spec(L) palindromic -> NOT F87-hard.
+
+Path 2 = closed-form via existing F108 operator without new construction.
+
+========================================================================================
+DEPHASE Z (diagonal Klein = (0, 1), y_par(D) = 0)
+========================================================================================
+
+-- Test 1: single-term k=4 H, OFF-y_par sector (Klein=(0, 1), y_par=1) --
+  Number of off-y_par templates: 32
+  Pi_5bilinear residual: min=3.200e+01, max=3.200e+01, median=3.200e+01
+  Pi_canonical residual: min=3.200e+01, max=3.200e+01, median=3.200e+01
+  Pi_5bilinear EXACT (residual<1e-8) count: 0 / 32
+  First 5 off-y_par templates:
+    IIXY: 5bi=3.200e+01, can=3.200e+01
+    IIYX: 5bi=3.200e+01, can=3.200e+01
+    IXIY: 5bi=3.200e+01, can=3.200e+01
+    IXYI: 5bi=3.200e+01, can=3.200e+01
+    IYIX: 5bi=3.200e+01, can=3.200e+01
+
+-- Test 2: single-term k=4 H, ON-y_par sector (Klein=(0, 1), y_par=0) for comparison --
+  Number of on-y_par templates: 32
+  Pi_5bilinear residual: min=3.200e+01, max=3.200e+01, median=3.200e+01
+  Pi_canonical residual: min=3.200e+01, max=3.200e+01, median=3.200e+01
+  Pi_5bilinear EXACT (residual<1e-8) count: 0 / 32
+  First 5 on-y_par templates:
+    IIIZ: 5bi=3.200e+01, can=3.200e+01
+    IIZI: 5bi=3.200e+01, can=3.200e+01
+    IXXZ: 5bi=3.200e+01, can=3.200e+01
+    IXZX: 5bi=3.200e+01, can=3.200e+01
+    IYYZ: 5bi=3.200e+01, can=3.200e+01
+
+-- Summary for Z-dephase --
+  Pi_5bilinear on off-y_par single-term: 0/32 EXACT
+  Pi_5bilinear on on-y_par  single-term: 0/32 EXACT
+  => Path 2 FAILS for Z: Pi_5bilinear NOT EXACT on all off-y_par
+
+========================================================================================
+DEPHASE X (diagonal Klein = (1, 0), y_par(D) = 0)
+========================================================================================
+
+-- Test 1: single-term k=4 H, OFF-y_par sector (Klein=(1, 0), y_par=1) --
+  Number of off-y_par templates: 32
+  Pi_5bilinear residual: min=3.200e+01, max=3.200e+01, median=3.200e+01
+  Pi_canonical residual: min=3.200e+01, max=3.200e+01, median=3.200e+01
+  Pi_5bilinear EXACT (residual<1e-8) count: 0 / 32
+  First 5 off-y_par templates:
+    IIYZ: 5bi=3.200e+01, can=3.200e+01
+    IIZY: 5bi=3.200e+01, can=3.200e+01
+    IYIZ: 5bi=3.200e+01, can=3.200e+01
+    IYZI: 5bi=3.200e+01, can=3.200e+01
+    IZIY: 5bi=3.200e+01, can=3.200e+01
+
+-- Test 2: single-term k=4 H, ON-y_par sector (Klein=(1, 0), y_par=0) for comparison --
+  Number of on-y_par templates: 32
+  Pi_5bilinear residual: min=3.200e+01, max=3.200e+01, median=3.200e+01
+  Pi_canonical residual: min=3.200e+01, max=3.200e+01, median=3.200e+01
+  Pi_5bilinear EXACT (residual<1e-8) count: 0 / 32
+  First 5 on-y_par templates:
+    IIIX: 5bi=3.200e+01, can=3.200e+01
+    IIXI: 5bi=3.200e+01, can=3.200e+01
+    IXII: 5bi=3.200e+01, can=3.200e+01
+    IXXX: 5bi=3.200e+01, can=3.200e+01
+    IXYY: 5bi=3.200e+01, can=3.200e+01
+
+-- Summary for X-dephase --
+  Pi_5bilinear on off-y_par single-term: 0/32 EXACT
+  Pi_5bilinear on on-y_par  single-term: 0/32 EXACT
+  => Path 2 FAILS for X: Pi_5bilinear NOT EXACT on all off-y_par
+
+========================================================================================
+DEPHASE Y (diagonal Klein = (1, 1), y_par(D) = 1)
+========================================================================================
+
+-- Test 1: single-term k=4 H, OFF-y_par sector (Klein=(1, 1), y_par=0) --
+  Number of off-y_par templates: 32
+  Pi_5bilinear residual: min=3.200e+01, max=3.200e+01, median=3.200e+01
+  Pi_canonical residual: min=3.200e+01, max=3.200e+01, median=3.200e+01
+  Pi_5bilinear EXACT (residual<1e-8) count: 0 / 32
+  First 5 off-y_par templates:
+    IIXZ: 5bi=3.200e+01, can=3.200e+01
+    IIZX: 5bi=3.200e+01, can=3.200e+01
+    IXIZ: 5bi=3.200e+01, can=3.200e+01
+    IXZI: 5bi=3.200e+01, can=3.200e+01
+    IZIX: 5bi=3.200e+01, can=3.200e+01
+
+-- Test 2: single-term k=4 H, ON-y_par sector (Klein=(1, 1), y_par=1) for comparison --
+  Number of on-y_par templates: 32
+  Pi_5bilinear residual: min=3.200e+01, max=3.200e+01, median=3.200e+01
+  Pi_canonical residual: min=3.200e+01, max=3.200e+01, median=3.200e+01
+  Pi_5bilinear EXACT (residual<1e-8) count: 0 / 32
+  First 5 on-y_par templates:
+    IIIY: 5bi=3.200e+01, can=3.200e+01
+    IIYI: 5bi=3.200e+01, can=3.200e+01
+    IXXY: 5bi=3.200e+01, can=3.200e+01
+    IXYX: 5bi=3.200e+01, can=3.200e+01
+    IYII: 5bi=3.200e+01, can=3.200e+01
+
+-- Summary for Y-dephase --
+  Pi_5bilinear on off-y_par single-term: 0/32 EXACT
+  Pi_5bilinear on on-y_par  single-term: 0/32 EXACT
+  => Path 2 FAILS for Y: Pi_5bilinear NOT EXACT on all off-y_par
+
+========================================================================================
+Done: 2026-05-25 13:03:35.871336
+Log: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\f111_path2_pi5bilinear_test.txt
+========================================================================================

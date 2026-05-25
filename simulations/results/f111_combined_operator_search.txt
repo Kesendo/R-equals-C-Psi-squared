@@ -1,0 +1,107 @@
+========================================================================================
+F111 combined operator search: Q_V * Pi compositions
+Started: 2026-05-25 14:02:32.755987
+========================================================================================
+
+Setup: N=4, k=4, gamma=0.05, sigma=0.2
+
+========================================================================================
+DEPHASE Z
+========================================================================================
+
+Off-y_par(D)=1 templates: 32
+
+-- Step 1: verify Q_V acts as H -> -H on off-y_par(D) Hamiltonians --
+  V=X^4: flip=32/32, preserve=0/32
+  V=Y^4: flip=32/32, preserve=0/32
+  V=Z^4: flip=0/32, preserve=32/32
+
+-- Step 2: identify universal flip letter for off-y_par(D)=1 --
+  Universal flip letters: ['X', 'Y']
+
+-- Step 3: test R = Q_V * Pi on off-y_par templates --
+  Q_V(X^4) * Pi_can: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_can * Q_V(X^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(X^4) * Pi_5bi: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_5bi * Q_V(X^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(X^4) * Pi_can_inv: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_can_inv * Q_V(X^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(X^4) * Pi_5bi_inv: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_5bi_inv * Q_V(X^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(Y^4) * Pi_can: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_can * Q_V(Y^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(Y^4) * Pi_5bi: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_5bi * Q_V(Y^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(Y^4) * Pi_can_inv: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_can_inv * Q_V(Y^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(Y^4) * Pi_5bi_inv: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_5bi_inv * Q_V(Y^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+
+========================================================================================
+DEPHASE X
+========================================================================================
+
+Off-y_par(D)=1 templates: 32
+
+-- Step 1: verify Q_V acts as H -> -H on off-y_par(D) Hamiltonians --
+  V=X^4: flip=0/32, preserve=32/32
+  V=Y^4: flip=32/32, preserve=0/32
+  V=Z^4: flip=32/32, preserve=0/32
+
+-- Step 2: identify universal flip letter for off-y_par(D)=1 --
+  Universal flip letters: ['Y', 'Z']
+
+-- Step 3: test R = Q_V * Pi on off-y_par templates --
+  Q_V(Y^4) * Pi_can: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_can * Q_V(Y^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(Y^4) * Pi_5bi: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_5bi * Q_V(Y^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(Y^4) * Pi_can_inv: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_can_inv * Q_V(Y^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(Y^4) * Pi_5bi_inv: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_5bi_inv * Q_V(Y^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(Z^4) * Pi_can: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_can * Q_V(Z^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(Z^4) * Pi_5bi: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_5bi * Q_V(Z^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(Z^4) * Pi_can_inv: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_can_inv * Q_V(Z^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(Z^4) * Pi_5bi_inv: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_5bi_inv * Q_V(Z^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+
+========================================================================================
+DEPHASE Y
+========================================================================================
+
+Off-y_par(D)=0 templates: 32
+
+-- Step 1: verify Q_V acts as H -> -H on off-y_par(D) Hamiltonians --
+  V=X^4: flip=32/32, preserve=0/32
+  V=Y^4: flip=0/32, preserve=32/32
+  V=Z^4: flip=32/32, preserve=0/32
+
+-- Step 2: identify universal flip letter for off-y_par(D)=0 --
+  Universal flip letters: ['X', 'Z']
+
+-- Step 3: test R = Q_V * Pi on off-y_par templates --
+  Q_V(X^4) * Pi_can: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_can * Q_V(X^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(X^4) * Pi_5bi: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_5bi * Q_V(X^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(X^4) * Pi_can_inv: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_can_inv * Q_V(X^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(X^4) * Pi_5bi_inv: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_5bi_inv * Q_V(X^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(Z^4) * Pi_can: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_can * Q_V(Z^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(Z^4) * Pi_5bi: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_5bi * Q_V(Z^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(Z^4) * Pi_can_inv: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_can_inv * Q_V(Z^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Q_V(Z^4) * Pi_5bi_inv: n_zero=0/32, max=3.200e+01, median=3.200e+01
+  Pi_5bi_inv * Q_V(Z^4): n_zero=0/32, max=3.200e+01, median=3.200e+01
+
+========================================================================================
+Done: 2026-05-25 14:55:09.513668
+Log: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\f111_combined_operator_search.txt
+========================================================================================

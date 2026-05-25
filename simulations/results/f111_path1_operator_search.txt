@@ -1,0 +1,27 @@
+========================================================================================
+F111 Path 1: Search for per-site Pi_y_par_D-flip operator
+Started: 2026-05-25 13:06:35.407497
+========================================================================================
+
+Setup: N=4, k=4, gamma=0.05
+Goal: find per-site M such that Q = M^otimes 4 achieves palindrome
+residual = 0 on every off-y_par(D) k=4 single-term Hamiltonian.
+
+========================================================================================
+DEPHASE Z (diagonal Klein = (0, 1), y_par(D) = 0)
+========================================================================================
+
+Off-y_par templates: 32
+On-y_par templates: 32
+
+Dissipator-valid permutations: 2
+
+-- Permutation 1: {'I': 'X', 'X': 'I', 'Y': 'Z', 'Z': 'Y'} --
+
+-- Permutation 2: {'I': 'Y', 'Y': 'I', 'X': 'Z', 'Z': 'X'} --
+
+  Scanned 512 M variants for dephase Z
+  Winners (off all 0, on all > 0): 0
+  Winners (off all 0, regardless of on): 0
+
+  NO M ACHIEVED ALL-OFF-ZERO; closest M analysis:

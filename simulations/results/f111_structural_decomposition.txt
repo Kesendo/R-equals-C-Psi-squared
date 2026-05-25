@@ -1,0 +1,203 @@
+========================================================================================
+F111 structural decomposition: off-y_par k=4 templates reduce to smaller N
+Started: 2026-05-25 13:36:16.661418
+========================================================================================
+
+Setup: N=4, k=4, gamma=0.05, sigma_full=0.2
+
+========================================================================================
+DEPHASE Z (diagonal Klein = (0, 1), y_par(D) = 0)
+========================================================================================
+
+Off-y_par templates: 32
+
+Unique reduced templates: 22
+  XY (k_body=2): 6 placements
+  YX (k_body=2): 6 placements
+  XXXY (k_body=4): 1 placements
+  XXYX (k_body=4): 1 placements
+  XYXX (k_body=4): 1 placements
+  XYYY (k_body=4): 1 placements
+  XYZZ (k_body=4): 1 placements
+  XZYZ (k_body=4): 1 placements
+  XZZY (k_body=4): 1 placements
+  YXXX (k_body=4): 1 placements
+  YXYY (k_body=4): 1 placements
+  YXZZ (k_body=4): 1 placements
+  YYXY (k_body=4): 1 placements
+  YYYX (k_body=4): 1 placements
+  YZXZ (k_body=4): 1 placements
+  YZZX (k_body=4): 1 placements
+  ZXYZ (k_body=4): 1 placements
+  ZXZY (k_body=4): 1 placements
+  ZYXZ (k_body=4): 1 placements
+  ZYZX (k_body=4): 1 placements
+  ZZXY (k_body=4): 1 placements
+  ZZYX (k_body=4): 1 placements
+
+Reduced-system spec palindrome check:
+  XY (k_body=2, sigma_red=0.1): PAL, max_err=1.343e-15
+  YX (k_body=2, sigma_red=0.1): PAL, max_err=2.443e-15
+  XXXY (k_body=4, sigma_red=0.2): PAL, max_err=1.026e-14
+  XXYX (k_body=4, sigma_red=0.2): PAL, max_err=8.029e-15
+  XYXX (k_body=4, sigma_red=0.2): PAL, max_err=1.322e-14
+  XYYY (k_body=4, sigma_red=0.2): PAL, max_err=1.243e-14
+  XYZZ (k_body=4, sigma_red=0.2): PAL, max_err=1.054e-14
+  XZYZ (k_body=4, sigma_red=0.2): PAL, max_err=1.551e-14
+  XZZY (k_body=4, sigma_red=0.2): PAL, max_err=9.377e-15
+  YXXX (k_body=4, sigma_red=0.2): PAL, max_err=8.948e-15
+  YXYY (k_body=4, sigma_red=0.2): PAL, max_err=1.355e-14
+  YXZZ (k_body=4, sigma_red=0.2): PAL, max_err=1.158e-14
+  YYXY (k_body=4, sigma_red=0.2): PAL, max_err=1.026e-14
+  YYYX (k_body=4, sigma_red=0.2): PAL, max_err=8.029e-15
+  YZXZ (k_body=4, sigma_red=0.2): PAL, max_err=1.754e-14
+  YZZX (k_body=4, sigma_red=0.2): PAL, max_err=3.908e-14
+  ZXYZ (k_body=4, sigma_red=0.2): PAL, max_err=9.684e-15
+  ZXZY (k_body=4, sigma_red=0.2): PAL, max_err=8.031e-15
+  ZYXZ (k_body=4, sigma_red=0.2): PAL, max_err=9.722e-15
+  ZYZX (k_body=4, sigma_red=0.2): PAL, max_err=1.381e-14
+  ZZXY (k_body=4, sigma_red=0.2): PAL, max_err=8.916e-15
+  ZZYX (k_body=4, sigma_red=0.2): PAL, max_err=9.126e-15
+
+Tensor-sum lemma verification: full L spec palindrome via reduction
+  Full template IIXY = reduced XY at non-I positions [2, 3], 2 I-sites
+    Full L spec: PAL, max_err=7.774e-15
+  Full template IIYX = reduced YX at non-I positions [2, 3], 2 I-sites
+    Full L spec: PAL, max_err=1.312e-14
+  Full template XXXY = reduced XXXY at non-I positions [0, 1, 2, 3], 0 I-sites
+    Full L spec: PAL, max_err=1.026e-14
+
+All off-y_par reduced templates spec palindromic? True
+
+========================================================================================
+DEPHASE X (diagonal Klein = (1, 0), y_par(D) = 0)
+========================================================================================
+
+Off-y_par templates: 32
+
+Unique reduced templates: 22
+  YZ (k_body=2): 6 placements
+  ZY (k_body=2): 6 placements
+  XXYZ (k_body=4): 1 placements
+  XXZY (k_body=4): 1 placements
+  XYXZ (k_body=4): 1 placements
+  XYZX (k_body=4): 1 placements
+  XZXY (k_body=4): 1 placements
+  XZYX (k_body=4): 1 placements
+  YXXZ (k_body=4): 1 placements
+  YXZX (k_body=4): 1 placements
+  YYYZ (k_body=4): 1 placements
+  YYZY (k_body=4): 1 placements
+  YZXX (k_body=4): 1 placements
+  YZYY (k_body=4): 1 placements
+  YZZZ (k_body=4): 1 placements
+  ZXXY (k_body=4): 1 placements
+  ZXYX (k_body=4): 1 placements
+  ZYXX (k_body=4): 1 placements
+  ZYYY (k_body=4): 1 placements
+  ZYZZ (k_body=4): 1 placements
+  ZZYZ (k_body=4): 1 placements
+  ZZZY (k_body=4): 1 placements
+
+Reduced-system spec palindrome check:
+  YZ (k_body=2, sigma_red=0.1): PAL, max_err=1.857e-15
+  ZY (k_body=2, sigma_red=0.1): PAL, max_err=2.318e-15
+  XXYZ (k_body=4, sigma_red=0.2): PAL, max_err=1.582e-14
+  XXZY (k_body=4, sigma_red=0.2): PAL, max_err=1.470e-14
+  XYXZ (k_body=4, sigma_red=0.2): PAL, max_err=8.462e-15
+  XYZX (k_body=4, sigma_red=0.2): PAL, max_err=1.250e-14
+  XZXY (k_body=4, sigma_red=0.2): PAL, max_err=1.446e-14
+  XZYX (k_body=4, sigma_red=0.2): PAL, max_err=1.179e-14
+  YXXZ (k_body=4, sigma_red=0.2): PAL, max_err=1.632e-14
+  YXZX (k_body=4, sigma_red=0.2): PAL, max_err=1.338e-14
+  YYYZ (k_body=4, sigma_red=0.2): PAL, max_err=1.045e-14
+  YYZY (k_body=4, sigma_red=0.2): PAL, max_err=1.083e-14
+  YZXX (k_body=4, sigma_red=0.2): PAL, max_err=8.882e-15
+  YZYY (k_body=4, sigma_red=0.2): PAL, max_err=1.402e-14
+  YZZZ (k_body=4, sigma_red=0.2): PAL, max_err=2.422e-14
+  ZXXY (k_body=4, sigma_red=0.2): PAL, max_err=8.341e-15
+  ZXYX (k_body=4, sigma_red=0.2): PAL, max_err=9.037e-15
+  ZYXX (k_body=4, sigma_red=0.2): PAL, max_err=9.136e-15
+  ZYYY (k_body=4, sigma_red=0.2): PAL, max_err=1.290e-14
+  ZYZZ (k_body=4, sigma_red=0.2): PAL, max_err=1.022e-14
+  ZZYZ (k_body=4, sigma_red=0.2): PAL, max_err=9.363e-15
+  ZZZY (k_body=4, sigma_red=0.2): PAL, max_err=1.124e-14
+
+Tensor-sum lemma verification: full L spec palindrome via reduction
+  Full template IIYZ = reduced YZ at non-I positions [2, 3], 2 I-sites
+    Full L spec: PAL, max_err=1.425e-14
+  Full template IIZY = reduced ZY at non-I positions [2, 3], 2 I-sites
+    Full L spec: PAL, max_err=1.337e-14
+  Full template XXYZ = reduced XXYZ at non-I positions [0, 1, 2, 3], 0 I-sites
+    Full L spec: PAL, max_err=1.582e-14
+
+All off-y_par reduced templates spec palindromic? True
+
+========================================================================================
+DEPHASE Y (diagonal Klein = (1, 1), y_par(D) = 1)
+========================================================================================
+
+Off-y_par templates: 32
+
+Unique reduced templates: 22
+  XZ (k_body=2): 6 placements
+  ZX (k_body=2): 6 placements
+  XXXZ (k_body=4): 1 placements
+  XXZX (k_body=4): 1 placements
+  XYYZ (k_body=4): 1 placements
+  XYZY (k_body=4): 1 placements
+  XZXX (k_body=4): 1 placements
+  XZYY (k_body=4): 1 placements
+  XZZZ (k_body=4): 1 placements
+  YXYZ (k_body=4): 1 placements
+  YXZY (k_body=4): 1 placements
+  YYXZ (k_body=4): 1 placements
+  YYZX (k_body=4): 1 placements
+  YZXY (k_body=4): 1 placements
+  YZYX (k_body=4): 1 placements
+  ZXXX (k_body=4): 1 placements
+  ZXYY (k_body=4): 1 placements
+  ZXZZ (k_body=4): 1 placements
+  ZYXY (k_body=4): 1 placements
+  ZYYX (k_body=4): 1 placements
+  ZZXZ (k_body=4): 1 placements
+  ZZZX (k_body=4): 1 placements
+
+Reduced-system spec palindrome check:
+  XZ (k_body=2, sigma_red=0.1): PAL, max_err=1.555e-15
+  ZX (k_body=2, sigma_red=0.1): PAL, max_err=1.123e-15
+  XXXZ (k_body=4, sigma_red=0.2): PAL, max_err=1.287e-14
+  XXZX (k_body=4, sigma_red=0.2): PAL, max_err=7.605e-15
+  XYYZ (k_body=4, sigma_red=0.2): PAL, max_err=1.932e-14
+  XYZY (k_body=4, sigma_red=0.2): PAL, max_err=9.846e-15
+  XZXX (k_body=4, sigma_red=0.2): PAL, max_err=1.516e-14
+  XZYY (k_body=4, sigma_red=0.2): PAL, max_err=1.917e-14
+  XZZZ (k_body=4, sigma_red=0.2): PAL, max_err=1.450e-14
+  YXYZ (k_body=4, sigma_red=0.2): PAL, max_err=1.284e-14
+  YXZY (k_body=4, sigma_red=0.2): PAL, max_err=1.718e-14
+  YYXZ (k_body=4, sigma_red=0.2): PAL, max_err=1.246e-14
+  YYZX (k_body=4, sigma_red=0.2): PAL, max_err=1.110e-14
+  YZXY (k_body=4, sigma_red=0.2): PAL, max_err=9.080e-15
+  YZYX (k_body=4, sigma_red=0.2): PAL, max_err=1.034e-14
+  ZXXX (k_body=4, sigma_red=0.2): PAL, max_err=1.910e-14
+  ZXYY (k_body=4, sigma_red=0.2): PAL, max_err=1.221e-14
+  ZXZZ (k_body=4, sigma_red=0.2): PAL, max_err=1.074e-14
+  ZYXY (k_body=4, sigma_red=0.2): PAL, max_err=1.733e-14
+  ZYYX (k_body=4, sigma_red=0.2): PAL, max_err=7.550e-15
+  ZZXZ (k_body=4, sigma_red=0.2): PAL, max_err=1.083e-14
+  ZZZX (k_body=4, sigma_red=0.2): PAL, max_err=1.058e-14
+
+Tensor-sum lemma verification: full L spec palindrome via reduction
+  Full template IIXZ = reduced XZ at non-I positions [2, 3], 2 I-sites
+    Full L spec: PAL, max_err=1.085e-14
+  Full template IIZX = reduced ZX at non-I positions [2, 3], 2 I-sites
+    Full L spec: PAL, max_err=1.177e-14
+  Full template XXXZ = reduced XXXZ at non-I positions [0, 1, 2, 3], 0 I-sites
+    Full L spec: PAL, max_err=1.287e-14
+
+All off-y_par reduced templates spec palindromic? True
+
+========================================================================================
+Done: 2026-05-25 13:36:29.020408
+Log: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\f111_structural_decomposition.txt
+========================================================================================
