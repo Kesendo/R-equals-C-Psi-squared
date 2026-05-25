@@ -3529,5 +3529,36 @@ parents: PROOF_F107 + PROOF_F85 + PROOF_F108_PART1; helpers:
 
 ---
 
+### F110. F87-Hard Cells Exhibit Y-Inversion Pattern (Tier 1 Candidate; Aspect A closed-form via F108 Part 1+2+3 + F87 dissipator-resonance, Aspect B+C empirically anchored at F103/F105/F106)
+
+Seventh YParity-axis Claim; completes the y_par-axis classification of the F87
+trichotomy together with F107 (truly y_par=0) and F109 (mother soft y_par=1).
+
+**Aspect A (closed-form):** F87-hard pairs appear only in the diagonal Klein cell
+matching the dephase letter (Z → (0, 1), X → (1, 0), Y → (1, 1)). Derivation:
+F108 Part 1+2+3 close Π²-D-even cells (never hard); F107 + F109 close Mother
+sector Klein (0, 0); by exclusion, hard only in the diagonal cell.
+
+**Aspect B (Y-inversion, empirical):** Within the diagonal hard cell, the
+dominant y_par equals y_par(dephase letter): Z/X-deph dominantly y_par=0, Y-deph
+dominantly y_par=1.
+
+**Aspect C (k-purity sharpening, empirical):** k=3 N=4 (F103): 42:8 biased; k=3
+N=5 (F105): identical 42:8 (N-stable); k=4 N=4 (F106): 228:0 fully pure with
+Y-inversion preserved.
+
+**Open:** Closed-form derivation of the 42:8 (k=3) and 228:0 (k=4) ratios per
+Pauli-letter combinatorics (F103 Section 5). k ≥ 5 empirical confirmation. QPU
+confirmation at k ≥ 3.
+
+**Source:** [Proof](proofs/PROOF_F110_HARD_CELL_Y_INVERSION.md);
+`compute/RCPsiSquared.Core/Symmetry/HardCellYInversionPattern.cs`;
+parents: PROOF_F108_PART1/2/3 + PROOF_F107 + PROOF_F109 + F87 dissipator-resonance;
+helpers: `HardCellYInversionPattern.DiagonalKleinCellForDephase(dephase)`,
+`IsDiagonalCell(klein, dephase)`,
+`DominantYParityForDephase(dephase)`.
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*
