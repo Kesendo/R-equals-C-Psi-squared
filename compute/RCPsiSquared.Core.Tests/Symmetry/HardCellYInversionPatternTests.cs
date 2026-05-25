@@ -61,7 +61,7 @@ public class HardCellYInversionPatternTests
     [Fact]
     public void IsDiagonalCell_FalseForNonMatchingPair()
     {
-        // Klein (0,0) is the Mother sector — never diagonal under any dephase.
+        // Klein (0,0) is the Mother sector: never diagonal under any dephase.
         Assert.False(HardCellYInversionPattern.IsDiagonalCell((0, 0), PauliLetter.Z));
         Assert.False(HardCellYInversionPattern.IsDiagonalCell((0, 0), PauliLetter.X));
         Assert.False(HardCellYInversionPattern.IsDiagonalCell((0, 0), PauliLetter.Y));

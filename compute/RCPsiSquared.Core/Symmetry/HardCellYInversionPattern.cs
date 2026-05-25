@@ -53,7 +53,7 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
         };
 
     /// <summary>True iff the (Klein, dephase) pair is on the F87 dissipator-resonance
-    /// diagonal — i.e., hard CAN appear in this cell under this dephase letter.
+    /// diagonal, i.e., hard CAN appear in this cell under this dephase letter.
     /// False for all other cells, where hard CANNOT appear (closed-form via F108
     /// Part 1+2+3 + F107 + F109).</summary>
     public static bool IsDiagonalCell((int BitA, int BitB) klein, PauliLetter dephase) =>
