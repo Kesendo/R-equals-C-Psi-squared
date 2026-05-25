@@ -70,19 +70,31 @@ public sealed class LiouvillianSectorSweep : Claim
     public IReadOnlyList<double> BondJ { get; }
 
     /// <summary>Uniform-J convenience accessor: returns <c>BondJ[0]</c> after asserting the
-    /// profile is constant. For non-uniform J profiles inspect <see cref="BondJ"/> directly;
-    /// this property throws to surface the assumption violation.</summary>
+    /// profile is constant (within tolerance <c>1e-12 · max(|BondJ[0]|, 1.0)</c>). For
+    /// non-uniform J profiles inspect <see cref="BondJ"/> directly; this property throws an
+    /// <see cref="InvalidOperationException"/> to surface the assumption violation. Also
+    /// throws when <see cref="BondJ"/> is empty (N=1: there is no bond from which to read a
+    /// scalar coupling).</summary>
     public double J
     {
         get
         {
-            if (BondJ.Count == 0) return 1.0;
+            if (BondJ.Count == 0)
+                throw new InvalidOperationException(
+                    "J accessor is undefined for N=1 (no bonds; BondJ is empty). " +
+                    "The scalar overload's J argument is irrelevant in this case; inspect " +
+                    "BondJ directly to confirm length 0.");
+            const double UniformityTol = 1e-12;
+            double j0 = BondJ[0];
+            double absScale = Math.Max(Math.Abs(j0), 1.0);
             for (int b = 1; b < BondJ.Count; b++)
-                if (BondJ[b] != BondJ[0])
+                if (Math.Abs(BondJ[b] - j0) > UniformityTol * absScale)
                     throw new InvalidOperationException(
-                        $"BondJ profile is non-uniform (J[0]={BondJ[0]}, J[{b}]={BondJ[b]}); " +
+                        $"J accessor is undefined for non-uniform bondJ profile " +
+                        $"(J[0]={j0}, J[{b}]={BondJ[b]}, |Δ|={Math.Abs(BondJ[b] - j0):G3} > " +
+                        $"{UniformityTol:G3} · max(|J[0]|, 1) = {UniformityTol * absScale:G3}); " +
                         "use BondJ property to inspect the per-bond profile.");
-            return BondJ[0];
+            return j0;
         }
     }
 
@@ -112,7 +124,8 @@ public sealed class LiouvillianSectorSweep : Claim
     public static LiouvillianSectorSweep Build(int N, IReadOnlyList<double> gammaPerSite,
         int sectorDimCap, double J = 1.0)
     {
-        var bondJ = new double[Math.Max(0, N - 1)];
+        if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be ≥ 1.");
+        var bondJ = new double[N - 1];
         for (int b = 0; b < bondJ.Length; b++) bondJ[b] = J;
         return Build(N, gammaPerSite, sectorDimCap, bondJ);
     }
@@ -278,9 +291,18 @@ public sealed class LiouvillianSectorSweep : Claim
         {
             yield return InspectableNode.RealScalar("N", N);
             // For uniform J profiles surface the scalar value; for non-uniform list the bonds.
-            bool jUniform = true;
-            for (int b = 1; b < BondJ.Count; b++) if (BondJ[b] != BondJ[0]) { jUniform = false; break; }
-            if (jUniform && BondJ.Count > 0)
+            // Tolerance matches the J accessor (1e-12 · max(|J[0]|, 1.0)) so display and getter
+            // agree on what "uniform" means.
+            bool jUniform = BondJ.Count > 0;
+            if (jUniform)
+            {
+                const double UniformityTol = 1e-12;
+                double j0 = BondJ[0];
+                double absScale = Math.Max(Math.Abs(j0), 1.0);
+                for (int b = 1; b < BondJ.Count; b++)
+                    if (Math.Abs(BondJ[b] - j0) > UniformityTol * absScale) { jUniform = false; break; }
+            }
+            if (jUniform)
                 yield return InspectableNode.RealScalar("J (uniform)", BondJ[0], "G4");
             else
                 yield return new InspectableNode("bondJ (non-uniform)",

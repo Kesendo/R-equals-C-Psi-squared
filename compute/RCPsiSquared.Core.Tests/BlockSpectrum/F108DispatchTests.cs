@@ -4,7 +4,6 @@ using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.BlockSpectrum;
 using RCPsiSquared.Core.Lindblad;
 using RCPsiSquared.Core.Pauli;
-using RCPsiSquared.Core.SymmetryFamily;
 using RCPsiSquared.Core.Tests.TestHelpers;
 using Xunit;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
@@ -25,8 +24,10 @@ namespace RCPsiSquared.Core.Tests.BlockSpectrum;
 ///   <item>F108 Part 1 (Z-deph) acceptance: explicit Z passes through identically.</item>
 ///   <item>Mismatch (non-Z) handling: the per-block builder is hardcoded Z-only
 ///         (<see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/>); X- and Y-dephasing throw
-///         <see cref="System.NotImplementedException"/> with a clear message, rather than
-///         silently stamping Z-deph entries onto a non-Z problem.</item>
+///         <see cref="System.NotSupportedException"/> (design-permanent under the current
+///         basis), and PauliLetter.I throws <see cref="System.ArgumentException"/> (not a
+///         valid dephase letter), rather than silently stamping Z-deph entries onto a non-Z
+///         problem.</item>
 /// </list>
 ///
 /// <para>The "soundness over generality" stance: the F108 generalisation (Part 1+2+3) lives
@@ -85,57 +86,58 @@ public class F108DispatchTests
 
     // ----------------------------------------------------------------------
     // F108 Part 2 (X-deph) / Part 3 (Y-deph) dispatch: explicit
-    // NotImplementedException, no silent stamping of Z-deph onto a non-Z problem.
+    // NotSupportedException (design-permanent X/Y refusal under the current basis); PauliLetter.I
+    // raises ArgumentException. No silent stamping of Z-deph entries onto a non-Z problem.
     // ----------------------------------------------------------------------
 
     [Theory]
     [InlineData(PauliLetter.X)]
     [InlineData(PauliLetter.Y)]
-    public void NonZ_DephaseLetter_Throws_NotImplemented_OnLiouvillianBlockSpectrum(PauliLetter dephaseLetter)
+    public void NonZ_DephaseLetter_Throws_NotSupported_OnLiouvillianBlockSpectrum(PauliLetter dephaseLetter)
     {
         const int N = 4;
         var H = PauliHamiltonian.XYChain(N, 1.0).ToMatrix();
         var gammaPerSite = Enumerable.Repeat(0.5, N).ToArray();
 
-        var ex = Assert.Throws<System.NotImplementedException>(() =>
+        // Exception TYPE is the contract: NotSupportedException signals "design-permanent
+        // refusal under the current basis", distinct from NotImplementedException which
+        // conventionally marks an unfilled stub. Wording details can change freely without
+        // breaking this assertion.
+        Assert.Throws<System.NotSupportedException>(() =>
             LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(
                 H, gammaPerSite, N, LiouvillianBlockSpectrum.EigenPath.Auto, dephaseLetter));
-
-        // Soundness: the message must cite the per-block builder restriction so callers know
-        // what to do, rather than seeing a generic "not implemented" wall.
-        Assert.Contains("PauliLetter.Z", ex.Message);
-        Assert.Contains("PerBlockLiouvillianBuilder", ex.Message);
     }
 
     [Theory]
     [InlineData(PauliLetter.X)]
     [InlineData(PauliLetter.Y)]
-    public void NonZ_DephaseLetter_Throws_NotImplemented_OnF71MirrorBlockRefinement(PauliLetter dephaseLetter)
+    public void NonZ_DephaseLetter_Throws_NotSupported_OnF71MirrorBlockRefinement(PauliLetter dephaseLetter)
     {
         const int N = 4;
         var H = PauliHamiltonian.XYChain(N, 1.0).ToMatrix();
         var gammaPerSite = Enumerable.Repeat(0.5, N).ToArray();
 
-        var ex = Assert.Throws<System.NotImplementedException>(() =>
+        // Same contract as the LiouvillianBlockSpectrum variant: NotSupportedException for
+        // design-permanent X/Y refusal under the current joint-popcount basis.
+        Assert.Throws<System.NotSupportedException>(() =>
             F71MirrorBlockRefinement.ComputeSpectrumPerBlock(H, gammaPerSite, N, dephaseLetter));
-
-        Assert.Contains("PauliLetter.Z", ex.Message);
-        Assert.Contains("PerBlockLiouvillianBuilder", ex.Message);
     }
 
     [Fact]
-    public void Identity_PauliLetter_Throws_NotImplemented()
+    public void Identity_PauliLetter_Throws_ArgumentException()
     {
-        // PauliLetter.I is a dephase letter the canonical Π / Π_5bilinear families do not
-        // define; the dispatch refuses it the same way it refuses X / Y, citing the per-
-        // block Z-only restriction.
+        // PauliLetter.I is not a valid dephase letter (the Lindblad dissipator requires a
+        // non-identity operator). The dispatch raises ArgumentException with ParamName set to
+        // "dephaseLetter" so callers can introspect the offending parameter structurally
+        // instead of grepping the (mutable) human-readable message.
         const int N = 3;
         var H = PauliHamiltonian.XYChain(N, 1.0).ToMatrix();
         var gammaPerSite = Enumerable.Repeat(0.5, N).ToArray();
 
-        Assert.Throws<System.NotImplementedException>(() =>
+        var ex = Assert.Throws<System.ArgumentException>(() =>
             LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(
                 H, gammaPerSite, N, LiouvillianBlockSpectrum.EigenPath.Auto, PauliLetter.I));
+        Assert.Equal("dephaseLetter", ex.ParamName);
     }
 
     // ----------------------------------------------------------------------
@@ -182,34 +184,41 @@ public class F108DispatchTests
     }
 
     // ----------------------------------------------------------------------
-    // Quartering verification: the F108 dispatch keeps the orbit-pairing primary
-    // count equal to F1's DistinctSpectralClasses(N), confirming that the auto-
-    // dispatched (Z-deph) path still quarters and does not silently fall back to
-    // a no-pairing reference. The check is structural rather than runtime-timed.
+    // End-to-end quartering verification: the default (no-dephaseLetter) overload and the
+    // explicit-Z 5-arg overload must produce bit-exactly equal spectra. Both routes lead
+    // through the orbit-pairing partition; if a future regression silently bypasses the
+    // dispatch (e.g. switches one overload to a no-pairing reference path), the spectra
+    // would diverge in ordering or value. The standalone structural check on
+    // F1PalindromeOrbitPairing.DistinctSpectralClasses(N) was tautological because it
+    // re-derived the partition without exercising the dispatch at all.
     // ----------------------------------------------------------------------
 
     [Theory]
     [InlineData(3)]
     [InlineData(4)]
     [InlineData(5)]
-    public void Z_DephaseLetter_Dispatch_PreservesPiOrbitQuartering(int N)
+    public void Z_DephaseLetter_Dispatch_PreservesPiOrbitQuartering_EndToEnd(int N)
     {
-        // The F1 Π-orbit partition is independent of H and γ at the sector-label level.
-        // Confirm the dispatch reaches the same partition the existing path uses, i.e. the
-        // F108 dispatch does not bypass the orbit-pairing primitive.
-        var sectors = JointPopcountSectorBuilder.Build(N).SectorRanges;
-        var (primaries, _) = F1PalindromeOrbitPairing.PartitionByPiOrbit(
-            N, sectors, s => (s.PCol, s.PRow));
+        // Use the Heisenberg chain (popcount-conserving) so the per-block builder's
+        // DebugAssertPopcountConservingH guard does not trip.
+        var H = PauliHamiltonian.HeisenbergChain(N, 1.0).ToMatrix();
+        var gamma = Enumerable.Repeat(0.05, N).ToArray();
 
-        int expectedDistinct = F1PalindromeOrbitPairing.DistinctSpectralClasses(N);
-        Assert.Equal(expectedDistinct, primaries.Count);
+        var defaultSpectrum = LiouvillianBlockSpectrum
+            .ComputeSpectrumPerBlock(H, gamma, N)
+            .OrderBy(c => c.Real).ThenBy(c => c.Imaginary).ToArray();
+        var explicitZSpectrum = LiouvillianBlockSpectrum
+            .ComputeSpectrumPerBlock(H, gamma, N, LiouvillianBlockSpectrum.EigenPath.Auto, PauliLetter.Z)
+            .OrderBy(c => c.Real).ThenBy(c => c.Imaginary).ToArray();
 
-        // Sanity: at N=4 even-N central (2, 2) sector is Π-fixed; at odd N every orbit has 4
-        // entries and the primary count is exactly (N+1)²/4. These are intrinsic to the
-        // dispatch's quartering claim regardless of which Π (canonical or Π_5bilinear-Z) the
-        // dispatch nominally selects.
-        int total = (N + 1) * (N + 1);
-        int piFixed = N % 2 == 0 ? 1 : 0;
-        Assert.Equal(piFixed + (total - piFixed) / 4, primaries.Count);
+        Assert.Equal(defaultSpectrum.Length, explicitZSpectrum.Length);
+        for (int i = 0; i < defaultSpectrum.Length; i++)
+        {
+            Assert.True(
+                Math.Abs(defaultSpectrum[i].Real - explicitZSpectrum[i].Real) < 1e-9 &&
+                Math.Abs(defaultSpectrum[i].Imaginary - explicitZSpectrum[i].Imaginary) < 1e-9,
+                $"Default and explicit-Z spectra differ at index {i}: " +
+                $"{defaultSpectrum[i]} vs {explicitZSpectrum[i]}");
+        }
     }
 }

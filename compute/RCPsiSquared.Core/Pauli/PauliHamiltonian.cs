@@ -53,9 +53,14 @@ public sealed record PauliHamiltonian(int N, IReadOnlyList<PauliTerm> Terms)
         return H;
     }
 
-    /// <summary>Uniform XY chain: H = (J/2) Σ_b (X_b X_{b+1} + Y_b Y_{b+1}).</summary>
+    /// <summary>Uniform XY chain: H = (J/2) Σ_b (X_b X_{b+1} + Y_b Y_{b+1}). Throws
+    /// <see cref="ArgumentOutOfRangeException"/> for N &lt; 1; the per-bond overload it
+    /// forwards to also guards N &lt; 1 as defence-in-depth (the bare
+    /// <c>new double[N - 1]</c> below would otherwise throw <see cref="OverflowException"/>
+    /// for N = 0, which is a confusing surface for an invalid-argument condition).</summary>
     public static PauliHamiltonian XYChain(int N, double J)
     {
+        if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be ≥ 1.");
         var bondJ = new double[N - 1];
         for (int b = 0; b < N - 1; b++) bondJ[b] = J;
         return XYChain(N, bondJ);
@@ -65,9 +70,12 @@ public sealed record PauliHamiltonian(int N, IReadOnlyList<PauliTerm> Terms)
     /// <paramref name="bondJ"/> must have length N − 1 (one coupling per nearest-neighbour bond).
     /// Used by per-bond J Builder paths in <c>BlockSpectrum/</c> for F100-territory experiments
     /// (palindromic J profiles, etc.). Scalar overload <see cref="XYChain(int, double)"/> calls
-    /// this with a uniform list.</summary>
+    /// this with a uniform list. Throws <see cref="ArgumentOutOfRangeException"/> for N &lt; 1
+    /// before the length check so that N = 0 / empty bondJ does not slip through as a silent
+    /// no-op Hamiltonian.</summary>
     public static PauliHamiltonian XYChain(int N, IReadOnlyList<double> bondJ)
     {
+        if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be ≥ 1.");
         if (bondJ is null) throw new ArgumentNullException(nameof(bondJ));
         if (bondJ.Count != N - 1)
             throw new ArgumentException(
@@ -82,9 +90,13 @@ public sealed record PauliHamiltonian(int N, IReadOnlyList<PauliTerm> Terms)
         return new PauliHamiltonian(N, terms);
     }
 
-    /// <summary>Uniform Heisenberg chain: H = (J/4) Σ_b (X_b X_{b+1} + Y_b Y_{b+1} + Z_b Z_{b+1}).</summary>
+    /// <summary>Uniform Heisenberg chain: H = (J/4) Σ_b (X_b X_{b+1} + Y_b Y_{b+1} + Z_b Z_{b+1}).
+    /// Throws <see cref="ArgumentOutOfRangeException"/> for N &lt; 1 (the bare
+    /// <c>new double[N - 1]</c> would otherwise raise <see cref="OverflowException"/> for
+    /// N = 0, a confusing surface for an invalid-argument condition).</summary>
     public static PauliHamiltonian HeisenbergChain(int N, double J)
     {
+        if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be ≥ 1.");
         var bondJ = new double[N - 1];
         for (int b = 0; b < N - 1; b++) bondJ[b] = J;
         return HeisenbergChain(N, bondJ);
@@ -93,9 +105,12 @@ public sealed record PauliHamiltonian(int N, IReadOnlyList<PauliTerm> Terms)
     /// <summary>Non-uniform Heisenberg chain with per-bond coupling:
     /// H = Σ_b (J_b/4) (X_b X_{b+1} + Y_b Y_{b+1} + Z_b Z_{b+1}). <paramref name="bondJ"/> must
     /// have length N − 1. Scalar overload <see cref="HeisenbergChain(int, double)"/> calls this
-    /// with a uniform list.</summary>
+    /// with a uniform list. Throws <see cref="ArgumentOutOfRangeException"/> for N &lt; 1 before
+    /// the length check so that N = 0 / empty bondJ does not slip through as a silent no-op
+    /// Hamiltonian.</summary>
     public static PauliHamiltonian HeisenbergChain(int N, IReadOnlyList<double> bondJ)
     {
+        if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be ≥ 1.");
         if (bondJ is null) throw new ArgumentNullException(nameof(bondJ));
         if (bondJ.Count != N - 1)
             throw new ArgumentException(

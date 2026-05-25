@@ -269,12 +269,14 @@ public sealed class F71MirrorBlockRefinement : Claim
     ///
     /// <para>Only <see cref="PauliLetter.Z"/> is currently supported by the per-block builder
     /// (<see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/> is hardcoded Z-only and the
-    /// joint-popcount sector structure is not preserved under X- or Y-dephasing). Non-Z
-    /// dephase letters throw <see cref="NotImplementedException"/> with a clear message
-    /// citing the future <c>BuildBlockX</c>/<c>BuildBlockY</c> path needed to lift the
-    /// restriction.</para></summary>
+    /// joint-popcount sector structure is not preserved under X- or Y-dephasing). X and Y
+    /// throw <see cref="NotSupportedException"/> (design-permanent under the current basis);
+    /// I throws <see cref="ArgumentException"/> (not a valid dephase letter for a Lindblad
+    /// dissipator). The message cites the future <c>BuildBlockX</c>/<c>BuildBlockY</c> path
+    /// needed to lift the X/Y restriction.</para></summary>
     /// <param name="dephaseLetter">Dephase letter the orbit-pairing is matched to. Only Z is
-    /// currently supported.</param>
+    /// currently supported by the per-block construction; X and Y throw
+    /// <see cref="NotSupportedException"/>, I throws <see cref="ArgumentException"/>.</param>
     public static Complex[] ComputeSpectrumPerBlock(
         ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N, PauliLetter dephaseLetter)
     {
@@ -287,14 +289,25 @@ public sealed class F71MirrorBlockRefinement : Claim
         if (gammaPerSite is null) throw new ArgumentNullException(nameof(gammaPerSite));
         if (gammaPerSite.Count != N)
             throw new ArgumentException($"gamma list length {gammaPerSite.Count} != N={N}", nameof(gammaPerSite));
+        if (dephaseLetter == PauliLetter.I)
+            throw new ArgumentException(
+                "PauliLetter.I is not a valid dephase letter (the Lindblad dissipator requires a " +
+                "non-identity operator); use Z (canonical / F108 Part 1), X (F108 Part 2), or Y (F108 Part 3).",
+                nameof(dephaseLetter));
         if (dephaseLetter != PauliLetter.Z)
-            throw new NotImplementedException(
-                $"F71MirrorBlockRefinement.ComputeSpectrumPerBlock only supports PauliLetter.Z dephasing today; " +
-                $"got {dephaseLetter}. The per-block builder (PerBlockLiouvillianBuilder.BuildBlockZ) is hardcoded " +
-                "to Z-dephasing; X- and Y-dephasing break the joint-popcount sector structure that " +
-                "JointPopcountSectors and the F71 mirror refinement rely on. Wiring F108 Part 2 (X-deph) or " +
-                "Part 3 (Y-deph) here requires a parallel BuildBlockX/Y path plus a rederived sector " +
-                "decomposition compatible with the chosen dephase letter.");
+            throw new NotSupportedException(
+                $"F71MirrorBlockRefinement.ComputeSpectrumPerBlock only supports Z-dephasing under the current " +
+                $"joint-popcount basis (PerBlockLiouvillianBuilder.BuildBlockZ is hardcoded to Z, which is " +
+                $"diagonal in the computational basis and popcount-conserving); got {dephaseLetter}. " +
+                "X- and Y-dephasing break the joint-popcount sector structure that JointPopcountSectors and " +
+                "the F71 mirror refinement rely on. See BlockSpectrumOpenQuestions for the X/Y basis-rotation " +
+                "extension path (parallel BuildBlockX/Y plus a rederived per-letter-D sector decomposition).");
+
+        // Mirror LiouvillianBlockSpectrum's contract guard: H must be popcount-conserving in
+        // the 2^N Hilbert basis, otherwise the joint-popcount sector decomposition is wrong
+        // and the F71 refinement on top of it silently returns wrong spectra. DEBUG-only,
+        // stripped from RELEASE builds; see DebugAssertPopcountConservingH for the sample plan.
+        LiouvillianBlockSpectrum.DebugAssertPopcountConservingH(H, N);
 
         // F1 palindrome reflection constant: the genuine Σ of per-site Z-dephasing rates
         // (NOT N·γ), so non-uniform γ stays exact. F1 maps a sector's spectrum to its

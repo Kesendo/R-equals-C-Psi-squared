@@ -54,7 +54,11 @@ public sealed class KleinFourGroupSelfPairedSparseLBuilder : Claim
     public static KleinFourGroupSelfPairedSparseLBuilder Build(int N,
         KleinCharacter character, IReadOnlyList<double> gammaPerSite)
     {
-        var bondJ = new double[Math.Max(0, N - 1)];
+        // Match the per-bond overload's factory guard up-front so `new double[N - 1]` never
+        // sees a negative size (would silently throw OverflowException). The bare form then
+        // matches sibling KleinFourGroupSelfPairedRefinement.BuildSubBlockL for consistency.
+        if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be ≥ 2.");
+        var bondJ = new double[N - 1];
         for (int b = 0; b < bondJ.Length; b++) bondJ[b] = 1.0;
         return Build(N, character, gammaPerSite, bondJ);
     }

@@ -83,13 +83,17 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// <see cref="Symmetry.F108Part3Pi2YEvenAlwaysPalindromic"/>) prove operator-level
 /// palindromicity for those dephase channels, but the Builder cannot exploit them in its
 /// current basis (X- and Y-dephasing break popcount conservation in the computational
-/// basis). The F108-aware overload throws <see cref="NotImplementedException"/> for
-/// <see cref="Pauli.PauliLetter.X"/> / <see cref="Pauli.PauliLetter.Y"/> rather than
-/// silently producing wrong eigenvalues; lifting the restriction is tracked in
-/// <see cref="BlockSpectrumOpenQuestions"/> and requires a per-dephase-letter rotated
-/// basis (e.g. apply per-site U_X = H for X-deph, conjugate H → H' = U H U†, then run
-/// the existing BuildBlockZ; L's eigenvalues are basis-independent so the result
-/// transports back).</para>
+/// basis). The F108-aware overload throws <see cref="NotSupportedException"/> for
+/// <see cref="Pauli.PauliLetter.X"/> / <see cref="Pauli.PauliLetter.Y"/> (design-permanent
+/// under the current basis; CLR convention reserves <see cref="NotImplementedException"/>
+/// for stubs awaiting a body, <see cref="NotSupportedException"/> for combinations the
+/// design refuses by intent) and <see cref="ArgumentException"/> for
+/// <see cref="Pauli.PauliLetter.I"/> (not a valid dephase letter; the Lindblad dissipator
+/// requires a non-identity operator) rather than silently producing wrong eigenvalues.
+/// Lifting the X/Y restriction is tracked in <see cref="BlockSpectrumOpenQuestions"/> and
+/// requires a per-dephase-letter rotated basis (e.g. apply per-site U_X = H for X-deph,
+/// conjugate H → H' = U H U†, then run the existing BuildBlockZ; L's eigenvalues are
+/// basis-independent so the result transports back).</para>
 ///
 /// <para>Anchors: <c>compute/RCPsiSquared.Core/BlockSpectrum/JointPopcountSectors.cs</c>
 /// (parent Claim, block-diagonal structure), <c>compute/RCPsiSquared.Core/BlockSpectrum/JointPopcountSectorBuilder.cs</c>
@@ -261,7 +265,7 @@ public sealed class LiouvillianBlockSpectrum : Claim
     /// <param name="N">Qubit count.</param>
     /// <returns>Flat array of 4^N eigenvalues, concatenated block-by-block.</returns>
     public static Complex[] ComputeSpectrumPerBlock(ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N) =>
-        ComputeSpectrumPerBlock(H, gammaPerSite, N, EigenPath.Auto, PauliLetter.Z);
+        ComputeSpectrumPerBlock(H, gammaPerSite, N, EigenPath.Auto);
 
     /// <summary>Test-aware overload that lets the parity witness force a specific eigensolver
     /// path on every block. Production callers should use the parameterless overload (or pass
@@ -301,18 +305,21 @@ public sealed class LiouvillianBlockSpectrum : Claim
     /// (the dissipator is built element-wise in the computational basis from the Hilbert-
     /// side bit-parity disagreement, not from a general P_l ⊗ P_l⁺ Kronecker construction).
     /// Non-Z-dephasing matchings (F108 Part 2 X-deph, F108 Part 3 Y-deph) are not currently
-    /// supported by this entry point and throw <see cref="NotImplementedException"/>; lifting
-    /// the restriction requires a parallel <c>BuildBlockX</c> / <c>BuildBlockY</c> path plus a
-    /// rederived per-letter-D sector decomposition compatible with the chosen dephase letter
-    /// (X- and Y-dephasing break popcount conservation in the computational basis; see the
-    /// class Contract).</para>
+    /// supported by this entry point and throw <see cref="NotSupportedException"/>
+    /// (design-permanent under the current basis); lifting the restriction requires a
+    /// parallel <c>BuildBlockX</c> / <c>BuildBlockY</c> path plus a rederived per-letter-D
+    /// sector decomposition compatible with the chosen dephase letter (X- and Y-dephasing
+    /// break popcount conservation in the computational basis; see the class Contract).
+    /// <see cref="Pauli.PauliLetter.I"/> is rejected up-front with
+    /// <see cref="ArgumentException"/> (not a valid dephase letter).</para>
     ///
     /// <para>Mismatch handling: <paramref name="dephaseLetter"/> = X or Y throws cleanly
     /// rather than silently producing wrong eigenvalues (the underlying per-block builder
     /// would otherwise stamp Z-deph entries onto an X- or Y-deph problem).</para></summary>
     /// <param name="dephaseLetter">The dephase letter the orbit-pairing is matched to. Only
-    /// <see cref="PauliLetter.Z"/> is currently supported by the per-block construction; X and Y
-    /// throw <see cref="NotImplementedException"/>.</param>
+    /// <see cref="PauliLetter.Z"/> is currently supported by the per-block construction; X and
+    /// Y throw <see cref="NotSupportedException"/> (design-permanent under the current basis),
+    /// I throws <see cref="ArgumentException"/> (not a valid dephase letter).</param>
     public static Complex[] ComputeSpectrumPerBlock(
         ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N, EigenPath path,
         PauliLetter dephaseLetter)
@@ -326,14 +333,19 @@ public sealed class LiouvillianBlockSpectrum : Claim
         if (gammaPerSite is null) throw new ArgumentNullException(nameof(gammaPerSite));
         if (gammaPerSite.Count != N)
             throw new ArgumentException($"gamma list length {gammaPerSite.Count} != N={N}", nameof(gammaPerSite));
+        if (dephaseLetter == PauliLetter.I)
+            throw new ArgumentException(
+                "PauliLetter.I is not a valid dephase letter (the Lindblad dissipator requires a " +
+                "non-identity operator); use Z (canonical / F108 Part 1), X (F108 Part 2), or Y (F108 Part 3).",
+                nameof(dephaseLetter));
         if (dephaseLetter != PauliLetter.Z)
-            throw new NotImplementedException(
-                $"ComputeSpectrumPerBlock only supports PauliLetter.Z dephasing today; got {dephaseLetter}. " +
-                "The per-block builder (PerBlockLiouvillianBuilder.BuildBlockZ) is hardcoded to Z-dephasing " +
-                "(diagonal in the computational basis, popcount-conserving); X- and Y-dephasing break the " +
-                "joint-popcount sector structure that JointPopcountSectors relies on. Wiring F108 Part 2 " +
-                "(X-deph) or Part 3 (Y-deph) here requires a parallel BuildBlockX/Y path plus a rederived " +
-                "sector decomposition compatible with the chosen dephase letter.");
+            throw new NotSupportedException(
+                $"ComputeSpectrumPerBlock only supports Z-dephasing under the current joint-popcount " +
+                $"basis (PerBlockLiouvillianBuilder.BuildBlockZ is hardcoded to Z, which is diagonal in " +
+                $"the computational basis and popcount-conserving); got {dephaseLetter}. X- and Y-dephasing " +
+                "break the joint-popcount sector structure that JointPopcountSectors relies on; see " +
+                "BlockSpectrumOpenQuestions for the X/Y basis-rotation extension path (e.g. apply per-site " +
+                "U_X = H for X-deph, conjugate H → H' = U H U†, then call this entry point with Z).");
         DebugAssertPopcountConservingH(H, N);
 
         // F1 palindrome reflection constant: the genuine Σ of per-site Z-dephasing rates
@@ -566,9 +578,11 @@ public sealed class LiouvillianBlockSpectrum : Claim
     /// <summary>DEBUG-only sample-based check that H is popcount-conserving in the 2^N
     /// Hilbert basis. Picks 20 random index pairs (i, j) with <c>popcount(i) != popcount(j)</c>
     /// and asserts each <c>|H[i, j]| &lt; 1e-12</c>. Throws on the first violation. Stripped
-    /// from RELEASE builds.</summary>
+    /// from RELEASE builds. <c>internal</c> rather than <c>private</c> so the matching guard
+    /// in <see cref="F71MirrorBlockRefinement.ComputeSpectrumPerBlock(ComplexMatrix, IReadOnlyList{double}, int, PauliLetter)"/>
+    /// can reuse the same routine instead of duplicating it.</summary>
     [Conditional("DEBUG")]
-    private static void DebugAssertPopcountConservingH(ComplexMatrix H, int N)
+    internal static void DebugAssertPopcountConservingH(ComplexMatrix H, int N)
     {
         const double Tol = 1e-12;
         const int Samples = 20;

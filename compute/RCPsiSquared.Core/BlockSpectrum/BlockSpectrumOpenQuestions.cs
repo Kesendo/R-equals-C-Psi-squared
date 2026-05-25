@@ -70,8 +70,9 @@ public static class BlockSpectrumOpenQuestions
             "level palindromicity Π·L·Π⁻¹ = −L − 2σ·I for those dephase channels, but the " +
             "Builder cannot exploit them in its current basis (X- and Y-dephasing break " +
             "popcount conservation in the computational basis). " +
-            "ComputeSpectrumPerBlock(..., PauliLetter.X|Y) throws NotImplementedException " +
-            "rather than silently producing wrong eigenvalues. Closing this would unlock " +
+            "ComputeSpectrumPerBlock(..., PauliLetter.X|Y) throws NotSupportedException " +
+            "(design-permanent under the current basis) rather than silently producing " +
+            "wrong eigenvalues. Closing this would unlock " +
             "Builder-level verification of F108 Parts 2+3 at N=7+ and extend the per-block " +
             "speedup to the full F108 family.",
             "Add a per-dephase-letter rotated-basis path: apply per-site U_X = H " +
@@ -81,7 +82,7 @@ public static class BlockSpectrumOpenQuestions
             "in the rotated basis where the chosen dephase letter is diagonal). The " +
             "eigenvalues of L are basis-independent, so the per-block spectrum transports " +
             "back without modification. Wire the rotation into the dephaseLetter dispatch " +
-            "currently throwing NotImplementedException; reuse F1PalindromeOrbitPairing " +
+            "currently throwing NotSupportedException; reuse F1PalindromeOrbitPairing " +
             "as-is (it is already Π-agnostic at the sector-label level). Effort: M-L. " +
             "Payoff: enables Builder verification of F108 Parts 2+3 at N=7+ and F87 " +
             "enumeration for X/Y deph at higher N.",
