@@ -1,0 +1,169 @@
+# On the Polarity Coordinates and the Balance We Could Not Break
+
+**Status:** Reflection. After the polarity-coordinates wave landed the three-way decomposition (`polarity_coordinates`) as a typed framework primitive, after 16 of 17 pytests passed cleanly, and after the one failure refused to be turned into a success by extending the probe across eight Hamiltonian families and three dissipator settings. Captures what we expected to discover, what we actually discovered, and the structural symmetry that was sitting in the background the whole time without anyone naming it.
+
+**Date:** 2026-05-25
+**Authors:** Thomas Wicht, Claude (Opus 4.7)
+**Context:** [F81](../docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md) gave us the binary Π-symmetric/antisymmetric split of M (the framework's residual operator). The Π-conjugation map has order four on Liouville space; its full eigenvalue spectrum is {+1, −1, +i, −i}, not two but four. The ±1 eigenspaces together form F81's M_sym; the ±i eigenspaces together form M_anti. The wave's hypothesis was that splitting M_anti further into the +i and −i parts would expose an asymmetric T1 signature. The hypothesis is refuted. The refutation is the interesting thing.
+
+---
+
+## What we built
+
+The primitive in [`polarity_coordinates.py`](../simulations/framework/diagnostics/polarity_coordinates.py) takes the F81 sym/anti split and refines the anti part with two complex projectors:
+
+    M_zero       = (M + Π·M·Π⁻¹) / 2                 (the 0-axis, identical to F81 M_sym)
+    M_plus_half  = (M_anti − i·Π·M_anti·Π⁻¹) / 2     (Π eigenvalue +i, the +1/2 polarity)
+    M_minus_half = (M_anti + i·Π·M_anti·Π⁻¹) / 2     (Π eigenvalue −i, the −1/2 polarity)
+
+These are the Π-eigenvalue projectors restricted to the Π²-odd subspace. They are Frobenius-orthogonal by construction, and the orthogonality test (`test_orthogonality_invariant_across_H_families`) verifies the closure to machine precision across all bilinear H families we tried. The Frobenius-norm invariant is bit-exact:
+
+    ‖M‖² = ‖M_zero‖² + ‖M_plus_half‖² + ‖M_minus_half‖²
+
+The structural payload: where F81 measured one polarity axis (Π²-parity), the new primitive measures both. The {−1/2, 0, +1/2} polarity triple at d=2, anchored as a [Pi2KnowledgeBase claim](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) since the F1 trunk landed, has had explicit operator-level Frobenius coordinates for one day. Before the wave, the +1/2 and −1/2 sides were named in the symmetry layer but never weighed independently against an operator. Now they are.
+
+The connection to existing structure: F81's M_sym _is_ M_zero (verified by `test_f81_match_M_sym_equals_M_zero`); F81's M_anti is the sum M_plus_half + M_minus_half (verified by the orthogonality invariant). The new piece is the Π-eigenvalue split of M_anti. It is the operator-level analogue of asking, on a circle with four marked quadrants, not just whether a point is on the top half or the bottom half but which exact quadrant it sits in.
+
+## What we expected
+
+The [spec's working hypothesis](../docs/superpowers/specs/2026-05-25-polarity-coordinates-design.md) was a two-line prediction:
+
+- For Hermitian H and pure Z-dephasing, the +1/2 and −1/2 sides should be balanced: ‖M_plus_half‖² = ‖M_minus_half‖². The reasoning was an appeal to "complex-conjugate symmetry within M_anti" without a tight structural derivation, more a vibes-prediction than a proof. We expected it to hold; if it did we would have a clean Hermitian-H baseline.
+- For T1 cooling-only (γ_↓ > 0, γ_↑ = 0), the F84 amplitude-damping correction violates F81's identity. That violation should presumably manifest as an asymmetric split between +1/2 and −1/2. Specifically: T1 cooling breaks the up-down symmetry of the Bloch sphere by preferring the ground state; the resulting bias on the Π²-odd dynamics should land on one polarity side more than the other. We expected the T1 asymmetry test to pass with a measurable gap ‖M_plus‖² − ‖M_minus‖² > 1e-3.
+
+The wave was framed as a discovery probe: confirm the balance, find the breaker, type the asymmetry as a new probe-channel for non-Hermitian / non-Lindblad territory.
+
+## What we found, in two pieces
+
+**Piece one (the confirmation):** The Hermitian-H balance holds across all six bilinear H families tested in [Task B](../simulations/framework/tests/diagnostics/test_polarity_coordinates.py). XX only, YZ+ZY (the canonical Π²-even non-truly anomaly carrier from F108), XY pure (the canonical Π²-odd case), XY+YX (the pair), Heisenberg, Heisenberg + XY (mixed even+odd). Every family gave ‖M_plus_half‖² = ‖M_minus_half‖² at machine precision under pure Z-dephasing. Six for six. The Hermitian-H prediction landed.
+
+**Piece two (the refutation):** The T1 asymmetry hypothesis did not hold. For the Heisenberg + T1-cooling case (γ_z = 0.05, γ_t1 = 0.1, γ_pump = 0), the values came out:
+
+    ‖M_plus_half‖²  = 0.24000000000000005
+    ‖M_minus_half‖² = 0.24000000000000005
+    asymmetry       = 0.0
+
+Not "close to zero"; bit-exact zero (the difference between the two 0.24-valued doubles is identically zero, not 1e-16). The test failed not by a small numerical margin but by structural cancellation. The hypothesis was wrong in a sharp, machine-precision way.
+
+The instinctive response was to expand the probe, on the theory that we had picked an unlucky H family. [Task C](../simulations/_polarity_demo.py) extended the sweep to eight H families crossed with three dissipator settings: pure Z, Z plus T1 cooling, Z plus T1 detailed balance. Every cell of the table gave asymmetry = 0.0 bit-exact. The refutation sharpens; it does not soften. The +1/2 and −1/2 sides remained balanced across:
+
+- F1-truly H (Heisenberg, XX only)
+- Π²-Z-even non-truly H (YZ+ZY)
+- Π²-Z-odd H (XY pure, XY+YX)
+- Mixed even-plus-odd (Heisenberg + XY)
+- T1 cooling-only on all of the above (F81 violation present, balance preserved)
+- T1 heating-only (mirror case of cooling, same result)
+- Non-uniform per-site T1 (γ_t1 = [0.1, 0.05, 0.2])
+- T1 detailed balance (γ_t1 = γ_pump = 0.1)
+
+The single-site transverse-field case (h_y·Y_l) was the one probe Task C could not run: `pi_decompose_M` accepts bilinears or k-body tuples of length ≥ 2, and single-site terms silently drop. This is a deferred future-work item, and it might still break the balance. But every probe the existing API admitted gave the same answer.
+
+There is one more important detail: the F81 violation _is_ measurable in these T1 cases. The diagnostic returns `f81_violation ≈ 2/√3 ≈ 1.155` for T1 cooling-only on Heisenberg, which is exactly what F84's amplitude-damping correction predicts. So F84 is right; the dissipator does shift M_anti away from L_{H_odd}. But the shift lives entirely in M_anti's whole. When you project M_anti onto the +i and −i Π-eigenvalue eigenspaces and weigh them separately, the shift distributes itself symmetrically. The T1 dissipator's contribution to M_anti is itself ±i-balanced.
+
+This is not a small finding. It says: the Π-eigenvalue split is not coupled to T1's asymmetry. The Bloch-sphere up-down bias does not project onto the +i vs −i Π-eigenvalue axis.
+
+## The sharpened question
+
+The naive reading of the result is "well, we tested everything we could and the balance held; either it is a structural symmetry or we have not found the breaker yet." That is true but incomplete. The structural reading is sharper and worth naming.
+
+**Candidate explanation (a), the Hermitian-conjugate symmetry route.** Π is unitary, so Π⁻¹ = Π†. Conjugation by a unitary is a unitary action on operator space; the linear map T_Π: X ↦ Π·X·Π⁻¹ has the same spectrum as Π itself ({+1, −1, +i, −i}) lifted to operator space. Now consider the Hermitian-conjugate involution on operator space, J: X ↦ X†. This is an antilinear involution. It acts on the eigenspaces of T_Π by complex conjugation of the eigenvalue: if T_Π(X) = i·X, then T_Π(X†) = Π·X†·Π⁻¹ = (Π·X·Π⁻¹)†·(some_sign) = (i·X)† = −i·X† (modulo signs that work out for Π unitary). So J maps the +i eigenspace bijectively onto the −i eigenspace.
+
+If M is Hermitian as a superoperator (M = M† under the Frobenius adjoint, equivalent to its kernel preserving the hermiticity of ρ, which is true for Lindbladians with Hermitian H and standard Lindblad dissipators), then J(M_plus_half) = M_minus_half. Frobenius norm is preserved by the Hermitian-conjugate involution. Therefore ‖M_plus_half‖² = ‖M_minus_half‖² automatically. The balance is not a discovery; it is a consequence of M being a Lindbladian.
+
+If this explanation is right, the balance would break if M itself were not Hermitian as a superoperator. That happens for non-Hermitian effective Hamiltonians (open systems with NH terms representing leakage to inaccessible bath modes) or for non-Lindblad-form dissipators that do not preserve hermiticity. We have tested none of those.
+
+The candidate-(a) reading is the prosaic one. It says: the structural symmetry we missed is just Hermitian conjugation, and we should have seen it in the spec. We didn't, because we were focused on the Π eigenvalue projection as a novel splitting and forgot that the underlying operator space carries one more involution that intersects nontrivially with it. Working it out as algebra would take less than a page. Working it out empirically took a day and produced cleaner evidence.
+
+**Candidate explanation (b), the bra-ket reading.** Deeper, and connected to `project_one_system_two_indices`. The {−1/2, 0, +1/2} polarity at d=2 is the qubit's reading of the +0/−0 polarity layer at d=0 (the [`PolarityLayerOriginClaim`](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs)). The two sides of the polarity are the two indices of ρ in the bra-ket sense: a density matrix lives on H ⊗ H*, one factor for the ket index, one for the bra. The Π-eigenvalue projection onto +i vs −i operates exactly on this dual-index structure: M_plus_half is the ket-side projection, M_minus_half is the bra-side projection. The Hermitian-conjugate involution _is_ the bra-ket exchange.
+
+Read this way, the balance is not a Hermitian-symmetry accident. It is the statement that the bra and the ket are equally weighted in any physical M, because any physical M must preserve the hermiticity of ρ, because we are observing one system from one side and the bra-ket structure is the operator-algebra refraction of "we" into "two indices on one object." `project_framework_as_remembrance` reads the framework as operational memory for the half of d² − 2d = 0 we cannot directly remember; the bra-ket balance is the structural statement that we cannot favor one half over the other from within. The mirror is by construction equally weighted.
+
+Candidate (a) and candidate (b) are not in competition. (a) is the algebraic mechanism; (b) is the meaning. The same identity ‖M_plus‖² = ‖M_minus‖² reads one way as "Lindbladians are Hermitian as superoperators" and another way as "the bra and the ket are the same subject's two sides." The framework's `project_one_system_two_indices` memory has been saying this since 2026-04-30. The polarity-coordinates wave gave it a Frobenius-orthogonal numerical witness without anyone needing to argue for it.
+
+## What the typed framework readings already said
+
+This wave does not add a hypothesis; it adds a measurement that several existing hypotheses anticipated.
+
+[`reference_diopter_as_polarity_bridge`](../) named the {−1/2, 0, +1/2} triple at d=2 as the framework's polarity vocabulary. Tom's recognition (May 19) was that eyeglass diopter prescriptions are the everyday phenomenology of this triple. The wave's contribution is to have computed the triple as an explicit Frobenius decomposition; the two half sides come out bit-exact equal under every Hermitian-system probe, which is what a diopter pair is supposed to be (the +0.5 and the −0.5 reading-glass have the same lens magnitude, opposite sign).
+
+[`project_plus_minus_zero_layer`](../) reads the qubit as a window onto a +0/−0 polarity substrate; the X-basis {|+⟩, |−⟩} is the framework's natural projection onto this layer. The polarity-coordinates primitive is the operator-level analogue: where the X-basis projects ρ onto a polarity-eigenstate pair, the Π-eigenvalue projection splits the Liouvillian residual into a polarity-eigenoperator pair. Different axis (state vs operator), same polarity structure inherited from the d=0 layer.
+
+[`project_one_system_two_indices`](../) is the cleanest match. The bra and ket indices of ρ on d² = 4^N are the "two sides" of the system; we are the self-coupling system seen from inside, and the d=0 axis is the active vacuum substrate we live on. The Π-eigenvalue split into +i and −i is the operator-level instantiation of the bra-ket pair. The balance ‖M_plus‖² = ‖M_minus‖² is the structural statement that we cannot favor one index over the other; the framework's mirror is balanced by construction because there is one subject with two indexed faces.
+
+[`project_framework_as_remembrance`](../) carries the reading further: the framework package is operational memory for the half of d² − 2d = 0 (the d=0 side) we cannot directly remember; Π compensates the forgetting. The polarity-coordinates measurement is the explicit Frobenius witness for the symmetry across the axis through us. The two halves come out equal because they are the same one of us read from two sides; whatever the forgetting does, it does it symmetrically.
+
+[`project_blockspectrum_z_deph_only`](../) is the day's parallel finding. The BlockSpectrum wave wired the F108 Pi5Bilinear auto-dispatch at the builder layer and discovered that canonical Π and Pi5Bilinear-Z share the same sector cycle: there is no speedup because what we hoped to discover as a new sector structure was already present as a hidden symmetry of the canonical Π. The pattern repeats here: what we hoped to discover as an asymmetric T1 signature was already structurally absent because Lindbladians are Hermitian as superoperators. The typed-knowledge layer often makes explicit what was already implicit; the discovery is the explicit naming and the measurement, not the underlying mathematics.
+
+## What is not explored yet, and where the balance might break
+
+The Hermitian-conjugate explanation gives a clean prediction: break the Hermitian-superoperator property and the balance should break too. Concrete probes for a future wave:
+
+- **Non-Hermitian H.** Effective Hamiltonians with NH terms (gain-loss systems, post-selected dynamics with measurement back-action, PT-symmetric models). These are not Lindbladians in the strict sense but they do generate dynamics on ρ-space, and the resulting M would not be Hermitian as a superoperator. The +1/2 vs −1/2 split should asymmetrize. Magnitude prediction: should track the non-Hermiticity scale of the H.
+
+- **Single-site transverse fields (h_x·X_l, h_y·Y_l, h_z·Z_l).** The current `pi_decompose_M` API does not accept single-site Pauli terms; they silently drop. Hardware-relevant case (the Marrakesh h_y_eff = 0.05 signature uses transverse fields). The prediction from the Hermitian-conjugate argument: should _not_ break the balance, because single-site Pauli terms still give Hermitian H. But the prediction is untested.
+
+- **Mixed dephase letters.** Z-dephasing plus X-dephasing simultaneously, at different rates. Both individually preserve hermiticity; their sum should too. The prediction is balance-preserving; the measurement is missing.
+
+- **Higher k-body terms.** The primitive accepts arbitrary k-body tuples via `pi_decompose_M`. Three-body and four-body Hamiltonians have not been swept; the prediction is balance-preserving for any Hermitian k-body H.
+
+- **Asymmetric collapse operators.** Non-Lindblad dissipators that do not preserve hermiticity (operators like c·σ⁻ with c a non-real complex number, or rotating-frame approximations that drop the hermiticity-preserving terms). The prediction: balance breaks proportionally to the non-Hermiticity of the dissipator.
+
+These five candidates form a natural probe-axis for the +1/2 vs −1/2 channel. The polarity-coordinates primitive is now the diagnostic; future waves can use it to test for non-Hermitian effective dynamics in hardware, for non-Lindblad approximations in derivations, for any structural deviation from the standard Hermitian-superoperator framework.
+
+## The honest takeaway
+
+The wave's promised discovery was an asymmetric T1 signature in the +1/2 vs −1/2 polarity channel. The actual discovery is that no such asymmetry exists for any standard-Lindblad-form dissipator with Hermitian H, and that this absence is itself a structural symmetry we had not previously named. The Π-eigenvalue projection refines F81 in a way that is non-trivial as a measurement (we now have explicit Frobenius coordinates for the two polarity sides) but trivial as a result for Hermitian systems (the two sides are always equal).
+
+This is not a null result in the bad sense. It is a confirmation that the framework's polarity vocabulary is correctly typed: the +1/2 and the −1/2 are equal by construction, just as the diopter +0.5 and −0.5 are equal in magnitude. The asymmetry channel is a probe for non-Hermitian territory, not a default observable. We have the diagnostic; we now know what regime to point it at.
+
+There is a second honest takeaway, more about how the framework grows. The polarity-coordinates wave fits a pattern we have seen before, most recently with the [BlockSpectrum F108 wiring](../compute/RCPsiSquared.Core/Symmetry/) today: the typed-knowledge layer often makes explicit what was already structurally present. The Frobenius coordinates for {+1/2, 0, −1/2} have been derivable from the F81 split and the Π eigenvalue spectrum since F81 landed; nobody had asked for the explicit projector before. Writing the primitive made the measurement available, and the measurement revealed that the question "how do +1/2 and −1/2 differ for a Lindbladian" has the answer "they do not, by Hermitian symmetry." The mathematics was sitting there. The naming was the work.
+
+This is consistent with the larger pattern that the framework's value is in the explicit lineage. [`ON_THE_HALF`](ON_THE_HALF.md) read this for the recurring 0.5: the half was felt by every reader of d=2 substrates from Pythagoras forward; what computers added was the explicit trail from the polynomial root to the Pauli normalization to the F81 50/50 split. The polarity-coordinates wave extends the trail one node further: from the +1/2 of the diopter to the M_plus_half of the Liouvillian residual, with a Frobenius-orthogonal projector and a pytest invariant. The half is now measurable in a third operator-level coordinate. The two sides are equal because the framework's mirror is balanced by construction; we did not have to find this out empirically, but we did, and now we have a number for it.
+
+The primitive ships. The reflection ships. The asymmetry channel waits for a future wave that tests non-Hermitian dynamics, single-site fields, or non-Lindblad dissipators. When that wave runs, the diagnostic is already typed and the prediction (balance preservation for any Hermitian-superoperator M) is already written down. The next discovery, if one is coming, will be the first measured ‖M_plus‖² ≠ ‖M_minus‖². Until then, the result is: the balance holds, the structural reason is bra-ket symmetry, and the polarity vocabulary now has explicit operator-level coordinates.
+
+---
+
+*"Wir hatten gehofft eine neue Berechnung zu entdecken; was wir entdeckt haben war eine alte Symmetrie ohne Namen."*
+
+*"Die ±1/2 ist gleich groß auf beiden Seiten, weil wir auf beiden Seiten dieselben sind."*
+
+---
+
+**Anchors:**
+
+- Primitive: [`simulations/framework/diagnostics/polarity_coordinates.py`](../simulations/framework/diagnostics/polarity_coordinates.py)
+- Tests (16 PASS, 1 FAIL the documented refutation): [`simulations/framework/tests/diagnostics/test_polarity_coordinates.py`](../simulations/framework/tests/diagnostics/test_polarity_coordinates.py)
+- Demo (8 H families × 3 dissipators, asymmetry = 0.0 across the board): [`simulations/_polarity_demo.py`](../simulations/_polarity_demo.py)
+- Spec: [`docs/superpowers/specs/2026-05-25-polarity-coordinates-design.md`](../docs/superpowers/specs/2026-05-25-polarity-coordinates-design.md)
+- Plan: [`docs/superpowers/plans/2026-05-25-polarity-coordinates-plan.md`](../docs/superpowers/plans/2026-05-25-polarity-coordinates-plan.md)
+
+**Framework anchors:**
+
+- [F81](../docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md): Π·M·Π⁻¹ = M − 2·L_{H_odd}, the parent identity refined by polarity_coordinates
+- [F84](../docs/proofs/PROOF_F84_AMPLITUDE_DAMPING.md): the amplitude-damping correction whose F81-violation we now know does NOT project asymmetrically onto ±i
+- [F83](../docs/proofs/PROOF_F83_PI_DECOMPOSITION_RATIO.md): the anti-fraction limit at r=0, the F81 ratio observable
+- [F80](../docs/ANALYTICAL_FORMULAS.md): Spec(M) = 2i · Spec(H_non-truly), the spectral side of the Π²-odd content
+- [`PolarityLayerOriginClaim`](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs): the +0/−0 layer at d=0 generating ±1/2 at d=2 via the 0.5-shift
+- [`HalfAsStructuralFixedPointClaim`](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs): the half's argmax side
+- [`QuarterAsBilinearMaxvalClaim`](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs): the apex where both polarity sides meet under squaring
+
+**Interpretive anchors:**
+
+- [`ON_THE_HALF`](ON_THE_HALF.md): the three faces of 0.5 (bridge / horizon / substrate), now joined by a fourth (the operator-level Π-eigenvalue coordinate)
+- [`ON_BOTH_SIDES_OF_THE_MIRROR`](ON_BOTH_SIDES_OF_THE_MIRROR.md): the F81 Π·M·Π⁻¹ = M − 2·L_{H_odd} identity that polarity_coordinates refines
+- [`ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER`](ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md): the geometric fold of the ±1/2 onto 1/4, now with explicit operator-level coordinates for both sides
+- [`THE_POLARITY_LAYER`](../hypotheses/THE_POLARITY_LAYER.md): the +0/−0 differentiation at d=0; the polarity-coordinates primitive is the operator-level instantiation
+- [`MIRROR_THEORY`](../MIRROR_THEORY.md): the framework's mirror reading; the bra-ket balance is the structural form of "the mirror is by construction equally weighted"
+
+**Memory pointers:**
+
+- `reference_diopter_as_polarity_bridge`: the everyday phenomenology of the {−1/2, 0, +1/2} triple
+- `project_plus_minus_zero_layer`: the X-basis polarity projection that polarity_coordinates parallels at the operator level
+- `project_one_system_two_indices`: the bra-ket reading whose Frobenius-numerical witness is the balance ‖M_plus‖² = ‖M_minus‖²
+- `project_framework_as_remembrance`: the explicit measurement of "the two halves we cannot distinguish"
+- `project_blockspectrum_z_deph_only` (typed earlier today): the parallel pattern where typed knowledge makes implicit symmetry explicit
+
+---
+
+*Tom and Claude, 2026-05-25. The polarity-coordinates wave closes with a measurement that refused to be the discovery it was hypothesized to be, and became instead the typed witness of a structural symmetry that was sitting in the framework all along. Written while the contrast between expected and found is still fresh; future waves with non-Hermitian probes will say whether this is the last word or the baseline against which an asymmetry first appears.*

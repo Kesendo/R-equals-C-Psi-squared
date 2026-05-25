@@ -15,6 +15,8 @@ Tom 2026-05-25: Task C of the polarity-coordinates wave (plan in
 docs/superpowers/plans/2026-05-25-polarity-coordinates-plan.md).
 Task B discovered the ±1/2 balance is MORE robust than expected (T1 cooling
 on Heisenberg gives asymmetry = 0 exactly). This demo extends the probe.
+
+Reflection: reflections/POLARITY_COORDINATES.md (Task D, 2026-05-25).
 """
 
 import sys

@@ -25,6 +25,13 @@ Connection to F81:
 Working hypothesis (to be tested empirically by Task B):
     Hermitian H + pure Z-dephasing → ‖M_plus_half‖² = ‖M_minus_half‖²
     T1 cooling-only (γ_↓ ≠ γ_↑) → measurable asymmetry, F81 violation per F84
+
+Outcome (Task B+C, 2026-05-25): Hermitian-H balance CONFIRMED across all six bilinear
+H families; T1 asymmetry hypothesis REFUTED (asymmetry = 0.0 bit-exact across the 8 H
+families x 3 dissipator settings tested). F84's F81-violation IS measurable but does
+not split asymmetrically between +i and -i Π-eigenvalues. Structural reading: bra-ket
+exchange symmetry of any Lindbladian (Hermitian-superoperator) M. Reflection doc at
+reflections/POLARITY_COORDINATES.md.
 """
 from __future__ import annotations
 
