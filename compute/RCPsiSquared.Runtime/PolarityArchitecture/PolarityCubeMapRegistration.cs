@@ -104,6 +104,7 @@ public static class PolarityCubeMapRegistration
             z2AxisClaims.Add(b.Get<TrulyYParityZeroPurity>());
             z2AxisClaims.Add(b.Get<MotherSoftYParityOnePurity>());
             z2AxisClaims.Add(b.Get<HardCellYInversionPattern>());
+            z2AxisClaims.Add(b.Get<HardCellPureDTemplate>());
             // Cubic3-axis Claims (Stage 2b+)
             z2AxisClaims.Add(b.Get<KleinEightCellClaim>());
             z2AxisClaims.Add(b.Get<ZGlobalMirrorRefinement>());

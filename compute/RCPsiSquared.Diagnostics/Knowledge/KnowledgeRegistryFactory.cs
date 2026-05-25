@@ -210,6 +210,14 @@ public static class KnowledgeRegistryFactory
             // empirically anchored at F103/F105/F106. Tier1Candidate. PolarityCubeMap's
             // YParityClaims grows from 6 to 7.
             .RegisterHardCellYInversionPattern()
+            // YParity-axis F111: Pure-D Template Rule sharpening F110 Aspect B at
+            // k = N = 4 in the diagonal Klein cell. Per-pair structural criterion:
+            // pair is F87-hard ⟺ at least one term is a pure-D template (uses only
+            // dephase letter D and identity I). Implies F110 Aspect B 228:0 Y-
+            // inversion as immediate corollary. Tier1Candidate (empirical anchor at
+            // F106 N=4 k=4 across 3 dephase letters; open subclaim Mixed+Mixed = soft
+            // closed-form). PolarityCubeMap's YParityClaims grows from 7 to 8.
+            .RegisterHardCellPureDTemplate()
             // Cubic3-axis (Stage 2b): the 8-cell Z₂³ decomposition (bit_a, bit_b, y_par).
             // First Cubic3-axis Claim; PolarityCubeMap's Cubic3Claims grows from 0 to 1.
             // Structural anchor for F87 Z₂³ refinement work (F103/F105/F106).
