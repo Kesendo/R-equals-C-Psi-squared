@@ -80,14 +80,14 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
 
     /// <summary>The F110 theorem statement in one line, covering Aspect A + B + C.</summary>
     public string Theorem =>
-        "Aspect A (closed-form): F87-hard pairs only in the diagonal Klein cell matching the dephase letter (Z to (0,1), X to (1,0), Y to (1,1)). " +
+        "Aspect A (closed-form): F87-hard pairs only in the diagonal Klein cell matching the dephase letter (Z → (0, 1), X → (1, 0), Y → (1, 1)). " +
         "Aspect B (empirical Y-inversion): dominant y_par in hard cell equals y_par(dephase letter); Y-deph inverts to y_par=1. " +
         "Aspect C (empirical k-sharpening): k=3 (42:8) sharpens to k=4 (228:0) with Y-inversion preserved.";
 
     /// <summary>F87 corollary: the dominant y_par value in any F87-hard cell is
     /// determined by y_par(dephase letter), not by the cell's Klein index.</summary>
     public string F87Corollary =>
-        "In every F87-hard diagonal Klein cell, the dominant y_par = y_par(dephase letter). At k>=4 the dominance is full (purity); at k=3 it is biased (42:8 split per F103).";
+        "In every F87-hard diagonal Klein cell, the dominant y_par = y_par(dephase letter). At k ≥ 4 the dominance is full (purity); at k = 3 it is biased (42:8 split per F103).";
 
     public HardCellYInversionPattern()
         : base("F110 F87-hard pairs only in diagonal Klein cells with Y-inversion (Tier1Candidate: Aspect A closed-form via F108 Part 1+2+3 + F87 dissipator-resonance; Aspect B+C empirically anchored at F103/F105/F106)",

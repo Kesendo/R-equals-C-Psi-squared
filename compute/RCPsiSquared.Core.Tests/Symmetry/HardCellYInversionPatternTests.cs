@@ -104,7 +104,7 @@ public class HardCellYInversionPatternTests
     }
 
     [Fact]
-    public void F87Corollary_StatedScopedToFlippedYParity()
+    public void F87Corollary_ScopesToDephaseLetterYParity()
     {
         var claim = new HardCellYInversionPattern();
         Assert.Contains("y_par(dephase", claim.F87Corollary);
