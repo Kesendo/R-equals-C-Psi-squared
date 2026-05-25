@@ -204,6 +204,12 @@ public static class KnowledgeRegistryFactory
             // closure (Π_5bilinear, see RegisterF108Part1Pi2EvenAlwaysPalindromic below).
             // PolarityCubeMap's YParityClaims grows from 5 to 6.
             .RegisterMotherSoftYParityOnePurity()
+            // YParity-axis F110: F87-hard pairs only in diagonal Klein cells with
+            // Y-inversion. Aspect A closed-form via F108 Part 1+2+3 + F87 dissipator-
+            // resonance; Aspect B (Y-inversion) and Aspect C (k-purity sharpening)
+            // empirically anchored at F103/F105/F106. Tier1Candidate. PolarityCubeMap's
+            // YParityClaims grows from 6 to 7.
+            .RegisterHardCellYInversionPattern()
             // Cubic3-axis (Stage 2b): the 8-cell Z₂³ decomposition (bit_a, bit_b, y_par).
             // First Cubic3-axis Claim; PolarityCubeMap's Cubic3Claims grows from 0 to 1.
             // Structural anchor for F87 Z₂³ refinement work (F103/F105/F106).
