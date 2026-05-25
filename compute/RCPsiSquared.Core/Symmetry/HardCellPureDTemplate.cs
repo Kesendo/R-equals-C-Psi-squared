@@ -142,39 +142,41 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
     public string YInversionCorollary =>
         "Pure-D templates have y_par = y_par(D) by construction (templates contain only D and I; #Y(template) = #Y(D) since I has #Y=0; only Y has #Y=1 mod 2 of itself). Therefore at k=N=4 in diagonal cell, every F87-hard pair has y_par(pair) = y_par(D). Equivalently: F106 N=4 k=4 228:0 split across {Z, X, Y} is a Pure-D Template Rule corollary.";
 
-    /// <summary>The single open subclaim blocking full Tier1Derived promotion:
-    /// Mixed+Mixed ⟹ soft at k = N = 4. Empirically 300 per cell, 900 total across
-    /// the 3 dephase letters; operator-level closed-form open. Alias of
-    /// <see cref="SubclaimD_MixedMixedPairSoft_OPEN"/> at the subclaim-naming level.</summary>
-    public string OpenSubclaim =>
-        "Subclaim (d): Mixed+Mixed pair (both terms contain at least one non-D non-I letter) " +
-        "⟹ soft at k = N = 4. Empirically verified: 300 per cell × 3 dephase letters = 900 " +
-        "Mixed+Mixed pairs all soft, zero F87-hard. Operator-level proof open.";
-
     // ============================================================
     // Pure-D Template Rule helpers (static)
     // ============================================================
 
     /// <summary>Returns true iff <paramref name="term"/> is a pure-<paramref name="dephase"/>
-    /// template, i.e., contains only the letter <paramref name="dephase"/> and the identity I
-    /// (no other non-I letter). E.g., for D = Z, only Z and I; mixed terms with at least one
-    /// X or Y are NOT pure-Z templates.</summary>
+    /// template at the non-trivial level: contains at least one <paramref name="dephase"/>
+    /// letter and no other non-I letter. The 8 non-trivial pure-D templates at length 4
+    /// correspond to the 8 non-empty subsets of positions {1,2,3,4} carrying D (everything
+    /// else I). The all-I term is excluded as identity-only (mirrors the F111 decomposition
+    /// docstring: "8 non-trivial templates").</summary>
     public static bool IsPureDTemplate(PauliTerm term, PauliLetter dephase)
     {
         if (term is null) throw new ArgumentNullException(nameof(term));
         if (dephase == PauliLetter.I)
             throw new ArgumentException(
                 $"dephase must be X, Y, or Z; got {dephase}", nameof(dephase));
+        bool sawD = false;
         foreach (var letter in term.Letters)
         {
-            if (letter != PauliLetter.I && letter != dephase) return false;
+            if (letter == PauliLetter.I) continue;
+            if (letter != dephase) return false;
+            sawD = true;
         }
-        return true;
+        return sawD;
     }
 
     /// <summary>Returns true iff the pair (<paramref name="p"/>, <paramref name="q"/>)
     /// lies in the F111 scope: k = N = 4 strings (both terms have length 4) in the diagonal
-    /// Klein cell (D.BitA(), D.BitB()) for the given <paramref name="dephase"/> letter.</summary>
+    /// Klein cell (D.BitA(), D.BitB()) for the given <paramref name="dephase"/> letter.
+    ///
+    /// <para>Note: "K4N4" in this method name means string length N = 4 only. The k_body
+    /// (popcount of non-I letters) is not constrained by this scope check; the F111 rule's
+    /// scope is k_body ≤ 4 within the diagonal cell at N = 4 (the diagonal-cell Klein
+    /// constraint already excludes most low-k_body terms; e.g., all-I has Klein (0, 0) and
+    /// is never in the diagonal cell for any D ∈ {X, Y, Z}).</para></summary>
     public static bool IsInDiagonalCellAtK4N4(PauliTerm p, PauliTerm q, PauliLetter dephase)
     {
         if (p is null) throw new ArgumentNullException(nameof(p));
@@ -205,11 +207,23 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
     /// <summary>F110 Aspect B corollary check: if the Pure-D Template Rule predicts
     /// the pair (<paramref name="p"/>, <paramref name="q"/>) to be F87-hard under
     /// <paramref name="dephase"/>, then both terms must carry y_par = y_par(D).
-    /// Returns true when: (a) the rule does NOT predict hard (corollary vacuous), or
-    /// (b) the pair is not y_par-homogeneous (corollary scope excludes it), or
-    /// (c) the predicted-hard pair satisfies y_par(p) = y_par(q) = y_par(D).
-    /// Returns false only when the rule predicts hard, the pair is y_par-homogeneous,
-    /// and the shared y_par differs from y_par(D), i.e., the corollary fails.</summary>
+    ///
+    /// <para>Semantics:</para>
+    /// <list type="bullet">
+    ///   <item>Throws <see cref="ArgumentException"/> when the pair is y_par-inhomogeneous
+    ///         (<c>p.YParity != q.YParity</c>). The F111 scope is the Z₂³-homogeneous
+    ///         partition (Klein + y_par both shared); y_par-inhomogeneous pairs are out of
+    ///         scope and silently returning true would mask real corollary failures.
+    ///         <c>Z2HomogeneousKBodyEnumeration</c> (RCPsiSquared.Diagnostics.Tests.F87)
+    ///         filters non-homogeneous pairs upstream, so this throw never triggers on
+    ///         enumeration-driven call sites.</item>
+    ///   <item>Returns true (vacuous-pass) when the rule does NOT predict hard for this pair
+    ///         (the corollary speaks only about predicted-hard pairs).</item>
+    ///   <item>Returns true (pass) when the rule predicts hard and y_par(p) = y_par(q) =
+    ///         y_par(D).</item>
+    ///   <item>Returns false (fail) only when the rule predicts hard, the pair is
+    ///         y_par-homogeneous, and the shared y_par differs from y_par(D).</item>
+    /// </list></summary>
     public static bool VerifyYInversionCorollaryAtK4N4(PauliTerm p, PauliTerm q, PauliLetter dephase)
     {
         if (p is null) throw new ArgumentNullException(nameof(p));
@@ -217,9 +231,13 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
         if (dephase == PauliLetter.I)
             throw new ArgumentException(
                 $"dephase must be X, Y, or Z; got {dephase}", nameof(dephase));
+        if (p.YParity != q.YParity)
+            throw new ArgumentException(
+                $"Pair must be y_par-homogeneous (got p.YParity={p.YParity}, q.YParity={q.YParity}); " +
+                "F111 scope is the Z₂³-homogeneous partition. Filter via Z2HomogeneousKBodyEnumeration upstream.",
+                nameof(p));
         if (!IsPredictedHardAtK4N4(p, q, dephase)) return true;
-        if (p.YParity != q.YParity) return true;
-        var expectedYpar = dephase.BitA() & dephase.BitB();
+        var expectedYpar = dephase == PauliLetter.Y ? 1 : 0;
         return p.YParity == expectedYpar;
     }
 
@@ -263,10 +281,13 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
             yield return new InspectableNode("Subclaim (d) OPEN: (Mixed, Mixed) pair is SOFT",
                 summary: SubclaimD_MixedMixedPairSoft_OPEN);
             yield return new InspectableNode("Sister claims on YParity axis",
-                summary: "F107 (truly ⟹ y_par=0, Tier1Derived). F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived). " +
-                         "F109 (mother soft ⟹ y_par=1, Tier1Derived unconditional). " +
+                summary: "F102 (YParityIndependenceAtK3, Tier1Derived). F103 (F87Z2CubedRefinementN4K3, Tier2Empirical). " +
+                         "F105 (F87Z2CubedRefinementN5K3, Tier2Empirical). F106 (F87Z2CubedRefinementN4K4, Tier2Empirical). " +
+                         "F107 (TrulyYParityZeroPurity, Tier1Derived). F109 (MotherSoftYParityOnePurity, Tier1Derived unconditional). " +
                          "F110 (HardCellYInversionPattern, Tier1Candidate): empirical Y-inversion across k=3 and k=4. " +
-                         "F111 (THIS, Tier1Candidate): sharper structural rule than F110 Aspect B; F111 implies F110 Aspect B at k=N=4 as immediate corollary.");
+                         "F111 (THIS, Tier1Candidate): sharper per-pair structural rule than F110 Aspect B; F111 implies F110 Aspect B at k=N=4 as immediate corollary.");
+            yield return new InspectableNode("Cross-axis dependencies (BitB and BitA): F108 Parts",
+                summary: "F108 Part 1+3 (BitB-axis): close F107/F109/F110 derivation via Π_5bilinear under Z and Y dephasing. F108 Part 2 (BitA-axis, BitA twin of Part 1): closes the X-deph branch via the Z↔X Π² mirror. F108 Parts are NOT YParity-axis sisters (per their Z2Axis declarations); they are the cross-axis closure mechanism that grounds F107/F109/F110/F111's diagonal-cell scope.");
             yield return new InspectableNode("Open siblings",
                 summary: "Subclaim (d) Mixed+Mixed = soft closed-form: blocking subclaim for F111 promotion to Tier1Derived. " +
                          "F110 Aspect C (k=3 ratio 42:8 closed-form derivation): open per F103 Section 5. " +

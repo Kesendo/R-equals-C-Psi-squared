@@ -71,13 +71,15 @@ public sealed class HardCellPureDTemplateTests
         // Pure-Y template under Z-deph: contains Y (not Z), so NOT pure-Z.
         Assert.False(HardCellPureDTemplate.IsPureDTemplate(pureY, PauliLetter.Z));
 
-        // All-I term is pure-D for any D in {X, Y, Z} (no non-I letter to violate).
+        // All-I term is NOT a pure-D template under the tightened semantics: the rule
+        // requires at least one D letter (matches the docstring's "8 non-trivial templates"
+        // count at length 4). All-I is the identity term and excluded.
         var allI = new PauliTerm(
             new[] { PauliLetter.I, PauliLetter.I, PauliLetter.I, PauliLetter.I },
             Complex.One);
-        Assert.True(HardCellPureDTemplate.IsPureDTemplate(allI, PauliLetter.Z));
-        Assert.True(HardCellPureDTemplate.IsPureDTemplate(allI, PauliLetter.X));
-        Assert.True(HardCellPureDTemplate.IsPureDTemplate(allI, PauliLetter.Y));
+        Assert.False(HardCellPureDTemplate.IsPureDTemplate(allI, PauliLetter.Z));
+        Assert.False(HardCellPureDTemplate.IsPureDTemplate(allI, PauliLetter.X));
+        Assert.False(HardCellPureDTemplate.IsPureDTemplate(allI, PauliLetter.Y));
     }
 
     [Fact]
@@ -219,6 +221,25 @@ public sealed class HardCellPureDTemplateTests
         Assert.True(HardCellPureDTemplate.VerifyYInversionCorollaryAtK4N4(mixed1, mixed2, PauliLetter.Z));
     }
 
+    [Fact]
+    public void YInversionCorollary_ThrowsOnYParInhomogeneousPair()
+    {
+        // Construct an explicitly y_par-inhomogeneous pair (one Y, one no-Y) to confirm
+        // the throw semantics. Z2HomogeneousKBodyEnumeration filters these upstream so
+        // the throw never triggers in production, but the contract must be explicit:
+        // silently returning true would mask real corollary failures on out-of-scope pairs.
+        var pNoY = new PauliTerm(
+            new[] { PauliLetter.Z, PauliLetter.I, PauliLetter.I, PauliLetter.I },
+            Complex.One);
+        // qWithOneY has one Y letter ⇒ YParity = 1, while pNoY has zero Y ⇒ YParity = 0.
+        var qWithOneY = new PauliTerm(
+            new[] { PauliLetter.Y, PauliLetter.I, PauliLetter.I, PauliLetter.I },
+            Complex.One);
+        Assert.NotEqual(pNoY.YParity, qWithOneY.YParity);
+        Assert.Throws<ArgumentException>(() =>
+            HardCellPureDTemplate.VerifyYInversionCorollaryAtK4N4(pNoY, qWithOneY, PauliLetter.Z));
+    }
+
     // ============================================================
     // Subclaim properties
     // ============================================================
@@ -249,10 +270,12 @@ public sealed class HardCellPureDTemplateTests
     public void SubclaimD_MentionsBlocking()
     {
         Assert.Contains("SOFT", _claim.SubclaimD_MixedMixedPairSoft_OPEN);
+        // Subclaim (d) is OPEN by definition; the property text must signal that
+        // openness via "open" or "BLOCKED". "Tier1Derived" would contradict the
+        // OPEN status the test guards.
         Assert.True(
             _claim.SubclaimD_MixedMixedPairSoft_OPEN.Contains("open")
-            || _claim.SubclaimD_MixedMixedPairSoft_OPEN.Contains("BLOCKED")
-            || _claim.SubclaimD_MixedMixedPairSoft_OPEN.Contains("Tier1Derived"));
+            || _claim.SubclaimD_MixedMixedPairSoft_OPEN.Contains("BLOCKED"));
     }
 
     [Fact]

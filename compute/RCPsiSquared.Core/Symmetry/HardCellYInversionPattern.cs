@@ -122,7 +122,9 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
             yield return new InspectableNode("Aspect C: empirical k-purity sharpening",
                 summary: "k=3 N=4 (F103): 42:8 biased per diagonal cell. k=3 N=5 (F105): identical 42:8 (N-stable). k=4 N=4 (F106): 228:0 fully pure with Y-inversion preserved.");
             yield return new InspectableNode("Sibling YParity-axis claims",
-                summary: "F107 (truly y_par=0, Tier1Derived), F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived), F109 (mother soft y_par=1, Tier1Derived), F110 (hard cells, THIS Claim, Tier1Candidate), F111 (Pure-D Template Rule at k=N=4, Tier1Candidate; sharpens Aspect B). Together the 8 YParity-axis Claims pin the y_par signature of all three F87 trichotomy classes.");
+                summary: "F102 (YParityIndependenceAtK3, Tier1Derived), F103 (F87Z2CubedRefinementN4K3, Tier2Empirical), F105 (F87Z2CubedRefinementN5K3, Tier2Empirical), F106 (F87Z2CubedRefinementN4K4, Tier2Empirical), F107 (TrulyYParityZeroPurity, Tier1Derived), F109 (MotherSoftYParityOnePurity, Tier1Derived), F110 (HardCellYInversionPattern, THIS Claim, Tier1Candidate), F111 (HardCellPureDTemplate at k=N=4, Tier1Candidate; sharpens Aspect B). Together the 8 YParity-axis Claims pin the y_par signature of all three F87 trichotomy classes.");
+            yield return new InspectableNode("Cross-axis dependencies (BitB and BitA): F108 Parts",
+                summary: "F108 Part 1+3 (BitB-axis): close F107/F109/F110 derivation via Π_5bilinear under Z and Y dephasing. F108 Part 2 (BitA-axis, BitA twin of Part 1): closes the X-deph branch via the Z↔X Π² mirror. F108 Parts are NOT YParity-axis siblings (per their Z2Axis declarations); they are the cross-axis closure mechanism that lets Aspect A be closed-form.");
             yield return new InspectableNode("Open work",
                 summary: "Closed-form derivation of the exact 42:8 (k=3) ratio open (F103 Section 5; F111 closes the k=4 228:0 case via Pure-D Template Rule). F111 subclaim (d) Mixed+Mixed=soft closed-form blocks promotion to Tier1Derived. k ≥ 5 empirical confirmation unverified.");
         }

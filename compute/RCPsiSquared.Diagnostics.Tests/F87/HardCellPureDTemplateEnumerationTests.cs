@@ -36,12 +36,15 @@ public sealed class HardCellPureDTemplateEnumerationTests
     // ============================================================
 
     [Theory]
-    [InlineData(PauliLetter.Z, 0, 1)]
-    [InlineData(PauliLetter.X, 1, 0)]
-    [InlineData(PauliLetter.Y, 1, 1)]
-    public void HardPairsInDiagonalCell_MatchPureDTemplateRule(
-        PauliLetter dephase, int bitA, int bitB)
+    [InlineData(PauliLetter.Z)]
+    [InlineData(PauliLetter.X)]
+    [InlineData(PauliLetter.Y)]
+    public void HardPairsInDiagonalCell_MatchPureDTemplateRule(PauliLetter dephase)
     {
+        // Diagonal Klein cell is (D.BitA(), D.BitB()) by construction: Z → (0, 1),
+        // X → (1, 0), Y → (1, 1). Deriving here rather than passing explicit InlineData
+        // bits avoids the redundant bit-pun bookkeeping (matches Test 5's pattern).
+        var (bitA, bitB) = (dephase.BitA(), dephase.BitB());
         var hardPairs = _fixture.GetHardPairsInCell(dephase, bitA, bitB);
         Assert.Equal(228, hardPairs.Count);
         foreach (var (p, q) in hardPairs)
@@ -58,12 +61,12 @@ public sealed class HardCellPureDTemplateEnumerationTests
     // ============================================================
 
     [Theory]
-    [InlineData(PauliLetter.Z, 0, 1)]
-    [InlineData(PauliLetter.X, 1, 0)]
-    [InlineData(PauliLetter.Y, 1, 1)]
-    public void NonHardPairsInDiagonalCell_AreNotPredictedHard(
-        PauliLetter dephase, int bitA, int bitB)
+    [InlineData(PauliLetter.Z)]
+    [InlineData(PauliLetter.X)]
+    [InlineData(PauliLetter.Y)]
+    public void NonHardPairsInDiagonalCell_AreNotPredictedHard(PauliLetter dephase)
     {
+        var (bitA, bitB) = (dephase.BitA(), dephase.BitB());
         var nonHardPairs = _fixture.GetSoftPairsInCell(dephase, bitA, bitB)
             .Concat(_fixture.GetTrulyPairsInCell(dephase, bitA, bitB))
             .ToList();
