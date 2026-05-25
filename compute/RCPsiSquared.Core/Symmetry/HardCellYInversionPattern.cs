@@ -59,6 +59,36 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
     public static bool IsDiagonalCell((int BitA, int BitB) klein, PauliLetter dephase) =>
         klein == DiagonalKleinCellForDephase(dephase);
 
+    // ============================================================
+    // Aspect B: Y-inversion structural reading (empirical)
+    // ============================================================
+
+    /// <summary>The dominant y_par value in the F87-hard diagonal cell for the given
+    /// dephase letter. Equals y_par(dephase letter): y_par(Z) = y_par(X) = 0 (Z and
+    /// X have #Y = 0); y_par(Y) = 1 (Y has #Y = 1). At k=3 the dominance is biased
+    /// (42:8 split per F103/F105); at k=4 it is fully pure (228:0 per F106).
+    /// Y-deph inverts the otherwise-y_par=0-preferred pattern.</summary>
+    public static int DominantYParityForDephase(PauliLetter dephase) =>
+        dephase switch
+        {
+            PauliLetter.Z => 0,
+            PauliLetter.X => 0,
+            PauliLetter.Y => 1,
+            _ => throw new ArgumentException(
+                $"dephase must be X, Y, or Z; got {dephase}", nameof(dephase)),
+        };
+
+    /// <summary>The F110 theorem statement in one line, covering Aspect A + B + C.</summary>
+    public string Theorem =>
+        "Aspect A (closed-form): F87-hard pairs only in the diagonal Klein cell matching the dephase letter (Z to (0,1), X to (1,0), Y to (1,1)). " +
+        "Aspect B (empirical Y-inversion): dominant y_par in hard cell equals y_par(dephase letter); Y-deph inverts to y_par=1. " +
+        "Aspect C (empirical k-sharpening): k=3 (42:8) sharpens to k=4 (228:0) with Y-inversion preserved.";
+
+    /// <summary>F87 corollary: the dominant y_par value in any F87-hard cell is
+    /// determined by y_par(dephase letter), not by the cell's Klein index.</summary>
+    public string F87Corollary =>
+        "In every F87-hard diagonal Klein cell, the dominant y_par = y_par(dephase letter). At k>=4 the dominance is full (purity); at k=3 it is biased (42:8 split per F103).";
+
     public HardCellYInversionPattern()
         : base("F110 F87-hard pairs only in diagonal Klein cells with Y-inversion (Tier1Candidate: Aspect A closed-form via F108 Part 1+2+3 + F87 dissipator-resonance; Aspect B+C empirically anchored at F103/F105/F106)",
                Tier.Tier1Candidate,

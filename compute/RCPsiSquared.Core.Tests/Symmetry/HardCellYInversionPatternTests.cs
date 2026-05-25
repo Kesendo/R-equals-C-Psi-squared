@@ -70,4 +70,43 @@ public class HardCellYInversionPatternTests
         Assert.False(HardCellYInversionPattern.IsDiagonalCell((1, 0), PauliLetter.Y));
         Assert.False(HardCellYInversionPattern.IsDiagonalCell((1, 1), PauliLetter.Z));
     }
+
+    // ============================================================
+    // Aspect B: Y-inversion structural reading
+    // ============================================================
+
+    [Theory]
+    [InlineData(PauliLetter.Z, 0)]
+    [InlineData(PauliLetter.X, 0)]
+    [InlineData(PauliLetter.Y, 1)]
+    public void DominantYParityForDephase_EqualsLetterYParity(
+        PauliLetter dephase, int expected)
+    {
+        // Y-letter has #Y=1 (y_par=1); Z and X have #Y=0 (y_par=0). The "dominant
+        // y_par" in the hard cell equals the dephase letter's own y_par; this is
+        // the Y-inversion structural reading.
+        Assert.Equal(expected, HardCellYInversionPattern.DominantYParityForDephase(dephase));
+    }
+
+    [Fact]
+    public void DominantYParityForDephase_RejectsIdentityLetter()
+    {
+        Assert.Throws<ArgumentException>(() =>
+            HardCellYInversionPattern.DominantYParityForDephase(PauliLetter.I));
+    }
+
+    [Fact]
+    public void Theorem_MentionsBothAspectAAndAspectB()
+    {
+        var claim = new HardCellYInversionPattern();
+        Assert.Contains("diagonal Klein", claim.Theorem);
+        Assert.Contains("Y-inversion", claim.Theorem);
+    }
+
+    [Fact]
+    public void F87Corollary_StatedScopedToFlippedYParity()
+    {
+        var claim = new HardCellYInversionPattern();
+        Assert.Contains("y_par(dephase", claim.F87Corollary);
+    }
 }
