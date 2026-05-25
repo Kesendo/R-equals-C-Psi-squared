@@ -115,6 +115,83 @@ public class KleinFourGroupSelfPairedRefinementTests
         Assert.Throws<ArgumentOutOfRangeException>(() => KleinFourGroupSelfPairedRefinement.Build(N: 1));
     }
 
+    [Theory]
+    [InlineData(4, KleinCharacter.PlusPlus)]
+    [InlineData(4, KleinCharacter.MinusMinus)]
+    [InlineData(6, KleinCharacter.PlusPlus)]
+    public void BuildSubBlockL_UniformBondJEqualsOne_MatchesScalarOverload(int N, KleinCharacter chi)
+    {
+        // Regression: passing bondJ = [1.0, 1.0, ..., 1.0] (length N − 1) through the new
+        // per-bond overload must reproduce the scalar J = 1 overload bit-exact (the scalar
+        // overload itself just forwards to the per-bond path with a uniform list).
+        const double gamma = 0.05;
+        var gammaArr = Enumerable.Repeat(gamma, N).ToArray();
+        var refinement = KleinFourGroupSelfPairedRefinement.Build(N);
+
+        var bondJUniform = Enumerable.Repeat(1.0, N - 1).ToArray();
+        var perBondL = refinement.BuildSubBlockL(chi, gammaArr, bondJUniform);
+        var scalarL = refinement.BuildSubBlockL(chi, gammaArr);
+
+        double diff = (perBondL - scalarL).FrobeniusNorm();
+        _out.WriteLine($"N={N}, χ={chi}: ‖per-bond[1,..,1] − scalar J=1‖_F = {diff:G3}");
+        Assert.True(diff < 1e-12,
+            $"Uniform bondJ=[1,..,1] should match scalar J=1 bit-exact; got Frobenius diff {diff:G3}");
+    }
+
+    [Fact]
+    public void BuildSubBlockL_NonUniformBondJ_DiffersFromUniform()
+    {
+        // Capability: bondJ = [1.0, 2.0, 1.0] at N=4 should produce a sub-block spectrum
+        // that differs structurally from uniform bondJ = [1.0, 1.0, 1.0]. At N=4 the (2, 2)
+        // sector has dim 36 split as ++/--/+-/-+ = [10, 10, 8, 8]; we pick the ++ sub-block.
+        const int N = 4;
+        const double gamma = 0.05;
+        var gammaArr = Enumerable.Repeat(gamma, N).ToArray();
+        var refinement = KleinFourGroupSelfPairedRefinement.Build(N);
+
+        var bondJUniform = new[] { 1.0, 1.0, 1.0 };
+        var bondJNonUniform = new[] { 1.0, 2.0, 1.0 };
+
+        var uniformL = refinement.BuildSubBlockL(KleinCharacter.PlusPlus, gammaArr, bondJUniform);
+        var nonUniformL = refinement.BuildSubBlockL(KleinCharacter.PlusPlus, gammaArr, bondJNonUniform);
+
+        var uniformEigs = uniformL.Evd().EigenValues.ToArray();
+        var nonUniformEigs = nonUniformL.Evd().EigenValues.ToArray();
+        Assert.Equal(uniformEigs.Length, nonUniformEigs.Length);
+
+        // Find at least one uniform eigenvalue whose nearest non-uniform partner is > 1e-3 away
+        // (i.e., the multiset differs by more than numerical noise).
+        var taken = new bool[nonUniformEigs.Length];
+        double maxNearestDiff = 0.0;
+        for (int i = 0; i < uniformEigs.Length; i++)
+        {
+            int bestIdx = -1;
+            double bestDist = double.MaxValue;
+            for (int j = 0; j < nonUniformEigs.Length; j++)
+            {
+                if (taken[j]) continue;
+                double d = (uniformEigs[i] - nonUniformEigs[j]).Magnitude;
+                if (d < bestDist) { bestDist = d; bestIdx = j; }
+            }
+            if (bestIdx >= 0) taken[bestIdx] = true;
+            if (bestDist > maxNearestDiff) maxNearestDiff = bestDist;
+        }
+        _out.WriteLine($"N=4 χ=++: max nearest-neighbour spectrum diff (uniform vs [1,2,1]) = {maxNearestDiff:G3}");
+        Assert.True(maxNearestDiff > 1e-3,
+            $"Non-uniform bondJ=[1,2,1] should produce structurally different spectrum from uniform; " +
+            $"got max nearest-neighbour diff {maxNearestDiff:G3} (expected > 1e-3)");
+    }
+
+    [Fact]
+    public void BuildSubBlockL_BondJWrongLength_Throws()
+    {
+        const int N = 4;
+        var gammaArr = Enumerable.Repeat(0.05, N).ToArray();
+        var refinement = KleinFourGroupSelfPairedRefinement.Build(N);
+        Assert.Throws<ArgumentException>(() =>
+            refinement.BuildSubBlockL(KleinCharacter.PlusPlus, gammaArr, new double[2]));
+    }
+
     [Fact]
     public void Build_AtN10_SubBlockBuildTimeIsTractable()
     {

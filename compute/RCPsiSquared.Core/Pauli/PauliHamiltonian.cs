@@ -56,10 +56,26 @@ public sealed record PauliHamiltonian(int N, IReadOnlyList<PauliTerm> Terms)
     /// <summary>Uniform XY chain: H = (J/2) Σ_b (X_b X_{b+1} + Y_b Y_{b+1}).</summary>
     public static PauliHamiltonian XYChain(int N, double J)
     {
+        var bondJ = new double[N - 1];
+        for (int b = 0; b < N - 1; b++) bondJ[b] = J;
+        return XYChain(N, bondJ);
+    }
+
+    /// <summary>Non-uniform XY chain with per-bond coupling: H = Σ_b (J_b/2) (X_b X_{b+1} + Y_b Y_{b+1}).
+    /// <paramref name="bondJ"/> must have length N − 1 (one coupling per nearest-neighbour bond).
+    /// Used by per-bond J Builder paths in <c>BlockSpectrum/</c> for F100-territory experiments
+    /// (palindromic J profiles, etc.). Scalar overload <see cref="XYChain(int, double)"/> calls
+    /// this with a uniform list.</summary>
+    public static PauliHamiltonian XYChain(int N, IReadOnlyList<double> bondJ)
+    {
+        if (bondJ is null) throw new ArgumentNullException(nameof(bondJ));
+        if (bondJ.Count != N - 1)
+            throw new ArgumentException(
+                $"bondJ length {bondJ.Count} != N - 1 = {N - 1}", nameof(bondJ));
         var terms = new List<PauliTerm>(2 * (N - 1));
-        Complex c = J / 2.0;
         for (int b = 0; b < N - 1; b++)
         {
+            Complex c = bondJ[b] / 2.0;
             terms.Add(PauliTerm.TwoSite(N, b, PauliLetter.X, b + 1, PauliLetter.X, c));
             terms.Add(PauliTerm.TwoSite(N, b, PauliLetter.Y, b + 1, PauliLetter.Y, c));
         }
@@ -69,10 +85,25 @@ public sealed record PauliHamiltonian(int N, IReadOnlyList<PauliTerm> Terms)
     /// <summary>Uniform Heisenberg chain: H = (J/4) Σ_b (X_b X_{b+1} + Y_b Y_{b+1} + Z_b Z_{b+1}).</summary>
     public static PauliHamiltonian HeisenbergChain(int N, double J)
     {
+        var bondJ = new double[N - 1];
+        for (int b = 0; b < N - 1; b++) bondJ[b] = J;
+        return HeisenbergChain(N, bondJ);
+    }
+
+    /// <summary>Non-uniform Heisenberg chain with per-bond coupling:
+    /// H = Σ_b (J_b/4) (X_b X_{b+1} + Y_b Y_{b+1} + Z_b Z_{b+1}). <paramref name="bondJ"/> must
+    /// have length N − 1. Scalar overload <see cref="HeisenbergChain(int, double)"/> calls this
+    /// with a uniform list.</summary>
+    public static PauliHamiltonian HeisenbergChain(int N, IReadOnlyList<double> bondJ)
+    {
+        if (bondJ is null) throw new ArgumentNullException(nameof(bondJ));
+        if (bondJ.Count != N - 1)
+            throw new ArgumentException(
+                $"bondJ length {bondJ.Count} != N - 1 = {N - 1}", nameof(bondJ));
         var terms = new List<PauliTerm>(3 * (N - 1));
-        Complex c = J / 4.0;
         for (int b = 0; b < N - 1; b++)
         {
+            Complex c = bondJ[b] / 4.0;
             terms.Add(PauliTerm.TwoSite(N, b, PauliLetter.X, b + 1, PauliLetter.X, c));
             terms.Add(PauliTerm.TwoSite(N, b, PauliLetter.Y, b + 1, PauliLetter.Y, c));
             terms.Add(PauliTerm.TwoSite(N, b, PauliLetter.Z, b + 1, PauliLetter.Z, c));

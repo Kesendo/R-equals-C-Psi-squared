@@ -209,4 +209,99 @@ public class KleinFourGroupSelfPairedSparseLBuilderTests
         Assert.Throws<ArgumentException>(() =>
             KleinFourGroupSelfPairedSparseLBuilder.Build(4, KleinCharacter.PlusPlus, new double[3]));
     }
+
+    [Theory]
+    [InlineData(4, KleinCharacter.PlusPlus)]
+    [InlineData(4, KleinCharacter.MinusMinus)]
+    [InlineData(6, KleinCharacter.PlusPlus)]
+    public void Build_UniformBondJEqualsOne_MatchesScalarOverload(int N, KleinCharacter chi)
+    {
+        // Regression: passing bondJ = [1.0, 1.0, ..., 1.0] (length N − 1) through the new
+        // per-bond overload must reproduce the scalar J = 1 overload bit-exact at the CSR
+        // sparse level.
+        const double gamma = 0.05;
+        var gammaArr = Enumerable.Repeat(gamma, N).ToArray();
+        var bondJUniform = Enumerable.Repeat(1.0, N - 1).ToArray();
+
+        var perBond = KleinFourGroupSelfPairedSparseLBuilder.Build(N, chi, gammaArr, bondJUniform);
+        var scalar = KleinFourGroupSelfPairedSparseLBuilder.Build(N, chi, gammaArr);
+
+        Assert.Equal(scalar.SectorDim, perBond.SectorDim);
+        Assert.Equal(scalar.NnzTotal, perBond.NnzTotal);
+        // Densify both for Frobenius comparison.
+        int dim = scalar.SectorDim;
+        var perBondDense = Matrix<Complex>.Build.Dense(dim, dim);
+        var scalarDense = Matrix<Complex>.Build.Dense(dim, dim);
+        for (int row = 0; row < dim; row++)
+        {
+            for (int e = perBond.RowPtr[row]; e < perBond.RowPtr[row + 1]; e++)
+                perBondDense[row, perBond.ColIdx[e]] = perBond.Values[e];
+            for (int e = scalar.RowPtr[row]; e < scalar.RowPtr[row + 1]; e++)
+                scalarDense[row, scalar.ColIdx[e]] = scalar.Values[e];
+        }
+        double diff = (perBondDense - scalarDense).FrobeniusNorm();
+        _out.WriteLine($"N={N}, χ={chi}: ‖per-bond[1,..,1] − scalar J=1‖_F = {diff:G3}");
+        Assert.True(diff < 1e-12,
+            $"Uniform bondJ=[1,..,1] should match scalar J=1 bit-exact; got Frobenius diff {diff:G3}");
+    }
+
+    [Fact]
+    public void Build_NonUniformBondJ_DiffersFromUniform()
+    {
+        // Capability: bondJ = [1.0, 2.0, 1.0] at N=4 should produce a sub-block that differs
+        // structurally from uniform bondJ = [1.0, 1.0, 1.0] in the resulting spectrum.
+        const int N = 4;
+        const double gamma = 0.05;
+        var gammaArr = Enumerable.Repeat(gamma, N).ToArray();
+        var bondJUniform = new[] { 1.0, 1.0, 1.0 };
+        var bondJNonUniform = new[] { 1.0, 2.0, 1.0 };
+
+        var uniformBld = KleinFourGroupSelfPairedSparseLBuilder.Build(
+            N, KleinCharacter.PlusPlus, gammaArr, bondJUniform);
+        var nonUniformBld = KleinFourGroupSelfPairedSparseLBuilder.Build(
+            N, KleinCharacter.PlusPlus, gammaArr, bondJNonUniform);
+
+        int dim = uniformBld.SectorDim;
+        var uniformDense = Matrix<Complex>.Build.Dense(dim, dim);
+        var nonUniformDense = Matrix<Complex>.Build.Dense(dim, dim);
+        for (int row = 0; row < dim; row++)
+        {
+            for (int e = uniformBld.RowPtr[row]; e < uniformBld.RowPtr[row + 1]; e++)
+                uniformDense[row, uniformBld.ColIdx[e]] = uniformBld.Values[e];
+            for (int e = nonUniformBld.RowPtr[row]; e < nonUniformBld.RowPtr[row + 1]; e++)
+                nonUniformDense[row, nonUniformBld.ColIdx[e]] = nonUniformBld.Values[e];
+        }
+
+        var uniformEigs = uniformDense.Evd().EigenValues.ToArray();
+        var nonUniformEigs = nonUniformDense.Evd().EigenValues.ToArray();
+
+        var taken = new bool[nonUniformEigs.Length];
+        double maxNearestDiff = 0.0;
+        for (int i = 0; i < uniformEigs.Length; i++)
+        {
+            int bestIdx = -1;
+            double bestDist = double.MaxValue;
+            for (int j = 0; j < nonUniformEigs.Length; j++)
+            {
+                if (taken[j]) continue;
+                double d = (uniformEigs[i] - nonUniformEigs[j]).Magnitude;
+                if (d < bestDist) { bestDist = d; bestIdx = j; }
+            }
+            if (bestIdx >= 0) taken[bestIdx] = true;
+            if (bestDist > maxNearestDiff) maxNearestDiff = bestDist;
+        }
+        _out.WriteLine($"N=4 χ=++ sparse: max nearest-neighbour spectrum diff (uniform vs [1,2,1]) = {maxNearestDiff:G3}");
+        Assert.True(maxNearestDiff > 1e-3,
+            $"Non-uniform bondJ=[1,2,1] should produce structurally different spectrum from uniform; " +
+            $"got max nearest-neighbour diff {maxNearestDiff:G3} (expected > 1e-3)");
+    }
+
+    [Fact]
+    public void Build_BondJWrongLength_Throws()
+    {
+        var gammaArr = Enumerable.Repeat(0.05, 4).ToArray();
+        Assert.Throws<ArgumentException>(() =>
+            KleinFourGroupSelfPairedSparseLBuilder.Build(
+                4, KleinCharacter.PlusPlus, gammaArr, new double[2]));
+    }
 }

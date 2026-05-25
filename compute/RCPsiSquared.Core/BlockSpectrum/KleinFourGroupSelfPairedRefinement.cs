@@ -113,33 +113,49 @@ public sealed class KleinFourGroupSelfPairedRefinement : Claim
         return new KleinFourGroupSelfPairedRefinement(N, m, orbits, subBlockDims);
     }
 
-    /// <summary>Build the dense L sub-block for one Klein character. Element-wise
-    /// construction: <c>L_χ[α, β] = (1/√(|O_α|·|O_β|)) · Σ_{g_α, g_β} χ(g_α)*·χ(g_β) ·
-    /// ⟨e_{g_α·x_α} | L | e_{g_β·x_β}⟩</c>, where the inner matrix element follows from
-    /// the chain-XY + Z-dephasing Liouvillian formula.</summary>
+    /// <summary>Build the dense L sub-block for one Klein character with uniform J = 1.
+    /// Convenience wrapper that forwards to the per-bond overload with
+    /// <c>bondJ = [1, 1, ..., 1]</c> of length N − 1. Existing callers continue to compile
+    /// unchanged; pass an explicit <c>bondJ</c> list to access non-uniform per-bond couplings.</summary>
     public ComplexMatrix BuildSubBlockL(KleinCharacter chi, IReadOnlyList<double> gammaPerSite)
+    {
+        var bondJ = new double[N - 1];
+        for (int b = 0; b < N - 1; b++) bondJ[b] = 1.0;
+        return BuildSubBlockL(chi, gammaPerSite, bondJ);
+    }
+
+    /// <summary>Build the dense L sub-block for one Klein character with per-bond J profile.
+    /// Element-wise construction: <c>L_χ[α, β] = (1/√(|O_α|·|O_β|)) · Σ_{g_α, g_β} χ(g_α)*·χ(g_β) ·
+    /// ⟨e_{g_α·x_α} | L | e_{g_β·x_β}⟩</c>, where the inner matrix element follows from the
+    /// chain-XY + Z-dephasing Liouvillian formula with per-bond couplings
+    /// <c>H = Σ_b (J_b/2)·(X_b X_{b+1} + Y_b Y_{b+1})</c>. <paramref name="bondJ"/> must have
+    /// length N − 1. Use this overload for F100-territory experiments (palindromic J profiles,
+    /// etc.); uniform J = 1 callers can use the scalar overload
+    /// <see cref="BuildSubBlockL(KleinCharacter, IReadOnlyList{double})"/>.</summary>
+    public ComplexMatrix BuildSubBlockL(KleinCharacter chi, IReadOnlyList<double> gammaPerSite,
+        IReadOnlyList<double> bondJ)
     {
         if (gammaPerSite is null) throw new ArgumentNullException(nameof(gammaPerSite));
         if (gammaPerSite.Count != N)
             throw new ArgumentException(
                 $"gammaPerSite length {gammaPerSite.Count} != N {N}", nameof(gammaPerSite));
+        if (bondJ is null) throw new ArgumentNullException(nameof(bondJ));
+        if (bondJ.Count != N - 1)
+            throw new ArgumentException(
+                $"bondJ length {bondJ.Count} != N - 1 = {N - 1}", nameof(bondJ));
 
         var ordered = Orbits.Where(o => o.SurvivingCharacters.Contains(chi)).ToList();
         int dim = ordered.Count;
         var M_chi = Matrix<Complex>.Build.Dense(dim, dim);
 
         // Per (i, j) → set of (i', j') with nonzero L matrix element. Matching
-        // PauliHamiltonian.XYChain(N, J) convention H = (J/2)·Σ_b (X_b X_{b+1} + Y_b Y_{b+1}):
+        // PauliHamiltonian.XYChain(N, bondJ) convention H = Σ_b (J_b/2)·(X_b X_{b+1} + Y_b Y_{b+1}):
         // each bond's (XX + YY) acts as |01⟩↔|10⟩ swap with amplitude 2, so per-bond H
-        // matrix element is (J/2)·2 = J.
+        // matrix element is (J_b/2)·2 = J_b.
         //   - i' = i ⊕ bondFlip[b] for each bond b with bit_b(i) ≠ bit_{b+1}(i), j' = j
-        //     contributes −i·J at L[(i', j), (i, j)].
-        //   - i' = i, j' = j ⊕ bondFlip[b] similarly contributes +i·J.
+        //     contributes −i·J_b at L[(i', j), (i, j)].
+        //   - i' = i, j' = j ⊕ bondFlip[b] similarly contributes +i·J_b.
         //   - i' = i, j' = j (diagonal): −2·Σ_l γ_l · (n_l^i XOR n_l^j).
-        // (Hamiltonian uses J = 1 implicitly — caller scales if needed via gamma; future
-        // extension: pass J as parameter. For now this primitive targets the canonical
-        // J = 1 setup matching XyJordanWignerModes.)
-        const double J = 1.0;
         int[] bondFlip = Enumerable.Range(0, N - 1).Select(b => (1 << b) | (1 << (b + 1))).ToArray();
         int dHilbert = 1 << N;
 
@@ -180,7 +196,7 @@ public sealed class KleinFourGroupSelfPairedRefinement : Claim
                                 int iColSwapped = iCol ^ bondFlip[b];
                                 if (iColSwapped == iRow)
                                 {
-                                    elem += new Complex(0, -J);
+                                    elem += new Complex(0, -bondJ[b]);
                                 }
                             }
                         }
@@ -195,7 +211,7 @@ public sealed class KleinFourGroupSelfPairedRefinement : Claim
                                 int jRowSwapped = jRow ^ bondFlip[b];
                                 if (jRowSwapped == jCol)
                                 {
-                                    elem += new Complex(0, +J);
+                                    elem += new Complex(0, +bondJ[b]);
                                 }
                             }
                             if (jRow == jCol)

@@ -62,7 +62,30 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 public sealed class LiouvillianSectorSweep : Claim
 {
     public int N { get; }
-    public double J { get; }
+
+    /// <summary>Per-bond coupling profile (length N − 1) used for the chain XY Hamiltonian
+    /// <c>H = Σ_b (J_b/2)·(X_b X_{b+1} + Y_b Y_{b+1})</c>. For uniform J = c, this is just
+    /// <c>[c, c, ..., c]</c>; access via the scalar property <see cref="J"/> when the profile
+    /// is uniform (else throws; non-uniform profiles must inspect <see cref="BondJ"/>).</summary>
+    public IReadOnlyList<double> BondJ { get; }
+
+    /// <summary>Uniform-J convenience accessor: returns <c>BondJ[0]</c> after asserting the
+    /// profile is constant. For non-uniform J profiles inspect <see cref="BondJ"/> directly;
+    /// this property throws to surface the assumption violation.</summary>
+    public double J
+    {
+        get
+        {
+            if (BondJ.Count == 0) return 1.0;
+            for (int b = 1; b < BondJ.Count; b++)
+                if (BondJ[b] != BondJ[0])
+                    throw new InvalidOperationException(
+                        $"BondJ profile is non-uniform (J[0]={BondJ[0]}, J[{b}]={BondJ[b]}); " +
+                        "use BondJ property to inspect the per-bond profile.");
+            return BondJ[0];
+        }
+    }
+
     public IReadOnlyList<double> GammaPerSite { get; }
     public int SectorDimCap { get; }
 
@@ -82,8 +105,25 @@ public sealed class LiouvillianSectorSweep : Claim
     /// the F1 involution (some partner sectors were skipped).</summary>
     public double F1PalindromeResidualMax { get; }
 
+    /// <summary>Sector sweep with uniform J. Convenience wrapper that forwards to the
+    /// per-bond overload with <c>bondJ = [J, J, ..., J]</c> of length N − 1. Existing callers
+    /// continue to compile unchanged; pass an explicit <c>bondJ</c> list to access non-uniform
+    /// per-bond couplings (e.g., F100 palindromic-J profiles).</summary>
     public static LiouvillianSectorSweep Build(int N, IReadOnlyList<double> gammaPerSite,
         int sectorDimCap, double J = 1.0)
+    {
+        var bondJ = new double[Math.Max(0, N - 1)];
+        for (int b = 0; b < bondJ.Length; b++) bondJ[b] = J;
+        return Build(N, gammaPerSite, sectorDimCap, bondJ);
+    }
+
+    /// <summary>Sector sweep with per-bond J profile. The underlying chain-XY Hamiltonian is
+    /// <c>H = Σ_b (J_b/2)·(X_b X_{b+1} + Y_b Y_{b+1})</c>; <paramref name="bondJ"/> must have
+    /// length N − 1. Use this overload for F100-territory experiments (palindromic J profiles,
+    /// etc.); uniform-J callers can use the scalar overload
+    /// <see cref="Build(int, IReadOnlyList{double}, int, double)"/>.</summary>
+    public static LiouvillianSectorSweep Build(int N, IReadOnlyList<double> gammaPerSite,
+        int sectorDimCap, IReadOnlyList<double> bondJ)
     {
         if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be ≥ 1.");
         if (gammaPerSite is null) throw new ArgumentNullException(nameof(gammaPerSite));
@@ -92,8 +132,12 @@ public sealed class LiouvillianSectorSweep : Claim
                 $"gammaPerSite length {gammaPerSite.Count} != N {N}", nameof(gammaPerSite));
         if (sectorDimCap < 1)
             throw new ArgumentOutOfRangeException(nameof(sectorDimCap), sectorDimCap, "sectorDimCap must be ≥ 1.");
+        if (bondJ is null) throw new ArgumentNullException(nameof(bondJ));
+        if (bondJ.Count != N - 1)
+            throw new ArgumentException(
+                $"bondJ length {bondJ.Count} != N - 1 = {N - 1}", nameof(bondJ));
 
-        var H = PauliHamiltonian.XYChain(N, J).ToMatrix();
+        var H = PauliHamiltonian.XYChain(N, bondJ).ToMatrix();
         var decomp = JointPopcountSectorBuilder.Build(N);
         int sectorCount = decomp.SectorRanges.Count;
 
@@ -159,7 +203,7 @@ public sealed class LiouvillianSectorSweep : Claim
         double sumGamma = gammaPerSite.Sum();
         double palindromeRes = ComputeF1PalindromeResidual(collectedArr, sumGamma);
 
-        return new LiouvillianSectorSweep(N, J, gammaPerSite.ToArray(), sectorDimCap,
+        return new LiouvillianSectorSweep(N, bondJ.ToArray(), gammaPerSite.ToArray(), sectorDimCap,
             FullDimOf(N), included, skipped, collectedArr, palindromeRes);
     }
 
@@ -195,7 +239,7 @@ public sealed class LiouvillianSectorSweep : Claim
         return maxResidual;
     }
 
-    private LiouvillianSectorSweep(int n, double j, double[] gammaPerSite, int sectorDimCap,
+    private LiouvillianSectorSweep(int n, double[] bondJ, double[] gammaPerSite, int sectorDimCap,
         long fullDim,
         IReadOnlyList<SweepSector> included, IReadOnlyList<SweepSector> skipped,
         Complex[] collectedEigenvalues, double f1PalindromeResidualMax)
@@ -210,7 +254,8 @@ public sealed class LiouvillianSectorSweep : Claim
                "compute/RCPsiSquared.Core/SymmetryFamily/XGlobalChargeConjugationPairing.cs (X⊗N halving) + " +
                "compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs (witnessed palindrome).")
     {
-        N = n; J = j;
+        N = n;
+        BondJ = bondJ;
         GammaPerSite = gammaPerSite;
         SectorDimCap = sectorDimCap;
         FullDim = fullDim;
@@ -232,7 +277,14 @@ public sealed class LiouvillianSectorSweep : Claim
         get
         {
             yield return InspectableNode.RealScalar("N", N);
-            yield return InspectableNode.RealScalar("J", J, "G4");
+            // For uniform J profiles surface the scalar value; for non-uniform list the bonds.
+            bool jUniform = true;
+            for (int b = 1; b < BondJ.Count; b++) if (BondJ[b] != BondJ[0]) { jUniform = false; break; }
+            if (jUniform && BondJ.Count > 0)
+                yield return InspectableNode.RealScalar("J (uniform)", BondJ[0], "G4");
+            else
+                yield return new InspectableNode("bondJ (non-uniform)",
+                    summary: string.Join(", ", BondJ.Select(j => j.ToString("G4"))));
             yield return InspectableNode.RealScalar("sectorDimCap", SectorDimCap);
             yield return InspectableNode.RealScalar("included sectors", Included.Count);
             yield return InspectableNode.RealScalar("skipped sectors", Skipped.Count);

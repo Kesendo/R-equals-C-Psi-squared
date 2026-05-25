@@ -111,6 +111,96 @@ public class LiouvillianSectorSweepTests
     }
 
     [Theory]
+    [InlineData(3)]
+    [InlineData(4)]
+    public void Build_UniformBondJEqualsOne_MatchesScalarJOverload(int N)
+    {
+        // Regression: passing bondJ = [1.0, ..., 1.0] (length N − 1) through the new per-bond
+        // overload must reproduce the scalar J = 1 overload bit-exact.
+        var gamma = Enumerable.Repeat(0.1, N).ToArray();
+        int fullCap = 1 << (2 * N);
+        var bondJUniform = Enumerable.Repeat(1.0, N - 1).ToArray();
+
+        var perBondSweep = LiouvillianSectorSweep.Build(N, gamma, fullCap, bondJUniform);
+        var scalarSweep = LiouvillianSectorSweep.Build(N, gamma, fullCap, J: 1.0);
+
+        Assert.Equal(scalarSweep.CollectedEigenvalues.LongLength, perBondSweep.CollectedEigenvalues.LongLength);
+        MultisetAssert.NearestNeighbourEqual(
+            perBondSweep.CollectedEigenvalues, scalarSweep.CollectedEigenvalues,
+            tolerance: 1e-12, context: $"N={N} uniform-bondJ vs scalar J=1");
+        _out.WriteLine($"N={N}: per-bond bondJ=[1,..,1] matches scalar J=1 spectrum within 1e-12");
+    }
+
+    [Theory]
+    [InlineData(4)]
+    public void Build_NonUniformBondJ_DiffersFromUniform(int N)
+    {
+        // Capability: bondJ = [1.0, 2.0, 1.0] at N=4 should produce a spectrum that differs
+        // structurally from uniform bondJ = [1.0, 1.0, 1.0].
+        var gamma = Enumerable.Repeat(0.1, N).ToArray();
+        int fullCap = 1 << (2 * N);
+        var bondJUniform = new[] { 1.0, 1.0, 1.0 };
+        var bondJNonUniform = new[] { 1.0, 2.0, 1.0 };
+
+        var uniformSweep = LiouvillianSectorSweep.Build(N, gamma, fullCap, bondJUniform);
+        var nonUniformSweep = LiouvillianSectorSweep.Build(N, gamma, fullCap, bondJNonUniform);
+
+        Assert.Equal(uniformSweep.CollectedEigenvalues.LongLength,
+                     nonUniformSweep.CollectedEigenvalues.LongLength);
+
+        var uniformEigs = uniformSweep.CollectedEigenvalues;
+        var nonUniformEigs = nonUniformSweep.CollectedEigenvalues;
+        var taken = new bool[nonUniformEigs.Length];
+        double maxNearestDiff = 0.0;
+        for (int i = 0; i < uniformEigs.Length; i++)
+        {
+            int bestIdx = -1;
+            double bestDist = double.MaxValue;
+            for (int j = 0; j < nonUniformEigs.Length; j++)
+            {
+                if (taken[j]) continue;
+                double d = (uniformEigs[i] - nonUniformEigs[j]).Magnitude;
+                if (d < bestDist) { bestDist = d; bestIdx = j; }
+            }
+            if (bestIdx >= 0) taken[bestIdx] = true;
+            if (bestDist > maxNearestDiff) maxNearestDiff = bestDist;
+        }
+        _out.WriteLine($"N={N}: max nearest-neighbour spectrum diff (uniform vs [1,2,1]) = {maxNearestDiff:G3}");
+        Assert.True(maxNearestDiff > 1e-3,
+            $"Non-uniform bondJ=[1,2,1] should produce structurally different spectrum from uniform; " +
+            $"got max nearest-neighbour diff {maxNearestDiff:G3} (expected > 1e-3)");
+    }
+
+    [Fact]
+    public void Build_BondJWrongLength_Throws()
+    {
+        var gamma = Enumerable.Repeat(0.1, 5).ToArray();
+        Assert.Throws<ArgumentException>(() =>
+            LiouvillianSectorSweep.Build(N: 5, gamma, sectorDimCap: 100, bondJ: new double[3]));
+    }
+
+    [Fact]
+    public void Build_BondJNull_Throws()
+    {
+        var gamma = Enumerable.Repeat(0.1, 5).ToArray();
+        Assert.Throws<ArgumentNullException>(() =>
+            LiouvillianSectorSweep.Build(N: 5, gamma, sectorDimCap: 100, bondJ: null!));
+    }
+
+    [Fact]
+    public void JProperty_OnNonUniformBondJ_Throws()
+    {
+        // Scalar J accessor should surface the non-uniform assumption violation rather than
+        // silently returning bondJ[0]; non-uniform callers must inspect BondJ directly.
+        var gamma = Enumerable.Repeat(0.1, 4).ToArray();
+        var bondJNonUniform = new[] { 1.0, 2.0, 1.0 };
+        var sweep = LiouvillianSectorSweep.Build(N: 4, gamma, sectorDimCap: 256, bondJNonUniform);
+        Assert.Throws<InvalidOperationException>(() => { var _ = sweep.J; });
+        Assert.Equal(3, sweep.BondJ.Count);
+        Assert.Equal(2.0, sweep.BondJ[1]);
+    }
+
+    [Theory]
     [InlineData(2500)]   // ~4 % coverage, ~1 min — fast CI smoke
     [InlineData(5500)]   // ~? % coverage, ~few min — deeper reconnaissance, includes (2,3)/(3,2)
                          // and X⊗N partners (dim 5400 each, the next tier of sectors).

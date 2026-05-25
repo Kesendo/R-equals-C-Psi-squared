@@ -47,8 +47,26 @@ public sealed class KleinFourGroupSelfPairedSparseLBuilder : Claim
     public int MaxNnzPerRow { get; }
     public double MeanNnzPerRow => (double)NnzTotal / SectorDim;
 
+    /// <summary>Build the CSR sparse L sub-block with uniform J = 1. Convenience wrapper that
+    /// forwards to the per-bond overload with <c>bondJ = [1, 1, ..., 1]</c> of length N − 1.
+    /// Existing callers continue to compile unchanged; pass an explicit <c>bondJ</c> list to
+    /// access non-uniform per-bond couplings.</summary>
     public static KleinFourGroupSelfPairedSparseLBuilder Build(int N,
         KleinCharacter character, IReadOnlyList<double> gammaPerSite)
+    {
+        var bondJ = new double[Math.Max(0, N - 1)];
+        for (int b = 0; b < bondJ.Length; b++) bondJ[b] = 1.0;
+        return Build(N, character, gammaPerSite, bondJ);
+    }
+
+    /// <summary>Build the CSR sparse L sub-block with per-bond J profile. The underlying
+    /// chain-XY Hamiltonian is <c>H = Σ_b (J_b/2)·(X_b X_{b+1} + Y_b Y_{b+1})</c>;
+    /// <paramref name="bondJ"/> must have length N − 1. Use this overload for F100-territory
+    /// experiments; uniform J = 1 callers can use the scalar overload
+    /// <see cref="Build(int, KleinCharacter, IReadOnlyList{double})"/>.</summary>
+    public static KleinFourGroupSelfPairedSparseLBuilder Build(int N,
+        KleinCharacter character, IReadOnlyList<double> gammaPerSite,
+        IReadOnlyList<double> bondJ)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be ≥ 2.");
         if ((N & 1) != 0) throw new ArgumentException(
@@ -57,6 +75,10 @@ public sealed class KleinFourGroupSelfPairedSparseLBuilder : Claim
         if (gammaPerSite.Count != N)
             throw new ArgumentException(
                 $"gammaPerSite length {gammaPerSite.Count} != N {N}", nameof(gammaPerSite));
+        if (bondJ is null) throw new ArgumentNullException(nameof(bondJ));
+        if (bondJ.Count != N - 1)
+            throw new ArgumentException(
+                $"bondJ length {bondJ.Count} != N - 1 = {N - 1}", nameof(bondJ));
 
         var refinement = KleinFourGroupSelfPairedRefinement.Build(N);
         var ordered = refinement.Orbits
@@ -64,7 +86,6 @@ public sealed class KleinFourGroupSelfPairedSparseLBuilder : Claim
             .ToArray();
         int dim = ordered.Length;
 
-        const double J = 1.0;
         int[] bondFlip = Enumerable.Range(0, N - 1).Select(b => (1 << b) | (1 << (b + 1))).ToArray();
 
         // Pre-index orbit members for fast (row, col) → orbit-index lookup.
@@ -108,7 +129,7 @@ public sealed class KleinFourGroupSelfPairedSparseLBuilder : Claim
                     int bitBp1 = (rowA >> (b + 1)) & 1;
                     if (bitB == bitBp1) continue;
                     int rowBeta = rowA ^ bondFlip[b];
-                    AccumulateCoupling(rowBeta, colA, new Complex(0, -J), chiRow, perRow,
+                    AccumulateCoupling(rowBeta, colA, new Complex(0, -bondJ[b]), chiRow, perRow,
                         memberToOrbitIdx, ordered, character, invSqrtSizeRow);
                 }
 
@@ -119,7 +140,7 @@ public sealed class KleinFourGroupSelfPairedSparseLBuilder : Claim
                     int bitBp1 = (colA >> (b + 1)) & 1;
                     if (bitB == bitBp1) continue;
                     int colBeta = colA ^ bondFlip[b];
-                    AccumulateCoupling(rowA, colBeta, new Complex(0, +J), chiRow, perRow,
+                    AccumulateCoupling(rowA, colBeta, new Complex(0, +bondJ[b]), chiRow, perRow,
                         memberToOrbitIdx, ordered, character, invSqrtSizeRow);
                 }
 

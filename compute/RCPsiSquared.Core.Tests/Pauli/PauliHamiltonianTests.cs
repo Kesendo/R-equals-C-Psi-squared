@@ -40,6 +40,50 @@ public class PauliHamiltonianTests
         Assert.Contains("ZZ", labels);
     }
 
+    [Fact]
+    public void XYChain_PerBondUniform_MatchesScalarOverload()
+    {
+        // Regression: bondJ = [1.0, 1.0] of length N - 1 = 2 must produce same matrix as
+        // scalar XYChain(N=3, J=1.0).
+        var scalar = PauliHamiltonian.XYChain(N: 3, J: 1.0).ToMatrix();
+        var perBond = PauliHamiltonian.XYChain(N: 3, bondJ: new[] { 1.0, 1.0 }).ToMatrix();
+        var diff = (scalar - perBond).FrobeniusNorm();
+        Assert.True(diff < 1e-12, $"Uniform bondJ should match scalar J overload; got Frobenius diff {diff:G3}");
+    }
+
+    [Fact]
+    public void XYChain_PerBondNonUniform_DiffersFromUniform()
+    {
+        // Capability: bondJ = [1.0, 2.0] should produce a strictly different matrix than uniform.
+        var uniform = PauliHamiltonian.XYChain(N: 3, bondJ: new[] { 1.0, 1.0 }).ToMatrix();
+        var nonUniform = PauliHamiltonian.XYChain(N: 3, bondJ: new[] { 1.0, 2.0 }).ToMatrix();
+        var diff = (uniform - nonUniform).FrobeniusNorm();
+        Assert.True(diff > 0.1, $"Non-uniform bondJ should produce structurally different H; got Frobenius diff {diff:G3}");
+    }
+
+    [Fact]
+    public void XYChain_BondJWrongLength_Throws()
+    {
+        Assert.Throws<ArgumentException>(() =>
+            PauliHamiltonian.XYChain(N: 3, bondJ: new[] { 1.0 }));
+    }
+
+    [Fact]
+    public void HeisenbergChain_PerBondUniform_MatchesScalarOverload()
+    {
+        var scalar = PauliHamiltonian.HeisenbergChain(N: 3, J: 1.0).ToMatrix();
+        var perBond = PauliHamiltonian.HeisenbergChain(N: 3, bondJ: new[] { 1.0, 1.0 }).ToMatrix();
+        var diff = (scalar - perBond).FrobeniusNorm();
+        Assert.True(diff < 1e-12, $"Uniform bondJ should match scalar J overload; got Frobenius diff {diff:G3}");
+    }
+
+    [Fact]
+    public void HeisenbergChain_BondJWrongLength_Throws()
+    {
+        Assert.Throws<ArgumentException>(() =>
+            PauliHamiltonian.HeisenbergChain(N: 3, bondJ: new[] { 1.0 }));
+    }
+
     [Theory]
     [InlineData("II", 0, 0, 0, 0)]   // k_body=0, no Y
     [InlineData("XY", 2, 1, 1, 1)]   // k_body=2, n_y=1, π2_parity=1, y_parity=1
