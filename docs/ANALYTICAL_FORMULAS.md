@@ -3544,9 +3544,13 @@ N=4 k=3 over 294 pairs in `DissipatorResonanceLaw.cs`) selects the one diagonal
 cell among the two remaining Π²-D-odd non-mother cells. Combining all three
 closures: hard appears only in the diagonal cell.
 
-**Aspect B (Y-inversion, empirical):** Within the diagonal hard cell, the
-dominant y_par equals y_par(dephase letter): Z/X-deph dominantly y_par=0, Y-deph
-dominantly y_par=1.
+**Aspect B (Y-inversion):** Within the diagonal hard cell, the dominant y_par
+equals y_par(dephase letter): Z/X-deph dominantly y_par=0, Y-deph dominantly
+y_par=1. At k = N = 4 the dominance is closed-form Tier1Candidate via the
+sibling Claim F111 (HardCellPureDTemplate, 2026-05-25): every F87-hard pair in
+the diagonal cell contains at least one "pure-D template" (only D and I
+letters), and pure-D templates have y_par = y_par(D) by construction. At k = 3
+the 42:8 dominance is empirical (see Aspect C).
 
 **Aspect C (k-purity sharpening, empirical):** k=3 N=4 (F103): 42:8 biased; k=3
 N=5 (F105): identical 42:8 (N-stable); k=4 N=4 (F106): 228:0 fully pure with
@@ -3563,6 +3567,57 @@ law (Tier1Derived, `compute/RCPsiSquared.Diagnostics/F87/DissipatorResonanceLaw.
 helpers: `HardCellYInversionPattern.DiagonalKleinCellForDephase(dephase)`,
 `IsDiagonalCell(klein, dephase)`,
 `DominantYParityForDephase(dephase)`.
+
+---
+
+### F111. Hard Cell Pure-D Template Rule (Tier 1 Candidate; closed-form structural rule that implies F110 Aspect B at k = N = 4)
+
+Eighth YParity-axis Claim; sharpens F110 Aspect B by replacing "Y-inversion at
+k = 4" with a structural rule that implies it as immediate corollary AND
+provides the per-cell decomposition 36 + 192 + 0 = 228 across all 3 dephases.
+
+**Theorem (F111):** At k = N = 4 in the diagonal Klein cell (D.BitA(), D.BitB())
+for dephase letter D ∈ {Z, X, Y}, a Pauli pair (P, Q) is F87-hard if and only if
+at least one of P, Q is a "pure-D template" (a length-4 Pauli string composed
+only of D and I letters, no other non-I Pauli letter).
+
+**Corollary (F110 Aspect B at k = 4):** Pure-D templates have y_par = y_par(D)
+by construction. Therefore every F87-hard pair at k = N = 4 in the diagonal cell
+has y_par(pair) = y_par(D). This is the F106 228:0 split across all 3 dephases.
+
+**Structural decomposition (per diagonal cell at k = N = 4):** 528 total pairs
+split into 36 Pure-Pure (all HARD) + 192 Pure-Mixed (all HARD) + 300 Mixed-Mixed
+(all SOFT). The 36 + 192 + 0 = 228 hard count matches F106 exactly.
+
+**Subclaim status:**
+- (a) Pure-D single-term H is HARD: heuristic via dissipator-commute ([D[D_l], L_H] = 0
+  for pure-D H gives additive independent spectra L = L_H + L_D, combined
+  spectrum non-palindromic around −σ). Empirical: 8/8 per cell.
+- (b) Mixed single-term H is SOFT: empirical (24/24 per cell).
+- (c) Pair (Pure-D, Mixed) H is HARD: empirical (192/192 per cell).
+- (d) Pair (Mixed, Mixed) H is SOFT: empirical (300/300 per cell). **Blocking
+  subclaim for Tier1Derived promotion**: sum of two soft H's can generically
+  be hard; no operator-level closed-form construction found (Task 1 BLOCKED
+  after exhausting Path 1 per-site M^N tensor product, Path 2 F108 Π_5bilinear
+  extended action, Path 3 Q_V × Π composition).
+
+**Empirical anchor:** F106 N = 4 k = 4 records 228:0 in all 3 diagonal cells
+(684 hard pairs total, zero off-y_par). Independent verification at
+`simulations/_f111_pair_off_ypar_verify.py` covers 1584 pair classifications
+across 3 dephases, all matching the rule with zero exceptions.
+
+**Open:** Subclaim (d) Mixed+Mixed = soft closed-form (blocks Tier1Derived).
+Pure-D Template Rule at k > 4 or N > 4 (empirically unverified). Hardware QPU
+confirmation at k ≥ 3.
+
+**Source:** [Proof](proofs/PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md);
+`compute/RCPsiSquared.Core/Symmetry/HardCellPureDTemplate.cs`;
+parents: PROOF_F110 + PROOF_F107 + PROOF_F108_PART1/2/3 + F106 anchor +
+F87 dissipator-resonance law (Tier1Derived);
+helpers: `HardCellPureDTemplate.IsPureDTemplate(term, dephase)`,
+`IsInDiagonalCellAtK4N4(p, q, dephase)`,
+`IsPredictedHardAtK4N4(p, q, dephase)`,
+`VerifyYInversionCorollaryAtK4N4(p, q, dephase)`.
 
 ---
 

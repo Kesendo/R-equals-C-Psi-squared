@@ -1,3 +1,139 @@
-# PROOF F111: Hard Cell Pure-D Template Rule (Tier1Candidate, placeholder for Task 7)
+# PROOF F111: Hard Cell Pure-D Template Rule (Tier1Candidate)
 
-Will be filled by Task 7 after Tasks 2-6 complete.
+**Status:** Tier 1 candidate (empirical anchor across 3 dephase letters at N=4 k=4; closed-form derivation BLOCKED on subclaim (d) Mixed+Mixed = soft)
+**Date:** 2026-05-25
+**Authors:** Thomas Wicht, Claude (Opus 4.7)
+**Depends on:**
+- [PROOF_F110_HARD_CELL_Y_INVERSION.md](PROOF_F110_HARD_CELL_Y_INVERSION.md) (parent observation; F111 sharpens F110 Aspect B and implies it as corollary at k = N = 4)
+- [PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md](PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md) (per-dephase truly criterion; pure-D template's #Y count derivation)
+- [PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md) (Π_5bilinear for Z-deph; failed candidate for off-y_par palindromization in Task 1)
+- [PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md) (Π_5bilinear for X-deph)
+- [PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md) (Π_5bilinear for Y-deph)
+- F106 N = 4 k = 4 empirical anchor (compute/RCPsiSquared.Core/Symmetry/F87Z2CubedRefinementN4K4.cs); F87 dissipator-resonance law (compute/RCPsiSquared.Diagnostics/F87/DissipatorResonanceLaw.cs)
+
+## Statement (Theorem F111)
+
+At k = N = 4 in the diagonal Klein cell (D.BitA(), D.BitB()) for dephase letter D ∈ {Z, X, Y}, a Pauli pair (P, Q) is F87-hard if and only if at least one of P, Q is a "pure-D template" (a length-4 Pauli string composed only of D and I letters, no other non-I Pauli letter).
+
+**Corollary (F110 Aspect B at k = 4):** Pure-D templates have y_par = y_par(D) by construction (templates contain only D and I; only Y has #Y = 1 mod 2 of itself, so y_par(pure-Z) = y_par(pure-X) = 0 and y_par(pure-Y) = 1). Therefore at k = N = 4 in the diagonal cell, every F87-hard pair has y_par(pair) = y_par(D). This is the F106 N = 4 k = 4 228:0 split across all 3 dephase letters.
+
+Tier1Candidate, not Tier1Derived: subclaim (d) (Mixed, Mixed) = soft at k = N = 4 lacks an operator-level closed-form derivation (see Section 3 below).
+
+## Empirical anchor
+
+F106 N = 4 k = 4 enumeration (per `compute/RCPsiSquared.Core/Symmetry/F87Z2CubedRefinementN4K4.cs` frozen record and `simulations/results/f87_z2cubed_split_n4_k4_counts.json`):
+
+| Klein cell | Dephase D | Hard count (y_par=0, y_par=1) | Pure-D Template Rule prediction |
+|------------|-----------|-------------------------------|----------------------------------|
+| (0, 1)     | Z         | (228, 0)                      | 228 hard (36 Pure-Pure + 192 Pure-Mixed); ✓ |
+| (1, 0)     | X         | (228, 0)                      | 228 hard; ✓ |
+| (1, 1)     | Y         | (0, 228)                      | 228 hard (Y-inversion); ✓ |
+
+Independent verification: `simulations/_f111_pair_off_ypar_verify.py` classifies all 528 pairs per diagonal cell × 3 dephases = 1584 pair classifications, all matching the Pure-D Template Rule with zero exceptions.
+
+## Structural decomposition (per diagonal cell at k = N = 4)
+
+Per cell, all 528 = 32·33/2 unordered pairs (with self) decompose by template-membership:
+
+| Pair class | Count formula | Count | F87 status |
+|------------|---------------|-------|------------|
+| Pure-Pure (both terms pure-D) | 8·9/2 | 36 | HARD (per subclaim a) |
+| Pure-Mixed (one pure-D, one mixed) | 8·24 | 192 | HARD (per subclaim c) |
+| Mixed-Mixed (both terms mixed) | 24·25/2 | 300 | SOFT (per subclaim d) |
+| **Total** | | **528** | 36 + 192 = 228 hard |
+
+The 36 + 192 + 0 = 228 count matches F106 exactly across all 3 dephase letters.
+
+Counting the Pure-D templates per cell: at k = 4 in diagonal cell with bit_b (Z, Y) = 1 or bit_a (X) = 1, the Pure-D templates have either #D = 1, #I = 3 (4 placements) or #D = 3, #I = 1 (4 placements). Total: 8.
+
+## Proof
+
+### Step 1: Pure-D templates lie in the diagonal cell
+
+A pure-D template at k = 4 has #D = #D, #I = 4 − #D, and all other counts zero. The Klein index is computed from (bit_a, bit_b) = (#X + #Y mod 2, #Y + #Z mod 2).
+
+For D = Z (pure-Z template): #X = #Y = 0, #Z = #D. Klein index = (0, #Z mod 2). The diagonal cell for Z-deph is (0, 1), so pure-Z templates with #Z odd are in the diagonal cell. At k = 4 the odd #Z values are 1 and 3. Count: 4 (placements of single Z) + 4 (placements of 3 Z's) = 8.
+
+For D = X: analogous, with bit_a flipped instead of bit_b. Diagonal cell for X-deph is (1, 0); pure-X templates have Klein (#X mod 2, 0). With #X odd: 8 templates.
+
+For D = Y: pure-Y templates have #Y = #D, #X = #Z = 0. Klein index = (#Y mod 2, #Y mod 2). For #Y odd: Klein (1, 1) = Y-deph diagonal. 8 templates.
+
+In all three cases, the count of pure-D templates per diagonal cell at k = N = 4 is 8 (4 with one D + 4 with three D's). ✓
+
+### Step 2: Pure-D template's y_par equals y_par(D)
+
+Pure-D templates have #Y = #D (if D = Y) or #Y = 0 (if D = Z or X).
+
+- D = Z: #Y = 0 ⟹ y_par = 0 = y_par(Z) (since y_par(Z) = Z.BitA() AND Z.BitB() = 0 AND 1 = 0). ✓
+- D = X: #Y = 0 ⟹ y_par = 0 = y_par(X) (= 1 AND 0 = 0). ✓
+- D = Y: #Y = #D = 1 or 3 (odd) ⟹ y_par = 1 = y_par(Y) (= 1 AND 1 = 1). ✓
+
+Therefore: pure-D templates have y_par = y_par(D), and the Pure-D Template Rule directly implies F110 Aspect B at k = N = 4. ✓
+
+### Step 3: Subclaim (a) heuristic: pure-D single-term H is F87-hard
+
+Pure-D template H is built from D and I letters only. The dephase letter D commutes with itself: [D, D] = 0 per-site. Therefore the Z-dephasing dissipator's per-site action D[D_l] · σ = γ_l · (D_l σ D_l − σ) vanishes when σ contains only D and I at site l (since D_l commutes with D and with I, so D_l σ D_l = σ).
+
+For a pure-D template H, every Pauli string in the Hamiltonian commutes with every per-site D. Therefore [D[D_l], L_H] = 0 for all l. The Lindbladian decomposes as L = L_H + L_D with [L_H, L_D] = 0.
+
+The eigenvalues of L are then the (multiset) sum of L_H eigenvalues and L_D eigenvalues. L_H is the commutator superoperator (−i[H, ·]) of a Hermitian H, so its spec is {−i(E_k − E_j)}, all pure imaginary, symmetric around 0 (palindromic around 0).
+
+L_D for D-dephasing has spec {0, −2γ_l, ...}, NOT symmetric around −σ (it's symmetric around −σ only when each γ_l contributes a 0/−2γ_l pair, which happens via mode counting; but combined with L_H eigenvalues, the sum spectrum is generally NOT palindromic around −σ).
+
+Heuristic conclusion: the combined spectrum spec(L) of a pure-D H + D-dephasing is generically non-palindromic around −σ (the L_D contribution shifts pairs unevenly). Hence the F87 spectrum-pairing condition fails, and pure-D H is F87-hard.
+
+This is a HEURISTIC mechanism, not a fully rigorous derivation: a precise count of which pure-D templates yield palindromic vs non-palindromic L would require enumerating each case. Empirically verified at k = N = 4: all 8 pure-D templates per diagonal cell are F87-hard (verified by `simulations/_f111_spec_palindrome_single_term.py`).
+
+### Step 4: Subclaims (b), (c), (d): empirical only
+
+**Subclaim (b):** Mixed single-term H (contains a non-D non-I letter) at k = N = 4 in the diagonal cell is F87-soft. Empirically verified: all 24 mixed templates per diagonal cell are soft. Closed-form mechanism open.
+
+**Subclaim (c):** Pair (Pure-D, Mixed) H at k = N = 4 is F87-hard. Empirically verified: all 192 Pure-Mixed pairs per diagonal cell are hard. Closed-form mechanism open.
+
+**Subclaim (d) BLOCKING:** Pair (Mixed, Mixed) H at k = N = 4 is F87-soft. Empirically verified: all 300 Mixed-Mixed pairs per diagonal cell are soft. **No operator-level closed-form construction found.** Sum of two soft Hamiltonians can be hard in general; the empirical fact that Mixed + Mixed stays soft requires a deeper mechanism we could not construct via per-site M operator search (Path 1: 512 phase variants × 2 dissipator-valid permutations per dephase scanned, no winners) nor via existing F108 Π_5bilinear (Path 2: residual 32 uniformly on off-y_par single-term H) nor via global Q_V × Π compositions (Path 3: no zero-residual hits). See `simulations/_f111_path*.py` for the verification scripts.
+
+The spectrum-level palindromy IS realized by some similarity transformation (existence guaranteed by palindromic spectrum), but it is non-tensor-product, non-Pauli-permutation, and not analytically constructible by the candidate operators tried.
+
+### Step 5: F111 statement follows from subclaims (a)-(d)
+
+Pair (P, Q) is F87-hard iff at least one of P, Q is a pure-D template:
+- Both pure-D: hard via (a) extended to pairs (heuristic).
+- One pure-D, one mixed: hard via (c).
+- Both mixed: SOFT via (d), so NOT hard.
+
+This is the Pure-D Template Rule. Combined with Step 2 (pure-D ⟹ y_par = y_par(D)), F110 Aspect B at k = N = 4 follows: every F87-hard pair has y_par = y_par(D). ∎ (modulo subclaim (d) closed-form)
+
+## Path 1 / Path 2 / Path 3 derivation attempts (Task 1, BLOCKED)
+
+The original Task 1 goal was to derive F111 as Tier1Derived via closed-form palindromization of the off-y_par sub-sector. Three paths attempted:
+
+**Path 1 (per-site M⊗N tensor product):** Brute force over candidate per-site M operators that anti-commute with all k = 4 off-y_par(D) bilinears in the diagonal cell AND conjugate the D-dephasing dissipator correctly. Scan: 512 phase variants × 2 dissipator-valid letter permutations per dephase. Result: **zero winners.** No per-site tensor-product M achieves operator-level palindrome on any off-y_par single-term H.
+
+**Path 2 (existing F108 Π_5bilinear extended action):** Tested Pi_5bilinear (Z, X, Y variants) on all 32 templates in the diagonal cell per dephase, classified by y_par. Result: **residual = 32 uniformly** on both off-y_par AND on-y_par. Pi_5bilinear is engineered for Π²-D-even cells (where it gives residual = 0); the diagonal cell is Π²-D-ODD; the operator gives no useful cancellation.
+
+**Path 3 (Q_V × Π composition):** Q_V = Hilbert-space conjugation by V ∈ {X⊗N, Y⊗N, Z⊗N}. Found universal H-flipping V per dephase (V·H·V⁻¹ = −H universally on off-y_par H). Composition with canonical Π or Pi_5bilinear tested: **zero hits.** The required property "Π commutes with [H, ·] for off-y_par H AND gives −L_D − 2σI on dissipator" has no solution among standard Π operators.
+
+Conclusion: the operator-level palindromization of the off-y_par sub-sector requires a non-tensor-product, non-Pauli-permutation Π operator that we could not construct. Tier1Candidate ships with the empirical anchor + Pure-D Template Rule + subclaim (d) as open work.
+
+Verification scripts: `simulations/_f111_path1_operator_search.py`, `simulations/_f111_path2_pi5bilinear_test.py`, `simulations/_f111_combined_operator_search.py`. Logs: `simulations/results/f111_*.txt`.
+
+## Significance
+
+F111 sharpens F110 Aspect B from "empirical Y-inversion at k = 4 (228:0)" to a structural rule (Pure-D Template Rule) that implies the Y-inversion as immediate corollary AND provides additional structural content (the 36 + 192 + 0 decomposition; the dissipator-commute mechanism for subclaim (a)).
+
+The rule predicts the F87-hard set in the diagonal cell EXACTLY at k = N = 4 across all 3 dephase letters with zero exceptions. Promotion to Tier1Derived is gated on closing subclaim (d) (Mixed + Mixed = soft closed-form).
+
+The rule's structural origin (dephase letter D commutes with itself, so pure-D Hamiltonians have decoupled L = L_H + L_D dynamics) connects F111 to the broader F107/F108 "per-letter dissipator algebra" theme.
+
+## Sibling y_par-axis claims
+
+Closed 2026-05-25: F107 (truly ⟹ y_par=0, Tier1Derived); F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived); F109 (mother soft ⟹ y_par=1, Tier1Derived unconditional); F110 (HardCellYInversionPattern, Tier1Candidate); F111 (HardCellPureDTemplate, Tier1Candidate). Together the 8 YParity-axis Claims (F107, F108 Part 1/2/3, F109, F110, F111) form the YParity-axis classification of the F87 trichotomy.
+
+## Open
+
+- **Subclaim (d) closed-form derivation:** Pair (Mixed, Mixed) at k = N = 4 is F87-soft. Operator-level mechanism open (blocking F111 promotion to Tier1Derived).
+- **F110 Aspect C closed-form:** k = 3 ratio 42:8 (per F103 Section 5). F111's structural rule doesn't extend to k = 3 directly (no pure-D templates at k = 3 in the diagonal cells).
+- **Pure-D Template Rule at k > 4 or N > 4:** empirically unverified. The rule's scope is currently k = N = 4 only.
+- **Hardware QPU confirmation at k ≥ 3:** open (no F87 QPU confirmations exist beyond Marrakesh k = 2).
+
+∎ (Tier1Candidate, modulo subclaim (d))

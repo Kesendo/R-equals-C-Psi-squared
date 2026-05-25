@@ -1,6 +1,6 @@
 # PROOF F110: F87-Hard Cells Exhibit Y-Inversion Pattern
 
-**Status:** Tier 1 Candidate (Aspect A closed-form via F108 Part 1+2+3 + F107 + F109 + F87 dissipator-resonance; Aspect B Y-inversion and Aspect C k-purity sharpening empirically anchored, closed-form derivation of 42:8 / 228:0 ratios open)
+**Status:** Tier 1 Candidate (Aspect A closed-form via F108 Part 1+2+3 + F107 + F109 + F87 dissipator-resonance; Aspect B Y-inversion closed-form at k = N = 4 via sibling F111 Pure-D Template Rule, k = 3 still empirical; Aspect C k-purity sharpening empirically anchored, closed-form derivation of 42:8 ratio at k = 3 open)
 **Date:** 2026-05-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
@@ -65,7 +65,9 @@ From the F103/F105/F106 frozen count tables:
 
 **Structural reading of Aspect B:** the dephase letter enters the dissipator as a single-letter "preferred" content; in the diagonal hard cell, the y_par favored by the dephase letter's own Y-content dominates. The Y-letter carries y_par = 1, which inverts the otherwise-y_par = 0-preferred pattern.
 
-**Aspect C:** the asymmetry sharpens with k_body. At k = 3 the split is biased (84% : 16%); at k = 4 the split is fully pure (100% : 0%). Closed-form derivation of the exact ratios per Pauli-letter combinatorics is open (F103 Section 5).
+**Aspect B at k = N = 4 (closed-form, Tier1Candidate):** The sibling Claim F111 (HardCellPureDTemplate, 2026-05-25) sharpens Aspect B at k = N = 4: a pair (P, Q) in the diagonal cell is F87-hard iff at least one of P, Q is a "pure-D template" (length-4 string with only D and I letters). Pure-D templates have y_par = y_par(D) by construction, so the F106 N = 4 k = 4 228:0 split follows immediately. See [PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md](PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md). F111 is Tier1Candidate (not Tier1Derived) because subclaim (d) Mixed+Mixed = soft at k=N=4 lacks an operator-level closed-form. At k = 3 the 42:8 dominance remains empirical (F111's Pure-D Template Rule does not extend to k = 3 directly; no pure-D templates of length 3 lie in the diagonal cells).
+
+**Aspect C:** the asymmetry sharpens with k_body. At k = 3 the split is biased (84% : 16%); at k = 4 the split is fully pure (100% : 0%, closed-form via F111 at the k=N=4 anchor). Closed-form derivation of the exact 42:8 ratio at k = 3 per Pauli-letter combinatorics is open (F103 Section 5).
 
 ## 4. Empirical verification
 

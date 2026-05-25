@@ -117,14 +117,14 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
             yield return new InspectableNode("F87 corollary", summary: F87Corollary);
             yield return new InspectableNode("Aspect A: diagonal Klein cell mapping (closed-form)",
                 summary: "Z → (0, 1), X → (1, 0), Y → (1, 1). Hard appears only in this cell per F108 Part 1+2+3 + F107 + F109 exclusion chain.");
-            yield return new InspectableNode("Aspect B: Y-inversion structural reading (empirical)",
-                summary: "Dominant y_par = y_par(dephase letter): Z/X → 0, Y → 1. The Y-letter's y_par=1 inverts the otherwise-y_par=0-preferred pattern.");
+            yield return new InspectableNode("Aspect B: Y-inversion structural reading",
+                summary: "Dominant y_par = y_par(dephase letter): Z/X → 0, Y → 1. The Y-letter's y_par=1 inverts the otherwise-y_par=0-preferred pattern. At k = N = 4 closed-form (Tier1Candidate) via sibling Claim F111 (HardCellPureDTemplate, 2026-05-25): hard pairs in diagonal cell contain at least one pure-D template, and pure-D templates have y_par = y_par(D) by construction. At k = 3 the 42:8 dominance is empirical (see Aspect C).");
             yield return new InspectableNode("Aspect C: empirical k-purity sharpening",
                 summary: "k=3 N=4 (F103): 42:8 biased per diagonal cell. k=3 N=5 (F105): identical 42:8 (N-stable). k=4 N=4 (F106): 228:0 fully pure with Y-inversion preserved.");
             yield return new InspectableNode("Sibling YParity-axis claims",
-                summary: "F107 (truly y_par=0), F109 (mother soft y_par=1), F110 (hard cells, this Claim). Together pin the y_par signature of all three F87 trichotomy classes in Klein (0,0) and the diagonal cells.");
+                summary: "F107 (truly y_par=0, Tier1Derived), F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived), F109 (mother soft y_par=1, Tier1Derived), F110 (hard cells, THIS Claim, Tier1Candidate), F111 (Pure-D Template Rule at k=N=4, Tier1Candidate; sharpens Aspect B). Together the 8 YParity-axis Claims pin the y_par signature of all three F87 trichotomy classes.");
             yield return new InspectableNode("Open work",
-                summary: "Closed-form derivation of the exact 42:8 (k=3) and 228:0 (k=4) ratios is open (F103 Section 5). k ≥ 5 empirical confirmation unverified.");
+                summary: "Closed-form derivation of the exact 42:8 (k=3) ratio open (F103 Section 5; F111 closes the k=4 228:0 case via Pure-D Template Rule). F111 subclaim (d) Mixed+Mixed=soft closed-form blocks promotion to Tier1Derived. k ≥ 5 empirical confirmation unverified.");
         }
     }
 }
