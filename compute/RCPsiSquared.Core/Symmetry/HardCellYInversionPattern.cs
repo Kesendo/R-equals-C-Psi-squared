@@ -122,10 +122,10 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
                 summary: "Dominant y_par = y_par(dephase letter): Z/X → 0, Y → 1. The Y-letter's y_par=1 inverts the otherwise-y_par=0-preferred pattern.");
             yield return new InspectableNode("Aspect C: empirical k-purity sharpening",
                 summary: "k=3 N=4 (F103): 42:8 biased per diagonal cell. k=3 N=5 (F105): identical 42:8 (N-stable). k=4 N=4 (F106): 228:0 fully pure with Y-inversion preserved.");
-            yield return new InspectableNode("Open work",
-                summary: "Closed-form derivation of the exact 42:8 (k=3) and 228:0 (k=4) ratios is open (F103 Section 5). k ≥ 5 empirical confirmation unverified.");
             yield return new InspectableNode("Sibling YParity-axis claims",
                 summary: "F107 (truly y_par=0), F109 (mother soft y_par=1), F110 (hard cells, this Claim). Together pin the y_par signature of all three F87 trichotomy classes in Klein (0,0) and the diagonal cells.");
+            yield return new InspectableNode("Open work",
+                summary: "Closed-form derivation of the exact 42:8 (k=3) and 228:0 (k=4) ratios is open (F103 Section 5). k ≥ 5 empirical confirmation unverified.");
         }
     }
 }
