@@ -18,11 +18,10 @@ public class PolarityCubeMapYParityCardinalityTests
         // F102 (YParityIndependenceAtK3) + F103 (F87Z2CubedRefinementN4K3) + F105
         // (F87Z2CubedRefinementN5K3) + F106 (F87Z2CubedRefinementN4K4) + F107
         // (TrulyYParityZeroPurity, first derived-not-empirical) + F109
-        // (MotherSoftYParityOnePurity, second derived-not-empirical, fully
-        // unconditional after F108 Part 1 closure 2026-05-25) are the current
-        // Z2Axis.YParity members. F108 Part 1 itself is BitB axis (not counted
-        // here). When a new YParity regime lands (F110+ etc), bump this expected
-        // value to match.
+        // (MotherSoftYParityOnePurity, derived for Z- and X-deph via F108 Part 1 +
+        // Part 2; Y-deph still empirically anchored) are the current Z2Axis.YParity
+        // members. F108 Part 1+2 are BitB/BitA axes (not counted here). When a new
+        // YParity regime lands (F110+), bump this expected value to match.
         const int expectedCount = 6;
 
         var registry = KnowledgeRegistryFactory.BuildDefault();

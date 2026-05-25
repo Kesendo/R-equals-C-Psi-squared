@@ -16,13 +16,6 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Closes the X-dephasing branch of F109's Step 5 (mother sector soft = y_par=1
 /// purity), leaving only the Y-dephasing branch (F108 Part 3) open.</para>
 ///
-/// <para>Mirrors F108 Part 1's mechanism with the X-dephasing-specific per-site
-/// permutation and bilinear set. Per-site M:
-/// I → +Z, Z → −I, X → −i·Y, Y → +i·X. Same I↔Z, X↔Y permutation as the canonical
-/// X-dephasing Π (P1 family on bit_b axis); the back-arrows Z → I and Y → X carry
-/// the analogous sign flips that distinguish the 5-bilinear variant from the
-/// canonical X-dephasing Π. M² = diag(−1, +1, +1, −1) on {I, X, Y, Z}; M⁴ = I.</para>
-///
 /// <para>Derivation chain (see PROOF_F108_PART2):</para>
 /// <list type="number">
 ///   <item>{Q, [B, ·]} = 0 for every Π²_X-even 2-body bilinear B ∈ {ZZ, XX, XY,
@@ -46,11 +39,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// N=3, 4, 5. Reproduction:
 /// <c>simulations/_f108_part2_x_dephasing_scan.py</c>.</para>
 ///
-/// <para>Implements <see cref="IZ2AxisClaim"/> with <see cref="Z2Axis.BitA"/>; the
-/// BitB twin (F108 Part 1) is <see cref="F108Part1Pi2EvenAlwaysPalindromic"/>. F108
-/// Part 1 references this Claim as its BitATwin (closing the Stage-2a slot from
-/// NeedsDerivation to Filled). Proof:
-/// <c>docs/proofs/PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md</c>.</para></summary>
+/// <para>IZ2AxisClaim with <see cref="Z2Axis.BitA"/>; BitB twin is
+/// <see cref="F108Part1Pi2EvenAlwaysPalindromic"/>, which holds the typed BitATwin
+/// edge. Proof: <c>docs/proofs/PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md</c>.</para></summary>
 public sealed class F108Part2Pi2XEvenAlwaysPalindromic : Claim, IZ2AxisClaim
 {
     /// <summary>BitA axis (Π²_X = Z⊗N, bit_a parity = #X + #Y mod 2). F108 Part 2
@@ -58,20 +49,16 @@ public sealed class F108Part2Pi2XEvenAlwaysPalindromic : Claim, IZ2AxisClaim
     /// admit a palindrome operator.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitA;
 
-    /// <summary>BitA-axis claims do not have BitATwin slots (the twin concept lives
-    /// on BitB-axis claims pointing at BitA-axis siblings). Always null per the
-    /// IZ2AxisClaim contract.</summary>
+    /// <summary>BitA-axis claims have no BitATwin slot (the twin concept lives on
+    /// BitB-axis claims pointing at BitA siblings).</summary>
     public Claim? BitATwin => null;
 
-    /// <summary>Explicit override returning <see cref="BitATwinClassification.NotApplicableForThisAxis"/>:
-    /// the BitA-twin slot semantics does not apply to BitA-axis Claims (it is for
-    /// BitB-axis Claims pointing at BitA-axis siblings). Override exposes the
-    /// status on the concrete class for tests and the inspector.</summary>
+    /// <summary>Override mirrors the IZ2AxisClaim default (non-BitB axis = NotApplicableForThisAxis);
+    /// required to expose the status as a property on the concrete class.</summary>
     public BitATwinClassification BitATwinStatus => BitATwinClassification.NotApplicableForThisAxis;
 
-    /// <summary>The five Π²_X-even 2-site bilinears that Π_5bilinear (X-deph
-    /// variant) handles with exact palindrome residual. {ZZ, XX, XY, YX, YY} =
-    /// the bit_a=0 subset of all 16 letter pairs at the bilinear level.</summary>
+    /// <summary>The five Π²_X-even 2-site bilinears: {ZZ, XX, XY, YX, YY} = the
+    /// bit_a=0 subset of all 16 letter pairs.</summary>
     public IReadOnlyList<(PauliLetter, PauliLetter)> Pi2XEvenBilinears { get; } =
         new (PauliLetter, PauliLetter)[]
         {
@@ -82,11 +69,8 @@ public sealed class F108Part2Pi2XEvenAlwaysPalindromic : Claim, IZ2AxisClaim
             (PauliLetter.Y, PauliLetter.Y),
         };
 
-    /// <summary>Returns true iff the (letter1, letter2) ordered pair belongs to the
-    /// Π²_X-even bilinear set {ZZ, XX, XY, YX, YY} that Π_5bilinear (X-deph
-    /// variant) handles with exact palindrome residual. I-containing pairs (II,
-    /// IZ, ZI, etc.) are considered trivially Π²_X-even but carry no 2-body
-    /// Hamiltonian and are excluded.</summary>
+    /// <summary>True iff (letter1, letter2) belongs to {ZZ, XX, XY, YX, YY}. I-containing
+    /// pairs are trivially Π²_X-even but carry no 2-body Hamiltonian and are excluded.</summary>
     public static bool IsPi2XEvenBilinear(PauliLetter letter1, PauliLetter letter2)
     {
         if (letter1 == PauliLetter.I || letter2 == PauliLetter.I) return false;
@@ -94,11 +78,8 @@ public sealed class F108Part2Pi2XEvenAlwaysPalindromic : Claim, IZ2AxisClaim
         return (bitA & 1) == 0;
     }
 
-    /// <summary>Returns true iff the given Pauli term is a 2-body bilinear whose
-    /// two non-I letters form a Π²_X-even pair from
-    /// <see cref="Pi2XEvenBilinears"/>. F108 Part 2's exact-palindrome guarantee
-    /// holds for any H assembled as a linear combination of such terms under
-    /// X-dephasing.</summary>
+    /// <summary>True iff <paramref name="term"/> is a 2-body bilinear whose two non-I
+    /// letters form a Π²_X-even pair.</summary>
     public static bool IsPi2XEvenBilinearTerm(PauliTerm term)
     {
         if (term is null) throw new ArgumentNullException(nameof(term));
@@ -109,10 +90,9 @@ public sealed class F108Part2Pi2XEvenAlwaysPalindromic : Claim, IZ2AxisClaim
         return IsPi2XEvenBilinear(nonI[0], nonI[1]);
     }
 
-    /// <summary>Returns true iff every term in the given Hamiltonian's term list is
-    /// a Π²_X-even 2-body bilinear (per <see cref="IsPi2XEvenBilinearTerm"/>).
-    /// F108 Part 2's exact-palindrome guarantee under X-dephasing holds iff this
-    /// returns true.</summary>
+    /// <summary>True iff every term in <paramref name="terms"/> is a Π²_X-even 2-body
+    /// bilinear. F108 Part 2's exact-palindrome guarantee under X-dephasing holds iff
+    /// this returns true.</summary>
     public static bool IsPi2XEvenBilinearHamiltonian(IEnumerable<PauliTerm> terms)
     {
         if (terms is null) throw new ArgumentNullException(nameof(terms));
@@ -127,7 +107,7 @@ public sealed class F108Part2Pi2XEvenAlwaysPalindromic : Claim, IZ2AxisClaim
         "and X-dephasing on every site: Π_5bilinear · L · Π_5bilinear⁻¹ = −L − 2σ·I exactly " +
         "(with the X-deph variant of Pi5BilinearOperator).";
 
-    /// <summary>The F87 corollary, scoped to X-dephasing.</summary>
+    /// <summary>F87 corollary scoped to X-dephasing.</summary>
     public string F87Corollary =>
         "Under X-dephasing: no Π²_X-even Pauli pair (truly or non-truly) is F87-hard; every such pair has palindromic spec(L).";
 

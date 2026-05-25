@@ -10,24 +10,14 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>  Π_5bilinear · L · Π_5bilinear⁻¹ = −L − 2σ·I exactly, where σ = Σ_l γ_l.</para>
 ///
-/// <para>Consequence: no Π²-even Pauli pair can be F87-hard. The empirical fact that
-/// 5346+ Π²-even pairs across F103/F105/F106 anchors were observed soft (zero hard)
-/// is now closed-form, not just empirical.</para>
-///
-/// <para>The proof switches from the canonical Heisenberg Π (where the palindrome
-/// residual M = Π·L·Π⁻¹ + L + 2σ·I is generically nonzero for Π²-even non-truly H)
-/// to <see cref="Pi5BilinearOperator"/>, a phase variant of the same P1 permutation
-/// I↔X, Y↔Z with the X→I and Z→Y arrows sign-flipped. The phase-flipped per-site
-/// map anti-commutes with the commutator superoperator [B, ·] of every Π²-even
-/// 2-body bilinear B ∈ {XX, YY, YZ, ZY, ZZ}, while the per-site dissipator identity
-/// M·D[Z]·M⁻¹ = −D[Z] − 2γ·I holds for the Z-dephasing Lindblad term. Combining
-/// the two yields the operator-level palindrome with zero residual.</para>
+/// <para>Consequence: no Π²-even Pauli pair can be F87-hard. The 5346+ Π²-even pairs
+/// observed soft across F103/F105/F106 are now closed-form, not just empirical.</para>
 ///
 /// <para>Derivation chain (see PROOF_F108_PART1):</para>
 /// <list type="number">
-///   <item>{Q, [B, ·]} = 0 for every Π²-even 2-body bilinear B (verified bit-exact
-///         at the 2-qubit level; 4 Π²-odd bilinears produce residual = 8.00, clean
-///         separation).</item>
+///   <item>{Q, [B, ·]} = 0 for every Π²-even 2-body bilinear B ∈ {XX, YY, YZ, ZY, ZZ}
+///         (verified bit-exact at the 2-qubit level; 4 Π²-odd bilinears produce
+///         residual = 8.00, clean separation).</item>
 ///   <item>Q · L_H · Q⁻¹ = −L_H for any linear combination of Π²-even bilinears.</item>
 ///   <item>Q · D[Z_l] · Q⁻¹ = −D[Z_l] − 2γ_l·I per site, via diagonal permutation in
 ///         the Pauli basis: D[Z]_pauli = γ·diag(0, −2, −2, 0) on {I, X, Y, Z}; M's
@@ -44,12 +34,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// dissipator D[Z]^⊗N also bit-exact at N=3, 4, 5. Reproduction:
 /// <c>simulations/_f108_part1_pi_family_scan.py</c>.</para>
 ///
-/// <para>Implements <see cref="IZ2AxisClaim"/> with <see cref="Z2Axis.BitB"/>; the
-/// BitA twin (<see cref="F108Part2Pi2XEvenAlwaysPalindromic"/>, F108 Part 2) is
-/// typed and wired as a ctor parent, so <see cref="BitATwinStatus"/> defaults to
-/// <see cref="BitATwinClassification.Filled"/>. F108 Part 2 covers X-dephasing via
-/// the analogous I↔Z, X↔Y phase-variant operator; together Part 1 + Part 2 cover
-/// the Z- and X-dephasing branches of the F108 Π²-even palindrome family. The
+/// <para>IZ2AxisClaim with <see cref="Z2Axis.BitB"/>; BitA twin
+/// <see cref="F108Part2Pi2XEvenAlwaysPalindromic"/> wired as ctor parent (Filled).
 /// Y-dephasing analog (F108 Part 3) remains open. Proof:
 /// <c>docs/proofs/PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md</c>.</para></summary>
 public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
@@ -59,20 +45,15 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
     /// operator.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>The BitA-twin Claim: F108 Part 2 covers the X-dephasing analog via
-    /// the I↔Z, X↔Y permutation variant of Π_5bilinear. Closed 2026-05-25 alongside
-    /// this Part 1 follow-up. Injected via ctor.</summary>
+    /// <summary>BitA twin: F108 Part 2 (X-dephasing variant).</summary>
     public Claim? BitATwin => Part2;
 
-    /// <summary>Explicit override returning <see cref="BitATwinClassification.Filled"/>:
-    /// F108 Part 2 is typed and wired as ctor parent via <see cref="Part2"/>. The
-    /// override (rather than relying on the IZ2AxisClaim default) exposes the
-    /// status as a property on the concrete class for tests and the inspector.</summary>
+    /// <summary>Override mirrors the IZ2AxisClaim default (BitB + non-null twin =
+    /// Filled); required to expose the status as a property on the concrete class.</summary>
     public BitATwinClassification BitATwinStatus => BitATwinClassification.Filled;
 
-    /// <summary>The typed BitA-twin parent: F108 Part 2 (X-dephasing). Stored
-    /// as a typed property for inspector visibility and to record the typed
-    /// parent edge in the inheritance graph.</summary>
+    /// <summary>Typed BitA-twin parent (F108 Part 2). Records the parent edge in
+    /// the inheritance graph and surfaces in the inspector.</summary>
     public F108Part2Pi2XEvenAlwaysPalindromic Part2 { get; }
 
     /// <summary>The five Π²_Z-even 2-site bilinears that Π_5bilinear handles
@@ -89,11 +70,8 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
             (PauliLetter.Z, PauliLetter.Z),
         };
 
-    /// <summary>Returns true iff the (letter1, letter2) ordered pair belongs to the
-    /// Π²_Z-even bilinear set {XX, YY, YZ, ZY, ZZ} that Π_5bilinear handles with
-    /// exact palindrome residual. I-containing pairs (II, IX, XI, etc.) are
-    /// considered trivially Π²-even but carry no 2-body Hamiltonian and are
-    /// excluded.</summary>
+    /// <summary>True iff (letter1, letter2) belongs to {XX, YY, YZ, ZY, ZZ}. I-containing
+    /// pairs are trivially Π²-even but carry no 2-body Hamiltonian and are excluded.</summary>
     public static bool IsPi2EvenBilinear(PauliLetter letter1, PauliLetter letter2)
     {
         if (letter1 == PauliLetter.I || letter2 == PauliLetter.I) return false;
@@ -102,10 +80,8 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
         return (bitB & 1) == 0;
     }
 
-    /// <summary>Returns true iff the given Pauli term is a 2-body bilinear whose
-    /// two non-I letters form a Π²-even pair from
-    /// <see cref="Pi2EvenBilinears"/>. F108 Part 1's exact-palindrome guarantee
-    /// holds for any H assembled as a linear combination of such terms.</summary>
+    /// <summary>True iff <paramref name="term"/> is a 2-body bilinear whose two non-I
+    /// letters form a Π²-even pair.</summary>
     public static bool IsPi2EvenBilinearTerm(PauliTerm term)
     {
         if (term is null) throw new ArgumentNullException(nameof(term));
@@ -117,9 +93,8 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
         return IsPi2EvenBilinear(nonI[0], nonI[1]);
     }
 
-    /// <summary>Returns true iff every term in the given Hamiltonian's term list is
-    /// a Π²-even 2-body bilinear (per <see cref="IsPi2EvenBilinearTerm"/>).
-    /// F108 Part 1's exact-palindrome guarantee holds iff this returns true.</summary>
+    /// <summary>True iff every term in <paramref name="terms"/> is a Π²-even 2-body
+    /// bilinear. F108 Part 1's exact-palindrome guarantee holds iff this returns true.</summary>
     public static bool IsPi2EvenBilinearHamiltonian(IEnumerable<PauliTerm> terms)
     {
         if (terms is null) throw new ArgumentNullException(nameof(terms));
@@ -133,9 +108,8 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
         "For H = Σ_b α_b · B_b with B_b ∈ {XX, YY, YZ, ZY, ZZ} bilinears and α_b ∈ ℝ, " +
         "and Z-dephasing on every site: Π_5bilinear · L · Π_5bilinear⁻¹ = −L − 2σ·I exactly.";
 
-    /// <summary>The F87 corollary, scoped to Z-dephasing (the F108 Part 1 proof's
-    /// scope). The X- and Y-dephasing analogs are tracked on the BitATwin slot
-    /// (see <see cref="BitATwinStatus"/>) and are not covered by this Claim.</summary>
+    /// <summary>F87 corollary scoped to Z-dephasing; X-deph covered by F108 Part 2,
+    /// Y-deph open (F108 Part 3).</summary>
     public string F87Corollary =>
         "Under Z-dephasing: no Π²_Z-even Pauli pair (truly or non-truly) is F87-hard; every such pair has palindromic spec(L).";
 
@@ -169,8 +143,7 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
             yield return new InspectableNode("Empirical verification",
                 summary: "9 pure-Π²-even non-truly pairs × N=3,4,5 = 27 instances, residual = 0; " +
                          "15 random non-uniform-J + 9 asymmetric J_YZ≠J_ZY instances, residual = 0; " +
-                         "pure D[Z]^⊗N dissipator N=3,4,5, residual = 0")
-            ;
+                         "pure D[Z]^⊗N dissipator N=3,4,5, residual = 0");
             yield return new InspectableNode("Closes F109 dependency (Z-dephasing branch)",
                 summary: "F109 (mother sector Klein (0,0) soft y_par=1 purity) was Tier1Derived modulo F108 Part 1; " +
                          "F108 Part 1 closes the Z-dephasing branch closed-form. The X-dephasing branch is closed " +

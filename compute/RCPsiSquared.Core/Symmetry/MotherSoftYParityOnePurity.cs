@@ -51,13 +51,11 @@ public sealed class MotherSoftYParityOnePurity : Claim, IZ2AxisClaim
     /// counts must be odd; only the (1, 1, 1) triple satisfies this at k ≤ 3.</summary>
     public string NonTrulyCriterion => "Klein (0,0) non-truly ⟺ #X, #Y, #Z all odd (forced by Klein same-parity + F107 truly = all even)";
 
-    /// <summary>Step 5 status: Z- and X-dephasing branches are closed-form via
-    /// F108 Part 1 (<see cref="F108Part1Pi2EvenAlwaysPalindromic"/>) and F108
-    /// Part 2 (<see cref="F108Part2Pi2XEvenAlwaysPalindromic"/>) respectively,
-    /// both closed 2026-05-25. The Y-dephasing branch awaits an undelivered F108
-    /// Part 3; until then, F109's Y-deph branch remains empirically anchored only
-    /// (1026 mother-soft cells across F103/F105/F106), not closed-form.</summary>
-    public string Step5Status => "F108 Part 1 closes the Z-dephasing branch via Π_5bilinear; F108 Part 2 closes the X-dephasing branch via the X-deph variant of Π_5bilinear (both Tier1Derived, 2026-05-25). Y-dephasing branch has no covering Claim yet (F108 Part 3 open). F109's Y branch remains empirically anchored, not closed-form.";
+    /// <summary>Step 5 status: Z-deph closed-form via
+    /// <see cref="F108Part1Pi2EvenAlwaysPalindromic"/>, X-deph closed-form via
+    /// <see cref="F108Part2Pi2XEvenAlwaysPalindromic"/>; Y-deph still empirically
+    /// anchored only (1026 mother-soft cells across F103/F105/F106), awaiting F108 Part 3.</summary>
+    public string Step5Status => "F108 Part 1 closes the Z-dephasing branch via Π_5bilinear; F108 Part 2 closes the X-dephasing branch via the X-deph variant of Π_5bilinear. Y-dephasing branch has no covering Claim yet (F108 Part 3 open). F109's Y branch remains empirically anchored, not closed-form.";
 
     /// <summary>The theorem statement: mother (0,0) soft ⟹ shared y_par = 1.</summary>
     public string Theorem => "Klein (0,0) soft under any dephase D in {Z, X, Y} ⟹ pair y_par = 1; equivalently #Y(both terms) = 1 mod 2";

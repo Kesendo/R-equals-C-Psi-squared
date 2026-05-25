@@ -1,11 +1,10 @@
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.Knowledge;
-using RCPsiSquared.Core.Lindblad;
 using RCPsiSquared.Core.Pauli;
 using RCPsiSquared.Core.Symmetry;
 using Xunit;
-using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
+using static RCPsiSquared.Core.Tests.Symmetry.F108TestSupport;
 
 namespace RCPsiSquared.Core.Tests.Symmetry;
 
@@ -15,9 +14,6 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 /// <c>simulations/_f108_part2_x_dephasing_scan.py</c>.</summary>
 public class F108Part2Pi2XEvenAlwaysPalindromicTests
 {
-    private const double Gamma = 0.05;
-    private const double ResidualTol = 1e-10;
-
     // ============================================================
     // Claim metadata
     // ============================================================
@@ -167,7 +163,7 @@ public class F108Part2Pi2XEvenAlwaysPalindromicTests
         // Single bilinear XY on every bond; Π²_X-even (bit_a = 1+1 = 0 mod 2),
         // non-truly (#X = #Y = 1, both odd).
         var terms = BuildSingleBilinearChain(N, PauliLetter.X, PauliLetter.Y);
-        double residual = ComputeXDephOperatorResidual(N, terms);
+        double residual = ComputeOperatorResidual(N, terms, PauliLetter.X);
         Assert.True(residual < ResidualTol,
             $"F108 Part 2 violated at N={N} on XY chain: residual = {residual:E3}");
     }
@@ -185,7 +181,7 @@ public class F108Part2Pi2XEvenAlwaysPalindromicTests
         foreach (var (label, terms) in pairs)
         {
             var chainTerms = BuildChainFromBilinears(N, terms);
-            double residual = ComputeXDephOperatorResidual(N, chainTerms);
+            double residual = ComputeOperatorResidual(N, chainTerms, PauliLetter.X);
             Assert.True(residual < ResidualTol,
                 $"F108 Part 2 violated at N={N} on '{label}': residual = {residual:E3}");
         }
@@ -199,7 +195,7 @@ public class F108Part2Pi2XEvenAlwaysPalindromicTests
         // bit-exactly.
         int N = 3;
         var emptyTerms = Array.Empty<PauliTerm>();
-        double residual = ComputeXDephOperatorResidual(N, emptyTerms);
+        double residual = ComputeOperatorResidual(N, emptyTerms, PauliLetter.X);
         Assert.True(residual < ResidualTol,
             $"F108 Part 2 dissipator-side violated at N={N}: residual = {residual:E3}");
     }
@@ -216,7 +212,7 @@ public class F108Part2Pi2XEvenAlwaysPalindromicTests
             terms.Add(PauliTerm.TwoSite(N, b, PauliLetter.Z, b + 1, PauliLetter.Z, Complex.One));
             terms.Add(PauliTerm.TwoSite(N, b, PauliLetter.X, b + 1, PauliLetter.Y, Complex.One));
         }
-        double residual = ComputeXDephOperatorResidual(N, terms);
+        double residual = ComputeOperatorResidual(N, terms, PauliLetter.X);
         Assert.True(residual < ResidualTol,
             $"F108 Part 2 violated at N={N} on ZZ+XY chain: residual = {residual:E3}");
     }
@@ -231,16 +227,6 @@ public class F108Part2Pi2XEvenAlwaysPalindromicTests
         var terms = new List<PauliTerm>();
         for (int b = 0; b < N - 1; b++)
             terms.Add(PauliTerm.TwoSite(N, b, a, b + 1, c, Complex.One));
-        return terms;
-    }
-
-    private static IReadOnlyList<PauliTerm> BuildChainFromBilinears(
-        int N, IReadOnlyList<(PauliLetter, PauliLetter)> bilinears)
-    {
-        var terms = new List<PauliTerm>();
-        for (int b = 0; b < N - 1; b++)
-            foreach (var (a, c) in bilinears)
-                terms.Add(PauliTerm.TwoSite(N, b, a, b + 1, c, Complex.One));
         return terms;
     }
 
@@ -266,38 +252,5 @@ public class F108Part2Pi2XEvenAlwaysPalindromicTests
             ("XY+YY", new[] { XY, YY }),
             ("YX+YY", new[] { YX, YY }),
         };
-    }
-
-    /// <summary>Compute ‖Π_5bilinear (X-deph) · L · Π⁻¹ + L + 2σ·I‖_F in the
-    /// Pauli-string basis, where L uses X-dephasing on every site.</summary>
-    private static double ComputeXDephOperatorResidual(int N, IReadOnlyList<PauliTerm> terms)
-    {
-        ComplexMatrix H;
-        if (terms.Count == 0)
-        {
-            int d = 1 << N;
-            H = Matrix<Complex>.Build.Dense(d, d);
-        }
-        else
-        {
-            H = new PauliHamiltonian(N, terms).ToMatrix();
-        }
-
-        // Build L with X-dephasing (not Z).
-        var gammas = Enumerable.Repeat(Gamma, N).ToArray();
-        var Lvec = PauliDephasingDissipator.Build(H, gammas, PauliLetter.X);
-
-        var transform = PauliBasis.VecToPauliBasisTransform(N);
-        double invD = 1.0 / (1 << N);
-        var Lpauli = (transform.ConjugateTranspose() * Lvec * transform) * invD;
-
-        var pi = Pi5BilinearOperator.BuildFull(N, PauliLetter.X);
-        var piInv = pi.ConjugateTranspose();
-
-        long d2 = 1L << (2 * N);
-        double sigma = N * Gamma;
-        var residual = pi * Lpauli * piInv + Lpauli +
-            (Complex)(2.0 * sigma) * Matrix<Complex>.Build.DenseIdentity((int)d2);
-        return residual.FrobeniusNorm();
     }
 }

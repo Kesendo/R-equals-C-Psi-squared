@@ -208,19 +208,15 @@ public static class KnowledgeRegistryFactory
             // First Cubic3-axis Claim; PolarityCubeMap's Cubic3Claims grows from 0 to 1.
             // Structural anchor for F87 Z₂³ refinement work (F103/F105/F106).
             .RegisterKleinEightCellClaim()
-            // BitA-axis F108 Part 2: every Π²_X-even H + X-dephasing admits exact
-            // operator-level palindrome via the X-deph variant of Π_5bilinear (per-site
-            // permutation I↔Z, X↔Y with phase flips on Z→I and Y→X back-arrows). BitA
-            // twin of F108 Part 1; must be registered BEFORE F108 Part 1 since Part 1
-            // takes Part 2 as a typed ctor parent (BitATwin slot). PolarityCubeMap's
-            // BitAClaims grows from 1 (F61) to 2.
+            // BitA-axis F108 Part 2: Π²_X-even H + X-dephasing admits exact
+            // operator-level palindrome (X-deph variant of Π_5bilinear). BitA twin
+            // of F108 Part 1; must be registered BEFORE Part 1 (ctor parent).
+            // PolarityCubeMap's BitAClaims grows from 1 (F61) to 2.
             .RegisterF108Part2Pi2XEvenAlwaysPalindromic()
-            // BitB-axis F108 Part 1: every Π²-even H + Z-dephasing admits exact
-            // operator-level palindrome via the Π_5bilinear phase-variant Π operator.
-            // Closes "no Π²_Z-even pair is F87-hard"; together with F108 Part 2 (X-deph
-            // branch) closes F109's Step 5 for Z- and X-dephasing. The Y-dephasing
-            // branch (F108 Part 3) remains open. PolarityCubeMap's BitBClaims grows by 1
-            // (BitATwin slot becomes Filled via F108 Part 2 ctor parent).
+            // BitB-axis F108 Part 1: Π²-even H + Z-dephasing admits exact
+            // operator-level palindrome (Π_5bilinear). Closes F109's Step 5 for Z-
+            // and X-dephasing together with F108 Part 2; Y-dephasing branch (F108
+            // Part 3) open. PolarityCubeMap's BitBClaims grows by 1.
             .RegisterF108Part1Pi2EvenAlwaysPalindromic()
             // Polarity cube map (cubic Z₂³ architecture inventory; aggregates every IZ2AxisClaim)
             // Must come AFTER every Pi²-Inheritance Claim registration above so its b.Get<T>()
