@@ -83,11 +83,14 @@ Reason: y_par = n_Y mod 2, bit_a XOR bit_b = (n_X + n_Z) mod 2, k_body = n_X + n
 - **Even k_body** (0, 2, 4, ...): y_par = bit_a XOR bit_b. Identity holds.
 - **Odd k_body** (1, 3, 5, ...): y_par = 1 + (bit_a XOR bit_b) mod 2. Identity strictly fails (off by exactly 1).
 
-In particular the 6 k_body=1 cases at 2 tensor positions (IX, IY, IZ, XI, YI, ZI) all violate the identity:
+In particular the 6 k_body=1 cases at 2 tensor positions (IX, IY, IZ, XI, YI, ZI) all violate the identity (each has Klein signature equal to the non-identity letter's row in the per-letter table, k_body=1, hence y_par − (bit_a XOR bit_b) = 1):
 
 - IX: bit_a=1, bit_b=0, y_par=0. 0 ≠ 1. Fail.
 - IY: bit_a=1, bit_b=1, y_par=1. 1 ≠ 0. Fail.
 - IZ: bit_a=0, bit_b=1, y_par=0. 0 ≠ 1. Fail.
+- XI: bit_a=1, bit_b=0, y_par=0. 0 ≠ 1. Fail.
+- YI: bit_a=1, bit_b=1, y_par=1. 1 ≠ 0. Fail.
+- ZI: bit_a=0, bit_b=1, y_par=0. 0 ≠ 1. Fail.
 
 ## k_body=3 counterexample
 
@@ -100,7 +103,7 @@ The k_body=3 independence surfaces by mixing k_body values at the same Klein sig
 
 Both at the same N (≥3) tensor positions; both Klein (0, 0); different y_par.
 
-**Search for k_body=3 Klein (0, 0).** We need (n_X + n_Y) mod 2 = 0 AND (n_Y + n_Z) mod 2 = 0 with n_X + n_Y + n_Z = 3. The first two give n_X ≡ n_Y mod 2 and n_Y ≡ n_Z mod 2, so all three have the same parity. With sum 3 (odd), all three must be odd, so (n_X, n_Y, n_Z) = (1, 1, 1). The only k_body=3 string with Klein (0, 0) is therefore XYZ (and its 6 letter permutations XZY, YXZ, YZX, ZXY, ZYX), all with y_par=1.
+**Search for k_body=3 Klein (0, 0).** We need (n_X + n_Y) mod 2 = 0 AND (n_Y + n_Z) mod 2 = 0 with n_X + n_Y + n_Z = 3. The first two give n_X ≡ n_Y mod 2 and n_Y ≡ n_Z mod 2, so all three have the same parity. With sum 3 (odd), all three must be odd, so (n_X, n_Y, n_Z) = (1, 1, 1). The k_body=3 strings with Klein (0, 0) are therefore the 6 letter permutations of XYZ (XYZ, XZY, YXZ, YZX, ZXY, ZYX = S_3 on {X, Y, Z}), all with y_par=1.
 
 This is exactly the structural independence at k_body≥3: the Klein signature does not pin y_par once strings of different k_body values are admitted. The witness in `compute/RCPsiSquared.Core.Tests/Pauli/PauliHamiltonianKleinHelpersTests.cs` (XYZ_AtK3_IsKleinHomogeneousButZ2HomogeneityRefinesViaYParity) demonstrates this in the `PauliHamiltonian.IsZ2Homogeneous` refinement of `IsKleinHomogeneous` at k_body=3.
 

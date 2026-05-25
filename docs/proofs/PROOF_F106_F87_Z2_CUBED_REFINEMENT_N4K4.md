@@ -2,12 +2,27 @@
 
 **Status:** Tier 1 derived (empirical anchor; mixed k-stability outcome at k=4)
 **Date:** 2026-05-24
-**Anchor:** N=4, k_body=4, 4248 Z₂³-homogeneous Pauli pairs
-**Regenerate:** SLOW_F106_BATCH tool (~2-3min PLINQ on Tom's 24-core machine, ~40min sequential) writing `simulations/results/f87_z2cubed_split_n4_k4_counts.json`
+**Anchor:** N=4, k_body=4, 4248 Z₂³-homogeneous + Y-par-homogeneous Pauli pairs
+**Regenerate:** SLOW_F106_BATCH tool, ~4min PLINQ on Tom's 24-core machine (~40min sequential) writing `simulations/results/f87_z2cubed_split_n4_k4_counts.json`
 
 ## 1. Context
 
-F103 anchored the F87 Z₂³ refinement at N=4 k=3 (294 Z₂³-homogeneous + Y-par-homogeneous k=3 Pauli pairs). F105 confirmed F85's N-stability lift at the y_par axis: identical counts at N=5 k=3 to F103. F106 tests the orthogonal axis (k-stability) at N=4 k=4. F85 does NOT predict k-stability of the y_par sub-refinement; specifically, the Klein (0,0) enum balance shifts from 45/21 at k=3 to 780/300 at k=4, and the structural worry was that "mother soft is y_par=1-pure" would break.
+F103 anchored the F87 Z₂³ refinement at N=4 k=3 (294 Z₂³-homogeneous +
+Y-par-homogeneous k=3 Pauli pairs). F105 confirmed F85's N-stability lift at
+the y_par axis: identical counts at N=5 k=3 to F103. F106 tests the
+orthogonal axis (k-stability) at N=4 k=4. F85 does NOT predict k-stability
+of the y_par sub-refinement; the k=4 enumeration shifts on every Klein cell:
+Klein (0,0) goes from 45/21 (y_par 0/1) at k=3 to 780/300 at k=4, while the
+off-diagonal cells (0,1)/(1,0) go from 55/21 to a fully symmetric 528/528,
+and (1,1) inverts from 21/55 to the same 528/528. The structural worry from
+the (0,0) shift was that "mother soft is y_par=1-pure" would break; the
+deeper shift was on the off-diagonals, where the asymmetric Pattern B
+55:21 / 21:55 collapses into a fully symmetric (528, 528), which turns out
+to be the actual k=4 surprise (see Section 3.5, new Pattern D).
+
+Notation (bit_a, bit_b, y_par, Klein cells, Π²) is defined in
+[PROOF_F103](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) Section 1; F106 uses it
+without redefinition.
 
 **Observed outcome (mixed):** Three patterns SURVIVED in some form at k=4; two patterns BROKE structurally. Concretely:
 
@@ -37,7 +52,7 @@ The on-demand re-verification mechanism lives in `F106KBodyTrichotomyVerificatio
 
 ### 3.1 Truly is y_par=0-pure (HELD)
 
-Across all 6 (Klein × dephase) cells where truly appears at k=4, every truly classification has y_par=0. Total truly classifications across the grid: 3924. y_par=1 truly count: 0.
+Across all 12 (Klein × dephase) cells, every truly classification at k=4 has y_par=0 (truly appears in 6 of the 12 cells; the other 6 are vacuously y_par=0-pure with zero truly classifications, consistent with F103's and F105's "all 12 cells" framing). Total truly classifications across the grid: 3924. y_par=1 truly count: 0.
 
 ```
 Klein (0,0) X-deph truly y_par=0 = 780
@@ -92,16 +107,16 @@ This was the structurally-worried-about case (enum balance shifted from 45/21 to
 
 ```
 Klein (0,1) X-deph soft = (0, 528)      Pattern C analog: pure y_par=1
-Klein (0,1) Y-deph soft = (528, 528)    NEW: fully y_par-symmetric
+Klein (0,1) Y-deph soft = (528, 528)    Pattern D (new at k=4): fully y_par-symmetric
 Klein (1,0) Y-deph soft = (0, 528)      Pattern C analog: pure y_par=1
 Klein (1,0) Z-deph soft = (0, 528)      Pattern C analog: pure y_par=1
-Klein (1,1) X-deph soft = (528, 528)    NEW: fully y_par-symmetric
-Klein (1,1) Z-deph soft = (528, 528)    NEW: fully y_par-symmetric
+Klein (1,1) X-deph soft = (528, 528)    Pattern D (new at k=4): fully y_par-symmetric
+Klein (1,1) Z-deph soft = (528, 528)    Pattern D (new at k=4): fully y_par-symmetric
 ```
 
-Three cells (those associated with X-dephase at Klein (0,1) and Y/Z-dephase at Klein (1,0)) match F105's Pattern C (y_par=1-pure (0, x), here x=528). The other three cells (which at k=3 were Pattern B asymmetric (55, 21) or (21, 55)) became FULLY SYMMETRIC (528, 528) at k=4.
+Three cells (those associated with X-dephase at Klein (0,1) and Y/Z-dephase at Klein (1,0)) match F105's Pattern C (y_par=1-pure (0, x), here x=528). The other three cells (which at k=3 were Pattern B asymmetric (55, 21) or (21, 55)) became fully y_par-symmetric (528, 528) at k=4, labelled **Pattern D** for forward-reference; it is the new k=4 sub-pattern that replaces k=3's Pattern B in this 3+3 partition.
 
-The Pattern C / Pattern B split from k=3 is preserved as a 3+3 partition; only the asymmetric Pattern B values changed shape (from (55, 21)/(21, 55) to symmetric (528, 528)).
+The Pattern C / Pattern B split from k=3 is preserved structurally as a 3+3 partition; the three Pattern C cells stay Pattern C (only the magnitudes re-scale), and the three Pattern B cells migrate to the new Pattern D (asymmetric (55, 21)/(21, 55) at k=3 → fully symmetric (528, 528) at k=4). The mechanism for Pattern B → D is the off-diagonal enum balance shift cited in Section 1 (55:21 / 21:55 → 32:32 at the underlying k=4 letter-quadruple count).
 
 ## 4. Full Count Tables
 

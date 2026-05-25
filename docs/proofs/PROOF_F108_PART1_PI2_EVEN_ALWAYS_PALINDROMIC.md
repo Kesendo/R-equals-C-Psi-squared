@@ -31,7 +31,7 @@ In the 4×4 label-basis matrix form on {I, X, Y, Z}:
    Z  [ 0   0   i   0 ]
 ```
 
-It is the same I↔X, Y↔Z permutation as the canonical Heisenberg Π (the P1 family of [NON_HEISENBERG_PALINDROME](../../experiments/NON_HEISENBERG_PALINDROME.md)), with two phase flips relative to the canonical choice (X→+I, Z→+iY): the X→I and Z→Y arrows carry sign −1 and −i respectively.
+It is the same I↔X, Y↔Z permutation as the canonical Heisenberg Π (the P1 family of [NON_HEISENBERG_PALINDROME](../../experiments/NON_HEISENBERG_PALINDROME.md)), with two phase flips relative to the canonical choice: the X→I arrow has phase −1 (canonical: +1) and the Z→Y arrow has phase −i (canonical: +i). Both are unit-modulus sign flips against the canonical P1.
 
 Key per-site facts:
 
@@ -120,7 +120,7 @@ Reproduction: [`simulations/_f108_part1_pi_family_scan.py`](../../simulations/_f
 
 ## Resolution of the previously open ker(M) attempt
 
-Earlier exploration ([`F108KerMLemmaExploration.cs`](../../compute/RCPsiSquared.Core.Tests/Symmetry/F108KerMLemmaExploration.cs), now removed) attempted to close F108 Part 1 by proving that every L-eigenvector lies in the kernel of M (the F1 palindrome residual for the canonical Heisenberg Π). Numerical verification falsified that lemma: only 2 of 64 L-eigenvectors at the N=3 YZ+ZY test case satisfied M·v_λ = 0. The follow-up Critical Isospectral Lemma reduction was circular (it restated the spectral palindrome under another name).
+Earlier exploration (`F108KerMLemmaExploration.cs`, since removed from the repository) attempted to close F108 Part 1 by proving that every L-eigenvector lies in the kernel of M (the F1 palindrome residual for the canonical Heisenberg Π). Numerical verification falsified that lemma: only 2 of 64 L-eigenvectors at the N=3 YZ+ZY test case satisfied M·v_λ = 0. The follow-up Critical Isospectral Lemma reduction was circular (it restated the spectral palindrome under another name).
 
 The actual mechanism is structurally different: a DIFFERENT per-site Π operator (Π_5bilinear, phase variant of the canonical P1 Π) gives EXACT operator-level palindrome with residual zero, without going through M at all. The canonical Heisenberg Π has M ≠ 0 for Π²-even non-truly H; the Π_5bilinear Π has its own residual (call it M_5bilinear), which is zero for the full Π²-even bilinear family by Steps 1-2 above.
 

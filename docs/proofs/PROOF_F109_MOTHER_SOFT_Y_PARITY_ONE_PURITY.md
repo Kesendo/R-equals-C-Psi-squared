@@ -12,7 +12,7 @@
 
 **Statement (Theorem F109):** Under any single-letter dephase channel (Z, X, or Y), every Pauli pair classified as soft and located in the Mother sector Klein (0, 0) has shared y_par = 1.
 
-Empirically confirmed across F103 (mother soft (0, 21) ×3 dephase letters), F105 (same), F106 (mother soft (0, 300) ×3 — sharpened at k=4). Total: 1026 mother-soft classifications, all y_par=1, zero y_par=0.
+Empirically confirmed across F103 (mother soft (0, 21) ×3 dephase letters), F105 (same), F106 (mother soft (0, 300) ×3, sharpened at k=4). Total: 1026 mother-soft classifications, all y_par=1, zero y_par=0.
 
 ## Proof
 

@@ -29,11 +29,11 @@ F106 N = 4 k = 4 enumeration (per `compute/RCPsiSquared.Core/Symmetry/F87Z2Cubed
 | (1, 0)     | X         | (228, 0)                      | 228 hard; ✓ |
 | (1, 1)     | Y         | (0, 228)                      | 228 hard (Y-inversion); ✓ |
 
-Independent verification: `simulations/_f111_pair_off_ypar_verify.py` classifies all 528 pairs per diagonal cell × 3 dephases = 1584 pair classifications, all matching the Pure-D Template Rule with zero exceptions.
+Independent verification: `simulations/_f111_pair_off_ypar_verify.py` classifies all 528 pairs per on-y_par sub-cell of the diagonal cell × 3 dephases = 1584 pair classifications, all matching the Pure-D Template Rule with zero exceptions. (Each diagonal cell decomposes into an on-y_par sub-cell of 528 pairs and an off-y_par sub-cell of 528 pairs; the off-y_par sub-cell contains zero pure-D templates by Step 2 below, and the rule predicts zero hard pairs there, also empirically verified, so the rule covers the full diagonal cell.)
 
-## Structural decomposition (per diagonal cell at k = N = 4)
+## Structural decomposition (per on-y_par sub-cell of the diagonal cell at k = N = 4)
 
-Per cell, all 528 = 32·33/2 unordered pairs (with self) decompose by template-membership:
+The on-y_par sub-cell of the diagonal cell contains 32 length-4 templates (templates with the same y_par as D and the matching Klein index). The 528 = 32·33/2 unordered pairs (with self) on these templates decompose by template-membership:
 
 | Pair class | Count formula | Count | F87 status |
 |------------|---------------|-------|------------|
@@ -42,9 +42,9 @@ Per cell, all 528 = 32·33/2 unordered pairs (with self) decompose by template-m
 | Mixed-Mixed (both terms mixed) | 24·25/2 | 300 | SOFT (per subclaim d) |
 | **Total** | | **528** | 36 + 192 = 228 hard |
 
-The 36 + 192 + 0 = 228 count matches F106 exactly across all 3 dephase letters.
+The 36 + 192 + 0 = 228 count matches F106 exactly across all 3 dephase letters. The off-y_par sub-cell of the diagonal cell (another 528 pairs) contains no pure-D templates by construction (pure-D template's y_par equals y_par(D) by Step 2 below); under the Pure-D Template Rule it contributes zero hard pairs, also matching F106's empirical zero in the off-y_par half of the (228, 0) split.
 
-Counting the Pure-D templates per cell: at k = 4 in diagonal cell with bit_b (Z, Y) = 1 or bit_a (X) = 1, the Pure-D templates have either #D = 1, #I = 3 (4 placements) or #D = 3, #I = 1 (4 placements). Total: 8.
+Counting the Pure-D templates per on-y_par sub-cell: at k = 4 in the diagonal cell with bit_b (Z, Y) = 1 or bit_a (X) = 1, pure-D templates have either #D = 1, #I = 3 (4 placements) or #D = 3, #I = 1 (4 placements). Total: 8 pure-D templates in the on-y_par sub-cell, 0 in the off-y_par sub-cell.
 
 ## Proof
 
@@ -96,12 +96,14 @@ The spectrum-level palindromy IS realized by some similarity transformation (exi
 
 ### Step 5: F111 statement follows from subclaims (a)-(d)
 
-Pair (P, Q) is F87-hard iff at least one of P, Q is a pure-D template:
+On the on-y_par sub-cell of the diagonal cell, pair (P, Q) is F87-hard iff at least one of P, Q is a pure-D template:
 - Both pure-D: hard via (a) extended to pairs (heuristic).
 - One pure-D, one mixed: hard via (c).
 - Both mixed: SOFT via (d), so NOT hard.
 
-This is the Pure-D Template Rule. Combined with Step 2 (pure-D ⟹ y_par = y_par(D)), F110 Aspect B at k = N = 4 follows: every F87-hard pair has y_par = y_par(D). ∎ (modulo subclaim (d) closed-form)
+On the off-y_par sub-cell of the diagonal cell, no template is pure-D (Step 2: pure-D ⟹ y_par = y_par(D), which excludes the off-y_par sub-cell by construction), so the "at least one pure-D" condition is vacuously false everywhere; the rule predicts zero hard pairs in the off-y_par sub-cell, matching F106's empirical zero in the off-y_par half of the (228, 0) split.
+
+Combining both sub-cells, the Pure-D Template Rule covers the full diagonal cell. Combined with Step 2 (pure-D ⟹ y_par = y_par(D)), F110 Aspect B at k = N = 4 follows: every F87-hard pair has y_par = y_par(D). ∎ (modulo subclaim (d) closed-form)
 
 ## Path 1 / Path 2 / Path 3 derivation attempts (Task 1, BLOCKED)
 
@@ -125,9 +127,13 @@ The rule predicts the F87-hard set in the diagonal cell EXACTLY at k = N = 4 acr
 
 The rule's structural origin (dephase letter D commutes with itself, so pure-D Hamiltonians have decoupled L = L_H + L_D dynamics) connects F111 to the broader F107/F108 "per-letter dissipator algebra" theme.
 
-## Sibling y_par-axis claims
+## Sibling y_par-axis claims and cross-axis closure
 
-Closed 2026-05-25: F107 (truly ⟹ y_par=0, Tier1Derived); F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived); F109 (mother soft ⟹ y_par=1, Tier1Derived unconditional); F110 (HardCellYInversionPattern, Tier1Candidate); F111 (HardCellPureDTemplate, Tier1Candidate). Together the 8 YParity-axis Claims (F107, F108 Part 1/2/3, F109, F110, F111) form the YParity-axis classification of the F87 trichotomy.
+Closed 2026-05-25: F107 (truly ⟹ y_par=0, Tier1Derived); F109 (mother soft ⟹ y_par=1, Tier1Derived unconditional); F110 (HardCellYInversionPattern, Tier1Candidate); F111 (HardCellPureDTemplate, Tier1Candidate).
+
+The 8 YParity-axis Claims (per `IZ2AxisClaim.Z2Axis == Z2Axis.YParity`) are: F102 (YParityIndependenceAtK3), F103 (F87Z2CubedRefinementN4K3), F105 (F87Z2CubedRefinementN5K3), F106 (F87Z2CubedRefinementN4K4), F107 (TrulyYParityZeroPurity), F109 (MotherSoftYParityOnePurity), F110 (HardCellYInversionPattern), and F111 (HardCellPureDTemplate, this proof). Together they form the YParity-axis classification of the F87 trichotomy.
+
+F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived 2026-05-25) are **not** YParity-axis sisters: per their `Z2Axis` declarations they live on the BitB axis (Parts 1 and 3) and the BitA axis (Part 2). They are the cross-axis closure mechanism that grounds the diagonal-cell scope of F107/F109/F110/F111 by establishing the operator-level palindrome on the Π²-D-even cells via Π_5bilinear.
 
 ## Open
 

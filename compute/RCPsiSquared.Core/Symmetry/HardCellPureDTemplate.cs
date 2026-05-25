@@ -58,9 +58,15 @@ namespace RCPsiSquared.Core.Symmetry;
 /// without invoking a closed-form palindromic-operator construction.</para>
 ///
 /// <para><b>Open subclaim (d):</b> Mixed+Mixed pair ⟹ soft at k = N = 4. This is
-/// the only remaining gap to a fully closed-form F111. The other three rule
-/// directions (Pure+Pure hard, Pure+Mixed hard, F110 Aspect B Y-inversion
-/// corollary) are either combinatorial bookkeeping or immediate consequences.</para>
+/// the blocking subclaim for Tier1Derived promotion: no operator-level
+/// closed-form has been constructed (3 derivation paths attempted and
+/// exhausted; see PROOF Section 6). Subclaim (a) (Pure+Pure single-term H is
+/// F87-hard) holds via a heuristic dissipator-commute mechanism, not a fully
+/// rigorous derivation; the Pure-Pure pair extension and the F110 Aspect B
+/// Y-inversion corollary follow as immediate consequences once (a) is granted.
+/// Subclaims (b) (mixed single-term H is soft) and (c) (Pure-Mixed pair is
+/// hard) are empirically verified, closed-form mechanism still open in both
+/// cases. The PROOF document is authoritative for this status breakdown.</para>
 ///
 /// <para>Implements <see cref="IZ2AxisClaim"/> with <see cref="Z2Axis.YParity"/>;
 /// <b>eighth member</b> of the YParity-axis Claim family (after F107

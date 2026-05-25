@@ -2,7 +2,7 @@
 
 **Status:** Tier 1 derived (empirical anchor; closed-form derivation pending)
 **Date:** 2026-05-24
-**Anchor:** N=4, k_body=3, 294 Z₂³-homogeneous Pauli pairs
+**Anchor:** N=4, k_body=3, 294 Z₂³-homogeneous + Y-par-homogeneous Pauli pairs (pair count is N-independent at fixed k; the empirical anchor is N=4)
 **Regenerate:** `simulations/f87_z2cubed_split_n4_k3.py` (~60s)
 
 ## 1. Context
@@ -19,9 +19,36 @@ classification meaningful at k_body≥3.
 
 F103 asks: does the F87 trichotomy actually refine into y_par sub-cells at
 k_body=3, or is the trichotomy y_par-blind? Method: enumerate the 294
-Z₂³-homogeneous + Y-par-homogeneous k_body=3 Pauli pairs at N=4, classify
-each under Z / X / Y dephasing, bucket by (Klein × dephase letter × y_par ×
-trichotomy class).
+Z₂³-homogeneous + Y-par-homogeneous k_body=3 Pauli pairs (this pair count is
+alphabet-only, N-independent; classification is then carried out at the
+N=4 chain), classify each under Z / X / Y dephasing, bucket by (Klein ×
+dephase letter × y_par × trichotomy class).
+
+### Notation (shared across F103, F105, F106)
+
+Pauli letters carry a two-bit Klein-Vierergruppe index
+([`framework/pauli.py`](../../simulations/framework/pauli.py)):
+
+| letter | (bit_a, bit_b) |
+|--------|----------------|
+| I      | (0, 0)         |
+| X      | (1, 0)         |
+| Z      | (0, 1)         |
+| Y      | (1, 1)         |
+
+For a Pauli string σ with letter counts n_X, n_Y, n_Z,
+
+    bit_a(σ) = (n_X + n_Y) mod 2   (F61 axis: Π²_X = Z⊗N parity)
+    bit_b(σ) = (n_Y + n_Z) mod 2   (F63 axis: Π²_Z = X⊗N parity)
+    y_par(σ) = n_Y mod 2
+
+The Klein signature (bit_a, bit_b) and y_par together form the Z₂³ axis
+decomposition (one bit per axis). Π² is the squared conjugation operator;
+under Z-dephasing it acts on Pauli strings as Π²·σ_α = (−1)^bit_b(α)·σ_α
+(F81 Step 1; the X-deph and Y-deph variants swap to bit_a / bit_b
+respectively per F108). The **diagonal Klein cell** for dephase letter D
+is the cell whose (bit_a, bit_b) equals D's: Z → (0,1), X → (1,0),
+Y → (1,1). F105 and F106 refer back to this notation block.
 
 ## 2. Method
 
@@ -48,7 +75,11 @@ Klein    y_par=0  y_par=1  total
 ```
 
 The (1,1) inversion (21 / 55 instead of 55 / 21 like (0,1) / (1,0)) reflects
-that Klein (1,1) requires Y-letters, and Y carries y_par=1.
+that at k=3 Klein (1,1) admits 6 y_par=0 letter-triples and 10 y_par=1
+letter-triples, inverted relative to (0,1) and (1,0)'s 10 / 6 split (Y is the
+unique Klein-(1,1) letter, so a Klein-(1,1) k=3 string with even #Y must use
+exactly one Y plus two non-Y Klein-(1,1)-summing letters; the count
+mechanically inverts vs the off-axes).
 
 ## 3. Five Observed Patterns
 
@@ -155,8 +186,10 @@ Klein           y0  y1  tot    y0  y1  tot    y0  y1  tot
 ## 5. Open Questions
 
 1. **Closed-form derivation of 42:8.** The 50-pair hard count itself is
-   already F87-derived (4-cell × 3-letter table at N=4 k=3); the 42:8 split
-   under y_par would follow from Pauli-letter Klein arithmetic + Y-as-y_par-1
+   already F87-derived (see [F87 entry in ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md)
+   and [PROOF_F85_KBODY_GENERALIZATION.md](PROOF_F85_KBODY_GENERALIZATION.md):
+   4-cell × 3-letter trichotomy table at N=4 k=3); the 42:8 split under
+   y_par would follow from Pauli-letter Klein arithmetic + Y-as-y_par-1
    weighting, but the precise derivation is open.
 
 2. **N>4 and k>3 universality.** The (42, 8, 50) numbers are N=4 k=3

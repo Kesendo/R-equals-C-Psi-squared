@@ -1,6 +1,6 @@
 # PROOF F100: F71 c₁/Q_peak bond-mirror deviation is exactly odd in the F71-anti-palindromic J (observable-side twin of F92)
 
-**Status:** Tier 1 derived (algebraic R-equivariance argument on the PROOF_C1 apparatus + numerical empirical witnesses for c₁ and Q_peak, residuals ≤ 1e-9)
+**Status:** Tier 1 derived (algebraic R-equivariance argument on the PROOF_C1 apparatus + numerical empirical witnesses for c₁ and Q_peak, c₁ oddness residuals ≤ 5e−9, Q_peak oddness residuals ≤ 1e−11)
 **Date:** 2026-05-20; 2026-05-21 (κ-obstruction section, Q_peak witness, κ perturbation-route test)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Typed claim:** [`C1QPeakMirrorJParity.cs`](../../compute/RCPsiSquared.Core/F71/C1QPeakMirrorJParity.cs)
@@ -72,7 +72,7 @@ D is exactly odd in J_anti at fixed J_sym, to all orders. ∎
 - **Palindromic survival:** J_anti = 0 ⟹ D = −D ⟹ D = 0. The F71 c₁/Q_peak bond-mirror holds for **every** palindromic J, however non-uniform J_sym is. F71 never required uniform J; it requires palindromic J. Uniform is merely the simplest palindromic profile.
 - **Graceful breakdown:** the Taylor series of D in J_anti has odd powers only, so D is leading-order linear in the asymmetry parameter B_b = J_b − J_{N−2−b} = 2(J_anti)_b. Graceful, not a hard violation.
 - **J_sym-dependence (Tier 2 empirical):** the leading coefficient κ_b is the c₁-gradient evaluated at J_sym and generically depends on J_sym. The parity argument fixes the oddness, NOT the coefficient. κ_b admits no closed form; see the section "The leading coefficient κ" below.
-- **Q_peak:** the identical R-conjugation argument applies to F86c's per-bond observable K_b(Q, t), built R-equivariantly: K_b(Q, t; J) = K_{N−2−b}(Q, t; F71(J)), so ΔQ_peak(b) is odd in J_anti, zero for palindromic J. Both c₁ and Q_peak are numerically witnessed (see Empirical witness).
+- **Q_peak:** the identical R-conjugation argument applies to F86c's per-bond Hellmann-Feynman response K_b(Q, t) := 2 Re⟨ρ(t)|S|∂ρ/∂J_b⟩ (defined operationally in the Q_peak empirical witness below), built R-equivariantly: K_b(Q, t; J) = K_{N−2−b}(Q, t; F71(J)), so ΔQ_peak(b) := Q_peak(b; J) − Q_peak(N−2−b; J) is odd in J_anti, zero for palindromic J. Both c₁ and Q_peak are numerically witnessed (see Empirical witness).
 
 ## Empirical witness
 
@@ -82,11 +82,11 @@ Witness script: [`simulations/_f71_nonuniform_j_verification.py`](../../simulati
 
 | N | palindromic survival max\|D(s=0)\| | oddness max\|D(+s)+D(−s)\| | typ \|D\| at max s |
 |---|---|---|---|
-| 3 | 1.5e−11 | 7.8e−11 | 0.54 |
-| 4 | 6.1e−11 | 5.5e−10 | 0.99 |
-| 5 | 4.0e−10 | 1.0e−9 | 4.05 |
+| 3 | 1.1e−10 | 4.9e−11 | 0.54 |
+| 4 | 6.3e−11 | 1.1e−9 | 0.99 |
+| 5 | 8.4e−10 | 4.8e−9 | 4.05 |
 
-Even-power coefficients (constant and quadratic, from a cubic fit of D vs s) are below ~3e−8, confirming only odd powers survive. The leading coefficient κ shows 76% / 62% / 143% relative spread across the 4 J_sym profiles at N=3 / 4 / 5, confirming the J_sym-dependence. N=3, 4, 5 verified; N=6 not required (three independent N suffice).
+Canonical record: [`simulations/results/f71_nonuniform_j_verification/summary_N3_4_5.json`](../../simulations/results/f71_nonuniform_j_verification/summary_N3_4_5.json). Even-power coefficients (constant and quadratic, from a cubic fit of D vs s) are below ~1.1e−7 (quadratic peak at N=5), confirming only odd powers survive; the residual quadratic at N=5 reflects 1/s² fit conditioning over the wide ±0.12 sweep, not a structural even-power leakage (the direct oddness residual sits at 4.8e−9). The leading coefficient κ shows 76% / 62% / 143% relative spread across the 4 J_sym profiles at N=3 / 4 / 5, confirming the J_sym-dependence. N=3, 4, 5 verified; N=6 not required (three independent N suffice).
 
 ### Q_peak (per-bond resonance)
 

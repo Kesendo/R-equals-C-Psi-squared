@@ -1,15 +1,19 @@
 # PROOF F105: F87 Trichotomy Z₂³ Refinement at k=3 (N=5 Empirical Anchor)
 
-**Status:** Tier 1 derived (empirical anchor; F85 N-stability prediction CONFIRMED bit-exactly)
+**Status:** Tier 1 derived (empirical anchor; F85-style N-stability lifted to the y_par sub-refinement, CONFIRMED bit-exactly at k=3)
 **Date:** 2026-05-24
-**Anchor:** N=5, k_body=3, 294 Z₂³-homogeneous Pauli pairs
-**Regenerate:** SLOW_F105_BATCH tool (~3h on Tom's machine, accelerated to ~12 min via PLINQ in the Task 7 run) writing `simulations/results/f87_z2cubed_split_n5_k3_counts.json`
+**Anchor:** N=5, k_body=3, 294 Z₂³-homogeneous + Y-par-homogeneous Pauli pairs (pair count alphabet-only, N-independent; this anchor classifies at N=5)
+**Regenerate:** SLOW_F105_BATCH tool, ~11m 34s PLINQ on Tom's 24-core machine (sequential dense ~3h) writing `simulations/results/f87_z2cubed_split_n5_k3_counts.json`. The separate on-demand re-verification suite (SLOW_F105 trait, not BATCH) is the dense-classifier path and runs ~3h.
 
 ## 1. Context
 
-F103 anchored the F87 Z₂³ refinement at N=4 k=3 (294 Z₂³-homogeneous + Y-par-homogeneous k=3 Pauli pairs, classified across 3 dephase letters into a Z₂³ refinement of the truly/soft/hard trichotomy). F85 (k-body generalization) predicts the Π²-class trichotomy is N-stable for any k. F105 tests whether this N-stability lifts to the y_par sub-refinement: do the 5 sub-statement counts (truly 300 / 0 y_par=1; hard 42:8 with Y-inversion; diagonal soft 13:13; mother soft 0:21; off-diagonal Pattern B + Pattern C) survive bit-exactly at N=5?
+F103 anchored the F87 Z₂³ refinement at N=4 k=3 (294 Z₂³-homogeneous + Y-par-homogeneous k=3 Pauli pairs, classified across 3 dephase letters into a Z₂³ refinement of the truly/soft/hard trichotomy). F85 (k-body generalization) predicts the Π²-class trichotomy is N-stable for any k. F105 tests whether this N-stability lifts to the y_par sub-refinement: do the 5 sub-statement records (truly 300 / 0 y_par=1; hard 42:8 with Y-inversion; diagonal soft 13:13; mother soft 0:21; off-diagonal Pattern B + Pattern C) survive bit-exactly at N=5?
 
-**Observed outcome: F85's N-stability prediction is CONFIRMED bit-exactly.** All 5 sub-statement counts at N=5 k=3 are identical to F103's frozen counts at N=4 k=3. The cubic Z₂³ architecture is N-invariant in its sub-cell structure at k=3. Strong evidence that the y_par sub-refinement is k-stable (was already F85's Π²-class prediction) AND N-stable at any individual k, lifting F85 from a class-level statement to a fully cell-level invariance at k=3.
+**Observed outcome: F85-style N-stability is CONFIRMED bit-exactly for the y_par sub-refinement at k=3.** All 5 sub-statement records at N=5 k=3 are identical to F103's frozen records at N=4 k=3 (each record is a structured tuple of scalar counts; "bit-exactly" means every scalar matches). The cubic Z₂³ architecture is N-invariant in its sub-cell structure at this k. F105 tests N-stability only; F106 tests the orthogonal k-stability axis (and finds the k=3 ratios do not all survive at k=4).
+
+Notation (bit_a, bit_b, y_par, Klein cells, Π²) is defined in
+[PROOF_F103](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) Section 1; F105 uses it
+without redefinition.
 
 ## 2. Method
 
@@ -23,7 +27,11 @@ Enumeration constraints (identical to F103, since the 294 pairs depend only on t
 
 Result: 294 pairs partitioned across 4 Klein cells × 2 y_par values, classified across 3 dephase letters into a 4 × 3 × 2 × 3 grid (Klein × Dephase × y_par × Trichotomy class). The JSON's `grid` array lists every non-zero cell.
 
-The on-demand re-verification mechanism lives in `F105KBodyTrichotomyVerificationTestsN5K3` (SLOW_F105 trait), parallel to `F104KBodyTrichotomyVerificationTests` (SLOW_F104, N=4). Skip-by-default in CI; manual re-run via `dotnet test --filter "Category=SLOW_F105"` takes ~3h dense.
+The on-demand re-verification mechanism is two-tiered:
+- `F87Z2CubedEnumerationN5K3Tool` (SLOW_F105_BATCH trait): PLINQ-parallelized enumeration that regenerates the frozen counts JSON; ~11m 34s on a 24-core machine.
+- `F105KBodyTrichotomyVerificationTestsN5K3` (SLOW_F105 trait): the dense-classifier verification path, parallel to `F104KBodyTrichotomyVerificationTests` (SLOW_F104, N=4); ~3h dense.
+
+Skip-by-default in CI; manual re-run via `dotnet test --filter "Category=SLOW_F105"` (dense, ~3h) or `--filter "Category=SLOW_F105_BATCH"` (PLINQ, ~12min).
 
 ## 3. Observed Patterns
 

@@ -5,7 +5,9 @@
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
 - [PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md) (F108 Part 1, Z-dephasing on the same BitB axis; this Part 3 mirrors its proof structure with the Y-dephase-appropriate phase choice)
-- [PROOF_F85_KBODY_GENERALIZATION.md](PROOF_F85_KBODY_GENERALIZATION.md) (truly criterion: Y-dephase truly = #Y even AND #Z even, identical to Z-deph per F107's per-dephase analysis)
+- [PROOF_F85_KBODY_GENERALIZATION.md](PROOF_F85_KBODY_GENERALIZATION.md) (Z-dephasing k-body truly criterion)
+- [PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md](PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md) (Y-dephasing truly criterion: #Y even AND #Z even, identical to Z-deph since the Y↔Z 2-cycle fixes the {#Y, #Z} pair setwise)
+- [NON_HEISENBERG_PALINDROME](../../experiments/NON_HEISENBERG_PALINDROME.md) (Π-family taxonomy; F108 Part 3 sits in the same P1 family as Part 1, with the Y/Z 2-cycle phase variant)
 - [`compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs`](../../compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs) (Π_5bilinear builder, Y-deph variant)
 
 **Statement (Theorem F108 Part 3):** For any Hamiltonian H built as a linear combination of Π²_Y-even 2-site bilinears {XX, YY, YZ, ZY, ZZ} on N sites with arbitrary real bond coefficients, and Y-dephasing on every site with arbitrary per-site rates γ_l, there exists a per-site Liouville-space operator Π_5bilinear (Y-deph variant) such that
@@ -93,7 +95,7 @@ Bit-exact residual ‖Π_5bilinear (Y-deph) · L · Π⁻¹ + L + 2σ · I‖_F 
 | Setup | N range | residual |
 |-------|---------|----------|
 | All 9 pure-Π²_Y-even non-truly pairs (YZ, ZY, XX+YZ, XX+ZY, YY+YZ, YY+ZY, YZ+ZY, YZ+ZZ, ZY+ZZ) | N = 3, 4, 5 | 0 |
-| 5 random non-uniform-J instances on Π²_Y-even bilinear family | N = 3, 4, 5 | 0 |
+| 15 random non-uniform-J instances on Π²_Y-even bilinear family (5 trials × N ∈ {3, 4, 5}) | N = 3, 4, 5 | 0 |
 | Pure D[Y]^⊗N dissipator (no Hamiltonian) | N = 1, 3, 4, 5 | 0 |
 
 Reproduction: [`simulations/_f108_part3_y_dephasing_scan.py`](../../simulations/_f108_part3_y_dephasing_scan.py); C# tests in [`compute/RCPsiSquared.Core.Tests/Symmetry/F108Part3Pi2YEvenAlwaysPalindromicTests.cs`](../../compute/RCPsiSquared.Core.Tests/Symmetry/F108Part3Pi2YEvenAlwaysPalindromicTests.cs).

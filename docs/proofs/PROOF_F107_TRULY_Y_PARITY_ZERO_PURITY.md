@@ -1,45 +1,53 @@
 # PROOF F107: F87 Truly Classification Forces y_par = 0 (All Dephase Letters)
 
-**Status:** Tier 1 derived (closed-form corollary of F85 + per-dephase Π² + dissipator commutativity)
+**Status:** Tier 1 derived (closed-form corollary of F85's Z-dephasing truly criterion + Π letter-cycle transport to X- and Y-dephasing via F108)
 **Date:** 2026-05-24
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
-- [PROOF_F85_KBODY_GENERALIZATION.md](PROOF_F85_KBODY_GENERALIZATION.md) (k-body truly criterion under Z-dephasing)
+- [PROOF_F85_KBODY_GENERALIZATION.md](PROOF_F85_KBODY_GENERALIZATION.md) (k-body truly criterion under Z-dephasing: #Y even AND #Z even, Step 3)
+- [PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md) (X-dephasing Π_X palindrome closure)
+- [PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md) (Y-dephasing Π_Y palindrome closure)
 - [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md) (Π definitions per dephase letter)
 - [`compute/RCPsiSquared.Core/Symmetry/PiOperator.cs`](../../compute/RCPsiSquared.Core/Symmetry/PiOperator.cs) (per-dephase Π² eigenvalue rules)
+- [`compute/RCPsiSquared.Core/Symmetry/TrulyYParityZeroPurity.cs`](../../compute/RCPsiSquared.Core/Symmetry/TrulyYParityZeroPurity.cs) (`TrulyCriterionHolds`: per-dephase truly criterion encoded in C#)
 
 **Statement (Theorem F107):** Under any single-letter dephase channel (Z, X, or Y), if a Pauli term σ_α is classified as truly by the F87 trichotomy, then y_par(σ_α) = (#Y in α) mod 2 = 0.
 
-By extension, for any y_par-homogeneous Pauli pair classified as truly, the pair's shared y_par value is 0. Empirically confirmed across F103/F105/F106 anchors (N=4 k=3, N=5 k=3, N=4 k=4): zero truly classifications with y_par=1 across all 12 (Klein × dephase) cells at every measured (N, k) regime.
+By extension, for any y_par-homogeneous Pauli pair classified as truly, the pair's shared y_par value is 0. Empirically confirmed across F103/F105/F106 anchors (N=4 k=3, N=5 k=3, N=4 k=4): across the three F103/F105/F106 anchor regimes, zero truly classifications carry y_par=1.
 
 ## Proof
 
-### Step 1: per-dephase Π² + dissipator yields a per-letter even-count criterion
+### Step 1: per-dephase truly criterion (F85 + Π letter-cycle transport)
 
-For dephase letter D ∈ {Z, X, Y}, the truly condition M(H) = 0 (palindrome residual vanishes) decomposes into two independent conditions on each Pauli term in H:
+[PROOF_F85](PROOF_F85_KBODY_GENERALIZATION.md) Step 3 establishes the **Z-dephasing** truly criterion structurally: a Pauli term σ_α contributes M = 0 under Z-dephasing iff
 
-1. **Π² parity** (from MIRROR_SYMMETRY + Π definition per dephase letter, encoded in `PiOperator.SquaredEigenvalue`): the term must be Π²-even under the dephase-specific Π². For Z and Y dephasing Π² sums bit_b; for X dephasing Π² sums bit_a.
-2. **Dissipator commutativity** (from F84 Pauli-Channel Cancellation Lemma): the term must commute with the dephase-letter operator, i.e., have an even count of letters that anticommute with D.
+    #Y(α) even  AND  #Z(α) even.
 
-The dephase letter D commutes with itself and with I; anticommutes with the other two non-I letters. So condition (2) reduces to: count of non-D non-I letters is even.
+(F85's derivation combines Π's bond-mirror action with the Z-dephasing dissipator's Z-commutativity; the criterion is body-count-independent and bit-exact-verified at k=2, 3, 4 there.)
 
-Combining (1) and (2) per dephase letter:
+The X- and Y-dephasing truly criteria follow by **Π letter-cycle transport**. Each canonical Π for dephase letter D is built so its per-letter action permutes the four Pauli letters in the Klein-Vierergruppe pattern fixed by D, and D commutes with the corresponding dissipator. F85's structural derivation does not single out the letter Z; it relies on the pair (Π's letter permutation, dissipator's commuting letter) being matched, which is true for each D ∈ {Z, X, Y} after substituting D into both:
 
-| Dephase | (1) Π²-even condition | (2) Dissipator-commute | Combined truly criterion |
-|---------|----------------------|------------------------|--------------------------|
-| Z       | bit_b = #Y + #Z even | #Y even (the only non-Z anticommutant other than X) — actually no: D=Z anticommutes with X and Y; #(X,Y) even ↔ #X + #Y even | #Z even (from (1) + #Y even from (2) implies #Z even); equivalently #Y even AND #Z even |
-| X       | bit_a = #X + #Y even | D=X anticommutes with Y and Z; #(Y,Z) even ↔ #Y + #Z even | #X even AND #Y even |
-| Y       | bit_b = #Y + #Z even | D=Y anticommutes with X and Z; #(X,Z) even ↔ #X + #Z even | #Y even AND #Z even |
+- **Z-dephasing:** Π_Z permutes (I ↔ X, Y ↔ Z); the Π²-odd letter pair is {Y, Z}; criterion = "#Y even AND #Z even" (F85 Step 3 directly).
+- **X-dephasing:** Π_X permutes (I ↔ Z, X ↔ Y); the Π²-odd letter pair is {X, Y}; applying F85's derivation with the substitution Z ↔ X gives criterion = "#X even AND #Y even". The palindrome closure under Π_X is the [F108 Part 2](PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md) result; without that closure the truly criterion would be ill-posed at the operator level.
+- **Y-dephasing:** Π_Y permutes (I ↔ X, Y ↔ Z), the same per-letter swap as Π_Z (phases differ; see [F108 Part 3](PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md)); the Π²-odd letter pair is again {Y, Z}; criterion = "#Y even AND #Z even", identical to Z-dephasing because the Y ↔ Z 2-cycle fixes the pair {#Y, #Z} setwise.
 
-The Z and Y rows yield identical criteria (#Y even AND #Z even) because Π_Y and Π_Z share the same per-letter swap (I↔X, Y↔Z), differing only in the phase factor (±i for Y/Z swap), and the dissipator-commutativity condition under Y is also #X + #Z even — combined with Π_Y's bit_b even (#Y + #Z even) and subtracting in Z₂ gives the same constraints up to relabel.
+The dependence on dephase letter D therefore gives:
 
-### Step 2: every truly criterion includes #Y even
+| Dephase letter D | Π²-odd letter pair | Truly criterion |
+|------------------|---------------------|------------------|
+| Z                | {Y, Z}              | #Y even AND #Z even |
+| X                | {X, Y}              | #X even AND #Y even |
+| Y                | {Y, Z}              | #Y even AND #Z even |
 
-Reading the rightmost column:
+These match `TrulyYParityZeroPurity.TrulyCriterionHolds` branch-for-branch in the typed claim, and are bit-exact-verified at N=3–5, k=3 and k=4 by the F103/F105/F106 anchors.
 
-- Z-dephasing truly: #Y even AND #Z even — includes #Y even
-- X-dephasing truly: #X even AND #Y even — includes #Y even
-- Y-dephasing truly: #Y even AND #Z even — includes #Y even
+### Step 2: every truly criterion includes "#Y even"
+
+Reading the criterion column:
+
+- Z-dephasing truly: #Y even AND #Z even, so #Y even.
+- X-dephasing truly: #X even AND #Y even, so #Y even.
+- Y-dephasing truly: #Y even AND #Z even, so #Y even.
 
 All three dephase letters force #Y even as a sub-condition.
 
@@ -55,13 +63,13 @@ A Klein-homogeneous + y_par-homogeneous pair (term1, term2) has shared y_par val
 
 ## Empirical confirmation
 
-| Anchor | Cells with truly counts | Total truly | y_par=1 truly |
-|--------|------------------------|-------------|----------------|
-| F103 (N=4 k=3) | 6 of 12 | 300 | 0 |
-| F105 (N=5 k=3) | 6 of 12 | 300 | 0 |
-| F106 (N=4 k=4) | 9 of 12 | 3924 | 0 |
+| Anchor | Cells with non-zero truly counts | Total truly | y_par=1 truly |
+|--------|----------------------------------|-------------|----------------|
+| F103 (N=4 k=3) | 6 of 12 (Klein × dephase) | 300 | 0 |
+| F105 (N=5 k=3) | 6 of 12 (Klein × dephase) | 300 | 0 |
+| F106 (N=4 k=4) | 9 of 12 (Klein × dephase) | 3924 | 0 |
 
-Total: 4524 truly classifications observed across (Klein × dephase × y_par × N × k); zero have y_par=1. F107 explains this bit-exactly as a closed-form corollary.
+Total: 4524 truly classifications observed across the three F103/F105/F106 anchor regimes (each regime is a specific (N, k) point); zero have y_par=1. F107 explains this bit-exactly as a closed-form corollary.
 
 ## Cross-letter empirical spot-check at Klein (1,0) Y-dephase, N=4 k=3
 

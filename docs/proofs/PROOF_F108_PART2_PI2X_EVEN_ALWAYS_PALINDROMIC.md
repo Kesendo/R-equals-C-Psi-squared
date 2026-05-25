@@ -5,7 +5,8 @@
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
 - [PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md) (F108 Part 1, BitB-axis sibling under Z-dephasing; this Part 2 mirrors its proof structure exactly)
-- [PROOF_F85_KBODY_GENERALIZATION.md](PROOF_F85_KBODY_GENERALIZATION.md) (truly criterion for k-body Pauli terms; X-dephase truly = #X even AND #Y even)
+- [PROOF_F85_KBODY_GENERALIZATION.md](PROOF_F85_KBODY_GENERALIZATION.md) (Z-dephasing k-body truly criterion)
+- [PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md](PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md) (X-dephasing truly criterion: #X even AND #Y even, derived via Π letter-cycle transport from F85)
 - [NON_HEISENBERG_PALINDROME](../../experiments/NON_HEISENBERG_PALINDROME.md) (Π-family classification: P1, P4, alternating, non-local)
 - [`compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs`](../../compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs) (Π_5bilinear builder, X-deph variant)
 
@@ -108,7 +109,7 @@ Bit-exact residual ‖Π_5bilinear (X-deph) · L · Π⁻¹ + L + 2σ · I‖_F 
 | Setup | N range | residual |
 |-------|---------|----------|
 | All 9 pure-Π²_X-even non-truly pairs (single-bilinear XY/YX + two-term combinations) | N = 3, 4, 5 | 0 |
-| 5 random non-uniform-J instances on Π²_X-even bilinear family | N = 3, 4, 5 | 0 |
+| 15 random non-uniform-J instances on Π²_X-even bilinear family (5 trials × N ∈ {3, 4, 5}) | N = 3, 4, 5 | 0 |
 | Pure D[X]^⊗N dissipator (no Hamiltonian) | N = 1, 3, 4, 5 | 0 |
 
 Reproduction: [`simulations/_f108_part2_x_dephasing_scan.py`](../../simulations/_f108_part2_x_dephasing_scan.py); C# tests in [`compute/RCPsiSquared.Core.Tests/Symmetry/F108Part2Pi2XEvenAlwaysPalindromicTests.cs`](../../compute/RCPsiSquared.Core.Tests/Symmetry/F108Part2Pi2XEvenAlwaysPalindromicTests.cs).
