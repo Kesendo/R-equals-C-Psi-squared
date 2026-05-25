@@ -134,9 +134,14 @@ F108 Part 1 closes the long-open F87 hardness criterion for Π²-even pairs:
 
 The PROOF STRATEGY is generalizable: the per-site label-permutation algebra (which Π preserves which Pauli-pair sectors with which phase signs) is a complete classification of when palindromes hold. NON_HEISENBERG_PALINDROME's 4-family taxonomy (P1, P4, alternating, non-local Π) is the catalog; F108 Part 1 identifies P1's "5-bilinear phase variant" as the Π operator that covers every Π²-even Hamiltonian.
 
-## Open siblings
+## Sibling y_par-axis claims
 
-- **F108 Part 2** (BitA twin): the analog statement for X-dephasing + Π²_X-even Hamiltonians. The Pi_5bilinear-style argument should lift to a different per-site permutation (likely the P4 family analog), but the construction is the bit_a-axis structural derivation — typed as the open BitATwin slot of this Claim.
-- **F110**: hard cells y_par-pure with Y-inversion (per-dephase-letter algebra on the F87-hard pair-set, higher difficulty).
+Closed 2026-05-25: F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived); F109 (MotherSoftYParityOnePurity, Tier1Derived unconditional); F110 (HardCellYInversionPattern, Tier1Candidate). Together F107+F109+F110 close the y_par-axis F87 trichotomy classification.
+
+## Open
+
+- Closed-form derivation of F110 Aspect C exact ratios (42:8 at k=3, 228:0 at k=4) per Pauli-letter combinatorics. F103 Section 5 explicitly lists as open.
+- k ≥ 5 empirical confirmation of F103/F106 pattern stability beyond N=4.
+- Hardware QPU confirmation at k ≥ 3 (no F87 QPU confirmations exist beyond Marrakesh k=2).
 
 ∎

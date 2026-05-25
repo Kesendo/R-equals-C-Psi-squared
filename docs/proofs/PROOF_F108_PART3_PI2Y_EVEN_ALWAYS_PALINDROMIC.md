@@ -113,8 +113,14 @@ The structural pattern transfers cleanly across the three parts via the per-site
 - Part 2 (X-deph) uses the I↔Z, X↔Y permutation (bit_a axis), with analogous back-arrow phase flips.
 - The dissipator-side proof (diagonal permutation in the Pauli basis) transfers identically across all three parts.
 
+## Sibling y_par-axis claims
+
+Closed 2026-05-25: F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived); F109 (MotherSoftYParityOnePurity, Tier1Derived unconditional); F110 (HardCellYInversionPattern, Tier1Candidate). Together F107+F109+F110 close the y_par-axis F87 trichotomy classification.
+
 ## Open
 
-- **F110** (hard cells y_par-pure with Y-inversion): the deeper open work on the F87-hard pair set. F107 + F109 do not directly attack F110; needs per-dephase-letter algebra on the diagonal-Klein cells.
+- Closed-form derivation of F110 Aspect C exact ratios (42:8 at k=3, 228:0 at k=4) per Pauli-letter combinatorics. F103 Section 5 explicitly lists as open.
+- k ≥ 5 empirical confirmation of F103/F106 pattern stability beyond N=4.
+- Hardware QPU confirmation at k ≥ 3 (no F87 QPU confirmations exist beyond Marrakesh k=2).
 
 ∎

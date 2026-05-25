@@ -112,7 +112,7 @@ public sealed class MotherSoftYParityOnePurity : Claim, IZ2AxisClaim
         {
             yield return new InspectableNode("Theorem", summary: Theorem);
             yield return new InspectableNode("Non-truly criterion (Step 3)", summary: NonTrulyCriterion);
-            yield return new InspectableNode("Step 5 status (F108 Part 1 + open X/Y branches)", summary: Step5Status);
+            yield return new InspectableNode("Step 5 status (F108 Part 1+2+3 close all dephase letters)", summary: Step5Status);
             yield return new InspectableNode("Cross-letter spot-check",
                 summary: "k=3: Klein (0,0) non-truly = 6 XYZ-perms ⟹ 21 unordered pairs (matches F103/F105 (0, 21) ×3). " +
                          "k=4: 24 sequences ⟹ 300 pairs (matches F106 (0, 300) ×3).");

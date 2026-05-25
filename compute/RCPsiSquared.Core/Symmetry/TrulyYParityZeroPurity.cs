@@ -97,9 +97,13 @@ public sealed class TrulyYParityZeroPurity : Claim, IZ2AxisClaim
             yield return new InspectableNode("Empirical evidence",
                 summary: "F103 (N=4 k=3): 300 truly, 0 y_par=1. F105 (N=5 k=3): 300 truly, 0 y_par=1. " +
                          "F106 (N=4 k=4): 3924 truly, 0 y_par=1. Total: 4524 truly, 0 y_par=1.");
-            yield return new InspectableNode("Open siblings",
-                summary: "F108: hard appears only in diagonal Klein cells (dissipator-resonance law formal proof). " +
-                         "F109: mother (0,0) soft is y_par=1-pure. F110: hard cells y_par-pure with Y-inversion.");
+            yield return new InspectableNode("Sibling y_par-axis claims",
+                summary: "F108 Part 1+2+3 (Π²_D-even palindrome family, all Tier1Derived 2026-05-25): no Π²-even " +
+                         "pair is F87-hard under any dephase letter D, via Π_5bilinear phase-variant operators. " +
+                         "F109 (MotherSoftYParityOnePurity, Tier1Derived unconditional after F108 Part 1+2+3 closure): " +
+                         "mother sector Klein (0,0) soft pairs have y_par=1 across all dephase letters. " +
+                         "F110 (HardCellYInversionPattern, Tier1Candidate, typed 2026-05-25): hard cells y_par-asymmetric " +
+                         "with Y-inversion. Together F107+F109+F110 pin the y_par signature of all three F87 trichotomy classes.");
         }
     }
 }

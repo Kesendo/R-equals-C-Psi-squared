@@ -12,9 +12,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>Three structural aspects:</para>
 /// <list type="bullet">
 ///   <item><b>Aspect A (closed-form):</b> F87-hard pairs only in the diagonal Klein
-///         cell (Z→(0,1), X→(1,0), Y→(1,1)). Proof chain: F108 Part 1+2+3 close
-///         Π²-D-even cells (never hard); F107+F109 close Mother sector Klein (0,0)
-///         (truly + soft only). By exclusion, hard only in the diagonal cell.</item>
+///         cell (Z → (0, 1), X → (1, 0), Y → (1, 1)). Proof chain: F108 Part 1+2+3
+///         close Π²-D-even cells (never hard); F107 + F109 close Mother sector Klein
+///         (0, 0); F87 dissipator-resonance law selects the single diagonal cell from
+///         the two remaining Π²-D-odd non-mother cells (per dephase D).</item>
 ///   <item><b>Aspect B (Y-inversion, empirical):</b> Dominant y_par equals
 ///         y_par(dephase letter): Z/X-deph dominantly y_par=0; Y-deph dominantly
 ///         y_par=1. Structural reading: the dephase letter's own Y-content
@@ -38,19 +39,18 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
     // ============================================================
 
     /// <summary>F87 dissipator-resonance law: the diagonal Klein cell where F87-hard
-    /// pairs can appear for the given dephase letter. Per the bit_a/bit_b convention
-    /// of <see cref="PauliLetter"/>: Z → (0, 1), X → (1, 0), Y → (1, 1). Hard never
+    /// pairs can appear for the given dephase letter. By construction, the dephase
+    /// letter's own Klein index IS the diagonal cell (per <see cref="PauliLetter"/>
+    /// bit_a/bit_b convention: Z = (0, 1), X = (1, 0), Y = (1, 1)). Hard never
     /// appears in any other cell, per F108 Part 1+2+3 (Π²-D-even cells closed) +
-    /// F107+F109 (Mother sector Klein (0, 0) closed).</summary>
-    public static (int BitA, int BitB) DiagonalKleinCellForDephase(PauliLetter dephase) =>
-        dephase switch
-        {
-            PauliLetter.Z => (0, 1),
-            PauliLetter.X => (1, 0),
-            PauliLetter.Y => (1, 1),
-            _ => throw new ArgumentException(
-                $"dephase must be X, Y, or Z; got {dephase}", nameof(dephase)),
-        };
+    /// F107 + F109 (Mother sector Klein (0, 0) closed).</summary>
+    public static (int BitA, int BitB) DiagonalKleinCellForDephase(PauliLetter dephase)
+    {
+        if (dephase == PauliLetter.I)
+            throw new ArgumentException(
+                $"dephase must be X, Y, or Z; got {dephase}", nameof(dephase));
+        return (dephase.BitA(), dephase.BitB());
+    }
 
     /// <summary>True iff the (Klein, dephase) pair is on the F87 dissipator-resonance
     /// diagonal, i.e., hard CAN appear in this cell under this dephase letter.
@@ -64,19 +64,18 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
     // ============================================================
 
     /// <summary>The dominant y_par value in the F87-hard diagonal cell for the given
-    /// dephase letter. Equals y_par(dephase letter): y_par(Z) = y_par(X) = 0 (Z and
-    /// X have #Y = 0); y_par(Y) = 1 (Y has #Y = 1). At k=3 the dominance is biased
-    /// (42:8 split per F103/F105); at k=4 it is fully pure (228:0 per F106).
+    /// dephase letter. Equals y_par(dephase letter) = (#Y in dephase letter) mod 2.
+    /// Only Y has #Y = 1, so this is the AND of the letter's bit_a and bit_b (Y is
+    /// the only Pauli letter with both bits set). At k = 3 the dominance is biased
+    /// (42:8 split per F103/F105); at k = 4 it is fully pure (228:0 per F106).
     /// Y-deph inverts the otherwise-y_par=0-preferred pattern.</summary>
-    public static int DominantYParityForDephase(PauliLetter dephase) =>
-        dephase switch
-        {
-            PauliLetter.Z => 0,
-            PauliLetter.X => 0,
-            PauliLetter.Y => 1,
-            _ => throw new ArgumentException(
-                $"dephase must be X, Y, or Z; got {dephase}", nameof(dephase)),
-        };
+    public static int DominantYParityForDephase(PauliLetter dephase)
+    {
+        if (dephase == PauliLetter.I)
+            throw new ArgumentException(
+                $"dephase must be X, Y, or Z; got {dephase}", nameof(dephase));
+        return dephase.BitA() & dephase.BitB();
+    }
 
     /// <summary>The F110 theorem statement in one line, covering Aspect A + B + C.</summary>
     public string Theorem =>
@@ -87,7 +86,7 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
     /// <summary>F87 corollary: the dominant y_par value in any F87-hard cell is
     /// determined by y_par(dephase letter), not by the cell's Klein index.</summary>
     public string F87Corollary =>
-        "In every F87-hard diagonal Klein cell, the dominant y_par = y_par(dephase letter). At k ≥ 4 the dominance is full (purity); at k = 3 it is biased (42:8 split per F103).";
+        "In every F87-hard diagonal Klein cell, the dominant y_par = y_par(dephase letter). At k = 4 (F106 N=4) the dominance is full (purity); at k = 3 (F103/F105) it is biased (42:8 split). k ≥ 5 empirical confirmation open.";
 
     public HardCellYInversionPattern()
         : base("F110 F87-hard pairs only in diagonal Klein cells with Y-inversion (Tier1Candidate: Aspect A closed-form via F108 Part 1+2+3 + F87 dissipator-resonance; Aspect B+C empirically anchored at F103/F105/F106)",

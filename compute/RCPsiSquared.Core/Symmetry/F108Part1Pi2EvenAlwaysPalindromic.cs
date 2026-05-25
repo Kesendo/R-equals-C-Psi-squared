@@ -145,9 +145,9 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
                          "15 random non-uniform-J + 9 asymmetric J_YZ≠J_ZY instances, residual = 0; " +
                          "pure D[Z]^⊗N dissipator N=3,4,5, residual = 0");
             yield return new InspectableNode("Closes F109 dependency (Z-dephasing branch)",
-                summary: "F109 (mother sector Klein (0,0) soft y_par=1 purity) was Tier1Derived modulo F108 Part 1; " +
-                         "F108 Part 1 closes the Z-dephasing branch closed-form. The X-dephasing branch is closed " +
-                         "by F108 Part 2 (typed BitATwin); the Y-dephasing branch awaits F108 Part 3.");
+                summary: "F109 (mother sector Klein (0,0) soft y_par=1 purity) had Y-dephasing branch empirically " +
+                         "anchored only; together with F108 Part 1+2+3 closure on 2026-05-25, F109 is now fully " +
+                         "unconditional Tier1Derived across {Z, X, Y}.");
             yield return new InspectableNode("BitA twin (Filled)",
                 summary: "F108 Part 2 (Π²_X-even under X-dephasing) typed and wired as ctor parent. " +
                          "BitATwinStatus defaults to Filled per IZ2AxisClaim.");

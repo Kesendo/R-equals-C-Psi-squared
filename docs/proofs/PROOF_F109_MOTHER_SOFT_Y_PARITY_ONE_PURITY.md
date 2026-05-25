@@ -91,6 +91,12 @@ Number of y_par-homogeneous unordered pairs (including self-pairs): 6·7/2 = 21.
 
 For k=4 letter sequences (N=4 enumeration): Klein (0, 0) non-truly = #X, #Y, #Z all odd, sum ≤ 4. Only (1, 1, 1) with #I = 1: 4!/(1!1!1!1!) = 24 letter sequences. Unordered pairs with self: 24·25/2 = 300. **Matches F106 mother soft = (0, 300) per dephase letter exactly.** ✓
 
+## Sibling y_par-axis claims
+
+Closed 2026-05-25: F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived); F109 (MotherSoftYParityOnePurity, Tier1Derived unconditional); F110 (HardCellYInversionPattern, Tier1Candidate). Together F107+F109+F110 close the y_par-axis F87 trichotomy classification.
+
 ## Open
 
-- **F110** (hard cells y_par-pure with Y-inversion): the harder dephase-letter-specific analysis on the diagonal-Klein cells. F107 + F109 do not directly attack F110.
+- Closed-form derivation of F110 Aspect C exact ratios (42:8 at k=3, 228:0 at k=4) per Pauli-letter combinatorics. F103 Section 5 explicitly lists as open.
+- k ≥ 5 empirical confirmation of F103/F106 pattern stability beyond N=4.
+- Hardware QPU confirmation at k ≥ 3 (no F87 QPU confirmations exist beyond Marrakesh k=2).

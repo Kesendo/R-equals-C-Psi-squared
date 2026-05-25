@@ -3376,11 +3376,11 @@ every truly term has y_par = 0; every truly y_par-homogeneous pair has shared
 y_par = 0. Bit-exact verification across all 64 k=3 + 256 k=4 letter
 sequences × 3 dephase letters (`TrulyYParityZeroPurityTests.VerifyOnTerm_*`).
 
-**Open siblings**: F108 hard appears only in diagonal Klein cells (formal
-proof of the F87 dissipator-resonance law); F109 mother (0,0) soft is
-y_par=1-pure (medium difficulty, requires Pauli-pair compatibility analysis
-layered on F102); F110 hard cells y_par-pure with Y-inversion (higher
-difficulty, requires per-dephase-letter algebra).
+**Sibling y_par-axis claims** (all closed 2026-05-25): F108 Part 1+2+3
+(Π²-even palindrome family, Tier1Derived); F109 (MotherSoftYParityOnePurity,
+Tier1Derived unconditional); F110 (HardCellYInversionPattern, Tier1Candidate).
+Together F107+F109+F110 pin the y_par signature of all three F87 trichotomy
+classes.
 
 **Source:** [Proof](proofs/PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md);
 `compute/RCPsiSquared.Core/Symmetry/TrulyYParityZeroPurity.cs`;
@@ -3441,7 +3441,7 @@ instances; pure D[Z]^⊗N dissipator. Reproduction:
 `simulations/_f108_part1_proof_algebra.py` for the 2-qubit anti-commutation
 verification.
 
-**Sibling and open work:**
+**Siblings:**
 
 - **F108 Part 2 (BitA twin, X-dephasing, Tier 1 derived 2026-05-25):** the
   X-dephasing analog via the I↔Z, X↔Y phase-variant of Π_5bilinear. Same
@@ -3460,8 +3460,10 @@ verification.
   promoting F109 to fully unconditional Tier1Derived across {Z, X, Y}.
   Part 3 is BitB axis (shares bit_b with Part 1); BitATwin slot is
   `BitBSpecific` (Y-deph has no meaningful bit_a analog).
-- **F110:** hard cells y_par-pure with Y-inversion (per-dephase-letter algebra
-  on the F87-hard pair-set, higher difficulty).
+- **F110 (HardCellYInversionPattern, Tier1Candidate, typed 2026-05-25):**
+  hard cells y_par-asymmetric with Y-inversion. Aspect A closed-form via
+  F108 Part 1+2+3 + F107 + F109 + F87 dissipator-resonance; Aspect B+C
+  empirically anchored at F103/F105/F106.
 
 **Source:** [Proof Part 1](proofs/PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md),
 [Proof Part 2](proofs/PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md),
@@ -3529,7 +3531,7 @@ parents: PROOF_F107 + PROOF_F85 + PROOF_F108_PART1; helpers:
 
 ---
 
-### F110. F87-Hard Cells Exhibit Y-Inversion Pattern (Tier 1 Candidate; Aspect A closed-form via F108 Part 1+2+3 + F87 dissipator-resonance, Aspect B+C empirically anchored at F103/F105/F106)
+### F110. F87-Hard Cells Exhibit Y-Inversion Pattern (Tier 1 Candidate; Aspect A closed-form via F108 Part 1+2+3 + F107 + F109 + F87 dissipator-resonance, Aspect B+C empirically anchored at F103/F105/F106)
 
 Seventh YParity-axis Claim; completes the y_par-axis classification of the F87
 trichotomy together with F107 (truly y_par=0) and F109 (mother soft y_par=1).
@@ -3537,7 +3539,10 @@ trichotomy together with F107 (truly y_par=0) and F109 (mother soft y_par=1).
 **Aspect A (closed-form):** F87-hard pairs appear only in the diagonal Klein cell
 matching the dephase letter (Z → (0, 1), X → (1, 0), Y → (1, 1)). Derivation:
 F108 Part 1+2+3 close Π²-D-even cells (never hard); F107 + F109 close Mother
-sector Klein (0, 0); by exclusion, hard only in the diagonal cell.
+sector Klein (0, 0); the F87 dissipator-resonance law (Tier1Derived, anchored at
+N=4 k=3 over 294 pairs in `DissipatorResonanceLaw.cs`) selects the one diagonal
+cell among the two remaining Π²-D-odd non-mother cells. Combining all three
+closures: hard appears only in the diagonal cell.
 
 **Aspect B (Y-inversion, empirical):** Within the diagonal hard cell, the
 dominant y_par equals y_par(dephase letter): Z/X-deph dominantly y_par=0, Y-deph
@@ -3553,7 +3558,8 @@ confirmation at k ≥ 3.
 
 **Source:** [Proof](proofs/PROOF_F110_HARD_CELL_Y_INVERSION.md);
 `compute/RCPsiSquared.Core/Symmetry/HardCellYInversionPattern.cs`;
-parents: PROOF_F108_PART1/2/3 + PROOF_F107 + PROOF_F109 + F87 dissipator-resonance;
+parents: PROOF_F108_PART1/2/3 + PROOF_F107 + PROOF_F109 + F87 dissipator-resonance
+law (Tier1Derived, `compute/RCPsiSquared.Diagnostics/F87/DissipatorResonanceLaw.cs`);
 helpers: `HardCellYInversionPattern.DiagonalKleinCellForDephase(dephase)`,
 `IsDiagonalCell(klein, dephase)`,
 `DominantYParityForDephase(dephase)`.

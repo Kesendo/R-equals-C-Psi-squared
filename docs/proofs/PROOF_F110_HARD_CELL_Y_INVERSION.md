@@ -1,6 +1,6 @@
 # PROOF F110: F87-Hard Cells Exhibit Y-Inversion Pattern
 
-**Status:** Tier 1 Candidate (Aspect A closed-form via F108 Part 1+2+3 + F87 dissipator-resonance; Aspect B Y-inversion and Aspect C k-purity sharpening empirically anchored, closed-form derivation of 42:8 / 228:0 ratios open)
+**Status:** Tier 1 Candidate (Aspect A closed-form via F108 Part 1+2+3 + F107 + F109 + F87 dissipator-resonance; Aspect B Y-inversion and Aspect C k-purity sharpening empirically anchored, closed-form derivation of 42:8 / 228:0 ratios open)
 **Date:** 2026-05-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
@@ -9,7 +9,7 @@
 - [PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md)
 - [PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md](PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md)
 - [PROOF_F109_MOTHER_SOFT_Y_PARITY_ONE_PURITY.md](PROOF_F109_MOTHER_SOFT_Y_PARITY_ONE_PURITY.md)
-- F87 dissipator-resonance law (anchored at N=4 k=3 over 294 pairs; documented in `compute/RCPsiSquared.Core/Lindblad/PauliDephasingDissipator.cs` docstring)
+- F87 dissipator-resonance law (Tier1Derived, `compute/RCPsiSquared.Diagnostics/F87/DissipatorResonanceLaw.cs`, anchored at N=4 k=3 over 294 pairs)
 
 ## 1. Statement
 
@@ -38,12 +38,14 @@ For each D, the Π²-D-even cells are:
 
 (ii) **Mother sector Klein (0, 0).** Per F107 (truly y_par = 0) + F109 (mother soft y_par = 1), Klein (0, 0) under each dephase letter contains only truly + soft classifications, never hard. (Klein (0, 0) is also Π²-D-even for all three D, so this is subsumed by (i) but documented separately because F109's structural derivation is independent of F108.)
 
-(iii) **The remaining diagonal cell.** By exclusion, hard can appear only in the single Klein cell that is NOT Π²-D-even and NOT the Mother sector. For each D this is exactly the cell whose Klein index matches D's own Klein index:
-- D = Z (Klein index (0, 1)): the remaining cell is (0, 1)
-- D = X (Klein index (1, 0)): the remaining cell is (1, 0)
-- D = Y (Klein index (1, 1)): the remaining cell is (1, 1)
+(iii) **The remaining Π²-D-odd non-mother cells.** After (i) + (ii), the remaining-as-possibly-hard cells per dephase D are TWO: the Π²-D-odd non-mother cells.
+- D = Z: {(0, 1), (1, 1)}
+- D = X: {(1, 0), (1, 1)}
+- D = Y: {(1, 0), (1, 1)}
 
-This is the F87 dissipator-resonance law itself (separately anchored at N = 4 k = 3 over 294 pairs in `PauliDephasingDissipator.cs`). The closed-form derivation here shows it as a corollary of F108 Part 1+2+3 + F107 + F109. ∎
+(iv) **F87 dissipator-resonance selects one cell.** The F87 dissipator-resonance law (separately Tier1Derived, encoded in `compute/RCPsiSquared.Diagnostics/F87/DissipatorResonanceLaw.cs`, anchored at N = 4 k = 3 over 294 pairs) selects ONE of the two remaining cells per dephase: Z → (0, 1), X → (1, 0), Y → (1, 1). Combining (i) + (ii) + (iv) gives Aspect A: hard appears only in the diagonal Klein cell.
+
+Aspect A is derived as a corollary of F108 Part 1+2+3 + F107 + F109 + F87 dissipator-resonance law. ∎
 
 ## 3. Aspect B + C (empirical)
 

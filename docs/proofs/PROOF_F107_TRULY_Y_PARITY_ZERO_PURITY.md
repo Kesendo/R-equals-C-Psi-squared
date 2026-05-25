@@ -79,8 +79,12 @@ So Y-dephase Klein (1,0) truly terms have #X odd, #Y even, #Z even. At k=3 lette
 
 Total: 10 terms. Klein-homogeneous + y_par-homogeneous (all y_par=0) unordered pairs with self-pairs: 10·11/2 = 55. **Matches F103 empirical: 55 y_par=0 truly pairs at Klein (1,0) Y-dephase.** ✓
 
+## Sibling y_par-axis claims
+
+Closed 2026-05-25: F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived); F109 (MotherSoftYParityOnePurity, Tier1Derived unconditional); F110 (HardCellYInversionPattern, Tier1Candidate). Together F107+F109+F110 close the y_par-axis F87 trichotomy classification.
+
 ## Open
 
-- **F108** (next): hard appears only in diagonal Klein cells (F87 dissipator-resonance law). Already stated in `docs/ANALYTICAL_FORMULAS.md` F87 entry but lacks a formal closed-form proof.
-- **F109** (medium): mother (0,0) soft is y_par=1-pure across all dephase letters. Empirically held at k=3 and k=4 (sharper at k=4). Requires Pauli-pair compatibility analysis layered on F102.
-- **F110** (higher): hard cells y_par-pure with Y-inversion. Becomes 100% pure at k=4 (228:0 vs 0:228). Requires per-dephase-letter algebra on the hard-cell pair-set.
+- Closed-form derivation of F110 Aspect C exact ratios (42:8 at k=3, 228:0 at k=4) per Pauli-letter combinatorics. F103 Section 5 explicitly lists as open.
+- k ≥ 5 empirical confirmation of F103/F106 pattern stability beyond N=4.
+- Hardware QPU confirmation at k ≥ 3 (no F87 QPU confirmations exist beyond Marrakesh k=2).

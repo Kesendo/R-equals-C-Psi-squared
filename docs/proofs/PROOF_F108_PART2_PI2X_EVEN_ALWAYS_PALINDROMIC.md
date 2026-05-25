@@ -123,9 +123,14 @@ F108 Part 2 completes the BitA twin of F108 Part 1; together they close the F108
 
 The proof's structural pattern transfers cleanly from F108 Part 1 by the bit_a ↔ bit_b mirror: per-site permutation (I↔X, Y↔Z) under Z-deph maps to (I↔Z, X↔Y) under X-deph; M² sign-pattern diag(−1, −1, +1, +1) maps to diag(−1, +1, +1, −1); D[Z]_pauli diagonal (0, −2, −2, 0) maps to D[X]_pauli diagonal (0, 0, −2, −2). The diagonal-permutation mechanism in Step 2 transfers identically.
 
+## Sibling y_par-axis claims
+
+Closed 2026-05-25: F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived); F109 (MotherSoftYParityOnePurity, Tier1Derived unconditional); F110 (HardCellYInversionPattern, Tier1Candidate). Together F107+F109+F110 close the y_par-axis F87 trichotomy classification.
+
 ## Open
 
-- **F108 Part 3** (Y-dephasing analog): no covering Claim yet. Would derive the Π_5bilinear variant for Y-dephasing on the Π²_Y-even bilinear set + D[Y] per-site identity. The structural pattern should transfer the same way (per-site permutation under Y-deph is (I↔X, Y↔Z) per `PiOperator`, same as Z-deph but with different phase factors). When F108 Part 3 lands, F109 will be closed-form across all three dephase letters.
-- **F110** (hard cells y_par-pure with Y-inversion): higher difficulty, per-dephase-letter algebra on the F87-hard pair-set.
+- Closed-form derivation of F110 Aspect C exact ratios (42:8 at k=3, 228:0 at k=4) per Pauli-letter combinatorics. F103 Section 5 explicitly lists as open.
+- k ≥ 5 empirical confirmation of F103/F106 pattern stability beyond N=4.
+- Hardware QPU confirmation at k ≥ 3 (no F87 QPU confirmations exist beyond Marrakesh k=2).
 
 ∎

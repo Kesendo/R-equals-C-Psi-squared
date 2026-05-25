@@ -144,9 +144,9 @@ public sealed class F108Part2Pi2XEvenAlwaysPalindromic : Claim, IZ2AxisClaim
                          "random non-uniform-J trials at N=3,4,5, residual = 0; " +
                          "pure D[X]^⊗N dissipator N=3,4,5, residual = 0");
             yield return new InspectableNode("Closes F109 X-dephasing branch",
-                summary: "F109 (mother sector Klein (0,0) soft y_par=1 purity) had X-dephasing branch " +
-                         "empirically anchored only after F108 Part 1; this Claim closes the X branch closed-form. " +
-                         "Only the Y-dephasing branch remains empirically anchored (awaits F108 Part 3).");
+                summary: "F109 X-dephasing branch closed-form via Part 2's X-deph variant of Π_5bilinear. " +
+                         "Together with Part 1 (Z-deph) and Part 3 (Y-deph), F109 is now fully unconditional " +
+                         "across {Z, X, Y}.");
             yield return new InspectableNode("Sibling on BitB axis",
                 summary: "F108 Part 1 (Pi2EvenAlwaysPalindromic, Z-dephasing) and F108 Part 3 (Y-dephasing). Together " +
                          "Parts 1+2+3 cover the F108 Π²-even palindrome family completely across {Z, X, Y} dephasing.");

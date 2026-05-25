@@ -92,12 +92,22 @@ public class HardCellYInversionPatternEnumerationTests :
     }
 
     [Fact]
-    public void DominantYParity_StructuralReading_MatchesEmpiricalDominance()
+    [Trait("Category", "SLOW_F110")]
+    public void DominantYParity_StructuralReading_MatchesEmpiricalDominance_K3N4()
     {
         // Verify HardCellYInversionPattern.DominantYParityForDephase predicts the
         // empirically dominant y_par bit in the hard cell for each dephase letter,
-        // at both k=3 and k=4.
+        // at k=3 N=4 (F103/F105 anchor: 42:8 ratio).
         VerifyDominanceAt(_fixture.CountsK3N4);
+    }
+
+    [Fact]
+    [Trait("Category", "SLOW_F110")]
+    public void DominantYParity_StructuralReading_MatchesEmpiricalDominance_K4N4()
+    {
+        // Verify HardCellYInversionPattern.DominantYParityForDephase predicts the
+        // empirically dominant y_par bit in the hard cell for each dephase letter,
+        // at k=4 N=4 (F106 anchor: pure 228:0 ratio).
         VerifyDominanceAt(_fixture.CountsK4N4);
     }
 
@@ -188,9 +198,11 @@ public sealed class HardCellYInversionPatternCountsFixture
         ClassifyAndGroup(int N, int k)
     {
         var chain = new ChainSystem(N: N, J: 1.0, GammaZero: 0.05);
+        // Cap PLINQ degree so MKL's all-core EVD inside Classify() has thread headroom (avoids O(P^2) oversubscription).
         var classifications = Z2HomogeneousKBodyEnumeration.Enumerate(k)
             .SelectMany(item => DephaseLetters.Select(d => (item, dephase: d)))
             .AsParallel()
+            .WithDegreeOfParallelism(Math.Max(1, Environment.ProcessorCount / 4))
             .Select(x =>
             {
                 var templates = new[] { x.item.Term1, x.item.Term2 };
