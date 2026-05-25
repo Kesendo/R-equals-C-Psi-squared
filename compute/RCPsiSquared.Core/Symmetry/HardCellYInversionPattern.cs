@@ -33,6 +33,32 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
     public Z2Axis Z2Axis => Z2Axis.YParity;
     public Claim? BitATwin => null;
 
+    // ============================================================
+    // Aspect A: closed-form diagonal Klein cell lookup
+    // ============================================================
+
+    /// <summary>F87 dissipator-resonance law: the diagonal Klein cell where F87-hard
+    /// pairs can appear for the given dephase letter. Per the bit_a/bit_b convention
+    /// of <see cref="PauliLetter"/>: Z → (0, 1), X → (1, 0), Y → (1, 1). Hard never
+    /// appears in any other cell, per F108 Part 1+2+3 (Π²-D-even cells closed) +
+    /// F107+F109 (Mother sector Klein (0, 0) closed).</summary>
+    public static (int BitA, int BitB) DiagonalKleinCellForDephase(PauliLetter dephase) =>
+        dephase switch
+        {
+            PauliLetter.Z => (0, 1),
+            PauliLetter.X => (1, 0),
+            PauliLetter.Y => (1, 1),
+            _ => throw new ArgumentException(
+                $"dephase must be X, Y, or Z; got {dephase}", nameof(dephase)),
+        };
+
+    /// <summary>True iff the (Klein, dephase) pair is on the F87 dissipator-resonance
+    /// diagonal — i.e., hard CAN appear in this cell under this dephase letter.
+    /// False for all other cells, where hard CANNOT appear (closed-form via F108
+    /// Part 1+2+3 + F107 + F109).</summary>
+    public static bool IsDiagonalCell((int BitA, int BitB) klein, PauliLetter dephase) =>
+        klein == DiagonalKleinCellForDephase(dephase);
+
     public HardCellYInversionPattern()
         : base("F110 F87-hard pairs only in diagonal Klein cells with Y-inversion (Tier1Candidate: Aspect A closed-form via F108 Part 1+2+3 + F87 dissipator-resonance; Aspect B+C empirically anchored at F103/F105/F106)",
                Tier.Tier1Candidate,
