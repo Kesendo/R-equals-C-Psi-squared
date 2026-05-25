@@ -100,6 +100,7 @@ from .diagnostics import (
     pi_decompose_M,
     recover_H_odd_from_M_anti,
     polarity_coordinates,
+    polarity_coordinates_from_L,
     predict_T1_dissipator_violation,
     estimate_T1_from_violation,
     predict_pi_decomposition,

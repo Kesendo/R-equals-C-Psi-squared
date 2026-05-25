@@ -123,3 +123,71 @@ def polarity_coordinates(chain, terms, gamma_z=None, gamma_t1=None, gamma_pump=N
         'asymmetry': asymmetry,
         'orthogonality_residual': orthogonality_residual,
     }
+
+
+def polarity_coordinates_from_L(L_pauli, N, sigma, Pi=None):
+    """Three-way polarity decomposition starting from a Liouvillian L in Pauli basis.
+
+    Sister primitive to <see cref="polarity_coordinates"/> that bypasses the
+    framework's H + dissipator construction and accepts L directly. Useful for
+    probing structurally exotic cases that pi_decompose_M doesn't construct:
+      - Non-Hermitian H (complex bond coefficients; L = -i[H,·] is no longer skew-Hermitian)
+      - Single-site terms (transverse fields h_l·σ_l that pi_decompose_M rejects)
+      - Mixed dephase letters (γ_Z·D[Z] + γ_X·D[X] simultaneous; pi_decompose_M is single-letter)
+      - Non-Lindblad dissipators (custom non-CP super-operators)
+
+    Args:
+        L_pauli: full 4^N × 4^N Liouvillian in Pauli basis (numpy complex array).
+        N: chain length.
+        sigma: total dephasing rate (Σγ); shifts the F1 palindrome around -σ.
+        Pi: optional precomputed Π operator; defaults to build_pi_full(N).
+
+    Returns:
+        Same dict structure as polarity_coordinates, with 'M', 'M_zero',
+        'M_plus_half', 'M_minus_half', 'norm_sq', 'asymmetry', 'orthogonality_residual'.
+
+    No F81-violation check (the F81 identity is a 2-body statement about L_{H_odd};
+    this entry point is for cases where that identity is expected to fail).
+    """
+    if Pi is None:
+        Pi = build_pi_full(N)
+    Pi_inv = Pi.conj().T
+    d2 = 4 ** N
+
+    Pi_L_Pi_inv = Pi @ L_pauli @ Pi_inv
+    M = Pi_L_Pi_inv + L_pauli + (2.0 * sigma) * np.eye(d2, dtype=complex)
+
+    Pi_M_Pi_inv = Pi @ M @ Pi_inv
+    M_sym = (M + Pi_M_Pi_inv) / 2
+    M_anti = (M - Pi_M_Pi_inv) / 2
+
+    Pi_M_anti_Pi_inv = Pi @ M_anti @ Pi_inv
+    M_plus_half = (M_anti - 1j * Pi_M_anti_Pi_inv) / 2
+    M_minus_half = (M_anti + 1j * Pi_M_anti_Pi_inv) / 2
+
+    M_zero = M_sym
+
+    norm_sq_M = float(np.sum(np.abs(M) ** 2))
+    norm_sq_zero = float(np.sum(np.abs(M_zero) ** 2))
+    norm_sq_plus = float(np.sum(np.abs(M_plus_half) ** 2))
+    norm_sq_minus = float(np.sum(np.abs(M_minus_half) ** 2))
+
+    orthogonality_residual = float(
+        abs(norm_sq_M - (norm_sq_zero + norm_sq_plus + norm_sq_minus))
+    )
+    asymmetry = float(norm_sq_plus - norm_sq_minus)
+
+    return {
+        'M': M,
+        'M_zero': M_zero,
+        'M_plus_half': M_plus_half,
+        'M_minus_half': M_minus_half,
+        'norm_sq': {
+            'M': norm_sq_M,
+            'M_zero': norm_sq_zero,
+            'M_plus_half': norm_sq_plus,
+            'M_minus_half': norm_sq_minus,
+        },
+        'asymmetry': asymmetry,
+        'orthogonality_residual': orthogonality_residual,
+    }
