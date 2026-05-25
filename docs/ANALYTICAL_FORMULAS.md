@@ -3441,38 +3441,42 @@ instances; pure D[Z]^⊗N dissipator. Reproduction:
 `simulations/_f108_part1_proof_algebra.py` for the 2-qubit anti-commutation
 verification.
 
-**Open siblings:**
+**Sibling and open work:**
 
-- **F108 Part 2 (BitA twin):** the X-dephasing + Π²_X-even Hamiltonian analog
-  via the P4-family phase-variant operator (bilinear set {ZZ, XX, XY, YX, YY},
-  bit_a = 0). Requires a new per-site Π operator, re-derived per-bond
-  anti-commutation against the bit_a-axis bilinear set, and a new D[X] per-site
-  identity; classified `BitATwinClassification.NeedsDerivation` on this Claim.
-- **F108 Part 3 (Y-dephasing analog):** analogous derivation for the Π²_Y-even
-  bilinear set + D[Y] per-site identity. No covering Claim yet.
+- **F108 Part 2 (BitA twin, X-dephasing, Tier 1 derived 2026-05-25):** the
+  X-dephasing analog via the I↔Z, X↔Y phase-variant of Π_5bilinear. Same
+  proof structure as Part 1, restricted to the Π²_X-even bilinear set
+  {ZZ, XX, XY, YX, YY}. Per-site map: I → +Z, Z → −I, X → −iY, Y → +iX;
+  per-site M² = diag(−1, +1, +1, −1) on {I, X, Y, Z}. Closes the X-dephasing
+  branch of F109 Step 5. F108 Part 1's BitATwin slot points at this Claim
+  (status `Filled`).
+- **F108 Part 3 (Y-dephasing analog, open):** no covering Claim yet. Would
+  derive the Π_5bilinear variant for Y-dephasing on the Π²_Y-even bilinear
+  set + D[Y] per-site identity. Structural pattern should transfer cleanly.
 - **F110:** hard cells y_par-pure with Y-inversion (per-dephase-letter algebra
   on the F87-hard pair-set, higher difficulty).
 
 **Source:** [Proof](proofs/PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md);
 `compute/RCPsiSquared.Core/Symmetry/F108Part1Pi2EvenAlwaysPalindromic.cs`;
-operator: `compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs`;
+operator: `compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs` (supports
+Z- and X-deph via dephase parameter; Y-deph throws NotImplementedException);
 catalog parent: [NON_HEISENBERG_PALINDROME](../experiments/NON_HEISENBERG_PALINDROME.md)
 (P1/P4/alternating/non-local Π-family taxonomy); helpers:
 `F108Part1Pi2EvenAlwaysPalindromic.IsPi2EvenBilinear(letter1, letter2)`,
-`IsPi2EvenBilinearTerm(term)`, and
-`IsPi2EvenBilinearHamiltonian(terms)`.
+`IsPi2EvenBilinearTerm(term)`, `IsPi2EvenBilinearHamiltonian(terms)`. Part 2
+analogs: `F108Part2Pi2XEvenAlwaysPalindromic.IsPi2XEvenBilinear(letter1, letter2)`,
+`IsPi2XEvenBilinearTerm(term)`, `IsPi2XEvenBilinearHamiltonian(terms)`.
 
 ---
 
-### F109. Mother Sector Soft is y_par = 1 Pure (Tier 1 derived; Z-dephasing branch closed-form via F108 Part 1, X- and Y-dephasing branches empirically anchored)
+### F109. Mother Sector Soft is y_par = 1 Pure (Tier 1 derived; Z- and X-dephasing branches closed-form via F108 Part 1 + Part 2, Y-dephasing branch empirically anchored)
 
 Sister to F107 on the y_par axis. F107 pinned the y_par signature of truly cells
 across all dephase letters; F109 pins the y_par signature of mother sector
-(Klein (0, 0)) soft cells. Previously Tier 1 derived modulo F108 Part 1; the
-Z-dephasing branch of that dependency was closed via Π_5bilinear (see F108 Part 1
-above) on 2026-05-25. The X- and Y-dephasing branches of Step 5 remain
-empirically anchored only, awaiting F108 Part 2 (X-deph) and F108 Part 3
-(Y-deph) respectively.
+(Klein (0, 0)) soft cells. Previously Tier 1 derived modulo F108 Part 1; on
+2026-05-25 both Z-dephasing (F108 Part 1) and X-dephasing (F108 Part 2) branches
+of Step 5 were closed-form via the Π_5bilinear family (Z- and X-deph variants).
+The Y-dephasing branch remains empirically anchored only, awaiting F108 Part 3.
 
 **Theorem (F109):** Under any single-letter dephase channel (Z, X, or Y), every
 Pauli pair classified as soft and located in the Mother sector Klein (0, 0) has
@@ -3488,17 +3492,20 @@ shared y_par = 1.
 4. Klein (0, 0) is Π²-EVEN under every dephase letter (bit_b = 0 for Z/Y;
    bit_a = 0 for X).
 5. Π²-even non-truly pairs are soft (not hard): closed-form for Z-dephasing
-   per F108 Part 1 above via Π_5bilinear. X-dephasing branch awaits F108
-   Part 2 (NeedsDerivation BitATwin slot on F108 Part 1); Y-dephasing branch
-   has no covering Claim yet. Until those land, the X- and Y-dephasing
-   branches of Step 5 are empirically anchored only (1026 mother-soft cells
-   across F103/F105/F106, zero y_par=0).
+   per F108 Part 1 above via Π_5bilinear, and closed-form for X-dephasing
+   per F108 Part 2 via the X-dephasing variant of Π_5bilinear (typed as
+   F108 Part 1's BitATwin slot, `Filled`). Y-dephasing branch has no covering
+   Claim yet (F108 Part 3 open); until it lands, the Y-dephasing branch of
+   Step 5 is empirically anchored only (matches the all-three-dephase-letter
+   empirical pattern across 1026 mother-soft cells in F103/F105/F106, zero
+   y_par=0).
 6. Klein (0, 0) soft term ⟹ y_par = 1; y_par-homogeneous pair: shared y_par = 1.
 
 **Empirical confirmation:** F103 mother soft (0, 21) × 3 dephase; F105 same;
 F106 (0, 300) × 3. Total 1026 mother-soft classifications, all y_par = 1, zero
-y_par = 0. F109 explains this bit-exactly: Z-dephasing branch closed-form,
-X- and Y-dephasing branches empirically anchored.
+y_par = 0. F109 explains this bit-exactly: Z- and X-dephasing branches
+closed-form (F108 Part 1 + Part 2), Y-dephasing branch empirically anchored
+(awaits F108 Part 3).
 
 **Cross-letter spot-check:** Klein (0, 0) non-truly k=3 terms are the 6
 XYZ-permutations (only triple with all-odd and sum ≤ 3). Unordered pairs with

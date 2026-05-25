@@ -116,17 +116,19 @@ public class PolarityCubeMapRegistrationTests
     }
 
     [Fact]
-    public void PolarityCubeMap_BitAClaims_ContainsExactlyF61()
+    public void PolarityCubeMap_BitAClaims_ContainsF61AndF108Part2()
     {
-        // F61BitAParityPi2Inheritance is currently the only typed BitA Claim
-        // (Π²_X = Z⊗N axis). If a second BitA Claim is added in the future, this
-        // assertion intentionally fails so the new entry is reviewed for whether it
-        // is a genuine bit_a sibling.
+        // Typed BitA Claims (Π²_X = Z⊗N axis): F61BitAParityPi2Inheritance was
+        // the only entry until 2026-05-25 when F108 Part 2 (X-dephasing analog
+        // of F108 Part 1, BitA twin) was added. If a third BitA Claim lands,
+        // this assertion fails so the new entry is reviewed for whether it is a
+        // genuine bit_a sibling.
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var cubeMap = registry.Get<PolarityCubeMap>();
 
-        Assert.Single(cubeMap.BitAClaims);
-        Assert.Equal(nameof(F61BitAParityPi2Inheritance),
-            cubeMap.BitAClaims[0].GetType().Name);
+        Assert.Equal(2, cubeMap.BitAClaims.Count);
+        var typeNames = cubeMap.BitAClaims.Select(c => c.GetType().Name).ToHashSet();
+        Assert.Contains(nameof(F61BitAParityPi2Inheritance), typeNames);
+        Assert.Contains(nameof(F108Part2Pi2XEvenAlwaysPalindromic), typeNames);
     }
 }

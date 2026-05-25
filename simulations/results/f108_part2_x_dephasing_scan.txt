@@ -1,0 +1,121 @@
+========================================================================================
+F108 Part 2: Pi-family scan for pure-Pi^2_X-even non-truly H + X-dephasing
+Started: 2026-05-25 07:18:16.026871
+========================================================================================
+
+Pi^2_X-even (bit_a=0) 2-site bilinears: {ZZ, XX, XY, YX, YY}
+Truly under X-deph (F85): #X even AND #Y even -> {ZZ, XX, YY}
+Pure-Pi^2_X-even NON-truly bilinears: {XY, YX}
+
+========================================================================================
+Phase 1: Enumerate pure-Pi^2_X-even non-truly pairs
+========================================================================================
+
+  Total pairs: 9
+    XY
+    YX
+    ZZ+XY
+    ZZ+YX
+    XX+XY
+    XX+YX
+    XY+YX
+    XY+YY
+    YX+YY
+
+========================================================================================
+Phase 2: Pi-family operator-level palindrome scan (X-dephasing)
+========================================================================================
+
+--- N = 3 (chain, open BC, gamma = 0.05) ---
+  Pair        SpecPal            X_canonical  X_5bilinear_predicted           X_variant_v2           X_variant_v3           X_variant_v4
+  ---------- --------  ---------------------  ---------------------  ---------------------  ---------------------  ---------------------
+  XY           100.0%              3.200e+01                  EXACT                  EXACT              3.200e+01                  EXACT
+  YX           100.0%              3.200e+01                  EXACT                  EXACT              3.200e+01                  EXACT
+  ZZ+XY        100.0%              3.200e+01                  EXACT              3.200e+01              4.525e+01                  EXACT
+  ZZ+YX        100.0%              3.200e+01                  EXACT              3.200e+01              4.525e+01                  EXACT
+  XX+XY        100.0%              3.200e+01                  EXACT              3.200e+01              4.525e+01                  EXACT
+  XX+YX        100.0%              3.200e+01                  EXACT              3.200e+01              4.525e+01                  EXACT
+  XY+YX        100.0%              4.525e+01                  EXACT                  EXACT              4.525e+01                  EXACT
+  XY+YY        100.0%              3.200e+01                  EXACT              3.200e+01              4.525e+01                  EXACT
+  YX+YY        100.0%              3.200e+01                  EXACT              3.200e+01              4.525e+01                  EXACT
+
+--- N = 4 (chain, open BC, gamma = 0.05) ---
+  Pair        SpecPal            X_canonical  X_5bilinear_predicted           X_variant_v2           X_variant_v3           X_variant_v4
+  ---------- --------  ---------------------  ---------------------  ---------------------  ---------------------  ---------------------
+  XY           100.0%              7.838e+01                  EXACT                  EXACT              7.838e+01                  EXACT
+  YX           100.0%              7.838e+01                  EXACT                  EXACT              7.838e+01                  EXACT
+  ZZ+XY        100.0%              7.838e+01                  EXACT              7.838e+01              1.109e+02                  EXACT
+  ZZ+YX        100.0%              7.838e+01                  EXACT              7.838e+01              1.109e+02                  EXACT
+  XX+XY        100.0%              7.838e+01                  EXACT              7.838e+01              1.109e+02                  EXACT
+  XX+YX        100.0%              7.838e+01                  EXACT              7.838e+01              1.109e+02                  EXACT
+  XY+YX        100.0%              1.109e+02                  EXACT                  EXACT              1.109e+02                  EXACT
+  XY+YY        100.0%              7.838e+01                  EXACT              7.838e+01              1.109e+02                  EXACT
+  YX+YY        100.0%              7.838e+01                  EXACT              7.838e+01              1.109e+02                  EXACT
+
+--- N = 5 (chain, open BC, gamma = 0.05) ---
+  Pair        SpecPal            X_canonical  X_5bilinear_predicted           X_variant_v2           X_variant_v3           X_variant_v4
+  ---------- --------  ---------------------  ---------------------  ---------------------  ---------------------  ---------------------
+  XY           100.0%              1.810e+02                  EXACT                  EXACT              1.810e+02                  EXACT
+  YX           100.0%              1.810e+02                  EXACT                  EXACT              1.810e+02                  EXACT
+  ZZ+XY        100.0%              1.810e+02                  EXACT              1.810e+02              2.560e+02                  EXACT
+  ZZ+YX        100.0%              1.810e+02                  EXACT              1.810e+02              2.560e+02                  EXACT
+  XX+XY        100.0%              1.810e+02                  EXACT              1.810e+02              2.560e+02                  EXACT
+  XX+YX        100.0%              1.810e+02                  EXACT              1.810e+02              2.560e+02                  EXACT
+  XY+YX        100.0%              2.560e+02                  EXACT                  EXACT              2.560e+02                  EXACT
+  XY+YY        100.0%              1.810e+02                  EXACT              1.810e+02              2.560e+02                  EXACT
+  YX+YY        100.0%              1.810e+02                  EXACT              1.810e+02              2.560e+02                  EXACT
+
+========================================================================================
+Phase 3: Single-family coverage test (X-dephasing)
+========================================================================================
+  X_canonical              : misses 9 cases:
+    XY at N=3: residual 3.200e+01
+    YX at N=3: residual 3.200e+01
+    ZZ+XY at N=3: residual 3.200e+01
+    ZZ+YX at N=3: residual 3.200e+01
+    XX+XY at N=3: residual 3.200e+01
+  X_5bilinear_predicted    : COVERS ALL 9 pairs at N=[3, 4, 5]
+  X_variant_v2             : misses 6 cases:
+    ZZ+XY at N=3: residual 3.200e+01
+    ZZ+YX at N=3: residual 3.200e+01
+    XX+XY at N=3: residual 3.200e+01
+    XX+YX at N=3: residual 3.200e+01
+    XY+YY at N=3: residual 3.200e+01
+  X_variant_v3             : misses 9 cases:
+    XY at N=3: residual 3.200e+01
+    YX at N=3: residual 3.200e+01
+    ZZ+XY at N=3: residual 4.525e+01
+    ZZ+YX at N=3: residual 4.525e+01
+    XX+XY at N=3: residual 4.525e+01
+  X_variant_v4             : COVERS ALL 9 pairs at N=[3, 4, 5]
+
+========================================================================================
+Phase 4: 2-qubit anti-commutation check for predicted X-deph variant
+========================================================================================
+
+  Bilinear   bit_a    #X,#Y even (truly_X)   {Q, [B,.]} norm     
+  ----------------------------------------------------------------
+  XX         Pi2_X=+  truly_X                ANTI-COMM
+  XY         Pi2_X=+  non-truly_X            ANTI-COMM
+  XZ         Pi2_X=-  non-truly_X            err=8.00e+00
+  YX         Pi2_X=+  non-truly_X            ANTI-COMM
+  YY         Pi2_X=+  truly_X                ANTI-COMM
+  YZ         Pi2_X=-  non-truly_X            err=8.00e+00
+  ZX         Pi2_X=-  non-truly_X            err=8.00e+00
+  ZY         Pi2_X=-  non-truly_X            err=8.00e+00
+  ZZ         Pi2_X=+  truly_X                ANTI-COMM
+
+  Per-site dissipator check (1-qubit):
+    ||Q D[X] Q^-1 - (-D[X] - 2 gamma I)|| = 0.0000e+00
+    (Should be ~0 if X-deph variant works at dissipator level)
+
+========================================================================================
+Phase 5: Robustness over random Pi^2_X-even non-truly H + X-deph
+========================================================================================
+
+  Trial   N   spec_pal      op_resid
+  ----- ---  ---------  ------------
+      1   3    100.0%     0.000e+00
+      1   4    100.0%     0.000e+00
+      1   5    100.0%     0.000e+00
+      2   3    100.0%     0.000e+00

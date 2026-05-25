@@ -24,15 +24,14 @@ public class F108Part1Pi2EvenAlwaysPalindromicRegistrationTests
     }
 
     [Fact]
-    public void F108Part1Pi2EvenAlwaysPalindromic_HasNeedsDerivationBitATwin()
+    public void F108Part1Pi2EvenAlwaysPalindromic_HasFilledBitATwin()
     {
-        // The BitA twin (F108 Part 2 under X-dephasing) is NOT a mechanical
-        // letter-swap mirror: it requires new structural derivation work (new
-        // per-site Π operator + new bilinear set + new D[X] identity). Classified
-        // NeedsDerivation so PolarityCubeMap surfaces it as substantive open work,
-        // not as a low-cost fill target.
+        // After F108 Part 2 closure (2026-05-25), F108 Part 1's BitATwin slot
+        // is Filled with the typed F108 Part 2 Claim. PolarityCubeMap surfaces
+        // this as a closed twin pair under BitB-axis coverage.
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var claim = registry.Get<F108Part1Pi2EvenAlwaysPalindromic>();
-        Assert.Equal(BitATwinClassification.NeedsDerivation, claim.BitATwinStatus);
+        Assert.Equal(BitATwinClassification.Filled, claim.BitATwinStatus);
+        Assert.IsType<F108Part2Pi2XEvenAlwaysPalindromic>(claim.BitATwin);
     }
 }

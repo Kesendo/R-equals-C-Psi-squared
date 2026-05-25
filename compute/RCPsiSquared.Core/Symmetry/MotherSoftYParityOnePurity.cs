@@ -20,10 +20,11 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item>Klein (0,0) is Π²-EVEN under every dephase (bit_b=0 for Z/Y, bit_a=0 for X).</item>
 ///   <item>Π²-even non-truly pairs are SOFT (not hard): closed-form for
 ///         Z-dephasing per <see cref="F108Part1Pi2EvenAlwaysPalindromic"/> via the
-///         Π_5bilinear phase-variant Π operator (closed 2026-05-25). The X- and
-///         Y-dephasing branches remain empirically anchored only: the X-branch
-///         awaits F108 Part 2 (tracked as F108 Part 1's NeedsDerivation BitATwin
-///         slot), and the Y-branch has no covering Claim yet.</item>
+///         Π_5bilinear phase-variant Π operator, AND closed-form for X-dephasing
+///         per <see cref="F108Part2Pi2XEvenAlwaysPalindromic"/> via the
+///         X-dephasing variant of Π_5bilinear (both closed 2026-05-25). The
+///         Y-dephasing branch remains empirically anchored only (no F108 Part 3
+///         Claim yet).</item>
 ///   <item>Klein (0,0) soft term ⟹ #Y odd ⟹ y_par = 1; y_par-homogeneous pair: shared y_par = 1.</item>
 /// </list>
 ///
@@ -50,13 +51,13 @@ public sealed class MotherSoftYParityOnePurity : Claim, IZ2AxisClaim
     /// counts must be odd; only the (1, 1, 1) triple satisfies this at k ≤ 3.</summary>
     public string NonTrulyCriterion => "Klein (0,0) non-truly ⟺ #X, #Y, #Z all odd (forced by Klein same-parity + F107 truly = all even)";
 
-    /// <summary>Step 5 status: Z-dephasing branch is closed-form via F108 Part 1
-    /// (Π_5bilinear, see <see cref="F108Part1Pi2EvenAlwaysPalindromic"/>, closed
-    /// 2026-05-25); X- and Y-dephasing branches still depend on the NeedsDerivation
-    /// BitATwin slot on F108 Part 1 (X-deph) and on an undelivered Y-dephasing
-    /// analog. Until those land, F109's X/Y branches remain empirically anchored
+    /// <summary>Step 5 status: Z- and X-dephasing branches are closed-form via
+    /// F108 Part 1 (<see cref="F108Part1Pi2EvenAlwaysPalindromic"/>) and F108
+    /// Part 2 (<see cref="F108Part2Pi2XEvenAlwaysPalindromic"/>) respectively,
+    /// both closed 2026-05-25. The Y-dephasing branch awaits an undelivered F108
+    /// Part 3; until then, F109's Y-deph branch remains empirically anchored only
     /// (1026 mother-soft cells across F103/F105/F106), not closed-form.</summary>
-    public string Step5Status => "F108 Part 1 closes the Z-dephasing branch via Π_5bilinear (Tier1Derived, 2026-05-25). X-dephasing branch awaits F108 Part 2 (NeedsDerivation BitATwin slot); Y-dephasing branch has no covering Claim yet. F109's X and Y branches remain empirically anchored, not closed-form.";
+    public string Step5Status => "F108 Part 1 closes the Z-dephasing branch via Π_5bilinear; F108 Part 2 closes the X-dephasing branch via the X-deph variant of Π_5bilinear (both Tier1Derived, 2026-05-25). Y-dephasing branch has no covering Claim yet (F108 Part 3 open). F109's Y branch remains empirically anchored, not closed-form.";
 
     /// <summary>The theorem statement: mother (0,0) soft ⟹ shared y_par = 1.</summary>
     public string Theorem => "Klein (0,0) soft under any dephase D in {Z, X, Y} ⟹ pair y_par = 1; equivalently #Y(both terms) = 1 mod 2";
@@ -88,24 +89,26 @@ public sealed class MotherSoftYParityOnePurity : Claim, IZ2AxisClaim
     }
 
     public MotherSoftYParityOnePurity()
-        : base("F109 mother sector Klein (0,0) soft is y_par=1 pure (closed-form for Z-dephasing via F108 Part 1; X- and Y-dephasing branches remain empirically anchored)",
+        : base("F109 mother sector Klein (0,0) soft is y_par=1 pure (closed-form for Z- and X-dephasing via F108 Part 1 + Part 2; Y-dephasing branch remains empirically anchored)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F109 + " +
                "docs/proofs/PROOF_F109_MOTHER_SOFT_Y_PARITY_ONE_PURITY.md + " +
                "docs/proofs/PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md + " +
+               "docs/proofs/PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md + " +
                "docs/proofs/PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md + " +
                "docs/proofs/PROOF_F85_KBODY_GENERALIZATION.md")
     {
     }
 
     public override string DisplayName =>
-        "F109 mother soft = y_par 1 pure (closed-form Z-deph; X/Y empirically anchored)";
+        "F109 mother soft = y_par 1 pure (closed-form Z- and X-deph; Y empirically anchored)";
 
     public override string Summary =>
         $"Theorem: {Theorem}. Steps 1-4 + 6 are closed-form via F107 + Klein same-parity collapse. " +
-        $"Step 5 (Π²-even ⟹ soft): Z-dephasing closed-form via F108 Part 1's Π_5bilinear (2026-05-25); " +
-        $"X- and Y-dephasing branches still empirically anchored (F103/F105/F106), awaiting F108 Part 2 (X-deph) " +
-        $"and a Y-dephasing analog. Empirical: 1026 mother-soft classifications, zero y_par=0 ({Tier.Label()})";
+        $"Step 5 (Π²-even ⟹ soft): Z-dephasing closed-form via F108 Part 1, X-dephasing closed-form " +
+        $"via F108 Part 2 (both 2026-05-25); Y-dephasing branch still empirically anchored " +
+        $"(F103/F105/F106), awaiting F108 Part 3. Empirical: 1026 mother-soft classifications, " +
+        $"zero y_par=0 ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -122,10 +125,10 @@ public sealed class MotherSoftYParityOnePurity : Claim, IZ2AxisClaim
                          "F106 (N=4 k=4): (0, 300) ×3. Total: 1026 mother-soft, zero y_par=0.");
             yield return new InspectableNode("Sister claims on YParity axis",
                 summary: "F107: truly ⟹ y_par=0 (closed-form). F109: mother soft ⟹ y_par=1 (closed-form for " +
-                         "Z-dephasing via F108 Part 1; X/Y branches empirically anchored). Together pin two of the four trichotomy slots in Klein (0,0).");
+                         "Z- and X-dephasing via F108 Part 1 + Part 2; Y branch empirically anchored). " +
+                         "Together pin two of the four trichotomy slots in Klein (0,0).");
             yield return new InspectableNode("Open siblings",
-                summary: "F108 Part 2 (BitA twin of F108 Part 1, X-dephasing): NeedsDerivation per F108 Part 1's BitATwin slot. " +
-                         "F108 Part 3 (Y-dephasing analog): no covering Claim yet. " +
+                summary: "F108 Part 3 (Y-dephasing analog of F108 Part 1+2): no covering Claim yet. " +
                          "F110: hard cells y_par-pure with Y-inversion remains the deeper open work.");
         }
     }

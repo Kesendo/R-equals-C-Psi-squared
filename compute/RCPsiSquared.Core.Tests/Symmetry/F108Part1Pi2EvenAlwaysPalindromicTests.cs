@@ -17,6 +17,9 @@ public class F108Part1Pi2EvenAlwaysPalindromicTests
     private const double Gamma = 0.05;
     private const double ResidualTol = 1e-10;
 
+    private static F108Part1Pi2EvenAlwaysPalindromic Make() =>
+        new F108Part1Pi2EvenAlwaysPalindromic(new F108Part2Pi2XEvenAlwaysPalindromic());
+
     // ============================================================
     // Claim metadata
     // ============================================================
@@ -24,34 +27,31 @@ public class F108Part1Pi2EvenAlwaysPalindromicTests
     [Fact]
     public void Z2Axis_IsBitB()
     {
-        var claim = new F108Part1Pi2EvenAlwaysPalindromic();
-        Assert.Equal(Z2Axis.BitB, claim.Z2Axis);
+        Assert.Equal(Z2Axis.BitB, Make().Z2Axis);
     }
 
     [Fact]
-    public void BitATwin_IsNull()
+    public void BitATwin_IsF108Part2()
     {
-        var claim = new F108Part1Pi2EvenAlwaysPalindromic();
-        Assert.Null(claim.BitATwin);
+        // After F108 Part 2 closure (2026-05-25), the BitATwin slot is Filled
+        // with the typed Part 2 instance.
+        var claim = Make();
+        Assert.NotNull(claim.BitATwin);
+        Assert.IsType<F108Part2Pi2XEvenAlwaysPalindromic>(claim.BitATwin);
     }
 
     [Fact]
-    public void BitATwinStatus_IsNeedsDerivation()
+    public void BitATwinStatus_IsFilled()
     {
-        // F108 Part 1 under X-dephasing (F108 Part 2) is NOT a mechanical
-        // letter-swap mirror: it requires a new per-site Π operator, a different
-        // Π²_X-even bilinear set, re-derived per-bond anti-commutation, and a new
-        // D[X] per-site identity. Classified NeedsDerivation rather than
-        // TrivialNotYetTyped per BitATwinClassification's enum docstring.
-        var claim = new F108Part1Pi2EvenAlwaysPalindromic();
-        Assert.Equal(BitATwinClassification.NeedsDerivation, claim.BitATwinStatus);
+        // Part 2 is wired as ctor parent; default IZ2AxisClaim.BitATwinStatus
+        // returns Filled when BitATwin is non-null.
+        Assert.Equal(BitATwinClassification.Filled, Make().BitATwinStatus);
     }
 
     [Fact]
     public void Tier_IsTier1Derived()
     {
-        var claim = new F108Part1Pi2EvenAlwaysPalindromic();
-        Assert.Equal(Tier.Tier1Derived, claim.Tier);
+        Assert.Equal(Tier.Tier1Derived, Make().Tier);
     }
 
     // ============================================================

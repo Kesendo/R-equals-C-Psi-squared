@@ -1,12 +1,13 @@
 # PROOF F109: Mother Sector Soft is y_par = 1 Pure (All Dephase Letters)
 
-**Status:** Tier 1 derived (Z-dephasing branch closed-form after F108 Part 1; X- and Y-dephasing branches empirically anchored, awaiting F108 Part 2 and a Y-dephasing analog)
-**Date:** 2026-05-24 (Steps 1-4 + 6 derivation), 2026-05-25 (Step 5 closed-form for Z-dephasing via F108 Part 1)
+**Status:** Tier 1 derived (Z- and X-dephasing branches closed-form after F108 Part 1 + Part 2; Y-dephasing branch empirically anchored, awaiting F108 Part 3)
+**Date:** 2026-05-24 (Steps 1-4 + 6 derivation), 2026-05-25 (Step 5 closed-form for Z-dephasing via F108 Part 1 + X-dephasing via F108 Part 2)
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
 - [PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md](PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md) (per-dephase truly criteria)
 - [PROOF_F85_KBODY_GENERALIZATION.md](PROOF_F85_KBODY_GENERALIZATION.md) (k-body truly criterion under Z-dephasing)
-- [PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md) (Π²-even-non-truly is never hard under Z-dephasing, via Π_5bilinear phase-variant Π operator). Closes the Z-dephasing branch of Step 5; X- and Y-dephasing branches remain empirically anchored.
+- [PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md) (Π²_Z-even non-truly is never hard under Z-dephasing, via Π_5bilinear). Closes Step 5 Z-dephasing branch.
+- [PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md) (Π²_X-even non-truly is never hard under X-dephasing, via X-deph variant of Π_5bilinear). Closes Step 5 X-dephasing branch. Y-dephasing branch remains empirically anchored.
 
 **Statement (Theorem F109):** Under any single-letter dephase channel (Z, X, or Y), every Pauli pair classified as soft and located in the Mother sector Klein (0, 0) has shared y_par = 1.
 
@@ -51,17 +52,17 @@ The Π² eigenvalue per dephase (per PiOperator.SquaredEigenvalue):
 
 Klein (0, 0) is the only cell that is Π²-even under all three dephase letters simultaneously.
 
-### Step 5: Klein (0, 0) non-truly is SOFT (closed-form for Z-dephasing; empirically anchored for X/Y)
+### Step 5: Klein (0, 0) non-truly is SOFT (closed-form for Z- and X-dephasing; empirically anchored for Y)
 
 Π²-even non-truly pairs have M_anti = L_{H_odd} = 0 (per F81 / F85: no Π²-odd Hamiltonian content).
 
 **Z-dephasing (closed-form):** per F108 Part 1 ([PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md)), every Π²_Z-even Hamiltonian H + Z-dephasing admits an EXACT operator-level palindrome via the Π_5bilinear phase-variant operator: Π_5bilinear · L · Π_5bilinear⁻¹ = −L − 2σ · I, hence spec(L) palindromic, hence not F87-hard. The Z-dephasing branch of Klein (0, 0) non-truly pairs is therefore SOFT (not hard) closed-form.
 
-**X-dephasing (open):** the BitA twin of F108 Part 1 (tracked as the NeedsDerivation BitATwin slot on F108Part1Pi2EvenAlwaysPalindromic) requires a separate derivation of the analogous per-site Π operator for the Π²_X-even bilinear set, plus the analogous D[X] per-site identity. Until F108 Part 2 lands, the X-dephasing branch of Step 5 is empirically anchored only.
+**X-dephasing (closed-form):** per F108 Part 2 ([PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md)), every Π²_X-even Hamiltonian H + X-dephasing admits an EXACT operator-level palindrome via the X-dephasing variant of Π_5bilinear (permutation I↔Z, X↔Y with phases I→+Z, Z→−I, X→−iY, Y→+iX). Same proof structure as Part 1, mirrored under the Z↔X label swap. The X-dephasing branch is also SOFT (not hard) closed-form.
 
-**Y-dephasing (open):** no covering Claim exists yet; a third part (F108 Part 3 or similar) would derive the analogous Π operator for Π²_Y-even bilinears + D[Y] per-site identity. Until then, the Y-dephasing branch of Step 5 is empirically anchored only.
+**Y-dephasing (open):** no covering Claim exists yet; F108 Part 3 would derive the analogous Π operator for Π²_Y-even bilinears + D[Y] per-site identity. Until then, the Y-dephasing branch of Step 5 is empirically anchored only.
 
-The empirical anchoring (1026 mother-soft classifications across F103/F105/F106, zero y_par=0) covers all three dephase letters and stands; the closed-form status currently only extends across Z-dephasing.
+The empirical anchoring (1026 mother-soft classifications across F103/F105/F106, zero y_par=0) covers all three dephase letters and stands; the closed-form status currently extends across Z- and X-dephasing.
 
 ### Step 6: All Klein (0, 0) soft pairs have y_par = 1
 
@@ -91,6 +92,5 @@ For k=4 letter sequences (N=4 enumeration): Klein (0, 0) non-truly = #X, #Y, #Z 
 
 ## Open
 
-- **F108 Part 2** (BitA twin of F108 Part 1, X-dephasing): construct the analogous per-site Π operator and Π²_X-even bilinear set + D[X] per-site identity. Closes the X-dephasing branch of Step 5. Tracked as the NeedsDerivation BitATwin slot on F108Part1Pi2EvenAlwaysPalindromic.
-- **F108 Part 3** (or similarly named, Y-dephasing): analogous derivation for the Π²_Y-even bilinear set + D[Y] per-site identity. Closes the Y-dephasing branch of Step 5. No current covering Claim.
+- **F108 Part 3** (Y-dephasing analog of F108 Part 1+2): construct the analogous Π_5bilinear variant for Y-dephasing on the Π²_Y-even bilinear set + D[Y] per-site identity. Closes the Y-dephasing branch of Step 5. No current covering Claim.
 - **F110** (hard cells y_par-pure with Y-inversion): the harder dephase-letter-specific analysis on the diagonal-Klein cells. F107 + F109 do not directly attack F110.
