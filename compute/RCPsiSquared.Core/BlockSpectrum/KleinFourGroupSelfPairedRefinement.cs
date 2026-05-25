@@ -68,6 +68,16 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// the test suite: off-block Frobenius below 1e-10, sub-block spectrum union matches the
 /// direct sector dense Evd as a multiset within 1e-10.</para>
 ///
+/// <para><b>Per-bond J support (2026-05-25).</b> <see cref="BuildSubBlockL(KleinCharacter,
+/// IReadOnlyList{double}, IReadOnlyList{double})"/> accepts a per-bond coupling profile
+/// <c>bondJ</c> of length N − 1, encoding the XY chain <c>H = Σ_b (J_b/2)·(X_b X_{b+1} +
+/// Y_b Y_{b+1})</c>. A scalar-J convenience wrapper
+/// <see cref="BuildSubBlockL(KleinCharacter, IReadOnlyList{double})"/> forwards with
+/// <c>bondJ = [1, 1, ..., 1]</c>. This opens F100 territory at the Builder layer:
+/// palindromic J profiles (predicted by F100 anti-palindromic-J spectral invariance to
+/// give zero c₁/Q_peak mirror-deviation) can now be evaluated through the Klein-refined
+/// per-block builder directly, without external <c>PauliHamiltonian</c> materialization.</para>
+///
 /// <para>Anchor: <see cref="F71MirrorBlockRefinement"/> + <see cref="XGlobalChargeConjugationPairing"/> +
 /// <see cref="PerBlockLiouvillianBuilder"/>; standard finite-group representation theory
 /// (Klein four-group character table, isotypic decomposition).</para>

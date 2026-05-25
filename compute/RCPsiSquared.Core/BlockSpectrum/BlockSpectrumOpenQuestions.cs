@@ -59,5 +59,65 @@ public static class BlockSpectrumOpenQuestions
             "docs/SYMMETRY_FAMILY_INVENTORY.md (Phase 3); " +
             "compute/RCPsiSquared.Core/BlockSpectrum/JordanWigner/JwSlaterPairF1PalindromeProbe.cs " +
             "(cites the 2N × 2N Nambu problem)"),
+
+        new OpenQuestion(
+            "BlockSpectrum X/Y-dephasing support: lift the per-dephase-letter basis restriction",
+            "The Builder's joint-popcount sector basis is tied to Z-dephasing per " +
+            "PerBlockLiouvillianBuilder.BuildBlockZ: the dissipator is stamped element-wise " +
+            "from the computational-basis bit-parity disagreement, which requires the dephase " +
+            "letter to be diagonal in that basis. F108 Part 2 (X-deph, Pi5BilinearOperator at " +
+            "dephaseLetter = X) and F108 Part 3 (Y-deph, dephaseLetter = Y) prove operator- " +
+            "level palindromicity Π·L·Π⁻¹ = −L − 2σ·I for those dephase channels, but the " +
+            "Builder cannot exploit them in its current basis (X- and Y-dephasing break " +
+            "popcount conservation in the computational basis). " +
+            "ComputeSpectrumPerBlock(..., PauliLetter.X|Y) throws NotImplementedException " +
+            "rather than silently producing wrong eigenvalues. Closing this would unlock " +
+            "Builder-level verification of F108 Parts 2+3 at N=7+ and extend the per-block " +
+            "speedup to the full F108 family.",
+            "Add a per-dephase-letter rotated-basis path: apply per-site U_X = H " +
+            "(Hadamard) for X-deph (resp. U_Y = (S†·H)† for Y-deph), conjugate the " +
+            "Hamiltonian H → H' = U H U† with U = U_X⊗N (resp. U_Y⊗N), then run the " +
+            "existing BuildBlockZ on H' (which now sees a popcount-conserving Hamiltonian " +
+            "in the rotated basis where the chosen dephase letter is diagonal). The " +
+            "eigenvalues of L are basis-independent, so the per-block spectrum transports " +
+            "back without modification. Wire the rotation into the dephaseLetter dispatch " +
+            "currently throwing NotImplementedException; reuse F1PalindromeOrbitPairing " +
+            "as-is (it is already Π-agnostic at the sector-label level). Effort: M-L. " +
+            "Payoff: enables Builder verification of F108 Parts 2+3 at N=7+ and F87 " +
+            "enumeration for X/Y deph at higher N.",
+            "compute/RCPsiSquared.Core/BlockSpectrum/LiouvillianBlockSpectrum.cs " +
+            "(ComputeSpectrumPerBlock F108-aware overload; commit 736c595 added the " +
+            "dephaseLetter parameter + throw-on-non-Z guard); " +
+            "compute/RCPsiSquared.Core/BlockSpectrum/PerBlockLiouvillianBuilder.cs " +
+            "(BuildBlockZ Z-only path); " +
+            "compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs " +
+            "(per-dephase-letter Π action); " +
+            "compute/RCPsiSquared.Core/Symmetry/F108Part2Pi2XEvenAlwaysPalindromic.cs, " +
+            "compute/RCPsiSquared.Core/Symmetry/F108Part3Pi2YEvenAlwaysPalindromic.cs " +
+            "(operator-level palindromicity proofs)"),
+
+        new OpenQuestion(
+            "Builder-side F100 anti-palindromic-J spectral-invariance regression test",
+            "F100 (Tier 1 derived; C1QPeakMirrorJParity) predicts that anti-palindromic per-bond " +
+            "J profiles give zero c₁/Q_peak mirror-deviation, while palindromic J profiles " +
+            "preserve the full F1 palindrome structure. Task A (commit 12f3edd) wired per-bond " +
+            "J support into KleinFourGroupSelfPairedRefinement.BuildSubBlockL and " +
+            "LiouvillianSectorSweep (plus PauliHamiltonian.XYChain overloads), so the Builder " +
+            "can now run F100-territory J profiles directly. What is missing is a dedicated " +
+            "Builder-side regression test that sweeps {palindromic, anti-palindromic, generic} " +
+            "J profiles and asserts the predicted spectral invariance / asymmetry pattern, " +
+            "exercising the per-bond plumbing end-to-end at N=4..6.",
+            "Add a test (under compute/RCPsiSquared.Core.Tests/BlockSpectrum/) that builds " +
+            "L via ComputeSpectrumPerBlock with palindromic J profiles (e.g. J = [1, 2, 1] " +
+            "for N=4) and anti-palindromic profiles (e.g. J = [1, -1, 1] for N=4), then " +
+            "verifies the F100-predicted c₁/Q_peak mirror-deviation pattern against an " +
+            "external full-L reference at N=4..6. Effort: S. Payoff: S (mostly regression " +
+            "coverage of the per-bond plumbing; F100 itself is Tier1Derived and verified " +
+            "independently at N=3,4,5 via the framework package).",
+            "compute/RCPsiSquared.Core/BlockSpectrum/KleinFourGroupSelfPairedRefinement.cs " +
+            "(per-bond BuildSubBlockL overload; commit 12f3edd); " +
+            "compute/RCPsiSquared.Core/Pauli/PauliHamiltonian.cs (XYChain per-bond overload); " +
+            "compute/RCPsiSquared.Core/F71/C1QPeakMirrorJParity.cs (F100 typed claim); " +
+            "framework Confirmations: F100 (C1QPeakMirrorJParity)"),
     };
 }

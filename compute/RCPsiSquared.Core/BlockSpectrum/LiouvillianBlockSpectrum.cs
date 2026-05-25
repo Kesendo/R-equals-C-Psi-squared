@@ -61,6 +61,36 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// pre-initialize; the lazy global guard makes the redundant call free after the
 /// assembly-level <c>CoreModuleInitializer</c> has already run.</para>
 ///
+/// <para><b>F108 Π_5bilinear at the Builder layer (2026-05-25).</b> The orbit-pairing
+/// primitive <see cref="SymmetryFamily.F1PalindromeOrbitPairing.PartitionByPiOrbit"/> is
+/// Π-agnostic at the sector-label level: it consumes only the joint-popcount permutation
+/// rule (p_c, p_r) ↦ (N − p_r, p_c), not the matrix form of Π. F108 Part 1
+/// (<see cref="Symmetry.F108Part1Pi2EvenAlwaysPalindromic"/> via
+/// <see cref="Symmetry.Pi5BilinearOperator"/> at <c>dephaseLetter = Z</c>) extends the F1
+/// conjugation identity Π·L·Π⁻¹ = −L − 2σ·I from chain Heisenberg/XY (truly) to every
+/// Π²_Z-even 2-site bilinear H (XX, YY, YZ, ZY, ZZ combos). Canonical Π (F1) and
+/// Π_5bilinear-Z (F108 Part 1) induce the SAME joint-popcount sector cycle (only the
+/// per-letter phases differ at the operator level), so on the Z-dephasing domain F108
+/// brings no extra speedup at this layer: the existing orbit-pairing already covers the
+/// broader H set the contract admits. The F108-aware <c>ComputeSpectrumPerBlock</c>
+/// overload exists for intent-declaration and forward-compatibility, not for new gain.</para>
+///
+/// <para><b>Z-dephasing structural constraint.</b> The joint-popcount sector basis is
+/// tied to Z-dephasing because <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/> builds
+/// the dissipator element-wise from the computational-basis bit-parity disagreement, a
+/// representation that requires the dephase letter to be diagonal in that basis. F108 Part 2
+/// (X-deph, <see cref="Symmetry.F108Part2Pi2XEvenAlwaysPalindromic"/>) and Part 3 (Y-deph,
+/// <see cref="Symmetry.F108Part3Pi2YEvenAlwaysPalindromic"/>) prove operator-level
+/// palindromicity for those dephase channels, but the Builder cannot exploit them in its
+/// current basis (X- and Y-dephasing break popcount conservation in the computational
+/// basis). The F108-aware overload throws <see cref="NotImplementedException"/> for
+/// <see cref="Pauli.PauliLetter.X"/> / <see cref="Pauli.PauliLetter.Y"/> rather than
+/// silently producing wrong eigenvalues; lifting the restriction is tracked in
+/// <see cref="BlockSpectrumOpenQuestions"/> and requires a per-dephase-letter rotated
+/// basis (e.g. apply per-site U_X = H for X-deph, conjugate H → H' = U H U†, then run
+/// the existing BuildBlockZ; L's eigenvalues are basis-independent so the result
+/// transports back).</para>
+///
 /// <para>Anchors: <c>compute/RCPsiSquared.Core/BlockSpectrum/JointPopcountSectors.cs</c>
 /// (parent Claim, block-diagonal structure), <c>compute/RCPsiSquared.Core/BlockSpectrum/JointPopcountSectorBuilder.cs</c>
 /// (basis permutation + sector ranges), <c>compute/RCPsiSquared.Core.Tests/BlockSpectrum/LiouvillianBlockSpectrumTests.cs</c>
