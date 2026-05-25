@@ -3,6 +3,8 @@ using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
+using RCPsiSquared.Core.Pauli;
+using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Core.SymmetryFamily;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
@@ -250,7 +252,31 @@ public sealed class F71MirrorBlockRefinement : Claim
     /// <param name="gammaPerSite">Per-site Z-dephasing rates (length N).</param>
     /// <param name="N">Qubit count.</param>
     /// <returns>Flat array of 4^N eigenvalues.</returns>
-    public static Complex[] ComputeSpectrumPerBlock(ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N)
+    public static Complex[] ComputeSpectrumPerBlock(ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N) =>
+        ComputeSpectrumPerBlock(H, gammaPerSite, N, PauliLetter.Z);
+
+    /// <summary>F108-aware overload accepting an explicit dephase letter D ∈ {X, Y, Z} that
+    /// scopes the orbit-pairing optimisation. Defaults to <see cref="PauliLetter.Z"/> via the
+    /// 3-argument overload, preserving historical behaviour. See the matching overload on
+    /// <see cref="LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(ComplexMatrix, IReadOnlyList{double}, int, LiouvillianBlockSpectrum.EigenPath, PauliLetter)"/>
+    /// for the full rationale: the F1 reflection λ ↦ −2·Σγ − λ is justified iff
+    /// <c>Π·L·Π⁻¹ = −L − 2σ·I</c> holds for some Π that permutes joint-popcount sectors as
+    /// (p_c, p_r) ↦ (N − p_r, p_c). F108 Part 1 (Z-deph) extends F1's "truly Heisenberg"
+    /// scope to every Π²_Z-even bilinear via the Z-deph variant of
+    /// <see cref="Pi5BilinearOperator"/>; both variants share the I↔X, Y↔Z per-letter
+    /// permutation and thus induce the same sector cycle, so the orbit-pairing primitive
+    /// stays the same Π-agnostic call.
+    ///
+    /// <para>Only <see cref="PauliLetter.Z"/> is currently supported by the per-block builder
+    /// (<see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/> is hardcoded Z-only and the
+    /// joint-popcount sector structure is not preserved under X- or Y-dephasing). Non-Z
+    /// dephase letters throw <see cref="NotImplementedException"/> with a clear message
+    /// citing the future <c>BuildBlockX</c>/<c>BuildBlockY</c> path needed to lift the
+    /// restriction.</para></summary>
+    /// <param name="dephaseLetter">Dephase letter the orbit-pairing is matched to. Only Z is
+    /// currently supported.</param>
+    public static Complex[] ComputeSpectrumPerBlock(
+        ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N, PauliLetter dephaseLetter)
     {
         if (H is null) throw new ArgumentNullException(nameof(H));
         int hilbertDim = 1 << N;
@@ -261,6 +287,14 @@ public sealed class F71MirrorBlockRefinement : Claim
         if (gammaPerSite is null) throw new ArgumentNullException(nameof(gammaPerSite));
         if (gammaPerSite.Count != N)
             throw new ArgumentException($"gamma list length {gammaPerSite.Count} != N={N}", nameof(gammaPerSite));
+        if (dephaseLetter != PauliLetter.Z)
+            throw new NotImplementedException(
+                $"F71MirrorBlockRefinement.ComputeSpectrumPerBlock only supports PauliLetter.Z dephasing today; " +
+                $"got {dephaseLetter}. The per-block builder (PerBlockLiouvillianBuilder.BuildBlockZ) is hardcoded " +
+                "to Z-dephasing; X- and Y-dephasing break the joint-popcount sector structure that " +
+                "JointPopcountSectors and the F71 mirror refinement rely on. Wiring F108 Part 2 (X-deph) or " +
+                "Part 3 (Y-deph) here requires a parallel BuildBlockX/Y path plus a rederived sector " +
+                "decomposition compatible with the chosen dephase letter.");
 
         // F1 palindrome reflection constant: the genuine Σ of per-site Z-dephasing rates
         // (NOT N·γ), so non-uniform γ stays exact. F1 maps a sector's spectrum to its
@@ -303,6 +337,13 @@ public sealed class F71MirrorBlockRefinement : Claim
         // BOTH sub-arrays, the Π/Π³-images by the F1 reflection λ ↦ −2·Σγ − λ applied to BOTH
         // sub-arrays. Primaries are sorted descending by size so the largest starts first
         // under Parallel.ForEach.
+        //
+        // F108 generalisation (Z-deph): F108 Part 1 (Pi5BilinearOperator with dephaseLetter
+        // = Z) extends F1's conjugation identity from chain Heisenberg/XY (truly) to every
+        // Π²_Z-even bilinear H. At the builder level the gain is operator-equivalent for the
+        // popcount-conserving 2-body H this entry point can accept (all such H lie in the
+        // Π²_Z-even cell). Canonical Π (F1) and Π_5bilinear (F108 Part 1) induce the same
+        // joint-popcount sector cycle, so the same orbit-pairing call covers both readings.
         var (primarySectorIndices, followerToPrimary) =
             F1PalindromeOrbitPairing.PartitionByPiOrbit(
                 N, baseDecomp.SectorRanges, s => (s.PCol, s.PRow), s => s.Size);
