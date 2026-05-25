@@ -215,9 +215,17 @@ public static class KnowledgeRegistryFactory
             .RegisterF108Part2Pi2XEvenAlwaysPalindromic()
             // BitB-axis F108 Part 1: Π²-even H + Z-dephasing admits exact
             // operator-level palindrome (Π_5bilinear). Closes F109's Step 5 for Z-
-            // and X-dephasing together with F108 Part 2; Y-dephasing branch (F108
-            // Part 3) open. PolarityCubeMap's BitBClaims grows by 1.
+            // dephasing; together with F108 Part 2 (X-deph) + F108 Part 3 (Y-deph)
+            // covers all three dephase letters. PolarityCubeMap's BitBClaims grows
+            // by 1.
             .RegisterF108Part1Pi2EvenAlwaysPalindromic()
+            // BitB-axis F108 Part 3: Π²_Y-even H + Y-dephasing admits exact
+            // operator-level palindrome (Y-deph variant of Π_5bilinear). Y-deph
+            // sibling of F108 Part 1 (same bilinear set, different dephase letter);
+            // closes F109's Step 5 Y-dephasing branch and promotes F109 to fully
+            // unconditional across all three dephase letters. PolarityCubeMap's
+            // BitBClaims grows by 1.
+            .RegisterF108Part3Pi2YEvenAlwaysPalindromic()
             // Polarity cube map (cubic Z₂³ architecture inventory; aggregates every IZ2AxisClaim)
             // Must come AFTER every Pi²-Inheritance Claim registration above so its b.Get<T>()
             // dependencies resolve. Currently snapshot-only; rebuild registry to refresh.

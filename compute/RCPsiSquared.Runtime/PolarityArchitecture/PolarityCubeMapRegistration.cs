@@ -108,6 +108,7 @@ public static class PolarityCubeMapRegistration
             z2AxisClaims.Add(b.Get<ZGlobalMirrorRefinement>());
             // BitB-axis Claims (F108+) closing F87-hardness questions on Π²-even cells
             z2AxisClaims.Add(b.Get<F108Part1Pi2EvenAlwaysPalindromic>());
+            z2AxisClaims.Add(b.Get<F108Part3Pi2YEvenAlwaysPalindromic>());
             // BitA-axis Claims (F108 Part 2+): X-dephasing analogs of the BitB-axis
             // Π²-even palindrome family
             z2AxisClaims.Add(b.Get<F108Part2Pi2XEvenAlwaysPalindromic>());

@@ -19,12 +19,11 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item>Klein (0,0) non-truly (Π²-even non-truly) = all three odd.</item>
 ///   <item>Klein (0,0) is Π²-EVEN under every dephase (bit_b=0 for Z/Y, bit_a=0 for X).</item>
 ///   <item>Π²-even non-truly pairs are SOFT (not hard): closed-form for
-///         Z-dephasing per <see cref="F108Part1Pi2EvenAlwaysPalindromic"/> via the
-///         Π_5bilinear phase-variant Π operator, AND closed-form for X-dephasing
-///         per <see cref="F108Part2Pi2XEvenAlwaysPalindromic"/> via the
-///         X-dephasing variant of Π_5bilinear (both closed 2026-05-25). The
-///         Y-dephasing branch remains empirically anchored only (no F108 Part 3
-///         Claim yet).</item>
+///         Z-dephasing per <see cref="F108Part1Pi2EvenAlwaysPalindromic"/>,
+///         X-dephasing per <see cref="F108Part2Pi2XEvenAlwaysPalindromic"/>, and
+///         Y-dephasing per <see cref="F108Part3Pi2YEvenAlwaysPalindromic"/> (all
+///         three closed-form via the respective Π_5bilinear dephase variants,
+///         all closed 2026-05-25). F109 is fully unconditional across {Z, X, Y}.</item>
 ///   <item>Klein (0,0) soft term ⟹ #Y odd ⟹ y_par = 1; y_par-homogeneous pair: shared y_par = 1.</item>
 /// </list>
 ///
@@ -51,11 +50,10 @@ public sealed class MotherSoftYParityOnePurity : Claim, IZ2AxisClaim
     /// counts must be odd; only the (1, 1, 1) triple satisfies this at k ≤ 3.</summary>
     public string NonTrulyCriterion => "Klein (0,0) non-truly ⟺ #X, #Y, #Z all odd (forced by Klein same-parity + F107 truly = all even)";
 
-    /// <summary>Step 5 status: Z-deph closed-form via
-    /// <see cref="F108Part1Pi2EvenAlwaysPalindromic"/>, X-deph closed-form via
-    /// <see cref="F108Part2Pi2XEvenAlwaysPalindromic"/>; Y-deph still empirically
-    /// anchored only (1026 mother-soft cells across F103/F105/F106), awaiting F108 Part 3.</summary>
-    public string Step5Status => "F108 Part 1 closes the Z-dephasing branch via Π_5bilinear; F108 Part 2 closes the X-dephasing branch via the X-deph variant of Π_5bilinear. Y-dephasing branch has no covering Claim yet (F108 Part 3 open). F109's Y branch remains empirically anchored, not closed-form.";
+    /// <summary>Step 5 status: closed-form across all three dephase letters via
+    /// the F108 Part 1/2/3 family of <see cref="Pi5BilinearOperator"/> dephase
+    /// variants (Z, X, Y respectively). All three closed 2026-05-25.</summary>
+    public string Step5Status => "F108 Part 1 (Z-deph) + Part 2 (X-deph) + Part 3 (Y-deph) close Step 5 closed-form across all three dephase letters via the matching Π_5bilinear dephase variants. F109 is fully unconditional Tier1Derived.";
 
     /// <summary>The theorem statement: mother (0,0) soft ⟹ shared y_par = 1.</summary>
     public string Theorem => "Klein (0,0) soft under any dephase D in {Z, X, Y} ⟹ pair y_par = 1; equivalently #Y(both terms) = 1 mod 2";
@@ -87,26 +85,26 @@ public sealed class MotherSoftYParityOnePurity : Claim, IZ2AxisClaim
     }
 
     public MotherSoftYParityOnePurity()
-        : base("F109 mother sector Klein (0,0) soft is y_par=1 pure (closed-form for Z- and X-dephasing via F108 Part 1 + Part 2; Y-dephasing branch remains empirically anchored)",
+        : base("F109 mother sector Klein (0,0) soft is y_par=1 pure (fully unconditional Tier1Derived across all three dephase letters after F108 Part 1+2+3 closure)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F109 + " +
                "docs/proofs/PROOF_F109_MOTHER_SOFT_Y_PARITY_ONE_PURITY.md + " +
                "docs/proofs/PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md + " +
                "docs/proofs/PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md + " +
+               "docs/proofs/PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md + " +
                "docs/proofs/PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md + " +
                "docs/proofs/PROOF_F85_KBODY_GENERALIZATION.md")
     {
     }
 
     public override string DisplayName =>
-        "F109 mother soft = y_par 1 pure (closed-form Z- and X-deph; Y empirically anchored)";
+        "F109 mother soft = y_par 1 pure (closed-form, fully unconditional)";
 
     public override string Summary =>
         $"Theorem: {Theorem}. Steps 1-4 + 6 are closed-form via F107 + Klein same-parity collapse. " +
-        $"Step 5 (Π²-even ⟹ soft): Z-dephasing closed-form via F108 Part 1, X-dephasing closed-form " +
-        $"via F108 Part 2 (both 2026-05-25); Y-dephasing branch still empirically anchored " +
-        $"(F103/F105/F106), awaiting F108 Part 3. Empirical: 1026 mother-soft classifications, " +
-        $"zero y_par=0 ({Tier.Label()})";
+        $"Step 5 (Π²-even ⟹ soft) is closed-form across all three dephase letters via F108 " +
+        $"Part 1 (Z-deph) + Part 2 (X-deph) + Part 3 (Y-deph), all closed 2026-05-25. " +
+        $"Empirical: 1026 mother-soft classifications, zero y_par=0 ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -122,12 +120,11 @@ public sealed class MotherSoftYParityOnePurity : Claim, IZ2AxisClaim
                 summary: "F103 (N=4 k=3): mother soft (0, 21) ×3 dephase. F105 (N=5 k=3): same. " +
                          "F106 (N=4 k=4): (0, 300) ×3. Total: 1026 mother-soft, zero y_par=0.");
             yield return new InspectableNode("Sister claims on YParity axis",
-                summary: "F107: truly ⟹ y_par=0 (closed-form). F109: mother soft ⟹ y_par=1 (closed-form for " +
-                         "Z- and X-dephasing via F108 Part 1 + Part 2; Y branch empirically anchored). " +
-                         "Together pin two of the four trichotomy slots in Klein (0,0).");
+                summary: "F107: truly ⟹ y_par=0 (closed-form). F109: mother soft ⟹ y_par=1 (closed-form, " +
+                         "fully unconditional after F108 Part 1+2+3). Together pin two of the four trichotomy slots in Klein (0,0).");
             yield return new InspectableNode("Open siblings",
-                summary: "F108 Part 3 (Y-dephasing analog of F108 Part 1+2): no covering Claim yet. " +
-                         "F110: hard cells y_par-pure with Y-inversion remains the deeper open work.");
+                summary: "F110: hard cells y_par-pure with Y-inversion remains the deeper open work " +
+                         "(per-dephase-letter algebra on the F87-hard pair set; not directly attacked by F107/F109).");
         }
     }
 }

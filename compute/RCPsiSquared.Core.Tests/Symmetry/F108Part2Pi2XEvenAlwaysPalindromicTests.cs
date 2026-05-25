@@ -114,16 +114,10 @@ public class F108Part2Pi2XEvenAlwaysPalindromicTests
             Pi5BilinearOperator.ActOnLetter(PauliLetter.Y, PauliLetter.X));
     }
 
-    [Fact]
-    public void Pi5BilinearOperator_YDeph_ThrowsNotImplemented()
-    {
-        // F108 Part 3 has no covering Claim; Y-deph variant should throw with a
-        // clear pointer to the open work.
-        Assert.Throws<NotImplementedException>(() =>
-            Pi5BilinearOperator.ActOnLetter(PauliLetter.I, PauliLetter.Y));
-        Assert.Throws<NotImplementedException>(() =>
-            Pi5BilinearOperator.BuildFull(2, PauliLetter.Y));
-    }
+    // Note: Pi5BilinearOperator.ActOnLetter(_, PauliLetter.Y) and
+    // Pi5BilinearOperator.BuildFull(_, PauliLetter.Y) used to throw
+    // NotImplementedException; now supported by F108 Part 3 (see
+    // F108Part3Pi2YEvenAlwaysPalindromicTests).
 
     [Fact]
     public void Pi5BilinearOperator_XDeph_BuildFull_IsUnitary_AtN3()

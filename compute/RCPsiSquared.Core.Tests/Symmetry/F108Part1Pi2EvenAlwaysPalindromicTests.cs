@@ -211,7 +211,7 @@ public class F108Part1Pi2EvenAlwaysPalindromicTests
         // Mirrors the 9-pair Phase 2 enumeration in
         // simulations/_f108_part1_pi_family_scan.py. Each pair must have
         // operator-level residual = 0 under Π_5bilinear.
-        var pairs = EnumeratePureP2EvenNonTrulyPairs();
+        var pairs = EnumeratePurePi2EvenNonTrulyPairs();
         Assert.Equal(9, pairs.Count); // Sanity: exactly 9 pairs per Phase 1 of the scan.
         foreach (var (label, terms) in pairs)
         {
@@ -252,43 +252,4 @@ public class F108Part1Pi2EvenAlwaysPalindromicTests
             $"F108 Part 1 violated at N={N} on XX+YZ chain: residual = {residual:E3}");
     }
 
-    // ============================================================
-    // Helpers
-    // ============================================================
-
-    private static IReadOnlyList<PauliTerm> BuildYzZyChain(int N)
-    {
-        var terms = new List<PauliTerm>();
-        for (int b = 0; b < N - 1; b++)
-        {
-            terms.Add(PauliTerm.TwoSite(N, b, PauliLetter.Y, b + 1, PauliLetter.Z, Complex.One));
-            terms.Add(PauliTerm.TwoSite(N, b, PauliLetter.Z, b + 1, PauliLetter.Y, Complex.One));
-        }
-        return terms;
-    }
-
-    /// <summary>Enumerate the 9 pure-Π²-even non-truly pairs from PROOF_F108_PART1:
-    /// 2 single-bilinear (YZ, ZY) and 7 two-term combinations, each placed on every
-    /// chain bond.</summary>
-    private static IReadOnlyList<(string Label, IReadOnlyList<(PauliLetter, PauliLetter)> Bilinears)>
-        EnumeratePureP2EvenNonTrulyPairs()
-    {
-        var YZ = (PauliLetter.Y, PauliLetter.Z);
-        var ZY = (PauliLetter.Z, PauliLetter.Y);
-        var XX = (PauliLetter.X, PauliLetter.X);
-        var YY = (PauliLetter.Y, PauliLetter.Y);
-        var ZZ = (PauliLetter.Z, PauliLetter.Z);
-        return new List<(string, IReadOnlyList<(PauliLetter, PauliLetter)>)>
-        {
-            ("YZ", new[] { YZ }),
-            ("ZY", new[] { ZY }),
-            ("XX+YZ", new[] { XX, YZ }),
-            ("XX+ZY", new[] { XX, ZY }),
-            ("YY+YZ", new[] { YY, YZ }),
-            ("YY+ZY", new[] { YY, ZY }),
-            ("YZ+ZY", new[] { YZ, ZY }),
-            ("YZ+ZZ", new[] { YZ, ZZ }),
-            ("ZY+ZZ", new[] { ZY, ZZ }),
-        };
-    }
 }
