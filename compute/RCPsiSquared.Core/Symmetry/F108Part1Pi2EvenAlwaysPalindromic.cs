@@ -152,9 +152,9 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
                 summary: "F108 Part 2 (Π²_X-even under X-dephasing) typed and wired as ctor parent. " +
                          "BitATwinStatus defaults to Filled per IZ2AxisClaim.");
             yield return new InspectableNode("Open siblings",
-                summary: "F108 Part 3 (Y-deph analog of F108 Part 1+2): no covering Claim yet; needs derivation of " +
-                         "the Y-deph Π_5bilinear variant + Π²_Y-even bilinear set + D[Y] per-site identity. " +
-                         "F110 (hard cells y_par-pure with Y-inversion): higher difficulty, per-dephase-letter algebra.");
+                summary: "F110 (HardCellYInversionPattern, Tier1Candidate, typed 2026-05-25): hard cells y_par-asymmetric " +
+                         "with Y-inversion; Aspect A closed-form via F108 Part 1+2+3, Aspect B+C empirically anchored at F103/F105/F106 " +
+                         "(closed-form 42:8/228:0 derivation open per F103 Section 5).");
         }
     }
 }

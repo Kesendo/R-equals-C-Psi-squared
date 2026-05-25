@@ -148,8 +148,12 @@ public sealed class F108Part2Pi2XEvenAlwaysPalindromic : Claim, IZ2AxisClaim
                          "empirically anchored only after F108 Part 1; this Claim closes the X branch closed-form. " +
                          "Only the Y-dephasing branch remains empirically anchored (awaits F108 Part 3).");
             yield return new InspectableNode("Sibling on BitB axis",
-                summary: "F108 Part 1 (Pi2EvenAlwaysPalindromic, Z-dephasing). Together they cover Z- and X-dephasing " +
-                         "branches of the F108 Π²-even palindrome family. Y-dephasing analog (F108 Part 3) is open.");
+                summary: "F108 Part 1 (Pi2EvenAlwaysPalindromic, Z-dephasing) and F108 Part 3 (Y-dephasing). Together " +
+                         "Parts 1+2+3 cover the F108 Π²-even palindrome family completely across {Z, X, Y} dephasing.");
+            yield return new InspectableNode("Open siblings",
+                summary: "F110 (HardCellYInversionPattern, Tier1Candidate, typed 2026-05-25): hard cells y_par-asymmetric " +
+                         "with Y-inversion; Aspect A closed-form via F108 Part 1+2+3, Aspect B+C empirically anchored " +
+                         "(closed-form 42:8/228:0 derivation open).");
         }
     }
 }

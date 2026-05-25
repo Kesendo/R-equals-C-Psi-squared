@@ -100,6 +100,10 @@ public sealed class F108Part3Pi2YEvenAlwaysPalindromic : Claim, IZ2AxisClaim
                 summary: "F108 Part 1 (Z-deph, BitB axis, same bilinear set), F108 Part 2 (X-deph, " +
                          "BitA axis, X-deph bilinear set). Part 1 + Part 2 + Part 3 cover the F108 " +
                          "Π²-even palindrome family completely across {Z, X, Y} dephasing.");
+            yield return new InspectableNode("Open siblings",
+                summary: "F110 (HardCellYInversionPattern, Tier1Candidate, typed 2026-05-25): hard cells y_par-asymmetric " +
+                         "with Y-inversion; Aspect A closed-form via F108 Part 1+2+3, Aspect B+C empirically anchored " +
+                         "(closed-form 42:8/228:0 derivation open).");
         }
     }
 }
