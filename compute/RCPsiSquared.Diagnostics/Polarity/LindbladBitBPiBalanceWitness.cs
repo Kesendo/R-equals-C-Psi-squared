@@ -102,6 +102,7 @@ public sealed class LindbladBitBPiBalanceWitness : Claim
                "docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md + " +
                "compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs + " +
                "compute/RCPsiSquared.Diagnostics/Polarity/PolarityCoordinates.cs + " +
+               "experiments/F112_HARDWARE_LENS_KINGSTON.md + " +
                "simulations/_f112_hardware_lens_multi.py")
     {
         if (string.IsNullOrWhiteSpace(witnessName))
