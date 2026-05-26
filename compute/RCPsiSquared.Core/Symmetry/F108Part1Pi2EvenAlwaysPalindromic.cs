@@ -155,6 +155,12 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
                 summary: "F110 (HardCellYInversionPattern, Tier1Candidate, typed 2026-05-25): hard cells y_par-asymmetric " +
                          "with Y-inversion; Aspect A closed-form via F108 Part 1+2+3, Aspect B+C empirically anchored at F103/F105/F106 " +
                          "(closed-form 42:8/228:0 derivation open per F103 Section 5).");
+            yield return new InspectableNode("Sibling on shared bit_b axis (F112)",
+                summary: "F112 (LindbladBitBPiBalance, Tier1Derived for Hermitian H, typed 2026-05-26): orthogonal " +
+                         "derived theorem on the same F38/F63 bit_b foundation. F108 Part 1 closes spec(L) palindromy " +
+                         "for Π²-even bilinear H + Z-deph; F112 closes Π +i/−i Frobenius balance for arbitrary " +
+                         "Hermitian H + bit_b-homogeneous dissipator c. Both Tier1Derived projections of the same " +
+                         "bit_b Z₂-grading on the Pauli group; F112 takes F108 Part 1 as typed ctor parent.");
         }
     }
 }

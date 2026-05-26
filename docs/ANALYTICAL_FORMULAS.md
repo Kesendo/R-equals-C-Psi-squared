@@ -893,6 +893,14 @@ The two definitions agree on the per-site map (I -> I, X -> X, Y -> -Y, Z -> -Z)
 **Companion result (F63):** \[L, Pi^2\] = 0 exactly for all N (proven analytically).
 Pi^2 is therefore a conserved quantum number of every Liouvillian eigenmode.
 
+**Downstream (bit_b axis foundation):** F38's (−1)^{w_YZ} eigenvalue formula on
+Pauli strings is the algebraic root of the bit_b Z₂-grading of the Pauli
+group, and is used as a foundational input by every derived theorem on that
+axis: F88a (operator-level Klein decomposition), F108 Part 1/2/3 (Π²-even
+palindrome closure via Π_5bilinear), and F112 (Lindblad Π-eigenvalue balance
+under bit_b-homogeneous c). F87's trichotomy classifier reads the same bit_b
+grading from the orthogonal spec(L)-palindromy axis.
+
 **Valid for:** any N, Z-dephasing Π (P1 family).
 **Replaces:** assumption that Π is involutory.
 **Source:** [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md), [PROOF_BIT_B_PARITY_SYMMETRY](proofs/PROOF_BIT_B_PARITY_SYMMETRY.md)
@@ -1468,6 +1476,10 @@ small) at N=2, 3, 4, 5. Also for Heisenberg XXX with uniform gamma at N=3.
 Per-sector mode count formula verified at N=2-5; conserved-modes-as-e_d(Z) verified at N=2-4.
 Data: `simulations/primordial_bit_a_bit_b_N_scaling.py`,
 `simulations/mirror_mode_split_formula.py`.
+**Downstream (bit_b axis derived theorems):** F108 Part 1/2/3 (Π²-even
+palindrome closure under {Z, X, Y} dephasing, all three lean on [L, Π²] = 0
+for the dissipator-side cancellation) and F112 (Lindblad Π-eigenvalue balance
+under bit_b-homogeneous c, uses Π² = +1 on dissipator → no Π +i / −i content).
 **Source:** [PROOF_BIT_B_PARITY_SYMMETRY](proofs/PROOF_BIT_B_PARITY_SYMMETRY.md),
 [PRIMORDIAL_QUBIT](../hypotheses/PRIMORDIAL_QUBIT.md) Section 9
 
@@ -2570,6 +2582,8 @@ The Marrakesh hardware confirmation (2026-04-26, ibm_marrakesh job `d7mjnjjaq2pc
 
 **Π² classifier dependence on dephase letter** (commit 435c4b2). Per `PiOperator.SquaredEigenvalue`, the Π²-class index is bit_b for Z- and Y-dephasing and bit_a for X-dephasing (Π_Y shares Π_Z's bit_a-flip convention; Π_X flips bit_b instead). The (bit_a, bit_b) parity pairs are Z = (0, 1), X = (1, 0), Y = (1, 1) in the PauliLetter convention. **F87 hardness is defined combinatorially via Pauli-pair compatibility (commit 81caf67), not via any 4-cell label.** As a post-hoc structural reading, however, F87 hardness empirically corresponds to the (bit_a, bit_b) parity cell matching the dissipator letter: anywhere else produces a Π-violation that the spectrum-pairing test detects. The (Π²_Z, Π²_X) two-axis decomposition is treated separately as F88a below; F87 itself uses only one axis (Π²_Z under Z-dephasing). Verified at N=4, k=3 across 294 Z₂³-homogeneous pairs.
 
+**Orthogonal axis on shared bit_b Z₂-grading (F112).** F87's trichotomy lives in ‖M‖_F magnitude + spec(L) palindromy; F112 (Lindblad Π-eigenvalue balance under bit_b-homogeneous c) lives in M_anti's Π +i / −i Frobenius split. Both projections of the same Π² = (−1)^{bit_b} grading on the Pauli group. Empirically orthogonal: all three F87 classes (truly, soft, hard) at N=3 under standard single-Pauli Z-deph give F112 balance asymmetry = 0 bit-exact (`simulations/_polarity_probe_f87_connection.py`), since single-Pauli c is trivially bit_b-homogeneous.
+
 **Valid for:** uniform single-letter dephasing on any graph; arbitrary k-body Pauli terms (k ≥ 2; F85 lifts the criterion to higher body); dephase letter ∈ {X, Y, Z} (SU(2)-rotation-equivalent under (bit_a, bit_b) cell permutation).
 **Breaks for:** depolarizing noise (F1 itself breaks with linear-in-γ residual, see F5); non-uniform γ_i or graph asymmetries that already break F1.
 **Verified:** N=3 36-enum (14 / 19 / 3); N=3, 4, 5 120-enum (15 / 46 / 59 N-stable); Marrakesh hardware Δ(soft − truly) = −0.722 (2026-04-26); Marrakesh F83 4-class signature 2026-04-30 (ibm_marrakesh job `d7pol1e7g7gs73cf7j90`).
@@ -3464,6 +3478,13 @@ verification.
   hard cells y_par-asymmetric with Y-inversion. Aspect A closed-form via
   F108 Part 1+2+3 + F107 + F109 + F87 dissipator-resonance; Aspect B+C
   empirically anchored at F103/F105/F106.
+- **F112 (LindbladBitBPiBalance, Tier1Derived for Hermitian H, typed 2026-05-26):**
+  sibling derived theorem on the shared bit_b Z₂-grading. Where F108 Parts
+  1/2/3 close palindromy for Π²-even *bilinears* (the bit_b = 0 sub-sector
+  of 2-body H), F112 closes Π-eigenvalue +i / −i balance for arbitrary H
+  with bit_b-homogeneous dissipator c. F108 and F112 are two independent
+  Tier1Derived projections of the same F38 / F63 foundation: F108 lives in
+  spec(L) palindromy, F112 in M_anti's Π ±i Frobenius split.
 
 **Source:** [Proof Part 1](proofs/PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md),
 [Proof Part 2](proofs/PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md),
