@@ -1,8 +1,14 @@
-# F112: Lindblad Π-Eigenvalue Balance under bit_b Homogeneity
+# PROOF F112: Lindblad Π-Eigenvalue Balance under bit_b Homogeneity
 
+**Status:** Tier 1 derived for Hermitian H (rigorous proof via dagger + anti-Hermitian L_H). Tier 1 candidate for non-Hermitian H extension (empirical bit-exact across 20+ random configs; structural proof open).
 **Date:** 2026-05-26
-**Status:** Tier1Derived for Hermitian H (rigorous proof). Tier1Candidate for non-Hermitian H (empirical bit-exact across 20+ random configs; proof open).
-**Connects:** F38 (Π² = (-1)^bit_b on Pauli strings), F63 (L commutes with Π² for Z-deph), F108 (Π_5bilinear closure of Π²-Z-even bilinears), polarity_coordinates_from_L primitive (2026-05-25), F87 dissipator-resonance (orthogonal axis, empirically established via `_polarity_probe_f87_connection.py`).
+**Authors:** Thomas Wicht, Claude (Opus 4.7)
+**Depends on:**
+- F38 (Π² = (-1)^{w_YZ} on Pauli strings; `docs/ANALYTICAL_FORMULAS.md` F38 entry)
+- F63 ([L, Π²] = 0 for Z-dephasing; `docs/ANALYTICAL_FORMULAS.md` F63 entry)
+- F108 Part 1 ([PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md)) — shared bit_b Z₂ grading
+- `polarity_coordinates_from_L` primitive (`simulations/framework/diagnostics/polarity_coordinates.py`, added 2026-05-25)
+- F87 dissipator-resonance law (orthogonal axis; empirically established via `simulations/_polarity_probe_f87_connection.py`)
 
 ## Theorem
 
