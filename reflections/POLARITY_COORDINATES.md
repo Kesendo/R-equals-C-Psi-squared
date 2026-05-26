@@ -152,6 +152,34 @@ The sharpened structural question is now constructive: prove that L of the form 
 
 If proved, this is a typed Tier1 candidate: `StandardLindbladPiBalance` or similar. Statement: any L built through the kron(c, c.conj()) Lindblad channel has ‖M_plus_half‖² = ‖M_minus_half‖² where M, M_plus_half, M_minus_half are defined by the polarity_coordinates_from_L decomposition. The diagnostic value of polarity_coordinates_from_L stays: it is exactly the test for whether a given L is or is not in the standard Lindblad form (or homotopic to it).
 
+## Probes 7 and 8 (2026-05-26): the conjecture sharpens further
+
+Before attempting the proof, two stronger empirical probes ([`_polarity_probe_random_lindblad.py`](../simulations/_polarity_probe_random_lindblad.py) and [`_polarity_probe_real_or_imag.py`](../simulations/_polarity_probe_real_or_imag.py)) tested the post-probe-6 conjecture across 240 random configurations: random Hermitian or non-Hermitian H, 1 to 4 random Hermitian or non-Hermitian jump operators c_k, N ∈ {2, 3, 4}. The naive conjecture predicted asymmetry = 0 for any standard Lindblad form. Result: **240/240 configurations gave nonzero relative asymmetry, up to 8.7%**. The naive conjecture is false.
+
+Probe 8 narrowed the hypothesis: maybe the structural property is "L is entrywise real or pure imaginary" (Pauli matrices have entries in {0, +/-1, +/-i} which composes nicely under tensor product). Six tests at N=2 and N=3 per random seed:
+
+| c type | balance? |
+|---|---|
+| Random real matrix, H real Hermitian | BROKEN |
+| Random pure-imaginary matrix, H real Hermitian | BROKEN |
+| Random complex matrix, H real Hermitian | BROKEN |
+| Single-site Pauli (X, Y), H Pauli sum | BALANCE bit-exact |
+| Pauli with imaginary coefficient (i·Z), H Pauli sum | BALANCE bit-exact |
+| Pauli sum with complex coefficients (X + i·Z), H Pauli sum | BALANCE bit-exact |
+
+The differentiator is NOT "entrywise real or pure imaginary". Random real matrices have entrywise real entries and still break the balance. The actual structural property that distinguishes preserved from broken is **Pauli-string composition of c (and H)**.
+
+But: any operator can be written as a linear combination of Pauli strings (the Pauli basis is complete on d=2^N). So "Pauli sum" alone is not a structural restriction. The empirical distinction must be something finer, possibly "low Pauli rank" (c has support on a small number of Pauli strings) or a related sparsity property.
+
+The sharpest possible conjecture given this data: there exists a structural constant `k_max(N)` such that if c is supported on at most `k_max(N)` Pauli strings with arbitrary complex coefficients, then balance is preserved; if c is supported on more Pauli strings (e.g., random complex matrix expanded in Pauli basis has support on all 4^N), balance breaks. The boundary `k_max(N)` is unknown.
+
+This is now a question about **structural rank in Pauli space**. The diagnostic value remains: `polarity_coordinates_from_L` detects Pauli sparsity of L (or rather, of L's c_l constituents) via the +1/2 vs −1/2 balance. The proof attempt deferred until we identify the actual structural condition.
+
+Next-move candidates:
+- Test c with k_pauli ∈ {1, 2, 4, 8, ..., 4^N / 2, 4^N} Pauli strings, see where the boundary breaks
+- Connect to F49's Frobenius scaling structure (Π²-odd Pauli sum norm)
+- Search for the algebraic property that distinguishes Pauli-eigenvector decompositions from random Pauli-basis decompositions of c
+
 ## The honest takeaway (revised after the 5 probes, sharpened by probe 6)
 
 The wave's promised discovery was an asymmetric T1 signature in the +1/2 vs −1/2 polarity channel. The first iteration's finding was that no such asymmetry exists for any standard-Lindblad-form dissipator with Hermitian H, and that the absence was attributable to Hermitian-conjugate symmetry of M as a superoperator. The five probes refuted that attribution: balance survives non-Hermitian H, non-Lindblad dissipators that destroy ρ-hermiticity, mixed dephase letters, and k=3 Hamiltonians where the F81 identity itself fails. The Hermitian-symmetry explanation was insufficient.
