@@ -1,5 +1,8 @@
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
+using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex;
 using RCPsiSquared.Core.Pauli;
@@ -124,49 +127,110 @@ public static class F112NonHermitianBasisEnumeration
             throw new ArgumentOutOfRangeException(nameof(N), N, "N too large: 4^N overflows int32");
         int stringCount = (int)count;
 
+        long totalPairs = (long)stringCount * (stringCount + 1) / 2;
+        if (totalPairs > int.MaxValue)
+            throw new ArgumentOutOfRangeException(nameof(N), N,
+                $"N too large: upper-triangular pair count {totalPairs} overflows int32 " +
+                "(consider widening EnumerationResult.TotalPairs to long for N ≥ 8).");
+
         var stopwatch = System.Diagnostics.Stopwatch.StartNew();
         var pi = PiOperator.BuildFull(N, PauliLetter.Z);
 
-        // Pre-compute L_α,-i for every Pauli string α
+        // Pre-compute L_α,-i for every Pauli string α. Parallelized with
+        // outerDop = ProcessorCount/4: the inner work (KroneckerProduct +
+        // ConjugateTranspose + Multiplication on 4^N × 4^N matrices + 4 matmuls in
+        // ProjectOntoPiEigenspace) dispatches to MKL-multithreaded BLAS for the
+        // matrix multiplications. Capping outer parallelism leaves cores free for
+        // MKL's internal threading on the larger N=5 matmuls (1024^3 ZGEMM each).
+        // Same pattern as LiouvillianBlockSpectrum.cs:205. Empirical observation
+        // (Welle 10b SLOW N=5 run): cache build at outerDop=6 took 161.8 min;
+        // outerDop=ProcessorCount=24 trials in Welle 10c may show better scaling
+        // since MKL ZGEMM on 1024x1024 doesn't saturate 24 cores anyway.
         var cache = new ComplexMatrix[stringCount];
-        for (int k = 0; k < stringCount; k++)
+        int cacheOuterDop = Math.Max(1, Environment.ProcessorCount / 4);
+        var cachePo = new ParallelOptions { MaxDegreeOfParallelism = cacheOuterDop };
+        Parallel.For(0, stringCount, cachePo, k =>
         {
             var letters = PauliIndex.FromFlat(k, N);
             var sigma = PauliString.Build(letters);
             var L = BuildLHInPauliBasis(sigma, N);
             cache[k] = ProjectOntoPiEigenspace(L, pi, -Complex.ImaginaryOne);
-        }
+        });
 
-        // Iterate upper-triangular pairs, check |Im⟨L_α,-i, L_β,-i⟩|
-        int totalPairs = 0;
-        int nonzeroCount = 0;
-        double maxIm = 0.0;
-        double sumAbsIm = 0.0;
-        var examples = new List<(string Alpha, string Beta, double Imag)>();
-        for (int a = 0; a < stringCount; a++)
-        {
-            for (int b = a; b < stringCount; b++)
+        // Iterate upper-triangular pairs in parallel. Each Parallel.ForEach iteration
+        // consumes a Range partition of outer indices and accumulates into thread-local
+        // state; once the iteration finishes, localFinally merges per-thread totals
+        // into the globals under one lock (called ~ProcessorCount times, no contention).
+        //
+        // Why Parallel.ForEach + thread-locals instead of BLAS ZDOTC: MathNet's Complex
+        // DenseVector.DoConjugateDotProduct is a managed loop with a "TODO: provide
+        // native zdotc routine" comment in the source — there is no BLAS path for
+        // Complex inner products. The flat-array hot loop in FrobeniusInner (Task 3 fix,
+        // commit 2ea7e81) is already the best per-pair primitive available. Parallelism
+        // over the outer index is the only remaining lever.
+        //
+        // Why full DOP (not ProcessorCount/4): the inner work is a managed memory-bound
+        // loop, NOT MKL-multithreaded BLAS. The codebase's ProcessorCount/4 throttle
+        // (LiouvillianBlockSpectrum.cs:205) applies only when inner work dispatches to
+        // multi-threaded MKL; oversubscription is not a concern for managed loops.
+        //
+        // Why chunked Partitioner: the per-outer-index workload is decreasing-triangular
+        // (a=0 → stringCount pair-evals, a=stringCount-1 → 1). Default range partitioning
+        // packs the heaviest iterations into one chunk and one core finishes late. A small
+        // chunk size + work-stealing balances naturally.
+        long globalNonzeroCount = 0;
+        double globalMaxIm = 0.0;
+        double globalSumAbsIm = 0.0;
+        var globalExamples = new ConcurrentBag<(string Alpha, string Beta, double Imag)>();
+        object lockObj = new();
+
+        var partitioner = Partitioner.Create(0, stringCount, rangeSize: 8);
+
+        Parallel.ForEach(partitioner,
+            localInit: () => (LocalMaxIm: 0.0, LocalSumAbsIm: 0.0, LocalNonzero: 0L),
+            body: (range, _, local) =>
             {
-                var inner = FrobeniusInner(cache[a], cache[b]);
-                double absIm = Math.Abs(inner.Imaginary);
-                if (absIm > maxIm) maxIm = absIm;
-                sumAbsIm += absIm;
-                if (absIm > tolerance)
+                for (int a = range.Item1; a < range.Item2; a++)
                 {
-                    nonzeroCount++;
-                    if (examples.Count < 10)
+                    var cacheA = cache[a];
+                    for (int b = a; b < stringCount; b++)
                     {
-                        string alphaName = PauliLabel.Format(PauliIndex.FromFlat(a, N));
-                        string betaName = PauliLabel.Format(PauliIndex.FromFlat(b, N));
-                        examples.Add((alphaName, betaName, inner.Imaginary));
+                        var inner = FrobeniusInner(cacheA, cache[b]);
+                        double absIm = Math.Abs(inner.Imaginary);
+                        if (absIm > local.LocalMaxIm) local.LocalMaxIm = absIm;
+                        local.LocalSumAbsIm += absIm;
+                        if (absIm > tolerance)
+                        {
+                            local.LocalNonzero++;
+                            // Race-tolerant cap: multiple threads may all see Count < 10
+                            // and add concurrently; worst case ~ProcessorCount extra
+                            // entries past the cap. Final .Take(10) below truncates.
+                            // Acceptable: contract is "up to 10 examples", not exactly 10.
+                            if (globalExamples.Count < 10)
+                            {
+                                string alphaName = PauliLabel.Format(PauliIndex.FromFlat(a, N));
+                                string betaName = PauliLabel.Format(PauliIndex.FromFlat(b, N));
+                                globalExamples.Add((alphaName, betaName, inner.Imaginary));
+                            }
+                        }
                     }
                 }
-                totalPairs++;
-            }
-        }
+                return local;
+            },
+            localFinally: local =>
+            {
+                lock (lockObj)
+                {
+                    if (local.LocalMaxIm > globalMaxIm) globalMaxIm = local.LocalMaxIm;
+                    globalSumAbsIm += local.LocalSumAbsIm;
+                    globalNonzeroCount += local.LocalNonzero;
+                }
+            });
 
         stopwatch.Stop();
-        double meanAbsIm = sumAbsIm / totalPairs;
-        return new EnumerationResult(N, totalPairs, nonzeroCount, maxIm, meanAbsIm, stopwatch.Elapsed, examples);
+        double meanAbsIm = globalSumAbsIm / totalPairs;
+        var examples = globalExamples.Take(10).ToList();
+        return new EnumerationResult(N, (int)totalPairs, (int)globalNonzeroCount,
+            globalMaxIm, meanAbsIm, stopwatch.Elapsed, examples);
     }
 }

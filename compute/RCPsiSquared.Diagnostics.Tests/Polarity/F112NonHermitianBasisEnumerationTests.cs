@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.Pauli;
@@ -102,5 +103,32 @@ public class F112NonHermitianBasisEnumerationTests
         Assert.Equal(0, result.NonzeroCount);
         Assert.True(result.MaxImaginary < 1e-10,
             $"max |Im| at N={N} should be < 1e-10; got {result.MaxImaginary:E4}");
+    }
+
+    /// <summary>SLOW (~15-30 min, ~16 GB RAM): the N=5 enumeration that extends F112
+    /// non-Hermitian Tier1Derived from N≤4 to N≤5. Tagged SLOW_F112 so CI can filter
+    /// via <c>--filter "Category!=SLOW_F112"</c> when needed.
+    ///
+    /// <para>Run explicitly: <c>dotnet test compute\RCPsiSquared.Diagnostics.Tests -c
+    /// Release --filter "Category=SLOW_F112"</c>.</para></summary>
+    [Fact]
+    [Trait("Category", "SLOW_F112")]
+    public void Enumerate_AtN5_All524800UpperTriangularPairsAreBitExactZero()
+    {
+        // 4^5 = 1024 Pauli strings → 1024 * 1025 / 2 = 524800 upper-triangular pairs.
+        // ~16 GB working memory (1024 cached L_α,-i matrices × 16 MB each).
+        const int N = 5;
+        const int expectedPairs = 524_800;
+
+        var result = F112NonHermitianBasisEnumeration.Enumerate(N, tolerance: 1e-10);
+
+        Assert.Equal(N, result.N);
+        Assert.Equal(expectedPairs, result.TotalPairs);
+        Assert.True(result.NonzeroCount == 0,
+            $"F112 non-Hermitian N=5 enumeration found {result.NonzeroCount} non-zero pairs " +
+            $"(max |Im| = {result.MaxImaginary:E4}); first examples: " +
+            string.Join("; ", result.NonzeroExamples.Take(5).Select(e => $"F({e.Alpha},{e.Beta})={e.Imag:E4}")));
+        Assert.True(result.MaxImaginary < 1e-10,
+            $"max |Im| at N=5 should be < 1e-10; got {result.MaxImaginary:E4}");
     }
 }
