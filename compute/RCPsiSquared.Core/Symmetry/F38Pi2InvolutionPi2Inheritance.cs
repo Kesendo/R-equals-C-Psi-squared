@@ -240,6 +240,11 @@ public sealed class F38Pi2InvolutionPi2Inheritance : Claim, IZ2AxisClaim
                 summary: "EigenspaceDim = 2·4^(N−1) = a_0·a_{3−2N} on the dyadic ladder; same (N−1)-qubit shift as F39 + F1-T1");
             yield return new InspectableNode("Pi2-Foundation anchoring",
                 summary: "three parents: Pi2I4MemoryLoop (Z₄ closure → Π²-eigenvalues), Pi2DyadicLadder (half balance a_2, sector dim a_0·a_{3−2N}), Pi2OperatorSpaceMirror (4^N pinned)");
+            yield return new InspectableNode(
+                BitATwinClaim is not null ? "BitA twin (Filled)" : "BitA twin (TrivialNotYetTyped, unit-test path)",
+                summary: BitATwinClaim is not null
+                    ? "F38BitAInvolutionInheritance: Π²_X = (−1)^{n_XY} on the 4^N Pauli-string basis (Z↔X mirror via Hadamard conjugation). Wired 2026-05-26."
+                    : "F38BitAInvolutionInheritance is typed but not passed to this instance (legacy unit-test ctor path). Registry-built F38 has the twin Filled.");
             for (int N = 1; N <= 5; N++)
             {
                 yield return new InspectableNode(

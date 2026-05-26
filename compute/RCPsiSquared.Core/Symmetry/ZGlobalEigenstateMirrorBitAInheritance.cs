@@ -104,7 +104,7 @@ public sealed class ZGlobalEigenstateMirrorBitAInheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("Derivation",
                 summary: "γ_X = ⟨ψ|Z⊗N|ψ⟩ for a Z⊗N-eigenstate is ±1; α = (1 − γ_X²)/2 = 0 by the universal F86b shape on the bit_a-axis Frobenius decomposition.");
             yield return new InspectableNode("Canonical state-class examples",
-                summary: "|0...0⟩ (all-zero computational basis, γ_X = +1); |1...1⟩ (all-one computational basis, γ_X = +(−1)^N); both are Z⊗N eigenstates with bit_a α = 0.");
+                summary: "|0...0⟩ (all-zero computational basis, γ_X = +1); |1...1⟩ (all-one computational basis, γ_X = (−1)^N: +1 for even N, −1 for odd N); both are Z⊗N eigenstates with bit_a α = 0.");
             yield return new InspectableNode("BitB twin (X⊗N version)",
                 summary: "XGlobalEigenstateMirrorPi2Inheritance: X⊗N|ψ⟩ = ±|ψ⟩ ⟹ α = 0 on the bit_b (Y/Z-Frobenius) axis; this Claim is the Z↔X mirror.");
             yield return new InspectableNode("Companion Π² identity",

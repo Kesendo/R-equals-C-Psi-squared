@@ -39,7 +39,8 @@ public sealed class F1Pi2Inheritance : Claim, IF99AnchorBearing, IZ2AxisClaim
 
     /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). The
     /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X / F61 axis) is
-    /// currently not typed for this Claim.</summary>
+    /// typed via <see cref="F61BitATwin"/> and exposed through the
+    /// <see cref="IZ2AxisClaim.BitATwin"/> interface (wired 2026-05-25).</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
     /// <summary>The typed bit_a-twin sibling: <see cref="F61BitAParityPi2Inheritance"/>

@@ -64,7 +64,8 @@ public abstract class F87Z2CubedRefinementBase : Claim, IZ2AxisClaim
         $"truly y_par=0-pure ({TrulyPurity.TotalTrulyClassifications} classifications, " +
         $"{TrulyPurity.YParityOneCount} y_par=1), " +
         $"hard diagonal {HardDiagonal.ZDephKlein01} with Y-inversion, " +
-        $"diagonal soft {DiagonalSoft.ZDephKlein01} symmetric, " +
+        $"diagonal soft {DiagonalSoft.ZDephKlein01} " +
+        $"({(DiagonalSoft.ZDephKlein01.Item1 == DiagonalSoft.ZDephKlein01.Item2 ? "symmetric" : "asymmetric")}), " +
         $"mother soft {MotherSoft.ZDephCounts}, " +
         $"off-diagonal soft {OffDiagonalSoft.Cells.Count} cells ({Tier.Label()})";
 

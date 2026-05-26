@@ -243,6 +243,11 @@ public sealed class F63LCommutesPi2Pi2Inheritance : Claim, IZ2AxisClaim
                 summary: "TotalConservedPerSector(N) = N + 1 matches F66 endpoint pole multiplicity exactly: symmetry-side reading of spectrum-side count");
             yield return new InspectableNode("per-sector mode count formula",
                 summary: "conserved: even=⌊N/2⌋+1, odd=⌈N/2⌉, total=N+1; correlation=same (F1 palindrome); mirror per parity sector=2^(2N−1) − 2·conserved_parity");
+            yield return new InspectableNode(
+                BitATwinClaim is not null ? "BitA twin (Filled)" : "BitA twin (TrivialNotYetTyped, unit-test path)",
+                summary: BitATwinClaim is not null
+                    ? "F63BitAReference: lightweight bit_a-axis Claim establishing [L, Π²_X] = 0; actual proof lives in F61BitAParityPi2Inheritance which proves the bit_a-axis [L, Π²] commutation directly. F63BitAReference points at F61 in docstring (not ctor parent) to avoid F61 → F63 → F38 → F61 cycle."
+                    : "F63BitAReference is typed but not passed to this instance (legacy unit-test ctor path). Registry-built F63 has the twin Filled.");
             for (int N = 2; N <= 5; N++)
             {
                 yield return new InspectableNode(

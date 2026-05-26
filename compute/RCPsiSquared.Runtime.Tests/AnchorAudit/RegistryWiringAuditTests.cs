@@ -91,12 +91,12 @@ public class RegistryWiringAuditTests
             "TwoLevelEpModel",
 
             // Ungrouped (triaged by the owning task when reached): ChiralKClaim is a chiral
-            // K-symmetry foundation; XGlobalEigenstateMirrorPi2Inheritance is a Pi2-inheritance
-            // claim with no Register* call yet; OpenQuestion is a generic open-question holder
-            // (confirm whether it is meant to be a registered singleton at all).
+            // K-symmetry foundation; OpenQuestion is a generic open-question holder (confirm
+            // whether it is meant to be a registered singleton at all). XGlobalEigenstateMirror
+            // was registered post-Welle-7 (2026-05-26) as part of the /simplify cleanup to
+            // materialize the BitB ↔ BitA twin edge with ZGlobalEigenstateMirrorBitAInheritance.
             "ChiralKClaim",
             "OpenQuestion",
-            "XGlobalEigenstateMirrorPi2Inheritance",
 
             // Structural (stay deferred by design, not a wiring gap): F87CanonicalWitness is a
             // parameterised witness type instantiated as the children of the registered

@@ -99,6 +99,12 @@ public static class KnowledgeRegistryFactory
             .RegisterF39DetPiBitAInheritance()
             .RegisterF63BitAReference()
             .RegisterZGlobalEigenstateMirrorBitAInheritance()
+            // X-Mirror BitB sibling of Z-Mirror BitA: registered post-Welle-7
+            // (originally deferred; the /simplify review surfaced that Z-Mirror BitA
+            // was registered without its reciprocating BitB partner, leaving the
+            // optional ctor parameter on X-Mirror as dead code). Registering X-Mirror
+            // materializes the BitB ↔ BitA twin edge in production.
+            .RegisterXGlobalEigenstateMirrorPi2Inheritance()
             .RegisterF38Pi2InvolutionPi2Inheritance()
             .RegisterF63LCommutesPi2Pi2Inheritance()
             .RegisterF61BitAParityPi2Inheritance()

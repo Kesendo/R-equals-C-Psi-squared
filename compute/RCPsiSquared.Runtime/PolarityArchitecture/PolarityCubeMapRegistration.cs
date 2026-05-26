@@ -116,11 +116,15 @@ public static class PolarityCubeMapRegistration
             z2AxisClaims.Add(b.Get<F108Part2Pi2XEvenAlwaysPalindromic>());
             // Welle 7 (2026-05-26): 4 new BitA twin Claims completing the bit_a
             // operator-identity triple (F38 / F39 / F63) plus the Z⊗N-eigenstate
-            // Mirror endpoint. Twin coverage jumps from 2/63 = 3.2% to 6/63 = 9.5%.
+            // Mirror endpoint. Post /simplify cleanup: X-Mirror BitB sibling also
+            // registered to materialize the BitB ↔ BitA twin edge (was orphaned
+            // because X-Mirror lacked a Register* call). Twin coverage post-cleanup:
+            // 6 filled BitB twin slots / 66 BitB Claims = 9.1%.
             z2AxisClaims.Add(b.Get<F38BitAInvolutionInheritance>());
             z2AxisClaims.Add(b.Get<F39DetPiBitAInheritance>());
             z2AxisClaims.Add(b.Get<F63BitAReference>());
             z2AxisClaims.Add(b.Get<ZGlobalEigenstateMirrorBitAInheritance>());
+            z2AxisClaims.Add(b.Get<XGlobalEigenstateMirrorPi2Inheritance>());
             // Welle 7 drift-guard repair: F112 + F113 (LindbladBitBPi*) were
             // registered but missing from the PolarityCubeMap inventory.
             z2AxisClaims.Add(b.Get<LindbladBitBPiBalance>());

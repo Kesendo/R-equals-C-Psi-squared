@@ -146,6 +146,11 @@ public sealed class F39DetPiPi2Inheritance : Claim, IZ2AxisClaim
                 summary: "for N ≥ 2: 4^(N−1) is even → exponent N·4^(N−1) is even → det = +1 (algebraically forced by ladder anchor); for N=1: 4^0=1, exponent=1, det=−1");
             yield return new InspectableNode("qubit-shift pattern",
                 summary: "same (N−1)-qubit shift as F1-T1's T1-part prefactor 4^(N−1); structural Pi2 footprint");
+            yield return new InspectableNode(
+                BitATwinClaim is not null ? "BitA twin (Filled)" : "BitA twin (TrivialNotYetTyped, unit-test path)",
+                summary: BitATwinClaim is not null
+                    ? "F39DetPiBitAInheritance: det(Π_X) = (−1)^{N · 4^{N−1}} = det(Π_Z) via Hadamard conjugation invariance det(P·A·P^{−1}) = det(A). Wired 2026-05-26."
+                    : "F39DetPiBitAInheritance is typed but not passed to this instance (legacy unit-test ctor path). Registry-built F39 has the twin Filled.");
             for (int N = 1; N <= 5; N++)
             {
                 yield return new InspectableNode(

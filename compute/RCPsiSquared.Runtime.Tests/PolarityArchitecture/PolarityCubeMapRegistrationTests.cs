@@ -30,9 +30,8 @@ public class PolarityCubeMapRegistrationTests
     private static readonly IReadOnlySet<string> DeferredIZ2AxisClaims =
         new HashSet<string>(StringComparer.Ordinal)
         {
-            // Pi2-Inheritance claim with no Register* call yet; tracked on
-            // RegistryWiringAuditTests.DeferredClaims (ungrouped section).
-            "XGlobalEigenstateMirrorPi2Inheritance",
+            // (empty after /simplify cleanup 2026-05-26: X-Mirror was wired with
+            // its BitA twin Z-Mirror via XGlobalEigenstateMirrorPi2InheritanceRegistration.)
         };
 
     [Fact]

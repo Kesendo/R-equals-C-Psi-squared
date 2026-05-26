@@ -158,6 +158,11 @@ public sealed class XGlobalEigenstateMirrorPi2Inheritance : Claim, IF99AnchorBea
                 summary: "α=3/8 (F98 + DickeSuperposition, KIntermediate); α=1/2 (Generic, still gap)");
             yield return new InspectableNode("fills gap in",
                 summary: "F99AnchorMap (was 4-of-5 gap), DickeAnchorMap (was 2-of-3 gap); Mirror endpoint now Direct in both");
+            yield return new InspectableNode(
+                BitATwinClaim is not null ? "BitA twin (Filled)" : "BitA twin (TrivialNotYetTyped, unit-test path)",
+                summary: BitATwinClaim is not null
+                    ? "ZGlobalEigenstateMirrorBitAInheritance: Z⊗N|ψ⟩ = ±|ψ⟩ ⟹ γ_X = ±1 ⟹ α = 0 on the bit_a-axis Frobenius decomposition. Computational basis states |0...0⟩, |1...1⟩ are the canonical Z⊗N eigenstates; Hadamard-rotated counterpart of this Claim's X⊗N anchor. Wired 2026-05-26."
+                    : "ZGlobalEigenstateMirrorBitAInheritance is typed but not passed to this instance (legacy unit-test ctor path). Registry-built X-Mirror has the twin Filled.");
         }
     }
 }

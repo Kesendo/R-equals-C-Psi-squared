@@ -44,8 +44,11 @@ public sealed class PolarityCubeMap : Claim
                   .ToList();
 
     /// <summary>BitB Claims whose BitA twin is mechanically derivable but not yet
-    /// typed as a separate Claim (e.g., F1Pi2Inheritance whose twin F61 IS typed
-    /// but not wired as the BitATwin reference). Future low-cost work to fill.</summary>
+    /// typed as a separate Claim. The 2026-05-25 F1↔F61 closure (followed by
+    /// Welle 7's F38/F39/F63/X-Mirror twin wiring 2026-05-26) drained the
+    /// historical examples; current count is typically 0 unless a unit-test
+    /// constructs a BitB Claim directly (bypassing the registry path that wires
+    /// the optional BitA-twin ctor parameter). Future low-cost work to fill.</summary>
     public int TrivialNotYetTypedTwinSlots =>
         BitBClaims.Count(c => c.BitATwinStatus == BitATwinClassification.TrivialNotYetTyped);
 

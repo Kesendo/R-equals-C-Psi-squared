@@ -113,7 +113,7 @@ public sealed class F38BitAInvolutionInheritance : Claim, IZ2AxisClaim
                 summary: "F38Pi2InvolutionPi2Inheritance: Π²_Z = (−1)^{w_YZ} on the 4^N Pauli-string basis; same half-half split via bit_b parity instead of bit_a.");
             yield return new InspectableNode("Conservation companion (F61)",
                 summary: "F61BitAParityPi2Inheritance: [L, Π²_X] = 0 exactly all N; F38BitA defines Π²_X, F61 says L respects it. Parallel to F38 (defines Π²_Z) ↔ F63 ([L, Π²_Z] = 0) in the bit_b branch.");
-            yield return new InspectableNode("Pi2 eigenvalues",
+            yield return new InspectableNode("Π²_X eigenvalues",
                 summary: "{+1, −1}, each on exactly 4^N / 2 = 2 · 4^(N−1) Pauli strings (Hadamard preserves multiplicities).");
             for (int N = 1; N <= 5; N++)
             {

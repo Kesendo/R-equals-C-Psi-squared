@@ -50,13 +50,18 @@ public sealed class F39DetPiBitAInheritance : Claim, IZ2AxisClaim
     public string Theorem =>
         "det(Π_X) = (−1)^{N · 4^{N−1}} = det(Π_Z) for all N; the Hadamard conjugation Π_X = H^⊗N · Π_Z · H^⊗N preserves the determinant.";
 
-    /// <summary>The Hadamard-determinant mirror argument: H is real-orthogonal with
-    /// det = 1, so the tensor power H^⊗N is also det = 1, hence Π_X = H^⊗N · Π_Z · H^⊗N
-    /// has the same determinant as Π_Z.</summary>
+    /// <summary>The Hadamard-conjugation mirror argument: matrix conjugation
+    /// preserves the determinant regardless of the conjugating matrix's own
+    /// determinant (det(P·A·P^{−1}) = det(A) for any invertible P). Π_X = H^⊗N · Π_Z · H^{−⊗N}
+    /// therefore inherits det(Π_Z) for all N.</summary>
     public string MirrorArgument =>
-        "H is the single-qubit Hadamard; H is unitary with det(H) = 1 (real-orthogonal). " +
-        "Tensor power: det(H^⊗N) = (det H)^N = 1. Therefore " +
-        "det(Π_X) = det(H^⊗N · Π_Z · H^⊗N) = det(H^⊗N) · det(Π_Z) · det(H^⊗N) = det(Π_Z).";
+        "H is the single-qubit Hadamard; H is unitary (Hilbert-space symmetry) with " +
+        "det(H) = −1 (H ∈ O(2) ∖ SO(2)). The tensor power has " +
+        "det(H^⊗N) = (det H)^{2^{N−1}} = (−1)^{2^{N−1}}, which is +1 for N ≥ 2 and −1 for N = 1. " +
+        "The argument does NOT depend on det(H^⊗N): matrix conjugation by any " +
+        "invertible P preserves the determinant: det(P · A · P^{−1}) = det(A). For " +
+        "H^⊗N unitary, H^{−⊗N} = (H^⊗N)†, so " +
+        "det(Π_X) = det(H^⊗N · Π_Z · H^{−⊗N}) = det(Π_Z) for all N.";
 
     /// <summary>The full exponent value <c>N · 4^{N−1}</c>. Same as the F39 BitB twin
     /// for every N (Hadamard conjugation preserves the determinant identity).</summary>
