@@ -1,7 +1,6 @@
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.Pauli;
-using RCPsiSquared.Core.Symmetry;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Diagnostics.Polarity;
@@ -34,20 +33,8 @@ public static class F112NonHermitianBasisEnumeration
 
         var Id = Matrix<Complex>.Build.DenseIdentity(d);
         // L_vec = -i (H ⊗ I − I ⊗ H^T)
-        var lVec = -Complex.ImaginaryOne * (KroneckerProduct(H, Id) - KroneckerProduct(Id, H.Transpose()));
+        var lVec = -Complex.ImaginaryOne * (H.KroneckerProduct(Id) - Id.KroneckerProduct(H.Transpose()));
         var T = PauliBasis.VecToPauliBasisTransform(N);
-        return T.ConjugateTranspose() * lVec * T / (1 << N);
-    }
-
-    /// <summary>Kronecker product A ⊗ B for complex matrices.</summary>
-    private static ComplexMatrix KroneckerProduct(ComplexMatrix A, ComplexMatrix B)
-    {
-        var result = Matrix<Complex>.Build.Dense(A.RowCount * B.RowCount, A.ColumnCount * B.ColumnCount);
-        for (int i = 0; i < A.RowCount; i++)
-            for (int j = 0; j < A.ColumnCount; j++)
-                for (int k = 0; k < B.RowCount; k++)
-                    for (int l = 0; l < B.ColumnCount; l++)
-                        result[i * B.RowCount + k, j * B.ColumnCount + l] = A[i, j] * B[k, l];
-        return result;
+        return T.ConjugateTranspose() * lVec * T / (1 << N); // 2^N
     }
 }

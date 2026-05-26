@@ -19,5 +19,10 @@ public class F112NonHermitianBasisEnumerationTests
 
         Assert.Equal(16, L.RowCount);
         Assert.Equal(16, L.ColumnCount);
+
+        // Sanity: L = -i[XI, ·] for non-trivial XI must be non-zero. Catches sign flips
+        // and accidental zero matrices that shape-only assertions would miss.
+        Assert.True(L.FrobeniusNorm() > 0.1,
+            $"L_XI should be non-zero at N=2; got Frobenius norm = {L.FrobeniusNorm()}");
     }
 }
