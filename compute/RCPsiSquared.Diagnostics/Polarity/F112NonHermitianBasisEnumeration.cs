@@ -37,4 +37,44 @@ public static class F112NonHermitianBasisEnumeration
         var T = PauliBasis.VecToPauliBasisTransform(N);
         return T.ConjugateTranspose() * lVec * T / (1 << N); // 2^N
     }
+
+    /// <summary>Project a 4^N × 4^N operator-space matrix M onto the eigenspace of the
+    /// Π-conjugation map X ↦ Π X Π⁻¹ at the requested eigenvalue λ ∈ {+1, -1, +i, -i}.
+    /// Π is order-4 on operator space (Π⁴ = I) so the standard idempotent projector is
+    /// P_λ(M) = (1/4) Σ_{k=0..3} λ^{-k} Π^k M Π^{-k}.</summary>
+    public static ComplexMatrix ProjectOntoPiEigenspace(ComplexMatrix M, ComplexMatrix pi, Complex targetEigenvalue)
+    {
+        if (M is null) throw new ArgumentNullException(nameof(M));
+        if (pi is null) throw new ArgumentNullException(nameof(pi));
+
+        var piInv = pi.ConjugateTranspose();
+        var result = Matrix<Complex>.Build.Dense(M.RowCount, M.ColumnCount);
+        var curPi = Matrix<Complex>.Build.DenseIdentity(pi.RowCount);
+        var curPiInv = Matrix<Complex>.Build.DenseIdentity(pi.RowCount);
+        Complex lambdaToK = Complex.One;
+        for (int k = 0; k < 4; k++)
+        {
+            var coef = (1.0 / lambdaToK) / 4.0;
+            result = result + coef * (curPi * M * curPiInv);
+            curPi = curPi * pi;
+            curPiInv = curPiInv * piInv;
+            lambdaToK = lambdaToK * targetEigenvalue;
+        }
+        return result;
+    }
+
+    /// <summary>Frobenius inner product ⟨A, B⟩ = Σ A[i,j]* · B[i,j] = Tr(A† B).</summary>
+    public static Complex FrobeniusInner(ComplexMatrix A, ComplexMatrix B)
+    {
+        if (A is null) throw new ArgumentNullException(nameof(A));
+        if (B is null) throw new ArgumentNullException(nameof(B));
+        if (A.RowCount != B.RowCount || A.ColumnCount != B.ColumnCount)
+            throw new ArgumentException($"shape mismatch: A is {A.RowCount}x{A.ColumnCount}, B is {B.RowCount}x{B.ColumnCount}");
+
+        Complex sum = Complex.Zero;
+        for (int i = 0; i < A.RowCount; i++)
+            for (int j = 0; j < A.ColumnCount; j++)
+                sum += Complex.Conjugate(A[i, j]) * B[i, j];
+        return sum;
+    }
 }
