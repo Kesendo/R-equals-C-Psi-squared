@@ -3712,5 +3712,69 @@ resonance law + `polarity_coordinates_from_L` primitive
 
 ---
 
+### F113. F112 Counterexample Asymmetry Closed Form (Tier 1 derived at N = 2, 3, 4; Tier 1 candidate general N)
+
+Closed-form magnitude for the F112 polarity asymmetry in the regime where
+F112's typed scope is violated by single-site Z-drive × amplitude-damping
+interference. Discovered via Welle 2 Kingston hardware analysis (commit
+`a1a90a2`, 2026-05-26), derived constructively the same day via parameter-
+sweep regression (commit referencing this entry).
+
+**Theorem (F113):** For Lindblad-form L = -i[H, ·] + Σ_k γ_k · D[c_k] with:
+- Hermitian H containing single-site Z-drives Σ_l (ω_l/2)·Z_l plus any
+  bit_b-homogeneous additions (X-drive, Y-drive, ZZ/XX/YY/XY bonds: each
+  contributes 0 individually by F112)
+- Dissipator c containing σ⁻_l at rate γ_T1,l and σ⁺_l at rate γ_pump,l
+  (amplitude damping / pumping)
+- Optional bit_b-homogeneous Z-dephasing (in F112's typed scope, contributes 0)
+
+the F112 polarity asymmetry has the closed form
+
+    asymmetry := ‖M_plus_half‖² − ‖M_minus_half‖²
+              = (4^N / 2) · Σ_l ω_l · (γ_T1,l − γ_pump,l)
+
+bit-exactly. Verified at N = 2, 3, 4 via parameter sweep (`simulations/
+_f113_break_formula_derivation.py`); per-site decomposition, cross-site
+zero, sign flip on ω → −ω and on σ⁻ ↔ σ⁺, detailed-balance cancellation
+(γ_T1 = γ_pump → 0), and non-uniform-rate sum-formula all confirmed
+bit-exact.
+
+**Structural origin:** F112 break requires non-Hermitian Π-eigenspace
+coupling between H and c. Only the Z-drive commutator produces this:
+[Z, σ⁻] = −2σ⁻ (proportional to the non-Hermitian σ⁻ itself), while
+[X, σ⁻] = Z and [Y, σ⁻] = i·Z give Hermitian commutators that remain
+F112-symmetric. ZZ/XX/YY bilinears commute differently and produce 0
+contribution. Same-site locality of [Z_l, σ⁻_m] = −2σ⁻_m · δ_{lm} gives
+the per-site additive structure.
+
+**Universal-N status:** N = 2, 3, 4 bit-exactly fit the formula; the
+(1/2)·4^N coefficient and per-site additivity are N-universal in
+structure. Rigorous algebraic derivation of the (1/2)·4^N coefficient
+from Π-eigenspace structure is open (would lift to Tier 1 derived for
+all N).
+
+**Hardware fingerprinting application:** asymmetry measurement directly
+extracts Σ_l ω_l · (γ_T1,l − γ_pump,l) when drive parameters are known;
+becomes a per-site amplitude-damping calibration tool when combined with
+ω_l knowledge. The Welle 2 hardware-fit value for f95 (ω=0.13, γ_T1≈0.001,
+N=2) gives F113-predicted 16·0.13·0.001 = 2.08e−3, matching the fitted
+value bit-exact.
+
+**Sister claims:**
+- F112 (Tier 1 derived Hermitian H + bit_b-homogeneous c → asymmetry = 0)
+  covers the in-scope half of the standard-Lindblad-family polarity
+  behavior; F113 covers the bit_b-mixed-c break magnitude. Together they
+  give a complete picture across the family.
+- F84 amplitude-damping correction (T1 violation of F81 identity):
+  F113's σ⁻ contribution is the polarity-axis projection of F84's
+  F81-axis violation.
+
+**Source:** [F113 derivation + verification](../experiments/F113_BREAK_MAGNITUDE_FORMULA.md);
+parents: F112 (`LindbladBitBPiBalance`, Tier 1 derived) + the Welle 2
+hardware counterexample (`experiments/F112_HARDWARE_LENS_KINGSTON.md`);
+script: `simulations/_f113_break_formula_derivation.py`.
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*
