@@ -184,13 +184,14 @@ public sealed class LindbladBitBPiBreakMagnitude : Claim, IZ2AxisClaim
                "(Z-drive × amplitude-damping): " +
                "asymmetry = (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l). " +
                "Tier1Derived for general N via Welle 4 structural decomposition " +
-               "(modulo one Frobenius equality verified bit-exact at N = 1, 2, 3, 4, 5).",
+               "(fully closed algebraically via Π²-odd reduction + Lindblad-input vanishing).",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F113 + " +
                "docs/proofs/PROOF_F113_COEFFICIENT_DERIVATION.md + " +
                "experiments/F113_BREAK_MAGNITUDE_FORMULA.md + " +
                "simulations/_f113_break_formula_derivation.py + " +
                "simulations/_f113_coefficient_proof.py + " +
+               "simulations/_f113_lemma_c_step5_closure.py + " +
                "compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs + " +
                "experiments/F112_HARDWARE_LENS_KINGSTON.md")
     {
@@ -252,10 +253,16 @@ public sealed class LindbladBitBPiBreakMagnitude : Claim, IZ2AxisClaim
                          "inner product ⟨(L_H,1)_{+i}, (L_T1,1)_{+i}⟩ = −ωγ/2 (sympy derivation). " +
                          "Full proof in docs/proofs/PROOF_F113_COEFFICIENT_DERIVATION.md (8 steps + " +
                          "3 lemmas; verification script simulations/_f113_coefficient_proof.py runs " +
-                         "in ~5 sec and passes all steps bit-exact at N = 1, 2, 3, 4, 5). One " +
-                         "Frobenius equality in Lemma C step 5 is verified bit-exact at N ≤ 5 but " +
-                         "not yet closed algebraically from the support pattern alone; documented " +
-                         "as a structural exercise that does not block the general-N status.");
+                         "in ~5 sec and passes all steps bit-exact at N = 1, 2, 3, 4, 5). The Lemma C " +
+                         "cross-term sign relation cross_minus = −cross_plus is now fully closed " +
+                         "algebraically via the two-step reduction: (C.1) the pure operator-algebra " +
+                         "identity Tr(A_+i · B_-i) + Tr(A_-i · B_+i) = Tr(A_odd · B_odd) holding for " +
+                         "any A, B, Π unitary (where A_odd = (A − Π² A Π^{-2})/2 is the Π²-anti-" +
+                         "symmetric projection); (C.2) Lindblad-input vanishing Tr((L_H)_odd · " +
+                         "(L_T1)_odd) = 0, reduced via per-site additivity + tensor structure to the " +
+                         "single algebraic fact L_H[I, Z] = 0 ↔ [Z, σ_Z] = 0 at single site. " +
+                         "Verification script simulations/_f113_lemma_c_step5_closure.py confirms " +
+                         "both steps bit-exact at N = 1, 2, 3, 4, 5.");
             yield return new InspectableNode("σ⁻ / σ⁺ sign convention",
                 summary: "Standard physics throughout: σ⁻ = |0⟩⟨1| = [[0, 1], [0, 0]] is the " +
                          "lowering operator (σ⁻|1⟩ = |0⟩, the T1 cooling channel); σ⁺ = " +

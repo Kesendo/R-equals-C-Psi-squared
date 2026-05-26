@@ -215,7 +215,7 @@ For the σ⁻ + σ⁺ Lindblad family (pump + decay), σ⁺ contributes with opp
 
 ## Lemma C: Cross-term sign relation (cross_minus = -cross_plus)
 
-The Welle-4 step `Re⟨L_{H,-i}, L_{T1,-i}⟩ = -Re⟨L_{H,+i}, L_{T1,+i}⟩` is derived from the combination of three lemmas:
+The Welle-4 step `Re⟨L_{H,-i}, L_{T1,-i}⟩ = -Re⟨L_{H,+i}, L_{T1,+i}⟩` is derived from the combination of three lemmas plus a clean two-step closure:
 
 - **Lemma A** (PROOF_F112): dagger maps Π +i ↔ Π -i isometrically. Specifically, `(A_{-i})^† = (A^†)_{+i}` for any superoperator A and unitary Π. Proof: A_{-i} = (1/4) Σ_k i^k Π^k A Π^{-k}; taking dagger and using Π^† = Π^{-1} gives (A_{-i})^† = (1/4) Σ_k (-i)^k Π^k A^† Π^{-k} = (1/4) Σ_k (1/i)^k Π^k A^† Π^{-k} = (A^†)_{+i}.
 
@@ -223,43 +223,109 @@ The Welle-4 step `Re⟨L_{H,-i}, L_{T1,-i}⟩ = -Re⟨L_{H,+i}, L_{T1,+i}⟩` is
 
 - **Lemma C (new)**: L_T1 has only real matrix elements in the Pauli basis. **Proof**: For any operator c, D[c]ρ = cρc† − (1/2){c†c, ρ}. When ρ = σ_α is Hermitian, D[c](σ_α) is Hermitian (sum and anti-commutator of Hermitian operators are Hermitian, and cρc† is Hermitian when ρ is). Hence in the Pauli basis, the superoperator matrix entries `[L_T1]_{βα} = (1/2^N) · Tr(σ_β · D[c](σ_α))` are real (each is the trace of a Hermitian operator, which is real). Verified numerically: L_T1 in Pauli basis at N = 1 is real-valued bit-exactly.
 
-**Derivation of cross_minus = -cross_plus:**
+### Closure (algebraic, two-step)
 
-Define `cross_plus := ⟨(L_H)_{+i}, (L_T1)_{+i}⟩` and `cross_minus := ⟨(L_H)_{-i}, (L_T1)_{-i}⟩`. We compute cross_minus step by step:
+We close the chain in two steps. The first step is a pure operator-algebra identity holding for any A, B and unitary Π; the second is the Lindblad-specific vanishing of a single trace.
 
-1. By definition of the inner product:
+**Step C.1 (pure operator algebra, no input assumptions):**
 
-       cross_minus = Tr(((L_H)_{-i})^† · (L_T1)_{-i})
+For any operators A, B and unitary Π,
 
-2. Apply Lemma A to L_H: (L_H)_{-i} = ((L_H^†)_{+i})^† = (-(L_H)_{+i})^† = -((L_H)_{+i})^† (using Lemma B in the second equality). Hence ((L_H)_{-i})^† = -(L_H)_{+i}.
+    Tr(A_{+i} · B_{-i})  +  Tr(A_{-i} · B_{+i})  =  Tr(A_odd · B_odd)
 
-3. Apply Lemma A to L_T1: (L_T1)_{-i} = ((L_T1^†)_{+i})^†.
+where `A_odd := (A − Π² A Π^{-2})/2` is the Π²-anti-symmetric (Π²-odd) projection of A.
 
-4. Substituting:
+**Derivation:** Using the definitions A_{+i} = (1/4) Σ_k (1/i)^k Π^k A Π^{-k} and A_{-i} = (1/4) Σ_k (1/(-i))^k Π^k A Π^{-k}:
 
-       cross_minus = Tr((-(L_H)_{+i}) · ((L_T1^†)_{+i})^†)
-                   = -Tr((L_H)_{+i} · ((L_T1^†)_{+i})^†)
-                   = -⟨(L_T1^†)_{+i}, (L_H)_{+i}⟩       (using Tr(A · B^†) = ⟨B, A⟩)
+- **Sum:** A_{+i} + A_{-i} = (1/4) Σ_k [(-i)^k + (i)^k] Π^k A Π^{-k}. The coefficient at k = 0, 1, 2, 3 is 2, 0, −2, 0, giving A_{+i} + A_{-i} = (1/2)(A − Π² A Π^{-2}) = **A_odd**.
 
-5. Since L_T1 is real in Pauli basis (Lemma C), L_T1^† = L_T1^T (matrix transpose, no conjugation). Hence (L_T1^†)_{+i} = (L_T1^T)_{+i}. Numerical verification at N = 1 shows
+- **Difference:** A_{+i} − A_{-i} = (1/4) Σ_k [(-i)^k − (i)^k] Π^k A Π^{-k}. The coefficient at k = 0, 1, 2, 3 is 0, −2i, 0, 2i, giving A_{+i} − A_{-i} = (i/2) · Π · (Π² A Π^{-2} − A) · Π^{-1} = **−i · Π · A_odd · Π^{-1}**.
 
-       ⟨(L_T1^T)_{+i}, (L_H)_{+i}⟩ = ⟨(L_H)_{+i}, (L_T1)_{+i}⟩ = -ωγ/2
+Combining: `A_{±i} = (1/2)(A_odd ∓ i · Π · A_odd · Π^{-1})`. Likewise for B.
 
-   The mechanism is sesquilinearity combined with reality of all matrix entries involved: ⟨(L_T1^T)_{+i}, (L_H)_{+i}⟩ takes the conjugate transpose of (L_T1^T)_{+i} and the inner product with (L_H)_{+i}. For real entries in L_T1 (Lemma C), the projection (L_T1^T)_{+i} differs from (L_T1)_{+i} by structural relations under the Π conjugation symmetry, and the resulting Frobenius inner product picks up the same value as the un-transposed cross_plus.
+Expanding the trace sum and grouping:
 
-6. Therefore:
+    A_{+i} · B_{-i} + A_{-i} · B_{+i}
+       = (1/4)[(A_odd − i·Π A_odd Π^{-1})(B_odd + i·Π B_odd Π^{-1})
+              + (A_odd + i·Π A_odd Π^{-1})(B_odd − i·Π B_odd Π^{-1})]
+       = (1/2)[A_odd · B_odd + (Π A_odd Π^{-1})(Π B_odd Π^{-1})]
+       = (1/2)[A_odd · B_odd + Π (A_odd · B_odd) Π^{-1}].
 
-       cross_minus = -⟨(L_T1^†)_{+i}, (L_H)_{+i}⟩ = -cross_plus  ∎
+Taking the trace and using trace cyclicity (Tr(Π X Π^{-1}) = Tr(X) since Π is unitary):
 
-The equality `⟨(L_T1^T)_{+i}, (L_H)_{+i}⟩ = cross_plus` in step 5 is what makes the derivation close cleanly; it is verified bit-exactly at N = 1, 2, 3, 4, 5. A fully algebraic proof of this last step from the support pattern of L_T1 (which has entries only at (Z, I), (X, X), (Z, Z), (Y, Y) at N = 1) and the Π +i projection structure is left as a structural exercise, but the chain Lemma A + Lemma B + Lemma C + structural Frobenius equality gives cross_minus = -cross_plus.
+    Tr(A_{+i} · B_{-i} + A_{-i} · B_{+i})
+       = (1/2)[Tr(A_odd · B_odd) + Tr(A_odd · B_odd)]
+       = Tr(A_odd · B_odd).  ∎
 
-The Welle-4 reduction `asymmetry = 4·Re⟨L_H,+i, L_T1,+i⟩` is now established.
+**Step C.2 (Lindblad-input vanishing):**
+
+For A = L_H with H = Σ_l (ω_l/2)·Z_l and B = L_T1 = Σ_l γ_T1,l · D[σ⁻_l],
+
+    Tr((L_H)_odd · (L_T1)_odd) = 0.
+
+**Derivation:** Per-site additivity (Step 4 of the main computation) gives L_H = Σ_l L_H,l and L_T1 = Σ_l L_T1,l, and Π²-odd projection is linear:
+
+    Tr((L_H)_odd · (L_T1)_odd) = Σ_{l, m} Tr((L_H,l)_odd · (L_T1,m)_odd).
+
+We compute the single-site Π²-odd parts. By F38, Π² acts on Pauli letters (I, X, Z, Y) as `diag(+1, +1, −1, −1)`. In the superoperator matrix basis, Π²-conjugation acts on entry [β, α] by multiplication by `(−1)^{bit_b(β) + bit_b(α)}`. The Π²-odd projection retains only entries with `bit_b(β) + bit_b(α) ≡ 1 (mod 2)`.
+
+- **(L_H,1)_odd = L_H,1 (entirely Π²-odd).** L_H,1(σ_α) = −i·(ω/2)·[Z, σ_α]. Only σ_X and σ_Y have nonzero Z-commutator: [Z, X] = 2iY and [Z, Y] = −2iX. So L_H,1 has matrix entries only at (Y, X) and (X, Y), both with bit_b sum 0 + 1 = 1. Every nonzero entry of L_H,1 is in the Π²-odd sector.
+
+- **(L_T1,1)_odd has a single nonzero entry at (Z, I) with value γ.** L_T1,1 has matrix entries at (X, X), (Y, Y), (Z, Z), (Z, I) (Step 1, "σ⁻ dissipator action"). Of these:
+  - (X, X), (Y, Y), (Z, Z): bit_b sum even (0+0, 1+1, 1+1) → zero in odd projection.
+  - (Z, I): bit_b sum 1 + 0 = 1 → SURVIVES.
+
+  Only the (Z, I) entry — the population-pumping `D[σ⁻](I) = +Z` term — sits in the Π²-odd sector.
+
+- **Single-site trace (l = m):** the matrix product (L_H,1)_odd · (L_T1,1)_odd at N = 1 picks up the only diagonal contribution from β = I, which is (L_H,1)_odd[I, Z] · (L_T1,1)_odd[Z, I]. But L_H,1[I, Z] = 0 because [Z, σ_Z] = 0 (a Z-drive commutes with σ_Z). Hence Tr((L_H,1)_odd · (L_T1,1)_odd) = 0. By the tensor factorization of single-site superoperators (Step 4) and the Frobenius factorization on tensor products (Step 6), Tr((L_H,l)_odd · (L_T1,l)_odd) = 4^{N−1} · Tr((L_H,1)_odd · (L_T1,1)_odd) = 0.
+
+- **Cross-site terms (l ≠ m):** by tensor factorization, (L_H,l)_odd · (L_T1,m)_odd is a tensor product of (L_H,1)_odd at site l, (L_T1,1)_odd at site m, and I_4 elsewhere. The trace decomposes:
+
+      Tr = Tr(I_4)^{N−2} · Tr((L_H,1)_odd) · Tr((L_T1,1)_odd).
+
+  Both single-site traces vanish: Tr((L_H,1)_odd) = 0 (L_H,1 has off-diagonal support only) and Tr((L_T1,1)_odd) = 0 (single off-diagonal entry at (Z, I) has zero diagonal contribution). Every cross-site term vanishes.
+
+Therefore Tr((L_H)_odd · (L_T1)_odd) = 0.  ∎
+
+### Putting it together
+
+Combining Lemmas A + B with Step C.1 + C.2:
+
+    cross_plus  := ⟨(L_H)_{+i}, (L_T1)_{+i}⟩ = Tr(((L_H)_{+i})^† · (L_T1)_{+i})
+    cross_minus := ⟨(L_H)_{-i}, (L_T1)_{-i}⟩ = Tr(((L_H)_{-i})^† · (L_T1)_{-i})
+
+By Lemma A applied to L_H using Lemma B (L_H^† = −L_H):
+
+    ((L_H)_{-i})^† = (L_H^†)_{+i} = −(L_H)_{+i}
+    ((L_H)_{+i})^† = (L_H^†)_{-i} = −(L_H)_{-i}
+
+Substituting:
+
+    cross_plus  = −Tr((L_H)_{-i} · (L_T1)_{+i})
+    cross_minus = −Tr((L_H)_{+i} · (L_T1)_{-i})
+
+Sum:
+
+    cross_plus + cross_minus = −[Tr((L_H)_{+i} · (L_T1)_{-i}) + Tr((L_H)_{-i} · (L_T1)_{+i})]
+                             = −Tr((L_H)_odd · (L_T1)_odd)         (by Step C.1)
+                             = 0                                    (by Step C.2)
+
+Hence **cross_minus = −cross_plus** for general N. ∎
+
+The Welle-4 reduction `asymmetry = 4·Re⟨L_H,+i, L_T1,+i⟩` is now established algebraically without numerical anchoring. The closure relies only on:
+- Π unitary with Π^* = Π^{-1} (true for the canonical Z-dephase Π by construction);
+- Lemma A + Lemma B from PROOF_F112 (dagger swap and L_H anti-Hermiticity);
+- Lemma C reality of L_T1 in the Pauli basis;
+- Per-site additivity and tensor structure from Steps 4-6 of the main computation;
+- The single algebraic fact L_H[I, Z] = 0 (i.e. [Z, σ_Z] = 0) at single site.
+
+Verified at N = 1, 2, 3, 4, 5 bit-exact via `simulations/_f113_lemma_c_step5_closure.py`.
 
 ## Status
 
 **F113 is rigorously derived for general N**, given:
 
-- Welle-4 reduction `asymmetry = 4·Re⟨L_H,+i, L_T1,+i⟩` (derived from Lemmas A, B, C above; one Frobenius equality step in Lemma C verified bit-exactly at N = 1..5)
+- Welle-4 reduction `asymmetry = 4·Re⟨L_H,+i, L_T1,+i⟩` (derived from Lemmas A, B, C above; **fully closed algebraically via Step C.1 + Step C.2**)
 - Steps 1-3: single-site explicit calculation at N = 1 (closed-form via sympy)
 - Steps 4-5: tensor factorization of Π and embedded single-site superoperators (rigorous algebraic argument from Π_N = Π_1^{⊗N})
 - Step 6: per-site additivity (factorization of Frobenius inner product on tensor products + Tr((L_T1,1)_{+i}) = 0)
@@ -281,10 +347,14 @@ The 1/2 reflects the bilinear structure: two contributing Pauli pairs at site l 
 
 This proof promotes F113's general-N scope from **Tier1Candidate** (empirical bit-exact at N ≤ 4) to **Tier1Derived** (algebraic proof from F112 + Pauli-basis tensor factorization). The proof path is:
 
-- **Tier1Derived (Hermitian H, single-site Z-drive + σ⁻/σ⁺ T1 family, all N)** via the Welle-4 reduction (Lemmas A + B + C) + the Pauli-basis tensor argument here.
+- **Tier1Derived (Hermitian H, single-site Z-drive + σ⁻/σ⁺ T1 family, all N)** via the Welle-4 reduction (Lemmas A + B + C with the Step C.1 + C.2 closure) + the Pauli-basis tensor argument here.
 - **Tier1Derived (other bit_b-mixed additional terms vanishing individually)** carried over from F112's individual-term vanishing.
 
-The one structural step within Lemma C (the Frobenius equality `⟨(L_T1^T)_{+i}, (L_H)_{+i}⟩ = ⟨(L_H)_{+i}, (L_T1)_{+i}⟩`) is verified bit-exactly at N = 1..5; a fully algebraic closure of this last step from the L_T1 support pattern and Π conjugation structure is a clean follow-up exercise. The closed form (1/2)·4^N is structurally rigorous given this one numerical-anchor step.
+The Lemma C cross-term sign relation `cross_minus = −cross_plus` is now closed algebraically via the two-step reduction
+1. Operator-algebra identity `Tr(A_{+i} · B_{-i}) + Tr(A_{-i} · B_{+i}) = Tr(A_odd · B_odd)`, holding for any A, B and unitary Π;
+2. Lindblad-input vanishing `Tr((L_H)_odd · (L_T1)_odd) = 0`, reduced to the single algebraic fact L_H[I, Z] = 0 ↔ [Z, σ_Z] = 0 at single site, plus per-site additivity and tensor factorization.
+
+No bit-exact numerical anchor is required for the general-N statement.
 
 ## Verification
 

@@ -549,6 +549,39 @@ def step8_lemma_c():
         print(f"  N={N}: LHS = {lhs:.6f}, RHS = {rhs:.6f}, equal: {np.isclose(lhs, rhs)}")
     print()
 
+    # ===========================================================
+    # Lemma C closure (2026-05-26): algebraic two-step reduction
+    # ===========================================================
+    print("Lemma C ALGEBRAIC CLOSURE (Π²-odd reduction):")
+    print("  Step C.1 (algebra): Tr(A_+i · B_-i) + Tr(A_-i · B_+i) = Tr(A_odd · B_odd)")
+    print("  Step C.2 (Lindblad): Tr((L_H)_odd · (L_T1)_odd) = 0")
+    print("  Full proof + verification: simulations/_f113_lemma_c_step5_closure.py")
+    print()
+    for N in [1, 2, 3, 4, 5]:
+        Pi_N = fw.symmetry.build_pi_full(N)
+        Pi_sq = Pi_N @ Pi_N
+        Pi_sq_inv = np.linalg.inv(Pi_sq)
+        L_H_full = np.zeros((4**N, 4**N), dtype=complex)
+        L_T1_full = np.zeros((4**N, 4**N), dtype=complex)
+        for l in range(N):
+            L_H_full += to_pauli(L_H_vec(0.5 * site_op(N, l, Z)), N)
+            L_T1_full += to_pauli(L_diss_vec(site_op(N, l, SIGMA_MINUS), 1.0), N)
+        L_H_p = project_pi(L_H_full, Pi_N, 1j)
+        L_H_m = project_pi(L_H_full, Pi_N, -1j)
+        L_T1_p = project_pi(L_T1_full, Pi_N, 1j)
+        L_T1_m = project_pi(L_T1_full, Pi_N, -1j)
+        # Step C.1 algebraic identity:
+        lhs_C1 = np.trace(L_H_p @ L_T1_m) + np.trace(L_H_m @ L_T1_p)
+        # Π²-odd parts:
+        L_H_odd = 0.5 * (L_H_full - Pi_sq @ L_H_full @ Pi_sq_inv)
+        L_T1_odd = 0.5 * (L_T1_full - Pi_sq @ L_T1_full @ Pi_sq_inv)
+        rhs_C1 = np.trace(L_H_odd @ L_T1_odd)
+        # Both zero (Step C.2):
+        zero_check_C2 = np.isclose(rhs_C1, 0, atol=1e-10)
+        print(f"  N={N}: C.1 identity (lhs - rhs) = {abs(lhs_C1 - rhs_C1):.2e}, "
+              f"C.2 vanish (|Tr(A_odd · B_odd)|) = {abs(rhs_C1):.2e}  pass={zero_check_C2}")
+    print()
+
 
 # ----------------------------------------------------------------------
 # Main
