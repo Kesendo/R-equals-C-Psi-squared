@@ -2,7 +2,9 @@
 
 **Status:** Reflection. After the polarity-coordinates wave landed the three-way decomposition (`polarity_coordinates`) as a typed framework primitive, after 16 of 17 pytests passed cleanly, and after the one failure refused to be turned into a success by extending the probe across eight Hamiltonian families and three dissipator settings. Captures what we expected to discover, what we actually discovered, and the structural symmetry that was sitting in the background the whole time without anyone naming it.
 
-**Date:** 2026-05-25
+**Update 2026-05-26:** the structural symmetry now has a name. F112 (`LindbladBitBPiBalance`) typed as Tier1Derived for Hermitian H, Tier1Candidate for the non-Hermitian extension. See the *Closure* section at the bottom for the proof landing, probes 9–14, and the connection-mapping wave that wired F112 ↔ F108 ↔ F87 ↔ F38 on the shared bit_b Z₂-axis.
+
+**Date:** 2026-05-25 (closure addendum 2026-05-26)
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Context:** [F81](../docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md) gave us the binary Π-symmetric/antisymmetric split of M (the framework's residual operator). The Π-conjugation map has order four on Liouville space; its full eigenvalue spectrum is {+1, −1, +i, −i}, not two but four. The ±1 eigenspaces together form F81's M_sym; the ±i eigenspaces together form M_anti. The wave's hypothesis was that splitting M_anti further into the +i and −i parts would expose an asymmetric T1 signature. The hypothesis is refuted. The refutation is the interesting thing.
 
@@ -194,6 +196,46 @@ This extends the trail [`ON_THE_HALF`](ON_THE_HALF.md) read for the recurring 0.
 
 The primitive ships. The reflection ships. The asymmetry channel waits for a future wave that tests non-Hermitian dynamics, single-site fields, or non-Lindblad dissipators. When that wave runs, the diagnostic is already typed and the prediction (balance preservation for any Hermitian-superoperator M) is already written down. The next discovery, if one is coming, will be the first measured ‖M_plus‖² ≠ ‖M_minus‖². Until then, the result is: the balance holds, the structural reason is bra-ket symmetry, and the polarity vocabulary now has explicit operator-level coordinates.
 
+## Closure (2026-05-26): F112 typed as Tier1Derived for Hermitian H
+
+The "next wave" turned out to be the same day. Six additional probes (9–14) located the exact structural condition that distinguishes preserved from broken balance, and the resulting theorem closed as a typed Tier1Derived Claim in C# Core the morning after the reflection above.
+
+**Probe 9 ([`_polarity_probe_pauli_rank.py`](../simulations/_polarity_probe_pauli_rank.py)):** k_max boundary search across single-Pauli, low-rank, and high-rank c at N=2, 3. Result: k_pauli = 1 always preserves balance; k_pauli ≥ 2 is selection-dependent. The boundary is not a rank threshold; the structural property is finer.
+
+**Probe 10 ([`_polarity_probe_pair_enumeration.py`](../simulations/_polarity_probe_pair_enumeration.py)):** at N=2, exhaustive enumeration of all 136 Pauli-string pairs as c = α·P_α + β·P_β. With the fixed coefficient choice (α, β) = (1, i), every one of the 136 pairs preserves balance bit-exact. The coefficient choice matters; the pair choice doesn't constrain.
+
+**Probe 11 ([`_polarity_probe_coefficients.py`](../simulations/_polarity_probe_coefficients.py)):** coefficient sweep at N=2 with five representative pairs. Two pair classes emerge: same Z₂³ cell (Klein × y_par) preserves balance for ALL coefficient choices; cross-cell preserves only for phase-matched coefficients. The structural axis is the Z₂³ sub-cell structure of the Pauli group.
+
+**Probe 12 ([`_polarity_probe_z2cubed_scaling.py`](../simulations/_polarity_probe_z2cubed_scaling.py)):** the Z₂³-cell pattern scales to N=3 and N=4. Sweep A (within-cell c, random complex coefs): 171/171 BALANCED across N=2, 3, 4. Sweep B (cross-cell c): the BALANCE/BROKEN split partitions exactly by bit_b parity match. Same-bit_b cells preserve, cross-bit_b cells break. The Z₂³ structure reduces to the single Z₂ axis of bit_b.
+
+**Probe 13 ([`_polarity_proof_verify.py`](../simulations/_polarity_proof_verify.py)):** the proof's Step 2 numerical check. For bit_b-homogeneous c (every Pauli string σ in c's expansion shares bit_b(σ) = const), the dissipator `np.kron(c, c.conj())` sits 100.00% in the Π²-conjugation +1 eigenspace at N=2, 3 (bit-exact to machine precision). Mixed-bit_b c splits ~50/50 between Π² eigenspaces. This is the algebraic root of the balance: bit_b-homogeneous c contributes nothing to M's Π +i / −i content.
+
+**Probe 14 ([`_polarity_step5_stress.py`](../simulations/_polarity_step5_stress.py)):** the proof's Step 5 stress test. Direct Π-eigenspace projection of L_H for 30 random H configurations (10 Hermitian Pauli, 10 non-Hermitian Pauli, 10 random complex matrix) at N=2, 3. All 30 give ‖L_{H,+i}‖² = ‖L_{H,-i}‖² bit-exact, including the non-Hermitian Pauli and random complex matrix cases. The Hermitian case has a clean structural reason (Step 5 below); the non-Hermitian case is empirical and reduces to an open identity.
+
+**F87 ↔ F112 orthogonality probe ([`_polarity_probe_f87_connection.py`](../simulations/_polarity_probe_f87_connection.py)):** all three F87 trichotomy classes (truly, soft, hard) at N=3 under standard Z-deph give F112 balance asymmetry = 0 bit-exact. F87 lives in ‖M‖_F + spec(L) palindromy; F112 lives in M_anti's Π +i/−i Frobenius split. The two are orthogonal axes on the same bit_b Z₂-grading.
+
+### The theorem
+
+The structural condition surfaced by probes 9–14 is exactly **bit_b-homogeneous c with Hermitian H**:
+
+> **F112 (Hermitian H, Tier1Derived).** For any Lindblad-form Liouvillian L = -i[H, ·] + Σ_k γ_k · `np.kron(c_k, c_k^*)` on N qubits with Hermitian H and each c_k bit_b-homogeneous (every Pauli string σ in c_k's expansion shares bit_b(σ) = (#Y(σ) + #Z(σ)) mod 2 = const), the `polarity_coordinates_from_L` decomposition of M = Π L Π⁻¹ + L + 2σ·I satisfies ‖M_plus_half‖² = ‖M_minus_half‖² bit-exactly.
+
+Five steps: (1) reduce balance to ‖M_{+i}‖² = ‖M_{-i}‖² via Π-eigenspace decomposition of M_plus_half / M_minus_half; (2) bit_b-homogeneous c implies dissipator lies in Π²-conj +1 eigenspace (via F38 / F63); (3) Π²-conj +1 eigenspace = Π-conj {+1, −1}, so dissipator has zero ±i content; (4) M_{+i} and M_{-i} come entirely from L_H; (5) for Hermitian H, L_H is anti-Hermitian as a superoperator (L_H^† = −L_H via straightforward Hilbert-Schmidt manipulation) and the dagger map sends the Π +i eigenspace bijectively onto the Π −i eigenspace while preserving Frobenius norm, giving ‖L_{H,+i}‖² = ‖L_{H,-i}‖². ∎
+
+**Non-Hermitian extension (Tier1Candidate).** Probe 14 also tested non-Hermitian H bit-exactly across 20 random configurations. Writing H = H_re + i H_im (Hermitian decomposition), the equality reduces to the specific identity Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0 for any Hermitian H_re, H_im. This identity holds empirically but its rigorous proof is open. The typed Claim's Tier1Derived scope covers Hermitian H; the non-Hermitian extension is documented as Tier1Candidate with empirical bit-exact anchor.
+
+### What changed in our picture
+
+The reflection above proposed two candidate explanations: (a) Hermitian-conjugate symmetry of M as a superoperator, (b) bra-ket exchange as the structural meaning. Probes 1 and 5 refuted (a) on the surface: balance survived non-Hermitian H and non-Lindblad σ⁺ρσ⁺ dissipators that destroy ρ-hermiticity. The actual answer is (a) at a different level: it is not M's Hermitian-superoperator property that matters, but L_H's anti-Hermitian-superoperator property and the bit_b-Π² eigenstructure of the dissipator together. Probe 1 fits this directly: its dissipator was single-Pauli Z (bit_b-homogeneous), only the H was non-Hermitian, and that places it inside F112's non-Hermitian Tier1Candidate scope, which empirically holds. Probe 5 sits outside F112's typed scope entirely (the σ⁺ρσ⁺ form is not standard `Σ γ_k np.kron(c_k, c_k^*)` Lindblad and σ⁺ = (X + iY)/2 is not even bit_b-homogeneous); balance held there too, but as an empirical observation rather than a consequence of the typed theorem. Probe 6 broke the balance by side-stepping the Lindblad channel entirely with a hand-engineered Π-conjugation +i eigenmode that had no Lindblad structure to invoke at all. The candidate (b) bra-ket reading is structurally compatible with F112 but lives at the meaning layer rather than the algebraic mechanism: F112 says the bra-side and ket-side coordinates are equal whenever the system's dissipative channel keeps the bit_b grading clean.
+
+For standard physical Lindblad systems (Hermitian H plus single-Pauli c: T1, T2, depolarizing on individual sites), c is trivially bit_b-homogeneous, since a single Pauli string has a single bit_b value. F112 therefore says the polarity coordinates are equal by structure for every Lindblad system we actually build to describe physical noise. Asymmetry ≠ 0 in `polarity_coordinates_from_L` is the precise witness for c outside the bit_b-homogeneous regime: either non-standard collapse operators with mixed-bit_b Pauli support, or L not in Lindblad form at all.
+
+### Wiring
+
+The proof landed at [`docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md`](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) with the rigorous Hermitian-H derivation and the open non-Hermitian identity documented as the next-piece-of-work. The F-formula registry entry is at [`docs/ANALYTICAL_FORMULAS.md` F112](../docs/ANALYTICAL_FORMULAS.md). The C# typed Claim is at [`compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs`](../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs) (IZ2AxisClaim on the BitB axis, Tier1Derived, F108 Part 1 as typed ctor parent for the shared F38 / F63 bit_b foundation). Cross-references wire the connection mapping: F38 and F63 list F108 / F112 as downstream consumers, F87 names F112 as the orthogonal axis on the shared bit_b grading, F108 Part 1 and Part 3 carry sibling-inspectables pointing at F112.
+
+The diagnostic value of `polarity_coordinates_from_L` is now sharper than the original reflection knew how to state. It is not a generic balance check; it is the structural witness for "L came from a standard Lindblad channel with bit_b-homogeneous collapse operators and Hermitian H." Asymmetry ≠ 0 narrows the source: at least one of (Hermitian H, bit_b-homogeneous c, Lindblad-form L) fails. That is a useful classifier for hardware-effective dynamics where one is asking exactly that question.
+
 ---
 
 *"Wir hatten gehofft eine neue Berechnung zu entdecken; was wir entdeckt haben war eine alte Symmetrie ohne Namen."*
@@ -216,6 +258,12 @@ The primitive ships. The reflection ships. The asymmetry channel waits for a fut
 - [F84](../docs/proofs/PROOF_F84_AMPLITUDE_DAMPING.md): the amplitude-damping correction whose F81-violation we now know does NOT project asymmetrically onto ±i
 - [F83](../docs/proofs/PROOF_F83_PI_DECOMPOSITION_RATIO.md): the anti-fraction limit at r=0, the F81 ratio observable
 - [F80](../docs/ANALYTICAL_FORMULAS.md): Spec(M) = 2i · Spec(H_non-truly), the spectral side of the Π²-odd content
+- [F112](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md): the closure identity ‖M_plus_half‖² = ‖M_minus_half‖² for Hermitian H + bit_b-homogeneous c, proved via dagger + anti-Hermitian L_H; the structural witness behind every BALANCE reading from Probes 1–5 and 7–14
+- [`LindbladBitBPiBalance`](../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs): the typed C# Claim (Tier1Derived for Hermitian H; Tier1Candidate for non-Hermitian H extension), IZ2AxisClaim on the BitB axis, F108 Part 1 as ctor parent
+- [F38](../docs/ANALYTICAL_FORMULAS.md): Π² = (−1)^{w_YZ} eigenvalue formula, the algebraic root of the bit_b Z₂-grading F112 consumes
+- [F63](../docs/ANALYTICAL_FORMULAS.md): [L, Π²] = 0, the dissipator-side commutation F112 also consumes
+- [F87](../docs/ANALYTICAL_FORMULAS.md): trichotomy classifier; orthogonal axis on the same bit_b Z₂-grading (empirically confirmed via `_polarity_probe_f87_connection.py`)
+- [F108 Part 1](../docs/proofs/PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md): sibling Tier1Derived theorem on the shared bit_b axis; F108 closes spec(L) palindromy for Π²-even bilinear H, F112 closes Π +i/−i balance for arbitrary Hermitian H + bit_b-homogeneous c
 - [`PolarityLayerOriginClaim`](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs): the +0/−0 layer at d=0 generating ±1/2 at d=2 via the 0.5-shift
 - [`HalfAsStructuralFixedPointClaim`](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs): the half's argmax side
 - [`QuarterAsBilinearMaxvalClaim`](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs): the apex where both polarity sides meet under squaring
@@ -239,3 +287,5 @@ The primitive ships. The reflection ships. The asymmetry channel waits for a fut
 ---
 
 *Tom and Claude, 2026-05-25. The polarity-coordinates wave closes with a measurement that refused to be the discovery it was hypothesized to be, and became instead the typed witness of a structural symmetry that was sitting in the framework all along. Written while the contrast between expected and found is still fresh; future waves with non-Hermitian probes will say whether this is the last word or the baseline against which an asymmetry first appears.*
+
+*Closure 2026-05-26. The non-Hermitian probe was the same day. Probes 9–14 narrowed the structural condition to bit_b-homogeneity of c with Hermitian H, and the proof closed via dagger + anti-Hermitian L_H. F112 (`LindbladBitBPiBalance`) typed as Tier1Derived in C# Core, anchored in ANALYTICAL_FORMULAS, and wired into the bit_b Z₂-axis hierarchy alongside F38, F63, F87, and F108 Part 1. The non-Hermitian extension reduces to one open identity, kept as Tier1Candidate. The diagnostic `polarity_coordinates_from_L` is now the precise witness for "L came from a standard Lindblad channel with bit_b-homogeneous collapse operators and Hermitian H"; asymmetry ≠ 0 is the construction-outside-that-class witness. The two-day arc closed.*
