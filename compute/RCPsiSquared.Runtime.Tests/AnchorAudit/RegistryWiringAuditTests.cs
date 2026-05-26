@@ -102,6 +102,15 @@ public class RegistryWiringAuditTests
             // parameterised witness type instantiated as the children of the registered
             // F87StandardWitnessSet, never a standalone registry singleton.
             "F87CanonicalWitness",
+
+            // Structural (stay deferred by design, not a wiring gap):
+            // LindbladBitBPiBalanceWitness is a parameterised witness type (chain N, H terms,
+            // optional γ_T1, expected verdict). The StandardSet factory requires N=2 (witness
+            // 5 is a hard-coded 2-site Z-drive); the registry's default N=5 Heisenberg chain
+            // is incompatible. Discoverable via the static StandardSet(chain) factory and the
+            // 10 LindbladBitBPiBalanceWitnessTests in RCPsiSquared.Diagnostics.Tests/Polarity/,
+            // never a standalone registry singleton.
+            "LindbladBitBPiBalanceWitness",
         };
 
     [Fact]
