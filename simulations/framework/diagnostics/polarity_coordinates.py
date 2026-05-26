@@ -38,6 +38,7 @@ from __future__ import annotations
 import numpy as np
 
 from ..symmetry import build_pi_full
+from ..pauli import _vec_to_pauli_basis_transform
 from .f81_pi_decomposition import pi_decompose_M
 
 
@@ -191,3 +192,58 @@ def polarity_coordinates_from_L(L_pauli, N, sigma, Pi=None):
         'asymmetry': asymmetry,
         'orthogonality_residual': orthogonality_residual,
     }
+
+
+def polarity_coordinates_from_hc(H, c_ops, gammas, N, sigma=None, Pi=None):
+    """Polarity decomposition built from a standard Lindblad (H, c_ops, gammas) triple.
+
+    Thin composition wrapper: constructs the full standard-Lindblad-channel
+    Liouvillian
+
+        L_vec = -i · (H ⊗ I − I ⊗ H^T)
+              + Σ_k γ_k · [ kron(c_k, c_k^*) − (1/2)·( kron(c_k^† c_k, I)
+                                                    + kron(I, (c_k^† c_k)^T) ) ]
+
+    in vec(ρ) basis (the standard Lindblad / GKSL dissipator, trace-preserving
+    for Hermitian H + arbitrary c), transforms to Pauli basis, and delegates
+    to polarity_coordinates_from_L. Matches the chain-bound
+    polarity_coordinates path bit-exactly for Hermitian Pauli-letter c with
+    matching σ = Σ γ_k. Absorbs the build_L_standard_lindblad pattern that
+    probe scripts 1, 5, 7, 9–14 hand-roll inline.
+
+    F112 (Hermitian H + each c_k bit_b-homogeneous) predicts asymmetry = 0
+    bit-exact. Asymmetry ≠ 0 here is the precise witness for non-Hermitian
+    H, non-bit_b-homogeneous c, or both. To check bit_b-homogeneity of c
+    when c is given as a PauliHamiltonian, use its is_bit_b_homogeneous
+    property; this wrapper accepts c as raw matrices and does not perform
+    the check.
+
+    Args:
+        H: Hilbert-space Hamiltonian as a 2^N × 2^N numpy complex array.
+        c_ops: iterable of 2^N × 2^N collapse operators (numpy complex).
+        gammas: iterable of rates matching c_ops (complex allowed for
+            non-physical sweeps; standard Lindblad uses real ≥ 0).
+        N: chain length.
+        sigma: F1 palindrome center; defaults to sum(gammas). For uniform
+            single-letter dephasing this is N · γ.
+        Pi: optional precomputed Π operator.
+
+    Returns:
+        Same dict as polarity_coordinates_from_L.
+    """
+    c_list = list(c_ops)
+    g_list = list(gammas)
+    if len(c_list) != len(g_list):
+        raise ValueError(f"len(c_ops)={len(c_list)} != len(gammas)={len(g_list)}")
+    if sigma is None:
+        sigma = float(np.real(sum(g_list)))
+    d = 2 ** N
+    Id = np.eye(d, dtype=complex)
+    L_vec = -1j * (np.kron(H, Id) - np.kron(Id, H.T))
+    for c, g in zip(c_list, g_list):
+        c_dag_c = c.conj().T @ c
+        anti = 0.5 * (np.kron(c_dag_c, Id) + np.kron(Id, c_dag_c.T))
+        L_vec = L_vec + g * (np.kron(c, c.conj()) - anti)
+    T = _vec_to_pauli_basis_transform(N)
+    L_pauli = (T.conj().T @ L_vec @ T) / (2 ** N)
+    return polarity_coordinates_from_L(L_pauli, N, sigma, Pi=Pi)

@@ -14,6 +14,7 @@ import numpy as np
 
 from ..diagnostics.f77_trichotomy import classify_pauli_pair
 from ..diagnostics.f83_anti_fraction import predict_pi_decomposition
+from ..diagnostics.polarity_coordinates import polarity_coordinates
 from ..pauli_hamiltonian import PauliHamiltonian, PauliTerm
 from .predict_signature_table import predict_signature_table
 
@@ -72,6 +73,8 @@ def _structural_summary(terms, chain_length):
         'is_y_parity_homogeneous': H.is_y_parity_homogeneous,
         'full_z2_signature_set': z2_signature_set_sorted,
         'is_z2_homogeneous': H.is_z2_homogeneous,
+        'bit_b_set': sorted(H.bit_b_set),
+        'bit_b_homogeneous_h': H.is_bit_b_homogeneous,
         'per_term_klein_indices': H.per_term_klein_indices,
         'per_term_y_parities': H.per_term_y_parities,
         'per_term_pi2_classes': H.per_term_pi2_classes,
@@ -213,6 +216,40 @@ def diagnose_hardware(
                 'anti_fraction': float(anti),
                 'r': float(r_val) if r_val != float('inf') else None,
             })
+
+        # F112 lens: polarity Π-eigenvalue +i/−i balance on the framework-predicted L.
+        # Typed Tier1Derived scope: Hermitian H + bit_b-homogeneous c_k implies
+        # asymmetry = 0 bit-exact. chain.L's single-Pauli Z-dephasing is trivially
+        # bit_b-homogeneous, so for pure Z-deph the lens predicts BALANCED. Adding
+        # T1 / T2 dissipators extends beyond F112's typed scope (σ⁻ = (X − iY)/2 is
+        # not bit_b-homogeneous), but the polarity balance is empirically preserved
+        # there as well per probes 1–14. Asymmetry ≠ 0 here would witness a
+        # framework-construction-channel breakdown; on hardware data it would
+        # require fitting an effective L outside the framework's standard pipeline.
+        pol = polarity_coordinates(chain, terms)
+        m_sq = pol['norm_sq']['M']
+        asym = pol['asymmetry']
+        rel_asym = abs(asym) / max(m_sq, 1e-15)
+        if rel_asym < 1e-10:
+            verdict = 'BALANCED (asymmetry bit-exact 0)'
+        elif rel_asym < 1e-6:
+            verdict = f'near-BALANCED (rel {rel_asym:.2e})'
+        else:
+            verdict = f'BROKEN (rel asymmetry {rel_asym:.2e})'
+        bit_b_homog = struct['bit_b_homogeneous_h']
+        scope_note = (
+            'H is bit_b-homogeneous (terms share bit_b parity)'
+            if bit_b_homog
+            else 'H is bit_b-inhomogeneous (terms span both bit_b parities)'
+        )
+        readings.append({
+            'lens': 'F112',
+            'reading': f"polarity asymmetry = {verdict}; {scope_note}",
+            'asymmetry': float(asym),
+            'rel_asymmetry': float(rel_asym),
+            'verdict': verdict.split(' ', 1)[0],
+            'h_bit_b_homogeneous': bool(bit_b_homog),
+        })
 
         # F82/F84 amplitude-damping signature on truly
         if f77 == 'truly':

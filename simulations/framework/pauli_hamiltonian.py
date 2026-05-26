@@ -195,6 +195,27 @@ class PauliHamiltonian:
         return len(self.y_parity_set) <= 1
 
     @property
+    def bit_b_set(self) -> Set[int]:
+        """Set of distinct bit_b parities across terms.
+
+        bit_b = (#Y + #Z) mod 2 per term. This is the Π² axis (F38: Π² acts
+        on a Pauli string as (-1)^bit_b). F112's typed Tier1Derived scope
+        requires bit_b-homogeneous collapse operators c.
+        """
+        return {t.klein_index[1] for t in self.terms}
+
+    @property
+    def is_bit_b_homogeneous(self) -> bool:
+        """True if all terms share the same bit_b parity (F112 precondition).
+
+        F112 (Lindblad Π-eigenvalue balance): for Hermitian H + each c_k
+        bit_b-homogeneous, polarity_coordinates_from_L asymmetry is 0
+        bit-exact. Single-Pauli c is trivially bit_b-homogeneous (one term,
+        one bit_b value).
+        """
+        return len(self.bit_b_set) <= 1
+
+    @property
     def full_z2_signature_set(self) -> Set[Tuple[int, int, int]]:
         """Set of full Z₂³ signatures (bit_a, bit_b, y_parity) across terms.
 

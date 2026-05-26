@@ -292,3 +292,35 @@ def test_diagnose_hardware_synthetic_round_trip():
     if f82:
         assert f82[0]['significant'] is False, \
             "Synthetic round-trip should not show F82/F84 signature"
+
+
+def test_diagnose_hardware_F112_lens_reads_balanced_on_z_dephase():
+    """F112 lens row: for the framework's standard chain.L (Hermitian H +
+    single-Pauli Z-dephasing on each site, trivially bit_b-homogeneous), the
+    polarity asymmetry is bit-exact 0. The lens row is present in every
+    category's readings, and its verdict is BALANCED.
+    """
+    measured = _load_f83_measured()
+    chain = fw.ChainSystem(N=3)
+    result = fw.diagnose_hardware(
+        chain, measured, F83_TERMS_PER_CATEGORY,
+        calibration=F83_CALIBRATION, gamma_z=0.1,
+    )
+
+    for cat in F83_TERMS_PER_CATEGORY:
+        readings = result['per_category'][cat]['lens_readings']
+        f112 = [r for r in readings if r.get('lens') == 'F112']
+        assert len(f112) == 1, f"{cat}: exactly one F112 lens reading expected, got {len(f112)}"
+        row = f112[0]
+        assert 'asymmetry' in row
+        assert 'rel_asymmetry' in row
+        assert 'verdict' in row
+        assert 'h_bit_b_homogeneous' in row
+        # F112 says asymmetry = 0 bit-exact for Hermitian H + bit_b-homogeneous c.
+        # chain.L is Z-dephasing per site (single-Pauli Z, bit_b-homogeneous).
+        # Default gamma_z=0.1 with no T1, so we're in the typed Tier1Derived regime.
+        assert row['verdict'] == 'BALANCED', \
+            f"{cat}: expected BALANCED verdict on standard chain.L, got {row['verdict']} " \
+            f"(asymmetry={row['asymmetry']}, rel={row['rel_asymmetry']})"
+        assert abs(row['rel_asymmetry']) < 1e-10, \
+            f"{cat}: F112 rel asymmetry {row['rel_asymmetry']} exceeds machine precision"

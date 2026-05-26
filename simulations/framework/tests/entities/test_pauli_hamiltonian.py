@@ -101,6 +101,38 @@ def test_PauliHamiltonian_klein_homogeneous():
     assert H_mixed.klein_set == {(0, 1), (1, 0)}
 
 
+def test_PauliHamiltonian_bit_b_homogeneous():
+    """bit_b homogeneity (F112 precondition): all terms share (#Y + #Z) mod 2.
+
+    F112 (Lindblad Π-eigenvalue balance): for Hermitian H + bit_b-homogeneous c,
+    polarity_coordinates_from_L asymmetry is 0 bit-exact. The bit_b axis is the
+    second component of klein_index.
+    """
+    # XX (bit_b=0) + YY (bit_b=0): both share bit_b=0 → homogeneous
+    H_b0 = fw.PauliHamiltonian.from_letter_tuples([('X', 'X'), ('Y', 'Y')], chain_length=3)
+    assert H_b0.bit_b_set == {0}
+    assert H_b0.is_bit_b_homogeneous is True
+
+    # YZ (bit_b=0) + ZY (bit_b=0): F108 Π²-even bilinear set, both bit_b=0
+    H_yz = fw.PauliHamiltonian.from_letter_tuples([('Y', 'Z'), ('Z', 'Y')], chain_length=3)
+    assert H_yz.bit_b_set == {0}
+    assert H_yz.is_bit_b_homogeneous is True
+
+    # XY (bit_b=1) + YX (bit_b=1): Π²-odd, both bit_b=1
+    H_b1 = fw.PauliHamiltonian.from_letter_tuples([('X', 'Y'), ('Y', 'X')], chain_length=3)
+    assert H_b1.bit_b_set == {1}
+    assert H_b1.is_bit_b_homogeneous is True
+
+    # XX (bit_b=0) + XY (bit_b=1): mixed
+    H_mixed = fw.PauliHamiltonian.from_letter_tuples([('X', 'X'), ('X', 'Y')], chain_length=3)
+    assert H_mixed.bit_b_set == {0, 1}
+    assert H_mixed.is_bit_b_homogeneous is False
+
+    # Single term is trivially bit_b-homogeneous
+    H_single = fw.PauliHamiltonian.from_letter_tuples([('Z', 'Z')], chain_length=3)
+    assert H_single.is_bit_b_homogeneous is True
+
+
 def test_PauliHamiltonian_y_parity_homogeneous_k3():
     """At k=3, Y-parity homogeneity is independent from Klein homogeneity."""
     # Two k=3 terms with same Klein but different Y-parity
