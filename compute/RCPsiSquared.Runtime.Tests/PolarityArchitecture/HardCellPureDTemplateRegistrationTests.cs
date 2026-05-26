@@ -9,7 +9,13 @@ namespace RCPsiSquared.Runtime.Tests.PolarityArchitecture;
 public sealed class HardCellPureDTemplateRegistrationTests
 {
     private static ClaimRegistry BuildRegistry() =>
-        new ClaimRegistryBuilder().RegisterHardCellPureDTemplate().Build();
+        new ClaimRegistryBuilder()
+            // Welle 7: HardCellPureDTemplate now ctor-takes KleinEightCellClaim as
+            // typed Cubic3 parent; need to wire KleinFour + KleinEight + Pi2 chain.
+            .RegisterPi2Family()
+            .RegisterKleinEightCellClaim()
+            .RegisterHardCellPureDTemplate()
+            .Build();
 
     [Fact]
     public void Registered_Resolves_HardCellPureDTemplate()

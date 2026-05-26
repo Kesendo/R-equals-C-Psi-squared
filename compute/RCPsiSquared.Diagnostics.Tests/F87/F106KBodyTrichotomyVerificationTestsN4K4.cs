@@ -39,7 +39,7 @@ public class F106KBodyTrichotomyVerificationTestsN4K4 : IClassFixture<F106Counts
     public void Verification_TrulyCountsMatch_F106_FrozenAnchor()
     {
         var counts = _fixture.Counts;
-        var f106 = new F87Z2CubedRefinementN4K4();
+        var f106 = new F87Z2CubedRefinementN4K4(new KleinEightCellClaim(new KleinFourCellClaim()));
 
         int totalTruly = counts
             .Where(kv => kv.Key.Cls == TrichotomyClass.Truly)
@@ -56,7 +56,7 @@ public class F106KBodyTrichotomyVerificationTestsN4K4 : IClassFixture<F106Counts
     public void Verification_HardDiagonalCounts_MatchF106()
     {
         var counts = _fixture.Counts;
-        var f106 = new F87Z2CubedRefinementN4K4();
+        var f106 = new F87Z2CubedRefinementN4K4(new KleinEightCellClaim(new KleinFourCellClaim()));
 
         Assert.Equal(f106.HardDiagonal.ZDephKlein01,
             (counts.GetValueOrDefault(((0, 1), 'Z', 0, TrichotomyClass.Hard)),
@@ -73,7 +73,7 @@ public class F106KBodyTrichotomyVerificationTestsN4K4 : IClassFixture<F106Counts
     public void Verification_SoftCounts_AllPatternsMatch_F106()
     {
         var counts = _fixture.Counts;
-        var f106 = new F87Z2CubedRefinementN4K4();
+        var f106 = new F87Z2CubedRefinementN4K4(new KleinEightCellClaim(new KleinFourCellClaim()));
 
         // DiagonalSoft 3 cells (Klein matches dephase)
         Assert.Equal(f106.DiagonalSoft.ZDephKlein01,
@@ -114,7 +114,7 @@ public class F106KBodyTrichotomyVerificationTestsN4K4 : IClassFixture<F106Counts
         // F106's frozen records matches the C# re-classification bit-exactly. Catches
         // any drift not caught by the per-record tests above.
         var counts = _fixture.Counts;
-        var f106 = new F87Z2CubedRefinementN4K4();
+        var f106 = new F87Z2CubedRefinementN4K4(new KleinEightCellClaim(new KleinFourCellClaim()));
 
         // Truly: total + y_par=1 count
         int trulyTotal = counts.Where(kv => kv.Key.Cls == TrichotomyClass.Truly).Sum(kv => kv.Value);

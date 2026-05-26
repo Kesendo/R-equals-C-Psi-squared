@@ -9,20 +9,20 @@ public class HardCellYInversionPatternTests
 {
     [Fact]
     public void Z2Axis_IsYParity() =>
-        Assert.Equal(Z2Axis.YParity, new HardCellYInversionPattern().Z2Axis);
+        Assert.Equal(Z2Axis.YParity, new HardCellYInversionPattern(new KleinEightCellClaim(new KleinFourCellClaim())).Z2Axis);
 
     [Fact]
     public void BitATwin_IsNull() =>
-        Assert.Null(new HardCellYInversionPattern().BitATwin);
+        Assert.Null(new HardCellYInversionPattern(new KleinEightCellClaim(new KleinFourCellClaim())).BitATwin);
 
     [Fact]
     public void BitATwinStatus_IsNotApplicableForThisAxis() =>
         Assert.Equal(BitATwinClassification.NotApplicableForThisAxis,
-            ((IZ2AxisClaim)new HardCellYInversionPattern()).BitATwinStatus);
+            ((IZ2AxisClaim)new HardCellYInversionPattern(new KleinEightCellClaim(new KleinFourCellClaim()))).BitATwinStatus);
 
     [Fact]
     public void Tier_IsTier1Candidate() =>
-        Assert.Equal(Tier.Tier1Candidate, new HardCellYInversionPattern().Tier);
+        Assert.Equal(Tier.Tier1Candidate, new HardCellYInversionPattern(new KleinEightCellClaim(new KleinFourCellClaim())).Tier);
 
     // ============================================================
     // Aspect A: diagonal Klein cell membership (closed-form)
@@ -98,7 +98,7 @@ public class HardCellYInversionPatternTests
     [Fact]
     public void Theorem_MentionsBothAspectAAndAspectB()
     {
-        var claim = new HardCellYInversionPattern();
+        var claim = new HardCellYInversionPattern(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Contains("diagonal Klein", claim.Theorem);
         Assert.Contains("Y-inversion", claim.Theorem);
     }
@@ -106,7 +106,7 @@ public class HardCellYInversionPatternTests
     [Fact]
     public void F87Corollary_ScopesToDephaseLetterYParity()
     {
-        var claim = new HardCellYInversionPattern();
+        var claim = new HardCellYInversionPattern(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Contains("y_par(dephase", claim.F87Corollary);
     }
 }

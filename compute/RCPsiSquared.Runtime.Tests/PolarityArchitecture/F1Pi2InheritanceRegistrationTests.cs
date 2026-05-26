@@ -25,6 +25,10 @@ public class F1Pi2InheritanceRegistrationTests
             .RegisterF88bPopcountCoherence()
             .RegisterF88bStaticDyadicAnchor()
             .RegisterPi2OperatorSpaceMirror()
+            // Welle 7 (2026-05-26): F38/F63 now take BitA-twin Claims via optional ctor;
+            // register them BEFORE the BitB siblings so b.Get<>() resolves.
+            .RegisterF38BitAInvolutionInheritance()
+            .RegisterF63BitAReference()
             .RegisterF38Pi2InvolutionPi2Inheritance()
             .RegisterF63LCommutesPi2Pi2Inheritance()
             .RegisterF61BitAParityPi2Inheritance();

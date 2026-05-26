@@ -183,12 +183,21 @@ public sealed class KleinEightCellClaim : Claim, IZ2AxisClaim
     /// <summary>Cubic3 Claims do not carry a BitATwin slot.</summary>
     public Claim? BitATwin => null;
 
-    public KleinEightCellClaim()
-        : base("F88a + F102 8-cell Z₂³ decomposition: (bit_a, bit_b, y_par) → 8 cells; collapses to 4 at fixed k_body parity",
+    /// <summary>Typed Klein2 parent: <see cref="KleinFourCellClaim"/> (F88a
+    /// two-axis Π² decomposition). The Cubic3 8-cell structure is the Klein2
+    /// 4-cell structure extended by the third Z₂ axis (y_par); at fixed even
+    /// k_body it collapses back to the parent Klein 4-cell. Wired 2026-05-26.</summary>
+    public KleinFourCellClaim Klein4Parent { get; }
+
+    public KleinEightCellClaim(KleinFourCellClaim klein4)
+        : base("F88a + F102 8-cell Z₂³ decomposition: (bit_a, bit_b, y_par) → 8 cells; collapses to 4 at fixed k_body parity; typed Klein2 parent = KleinFourCellClaim",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F88a + F102 + " +
-               "docs/proofs/PROOF_F102_YPARITY_INDEPENDENCE.md")
-    { }
+               "docs/proofs/PROOF_F102_YPARITY_INDEPENDENCE.md + " +
+               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (KleinFourCellClaim, typed Klein2 parent)")
+    {
+        Klein4Parent = klein4 ?? throw new ArgumentNullException(nameof(klein4));
+    }
 
     public override string DisplayName => "Z₂³ 8-cell decomposition (bit_a, bit_b, y_par)";
 
@@ -223,6 +232,8 @@ public sealed class KleinEightCellClaim : Claim, IZ2AxisClaim
                 summary: "F103/F105/F106 enumerate (Klein × dephase × y_par × trichotomy) over Z₂³-homogeneous pairs; this 8-cell decomposition is the structural backdrop");
             yield return new InspectableNode("F88a relation",
                 summary: "F88a's Pp/Pm/Mp/Mm are the 4 (Klein, y_par-collapsed) cells at k_body=2: Pp=(0,0,0), Pm=(1,0,0), Mp=(0,1,0), Mm=(1,1,0). The 8-cell extends this with the y_par axis");
+            yield return new InspectableNode("Klein2 → Cubic3 typed parent",
+                summary: $"KleinFourCellClaim ({Klein4Parent.Tier.Label()}): Z₂² Klein-Vierergruppe (bit_a, bit_b); KleinEightCellClaim lifts this with the third Z₂ axis y_par to produce Z₂³.");
         }
     }
 }

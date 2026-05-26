@@ -8,7 +8,7 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 
 public sealed class HardCellPureDTemplateTests
 {
-    private readonly HardCellPureDTemplate _claim = new();
+    private readonly HardCellPureDTemplate _claim = new(new KleinEightCellClaim(new KleinFourCellClaim()));
 
     [Fact]
     public void Tier_IsTier1Candidate() =>

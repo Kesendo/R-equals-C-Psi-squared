@@ -25,5 +25,6 @@ public static class HardCellYInversionPatternRegistration
 {
     public static ClaimRegistryBuilder RegisterHardCellYInversionPattern(
         this ClaimRegistryBuilder builder) =>
-        builder.Register<HardCellYInversionPattern>(_ => new HardCellYInversionPattern());
+        builder.Register<HardCellYInversionPattern>(b =>
+            new HardCellYInversionPattern(b.Get<KleinEightCellClaim>()));
 }

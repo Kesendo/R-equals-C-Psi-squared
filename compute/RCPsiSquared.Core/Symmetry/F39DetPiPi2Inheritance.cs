@@ -42,14 +42,33 @@ public sealed class F39DetPiPi2Inheritance : Claim, IZ2AxisClaim
 {
 
     /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). The
-    /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X / F61 axis) is
-    /// currently not typed for this Claim.</summary>
+    /// canonical Pi²-Inheritance axis. The bit_a-twin
+    /// (Π_X / <see cref="F39DetPiBitAInheritance"/> axis) is wired via the
+    /// optional ctor parameter (registry-only); legacy unit tests construct
+    /// without it (BitATwin stays null, BitATwinStatus TrivialNotYetTyped).</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
-    /// (no bit_a twin is typed for this Claim; this is an open slot in the
-    /// cubic-architecture coverage).</summary>
-    public Claim? BitATwin => null;
+    /// <summary>The typed bit_a-twin sibling: <see cref="F39DetPiBitAInheritance"/>
+    /// (det(Π_X) = det(Π_Z)) when constructed via the registry; null when
+    /// constructed directly without the optional ctor parameter (unit-test
+    /// backward compat). Wired 2026-05-26 as a Schicht-1 closure of the
+    /// previously-open twin slot. Same pattern as F1Pi2Inheritance ↔ F61.</summary>
+    public Claim? BitATwin => BitATwinClaim;
+
+    /// <summary>Filled when constructed with the F39BitA ctor parameter
+    /// (registry path); TrivialNotYetTyped when constructed without
+    /// (legacy unit-test path).</summary>
+    public BitATwinClassification BitATwinStatus =>
+        BitATwinClaim is not null
+            ? BitATwinClassification.Filled
+            : BitATwinClassification.TrivialNotYetTyped;
+
+    /// <summary>F39's bit_a twin: <see cref="F39DetPiBitAInheritance"/>
+    /// (det(Π_X) = (−1)^{N · 4^{N−1}} = det(Π_Z) via Hadamard isometry). Wired
+    /// 2026-05-26 to close the previously TrivialNotYetTyped BitA-twin slot.
+    /// Nullable: legacy unit tests construct without the BitA twin.</summary>
+    public F39DetPiBitAInheritance? BitATwinClaim { get; }
+
     public Pi2DyadicLadderClaim Ladder { get; }
     public Pi2OperatorSpaceMirrorClaim Mirror { get; }
 
@@ -91,16 +110,21 @@ public sealed class F39DetPiPi2Inheritance : Claim, IZ2AxisClaim
     /// anchor's even-ness; false for N=1.</summary>
     public bool ExponentIsEven(int N) => ExponentValue(N) % 2 == 0;
 
-    public F39DetPiPi2Inheritance(Pi2DyadicLadderClaim ladder, Pi2OperatorSpaceMirrorClaim mirror)
-        : base("F39 det(Π) = (−1)^(N·4^(N−1)) inherits from Pi2-Foundation: 4^(N−1) = a_{3−2N} = d² for (N−1) qubits",
+    public F39DetPiPi2Inheritance(
+        Pi2DyadicLadderClaim ladder,
+        Pi2OperatorSpaceMirrorClaim mirror,
+        F39DetPiBitAInheritance? bitATwin = null)
+        : base("F39 det(Π) = (−1)^(N·4^(N−1)) inherits from Pi2-Foundation: 4^(N−1) = a_{3−2N} = d² for (N−1) qubits; BitA twin = F39BitA",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F39 + " +
                "experiments/PT_SYMMETRY_ANALYSIS.md + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
-               "compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs")
+               "compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs + " +
+               "compute/RCPsiSquared.Core/Symmetry/F39DetPiBitAInheritance.cs (typed BitA twin, registry-only)")
     {
         Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
         Mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
+        BitATwinClaim = bitATwin;
     }
 
     public override string DisplayName =>

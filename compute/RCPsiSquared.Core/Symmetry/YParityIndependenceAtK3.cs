@@ -66,13 +66,21 @@ public sealed class YParityIndependenceAtK3 : Claim, IZ2AxisClaim
         return (bitA ^ bitB) == yPar;
     }
 
-    public YParityIndependenceAtK3()
-        : base("F102 Y-parity term-level Z₂ independence at k_body≥3 (k_body=2 collapse to Klein, k_body≥3 independent)",
+    /// <summary>Typed Cubic3 parent: <see cref="KleinEightCellClaim"/>. F102 is
+    /// the first YParity-axis Claim and the structural anchor for the 8-cell
+    /// Z₂³ decomposition where y_par becomes independent of the Klein
+    /// (bit_a, bit_b) signature at k_body ≥ 3. Wired 2026-05-26.</summary>
+    public KleinEightCellClaim KleinEightParent { get; }
+
+    public YParityIndependenceAtK3(KleinEightCellClaim klein8)
+        : base("F102 Y-parity term-level Z₂ independence at k_body≥3 (k_body=2 collapse to Klein, k_body≥3 independent); typed Cubic3 parent = KleinEightCellClaim",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F102 + " +
                "docs/proofs/PROOF_F102_YPARITY_INDEPENDENCE.md + " +
-               "compute/RCPsiSquared.Core.Tests/Pauli/PauliHamiltonianKleinHelpersTests.cs")
+               "compute/RCPsiSquared.Core.Tests/Pauli/PauliHamiltonianKleinHelpersTests.cs + " +
+               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (KleinEightCellClaim, typed Cubic3 parent)")
     {
+        KleinEightParent = klein8 ?? throw new ArgumentNullException(nameof(klein8));
     }
 
     public override string DisplayName =>
@@ -96,6 +104,8 @@ public sealed class YParityIndependenceAtK3 : Claim, IZ2AxisClaim
                 summary: "Per F34/QUBIT_NECESSITY only two independent Π² operators exist (Π²_Z = X⊗N, Π²_X = Z⊗N). Y-parity is term-level, surfacing as independent classifier only at k_body≥3.");
             yield return new InspectableNode("Scope (out of scope)",
                 summary: "Stage 2a (bit_a twins), 2b (KleinEightCellClaim), 3b (Pi2KleinSpectralView 8-cell), 3c (F87 trichotomy in Z₂³) are separate specs.");
+            yield return new InspectableNode("Cubic3 anchor parent",
+                summary: $"KleinEightCellClaim ({KleinEightParent.Tier.Label()}): the Z₂³ 8-cell decomposition (bit_a, bit_b, y_par). F102 names the y_par axis where this Claim's third Z₂ classifier becomes independent at k_body ≥ 3.");
         }
     }
 }

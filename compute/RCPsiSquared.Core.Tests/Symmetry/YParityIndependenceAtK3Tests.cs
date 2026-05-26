@@ -11,21 +11,21 @@ public class YParityIndependenceAtK3Tests
     [Fact]
     public void Z2Axis_IsYParity()
     {
-        var claim = new YParityIndependenceAtK3();
+        var claim = new YParityIndependenceAtK3(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Equal(Z2Axis.YParity, claim.Z2Axis);
     }
 
     [Fact]
     public void BitATwin_IsNull()
     {
-        var claim = new YParityIndependenceAtK3();
+        var claim = new YParityIndependenceAtK3(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Null(claim.BitATwin);
     }
 
     [Fact]
     public void Tier_IsTier1Derived()
     {
-        var claim = new YParityIndependenceAtK3();
+        var claim = new YParityIndependenceAtK3(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Equal(Tier.Tier1Derived, claim.Tier);
     }
 

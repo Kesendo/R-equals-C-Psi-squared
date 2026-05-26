@@ -9,21 +9,21 @@ public class F87Z2CubedRefinementN5K3Tests
     [Fact]
     public void Z2Axis_IsYParity()
     {
-        var claim = new F87Z2CubedRefinementN5K3();
+        var claim = new F87Z2CubedRefinementN5K3(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Equal(Z2Axis.YParity, claim.Z2Axis);
     }
 
     [Fact]
     public void BitATwin_IsNull()
     {
-        var claim = new F87Z2CubedRefinementN5K3();
+        var claim = new F87Z2CubedRefinementN5K3(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Null(claim.BitATwin);
     }
 
     [Fact]
     public void Tier_IsTier1Derived()
     {
-        var claim = new F87Z2CubedRefinementN5K3();
+        var claim = new F87Z2CubedRefinementN5K3(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Equal(Tier.Tier1Derived, claim.Tier);
     }
 
@@ -35,7 +35,7 @@ public class F87Z2CubedRefinementN5K3Tests
         // chain on which we classify changes (N=4 to N=5). F85 predicts the
         // Pi2-class trichotomy is N-stable, so per-cell counts should match F103
         // bit-exactly. This was CONFIRMED by the Task 7 SLOW_F105_BATCH run.
-        var claim = new F87Z2CubedRefinementN5K3();
+        var claim = new F87Z2CubedRefinementN5K3(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Equal(5, claim.N);
         Assert.Equal(3, claim.K);
         Assert.Equal(294, claim.TotalPairs);
@@ -47,7 +47,7 @@ public class F87Z2CubedRefinementN5K3Tests
         // F87 truly classifications across all 12 (Klein x dephase) cells at N=5 k=3
         // have y_par=1 count exactly 0; total truly across the grid is 300.
         // Bit-exact match to F103 at N=4: F85 N-stability prediction confirmed.
-        var claim = new F87Z2CubedRefinementN5K3();
+        var claim = new F87Z2CubedRefinementN5K3(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Equal(0, claim.TrulyPurity.YParityOneCount);
         Assert.Equal(300, claim.TrulyPurity.TotalTrulyClassifications);
     }
@@ -58,7 +58,7 @@ public class F87Z2CubedRefinementN5K3Tests
         // Hard appears only in the diagonal Klein cells (Klein matches dephase letter).
         // Z and X dephase split 42:8 (y_par=0 dominant); Y dephase inverts to 8:42
         // because Y carries y_par=1. Each sum equals 50. Bit-exact match to F103.
-        var claim = new F87Z2CubedRefinementN5K3();
+        var claim = new F87Z2CubedRefinementN5K3(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Equal((42, 8), claim.HardDiagonal.ZDephKlein01);
         Assert.Equal((42, 8), claim.HardDiagonal.XDephKlein10);
         Assert.Equal((8, 42), claim.HardDiagonal.YDephKlein11);
@@ -78,7 +78,7 @@ public class F87Z2CubedRefinementN5K3Tests
         // The same 3 diagonal cells that host hard 42:8 also host soft 13:13 (sum 26).
         // Unlike the hard 42:8 asymmetry, soft is y_par-symmetric in these cells.
         // Bit-exact match to F103.
-        var claim = new F87Z2CubedRefinementN5K3();
+        var claim = new F87Z2CubedRefinementN5K3(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Equal((13, 13), claim.DiagonalSoft.ZDephKlein01);
         Assert.Equal((13, 13), claim.DiagonalSoft.XDephKlein10);
         Assert.Equal((13, 13), claim.DiagonalSoft.YDephKlein11);
@@ -94,7 +94,7 @@ public class F87Z2CubedRefinementN5K3Tests
     {
         // Klein (0,0) soft under any dephase letter is (0, 21): zero y_par=0 pairs,
         // 21 y_par=1 pairs. Cell sum 21. Bit-exact match to F103.
-        var claim = new F87Z2CubedRefinementN5K3();
+        var claim = new F87Z2CubedRefinementN5K3(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Equal(0, claim.MotherSoft.ZDephCounts.YPar0);
         Assert.Equal(21, claim.MotherSoft.ZDephCounts.YPar1);
         Assert.Equal(0, claim.MotherSoft.XDephCounts.YPar0);
@@ -106,7 +106,7 @@ public class F87Z2CubedRefinementN5K3Tests
     [Fact]
     public void OffDiagonalSoftPatternsHaveSixCells()
     {
-        var claim = new F87Z2CubedRefinementN5K3();
+        var claim = new F87Z2CubedRefinementN5K3(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Equal(6, claim.OffDiagonalSoft.Cells.Count);
 
         // Pattern B (3 cells): proportional to (Klein, y_par) enum breakdown.

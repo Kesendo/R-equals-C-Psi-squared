@@ -11,21 +11,21 @@ public class TrulyYParityZeroPurityTests
     [Fact]
     public void Z2Axis_IsYParity()
     {
-        var claim = new TrulyYParityZeroPurity();
+        var claim = new TrulyYParityZeroPurity(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Equal(Z2Axis.YParity, claim.Z2Axis);
     }
 
     [Fact]
     public void BitATwin_IsNull()
     {
-        var claim = new TrulyYParityZeroPurity();
+        var claim = new TrulyYParityZeroPurity(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Null(claim.BitATwin);
     }
 
     [Fact]
     public void Tier_IsTier1Derived()
     {
-        var claim = new TrulyYParityZeroPurity();
+        var claim = new TrulyYParityZeroPurity(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Equal(Tier.Tier1Derived, claim.Tier);
     }
 

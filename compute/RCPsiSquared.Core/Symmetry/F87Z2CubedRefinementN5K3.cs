@@ -31,12 +31,14 @@ public sealed class F87Z2CubedRefinementN5K3 : F87Z2CubedRefinementBase
     public override MotherSoftCounts MotherSoft { get; }
     public override OffDiagonalSoftPatterns OffDiagonalSoft { get; }
 
-    public F87Z2CubedRefinementN5K3()
-        : base("F105 Z₂³ refinement of the F87 trichotomy at N=5 k=3 (294 pairs, 5 sub-statements)",
+    public F87Z2CubedRefinementN5K3(KleinEightCellClaim klein8)
+        : base("F105 Z₂³ refinement of the F87 trichotomy at N=5 k=3 (294 pairs, 5 sub-statements); typed Cubic3 parent = KleinEightCellClaim",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F105 + " +
                "docs/proofs/PROOF_F105_F87_Z2_CUBED_REFINEMENT_N5K3.md + " +
-               "simulations/results/f87_z2cubed_split_n5_k3_counts.json")
+               "simulations/results/f87_z2cubed_split_n5_k3_counts.json + " +
+               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (KleinEightCellClaim, typed Cubic3 parent)",
+               klein8)
     {
         TrulyPurity = new TrulyCounts(
             TotalTrulyClassifications: 300,

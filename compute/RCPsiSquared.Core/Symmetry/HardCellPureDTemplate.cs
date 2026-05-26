@@ -247,8 +247,14 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
         return p.YParity == expectedYpar;
     }
 
-    public HardCellPureDTemplate()
-        : base("F111 hard-cell pure-D template rule: at k = N = 4 in diagonal Klein cell for dephase D, pair is F87-hard iff at least one term is a pure-D template. Tier1Candidate (empirical anchor F106 N = 4 k = 4 across 3 dephase letters; open subclaim Mixed+Mixed = soft closed-form).",
+    /// <summary>Typed Cubic3 parent: <see cref="KleinEightCellClaim"/>. F111
+    /// sharpens F110 Aspect B via the per-pair Pure-D Template Rule across the
+    /// Z₂³ 8-cell decomposition; KleinEightCellClaim is the structural anchor.
+    /// Wired 2026-05-26.</summary>
+    public KleinEightCellClaim KleinEightParent { get; }
+
+    public HardCellPureDTemplate(KleinEightCellClaim klein8)
+        : base("F111 hard-cell pure-D template rule: at k = N = 4 in diagonal Klein cell for dephase D, pair is F87-hard iff at least one term is a pure-D template. Tier1Candidate (empirical anchor F106 N = 4 k = 4 across 3 dephase letters; open subclaim Mixed+Mixed = soft closed-form); typed Cubic3 parent = KleinEightCellClaim.",
                Tier.Tier1Candidate,
                "docs/ANALYTICAL_FORMULAS.md F111 + " +
                "docs/proofs/PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md + " +
@@ -256,8 +262,10 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
                "docs/proofs/PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md + " +
                "docs/proofs/PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md + " +
                "docs/proofs/PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md + " +
-               "docs/proofs/PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md")
+               "docs/proofs/PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md + " +
+               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (KleinEightCellClaim, typed Cubic3 parent)")
     {
+        KleinEightParent = klein8 ?? throw new ArgumentNullException(nameof(klein8));
     }
 
     public override string DisplayName =>
@@ -299,6 +307,8 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
                          "F110 Aspect C (k=3 ratio 42:8 closed-form derivation): open per F103 Section 5. " +
                          "Pure-D Template Rule at k > 4 or N > 4: empirically unverified. " +
                          "Hardware QPU confirmation at k ≥ 3: open (no F87 QPU confirmations beyond Marrakesh k = 2).");
+            yield return new InspectableNode("Cubic3 anchor parent",
+                summary: $"KleinEightCellClaim ({KleinEightParent.Tier.Label()}): the Z₂³ 8-cell decomposition anchor for the y_par axis F111 lives on.");
         }
     }
 }

@@ -13,7 +13,9 @@ public class F39DetPiPi2InheritanceRegistrationTests
             .RegisterPi2DyadicLadder()
             .RegisterF88bPopcountCoherence()
             .RegisterF88bStaticDyadicAnchor()
-            .RegisterPi2OperatorSpaceMirror();
+            .RegisterPi2OperatorSpaceMirror()
+            // Welle 7: F39 now ctor-takes the BitA twin via optional parameter.
+            .RegisterF39DetPiBitAInheritance();
 
     [Fact]
     public void RegisterF39DetPiPi2Inheritance_AddsClaim()
@@ -87,6 +89,7 @@ public class F39DetPiPi2InheritanceRegistrationTests
             new ClaimRegistryBuilder()
                 .RegisterPi2Family()
                 .RegisterPi2DyadicLadder()
+                .RegisterF39DetPiBitAInheritance()
                 // Missing: F88b* + Pi2OperatorSpaceMirror
                 .RegisterF39DetPiPi2Inheritance()
                 .Build());

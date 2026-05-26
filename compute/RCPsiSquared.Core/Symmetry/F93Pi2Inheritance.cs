@@ -40,15 +40,26 @@ namespace RCPsiSquared.Core.Symmetry;
 public sealed class F93Pi2Inheritance : Claim, IZ2AxisClaim
 {
 
-    /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). The
-    /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X / F61 axis) is
-    /// currently not typed for this Claim.</summary>
+    /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). h_l is the
+    /// per-site longitudinal Z-detuning. The Claim docstring explicitly excludes
+    /// transverse fields h_l X_l or h_l Y_l because they break joint-popcount
+    /// conservation; the F93 formulation is Z-axis only.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
-    /// (no bit_a twin is typed for this Claim; this is an open slot in the
-    /// cubic-architecture coverage).</summary>
+    /// <summary>F93 has NO meaningful bit_a-axis twin: h_l Z_l is the
+    /// longitudinal Z-detuning, intrinsically a Z-axis parameter. The Claim
+    /// already documents that transverse h_l X_l is out of scope (breaks
+    /// joint-popcount per F61's BreakConditions). Classified as
+    /// <see cref="BitATwinClassification.BitBSpecific"/>.</summary>
     public Claim? BitATwin => null;
+
+    /// <summary>F93 is BitBSpecific: h_l Z_l is a Z-axis parameter
+    /// (longitudinal Z-detuning). Transverse h_l X_l is explicitly out of scope
+    /// per the Claim docstring (breaks joint-popcount conservation, takes F93
+    /// out of the BlockSpectrum framework entirely).</summary>
+    public BitATwinClassification BitATwinStatus =>
+        BitATwinClassification.BitBSpecific;
+
     public Pi2I4MemoryLoopClaim MemoryLoop { get; }
     /// <summary>The Z₄ closure order of the 90°-rotation R_{90}: h_l ↦ 2·h_avg − h_{N−1−l}.
     /// Four applications return to identity, matching <see cref="Pi2I4MemoryLoopClaim.ClosureOrder"/>.</summary>

@@ -114,6 +114,17 @@ public static class PolarityCubeMapRegistration
             // BitA-axis Claims (F108 Part 2+): X-dephasing analogs of the BitB-axis
             // Π²-even palindrome family
             z2AxisClaims.Add(b.Get<F108Part2Pi2XEvenAlwaysPalindromic>());
+            // Welle 7 (2026-05-26): 4 new BitA twin Claims completing the bit_a
+            // operator-identity triple (F38 / F39 / F63) plus the Z⊗N-eigenstate
+            // Mirror endpoint. Twin coverage jumps from 2/63 = 3.2% to 6/63 = 9.5%.
+            z2AxisClaims.Add(b.Get<F38BitAInvolutionInheritance>());
+            z2AxisClaims.Add(b.Get<F39DetPiBitAInheritance>());
+            z2AxisClaims.Add(b.Get<F63BitAReference>());
+            z2AxisClaims.Add(b.Get<ZGlobalEigenstateMirrorBitAInheritance>());
+            // Welle 7 drift-guard repair: F112 + F113 (LindbladBitBPi*) were
+            // registered but missing from the PolarityCubeMap inventory.
+            z2AxisClaims.Add(b.Get<LindbladBitBPiBalance>());
+            z2AxisClaims.Add(b.Get<LindbladBitBPiBreakMagnitude>());
             return new PolarityCubeMap(z2AxisClaims);
         });
 }

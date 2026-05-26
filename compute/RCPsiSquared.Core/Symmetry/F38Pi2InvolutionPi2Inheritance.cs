@@ -65,14 +65,36 @@ public sealed class F38Pi2InvolutionPi2Inheritance : Claim, IZ2AxisClaim
 {
 
     /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). The
-    /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X / F61 axis) is
-    /// currently not typed for this Claim.</summary>
+    /// canonical Pi²-Inheritance axis. The bit_a-twin
+    /// (Π²_X / <see cref="F38BitAInvolutionInheritance"/> axis) is wired via
+    /// the optional ctor parameter (registry-only); legacy unit tests
+    /// construct without it (BitATwin stays null, BitATwinStatus
+    /// TrivialNotYetTyped).</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
-    /// (no bit_a twin is typed for this Claim; this is an open slot in the
-    /// cubic-architecture coverage).</summary>
-    public Claim? BitATwin => null;
+    /// <summary>The typed bit_a-twin sibling: <see cref="F38BitAInvolutionInheritance"/>
+    /// (Π²_X = (−1)^{n_XY} on Pauli strings) when constructed via the registry;
+    /// null when constructed directly without the optional ctor parameter
+    /// (unit-test backward compat). Wired 2026-05-26 as a Schicht-1 closure
+    /// of the previously-open twin slot. Same pattern as F1Pi2Inheritance ↔ F61.</summary>
+    public Claim? BitATwin => BitATwinClaim;
+
+    /// <summary>Filled when F38Pi2InvolutionPi2Inheritance was constructed with the
+    /// F38BitA ctor parameter (registry path); TrivialNotYetTyped when constructed
+    /// without (legacy unit-test path).</summary>
+    public BitATwinClassification BitATwinStatus =>
+        BitATwinClaim is not null
+            ? BitATwinClassification.Filled
+            : BitATwinClassification.TrivialNotYetTyped;
+
+    /// <summary>F38's bit_a twin: F38BitAInvolutionInheritance (Π²_X = (−1)^{n_XY}
+    /// on the 4^N Pauli-string basis, Z↔X mirror of F38). Wired 2026-05-26 to
+    /// close the previously TrivialNotYetTyped BitA-twin slot. Nullable: legacy
+    /// unit tests construct without the BitA twin (BitATwinStatus stays
+    /// TrivialNotYetTyped); the registry-built F38 always has the twin wired
+    /// (Filled).</summary>
+    public F38BitAInvolutionInheritance? BitATwinClaim { get; }
+
     public Pi2DyadicLadderClaim Ladder { get; }
     public Pi2OperatorSpaceMirrorClaim Mirror { get; }
     public Pi2I4MemoryLoopClaim MemoryLoop { get; }
@@ -175,8 +197,9 @@ public sealed class F38Pi2InvolutionPi2Inheritance : Claim, IZ2AxisClaim
         Pi2DyadicLadderClaim ladder,
         Pi2OperatorSpaceMirrorClaim mirror,
         Pi2I4MemoryLoopClaim memoryLoop,
-        HalfAsStructuralFixedPointClaim half)
-        : base("F38 Π² = (−1)^w_YZ inherits from Pi2-Foundation: half-half split of 4^N = a_0·a_{3−2N} per sector; HalfHalfBalance = 1/2 (Half)",
+        HalfAsStructuralFixedPointClaim half,
+        F38BitAInvolutionInheritance? bitATwin = null)
+        : base("F38 Π² = (−1)^w_YZ inherits from Pi2-Foundation: half-half split of 4^N = a_0·a_{3−2N} per sector; HalfHalfBalance = 1/2 (Half); BitA twin = F38BitA",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F38 + " +
                "experiments/PT_SYMMETRY_ANALYSIS.md + " +
@@ -185,12 +208,14 @@ public sealed class F38Pi2InvolutionPi2Inheritance : Claim, IZ2AxisClaim
                "compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs + " +
-               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (HalfAsStructuralFixedPoint, typed)")
+               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (HalfAsStructuralFixedPoint, typed) + " +
+               "compute/RCPsiSquared.Core/Symmetry/F38BitAInvolutionInheritance.cs (typed BitA twin, registry-only)")
     {
         Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
         Mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
         MemoryLoop = memoryLoop ?? throw new ArgumentNullException(nameof(memoryLoop));
         Half = half ?? throw new ArgumentNullException(nameof(half));
+        BitATwinClaim = bitATwin;
     }
 
     public override string DisplayName =>

@@ -88,8 +88,14 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
     public string F87Corollary =>
         "In every F87-hard diagonal Klein cell, the dominant y_par = y_par(dephase letter). At k = 4 (F106 N=4) the dominance is full (purity); at k = 3 (F103/F105) it is biased (42:8 split). k ≥ 5 empirical confirmation open.";
 
-    public HardCellYInversionPattern()
-        : base("F110 F87-hard pairs only in diagonal Klein cells with Y-inversion (Tier1Candidate: Aspect A closed-form via F108 Part 1+2+3 + F87 dissipator-resonance; Aspect B+C empirically anchored at F103/F105/F106)",
+    /// <summary>Typed Cubic3 parent: <see cref="KleinEightCellClaim"/>. F110
+    /// pins the Y-inversion split in F87-hard diagonal cells across the Z₂³
+    /// 8-cell decomposition; KleinEightCellClaim is the structural anchor.
+    /// Wired 2026-05-26.</summary>
+    public KleinEightCellClaim KleinEightParent { get; }
+
+    public HardCellYInversionPattern(KleinEightCellClaim klein8)
+        : base("F110 F87-hard pairs only in diagonal Klein cells with Y-inversion (Tier1Candidate: Aspect A closed-form via F108 Part 1+2+3 + F87 dissipator-resonance; Aspect B+C empirically anchored at F103/F105/F106); typed Cubic3 parent = KleinEightCellClaim",
                Tier.Tier1Candidate,
                "docs/ANALYTICAL_FORMULAS.md F110 + " +
                "docs/proofs/PROOF_F110_HARD_CELL_Y_INVERSION.md + " +
@@ -97,8 +103,10 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
                "docs/proofs/PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md + " +
                "docs/proofs/PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md + " +
                "docs/proofs/PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md + " +
-               "docs/proofs/PROOF_F109_MOTHER_SOFT_Y_PARITY_ONE_PURITY.md")
+               "docs/proofs/PROOF_F109_MOTHER_SOFT_Y_PARITY_ONE_PURITY.md + " +
+               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (KleinEightCellClaim, typed Cubic3 parent)")
     {
+        KleinEightParent = klein8 ?? throw new ArgumentNullException(nameof(klein8));
     }
 
     public override string DisplayName =>
@@ -127,6 +135,8 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
                 summary: "F108 Part 1+3 (BitB-axis): close F107/F109/F110 derivation via Π_5bilinear under Z and Y dephasing. F108 Part 2 (BitA-axis, BitA twin of Part 1): closes the X-deph branch via the Z↔X Π² mirror. F108 Parts are NOT YParity-axis siblings (per their Z2Axis declarations); they are the cross-axis closure mechanism that lets Aspect A be closed-form.");
             yield return new InspectableNode("Open work",
                 summary: "Closed-form derivation of the exact 42:8 (k=3) ratio open (F103 Section 5; F111 closes the k=4 228:0 case via Pure-D Template Rule). F111 subclaim (d) Mixed+Mixed=soft closed-form blocks promotion to Tier1Derived. k ≥ 5 empirical confirmation unverified.");
+            yield return new InspectableNode("Cubic3 anchor parent",
+                summary: $"KleinEightCellClaim ({KleinEightParent.Tier.Label()}): the Z₂³ 8-cell decomposition anchor for the y_par axis F110 lives on.");
         }
     }
 }

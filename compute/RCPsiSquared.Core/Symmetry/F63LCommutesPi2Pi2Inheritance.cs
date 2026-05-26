@@ -82,14 +82,36 @@ public sealed class F63LCommutesPi2Pi2Inheritance : Claim, IZ2AxisClaim
 {
 
     /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). The
-    /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X / F61 axis) is
-    /// currently not typed for this Claim.</summary>
+    /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X /
+    /// <see cref="F63BitAReference"/> wrapping F61) is wired via the optional
+    /// ctor parameter (registry-only); legacy unit tests construct without it
+    /// (BitATwin stays null, BitATwinStatus TrivialNotYetTyped).</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
-    /// (no bit_a twin is typed for this Claim; this is an open slot in the
-    /// cubic-architecture coverage).</summary>
-    public Claim? BitATwin => null;
+    /// <summary>The typed bit_a-twin sibling: <see cref="F63BitAReference"/>
+    /// (which exposes F61BitAParityPi2Inheritance as the canonical bit_a Π²
+    /// conservation Claim) when constructed via the registry; null when
+    /// constructed directly without the optional ctor parameter (unit-test
+    /// backward compat). Wired 2026-05-26 as a Schicht-1 closure of the
+    /// previously-open twin slot. The F63BitAReference indirection breaks the
+    /// F61 → F63 → F61 cycle that direct F61 wiring would close.</summary>
+    public Claim? BitATwin => BitATwinClaim;
+
+    /// <summary>Filled when constructed with the F63BitAReference ctor parameter
+    /// (registry path); TrivialNotYetTyped when constructed without (legacy
+    /// unit-test path).</summary>
+    public BitATwinClassification BitATwinStatus =>
+        BitATwinClaim is not null
+            ? BitATwinClassification.Filled
+            : BitATwinClassification.TrivialNotYetTyped;
+
+    /// <summary>F63's bit_a twin: <see cref="F63BitAReference"/> wrapping
+    /// F61BitAParityPi2Inheritance as the canonical [L, Π²_X] = 0 Claim.
+    /// Wired 2026-05-26 via the lightweight reference Claim to avoid the
+    /// F61 → F63 → F61 ctor cycle. Nullable: legacy unit tests construct
+    /// without the BitA twin.</summary>
+    public F63BitAReference? BitATwinClaim { get; }
+
     public F38Pi2InvolutionPi2Inheritance F38 { get; }
     public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>The number of independent Z₂ symmetries L admits per F61 + F63:
@@ -179,8 +201,9 @@ public sealed class F63LCommutesPi2Pi2Inheritance : Claim, IZ2AxisClaim
 
     public F63LCommutesPi2Pi2Inheritance(
         F38Pi2InvolutionPi2Inheritance f38,
-        Pi2DyadicLadderClaim ladder)
-        : base("F63 [L, Π²] = 0 inherits from Pi2-Foundation: 4-block decomposition with 4^(N−1) per block",
+        Pi2DyadicLadderClaim ladder,
+        F63BitAReference? bitATwin = null)
+        : base("F63 [L, Π²] = 0 inherits from Pi2-Foundation: 4-block decomposition with 4^(N−1) per block; BitA twin = F63BitAReference (wraps F61)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F63 + " +
                "docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md + " +
@@ -188,10 +211,12 @@ public sealed class F63LCommutesPi2Pi2Inheritance : Claim, IZ2AxisClaim
                "simulations/primordial_bit_a_bit_b_N_scaling.py + " +
                "simulations/mirror_mode_split_formula.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F38Pi2InvolutionPi2Inheritance.cs + " +
-               "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
+               "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
+               "compute/RCPsiSquared.Core/Symmetry/F63BitAReference.cs (typed BitA twin via F61, registry-only)")
     {
         F38 = f38 ?? throw new ArgumentNullException(nameof(f38));
         Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
+        BitATwinClaim = bitATwin;
     }
 
     public override string DisplayName =>

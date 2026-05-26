@@ -31,6 +31,8 @@ public static class F39DetPiPi2InheritanceRegistration
         {
             var ladder = b.Get<Pi2DyadicLadderClaim>();
             var mirror = b.Get<Pi2OperatorSpaceMirrorClaim>();
-            return new F39DetPiPi2Inheritance(ladder, mirror);
+            // Welle 7 (2026-05-26): wire the BitA twin closure.
+            var bitATwin = b.Get<F39DetPiBitAInheritance>();
+            return new F39DetPiPi2Inheritance(ladder, mirror, bitATwin);
         });
 }

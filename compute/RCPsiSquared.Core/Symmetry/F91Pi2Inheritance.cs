@@ -36,15 +36,25 @@ namespace RCPsiSquared.Core.Symmetry;
 public sealed class F91Pi2Inheritance : Claim, IZ2AxisClaim
 {
 
-    /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). The
-    /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X / F61 axis) is
-    /// currently not typed for this Claim.</summary>
+    /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). γ_l is the
+    /// per-site Z-dephasing rate, intrinsically tied to the Z-axis dissipator
+    /// algebra; the dephasing operator selects the bit_b axis by construction.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
-    /// (no bit_a twin is typed for this Claim; this is an open slot in the
-    /// cubic-architecture coverage).</summary>
+    /// <summary>F91 has NO meaningful bit_a-axis twin: γ_l is the per-site
+    /// Z-dephasing rate, a Z-axis parameter. The bit_a analog (X-dephasing
+    /// orbit) is covered by separate Claims on the X-deph branch (F108 Part 2 +
+    /// future BitA-axis Claims). F91's Z-deph-specific Z₄ orbit is
+    /// <see cref="BitATwinClassification.BitBSpecific"/>: the dephasing operator
+    /// is Z-axis-specific in this formulation.</summary>
     public Claim? BitATwin => null;
+
+    /// <summary>F91 is BitBSpecific: γ_l is a Z-axis parameter (per-site
+    /// Z-dephasing rate). No bit_a-axis analog exists in this formulation; the
+    /// X-deph orbit lives on a separate axis.</summary>
+    public BitATwinClassification BitATwinStatus =>
+        BitATwinClassification.BitBSpecific;
+
     public Pi2I4MemoryLoopClaim MemoryLoop { get; }
     /// <summary>The Z₄ closure order of the 90°-rotation R_{90}: γ_l ↦ 2·γ_avg − γ_{N−1−l}.
     /// Four applications return to identity, matching <see cref="Pi2I4MemoryLoopClaim.ClosureOrder"/>.</summary>

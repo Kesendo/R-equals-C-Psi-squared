@@ -70,15 +70,25 @@ namespace RCPsiSquared.Core.Symmetry;
 public sealed class F82T1AmplitudeDampingPi2Inheritance : Claim, IZ2AxisClaim
 {
 
-    /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). The
-    /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X / F61 axis) is
-    /// currently not typed for this Claim.</summary>
+    /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). T1 amplitude
+    /// damping (σ⁻/σ⁺ jump operators) intrinsically breaks bit_a Z₂ per F61's
+    /// documented BreakConditions, so no meaningful bit_a-axis twin exists.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
-    /// (no bit_a twin is typed for this Claim; this is an open slot in the
-    /// cubic-architecture coverage).</summary>
+    /// <summary>F82 has NO meaningful bit_a-axis twin: T1 amplitude damping
+    /// σ⁻/σ⁺ jump operators flip bit_a per F61's BreakConditions ("amplitude
+    /// damping flips bit_a"). Classified as
+    /// <see cref="BitATwinClassification.BitBSpecific"/>; same break mechanism
+    /// as <see cref="F1T1AmplitudeDampingPi2Inheritance"/>.</summary>
     public Claim? BitATwin => null;
+
+    /// <summary>F82 is BitBSpecific: the T1 dissipator (σ⁻/σ⁺) flips bit_a per
+    /// F61's BreakConditions table. No bit_a-axis analog is possible because the
+    /// operation generating F82's content (single-site amplitude damping)
+    /// intrinsically violates bit_a Z₂ symmetry. No filling work required.</summary>
+    public BitATwinClassification BitATwinStatus =>
+        BitATwinClassification.BitBSpecific;
+
     public Pi2DyadicLadderClaim Ladder { get; }
     public F81Pi2Inheritance F81 { get; }
     /// <summary>The "2" coefficient in F82's <c>−2·L_{H_odd} − 2·D_{T1, odd}</c>.

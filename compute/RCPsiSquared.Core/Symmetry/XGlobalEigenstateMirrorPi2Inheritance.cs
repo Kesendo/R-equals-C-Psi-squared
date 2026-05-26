@@ -60,14 +60,32 @@ public sealed class XGlobalEigenstateMirrorPi2Inheritance : Claim, IF99AnchorBea
 {
 
     /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). The
-    /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X / F61 axis) is
-    /// currently not typed for this Claim.</summary>
+    /// canonical Pi²-Inheritance axis. The bit_a-twin (Z⊗N-eigenstate Mirror /
+    /// <see cref="ZGlobalEigenstateMirrorBitAInheritance"/>) is wired via the
+    /// optional ctor parameter (registry-only); legacy unit tests construct
+    /// without it (BitATwin stays null, BitATwinStatus TrivialNotYetTyped).</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
-    /// (no bit_a twin is typed for this Claim; this is an open slot in the
-    /// cubic-architecture coverage).</summary>
-    public Claim? BitATwin => null;
+    /// <summary>The typed bit_a-twin sibling: <see cref="ZGlobalEigenstateMirrorBitAInheritance"/>
+    /// (Z⊗N|ψ⟩ = ±|ψ⟩ ⟹ α = 0 on the bit_a axis) when constructed via the
+    /// registry; null when constructed directly without the optional ctor
+    /// parameter (unit-test backward compat). Wired 2026-05-26 as a Schicht-1
+    /// closure of the previously-open twin slot.</summary>
+    public Claim? BitATwin => BitATwinClaim;
+
+    /// <summary>Filled when constructed with the Z-version ctor parameter
+    /// (registry path); TrivialNotYetTyped when constructed without (legacy
+    /// unit-test path).</summary>
+    public BitATwinClassification BitATwinStatus =>
+        BitATwinClaim is not null
+            ? BitATwinClassification.Filled
+            : BitATwinClassification.TrivialNotYetTyped;
+
+    /// <summary>The bit_a twin Claim: <see cref="ZGlobalEigenstateMirrorBitAInheritance"/>.
+    /// Wired 2026-05-26 to close the previously TrivialNotYetTyped BitA-twin
+    /// slot. Nullable: legacy unit tests construct without the BitA twin.</summary>
+    public ZGlobalEigenstateMirrorBitAInheritance? BitATwinClaim { get; }
+
     /// <summary>The Half polarity parent: 2·(1/2) = 1 gives the X⊗N
     /// eigenvalue endpoints γ = ±1.</summary>
     public HalfAsStructuralFixedPointClaim Half { get; }
@@ -104,14 +122,18 @@ public sealed class XGlobalEigenstateMirrorPi2Inheritance : Claim, IF99AnchorBea
     public static double AlphaFromGammaAtMirror(double gamma = GammaAtMirror) =>
         (1.0 - gamma * gamma) / 2.0;
 
-    public XGlobalEigenstateMirrorPi2Inheritance(HalfAsStructuralFixedPointClaim half)
-        : base("X⊗N-eigenstate Mirror anchor (α=0 at γ=1): the F99/DickeAnchor 0°-endpoint as a typed Direct claim",
+    public XGlobalEigenstateMirrorPi2Inheritance(
+        HalfAsStructuralFixedPointClaim half,
+        ZGlobalEigenstateMirrorBitAInheritance? bitATwin = null)
+        : base("X⊗N-eigenstate Mirror anchor (α=0 at γ=1): the F99/DickeAnchor 0°-endpoint as a typed Direct claim; BitA twin = ZGlobalEigenstateMirrorBitA",
                Tier.Tier1Derived,
                "compute/RCPsiSquared.Core/Symmetry/DickeAnchor.cs (Mirror case in 3-anchor enum) + " +
                "compute/RCPsiSquared.Core/Symmetry/CanonicalTrigAnchorPi2Inheritance.cs (F99 0°-anchor in Covers theorem) + " +
-               "compute/RCPsiSquared.Core/Symmetry/KIntermediateAsymptoteQuarterInheritance.cs (F98 sibling at KIntermediate α=3/8)")
+               "compute/RCPsiSquared.Core/Symmetry/KIntermediateAsymptoteQuarterInheritance.cs (F98 sibling at KIntermediate α=3/8) + " +
+               "compute/RCPsiSquared.Core/Symmetry/ZGlobalEigenstateMirrorBitAInheritance.cs (typed BitA twin, registry-only)")
     {
         Half = half ?? throw new ArgumentNullException(nameof(half));
+        BitATwinClaim = bitATwin;
     }
 
     public override string DisplayName =>

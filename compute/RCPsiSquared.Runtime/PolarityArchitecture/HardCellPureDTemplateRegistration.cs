@@ -26,5 +26,6 @@ public static class HardCellPureDTemplateRegistration
 {
     public static ClaimRegistryBuilder RegisterHardCellPureDTemplate(
         this ClaimRegistryBuilder builder) =>
-        builder.Register<HardCellPureDTemplate>(_ => new HardCellPureDTemplate());
+        builder.Register<HardCellPureDTemplate>(b =>
+            new HardCellPureDTemplate(b.Get<KleinEightCellClaim>()));
 }

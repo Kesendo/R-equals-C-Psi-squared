@@ -36,6 +36,9 @@ public static class F63LCommutesPi2Pi2InheritanceRegistration
         {
             var f38 = b.Get<F38Pi2InvolutionPi2Inheritance>();
             var ladder = b.Get<Pi2DyadicLadderClaim>();
-            return new F63LCommutesPi2Pi2Inheritance(f38, ladder);
+            // Welle 7 (2026-05-26): wire the BitA twin closure via F63BitAReference
+            // (which wraps F61, breaking the F61 → F63 → F61 ctor cycle).
+            var bitATwin = b.Get<F63BitAReference>();
+            return new F63LCommutesPi2Pi2Inheritance(f38, ladder, bitATwin);
         });
 }

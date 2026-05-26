@@ -43,9 +43,20 @@ public abstract class F87Z2CubedRefinementBase : Claim, IZ2AxisClaim
     public abstract MotherSoftCounts MotherSoft { get; }
     public abstract OffDiagonalSoftPatterns OffDiagonalSoft { get; }
 
-    protected F87Z2CubedRefinementBase(string displayName, Tier tier, string anchor)
+    /// <summary>Typed Cubic3 parent: <see cref="KleinEightCellClaim"/>. The F87
+    /// Z₂³ refinement family enumerates pairs across the 8-cell decomposition
+    /// (Klein × dephase letter × y_par × trichotomy class); KleinEightCellClaim
+    /// is the structural anchor. Wired 2026-05-26.</summary>
+    public KleinEightCellClaim KleinEightParent { get; }
+
+    protected F87Z2CubedRefinementBase(
+        string displayName,
+        Tier tier,
+        string anchor,
+        KleinEightCellClaim klein8)
         : base(displayName, tier, anchor)
     {
+        KleinEightParent = klein8 ?? throw new ArgumentNullException(nameof(klein8));
     }
 
     public override string Summary =>
@@ -79,6 +90,8 @@ public abstract class F87Z2CubedRefinementBase : Claim, IZ2AxisClaim
                 summary: $"Z-deph = {MotherSoft.ZDephCounts}; X-deph = {MotherSoft.XDephCounts}; Y-deph = {MotherSoft.YDephCounts}");
             yield return new InspectableNode("Off-diagonal soft patterns",
                 summary: $"{OffDiagonalSoft.Cells.Count} cells; keys: (KleinA, KleinB, Dephase) -> (y0, y1); see Cells property");
+            yield return new InspectableNode("Cubic3 anchor parent",
+                summary: $"KleinEightCellClaim ({KleinEightParent.Tier.Label()}): the (bit_a, bit_b, y_par) 8-cell decomposition that this F87 Z₂³ refinement enumerates pairs across.");
         }
     }
 }

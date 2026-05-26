@@ -42,6 +42,9 @@ public static class F38Pi2InvolutionPi2InheritanceRegistration
             var mirror = b.Get<Pi2OperatorSpaceMirrorClaim>();
             var memoryLoop = b.Get<Pi2I4MemoryLoopClaim>();
             var half = b.Get<HalfAsStructuralFixedPointClaim>();
-            return new F38Pi2InvolutionPi2Inheritance(ladder, mirror, memoryLoop, half);
+            // Welle 7 (2026-05-26): wire the BitA twin closure. F38BitA must be
+            // registered earlier in the factory pipeline. Same pattern as F1 ↔ F61.
+            var bitATwin = b.Get<F38BitAInvolutionInheritance>();
+            return new F38Pi2InvolutionPi2Inheritance(ladder, mirror, memoryLoop, half, bitATwin);
         });
 }

@@ -69,13 +69,20 @@ public sealed class TrulyYParityZeroPurity : Claim, IZ2AxisClaim
         return term.YParity == 0;
     }
 
-    public TrulyYParityZeroPurity()
-        : base("F107 F87 truly classification forces y_par = 0 (closed-form corollary of F85, all dephase letters)",
+    /// <summary>Typed Cubic3 parent: <see cref="KleinEightCellClaim"/>. F107
+    /// classifies pairs on the y_par axis of the Z₂³ 8-cell decomposition;
+    /// KleinEightCellClaim is the structural anchor. Wired 2026-05-26.</summary>
+    public KleinEightCellClaim KleinEightParent { get; }
+
+    public TrulyYParityZeroPurity(KleinEightCellClaim klein8)
+        : base("F107 F87 truly classification forces y_par = 0 (closed-form corollary of F85, all dephase letters); typed Cubic3 parent = KleinEightCellClaim",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F107 + " +
                "docs/proofs/PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md + " +
-               "docs/proofs/PROOF_F85_KBODY_GENERALIZATION.md")
+               "docs/proofs/PROOF_F85_KBODY_GENERALIZATION.md + " +
+               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (KleinEightCellClaim, typed Cubic3 parent)")
     {
+        KleinEightParent = klein8 ?? throw new ArgumentNullException(nameof(klein8));
     }
 
     public override string DisplayName =>
@@ -104,6 +111,8 @@ public sealed class TrulyYParityZeroPurity : Claim, IZ2AxisClaim
                          "mother sector Klein (0,0) soft pairs have y_par=1 across all dephase letters. " +
                          "F110 (HardCellYInversionPattern, Tier1Candidate, typed 2026-05-25): hard cells y_par-asymmetric " +
                          "with Y-inversion. Together F107+F109+F110 pin the y_par signature of all three F87 trichotomy classes.");
+            yield return new InspectableNode("Cubic3 anchor parent",
+                summary: $"KleinEightCellClaim ({KleinEightParent.Tier.Label()}): the Z₂³ 8-cell decomposition (bit_a, bit_b, y_par) anchoring the y_par axis F107 lives on.");
         }
     }
 }

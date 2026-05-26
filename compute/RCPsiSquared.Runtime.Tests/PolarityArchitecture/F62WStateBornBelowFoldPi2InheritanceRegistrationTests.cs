@@ -15,6 +15,9 @@ public class F62WStateBornBelowFoldPi2InheritanceRegistrationTests
             .RegisterF88bStaticDyadicAnchor()
             .RegisterPi2OperatorSpaceMirror()
             .RegisterPi2I4MemoryLoop()
+            // Welle 7: F38 and F63 now ctor-take BitA twin Claims via optional params.
+            .RegisterF38BitAInvolutionInheritance()
+            .RegisterF63BitAReference()
             .RegisterF38Pi2InvolutionPi2Inheritance()
             .RegisterF63LCommutesPi2Pi2Inheritance()
             .RegisterF61BitAParityPi2Inheritance();

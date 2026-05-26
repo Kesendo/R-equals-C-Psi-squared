@@ -75,15 +75,24 @@ namespace RCPsiSquared.Core.Symmetry;
 public sealed class F84ThermalAmplitudeDampingPi2Inheritance : Claim, IZ2AxisClaim
 {
 
-    /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). The
-    /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X / F61 axis) is
-    /// currently not typed for this Claim.</summary>
+    /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). Thermal
+    /// amplitude damping (σ⁻ cooling + σ⁺ heating at unequal rates) inherits
+    /// F82's bit_a-flipping mechanism per F61's BreakConditions, so no meaningful
+    /// bit_a-axis twin exists.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
-    /// (no bit_a twin is typed for this Claim; this is an open slot in the
-    /// cubic-architecture coverage).</summary>
+    /// <summary>F84 has NO meaningful bit_a-axis twin: thermal amplitude damping
+    /// uses the same σ⁻/σ⁺ jump operators as F82 (with unequal rates
+    /// γ_↓ ≠ γ_↑), and the σ⁻/σ⁺ jumps flip bit_a per F61's BreakConditions.
+    /// Classified as <see cref="BitATwinClassification.BitBSpecific"/>.</summary>
     public Claim? BitATwin => null;
+
+    /// <summary>F84 is BitBSpecific: thermal amplitude damping σ⁻/σ⁺ at unequal
+    /// rates inherits F82's break mechanism per F61's BreakConditions. No
+    /// filling work required.</summary>
+    public BitATwinClassification BitATwinStatus =>
+        BitATwinClassification.BitBSpecific;
+
     public Pi2DyadicLadderClaim Ladder { get; }
     public F82T1AmplitudeDampingPi2Inheritance F82 { get; }
     /// <summary>The "2" coefficient in F84's <c>−2·L_{H_odd} − 2·D_{AmplDamp, odd}</c>.

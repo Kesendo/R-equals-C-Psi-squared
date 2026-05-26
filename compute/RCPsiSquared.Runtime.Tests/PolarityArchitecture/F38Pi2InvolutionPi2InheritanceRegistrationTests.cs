@@ -14,7 +14,9 @@ public class F38Pi2InvolutionPi2InheritanceRegistrationTests
             .RegisterF88bPopcountCoherence()
             .RegisterF88bStaticDyadicAnchor()
             .RegisterPi2OperatorSpaceMirror()
-            .RegisterPi2I4MemoryLoop();
+            .RegisterPi2I4MemoryLoop()
+            // Welle 7: F38 now ctor-takes the BitA twin via optional parameter.
+            .RegisterF38BitAInvolutionInheritance();
 
     [Fact]
     public void RegisterF38_AddsClaim()
@@ -124,6 +126,7 @@ public class F38Pi2InvolutionPi2InheritanceRegistrationTests
                 .RegisterF88bPopcountCoherence()
                 .RegisterF88bStaticDyadicAnchor()
                 .RegisterPi2OperatorSpaceMirror()
+                .RegisterF38BitAInvolutionInheritance()
                 // Missing: Pi2I4MemoryLoop
                 .RegisterF38Pi2InvolutionPi2Inheritance()
                 .Build());
@@ -137,6 +140,7 @@ public class F38Pi2InvolutionPi2InheritanceRegistrationTests
                 .RegisterPi2Family()
                 .RegisterPi2DyadicLadder()
                 .RegisterPi2I4MemoryLoop()
+                .RegisterF38BitAInvolutionInheritance()
                 // Missing: F88b* + Pi2OperatorSpaceMirror
                 .RegisterF38Pi2InvolutionPi2Inheritance()
                 .Build());

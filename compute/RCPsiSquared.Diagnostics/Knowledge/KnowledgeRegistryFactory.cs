@@ -89,6 +89,16 @@ public static class KnowledgeRegistryFactory
             // F63 + F61 registered first because F1Pi2Inheritance now ctor-takes F61 as
             // its bit_a-twin (2026-05-25 closure of the TrivialNotYetTyped twin slot);
             // F61 in turn takes F63 which takes F38.
+            //
+            // Welle 7 (2026-05-26) Track A: register the 4 new BitA twin Claims that
+            // the BitB siblings (F38, F39, F63, X-Mirror) now take as optional ctor
+            // parents. F38BitA / F39BitA / X-Mirror-Z-BitA are standalone (no ctor
+            // parents); F63BitAReference is also standalone (F61 link in docstring
+            // only, to avoid the F61 → F63 → F61 cycle). All four are Tier1Derived.
+            .RegisterF38BitAInvolutionInheritance()
+            .RegisterF39DetPiBitAInheritance()
+            .RegisterF63BitAReference()
+            .RegisterZGlobalEigenstateMirrorBitAInheritance()
             .RegisterF38Pi2InvolutionPi2Inheritance()
             .RegisterF63LCommutesPi2Pi2Inheritance()
             .RegisterF61BitAParityPi2Inheritance()
@@ -178,6 +188,13 @@ public static class KnowledgeRegistryFactory
             .RegisterF86HwhmClosedFormClaim()
             .RegisterIbmBlockCpsiHardwareTable()
             .RegisterPolarityPairQPeakDecompositionClaim()
+            // Cubic3-axis (Stage 2b): the 8-cell Z₂³ decomposition (bit_a, bit_b, y_par).
+            // First Cubic3-axis Claim; PolarityCubeMap's Cubic3Claims grows from 0 to 1.
+            // Structural anchor for F87 Z₂³ refinement work (F103/F105/F106). Must be
+            // registered BEFORE every YParity-axis Claim below because Welle 7 wired
+            // those Claims to take KleinEightCellClaim as a typed ctor parent (2026-05-26),
+            // formalising the Klein2 → Cubic3 → YParity inheritance chain.
+            .RegisterKleinEightCellClaim()
             // YParity-axis seed (F102): standalone Tier1Derived Claim filling the cubic
             // Z₂³ architecture's YParity slot. Must come AFTER every Pi²-Inheritance Claim
             // above but BEFORE RegisterPolarityCubeMap so the cube map's b.Get<...>()
@@ -222,10 +239,6 @@ public static class KnowledgeRegistryFactory
             // F106 N=4 k=4 across 3 dephase letters; open subclaim Mixed+Mixed = soft
             // closed-form). PolarityCubeMap's YParityClaims grows from 7 to 8.
             .RegisterHardCellPureDTemplate()
-            // Cubic3-axis (Stage 2b): the 8-cell Z₂³ decomposition (bit_a, bit_b, y_par).
-            // First Cubic3-axis Claim; PolarityCubeMap's Cubic3Claims grows from 0 to 1.
-            // Structural anchor for F87 Z₂³ refinement work (F103/F105/F106).
-            .RegisterKleinEightCellClaim()
             // BitA-axis F108 Part 2: Π²_X-even H + X-dephasing admits exact
             // operator-level palindrome (X-deph variant of Π_5bilinear). BitA twin
             // of F108 Part 1; must be registered BEFORE Part 1 (ctor parent).

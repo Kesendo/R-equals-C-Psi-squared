@@ -84,8 +84,14 @@ public sealed class MotherSoftYParityOnePurity : Claim, IZ2AxisClaim
         return term.YParity == 1;
     }
 
-    public MotherSoftYParityOnePurity()
-        : base("F109 mother sector Klein (0,0) soft is y_par=1 pure (fully unconditional Tier1Derived across all three dephase letters after F108 Part 1+2+3 closure)",
+    /// <summary>Typed Cubic3 parent: <see cref="KleinEightCellClaim"/>. F109
+    /// pins the y_par=1 purity of mother Klein (0,0) soft cells across the Z₂³
+    /// 8-cell decomposition; KleinEightCellClaim is the structural anchor.
+    /// Wired 2026-05-26.</summary>
+    public KleinEightCellClaim KleinEightParent { get; }
+
+    public MotherSoftYParityOnePurity(KleinEightCellClaim klein8)
+        : base("F109 mother sector Klein (0,0) soft is y_par=1 pure (fully unconditional Tier1Derived across all three dephase letters after F108 Part 1+2+3 closure); typed Cubic3 parent = KleinEightCellClaim",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F109 + " +
                "docs/proofs/PROOF_F109_MOTHER_SOFT_Y_PARITY_ONE_PURITY.md + " +
@@ -93,8 +99,10 @@ public sealed class MotherSoftYParityOnePurity : Claim, IZ2AxisClaim
                "docs/proofs/PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md + " +
                "docs/proofs/PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md + " +
                "docs/proofs/PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md + " +
-               "docs/proofs/PROOF_F85_KBODY_GENERALIZATION.md")
+               "docs/proofs/PROOF_F85_KBODY_GENERALIZATION.md + " +
+               "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (KleinEightCellClaim, typed Cubic3 parent)")
     {
+        KleinEightParent = klein8 ?? throw new ArgumentNullException(nameof(klein8));
     }
 
     public override string DisplayName =>
@@ -126,6 +134,8 @@ public sealed class MotherSoftYParityOnePurity : Claim, IZ2AxisClaim
                 summary: "F110 (HardCellYInversionPattern, Tier1Candidate, typed 2026-05-25): hard cells y_par-asymmetric " +
                          "with Y-inversion; completes the y_par-axis F87 trichotomy classification together with F107 (truly) " +
                          "and F109 (mother soft). Closed-form 42:8/228:0 derivation per Pauli-letter combinatorics open.");
+            yield return new InspectableNode("Cubic3 anchor parent",
+                summary: $"KleinEightCellClaim ({KleinEightParent.Tier.Label()}): the Z₂³ 8-cell decomposition anchor for the y_par axis F109 lives on.");
         }
     }
 }
