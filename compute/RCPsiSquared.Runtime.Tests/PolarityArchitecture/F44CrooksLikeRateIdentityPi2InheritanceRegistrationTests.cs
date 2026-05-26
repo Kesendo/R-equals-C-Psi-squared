@@ -20,6 +20,16 @@ public class F44CrooksLikeRateIdentityPi2InheritanceRegistrationTests
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
             .RegisterPi2I4MemoryLoop()
+            // Welle 7 (2026-05-25) wired F1 → F61 chain; expand deps so
+            // F1Pi2Inheritance resolves. See F1Pi2InheritanceRegistrationTests.
+            .RegisterF88bPopcountCoherence()
+            .RegisterF88bStaticDyadicAnchor()
+            .RegisterPi2OperatorSpaceMirror()
+            .RegisterF38BitAInvolutionInheritance()
+            .RegisterF63BitAReference()
+            .RegisterF38Pi2InvolutionPi2Inheritance()
+            .RegisterF63LCommutesPi2Pi2Inheritance()
+            .RegisterF61BitAParityPi2Inheritance()
             .RegisterF1Pi2Inheritance();
 
     [Fact]

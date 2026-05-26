@@ -20,10 +20,17 @@ public class F79TwoBodyPi2BlockPi2InheritanceRegistrationTests
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
             .RegisterPi2I4MemoryLoop()
-            .RegisterF1Pi2Inheritance()
             .RegisterF88bPopcountCoherence()
             .RegisterF88bStaticDyadicAnchor()
-            .RegisterPi2OperatorSpaceMirror();
+            .RegisterPi2OperatorSpaceMirror()
+            // Welle 7 (2026-05-25) wired F1 → F61 chain (F38/F63/F61 BitA twins);
+            // see F1Pi2InheritanceRegistrationTests.
+            .RegisterF38BitAInvolutionInheritance()
+            .RegisterF63BitAReference()
+            .RegisterF38Pi2InvolutionPi2Inheritance()
+            .RegisterF63LCommutesPi2Pi2Inheritance()
+            .RegisterF61BitAParityPi2Inheritance()
+            .RegisterF1Pi2Inheritance();
 
     [Fact]
     public void RegisterF79_AddsClaim()

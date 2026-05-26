@@ -23,10 +23,17 @@ public class F86F71MirrorPi2InheritanceRegistrationTests
             .RegisterPi2DyadicLadder()
             .RegisterPi2I4MemoryLoop()
             .RegisterF71Family(N: 5)
-            .RegisterF1Pi2Inheritance()
             .RegisterF88bPopcountCoherence()
             .RegisterF88bStaticDyadicAnchor()
             .RegisterPi2OperatorSpaceMirror()
+            // Welle 7 (2026-05-25) wired F1 → F61 chain; expand deps so
+            // F1Pi2Inheritance resolves. See F1Pi2InheritanceRegistrationTests.
+            .RegisterF38BitAInvolutionInheritance()
+            .RegisterF63BitAReference()
+            .RegisterF38Pi2InvolutionPi2Inheritance()
+            .RegisterF63LCommutesPi2Pi2Inheritance()
+            .RegisterF61BitAParityPi2Inheritance()
+            .RegisterF1Pi2Inheritance()
             .RegisterHalfIntegerMirror(5)
             .RegisterF71MirrorSymmetryPi2Inheritance();
 
