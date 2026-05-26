@@ -1,9 +1,9 @@
-# F112 Non-Hermitian Extension: Basis-Enumeration Proof at N=2, 3, 4
+# F112 Non-Hermitian Extension: Basis-Enumeration Proof at N=2, 3, 4, 5
 
-**Status:** Constructive proof of the F112 non-Hermitian extension at N ≤ 4 via Pauli-basis enumeration. Reduces the open identity `Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0` to a bilinear basis-spanning check; all 35,112 distinct ordered Pauli-string pairs across N=2, 3, 4 give bit-exact 0. Universal-N lift remains open.
-**Date:** 2026-05-26
+**Status:** Constructive proof of the F112 non-Hermitian extension at N ≤ 5 via Pauli-basis enumeration. Reduces the open identity `Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0` to a bilinear basis-spanning check; all 559,912 distinct upper-triangular Pauli-string pairs across N=2, 3, 4, 5 give Im < 1e-10 (with N=2..4 bit-exact 0.0e+00; N=5 verified by both Python and C# pipelines, see below). Universal-N lift remains open for N ≥ 6.
+**Date:** 2026-05-26 (initial N≤4); Welle 10b 2026-05-26 (extended to N=5)
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Script:** [`simulations/_f112_open_identity_basis_enum.py`](../simulations/_f112_open_identity_basis_enum.py)
+**Scripts:** Python [`simulations/_f112_open_identity_basis_enum.py`](../simulations/_f112_open_identity_basis_enum.py) (N=2..5) + C# [`compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs`](../compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs) (N=2..5 via SLOW_F112-tagged test, parallelized via Parallel.For/ForEach)
 **Connects:** [PROOF_F112](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md), [F112 ANALYTICAL_FORMULAS entry](../docs/ANALYTICAL_FORMULAS.md), [LindbladBitBPiBalance](../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs)
 
 ## The open identity
@@ -26,28 +26,31 @@ Two algebraic observations:
 
 ## Numerical enumeration result
 
-The script `_f112_open_identity_basis_enum.py` enumerates F on all upper-triangular Pauli-string pairs at N=2, 3, 4:
+The script `_f112_open_identity_basis_enum.py` enumerates F on all upper-triangular Pauli-string pairs at N=2, 3, 4. Welle 10b adds N=5 via two independent pipelines:
 
-| N | distinct ordered pairs | max \|Im F\| | bit-exact 0? |
-|---|---|---|---|
-| 2 | 136 | 0.0000e+00 | YES |
-| 3 | 2,080 | 0.0000e+00 | YES |
-| 4 | 32,896 | 0.0000e+00 | YES |
+| N | distinct upper-triangular pairs | max \|Im F\| | pipeline | wall time |
+|---|---|---|---|---|
+| 2 | 136 | 0.0000e+00 | Python + C# | < 1 sec each |
+| 3 | 2,080 | 0.0000e+00 | Python + C# | < 1 sec each |
+| 4 | 32,896 | 0.0000e+00 | Python + C# | ~25 sec each |
+| 5 | 524,800 | 0.0000e+00 (Python); < 1e-10 (C#) | Python + C# | Python 90.7 min; C# 2 h 45 m (outerDop=6) → ~85 min (outerDop=24 forecast after Welle 10c) |
 
-All 35,112 pair F-values across N=2, 3, 4 are bit-exact 0 (less than the 1e-10 threshold; floating-point rounding errors would be expected to give values of order machine epsilon ~1e-15 if F were merely numerically small but structurally non-zero, so observing exact 0 is itself information). The bit_b-parity breakdown also gives bit-exact 0 in each of the four (α_bit_b, β_bit_b) cells separately, confirming this is not a sum-cancellation artifact restricted to specific bit_b sectors.
+All 559,912 pair F-values across N=2, 3, 4, 5 give Im below the 1e-10 threshold (N=2..4 bit-exact 0.0e+00; N=5 verified by Python with bit-exact 0.0e+00 across 524,800 pairs, and re-verified independently in C# via SLOW_F112-tagged xUnit test with MaxImaginary < 1e-10). The bit_b-parity breakdown also gives bit-exact 0 in each of the four (α_bit_b, β_bit_b) cells separately at every N tested, confirming this is not a sum-cancellation artifact restricted to specific bit_b sectors.
+
+The C# pipeline runs on the canonical typed-knowledge layer; both pipelines use the same algorithm (build L_α,-i per Pauli string, then Frobenius inner product per upper-triangular pair) and share the Π conjugation construction up to language-level differences.
 
 ## Conclusion
 
-**F112 non-Hermitian extension is proven at N=2, 3, 4** by the basis-spanning argument: the open identity Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0 holds bit-exactly on every basis pair, hence by bilinearity it holds for every pair of Hermitian H_re, H_im at these N. The F112 Tier1Candidate non-Hermitian scope is upgraded to:
+**F112 non-Hermitian extension is proven at N=2, 3, 4, 5** by the basis-spanning argument: the open identity Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0 holds on every basis pair (bit-exact at N=2..4, < 1e-10 at N=5), hence by bilinearity it holds for every pair of Hermitian H_re, H_im at these N. The F112 Tier1Candidate non-Hermitian scope is upgraded to:
 
-- **Tier1Derived at N=2, 3, 4** (constructive enumeration proof).
-- **Tier1Candidate for N ≥ 5** (empirical-only, pending higher-N enumeration or structural lifting argument).
+- **Tier1Derived at N=2, 3, 4, 5** (constructive enumeration proof, 559,912 pairs total).
+- **Tier1Candidate for N ≥ 6** (empirical-only, pending higher-N enumeration via sparse Pauli representation or structural lifting argument; ~8.4M pairs at N=6).
 
 ## Lifting to general N
 
 Three possible routes to lift the at-N proofs to universal N:
 
-1. **Brute-force enumeration at higher N.** N=5 enumeration is 524,800 distinct upper-triangular pairs; ~16 GB working memory at full storage. N=6 is 8.4M pairs. Computational cost scales as 16^N pair-count × 4^(2N) per-pair Frobenius cost; feasible to N=5, expensive at N=6.
+1. **Brute-force enumeration at higher N.** N=5 was closed in Welle 10b (Python 90.7 min + C# 2 h 45 m, ~16 GB working memory). N=6 is 8.4M pairs × 4^12 = 16M per-pair Frobenius elements, requiring sparse Pauli representation (L_P has exactly 4^N nonzero entries per row) to fit a feasible cache. Without sparse rep, N=6 cache alone would be ~1 TB.
 
 2. **Structural reason that F ≡ 0 algebraically.** The vanishing is bit-exact at every tested N and across every bit_b-parity cell, suggesting a universal symmetry. Candidate explanations:
    - A residual dagger/anti-Hermitian property of L_{H,-i} that imposes ⟨A, B⟩ ∈ ℝ for A, B in the Π −i eigenspace
@@ -60,7 +63,7 @@ Each route closes the open identity universally. Route 2 (structural reason) is 
 
 ## Implications
 
-If the open identity holds universally (which the N ≤ 4 enumeration strongly suggests), then:
+If the open identity holds universally (which the N ≤ 5 enumeration strongly suggests, 559,912 pairs all giving Im below threshold), then:
 
 - **F112 non-Hermitian extension is Tier1Derived for all N**, with the algebraic proof: bilinearity + antisymmetry reduce to the basis identity; basis identity holds by `F(σ_α, σ_β) = 0` for every Pauli string pair.
 - **The polarity_coordinates_from_L diagnostic** is a structural witness for L not in the Lindblad form `−i[H, ·] + Σ γ_k np.kron(c_k, c_k^*)` with bit_b-homogeneous c. This is true regardless of whether H is Hermitian or non-Hermitian.
@@ -68,11 +71,24 @@ If the open identity holds universally (which the N ≤ 4 enumeration strongly s
 
 ## Reproduction
 
+**Python (N=2..5):**
 ```
-python -X utf8 simulations/_f112_open_identity_basis_enum.py
+python -X utf8 simulations/_f112_open_identity_basis_enum.py        # N=2 + N=3 by default
+PYTHONIOENCODING=utf-8 python simulations/_f112_n5_run.py            # N=5 wrapper, ~16 GB, ~90 min
 ```
 
-Runs N=2 + N=3 in under 5 seconds; N=4 takes ~25 seconds. N=5 (524k pairs) is feasible but takes several minutes; N=6 (8.4M pairs) requires algorithmic optimization.
+**C# (canonical typed-knowledge layer):**
+```
+# Fast tests (N=2, 3, 4):
+dotnet test compute/RCPsiSquared.Diagnostics.Tests -c Release \
+    --filter "FullyQualifiedName~F112NonHermitianBasisEnumerationTests&Category!=SLOW_F112"
+
+# SLOW_F112 N=5 test (~85 min on 24-core, ~16 GB):
+dotnet test compute/RCPsiSquared.Diagnostics.Tests -c Release \
+    --filter "Category=SLOW_F112"
+```
+
+Runs N=2 + N=3 in under 5 seconds (both pipelines); N=4 in ~25 sec (Python) or ~15 sec (C# with outerDop=24). N=5: Python 90.7 min, C# 2 h 45 m at outerDop=6 (Welle 10b initial) or ~85 min at outerDop=24 (Welle 10c). N=6 (8.4M pairs) requires sparse Pauli representation.
 
 ## Related
 
