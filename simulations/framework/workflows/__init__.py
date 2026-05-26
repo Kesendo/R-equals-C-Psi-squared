@@ -7,6 +7,7 @@ from .predict_residual_with_hardware_noise import predict_residual_with_hardware
 from .cockpit_panel import cockpit_panel
 from .predict_signature_table import predict_signature_table
 from .diagnose_hardware import diagnose_hardware
+from .polarity_fingerprint import polarity_fingerprint
 from .lens import slow_modes, lens_pipeline
 from .ptf import ptf_alpha_fit, ptf_painter_panel
 from .handshake import verify_k_partnership

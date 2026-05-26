@@ -127,6 +127,7 @@ from .workflows import (
     cockpit_panel,
     predict_signature_table,
     diagnose_hardware,
+    polarity_fingerprint,
     slow_modes,
     lens_pipeline,
     ptf_alpha_fit,
