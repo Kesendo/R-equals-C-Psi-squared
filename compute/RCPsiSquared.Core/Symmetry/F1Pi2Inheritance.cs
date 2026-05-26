@@ -77,9 +77,23 @@ public sealed class F1Pi2Inheritance : Claim, IF99AnchorBearing, IZ2AxisClaim
     /// referenced only by file-path string in the anchor field (a "ghost
     /// inheritance"). Added 2026-05-16 (Wave 6a) as a typed ctor parent: this
     /// is the single highest-leverage closure in the inheritance map sweep
-    /// because F41, F43, F44, F68, F78, F79 all take <see cref="F1Pi2Inheritance"/>
-    /// as a typed parent; promoting F1 here brings them all into the F1
-    /// PalindromeIdentity lineage transitively without per-class ctor changes.</summary>
+    /// because F41, F43, F44, F68, F78, F79, F87 all take
+    /// <see cref="F1Pi2Inheritance"/> as a typed parent; promoting F1 here
+    /// brings them all into the F1 PalindromeIdentity lineage transitively
+    /// without per-class ctor changes.
+    ///
+    /// <para><b>Bidirectional leverage</b>: the same hub property cuts both ways.
+    /// Welle 7 (2026-05-25) wired <see cref="F61BitAParityPi2Inheritance"/> as F1's
+    /// bit_a-twin ctor parent; that single edge propagates the entire BitA-axis
+    /// chain (F61 → F63 → F38 → Pi2OperatorSpaceMirror → F88b → KleinFour →
+    /// PolarityLayerOrigin → QubitDim → PolynomialFoundation) into all seven
+    /// F-children listed above as transitive ancestors. The Welle 9 cleanup
+    /// (2026-05-26 commit 79ec276) documented this by expanding eight test
+    /// BuildBaseRegistry helpers that broke when their pre-Welle-7 minimal
+    /// registries no longer satisfied F1's new dependency surface. F87 was the
+    /// empirical addition to the prophesied list of children: F1's own
+    /// docstring (written pre-F87) predicted F41/F43/F44/F68/F78/F79; the
+    /// test-breakage swept up F87 as the seventh.</para></summary>
     public F1.F1PalindromeIdentity F1 { get; }
 
     /// <summary>F1's bit_a-twin: F61BitAParityPi2Inheritance (F1² on Π²_X axis,

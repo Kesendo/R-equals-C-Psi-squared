@@ -1,9 +1,6 @@
-using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.F71;
 using RCPsiSquared.Core.Knowledge;
-using RCPsiSquared.Core.Lindblad;
 using RCPsiSquared.Core.Symmetry;
-using RCPsiSquared.Runtime.F1Family;
 using RCPsiSquared.Runtime.F71Family;
 using RCPsiSquared.Runtime.ObjectManager;
 using RCPsiSquared.Runtime.PolarityArchitecture;
@@ -12,29 +9,21 @@ namespace RCPsiSquared.Runtime.Tests.PolarityArchitecture;
 
 public class F86F71MirrorPi2InheritanceRegistrationTests
 {
-    private static ChainSystem DefaultChain() =>
-        new ChainSystem(N: 5, J: 1.0, GammaZero: 0.05,
-            HType: HamiltonianType.Heisenberg, Topology: TopologyKind.Chain);
-
+    // Minimal registry for F86F71MirrorPi2Inheritance (Welle 9 cleanup
+    // 2026-05-26): the Claim's direct ctor parents are F71MirrorSymmetry +
+    // F86MirrorGeneralisationLink — NOT F1. Previously this test also
+    // registered the F1 chain transitively (RegisterF1Family +
+    // RegisterF1Pi2Inheritance + F88b + F38/F63/F61 BitA chain) which made
+    // the Welle 7 F1→F61 propagation surface here as a false-positive
+    // breakage. Keeping BuildBaseRegistry minimal-to-the-claim is the
+    // F86F71MirrorPi2InheritanceRegistration pattern; transitive deps only
+    // appear when the Claim's own ctor needs them.
     private static ClaimRegistryBuilder BuildBaseRegistry() =>
         new ClaimRegistryBuilder()
-            .RegisterF1Family(DefaultChain())
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
-            .RegisterPi2I4MemoryLoop()
-            .RegisterF71Family(N: 5)
-            .RegisterF88bPopcountCoherence()
-            .RegisterF88bStaticDyadicAnchor()
-            .RegisterPi2OperatorSpaceMirror()
-            // Welle 7 (2026-05-25) wired F1 → F61 chain; expand deps so
-            // F1Pi2Inheritance resolves. See F1Pi2InheritanceRegistrationTests.
-            .RegisterF38BitAInvolutionInheritance()
-            .RegisterF63BitAReference()
-            .RegisterF38Pi2InvolutionPi2Inheritance()
-            .RegisterF63LCommutesPi2Pi2Inheritance()
-            .RegisterF61BitAParityPi2Inheritance()
-            .RegisterF1Pi2Inheritance()
             .RegisterHalfIntegerMirror(5)
+            .RegisterF71Family(N: 5)
             .RegisterF71MirrorSymmetryPi2Inheritance();
 
     [Fact]
@@ -83,14 +72,8 @@ public class F86F71MirrorPi2InheritanceRegistrationTests
     {
         Assert.Throws<InvariantViolationException>(() =>
             new ClaimRegistryBuilder()
-                .RegisterF1Family(DefaultChain())
                 .RegisterPi2Family()
                 .RegisterPi2DyadicLadder()
-                .RegisterPi2I4MemoryLoop()
-                .RegisterF1Pi2Inheritance()
-                .RegisterF88bPopcountCoherence()
-                .RegisterF88bStaticDyadicAnchor()
-                .RegisterPi2OperatorSpaceMirror()
                 .RegisterHalfIntegerMirror(5)
                 .RegisterF71MirrorSymmetryPi2Inheritance()
                 // Missing: RegisterF71Family
