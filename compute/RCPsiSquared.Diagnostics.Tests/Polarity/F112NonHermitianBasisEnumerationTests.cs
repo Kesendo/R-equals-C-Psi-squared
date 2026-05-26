@@ -58,4 +58,17 @@ public class F112NonHermitianBasisEnumerationTests
         Assert.Equal(16.0, inner.Real, precision: 10);
         Assert.Equal(0.0, inner.Imaginary, precision: 10);
     }
+
+    [Fact]
+    public void FrobeniusInner_OfPureImaginaryWithSelf_IsPositive()
+    {
+        // ⟨[[i, 0], [0, 0]], [[i, 0], [0, 0]]⟩ = conj(i) · i = (-i) · i = +1.
+        // Without the Conjugate call this would return -1; this test catches a
+        // missing conjugation that the all-real identity test cannot.
+        var M = Matrix<Complex>.Build.Dense(2, 2);
+        M[0, 0] = Complex.ImaginaryOne;
+        var inner = F112NonHermitianBasisEnumeration.FrobeniusInner(M, M);
+        Assert.Equal(1.0, inner.Real, precision: 10);
+        Assert.Equal(0.0, inner.Imaginary, precision: 10);
+    }
 }
