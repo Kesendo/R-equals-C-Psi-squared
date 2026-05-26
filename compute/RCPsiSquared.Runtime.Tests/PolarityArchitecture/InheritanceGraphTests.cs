@@ -14,6 +14,7 @@ public class InheritanceGraphTests
             .RegisterPi2Family()
             .RegisterF86PolarityLink()
             .RegisterF88bPopcountCoherence()
+            .RegisterKleinEightCellClaim()
             .Build();
 
     [Fact]
@@ -24,7 +25,7 @@ public class InheritanceGraphTests
         var descendants = registry.DescendantsOf<PolynomialFoundationClaim>()
             .Select(c => c.GetType()).ToHashSet();
 
-        Assert.Equal(10, descendants.Count);
+        Assert.Equal(11, descendants.Count);
         Assert.Contains(typeof(ArgmaxMaxvalPairClaim), descendants);
         Assert.Contains(typeof(QubitDimensionalAnchorClaim), descendants);
         Assert.Contains(typeof(NinetyDegreeMirrorMemoryClaim), descendants);
@@ -35,6 +36,10 @@ public class InheritanceGraphTests
         Assert.Contains(typeof(KleinFourCellClaim), descendants);
         Assert.Contains(typeof(PolarityInheritanceLink), descendants);
         Assert.Contains(typeof(PopcountCoherenceClaim), descendants);
+        // Klein2↔Cubic3 edge (Welle 7): KleinEightCellClaim lifts Klein4 by the
+        // third Z₂ axis (y_par); transitively a PolynomialFoundation descendant
+        // via the Klein4 → Pi2Operator → PolynomialFoundation chain.
+        Assert.Contains(typeof(KleinEightCellClaim), descendants);
     }
 
     [Fact]

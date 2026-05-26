@@ -66,7 +66,12 @@ public sealed class F39DetPiPi2Inheritance : Claim, IZ2AxisClaim
     /// <summary>F39's bit_a twin: <see cref="F39DetPiBitAInheritance"/>
     /// (det(Π_X) = (−1)^{N · 4^{N−1}} = det(Π_Z) via Hadamard isometry). Wired
     /// 2026-05-26 to close the previously TrivialNotYetTyped BitA-twin slot.
-    /// Nullable: legacy unit tests construct without the BitA twin.</summary>
+    /// Nullable: legacy unit tests construct without the BitA twin
+    /// (BitATwinStatus stays TrivialNotYetTyped); the registry-built F39
+    /// always has the twin wired (Filled). This dual ctor-path semantics is
+    /// intentional: it preserves backward-compat for tests that exercise the
+    /// pre-Welle-7 ctor shape while letting the registry path attach the
+    /// reciprocating BitA Claim for cube-map twin-coverage accounting.</summary>
     public F39DetPiBitAInheritance? BitATwinClaim { get; }
 
     public Pi2DyadicLadderClaim Ladder { get; }

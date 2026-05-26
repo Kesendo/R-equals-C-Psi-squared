@@ -135,4 +135,38 @@ public class PolarityCubeMapRegistrationTests
         Assert.Contains(nameof(F63BitAReference), typeNames);
         Assert.Contains(nameof(ZGlobalEigenstateMirrorBitAInheritance), typeNames);
     }
+
+    [Fact]
+    public void PolarityCubeMap_BitAClaims_HaveReciprocatingBitBPartner()
+    {
+        // Welle 8 reciprocity drift-guard (added 2026-05-26 after /simplify caught
+        // the X-Mirror orphan condition): every BitA Claim in the cube map should
+        // appear as the BitATwin of at least one registered BitB Claim. Catches
+        // the failure mode "new BitA-twin Claim landed for an unregistered BitB
+        // sibling, so the BitA Claim is counted but no twin slot is filled".
+        //
+        // Exception: F63BitAReference is by design NOT pointed to by F61 (the
+        // BitA-axis Claim that proves [L, Π²_X] = 0); F63BitAReference is itself
+        // pointed to by F63LCommutesPi2Pi2Inheritance (the BitB Claim) as the
+        // structural-twin reference. F61BitAParityPi2Inheritance is similarly
+        // pointed to by F1Pi2Inheritance via the BitATwinClaim property.
+        var registry = KnowledgeRegistryFactory.BuildDefault();
+        var cubeMap = registry.Get<PolarityCubeMap>();
+
+        var bitBClaimsWithTwins = cubeMap.BitBClaims
+            .Where(c => c.BitATwin is not null)
+            .Select(c => (object)c.BitATwin!)
+            .ToHashSet(ReferenceEqualityComparer.Instance);
+
+        foreach (var bitAClaim in cubeMap.BitAClaims)
+        {
+            Assert.True(
+                bitBClaimsWithTwins.Contains(bitAClaim),
+                $"BitA Claim {bitAClaim.GetType().Name} is registered but no BitB Claim " +
+                $"points at it via BitATwin. Orphan condition: new BitA-twin landed " +
+                $"without its reciprocating BitB partner being wired. Either register " +
+                $"the BitB partner (cf. X-Mirror in Welle 8 cleanup) or remove the BitA " +
+                $"Claim from the cube map inventory.");
+        }
+    }
 }

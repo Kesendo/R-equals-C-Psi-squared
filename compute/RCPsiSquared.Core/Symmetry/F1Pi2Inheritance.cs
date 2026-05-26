@@ -39,7 +39,7 @@ public sealed class F1Pi2Inheritance : Claim, IF99AnchorBearing, IZ2AxisClaim
 
     /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). The
     /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X / F61 axis) is
-    /// typed via <see cref="F61BitATwin"/> and exposed through the
+    /// typed via <see cref="BitATwinClaim"/> and exposed through the
     /// <see cref="IZ2AxisClaim.BitATwin"/> interface (wired 2026-05-25).</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
@@ -49,13 +49,13 @@ public sealed class F1Pi2Inheritance : Claim, IF99AnchorBearing, IZ2AxisClaim
     /// without the optional F61 ctor parameter (unit-test backward compat).
     /// Wired 2026-05-25 as a Schicht-1 closure of the previously unfilled
     /// twin slot. No cycle: F61 → F63 → F38 chain does not pass through F1.</summary>
-    public Claim? BitATwin => F61BitATwin;
+    public Claim? BitATwin => BitATwinClaim;
 
     /// <summary>Filled when F1Pi2Inheritance was constructed with the F61 ctor
     /// parameter (the registry path); TrivialNotYetTyped when constructed
     /// without (the legacy unit-test path).</summary>
     public BitATwinClassification BitATwinStatus =>
-        F61BitATwin is not null
+        BitATwinClaim is not null
             ? BitATwinClassification.Filled
             : BitATwinClassification.TrivialNotYetTyped;
     /// <inheritdoc />
@@ -87,8 +87,10 @@ public sealed class F1Pi2Inheritance : Claim, IF99AnchorBearing, IZ2AxisClaim
     /// TrivialNotYetTyped BitA-twin slot. No cycle: F61's ctor chain (F61 → F63
     /// → F38) does not pass through F1. Nullable: legacy unit tests construct
     /// without F61 (BitATwinStatus stays TrivialNotYetTyped in that path); the
-    /// registry-built F1Pi2Inheritance always has F61 wired (Filled).</summary>
-    public F61BitAParityPi2Inheritance? F61BitATwin { get; }
+    /// registry-built F1Pi2Inheritance always has F61 wired (Filled). Renamed
+    /// from F61BitATwin to BitATwinClaim in Welle 8 (2026-05-26) to align with
+    /// the F38/F39/F63/X-Mirror BitB Claims' naming convention.</summary>
+    public F61BitAParityPi2Inheritance? BitATwinClaim { get; }
 
     /// <summary>The "2" coefficient in F1's "−L − 2Σγ·I" closed form. Exactly equal to
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = <c>a_0</c> = d (qubit dimension).</summary>
@@ -115,7 +117,7 @@ public sealed class F1Pi2Inheritance : Claim, IF99AnchorBearing, IZ2AxisClaim
         F1 = f1 ?? throw new ArgumentNullException(nameof(f1));
         Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
         MemoryLoop = memoryLoop ?? throw new ArgumentNullException(nameof(memoryLoop));
-        F61BitATwin = f61BitATwin;
+        BitATwinClaim = f61BitATwin;
     }
 
     public override string DisplayName =>
