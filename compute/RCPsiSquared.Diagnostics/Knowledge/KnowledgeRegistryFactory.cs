@@ -244,6 +244,17 @@ public static class KnowledgeRegistryFactory
             // unconditional across all three dephase letters. PolarityCubeMap's
             // BitBClaims grows by 1.
             .RegisterF108Part3Pi2YEvenAlwaysPalindromic()
+            // BitB-axis F112: Lindblad Π-eigenvalue balance under bit_b-homogeneous c.
+            // Structural identity behind the polarity_coordinates_from_L diagnostic;
+            // for any standard Lindblad system (Hermitian H + bit_b-homogeneous c_k)
+            // the asymmetry ‖M_plus_half‖² − ‖M_minus_half‖² is exactly 0. Typed ctor
+            // parent: F108 Part 1 (shared bit_b axis foundation via F38 / F63 Π²
+            // eigenvalue formula on Pauli strings). Sits on the BitB axis as the
+            // "polarity_coordinates diagnostic identity" Claim. Tier1Derived for
+            // Hermitian H; non-Hermitian H extension documented as Tier1Candidate
+            // in inspectables, not typed as a separate Claim. PolarityCubeMap's
+            // BitBClaims grows by 1.
+            .RegisterLindbladBitBPiBalance()
             // Polarity cube map (cubic Z₂³ architecture inventory; aggregates every IZ2AxisClaim)
             // Must come AFTER every Pi²-Inheritance Claim registration above so its b.Get<T>()
             // dependencies resolve. Currently snapshot-only; rebuild registry to refresh.
