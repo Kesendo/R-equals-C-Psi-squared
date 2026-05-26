@@ -136,19 +136,18 @@ public static class F112NonHermitianBasisEnumeration
         var stopwatch = System.Diagnostics.Stopwatch.StartNew();
         var pi = PiOperator.BuildFull(N, PauliLetter.Z);
 
-        // Pre-compute L_α,-i for every Pauli string α. Parallelized with
-        // outerDop = ProcessorCount/4: the inner work (KroneckerProduct +
-        // ConjugateTranspose + Multiplication on 4^N × 4^N matrices + 4 matmuls in
-        // ProjectOntoPiEigenspace) dispatches to MKL-multithreaded BLAS for the
-        // matrix multiplications. Capping outer parallelism leaves cores free for
-        // MKL's internal threading on the larger N=5 matmuls (1024^3 ZGEMM each).
-        // Same pattern as LiouvillianBlockSpectrum.cs:205. Empirical observation
-        // (Welle 10b SLOW N=5 run): cache build at outerDop=6 took 161.8 min;
-        // outerDop=ProcessorCount=24 trials in Welle 10c may show better scaling
-        // since MKL ZGEMM on 1024x1024 doesn't saturate 24 cores anyway.
+        // Pre-compute L_α,-i for every Pauli string α. Parallelized at FULL DOP
+        // (Environment.ProcessorCount). The standard codebase convention
+        // (LiouvillianBlockSpectrum.cs:205) caps outer to ProcessorCount/4 to
+        // leave cores for MKL's internal threading on inner BLAS calls. Welle
+        // 10b benchmarks at N=5 showed outerDop=6 saturated at 6.1 cores
+        // (steady 611%) for 161.8 min of cache build, indicating MKL was NOT
+        // adding meaningful inner parallelism on these 1024x1024 ZGEMM calls.
+        // Lifting to outerDop=ProcessorCount=24 trades the (apparently unused)
+        // inner MKL threading for direct outer parallelism, with the bulk of
+        // the per-iteration work being managed KroneckerProduct (not BLAS) anyway.
         var cache = new ComplexMatrix[stringCount];
-        int cacheOuterDop = Math.Max(1, Environment.ProcessorCount / 4);
-        var cachePo = new ParallelOptions { MaxDegreeOfParallelism = cacheOuterDop };
+        var cachePo = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
         Parallel.For(0, stringCount, cachePo, k =>
         {
             var letters = PauliIndex.FromFlat(k, N);
