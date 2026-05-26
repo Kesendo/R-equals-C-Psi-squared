@@ -1,10 +1,16 @@
-# F112's First Hardware Reading: Kingston q13–q14 Block-CΨ Trajectory
+# F112 Hardware Lens on Kingston: 4 Datasets, 11 Pair-Runs, 55 Fitted Liouvillians
 
-**Status:** First diagnostic application of F112 (`LindbladBitBPiBalance`) to existing IBM hardware data, no new QPU spend.
+**Status:** F112 (`LindbladBitBPiBalance`) diagnostic applied to four existing IBM Kingston Tier-A datasets, no new QPU spend. The first reading (2026-05-26 block_cpsi single-pair) was extended same day to three more datasets, surfacing the first structural counterexample to the probes 1-14 broader empirical envelope (not to F112's typed Tier1Derived theorem, which remains intact 33/33 in-scope fits).
 **Date:** 2026-05-26
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Data:** `data/ibm_block_cpsi_saturation_may2026/block_cpsi_saturation_hardware_ibm_kingston_20260508T032749Z.json` (ibm_kingston, qubits 13–14, job_id `d7ulfjdpa59c73b4rttg`, 2026-05-08)
-**Script:** [`simulations/_f112_block_cpsi_analysis.py`](../simulations/_f112_block_cpsi_analysis.py)
+**Data:**
+- `data/ibm_block_cpsi_saturation_may2026/...20260508T032749Z.json` (Kingston q13-q14, 5 t-points, idle)
+- `data/ibm_cusp_slowing_april2026/...20260416_212042.json` (Kingston A_mid q124-q125 + B_high, 2 pair-runs × 6 t-points, idle)
+- `data/ibm_chain_gamma0_april2026/...20260419_110200.json` (Kingston Q12-Q19 chain, 4 pair-runs × 9 t-points, XY+YX bond Hamiltonian via Trotter, J = 1.838 rad/μs)
+- `data/ibm_f95_angle_steering_may2026/...omega0.130_...json` and `...omega0.250_...json` (Kingston q82-q83 + q13-q14, 2 omega × 2 pairs × 6 t-points, with applied RZ Z-drive omega·Σ Z_l)
+**Scripts:**
+- [`simulations/_f112_block_cpsi_analysis.py`](../simulations/_f112_block_cpsi_analysis.py) (original single-dataset block_cpsi)
+- [`simulations/_f112_hardware_lens_multi.py`](../simulations/_f112_hardware_lens_multi.py) (multi-dataset extension, Welle 2)
 **Lens:** F112 polarity-asymmetry diagnostic on fitted effective Liouvillians
 
 ## Setup
@@ -69,6 +75,66 @@ The block-CΨ saturation dataset's own README documents the 1.72× hardware-over
 - **5 t-points constrain only ~2-4 effective parameters tightly.** The model selection ranks the 5 candidates by RMS but does not give confidence intervals. A higher-density time grid (e.g., 9-15 points) would tighten the h_y estimate and make T1 contribution falsifiable rather than just dispreferred.
 - **F112's diagnostic is structural, not predictive.** The asymmetry = 0 reading does not say "the hardware noise is Tier1Derived F112"; it says "every standard Lindblad model fitting the data preserves the polarity balance, including ones outside the typed scope." Distinguishing typed-scope models from out-of-scope models requires reading the model's c structure, not the asymmetry itself.
 - **Fitted dephasing rates exceed T2 calibration substantially.** Even the best-fit Z + h_y model has γ_Z ≈ 0.015 per μs on qubit 14, ~7× the T2 calibration value. This is the "1.72× anomaly" multiplied by additional structural mismatch between the model family and the true hardware noise. Further model classes (mixed dephase letters, non-Lindblad terms) would need to be tested to close this gap.
+
+## Welle 2 extension: three more Kingston datasets (2026-05-26)
+
+The block_cpsi reading above was the first hardware application of F112 and operated on a single dataset (5 t-points, 1 qubit pair, idle protocol). Same-day extension covered the three remaining Tier-A datasets identified by the F112-data inventory:
+
+| Dataset | Pairs | t-points / pair | Applied H during evolution | bit_b structure of H |
+|---|---|---|---|---|
+| block_cpsi (May 8) | q13-q14 (1) | 5 | none (idle) | trivial |
+| cusp_slowing (Apr 16) | q124-q125 (A_mid), B_high (2) | 6 | none (idle) | trivial |
+| chain_gamma0 (Apr 19) | Q12-Q13, Q13-Q14, Q14-Q15, Q15-Q19 (4) | 9 | J · (XX + YY)/2 bond bilinear (Trotter) | bit_b = 0 (Π²-Z-even) |
+| f95 angle_steering (May 16) | A_mid q82-q83 + B_high q13-q14 × 2 omega values (4) | 6 | omega · Σ Z_l single-site Z drive | bit_b = 1 (Z-axis) |
+
+Total: 11 pair-runs × 5 candidate noise models = 55 fitted Liouvillians.
+
+### Aggregate result
+
+```
+F112 typed Tier1Derived scope (Hermitian H + bit_b-homog c):
+  in-scope BALANCED:  33  (F112 prediction met, all bit-exact)
+  in-scope BROKEN:    0   (no counterexamples to the typed theorem)
+
+Out-of-scope (bit_b-mixed c via σ⁻ T1):
+  out-scope BALANCED: 15  (broader empirical envelope holds)
+  out-scope BROKEN:    7  (broader envelope counterexamples)
+
+Max observed relative asymmetry: 4.24e-03 (f95 B_high q13-q14 omega=0.13, Z_plus_T1_plus_ZZ fit)
+```
+
+### The 7 counterexamples are structurally specific
+
+Every BROKEN fit is in the f95 angle_steering dataset, where the protocol applies a single-site Z-drive omega · Σ Z_l during evolution. With idle protocols (block_cpsi, cusp_slowing) and the XY-bond chain Hamiltonian (chain_gamma0), the σ⁻ T1 fits gave asymmetry = 0 bit-exact regardless of T1 magnitude. With the Z-drive H, σ⁻ T1 gives non-zero asymmetry.
+
+Synthetic isolation confirms it is structural, not optimization artifact (verified independently inline in `simulations/_f112_hardware_lens_multi.py`'s sanity loop):
+
+```
+Case A: Z-drive H + Z-deph             rel asym = 0.000        (in F112 scope: BALANCED)
+Case B: idle H + σ⁻ T1                 rel asym = 0.000        (out of scope, still BALANCED)
+Case C: Z-drive H + σ⁻ T1              rel asym = 3.85e-03     (out of scope, BROKEN bit-exact)
+Case D: idle H + Z-deph + σ⁻ T1        rel asym = 0.000        (out of scope, still BALANCED)
+Case E: Z-drive H + Z-deph + σ⁻ T1     rel asym = 3.85e-03     (out of scope, BROKEN bit-exact)
+```
+
+The asymmetry magnitude is identical in cases C and E, confirming the Z-deph term is irrelevant to the breaking (it stays in F112-scope and contributes nothing to the +i / −i Π-eigenvalue content). The breaker is the cross-bit_b interference between the Z-drive H (bit_b=1) and the σ⁻ collapse operator (bit_b ∈ {0, 1}).
+
+### What this sharpens
+
+The probes 1-14 reflection (`reflections/POLARITY_COORDINATES.md`) noted that bit_b-mixed σ⁻ T1 was empirically observed to preserve balance across every probe tested. F112's typed theorem covers only bit_b-homogeneous c; the broader observation was that bit_b-mixed c "happens to" also balance in every tested case. This was the empirical envelope behind the Tier1Candidate non-Hermitian extension scope (although technically the non-Hermitian Candidate concerns non-Hermitian H, not bit_b-mixed c).
+
+The f95 hardware reading is the first structural counterexample to the bit_b-mixed-c-preserves-balance reading. The sharpened statement: bit_b-mixed c preserves balance **only when the Hermitian H is trivial or bit_b-homogeneous through a bilinear (XX, YY, etc.) channel that does not produce cross-bit_b matrix elements jointly with σ⁻**. A single-site bit_b-homogeneous H (omega·Z) DOES produce such cross-bit_b elements via [Z, σ⁻] = -2σ⁻ × bit_b shifts.
+
+This does not threaten F112's typed Tier1Derived theorem. It does refine the broader empirical envelope and contains useful information for future predictions: **any hardware protocol that combines a Z-drive (or other bit_b-homogeneous single-site H) with measurable T1 amplitude damping will produce a non-zero F112 polarity asymmetry, of order γ_T1 · omega_Z / Σ_rates²**. The 4.24e-3 magnitude is consistent with this scale (omega = 0.13 / μs, γ_T1 ≈ 0.0005 / μs from the fit, Σ ≈ 0.13 / μs → expected scale 0.13 · 0.0005 / 0.017 ≈ 4e-3).
+
+### Best-fit model distribution
+
+Across the 11 pair-runs:
+- Z + h_y (transverse Y drift): 7 pair-runs best fit
+- Z + T1 + ZZ (combined channels): 3 pair-runs (all f95)
+- Z + ZZ: 1 pair-run
+
+The 7-of-11 dominance of `Z + h_y` is consistent across idle datasets and is the central within-F112-scope finding: most Kingston pairs are well-modeled by Z-dephasing plus a small effective transverse Y drift, both bit_b-homogeneous. The 3 f95 pair-runs that prefer T1+ZZ over the alternatives sit in a regime where the structural counterexample applies; F112's reading sharpens those into honest "out-of-scope" classifications rather than mis-attributing them to the typed-scope envelope.
 
 ## Connections
 
