@@ -255,6 +255,17 @@ public static class KnowledgeRegistryFactory
             // in inspectables, not typed as a separate Claim. PolarityCubeMap's
             // BitBClaims grows by 1.
             .RegisterLindbladBitBPiBalance()
+            // BitB-axis F113: closed-form magnitude for the F112 polarity-asymmetry
+            // counterexample. Sister to F112 on the same bit_b axis: F112 says
+            // "in-scope → asymmetry = 0", F113 gives the exact magnitude
+            // (4^N / 2) · Σ_l ω_l · (γ_T1,l − γ_pump,l) for the out-of-scope
+            // Z-drive × amplitude-damping interference regime. Typed ctor parent:
+            // F112 (LindbladBitBPiBalance). Tier1Derived at N=2, 3, 4 (bit-exact
+            // via constructive parameter sweep); Tier1Candidate general N (universal-
+            // N algebraic derivation of the (1/2)·4^N coefficient open). BitBSpecific
+            // BitATwin slot (intrinsically about Z-axis single-site drives, no
+            // meaningful bit_a analog). PolarityCubeMap's BitBClaims grows by 1.
+            .RegisterLindbladBitBPiBreakMagnitude()
             // Polarity cube map (cubic Z₂³ architecture inventory; aggregates every IZ2AxisClaim)
             // Must come AFTER every Pi²-Inheritance Claim registration above so its b.Get<T>()
             // dependencies resolve. Currently snapshot-only; rebuild registry to refresh.
