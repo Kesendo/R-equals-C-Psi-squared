@@ -3621,5 +3621,75 @@ helpers: `HardCellPureDTemplate.IsPureDTemplate(term, dephase)`,
 
 ---
 
+### F112. Lindblad Π-Eigenvalue Balance under bit_b Homogeneity (Tier 1 derived for Hermitian H; Tier 1 candidate for non-Hermitian H extension)
+
+Structural identity making the `polarity_coordinates_from_L` diagnostic
+asymmetry an exact witness for c outside the bit_b-homogeneous regime. Sits on
+the bit_b Z₂-grading of the Pauli group shared with F108 (Π²-Z-even bilinear
+palindrome closure) and F87 (dissipator-resonance trichotomy).
+
+**Theorem (F112, Hermitian H, rigorous):** For any Lindblad-form Liouvillian
+L = -i[H, ·] + Σ_k γ_k · `np.kron(c_k, c_k^*)` on N qubits with Hermitian H
+and each c_k bit_b-homogeneous (every Pauli string σ in c_k's expansion
+shares bit_b(σ) = (#Y(σ) + #Z(σ)) mod 2 = const), the
+`polarity_coordinates_from_L` decomposition of M = Π L Π⁻¹ + L + 2σ·I
+satisfies
+
+    ‖M_plus_half‖² = ‖M_minus_half‖²
+
+bit-exactly (machine precision), for any choice of complex coefficients γ_k
+and any Pauli-coefficient choice in each c_k.
+
+**Empirical extension (non-Hermitian H):** the equality holds bit-exact for
+arbitrary non-Hermitian H across 20 random configurations at N = 2, 3
+(probe 14). Reduces structurally to the open identity
+Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0 for Hermitian H_re, H_im.
+
+**Five-step structure:**
+- Step 1: reduce balance to Π-conjugation ±i Frobenius equality:
+  asymmetry = (1/2) (‖M_{+i}‖² − ‖M_{-i}‖²).
+- Step 2: bit_b-homogeneous c implies `np.kron(c, c.conj())` lies entirely in
+  the Π²-conjugation +1 eigenspace (via F38 / F63 Π² eigenvalue formula on
+  Pauli strings).
+- Step 3: Π²-conj +1 eigenspace = Π-conj {+1, −1}; dissipator has zero +i,
+  −i content.
+- Step 4: M_{+i} and M_{-i} come entirely from L_H, with norms
+  2 · ‖L_{H,±i}‖².
+- Step 5 (Hermitian H): L_H^† = −L_H (anti-Hermitian as superoperator) plus
+  dagger maps Π +i ↔ Π −i bijectively while preserving Frobenius. Combining
+  gives ‖L_{H,+i}‖² = ‖L_{H,-i}‖².
+
+**Connection axes (shared bit_b Z₂-grading on the Pauli group):**
+- F38: Π² = (−1)^{w_YZ} on Pauli strings — foundational input.
+- F63: [L, Π²] = 0 for Z-dephasing — foundational input.
+- F108 Part 1/2/3: the bilinear set {XX, YY, YZ, ZY, ZZ} F108 palindromizes
+  is exactly the bit_b = 0 (Π²-Z-even) family.
+- F87 dissipator-resonance trichotomy: orthogonal axis. F87 lives in M's
+  spectrum-palindrome structure; F112 lives in M_anti's Π +i/−i split.
+  Empirically orthogonal across all three F87 classes (truly, soft, hard)
+  under standard Z-deph (`_polarity_probe_f87_connection.py`).
+
+**Empirical anchor:** 14 probes (`simulations/_polarity_probe_*.py`,
+`_polarity_proof_verify.py`, `_polarity_step5_stress.py`) cover
+candidate-breakers (1-5), hand-engineered non-Lindblad L (6), random c with
+full Pauli rank (7-8), k_max boundary (9), exhaustive 136-pair N=2 enumeration
+(10), coefficient sweep (11), Z₂³-cell N=3, 4 scaling (12, 171 / 171
+balanced within-cell), Π²-content verification (13, 100.00% Π²=+1 for
+bit_b-homogeneous c), and direct Π-eigenspace L_H projection across 30
+random H (10 Hermitian + 10 non-Hermitian Pauli + 10 random complex matrix)
+at N = 2, 3 (14, all bit-exact).
+
+**Open:** Step 5 extension to non-Hermitian H (reduces to a specific
+Im⟨·,·⟩ = 0 identity); structural derivation of F87 ↔ F112 orthogonality as
+two projections of the same bit_b Z₂-grading; connection to F104 / F105 / F106
+(F87 Z₂³-cubed refinements).
+
+**Source:** [Proof](proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md);
+parents: F38 + F63 + F108 Part 1/2/3 (Tier 1 derived) + F87 dissipator-
+resonance law + `polarity_coordinates_from_L` primitive
+(`simulations/framework/diagnostics/polarity_coordinates.py`, added 2026-05-25).
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*
