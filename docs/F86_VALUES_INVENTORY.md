@@ -16,16 +16,16 @@ F86 was conceptually a Sammelbecken of three theorems (F86a / F86b / F86c). The 
 | **F86b₁**      | Bare 2×2 K_b closed forms (post-EP, pre-EP, EP-limit); x_peak = 2.196910, ratio = 0.671535 | Tier1Derived                      | [`C2BareDoubledPtfClosedForm.cs`](../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BareDoubledPtfClosedForm.cs)                |
 | **F86b₂**      | Sub-class lift: HWHM_ratio = 0.671535 + α_subclass·g_eff + β_subclass  | Tier1Candidate (analytical blocked) | [`F86HwhmClosedFormClaim.cs`](../compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmClosedFormClaim.cs) + [`PROOF_F86B_UNIVERSAL_SHAPE.md`](proofs/PROOF_F86B_UNIVERSAL_SHAPE.md) |
 | **F86b₃**      | Universal shape: Interior HWHM/Q = 0.756 ± 0.005, Endpoint = 0.770 ± 0.005 | Tier1Candidate                    | [`UniversalShapePrediction.cs`](../compute/RCPsiSquared.Core/F86/UniversalShapePrediction.cs) + [`UniversalShapeWitness.cs`](../compute/RCPsiSquared.Core/F86/UniversalShapeWitness.cs) |
-| **F86b₄**      | Dicke-K 3/8 anchor via X⊗N-eigenbasis decomposition                    | Tier1Derived (2026-05-18)         | [`f86b_dicke_pi2odd_closed_form.py`](../simulations/f86b_dicke_pi2odd_closed_form.py) + [`docs/water/README.md`](water/README.md) |
-| **F86b₅**      | Polarity-pair Q_peak ∈ {1.5, 2.5} = 2 ± 1/2 (schema-derived)           | Tier1Schema (value Tier2Verified) | [`PolarityPairQPeakDecompositionClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/PolarityPairQPeakDecompositionClaim.cs)         |
+| **F86b₄**      | Dicke-K 3/8 anchor via X⊗N-eigenbasis decomposition                    | Tier1Derived (2026-05-17)         | [`DickeAnchor.cs`](../compute/RCPsiSquared.Core/Symmetry/DickeAnchor.cs) (canonical typed home, `KIntermediate => 3.0/8.0`) + [`PROOF_F86B_UNIVERSAL_SHAPE.md`](proofs/PROOF_F86B_UNIVERSAL_SHAPE.md) (derivation) + [`f86b_dicke_pi2odd_closed_form.py`](../simulations/f86b_dicke_pi2odd_closed_form.py) (verification) + [`docs/water/README.md`](water/README.md) (downstream reading) |
+| **F86b₅**      | Polarity-pair Q_peak ∈ {1.5, 2.5} = 2 ± 1/2 (schema-derived)           | Tier1Schema (value Tier2Verified) | [`PolarityPairQPeakDecompositionClaim.cs`](../compute/RCPsiSquared.Core/F86/PolarityPairQPeakDecompositionClaim.cs)              |
 | **F86c**       | F71 spatial mirror: Q_peak(b) = Q_peak(N−2−b) bit-exact                | Tier1Derived                      | [`F71MirrorInvariance.cs`](../compute/RCPsiSquared.Core/F86/F71MirrorInvariance.cs) + [`PROOF_F86C_F71_MIRROR.md`](proofs/PROOF_F86C_F71_MIRROR.md) |
-| **F86d**       | Endpoint orbit Q ≈ 2.5 (9 (c, N) combinations, 2.39–2.61, ~2% N-variation) | Tier2Empirical (promotion candidate) | [`PerF71OrbitObservation.cs`](../compute/RCPsiSquared.Core/F86/PerF71OrbitObservation.cs)                                       |
-| **F86e**       | σ_0(c=2) = ‖[Π_HD1, M_H]‖ (commutator norm) = ‖Π̃_HD1 ⊙ ΔDiff‖ (Schur-multiplier norm); asymptote σ_0(∞) ≈ 2.8629 characterised non-elementary (Toeplitz + Hankel symbol routes ruled out) | Tier1Derived (commutator identity) | [`SigmaZeroCommutatorNormClaim.cs`](../compute/RCPsiSquared.Core/F86/SigmaZeroCommutatorNormClaim.cs) + [`SigmaZeroChromaticityScaling.cs`](../compute/RCPsiSquared.Core/F86/SigmaZeroChromaticityScaling.cs) |
+| **F86d**       | Endpoint orbit Q ≈ 2.5 (9 (c, N) combinations, range 2.39–2.61, ~2.7% std/mean around 2.547; ~9% peak-to-peak) | Tier2Empirical (promotion candidate) | [`PerF71OrbitObservation.cs`](../compute/RCPsiSquared.Core/F86/PerF71OrbitObservation.cs) |
+| **F86e**       | σ_0(c=2) = ‖[Π_HD1, M_H]‖ (commutator norm) = ‖Π̃_HD1 ⊙ ΔDiff‖ (Schur-multiplier norm); asymptote σ_0(∞) ≈ 2.8629 characterised non-elementary (Toeplitz + Hankel symbol routes ruled out) | Tier1Derived (commutator identity) | [`SigmaZeroCommutatorNormClaim.cs`](../compute/RCPsiSquared.Core/F86/SigmaZeroCommutatorNormClaim.cs) + [`SigmaZeroChromaticityScaling.cs`](../compute/RCPsiSquared.Core/F86/SigmaZeroChromaticityScaling.cs) + [`F86OpenQuestions.cs`](../compute/RCPsiSquared.Core/F86/F86OpenQuestions.cs) (asymptote-value home) |
 | **F86_block**  | Obstruction proof: g_eff(c, N, b) has no closed form (6 routes L1–L6 blocked) | Negative Tier1 (structural result) | [`PROOF_F86B_OBSTRUCTION.md`](proofs/PROOF_F86B_OBSTRUCTION.md)                                                                  |
 
 ### Sub-ID status counts
 
-- **6× Tier1Derived (settled):** F86a, F86b₁, F86b₄, F86c, F86e (commutator identity), F86_block (negative)
+- **6× settled at Tier 1:** F86a, F86b₁, F86b₄, F86c, F86e (commutator identity) are Tier1Derived positive results; F86_block is a Tier 1 negative/structural-obstruction result (the closed form does not exist)
 - **2× Tier1Candidate (close, not closed):** F86b₂, F86b₃
 - **1× Tier1Schema:** F86b₅
 - **1× Tier2 promotion candidate:** F86d
@@ -76,7 +76,7 @@ c=2's "1.5" carries the wobble caveat: it's *not* clean Tier 1 like the c≥3 va
 
 | Orbit                  | Q stable value         | (c, N) range tested       | Variation       |
 |------------------------|------------------------|---------------------------|-----------------|
-| **Endpoint (orbit 0)** | **≈ 2.5**             | (c=2..4, N=5..8)          | 2.39-2.61 (~2%) |
+| **Endpoint (orbit 0)** | **≈ 2.5**             | (c=2..4, N=5..8); 9 of 12 box cells filled (c=4 only at N=7) | 2.39-2.61 (~2.7% std/mean around 2.547; ~9% peak-to-peak) |
 
 From `PerF71OrbitObservation.cs:23-44`: across 9 different (c, N) combinations, Endpoint orbit Q sits in [2.39, 2.61]. Stability across c and N makes this a candidate anchor not currently in QBasisAnkers.
 
@@ -95,7 +95,7 @@ The following values are measurements from the typed C# claims. They are useful 
 | Orbit (N=5 c=2)      | Q_EP value         |
 |----------------------|--------------------|
 | Endpoint (Orbit 0)   | 1.138              |
-| Interior (Orbit 1)   | 0.678              |
+| Interior (Orbit 1)   | 0.674              |
 
 **Caveat**: x_peak = 2.196910 is the **bare-doubled-PTF SVD-block-only floor**; full block-L empirical values lift 8-10% above. These per-orbit Q_EP values therefore may shift if the full-block correction is properly included. Treat as derivative observations, not as primary anchors.
 
@@ -115,7 +115,7 @@ These are observation-of-multi-mode-plateau values, NOT structural Q-anchors. Th
 
 ### B3. Per-bond-class HWHM ratios (Tier1Candidate empirical means)
 
-`C2HwhmRatio.cs:183-184`:
+`C2HwhmRatio.cs:11,59` (Endpoint/Interior empirical anchors at line 11, BareDoubledPtfHwhmRatio floor at line 59):
 
 | Bond class | Empirical mean | SVD floor | Lift above floor |
 |------------|----------------|-----------|------------------|
@@ -126,7 +126,7 @@ These are observation-of-multi-mode-plateau values, NOT structural Q-anchors. Th
 
 ### B4. Per-sub-class fitted (α, β): polyfit, not derived
 
-`F86HwhmClosedFormClaim.cs:52-60`. Form: HWHM_ratio = 0.671535 + α·g_eff + β, all 6 (α, β) pairs **polyfit on N=5..8**, not analytically derived:
+`F86HwhmClosedFormClaim.cs:51-56`. Form: HWHM_ratio = 0.671535 + α·g_eff + β, all 6 (α, β) pairs **polyfit on N=5..8**, not analytically derived:
 
 | BondSubClass         | α          | β          |
 |----------------------|------------|------------|
