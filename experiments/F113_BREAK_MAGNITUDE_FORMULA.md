@@ -17,7 +17,7 @@ For a Lindblad-form Liouvillian L = -i[H, ·] + Σ_k γ_k · D[c_k] with:
 the F112 polarity-coordinate asymmetry has the closed form:
 
     asymmetry := ‖M_plus_half‖² − ‖M_minus_half‖²
-              = (4^N / 2) · Σ_l ω_l · (γ_T1,l − γ_pump,l)
+              = (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l)
 
 Bit-exactly. Verified at N=2, 3, 4 across multiple parameter samples (relative deviation < 1e-12, dominated by floating-point precision).
 
@@ -60,8 +60,8 @@ Implied constant `exp(2.7726) = 16.000` bit-exact (std 0.000000 across 60 sample
 **5. Cross-site (Z-drive on q_a, σ⁻ on q_b, a ≠ b):** asym = 0.0 bit-exact. The break is local: only same-site (Z-drive_l, σ⁻_l) pairs contribute.
 
 **6. Non-uniform rates:** for ω_l = (0.05, 0.1, 0.2), γ_T1,l = (0.001, 0.002, 0.003) at N=3:
-- Σ_l 0.5·4^N · ω_l · γ_T1,l = 0.027200 (formula prediction)
-- Measured asymmetry = 0.027200 (ratio 1.000000)
+- Σ_l 0.5·4^N · ω_l · (0 − γ_T1,l) = −0.027200 (formula prediction; standard physics σ⁻ convention)
+- Measured asymmetry = −0.027200 (ratio 1.000000)
 
 ## Scope (what doesn't contribute to F113)
 
@@ -93,7 +93,7 @@ This is the structural origin of F113's restriction to Z-drives.
 
 ## Implications
 
-- **Hardware fingerprinting.** Any hardware protocol that combines a single-site Z-drive (deliberate or as a Stark shift) with amplitude damping will exhibit measurable F112 asymmetry. The asymmetry magnitude directly extracts γ_T1 · ω / (predictable structural factor). At the f95 angle-steering parameters (ω = 0.13, γ_T1 ≈ 0.001 per μs, N=2 effective), predicted asymmetry is 16 · 0.13 · 0.001 = 2.08e-3, matching the Welle 2 hardware-fit value bit-exact.
+- **Hardware fingerprinting.** Any hardware protocol that combines a single-site Z-drive (deliberate or as a Stark shift) with amplitude damping will exhibit measurable F112 asymmetry. The asymmetry magnitude directly extracts ω · (γ_pump − γ_T1) / (predictable structural factor). At the f95 angle-steering parameters (ω = 0.13, γ_T1 ≈ 0.001 per μs, γ_pump = 0, N = 2 effective), predicted asymmetry is 16 · 0.13 · (0 − 0.001) = −2.08e-3, matching the Welle 2 hardware-fit value bit-exact in both sign and magnitude.
 - **Calibration tool.** Inverted: given measured F112 asymmetry on hardware-effective L, F113 directly gives γ_T1,l · ω_l from the measurement. Could become a per-site T1-extraction protocol when the drive parameters are known.
 - **F112 typed-scope sharpening.** F112's typed Tier1Derived covers Hermitian H + bit_b-homogeneous c, giving asymmetry = 0. F112's empirical envelope was loosely "bit_b-mixed c also balances", refuted by Welle 2. F113 provides the exact closed-form for the regime where the envelope breaks; together F112 + F113 give a complete picture of the polarity-axis behavior across the standard Lindblad family.
 

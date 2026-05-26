@@ -3731,7 +3731,7 @@ sweep regression (commit referencing this entry).
 the F112 polarity asymmetry has the closed form
 
     asymmetry := ‖M_plus_half‖² − ‖M_minus_half‖²
-              = (4^N / 2) · Σ_l ω_l · (γ_T1,l − γ_pump,l)
+              = (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l)
 
 bit-exactly. Verified at N = 2, 3, 4 via parameter sweep (`simulations/
 _f113_break_formula_derivation.py`); per-site decomposition, cross-site
@@ -3754,11 +3754,13 @@ from Π-eigenspace structure is open (would lift to Tier 1 derived for
 all N).
 
 **Hardware fingerprinting application:** asymmetry measurement directly
-extracts Σ_l ω_l · (γ_T1,l − γ_pump,l) when drive parameters are known;
+extracts Σ_l ω_l · (γ_pump,l − γ_T1,l) when drive parameters are known;
 becomes a per-site amplitude-damping calibration tool when combined with
 ω_l knowledge. The Welle 2 hardware-fit value for f95 (ω=0.13, γ_T1≈0.001,
-N=2) gives F113-predicted 16·0.13·0.001 = 2.08e−3, matching the fitted
-value bit-exact.
+γ_pump=0, N=2) gives F113-predicted 16·0.13·(0 − 0.001) = −2.08e−3,
+matching the fitted value bit-exact (the rel asymmetry sign tracked
+correctly through both the Python derivation script and the C# pipeline
+after the 2026-05-26 convention reconciliation).
 
 **Sister claims:**
 - F112 (Tier 1 derived Hermitian H + bit_b-homogeneous c → asymmetry = 0)

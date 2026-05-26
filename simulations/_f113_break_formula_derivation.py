@@ -36,7 +36,13 @@ I2 = np.eye(2, dtype=complex)
 X = np.array([[0, 1], [1, 0]], dtype=complex)
 Y = np.array([[0, -1j], [1j, 0]], dtype=complex)
 Z = np.array([[1, 0], [0, -1]], dtype=complex)
-SIGMA_MINUS = np.array([[0, 0], [1, 0]], dtype=complex)
+# Standard physics convention: σ⁻ = |0⟩⟨1| lowers |1⟩ → |0⟩ (T1 cooling).
+# Earlier version of this script had σ⁻ swapped with σ⁺; corrected 2026-05-26
+# after C# F113 typed-wave cross-validation flagged the sign mismatch against
+# T1Dissipator. The F113 formula sign convention is now standard physics:
+# σ⁻ T1 cooling drives positive asymmetry contribution; σ⁺ pumping flips sign.
+SIGMA_MINUS = np.array([[0, 1], [0, 0]], dtype=complex)
+SIGMA_PLUS = np.array([[0, 0], [1, 0]], dtype=complex)
 
 
 def site_op(N, l, m2):

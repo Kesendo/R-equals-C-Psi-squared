@@ -81,31 +81,32 @@ public class LindbladBitBPiBreakMagnitudeTests
     // ============================================================
 
     [Fact]
-    public void PredictAsymmetryUniform_N2_GivesSixteen()
+    public void PredictAsymmetryUniform_N2_GivesMinusSixteen()
     {
-        // ω = γ_T1 = 1, γ_pump = 0: asymmetry = (2 / 2) · 4^2 · 1 · 1 = 16.
-        // Bit-exact match required (no floating noise possible from integer powers).
+        // ω = γ_T1 = 1, γ_pump = 0: asymmetry = (2 / 2) · 4^2 · 1 · (0 − 1) = −16.
+        // Standard physics convention: T1 cooling at positive ω gives negative
+        // polarity asymmetry. Bit-exact match required (no floating noise from integer powers).
         double a = LindbladBitBPiBreakMagnitude.PredictAsymmetryUniform(
             omega: 1.0, gammaT1: 1.0, gammaPump: 0.0, N: 2);
-        Assert.Equal(16.0, a);
+        Assert.Equal(-16.0, a);
     }
 
     [Fact]
-    public void PredictAsymmetryUniform_N3_GivesNinetySix()
+    public void PredictAsymmetryUniform_N3_GivesMinusNinetySix()
     {
-        // (3 / 2) · 4^3 · 1 · 1 = 1.5 · 64 = 96.
+        // (3 / 2) · 4^3 · 1 · (0 − 1) = 1.5 · 64 · (−1) = −96.
         double a = LindbladBitBPiBreakMagnitude.PredictAsymmetryUniform(
             omega: 1.0, gammaT1: 1.0, gammaPump: 0.0, N: 3);
-        Assert.Equal(96.0, a);
+        Assert.Equal(-96.0, a);
     }
 
     [Fact]
-    public void PredictAsymmetryUniform_N4_GivesFiveHundredTwelve()
+    public void PredictAsymmetryUniform_N4_GivesMinusFiveHundredTwelve()
     {
-        // (4 / 2) · 4^4 · 1 · 1 = 2 · 256 = 512.
+        // (4 / 2) · 4^4 · 1 · (0 − 1) = 2 · 256 · (−1) = −512.
         double a = LindbladBitBPiBreakMagnitude.PredictAsymmetryUniform(
             omega: 1.0, gammaT1: 1.0, gammaPump: 0.0, N: 4);
-        Assert.Equal(512.0, a);
+        Assert.Equal(-512.0, a);
     }
 
     // ============================================================
@@ -115,9 +116,11 @@ public class LindbladBitBPiBreakMagnitudeTests
     [Fact]
     public void PredictAsymmetry_NonUniformRates_MatchesSumFormula()
     {
-        // Reproduces _f113_break_formula_derivation.py "Non-uniform rates" anchor:
+        // Reproduces _f113_break_formula_derivation.py "Non-uniform rates" anchor
+        // under standard physics convention (σ⁻ lowering): pure σ⁻ T1 cooling at
+        // positive ω gives NEGATIVE asymmetry.
         // ω_l = (0.05, 0.1, 0.2), γ_T1,l = (0.001, 0.002, 0.003), γ_pump = 0, N=3.
-        // (1/2)·4^3 · (0.05·0.001 + 0.1·0.002 + 0.2·0.003) = 32 · 0.00085 = 0.0272.
+        // (1/2)·4^3 · Σ ω_l · (0 − γ_T1,l) = 32 · (−0.00085) = −0.0272.
         var omegas = new[] { 0.05, 0.1, 0.2 };
         var t1 = new[] { 0.001, 0.002, 0.003 };
         var pump = new[] { 0.0, 0.0, 0.0 };
@@ -125,9 +128,9 @@ public class LindbladBitBPiBreakMagnitudeTests
         double a = LindbladBitBPiBreakMagnitude.PredictAsymmetry(omegas, t1, pump, N: 3);
 
         double expected = 0.5 * Math.Pow(4.0, 3) *
-                          (0.05 * 0.001 + 0.1 * 0.002 + 0.2 * 0.003);
+                          (0.05 * (0.0 - 0.001) + 0.1 * (0.0 - 0.002) + 0.2 * (0.0 - 0.003));
         Assert.Equal(expected, a, precision: 12);
-        Assert.Equal(0.0272, a, precision: 12);
+        Assert.Equal(-0.0272, a, precision: 12);
     }
 
     [Fact]
@@ -198,23 +201,16 @@ public class LindbladBitBPiBreakMagnitudeTests
     public void PredictAsymmetry_MatchesPolarityCoordinatesDecompose_AtN2_UniformZDrive()
     {
         // Welle 2 anchor: N=2, ω=0.13 per site, γ_T1=0.001 per site, γ_Z=0.005.
-        // F113-predicted = (1/2)·4^2 · 2 · 0.13 · 0.001 = 16 · 0.13 · 0.001 = 2.08e-3.
-        // Cross-validation: build L via the same Lindblad pipeline as
-        // PolarityCoordinates.Decompose's k-body path, compute the asymmetry
-        // numerically (|asymmetry|), verify magnitude match.
+        // Standard physics convention (σ⁻ = lowering): T1 cooling at positive
+        // ω gives NEGATIVE polarity asymmetry. F113-predicted = (1/2)·4^2 · 2 ·
+        // 0.13 · (0 − 0.001) = 16 · 0.13 · (−0.001) = −2.08e-3.
         //
-        // σ⁻/σ⁺ convention note: the F113 derivation script
-        // (simulations/_f113_break_formula_derivation.py) defines SIGMA_MINUS as
-        // [[0, 0], [1, 0]] (a raising-style matrix in standard physics convention).
-        // The C# T1Dissipator uses the standard physics σ⁻ = [[0, 1], [0, 0]]
-        // (lowering: σ⁻|1⟩ = |0⟩). The two conventions are σ⁺ ↔ σ⁻ swaps, so the
-        // computed asymmetry has the opposite SIGN relative to the F113 spec
-        // formula in the Z-drive × σ⁻ regime. The magnitude (|asymmetry|) is
-        // bit-exactly the same; the formula governs the magnitude completely.
-        // We assert both magnitude equality (the operative content) and the
-        // expected sign relationship (measured = −predicted under this
-        // convention pair), so a real sign / magnitude regression is caught
-        // even though we accommodate the documented convention divergence.
+        // Cross-validation builds L via the same Lindblad pipeline that
+        // PolarityCoordinates.Decompose uses (T1Dissipator + Z-dephasing,
+        // standard physics σ⁻), computes the asymmetry numerically, and
+        // verifies bit-exact sign + magnitude agreement with PredictAsymmetry.
+        // This is the integration anchor pinning the C# closed form to the
+        // C# Diagnostics-layer numerical pipeline.
         const int N = 2;
         const double omega = 0.13;
         const double gammaT1 = 0.001;
@@ -237,22 +233,16 @@ public class LindbladBitBPiBreakMagnitudeTests
             gammaPumpPerSite: new[] { 0.0, 0.0 },
             N: N);
 
-        // Bit-exact closed-form anchor: 16 · 0.13 · 0.001 = 0.00208.
-        Assert.Equal(0.00208, predicted, precision: 12);
+        // Bit-exact closed-form anchor: 16 · 0.13 · (0 − 0.001) = −0.00208.
+        Assert.Equal(-0.00208, predicted, precision: 12);
 
-        // Magnitude equality (cross-validation relative tolerance 1e-9; the
-        // PolarityCoordinates pipeline is numerical via vec → Pauli transform).
-        double relMag = Math.Abs(Math.Abs(measured) - Math.Abs(predicted)) /
-                        Math.Max(Math.Abs(predicted), 1e-15);
-        Assert.True(relMag < 1e-9,
-            $"F113 |predicted| {predicted:E6} vs |measured| {measured:E6}, " +
-            $"rel mag diff {relMag:E3}");
-
-        // Sign relationship (catches a real sign-convention regression).
-        Assert.True(measured * predicted < 0,
-            $"F113 expected measured and predicted to have opposite signs under " +
-            $"the σ⁻ ↔ σ⁺ convention divergence; got measured = {measured:E6}, " +
-            $"predicted = {predicted:E6}");
+        // Sign + magnitude equality (cross-validation relative tolerance 1e-9;
+        // the PolarityCoordinates pipeline is numerical via vec → Pauli transform).
+        double relDiff = Math.Abs(measured - predicted) /
+                         Math.Max(Math.Abs(predicted), 1e-15);
+        Assert.True(relDiff < 1e-9,
+            $"F113 predicted {predicted:E6} vs measured {measured:E6}, " +
+            $"rel diff {relDiff:E3}");
     }
 
     [Fact]
@@ -260,12 +250,8 @@ public class LindbladBitBPiBreakMagnitudeTests
     {
         // Same _f113_break_formula_derivation.py "Non-uniform rates" anchor at N=3:
         // ω_l = (0.05, 0.1, 0.2), γ_T1,l = (0.001, 0.002, 0.003), γ_Z = 0 (pure
-        // Z-drive + σ⁻ T1 isolation). F113-predicted magnitude = 0.0272.
-        //
-        // σ⁻/σ⁺ convention note as in the N=2 cross-validation test above:
-        // the C# pipeline uses standard physics σ⁻; the F113 derivation script
-        // uses a raising-style matrix. Asymmetry magnitudes match bit-exactly;
-        // signs are opposite by the convention swap. We assert both.
+        // Z-drive + σ⁻ T1 isolation). Standard physics convention: σ⁻ T1 cooling
+        // at positive ω gives NEGATIVE asymmetry = −0.0272.
         const int N = 3;
         var omegas = new[] { 0.05, 0.1, 0.2 };
         var t1 = new[] { 0.001, 0.002, 0.003 };
@@ -285,18 +271,13 @@ public class LindbladBitBPiBreakMagnitudeTests
             gammaPumpPerSite: new[] { 0.0, 0.0, 0.0 },
             N: N);
 
-        Assert.Equal(0.0272, predicted, precision: 12);
+        Assert.Equal(-0.0272, predicted, precision: 12);
 
-        double relMag = Math.Abs(Math.Abs(measured) - Math.Abs(predicted)) /
-                        Math.Max(Math.Abs(predicted), 1e-15);
-        Assert.True(relMag < 1e-9,
-            $"F113 |predicted| {predicted:E6} vs |measured| {measured:E6}, " +
-            $"rel mag diff {relMag:E3}");
-
-        Assert.True(measured * predicted < 0,
-            $"F113 expected measured and predicted to have opposite signs under " +
-            $"the σ⁻ ↔ σ⁺ convention divergence; got measured = {measured:E6}, " +
-            $"predicted = {predicted:E6}");
+        double relDiff = Math.Abs(measured - predicted) /
+                         Math.Max(Math.Abs(predicted), 1e-15);
+        Assert.True(relDiff < 1e-9,
+            $"F113 predicted {predicted:E6} vs measured {measured:E6}, " +
+            $"rel diff {relDiff:E3}");
     }
 
     // ============================================================

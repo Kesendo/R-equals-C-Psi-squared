@@ -21,7 +21,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>the F112 polarity asymmetry has the closed form</para>
 ///
 /// <para>  asymmetry := ‖M_plus_half‖² − ‖M_minus_half‖² =
-///   (4^N / 2) · Σ_l ω_l · (γ_T1,l − γ_pump,l)</para>
+///   (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l)</para>
 ///
 /// <para>bit-exactly. Verified at N=2, 3, 4 via parameter sweep
 /// (<c>simulations/_f113_break_formula_derivation.py</c>); per-site decomposition,
@@ -85,11 +85,14 @@ public sealed class LindbladBitBPiBreakMagnitude : Claim, IZ2AxisClaim
     /// records the structural relationship in the inheritance graph.</summary>
     public LindbladBitBPiBalance Parent { get; }
 
-    /// <summary>The theorem statement in one line.</summary>
+    /// <summary>The theorem statement in one line. Standard physics convention:
+    /// σ⁻ = |0⟩⟨1| = [[0, 1], [0, 0]] is the lowering operator (T1 cooling drives
+    /// |1⟩ → |0⟩), σ⁺ = [[0, 0], [1, 0]] is the raising operator (pumping).</summary>
     public string Theorem =>
-        "asymmetry = (4^N / 2) · Σ_l ω_l · (γ_T1,l − γ_pump,l) for Lindblad-form L with " +
+        "asymmetry = (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l) for Lindblad-form L with " +
         "Hermitian H = Σ_l (ω_l/2)·Z_l + bit_b-homogeneous additions and dissipator c " +
-        "with σ⁻_l rate γ_T1,l + σ⁺_l rate γ_pump,l per site. Bit-exact at N=2, 3, 4.";
+        "with σ⁻_l rate γ_T1,l + σ⁺_l rate γ_pump,l per site (standard physics " +
+        "convention: σ⁻ is lowering). Bit-exact at N = 2, 3, 4.";
 
     /// <summary>What does NOT contribute to F113 (the F112-in-scope or cancelling
     /// terms). The closed form is additive in only two channels: single-site Z-drives
@@ -123,7 +126,7 @@ public sealed class LindbladBitBPiBreakMagnitude : Claim, IZ2AxisClaim
     /// <summary>Predict the F112 polarity asymmetry magnitude from per-site (ω_l,
     /// γ_T1,l, γ_pump,l) inputs:
     ///
-    /// <para>  asymmetry = (4^N / 2) · Σ_l ω_l · (γ_T1,l − γ_pump,l).</para>
+    /// <para>  asymmetry = (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l).</para>
     ///
     /// <para>Empty arrays return 0. All three lists must have the same length
     /// (= <paramref name="N"/>); a mismatch throws <see cref="ArgumentException"/>.
@@ -155,13 +158,13 @@ public sealed class LindbladBitBPiBreakMagnitude : Claim, IZ2AxisClaim
 
         double sum = 0.0;
         for (int l = 0; l < N; l++)
-            sum += omegasPerSite[l] * (gammaT1PerSite[l] - gammaPumpPerSite[l]);
+            sum += omegasPerSite[l] * (gammaPumpPerSite[l] - gammaT1PerSite[l]);
 
         double prefactor = Math.Pow(4.0, N) / 2.0;
         return prefactor * sum;
     }
 
-    /// <summary>Uniform-rate convenience: asymmetry = (N / 2) · 4^N · ω · (γ_T1 − γ_pump)
+    /// <summary>Uniform-rate convenience: asymmetry = (N / 2) · 4^N · ω · (γ_pump − γ_T1)
     /// when ω_l = ω, γ_T1,l = γ_T1, γ_pump,l = γ_pump on every site.
     /// <paramref name="N"/> must be ≥ 0; returns 0 at N = 0.</summary>
     public static double PredictAsymmetryUniform(
@@ -173,13 +176,13 @@ public sealed class LindbladBitBPiBreakMagnitude : Claim, IZ2AxisClaim
         if (N < 0) throw new ArgumentOutOfRangeException(nameof(N), $"N must be ≥ 0; got {N}");
         if (N == 0) return 0.0;
         double prefactor = Math.Pow(4.0, N) / 2.0;
-        return prefactor * N * omega * (gammaT1 - gammaPump);
+        return prefactor * N * omega * (gammaPump - gammaT1);
     }
 
     public LindbladBitBPiBreakMagnitude(LindbladBitBPiBalance parent)
         : base("F113 closed-form magnitude for F112 polarity-asymmetry break " +
                "(Z-drive × amplitude-damping): " +
-               "asymmetry = (4^N / 2) · Σ_l ω_l · (γ_T1,l − γ_pump,l). " +
+               "asymmetry = (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l). " +
                "Bit-exact at N=2, 3, 4; Tier1Candidate general N.",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F113 + " +
@@ -240,19 +243,18 @@ public sealed class LindbladBitBPiBreakMagnitude : Claim, IZ2AxisClaim
                          "parameter sweep + per-site decomposition. Rigorous derivation from " +
                          "Π-eigenspace structure of [Z, σ⁻] = −2·σ⁻ commutator is open " +
                          "(would promote universal-N scope from Tier1Candidate to Tier1Derived).");
-            yield return new InspectableNode("σ⁻ / σ⁺ sign-convention note",
-                summary: "The F113 derivation script (simulations/_f113_break_formula_derivation.py) " +
-                         "defines its SIGMA_MINUS as [[0, 0], [1, 0]], a raising-style matrix in " +
-                         "standard physics convention. The C# T1Dissipator uses the standard " +
-                         "physics σ⁻ = [[0, 1], [0, 0]] (lowering, σ⁻|1⟩ = |0⟩). The two conventions " +
-                         "are an exact σ⁻ ↔ σ⁺ swap, so the asymmetry MAGNITUDE matches bit-exactly " +
-                         "but the SIGN flips when the C# pipeline is the reference. PredictAsymmetry " +
-                         "encodes the F113 spec formula as-published; the C# Diagnostics-layer " +
-                         "PolarityCoordinates.Decompose with T1Dissipator (standard physics σ⁻) " +
-                         "yields −PredictAsymmetry under the spec's sign convention. " +
-                         "The cross-validation tests assert magnitude match plus the expected " +
-                         "opposite-sign relationship (LindbladBitBPiBreakMagnitudeTests in " +
-                         "RCPsiSquared.Core.Tests).");
+            yield return new InspectableNode("σ⁻ / σ⁺ sign convention",
+                summary: "Standard physics throughout: σ⁻ = |0⟩⟨1| = [[0, 1], [0, 0]] is the " +
+                         "lowering operator (σ⁻|1⟩ = |0⟩, the T1 cooling channel); σ⁺ = " +
+                         "[[0, 0], [1, 0]] is the raising operator (the pumping channel). " +
+                         "With this convention, T1 cooling (γ_T1 > 0, γ_pump = 0) and positive " +
+                         "Z-drive (ω > 0) produce NEGATIVE polarity asymmetry of magnitude " +
+                         "(4^N / 2) · ω · γ_T1; pumping (γ_pump > γ_T1) flips to positive. " +
+                         "The (γ_pump − γ_T1) factor is the net heating rate; cooling-dominant " +
+                         "Lindblad systems give negative asymmetry. PredictAsymmetry and the C# " +
+                         "Diagnostics-layer PolarityCoordinates.Decompose (using the same " +
+                         "convention) agree bit-exactly in sign and magnitude (see cross-validation " +
+                         "tests in LindbladBitBPiBreakMagnitudeTests).");
         }
     }
 }
