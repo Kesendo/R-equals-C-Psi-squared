@@ -107,16 +107,19 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
         "the operator). All three F87 classes (truly, soft, hard) at N=3 under standard " +
         "Z-dephasing give F112 asymmetry = 0 bit-exactly.";
 
-    /// <summary>Non-Hermitian H extension status: empirical only, Tier1Candidate; not
-    /// typed as a separate Claim.</summary>
+    /// <summary>Non-Hermitian H extension status: Tier1Derived at N=2, 3, 4 via
+    /// basis-enumeration proof (2026-05-26); Tier1Candidate empirical at N ≥ 5.</summary>
     public string NonHermitianExtension =>
-        "The equality ‖M_plus_half‖² = ‖M_minus_half‖² is also observed bit-exact for arbitrary " +
-        "non-Hermitian H across 20 random configurations at N=2, 3 (probe 14, " +
-        "_polarity_step5_stress.py Tests 2-3). Writing H = H_re + i H_im with both summands " +
-        "Hermitian, the equality reduces structurally to the open identity " +
-        "Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0. Tier1Candidate (empirical anchor only); rigorous " +
-        "proof open. Documented here but NOT typed as a separate Claim: the Hermitian-H scope " +
-        "covers all standard Lindblad systems and is the physically relevant scope.";
+        "Writing H = H_re + i H_im with both summands Hermitian, the equality reduces " +
+        "algebraically to the identity F(H_re, H_im) := Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0 " +
+        "for any Hermitian H_re, H_im. F is real-bilinear and antisymmetric under H_re ↔ H_im " +
+        "exchange, so it is determined by its values on Pauli-string basis pairs. Numerical " +
+        "enumeration (simulations/_f112_open_identity_basis_enum.py, 2026-05-26) gives F = 0 " +
+        "bit-exact across all 136 + 2080 + 32896 = 35112 Pauli-string pairs at N=2, 3, 4. " +
+        "By bilinearity + basis spanning, F112 non-Hermitian extension is therefore " +
+        "Tier1Derived at N ≤ 4. For N ≥ 5 the extension remains Tier1Candidate (empirical " +
+        "pattern bit-exact at every tested N and bit_b cell, but no universal-N lifting " +
+        "argument yet). See experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md.";
 
     // ============================================================
     // Static helpers (delegating to PauliLetter.BitB())
@@ -196,7 +199,7 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
 
     public override string DisplayName =>
         "F112 Lindblad Π-eigenvalue balance under bit_b-homogeneous c " +
-        "(Hermitian H Tier1Derived; non-Hermitian extension Tier1Candidate)";
+        "(Hermitian H Tier1Derived; non-Hermitian extension Tier1Derived at N ≤ 4, Tier1Candidate N ≥ 5)";
 
     public override string Summary =>
         $"{Theorem} {F87Orthogonality} ({Tier.Label()})";

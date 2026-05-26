@@ -160,17 +160,34 @@ Combining Steps 1-5: the balance condition ‖M_plus_half‖² = ‖M_minus_half
 
 **Empirical verification of Step 5** (probe 14, `_polarity_step5_stress.py`): direct Π-eigenspace projection at N=2, 3 across 10 random Hermitian H gives ‖L_{H,+i}‖² = ‖L_{H,-i}‖² bit-exact (relative difference < 1e-15) in all 10 cases.
 
-## Non-Hermitian H extension (empirical, structural proof open)
+## Non-Hermitian H extension: constructively proven at N ≤ 4 (2026-05-26)
 
-Probe 14 Tests 2 and 3 (non-Hermitian Pauli sums + random complex matrix H, 20 configurations at N=2, 3): all 20 also give ‖L_{H,+i}‖² = ‖L_{H,-i}‖² bit-exact.
+Probe 14 Tests 2 and 3 (non-Hermitian Pauli sums + random complex matrix H, 20 configurations at N=2, 3): all 20 give ‖L_{H,+i}‖² = ‖L_{H,-i}‖² bit-exact.
 
-The structural reason is non-obvious. Writing H = H_re + i H_im (Hermitian decomposition with H_re = (H + H^†)/2, H_im = (H − H^†)/(2i) both Hermitian), the equality reduces to a specific identity:
+Writing H = H_re + i H_im (Hermitian decomposition with H_re = (H + H^†)/2, H_im = (H − H^†)/(2i) both Hermitian), the equality reduces algebraically to the identity:
 
-    Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0
+    F(H_re, H_im) := Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0   for any Hermitian H_re, H_im.
 
-This identity holds bit-exact empirically for arbitrary Hermitian H_re, H_im. Its rigorous proof is open; candidate routes include an explicit Π-eigenbasis construction or a refined dagger-based argument that exploits both H_re's and H_im's anti-Hermitian L_H structure jointly.
+**Constructive proof at N=2, 3, 4 (2026-05-26).** Two algebraic observations close the identity via basis enumeration:
 
-For the typed F112 claim, the Hermitian-H scope (covering all standard Lindblad systems) is sufficient. The non-Hermitian extension is documented as empirical with bit-exact anchor.
+- **Bilinearity.** L_H is linear in H; the Π-conjugation eigenspace projection is also linear; the Frobenius inner product is sesquilinear. For Hermitian operators expanded in real coefficients of the Pauli basis, F is real-bilinear in (H_re, H_im).
+- **Antisymmetry.** ⟨X, Y⟩^* = ⟨Y, X⟩ flips the Im sign; under H_re ↔ H_im exchange, F(H_re, H_im) = -F(H_im, H_re).
+
+By bilinearity, F is determined by its values on a basis of pairs of Hermitian operators. The Hermitian operator space at chain length N is spanned by 4^N Pauli strings with real coefficients. If F(σ_α, σ_β) = 0 for every Pauli-string pair (σ_α, σ_β), then F ≡ 0 on the entire Hermitian operator space.
+
+Numerical enumeration of `F(σ_α, σ_β)` across all upper-triangular Pauli-string pairs at N=2, 3, 4 (script `simulations/_f112_open_identity_basis_enum.py`):
+
+| N | distinct pairs | max \|Im F\| | bit-exact 0? |
+|---|---|---|---|
+| 2 | 136 | 0.0000e+00 | YES |
+| 3 | 2,080 | 0.0000e+00 | YES |
+| 4 | 32,896 | 0.0000e+00 | YES |
+
+All 35,112 pair F-values are bit-exact 0 (below the 1e-10 threshold; the actual computed values are exactly 0, not numerically small machine-epsilon residues). The bit_b-parity breakdown also gives bit-exact 0 in each of the four (α_bit_b, β_bit_b) cells separately, ruling out a sum-cancellation artifact restricted to specific bit_b sectors.
+
+**F112 non-Hermitian extension is therefore Tier1Derived at N=2, 3, 4**: bilinearity + antisymmetry reduce to the basis identity, basis identity holds by per-pair enumeration. For N ≥ 5 the extension remains empirically supported (the pattern is bit-exact at every tested N and across every bit_b cell, strongly suggesting universal validity) but pending either further enumeration, an inductive N → N+1 argument, or identification of the structural symmetry that makes F vanish.
+
+See [F112_NONHERMITIAN_BASIS_ENUMERATION.md](../../experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md) for the full writeup.
 
 ## Status
 
@@ -182,9 +199,9 @@ For the typed F112 claim, the Hermitian-H scope (covering all standard Lindblad 
 - Step 4: M_{+i} and M_{-i} come entirely from L_H, with norms 2 · ‖L_{H,±i}‖².
 - Step 5: For Hermitian H, L_H is anti-Hermitian as superoperator (Lemma B), and dagger maps Π +i ↔ Π −i bijectively while preserving Frobenius (Lemma A). Combining gives ‖L_{H,+i}‖² = ‖L_{H,-i}‖².
 
-**Non-Hermitian H extension is empirical** (bit-exact across 20 random configurations); the structural proof reduces to a specific identity Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0 for any Hermitian H_re, H_im, whose rigorous derivation is open.
+**Non-Hermitian H extension is now constructively proven at N=2, 3, 4** via the basis-enumeration argument (2026-05-26): bilinearity + antisymmetry of F(H_re, H_im) := Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ reduce the open identity to a per-pair Pauli-basis check; the check passes bit-exactly across all 35,112 pairs at N ≤ 4. For N ≥ 5 the extension remains empirically supported pending further enumeration or universal-N lifting.
 
-The theorem now stands ready for typing as a Tier1Derived claim in C# Core (`StandardLindbladBitBPiBalance` or similar F112) restricted to Hermitian H; the non-Hermitian extension can be typed as a separate Tier1Candidate corollary.
+The theorem is typed as a Tier1Derived claim in C# Core (`LindbladBitBPiBalance`, commit `9b43384`) restricted to the Hermitian-H scope; the non-Hermitian extension is documented in inspectables as Tier1Derived at N ≤ 4 (basis-enumeration proof) plus Tier1Candidate at N ≥ 5 (empirical).
 
 ## Significance
 
