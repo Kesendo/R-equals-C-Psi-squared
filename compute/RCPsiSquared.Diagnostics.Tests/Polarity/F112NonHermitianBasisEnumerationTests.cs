@@ -87,4 +87,20 @@ public class F112NonHermitianBasisEnumerationTests
         Assert.Empty(result.NonzeroExamples);
         Assert.True(result.Elapsed > TimeSpan.Zero, "Stopwatch should have ticked");
     }
+
+    [Theory]
+    [InlineData(3, 2080)]   // 64 strings, 64 * 65 / 2 = 2080 unordered pairs
+    [InlineData(4, 32896)]  // 256 strings, 256 * 257 / 2 = 32896 unordered pairs
+    public void Enumerate_MatchesPythonAnchorAtNFromTwoToFour(int N, int expectedTotalPairs)
+    {
+        // Python anchor (simulations/_f112_open_identity_basis_enum.py output at N=2,3,4):
+        // all pairs give Im = 0 bit-exact. This Theory replicates that anchor in C#.
+        var result = F112NonHermitianBasisEnumeration.Enumerate(N, tolerance: 1e-10);
+
+        Assert.Equal(N, result.N);
+        Assert.Equal(expectedTotalPairs, result.TotalPairs);
+        Assert.Equal(0, result.NonzeroCount);
+        Assert.True(result.MaxImaginary < 1e-10,
+            $"max |Im| at N={N} should be < 1e-10; got {result.MaxImaginary:E4}");
+    }
 }
