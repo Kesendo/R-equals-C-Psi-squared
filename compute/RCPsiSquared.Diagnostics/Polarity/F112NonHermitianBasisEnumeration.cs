@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Complex;
 using RCPsiSquared.Core.Pauli;
 using RCPsiSquared.Core.Symmetry;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
@@ -65,7 +66,18 @@ public static class F112NonHermitianBasisEnumeration
         return result;
     }
 
-    /// <summary>Frobenius inner product ⟨A, B⟩ = Σ A[i,j]* · B[i,j] = Tr(A† B).</summary>
+    /// <summary>Frobenius inner product ⟨A, B⟩ = Σ A[i,j]* · B[i,j] = Tr(A† B).
+    ///
+    /// <para>Uses the underlying dense column-major <c>Complex[]</c> storage via
+    /// <see cref="DenseMatrix.Values"/> for a tight inner loop. Frobenius inner product
+    /// is invariant under any consistent linearization, so the flat array can be walked
+    /// in storage order without re-permuting (i, j) indices. This skips MathNet's
+    /// per-element method call + bounds check; at N=5 (1024×1024 matrices × 524k pairs)
+    /// the difference is hours vs minutes single-threaded.</para>
+    ///
+    /// <para>Throws <see cref="InvalidCastException"/> if the inputs are not dense
+    /// column-major matrices. Deliberately no fallback: a silent slow-path would
+    /// regress the N=5 forecast.</para></summary>
     public static Complex FrobeniusInner(ComplexMatrix A, ComplexMatrix B)
     {
         if (A is null) throw new ArgumentNullException(nameof(A));
@@ -73,10 +85,12 @@ public static class F112NonHermitianBasisEnumeration
         if (A.RowCount != B.RowCount || A.ColumnCount != B.ColumnCount)
             throw new ArgumentException($"shape mismatch: A is {A.RowCount}x{A.ColumnCount}, B is {B.RowCount}x{B.ColumnCount}");
 
+        var aData = ((DenseMatrix)A).Values;
+        var bData = ((DenseMatrix)B).Values;
+
         Complex sum = Complex.Zero;
-        for (int i = 0; i < A.RowCount; i++)
-            for (int j = 0; j < A.ColumnCount; j++)
-                sum += Complex.Conjugate(A[i, j]) * B[i, j];
+        for (int i = 0; i < aData.Length; i++)
+            sum += Complex.Conjugate(aData[i]) * bData[i];
         return sum;
     }
 
@@ -142,8 +156,8 @@ public static class F112NonHermitianBasisEnumeration
                     nonzeroCount++;
                     if (examples.Count < 10)
                     {
-                        string alphaName = LettersToString(PauliIndex.FromFlat(a, N));
-                        string betaName = LettersToString(PauliIndex.FromFlat(b, N));
+                        string alphaName = PauliLabel.Format(PauliIndex.FromFlat(a, N));
+                        string betaName = PauliLabel.Format(PauliIndex.FromFlat(b, N));
                         examples.Add((alphaName, betaName, inner.Imaginary));
                     }
                 }
@@ -154,22 +168,5 @@ public static class F112NonHermitianBasisEnumeration
         stopwatch.Stop();
         double meanAbsIm = sumAbsIm / totalPairs;
         return new EnumerationResult(N, totalPairs, nonzeroCount, maxIm, meanAbsIm, stopwatch.Elapsed, examples);
-    }
-
-    private static string LettersToString(IReadOnlyList<PauliLetter> letters)
-    {
-        var chars = new char[letters.Count];
-        for (int i = 0; i < letters.Count; i++)
-        {
-            chars[i] = letters[i] switch
-            {
-                PauliLetter.I => 'I',
-                PauliLetter.X => 'X',
-                PauliLetter.Y => 'Y',
-                PauliLetter.Z => 'Z',
-                _ => '?'
-            };
-        }
-        return new string(chars);
     }
 }

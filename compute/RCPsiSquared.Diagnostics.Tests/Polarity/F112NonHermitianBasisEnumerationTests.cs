@@ -84,5 +84,7 @@ public class F112NonHermitianBasisEnumerationTests
         Assert.Equal(0, result.NonzeroCount);
         Assert.True(result.MaxImaginary < 1e-10,
             $"max |Im| at N=2 should be < 1e-10; got {result.MaxImaginary:E4}");
+        Assert.Empty(result.NonzeroExamples);
+        Assert.True(result.Elapsed > TimeSpan.Zero, "Stopwatch should have ticked");
     }
 }
