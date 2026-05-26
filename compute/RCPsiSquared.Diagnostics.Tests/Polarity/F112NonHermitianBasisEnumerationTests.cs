@@ -71,4 +71,18 @@ public class F112NonHermitianBasisEnumerationTests
         Assert.Equal(1.0, inner.Real, precision: 10);
         Assert.Equal(0.0, inner.Imaginary, precision: 10);
     }
+
+    [Fact]
+    public void Enumerate_AtN2_All136UnorderedPairsAreBitExactZero()
+    {
+        // The Python anchor: at N=2, all 16 × 16 = 256 ordered pairs (136 distinct
+        // upper-triangular) give Im⟨L_α,-i, L_β,-i⟩ = 0 bit-exact within tolerance.
+        var result = F112NonHermitianBasisEnumeration.Enumerate(N: 2, tolerance: 1e-10);
+
+        Assert.Equal(2, result.N);
+        Assert.Equal(136, result.TotalPairs);  // 16 * 17 / 2 = 136 upper-triangular
+        Assert.Equal(0, result.NonzeroCount);
+        Assert.True(result.MaxImaginary < 1e-10,
+            $"max |Im| at N=2 should be < 1e-10; got {result.MaxImaginary:E4}");
+    }
 }

@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.Pauli;
+using RCPsiSquared.Core.Symmetry;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Diagnostics.Polarity;
@@ -76,5 +78,98 @@ public static class F112NonHermitianBasisEnumeration
             for (int j = 0; j < A.ColumnCount; j++)
                 sum += Complex.Conjugate(A[i, j]) * B[i, j];
         return sum;
+    }
+
+    /// <summary>Result record from a single F112 non-Hermitian enumeration run.
+    /// Mirrors the Python script's stdout summary.</summary>
+    public sealed record EnumerationResult(
+        int N,
+        int TotalPairs,
+        int NonzeroCount,
+        double MaxImaginary,
+        double MeanAbsImaginary,
+        TimeSpan Elapsed,
+        IReadOnlyList<(string Alpha, string Beta, double Imag)> NonzeroExamples);
+
+    /// <summary>Enumerate all upper-triangular unordered pairs (σ_α, σ_β) of Pauli
+    /// strings at length N, build L_α,-i and L_β,-i for each, compute the Frobenius
+    /// inner product ⟨L_α,-i, L_β,-i⟩, and report the maximum |Im|, count of pairs
+    /// above tolerance, and up to 10 non-zero examples.
+    ///
+    /// <para>If all pairs give Im &lt; tolerance, the F112 non-Hermitian extension is
+    /// proven at this N via bilinearity + Pauli-basis spanning.</para>
+    ///
+    /// <para>Memory: pre-caches 4^N L_α,-i matrices, each 4^N × 4^N complex = 16·4^(2N)
+    /// bytes. At N=5: 16 GB total cache. At N=6: 1 TB (infeasible without sparse rep).</para>
+    /// </summary>
+    public static EnumerationResult Enumerate(int N, double tolerance = 1e-10)
+    {
+        if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be ≥ 1");
+        long count = 1L << (2 * N);  // 4^N
+        if (count > int.MaxValue)
+            throw new ArgumentOutOfRangeException(nameof(N), N, "N too large: 4^N overflows int32");
+        int stringCount = (int)count;
+
+        var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+        var pi = PiOperator.BuildFull(N, PauliLetter.Z);
+
+        // Pre-compute L_α,-i for every Pauli string α
+        var cache = new ComplexMatrix[stringCount];
+        for (int k = 0; k < stringCount; k++)
+        {
+            var letters = PauliIndex.FromFlat(k, N);
+            var sigma = PauliString.Build(letters);
+            var L = BuildLHInPauliBasis(sigma, N);
+            cache[k] = ProjectOntoPiEigenspace(L, pi, -Complex.ImaginaryOne);
+        }
+
+        // Iterate upper-triangular pairs, check |Im⟨L_α,-i, L_β,-i⟩|
+        int totalPairs = 0;
+        int nonzeroCount = 0;
+        double maxIm = 0.0;
+        double sumAbsIm = 0.0;
+        var examples = new List<(string Alpha, string Beta, double Imag)>();
+        for (int a = 0; a < stringCount; a++)
+        {
+            for (int b = a; b < stringCount; b++)
+            {
+                var inner = FrobeniusInner(cache[a], cache[b]);
+                double absIm = Math.Abs(inner.Imaginary);
+                if (absIm > maxIm) maxIm = absIm;
+                sumAbsIm += absIm;
+                if (absIm > tolerance)
+                {
+                    nonzeroCount++;
+                    if (examples.Count < 10)
+                    {
+                        string alphaName = LettersToString(PauliIndex.FromFlat(a, N));
+                        string betaName = LettersToString(PauliIndex.FromFlat(b, N));
+                        examples.Add((alphaName, betaName, inner.Imaginary));
+                    }
+                }
+                totalPairs++;
+            }
+        }
+
+        stopwatch.Stop();
+        double meanAbsIm = sumAbsIm / totalPairs;
+        return new EnumerationResult(N, totalPairs, nonzeroCount, maxIm, meanAbsIm, stopwatch.Elapsed, examples);
+    }
+
+    private static string LettersToString(IReadOnlyList<PauliLetter> letters)
+    {
+        var chars = new char[letters.Count];
+        for (int i = 0; i < letters.Count; i++)
+        {
+            chars[i] = letters[i] switch
+            {
+                PauliLetter.I => 'I',
+                PauliLetter.X => 'X',
+                PauliLetter.Y => 'Y',
+                PauliLetter.Z => 'Z',
+                _ => '?'
+            };
+        }
+        return new string(chars);
     }
 }
