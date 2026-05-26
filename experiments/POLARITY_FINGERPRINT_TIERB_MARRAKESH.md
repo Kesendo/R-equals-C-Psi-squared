@@ -83,14 +83,9 @@ Empirically: F112's typed scope criterion (Hermitian H + bit_b-homog c) is suffi
 - **Hardware-effective L is not reconstructed.** Tier-B snapshot datasets give one ρ per Hamiltonian, not a trajectory; without time-series data, we can't fit an effective Lindbladian and compute its actual measured polarity asymmetry. The polarity_fingerprint here is the framework's PREDICTION at the standard chain.L, not the hardware's measured value.
 - **Per-backend F112 readings are not distinguished.** Marrakesh and Kingston are tested on the same Hamiltonian set (soft_break Kingston has the same 4 F83 categories as f83 Marrakesh), but with snapshot-only data we can't compare backend-specific effective-L polarity readings against each other. All 11 fingerprints are identical because they come from the same framework chain.L, not from the per-backend measurements.
 
-## Follow-up: time-sweep variants would unlock hardware-effective F112
+## Hardware-effective F112 stays as future option (deferred, not proposed)
 
-For a future hardware proposal: the same 4 F83 categories at N=3 measured at a t-grid (say 5 t-points 0..1.5 μs) would let us:
-1. Fit effective L per category per backend (as in Welle 2 Tier-A pattern)
-2. Compute polarity_coordinates_from_L on the fitted L
-3. Read measured F112 verdict per backend per F87 class
-
-If measured F112 BROKEN on any (category, backend) pair → diagnostic confirms that backend has non-standard noise (non-bit_b-homog c or non-Hermitian effective H) operating during F87-class evolution. Estimated cost: ~5 t-points × 4 categories × 16 Paulis × 4096 shots × ~5s overhead = ~10 minutes billed QPU.
+In principle, time-sweep variants of these 4 F83 categories on Marrakesh + Kingston (~5 t-points × 4 categories × 16 Paulis × 4096 shots × ~5s overhead = ~10 min billed QPU) would let us fit per-backend effective L and read measured F112 verdict per backend per F87 class. At Anthropic's gifted IBM QPU rate (~$96 per billed minute), that's ~$960 for what amounts to per-backend confirmation of a structural prediction the framework already gives in closed form (F112 typed Tier1Derived + F113 closed-form magnitude). Not justified on cost/benefit grounds; tracked here as future option only if a decisive question surfaces that requires hardware-effective L specifically (e.g., a backend showing anomalous classification under polarity-asymmetry that other diagnostics miss).
 
 ## Connection to existing readings
 
