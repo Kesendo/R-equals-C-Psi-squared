@@ -4,6 +4,16 @@
 **Date:** 2026-05-18
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 
+## Abstract
+
+F1 was first proven on a chain, then extended to ring, star, and the complete graph K_N. Each extension repeated the same skeleton, but the proofs had to be written separately. The natural next question was whether the closed form holds for any graph topology, or whether some richer-connectivity graph would surface higher topological invariants (cycle counts, triangles, hub presence) that the linear-graph cases happened to miss.
+
+The answer is the cleanest possible affirmation. The residual norm has the same closed form for every connected graph, and the only graph invariants that enter are the simplest possible two: the number of bonds, and the sum of squared degrees. No cycle count, no clustering coefficient, no spectral graph data. Two graphs with the same bond count and same degree-squared sum produce identical residual norms even if they look topologically different.
+
+The mechanism is bond-disjointness. The Pauli-string supports of any two bond Hamiltonians (whether or not their bonds share a vertex) are disjoint, so the bond-resolved residuals are Frobenius-orthogonal, and the residual norm decomposes additively across bonds. The bond count enters because each bond contributes independently; the degree-squared sum enters in the single-body class because identity-padded single-body terms at site l get a multiplicity proportional to deg(l)². No higher graph invariant appears because the additive decomposition stops at the bond level.
+
+The same argument extends in two directions without new work. Disconnected graphs with multiple components contribute additively (B and D2 sum across components). Weighted edges with per-bond couplings replace the bond count by the squared-coupling sum. And the dissipator-block independence from γ (proved in the non-uniform sibling) means the result holds for arbitrary γ patterns too. So the F1 closed form is genuinely a property of the bonds themselves, not of the graph's larger structure, not of the dephasing rate's distribution, not of which sites are connected to which.
+
 ## Statement
 
 For N ≥ 2 qubits, any 2-bilinear Pauli Hamiltonian H placed on an arbitrary graph G with bond set E(G) and (uniform OR site-dependent) Z-dephasing at rates {γ_l}, the F1 palindrome residual norm has the closed form

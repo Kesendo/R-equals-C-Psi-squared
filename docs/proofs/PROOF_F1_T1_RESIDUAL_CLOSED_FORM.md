@@ -4,6 +4,16 @@
 **Date:** 2026-05-18
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 
+## Abstract
+
+The F1 palindrome theorem says that under pure Z-dephasing, the residual operator M (which measures how far the Lindbladian falls from its Π-conjugation image) closes to zero for any palindromic Hamiltonian. T1 amplitude damping breaks the closure: it is the canonical noise process that the Z-dephasing F1 symmetry does not see. The natural follow-up question is how the residual grows under T1, and what the closed form of its Frobenius norm looks like as a function of the T1 rates.
+
+This proof gives the answer. The pure-T1 contribution to the residual norm splits into two structural pieces: a local part proportional to the sum of squared T1 rates, and a cooperative part proportional to the square of the sum of T1 rates. The cooperative part is the interesting one. It grows quadratically with the number of sites when the rates are uniform, signaling that T1 dissipators on different sites do not contribute independently in the residual norm; they overlap. The local part counts each site once; the cooperative part counts every pair once.
+
+Two more observations make the formula self-contained. The pure-T1 contribution does not depend on the Hamiltonian (the T1 block is Frobenius-orthogonal to the H block in M), and it does not depend on the Z-dephasing rate (Z-dephasing absorbs into the +2σ·I shift that defines M itself). So the formula gives a clean separation of T1 noise from the rest of the system: change H, leave the T1 part alone; change Z-dephasing rate, leave the T1 part alone.
+
+Combined with the F49 closed form for the H block (proven separately), this gives a complete Frobenius dictionary for the residual norm under standard Z + T1 channels: a closed-form sum of three pieces, each from a structurally distinct source. The diagnostic upshot is that any deviation between predicted and measured residual norm flags either a Hamiltonian outside F49's bilinear scope, a non-standard T1 channel, or the presence of additional noise (depolarizing, dephasing on other axes) not captured by Z + T1 alone.
+
 ## Statement
 
 Let L = L_H + L_Z + L_T1 be the Lindbladian for a 2-bilinear Pauli Hamiltonian H, single-site Z-dephasing with rates {γ_l}, and single-site T1 amplitude damping with rates {γ^{T1}_l}. Let Π be the F1 palindrome operator for Z-dephasing (see [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md)). Define the F1 residual

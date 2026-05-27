@@ -4,6 +4,16 @@
 **Date:** 2026-05-18
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 
+## Abstract
+
+When F1 was first proven, the dephasing rate was uniform across sites: every qubit had the same γ. A natural open question was what changes when the rates differ. Does the H-block residual still close to the same form, or does the per-site γ structure leak in? The conjecture was that the (Σγ)² scaling factor in the closed form would become Σγ_l² under non-uniform rates, the cooperative cross-term getting demoted to a pure per-site sum.
+
+The answer turns out to be the cleanest possible negative result. The dissipator block of the residual vanishes identically per Pauli string, for any γ pattern (uniform, scaled, random, anything). Not "approximately zero", not "zero on average over γ patterns": bit-exact zero at the operator level. There simply is no γ structure for the H-block to inherit, because the dissipator block contributes nothing at all.
+
+The mechanism is structural. Π conjugation acts on the dissipator with a per-Pauli-string sign pattern that exactly cancels the +2σ·I shift, regardless of how σ is split across sites. The cancellation is per-string, not per-sum: each individual Pauli string in the basis sees the dissipator and the σ shift cancel against each other. Once you trace through the basis, the dissipator block evaporates and only the H block remains.
+
+The diagnostic upshot is that the F1 closed form for the residual norm extends verbatim from uniform γ to any γ pattern. The original OpenQuestion is closed not by computing the answer but by removing the question: there is nothing in the closed form for non-uniform γ to change, because the dissipator block is the part that would have carried the γ structure, and that part is identically zero.
+
 ## Statement
 
 Let L = L_H + L_D be the Lindbladian with H any 2-bilinear Pauli Hamiltonian and L_D the site-dependent Z-dephasing dissipator,

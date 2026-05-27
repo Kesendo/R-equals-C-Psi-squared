@@ -4,6 +4,16 @@
 **Date:** 2026-05-18
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 
+## Abstract
+
+The F1 palindrome theorem closes for pure Z-dephasing. Every other physical noise channel breaks the closure to some degree, and each break leaves a structural fingerprint in the residual M. T1 amplitude damping leaves one fingerprint (the closed form proven in the sibling document); depolarizing noise leaves another, and this proof writes it down.
+
+The depolarizing fingerprint turns out to be even cleaner than T1's. Two pieces again, a local part and a cooperative part, but with no graph-dependence at all: depolarizing noise acts per site, not on bonds, so the residual norm depends only on the rates {γ_l} and not on how the qubits are connected. Like T1, the local part counts each site once and the cooperative part counts every pair once. The cooperative piece carries the larger weight here than for T1 (16 vs 4), so depolarizing noise compounds harder than amplitude damping when many sites dissipate together.
+
+A second structural surprise is that the depolarizing residual is purely symmetric: Π conjugation maps M to itself bit-exactly, so the anti-symmetric component M_anti vanishes. T1 by contrast carries its amplitude-damping content entirely in M_anti (the σ⁻ off-diagonal Pauli-basis entries). Depolarizing noise is diagonal in the Pauli basis (each Pauli letter goes to itself with a scaling factor), and the diagonal is preserved by Π, so the symmetric / anti-symmetric split is trivial. This makes depolarizing the "easy case" for any F1-residual diagnostic that triggers on M_anti.
+
+Together with F49 (the Hamiltonian-block closed form) and the T1 sibling, this proof completes a Frobenius dictionary for the residual norm under Z + T1 + depolarizing channels. A measured residual that does not match the predicted sum localises the deviation: if the M_anti part is right but the symmetric part is wrong, the issue is in the depolarizing rates or in extra non-depolarizing per-site noise; if M_anti itself is wrong, the issue is in T1 (or in a different bit-mixing channel we have not characterized yet).
+
 ## Statement
 
 Let L_depol be the Lindbladian for the per-site depolarizing channel with rates {γ_l}, no Hamiltonian and no Z-dephasing:
