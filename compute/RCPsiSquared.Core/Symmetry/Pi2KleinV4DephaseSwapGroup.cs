@@ -245,6 +245,14 @@ public sealed class Pi2KleinV4DephaseSwapGroup : Claim
                          "the Pauli group itself: X = (1, 0) and Z = (0, 1) are the single-axis " +
                          "generators, and swapping their basis indices via h is precisely the V₄ " +
                          "involution (a, b) ↔ (b, a) that maps the bit_a-axis to the bit_b-axis.");
+            yield return new InspectableNode("Downstream sibling: F114 commutator D-conjugation parity",
+                summary: "CommutatorDConjugationSign (F114, Tier1Derived, ctor child of this Claim, " +
+                         "Welle 15 closure 2026-05-27) characterizes D's action on the H-commutator " +
+                         "superoperator L_σ = −i[σ, ·] with closed form ε(σ) = (−1)^{n_Y(σ) + 1}. " +
+                         "Whereas this Claim makes D the Π swap-operator across {Z, Y} dephase letters " +
+                         "(D · Π_Z · D = Π_Y), F114 makes D the L_H sign-flip-operator with per-term " +
+                         "n_Y bookkeeping. Together the two Claims characterize D's action on the two " +
+                         "main dephase-letter-sensitive structures (Π and L_H).");
         }
     }
 }
