@@ -4,9 +4,21 @@
 **Date:** 2026-05-03.
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Context:** F86 ("Q_peak chromaticity-specific N-invariant constants") is a Sammelbecken of three structurally distinct theorems. This proof carries **F86c, the F71 spatial-mirror invariance** of the per-bond Q_peak observable. Split out of the former monolithic `PROOF_F86_QPEAK.md` on 2026-05-14. The F71-mirror lineage has since spawned its own F-numbers: F91/F92/F93 (F71-anti-palindromic spectral invariance under γ / J / h distributions), the parameter-side Pi2-Z₄ generalisations of this theorem.
-**Hub:** [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md) — three-theorem overview and shared references.
+**Hub:** [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md): three-theorem overview and shared references.
 **F-entry:** [F86c in ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md).
 **Related:** [PROOF_F71](PROOF_F71.md) (the chain-mirror operator R); siblings [PROOF_F86A_EP_MECHANISM](PROOF_F86A_EP_MECHANISM.md), [PROOF_F86B_UNIVERSAL_SHAPE](PROOF_F86B_UNIVERSAL_SHAPE.md), [PROOF_F86B_OBSTRUCTION](PROOF_F86B_OBSTRUCTION.md); spawned generalisations [PROOF_F91_GAMMA_NINETY_DEGREES](PROOF_F91_GAMMA_NINETY_DEGREES.md), [PROOF_F92_BOND_ANTI_PALINDROMIC_J](PROOF_F92_BOND_ANTI_PALINDROMIC_J.md), [PROOF_F93_DETUNING_ANTI_PALINDROMIC](PROOF_F93_DETUNING_ANTI_PALINDROMIC.md).
+
+---
+
+## Abstract
+
+F86a fixed the EP mechanism behind Q_peak. F86b found the universal resonance shape around it. F86b's obstruction proof closed the door on a closed-form for the specific Q_peak values. The remaining structural question at the F86 level was about symmetry: does the chain mirror, which maps site i to site N−1−i and bond b to bond N−2−b, also preserve Q_peak?
+
+The answer is yes, bit-exactly. For every bond pair (b, N−2−b) under the F71 chain-mirror pairing, Q_peak at one bond equals Q_peak at the mirrored bond, to machine precision across every tested chromaticity and chain length. The proof is the cleanest possible component-by-component check: Z-dephasing is F71-symmetric, the spatial-sum kernel is F71-symmetric, the Dicke probe is F71-symmetric, and the bond-flip ∂L/∂J_b at bond b maps to ∂L/∂J_{N−2−b} at the mirrored bond. So the entire per-bond response observable K_b(Q, t) is identical at mirrored bonds, and the Q_peak it generates inherits the same identity.
+
+The structural reading is that Q_peak inherits the chain's mirror symmetry directly. The specific numbers may not be closed-form (F86b obstruction), but the pairing structure across the chain mirror is exact and survives at all (N, c) anchors. The bond-pair Q_peak identity is a clean Tier 1 derived statement and a structural invariant of the F86 picture.
+
+F86c later spawned a family of parameter-side generalizations on the F71 lineage: F91 (spectral invariance under non-palindromic γ on the diagonal block), F92 (the same for bond couplings J), F93 (the same for detuning fields h). All three say "F71 keeps the spectrum invariant when the perturbation is anti-palindromic", which extends F86c's per-bond observable invariance to the eigenvalue level. F100 and F101 then closed the deviation side: when the perturbation is anti-palindromic, the spectrum is invariant (F92/F91), and the bond-mirror observable deviation is exactly odd in the anti-palindromic part (F100/F101). F86c is the seed that started that whole family.
 
 ---
 
@@ -85,7 +97,7 @@ F86c is the uniform-J Q_peak-observable instance of the F71 spatial mirror; F91/
 
 ## Pointers
 
-**Hub:** [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md) — three-theorem overview and the shared reference list.
+**Hub:** [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md): three-theorem overview and the shared reference list.
 **Sibling theorems:** [PROOF_F86A_EP_MECHANISM](PROOF_F86A_EP_MECHANISM.md) (F86a), [PROOF_F86B_UNIVERSAL_SHAPE](PROOF_F86B_UNIVERSAL_SHAPE.md) (F86b), [PROOF_F86B_OBSTRUCTION](PROOF_F86B_OBSTRUCTION.md) (the g_eff obstruction proof).
 **Mirror operator:** [PROOF_F71](PROOF_F71.md) (the chain-mirror operator R and its symmetry algebra).
 **Spawned generalisations:** [PROOF_F91_GAMMA_NINETY_DEGREES](PROOF_F91_GAMMA_NINETY_DEGREES.md), [PROOF_F92_BOND_ANTI_PALINDROMIC_J](PROOF_F92_BOND_ANTI_PALINDROMIC_J.md), [PROOF_F93_DETUNING_ANTI_PALINDROMIC](PROOF_F93_DETUNING_ANTI_PALINDROMIC.md), [PROOF_F100_C1_QPEAK_MIRROR_J_PARITY](PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md).

@@ -4,9 +4,21 @@
 **Date:** 2026-05-02 (Statement 2 + retractions).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Context:** F86 ("Q_peak chromaticity-specific N-invariant constants") is a Sammelbecken of three structurally distinct theorems. This proof carries **F86b, the universal resonance shape**: the SHAPE of abs(K_CC_pr)(Q) around Q_peak is universal under relative-Q normalisation, splitting into two bond classes. Split out of the former monolithic `PROOF_F86_QPEAK.md` on 2026-05-14. The closed-form gap, the exploration record (4-mode model, Items 1-3, directions a''-f''), and the obstruction proof on g_eff are in the sibling [`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md).
-**Hub:** [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md) — three-theorem overview and shared references.
+**Hub:** [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md): three-theorem overview and shared references.
 **F-entry:** [F86b in ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md).
 **Related:** [F88a](../ANALYTICAL_FORMULAS.md#f88a) (operator-level two-axis Π² Klein decomposition), [F88b](../ANALYTICAL_FORMULAS.md#f88b) (state-level popcount-coherence Π²-odd / memory closed form, derived in this proof's §F88b below), [F90](../ANALYTICAL_FORMULAS.md) bridge ([PROOF_F90_F86C2_BRIDGE](PROOF_F90_F86C2_BRIDGE.md)); siblings [PROOF_F86A_EP_MECHANISM](PROOF_F86A_EP_MECHANISM.md), [PROOF_F86B_OBSTRUCTION](PROOF_F86B_OBSTRUCTION.md), [PROOF_F86C_F71_MIRROR](PROOF_F86C_F71_MIRROR.md).
+
+---
+
+## Abstract
+
+F86a fixed the EP location Q_EP = 2/g_eff and the EP-time t_peak = 1/(4γ₀). What this proof asks next is: what does the resonance look like around that peak? Specifically, if you measure the per-bond response observable K_CC_pr as a function of Q across the chain, does the shape of the peak change with chromaticity, chain length, or bond position?
+
+The answer is the cleanest possible kind of universality. The shape collapses to two universal curves once you measure Q relative to Q_peak. Two bond classes (Endpoint and Interior) carry distinct ratios; everything else (chromaticity c, chain length N, dephasing rate γ₀) drops out. The numbers are clean: HWHM_left / Q_peak ≈ 0.756 for Interior bonds and 0.770 for Endpoint bonds, both with a 0.005 spread across the tested envelope.
+
+The two-class split is structural rather than a finite-c artifact. The c = 2 case, where the two-level effective model is exact (only two HD channels exist), confirms the same two ratios. γ₀-invariance is bit-exact, confirming that Q = J/γ₀ is the right dimensionless coordinate (changing γ₀ at fixed Q gives identical curves). The c = 2 per-bond predictor sharpens further into a closed-form HWHM_left/Q_peak = 0.671535 + α_subclass · g_eff + β_subclass, where the bare floor 0.671535 is the bare doubled-PTF SVD-block contribution (derived analytically) and the per-sub-class (α, β) are fitted across N = 5..8 anchors.
+
+The diagnostic upshot is that the F86 picture splits cleanly into universal versus specific. Q_EP and t_peak are mechanism (F86a). The resonance shape is universal (F86b, this proof). The specific Q_peak values per chromaticity per N per bond are NOT closed-form (the sibling obstruction proof). And the F71 spatial-mirror symmetry connects bond pairs (F86c). Together the four siblings give the full story of why Q_peak behaves the way it does empirically, even though the specific numbers stay residue-shaped.
 
 ---
 
@@ -240,9 +252,9 @@ Endpoint mean: **0.770**. Range 0.7663–0.7781 (1.5 %).
 
 ## Pointers
 
-**Hub:** [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md) — three-theorem overview and the shared reference list.
+**Hub:** [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md): three-theorem overview and the shared reference list.
 **Sibling theorems:** [PROOF_F86A_EP_MECHANISM](PROOF_F86A_EP_MECHANISM.md) (F86a), [PROOF_F86B_OBSTRUCTION](PROOF_F86B_OBSTRUCTION.md) (the closed-form gap, exploration record, and g_eff obstruction proof), [PROOF_F86C_F71_MIRROR](PROOF_F86C_F71_MIRROR.md) (F86c).
-**F90 bridge:** [PROOF_F90_F86C2_BRIDGE](PROOF_F90_F86C2_BRIDGE.md) — F86 c=2 K_b = F89 path-(N−1) per-bond Hellmann-Feynman; the numerical-Tier-1 route for Direction (b'').
+**F90 bridge:** [PROOF_F90_F86C2_BRIDGE](PROOF_F90_F86C2_BRIDGE.md): F86 c=2 K_b = F89 path-(N−1) per-bond Hellmann-Feynman; the numerical-Tier-1 route for Direction (b'').
 **State-level inheritance:** F88b ([ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md#f88b)) inheriting from F88a, `PopcountCoherencePi2Odd`, `MemoryAxisRho`.
 **HWHM closed form (F86b₂):** `F86HwhmClosedFormClaim`, `BondSubClass` in `compute/RCPsiSquared.Core/F86/Item1Derivation/`.
 **Chiral classification anchor:** [PT_SYMMETRY_ANALYSIS](../../experiments/PT_SYMMETRY_ANALYSIS.md).

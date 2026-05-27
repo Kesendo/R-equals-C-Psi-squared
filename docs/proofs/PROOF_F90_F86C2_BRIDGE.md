@@ -8,6 +8,18 @@
 
 ---
 
+## Abstract
+
+F86 lives on the resonance side of the project: Q_peak, EP location, per-bond response curves. F89 lives on the path-polynomial side: closed-form D_k polynomials computed from Chebyshev orbits over the chain dispersion. The two families look like they describe different things; one is dynamic (time-dependent K observables), the other is algebraic (polynomial closed forms in N). This proof says they are, in a precise sense, the same thing.
+
+The bridge is an exact identity. The F86 c = 2 per-bond response observable K_b(Q, t) on the (1, 2) coherence block of an N-qubit chain equals the per-bond Hellmann-Feynman derivative of the F89 path-(N − 1) sub-block dynamics at bond b, with everything else (probe state, kernel, dephasing rates) algebraically matching, and a single Hamiltonian-convention factor of 2 relating the Q-axis scales. The two computations land on the same operator. They are different ways of writing down the same dynamics.
+
+The identity is Tier 1 derived by construction: both sides reduce algebraically to the same SE-DE sub-block Liouvillian, and the Hellmann-Feynman derivative on the F89 side matches the per-bond observable construction on the F86 side. Numerical verification is bit-exact across N = 5, 6, 7, 8 (which was the empirical entry point before the algebraic identity was written down).
+
+The diagnostic upshot is that closed-form work on either side transfers to the other. F89 closed D_k in closed form via the path-polynomial pipeline; that gives the F86 c = 2 K_b observable a closed-form route through the F90 bridge. The closed-form attempt for g_eff on the F86b obstruction side could then be checked against the bridge identity (L6 of the obstruction proof); F89 closure was confirmed in 2026-05-15, but the predicted transfer to g_eff was tested and refuted, surfacing that g_eff is genuinely a fit-residue rather than an F89-derivable quantity. F90 is the explicit identity that makes those cross-family experiments well-defined.
+
+---
+
 ## Statement
 
 For all N ≥ 3 and bond b ∈ {0, ..., N−2}, the F86 c=2 K_b(Q, t) observable on the (n=1, n+1=2) coherence block of an N-qubit XY chain with Z-dephasing equals the per-bond Hellmann-Feynman derivative of F89 path-(N−1) (SE, DE) sub-block dynamics applied at bond b, modulo the Hamiltonian convention factor:

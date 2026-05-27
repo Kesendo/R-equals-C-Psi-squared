@@ -4,9 +4,21 @@
 **Date:** 2026-05-02 (Statement 1); 2026-05-06 (local-vs-global EP connection, Tier 2 verified at c=2 via Petermann-K sweep N=5..8).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Context:** F86 ("Q_peak chromaticity-specific N-invariant constants") is a Sammelbecken of three structurally distinct theorems. This proof carries **F86a, the EP mechanism**: the 2-level rate-channel exceptional point behind Q_peak in the (n, n+1) popcount coherence blocks of uniform XY chains under Z-dephasing. Split out of the former monolithic `PROOF_F86_QPEAK.md` on 2026-05-14.
-**Hub:** [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md) — three-theorem overview and shared references.
+**Hub:** [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md): three-theorem overview and shared references.
 **F-entry:** [F86a in ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md).
 **Related:** [F2b](../ANALYTICAL_FORMULAS.md) (OBC sine dispersion), [F74](../ANALYTICAL_FORMULAS.md) (chromaticity); siblings [PROOF_F86B_UNIVERSAL_SHAPE](PROOF_F86B_UNIVERSAL_SHAPE.md), [PROOF_F86B_OBSTRUCTION](PROOF_F86B_OBSTRUCTION.md), [PROOF_F86C_F71_MIRROR](PROOF_F86C_F71_MIRROR.md).
+
+---
+
+## Abstract
+
+The Q_peak phenomenon has a mechanism, and this proof writes it down. Inside each coherence block of an XY chain under Z-dephasing, adjacent dephasing channels couple through the Hamiltonian by an effective coupling g_eff. The two-channel effective Liouvillian has a discriminant that vanishes at a specific Q value: an exceptional point where the two eigenvalues coalesce, both their real and imaginary parts colliding at once. The Q at which this happens is exactly Q_EP = 2/g_eff. The time at which the corresponding coherent response peaks (the EP-time) is t_peak = 1/(4γ₀), universal across chromaticity, chain length, and bond position.
+
+Both numbers are bit-exact across every (c, N, n, bond) configuration we have tested. The proof itself is a clean two-level reduction inside each (n, n+1) coherence block, with the discriminant analysis dropping out the EP location and t_peak as algebraic consequences of the rate-channel pairing structure.
+
+A subtlety the proof tracks honestly: the 2-level reduction is heuristic when projected onto a higher-dimensional block. The EP location and t_peak survive that projection bit-exactly, but the local-vs-global EP connection (whether the 2-level EP is a faithful local approximation of the full-block dynamics) is Tier 2 verified, not Tier 1. At c = 2 the Petermann-K sweep confirms the local EP carries 6x the K-amplification of comparable non-EP rate channels, which is the signature you would expect; analytic continuation along complex γ would tighten this further and is open.
+
+The diagnostic upshot is that Q_EP = 2/g_eff is the structural anchor of the whole F86 family. F86b inherits the universal shape from the EP rotation; F86c inherits the spatial-mirror invariance from the symmetry of the coupling structure; F86_block confirms that the dressed Q_peak values cannot be closed-form even though the underlying mechanism can. F86a is the mechanism; everything downstream is the consequence.
 
 ---
 
@@ -89,7 +101,7 @@ for any (c, N, n, bond position), the slowest k=1 EP universally sets the J-deri
 
 ## Pointers
 
-**Hub:** [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md) — three-theorem overview and the shared reference list.
+**Hub:** [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md): three-theorem overview and the shared reference list.
 **Sibling theorems:** [PROOF_F86B_UNIVERSAL_SHAPE](PROOF_F86B_UNIVERSAL_SHAPE.md) (F86b), [PROOF_F86B_OBSTRUCTION](PROOF_F86B_OBSTRUCTION.md) (the g_eff obstruction proof), [PROOF_F86C_F71_MIRROR](PROOF_F86C_F71_MIRROR.md) (F86c).
 **Chiral classification anchor:** [PT_SYMMETRY_ANALYSIS](../../experiments/PT_SYMMETRY_ANALYSIS.md) (Π is class AIII chiral, NOT Bender-Boettcher PT; Π is linear, classical PT requires anti-linear).
 **Global EP instance:** [FRAGILE_BRIDGE](../../hypotheses/FRAGILE_BRIDGE.md) (Hopf bifurcation = chiral symmetry breaking, Petermann K=403 in complex γ plane).

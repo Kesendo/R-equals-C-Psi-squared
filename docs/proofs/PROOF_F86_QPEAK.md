@@ -10,6 +10,18 @@
 
 ---
 
+## Abstract
+
+Q_peak is the chromaticity-specific Q value where the coherent resonance of an XY chain peaks under Z-dephasing. The empirical anchor was the per-chromaticity sequence 1.5 / 1.6 / 1.8 / 1.8 at c = 2, 3, 4, 5 (with c = 2 carrying a small N-dependent wobble), observed across many (N, c) configurations. F86 was originally one monolithic proof attempting to derive the Q_peak values from first principles. On 2026-05-14 it was split into three structurally distinct theorems plus a dedicated obstruction proof.
+
+The three theorems carve up the story. F86a is the EP mechanism: Q_EP = 2/g_eff and t_peak = 1/(4γ₀) come from a two-level rate-channel exceptional point in the EP-time-evolution. F86b is the universal resonance shape: regardless of chromaticity, the K-response curves collapse to a common shape with HWHM/Q_peak ratios around 0.756 (Interior bonds) and 0.770 (Endpoint bonds). F86c is the F71 spatial-mirror invariance: Q_peak(b) = Q_peak(N−2−b) bit-exactly, the chain-mirror symmetry inherited from the underlying F71 structure.
+
+The obstruction proof closes the negative side. The dressed per-bond per-chromaticity Q_peak(c, N, b) has no closed form via the six routes that were tried; it is genuinely a structureless residue. What survives a closed-form effort is the symmetry (F86c), not the number itself; what survives is the mechanism (F86a) and the universal shape (F86b), not the specific Q_peak values per (c, N, b).
+
+This hub document is the shared-reference index for the four sibling proofs (F86a, F86b universal shape, F86b obstruction, F86c) and the dispatch point for the inheritance chain from F86 to F89 (path-polynomial bridge) and to F90 (the analytical bridge to D_k). Q_peak is one of the most-cited observations in the project; the split into structurally distinct theorems made the underlying anatomy visible.
+
+---
+
 ## The three theorems
 
 | Theorem | Statement | Tier | Proof |

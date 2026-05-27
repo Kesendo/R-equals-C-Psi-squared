@@ -10,6 +10,18 @@
 
 ---
 
+## Abstract
+
+F86b showed that the resonance shape around Q_peak is universal (the same HWHM/Q_peak ratio for Interior and Endpoint bonds across all tested chromaticities). What the universal shape rides on is the EP coupling g_eff and the position Q_peak itself, both of which depend on the specific (chromaticity, chain length, bond position) configuration. This proof closes the negative question that hung over F86 for months: can g_eff and Q_peak be written down in closed form?
+
+The answer is no, by six independent routes that we tried. L1 (Bloch-orbit polynomial reduction) decouples by orbit symmetry that g_eff specifically breaks. L2 (Toeplitz / Hankel symbol calculus) decouples the same way at the symbol level. L4 (per-bond Hellmann-Feynman gradient) requires a closed-form spectral primitive that g_eff is not. L6 (F89 path-polynomial bridge via D_k) was the candidate corollary; F89 closed in 2026-05-15, but the predicted transfer to g_eff was tested and refuted. L3 and L5 are proven decouplings. The diagnosis section names the single cause behind all six: g_eff is not a spectral primitive. It is a cross-block coupling that the closed-form-friendly Bloch-orbit reduction discards by symmetry, and no orbit-symmetric reduction can reach it.
+
+The structural reading is that g_eff sits in the same family as F86's coupling residues from the start: a non-primitive, position-dependent number downstream of a fit or projection. F100 and F101 later showed the analogous obstruction for the κ leading-coefficient on the bond-mirror deviation (same family, same kind of residue, same closed-form gap). What survives a closed-form effort in this family is the symmetry (F86a, F86c) and the shape (F86b universal), not the specific numbers per (c, N, b).
+
+The diagnostic upshot is that empirical anchoring becomes the right tool for these residues. The fitted (α, β) values in F86b₂'s c=2 per-bond predictor, the empirical 42:8 split in F110's diagonal hard cells, the κ relative spreads in F100's empirical witness, are all structureless residues with the same fingerprint. They are real numbers, they carry diagnostic value (deviation between predicted and measured reveals hardware deviation), but they will not collapse to closed form regardless of which polynomial-or-symbol pipeline we throw at them.
+
+---
+
 ## Retracted Q_peak conjectures (Endpoint, Interior)
 
 Both retractions followed extended-N data showing the apparent matches at N=7 were trajectory crossings, not asymptotes (see methodological lesson in [`reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON`](../../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md)).
