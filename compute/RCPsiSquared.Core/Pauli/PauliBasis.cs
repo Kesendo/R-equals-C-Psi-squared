@@ -25,7 +25,23 @@ public static class PauliBasis
     private static readonly System.Collections.Concurrent.ConcurrentDictionary<int, ComplexMatrix> _transformCache = new();
 
     /// <summary>The d² × 4^N matrix M with M[:, α] = vec_F(σ_α) column-stacked. Cached by N.
-    /// Callers should treat the returned matrix as read-only.</summary>
+    /// Callers should treat the returned matrix as read-only.
+    ///
+    /// <para><b>Convention note (Welle 10d audit, 2026-05-27)</b>: T columns are vec_F
+    /// (column-major) per the BuildVecToPauliBasisTransform loop. The standard codebase
+    /// pattern combines T with a vec_R-style commutator superoperator L_vec = -i(H ⊗ I −
+    /// I ⊗ H^T) (e.g. Liouvillian.cs, LindbladianBuilder.cs, BondPerturbation.cs,
+    /// PauliDephasingDissipator.cs, PalindromeResidual.cs, PiDecomposition.cs,
+    /// F112NonHermitianBasisEnumeration.cs). Reading T columns as vec_R implicitly maps
+    /// σ_k ↦ σ_k^T, so the resulting Pauli-basis matrix is D · L_natural · D where
+    /// D = diag((−1)^n_Y(k)) is a real diagonal unitary involution. All current callers
+    /// compute D-conjugation-invariant quantities (Frobenius norms, inner products,
+    /// eigenvalues, zero patterns), so the convention twist is invisible — but a new
+    /// caller that reads individual matrix-entry SIGNS or compares against a
+    /// third-party natural L would need to apply the (−1)^(n_Y(row) + n_Y(col)) sign
+    /// correction (see <c>F112NonHermitianBasisEnumeration.BuildSparseLSigma</c> for the
+    /// applied form). A bonus structural identity surfaced: D · Π_Z · D = Π_Y, so the
+    /// twist coincides with the Z↔Y dephasing-letter swap on the operator space.</para></summary>
     public static ComplexMatrix VecToPauliBasisTransform(int N) =>
         _transformCache.GetOrAdd(N, BuildVecToPauliBasisTransform);
 
