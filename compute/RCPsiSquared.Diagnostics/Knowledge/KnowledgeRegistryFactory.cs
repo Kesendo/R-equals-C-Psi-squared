@@ -53,6 +53,11 @@ public static class KnowledgeRegistryFactory
             .RegisterF88bPopcountPairLens(N: defaultChain.N, np: 1, nq: 2)
             // Operator-space mirror (number-side ↔ operator-side per qubit)
             .RegisterPi2OperatorSpaceMirror()
+            // Klein-V₄ dephase-swap group {I, D, H, Q_zx} on operator space: realizes the
+            // dephase-letter Klein V₄ {I, Z↔Y, Z↔X, Y↔X} on the F1 palindrome family
+            // {Π_Z, Π_X, Π_Y}. Tier1Derived universal N per Welle 12 Tasks 1 + 2 (2026-05-27).
+            // Standalone primitive (no ctor parents); consumed by F1-family transfer arguments.
+            .RegisterPi2KleinV4DephaseSwapGroup()
             // Spectrum foundation
             .RegisterW1Dispersion(N: defaultChain.N, J: defaultChain.J, gammaZero: defaultChain.GammaZero)
             // Block-decomposition foundation (U(1)×U(1) joint popcount sectors)
