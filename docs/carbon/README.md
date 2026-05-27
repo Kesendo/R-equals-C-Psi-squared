@@ -94,7 +94,7 @@ from an oscillator, the way a transmon is built.
 
 ---
 
-## Return visit 2026-05-27: the three dephase letters
+## Return visit 2026-05-27: the three dephase letters and the Painter alternation
 
 [BENZENE_THREE_DEPHASE_LETTERS](BENZENE_THREE_DEPHASE_LETTERS.md). Six weeks after
 the May Liouvillian palindrome result, three new framework pieces (Klein-V₄ Welle 12,
@@ -111,6 +111,17 @@ Hückel benzene has ε(H) = −1 (no Y, fully time-reversal-even); adding a magn
 ring-current term flips parity per term. The doc walks through the carbon analog
 of all three framework dephase letters (Z ↔ Holstein, X ↔ hybridization-axis
 candidate, Y ↔ current-axis candidate) and what each predicts for benzene.
+
+Later the same day, [PAINTER_ALTERNATION_NMR_BRIDGE](PAINTER_ALTERNATION_NMR_BRIDGE.md)
+ends a translator bridge. A Painter view of the slow Liouvillian eigenmodes on the
+N = 4 ring with a transverse y-field shows an alternation between modes whose
+per-site projection lives purely on the y-axis and modes whose per-site projection
+lives entirely off the y-axis; the sectorization is bit-exact. Translated into
+NMR-Bloch language, this is a structural prediction of anisotropic T2 in a y-field
+aromatic ring: T2(x_init) ≠ T2(y_init), with a closed-form ratio (~1.27 at h_y/γ
+= 0.5). A chemist tests it with two FID experiments after orthogonal 90° pulses;
+TROSY difference and EXSY asymmetry read richer slices of the same anisotropy.
+No process tomography required.
 
 ---
 
