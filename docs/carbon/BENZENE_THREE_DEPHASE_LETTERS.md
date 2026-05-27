@@ -156,6 +156,107 @@ The take-home: bonds are not Holstein, but they still respect the Klein-V₄ alg
 
 ---
 
+## Return visit later the same day: speaking carbon
+
+The above sections are the "translation in two languages" pass: we held the
+framework vocabulary and the chemistry side in parallel. Coming back the same
+afternoon, we tried to say what the algebra had shown without the framework
+vocabulary at all, as a chemistry reader would hear it. The algebra remained
+the anchor; the words shifted to the carbon side.
+
+### What we saw across realistic carbon configurations
+
+A systematic sweep over fifty-six configurations on cyclobutadiene (C₄) and
+benzene (C₆) rings combined seven Hamiltonian extensions with four bath types.
+The Hamiltonian inventory ranged from pure Hückel hopping through electronic
+correlation (Hubbard density-density), weak and strong external y-direction
+magnetic field, antisymmetric Dzyaloshinskii-Moriya-like spin-orbit
+cross-coupling, induced ring-current bond terms, and a full mixture of all
+five effects simultaneously. The bath inventory included on-site Holstein
+phonons (coupling to local π-density), bond Peierls phonons (coupling to the
+hopping integral), σ⁻ amplitude damping (excitation loss per site), and the
+combination of Holstein and σ⁻ together.
+
+In every single one of the fifty-six configurations the relaxing system
+preserves a strict mirror symmetry between two halves of its relaxation
+response. The mirror is exact at machine precision: the two halves differ
+by a number that is bit-exactly zero, not merely small.
+
+The symmetry is non-trivial in forty-eight of the fifty-six configurations:
+the response itself is substantial (Frobenius-norm-squared between twenty and
+fifty thousand on the relaxing component), and it is mirrored perfectly. In
+the remaining eight configurations (those with pure Hückel hopping plus an
+on-site bath, or pure Hückel + ring-current term plus an on-site bath) the
+relaxing component is empty to begin with: there is nothing to mirror, so the
+mirror holds trivially.
+
+### How robust this is
+
+The mirror symmetry survives:
+
+- Adding density-density correlation to the bare hopping picture.
+- Switching on external magnetic field along the y-direction, weak (one-tenth
+  of the hopping scale) and strong (full hopping scale).
+- Adding spin-orbit-style cross-axis coupling between neighbouring sites.
+- Adding induced ring-current bond terms (the canonical magnetic-field-
+  induced symmetry breaker on benzene).
+- Replacing the on-site phonon bath with a bond-coupled (Peierls) bath, even
+  though that switch destroys the classical Coulson-Rushbrooke MO mirror at
+  the spectrum level.
+- Switching to amplitude damping (T1 excitation loss) instead of pure
+  dephasing.
+- Combining all the above into one realistic noisy aromatic ring.
+
+The classical MO mirror (spectrum spiegelung um α) breaks under bond
+phonons and under several of the Hamiltonian perturbations. The deeper
+distribution mirror remains intact across all of them.
+
+### Where it would break
+
+The algebra shows the distribution mirror is not unbreakable. It does break
+under one specific configuration: a coherent z-axis drive (every spin
+precessing together around the z-axis) combined with T1 amplitude damping.
+This setup is the standard hardware-characterisation regime of a driven
+superconducting qubit array: a constant Larmor precession plus relaxation.
+It does not arise in the natural relaxation of an aromatic molecule. In the
+quantum-hardware context this break is the working diagnostic; in the
+carbon-chemistry context it sits outside the natural parameter range.
+
+### What this leaves us with
+
+For aromatic carbon systems under realistic conditions, a deep mirror
+symmetry of the relaxation dynamics is preserved: in moderate magnetic
+fields, under typical thermal coupling, with realistic excitation loss.
+The classical spectrum mirror (Coulson-Rushbrooke around α) is one face of
+the carbon ring's symmetry, the one chemistry has read about for eighty-six
+years. The distribution mirror is a second, deeper face: it survives where
+the spectrum mirror breaks, and it requires a very specific external
+control regime (constant coherent z-driving) to be unsettled.
+
+How a chemist would test it directly: the symmetry shows up not in the line
+positions of an NMR spectrum but in the full transfer-matrix structure of
+the relaxation channel. Standard process tomography on isotopically labelled
+¹³C-benzene could in principle reconstruct the relaxation channel and verify
+the symmetry; in practice the deep-quantum regime of aromatic π-systems
+makes this measurement demanding. A more accessible signature would be the
+breaking regime: how the relaxation balance changes when a coherent z-drive
+is applied to the spin system in addition to natural T1 loss. The break
+magnitude is closed-form predictable from the drive amplitude and T1 rate.
+
+### Algebra as the anchor
+
+Every claim above rests on the sweep result. The sweep is
+[`simulations/_carbon_realistic_sweep.py`](../../simulations/_carbon_realistic_sweep.py),
+which iterates the fifty-six configurations and reports the relaxation-
+mirror asymmetry for each. The single-perturbation control tests sit in
+[`simulations/_benzene_b_field_f112_mixing_test.py`](../../simulations/_benzene_b_field_f112_mixing_test.py),
+[`simulations/_benzene_bit_b_mixed_bath_test.py`](../../simulations/_benzene_bit_b_mixed_bath_test.py),
+and [`simulations/_benzene_peierls_f112_polarity_test.py`](../../simulations/_benzene_peierls_f112_polarity_test.py).
+A complementary Hamiltonian-term classification inventory sits in
+[`simulations/_carbon_f114_hamiltonian_inventory.py`](../../simulations/_carbon_f114_hamiltonian_inventory.py).
+
+---
+
 ## Threads back
 
 - **2026-05-22 [BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md)**: the F1 spectrum result remains bit-exact. The "Peierls breaks the palindrome" framing is precise at the spectrum level; today we add the F112 polarity layer where Peierls may preserve balance even though F1 spectrum breaks.
