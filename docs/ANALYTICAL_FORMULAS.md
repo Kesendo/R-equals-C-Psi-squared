@@ -3812,5 +3812,94 @@ script: `simulations/_f113_break_formula_derivation.py`.
 
 ---
 
+### F114. Commutator Superoperator D-Conjugation Parity (Tier 1 derived, closed form bit-exact N = 1..4)
+
+Closed-form sign functional ε(σ) for the action of D-conjugation on the
+H-commutator superoperator L_σ = −i[σ, ·] in the 4^N Pauli basis, where
+D = diag((−1)^{n_Y(α)}) is the real diagonal unitary involution that lifts
+the Z↔Y dephase-letter swap to operator space (Welle 12: Π_Y = D·Π_Z·D).
+
+**Theorem (F114):** For any single Pauli string σ ≠ I^{⊗N} on N qubits,
+
+    D · L_σ · D = ε(σ) · L_σ    bit-exact
+
+with closed form
+
+    ε(σ) = (−1)^{n_Y(σ) + 1}
+         = +1 if n_Y(σ) is odd
+         = −1 if n_Y(σ) is even and σ ≠ I^{⊗N}
+
+For σ = I^{⊗N}: L_σ = 0, sign undefined (vacuous case).
+
+For H = Σ_k c_k σ_k a linear combination of Pauli strings: ε(H) is well-
+defined and equals ε(σ_k) iff all σ_k share the same n_Y parity. If the
+terms split across both parity classes, D-conjugation yields a mixed (non-
+multiplicative) response on L_H and no single ε(H) sign exists.
+
+**Why it surfaced:** Welle 15 Task A polish (2026-05-27, commit `a98fc02`)
+observed bit-exact at N = 2 that for XZ + ZX bond (n_Y per term = 0)
+M_anti(L, Π_Y) = −D · M_anti(L, Π_Z) · D, while YZ + ZY (n_Y per term = 1)
+gives +D · M_anti(L, Π_Z) · D. The bond-specific sign motivated systematic
+enumeration; the n_Y-parity closed form was identified by
+`simulations/_m_level_sign_functional_explore.py` (2026-05-27) and verified
+bit-exact for all 4^N Pauli strings at N = 1, 2, 3 (84 strings total) plus
+the Welle 15 bond bilinears at N = 2 (12 cases) and selected multi-bond /
+multi-body cases at N = 3, 4 (6 cases).
+
+**Operational reading:** D acts on L_σ as an automorphism with sign
+determined by σ's Y-letter content. Y is the unique Pauli letter that
+anticommutes with the antisymmetric transposition convention (σ_Y^T = −σ_Y
+while σ_I^T = σ_I, σ_X^T = σ_X, σ_Z^T = σ_Z); the per-letter parity bookkeeping
+collapses to a per-string n_Y parity.
+
+**Consequence for F112 / F108 cross-dephase (Welle 13):** the F112-Y M-level
+identity
+
+    M(L_H, Π_Y) = ε(H) · D · M(L_H, Π_Z) · D    bit-exact
+
+holds when the dissipator contribution to M vanishes (F112 hypothesis: Hermitian H
+plus bit_b-homogeneous c) AND when ε(H) is well-defined (all H Pauli terms share
+n_Y parity). This refines the Welle 13 PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4
+statement "L_Y is not D-transportable" by exhibiting the precise M-level
+ε-signed equivariance that survives despite the L-level absence of D-transport.
+The F112 typed scope (norm-level ‖M_+1/2‖² = ‖M_−1/2‖²) remains sign-invariant.
+
+**Connection axes:**
+- Welle 12 D · Π_Z · D = Π_Y: F114 is the L-level companion. Welle 12 makes
+  D the Π swap-operator across {Z, Y} dephase letters; F114 makes D the L_H
+  sign-flip-operator with per-term n_Y bookkeeping.
+- F112: ε is sign-invariant under the F112 norm-level statement, so F112-Y
+  Tier1Derived (via Welle 13 Route 1) and F112 are mutually consistent.
+- F108 Part 1+3: Z- and Y-dephase palindrome closures share the Π² bit_b
+  grading; F114's ε(H) characterization gives the precise H-side condition
+  under which the M_anti structure is signed-equivariant across {Z, Y}.
+
+**Empirical anchor:** `simulations/_m_level_sign_functional_explore.py`.
+PART 1 enumerates ε(σ) for all 4 + 16 + 64 = 84 single Pauli strings at
+N = 1, 2, 3 and verifies the n_Y-parity closed form bit-exact. PART 2
+verifies ε(H) for 12 bilinear bond Hamiltonians at N = 2 (XZ+ZX, YZ+ZY,
+Heisenberg, single-bond XX/YY/ZZ/XY/YX/ZY/XZ, mixed-letter single-site
+combos). PART 3 sanity-checks 6 multi-bond / multi-body cases at N = 3, 4
+(chain bond pairs, ZZZ, YYY, XYZ, N=4 Heisenberg chain). All ε predictions
+match the actual D-conjugation residual bit-exact (residual = 0.00e+00
+numpy double precision).
+
+**Open:** N = 5, 6 verification at scale (estimated O(4^N) per N for the
+single-string sweep, tractable but not run). Connection to the Welle 11
+F112 Lemma A/B structural proof — does F114 give an alternative derivation
+of the parent F112 Step 5 (Lemma B) via D-conjugation parity rather than
+dagger anti-Hermiticity? Typed-Claim promotion to a `CommutatorDConjugationSign`
+Tier 1 derived class in `compute/RCPsiSquared.Core/Symmetry/` if downstream
+Claims need to cite it (single empirical reference for now; promote at 2+ uses).
+
+**Source:** `simulations/_m_level_sign_functional_explore.py`;
+parents: Welle 12 D · Π_Z · D = Π_Y identity
+(`compute/RCPsiSquared.Core/Symmetry/Pi2KleinV4DephaseSwapGroup.cs`;
+`docs/proofs/PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md`) + F112 typed scope
+(`docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md`,
+`docs/proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md`).
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*
