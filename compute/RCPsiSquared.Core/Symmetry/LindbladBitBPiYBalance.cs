@@ -190,6 +190,19 @@ public sealed class LindbladBitBPiYBalance : Claim, IZ2AxisClaim
                          "LindbladBitAPiBalance covers Π_X polarity (bit_a axis, bit_a-homogeneous c hypothesis). " +
                          "All three Claims share the F112 Welle-11 lemma proof structure; F112-Z and F112-Y differ " +
                          "only in the Y/Z 2-cycle phase on Π, while F112-X uses a different axis_d (bit_a) per F38.");
+            yield return new InspectableNode("F114 cross-dephase M-level sharpening (Welle 15, 2026-05-27)",
+                summary: "F114 (CommutatorDConjugationSign, Tier1Derived) gives the closed-form M-level Z↔Y " +
+                         "relationship that this Claim implicitly carries. Under the bit_b-homogeneous c hypothesis " +
+                         "the dissipator contribution to M vanishes, so M comes entirely from L_H, and F114's " +
+                         "ε(σ) = (−1)^{n_Y(σ) + 1} controls the matrix-level identity " +
+                         "M(L_H, Π_Y) = ε(H) · D · M(L_H, Π_Z) · D bit-exact (when ε(H) is well-defined, i.e. all " +
+                         "H terms share the same n_Y parity). Explains the Welle 13 Route 1 result at the matrix " +
+                         "level: F112-Y is the same norm structure as F112-Z (so ‖M_+1/2‖² = ‖M_−1/2‖² holds via " +
+                         "Route 1 directly), and additionally the M matrices themselves are signed-equivariant under " +
+                         "D-conjugation per F114. F112-Y norm-level Tier1Derived scope is unaffected; F114 is " +
+                         "documentary sharpening that closes the M-level Z↔Y bookkeeping that the Welle 13 PROOF " +
+                         "explicitly does NOT claim (section (d) Remark: 'L_Y is not D-transportable' — true for " +
+                         "the full Lindblad-form L, but the H-commutator L_H component IS signed-equivariant).");
         }
     }
 }

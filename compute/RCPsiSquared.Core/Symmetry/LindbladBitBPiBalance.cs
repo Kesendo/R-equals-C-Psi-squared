@@ -308,6 +308,17 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
                          "(−1)^{BitBParity(σ)} · σ) and F63's [L, Π²] = 0 for Z-dephasing as structural inputs. " +
                          "F87's dissipator-resonance trichotomy is the spectrum-side reading of the same grading; " +
                          "F112 is the M_anti Π-eigenspace-side reading. Three projections of one Z₂-grading.");
+            yield return new InspectableNode("F114 cross-dephase sharpening (Welle 15, 2026-05-27)",
+                summary: "F114 (CommutatorDConjugationSign, Tier1Derived) gives closed-form " +
+                         "ε(σ) = (−1)^{n_Y(σ) + 1} for D-conjugation action on the H-commutator L_H. Under " +
+                         "this Claim's hypothesis (Hermitian H + bit_b-homogeneous c) the dissipator " +
+                         "contribution to M vanishes, so M comes entirely from L_H and F114 yields the " +
+                         "matrix-level identity M(L_H, Π_Y) = ε(H) · D · M(L_H, Π_Z) · D bit-exact (when " +
+                         "ε(H) is well-defined, i.e. all H terms share the same n_Y parity). Sharpens this " +
+                         "Claim's Step 5 (L_H^† = −L_H + dagger maps Π +i ↔ Π −i): D-conjugation per-term " +
+                         "Y-parity carries equivalent sign information. F112's norm-level scope " +
+                         "‖M_+1/2‖² = ‖M_−1/2‖² is sign-invariant under ε(H); F114 is documentary " +
+                         "sharpening, not load-bearing for this Claim's Tier1Derived status.");
         }
     }
 }
