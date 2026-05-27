@@ -232,4 +232,117 @@ public static class F112NonHermitianBasisEnumeration
         return new EnumerationResult(N, (int)totalPairs, (int)globalNonzeroCount,
             globalMaxIm, meanAbsIm, stopwatch.Elapsed, examples);
     }
+
+    /// <summary>Build the sparse Pauli-basis representation of L_σ = -i[σ, ·]
+    /// directly from σ's per-letter encoding, without going through dense matrices.
+    /// Iterates τ ∈ Pauli basis (4^N strings) in flat-index order, computes per-letter
+    /// commute/anticommute pattern, accumulates the result phase, and emits a nonzero
+    /// entry only when σ and τ anticommute as full strings (odd parity over sites).
+    /// Result is sorted by column index ascending.
+    ///
+    /// <para>Basis convention: matches <see cref="BuildLHInPauliBasis"/>. The dense
+    /// path combines a vec_F (column-stacked) transform T with a vec_R-style
+    /// commutator superoperator (-i·(H⊗I − I⊗Hᵀ)), which implicitly maps
+    /// σ_k ↦ σ_kᵀ in the chosen Pauli basis. Single-site σ_Iᵀ = σ_I, σ_Xᵀ = σ_X,
+    /// σ_Zᵀ = σ_Z but σ_Yᵀ = −σ_Y, so every nonzero element picks up the sign
+    /// factor (−1)^(n_Y(τ) + n_Y(σ·τ)) where n_Y counts Y letters in the string.
+    /// We apply that sign here so the sparse rep is bit-exact identical to the
+    /// dense rep, enabling downstream Frobenius inner products to agree
+    /// element-by-element with the existing F112 enumeration cache.</para></summary>
+    public static SparseLSigma BuildSparseLSigma(IReadOnlyList<PauliLetter> sigma, int N)
+    {
+        if (sigma is null) throw new ArgumentNullException(nameof(sigma));
+        if (sigma.Count != N) throw new ArgumentException($"sigma has {sigma.Count} letters; expected N={N}", nameof(sigma));
+        if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be >= 1");
+
+        long dim = 1L << (2 * N);  // 4^N
+        if (dim > int.MaxValue) throw new ArgumentOutOfRangeException(nameof(N), N, "4^N overflows int32 at N >= 16");
+
+        // Pre-allocate worst case (2 * 4^(N-1) nonzeros), trim at end.
+        int maxNnz = (int)(2 * (dim / 4));
+        var cols = new List<int>(maxNnz);
+        var rows = new List<int>(maxNnz);
+        var values = new List<Complex>(maxNnz);
+
+        for (int col = 0; col < (int)dim; col++)
+        {
+            var tau = PauliIndex.FromFlat(col, N);
+            var (rowLetters, phase, anticommute) = PauliProductWithPhase(sigma, tau);
+            if (!anticommute) continue;
+            int row = (int)PauliIndex.ToFlat(rowLetters);
+            int yParity = (CountY(tau) + CountY(rowLetters)) & 1;
+            double basisSign = yParity == 0 ? 1.0 : -1.0;
+            cols.Add(col);
+            rows.Add(row);
+            // L_σ[τ] = -2i · (σ·τ), with σ·τ = phase · rowLetters; basisSign matches
+            // BuildLHInPauliBasis's σ_k ↦ σ_kᵀ convention (Y picks up −1).
+            values.Add(new Complex(0, -2) * phase * basisSign);
+        }
+
+        return new SparseLSigma(N, (int)dim, cols.ToArray(), rows.ToArray(), values.ToArray());
+    }
+
+    /// <summary>Count the number of Y letters in a Pauli string. Used by
+    /// <see cref="BuildSparseLSigma"/> to apply the σ_k ↦ σ_kᵀ basis-sign
+    /// correction that aligns the sparse rep with the dense
+    /// <see cref="BuildLHInPauliBasis"/> output.</summary>
+    private static int CountY(IReadOnlyList<PauliLetter> letters)
+    {
+        int count = 0;
+        for (int i = 0; i < letters.Count; i++)
+            if (letters[i] == PauliLetter.Y) count++;
+        return count;
+    }
+
+    /// <summary>Compute the per-site Pauli product σ·τ as a Pauli string plus
+    /// the accumulated phase ∈ {±1, ±i} plus the parity of (σ, τ) anticommutation
+    /// over sites (true = odd = strings anticommute = nonzero commutator).</summary>
+    private static (PauliLetter[] ResultLetters, Complex Phase, bool Anticommute) PauliProductWithPhase(
+        IReadOnlyList<PauliLetter> sigma, IReadOnlyList<PauliLetter> tau)
+    {
+        int N = sigma.Count;
+        var resultLetters = new PauliLetter[N];
+        Complex totalPhase = Complex.One;
+        int anticommuteCount = 0;
+
+        for (int l = 0; l < N; l++)
+        {
+            var (letter, phase, antiBit) = SingleSitePauliProduct(sigma[l], tau[l]);
+            resultLetters[l] = letter;
+            totalPhase *= phase;
+            anticommuteCount += antiBit;
+        }
+
+        return (resultLetters, totalPhase, (anticommuteCount & 1) == 1);
+    }
+
+    /// <summary>Single-site Pauli product σ_l · τ_l. Returns the result letter,
+    /// the multiplicative phase, and 1 if (σ_l, τ_l) anticommute else 0.
+    /// Hand-coded 4×4 lookup; see Pauli matrix products (I·X=X, X·X=I, X·Y=iZ,
+    /// Y·X=-iZ, etc.).</summary>
+    private static (PauliLetter Result, Complex Phase, int AntiBit) SingleSitePauliProduct(
+        PauliLetter a, PauliLetter b)
+    {
+        // 16-entry lookup. PauliLetter values: I=0, X=1, Z=2, Y=3.
+        // Anticommute: both non-I and distinct.
+        // Standard Pauli matrix products:
+        //   X²=Y²=Z²=I (phase 1)
+        //   XY=iZ, YX=-iZ, YZ=iX, ZY=-iX, ZX=iY, XZ=-iY
+        //   I·anything = anything (phase 1)
+        return (a, b) switch
+        {
+            (PauliLetter.I, _) => (b, Complex.One, 0),
+            (_, PauliLetter.I) => (a, Complex.One, 0),
+            (PauliLetter.X, PauliLetter.X) => (PauliLetter.I, Complex.One, 0),
+            (PauliLetter.Y, PauliLetter.Y) => (PauliLetter.I, Complex.One, 0),
+            (PauliLetter.Z, PauliLetter.Z) => (PauliLetter.I, Complex.One, 0),
+            (PauliLetter.X, PauliLetter.Y) => (PauliLetter.Z, Complex.ImaginaryOne, 1),
+            (PauliLetter.Y, PauliLetter.X) => (PauliLetter.Z, -Complex.ImaginaryOne, 1),
+            (PauliLetter.Y, PauliLetter.Z) => (PauliLetter.X, Complex.ImaginaryOne, 1),
+            (PauliLetter.Z, PauliLetter.Y) => (PauliLetter.X, -Complex.ImaginaryOne, 1),
+            (PauliLetter.Z, PauliLetter.X) => (PauliLetter.Y, Complex.ImaginaryOne, 1),
+            (PauliLetter.X, PauliLetter.Z) => (PauliLetter.Y, -Complex.ImaginaryOne, 1),
+            _ => throw new ArgumentException($"unexpected Pauli letter combo ({a}, {b})"),
+        };
+    }
 }

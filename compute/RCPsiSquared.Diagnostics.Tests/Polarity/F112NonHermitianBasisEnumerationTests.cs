@@ -136,4 +136,40 @@ public class F112NonHermitianBasisEnumerationTests
         Assert.True(result.MaxImaginary < 1e-10,
             $"max |Im| at N=5 should be < 1e-10; got {result.MaxImaginary:E4}");
     }
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    public void BuildSparseLSigma_MatchesDenseAtSmallN(int N)
+    {
+        // For every Pauli string σ at length N, build sparse and dense L_σ in
+        // Pauli basis. Verify the dense materialization of the sparse rep
+        // equals the dense L_σ computed via BuildLHInPauliBasis.
+        long count = 1L << (2 * N);
+        for (long k = 0; k < count; k++)
+        {
+            var letters = PauliIndex.FromFlat(k, N);
+            var sparseL = F112NonHermitianBasisEnumeration.BuildSparseLSigma(letters, N);
+
+            var dim = 1 << (2 * N);
+            Assert.Equal(N, sparseL.N);
+            Assert.Equal(dim, sparseL.Dim);
+            Assert.Equal(sparseL.ColIndices.Length, sparseL.RowIndices.Length);
+            Assert.Equal(sparseL.ColIndices.Length, sparseL.Values.Length);
+
+            // Materialize sparse to dense for comparison.
+            var sparseDense = Matrix<Complex>.Build.Dense(dim, dim);
+            for (int idx = 0; idx < sparseL.Nnz; idx++)
+                sparseDense[sparseL.RowIndices[idx], sparseL.ColIndices[idx]] = sparseL.Values[idx];
+
+            // Dense reference via existing builder.
+            var H = PauliString.Build(letters);
+            var denseL = F112NonHermitianBasisEnumeration.BuildLHInPauliBasis(H, N);
+
+            // Compare bit-exact.
+            var diff = (sparseDense - denseL).FrobeniusNorm();
+            Assert.True(diff < 1e-10,
+                $"sparse vs dense L_σ mismatch at σ={PauliLabel.Format(letters)}, N={N}: Frobenius diff = {diff:E4}");
+        }
+    }
 }
