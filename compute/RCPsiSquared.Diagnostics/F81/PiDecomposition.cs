@@ -47,8 +47,7 @@ public static class PiDecomposition
     /// returned <see cref="PiDecompositionResult.F81Violation"/> is a numerical
     /// diagnostic (Welle 15 cross-dephase wiring).</summary>
     public static PiDecompositionResult Decompose(ChainSystem chain, IReadOnlyList<PauliPairBondTerm> terms,
-        IReadOnlyList<double>? gammaT1PerSite = null, double violationTolerance = 1e-7,
-        PauliLetter dephaseLetter = PauliLetter.Z)
+        IReadOnlyList<double>? gammaT1PerSite = null, PauliLetter dephaseLetter = PauliLetter.Z)
     {
         var H = PauliHamiltonian.Bilinear(chain.N, chain.Bonds, terms.ToBilinearSpec(chain.J)).ToMatrix();
         var gammaZ = Enumerable.Repeat(chain.GammaZero, chain.N).ToArray();
