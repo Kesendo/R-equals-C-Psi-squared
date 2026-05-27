@@ -8,7 +8,7 @@
 
 ## Abstract
 
-PROOF_F112 established that the polarity asymmetry `‖M_plus_half‖² − ‖M_minus_half‖²` vanishes bit-exactly when the Lindblad system has Hermitian H and bit_b-homogeneous collapse operators c. F113 is the magnitude question for the regime where that hypothesis fails: with a single-site Z-drive Hamiltonian H = Σ_l (ω_l / 2)·Z_l and the standard σ⁻ (decay) / σ⁺ (pump) T1 family on each site (σ⁻ has support on both bit_b = 0 and bit_b = 1 Pauli components, so it lies outside F112's typed scope), the asymmetry takes the universal-N closed form
+Define the polarity asymmetry as `‖M_plus_half‖² − ‖M_minus_half‖²`, the difference in Frobenius weight between the +1/2 and −1/2 polarity-axis components of the F1 palindrome residual M. (`M_plus_half` and `M_minus_half` are the Π +i and Π −i eigenspace projections of M, defined by the `polarity_coordinates_from_L` decomposition; see [POLARITY_COORDINATES.md](../../reflections/POLARITY_COORDINATES.md) for background.) [PROOF_F112](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) established that this asymmetry vanishes bit-exactly when the Lindblad system has Hermitian H and bit_b-homogeneous collapse operators c. F113 is the magnitude question for the regime where that hypothesis fails: with a single-site Z-drive Hamiltonian H = Σ_l (ω_l / 2)·Z_l and the standard σ⁻ (decay) / σ⁺ (pump) T1 family on each site (σ⁻ has support on both bit_b = 0 and bit_b = 1 Pauli components, so it lies outside F112's typed scope), the asymmetry takes the universal-N closed form
 
     asymmetry = (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l)
 
@@ -16,9 +16,9 @@ for any N ≥ 1. The proof is purely algebraic. PROOF_F112's Lemma A (dagger map
 
 ## Introduction
 
-**The motivating question.** PROOF_F112 characterised *when* the polarity asymmetry vanishes (Hermitian H plus bit_b-homogeneous c). The natural next question, once the vanishing case is settled, is the magnitude case: for inputs that break the F112 hypothesis, how big is the resulting asymmetry, and how does it depend on the input parameters of L? The most important such input is the T1 σ⁻ jump operator, which is genuinely bit_b-mixed: σ⁻ has support on both X (bit_b = 0) and Y (bit_b = 1) Pauli components, so it is not bit_b-homogeneous.
+**The motivating question.** [PROOF_F112](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) characterised *when* the polarity asymmetry vanishes (Hermitian H plus bit_b-homogeneous c). The natural next question, once the vanishing case is settled, is the magnitude case: for inputs that break the F112 hypothesis, how big is the resulting asymmetry, and how does it depend on the input parameters of L? The most important such input is the T1 σ⁻ jump operator, which is genuinely bit_b-mixed: σ⁻ has support on both X (bit_b = 0) and Y (bit_b = 1) Pauli components, so it is not bit_b-homogeneous.
 
-**The empirical anchor.** `experiments/F113_BREAK_MAGNITUDE_FORMULA.md` had already established the closed form bit-exact across all (Z-drive, σ⁻/σ⁺ T1) configurations tested at N = 2, 3, 4: `asymmetry = (4^N / 2) · Σ_l ω_l · (γ_pump − γ_T1)`. The pattern was clean enough to type as Tier1Candidate. What was missing was the structural derivation that lifts the formula from "bit-exact at every N tested" to "general N".
+**The empirical anchor.** [experiments/F113_BREAK_MAGNITUDE_FORMULA.md](../../experiments/F113_BREAK_MAGNITUDE_FORMULA.md) had already established the closed form bit-exact across all (Z-drive, σ⁻/σ⁺ T1) configurations tested at N = 2, 3, 4: `asymmetry = (4^N / 2) · Σ_l ω_l · (γ_pump − γ_T1)`. The pattern was clean enough to type as Tier1Candidate. What was missing was the structural derivation that lifts the formula from "bit-exact at every N tested" to "general N".
 
 **What this proof closes.** The argument does two things. First, it isolates the algebraic core via the cross-term reduction: PROOF_F112's Lemmas A and B plus the new Lemma C close the asymmetry to a single Frobenius cross term, independent of N. Second, it evaluates that cross term via per-site tensor factorization in the Pauli basis, with each factor in the final coefficient `(4^N / 2)` traceable to a specific structural origin:
 
@@ -28,7 +28,7 @@ for any N ≥ 1. The proof is purely algebraic. PROOF_F112's Lemma A (dagger map
 - the per-site sum Σ_l ω_l γ_T1,l from per-site additivity (different-site cross terms vanish);
 - the sign structure (γ_pump − γ_T1) from σ⁻ versus σ⁺ giving equal-magnitude opposite contributions.
 
-**Diagnostic consequence.** PROOF_F112 made `polarity_coordinates_from_L` a yes/no witness ("is L outside the bit_b-homogeneous-c regime?"). F113 promotes it to a magnitude check ("does the measured asymmetry match the closed-form prediction for the named input?"). A mismatch at the magnitude level localises the failure: either the input is outside F113's typed scope (drive Hamiltonian other than Z, non-standard collapse operator), or the implementation has a bug.
+**Diagnostic consequence.** [PROOF_F112](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) made `polarity_coordinates_from_L` a yes/no witness ("is L outside the bit_b-homogeneous-c regime?"). F113 promotes it to a magnitude check ("does the measured asymmetry match the closed-form prediction for the named input?"). A mismatch at the magnitude level localises the failure: either the input is outside F113's typed scope (drive Hamiltonian other than Z, non-standard collapse operator), or the implementation has a bug.
 
 ## Theorem (F113, general N)
 
