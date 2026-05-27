@@ -275,7 +275,7 @@ We compute the single-site Π²-odd parts. By F38, Π² acts on Pauli letters (I
   - (X, X), (Y, Y), (Z, Z): bit_b sum even (0+0, 1+1, 1+1) → zero in odd projection.
   - (Z, I): bit_b sum 1 + 0 = 1 → SURVIVES.
 
-  Only the (Z, I) entry — the population-pumping `D[σ⁻](I) = +Z` term — sits in the Π²-odd sector.
+  Only the (Z, I) entry, the population-pumping `D[σ⁻](I) = +Z` term, sits in the Π²-odd sector.
 
 - **Single-site trace (l = m):** the matrix product (L_H,1)_odd · (L_T1,1)_odd at N = 1 picks up the only diagonal contribution from β = I, which is (L_H,1)_odd[I, Z] · (L_T1,1)_odd[Z, I]. But L_H,1[I, Z] = 0 because [Z, σ_Z] = 0 (a Z-drive commutes with σ_Z). Hence Tr((L_H,1)_odd · (L_T1,1)_odd) = 0. By the tensor factorization of single-site superoperators (Step 4) and the Frobenius factorization on tensor products (Step 6), Tr((L_H,l)_odd · (L_T1,l)_odd) = 4^{N−1} · Tr((L_H,1)_odd · (L_T1,1)_odd) = 0.
 
