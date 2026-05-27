@@ -58,11 +58,36 @@ What this gives us: any F1 residual norm / inner product / spectrum computed via
 
 1. **Universal N**: CLOSED 2026-05-27 (Welle 12 Task 1). Structural per-letter argument via tensor-product factorization. See [`PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md`](../docs/proofs/PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md).
 
-2. **Lift to X-dephasing?**: X-dephase is in a different Klein orbit (flip bit_b instead of bit_a). Is there an analogous diagonal involution D' such that `D' · Π_Z · D' = Π_X`? Conjecture: yes, with D' = diag((-1)^(n_X + n_Y)) or similar. Not verified.
+2. **Lift to X-dephasing?**: CLOSED 2026-05-27 (Welle 12 Task 2). The Z↔X and Y↔X swaps both lift to operator-space involutions; both have order 2 (the controller's pre-dispatch order-4 conjecture is falsified). The canonical per-site forms are:
+
+   - `q_zx = h · d_l = h · diag(1, 1, 1, -1)`  (per-site Z↔X swap)
+   - `q_yx = h`  (per-site Y↔X swap, pure permutation)
+
+   where `h` is the X↔Z basis permutation matrix on `(I, X, Z, Y)`:
+   ```
+   h = [[1,0,0,0],[0,0,1,0],[0,1,0,0],[0,0,0,1]]
+   ```
+   (i.e. h fixes I and Y and swaps X ↔ Z in the per-site Pauli basis.)
+
+   No pure diagonal works for Z↔X because Π_Z flips bit_a (I↔X, Z↔Y orbits) while Π_X flips bit_b (I↔Z, X↔Y orbits) — a permutation between the bit-axes is required. The X↔Z basis permutation is the structural bridge: it intertwines the Klein generator (1, 0) (representing X) with (0, 1) (representing Z).
+
+   The N-site operators are tensor powers: `D = ⊗_l d_l`, `Q_zx = ⊗_l (h · d_l) = H · D`, `Q_yx = ⊗_l h = H`. Verified bit-exact at N = 1, 2, 3, 4 via [`simulations/_klein_dephase_swap_explore.py`](../simulations/_klein_dephase_swap_explore.py) (numpy + sympy per-site symbolic).
+
+   See [PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md](../docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md).
 
 3. **Typed-claim promotion**: this identity is concrete and verifiable. If it gets cited in 2+ downstream proofs, promote to a typed `Pi2ZYDephaseSwapClaim` (Tier1Derived, parent of any future Z↔Y equivariance proof) in `compute/RCPsiSquared.Core/Symmetry/`. For now, the reflection + verifier script is sufficient repository memory.
 
-4. **Connection to Klein structure**: the (Z, X, Y, I) labelling is the Klein four-group V₄. Π_Z, Π_X, Π_Y form a Klein-V₄ triple of palindrome operators. The D-conjugation Z↔Y swap is one of the three non-trivial Klein involutions. Are there parallel identities for the other two? Worth checking systematically as Welle 10e or whenever Klein structure becomes load-bearing again.
+4. **Connection to Klein structure**: CLOSED 2026-05-27 (Welle 12 Task 2). The (Z, X, Y, I) labelling is the Klein four-group V₄. The three non-trivial Klein-V₄ swaps on dephase letters all lift to operator-space involutions, and they form a faithful Klein-V₄ subgroup of the unitary group on the 4^N Pauli basis:
+
+   ```
+   { I, D, Q_zx, Q_yx }    with    D · Q_zx · Q_yx = I,
+                                     D² = Q_zx² = Q_yx² = I,
+                                     all pairwise commute.
+   ```
+
+   Verified bit-exact at N = 1, 2, 3, 4 (closure + involution + commutativity). The lift is structurally clean: D is purely diagonal, Q_yx is purely a basis permutation, Q_zx is their product. See open question 2 (above) for the canonical per-site forms and [PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md](../docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md).
+
+   Practical consequence: the F1 palindrome family {Π_Z, Π_X, Π_Y} is fully Klein-V₄-equivariant, NOT asymmetric. Any F1-style result (residual norm, inner product, spectrum, Frobenius identities) for one dephase letter automatically transfers to the other two via the appropriate Klein-V₄ unitary conjugation. The Welle 11 F112 universal-N closure under Z-dephasing implies the same under X- and Y-dephasing.
 
 ## Practical impact
 

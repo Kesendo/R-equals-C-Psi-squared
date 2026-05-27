@@ -121,5 +121,5 @@ The identity is universal in N. ∎
 
 ## Open
 
-- **Klein-V₄ completion (Welle 12 Task 2)**: Z ↔ X and X ↔ Y swaps. The Z ↔ X swap involves a bit_a vs bit_b flip mismatch (Π_Z flips bit_a, Π_X flips bit_b), so any conjugation diagonal D' must mediate between two non-overlapping Klein axes. Preliminary analysis suggests an order-4 cyclic structure rather than a Klein-V₄ involution. Task 2 will explore.
-- **Typed-claim promotion (Welle 12 Task 3)**: lands `Pi2ZYDephaseSwapClaim` as Tier1Derived in the typed-knowledge graph with this proof as the structural anchor.
+- **Klein-V₄ completion (Welle 12 Task 2)**: CLOSED 2026-05-27. The Z↔X and Y↔X swaps both lift to operator-space involutions; the pre-dispatch order-4 conjecture is falsified. All three swaps form a Klein-V₄ subgroup {I, D, Q_zx, Q_yx} of U(4^N), faithfully realizing V₄ on operator space. See [PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md).
+- **Typed-claim promotion (Welle 12 Task 3)**: lands `Pi2ZYDephaseSwapClaim` as Tier1Derived in the typed-knowledge graph with this proof as the structural anchor. The Klein-V₄ closure (Task 2) provides additional inheritance: a single `Pi2KleinV4DephaseSwapClaim` could subsume the Z↔Y, Z↔X, Y↔X identities under one claim.
