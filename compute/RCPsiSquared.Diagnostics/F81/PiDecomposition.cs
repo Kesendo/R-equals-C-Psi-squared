@@ -41,8 +41,14 @@ public sealed record PiDecompositionResult(
 
 public static class PiDecomposition
 {
+    /// <summary>F81 Π-decomposition of M into symmetric / antisymmetric parts. The
+    /// <paramref name="dephaseLetter"/> threads through PalindromeResidual and PiOperator;
+    /// the F81 closed-form check (Π·M·Π⁻¹ = M − 2·L_{H_odd}) is Z-only, on X / Y the
+    /// returned <see cref="PiDecompositionResult.F81Violation"/> is a numerical
+    /// diagnostic (Welle 15 cross-dephase wiring).</summary>
     public static PiDecompositionResult Decompose(ChainSystem chain, IReadOnlyList<PauliPairBondTerm> terms,
-        IReadOnlyList<double>? gammaT1PerSite = null, double violationTolerance = 1e-7)
+        IReadOnlyList<double>? gammaT1PerSite = null, double violationTolerance = 1e-7,
+        PauliLetter dephaseLetter = PauliLetter.Z)
     {
         var H = PauliHamiltonian.Bilinear(chain.N, chain.Bonds, terms.ToBilinearSpec(chain.J)).ToMatrix();
         var gammaZ = Enumerable.Repeat(chain.GammaZero, chain.N).ToArray();
@@ -53,8 +59,8 @@ public static class PiDecomposition
         else
             L = PauliDephasingDissipator.BuildZ(H, gammaZ);
 
-        var M = PalindromeResidual.Build(L, chain.N, chain.SigmaGamma, PauliLetter.Z);
-        var pi = PiOperator.BuildFull(chain.N, PauliLetter.Z);
+        var M = PalindromeResidual.Build(L, chain.N, chain.SigmaGamma, dephaseLetter);
+        var pi = PiOperator.BuildFull(chain.N, dephaseLetter);
         var piInv = pi.ConjugateTranspose();
         var piMpi = pi * M * piInv;
         var mSym = (M + piMpi) / 2.0;
