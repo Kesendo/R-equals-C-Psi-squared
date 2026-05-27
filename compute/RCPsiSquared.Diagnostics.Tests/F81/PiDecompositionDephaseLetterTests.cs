@@ -94,6 +94,8 @@ public class PiDecompositionDephaseLetterTests
         var terms = new[] { new PauliPairBondTerm(PauliLetter.X, PauliLetter.X) };
 
         var pol = PolarityCoordinates.Decompose(chain, terms, dephaseLetter: PauliLetter.X);
+        Assert.True(pol.MNormSquared > 1e-6,
+            "test design: M should be non-trivial so the asymmetry assertion is substantive");
         Assert.True(Math.Abs(pol.Asymmetry) < 1e-12,
             $"F112-X in-scope asymmetry {pol.Asymmetry:E3} exceeds 1e-12");
     }
