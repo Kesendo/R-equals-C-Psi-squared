@@ -9,6 +9,16 @@
 - [`framework/core.py`](../../simulations/framework/core.py) (`_pauli_tuple_is_truly`, `_pauli_tuple_pi2_class`)
 - [`framework/pauli.py`](../../simulations/framework/pauli.py) (`_build_kbody_chain`)
 
+## Abstract
+
+F49 and F81-F84 closed the Π²-decomposition machinery for two-body (bilinear) Hamiltonians: the trichotomy classifier (truly / Π²-odd / Π²-even-non-truly), the Frobenius scaling closed form, the F81 identity on M, the T1 and thermal-amplitude-damping corrections. The natural question after the bilinear case was whether the entire machinery extends to higher-body Hamiltonians (3-body, 4-body, k-body in general).
+
+The answer is the cleanest possible kind of "yes". The same trichotomy classifier works for any k-body Pauli term: a term is truly (contributes M = 0) iff its Y-letter count and Z-letter count are both even; the Π²-parity classifier is the bit_b parity as before; the trichotomy splits non-truly terms into Π²-odd or Π²-even-non-truly the same way. Each non-truly term contributes to the residual norm with a per-class prefactor that depends only on its trichotomy class, not on the body count. The whole F-chain (F81, F82, F83, F84) lifts verbatim by replacing the bilinear bond graph with a k-body sliding-window chain.
+
+A small correction surfaces at the higher-body level. The 2-body Frobenius scaling formula used n_YZ (the count of Y plus Z letters) as the per-term factor; this happens to coincide with the per-class factor at k = 2 by coincidence (n_YZ = 1 ↔ Π²-odd, n_YZ = 2 ↔ Π²-even non-truly). At k ≥ 3 the coincidence breaks: a term like YYY has n_YZ = 3 but is Π²-odd (per-class factor 1, not 3). The structurally correct factor is the Π²-class factor, which is 0 / 1 / 2 depending on trichotomy class.
+
+The diagnostic upshot is that F49-F84 are not specifically about bilinears; they are about the Π²-class structure of Pauli terms. Adding higher-body Hamiltonians to a system doesn't break the F-chain, it just routes through the same trichotomy classifier with k-body terms. The F87Z₂³ refinement family later (F103, F105, F106) explores how this plays out at k = 3 and k = 4 in detail.
+
 **Statement (Theorem F85):** For any k-body Pauli term (P_1, P_2, ..., P_k) with letters from {I, X, Y, Z}, the Π²-class trichotomy and the F49 Frobenius scaling generalize:
 
   - **truly criterion**: term contributes M = 0 (drops by Master Lemma) iff

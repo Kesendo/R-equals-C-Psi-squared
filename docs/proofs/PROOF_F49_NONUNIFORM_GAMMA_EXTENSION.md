@@ -4,6 +4,16 @@
 **Date:** 2026-05-18
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 
+## Abstract
+
+F49 closed the cross-term Frobenius norm `‖{L_H, L_Dc}‖²` for uniform Z-dephasing: a clean per-bond product of the Hamiltonian commutator norm and a γ² factor times (N − 2). This proof extends it to arbitrary site-dependent γ rates. The natural extension would replace the (N − 2) factor by something involving Σ γ², but the truth is more interesting.
+
+The non-uniform closed form splits into two structurally distinct pieces. The first is a spectator part: each bond contributes a term proportional to its bond-local commutator norm times the sum of squared γ rates AT THE NON-BOND SITES (the sites the bond does not touch). The second is a bond-asymmetry part: each bond contributes a term proportional to the SQUARED DIFFERENCE between its two endpoint γ rates, times a per-bond coefficient that depends on the Pauli-class composition of the bond's Hamiltonian.
+
+The bond-asymmetry coefficient G(bond, H) is the diagnostic gem. It works out to exactly four times the Frobenius norm of the "ZZ-class part" of the bond Hamiltonian. For canonical bond classes the coefficient is clean: Heisenberg picks up (4/3) of the bond norm, Ising picks up the full 4 (since ZZ is the entire bond), XY picks up zero (no ZZ content), and the F87-soft XY+YX combination also picks up zero. The non-uniform γ generalization is therefore not just a numerical extension; it gives a per-bond fingerprint of how much of each bond's Hamiltonian sits in the ZZ direction.
+
+The diagnostic upshot is that measuring the F49 cross-term norm under non-uniform γ reads off both the bond Hamiltonian composition (via the asymmetry coefficient G) and the spectator γ rates (via the spectator part). For uniform γ the asymmetry term vanishes and the F49 closed form is recovered. The non-uniform extension is therefore a strict refinement, not a replacement, and the ZZ-content per bond becomes measurable from outside the system through the cross-term observable.
+
 ## Statement
 
 Let H be a 2-bilinear bond Hamiltonian on N qubits, `H = Σ_b H_b` with each bond term `H_b = Σ_t c_t · α_t^{(i_b)} β_t^{(j_b)}` for Paulis α_t, β_t ∈ {X, Y, Z} on bond sites (i_b, j_b). Let L_D be the site-dependent Z-dephasing dissipator with rates {γ_l},

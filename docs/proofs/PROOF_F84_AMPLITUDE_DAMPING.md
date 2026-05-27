@@ -8,6 +8,16 @@
 - [PROOF_F81_PI_CONJUGATION_OF_M.md](PROOF_F81_PI_CONJUGATION_OF_M.md) (Π² action on Pauli basis)
 - [`framework/lindblad.py`](../../simulations/framework/lindblad.py) (`lindbladian_general`)
 
+## Abstract
+
+F82 closed the F81 correction for T1 amplitude damping at zero temperature (pure σ⁻ cooling, no thermal heating). On a real qubit running in a finite-temperature bath, the noise process is amplitude damping in both directions: σ⁻ cooling at one rate and σ⁺ heating at another, with the rates set by the bath occupation. The natural question after F82 is what happens to the F81-violation closed form when both directions are turned on.
+
+The answer is the cleanest possible generalization. The correction term in F81's identity remains the antisymmetric part of the amplitude-damping dissipator. The closed form scales with the NET cooling rate per site: cooling rate minus heating rate, squared and summed. At zero temperature (heating = 0) it recovers F82 exactly. At detailed balance (cooling = heating) the correction vanishes entirely; the F81 identity holds exactly even in the presence of amplitude damping, because the cooling and heating contributions cancel in the antisymmetric piece. Between the two limits, the correction interpolates smoothly with the net rate.
+
+A second observation falls out for free. Pure Pauli-channel dissipators (Z, X, Y dephasing on a single Pauli letter) are Π²-symmetric in the Pauli basis and contribute zero to f81_violation. Only σ⁻ (cooling) and σ⁺ (heating) channels are Π²-antisymmetric; only they show up in the F81-violation diagnostic. So F81 violations on hardware are diagnostic of population-inverting channels specifically, not of phase-only or bit-flip-only noise.
+
+The diagnostic upshot extends F82 to realistic thermal hardware. A measured `f81_violation` reads off the magnitude of the net population-pumping rate, not just the cooling rate. At detailed balance the diagnostic reports zero even though both cooling and heating are present; this is the right answer because both contribute equally and cancel in the antisymmetric piece. For hardware at very low effective temperature (T₁ ≫ T₁_pump), F82's closed form is recovered. The full F84 generalization is what you need when the system is not zero-temperature, and the structural reading is the same: F81-violation isolates the energy-flow-asymmetric noise content.
+
 **Statement (Theorem F84):** For any 2-bilinear Hamiltonian H = H_even + H_odd under Z-dephasing plus thermal amplitude damping with per-site cooling rate γ_↓_l and heating rate γ_↑_l:
 
     Π · M · Π⁻¹ = M − 2 · L_{H_odd} − 2 · D_{AmplDamp, odd}

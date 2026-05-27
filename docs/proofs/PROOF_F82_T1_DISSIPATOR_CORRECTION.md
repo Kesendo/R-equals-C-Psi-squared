@@ -8,6 +8,16 @@
 - [`framework/lindblad.py`](../../simulations/framework/lindblad.py) (`lindbladian_z_plus_t1`)
 - [`framework/core.py`](../../simulations/framework/core.py) (`pi_decompose_M` with `gamma_t1` argument)
 
+## Abstract
+
+F81 says that under pure Z-dephasing, the antisymmetric part of M (the Π-anti piece) equals exactly the Π²-odd Hamiltonian commutator. When you measure the F81 identity on a real system, any deviation from that equality is a fingerprint of something beyond pure Z-dephasing. The natural first thing to add is T1 amplitude damping, the canonical energy-loss process. The question is: what shape does the F81 violation take when T1 is present?
+
+This proof writes the closed form. The F81 identity gets corrected by a single additional term: minus twice the Π²-antisymmetric part of the T1 dissipator. The violation residual that the framework's `pi_decompose_M` primitive reports as `f81_violation` equals exactly the Frobenius norm of that antisymmetric T1 piece. For uniform T1 across N qubits, the residual scales as a clean closed form (gamma_T1 times a known prefactor depending on N).
+
+The mechanism is structural. T1 is implemented via the lowering operator σ⁻, which has one foot in the bit_b = 0 sector (the X component) and one foot in the bit_b = 1 sector (the Y component). The dissipator built from σ⁻ therefore carries content in both Π² sectors, and the Π²-antisymmetric piece is what survives the F81 decomposition as a non-Hamiltonian source. By contrast, pure Pauli-channel dissipators (Z, X, or Y dephasing, depolarizing) sit cleanly in the Π²-symmetric sector and contribute zero to f81_violation.
+
+The diagnostic upshot is sharp. F81's identity is exact for pure Z-dephasing, exact for pure Pauli-channel dissipators (Z, X, Y, depolarizing per F84's generalization), and gets ONE specific correction term when T1 amplitude damping is added. A measured `f81_violation` therefore reads off the T1 amplitude-damping component of a noise process, independent of the Hamiltonian and independent of the Z-dephasing rate. F82 turns F81 into a working hardware-noise diagnostic for population-inverting channels.
+
 **Statement (Theorem F82):** For any 2-bilinear Hamiltonian H = H_even + H_odd under Z-dephasing plus T1 amplitude damping,
 
     Π · M · Π⁻¹ = M − 2 · L_{H_odd} − 2 · D_{T1, odd}

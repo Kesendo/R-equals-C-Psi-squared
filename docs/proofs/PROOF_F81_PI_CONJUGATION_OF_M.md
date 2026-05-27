@@ -8,6 +8,16 @@
 - [`framework/symmetry.py`](../../simulations/framework/symmetry.py) (`build_pi_full`, `pi_squared_eigenvalue`)
 - [`framework/lindblad.py`](../../simulations/framework/lindblad.py) (`palindrome_residual`, `lindbladian_z_dephasing`)
 
+## Abstract
+
+F1 says the palindrome residual M closes to zero for palindromic Heisenberg Hamiltonians. When the Hamiltonian is NOT palindromic, M is non-zero, and the question becomes: what does M look like, and how does Π act on it?
+
+This proof writes down the answer. Split the Hamiltonian into its Π²-even and Π²-odd Pauli-bilinear parts (the bit_b grading on the Pauli alphabet). Π conjugation acts on M by subtracting twice the unitary commutator of the odd part: M minus its Π-conjugated image equals 2 · L_H_odd. Equivalently, M decomposes into its Π-symmetric and Π-antisymmetric pieces, and the antisymmetric piece is exactly the Π²-odd Hamiltonian commutator. The symmetric piece carries everything else (the dissipator, the Π²-even Hamiltonian content, the constant shift). The two pieces are Frobenius-orthogonal, so the total norm splits cleanly.
+
+The proof is direct algebra on the Π² action on Pauli strings. The Π²-odd content commutes with Π² with eigenvalue −1 (the bit_b grading), and that sign is what produces the −2·L_H_odd term when Π is applied once without squaring.
+
+The diagnostic upshot is that F81 turns M into a structural readout. Measuring the symmetric and antisymmetric Frobenius norms directly reads off the Π²-odd content of H and separates it from the rest. F82, F83, F84 build on this decomposition to extract more refined fingerprints (T1 amplitude damping, anti-fraction ratio, thermal corrections). F81 is the foundational decomposition that makes those refinements possible, and the F112 / F113 polarity-coordinates story builds further on the same decomposition by going one level deeper into the Π +i / −i eigenspace split of M_anti.
+
 **Statement (Theorem F81):** For any 2-bilinear Hamiltonian H = H_even + H_odd (Π²-decomposition into bit_b-even and bit_b-odd Pauli bilinears) under uniform Z-dephasing,
 
     Π · M · Π⁻¹ = M − 2 · L_{H_odd}

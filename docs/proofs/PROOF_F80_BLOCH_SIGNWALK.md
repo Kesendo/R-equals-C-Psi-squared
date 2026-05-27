@@ -13,6 +13,16 @@
 
 **Scope:** chain bond-summed Π²-odd 2-body Hamiltonian H = c · Σ_{l=0}^{N-2} (P_l ⊗ Q_{l+1}) on N-site open chain, with (P, Q) ∈ {(X,Y), (X,Z), (Y,X), (Z,X)}, under uniform Z-dephasing γ.
 
+## Abstract
+
+The M-residual clusters of chain Π²-odd 2-body Hamiltonians under Z-dephasing carry a specific magnitude pattern. Observed empirically: the cluster norm is the absolute value of a sign-weighted sum over the open-chain Bloch-mode dispersion, with signs ±1 on each mode. The question is whether this sign-walk has a closed-form structural origin or whether the signs are coincidental at the tested N values.
+
+The proof says structural. A Jordan-Wigner transformation reduces the bond-summed Π²-odd 2-body Hamiltonian to a Majorana-bilinear free-fermion model whose single-particle spectrum is the standard open-chain cosine dispersion. Under the Z-dephasing dissipator, the M-clusters inherit the single-particle eigenvalue spectrum with a specific sign assignment per mode, given by the per-site Π² action on the corresponding mode. The signs work out to ±1 on each mode, and the cluster norm is the absolute value of the sign-weighted sum.
+
+The proof has seven steps. Steps 1-4 carry the JW reduction and the dispersion identification. Step 5, closed 2026-05-22, is the per-site Π² action computation that pins down the sign on each mode (the previously-open step in the original proof). Steps 6-7 then assemble the sign-walk formula from the per-mode signs and the dispersion. Together they give the closed-form cluster norm bit-exactly through N=7.
+
+The diagnostic upshot is that F80 is the momentum-space lens on the F78 single-body Frobenius result and the F79 Π²-block structure. F78 / F79 say what the clusters do in position space; F80 says what they do in momentum space, and the two views are unified by the Bloch dispersion. Current scope is the chain topology and four specific Π²-odd bilinear pairs; extensions to other topologies (where the dispersion changes) and other letter pairs (where the sign-walk presumably reshapes) are flagged as future work.
+
 **Does NOT establish (yet):**
 - Generalization to other topologies (ring, star, complete K_N): different Bloch dispersion, formula presumably holds with topology-specific ε(k).
 - Π²-even non-truly chain bilinears (Y,Z), (Z,Y): empirically more clusters; likely an integer-combination sign-walk on the same modes.

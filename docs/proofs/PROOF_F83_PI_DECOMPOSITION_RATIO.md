@@ -8,6 +8,16 @@
 - [PROOF_SVD_CLUSTER_STRUCTURE.md](PROOF_SVD_CLUSTER_STRUCTURE.md) (F49 Frobenius scaling per Pauli-pair class)
 - [`framework/core.py`](../../simulations/framework/core.py) (`predict_residual_norm_squared_from_terms` already implements the underlying Frobenius identity)
 
+## Abstract
+
+F49 closed the Frobenius scaling of the palindrome residual M under Z-dephasing, summing across the Π²-trichotomy classes (truly / Π²-odd / Π²-even-non-truly). F81 then split M itself into symmetric and antisymmetric pieces under Π conjugation. The natural composition question is: how does the Π-symmetric / Π-antisymmetric split distribute across the three trichotomy classes?
+
+This proof writes the closed-form distribution. M_anti carries content only from the Π²-odd part of the Hamiltonian (this is the F81 identity in slogan form). M_sym carries content from BOTH the Π²-odd part and the Π²-even-non-truly part, weighted by different prefactors. The Π²-truly part contributes nothing to either piece (it makes M = 0 by definition). So the ratio between M_anti and the Π²-even-non-truly piece of M_sym is a clean function of the Frobenius weights of H_odd versus H_even_non_truly: a closed-form expression in the trichotomy weights, independent of Z-dephasing rate, independent of chain topology beyond the bond structure F49 already captured.
+
+The mechanism is the F81 identity composed with the F49 per-class Frobenius scaling. F81 tells you what Π conjugation does to M, F49 tells you how each trichotomy class contributes to M's norm, and combining them gives the per-class contribution to each Π-eigenspace piece. The proof is essentially F49 + F81 written together.
+
+The diagnostic upshot is that measuring the Π-anti and Π-sym norms separately reads off the Π²-odd and Π²-even-non-truly content of H independently. F83 lets you reverse-engineer the trichotomy composition of an unknown Hamiltonian from two Frobenius measurements. F112 later builds on this further by going one level deeper into the Π +i / Π −i eigenspace split of M_anti, but the cleaner two-way split of F83 is the building block.
+
 **Statement (Theorem F83):** For any 2-body chain Hamiltonian H decomposed by Π²-parity and trichotomy as
 
     H = H_truly + H_odd + H_even_nontruly,
