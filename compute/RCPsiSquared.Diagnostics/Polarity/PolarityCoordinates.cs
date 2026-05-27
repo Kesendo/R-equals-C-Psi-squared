@@ -49,6 +49,7 @@ namespace RCPsiSquared.Diagnostics.Polarity;
 /// (<see cref="PiOperator.BuildFull"/>) and the same vec→Pauli transform
 /// (<see cref="PauliBasis.VecToPauliBasisTransform"/>).</para>
 /// </summary>
+/// <param name="F81Violation">F81 closed-form ‖M_anti − L_{H_odd}‖_F on Z-dephase; numerical diagnostic only on X / Y (see <see cref="PiDecomposition.Decompose"/>).</param>
 public sealed record PolarityCoordinatesResult(
     ComplexMatrix M,
     ComplexMatrix MZero,
