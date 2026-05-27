@@ -99,4 +99,44 @@ public class PiDecompositionDephaseLetterTests
         Assert.True(Math.Abs(pol.Asymmetry) < 1e-12,
             $"F112-X in-scope asymmetry {pol.Asymmetry:E3} exceeds 1e-12");
     }
+
+    [Fact]
+    public void Y_Dephase_Equivariance_Substantive_M_Anti_At_N_Equals_2()
+    {
+        // Hardening test for Welle 12's D · Π_Z · D = Π_Y identity on a NON-TRIVIAL
+        // M_anti branch. The existing Y-dephase tests use ZZ bonds which are Π²-even
+        // (truly) and exactly satisfy F1, so M_anti vanishes and the equivariance
+        // checks D·0·D = 0 are vacuous. XZ + ZX is Π²-odd (bit_b(X) + bit_b(Z) = 1)
+        // and substantive: ‖M_anti‖_F ≈ 8.0 at this N / J / γ₀.
+        //
+        // Sign convention: the standard codebase pipeline (vec_F · T with vec_R · L_vec)
+        // produces D · L_natural · D in the Pauli basis. Substituting Π_Y = D · Π_Z · D
+        // and L_pauli_Y = D · L_pauli_Z · D (since both branches build L from the same
+        // natural Z-dephasing dissipator, which is then re-conjugated by D on the Y
+        // residual side) yields M_Y = −D · M_Z · D for the Π²-odd L_H_odd commutator
+        // component (the i ↔ −i convention swap on bit_b = 1 strings introduces the
+        // overall sign). Verified for XZ + ZX bit-exact (‖M_anti_Y + D·M_anti_Z·D‖ = 0).
+        // Norms are equivariant either way: ‖M_anti_Y‖_F = ‖M_anti_Z‖_F.
+        //
+        // The bit_b-mixed bond is intentionally outside F112 hypothesis: we test the
+        // Klein-V₄ D-conjugation identity on M_anti directly, not F112's Asymmetry = 0.
+        var chain = new ChainSystem(N: 2, J: 1.0, GammaZero: 0.1);
+        var terms = new[]
+        {
+            new PauliPairBondTerm(PauliLetter.X, PauliLetter.Z),
+            new PauliPairBondTerm(PauliLetter.Z, PauliLetter.X),
+        };
+
+        var dZ = PiDecomposition.Decompose(chain, terms, dephaseLetter: PauliLetter.Z);
+        var dY = PiDecomposition.Decompose(chain, terms, dephaseLetter: PauliLetter.Y);
+        var D = Pi2KleinV4DephaseSwapGroup.BuildD(chain.N);
+
+        Assert.True(dZ.MAnti.FrobeniusNorm() > 1e-6,
+            "test design: M_anti should be substantive on Z-dephase");
+        // Norm-level Klein-V₄ inheritance (the F112 Asymmetry-relevant invariant).
+        Assert.Equal(dZ.MAntiNormSquared, dY.MAntiNormSquared, precision: 12);
+        // Matrix-level Welle 12 identity, sign-included: dY.M_anti = −D · dZ.M_anti · D.
+        Assert.True((dY.MAnti + D * dZ.MAnti * D).FrobeniusNorm() < 1e-10,
+            "Welle 12 D · Π_Z · D = Π_Y identity must anti-equivariate M_anti on Π²-odd H");
+    }
 }
