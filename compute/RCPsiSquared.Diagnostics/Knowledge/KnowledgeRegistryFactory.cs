@@ -58,6 +58,11 @@ public static class KnowledgeRegistryFactory
             // {Π_Z, Π_X, Π_Y}. Tier1Derived universal N per Welle 12 Tasks 1 + 2 (2026-05-27).
             // Standalone primitive (no ctor parents); consumed by F1-family transfer arguments.
             .RegisterPi2KleinV4DephaseSwapGroup()
+            // F114: closed-form sign functional ε(σ) = (−1)^{n_Y(σ) + 1} for D-conjugation
+            // action on the H-commutator superoperator L_σ. Tier1Derived; ctor parent is
+            // Pi2KleinV4DephaseSwapGroup (uses D from there). Closed 2026-05-27 via the F114
+            // ANALYTICAL_FORMULAS.md entry + simulations/_m_level_sign_functional_explore.py.
+            .RegisterCommutatorDConjugationSign()
             // Spectrum foundation
             .RegisterW1Dispersion(N: defaultChain.N, J: defaultChain.J, gammaZero: defaultChain.GammaZero)
             // Block-decomposition foundation (U(1)×U(1) joint popcount sectors)
