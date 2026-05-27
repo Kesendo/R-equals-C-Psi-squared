@@ -233,6 +233,103 @@ public static class F112NonHermitianBasisEnumeration
             globalMaxIm, meanAbsIm, stopwatch.Elapsed, examples);
     }
 
+    /// <summary>Sparse-path counterpart to <see cref="Enumerate"/>. Same contract
+    /// (same EnumerationResult shape, same per-pair Frobenius inner products with
+    /// Im &lt; tolerance check), but L_σ matrices are cached as SparseLSigma
+    /// (~24 KB per matrix at N=5, ~50 KB at N=6, ~200 KB at N=7) instead of dense
+    /// 4^N × 4^N (16 MB at N=5, 256 MB at N=6, 4 GB at N=7).
+    ///
+    /// <para>Unlocks N=6 as empirical anchor for the universal-N F112 closure (Welle 11):
+    /// sparse cache at N=6 fits in ~200 MB instead of 1 TB. Per-pair Frobenius inner via
+    /// two-pointer merge runs in O(nnz_α + nnz_β) ≈ O(2·4^N) per pair, vs O(4^(2N)) for
+    /// dense. Parallel.ForEach over the partitioned outer loop follows the same pattern
+    /// as Enumerate (full DOP).</para>
+    ///
+    /// <para>Bit-exact-matches Enumerate at N=2, 3, 4 (verified by
+    /// EnumerateSparse_MatchesDenseAtSmallN parity tests). At N=5+ the sparse path is
+    /// the only practical path.</para></summary>
+    public static EnumerationResult EnumerateSparse(int N, double tolerance = 1e-10)
+    {
+        if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be ≥ 1");
+        long count = 1L << (2 * N);  // 4^N
+        if (count > int.MaxValue)
+            throw new ArgumentOutOfRangeException(nameof(N), N, "N too large: 4^N overflows int32");
+        int stringCount = (int)count;
+
+        long totalPairs = (long)stringCount * (stringCount + 1) / 2;
+        if (totalPairs > int.MaxValue)
+            throw new ArgumentOutOfRangeException(nameof(N), N,
+                $"N too large: upper-triangular pair count {totalPairs} overflows int32 " +
+                "(consider widening EnumerationResult.TotalPairs to long for N ≥ 8).");
+
+        var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+
+        // Pre-compute SparseLSigma + ProjectSparseOntoPiMinusI for every Pauli string.
+        // Parallelized at full DOP; per-iteration work is managed (no MKL inner) so no
+        // oversubscription concern. See Enumerate's cache-build comment block.
+        var cache = new SparseLSigma[stringCount];
+        var cachePo = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+        Parallel.For(0, stringCount, cachePo, k =>
+        {
+            var letters = PauliIndex.FromFlat(k, N);
+            var sparseL = BuildSparseLSigma(letters, N);
+            cache[k] = ProjectSparseOntoPiMinusI(sparseL);
+        });
+
+        // Iterate upper-triangular pairs in parallel via the same Partitioner + thread-local
+        // accumulator pattern as Enumerate.
+        long globalNonzeroCount = 0;
+        double globalMaxIm = 0.0;
+        double globalSumAbsIm = 0.0;
+        var globalExamples = new ConcurrentBag<(string Alpha, string Beta, double Imag)>();
+        object lockObj = new();
+
+        var partitioner = Partitioner.Create(0, stringCount, rangeSize: 8);
+
+        Parallel.ForEach(partitioner,
+            localInit: () => (LocalMaxIm: 0.0, LocalSumAbsIm: 0.0, LocalNonzero: 0L),
+            body: (range, _, local) =>
+            {
+                for (int a = range.Item1; a < range.Item2; a++)
+                {
+                    var cacheA = cache[a];
+                    for (int b = a; b < stringCount; b++)
+                    {
+                        var inner = FrobeniusInnerSparse(cacheA, cache[b]);
+                        double absIm = Math.Abs(inner.Imaginary);
+                        if (absIm > local.LocalMaxIm) local.LocalMaxIm = absIm;
+                        local.LocalSumAbsIm += absIm;
+                        if (absIm > tolerance)
+                        {
+                            local.LocalNonzero++;
+                            if (globalExamples.Count < 10)
+                            {
+                                string alphaName = PauliLabel.Format(PauliIndex.FromFlat(a, N));
+                                string betaName = PauliLabel.Format(PauliIndex.FromFlat(b, N));
+                                globalExamples.Add((alphaName, betaName, inner.Imaginary));
+                            }
+                        }
+                    }
+                }
+                return local;
+            },
+            localFinally: local =>
+            {
+                lock (lockObj)
+                {
+                    if (local.LocalMaxIm > globalMaxIm) globalMaxIm = local.LocalMaxIm;
+                    globalSumAbsIm += local.LocalSumAbsIm;
+                    globalNonzeroCount += local.LocalNonzero;
+                }
+            });
+
+        stopwatch.Stop();
+        double meanAbsIm = globalSumAbsIm / totalPairs;
+        var examples = globalExamples.Take(10).ToList();
+        return new EnumerationResult(N, (int)totalPairs, (int)globalNonzeroCount,
+            globalMaxIm, meanAbsIm, stopwatch.Elapsed, examples);
+    }
+
     /// <summary>Build the sparse Pauli-basis representation of L_σ = -i[σ, ·]
     /// directly from σ's per-letter encoding, without going through dense matrices.
     /// Iterates τ ∈ Pauli basis (4^N strings) in flat-index order, computes per-letter

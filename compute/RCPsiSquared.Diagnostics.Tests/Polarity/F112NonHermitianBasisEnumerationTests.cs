@@ -241,4 +241,27 @@ public class F112NonHermitianBasisEnumerationTests
             }
         }
     }
+
+    [Theory]
+    [InlineData(2, 136)]
+    [InlineData(3, 2080)]
+    [InlineData(4, 32896)]
+    public void EnumerateSparse_MatchesDenseAtSmallN(int N, int expectedTotalPairs)
+    {
+        // EnumerationResult parity: sparse vs dense must agree on TotalPairs,
+        // NonzeroCount, MaxImaginary, MeanAbsImaginary, NonzeroExamples (up to ordering).
+        // Elapsed is per-run wall-clock so not compared.
+        var sparseResult = F112NonHermitianBasisEnumeration.EnumerateSparse(N, tolerance: 1e-10);
+        var denseResult = F112NonHermitianBasisEnumeration.Enumerate(N, tolerance: 1e-10);
+
+        Assert.Equal(N, sparseResult.N);
+        Assert.Equal(expectedTotalPairs, sparseResult.TotalPairs);
+        Assert.Equal(denseResult.TotalPairs, sparseResult.TotalPairs);
+        Assert.Equal(denseResult.NonzeroCount, sparseResult.NonzeroCount);
+        Assert.True(Math.Abs(sparseResult.MaxImaginary - denseResult.MaxImaginary) < 1e-10,
+            $"MaxImaginary mismatch at N={N}: sparse={sparseResult.MaxImaginary:E4}, dense={denseResult.MaxImaginary:E4}");
+        Assert.True(Math.Abs(sparseResult.MeanAbsImaginary - denseResult.MeanAbsImaginary) < 1e-12,
+            $"MeanAbsImaginary mismatch at N={N}: sparse={sparseResult.MeanAbsImaginary:E4}, dense={denseResult.MeanAbsImaginary:E4}");
+        Assert.Equal(denseResult.NonzeroExamples.Count, sparseResult.NonzeroExamples.Count);
+    }
 }
