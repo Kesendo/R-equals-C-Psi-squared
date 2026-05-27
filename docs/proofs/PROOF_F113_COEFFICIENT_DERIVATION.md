@@ -76,10 +76,10 @@ so L_H(P) = -i·(ω/2)·[Z, P] gives (with the framework's vec-convention sign, 
 i.e. L_H(Y) = ω·X and L_H(X) = -ω·Y. (The choice of overall sign on L_H is conventional; the structural argument and the magnitude of the inner product are unaffected.)
 
 **σ⁻ dissipator action on each Pauli letter:**
-- D[σ⁻](I) = +Z (population pumping)
-- D[σ⁻](X) = -(1/2)·X (decay)
-- D[σ⁻](Z) = -Z (decoherence)
-- D[σ⁻](Y) = -(1/2)·Y (decay)
+- `D[σ⁻](I) = +Z` (population pumping)
+- `D[σ⁻](X) = -(1/2)·X` (decay)
+- `D[σ⁻](Z) = -Z` (decoherence)
+- `D[σ⁻](Y) = -(1/2)·Y` (decay)
 
 so
 
@@ -221,7 +221,7 @@ The Welle-4 step `Re⟨L_{H,-i}, L_{T1,-i}⟩ = -Re⟨L_{H,+i}, L_{T1,+i}⟩` is
 
 - **Lemma B** (PROOF_F112): L_H^† = -L_H for Hermitian H.
 
-- **Lemma C (new)**: L_T1 has only real matrix elements in the Pauli basis. **Proof**: For any operator c, D[c]ρ = cρc† − (1/2){c†c, ρ}. When ρ = σ_α is Hermitian, D[c](σ_α) is Hermitian (sum and anti-commutator of Hermitian operators are Hermitian, and cρc† is Hermitian when ρ is). Hence in the Pauli basis, the superoperator matrix entries `[L_T1]_{βα} = (1/2^N) · Tr(σ_β · D[c](σ_α))` are real (each is the trace of a Hermitian operator, which is real). Verified numerically: L_T1 in Pauli basis at N = 1 is real-valued bit-exactly.
+- **Lemma C (new)**: L_T1 has only real matrix elements in the Pauli basis. **Proof**: For any operator c, `D[c]ρ = cρc† − (1/2){c†c, ρ}`. When ρ = σ_α is Hermitian, `D[c](σ_α)` is Hermitian (sum and anti-commutator of Hermitian operators are Hermitian, and `cρc†` is Hermitian when ρ is). Hence in the Pauli basis, the superoperator matrix entries `[L_T1]_{βα} = (1/2^N) · Tr(σ_β · D[c](σ_α))` are real (each is the trace of a Hermitian operator, which is real). Verified numerically: L_T1 in Pauli basis at N = 1 is real-valued bit-exactly.
 
 ### Closure (algebraic, two-step)
 
