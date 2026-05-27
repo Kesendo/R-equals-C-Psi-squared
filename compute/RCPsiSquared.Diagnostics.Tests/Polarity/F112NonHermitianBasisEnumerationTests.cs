@@ -4,6 +4,7 @@ using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.Pauli;
 using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Diagnostics.Polarity;
+using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Diagnostics.Tests.Polarity;
 
@@ -170,6 +171,74 @@ public class F112NonHermitianBasisEnumerationTests
             var diff = (sparseDense - denseL).FrobeniusNorm();
             Assert.True(diff < 1e-10,
                 $"sparse vs dense L_σ mismatch at σ={PauliLabel.Format(letters)}, N={N}: Frobenius diff = {diff:E4}");
+        }
+    }
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    public void ProjectSparseOntoPiMinusI_MatchesDenseAtSmallN(int N)
+    {
+        // For every Pauli string σ at length N, build sparse L_σ, project sparsely
+        // onto Π = −i, materialize to dense, and compare with the dense path's
+        // ProjectOntoPiEigenspace(BuildLHInPauliBasis(σ), pi, −i).
+        long count = 1L << (2 * N);
+        int dim = 1 << (2 * N);
+        var pi = PiOperator.BuildFull(N, PauliLetter.Z);
+        for (long k = 0; k < count; k++)
+        {
+            var letters = PauliIndex.FromFlat(k, N);
+            var sparseL = F112NonHermitianBasisEnumeration.BuildSparseLSigma(letters, N);
+            var sparseLMinusI = F112NonHermitianBasisEnumeration.ProjectSparseOntoPiMinusI(sparseL);
+
+            // Materialize sparse to dense.
+            var sparseDense = Matrix<Complex>.Build.Dense(dim, dim);
+            for (int idx = 0; idx < sparseLMinusI.Nnz; idx++)
+                sparseDense[sparseLMinusI.RowIndices[idx], sparseLMinusI.ColIndices[idx]] = sparseLMinusI.Values[idx];
+
+            // Dense reference.
+            var H = PauliString.Build(letters);
+            var denseL = F112NonHermitianBasisEnumeration.BuildLHInPauliBasis(H, N);
+            var denseLMinusI = F112NonHermitianBasisEnumeration.ProjectOntoPiEigenspace(denseL, pi, -Complex.ImaginaryOne);
+
+            var diff = (sparseDense - denseLMinusI).FrobeniusNorm();
+            Assert.True(diff < 1e-10,
+                $"sparse vs dense L_σ,-i mismatch at σ={PauliLabel.Format(letters)}, N={N}: Frobenius diff = {diff:E4}");
+        }
+    }
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    public void FrobeniusInnerSparse_MatchesDenseAtSmallN(int N)
+    {
+        // For every Pauli string pair (α, β), compute the inner product
+        // ⟨L_{α,-i}, L_{β,-i}⟩ via both sparse and dense paths; verify match.
+        long count = 1L << (2 * N);
+        var pi = PiOperator.BuildFull(N, PauliLetter.Z);
+
+        var sparseLMinusICache = new SparseLSigma[count];
+        var denseLMinusICache = new ComplexMatrix[count];
+        for (long k = 0; k < count; k++)
+        {
+            var letters = PauliIndex.FromFlat(k, N);
+            var spL = F112NonHermitianBasisEnumeration.BuildSparseLSigma(letters, N);
+            sparseLMinusICache[k] = F112NonHermitianBasisEnumeration.ProjectSparseOntoPiMinusI(spL);
+            var H = PauliString.Build(letters);
+            var denseL = F112NonHermitianBasisEnumeration.BuildLHInPauliBasis(H, N);
+            denseLMinusICache[k] = F112NonHermitianBasisEnumeration.ProjectOntoPiEigenspace(denseL, pi, -Complex.ImaginaryOne);
+        }
+
+        for (long a = 0; a < count; a++)
+        {
+            for (long b = 0; b < count; b++)
+            {
+                var sparseInner = F112NonHermitianBasisEnumeration.FrobeniusInnerSparse(sparseLMinusICache[a], sparseLMinusICache[b]);
+                var denseInner = F112NonHermitianBasisEnumeration.FrobeniusInner(denseLMinusICache[a], denseLMinusICache[b]);
+                var diff = (sparseInner - denseInner).Magnitude;
+                Assert.True(diff < 1e-10,
+                    $"sparse vs dense ⟨L_α,-i, L_β,-i⟩ mismatch at (a={a}, b={b}), N={N}: |sparse - dense| = {diff:E4}");
+            }
         }
     }
 }

@@ -282,6 +282,163 @@ public static class F112NonHermitianBasisEnumeration
         return new SparseLSigma(N, (int)dim, cols.ToArray(), rows.ToArray(), values.ToArray());
     }
 
+    /// <summary>Project a SparseLSigma onto the Π-conjugation eigenspace at λ = −i:
+    /// P_{−i}(M) = (1/4) Σ_{k=0..3} i^k · Π^k M Π^{−k}. Returns a new SparseLSigma
+    /// with the same N and Dim; nnz can grow up to 4 × input nnz before sparsification
+    /// collapses overlapping (row, col) entries.
+    ///
+    /// <para>Since Π is a signed permutation in Pauli basis (Π · σ_τ = phase(τ) ·
+    /// σ_{π(τ)}), the conjugation Π · M · Π⁻¹ permutes M's (row, col) indices to
+    /// (π(row), π(col)) and multiplies each entry by phase_row · conj(phase_col).
+    /// The k-sum accumulates four phase-weighted copies and merges duplicates.</para></summary>
+    public static SparseLSigma ProjectSparseOntoPiMinusI(SparseLSigma sparseL)
+    {
+        if (sparseL is null) throw new ArgumentNullException(nameof(sparseL));
+        int N = sparseL.N;
+        int dim = sparseL.Dim;
+        int nnz = sparseL.Nnz;
+
+        // Pre-compute the Π-action on Pauli-string indices: permutation[k][i] = π^k(i)
+        // and phase[k][i] = the phase that Π^k applies when permuting index i.
+        // We accumulate by composing per-letter π action over sites.
+        var (perm, phases) = GetPiOrbitTables(N);  // arrays of length 4 × dim
+
+        // Accumulator: (row, col) -> Complex sum.
+        // Using a Dictionary keyed by (long)row * dim + col for fast merging.
+        var accumulator = new Dictionary<long, Complex>(nnz * 4);
+
+        var iPowers = new Complex[] { Complex.One, Complex.ImaginaryOne, -Complex.One, -Complex.ImaginaryOne };
+        // i^k for k = 0, 1, 2, 3
+
+        for (int k = 0; k < 4; k++)
+        {
+            var permK = perm[k];
+            var phaseK = phases[k];
+            var coef = iPowers[k] * 0.25;
+            for (int idx = 0; idx < nnz; idx++)
+            {
+                int origRow = sparseL.RowIndices[idx];
+                int origCol = sparseL.ColIndices[idx];
+                Complex origVal = sparseL.Values[idx];
+                int newRow = permK[origRow];
+                int newCol = permK[origCol];
+                Complex newVal = coef * phaseK[origRow] * Complex.Conjugate(phaseK[origCol]) * origVal;
+                long key = (long)newRow * dim + newCol;
+                if (accumulator.TryGetValue(key, out var existing))
+                    accumulator[key] = existing + newVal;
+                else
+                    accumulator[key] = newVal;
+            }
+        }
+
+        // Sparsify: drop entries below tolerance, sort by col then row for FrobeniusInnerSparse.
+        const double dropTol = 1e-15;
+        var keptEntries = new List<(int Col, int Row, Complex Val)>(accumulator.Count);
+        foreach (var (key, val) in accumulator)
+        {
+            if (val.Magnitude < dropTol) continue;
+            int row = (int)(key / dim);
+            int col = (int)(key % dim);
+            keptEntries.Add((col, row, val));
+        }
+        keptEntries.Sort((a, b) => a.Col != b.Col ? a.Col.CompareTo(b.Col) : a.Row.CompareTo(b.Row));
+
+        var newCols = new int[keptEntries.Count];
+        var newRows = new int[keptEntries.Count];
+        var newValues = new Complex[keptEntries.Count];
+        for (int i = 0; i < keptEntries.Count; i++)
+        {
+            newCols[i] = keptEntries[i].Col;
+            newRows[i] = keptEntries[i].Row;
+            newValues[i] = keptEntries[i].Val;
+        }
+        return new SparseLSigma(N, dim, newCols, newRows, newValues);
+    }
+
+    /// <summary>Frobenius inner product ⟨spA, spB⟩ = Σ_{(r,c)} conj(spA[r,c]) · spB[r,c]
+    /// over two SparseLSigma representations. Walks both COO-style arrays in parallel
+    /// via two-pointer merge on the (col, row) lexicographic order. Cost is
+    /// O(nnz_A + nnz_B); both inputs must be sorted (ColIndices ascending, then
+    /// RowIndices ascending within a column).</summary>
+    public static Complex FrobeniusInnerSparse(SparseLSigma spA, SparseLSigma spB)
+    {
+        if (spA is null) throw new ArgumentNullException(nameof(spA));
+        if (spB is null) throw new ArgumentNullException(nameof(spB));
+        if (spA.N != spB.N) throw new ArgumentException($"N mismatch: spA.N={spA.N}, spB.N={spB.N}");
+
+        Complex sum = Complex.Zero;
+        int i = 0, j = 0;
+        int nnzA = spA.Nnz, nnzB = spB.Nnz;
+        while (i < nnzA && j < nnzB)
+        {
+            int colA = spA.ColIndices[i], colB = spB.ColIndices[j];
+            if (colA < colB) { i++; continue; }
+            if (colA > colB) { j++; continue; }
+            // Same column: compare row.
+            int rowA = spA.RowIndices[i], rowB = spB.RowIndices[j];
+            if (rowA < rowB) { i++; continue; }
+            if (rowA > rowB) { j++; continue; }
+            // Match. Accumulate.
+            sum += Complex.Conjugate(spA.Values[i]) * spB.Values[j];
+            i++;
+            j++;
+        }
+        return sum;
+    }
+
+    /// <summary>Cache of (Π^k permutation, Π^k phase) tables per N. Computes the
+    /// Π-action on Pauli-string indices for k = 0, 1, 2, 3 by composing the per-letter
+    /// PiOperator.ActOnLetter step-by-step.</summary>
+    private static readonly ConcurrentDictionary<int, (int[][] Perm, Complex[][] Phase)> _piOrbitCache = new();
+
+    private static (int[][] Perm, Complex[][] Phase) GetPiOrbitTables(int N) =>
+        _piOrbitCache.GetOrAdd(N, BuildPiOrbitTables);
+
+    private static (int[][] Perm, Complex[][] Phase) BuildPiOrbitTables(int N)
+    {
+        int dim = 1 << (2 * N);
+        var perm = new int[4][];
+        var phases = new Complex[4][];
+
+        // k = 0: identity permutation, phase 1 for all.
+        perm[0] = Enumerable.Range(0, dim).ToArray();
+        phases[0] = Enumerable.Repeat(Complex.One, dim).ToArray();
+
+        // For k = 1: apply Π once via ActOnLetter per site.
+        perm[1] = new int[dim];
+        phases[1] = new Complex[dim];
+        for (int i = 0; i < dim; i++)
+        {
+            var letters = PauliIndex.FromFlat(i, N);
+            var newLetters = new PauliLetter[N];
+            Complex totalPhase = Complex.One;
+            for (int l = 0; l < N; l++)
+            {
+                var (newL, phase) = PiOperator.ActOnLetter(letters[l], PauliLetter.Z);
+                newLetters[l] = newL;
+                totalPhase *= phase;
+            }
+            perm[1][i] = (int)PauliIndex.ToFlat(newLetters);
+            phases[1][i] = totalPhase;
+        }
+
+        // For k = 2, 3: compose perm[k-1] with perm[1].
+        // Π^k(i) = perm[1][perm[k-1][i]], phase = phases[k-1][i] * phases[1][perm[k-1][i]]
+        for (int k = 2; k < 4; k++)
+        {
+            perm[k] = new int[dim];
+            phases[k] = new Complex[dim];
+            for (int i = 0; i < dim; i++)
+            {
+                int prev = perm[k - 1][i];
+                perm[k][i] = perm[1][prev];
+                phases[k][i] = phases[k - 1][i] * phases[1][prev];
+            }
+        }
+
+        return (perm, phases);
+    }
+
     /// <summary>Count the number of Y letters in a Pauli string. Used by
     /// <see cref="BuildSparseLSigma"/> to apply the σ_k ↦ σ_kᵀ basis-sign
     /// correction that aligns the sparse rep with the dense
