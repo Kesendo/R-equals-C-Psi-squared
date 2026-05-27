@@ -312,9 +312,13 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
                 summary: "F114 (CommutatorDConjugationSign, Tier1Derived) gives closed-form " +
                          "ε(σ) = (−1)^{n_Y(σ) + 1} for D-conjugation action on the H-commutator L_H. Under " +
                          "this Claim's hypothesis (Hermitian H + bit_b-homogeneous c) the dissipator " +
-                         "contribution to M vanishes, so M comes entirely from L_H and F114 yields the " +
-                         "matrix-level identity M(L_H, Π_Y) = ε(H) · D · M(L_H, Π_Z) · D bit-exact (when " +
-                         "ε(H) is well-defined, i.e. all H terms share the same n_Y parity). Sharpens this " +
+                         "contribution to the ±i Π-eigenspaces of M (i.e. M_+1/2 and M_−1/2 in the " +
+                         "polarity decomposition) vanishes per Step 3 / Step 4 of this Claim's 5-step " +
+                         "proof; M still carries ±1 Π-eigenspace content from the dissipator, but the " +
+                         "±i sectors that F112's balance hinges on come entirely from L_H. F114 yields " +
+                         "the corresponding matrix-level identity on the ±i sectors: " +
+                         "(M_±i)(L_H, Π_Y) = ε(H) · D · (M_±i)(L_H, Π_Z) · D bit-exact (when ε(H) is " +
+                         "well-defined, i.e. all H terms share the same n_Y parity). Sharpens this " +
                          "Claim's Step 5 (L_H^† = −L_H + dagger maps Π +i ↔ Π −i): D-conjugation per-term " +
                          "Y-parity carries equivalent sign information. F112's norm-level scope " +
                          "‖M_+1/2‖² = ‖M_−1/2‖² is sign-invariant under ε(H); F114 is documentary " +

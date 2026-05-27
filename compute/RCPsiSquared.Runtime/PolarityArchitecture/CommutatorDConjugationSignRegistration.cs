@@ -3,13 +3,13 @@ using RCPsiSquared.Runtime.ObjectManager;
 
 namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
-/// <summary>Schicht-1 wiring of <see cref="CommutatorDConjugationSign"/> — F114, the
+/// <summary>Schicht-1 wiring of <see cref="CommutatorDConjugationSign"/>: F114, the
 /// closed-form sign functional ε(σ) = (−1)^{n_Y(σ) + 1} for the action of D-conjugation
 /// on the H-commutator superoperator L_σ = −i[σ, ·] in the 4^N Pauli basis.
 ///
 /// <para>Tier1Derived (closed form + bit-exact verification N = 1..4 across 84 single
 /// Pauli strings + 18 multi-term cases). Ctor parent
-/// <see cref="Pi2KleinV4DephaseSwapGroup"/> (Welle 12) — F114 uses the diagonal D
+/// <see cref="Pi2KleinV4DephaseSwapGroup"/> (Welle 12): F114 uses the diagonal D
 /// from the Klein-V₄ Claim and reuses its universal-N reduction. Together they
 /// characterize D's action on the two main dephase-letter-sensitive structures
 /// (Π and L_H).</para>

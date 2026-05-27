@@ -39,15 +39,16 @@ public enum DConjugationSign
 /// terms split across both parity classes and no single sign exists on L_H.</para>
 ///
 /// <para><b>Why it matters:</b> F114 refines the Welle 13 PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4
-/// statement "L_Y is not D-transportable" by exhibiting the precise M-level
-/// ε-signed equivariance that survives on the H-commutator component. The full
-/// Lindblad-form L (including dissipator) is NOT D-transportable cross-letter
-/// (per the Welle 13 proof), but the H-commutator superoperator L_H by itself IS
-/// signed-equivariant. Under the F112 hypothesis (Hermitian H + bit_b-homogeneous c),
-/// the dissipator contribution to M vanishes and ε(H) controls the M-matrix-level
-/// Z↔Y relationship:</para>
+/// statement "L_Y is not D-transportable" by exhibiting the precise ε-signed
+/// equivariance that survives on the H-commutator component. The full Lindblad-form
+/// L (including dissipator) is NOT D-transportable cross-letter (per the Welle 13
+/// proof), but the H-commutator superoperator L_H by itself IS signed-equivariant.
+/// Under the F112 hypothesis (Hermitian H + bit_b-homogeneous c), the dissipator
+/// contribution to the ±i Π-eigenspaces of M (i.e. M_+1/2 and M_−1/2 in the polarity
+/// decomposition) vanishes per F112 Step 3 / Step 4, and ε(H) controls the
+/// matrix-level Z↔Y relationship on those sectors:</para>
 /// <code>
-///   M(L_H, Π_Y) = ε(H) · D · M(L_H, Π_Z) · D    bit-exact (when ε(H) well-defined)
+///   (M_±i)(L_H, Π_Y) = ε(H) · D · (M_±i)(L_H, Π_Z) · D    bit-exact (when ε(H) well-defined)
 /// </code>
 /// <para>This explains the bond-specific anti-equivariance observed in Welle 15
 /// Task A polish (commit a98fc02): XZ+ZX (n_Y = 0 per term) gives ε = −1; YZ+ZY
@@ -187,14 +188,16 @@ public sealed class CommutatorDConjugationSign : Claim
                          "systematic enumeration that identified the n_Y-parity closed form.");
             yield return new InspectableNode("Consequence for F112 / F108 cross-dephase",
                 summary: "Under the F112 hypothesis (Hermitian H + bit_b-homogeneous c), the " +
-                         "dissipator contribution to M vanishes, so M comes entirely from L_H " +
-                         "and F114 gives M(L_H, Π_Y) = ε(H) · D · M(L_H, Π_Z) · D bit-exact " +
-                         "when ε(H) is well-defined. This refines the Welle 13 " +
+                         "dissipator contribution to the ±i Π-eigenspaces of M (M_+1/2 and " +
+                         "M_−1/2 in the polarity decomposition) vanishes per F112 Step 3 / " +
+                         "Step 4; these sectors come entirely from L_H, and F114 gives " +
+                         "(M_±i)(L_H, Π_Y) = ε(H) · D · (M_±i)(L_H, Π_Z) · D bit-exact when " +
+                         "ε(H) is well-defined. This refines the Welle 13 " +
                          "PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4 statement 'L_Y is not " +
-                         "D-transportable' by exhibiting the M-level ε-signed equivariance " +
-                         "that survives on the H-commutator component. F112's norm-level " +
-                         "scope (‖M_+1/2‖² = ‖M_−1/2‖²) remains sign-invariant; F112 typed " +
-                         "Claims (LindbladBitBPiBalance, LindbladBitAPiBalance, " +
+                         "D-transportable' by exhibiting the ε-signed equivariance on the ±i " +
+                         "sectors that survives on the H-commutator component. F112's " +
+                         "norm-level scope (‖M_+1/2‖² = ‖M_−1/2‖²) remains sign-invariant; " +
+                         "F112 typed Claims (LindbladBitBPiBalance, LindbladBitAPiBalance, " +
                          "LindbladBitBPiYBalance) are not affected.");
             yield return new InspectableNode("Parent Welle 12 connection",
                 summary: "F114 uses D from Pi2KleinV4DephaseSwapGroup (Welle 12, ctor parent). " +

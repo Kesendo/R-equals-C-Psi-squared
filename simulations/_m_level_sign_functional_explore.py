@@ -2,7 +2,7 @@
 
     D · L_σ · D = ε(σ) · L_σ    in the 4^N Pauli basis
 
-for single Pauli strings σ at N = 1, 2, 3, 4 — and extend the closed-form to
+for single Pauli strings σ at N = 1, 2, 3, 4, and extend the closed-form to
 bond bilinear Hamiltonians + the empirical Welle-15 cases (XZ+ZX → ε=−1,
 YZ+ZY → ε=+1). Outputs a structured enumeration and a closed-form candidate.
 
@@ -203,7 +203,7 @@ def main():
         print("=" * 80)
     else:
         print()
-        print("VERMUTUNG falsified somewhere — see FAIL lines above.")
+        print("VERMUTUNG falsified somewhere; see FAIL lines above.")
 
     # Part 2: ε(H) for the Welle 15 empirical bond cases
     print()

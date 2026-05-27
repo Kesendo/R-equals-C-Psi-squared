@@ -51,7 +51,7 @@ public class CommutatorDConjugationSignTests
     }
 
     // ------------------------------------------------------------------
-    // Single-term ε(σ) at N = 1, 2, 3 — closed-form check
+    // Single-term ε(σ) at N = 1, 2, 3: closed-form check
     // ------------------------------------------------------------------
 
     [Theory]
@@ -94,7 +94,7 @@ public class CommutatorDConjugationSignTests
     }
 
     // ------------------------------------------------------------------
-    // Linear-combination ε(H) — well-defined + Mixed cases
+    // Linear-combination ε(H): well-defined + Mixed cases
     // ------------------------------------------------------------------
 
     [Fact]

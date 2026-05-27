@@ -3884,13 +3884,20 @@ combos). PART 3 sanity-checks 6 multi-bond / multi-body cases at N = 3, 4
 match the actual D-conjugation residual bit-exact (residual = 0.00e+00
 numpy double precision).
 
+**Typed Claim:** promoted same wave (2026-05-27, commit `35a88df`) to
+`CommutatorDConjugationSign` (Tier1Derived) in
+`compute/RCPsiSquared.Core/Symmetry/`, ctor parent
+`Pi2KleinV4DephaseSwapGroup` (Welle 12). Wired in
+`KnowledgeRegistryFactory.BuildDefault()`; cross-referenced from
+`LindbladBitBPiBalance` (F112-Z) and `LindbladBitBPiYBalance` (F112-Y)
+via InspectableNode. 35 unit tests including matrix-level `D·L·D = ε·L`
+bit-exact verification at N = 2.
+
 **Open:** N = 5, 6 verification at scale (estimated O(4^N) per N for the
 single-string sweep, tractable but not run). Connection to the Welle 11
-F112 Lemma A/B structural proof — does F114 give an alternative derivation
+F112 Lemma A/B structural proof: does F114 give an alternative derivation
 of the parent F112 Step 5 (Lemma B) via D-conjugation parity rather than
-dagger anti-Hermiticity? Typed-Claim promotion to a `CommutatorDConjugationSign`
-Tier 1 derived class in `compute/RCPsiSquared.Core/Symmetry/` if downstream
-Claims need to cite it (single empirical reference for now; promote at 2+ uses).
+dagger anti-Hermiticity?
 
 **Source:** `simulations/_m_level_sign_functional_explore.py`;
 parents: Welle 12 D · Π_Z · D = Π_Y identity
