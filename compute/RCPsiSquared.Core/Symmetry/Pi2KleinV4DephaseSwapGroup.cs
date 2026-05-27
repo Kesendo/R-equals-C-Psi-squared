@@ -45,14 +45,41 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md</c> for the full
 /// structural proof.</para>
 ///
-/// <para><b>Significance</b>: any F1-family identity proven for one dephase letter
-/// (e.g. F112's universal-N closure for Z-dephasing, Welle 11) transfers to the
-/// other two via Klein-V₄ equivariance, provided the identity is invariant under
-/// the relevant operator conjugation (norms, inner products, eigenvalues, zero
-/// patterns are all preserved by unitary conjugation). F108 Parts 1, 2, 3 are
-/// conjectured (but not yet formally verified) to be equivalent via the same
-/// mechanism: the three parts are not independent constructions but Klein-V₄
-/// images of a single structural identity.</para>
+/// <para><b>Significance</b>: F1-family identities transfer between dephase
+/// letters by two distinct routes, each enabled by a different subset of the
+/// Klein-V₄ generators.</para>
+///
+/// <para><b>Route 1 (per-axis structural re-run)</b>: identities whose proof
+/// reduces to (a) the F38 Π_d² eigenvalue formula on Pauli strings and (b)
+/// Pauli-basis matrix-support structure transfer between all three dephase
+/// letters by direct re-derivation, substituting axis_d for the relevant Z₂
+/// axis (bit_b for d ∈ {Y, Z}, bit_a for d = X). The Welle 11 F112
+/// non-Hermitian extension is the prototype; the Welle 13 closure of F112-X
+/// and F112-Y (docs/proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md) gives
+/// the full cross-dephase F112 family this way. F108 Parts 1, 2, 3 are
+/// conjectured (but not yet formally verified) to admit the same Route 1
+/// transport.</para>
+///
+/// <para><b>Route 2 (Hadamard transport via Q_zx)</b>: Q_zx is the
+/// operator-space lift of the Hilbert-space unitary U_H^⊗N (Hadamard ⊗N),
+/// so Q_zx-conjugation maps Lindblad-form L_Z to Lindblad-form L_X with
+/// rotated (H, c_k). This gives F112-Z → F112-X transport explicitly via
+/// a Lindblad-form-preserving similarity. The D and Q_yx (= H) involutions
+/// are operator-space-only — they do NOT lift to Hilbert-space unitaries
+/// (D-conjugation would require V such that V·Y·V⁻¹ = −Y, V·X·V⁻¹ = X,
+/// V·Z·V⁻¹ = Z, which is impossible by Pauli algebra). So D and H
+/// intertwine the Π_d operators but do NOT transport L between dephase
+/// representations. F112-Y cannot be obtained "for free" from F112-Z via
+/// D-conjugation; it requires Route 1 (direct bit_b axis re-run with d = Y
+/// phase).</para>
+///
+/// <para>Bottom line: Klein-V₄ equivariance is genuine for Route 1
+/// (universal across all three letters) and partial for Route 2 (only the
+/// Hadamard {I, Q_zx} subgroup transports L). F1-family identities
+/// depending only on Π_d / Π_d² eigenvalue structure and Pauli-support
+/// disjointness transfer freely between all three dephase letters;
+/// identities depending on the Lindblad-form L itself transfer only
+/// between (Z, X) via Q_zx.</para>
 ///
 /// <para>Tier1Derived universal N per the two PROOF docs. No <see cref="IZ2AxisClaim"/>
 /// implementation: Klein-V₄ does not sit on a single Z₂ axis cleanly. It is the
@@ -188,12 +215,18 @@ public sealed class Pi2KleinV4DephaseSwapGroup : Claim
                          "mixed-product property: (⊗ a_l)(⊗ b_l)(⊗ c_l) = ⊗(a_l · b_l · c_l). " +
                          "Verified bit-exact at N = 1, 2, 3, 4 via numpy + sympy symbolic.");
             yield return new InspectableNode("Significance",
-                summary: "F1-family identities (palindrome residual norms, Π-eigenspace inner " +
-                         "products, Lindbladian spectra, Frobenius zero patterns) computed for " +
-                         "one dephase letter transfer to the other two via Klein-V₄ equivariance, " +
-                         "provided the quantity is unitary-conjugation invariant. F112 Welle 11 " +
-                         "Z-dephase universal-N closure implies the X- and Y-dephase versions for " +
-                         "free. F108 Parts 1, 2, 3 conjectured equivalent by the same mechanism.");
+                summary: "F1-family identities transfer between dephase letters by two routes: " +
+                         "Route 1 (per-axis re-derivation): identities depending only on F38 Π_d² " +
+                         "eigenvalue structure + Pauli-support disjointness transfer universally " +
+                         "(all three d), substituting axis_d (bit_b for Z/Y, bit_a for X). The " +
+                         "F112 Welle 13 closure (PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md) is the " +
+                         "first formalization. Route 2 (Hadamard transport via Q_zx): identities " +
+                         "depending on L itself transfer only between (Z, X) via Q_zx, which is " +
+                         "the operator-space lift of U_H^⊗N. D and Q_yx (= H) are operator-space-" +
+                         "only and do NOT transport L between dephase representations (no Hilbert-" +
+                         "space lift exists for D). F108 Parts 1, 2, 3 conjectured equivalent via " +
+                         "Route 1 (not yet formalized). F112-Y cannot be obtained 'for free' from " +
+                         "F112-Z via D-conjugation; the correct path is Route 1.");
             yield return new InspectableNode("No IZ2AxisClaim implementation",
                 summary: "Klein-V₄ does not sit on a single Z₂ axis cleanly. It is the cross-axis " +
                          "primitive that intertwines the bit_a and bit_b axes of the Klein V₄ on " +

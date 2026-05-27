@@ -225,6 +225,8 @@ with H Hermitian OR non-Hermitian, provided each c_k is bit_b-homogeneous. **The
 
 3. **Polarity-axis completion**: F108 Parts 1–3 (palindrome closure of bit_b = 0 bilinears), F112 (now universal N, Hermitian and non-Hermitian H), F113 (T1 break-magnitude closed form): all three live on the bit_b Z₂-grading of the Pauli group and are now Tier 1 derived universal N. The bit_b axis description is structurally complete on the BitB-axis side.
 
+4. **Cross-dephase extension (Welle 13)**: the same proof argument (Lemmas N-A and N-B) transfers to the Y- and X-dephase versions of F112 by substituting axis_d := bit_b for d ∈ {Y, Z} and axis_d := bit_a for d = X in F38. See `docs/proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md` for the full Welle 13 derivation (two routes: per-axis re-run and Hadamard transport for the (Z, X) pair). Both extensions are Tier 1 derived universal N for both Hermitian and non-Hermitian H. The structural fact making this work is that the Welle 11 lemmas depend only on F38 + Pauli-basis matrix-support disjointness, both of which transfer between dephase letters under the axis substitution.
+
 ## Empirical anchor: numerical verification at N = 1, 2, 3
 
 The verifier `simulations/_f112_universal_n_proof_verify.py` checks each lemma step and the main theorem within 1e-12 numpy double-precision tolerance (max deviation < 1e-12, i.e. machine zero to numpy double precision) at N = 1, 2, 3:

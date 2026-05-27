@@ -63,10 +63,29 @@ namespace RCPsiSquared.Core.Symmetry;
 /// For any standard Lindblad system the diagnostic asymmetry is exactly 0 by
 /// Steps 1-5.</para>
 ///
+/// <para><b>Cross-dephase extension (Tier1Derived universal N, Welle 13)</b>:
+/// the same balance identity holds for Π_Y polarity with the same bit_b-homogeneous
+/// c hypothesis (Π_Y² shares the bit_b grading with Π_Z² per F38), and for Π_X
+/// polarity with a bit_a-homogeneous c hypothesis (Π_X² grades by bit_a, not bit_b).
+/// Both extensions are proven via direct re-run of the Welle-11 structural lemmas
+/// (Lemma N-A / N-B) with the axis substitution axis_d := bit_b for d ∈ {Y, Z},
+/// axis_d := bit_a for d = X. The argument depends only on F38 and Pauli-basis
+/// matrix-support disjointness, both of which transfer cleanly between dephase
+/// letters. Additionally, F112-Z transports to F112-X via Hadamard^⊗N
+/// (Q_zx-conjugation, the operator-space lift of U_H^⊗N), giving a second
+/// independent route for the (Z, X) pair. See
+/// docs/proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md and
+/// simulations/_f112_klein_v4_cross_dephase_verify.py (Welle 13). Caveat: the
+/// D-involution (Z↔Y swap in Pi2KleinV4DephaseSwapGroup) is operator-space-only
+/// and does NOT transport L_Z to a Lindblad-form L_Y; F112-Y requires the direct
+/// re-run, not D-conjugation.</para>
+///
 /// <para>Implements <see cref="IZ2AxisClaim"/> with <see cref="Z2Axis.BitB"/>;
-/// no BitA twin (the theorem is intrinsically about bit_b homogeneity, no meaningful
-/// bit_a-axis analog exists), so
-/// <see cref="BitATwinClassification.BitBSpecific"/>. Ctor parent
+/// no BitA twin Claim registered. As of Welle 13 the bit_a-axis sibling F112-X
+/// (Π_X polarity with bit_a-homogeneous c) is Tier1Derived universal N via the
+/// same proof structure with axis = bit_a substituted (see cross-dephase proof
+/// doc), but it lives in the proof file rather than as a separate Claim, so
+/// <see cref="BitATwinClassification.BitBSpecific"/> still applies here. Ctor parent
 /// <see cref="F108Part1Pi2EvenAlwaysPalindromic"/> records the shared bit_b
 /// foundation: F112 uses the F38 / F63 Π² eigenvalue formula on Pauli strings in
 /// exactly the same way F108 does, and the bilinear set {XX, YY, YZ, ZY, ZZ}
@@ -79,16 +98,24 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
     /// as F108 Part 1 and F108 Part 3, anchored in F38 / F63).</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>No BitA twin: F112 is intrinsically a bit_b-axis theorem. The
-    /// bit_b homogeneity of the c operators is the structural hypothesis; the
-    /// bit_a parity (X+Y count) has no role in the proof or the conclusion, so
-    /// no meaningful bit_a-axis analog exists.</summary>
+    /// <summary>No BitA twin registered on this Claim. F112 as registered here is
+    /// the bit_b-axis case: bit_b-homogeneous c plus Π_d for d ∈ {Y, Z} (Π_Z² and
+    /// Π_Y² both grade by bit_b per F38). The structural BitA-axis sibling F112-X
+    /// (bit_a-homogeneous c + Π_X polarity, same proof structure with axis = bit_a
+    /// per F38; Tier1Derived universal N via Welle 13, see
+    /// docs/proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md) is not yet a separate
+    /// registered Claim; until promoted, this BitATwin slot stays null and the
+    /// BitA-axis result lives in the cross-dephase proof doc.</summary>
     public Claim? BitATwin => null;
 
     /// <summary>Override returning <see cref="BitATwinClassification.BitBSpecific"/>:
-    /// the algebraic content (bit_b homogeneity of c, Π²-conjugation +1 eigenspace
-    /// containment, dagger anti-Hermiticity of L_H for Hermitian H) is intrinsically
-    /// tied to bit_b structure, no meaningful bit_a-axis twin exists.</summary>
+    /// the bit_b axis content (bit_b homogeneity of c, Π_Z² / Π_Y² = (−1)^bit_b
+    /// per F38, dagger anti-Hermiticity of L_H for Hermitian H) is intrinsic
+    /// to this Claim's scope. The cross-dephase Welle 13 result derives the bit_a
+    /// axis analogue F112-X (with Π_X and bit_a-homogeneous c) by re-running the
+    /// same proof with the axis substituted; that result is the structural BitA
+    /// twin in spirit but is documented in the cross-dephase proof doc rather
+    /// than registered as a sibling Claim here.</summary>
     public BitATwinClassification BitATwinStatus => BitATwinClassification.BitBSpecific;
 
     /// <summary>Typed parent (F108 Part 1): records the shared bit_b foundation in
@@ -263,10 +290,14 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
             yield return new InspectableNode("Non-Hermitian H extension (Tier1Derived universal N)",
                 summary: NonHermitianExtension +
                          " Reduced identity: Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0 for any Hermitian H_re, H_im.");
-            yield return new InspectableNode("BitA twin (BitBSpecific)",
-                summary: "No BitA twin: F112 is intrinsically a bit_b-axis theorem. The bit_b homogeneity of " +
-                         "the c operators is the structural hypothesis; the bit_a parity (X+Y count) has no role " +
-                         "in the proof or the conclusion. BitATwinStatus = BitBSpecific.");
+            yield return new InspectableNode("BitA twin (BitBSpecific; structural BitA sibling F112-X exists)",
+                summary: "No BitA twin Claim registered. This Claim covers the bit_b-axis case (Π_Z, Π_Y with " +
+                         "bit_b-homogeneous c). The Welle 13 cross-dephase result (docs/proofs/" +
+                         "PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md) derives the BitA-axis sibling F112-X (Π_X " +
+                         "with bit_a-homogeneous c) by re-running the same Welle-11 lemmas with axis = bit_a. " +
+                         "Tier1Derived universal N for both Hermitian and non-Hermitian H. The structural sibling " +
+                         "is not registered as a separate Claim here; if it ever is, BitATwinStatus would flip " +
+                         "from BitBSpecific to a typed BitATwin pointing at the new Claim.");
             yield return new InspectableNode("Shared bit_b axis with F108 + F87 + F38",
                 summary: "F112 and F108 Part 1 / Part 3 share the bit_b Z₂-grading of the Pauli group. F108's " +
                          "Π²-even bilinear set {XX, YY, YZ, ZY, ZZ} is the bit_b = 0 family; F112's c-homogeneity " +
