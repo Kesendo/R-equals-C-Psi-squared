@@ -29,11 +29,14 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 /// F113 statement.</para></summary>
 public class LindbladBitBPiBreakMagnitudeTests
 {
-    private static LindbladBitBPiBreakMagnitude Make() =>
-        new LindbladBitBPiBreakMagnitude(
+    private static LindbladBitBPiBreakMagnitude Make()
+    {
+        var part2 = new F108Part2Pi2XEvenAlwaysPalindromic();
+        return new LindbladBitBPiBreakMagnitude(
             new LindbladBitBPiBalance(
-                new F108Part1Pi2EvenAlwaysPalindromic(
-                    new F108Part2Pi2XEvenAlwaysPalindromic())));
+                new F108Part1Pi2EvenAlwaysPalindromic(part2),
+                new LindbladBitAPiBalance(part2)));
+    }
 
     // ============================================================
     // Claim metadata
