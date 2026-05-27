@@ -93,7 +93,7 @@ public static class PolarityCoordinates
         if (gammaT1.HasValue && gammaT1.Value != 0.0)
             gammaT1PerSite = Enumerable.Repeat(gammaT1.Value, chain.N).ToArray();
 
-        var pi = PiDecomposition.Decompose(chain, terms, gammaT1PerSite);
+        var pi = PiDecomposition.Decompose(chain, terms, gammaT1PerSite, dephaseLetter: dephaseLetter);
         var piOp = PiOperator.BuildFull(chain.N, dephaseLetter);
         return RefineMAnti(pi.M, pi.MSym, pi.MAnti, piOp, pi.F81Violation);
     }
