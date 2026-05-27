@@ -56,7 +56,7 @@ What this gives us: any F1 residual norm / inner product / spectrum computed via
 
 ## Open questions
 
-1. **Universal N**: verified bit-exact at N = 1, 2, 3, 4 numerically. A structural per-letter argument is straightforward (D and Π_Z both factor over sites; per-letter check is a 4×4 matrix identity). Worth writing as a one-page proof if the identity gets cited in downstream work.
+1. **Universal N**: CLOSED 2026-05-27 (Welle 12 Task 1). Structural per-letter argument via tensor-product factorization. See [`PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md`](../docs/proofs/PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md).
 
 2. **Lift to X-dephasing?**: X-dephase is in a different Klein orbit (flip bit_b instead of bit_a). Is there an analogous diagonal involution D' such that `D' · Π_Z · D' = Π_X`? Conjecture: yes, with D' = diag((-1)^(n_X + n_Y)) or similar. Not verified.
 

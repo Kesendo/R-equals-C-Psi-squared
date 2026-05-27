@@ -50,6 +50,54 @@ def build_D(N: int) -> np.ndarray:
     return np.diag(diag)
 
 
+def verify_per_site_identity_symbolic():
+    """Verify d_l · π_Z_local · d_l = π_Y_local symbolically via sympy.
+
+    The N-site identity D · Π_Z · D = Π_Y reduces, by the mixed-product
+    property of the Kronecker product, to this single 4×4 check (Step 3
+    of PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md). Verifying it symbolically
+    in sympy with exact rationals + I gives zero machine-epsilon residual
+    and closes the universal-N case in finite symbolic computation.
+
+    Basis order: (I, X, Z, Y), matching PauliLetter packing a + 2·b.
+    π_Z_local follows PiOperator.ActOnLetter(σ, PauliLetter.Z) rules:
+        I → X · 1, X → I · 1, Z → Y · i, Y → Z · i.
+    π_Y_local follows PiOperator.ActOnLetter(σ, PauliLetter.Y) rules:
+        I → X · 1, X → I · 1, Z → Y · −i, Y → Z · −i.
+    Column-as-input convention: pi[newK, k] = sign.
+    """
+    import sympy as sp
+
+    I_s, mi = sp.I, -sp.I
+    one, mone, zero = sp.Integer(1), sp.Integer(-1), sp.Integer(0)
+
+    # π_Z_local on basis (I, X, Z, Y), column-as-input convention.
+    pi_z = sp.Matrix([
+        [zero, one,  zero, zero],
+        [one,  zero, zero, zero],
+        [zero, zero, zero, I_s ],
+        [zero, zero, I_s,  zero],
+    ])
+
+    # π_Y_local on basis (I, X, Z, Y), column-as-input convention.
+    pi_y = sp.Matrix([
+        [zero, one,  zero, zero],
+        [one,  zero, zero, zero],
+        [zero, zero, zero, mi  ],
+        [zero, zero, mi,   zero],
+    ])
+
+    # d_l = diag(1, 1, 1, -1): n_Y is 1 only for the Y entry (index 3).
+    d = sp.diag(one, one, one, mone)
+
+    lhs = d * pi_z * d
+    rhs = pi_y
+    diff = sp.simplify(lhs - rhs)
+
+    is_zero = all(diff[i, j] == 0 for i in range(4) for j in range(4))
+    return is_zero, diff
+
+
 def main():
     print("Verifying D · Π_Z · D = Π_Y at N = 1, 2, 3, 4")
     print("=" * 72)
@@ -98,6 +146,21 @@ def main():
     else:
         print("FAIL at one or more N — identity broken.")
         sys.exit(1)
+
+    print()
+    print("=" * 72)
+    print("Symbolic per-site identity check (sympy exact):")
+    is_pass, diff_matrix = verify_per_site_identity_symbolic()
+    status = "PASS" if is_pass else "FAIL"
+    print(f"  d_l · π_Z_local · d_l == π_Y_local: {status}")
+    if not is_pass:
+        import sympy as sp
+        print("  diff matrix:")
+        sp.pprint(diff_matrix)
+        sys.exit(1)
+    print("  → Per-site 4×4 reduction closed symbolically; universal-N case")
+    print("    follows by Kronecker product (mixed-product property).")
+    print("    See docs/proofs/PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md.")
 
 
 if __name__ == "__main__":
