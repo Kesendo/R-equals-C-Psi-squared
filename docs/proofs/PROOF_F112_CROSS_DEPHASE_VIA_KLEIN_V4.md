@@ -195,7 +195,7 @@ Each row's pattern matches the per-d hypothesis: F112-d gives 0 iff axis_d-homog
 
 ## (g) Open questions and follow-ups
 
-- **F108 Parts 2 and 3 conjecture (`PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md` Implications §4):** the same Route 1 / Route 2 analysis should be applied to F108. F108's per-dephase variants (Parts 1, 2, 3) are conjectured Klein-V₄ images of a single structural identity; the Welle-13 analysis suggests Route 1 (per-axis re-run) is the rigorous path, while D / H conjugation does not give it for free.
+- **F108 Parts 2 and 3 closed by Welle 14 (see `PROOF_F108_KLEIN_V4_EQUIVALENCE.md`):** the Route 1 / Route 2 analysis applied to F108 (2026-05-27) yields a mixed result. Part 1 ↔ Part 3 follows by operator-space D-conjugation (D · Π_5b(Z) · D = Π_5b(Y) bit-exact; bilinear set fixed on bit_b axis) — this is a CLEAN Klein-V₄ corollary on the operator side. Part 1 ↔ Part 2 follows by Hilbert-space Hadamard transport (Route 2) on L itself; the operator-space Q_zx does NOT swap Π_5b(Z) ↔ Π_5b(X), so Route 1 in its strict form (operator-space conjugation by Klein-V₄) is partial. Welle 14 thereby confirmed that for F108, as for F112-Y, the Route 1 / Route 2 distinction matters; Klein-V₄ equivariance on Π_5bilinear is REAL but PARTIAL ({I, D} subgroup only on the operator side).
 
 - **Typed Claim split for F112-X and F112-Y as separate registrations:** deferred to a future Welle once the bit_a-axis siblings of `LindbladBitBPiBalance` are scoped (the BitATwinStatus = BitBSpecific override would need to be relaxed to point to the new F112-X claim as the BitA-axis twin).
 

@@ -112,11 +112,12 @@ public sealed class F108Part2Pi2XEvenAlwaysPalindromic : Claim, IZ2AxisClaim
         "Under X-dephasing: no Π²_X-even Pauli pair (truly or non-truly) is F87-hard; every such pair has palindromic spec(L).";
 
     public F108Part2Pi2XEvenAlwaysPalindromic()
-        : base("F108 Part 2: Π²_X-even H + X-dephasing always admits exact operator-level palindrome via Π_5bilinear (X-deph variant); BitA twin of F108 Part 1",
+        : base("F108 Part 2: Π²_X-even H + X-dephasing always admits exact operator-level palindrome via Π_5bilinear (X-deph variant); BitA twin of F108 Part 1; also Klein-V₄ corollary of Part 1 via Hilbert-space Hadamard transport per PROOF_F108_KLEIN_V4_EQUIVALENCE.md (Welle 14)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F108 + " +
                "docs/proofs/PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md + " +
                "docs/proofs/PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md + " +
+               "docs/proofs/PROOF_F108_KLEIN_V4_EQUIVALENCE.md + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs + " +
                "experiments/NON_HEISENBERG_PALINDROME.md")
     {
@@ -154,6 +155,15 @@ public sealed class F108Part2Pi2XEvenAlwaysPalindromic : Claim, IZ2AxisClaim
                 summary: "F110 (HardCellYInversionPattern, Tier1Candidate, typed 2026-05-25): hard cells y_par-asymmetric " +
                          "with Y-inversion; Aspect A closed-form via F108 Part 1+2+3, Aspect B+C empirically anchored " +
                          "(closed-form 42:8/228:0 derivation open).");
+            yield return new InspectableNode("Klein-V₄ corollary mechanism (Welle 14, 2026-05-27)",
+                summary: "Part 2 follows from Part 1 by Hilbert-space Hadamard transport: U_op = U_H^⊗N ⊗ (U_H^⊗N)^* " +
+                         "maps L_Z(H_1) → L_X(U H_1 U^†) bit-exact; per-letter U_H sends Z↔X, Y→−Y, I→I, which " +
+                         "bijects the Part-1 bilinear set {XX, YY, YZ, ZY, ZZ} (with sign flips) onto the Part-2 set " +
+                         "{ZZ, XX, XY, YX, YY}. NEGATIVE: operator-space Q_zx (Klein-V₄ Z↔X swap from Welle 12) does " +
+                         "NOT swap Π_5b(Z) ↔ Π_5b(X) at the operator level (residual 2.0 in Frobenius distance). The " +
+                         "Hadamard route gives an equivalent palindrome operator U_op · Π_5b(Z) · U_op^† for L_X, " +
+                         "DIFFERENT from canonical Π_5b(X); both achieve F108 palindrome (Π_5b family is not unique). " +
+                         "See PROOF_F108_KLEIN_V4_EQUIVALENCE.md.");
         }
     }
 }

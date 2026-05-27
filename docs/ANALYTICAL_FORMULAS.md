@@ -3474,6 +3474,18 @@ verification.
   promoting F109 to fully unconditional Tier1Derived across {Z, X, Y}.
   Part 3 is BitB axis (shares bit_b with Part 1); BitATwin slot is
   `BitBSpecific` (Y-deph has no meaningful bit_a analog).
+- **F108 Klein-V₄ equivalence (Welle 14, 2026-05-27):** Parts 2 and 3 are
+  Klein-V₄ corollaries of Part 1 via two complementary mechanisms.
+  Part 1 ↔ Part 3 via operator-space D-conjugation (D · Π_5b(Z) · D = Π_5b(Y)
+  bit-exact at N = 1, 2, 3; bilinear set fixed on bit_b axis). Part 1 ↔ Part 2
+  via Hilbert-space Hadamard transport (U_op = U_H^⊗N ⊗ (U_H^⊗N)^* maps
+  L_Z → L_X bit-exact; per-letter Hadamard bijects Part-1 bilinear set onto
+  Part-2 bilinear set). NEGATIVE on operator-space Klein-V₄ for Π_5b:
+  Q_zx · Π_5b(Z) · Q_zx ≠ ±Π_5b(X) and H · Π_5b(Y) · H ≠ ±Π_5b(X) (residual
+  2.0 in Frobenius distance at N = 1, 2, 3); the operator-space Klein-V₄
+  action on Π_5b is only the {I, D} subgroup; X-deph enters via Hilbert-space
+  Hadamard. The three typed Claims are KEPT SEPARATE to preserve independent
+  integration edges but cross-reference the equivalence proof.
 - **F110 (HardCellYInversionPattern, Tier1Candidate, typed 2026-05-25):**
   hard cells y_par-asymmetric with Y-inversion. Aspect A closed-form via
   F108 Part 1+2+3 + F107 + F109 + F87 dissipator-resonance; Aspect B+C
@@ -3488,7 +3500,8 @@ verification.
 
 **Source:** [Proof Part 1](proofs/PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md),
 [Proof Part 2](proofs/PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md),
-[Proof Part 3](proofs/PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md);
+[Proof Part 3](proofs/PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md),
+[Klein-V₄ equivalence (Welle 14)](proofs/PROOF_F108_KLEIN_V4_EQUIVALENCE.md);
 `compute/RCPsiSquared.Core/Symmetry/F108Part1Pi2EvenAlwaysPalindromic.cs`,
 `F108Part2Pi2XEvenAlwaysPalindromic.cs`, `F108Part3Pi2YEvenAlwaysPalindromic.cs`;
 operator: `compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs` (supports

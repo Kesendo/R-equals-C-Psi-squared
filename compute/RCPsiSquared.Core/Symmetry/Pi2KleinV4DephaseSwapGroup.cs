@@ -57,8 +57,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// non-Hermitian extension is the prototype; the Welle 13 closure of F112-X
 /// and F112-Y (docs/proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md) gives
 /// the full cross-dephase F112 family this way. F108 Parts 1, 2, 3 are
-/// conjectured (but not yet formally verified) to admit the same Route 1
-/// transport.</para>
+/// Klein-V₄ equivalent per Welle 14
+/// (docs/proofs/PROOF_F108_KLEIN_V4_EQUIVALENCE.md): Part 3 = Part 1 via D
+/// (operator-space, bit_b-axis-preserving) and Part 2 = Part 1 via Hadamard
+/// transport (Hilbert-space, bit_a ↔ bit_b axis swap). The operator-space
+/// Klein-V₄ {Q_zx, H} swaps that work on canonical Π_d do NOT swap
+/// Π_5bilinear(Z) ↔ Π_5bilinear(X); Π_5bilinear has only a PARTIAL Klein-V₄
+/// equivariance via the {I, D} subgroup at the operator-space level. The
+/// X-deph variant enters via the Hilbert-space Hadamard (Route 2 mechanism).</para>
 ///
 /// <para><b>Route 2 (Hadamard transport via Q_zx)</b>: Q_zx is the
 /// operator-space lift of the Hilbert-space unitary U_H^⊗N (Hadamard ⊗N),
@@ -224,9 +230,15 @@ public sealed class Pi2KleinV4DephaseSwapGroup : Claim
                          "depending on L itself transfer only between (Z, X) via Q_zx, which is " +
                          "the operator-space lift of U_H^⊗N. D and Q_yx (= H) are operator-space-" +
                          "only and do NOT transport L between dephase representations (no Hilbert-" +
-                         "space lift exists for D). F108 Parts 1, 2, 3 conjectured equivalent via " +
-                         "Route 1 (not yet formalized). F112-Y cannot be obtained 'for free' from " +
-                         "F112-Z via D-conjugation; the correct path is Route 1.");
+                         "space lift exists for D). F108 Welle 14 closure " +
+                         "(PROOF_F108_KLEIN_V4_EQUIVALENCE.md): F108 Part 3 follows from Part 1 via " +
+                         "OPERATOR-SPACE D-conjugation (D · Π_5b(Z) · D = Π_5b(Y) bit-exact; bilinear " +
+                         "set fixed); F108 Part 2 follows from Part 1 via HILBERT-SPACE Hadamard " +
+                         "transport (U_op = U_H^⊗N ⊗ (U_H^⊗N)^*; bilinear-set bijection). " +
+                         "NEGATIVE on operator-space Klein-V₄ for Π_5b: Q_zx · Π_5b(Z) · Q_zx ≠ ±Π_5b(X) " +
+                         "and H · Π_5b(Y) · H ≠ ±Π_5b(X) (residual 2.0 at N=1,2,3); the operator-space " +
+                         "Klein-V₄ on Π_5b is only the {I, D} subgroup. F112-Y cannot be obtained 'for " +
+                         "free' from F112-Z via D-conjugation; the correct path is Route 1.");
             yield return new InspectableNode("No IZ2AxisClaim implementation",
                 summary: "Klein-V₄ does not sit on a single Z₂ axis cleanly. It is the cross-axis " +
                          "primitive that intertwines the bit_a and bit_b axes of the Klein V₄ on " +

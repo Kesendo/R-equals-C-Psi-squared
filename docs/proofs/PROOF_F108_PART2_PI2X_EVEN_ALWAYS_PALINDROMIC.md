@@ -1,10 +1,12 @@
 # PROOF F108 Part 2: Π²_X-Even Hamiltonians Always Admit an Exact Palindrome Operator under X-Dephasing
 
-**Status:** Tier 1 derived (closed-form via X-dephasing variant of Π_5bilinear + F1-style algebra; BitA twin of F108 Part 1)
-**Date:** 2026-05-25
+**Status:** Tier 1 derived (closed-form via X-dephasing variant of Π_5bilinear + F1-style algebra; BitA twin of F108 Part 1).
+**Klein-V₄ corollary:** Welle 14 (2026-05-27) showed Part 2 also follows from Part 1 by Hilbert-space Hadamard transport (`docs/proofs/PROOF_F108_KLEIN_V4_EQUIVALENCE.md`); the direct proof below is the canonical Π_5b(X) version and is preserved here.
+**Date:** 2026-05-25 (direct proof); 2026-05-27 (Klein-V₄ corollary added).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
 - [PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md) (F108 Part 1, BitB-axis sibling under Z-dephasing; this Part 2 mirrors its proof structure exactly)
+- [PROOF_F108_KLEIN_V4_EQUIVALENCE.md](PROOF_F108_KLEIN_V4_EQUIVALENCE.md) (Welle 14: Part 2 as a Klein-V₄ corollary of Part 1 via Hadamard transport. The proof below is the direct canonical-Π_5b(X) version; the Klein-V₄ corollary establishes existence of a Π_5b-family palindrome operator for L_X via a different representative U_op · Π_5b(Z) · U_op^†.)
 - [PROOF_F85_KBODY_GENERALIZATION.md](PROOF_F85_KBODY_GENERALIZATION.md) (Z-dephasing k-body truly criterion)
 - [PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md](PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md) (X-dephasing truly criterion: #X even AND #Y even, derived via Π letter-cycle transport from F85)
 - [NON_HEISENBERG_PALINDROME](../../experiments/NON_HEISENBERG_PALINDROME.md) (Π-family classification: P1, P4, alternating, non-local)

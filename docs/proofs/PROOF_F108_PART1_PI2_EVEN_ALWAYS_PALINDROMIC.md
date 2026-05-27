@@ -1,13 +1,14 @@
 # PROOF F108 Part 1: Π²-Even Hamiltonians Always Admit an Exact Palindrome Operator
 
-**Status:** Tier 1 derived (closed-form via Π_5bilinear phase-variant Π operator + F1-style algebra)
-**Date:** 2026-05-25
+**Status:** Tier 1 derived (closed-form via Π_5bilinear phase-variant Π operator + F1-style algebra). Acts as the base claim for the F108 family: Parts 2 and 3 are Klein-V₄ corollaries via Hadamard transport and D-conjugation respectively (`PROOF_F108_KLEIN_V4_EQUIVALENCE.md`, Welle 14).
+**Date:** 2026-05-25 (Part 1 direct proof); 2026-05-27 (Klein-V₄ corollaries Parts 2, 3 added).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
 - [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md) (the original F1 palindrome theorem for truly Heisenberg H)
 - [PROOF_F85_KBODY_GENERALIZATION.md](PROOF_F85_KBODY_GENERALIZATION.md) (truly criterion for k-body Pauli terms)
 - [NON_HEISENBERG_PALINDROME](../../experiments/NON_HEISENBERG_PALINDROME.md) (Π-family classification: P1, P4, alternating, non-local)
 - [`compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs`](../../compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs) (Π_5bilinear builder)
+- [PROOF_F108_KLEIN_V4_EQUIVALENCE.md](PROOF_F108_KLEIN_V4_EQUIVALENCE.md) (Welle 14: F108 Parts 2, 3 as Klein-V₄ corollaries of Part 1; precise mechanism documentation)
 
 **Statement (Theorem F108 Part 1):** For any Hamiltonian H built as a linear combination of Π²-even 2-site bilinears {XX, YY, YZ, ZY, ZZ} on N sites with arbitrary real bond coefficients, and Z-dephasing on every site with arbitrary per-site rates γ_l, there exists a per-site Liouville-space operator Π_5bilinear such that
 

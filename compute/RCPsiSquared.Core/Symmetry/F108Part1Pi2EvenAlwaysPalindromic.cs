@@ -114,10 +114,11 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
         "Under Z-dephasing: no Π²_Z-even Pauli pair (truly or non-truly) is F87-hard; every such pair has palindromic spec(L).";
 
     public F108Part1Pi2EvenAlwaysPalindromic(F108Part2Pi2XEvenAlwaysPalindromic part2)
-        : base("F108 Part 1: Π²-even H + Z-dephasing always admits exact operator-level palindrome via Π_5bilinear",
+        : base("F108 Part 1: Π²-even H + Z-dephasing always admits exact operator-level palindrome via Π_5bilinear (base claim of the Klein-V₄-equivalent F108 family; Parts 2, 3 are Klein-V₄ corollaries per PROOF_F108_KLEIN_V4_EQUIVALENCE.md)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F108 + " +
                "docs/proofs/PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md + " +
+               "docs/proofs/PROOF_F108_KLEIN_V4_EQUIVALENCE.md + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs + " +
                "experiments/NON_HEISENBERG_PALINDROME.md")
     {
@@ -161,6 +162,14 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
                          "for Π²-even bilinear H + Z-deph; F112 closes Π +i/−i Frobenius balance for arbitrary " +
                          "Hermitian H + bit_b-homogeneous dissipator c. Both Tier1Derived projections of the same " +
                          "bit_b Z₂-grading on the Pauli group; F112 takes F108 Part 1 as typed ctor parent.");
+            yield return new InspectableNode("F108 family Klein-V₄ equivalence (Welle 14, 2026-05-27)",
+                summary: "F108 Parts 2 and 3 are Klein-V₄ corollaries of Part 1 via complementary mechanisms: " +
+                         "Part 3 follows by operator-space D-conjugation (D · Π_5b(Z) · D = Π_5b(Y) bit-exact, " +
+                         "bilinear set D-invariant); Part 2 follows by Hilbert-space Hadamard transport " +
+                         "(U_op = U_H^⊗N ⊗ (U_H^⊗N)^* maps L_Z to L_X bit-exact, bilinear-set bijection). " +
+                         "Operator-level Q_zx and H do NOT swap Π_5b(Z) ↔ Π_5b(X) (negative result). " +
+                         "Full proof: PROOF_F108_KLEIN_V4_EQUIVALENCE.md. The three typed Claims remain " +
+                         "separate to preserve their independent integration edges, but cross-reference this proof.");
         }
     }
 }

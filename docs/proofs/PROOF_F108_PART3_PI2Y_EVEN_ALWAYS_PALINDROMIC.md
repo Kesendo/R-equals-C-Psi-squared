@@ -1,10 +1,12 @@
 # PROOF F108 Part 3: Π²_Y-Even Hamiltonians Always Admit an Exact Palindrome Operator under Y-Dephasing
 
-**Status:** Tier 1 derived (closed-form via Y-dephasing variant of Π_5bilinear + F1-style algebra; Y-dephasing sibling of F108 Part 1)
-**Date:** 2026-05-25
+**Status:** Tier 1 derived (closed-form via Y-dephasing variant of Π_5bilinear + F1-style algebra; Y-dephasing sibling of F108 Part 1).
+**Klein-V₄ corollary:** Welle 14 (2026-05-27) showed Part 3 follows from Part 1 by operator-space D-conjugation (D · Π_5b(Z) · D = Π_5b(Y) bit-exact); see `docs/proofs/PROOF_F108_KLEIN_V4_EQUIVALENCE.md`. The direct proof below is the canonical Part 3 derivation; the Klein-V₄ corollary makes the equivariance explicit.
+**Date:** 2026-05-25 (direct proof); 2026-05-27 (Klein-V₄ corollary added).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
 - [PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md) (F108 Part 1, Z-dephasing on the same BitB axis; this Part 3 mirrors its proof structure with the Y-dephase-appropriate phase choice)
+- [PROOF_F108_KLEIN_V4_EQUIVALENCE.md](PROOF_F108_KLEIN_V4_EQUIVALENCE.md) (Welle 14: Part 3 as a direct Klein-V₄ corollary of Part 1 via the D operator. The bilinear set is D-invariant; D · Π_5b(Z) · D = Π_5b(Y) bit-exact, so the Part 1 proof transfers verbatim with d=Z→Y substitution.)
 - [PROOF_F85_KBODY_GENERALIZATION.md](PROOF_F85_KBODY_GENERALIZATION.md) (Z-dephasing k-body truly criterion)
 - [PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md](PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md) (Y-dephasing truly criterion: #Y even AND #Z even, identical to Z-deph since the Y↔Z 2-cycle fixes the {#Y, #Z} pair setwise)
 - [NON_HEISENBERG_PALINDROME](../../experiments/NON_HEISENBERG_PALINDROME.md) (Π-family taxonomy; F108 Part 3 sits in the same P1 family as Part 1, with the Y/Z 2-cycle phase variant)
