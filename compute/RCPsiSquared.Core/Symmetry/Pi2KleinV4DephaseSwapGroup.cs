@@ -71,7 +71,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// so Q_zx-conjugation maps Lindblad-form L_Z to Lindblad-form L_X with
 /// rotated (H, c_k). This gives F112-Z → F112-X transport explicitly via
 /// a Lindblad-form-preserving similarity. The D and Q_yx (= H) involutions
-/// are operator-space-only — they do NOT lift to Hilbert-space unitaries
+/// are operator-space-only: they do NOT lift to Hilbert-space unitaries
 /// (D-conjugation would require V such that V·Y·V⁻¹ = −Y, V·X·V⁻¹ = X,
 /// V·Z·V⁻¹ = Z, which is impossible by Pauli algebra). So D and H
 /// intertwine the Π_d operators but do NOT transport L between dephase

@@ -336,7 +336,7 @@ restores the F50 count `= 2N`.
 to k=0 and k=1. For k >= 2, d_real(k) is topology-dependent
 (Chain < Star < Ring < Complete). See [Weight-2 Kernel](../experiments/WEIGHT2_KERNEL.md).
 **Resolution (2026-05-17 evening):** the K_3 N=3 "weight-1 anomaly" is not a special algebraic phenomenon. It is the **small-N manifestation of a universal "central-weight excess in high-symmetry topologies" pattern**: every connected graph with non-trivial automorphism beyond chain has centralizer excess at the central weights `w ∈ {floor(N/2), ceil(N/2)}`, palindromic by F1 Π-conjugation. K_N has the largest excess; ring, star, K_N − e all have smaller-but-non-zero central excess. F50 specifically tracks weight-1, which coincides with the central weight only at N=3. For N ≥ 4 the central weight is ≥ 2, so F50's weight-1 count remains 2N for all tested topologies (chain, ring, star, K_N, paw, bowtie, book, K_4 − e). Empirical magnitudes: K_3 N=3 (+2 at w=1 / w=2), K_4 N=4 (+23 at w=2, self-palindromic), K_5 N=5 (+40 at w=2 / w=3). [`experiments/WEIGHT2_KERNEL.md`](../experiments/WEIGHT2_KERNEL.md) (April 2026) had documented the topology dependence at weight-2 for N=4..6 weeks ago; we now understand the K_3 N=3 case as the SAME phenomenon at N=3 (where central weight = 1 = F50's tracked weight). What remains open: a closed-form formula for the excess in terms of (G, N, w), and a representation-theoretic micro-structural identification of the central-weight extras beyond the empirical magnitudes. See [PROOF_WEIGHT1_DEGENERACY § Appendix Resolution](proofs/PROOF_WEIGHT1_DEGENERACY.md) for the full sweep table and the matrix-commutator-framework derivation.
-**Partial closed-form (2026-05-17 late evening):** the central-weight excess decomposes by spin-isotypic sector as `central-w-excess(K_N) = Σ_{S < N/2} single_block(S, central_w) + multi_block_diff`. The **max-spin block** (S = N/2, dim N+1, 1 SU(2)-copy) contributes the universal palindromic pattern `(2, 4, 4, ..., 4, 2)` with sum `4N`, identical for all K_N and contributing equally to every weight — max-spin alone does NOT create central excess. The **sub-max spin blocks** concentrate their pure-weight content at central weights only, with a parity selection rule (K_6 S=2 contributes only at even w=2,4; K_6 S=0 vanishes entirely). The K_3 N=3 +2 excess is entirely a single-block phenomenon (S=1/2 block adds 2 at w=1, multi-block matches chain). The K_4 N=4 +23 excess decomposes as +27 single-block (mostly S=1 block adding 26 at w=2) minus −4 multi-block diff. A full closed-form for `single_block(S, w)` as `f(m_S, 2S+1, N, w)` is the remaining piece. See [`simulations/f50_spin_isotypic_decomposition.py`](../simulations/f50_spin_isotypic_decomposition.py) and [PROOF_WEIGHT1_DEGENERACY § Spin-isotypic decomposition](proofs/PROOF_WEIGHT1_DEGENERACY.md) for the full per-(S, w) table at K_3..K_6.
+**Partial closed-form (2026-05-17 late evening):** the central-weight excess decomposes by spin-isotypic sector as `central-w-excess(K_N) = Σ_{S < N/2} single_block(S, central_w) + multi_block_diff`. The **max-spin block** (S = N/2, dim N+1, 1 SU(2)-copy) contributes the universal palindromic pattern `(2, 4, 4, ..., 4, 2)` with sum `4N`, identical for all K_N and contributing equally to every weight: max-spin alone does NOT create central excess. The **sub-max spin blocks** concentrate their pure-weight content at central weights only, with a parity selection rule (K_6 S=2 contributes only at even w=2,4; K_6 S=0 vanishes entirely). The K_3 N=3 +2 excess is entirely a single-block phenomenon (S=1/2 block adds 2 at w=1, multi-block matches chain). The K_4 N=4 +23 excess decomposes as +27 single-block (mostly S=1 block adding 26 at w=2) minus −4 multi-block diff. A full closed-form for `single_block(S, w)` as `f(m_S, 2S+1, N, w)` is the remaining piece. See [`simulations/f50_spin_isotypic_decomposition.py`](../simulations/f50_spin_isotypic_decomposition.py) and [PROOF_WEIGHT1_DEGENERACY § Spin-isotypic decomposition](proofs/PROOF_WEIGHT1_DEGENERACY.md) for the full per-(S, w) table at K_3..K_6.
 **Max-spin closed-form (2026-05-17 late evening, Tier 1 derived):** the max-spin contribution to single-block has a complete identification as **Dicke endpoint ladder rungs**: `single_block(S=N/2, w) = 2 if w ∈ {0, N}, else 4`. Explicit basis: w=0 → {|D_0⟩⟨D_0|, |D_N⟩⟨D_N|} (diagonal endpoint projectors with closed-form `|D_0⟩⟨D_0| = (1/2^N) Π_i (I + Z_i)` and `|D_N⟩⟨D_N| = (1/2^N) Π_i (I - Z_i)`); w=N → {|D_0⟩⟨D_N| ± h.c.} (full-ladder jump); 1 ≤ w ≤ N-1 → {|D_0⟩⟨D_w| ± h.c., |D_{N-w}⟩⟨D_N| ± h.c.} (two endpoint-anchored rungs). Total 4N pure-weight ops + (N-1)² multi-weight = (N+1)² operators in M(N+1). The multi-weight (N-1)² ops correspond to **middle-Dicke transitions** |D_k⟩⟨D_l| for k, l ∈ {1, ..., N-1} which intrinsically mix Pauli weights. Verified bit-exact N=2..5. Confirms structural reason for central-weight excess: max-spin is weight-uniform (no central bias), so excess MUST come from sub-max sectors. See [`simulations/f50_max_spin_closed_form.py`](../simulations/f50_max_spin_closed_form.py).
 **Replaces:** eigenvector analysis at the first grid position;
 numerical counting of purely-real eigenvalues (modulo the K_3 N=3 case).
@@ -2951,7 +2951,7 @@ where M_n^{(i)} = ⟨i|_pair Tr_{1,3}[sym_n^1 · ρ_0]|i⟩_pair and U_{2k}^{(i)
 
 **Structural reading:** the F94 unit 4/3 = a_{−1}/3 generates the entire 4-outcome table for this setup. The dominant gets +1·(4/3) at order Q²K³; the singly-subdominant degenerate pair gets −(4/3)² at order K; the doubly-subdominant gets −2·(4/3) at order K. The signs are all reading-pattern: dominant **gains** probability beyond unitary (positive Δ), all subdominants **lose** probability beyond unitary (negative Δ). The "2" in Δ_|11⟩ plausibly counts the two independent flip channels (q_0 and q_2) required to populate |11⟩; interpretive, not derived.
 
-**Cross-outcome universality:** the ratio M_3 / U_2 equals −16/3 for both the dominant (|00⟩: 8 / (−3/2)) and the singly-subdominant (|01⟩: −4 / (3/4)) outcomes — the signs of M_3 and U_2 flip together, leaving the ratio invariant. This is a non-trivial structural identity of the Heisenberg + Z-dephasing dynamics at the pair (0,2) reduction; whether it generalizes to other initial states / Hamiltonians / dissipators is open.
+**Cross-outcome universality:** the ratio M_3 / U_2 equals −16/3 for both the dominant (|00⟩: 8 / (−3/2)) and the singly-subdominant (|01⟩: −4 / (3/4)) outcomes; the signs of M_3 and U_2 flip together, leaving the ratio invariant. This is a non-trivial structural identity of the Heisenberg + Z-dephasing dynamics at the pair (0,2) reduction; whether it generalizes to other initial states / Hamiltonians / dissipators is open.
 
 **Anchoring to typed Pi2-Foundation:**
 
@@ -2994,7 +2994,7 @@ c(φ) = z*(φ) − z*(φ)² = b·e^(iφ) − b²·e^(2iφ)
 
 **Numerical verification:** machine-precision algebraic identity c(φ) = z*(1 − z*) verified to max residual 1.24 × 10⁻¹⁶ over 1000 sampled φ ∈ [0, 2π].
 
-**Relation to F95 — complementary regions of the same algebra:**
+**Relation to F95 (complementary regions of the same algebra):**
 
 | Region | F95 | F97 |
 |---|---|---|
@@ -3075,7 +3075,7 @@ The morning's F86b 3/8 K-intermediate Dicke anchor (Tier 1 derived 2026-05-17 vi
 α(t → ∞) = (N+2)/[4(N+1)] → 1/4    (F98, tonight, long-time-limit bridge)
 ```
 
-`3/8` and `1/4` are not unrelated constants — they are the two endpoints of an explicit N-dependent decay curve traversed by KIntermediate Dicke states under truly-class Hamiltonian + Z-dephasing dynamics. Both sit on the dyadic-ladder / polarity-squared algebra:
+`3/8` and `1/4` are not unrelated constants: they are the two endpoints of an explicit N-dependent decay curve traversed by KIntermediate Dicke states under truly-class Hamiltonian + Z-dephasing dynamics. Both sit on the dyadic-ladder / polarity-squared algebra:
 
 - `3/8 = (1/2)·(3/4)` = `HalfAsStructuralFixedPoint · (1 − 1/4)`, the X⊗N-eigenbasis γ = 1/2 input combined with the `(1 − γ²)/2` F86b formula.
 - `1/4 = (1/2)² = HalfAsStructuralFixedPoint²` = `QuarterAsBilinearMaxval` = the Mandelbrot cardioid maxval. The maxval-side bilinear apex.
@@ -3089,9 +3089,9 @@ N=20:  α(0) = 3/8 = 0.375  →  α(∞) = 11/42 ≈ 0.262      (Δ to 1/4 = 1/8
 N→∞:   α(0) = 3/8          →  α(∞) → 1/4                [QuarterAsBilinearMaxval]
 ```
 
-**Why the asymptote is 1/4 and not 3/8:** the kernel projection averages the static F86b anchor against the rank weighting of the two adjacent popcount sectors. For mid-popcount `P_{N/2}` the Π²-odd content vanishes (Krawtchouk parity); for `P_{N/2−1}` it is exactly half-rank (F98a). The mix weights `1/C(N, m) : 1/C(N, m+1)` approach unity at large N (sectors become equally weighted under uniform amplitude), and the Π²-odd fraction is driven purely by half-rank inheritance from `P_{N/2−1}` — landing at `1/4` because the half-rank halving compounds with the kernel-balance halving to give `(1/2)² = 1/4`.
+**Why the asymptote is 1/4 and not 3/8:** the kernel projection averages the static F86b anchor against the rank weighting of the two adjacent popcount sectors. For mid-popcount `P_{N/2}` the Π²-odd content vanishes (Krawtchouk parity); for `P_{N/2−1}` it is exactly half-rank (F98a). The mix weights `1/C(N, m) : 1/C(N, m+1)` approach unity at large N (sectors become equally weighted under uniform amplitude), and the Π²-odd fraction is driven purely by half-rank inheritance from `P_{N/2−1}`, landing at `1/4` because the half-rank halving compounds with the kernel-balance halving to give `(1/2)² = 1/4`.
 
-**Discovery path:** the water-chain inheritance test ([`simulations/water/proton_chain_dicke_anchor.py`](../simulations/water/proton_chain_dicke_anchor.py)) for the morning's F86b anchor uncovered F98 by asking a NEW question — not "what is α at t = 0" (closed-form F86b) but "what is α at t = ∞ under truly-class Heisenberg + Z-dephasing on the chemistry-substrate-grounded proton chain". The water script saw `α → 3/10` for N = 4 at t = 100; the small-fraction structure suggested an algebraic closed form, verified bit-exact N = 4..16, then derived via Krawtchouk + Pascal.
+**Discovery path:** the water-chain inheritance test ([`simulations/water/proton_chain_dicke_anchor.py`](../simulations/water/proton_chain_dicke_anchor.py)) for the morning's F86b anchor uncovered F98 by asking a NEW question: not "what is α at t = 0" (closed-form F86b) but "what is α at t = ∞ under truly-class Heisenberg + Z-dephasing on the chemistry-substrate-grounded proton chain". The water script saw `α → 3/10` for N = 4 at t = 100; the small-fraction structure suggested an algebraic closed form, verified bit-exact N = 4..16, then derived via Krawtchouk + Pascal.
 
 **Anchors:** [`simulations/water/proton_chain_dicke_anchor.py`](../simulations/water/proton_chain_dicke_anchor.py) (numerical bit-exact verification + Krawtchouk enumeration), [F86b](#f86) DickeAnchor 3/8 anchor (static partner), [F88b](#f88b) Π²-odd state-level structure (parent), [F4](#f4) kernel decomposition (used in long-time projection), `compute/RCPsiSquared.Core/Symmetry/QuarterAsBilinearMaxvalClaim` (asymptote anchor), `compute/RCPsiSquared.Core/Symmetry/HalfAsStructuralFixedPointClaim` (1/4 = (1/2)² parent), `docs/water/README.md` § "Findings since May 4".
 
@@ -3158,7 +3158,7 @@ for n = 0..8.
 2. Evening ([F98](#f98), commit `250164d`): water-chain inheritance test of
    F86b discovered long-time bridge (N+2)/[4(N+1)] → 1/4.
 3. Night #1 (commit `1416f85`): all four polarity anchors realised by
-   period 2/3 atoms — forward inheritance.
+   period 2/3 atoms, forward inheritance.
 4. Night #2 (commit `cecb84b`): reverse-spear identified depth-3 (1/8, 7/8)
    as framework gap, empirically instantiated by alkali metals + halogens.
 5. Night #3 (commit `5fb0ba0`): depth-3 anchor derived (this F99 entry).
@@ -3522,8 +3522,8 @@ the same Π²-even bilinear predicates):
 Sister to F107 on the y_par axis. F107 pinned the y_par signature of truly cells
 across all dephase letters; F109 pins the y_par signature of mother sector
 (Klein (0, 0)) soft cells. Previously Tier 1 derived modulo F108 Part 1; on
-2026-05-25 all three branches of Step 5 — Z-dephasing (F108 Part 1), X-dephasing
-(F108 Part 2), Y-dephasing (F108 Part 3) — were closed-form via the matching
+2026-05-25 all three branches of Step 5 (Z-dephasing via F108 Part 1, X-dephasing
+via F108 Part 2, Y-dephasing via F108 Part 3) were closed-form via the matching
 Π_5bilinear dephase variants. F109 is now fully unconditional Tier 1 derived.
 
 **Theorem (F109):** Under any single-letter dephase channel (Z, X, or Y), every
@@ -3701,8 +3701,8 @@ remains the historical numerical validation.
   gives ‖L_{H,+i}‖² = ‖L_{H,-i}‖².
 
 **Connection axes (shared bit_b Z₂-grading on the Pauli group):**
-- F38: Π² = (−1)^{w_YZ} on Pauli strings — foundational input.
-- F63: [L, Π²] = 0 for Z-dephasing — foundational input.
+- F38: Π² = (−1)^{w_YZ} on Pauli strings; foundational input.
+- F63: [L, Π²] = 0 for Z-dephasing; foundational input.
 - F108 Part 1/2/3: the bilinear set {XX, YY, YZ, ZY, ZZ} F108 palindromizes
   is exactly the bit_b = 0 (Π²-Z-even) family.
 - F87 dissipator-resonance trichotomy: orthogonal axis. F87 lives in M's
