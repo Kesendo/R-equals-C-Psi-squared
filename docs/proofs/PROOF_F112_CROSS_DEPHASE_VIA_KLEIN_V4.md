@@ -13,12 +13,15 @@
 
 ## Abstract
 
-[PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) and [PROOF_F112_NONHERMITIAN_UNIVERSAL_N](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) establish the polarity-balance identity `asymmetry = 0` for the Z-dephasing F1 palindrome operator Π_Z, given a bit_b-homogeneous collapse hypothesis on each c_k. This proof extends the identity to the X- and Y-dephasing variants Π_X and Π_Y with an axis-adapted homogeneity hypothesis: define `axis_d := bit_b` for d ∈ {Y, Z} and `axis_d := bit_a` for d = X. The per-d asymmetry (defined via the per-d polarity-coordinates decomposition of `M_d = Π_d · L_d · Π_d⁻¹ + L_d + 2σ · I`) vanishes bit-exactly for any standard Lindblad-form L_d, any H (Hermitian or non-Hermitian), universal N, provided every c_k is axis_d-homogeneous. Two complementary routes:
+F112 was proved for Z-dephasing. The natural next question was whether the same polarity-balance identity holds for X-dephasing and Y-dephasing as well. After the Klein-V₄ dephase-swap group landed in Welle 12, the answer was structurally over-determined: F112-Z, F112-X, F112-Y should all be Klein-V₄ images of each other. The job was to write down the two routes that close this cleanly, and to spell out how the hypothesis on the collapse operators rotates with the dephase axis.
 
-- **Route 1 (direct):** Re-run the parent Hermitian-H proof and the Welle 11 non-Hermitian lemmas with d ∈ {X, Y}. F38's Π_d² eigenvalue formula and the per-site π_d_local matrix structure are the only inputs that change per d; both have the same algebraic form for every d.
-- **Route 2 (transport):** Use the Klein-V₄ subgroup `{I, D, Q_zx, Q_yx}` of `U(4^N)` ([PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)) to conjugate the F112-Z identity into F112-X and F112-Y forms. Since the Klein-V₄ elements are unitary, Frobenius norms (hence asymmetry values) are preserved exactly.
+Both routes work, and they are independent. The first re-runs the F112 proof with the dephase letter replaced by X or Y throughout. The two structural inputs that change per dephase axis are the Π² eigenvalue formula on Pauli strings (which switches from bit_b to bit_a when the dephase letter switches from Y/Z to X) and the per-site palindrome-operator matrix (a 4×4 signed permutation for every dephase letter, just with different non-zero positions). Otherwise the lemmas re-run verbatim, and the conclusion lands.
 
-Both routes yield the same conclusion, universal in N.
+The second route is the Klein-V₄ conjugation transport. The Welle 12 Klein-V₄ subgroup carries elements that conjugate Π_Z into Π_Y and Π_Z into Π_X. Frobenius norms are preserved by unitary conjugation, so conjugating the F112-Z identity by D gives F112-Y for free, and conjugating by Q_zx gives F112-X. The conjugation also maps the bit_b hypothesis on the collapse operators canonically into the right per-axis hypothesis.
+
+The hypothesis on the collapse operators carries the axis dependence. For dephase letter Z or Y, the operators need to be bit_b-homogeneous (every Pauli string in the expansion shares the same bit_b parity). For dephase letter X, they need to be bit_a-homogeneous. The axis switches with the dephase letter because Π² classifies by the axis NOT flipped by Π's per-letter swap: Π_X's swap is on the bit_b axis, while Π_Y's and Π_Z's swaps are on the bit_a axis.
+
+The diagnostic reading: F112 is one identity, not three. It holds for any of the three F1 palindrome conventions with the appropriate per-axis homogeneity hypothesis, for any Hamiltonian (Hermitian or non-Hermitian), for any number of qubits. The polarity-coordinates primitive reads the same diagnostic information regardless of which dephasing convention the user invokes, as long as the conventions stay matched (the M_d-anti decomposition must use the Π_d that corresponds to the L_d under analysis).
 
 ## Introduction
 

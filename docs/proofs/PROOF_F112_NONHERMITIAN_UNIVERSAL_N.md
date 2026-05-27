@@ -11,11 +11,13 @@
 
 ## Abstract
 
-[PROOF_F112](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) (the parent theorem) reduces the polarity-balance identity `‖M_plus_half‖² = ‖M_minus_half‖²` to the spectral identity `‖L_{H,+i}‖² = ‖L_{H,-i}‖²`, where L_H = −i[H, ·] is the Hamiltonian superoperator and L_{H,±i} are its projections onto the Π-conjugation ±i eigenspaces of the F1 palindrome operator. The parent's Step 5 closes this for Hermitian H via dagger + anti-Hermitian L_H. The non-Hermitian-H extension reduces algebraically (write H = H_re + i · H_im with H_re, H_im both Hermitian) to a single open identity
+F112's parent proof handles the Hermitian-Hamiltonian case via a clean dagger argument: for Hermitian H, the dagger map on operator space sends the Π +i eigenspace bijectively to Π −i, and that isometry forces equal Frobenius weights on the two sides. The argument stops working when H stops being Hermitian. Some physically meaningful systems live there: PT-symmetric effective Hamiltonians, gain-loss models, post-selection dynamics. The empirical probes hinted that the polarity-coordinates balance still holds in all those cases, but the structural reason was open.
 
-    F(H_re, H_im) := Im⟨L_{H_re,−i}, L_{H_im,−i}⟩ = 0
+This proof closes the universal-N case for arbitrary H by a different route. Write a general H as a Hermitian real part plus i times a Hermitian imaginary part. The polarity-balance identity then reduces algebraically to a single open identity: the imaginary part of a specific Frobenius inner product must vanish for every pair of Hermitian operators. By bilinearity the identity further reduces to a per-pair check on Pauli-string basis pairs.
 
-for any Hermitian H_re, H_im, and via bilinearity + antisymmetry further to a per-pair identity `F(σ_α, σ_β) = 0` for every Pauli-string pair `(σ_α, σ_β)`. This proof closes the per-pair identity for **all N** via two structural lemmas: Lemma N-A computes the diagonal closed form `‖L_{σ,−i}‖² = 4^N` for any bit_b-odd Pauli string σ, and Lemma N-B shows the Π −i projections of L_{σ_α} and L_{σ_β} have disjoint Pauli-basis support for any distinct bit_b-odd pair (σ_α, σ_β). Together they force `Im F ≡ 0`, so the F112 polarity-balance identity holds for arbitrary (Hermitian or non-Hermitian) H.
+Two lemmas close the per-pair check structurally. The first computes a clean closed form: for any Pauli string whose Y and Z letters sum to an odd parity, the Frobenius norm squared of its Π −i projection equals the operator-space dimension exactly, a uniform 4^N regardless of which string we picked. The second shows that for any pair of distinct such strings, their Π −i projections land on disjoint Pauli-basis support, so their inner product vanishes by orthogonality alone.
+
+Together: the diagonal entries of the open identity are real because they are squared norms, and the off-diagonal entries vanish because the inner products themselves vanish. The imaginary part is therefore zero across the entire Hermitian operator space, and F112's typed scope widens from "Hermitian H" to "any H" with no change to the bit_b-homogeneous hypothesis on the collapse operators. The polarity-coordinates witness now reads PT-symmetric and gain-loss Lindblad systems on the same footing as their Hermitian cousins.
 
 ## Introduction
 

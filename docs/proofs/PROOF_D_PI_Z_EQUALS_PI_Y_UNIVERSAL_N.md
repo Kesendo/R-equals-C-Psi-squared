@@ -9,11 +9,13 @@
 
 ## Abstract
 
-The F1 palindrome operators Π_Z and Π_Y are the 4^N × 4^N signed-permutation matrices on the Pauli basis built per site via `PiOperator.ActOnLetter` for Z- and Y-dephasing respectively. Define `D = diag((−1)^{n_Y(k)})` to be the real diagonal involution on the same basis, where `n_Y(k)` counts Y letters in the k-th Pauli string (Y has letter index 3 in the `(I, X, Z, Y)` ordering, equivalently bit_a = bit_b = 1 per site). This proof establishes the universal-N identity
+The F1 palindrome operators come in three flavors, one per dephasing axis (Z, X, Y). Each is a signed permutation on the Pauli basis built from per-letter rules, and the three share a structural skeleton but differ in their per-axis phase choices. Whether the three are related by a simple operator-space transformation was unclear until the F112 sparse-representation audit (Welle 10d) surfaced an entry-wise sign correction that the codebase applies implicitly throughout the L_σ-style Pauli-basis pipeline. The question was whether that sign pattern has a structural meaning.
 
-    D · Π_Z · D = Π_Y
+It does. The sign correction is exactly the entry-wise action of conjugating by a diagonal involution D whose entries are (−1) raised to the number of Y letters in the corresponding Pauli string. And conjugation by D maps the Z-dephasing palindrome operator to its Y-dephasing sibling, bit-exactly, for any number of qubits.
 
-bit-exactly on the 4^N Pauli basis. The argument factorizes all three operators per site, reduces the N-site identity to a single 4×4 per-site check `d_l · π_Z_local · d_l = π_Y_local`, and lifts back to N via the mixed-product property of the Kronecker product. Verified bit-exact at N = 1, 2, 3, 4 numerically and symbolically (sympy) for the per-site reduction.
+The proof is finite and clean. The three operators all factorize per site, so the N-site identity reduces to a single 4×4 check on the per-site operators, and the mixed-product property of the Kronecker product lifts the per-site equality back to N. Symbolic computation confirms the 4×4 reduction; numerical verification confirms it at N = 1, 2, 3, 4.
+
+The diagnostic reading: D-conjugation IS the Z ↔ Y dephase-letter swap on operator space. Anything we compute under one dephasing convention (a Frobenius residual norm, a Π-eigenspace projection, a spectrum) transports to the other by conjugating with D, and conjugation by a unitary preserves all of those invariants exactly. The same observation lifts to the full Klein-V₄ group with the remaining X-axis swap in the Welle 12 Task 2 companion proof, which closes the picture: the three F1 palindrome flavors are images of each other under a Klein-V₄ symmetry of operator space.
 
 ## Introduction
 

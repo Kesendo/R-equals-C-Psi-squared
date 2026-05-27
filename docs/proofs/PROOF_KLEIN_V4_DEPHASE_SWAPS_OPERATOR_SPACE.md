@@ -9,13 +9,13 @@
 
 ## Abstract
 
-The Klein four-group V₄ = Z₂ × Z₂ acts on the dephase-letter set `{I, X, Y, Z}` by Klein-product addition on the `(bit_a, bit_b)` Pauli labels (I = 00, X = 10, Z = 01, Y = 11). Its three non-trivial elements correspond to the three letter-swaps `{Z↔Y, Z↔X, Y↔X}`. This proof establishes that the three swaps lift to operator-space involutions on the 4^N Pauli basis, forming a faithful Klein-V₄ subgroup `{I, D, Q_zx, Q_yx}` of `U(4^N)`:
+The dephase letters {I, X, Y, Z} carry a natural Klein four-group structure: pair each letter with its (bit_a, bit_b) label (I sits at 00, X at 10, Z at 01, Y at 11), and the three non-trivial group elements correspond to the three letter-swaps Z↔Y, Z↔X, Y↔X. The Welle 12 Task 1 companion proof already showed that the Z↔Y swap lifts to an operator-space involution: conjugation by a diagonal D maps Π_Z to Π_Y. The follow-up question was whether the X-axis swap lifts the same way, and whether the three lifts close into a single group.
 
-- **D = ⊗_l d_l** with `d_l = diag(1, 1, 1, −1)` realises the Z↔Y swap ([PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N](PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md), Welle 12 Task 1);
-- **Q_zx = ⊗_l (h · d_l)** with h the X↔Z basis-index permutation realises the Z↔X swap;
-- **Q_yx = ⊗_l h** realises the Y↔X swap (pure permutation, no signs).
+They do, and the group is a clean Klein four-group on the 4^N Pauli operator space. The diagonal involution D handles Z↔Y as before. A second involution Q_zx, built from D together with a basis-index permutation that exchanges the X and Z positions, handles Z↔X. The third Q_yx is the basis permutation alone. All three are order-2, all three commute pairwise, and their product (in any order) is the identity. Together with the identity itself they form the Klein four-group of dephase-letter swaps acting on operator space.
 
-The conjugation identities `D · Π_Z · D⁻¹ = Π_Y`, `Q_zx · Π_Z · Q_zx⁻¹ = Π_X`, `Q_yx · Π_Y · Q_yx⁻¹ = Π_X` hold bit-exactly, together with the Klein-V₄ group relations `D² = Q_zx² = Q_yx² = I`, `D · Q_zx · Q_yx = I`, and pairwise commutativity. The proof factorizes all operators per site, reduces each conjugation identity to a single 4×4 per-site check, and lifts via the mixed-product property of the Kronecker product. Verified bit-exact numerically and symbolically at N = 1, 2, 3, 4.
+The pre-dispatch conjecture had been that Z↔X might need an order-4 cyclic move rather than an order-2 involution, since Π_Z and Π_X classify by different Klein axes (bit_b versus bit_a). The proof shows the conjecture wrong: a basis-index permutation can intertwine the two axes, and the composition with the sign-flip D closes the order-2 case. A brute-force search confirmed that there are 64 valid Z↔X involutions and 64 valid Y↔X involutions in the 4×4 per-site sign-vector space; the canonical choices are the simplest representatives.
+
+The diagnostic reading: any F1 diagnostic (Frobenius norms, spectra, eigenspace decompositions) computed under one dephasing convention automatically transports to the other two by Klein-V₄ conjugation. The downstream consequences land in F112's cross-dephase extension (where the polarity-balance identity transports across all three dephase axes) and in F108's Klein-V₄ equivalence (where the three Π_5bilinear palindrome variants partly unify via the same group, but with a subtlety that the Π_5bilinear family is more rigid than the canonical Π_d family).
 
 ## Introduction
 
