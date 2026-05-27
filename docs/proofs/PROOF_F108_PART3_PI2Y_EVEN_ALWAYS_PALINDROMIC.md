@@ -12,6 +12,16 @@
 - [NON_HEISENBERG_PALINDROME](../../experiments/NON_HEISENBERG_PALINDROME.md) (Π-family taxonomy; F108 Part 3 sits in the same P1 family as Part 1, with the Y/Z 2-cycle phase variant)
 - [`compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs`](../../compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs) (Π_5bilinear builder, Y-deph variant)
 
+## Abstract
+
+Part 3 closes the third axis of the F108 trinity: Π²_Y-even bilinears under Y-dephasing. The bilinear set turns out to be identical to Part 1's, because Y and Z share the bit_b axis under the Π² eigenvalue rule. The same five bilinears {XX, YY, YZ, ZY, ZZ} come out even on both axes. The difference is in the conjugating operator: the Y-dephasing variant of Π_5bilinear has the same letter permutation as the Z-dephasing version (I↔X, Y↔Z) but flips the Y/Z 2-cycle phase from +i to −i.
+
+The proof carries over from Part 1 once the phase variant is identified. The anti-commutation argument with the Π²-even bilinears works the same way; the dissipator-side identity works because Y-dephasing commutes with itself and the phase change does not affect the dissipator's per-site structure. The operator-level palindrome holds bit-exactly for any Y-dephasing-axis Π²-even bilinear Hamiltonian on any sites with any per-site Y-dephasing rates.
+
+The structural consequence is the third leg of the F87-hardness collapse: no Π²_Y-even Pauli pair can be F87-hard under Y-dephasing. Together with Parts 1 and 2, the F108 trinity rules out hardness on Π²-even bilinears across all three single-letter dephase channels.
+
+Welle 14 later showed that Part 3 also follows from Part 1 as a D-conjugation corollary on operator space (the Welle 12 Task 1 diagonal involution D maps Π_5bilinear(Z) to Π_5bilinear(Y) bit-exactly). The direct proof is preserved as the canonical Part 3 construction; the D-conjugation route makes the equivariance with Part 1 explicit, and lets the F108 trinity be read as a single result with three Klein-V₄ images rather than three independent proofs.
+
 **Statement (Theorem F108 Part 3):** For any Hamiltonian H built as a linear combination of Π²_Y-even 2-site bilinears {XX, YY, YZ, ZY, ZZ} on N sites with arbitrary real bond coefficients, and Y-dephasing on every site with arbitrary per-site rates γ_l, there exists a per-site Liouville-space operator Π_5bilinear (Y-deph variant) such that
 
   Π_5bilinear · L · Π_5bilinear⁻¹ = −L − 2σ·I exactly, where σ = Σ_l γ_l.

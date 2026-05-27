@@ -12,6 +12,16 @@
 - [NON_HEISENBERG_PALINDROME](../../experiments/NON_HEISENBERG_PALINDROME.md) (Π-family classification: P1, P4, alternating, non-local)
 - [`compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs`](../../compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs) (Π_5bilinear builder, X-deph variant)
 
+## Abstract
+
+Part 1 closes the palindrome for Π²-even bilinears under Z-dephasing. Part 2 closes the same kind of statement on the orthogonal axis: Π²_X-even bilinears under X-dephasing. The bilinear set changes because X-dephasing classifies by the bit_a parity instead of bit_b; the five bilinears that come out even under X-dephasing's Π² rule are {ZZ, XX, XY, YX, YY} rather than Part 1's {XX, YY, YZ, ZY, ZZ}. Three bilinears (XX, YY, ZZ) are common to both axes; the other two swap.
+
+The proof structure mirrors Part 1 exactly. There is an X-dephasing-specific phase variant of the Π_5bilinear operator, with its own per-site letter permutation (I↔Z, X↔Y, picking out the Π_X letter swap) and its own two-phase-flip pattern. With this operator in hand, the operator-level palindrome identity holds bit-exactly for any X-dephasing-axis Π²-even bilinear Hamiltonian on any sites with any per-site X-dephasing rates.
+
+The structural consequence is symmetric to Part 1: no Π²_X-even Pauli pair can be F87-hard under X-dephasing, because the spectrum is palindromic by construction. F87-hardness on the X-axis is confined to Π²_X-odd or mixed-parity content, exactly mirroring the Z-axis story.
+
+Welle 14 later showed that Part 2 also follows from Part 1 as a Hadamard-transport corollary (the Hilbert-space Hadamard rotates the spin algebra to exchange X and Z, turning a Z-dephasing system into an X-dephasing one). The direct proof here, written by the F1 algebra applied to the X-axis Π_5bilinear variant, is preserved because it is the canonical construction; the Klein-V₄ corollary route is the higher-level perspective.
+
 **Statement (Theorem F108 Part 2):** For any Hamiltonian H built as a linear combination of Π²_X-even 2-site bilinears {ZZ, XX, XY, YX, YY} on N sites with arbitrary real bond coefficients, and X-dephasing on every site with arbitrary per-site rates γ_l, there exists a per-site Liouville-space operator Π_5bilinear (X-deph variant) such that
 
   Π_5bilinear · L · Π_5bilinear⁻¹ = −L − 2σ·I exactly, where σ = Σ_l γ_l.

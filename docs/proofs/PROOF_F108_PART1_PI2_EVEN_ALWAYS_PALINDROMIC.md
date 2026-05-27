@@ -10,6 +10,16 @@
 - [`compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs`](../../compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs) (Π_5bilinear builder)
 - [PROOF_F108_KLEIN_V4_EQUIVALENCE.md](PROOF_F108_KLEIN_V4_EQUIVALENCE.md) (Welle 14: F108 Parts 2, 3 as Klein-V₄ corollaries of Part 1; precise mechanism documentation)
 
+## Abstract
+
+F1 closes the palindromic spectrum for the canonical "truly Heisenberg" Hamiltonians: those where the canonical Π operator's conjugation aligns cleanly with the dynamics. The natural follow-up question was whether F1's closure extends to a wider Hamiltonian family. Specifically, to Hamiltonians built from any of the five two-site bilinears that the canonical Π operator's Π² eigenvalue rule classifies as even-parity (the bilinears XX, YY, YZ, ZY, ZZ) on any sites with any real bond couplings. The canonical Π itself does not close the palindrome for these Hamiltonians; we needed a different conjugating operator.
+
+This proof writes down that operator. It is a phase variant of the canonical Heisenberg Π, with the same per-site letter permutation (I↔X, Y↔Z) but two sign flips on specific phase arrows. We call it Π_5bilinear because it works precisely on the five even-parity bilinears mentioned above. With this operator in hand, the operator-level palindrome identity holds bit-exactly for any Hamiltonian in the family plus any per-site Z-dephasing rates.
+
+The structural consequence is that the F87 trichotomy collapses on this family: no Π²-even bilinear pair can be F87-hard, because F87-hardness requires the spectrum to break palindromy, and the spectrum here is palindromic by construction. Hardness comes only from Π²-odd or mixed-parity content, never from the Π²-even sector.
+
+The proof's strategy is the F1 algebra applied to Π_5bilinear instead of canonical Π. The anti-commutation argument on the Hamiltonian commutator superoperator goes through verbatim once the phase variant is fixed. The dissipator-side identity works because the Z-dephasing operator commutes with itself, and the phase variant preserves the relevant dissipator structure. Parts 2 and 3 of the F108 trinity extend this to X- and Y-dephasing as Klein-V₄ corollaries via the companion proof.
+
 **Statement (Theorem F108 Part 1):** For any Hamiltonian H built as a linear combination of Π²-even 2-site bilinears {XX, YY, YZ, ZY, ZZ} on N sites with arbitrary real bond coefficients, and Z-dephasing on every site with arbitrary per-site rates γ_l, there exists a per-site Liouville-space operator Π_5bilinear such that
 
   Π_5bilinear · L · Π_5bilinear⁻¹ = −L − 2σ·I exactly, where σ = Σ_l γ_l.
