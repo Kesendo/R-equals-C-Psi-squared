@@ -52,8 +52,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// both BitB-odd via support disjointness across all four Π-orbit shifts. By
 /// bilinearity + Pauli-basis spanning, F112 holds for any non-Hermitian H at any N.
 /// The basis-enumeration anchor at N ≤ 5 (Welle 10a Python 559,912 pairs all bit-exact
-/// 0; Welle 10b C# SLOW_F112 MaxImaginary &lt; 1e-10) is preserved as the empirical
-/// motivation for the structural proof.</para>
+/// 0; Welle 10b C# SLOW_F112 MaxImaginary &lt; 1e-10) and the sparse-rep extension at
+/// N = 6 (Welle 10d C# SLOW_F112_SPARSE, 8,390,656 pairs in ~1.5 sec on 24 cores via
+/// SparseLSigma + FrobeniusInnerSparse, MaxImaginary = 0.0 bit-exact) are preserved as
+/// the empirical motivation for the structural proof.</para>
 ///
 /// <para><b>Diagnostic significance</b>: F112 makes the
 /// `polarity_coordinates_from_L` asymmetry an exact witness; asymmetry ≠ 0 detects
@@ -134,7 +136,10 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
         "basis-enumeration anchor at N ≤ 5 (559,912 pairs all bit-exact 0; Welle 10a " +
         "Python simulations/_f112_open_identity_basis_enum.py and Welle 10b C# SLOW_F112 " +
         "compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs) " +
-        "is preserved as the empirical motivation for the structural proof. The two-lemma " +
+        "and the sparse-rep extension at N = 6 (Welle 10d C# SLOW_F112_SPARSE, 8,390,656 " +
+        "pairs in ~1.5 sec on 24 cores via SparseLSigma + FrobeniusInnerSparse, " +
+        "MaxImaginary = 0.0 bit-exact) " +
+        "are preserved as the empirical motivation for the structural proof. The two-lemma " +
         "proof verifier simulations/_f112_universal_n_proof_verify.py confirms each step " +
         "within 1e-12 numpy double-precision tolerance at N = 1, 2, 3 (42 BitB-odd strings, " +
         "1050 off-diagonal pairs, 4368 all-pair F-values, all max deviations < 1e-12, " +

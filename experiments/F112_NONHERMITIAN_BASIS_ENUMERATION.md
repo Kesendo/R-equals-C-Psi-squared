@@ -1,9 +1,9 @@
-# F112 Non-Hermitian Extension: Universal-N Closure (Welle 11), Basis-Enumeration Anchor at N=2, 3, 4, 5
+# F112 Non-Hermitian Extension: Universal-N Closure (Welle 11), Basis-Enumeration Anchor at N=2, 3, 4, 5, 6
 
-**Status:** Tier1Derived for all N (Welle 11, 2026-05-27) via the two-lemma structural proof in [`PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md`](../docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md). The basis-enumeration result at N ≤ 5 below is preserved as the **empirical anchor** that motivated the search for the structural proof; it remains the historical numerical validation (559,912 pair F-values bit-exact 0).
-**Date:** 2026-05-26 (initial enumeration N≤4); 2026-05-26 Welle 10b (extended to N=5); 2026-05-27 Welle 11 (universal-N structural proof).
+**Status:** Tier1Derived for all N (Welle 11, 2026-05-27) via the two-lemma structural proof in [`PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md`](../docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md). The basis-enumeration result at N ≤ 6 below is preserved as the **empirical anchor** that motivated the search for the structural proof; it remains the historical numerical validation (8,950,568 pair F-values across N=2..6 all bit-exact 0 or < 1e-10).
+**Date:** 2026-05-26 (initial enumeration N≤4); 2026-05-26 Welle 10b (extended to N=5); 2026-05-27 Welle 11 (universal-N structural proof); 2026-05-27 Welle 10d (sparse-rep extension to N=6).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Scripts:** Structural proof verifier [`simulations/_f112_universal_n_proof_verify.py`](../simulations/_f112_universal_n_proof_verify.py) (Welle 11, N=1, 2, 3) + Python enumeration [`simulations/_f112_open_identity_basis_enum.py`](../simulations/_f112_open_identity_basis_enum.py) (Welle 10a, N=2..5) + C# enumeration [`compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs`](../compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs) (Welle 10b, N=2..5 via SLOW_F112-tagged test, parallelized via Parallel.For/ForEach)
+**Scripts:** Structural proof verifier [`simulations/_f112_universal_n_proof_verify.py`](../simulations/_f112_universal_n_proof_verify.py) (Welle 11, N=1, 2, 3) + Python enumeration [`simulations/_f112_open_identity_basis_enum.py`](../simulations/_f112_open_identity_basis_enum.py) (Welle 10a, N=2..5) + C# dense enumeration [`compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs`](../compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs) (Welle 10b, N=2..5 via SLOW_F112-tagged test; Welle 10d sparse-rep path `SparseLSigma` + `BuildSparseLSigma` + `ProjectSparseOntoPiMinusI` + `FrobeniusInnerSparse` + `EnumerateSparse`, N=2..6 via SLOW_F112_SPARSE-tagged test, parallelized via Parallel.For/ForEach)
 **Connects:** [PROOF_F112_NONHERMITIAN_UNIVERSAL_N](../docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) (the structural proof, this writeup's parent), [PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) (Hermitian-H parent theorem), [F112 ANALYTICAL_FORMULAS entry](../docs/ANALYTICAL_FORMULAS.md), [LindbladBitBPiBalance](../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs)
 
 ## The open identity
@@ -26,7 +26,7 @@ Two algebraic observations:
 
 ## Numerical enumeration result
 
-The script `_f112_open_identity_basis_enum.py` enumerates F on all upper-triangular Pauli-string pairs at N=2, 3, 4. Welle 10b adds N=5 via two independent pipelines:
+The script `_f112_open_identity_basis_enum.py` enumerates F on all upper-triangular Pauli-string pairs at N=2, 3, 4. Welle 10b adds N=5 via two independent pipelines, and Welle 10d adds N=6 via the C# sparse-rep pipeline:
 
 | N | distinct upper-triangular pairs | max \|Im F\| | pipeline | wall time |
 |---|---|---|---|---|
@@ -34,16 +34,17 @@ The script `_f112_open_identity_basis_enum.py` enumerates F on all upper-triangu
 | 3 | 2,080 | 0.0000e+00 | Python + C# | < 1 sec each |
 | 4 | 32,896 | 0.0000e+00 | Python + C# | ~25 sec each |
 | 5 | 524,800 | 0.0000e+00 (Python); < 1e-10 (C#) | Python + C# | Python 90.7 min; C# 2 h 45 m (outerDop=6) → ~85 min (outerDop=24 forecast after Welle 10c) |
+| 6 | 8,390,656 | 0.0000e+00 (C# sparse) | C# sparse (SparseLSigma + FrobeniusInnerSparse) | C# sparse ~1.5 sec on 24 cores |
 
-All 559,912 pair F-values across N=2, 3, 4, 5 give Im below the 1e-10 threshold (N=2..4 bit-exact 0.0e+00; N=5 verified by Python with bit-exact 0.0e+00 across 524,800 pairs, and re-verified independently in C# via SLOW_F112-tagged xUnit test with MaxImaginary < 1e-10). The bit_b-parity breakdown also gives bit-exact 0 in each of the four (α_bit_b, β_bit_b) cells separately at every N tested, confirming this is not a sum-cancellation artifact restricted to specific bit_b sectors.
+All 8,950,568 pair F-values across N=2, 3, 4, 5, 6 give Im below the 1e-10 threshold (N=2..4 bit-exact 0.0e+00; N=5 verified by Python with bit-exact 0.0e+00 across 524,800 pairs, and re-verified independently in C# via SLOW_F112-tagged xUnit test with MaxImaginary < 1e-10; N=6 verified by the C# sparse-rep path via SLOW_F112_SPARSE-tagged xUnit test, MaxImaginary = 0.0 bit-exact across all 8,390,656 pairs). The bit_b-parity breakdown also gives bit-exact 0 in each of the four (α_bit_b, β_bit_b) cells separately at every N tested, confirming this is not a sum-cancellation artifact restricted to specific bit_b sectors.
 
-The C# pipeline runs on the canonical typed-knowledge layer; both pipelines use the same algorithm (build L_α,-i per Pauli string, then Frobenius inner product per upper-triangular pair) and share the Π conjugation construction up to language-level differences.
+The C# pipeline runs on the canonical typed-knowledge layer; the dense Python + C# pipelines (N≤5) use the same algorithm (build L_α,-i per Pauli string, then Frobenius inner product per upper-triangular pair) and share the Π conjugation construction up to language-level differences. The C# sparse path (Welle 10d, N=6) instead builds L_σ directly as a sparse COO matrix from σ's per-letter encoding (~50 KB per matrix at N=6, ~200 MB total cache vs ~1 TB dense), projects onto the Π = −i eigenspace via permutation-and-phase tables, and computes Frobenius inner products via a two-pointer merge on COO arrays in O(nnz_α + nnz_β) per pair. Bit-exact parity with the dense path is verified at N=2..4 by `EnumerateSparse_MatchesDenseAtSmallN`.
 
 ## Conclusion
 
-**F112 non-Hermitian extension is Tier1Derived for all N** (Welle 11, 2026-05-27) via the two-lemma structural proof. The basis enumeration at N=2, 3, 4, 5 (559,912 pairs total, all Im bit-exact 0 or < 1e-10) was the empirical anchor that motivated the proof; the structural proof now lifts the closure from N ≤ 5 to arbitrary N.
+**F112 non-Hermitian extension is Tier1Derived for all N** (Welle 11, 2026-05-27) via the two-lemma structural proof. The basis enumeration at N=2, 3, 4, 5, 6 (8,950,568 pairs total, all Im bit-exact 0 or < 1e-10) was the empirical anchor that motivated the proof; the structural proof now lifts the closure from N ≤ 6 to arbitrary N.
 
-The closure of the universal-N path makes the basis-enumeration argument obsolete as a Tier-promotion mechanism but preserves its standing as historical empirical validation: 559,912 pairs at N ≤ 5 already verified the per-pair identity bit-exact, providing strong numerical evidence that motivated the search for and gave confidence in the structural proof.
+The closure of the universal-N path makes the basis-enumeration argument obsolete as a Tier-promotion mechanism but preserves its standing as historical empirical validation: 8,950,568 pairs at N ≤ 6 already verified the per-pair identity bit-exact, providing strong numerical evidence that motivated the search for and gave confidence in the structural proof. The Welle 10d sparse-rep path closed N=6 (8,390,656 pairs, ~200 MB sparse cache vs ~1 TB dense) in ~1.5 sec on 24 cores, additional defense in depth and a stress test for the sparse implementation at the next N beyond Welle 10a/b's N≤5 dense enumeration.
 
 ## Welle-11 closure: two-lemma structural proof
 
@@ -73,16 +74,20 @@ PYTHONIOENCODING=utf-8 python simulations/_f112_n5_run.py            # N=5 wrapp
 
 **C# (canonical typed-knowledge layer):**
 ```
-# Fast tests (N=2, 3, 4):
+# Fast tests (N=2, 3, 4; both dense + sparse parity tests):
 dotnet test compute/RCPsiSquared.Diagnostics.Tests -c Release \
-    --filter "FullyQualifiedName~F112NonHermitianBasisEnumerationTests&Category!=SLOW_F112"
+    --filter "FullyQualifiedName~F112NonHermitianBasisEnumerationTests&Category!=SLOW_F112&Category!=SLOW_F112_SPARSE"
 
-# SLOW_F112 N=5 test (~85 min on 24-core, ~16 GB):
+# SLOW_F112 N=5 dense test (~85 min on 24-core, ~16 GB):
 dotnet test compute/RCPsiSquared.Diagnostics.Tests -c Release \
     --filter "Category=SLOW_F112"
+
+# SLOW_F112_SPARSE N=6 test (~10-300 sec on 24-core, ~200 MB):
+dotnet test compute/RCPsiSquared.Diagnostics.Tests -c Release \
+    --filter "Category=SLOW_F112_SPARSE"
 ```
 
-Runs N=2 + N=3 in under 5 seconds (both pipelines); N=4 in ~25 sec (Python) or ~15 sec (C# with outerDop=24). N=5: Python 90.7 min, C# 2 h 45 m at outerDop=6 (Welle 10b initial) or ~85 min at outerDop=24 (Welle 10c). N=6 (8.4M pairs) requires sparse Pauli representation.
+Runs N=2 + N=3 in under 5 seconds (both pipelines); N=4 in ~25 sec (Python) or ~15 sec (C# with outerDop=24). N=5: Python 90.7 min, C# 2 h 45 m at outerDop=6 (Welle 10b initial) or ~85 min at outerDop=24 (Welle 10c). N=6 via sparse rep: ~1.5 sec on 24 cores (Welle 10d).
 
 ## Related
 

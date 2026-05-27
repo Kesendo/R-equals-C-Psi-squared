@@ -264,4 +264,39 @@ public class F112NonHermitianBasisEnumerationTests
             $"MeanAbsImaginary mismatch at N={N}: sparse={sparseResult.MeanAbsImaginary:E4}, dense={denseResult.MeanAbsImaginary:E4}");
         Assert.Equal(denseResult.NonzeroExamples.Count, sparseResult.NonzeroExamples.Count);
     }
+
+    /// <summary>SLOW (~10-300 sec, ~200 MB sparse cache RAM): the N=6 enumeration as
+    /// an additional empirical anchor for the universal-N F112 closure (Welle 11).
+    /// At N=6 the dense path is infeasible (~1 TB cache); the sparse rep (~50 KB
+    /// per SparseLSigma matrix × 4096 = ~200 MB) makes it tractable. Tagged
+    /// SLOW_F112_SPARSE so CI can filter via <c>--filter "Category!=SLOW_F112_SPARSE"</c>.
+    ///
+    /// <para>Run explicitly: <c>dotnet test compute\RCPsiSquared.Diagnostics.Tests -c
+    /// Release --filter "Category=SLOW_F112_SPARSE"</c>.</para>
+    ///
+    /// <para>Forecast detail: 4^6 = 4096 Pauli strings ⇒ 4096·4097/2 = 8,390,656
+    /// upper-triangular pairs. Each pair is one FrobeniusInnerSparse two-pointer
+    /// merge over ~2·4^5 = 2048 entries → O(2048) per pair → ~17G ops total CPU
+    /// → ~10-30 sec wall on 24 cores, plus cache build overhead. Strict budget
+    /// is generous (300 sec) to absorb cache build + GC overhead.</para></summary>
+    [Fact]
+    [Trait("Category", "SLOW_F112_SPARSE")]
+    public void EnumerateSparse_AtN6_All8390656UpperTriangularPairsBelowTolerance()
+    {
+        // 4^6 = 4096 Pauli strings → 4096 · 4097 / 2 = 8,390,656 upper-triangular pairs.
+        // ~200 MB working memory (4096 cached SparseLSigma matrices × ~50 KB each).
+        const int N = 6;
+        const int expectedPairs = 8_390_656;
+
+        var result = F112NonHermitianBasisEnumeration.EnumerateSparse(N, tolerance: 1e-10);
+
+        Assert.Equal(N, result.N);
+        Assert.Equal(expectedPairs, result.TotalPairs);
+        Assert.True(result.NonzeroCount == 0,
+            $"F112 sparse N=6 enumeration found {result.NonzeroCount} non-zero pairs " +
+            $"(max |Im| = {result.MaxImaginary:E4}); first examples: " +
+            string.Join("; ", result.NonzeroExamples.Take(5).Select(e => $"F({e.Alpha},{e.Beta})={e.Imag:E4}")));
+        Assert.True(result.MaxImaginary < 1e-10,
+            $"max |Im| at N=6 should be < 1e-10; got {result.MaxImaginary:E4}");
+    }
 }
