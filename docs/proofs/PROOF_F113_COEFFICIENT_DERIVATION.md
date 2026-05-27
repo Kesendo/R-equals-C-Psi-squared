@@ -21,10 +21,10 @@ for any N ≥ 1.
 
 ## Reduction chain
 
-By the Welle-4 decomposition (verified bit-exact at N = 1, 2, 3, 4):
+The asymmetry reduces to a single Frobenius cross term in two steps:
 
-1. **F112 Step 1** reduces ‖M_plus_half‖² − ‖M_minus_half‖² to (1/2)·(‖M_{+i}‖² − ‖M_{-i}‖²) (using the Π-eigenspace orthogonal decomposition; see PROOF_F112 Step 1).
-2. **F112 Step 4** reduces M_{+i} and M_{-i} to (1+i)·L_{H,+i} and (1-i)·L_{H,-i}, whose norms square give ‖M_{+i}‖² = 2·‖L_{H,+i}‖² and ‖M_{-i}‖² = 2·‖L_{H,-i}‖². (See PROOF_F112 Step 4.) Note: F112 Step 4 used "for bit_b-homogeneous c, the dissipator contributes nothing to M_{±i}"; F113 lives in the regime where c is bit_b-mixed (σ⁻ is in the bit_b = 1 sector for the Y-component and bit_b = 0 for the X-component), so the dissipator DOES contribute. The decomposition still holds: expand L_full = L_H + L_T1 in Π-eigenmodes; the +i and -i components receive contributions from both L_H and the bit_b-mixed L_T1.
+1. **F112 Step 1** reduces ‖M_plus_half‖² − ‖M_minus_half‖² to (1/2)·(‖M_{+i}‖² − ‖M_{-i}‖²) via the Π-eigenspace orthogonal decomposition (see PROOF_F112 Step 1).
+2. **F112 Step 4** reduces M_{+i} and M_{-i} to (1+i)·L_{H,+i} and (1−i)·L_{H,-i}, whose norms square give ‖M_{+i}‖² = 2·‖L_{H,+i}‖² and ‖M_{-i}‖² = 2·‖L_{H,-i}‖² (see PROOF_F112 Step 4). PROOF_F112 Step 4 invokes the lemma "for bit_b-homogeneous c, the dissipator contributes nothing to M_{±i}". In the F113 regime c = σ⁻ is bit_b-mixed (bit_b = 1 on the Y component, bit_b = 0 on the X component), so the dissipator does contribute. The Step 4 decomposition still holds: expanding L_full = L_H + L_T1 in Π-eigenmodes, the +i and −i components receive contributions from both L_H and the bit_b-mixed L_T1.
 
 In the F113 regime where L = L_H + L_T1 with bit_b-mixed dissipator c = σ⁻, both terms contribute to the +i and -i eigenspaces. Then expanding the Frobenius norm:
 
@@ -42,7 +42,7 @@ so the asymmetry collapses to
 
     asymmetry = 4 · Re⟨L_{H,+i}, L_{T1,+i}⟩.
 
-**This is the Welle-4 reduction.** What remains is to compute the Frobenius cross term `Re⟨L_{H,+i}, L_{T1,+i}⟩` and show it equals `-(N/8)·4^N·ω·γ_T1` (uniform) or `-(1/8)·4^N·Σ_l ω_l·γ_T1,l` (non-uniform).
+**This is the cross-term reduction.** What remains is to compute the Frobenius cross term `Re⟨L_{H,+i}, L_{T1,+i}⟩` and show it equals `−(N/8)·4^N·ω·γ_T1` (uniform) or `−(1/8)·4^N·Σ_l ω_l·γ_T1,l` (non-uniform).
 
 ## Main computation: the inner product cross term
 
@@ -203,7 +203,7 @@ By Step 6, the off-diagonal terms (a ≠ b) vanish, and the diagonal terms (a = 
 
     Re⟨(L_H)_{+i}, (L_T1)_{+i}⟩ = Σ_l -(1/8)·4^N·ω_l·γ_T1,l = -(1/8)·4^N·Σ_l ω_l·γ_T1,l
 
-And by the Welle-4 reduction:
+And by the cross-term reduction:
 
     asymmetry = 4 · Re⟨(L_H)_{+i}, (L_T1)_{+i}⟩
               = 4 · -(1/8)·4^N·Σ_l ω_l·γ_T1,l
@@ -215,13 +215,13 @@ For the σ⁻ + σ⁺ Lindblad family (pump + decay), σ⁺ contributes with opp
 
 ## Lemma C: Cross-term sign relation (cross_minus = -cross_plus)
 
-The Welle-4 step `Re⟨L_{H,-i}, L_{T1,-i}⟩ = -Re⟨L_{H,+i}, L_{T1,+i}⟩` is derived from the combination of three lemmas plus a clean two-step closure:
+The cross-term sign identity `Re⟨L_{H,-i}, L_{T1,-i}⟩ = −Re⟨L_{H,+i}, L_{T1,+i}⟩` is derived from the combination of three lemmas plus a clean two-step closure:
 
 - **Lemma A** (PROOF_F112): dagger maps Π +i ↔ Π -i isometrically. Specifically, `(A_{-i})^† = (A^†)_{+i}` for any superoperator A and unitary Π. Proof: A_{-i} = (1/4) Σ_k i^k Π^k A Π^{-k}; taking dagger and using Π^† = Π^{-1} gives (A_{-i})^† = (1/4) Σ_k (-i)^k Π^k A^† Π^{-k} = (1/4) Σ_k (1/i)^k Π^k A^† Π^{-k} = (A^†)_{+i}.
 
 - **Lemma B** (PROOF_F112): L_H^† = -L_H for Hermitian H.
 
-- **Lemma C (new)**: L_T1 has only real matrix elements in the Pauli basis. **Proof**: For any operator c, `D[c]ρ = cρc† − (1/2){c†c, ρ}`. When ρ = σ_α is Hermitian, `D[c](σ_α)` is Hermitian (sum and anti-commutator of Hermitian operators are Hermitian, and `cρc†` is Hermitian when ρ is). Hence in the Pauli basis, the superoperator matrix entries `[L_T1]_{βα} = (1/2^N) · Tr(σ_β · D[c](σ_α))` are real (each is the trace of a Hermitian operator, which is real). Verified numerically: L_T1 in Pauli basis at N = 1 is real-valued bit-exactly.
+- **Lemma C**: L_T1 has only real matrix elements in the Pauli basis. **Proof**: For any operator c, `D[c]ρ = cρc† − (1/2){c†c, ρ}`. When ρ = σ_α is Hermitian, `D[c](σ_α)` is Hermitian (sum and anti-commutator of Hermitian operators are Hermitian, and `cρc†` is Hermitian when ρ is). Hence in the Pauli basis, the superoperator matrix entries `[L_T1]_{βα} = (1/2^N) · Tr(σ_β · D[c](σ_α))` are real (each is the trace of a Hermitian operator, which is real). Verified numerically: L_T1 in Pauli basis at N = 1 is real-valued bit-exactly.
 
 ### Closure (algebraic, two-step)
 
@@ -312,7 +312,7 @@ Sum:
 
 Hence **cross_minus = −cross_plus** for general N. ∎
 
-The Welle-4 reduction `asymmetry = 4·Re⟨L_H,+i, L_T1,+i⟩` is now established algebraically without numerical anchoring. The closure relies only on:
+The cross-term reduction `asymmetry = 4·Re⟨L_H,+i, L_T1,+i⟩` is now established algebraically without numerical anchoring. The closure relies only on:
 - Π unitary with Π^* = Π^{-1} (true for the canonical Z-dephase Π by construction);
 - Lemma A + Lemma B from PROOF_F112 (dagger swap and L_H anti-Hermiticity);
 - Lemma C reality of L_T1 in the Pauli basis;
@@ -325,7 +325,7 @@ Verified at N = 1, 2, 3, 4, 5 bit-exact via `simulations/_f113_lemma_c_step5_clo
 
 **F113 is rigorously derived for general N**, given:
 
-- Welle-4 reduction `asymmetry = 4·Re⟨L_H,+i, L_T1,+i⟩` (derived from Lemmas A, B, C above; **fully closed algebraically via Step C.1 + Step C.2**)
+- Cross-term reduction `asymmetry = 4·Re⟨L_H,+i, L_T1,+i⟩` (derived from Lemmas A, B, C above; **fully closed algebraically via Step C.1 + Step C.2**)
 - Steps 1-3: single-site explicit calculation at N = 1 (closed-form via sympy)
 - Steps 4-5: tensor factorization of Π and embedded single-site superoperators (rigorous algebraic argument from Π_N = Π_1^{⊗N})
 - Step 6: per-site additivity (factorization of Frobenius inner product on tensor products + Tr((L_T1,1)_{+i}) = 0)
@@ -333,7 +333,7 @@ Verified at N = 1, 2, 3, 4, 5 bit-exact via `simulations/_f113_lemma_c_step5_clo
 
 The (1/2)·4^N coefficient arises as `4 · 4^(N-1) · (1/2)`:
 
-- factor 4 from the Welle-4 reduction `asymmetry = 4·Re(inner product)`
+- factor 4 from the cross-term reduction `asymmetry = 4·Re(inner product)`
 - factor 4^(N-1) from the (N-1) spectator-site identities in the Frobenius inner product `⟨I_4, I_4⟩ = 4` per site
 - factor 1/2 from the single-site N=1 inner product `⟨(L_H,1)_{+i}, (L_T1,1)_{+i}⟩ = -ωγ/2` (= 2 nonzero matrix entries × (-ωγ/4))
 
@@ -347,7 +347,7 @@ The 1/2 reflects the bilinear structure: two contributing Pauli pairs at site l 
 
 This proof promotes F113's general-N scope from **Tier1Candidate** (empirical bit-exact at N ≤ 4) to **Tier1Derived** (algebraic proof from F112 + Pauli-basis tensor factorization). The proof path is:
 
-- **Tier1Derived (Hermitian H, single-site Z-drive + σ⁻/σ⁺ T1 family, all N)** via the Welle-4 reduction (Lemmas A + B + C with the Step C.1 + C.2 closure) + the Pauli-basis tensor argument here.
+- **Tier1Derived (Hermitian H, single-site Z-drive + σ⁻/σ⁺ T1 family, all N)** via the cross-term reduction (Lemmas A + B + C with the Step C.1 + C.2 closure) + the Pauli-basis tensor argument here.
 - **Tier1Derived (other bit_b-mixed additional terms vanishing individually)** carried over from F112's individual-term vanishing.
 
 The Lemma C cross-term sign relation `cross_minus = −cross_plus` is now closed algebraically via the two-step reduction
