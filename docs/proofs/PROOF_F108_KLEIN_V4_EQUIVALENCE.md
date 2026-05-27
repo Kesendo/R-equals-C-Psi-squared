@@ -11,6 +11,36 @@
 - [PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md](PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md) (Welle 13: Route 1 / Route 2 pattern for F112)
 - Verifier `simulations/_f108_klein_v4_equivalence_verify.py` + log `simulations/results/f108_klein_v4_equivalence_verify.txt` (Welle 14)
 
+## Abstract
+
+[PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md), [Part 2](PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md), and [Part 3](PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md) each state an operator-level palindrome identity `Π_5b · L · Π_5b⁻¹ = −L − 2σ · I` for Π²-even bilinear H plus a specific dephase letter (Z, X, Y respectively). Π_5b(d) is the per-d Π_5bilinear operator built by `Pi5BilinearOperator.BuildFull(N, d)`. The three Parts were proved independently 2026-05-25; this proof shows that Parts 2 and 3 are honest Klein-V₄ corollaries of Part 1, but via two different mechanisms:
+
+- **Z ↔ Y (Part 1 ↔ Part 3) via D-conjugation (operator space).** The diagonal involution `D = ⊗_l diag(1, 1, 1, −1)` satisfies `D · Π_5b(Z) · D = Π_5b(Y)` bit-exactly. The Π²-even bilinear set `{XX, YY, YZ, ZY, ZZ}` is fixed under D, so Part 1's proof carries over to Part 3 by D-equivariance.
+- **Z ↔ X (Part 1 ↔ Part 2) via Hadamard transport (Hilbert space).** The N-fold Hilbert-space Hadamard `U_H^⊗N` rotates Pauli letters X ↔ Z, Y ↔ −Y, I → I; lifted to operator space as `U ⊗ U^*`, it intertwines `L_Z(H_1)` with `L_X(U · H_1 · U^†)`. The Part-1 bilinear set maps bijectively to the Part-2 bilinear set, so a Π_5b(X) palindrome operator exists for any Part-2 Hamiltonian.
+
+**Negative result.** The Welle 12 operator-space Klein-V₄ swap Q_zx (which intertwines Π_Z and Π_X at the canonical-Π level) does NOT swap Π_5b(Z) and Π_5b(X) at the operator level: `‖Q_zx · Π_5b(Z) · Q_zx⁻¹ − Π_5b(X)‖_F = 2.0` (gap, not zero) at every N tested. The Π_5b operator family is genuinely distinct from the canonical Π_d family; Klein-V₄ acts on Π_d via the full `{D, Q_zx, Q_yx}` triple but acts on Π_5b(Z) ↔ Π_5b(Y) via D only.
+
+All three results are Tier 1 derived universal N via per-site Kronecker factorization (each identity reduces to a 4×4 single-site check).
+
+## Introduction
+
+**The motivating question.** F108 Parts 1, 2, 3 gave three independent proofs of the Π_5bilinear palindrome identity, one per dephase letter. After Welle 12 Task 2 established the Klein-V₄ subgroup on operator space ([PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)) and Welle 13 used it to transport F112 across the three dephase letters ([PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4](PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md)), the natural follow-up was: does the same Klein-V₄ transport collapse F108 Parts 1/2/3 into one identity plus two corollaries, or do the Π_5b operators have their own structure that resists transport?
+
+**The empirical anchor.** [simulations/_f108_klein_v4_equivalence_verify.py](../../simulations/_f108_klein_v4_equivalence_verify.py) tested both directions at N = 1, 2, 3, 4:
+- `D · Π_5b(Z) · D = Π_5b(Y)`: residual = 0 bit-exact at every N.
+- `Q_zx · Π_5b(Z) · Q_zx − Π_5b(X)`: Frobenius residual = 2.0 (NOT zero) at every N.
+- `U_op · L_Z · U_op^† = L_X(U · H_1 · U^†)`: residual = 0 bit-exact at every N, where U_op is the Hilbert-space Hadamard lifted to operator space.
+
+So Klein-V₄'s D works for Z ↔ Y, the operator-space Q_zx fails for Z ↔ X, but the Hilbert-space Hadamard recovers Z ↔ X at a different level of abstraction. The structural question: why the asymmetry between the two halves?
+
+**What this proof closes.** Three explicit results:
+
+1. **Part 1 ↔ Part 3 via D (operator space).** The Π_5b(Z) and Π_5b(Y) per-site 4×4 matrices differ only in the bottom-right 2×2 block (the Y/Z 2-cycle phases +i / −i). Conjugation by D = diag(1, 1, 1, −1) flips exactly those two entries, mapping π_5b(Z) ↔ π_5b(Y). The N-site identity follows by Kronecker product.
+2. **Part 1 ↔ Part 2 via Hadamard (Hilbert space).** The Hilbert-space Hadamard transforms the Pauli algebra by X ↔ Z, Y ↔ −Y, I → I. Lifted to operator space, this intertwines Z-dephasing L_Z with X-dephasing for the Hadamard-rotated Hamiltonian. Part 1's palindrome operator for L_Z lifts to one for the rotated L_X', which is Part 2's Π_5b(X) modulo the rotation U · H_1 · U^†.
+3. **Why Q_zx fails at the Π_5b level.** Π_5b(d) embeds a per-letter sign convention (Y/Z phase ±i) that is NOT preserved by the operator-space basis permutation h, nor by h · D. The Hilbert-space Hadamard rotates the underlying spin operators, which is what the Π_5b construction tracks. The two levels (operator-space conjugation vs Hilbert-space rotation) coincide for canonical Π_d (a pure operator-space construction) but diverge for Π_5b (which embeds Hilbert-space spin algebra).
+
+**Diagnostic consequence.** The three F108 Parts are unified by Klein-V₄ structure, but the unification is two-tier: Z ↔ Y is a pure operator-space identity (cheap, no Hilbert-space invocation), while Z ↔ X requires Hilbert-space Hadamard (deeper invariant). The negative result `Q_zx · Π_5b(Z) · Q_zx ≠ Π_5b(X)` is a signature that distinguishes Π_5b from the canonical Π_d family: they live at different levels of abstraction.
+
 ## (a) Question
 
 F108 Parts 1, 2, 3 (closed 2026-05-25) state the operator-level palindrome identity Π_5b · L · Π_5b⁻¹ = −L − 2σ·I for Π²-even bilinear H + Z, X, Y dephasing respectively. The PROOF_KLEIN_V4 doc (Welle 12, §Implications point 4) and the PROOF_F112_CROSS_DEPHASE doc (Welle 13, §(g)) both flagged the question:
@@ -34,7 +64,7 @@ where L_d is the Lindbladian for any Π²_d-even bilinear Hamiltonian H and d-de
 
 All three claims are Tier 1 derived universal N via per-site Kronecker factorization (each identity reduces to a 4×4 single-site check) plus the framework's `Pi5BilinearOperator` definition.
 
-## (c) Proof — Part 1 ↔ Part 3 via D
+## (c) Proof: Part 1 ↔ Part 3 via D
 
 ### (c.1) D intertwines Π_5b(Z) and Π_5b(Y) per site
 
@@ -121,7 +151,7 @@ Both pillars transfer to Part 3 via:
 
 Combining (A) + (B) gives the F108-Y palindrome identity. ∎
 
-## (d) Proof — Part 1 ↔ Part 2 via Hadamard transport
+## (d) Proof: Part 1 ↔ Part 2 via Hadamard transport
 
 ### (d.1) The Hilbert-space Hadamard rotates Z-deph into X-deph
 
@@ -150,7 +180,7 @@ Apply the per-letter Hadamard map (X↔Z, Y→−Y, I→I) to each Part-1 biline
 | ZY     | XY             | −1   |
 | ZZ     | XX             | +1   |
 
-The image set is {XX, XY, YX, YY, ZZ} — bit-exact equal to Part 2's set {ZZ, XX, XY, YX, YY}. So every Part-1 H is bijectively mapped (with coefficient sign flips on YZ/ZY → YX/XY) to a Part-2 H, and vice versa.
+The image set is {XX, XY, YX, YY, ZZ}, bit-exact equal to Part 2's set {ZZ, XX, XY, YX, YY}. So every Part-1 H is bijectively mapped (with coefficient sign flips on YZ/ZY → YX/XY) to a Part-2 H, and vice versa.
 
 ### (d.3) F108-X from F108-Z via Hadamard
 

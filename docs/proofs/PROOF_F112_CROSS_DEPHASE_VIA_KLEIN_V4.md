@@ -5,11 +5,34 @@
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
 - F38 (Π_d² eigenvalue formula; `docs/ANALYTICAL_FORMULAS.md` F38 entry)
-- F63 ([L, Π²] = 0 for Z-dephasing; F63 entry — analogous statements for X- and Y-dephasing follow from F38)
+- F63 ([L, Π²] = 0 for Z-dephasing; F63 entry; analogous statements for X- and Y-dephasing follow from F38)
 - [PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) (parent: Hermitian-H 5-step proof for d = Z)
 - [PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) (Welle 11: non-Hermitian H closure for d = Z via two structural lemmas)
 - [PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md) (Welle 12: Klein-V₄ subgroup {I, D, H, Q_zx} of U(4^N) with D · Π_Z · D = Π_Y, Q_zx · Π_Z · Q_zx = Π_X)
 - Verifier `simulations/_f112_klein_v4_cross_dephase_verify.py` (Welle 13)
+
+## Abstract
+
+[PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) and [PROOF_F112_NONHERMITIAN_UNIVERSAL_N](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) establish the polarity-balance identity `asymmetry = 0` for the Z-dephasing F1 palindrome operator Π_Z, given a bit_b-homogeneous collapse hypothesis on each c_k. This proof extends the identity to the X- and Y-dephasing variants Π_X and Π_Y with an axis-adapted homogeneity hypothesis: define `axis_d := bit_b` for d ∈ {Y, Z} and `axis_d := bit_a` for d = X. The per-d asymmetry (defined via the per-d polarity-coordinates decomposition of `M_d = Π_d · L_d · Π_d⁻¹ + L_d + 2σ · I`) vanishes bit-exactly for any standard Lindblad-form L_d, any H (Hermitian or non-Hermitian), universal N, provided every c_k is axis_d-homogeneous. Two complementary routes:
+
+- **Route 1 (direct):** Re-run the parent Hermitian-H proof and the Welle 11 non-Hermitian lemmas with d ∈ {X, Y}. F38's Π_d² eigenvalue formula and the per-site π_d_local matrix structure are the only inputs that change per d; both have the same algebraic form for every d.
+- **Route 2 (transport):** Use the Klein-V₄ subgroup `{I, D, Q_zx, Q_yx}` of `U(4^N)` ([PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)) to conjugate the F112-Z identity into F112-X and F112-Y forms. Since the Klein-V₄ elements are unitary, Frobenius norms (hence asymmetry values) are preserved exactly.
+
+Both routes yield the same conclusion, universal in N.
+
+## Introduction
+
+**The motivating question.** [PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) closed the polarity-balance identity for d = Z, the canonical Z-dephasing convention used throughout the codebase. The natural follow-up: does the same identity hold for d = X and d = Y, or is there something Z-specific about the construction? Once the Klein-V₄ swap group on operator space landed in [Welle 12 Task 2](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md), the answer was structurally over-determined: F112-Z, F112-X, F112-Y should all be Klein-V₄ images of a single identity. The remaining job was to write down the two routes that establish this rigorously.
+
+**The empirical anchor.** [simulations/_f112_klein_v4_cross_dephase_verify.py](../../simulations/_f112_klein_v4_cross_dephase_verify.py) verified the F112-X and F112-Y identities at N = 1, 2, 3, 4 with the appropriate axis_d-homogeneous c construction; asymmetry = 0 bit-exact for every configuration tested. The structural argument lifts the per-N verification to universal N via either route.
+
+**What this proof closes.** Two complementary closures:
+
+1. **Direct re-run (Route 1).** The Welle 11 two-lemma proof (Lemma N-A: `‖L_{σ,−i_d}‖² = 4^N` for σ axis_d-odd; Lemma N-B: cross-pair Pauli-basis disjointness) uses two structural inputs: F38's Π_d² eigenvalue formula on Pauli strings, and the per-site π_d_local matrix structure. F38 changes axis per d (bit_b for Y/Z, bit_a for X) but otherwise has the same algebraic form; π_d_local is a 4×4 signed permutation for every d. Re-running the two lemmas with d = X or d = Y produces the per-d identity directly.
+
+2. **Klein-V₄ conjugation transport (Route 2).** The Welle 12 Task 2 result establishes the Klein-V₄ subgroup `{I, D, Q_zx, Q_yx}` of `U(4^N)` with `D · Π_Z · D = Π_Y` and `Q_zx · Π_Z · Q_zx = Π_X`. Each conjugating operator is unitary, so Frobenius norms (and hence asymmetry values) are preserved exactly. Conjugating the F112-Z identity by D yields F112-Y; conjugating by Q_zx yields F112-X. The conjugation also maps the axis_d hypothesis on c canonically (bit_b ↔ bit_a as required).
+
+**Diagnostic consequence.** F112 is now a universal Lindblad-channel polarity-balance identity: for any of the three F1 palindrome conventions (Z, X, Y), any Hamiltonian H, any axis-adapted homogeneity hypothesis on c, the asymmetry vanishes bit-exactly for any N. The `polarity_coordinates_from_L` primitive can be run under any dephasing convention with the same diagnostic interpretation. Asymmetry ≠ 0 localises the failure: (i) c violates the axis_d-homogeneous hypothesis, (ii) L not in Lindblad form, or (iii) the conventions are crossed (computing M_d with Π_d' for d' ≠ d).
 
 ## (a) Statement
 
@@ -56,15 +79,15 @@ The Welle-11 proof of F112 non-Hermitian extension closes the per-pair identity 
 1. **F38 Π_d² eigenvalue formula on Pauli strings** (axis = bit_b for d ∈ {Y, Z}, axis = bit_a for d = X).
 2. **Pauli-basis matrix-support disjointness** of L_σ and Π^m L_σ Π^{−m} for m ∈ {0, 1, 2, 3}.
 
-Input 1 changes axis per d but otherwise has the same algebraic form. Input 2 depends on the per-site π_d_local matrix structure, which is a 4×4 signed permutation for every d ∈ {X, Y, Z} (see `PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md` Step 1 for the explicit 4×4 matrices). Specifically, π_d_local has exactly four non-zero entries per row/column with magnitudes in {1, i, −i} — the same sparse structure for all three dephase letters.
+Input 1 changes axis per d but otherwise has the same algebraic form. Input 2 depends on the per-site π_d_local matrix structure, which is a 4×4 signed permutation for every d ∈ {X, Y, Z} (see `PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md` Step 1 for the explicit 4×4 matrices). Specifically, π_d_local has exactly four non-zero entries per row/column with magnitudes in {1, i, −i}, the same sparse structure for all three dephase letters.
 
 **Lemma N-A^d (Diagonal-Norm, per-d).** For any axis_d-odd Pauli string σ at chain length N, ‖L_{σ,−i_d}‖² = 4^N exactly.
 
 **Proof (direct re-run of Welle-11 Lemma N-A).** Steps A.1, A.2, A.3, A.4 of the Welle-11 proof use only:
-- Step A.1: ‖L_σ‖² = 2 · 4^N. This is independent of the dephase letter — it is the standard Pauli-anticommutation count (exactly half of the 4^N Pauli strings anticommute with σ for σ non-identity; each non-zero matrix entry has magnitude 2). The result is `2 · 4^N` regardless of d.
+- Step A.1: ‖L_σ‖² = 2 · 4^N. This is independent of the dephase letter: it is the standard Pauli-anticommutation count (exactly half of the 4^N Pauli strings anticommute with σ for σ non-identity; each non-zero matrix entry has magnitude 2). The result is `2 · 4^N` regardless of d.
 - Step A.2: Π_d² L_σ Π_d^{−2} = −L_σ for σ axis_d-odd. This is F38 applied to L_σ as a superoperator: per the calculation in `PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md` section (b), Π_d² L_σ Π_d^{−2} = (−1)^{axis_d(σ)} · L_σ; substituting axis_d(σ) = 1 (odd sector) gives −L_σ for every d.
 - Step A.3: ⟨L_σ, Π_d L_σ Π_d^{−1}⟩_F = 0 for σ axis_d-odd. The Welle-11 calculation uses four facts (numbered 1–4 in section (c) of the parent proof) about the per-site Klein-index map π_d_local; each of these facts holds verbatim for any d ∈ {X, Y, Z}, modulo the substitution of axis_d for bit_b:
-  - Fact 1 (π_d involution on Klein indices: π_d² = identity on per-site Klein) — verified for all three d in `PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md` Step 5 via d² = h² = q_zx² = I.
+  - Fact 1 (π_d involution on Klein indices: π_d² = identity on per-site Klein), verified for all three d in `PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md` Step 5 via d² = h² = q_zx² = I.
   - Fact 2 (π_d homomorphism on XOR up to a fixed shift): for d = Z the shift is the all-X string (1, 0)_l per site; for d = Y the shift is the same (Y-dephase also flips bit_a per letter); for d = X the shift is the all-Z string (0, 1)_l per site (X-dephase flips bit_b per letter).
   - Fact 3 (π_d(σ ⊕ α') = π_d(σ) ⊕ α' ⊕ shift; π_d(σ) ⊕ shift = σ): follows from Fact 2 plus involutivity.
   - Fact 4 (anticommutation symplectic shift): for σ axis_d-odd, anticomm(σ, σ_{π_d(α')}) = COMMUTE(σ, σ_{α'}). The argument is the same Klein-symplectic-form bilinearity used in the Z case, now with the role of bit_b played by axis_d.
@@ -136,14 +159,14 @@ In the standard vec basis, conjugation by U on operators corresponds to a left-K
 U_op := U ⊗ U^*.
 ```
 
-The Π_X palindrome operator on operator space is Π_X = Q_zx · Π_Z · Q_zx^† (Welle 12). Therefore the M_d_anti decomposition under (H', c'_k, Π_X) is unitarily equivalent to the M_d_anti decomposition under (H, c_k, Π_Z) by simultaneous conjugation by Q_zx (which factors as U_op times a basis-permutation matching the (I, X, Z, Y) basis to the standard Pauli-string enumeration — the basis convention detail spelled out in `PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md` Convention note).
+The Π_X palindrome operator on operator space is Π_X = Q_zx · Π_Z · Q_zx^† (Welle 12). Therefore the M_d_anti decomposition under (H', c'_k, Π_X) is unitarily equivalent to the M_d_anti decomposition under (H, c_k, Π_Z) by simultaneous conjugation by Q_zx (which factors as U_op times a basis-permutation matching the (I, X, Z, Y) basis to the standard Pauli-string enumeration; the basis convention detail is spelled out in `PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md` Convention note).
 
 The asymmetry is a Π-eigenspace Frobenius norm difference. Under simultaneous unitary conjugation of L and Π by Q_zx, the Π-eigenspaces map to Π-eigenspaces with the same Π-eigenvalues, and Frobenius norms are preserved. Hence asymmetry_X(L_X-style(H', c'_k)) = asymmetry_Z(L_Z-style(H, c_k)) = 0 by F112-Z. ∎
 
 **Remark on the "operator-space-only" vs "Hilbert-space lift" distinction (controller's pre-dispatch concern).** The Klein-V₄ swap group {I, D, Q_zx, H} on operator space has different lift properties:
 
 - **Q_zx** = U_op = U ⊗ U^* IS the lift of a Hilbert-space unitary U (the Hadamard ⊗N). So Q_zx · L · Q_zx^† maps Lindblad-form L to Lindblad-form L' with rotated (H', c'_k) = (U H U^†, {U c_k U^†}).
-- **D** = ⊗ diag(1, 1, 1, −1) is operator-space-only. D conjugation does NOT correspond to a Hilbert-space unitary rotation (would require V such that V · Y · V^{-1} = −Y, V · X · V^{-1} = X, V · Z · V^{-1} = Z — contradictory by Pauli algebra). So D · L · D for a Lindblad-form L is in general NOT a Lindblad-form superoperator.
+- **D** = ⊗ diag(1, 1, 1, −1) is operator-space-only. D conjugation does NOT correspond to a Hilbert-space unitary rotation (would require V such that V · Y · V^{-1} = −Y, V · X · V^{-1} = X, V · Z · V^{-1} = Z, contradictory by Pauli algebra). So D · L · D for a Lindblad-form L is in general NOT a Lindblad-form superoperator.
 - **H** = ⊗ h (the X↔Z basis-index permutation) is also operator-space-only.
 
 This means Route 2 (Hadamard transport) gives F112-Z → F112-X cleanly, but does NOT give F112-Z → F112-Y by an analogous unitary lift. F112-Y requires Route 1 (direct re-run of Welle-11 lemmas in the bit_b axis with d = Y phase substituted for d = Z phase). The two routes are independent and complementary: Route 1 covers all three d ∈ {X, Y, Z} structurally; Route 2 provides the bonus insight that the Hadamard-conjugated Z-dephase config IS a natural F112-X config.
@@ -188,14 +211,14 @@ Each row's pattern matches the per-d hypothesis: F112-d gives 0 iff axis_d-homog
 
 3. **The `Pi2KleinV4DephaseSwapGroup` typed Claim's "significance" docstring (lines 190–196) is technically too strong as written** for the D and H involutions; the corrected reading is:
    - F1-family identities that depend only on (a) the Π-eigenvalue / Π²-eigenvalue spectrum and (b) Pauli-basis support structure transfer between dephase letters via Route 1 (direct axis re-run); these include F112-d, F108-d (conjecturally), and any other F-formula whose proof reduces to F38 + matrix-support disjointness.
-   - Identities depending on the Lindblad-form L itself transfer only via the Hadamard subgroup {I, Q_zx} (Route 2), and only between (Z, X) — not (Z, Y) or (Y, X).
+   - Identities depending on the Lindblad-form L itself transfer only via the Hadamard subgroup {I, Q_zx} (Route 2), and only between (Z, X), not (Z, Y) or (Y, X).
    - The D and H operators retain mathematical value as Π-intertwiners and witness the Klein-V₄ structure on dephase letters, but should not be misread as L-transporting unitaries.
 
 4. **For typed-knowledge consumers:** F112-X and F112-Y can be added as separate typed Claims (one BitB-axis sibling of `LindbladBitBPiBalance` for F112-Y, one BitA-axis twin for F112-X), bringing F112 into compliance with the BitA-twin classification pattern (currently `LindbladBitBPiBalance.BitATwinStatus = BitBSpecific`; with F112-X derived, the BitA-axis twin becomes available).
 
 ## (g) Open questions and follow-ups
 
-- **F108 Parts 2 and 3 closed by Welle 14 (see `PROOF_F108_KLEIN_V4_EQUIVALENCE.md`):** the Route 1 / Route 2 analysis applied to F108 (2026-05-27) yields a mixed result. Part 1 ↔ Part 3 follows by operator-space D-conjugation (D · Π_5b(Z) · D = Π_5b(Y) bit-exact; bilinear set fixed on bit_b axis) — this is a CLEAN Klein-V₄ corollary on the operator side. Part 1 ↔ Part 2 follows by Hilbert-space Hadamard transport (Route 2) on L itself; the operator-space Q_zx does NOT swap Π_5b(Z) ↔ Π_5b(X), so Route 1 in its strict form (operator-space conjugation by Klein-V₄) is partial. Welle 14 thereby confirmed that for F108, as for F112-Y, the Route 1 / Route 2 distinction matters; Klein-V₄ equivariance on Π_5bilinear is REAL but PARTIAL ({I, D} subgroup only on the operator side).
+- **F108 Parts 2 and 3 closed by Welle 14 (see `PROOF_F108_KLEIN_V4_EQUIVALENCE.md`):** the Route 1 / Route 2 analysis applied to F108 (2026-05-27) yields a mixed result. Part 1 ↔ Part 3 follows by operator-space D-conjugation (D · Π_5b(Z) · D = Π_5b(Y) bit-exact; bilinear set fixed on bit_b axis); this is a CLEAN Klein-V₄ corollary on the operator side. Part 1 ↔ Part 2 follows by Hilbert-space Hadamard transport (Route 2) on L itself; the operator-space Q_zx does NOT swap Π_5b(Z) ↔ Π_5b(X), so Route 1 in its strict form (operator-space conjugation by Klein-V₄) is partial. Welle 14 thereby confirmed that for F108, as for F112-Y, the Route 1 / Route 2 distinction matters; Klein-V₄ equivariance on Π_5bilinear is REAL but PARTIAL ({I, D} subgroup only on the operator side).
 
 - **Typed Claim split for F112-X and F112-Y as separate registrations:** deferred to a future Welle once the bit_a-axis siblings of `LindbladBitBPiBalance` are scoped (the BitATwinStatus = BitBSpecific override would need to be relaxed to point to the new F112-X claim as the BitA-axis twin).
 

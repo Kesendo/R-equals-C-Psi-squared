@@ -7,6 +7,31 @@
 **Builds on:** [PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md](PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md) (Welle 12 Task 1, the Z↔Y diagonal involution).
 **Connects:** [PiOperator.ActOnLetter](../../compute/RCPsiSquared.Core/Symmetry/PiOperator.cs), [reflection D_PI_Z_EQUALS_PI_Y.md](../../reflections/D_PI_Z_EQUALS_PI_Y.md).
 
+## Abstract
+
+The Klein four-group V₄ = Z₂ × Z₂ acts on the dephase-letter set `{I, X, Y, Z}` by Klein-product addition on the `(bit_a, bit_b)` Pauli labels (I = 00, X = 10, Z = 01, Y = 11). Its three non-trivial elements correspond to the three letter-swaps `{Z↔Y, Z↔X, Y↔X}`. This proof establishes that the three swaps lift to operator-space involutions on the 4^N Pauli basis, forming a faithful Klein-V₄ subgroup `{I, D, Q_zx, Q_yx}` of `U(4^N)`:
+
+- **D = ⊗_l d_l** with `d_l = diag(1, 1, 1, −1)` realises the Z↔Y swap ([PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N](PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md), Welle 12 Task 1);
+- **Q_zx = ⊗_l (h · d_l)** with h the X↔Z basis-index permutation realises the Z↔X swap;
+- **Q_yx = ⊗_l h** realises the Y↔X swap (pure permutation, no signs).
+
+The conjugation identities `D · Π_Z · D⁻¹ = Π_Y`, `Q_zx · Π_Z · Q_zx⁻¹ = Π_X`, `Q_yx · Π_Y · Q_yx⁻¹ = Π_X` hold bit-exactly, together with the Klein-V₄ group relations `D² = Q_zx² = Q_yx² = I`, `D · Q_zx · Q_yx = I`, and pairwise commutativity. The proof factorizes all operators per site, reduces each conjugation identity to a single 4×4 per-site check, and lifts via the mixed-product property of the Kronecker product. Verified bit-exact numerically and symbolically at N = 1, 2, 3, 4.
+
+## Introduction
+
+**The motivating question.** Welle 12 Task 1 ([PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N](PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md)) established that D-conjugation maps Π_Z ↦ Π_Y on the 4^N Pauli basis. Two questions remained: does the X-axis swap lift to operator space the same way, and do the three swaps form a closed group? Pre-dispatch the Z↔X swap was conjectured to be order 4 rather than order 2 (Π_Z and Π_X live on different Klein axes, bit_b versus bit_a, so the controller expected the composite to need an extra rotation). Either outcome (order 2 or order 4) would be structurally informative.
+
+**The empirical anchor.** [simulations/_klein_dephase_swap_explore.py](../../simulations/_klein_dephase_swap_explore.py) did a brute-force per-site search over 256 sign-vector combinations `S_L · h · S_R` and found 64 valid Z↔X solutions plus 64 valid Y↔X solutions. The canonical order-2 involutions (q_zx = h · d_l and q_yx = h) emerged as the simplest representatives. Numerical verification at N = 1, 2, 3, 4 confirmed every Klein-V₄ identity (conjugation + group closure + commutativity) bit-exact. What was missing was the structural argument that lifts per-N verification to universal N.
+
+**What this proof closes.** Same skeleton as Welle 12 Task 1, expanded to three operators:
+
+1. **Per-site π_local matrices.** Read off Π_Z, Π_X, Π_Y as the three single-site signed-permutation matrices on the (I, X, Z, Y) basis from `PiOperator.ActOnLetter`.
+2. **Per-site identity for each conjugation.** Verify `d_l · π_Z_local · d_l = π_Y_local` (Welle 12 Task 1), `q_zx · π_Z_local · q_zx⁻¹ = π_X_local`, and `q_yx · π_Y_local · q_yx⁻¹ = π_X_local` as 4×4 matrix arithmetic.
+3. **Per-site Klein-V₄ closure.** Algebra on the 4×4 matrices: `d_l² = h² = I`, `q_zx² = I` via `d_l · h = h · d_l`, `d_l · q_zx · q_yx = h² · d_l² = I`, pairwise commutativity.
+4. **Lift to universal N.** Mixed-product property of the Kronecker product: every per-site identity tensor-powers to its N-site version.
+
+**Diagnostic consequence.** Any F1 diagnostic computed under one dephase letter automatically transfers to the other two by unitary conjugation with the appropriate Klein-V₄ element. F112's Z-dephase identity transports to X- and Y-dephase via the cross-dephase machinery in [PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4](PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md), and F108's Π_5bilinear Z-dephase identity transports to F108 Parts 2 and 3 in [PROOF_F108_KLEIN_V4_EQUIVALENCE](PROOF_F108_KLEIN_V4_EQUIVALENCE.md). The Klein-V₄ subgroup is the abstract structure unifying the three F1 palindrome variants.
+
 ## Statement
 
 The Klein four-group V₄ = Z₂ × Z₂ acts on the set of dephase letters {I, X, Y, Z} by Klein-product (additive on the (bit_a, bit_b) labels). Its three non-trivial elements correspond to the three letter-swaps {Z↔Y, Z↔X, Y↔X}. We claim these swaps lift to operator-space involutions on the 4^N Pauli basis, forming a faithful Klein-V₄ subgroup.

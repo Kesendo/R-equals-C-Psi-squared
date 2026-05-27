@@ -1,13 +1,37 @@
 # PROOF F112 Non-Hermitian Extension: Universal-N Closure
 
-**Status:** Tier 1 derived, universal N. Two-lemma structural proof; replaces the basis-enumeration anchor that previously covered N ≤ 5 only.
+**Status:** Tier 1 derived, universal N. Two-lemma structural proof; supersedes the basis-enumeration anchor that previously covered N ≤ 5.
 **Date:** 2026-05-27
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
 - F38 (Π² = (−1)^{w_b} on Pauli strings; `docs/ANALYTICAL_FORMULAS.md` F38 entry)
 - F63 ([L, Π²] = 0 for Z-dephasing; `docs/ANALYTICAL_FORMULAS.md` F63 entry)
-- [PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) (parent: Hermitian-H Tier 1 derived case; this proof closes the open "Step 5 extension to non-Hermitian H")
-- [F112_NONHERMITIAN_BASIS_ENUMERATION.md](../../experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md) (Welle 10 numerical anchor at N ≤ 5; the per-pair enumeration that motivated the structural proof)
+- [PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) (parent: Hermitian-H Tier 1 derived case; this proof closes the open "Step 5 extension to non-Hermitian H")
+- [F112_NONHERMITIAN_BASIS_ENUMERATION.md](../../experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md) (numerical anchor at N ≤ 5; the per-pair enumeration that motivated the structural proof)
+
+## Abstract
+
+[PROOF_F112](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) (the parent theorem) reduces the polarity-balance identity `‖M_plus_half‖² = ‖M_minus_half‖²` to the spectral identity `‖L_{H,+i}‖² = ‖L_{H,-i}‖²`, where L_H = −i[H, ·] is the Hamiltonian superoperator and L_{H,±i} are its projections onto the Π-conjugation ±i eigenspaces of the F1 palindrome operator. The parent's Step 5 closes this for Hermitian H via dagger + anti-Hermitian L_H. The non-Hermitian-H extension reduces algebraically (write H = H_re + i · H_im with H_re, H_im both Hermitian) to a single open identity
+
+    F(H_re, H_im) := Im⟨L_{H_re,−i}, L_{H_im,−i}⟩ = 0
+
+for any Hermitian H_re, H_im, and via bilinearity + antisymmetry further to a per-pair identity `F(σ_α, σ_β) = 0` for every Pauli-string pair `(σ_α, σ_β)`. This proof closes the per-pair identity for **all N** via two structural lemmas: Lemma N-A computes the diagonal closed form `‖L_{σ,−i}‖² = 4^N` for any bit_b-odd Pauli string σ, and Lemma N-B shows the Π −i projections of L_{σ_α} and L_{σ_β} have disjoint Pauli-basis support for any distinct bit_b-odd pair (σ_α, σ_β). Together they force `Im F ≡ 0`, so the F112 polarity-balance identity holds for arbitrary (Hermitian or non-Hermitian) H.
+
+## Introduction
+
+**The motivating question.** [PROOF_F112](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md)'s parent statement covers most standard physical Lindblad systems (any H Hermitian, c bit_b-homogeneous). The Hermitian-H assumption is a real restriction, though: PT-symmetric effective Hamiltonians, gain/loss models, post-selection dynamics, and any L built from an arbitrary c-with-its-conjugate kron channel in principle live outside the parent's typed scope. The empirical anchor (POLARITY_COORDINATES.md Probe 14: 20 non-Hermitian-H configurations, all bit-exact balanced) suggested the identity should hold there too. The structural question: why?
+
+**The empirical anchor.** [experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md](../../experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md) sharpened the empirical observation into a per-pair check: enumerate every Pauli-string pair `(σ_α, σ_β)` at chain length `N ≤ 5` and compute `F(σ_α, σ_β)` directly. The result was zero bit-exact across all 559,912 pairs. That pattern was clean enough to type Tier1Derived at N ≤ 5. What was missing was a structural argument lifting the per-pair identity to general N.
+
+**What this proof closes.** Three pieces:
+
+1. **Reduction to bit_b-odd pairs.** F38's Π² eigenvalue rule on Pauli strings shows L_σ has zero Π-conjugation ±i content whenever σ is bit_b-even. The per-pair identity is therefore automatic unless both σ_α and σ_β are bit_b-odd.
+2. **Lemma N-A (diagonal-norm closed form).** For every bit_b-odd σ, `‖L_{σ,−i}‖² = 4^N` exactly: the same closed form for every bit_b-odd σ, every N.
+3. **Lemma N-B (cross-pair Pauli-basis disjointness).** For any pair of distinct bit_b-odd σ_α ≠ σ_β, the Pauli-basis supports of `L_{σ_α,−i}` and `L_{σ_β,−i}` are disjoint, hence `⟨L_{σ_α,−i}, L_{σ_β,−i}⟩ = 0`.
+
+Combined: the diagonal entries `F(σ, σ) = Im⟨L_{σ,−i}, L_{σ,−i}⟩` are zero because `Im(‖·‖²) = 0`, and the off-diagonal entries vanish because the inner products themselves vanish. So `F ≡ 0` and the F112 polarity-balance identity holds universally in N for any H.
+
+**Diagnostic consequence.** F112's typed scope expands from "Hermitian H" to "any H" with no change to the bit_b-homogeneous-c hypothesis. The `polarity_coordinates_from_L` primitive now witnesses the bit_b-homogeneous Lindblad regime independent of whether H is Hermitian; the asymmetry = 0 case includes PT-symmetric and gain-loss systems built via the standard Lindblad kron channel.
 
 ## (a) Restatement
 

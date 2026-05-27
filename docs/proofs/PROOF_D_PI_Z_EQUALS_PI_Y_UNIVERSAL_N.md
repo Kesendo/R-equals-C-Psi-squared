@@ -7,6 +7,27 @@
 **Surfaced:** Welle 10d Task 1 audit (commits `7fc1ec0` + `025bb4e`); reflection [`D_PI_Z_EQUALS_PI_Y.md`](../../reflections/D_PI_Z_EQUALS_PI_Y.md).
 **Connects:** [PauliBasis.VecToPauliBasisTransform convention note](../../compute/RCPsiSquared.Core/Pauli/PauliBasis.cs), [PiOperator.ActOnLetter](../../compute/RCPsiSquared.Core/Symmetry/PiOperator.cs), [PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md), [PROOF_F112_NONHERMITIAN_UNIVERSAL_N](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md), [LindbladBitBPiBalance.cs](../../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs).
 
+## Abstract
+
+The F1 palindrome operators Π_Z and Π_Y are the 4^N × 4^N signed-permutation matrices on the Pauli basis built per site via `PiOperator.ActOnLetter` for Z- and Y-dephasing respectively. Define `D = diag((−1)^{n_Y(k)})` to be the real diagonal involution on the same basis, where `n_Y(k)` counts Y letters in the k-th Pauli string (Y has letter index 3 in the `(I, X, Z, Y)` ordering, equivalently bit_a = bit_b = 1 per site). This proof establishes the universal-N identity
+
+    D · Π_Z · D = Π_Y
+
+bit-exactly on the 4^N Pauli basis. The argument factorizes all three operators per site, reduces the N-site identity to a single 4×4 per-site check `d_l · π_Z_local · d_l = π_Y_local`, and lifts back to N via the mixed-product property of the Kronecker product. Verified bit-exact at N = 1, 2, 3, 4 numerically and symbolically (sympy) for the per-site reduction.
+
+## Introduction
+
+**The motivating question.** The F1 palindrome operators come in three flavours (Π_Z, Π_X, Π_Y for Z-, X-, Y-dephasing). They share a structural skeleton (per-site signed permutation on the (I, X, Z, Y) basis, the bit_b axis grading) but differ in their phase choices. The natural question is whether they are related by a unitary conjugation on operator space, and if so what the conjugating operator is. The Welle 10d audit of the F112 sparse-rep code surfaced an entry-wise correction `(−1)^{n_Y(row) + n_Y(col)}` that the codebase applies implicitly throughout the L_σ-style Pauli-basis pipeline; the question was whether that correction has a structural interpretation.
+
+**The empirical anchor.** [reflections/D_PI_Z_EQUALS_PI_Y.md](../../reflections/D_PI_Z_EQUALS_PI_Y.md) recognised that `(−1)^{n_Y(row) + n_Y(col)}` is the entry-wise action of conjugation by the diagonal involution `D = diag((−1)^{n_Y(k)})`, and that this conjugation should map Π_Z ↦ Π_Y on the 4^N Pauli basis. Numerical verification at N = 1, 2, 3, 4 confirmed the identity bit-exact. What was missing was a structural argument that lifts the per-N verification to universal N.
+
+**What this proof closes.** Two-step structural argument:
+
+1. **Per-site tensor factorization.** Π_Z, Π_Y, and D each factorize as N-fold Kronecker products of single-site 4×4 matrices (Π_*: signed permutations; D: diagonal). This follows from `PiOperator.BuildFullUncached` constructing Π by independent per-site action followed by flat-index reassembly under the `a + 2·b` packing.
+2. **Single 4×4 check + lift.** The mixed-product property of the Kronecker product reduces the N-site identity to the single per-site identity `d_l · π_Z_local · d_l = π_Y_local`. The 4×4 check is finite and exact; the lift to N is immediate.
+
+**Diagnostic consequence.** D-conjugation IS the Z ↔ Y dephase-letter swap on operator space. Any F1 diagnostic (Frobenius residual norm, Π-conjugation eigenspace projection, spectrum) computed via the Z-dephasing pipeline transports unitarily to Y-dephasing under D-conjugation. This unlocks the full Klein-V₄ closure with the remaining X-axis swap in [PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md) and the F112 cross-dephase extension in [PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4](PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md), both of which use D-conjugation directly to transport identities across dephase letters.
+
 ## Statement
 
 For any N ≥ 1, the identity

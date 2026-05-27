@@ -1,6 +1,6 @@
 # PROOF F112: Lindblad Π-Eigenvalue Balance under bit_b Homogeneity
 
-**Status:** Tier 1 derived for both Hermitian H (this proof, rigorous via dagger + anti-Hermitian L_H) and non-Hermitian H (Welle 11, 2026-05-27, structural proof in [PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md)). Universal in N for both H cases.
+**Status:** Tier 1 derived for Hermitian H (this proof) and for non-Hermitian H (separate proof, [PROOF_F112_NONHERMITIAN_UNIVERSAL_N](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md)). Universal in N.
 **Date:** 2026-05-26
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
@@ -9,6 +9,28 @@
 - F108 Part 1 ([PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md)); shared bit_b Z₂ grading
 - `polarity_coordinates_from_L` primitive (`simulations/framework/diagnostics/polarity_coordinates.py`, added 2026-05-25)
 - F87 dissipator-resonance law (orthogonal axis; empirically established via `simulations/_polarity_probe_f87_connection.py`)
+
+## Abstract
+
+Let L = −i[H, ·] + Σ_k γ_k · `np.kron(c_k, c_k^*)` be a standard Lindblad-form Liouvillian on N qubits, and let M = Π L Π⁻¹ + L + 2σ · I be the F1 palindrome residual (Π is the canonical Z-dephase F1 palindrome operator). Define the polarity asymmetry as `‖M_plus_half‖² − ‖M_minus_half‖²`, the difference in Frobenius weight between the +1/2 and −1/2 polarity-axis components of M. (`M_plus_half` and `M_minus_half` are the Π +i and Π −i eigenspace projections of M, defined by the `polarity_coordinates_from_L` decomposition; see [POLARITY_COORDINATES.md](../../reflections/POLARITY_COORDINATES.md) for background.) F112 establishes that this asymmetry vanishes bit-exactly when (i) H is Hermitian and (ii) every collapse operator c_k is bit_b-homogeneous: every Pauli string in c_k's expansion shares the same bit_b = (#Y + #Z) mod 2 parity. The proof reduces in five steps to the identity `‖L_{H,+i}‖² = ‖L_{H,-i}‖²`, closed via F38's Π² eigenvalue rule on Pauli strings plus an anti-Hermitian L_H + dagger argument. The non-Hermitian-H extension is treated separately in [PROOF_F112_NONHERMITIAN_UNIVERSAL_N](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md).
+
+## Introduction
+
+**The motivating question.** [POLARITY_COORDINATES.md](../../reflections/POLARITY_COORDINATES.md) introduced the `polarity_coordinates_from_L` primitive, which decomposes the F1 residual M into three orthogonal Frobenius components: `M_zero` (the F81 M_sym part) on the 0-polarity axis, and `M_plus_half` / `M_minus_half` on the +1/2 and −1/2 polarity axes. An empirical pattern emerged across a 14-probe sweep: for every standard physical Lindblad system constructed (T1, T2, depolarizing, mixed dephase letters, single-site transverse fields), `‖M_plus_half‖² = ‖M_minus_half‖²` held bit-exactly. Outside the construction channel (Probe 6: hand-engineered Π +i eigenmode L), the balance broke. The structural question: what is the exact condition that separates preserved from broken?
+
+**The empirical anchor.** Probes 9-14 narrowed the condition to **bit_b-homogeneity of c with Hermitian H**: every collapse operator's Pauli-string support must share a single bit_b parity. Single-Pauli c (T2 = Z, single-site depolarizing components) is trivially bit_b-homogeneous; T1 σ⁻ (with support on both bit_b = 0 and bit_b = 1 components) is bit_b-mixed and sits outside the typed scope.
+
+**What this proof closes.** Five steps, all rigorous for Hermitian H:
+
+1. **Reduction.** Π-eigenspace decomposition of `M_plus_half` and `M_minus_half` reduces the asymmetry to `(1/2)(‖M_{+i}‖² − ‖M_{-i}‖²)`.
+2. **Dissipator vanishing.** For bit_b-homogeneous c, the dissipator `np.kron(c, c.conj())` lies entirely in the Π²-conjugation +1 eigenspace (via F38 / F63).
+3. **No ±i content from dissipator.** The Π²-conj +1 eigenspace equals Π-conj {+1, −1}, so the dissipator contributes zero +i / −i content.
+4. **M_{±i} from L_H only.** M_{+i} and M_{-i} therefore reduce to `‖M_{±i}‖² = 2 · ‖L_{H,±i}‖²` with L_H = −i[H, ·].
+5. **Anti-Hermitian closure.** For Hermitian H, L_H is anti-Hermitian as a superoperator (Lemma B), and the dagger map sends the Π +i eigenspace bijectively onto Π −i while preserving Frobenius norm (Lemma A). Hence `‖L_{H,+i}‖² = ‖L_{H,-i}‖²`.
+
+The non-Hermitian-H case requires a separate argument because Step 5's `L_H^† = −L_H` fails when H ≠ H^†; that case is closed in [PROOF_F112_NONHERMITIAN_UNIVERSAL_N](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md).
+
+**Diagnostic consequence.** The `polarity_coordinates_from_L` primitive is the precise witness for "L came from a standard Lindblad channel with bit_b-homogeneous collapse operators and (Hermitian or non-Hermitian) H". Asymmetry = 0 confirms the regime; asymmetry ≠ 0 localises the failure (mixed-bit_b c, or L not in Lindblad form at all). The closed-form magnitude in the canonical break case (Z-drive Hamiltonian + σ⁻ T1) is derived in [PROOF_F113_COEFFICIENT_DERIVATION](PROOF_F113_COEFFICIENT_DERIVATION.md).
 
 ## Theorem
 
