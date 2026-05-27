@@ -7,6 +7,16 @@
 
 ---
 
+## Abstract
+
+F71 says that under palindromic bond couplings, the closure-breaking coefficient c₁ and the Q_peak observable behave symmetrically across the chain mirror: site i swaps with site N−1−i, bond b with bond N−2−b, and the values agree. What happens when the couplings are NOT palindromic? F71 must break somehow; the question is how, and whether the break has a clean structural shape.
+
+The answer is the cleanest possible odd-function form. Split J into its palindromic part and its anti-palindromic part (the asymmetric direction). The F71 bond-mirror deviation D(b) := c₁(b) − c₁(N−2−b) is exactly odd in the anti-palindromic component, at fixed palindromic part, to all orders in the Taylor expansion. For palindromic J the deviation vanishes identically; for asymmetric J it grows linearly in the asymmetry to leading order, with no quadratic or higher even-power admixture. The breakdown is graceful, not catastrophic.
+
+The proof is a single R-equivariance argument applied to the original closure-breaking-coefficient apparatus. Per-site purity is quadratic in the Bloch components and so invariant under the chain mirror up to coherence sign flips that square away; the partial-trace-under-reflection lemma carries the rest. Together they force c₁ to flip sign under J ↔ mirror(J), which forces the deviation to be odd in the anti-palindromic component.
+
+The identical conclusion holds for the F86c per-bond Q_peak observable, by the same R-equivariance argument on its construction. F100 is the observable-side twin of F92: F92 says the spectrum depends only on the palindromic part (anti-palindromic J is invisible to the eigenvalues); F100 says the bond-mirror deviation lives entirely in the anti-palindromic part and is odd in it. Together they account for the full split. The spectrum does not see asymmetry; the bond-mirror deviation sees only asymmetry.
+
 ## Statement
 
 For an N-qubit XY chain with uniform Z-dephasing and a bond-coupling profile J = (J_0, ..., J_{N−2}), the F71 bond-mirror deviation of the closure-breaking coefficient c₁ (and of the F86c per-bond Q_peak observable),

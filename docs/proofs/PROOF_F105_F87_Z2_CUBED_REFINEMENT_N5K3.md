@@ -5,6 +5,16 @@
 **Anchor:** N=5, k_body=3, 294 Z₂³-homogeneous + Y-par-homogeneous Pauli pairs (pair count alphabet-only, N-independent; this anchor classifies at N=5)
 **Regenerate:** SLOW_F105_BATCH tool, ~11m 34s PLINQ on Tom's 24-core machine (sequential dense ~3h) writing `simulations/results/f87_z2cubed_split_n5_k3_counts.json`. The separate on-demand re-verification suite (SLOW_F105 trait, not BATCH) is the dense-classifier path and runs ~3h.
 
+## Abstract
+
+F103 mapped out the Z₂³ refinement of the F87 trichotomy at the (N=4, k=3) anchor: five named sub-cell patterns, each bit-exact across 294 Pauli pairs and three dephase letters. The next question was whether those patterns are properties of the alphabet (k=3 letter combinations on any number of qubits) or accidents of the specific N=4 chain. F85 already predicts the trichotomy itself is N-stable at any fixed k; this proof tests whether the y-parity sub-refinement (the third axis F102 surfaces) inherits that N-stability.
+
+The answer is yes, bit-exact. The 882 classifications at N=5 (294 pairs × 3 dephase letters) match F103's frozen N=4 records scalar for scalar: same truly count, same hard 42:8 split with the same Y-inversion, same diagonal soft 13:13 symmetry, same mother soft 0:21, same off-diagonal Pattern B + Pattern C split. The Z₂³ cube has the same shape at N=5 as at N=4, which is exactly what an alphabet-driven classification would do.
+
+This anchor closes one axis of the Z₂³ stability question. The sibling F106 closes the other axis (k-stability at N=4, k=4), where the pattern is more nuanced: some sub-statements survive the body-count bump, others reshape. Together F103, F105, F106 give a three-anchor cube of evidence: F103 names the patterns, F105 confirms they are alphabet-driven (N-stable at fixed k), F106 sees which of them are also body-count-stable and which depend on the specific k.
+
+The diagnostic upshot is that the empirical 42:8 split (and its four siblings) is a property of the k=3 letter alphabet, not of the chain length. Hardware-relevant predictions at k=3 can use the F103 numbers directly without recomputing at the target N.
+
 ## 1. Context
 
 F103 anchored the F87 Z₂³ refinement at N=4 k=3 (294 Z₂³-homogeneous + Y-par-homogeneous k=3 Pauli pairs, classified across 3 dephase letters into a Z₂³ refinement of the truly/soft/hard trichotomy). F85 (k-body generalization) predicts the Π²-class trichotomy is N-stable for any k. F105 tests whether this N-stability lifts to the y_par sub-refinement: do the 5 sub-statement records (truly 300 / 0 y_par=1; hard 42:8 with Y-inversion; diagonal soft 13:13; mother soft 0:21; off-diagonal Pattern B + Pattern C) survive bit-exactly at N=5?

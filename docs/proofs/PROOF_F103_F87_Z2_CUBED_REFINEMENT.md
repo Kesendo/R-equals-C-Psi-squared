@@ -5,6 +5,16 @@
 **Anchor:** N=4, k_body=3, 294 Z₂³-homogeneous + Y-par-homogeneous Pauli pairs (pair count is N-independent at fixed k; the empirical anchor is N=4)
 **Regenerate:** `simulations/f87_z2cubed_split_n4_k3.py` (~60s)
 
+## Abstract
+
+F87 classifies Pauli pairs into three buckets (truly, soft, hard) based on how the pair's M-residual closes under a chosen dephase letter. F102 just showed that y-parity is a real third axis on top of the Klein (bit_a, bit_b) signature once Pauli strings reach body count 3 or higher. The natural follow-up question is whether the F87 trichotomy actually splits along the new y-parity axis at k=3, or whether the trichotomy is y-parity-blind. This proof gives the empirical answer at the N=4, k=3 anchor.
+
+The answer is yes, the trichotomy splits cleanly, with five structural patterns that survive across all three dephase letters. The 294 Pauli pairs (this count depends only on the k=3 letter alphabet, not on N) divide into three trichotomy classes, and inside each class, the y-parity axis carves the cells into sub-cells with recognizable shape: truly always lands in y_par = 0, mother-soft always in y_par = 1, the diagonal hard cells split 42:8 with a Y-inversion on the Y-dephasing diagonal, the diagonal soft cells split symmetrically 13:13, and the off-diagonal soft cells split into two named sub-patterns B and C.
+
+The proof here is empirical at the (N=4, k=3) anchor: an exhaustive enumeration verified bit-exactly. The closed-form derivation of the 42:8 split ratio is still open, and the question whether the pattern is k-stable and N-stable is what motivates F105 (N=5, k=3, same Z₂³ refinement) and F106 (N=4, k=4) as sibling anchors. Together the three anchors map out which parts of the Z₂³ structure are N-stable, which are k-stable, and which depend on the specific (N, k) regime.
+
+The diagnostic upshot is that the polarity cube has real teeth on the F87 trichotomy. Knowing the Klein signature alone leaves a 50-50 mix in the diagonal hard cells; adding the y-parity axis sharpens that to 42:8. The y-parity refinement is therefore not just a structural curiosity but a tighter classifier for hardware-relevant Pauli-pair analysis.
+
 ## 1. Context
 
 The F87 trichotomy classifies a 2-letter Pauli pair as truly, soft, or hard

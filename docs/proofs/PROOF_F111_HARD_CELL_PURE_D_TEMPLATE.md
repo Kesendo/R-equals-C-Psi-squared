@@ -11,6 +11,18 @@
 - [PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md) (Π_5bilinear for Y-deph)
 - F106 N = 4 k = 4 empirical anchor (compute/RCPsiSquared.Core/Symmetry/F87Z2CubedRefinementN4K4.cs); F87 dissipator-resonance law (compute/RCPsiSquared.Diagnostics/F87/DissipatorResonanceLaw.cs)
 
+## Abstract
+
+F110 left two pieces open. The first was the Y-inversion ratio at k = 3 (the empirical 42:8 split in the diagonal hard cells). The second was the sharpened version of the same observation at k = 4, where the split goes fully pure (228:0). F111 closes the k = 4 case with a structural rule and proves the corresponding F110 Aspect B as an immediate corollary.
+
+The rule is the "Pure-D Template Rule". At k = N = 4 in the diagonal Klein cell for dephase letter D, a Pauli pair is F87-hard if and only if at least one of the two terms is a "pure-D template": a length-4 Pauli string built only from the letter D and the identity, with no other non-identity letter mixed in. So {DDDD, DDDI, DDID, DIDD, IDDD, DDII, ...} (eight strings in total) classifies the entire hard-pair population at k = N = 4 in the diagonal cell of D.
+
+The empirical numerics fit cleanly. 8 pure-D templates × 9/2 self-pair counts = 36 pure-pure pairs, all hard. 8 pure-D templates × 24 mixed templates = 192 pure-mixed pairs, all hard. The remaining 24 × 25/2 = 300 mixed-mixed pairs are all soft. 36 + 192 + 0 = 228, matching the F106 anchor exactly across all three dephase letters. The F110 Aspect B corollary then drops out: pure-D templates carry y-parity equal to the y-parity of D itself, so every hard pair inherits that y-parity, which is the 228:0 split with Y-inversion.
+
+F111 is Tier 1 Candidate, not Tier 1 Derived, because one of the four subclaims is the blocker. The "Mixed+Mixed pair is soft" half of the rule is what makes the 0 in 36+192+0 a 0; we have it empirically across 300 pairs but no operator-level closed-form construction. Three derivation paths were attempted and exhausted (per-site M^N tensor-product search, F108 Π_5bilinear extended action, Q_V × Π composition); the spectrum-level palindromy is realized by some similarity transformation we have not constructed analytically. Pure+Pure single-term hardness is a heuristic dissipator-commute argument; the closed-form derivations for Pure+Mixed pairs and Mixed-single-term soft are open in the same way.
+
+The diagnostic upshot is that F111 sharpens F110 Aspect B at the specific k = N = 4 anchor: from "Y-inversion empirical 228:0" to a structural per-pair rule. Together with F107 + F109 + F110, the y-parity-axis classification of the F87 trichotomy is now fully written down, with the remaining open work concentrated in two specific places: the exact 42:8 ratio at k = 3, and the Mixed+Mixed = soft closed-form at k = 4. Both are local to the polarity cube's hard cells; the rest of the trichotomy is closed.
+
 ## Statement (Theorem F111)
 
 At k = N = 4 in the diagonal Klein cell (D.BitA(), D.BitB()) for dephase letter D ∈ {Z, X, Y}, a Pauli pair (P, Q) is F87-hard if and only if at least one of P, Q is a "pure-D template" (a length-4 Pauli string composed only of D and I letters, no other non-I Pauli letter).

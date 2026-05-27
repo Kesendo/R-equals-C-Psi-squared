@@ -11,6 +11,18 @@
 - [PROOF_F109_MOTHER_SOFT_Y_PARITY_ONE_PURITY.md](PROOF_F109_MOTHER_SOFT_Y_PARITY_ONE_PURITY.md)
 - F87 dissipator-resonance law (Tier1Derived, `compute/RCPsiSquared.Diagnostics/F87/DissipatorResonanceLaw.cs`, anchored at N=4 k=3 over 294 pairs)
 
+## Abstract
+
+F107 and F109 closed the two clean purity statements of the F87 trichotomy on the y-parity axis: truly is always y-parity zero, mother-soft is always y-parity one. The third class, F87-hard, is where things get more interesting. F110 maps out three aspects of its structure.
+
+The first aspect is the cleanest. F87-hard Pauli pairs appear only in one specific Klein cell per dephase letter, the cell whose Klein index matches the dephase letter itself: Z-hardness lives in Klein (0,1), X-hardness in Klein (1,0), Y-hardness in Klein (1,1). This is closed-form, a direct corollary of F108 (Π²-even bilinears never produce hardness) plus F107 (truly is purity-zero) plus F109 (mother soft is purity-one) plus the F87 dissipator-resonance law that selects the diagonal cell from among the remaining candidates.
+
+The second aspect is the Y-inversion observation. Within each diagonal hard cell, the dominant y-parity equals the y-parity of the dephase letter. For Z- and X-dephasing the diagonal is dominantly y-parity zero (matching Z and X both being y-parity-zero letters); for Y-dephasing the diagonal flips to dominantly y-parity one (matching Y being a y-parity-one letter). At k = N = 4 this dominance is bit-exactly pure (228:0 split per cell), closed-form via the sibling Pure-D Template Rule (F111). At k = 3 the dominance is empirical and not yet closed-form (the 42:8 split).
+
+The third aspect is the k-dependent sharpening. At k = 3 the hard cells split 42:8 with the dominant y-parity carrying 84% of the weight; at k = 4 the same cells go fully pure (100% on the dominant side). The pattern is a sharpening, not a re-shaping. Closed-form derivation of the exact 42:8 ratio at k = 3 is still open and listed as the main remaining gap in the Z₂³ refinement family.
+
+The diagnostic upshot is that y-parity completes the F87 trichotomy classification: truly = y-parity-zero, mother-soft = y-parity-one, hard-on-diagonal = y-parity-of-the-dephase-letter (dominantly at k=3, purely at k=N=4). Outside the diagonal cell, hardness simply does not occur. The cube has full structure.
+
 ## 1. Statement
 
 **Aspect A (closed-form):** For any dephase letter D ∈ {Z, X, Y}, F87-hard Pauli pairs appear only in the diagonal Klein cell, the cell whose Klein index matches the dephase letter's own Klein index: Z → (0, 1), X → (1, 0), Y → (1, 1).

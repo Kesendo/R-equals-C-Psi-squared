@@ -5,6 +5,16 @@
 **Anchor:** N=4, k_body=4, 4248 Z₂³-homogeneous + Y-par-homogeneous Pauli pairs
 **Regenerate:** SLOW_F106_BATCH tool, ~4min PLINQ on Tom's 24-core machine (~40min sequential) writing `simulations/results/f87_z2cubed_split_n4_k4_counts.json`
 
+## Abstract
+
+F103 named the five Z₂³ sub-cell patterns at the (N=4, k=3) anchor. F105 confirmed that those patterns are N-stable at fixed body count: bump the chain length from 4 to 5, the patterns survive bit-exactly. This proof tests the orthogonal stability axis: hold N at 4 and bump the body count from 3 to 4. Does the Z₂³ refinement still hold, and if so, does it carry the same shape it had at k=3?
+
+The answer is mixed, and the mixed answer is the interesting result. Two of the five sub-statements survive structurally: truly stays y_par=0-pure at every cell where it appears, and mother soft (the Klein (0,0) soft) stays y_par=1-pure across all three dephase letters. These are the alphabet-driven invariants. Three sub-statements reshape under the body-count bump: the diagonal hard 42:8 mixed split sharpens to fully polarized 228:0 (a 100% pure y_par signature), the diagonal soft 13:13 symmetry breaks to an asymmetric 300:528, and the off-diagonal Pattern B (asymmetric 55:21) collapses to a fully symmetric (528, 528) we name Pattern D.
+
+The k=4 enumeration is qualitatively different from k=3 because the underlying Klein cell counts redistribute. Klein (0,0) goes from a 45-vs-21 split at k=3 to a 780-vs-300 split at k=4 (a quadratic blow-up in the y_par=0 letters), and the off-diagonal cells become fully balanced 32-vs-32 at k=4 (versus the asymmetric 10-vs-6 at k=3). The Pi^2-class trichotomy itself is N-stable per F85, but the y_par sub-refinement is genuinely k-dependent.
+
+The diagnostic upshot is that the Z₂³ refinement has two structural tiers: invariants that hold across all (N, k) regimes (the two purity statements), and ratios that are k-anchored (the diagonal split structure). For practical use, anything that depends on the 42:8 ratio is a k=3-specific number; anything that depends on the y_par purity of truly / mother-soft is universal. F107, F109, F110, F111 elsewhere give the closed-form derivations for the universal pieces; F106 here is the empirical anchor that motivated separating universal from k-specific in the first place.
+
 ## 1. Context
 
 F103 anchored the F87 Z₂³ refinement at N=4 k=3 (294 Z₂³-homogeneous +

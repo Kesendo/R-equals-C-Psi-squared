@@ -4,6 +4,16 @@
 **Date:** 2026-05-24
 **Anchors:** `docs/ANALYTICAL_FORMULAS.md` F102; `compute/RCPsiSquared.Core/Symmetry/YParityIndependenceAtK3.cs`.
 
+## Abstract
+
+The Klein signature (bit_a, bit_b) classifies every Pauli letter at single-site level: I = (0,0), X = (1,0), Z = (0,1), Y = (1,1). For a Pauli string of more than one letter, the bits add componentwise modulo 2. At first glance, Y-parity (the number of Y letters mod 2) looks like it should just be one of those bits, or a fixed function of them. F102 asks: is it?
+
+The answer depends on body count. At k_body = 2 (Pauli bilinears like XX, XY, YZ), Y-parity is exactly bit_a XOR bit_b. The two are locked together, and asking about Y-parity adds nothing beyond what Klein already knows. At k_body = 3 the lock breaks. The same Klein signature can carry either Y-parity, and the two become independent classifiers. By k_body = 4 the lock returns; the general pattern is: even k_body, they agree; odd k_body, they disagree by exactly the parity of k_body.
+
+The canonical witness is the comparison between the all-identity string III at k_body = 0 and the all-different string XYZ at k_body = 3. Both have Klein signature (0, 0), giving Y-parity zero by Klein arithmetic, but XYZ has actual Y-parity 1 because it contains exactly one Y. The mismatch is the sign that Klein and Y-parity are different axes once we leave the body-count-even sector.
+
+The diagnostic upshot is that the polarity cube of Pauli classification has three axes once higher body counts come into play: bit_a, bit_b, AND y_par. The third axis is what the F87Z₂³ refinement family (F103, F105, F106) explores empirically, finding which trichotomy classes split further along the y_par axis and which stay y_par-blind. F102 is the precondition: y_par is a real third axis, not a derived quantity, once the body count goes up.
+
 ## Statement
 
 For any Pauli string σ = ⊗_l σ_α_l on N qubits, define the term-level Y-parity:

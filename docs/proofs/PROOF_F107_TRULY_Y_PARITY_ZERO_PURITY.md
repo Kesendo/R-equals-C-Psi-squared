@@ -11,6 +11,16 @@
 - [`compute/RCPsiSquared.Core/Symmetry/PiOperator.cs`](../../compute/RCPsiSquared.Core/Symmetry/PiOperator.cs) (per-dephase Π² eigenvalue rules)
 - [`compute/RCPsiSquared.Core/Symmetry/TrulyYParityZeroPurity.cs`](../../compute/RCPsiSquared.Core/Symmetry/TrulyYParityZeroPurity.cs) (`TrulyCriterionHolds`: per-dephase truly criterion encoded in C#)
 
+## Abstract
+
+F102 surfaced y-parity as a real third axis of the polarity cube. F103, F105, F106 then mapped out empirically how the F87 trichotomy splits along that axis, and one pattern stood out clearly across every anchor: F87-truly classifications always land on y-parity zero, never y-parity one. The question is whether this purity is an accident of the specific (N, k) regimes tested, or a structural truth that survives at any chain length and any body count under any of the three dephase letters.
+
+The answer is the structural one. Under each of the three dephase letters, the F87-truly criterion forces y-parity to vanish: every truly Pauli term has an even number of Y letters, full stop. The proof imports F85's structural Z-dephasing truly criterion (a Pauli term contributes M=0 iff it has #Y and #Z both even) and transports it to the X- and Y-dephasing cases via the Π letter-cycle permutations that F108 establishes. All three criteria include "#Y even" as a sub-condition; the rest is bookkeeping.
+
+The diagnostic upshot is that y-parity zero is universal in F87-truly classification. A measured truly-class Pauli pair that carries y-parity one would be either a hardware bug, a non-standard dephase channel, or evidence of a missing classification axis that the polarity cube does not yet capture. The 4524 empirically observed truly classifications across F103+F105+F106 all sit on y-parity zero, which is what F107 closes by closed-form.
+
+The companion proof F109 closes the other purity statement of the trichotomy: mother soft is y-parity one. F110 explores the harder cells (which are not purity-classified but instead carry an inversion pattern). Together F107 + F109 + F110 + F111 give the full y-parity-axis classification of the F87 trichotomy.
+
 **Statement (Theorem F107):** Under any single-letter dephase channel (Z, X, or Y), if a Pauli term σ_α is classified as truly by the F87 trichotomy, then y_par(σ_α) = (#Y in α) mod 2 = 0.
 
 By extension, for any y_par-homogeneous Pauli pair classified as truly, the pair's shared y_par value is 0. Empirically confirmed across F103/F105/F106 anchors (N=4 k=3, N=5 k=3, N=4 k=4): across the three F103/F105/F106 anchor regimes, zero truly classifications carry y_par=1.

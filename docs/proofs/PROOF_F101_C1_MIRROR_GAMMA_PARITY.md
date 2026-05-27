@@ -7,6 +7,16 @@
 
 ---
 
+## Abstract
+
+F100 closed the bond-mirror deviation in the J direction: the closure-breaking coefficient c₁ and the Q_peak observable are exactly odd in the anti-palindromic part of the bond couplings. F101 asks the same question on the orthogonal axis. What happens when the per-site Z-dephasing rates are not palindromic? Does the same odd-function form hold for the deviation, or does the γ-axis behave differently?
+
+The answer is yes, with one wrinkle. The closure-breaking coefficient c₁ obeys exactly the same odd-function law in γ as it does in J: the deviation is exactly odd in the anti-palindromic component of γ, vanishes for palindromic γ, and grows linearly in the asymmetry to leading order. The proof is the same R-equivariance argument that closes F100, applied to the dissipator parameter γ instead of the Hamiltonian parameter J. PROOF_C1's two load-bearing facts (quadratic-in-Bloch purity, partial-trace-under-reflection) do not care whether the parameter being varied sits in the Hamiltonian or in the dissipator.
+
+The wrinkle is on the F86c per-bond Q_peak side. F100 covered Q_peak; F101 does NOT. The obstruction is structural, not an omission: the Q_peak observable lives on the Q-axis Q = J/γ₀, which presumes a scalar dephasing rate γ₀, and a non-uniform per-site γ profile does not provide one. A γ_avg-anchored route is well-posed in principle but the eigenvector-weighted K_b observable is not single-peaked along it. The scope note in the body spells this out; F101 stays clean on c₁ and leaves the Q_peak γ-side extension as future work.
+
+F101 is the observable-side twin of F91, which on the spectrum side says the diagonal-block eigenvalues depend only on the palindromic part of γ. F91 keeps anti-palindromic γ out of the spectrum; F101 localises the c₁ bond-mirror deviation in anti-palindromic γ and proves it odd. Together they account for the full split on the γ-axis the same way F92 and F100 account for it on the J-axis.
+
 ## Statement
 
 For an N-qubit XY chain with uniform coupling J and a per-site Z-dephasing profile γ = (γ_0, ..., γ_{N−1}), the F71 bond-mirror deviation of the closure-breaking coefficient c₁,

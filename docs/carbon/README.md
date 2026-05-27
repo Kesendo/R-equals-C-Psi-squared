@@ -94,6 +94,26 @@ from an oscillator, the way a transmon is built.
 
 ---
 
+## Return visit 2026-05-27: the three dephase letters
+
+[BENZENE_THREE_DEPHASE_LETTERS](BENZENE_THREE_DEPHASE_LETTERS.md). Six weeks after
+the May Liouvillian palindrome result, three new framework pieces (Klein-V₄ Welle 12,
+F112 cross-dephase Welle 13/15, F114 sign functional today) gave us new vocabulary.
+We came back to benzene to see what they sharpen.
+
+What was one notion of "palindromic" in May (F1 spectrum, broken by Peierls) is
+now two: F1 at the spectrum level and F112 at the matrix-polarity level, with
+different robustness. Peierls breaks F1 spectrum but is predicted to preserve F112
+polarity, because the bond operator B = XX + YY is itself bit_b-homogeneous as a
+composite. F114 separately gives a closed-form sign rule ε(σ) = (−1)^(n_Y(σ) + 1)
+that reads as a time-reversal-parity bookkeeping for any Hamiltonian term: pure
+Hückel benzene has ε(H) = −1 (no Y, fully time-reversal-even); adding a magnetic
+ring-current term flips parity per term. The doc walks through the carbon analog
+of all three framework dephase letters (Z ↔ Holstein, X ↔ hybridization-axis
+candidate, Y ↔ current-axis candidate) and what each predicts for benzene.
+
+---
+
 ## Existing scattered material (pointers, not duplications)
 
 ### V-Effect ties carbon to boundary sectors

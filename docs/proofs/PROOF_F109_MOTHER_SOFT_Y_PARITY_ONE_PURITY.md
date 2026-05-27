@@ -10,6 +10,16 @@
 - [PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md) (closes Step 5 X-dephasing branch via X-deph variant of Π_5bilinear).
 - [PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md) (closes Step 5 Y-dephasing branch via Y-deph variant of Π_5bilinear).
 
+## Abstract
+
+F107 closed one of the two purity statements that the empirical Z₂³ refinement made obvious: F87-truly is always y-parity zero. F109 closes the other one. In the Mother sector (the Klein (0,0) cell where bit_a and bit_b both vanish), the F87-soft classification is always y-parity ONE, never zero. The two purity statements are mirror images on the y-parity axis: truly forces an even number of Y letters, mother-soft forces an odd number.
+
+The proof is six steps, with a clean structural story. The Mother sector forces all three Pauli-letter counts (#X, #Y, #Z) to share the same parity (Klein (0,0) means bit_a and bit_b both even, which forces the parities to match). Combined with the per-dephase truly criterion (from F107), the all-even case is exactly truly, leaving the all-odd case as everything that is not truly in the Mother sector. The all-odd case has #Y odd, hence y-parity one.
+
+What remained to close was whether the all-odd non-truly case is actually F87-soft (rather than F87-hard). For Z-dephasing this followed from earlier F1-style algebra; for X- and Y-dephasing the closure required the Π_5bilinear apparatus of F108 Parts 1, 2, 3 (which establish that no Π²-even bilinear is F87-hard under any of the three dephase letters). With F108 closed in 2026-05-25, F109 became fully unconditional Tier 1 derived.
+
+The diagnostic upshot is that the Mother sector cleanly separates into truly + mother-soft on the y-parity axis, with bit-exact purity in both directions. The 1026 mother-soft classifications observed across F103+F105+F106 (300 + 300 + 900 across three dephase letters and three (N, k) anchors) all sit on y-parity one with zero exceptions. F107 + F109 together close both purity statements of the y-parity-axis classification; F110 and F111 handle the harder cells where the pattern is more nuanced.
+
 **Statement (Theorem F109):** Under any single-letter dephase channel (Z, X, or Y), every Pauli pair classified as soft and located in the Mother sector Klein (0, 0) has shared y_par = 1.
 
 Empirically confirmed across F103 (mother soft (0, 21) ×3 dephase letters), F105 (same), F106 (mother soft (0, 300) ×3, sharpened at k=4). Total: 1026 mother-soft classifications, all y_par=1, zero y_par=0.
