@@ -1,6 +1,6 @@
 # PROOF F112: Lindblad Π-Eigenvalue Balance under bit_b Homogeneity
 
-**Status:** Tier 1 derived for Hermitian H (rigorous proof via dagger + anti-Hermitian L_H). Tier 1 candidate for non-Hermitian H extension (empirical bit-exact across 20+ random configs; structural proof open).
+**Status:** Tier 1 derived for both Hermitian H (this proof, rigorous via dagger + anti-Hermitian L_H) and non-Hermitian H (Welle 11, 2026-05-27, structural proof in [PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md)). Universal in N for both H cases.
 **Date:** 2026-05-26
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
@@ -18,7 +18,7 @@ Let L = -i[H, ·] + Σ_k γ_k · `np.kron(c_k, c_k^*)` be a Lindblad-form Liouvi
 
 bit-exactly (machine precision), for any choice of complex coefficients in each c_k's Pauli expansion.
 
-**Empirical extension:** the equality is also observed bit-exact for non-Hermitian H across 20 random configurations at N=2, N=3 (probe 14 `_polarity_step5_stress.py` Tests 2-3). The structural proof for non-Hermitian H is open; the rigorous proof in Step 5 below covers Hermitian H only.
+**Non-Hermitian extension:** the equality also holds for non-Hermitian H, Tier 1 derived universal N (Welle 11, 2026-05-27, structural proof in [PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md)). The rigorous proof of Steps 1-4 in this writeup covers both cases; Step 5 here is the Hermitian-H specialization (dagger + anti-Hermitian L_H), while the non-Hermitian closure is a separate two-lemma argument via Pauli-basis matrix-support disjointness.
 
 ## Empirical anchors
 
@@ -160,38 +160,30 @@ Combining Steps 1-5: the balance condition ‖M_plus_half‖² = ‖M_minus_half
 
 **Empirical verification of Step 5** (probe 14, `_polarity_step5_stress.py`): direct Π-eigenspace projection at N=2, 3 across 10 random Hermitian H gives ‖L_{H,+i}‖² = ‖L_{H,-i}‖² bit-exact (relative difference < 1e-15) in all 10 cases.
 
-## Non-Hermitian H extension: constructively proven at N ≤ 4 (2026-05-26)
+## Non-Hermitian H extension: Tier1Derived universal N (2026-05-27, Welle 11)
 
-Probe 14 Tests 2 and 3 (non-Hermitian Pauli sums + random complex matrix H, 20 configurations at N=2, 3): all 20 give ‖L_{H,+i}‖² = ‖L_{H,-i}‖² bit-exact.
+The non-Hermitian extension is now closed structurally for all N in [PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md).
 
 Writing H = H_re + i H_im (Hermitian decomposition with H_re = (H + H^†)/2, H_im = (H − H^†)/(2i) both Hermitian), the equality reduces algebraically to the identity:
 
     F(H_re, H_im) := Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0   for any Hermitian H_re, H_im.
 
-**Constructive proof at N=2, 3, 4 (2026-05-26).** Two algebraic observations close the identity via basis enumeration:
+Bilinearity (L_H linear in H, Π-projection linear, Frobenius sesquilinear) plus antisymmetry (under H_re ↔ H_im exchange) reduce F ≡ 0 to F(σ_α, σ_β) = 0 on every Pauli-string pair. The per-pair identity is closed structurally via two lemmas:
 
-- **Bilinearity.** L_H is linear in H; the Π-conjugation eigenspace projection is also linear; the Frobenius inner product is sesquilinear. For Hermitian operators expanded in real coefficients of the Pauli basis, F is real-bilinear in (H_re, H_im).
-- **Antisymmetry.** ⟨X, Y⟩^* = ⟨Y, X⟩ flips the Im sign; under H_re ↔ H_im exchange, F(H_re, H_im) = -F(H_im, H_re).
+- **Lemma A (Diagonal-Norm).** For any BitB-odd Pauli string σ at length N, ‖L_{σ,−i}‖² = 4^N. Combines support-counting ‖L_σ‖² = 2 · 4^N + the F38 / F63 Π²-conjugation eigenvalue + the cross-term vanishing ⟨L_σ, Π L_σ Π⁻¹⟩ = 0 via Pauli-basis matrix-support disjointness (M(L_σ) and Π M(L_σ) Π⁻¹ have complementary non-zero entries on the same shifted-diagonal positions).
+- **Lemma B (Off-Diagonal-Orthogonality).** For σ_α ≠ σ_β both BitB-odd, ⟨L_{σ_α,−i}, L_{σ_β,−i}⟩ = 0. Reduces to ⟨L_{σ_α}, Π^m L_{σ_β} Π^{−m}⟩ = 0 for all m ∈ {0, 1, 2, 3}; each established by matrix-support disjointness (overlap requires σ_α = σ_β).
 
-By bilinearity, F is determined by its values on a basis of pairs of Hermitian operators. The Hermitian operator space at chain length N is spanned by 4^N Pauli strings with real coefficients. If F(σ_α, σ_β) = 0 for every Pauli-string pair (σ_α, σ_β), then F ≡ 0 on the entire Hermitian operator space.
+Both lemmas reduce to per-position checks on the 4^N × 4^N matrix of L_σ that are uniform in N. The proof is N-independent.
 
-Numerical enumeration of `F(σ_α, σ_β)` across all upper-triangular Pauli-string pairs at N=2, 3, 4 (script `simulations/_f112_open_identity_basis_enum.py`):
+**Welle 10 numerical anchor** (preserved as historical empirical validation): the per-pair identity F(σ_α, σ_β) = 0 was verified bit-exact across 559,912 distinct upper-triangular pairs at N = 2, 3, 4, 5 by `simulations/_f112_open_identity_basis_enum.py` (Python, Welle 10a) and `compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs` (C#, Welle 10b). All N = 2..4 bit-exact 0; N = 5 < 1e-10. See [F112_NONHERMITIAN_BASIS_ENUMERATION.md](../../experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md).
 
-| N | distinct pairs | max \|Im F\| | bit-exact 0? |
-|---|---|---|---|
-| 2 | 136 | 0.0000e+00 | YES |
-| 3 | 2,080 | 0.0000e+00 | YES |
-| 4 | 32,896 | 0.0000e+00 | YES |
-
-All 35,112 pair F-values are bit-exact 0 (below the 1e-10 threshold; the actual computed values are exactly 0, not numerically small machine-epsilon residues). The bit_b-parity breakdown also gives bit-exact 0 in each of the four (α_bit_b, β_bit_b) cells separately, ruling out a sum-cancellation artifact restricted to specific bit_b sectors.
-
-**F112 non-Hermitian extension is therefore Tier1Derived at N=2, 3, 4**: bilinearity + antisymmetry reduce to the basis identity, basis identity holds by per-pair enumeration. For N ≥ 5 the extension remains empirically supported (the pattern is bit-exact at every tested N and across every bit_b cell, strongly suggesting universal validity) but pending either further enumeration, an inductive N → N+1 argument, or identification of the structural symmetry that makes F vanish.
-
-See [F112_NONHERMITIAN_BASIS_ENUMERATION.md](../../experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md) for the full writeup.
+**Welle 11 structural verifier** `simulations/_f112_universal_n_proof_verify.py` confirms each step of Lemmas A and B bit-exact at N = 1, 2, 3 (42 BitB-odd strings, 1050 off-diagonal pairs, 4368 all-pair F-values, all 0.000e+00 in numpy double precision).
 
 ## Status
 
-**F112 is rigorously proven for the Hermitian-H case** (the physically relevant scope for standard Lindblad systems). All five steps in the Hermitian case are rigorous:
+**F112 is Tier 1 derived for both Hermitian and non-Hermitian H, universally in N.**
+
+Hermitian H (this proof, original Welle): five-step proof.
 
 - Step 1: reduction to ‖M_{+i}‖² = ‖M_{-i}‖² (Π-eigenspace decomposition of M_plus_half / M_minus_half).
 - Step 2: bit_b-homogeneous c implies `np.kron(c, c.conj())` is Π²-conj +1 (via F38/F63 Π² eigenvalue formula on Pauli strings).
@@ -199,9 +191,9 @@ See [F112_NONHERMITIAN_BASIS_ENUMERATION.md](../../experiments/F112_NONHERMITIAN
 - Step 4: M_{+i} and M_{-i} come entirely from L_H, with norms 2 · ‖L_{H,±i}‖².
 - Step 5: For Hermitian H, L_H is anti-Hermitian as superoperator (Lemma B), and dagger maps Π +i ↔ Π −i bijectively while preserving Frobenius (Lemma A). Combining gives ‖L_{H,+i}‖² = ‖L_{H,-i}‖².
 
-**Non-Hermitian H extension is now constructively proven at N=2, 3, 4** via the basis-enumeration argument (2026-05-26): bilinearity + antisymmetry of F(H_re, H_im) := Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ reduce the open identity to a per-pair Pauli-basis check; the check passes bit-exactly across all 35,112 pairs at N ≤ 4. For N ≥ 5 the extension remains empirically supported pending further enumeration or universal-N lifting.
+Non-Hermitian H (Welle 11, 2026-05-27): two-lemma structural proof in [PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md). Reduces the equality to F(H_re, H_im) := Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0, then closes the per-pair identity F(σ_α, σ_β) = 0 structurally via Pauli-basis matrix-support disjointness (Lemmas A and B). Welle 10 numerical anchor at N ≤ 5 (559,912 pairs all bit-exact 0) preserved as historical empirical validation.
 
-The theorem is typed as a Tier1Derived claim in C# Core (`LindbladBitBPiBalance`, commit `9b43384`) restricted to the Hermitian-H scope; the non-Hermitian extension is documented in inspectables as Tier1Derived at N ≤ 4 (basis-enumeration proof) plus Tier1Candidate at N ≥ 5 (empirical).
+The theorem is typed as a single Tier1Derived claim in C# Core (`LindbladBitBPiBalance`) covering both H cases universally in N.
 
 ## Significance
 
@@ -219,7 +211,7 @@ Connections:
 
 ## Open
 
-- **Step 5 extension to non-Hermitian H**: reduces to proving Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0 for any Hermitian H_re, H_im. Candidate routes: explicit Π-eigenbasis construction, or refined dagger argument using both H_re and H_im anti-Hermitian L_H structure jointly.
+- ~~**Step 5 extension to non-Hermitian H**~~: **CLOSED 2026-05-27 (Welle 11)** in [PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) via the two-lemma structural proof (Lemma A: ‖L_{σ,−i}‖² = 4^N for BitB-odd σ; Lemma B: ⟨L_{σ_α,−i}, L_{σ_β,−i}⟩ = 0 for σ_α ≠ σ_β both BitB-odd; both via Pauli-basis matrix-support disjointness). F112 non-Hermitian extension is now Tier1Derived universal N.
 - **F87 ↔ F112 orthogonality**: empirically confirmed via the F87-connection probe; structural derivation that both axes are projections of the bit_b Z₂-grading on the Pauli group is deferred.
-- **C# Core typing**: Tier1Derived for Hermitian H; Tier1Candidate corollary for non-Hermitian H extension.
+- **C# Core typing**: Tier1Derived for both Hermitian and non-Hermitian H (universal N).
 - **Connection to F104, F105, F106** (F87 Z₂³-cubed refinements at various N, k): potential bridge to the F112 balance via shared bit_b structure.

@@ -39,15 +39,19 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (truly, soft, hard) at N=3 under standard Z-dephasing give F112 asymmetry = 0
 /// bit-exactly (`simulations/_polarity_probe_f87_connection.py`).</para>
 ///
-/// <para><b>Non-Hermitian H extension (Tier1Candidate, empirical only)</b>: the
-/// equality ‖M_plus_half‖² = ‖M_minus_half‖² is also observed bit-exact for arbitrary
-/// non-Hermitian H across 20 random configurations at N=2, 3
-/// (`_polarity_step5_stress.py` Tests 2-3). Writing H = H_re + i H_im with both
-/// summands Hermitian, the equality reduces structurally to the open identity
-/// Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0. The rigorous proof in Step 5 covers Hermitian H
-/// only; the non-Hermitian extension is documented in inspectables and NOT typed
-/// as a separate Claim (deliberate; the Hermitian-H scope covers all standard
-/// Lindblad systems and is the physically relevant scope).</para>
+/// <para><b>Non-Hermitian H extension (Tier1Derived, universal N)</b>: writing
+/// H = H_re + i H_im with both summands Hermitian, the equality reduces algebraically
+/// to the identity Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0 for any Hermitian H_re, H_im.
+/// This identity is Tier1Derived for all N via the two-lemma structural proof in
+/// <c>docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md</c> (Welle 11, 2026-05-27):
+/// Lemma A (Diagonal-Norm) gives ‖L_{σ,-i}‖² = 4^N for any BitB-odd Pauli string σ
+/// via Π-eigenspace decomposition + matrix-support disjointness; Lemma B
+/// (Off-Diagonal-Orthogonality) gives ⟨L_{σ_α,-i}, L_{σ_β,-i}⟩ = 0 for σ_α ≠ σ_β
+/// both BitB-odd via support disjointness across all four Π-orbit shifts. By
+/// bilinearity + Pauli-basis spanning, F112 holds for any non-Hermitian H at any N.
+/// The basis-enumeration anchor at N ≤ 5 (Welle 10a Python 559,912 pairs all bit-exact
+/// 0; Welle 10b C# SLOW_F112 MaxImaginary &lt; 1e-10) is preserved as the empirical
+/// motivation for the structural proof.</para>
 ///
 /// <para><b>Diagnostic significance</b>: F112 makes the
 /// `polarity_coordinates_from_L` asymmetry an exact witness; asymmetry ≠ 0 detects
@@ -107,23 +111,28 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
         "the operator). All three F87 classes (truly, soft, hard) at N=3 under standard " +
         "Z-dephasing give F112 asymmetry = 0 bit-exactly.";
 
-    /// <summary>Non-Hermitian H extension status: Tier1Derived at N=2, 3, 4, 5 via
-    /// basis-enumeration proof (Welle 10b, 2026-05-26); Tier1Candidate empirical at
-    /// N ≥ 6.</summary>
+    /// <summary>Non-Hermitian H extension status: Tier1Derived universal N (Welle 11,
+    /// 2026-05-27) via two-lemma structural proof in
+    /// docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md.</summary>
     public string NonHermitianExtension =>
         "Writing H = H_re + i H_im with both summands Hermitian, the equality reduces " +
         "algebraically to the identity F(H_re, H_im) := Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0 " +
         "for any Hermitian H_re, H_im. F is real-bilinear and antisymmetric under H_re ↔ H_im " +
-        "exchange, so it is determined by its values on Pauli-string basis pairs. Numerical " +
-        "enumeration gives F = 0 bit-exact across all 136 + 2080 + 32896 + 524800 = 559912 " +
-        "Pauli-string pairs at N=2, 3, 4, 5 — verified independently by " +
-        "simulations/_f112_open_identity_basis_enum.py (Welle 10a Python, N=5 in 90.7 min, " +
-        "all bit-exact 0.0e+00) and compute/RCPsiSquared.Diagnostics/Polarity/" +
-        "F112NonHermitianBasisEnumeration.cs (Welle 10b C# SLOW_F112 test, N=5 in 2 h 45 m, " +
-        "MaxImaginary < 1e-10). By bilinearity + basis spanning, F112 non-Hermitian " +
-        "extension is therefore Tier1Derived at N ≤ 5. For N ≥ 6 the extension remains " +
-        "Tier1Candidate (~8.4M pairs at N=6 requires sparse Pauli representation or " +
-        "structural per-pair derivation, neither yet implemented). See " +
+        "exchange, so it is determined by its values on Pauli-string basis pairs. The " +
+        "per-pair identity F(σ_α, σ_β) = 0 holds structurally at any N via two lemmas: " +
+        "Lemma A (Diagonal-Norm) gives ‖L_{σ,-i}‖² = 4^N for any BitB-odd σ; Lemma B " +
+        "(Off-Diagonal-Orthogonality) gives ⟨L_{σ_α,-i}, L_{σ_β,-i}⟩ = 0 for σ_α ≠ σ_β " +
+        "both BitB-odd. Both lemmas reduce to Pauli-basis matrix-support disjointness of " +
+        "L_σ and Π^m L_σ Π^{-m} under the F38 / F63 Π² eigenvalue formula. F112 " +
+        "non-Hermitian extension is therefore Tier1Derived for ALL N (proof in " +
+        "docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md, Welle 11 2026-05-27). The " +
+        "basis-enumeration anchor at N ≤ 5 (559,912 pairs all bit-exact 0; Welle 10a " +
+        "Python simulations/_f112_open_identity_basis_enum.py and Welle 10b C# SLOW_F112 " +
+        "compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs) " +
+        "is preserved as the empirical motivation for the structural proof. The two-lemma " +
+        "proof verifier simulations/_f112_universal_n_proof_verify.py confirms each step " +
+        "bit-exact at N = 1, 2, 3 (42 BitB-odd strings, 1050 off-diagonal pairs, 4368 " +
+        "all-pair F-values, all 0.000e+00 in numpy double precision). See " +
         "experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md.";
 
     // ============================================================
@@ -178,8 +187,9 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
     /// the documentation hook saying "yes, the Hermitian-H scope applies".
     ///
     /// <para>For non-real coefficients (e.g. complex weights in a Pauli decomposition),
-    /// the scope is NOT covered by F112's Tier1Derived statement; that case is
-    /// the empirical Tier1Candidate extension documented on
+    /// the Hermitian-H proof's Step 5 does not directly apply; that case is covered
+    /// by the non-Hermitian extension, now Tier1Derived universal N via the two-lemma
+    /// structural proof (Welle 11, 2026-05-27). See
     /// <see cref="NonHermitianExtension"/>.</para></summary>
     public static bool IsHermitianHamiltonian(IReadOnlyList<double> coefficients)
     {
@@ -189,22 +199,27 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
 
     public LindbladBitBPiBalance(F108Part1Pi2EvenAlwaysPalindromic part1)
         : base("F112 Lindblad Π-eigenvalue balance under bit_b-homogeneous c: " +
-               "‖M_plus_half‖² = ‖M_minus_half‖² for Hermitian H + bit_b-homogeneous c_k. " +
-               "The structural identity behind polarity_coordinates_from_L; the diagnostic " +
+               "‖M_plus_half‖² = ‖M_minus_half‖² for any H (Hermitian or non-Hermitian) and " +
+               "bit_b-homogeneous c_k. Tier1Derived universal N for both Hermitian H (via the " +
+               "parent 5-step proof) and non-Hermitian H (via the two-lemma structural proof " +
+               "in docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md, Welle 11). The " +
+               "structural identity behind polarity_coordinates_from_L; the diagnostic " +
                "asymmetry is an exact witness for c outside the bit_b-homogeneous regime.",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F112 + " +
                "docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md + " +
+               "docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md + " +
                "simulations/framework/diagnostics/polarity_coordinates.py + " +
                "simulations/_polarity_proof_verify.py + simulations/_polarity_step5_stress.py + " +
-               "simulations/_polarity_probe_f87_connection.py")
+               "simulations/_polarity_probe_f87_connection.py + " +
+               "simulations/_f112_universal_n_proof_verify.py")
     {
         Part1 = part1 ?? throw new ArgumentNullException(nameof(part1));
     }
 
     public override string DisplayName =>
         "F112 Lindblad Π-eigenvalue balance under bit_b-homogeneous c " +
-        "(Hermitian H Tier1Derived; non-Hermitian extension Tier1Derived at N ≤ 5, Tier1Candidate N ≥ 6)";
+        "(Tier1Derived universal N for both Hermitian and non-Hermitian H)";
 
     public override string Summary =>
         $"{Theorem} {F87Orthogonality} ({Tier.Label()})";
@@ -233,7 +248,7 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
                          "c), and direct Π-eigenspace L_H projection across 30 random H (10 Hermitian + 10 " +
                          "non-Hermitian Pauli + 10 random complex matrix) at N=2, 3 (14, all bit-exact).");
             yield return new InspectableNode("F87 orthogonality", summary: F87Orthogonality);
-            yield return new InspectableNode("Non-Hermitian H extension (Tier1Candidate, empirical)",
+            yield return new InspectableNode("Non-Hermitian H extension (Tier1Derived universal N)",
                 summary: NonHermitianExtension +
                          " Reduced identity: Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0 for any Hermitian H_re, H_im.");
             yield return new InspectableNode("BitA twin (BitBSpecific)",

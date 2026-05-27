@@ -1,10 +1,10 @@
-# F112 Non-Hermitian Extension: Basis-Enumeration Proof at N=2, 3, 4, 5
+# F112 Non-Hermitian Extension: Universal-N Closure (Welle 11), Basis-Enumeration Anchor at N=2, 3, 4, 5
 
-**Status:** Constructive proof of the F112 non-Hermitian extension at N ≤ 5 via Pauli-basis enumeration. Reduces the open identity `Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0` to a bilinear basis-spanning check; all 559,912 distinct upper-triangular Pauli-string pairs across N=2, 3, 4, 5 give Im < 1e-10 (with N=2..4 bit-exact 0.0e+00; N=5 verified by both Python and C# pipelines, see below). Universal-N lift remains open for N ≥ 6.
-**Date:** 2026-05-26 (initial N≤4); Welle 10b 2026-05-26 (extended to N=5)
+**Status:** Tier1Derived for all N (Welle 11, 2026-05-27) via the two-lemma structural proof in [`PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md`](../docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md). The basis-enumeration result at N ≤ 5 below is preserved as the **empirical anchor** that motivated the search for the structural proof; it remains the historical numerical validation (559,912 pair F-values bit-exact 0).
+**Date:** 2026-05-26 (initial enumeration N≤4); 2026-05-26 Welle 10b (extended to N=5); 2026-05-27 Welle 11 (universal-N structural proof).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Scripts:** Python [`simulations/_f112_open_identity_basis_enum.py`](../simulations/_f112_open_identity_basis_enum.py) (N=2..5) + C# [`compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs`](../compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs) (N=2..5 via SLOW_F112-tagged test, parallelized via Parallel.For/ForEach)
-**Connects:** [PROOF_F112](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md), [F112 ANALYTICAL_FORMULAS entry](../docs/ANALYTICAL_FORMULAS.md), [LindbladBitBPiBalance](../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs)
+**Scripts:** Structural proof verifier [`simulations/_f112_universal_n_proof_verify.py`](../simulations/_f112_universal_n_proof_verify.py) (Welle 11, N=1, 2, 3) + Python enumeration [`simulations/_f112_open_identity_basis_enum.py`](../simulations/_f112_open_identity_basis_enum.py) (Welle 10a, N=2..5) + C# enumeration [`compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs`](../compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs) (Welle 10b, N=2..5 via SLOW_F112-tagged test, parallelized via Parallel.For/ForEach)
+**Connects:** [PROOF_F112_NONHERMITIAN_UNIVERSAL_N](../docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) (the structural proof, this writeup's parent), [PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) (Hermitian-H parent theorem), [F112 ANALYTICAL_FORMULAS entry](../docs/ANALYTICAL_FORMULAS.md), [LindbladBitBPiBalance](../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs)
 
 ## The open identity
 
@@ -41,33 +41,27 @@ The C# pipeline runs on the canonical typed-knowledge layer; both pipelines use 
 
 ## Conclusion
 
-**F112 non-Hermitian extension is proven at N=2, 3, 4, 5** by the basis-spanning argument: the open identity Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0 holds on every basis pair (bit-exact at N=2..4, < 1e-10 at N=5), hence by bilinearity it holds for every pair of Hermitian H_re, H_im at these N. The F112 Tier1Candidate non-Hermitian scope is upgraded to:
+**F112 non-Hermitian extension is Tier1Derived for all N** (Welle 11, 2026-05-27) via the two-lemma structural proof. The basis enumeration at N=2, 3, 4, 5 (559,912 pairs total, all Im bit-exact 0 or < 1e-10) was the empirical anchor that motivated the proof; the structural proof now lifts the closure from N ≤ 5 to arbitrary N.
 
-- **Tier1Derived at N=2, 3, 4, 5** (constructive enumeration proof, 559,912 pairs total).
-- **Tier1Candidate for N ≥ 6** (empirical-only, pending higher-N enumeration via sparse Pauli representation or structural lifting argument; ~8.4M pairs at N=6).
+The closure of the universal-N path makes the basis-enumeration argument obsolete as a Tier-promotion mechanism but preserves its standing as historical empirical validation: 559,912 pairs at N ≤ 5 already verified the per-pair identity bit-exact, providing strong numerical evidence that motivated the search for and gave confidence in the structural proof.
 
-## Lifting to general N
+## Welle-11 closure: two-lemma structural proof
 
-Three possible routes to lift the at-N proofs to universal N:
+The universal-N closure rests on two lemmas (see [`PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md`](../docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) for the full proof):
 
-1. **Brute-force enumeration at higher N.** N=5 was closed in Welle 10b (Python 90.7 min + C# 2 h 45 m, ~16 GB working memory). N=6 is 8.4M pairs × 4^12 = 16M per-pair Frobenius elements, requiring sparse Pauli representation (L_P has exactly 4^N nonzero entries per row) to fit a feasible cache. Without sparse rep, N=6 cache alone would be ~1 TB.
+**Lemma A (Diagonal-Norm).** For any BitB-odd Pauli string σ at chain length N, ‖L_{σ,−i}‖² = 4^N exactly. Proof composes (i) the support-count identity ‖L_σ‖² = 2 · 4^N (counting Pauli strings that anticommute with σ); (ii) the F38 / F63 Π²-conjugation eigenvalue (−1)^{BitBParity(σ)} = −1 for BitB-odd σ, putting L_σ in the Π-conjugation {+i, −i} eigenspaces; (iii) the cross-term vanishing ⟨L_σ, Π L_σ Π⁻¹⟩ = 0 via Pauli-basis matrix-support disjointness (M(L_σ) and Π M(L_σ) Π⁻¹ have complementary support on the same shifted-diagonal positions); (iv) the standard "halving" identity ‖L_{σ,±i}‖² = (1/2) ‖L_σ‖² = 4^N.
 
-2. **Structural reason that F ≡ 0 algebraically.** The vanishing is bit-exact at every tested N and across every bit_b-parity cell, suggesting a universal symmetry. Candidate explanations:
-   - A residual dagger/anti-Hermitian property of L_{H,-i} that imposes ⟨A, B⟩ ∈ ℝ for A, B in the Π −i eigenspace
-   - A cancellation mechanism between the (σ_α, σ_β) and (σ_β, σ_α) contributions via the Π conjugation orbit structure
-   - Reduction to F38/F61/F63 Π² sector decomposition
+**Lemma B (Off-Diagonal-Orthogonality).** For σ_α ≠ σ_β both BitB-odd at chain length N, ⟨L_{σ_α,−i}, L_{σ_β,−i}⟩ = 0 exactly. Proof reduces to ⟨L_{σ_α}, Π^m L_{σ_β} Π^{−m}⟩ = 0 for all m ∈ {0, 1, 2, 3}, each established by matrix-support disjointness: M(L_α) is supported on {(σ_α ⊕ α', α')}, Π^m M(L_β) Π^{−m} is supported on {(σ_β ⊕ α', α')} (possibly with shifted "condition on α'"); overlap requires σ_α = σ_β.
 
-3. **Inductive argument N → N+1.** Build the chain-of-(N+1) Pauli basis from the chain-of-N basis by tensoring with one of {I, X, Y, Z}; show that if F = 0 on the N-basis pairs, the induced N+1 pairs also satisfy F = 0.
+Both lemmas reduce to per-position checks on the 4^N × 4^N matrix of L_σ that are uniform in N; the proof is N-independent.
 
-Each route closes the open identity universally. Route 2 (structural reason) is the most elegant; route 1 extends the constructive proof envelope; route 3 is the cleanest if a per-letter induction works out.
+**Verifier:** [`simulations/_f112_universal_n_proof_verify.py`](../simulations/_f112_universal_n_proof_verify.py) confirms each step bit-exact at N = 1, 2, 3 (42 BitB-odd strings, 1050 off-diagonal pairs, 4368 all-pair F-values, all 0.000e+00 in numpy double precision).
 
 ## Implications
 
-If the open identity holds universally (which the N ≤ 5 enumeration strongly suggests, 559,912 pairs all giving Im below threshold), then:
-
-- **F112 non-Hermitian extension is Tier1Derived for all N**, with the algebraic proof: bilinearity + antisymmetry reduce to the basis identity; basis identity holds by `F(σ_α, σ_β) = 0` for every Pauli string pair.
-- **The polarity_coordinates_from_L diagnostic** is a structural witness for L not in the Lindblad form `−i[H, ·] + Σ γ_k np.kron(c_k, c_k^*)` with bit_b-homogeneous c. This is true regardless of whether H is Hermitian or non-Hermitian.
-- **The bit_b Z₂-axis carries an additional Tier1Derived theorem** beyond F108 Parts 1/2/3 (palindrome closure of bilinears) and the Hermitian-H F112. Three independent typed theorems on the shared bit_b foundation.
+- **F112 non-Hermitian extension is Tier1Derived for all N.** The algebraic argument bilinearity + Pauli-basis spanning reduces F = 0 to the per-pair identity F(σ_α, σ_β) = 0; the per-pair identity holds structurally via Lemmas A and B.
+- **The polarity_coordinates_from_L diagnostic** is a structural witness for L not in the Lindblad form `−i[H, ·] + Σ γ_k np.kron(c_k, c_k^*)` with bit_b-homogeneous c, universally in N and for any H (Hermitian or non-Hermitian).
+- **The bit_b Z₂-axis carries three Tier1Derived universal-N theorems**: F108 Parts 1/2/3 (palindrome closure of bit_b = 0 bilinears), F112 (Hermitian and non-Hermitian H, now universal N), F113 (T1 break-magnitude closed form). The bit_b axis description is structurally complete on the BitB-axis side.
 
 ## Reproduction
 
