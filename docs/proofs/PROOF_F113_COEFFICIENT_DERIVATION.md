@@ -1,10 +1,34 @@
 # PROOF F113: Coefficient Derivation for the F112 Counterexample Asymmetry
 
-**Status:** Tier 1 derived for general N. The (1/2)·4^N coefficient in the F113 closed form is derived rigorously from the structural decomposition of the Π +i / -i Frobenius cross-term, using the per-site tensor factorization of single-site Lindblad superoperators in the Pauli basis.
+**Status:** Tier 1 derived for general N (Hermitian H + single-site Z-drive + σ⁻/σ⁺ T1 family).
 **Date:** 2026-05-26
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Script:** [`simulations/_f113_coefficient_proof.py`](../../simulations/_f113_coefficient_proof.py)
 **Builds on:** F112 ([PROOF_F112](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md)), F113 empirical anchor ([F113_BREAK_MAGNITUDE_FORMULA.md](../../experiments/F113_BREAK_MAGNITUDE_FORMULA.md))
+
+## Abstract
+
+PROOF_F112 established that the polarity asymmetry `‖M_plus_half‖² − ‖M_minus_half‖²` vanishes bit-exactly when the Lindblad system has Hermitian H and bit_b-homogeneous collapse operators c. F113 is the magnitude question for the regime where that hypothesis fails: with a single-site Z-drive Hamiltonian H = Σ_l (ω_l / 2)·Z_l and the standard σ⁻ (decay) / σ⁺ (pump) T1 family on each site (σ⁻ has support on both bit_b = 0 and bit_b = 1 Pauli components, so it lies outside F112's typed scope), the asymmetry takes the universal-N closed form
+
+    asymmetry = (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l)
+
+for any N ≥ 1. The proof is purely algebraic. PROOF_F112's Lemma A (dagger maps Π +i ↔ Π −i isometrically) and Lemma B (L_H^† = −L_H for Hermitian H), together with a new Lemma C (L_T1 has only real matrix elements in the Pauli basis), reduce the asymmetry to a single Frobenius cross term `4·Re⟨L_H,+i, L_T1,+i⟩`. That cross term is then evaluated via per-site Π-eigenspace tensor factorization, with each factor in the final coefficient traceable to a structural origin.
+
+## Introduction
+
+**The motivating question.** PROOF_F112 characterised *when* the polarity asymmetry vanishes (Hermitian H plus bit_b-homogeneous c). The natural next question, once the vanishing case is settled, is the magnitude case: for inputs that break the F112 hypothesis, how big is the resulting asymmetry, and how does it depend on the input parameters of L? The most important such input is the T1 σ⁻ jump operator, which is genuinely bit_b-mixed: σ⁻ has support on both X (bit_b = 0) and Y (bit_b = 1) Pauli components, so it is not bit_b-homogeneous.
+
+**The empirical anchor.** `experiments/F113_BREAK_MAGNITUDE_FORMULA.md` had already established the closed form bit-exact across all (Z-drive, σ⁻/σ⁺ T1) configurations tested at N = 2, 3, 4: `asymmetry = (4^N / 2) · Σ_l ω_l · (γ_pump − γ_T1)`. The pattern was clean enough to type as Tier1Candidate. What was missing was the structural derivation that lifts the formula from "bit-exact at every N tested" to "general N".
+
+**What this proof closes.** The argument does two things. First, it isolates the algebraic core via the cross-term reduction: PROOF_F112's Lemmas A and B plus the new Lemma C close the asymmetry to a single Frobenius cross term, independent of N. Second, it evaluates that cross term via per-site tensor factorization in the Pauli basis, with each factor in the final coefficient `(4^N / 2)` traceable to a specific structural origin:
+
+- the factor `4` from the cross-term reduction itself (asymmetry = 4 × Re of an inner product);
+- the factor `4^{N−1}` from the (N − 1) spectator sites' identity-superoperator Frobenius norms (each `⟨I_4, I_4⟩ = 4` in the Pauli basis);
+- the factor `1/2` from the bilinear structure at the driven site (two Pauli-pair entries contributing equally to the local cross term);
+- the per-site sum Σ_l ω_l γ_T1,l from per-site additivity (different-site cross terms vanish);
+- the sign structure (γ_pump − γ_T1) from σ⁻ versus σ⁺ giving equal-magnitude opposite contributions.
+
+**Diagnostic consequence.** PROOF_F112 made `polarity_coordinates_from_L` a yes/no witness ("is L outside the bit_b-homogeneous-c regime?"). F113 promotes it to a magnitude check ("does the measured asymmetry match the closed-form prediction for the named input?"). A mismatch at the magnitude level localises the failure: either the input is outside F113's typed scope (drive Hamiltonian other than Z, non-standard collapse operator), or the implementation has a bug.
 
 ## Theorem (F113, general N)
 
