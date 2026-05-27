@@ -111,6 +111,16 @@ public class RegistryWiringAuditTests
             // 10 LindbladBitBPiBalanceWitnessTests in RCPsiSquared.Diagnostics.Tests/Polarity/,
             // never a standalone registry singleton.
             "LindbladBitBPiBalanceWitness",
+
+            // Structural (stay deferred by design, not a wiring gap):
+            // LindbladBitAPiBalanceWitness (F112-X) and LindbladBitBPiYBalanceWitness (F112-Y)
+            // are parameterised witness types matching the LindbladBitBPiBalanceWitness shape
+            // for the Welle 13 cross-dephase Π_X and Π_Y polarity axes. Same N=2 hard
+            // constraint in their StandardSet factories (witness 5 single-site drive at fixed
+            // ω), incompatible with the registry's default N=5 chain. Discoverable via the
+            // static StandardSet(chain) factories and their respective Witness*Tests classes.
+            "LindbladBitAPiBalanceWitness",
+            "LindbladBitBPiYBalanceWitness",
         };
 
     [Fact]

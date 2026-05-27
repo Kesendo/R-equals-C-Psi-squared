@@ -22,5 +22,6 @@ public static class LindbladBitBPiBalanceRegistration
         this ClaimRegistryBuilder builder) =>
         builder.Register<LindbladBitBPiBalance>(b =>
             new LindbladBitBPiBalance(
-                b.Get<F108Part1Pi2EvenAlwaysPalindromic>()));
+                b.Get<F108Part1Pi2EvenAlwaysPalindromic>(),
+                b.Get<LindbladBitAPiBalance>()));
 }

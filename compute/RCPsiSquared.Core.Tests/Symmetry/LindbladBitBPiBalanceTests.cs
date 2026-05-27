@@ -19,10 +19,13 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 /// covers the C# typed-knowledge surface and the helper predicates.</para></summary>
 public class LindbladBitBPiBalanceTests
 {
-    private static LindbladBitBPiBalance Make() =>
-        new LindbladBitBPiBalance(
-            new F108Part1Pi2EvenAlwaysPalindromic(
-                new F108Part2Pi2XEvenAlwaysPalindromic()));
+    private static LindbladBitBPiBalance Make()
+    {
+        var part2 = new F108Part2Pi2XEvenAlwaysPalindromic();
+        return new LindbladBitBPiBalance(
+            new F108Part1Pi2EvenAlwaysPalindromic(part2),
+            new LindbladBitAPiBalance(part2));
+    }
 
     // ============================================================
     // Claim metadata
@@ -33,22 +36,21 @@ public class LindbladBitBPiBalanceTests
         Assert.Equal(Z2Axis.BitB, Make().Z2Axis);
 
     [Fact]
-    public void BitATwin_IsNull()
+    public void BitATwin_IsLindbladBitAPiBalance()
     {
-        // F112 is intrinsically a bit_b-axis theorem: bit_b homogeneity of c is the
-        // structural hypothesis; bit_a parity has no role in the proof or the
-        // conclusion. No meaningful bit_a-axis twin exists; BitATwin is null by
-        // design, not by gap.
-        Assert.Null(Make().BitATwin);
+        // Welle 15 (2026-05-27) wired F112-X (LindbladBitAPiBalance) as the typed
+        // BitA twin per PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md section (f) item 4.
+        // Pre-Welle-15, BitATwin was null and BitATwinStatus = BitBSpecific.
+        var claim = Make();
+        Assert.NotNull(claim.BitATwin);
+        Assert.IsType<LindbladBitAPiBalance>(claim.BitATwin);
     }
 
     [Fact]
-    public void BitATwinStatus_IsBitBSpecific() =>
-        // Matches F108 Part 3's pattern for no-twin BitB claims: the algebraic
-        // content is intrinsically tied to bit_b structure, no meaningful bit_a-
-        // axis analog. Not a NeedsDerivation gap; this is the closed
-        // BitBSpecific classification.
-        Assert.Equal(BitATwinClassification.BitBSpecific, Make().BitATwinStatus);
+    public void BitATwinStatus_IsFilled() =>
+        // Flipped from BitBSpecific to Filled on Welle 15 wiring of F112-X as the
+        // typed BitA twin.
+        Assert.Equal(BitATwinClassification.Filled, Make().BitATwinStatus);
 
     [Fact]
     public void Tier_IsTier1Derived()

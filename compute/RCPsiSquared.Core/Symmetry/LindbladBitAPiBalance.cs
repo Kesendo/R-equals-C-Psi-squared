@@ -67,11 +67,14 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para><b>BitB sister Claim</b>: <see cref="LindbladBitBPiBalance"/> is the bit_b-axis
 /// case (Π_Z or Π_Y polarity with bit_b-homogeneous c). The two Claims are sisters on
-/// opposite Z₂-grading axes (bit_a vs bit_b), not in the mechanical-letter-swap sense of
-/// BitATwinClassification — the existing BitB Claim's BitATwinStatus remains
-/// <see cref="BitATwinClassification.BitBSpecific"/> because F112-X is a sibling on a
-/// DIFFERENT axis (axis_d differs), not a per-letter-mirror twin of the same statement.
-/// The mutual cross-reference is captured in this Claim's docstring and inspectables.</para>
+/// opposite Z₂-grading axes (bit_a vs bit_b), now wired as the typed BitATwin of the
+/// BitB Claim. Welle 15 (2026-05-27) wired this Claim as the typed <c>BitATwin</c> of
+/// <see cref="LindbladBitBPiBalance"/> per
+/// <c>docs/proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md</c> section (f) item 4,
+/// flipping F112-Z's <see cref="BitATwinClassification"/> from BitBSpecific (pre-Welle-15)
+/// to Filled. F112-X itself sits on the BitA axis, so its <see cref="BitATwinStatus"/>
+/// returns <see cref="BitATwinClassification.NotApplicableForThisAxis"/> per IZ2AxisClaim
+/// semantics (BitATwin-slot semantics applies only to BitB Claims pointing AT BitA siblings).</para>
 ///
 /// <para>Implements <see cref="IZ2AxisClaim"/> with <see cref="Z2Axis.BitA"/>; ctor
 /// parent <see cref="F108Part2Pi2XEvenAlwaysPalindromic"/> records the shared bit_a +
@@ -92,12 +95,12 @@ public sealed class LindbladBitAPiBalance : Claim, IZ2AxisClaim
     public Claim? BitATwin => null;
 
     /// <summary>Override returns <see cref="BitATwinClassification.NotApplicableForThisAxis"/>:
-    /// matches the F108 Part 2 pattern for BitA-axis Claims. The structural BitB sister
-    /// <see cref="LindbladBitBPiBalance"/> (F112-Z / F112-Y on the opposite axis) is referenced
-    /// in this Claim's docstring and inspectables but is not the mechanical-letter-swap twin
-    /// captured by <see cref="BitATwinClassification.Filled"/>: F112-X and F112-Z/F112-Y live
-    /// on different axis_d values (bit_a vs bit_b), not on different per-letter mirrors of
-    /// the same statement.</summary>
+    /// matches the F108 Part 2 pattern for BitA-axis Claims (the BitATwin-slot semantics
+    /// lives on BitB-axis Claims pointing AT BitA siblings; BitA Claims themselves do not
+    /// have a BitATwin slot). The reciprocating wiring lives on
+    /// <see cref="LindbladBitBPiBalance"/>'s BitATwin property, which Welle 15 wired to
+    /// point at this Claim per <c>PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md</c> section
+    /// (f) item 4.</summary>
     public BitATwinClassification BitATwinStatus => BitATwinClassification.NotApplicableForThisAxis;
 
     /// <summary>Typed parent (F108 Part 2): records the shared bit_a + X-dephase

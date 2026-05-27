@@ -129,6 +129,13 @@ public static class PolarityCubeMapRegistration
             // registered but missing from the PolarityCubeMap inventory.
             z2AxisClaims.Add(b.Get<LindbladBitBPiBalance>());
             z2AxisClaims.Add(b.Get<LindbladBitBPiBreakMagnitude>());
+            // Welle 15 (2026-05-27): F112 cross-dephase typed Claims. F112-X on the
+            // BitA axis (bit_a-homogeneous c hypothesis, Π_X polarity); F112-Y on
+            // the BitB axis (same hypothesis as F112-Z, different polarity axis Π_Y).
+            // Together with F112-Z above they close F112 across all three dephase
+            // letters {Z, Y, X}.
+            z2AxisClaims.Add(b.Get<LindbladBitAPiBalance>());
+            z2AxisClaims.Add(b.Get<LindbladBitBPiYBalance>());
             return new PolarityCubeMap(z2AxisClaims);
         });
 }

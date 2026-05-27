@@ -268,17 +268,37 @@ public static class KnowledgeRegistryFactory
             // unconditional across all three dephase letters. PolarityCubeMap's
             // BitBClaims grows by 1.
             .RegisterF108Part3Pi2YEvenAlwaysPalindromic()
+            // BitA-axis F112-X: cross-dephase sibling of F112-Z. Same Π-eigenvalue
+            // balance identity with axis_d := bit_a substituted for bit_b: any H +
+            // bit_a-homogeneous c_k under X-dephase Π_X polarity gives
+            // ‖M_plus_half‖² = ‖M_minus_half‖² bit-exactly. Tier1Derived universal N
+            // for both Hermitian and non-Hermitian H via Welle 13 (Route 1 direct
+            // axis re-run + Route 2 Hadamard transport from F112-Z via Q_zx). Typed
+            // ctor parent: F108 Part 2 (shared bit_a + X-dephase foundation). Welle 15
+            // (2026-05-27) wired F112-X as the typed BitA twin of F112-Z, so F112-X
+            // MUST be registered BEFORE F112-Z (the F112-Z ctor takes F112-X as the
+            // BitATwinClaim parameter). PolarityCubeMap's BitAClaims grows by 1.
+            .RegisterLindbladBitAPiBalance()
             // BitB-axis F112: Lindblad Π-eigenvalue balance under bit_b-homogeneous c.
             // Structural identity behind the polarity_coordinates_from_L diagnostic;
             // for any standard Lindblad system (Hermitian H + bit_b-homogeneous c_k)
             // the asymmetry ‖M_plus_half‖² − ‖M_minus_half‖² is exactly 0. Typed ctor
-            // parent: F108 Part 1 (shared bit_b axis foundation via F38 / F63 Π²
-            // eigenvalue formula on Pauli strings). Sits on the BitB axis as the
-            // "polarity_coordinates diagnostic identity" Claim. Tier1Derived for
-            // Hermitian H; non-Hermitian H extension documented as Tier1Candidate
-            // in inspectables, not typed as a separate Claim. PolarityCubeMap's
-            // BitBClaims grows by 1.
+            // parents: F108 Part 1 (shared bit_b axis foundation via F38 / F63 Π²
+            // eigenvalue formula on Pauli strings) + LindbladBitAPiBalance (typed BitA
+            // twin, Welle 15). Sits on the BitB axis as the "polarity_coordinates
+            // diagnostic identity" Claim. Tier1Derived universal N for both Hermitian
+            // and non-Hermitian H. PolarityCubeMap's BitBClaims grows by 1; BitA-twin
+            // status flipped from BitBSpecific (pre-Welle-15) to Filled.
             .RegisterLindbladBitBPiBalance()
+            // BitB-axis F112-Y: Y-dephase sibling of F112-Z on the same bit_b axis
+            // (Π_Y² and Π_Z² both grade by bit_b per F38). Same hypothesis on c
+            // (bit_b-homogeneous), different polarity axis (Π_Y vs Π_Z). Tier1Derived
+            // universal N via Welle 13 Route 1 (axis-direct re-run with d = Y);
+            // D-conjugation from F112-Z is NOT available (D lacks Hilbert-space lift,
+            // per PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md section (d) Remark). Typed
+            // ctor parent: F108 Part 3 (shared bit_b + Y-dephase foundation).
+            // PolarityCubeMap's BitBClaims grows by 1.
+            .RegisterLindbladBitBPiYBalance()
             // BitB-axis F113: closed-form magnitude for the F112 polarity-asymmetry
             // counterexample. Sister to F112 on the same bit_b axis: F112 says
             // "in-scope → asymmetry = 0", F113 gives the exact magnitude
