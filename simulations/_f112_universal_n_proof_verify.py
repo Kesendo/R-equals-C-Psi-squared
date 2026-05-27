@@ -1,9 +1,11 @@
 """F112 non-Hermitian extension: universal-N proof verifier.
 
 Confirms the two structural lemmas behind the universal-N proof
-(docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) bit-exact at N = 1, 2, 3.
+(docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) within numpy
+double-precision tolerance (max deviation < 1e-12, machine zero to numpy
+double precision) at N = 1, 2, 3.
 
-Lemma A (Diagonal-Norm). For any BitB-odd Pauli string sigma at length N,
+Lemma N-A (Diagonal-Norm). For any BitB-odd Pauli string sigma at length N,
     ||L_{sigma,-i}||^2 = 4^N    (Frobenius norm squared, superoperator).
 Proof outline (verified here numerically):
     Step A.1: ||L_sigma||^2 = 2 * 4^N (support count: sigma anticommutes
@@ -18,7 +20,7 @@ Proof outline (verified here numerically):
     Step A.4: Combining A.1-A.3 via the L_sigma = L_sigma^+i + L_sigma^-i
               decomposition gives ||L_sigma^{+/-i}||^2 = 4^N each.
 
-Lemma B (Off-Diagonal-Orthogonality). For sigma_alpha != sigma_beta both
+Lemma N-B (Off-Diagonal-Orthogonality). For sigma_alpha != sigma_beta both
 BitB-odd at length N,
     <L_{sigma_alpha,-i}, L_{sigma_beta,-i}> = 0.
 Proof outline (verified here numerically):
@@ -36,10 +38,15 @@ Main theorem (consequence of A + B + trivial BitB-even case):
     spanning, F(H_re, H_im) = 0 for any Hermitian H_re, H_im. F112
     non-Hermitian extension is Tier1Derived universal-N.
 
-This verifier exhibits Lemmas A and B numerically at N = 1, 2, 3 (sympy
-exact at N=1; numpy bit-exact at N=2, 3 — bit-exact in the sense that all
-checked quantities are exactly zero or exactly 4^N down to numpy double
-precision, with no machine-epsilon residue).
+This verifier exhibits Lemmas N-A and N-B numerically at N = 1, 2, 3 (numpy
+double precision at N=1, 2, 3 with tolerance 1e-12; cross-validated against
+the bit-exact Welle 10a Python enumeration at N=2, 3, 4, 5, where the matrix
+entries are rational and the comparison is genuinely bit-exact).
+
+The Welle 11 verifier here is numerical: all checked quantities come out
+within numpy double-precision floating-point tolerance (max deviation
+< 1e-12, i.e. machine zero to numpy double precision), but the term
+"bit-exact" is reserved for the Welle 10a enumeration anchor.
 """
 from __future__ import annotations
 
@@ -109,7 +116,7 @@ def all_strings(N):
 
 
 # ---------------------------------------------------------------------------
-# Lemma A: ||L_{sigma,-i}||^2 = 4^N for BitB-odd sigma.
+# Lemma N-A: ||L_{sigma,-i}||^2 = 4^N for BitB-odd sigma.
 # ---------------------------------------------------------------------------
 
 def verify_lemma_a(N):
@@ -117,7 +124,7 @@ def verify_lemma_a(N):
     pi_inv = pi.conj().T
     bit_b_odd = [s for s in all_strings(N) if bit_b_total(s) == 1]
     expected_raw = 2 * (4 ** N)            # ||L_sigma||^2 per Step A.1
-    expected_proj = 4 ** N                 # ||L_{sigma,-i}||^2 per Lemma A
+    expected_proj = 4 ** N                 # ||L_{sigma,-i}||^2 per Lemma N-A
     max_dev_raw = 0.0
     max_dev_step_a2 = 0.0
     max_dev_step_a3 = 0.0
@@ -136,7 +143,7 @@ def verify_lemma_a(N):
         N_alpha = pi @ L @ pi_inv
         cross = frob(L, N_alpha)
         max_dev_step_a3 = max(max_dev_step_a3, abs(cross))
-        # Lemma A conclusion: ||L_{sigma,-i}||^2 = 4^N
+        # Lemma N-A conclusion: ||L_{sigma,-i}||^2 = 4^N
         L_mi = project_minus_i(L, pi)
         proj = frob(L_mi, L_mi).real
         max_dev_proj = max(max_dev_proj, abs(proj - expected_proj))
@@ -152,7 +159,7 @@ def verify_lemma_a(N):
 
 
 # ---------------------------------------------------------------------------
-# Lemma B: <L_{sigma_alpha,-i}, L_{sigma_beta,-i}> = 0 for alpha != beta both BitB-odd.
+# Lemma N-B: <L_{sigma_alpha,-i}, L_{sigma_beta,-i}> = 0 for alpha != beta both BitB-odd.
 # ---------------------------------------------------------------------------
 
 def verify_lemma_b(N):
@@ -169,7 +176,7 @@ def verify_lemma_b(N):
     max_dev_b1 = 0.0
     # Step B.2: <L_alpha, Pi^m L_beta Pi^-m> = 0 for alpha != beta, all m
     max_dev_b2 = 0.0
-    # Lemma B conclusion: <L_{alpha,-i}, L_{beta,-i}> = 0 for alpha != beta
+    # Lemma N-B conclusion: <L_{alpha,-i}, L_{beta,-i}> = 0 for alpha != beta
     max_dev_lemma_b = 0.0
     # Diagonal sanity: <L_{alpha,-i}, L_{alpha,-i}> = 4^N real
     max_dev_diag_value = 0.0
@@ -202,7 +209,7 @@ def verify_lemma_b(N):
                     shifted = pi_powers[m] @ L_raw_cache[sb] @ pi_powers_inv[m]
                     ip_m = frob(L_raw_cache[sa], shifted)
                     max_dev_b2 = max(max_dev_b2, abs(ip_m))
-                # Lemma B conclusion
+                # Lemma N-B conclusion
                 ip = frob(L_mi_cache[sa], L_mi_cache[sb])
                 max_dev_lemma_b = max(max_dev_lemma_b, abs(ip))
                 pair_count += 1
@@ -272,14 +279,14 @@ def main():
         else:
             mark = "FAIL"
             overall_pass = False
-        print(f"  Lemma A: {a['n_strings']} BitB-odd strings,"
+        print(f"  Lemma N-A: {a['n_strings']} BitB-odd strings,"
               f" expected ||L_sigma||^2 = {a['expected_raw']},"
               f" ||L_{{sigma,-i}}||^2 = {a['expected_proj']}")
         print(f"    Step A.1 (||L_sigma||^2): max deviation = {a['max_dev_raw']:.3e}")
         print(f"    Step A.2 (Pi^2 L Pi^-2 = -L): max deviation = {a['max_dev_step_a2']:.3e}")
         print(f"    Step A.3 (<L, Pi L Pi^-1> = 0): max deviation = {a['max_dev_step_a3']:.3e}")
         print(f"    Conclusion ||L_{{sigma,-i}}||^2 = 4^N: max deviation = {a['max_dev_proj']:.3e}")
-        print(f"  Lemma A at N={N}: {mark}")
+        print(f"  Lemma N-A at N={N}: {mark}")
 
         b = verify_lemma_b(N)
         ok_b = (b["max_dev_b1"] < TOL
@@ -292,13 +299,13 @@ def main():
         else:
             mark_b = "FAIL"
             overall_pass = False
-        print(f"  Lemma B: {b['n_off_diag_pairs']} off-diagonal BitB-odd pairs")
+        print(f"  Lemma N-B: {b['n_off_diag_pairs']} off-diagonal BitB-odd pairs")
         print(f"    Step B.1 (<L_alpha, L_beta> = 0): max deviation = {b['max_dev_b1']:.3e}")
         print(f"    Step B.2 (<L_alpha, Pi^m L_beta Pi^-m> = 0 all m): max deviation = {b['max_dev_b2']:.3e}")
         print(f"    Conclusion <L_{{alpha,-i}}, L_{{beta,-i}}> = 0: max deviation = {b['max_dev_lemma_b']:.3e}")
         print(f"    Diagonal sanity (value = 4^N): max deviation = {b['max_dev_diag_value']:.3e}")
         print(f"    Diagonal Im part = 0: max deviation = {b['max_dev_diag_im']:.3e}")
-        print(f"  Lemma B at N={N}: {mark_b}")
+        print(f"  Lemma N-B at N={N}: {mark_b}")
 
         main_thm = verify_main_theorem(N)
         ok_main = main_thm["max_im"] < TOL
@@ -314,8 +321,8 @@ def main():
     print()
     print("=" * 78)
     if overall_pass:
-        print("ALL CHECKS PASSED at N = 1, 2, 3 bit-exact (within numpy double precision).")
-        print("Lemmas A, B verified; main theorem F = 0 confirmed exhaustively.")
+        print("ALL CHECKS PASSED at N = 1, 2, 3 within 1e-12 tolerance (machine zero to numpy double precision).")
+        print("Lemmas N-A, N-B (Welle 11) verified; main theorem F = 0 confirmed exhaustively.")
         print("See docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md for the proof.")
     else:
         print("SOME CHECKS FAILED. Inspect the per-step output above.")

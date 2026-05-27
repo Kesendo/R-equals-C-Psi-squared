@@ -6,7 +6,7 @@
 **Depends on:**
 - F38 (Π² = (-1)^{w_YZ} on Pauli strings; `docs/ANALYTICAL_FORMULAS.md` F38 entry)
 - F63 ([L, Π²] = 0 for Z-dephasing; `docs/ANALYTICAL_FORMULAS.md` F63 entry)
-- F108 Part 1 ([PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md)) — shared bit_b Z₂ grading
+- F108 Part 1 ([PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md)); shared bit_b Z₂ grading
 - `polarity_coordinates_from_L` primitive (`simulations/framework/diagnostics/polarity_coordinates.py`, added 2026-05-25)
 - F87 dissipator-resonance law (orthogonal axis; empirically established via `simulations/_polarity_probe_f87_connection.py`)
 
@@ -170,10 +170,10 @@ Writing H = H_re + i H_im (Hermitian decomposition with H_re = (H + H^†)/2, H_
 
 Bilinearity (L_H linear in H, Π-projection linear, Frobenius sesquilinear) plus antisymmetry (under H_re ↔ H_im exchange) reduce F ≡ 0 to F(σ_α, σ_β) = 0 on every Pauli-string pair. The per-pair identity is closed structurally via two lemmas:
 
-- **Lemma A (Diagonal-Norm).** For any BitB-odd Pauli string σ at length N, ‖L_{σ,−i}‖² = 4^N. Combines support-counting ‖L_σ‖² = 2 · 4^N + the F38 / F63 Π²-conjugation eigenvalue + the cross-term vanishing ⟨L_σ, Π L_σ Π⁻¹⟩ = 0 via Pauli-basis matrix-support disjointness (M(L_σ) and Π M(L_σ) Π⁻¹ have complementary non-zero entries on the same shifted-diagonal positions).
-- **Lemma B (Off-Diagonal-Orthogonality).** For σ_α ≠ σ_β both BitB-odd, ⟨L_{σ_α,−i}, L_{σ_β,−i}⟩ = 0. Reduces to ⟨L_{σ_α}, Π^m L_{σ_β} Π^{−m}⟩ = 0 for all m ∈ {0, 1, 2, 3}; each established by matrix-support disjointness (overlap requires σ_α = σ_β).
+- **Lemma N-A (Diagonal-Norm)** (Welle 11 non-Hermitian-extension lemma, distinct from the parent Hermitian-H Lemma A above). For any BitB-odd Pauli string σ at length N, ‖L_{σ,−i}‖² = 4^N. Combines support-counting ‖L_σ‖² = 2 · 4^N + the F38 / F63 Π²-conjugation eigenvalue + the cross-term vanishing ⟨L_σ, Π L_σ Π⁻¹⟩ = 0 via Pauli-basis matrix-support disjointness (M(L_σ) and Π M(L_σ) Π⁻¹ have complementary non-zero entries on the same shifted-diagonal positions).
+- **Lemma N-B (Off-Diagonal-Orthogonality)** (Welle 11 non-Hermitian-extension lemma, distinct from the parent Hermitian-H Lemma B above). For σ_α ≠ σ_β both BitB-odd, ⟨L_{σ_α,−i}, L_{σ_β,−i}⟩ = 0. Reduces to ⟨L_{σ_α}, Π^m L_{σ_β} Π^{−m}⟩ = 0 for all m ∈ {0, 1, 2, 3}; each established by matrix-support disjointness (overlap requires σ_α = σ_β).
 
-Both lemmas reduce to per-position checks on the 4^N × 4^N matrix of L_σ that are uniform in N. The proof is N-independent.
+Both Welle 11 lemmas (N-A and N-B) reduce to per-position checks on the 4^N × 4^N matrix of L_σ that are uniform in N. The proof is N-independent.
 
 **Welle 10 numerical anchor** (preserved as historical empirical validation): the per-pair identity F(σ_α, σ_β) = 0 was verified bit-exact across 559,912 distinct upper-triangular pairs at N = 2, 3, 4, 5 by `simulations/_f112_open_identity_basis_enum.py` (Python, Welle 10a) and `compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs` (C#, Welle 10b). All N = 2..4 bit-exact 0; N = 5 < 1e-10. See [F112_NONHERMITIAN_BASIS_ENUMERATION.md](../../experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md).
 
@@ -211,7 +211,7 @@ Connections:
 
 ## Open
 
-- ~~**Step 5 extension to non-Hermitian H**~~: **CLOSED 2026-05-27 (Welle 11)** in [PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) via the two-lemma structural proof (Lemma A: ‖L_{σ,−i}‖² = 4^N for BitB-odd σ; Lemma B: ⟨L_{σ_α,−i}, L_{σ_β,−i}⟩ = 0 for σ_α ≠ σ_β both BitB-odd; both via Pauli-basis matrix-support disjointness). F112 non-Hermitian extension is now Tier1Derived universal N.
+- ~~**Step 5 extension to non-Hermitian H**~~: **CLOSED 2026-05-27 (Welle 11)** in [PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) via the two-lemma structural proof (Lemma N-A: ‖L_{σ,−i}‖² = 4^N for BitB-odd σ; Lemma N-B: ⟨L_{σ_α,−i}, L_{σ_β,−i}⟩ = 0 for σ_α ≠ σ_β both BitB-odd; both via Pauli-basis matrix-support disjointness). F112 non-Hermitian extension is now Tier1Derived universal N.
 - **F87 ↔ F112 orthogonality**: empirically confirmed via the F87-connection probe; structural derivation that both axes are projections of the bit_b Z₂-grading on the Pauli group is deferred.
 - **C# Core typing**: Tier1Derived for both Hermitian and non-Hermitian H (universal N).
 - **Connection to F104, F105, F106** (F87 Z₂³-cubed refinements at various N, k): potential bridge to the F112 balance via shared bit_b structure.

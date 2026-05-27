@@ -3642,7 +3642,7 @@ helpers: `HardCellPureDTemplate.IsPureDTemplate(term, dephase)`,
 
 ---
 
-### F112. Lindblad Π-Eigenvalue Balance under bit_b Homogeneity (Tier 1 derived for Hermitian H; Tier 1 candidate for non-Hermitian H extension)
+### F112. Lindblad Π-Eigenvalue Balance under bit_b Homogeneity (Tier 1 derived for both Hermitian and non-Hermitian H, universal N)
 
 Structural identity making the `polarity_coordinates_from_L` diagnostic
 asymmetry an exact witness for c outside the bit_b-homogeneous regime. Sits on
@@ -3661,10 +3661,17 @@ satisfies
 bit-exactly (machine precision), for any choice of complex coefficients γ_k
 and any Pauli-coefficient choice in each c_k.
 
-**Empirical extension (non-Hermitian H):** the equality holds bit-exact for
-arbitrary non-Hermitian H across 20 random configurations at N = 2, 3
-(probe 14). Reduces structurally to the open identity
-Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0 for Hermitian H_re, H_im.
+**Non-Hermitian extension (Tier 1 derived, universal N, Welle 11, 2026-05-27):**
+the equality also holds for non-Hermitian H. Writing H = H_re + i H_im with both
+summands Hermitian, the equality reduces algebraically to the open identity
+Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0 for any Hermitian H_re, H_im. This identity is
+now closed structurally for all N via the Welle 11 two-lemma proof
+(Diagonal-Norm + Off-Diagonal-Orthogonality) in
+`docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md`, making the non-Hermitian
+extension Tier1Derived universal N. The 559,912-pair basis enumeration at
+N ≤ 5 (Welle 10a Python + Welle 10b C# SLOW_F112) is preserved as the
+empirical anchor that motivated the search for the structural proof; it
+remains the historical numerical validation.
 
 **Five-step structure:**
 - Step 1: reduce balance to Π-conjugation ±i Frobenius equality:
@@ -3700,12 +3707,13 @@ bit_b-homogeneous c), and direct Π-eigenspace L_H projection across 30
 random H (10 Hermitian + 10 non-Hermitian Pauli + 10 random complex matrix)
 at N = 2, 3 (14, all bit-exact).
 
-**Open:** Step 5 extension to non-Hermitian H (reduces to a specific
-Im⟨·,·⟩ = 0 identity); structural derivation of F87 ↔ F112 orthogonality as
-two projections of the same bit_b Z₂-grading; connection to F104 / F105 / F106
-(F87 Z₂³-cubed refinements).
+**Open:** structural derivation of F87 ↔ F112 orthogonality as two projections
+of the same bit_b Z₂-grading; connection to F104 / F105 / F106 (F87 Z₂³-cubed
+refinements). (Step 5 extension to non-Hermitian H closed Welle 11, 2026-05-27;
+see `docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md`.)
 
-**Source:** [Proof](proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md);
+**Source:** [Proof (parent, Hermitian H)](proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md);
+[Proof (Welle 11, non-Hermitian extension, universal N)](proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md);
 parents: F38 + F63 + F108 Part 1/2/3 (Tier 1 derived) + F87 dissipator-
 resonance law + `polarity_coordinates_from_L` primitive
 (`simulations/framework/diagnostics/polarity_coordinates.py`, added 2026-05-25).

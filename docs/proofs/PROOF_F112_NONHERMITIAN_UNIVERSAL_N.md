@@ -18,7 +18,7 @@ The parent proof's Step 5 establishes ‖L_{H,+i}‖² = ‖L_{H,−i}‖² for 
 ```
 0 = ‖L_{H,+i}‖² − ‖L_{H,−i}‖²
   = (algebraic expansion using L_H = L_{H_re} + i · L_{H_im} and the Hermitian-case identity applied to H_re and to H_im)
-  = 2 · Im⟨L_{H_re,−i}, L_{H_im,−i}⟩.
+  = 4 · Im⟨L_{H_re,−i}, L_{H_im,−i}⟩.
 ```
 
 Hence F112 extends to non-Hermitian H iff the following identity holds for any Hermitian H_re, H_im:
@@ -52,11 +52,11 @@ where w_b(τ) := BitBParity(σ_τ) and we used w_b(σ ⊕ τ) = w_b(σ) + w_b(τ
 - For σ BitB-even: Π² L_σ Π⁻² = +L_σ. So L_σ lies entirely in the Π-conjugation eigenspaces {+1, −1}; in particular P_{+i}(L_σ) = P_{−i}(L_σ) = 0. Then L_{σ,±i} = 0 trivially, and ⟨L_{σ_α,−i}, L_{σ_β,−i}⟩ = 0 for any pair where either σ_α or σ_β is BitB-even.
 - For σ BitB-odd: Π² L_σ Π⁻² = −L_σ. So L_σ lies entirely in the Π-conjugation eigenspaces {+i, −i}, with no {+1, −1} component. L_{σ,±i} may be nonzero.
 
-**It therefore suffices to prove F(σ_α, σ_β) = 0 when both σ_α and σ_β are BitB-odd**, which is the content of Lemmas A and B below.
+**It therefore suffices to prove F(σ_α, σ_β) = 0 when both σ_α and σ_β are BitB-odd**, which is the content of Lemmas N-A and N-B below.
 
-## (c) Lemma A (Diagonal-Norm): ‖L_{σ,−i}‖² = 4^N for σ BitB-odd
+## (c) Lemma N-A (Diagonal-Norm): ‖L_{σ,−i}‖² = 4^N for σ BitB-odd
 
-**Lemma A.** For any BitB-odd Pauli string σ at chain length N, the Frobenius norm squared (superoperator Hilbert-Schmidt norm) of L_{σ,−i} := P_{−i}(L_σ) equals 4^N exactly.
+**Lemma N-A.** For any BitB-odd Pauli string σ at chain length N, the Frobenius norm squared (superoperator Hilbert-Schmidt norm) of L_{σ,−i} := P_{−i}(L_σ) equals 4^N exactly.
 
 **Setup.** Operator-space has dimension d² = 4^N. The Pauli strings {σ_τ : τ ∈ {0, ..., 4^N − 1}} form an orthogonal basis with ⟨σ_τ, σ_τ'⟩_F = d · δ_{τ, τ'} (so the orthonormal basis is e_τ := σ_τ / √d). A superoperator T has Frobenius norm squared ‖T‖² := Σ_τ ‖T e_τ‖²_F.
 
@@ -149,11 +149,11 @@ Frobenius norm squared:
             = 4^N.
 ```
 
-By symmetry, ‖L_σ^{+i}‖² = 4^N as well. **∎ Lemma A.**
+By symmetry, ‖L_σ^{+i}‖² = 4^N as well. **∎ Lemma N-A.**
 
-## (d) Lemma B (Off-Diagonal-Orthogonality): ⟨L_{σ_α,−i}, L_{σ_β,−i}⟩_F = 0 for σ_α ≠ σ_β both BitB-odd
+## (d) Lemma N-B (Off-Diagonal-Orthogonality): ⟨L_{σ_α,−i}, L_{σ_β,−i}⟩_F = 0 for σ_α ≠ σ_β both BitB-odd
 
-**Lemma B.** For σ_α ≠ σ_β both BitB-odd Pauli strings at chain length N, the Frobenius inner product ⟨L_{σ_α,−i}, L_{σ_β,−i}⟩_F = 0 exactly.
+**Lemma N-B.** For σ_α ≠ σ_β both BitB-odd Pauli strings at chain length N, the Frobenius inner product ⟨L_{σ_α,−i}, L_{σ_β,−i}⟩_F = 0 exactly.
 
 **Setup.** Using the same orthonormal Pauli basis on operator-space, define M_α := M(L_{σ_α}) and M_β := M(L_{σ_β}) (their matrices). The projector P_{−i} is self-adjoint and idempotent w.r.t. the operator-space Frobenius inner product (a standard fact for spectral projectors of unitary operators, applied here to the unitary Π acting on operator-space by conjugation):
 
@@ -190,7 +190,7 @@ Hence **σ_α ≠ σ_β ⇒ ⟨L_{σ_α}, L_{σ_β}⟩_F = 0 by support disjoint
 **Step B.3: Sum.**
 
 ```
-⟨L_{σ_α,−i}, L_{σ_β,−i}⟩_F = (1/4) Σ_{m=0}^{3} (−i)^{−m} · 0 = 0.  ∎ Lemma B.
+⟨L_{σ_α,−i}, L_{σ_β,−i}⟩_F = (1/4) Σ_{m=0}^{3} (−i)^{−m} · 0 = 0.  ∎ Lemma N-B.
 ```
 
 ## (e) Main theorem: F ≡ 0 universal N
@@ -204,8 +204,8 @@ F(σ_α, σ_β) := Im⟨L_{σ_α,−i}, L_{σ_β,−i}⟩_F = 0.
 **Proof.**
 
 - *Both BitB-even, or one BitB-even one BitB-odd.* By section (b), L_{σ,−i} = 0 for BitB-even σ. Hence ⟨L_{σ_α,−i}, L_{σ_β,−i}⟩_F = 0 trivially, and F = 0.
-- *Both BitB-odd, σ_α = σ_β.* By Lemma A, ⟨L_{σ,−i}, L_{σ,−i}⟩_F = ‖L_{σ,−i}‖² = 4^N ∈ ℝ. Hence Im = 0.
-- *Both BitB-odd, σ_α ≠ σ_β.* By Lemma B, ⟨L_{σ_α,−i}, L_{σ_β,−i}⟩_F = 0 exactly. Hence Im = 0.
+- *Both BitB-odd, σ_α = σ_β.* By Lemma N-A, ⟨L_{σ,−i}, L_{σ,−i}⟩_F = ‖L_{σ,−i}‖² = 4^N ∈ ℝ. Hence Im = 0.
+- *Both BitB-odd, σ_α ≠ σ_β.* By Lemma N-B, ⟨L_{σ_α,−i}, L_{σ_β,−i}⟩_F = 0 exactly. Hence Im = 0.
 
 All cases give F(σ_α, σ_β) = 0. **∎**
 
@@ -225,9 +225,9 @@ with H Hermitian OR non-Hermitian, provided each c_k is bit_b-homogeneous. **The
 
 3. **Polarity-axis completion**: F108 Parts 1–3 (palindrome closure of bit_b = 0 bilinears), F112 (now universal N, Hermitian and non-Hermitian H), F113 (T1 break-magnitude closed form): all three live on the bit_b Z₂-grading of the Pauli group and are now Tier 1 derived universal N. The bit_b axis description is structurally complete on the BitB-axis side.
 
-## Empirical anchor: bit-exact verification at N = 1, 2, 3
+## Empirical anchor: numerical verification at N = 1, 2, 3
 
-The verifier `simulations/_f112_universal_n_proof_verify.py` checks each lemma step and the main theorem bit-exact at N = 1, 2, 3:
+The verifier `simulations/_f112_universal_n_proof_verify.py` checks each lemma step and the main theorem within 1e-12 numpy double-precision tolerance (max deviation < 1e-12, i.e. machine zero to numpy double precision) at N = 1, 2, 3:
 
 | N | BitB-odd strings | Off-diag BitB-odd pairs | All-pairs F = 0 check |
 |---|---|---|---|
@@ -235,17 +235,17 @@ The verifier `simulations/_f112_universal_n_proof_verify.py` checks each lemma s
 | 2 | 8 | 56 | 256 pairs |
 | 3 | 32 | 992 | 4096 pairs |
 
-All deviations exactly 0.000e+00 in numpy double precision. Steps verified per N:
+All deviations within 1e-12 tolerance, i.e. machine zero to numpy double precision. (The Welle 10a Python enumeration at N ≤ 5, where matrix entries are rational, is genuinely bit-exact; the Welle 11 verifier here is numerical.) Steps verified per N:
 - Step A.1 (‖L_σ‖² = 2 · 4^N): 42 strings total.
 - Step A.2 (Π² L_σ Π⁻² = −L_σ): 42 strings.
 - Step A.3 (⟨L_σ, Π L_σ Π⁻¹⟩ = 0): 42 strings.
-- Step A.4 / Lemma A conclusion (‖L_{σ,−i}‖² = 4^N): 42 strings.
+- Step A.4 / Lemma N-A conclusion (‖L_{σ,−i}‖² = 4^N): 42 strings.
 - Step B.1 (⟨L_α, L_β⟩ = 0 raw): 1050 off-diagonal pairs.
 - Step B.2 (all four Π-orbit shifts): 4200 (α, β, m) triples.
-- Lemma B conclusion: 1050 off-diagonal pairs.
+- Lemma N-B conclusion: 1050 off-diagonal pairs.
 - Main theorem (all-pairs, including BitB-mixed): 4368 pair F-values.
 
-The N = 5 anchor at 524,800 pairs (Welle 10) remains as cross-validation that the per-pair identity F(σ_α, σ_β) = 0 holds bit-exact at significantly larger N. The structural proof here is N-independent: every step (Steps A.1, A.2, A.3, A.4, B.1, B.2.0–B.2.3) follows from the support/phase structure of L_σ and Π in the Pauli basis at any N.
+The N = 5 anchor at 524,800 pairs (Welle 10) remains as cross-validation that the per-pair identity F(σ_α, σ_β) = 0 holds bit-exact at significantly larger N (the Welle 10a Python enumeration uses rational matrix entries and is genuinely bit-exact; the C# pipeline at N = 5 confirms max |Im| < 1e-10). The structural proof here is N-independent: every step (Steps A.1, A.2, A.3, A.4, B.1, B.2.0–B.2.3) follows from the support/phase structure of L_σ and Π in the Pauli basis at any N.
 
 ## Status
 

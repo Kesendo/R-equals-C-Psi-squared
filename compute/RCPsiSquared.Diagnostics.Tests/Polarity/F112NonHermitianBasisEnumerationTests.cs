@@ -105,8 +105,13 @@ public class F112NonHermitianBasisEnumerationTests
             $"max |Im| at N={N} should be < 1e-10; got {result.MaxImaginary:E4}");
     }
 
-    /// <summary>SLOW (~15-30 min, ~16 GB RAM): the N=5 enumeration that extends F112
-    /// non-Hermitian Tier1Derived from N≤4 to N≤5. Tagged SLOW_F112 so CI can filter
+    /// <summary>SLOW (~15-30 min, ~16 GB RAM): the N=5 enumeration that served as the
+    /// empirical anchor (Welle 10b, 2026-05-26) for the universal-N closure subsequently
+    /// established structurally (Welle 11, 2026-05-27; see
+    /// <c>docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md</c>). After Welle 11 the
+    /// structural proof gives Tier1Derived for all N, so this enumeration is the
+    /// empirical anchor (historical numerical validation) rather than the
+    /// Tier-promotion mechanism. Tagged SLOW_F112 so CI can filter
     /// via <c>--filter "Category!=SLOW_F112"</c> when needed.
     ///
     /// <para>Run explicitly: <c>dotnet test compute\RCPsiSquared.Diagnostics.Tests -c

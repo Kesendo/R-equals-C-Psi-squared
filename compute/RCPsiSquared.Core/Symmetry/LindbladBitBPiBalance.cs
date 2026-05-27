@@ -4,7 +4,7 @@ using RCPsiSquared.Core.Pauli;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>F112 (Tier1Derived, Hermitian H): the structural identity behind the
+/// <summary>F112 (Tier1Derived for both Hermitian and non-Hermitian H, universal N): the structural identity behind the
 /// `polarity_coordinates_from_L` diagnostic. For any Lindblad-form Liouvillian
 ///
 /// <para>  L = -i[H, ·] + Σ_k γ_k · np.kron(c_k, c_k^*)</para>
@@ -44,9 +44,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// to the identity Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0 for any Hermitian H_re, H_im.
 /// This identity is Tier1Derived for all N via the two-lemma structural proof in
 /// <c>docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md</c> (Welle 11, 2026-05-27):
-/// Lemma A (Diagonal-Norm) gives ‖L_{σ,-i}‖² = 4^N for any BitB-odd Pauli string σ
-/// via Π-eigenspace decomposition + matrix-support disjointness; Lemma B
-/// (Off-Diagonal-Orthogonality) gives ⟨L_{σ_α,-i}, L_{σ_β,-i}⟩ = 0 for σ_α ≠ σ_β
+/// Lemma N-A (Diagonal-Norm; the Welle-11 non-Hermitian-extension lemma, distinct from
+/// the parent Hermitian-H Lemma A used in Step 5 above) gives ‖L_{σ,-i}‖² = 4^N for
+/// any BitB-odd Pauli string σ via Π-eigenspace decomposition + matrix-support
+/// disjointness; Lemma N-B (Off-Diagonal-Orthogonality; distinct from parent Lemma B)
+/// gives ⟨L_{σ_α,-i}, L_{σ_β,-i}⟩ = 0 for σ_α ≠ σ_β
 /// both BitB-odd via support disjointness across all four Π-orbit shifts. By
 /// bilinearity + Pauli-basis spanning, F112 holds for any non-Hermitian H at any N.
 /// The basis-enumeration anchor at N ≤ 5 (Welle 10a Python 559,912 pairs all bit-exact
@@ -120,9 +122,12 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
         "for any Hermitian H_re, H_im. F is real-bilinear and antisymmetric under H_re ↔ H_im " +
         "exchange, so it is determined by its values on Pauli-string basis pairs. The " +
         "per-pair identity F(σ_α, σ_β) = 0 holds structurally at any N via two lemmas: " +
-        "Lemma A (Diagonal-Norm) gives ‖L_{σ,-i}‖² = 4^N for any BitB-odd σ; Lemma B " +
-        "(Off-Diagonal-Orthogonality) gives ⟨L_{σ_α,-i}, L_{σ_β,-i}⟩ = 0 for σ_α ≠ σ_β " +
-        "both BitB-odd. Both lemmas reduce to Pauli-basis matrix-support disjointness of " +
+        "Lemma N-A (Diagonal-Norm; the Welle-11 non-Hermitian-extension lemma, distinct " +
+        "from the parent Hermitian-H Lemma A used in Step 5 of the parent proof) gives " +
+        "‖L_{σ,-i}‖² = 4^N for any BitB-odd σ; Lemma N-B " +
+        "(Off-Diagonal-Orthogonality; distinct from parent Lemma B) gives " +
+        "⟨L_{σ_α,-i}, L_{σ_β,-i}⟩ = 0 for σ_α ≠ σ_β " +
+        "both BitB-odd. Both Welle-11 lemmas reduce to Pauli-basis matrix-support disjointness of " +
         "L_σ and Π^m L_σ Π^{-m} under the F38 / F63 Π² eigenvalue formula. F112 " +
         "non-Hermitian extension is therefore Tier1Derived for ALL N (proof in " +
         "docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md, Welle 11 2026-05-27). The " +
@@ -131,9 +136,11 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
         "compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs) " +
         "is preserved as the empirical motivation for the structural proof. The two-lemma " +
         "proof verifier simulations/_f112_universal_n_proof_verify.py confirms each step " +
-        "bit-exact at N = 1, 2, 3 (42 BitB-odd strings, 1050 off-diagonal pairs, 4368 " +
-        "all-pair F-values, all 0.000e+00 in numpy double precision). See " +
-        "experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md.";
+        "within 1e-12 numpy double-precision tolerance at N = 1, 2, 3 (42 BitB-odd strings, " +
+        "1050 off-diagonal pairs, 4368 all-pair F-values, all max deviations < 1e-12, " +
+        "i.e. machine zero to numpy double precision). The Welle 10a Python enumeration " +
+        "above is genuinely bit-exact at N ≤ 4 (rational matrix entries); the Welle 11 " +
+        "verifier is numerical. See experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md.";
 
     // ============================================================
     // Static helpers (delegating to PauliLetter.BitB())

@@ -53,9 +53,10 @@ public class LindbladBitBPiBalanceTests
     [Fact]
     public void Tier_IsTier1Derived()
     {
-        // Hermitian H is the typed scope (rigorous 5-step proof). The non-Hermitian
-        // H extension is Tier1Candidate-only and is documented in inspectables, not
-        // promoted to a separate typed Claim.
+        // The non-Hermitian H extension is also Tier1Derived universal N (Welle 11,
+        // 2026-05-27, structural proof in
+        // `PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md`); both Hermitian and non-Hermitian
+        // H now sit under this single Tier1Derived Claim.
         Assert.Equal(Tier.Tier1Derived, Make().Tier);
     }
 

@@ -49,17 +49,17 @@ The closure of the universal-N path makes the basis-enumeration argument obsolet
 
 The universal-N closure rests on two lemmas (see [`PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md`](../docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) for the full proof):
 
-**Lemma A (Diagonal-Norm).** For any BitB-odd Pauli string σ at chain length N, ‖L_{σ,−i}‖² = 4^N exactly. Proof composes (i) the support-count identity ‖L_σ‖² = 2 · 4^N (counting Pauli strings that anticommute with σ); (ii) the F38 / F63 Π²-conjugation eigenvalue (−1)^{BitBParity(σ)} = −1 for BitB-odd σ, putting L_σ in the Π-conjugation {+i, −i} eigenspaces; (iii) the cross-term vanishing ⟨L_σ, Π L_σ Π⁻¹⟩ = 0 via Pauli-basis matrix-support disjointness (M(L_σ) and Π M(L_σ) Π⁻¹ have complementary support on the same shifted-diagonal positions); (iv) the standard "halving" identity ‖L_{σ,±i}‖² = (1/2) ‖L_σ‖² = 4^N.
+**Lemma N-A (Diagonal-Norm).** For any BitB-odd Pauli string σ at chain length N, ‖L_{σ,−i}‖² = 4^N exactly. Proof composes (i) the support-count identity ‖L_σ‖² = 2 · 4^N (counting Pauli strings that anticommute with σ); (ii) the F38 / F63 Π²-conjugation eigenvalue (−1)^{BitBParity(σ)} = −1 for BitB-odd σ, putting L_σ in the Π-conjugation {+i, −i} eigenspaces; (iii) the cross-term vanishing ⟨L_σ, Π L_σ Π⁻¹⟩ = 0 via Pauli-basis matrix-support disjointness (M(L_σ) and Π M(L_σ) Π⁻¹ have complementary support on the same shifted-diagonal positions); (iv) the standard "halving" identity ‖L_{σ,±i}‖² = (1/2) ‖L_σ‖² = 4^N.
 
-**Lemma B (Off-Diagonal-Orthogonality).** For σ_α ≠ σ_β both BitB-odd at chain length N, ⟨L_{σ_α,−i}, L_{σ_β,−i}⟩ = 0 exactly. Proof reduces to ⟨L_{σ_α}, Π^m L_{σ_β} Π^{−m}⟩ = 0 for all m ∈ {0, 1, 2, 3}, each established by matrix-support disjointness: M(L_α) is supported on {(σ_α ⊕ α', α')}, Π^m M(L_β) Π^{−m} is supported on {(σ_β ⊕ α', α')} (possibly with shifted "condition on α'"); overlap requires σ_α = σ_β.
+**Lemma N-B (Off-Diagonal-Orthogonality).** For σ_α ≠ σ_β both BitB-odd at chain length N, ⟨L_{σ_α,−i}, L_{σ_β,−i}⟩ = 0 exactly. Proof reduces to ⟨L_{σ_α}, Π^m L_{σ_β} Π^{−m}⟩ = 0 for all m ∈ {0, 1, 2, 3}, each established by matrix-support disjointness: M(L_α) is supported on {(σ_α ⊕ α', α')}, Π^m M(L_β) Π^{−m} is supported on {(σ_β ⊕ α', α')} (possibly with shifted "condition on α'"); overlap requires σ_α = σ_β.
 
-Both lemmas reduce to per-position checks on the 4^N × 4^N matrix of L_σ that are uniform in N; the proof is N-independent.
+Both Welle 11 lemmas (N-A and N-B) reduce to per-position checks on the 4^N × 4^N matrix of L_σ that are uniform in N; the proof is N-independent.
 
-**Verifier:** [`simulations/_f112_universal_n_proof_verify.py`](../simulations/_f112_universal_n_proof_verify.py) confirms each step bit-exact at N = 1, 2, 3 (42 BitB-odd strings, 1050 off-diagonal pairs, 4368 all-pair F-values, all 0.000e+00 in numpy double precision).
+**Verifier:** [`simulations/_f112_universal_n_proof_verify.py`](../simulations/_f112_universal_n_proof_verify.py) confirms each step within 1e-12 numpy double-precision tolerance at N = 1, 2, 3 (42 BitB-odd strings, 1050 off-diagonal pairs, 4368 all-pair F-values, all max deviations < 1e-12, i.e. machine zero to numpy double precision). The Welle 10a Python enumeration above is genuinely bit-exact at N ≤ 4 (rational matrix entries); the Welle 11 verifier is numerical.
 
 ## Implications
 
-- **F112 non-Hermitian extension is Tier1Derived for all N.** The algebraic argument bilinearity + Pauli-basis spanning reduces F = 0 to the per-pair identity F(σ_α, σ_β) = 0; the per-pair identity holds structurally via Lemmas A and B.
+- **F112 non-Hermitian extension is Tier1Derived for all N.** The algebraic argument bilinearity + Pauli-basis spanning reduces F = 0 to the per-pair identity F(σ_α, σ_β) = 0; the per-pair identity holds structurally via Lemmas N-A and N-B.
 - **The polarity_coordinates_from_L diagnostic** is a structural witness for L not in the Lindblad form `−i[H, ·] + Σ γ_k np.kron(c_k, c_k^*)` with bit_b-homogeneous c, universally in N and for any H (Hermitian or non-Hermitian).
 - **The bit_b Z₂-axis carries three Tier1Derived universal-N theorems**: F108 Parts 1/2/3 (palindrome closure of bit_b = 0 bilinears), F112 (Hermitian and non-Hermitian H, now universal N), F113 (T1 break-magnitude closed form). The bit_b axis description is structurally complete on the BitB-axis side.
 

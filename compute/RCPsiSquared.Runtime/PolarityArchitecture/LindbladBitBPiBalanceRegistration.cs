@@ -5,8 +5,9 @@ using RCPsiSquared.Runtime.ObjectManager;
 namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 registration for <see cref="LindbladBitBPiBalance"/>
-/// (F112, Tier1Derived for Hermitian H; Tier1Candidate non-Hermitian extension
-/// documented in inspectables, not typed as a separate Claim).
+/// (F112, Tier1Derived universal N for both Hermitian and non-Hermitian H; Welle 11,
+/// 2026-05-27; structural proof in
+/// <c>docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md</c>).
 ///
 /// <para>Typed ctor parent: <see cref="F108Part1Pi2EvenAlwaysPalindromic"/>
 /// (shared bit_b axis foundation via F38 / F63 Π² eigenvalue formula on Pauli
