@@ -14,7 +14,7 @@ The Klein four-group V₄ = Z₂ × Z₂ acts on the set of dephase letters {I, 
 Specifically, define on the single-site Pauli basis ordered (I, X, Z, Y):
 
 - **d_l := diag(1, 1, 1, −1)**  (the diagonal involution from PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md)
-- **h := X↔Z basis-permutation matrix**, the 4×4 matrix
+- **h := X↔Z basis-permutation matrix** (basis-index permutation in the Pauli-string enumeration; see Convention note at the end for the distinction from a physical X↔Z swap), the 4×4 matrix
 
   ```
             col=I  col=X  col=Z  col=Y
@@ -210,7 +210,7 @@ Pairwise commutativity (per-site):
 - [d_l, q_zx] = d_l · (h · d_l) − (h · d_l) · d_l = (d_l · h) · d_l − h · d_l² = h · d_l² − h · I = h − h = 0.
 - [q_zx, q_yx] = (h · d_l) · h − h · (h · d_l) = h · d_l · h − h² · d_l = h · (h · d_l) − I · d_l = h² · d_l − d_l = d_l − d_l = 0.
 
-So {I, d_l, q_zx, q_yx} is a Klein-V₄ subgroup of U(4) per-site, abelian, all elements order 2.
+So {I, d_l, q_zx, q_yx} (with q_yx = h per the line-32 definition) is a Klein-V₄ subgroup of U(4) per-site, abelian, all elements order 2.
 
 ### Step 6: Lift to universal N by tensor power
 
@@ -237,14 +237,14 @@ Hence {I, D, Q_zx, Q_yx} is a Klein-V₄ subgroup of U(4^N) for every N, and the
 
 **Symbolic (sympy exact rationals + I):** the same script's Step 2 verifies the Z↔X per-site identity `q_zx · π_Z · q_zx⁻¹ = π_X` symbolically (entry-wise zero residual matrix in sympy). Combined with the tensor-product lift in Step 6, this closes the universal-N case in finite symbolic computation.
 
-The brute-force per-site search (Steps 1, 5 of the verifier) enumerated all 16 × 16 = 256 sign-vector combinations S_L · h · S_R and found 64 valid Z↔X solutions and 64 valid Y↔X solutions. The canonical involutions (q_zx = h · d_l with order 2, q_yx = h with order 2) were selected as the simplest representatives; the other matches are order-4 cyclic variants that conjugate Π_Z to Π_X correctly but do not form an order-2 group.
+The brute-force per-site search (Steps 1, 5 of the verifier) enumerated all 16 × 16 = 256 sign-vector combinations S_L · h · S_R and found 64 valid Z↔X solutions and 64 valid Y↔X solutions (run-log in the script's stdout). The canonical involutions (q_zx = h · d_l with order 2, q_yx = h with order 2) were selected as the simplest order-2 representatives; the other matches include higher-order variants that conjugate Π_Z to Π_X correctly but do not form an order-2 group (exhaustive order classification of all 64 matches is not performed by the script).
 
 ## Implications
 
-- **F1 palindrome family is fully Klein-V₄ equivariant.** Any F1 diagnostic (residual norm, Frobenius inner product, spectrum, Master Lemma identity) computed under one dephase letter automatically transfers to the other two via unitary conjugation by the appropriate element of {I, D, Q_zx, Q_yx}. The Welle 11 F112 universal-N closure under Z-dephasing implies the same under X- and Y-dephasing without re-proof.
+- **F1 palindrome family is fully Klein-V₄ equivariant.** Any F1 diagnostic (residual norm, Frobenius inner product, spectrum, Master Lemma identity) computed under one dephase letter automatically transfers to the other two via unitary conjugation by the appropriate element of {I, D, Q_zx, Q_yx}. The Welle 11 F112 universal-N closure under Z-dephasing is the structural reason F112 transports to X- and Y-dephasing under {Q_zx, D}-conjugation respectively (forward-looking corollary; the explicit auto-implication is currently not yet folded into PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md and is a Welle 12 Task 3 follow-up).
 - **The controller's order-4 conjecture is falsified.** Pre-dispatch analysis suggested Z↔X would be order 4 (cyclic) because Π_Z and Π_X act on different Klein axes (bit_a vs bit_b). The actual structure is order 2: the basis permutation h plus the sign-flip diagonal d_l together intertwine the two axes, and the composite (h · d_l)² = h² · d_l² = I (since h and d_l commute). This is the structural reason the Klein-V₄ lift works.
 - **Composability of Klein swaps.** The closure D · Q_zx · Q_yx = I means the three swaps are not independent: any two determine the third. Operationally, the Z↔Y diagonal D (the simplest swap, no permutation) combined with the Y↔X pure permutation H = Q_yx gives the Z↔X swap as their product (D · H = H · D = Q_zx since D and H commute).
-- **F108 cross-dephasing.** F108 Parts 1, 2, 3 (Pi5bilinear under Z-, X-, Y-dephasing respectively) are conjectured equivalent by this Klein-V₄ equivariance; an F108-style proof under Z-dephasing implies the X- and Y-dephasing versions automatically. This sharpens the F108 picture: the three parts are not independent constructions but Klein-V₄ images of a single structural identity.
+- **F108 cross-dephasing (conjecture, not yet proven).** F108 Parts 1, 2, 3 (Pi5bilinear under Z-, X-, Y-dephasing respectively) are *conjectured* equivalent under this Klein-V₄ equivariance. Caveat: the F108 statement uses Π_5bilinear (a distinct operator from the F1 Π_dephase addressed by this proof), so the auto-implication would require additionally showing that the relevant Q_zx- / D-conjugation maps Π_5bilinear(Z) ↦ Π_5bilinear(X) and Π_5bilinear(Z) ↦ Π_5bilinear(Y), plus the same on the Lindbladian L itself. The F1 Π identity proven here is consistent with that conjecture but does not establish it on its own. A separate proof bridging the F1 Π Klein-V₄ to the F108 Π_5bilinear Klein-V₄ remains open.
 
 ## Convention note: the basis permutation h
 
