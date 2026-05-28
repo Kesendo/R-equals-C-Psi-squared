@@ -66,6 +66,13 @@ already dimensionally wrong; the experiment below confirms the consequence quant
 
 The only rate scale in the problem is γ. The `ħ/√(λ₂·J²)` form appears nowhere in the repo.
 
+**This positive law is the Absorption Theorem / D6.** τ = 1/λ₂ = 1/(2γ) is the slowest-mode
+(⟨popcount(i⊕j)⟩ = 1) reading of the **Absorption Theorem** `Re(λ) = −2γ⟨n_XY⟩`
+([`PROOF_ABSORPTION_THEOREM.md`](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)); the gap = 2γ and
+the mixing time are **D6** in [`ANALYTICAL_FORMULAS.md`](../docs/ANALYTICAL_FORMULAS.md). What this
+experiment adds is the *rejection* of the extracted formula, plus an H-independence check that
+closes the Absorption Theorem's former complex-Hamiltonian caveat.
+
 ---
 
 ## γ is the timekeeper
@@ -170,6 +177,8 @@ rᵢ + r₍ₙ₋₁₋ᵢ₎ = 2Nγ holds across the full rate multiset.
 
 ## References
 
+- [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md): `Re(λ) = −2γ⟨n_XY⟩`, the master rate identity; τ = 1/(2γ) is its slowest-mode case. (Generality to complex Hermitian H closed here.)
+- [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md): **D6** (spectral gap = 2γ, mixing time); F3 / F8 / F74 are decay-rate corollaries of the Absorption Theorem.
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the 2γ floor / palindromic spectrum.
 - [γ–Time Distinction](../docs/GAMMA_TIME_DISTINCTION.md): γ as the source of experienced time.
 - `simulations/decay_derivation.py`: decay spectrum is J-independent rational multiples of γ.

@@ -31,6 +31,15 @@ namespace RCPsiSquared.Core.Symmetry;
 /// to map rates 2γ₀·k ↔ 2γ₀·(N − k). Pair-sum equals 2γ₀·N exactly = the
 /// spectral maximum. This is the F89c structural lemma's source.</para>
 ///
+/// <para>H-independence (any Hermitian H, caveat closed 2026-05-28): the identity
+/// depends only on the dissipator. L_H = −i[H, ·] is anti-Hermitian for every
+/// Hermitian H (H^T = H*, no reality assumption), so it contributes zero to
+/// Re(λ) via the Rayleigh quotient and drops out. Holds for complex Hermitian H
+/// (Dzyaloshinskii-Moriya, Y/transverse terms), not just real symmetric — verified
+/// bit-exact against a random complex Hermitian H, with Herm(L) = (L+L†)/2 the
+/// identical pure Z-dephasing dissipator for both (simulations/_popcount_identity_h_independence.py).
+/// Closes the former "real Hermitian only" caveat in PROOF_ABSORPTION_THEOREM.md.</para>
+///
 /// <para>Pi2-Foundation anchor: the "2" absorption quantum IS
 /// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = a_0 = polynomial root d in
 /// d² − 2d = 0. Same anchor as F1 TwoFactor, F50 DecayRateFactor, F66

@@ -118,20 +118,29 @@ twice the dephasing rate times the average light content**.
 
 The proof requires two structural properties of the Lindblad decomposition.
 
-**Step 1. L_H is anti-Hermitian.**
+**Step 1. L_H is anti-Hermitian (for any Hermitian H).**
 
-For a real Hermitian Hamiltonian H (H = H† = H̄ = H^T), the superoperator
+For any Hermitian Hamiltonian H (H = H†), the superoperator
 L_H = -i[H, ·] satisfies:
 
     L_H† = -L_H
 
 *Proof of Step 1.* In the vectorized representation:
 
-    L_H = -i(H ⊗ I - I ⊗ H^T) = -i(H ⊗ I - I ⊗ H)
+    L_H = -i(H ⊗ I - I ⊗ H^T)
 
-where the second equality uses H^T = H (real). Taking the adjoint:
+Taking the adjoint and using (H^T)† = H*:
 
-    L_H† = +i(H† ⊗ I - I ⊗ H†) = +i(H ⊗ I - I ⊗ H) = -L_H  ∎
+    L_H† = +i(H† ⊗ I - I ⊗ (H^T)†) = +i(H ⊗ I - I ⊗ H*)
+
+Hermiticity gives H^T = H* (since H† = (H^T)* = H implies H^T = H*), so
+I ⊗ H* = I ⊗ H^T and
+
+    L_H† = +i(H ⊗ I - I ⊗ H^T) = -L_H  ∎
+
+No reality assumption is used: H^T = H* holds for *every* Hermitian H (real
+symmetric H is the special case H* = H). Complex Hermitian Hamiltonians —
+Dzyaloshinskii-Moriya, transverse/Y terms, magnetic flux — are fully covered.
 
 **Consequence of Step 1.** For any vector v:
 
@@ -188,17 +197,18 @@ Dividing by ‖v‖² = Σ_α |c_α|²:
 ### Remark on generality
 
 The proof uses only:
-1. H is real Hermitian (so L_H is anti-Hermitian)
+1. H is Hermitian (so L_H is anti-Hermitian — Step 1; no reality assumption)
 2. The jump operators are Z_k (so L_D is diagonal in the Pauli basis)
 
 It does **not** use:
 - The specific form of H (Heisenberg, Ising, XY, any Hamiltonian works)
+- Reality of H (any Hermitian H works — real symmetric or complex)
 - The chain topology (any graph works)
 - Uniform dephasing (site-dependent γ_k works: replace 2γ n_XY with
   Σ_k 2γ_k × [σ_k ∈ {X,Y}])
 - Any property of the eigenvalue spectrum beyond existence
 
-The theorem holds for **any real Hermitian Hamiltonian under Z-dephasing**.
+The theorem holds for **any Hermitian Hamiltonian under Z-dephasing**.
 
 **Extension to amplitude damping (F82, F84).** When σ⁻ jump operators
 are added at rate γ_T1 alongside the Z-dephasing, L_D gains a non-diagonal
@@ -210,9 +220,18 @@ and [`PROOF_F84_AMPLITUDE_DAMPING.md`](PROOF_F84_AMPLITUDE_DAMPING.md).
 The "truly ⟨Z, Z⟩ damping" diagnostic in the cockpit panel reads the
 F82 signature on hardware directly.
 
-For complex Hermitian Hamiltonians (e.g. with Dzyaloshinskii-Moriya
-interactions), L_H is not anti-Hermitian, and the theorem may not hold.
-This boundary is precise and testable.
+**Complex Hermitian Hamiltonians are covered (caveat closed 2026-05-28).**
+An earlier version of this remark conjectured that complex Hermitian H (e.g.
+with Dzyaloshinskii-Moriya interactions) might break the theorem because L_H
+would fail to be anti-Hermitian. That is incorrect: Step 1 needs only H^T = H*,
+which holds for *every* Hermitian H, so L_H is anti-Hermitian for complex
+Hermitian H too and the theorem stands. Verified bit-exact (max error
+1.4·10⁻¹⁴, identical to the Hückel result, with Herm(L) = (L+L†)/2 the *same*
+pure Z-dephasing dissipator for both H's) against a random complex Hermitian H in
+[`simulations/_popcount_identity_h_independence.py`](../../simulations/_popcount_identity_h_independence.py).
+The genuine boundary is the dissipator, not the Hamiltonian: non-dephasing
+channels (amplitude damping, depolarizing) add a non-diagonal Hermitian part
+and shift the rate (F82/F84 above); no Hamiltonian, real or complex, breaks it.
 
 ---
 
