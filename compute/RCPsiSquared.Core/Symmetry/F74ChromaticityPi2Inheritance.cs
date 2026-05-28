@@ -61,6 +61,9 @@ public sealed class F74ChromaticityPi2Inheritance : Claim, IZ2AxisClaim
     /// (no bit_a twin is typed for this Claim; this is an open slot in the
     /// cubic-architecture coverage).</summary>
     public Claim? BitATwin => null;
+
+    // Absorption-Theorem descendant; bit_a twin holds by the Hadamard X↔Z duality (PROOF_BIT_A_TWIN_VIA_HADAMARD.md).
+    public BitATwinClassification BitATwinStatus => BitATwinClassification.CoveredByHadamardDuality;
     public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>The "2" in pure rate 2γ₀·HD. Live from Pi2DyadicLadder a_0.</summary>
     public double RateCoefficient => Ladder.Term(0);

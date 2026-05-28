@@ -63,6 +63,12 @@ public sealed class PolarityCubeMap : Claim
     public int BitBSpecificTwinSlots =>
         BitBClaims.Count(c => c.BitATwinStatus == BitATwinClassification.BitBSpecific);
 
+    /// <summary>BitB Claims whose BitA twin holds as a corollary of the global Hadamard
+    /// X↔Z duality (PROOF_BIT_A_TWIN_VIA_HADAMARD.md) — Π/L spectrum, eigenspace, or
+    /// operator-identity / Absorption-Theorem-popcount content. No bespoke typed twin owed.</summary>
+    public int CoveredByHadamardDualityTwinSlots =>
+        BitBClaims.Count(c => c.BitATwinStatus == BitATwinClassification.CoveredByHadamardDuality);
+
     /// <summary>Sub-list of unfilled BitA-twin slot names categorized as
     /// <see cref="BitATwinClassification.TrivialNotYetTyped"/>. These are the
     /// natural first batch for Stage 2a fill work.</summary>
@@ -119,7 +125,8 @@ public sealed class PolarityCubeMap : Claim
             yield return new InspectableNode("BitA twin slot breakdown (Stage 2a)",
                 summary: $"trivial-not-typed: {TrivialNotYetTypedTwinSlots}, " +
                          $"needs-derivation: {NeedsDerivationTwinSlots}, " +
-                         $"bit_b-specific: {BitBSpecificTwinSlots}");
+                         $"bit_b-specific: {BitBSpecificTwinSlots}, " +
+                         $"covered-by-Hadamard: {CoveredByHadamardDualityTwinSlots}");
 
             if (TrivialNotYetTypedTwinSlotNames.Count > 0)
             {

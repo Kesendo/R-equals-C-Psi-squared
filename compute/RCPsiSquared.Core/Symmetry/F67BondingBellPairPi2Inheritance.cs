@@ -60,6 +60,9 @@ public sealed class F67BondingBellPairPi2Inheritance : Claim, IZ2AxisClaim
     /// (no bit_a twin is typed for this Claim; this is an open slot in the
     /// cubic-architecture coverage).</summary>
     public Claim? BitATwin => null;
+
+    // Absorption-Theorem descendant; bit_a twin holds by the Hadamard X↔Z duality (PROOF_BIT_A_TWIN_VIA_HADAMARD.md).
+    public BitATwinClassification BitATwinStatus => BitATwinClassification.CoveredByHadamardDuality;
     public Pi2DyadicLadderClaim Ladder { get; }
     public F65XxChainSpectrumPi2Inheritance F65 { get; }
     /// <summary>The "4" numerator in α_1 = (4γ₀/(N+1))·sin². Live transitively from

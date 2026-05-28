@@ -42,4 +42,12 @@ public enum BitATwinClassification
     /// <summary>The Claim is NOT on the BitB axis (it's on BitA, Klein2, YParity,
     /// Cubic3, or NotApplicable). The BitA-twin slot semantics does not apply.</summary>
     NotApplicableForThisAxis = 4,
+
+    /// <summary>The BitA twin exists as a corollary of the global Hadamard X↔Z duality
+    /// (<c>docs/proofs/PROOF_BIT_A_TWIN_VIA_HADAMARD.md</c>): the claim reduces to Π/L
+    /// spectrum, eigenspace, or operator-identity / Absorption-Theorem-popcount content,
+    /// so its bit_a image holds by Q_zx / Hadamard conjugation. No bespoke typed twin
+    /// Claim is owed (distinct from <see cref="Filled"/>, which has a typed twin, and
+    /// from <see cref="NeedsDerivation"/>, which is genuinely open).</summary>
+    CoveredByHadamardDuality = 5,
 }

@@ -159,22 +159,53 @@ This is the meta-pattern that the inheritance tree formalises: every Tier1Derive
 - F-formula registry: `docs/ANALYTICAL_FORMULAS.md`
 - Symmetry-axis inventory (parallel structure on the dynamics-symmetry side): `docs/SYMMETRY_FAMILY_INVENTORY.md`
 
-## Z2Axis classification (added 2026-05-24)
+## Z2Axis classification (added 2026-05-24, updated 2026-05-28)
 
-Every Pi²-Inheritance Claim now carries a `Z2Axis` enum classification:
+Every Pi²-Inheritance Claim carries a `Z2Axis` enum classification. Counts are live
+via `rcpsi inspect PolarityCubeMap`; the bit_a side has grown from 1 to 7 since the
+original 2026-05-24 snapshot (Welle 7/15).
 
-| Z2Axis value | Meaning | Current count |
-|--------------|---------|---------------|
-| BitB | Π²_Z = X⊗N axis (F1² family, n_Y + n_Z parity) | 63 (verified by `Pi2InheritanceZ2AxisTests`) |
-| BitA | Π²_X = Z⊗N axis (F61 family, n_X + n_Y parity) | 1 (F61 only) |
-| Klein2 | Uses both Π²_Z and Π²_X axes (Klein-Vierergruppe) | 4 (F79, F89F88aKlein, Pi2KleinBilinearTable, ZGlobalMirrorRefinement) + KleinFourCellClaim |
-| YParity | Independent term-level Y-parity refinement (k≥3 only) | 0 |
-| Cubic3 | Uses all three Z₂ classifiers (full Z₂³) | 0 |
-| NotApplicable | Foundation Claims (Pi2InvolutionClaim, etc.) | 1+ |
+| Z2Axis value | Meaning | Count |
+|--------------|---------|-------|
+| BitB | Π²_Z = X⊗N axis (F1² family, n_Y + n_Z parity) | 67 |
+| BitA | Π²_X = Z⊗N axis (F61 family, n_X + n_Y parity) | 7 (F61, F38BitA, F39BitA, F63BitARef, ZMirrorBitA, F108Part2, F112-X) |
+| Klein2 | Uses both Π²_Z and Π²_X axes (Klein-Vierergruppe) | KleinFourCellClaim + F79 / F89F88aKlein / Pi2KleinBilinearTable |
+| YParity | Term-level Y-parity refinement (k≥3) | F102 + the F87 Z₂³ family |
+| Cubic3 | Full Z₂³ (Klein-eight) | KleinEightCellClaim + ZGlobalMirrorRefinement |
+| NotApplicable | Foundation Claims (Pi2InvolutionClaim, etc.) | live |
 
-BitB Claims expose a nullable `BitATwin` pointer that is currently null for all
-of them (except via parent-edge inheritance, which is NOT twinship). The
-`PolarityCubeMap` typed Claim aggregates this inventory and exposes it via
+### bit_a-twin coverage and its completion
+
+Of the 67 BitB claims, the bit_a-twin slots are: **7 Filled** (typed bit_a sibling
+wired), **8 BitBSpecific** (no twin by construction: amplitude damping F1T1 / F82 /
+F84, plus F91, F93, F108Part3-Y, F113, F112-Y), **9 CoveredByHadamardDuality** (the
+Absorption-Theorem descendant family F33 / F50 / F55 / F64-F68 / F74, now typed: the
+bit_a twin is a corollary of the duality below, no bespoke twin owed), and **43
+NeedsDerivation** (open).
+
+These open slots are not independent problems. They are governed by one proven principle,
+the **global Hadamard X↔Z duality** (the Klein-V₄ outer automorphism,
+[`PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md`](proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md):
+`Q_zx · Π_Z · Q_zx⁻¹ = Π_X`), consolidated for the twin classification in
+[`PROOF_BIT_A_TWIN_VIA_HADAMARD.md`](proofs/PROOF_BIT_A_TWIN_VIA_HADAMARD.md). The
+enabler is the **Absorption Theorem's H-independence** (proven for any Hermitian H,
+2026-05-28): since only the dissipator sets Re(λ), swapping the dissipator axis Z↔X
+by the global Hadamard transports a bit_b result to its bit_a twin.
+
+- **Collapsible by the duality** (the majority, status `CoveredByHadamardDuality`):
+  any claim reducing to Π/L spectrum, eigenspace, or operator-identity content. The
+  nine BitB members of the Absorption-descendant family (F33, F50, F55, F64-F68, F74)
+  are now typed with this status; F89 is itself an AT-descendant but sits on the Klein2
+  axis, so it has no bit_a-twin slot. The operator-identity and spectral/mirror claims
+  are corollaries of the same theorem and form the next batch to type.
+- **Bespoke-operator residue** (a handful): claims built on bespoke operators
+  (Π_5bilinear, F108-style) where the operator-space Hadamard does not transport
+  directly and a deeper Hilbert-space Hadamard is needed. These keep
+  `NeedsDerivation`.
+- **Lift caveat:** only {I, Q_zx (Hadamard)} lifts to a Hilbert-space unitary, so only
+  Z↔X transports Lindblad form; D and Q_yx are operator-space-only.
+
+The `PolarityCubeMap` typed Claim aggregates this inventory and exposes it via
 `rcpsi inspect PolarityCubeMap`.
 
 Source: `compute/RCPsiSquared.Core/Symmetry/Z2Axis.cs`,
