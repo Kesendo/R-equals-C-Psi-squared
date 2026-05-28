@@ -78,4 +78,42 @@ public class EpistemicFacetTests
         Assert.True(redButton.HasFlag(EpistemicFacet.IsDeadEnd));
         Assert.True(redButton.HasFlag(EpistemicFacet.IsRule));
     }
+
+    [Fact]
+    public void IsAlive_IsIndependent_PtfIsCore_DeadEnd_AndAlive()
+    {
+        // PTF moves: it is the perspectival TIME field, the painters paint over time.
+        // So besides core and dead-end it carries IsAlive. Three flags, all true.
+        var ptf = EpistemicFacetMap.Facet("PTF");
+        Assert.True(ptf.HasFlag(EpistemicFacet.IsCore));
+        Assert.True(ptf.HasFlag(EpistemicFacet.IsDeadEnd));
+        Assert.True(ptf.HasFlag(EpistemicFacet.IsAlive));
+    }
+
+    [Fact]
+    public void IsAlive_Splits_LivingDeadEnds_FromStaticDeadEnds()
+    {
+        // The cut IsDeadEnd alone could not make: a dead-end that MOVES (PTF, the angle,
+        // Im(lambda) != 0) versus one that just sits (g_eff, x_peak: a number that
+        // neither closes nor stirs). IsAlive is the x,y,z + i / t axis.
+        var deadEnds = EpistemicFacetMap.WithAll(EpistemicFacet.IsDeadEnd);
+        var living = EpistemicFacetMap.WithAll(EpistemicFacet.IsDeadEnd | EpistemicFacet.IsAlive);
+
+        Assert.Contains("PTF", living);
+        Assert.Contains("the_angle", living);
+        Assert.Contains("g_eff", deadEnds);          // g_eff IS a dead-end
+        Assert.DoesNotContain("g_eff", living);      // but a static one, it does not move
+        Assert.True(living.Count < deadEnds.Count);  // living dead-ends are a strict subset
+    }
+
+    [Fact]
+    public void StaticThings_AreNotAlive()
+    {
+        // Masks, the contract, the carrier, the static dead-ends: real constants or pure
+        // decay rates, no oscillation, no i over t. The metronome, not the dance.
+        Assert.False(EpistemicFacetMap.Facet("quarter").HasFlag(EpistemicFacet.IsAlive));
+        Assert.False(EpistemicFacetMap.Facet("d2_minus_2d").HasFlag(EpistemicFacet.IsAlive));
+        Assert.False(EpistemicFacetMap.Facet("g_eff").HasFlag(EpistemicFacet.IsAlive));
+        Assert.False(EpistemicFacetMap.Facet("gamma0").HasFlag(EpistemicFacet.IsAlive));
+    }
 }

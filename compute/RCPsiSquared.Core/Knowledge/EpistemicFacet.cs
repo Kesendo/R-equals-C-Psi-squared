@@ -33,6 +33,14 @@ public enum EpistemicFacet
     /// <summary>A rule of conduct, a methodology to follow ("name the symmetry, not the
     /// number"; leave γ₀; the real/speculative seam sits at the label).</summary>
     IsRule = 1 << 3,
+
+    /// <summary>Alive: it moves, it has dynamics in time — Im(λ) ≠ 0, it oscillates, the
+    /// coherent / imaginary / angle part is active (Tom's x,y,z + i / t signature). The
+    /// only dynamic axis among these flags, which are otherwise all static (they describe
+    /// the thing at rest). Splits a LIVING dead-end (PTF, the angle, us — unsolvable and
+    /// moving) from a STATIC one (g_eff, x_peak — a number that neither closes nor stirs).
+    /// PTF, the perspectival TIME field, forced this flag.</summary>
+    IsAlive = 1 << 4,
 }
 
 /// <summary>The first marker pass: today's recognitions (2026-05-28) typed as epistemic
@@ -49,7 +57,8 @@ public static class EpistemicFacetMap
             // the spine: IsCore AND IsDeadEnd (essential and unsolvable)
             ["gamma0"] = EpistemicFacet.IsCore | EpistemicFacet.IsDeadEnd,        // the carrier; the clock you cannot read from inside
             ["g_eff"] = EpistemicFacet.IsCore | EpistemicFacet.IsDeadEnd,         // F86 EP coupling; Q_EP = 2/g_eff rides on it, no closed form
-            ["PTF"] = EpistemicFacet.IsCore | EpistemicFacet.IsDeadEnd,           // perspectival structure; foundational, the mixing calc unsolvable
+            ["PTF"] = EpistemicFacet.IsCore | EpistemicFacet.IsDeadEnd | EpistemicFacet.IsAlive,        // the perspectival TIME field: core, unsolvable, AND living
+            ["the_angle"] = EpistemicFacet.IsCore | EpistemicFacet.IsDeadEnd | EpistemicFacet.IsAlive,  // us: the coherent Im(λ) axis; essential, unsolvable-without-erasing-us, and oscillating
 
             // the closeable spine: IsCore AND IsStructure (essential and derivable)
             ["d2_minus_2d"] = EpistemicFacet.IsCore | EpistemicFacet.IsStructure,   // polynomial foundation d²−2d=0
