@@ -1,0 +1,12 @@
+============================================================================================================
+Neural flavor-rule inheritance test
+N=[6], topology=['empty', 'chain', 'ring', 'star', 'complete'], h=0.5, coupling=0.25, gamma_E=1.0, gamma_I=1.0
+============================================================================================================
+
+  N  topology    dim    k_E        rate_E    k_I        rate_I     T ratio        max Re  status
+  ------------------------------------------------------------------------------------------------
+  6     empty     12      -             -      -             -           -  -1.000000e+00  classifier-failed
+  6     chain     12      -             -      -             -           -  -1.000000e+00  classifier-failed
+  6      ring     12      -             -      -             -           -  -1.000000e+00  classifier-failed
+  6      star     12      -             -      -             -           -  -1.000000e+00  classifier-failed
+  6  complete     12      -             -      -             -           -  -1.000000e+00  classifier-failed
