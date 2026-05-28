@@ -99,8 +99,11 @@ rung of each setting the dominant late-time decay for the corresponding
 magnetisation observable.
 
 On the N = 4 ring at h_y = 0.5, γ = 1.0, the ratio is **1.271**.
-y-magnetisation decays 1.27 × faster than x-magnetisation, fixed in closed
-form by the algebra. The companion script verifies it numerically: prepare
+y-magnetisation decays 1.27 times faster than x-magnetisation. This ratio is
+exact as a ratio of two slow-mode rates (equivalently their mean popcount, by the
+[Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md)), but it is not a
+simple closed-form fraction in (h_y, γ): the once-conjectured 4/3, 8/7, 14/13,
+20/19 sequence does not hold. The companion script verifies it numerically: prepare
 the ring with a small x-axis magnetisation probe at site 0 and watch ⟨M_x⟩
 decay; the late-time tail rate is 0.178. Prepare a y-axis probe instead;
 ⟨M_y⟩ decays at rate 0.219. The measured ratio T2(x)/T2(y) is 1.231;
@@ -114,8 +117,8 @@ A chemist would test this with two FID experiments:
    decay; fit T2(x).
 3. Prepare M_y (90° pulse around x from equilibrium), watch ⟨M_y⟩(t)
    decay; fit T2(y).
-4. Compute the ratio. Compare to the closed-form algebra prediction in
-   (h_y, γ).
+4. Compute the ratio. Compare to the slow-mode prediction (the ratio of the
+   two towers' slowest rates) in (h_y, γ).
 
 Two free-induction decays. No process tomography.
 
@@ -152,8 +155,9 @@ difference Γ_slow − Γ_fast on a ¹³C-labelled aromatic ring with the
 same effective anisotropy parameters should be of order
 (1 − 1/1.27)·1/T2_avg ≈ 0.21·(γ/h_y-effective). The framework's
 structural prediction is that the difference exists, that its sign is
-fixed by which axis carries the field, and that the ratio is closed-form
-in the substrate's anisotropy parameters. The chemistry side reads the
+fixed by which axis carries the field, and that the ratio is set exactly by the
+substrate's slow-mode rates (a ratio of two Liouvillian eigenvalues, not a simple
+closed-form fraction). The chemistry side reads the
 TROSY difference routinely on ¹⁵N-labelled proteins; the same experiment
 on ¹³C-labelled aromatics tests the prediction.
 
@@ -225,9 +229,12 @@ y-field, anisotropy direction set by the field axis**.
 
 2. **Trace the T2 anisotropy ratio across h_y / γ.** Sweep h_y from 0
    (isotropic limit) to 1 (strong-field limit) and report T2(x)/T2(y) vs
-   h_y/γ. The slow-mode ratio is a smooth curve; an open question is
-   whether there's an analytic closed form for it as a function of
-   (h_y, γ) on the toy ring.
+   h_y/γ. The slow-mode ratio is a smooth curve. The closed-form question is
+   now settled (2026-05-28): it is *not* a simple fraction (the conjectured 4/3,
+   8/7, 14/13, 20/19 does not hold under either numerical method); the ratio is
+   exact only as the ratio of the two towers' slowest mean-popcount rates, by the
+   [Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md). See
+   [THE_VIEW_ONTO_THE_MEMORY](../../reflections/THE_VIEW_ONTO_THE_MEMORY.md).
 
 3. **Add a ¹H-¹³C coupling to the model.** The Painter alternation is
    currently on a π-electron-only picture (sites under Holstein phonons).
