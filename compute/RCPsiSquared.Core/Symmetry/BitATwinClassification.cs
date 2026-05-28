@@ -3,16 +3,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <summary>Structural classification of the BitA-twin slot for a Z2-axis Claim
 /// in the cubic Z₂³ polarity architecture.
 ///
-/// <para>For Claims on the BitB axis (Π²_Z = X⊗N), the slot can be in one of four
+/// <para>For Claims on the BitB axis (Π²_Z = X⊗N), the slot can be in one of five
 /// states: <see cref="Filled"/>, <see cref="TrivialNotYetTyped"/>,
-/// <see cref="NeedsDerivation"/>, or <see cref="BitBSpecific"/>. For Claims on any
-/// other axis (BitA, Klein2, YParity, Cubic3, NotApplicable), the slot is
+/// <see cref="NeedsDerivation"/>, <see cref="BitBSpecific"/>, or
+/// <see cref="CoveredByHadamardDuality"/>. For Claims on any other axis (BitA,
+/// Klein2, YParity, Cubic3, NotApplicable), the slot is
 /// <see cref="NotApplicableForThisAxis"/>.</para>
 ///
 /// <para>This refines the bare "BitATwin is null" gap-detection into a structural
-/// breakdown, turning Stage 2a (61 open BitA-twin slots) from a raw open-count
-/// into a categorized inventory of "what kind of work each gap represents".
-/// Per-Claim authors classify their own gap; <see cref="PolarityCubeMap"/> aggregates.</para></summary>
+/// breakdown, turning the open BitA-twin slots from a raw open-count into a
+/// categorized inventory of "what kind of work each gap represents". Note a
+/// <see cref="CoveredByHadamardDuality"/> slot has a null pointer yet owes no typed
+/// twin. Per-Claim authors classify their own gap; <see cref="PolarityCubeMap"/> aggregates.</para></summary>
 public enum BitATwinClassification
 {
     /// <summary>The BitA twin Claim exists and is registered. Equivalent to the

@@ -14,8 +14,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// k≥3-body terms; at k=2 the Z₂³ collapses to Klein-Vierergruppe Z₂².</para>
 ///
 /// <para>The map's primary use is gap-detection: BitB Claims with null BitATwin
-/// pointers indicate unfilled bit_a-twin slots (Stage 2a of the cubic-unpacking
-/// arc).</para></summary>
+/// pointers indicate bit_a-twin slots without a typed sibling (Stage 2a of the
+/// cubic-unpacking arc). A <see cref="BitATwinClassification.CoveredByHadamardDuality"/>
+/// slot has a null pointer yet owes no typed twin (its bit_a image is a corollary
+/// of the global Hadamard duality), so a null pointer alone is not open work.</para></summary>
 public sealed class PolarityCubeMap : Claim
 {
     public IReadOnlyList<IZ2AxisClaim> BitBClaims { get; }
