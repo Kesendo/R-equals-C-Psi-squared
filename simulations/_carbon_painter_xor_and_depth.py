@@ -219,10 +219,13 @@ def run(N=4, h_zeeman=0.5, gamma=1.0, n_slowest=8):
         print(f"  {k:>3}  {eigvals[k].real:>+10.4f}  {eigvals[k].imag:>+10.4f}  {bin_str}  "
               f"{predicted:>8.4f}  (actual |Re(λ)| = {abs(eigvals[k].real):.4f})")
     print()
-    print("Note: the 'predicted Z-decay-mean' assumes pure Z-deph (no Hamiltonian). With")
-    print("the y-Zeeman in H mixing modes, the actual eigenvalue differs from the pure-")
-    print("Z-deph prediction; the gap is the Hamiltonian's reshaping of the slow-mode")
-    print("structure.")
+    print("Note: the 'predicted Z-decay-mean' (2γ · mean popcount) equals the actual")
+    print("|Re(λ)| exactly for every mode, Hamiltonian or not. This is the Absorption")
+    print("Theorem read state-side: the Z-deph dissipator is diagonal in the coherence")
+    print("basis with eigenvalue -2γ·popcount(i XOR j), and the Hamiltonian part (incl.")
+    print("the y-Zeeman) is anti-Hermitian, so it contributes no real part to λ. The")
+    print("y-Zeeman reshapes WHICH popcount profile each slow mode carries, but it")
+    print("cannot break the mean-popcount = rate identity.")
     print()
 
     # ---- (C) Joint reading: XOR (A) + depth (B) together ----
