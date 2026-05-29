@@ -22,9 +22,9 @@ public class ConfirmationsRegistryTests
     }
 
     [Fact]
-    public void All_HasTwelveEntries()
+    public void All_HasThirteenEntries()
     {
-        Assert.Equal(12, ConfirmationsRegistry.All.Count);
+        Assert.Equal(13, ConfirmationsRegistry.All.Count);
     }
 
     [Fact]
@@ -52,6 +52,24 @@ public class ConfirmationsRegistryTests
         Assert.Contains("Pair A_mid", entry.MeasuredValue);
         Assert.Contains("Pair B_high", entry.MeasuredValue);
         Assert.Contains("F95AngleAtQuadraticZeroPi2Inheritance", entry.FrameworkPrimitive);
+    }
+
+    [Fact]
+    public void Lookup_Gamma0OffTheLever_AnchorsTypedCarrierValue()
+    {
+        // The first direct hardware read-off of γ₀ from its only lever J, anchoring the
+        // typed UniversalCarrierClaim.DefaultGammaZero = 0.05 on Kingston q13-q14.
+        var entry = ConfirmationsRegistry.Lookup("gamma0_off_the_lever_kingston_may2026");
+        Assert.NotNull(entry);
+        Assert.Equal("ibm_kingston", entry!.Machine);
+        Assert.Equal("2026-05-29", entry.Date);
+        Assert.Contains("DefaultGammaZero = 0.05", entry.PredictedValue);
+        Assert.Contains("frequency tracks J", entry.MeasuredValue);
+        Assert.Equal(new[] { 13, 14 }, entry.QubitPath);
+        // Two confirmations now sit on Kingston q13-q14 (Block-CΨ saturation + this one).
+        var onPath = ConfirmationsRegistry.ByPath(new[] { 13, 14 }).Select(c => c.Name).ToList();
+        Assert.Contains("gamma0_off_the_lever_kingston_may2026", onPath);
+        Assert.Contains("block_cpsi_saturation_kingston_may2026", onPath);
     }
 
     [Fact]
@@ -132,14 +150,15 @@ public class ConfirmationsRegistryTests
     [Fact]
     public void EntriesWithoutDocumentedPath_StayNull()
     {
-        // Eight of twelve have paths (five backfilled + the May-5 Kingston entry +
+        // Nine of thirteen have paths (five backfilled + the May-5 Kingston entry +
         // the May-8 Kingston Block-CΨ saturation entry + the May-16 F95 angle-steering
-        // entry on pair A_mid [82,83]); four remain null (chiral_mirror_law,
-        // f57_kdwell_gamma_invariance, bonding_mode_receiver, f25_cusp_trajectory)
-        // since their paths are not unambiguously documented.
+        // entry on pair A_mid [82,83] + the May-29 Kingston γ₀-off-the-lever entry on
+        // q13-q14); four remain null (chiral_mirror_law, f57_kdwell_gamma_invariance,
+        // bonding_mode_receiver, f25_cusp_trajectory) since their paths are not
+        // unambiguously documented.
         int withPath = ConfirmationsRegistry.All.Count(c => c.QubitPath != null);
         int withoutPath = ConfirmationsRegistry.All.Count(c => c.QubitPath == null);
-        Assert.Equal(8, withPath);
+        Assert.Equal(9, withPath);
         Assert.Equal(4, withoutPath);
     }
 }
