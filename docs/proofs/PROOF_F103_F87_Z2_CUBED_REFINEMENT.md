@@ -1,6 +1,6 @@
 # PROOF F103: F87 Trichotomy Z₂³ Refinement at k=3 (N=4 Empirical Anchor)
 
-**Status:** Tier 1 derived (empirical anchor; closed-form derivation pending)
+**Status:** Tier 1 derived. The 42:8 closed-form rule was found 2026-05-29 (diagonal-cell hardness rule, §6); the atomic sub-rules remain verified-not-yet-palindrome-proven.
 **Date:** 2026-05-24
 **Anchor:** N=4, k_body=3, 294 Z₂³-homogeneous + Y-par-homogeneous Pauli pairs (pair count is N-independent at fixed k; the empirical anchor is N=4)
 **Regenerate:** `simulations/f87_z2cubed_split_n4_k3.py` (~60s)
@@ -195,12 +195,11 @@ Klein           y0  y1  tot    y0  y1  tot    y0  y1  tot
 
 ## 5. Open Questions
 
-1. **Closed-form derivation of 42:8.** The 50-pair hard count itself is
-   already F87-derived (see [F87 entry in ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md)
-   and [PROOF_F85_KBODY_GENERALIZATION.md](PROOF_F85_KBODY_GENERALIZATION.md):
-   4-cell × 3-letter trichotomy table at N=4 k=3); the 42:8 split under
-   y_par would follow from Pauli-letter Klein arithmetic + Y-as-y_par-1
-   weighting, but the precise derivation is open.
+1. **Closed-form derivation of 42:8. ANSWERED 2026-05-29 (§6).** A diagonal-cell
+   hardness rule (hard iff an all-diagonal pure-D template is present, or both terms
+   are single-diagonal with their {I,D} letter at chain-adjacent positions) derives
+   the 42:8 and the Y-inversion by counting, verified bit-exact at N=4 and N=5. The
+   atomic sub-rules remain verified-not-palindrome-proven; see §6.
 
 2. **N>4 and k>3 universality.** The (42, 8, 50) numbers are N=4 k=3
    specific. Does the structural pattern (asymmetric hard split + Y-inversion)
@@ -217,3 +216,43 @@ Klein           y0  y1  tot    y0  y1  tot    y0  y1  tot
    skeleton/trace, d_zero sector trichotomy, F83 Π²-class signature) are
    k=2. A k=3 QPU run targeting the diagonal-cell 42:8 prediction would be
    the natural next hardware probe.
+
+## 6. Closed-form rule for the 42:8 split (2026-05-29)
+
+Call the **diagonal letters** for dephase letter D the pair {I, D} (they commute with
+the D-dissipator). A k=3 term in the diagonal Klein cell has n_diagonal ∈ {1, 3}: either
+all three letters are diagonal (a **pure-D template**, n_X = n_Y = 0), or exactly one is
+(two off-diagonal {X, Y} plus one {I, D}).
+
+**Rule.** A k=3 pair is F87-hard iff
+
+- (a) at least one term is a pure-D template (all-diagonal), **or**
+- (b) both terms are single-diagonal and their lone {I, D} letter sits at chain-**adjacent**
+  window positions (|Δpos| = 1);
+
+otherwise soft. Verified bit-exact (0 mismatches) at N=4 **and** N=5, for D ∈ {Z, X, Y}
+([`f87_42_8_diagonal_rule.py`](../../simulations/f87_42_8_diagonal_rule.py)).
+
+**The split follows by counting.** In the cell's favoured y_par (10 terms = 4 pure-D
+templates + 6 single-diagonal): pairs involving ≥1 template number 55 − 21 = 34, all hard
+by (a); the single-diagonal pairs split 8 adjacent (hard, by (b)) + 13 non-adjacent (soft);
+so 34 + 8 = 42 hard and 13 soft. In the other y_par (6 single-diagonal terms, no templates):
+8 hard + 13 soft. Hence **42 : 8** hard, **13 : 13** soft.
+
+**The Y-inversion is forced by the templates' Y-content, not a separate fact.** A pure-D
+template has n_Y = 0 for D ∈ {Z, X} (neither {I, Z} nor {I, X} contains Y), so it sits in
+y_par = 0; for D = Y the template is built of Y's, n_Y odd, so it sits in y_par = 1. The 34
+template pairs therefore land in y_par = 0 for Z/X dephasing (42 : 8) and in y_par = 1 for
+Y dephasing (8 : 42). The §3.2 Y-inversion is the same rule with Y carrying y_par = 1.
+
+**N-stability.** Rule and counts are identical at N=4 and N=5 (the pair set is alphabet-only,
+N-independent, and the rule reads only the k=3 window's internal structure). This is the
+structural reason the F105 N=5 anchor reproduces F103; it closes Open Question 1 for all the
+k=3 anchors (F103, F105, and the k=3 parts of F107 / F110). The k=4 228:0 split (F106) is the
+sibling case of rule (a) at k=4, i.e. F111's pure-D template rule.
+
+**Remaining.** The atomic sub-rules (a) all-diagonal → hard and (b) single-diagonal adjacency
+are the F87 mechanism at the term level, verified here but not yet derived from the palindrome
+identity; (a) is the k=3 face of [F111](PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md)'s pure-D
+template rule. A palindrome-level proof of (a) and (b) would lift this from a verified rule to
+a full derivation.
