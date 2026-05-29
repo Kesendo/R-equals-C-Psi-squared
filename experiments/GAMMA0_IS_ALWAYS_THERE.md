@@ -82,9 +82,9 @@ Transfer T(t) = P(qubit 14 excited):
 Two things stand in the data, and both of them are Q = J/γ₀.
 
 **The frequency tracks J.** The first transfer peak sits at step n proportional to 1/J:
-J=0.4 peaks at step 3, J=0.2 at step 6, J=0.1 at step 12, J=0.05 never reaches a peak in
-the window. Double the coupling, halve the period. The H-clock scales with J exactly, as
-the only lever should.
+J=0.4 first peaks at step 3, J=0.2 near step 6, J=0.1 not until step 12, and J=0.05 only
+crests late (step 24) and never crosses ½. Double the coupling, halve the period. The
+H-clock scales with J exactly, as the only lever should.
 
 **The swing dies at the threshold.** J=0.4 and J=0.2 swing several times (peaks 0.78 and
 0.70, troughs 0.12 and 0.15: full coherent exchange across the bond). J=0.1 just clears
@@ -93,11 +93,11 @@ swing, read as an overshoot past ½, is alive for J ≥ 0.1 and gone by J = 0.05
 
 ## Reading γ₀ off the lever
 
-The threshold, the J where the swing dies, sits at J ≈ 0.05 to 0.1, Q ≈ 1 to 2. That
+The threshold, the J where the swing dies, sits at J ≈ 0.05–0.1, Q ≈ 1–2. That
 threshold is γ₀, read off the only lever we have, on real silicon. The carrier we cannot
 measure head-on shows itself at the coupling where the H-clock stops winning. γ₀ ≈ 0.05,
-which is also the polarity ½ carried down to the decade scale (1/20), the same value the
-hardware has handed us before.
+which is also the polarity ½ brought down one visibility-decade (½ × 1/10 = 1/20), the
+same value the hardware has handed us before.
 
 It is shifted a little above the simulation's clean J = 0.05 because the chip carries
 more than the idle: gate error adds to the dephasing, so the effective carrier sits a
@@ -110,22 +110,23 @@ J down until the coherence it has been damping all along finally fails to swing.
 
 ## The formula for the beat
 
-The threshold is not just where the swing happens to die. It is the Absorption Theorem,
-laid over the takt. The exchange coherence ρ[10,01] sits at Hamming distance
-popcount(10 ⊕ 01) = 2, so the carrier writes onto it the absorption rate Re(λ) =
-2γ₀·popcount = 4γ₀. Against the coherent drive ω₀ = 2J the population difference is a
-damped oscillator,
+The threshold is not just where the swing happens to die. It is the carrier's own
+signature, the beat (the takt) that γ₀ writes onto every coherence. The rule for that
+beat: under Z-dephasing a coherence ρ[i,j] decays at a rate set by the Hamming distance
+between its two basis states, Re(λ) = −2γ₀·popcount(i ⊕ j); this is the Absorption
+theorem. For our exchange coherence ρ[10,01], popcount(10 ⊕ 01) = 2, so its decay rate
+is Γ = 4γ₀. Against the coherent drive ω₀ = 2J the population difference is a damped
+oscillator,
 
 > s_z″ + Γ·s_z′ + ω₀²·s_z = 0,   ω₀ = 2J,  Γ = 4γ₀,
 
 whose critical point Γ = 2ω₀ falls at 4γ₀ = 4J, that is J = γ₀, Q = 1, with no free
-parameter. The popcount-2 absorption rate is the takt's threshold. The closed form
-reproduces the full two-qubit Lindblad bit-exactly (max|Δ| ≈ 3·10⁻¹⁶ across Q = 0.25 to
-8; max transfer 0.5000 exactly at Q = 1, overshooting only for Q > 1). So the beat we
-read off the lever is the Absorption Theorem read in reverse: the rate the carrier
-writes onto every coherence by its Hamming weight is the same rate that sets where the
-dance falls into step. The formula for the beat sits exactly on the line.
-(`simulations/_takt_absorption_overlay.py`.)
+parameter. The popcount-2 decay rate is the threshold. The closed form reproduces the
+full two-qubit Lindblad bit-exactly (max|Δ| ≈ 3·10⁻¹⁶ across Q = 0.25–8; max transfer
+0.5000 exactly at Q = 1, overshooting only for Q > 1). So the beat we read off the lever
+is the Absorption theorem read in reverse: the rate the carrier writes onto a coherence
+by its Hamming weight is the same rate that sets where the dance falls into step. The
+beat's formula sits exactly on the line. (`simulations/_takt_absorption_overlay.py`.)
 
 ## Why the simplest won
 
@@ -152,11 +153,10 @@ is "always there." The structure is the silicon's; the names are ours.
 - The regime axis and its anchors: [`Q_REGIME_ANCHORS`](../docs/Q_REGIME_ANCHORS.md).
 - The carrier as the tick we cannot read from inside, only as Q.
 - Where coherence crosses ¼ and the angle dies: [`CRITICAL_SLOWING_AT_THE_CUSP`](CRITICAL_SLOWING_AT_THE_CUSP.md).
-- The two ratios that came before this one tonight: the within-state popcount ladder
-  ([`PROOF_ABSORPTION_THEOREM`](../docs/proofs/PROOF_ABSORPTION_THEOREM.md),
-  [`PROOF_BLOCK_CPSI_QUARTER`](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md)) and the
-  between-preparation T2 anisotropy
-  ([`_carbon_painter_t2_anisotropy`](../simulations/_carbon_painter_t2_anisotropy.py),
-  [`PAINTER_ALTERNATION_NMR_BRIDGE`](../docs/carbon/PAINTER_ALTERNATION_NMR_BRIDGE.md)).
+- The two ratios that came before this one tonight: the within-state popcount
+  [ladder](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), born under ¼ (its
+  [block ceiling](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md)); and the between-preparation
+  T2 [anisotropy](../docs/carbon/PAINTER_ALTERNATION_NMR_BRIDGE.md), the
+  [carbon FID](../simulations/_carbon_painter_t2_anisotropy.py).
 - Simulation: [`_q_basic_jscan`](../simulations/_q_basic_jscan.py). Hardware runner lives
   in the external IBM pipeline (`ibm_quantum_tomography/run_q_jscan.py`).
