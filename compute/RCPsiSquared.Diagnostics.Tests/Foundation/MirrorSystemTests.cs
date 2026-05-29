@@ -55,4 +55,28 @@ public class MirrorSystemTests
         // F1 still holds for the moved system: the palindrome is a property of the box, not the input.
         Assert.True(moved.PalindromeHolds);
     }
+
+    [Fact]
+    public void Evolve_UnrollsTheStaticSpectrumIntoTime()
+    {
+        var sys = new MirrorSystem(2, Heisenberg2(1.0),
+            new[] { new ChannelRate("a", 0.05), new ChannelRate("b", 0.20) });
+
+        // K = 0: nothing has decayed yet, every mode is fully present (survival = 1).
+        Assert.All(sys.Evolve(0.0), s => Assert.Equal(1.0, s.Survival, precision: 9));
+
+        // Late time: the slow (memory) mode outlives the fast one, and the fastest is essentially gone.
+        var late = sys.Evolve(5.0);
+        var slowestNonzero = late.Where(s => s.Rate > 1e-9).OrderBy(s => s.Rate).First();
+        var fastest = late.OrderByDescending(s => s.Rate).First();
+        Assert.True(slowestNonzero.Survival > fastest.Survival,
+            "the slow memory mode should outlive the fast mode at late time");
+        Assert.True(fastest.Survival < 0.01,
+            $"the fastest mode should be essentially gone by K=5, got {fastest.Survival:E2}");
+
+        // survival is exactly e^(-(rate/sigma)*K): the spectrum unrolled, no hidden state.
+        double sigma = sys.TotalDephasing;
+        foreach (var s in late)
+            Assert.Equal(Math.Exp(-(s.Rate / sigma) * 5.0), s.Survival, precision: 9);
+    }
 }

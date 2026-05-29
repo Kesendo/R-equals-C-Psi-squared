@@ -97,6 +97,8 @@ public static class Program
         Console.WriteLine("              (spectrum as channel-difference portfolios + F1 palindrome check).");
         Console.WriteLine("              args: --N <int 1..6> [--J <double>] [--gamma <double> | --gamma-list <len-N>]");
         Console.WriteLine("                    [--htype XY|Heisenberg] [--topology chain|star|ring] [--top <int>] [--out <csv>]");
+        Console.WriteLine("                    [--sweep-J <start,stop,steps>]  move J in steps, trace the slowest mode's portfolio");
+        Console.WriteLine("                    [--evolve <K>]  unroll the spectrum over K carrier-ticks (survival per mode)");
         Console.WriteLine();
         Console.WriteLine("examples:");
         Console.WriteLine("  rcpsi scan --N 5 --n 1 --gamma 0.05");

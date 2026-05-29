@@ -5,22 +5,29 @@ using RCPsiSquared.Diagnostics.Foundation;
 
 namespace RCPsiSquared.Cli.Commands;
 
-/// <summary>The <c>mirror</c> verb: call the conductor's stand with parameters and listen to
-/// its voices. Builds a <see cref="MirrorSystem"/> (N, H from topology/J/H-type, per-site γ)
-/// and exports the live F-formula readings , the spectrum's slow modes as channel-difference
-/// portfolios and the F1 palindrome check , to stdout and optionally to CSV. Call parameters
-/// in, readings out; the one entry point from which we hear the whole box at once.</summary>
+/// <summary>The <c>mirror</c> verb: call the conductor's stand with parameters and listen to its
+/// voices. Builds a <see cref="MirrorSystem"/> and exports the live F-formula readings.
+///
+/// <para><b>Single reading</b>: one system , its slow modes as channel-difference portfolios and
+/// the F1 palindrome check.</para>
+///
+/// <para><b>Time</b> (<c>--evolve K</c>): unroll that spectrum over K carrier-ticks and show how much
+/// of each mode is still remembered , the connection from the static spectrum to the measured decay.
+/// K is the dimensionless time (t and γ cancel into K = γ₀·t); only K is readable from inside.</para>
+///
+/// <para><b>Sweep</b> (<c>--sweep-J start,stop,steps</c>): move the coupling J in steps with the
+/// carrier fixed, and watch the slowest (memory) mode's portfolio move , the box in motion, the
+/// trajectory in classification-space. At J=0 the slowest mode is pure in the slow channel
+/// (protected); as J grows it leaks into the fast neighbours. The path is the reading.</para>
+///
+/// Call parameters in, readings out (stdout, optional CSV via <c>--out</c>).</summary>
 public static class MirrorCommand
 {
     public static int Run(string[] args)
     {
         int N = GetInt(args, "--N", 0);
-        if (N < 1 || N > 6)
-        {
-            Console.Error.WriteLine("mirror: --N required, 1..6 (dense 4^N reading, diagnostic scale)");
-            return 2;
-        }
-        double J = GetDouble(args, "--J", 1.0);
+        if (N < 1 || N > 6) { Console.Error.WriteLine("mirror: --N required, 1..6 (dense 4^N, diagnostic scale)"); return 2; }
+
         var htype = (GetStr(args, "--htype", "XY") ?? "XY").ToLowerInvariant() switch
         {
             "heisenberg" or "heis" => HamiltonianType.Heisenberg,
@@ -32,7 +39,6 @@ public static class MirrorCommand
             "ring" => TopologyKind.Ring,
             _ => TopologyKind.Chain,
         };
-        int top = GetInt(args, "--top", 6);
 
         double[] gammas;
         string? gList = GetStr(args, "--gamma-list", null);
@@ -46,40 +52,57 @@ public static class MirrorCommand
             double g = GetDouble(args, "--gamma", 0.1);
             gammas = Enumerable.Repeat(g, N).ToArray();
         }
-
-        var chain = new ChainSystem(N, J, gammas[0], htype, topo);
-        var H = chain.BuildHamiltonian();
         var channels = gammas.Select((g, l) => new ChannelRate($"q{l}", g)).ToList();
-        var sys = new MirrorSystem(N, H, channels);
-
         var inv = CultureInfo.InvariantCulture;
-        Console.WriteLine($"# mirror: N={N} J={J.ToString(inv)} H={htype} topology={topo}");
+        string? outPath = GetStr(args, "--out", null);
+
+        MirrorSystem Build(double J) =>
+            new(N, new ChainSystem(N, J, gammas[0], htype, topo).BuildHamiltonian(), channels);
+
+        string? sweep = GetStr(args, "--sweep-J", null);
+        if (sweep is not null)
+            return SweepJ(sweep, N, htype, topo, gammas, channels, Build, outPath, inv);
+
+        // ---- single reading ----
+        double jSingle = GetDouble(args, "--J", 1.0);
+        int top = GetInt(args, "--top", 6);
+        var sys = Build(jSingle);
+
+        Console.WriteLine($"# mirror: N={N} J={jSingle.ToString(inv)} H={htype} topology={topo}");
         Console.WriteLine($"# carrier gamma = [{string.Join(", ", gammas.Select(g => g.ToString("0.###", inv)))}]  sigma = {sys.TotalDephasing.ToString("0.####", inv)}");
         Console.WriteLine();
-
-        // Voice 1: the spectrum, slowest distinct-rate modes with a representative portfolio.
         Console.WriteLine($"Spectrum (slowest {top} nonzero modes, rate + per-channel difference portfolio):");
         var seen = new HashSet<string>();
-        foreach (var m in sys.Spectrum.Modes
-                     .Where(m => m.ActualDecayRate > 1e-9)
-                     .OrderBy(m => m.ActualDecayRate))
+        foreach (var m in sys.Spectrum.Modes.Where(m => m.ActualDecayRate > 1e-9).OrderBy(m => m.ActualDecayRate))
         {
             var key = m.ActualDecayRate.ToString("0.000000", inv);
             if (!seen.Add(key)) continue;
-            var port = string.Join("  ", m.Portfolio.Activity.Select(a => $"{a.Channel} {(100 * a.Delta).ToString("0", inv),3}%"));
-            Console.WriteLine($"  rate {m.ActualDecayRate.ToString("0.0000", inv),9}   {port}");
+            Console.WriteLine($"  rate {m.ActualDecayRate.ToString("0.0000", inv),9}   {Portfolio(m, inv)}");
             if (seen.Count >= top) break;
         }
         Console.WriteLine();
-
-        // Voice 2: the F1 palindrome, read live off the spectrum.
         Console.WriteLine($"F1 palindrome (rate r pairs with 2*sigma - r): holds = {sys.PalindromeHolds}");
         var sample = sys.PalindromePartners.FirstOrDefault(p => p.Rate > 1e-9);
         if (sample is not null)
             Console.WriteLine($"  e.g. rate {sample.Rate.ToString("0.0000", inv)} pairs with {sample.PartnerRate.ToString("0.0000", inv)} (partner present: {sample.PartnerPresent})");
 
-        // Export: the whole spectrum as CSV (rate + per-channel portfolio).
-        string? outPath = GetStr(args, "--out", null);
+        // --evolve K: the static spectrum unrolled into time (K = carrier-ticks; t and gamma cancel into K).
+        string? evStr = GetStr(args, "--evolve", null);
+        if (evStr is not null && double.TryParse(evStr, NumberStyles.Float, inv, out double K))
+        {
+            Console.WriteLine();
+            Console.WriteLine($"At K = {K.ToString(inv)} carrier-ticks  (survival = e^(-(rate/sigma)*K), sigma = {sys.TotalDephasing.ToString("0.####", inv)}):");
+            Console.WriteLine("  the spectrum unrolled into time , how much of each mode is still remembered after K ticks");
+            var seenK = new HashSet<string>();
+            foreach (var s in sys.Evolve(K).Where(s => s.Rate > 1e-9).OrderBy(s => s.Rate))
+            {
+                var key = s.Rate.ToString("0.000000", inv);
+                if (!seenK.Add(key)) continue;
+                Console.WriteLine($"  rate {s.Rate.ToString("0.0000", inv),9}   survival {s.Survival.ToString("0.0000", inv),7}   {PortfolioOf(s.Portfolio, inv)}");
+                if (seenK.Count >= top) break;
+            }
+        }
+
         if (outPath is not null)
         {
             using var w = new StreamWriter(outPath);
@@ -92,21 +115,56 @@ public static class MirrorCommand
         return 0;
     }
 
-    private static int GetInt(string[] a, string k, int def)
+    private static int SweepJ(string spec, int N, HamiltonianType htype, TopologyKind topo,
+        double[] gammas, IReadOnlyList<ChannelRate> channels, Func<double, MirrorSystem> build,
+        string? outPath, CultureInfo inv)
     {
-        int i = Array.IndexOf(a, k);
-        return (i >= 0 && i + 1 < a.Length && int.TryParse(a[i + 1], out var v)) ? v : def;
+        var parts = spec.Split(',');
+        if (parts.Length != 3) { Console.Error.WriteLine("mirror: --sweep-J needs start,stop,steps (e.g. 0,2,9)"); return 2; }
+        double start = double.Parse(parts[0], NumberStyles.Float, inv);
+        double stop = double.Parse(parts[1], NumberStyles.Float, inv);
+        int steps = int.Parse(parts[2], inv);
+        if (steps < 1) { Console.Error.WriteLine("mirror: --sweep-J steps must be >= 1"); return 2; }
+
+        Console.WriteLine($"# mirror sweep: J in [{start.ToString(inv)}, {stop.ToString(inv)}], {steps} steps");
+        Console.WriteLine($"# N={N} H={htype} topology={topo}  carrier gamma = [{string.Join(", ", gammas.Select(g => g.ToString("0.###", inv)))}]");
+        Console.WriteLine($"# trajectory of the slowest (memory) mode: how its portfolio moves as the coupling grows");
+        Console.WriteLine();
+        Console.WriteLine($"  {"J",8}  {"rate",9}   slowest-mode portfolio");
+
+        StreamWriter? w = outPath is not null ? new StreamWriter(outPath) : null;
+        w?.WriteLine("J,rate," + string.Join(",", channels.Select(c => c.Channel)));
+        try
+        {
+            for (int i = 0; i < steps; i++)
+            {
+                double J = steps == 1 ? start : start + (stop - start) * i / (steps - 1);
+                var spectrum = build(J).Spectrum;
+                var slow = spectrum.Modes
+                    .Where(m => m.ActualDecayRate > 1e-9).OrderBy(m => m.ActualDecayRate).FirstOrDefault();
+                if (slow is null) { Console.WriteLine($"  {J.ToString("0.000", inv),8}  (no nonzero mode)"); continue; }
+                double res = Math.Abs(slow.ActualDecayRate - slow.Portfolio.DecayRate(spectrum.Carrier));
+                Console.WriteLine($"  {J.ToString("0.000", inv),8}  {slow.ActualDecayRate.ToString("0.0000", inv),9}   {Portfolio(slow, inv)}   (law res {res.ToString("E1", inv)})");
+                w?.WriteLine(J.ToString("0.000000", inv) + "," + slow.ActualDecayRate.ToString("0.000000", inv) + "," +
+                    string.Join(",", slow.Portfolio.Activity.Select(a => a.Delta.ToString("0.000000", inv))));
+            }
+        }
+        finally { w?.Dispose(); }
+        if (outPath is not null) Console.Error.WriteLine($"# exported trajectory to {outPath}");
+        return 0;
     }
+
+    private static string Portfolio(CarrierMode m, CultureInfo inv) => PortfolioOf(m.Portfolio, inv);
+
+    private static string PortfolioOf(ChannelDifferencePortfolio p, CultureInfo inv) =>
+        string.Join("  ", p.Activity.Select(a => $"{a.Channel} {(100 * a.Delta).ToString("0", inv),3}%"));
+
+    private static int GetInt(string[] a, string k, int def)
+    { int i = Array.IndexOf(a, k); return (i >= 0 && i + 1 < a.Length && int.TryParse(a[i + 1], out var v)) ? v : def; }
 
     private static double GetDouble(string[] a, string k, double def)
-    {
-        int i = Array.IndexOf(a, k);
-        return (i >= 0 && i + 1 < a.Length && double.TryParse(a[i + 1], NumberStyles.Float, CultureInfo.InvariantCulture, out var v)) ? v : def;
-    }
+    { int i = Array.IndexOf(a, k); return (i >= 0 && i + 1 < a.Length && double.TryParse(a[i + 1], NumberStyles.Float, CultureInfo.InvariantCulture, out var v)) ? v : def; }
 
     private static string? GetStr(string[] a, string k, string? def)
-    {
-        int i = Array.IndexOf(a, k);
-        return (i >= 0 && i + 1 < a.Length) ? a[i + 1] : def;
-    }
+    { int i = Array.IndexOf(a, k); return (i >= 0 && i + 1 < a.Length) ? a[i + 1] : def; }
 }

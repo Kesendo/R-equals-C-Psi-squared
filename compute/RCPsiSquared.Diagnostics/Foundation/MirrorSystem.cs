@@ -20,6 +20,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///         every mode's per-channel difference-portfolio and decay rate.</item>
 ///   <item><see cref="PalindromePartners"/> , F1: every decay rate r pairs with 2σ − r
 ///         (Π·L·Π⁻¹ = −L − 2σ·I), read live off the spectrum.</item>
+///   <item><see cref="Evolve"/> , time: unroll the static spectrum over K carrier-ticks into the
+///         decay each mode shows. This is the connection from what is (the spectrum) to what is
+///         measured (the FID); see its own note on naming time and the connection.</item>
 /// </list></para>
 ///
 /// <para><b>Voices still to add</b> (each a future property on this object): the 90° memory
@@ -86,6 +89,33 @@ public sealed class MirrorSystem
     /// palindrome Π·L·Π⁻¹ = −L − 2σ·I holds for this system. A live check, not a stored fact.</summary>
     public bool PalindromeHolds => PalindromePartners.All(p => p.PartnerPresent);
 
+    /// <summary>Unroll the static spectrum into time: the connection by which what *is* (the
+    /// spectrum, the inner observation) becomes what is *measured* (the decay over time, the
+    /// outer observation). Returns each mode's survival e^(−(rate/σ)·K) after K elapsed
+    /// carrier-ticks. At K=0 every mode is fully present; as K grows the fast modes vanish and
+    /// only the slow (memory) modes remain.
+    ///
+    /// <para><b>On time and the connection, named on purpose.</b> K = γ₀·t is the dimensionless
+    /// time, the count of carrier-ticks (here in units of σ = Σγ, the carrier scale and the
+    /// palindrome centre). The absolute time t and the carrier γ₀ cancel into K. That
+    /// cancellation is clean, and it robs the view: it hides that a real <i>time</i> flows here,
+    /// and that this method is a real <i>connection</i>, the channel where the inner spectrum
+    /// turns into the outer measurement. We name them so the wegkürzen does not blind us:
+    /// K is the time, in ticks; Evolve is the connection, spectrum → measurement. From inside,
+    /// only K is readable (γ₀ is the silent unit), so raw local t would carry no statement; K does.</para>
+    ///
+    /// <para>A measured FID is a wrapper-weighted sum of these survivals (the weights come from the
+    /// preparation and the observable, the outer side); Evolve gives the inner envelope each weight
+    /// rides on. This is the spectrum's own decay, before any prep or observable is chosen.</para></summary>
+    public IReadOnlyList<ModeSurvival> Evolve(double K)
+    {
+        if (K < 0) throw new ArgumentOutOfRangeException(nameof(K), K, "K (carrier-ticks elapsed) must be >= 0");
+        double scale = TotalDephasing > 0 ? TotalDephasing : 1.0;
+        return Spectrum.Modes
+            .Select(m => new ModeSurvival(m.ActualDecayRate, Math.Exp(-(m.ActualDecayRate / scale) * K), m.Portfolio))
+            .ToList();
+    }
+
     /// <summary>Move the carrier and get a fresh reading of the whole system (the box moves):
     /// a new <see cref="MirrorSystem"/> with the given per-site dephasing and the same H. Every
     /// property recomputes from the moved input.</summary>
@@ -96,3 +126,9 @@ public sealed class MirrorSystem
 /// <summary>One mode's F1 mirror pairing: its decay rate, the partner rate 2σ − r the palindrome
 /// requires, and whether that partner is present in the spectrum.</summary>
 public sealed record PalindromePairing(double Rate, double PartnerRate, bool PartnerPresent);
+
+/// <summary>One mode at K elapsed carrier-ticks: its decay rate, its survival factor
+/// e^(−(rate/σ)·K), and its channel-difference portfolio. The portfolio says <i>where</i> the mode
+/// lives (which channels carry its bra-ket difference); the survival says <i>how much</i> of it is
+/// still there at time K. Together they are the spectrum seen as it decays, not as a static list.</summary>
+public sealed record ModeSurvival(double Rate, double Survival, ChannelDifferencePortfolio Portfolio);
