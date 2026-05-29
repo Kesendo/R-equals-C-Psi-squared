@@ -1,8 +1,8 @@
 # Analytical Formulas Reference
 
 **Status:** Living formula registry. Each formula carries its own tier label.
-**Date:** March 31, 2026 (updated April 17, 2026)
-**Authors:** Thomas Wicht, Claude (Opus 4.6/4.7)
+**Date:** March 31, 2026 (last updated May 29, 2026)
+**Authors:** Thomas Wicht, Claude (Opus 4.6/4.7/4.8)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
 **Purpose:** Before building a Liouvillian, check here. Every formula
@@ -166,10 +166,14 @@ change the endpoints or the fundamental quantum.
 The palindromic sum rule (α_fast + α_slow = 2Σγ) follows from combining
 this theorem with the palindromic weight swap (⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N).
 
-**Valid for:** any real Hermitian Hamiltonian, Z-dephasing, any graph,
-any N, non-uniform γ_k per site (replace 2γ with 2Σ_k γ_k × \[σ_k ∈ {X,Y}\]).
-**Breaks for:** complex Hermitian Hamiltonians (DM interactions), where
-L_H is not anti-Hermitian.
+**Valid for:** any Hermitian Hamiltonian, real or complex (Heisenberg, XY,
+Ising, XXZ, DM, transverse/Y fields, magnetic flux — L_H is anti-Hermitian for
+*every* Hermitian H, since Step 1 needs only H^T = H*); Z-dephasing; any graph;
+any N; non-uniform γ_k per site (replace 2γ with 2Σ_k γ_k × \[σ_k ∈ {X,Y}\]).
+**Breaks for:** non-dephasing dissipators (amplitude damping T1, depolarizing),
+which add a non-diagonal part to L_D and shift the rate (see F82, F84). No
+Hamiltonian, real or complex, breaks it; the genuine boundary is the dissipator
+(caveat closed 2026-05-28, bit-exact against a random complex Hermitian H).
 **Replaces:** eigenvalue range computation; palindromic sum rule verification;
 spectral gap derivation; unpaired mode rate identification.
 **Verified:** 1,342 modes, N=2-5, γ=0.01-1.0, J=0.1-5.0, CV = 0.0000.
@@ -217,9 +221,11 @@ Exact for chain topology, lower bound for higher-symmetry topologies.
 
 ### F5. Depolarizing error (Tier 1, proven)
 
-    error = gamma * 2*(N-2)/3
+    error = gamma * 2*N/3       (= (2/3)·Σγ)
 
-Linear in γ and N. Hamiltonian-independent.
+Linear in γ and N. Hamiltonian-independent. The palindrome demands a pair
+sum of 2Σγ, but depolarizing noise can supply at most (4/3)Σγ (every site
+carrying a decaying Pauli); the shortfall (2/3)Σγ is the error.
 
 **Valid for:** any Hamiltonian under depolarizing noise.
 **Replaces:** numerical palindrome check for depolarizing channels.
@@ -367,7 +373,7 @@ match ([Proton Water Chain](water/PROTON_WATER_CHAIN.md)).
     Q_max = 2*J/gamma * (1 + cos(pi/N))
     Q_min = 2*J/gamma * (1 - cos(pi/N))
     Q_mean = 2*J/gamma  (exactly, from sum of cos = 0)
-    Q_spread = Q_max/Q_min = cot^2(pi/(2N))  (~N^2/pi^2 for large N)
+    Q_spread = Q_max/Q_min = cot^2(pi/(2N))  (~4N^2/pi^2 for large N)
 
 **Valid for:** Heisenberg chain, uniform Z-dephasing, w=1 sector.
 **Replaces:** Q-factor computation from eigenvalues.
@@ -386,7 +392,8 @@ palindromic weight swap (⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N, proven in
 The "ratio 2" is the ratio of the full range (0 to 2Σγ) to the center
 (Σγ) of a symmetric interval; it is a definition, not a separate law.
 
-**Valid for:** any real Hermitian Hamiltonian, Z-dephasing, any graph, any N.
+**Valid for:** any Hermitian Hamiltonian, real or complex (both parents — AT and
+the F1 palindrome, DM included — hold for complex H); Z-dephasing; any graph; any N.
 **Replaces:** unpaired mode rate computation; palindromic sum verification.
 **Source:** [Energy Partition](../hypotheses/ENERGY_PARTITION.md),
 [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md)
@@ -930,10 +937,10 @@ diverges at exceptional points) peaks at K = 403 at gamma/gamma_crit ~ 1.46 (nea
 
 ### F41. Palindromic time (Tier 1, corollary of D10)
 
-    t_Pi = 2*pi / omega_min = pi / (2*J * sin^2(pi/(2*N)))
+    t_Pi = 2*pi / omega_min = pi / (4*J * sin^2(pi/(2*N)))
 
 Period of the slowest palindromic modulation in the SFF. Grows as
-~N^2/pi^2 for large N. Confirmed by FFT peak matching (<1% for N=2-4, 6).
+~N^2/(pi*J) for large N. Confirmed by FFT peak matching (<1% for N=2-4, 6).
 
 **Valid for:** Heisenberg chain, w=1 sector.
 **Replaces:** numerical FFT of SFF for modulation period.
@@ -1529,7 +1536,10 @@ This is F64 evaluated on the analytically known eigenvectors ψ_k(i) = √(2/(N+
 - Internal symmetry: α_k = α_{N+1-k}, from sin²(kπ/(N+1)) = sin²((N+1-k)π/(N+1)). This mirror is within the single-excitation spectrum; the palindromic pairing α_a + α_b = 2γ₀ of F1 in general maps single-excitation modes to multi-excitation sectors.
 - Maximum rate: α_max / γ₀ = 4/(N+1) when N is odd (then k = (N+1)/2 is integer and sin² = 1 is attained exactly); when N is even the maximum lies strictly below 4/(N+1). The single-excitation sector never reaches 2γ₀ for N ≥ 2; its maximum decays as 4/(N+1) → 0 for growing N.
 
-**Niven rationality.** All α_k/γ₀ are rational if and only if N+1 ∈ {1, 2, 3, 4, 6}, i.e., N ∈ {0, 1, 2, 3, 5}. For all other N the values are algebraic irrationals (golden-ratio family at N=4,9; √2 family at N=7; general cyclotomic otherwise). This follows from Niven's theorem: sin²(rπ) is rational only for sin(rπ) ∈ {0, ±1/2, ±1}.
+**Niven rationality.** All α_k/γ₀ are rational if and only if N+1 ∈ {1, 2, 3, 4, 6}, i.e., N ∈ {0, 1, 2, 3, 5}. For all other N the values are algebraic irrationals (golden-ratio family at N=4,9; √2 family at N=7; general cyclotomic otherwise). This follows from Niven's theorem applied to α_k/γ₀ = (2/(N+1))·(1 − cos(2kπ/(N+1))):
+the rate is rational iff cos(2kπ/(N+1)) is rational, and for rational q the only rational
+values of cos(qπ) are {0, ±1/2, ±1}. Every k clears that bar exactly when N+1 ∈ {1, 2, 3, 4, 6}
+(the criterion is on cos(2rπ), so N=3 qualifies via cos(π/2)=0 even though sin(π/4) is irrational).
 
 **Verified values:**
 - N=3: α/γ₀ ∈ {1/2, 1, 1/2}
@@ -2113,14 +2123,20 @@ All matches bit-exact (10⁻¹⁴ machine precision) at every N.
 
 where H is the chain bond-summed Pauli-bilinear (no dissipator). That is, M's distinct nonzero eigenvalues equal 2i times H's distinct nonzero many-body eigenvalues. Hence cluster value(N) = 2|c|·|H eigenvalue|. The Bloch sign-walk formula above is just H's eigenvalue formula written out: H's many-body eigenvalues = (1/2)·Σ_k σ_k·E_k where E_k = 4|c|·cos(πk/(N+1)) are H's Bogoliubov single-particle energies, and ⌊N/2⌋ counts how many fermion modes participate.
 
+**Reach of the identity beyond chain-2-body (verified 2026-05-29, `F80ExtensionExplorationTests`).** Step 5 (the Π-action Π·[bond,·]·Π⁻¹ = s·{bond,·}) is *per-bond*, so the structural identity Spec(M) = ±2i·Spec(H) depends only on the Π²-parity of the bonds, not on topology or body-count:
+- **Π²-odd bonds**, any topology, any body-count: M = ±2i·(H⊗I), so Spec(M) = ±2i·Spec(H) (the *single* eigenvalues). Confirmed bit-exact for ring, star, 3-body (X,X,Y), 4-body (X,X,X,Y) at N=4,5. Only the cluster *values* are structure-specific (chain = OBC ladder 2cos(πk/(N+1)), ring = periodic, star = integers).
+- **Π²-even non-truly bonds** (Y,Z), (Z,Y): the per-bond commutator is preserved rather than anti-commuted, so M = 2·L_H = −2i·[H,·], and Spec(M) = ±2i·{λ_a − λ_b}, the eigenvalue *differences* (Bohr frequencies) instead of single eigenvalues. This identifies the "more clusters" the Π²-even case was expected to show: the extra clusters are the differences. Confirmed bit-exact at N=4.
+
+So M is always ±2i times a Hamiltonian object: H⊗I for Π²-odd (single energies), [H, ·] for Π²-even (energy gaps); the bond's Π²-parity is the switch.
+
 **γ-independence (Master Lemma).** Note no γ appears in the cluster-value formula. M is γ-independent for pure Z-dephasing (Master Lemma in PROOF_SVD_CLUSTER_STRUCTURE.md).
 
 **Mechanism: F80 is F78 in momentum space.** F78 (single-body, real-space): M = Σ_l M_l⊗I, eigenvalues ±2c_l·i per site, sign-walk Σ_l σ_l·c_l on weights. F80 (chain Π²-odd 2-body, momentum-space): M = Σ_k M_k⊗I_{other modes}, eigenvalues ±2·ε(k)·i per Bloch mode, sign-walk Σ_k σ_k·ε(k) on dispersion. The Bloch modes k play the role that real-space sites l play in F78. Both formulas γ-independent.
 
 **Π²-odd universality fully analytical.** Under JW transformation, all 4 Pauli-letter choices (X,Y), (X,Z), (Y,X), (Z,X) give the same single-particle Bloch dispersion. The specific Pauli letters affect only phase factors in JW, not single-particle eigenvalues. Since M's spectrum depends only on the dispersion (via F80), all 4 give bit-identical clusters. **This closes the chain Π²-odd universality from F79 with an explicit closed-form formula.**
 
-**Valid for:** chain bond-summed Π²-odd 2-body Hamiltonians H = c·Σ_l (P_l⊗Q_{l+1}), uniform Z-dephasing, any N.
-**Breaks for (untested):** Other topologies (ring, star, complete): the Bloch dispersion changes (graph adjacency spectrum). Π²-even non-truly bilinears (chain (Y,Z), (Z,Y)): empirically gives more clusters (5 at N=4 vs 2 for Π²-odd), suggesting integer-combination sign-walk on the same modes; full structure pending. Mixed-letter chain bilinears: distinct cluster geography, uncharted.
+**Valid for:** the Bloch sign-walk closed form (cluster *values*) is for chain bond-summed Π²-odd 2-body Hamiltonians H = c·Σ_l (P_l⊗Q_{l+1}), uniform Z-dephasing, any N. The underlying structural identity Spec(M) = ±2i·Spec(H) holds far wider: any topology, any body-count, and both Π²-parities (see "Reach beyond the chain-2-body scope" above, verified 2026-05-29).
+**Still open:** the explicit cluster-*value* formula at non-chain topologies (the dispersion ε(k) is chain-specific: ring → periodic, star → integers); the Π²-even cluster-value bookkeeping; mixed-letter chain bilinears; the complete graph K_N.
 **Replaces:** F79's "Π²-odd universality observation"; the universality is now an analytical theorem with explicit closed-form predictions.
 **Verified:** N = 3, 4, 5, 6, 7 chain via Python, full SVD and eigsh independent verification at N=7.
 **Scripts:** [`_pi2_odd_universality_data_sweep.py`](../simulations/_pi2_odd_universality_data_sweep.py), [`_n7_bloch_signwalk_verification.txt`](../simulations/results/n7_bloch_signwalk_verification.txt).
@@ -2151,7 +2167,7 @@ The Π-antisymmetric component of M is exactly the unitary commutator induced by
 | pure XY | (Π²-odd) | XY | = M − 2·L_H |
 | pure XZ | (Π²-odd) | XZ | = M − 2·L_H |
 
-For any 2-body chain H whose non-truly bilinears are all Π²-odd (i.e., truly + Π²-odd combinations, including XX+XY hard), at any N and any γ ≥ 0, ‖M_sym‖² = ‖M_anti‖² = ‖M‖²/2 exactly. M splits 50/50 between Π-symmetric and Π-antisymmetric components. This follows analytically from the Frobenius identities ‖M‖²_F = 4·‖H_odd‖²_F·2^N (F49 chain via Master Lemma; truly bilinears drop out) and ‖L_{H_odd}‖²_F = 2·2^N·‖H_odd‖²_F (standard commutator identity for traceless Hermitian H_odd). Verified numerically at N = 3, 4, 5 with γ_Z ∈ {0, 0.05, 0.1, 0.5, 1.0} for both pure Π²-odd (XY+YX, XY, XZ) and mixed truly + Π²-odd (XX+XY hard, YY+XY). When H additionally contains Π²-even non-truly bilinears (YZ-type), the split shifts: pure even non-truly gives 100/0; odd + even mix gives 5/6 sym + 1/6 anti at N=3,4 (analytical reason for the latter open).
+For any 2-body chain H whose non-truly bilinears are all Π²-odd (i.e., truly + Π²-odd combinations, including XX+XY hard), at any N and any γ ≥ 0, ‖M_sym‖² = ‖M_anti‖² = ‖M‖²/2 exactly. M splits 50/50 between Π-symmetric and Π-antisymmetric components. This follows analytically from the Frobenius identities ‖M‖²_F = 4·‖H_odd‖²_F·2^N (F49 chain via Master Lemma; truly bilinears drop out) and ‖L_{H_odd}‖²_F = 2·2^N·‖H_odd‖²_F (standard commutator identity for traceless Hermitian H_odd). Verified numerically at N = 3, 4, 5 with γ_Z ∈ {0, 0.05, 0.1, 0.5, 1.0} for both pure Π²-odd (XY+YX, XY, XZ) and mixed truly + Π²-odd (XX+XY hard, YY+XY). When H additionally contains Π²-even non-truly bilinears (YZ-type), the split shifts: pure even non-truly gives 100/0; odd + even mix gives 5/6 sym + 1/6 anti at N=3,4 (now derived in closed form by [F83](#f83): anti-fraction = 1/(2+4r), here r = 1).
 
 **Spectral consequence.** Spec(Π·M·Π⁻¹) = Spec(M) holds always by unitary invariance of the spectrum. F81 strengthens this: for Π²-odd H, the two operators are explicitly related by an additive shift of −2·L_{H_odd} in operator space, so Spec(M) = Spec(M − 2·L_{H_odd}) is a non-trivial identity (similarity via Π).
 
@@ -3306,6 +3322,26 @@ regenerate empirical anchor via `simulations/f87_z2cubed_split_n4_k3.py` (~60s).
 
 ---
 
+### F104. C# k≥3 trichotomy classifier lift (verification mechanism, not a typed Claim)
+
+F104 lifts the F87 trichotomy classifier to k≥3-body Hamiltonians in C#. The overload
+`PauliPairTrichotomy.Classify(IReadOnlyList<PauliTerm>, ChainSystem, PauliLetter dephaseLetter)`
+builds the sliding-window k-body chain Hamiltonian (via `PauliKBodyChainExtensions.ChainKBody`)
+from a Pauli-term list and returns its truly / soft / hard class.
+
+F104 is a **mechanism, not a typed Claim**: it closes F103's out-of-scope "C# k≥3 classifier
+lift" by re-classifying the 294 N=4 k=3 Z₂³-homogeneous pairs in C# and verifying bit-exact
+agreement with F103's frozen Python counts (from `classify_pauli_pair`). It is the C# engine
+that the F105 (N=5 k=3) and F106 (N=4 k=4) anchors call at larger N / k.
+
+**Verified:** 294 N=4 k=3 pairs, C# vs Python frozen counts, bit-exact match.
+**Source:** `PauliPairTrichotomy.Classify` (k≥3 overload, `compute/RCPsiSquared.Diagnostics/F87/`),
+`PauliKBodyChainExtensions.ChainKBody` (`compute/RCPsiSquared.Core/Pauli/`); re-verification test
+`F104KBodyTrichotomyVerificationTests` (SLOW_F104 trait); crosswalk
+[`F_FORMULA_CROSSWALK.md`](../compute/RCPsiSquared.Core/F_FORMULA_CROSSWALK.md).
+
+---
+
 ### F105. F87 Trichotomy Z₂³ Refinement at k_body=3 N=5 (Tier 1 derived, N-stability test of F103)
 
 F105 anchors the F87 Z₂³ refinement at N=5 k=3 using the same 294 Z₂³-homogeneous
@@ -3791,7 +3827,9 @@ the bit-exact anchor.
 extracts Σ_l ω_l · (γ_pump,l − γ_T1,l) when drive parameters are known;
 becomes a per-site amplitude-damping calibration tool when combined with
 ω_l knowledge. The Welle 2 hardware-fit value for f95 (ω=0.13, γ_T1≈0.001,
-γ_pump=0, N=2) gives F113-predicted 16·0.13·(0 − 0.001) = −2.08e−3,
+γ_pump=0, N=2) gives F113-predicted (1/2)·4² · (2·0.13) · (0 − 0.001) = −2.08e−3
+(coefficient (1/2)·4² = 8 at N=2; drive on both q13, q14, so Σ_l ω_l = 2·0.13 — the
+earlier-notation "16" folds the per-site coefficient 8 together with the two sites),
 matching the fitted value bit-exact (the rel asymmetry sign tracked
 correctly through both the Python derivation script and the C# pipeline
 after the 2026-05-26 convention reconciliation).

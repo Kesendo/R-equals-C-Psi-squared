@@ -425,7 +425,7 @@ no E = mc² in the Lindblad cavity.
 See: [Absorption Theorem Discovery](../../experiments/ABSORPTION_THEOREM_DISCOVERY.md)
 
 The boundary between theorem and interpretation is sharp:
-- **Proven:** α = 2γ⟨n_XY⟩ (algebra, exact, holds for any real H)
+- **Proven:** α = 2γ⟨n_XY⟩ (algebra, exact, holds for any Hermitian H, real or complex)
 - **Observed:** K = γt is an invariant dose ([K-Dosimetry](../../experiments/K_DOSIMETRY.md))
 - **Interpreted:** γ is illumination, {I,Z} is the lens, the cavity is an optical instrument
 
