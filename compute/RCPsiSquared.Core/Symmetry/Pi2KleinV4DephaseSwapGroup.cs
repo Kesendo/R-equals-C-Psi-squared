@@ -60,11 +60,15 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Klein-V₄ equivalent per Welle 14
 /// (docs/proofs/PROOF_F108_KLEIN_V4_EQUIVALENCE.md): Part 3 = Part 1 via D
 /// (operator-space, bit_b-axis-preserving) and Part 2 = Part 1 via Hadamard
-/// transport (Hilbert-space, bit_a ↔ bit_b axis swap). The operator-space
-/// Klein-V₄ {Q_zx, H} swaps that work on canonical Π_d do NOT swap
-/// Π_5bilinear(Z) ↔ Π_5bilinear(X); Π_5bilinear has only a PARTIAL Klein-V₄
-/// equivariance via the {I, D} subgroup at the operator-space level. The
-/// X-deph variant enters via the Hilbert-space Hadamard (Route 2 mechanism).</para>
+/// transport (Hilbert-space, bit_a ↔ bit_b axis swap). On Π_5bilinear the
+/// operator-space Klein-V₄ assignment is PERMUTED relative to canonical Π_d:
+/// the {I, D, H} subgroup acts (D: Z↔Y, and H: Z↔X via
+/// H · Π_5b(Z) · H = Π_5b(X) bit-exact, closed 2026-05-29 in
+/// simulations/_f108_bita_d_search.py), while Q_zx (= H·D) is the one that
+/// leaves the canonical Π_5b set. The canonical-Π pairings fail (Q_zx on Z↔X,
+/// H on Y↔X), which is why the original Welle-14 sweep read it as the {I, D}
+/// subgroup alone. L-transport (the Lindbladian, not the operator) still needs
+/// the Hilbert-space Hadamard, carried only by Q_zx (Route 2 mechanism).</para>
 ///
 /// <para><b>Route 2 (Hadamard transport via Q_zx)</b>: Q_zx is the
 /// operator-space lift of the Hilbert-space unitary U_H^⊗N (Hadamard ⊗N),
@@ -235,10 +239,12 @@ public sealed class Pi2KleinV4DephaseSwapGroup : Claim
                          "OPERATOR-SPACE D-conjugation (D · Π_5b(Z) · D = Π_5b(Y) bit-exact; bilinear " +
                          "set fixed); F108 Part 2 follows from Part 1 via HILBERT-SPACE Hadamard " +
                          "transport (U_op = U_H^⊗N ⊗ (U_H^⊗N)^*; bilinear-set bijection). " +
-                         "NEGATIVE on operator-space Klein-V₄ for Π_5b: Q_zx · Π_5b(Z) · Q_zx ≠ ±Π_5b(X) " +
-                         "and H · Π_5b(Y) · H ≠ ±Π_5b(X) (residual 2.0 at N=1,2,3); the operator-space " +
-                         "Klein-V₄ on Π_5b is only the {I, D} subgroup. F112-Y cannot be obtained 'for " +
-                         "free' from F112-Z via D-conjugation; the correct path is Route 1.");
+                         "PERMUTED operator-space Klein-V₄ for Π_5b: the canonical-Π pairings fail " +
+                         "(Q_zx · Π_5b(Z) · Q_zx ≠ ±Π_5b(X), H · Π_5b(Y) · H ≠ ±Π_5b(X), residual 2.0 " +
+                         "at N=1,2,3), but H serves the Z↔X pairing instead: H · Π_5b(Z) · H = Π_5b(X) " +
+                         "bit-exact (closed 2026-05-29). So {I, D, H} acts on Π_5b at the operator level " +
+                         "(D: Z↔Y, H: Z↔X); only Q_zx (= H·D) leaves the canonical set. F112-Y cannot be " +
+                         "obtained 'for free' from F112-Z via D-conjugation; the correct path is Route 1.");
             yield return new InspectableNode("No IZ2AxisClaim implementation",
                 summary: "Klein-V₄ does not sit on a single Z₂ axis cleanly. It is the cross-axis " +
                          "primitive that intertwines the bit_a and bit_b axes of the Klein V₄ on " +
