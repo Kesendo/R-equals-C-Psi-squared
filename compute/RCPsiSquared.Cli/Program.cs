@@ -100,6 +100,7 @@ public static class Program
         Console.WriteLine("                    [--sweep-J <start,stop,steps>]  move J in steps, trace the slowest mode's portfolio");
         Console.WriteLine("                    [--evolve <K>]  unroll the spectrum over K carrier-ticks (survival per mode)");
         Console.WriteLine("                    [--memory]  the 90-degree rotation H <-> M (F80); use --htype xybond to see M != 0");
+        Console.WriteLine("                    [--no-spectrum]  skip the heavy 4^N Liouvillian Evd (pairs with --memory, which doesn't need it)");
         Console.WriteLine();
         Console.WriteLine("examples:");
         Console.WriteLine("  rcpsi scan --N 5 --n 1 --gamma 0.05");

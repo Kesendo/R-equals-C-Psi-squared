@@ -78,38 +78,46 @@ public static class MirrorCommand
         int top = GetInt(args, "--top", 6);
         var sys = Build(jSingle);
 
+        // The spectrum/F1/evolve voices need the full 4^N Liouvillian eigendecomposition (a
+        // sequential non-Hermitian Evd, the heavy part at large N). --memory does not: it builds M
+        // by matmul and only eigendecomposes H. --no-spectrum skips the heavy reading.
+        bool noSpectrum = args.Contains("--no-spectrum");
+
         Console.WriteLine($"# mirror: N={N} J={jSingle.ToString(inv)} H={htype} topology={topo}");
         Console.WriteLine($"# carrier gamma = [{string.Join(", ", gammas.Select(g => g.ToString("0.###", inv)))}]  sigma = {sys.TotalDephasing.ToString("0.####", inv)}");
         Console.WriteLine();
-        Console.WriteLine($"Spectrum (slowest {top} nonzero modes, rate + per-channel difference portfolio):");
-        var seen = new HashSet<string>();
-        foreach (var m in sys.Spectrum.Modes.Where(m => m.ActualDecayRate > 1e-9).OrderBy(m => m.ActualDecayRate))
+        if (!noSpectrum)
         {
-            var key = m.ActualDecayRate.ToString("0.000000", inv);
-            if (!seen.Add(key)) continue;
-            Console.WriteLine($"  rate {m.ActualDecayRate.ToString("0.0000", inv),9}   {Portfolio(m, inv)}");
-            if (seen.Count >= top) break;
-        }
-        Console.WriteLine();
-        Console.WriteLine($"F1 palindrome (rate r pairs with 2*sigma - r): holds = {sys.PalindromeHolds}");
-        var sample = sys.PalindromePartners.FirstOrDefault(p => p.Rate > 1e-9);
-        if (sample is not null)
-            Console.WriteLine($"  e.g. rate {sample.Rate.ToString("0.0000", inv)} pairs with {sample.PartnerRate.ToString("0.0000", inv)} (partner present: {sample.PartnerPresent})");
-
-        // --evolve K: the static spectrum unrolled into time (K = carrier-ticks; t and gamma cancel into K).
-        string? evStr = GetStr(args, "--evolve", null);
-        if (evStr is not null && double.TryParse(evStr, NumberStyles.Float, inv, out double K))
-        {
-            Console.WriteLine();
-            Console.WriteLine($"At K = {K.ToString(inv)} carrier-ticks  (survival = e^(-(rate/sigma)*K), sigma = {sys.TotalDephasing.ToString("0.####", inv)}):");
-            Console.WriteLine("  the spectrum unrolled into time , how much of each mode is still remembered after K ticks");
-            var seenK = new HashSet<string>();
-            foreach (var s in sys.Evolve(K).Where(s => s.Rate > 1e-9).OrderBy(s => s.Rate))
+            Console.WriteLine($"Spectrum (slowest {top} nonzero modes, rate + per-channel difference portfolio):");
+            var seen = new HashSet<string>();
+            foreach (var m in sys.Spectrum.Modes.Where(m => m.ActualDecayRate > 1e-9).OrderBy(m => m.ActualDecayRate))
             {
-                var key = s.Rate.ToString("0.000000", inv);
-                if (!seenK.Add(key)) continue;
-                Console.WriteLine($"  rate {s.Rate.ToString("0.0000", inv),9}   survival {s.Survival.ToString("0.0000", inv),7}   {PortfolioOf(s.Portfolio, inv)}");
-                if (seenK.Count >= top) break;
+                var key = m.ActualDecayRate.ToString("0.000000", inv);
+                if (!seen.Add(key)) continue;
+                Console.WriteLine($"  rate {m.ActualDecayRate.ToString("0.0000", inv),9}   {Portfolio(m, inv)}");
+                if (seen.Count >= top) break;
+            }
+            Console.WriteLine();
+            Console.WriteLine($"F1 palindrome (rate r pairs with 2*sigma - r): holds = {sys.PalindromeHolds}");
+            var sample = sys.PalindromePartners.FirstOrDefault(p => p.Rate > 1e-9);
+            if (sample is not null)
+                Console.WriteLine($"  e.g. rate {sample.Rate.ToString("0.0000", inv)} pairs with {sample.PartnerRate.ToString("0.0000", inv)} (partner present: {sample.PartnerPresent})");
+
+            // --evolve K: the static spectrum unrolled into time (K = carrier-ticks; t and gamma cancel into K).
+            string? evStr = GetStr(args, "--evolve", null);
+            if (evStr is not null && double.TryParse(evStr, NumberStyles.Float, inv, out double K))
+            {
+                Console.WriteLine();
+                Console.WriteLine($"At K = {K.ToString(inv)} carrier-ticks  (survival = e^(-(rate/sigma)*K), sigma = {sys.TotalDephasing.ToString("0.####", inv)}):");
+                Console.WriteLine("  the spectrum unrolled into time , how much of each mode is still remembered after K ticks");
+                var seenK = new HashSet<string>();
+                foreach (var s in sys.Evolve(K).Where(s => s.Rate > 1e-9).OrderBy(s => s.Rate))
+                {
+                    var key = s.Rate.ToString("0.000000", inv);
+                    if (!seenK.Add(key)) continue;
+                    Console.WriteLine($"  rate {s.Rate.ToString("0.0000", inv),9}   survival {s.Survival.ToString("0.0000", inv),7}   {PortfolioOf(s.Portfolio, inv)}");
+                    if (seenK.Count >= top) break;
+                }
             }
         }
 
@@ -136,7 +144,7 @@ public static class MirrorCommand
             }
         }
 
-        if (outPath is not null)
+        if (!noSpectrum && outPath is not null)
         {
             using var w = new StreamWriter(outPath);
             w.WriteLine("rate," + string.Join(",", channels.Select(c => c.Channel)));

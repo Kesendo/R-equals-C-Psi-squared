@@ -25,7 +25,10 @@ public static class PalindromeResidual
     {
         var transform = PauliBasis.VecToPauliBasisTransform(N);
         var lPauli = (transform.ConjugateTranspose() * LVec * transform) / Math.Pow(2, N);
-        var pi = PiOperator.BuildFull(N, dephaseLetter);
+        // Π is a sparse signed permutation, but Π·L·Π⁻¹ is dense; MathNet's sparse×dense multiply
+        // degrades to minutes here (it builds the ~4^N-nonzero product in sparse format). Materialise
+        // Π dense so the conjugation runs as MKL gemm , bit-identical, seconds instead of minutes.
+        var pi = Matrix<Complex>.Build.DenseOfMatrix(PiOperator.BuildFull(N, dephaseLetter));
         var piInv = pi.ConjugateTranspose(); // Π is unitary signed permutation
         long d2 = 1L << (2 * N);
         var identity = Matrix<Complex>.Build.SparseIdentity((int)d2);

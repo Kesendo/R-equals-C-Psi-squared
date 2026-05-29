@@ -135,10 +135,12 @@ public sealed record CarrierPortfolioSpectrum(CarrierVector Carrier, IReadOnlyLi
 /// not a guess. Builds L = −i[H, ·] + Σ_l γ_l·D[Z_l] densely for the given Hamiltonian and
 /// per-site dephasing rates, eigendecomposes it, and reads each mode's per-site difference
 /// activity ⟨Δ_l⟩ = ⟨v|N_l|v⟩ / ‖v‖² with N_l = (I − Z_l⊗Z_l)/2 the "site-l off-diagonal"
-/// projector. N_l is built with the same dephasing machinery as L, so the reading is
-/// convention-safe by construction: Re(λ_k) = ⟨v_k|Herm(L)|v_k⟩/‖v_k‖² = −2 Σ_l γ_l·⟨Δ_l⟩_k
-/// holds for the right eigenvectors regardless of the vec ordering. Diagnostic-scale (dense
-/// 4^N): for the small N where we look, not the large-N engine.</summary>
+/// projector. N_l is diagonal (Z_l is), and its diagonal , the bra-ket disagreement bit Δ_l ,
+/// is read off the same siteZ that builds L, so the reading is convention-safe by construction
+/// and ⟨v|N_l|v⟩ collapses to the weighted sum Σ_i Δ_l[i]·|v_i|² (no per-mode matrix-vector
+/// product): Re(λ_k) = ⟨v_k|Herm(L)|v_k⟩/‖v_k‖² = −2 Σ_l γ_l·⟨Δ_l⟩_k holds for the right
+/// eigenvectors regardless of the vec ordering. Diagnostic-scale (dense 4^N): for the small N
+/// where we look, not the large-N engine.</summary>
 public static class CarrierVectorPortfolio
 {
     private static readonly ComplexMatrix PauliZ =
@@ -173,8 +175,24 @@ public static class CarrierVectorPortfolio
         }
 
         var siteZ = Enumerable.Range(0, N).Select(SiteZ).ToArray();
-        // N_l = (I − Z_l⊗Z_l)/2 on the 4^N Liouville space (a projector; ⟨Δ_l⟩ ∈ [0,1]).
-        var nOps = siteZ.Select(zl => (idD2 - zl.KroneckerProduct(zl)).Multiply(0.5)).ToArray();
+
+        // N_l = (I − Z_l⊗Z_l)/2 is DIAGONAL: Z_l is diagonal, so Z_l⊗Z_l is, so N_l is. Its
+        // diagonal is exactly the bra-ket disagreement bit Δ_l[a·d+b] = [Z_l(a) ≠ Z_l(b)] ∈ {0,1}.
+        // Holding the diagonal (length 4^N) instead of the 4^N×4^N matrix turns ⟨v|N_l|v⟩ into a
+        // weighted sum over |v_i|² , no per-mode matrix-vector product, no N dense 4^N operators
+        // (the difference between minutes and milliseconds at N=6).
+        int d2 = d * d;
+        var zDiag = siteZ.Select(z => Enumerable.Range(0, d).Select(a => z[a, a].Real).ToArray()).ToArray();
+        var nDiag = new double[N][];
+        for (int l = 0; l < N; l++)
+        {
+            var dz = zDiag[l];
+            var diag = new double[d2];
+            for (int a = 0; a < d; a++)
+                for (int b = 0; b < d; b++)
+                    diag[a * d + b] = dz[a] * dz[b] < 0 ? 1.0 : 0.0;  // 1 iff bra and ket disagree at site l
+            nDiag[l] = diag;
+        }
 
         // L = −i (H⊗I − I⊗Hᵀ) + Σ_l γ_l (Z_l⊗Z_l − I).
         var L = (hamiltonian.KroneckerProduct(idD) - idD.KroneckerProduct(hamiltonian.Transpose()))
@@ -186,16 +204,26 @@ public static class CarrierVectorPortfolio
         var vals = evd.EigenValues;
         var vecs = evd.EigenVectors;
 
-        var modes = new List<CarrierMode>(d * d);
-        for (int k = 0; k < d * d; k++)
+        var modes = new List<CarrierMode>(d2);
+        var absSq = new double[d2];
+        for (int k = 0; k < d2; k++)
         {
             var v = vecs.Column(k);
-            double normSq = v.ConjugateDotProduct(v).Real;
+            double normSq = 0.0;
+            for (int i = 0; i < d2; i++)
+            {
+                var c = v[i];
+                double m = c.Real * c.Real + c.Imaginary * c.Imaginary;
+                absSq[i] = m;
+                normSq += m;
+            }
             var activity = new List<ChannelActivity>(N);
             for (int l = 0; l < N; l++)
             {
-                double delta = v.ConjugateDotProduct(nOps[l].Multiply(v)).Real / normSq;
-                activity.Add(new ChannelActivity(siteChannels[l].Channel, delta));
+                var diag = nDiag[l];
+                double w = 0.0;
+                for (int i = 0; i < d2; i++) w += diag[i] * absSq[i];
+                activity.Add(new ChannelActivity(siteChannels[l].Channel, w / normSq));
             }
             modes.Add(new CarrierMode(-vals[k].Real, new ChannelDifferencePortfolio(activity)));
         }
