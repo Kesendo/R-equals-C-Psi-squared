@@ -165,4 +165,35 @@ public class F80ExtensionExplorationTests
         Assert.True(pureImag, $"{label}: M should be purely imaginary");
         Assert.True(matchesSingle || matchesDiff, $"{label}: M clusters match neither single nor differences");
     }
+
+    [Fact]
+    public void MixedLetter_M_IsLinear_SoItIsTheSumOfPerParityPieces()
+    {
+        // A mixed-letter chain: one Pi2-odd family (X,Y) plus one Pi2-even family (Y,Z).
+        int N = 4;
+        var Hxy = ChainBond(N, PX, PY);  // Pi2-odd  -> M sees single eigenvalues
+        var Hyz = ChainBond(N, PY, PZ);  // Pi2-even -> M sees eigenvalue differences
+        var gammas = Enumerable.Repeat(0.1, N).ToList();
+        double sigma = gammas.Sum();
+
+        var Mmixed = PalindromeResidual.Build(PauliDephasingDissipator.BuildZ(Hxy + Hyz, gammas), N, sigma);
+        var Mxy = PalindromeResidual.Build(PauliDephasingDissipator.BuildZ(Hxy, gammas), N, sigma);
+        var Myz = PalindromeResidual.Build(PauliDephasingDissipator.BuildZ(Hyz, gammas), N, sigma);
+
+        // M is linear in H: the dissipator + 2sigma terms cancel (F1), so M(Hxy+Hyz) = M(Hxy)+M(Hyz)
+        // bit-exact. A mixed-letter Hamiltonian therefore needs no new sign-walk , its mirror-defect
+        // is the sum of the per-bond pieces, each fixed by that bond's Pi2-parity.
+        double residual = (Mmixed - (Mxy + Myz)).FrobeniusNorm();
+        _out.WriteLine($"||M(Hxy+Hyz) - (M(Hxy)+M(Hyz))||_F = {residual:E3}  (linearity of M in H)");
+        Assert.True(residual < 1e-9, $"M should be linear in H; got residual {residual:E3}");
+
+        // The mixed spectrum is still purely imaginary (odd part single energies + even part
+        // differences, summed as one operator) but richer than either piece alone.
+        var mEig = Mmixed.Evd().EigenValues;
+        bool pureImag = mEig.Max(z => Math.Abs(z.Real)) < 1e-9;
+        int mixedClusters = mEig.Select(z => Math.Round(Math.Abs(z.Imaginary), 6)).Where(x => x > 1e-6).Distinct().Count();
+        int xyClusters = Mxy.Evd().EigenValues.Select(z => Math.Round(Math.Abs(z.Imaginary), 6)).Where(x => x > 1e-6).Distinct().Count();
+        _out.WriteLine($"mixed M purely imaginary: {pureImag}   #clusters mixed={mixedClusters} vs odd-only={xyClusters}");
+        Assert.True(pureImag, "mixed M should still be purely imaginary");
+    }
 }
