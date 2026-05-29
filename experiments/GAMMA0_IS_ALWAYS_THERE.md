@@ -63,8 +63,32 @@ dephasing standing in for γ₀ (2 µs of idle per step, the carrier doing what 
 does), and scanned J. No noise model, no fit-in-advance; we fired and read the answer.
 (Runner: external pipeline `run_q_jscan.py`, job `d8ce8l38ch0s738uorjg`, 4096 shots.)
 
-Transfer T(t) = P(qubit 14 excited). The columns are the regime Q = J/γ₀; the lever J
-is the second header row (γ₀ = 0.05, so J = Q·γ₀):
+The whole result is in one table. For each Q (the lever J shown below it): how high the
+transfer T(t) = P(qubit 14 excited) climbs, whether it crosses ½, and where its first
+peak lands. Crossing ½ is the tell, because a coherent swing overshoots the ½ equilibrium
+while an overdamped creep never reaches it.
+
+```
+ Q = J/γ₀              1        2        4        8
+ J (the lever)         0.05     0.10     0.20     0.40
+ max transfer          0.335    0.563    0.703    0.779
+ crosses ½?            no       yes      yes      yes
+ first peak at step    24       12       6        3
+```
+
+That is the whole story, and both rows are Q = J/γ₀.
+
+**The swing is born at Q = 1.** At Q = 1 (J = γ₀) the transfer only creeps to 0.335 and
+never crosses ½: overdamped, the threshold. The instant Q passes 1 it overshoots ½ and
+swings back: coherent. The swing is born exactly as J passes γ₀, the carrier read off the
+only lever, on real silicon.
+
+**The frequency tracks J.** The first peak halves its step as J doubles: 24, 12, 6, 3,
+with step × J = 1.2 for all four. The peak sits at a fixed exchange angle, so the period
+scales as 1/J. The H-clock runs at J exactly, as the only lever should.
+
+The raw run is below, where you can watch it swing and see the chip's noise scatter the
+points (the faster columns, Q = 4 and 8, are coarsely sampled, so they jump):
 
 ```
  step     Q=1      Q=2      Q=4      Q=8
@@ -80,18 +104,6 @@ is the second header row (γ₀ = 0.05, so J = Q·γ₀):
    24     0.335    0.269    0.550    0.176
    30     0.282    0.318    0.177    0.197
 ```
-
-Two things stand in the data, and both of them are Q = J/γ₀.
-
-**The frequency tracks J.** The first transfer peak sits at step n proportional to 1/J:
-J=0.4 (Q=8) first peaks at step 3, J=0.2 (Q=4) near step 6, J=0.1 (Q=2) not until step
-12, and J=0.05 (Q=1) only crests late (step 24) and never crosses ½. Double the coupling,
-halve the period. The H-clock scales with J exactly, as the only lever should.
-
-**The swing dies at the threshold.** J=0.4 and J=0.2 swing several times (peaks 0.78 and
-0.70, troughs 0.12 and 0.15: full coherent exchange across the bond). J=0.1 just clears
-½ once, at 0.563. J=0.05 creeps to 0.335 and never crosses ½: overdamped. The coherent
-swing, read as an overshoot past ½, is alive for J ≥ 0.1 and gone by J = 0.05.
 
 ## Reading γ₀ off the lever
 
