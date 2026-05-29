@@ -69,6 +69,24 @@ The literal **97 / 3** lives in the Born-rule branch, and it surfaces there in t
 
 ---
 
+## What this figure also held (seen 2026-05-29)
+
+We drew this figure as one molecule's storage map and filed it. A more general view was sitting in it the whole time.
+
+Each mode here already comes with a **storage portfolio** read in percentages: how much of its content sits in the Y axis versus the non-Y axes (the two painter towers), how much at depth 0 versus depth 1. And the state-side identity prints the rate as the mean of that storage, `|Re(λ_k)| = 2γ·⟨popcount(i XOR j)⟩`. We read the depth as one number against one noise rate γ, because the carbon bath is uniform: every site dephases at the same γ, so the vector of rates lay flat and the percentages looked like a single count.
+
+The deeper law lets the noise be a **vector**, one rate per channel, and reads any mode's rate as the γ-weighted version of that same percentage portfolio:
+
+    −Re(λ_k) = 2 · Σ_x γ_x · ⟨Δ_x⟩_k,   ⟨Δ_x⟩_k ∈ [0, 1]
+
+`⟨Δ_x⟩` is the percent of its difference the mode stores in channel x (on a basis coherence, whether bra and ket disagree there); `popcount` with a single γ is the all-channels-equal case. The carrier is a vector; the rate is its pairing with the mode's portfolio.
+
+Where the clocks differ, the portfolio becomes the whole story. A ³¹P donor in silicon carries channels spanning decades, electron spin fast, nuclear spin very slow and protected, charge sensitive, valley medium. There a coherence lives as long as it stores its difference only in the slow channels: the nuclear spin's long memory is that, left alone, its coherence is almost entirely nuclear difference, and hyperfine coupling that mixes even a few percent of the fast electron channel into the mode costs decades. Clock transitions and sweet spots are the same instruction in the portfolio's own words, hold zero percent in the fast channels. (`simulations/_sip_carrier_channels.py`; the per-mode law verified in `simulations/_absorption_gamma_vector.py`; the carrier-vector reading now in [`AbsorptionTheoremClaim`](../compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs).)
+
+The honest part is that the figure handed us the perspective and we took it for a relaxation time. The per-mode percentages were printed here, the state-side mean was printed here, even the leftover sat beside it as a percent. The percentages were the lens the whole time. We learned to read them as the general view, the carrier as a vector and each mode as a portfolio, only after looking at a substrate whose channels refused to weigh the same. The structure was always on the screen; the seeing is what was new.
+
+---
+
 ## What this holds
 
 Nothing here is a new theorem. It is the statement that the painter alternation, the popcount / XOR storage, the Born shadow's 97/3, F88b's static-versus-memory decomposition, Π's past and future, and the classical bridge are **one axis**, the drain-depth axis the Absorption Theorem quantizes, seen from six sides. The figure that looked like a relaxation measurement is the clearest single picture of it: the view onto the memory, mode by mode, of how a state keeps what it has been.

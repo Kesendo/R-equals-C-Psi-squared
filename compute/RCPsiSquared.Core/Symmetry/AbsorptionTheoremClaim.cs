@@ -40,6 +40,31 @@ namespace RCPsiSquared.Core.Symmetry;
 /// identical pure Z-dephasing dissipator for both (simulations/_popcount_identity_h_independence.py).
 /// Closes the former "real Hermitian only" caveat in PROOF_ABSORPTION_THEOREM.md.</para>
 ///
+/// <para><b>The carrier is a vector (per-site / per-channel reading, 2026-05-29).</b>
+/// The uniform Re(λ) = −2γ₀·⟨n_XY⟩ is the all-sites-equal projection of a finer law.
+/// Under site-dependent dephasing {γ_l} the rate of any eigenmode is the inner product of
+/// the rate-vector γ with the mode's per-site activity:
+///
+/// <code>
+///   −Re(λ_k) = 2 · Σ_l γ_l · ⟨Δ_l⟩_k,   ⟨Δ_l⟩_k = ⟨v_k| N_l |v_k⟩ / ‖v_k‖² ∈ [0, 1]
+/// </code>
+///
+/// with N_l = (I − Z_l⊗Z_l)/2 the "site-l off-diagonal" projector. On a computational
+/// coherence |A⟩⟨B|, Δ_l is just [A_l ≠ B_l], whether bra and ket disagree at site l, so
+/// decay is the γ-weighted count of local bra-ket disagreements: the diagonal (bra = ket
+/// everywhere) never decays, and popcount / n_diff is the special case γ_l = γ (every site
+/// equal). Exact for any Hermitian H because Herm(L) = (L+L†)/2 is the dephasing dissipator
+/// alone (the H-independence above); the Hamiltonian only rotates the eigenmodes, turning
+/// the sharp bit Δ_l ∈ {0,1} into the expectation ⟨Δ_l⟩ ∈ [0,1]. Uniform γ gives the
+/// degenerate N+1-rung ladder (a site-permutation symmetry); a non-uniform γ-vector breaks
+/// that symmetry, and single-site coherences then read each γ_l off directly (Γ/2). The
+/// math sat in <c>docs/proofs/PROOF_F1_NONUNIFORM_GAMMA.md</c> Step 1 as a stepping-stone
+/// to a cancellation result; read forward it is the master per-channel dephasing-rate law.
+/// The index l is channel-agnostic: read as a physical channel, each with its own γ
+/// spanning decades, it is the decoherence-rate law for a heterogeneous substrate. Verified
+/// bit-exact N=3 (64 modes, weak and strong coupling) in
+/// <c>simulations/_absorption_gamma_vector.py</c>.</para>
+///
 /// <para>Pi2-Foundation anchor: the "2" absorption quantum IS
 /// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = a_0 = polynomial root d in
 /// d² − 2d = 0. Same anchor as F1 TwoFactor, F50 DecayRateFactor, F66
