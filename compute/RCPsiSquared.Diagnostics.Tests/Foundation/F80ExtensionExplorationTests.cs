@@ -25,7 +25,17 @@ public class F80ExtensionExplorationTests
     private static readonly Complex I_ = Complex.ImaginaryOne;
     private static readonly ComplexMatrix PX = ComplexMatrix.Build.DenseOfArray(new Complex[,] { { 0, 1 }, { 1, 0 } });
     private static readonly ComplexMatrix PY = ComplexMatrix.Build.DenseOfArray(new Complex[,] { { 0, -I_ }, { I_, 0 } });
+    private static readonly ComplexMatrix PZ = ComplexMatrix.Build.DenseOfArray(new Complex[,] { { 1, 0 }, { 0, -1 } });
     private static readonly ComplexMatrix P1 = ComplexMatrix.Build.DenseIdentity(2);
+
+    private static ComplexMatrix Letter(string s) => s switch { "X" => PX, "Y" => PY, "Z" => PZ, _ => P1 };
+
+    private static ComplexMatrix ChainBond(int N, ComplexMatrix P, ComplexMatrix Q)
+    {
+        var H = ComplexMatrix.Build.Dense(1 << N, 1 << N);
+        for (int l = 0; l < N - 1; l++) H += Term(N, new[] { (l, P), (l + 1, Q) });
+        return H;
+    }
 
     // One Pauli-string term: the given letters on the given sites, identity elsewhere.
     private static ComplexMatrix Term(int N, (int site, ComplexMatrix P)[] ops)
@@ -120,5 +130,39 @@ public class F80ExtensionExplorationTests
         // body-count-agnostic (the per-bond Step-5 mechanism), extending F80's verified scope.
         Assert.True(pureImag, $"{label} N={N}: M should be purely imaginary (anti-Hermitian)");
         Assert.Equal(hClusters, mClusters);
+    }
+
+    [Theory]
+    [InlineData("(X,Y)  Pi2-odd ", "X", "Y")]
+    [InlineData("(X,Z)  Pi2-odd ", "X", "Z")]
+    [InlineData("(Y,Z)  Pi2-even", "Y", "Z")]
+    [InlineData("(Z,Y)  Pi2-even", "Z", "Y")]
+    public void Pi2Parity_DecidesSingleVsDifferenceSpectrum(string label, string a, string b)
+    {
+        int N = 4;
+        var H = ChainBond(N, Letter(a), Letter(b));
+        var gammas = Enumerable.Repeat(0.1, N).ToList();
+        var M = PalindromeResidual.Build(PauliDephasingDissipator.BuildZ(H, gammas), N, gammas.Sum());
+
+        var mEig = M.Evd().EigenValues;
+        bool pureImag = mEig.Max(z => Math.Abs(z.Real)) < 1e-9;
+        var mClusters = mEig.Select(z => Math.Round(Math.Abs(z.Imaginary), 6)).Where(x => x > 1e-6).Distinct().OrderBy(x => x).ToArray();
+
+        var hEig = H.Evd().EigenValues.Select(z => z.Real).ToArray();
+        var single = hEig.Select(l => Math.Round(2 * Math.Abs(l), 6)).Where(x => x > 1e-6).Distinct().OrderBy(x => x).ToArray();
+        var diff = (from la in hEig from lb in hEig select Math.Round(2 * Math.Abs(la - lb), 6))
+            .Where(x => x > 1e-6).Distinct().OrderBy(x => x).ToArray();
+
+        bool matchesSingle = mClusters.SequenceEqual(single);
+        bool matchesDiff = mClusters.SequenceEqual(diff);
+
+        _out.WriteLine($"N={N}  {label}   ||M||_F={M.FrobeniusNorm():F3}  pureImag={pureImag}  #Mclusters={mClusters.Length}");
+        _out.WriteLine($"    matches 2|single eigenvalues|  (F80 odd, M=-2i H(x)I): {matchesSingle}  (#single={single.Length})");
+        _out.WriteLine($"    matches 2|eigenvalue diffs|    (even, M=2 L_H):        {matchesDiff}  (#diff={diff.Length})");
+
+        // The conjecture: Pi2-odd bonds -> M sees single eigenvalues (M = -2i H(x)I);
+        // Pi2-even bonds -> M sees eigenvalue differences (M = 2 L_H = -2i[H,.]).
+        Assert.True(pureImag, $"{label}: M should be purely imaginary");
+        Assert.True(matchesSingle || matchesDiff, $"{label}: M clusters match neither single nor differences");
     }
 }
