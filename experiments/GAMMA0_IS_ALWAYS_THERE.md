@@ -108,6 +108,25 @@ So the carrier is not gone when it is invisible. It is always there, holding the
 threshold of the one knob we can turn. You read it not by looking at it, but by turning
 J down until the coherence it has been damping all along finally fails to swing.
 
+## The formula for the beat
+
+The threshold is not just where the swing happens to die. It is the Absorption Theorem,
+laid over the takt. The exchange coherence ρ[10,01] sits at Hamming distance
+popcount(10 ⊕ 01) = 2, so the carrier writes onto it the absorption rate Re(λ) =
+2γ₀·popcount = 4γ₀. Against the coherent drive ω₀ = 2J the population difference is a
+damped oscillator,
+
+> s_z″ + Γ·s_z′ + ω₀²·s_z = 0,   ω₀ = 2J,  Γ = 4γ₀,
+
+whose critical point Γ = 2ω₀ falls at 4γ₀ = 4J, that is J = γ₀, Q = 1, with no free
+parameter. The popcount-2 absorption rate is the takt's threshold. The closed form
+reproduces the full two-qubit Lindblad bit-exactly (max|Δ| ≈ 3·10⁻¹⁶ across Q = 0.25 to
+8; max transfer 0.5000 exactly at Q = 1, overshooting only for Q > 1). So the beat we
+read off the lever is the Absorption Theorem read in reverse: the rate the carrier
+writes onto every coherence by its Hamming weight is the same rate that sets where the
+dance falls into step. The formula for the beat sits exactly on the line.
+(`simulations/_takt_absorption_overlay.py`.)
+
 ## Why the simplest won
 
 This is where the night's path matters. We first went after the popcount ladder, a ratio
