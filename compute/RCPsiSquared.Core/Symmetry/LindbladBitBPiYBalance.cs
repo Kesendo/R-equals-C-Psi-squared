@@ -71,6 +71,23 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>docs/proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md</c> +
 /// <c>docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md</c> (parent Hermitian-H)
 /// + <c>docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md</c> (parent non-Hermitian).</para></summary>
+/// <remarks>
+/// <para><b>Reading (2026-05-29) — the Y leg is the imaginary axis.</b> A viewpoint, not
+/// part of the Tier1Derived scope; recorded here so the connection is not re-found by luck.
+/// The missing Hilbert lift above is no accident: a unitary that flips Y while fixing X and
+/// Z cannot exist, because Y = i·X·Z, so any V fixing X and Z fixes their product Y too (the
+/// same Pauli-algebra fact the obstruction rests on). Y is the imaginary Pauli, and on a
+/// coherence ρ[i,j] the imaginary part carries the Y content while the real part carries the
+/// X content. Hence the rotation of the complex CΨ trajectory is its Y content, and the ¼
+/// cusp (θ = arctan√(4·CΨ − 1): real above ¼, undefined below) is exactly where that rotation
+/// dies; below the ¼ horizon the imaginary axis goes dark, the swing stops switching, and Y
+/// becomes invisible ("classical = under ¼" reads as "Y-blind"). Two faces of one Y, both
+/// flowing from Y being the rotation axis: the algebra cannot transport it (no lift → no
+/// bit_a twin → BitBSpecific), and the classical-side ¼ horizon cannot show it. The hardware
+/// shadow is the Marrakesh Z⊗N-mirror run, where a transverse Y-field broke the mirror ~40×
+/// harder than an X-field (Confirmation marrakesh_transverse_y_field_detection). See
+/// <c>experiments/GAMMA0_IS_ALWAYS_THERE.md</c> and the ¼-cusp claims F25 / F95 / F97.</para>
+/// </remarks>
 public sealed class LindbladBitBPiYBalance : Claim, IZ2AxisClaim
 {
     /// <summary>BitB axis (Π_Y² grades by bit_b per F38, same axis as F108 Part 1 / Part 3
