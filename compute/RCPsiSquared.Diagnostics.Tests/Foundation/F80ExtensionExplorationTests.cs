@@ -3,6 +3,7 @@ using System.Linq;
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.Lindblad;
+using RCPsiSquared.Core.Pauli;
 using RCPsiSquared.Core.Symmetry;
 using Xunit;
 using Xunit.Abstractions;
@@ -188,6 +189,64 @@ public class F80ExtensionExplorationTests
 
         _out.WriteLine($"N={N} star: |Spec(H)| = [{string.Join(", ", hAbs)}]   predicted |m-2j| = [{string.Join(", ", predicted)}]   clusters = 2x");
         Assert.Equal(predicted, hAbs);
+    }
+
+    [Fact]
+    public void FourFoldKleinFingerprint_Neither_OneSide_OtherSide_Both()
+    {
+        // Make the 4-fold Klein V4 structure of the mirror-defect M visible as "which side of rho
+        // does M touch". M acting as H(x)I changes only the left operator-index of rho; I(x)H^T only
+        // the right; the commutator [H,.] both. The two Klein cells are exactly (touches-left?) x
+        // (touches-right?). The D-twist of the vec basis is diagonal, so "which index changes" is
+        // invariant (only the absolute left=ket / right=bra naming carries a vec_F transpose, which
+        // is why we report "left/right index" rather than hard-claiming ket vs bra).
+        int N = 3, d = 1 << N, d2 = d * d;
+        var gammas = Enumerable.Repeat(0.1, N).ToList();
+        double sigma = gammas.Sum();
+        var T = PauliBasis.VecToPauliBasisTransform(N);
+        double inv2N = 1.0 / (1 << N);
+
+        (double mNorm, double leftCh, double rightCh) Side(ComplexMatrix H)
+        {
+            var mPauli = PalindromeResidual.Build(PauliDephasingDissipator.BuildZ(H, gammas), N, sigma);
+            var mVec = (T * mPauli * T.ConjugateTranspose()).Multiply((Complex)inv2N);  // back to vec basis
+            double total = 0, left = 0, right = 0;
+            for (int row = 0; row < d2; row++)
+                for (int col = 0; col < d2; col++)
+                {
+                    var z = mVec[row, col];
+                    double w = z.Real * z.Real + z.Imaginary * z.Imaginary;
+                    if (w < 1e-18) continue;
+                    total += w;
+                    if (row / d != col / d) left += w;   // left operator-index changed
+                    if (row % d != col % d) right += w;  // right operator-index changed
+                }
+            return (Math.Sqrt(total), left, right);
+        }
+
+        var mother = ChainBond(N, PX, PX) + ChainBond(N, PY, PY);  // XX+YY  truly      -> Pp
+        var fatherA = ChainBond(N, PX, PY);                         // XY     Pi2-odd a  -> Mp
+        var fatherB = ChainBond(N, PX, PZ);                         // XZ     Pi2-odd b  -> Mm
+        var child = ChainBond(N, PY, PZ);                           // YZ     Pi2-even   -> Pm
+
+        var (mN, mL, mR) = Side(mother);
+        var (aN, aL, aR) = Side(fatherA);
+        var (bN, bL, bR) = Side(fatherB);
+        var (cN, cL, cR) = Side(child);
+
+        _out.WriteLine($"Mother  XX+YY (Pp): ||M||={mN:F3}  left={mL:F3}  right={mR:F3}  -> touches NEITHER side (silence)");
+        _out.WriteLine($"FatherA XY    (Mp): ||M||={aN:F3}  left={aL:F3}  right={aR:F3}  -> ONE side only");
+        _out.WriteLine($"FatherB XZ    (Mm): ||M||={bN:F3}  left={bL:F3}  right={bR:F3}  -> the OPPOSITE side only");
+        _out.WriteLine($"Child   YZ    (Pm): ||M||={cN:F3}  left={cL:F3}  right={cR:F3}  -> BOTH sides ([H,.])");
+
+        // The 4 Klein cells = (touches-left?) x (touches-right?): neither / one / other / both.
+        Assert.True(mN < 1e-9, "truly -> M=0 (Mother, touches neither)");
+        Assert.True(aL < 1e-9 && aR > 1e-6, "XY -> one side only (Father_a, Mp)");
+        Assert.True(bR < 1e-9 && bL > 1e-6, "XZ -> the opposite side only (Father_b, Mm)");
+        Assert.True(cL > 1e-6 && cR > 1e-6, "YZ -> both sides (Child, Pm)");
+        // The two fathers sit on opposite sides , that opposition is the bit_a / Klein distinction
+        // the 3-role Trinity collapsed.
+        Assert.True(aR > 1e-6 && bL > 1e-6 && aL < 1e-9 && bR < 1e-9, "the two fathers are on opposite sides");
     }
 
     [Fact]
