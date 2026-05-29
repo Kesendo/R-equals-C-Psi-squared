@@ -166,6 +166,30 @@ public class F80ExtensionExplorationTests
         Assert.True(matchesSingle || matchesDiff, $"{label}: M clusters match neither single nor differences");
     }
 
+    [Theory]
+    [InlineData(4)]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    public void StarDispersion_ClosedForm_EvenIntegers(int N)
+    {
+        // H_star = sum_{spokes s} X_hub Y_s = X_hub (x) (sum_s Y_s). The m = N-1 spoke Y's commute
+        // and each has spectrum {+-1}, so sum_s Y_s has spectrum {m - 2j : j=0..m}, and the X_hub
+        // factor (spectrum {+-1}) gives Spec(H_star) = {+-(m - 2j)}. By the F80 identity the cluster
+        // values are 2|m - 2j| , the even integers 2m, 2m-4, 2m-8, ... (the star's "dispersion").
+        var H = StarXY(N);
+        var hAbs = H.Evd().EigenValues.Select(z => Math.Round(Math.Abs(z.Real), 6))
+            .Where(x => x > 1e-6).Distinct().OrderBy(x => x).ToArray();
+
+        int m = N - 1;
+        var predicted = Enumerable.Range(0, m + 1).Select(j => (double)Math.Abs(m - 2 * j))
+            .Where(x => x > 1e-6).Distinct().OrderBy(x => x).ToArray();
+
+        _out.WriteLine($"N={N} star: |Spec(H)| = [{string.Join(", ", hAbs)}]   predicted |m-2j| = [{string.Join(", ", predicted)}]   clusters = 2x");
+        Assert.Equal(predicted, hAbs);
+    }
+
     [Fact]
     public void MixedLetter_M_IsLinear_SoItIsTheSumOfPerParityPieces()
     {
