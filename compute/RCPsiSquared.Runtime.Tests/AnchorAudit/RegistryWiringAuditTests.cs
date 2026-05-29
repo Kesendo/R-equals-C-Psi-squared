@@ -121,6 +121,14 @@ public class RegistryWiringAuditTests
             // static StandardSet(chain) factories and their respective Witness*Tests classes.
             "LindbladBitAPiBalanceWitness",
             "LindbladBitBPiYBalanceWitness",
+
+            // Structural (stay deferred by design, not a wiring gap):
+            // F87DiagonalCellBipartiteWitness is a parameterised witness type (chain, k-body
+            // term templates, dephase letter, expected F87 class) for the F103 §7
+            // bipartite-chirality criterion. Discoverable via the static StandardSet(chain)
+            // factory and the F87DiagonalCellBipartiteWitnessTests in
+            // RCPsiSquared.Diagnostics.Tests/F87/, never a standalone registry singleton.
+            "F87DiagonalCellBipartiteWitness",
         };
 
     [Fact]

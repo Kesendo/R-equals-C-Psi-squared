@@ -1,6 +1,6 @@
 # PROOF F103: F87 Trichotomy Z₂³ Refinement at k=3 (N=4 Empirical Anchor)
 
-**Status:** Tier 1 derived. The 42:8 closed-form rule was found 2026-05-29 (diagonal-cell hardness rule, §6); the atomic sub-rules remain verified-not-yet-palindrome-proven.
+**Status:** Tier 1 derived. The 42:8 closed-form rule was found 2026-05-29 (diagonal-cell hardness rule, §6), and its two atomic sub-rules were then unified and half-derived as a single criterion (§7): a diagonal-cell pair is soft iff H's hopping graph is bipartite in the dephasing letter's eigenbasis. The direction bipartite ⟹ soft is derived (Π followed by a chiral sublattice K); the converse non-bipartite ⟹ hard is verified bit-exact (N=4 all three letters, N=5).
 **Date:** 2026-05-24
 **Anchor:** N=4, k_body=3, 294 Z₂³-homogeneous + Y-par-homogeneous Pauli pairs (pair count is N-independent at fixed k; the empirical anchor is N=4)
 **Regenerate:** `simulations/f87_z2cubed_split_n4_k3.py` (~60s)
@@ -195,11 +195,13 @@ Klein           y0  y1  tot    y0  y1  tot    y0  y1  tot
 
 ## 5. Open Questions
 
-1. **Closed-form derivation of 42:8. ANSWERED 2026-05-29 (§6).** A diagonal-cell
-   hardness rule (hard iff an all-diagonal pure-D template is present, or both terms
-   are single-diagonal with their {I,D} letter at chain-adjacent positions) derives
-   the 42:8 and the Y-inversion by counting, verified bit-exact at N=4 and N=5. The
-   atomic sub-rules remain verified-not-palindrome-proven; see §6.
+1. **Closed-form derivation of 42:8. ANSWERED 2026-05-29 (§6), mechanism in §7.** A
+   diagonal-cell hardness rule (hard iff an all-diagonal pure-D template is present, or
+   both terms are single-diagonal with their {I,D} letter at chain-adjacent positions)
+   derives the 42:8 and the Y-inversion by counting, verified bit-exact at N=4 and N=5.
+   §7 then unifies the two atomic sub-rules into one bipartite-chirality criterion and
+   derives the bipartite ⟹ soft direction from the palindrome; the converse is the one
+   remaining open edge.
 
 2. **N>4 and k>3 universality.** The (42, 8, 50) numbers are N=4 k=3
    specific. Does the structural pattern (asymmetric hard split + Y-inversion)
@@ -251,8 +253,95 @@ structural reason the F105 N=5 anchor reproduces F103; it closes Open Question 1
 k=3 anchors (F103, F105, and the k=3 parts of F107 / F110). The k=4 228:0 split (F106) is the
 sibling case of rule (a) at k=4, i.e. F111's pure-D template rule.
 
-**Remaining.** The atomic sub-rules (a) all-diagonal → hard and (b) single-diagonal adjacency
-are the F87 mechanism at the term level, verified here but not yet derived from the palindrome
-identity; (a) is the k=3 face of [F111](PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md)'s pure-D
-template rule. A palindrome-level proof of (a) and (b) would lift this from a verified rule to
-a full derivation.
+**Remaining.** §7 supplies the palindrome-level mechanism the §6 rule was missing: the two
+atomic sub-rules turn out to be the two ways of breaking a single criterion (bipartiteness of
+H's hopping graph), and the soft direction is derived from the palindrome. (a) is the k=3 face
+of [F111](PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md)'s pure-D template rule. The converse
+(non-bipartite ⟹ hard) is the one open edge; see §7.3.
+
+## 7. The bipartite-chirality mechanism: why (a) and (b) hold (2026-05-29)
+
+Rules (a) and (b) look like two separate facts about where a diagonal letter may sit. They are
+one fact about the pair's Hamiltonian H = t₁ + t₂.
+
+Read H in the **dephasing letter's eigenbasis**: for D = Z this is the computational basis; for
+X and Y, rotate each site by the single-qubit gate that sends D to Z (Hadamard for X, the Y→Z
+rotation for Y). In that basis the diagonal letters {I, D} are diagonal and the off-diagonal
+letters are the hops, so H is a real hopping matrix. Let **G_H** be its graph: one node per
+basis state, an edge a–b wherever H[a,b] ≠ 0.
+
+**Criterion.** A diagonal-cell pair is soft iff G_H is bipartite (2-colourable, zero diagonal);
+hard iff not. Verified bit-exact with zero mismatches over the entire diagonal cell at N=4 (all
+three dephase letters) and N=5
+([`f87_42_8_bipartite_fullcell.py`](../../simulations/f87_42_8_bipartite_fullcell.py)).
+
+### 7.1 Why bipartite ⟹ soft (derived)
+
+A 2-colouring of G_H is a diagonal sign operator K = diag(±1), one sign per colour, with
+**KHK = −H**: every edge joins opposite colours, so every hop flips sign, and a zero diagonal
+flips trivially. This K is the chiral (sublattice) symmetry of the hopping graph, the same
+K = diag((−1)^sublattice) that AZ class BDI calls chiral and that gives spectral inversion
+E ↦ −E. Because K is diagonal in the dephasing basis, it commutes with the dephasing
+dissipator D.
+
+Follow the spectrum through two mirrors.
+
+1. **First mirror, Π (always available).** In the diagonal cell every term's residual is
+   one-sided, the F80 structure: M = Π·L·Π⁻¹ + L + 2σ = −2i·(H⊗I), bit-exact for soft and hard
+   alike (it is *not* the discriminator). So Π·L·Π⁻¹ = −L − 2σ + M = **−i{H,·} − D − 2σ**:
+   conjugation by Π turns the commutator i[H,·] into the anticommutator. Π is unitary, so
+   Spec(L) = Spec(−i{H,·} − D − 2σ).
+
+2. **Second mirror, the chiral K (only if bipartite).** With W = K⊗I and KHK = −H,
+   W(−i{H,·})W⁻¹ = −i(KHK ⊗ I + I ⊗ Hᵀ) = −i(−H⊗I + I⊗Hᵀ) = +i[H,·], while WDW⁻¹ = D. So W
+   conjugates (−i{H,·} − D) into (i[H,·] − D) = −L, giving Spec(−i{H,·} − D) = Spec(−L).
+
+Composing, Spec(L) = Spec(−L − 2σ): the spectrum is symmetric about the palindrome centre −σ.
+**Soft.** The palindrome that Π alone could not deliver here (M ≠ 0) is delivered by Π followed
+by the chiral K. All three links verified bit-exact
+([`f87_bipartite_chiral_witness.py`](../../simulations/f87_bipartite_chiral_witness.py)).
+
+The derivation rests on the F80 one-sidedness M = −2i(H⊗I) (Tier-1 for chain bilinears,
+verified bit-exact for the k=3 diagonal cell here); given it, links 1 and 2 are exact algebra
+plus the 2-colouring construction. For a y_par = 1 cell the residual sits on the bra side
+(M = −2i(I⊗Hᵀ)) and the mirror is W = I⊗K; the argument is identical.
+
+### 7.2 The two atomic rules are the two ways to break bipartiteness
+
+- **(a) A pure-D template ⟹ hard.** A pure-D template (letters ⊆ {I, D}) is diagonal in the
+  dephasing basis, so it lands on H's diagonal. A nonzero diagonal makes KHK = −H impossible
+  (a diagonal entry cannot change sign under a diagonal K), so no chiral K exists and G_H is not
+  bipartite. The template *lifts the diagonal* and kills the chirality.
+
+- **(b) Single-diagonal adjacency ⟹ hard.** Two single-diagonal terms keep the diagonal zero,
+  so the only obstruction is an odd cycle. The {I, D} letter's window-position parity is exactly
+  the 2-colouring parity: same-parity positions close even hopping cycles (bipartite, soft);
+  opposite parity closes an **odd** cycle (non-bipartite, hard). The §6 adjacency rule is the
+  odd-cycle obstruction read at the chain level.
+
+So the §6 rules (a) and (b) are the two faces of one classical criterion, and the soft side is
+derived from the palindrome.
+
+### 7.3 The open edge: the converse
+
+What remains is **non-bipartite ⟹ hard**: that when no chiral K exists, no operator restores
+the palindrome and the spectrum genuinely fails to pair. This is verified, not yet proved:
+
+- zero mismatches over the whole diagonal cell at N=4 (all letters) and N=5;
+- the failure is genuine, not a near-miss. The best possible (optimal-assignment) pairing
+  λ ↔ −λ−2σ leaves a residual of order 10⁻¹ for hard pairs against 10⁻¹⁴ for soft
+  ([`f87_bipartite_chiral_witness.py`](../../simulations/f87_bipartite_chiral_witness.py)).
+
+One half of the palindrome survives unconditionally, even when hard: the Lindbladian's spectrum
+is closed under complex conjugation, so the **frequency marginal** {Im λ} is always symmetric
+about 0. What breaks is the **decay structure**, the real parts no longer pair about −σ.
+Proving that the odd cycle (or the lifted diagonal) forces this break, with no escape through
+some non-chiral similarity, is the same flavour of obstruction that F111's soft direction left
+open. The gain is that the question now has a sharp classical shape: it is exactly the claim
+that a non-bipartite hopping graph admits no spectrum-pairing symmetry commuting with the
+dephasing.
+
+**Regenerate:** [`f87_42_8_bipartite_fullcell.py`](../../simulations/f87_42_8_bipartite_fullcell.py)
+(the criterion, all three letters, N=4 and N=5) and
+[`f87_bipartite_chiral_witness.py`](../../simulations/f87_bipartite_chiral_witness.py)
+(the three derivation links plus the optimal-pairing residual).
