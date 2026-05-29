@@ -103,6 +103,6 @@ Closed 2026-05-25: F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived); 
 
 ## Open
 
-- Closed-form derivation of F110 Aspect C exact ratios (42:8 at k=3, 228:0 at k=4) per Pauli-letter combinatorics. F103 Section 5 explicitly lists as open.
+- Closed-form derivation of F110 Aspect C exact ratios. The **42:8 at k=3 is answered** (2026-05-29) by the diagonal-cell hardness rule in [PROOF_F103](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) §6; the **228:0 at k=4** is the sibling case via F111's pure-D template rule. Atomic sub-rules verified-not-yet-palindrome-proven.
 - k ≥ 5 empirical confirmation of F103/F106 pattern stability beyond N=4.
 - Hardware QPU confirmation at k ≥ 3 (no F87 QPU confirmations exist beyond Marrakesh k=2).
