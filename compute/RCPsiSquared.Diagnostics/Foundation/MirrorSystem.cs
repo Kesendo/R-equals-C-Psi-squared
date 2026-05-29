@@ -68,9 +68,15 @@ public sealed class MirrorSystem
     private CarrierPortfolioSpectrum? _spectrum;
 
     /// <summary>The inner law: every Liouvillian mode as a per-channel difference-portfolio and
-    /// decay rate. Computed once, lazily, from this system's one input.</summary>
+    /// decay rate. Computed once, lazily, from this system's one input. For a number-conserving H
+    /// (XY, Heisenberg) the Z-dephasing Liouvillian is block-diagonal in the joint-popcount sectors,
+    /// so this uses <see cref="CarrierVectorPortfolio.DecomposeBlocked"/> ((N+1)² small Evds instead
+    /// of one 4^N one); a non-conserving H (e.g. the xybond) falls back to the full decomposition.
+    /// Either way the spectrum and portfolios are the same.</summary>
     public CarrierPortfolioSpectrum Spectrum =>
-        _spectrum ??= CarrierVectorPortfolio.Decompose(N, Hamiltonian, Channels);
+        _spectrum ??= CarrierVectorPortfolio.IsNumberConserving(Hamiltonian)
+            ? CarrierVectorPortfolio.DecomposeBlocked(N, Hamiltonian, Channels)
+            : CarrierVectorPortfolio.Decompose(N, Hamiltonian, Channels);
 
     /// <summary>F1 palindrome read as a live property: each mode's decay rate r is paired with
     /// its mirror partner 2σ − r. <see cref="PalindromePairing.PartnerPresent"/> is true when a

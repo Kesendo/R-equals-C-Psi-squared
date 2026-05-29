@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
+using RCPsiSquared.Core.BlockSpectrum;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
@@ -226,6 +227,104 @@ public static class CarrierVectorPortfolio
                 activity.Add(new ChannelActivity(siteChannels[l].Channel, w / normSq));
             }
             modes.Add(new CarrierMode(-vals[k].Real, new ChannelDifferencePortfolio(activity)));
+        }
+
+        return new CarrierPortfolioSpectrum(new CarrierVector(siteChannels), modes);
+    }
+
+    /// <summary>True iff H preserves total popcount (Sz): H[a,b] = 0 whenever popcount(a) ≠
+    /// popcount(b). For such H (XY, Heisenberg) the Z-dephasing Liouvillian is block-diagonal in
+    /// the joint-popcount sectors, so <see cref="DecomposeBlocked"/> applies; otherwise (e.g. a
+    /// non-truly Σ X_lY_{l+1}) the sectors are not closed and the full <see cref="Decompose"/> is
+    /// required.</summary>
+    public static bool IsNumberConserving(ComplexMatrix hamiltonian, double tol = 1e-12)
+    {
+        if (hamiltonian is null) throw new ArgumentNullException(nameof(hamiltonian));
+        int d = hamiltonian.RowCount;
+        for (int a = 0; a < d; a++)
+            for (int b = 0; b < d; b++)
+                if (BitOperations.PopCount((uint)a) != BitOperations.PopCount((uint)b)
+                    && hamiltonian[a, b].Magnitude > tol)
+                    return false;
+        return true;
+    }
+
+    /// <summary>Same reading as <see cref="Decompose"/>, but block-by-block: the Z-dephasing
+    /// Liouvillian of a number-conserving H is exactly block-diagonal in the joint-popcount sectors
+    /// (popcount(row), popcount(col)), so one 4^N non-Hermitian eigendecomposition (an inherently
+    /// sequential geev) becomes (N+1)² small ones. Bit-identical spectrum and law-consistent
+    /// portfolios to <see cref="Decompose"/>; the win is wall-clock at large N.
+    ///
+    /// <para>Convention bridge: <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/> labels site l
+    /// at bit l (LSB), while this reading (like <see cref="Decompose"/>) labels channel s at bit
+    /// (N−1−s). So the carrier is passed reversed to the block builder, and Δ for channel s is read
+    /// at bit (N−1−s); the two cancel and the law −Re λ = 2·Σ_s γ_s·⟨Δ_s⟩ stays exact.</para>
+    ///
+    /// <para>Requires <see cref="IsNumberConserving"/>; throws otherwise (the sectors would not be
+    /// closed and the per-block spectra would be wrong).</para></summary>
+    public static CarrierPortfolioSpectrum DecomposeBlocked(
+        int N, ComplexMatrix hamiltonian, IReadOnlyList<ChannelRate> siteChannels)
+    {
+        if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be >= 1");
+        if (hamiltonian is null) throw new ArgumentNullException(nameof(hamiltonian));
+        if (siteChannels is null) throw new ArgumentNullException(nameof(siteChannels));
+        if (siteChannels.Count != N)
+            throw new ArgumentException($"need one channel per site (N={N}), got {siteChannels.Count}", nameof(siteChannels));
+        int d = 1 << N;
+        if (hamiltonian.RowCount != d || hamiltonian.ColumnCount != d)
+            throw new ArgumentException($"Hamiltonian must be {d}×{d} for N={N}", nameof(hamiltonian));
+        if (!IsNumberConserving(hamiltonian))
+            throw new ArgumentException("DecomposeBlocked needs a number-conserving H (joint-popcount blocks); use Decompose otherwise", nameof(hamiltonian));
+
+        // BuildBlockZ labels site l at bit l; this reading labels channel s at bit (N-1-s). Reverse
+        // the carrier so the block L equals Decompose's L, and read Δ for channel s at bit (N-1-s).
+        var gammasForBlock = new double[N];
+        for (int l = 0; l < N; l++) gammasForBlock[l] = siteChannels[N - 1 - l].Gamma;
+
+        // Partition the 4^N flat indices into closed sectors by (popcount(row), popcount(col)).
+        int d2 = d * d;
+        var sectors = new Dictionary<(int, int), List<int>>();
+        for (int f = 0; f < d2; f++)
+        {
+            var key = (BitOperations.PopCount((uint)(f / d)), BitOperations.PopCount((uint)(f % d)));
+            if (!sectors.TryGetValue(key, out var list)) { list = new List<int>(); sectors[key] = list; }
+            list.Add(f);
+        }
+
+        var modes = new List<CarrierMode>(d2);
+        foreach (var flat in sectors.Values)
+        {
+            var B = PerBlockLiouvillianBuilder.BuildBlockZ(hamiltonian, gammasForBlock, flat);
+            var evd = B.Evd();
+            var vals = evd.EigenValues;
+            var vecs = evd.EigenVectors;
+            int bs = flat.Count;
+            var absSq = new double[bs];
+            for (int k = 0; k < bs; k++)
+            {
+                var v = vecs.Column(k);
+                double normSq = 0.0;
+                for (int i = 0; i < bs; i++)
+                {
+                    var c = v[i];
+                    double m = c.Real * c.Real + c.Imaginary * c.Imaginary;
+                    absSq[i] = m;
+                    normSq += m;
+                }
+                var activity = new List<ChannelActivity>(N);
+                for (int s = 0; s < N; s++)
+                {
+                    int bit = N - 1 - s;
+                    double w = 0.0;
+                    for (int i = 0; i < bs; i++)
+                    {
+                        int f = flat[i];
+                        if ((((f / d) >> bit) & 1) != (((f % d) >> bit) & 1)) w += absSq[i];
+                    }
+                    activity.Add(new ChannelActivity(siteChannels[s].Channel, w / normSq));
+                }
+                modes.Add(new CarrierMode(-vals[k].Real, new ChannelDifferencePortfolio(activity)));
+            }
         }
 
         return new CarrierPortfolioSpectrum(new CarrierVector(siteChannels), modes);
