@@ -250,6 +250,32 @@ public class F80ExtensionExplorationTests
     }
 
     [Fact]
+    public void DefectLadder_NormSquared_IsSideTimesBondsTimes4PowerN()
+    {
+        // The defect magnitude is a ladder: ||M||^2 = side * #bonds * 4^N, with side = 4 (Pi2-odd,
+        // one-sided, M = -2i H(x)I) or 8 (Pi2-even, two-sided, M = -2i[H,.]). From the F80 relation
+        // ||M||^2 = 4||H||^2 2^N with ||H||^2 = #bonds * 2^N for orthogonal Pauli bonds. Each bond
+        // adds a fixed quantum (4*4^N odd / 8*4^N even); the child is sqrt(2)x the father per bond.
+        (string label, ComplexMatrix H, int bonds, int side, int N)[] cases =
+        {
+            ("N=3 chain XY (odd, 1-side)",  ChainBond(3, PX, PY),    2, 4, 3),  // sqrt(512)
+            ("N=3 chain YZ (even, 2-side)", ChainBond(3, PY, PZ),    2, 8, 3),  // sqrt(1024)
+            ("N=4 ring  XY (odd, 1-side)",  ChainXY(4, ring: true),  4, 4, 4),  // sqrt(4096)
+            ("N=5 chain XY (odd, 1-side)",  ChainBond(5, PX, PY),    4, 4, 5),  // sqrt(16384)
+        };
+        foreach (var (label, H, bonds, side, N) in cases)
+        {
+            var gammas = Enumerable.Repeat(0.1, N).ToList();
+            var M = PalindromeResidual.Build(PauliDephasingDissipator.BuildZ(H, gammas), N, gammas.Sum());
+            double normSq = M.FrobeniusNorm();
+            normSq *= normSq;
+            double predicted = (double)side * bonds * Math.Pow(4, N);
+            _out.WriteLine($"{label,-28}: ||M||^2 = {normSq,7:F0} = {side}*{bonds}*4^{N}   ||M|| = sqrt({normSq:F0}) = {Math.Sqrt(normSq):F3}");
+            Assert.Equal(predicted, normSq, precision: 2);
+        }
+    }
+
+    [Fact]
     public void MixedLetter_M_IsLinear_SoItIsTheSumOfPerParityPieces()
     {
         // A mixed-letter chain: one Pi2-odd family (X,Y) plus one Pi2-even family (Y,Z).
