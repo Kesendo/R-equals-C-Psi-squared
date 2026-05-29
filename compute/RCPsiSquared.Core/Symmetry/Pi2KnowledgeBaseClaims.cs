@@ -567,6 +567,10 @@ public sealed class NinetyDegreeMirrorMemoryClaim : Claim
                 summary: "the identity is topology- and body-agnostic (Step 5 is per-bond): confirmed for ring, star, complete-graph, 3-body and 4-body Π²-odd bonds, and mixed-letter Hamiltonians (M is linear in H, so the per-bond pieces add). Only the cluster-VALUE dispersions are structure-specific");
             yield return new InspectableNode("dispersions per graph family",
                 summary: "the cluster values are the structure's dispersion: chain (path) 2cos(πk/(N+1)); star 2|m−2j| (m=N−1 spokes, closed by the factorization H_star = X_hub⊗Σ_s Y_s, integers); ring (cycle) the cyclic free-fermion 2cos(2π(k+a)/N)");
+            yield return new InspectableNode("magnitude is a quantized ladder (2026-05-29)",
+                summary: "‖M‖²_F = side·(#bonds)·4^N with side = 4 (Π²-odd, one-sided) or 8 (Π²-even, two-sided): every mirror-breaking bond adds a fixed quantum, so ‖M‖ COUNTS the broken bonds. √512, √1024, √4096, √16384 are rungs (F80ExtensionExplorationTests). This is F49's Frobenius cross-term, read per-bond , the defect's size is calibrated by H ('H is the distance'), quantized in bonds");
+            yield return new InspectableNode("the operator is 4-fold = which side of ρ (2026-05-29)",
+                summary: "the spectrum shows 3 voices (silence / energies / Bohr-frequencies = the Mother/Father/Child trinity), but the OPERATOR carries 4 (Klein V₄ = (touches-left?)×(touches-right?)): truly = neither (M=0), the two Π²-odd fathers = opposite single sides (H⊗I vs I⊗Hᵀ), the Π²-even child = both ([H,·]). The two fathers share a spectrum yet sit on opposite sides , exactly the bit_a distinction the 3-role Trinity collapsed before the Klein-V₄ lens (commit 625884f)");
         }
     }
 }
