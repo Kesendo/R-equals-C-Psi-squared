@@ -30,6 +30,34 @@ public static class PauliDephasingDissipator
 
         var I = Matrix<Complex>.Build.DenseIdentity(d);
         var L = -Complex.ImaginaryOne * (H.KroneckerProduct(I) - I.KroneckerProduct(H.Transpose()));
+
+        if (dephaseLetter == PauliLetter.Z)
+        {
+            // Z-dephasing: Z_l⊗Z_l − I⊗I is DIAGONAL, so the whole dissipator is. Its diagonal at
+            // vec-index a·d+b is Σ_l γ_l·(z_l[a]·z_l[b] − 1) = −2·Σ_{l: a,b disagree at l} γ_l, the
+            // per-basis-state decay rate (the same bra-ket disagreement bit Δ_l as the Absorption
+            // Theorem). Add it to L's diagonal directly: no Kronecker products, no per-site dense
+            // 4^N allocations, bit-identical to the general path below.
+            var z = new double[N][];
+            for (int l = 0; l < N; l++)
+            {
+                var Zl = PauliString.SiteOp(N, l, PauliLetter.Z);
+                var zl = new double[d];
+                for (int a = 0; a < d; a++) zl[a] = Zl[a, a].Real;
+                z[l] = zl;
+            }
+            for (int a = 0; a < d; a++)
+                for (int b = 0; b < d; b++)
+                {
+                    double diss = 0.0;
+                    for (int l = 0; l < N; l++)
+                        diss += gammaPerSite[l] * (z[l][a] * z[l][b] - 1.0);
+                    if (diss != 0.0) L[a * d + b, a * d + b] += diss;
+                }
+            return L;
+        }
+
+        // X-/Y-dephasing: P_l⊗P_l* is not diagonal, so build the dissipator the general way.
         for (int l = 0; l < N; l++)
         {
             double gamma = gammaPerSite[l];
