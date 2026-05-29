@@ -1,11 +1,17 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Diagnostics.Foundation;
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 public class CarrierVectorPortfolioTests
 {
+    private readonly Xunit.Abstractions.ITestOutputHelper _out;
+    public CarrierVectorPortfolioTests(Xunit.Abstractions.ITestOutputHelper output) => _out = output;
+
     // The Si:P channel stack: clocks spanning decades (charge fast, nuclear protected).
     private static CarrierVector SiPCarrier() => new(new[]
     {
@@ -78,5 +84,63 @@ public class CarrierVectorPortfolioTests
         // Portfolios are the true activities, so the law holds bit-exact across the set.
         Assert.True(spec.MaxLawResidual < 1e-9,
             $"law residual {spec.MaxLawResidual:E3} exceeds 1e-9");
+    }
+
+    private static Matrix<Complex> Heisenberg2(double J)
+    {
+        var X = Matrix<Complex>.Build.DenseOfArray(new Complex[,] { { 0, 1 }, { 1, 0 } });
+        var Y = Matrix<Complex>.Build.DenseOfArray(new Complex[,] { { 0, -Complex.ImaginaryOne }, { Complex.ImaginaryOne, 0 } });
+        var Z = Matrix<Complex>.Build.DenseOfArray(new Complex[,] { { 1, 0 }, { 0, -1 } });
+        return (X.KroneckerProduct(X) + Y.KroneckerProduct(Y) + Z.KroneckerProduct(Z)).Multiply((Complex)J);
+    }
+
+    [Fact]
+    public void Decompose_FromLiveLiouvillian_ClosesTheLawAndReadsSubsetSums()
+    {
+        var channels = new[] { new ChannelRate("a", 0.05), new ChannelRate("b", 0.20) };
+
+        // Coupled Heisenberg: each mode's portfolio, read from the eigenvector, reproduces
+        // its own decay rate. The law closes on a live, non-trivial Liouvillian.
+        var coupled = CarrierVectorPortfolio.Decompose(2, Heisenberg2(1.0), channels);
+        Assert.Equal(16, coupled.Modes.Count);
+        Assert.True(coupled.MaxLawResidual < 1e-9,
+            $"coupled law residual {coupled.MaxLawResidual:E3} exceeds 1e-9");
+
+        // H = 0: pure dephasing, rates are the exact subset-sums of {2γ_a, 2γ_b} = {0, .1, .4, .5}.
+        var zero = Matrix<Complex>.Build.Dense(4, 4);
+        var deph = CarrierVectorPortfolio.Decompose(2, zero, channels);
+        var rates = deph.Modes.Select(m => Math.Round(m.ActualDecayRate, 6)).Distinct().ToList();
+        Assert.Equal(4, rates.Count);
+        foreach (var expected in new[] { 0.0, 0.1, 0.4, 0.5 })
+            Assert.Contains(rates, r => Math.Abs(r - expected) < 1e-6);
+        Assert.True(deph.MaxLawResidual < 1e-9);
+    }
+
+    [Fact]
+    public void Look_GoodQubitProtectionLeaksWhenCoupled()
+    {
+        // A slow "good" qubit (γ=0.01) and a fast "bad" one (γ=1.0).
+        var channels = new[] { new ChannelRate("good", 0.01), new ChannelRate("bad", 1.0) };
+        var coupled = CarrierVectorPortfolio.Decompose(2, Heisenberg2(1.0), channels);
+        var decoupled = CarrierVectorPortfolio.Decompose(2, Matrix<Complex>.Build.Dense(4, 4), channels);
+
+        void Show(string label, CarrierPortfolioSpectrum s)
+        {
+            _out.WriteLine($"{label}  (slowest nonzero rate = {s.SlowestRate:F4})");
+            foreach (var m in s.Modes.Where(m => m.ActualDecayRate > 1e-9)
+                                     .OrderBy(m => m.ActualDecayRate).Take(2))
+            {
+                var p = string.Join("  ", m.Portfolio.Activity.Select(a => $"{a.Channel} {100 * a.Delta:F0}%"));
+                _out.WriteLine($"    rate {m.ActualDecayRate:F4}   {p}");
+            }
+        }
+        Show("DECOUPLED (good qubit isolated)", decoupled);
+        Show("COUPLED   (good qubit + bad neighbour)", coupled);
+
+        // Decoupled: the good qubit's coherence is protected at exactly 2·γ_good.
+        Assert.Equal(0.02, decoupled.SlowestRate, precision: 6);
+        // Coupled: the coupling leaks the bad channel in and raises the protected floor.
+        Assert.True(coupled.SlowestRate > decoupled.SlowestRate + 1e-6,
+            $"expected leak: coupled {coupled.SlowestRate:F4} should exceed decoupled {decoupled.SlowestRate:F4}");
     }
 }

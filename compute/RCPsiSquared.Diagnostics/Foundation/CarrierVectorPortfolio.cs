@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using MathNet.Numerics.LinearAlgebra;
+using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
@@ -72,7 +75,7 @@ public sealed record ChannelDifferencePortfolio(IReadOnlyList<ChannelActivity> A
         double weighted = 0.0;
         foreach (var a in Activity)
         {
-            if (a.Delta < -1e-12 || a.Delta > 1.0 + 1e-12)
+            if (a.Delta < -1e-9 || a.Delta > 1.0 + 1e-9)
                 throw new ArgumentOutOfRangeException(
                     nameof(Activity), a.Delta, $"⟨Δ⟩ for channel '{a.Channel}' must lie in [0,1]");
             weighted += carrier.Gamma(a.Channel) * a.Delta;
@@ -126,4 +129,77 @@ public sealed record CarrierPortfolioSpectrum(CarrierVector Carrier, IReadOnlyLi
     /// activities (the bit-exact check the Python verifiers run).</summary>
     public double MaxLawResidual =>
         Modes.Count == 0 ? 0.0 : Modes.Max(m => Math.Abs(m.ActualDecayRate - m.Portfolio.DecayRate(Carrier)));
+}
+
+/// <summary>Reads a Liouvillian into a <see cref="CarrierPortfolioSpectrum"/>: the numbers,
+/// not a guess. Builds L = −i[H, ·] + Σ_l γ_l·D[Z_l] densely for the given Hamiltonian and
+/// per-site dephasing rates, eigendecomposes it, and reads each mode's per-site difference
+/// activity ⟨Δ_l⟩ = ⟨v|N_l|v⟩ / ‖v‖² with N_l = (I − Z_l⊗Z_l)/2 the "site-l off-diagonal"
+/// projector. N_l is built with the same dephasing machinery as L, so the reading is
+/// convention-safe by construction: Re(λ_k) = ⟨v_k|Herm(L)|v_k⟩/‖v_k‖² = −2 Σ_l γ_l·⟨Δ_l⟩_k
+/// holds for the right eigenvectors regardless of the vec ordering. Diagnostic-scale (dense
+/// 4^N): for the small N where we look, not the large-N engine.</summary>
+public static class CarrierVectorPortfolio
+{
+    private static readonly ComplexMatrix PauliZ =
+        ComplexMatrix.Build.DenseOfArray(new Complex[,] { { 1, 0 }, { 0, -1 } });
+
+    /// <summary>Decompose the Liouvillian for an N-site system with Hamiltonian
+    /// <paramref name="hamiltonian"/> (a 2^N × 2^N matrix) under per-site Z-dephasing given
+    /// by <paramref name="siteChannels"/> (one <see cref="ChannelRate"/> per site, in site
+    /// order). Returns every mode as a per-site difference-portfolio, all at once.</summary>
+    public static CarrierPortfolioSpectrum Decompose(
+        int N, ComplexMatrix hamiltonian, IReadOnlyList<ChannelRate> siteChannels)
+    {
+        if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be >= 1");
+        if (hamiltonian is null) throw new ArgumentNullException(nameof(hamiltonian));
+        if (siteChannels is null) throw new ArgumentNullException(nameof(siteChannels));
+        if (siteChannels.Count != N)
+            throw new ArgumentException($"need one channel per site (N={N}), got {siteChannels.Count}", nameof(siteChannels));
+        int d = 1 << N;
+        if (hamiltonian.RowCount != d || hamiltonian.ColumnCount != d)
+            throw new ArgumentException($"Hamiltonian must be {d}×{d} for N={N}", nameof(hamiltonian));
+
+        var id1 = ComplexMatrix.Build.DenseIdentity(2);
+        var idD = ComplexMatrix.Build.DenseIdentity(d);
+        var idD2 = ComplexMatrix.Build.DenseIdentity(d * d);
+
+        ComplexMatrix SiteZ(int site)
+        {
+            ComplexMatrix op = site == 0 ? PauliZ : id1;
+            for (int s = 1; s < N; s++)
+                op = op.KroneckerProduct(s == site ? PauliZ : id1);
+            return op;
+        }
+
+        var siteZ = Enumerable.Range(0, N).Select(SiteZ).ToArray();
+        // N_l = (I − Z_l⊗Z_l)/2 on the 4^N Liouville space (a projector; ⟨Δ_l⟩ ∈ [0,1]).
+        var nOps = siteZ.Select(zl => (idD2 - zl.KroneckerProduct(zl)).Multiply(0.5)).ToArray();
+
+        // L = −i (H⊗I − I⊗Hᵀ) + Σ_l γ_l (Z_l⊗Z_l − I).
+        var L = (hamiltonian.KroneckerProduct(idD) - idD.KroneckerProduct(hamiltonian.Transpose()))
+                .Multiply(-Complex.ImaginaryOne);
+        for (int l = 0; l < N; l++)
+            L += (siteZ[l].KroneckerProduct(siteZ[l]) - idD2).Multiply((Complex)siteChannels[l].Gamma);
+
+        var evd = L.Evd();
+        var vals = evd.EigenValues;
+        var vecs = evd.EigenVectors;
+
+        var modes = new List<CarrierMode>(d * d);
+        for (int k = 0; k < d * d; k++)
+        {
+            var v = vecs.Column(k);
+            double normSq = v.ConjugateDotProduct(v).Real;
+            var activity = new List<ChannelActivity>(N);
+            for (int l = 0; l < N; l++)
+            {
+                double delta = v.ConjugateDotProduct(nOps[l].Multiply(v)).Real / normSq;
+                activity.Add(new ChannelActivity(siteChannels[l].Channel, delta));
+            }
+            modes.Add(new CarrierMode(-vals[k].Real, new ChannelDifferencePortfolio(activity)));
+        }
+
+        return new CarrierPortfolioSpectrum(new CarrierVector(siteChannels), modes);
+    }
 }
