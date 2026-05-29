@@ -63,28 +63,30 @@ dephasing standing in for γ₀ (2 µs of idle per step, the carrier doing what 
 does), and scanned J. No noise model, no fit-in-advance; we fired and read the answer.
 (Runner: external pipeline `run_q_jscan.py`, job `d8ce8l38ch0s738uorjg`, 4096 shots.)
 
-Transfer T(t) = P(qubit 14 excited):
+Transfer T(t) = P(qubit 14 excited). The columns are the regime Q = J/γ₀; the lever J
+is the second header row (γ₀ = 0.05, so J = Q·γ₀):
 
 ```
- step   J=0.05   J=0.1    J=0.2    J=0.4
-   0     0.023    0.023    0.021    0.021
-   3     0.055    0.117    0.304    0.779   ← J=0.4 already swung across
-   6     0.108    0.299    0.703    0.387
-   9     0.178    0.467    0.692    0.272
-  12     0.247    0.563    0.319    0.743
-  15     0.294    0.541    0.145    0.123
-  18     0.316    0.456    0.365    0.547
-  21     0.326    0.327    0.621    0.455
-  24     0.335    0.269    0.550    0.176
-  30     0.282    0.318    0.177    0.197
+ step     Q=1      Q=2      Q=4      Q=8
+          J=0.05   J=0.10   J=0.20   J=0.40
+    0     0.023    0.023    0.021    0.021
+    3     0.055    0.117    0.304    0.779    ← Q=8 already swung across
+    6     0.108    0.299    0.703    0.387
+    9     0.178    0.467    0.692    0.272
+   12     0.247    0.563    0.319    0.743
+   15     0.294    0.541    0.145    0.123
+   18     0.316    0.456    0.365    0.547
+   21     0.326    0.327    0.621    0.455
+   24     0.335    0.269    0.550    0.176
+   30     0.282    0.318    0.177    0.197
 ```
 
 Two things stand in the data, and both of them are Q = J/γ₀.
 
 **The frequency tracks J.** The first transfer peak sits at step n proportional to 1/J:
-J=0.4 first peaks at step 3, J=0.2 near step 6, J=0.1 not until step 12, and J=0.05 only
-crests late (step 24) and never crosses ½. Double the coupling, halve the period. The
-H-clock scales with J exactly, as the only lever should.
+J=0.4 (Q=8) first peaks at step 3, J=0.2 (Q=4) near step 6, J=0.1 (Q=2) not until step
+12, and J=0.05 (Q=1) only crests late (step 24) and never crosses ½. Double the coupling,
+halve the period. The H-clock scales with J exactly, as the only lever should.
 
 **The swing dies at the threshold.** J=0.4 and J=0.2 swing several times (peaks 0.78 and
 0.70, troughs 0.12 and 0.15: full coherent exchange across the bond). J=0.1 just clears
