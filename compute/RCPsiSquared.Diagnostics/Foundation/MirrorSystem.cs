@@ -197,6 +197,47 @@ public sealed class MirrorSystem
             : new TaktReading(false, gap, 1.0 / gap);
     }
 
+    private RotationReading? _rotation;
+
+    /// <summary>The Rotation: the angular hand of the circular quantum clock. A single mode winds as
+    /// e^(λt) = e^(−αt)·e^(iωt); the <see cref="Takt"/> reads the radius e^(−αt) (the inward decay set
+    /// by γ), this voice reads the angle e^(iωt) (the turning set by J), on the same memory mode the
+    /// Takt's Tau tracks. Together the two hands trace the memory mode's logarithmic spiral.
+    ///
+    /// <para>The reading is the memory mode's rotation ω = Im(λ) (<see cref="RotationReading.Frequency"/>,
+    /// the slowest mortal mode's oscillation) and its angle θ = arctan(ω/Gap)
+    /// (<see cref="RotationReading.Angle"/>), the F95 angle (= arctan(Q) for the 2-level case), the seam
+    /// between the radial bank (past, {I,Z}) and the angular bank (future, {X,Y}). θ is stored in
+    /// radians, canonical and composing with F95; the CLI renders it in degrees.</para>
+    ///
+    /// <para>Pairs with the Takt: when γ=0 the radial hand stops (<see cref="TaktReading.Stopped"/>) and
+    /// the angle reaches its maximum θ = π/2, the pure circle turning forever with no inward pull. When
+    /// J=0 nothing rotates (all ω=0), so the hand does not turn (<see cref="RotationReading.Turning"/> is
+    /// false) and θ = 0, pure radial decay. Computed once, lazily, from this system's input.</para></summary>
+    public RotationReading Rotation => _rotation ??= ComputeRotation();
+
+    private RotationReading ComputeRotation()
+    {
+        const double tol = 1e-9;
+        double gap = Spectrum.SlowestRate;
+        if (gap > tol)
+        {
+            // The mortal memory mode's rotation: max |ω| over the modes sitting at the slowest rate
+            // (deterministic across a degenerate slowest rate / ±ω conjugate pair).
+            double frequency = Spectrum.Modes
+                .Where(m => Math.Abs(m.ActualDecayRate - gap) <= tol)
+                .Select(m => Math.Abs(m.OscillationFrequency))
+                .DefaultIfEmpty(0.0).Max();
+            return new RotationReading(frequency > tol, frequency, Math.Atan2(frequency, gap));
+        }
+
+        // γ=0, the pure-circle limit (Takt.Stopped): no decay floor, read the turning over all modes.
+        double freq = Spectrum.Modes
+            .Select(m => Math.Abs(m.OscillationFrequency)).DefaultIfEmpty(0.0).Max();
+        bool turning = freq > tol;
+        return new RotationReading(turning, freq, turning ? Math.PI / 2.0 : 0.0);
+    }
+
     /// <summary>Move the carrier and get a fresh reading of the whole system (the box moves):
     /// a new <see cref="MirrorSystem"/> with the given per-site dephasing and the same H. Every
     /// property recomputes from the moved input.</summary>
@@ -240,3 +281,11 @@ public sealed record EnergyMemoryImage(double Energy, double MemoryAxisValue);
 /// slow mode reaches the centre; <see cref="double.PositiveInfinity"/> when stopped. This is the
 /// radial hand of the circular quantum clock e^(λt) = e^(−αt)·e^(iωt).</summary>
 public sealed record TaktReading(bool Stopped, double Gap, double Tau);
+
+/// <summary>The Rotation reading: the angular hand of the circular quantum clock
+/// e^(λt) = e^(−αt)·e^(iωt), the companion to <see cref="TaktReading"/>'s radial hand.
+/// <see cref="Turning"/> is true when the memory mode rotates (ω ≠ 0, i.e. J ≠ 0). <see cref="Frequency"/>
+/// is ω = |Im(λ)| of the memory mode, its turning rate. <see cref="Angle"/> is θ = arctan(ω/Gap) in
+/// radians, the F95 angle (= arctan(Q) for the 2-level case): θ → π/2 at the pure circle (γ=0, the
+/// radial hand stopped, turning forever) and θ = 0 for pure radial decay (J=0, no turning).</summary>
+public sealed record RotationReading(bool Turning, double Frequency, double Angle);

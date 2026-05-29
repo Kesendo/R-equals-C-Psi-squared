@@ -198,4 +198,63 @@ public class MirrorSystemTests
 
         Assert.Equal(2.0 * fast.Takt.Tau, slow.Takt.Tau, precision: 6);
     }
+
+    [Fact]
+    public void Rotation_CapturesImLambda_TheChainOscillates()
+    {
+        // N=3 Heisenberg, uniform gamma = 0.05, J = 1: the chain rotates, so at least one mode
+        // carries a nonzero oscillation frequency omega = Im(lambda) in its captured data.
+        var sys = new MirrorSystem(3, HeisenbergChain(3, 1.0),
+            new[] { new ChannelRate("a", 0.05), new ChannelRate("b", 0.05), new ChannelRate("c", 0.05) });
+
+        Assert.Contains(sys.Spectrum.Modes, m => Math.Abs(m.OscillationFrequency) > 1e-9);
+    }
+
+    [Fact]
+    public void Rotation_NoTurning_WhenJIsZero()
+    {
+        // J = 0: no Hamiltonian rotation, only pure radial decay. The angular hand does not turn.
+        var sys = new MirrorSystem(3, HeisenbergChain(3, 0.0),
+            new[] { new ChannelRate("a", 0.05), new ChannelRate("b", 0.05), new ChannelRate("c", 0.05) });
+
+        Assert.False(sys.Rotation.Turning);
+        Assert.Equal(0.0, sys.Rotation.Angle);
+    }
+
+    [Fact]
+    public void Rotation_Angle_IsArctanOfOmegaOverGap()
+    {
+        // N=3 Heisenberg, gamma = 0.05, J = 1: the memory mode's angle theta = arctan(omega / Gap),
+        // the F95 angle (= arctan Q for the 2-level case), wired off Takt.Gap and the captured omega.
+        var sys = new MirrorSystem(3, HeisenbergChain(3, 1.0),
+            new[] { new ChannelRate("a", 0.05), new ChannelRate("b", 0.05), new ChannelRate("c", 0.05) });
+
+        Assert.Equal(Math.Atan2(sys.Rotation.Frequency, sys.Takt.Gap), sys.Rotation.Angle, precision: 9);
+    }
+
+    [Fact]
+    public void Rotation_AngleGrowsWithJ_MoreRotationPerUnitDecay()
+    {
+        // At fixed gamma = 0.05, raising J turns the angular hand further: more rotation per unit decay.
+        var weak = new MirrorSystem(3, HeisenbergChain(3, 0.5),
+            new[] { new ChannelRate("a", 0.05), new ChannelRate("b", 0.05), new ChannelRate("c", 0.05) });
+        var strong = new MirrorSystem(3, HeisenbergChain(3, 2.0),
+            new[] { new ChannelRate("a", 0.05), new ChannelRate("b", 0.05), new ChannelRate("c", 0.05) });
+
+        Assert.True(strong.Rotation.Angle > weak.Rotation.Angle,
+            $"theta should grow with J: J=2 gave {strong.Rotation.Angle:F6}, J=0.5 gave {weak.Rotation.Angle:F6}");
+    }
+
+    [Fact]
+    public void Rotation_PureCircleLimit_GammaZero_AngleIsNinetyDegrees()
+    {
+        // gamma = 0 everywhere, J = 1, N = 3: the radial hand stops (Takt.Stopped) and the angular
+        // hand turns forever at the pure circle, theta = pi/2 (no inward pull, only rotation).
+        var sys = new MirrorSystem(3, HeisenbergChain(3, 1.0),
+            new[] { new ChannelRate("a", 0.0), new ChannelRate("b", 0.0), new ChannelRate("c", 0.0) });
+
+        Assert.True(sys.Takt.Stopped);
+        Assert.True(sys.Rotation.Turning);
+        Assert.Equal(Math.PI / 2.0, sys.Rotation.Angle, tolerance: 1e-9);
+    }
 }

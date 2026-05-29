@@ -105,7 +105,13 @@ public sealed record ChannelDifferencePortfolio(IReadOnlyList<ChannelActivity> A
 }
 
 /// <summary>One mode: its measured decay rate −Re(λ) and its difference-portfolio.</summary>
-public sealed record CarrierMode(double ActualDecayRate, ChannelDifferencePortfolio Portfolio);
+public sealed record CarrierMode(double ActualDecayRate, ChannelDifferencePortfolio Portfolio)
+{
+    /// <summary>Im(λ), the mode's oscillation frequency ω (signed; modes come in ±ω
+    /// conjugate pairs). 0 for non-oscillating modes. The angular companion to
+    /// ActualDecayRate = −Re(λ).</summary>
+    public double OscillationFrequency { get; init; }
+}
 
 /// <summary>The whole Liouvillian spectrum read as portfolios at once: the carrier vector
 /// plus every mode's portfolio, with the summary the reading raises, the lifetime
@@ -226,7 +232,7 @@ public static class CarrierVectorPortfolio
                 for (int i = 0; i < d2; i++) w += diag[i] * absSq[i];
                 activity.Add(new ChannelActivity(siteChannels[l].Channel, w / normSq));
             }
-            modes.Add(new CarrierMode(-vals[k].Real, new ChannelDifferencePortfolio(activity)));
+            modes.Add(new CarrierMode(-vals[k].Real, new ChannelDifferencePortfolio(activity)) { OscillationFrequency = vals[k].Imaginary });
         }
 
         return new CarrierPortfolioSpectrum(new CarrierVector(siteChannels), modes);
@@ -323,7 +329,7 @@ public static class CarrierVectorPortfolio
                     }
                     activity.Add(new ChannelActivity(siteChannels[s].Channel, w / normSq));
                 }
-                modes.Add(new CarrierMode(-vals[k].Real, new ChannelDifferencePortfolio(activity)));
+                modes.Add(new CarrierMode(-vals[k].Real, new ChannelDifferencePortfolio(activity)) { OscillationFrequency = vals[k].Imaginary });
             }
         }
 

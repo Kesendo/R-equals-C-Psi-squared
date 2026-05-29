@@ -119,6 +119,17 @@ public static class MirrorCommand
                     if (seenK.Count >= top) break;
                 }
             }
+
+            // The clock, both hands on the memory mode: Takt the radial hand (decay, set by gamma),
+            // Rotation the angular hand (turning omega, angle theta = arctan(omega/gap), set by J). e^(lambda t) =
+            // e^(-alpha t) * e^(i omega t): the radius winds in while the angle turns round.
+            var takt = sys.Takt;
+            var rot = sys.Rotation;
+            string tau = double.IsPositiveInfinity(takt.Tau) ? "inf" : takt.Tau.ToString("0.0000", inv);
+            Console.WriteLine();
+            Console.WriteLine("Clock (the two hands, both on the memory mode):");
+            Console.WriteLine($"  Takt (radial)      stopped {takt.Stopped}   gap {takt.Gap.ToString("0.0000", inv)}   tau {tau}");
+            Console.WriteLine($"  Rotation (angular) turning {rot.Turning}   omega {rot.Frequency.ToString("0.0000", inv)}   angle {(rot.Angle * 180.0 / Math.PI).ToString("0.0", inv)} deg  (theta = arctan(omega/gap); arctan Q at 2-level)");
         }
 
         // --memory: the 90 degree memory rotation (F80), H <-> M.
