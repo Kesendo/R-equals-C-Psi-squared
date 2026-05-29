@@ -343,6 +343,14 @@ Tom's Licht-und-Schatten reading prompted this verification: the PTF "closure" l
 
 ---
 
+## Update 2026-05-28: the lit half is the open-water side of one edge
+
+When the Licht-und-Schatten reading landed in April, we knew the painter's closure lived on the *belichtete* half of operator space and that the *Schatten*-half was exempt. We did not yet know what that half *was*. A step back, recorded in [On How the Far and the Near Meet](../reflections/ON_HOW_THE_FAR_AND_THE_NEAR_MEET.md), gave it a name: the framework has one edge that everything real crosses once. On the near bank things have settled and are kept; on the far bank they are still paired and undecided. The settled bank is exactly the {I, Z} sector, the part that sits in the dissipator's kernel and is never painted over, the past a system carries and will not put down. The undecided bank is exactly the {X, Y} sector, the part the γ-envelope works on, still humming.
+
+So the painter's lit half *is* the far bank, the open water. A perspective only ever paints where things are still being decided; what it cannot paint, the shadow, is precisely what has already crossed into the past. The rate-of-painting α_i was a far-side quantity all along. This adds no claim and changes no tier; it only tells us which shore the painters stand on. The deeper identity the reflection leaves open, whether the angle the far side carries (F95's θ at the quarter) and the one off-map direction seen at maximum zoom are a single direction met from both ends, stays open here too: the painter paints up to that edge but does not settle it.
+
+---
+
 ## Acceptance summary
 
 ### Positive core (survives)
