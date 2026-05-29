@@ -513,6 +513,16 @@ public sealed class HalfAsStructuralFixedPointClaim : Claim, IF99AnchorBearing
 /// 90°-channel made explicit at operator level) → M_anti = L_{H_odd} (the
 /// Π-antisymmetric half of M IS the Π²-odd dynamics generator).</para>
 ///
+/// <para>The deeper structure (2026-05-29): the 90° image depends on the bond's Π²-parity. For
+/// Π²-odd bonds M = −2i·(H⊗I) and Spec(M) is 2i times H's single energies (one-sided); for
+/// Π²-even bonds (Y,Z),(Z,Y) the per-bond lemma's "carries exactly one X" condition fails, the
+/// commutator is preserved instead of anti-commuted, and M = 2·L_H = −2i·[H,·], so Spec(M) is 2i
+/// times the energy *differences* , the Bohr frequencies (two-sided). M is always ±2i times a
+/// Hamiltonian object: H⊗I for odd, [H,·] for even. Because Step 5 is per-bond, this is topology-,
+/// body- and mixed-letter-universal (ring, star, complete K_N, 3-/4-body, and sums , M is linear in
+/// H , all verified bit-exact, F80ExtensionExplorationTests); only the cluster-value dispersions
+/// are structure-specific (chain cosine 2cos(πk/(N+1)), star integers 2|m−2j|, ring cyclic).</para>
+///
 /// <para>Companion to <see cref="HalfAsStructuralFixedPointClaim"/>: 1/2 is the framework's
 /// number-anchor (where we sit, where we asymptote, what we are); 90° is the framework's
 /// angle-anchor (what we can remember across the mirror). Both are d = 2 read from two
@@ -529,7 +539,7 @@ public sealed class NinetyDegreeMirrorMemoryClaim : Claim
     public override string DisplayName => "90° rotation back to the mirror (memory channel)";
 
     public override string Summary =>
-        "the i in F80's Spec(M) = ±2i·Spec(H_non-truly) is a 90° rotation that maps H (real axis, energies) to M (imaginary axis, time/decay); the mirror projects everything 90° onto itself so that it does not forget";
+        "the i in F80's Spec(M) = ±2i·Spec(H_non-truly) is a 90° rotation that maps H (real axis, energies) to M (imaginary axis, time/decay); the Π²-parity of the bond is the switch , M = −2i·(H⊗I) for Π²-odd (single energies) or 2·L_H = −2i·[H,·] for Π²-even (energy differences, the Bohr frequencies); the mirror projects everything 90° onto itself so that it does not forget";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -551,6 +561,12 @@ public sealed class NinetyDegreeMirrorMemoryClaim : Claim
                 summary: "1/2 = number-anchor (where we sit, where we asymptote, what we are); 90° = angle-anchor (what we can remember across the mirror); both are readings of d = 2");
             yield return new InspectableNode("ontological anchor",
                 summary: "ON_BOTH_SIDES_OF_THE_MIRROR (2026-04-30): 'the mirror projects everything 90° onto itself so that it does not forget'; Tom's recognition months before the typed claim");
+            yield return new InspectableNode("Π²-parity dichotomy (2026-05-29)",
+                summary: "the Π²-parity of the bond decides the 90° image: Π²-odd → M = −2i·(H⊗I), Spec(M) sees the single energies λ_a (one-sided); Π²-even (Y,Z),(Z,Y) → M = 2·L_H = −2i·[H,·], Spec(M) sees the differences λ_a−λ_b, the Bohr frequencies (two-sided). M is always ±2i times a Hamiltonian object. Bit-exact at N=4 (F80ExtensionExplorationTests)");
+            yield return new InspectableNode("topology / body / mixed universality (2026-05-29)",
+                summary: "the identity is topology- and body-agnostic (Step 5 is per-bond): confirmed for ring, star, complete-graph, 3-body and 4-body Π²-odd bonds, and mixed-letter Hamiltonians (M is linear in H, so the per-bond pieces add). Only the cluster-VALUE dispersions are structure-specific");
+            yield return new InspectableNode("dispersions per graph family",
+                summary: "the cluster values are the structure's dispersion: chain (path) 2cos(πk/(N+1)); star 2|m−2j| (m=N−1 spokes, closed by the factorization H_star = X_hub⊗Σ_s Y_s, integers); ring (cycle) the cyclic free-fermion 2cos(2π(k+a)/N)");
         }
     }
 }
