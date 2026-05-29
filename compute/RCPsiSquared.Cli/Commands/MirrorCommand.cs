@@ -33,7 +33,7 @@ public static class MirrorCommand
     public static int Run(string[] args)
     {
         int N = GetInt(args, "--N", 0);
-        if (N < 1 || N > 6) { Console.Error.WriteLine("mirror: --N required, 1..6 (dense 4^N, diagnostic scale)"); return 2; }
+        if (N < 1 || N > 7) { Console.Error.WriteLine("mirror: --N required, 1..7 (spectrum via joint-popcount blocks; --memory and non-conserving H stay dense)"); return 2; }
 
         string htypeStr = (GetStr(args, "--htype", "XY") ?? "XY").ToLowerInvariant();
         var htype = htypeStr switch
