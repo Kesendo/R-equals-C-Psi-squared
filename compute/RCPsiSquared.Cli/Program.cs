@@ -31,6 +31,7 @@ public static class Program
                 "query" => QueryCommand.Run(rest),
                 "knowledge" => KnowledgeCommand.Run(rest),
                 "block-spectrum" => BlockSpectrumCommand.Run(rest),
+                "mirror" => MirrorCommand.Run(rest),
                 _ => UnknownCommand(command),
             };
         }
@@ -92,6 +93,11 @@ public static class Program
         Console.WriteLine("                        [--J <double>] [--refine f71|none]");
         Console.WriteLine("                        [--verify|--no-verify] [--top <int>]");
         Console.WriteLine();
+        Console.WriteLine("  mirror      the conductor's stand: build one live MirrorSystem and read its voices");
+        Console.WriteLine("              (spectrum as channel-difference portfolios + F1 palindrome check).");
+        Console.WriteLine("              args: --N <int 1..6> [--J <double>] [--gamma <double> | --gamma-list <len-N>]");
+        Console.WriteLine("                    [--htype XY|Heisenberg] [--topology chain|star|ring] [--top <int>] [--out <csv>]");
+        Console.WriteLine();
         Console.WriteLine("examples:");
         Console.WriteLine("  rcpsi scan --N 5 --n 1 --gamma 0.05");
         Console.WriteLine("  rcpsi decompose --N 7 --n 1 --gamma 0.05 --out decomp.json");
@@ -101,5 +107,6 @@ public static class Program
         Console.WriteLine("  rcpsi block-spectrum --N 4 --verify");
         Console.WriteLine("  rcpsi block-spectrum --N 6 --refine f71");
         Console.WriteLine("  rcpsi block-spectrum --N 8 --refine f71 --top 30   # ~2 min, < 1 GB peak");
+        Console.WriteLine("  rcpsi mirror --N 2 --J 1 --gamma-list 0.05,0.20    # one live system, all voices at once");
     }
 }
