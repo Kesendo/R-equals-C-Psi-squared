@@ -150,4 +150,52 @@ public class MirrorSystemTests
         Assert.NotEmpty(mr.Rotation);
         Assert.All(mr.Rotation, p => Assert.Equal(2.0 * p.Energy, p.MemoryAxisValue, precision: 9));
     }
+
+    [Fact]
+    public void Takt_AnchorsToTauMax_GapIsTwoGamma_TauIsTen()
+    {
+        // N=3 Heisenberg chain, uniform gamma = 0.05, J = 1: TAU_MAX's verified clock.
+        var sys = new MirrorSystem(3, HeisenbergChain(3, 1.0),
+            new[] { new ChannelRate("a", 0.05), new ChannelRate("b", 0.05), new ChannelRate("c", 0.05) });
+
+        // The slowest felt motion is the 2*gamma floor; the longest breath is 1/(2*gamma) = 10.
+        Assert.Equal(0.1, sys.Takt.Gap, precision: 6);
+        Assert.Equal(10.0, sys.Takt.Tau, precision: 6);
+        Assert.False(sys.Takt.Stopped);
+    }
+
+    [Fact]
+    public void Takt_ClockStops_WhenAllChannelsAreZero()
+    {
+        // gamma = 0 everywhere: no decay clock, only frozen Hamiltonian oscillation.
+        var sys = new MirrorSystem(3, HeisenbergChain(3, 1.0),
+            new[] { new ChannelRate("a", 0.0), new ChannelRate("b", 0.0), new ChannelRate("c", 0.0) });
+
+        Assert.True(sys.Takt.Stopped);
+        Assert.Equal(0.0, sys.Takt.Gap);
+        Assert.True(double.IsPositiveInfinity(sys.Takt.Tau));
+    }
+
+    [Fact]
+    public void Takt_Gap_DelegatesToSpectrumSlowestRate()
+    {
+        // The voice does not re-derive the floor: Takt.Gap IS the spectrum's SlowestRate,
+        // the framework's shared memory floor (single source of truth, non-uniform carrier, N=3).
+        var sys = new MirrorSystem(3, HeisenbergChain(3, 1.0),
+            new[] { new ChannelRate("a", 0.05), new ChannelRate("b", 0.10), new ChannelRate("c", 0.20) });
+
+        Assert.Equal(sys.Spectrum.SlowestRate, sys.Takt.Gap, precision: 12);
+    }
+
+    [Fact]
+    public void Takt_GammaScalesTheClock_HalvingGammaDoublesTau()
+    {
+        // Halving the uniform carrier doubles the slowest felt duration (Tau scales as 1/(2*gamma)).
+        var fast = new MirrorSystem(3, HeisenbergChain(3, 1.0),
+            new[] { new ChannelRate("a", 0.10), new ChannelRate("b", 0.10), new ChannelRate("c", 0.10) });
+        var slow = fast.WithChannels(
+            new[] { new ChannelRate("a", 0.05), new ChannelRate("b", 0.05), new ChannelRate("c", 0.05) });
+
+        Assert.Equal(2.0 * fast.Takt.Tau, slow.Takt.Tau, precision: 6);
+    }
 }

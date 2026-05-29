@@ -167,6 +167,36 @@ public sealed class MirrorSystem
         return new MemoryRotationReading(defect, perfectMirror, carries, rotation);
     }
 
+    private TaktReading? _takt;
+
+    /// <summary>The Takt: the beat <see cref="Evolve"/> silently counts in. K = γ₀·t is a count of
+    /// carrier-ticks, and the carrier γ₀ that sets the tick cancels out of the view; this voice names
+    /// the unit so the wegkürzen does not leave the clock invisible.
+    ///
+    /// <para>γ is the timekeeper: it is what makes time tick at all. The floor of felt motion
+    /// (<see cref="TaktReading.Gap"/>, the 2γ floor at small N) is the spectrum's own
+    /// <see cref="CarrierPortfolioSpectrum.SlowestRate"/> , the framework's shared memory floor, so the
+    /// Takt and the spectrum read the one number instead of two; its reciprocal is the longest breath
+    /// before the slow mode reaches the centre (<see cref="TaktReading.Tau"/>). Read live off that
+    /// floor, so it shows what the modes actually do, not an assumed 2γ. At γ=0 the floor is 0 and the
+    /// clock stands still (<see cref="TaktReading.Stopped"/>): no felt time, only frozen Hamiltonian
+    /// oscillation.</para>
+    ///
+    /// <para>The clock is a circle: a single mode winds as e^(λt) = e^(−αt)·e^(iωt), a radius e^(−αt)
+    /// (decay, set by γ) turning an angle e^(iωt) (rotation, set by J) into a logarithmic spiral. This
+    /// is the <i>radial</i> hand, the inward winding. The <i>angular</i> hand, the rotation ω=2J and the
+    /// angle θ=arctan(Q), is a later voice; the circle closes then. Computed once, lazily, from this
+    /// system's input.</para></summary>
+    public TaktReading Takt => _takt ??= ComputeTakt();
+
+    private TaktReading ComputeTakt()
+    {
+        double gap = Spectrum.SlowestRate;
+        return gap <= 0.0
+            ? new TaktReading(true, 0.0, double.PositiveInfinity)
+            : new TaktReading(false, gap, 1.0 / gap);
+    }
+
     /// <summary>Move the carrier and get a fresh reading of the whole system (the box moves):
     /// a new <see cref="MirrorSystem"/> with the given per-site dephasing and the same H. Every
     /// property recomputes from the moved input.</summary>
@@ -201,3 +231,12 @@ public sealed record MemoryRotationReading(
 /// imaginary part of M's eigenvalue 2iλ). When the F80 identity holds, these are the same spectrum
 /// seen from the two sides of the quarter turn.</summary>
 public sealed record EnergyMemoryImage(double Energy, double MemoryAxisValue);
+
+/// <summary>The Takt reading: the unit of felt time <see cref="MirrorSystem.Evolve"/> counts in.
+/// <see cref="Stopped"/> is true at γ=0, when there is no decay clock, only frozen Hamiltonian
+/// oscillation. <see cref="Gap"/> is the spectrum's <see cref="CarrierPortfolioSpectrum.SlowestRate"/>
+/// (the framework's shared memory floor, the 2γ floor of felt motion at small N), <c>0.0</c> when
+/// stopped. <see cref="Tau"/> = 1/Gap is the longest felt duration, the slowest breath before the
+/// slow mode reaches the centre; <see cref="double.PositiveInfinity"/> when stopped. This is the
+/// radial hand of the circular quantum clock e^(λt) = e^(−αt)·e^(iωt).</summary>
+public sealed record TaktReading(bool Stopped, double Gap, double Tau);
