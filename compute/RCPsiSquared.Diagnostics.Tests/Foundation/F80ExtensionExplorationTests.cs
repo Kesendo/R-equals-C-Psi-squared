@@ -249,6 +249,52 @@ public class F80ExtensionExplorationTests
         Assert.True(aR > 1e-6 && bL > 1e-6 && aL < 1e-9 && bR < 1e-9, "the two fathers are on opposite sides");
     }
 
+    [Theory]
+    [InlineData(4)]
+    [InlineData(6)]
+    public void RingDispersion_IsTheTwoSectorCyclicFreeFermion(int N)
+    {
+        // Chain (open) -> path-graph dispersion 2cos(pi*k/(N+1)), one sector. Ring (closed) -> cycle
+        // graph, which the Jordan-Wigner loop splits into TWO parity sectors: periodic a=0 ->
+        // 2cos(2pi*k/N) and anti-periodic a=1/2 -> 2cos(2pi*(k+1/2)/N). The ring's F80 cluster values
+        // are the sign-walk sums over each sector's positive modes, unioned. Verified at even N.
+        string Fmt(IEnumerable<double> xs) => "[" + string.Join(", ", xs.Select(x => x.ToString("F4"))) + "]";
+
+        double[] Positives(double a) =>
+            Enumerable.Range(0, N).Select(k => 2 * Math.Cos(2 * Math.PI * (k + a) / N))
+                .Where(x => x > 1e-9).ToArray();
+
+        // All |sum of +-e| over the positive single-particle modes (the free-fermion many-body set).
+        HashSet<double> SignWalkAbs(double[] pos)
+        {
+            var set = new HashSet<double> { 0.0 };
+            foreach (var e in pos)
+            {
+                var next = new HashSet<double>();
+                foreach (var s in set) { next.Add(s + e); next.Add(s - e); }
+                set = next;
+            }
+            return set.Select(x => Math.Round(Math.Abs(x), 4)).Where(x => x > 1e-6).ToHashSet();
+        }
+
+        var ringSpec = ChainXY(N, ring: true).Evd().EigenValues
+            .Select(z => Math.Round(Math.Abs(z.Real), 4)).Where(x => x > 1e-6).ToHashSet();
+
+        var sectorPeriodic = SignWalkAbs(Positives(0.0));      // a=0
+        var sectorAnti = SignWalkAbs(Positives(0.5));          // a=1/2
+        var twoSector = new HashSet<double>(sectorPeriodic); twoSector.UnionWith(sectorAnti);
+
+        _out.WriteLine($"N={N} ring |Spec(H)| = {Fmt(ringSpec.OrderBy(x => x))}");
+        _out.WriteLine($"   periodic  (a=0)   sign-walk = {Fmt(sectorPeriodic.OrderBy(x => x))}");
+        _out.WriteLine($"   anti-per. (a=1/2) sign-walk = {Fmt(sectorAnti.OrderBy(x => x))}");
+        _out.WriteLine($"   union                       = {Fmt(twoSector.OrderBy(x => x))}");
+
+        // The ring spectrum is exactly the union of the two parity sectors' sign-walks over the
+        // cyclic dispersion 2cos(2pi(k+a)/N) , the closed boundary brings the JW parity twist in.
+        Assert.True(ringSpec.SetEquals(twoSector),
+            $"ring spectrum should equal the two-sector cyclic sign-walk; got {Fmt(ringSpec.OrderBy(x => x))} vs {Fmt(twoSector.OrderBy(x => x))}");
+    }
+
     [Fact]
     public void DefectLadder_NormSquared_IsSideTimesBondsTimes4PowerN()
     {
