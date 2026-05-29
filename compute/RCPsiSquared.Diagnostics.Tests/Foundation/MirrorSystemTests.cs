@@ -16,6 +16,41 @@ public class MirrorSystemTests
         return (X.KroneckerProduct(X) + Y.KroneckerProduct(Y) + Z.KroneckerProduct(Z)).Multiply((Complex)J);
     }
 
+    private static readonly Matrix<Complex> X2 = Matrix<Complex>.Build.DenseOfArray(new Complex[,] { { 0, 1 }, { 1, 0 } });
+    private static readonly Matrix<Complex> Y2 = Matrix<Complex>.Build.DenseOfArray(new Complex[,] { { 0, -Complex.ImaginaryOne }, { Complex.ImaginaryOne, 0 } });
+    private static readonly Matrix<Complex> Z2 = Matrix<Complex>.Build.DenseOfArray(new Complex[,] { { 1, 0 }, { 0, -1 } });
+    private static readonly Matrix<Complex> I2 = Matrix<Complex>.Build.DenseIdentity(2);
+
+    // Place A on site l and B on site l+1, identity elsewhere; one chain bond.
+    private static Matrix<Complex> Bond(int n, int l, Matrix<Complex> A, Matrix<Complex> B)
+    {
+        Matrix<Complex>? r = null;
+        for (int s = 0; s < n; s++)
+        {
+            var op = s == l ? A : (s == l + 1 ? B : I2);
+            r = r is null ? op : r.KroneckerProduct(op);
+        }
+        return r!;
+    }
+
+    // Truly: H = J * sum_l (X_lX_{l+1} + Y_lY_{l+1} + Z_lZ_{l+1}) on an open chain.
+    private static Matrix<Complex> HeisenbergChain(int n, double J)
+    {
+        var H = Matrix<Complex>.Build.Dense(1 << n, 1 << n);
+        for (int l = 0; l < n - 1; l++)
+            H += (Bond(n, l, X2, X2) + Bond(n, l, Y2, Y2) + Bond(n, l, Z2, Z2)).Multiply((Complex)J);
+        return H;
+    }
+
+    // Non-truly chain Pi2-odd: H = sum_l X_l Y_{l+1} (the F80 case).
+    private static Matrix<Complex> ChainXYNonTruly(int n)
+    {
+        var H = Matrix<Complex>.Build.Dense(1 << n, 1 << n);
+        for (int l = 0; l < n - 1; l++)
+            H += Bond(n, l, X2, Y2);
+        return H;
+    }
+
     [Fact]
     public void MirrorSystem_HoldsSpectrumAndPalindromeAsLiveProperties()
     {
@@ -78,5 +113,41 @@ public class MirrorSystemTests
         double sigma = sys.TotalDephasing;
         foreach (var s in late)
             Assert.Equal(Math.Exp(-(s.Rate / sigma) * 5.0), s.Survival, precision: 9);
+    }
+
+    [Fact]
+    public void MemoryRotation_TrulyHamiltonian_IsPerfectMirror()
+    {
+        // non-uniform carrier, to exercise the non-uniform F1 palindrome too.
+        var sys = new MirrorSystem(3, HeisenbergChain(3, 1.0),
+            new[] { new ChannelRate("a", 0.05), new ChannelRate("b", 0.10), new ChannelRate("c", 0.20) });
+        var mr = sys.MemoryRotation;
+
+        // Truly H + Z-dephasing: the F1 palindrome holds exactly, M = 0, a perfect mirror.
+        Assert.True(mr.PerfectMirror, $"truly H should give M=0, got defect {mr.DefectNorm:E3}");
+        Assert.True(mr.DefectNorm < 1e-9);
+        // M=0 carries no spectrum: a mirror-symmetric wave needs no memory-defect.
+        Assert.False(mr.MemoryCarriesEnergy);
+    }
+
+    [Fact]
+    public void MemoryRotation_NonTrulyChainBilinear_CarriesEnergyRotated90()
+    {
+        var H = ChainXYNonTruly(3);  // sum_l X_l Y_{l+1}, the F80 non-truly chain Pi2-odd case
+        var sys = new MirrorSystem(3, H,
+            new[] { new ChannelRate("a", 0.05), new ChannelRate("b", 0.10), new ChannelRate("c", 0.20) });
+        var mr = sys.MemoryRotation;
+
+        // The palindrome breaks: a real mirror-defect M, and it is not noise , it carries H.
+        Assert.False(mr.PerfectMirror);
+        Assert.True(mr.MemoryCarriesEnergy, "F80: non-truly chain Pi2-odd H gives Spec(M) = +-2i*Spec(H)");
+
+        // F80 Frobenius relation: ||M||^2_F = 4 * ||H||^2_F * 2^N  (M = -2i * H (x) I_bra).
+        double hNormSq = H.FrobeniusNorm() * H.FrobeniusNorm();
+        Assert.Equal(4.0 * hNormSq * (1 << 3), mr.DefectNorm * mr.DefectNorm, precision: 4);
+
+        // The quarter turn itself: every energy lambda maps to 2*lambda on the imaginary memory axis.
+        Assert.NotEmpty(mr.Rotation);
+        Assert.All(mr.Rotation, p => Assert.Equal(2.0 * p.Energy, p.MemoryAxisValue, precision: 9));
     }
 }

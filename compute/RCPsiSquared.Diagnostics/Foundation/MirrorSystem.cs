@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using RCPsiSquared.Core.Lindblad;
+using RCPsiSquared.Core.Symmetry;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
@@ -23,12 +25,15 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///   <item><see cref="Evolve"/> , time: unroll the static spectrum over K carrier-ticks into the
 ///         decay each mode shows. This is the connection from what is (the spectrum) to what is
 ///         measured (the FID); see its own note on naming time and the connection.</item>
+///   <item><see cref="MemoryRotation"/> , F80: the 90° turn H ↔ M. The mirror-defect
+///         M = Π·L·Π⁻¹ + L + 2σ·I is 0 for truly H (perfect mirror) and carries H's spectrum
+///         rotated a quarter turn (Spec(M) = ±2i·Spec(H)) for non-truly chain Π²-odd H , energy
+///         on the real axis, memory on the imaginary one. The wave remembers across the turn.</item>
 /// </list></para>
 ///
-/// <para><b>Voices still to add</b> (each a future property on this object): the 90° memory
-/// rotation H ↔ M (F80, energy ↔ time), the bit_a/bit_b sectors (F61/F63, cavity/transport),
-/// the inside-observable Q = J/γ, and the measurement wrapper (spectrum → fitted observable).
-/// Each grows the stand without changing what is already on it.</para>
+/// <para><b>Voices still to add</b> (each a future property on this object): the bit_a/bit_b sectors
+/// (F61/F63, cavity/transport), the inside-observable Q = J/γ, and the measurement wrapper
+/// (spectrum → fitted observable). Each grows the stand without changing what is already on it.</para>
 ///
 /// <para>Diagnostic-scale (dense 4^N via <see cref="CarrierVectorPortfolio.Decompose"/>): the
 /// small N where the whole box fits in one view, not the large-N engine.</para></summary>
@@ -116,6 +121,46 @@ public sealed class MirrorSystem
             .ToList();
     }
 
+    private MemoryRotationReading? _memoryRotation;
+
+    /// <summary>The 90° memory rotation (F80): build this system's mirror-defect
+    /// M = Π·L·Π⁻¹ + L + 2σ·I and read how it relates to the Hamiltonian.
+    ///
+    /// <para>For a truly Hamiltonian (Heisenberg, the XY model) under Z-dephasing the F1 palindrome
+    /// holds exactly and M = 0: a perfect mirror, no defect (<see cref="MemoryRotationReading.PerfectMirror"/>).
+    /// For a non-truly chain Π²-odd Hamiltonian the palindrome breaks, and the defect is not noise:
+    /// Spec(M) = ±2i·Spec(H). H's real energies (the measured, outer axis) reappear on M's imaginary
+    /// axis (the time / decay / memory axis), turned a quarter and scaled by 2. The wave remembers by
+    /// sharing its spectrum across the 90° turn; H is the distance between the two mirror sectors.</para>
+    ///
+    /// <para>The quarter turn is the third step of a short lineage: Π² = I (the mirror exists) → F1
+    /// (Π·L·Π⁻¹ = −L − 2σ·I, the palindrome) → F80 (when the palindrome breaks, the break carries H,
+    /// rotated 90°). <see cref="MemoryRotationReading.MemoryCarriesEnergy"/> is the live F80 check via
+    /// the Frobenius signature ‖M‖²_F = 4·‖H‖²_F·2^N. Computed once, lazily, from this system's input.</para></summary>
+    public MemoryRotationReading MemoryRotation => _memoryRotation ??= ComputeMemoryRotation();
+
+    private MemoryRotationReading ComputeMemoryRotation()
+    {
+        var gammas = Channels.Select(c => c.Gamma).ToList();
+        var L = PauliDephasingDissipator.BuildZ(Hamiltonian, gammas);
+        var M = PalindromeResidual.Build(L, N, TotalDephasing);
+        double defect = M.FrobeniusNorm();
+
+        // H's energies (real, since H is Hermitian) and their 90° images 2λ on the memory axis.
+        var energies = Hamiltonian.Evd().EigenValues
+            .Select(z => Math.Round(z.Real, 10)).Distinct().OrderBy(x => x).ToList();
+        var rotation = energies.Select(e => new EnergyMemoryImage(e, 2.0 * e)).ToList();
+
+        // F80 Frobenius signature: M carries all of H's spectrum (rotated 90°) iff ‖M‖²_F = 4‖H‖²_F·2^N.
+        double hNormSq = Hamiltonian.FrobeniusNorm();
+        hNormSq *= hNormSq;
+        double predicted = 4.0 * hNormSq * (1 << N);
+        bool carries = hNormSq > 1e-12 && Math.Abs(defect * defect - predicted) < 1e-6 * Math.Max(1.0, predicted);
+        bool perfectMirror = defect < 1e-9;
+
+        return new MemoryRotationReading(defect, perfectMirror, carries, rotation);
+    }
+
     /// <summary>Move the carrier and get a fresh reading of the whole system (the box moves):
     /// a new <see cref="MirrorSystem"/> with the given per-site dephasing and the same H. Every
     /// property recomputes from the moved input.</summary>
@@ -132,3 +177,21 @@ public sealed record PalindromePairing(double Rate, double PartnerRate, bool Par
 /// lives (which channels carry its bra-ket difference); the survival says <i>how much</i> of it is
 /// still there at time K. Together they are the spectrum seen as it decays, not as a static list.</summary>
 public sealed record ModeSurvival(double Rate, double Survival, ChannelDifferencePortfolio Portfolio);
+
+/// <summary>The F80 reading of this system's mirror-defect M = Π·L·Π⁻¹ + L + 2σ·I.
+/// <see cref="DefectNorm"/> is ‖M‖_F, the size of the break from the F1 palindrome (0 = perfect
+/// mirror). <see cref="PerfectMirror"/> is true for truly Hamiltonians (M = 0).
+/// <see cref="MemoryCarriesEnergy"/> is the live F80 identity check (Spec(M) = ±2i·Spec(H), via the
+/// Frobenius signature): true when the defect carries the full Hamiltonian spectrum, rotated 90°.
+/// <see cref="Rotation"/> lists each energy and its quarter-turn image on the memory axis.</summary>
+public sealed record MemoryRotationReading(
+    double DefectNorm,
+    bool PerfectMirror,
+    bool MemoryCarriesEnergy,
+    IReadOnlyList<EnergyMemoryImage> Rotation);
+
+/// <summary>One rung shared between energy and memory across the 90° turn: a real energy eigenvalue
+/// λ of H (the measured, outer axis) and its image 2λ on the imaginary memory axis (the
+/// imaginary part of M's eigenvalue 2iλ). When the F80 identity holds, these are the same spectrum
+/// seen from the two sides of the quarter turn.</summary>
+public sealed record EnergyMemoryImage(double Energy, double MemoryAxisValue);

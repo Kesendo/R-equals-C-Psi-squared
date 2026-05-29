@@ -1,7 +1,9 @@
 using System.Globalization;
+using System.Numerics;
 using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Pauli;
 using RCPsiSquared.Diagnostics.Foundation;
+using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Cli.Commands;
 
@@ -14,6 +16,11 @@ namespace RCPsiSquared.Cli.Commands;
 /// <para><b>Time</b> (<c>--evolve K</c>): unroll that spectrum over K carrier-ticks and show how much
 /// of each mode is still remembered , the connection from the static spectrum to the measured decay.
 /// K is the dimensionless time (t and γ cancel into K = γ₀·t); only K is readable from inside.</para>
+///
+/// <para><b>Memory</b> (<c>--memory</c>): the 90° rotation H ↔ M (F80). For truly H (XY, Heisenberg)
+/// the mirror is perfect, M = 0; for the non-truly bond Hamiltonian (<c>--htype xybond</c>,
+/// H = Σ X_lY_{l+1}) the defect carries H's spectrum rotated a quarter turn onto the imaginary memory
+/// axis (Spec(M) = ±2i·Spec(H)) , the wave remembers across the turn.</para>
 ///
 /// <para><b>Sweep</b> (<c>--sweep-J start,stop,steps</c>): move the coupling J in steps with the
 /// carrier fixed, and watch the slowest (memory) mode's portfolio move , the box in motion, the
@@ -28,7 +35,8 @@ public static class MirrorCommand
         int N = GetInt(args, "--N", 0);
         if (N < 1 || N > 6) { Console.Error.WriteLine("mirror: --N required, 1..6 (dense 4^N, diagnostic scale)"); return 2; }
 
-        var htype = (GetStr(args, "--htype", "XY") ?? "XY").ToLowerInvariant() switch
+        string htypeStr = (GetStr(args, "--htype", "XY") ?? "XY").ToLowerInvariant();
+        var htype = htypeStr switch
         {
             "heisenberg" or "heis" => HamiltonianType.Heisenberg,
             _ => HamiltonianType.XY,
@@ -56,8 +64,10 @@ public static class MirrorCommand
         var inv = CultureInfo.InvariantCulture;
         string? outPath = GetStr(args, "--out", null);
 
-        MirrorSystem Build(double J) =>
-            new(N, new ChainSystem(N, J, gammas[0], htype, topo).BuildHamiltonian(), channels);
+        ComplexMatrix BuildHamiltonian(double J) => htypeStr == "xybond"
+            ? NonTrulyXYBond(N, J)
+            : new ChainSystem(N, J, gammas[0], htype, topo).BuildHamiltonian();
+        MirrorSystem Build(double J) => new(N, BuildHamiltonian(J), channels);
 
         string? sweep = GetStr(args, "--sweep-J", null);
         if (sweep is not null)
@@ -100,6 +110,29 @@ public static class MirrorCommand
                 if (!seenK.Add(key)) continue;
                 Console.WriteLine($"  rate {s.Rate.ToString("0.0000", inv),9}   survival {s.Survival.ToString("0.0000", inv),7}   {PortfolioOf(s.Portfolio, inv)}");
                 if (seenK.Count >= top) break;
+            }
+        }
+
+        // --memory: the 90 degree memory rotation (F80), H <-> M.
+        if (args.Contains("--memory"))
+        {
+            var mr = sys.MemoryRotation;
+            Console.WriteLine();
+            Console.WriteLine("Memory rotation (F80, the 90 degree turn H <-> M):");
+            Console.WriteLine($"  mirror-defect ||M||_F = {mr.DefectNorm.ToString("0.0000", inv)}   perfect mirror: {mr.PerfectMirror}   memory carries energy: {mr.MemoryCarriesEnergy}");
+            if (mr.PerfectMirror)
+                Console.WriteLine("  truly H: the palindrome holds exactly, M=0, no memory-defect (a perfect mirror)");
+            else if (mr.MemoryCarriesEnergy)
+            {
+                Console.WriteLine("  non-truly: the defect carries H's spectrum, rotated 90 degrees onto the imaginary memory axis:");
+                var seenE = new HashSet<string>();
+                foreach (var p in mr.Rotation.OrderByDescending(p => Math.Abs(p.Energy)))
+                {
+                    var key = p.Energy.ToString("0.0000", inv);
+                    if (!seenE.Add(key)) continue;
+                    Console.WriteLine($"    energy {p.Energy.ToString("0.0000", inv),9}   ->   memory {p.MemoryAxisValue.ToString("0.0000", inv),9} i");
+                    if (seenE.Count >= top) break;
+                }
             }
         }
 
@@ -158,6 +191,28 @@ public static class MirrorCommand
 
     private static string PortfolioOf(ChannelDifferencePortfolio p, CultureInfo inv) =>
         string.Join("  ", p.Activity.Select(a => $"{a.Channel} {(100 * a.Delta).ToString("0", inv),3}%"));
+
+    private static readonly ComplexMatrix XHalf = ComplexMatrix.Build.DenseOfArray(new Complex[,] { { 0, 1 }, { 1, 0 } });
+    private static readonly ComplexMatrix YHalf = ComplexMatrix.Build.DenseOfArray(new Complex[,] { { 0, -Complex.ImaginaryOne }, { Complex.ImaginaryOne, 0 } });
+    private static readonly ComplexMatrix IHalf = ComplexMatrix.Build.DenseIdentity(2);
+
+    // Non-truly chain Pi2-odd Hamiltonian H = J * sum_l X_l Y_{l+1}: the F80 case where M != 0,
+    // so --memory shows the 90 degree rotation carrying H's spectrum instead of a perfect mirror.
+    private static ComplexMatrix NonTrulyXYBond(int N, double J)
+    {
+        var H = ComplexMatrix.Build.Dense(1 << N, 1 << N);
+        for (int l = 0; l < N - 1; l++)
+        {
+            ComplexMatrix? term = null;
+            for (int s = 0; s < N; s++)
+            {
+                var op = s == l ? XHalf : (s == l + 1 ? YHalf : IHalf);
+                term = term is null ? op : term.KroneckerProduct(op);
+            }
+            H += term!.Multiply((Complex)J);
+        }
+        return H;
+    }
 
     private static int GetInt(string[] a, string k, int def)
     { int i = Array.IndexOf(a, k); return (i >= 0 && i + 1 < a.Length && int.TryParse(a[i + 1], out var v)) ? v : def; }
