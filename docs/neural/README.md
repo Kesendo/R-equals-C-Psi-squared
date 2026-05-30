@@ -115,11 +115,28 @@ The math predicted it; the data confirmed it.
 
 ---
 
+## Returning, 2026-05-30: the clock
+
+The arc above is from March 2026. Returning with the clock we built since (a
+Takt hand for the decay, a Rotation hand for the oscillation), the same spectra
+read differently. The average decay rate is exactly the trace of J over its
+size, −(1/τ_E + 1/τ_I)/2, set by the membrane constants alone: the synaptic
+graph never touches the diagonal of J, so the Takt hand is graph-blind by an
+exact identity. That is the neural twin of the quantum mirror's center 2Σγ being
+set by the bath rather than by the Hamiltonian. Through the clock, the V-Effect
+and the thermal window move only the Rotation hand; the Takt stays pinned. And
+the rotation is faint, a few degrees off the decay axis, so the March frequency
+counts are real but pale: the substrate lives almost entirely on its Takt. See
+[The Clock's Two Hands](../../experiments/NEURAL_CLOCK_TWO_HANDS.md).
+
+---
+
 ## Documents
 
 | Document | What it covers |
 |----------|---------------|
 | [Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md) | Palindrome condition, C. elegans test, E-I standing wave |
+| [The Clock's Two Hands](../../experiments/NEURAL_CLOCK_TWO_HANDS.md) | Takt = trace (membrane-set, graph-blind); Rotation = off-diagonal (degree-set); V-Effect and thermal window move only the Rotation |
 | [Neural Gamma Cavity](../../experiments/NEURAL_GAMMA_CAVITY.md) | C. elegans 97.3% palindromic, 18 unpaired modes classified, Wilson-Cowan eigenfrequency |
 | [V-Effect and Thermal Window](V_EFFECT_NEURAL.md) | Coupling creates oscillation, thermal window, 2× law |
 | [Proof: Palindrome](proofs/PROOF_PALINDROME_NEURAL.md) | Derivation of palindrome condition in 6 steps |
