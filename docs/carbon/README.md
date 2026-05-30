@@ -139,6 +139,16 @@ and for how long, and a coherent↔incoherent crossover Q* = J/γ (√2 at N=3, 
 chain length) below which the slowest π-coherence stops beating. This closes
 [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md) open question 5.
 
+Then, holding the band-edge clock and the parallel F87 / V-Effect work of the same day
+against real carotenoid singlet-fission data, the two threads converged:
+[SINGLET_FISSION_AND_THE_TWO_CLOCKS](SINGLET_FISSION_AND_THE_TWO_CLOCKS.md). The dark 2Ag
+state (singlet fission's triplet pair) is where the **charge** clock (XX+YY, the bright
+band edge) and the **spin** clock (Heisenberg / V-Effect, the exchange) mix, joined by the
+V-Effect bridge. The V-Effect-derived exchange J_eff = (3/8)·α²/J reproduces the
+established superexchange-via-charge-transfer singlet-fission coupling in form (Anderson
+bridge²/gap), in structure (the entangled two-triplet state), and in order of magnitude
+(~10 meV). The molecule that needed both halves told us the two clock readings are one.
+
 ---
 
 ## Existing scattered material (pointers, not duplications)

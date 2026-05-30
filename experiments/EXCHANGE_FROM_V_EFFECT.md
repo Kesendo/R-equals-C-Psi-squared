@@ -4,7 +4,7 @@
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Pipeline:** `simulations/_level1_emergent_exchange.py`
-**See also:** [V_EFFECT_BOUNDARY_LOCALIZATION](V_EFFECT_BOUNDARY_LOCALIZATION.md), [PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md), [V_EFFECT_PALINDROME](V_EFFECT_PALINDROME.md), [HEISENBERG_RELOADED](../hypotheses/HEISENBERG_RELOADED.md)
+**See also:** [V_EFFECT_BOUNDARY_LOCALIZATION](V_EFFECT_BOUNDARY_LOCALIZATION.md), [PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md), [V_EFFECT_PALINDROME](V_EFFECT_PALINDROME.md), [HEISENBERG_RELOADED](../hypotheses/HEISENBERG_RELOADED.md), [SINGLET_FISSION_AND_THE_TWO_CLOCKS](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md) (the carotenoid singlet-fission reading: the both-pairs-triplet state here is the dark 2Ag, and J_eff=(3/8)α²/J is the singlet-fission coupling, 2026-05-30)
 
 ---
 
