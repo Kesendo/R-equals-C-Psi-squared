@@ -55,6 +55,19 @@ g_eff values lands the F86 peak Q's on the clock: g_eff = 4/3 gives Q_EP = 1.5 (
 g_eff = 0.8 gives Q_EP = 2.5 (the Endpoint orbit). The `MirrorSystem` clock already detects this:
 `Rotation.Turning` flips false → true exactly at the EP.
 
+**And the 4γ₀ is not an EP number , it is the absorption ladder.** Under the
+[Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) the decay rates are the rungs
+0, 2γ₀, 4γ₀, 6γ₀, ..., 2Nγ₀ (rate = 2γ₀·⟨n⟩, with ⟨n⟩ the active-letter count). The two channels
+the EP coalesces are HD = 1 (rate 2γ₀, ⟨n⟩ = 1) and HD = 3 (rate 6γ₀, ⟨n⟩ = 3); the EP sits at
+their midpoint, 4γ₀ = 2γ₀·2, the **⟨n⟩ = 2 rung**. So the Takt pinned at 4γ₀ above the EP is
+absorption *saturating* at that rung: below the EP the slow mode climbs one absorption quantum
+(2γ₀ → 4γ₀, ⟨n⟩ 1 → 2), at the EP it tops out, and beyond it cannot absorb more , the surplus
+coupling becomes Rotation instead. On N=3 (c = 2, the minimal EP) this is the whole ladder, and
+4γ₀ is the maximal absorption of the slow resonant band, the same 2γ₀ → 4γ₀ the amplitude-to-
+intensity (|·|²) rate carries (F73 vac-SE, asymptotic 4γ₀). The EP value was the absorption
+structure all along; the clock just shows it as the point where absorption saturates and rotation
+takes over.
+
 ## The mirror here is the first one (Π), not the second (K)
 
 Today's two-mirror sharpening keeps a trap shut. F86's "chiral" is **Π as AZ class AIII**, not the
