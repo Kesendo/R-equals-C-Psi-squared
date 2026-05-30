@@ -342,6 +342,17 @@ that a non-bipartite hopping graph admits no spectrum-pairing symmetry commuting
 dephasing. And §7.4 shows the converse is not monolithic: at full support it closes outright,
 and only the windowed regime stays open.
 
+The windowed regime has since been reduced to a validated **first-order-in-γ** statement. At γ=0
+the Liouvillian L = −i[H,·] is purely imaginary, hence symmetric about −σ (soft); the break grows
+first order in the dephasing tick, and the degenerate first-order dephasing block (D̂ diagonalized
+within each degenerate-frequency subspace) reproduces it bit-exact, with c = 0 ⟺ bipartite. The
+tempting moment proof is ruled out: D̂ is diagonal in the computational basis
+(D̂|i⟩⟨j| = −2·Hamming(i⊕j)·|i⟩⟨j|, the Absorption Theorem), but the odd spectral moments
+Tr((L+σ)^{2k+1}) vanish for soft and hard alike, so the break is moment-invisible , a set-pairing
+asymmetry, not a moment identity. The remaining gap is therefore set-level: that the degenerate
+first-order block spectrum fails to pair iff an odd cycle is present. See
+[experiments/BIPARTITE_CHIRALITY_DIAGONAL_CELL.md](../../experiments/BIPARTITE_CHIRALITY_DIAGONAL_CELL.md).
+
 ### 7.4 Full support closes the soft direction (the flip-generator count)
 
 The bipartite test has a linear-algebra reading that makes one regime provable. In the dephasing

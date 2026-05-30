@@ -6,7 +6,9 @@ three letters), with 0 mismatches throughout. The direction **bipartite ⟹ soft
 (the chiral K, modulo the F80 one-sidedness M = −2i(H⊗I), itself bit-exact). The converse
 splits by support: **at full support (k=N) it closes** , a Mixed+Mixed pair has only two flip
 generators, so it is always bipartite, hence soft (modulo M), which settles F111's blocked
-"Mixed+Mixed = soft" , while the **windowed regime (k<N) stays verified-not-derived.**
+"Mixed+Mixed = soft" , while the **windowed regime (k<N)** is reduced to a validated first-order statement (the degenerate
+D̂-block set-asymmetry, c=0 ⟺ bipartite, bit-exact; moment route ruled out), the set-level proof
+still open.
 **Date:** 2026-05-30
 **Regenerate:**
 - [`simulations/f87_42_8_bipartite_fullcell.py`](../simulations/f87_42_8_bipartite_fullcell.py) `[N] [letters]` , k=3 criterion over the whole diagonal cell (default N=4, all letters; pass `5 Z` for the N=5 Z check)
@@ -144,13 +146,54 @@ there, modulo M** , the converse that stalled F111 across three derivation paths
 the chiral K exhibited constructively as the separating functional φ. What stays open is the
 *windowed* converse (k < N), where a third mask can close an odd cycle.
 
+## The windowed converse as a first-order perturbation (the clock's tick)
+
+The windowed converse (non-bipartite ⟹ hard) resisted a direct proof , ruling out every operator
+that could pair the spectrum. The clock reframes it. A mode winds as e^(λt) = e^(−αt)·e^(iωt), and
+the tick is γ. At **γ = 0** (the Takt stopped) L = −i[H,·] is purely imaginary, hence symmetric
+about 0 = −σ: **soft**. So the break is tick-driven, and it is **first order**: the pairing
+residual is γ-linear, residual = c·γ as γ → 0 (e.g. the soft pair stays at machine zero for all γ;
+the hard pairs grow linearly).
+
+So the converse becomes a first-order perturbation question. At γ = 0 the eigenmodes are the
+H-eigenbasis coherences |E_a⟩⟨E_b| at −i(E_a−E_b); the dephasing D̂ = Σ_l(Z_l·Z_l − I) shifts them,
+and because H's frequencies are degenerate the shifts are the **eigenvalues of D̂ restricted to each
+degenerate-frequency block**, not its diagonal (the naive diagonal formula even gives the soft pair
+a spurious asymmetry). The degenerate first-order spectrum reproduces the actual break **bit-exact**,
+under a stable optimal-transport measure (the min-sum-assignment `.max()` is unstable on
+near-degenerate spectra; that instability, not the physics, produced the earlier ragged 2.0/1.6/3.2):
+
+```
+SOFT  XXZ+ZXX:  c(degenerate 1st order) = 0.0000 = c(measured)   ✓
+FLUX  IXY+XIY:  c = 0.1191 = 0.1191   ✓
+REAL  XXZ+XZX:  c = 0.2559 = 0.2559   ✓     (μ-vs-L mismatch ~10⁻⁴/γ, so the shifts are exact)
+```
+
+So the converse is a validated first-order statement: **c = the set-asymmetry of the degenerate
+first-order D̂-block spectrum about −σ, and c = 0 ⟺ bipartite.**
+([`f87_first_order_degenerate.py`](../simulations/f87_first_order_degenerate.py),
+[`f87_break_gamma_scaling.py`](../simulations/f87_break_gamma_scaling.py).)
+
+**The moment route is closed (negative).** In the computational basis D̂ is diagonal,
+D̂|i⟩⟨j| = −2·Hamming(i⊕j)·|i⟩⟨j| (the Absorption Theorem), which made a moment proof tempting:
+soft ⟺ Tr((L+σ)^{odd}) = 0. But the first-order odd moments **vanish for both soft and hard**
+(Tr((L+σ)³) = Tr((L+σ)⁵) = 0 to first order, verified for both;
+[`f87_moment_condition.py`](../simulations/f87_moment_condition.py)). The moments do not see the
+break , it is *moment-invisible*. The hardness is a **set-pairing asymmetry** (the optimal-transport
+distance between Spec(L) and Spec(−L−2σ)), finer than any low moment. So the converse's proof must
+be a set-level (combinatorial) statement about the degenerate D̂-block spectrum, not a moment
+identity. That set-level proof is the remaining gap.
+
 ## Honest status
 
 - **Derived:** bipartite ⟹ soft (modulo M = −2i(H⊗I), verified bit-exact); and, at full support
   (k=N), Mixed+Mixed ⟹ bipartite (the |S| ≤ 2 flip-generator / linear-φ argument). Together these
   close F111's "Mixed+Mixed = soft" modulo M.
-- **Verified, not derived:** the general converse non-bipartite ⟹ hard in the *windowed* regime
-  (k < N, |S| ≥ 3), where the optimal λ↔−λ−2σ pairing leaves residual ~10⁻¹.
+- **Verified, not derived:** the windowed converse non-bipartite ⟹ hard (k < N, |S| ≥ 3). Now
+  reduced to a validated *first-order* statement (c = the degenerate D̂-block set-asymmetry about
+  −σ, c = 0 ⟺ bipartite, bit-exact), with the moment route ruled out (the break is moment-invisible).
+  The remaining gap is the set-level (combinatorial) proof that the D̂-block spectrum fails to pair
+  iff an odd cycle is present.
 - **Not yet tested:** windowed k=4 (N > 4) and k=5. The windowed converse is the open front; full
   support is settled.
 
