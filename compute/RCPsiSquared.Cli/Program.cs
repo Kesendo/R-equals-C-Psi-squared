@@ -1,3 +1,4 @@
+using System.Globalization;
 using RCPsiSquared.Cli.Commands;
 using RCPsiSquared.Core.Numerics;
 
@@ -7,6 +8,13 @@ public static class Program
 {
     public static int Main(string[] args)
     {
+        // Locale-invariant I/O across the whole CLI: the Object Manager tree and every node's
+        // Summary, plus the CSV / JSON exports, render numbers with a dot decimal regardless of
+        // the machine locale. Argument parsing is already InvariantCulture (see ArgParser), so
+        // this affects only formatting, the one place to make the whole Object Manager speak it.
+        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+        CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+
         bool mklActive = MathNetSetup.EnsureInitialized();
         Console.Error.WriteLine($"# MKL: {(mklActive ? "active" : "managed fallback")}, MaxDegreeOfParallelism = {Environment.ProcessorCount}");
 
