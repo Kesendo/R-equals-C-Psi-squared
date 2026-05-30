@@ -5,6 +5,11 @@ Validates:
   - pt_matrix_elements on slow modes (Π-invariance protection at first order)
   - ptf_alpha_fit returns trivial α=1 under no-defect (J_mod=1) and sensible
     α-pattern under a real defect
+  - perspectives_panel: global clock (Takt/Rotation, from the spectrum) beside the
+    guarded per-perspective α field; the identifiability guard flags non-perturbative
+    (featureless / plateaued) sites. The natural N=6 ill-conditioned site (site 4,
+    |f|~108, reliable closure +0.068 vs all +1.22) is validated separately, too slow
+    for the default suite.
 
 References: hypotheses/PERSPECTIVAL_TIME_FIELD.md (Tier 2). The N=7 reference
 α-pattern (1.095, 1.182, 1.051, 0.991, 0.845, 0.923, 0.997) at J_mod=1.1, ψ_1
@@ -164,3 +169,66 @@ def test_ptf_alpha_fit_invalid_bond():
     rho_0 = _bonding_mode_state(N)
     with pytest.raises(ValueError):
         fw.ptf_alpha_fit(chain, rho_0, defect_bond=10, J_mod=1.1)
+
+
+def test_perspectives_panel_clock_matches_spectrum():
+    """The panel's global clock reads the L_A spectrum exactly (the same Takt/Rotation
+    the C# MirrorSystem gives): gap = slowest nonzero decay rate (= 2γ for the dephasing
+    chain), theta_mem = arctan(omega_mem/gap) in (0, 90)."""
+    N = 4
+    chain = fw.ChainSystem(N=N, gamma_0=0.05, J=1.0, H_type='xy')
+    rho_0 = _bonding_mode_state(N)
+    panel = fw.perspectives_panel(chain, rho_0, defect_bond=0, t_max=20.0, n_t=200)
+    clock = panel['clock']
+    rate = -np.real(np.linalg.eigvals(chain.L))
+    gap_direct = float(rate[rate > 1e-9].min())
+    assert abs(clock['gap'] - gap_direct) < 1e-9
+    assert abs(clock['gap'] - 2 * 0.05) < 1e-6, f"gap {clock['gap']} != 2γ"
+    assert clock['omega_mem'] > 1e-6
+    assert 0.0 < clock['theta_mem_deg'] < 90.0
+    assert abs(clock['tau'] - 1.0 / clock['gap']) < 1e-12
+
+
+def test_perspectives_panel_clean_fits_not_flagged_n4():
+    """At N=4 the bonding-mode + bond-0 defect gives well-conditioned fits: every
+    painter is reliable (the guard does not false-flag good fits), the defect side
+    speeds up (α_0 > 1), and the reliable closure equals the all-site closure."""
+    N = 4
+    chain = fw.ChainSystem(N=N, gamma_0=0.05, J=1.0, H_type='xy')
+    rho_0 = _bonding_mode_state(N)
+    panel = fw.perspectives_panel(chain, rho_0, defect_bond=0, t_max=20.0, n_t=200)
+    assert len(panel['alphas']) == N and len(panel['reliable']) == N
+    assert panel['reliable'].all(), f"clean N=4 fits flagged: {panel['reliable']}"
+    assert panel['n_unreliable'] == 0
+    assert panel['alphas'][0] > 1.0           # defect side (J raised) speeds up
+    assert abs(panel['sigma_log_alpha_reliable'] - panel['sigma_log_alpha_all']) < 1e-12
+    assert abs(panel['sigma_log_alpha_reliable']) < 0.2   # painters roughly close
+
+
+def test_perspectives_panel_guard_flags_high_rate():
+    """The guard's job: flag painters whose rate |f| = |α−1|/δJ is non-perturbatively
+    large (the featureless / plateaued sites that fit a confident-but-meaningless huge
+    α, the (a)-lesson). Tightening f_max flags exactly the high-|f| painters and the
+    reliable closure then excludes them. (The natural ill-conditioned site at N=6,
+    site 4, is validated separately; it is too slow for the default suite.)"""
+    N = 4
+    chain = fw.ChainSystem(N=N, gamma_0=0.05, J=1.0, H_type='xy')
+    rho_0 = _bonding_mode_state(N)
+    loose = fw.perspectives_panel(chain, rho_0, defect_bond=0, t_max=20.0, n_t=200)
+    assert loose['reliable'].all()
+    # a tight f_max just below the fastest painter's |f| must flag at least that one
+    # and leave at least one survivor; the reliable closure then excludes the flagged.
+    fmax_tight = 0.99 * float(np.max(np.abs(loose['f'])))
+    tight = fw.perspectives_panel(chain, rho_0, defect_bond=0, f_max=fmax_tight,
+                                  t_max=20.0, n_t=200)
+    assert tight['n_unreliable'] >= 1, "tight f_max should flag the high-|f| painter"
+    assert tight['reliable'].sum() >= 1, "tight f_max flagged everyone"
+    assert tight['sigma_log_alpha_reliable'] != tight['sigma_log_alpha_all']
+
+
+def test_perspectives_panel_requires_xy():
+    """Non-XY chain raises (the canonical PTF reference is the XY chain)."""
+    chain = fw.ChainSystem(N=4, H_type='heisenberg')
+    rho_0 = _bonding_mode_state(4)
+    with pytest.raises(ValueError):
+        fw.perspectives_panel(chain, rho_0, defect_bond=0)

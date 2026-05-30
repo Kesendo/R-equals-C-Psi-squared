@@ -132,6 +132,7 @@ from .workflows import (
     lens_pipeline,
     ptf_alpha_fit,
     ptf_painter_panel,
+    perspectives_panel,
     verify_k_partnership,
     bridge_panel,
     bloch_trajectory,

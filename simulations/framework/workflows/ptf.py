@@ -201,3 +201,106 @@ def ptf_painter_panel(chain, rho_0, defect_bond, J_mod, t_max=20.0, n_t=400,
         out['eigenvalue_shifts'] = np.diag(ME)
 
     return out
+
+
+def _global_clock_from_evals(evals, tol=1e-9, gap_tol=1e-6):
+    """The global clock (Takt + Rotation) from an L_A spectrum, the same reading the
+    C# MirrorSystem voices give: gap = slowest nonzero decay rate (the Takt floor,
+    = 2γ for a dephasing chain), omega_mem = max |Im λ| among the modes at the gap
+    (the Rotation hand of the memory mode), theta_mem = arctan(omega_mem/gap).
+    """
+    rate = -np.real(evals)
+    nonzero = rate[rate > tol]
+    if nonzero.size == 0:                      # γ = 0: the clock is stopped
+        return {'stopped': True, 'gap': 0.0, 'tau': float('inf'),
+                'omega_mem': 0.0, 'theta_mem_deg': 0.0}
+    gap = float(nonzero.min())
+    at_gap = np.abs(rate - gap) <= gap_tol
+    omega = float(np.max(np.abs(np.imag(evals[at_gap]))))
+    return {'stopped': False, 'gap': gap, 'tau': 1.0 / gap, 'omega_mem': omega,
+            'theta_mem_deg': float(np.degrees(np.arctan2(omega, gap)))}
+
+
+def perspectives_panel(chain, rho_0, defect_bond, delta_J=0.02, guard_delta_J=0.01,
+                       f_max=10.0, consistency_tol=0.5, f_floor=0.5,
+                       t_max=20.0, n_t=400):
+    """The conductor's stand for one chain and one event: the global clock beside the
+    per-perspective rate-of-painting field, with an identifiability guard.
+
+    Two readings on one stand:
+
+    1. The global clock (Takt + Rotation), the mountain's one proper-time hand, read
+       from the unperturbed L_A spectrum (gap = 2γ floor, theta_mem = arctan(omega/gap)),
+       reusing the eigendecomposition `ptf_alpha_fit` already computed.
+    2. The per-perspective field alpha_i, how each site feels the event (a J-defect on
+       `defect_bond`), from `ptf_alpha_fit`. A genuine perturbative rescaling has
+       (alpha_i - 1) proportional to delta_J, so f_i = (alpha_i - 1)/delta_J should be
+       (a) of sane magnitude and (b) stable across two small delta_J. Sites that fail
+       either test (a featureless / plateaued trajectory, e.g. one far from the defect,
+       fits a confident but meaningless huge alpha at low RMSE; see the (a)-lesson in
+       _the_dial_at_many_body and PTF) are flagged unreliable and excluded from the
+       closure Sigma ln(alpha).
+
+    HONEST SCOPE: alpha_i is per-(site, observable = purity, state, event); it is NOT an
+    intrinsic per-site clock (the "site-local time" reading PERSPECTIVAL_TIME_FIELD
+    falsified). The closure Sigma ln(alpha) approx 0 is an empirical regularity (EQ-014),
+    reported here over the reliable painters only. Inherits ptf_alpha_fit's dense eig, so
+    this is practical for N <= 6; N >= 7 needs the sparse / RK4 path.
+
+    Args:
+        chain: ChainSystem with H_type='xy'.
+        rho_0: 2^N x 2^N initial density matrix (the state the event is witnessed from).
+        defect_bond: bond index of the J-defect (the event).
+        delta_J: reported defect strength (relative to chain.J); the alpha field is read here.
+        guard_delta_J: the second, smaller delta_J used only for the identifiability guard.
+        f_max: a site is "sane" iff |f_i| = |alpha_i - 1|/delta_J <= f_max.
+        consistency_tol: a site is "linear" iff |f_i - f_guard_i| <= consistency_tol*(|f_guard_i| + f_floor).
+        f_floor: floor in the linearity test so alpha approx 1 (no rescaling) is not mis-flagged.
+        t_max, n_t: trajectory horizon and sampling (passed to ptf_alpha_fit).
+
+    Returns dict:
+        'clock': {stopped, gap, tau, omega_mem, theta_mem_deg} - the global clock.
+        'alphas': per-site alpha_i at delta_J.
+        'f', 'f_guard': per-site f_i at delta_J and guard_delta_J.
+        'sane', 'linear', 'reliable': per-site booleans (reliable = sane & linear).
+        'sigma_log_alpha_reliable': Sigma ln(alpha) over reliable sites (nan if none).
+        'sigma_log_alpha_all': Sigma ln(alpha) over all sites.
+        'n_unreliable': count of filtered sites.
+        'delta_J', 'guard_delta_J', 'defect_bond_index'.
+        '_fit': the full ptf_alpha_fit output at delta_J (trajectories, rmses, ...).
+    """
+    _validate_ptf_inputs(chain, defect_bond)
+
+    out = ptf_alpha_fit(chain, rho_0, defect_bond, J_mod=chain.J + delta_J,
+                        t_max=t_max, n_t=n_t)
+    out_guard = ptf_alpha_fit(chain, rho_0, defect_bond, J_mod=chain.J + guard_delta_J,
+                              t_max=t_max, n_t=n_t)
+
+    clock = _global_clock_from_evals(out['_decomp_A'][0])
+
+    alphas = np.asarray(out['alphas'])
+    f = (alphas - 1.0) / delta_J
+    f_guard = (np.asarray(out_guard['alphas']) - 1.0) / guard_delta_J
+    sane = np.abs(f) <= f_max
+    linear = np.abs(f - f_guard) <= consistency_tol * (np.abs(f_guard) + f_floor)
+    reliable = sane & linear
+
+    log_a = np.log(np.clip(alphas, 1e-30, None))
+    sigma_reliable = float(np.sum(log_a[reliable])) if reliable.any() else float('nan')
+
+    return {
+        'clock': clock,
+        'alphas': alphas,
+        'f': f,
+        'f_guard': f_guard,
+        'sane': sane,
+        'linear': linear,
+        'reliable': reliable,
+        'sigma_log_alpha_reliable': sigma_reliable,
+        'sigma_log_alpha_all': float(np.sum(log_a)),
+        'n_unreliable': int((~reliable).sum()),
+        'delta_J': float(delta_J),
+        'guard_delta_J': float(guard_delta_J),
+        'defect_bond_index': defect_bond,
+        '_fit': out,
+    }
