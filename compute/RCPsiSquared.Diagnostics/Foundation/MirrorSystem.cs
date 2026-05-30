@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Numerics;
+using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Lindblad;
 using RCPsiSquared.Core.Symmetry;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
+using ComplexVector = MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
@@ -37,7 +41,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para>Diagnostic-scale (dense 4^N via <see cref="CarrierVectorPortfolio.Decompose"/>): the
 /// small N where the whole box fits in one view, not the large-N engine.</para></summary>
-public sealed class MirrorSystem
+public sealed class MirrorSystem : IInspectable
 {
     /// <summary>Number of sites.</summary>
     public int N { get; }
@@ -243,6 +247,100 @@ public sealed class MirrorSystem
     /// property recomputes from the moved input.</summary>
     public MirrorSystem WithChannels(IReadOnlyList<ChannelRate> channels) =>
         new(N, Hamiltonian, channels);
+
+    // ---- Object Manager: the conductor's stand as a live IInspectable node ----
+    // MirrorSystem is the first live-data object of the growing object-manager (see the class
+    // summary), not a registry Claim: built on demand from (N, H, γ), readings computed lazily. The
+    // voices that fall out of the one spectrum decomposition , the slow modes, the F1 palindrome, the
+    // clock's two hands , surface as a tree. Numbers format InvariantCulture so the reading is the
+    // same whoever renders it. The heavy F80 MemoryRotation (it builds the full 4^N defect) is not in
+    // the default tree; read it through the MemoryRotation property.
+
+    private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
+
+    /// <summary>Short label: N, the palindrome centre σ, and the Liouvillian dimension 4^N.</summary>
+    public string DisplayName =>
+        $"MirrorSystem (N={N}, σ={TotalDephasing.ToString("0.####", Inv)}, dim {1L << (2 * N)})";
+
+    /// <summary>One-line fingerprint: the slowest surviving rate, whether F1 holds, the clock angle.</summary>
+    public string Summary =>
+        $"slowest rate {Spectrum.SlowestRate.ToString("0.####", Inv)}, " +
+        $"F1 palindrome holds = {PalindromeHolds}, " +
+        $"clock θ = {(Rotation.Angle * 180.0 / Math.PI).ToString("0.#", Inv)}°";
+
+    /// <summary>The voices that fall out of the one spectrum decomposition: the slow modes, the F1
+    /// palindrome check, and the clock's two hands. A pure container, no leaf payload of its own.</summary>
+    public IEnumerable<IInspectable> Children
+    {
+        get
+        {
+            yield return SpectrumNode();
+            yield return PalindromeNode();
+            yield return ClockNode();
+        }
+    }
+
+    public InspectablePayload Payload => InspectablePayload.Empty;
+
+    /// <summary>The slowest <paramref name="top"/> distinct-rate modes (the most-rotating
+    /// representative at each rate, matching the Rotation voice), each carrying its per-channel
+    /// Δ-portfolio as a Vector payload , the bars the renderer draws under --draw.</summary>
+    private InspectableNode SpectrumNode(int top = 8)
+    {
+        var modes = Spectrum.Modes
+            .Where(m => m.ActualDecayRate > 1e-9)
+            .GroupBy(m => m.ActualDecayRate.ToString("0.000000", Inv))
+            .OrderBy(g => g.First().ActualDecayRate)
+            .Take(top)
+            .Select(g => g.OrderByDescending(m => Math.Abs(m.OscillationFrequency)).First())
+            .Select(ModeNode)
+            .ToList();
+        return InspectableNode.Group("Spectrum", modes, modes.Count);
+    }
+
+    private static IInspectable ModeNode(CarrierMode m)
+    {
+        double theta = Math.Atan2(Math.Abs(m.OscillationFrequency), m.ActualDecayRate) * 180.0 / Math.PI;
+        var labels = m.Portfolio.Activity.Select(a => a.Channel).ToList();
+        var deltas = ComplexVector.Build.DenseOfEnumerable(
+            m.Portfolio.Activity.Select(a => new Complex(a.Delta, 0.0)));
+        string portfolio = string.Join("  ",
+            m.Portfolio.Activity.Select(a => $"{a.Channel} {a.Delta.ToString("0%", Inv)}"));
+        return new InspectableNode(
+            displayName: $"rate {m.ActualDecayRate.ToString("0.0000", Inv)}  θ {theta.ToString("0.0", Inv)}°",
+            summary: portfolio,
+            payload: new InspectablePayload.Vector("Δ-portfolio", deltas, labels));
+    }
+
+    private InspectableNode PalindromeNode()
+    {
+        var sample = PalindromePartners.FirstOrDefault(p => p.Rate > 1e-9 && p.PartnerPresent);
+        IInspectable[] children = sample is null
+            ? Array.Empty<IInspectable>()
+            : new IInspectable[]
+            {
+                new InspectableNode(
+                    $"e.g. rate {sample.Rate.ToString("0.0000", Inv)} pairs with {sample.PartnerRate.ToString("0.0000", Inv)}",
+                    summary: $"partner present: {sample.PartnerPresent}"),
+            };
+        return new InspectableNode("F1 palindrome",
+            summary: $"holds = {PalindromeHolds}; rate r pairs with 2σ − r (2σ = {(2.0 * TotalDephasing).ToString("0.####", Inv)})",
+            children: children);
+    }
+
+    private InspectableNode ClockNode()
+    {
+        var takt = Takt;
+        var rot = Rotation;
+        var children = new IInspectable[]
+        {
+            InspectableNode.RealScalar("Takt gap (2γ floor)", takt.Gap, "0.####"),
+            InspectableNode.RealScalar("Takt τ (longest breath)", takt.Tau, "0.####"),
+            InspectableNode.RealScalar("Rotation ω", rot.Frequency, "0.####"),
+            InspectableNode.RealScalar("Rotation angle θ (deg)", rot.Angle * 180.0 / Math.PI, "0.#"),
+        };
+        return InspectableNode.Group("Clock", children);
+    }
 }
 
 /// <summary>One mode's F1 mirror pairing: its decay rate, the partner rate 2σ − r the palindrome

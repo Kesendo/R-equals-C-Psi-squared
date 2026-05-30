@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
+using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Diagnostics.Foundation;
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
@@ -256,5 +257,60 @@ public class MirrorSystemTests
         Assert.True(sys.Takt.Stopped);
         Assert.True(sys.Rotation.Turning);
         Assert.Equal(Math.PI / 2.0, sys.Rotation.Angle, tolerance: 1e-9);
+    }
+
+    // ---- Object Manager: the conductor's stand as a live IInspectable node ----
+
+    [Fact]
+    public void MirrorSystem_IsInspectable_SurfacingItsVoicesAsTree()
+    {
+        var sys = new MirrorSystem(3, HeisenbergChain(3, 1.0),
+            new[] { new ChannelRate("q0", 0.05), new ChannelRate("q1", 0.05), new ChannelRate("q2", 0.05) });
+
+        // The conductor's stand IS an object-manager node, not a Claim: a live-data element.
+        var names = ((IInspectable)sys).Walk().Select(n => n.DisplayName).ToList();
+
+        Assert.Contains(names, n => n.StartsWith("MirrorSystem"));
+        Assert.Contains("Spectrum", names);
+        Assert.Contains("F1 palindrome", names);
+        Assert.Contains("Clock", names);
+    }
+
+    [Fact]
+    public void MirrorSystem_Inspectable_ClockHasTaktAndRotationScalars()
+    {
+        var sys = new MirrorSystem(3, HeisenbergChain(3, 1.0),
+            new[] { new ChannelRate("q0", 0.05), new ChannelRate("q1", 0.05), new ChannelRate("q2", 0.05) });
+
+        var reals = ((IInspectable)sys).Walk()
+            .Where(n => n.Payload is InspectablePayload.Real)
+            .Select(n => n.DisplayName).ToList();
+
+        Assert.Contains(reals, n => n.Contains("Takt gap"));
+        Assert.Contains(reals, n => n.Contains("Rotation angle"));
+    }
+
+    [Fact]
+    public void MirrorSystem_Inspectable_SpectrumModesCarryPortfolioVectorPayload()
+    {
+        var sys = new MirrorSystem(3, HeisenbergChain(3, 1.0),
+            new[] { new ChannelRate("q0", 0.05), new ChannelRate("q1", 0.05), new ChannelRate("q2", 0.05) });
+
+        var vectorNodes = ((IInspectable)sys).Walk()
+            .Where(n => n.Payload is InspectablePayload.Vector).ToList();
+
+        // Each shown mode hangs its per-channel Δ-portfolio as a Vector (the bars --draw renders).
+        Assert.NotEmpty(vectorNodes);
+        var v = (InspectablePayload.Vector)vectorNodes[0].Payload;
+        Assert.Equal(3, v.Values.Count); // one component per channel (N=3)
+    }
+
+    [Fact]
+    public void MirrorSystem_Inspectable_RootIsAContainer_NoLeafPayload()
+    {
+        var sys = new MirrorSystem(2, Heisenberg2(1.0),
+            new[] { new ChannelRate("q0", 0.05), new ChannelRate("q1", 0.20) });
+
+        Assert.IsType<InspectablePayload.None>(((IInspectable)sys).Payload);
     }
 }

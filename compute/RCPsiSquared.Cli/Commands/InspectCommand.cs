@@ -10,6 +10,7 @@ using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Resonance;
 using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Diagnostics.F87;
+using RCPsiSquared.Diagnostics.Foundation;
 using RCPsiSquared.Diagnostics.Knowledge;
 using RCPsiSquared.Visualization.Inspection;
 
@@ -50,12 +51,13 @@ public static class InspectCommand
             "f1" => BuildF1Root(p, N),
             "f87" => BuildF87Root(p, N),
             "pi2" => BuildPi2Root(p, N),
+            "mirror" => BuildMirrorRoot(p, N),
             "fourmode" => BuildFourModeRoot(BuildCoherenceBlock(p, N), withQSweep, qGridPoints),
             "f86" => BuildF86Root(BuildCoherenceBlock(p, N), withMeasured, qGridPoints),
             "c2hwhm" => C2HwhmRatio.Build(BuildCoherenceBlock(p, N), BuildOptionalQGrid(p, qGridPoints)),
             "c2cpsi" => BuildC2CpsiRoot(BuildCoherenceBlock(p, N), p),
             "c2cpsi-scan" => BuildC2CpsiScanRoot(BuildCoherenceBlock(p, N), p),
-            _ => throw new ArgumentException($"unknown root: {rootKind}; known: fourmode, f86, c2hwhm, c2cpsi, c2cpsi-scan, f71, f1, f87, pi2"),
+            _ => throw new ArgumentException($"unknown root: {rootKind}; known: fourmode, f86, c2hwhm, c2cpsi, c2cpsi-scan, f71, f1, f87, pi2, mirror"),
         };
 
         bool wroteSomething = false;
@@ -100,6 +102,33 @@ public static class InspectCommand
         double gamma = p.OptionalDouble("gamma") ?? 0.05;
         var chain = new ChainSystem(N, J: j, GammaZero: gamma);
         return new Pi2KnowledgeBase(chain);
+    }
+
+    /// <summary>The live-data root: one <see cref="MirrorSystem"/> (the conductor's stand) built
+    /// from <c>--N --J --gamma --htype XY|Heisenberg --topology chain|star|ring</c>, surfacing its
+    /// voices (slow modes with Δ-portfolios, the F1 palindrome, the clock's two hands) as a tree.
+    /// Not a Claim from the registry; built on demand. N is capped at 7 (joint-popcount blocked
+    /// spectrum). Pair with <c>--draw</c> to draw the mode portfolios as bars.</summary>
+    private static IInspectable BuildMirrorRoot(ArgParser p, int N)
+    {
+        if (N < 1 || N > 7)
+            throw new ArgumentException($"--root mirror needs N in 1..7 (joint-popcount blocked spectrum); got {N}");
+        double j = p.OptionalDouble("J") ?? 1.0;
+        double gamma = p.OptionalDouble("gamma") ?? 0.1;
+        var htype = (p.OptionalString("htype") ?? "XY").ToLowerInvariant() switch
+        {
+            "heisenberg" or "heis" => HamiltonianType.Heisenberg,
+            _ => HamiltonianType.XY,
+        };
+        var topo = (p.OptionalString("topology") ?? "chain").ToLowerInvariant() switch
+        {
+            "star" => TopologyKind.Star,
+            "ring" => TopologyKind.Ring,
+            _ => TopologyKind.Chain,
+        };
+        var hamiltonian = new ChainSystem(N, j, gamma, htype, topo).BuildHamiltonian();
+        var channels = Enumerable.Range(0, N).Select(l => new ChannelRate($"q{l}", gamma)).ToList();
+        return new MirrorSystem(N, hamiltonian, channels);
     }
 
     private static CoherenceBlock BuildCoherenceBlock(ArgParser p, int N)

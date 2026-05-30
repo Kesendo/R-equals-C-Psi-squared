@@ -78,9 +78,12 @@ public static class Program
         Console.WriteLine("              kind: kcurve | shape");
         Console.WriteLine();
         Console.WriteLine("  inspect     walk an IInspectable tree and print it (Object Manager)");
-        Console.WriteLine("              args: --N <int> --n <int> --gamma <double> [--root fourmode|f86] [--max-depth 4]");
+        Console.WriteLine("              args: --N <int> --n <int> --gamma <double> [--root fourmode|f86|mirror|...] [--max-depth 4]");
+        Console.WriteLine("                    [--draw  draw leaf payloads as ASCII bars / heatmap / plot]");
         Console.WriteLine("                    [--q-sweep] [--with-measured] [--q-grid-points N]");
         Console.WriteLine("                    [--export-json <path>] [--json-only]");
+        Console.WriteLine("              root mirror (live MirrorSystem): --N <1..7> [--J <d>] [--gamma <d>]");
+        Console.WriteLine("                    [--htype XY|Heisenberg] [--topology chain|star|ring]");
         Console.WriteLine();
         Console.WriteLine("  query       ask typed questions of the F86 knowledge graph");
         Console.WriteLine("              args: --N <int> --n <int> --gamma <double> --q <query> [extra args]");
