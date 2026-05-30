@@ -1,6 +1,6 @@
 # PROOF F111: Hard Cell Pure-D Template Rule (Tier1Candidate)
 
-**Status:** Tier 1 candidate (empirical anchor across 3 dephase letters at N=4 k=4; closed-form derivation BLOCKED on subclaim (d) Mixed+Mixed = soft)
+**Status:** Tier 1 candidate (empirical anchor across 3 dephase letters at N=4 k=4). **Subclaim (d) Mixed+Mixed = soft closed modulo M = −2i(H⊗I) on 2026-05-30** via the bipartite-chirality mechanism of [PROOF_F103 §7.4](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) (the operator is a *second* mirror, the chiral K composed after Π, not the better Π the three Task-1 paths sought); subclaim (b) follows likewise. Subclaim (c) still rests on the unproved hard-direction converse. See the Open section.
 **Date:** 2026-05-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
@@ -135,7 +135,7 @@ Verification scripts: `simulations/_f111_path1_operator_search.py`, `simulations
 
 F111 sharpens F110 Aspect B from "empirical Y-inversion at k = 4 (228:0)" to a structural rule (Pure-D Template Rule) that implies the Y-inversion as immediate corollary AND provides additional structural content (the 36 + 192 + 0 decomposition; the dissipator-commute mechanism for subclaim (a)).
 
-The rule predicts the F87-hard set in the diagonal cell EXACTLY at k = N = 4 across all 3 dephase letters with zero exceptions. Promotion to Tier1Derived is gated on closing subclaim (d) (Mixed + Mixed = soft closed-form).
+The rule predicts the F87-hard set in the diagonal cell EXACTLY at k = N = 4 across all 3 dephase letters with zero exceptions. Subclaim (d) (Mixed + Mixed = soft) is now closed modulo M via [PROOF_F103 §7.4](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md); what remains for full Tier1Derived is the hard-direction converse behind subclaim (c) (a lifted diagonal ⟹ hard).
 
 The rule's structural origin (dephase letter D commutes with itself, so pure-D Hamiltonians have decoupled L = L_H + L_D dynamics) connects F111 to the broader F107/F108 "per-letter dissipator algebra" theme.
 
@@ -149,9 +149,9 @@ F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived 2026-05-25) are **not
 
 ## Open
 
-- **Subclaim (d) closed-form derivation:** Pair (Mixed, Mixed) at k = N = 4 is F87-soft. Operator-level mechanism open (blocking F111 promotion to Tier1Derived).
+- **Subclaim (d) closed-form derivation , CLOSED modulo M (2026-05-30).** Pair (Mixed, Mixed) at k = N = 4 is F87-soft. The operator-level mechanism is [PROOF_F103 §7.4](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md): in the dephasing basis each Mixed term is a single bit-flip mask, so a Mixed+Mixed pair at full support (k=N) has only two flip generators; two nonzero 𝔽₂ vectors always admit a linear φ with φ(both)=1, and the chiral K = diag((−1)^φ) , a *second* mirror after Π, not the better Π the three Task-1 paths sought , palindromizes the spectrum. So Mixed+Mixed ⟹ bipartite ⟹ soft, modulo the F80 one-sidedness M = −2i(H⊗I) (bit-exact). Subclaim (b) (single Mixed term ⟹ soft) follows the same way (|S| = 1). The remaining gap is the converse behind subclaim (c) (a lifted diagonal ⟹ hard).
 - **F110 Aspect C closed-form:** k = 3 ratio 42:8 (per F103 Section 5). F111's structural rule doesn't extend to k = 3 directly (no pure-D templates at k = 3 in the diagonal cells).
 - **Pure-D Template Rule at k > 4 or N > 4:** empirically unverified. The rule's scope is currently k = N = 4 only.
 - **Hardware QPU confirmation at k ≥ 3:** open (no F87 QPU confirmations exist beyond Marrakesh k = 2).
 
-∎ (Tier1Candidate, modulo subclaim (d))
+∎ (Tier1Candidate; subclaim (d) closed modulo M via F103 §7.4, 2026-05-30; subclaim (c) converse open)

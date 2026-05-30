@@ -4,12 +4,15 @@
 verified bit-exact at k=3 (N=4 for all three dephase letters, N=5 for Z) and at k=4 (N=4, all
 three letters), with 0 mismatches throughout. The direction **bipartite ⟹ soft is derived**
 (the chiral K, modulo the F80 one-sidedness M = −2i(H⊗I), itself bit-exact). The converse
-**non-bipartite ⟹ hard is verified, not derived.**
+splits by support: **at full support (k=N) it closes** , a Mixed+Mixed pair has only two flip
+generators, so it is always bipartite, hence soft (modulo M), which settles F111's blocked
+"Mixed+Mixed = soft" , while the **windowed regime (k<N) stays verified-not-derived.**
 **Date:** 2026-05-30
 **Regenerate:**
 - [`simulations/f87_42_8_bipartite_fullcell.py`](../simulations/f87_42_8_bipartite_fullcell.py) `[N] [letters]` , k=3 criterion over the whole diagonal cell (default N=4, all letters; pass `5 Z` for the N=5 Z check)
 - [`simulations/f87_k4_bipartite_bridge.py`](../simulations/f87_k4_bipartite_bridge.py) , k=4 criterion + the F111 template cross-check (N=4)
 - [`simulations/f87_bipartite_chiral_witness.py`](../simulations/f87_bipartite_chiral_witness.py) , the three derivation links and the optimal λ↔−λ−2σ pairing residual
+- [`simulations/f87_flip_generators.py`](../simulations/f87_flip_generators.py) , the flip-generator count |S|, full support (|S|≤2) vs windows (|S|≥3), and the GF(2) φ⟺bipartite check
 **Anchors:** [PROOF_F103 §7](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md),
 [PROOF_F111](../docs/proofs/PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md),
 [ChiralKClaim](../compute/RCPsiSquared.Core/Symmetry/ChiralKClaim.cs),
@@ -89,6 +92,27 @@ The frequency marginal {Im λ} stays mirror-symmetric even when hard (Lindbladia
 conjugation-closed); the decay marginal {Re λ} is what breaks. The break is genuine: the best
 possible pairing leaves a residual of order 10⁻¹, not a near-miss.
 
+### Why no odd cycle at full support: the flip-generator count
+
+In the dephasing basis each Pauli term acts as a single bit-flip mask (its off-diagonal X/Y
+positions), so H's hopping graph is the Cayley graph of the distinct edge masks S = {a⊕b}, and it
+is bipartite iff a **linear** φ over 𝔽₂ sends every mask to 1 (that φ *is* the chiral K). At full
+support (k=N) each term places once, so a Mixed+Mixed pair has only **|S| ≤ 2** masks, and two
+nonzero 𝔽₂ vectors always admit such a φ. Measured
+([`f87_flip_generators.py`](../simulations/f87_flip_generators.py)):
+
+```
+FULL     k=N=3:   max|S|=2   all bipartite   soft=42   hard=0    (φ-exists ⟺ bipartite: 0 mismatches)
+FULL     k=N=4:   max|S|=2   all bipartite   soft=828  hard=0    (0 mismatches)
+WINDOWS  k=3<N=4: max|S|=4   not all bip.    soft=26   hard=16   (0 mismatches)
+```
+
+A third mask, hence a possible odd cycle, appears only when a term is placed at more than one
+**window**, i.e. when k < N. The contrast is sharpest at body count k=3: full support at N=3 (all
+soft) versus windowed at N=4 (16 hard) , the same body count, opposite behaviour. N=3's long-noted
+specialness here is simply that k=3 is already full support, so there are no windows and no odd
+cycles.
+
 ## What it means
 
 **1. The criterion is k-universal across the two body counts tested.** soft ⟺ bipartite, 0
@@ -103,33 +127,32 @@ reduces to *non-bipartite ⟺ has a template*, which is exactly F111's rule, now
 the template is diagonal, it lifts H's diagonal, and a diagonal entry cannot sign-flip under a
 diagonal K.
 
-**3. F111's blocker is refactored, not closed.** "Mixed+Mixed = soft" decomposes into three
-links:
+**3. F111's blocked converse closes at full support (modulo M).** "Mixed+Mixed = soft" decomposes
+into three links:
 
-- **(i) Mixed+Mixed ⟹ zero diagonal.** Derived, almost by definition: a non-template term has at
-  least one off-diagonal letter (X or Y in the dephase basis), so it is off-diagonal; two of them
-  give a zero-diagonal H.
-- **(ii) zero diagonal ⟹ bipartite (no odd cycle).** **Verified at k=4** (all 828 soft pairs are
-  bipartite), **not derived.** This link is k=4-specific, and it is *not* a free lunch: at k=3 it
-  is **false**. XXZ+XZX is zero-diagonal yet carries a 3-cycle and is hard. The absence of odd
-  cycles among zero-diagonal k=4 pairs is a real combinatorial fact that wants its own proof.
-- **(iii) bipartite ⟹ soft.** Derived (the chiral K construction), modulo the F80 one-sidedness
-  M = −2i(H⊗I), which is bit-exact.
+- **(i) Mixed+Mixed ⟹ zero diagonal.** Derived: a non-template term has at least one off-diagonal
+  letter, so it is off-diagonal; two of them give a zero-diagonal H.
+- **(ii) zero diagonal ⟹ bipartite.** **Derived at full support** by the flip-generator count
+  above: k=N gives |S| ≤ 2 masks, and two nonzero 𝔽₂ vectors always admit the linear φ. (Genuinely
+  full-support-specific: at k=3 *with windows* (N=4) it is false , XXZ+XZX is zero-diagonal with a
+  3-cycle, hard.)
+- **(iii) bipartite ⟹ soft.** Derived (the chiral K), modulo the F80 one-sidedness M = −2i(H⊗I),
+  bit-exact.
 
-So the **soft mechanism (iii) is derived**; the full statement "Mixed+Mixed = soft" is **not**,
-because its weakest link (ii) is verified. F111's blocker moves from the opaque "why is
-Mixed+Mixed soft?" to the sharp graph question "why does a zero-diagonal k=4 pair have no odd
-cycle?" That is a genuine step: the soft side now has a named mechanism, and the gap is a concrete
-combinatorial claim rather than a fog.
+F111's cell is k = N = 4, full support, so all three links hold: **"Mixed+Mixed = soft" is derived
+there, modulo M** , the converse that stalled F111 across three derivation paths, now closed, with
+the chiral K exhibited constructively as the separating functional φ. What stays open is the
+*windowed* converse (k < N), where a third mask can close an odd cycle.
 
 ## Honest status
 
-- **Derived:** bipartite ⟹ soft (modulo M = −2i(H⊗I), verified bit-exact).
-- **Verified, not derived:** the converse non-bipartite ⟹ hard (the optimal λ↔−λ−2σ pairing
-  leaves residual ~10⁻¹ for hard, ~10⁻¹⁴ for soft); and the k=4 link (ii).
-- **F111's blocker:** refactored to the zero-diagonal-no-odd-cycle question, not closed.
-- **Not yet tested:** k=4 at N>4 (where k<N is a window, not full support), and k=5. The
-  k-universality is shown at two body counts, not proved across all k.
+- **Derived:** bipartite ⟹ soft (modulo M = −2i(H⊗I), verified bit-exact); and, at full support
+  (k=N), Mixed+Mixed ⟹ bipartite (the |S| ≤ 2 flip-generator / linear-φ argument). Together these
+  close F111's "Mixed+Mixed = soft" modulo M.
+- **Verified, not derived:** the general converse non-bipartite ⟹ hard in the *windowed* regime
+  (k < N, |S| ≥ 3), where the optimal λ↔−λ−2σ pairing leaves residual ~10⁻¹.
+- **Not yet tested:** windowed k=4 (N > 4) and k=5. The windowed converse is the open front; full
+  support is settled.
 
 ## Links
 

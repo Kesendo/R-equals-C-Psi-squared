@@ -1,6 +1,6 @@
 # PROOF F103: F87 Trichotomy Z₂³ Refinement at k=3 (N=4 Empirical Anchor)
 
-**Status:** Tier 1 derived. The 42:8 closed-form rule was found 2026-05-29 (diagonal-cell hardness rule, §6), and its two atomic sub-rules were then unified and half-derived as a single criterion (§7): a diagonal-cell pair is soft iff H's hopping graph is bipartite in the dephasing letter's eigenbasis. The direction bipartite ⟹ soft is derived (Π followed by a chiral sublattice K); the converse non-bipartite ⟹ hard is verified bit-exact (N=4 all three letters, N=5).
+**Status:** Tier 1 derived. The 42:8 closed-form rule was found 2026-05-29 (diagonal-cell hardness rule, §6), and its two atomic sub-rules were then unified into a single criterion (§7): a diagonal-cell pair is soft iff H's hopping graph is bipartite in the dephasing letter's eigenbasis. The direction bipartite ⟹ soft is derived (Π followed by a chiral sublattice K). The converse non-bipartite ⟹ hard **closes at full support** (§7.4, 2026-05-30: at k=N a Mixed+Mixed pair has only two flip generators, which always admit the chiral K, settling F111's blocked "Mixed+Mixed = soft" modulo M) and **stays verified-not-derived in the windowed regime** (k<N, all three letters, N=4 and N=5).
 **Date:** 2026-05-24
 **Anchor:** N=4, k_body=3, 294 Z₂³-homogeneous + Y-par-homogeneous Pauli pairs (pair count is N-independent at fixed k; the empirical anchor is N=4)
 **Regenerate:** `simulations/f87_z2cubed_split_n4_k3.py` (~60s)
@@ -339,9 +339,42 @@ Proving that the odd cycle (or the lifted diagonal) forces this break, with no e
 some non-chiral similarity, is the same flavour of obstruction that F111's soft direction left
 open. The gain is that the question now has a sharp classical shape: it is exactly the claim
 that a non-bipartite hopping graph admits no spectrum-pairing symmetry commuting with the
-dephasing.
+dephasing. And §7.4 shows the converse is not monolithic: at full support it closes outright,
+and only the windowed regime stays open.
+
+### 7.4 Full support closes the soft direction (the flip-generator count)
+
+The bipartite test has a linear-algebra reading that makes one regime provable. In the dephasing
+basis a Pauli term acts as a single bit-flip mask (its off-diagonal X/Y positions), so H's hopping
+graph G_H is the Cayley graph of the set S of distinct edge masks {a ⊕ b : H[a,b] ≠ 0}. G_H is
+bipartite iff there is a **linear** functional φ: 𝔽₂^N → 𝔽₂ with φ(s) = 1 for every s ∈ S; then
+color(a) = φ(a) is a proper 2-colouring, and that φ is exactly the chiral K = diag((−1)^φ⁽ᵃ⁾) of
+§7.1. Such a φ exists iff S carries no odd 𝔽₂-relation.
+
+**At full support (k = N) the soft direction is derived, not merely verified.** A k-body template
+on an N-site chain with k = N places once, so each term contributes exactly one mask: a Mixed+Mixed
+pair (neither term a pure-D template, so both off-diagonal) gives **|S| ≤ 2**. Two nonzero vectors
+A₁, A₂ in 𝔽₂^N are either equal or independent (over 𝔽₂ the only nonzero scalar is 1), and in both
+cases the system φ(A₁) = φ(A₂) = 1 is consistent, so φ always exists. Hence every full-support
+Mixed+Mixed pair is bipartite, therefore soft (§7.1, modulo the F80 one-sidedness M = −2i(H⊗I)).
+This is **F111's blocked converse "Mixed+Mixed = soft", now closed** for the k = N = 4 cell it
+concerns (modulo M), and the chiral K is exhibited constructively as the separating functional φ.
+
+Measured ([`f87_flip_generators.py`](../../simulations/f87_flip_generators.py)): at full support
+max |S| = 2 and every Mixed+Mixed pair is bipartite, at both N = 3 (k = 3: 42 soft, 0 hard) and
+N = 4 (k = 4: 828 soft, 0 hard); the GF(2) "φ exists" test agrees with the graph 2-colouring on
+every pair (0 mismatches).
+
+**Where the odd cycle lives.** An odd cycle needs |S| ≥ 3 generators with an odd relation, and a
+third mask appears only when a term is placed at more than one **window**, i.e. when k < N. The
+contrast is sharpest at body count k = 3: at N = 3 it is full support (one window, |S| ≤ 2, all
+soft), while at N = 4 the sliding window gives |S| up to 4 and 16 hard pairs. So rule (b)'s odd
+cycle is a *windowed* phenomenon (k < N), not a property of the body count itself. The genuinely
+open part of §7.3 is therefore exactly the windowed regime; full support is settled.
 
 **Regenerate:** [`f87_42_8_bipartite_fullcell.py`](../../simulations/f87_42_8_bipartite_fullcell.py)
-(the criterion, all three letters, N=4 and N=5) and
+(the criterion, all three letters, N=4 and N=5),
 [`f87_bipartite_chiral_witness.py`](../../simulations/f87_bipartite_chiral_witness.py)
-(the three derivation links plus the optimal-pairing residual).
+(the three derivation links plus the optimal-pairing residual), and
+[`f87_flip_generators.py`](../../simulations/f87_flip_generators.py) (the flip-generator count,
+full support vs windows).
