@@ -5,7 +5,7 @@
 > experiments/, promoted to docs/ March 2026. See the
 > [Evidence Status table](../README.md) for the current summary.
 
-**Date:** 2026-02-09 (created), 2026-02-11 (restructured), 2026-05-30 (clear-cut corrections after an Opus-agent verification: gravity labels aligned to their now-fallen sources, §3 anomaly resolved, §7 agent-claims updated, small overclaim/citation fixes; coverage refresh vs the Confirmations registry still pending)
+**Date:** 2026-02-09 (created), 2026-02-11 (restructured), 2026-05-30 (clear-cut corrections after an Opus-agent verification: gravity labels aligned to their now-fallen sources, §3 anomaly resolved, §7 agent-claims updated, small overclaim/citation fixes; coverage pointer to the Confirmations registry; Absorption-Theorem row + Falsified-Predictions section added)
 **Depends on:** All experiment documents
 
 **Tier:** Mixed (Tier 1-4, labeled per prediction)
@@ -19,11 +19,13 @@
 
 This is the master catalog of every testable prediction the R=CΨ²
 framework has produced, organized by verification status: confirmed on
-hardware (4), computationally verified (52), anomalies under
-investigation (5), testable with current hardware (8), testable in
-principle (4), speculative (4), unverified agent claims (4), null
-results (1), and closed/reopened hypotheses (2). Each entry has a tier
-label, a falsification criterion, and a link to its source experiment.
+hardware (5, plus the 13-entry [Confirmations registry](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs)
+for the later F-arc), computationally verified (52), anomalies under
+investigation (5; the original anomaly since resolved as detuning), testable
+with current hardware (7), testable in principle (4), speculative (4),
+unverified agent claims (4), null results (1), falsified (2), and
+closed/reopened hypotheses (2). Each entry has a tier label, a
+falsification criterion, and a link to its source experiment.
 
 ---
 
@@ -37,10 +39,15 @@ label, a falsification criterion, and a link to its source experiment.
 | Generalized crossing equation | t*/T₂* = 0.94 (at r = 0.46) | t*/T₂* = 1.04 (11% deviation) | **Partially confirmed** | [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md) |
 | T₂* ≠ T₂ for free induction decay | T₂* < T₂ | T₂*/T₂ = 0.37 (factor 2.7×) | **CONFIRMED** | [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md) |
 | x³ + x = ½ is the r → 0 limit of crossing fraction | 0.858 (pure dephasing) | Consistent | **Algebraically confirmed** | [Universal Quantum Lifetime](../experiments/UNIVERSAL_QUANTUM_LIFETIME.md) |
+| Absorption Theorem ratio Re(λ)/(−2γ⟨n_XY⟩) | = 1 | 1.03 (3%, Q52; detuning oscillations, not cavity fringes) | **CONFIRMED** | [Absorption Theorem](ANALYTICAL_FORMULAS.md#at), [proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
 
 **Hardware:** ibm_torino, T₁ = 221 μs, T₂(echo) = 298 μs, T₂*(FID) = 110 μs.
 
 **Supporting evidence:** 24,073 historical calibration records (181 days, 133 qubits) validate the theory curve C_min(r). 10.1% of snapshots below crossing threshold, 84% of qubits cross at least once, 12 qubits cross almost every day.
+
+**The Absorption Theorem** Re(λ) = −2γ⟨n_XY⟩ (the last row above) is Tier-1 **proven** ([PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md)) and verified on 1,342 modes (CV = 0); the 1.03 ratio is its IBM confirmation. It also falsifies the old "E = mγ²" guess: the decay law is **linear** in γ, not quadratic (see [Falsified Predictions](#8b-falsified-predictions) below).
+
+**For the current, authoritative list of hardware-confirmed predictions, see the Confirmations registry** (`fw.Confirmations` / [ConfirmationsRegistry.cs](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs)): 13 entries as of 2026-05 (ibm_marrakesh + ibm_kingston, covering the later F1-F114 arc , palindrome trichotomy, F25 cusp trajectory, F57 K_dwell γ-invariance, F83/F95, block-CΨ saturation, and more). Section 1 here is the early (2026-02, ibm_torino) set; the registry is the live record and is disjoint from §1.
 
 ---
 
@@ -226,6 +233,17 @@ These claims may be correct. They may also be artifacts of the agent's training 
 
 ---
 
+## 8b. Falsified Predictions
+
+**Tier: 2, Predictions the framework made and then refuted by its own mathematics or hardware.**
+
+| Prediction | Why falsified | Correct result | Source |
+|------------|---------------|----------------|--------|
+| Crossing taxonomy is noise-dependent | It is noise-**independent**: Type A/B/C identical under σ_x, σ_y, σ_z | See §2 "crossing taxonomy noise-robust" | [Noise Robustness](../experiments/NOISE_ROBUSTNESS.md) |
+| E = mγ² (decay energy quadratic in γ) | The decay law is **linear** in γ, not quadratic | Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩ (linear; verified on 1,342 modes, CV = 0; IBM ratio 1.03) | [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md) |
+
+---
+
 ## 9. Closed Hypotheses (J=0) and Reopened (J>0)
 
 **Tier: 2, Computationally verified closure for J=0**
@@ -262,7 +280,7 @@ These claims may be correct. They may also be artifacts of the agent's training 
 
 | Tier | Count | Examples |
 |------|-------|---------|
-| **Confirmed on hardware** | 5 | ¼ crossing, T₂*/T₂ ratio, crossing equation, x³+x=½, Absorption Theorem ratio 1.03 on IBM (3%) |
+| **Confirmed on hardware** | 5 here (early ibm_torino, §1) + **13 in the [Confirmations registry](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs)** (F-arc, Marrakesh/Kingston 2026-04/05, disjoint from §1) | §1: ¼ crossing, T₂*/T₂, crossing eqn, x³+x=½, Absorption ratio 1.03. Registry: palindrome trichotomy, F25 cusp, F57 K_dwell, F83/F95, block-CΨ saturation, ... |
 | **Proven (analytical)** | 1 | Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩, verified on 1,342 modes, CV=0 |
 | **Computationally verified** | 52 | gamma*t_cross, theta trajectory, bifurcation, operator feedback, Psi_int, noise robustness, N-scaling barrier, W vs GHZ, Type A at N>2, subsystem crossing, product state C=0, GHZ pair l1=0, crossing locality, eigenstate immunity, dynamic crossing generation, dephasing selection, basis dependence, ξ linearity (Markovian), ξ curvature (non-Markovian), coherence-purity bound, QKD basis forensics (R(θ_E) closed form), Conc=1-f, azimuthal symmetry, cot(θ_E) degeneracy breaking, Eve σ_z ≈ dephasing, Bell-state independence, noise-vs-Eve discrimination, MI/Corr θ-blind, bridge detects at stealth, ξ-curvature null, ratio invertible under noise, θ_stealth deterministic, stealth-as-signal, no-signalling rho_A unchanged, CΨ drops to ¼ under remote measurement, CΨ regime change invisible to subsystem, K γ-invariant factorization, K-ratio state-dependent, interval shift no-threshold, product-state local clock, Bell+ no local clock, α<30° no crossing, crossing time shift encodes 1 bit, 21 pairs per bit at σ=1, reservoir flow disruption mechanism, coupling accelerates local decay, measurement damage timing-dependent, no energy threshold, α_crit=30° exact, product state Hamiltonian pumping, eigenstate CΨ_max=0, critical J/γ ratio |
 | **Anomaly (real, cause unknown)** | 5 | Excess coherence, directionality, rising trend, boundary correlation, shadow |
