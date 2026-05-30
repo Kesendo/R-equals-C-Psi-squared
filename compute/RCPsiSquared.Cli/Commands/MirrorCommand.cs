@@ -88,14 +88,19 @@ public static class MirrorCommand
         Console.WriteLine();
         if (!noSpectrum)
         {
-            Console.WriteLine($"Spectrum (slowest {top} nonzero modes, rate + per-channel difference portfolio):");
-            var seen = new HashSet<string>();
-            foreach (var m in sys.Spectrum.Modes.Where(m => m.ActualDecayRate > 1e-9).OrderBy(m => m.ActualDecayRate))
+            Console.WriteLine($"Spectrum (slowest {top} nonzero modes, rate + angle theta=arctan(omega/rate) (deg) + per-channel difference portfolio):");
+            foreach (var grp in sys.Spectrum.Modes
+                         .Where(m => m.ActualDecayRate > 1e-9)
+                         .GroupBy(m => m.ActualDecayRate.ToString("0.000000", inv))
+                         .OrderBy(g => g.First().ActualDecayRate)
+                         .Take(top))
             {
-                var key = m.ActualDecayRate.ToString("0.000000", inv);
-                if (!seen.Add(key)) continue;
-                Console.WriteLine($"  rate {m.ActualDecayRate.ToString("0.0000", inv),9}   {Portfolio(m, inv)}");
-                if (seen.Count >= top) break;
+                // A degenerate rate can hold modes at different angles (some rotate, some do
+                // not); show the most-rotating one, so the slowest line matches the Rotation
+                // voice's gap reading (which takes max|omega| over the modes at the gap).
+                var rep = grp.OrderByDescending(m => Math.Abs(m.OscillationFrequency)).First();
+                double theta = Math.Atan2(Math.Abs(rep.OscillationFrequency), rep.ActualDecayRate) * 180.0 / Math.PI;
+                Console.WriteLine($"  rate {rep.ActualDecayRate.ToString("0.0000", inv),9}   angle {theta.ToString("0.0", inv),5} deg   {Portfolio(rep, inv)}");
             }
             Console.WriteLine();
             Console.WriteLine($"F1 palindrome (rate r pairs with 2*sigma - r): holds = {sys.PalindromeHolds}");
