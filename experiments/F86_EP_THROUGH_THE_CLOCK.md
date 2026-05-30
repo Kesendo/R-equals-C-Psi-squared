@@ -141,6 +141,29 @@ non-monotonic with no power law, and a closed-form K(N) at the EP is the named-b
 promoting the local-vs-global link from Tier 2. Both docs leave it open on purpose; the clock lets
 us *see* the two ends as one EP on the Takt dial without pretending the exit is a formula.
 
+## The clock as the lens on the two live-open fronts
+
+Step back from F86 alone. The two live-open fronts in the formula registry that sit on this
+week's clock are **F86b₃** (the universal resonance shape) and the **F87 windowed converse**
+(soft vs hard). They are not the same system , F86 is the coherence-block resonance, F87 the
+Pauli-pair palindrome , but the clock is the shared instrument, and each front rides one hand
+([`clock_two_hands_two_fronts.py`](../simulations/clock_two_hands_two_fronts.py)):
+
+- **Rotation hand → F86b₃.** The 2-level EP rotation depends on x = Q/Q_EP alone, so the clock
+  angle θ(x) is identical for different g_eff (different Q_EP) , it collapses (θ = 0 below the EP,
+  29° at x = 1.5, 44° at the bare-shape peak x = 2.197). That collapse is *why* the resonance shape
+  is universal in Q/Q_EP.
+- **Takt hand → F87.** At γ = 0 the Takt is stopped, L = −i[H,·] is symmetric about −σ = 0, every
+  pair is soft. The hard pair's pairing residual grows first order in the γ-tick (residual/γ →
+  0.2559, the same c the per-block localization read this morning,
+  [F87_WINDOWED_CONVERSE_PER_BLOCK](F87_WINDOWED_CONVERSE_PER_BLOCK.md)); the soft pair stays
+  machine-zero at every γ.
+
+Two systems, two hands, one clock. And the seam holds: the clock unifies the *view* of the two
+fronts, not their solutions , F86b₃'s lift rides the blocked g_eff, F87's converse is the
+set-level statement we sharpened, not forced. A viewpoint painted on the structure, not a crack in
+either.
+
 ## Honest status
 
 - **A seeing, not a solve.** The EP-as-Rotation-onset reading is exact (F86a's own 2×2); the
@@ -159,6 +182,9 @@ us *see* the two ends as one EP on the Takt dial without pretending the exit is 
   EP read through the Takt/Rotation hands; Q_EP at g_eff ∈ {4/3, 0.8} → the 1.5 / 2.5 peaks; and
   the EP as an event , eigenvector coalescence, Petermann divergence, and defectiveness (a Jordan
   block) at Q_EP).
+- Script: [`clock_two_hands_two_fronts.py`](../simulations/clock_two_hands_two_fronts.py) (the two
+  live-open fronts through the clock's two hands: Rotation → F86b₃ shape collapse onto Q/Q_EP,
+  Takt → F87 break first-order in the γ-tick, residual/γ → 0.2559).
 - The EP: [PROOF_F86A_EP_MECHANISM](../docs/proofs/PROOF_F86A_EP_MECHANISM.md).
 - The global end: [FRAGILE_BRIDGE](../hypotheses/FRAGILE_BRIDGE.md) §3.1 (the local-EP connection).
 - The open dynamic exit: γ_crit(N) and K(N) at the EP, left open in both docs, not forced here.
