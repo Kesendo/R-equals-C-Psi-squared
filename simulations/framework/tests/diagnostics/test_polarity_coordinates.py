@@ -86,23 +86,56 @@ def test_hermitian_balance_plus_minus_half(name, terms):
         f"plus = {plus_norm_sq}, minus = {minus_norm_sq}"
 
 
-def test_t1_cooling_breaks_plus_minus_balance():
-    """T1 cooling-only (gamma_t1 > 0, gamma_pump = 0) is expected to break the
-    Hermitian-H balance: ||M_plus||^2 != ||M_minus||^2 measurably (F81 violation
-    per F84's formula). If this test FAILS (asymmetry < 1e-3), DO NOT silently
-    adjust the threshold; the failure is the discovery and Task D documents it."""
+def test_t1_does_not_break_balance_for_bilinear_H():
+    """F113: a purely BILINEAR Hermitian H (XX, YY, ZZ — all of Heisenberg) carries no
+    single-site Z-drive, so T1 amplitude damping does NOT break the ±1/2 balance:
+    asymmetry = 0 bit-exact.
+
+    This replaces an earlier red test that encoded the pre-F113 working hypothesis
+    ("T1 breaks the balance for any Hermitian H"). F113 refuted it: the break is
+    selective to single-site Z-drives (see experiments/F113_BREAK_MAGNITUDE_FORMULA.md
+    and test_t1_breaks_balance_for_z_drive_matches_f113 below). The asymmetry = 0 here
+    is the discovery, now encoded as the expected value rather than left as a failure."""
     chain = fw.ChainSystem(N=3, gamma_0=0.05)
     result = fw.polarity_coordinates(
         chain, [('X', 'X'), ('Y', 'Y'), ('Z', 'Z')],
-        gamma_z=0.05, gamma_t1=0.1, gamma_pump=0.0,
-        strict=False  # F81 is no longer exact under T1
-    )
-    plus = result['norm_sq']['M_plus_half']
-    minus = result['norm_sq']['M_minus_half']
-    asymmetry = abs(plus - minus)
-    assert asymmetry > 1e-3, \
-        f"T1 cooling expected to break +/-1/2 balance; asymmetry = {asymmetry}, " \
-        f"plus = {plus}, minus = {minus}"
+        gamma_z=0.05, gamma_t1=0.1, gamma_pump=0.0, strict=False)
+    asymmetry = abs(result['norm_sq']['M_plus_half'] - result['norm_sq']['M_minus_half'])
+    assert asymmetry < 1e-10, \
+        f"bilinear H + T1 must NOT break the balance (F113 scope); asymmetry = {asymmetry}"
+
+
+def test_t1_breaks_balance_for_z_drive_matches_f113():
+    """F113 closed form: a single-site Z-drive H = Σ_l (ω/2)·Z_l crossed with same-site
+    amplitude damping σ⁻ DOES break the balance, by exactly
+
+        asymmetry = ‖M_plus‖² − ‖M_minus‖² = (4^N / 2) · Σ_l ω_l · (γ_pump − γ_T1,l).
+
+    Only the Z-drive contributes ([Z, σ⁻] ∝ σ⁻ is non-Hermitian, the F112-breaking
+    structure); bilinears and X/Y-drives give 0. Verified bit-exact at N=2,3,4 in
+    experiments/F113_BREAK_MAGNITUDE_FORMULA.md."""
+    N = 3
+    I = np.eye(2, dtype=complex)
+    Z = np.array([[1, 0], [0, -1]], dtype=complex)
+    sminus = np.array([[0, 1], [0, 0]], dtype=complex)  # standard σ⁻ (lowering)
+
+    def site(op, l):
+        mats = [I] * N
+        mats[l] = op
+        out = mats[0]
+        for m in mats[1:]:
+            out = np.kron(out, m)
+        return out
+
+    omega, gamma_t1 = 0.13, 0.1
+    H = sum((omega / 2.0) * site(Z, l) for l in range(N))
+    c_ops = [site(sminus, l) for l in range(N)]
+    gammas = [gamma_t1] * N
+    result = fw.polarity_coordinates_from_hc(H, c_ops, gammas, N)
+    predicted = (4 ** N / 2.0) * sum(omega * (0.0 - gamma_t1) for _ in range(N))
+    assert abs(result['asymmetry'] - predicted) < 1e-9, \
+        f"F113 closed form mismatch: measured {result['asymmetry']}, predicted {predicted}"
+    assert abs(result['asymmetry']) > 1e-3, "Z-drive + T1 must measurably break the balance"
 
 
 def test_polarity_coordinates_from_hc_matches_polarity_coordinates_z_only():
