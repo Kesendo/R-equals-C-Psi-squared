@@ -90,12 +90,12 @@ public class RegistryWiringAuditTests
             "SigmaZeroCommutatorNormClaim",
             "TwoLevelEpModel",
 
-            // Ungrouped (triaged by the owning task when reached): ChiralKClaim is a chiral
-            // K-symmetry foundation; OpenQuestion is a generic open-question holder (confirm
-            // whether it is meant to be a registered singleton at all). XGlobalEigenstateMirror
+            // Ungrouped (triaged by the owning task when reached): OpenQuestion is a generic
+            // open-question holder (confirm whether it is meant to be a registered singleton at
+            // all). ChiralKClaim was wired into the factory 2026-05-30 as a sibling root, bringing
+            // the chiral / sublattice second mirror into the Object Manager. XGlobalEigenstateMirror
             // was registered post-Welle-7 (2026-05-26) as part of the /simplify cleanup to
             // materialize the BitB ↔ BitA twin edge with ZGlobalEigenstateMirrorBitAInheritance.
-            "ChiralKClaim",
             "OpenQuestion",
 
             // Structural (stay deferred by design, not a wiring gap): F87CanonicalWitness is a

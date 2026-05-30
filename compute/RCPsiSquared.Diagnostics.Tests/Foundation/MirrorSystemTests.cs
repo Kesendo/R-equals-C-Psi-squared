@@ -52,6 +52,16 @@ public class MirrorSystemTests
         return H;
     }
 
+    // XY (hopping) chain: H = J * sum_l (X_lX_{l+1} + Y_lY_{l+1}). Bipartite on a chain, so it
+    // admits the chiral K (KHK = -H); adding ZZ (-> Heisenberg) lifts the diagonal and breaks K.
+    private static Matrix<Complex> XYChain(int n, double J)
+    {
+        var H = Matrix<Complex>.Build.Dense(1 << n, 1 << n);
+        for (int l = 0; l < n - 1; l++)
+            H += (Bond(n, l, X2, X2) + Bond(n, l, Y2, Y2)).Multiply((Complex)J);
+        return H;
+    }
+
     [Fact]
     public void MirrorSystem_HoldsSpectrumAndPalindromeAsLiveProperties()
     {
@@ -312,5 +322,29 @@ public class MirrorSystemTests
             new[] { new ChannelRate("q0", 0.05), new ChannelRate("q1", 0.20) });
 
         Assert.IsType<InspectablePayload.None>(((IInspectable)sys).Payload);
+    }
+
+    [Fact]
+    public void MirrorSystem_Inspectable_SecondMirror_ChiralKExistsForXY()
+    {
+        // XY hopping is bipartite on a chain: the second mirror (chiral K, KHK = −H) is present
+        // alongside the Π palindrome.
+        var sys = new MirrorSystem(3, XYChain(3, 1.0),
+            new[] { new ChannelRate("q0", 0.05), new ChannelRate("q1", 0.05), new ChannelRate("q2", 0.05) });
+
+        var node = ((IInspectable)sys).Walk().First(n => n.DisplayName == "Second mirror (chiral K)");
+        Assert.Contains("chiral K exists", node.Summary);
+    }
+
+    [Fact]
+    public void MirrorSystem_Inspectable_SecondMirror_NoChiralKForHeisenberg()
+    {
+        // The Heisenberg ZZ term commutes with K (a diagonal-lift), so the chiral K is broken:
+        // only the Π palindrome survives. This is the XXZ axis the slowest mode walks.
+        var sys = new MirrorSystem(3, HeisenbergChain(3, 1.0),
+            new[] { new ChannelRate("q0", 0.05), new ChannelRate("q1", 0.05), new ChannelRate("q2", 0.05) });
+
+        var node = ((IInspectable)sys).Walk().First(n => n.DisplayName == "Second mirror (chiral K)");
+        Assert.Contains("no chiral K", node.Summary);
     }
 }

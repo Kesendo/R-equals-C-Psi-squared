@@ -37,6 +37,11 @@ public static class KnowledgeRegistryFactory
         return new ClaimRegistryBuilder()
             // Foundations
             .RegisterF1Family(defaultChain)
+            // Chiral K (sibling root to F1 / PolynomialFoundation): K = diag((−1)^ℓ), KHK = −H,
+            // AZ class BDI, spectrum inversion E_{N+1−k} = −E_k. Acts at the Hamiltonian level;
+            // F1 at the Liouvillian level; neither derives from the other. Wired 2026-05-30 to
+            // bring the second mirror into the Object Manager (inspect --claim ChiralKClaim).
+            .RegisterChiralK()
             .RegisterF71Family(N: defaultChain.N)
             .RegisterPi2Family()
             .RegisterF86Main(gammaZero: defaultChain.GammaZero, gEff: gEff)

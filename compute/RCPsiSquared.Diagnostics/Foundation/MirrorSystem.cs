@@ -276,6 +276,7 @@ public sealed class MirrorSystem : IInspectable
         {
             yield return SpectrumNode();
             yield return PalindromeNode();
+            yield return ChiralMirrorNode();
             yield return ClockNode();
         }
     }
@@ -326,6 +327,27 @@ public sealed class MirrorSystem : IInspectable
         return new InspectableNode("F1 palindrome",
             summary: $"holds = {PalindromeHolds}; rate r pairs with 2σ − r (2σ = {(2.0 * TotalDephasing).ToString("0.####", Inv)})",
             children: children);
+    }
+
+    /// <summary>The SECOND mirror: does H admit the chiral sublattice K (KHK = −H), the AZ
+    /// class BDI symmetry K = ⊗_{odd i} Z_i, distinct from the Π palindrome above? Read live via
+    /// <see cref="ChiralK.ClassifyHamiltonian"/>. For the chain this alternating-site K is the
+    /// bipartition (XY admits it; the Heisenberg/Ising ZZ term lifts the diagonal and breaks it,
+    /// the same XXZ axis the slowest mode walks); on star/ring it tests the same alternating-site
+    /// K, not a general 2-colouring (use the BipartiteChirality primitive for that).</summary>
+    private InspectableNode ChiralMirrorNode()
+    {
+        string verdict = ChiralK.ClassifyHamiltonian(Hamiltonian, N) switch
+        {
+            ChiralK.Classification.KOdd => "KHK = −H: chiral K exists (AZ class BDI; spectral inversion E ↔ −E) , both mirrors present",
+            ChiralK.Classification.KEven => "KHK = +H: K commutes with H (no inversion; a diagonal/Ising H)",
+            _ => "no chiral K (mixed: a term commutes, e.g. the ZZ diagonal-lift) , only the Π palindrome",
+        };
+        return new InspectableNode("Second mirror (chiral K)", summary: verdict, children: new IInspectable[]
+        {
+            new InspectableNode("operator",
+                summary: "K = ⊗_{odd i} Z_i = diag((−1)^ℓ), the canonical alternating-site sublattice gauge; tests KHK = ±H. This is the chain's bipartition; on star/ring it is the same alternating-site K, not a general 2-colouring."),
+        });
     }
 
     private InspectableNode ClockNode()
