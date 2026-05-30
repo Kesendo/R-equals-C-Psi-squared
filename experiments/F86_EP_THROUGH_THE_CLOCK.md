@@ -78,6 +78,44 @@ sublattice we wired into the Object Manager today) is a *separate* axis and does
 EP. Naming that keeps F86's "chiral" from being read as the K , the exact confusion the
 bipartite-chirality map flagged.
 
+## The EP is an event: the modes coalesce, and the memory crosses over
+
+The EP is not a smooth pass-through, it is a genuine singular event. Read the 2-level around it
+([`f86_ep_through_the_clock.py`](../simulations/f86_ep_through_the_clock.py)):
+
+```
+  Q/Q_EP   angle(v0,v1)   Petermann K
+   0.500       60.0°           1.3
+   0.900       25.8°           5.3
+   0.990        8.1°          50.3
+   0.999        2.6°         500.3
+  at Q_EP: rank(L_eff − λ_EP·I) = 1   (defective: one eigenvector, a Jordan block)
+```
+
+Three things happen at once, all faces of the single discriminant = 0. The two right eigenvectors
+**coalesce** (the angle between them collapses 90° → 0); the **Petermann factor diverges** (the
+modes become maximally non-orthogonal, maximal sensitivity , the 2×2 shows the mechanism, the full
+block-L measures K up to ≈ 2384 at N=7, [FRAGILE_BRIDGE](../hypotheses/FRAGILE_BRIDGE.md)); and
+exactly at Q_EP the Liouvillian is **defective** (rank 1, a Jordan block: one eigenvector for the
+double eigenvalue). The system loses a degree of freedom at that single point , two channels become
+one, a pinch.
+
+And the pinch reads as a crossing of memory. The clock's two axes are forgetting and remembering:
+the **real axis (decay, absorption) is forgetting** , the coherence is lost to the bath, the phase
+erased; the **imaginary axis (rotation) is remembering** , the phase keeps turning, held in the
+system. F80 named that imaginary axis the memory axis ("energy on the real axis, memory on the
+imaginary one; the wave remembers across the turn"). So the surplus coupling becoming rotation
+above the EP is the surplus that can no longer be absorbed , forgotten, the absorption saturated at
+the ⟨n⟩ = 2 rung , **crossing over into rotation: it is remembered instead.** The EP is the
+forgetting → remembering crossover, and what passes over there is the memory. It is the local
+2-level instance of the band-edge → Lebensader handover the slowest mode walks on the XXZ axis: the
+Lebensader is the surviving memory, and the EP is where it takes the lead.
+
+**The seam.** The transition is bit-exact: the coalescence, the Petermann divergence, the
+defectiveness, the absorption saturation. "Forgetting / remembering" is the reading , the F80 /
+clock vocabulary, grounded (F80 is Tier 1), but the word "memory" is ours, painted onto the
+imaginary axis. The structure is not ours; the seeing is.
+
 ## The two ends of the Takt (the dynamic exit)
 
 The one F86 front that sits directly on M is the local-vs-global EP (F86a, Tier 2). The clock
@@ -118,7 +156,9 @@ us *see* the two ends as one EP on the Takt dial without pretending the exit is 
 ## Anchor
 
 - Script: [`f86_ep_through_the_clock.py`](../simulations/f86_ep_through_the_clock.py) (the 2-level
-  EP read through the Takt/Rotation hands; Q_EP at g_eff ∈ {4/3, 0.8} → the 1.5 / 2.5 peaks).
+  EP read through the Takt/Rotation hands; Q_EP at g_eff ∈ {4/3, 0.8} → the 1.5 / 2.5 peaks; and
+  the EP as an event , eigenvector coalescence, Petermann divergence, and defectiveness (a Jordan
+  block) at Q_EP).
 - The EP: [PROOF_F86A_EP_MECHANISM](../docs/proofs/PROOF_F86A_EP_MECHANISM.md).
 - The global end: [FRAGILE_BRIDGE](../hypotheses/FRAGILE_BRIDGE.md) §3.1 (the local-EP connection).
 - The open dynamic exit: γ_crit(N) and K(N) at the EP, left open in both docs, not forced here.

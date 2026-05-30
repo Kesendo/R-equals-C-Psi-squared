@@ -37,6 +37,37 @@ def slow_mode_clock(Q, g_eff, k=K, g0=GAMMA0):
     return decay[i], omega[i], theta
 
 
+def ep_event(g_eff, k=K, g0=GAMMA0):
+    """The EP as an EVENT, not a smooth pass-through. As Q -> Q_EP the two right eigenvectors
+    coalesce (the angle between them collapses 90deg -> 0) and the Petermann factor K -> infinity
+    (the modes become maximally non-orthogonal: maximal sensitivity). EXACTLY at Q_EP the matrix is
+    DEFECTIVE: L_eff - lambda_EP*I has rank 1, one eigenvector for the double eigenvalue
+    lambda_EP = -4*gamma0*k, a Jordan block. The system loses a degree of freedom at that point."""
+    q_ep = 2.0 / g_eff
+    lam_ep = -4.0 * g0 * k
+
+    def Leff(Q):
+        J = Q * g0
+        return np.array([[-2 * g0 * (2 * k - 1), 1j * J * g_eff],
+                         [1j * J * g_eff,        -2 * g0 * (2 * k + 1)]], dtype=complex)
+
+    print(f"  EP as an event (the modes coalesce):")
+    print(f"  {'Q/Q_EP':>7}  {'angle(v0,v1)':>13}  {'Petermann K':>12}")
+    for frac in [0.5, 0.9, 0.99, 0.999]:
+        w, V = np.linalg.eig(Leff(frac * q_ep))      # columns of V: unit right eigenvectors
+        v0, v1 = V[:, 0], V[:, 1]
+        cosang = abs(np.vdot(v0, v1)) / (np.linalg.norm(v0) * np.linalg.norm(v1))
+        angle = np.degrees(np.arccos(min(cosang, 1.0)))
+        Vinv = np.linalg.inv(V)                       # rows: the biorthonormal left eigenvectors
+        petermann = max(float(np.linalg.norm(Vinv[n, :]) ** 2) for n in range(2))
+        print(f"  {frac:7.3f}  {angle:12.3f}°  {petermann:12.4g}")
+
+    M = Leff(q_ep) - lam_ep * np.eye(2)
+    rank = int(np.linalg.matrix_rank(M, tol=1e-9))
+    print(f"  at Q_EP: rank(L_eff - λ_EP·I) = {rank}  "
+          f"(1 = DEFECTIVE: one eigenvector for the double λ_EP, a Jordan block)")
+
+
 def main():
     for g_eff in [4 / 3, 0.8]:                  # Q_EP = 1.5 (c=2 peak) and 2.5 (Endpoint orbit)
         q_ep = 2.0 / g_eff
@@ -51,6 +82,7 @@ def main():
             else:
                 mark = ""
             print(f"  {Q:7.3f}  {decay:10.3f}  {omega:8.3f}  {theta:6.1f}{mark}")
+        ep_event(g_eff)
 
 
 if __name__ == "__main__":
