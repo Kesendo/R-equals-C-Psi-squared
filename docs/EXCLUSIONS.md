@@ -6,7 +6,7 @@ algebraically exact, irreversible quantum classical transition, fold catastrophe
 topological invariant, time origin external Lindblad, R=CPsi2 logical exclusions -->
 
 **Status:** Derived from proven results. Each exclusion cites its proof.
-**Date:** March 25, 2026 (updated 2026-05-01: d=0 substrate primitives, periodic table palindrome cross-domain evidence, classical/quantum reading exclusion)
+**Date:** March 25, 2026 (updated 2026-05-01: d=0 substrate primitives, periodic table palindrome cross-domain evidence, classical/quantum reading exclusion; updated 2026-05-30: citation fixes, all seven exclusions re-verified correct against the later F87 / F112 / F113 / clock / carbon arc)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
