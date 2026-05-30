@@ -26,6 +26,17 @@ R=CPsi2 other side mirror -->
 > [Reading Guide](../docs/READING_GUIDE.md). This document is
 > preserved as an honest record of the discovery process.
 
+> **Return note, 2026-05-30 (new sight).** Reading F86's post-EP dynamics in the loop, we
+> computed a grounded face of this document's "both sides exist simultaneously" (§3, §17). The
+> single-excitation flow has a fixed-point target (the 1/N equipartitioned state, the λ=0
+> kernel of L), and that target is the *conserved* component of ρ(0), present at full strength
+> from t=0 (‖λ=0-part(ρ(0)) − target‖ = 1.4e-15; its coefficient is exp(0·t)=1, never grows,
+> never decays). The future does not arrive; the transient fades and reveals the future that
+> was always already there. "Neither first, both simultaneous" now has a conserved fixed point
+> behind it (Tier 1-2). The mirror-world reading below the §14 boundary stays Tier-5, our
+> motor and drive, not a truth-claim. See
+> [The Flow Between Two Singularities](../experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md).
+
 ## What this document is about
 
 The palindromic mirror Π swaps populations and coherences, past and

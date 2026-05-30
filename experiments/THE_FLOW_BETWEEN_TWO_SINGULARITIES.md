@@ -9,6 +9,7 @@ later session can pick it up without re-deriving, and resists the temptation to 
 guessing while the numbers are in front of us but not yet readable.
 
 **Probes:** [`the_flow_endpoints.py`](../simulations/the_flow_endpoints.py),
+[`at_the_target.py`](../simulations/at_the_target.py),
 [`post_ep_dynamics_4d.py`](../simulations/post_ep_dynamics_4d.py),
 [`f86_ep_through_the_clock.py`](../simulations/f86_ep_through_the_clock.py),
 [`after_the_collapse.py`](../simulations/after_the_collapse.py),
@@ -63,6 +64,63 @@ sits at the two singular *endpoints* (the EP's defectiveness; the target's kerne
 un-closed-form dynamics is the *middle*. This reframes the long-standing "F86 has no closed
 form" not as a gap but as a location: the closed form ends where the loop begins.
 
+## At the target: a point, and then?
+
+The target is one point. What happens there, and how it goes on, is computed in
+[`at_the_target.py`](../simulations/at_the_target.py).
+
+**It is a sink, reached only asymptotically.** Every non-kernel mode of L has Re λ < 0, so
+all nearby states flow in (max non-kernel Re λ = −2 at N=4, Q=2). But the approach is
+exponential: |⟨n⟩ − 1/N| halves at a fixed rate and reaches 0 only in the limit. The point
+is approached forever, never landed in finite time.
+
+**The future is already present, and conserved.** Decompose ρ(0) (a localized excitation)
+in L's eigenmodes: the λ=0 component already equals the 1/N target, bit-exact (‖difference‖
+= 1.4e-15), at t=0. Its coefficient is exp(0·t) = 1, so it never grows and never decays. The
+target is not built up over time; it is the invariant part of the state, present from the
+start at full strength. What changes is everything else: the non-kernel (transient) part,
+norm 0.866 at t=0, fades to zero and *reveals* the target that was always already there. The
+loop does not carry us to the target; it dissolves the present to expose it.
+
+**How it goes on: the point's role flips across the mirror.** The 1/N point stays the fixed
+point for *every* net dephasing Σγ (`L · vec(1/N) = 0` throughout); only its stability
+changes:
+
+| Σγ | max non-kernel Re λ | role |
+|---|---|---|
+| > 0 | < 0 | **sink** (the flow falls in; the end of history) |
+| = 0 | = 0 | **neutral** (eternal oscillation; the mirror) |
+| < 0 | > 0 | **source** (the flow is pushed away; the Hopf, runaway) |
+
+The point does not move; the arrows around it invert. And there, at the dynamical layer,
+Tom's {−, 0, +} reappears: not as the operator polarity triple (it did not fit there), but
+as the *sign of the spectral gap*, the three fates of the fixed point (sink −, mirror 0,
+source +) across the Σγ axis of [ZERO_IS_THE_MIRROR](../hypotheses/ZERO_IS_THE_MIRROR.md).
+
+## Tier-5 reading: the target as the future (our motor)
+
+*Below this point is interpretation, in the spirit of [THE_OTHER_SIDE](../hypotheses/THE_OTHER_SIDE.md)
+§14: the structure above is computed (Tier 1-2); the reading here is Tier-5. We keep it
+because, as Tom put it on 2026-05-30, it is our motor and drive, not a truth-claim.*
+
+The target has the shape of the future as we know it: a point you approach but never reach
+(the moment you would arrive, it is the present, not the future), the thing the arrow of
+time points at (the sink). And the computation says something stranger and lovelier, the
+future already exists. It is the conserved λ=0 mode, present in ρ(0) at full strength from
+t=0, invariant. We do not travel to it; the present fades and uncovers it. In the timeless
+spectrum (the Compute engine) all modes, including the future, are there at once; the loop
+(Propagate) is only the unfolding.
+
+This is the computed face of the oldest wild thing in the project: "Both sides exist
+simultaneously", R = CΨ² and Ψ = √(R/C), "neither first, both simultaneous"
+([THE_OTHER_SIDE](../hypotheses/THE_OTHER_SIDE.md) §3, §17). What was poetry with eigenvalues
+is now a conserved fixed point we can touch. Two honest seams stay at the label, not the
+structure: today's "future" is the *decided* equilibrium (the kernel), where THE_OTHER_SIDE
+called the future the *undecided* coherences, opposite labels but the same simultaneity; and
+the mirror-world reading itself stays Tier-5, where that document drew its own line. We
+returned with new sight and the wild thing sharpened into something we could compute. We did
+not invent it; we learned to see the structure that was already there.
+
 ## What we do NOT yet understand (for future us)
 
 - Why two singularities, and why of *different* types (one defective, one simple)?
@@ -88,15 +146,17 @@ form" not as a gap but as a location: the closed form ends where the loop begins
   Π +i/0/−i content) and the state-level polarization (localized vs uniform) are the same
   structure seen from two sides is itself open. Pursue as a viewpoint; do not force a single
   three-point map.
-- The continuation past the target: sliding the net dephasing Σγ from Nγ₀ (target fades)
-  through 0 (eternal, the mirror) into gain (the Hopf, runaway), the memory's three fates,
-  is in [`memory_fate_across_the_takt.py`](../simulations/memory_fate_across_the_takt.py) and
-  the [FRAGILE_BRIDGE](../hypotheses/FRAGILE_BRIDGE.md). The local EP only points there.
+- The continuation past the target is now partly seen as the role-flip above
+  (sink/neutral/source); the memory's three fates along Σγ are in
+  [`memory_fate_across_the_takt.py`](../simulations/memory_fate_across_the_takt.py) and the
+  [FRAGILE_BRIDGE](../hypotheses/FRAGILE_BRIDGE.md). What stays open is whether the three
+  fates and the EP's birth are one structure.
 
 ## For future us
 
-Start by re-running the five probes above. The verified facts are the two singularity types
-and the 1/N target. The open work is the *reading*: the polarity-0 / Σγ-mirror-0 seam, the
+Start by re-running the six probes above. The verified facts are the two singularity types,
+the 1/N target, the future-already-present (the conserved λ=0 mode), and the sink/neutral/source
+role-flip. The open work is the *reading*: the polarity-0 / Σγ-mirror-0 seam, the
 meaning of the journey, and whether the EP and the target are two faces of one structure or
 genuinely two. Seeing was enough for today; the grasp is the next session's.
 
