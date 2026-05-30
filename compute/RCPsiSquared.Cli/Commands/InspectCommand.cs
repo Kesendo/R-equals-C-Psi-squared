@@ -22,7 +22,8 @@ namespace RCPsiSquared.Cli.Commands;
 /// the L_eff Q-sweep view (3D / 4D structure with EVD per Q) under the root for free.
 /// Pass <c>--claim &lt;ClassName&gt;</c> instead of <c>--root</c> to render a single
 /// registered Claim from the typed-knowledge registry without instantiating any root
-/// knowledge base.
+/// knowledge base. Pass <c>--draw</c> to draw leaf payloads as ASCII art (vector bars,
+/// matrix heatmap, curve plot) under each node instead of only their shape tag.
 /// </summary>
 public static class InspectCommand
 {
@@ -71,7 +72,7 @@ public static class InspectCommand
         bool jsonOnly = p.HasFlag("json-only");
         if (!jsonOnly)
         {
-            Console.WriteLine(ConsoleTreeRenderer.Render(root, maxDepth));
+            Console.WriteLine(ConsoleTreeRenderer.Render(root, maxDepth, drawPayloads: p.HasFlag("draw")));
             wroteSomething = true;
         }
 
@@ -214,7 +215,7 @@ public static class InspectCommand
         bool jsonOnly = p.HasFlag("json-only");
         if (!jsonOnly)
         {
-            Console.WriteLine(ConsoleTreeRenderer.Render(claim, maxDepth));
+            Console.WriteLine(ConsoleTreeRenderer.Render(claim, maxDepth, drawPayloads: p.HasFlag("draw")));
             wroteSomething = true;
         }
         return wroteSomething ? 0 : 2;
