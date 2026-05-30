@@ -156,6 +156,12 @@ applied to the benzene/cyclobutadiene MO-basis Liouvillians; open follow-up.
    of inscribed N-gon vertices on a circle of radius 2β at centre α. The framework's
    `XyJordanWignerModes` uses the same cos(πk/(N+1)) dispersion at chain BC.
    Frost-cyclic and framework-OBC are two BC choices on the same algebraic structure.
+   **Answered 2026-05-30** ([FROST_CIRCLE_AS_THE_CLOCK_FACE](FROST_CIRCLE_AS_THE_CLOCK_FACE.md)):
+   one circle at two depths. The static Frost circle is the closed-system snapshot; the
+   open-system clock runs it, adding what the still picture cannot hold, the band-edge
+   π-coherence lifetime τ = 1/(2γ) and a coherent↔incoherent crossover Q* = J/γ (√2 at
+   N=3, growing with chain length). Benzene's longest-lived π-coherence beats at 2|β|, the
+   Frost radius itself; the open polyene chains beat at 2|β|·cos(π/(N+1)), the top π-MO.
 
 ---
 

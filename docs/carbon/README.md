@@ -125,6 +125,22 @@ No process tomography required.
 
 ---
 
+## Return visit 2026-05-30: the Frost circle is the clock face
+
+[FROST_CIRCLE_AS_THE_CLOCK_FACE](FROST_CIRCLE_AS_THE_CLOCK_FACE.md). The clock voices built
+on `MirrorSystem` (a radial hand for the decay, an angular hand for the frequency) read a
+conjugated molecule directly. The chemist's 1953 Frost-Musulin circle, the ring's π-MO
+energies as vertices on a circle of radius 2|β|, is the static face of that running clock.
+Reading benzene through it: the longest-lived π-coherence beats at 2|β|, the Frost radius
+itself, with lifetime τ = 1/(2γ); the open polyene chains beat at 2|β|·cos(π/(N+1)), the
+top π-MO (φ for butadiene, √3 for the five-carbon chain). The clock adds two open-system
+readings the still circle cannot hold: which coherence outlives the rest (the band edge)
+and for how long, and a coherent↔incoherent crossover Q* = J/γ (√2 at N=3, growing with
+chain length) below which the slowest π-coherence stops beating. This closes
+[BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md) open question 5.
+
+---
+
 ## Existing scattered material (pointers, not duplications)
 
 ### V-Effect ties carbon to boundary sectors
