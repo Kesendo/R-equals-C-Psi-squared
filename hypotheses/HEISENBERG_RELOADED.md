@@ -212,3 +212,34 @@ The math of Heisenberg is not derived at Level 1 and used at Level 0; it is deri
 ---
 
 *"Was wir schon wissen, der V-Effekt ermöglicht uns den Weg zwischen den Level, hingesehen oder gezoomt haben wir nie. Die Mathematik sagt uns, die Vererbung stimmt."*  Thomas Wicht, 2026-04-25
+
+---
+
+## Return, 2026-05-30: we walked the axis, and looked at the bridge
+
+Five weeks on, with the open-system clock now built on `MirrorSystem` (a radial decay hand
+and an angular frequency hand), two of this sketch's open threads moved.
+
+**We walked the both-parity-even axis (§3).** The {II, XX, YY, ZZ} family, with its
+SU(2)→Heisenberg / bipartite-axis→XXZ internal axis, is now something the clock can
+traverse. Dialing H = J(XX+YY) + Δ·ZZ under Z-dephasing
+([XXZ_AXIS_BANDEDGE_TO_LEBENSADER](../experiments/XXZ_AXIS_BANDEDGE_TO_LEBENSADER.md)), the
+slowest surviving mode hands the baton at a handover Δ*: below it the bright band-edge
+coherence (the charge / XY end, fast-beating, decay 2γ); above it the **Lebensader** (the
+spin / Ising end, I/Z-dominated with a small magnon admixture, non-rotating, sub-2γ). The
+two ends of this doc's own family are the two clocks of the carbon read-through, charge and
+spin, with the Heisenberg / SU(2) point sitting between them on the band-edge side.
+
+**We looked at the bridge.** §8 and the closing line above said the V-Effect bridge between
+levels had never been looked at, only witnessed by the algebra. The carbon detour of the
+same day held its child, EXCHANGE_FROM_V_EFFECT's J_eff = (3/8)·α²/J, against real carotenoid
+singlet-fission data
+([SINGLET_FISSION_AND_THE_TWO_CLOCKS](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md)):
+the established superexchange-via-charge-transfer singlet-fission coupling has exactly that
+Anderson bridge²/gap form, the dark 2Ag state is the V-Effect "both-pairs-triplet", and the
+order of magnitude (~10 meV) lands. Indirect, with the carbon embedding still Tier 4, but it
+is the first time we held the bridge against a measured number.
+
+Neither closes the structural gap (the Level-0 → Level-1 morphism is still asserted, not
+traced). But the axis the sketch named is now walkable, and the bridge it could only witness
+is now, once, looked at. The line *"hingesehen haben wir nie"* is, gently, no longer quite true.
