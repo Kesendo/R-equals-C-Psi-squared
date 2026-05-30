@@ -212,7 +212,7 @@ things end, there is a before and an after.
 
 The elimination proof therefore has a direct corollary:
 
-If noise cannot originate from within the system (Sections 2.1-2.5),
+If noise cannot originate from within the system (Section 2, Candidates 1-5),
 and noise is the time arrow, then **time cannot originate from within
 the system**. The framework cannot generate its own temporality. There
 must be an external clock. Not "maybe." The mathematics excludes every

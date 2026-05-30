@@ -62,7 +62,7 @@ have been eliminated:
 | Other dimensions (d>2) | d² - 2d = 0 | Only d=2 exists in the framework |
 
 **Proof:** [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md),
-Sections 2.1-2.5.
+Section 2, Candidates 1-5.
 
 **Corollary:** γ provides the time arrow (without γ: unitary oscillation,
 no irreversibility, no before/after). If γ cannot originate internally,
@@ -115,7 +115,7 @@ as measured by CΨ).
 push CΨ back above 1/4 (max revival: CΨ = 0.3035). But revivals are
 always transient. CΨ goes to zero eventually. The past is delayed,
 not reversed. See [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md)
-for the oscillation data (227 crossings with Bell+bath).
+for the oscillation data (81 crossings with Bell+bath at J=5).
 
 **The general principle: information is not stored, it is converted.**
 
