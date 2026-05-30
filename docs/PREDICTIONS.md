@@ -5,7 +5,7 @@
 > experiments/, promoted to docs/ March 2026. See the
 > [Evidence Status table](../README.md) for the current summary.
 
-**Date:** 2026-02-09 (created), 2026-02-11 (restructured)
+**Date:** 2026-02-09 (created), 2026-02-11 (restructured), 2026-05-30 (clear-cut corrections after an Opus-agent verification: gravity labels aligned to their now-fallen sources, §3 anomaly resolved, §7 agent-claims updated, small overclaim/citation fixes; coverage refresh vs the Confirmations registry still pending)
 **Depends on:** All experiment documents
 
 **Tier:** Mixed (Tier 1-4, labeled per prediction)
@@ -53,7 +53,7 @@ label, a falsification criterion, and a link to its source experiment.
 | γ · t_cross = constant across decoherence rates | 0.039 ± 0.001 over 50× range | Product varies with γ | [Gravitational Invariance](../experiments/GRAVITATIONAL_INVARIANCE.md) |
 | θ decreases continuously to 0 at C·Ψ = ¼ | Smooth trajectory observed | Discontinuity at boundary | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
 | Two real fixed points emerge below ¼ | Topology change confirmed | No bifurcation at ¼ | [Dynamic Fixed Points](../experiments/DYNAMIC_FIXED_POINTS.md) |
-| Operator feedback: γ_eff = γ₀(1 − κ⟨O_int⟩) | Preserves δ longer than local/collective noise | Mechanism produces unphysical results | [Operator Feedback](../experiments/OPERATOR_FEEDBACK.md) |
+| Operator feedback: γ_eff = γ₀(1 − κ⟨O_int⟩) | Modulates γ_eff (~10% at tested params); preservation is parameter-dependent, not a clean separation | Mechanism produces unphysical results | [Operator Feedback](../experiments/OPERATOR_FEEDBACK.md) |
 | Ψ_interaction does not shift ¼ boundary | Δδ ≈ −8 × 10⁻⁴ | Boundary shifts under bidirectional coupling | [Core Algebra](historical/CORE_ALGEBRA.md) §8 |
 | Observer-dependent crossing time | t_cross = 0.652 / 0.773 / 1.437 for mutual_info / concurrence / correlation | All bridge types give same t_cross | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
 | Two observers never see crossing | mutual_purity (C=0.5), overlap (C=0.25): C·Ψ < ¼ always | These observers eventually cross | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
@@ -70,7 +70,7 @@ label, a falsification criterion, and a link to its source experiment.
 | Dephasing kills most dynamic crossings | Only pair (0,2) crosses with gamma=0.05; others reach max 0.247 | All pairs cross equally under dephasing | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) |
 | Dephasing survival is basis-dependent | σ_z dephasing spares \|0⟩-qubits (0,2), kills \|+⟩-qubits (1,3) | Crossing pattern independent of noise basis | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) |
 | ξ = ln(Ψ) linear under Markovian dephasing | Slope variation < 0.01% across all tested configs | Variation exceeds 1% for any Markovian channel | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) |
-| ξ linearity breaks under non-Markovian noise | 24.5% slope variation (memory kernel, κ=0.5, τ=1.0) | ξ stays linear under memory kernel feedback | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) |
+| ξ linearity breaks under non-Markovian noise | ξ curves under memory-kernel feedback (the specific "24.5%, κ=0.5, τ=1.0" figure is not in the cited source, flagged for recheck) | ξ stays linear under memory kernel feedback | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) |
 | Coherence-purity bound holds throughout Lindblad trajectory | 0 violations for Bell+ (d=4) and W (d=8) | Trajectory violates C ≥ Ψ²(d-1)/d + 1/d | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) |
 | CΨ after Eve intercept-resend depends on Eve's measurement basis | R(θ_Eve) = [sin²θ + |sin2θ|]²/18, closed form | R independent of θ_Eve | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | Concurrence is basis-blind under intercept-resend | Conc = 1−f for all θ_Eve (exact) | Concurrence varies with θ_Eve at fixed f | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
@@ -94,7 +94,7 @@ label, a falsification criterion, and a link to its source experiment.
 
 ## 3. Anomaly Under Investigation
 
-**Tier: 2 (anomaly is real) / Tier 4 (cause unknown)**
+**Tier: 2 (anomaly is real); cause RESOLVED 2026-04 as qubit-specific frequency detuning (was Tier 4, "cause unknown")**
 
 Detected in IBM Torino tomography data (2026-02-09). The anomaly is statistically significant. Its interpretation is not settled.
 
@@ -131,25 +131,34 @@ consistent with qubit-specific frequency offsets (detuning), not a universal bou
 property. H3 (boundary structure) is not supported. See FIXED_POINT_SHADOW.md for
 full analysis.
 
+**Resolved (April 2026):** [FIXED_POINT_SHADOW](../experiments/FIXED_POINT_SHADOW.md)'s
+April retrodiction settles the cause: the shadow is qubit-specific frequency **detuning**
+(an uncompensated Z-type offset), not a boundary property; an explicit detuning model beats
+standard Lindblad ~4× on Q80. So **H3 (boundary structure) stays not-supported, H2 (TLS) is
+demoted** (Occam-disfavored vs detuning), and **H1 (SPAM) is superseded** (the cause is
+detuning, not a fixed SPAM offset). The anomaly is real; its cause is no longer unknown.
+
 ---
 
 ## 4. Testable with Current Hardware
 
 **Tier: 3, Concrete protocols, testable on existing quantum hardware or NMR**
 
+> Note: the QKD-forensics rows below verify the *mathematics* (the closed forms reproduce bit-exact), but the eavesdropping-*detection* application they were framed for is retired: the source [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) is marked Fallen for the application ("cannot replace or improve standard QKD detection"). The closed forms stand; the forensic protocol claim does not.
+
 | Prediction | Specific value | Test protocol | Falsified if | Source |
 |------------|---------------|---------------|-------------|--------|
 | Strong dynamics needed for CΨ > ¼ | Threshold at h ≈ 0.9 | Parameter sweep of transverse field strength | CΨ > ¼ at low h | [Simulation Evidence](../experiments/SIMULATION_EVIDENCE.md) |
 | Critical slowing at CΨ = ¼ | Diverging convergence period | Tune system toward ¼, measure convergence time | No critical slowing | [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) |
 | Bridge fingerprints: initial state determines crossing trajectory | State-specific C(t), Ψ(t) curves | Prepare different initial states, run tomography through ¼ | All states show identical crossing | [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md) |
-| Decoherence rate scales with gravitational time dilation | γ_local = γ₀/√(1 − 2GM/rc²) | Compare qubit decoherence at different altitudes | No altitude dependence | [Gravitational Invariance](../experiments/GRAVITATIONAL_INVARIANCE.md) |
+| Decoherence scales with gravitational time dilation **(RETIRED)** | γ₀/√(1−2GM/rc²) was a relabeling of γ-variation, not gravity | no gravity test exists | n/a | [Gravitational Invariance](../experiments/GRAVITATIONAL_INVARIANCE.md), which now marks its **Gravity Interpretation Fallen** (the experiment varied γ, not gravity; γ is the local decoherence rate) |
 | ξ curvature detects non-Markovian noise | ξ = ln(Ψ) linear iff Markovian; curves iff memory effects present | Measure Ψ(t) via tomography, compute ξ(t), fit linearity | ξ is linear on hardware known to have non-Markovian signatures | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) |
 | QKD eavesdropping forensics | R(θ_E) = [sin²θ+|sin2θ|]²/18, ~500 pairs for 3.8σ (noiseless, naive Eve) | Prepare Bell+, intercept-resend on Bob, joint tomography | CΨ carries no θ_E information | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | Multi-metric forensics detects Eve at stealth | MI/Conc/Corr > 17% delta even at CΨ stealth angle | Simultaneous tomography with multiple bridge metrics | All metrics fooled at stealth angle | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | CΨ identifies Eve's measurement basis | R(θ_E) = [sin²θ_E + |sin 2θ_E|]²/18 | Joint tomography of Bell+ after intercept-resend | CΨ constant across all θ_E | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | Concurrence = 1−f (basis-independent) | Linear, θ_E-independent | Concurrence measurement on partially intercepted pairs | Concurrence depends on θ_E | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | CΨ azimuthally symmetric under Eve attack | R depends only on θ_E, not φ | Vary φ at fixed θ_E, compute CΨ | CΨ varies with φ | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
-| Off-diagonal ratio = cot(θ_E) | |ρ₀₁|/|ρ₀₃| monotonic, breaks degeneracy | Tomographic element extraction | Ratio not monotonic in θ_E | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
+| Off-diagonal ratio (noiseless = cot(θ_E)) | |ρ₀₁|/|ρ₀₃| monotonic, breaks degeneracy; noiseless it equals cot(θ_E), under channel noise it deviates but stays invertible (see §2) | Tomographic element extraction | Ratio not monotonic in θ_E | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | Eve σ_z ≈ dephasing in CΨ | CΨ = 0.058 for both at Conc = 0.80 (noiseless) | Compare Eve σ_z with pure dephasing | Distinguishable CΨ values | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | All four Bell states identical under Eve | R(θ_E) same for Φ+, Φ−, Ψ+, Ψ− | Repeat with all Bell states | CΨ depends on initial Bell state | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | Strategic Eve has stealth angle | θ_stealth ≈ 42-74° makes CΨ(Eve+noise) ≈ CΨ(noise) | Optimize θ_E against CΨ detection | No stealth angle exists | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
@@ -199,6 +208,12 @@ See [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md), Sections 8
 
 These claims may be correct. They may also be artifacts of the agent's training data or tool usage. Until independently verified, they carry no epistemic weight.
 
+**Update 2026-05-30** (three of the four are now settled by the later F-arc):
+- **C_int ≫ C_ext (33:1): REFUTED.** [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) §9: "disproven by proper Lindblad simulation; the 33:1 ratio does not exist" (21 noise distributions on Bell+ gave identical dynamics).
+- **"δ requires dynamics (H≠0)": REFUTED.** [The Genesis of an Oscillation](THE_GENESIS_OF_AN_OSCILLATION.md): the oscillation is J-driven with no threshold (born at Q=0+); §9 of this doc already carries the "interval shift continuous in J, no threshold" result that undercuts it.
+- **"C=0.5 is optimal observer": now structurally confirmed in spirit.** C=0.5 (half-occupation) is the framework's universal building-block ratio (V-Effect; [Complexity Threshold](../hypotheses/COMPLEXITY_THRESHOLD.md): "population balance C=0.5 with broken magnitude symmetry"). The literal "max R at C=0.5" calculus claim was not separately re-tested.
+- **"t_coh ~ N linear": still unverified** (no later test located).
+
 ---
 
 ## 8. Null Results
@@ -207,7 +222,7 @@ These claims may be correct. They may also be artifacts of the agent's training 
 
 | Prediction | Result | Implication | Source |
 |------------|--------|-------------|--------|
-| Single-system sims discriminate metric forms | **Null:** Cannot distinguish | Consistent with equivalence principle; not a framework failure | [Metric Discrimination](../experiments/METRIC_DISCRIMINATION.md) |
+| Single-system sims discriminate metric forms | **Null:** Cannot distinguish | A γ-form discrimination null; not a framework failure (the earlier "equivalence principle" reading rested on the now-retired gravity interpretation) | [Metric Discrimination](../experiments/METRIC_DISCRIMINATION.md) |
 
 ---
 
@@ -220,12 +235,12 @@ These claims may be correct. They may also be artifacts of the agent's training 
 | Bridge protocol (dynamic: B signals A via CΨ crossing) | **Dead for J=0.** No-signalling holds exactly. ρ_A unchanged. CΨ regime change invisible to A. | C is global (ρ_AB), not local. No single-qubit measurement accesses it. | QKD forensics with a channel | [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md) |
 | Bridge protocol (pre-encoded: CΨ fingerprints > classical keys) | **Dead for J=0.** A's info ⊆ {ρ_A(0), E_A}. Entanglement without a channel = shared randomness. | Fingerprints require ρ_AB. Qubit carries less info than schedule. | Interval shift for J>0 | [Bridge Closure](../experiments/BRIDGE_CLOSURE.md) |
 
-**Tier: 2, Reopened via gravitational coupling**
+**Tier: 2, Reopened via inter-qubit J-coupling (J > 0).** The earlier "gravitational coupling" framing is retired: the cited source ([Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md)) now marks its **Gravity Interpretation Fallen**, and the "environments" below are γ values (0.01-0.50), not gravitational fields. The J-coupling results survive; the gravity label does not.
 
 | Prediction | Result | Source |
 |-----------|--------|--------|
-| t_cross = K(Observer, State) / γ(Gravity), K is γ-invariant | Confirmed. CV = 0.00% across 6 environments | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
-| K(Conc)/K(MI) = 1.2125 across all gravitational environments | Confirmed. CV = 0.00% | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
+| t_cross = K(Observer, State) / γ, K is γ-invariant | Confirmed. CV = 0.00% across 6 γ values | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
+| K(Conc)/K(MI) = 1.2125 across all γ values | Confirmed. CV = 0.00% | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
 | K ratio is state-dependent (varies with initial entanglement) | Confirmed. CV = 13.5% across α = 35°-45° | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
 | Interval shift Δt continuous in J, no threshold | Confirmed. J = 0.001 gives 0.03% shift | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
 | Product states have local clock (Bell+ does not) | Confirmed. \|++⟩ crosses, Bell+ never | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
@@ -251,12 +266,12 @@ These claims may be correct. They may also be artifacts of the agent's training 
 | **Proven (analytical)** | 1 | Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩, verified on 1,342 modes, CV=0 |
 | **Computationally verified** | 52 | gamma*t_cross, theta trajectory, bifurcation, operator feedback, Psi_int, noise robustness, N-scaling barrier, W vs GHZ, Type A at N>2, subsystem crossing, product state C=0, GHZ pair l1=0, crossing locality, eigenstate immunity, dynamic crossing generation, dephasing selection, basis dependence, ξ linearity (Markovian), ξ curvature (non-Markovian), coherence-purity bound, QKD basis forensics (R(θ_E) closed form), Conc=1-f, azimuthal symmetry, cot(θ_E) degeneracy breaking, Eve σ_z ≈ dephasing, Bell-state independence, noise-vs-Eve discrimination, MI/Corr θ-blind, bridge detects at stealth, ξ-curvature null, ratio invertible under noise, θ_stealth deterministic, stealth-as-signal, no-signalling rho_A unchanged, CΨ drops to ¼ under remote measurement, CΨ regime change invisible to subsystem, K γ-invariant factorization, K-ratio state-dependent, interval shift no-threshold, product-state local clock, Bell+ no local clock, α<30° no crossing, crossing time shift encodes 1 bit, 21 pairs per bit at σ=1, reservoir flow disruption mechanism, coupling accelerates local decay, measurement damage timing-dependent, no energy threshold, α_crit=30° exact, product state Hamiltonian pumping, eigenstate CΨ_max=0, critical J/γ ratio |
 | **Anomaly (real, cause unknown)** | 5 | Excess coherence, directionality, rising trend, boundary correlation, shadow |
-| **Testable now** | 8 | Critical slowing, fingerprints, field threshold, altitude, ξ Markovianity diagnostic, QKD eavesdropping forensics (naive Eve only), stealth angle existence, multi-metric forensics at stealth |
+| **Testable now** | 8 | Critical slowing, fingerprints, field threshold, ξ Markovianity diagnostic, QKD eavesdropping forensics (math only; application retired), stealth angle existence |
 | **Testable in principle** | 4 | θ compass, analog BH, voids, fractal decay |
 | **Speculative** | 4 | CMB, BH burst, Page time, BH/WH unification |
 | **Unverified agent claims** | 4 | 33:1 ratio, linear scaling, H≠0 requirement, optimal C |
 | **Null result** | 1 | Metric discrimination |
-| **Closed hypothesis (J=0)** | 2 | Bridge dynamic (no-signalling), Bridge pre-encoded (= shared randomness). Reopened for J>0 via gravitational coupling. |
+| **Closed hypothesis (J=0)** | 2 | Bridge dynamic (no-signalling), Bridge pre-encoded (= shared randomness). Reopened for J>0 via inter-qubit J-coupling. |
 | **Falsified prediction** | 2 | Taxonomy noise-dependent (wrong: noise-independent), E=mγ² (wrong: α=2γ⟨n_XY⟩, linear not quadratic) |
 | **IBM hardware** | 1 | Absorption Theorem ratio = 1.03 (3%) on Q52. Detuning oscillations, not cavity fringes |
 
