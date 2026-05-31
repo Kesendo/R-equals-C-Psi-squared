@@ -121,4 +121,15 @@ public class PostEpFlowFieldTests
         Assert.Equal(20, curve.X.Count);
         Assert.Equal(20, curve.Y.Count);
     }
+
+    [Fact]
+    public void MatchesPythonPrototype_AtN4_Q2p5()
+    {
+        var taus = Linspace(0, 6, 60);
+        var field = new PostEpFlowField(4, new[] { 2.5 }, taus);
+        var q = field.Flows.Single();
+        // Anchor recorded from `python simulations/post_ep_dynamics_4d.py 4` (Q=2.50 row, site 0 end).
+        const double pythonSite0End = 0.25;
+        Assert.Equal(pythonSite0End, q.Sites[0].Occupation[^1], 2);
+    }
 }
