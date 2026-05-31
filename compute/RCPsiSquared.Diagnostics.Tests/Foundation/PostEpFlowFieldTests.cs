@@ -132,4 +132,26 @@ public class PostEpFlowFieldTests
         const double pythonSite0End = 0.25;
         Assert.Equal(pythonSite0End, q.Sites[0].Occupation[^1], 2);
     }
+
+    [Fact]
+    public void NormalizeToTotal_SumsToTargetAndKeepsRatios()
+    {
+        var norm = PostEpFlowField.NormalizeToTotal(new[] { 0.2, 0.6, 2.4, 0.6, 0.2 }, 5.0);
+        Assert.Equal(5.0, norm.Sum(), 9);
+        Assert.Equal(12.0, norm[2] / norm[0], 9);
+    }
+
+    [Fact]
+    public void Constructor_RejectsWrongLengthProfile()
+    {
+        Assert.Throws<ArgumentException>(() =>
+            new PostEpFlowField(4, new[] { 1.0 }, Linspace(0, 6, 10), gammaProfile: new[] { 1.0, 1.0, 1.0 }));
+    }
+
+    [Fact]
+    public void Constructor_RejectsNonPositiveProfileEntry()
+    {
+        Assert.Throws<ArgumentException>(() =>
+            new PostEpFlowField(4, new[] { 1.0 }, Linspace(0, 6, 10), gammaProfile: new[] { 1.0, 0.0, 1.0, 1.0 }));
+    }
 }

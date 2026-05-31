@@ -32,17 +32,47 @@ public sealed class PostEpFlowField : IInspectable
     public IReadOnlyList<double> QGrid { get; }
     public IReadOnlyList<double> TauGrid { get; }
 
+    /// <summary>The relative per-site dephasing weights (length N, all > 0). Uniform [1,…,1] is
+    /// the unshaped baseline. Use <see cref="NormalizeToTotal"/> to compare shapes at a fixed Σγ.</summary>
+    public IReadOnlyList<double> GammaProfile { get; }
+
     /// <summary>The equipartitioned fixed point every trajectory relaxes to: ⟨n_site⟩(∞) = 1/N.</summary>
     public double Target => 1.0 / N;
 
-    public PostEpFlowField(int N, IReadOnlyList<double> qGrid, IReadOnlyList<double> tauGrid)
+    public PostEpFlowField(int N, IReadOnlyList<double> qGrid, IReadOnlyList<double> tauGrid,
+        IReadOnlyList<double>? gammaProfile = null)
     {
         if (N < 1 || N > 6) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be 1..6 (dense 4^N Liouvillian)");
         QGrid = qGrid ?? throw new ArgumentNullException(nameof(qGrid));
         TauGrid = tauGrid ?? throw new ArgumentNullException(nameof(tauGrid));
         if (qGrid.Count == 0) throw new ArgumentException("qGrid must be non-empty", nameof(qGrid));
         if (tauGrid.Count < 2) throw new ArgumentException("tauGrid needs >= 2 points", nameof(tauGrid));
+
+        if (gammaProfile is null)
+        {
+            GammaProfile = Enumerable.Repeat(1.0, N).ToArray();
+        }
+        else
+        {
+            if (gammaProfile.Count != N)
+                throw new ArgumentException($"gammaProfile must have length N={N}, got {gammaProfile.Count}", nameof(gammaProfile));
+            if (gammaProfile.Any(w => w <= 0.0))
+                throw new ArgumentException("gammaProfile entries must be strictly > 0 (a zero-γ site is Fall 2, out of scope)", nameof(gammaProfile));
+            GammaProfile = gammaProfile.ToArray();
+        }
         this.N = N;
+    }
+
+    /// <summary>Rescale a per-site weight profile so its entries sum to <paramref name="total"/>
+    /// (use N for the fixed-Σγ, mean-1 comparison). Relative ratios are preserved.</summary>
+    public static double[] NormalizeToTotal(IReadOnlyList<double> profile, double total)
+    {
+        if (profile is null) throw new ArgumentNullException(nameof(profile));
+        if (profile.Count == 0) throw new ArgumentException("profile must be non-empty", nameof(profile));
+        double sum = profile.Sum();
+        if (sum <= 0.0) throw new ArgumentException("profile sum must be > 0", nameof(profile));
+        double scale = total / sum;
+        return profile.Select(w => w * scale).ToArray();
     }
 
     private ComplexMatrix? _hUnit;
