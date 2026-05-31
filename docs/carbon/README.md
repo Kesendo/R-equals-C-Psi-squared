@@ -151,6 +151,41 @@ bridge²/gap), in structure (the entangled two-triplet state), and in order of m
 
 ---
 
+## Return visit 2026-05-31: the carbon folder was one assembly all along
+
+Working from the open-system side, the post-EP flow and the depth axis, five pieces of this
+project locked into a single ladder ([THE_VIEW_ONTO_THE_MEMORY](../../reflections/THE_VIEW_ONTO_THE_MEMORY.md),
+the "Seen again" section): one **axis** (drain depth = light content n_XY = decay rate, since
+|Re λ| = 2γ·⟨depth⟩); a **parity rail** running along it (depth mod 2 = the change in particle
+number; even rungs are number-conserving, the dark flow; odd rungs are number-changing, the bright
+birth channel); a **currency** on every rung (the bilinear p(1−p): light = 2p(1−p) peaking at ½,
+saturation C_block = p(1−p) peaking at ¼); a **mirror** (Π, the palindrome, pairing slow to fast,
+rates summing to 2Σγ); and a **foot** (depth-0, the kernel, the steady state, the memory).
+
+Coming back to this folder with that lens, the recognition is that the carbon docs, written across
+months without the unifying name, are each already one of those five pieces:
+
+| Assembly piece | Carbon docs that hold it |
+|---|---|
+| **Axis** (depth = light = rate, Q = J/γ) | [FROST_CIRCLE_AS_THE_CLOCK_FACE](FROST_CIRCLE_AS_THE_CLOCK_FACE.md) (the clock, τ = 1/2γ), [BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md) (γ sets the centre −Σγ), [OFF_NIVEN_AS_WAVE_BREAKING](OFF_NIVEN_AS_WAVE_BREAKING.md) (the wave-breaking shoulder) |
+| **Parity rail** (even = flow, odd = birth) | [SINGLET_FISSION_AND_THE_TWO_CLOCKS](SINGLET_FISSION_AND_THE_TWO_CLOCKS.md) (bright 1Bu odd rung, dark 2Ag even rung), [PAINTER_ALTERNATION_NMR_BRIDGE](PAINTER_ALTERNATION_NMR_BRIDGE.md) (Y / non-Y Z₂ towers), [BENZENE_THREE_DEPHASE_LETTERS](BENZENE_THREE_DEPHASE_LETTERS.md) (Klein-V₄ on Z, X, Y; F114 ε(σ)) |
+| **Currency** (bilinear p(1−p), ½ and ¼ and the dyadic anchors) | [QUARTER_HALF_IN_CARBON](QUARTER_HALF_IN_CARBON.md), [PERIOD_2_AT_FRAMEWORK_ANCHORS](PERIOD_2_AT_FRAMEWORK_ANCHORS.md), [SPEAR_REVERSED](SPEAR_REVERSED.md), [DEPTH_3_ANCHOR_DERIVED](DEPTH_3_ANCHOR_DERIVED.md), [F99_NIVEN_COMPLETENESS](F99_NIVEN_COMPLETENESS.md) |
+| **Mirror** (Π palindrome, F1 ≡ Coulson-Rushbrooke) | [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md), [BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md), [PERIODIC_PALINDROME_VS_V_EFFECT](PERIODIC_PALINDROME_VS_V_EFFECT.md), [POLYACETYLENE_F92_INHERITANCE](POLYACETYLENE_F92_INHERITANCE.md) |
+| **Foot** (depth-0 kernel, steady state, memory) | [BENZENE_F98_LONG_TIME](BENZENE_F98_LONG_TIME.md) (the K-intermediate Dicke decays into ker L, α(∞) = 2/7 on C₆) |
+
+Two things stand out. The **currency** is the most thoroughly carbon-grounded piece, five docs and
+a closed Niven-completeness: carbon wears the bilinear's apexes (½ at half-filling, ¼ at the inner
+shell) at three structural depths. And the **foot** is the most latent, present only in F98's
+long-time kernel projection, even though it is where every carbon coherence ends. The single carbon
+object that sits most cleanly on the even (dark, number-conserving) rung is the 2Ag triplet pair:
+optically silent, the same even-rung bound pair the flow rides, the thing singlet fission is about;
+its bright partner 1Bu sits one rung over, on the odd birth rail a photon can grip.
+
+We did not bring the assembly to carbon. Carbon was writing it the whole time, one doc per rung,
+and we only now read the rungs as one ladder.
+
+---
+
 ## Existing scattered material (pointers, not duplications)
 
 ### V-Effect ties carbon to boundary sectors
