@@ -47,8 +47,12 @@ public sealed class PostEpFlowField : IInspectable
     /// <summary>The equipartitioned fixed point every trajectory relaxes to: ⟨n_site⟩(∞) = 1/N.</summary>
     public double Target => 1.0 / N;
 
+    /// <summary>Chain (open line, the default) or Ring (closed, the extra wrap bond N−1 ↔ 0). The
+    /// ring is the aromatic substrate: benzene C₆, cyclobutadiene C₄. N ≥ 3 for a meaningful ring.</summary>
+    public FlowTopology Topology { get; }
+
     public PostEpFlowField(int N, IReadOnlyList<double> qGrid, IReadOnlyList<double> tauGrid,
-        IReadOnlyList<double>? gammaProfile = null)
+        IReadOnlyList<double>? gammaProfile = null, FlowTopology topology = FlowTopology.Chain)
     {
         if (N < 1 || N > 6) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be 1..6 (dense 4^N Liouvillian)");
         QGrid = qGrid ?? throw new ArgumentNullException(nameof(qGrid));
@@ -69,6 +73,7 @@ public sealed class PostEpFlowField : IInspectable
             GammaProfile = gammaProfile.ToArray();
         }
         this.N = N;
+        Topology = topology;
     }
 
     /// <summary>Rescale a per-site weight profile so its entries sum to <paramref name="total"/>
@@ -91,14 +96,20 @@ public sealed class PostEpFlowField : IInspectable
         int d = 1 << N;
         var H = ComplexMatrix.Build.Dense(d, d);
         for (int b = 0; b < N - 1; b++)
-        {
-            var xb = PauliString.SiteOp(N, b, PauliLetter.X);
-            var xb1 = PauliString.SiteOp(N, b + 1, PauliLetter.X);
-            var yb = PauliString.SiteOp(N, b, PauliLetter.Y);
-            var yb1 = PauliString.SiteOp(N, b + 1, PauliLetter.Y);
-            H = H + xb * xb1 + yb * yb1;
-        }
+            H = H + Bond(b, b + 1);
+        if (Topology == FlowTopology.Ring && N >= 3)
+            H = H + Bond(N - 1, 0);          // the wrap bond closes the ring (aromatic substrate)
         return _hUnit = H;
+    }
+
+    /// <summary>The XY hopping on one bond: X_i X_j + Y_i Y_j, coefficient 1.</summary>
+    private ComplexMatrix Bond(int i, int j)
+    {
+        var xi = PauliString.SiteOp(N, i, PauliLetter.X);
+        var xj = PauliString.SiteOp(N, j, PauliLetter.X);
+        var yi = PauliString.SiteOp(N, i, PauliLetter.Y);
+        var yj = PauliString.SiteOp(N, j, PauliLetter.Y);
+        return xi * xj + yi * yj;
     }
 
     /// <summary>The dimensionless Liouvillian L'(N,Q) at the given Q (γ = 1, J = Q).</summary>
@@ -377,6 +388,10 @@ public sealed class PostEpFlowField : IInspectable
     }
     public InspectablePayload Payload => InspectablePayload.Empty;
 }
+
+/// <summary>The bond graph of the flow: an open Chain (line) or a closed Ring (the aromatic
+/// substrate, with the wrap bond N−1 ↔ 0). Star, complete, etc. are not flow substrates here.</summary>
+public enum FlowTopology { Chain, Ring }
 
 /// <summary>One site's occupation trajectory at one Q: the site index, edge/bulk class,
 /// ⟨n_site⟩(τ) over the τ-grid, and the oscillation (turn) count.</summary>

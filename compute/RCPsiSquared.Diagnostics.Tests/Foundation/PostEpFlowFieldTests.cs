@@ -272,6 +272,22 @@ public class PostEpFlowFieldTests
     }
 
     [Fact]
+    public void RingTopology_ChangesTheFlowDynamics()
+    {
+        // The wrap bond closes the loop: the excitation can go both ways around, so the ring
+        // flow differs from the open chain (benzene C4 ring vs butadiene C4 chain).
+        var taus = Linspace(0, 3, 30);
+        var chain = new PostEpFlowField(4, new[] { 2.5 }, taus);
+        var ring = new PostEpFlowField(4, new[] { 2.5 }, taus, topology: FlowTopology.Ring);
+        var cOcc = chain.Flows.Single().Sites[2].Occupation;
+        var rOcc = ring.Flows.Single().Sites[2].Occupation;
+        bool differ = false;
+        for (int t = 0; t < taus.Length; t++)
+            if (Math.Abs(cOcc[t] - rOcc[t]) > 1e-3) differ = true;
+        Assert.True(differ, "ring topology should change the flow dynamics vs the open chain");
+    }
+
+    [Fact]
     public void ReadAssembly_PutsThePiecesTogether_OnTheBirthRail()
     {
         // The slowest non-kernel mode (the birth-canal object) read through the whole assembly:
