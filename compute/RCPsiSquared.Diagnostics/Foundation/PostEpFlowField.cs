@@ -32,17 +32,47 @@ public sealed class PostEpFlowField : IInspectable
     public IReadOnlyList<double> QGrid { get; }
     public IReadOnlyList<double> TauGrid { get; }
 
+    /// <summary>The relative per-site dephasing weights (length N, all > 0). Uniform [1,…,1] is
+    /// the unshaped baseline. Use <see cref="NormalizeToTotal"/> to compare shapes at a fixed Σγ.</summary>
+    public IReadOnlyList<double> GammaProfile { get; }
+
     /// <summary>The equipartitioned fixed point every trajectory relaxes to: ⟨n_site⟩(∞) = 1/N.</summary>
     public double Target => 1.0 / N;
 
-    public PostEpFlowField(int N, IReadOnlyList<double> qGrid, IReadOnlyList<double> tauGrid)
+    public PostEpFlowField(int N, IReadOnlyList<double> qGrid, IReadOnlyList<double> tauGrid,
+        IReadOnlyList<double>? gammaProfile = null)
     {
         if (N < 1 || N > 6) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be 1..6 (dense 4^N Liouvillian)");
         QGrid = qGrid ?? throw new ArgumentNullException(nameof(qGrid));
         TauGrid = tauGrid ?? throw new ArgumentNullException(nameof(tauGrid));
         if (qGrid.Count == 0) throw new ArgumentException("qGrid must be non-empty", nameof(qGrid));
         if (tauGrid.Count < 2) throw new ArgumentException("tauGrid needs >= 2 points", nameof(tauGrid));
+
+        if (gammaProfile is null)
+        {
+            GammaProfile = Enumerable.Repeat(1.0, N).ToArray();
+        }
+        else
+        {
+            if (gammaProfile.Count != N)
+                throw new ArgumentException($"gammaProfile must have length N={N}, got {gammaProfile.Count}", nameof(gammaProfile));
+            if (gammaProfile.Any(w => w <= 0.0))
+                throw new ArgumentException("gammaProfile entries must be strictly > 0 (a zero-γ site is Fall 2, out of scope)", nameof(gammaProfile));
+            GammaProfile = gammaProfile.ToArray();
+        }
         this.N = N;
+    }
+
+    /// <summary>Rescale a per-site weight profile so its entries sum to <paramref name="total"/>
+    /// (use N for the fixed-Σγ, mean-1 comparison). Relative ratios are preserved.</summary>
+    public static double[] NormalizeToTotal(IReadOnlyList<double> profile, double total)
+    {
+        if (profile is null) throw new ArgumentNullException(nameof(profile));
+        if (profile.Count == 0) throw new ArgumentException("profile must be non-empty", nameof(profile));
+        double sum = profile.Sum();
+        if (sum <= 0.0) throw new ArgumentException("profile sum must be > 0", nameof(profile));
+        double scale = total / sum;
+        return profile.Select(w => w * scale).ToArray();
     }
 
     private ComplexMatrix? _hUnit;
@@ -66,8 +96,7 @@ public sealed class PostEpFlowField : IInspectable
     /// <summary>The dimensionless Liouvillian L'(N,Q) at the given Q (γ = 1, J = Q).</summary>
     public ComplexMatrix DimensionlessLiouvillian(double q)
     {
-        var gammas = Enumerable.Repeat(1.0, N).ToList();
-        return PauliDephasingDissipator.BuildZ(HUnit().Multiply(new Complex(q, 0.0)), gammas);
+        return PauliDephasingDissipator.BuildZ(HUnit().Multiply(new Complex(q, 0.0)), GammaProfile);
     }
 
     /// <summary>vec(ρ₀) for the single excitation on site 0, row-major: only entry idx·d+idx = 1,
@@ -122,16 +151,30 @@ public sealed class PostEpFlowField : IInspectable
         foreach (double q in QGrid)
         {
             var L = DimensionlessLiouvillian(q);
-            var traj = SpectralPropagator.Evolve(L, rho0, observables, TauGrid);   // traj[site][τ]
+            var ev = SpectralPropagator.EvolveWithSpectrum(L, rho0, observables, TauGrid);
+            var traj = ev.Observables;   // traj[site][τ]
             var sites = new List<PostEpSiteFlow>(N);
             for (int s = 0; s < N; s++)
             {
                 bool isEdge = s == 0 || s == N - 1;
                 sites.Add(new PostEpSiteFlow(s, isEdge, traj[s], NTurns(traj[s])));
             }
-            qFlows.Add(new PostEpQFlow(q, Underdamped: q >= 1.0, sites));
+            qFlows.Add(new PostEpQFlow(q, Underdamped: q >= 1.0, sites, SlowestNonKernelRate(ev.Eigenvalues)));
         }
         return qFlows;
+    }
+
+    /// <summary>The slowest non-kernel relaxation rate: −max{ Re λ : |λ| > tol }. Positive in every
+    /// physical case (returns 0 only if L has no non-kernel mode at all); larger means faster
+    /// forgetting. The kernel modes (|λ| ≈ 0, the 1/N fixed point) are excluded. This is the
+    /// profile-sensitive timescale at fixed Σγ.</summary>
+    private static double SlowestNonKernelRate(IReadOnlyList<Complex> eigenvalues)
+    {
+        const double tol = 1e-7;
+        double maxRe = double.NegativeInfinity;
+        foreach (var z in eigenvalues)
+            if (z.Magnitude > tol && z.Real > maxRe) maxRe = z.Real;
+        return double.IsNegativeInfinity(maxRe) ? 0.0 : -maxRe;
     }
 
     /// <summary>Oscillation count: strict sign changes of the first difference (local extrema).
@@ -175,7 +218,7 @@ public sealed class PostEpFlowField : IInspectable
                 }
                 yield return new InspectableNode(
                     displayName: $"Q={qf.Q.ToString("0.00", Inv)}",
-                    summary: regime,
+                    summary: $"{regime}; slowest rate {qf.SlowestRate.ToString("0.0000", Inv)}",
                     children: siteLeaves);
             }
         }
@@ -189,4 +232,4 @@ public sealed record PostEpSiteFlow(int Site, bool IsEdge, IReadOnlyList<double>
 
 /// <summary>One Q slice of the flow: the Q value, whether it is above the rotation onset
 /// (underdamped, Q ≥ 1), and the per-site trajectories.</summary>
-public sealed record PostEpQFlow(double Q, bool Underdamped, IReadOnlyList<PostEpSiteFlow> Sites);
+public sealed record PostEpQFlow(double Q, bool Underdamped, IReadOnlyList<PostEpSiteFlow> Sites, double SlowestRate);

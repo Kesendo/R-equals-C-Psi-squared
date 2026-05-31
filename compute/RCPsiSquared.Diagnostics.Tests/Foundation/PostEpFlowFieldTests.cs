@@ -132,4 +132,82 @@ public class PostEpFlowFieldTests
         const double pythonSite0End = 0.25;
         Assert.Equal(pythonSite0End, q.Sites[0].Occupation[^1], 2);
     }
+
+    [Fact]
+    public void NormalizeToTotal_SumsToTargetAndKeepsRatios()
+    {
+        var norm = PostEpFlowField.NormalizeToTotal(new[] { 0.2, 0.6, 2.4, 0.6, 0.2 }, 5.0);
+        Assert.Equal(5.0, norm.Sum(), 9);
+        Assert.Equal(12.0, norm[2] / norm[0], 9);
+    }
+
+    [Fact]
+    public void Constructor_RejectsWrongLengthProfile()
+    {
+        Assert.Throws<ArgumentException>(() =>
+            new PostEpFlowField(4, new[] { 1.0 }, Linspace(0, 6, 10), gammaProfile: new[] { 1.0, 1.0, 1.0 }));
+    }
+
+    [Fact]
+    public void Constructor_RejectsNonPositiveProfileEntry()
+    {
+        Assert.Throws<ArgumentException>(() =>
+            new PostEpFlowField(4, new[] { 1.0 }, Linspace(0, 6, 10), gammaProfile: new[] { 1.0, 0.0, 1.0, 1.0 }));
+    }
+
+    [Fact]
+    public void UniformProfile_MatchesScalarDefault()
+    {
+        var taus = Linspace(0, 6, 30);
+        var dflt = new PostEpFlowField(4, new[] { 2.5 }, taus);
+        var explicitUniform = new PostEpFlowField(4, new[] { 2.5 }, taus, gammaProfile: new[] { 1.0, 1.0, 1.0, 1.0 });
+        var a = dflt.Flows.Single().Sites;
+        var b = explicitUniform.Flows.Single().Sites;
+        for (int s = 0; s < 4; s++)
+            for (int t = 0; t < taus.Length; t++)
+                Assert.Equal(a[s].Occupation[t], b[s].Occupation[t], 12);
+    }
+
+    [Fact]
+    public void NonUniformProfile_StillRelaxesToOneOverN()
+    {
+        var profile = PostEpFlowField.NormalizeToTotal(new[] { 0.2, 0.6, 2.4, 0.6, 0.2 }, 5.0);
+        var field = new PostEpFlowField(5, new[] { 2.5 }, Linspace(0, 50, 60), gammaProfile: profile);
+        var q = field.Flows.Single();
+        foreach (var s in q.Sites)
+            Assert.Equal(0.2, s.Occupation[^1], 6);
+    }
+
+    [Fact]
+    public void NonUniformProfile_ConservesExcitation()
+    {
+        var profile = PostEpFlowField.NormalizeToTotal(new[] { 0.2, 0.6, 2.4, 0.6, 0.2 }, 5.0);
+        var taus = Linspace(0, 6, 30);
+        var field = new PostEpFlowField(5, new[] { 1.5 }, taus, gammaProfile: profile);
+        var q = field.Flows.Single();
+        for (int t = 0; t < taus.Length; t++)
+            Assert.Equal(1.0, q.Sites.Sum(s => s.Occupation[t]), 9);
+    }
+
+    [Fact]
+    public void Profile_ChangesSpectralGap_AtFixedTotal()
+    {
+        var taus = Linspace(0, 6, 20);
+        var vshape = PostEpFlowField.NormalizeToTotal(new[] { 0.2, 0.6, 2.4, 0.6, 0.2 }, 5.0);
+        var uniform = new PostEpFlowField(5, new[] { 20.0 }, taus); // uniform, Sum gamma = 5
+        var shaped = new PostEpFlowField(5, new[] { 20.0 }, taus, gammaProfile: vshape); // Sum gamma = 5
+        double rateU = uniform.Flows.Single().SlowestRate;
+        double rateV = shaped.Flows.Single().SlowestRate;
+        Assert.True(rateU > 0, $"uniform slowest rate should be positive, got {rateU}");
+        Assert.True(rateV > 0, $"shaped slowest rate should be positive, got {rateV}");
+        Assert.True(Math.Abs(rateU - rateV) > 1e-6, $"shape should change the gap: uniform={rateU:F6}, vshape={rateV:F6}");
+    }
+
+    [Fact]
+    public void Tree_QNodeSummary_IncludesSlowestRate()
+    {
+        var field = new PostEpFlowField(4, new[] { 2.5 }, Linspace(0, 6, 20));
+        var qNode = field.Children.First();
+        Assert.Contains("rate", qNode.Summary);
+    }
 }

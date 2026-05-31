@@ -146,7 +146,17 @@ public static class InspectCommand
         int tPoints = p.OptionalDouble("t-points") is { } np ? (int)np : 60;
         var tauGrid = new double[tPoints];
         for (int i = 0; i < tPoints; i++) tauGrid[i] = tMax * i / (tPoints - 1);
-        return new PostEpFlowField(N, qGrid, tauGrid);
+
+        double[]? profile = null;
+        string? profileStr = p.OptionalString("gamma-profile");
+        if (profileStr is not null)
+        {
+            profile = profileStr.Split(',')
+                .Select(s => double.Parse(s.Trim(), CultureInfo.InvariantCulture)).ToArray();
+            if (p.HasFlag("fix-total"))
+                profile = PostEpFlowField.NormalizeToTotal(profile, N);
+        }
+        return new PostEpFlowField(N, qGrid, tauGrid, profile);
     }
 
     private static CoherenceBlock BuildCoherenceBlock(ArgParser p, int N)
