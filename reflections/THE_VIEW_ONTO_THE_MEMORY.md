@@ -87,6 +87,68 @@ The honest part is that the figure handed us the perspective and we took it for 
 
 ---
 
+## Seen again 2026-05-31: the axis has a rail, and a currency
+
+We came back to this axis from the other end, the post-EP flow
+([THE_FLOW_BETWEEN_TWO_SINGULARITIES](../experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md)), and it
+handed back two things the figure did not yet name: a **rail** running along the axis, and a
+**currency** that prices every rung. None of the pieces is new; the project found each before. What
+was hard to gather is that they are one ladder.
+
+**The rail: parity.** The drain depth popcount(i⊕j) is, for any basis coherence |i⟩⟨j|, exactly the
+light content n_XY (the sites that differ are the sites carrying {X,Y}); one axis, two names. And the
+axis carries a parity, depth mod 2, which is the change in particle number:
+
+- **even rungs** (depth 0, 2, 4 …) are NUMBER-CONSERVING: the diagonal memory and the |i⟩⟨j|
+  coherences a fixed-number state holds. The dark, intra-sector rail the single-excitation flow rides.
+- **odd rungs** (depth 1, 3 …) are NUMBER-CHANGING: the |n⟩⟨n±1| coherences coupling adjacent
+  particle-number sectors. The bright rail an optical dipole grips, the birth channel.
+
+Because the rate is the depth (the Absorption Theorem, |Re λ| = 2γ⟨depth⟩), the rail is a ladder of
+rates. depth-0 (even) is the kernel, the steady state, the memory this whole figure is about. depth-1
+(odd) is the slowest MORTAL mode, rate 2γ, the longest-lived number-changing coherence, the birth
+channel. depth-2 (even) is the flow's own coherence, rate 4γ, faster than the birth channel. So the
+single-excitation flow, riding the even rungs, relaxes through depth-2 and never touches the depth-1
+birth channel: its weight on odd parity is identically 0, and the C# GameObject measures its
+between-block content as machine zero
+([PostEpFlowField](../compute/RCPsiSquared.Diagnostics/Foundation/PostEpFlowField.cs)). The birth
+channel is the slowest mortal mode of the whole Liouvillian, but a latent door: number-conserving
+dynamics never opens it.
+
+**The currency: the bilinear p(1−p).** Every rung is priced by one shape. The per-site light is
+2·p(1−p) with p the single-site occupation, peaking at ½ on the Bloch equator. The maximal
+between-block coherence is C_block = p(1−p) with p the weight between two adjacent number sectors,
+peaking at ¼ for the Dicke superposition (|D_n⟩+|D_{n+1}⟩)/√2
+([BlockCoherenceContent](../compute/RCPsiSquared.Core/F86/BlockCoherenceContent.cs), Theorem 2). Same
+bilinear x(1−x); the recurring ½ and ¼ that thread this project, carbon's half-filling, the polarity
+triple, the coherence ceiling, are its doubled apex and its apex, with p wearing two hats: an
+occupation, or a sector weight.
+
+**The crown switches rails.** Which rail holds the longest-lived mode depends on the coupling. The
+even (flow) modes' rate rises with Q = J/γ (stronger coupling forgets the occupation faster); the odd
+birth channel stays near 2γ. They cross: below the crossing the longest memory is the even occupation,
+above it the odd birth channel. For the uniform chain the crossing sits near the exceptional point,
+but that coincidence is uniform-specific, a non-uniform γ-profile breaks it (the tempting "EP rate =
+2γ" and "⟨n_XY⟩ = 1 at the EP" are uniform-only, refuted at peaked-V; recorded honestly rather than
+kept).
+
+**The carbon mirror.** bright/dark is the rail seen optically: the bright band edge is the odd,
+number-changing rung a photon couples to; the dark 2Ag triplet pair is the even, number-conserving
+rung, the singlet-fission object, the same bound pair we isolate
+([SINGLET_FISSION_AND_THE_TWO_CLOCKS](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md)). What the
+chemist calls dark is what this axis sees clearly.
+
+So the full lock: depth that is light that is rate, split even and odd into flow and birth, priced
+everywhere by p(1−p), mirrored slow to fast by Π (the palindrome, rates summing to 2Σγ), with the
+memory at its foot. The six lenses above all read the one axis; the rail is the perpendicular split,
+and the bilinear is what sits on each rung. Probes:
+[`flow_depth_parity.py`](../simulations/flow_depth_parity.py),
+[`light_content.py`](../simulations/light_content.py),
+[`bound_pair_light.py`](../simulations/bound_pair_light.py), and this session's parity and
+birth-channel sweeps.
+
+---
+
 ## What this holds
 
 Nothing here is a new theorem. It is the statement that the painter alternation, the popcount / XOR storage, the Born shadow's 97/3, F88b's static-versus-memory decomposition, Π's past and future, and the classical bridge are **one axis**, the drain-depth axis the Absorption Theorem quantizes, seen from six sides. The figure that looked like a relaxation measurement is the clearest single picture of it: the view onto the memory, mode by mode, of how a state keeps what it has been.
