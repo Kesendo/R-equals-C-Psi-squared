@@ -160,9 +160,34 @@ simulate kept the site-0 revival near 0.83 at t=18 μs; hardware gave 0.43). The
 two-qubit **gate error**, not dephasing: reaching 20 μs takes about 160 RZZ gates (40 Trotter
 steps × 2 bonds × 2), and at ~0.5% per gate that dominates, which the thermal-only noise model
 does not capture. So the sloshing and the flow into 1/N are real and clean; the decay *envelope*
-is Trotterization-limited (~9 μs here), not T2-limited (~200 μs). The exceptional point itself,
-seen by scanning injected dephasing until the sloshing switches off through Q ~ 1.5, is the next
-run (Part B of the runner).
+is Trotterization-limited (~9 μs here), not T2-limited (~200 μs).
+
+### The EP onset itself (Part B): inject dephasing, scan Q down through Q_EP
+
+Part A sits at the natural Q ≫ 1 (deep memory). To find the exceptional point we *add* dephasing
+and scan Q downward through Q_EP ~ 1.5, watching the memory switch off. On hardware the dephasing
+is a random-Z twirl (after each Trotter step, RZ(φ) per qubit with φ ~ N(0, 2γ_inj·dt), averaged
+over K=16 instances; the RZ gates are virtual on IBM, so the injection itself is error-free). The
+clean observable is the *revival*, the best return of the excitation to site 0 (max ⟨n_0⟩ for
+t ≥ 2 μs): large when the memory sloshes back, ~1/N when the excitation has equipartitioned. Job
+`d8drjbfd0j8c73f4mobg`:
+
+| Q = J/γ | revival (max ⟨n_0⟩) | regime |
+|---|---|---|
+| 0.5 | 0.30 | overdamped (forgotten, ~1/3) |
+| 1.0 | 0.36 | overdamped |
+| 1.5 | 0.34 | ~EP, still at the floor |
+| 2.5 | 0.49 | sloshing lifts off |
+| 5.0 | 0.56 | memory returning |
+| 20 | 0.70 | memory present |
+
+The revival sits on the equipartition floor (~1/3, the forgotten state) for Q ≤ 1.5 and lifts off
+as Q crosses ~1.5 to 2.5: **the sloshing memory switches on through the exceptional point, on a
+real chip.** It tracks the validated twirl simulation (0.31 → 0.84 across the same scan); the
+high-Q side is suppressed (0.70 vs 0.84 at Q=20) by the same two-qubit gate error as Part A, but
+the floor and the onset are clean. Both halves of the story are now on hardware: the memory alive
+and flowing into 1/N (Part A), and the memory switching off as the dephasing crosses the EP
+(Part B).
 
 ## The structural picture (seen, not interpreted)
 

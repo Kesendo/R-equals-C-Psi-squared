@@ -24,6 +24,28 @@ t = 18 us). The cause is two-qubit gate error (~160 RZZ gates by 20 us at ~0.5% 
 dephasing; the decay envelope is Trotterization-limited (~9 us), not T2-limited (~200 us). The
 sloshing and the flow into 1/N are clean; only the decay rate is gate-cost, not physics.
 
+## Part B , the EP onset (Job d8drjbfd0j8c73f4mobg)
+
+Scanning injected dephasing (random-Z twirl, K=16 instances) to push Q = J/γ down through
+Q_EP ~ 1.5. The revival (max <n_0> for t >= 2 us, the memory's return) collapses to the
+equipartition floor:
+
+| Q | revival | regime |
+|---|---|---|
+| 0.5 | 0.30 | overdamped (forgotten, ~1/3) |
+| 1.0 | 0.36 | overdamped |
+| 1.5 | 0.34 | ~EP |
+| 2.5 | 0.49 | sloshing lifts off |
+| 5.0 | 0.56 | memory returning |
+| 20 | 0.70 | memory present |
+
+The memory switches on as Q crosses ~1.5 to 2.5: the EP onset on a real chip. Tracks the
+validated twirl simulate (0.31 → 0.84 across the same scan); the high-Q side is suppressed
+(0.70 vs 0.84 at Q=20) by gate error, but the floor and the onset are clean. The RZ twirl gates
+are virtual on IBM (error-free); only the RXX/RYY carry gate cost.
+
 ## Files
-- `ep_onset_hardware_ibm_kingston_20260531_060943.json` , hardware run (per-site populations, metrics, job id)
-- `ep_onset_simulate_20260531_060202.json` , Aer simulate (ideal + Kingston T1+T2 walk, plus the EP-onset dephasing scan), same-day calibration
+- `ep_onset_hardware_ibm_kingston_20260531_060943.json` , Part A hardware (coherent walk, per-site populations, job id)
+- `ep_onset_simulate_20260531_060202.json` , Part A Aer simulate (ideal + Kingston T1+T2), same-day calibration
+- `ep_onset_hardware_ep_ibm_kingston_20260531_064022.json` , Part B hardware (EP-onset twirl scan, revival vs Q, job id)
+- `ep_onset_simulate_twirl_20260531_063048.json` , Part B twirl validation (K=16, exact statevector), confirms the twirl reproduces the dephasing EP onset
