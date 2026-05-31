@@ -96,8 +96,7 @@ public sealed class PostEpFlowField : IInspectable
     /// <summary>The dimensionless Liouvillian L'(N,Q) at the given Q (γ = 1, J = Q).</summary>
     public ComplexMatrix DimensionlessLiouvillian(double q)
     {
-        var gammas = GammaProfile.ToList();
-        return PauliDephasingDissipator.BuildZ(HUnit().Multiply(new Complex(q, 0.0)), gammas);
+        return PauliDephasingDissipator.BuildZ(HUnit().Multiply(new Complex(q, 0.0)), GammaProfile);
     }
 
     /// <summary>vec(ρ₀) for the single excitation on site 0, row-major: only entry idx·d+idx = 1,
@@ -165,9 +164,10 @@ public sealed class PostEpFlowField : IInspectable
         return qFlows;
     }
 
-    /// <summary>The slowest non-kernel relaxation rate: −max{ Re λ : |λ| > tol }. Positive; larger
-    /// means faster forgetting. The kernel modes (|λ| ≈ 0, the 1/N fixed point) are excluded. This
-    /// is the profile-sensitive timescale at fixed Σγ.</summary>
+    /// <summary>The slowest non-kernel relaxation rate: −max{ Re λ : |λ| > tol }. Positive in every
+    /// physical case (returns 0 only if L has no non-kernel mode at all); larger means faster
+    /// forgetting. The kernel modes (|λ| ≈ 0, the 1/N fixed point) are excluded. This is the
+    /// profile-sensitive timescale at fixed Σγ.</summary>
     private static double SlowestNonKernelRate(IReadOnlyList<Complex> eigenvalues)
     {
         const double tol = 1e-7;
