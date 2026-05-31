@@ -177,6 +177,46 @@ public sealed class PostEpFlowField : IInspectable
         return double.IsNegativeInfinity(maxRe) ? 0.0 : -maxRe;
     }
 
+    // ---- The sterile zone vs the birth canal: where the closed form holds, and where the new is born ----
+    private const double BirthCanalProbeQLow = 1.5;
+    private const double BirthCanalProbeQHigh = 1000.0;
+    private const double BirthCanalTolerance = 1e-4;
+
+    private double SlowestRateAt(double q)
+    {
+        var evd = DimensionlessLiouvillian(q).Evd();
+        return SlowestNonKernelRate(evd.EigenValues.ToArray());
+    }
+
+    private double? _birthCanalDeviation;
+    /// <summary>The Q-drift of the slowest rate: rate(high Q) − rate(low Q). Zero in the sterile
+    /// zone (the slowest rate is Q-independent, the closed form holds, the slow mode is isolated,
+    /// decay and rotation decouple, nothing new couples); positive in the birth canal (the rate is
+    /// Q-dependent, the loop, where the slow mode couples and new structure can form). The
+    /// exploration ruler: how deep in the birth canal. Always available, never throws.</summary>
+    public double BirthCanalDeviation =>
+        _birthCanalDeviation ??= SlowestRateAt(BirthCanalProbeQHigh) - SlowestRateAt(BirthCanalProbeQLow);
+
+    /// <summary>True in the birth canal: the Q-dependent loop where the slowest mode couples (the
+    /// closed form fails and the new can be born). False in the sterile zone. Never throws.</summary>
+    public bool IsInBirthCanal => Math.Abs(BirthCanalDeviation) > BirthCanalTolerance;
+
+    /// <summary>The complement of <see cref="IsInBirthCanal"/>: the Q-independent corridor (the
+    /// sterile zone) where the slowest rate is a closed form, the slow mode isolated, decay and
+    /// rotation decoupled. Frozen, determined, no creation.</summary>
+    public bool IsInSterileZone => !IsInBirthCanal;
+
+    /// <summary>The closed-form slowest rate, valid ONLY in the sterile zone (the Q-independent
+    /// corridor). In the birth canal it throws: there the rate is Q-dependent, so there is no single
+    /// closed value, only a Q-trajectory and its high-Q limit. The closed form refuses to lie where
+    /// the new is born; use the per-Q rate or <see cref="BirthCanalDeviation"/> to explore the canal.</summary>
+    public double ClosedFormRate => IsInBirthCanal
+        ? throw new InvalidOperationException(
+            $"In the birth canal (Q-dependent, deviation {BirthCanalDeviation.ToString("E2", Inv)}): no closed-form " +
+            "rate exists here, only a Q-trajectory and its high-Q limit. The closed form holds only in the sterile " +
+            "zone (IsInSterileZone). Use the per-Q rate or BirthCanalDeviation to explore the birth canal.")
+        : SlowestRateAt(BirthCanalProbeQHigh);
+
     /// <summary>Oscillation count: strict sign changes of the first difference (local extrema).
     /// A display heuristic for the over/underdamped tag, not a bit-for-bit match of the Python
     /// prototype's n_turns (which also counts transitions through flat segments).</summary>
