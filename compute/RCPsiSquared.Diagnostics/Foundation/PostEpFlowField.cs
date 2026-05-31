@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Numerics;
+using RCPsiSquared.Core.F86;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Lindblad;
 using RCPsiSquared.Core.Pauli;
@@ -13,6 +14,13 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// of an XY chain under Z-dephasing, evolved across a Q-grid, with per-site occupation ⟨n_site⟩(τ)
 /// relaxing to the equipartitioned target 1/N. The C# home of <c>simulations/post_ep_dynamics_4d.py</c>
 /// and the loop of <c>experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md</c>.
+///
+/// <para>Two distinct objects live on this node, the two rungs of the drain-depth / n_XY axis:
+/// the EVEN-rung single-excitation FLOW (number-conserving, the occupation trajectories ⟨n⟩(τ)
+/// relaxing to 1/N) and the ODD-rung BIRTH CHANNEL (number-changing, the longest-lived coherence
+/// the <see cref="IsInBirthCanal"/> members read, with maximal saturation
+/// <see cref="MaxSaturationCeiling"/> = ¼). The flow never enters the birth channel
+/// (<see cref="FlowEntersBirthChannel"/> = false); they are separate readings, not one timescale.</para>
 ///
 /// <para>Built on demand from (N, Q-grid, τ-grid); the trajectories compute lazily on first access.
 /// A plain <see cref="IInspectable"/> (not a Claim): a live reading, not a typed-knowledge assertion.
@@ -189,16 +197,24 @@ public sealed class PostEpFlowField : IInspectable
     }
 
     private double? _birthCanalDeviation;
-    /// <summary>The Q-drift of the slowest rate: rate(high Q) − rate(low Q). Zero in the sterile
-    /// zone (the slowest rate is Q-independent, the closed form holds, the slow mode is isolated,
-    /// decay and rotation decouple, nothing new couples); positive in the birth canal (the rate is
-    /// Q-dependent, the loop, where the slow mode couples and new structure can form). The
-    /// exploration ruler: how deep in the birth canal. Always available, never throws.</summary>
+    /// <summary>The Q-drift of the slowest-mode rate: rate(high Q) − rate(low Q). The slowest
+    /// non-kernel mode is the longest-lived NUMBER-CHANGING coherence (the odd rung: one light
+    /// quantum, n_XY = 1, pure odd n_XY parity in both zones, verified N=5 uniform/peaked-V/flat-
+    /// bulk-edge), the birth-capable channel whose content is bounded by the maximal saturation
+    /// C_block ≤ ¼ (<see cref="MaxSaturationCeiling"/>, <see cref="BlockCoherenceContent"/>). It is
+    /// NOT the even-rung single-excitation flow the rest of this class propagates: that flow is
+    /// number-conserving and never enters this channel (<see cref="FlowEntersBirthChannel"/> is
+    /// false). Zero in the sterile zone (the birth channel's lifetime is Q-independent, the closed
+    /// form holds, nothing new couples); positive in the birth canal (its lifetime is Q-modulated,
+    /// the loop where the coupling drives the birth-capable coherence and new structure can form).
+    /// The exploration ruler: how deep in the birth canal. Always available, never throws.</summary>
     public double BirthCanalDeviation =>
         _birthCanalDeviation ??= SlowestRateAt(BirthCanalProbeQHigh) - SlowestRateAt(BirthCanalProbeQLow);
 
-    /// <summary>True in the birth canal: the Q-dependent loop where the slowest mode couples (the
-    /// closed form fails and the new can be born). False in the sterile zone. Never throws.</summary>
+    /// <summary>True in the birth canal: the Q-dependent loop where the longest-lived
+    /// number-changing (odd-rung, birth-capable) coherence has its lifetime modulated by the
+    /// coupling (the closed form fails and the new can be born). False in the sterile zone. Never
+    /// throws.</summary>
     public bool IsInBirthCanal => Math.Abs(BirthCanalDeviation) > BirthCanalTolerance;
 
     /// <summary>The complement of <see cref="IsInBirthCanal"/>: the Q-independent corridor (the
@@ -216,6 +232,56 @@ public sealed class PostEpFlowField : IInspectable
             "rate exists here, only a Q-trajectory and its high-Q limit. The closed form holds only in the sterile " +
             "zone (IsInSterileZone). Use the per-Q rate or BirthCanalDeviation to explore the birth canal.")
         : SlowestRateAt(BirthCanalProbeQHigh);
+
+    // ---- The birth channel made measurable: the between-block (number-changing) coherence ----
+
+    /// <summary>The universal maximal-saturation ceiling on between-block coherence: any density
+    /// matrix obeys C_block ≤ 1/4 (<see cref="BlockCoherenceContent"/>, Theorem 2 of
+    /// PROOF_BLOCK_CPSI_QUARTER, the bilinear apex ¼ of p·(1−p)). This is the most NUMBER-CHANGING
+    /// (odd-rung, birth-capable) coherence a state can hold; the Dicke superposition
+    /// (|D_n⟩+|D_{n+1}⟩)/√2 saturates it. It is the ceiling of the very channel the
+    /// <see cref="IsInBirthCanal"/> members track.</summary>
+    public static double MaxSaturationCeiling => BlockCoherenceContent.Quarter;
+
+    private double? _peakBetweenBlockSaturation;
+    /// <summary>The peak between-block coherence the flow's state reaches over the whole Q × τ grid:
+    /// max over τ, over all blocks n ∈ [0, N−1], of C_block(ρ(τ), n) (the (popcount-n, popcount-(n+1))
+    /// block). The post-EP flow is a single excitation, a NUMBER-CONSERVING (even-rung) object, so it
+    /// carries no between-block coherence: this is ≈ 0 (machine zero), the LIVE measurement that the
+    /// flow never enters the birth channel. Between-block coherence (the odd rung, bounded by
+    /// <see cref="MaxSaturationCeiling"/> = ¼) is the birth-capable channel; reaching it needs a
+    /// number-uncertain initial state (a Dicke superposition), not this flow. Lazy; reconstructs
+    /// ρ(τ) via <see cref="SpectralPropagator.EvolveStateVectors"/>.</summary>
+    public double PeakBetweenBlockSaturation => _peakBetweenBlockSaturation ??= ComputePeakBetweenBlockSaturation();
+
+    /// <summary>True if the flow's state ever develops between-block (number-changing) coherence
+    /// above 1e-9, i.e. enters the birth channel. False for the single-excitation flow (even-rung,
+    /// number-conserving): it stays out of the birth channel by construction.</summary>
+    public bool FlowEntersBirthChannel => PeakBetweenBlockSaturation > 1e-9;
+
+    private double ComputePeakBetweenBlockSaturation()
+    {
+        int d = 1 << N;
+        var rho0 = InitialStateVec();
+        double peak = 0.0;
+        foreach (double q in QGrid)
+        {
+            var states = SpectralPropagator.EvolveStateVectors(DimensionlessLiouvillian(q), rho0, TauGrid);
+            foreach (var vt in states)
+            {
+                var rho = ComplexMatrix.Build.Dense(d, d);
+                for (int i = 0; i < d; i++)
+                    for (int j = 0; j < d; j++)
+                        rho[i, j] = vt[i * d + j];        // row-major vec: ρ[i,j] = vec[i·d+j]
+                for (int n = 0; n < N; n++)
+                {
+                    double cBlock = BlockCoherenceContent.Compute(rho, n);
+                    if (cBlock > peak) peak = cBlock;
+                }
+            }
+        }
+        return peak;
+    }
 
     /// <summary>Oscillation count: strict sign changes of the first difference (local extrema).
     /// A display heuristic for the over/underdamped tag, not a bit-for-bit match of the Python

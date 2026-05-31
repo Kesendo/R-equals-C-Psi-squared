@@ -71,4 +71,35 @@ public static class SpectralPropagator
         for (int i = 0; i < lambda.Count; i++) eigenvalues[i] = lambda[i];
         return new SpectralEvolution(result, eigenvalues);
     }
+
+    /// <summary>The full vectorized-state trajectory <c>vec(ρ(τ))</c> from the one
+    /// eigendecomposition, for callers that need a QUADRATIC functional of the state (e.g. the
+    /// between-block coherence Σ|ρ_ab|²) rather than a linear observable. <c>result[ti]</c> is
+    /// vec(ρ(τ_i)) in the caller's vec convention (the same convention as the L and ρ₀ handed in).</summary>
+    public static IReadOnlyList<ComplexVector> EvolveStateVectors(
+        ComplexMatrix L,
+        ComplexVector rho0Vec,
+        IReadOnlyList<double> tauGrid)
+    {
+        if (L is null) throw new ArgumentNullException(nameof(L));
+        if (rho0Vec is null) throw new ArgumentNullException(nameof(rho0Vec));
+        if (rho0Vec.Count != L.RowCount)
+            throw new ArgumentException($"rho0Vec dim {rho0Vec.Count} != L dim {L.RowCount}", nameof(rho0Vec));
+
+        var evd = L.Evd();
+        var R = evd.EigenVectors;
+        var lambda = evd.EigenValues;
+        var c0 = R.Solve(rho0Vec);            // R·c0 = vec(ρ₀)  ⇒  mode coefficients
+        int d2 = L.RowCount;
+
+        var states = new ComplexVector[tauGrid.Count];
+        var expc = ComplexVector.Build.Dense(d2);
+        for (int ti = 0; ti < tauGrid.Count; ti++)
+        {
+            double tau = tauGrid[ti];
+            for (int i = 0; i < d2; i++) expc[i] = Complex.Exp(lambda[i] * tau) * c0[i];
+            states[ti] = R * expc;            // vec(ρ(τ))
+        }
+        return states;
+    }
 }

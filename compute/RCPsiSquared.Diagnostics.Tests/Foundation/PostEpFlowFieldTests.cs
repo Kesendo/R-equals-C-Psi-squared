@@ -240,4 +240,43 @@ public class PostEpFlowFieldTests
         Assert.True(field.BirthCanalDeviation > 0.05, $"expected positive Q-drift, got {field.BirthCanalDeviation}");
         Assert.Throws<InvalidOperationException>(() => field.ClosedFormRate);
     }
+
+    [Fact]
+    public void MaxSaturationCeiling_IsQuarter()
+    {
+        // C_block ≤ 1/4 for any state (BlockCoherenceContent, Theorem 2, the bilinear apex ¼).
+        Assert.Equal(0.25, PostEpFlowField.MaxSaturationCeiling, 12);
+    }
+
+    [Fact]
+    public void SingleExcitationFlow_StaysOutOfBirthChannel()
+    {
+        // The post-EP flow is a single excitation (definite number, number-conserving, even rung):
+        // it carries NO between-block coherence, so it never enters the birth channel. Measured live.
+        var field = new PostEpFlowField(4, new[] { 2.5 }, Linspace(0, 6, 30));
+        Assert.True(field.PeakBetweenBlockSaturation < 1e-9,
+            $"single-excitation flow should carry no between-block coherence, got {field.PeakBetweenBlockSaturation:E2}");
+        Assert.False(field.FlowEntersBirthChannel);
+    }
+
+    [Fact]
+    public void BirthChannel_IsSaturableToQuarter_ByDickeSuperposition()
+    {
+        // The odd-rung channel the flow avoids is real and reaches the ceiling: the Dicke
+        // superposition (|D_n⟩+|D_{n+1}⟩)/√2 saturates C_block = MaxSaturationCeiling = 1/4.
+        const int N = 4, n = 1;
+        var v = (DickeState(N, n) + DickeState(N, n + 1)).Divide(new System.Numerics.Complex(Math.Sqrt(2.0), 0));
+        var rho = v.OuterProduct(v.Conjugate());
+        double cBlock = RCPsiSquared.Core.F86.BlockCoherenceContent.Compute(rho, n);
+        Assert.Equal(PostEpFlowField.MaxSaturationCeiling, cBlock, 9);
+    }
+
+    private static MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex> DickeState(int N, int n)
+    {
+        int d = 1 << N;
+        var v = MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex>.Build.Dense(d);
+        for (int x = 0; x < d; x++)
+            if (System.Numerics.BitOperations.PopCount((uint)x) == n) v[x] = System.Numerics.Complex.One;
+        return v.Divide(new System.Numerics.Complex(v.L2Norm(), 0));
+    }
 }
