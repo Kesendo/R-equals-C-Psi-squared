@@ -210,4 +210,34 @@ public class PostEpFlowFieldTests
         var qNode = field.Children.First();
         Assert.Contains("rate", qNode.Summary);
     }
+
+    [Fact]
+    public void Uniform_IsInSterileZone_ClosedFormRateIsTwo()
+    {
+        var field = new PostEpFlowField(5, new[] { 20.0 }, Linspace(0, 6, 10));
+        Assert.True(field.IsInSterileZone);
+        Assert.False(field.IsInBirthCanal);
+        Assert.Equal(0.0, field.BirthCanalDeviation, 4);
+        Assert.Equal(2.0, field.ClosedFormRate, 4);
+    }
+
+    [Fact]
+    public void PeakedV_IsSterile_ClosedFormRateIsOne()
+    {
+        var field = new PostEpFlowField(5, new[] { 20.0 }, Linspace(0, 6, 10),
+            gammaProfile: new[] { 0.25, 0.75, 3.0, 0.75, 0.25 });
+        Assert.True(field.IsInSterileZone);
+        Assert.Equal(1.0, field.ClosedFormRate, 4);
+    }
+
+    [Fact]
+    public void FlatBulkEdge_IsInBirthCanal_ClosedFormRateThrows()
+    {
+        var field = new PostEpFlowField(5, new[] { 20.0 }, Linspace(0, 6, 10),
+            gammaProfile: new[] { 0.25, 1.5, 1.5, 1.5, 0.25 });
+        Assert.True(field.IsInBirthCanal);
+        Assert.False(field.IsInSterileZone);
+        Assert.True(field.BirthCanalDeviation > 0.05, $"expected positive Q-drift, got {field.BirthCanalDeviation}");
+        Assert.Throws<InvalidOperationException>(() => field.ClosedFormRate);
+    }
 }

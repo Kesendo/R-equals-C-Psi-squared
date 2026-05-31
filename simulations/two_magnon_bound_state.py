@@ -167,7 +167,67 @@ def alive(N, delta, gammas, ts):
     print(f"  birth (interaction) + carrier (gamma_0) + the loop, in one frame.")
 
 
+def H_xxz_ring(N, delta):
+    """XXZ on a ring: the open chain plus the wrap bond (site N-1 to site 0)."""
+    H = H_xxz(N, delta)
+    H = H + op_at(N, N - 1, X) @ op_at(N, 0, X) + op_at(N, N - 1, Y) @ op_at(N, 0, Y)
+    H = H + delta * (op_at(N, N - 1, Z) @ op_at(N, 0, Z))
+    return H
+
+
+def ring_sep(i, j, N):
+    dd = abs(i - j)
+    return min(dd, N - dd)
+
+
+def bandwidths(N, delta):
+    """Single-magnon bandwidth (the free excitation's mobility) and the two-magnon BOUND-band
+    width (the bound pair's mobility, = its effective hopping). On a ring, translation symmetry
+    makes the bands clean. The ratio is how much slower the heavy composite travels."""
+    d = 2 ** N
+    H = H_xxz_ring(N, delta).real
+
+    idx1 = [b for b in range(d) if bin(b).count("1") == 1]
+    e1 = np.linalg.eigvalsh(H[np.ix_(idx1, idx1)])
+    W_free = e1.max() - e1.min()
+
+    idx2 = [b for b in range(d) if bin(b).count("1") == 2]
+    basis_sep = [ring_sep(*occupied_sites(b, N), N) for b in idx2]
+    w2, V2 = np.linalg.eigh(H[np.ix_(idx2, idx2)])
+    msep = [sum(basis_sep[m] * abs(V2[m, k]) ** 2 for m in range(len(idx2))) for k in range(len(w2))]
+    order = np.argsort(msep)
+    bound = order[:N]  # the N most-bound states = the bound band (one per total momentum)
+    eb = w2[bound]
+    W_bound = eb.max() - eb.min()
+    mean_bound_sep = float(np.mean([msep[k] for k in bound]))
+    return W_free, W_bound, mean_bound_sep
+
+
+def clock(N, deltas, q_free):
+    """Place the bound pair on the gamma_0 clock. The free excitation sits at theta = arctan(Q).
+    The bound pair, heavier (narrower band), has its own Q_pair = Q * (W_bound/W_free), hence a
+    SMALLER angle: it lives more toward the dying axis, it sits and decays rather than travels."""
+    deg = 180.0 / np.pi
+    print(f"The bound pair on the gamma_0 clock, N={N} ring (reference free Q = {q_free})")
+    print(f"  free excitation angle theta_free = arctan(Q) = {np.arctan(q_free)*deg:.1f} deg")
+    print(f"  the bound pair is heavier: narrower band -> smaller Q_pair -> smaller clock angle\n")
+    print(f"  {'Delta':>6}  {'<sep>':>6}  {'W_free':>7}  {'W_bound':>8}  {'r=Wb/Wf':>8}  {'Q_pair':>7}  {'theta_pair':>10}")
+    for delta in deltas:
+        Wf, Wb, msep = bandwidths(N, delta)
+        r = Wb / Wf
+        q_pair = q_free * r
+        theta_pair = np.arctan(q_pair) * deg
+        print(f"  {delta:>6.2f}  {msep:>6.3f}  {Wf:>7.3f}  {Wb:>8.3f}  {r:>8.3f}  {q_pair:>7.3f}  {theta_pair:>9.1f}")
+    print(f"\n  reading: the new element travels slower (r<1) the tighter it binds, so it sits at a")
+    print(f"  smaller angle on the same gamma_0 clock -- nearer the pure-decay axis. The two hands")
+    print(f"  combined: it turns little (heavy, slow) and winds in (dies) -- it lives 'at the fleck'.")
+
+
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == "clock":
+        N = int(sys.argv[2]) if len(sys.argv) > 2 else 10
+        clock(N, [0.5, 1.0, 2.0, 4.0, 8.0], q_free=1.5)
+        return
     if len(sys.argv) > 1 and sys.argv[1] == "alive":
         N = int(sys.argv[2]) if len(sys.argv) > 2 else 5
         ts = np.linspace(0.0, 60.0, 240)
