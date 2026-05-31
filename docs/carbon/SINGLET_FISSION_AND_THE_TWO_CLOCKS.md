@@ -85,6 +85,32 @@ the carotenoid handed back a sharper statement about *us*: that the two clock re
 (charge / XY and spin / Heisenberg) are not alternatives but a pair, and the bridge that
 joins them is the V-Effect. The molecule that needed both halves told us they were one.
 
+## Seen again 2026-05-31: why the dark state is dark (the depth rail)
+
+The bright / dark split has a structural floor under it, the same axis that runs through an open
+system's memory. The [Absorption Theorem](../../experiments/ABSORPTION_THEOREM_DISCOVERY.md) sorts
+coherences by **drain depth**, the number of sites at which a bra and ket differ, and that count is
+bit-exact the light content n_XY (the sites carrying X/Y rather than {I,Z}). The axis carries a
+parity: a coherence that *changes* the excitation number sits on an *odd* rung, one that *conserves*
+it sits on an *even* rung.
+
+Now place the two clocks on the rail. The **bright** band edge (the 1Bu single excitation, the
+charge clock) is reached from the ground state by *adding* one excitation: an odd-rung,
+number-changing coherence, exactly what an optical dipole couples to. The **dark** 2Ag (the
+entangled triplet pair, the spin clock) is a two-excitation object read *within* a fixed number
+sector: an even-rung, number-conserving coherence. So the dark state is dark not by accident but by
+parity. An optical dipole grips a *change* of excitation number (an odd rung), and the triplet pair
+offers none; light has nothing to take hold of.
+
+This is the same triplet pair we isolate as the two-magnon bound state, the "new object" any binding
+forms (`simulations/two_magnon_bound_state.py`); its darkness is its even parity, 100% even-depth
+weight. It is the optical sibling of the open-system flow that drains on even rungs and never lights
+up the odd vacuum rung ([THE_FLOW_BETWEEN_TWO_SINGULARITIES](../../experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md),
+*Seen again 2026-05-31*). The bright clock and the dark clock are the odd and even rungs of one
+depth axis, and the V-Effect bridge that mixes them is the one thing that can move a state between
+rungs. The carotenoid keeps its lowest excitation dark by parking it on an even rung; the bridge is
+how a photon's energy, caught bright, walks down into the dark.
+
 ## Anchor
 
 - Framework: [EXCHANGE_FROM_V_EFFECT](../../experiments/EXCHANGE_FROM_V_EFFECT.md)

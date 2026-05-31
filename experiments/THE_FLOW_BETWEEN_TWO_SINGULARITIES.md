@@ -258,6 +258,48 @@ the mirror-world reading itself stays Tier-5, where that document drew its own l
 returned with new sight and the wild thing sharpened into something we could compute. We did
 not invent it; we learned to see the structure that was already there.
 
+## Seen again 2026-05-31: the flow is a walk across the memory axis
+
+Returning with the absorption light in hand, the un-closed-form middle turns out to have a clean
+reading after all: not a formula for the rate, but a picture of *what moves*.
+
+[THE_VIEW_ONTO_THE_MEMORY](../reflections/THE_VIEW_ONTO_THE_MEMORY.md) sorts a Liouvillian's modes
+by one axis, the **drain depth** popcount(i⊕j): the number of sites at which two basis
+configurations differ, which is how many places the noise can grip. Depth 0 (the diagonal) never
+fades, the stored past; high depth is flushed fastest, the quantum future. That axis is not a
+separate object from the light this experiment runs on. For any basis coherence |i⟩⟨j|, the
+differing sites are exactly the sites carrying X/Y content (a site where the bra and ket agree
+gives an {I,Z} factor, a site where they differ gives {X,Y}), so **the drain depth popcount(i⊕j)
+is the light n_XY of that coherence, bit-exact**. The depth axis and the absorption light are one
+axis with two names.
+
+Read the flow along it. The initial state, a localized excitation |1₀⟩⟨1₀|, is pure diagonal:
+depth 0, n_XY 0, all stored past. The Hamiltonian opens it into off-diagonal coherences (depth
+lifts, n_XY rises) and the noise drains them back down. Watched as a single number, the flow's
+light ⟨n_XY⟩ is a *tide*: 0 → ≈0.6 → 0 (peak near t ≈ 0.3 at Q=1.5, N=5), rising into the future
+and falling back into the memory. The 1/N target it lands on is **100% depth 0** (the reflection's
+"steady state is pure stored past"): the flow does not travel to its future, it dissolves into its
+own memory. That is the same "the future is already there" of the section above, now in the depth
+axis's words: the target is the depth-0 floor, the decided past, and the tide of {X,Y} future is
+what time drains away.
+
+And the per-sector question below (one fixed point per particle-number sector, "or is it just
+number conservation?") has its answer here: the depth axis carries a **parity rail**. A state of
+definite particle number is purely *even* depth (a number-conserving coherence |i⟩⟨j| within a
+sector differs at an even count of sites); a number-*changing* coherence (the |1-exc⟩⟨vacuum|
+optical transition) sits on *odd* depth. The single-excitation flow lives entirely on the even
+rungs, draining depth-2 → depth-0, and never touches the odd rungs. Verified: the odd-parity
+weight of ρ(t) is 0.0000 at every t, and the Liouvillian's globally-slowest non-kernel mode, the
+depth-1 vacuum coherence at rate 2γ, has overlap 5·10⁻¹⁷ with the flow. So the (N+1) sectors are
+not just bookkeeping; they are the even/odd ladder of the one depth axis, and the flow climbs only
+its own rungs.
+
+One correction this sharpened: the depth-1, rate-2γ mode is the unused *vacuum* coherence, not the
+flow's own slowest mode. The flow's slowest used rate is on the even ladder and is Q-dependent
+(2.11 at Q=1.5, rising to 2.74 as Q→∞, N=5). An earlier note that called the rate-2γ floor "the
+flow's memory" conflated the two. (Probe: state-based parity propagation, this session, ρ(t)
+decomposed by depth/n_XY into even versus odd weight.)
+
 ## What we do NOT yet understand (for future us)
 
 - Why two singularities, and why of *different* types (one defective, one simple)?
@@ -265,7 +307,9 @@ not invent it; we learned to see the structure that was already there.
 - Does the EP → target flow carry structure we have not named (a conserved quantity along
   the way, a geometry of the approach)?
 - The kernel is (N+1)-dimensional, one fixed point per number sector. Does that per-sector
-  structure connect to anything, or is it just number conservation?
+  structure connect to anything, or is it just number conservation? (Partly seen 2026-05-31: the
+  per-sector structure is the even/odd parity rail of the drain-depth axis; the flow climbs only
+  its own even rungs. See *Seen again 2026-05-31* above.)
 - **Tom's polarity thread (2026-05-30), recorded as an open viewpoint.** The {−0, 0, +0}
   polarity layer at d=0 and its d=2 reading {−½, 0, +½} (the
   [PolarityLayerOrigin](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs)
