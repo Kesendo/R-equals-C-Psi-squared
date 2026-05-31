@@ -104,4 +104,21 @@ public class PostEpFlowFieldTests
         double diff = (kernelProjection - target).L2Norm();
         Assert.True(diff < 1e-9, $"kernel projection differs from 1/N target by {diff:E2}");
     }
+
+    [Fact]
+    public void Tree_HasQNodesWithSiteCurveLeaves()
+    {
+        var field = new PostEpFlowField(4, new[] { 0.5, 2.5 }, Linspace(0, 6, 20));
+        var qNodes = field.Children.ToList();
+        Assert.Equal(2, qNodes.Count);
+
+        var firstQ = qNodes[0];
+        var siteLeaves = firstQ.Children.ToList();
+        Assert.Equal(4, siteLeaves.Count);
+        Assert.IsType<RCPsiSquared.Core.Inspection.InspectablePayload.Curve>(siteLeaves[0].Payload);
+
+        var curve = (RCPsiSquared.Core.Inspection.InspectablePayload.Curve)siteLeaves[0].Payload;
+        Assert.Equal(20, curve.X.Count);
+        Assert.Equal(20, curve.Y.Count);
+    }
 }

@@ -153,7 +153,31 @@ public sealed class PostEpFlowField : IInspectable
         $"PostEpFlowField (N={N}, target 1/N={Target.ToString("0.0000", Inv)})";
     public string Summary =>
         $"single excitation → 1/N; {QGrid.Count} Q × {N} sites, {TauGrid.Count} τ-points";
-    public IEnumerable<IInspectable> Children { get { yield break; } }
+    public IEnumerable<IInspectable> Children
+    {
+        get
+        {
+            foreach (var qf in Flows)
+            {
+                string regime = qf.Underdamped ? "underdamped (hops, remembers)" : "overdamped (diffuses, forgets)";
+                var siteLeaves = new List<IInspectable>(N);
+                foreach (var s in qf.Sites)
+                {
+                    string cls = s.IsEdge ? "edge" : "bulk";
+                    string tag = s.Turns <= 1 ? "monotone" : $"oscillates ({s.Turns} turns)";
+                    string range = $"{s.Occupation[0].ToString("0.00", Inv)}→{s.Occupation[^1].ToString("0.00", Inv)}";
+                    siteLeaves.Add(new InspectableNode(
+                        displayName: $"site {s.Site} ({cls})",
+                        summary: $"{range}  {tag}",
+                        payload: new InspectablePayload.Curve("⟨n⟩", TauGrid, s.Occupation, "τ", "⟨n⟩")));
+                }
+                yield return new InspectableNode(
+                    displayName: $"Q={qf.Q.ToString("0.00", Inv)}",
+                    summary: regime,
+                    children: siteLeaves);
+            }
+        }
+    }
     public InspectablePayload Payload => InspectablePayload.Empty;
 }
 
