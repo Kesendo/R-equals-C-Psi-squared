@@ -96,7 +96,7 @@ public sealed class PostEpFlowField : IInspectable
     /// <summary>The dimensionless Liouvillian L'(N,Q) at the given Q (γ = 1, J = Q).</summary>
     public ComplexMatrix DimensionlessLiouvillian(double q)
     {
-        var gammas = Enumerable.Repeat(1.0, N).ToList();
+        var gammas = GammaProfile.ToList();
         return PauliDephasingDissipator.BuildZ(HUnit().Multiply(new Complex(q, 0.0)), gammas);
     }
 

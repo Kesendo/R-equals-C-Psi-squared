@@ -154,4 +154,38 @@ public class PostEpFlowFieldTests
         Assert.Throws<ArgumentException>(() =>
             new PostEpFlowField(4, new[] { 1.0 }, Linspace(0, 6, 10), gammaProfile: new[] { 1.0, 0.0, 1.0, 1.0 }));
     }
+
+    [Fact]
+    public void UniformProfile_MatchesScalarDefault()
+    {
+        var taus = Linspace(0, 6, 30);
+        var dflt = new PostEpFlowField(4, new[] { 2.5 }, taus);
+        var explicitUniform = new PostEpFlowField(4, new[] { 2.5 }, taus, gammaProfile: new[] { 1.0, 1.0, 1.0, 1.0 });
+        var a = dflt.Flows.Single().Sites;
+        var b = explicitUniform.Flows.Single().Sites;
+        for (int s = 0; s < 4; s++)
+            for (int t = 0; t < taus.Length; t++)
+                Assert.Equal(a[s].Occupation[t], b[s].Occupation[t], 12);
+    }
+
+    [Fact]
+    public void NonUniformProfile_StillRelaxesToOneOverN()
+    {
+        var profile = PostEpFlowField.NormalizeToTotal(new[] { 0.2, 0.6, 2.4, 0.6, 0.2 }, 5.0);
+        var field = new PostEpFlowField(5, new[] { 2.5 }, Linspace(0, 50, 60), gammaProfile: profile);
+        var q = field.Flows.Single();
+        foreach (var s in q.Sites)
+            Assert.Equal(0.2, s.Occupation[^1], 6);
+    }
+
+    [Fact]
+    public void NonUniformProfile_ConservesExcitation()
+    {
+        var profile = PostEpFlowField.NormalizeToTotal(new[] { 0.2, 0.6, 2.4, 0.6, 0.2 }, 5.0);
+        var taus = Linspace(0, 6, 30);
+        var field = new PostEpFlowField(5, new[] { 1.5 }, taus, gammaProfile: profile);
+        var q = field.Flows.Single();
+        for (int t = 0; t < taus.Length; t++)
+            Assert.Equal(1.0, q.Sites.Sum(s => s.Occupation[t]), 9);
+    }
 }
