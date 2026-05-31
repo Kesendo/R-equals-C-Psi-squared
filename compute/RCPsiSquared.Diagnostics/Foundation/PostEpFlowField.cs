@@ -218,7 +218,7 @@ public sealed class PostEpFlowField : IInspectable
                 }
                 yield return new InspectableNode(
                     displayName: $"Q={qf.Q.ToString("0.00", Inv)}",
-                    summary: regime,
+                    summary: $"{regime}; slowest rate {qf.SlowestRate.ToString("0.0000", Inv)}",
                     children: siteLeaves);
             }
         }

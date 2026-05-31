@@ -202,4 +202,12 @@ public class PostEpFlowFieldTests
         Assert.True(rateV > 0, $"shaped slowest rate should be positive, got {rateV}");
         Assert.True(Math.Abs(rateU - rateV) > 1e-6, $"shape should change the gap: uniform={rateU:F6}, vshape={rateV:F6}");
     }
+
+    [Fact]
+    public void Tree_QNodeSummary_IncludesSlowestRate()
+    {
+        var field = new PostEpFlowField(4, new[] { 2.5 }, Linspace(0, 6, 20));
+        var qNode = field.Children.First();
+        Assert.Contains("rate", qNode.Summary);
+    }
 }
