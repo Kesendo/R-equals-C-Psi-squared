@@ -175,6 +175,64 @@ of time-varying γ pattern that maximizes temporal diversity.
 
 ---
 
+## Seen again through the Q axis (2026-05-31)
+
+We came back to this protocol months later, with the dimensionless ratio
+**Q = J/γ₀** in hand, and the whole thing reads differently, sharper, than
+it could in March. Three things we could not see then.
+
+**The baseline γ was a guess that turned out to be a measurement.** The setup
+table just picks γ = 0.05 as a working value. On 2026-05-29 we extracted the
+local dephasing rate of a real chip from an [IBM Kingston](GAMMA0_IS_ALWAYS_THERE.md)
+J-scan and found γ₀ ≈ 0.05. The number we wrote into the setup line was, in
+hindsight, a prediction of the hardware's actual γ₀.
+
+**The three tricks were one knob.** Impedance matching (J=2 vs J=1), the
+quiet phase (γ → γ/10), and the staging clock K/γ are all moves along the
+single [Q axis](../docs/Q_REGIME_ANCHORS.md). Dividing each configuration by
+γ₀ places the whole protocol at Q ∈ {20, 40, 200, 400}: passive and the
+sender side at 20, the 2:1 receiver side at 40, the quiet phase at 200, the
+quiet 2:1 receiver at 400. The anchor map's own caveat names J=1 → Q=20 as
+"the original deep-quantum baseline from before the framework Q-band structure
+was identified." This protocol ran on exactly that default. Every value sits a
+full order of magnitude or two above everything that structures the Q axis:
+the exceptional point at Q_EP ≈ 1.5–2, the transfer-resonance peak band at
+1.2–1.8, the onset at 0.2–0.35.
+
+**That deep-Q placement is not overshoot; it is the only band where transport
+exists.** This is the part [THE_FLOW_BETWEEN_TWO_SINGULARITIES.md](THE_FLOW_BETWEEN_TWO_SINGULARITIES.md)
+later made plain. Below the rotation onset (small Q) a single excitation just
+diffuses and decays in place, forgetting; it never reaches the far end. Above
+it, the excitation sloshes site to site as a wave that propagates and reflects,
+remembering. Transport across a chain *is* that slosh, and the slosh lives only
+above the EP, seen on Kingston hardware as an excitation that crossed a 3-site
+chain to the far end and revived. The single-bond resonance peak at Q ≈ 1.5 is
+a local quantity (the birth of the slosh, the EP itself), not arrival at the
+destination. To carry an excitation across eleven sites and have it *arrive*
+rather than equipartition mid-chain, you must sit deep in the memory regime. So
+the relay was twice right before it knew the axis: it guessed γ₀, and it sat in
+the only transport band, the deep plateau, before the EP that defines that band
+was found.
+
+This reframes the two measured numbers. The quiet phase (Q: 20 → 200) crosses
+no regime boundary; it moves from plateau to deeper plateau, extending the
+*lifetime* of the carrying memory against decay rather than switching transport
+on. That is why it helps only modestly (+18%): the slosh already arrives at
+Q=20, and more Q only stretches the coherence, it does not change whether the
+wave reaches the end. The +83% lives on a different, orthogonal axis: the 2:1
+asymmetry breaks the chain's left-right symmetry and biases *where* the wave
+flows, toward the receiver. The time axis (Q) is saturated inside the transport
+band; the whole remaining lever is spatial.
+
+One honest new constraint the simulation could not show. The March run was pure
+RK4, where the decay envelope is set by T2. On the real chip the envelope is
+**Trotterization-limited** (~9 μs from two-qubit gate error at ~0.5% per gate),
+not T2-limited (~200 μs). Any hardware version of this protocol must fit its six
+stages (6 × 0.78 = 4.68 time units) inside that gate budget, not the far more
+generous coherence budget the simulation assumes.
+
+---
+
 ## Reproducibility
 
 | Component | Location |
@@ -200,4 +258,7 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 - [γ Control](GAMMA_CONTROL.md): static V-shape (+124%) and DD (+132%)
 - [γ as Signal](GAMMA_AS_SIGNAL.md): palindromic mode structure as antenna
 - [Scaling Curve](SCALING_CURVE.md): MI vs chain length baseline
+- [The Flow Between Two Singularities](THE_FLOW_BETWEEN_TWO_SINGULARITIES.md): transport is the slosh above the EP (2026-05-31 revisit)
+- [γ₀ Is Always There](GAMMA0_IS_ALWAYS_THERE.md): the measured γ₀ ≈ 0.05 behind the setup's guessed baseline
+- [Q-Regime Anchor Map](../docs/Q_REGIME_ANCHORS.md): the Q = J/γ₀ axis the protocol sits on
 - Main README Section 10: nine engineering consequences
