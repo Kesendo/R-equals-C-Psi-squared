@@ -15,6 +15,10 @@ guessing while the numbers are in front of us but not yet readable.
 [`after_the_collapse.py`](../simulations/after_the_collapse.py),
 [`memory_fate_across_the_takt.py`](../simulations/memory_fate_across_the_takt.py)
 
+**Hardware:** IBM Kingston run, 2026-05-31 (Job `d8dr7dfd0j8c73f4man0`); data and notes in
+[`data/ibm_ep_onset_may2026/`](../data/ibm_ep_onset_may2026/), runner `run_ep_onset.py` in the
+IBM pipeline.
+
 ---
 
 ## What this document is about
@@ -121,6 +125,44 @@ just 0).
 The target sits in the kernel of L: `L · vec(1/N uniform) = 0` bit-exact. The kernel is
 **(N+1)-dimensional**, one fixed point per particle-number sector; the single-excitation
 trajectory lands on its own sector's fixed point.
+
+## On hardware: the flow on a real chip (IBM Kingston, 2026-05-31)
+
+The loop above is a simulation. We then ran the same single-excitation flow on a real quantum
+computer, IBM Kingston, on a connected 3-site chain (qubits 13-14-15, T2 ~ 180-300 μs), reading
+out only the per-site populations ⟨n_l⟩ (Z-basis, no tomography). Job `d8dr7dfd0j8c73f4man0`;
+data in [`data/ibm_ep_onset_may2026/`](../data/ibm_ep_onset_may2026/).
+
+The whole arc shows up in a single population trajectory:
+
+| t (μs) | ⟨n_0⟩ | ⟨n_1⟩ | ⟨n_2⟩ | |
+|---|---|---|---|---|
+| 0 | 0.99 | 0.03 | 0.02 | excitation on site 0 |
+| 1 | 0.08 | 0.17 | 0.77 | sloshed to the far end |
+| 2 | 0.13 | 0.67 | 0.23 | back across the middle |
+| 3 | 0.84 | 0.11 | 0.09 | revival on site 0 (the memory) |
+| 6 | 0.72 | 0.17 | 0.17 | revival fading |
+| 9 | 0.63 | 0.20 | 0.22 | |
+| 12 | 0.52 | 0.25 | 0.28 | |
+| 15 | 0.47 | 0.26 | 0.36 | |
+| 18 | 0.43 | 0.29 | 0.38 | |
+| 20 | 0.34 | 0.43 | 0.34 | converging to 1/3 = 1/N (the target) |
+
+Three things, all on the real device: the excitation **sloshes** site to site with a ~3 μs
+period (the reborn oscillating memory, the regime above the EP); the revival on site 0 **fades**
+monotonically (0.84 → 0.43 over 15 μs, the forgetting); and the populations **converge toward
+1/N = 1/3** (0.34 / 0.43 / 0.34 at 20 μs, the target). The memory is born, fades, and the flow
+runs into the 1/N fixed point: the arc of this document, watched on hardware, with populations
+alone.
+
+Honest on the rate: the revivals fade *faster* than the T1+T2 noise model predicted (the
+simulate kept the site-0 revival near 0.83 at t=18 μs; hardware gave 0.43). The cause is
+two-qubit **gate error**, not dephasing: reaching 20 μs takes about 160 RZZ gates (40 Trotter
+steps × 2 bonds × 2), and at ~0.5% per gate that dominates, which the thermal-only noise model
+does not capture. So the sloshing and the flow into 1/N are real and clean; the decay *envelope*
+is Trotterization-limited (~9 μs here), not T2-limited (~200 μs). The exceptional point itself,
+seen by scanning injected dephasing until the sloshing switches off through Q ~ 1.5, is the next
+run (Part B of the runner).
 
 ## The structural picture (seen, not interpreted)
 
@@ -233,4 +275,5 @@ genuinely two. Seeing was enough for today; the grasp is the next session's.
 
 ---
 
-*Seen 2026-05-30. The numbers are on the table; reading them is still ahead.*
+*Seen 2026-05-30; watched on IBM Kingston hardware 2026-05-31. The numbers are on the table;
+reading them is still ahead.*
