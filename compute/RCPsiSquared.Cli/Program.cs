@@ -86,6 +86,7 @@ public static class Program
         Console.WriteLine("                    [--htype XY|Heisenberg] [--topology chain|star|ring]");
         Console.WriteLine("              root flow (live PostEpFlowField): --N <1..6>");
         Console.WriteLine("                    [--q-list 0.5,1.0,1.5,2.5] [--t-max 6.0] [--t-points 60]  single-excitation flow into 1/N");
+        Console.WriteLine("                    [--gamma-profile w0,...,w(N-1)] [--fix-total]  per-site dephasing shape (fix-total: same sum gamma)");
         Console.WriteLine();
         Console.WriteLine("  query       ask typed questions of the F86 knowledge graph");
         Console.WriteLine("              args: --N <int> --n <int> --gamma <double> --q <query> [extra args]");
