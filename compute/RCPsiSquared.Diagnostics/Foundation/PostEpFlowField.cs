@@ -134,7 +134,9 @@ public sealed class PostEpFlowField : IInspectable
         return qFlows;
     }
 
-    /// <summary>Oscillation count: sign changes of the first difference (local extrema).</summary>
+    /// <summary>Oscillation count: strict sign changes of the first difference (local extrema).
+    /// A display heuristic for the over/underdamped tag, not a bit-for-bit match of the Python
+    /// prototype's n_turns (which also counts transitions through flat segments).</summary>
     private static int NTurns(IReadOnlyList<double> ys)
     {
         int turns = 0;
@@ -147,7 +149,7 @@ public sealed class PostEpFlowField : IInspectable
         return turns;
     }
 
-    // ---- IInspectable (the tree is filled in a later task; placeholder here) ----
+    // ---- Object Manager: the post-EP flow as a live IInspectable node ----
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
     public string DisplayName =>
         $"PostEpFlowField (N={N}, target 1/N={Target.ToString("0.0000", Inv)})";
