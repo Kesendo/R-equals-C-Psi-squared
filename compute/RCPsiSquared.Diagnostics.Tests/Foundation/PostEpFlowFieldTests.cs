@@ -188,4 +188,18 @@ public class PostEpFlowFieldTests
         for (int t = 0; t < taus.Length; t++)
             Assert.Equal(1.0, q.Sites.Sum(s => s.Occupation[t]), 9);
     }
+
+    [Fact]
+    public void Profile_ChangesSpectralGap_AtFixedTotal()
+    {
+        var taus = Linspace(0, 6, 20);
+        var vshape = PostEpFlowField.NormalizeToTotal(new[] { 0.2, 0.6, 2.4, 0.6, 0.2 }, 5.0);
+        var uniform = new PostEpFlowField(5, new[] { 20.0 }, taus); // uniform, Sum gamma = 5
+        var shaped = new PostEpFlowField(5, new[] { 20.0 }, taus, gammaProfile: vshape); // Sum gamma = 5
+        double rateU = uniform.Flows.Single().SlowestRate;
+        double rateV = shaped.Flows.Single().SlowestRate;
+        Assert.True(rateU > 0, $"uniform slowest rate should be positive, got {rateU}");
+        Assert.True(rateV > 0, $"shaped slowest rate should be positive, got {rateV}");
+        Assert.True(Math.Abs(rateU - rateV) > 1e-6, $"shape should change the gap: uniform={rateU:F6}, vshape={rateV:F6}");
+    }
 }

@@ -152,16 +152,29 @@ public sealed class PostEpFlowField : IInspectable
         foreach (double q in QGrid)
         {
             var L = DimensionlessLiouvillian(q);
-            var traj = SpectralPropagator.Evolve(L, rho0, observables, TauGrid);   // traj[site][τ]
+            var ev = SpectralPropagator.EvolveWithSpectrum(L, rho0, observables, TauGrid);
+            var traj = ev.Observables;   // traj[site][τ]
             var sites = new List<PostEpSiteFlow>(N);
             for (int s = 0; s < N; s++)
             {
                 bool isEdge = s == 0 || s == N - 1;
                 sites.Add(new PostEpSiteFlow(s, isEdge, traj[s], NTurns(traj[s])));
             }
-            qFlows.Add(new PostEpQFlow(q, Underdamped: q >= 1.0, sites));
+            qFlows.Add(new PostEpQFlow(q, Underdamped: q >= 1.0, sites, SlowestNonKernelRate(ev.Eigenvalues)));
         }
         return qFlows;
+    }
+
+    /// <summary>The slowest non-kernel relaxation rate: −max{ Re λ : |λ| > tol }. Positive; larger
+    /// means faster forgetting. The kernel modes (|λ| ≈ 0, the 1/N fixed point) are excluded. This
+    /// is the profile-sensitive timescale at fixed Σγ.</summary>
+    private static double SlowestNonKernelRate(IReadOnlyList<Complex> eigenvalues)
+    {
+        const double tol = 1e-7;
+        double maxRe = double.NegativeInfinity;
+        foreach (var z in eigenvalues)
+            if (z.Magnitude > tol && z.Real > maxRe) maxRe = z.Real;
+        return double.IsNegativeInfinity(maxRe) ? 0.0 : -maxRe;
     }
 
     /// <summary>Oscillation count: strict sign changes of the first difference (local extrema).
@@ -219,4 +232,4 @@ public sealed record PostEpSiteFlow(int Site, bool IsEdge, IReadOnlyList<double>
 
 /// <summary>One Q slice of the flow: the Q value, whether it is above the rotation onset
 /// (underdamped, Q ≥ 1), and the per-site trajectories.</summary>
-public sealed record PostEpQFlow(double Q, bool Underdamped, IReadOnlyList<PostEpSiteFlow> Sites);
+public sealed record PostEpQFlow(double Q, bool Underdamped, IReadOnlyList<PostEpSiteFlow> Sites, double SlowestRate);
