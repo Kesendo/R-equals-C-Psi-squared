@@ -1,3 +1,4 @@
+using System.Globalization;
 using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.Decomposition;
@@ -52,12 +53,13 @@ public static class InspectCommand
             "f87" => BuildF87Root(p, N),
             "pi2" => BuildPi2Root(p, N),
             "mirror" => BuildMirrorRoot(p, N),
+            "flow" => BuildFlowRoot(p, N),
             "fourmode" => BuildFourModeRoot(BuildCoherenceBlock(p, N), withQSweep, qGridPoints),
             "f86" => BuildF86Root(BuildCoherenceBlock(p, N), withMeasured, qGridPoints),
             "c2hwhm" => C2HwhmRatio.Build(BuildCoherenceBlock(p, N), BuildOptionalQGrid(p, qGridPoints)),
             "c2cpsi" => BuildC2CpsiRoot(BuildCoherenceBlock(p, N), p),
             "c2cpsi-scan" => BuildC2CpsiScanRoot(BuildCoherenceBlock(p, N), p),
-            _ => throw new ArgumentException($"unknown root: {rootKind}; known: fourmode, f86, c2hwhm, c2cpsi, c2cpsi-scan, f71, f1, f87, pi2, mirror"),
+            _ => throw new ArgumentException($"unknown root: {rootKind}; known: fourmode, f86, c2hwhm, c2cpsi, c2cpsi-scan, f71, f1, f87, pi2, mirror, flow"),
         };
 
         bool wroteSomething = false;
@@ -129,6 +131,22 @@ public static class InspectCommand
         var hamiltonian = new ChainSystem(N, j, gamma, htype, topo).BuildHamiltonian();
         var channels = Enumerable.Range(0, N).Select(l => new ChannelRate($"q{l}", gamma)).ToList();
         return new MirrorSystem(N, hamiltonian, channels);
+    }
+
+    /// <summary>The post-EP flow GameObject: a single excitation evolved across a Q-grid, with
+    /// per-site occupation ⟨n_site⟩(τ) relaxing to 1/N. Args: <c>--N 1..6</c>,
+    /// <c>--q-list 0.5,1.0,1.5,2.5</c>, <c>--t-max 6.0</c>, <c>--t-points 60</c> (Python defaults).
+    /// Pair with <c>--draw</c> to plot the trajectory curves.</summary>
+    private static IInspectable BuildFlowRoot(ArgParser p, int N)
+    {
+        string qListStr = p.OptionalString("q-list") ?? "0.5,1.0,1.5,2.5";
+        var qGrid = qListStr.Split(',')
+            .Select(s => double.Parse(s.Trim(), CultureInfo.InvariantCulture)).ToArray();
+        double tMax = p.OptionalDouble("t-max") ?? 6.0;
+        int tPoints = p.OptionalDouble("t-points") is { } np ? (int)np : 60;
+        var tauGrid = new double[tPoints];
+        for (int i = 0; i < tPoints; i++) tauGrid[i] = tMax * i / (tPoints - 1);
+        return new PostEpFlowField(N, qGrid, tauGrid);
     }
 
     private static CoherenceBlock BuildCoherenceBlock(ArgParser p, int N)
