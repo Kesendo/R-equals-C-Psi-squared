@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using MathNet.Numerics.LinearAlgebra;
+using System.Numerics;
 using RCPsiSquared.Diagnostics.Foundation;
 using Xunit;
 
@@ -60,5 +62,46 @@ public class PostEpFlowFieldTests
             .Select(i => q.Sites[1].Occupation[i]).Max();
         Assert.True(site0End < 0.9, $"site 0 should lose population, end={site0End:F3}");
         Assert.True(site1Max > 0.1, $"site 1 should receive population, max={site1Max:F3}");
+    }
+
+    [Fact]
+    public void LongTime_RelaxesToOneOverN()
+    {
+        // Slowest non-kernel rate ~ O(1) in τ; τ up to 50 is fully converged.
+        var field = new PostEpFlowField(4, new[] { 2.5 }, Linspace(0, 50, 60));
+        var q = field.Flows.Single();
+        foreach (var s in q.Sites)
+            Assert.Equal(0.25, s.Occupation[^1], 6);
+    }
+
+    [Fact]
+    public void Kernel_FutureIsAlreadyPresent_AtTimeZero()
+    {
+        // THE_FLOW: the λ=0 component of ρ(0) already equals the uniform 1/N target, bit-exact.
+        const int n = 4;
+        var field = new PostEpFlowField(n, new[] { 2.5 }, Linspace(0, 6, 10));
+        var L = field.DimensionlessLiouvillian(2.5);
+        var rho0 = field.InitialStateVec();
+
+        var evd = L.Evd();
+        var R = evd.EigenVectors;
+        var lambda = evd.EigenValues;
+        var c0 = R.Solve(rho0);
+
+        // Keep only the kernel modes (|λ| < 1e-7), reconstruct their contribution to vec(ρ).
+        var masked = MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex>.Build.Dense(c0.Count);
+        for (int i = 0; i < c0.Count; i++)
+            if (lambda[i].Magnitude < 1e-7) masked[i] = c0[i];
+        var kernelProjection = R * masked;
+
+        // Target: uniform single-excitation ρ = (1/N) Σ_{popcount-1 |s⟩⟨s|}, row-major vec.
+        int d = 1 << n;
+        var target = MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex>.Build.Dense(d * d);
+        for (int a = 0; a < d; a++)
+            if (System.Numerics.BitOperations.PopCount((uint)a) == 1)
+                target[a * d + a] = new System.Numerics.Complex(1.0 / n, 0.0);
+
+        double diff = (kernelProjection - target).L2Norm();
+        Assert.True(diff < 1e-9, $"kernel projection differs from 1/N target by {diff:E2}");
     }
 }
