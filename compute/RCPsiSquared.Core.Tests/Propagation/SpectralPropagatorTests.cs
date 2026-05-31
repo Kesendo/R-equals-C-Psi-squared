@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.Propagation;
@@ -28,5 +29,23 @@ public class SpectralPropagatorTests
         Assert.Equal(1.0, result[1][0], 12);
         Assert.Equal(Math.Exp(-2.0), result[1][1], 12);
         Assert.Equal(Math.Exp(-4.0), result[1][2], 12);
+    }
+
+    [Fact]
+    public void EvolveWithSpectrum_ReturnsEigenvaluesAndSameObservables()
+    {
+        var L = ComplexMatrix.Build.DenseOfDiagonalArray(new[] { new Complex(-1, 0), new Complex(-2, 0) });
+        var rho0 = ComplexVector.Build.DenseOfArray(new[] { Complex.One, Complex.One });
+        var oA = ComplexVector.Build.DenseOfArray(new[] { Complex.One, Complex.Zero });
+        var taus = new[] { 0.0, 1.0 };
+
+        var result = SpectralPropagator.EvolveWithSpectrum(L, rho0, new[] { oA }, taus);
+
+        var reals = result.Eigenvalues.Select(z => z.Real).OrderBy(x => x).ToArray();
+        Assert.Equal(-2.0, reals[0], 12);
+        Assert.Equal(-1.0, reals[1], 12);
+        var plain = SpectralPropagator.Evolve(L, rho0, new[] { oA }, taus);
+        Assert.Equal(plain[0][0], result.Observables[0][0], 12);
+        Assert.Equal(plain[0][1], result.Observables[0][1], 12);
     }
 }

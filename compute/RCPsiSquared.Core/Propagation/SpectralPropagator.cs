@@ -18,8 +18,21 @@ namespace RCPsiSquared.Core.Propagation;
 /// flow does not add a third copy. Diagnostic-scale dense Evd (small N).</para></summary>
 public static class SpectralPropagator
 {
+    /// <summary>Trajectories plus the Liouvillian spectrum from the one eigendecomposition,
+    /// so callers can read both the observable curves and spectral quantities (gaps, kernel)
+    /// without a second Evd.</summary>
+    public sealed record SpectralEvolution(double[][] Observables, IReadOnlyList<Complex> Eigenvalues);
+
     /// <summary>Returns <c>result[observable][τ] = Re(Σ_k covector[k]·vec(ρ(τ))[k])</c>.</summary>
     public static double[][] Evolve(
+        ComplexMatrix L,
+        ComplexVector rho0Vec,
+        IReadOnlyList<ComplexVector> observableCovectors,
+        IReadOnlyList<double> tauGrid)
+        => EvolveWithSpectrum(L, rho0Vec, observableCovectors, tauGrid).Observables;
+
+    /// <summary>As <see cref="Evolve"/>, but also returns L's eigenvalues from the same Evd.</summary>
+    public static SpectralEvolution EvolveWithSpectrum(
         ComplexMatrix L,
         ComplexVector rho0Vec,
         IReadOnlyList<ComplexVector> observableCovectors,
@@ -53,6 +66,9 @@ public static class SpectralPropagator
                 result[o][ti] = acc.Real;
             }
         }
-        return result;
+
+        var eigenvalues = new Complex[lambda.Count];
+        for (int i = 0; i < lambda.Count; i++) eigenvalues[i] = lambda[i];
+        return new SpectralEvolution(result, eigenvalues);
     }
 }
