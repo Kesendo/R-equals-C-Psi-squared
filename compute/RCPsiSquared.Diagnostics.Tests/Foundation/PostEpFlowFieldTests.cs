@@ -47,4 +47,18 @@ public class PostEpFlowFieldTests
         for (int s = 1; s < 4; s++)
             Assert.Equal(0.0, q.Sites[s].Occupation[0], 9);
     }
+
+    [Fact]
+    public void Transport_ExcitationHopsOffSiteZero()
+    {
+        // Above the EP (Q=2.5) the excitation sloshes: site 0 must lose population and a
+        // neighbour must gain it. This pins the dynamics, not just the conserved sector.
+        var field = new PostEpFlowField(4, new[] { 2.5 }, Linspace(0, 6, 60));
+        var q = field.Flows.Single();
+        double site0End = q.Sites[0].Occupation[^1];
+        double site1Max = Enumerable.Range(0, q.Sites[1].Occupation.Count)
+            .Select(i => q.Sites[1].Occupation[i]).Max();
+        Assert.True(site0End < 0.9, $"site 0 should lose population, end={site0End:F3}");
+        Assert.True(site1Max > 0.1, $"site 1 should receive population, max={site1Max:F3}");
+    }
 }

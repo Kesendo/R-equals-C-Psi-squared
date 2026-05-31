@@ -19,7 +19,13 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// The dimensionless Liouvillian L'(N,Q) = −iQ[H_unit,·] + Σ_l(Z_lρZ_l − ρ) reuses
 /// <see cref="PauliDephasingDissipator.BuildZ"/> with H = Q·H_unit and γ = 1; Q = J/γ is the only knob,
 /// τ = γ·t the dimensionless time. Site 0 = leftmost factor; vec is row-major (C-order), matching the
-/// dissipator.</para></summary>
+/// dissipator.</para>
+///
+/// <para>Numerical note: the trajectory is propagated in the Liouvillian's eigenbasis (eig once,
+/// the same method as the Python prototype and <c>BlockCpsiTrajectory</c>). Exactly at an
+/// exceptional point the Liouvillian is defective and that eigenbasis is singular; at the
+/// generic grid points away from the exact EP it is well-conditioned, which is why the
+/// validated Python reference scans the same Q-grid without issue.</para></summary>
 public sealed class PostEpFlowField : IInspectable
 {
     public int N { get; }
@@ -75,7 +81,9 @@ public sealed class PostEpFlowField : IInspectable
         return v;
     }
 
-    /// <summary>Row-major observable covector for operator O: w[b·d+a] = O[a,b], so Tr(Oρ) = w·vec(ρ).</summary>
+    /// <summary>Row-major observable covector for operator O: w[b·d+a] = O[a,b], so Tr(Oρ) = w·vec(ρ).
+    /// The site observables n_l are diagonal (hence symmetric), so for them this orientation is
+    /// immaterial; the convention is written generally for any future non-diagonal observable.</summary>
     private static ComplexVector Covector(ComplexMatrix o)
     {
         int d = o.RowCount;
