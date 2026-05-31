@@ -271,6 +271,35 @@ public class PostEpFlowFieldTests
         Assert.Equal(PostEpFlowField.MaxSaturationCeiling, cBlock, 9);
     }
 
+    [Fact]
+    public void ReadAssembly_PutsThePiecesTogether_OnTheBirthRail()
+    {
+        // The slowest non-kernel mode (the birth-canal object) read through the whole assembly:
+        // depth = light = rate (Absorption), the parity rung, the saturation ceiling, in one place.
+        var field = new PostEpFlowField(5, new[] { 20.0 }, Linspace(0, 6, 10));
+        var a = field.ReadAssembly(20.0);
+        Assert.Equal(1.0, a.SlowestDepth, 4);          // one light quantum
+        Assert.Equal(1, a.Rung);                        // odd rung
+        Assert.True(a.OnBirthRail);
+        Assert.Equal(a.SlowestRate, a.AbsorptionRate, 6);   // rate = 2·Σ γ_k·light_k (Absorption)
+        Assert.Equal(2.0, a.SlowestRate, 4);            // = 2γ uniform
+        Assert.Equal(0.25, a.MaxSaturationCeiling, 12);
+    }
+
+    [Fact]
+    public void ReadAssembly_AbsorptionCrossCheck_HoldsForNonUniformProfile()
+    {
+        // The per-site light (carrier vector) reproduces the rate for a shaped profile too:
+        // peaked-V puts the one quantum on the low-γ edges, so the rate drops to 1γ (still odd rung).
+        var field = new PostEpFlowField(5, new[] { 20.0 }, Linspace(0, 6, 10),
+            gammaProfile: new[] { 0.25, 0.75, 3.0, 0.75, 0.25 });
+        var a = field.ReadAssembly(20.0);
+        Assert.Equal(a.SlowestRate, a.AbsorptionRate, 6);
+        Assert.Equal(1.0, a.SlowestDepth, 4);           // still one quantum on the odd rail
+        Assert.Equal(1, a.Rung);
+        Assert.Equal(1.0, a.SlowestRate, 4);            // γ-weighted share, not 2γ
+    }
+
     private static MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex> DickeState(int N, int n)
     {
         int d = 1 << N;

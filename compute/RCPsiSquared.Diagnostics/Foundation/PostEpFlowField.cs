@@ -283,6 +283,52 @@ public sealed class PostEpFlowField : IInspectable
         return peak;
     }
 
+    /// <summary>The slowest non-kernel mode read through the WHOLE assembly at one Q: the scattered
+    /// pieces brought together where the birth channel lives. Reads its rate; its drain depth
+    /// ⟨popcount(i⊕j)⟩ = the light content n_XY (one axis, two names); the per-site light (the
+    /// carrier vector); the Absorption-Theorem cross-check rate = 2·Σ_k γ_k·light_k (equal to the
+    /// rate, bit-exact); the parity rung (0 = even, the number-conserving flow rail; 1 = odd, the
+    /// number-changing birth rail); and the maximal-saturation ceiling ¼ of that rail. So depth =
+    /// light = rate (Absorption), the parity rail, and the bilinear ceiling are one reading.</summary>
+    public FlowAssemblyReading ReadAssembly(double q)
+    {
+        int d = 1 << N;
+        var evd = DimensionlessLiouvillian(q).Evd();
+        var vals = evd.EigenValues;
+        const double tol = 1e-7;
+        int kSlow = -1;
+        double maxRe = double.NegativeInfinity;
+        for (int k = 0; k < vals.Count; k++)
+            if (vals[k].Magnitude > tol && vals[k].Real > maxRe) { maxRe = vals[k].Real; kSlow = k; }
+        if (kSlow < 0)
+            throw new InvalidOperationException("L has no non-kernel mode to read.");
+        double slowestRate = -maxRe;
+
+        var v = evd.EigenVectors.Column(kSlow);     // the slowest mode as a Liouville vector
+        // row-major vec: M[a,b] = v[a·d+b]; site l ↔ bit (N−1−l); per-site light = weight where a,b differ
+        double norm2 = 0.0;
+        var perSite = new double[N];
+        for (int a = 0; a < d; a++)
+            for (int b = 0; b < d; b++)
+            {
+                var c = v[a * d + b];
+                double w = c.Real * c.Real + c.Imaginary * c.Imaginary;
+                norm2 += w;
+                int diff = a ^ b;
+                for (int l = 0; l < N; l++)
+                    if (((diff >> (N - 1 - l)) & 1) != 0) perSite[l] += w;
+            }
+        double depth = 0.0, absorption = 0.0;
+        for (int l = 0; l < N; l++)
+        {
+            perSite[l] /= norm2;
+            depth += perSite[l];
+            absorption += 2.0 * GammaProfile[l] * perSite[l];
+        }
+        int rung = (int)Math.Round(depth) & 1;
+        return new FlowAssemblyReading(slowestRate, depth, perSite, absorption, rung, rung == 1, MaxSaturationCeiling);
+    }
+
     /// <summary>Oscillation count: strict sign changes of the first difference (local extrema).
     /// A display heuristic for the over/underdamped tag, not a bit-for-bit match of the Python
     /// prototype's n_turns (which also counts transitions through flat segments).</summary>
@@ -339,3 +385,19 @@ public sealed record PostEpSiteFlow(int Site, bool IsEdge, IReadOnlyList<double>
 /// <summary>One Q slice of the flow: the Q value, whether it is above the rotation onset
 /// (underdamped, Q ≥ 1), and the per-site trajectories.</summary>
 public sealed record PostEpQFlow(double Q, bool Underdamped, IReadOnlyList<PostEpSiteFlow> Sites, double SlowestRate);
+
+/// <summary>The slowest non-kernel mode read through the whole assembly, the scattered pieces in
+/// one place: <paramref name="SlowestRate"/> (−Re λ); <paramref name="SlowestDepth"/> = the drain
+/// depth ⟨popcount(i⊕j)⟩ = the light n_XY; <paramref name="PerSiteLight"/> = the carrier vector
+/// ⟨X/Y at k⟩; <paramref name="AbsorptionRate"/> = 2·Σ_k γ_k·light_k (the Absorption Theorem,
+/// equal to the rate); <paramref name="Rung"/> = depth mod 2 (0 even = the number-conserving flow
+/// rail, 1 odd = the number-changing birth rail); <paramref name="OnBirthRail"/> = Rung is odd;
+/// <paramref name="MaxSaturationCeiling"/> = ¼, the rail's bilinear ceiling.</summary>
+public sealed record FlowAssemblyReading(
+    double SlowestRate,
+    double SlowestDepth,
+    IReadOnlyList<double> PerSiteLight,
+    double AbsorptionRate,
+    int Rung,
+    bool OnBirthRail,
+    double MaxSaturationCeiling);
