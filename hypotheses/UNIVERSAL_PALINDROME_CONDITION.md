@@ -325,6 +325,41 @@ additional structure specific to qubits or neurons is required.
 
 ---
 
+## Seen again 2026-06-01: the abstract leg, and the two faces of 1/4
+
+Returning with sharper tools, two of the open questions above moved. Verification:
+[`simulations/palindrome_general.py`](../simulations/palindrome_general.py).
+
+**Open Question 7 (derive once, not per domain): answered for the implication.** The condition was
+confirmed in two domains; the question was whether the palindrome follows from the ingredients alone,
+once, rather than being re-proven per substrate. It does. The probe builds a FRESH generator that is
+neither quantum nor neural: a coupling part A made mirror-odd (Q A Q⁻¹ = −A) and a bath diagonal B
+paired to a constant (B + Q B Q⁻¹ = −2c·I). The two sub-conditions ALONE force Q X Q⁻¹ = −X − 2c·I,
+hence the palindrome: if X v = λ v then X(Q⁻¹v) = (−2c − λ)(Q⁻¹v), so Q⁻¹v is the partner mode. Bit-exact,
+no reference to qubits or neurons; the same script re-confirms the quantum Liouvillian (about −Σγ) and
+the neural Jacobian (‖J + Q J Q + 2S·I‖ = 0). So the equation is not "the same in two domains by
+analogy"; it is one substrate-free algebraic fact, the implication derived once. What stays
+domain-specific is only WHY each system satisfies the ingredients (the commutator in quantum, Dale's
+Law in neural, construction in the abstract case). The centre −c is bath-set because A is mirror-odd
+and contributes nothing to it: the substrate-independent form of the Absorption Theorem (rate centre
+dephasing-set) and the neural Takt identity (centre membrane-set), one fact, the trace.
+
+**Open Question 8 (what is (0.5)² at other levels): there are TWO 1/4, degenerate at d=2.** The doc
+reads 1/4 = (0.5)² = "the axiom squared", and that reading is correct and d-INDEPENDENT: the maximal
+single coherence obeys |ρ_ab|² ≤ ρ_aa·ρ_bb ≤ 1/4 (AM-GM), so the equal superposition of any two states
+gives exactly 1/4 at every dimension (verified d = 2..5: the value stays 0.2500). This is the
+quadratic 1/4, the fold of x², the coherence ceiling, the currency. But a SECOND 1/4 hides under it:
+the polarity reading 1/d² = (1/d)², which is 1/4 only at d=2 and diverges (1/9, 1/16, 1/25) at higher
+d. At d=2 the two coincide because (1/2)² = 1/4 = the quadratic maxval, a degeneracy that makes them
+indistinguishable from d=2 alone. So the answer to "what is (0.5)² at intermediate levels": the
+quadratic 1/4 (fold, ceiling) stays 1/4 at any dimension because it is about the square, not the
+dimension; the polarity 1/d² is the face that changes, but it diverges from the framework's 1/4 at
+d ≠ 2, and the qubit necessity (d² − 2d = 0) keeps the framework itself at d=2. The currency is the
+quadratic 1/4; the 1/d² is the polarity coincidence. See
+[QUARTER_HALF_IN_CARBON](../docs/carbon/QUARTER_HALF_IN_CARBON.md) for the currency anchors.
+
+---
+
 ## References
 
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): quantum palindrome
