@@ -22,23 +22,25 @@ from formation_possibility import formation_order  # noqa: E402
 def main():
     N = int(sys.argv[1]) if len(sys.argv) > 1 else 12
     k = int(sys.argv[2]) if len(sys.argv) > 2 else 3
+    ring = len(sys.argv) > 3 and sys.argv[3].lower() == "ring"
+    topo = "ring" if ring else "chain"
     deltas = np.linspace(0.1, 3.0, 36)
     j2s = np.linspace(0.0, 1.0, 21)
     Z = np.zeros((len(j2s), len(deltas)))
     for i, j2 in enumerate(j2s):
         for jx, d in enumerate(deltas):
-            Z[i, jx] = formation_order(N, k, float(d), float(j2))
+            Z[i, jx] = formation_order(N, k, float(d), float(j2), ring)
 
     fig, ax = plt.subplots(figsize=(8.2, 5.2))
     im = ax.pcolormesh(deltas, j2s, Z, cmap="viridis", shading="auto", vmin=0.0, vmax=1.0)
     ax.contour(deltas, j2s, Z, levels=[0.5], colors="white", linewidths=2.0, linestyles="--")
     ax.set_xlabel("binding  Delta")
     ax.set_ylabel("integrability breaking  j2")
-    ax.set_title(f"Formation map: {k}-body complex on an N={N} chain\n"
+    ax.set_title(f"Formation map: {k}-body complex on an N={N} {topo}\n"
                  f"color = band-edge clustering (0 unformed, 1 deeply bound); white dashed = marginal ridge")
     fig.colorbar(im, ax=ax, label="formation order")
     os.makedirs("simulations/results", exist_ok=True)
-    out = "simulations/results/formation_map.png"
+    out = f"simulations/results/formation_map_{topo}.png"
     fig.tight_layout()
     fig.savefig(out, dpi=130)
     print(f"wrote {out}")

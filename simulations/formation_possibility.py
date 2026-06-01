@@ -28,15 +28,21 @@ from itertools import combinations
 import numpy as np
 
 
-def Hn(N, k, delta, j2=0.0):
-    """k-excitation sector of the XXZ chain: nearest-neighbour XY hopping (amplitude 2) +
+def Hn(N, k, delta, j2=0.0, ring=False):
+    """k-excitation sector of the XXZ chain (or ring): nearest-neighbour XY hopping (amplitude 2) +
     Delta*ZZ (diagonal) + j2 next-nearest-neighbour XY hopping (amplitude 2*j2). The j2 term
-    breaks Bethe integrability, opening the inelastic channel that lets a complex form from a
-    collision; with j2=0 the spectrum alone still shows where the bound complex can exist."""
+    breaks Bethe integrability. ring=True closes the loop (the wrap bond N-1 <-> 0 and its NNN
+    partners), the aromatic substrate (benzene C6, etc.)."""
     basis = list(combinations(range(N), k))
     index = {b: i for i, b in enumerate(basis)}
     M = len(basis)
     H = np.zeros((M, M))
+
+    nn = [(l, l + 1) for l in range(N - 1)]
+    nnn = [(l, l + 2) for l in range(N - 2)]
+    if ring and N >= 3:
+        nn.append((N - 1, 0))                       # the wrap bond closes the ring
+        nnn += [(N - 2, 0), (N - 1, 1)]             # next-nearest across the seam
 
     def hop(S, l, m, amp, col):
         if (l in S) == (m in S):
@@ -51,32 +57,39 @@ def Hn(N, k, delta, j2=0.0):
     for bi, occ in enumerate(basis):
         S = set(occ)
         e = 0.0
-        for l in range(N - 1):
+        for (l, m) in nn:
             sl = -1 if l in S else 1
-            sr = -1 if (l + 1) in S else 1
-            e += sl * sr
+            sm = -1 if m in S else 1
+            e += sl * sm
         H[bi, bi] = delta * e
-        for l in range(N - 1):
-            hop(S, l, l + 1, 2.0, bi)
+        for (l, m) in nn:
+            hop(S, l, m, 2.0, bi)
         if j2 != 0.0:
-            for l in range(N - 2):
-                hop(S, l, l + 2, 2.0 * j2, bi)
+            for (l, m) in nnn:
+                hop(S, l, m, 2.0 * j2, bi)
     return H, basis
 
 
-def adjacency_links(basis):
-    """Per config, the number of adjacent links among its (sorted) excitations; the fully
-    clustered k-string has the maximum, k-1."""
-    return np.array([sum(1 for a, b in zip(occ, occ[1:]) if b == a + 1) for occ in basis])
+def adjacency_links(basis, N, ring=False):
+    """Per config, the number of adjacent links among its excitations; the fully clustered
+    k-string has the maximum, k-1. On a ring, sites 0 and N-1 count as adjacent (the seam), so a
+    cluster wrapping the seam is still recognized as clustered."""
+    out = []
+    for occ in basis:
+        links = sum(1 for a, b in zip(occ, occ[1:]) if b == a + 1)
+        if ring and (0 in occ) and (N - 1 in occ):
+            links += 1
+        out.append(links)
+    return np.array(out)
 
 
-def formation_order(N, k, delta, j2=0.0):
+def formation_order(N, k, delta, j2=0.0, ring=False):
     """The formation order parameter: the weight on the fully-clustered (k-string) configs carried
     by the actual bound complex, the band-edge eigenstate. For Delta > 0 adjacency is energetically
     high, so the bound complex is the HIGHEST-energy eigenstate; reading it directly avoids the
     argmax proxy that mistook a localized mid-spectrum state for the complex."""
-    H, basis = Hn(N, k, delta, j2)
-    full = adjacency_links(basis) == (k - 1)        # the k-adjacent (k-string) configurations
+    H, basis = Hn(N, k, delta, j2, ring)
+    full = adjacency_links(basis, N, ring) == (k - 1)   # the k-adjacent (k-string) configurations
     w, V = np.linalg.eigh(H)
     p = np.abs(V[:, -1]) ** 2                        # band-edge (highest-E) state = the bound complex
     return float(p[full].sum())
@@ -94,13 +107,15 @@ def main():
     N = int(sys.argv[1]) if len(sys.argv) > 1 else 14
     k = int(sys.argv[2]) if len(sys.argv) > 2 else 3
     j2 = float(sys.argv[3]) if len(sys.argv) > 3 else 0.0
-    print(f"Formation-possibility scan: {k}-body bound complex on an N={N} chain"
+    ring = len(sys.argv) > 4 and sys.argv[4].lower() == "ring"
+    topo = "ring" if ring else "chain"
+    print(f"Formation-possibility scan: {k}-body bound complex on an N={N} {topo}"
           f"{f', j2={j2}' if j2 else ''}, vs binding Delta\n")
     print(f"  {'Delta':>6}  {'cluster':>7}   regime")
     deltas = [0.1, 0.2, 0.3, 0.4, 0.6, 0.8, 1.2, 1.6, 2.0, 3.0, 5.0]
     marginal = []
     for d in deltas:
-        c = formation_order(N, k, d, j2)
+        c = formation_order(N, k, d, j2, ring)
         if 0.35 <= c < 0.65:
             marginal.append(d)
         print(f"  {d:>6.2f}  {c:>7.3f}   {regime(c)}")
