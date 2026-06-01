@@ -201,3 +201,16 @@ and the C. elegans result says even that is a coarse, degree-level property.
   or the coupling α) along which the slowest surviving mode relays from a rotating
   edge to a near-conserved survivor, as the ZZ term does on the carbon XXZ axis
   ([XXZ_AXIS_BANDEDGE_TO_LEBENSADER](XXZ_AXIS_BANDEDGE_TO_LEBENSADER.md)).
+- **Answered 2026-06-01** ([`neural_crown_switch.py`](../simulations/neural/neural_crown_switch.py)):
+  yes, a neural axis shows the relay (the "crown switch"), but it is network-dependent, not a law.
+  Along the coupling α and along the τ_I/τ_E ratio the slowest mode does flip character (rotating
+  edge ↔ near-decay survivor) at a crossover; on the coupling axis it switches in 4 of 6 balanced
+  networks, with the rotating edge taking the crown at α ≈ 0.2-0.9, BEFORE the Hopf instability at
+  α ≈ 1.3-2.4 (a robust precursor), while 2 of 6 networks show no switch (the survivor goes straight
+  to instability). The drive P never moves the crown: it sweeps the thermal window of faster modes,
+  but the longest-lived mode stays a near-decay survivor (θ < 0.6°). So the crown is structural
+  (coupling / timescale), not metabolic (drive). And the reverse-reading that helps the quantum
+  side: the crown switch is structure-dependent on BOTH substrates (the quantum EP coincidences are
+  uniform-specific, [THE_FLOW_BETWEEN_TWO_SINGULARITIES](THE_FLOW_BETWEEN_TWO_SINGULARITIES.md);
+  the neural one is network-specific), the same caution against over-generalizing it, confirmed from
+  the classical side.
