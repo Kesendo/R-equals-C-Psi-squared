@@ -186,9 +186,12 @@ and the C. elegans result says even that is a coarse, degree-level property.
 
 ## Anchor and open work
 
-- Script: [`simulations/neural/neural_clock_two_hands.py`](../simulations/neural/neural_clock_two_hands.py)
+- Scripts: [`simulations/neural/neural_clock_two_hands.py`](../simulations/neural/neural_clock_two_hands.py)
   (the trace identity on three graphs, the V-Effect and thermal-window clock
-  sweeps, the C. elegans Takt/Rotation residual split).
+  sweeps, the C. elegans Takt/Rotation residual split);
+  [`simulations/neural/neural_crown_switch.py`](../simulations/neural/neural_crown_switch.py)
+  (the crown-switch probe that answers the open question below: the slowest mode's character along
+  α, P, and the τ_I/τ_E ratio, with the cross-seed robustness check).
 - The neural arc: [ALGEBRAIC_PALINDROME_NEURAL](../docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md),
   [V_EFFECT_NEURAL](../docs/neural/V_EFFECT_NEURAL.md),
   [PROOF_PALINDROME_NEURAL](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md).
