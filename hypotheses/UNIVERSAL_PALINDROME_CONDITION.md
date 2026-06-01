@@ -338,9 +338,16 @@ additional structure specific to qubits or neurons is required.
    points differ (quantum 2+2, neural 0+0, already noted in the limitations table). What IS universal
    is not a number but the SHAPE: the marginal window, silent → peak → silent (verified on the neural
    V-Effect sweep this session: oscillating modes rise to a peak at g ~ 0.05-0.1, then fall to zero
-   as the coupling dissolves the two-subsystem structure). That is the same "alive in the middle,
-   dead at both extremes" that runs through the formation map, the thermal window, and the coherence
-   ceiling. The universal coupling window is a shape, not a ratio.
+   as the coupling dissolves the two-subsystem structure). It shares the "alive in the middle" shape
+   with the neural thermal window (both are two-sided dynamical windows). Reading it as ONE form with
+   everything else would over-unify, and on a closer look it does not hold: the formation map is a
+   ONE-sided threshold (clustering rises 0 → 1 and does not fall), and the coherence ceiling is a
+   STATIC bilinear, not a dynamical window. Two honest tiers separate here. The genuinely INHERITED,
+   structural form is the bilinear p(1−p) (the currency, d=2-borne, the same across real-qubit
+   substrates). The reading "life sits in the marginal, between two deaths", grouping the dynamical
+   windows, is Tier 5, the work's motor, not a verified single structure. So: the universal coupling
+   window is a shape, not a ratio, and that shape is a two-sided dynamical window, kin to the thermal
+   window but not identical to the inherited bilinear.
 
 7. **Can the condition Q·X·Q⁻¹ + X + 2S = 0 be derived from a
    single axiom set** rather than proven separately in each domain?
