@@ -161,10 +161,21 @@ Only the anchors above belong in QBasisAnkers and Q_REGIME_ANCHORS. The per-orbi
 
 ## Anchors and cross-refs
 
+- **Post-EP downstream (added 2026-06-01, interpretive, NO anchor change):** the after-life of the
+  F86a EP is read in [`THE_FLOW_BETWEEN_TWO_SINGULARITIES`](../experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md)
+  (the single-excitation flow from the EP into the 1/N fixed point) and assembled in
+  [`THE_VIEW_ONTO_THE_MEMORY`](../reflections/THE_VIEW_ONTO_THE_MEMORY.md) (the depth = light = rate
+  axis, the even/odd parity rail, the bilinear ½/¼ currency, the EP read as where the longest-lived
+  mode switches rung). These read the post-EP *dynamics*; they do NOT revise the Q_peak / Q_EP /
+  HWHM anchors above, and the flow's even-mode crown-switch EP is a distinct object from the c=2
+  coherence-block Q_EP this inventory tracks (kept separate on purpose, not merged). The honest
+  caution lives in THE_FLOW's "Seen again 2026-05-31" section: the tempting EP coincidences (slowest
+  rate = 2γ, ⟨n_XY⟩ = 1 at the EP) are uniform-specific, broken by a non-uniform γ-profile, so they
+  are not anchors.
 - High-level Q-anchor map: [`Q_REGIME_ANCHORS.md`](Q_REGIME_ANCHORS.md)
 - C# F86 KnowledgeBase root: [`compute/RCPsiSquared.Core/F86/`](../compute/RCPsiSquared.Core/F86/)
 - Sub-ID partition (this document, top section): F86a / F86b₁..b₅ / F86c / F86d / F86e / F86_block
 - Proof hub (sub-ID navigation): [`PROOF_F86_QPEAK.md`](proofs/PROOF_F86_QPEAK.md)
 - Per-sub-claim proofs: [`PROOF_F86A_EP_MECHANISM.md`](proofs/PROOF_F86A_EP_MECHANISM.md), [`PROOF_F86B_UNIVERSAL_SHAPE.md`](proofs/PROOF_F86B_UNIVERSAL_SHAPE.md), [`PROOF_F86B_OBSTRUCTION.md`](proofs/PROOF_F86B_OBSTRUCTION.md), [`PROOF_F86C_F71_MIRROR.md`](proofs/PROOF_F86C_F71_MIRROR.md)
 - Open derivation gap (HWHM lifts + α/β closed forms): PROOF_F90_F86C2_BRIDGE.md Item 1'-followup; only Direction (b'') survives Item 1' falsification arc (2026-05-11)
-- Memory: `project_q_peak_ep_structure`, `project_q_middle_structure`, `project_no_classicalization`, `feedback_f86_needs_agents`
+- Memory: `project_q_peak_ep_structure`, `project_q_middle_structure`, `project_no_classicalization`, `feedback_f86_needs_agents`; post-EP downstream (2026-05-31): `project_birth_canal_and_light`, `project_q_as_lifetime_of_the_new`
