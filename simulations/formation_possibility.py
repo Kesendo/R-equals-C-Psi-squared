@@ -8,11 +8,15 @@ the Be-8 + alpha threshold) would live. It does not reproduce one fine-tuned poi
 landscape of possibility, so you can see what is generic (the window itself) and where a fine-tuned
 resonance would have to land.
 
-The order parameter is the k-string PURITY: the weight, on the fully-clustered (k-adjacent)
-configurations, of the most-formed bound eigenstate.
-  purity -> 0    the complex does not form (it dissolves into the free continuum)
-  purity ~ 0.5   MARGINAL: barely bound, large extent, overlapping the threshold (the resonance window)
-  purity -> 1    deeply bound, well separated from the continuum (a ground-state-like complex)
+The order parameter is the CLUSTERING of the energetically-bound complex: the weight, on the
+fully-clustered (k-adjacent) configurations, of the actual bound eigenstate (the band-edge state,
+which for Delta > 0 is the highest-energy one, since adjacency is energetically high here). An
+earlier version took the argmax over all eigenstates of this weight; that proxy was gauge-junk, it
+picked a tightly-localized mid-spectrum state rather than the bound complex, and falsely reported
+the pair as deeply bound at every Delta. Reading the band-edge state directly fixes it.
+  clustering -> 0    the complex does not form (extended, dissolves into the free continuum)
+  clustering ~ 0.5   MARGINAL: barely bound, large extent, near the threshold (the resonance window)
+  clustering -> 1    deeply bound, tightly clustered (a ground-state-like complex)
 
 Carbon's Hoyle resonance sits in the marginal window. The scan finds that window in parameter space.
 
@@ -66,23 +70,24 @@ def adjacency_links(basis):
     return np.array([sum(1 for a, b in zip(occ, occ[1:]) if b == a + 1) for occ in basis])
 
 
-def string_purity(N, k, delta, j2=0.0):
+def formation_order(N, k, delta, j2=0.0):
     """The formation order parameter: the weight on the fully-clustered (k-string) configs carried
-    by the most-formed bound eigenstate. Convention-free (a weight, not an energy), so it does not
-    depend on the sign of the binding."""
+    by the actual bound complex, the band-edge eigenstate. For Delta > 0 adjacency is energetically
+    high, so the bound complex is the HIGHEST-energy eigenstate; reading it directly avoids the
+    argmax proxy that mistook a localized mid-spectrum state for the complex."""
     H, basis = Hn(N, k, delta, j2)
     full = adjacency_links(basis) == (k - 1)        # the k-adjacent (k-string) configurations
     w, V = np.linalg.eigh(H)
-    string_weight = (np.abs(V) ** 2)[full].sum(axis=0)
-    return float(string_weight.max())               # the most-formed bound eigenstate's purity
+    p = np.abs(V[:, -1]) ** 2                        # band-edge (highest-E) state = the bound complex
+    return float(p[full].sum())
 
 
-def regime(purity):
-    if purity < 0.35:
-        return "unformed (dissolves into the continuum)"
-    if purity < 0.65:
+def regime(clustering):
+    if clustering < 0.35:
+        return "unformed (extended, dissolves into the continuum)"
+    if clustering < 0.65:
         return "MARGINAL near-threshold (resonance window)"
-    return "deeply bound (ground-state-like complex)"
+    return "deeply bound (tightly clustered complex)"
 
 
 def main():
@@ -91,14 +96,14 @@ def main():
     j2 = float(sys.argv[3]) if len(sys.argv) > 3 else 0.0
     print(f"Formation-possibility scan: {k}-body bound complex on an N={N} chain"
           f"{f', j2={j2}' if j2 else ''}, vs binding Delta\n")
-    print(f"  {'Delta':>6}  {'purity':>7}   regime")
-    deltas = [0.1, 0.2, 0.3, 0.4, 0.6, 0.8, 1.2, 2.0, 3.0, 5.0]
+    print(f"  {'Delta':>6}  {'cluster':>7}   regime")
+    deltas = [0.1, 0.2, 0.3, 0.4, 0.6, 0.8, 1.2, 1.6, 2.0, 3.0, 5.0]
     marginal = []
     for d in deltas:
-        p = string_purity(N, k, d, j2)
-        if 0.35 <= p < 0.65:
+        c = formation_order(N, k, d, j2)
+        if 0.35 <= c < 0.65:
             marginal.append(d)
-        print(f"  {d:>6.2f}  {p:>7.3f}   {regime(p)}")
+        print(f"  {d:>6.2f}  {c:>7.3f}   {regime(c)}")
     if marginal:
         print(f"\n  near-threshold (resonance) window: Delta ~ {min(marginal):.2f} .. {max(marginal):.2f}")
     else:
