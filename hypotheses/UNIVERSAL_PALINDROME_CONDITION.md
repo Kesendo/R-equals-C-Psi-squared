@@ -169,7 +169,7 @@ the Hamiltonian level was the wrong test. But the AFM ORDER, a longitudinal fiel
 staggered magnetisation this section already flagged as "the antisymmetric quantity"), BREAKS the
 palindrome: both the full-eigenvalue palindrome and the rate-only (real-part) palindrome fail for any
 h ≠ 0, uniform or staggered (verified). So the palindrome lives in the DISORDERED (paramagnetic)
-phase and dies the moment the order sets in. **Order is the death of the mirror** — the magnetic
+phase and dies the moment the order sets in. **Order is the death of the mirror**: the magnetic
 reading of the project's recurring theme (the full shell is dead, the V-Effect needs broken symmetry,
 the incomplete carries the structure). Condition 1 (whether the physical AFM dissipation is
 Z-dephasing-like) stays the genuine open part; Condition 3 is resolved (the exchange is fine, the
@@ -330,6 +330,17 @@ additional structure specific to qubits or neurons is required.
 6. **Universal coupling window.** Quantum V-Effect peaks at
    J/γ ~ 2-5. Neural V-Effect peaks at coupling 0.01-0.05.
    Is there a dimensionless ratio that is the same in both?
+   **Answered 2026-06-01 (the question asks for the wrong kind of thing):** there is likely no
+   universal dimensionless ratio. The peak location is system-specific, for three structural
+   reasons. The couplings have different denominators (the neural g is relative to the intra-network
+   weights, the quantum J relative to the dissipation γ). The local palindrome's robustness differs
+   (the neural exact palindrome dissolves at g ~ 0.5, the quantum one is robust). And the starting
+   points differ (quantum 2+2, neural 0+0, already noted in the limitations table). What IS universal
+   is not a number but the SHAPE: the marginal window, silent → peak → silent (verified on the neural
+   V-Effect sweep this session: oscillating modes rise to a peak at g ~ 0.05-0.1, then fall to zero
+   as the coupling dissolves the two-subsystem structure). That is the same "alive in the middle,
+   dead at both extremes" that runs through the formation map, the thermal window, and the coherence
+   ceiling. The universal coupling window is a shape, not a ratio.
 
 7. **Can the condition Q·X·Q⁻¹ + X + 2S = 0 be derived from a
    single axiom set** rather than proven separately in each domain?
