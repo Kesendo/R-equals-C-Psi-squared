@@ -160,6 +160,21 @@ A natural swap Q exists (sublattice exchange). But:
 as initially assumed. The test requires identifying the correct Q and
 the correct sense of "antisymmetry" for magnetic systems.
 
+**Answered 2026-06-01** (verified in [`simulations/palindrome_general.py`](../simulations/palindrome_general.py)
++ this session's antiferromagnet probe): the Condition-3 diagnosis above was at the wrong level, but
+the intuition was right. The Heisenberg EXCHANGE under Z-dephasing IS palindromic about −Σγ (h = 0,
+bit-exact N = 2..4) by F1, which does not use the sublattice swap at all; the F1 conjugation makes
+−i[H,·] mirror-odd for the coupling regardless of any sublattice symmetry, so looking for QHQ = −H at
+the Hamiltonian level was the wrong test. But the AFM ORDER, a longitudinal field h·Σ(±1)^k Z_k (the
+staggered magnetisation this section already flagged as "the antisymmetric quantity"), BREAKS the
+palindrome: both the full-eigenvalue palindrome and the rate-only (real-part) palindrome fail for any
+h ≠ 0, uniform or staggered (verified). So the palindrome lives in the DISORDERED (paramagnetic)
+phase and dies the moment the order sets in. **Order is the death of the mirror** — the magnetic
+reading of the project's recurring theme (the full shell is dead, the V-Effect needs broken symmetry,
+the incomplete carries the structure). Condition 1 (whether the physical AFM dissipation is
+Z-dephasing-like) stays the genuine open part; Condition 3 is resolved (the exchange is fine, the
+order is the breaker).
+
 ### Atoms in external fields (candidate, one difficulty)
 
 An atom in a magnetic field has Kramers-degenerate pairs (states that
