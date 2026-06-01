@@ -53,7 +53,7 @@ public static class AssemblyCommand
             string ok = Math.Abs(a.SlowestRate - a.AbsorptionRate) < 1e-6 ? "ok" : "MISMATCH";
             string light = "[" + string.Join(" ",
                 a.PerSiteLight.Select(x => x.ToString("0.00", CultureInfo.InvariantCulture))) + "]";
-            Console.WriteLine($"  {q,7:0.##}  {a.SlowestRate,8:0.0000}  {a.SlowestDepth,6:0.000}  {rung,11}  {ok,7}  {light}");
+            Console.WriteLine($"  {q,7:0.##}  {a.SlowestRate,8:0.0000}  {a.SlowestDepth,6:0.000}  {rung,11}  {ok,7}  deg{a.Degeneracy,3}  {light}");
         }
 
         Console.WriteLine();
