@@ -136,7 +136,7 @@ lit and dark channels having rotated.
 
 The two legs are not on the same footing, and the framework already proved why. The X↔Z swap is the
 Q_zx Hadamard duality ([PROOF_BIT_A_TWIN_VIA_HADAMARD](../docs/proofs/PROOF_BIT_A_TWIN_VIA_HADAMARD.md)):
-Q_zx is the operator-space lift of the physical Hadamard U_H^⊗N, a genuine Hilbert-space unitary that
+Q_zx is the operator-space lift of the physical Hadamard U_H^⊗N (a genuine Hilbert-space unitary), which
 carries the Z-dephased Lindbladian to the X-dephased one, so the X table is a true transport of the Z
 table. The Y↔Z swap has no such Hilbert-space lift, since no unitary sends Y → −Y while fixing X and Z;
 it is the operator-space D-swap at the palindrome-operator level, and the Y fate table matches the
@@ -147,8 +147,8 @@ just different from the X leg's.
 This is the explicit k=2 face of the dissipator-resonance law
 ([THE_POLARITY_LAYER](../hypotheses/THE_POLARITY_LAYER.md), typed as
 [`DissipatorResonanceLaw`](../compute/RCPsiSquared.Diagnostics/F87/DissipatorResonanceLaw.cs)), which
-states the same axis-equivalence at k ≥ 3: F87-hardness lives in the Klein cell matching the dephasing
-letter's index (Z → (0,1), X → (1,0), Y → (1,1)). One disambiguation: the SU(2) here is the discrete
+states the same axis-equivalence at k = 3 (and k = 4): F87-hardness lives in the Klein cell matching the
+dephasing letter's index (Z → (0,1), X → (1,0), Y → (1,1)). One disambiguation: the SU(2) here is the discrete
 Clifford / Klein-V₄ acting on the dephasing axis, not the Heisenberg chain's spin-rotation SU(2) (the
 total-S² Casimir), which Z-dephasing breaks and which the Star / Schur-Weyl results use only as a tool
 on H alone (see the clarifying note in [STAR_CONFOCAL_LIMIT](STAR_CONFOCAL_LIMIT.md)). Script:

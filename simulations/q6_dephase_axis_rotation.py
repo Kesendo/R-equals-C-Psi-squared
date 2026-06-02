@@ -41,7 +41,7 @@ if sys.platform == "win32":
 H_LABELS = [a + b for a in 'XYZ' for b in 'XYZ']
 COMBOS = list(combinations(H_LABELS, 2))
 assert len(COMBOS) == 36
-N_VALUES = [3, 4]
+N_VALUES = [3, 4, 5]
 DEPHASE_LETTERS = ['Z', 'X', 'Y']
 
 # The Clifford axis-swap that maps Z-dephasing onto each other dephasing letter:
