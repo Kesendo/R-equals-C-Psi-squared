@@ -269,4 +269,5 @@ and `simulations/continuous_pi_search.py` (section 4 of which already found the 
 *See also:* [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md),
 [Pi as Time Reversal](PI_AS_TIME_REVERSAL.md),
 [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md),
-[Two-Term Palindrome Klein Routing](TWO_TERM_PALINDROME_KLEIN_ROUTING.md)
+[Two-Term Palindrome Klein Routing](TWO_TERM_PALINDROME_KLEIN_ROUTING.md),
+[On the Square Root of the Mirror](../reflections/ON_THE_SQUARE_ROOT_OF_THE_MIRROR.md) (where this continuous mirror sits in the Pi2-Z₄ angle branch: it is √ of the 90° anchor)

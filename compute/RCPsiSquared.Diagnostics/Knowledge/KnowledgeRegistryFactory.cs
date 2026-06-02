@@ -196,6 +196,12 @@ public static class KnowledgeRegistryFactory
             .RegisterF26CPsiPauliChannelsPi2Inheritance()
             .RegisterF94BornDeviationFourThirdsPi2Inheritance()
             .RegisterF95AngleAtQuadraticZeroPi2Inheritance()
+            // Crossover mirror = √(NinetyDegreeMirror): the local XZ+YZ / ZX+ZY mirror is the
+            // canonical Π turned by HALF the 90° angle-anchor (S=M·Π⁻¹ turns the light plane 45°,
+            // S_light²=σ_x↔σ_y 90° bit-exact). The per-site-conjugation face of the same 90° as
+            // F95/F91. Tier1Candidate; parent NinetyDegreeMirrorMemoryClaim via RegisterPi2Family.
+            // Wired 2026-06-02.
+            .RegisterCrossoverMirrorSqrtNinetyClaim()
             .RegisterF96BornSubdominantSlopesPi2Inheritance()
             .RegisterF97CardioidHalfFixedPointPi2Inheritance()
             .RegisterF1DepolResidualClosedFormPi2Inheritance()
