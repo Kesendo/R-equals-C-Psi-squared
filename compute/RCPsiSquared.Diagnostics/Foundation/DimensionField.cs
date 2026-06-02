@@ -8,8 +8,11 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <summary>The Object Manager's telescope onto a <see cref="DimensionAxis"/>: a single live
 /// IInspectable node that, at every θ on the axis, reads the marks (the Liouvillian eigenvalue
 /// multiset, the fixed contract) against the in-between (how the slow eigen-subspace rotates, the
-/// content). The C# home of the dimension-field sweep; the eyepiece is sharpened to a resolving
-/// principal-angle metric (<see cref="DimensionSweepResult.CumulativeRotation"/>).
+/// content). The C# home of the dimension-field sweep; the in-between is read as the principal-angle
+/// rotation of the slow subspace (<see cref="DimensionSweepResult.CumulativeRotation"/>). Caveat: the
+/// largest-angle reading saturates on a degenerate slow manifold (one direction rotates fully out at
+/// the first step), so it is a coarse eyepiece; the full principal-angle spectrum via
+/// <see cref="DimensionSweepResult.SlowBasis"/> is the finer reading.
 ///
 /// <para>On the <see cref="DimensionAxis.Crossover"/> axis the two readings split cleanly: the
 /// marks do not move (L(θ) is a similarity transform of L(0), so the sorted eigenvalues are
@@ -127,12 +130,13 @@ public sealed class DimensionField : IInspectable
                 payload: new InspectablePayload.Curve(
                     "eigenvalue drift from θ₀", thetaDeg, DriftPerTheta(), "θ°", "max |Δλ|"));
 
-            // 2. The in-between (the content): the resolving principal-angle rotation from θ₀.
+            // 2. The in-between (the content): the principal-angle rotation from θ₀ (largest angle;
+            // saturates on a degenerate slow manifold, the full spectrum via SlowBasis is finer).
             var cumDeg = CumulativeRotationDegrees();
             double maxRotDeg = cumDeg.Length == 0 ? 0.0 : cumDeg.Max();
             yield return new InspectableNode(
                 displayName: "in-between (the content)",
-                summary: $"slow subspace rotates to {maxRotDeg.ToString("0.#", Inv)}° (largest principal angle from θ₀)",
+                summary: $"slow subspace rotates to {maxRotDeg.ToString("0.#", Inv)}° (largest principal angle from θ₀; saturates on degenerate manifolds, see SlowBasis)",
                 payload: new InspectablePayload.Curve(
                     "slow-subspace rotation from θ₀", thetaDeg, cumDeg, "θ°", "principal angle°"));
 
