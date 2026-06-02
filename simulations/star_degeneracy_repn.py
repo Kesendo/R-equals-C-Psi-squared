@@ -33,13 +33,15 @@ coincidence from the non-normal dephasing spectrum, NOT a representation-theoret
 effect: the U(1) (Sz_left, Sz_right) refinement does not lower Σ M_λ, and the
 distinct = |Re|·|Im| factorisation is refuted (Im(λ_L) ≠ H-gaps since L is
 non-normal). So S_{N-1} is necessary and dominant but not sufficient for the exact
-count; the derivable object is the Σ M_λ bound. See
+count; the derivable object is the Σ M_λ bound, which has the closed form
+4·[x^{N-1}](1-x)^-4(1-x^2)^-6 (Littlewood specialisation; 4400 = 4·1100 at N=8),
+verified four independent ways in star_gf_closed_form_test.py. See
 hypotheses/STAR_SPECTRUM_COMPACTNESS.md (Reading 2).
 """
 from __future__ import annotations
 
 import sys
-from math import factorial
+from math import comb, factorial
 
 import numpy as np
 
@@ -130,6 +132,24 @@ def repn_prediction(N, d=4):
     return sum_M, total_dim, rows
 
 
+def sigma_M_closed_form(N, d=4):
+    """Closed form for the Σ M_λ upper bound (verified, not a code limit).
+
+        Σ M_λ(star, N) = d · [x^{N-1}] (1-x)^-d (1-x^2)^-C(d,2)
+
+    the Littlewood principal specialisation Σ_λ dim S^λ(C^d) x^|λ| =
+    (1-x)^-d (1-x^2)^-C(d,2), times the hub factor d. At N=8: d=4 gives
+    4·[x^7](1-x)^-4(1-x^2)^-6 = 4·1100 = 4400. Cross-checked against the
+    hook-content sum (repn_prediction), a sympy series, and an S_3 character
+    computation across N=3..16; see star_gf_closed_form_test.py.
+    """
+    m = N - 1
+    c2 = comb(d, 2)
+    coeff = sum(comb(p + c2 - 1, c2 - 1) * comb((m - 2 * p) + d - 1, d - 1)
+                for p in range(m // 2 + 1))
+    return d * coeff
+
+
 # ---------------------------------------------------------------------------
 # Actual star spectrum
 # ---------------------------------------------------------------------------
@@ -198,6 +218,12 @@ def main():
     print(f"  N=8 prediction Σ M_λ = {sum_M8}  (λ ⊢ 7, {len(rows8)} irreps); "
           f"doc actual distinct = 2275")
     print(f"  N=8 ratio actual/pred = {2275 / sum_M8:.3f}")
+    print(f"  N=8 closed form: 4·[x^7](1-x)^-4(1-x^2)^-6 = 4·1100 = {sigma_M_closed_form(8)}")
+    # The closed form (Littlewood specialisation) holds past the eig-tractable
+    # range; assert it against the hook-content sum so the bound is self-validating.
+    for Nc in range(3, 13):
+        assert sigma_M_closed_form(Nc) == repn_prediction(Nc)[0], \
+            f"closed form != hook-content sum at N={Nc}"
     print()
 
     # Re x Im factorisation test: is distinct(L) = |distinct Re| x |distinct Im|?
