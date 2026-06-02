@@ -4,8 +4,8 @@
 
 **Resolution status (2026-05-19):**
 - **Reading 1 (MaxImag = σ is a hub-induced spectral cap):** **RESOLVED** via cross-N data + SU(2)/Schur-Weyl derivation in [`STAR_CONFOCAL_LIMIT.md`](STAR_CONFOCAL_LIMIT.md). Verified at N=3,4,5,6,8 (5 anchors). The cap is `max |Im(λ)| ≤ J·N/2`, saturated when `J = 2γ` giving `Im/σ = 1.0` exactly. Star is the unique tested topology that saturates this bound.
-- **Reading 2 (S_(N−1) representation theory accounts for 30× degeneracy ratio):** still open. The distinct-binned count of 2 275 at N=8 has not yet been derived from S_7 irrep multiplicities.
-- **Reading 3 (integer bound at other N):** confirmed empirically: `MaxImag = N/2` at N=3,4,5,6,8 with γ=0.5 (Python anchors + C# N=8). The J ≠ 2γ generalisation `MaxImag = J·N/2` was derived but not yet tested with explicit J-sweep data.
+- **Reading 2 (S_(N−1) representation theory accounts for 30× degeneracy ratio):** **SHARPENED 2026-06-02** ([probe](../simulations/star_degeneracy_repn.py)). The leaf-permutation S_(N−1) gives a clean upper bound on the distinct count. The Liouville space is `C^4` (hub, S_(N−1)-trivial) `⊗ (C^4)^{⊗(N−1)}` (leaves, S_(N−1) permuting factors), so by Schur-Weyl L block-diagonalises into blocks of size `M_λ = 4·dim S^λ(C^4)`, and `distinct ≤ Σ_{λ⊢(N−1)} M_λ = 4·Σ_{λ⊢(N−1)} dim S^λ(C^4)` (= 4400 at N=8; verified as a bound at N=3,4,5,6,8). But the exact 2 275 lies **below** this cap (≈0.52×) and is **not** a clean S_7 count: adding the U(1) `(Sz_left, Sz_right)` grading refines the blocks without lowering the sum, and the residual reduction is **cross-block value-coincidence from the non-normal dephasing spectrum** (the Re-decay ladder), not a representation-theoretic effect. The tempting `distinct = |Re|·|Im|` factorisation is refuted: `Im(λ_L) ≠ H-gaps` because L is non-normal, and `distinct/(|Re|·|Im|)` falls 0.24→0.01 across N=3..6. So S_(N−1) is necessary and dominant for the compactness but not sufficient for the exact count; the clean derivable object is the `Σ M_λ` upper bound.
+- **Reading 3 (integer bound at other N):** **RESOLVED** ([`STAR_CONFOCAL_LIMIT`](STAR_CONFOCAL_LIMIT.md)). `MaxImag = J·N/2` for all (N, J, γ), verified at 29 anchors (a 24-point Q-sweep plus 5 Marrakesh-convention), typed as [`StarImMaxBoundClaim`](../compute/RCPsiSquared.Core/Symmetry/StarImMaxBoundClaim.cs) Tier 1 derived. The `MaxImag = N/2` reading at γ=0.5 was the J=2γ specialization, not a separate rule.
 
 ## Observed compactness at N=8
 
@@ -39,15 +39,11 @@ Three readings the compactness data is consistent with:
 
 3. **The integer bound at MaxImag = N/2 generalises.** At other N (N=4, 5, 6, 7 star) does MaxImag = N/2 exactly? At N=4 with γ=0.5, σ = Nγ = 2: does the star MaxImag = 2? At N=5 with γ=0.5, σ = 2.5: does it cap there? The N=8 data point is one anchor; the rule could be (a) MaxImag = σ for any star at any (N, γ), (b) MaxImag = N/2 only when σ = N/2 (i.e. γ=0.5 specifically), or (c) a coincidence at N=8.
 
-## Not yet a typed claim
+## Typed-claim status
 
-This entry stays in `hypotheses/` (Tier 3) until at least:
+**Readings 1 and 3 are now typed.** The imaginary cap `MaxImag = J·N/2` is [`StarImMaxBoundClaim`](../compute/RCPsiSquared.Core/Symmetry/StarImMaxBoundClaim.cs) Tier 1 derived (proof [`PROOF_STAR_OPTICAL_CONFOCAL_SATURATION`](../docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md)). Note the historical phrasing `MaxImag = σ = Nγ` was the J=2γ coincidence; the universal statement is `J·N/2`, γ-independent.
 
-- The star-at-other-N test runs (N=5..7 chain/star/ring/K_N comparison of MaxImag and distinct-binned-eigenvalue ratios; data exists in earlier sweeps but has not been pulled into one comparison table).
-- A second γ value at the same N=8 star to test reading 1.
-- An S_(N−1) representation-theoretic count to test reading 2.
-
-If readings 1 + 2 + 3 hold up, the compact spectrum becomes a derived statement (MaxImag(star, N, γ) = σ = Nγ for hub-and-leaves geometry) and the typed claim can land in `compute/RCPsiSquared.Core/Symmetry/`.
+**The compactness (Reading 2) is not yet typed.** The clean part, the `Σ M_λ = 4·Σ_{λ⊢(N−1)} dim S^λ(C^4)` upper bound on the distinct-eigenvalue count, could land as a typed bound. The exact distinct count (2 275 at N=8) has no closed form via the routes tried: it is non-normal dephasing value-coincidence structure (Reading 2 above), not a representation-theoretic multiplicity. An exact-count derivation would need explicit joint-block diagonalisation plus the dephasing Re-ladder coincidence count, with uncertain payoff.
 
 ## Cross-references
 
