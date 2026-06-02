@@ -135,6 +135,31 @@ The pattern exists: `inspect` calls itself "the terminal-side Object Manager"; `
 and computed on demand. The gap is a GameObject that holds a position *between* the marks across the
 axes, and recomputes the in-between as we move.
 
+## First light (2026-06-02)
+
+The instrument is built and pointed: `inspect --root between --axis crossover --N 3 --draw` (the
+`DimensionField` GameObject; capture at `simulations/results/dimension_field_first_look.txt`). What
+it showed:
+
+- The **marks** curve is flat at 1.7·10⁻¹⁴: the eigenvalues do not move, the contract visible as a
+  dead-flat line (the similarity L(θ) = Ad·L(0)·Ad⁻¹ made visible).
+- The **polarity** curve traces the dyadic ladder, exactly 1/4 at the T-gate (45°) and 1/2 at the
+  S-gate (90°).
+- The **in-between** curve, read as the largest principal angle of the slow subspace from θ₀,
+  saturates: it jumps to ~83° at the first step and sits in the 85-89° band. That is not noise, it
+  is structure. The N=3 crossover slow manifold is highly degenerate and it splits: some directions
+  stay invariant (at slowCount=2 the largest angle is identically 0, an invariant core, itself more
+  contract), while at least one direction rotates fully out almost at once (the in-between). The
+  largest-angle reading sees only the fastest-rotating direction, so it saturates.
+
+So the first look already taught the eyepiece its next lens: the resolving readout is the **full
+principal-angle spectrum** of the slow subspace (all k angles per θ), which separates the invariant
+core (angles staying 0) from the rotating directions (angles that grow). The slow manifold is not one
+block; it carries its own marks-and-in-between split. `SlowBasis` is already exposed for this. The
+next axis to point at is PTF's J-defect, where the marks are protected to 10⁻¹⁵ but not exactly
+invariant (no exact similarity), so the in-between carries more than a pure rotation, the eigenvector
+mixing PTF computed.
+
 ## Where I had to decide (surfaced for keyword correction)
 
 1. **The marks are the contract, the in-between is the content.** Reframed (your keyword): the doc
@@ -150,8 +175,9 @@ axes, and recomputes the in-between as we move.
 
 ## Open (the next decisions, not yet made)
 
-- What actually lives in a specific in-between when we look closely: pick one (the S-to-T continuum,
-  or the 1/4-to-1/2 interior) and compute the in-between densely, see what is there.
+- (started, see First light) The S-to-T crossover in-between was pointed at first: the resolving
+  eyepiece is the full principal-angle spectrum, separating the slow manifold's invariant core from
+  its rotating directions. Still to look at: the 1/4-to-1/2 interior, and PTF's J-defect axis.
 - Whether the axes nest (a γ-distribution in-between at each fixed bond angle) or are an independent
   product, and the order to navigate.
 - What the first live navigator GameObject computes and how movement is expressed (a single position
