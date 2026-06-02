@@ -114,6 +114,7 @@ from .diagnostics import (
     stationary_modes,
     d_zero_decomposition,
     sector_populations,
+    classify_two_term_palindrome,
 )
 
 # Workflows: composing primitives and diagnostics into analysis flows

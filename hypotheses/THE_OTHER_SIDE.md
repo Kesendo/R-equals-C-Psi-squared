@@ -620,12 +620,34 @@ See: [The Anomaly](../THE_ANOMALY.md)
    (2 cases). These are candidates for Q. The explicit mapping from
    the 12 parity-breaking preservers onto these families has not been
    constructed.
+   **ANSWERED 2026-06-01 ([Klein routing](../experiments/TWO_TERM_PALINDROME_KLEIN_ROUTING.md)):**
+   the mapping is now built and verified bit-exactly (Q·L·Q⁻¹ = −L−2Σγ·I
+   to ‖·‖ ≤ 10⁻¹¹, N=3,4,5). The 22 palindromic combinations split as 3
+   via the canonical P1 (the truly cases), 14 via a single non-P1 uniform
+   per-site Q, 3 via the alternating odd/even Q (XY+YX, XY+ZZ, YX+ZZ), and
+   2 via a non-local entangled Q (exactly XZ+YZ and ZX+ZY). It is not one
+   family but a routing: truly is the all-Mother corner (both terms in
+   Klein cell (0,0)); among the rest the routing turns on bit_a (the light
+   / dephasing-axis content), with the bit-exact soft-vs-hard split given
+   by the cell-pair rule in Q7 below. Primitive: `fw.classify_two_term_palindrome`.
 
 7. **Why is parity-breaking necessary but not sufficient?** The strict
    containment (all 14 palindrome-breakers are parity-breakers, but
    not vice versa) implies a two-step mechanism: first the Hamiltonian
    must couple the two sides, then something additional must prevent
    the hidden Q from compensating. What is the second condition?
+   **ANSWERED 2026-06-01 ([Klein routing](../experiments/TWO_TERM_PALINDROME_KLEIN_ROUTING.md)):**
+   the second condition is an irreducible, unroutable same-qubit X/Y
+   demand. Z-dephasing gives two per-site mirror crossovers (one routes
+   the X-channel, one the Y-channel); the palindrome breaks exactly when
+   the two terms force both channels onto one qubit in a way no router
+   reconciles and no entangled mirror rescues. Bit-exact discriminator for
+   the 14 (N=3,4,5): cells {F_a,F_b} and {C,F_a} always hard; {F_a,M} hard
+   iff the Mother is lit (XY+YY hard, XY+ZZ soft); {C,F_b} hard iff the lit
+   X,Y sit on different sites (the 2 same-site cases XZ+YZ, ZX+ZY are the
+   non-local escapes). The frustration is many-body: invisible at N=2, it
+   appears at N≥3 when adjacent bonds' mirrors must agree on the shared
+   qubit (the V-Effect).
 
 ---
 
