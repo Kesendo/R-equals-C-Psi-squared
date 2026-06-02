@@ -54,12 +54,13 @@ public static class InspectCommand
             "pi2" => BuildPi2Root(p, N),
             "mirror" => BuildMirrorRoot(p, N),
             "flow" => BuildFlowRoot(p, N),
+            "between" => BuildBetweenRoot(p, N),
             "fourmode" => BuildFourModeRoot(BuildCoherenceBlock(p, N), withQSweep, qGridPoints),
             "f86" => BuildF86Root(BuildCoherenceBlock(p, N), withMeasured, qGridPoints),
             "c2hwhm" => C2HwhmRatio.Build(BuildCoherenceBlock(p, N), BuildOptionalQGrid(p, qGridPoints)),
             "c2cpsi" => BuildC2CpsiRoot(BuildCoherenceBlock(p, N), p),
             "c2cpsi-scan" => BuildC2CpsiScanRoot(BuildCoherenceBlock(p, N), p),
-            _ => throw new ArgumentException($"unknown root: {rootKind}; known: fourmode, f86, c2hwhm, c2cpsi, c2cpsi-scan, f71, f1, f87, pi2, mirror, flow"),
+            _ => throw new ArgumentException($"unknown root: {rootKind}; known: fourmode, f86, c2hwhm, c2cpsi, c2cpsi-scan, f71, f1, f87, pi2, mirror, flow, between"),
         };
 
         bool wroteSomething = false;
@@ -157,6 +158,27 @@ public static class InspectCommand
                 profile = PostEpFlowField.NormalizeToTotal(profile, N);
         }
         return new PostEpFlowField(N, qGrid, tauGrid, profile);
+    }
+
+    /// <summary>The in-between navigator (the Object Manager telescope): sweeps a dimension's
+    /// angle θ and reads the marks (invariant eigenvalues) against the in-between (the slow
+    /// subspace rotating). Args: <c>--axis crossover</c> (default), <c>--gamma</c>,
+    /// <c>--theta-points</c>, <c>--slow-count</c>. N capped 1..6 (dense Liouvillian + eigenvectors).
+    /// Pair with <c>--draw</c> to plot the marks / in-between / polarity curves.</summary>
+    private static IInspectable BuildBetweenRoot(ArgParser p, int N)
+    {
+        if (N < 1 || N > 6)
+            throw new ArgumentException($"--root between needs N in 1..6 (dense Liouvillian + eigenvectors); got {N}");
+        double gamma = p.OptionalDouble("gamma") ?? 0.5;
+        int points = p.OptionalDouble("theta-points") is { } tp ? (int)tp : 25;
+        int slowCount = p.OptionalDouble("slow-count") is { } sc ? (int)sc : 16;
+        string axisName = (p.OptionalString("axis") ?? "crossover").ToLowerInvariant();
+        DimensionAxis axis = axisName switch
+        {
+            "crossover" => DimensionAxis.Crossover(N, gamma, points),
+            _ => throw new ArgumentException($"unknown axis: {axisName}; known: crossover"),
+        };
+        return new DimensionField(axis, slowCount);
     }
 
     private static CoherenceBlock BuildCoherenceBlock(ArgParser p, int N)
