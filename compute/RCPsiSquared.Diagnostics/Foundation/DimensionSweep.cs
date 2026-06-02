@@ -26,13 +26,24 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// the metric is gauge-robust: it does not depend on per-eigenvector phase, scale, or the
 /// arbitrary basis chosen inside a degenerate eigenspace. Raw eigenvectors are never compared
 /// directly.</para>
+///
+/// <para>The per-step <see cref="DimensionSweepResult.SubspaceRotation"/> is a coarse eyepiece:
+/// the chordal (Frobenius) projector distance saturates near its ceiling √(2k) once the subspace
+/// has turned a finite amount, so it cannot resolve how far the in-between has rotated.
+/// <see cref="DimensionSweepResult.CumulativeRotation"/> is the resolving eyepiece: the largest
+/// principal angle between the slow subspace at θ₀ and at θ[p]. Principal angles grow ~linearly
+/// for a small rotation, so they keep resolving where the chordal distance has already flattened.
+/// They are read from the singular values of Q(θ₀)ᴴ·Q(θ[p]) via
+/// <see cref="DimensionSweepResult.SlowBasis"/>, the per-θ orthonormal Q.</para>
 /// </summary>
 public sealed record DimensionSweepResult(
     IReadOnlyList<double> Theta,
     IReadOnlyList<Complex[]> Eigenvalues,
     IReadOnlyList<double> Polarity,
     IReadOnlyList<double> SubspaceRotation,
-    double MaxEigenvalueDriftAcrossTheta);
+    double MaxEigenvalueDriftAcrossTheta,
+    IReadOnlyList<ComplexMatrix> SlowBasis,
+    IReadOnlyList<double> CumulativeRotation);
 
 public static class DimensionSweep
 {
@@ -47,6 +58,7 @@ public static class DimensionSweep
         int points = axis.Theta.Count;
         var sortedEigenvalues = new Complex[points][];   // by (Re, then Im), for the marks-drift read
         var projectors = new ComplexMatrix[points];      // orthonormal slow-subspace projectors, for the in-between
+        var slowBasis = new ComplexMatrix[points];        // per-θ orthonormal Q, for the cumulative principal-angle read
         var polarity = new double[points];
 
         for (int p = 0; p < points; p++)
@@ -80,6 +92,7 @@ public static class DimensionSweep
             for (int j = 0; j < k; j++)
                 slowVecs.SetColumn(j, evd.EigenVectors.Column(slowIdx[j]));
             var Q = OrthonormalizeColumns(slowVecs);
+            slowBasis[p] = Q;
             projectors[p] = Q * Q.ConjugateTranspose();
 
             // Polarity ladder reading (F99): sin²(θ)/2, ¼ at the symmetric crossover, ½ at pure YZ.
@@ -100,17 +113,38 @@ public static class DimensionSweep
             }
         }
 
-        // In-between metric: Frobenius distance between consecutive slow-subspace projectors.
+        // In-between metric (coarse): Frobenius distance between consecutive slow-subspace
+        // projectors. Saturates near √(2k) once the subspace has turned a finite amount.
         var subspaceRotation = new double[points - 1];
         for (int p = 0; p < points - 1; p++)
             subspaceRotation[p] = (projectors[p] - projectors[p + 1]).FrobeniusNorm();
+
+        // In-between metric (resolving): the largest principal angle (radians) between the slow
+        // subspace at θ₀ and at θ[p], cumulative from θ₀. The principal angles are arccos of the
+        // singular values of Q(θ₀)ᴴ·Q(θ[p]); the largest angle is arccos of the smallest singular
+        // value. CumulativeRotation[0] = 0 by construction (Q(θ₀)ᴴ·Q(θ₀) has every σ = 1), and
+        // every angle is bounded above by π/2.
+        //
+        // Caveat measured on the N=3 crossover axis: the LARGEST principal angle of a highly
+        // degenerate slow manifold saturates near π/2 already at the first nonzero θ-step (some
+        // direction in the k-mode set rotates out almost immediately), so here it is no finer an
+        // eyepiece than the chordal SubspaceRotation. The smallest (first) principal angle is the
+        // one that grows ~linearly for small rotation; the largest is the most pessimistic and
+        // saturates first. The exposed SlowBasis lets a downstream reader form whichever principal
+        // angle (or the geodesic √Σθ_i²) the question needs.
+        var cumulativeRotation = new double[points];
+        cumulativeRotation[0] = 0.0;
+        for (int p = 1; p < points; p++)
+            cumulativeRotation[p] = LargestPrincipalAngle(slowBasis[0], slowBasis[p]);
 
         return new DimensionSweepResult(
             Theta: axis.Theta,
             Eigenvalues: sortedEigenvalues,
             Polarity: polarity,
             SubspaceRotation: subspaceRotation,
-            MaxEigenvalueDriftAcrossTheta: maxDrift);
+            MaxEigenvalueDriftAcrossTheta: maxDrift,
+            SlowBasis: slowBasis,
+            CumulativeRotation: cumulativeRotation);
     }
 
     /// <summary>Order eigenvalues by (Re, then Im) with both keys rounded to
@@ -122,6 +156,39 @@ public static class DimensionSweep
         int r = Math.Round(a.Real, decimals).CompareTo(Math.Round(b.Real, decimals));
         if (r != 0) return r;
         return Math.Round(a.Imaginary, decimals).CompareTo(Math.Round(b.Imaginary, decimals));
+    }
+
+    /// <summary>The largest principal angle (radians) between the column spans of two orthonormal
+    /// bases <paramref name="qa"/> and <paramref name="qb"/>. Principal angles θ_i are arccos of the
+    /// singular values σ_i of qaᴴ·qb (each σ_i ∈ [0, 1]); the largest angle is arccos of the
+    /// smallest σ, clamped into [0, 1] against round-off. Returns a value in [0, π/2].
+    ///
+    /// <para>Guard: if the two bases have different column counts (slow-mode membership changed
+    /// across θ, so the subspaces have different dimensions), the overlap matrix qaᴴ·qb is
+    /// rectangular and only min(cols) singular values exist. We compare on that common
+    /// min-dimension subspace rather than crash; the largest principal angle is then read from the
+    /// min(cols) singular values that the SVD returns.</para></summary>
+    private static double LargestPrincipalAngle(ComplexMatrix qa, ComplexMatrix qb)
+    {
+        int ka = qa.ColumnCount;
+        int kb = qb.ColumnCount;
+        if (ka == 0 || kb == 0) return 0.0; // degenerate: no shared subspace to rotate
+
+        // Overlap matrix M = qaᴴ·qb (ka × kb). Its singular values are the cosines of the principal
+        // angles between the two spans; there are min(ka, kb) of them.
+        var overlap = qa.ConjugateTranspose() * qb;
+        var singular = overlap.Svd().S; // descending real singular values, length min(ka, kb)
+
+        double smallest = double.PositiveInfinity;
+        for (int i = 0; i < singular.Count; i++)
+        {
+            double s = singular[i].Real;
+            if (s < smallest) smallest = s;
+        }
+        if (double.IsPositiveInfinity(smallest)) return 0.0;
+
+        double cosTheta = Math.Clamp(smallest, 0.0, 1.0);
+        return Math.Acos(cosTheta);
     }
 
     /// <summary>Modified Gram-Schmidt: returns an orthonormal basis (in the standard Hermitian
