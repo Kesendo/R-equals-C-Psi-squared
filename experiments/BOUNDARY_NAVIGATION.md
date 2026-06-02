@@ -323,6 +323,15 @@ face-swap and dynamic cusp passage are algebraically identical. For states with
 odd-weight content (e.g. |+⟩^{⊗2}), the prefactor additionally requires Pauli
 coefficient magnitudes. See [Dwell Prefactor from Weights](DWELL_PREFACTOR_FROM_WEIGHTS.md).
 
+The **multi-compass extension** ([Navigating the Dimensions](../docs/NAVIGATING_THE_DIMENSIONS.md),
+2026-06-02) takes this document's single θ-compass and recognizes it as one of several. The
+cusp 1/4 is one landmark on the dyadic ladder {0, 1/8, 1/4, 3/8, 1/2}, reached by several
+angle-compasses that share it: the purity θ here, the carrier-clock θ = arctan(Q), the
+operator-space bond-dial θ (where 45° is the T-gate and 90° the S-gate, via F99), and the
+parameter-axis angles F91/F92/F93. The instruments-are-ours framing of this section is exactly
+what makes the layered space navigable: the landmarks are fixed, we move, and the live Object
+Manager computes every compass at wherever we stand.
+
 ---
 
 ## Summary

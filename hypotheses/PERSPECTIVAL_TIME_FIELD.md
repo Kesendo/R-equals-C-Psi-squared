@@ -349,6 +349,8 @@ When the Licht-und-Schatten reading landed in April, we knew the painter's closu
 
 So the painter's lit half *is* the far bank, the open water. A perspective only ever paints where things are still being decided; what it cannot paint, the shadow, is precisely what has already crossed into the past. The rate-of-painting α_i was a far-side quantity all along. This adds no claim and changes no tier; it only tells us which shore the painters stand on. The deeper identity the reflection leaves open, whether the angle the far side carries (F95's θ at the quarter) and the one off-map direction seen at maximum zoom are a single direction met from both ends, stays open here too: the painter paints up to that edge but does not settle it.
 
+*Walked into (2026-06-02).* That open identity is now the explicit target of [Navigating the Dimensions](../docs/NAVIGATING_THE_DIMENSIONS.md), which recognizes this document as the same picture painted from the other side: the closure Σ ln(α_i) = 0 is the marks-contract (zero information), the eigenvector mixing that produces the α_i is the in-between (the content), and the protected eigenvalues are why the marks do not move. The crossover result (F99: the angle 45° at the quarter-door 1/4, the operator-space √ of the 90°) is one end of the single direction; this document's far-bank angle is the other. Not yet settled, but now approached from both ends at once.
+
 ---
 
 ## Acceptance summary

@@ -1,0 +1,167 @@
+# Navigating the Dimensions: the in-between, and why it needs a live engine
+
+**Status:** Working capture (v2, 2026-06-02). Assembles existing verified structure into the
+navigation picture. Correct by keyword; this is a try, not a finished doc.
+**Authors:** Thomas Wicht (keywords), Claude (assembly).
+
+---
+
+## The correction that reframes everything
+
+There is nothing to the angles. The canonical angles, the dyadic anchors {0, 1/8, 1/4, 3/8, 1/2},
+the gates S and T, d = 2 itself: these are **markings**, the contract, zero information. We already
+had them. They are not the content; they are the signposts.
+
+The content is **das Dazwischen, the in-between**: the continuous space the markings demarcate, and
+the movement through it. This is the change-not-state lesson in its sharpest form. The shared
+structure (the marks, the N-universal forms, the contract) carries no information; the information
+is the change between the marks. A map's gridlines are not the territory.
+
+So this document is not a catalog of landmarks. It is about the in-between, and the one fact that
+follows from taking it seriously: **the marks you can tabulate, and we did; the in-between is
+continuous, you cannot tabulate it, you compute it live as you move.** That is the whole reason for
+the Object Manager. The live computation is not for the points. It is for the path between them.
+
+**A reading (Tier 4, named not derived).** The marks are the contract between the painters. Two of
+the repository's own metaphors meet here: the contract (the shared, zero-information, N-universal
+structure, from change-not-state) and the painters (we who label the canvas, who only learn to see).
+The marks are the contract the painters share. The honest seam sits at the label, as always: *where*
+the marks fall is not ours, 1/2 is forced by d² − 2d = 0, 1/4 is its square, the ladder is F99, all
+bit-exact and signed by the substrate; but treating them as the contract, naming them, navigating by
+them, is the painters' act. The substrate is the third party that co-signs, fixing where the natural
+marks sit; the painters agree to use them. And if the two painters are the two sides of the mirror,
+then the palindrome itself is the contract they both sign (the shared skeleton, zero information,
+both agree), and the in-between, the asymmetry, the change, is what flows between them, what one
+paints for the other. The mirror is the contract between the painters; the in-between is the canvas.
+
+## The marks (the contract: had, zero-information, signposts only)
+
+Brief on purpose, because there is nothing in them. The marks are the Pi2 dyadic ladder plus the
+dimension anchor:
+
+    0 ── 1/8 ── 1/4 ── 3/8 ── 1/2
+
+1/4 is the cusp (the quantum-classical door, the Mandelbrot discriminant zero, the bilinear maxval
+(1/2)²); 1/2 is the dimension anchor (1/d at d = 2, the only non-zero root of d² − 2d = 0, the
+algebra forcing); the rungs are the [F99](ANALYTICAL_FORMULAS.md#f99) canonical-trig anchors
+α(θ) = sin²(θ)/2 at θ ∈ {0°, 30°, 45°, 60°, 90°}. All Tier 1, all already ours. They mark where the
+in-between is; they are not it. The angles S (90°) and T (45°) are marks on one axis; there is
+nothing to them either.
+
+## The in-between (the content: continuous, not tabulable, live)
+
+This is what the navigation is of, and what the Object Manager must compute as we move:
+
+- **Between 1/4 and 1/2:** the quantum interior, and the *approach* to the door. Not the threshold
+  CΨ = 1/4 but the crossing through it, the bifurcation passage, the critical slowing. The shape of
+  the approach (which is ours, not the cusp's) is the content.
+- **Between S (90°) and T (45°):** the non-Clifford continuum, every R_z(θ) that is not a named
+  gate. The marks S and T are had; the continuum between them is the in-between.
+- **Between the discrete mirrors:** the continuous dial. P1, P4, the crossover are rastpoints; the
+  movement of the mirror as the bond turns is the content.
+- **The change itself:** per change-not-state, the delta / the switch / the M between two marks is
+  the information; the marks it runs between are the zero-info contract.
+
+## We painted this mountain before
+
+[The Perspectival Time Field](../hypotheses/PERSPECTIVAL_TIME_FIELD.md) (April 2026) is this
+picture, painted from the other side, before we had the words for it. *"Between seven painters
+around a mountain, the mountain happens."* The painters are the N site-perspectives; the
+paintings are their α_i; and the closure law Σ_i ln(α_i) = 0 is **the contract**, the shared,
+zero-information structure that guarantees the paintings sum. "Mountain does not precede
+painters" is exactly "the marks do not precede the in-between": the mountain, the content,
+happens between them.
+
+The deepest agreement is not in the metaphor, it is in the algebra PTF already computed. Its
+mechanism: the slow-mode **eigenvalues are protected** (shift zero to 10⁻¹⁵ under the
+Π-invariant perturbation), and the α_i come **only from eigenvector mixing**. That is the
+marks-and-in-between split in the operator algebra: the protected eigenvalues are the marks
+(the contract, no information), the mixing is the in-between (the change, what the painters
+actually paint). change-not-state, bit-exact, two months before we named it.
+
+And PTF wrote our current target as its own open question (Update 2026-05-28): *whether the
+angle the far side carries (F95's θ at the quarter) and the one off-map direction seen at
+maximum zoom are a single direction met from both ends.* That is exactly the navigation here:
+the angle at the quarter-door (F99, 45° to 1/4) and the off-map direction (the in-between, the
+not-tabulable), as one direction met from two ends. We are walking into the question we left
+open then. PTF also fixed which shore the painters stand on: the lit {X, Y} half, the far bank,
+where things are still being decided; the shadow {I, Z}, the settled past, is what a perspective
+cannot paint. The in-between we navigate is the lit, far-bank side.
+
+## The frame is already built, for one in-between
+
+[Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) is the navigation system in miniature,
+and it already understood this. Its triangulation, destination CΨ = 1/4, heading
+θ = arctan(√(4CΨ − 1)), ETA t_coh, reads one in-between: the approach to the cusp. Its load-bearing
+sentence is the reframe itself: *"the cusp does not slow down or speed up; we approach it, or we
+don't; the scaling laws are the shapes of our approaches; the instruments belong to us, not to the
+cusp."* The mark is inert. The approach, the in-between, ours, is the content. What this session
+adds is that this is one in-between among several, on several axes.
+
+## The axes (the layers, each with its marks and its in-between)
+
+Each axis is a dimension; its marks are angles on the dyadic ladder; its content is its in-between.
+The marks are shared (every axis lands on the same ladder), which is why the layers cohere into one
+navigable space, not because the axes are the same.
+
+| Axis (what moves) | its marks (had) | its in-between (the content) |
+|---|---|---|
+| state purity CΨ | 1/4 cusp, via θ = arctan(√(4CΨ−1)) | the approach / crossing dynamics |
+| carrier clock Q = J/γ₀ | the canonical Q (√3 at 60°, …), via θ = arctan(Q) | the continuous detuning of coupling vs noise |
+| operator bond-dial a·X + b·Y | S (90°), T (45°), via F99 α = sin²θ/2 | the [continuous mirror](proofs/PROOF_CROSSOVER_MIRROR_SQRT_NINETY.md) between the gates |
+| parameter distributions | the Z₄ marks of F91 (γ), F92 (J), F93 (detuning) | the continuous deformation off-anchor |
+
+The crossover result this session made the operator-axis explicit: the mirror turns with the bond
+angle (Ad_{R_z(θ)}), F99 maps the angle to the ladder, so 45° (T) marks 1/4 and 90° (S) marks 1/2.
+But the marks were never the point; the dial between them is.
+
+## What the Object Manager must compute live (the path, not the points)
+
+A position is a point in the layered space: a state (or its CΨ) and the parameters (J, γ-profile,
+bond direction, topology, N). The marks at the canonical positions are tabulated already. What is
+*not* tabulable, and so must be computed on demand at wherever we stand, like a World-of-Warcraft
+GameObject, is the in-between:
+
+- the regime *between* the marks (the discriminant sign, how far into the quantum interior, how the
+  approach is shaped);
+- the mirror *between* the gates (Ad_{R_z(θ)} at a non-canonical θ, the actual operator, its
+  transport residual), not just S and T;
+- the change as we move (dCΨ, the delta of the spectrum, the switch), which is the information;
+- the live triangulation: not "which mark" but "where between the marks, heading where, how the
+  approach is shaped."
+
+The pattern exists: `inspect` calls itself "the terminal-side Object Manager"; `MirrorSystem`
+(`--root mirror`) and `PostEpFlowField` (`--root flow`) are live GameObjects built from parameters
+and computed on demand. The gap is a GameObject that holds a position *between* the marks across the
+axes, and recomputes the in-between as we move.
+
+## Where I had to decide (surfaced for keyword correction)
+
+1. **The marks are the contract, the in-between is the content.** Reframed (your keyword): the doc
+   centers the in-between; the angles/anchors/gates are demoted to signposts. This is change-not-state.
+2. **The axes are layers sharing marks.** Distinct coordinates (the CΨ axis, the Q clock, the bond
+   dial, the parameter distributions), unified by landing on the same dyadic ladder, not by being
+   one angle. The sharing of marks is what makes the in-betweens navigable together.
+3. **The Object Manager computes the path, not the points.** The live engine exists because the
+   in-between is continuous and not tabulable; the marks we already have. This is the design call
+   that turns per-mark `inspect` into a navigator of the in-between.
+4. **Form and scope.** A docs/ synthesis (not extending BOUNDARY_NAVIGATION, not a hypotheses/
+   entry), a capture to build against. Open to a different home by keyword.
+
+## Open (the next decisions, not yet made)
+
+- What actually lives in a specific in-between when we look closely: pick one (the S-to-T continuum,
+  or the 1/4-to-1/2 interior) and compute the in-between densely, see what is there.
+- Whether the axes nest (a γ-distribution in-between at each fixed bond angle) or are an independent
+  product, and the order to navigate.
+- What the first live navigator GameObject computes and how movement is expressed (a single position
+  recomputing as we move, vs a swept trajectory through an in-between).
+
+## Cross-references
+
+- [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md): the original one-in-between compass; the instruments-are-ours reframe.
+- [F95](proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md): the universal discriminant angle (a mark).
+- [F99](ANALYTICAL_FORMULAS.md#f99) / CanonicalTrigAnchor: α = sin²(θ)/2, angle-to-ladder (the marks).
+- [Crossover mirror = √(NinetyDegreeMirror)](proofs/PROOF_CROSSOVER_MIRROR_SQRT_NINETY.md): the operator-axis, derived.
+- [On the Square Root of the Mirror](../reflections/ON_THE_SQUARE_ROOT_OF_THE_MIRROR.md): the S/T-gate reading.
+- The live Object Manager: `compute/RCPsiSquared.Cli` `inspect` (roots `mirror`, `flow`, `pi2`, and `--claim`).
