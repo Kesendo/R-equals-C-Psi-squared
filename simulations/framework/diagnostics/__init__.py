@@ -23,3 +23,10 @@ from .ptf import pt_matrix_elements, pt_eigvec_shift
 from .polarity import polarity_diagnostic
 from .d_zero import stationary_modes, d_zero_decomposition, sector_populations
 from .q_family_routing import classify_two_term_palindrome
+from .crossover_product_pi import (
+    crossover_map,
+    is_crossover_pair,
+    CROSSOVER_PAIRS,
+    product_pi_residual,
+    verify_crossover_local,
+)

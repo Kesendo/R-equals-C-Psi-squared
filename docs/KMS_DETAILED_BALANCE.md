@@ -343,7 +343,10 @@ anti-commutation. A fundamentally different approach (e.g., Pauli-mixing
 XXZ + thermal bath at various temperatures and check whether any
 palindromic structure survives, even approximately. If approximate
 palindrome is observed, construct Π numerically from eigenvector
-pairing (as done for the non-local Π in NON_HEISENBERG_PALINDROME.md).
+pairing (the fallback construction in NON_HEISENBERG_PALINDROME.md; note it
+returns an entangled representative under spectral degeneracy even when a
+product Π exists, so test candidate products directly, see
+PI_OPERATOR_ENTANGLEMENT.md).
 
 ---
 

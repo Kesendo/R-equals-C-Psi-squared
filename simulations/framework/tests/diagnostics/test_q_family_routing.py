@@ -56,11 +56,16 @@ def test_family_soft_alternating_xy_yx():
     assert r['q_family'] == 'alternating'
 
 
-def test_family_soft_non_local_xz_yz():
-    """XZ+YZ: same-site X&Y over shared dark Z → soft / 'non_local'."""
+def test_family_soft_continuous_xz_yz():
+    """XZ+YZ: same-site X&Y over shared dark Z → soft, closed by a local continuous map.
+
+    Formerly labelled 'non_local'; the continuous per-site rotation M (M²=−I) is a genuine
+    product Π, so the family is 'continuous' and the mirror is local. See
+    test_crossover_product_pi for the bit-exact verification.
+    """
     r = fw.classify_two_term_palindrome('XZ', 'YZ')
     assert r['fate'] == 'soft'
-    assert r['q_family'] == 'non_local'
+    assert r['q_family'] == 'continuous'
 
 
 def test_family_hard_xx_xy():

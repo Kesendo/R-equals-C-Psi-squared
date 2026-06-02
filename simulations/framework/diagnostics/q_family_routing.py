@@ -11,8 +11,9 @@ splits each site into a DC bus {I, Z} (immune) and an AC bus {X, Y} (damped). Th
 palindrome operator Q routes the AC bus, and per-site it comes in two crossover families:
 P1 routes the X-channel, P4 routes the Y-channel. A single uniform product Q must serve
 BOTH bond terms at once, so the chain is palindromic iff its two terms share a valid
-uniform Q-family; failing that, it escapes via an alternating (site-parity) or a non-local
-(entangled) Q; failing THAT, the palindrome is broken (hard).
+uniform Q-family; failing that, it escapes via an alternating (site-parity) Q, or, for the
+two same-site X&Y collisions, via a continuous (non-permutation) per-site rotation; failing
+THAT, the palindrome is broken (hard).
 
 This routing reproduces fw.classify_pauli_pair bit-exactly across N = 3, 4, 5
 (0 mismatches over all 36 combos), validated in the probe
@@ -53,9 +54,13 @@ _FAM = {
     'YX': frozenset(),
 }
 
-# The two non-local escapes: same-site X&Y collision over a shared dark Z port,
-# rescued by an entangled (non-product) Q.
-_NON_LOCAL_PAIRS = {frozenset({'XZ', 'YZ'}), frozenset({'ZX', 'ZY'})}
+# The two continuous-crossover escapes: same-site X&Y collision over a shared dark Z
+# port. No discrete signed-permutation crossover routes both bands, but a single
+# continuous per-site rotation M (M² = −I) does, so the mirror is LOCAL, not entangled
+# (the old "non-local" reading was an artifact of the discrete-permutation search and
+# the degenerate eigenvector-pairing construction). The closed-form M lives in
+# diagnostics/crossover_product_pi.py; see experiments/PI_OPERATOR_ENTANGLEMENT.md.
+_CONTINUOUS_PAIRS = {frozenset({'XZ', 'YZ'}), frozenset({'ZX', 'ZY'})}
 
 _MOTHER = {'XX', 'YY', 'ZZ'}
 
@@ -64,7 +69,7 @@ def _route(bil_a, bil_b):
     """Predict the fate of H = Σ_bonds (bil_a + bil_b) from the letters alone.
 
     Returns {fate, family, reason} where fate ∈ {'truly','soft','hard'} and
-    family ∈ {'P1','uniform','alternating','non_local', None}.
+    family ∈ {'P1','uniform','alternating','continuous', None}.
     """
     fa, fb = _FAM[bil_a], _FAM[bil_b]
 
@@ -83,14 +88,16 @@ def _route(bil_a, bil_b):
         return {'fate': 'soft', 'family': 'alternating',
                 'reason': 'XY/YX with site-parity (alternating) Q'}
 
-    # 3. Non-local (entangled) escape: same-site X&Y over a shared dark Z port.
-    if frozenset({bil_a, bil_b}) in _NON_LOCAL_PAIRS:
-        return {'fate': 'soft', 'family': 'non_local',
-                'reason': 'same-site X&Y collision over shared dark Z; entangled Q'}
+    # 3. Continuous-crossover escape: same-site X&Y over a shared dark Z port, closed by
+    #    a continuous (non-permutation) uniform per-site rotation. Still LOCAL.
+    if frozenset({bil_a, bil_b}) in _CONTINUOUS_PAIRS:
+        return {'fate': 'soft', 'family': 'continuous',
+                'reason': 'same-site X&Y collision over shared dark Z; '
+                          'local continuous per-site rotation M (M²=−I)'}
 
     # 4. No Q closes it: the palindrome is broken.
     return {'fate': 'hard', 'family': None,
-            'reason': 'no shared uniform Q, no alternating/non-local escape'}
+            'reason': 'no shared uniform Q, no alternating/continuous escape'}
 
 
 # ---------------------------------------------------------------------------
@@ -149,9 +156,9 @@ def _q7_reason(bil_a, bil_b):
 
     # Split cell B: Z-Father (XZ/ZX) + Child (YZ/ZY).
     if k == ('C', 'F_b'):
-        if frozenset({bil_a, bil_b}) in _NON_LOCAL_PAIRS:
+        if frozenset({bil_a, bil_b}) in _CONTINUOUS_PAIRS:
             return {'hard': False, 'cell_pair': k,
-                    'reason': 'C+F_b same-site X&Y over shared dark Z: entangled (non-local) rescue'}
+                    'reason': 'C+F_b same-site X&Y over shared dark Z: local continuous-rotation rescue'}
         return {'hard': True, 'cell_pair': k,
                 'reason': 'C+F_b lit X,Y on different sites: no Q closes it'}
 
@@ -228,8 +235,10 @@ def classify_two_term_palindrome(term1, term2, N=3, gamma_0=0.05):
           klein1, klein2: each term's Klein index (bit_a, bit_b) from klein_index.
           parity_break  : bool, True iff ‖[H, X^⊗N]‖ > 1e-9 (global X-parity broken).
           fate          : 'truly' | 'soft' | 'hard'.
-          q_family      : 'P1' (truly) | 'uniform' | 'alternating' | 'non_local'
-                          (soft) | None (hard).
+          q_family      : 'P1' (truly) | 'uniform' | 'alternating' | 'continuous'
+                          (soft) | None (hard). 'continuous' = the two same-site
+                          X&Y crossover pairs, closed by a local continuous per-site
+                          rotation (see crossover_product_pi).
           reason        : structural explanation. For hard combos this is the
                           q7 Klein-cell reading; for soft/truly it is the rule clause.
 

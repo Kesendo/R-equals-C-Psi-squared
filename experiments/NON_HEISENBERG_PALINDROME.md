@@ -1,7 +1,7 @@
 # Palindromic Symmetry Beyond Heisenberg: The Mirror Works on Every Instrument
 
 <!-- Keywords: palindromic Liouvillian beyond Heisenberg, XY Ising XXZ DM palindrome,
-conjugation operator families P1 P4, non-local entangled Pi operator, dephasing
+conjugation operator families P1 P4, continuous crossover local Pi operator, dephasing
 spectral symmetry universal, depolarizing noise palindrome breaking, Pauli term
 compatibility matrix, alternating conjugation operator, open quantum system
 spectral structure all models, R=CPsi2 non-Heisenberg palindrome -->
@@ -30,8 +30,11 @@ of one model; it is a property of how noise interacts with qubits.
 Along the way, two surprises emerge. First, the mirror operator Π
 comes in families (different mirrors for different instruments, but
 they all produce palindromes). Second, in two exotic cases, the
-mirror itself is entangled: it cannot be described site by site but
-must correlate multiple qubits simultaneously.
+mirror cannot be a discrete relabelling of the Pauli letters; it has
+to be a continuous rotation. It is still a per-site map (still local),
+but a turned one. (For some months these two cases were read as
+genuinely entangled; the correction is in
+[Pi Operator Entanglement](PI_OPERATOR_ENTANGLEMENT.md) and Result 5 below.)
 
 ---
 
@@ -44,9 +47,11 @@ under single-axis dephasing: XY, Ising, XXZ, Dzyaloshinskii-Moriya (DM; a
 spin-orbit interaction that twists the coupling between neighbors), and
 all combinations. Two families of conjugation operators exist (P1 and P4),
 plus non-uniform alternating operators for XY/YX terms. All 36 possible
-two-term Pauli combinations are resolved: 20 are palindromic (17 uniform,
-3 alternating), 14 break structurally, and 2 require a genuinely **non-local
-(entangled) Π operator** that cannot be factored into per-site maps.
+two-term Pauli combinations are resolved: 22 are palindromic (17 via a
+uniform discrete map, 3 alternating, 2 via a uniform **continuous** per-site
+rotation) and 14 break structurally. Every palindromic case has a **local**
+(per-site product) Π; the two continuous cases, XZ+YZ and ZX+ZY, were once
+reported as non-local, corrected in Result 5.
 Depolarizing noise breaks the palindrome with a Hamiltonian-independent
 error of (2/3)Nγ, but this is < 0.1% for typical hardware dephasing
 rates.
@@ -138,15 +143,16 @@ compatibility:
 
 | Category | Count | Structure |
 |----------|-------|-----------|
-| Compatible via uniform Π | 17/36 | M⊗M (local, identical per site) |
+| Compatible via uniform discrete Π | 17/36 | M⊗M (local, identical per site) |
 | Compatible via alternating Π | 3/36 | M₁⊗M₂⊗M₃ (local, site-dependent) |
-| Compatible via non-local Π | 2/36 | Not factorizable, entangled (XZ+YZ, ZX+ZY) |
+| Compatible via uniform continuous Π | 2/36 | M⊗M, M a rotation not a permutation (local) (XZ+YZ, ZX+ZY) |
 | Broken (no Π exists) | 14/36 | Palindrome itself fails numerically |
 
 Note: "incompatible" means X and Y, which require different Pi families
 (P1 routes X, P4 routes Y). When they sit on DIFFERENT sites (e.g. XZ+ZY),
 each site chooses its own family: P4⊗P1. When they sit on the SAME site
-(XZ+YZ), no single per-site map suffices. See
+(XZ+YZ), no discrete crossover suffices, but a single continuous rotation
+M (the same on every site) does. See
 [Pi Operator Entanglement](PI_OPERATOR_ENTANGLEMENT.md).
 
 The 14 broken combinations from algebraic analysis match the 14 from
@@ -154,45 +160,49 @@ numerical eigenvalue analysis exactly (cross-validated).
 
 ---
 
-## Result 5: Non-Local (Entangled) Π Operators
+## Result 5: The Two Continuous-Crossover Cases (corrected 2026-06-02)
 
-This is the most surprising result. So far, every mirror operator could
-be described as "do this shuffle at each qubit independently." But two
-cases refuse to cooperate: the coupling puts conflicting demands on the
-same qubit (it needs both key 1 and key 2 simultaneously). The system
-solves this by making the mirror itself entangled: it correlates the
-qubits the way a Bell state correlates two particles. The mirror is no
-longer a per-site recipe; it is a genuinely quantum object.
+This was the most surprising result, and the surprise turned out to be ours, not the
+physics'. So far, every mirror could be described as "do this Pauli shuffle at each qubit
+independently." Two cases, XZ+YZ and ZX+ZY, refuse that: the coupling puts both an X and a
+Y demand on the same qubit, and no single discrete shuffle (P1 routes X, P4 routes Y) serves
+both. For some months we read this as the mirror going *entangled*: a Π that could not be
+written as M₁ ⊗ M₂, constructed from eigenvector pairing, carrying 1/√2 coefficients that
+looked like Bell-state structure.
 
-The two remaining cases (XZ+YZ and ZX+ZY) are palindromic, but no per-site
-Pauli permutation explains them. After exhaustive search (512 discrete maps,
-continuous rotations, full 16-parameter optimization), the resolution came
-from constructing Π directly from eigenvector pairing.
+That reading was a lens. It came from searching the per-site map only over discrete Pauli
+permutations, and from building Π by eigenvector pairing, which under the heavy spectral
+degeneracy of these Liouvillians returns an entangled representative even when a product
+exists. Allow the per-site map to be a continuous *rotation* rather than a permutation and a
+product mirror appears at once. A single uniform per-site unitary M, the same on every site,
+gives Π = M^⊗N satisfying Π L Π⁻¹ = −L − 2Σγ·I to machine precision at N = 2..6. The two
+cases are **local**. In the framework Pauli order [I, X, Z, Y], M acts as
 
-The Π matrix has 1/√2 coefficients mapping single-site operators to
-superpositions:
+    I ↦ −(X + Y)/√2        X ↦ (I + iZ)/√2
+    Z ↦  i(X − Y)/√2       Y ↦ (I − iZ)/√2
 
-```
-Π[II, XX] = −1/√2      Π[II, YX] = +1/√2
-Π[XX, II] = −1/√2      Π[YX, II] = +1/√2
-```
+with M unitary and M² = −I. It is the diplexer crossover turned to the symmetric 45° point
+between the X-router and the Y-router, the one setting that serves both bands; the light
+combination (X + Y) it produces is the bond's own operator, since XZ + YZ = (X + Y)·Z.
 
-**Π is genuinely non-local.** It cannot be decomposed as M₁ ⊗ M₂ for any
-per-site matrices. The operator correlates the two sites in a way that no
-per-site factorization can capture. The 1/√2 coefficients are characteristic
-of Bell-state structure: the mirror itself is entangled.
+The earlier "exhaustive search (512 discrete maps, continuous rotations, 16-parameter
+optimization) found no product" was not in fact exhaustive: section 4 of
+`continuous_pi_search.py` did find the continuous product (residual 4.4e-12), but the
+account of the day followed the eigenvector construction (section 5) and the operator
+Schmidt rank it reported. The minimum operator Schmidt rank over the valid-Π space is 1, not
+9; rank 9 was a non-convex search floor, not the family minimum.
 
-**Physical reason:** H = XZ + YZ places both X and Y on the same site (site 0),
-coupled to Z on site 1. P1 routes the X-channel ({P1, ad_X} = 0) but fails Y.
-P4 routes the Y-channel ({P4, ad_Y} = 0) but fails X. No single per-site map
-can route both channels simultaneously. The conflicting demands force the
-mirror to correlate both sites non-locally.
+**Physical reason for the rotation:** H = XZ + YZ places both X and Y on site 0, coupled to
+Z on site 1. P1 routes the X-channel and fails Y; P4 routes Y and fails X. Neither discrete
+setting serves both, so the crossover rotates to sit symmetric between them. When X and Y
+instead sit on *different* sites (XZ+ZY), each site picks its own discrete family (P4 ⊗ P1)
+and no rotation is needed.
 
-**Contrast:** XZ+ZY (X on site 0, Y on site 1) IS factorizable as P4 x P1.
-When incompatible Pauli operators sit on DIFFERENT sites, each site chooses
-its own Pi family independently. Non-locality requires them on the SAME site.
-See [Pi Operator Entanglement](PI_OPERATOR_ENTANGLEMENT.md) for the operator
-Schmidt decomposition confirming this.
+What stays genuinely many-body is the *break*, not the mirror: the 14 cases that lose the
+palindrome at N ≥ 3 do so because adjacent bonds' mirrors collide at the shared site. That is
+untouched by this correction. See
+[Pi Operator Entanglement](PI_OPERATOR_ENTANGLEMENT.md) for the full account and the
+closed-form M, and `simulations/crossover_pair_local_pi.py` for the verification.
 
 ---
 

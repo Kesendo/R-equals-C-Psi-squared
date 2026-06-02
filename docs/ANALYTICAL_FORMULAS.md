@@ -3543,7 +3543,7 @@ verification.
 operator: `compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs` (supports
 Z, X, Y dephasing via dephase parameter);
 catalog parent: [NON_HEISENBERG_PALINDROME](../experiments/NON_HEISENBERG_PALINDROME.md)
-(P1/P4/alternating/non-local Π-family taxonomy); helpers (Parts 1+3 share
+(P1/P4/alternating/continuous Π-family taxonomy, all local); helpers (Parts 1+3 share
 the same Π²-even bilinear predicates):
 `F108Part1Pi2EvenAlwaysPalindromic.IsPi2EvenBilinear(letter1, letter2)`,
 `IsPi2EvenBilinearTerm(term)`, `IsPi2EvenBilinearHamiltonian(terms)`. Part 2

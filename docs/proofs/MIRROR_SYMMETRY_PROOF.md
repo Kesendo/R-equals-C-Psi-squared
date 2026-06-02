@@ -128,7 +128,7 @@ analogous Π's that swap their own immune sectors with their own damped
 sectors, all three typed in
 [`PiOperator`](../../compute/RCPsiSquared.Core/Symmetry/PiOperator.cs).
 A second uniform Π for Z-dephasing exists too (the P4 partner of the P1
-shown above), and alternating and non-local Π families for parity-broken
+shown above), and alternating and continuous per-site Π families for parity-broken
 Hamiltonians are catalogued in
 [Non-Heisenberg Palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md).
 The proof below uses the P1 / Z-dephasing Π throughout.
@@ -421,5 +421,5 @@ had the complete picture. Here is how our work relates to theirs:
 - [Born Rule Mirror](../../experiments/BORN_RULE_MIRROR.md): mirror quality measurements
 - [Orphaned Results](../../experiments/ORPHANED_RESULTS.md): palindrome pair activation explains which states cross 1/4
 - [QST Bridge](../../experiments/QST_BRIDGE.md): palindrome applies to all QST channels, provides decay diagnostics
-- [Non-Heisenberg Palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md): three Π families (P1/P4, alternating, non-local) for parity-broken Hamiltonians
+- [Non-Heisenberg Palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md): the Π families (P1/P4, alternating, continuous per-site), all local, for parity-broken Hamiltonians
 - [Absorption Theorem](PROOF_ABSORPTION_THEOREM.md): rate quantization Re(λ) = −2γ⟨n_XY⟩, the principal descendant of F1

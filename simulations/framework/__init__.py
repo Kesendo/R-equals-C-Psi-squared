@@ -115,6 +115,11 @@ from .diagnostics import (
     d_zero_decomposition,
     sector_populations,
     classify_two_term_palindrome,
+    crossover_map,
+    is_crossover_pair,
+    CROSSOVER_PAIRS,
+    product_pi_residual,
+    verify_crossover_local,
 )
 
 # Workflows: composing primitives and diagnostics into analysis flows

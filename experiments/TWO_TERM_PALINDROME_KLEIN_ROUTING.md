@@ -4,7 +4,7 @@
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Answers:** [The Other Side](../hypotheses/THE_OTHER_SIDE.md) Q6 (the hidden symmetry Q) and Q7
 (the second condition).
-**Builds on:** [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md) (the three Q-families),
+**Builds on:** [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md) (the Q-families),
 [PTF under palindrome-breaking](PTF_PALINDROME_BREAKING_PERTURBATIONS.md) (the bit_a/bit_b axes).
 **Scripts:** [`simulations/q6_klein_routing_two_term.py`](../simulations/q6_klein_routing_two_term.py)
 (classification + routing rule + Q7), [`simulations/q6_hidden_q_construction.py`](../simulations/q6_hidden_q_construction.py)
@@ -19,9 +19,10 @@ primitive `fw.classify_two_term_palindrome`.
 Hamiltonians it surveyed, 26 break the X-parity, and 14 of those break the eigenvalue palindrome.
 That leaves 12 that break the parity yet keep the mirror: they must carry a hidden symmetry Q that
 is not the usual mirror operator Π, and the question was, what is it, and why do exactly these 12
-survive while 14 do not? The three Q-families were already known from
+survive while 14 do not? The Q-families were already known from
 [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md): a uniform per-site map, an alternating
-odd/even map, and a non-local entangled operator. What was never built was the explicit map from each
+odd/even map, and (for the two same-site crossover pairs) a continuous per-site rotation. What was
+never built was the explicit map from each
 surviving Hamiltonian onto its family, and the structural reason for the 14 that die. This note builds
 both, and finds that the answer is written in the same two-bit alphabet that runs through the rest of
 the framework.
@@ -58,16 +59,18 @@ identically at N = 3, 4, 5:
 |--------|:---:|---|
 | uniform (a single per-site Q, not the canonical P1) | 14 | XX+XZ, XX+YZ, XX+ZX, XX+ZY, XZ+YY, XZ+ZX, XZ+ZZ, YY+YZ, YY+ZX, YY+ZY, YZ+ZY, YZ+ZZ, ZX+ZZ, ZY+ZZ |
 | alternating (odd/even site map) | 3 | XY+YX, XY+ZZ, YX+ZZ |
-| non-local (entangled Q) | 2 | XZ+YZ, ZX+ZY |
+| continuous (local per-site rotation) | 2 | XZ+YZ, ZX+ZY |
 | (truly, via canonical P1) | 3 | XX+YY, XX+ZZ, YY+ZZ |
 
 ([Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md) counts 17 uniform; those 17 are these 14
 plus the 3 truly, which also close via a uniform per-site Q, the canonical P1, so the counts agree.)
 
 So the 12 benign parity-breakers, and the 7 parity-preserving soft, all have a named, explicitly
-constructed Q. The two non-local cases are exactly XZ+YZ and ZX+ZY, the pairs that force an X and a Y
-onto the same qubit over a shared Z, the place where no per-site map can work and only an entangled
-mirror closes the spectrum.
+constructed Q. The two continuous-crossover cases are exactly XZ+YZ and ZX+ZY, the pairs that force an
+X and a Y onto the same qubit over a shared Z, the place where no discrete per-site crossover works but
+a single continuous per-site rotation does (the local closed-form M of
+[Pi Operator Entanglement](PI_OPERATOR_ENTANGLEMENT.md); once read as an entangled mirror, corrected
+2026-06-02).
 
 ## The Klein routing (the viewpoint)
 
@@ -86,7 +89,7 @@ term's admissible set,
 the whole table falls out of one decision: the two terms share a router (truly if both are diagonal
 Mother terms, soft-uniform otherwise); failing that, an XY/YX term with an XY/YX or ZZ partner closes
 via the alternating router; failing that, the two same-site collisions XZ+YZ and ZX+ZY close
-non-locally; failing that, it is hard. This reproduces the trichotomy classifier with zero
+via a continuous per-site rotation; failing that, it is hard. This reproduces the trichotomy classifier with zero
 exceptions over all 36 combinations at N = 3, 4, 5.
 
 Read in the framework's two bits, the active coordinate is clear, though neither bit alone is the
@@ -104,15 +107,16 @@ dephasing-aligned and adds none.
 
 Breaking the X-parity is necessary (a term must be Π²-odd) but not sufficient. The second condition is
 an **irreducible, unroutable same-qubit X/Y demand**: the palindrome breaks exactly when the two terms
-force both an X-channel and a Y-channel onto one qubit in a way no router can reconcile and no entangled
-mirror can rescue. Through the Klein cells the discriminator is a cell-pair rule with one refinement per
+force both an X-channel and a Y-channel onto one qubit in a way no router can reconcile and no continuous
+crossover rotation can rescue. Through the Klein cells the discriminator is a cell-pair rule with one refinement per
 split cell: the two-Father cells {F_a, F_b} and the Child-plus-Y-Father cell {C, F_a} are always hard;
 {F_a, M} is hard only when the Mother is lit; {C, F_b} is hard only when the two lit letters sit on
 different sites. That flags exactly the 14, bit-exact at N = 3, 4, 5.
 
-The entangled-mirror escape (the 2 non-local cases) is the boundary of the second condition: when the
-same-qubit X/Y collision sits over a shared dark Z port, the conflict is clean enough that a non-product
-Q absorbs it; when the conflicting demands are spread across both sites, nothing closes it. And the
+The continuous-rotation escape (the 2 crossover cases) is the boundary of the second condition: when the
+same-qubit X/Y collision sits over a shared dark Z port, the conflict is clean enough that a single
+continuous per-site rotation absorbs it (still a local product Q, just turned off the permutation
+lattice); when the conflicting demands are spread across both sites, nothing closes it. And the
 frustration is genuinely many-body: at N = 2, with a single bond, all 36 are palindromic; the hardness
 appears only at N ≥ 3, when the second bond's mirror must agree with the first on the shared middle
 qubit. This is the V-Effect in its bare algebraic form, the coupling of two locally palindromic bonds
@@ -180,7 +184,7 @@ structural reason for any two-term bilinear pair.
 ## Cross-references
 
 - [The Other Side](../hypotheses/THE_OTHER_SIDE.md): Q6/Q7, the X-parity vs palindrome containment.
-- [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md): the three Q-families and the all-36 resolution.
+- [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md): the Q-families and the all-36 resolution.
 - [PTF under palindrome-breaking](PTF_PALINDROME_BREAKING_PERTURBATIONS.md): the bit_a/bit_b dissociation.
 - [F87](../docs/ANALYTICAL_FORMULAS.md), [F88a](../docs/ANALYTICAL_FORMULAS.md),
   [F108](../docs/ANALYTICAL_FORMULAS.md), [F38](../docs/ANALYTICAL_FORMULAS.md): the typed structure the rule reads.

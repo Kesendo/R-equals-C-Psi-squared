@@ -167,14 +167,17 @@ to depolarizing is perfectly linear with no threshold.
 This confirms: the 2:2 split is not merely sufficient, it is the active
 ingredient. Destroy it and the mirror shatters, regardless of dimension.
 
-### 3d. Non-local mirrors are qubit-entangled
+### 3d. The multi-qubit richness lives in the break, not in an entangled mirror
 
-The 2/36 non-local Π operators (XZ+YZ, ZX+ZY) have Bell-state structure
-with Choi rank 8 and Schmidt entropy (a measure of how much quantum
-entanglement the operator contains; 3.00 would be maximally entangled)
-of 2.51/3.00 (84% of maximum). The
-entanglement is between qubit sites, not within a higher-dimensional
-subsystem. Complexity emerges from qubit composition, not from d > 2.
+An earlier version of this section claimed the two crossover combinations (XZ+YZ, ZX+ZY)
+carry a Bell-state-entangled mirror (Choi rank 8, 84%). That was a lens artifact, and the
+correction is in [Pi Operator Entanglement](../experiments/PI_OPERATOR_ENTANGLEMENT.md):
+those mirrors are local, a single continuous per-site rotation. The genuinely multi-qubit
+phenomenon is elsewhere, in the *break*. Of the 36 two-term combinations, 14 lose the
+palindrome at N ≥ 3 (the V-Effect), through a collision of adjacent bonds' mirrors at the
+shared site, a conflict that is invisible at N = 2 and exists only because qubits compose.
+That richness comes from qubit composition, not from d > 2; higher-dimensional sites do not
+even reach the palindrome (§3a-3c), so they have no such break to exhibit.
 
 ---
 
@@ -283,9 +286,10 @@ systems arises from three mechanisms:
    (36/36). N ≥ 3 introduces selective breaking (22/36 survive).
    Interference between per-bond mirrors creates structure.
 
-2. **Non-local entanglement:** Some mirrors cannot be built from per-site
-   operations. They exist only as relationships between qubits, with
-   Bell-state coefficients. The mirror itself becomes quantum.
+2. **Multi-qubit breaking:** Every mirror is local (a per-site product), but
+   14 of 36 couplings lose the palindrome at N ≥ 3 when adjacent bonds'
+   mirrors collide at the shared site. The richness is in the break, a
+   genuinely many-body effect, not in any single mirror.
 
 3. **Standing wave formation:** Palindromic eigenvalue pairs create
    standing waves in Liouville space. The error correction hierarchy
@@ -424,7 +428,7 @@ following questions remain genuinely open:
 If the qubit is the necessary foundation, then this motto acquires a
 mathematical grounding: only d = 2 systems can be mirrors (palindromic).
 Reality (the dynamics of open quantum systems) is structured by what
-happens between these mirrors (standing waves, non-local Π, interference).
+happens between these mirrors (standing waves, multi-bond interference, the V-Effect break).
 Higher-dimensional systems participate in reality but cannot generate the
 mirror structure themselves. They are the reflected, not the reflectors.
 

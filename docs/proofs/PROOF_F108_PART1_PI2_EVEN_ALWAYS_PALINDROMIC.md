@@ -6,7 +6,7 @@
 **Depends on:**
 - [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md) (the original F1 palindrome theorem for truly Heisenberg H)
 - [PROOF_F85_KBODY_GENERALIZATION.md](PROOF_F85_KBODY_GENERALIZATION.md) (truly criterion for k-body Pauli terms)
-- [NON_HEISENBERG_PALINDROME](../../experiments/NON_HEISENBERG_PALINDROME.md) (Π-family classification: P1, P4, alternating, non-local)
+- [NON_HEISENBERG_PALINDROME](../../experiments/NON_HEISENBERG_PALINDROME.md) (Π-family classification: P1, P4, alternating, continuous per-site, all local)
 - [`compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs`](../../compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs) (Π_5bilinear builder)
 - [PROOF_F108_KLEIN_V4_EQUIVALENCE.md](PROOF_F108_KLEIN_V4_EQUIVALENCE.md) (Welle 14: F108 Parts 2, 3 as Klein-V₄ corollaries of Part 1; precise mechanism documentation)
 
@@ -143,7 +143,7 @@ F108 Part 1 closes the long-open F87 hardness criterion for Π²-even pairs:
 - **F108 Part 1** (Tier 1 derived, THIS PROOF): no Π²-even pair is F87-hard; equivalently, every Π²-even H admits an exact operator-level palindrome Π.
 - **F109** (Tier 1 derived, was modulo F108 Part 1): mother sector Klein (0, 0) soft ⟹ y_par = 1. With F108 Part 1 closed, F109 is fully unconditional Tier 1 derived.
 
-The PROOF STRATEGY is generalizable: the per-site label-permutation algebra (which Π preserves which Pauli-pair sectors with which phase signs) is a complete classification of when palindromes hold. NON_HEISENBERG_PALINDROME's 4-family taxonomy (P1, P4, alternating, non-local Π) is the catalog; F108 Part 1 identifies P1's "5-bilinear phase variant" as the Π operator that covers every Π²-even Hamiltonian.
+The PROOF STRATEGY is generalizable: the per-site label-permutation algebra (which Π preserves which Pauli-pair sectors with which phase signs) is a complete classification of when palindromes hold. NON_HEISENBERG_PALINDROME's 4-family taxonomy (P1, P4, alternating, continuous per-site Π, all local) is the catalog; F108 Part 1 identifies P1's "5-bilinear phase variant" as the Π operator that covers every Π²-even Hamiltonian.
 
 ## Sibling y_par-axis claims
 

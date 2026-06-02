@@ -616,8 +616,10 @@ See: [The Anomaly](../THE_ANOMALY.md)
    or is there a single family?
    **PARTIAL (2026-03-19):** [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md)
    identifies three conjugation operator families: uniform P1/P4,
-   alternating M1×M2×M1 (for XY/YX terms), and non-local entangled Π
-   (2 cases). These are candidates for Q. The explicit mapping from
+   alternating M1×M2×M1 (for XY/YX terms), and a continuous per-site
+   rotation (2 cases, once read as non-local; corrected 2026-06-02, see
+   [Pi Operator Entanglement](../experiments/PI_OPERATOR_ENTANGLEMENT.md)).
+   These are candidates for Q. The explicit mapping from
    the 12 parity-breaking preservers onto these families has not been
    constructed.
    **ANSWERED 2026-06-01 ([Klein routing](../experiments/TWO_TERM_PALINDROME_KLEIN_ROUTING.md)):**
@@ -625,7 +627,7 @@ See: [The Anomaly](../THE_ANOMALY.md)
    to ‖·‖ ≤ 10⁻¹¹, N=3,4,5). The 22 palindromic combinations split as 3
    via the canonical P1 (the truly cases), 14 via a single non-P1 uniform
    per-site Q, 3 via the alternating odd/even Q (XY+YX, XY+ZZ, YX+ZZ), and
-   2 via a non-local entangled Q (exactly XZ+YZ and ZX+ZY). It is not one
+   2 via a continuous (local) per-site rotation Q (exactly XZ+YZ and ZX+ZY). It is not one
    family but a routing: truly is the all-Mother corner (both terms in
    Klein cell (0,0)); among the rest the routing turns on bit_a (the light
    / dephasing-axis content), with the bit-exact soft-vs-hard split given
@@ -641,11 +643,11 @@ See: [The Anomaly](../THE_ANOMALY.md)
    demand. Z-dephasing gives two per-site mirror crossovers (one routes
    the X-channel, one the Y-channel); the palindrome breaks exactly when
    the two terms force both channels onto one qubit in a way no router
-   reconciles and no entangled mirror rescues. Bit-exact discriminator for
+   reconciles and no continuous crossover rotation rescues. Bit-exact discriminator for
    the 14 (N=3,4,5): cells {F_a,F_b} and {C,F_a} always hard; {F_a,M} hard
    iff the Mother is lit (XY+YY hard, XY+ZZ soft); {C,F_b} hard iff the lit
    X,Y sit on different sites (the 2 same-site cases XZ+YZ, ZX+ZY are the
-   non-local escapes). The frustration is many-body: invisible at N=2, it
+   continuous-rotation escapes). The frustration is many-body: invisible at N=2, it
    appears at N≥3 when adjacent bonds' mirrors must agree on the shared
    qubit (the V-Effect).
 

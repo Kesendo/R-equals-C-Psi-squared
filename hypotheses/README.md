@@ -5,7 +5,7 @@ Tier 2–5 (hypothesis to philosophical) unless noted otherwise.
 
 ## Mixed Tier (computed results + interpretation)
 
-- [The Non-Local Mirror](THE_BOOT_SCRIPT.md) - The 2/36 cases where Π is genuinely entangled (Choi Rank 8, irreducible). All 36/36 palindromic at N=2, breaking is multi-bond interference. Qubit-only: d²−2d=0. Sections 1–6 are Tier 2; Section 7 (shared clock, boot script, Ψ² as self-encounter) is Tier 4–5.
+- [The Mirror That Looked Non-Local](THE_BOOT_SCRIPT.md) - The 2/36 cases (XZ+YZ, ZX+ZY) once read as genuinely entangled (Choi rank 8); corrected 2026-06-02 to local, a continuous per-site rotation. The solid core stands: all 36/36 palindromic at N=2, breaking is multi-bond interference (the V-Effect), qubit-only via d²−2d=0. Sections 3–5 Tier 2; the non-local reading in §§1-2, 6-7 is superseded.
 - [Mediator as Quantum Transistor](MEDIATOR_AS_QUANTUM_TRANSISTOR.md) - CΨ = 1/4 as threshold voltage, bidirectional relay, gate control via γ_M. Hierarchy falsified but transistor properties confirmed.
 
 - [Pair Breaking at the Horizon](PAIR_BREAKING_AT_THE_HORIZON.md) - Synthesis: decoherence as Hawking radiation in operator space. Palindromic pairs break under noise; the immune partner (I/Z) becomes mass, the decaying partner (X/Y) becomes temperature. 7-link chain from standing waves through pair breaking to the ER bridge isomorphism. 13-row comparison table to Gaztañaga (CQG 2026). Links 1-3, 5-7 are Tier 1-2; mass identification (Link 4) is Tier 5. Five honest failure points documented.

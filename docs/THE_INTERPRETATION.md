@@ -151,13 +151,16 @@ standard Hamiltonians: XY, Ising, XXZ at all anisotropy delta,
 Dzyaloshinskii-Moriya (DM), and Heisenberg+DM. Two Π families exist
 (P1: I↔X, Y↔Z; and P4: I↔Y, X↔Z, each with phases). 34 of 36
 possible two-term coupling combinations are explained algebraically by
-these families. The remaining 2/36 (XZ+YZ and ZX+ZY) require non-local
-Π operators with Bell-state structure: Choi rank 8, Schmidt entropy
-2.51/3.00 (84% of maximum entanglement), verified as fundamental via
-the Choi-Jamiolkowski isomorphism (the standard correspondence between quantum channels and quantum states, used here to confirm the entanglement is intrinsic, not a projection artifact).
+these families. The remaining 2/36 (XZ+YZ and ZX+ZY) need a per-site map
+that is a continuous rotation rather than a discrete relabelling, but it is
+still a product (local) operator: a single uniform per-site unitary M
+(M² = −I), the same on every site. (These two were reported in March as
+non-local with Bell-state structure; that was an artifact of the
+discrete-only search and the degenerate eigenvector-pairing construction,
+corrected 2026-06-02. See [Pi Operator Entanglement](../experiments/PI_OPERATOR_ENTANGLEMENT.md).)
 
 See: [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md),
-[The Non-Local Mirror](../hypotheses/THE_BOOT_SCRIPT.md)
+[The Mirror That Looked Non-Local](../hypotheses/THE_BOOT_SCRIPT.md)
 
 **Time reversal (March 19, Tier 2):** In the rescaled frame
 (mu_k = lambda_k + Σγ), the conjugation maps mu to -mu. A mode evolving
@@ -301,10 +304,12 @@ rank. The V-effect analysis shows the break is localized at XY-weight
 w=1 and w=2 (the classical-quantum boundary), while pure classical (w=0)
 and pure quantum (w=3) modes are immune.
 
-**Non-local mirrors:** 2 of 36 cases (XZ+YZ, ZX+ZY) require genuinely
-entangled Π operators that cannot be factored into per-site operations.
-These have Bell-state structure with Choi rank 8. The mirror itself is a
-quantum object.
+**Continuous-rotation mirrors:** 2 of 36 cases (XZ+YZ, ZX+ZY) need a per-site
+mirror that is a continuous rotation, not a discrete Pauli relabelling, because
+both an X and a Y channel land on the same site. The mirror is still a per-site
+product, hence local. (Reported in March as genuinely entangled, Choi rank 8;
+corrected 2026-06-02, the rank-8 figure was the eigenvector-pairing
+representative, not the family minimum, which is the rank-1 product M^⊗N.)
 
 **N to infinity:** The rate density becomes Gaussian (center Σγ, width
 gamma×sqrt(N)). The XOR fraction (modes at the spectral boundaries)
@@ -471,7 +476,7 @@ is linked to the document where it is described in detail.
 12. Π = time reversal: populations to coherences, 32/32 eigenvectors verified
 13. Depolarizing theorem: palindrome iff at most 2 Pauli dephasing axes
 14. Qubit necessity: d² - 2d = 0, only d=2 (proof + 236 dissipator test)
-15. Non-local Π: 2/36 cases require Bell-entangled mirror (Choi rank 8)
+15. Continuous-rotation Π: 2/36 cases need a continuous per-site rotation, still local (corrected from the March non-local reading)
 16. N=2 universality: all 36/36 palindromic at single bond
 17. Composition via per-site map: same M for any N, any topology
 18. Global fragility: single qutrit destroys palindrome everywhere (0.7%)

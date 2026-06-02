@@ -37,7 +37,7 @@ non-trivial solution is d = 2 (the qubit).
 **Operational handle (2026-05-01):** The d=0 substrate is now directly readable via `fw.stationary_modes(chain)` (the kernel of the Liouvillian L), `fw.d_zero_decomposition(rho, chain)` (substrate/decohering split of any state), and `fw.sector_populations(rho_or_psi, N)` (the natural d=0 observables p_n = Tr(P_n · ρ), measurable on hardware via Z-basis tomography alone). For uniform XY/Heisenberg + Z-dephasing the kernel has dimension N+1, spanned by the F4 sector projectors P_n in the {I, Z}^N Pauli sublattice (see [F4 in ANALYTICAL_FORMULAS](ANALYTICAL_FORMULAS.md)).
 
 **Proof:** [Qubit Necessity](QUBIT_NECESSITY.md),
-[Non-Local Mirror](../hypotheses/THE_BOOT_SCRIPT.md) Section 5.
+[The Mirror That Looked Non-Local](../hypotheses/THE_BOOT_SCRIPT.md) Section 5.
 
 **Ruled out:**
 - d = 1 (classical bits): d² - 2d = -1, no palindrome possible
