@@ -37,11 +37,15 @@ namespace RCPsiSquared.Core.Symmetry;
 /// 2i, H↦M) and F91 on the γ-parameter side. Three faces of one 90°.</para>
 ///
 /// <para><b>Scope (honest).</b> The clean √-of-90° identity holds in the light plane {X, Y},
-/// where the X/Y diplexer conflict lives; the full 4×4 carries dark-plane phase bookkeeping
-/// (Π's Z↦iY factors), so M is not a literal element of the discrete Pi2-Z₄, it is the
-/// continuous √ of the Z₄ generator on the same axis. Tier1Candidate: the identity is verified
-/// bit-exact (the methods below recompute it), but the analytical reason S_light² = σ_x↔σ_y has
-/// not yet been derived from the conjugation equation; that derivation is the promotion step.</para>
+/// where the X/Y diplexer conflict lives. <b>Derived (2026-06-02).</b> The clean, full-space
+/// statement is the transport. The crossover bond is the XZ bond with its lit site rotated by
+/// V = R_z(π/4); V commutes with the dephasing axis Z, so Ad_V transports the mirror exactly,
+/// L_cross = Ad_V·L_{XZ}·Ad_V⁻¹, and Ad_V² = Ad_{R_z(π/2)} = the NinetyDegreeMirror. So the
+/// crossover mirror is the XZ-bond mirror turned by √(NinetyDegreeMirror), exact on the full
+/// operator space; the earlier light-plane hedge was an artifact of the specific uniform-M
+/// representative. In gate language Ad_{R_z(π/2)} is the S-gate's adjoint action and the
+/// transport Ad_{R_z(π/4)} is the T-gate's, its square root. Full derivation:
+/// <c>docs/proofs/PROOF_CROSSOVER_MIRROR_SQRT_NINETY.md</c>.</para>
 ///
 /// <para>Anchors: <c>simulations/crossover_mirror_sqrt_ninety.py</c> (verification),
 /// <c>experiments/PI_OPERATOR_ENTANGLEMENT.md</c> (the locality result),
@@ -53,10 +57,12 @@ public sealed class CrossoverMirrorSqrtNinetyClaim : Claim
     public NinetyDegreeMirrorMemoryClaim NinetyDegree { get; }
 
     public CrossoverMirrorSqrtNinetyClaim(NinetyDegreeMirrorMemoryClaim ninetyDegree)
-        : base("crossover mirror = canonical Π · √(NinetyDegreeMirror): S = M·Π⁻¹ turns the light plane 45°, S_light² = σ_x↔σ_y 90° bit-exact; the local XZ+YZ/ZX+ZY mirror is the 45° middle of the Pi2-Z₄",
-               Tier.Tier1Candidate,
+        : base("crossover mirror = XZ-bond mirror · √(NinetyDegreeMirror): the crossover bond is the XZ bond with its lit site rotated R_z(π/4), V commutes with the dephasing axis so L_cross = Ad_V L_XZ Ad_V⁻¹ exactly, and Ad_V² = σ_x↔σ_y 90° = NinetyDegreeMirror; derived (the T-gate to the anchor's S-gate), exact on the full operator space",
+               Tier.Tier1Derived,
+               "docs/proofs/PROOF_CROSSOVER_MIRROR_SQRT_NINETY.md (derivation) + " +
                "experiments/PI_OPERATOR_ENTANGLEMENT.md (locality) + " +
-               "simulations/crossover_mirror_sqrt_ninety.py (bit-exact witness) + " +
+               "simulations/crossover_mirror_derivation.py (steps a-d bit-exact) + " +
+               "simulations/crossover_mirror_sqrt_ninety.py (per-site-map witness) + " +
                "reflections/ON_THE_SQUARE_ROOT_OF_THE_MIRROR.md + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (NinetyDegreeMirrorMemory typed parent, F80's i)")
     {
@@ -155,13 +161,31 @@ public sealed class CrossoverMirrorSqrtNinetyClaim : Claim
         return res < 1e-12;
     }
 
+    /// <summary>The derivation's key step (PROOF_CROSSOVER_MIRROR_SQRT_NINETY): the transport
+    /// rotation Ad_{R_z(π/4)} on single-site operator space (I, Z fixed; X↦(X+Y)/√2,
+    /// Y↦(−X+Y)/√2) squares to the σ_x↔σ_y 90° rotation = the NinetyDegreeMirror. So the
+    /// transport is √(NinetyDegreeMirror), exact on the full single-site space, and the crossover
+    /// mirror is the XZ-bond mirror carried by it.</summary>
+    public bool TransportRotationSquaresToNinetyDegree()
+    {
+        var adV = new Complex[4, 4];
+        adV[0, 0] = 1; adV[2, 2] = 1;            // I, Z fixed (the rotation is about Z)
+        adV[1, 1] = S; adV[3, 1] = S;            // X ↦ (X+Y)/√2
+        adV[1, 3] = -S; adV[3, 3] = S;           // Y ↦ (−X+Y)/√2
+        var sq = Mul(adV, adV);
+        double res = (sq[1, 1] - 0).Magnitude + (sq[1, 3] - (-1)).Magnitude
+                   + (sq[3, 1] - 1).Magnitude + (sq[3, 3] - 0).Magnitude;
+        return res < 1e-12;
+    }
+
     public override string DisplayName =>
-        "crossover mirror = canonical Π · √(NinetyDegreeMirror) (the 45° middle of the Pi2-Z₄)";
+        "crossover mirror = XZ-bond mirror · √(NinetyDegreeMirror) (the T-gate to the anchor's S-gate)";
 
     public override string Summary =>
-        $"S = M·Π⁻¹ block-diagonal ({TurnIsBlockDiagonal()}), turns the light plane 45°, " +
-        $"S_light² = σ_x↔σ_y 90° (residual {LightPlaneSquareResidual():E1}); the local XZ+YZ/ZX+ZY " +
-        $"mirror is √ of the 90° angle-anchor, the bisector P1(0°)↔P4(90°); M²=−I " +
+        $"the crossover mirror is the XZ-bond mirror turned by √(NinetyDegreeMirror): " +
+        $"Ad_{{R_z(π/4)}}² = σ_x↔σ_y 90° = the anchor ({TransportRotationSquaresToNinetyDegree()}), " +
+        $"exact via the transport L_cross = Ad_V·L_XZ·Ad_V⁻¹. Witness: S = M·Π⁻¹ turns the light " +
+        $"plane 45°, S_light²=σ_x↔σ_y (residual {LightPlaneSquareResidual():E1}); M²=−I " +
         $"({CrossoverMirrorIsOrderFour()}) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -182,8 +206,8 @@ public sealed class CrossoverMirrorSqrtNinetyClaim : Claim
                 summary: "weighted a·XZ+b·YZ has a product mirror at every (a,b); its light turn tracks the bond (I↦light ⊥ (a,b)). The discrete Z₄ samples the dial at cardinal points; the crossover a=b is the 45° middle");
             yield return new InspectableNode("three faces of the 90°",
                 summary: "NinetyDegreeMirror (operator/defect, F80's 2i, H↦M) · F91 (γ-parameter, anti-palindromic distribution) · this claim (per-site conjugation, the √). Same Pi2-Z₄ rotational axis");
-            yield return new InspectableNode("scope (honest)",
-                summary: "the √-of-90° is exact in the light plane (where the X/Y conflict lives); the full 4×4 carries dark-plane phase bookkeeping, so M is the continuous √ of the Z₄ generator on the same axis, not a literal discrete-Z₄ element. Open: derive S_light²=σ_x↔σ_y analytically (the Tier1 promotion step)");
+            yield return new InspectableNode("the derivation (transport, exact)",
+                summary: $"crossover bond = XZ bond with the lit site rotated R_z(π/4); R_z commutes with the dephasing axis Z, so Ad_V transports the mirror exactly, L_cross = Ad_V·L_XZ·Ad_V⁻¹, and Ad_{{R_z(π/4)}}² = σ_x↔σ_y 90° = NinetyDegreeMirror ({TransportRotationSquaresToNinetyDegree()}). Exact on the full operator space (the earlier light-plane hedge was a representative artifact). Gate language: the S-gate (Clifford) and its √ the T-gate. See PROOF_CROSSOVER_MIRROR_SQRT_NINETY");
         }
     }
 }

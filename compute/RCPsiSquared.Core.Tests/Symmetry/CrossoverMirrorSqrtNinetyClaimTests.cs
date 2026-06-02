@@ -9,11 +9,19 @@ public class CrossoverMirrorSqrtNinetyClaimTests
         new CrossoverMirrorSqrtNinetyClaim(new NinetyDegreeMirrorMemoryClaim());
 
     [Fact]
-    public void Tier_IsTier1Candidate()
+    public void Tier_IsTier1Derived()
     {
-        // Bit-exact numerical witness; analytical derivation of S_light²=σ_x↔σ_y is the
-        // promotion step, so the claim is a Tier-1 candidate, not yet derived.
-        Assert.Equal(Tier.Tier1Candidate, BuildClaim().Tier);
+        // Promoted 2026-06-02: the √-of-90° is derived from the bond geometry via the
+        // Ad_{R_z(π/4)} transport (PROOF_CROSSOVER_MIRROR_SQRT_NINETY), exact on the full space.
+        Assert.Equal(Tier.Tier1Derived, BuildClaim().Tier);
+    }
+
+    [Fact]
+    public void TransportRotation_SquaresToNinetyDegree_BitExact()
+    {
+        // The derivation's key step: Ad_{R_z(π/4)} (the T-gate adjoint) squares to the σ_x↔σ_y
+        // 90° = the NinetyDegreeMirror (the S-gate adjoint). So the transport is its √.
+        Assert.True(BuildClaim().TransportRotationSquaresToNinetyDegree());
     }
 
     [Fact]
@@ -57,6 +65,7 @@ public class CrossoverMirrorSqrtNinetyClaimTests
     public void Anchor_References_LocalityResultParentAndReflection()
     {
         var f = BuildClaim();
+        Assert.Contains("PROOF_CROSSOVER_MIRROR_SQRT_NINETY.md", f.Anchor);
         Assert.Contains("PI_OPERATOR_ENTANGLEMENT.md", f.Anchor);
         Assert.Contains("crossover_mirror_sqrt_ninety.py", f.Anchor);
         Assert.Contains("ON_THE_SQUARE_ROOT_OF_THE_MIRROR.md", f.Anchor);
