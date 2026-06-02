@@ -118,6 +118,22 @@ appears only at N ≥ 3, when the second bond's mirror must agree with the first
 qubit. This is the V-Effect in its bare algebraic form, the coupling of two locally palindromic bonds
 breaking the shared mirror.
 
+## The routing rotates with the dephasing axis
+
+Everything above is Z-dephasing, where the lit (damped) axis is {X, Y} and the dark axis is {I, Z}.
+Z-, X-, and Y-dephasing are related by single-qubit Cliffords (the Hadamard swaps X and Z; an axis-swap
+swaps Y and Z), so the routing should rotate rather than being a Z-accident. It does, exactly.
+Classifying all 36 combinations under X- and Y-dephasing and relabelling the bilinears by the matching
+swap, the X-dephasing fate table is the Z table relabelled X↔Z and the Y table is the Z table relabelled
+Y↔Z, with zero mismatches at N=3 and N=4; the counts {3, 19, 14} are dephasing-invariant; and the
+Z-only routing rule reproduces every X- and Y-dephasing fate once the combo is relabelled. So the
+hidden-Q routing rides on whichever axis the dephasing makes lit, not on Z in particular. The same
+Hamiltonian can change fate with the noise axis: XY+YY is hard under Z-dephasing but soft under
+X-dephasing, its lit and dark channels having rotated. This is the k=2 face of the framework's
+dissipator-resonance law, the SU(2)-rotation-equivalence of the three dephasing letters (the F87
+docstring states it; here it is explicit for the two-term routing). Script:
+[`simulations/q6_dephase_axis_rotation.py`](../simulations/q6_dephase_axis_rotation.py).
+
 ## What this is, and the tie to the rest
 
 The routing rule is a viewpoint rotation on structure the framework already holds: the trichotomy
