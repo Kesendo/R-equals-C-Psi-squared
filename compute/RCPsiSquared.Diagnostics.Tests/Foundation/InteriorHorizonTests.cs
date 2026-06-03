@@ -144,4 +144,18 @@ public class InteriorHorizonTests
         Assert.Contains("horizon", json);
         Assert.Contains("recursion", json);
     }
+
+    [Fact]
+    public void Field_Ctor_RejectsInvalidInputs()
+    {
+        // Each input flows straight into the closed forms (the ε-ladder, log/sqrt/divide), so the ctor
+        // guards them. One bad value per case, the rest left at their valid defaults.
+        Assert.Throws<ArgumentOutOfRangeException>(() => new InteriorHorizonField(epsPoints: 1));     // < 2
+        Assert.Throws<ArgumentOutOfRangeException>(() => new InteriorHorizonField(epsLo: 0.0));        // ≤ 0
+        Assert.Throws<ArgumentOutOfRangeException>(() => new InteriorHorizonField(epsHi: 0.30));       // > 1/4
+        Assert.Throws<ArgumentOutOfRangeException>(() => new InteriorHorizonField(epsLo: 0.2, epsHi: 0.1)); // hi ≤ lo
+        Assert.Throws<ArgumentOutOfRangeException>(() => new InteriorHorizonField(tol: 0.0));          // ≤ 0
+        Assert.Throws<ArgumentOutOfRangeException>(() => new InteriorHorizonField(relK: -1.0));        // ≤ 0
+        Assert.Throws<ArgumentOutOfRangeException>(() => new InteriorHorizonField(gamma: 0.0));        // ≤ 0
+    }
 }
