@@ -13,8 +13,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// leaving it isolated, via four edges.
 ///
 /// <para>(1) <see cref="UniversalCarrierClaim"/>: every member shares the slowest mode, the carrier rate
-/// 4γ₀, and collapses onto it at late time. The "4" is the polynomial discriminant carried inside the
-/// Universal Carrier; the carrier the family shares IS γ₀ in its universal-carrier role.</para>
+/// 4γ₀, and collapses onto it at late time. That rate is the <see cref="AbsorptionTheoremClaim"/>: the
+/// per-coherence rate is 2γ₀·n_diff, and the Bell+ coherence |00⟩⟨11| differs on both sites (n_diff = 2),
+/// so 2γ₀·2 = 4γ₀ (the absorption quantum is 2γ₀). The number 4 also reads as the polynomial discriminant
+/// a₋₁ (the t_peak = 1/(4γ₀) structural reading); both the Absorption Theorem and the discriminant live
+/// inside the Universal Carrier, the carrier the family shares being γ₀ in its universal-carrier role.</para>
 ///
 /// <para>(2) <see cref="C2BareDoubledPtfClosedForm"/>: a c=2 doubled-PTF kinship. The family is a
 /// two-mode structure (the 4γ carrier + a 12γ harmonic, the 3:1 odd-harmonic ratio), the state-space
@@ -41,7 +44,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>simulations/approach_family.py</c>.</para></summary>
 public sealed class ApproachFamilyCarrierClaim : Claim
 {
-    /// <summary>Edge 1: the shared carrier 4γ₀ (γ₀ in its universal-carrier role; the "4" the discriminant).</summary>
+    /// <summary>Edge 1: the shared carrier 4γ₀ (γ₀ in its universal-carrier role). The rate 4γ₀ = 2γ₀·n_diff
+    /// is the Absorption Theorem (n_diff = 2, the Bell+ coherence differs on both sites); the "4" also reads
+    /// as the polynomial discriminant a₋₁.</summary>
     public UniversalCarrierClaim Carrier { get; }
 
     /// <summary>Edge 2: the c=2 doubled-PTF kinship (shared 3:1 ratio + carrier; decay vs susceptibility; kinship not identity).</summary>
@@ -53,7 +58,9 @@ public sealed class ApproachFamilyCarrierClaim : Claim
     /// <summary>Edge 4: the Bell+ member (s=1) reproduces F25; the family generalizes F25.</summary>
     public F25CPsiBellPlusPi2Inheritance F25 { get; }
 
-    /// <summary>The carrier rate coefficient: the slowest mode decays at 4γ (the polynomial discriminant × γ).</summary>
+    /// <summary>The carrier rate coefficient: the slowest mode decays at 4γ = 2γ₀·n_diff with n_diff = 2
+    /// (the Absorption Theorem, the Bell+ coherence differing on both sites; the absorption quantum is 2γ₀).
+    /// The 4 also reads as the polynomial discriminant a₋₁.</summary>
     public const double CarrierRateCoefficient = 4.0;
 
     /// <summary>The harmonic rate coefficient: the fast mode decays at 12γ = 3 × the carrier (the 3:1 ratio).</summary>
@@ -131,7 +138,7 @@ public sealed class ApproachFamilyCarrierClaim : Claim
         get
         {
             yield return new InspectableNode("the shared carrier (edge 1)",
-                summary: "every member collapses onto the slowest mode 4γ₀; the '4' is the polynomial discriminant carried inside the Universal Carrier; the carrier the family shares is γ₀ in its universal-carrier role.");
+                summary: "every member collapses onto the slowest mode 4γ₀; that rate is the Absorption Theorem, 2γ₀·n_diff with n_diff=2 (the Bell+ coherence |00⟩⟨11| differs on both sites, the absorption quantum 2γ₀); the 4 also reads as the polynomial discriminant a₋₁; both live inside the Universal Carrier, the carrier the family shares (γ₀).");
             yield return new InspectableNode("the c=2 doubled-PTF kinship (edge 2, a viewpoint not an identity)",
                 summary: "the family (decay observable) and C2's K_b (susceptibility observable) share the 4γ/12γ 3:1 odd-harmonic ratio and the carrier role; the 12γ harmonic is a purity×coherence cross term here, an HD=3 sector mode there, at different (intensity vs amplitude) levels. Siblings on the shared structure, not the same object.");
             yield return new InspectableNode("the two readings (edge 3)",
