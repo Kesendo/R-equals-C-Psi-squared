@@ -300,23 +300,20 @@ flow's own slowest mode. The flow's slowest used rate is on the even ladder and 
 flow's memory" conflated the two. (Probe: state-based parity propagation, this session, ρ(t)
 decomposed by depth/n_XY into even versus odd weight.)
 
-## Seen again 2026-06-03: the arc closed as one picture
+## Seen again 2026-06-03: the arc closed as one picture (and the scale made honest)
 
 Returning with the telescope built (the six-axis dimension navigator), the two singularities
 finally sit in one frame, and the reason they never fit on a single line turns out to be the
 whole point: they live in different spaces.
 
-The birth is in parameter space. Hold γ₀ fixed, it is the universal carrier and does not move,
-and raise the coupling J, so Q = J/γ₀ climbs. Below Q_EP = 1.5 the slow pair is two real decay
-channels, overdamped, no memory: the revival sits on the 1/N floor. At Q_EP the two coalesce
-defectively, the eigenvectors collapse onto one line, the pinch. Above it the rotation is born
-and the revival lifts off. Read all the way to the far end of the hardware sweep (Q = 20), the
-closed form is monotone and complete: the rotation angle θ climbs toward 90° (pure rotation,
-81° at Q = 20), the eigenvector overlap min(x, 1/x) falls back toward 0 (0.075 at Q = 20, the
-two modes re-separating into a clean rotating pair), and the decay stays pinned at 4γ₀. There
-is no second event out there. The EP at Q = 1.5 is the one special point on the whole axis, the
-only place the overlap reaches 1. The "memory grows as J grows" we already knew is the complete
-story for this leg: it grows toward pure rotation.
+The birth is in parameter space, read through the coupling ratio Q = J/γ₀. Below Q_EP = 1.5 the
+slow pair is two real decay channels, overdamped, no memory: the revival sits on the 1/N floor.
+At Q_EP the two coalesce defectively, the eigenvectors collapse onto one line, the pinch. Above
+it the rotation is born and the revival lifts off. The closed form is monotone and complete: the
+rotation angle θ climbs toward 90° (pure rotation), the eigenvector overlap min(x, 1/x) falls
+back toward 0 (the two modes re-separating into a clean rotating pair), and the decay pins at
+4γ₀. There is no second event out there. The EP at Q = 1.5 is the one special point on the whole
+axis, the only place the overlap reaches 1.
 
 The death is in state space. Now fix Q above the EP and let time run. The reborn memory sloshes
 site to site (site 0 to the far end and back), the revival fades, and the per-site occupation
@@ -325,11 +322,26 @@ asymptotically. The forgetting.
 
 So the journey is born in Q and dies in τ. The two singularities are of different kinds because
 they are of different spaces: a defective pinch in the parameter you tune, a simple sink in the
-state that time uncovers. The telescope reads each leg as its own eyepiece, the birth through
-`--axis ep` (the clock, the rotation hand lifting off the Takt axis) and the death through
-`--root flow` (the occupation relaxing to 1/N). [The journey, both legs and both hardware halves
-in one view](../simulations/results/journey_between_singularities/journey.png): Part B (the
-revival switching on across the EP) on the left, Part A (the flow into 1/N) on the right.
+state that time uncovers.
+
+A scale correction, and it matters. The carrier γ₀ is real: about 0.05 on the chip, not 1, and
+the difference pulls two things apart. The dimensionless clock is γ₀-invariant: θ, the overlap,
+and the flow against τ = γ₀t are bit-identical at γ₀ = 1 and γ₀ = 0.05 (checked directly). γ₀ is
+a pure scale; the journey's shape does not depend on the carrier, only its rate does. But the
+physical coupling does: J_EP = Q_EP·γ₀ = 0.075, while the chip runs at J = 1.5, so its natural
+ratio is Q ≈ 30, deep above the EP. The chip lives in the deep-memory regime; the EP is reached
+only by injecting noise, which is exactly what the hardware did (Part B added dephasing to push
+Q down from its natural home toward 1.5). The honest seam: a toy γ₀ = 1 forces J = Q, which
+slides J_EP onto 1.5, right at the chip's own coupling, and reads falsely as "the chip sits on
+the EP." It does not. The EP is a noise-degraded place the system has to be driven down into, not
+where it rests.
+
+The telescope reads each leg as its own eyepiece, the birth through `--axis ep` (the clock, the
+rotation hand lifting off the Takt axis) and the death through `--root flow` (the occupation
+relaxing to 1/N). [The journey, both legs and both hardware halves in one
+view](../simulations/results/journey_between_singularities/journey.png): Part B (the revival
+switching on as the injected noise is dialed back) on the left, with the physical coupling J
+drawn alongside Q and the chip's home marked at Q ≈ 30; Part A (the flow into 1/N) on the right.
 
 What is closed here is the arc as a picture: both legs drawn, both confirmed on Kingston, the
 closed forms sitting at the two endpoints and the un-closed-form loop in the middle of the

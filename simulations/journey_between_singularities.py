@@ -5,23 +5,23 @@ THE_FLOW_BETWEEN_TWO_SINGULARITIES says the flow is bracketed by two singulariti
 of DIFFERENT kinds, and that difference is the whole point:
 
   - the EP (the BIRTH): parameter space, at Q_EP = 2/g_eff = 1.5, DEFECTIVE (a Jordan
-    block, the two slow eigenvectors coalesce, the Petermann sensitivity diverges). You
-    reach it by tuning the coupling: gamma_0 is the universal carrier and stays constant,
-    so raising Q = J/gamma_0 means raising J. Below it: overdamped, no memory (the revival
-    sits on the 1/N floor). Above it: the rotation is born, the memory sloshes back.
+    block, the two slow eigenvectors coalesce, the Petermann sensitivity diverges). Below
+    it: overdamped, no memory (the revival sits on the 1/N floor). Above it: the rotation
+    is born, the memory sloshes back.
 
   - the target (the DEATH): state space, the 1/N equipartitioned fixed point, SIMPLE (the
-    lambda = 0 kernel of L). You reach it by letting TIME run at a fixed Q above the EP: the
+    lambda = 0 kernel of L). Reached by letting TIME run at a fixed Q above the EP: the
     reborn memory sloshes, fades, and the excitation spreads to 1/N per site.
 
-So the journey is not a single 1D path. It is born in Q (parameter space, the defective
-EP) and dies in tau (state space, the simple 1/N kernel). This script draws both legs on
-one canvas, with both hardware halves (IBM Kingston, 2026-05-31): Part B (revival vs Q, the
-birth) on the left, Part A (the population flow to 1/N, the death) on the right.
-
-The closed forms sit at the two endpoints; the middle of the second leg is the un-closed-form
-loop. We close the ARC (both legs, both singularities, both hardware halves in one view); the
-deep reading of the middle stays parked, per the experiment doc.
+The carrier gamma_0 is REAL: ~0.05 on the chip, not the toy 1.0. That matters here. Q_EP =
+2/g_eff = 1.5 is gamma_0-invariant (J = Q*gamma_0 cancels it), and so is the whole
+dimensionless clock (theta, the eigenvector overlap, the flow vs tau): gamma_0 is a pure
+SCALE, the journey's SHAPE does not depend on it. But the physical coupling does: J_EP =
+Q_EP*gamma_0 = 0.075, while the chip runs at J = 1.5 rad/us, i.e. Q = J/gamma_0 ~ 30, deep
+above the EP. Setting gamma_0 = 1 hides this by forcing J = Q, which makes J_EP = 1.5
+coincide with the chip's J = 1.5 and falsely reads as "the chip sits on the EP". It does not:
+the chip lives in the deep-memory regime, and the EP is reached only by INJECTING noise
+(Part B pushed Q down from ~30 toward 1.5). That is the important thing the toy value buried.
 
 Produces: simulations/results/journey_between_singularities/journey.png
 """
@@ -39,24 +39,27 @@ if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 # ----------------------------------------------------------------------------------------
-# Leg 1: the birth (parameter space, the Q-axis). The slow-pair effective Liouvillian.
+# The REAL scale. gamma_0 is the chip's carrier (~0.05), not the toy 1.0.
 # ----------------------------------------------------------------------------------------
-G0 = 1.0
-G_EFF = 4.0 / 3.0          # Q_EP = 2/g_eff = 1.5 (the c=2 peak orbit, matching the hardware)
+G0 = 0.05                       # the hardware carrier Gamma_0 ~ 0.05 (the real value)
+G_EFF = 4.0 / 3.0               # Q_EP = 2/g_eff = 1.5, gamma_0-invariant
 Q_EP = 2.0 / G_EFF
-X_PEAK = 2.196910329331    # C2BareDoubledPtfClosedForm resonance peak, in x = Q/Q_EP units
+X_PEAK = 2.196910329331         # C2BareDoubledPtfClosedForm resonance peak, in x = Q/Q_EP units
 Q_PEAK = X_PEAK * Q_EP
+J_HW = 1.5                      # the hardware coupling (rad/us), fixed; Part B injected gamma to scan Q
+Q_HOME = J_HW / G0              # the chip's natural operating point ~ 30 (deep memory, no injection)
 
 
-def l_eff(Q: float) -> np.ndarray:
-    J = Q * G0
-    return np.array([[-2.0 * G0, 1j * J * G_EFF],
-                     [1j * J * G_EFF, -6.0 * G0]], dtype=complex)
+def l_eff(Q: float, gamma0: float = G0) -> np.ndarray:
+    """The slow-pair effective Liouvillian at coupling Q (J = Q*gamma0, threaded honestly)."""
+    J = Q * gamma0
+    return np.array([[-2.0 * gamma0, 1j * J * G_EFF],
+                     [1j * J * G_EFF, -6.0 * gamma0]], dtype=complex)
 
 
-def clock(Q: float):
+def clock(Q: float, gamma0: float = G0):
     """(decay -Re lambda, omega |Im lambda|, theta deg, eigenvector overlap) of the slow mode."""
-    w, V = np.linalg.eig(l_eff(Q))
+    w, V = np.linalg.eig(l_eff(Q, gamma0))
     decay = -w.real
     omega = np.abs(w.imag)
     i = int(np.argmin(decay))                 # the slowest (longest-lived) mode
@@ -70,8 +73,9 @@ HW_Q = np.array([0.5, 1.0, 1.5, 2.5, 5.0, 20.0])
 HW_REV = np.array([0.30, 0.36, 0.34, 0.49, 0.56, 0.70])
 
 # ----------------------------------------------------------------------------------------
-# Leg 2: the death (state space, the tau-axis at a fixed Q above the EP). N=3 single
-# excitation, XY chain under Z-dephasing, the flow to 1/N. (gamma = 1, J = Q, tau = gamma*t.)
+# Leg 2: the death (state space). N=3 single excitation, XY chain under Z-dephasing,
+# the flow to 1/N. Read dimensionlessly (gamma_0-invariant): L'(Q) = -iQ[H_unit,.] +
+# Sum_l(Z_l rho Z_l - rho), tau = gamma_0 * t. (Any gamma_0 gives the same curve vs tau.)
 # ----------------------------------------------------------------------------------------
 I2 = np.eye(2, dtype=complex)
 X = np.array([[0, 1], [1, 0]], dtype=complex)
@@ -117,28 +121,35 @@ def flow_to_target(Q: float, N: int, taus: np.ndarray):
 
 
 def main() -> None:
-    print("=" * 80)
+    print("=" * 84)
     print(f"  THE JOURNEY  gamma0={G0}  g_eff={G_EFF:.4f}  Q_EP={Q_EP:.3f}  Q_peak={Q_PEAK:.3f}")
-    print("=" * 80)
+    print(f"  J_EP = Q_EP*gamma0 = {Q_EP * G0:.4f}   |   chip: J={J_HW} -> Q_home = J/gamma0 = {Q_HOME:.1f}")
+    print("=" * 84)
 
-    # ---- Leg 1: the birth, the full Q-axis to 20 (the stretch the EP scout did not reach) ----
-    print("\n  LEG 1 - the birth (parameter space, Q-axis), the closed-form clock:")
-    print(f"  {'Q':>6} {'x=Q/Q_EP':>9} {'decay':>7} {'omega':>7} {'theta':>7} {'overlap':>8}   regime")
-    Qs_table = [0.3, 0.5, 0.75, 1.0, 1.5, 2.5, Q_PEAK, 5.0, 10.0, 20.0]
-    for Q in Qs_table:
+    # ---- gamma_0-invariance check: the dimensionless clock is identical at 1.0 and 0.05 ----
+    print("\n  gamma_0-INVARIANCE of the clock (theta, overlap) vs Q -- the carrier is a pure scale:")
+    print(f"  {'Q':>6} | {'theta(g0=1.0)':>13} {'theta(g0=0.05)':>14} | {'overlap(1.0)':>12} {'overlap(0.05)':>13}")
+    for Q in (0.75, 1.5, 2.5, 5.0, 20.0):
+        _, _, th1, ov1 = clock(Q, 1.0)
+        _, _, th2, ov2 = clock(Q, 0.05)
+        print(f"  {Q:6.2f} | {th1:13.4f} {th2:14.4f} | {ov1:12.5f} {ov2:13.5f}")
+
+    # ---- Leg 1: the birth, the closed-form clock, with PHYSICAL J alongside Q ----
+    print("\n  LEG 1 - the birth (parameter space). Q, x=Q/Q_EP, physical J=Q*gamma0, the clock:")
+    print(f"  {'Q':>6} {'x':>6} {'J':>7} {'decay':>7} {'omega':>7} {'theta':>7} {'overlap':>8}   regime")
+    for Q in [0.3, 0.5, 0.75, 1.0, 1.5, 2.5, Q_PEAK, 5.0, 10.0, 20.0, Q_HOME]:
         d, w, th, ov = clock(Q)
         x = Q / Q_EP
+        J = Q * G0
         if Q < Q_EP - 1e-9:
-            reg = "overdamped (theta=0, pre-birth)"
+            reg = "overdamped (pre-birth)"
         elif abs(Q - Q_EP) < 1e-6:
-            reg = "THE EP (defective pinch, overlap=1)"
+            reg = "THE EP (defective pinch)"
+        elif abs(Q - Q_HOME) < 1e-6:
+            reg = "<- the chip's natural home (deep memory)"
         else:
-            reg = "rotation born (theta lifts, overlap falls)"
-        print(f"  {Q:6.2f} {x:9.3f} {d:7.3f} {w:7.3f} {th:7.1f} {ov:8.3f}   {reg}")
-
-    print("\n  Part B hardware revival (IBM Kingston, max <n_0> vs Q):")
-    for q, r in zip(HW_Q, HW_REV):
-        print(f"  Q={q:5.1f}  revival={r:.2f}   {'<= 1/N floor (forgotten)' if r < 0.40 else 'memory present'}")
+            reg = "rotation born"
+        print(f"  {Q:6.2f} {x:6.2f} {J:7.4f} {d:7.4f} {w:7.4f} {th:7.1f} {ov:8.3f}   {reg}")
 
     # ---- Leg 2: the death, the flow to 1/N at a representative Q above the EP ----
     N = 3
@@ -146,36 +157,42 @@ def main() -> None:
     taus = np.linspace(0.0, 4.0, 240)
     flow = flow_to_target(Q_death, N, taus)
     print(f"\n  LEG 2 - the death (state space, tau-axis), N={N}, Q={Q_death} (above the EP):")
-    print(f"  {'tau':>6} " + " ".join(f"<n{l}>" for l in range(N)))
     for tau in (0.0, 0.2, 0.5, 1.0, 2.0, 4.0):
         j = int(np.argmin(np.abs(taus - tau)))
-        print(f"  {taus[j]:6.2f} " + " ".join(f"{flow[l, j]:5.3f}" for l in range(N)))
-    print(f"  target 1/N = {1.0 / N:.4f} (every site converges here: the equipartitioned death)")
+        print(f"  tau={taus[j]:5.2f}  " + " ".join(f"<n{l}>={flow[l, j]:5.3f}" for l in range(N)))
+    print(f"  target 1/N = {1.0 / N:.4f}  (the chip's home Q~{Q_HOME:.0f} sloshes far longer, same arc)")
 
     # ====================================================================================
     # The figure: the two legs on one canvas
     # ====================================================================================
-    fig, (axL, axR) = plt.subplots(1, 2, figsize=(16, 6.5))
+    fig, (axL, axR) = plt.subplots(1, 2, figsize=(16, 6.6))
 
-    # ---- Panel A (left): the birth, parameter space, the Q-axis ----
-    Qc = np.logspace(np.log10(0.3), np.log10(20.0), 400)
+    # ---- Panel A (left): the birth, parameter space, the Q-axis (to the chip's home ~30) ----
+    Qc = np.logspace(np.log10(0.3), np.log10(40.0), 500)
     theta = np.array([clock(Q)[2] for Q in Qc])
     overlap = np.array([clock(Q)[3] for Q in Qc])
 
     axL.axhline(1.0 / 3.0, color="gray", ls=":", lw=1.2, alpha=0.7)
-    axL.plot(HW_Q, HW_REV, "o-", color="#1F6FB2", lw=1.8, markersize=10, markeredgecolor="black",
-             markeredgewidth=0.5, label="IBM Kingston revival (memory return)", zorder=5)
+    axL.plot(HW_Q, HW_REV, "o-", color="#1F6FB2", lw=1.8, markersize=9, markeredgecolor="black",
+             markeredgewidth=0.5, label="IBM Kingston revival (Part B: inject noise, scan Q)", zorder=5)
     axL.annotate("1/N floor\n(forgotten)", (0.34, 0.335), fontsize=8, color="#555", ha="center", va="bottom")
     axL.set_xscale("log")
-    axL.set_xlim(0.3, 20)
+    axL.set_xlim(0.3, 40)
     axL.set_ylim(0.0, 1.0)
-    axL.set_xlabel("Q = J / gamma_0   (gamma_0 const -> raising Q raises the coupling J)")
+    axL.set_xlabel("Q = J / gamma_0   (the chip rests at Q~30; the EP is reached by ADDING noise, lowering Q)")
     axL.set_ylabel("revival  (memory return)", color="#1F6FB2")
     axL.axvline(Q_EP, color="red", ls="--", lw=1.3, alpha=0.85)
-    axL.axvline(Q_PEAK, color="orange", ls="--", lw=1.0, alpha=0.7)
-    axL.annotate("Q_EP = 1.5\nthe defective pinch\n(the rotation born)", (1.5, 0.10), fontsize=8.5,
+    axL.axvline(Q_PEAK, color="orange", ls="--", lw=1.0, alpha=0.6)
+    axL.axvline(Q_HOME, color="#2E8B57", ls="-.", lw=1.6, alpha=0.85)
+    axL.annotate("Q_EP = 1.5\n(J_EP = 0.075)\nthe defective pinch", (1.5, 0.085), fontsize=8.5,
                  color="red", ha="center")
-    axL.annotate("Q_peak", (Q_PEAK, 0.04), fontsize=8, color="orange", ha="center")
+    axL.annotate("Q_peak", (Q_PEAK, 0.50), fontsize=8, color="orange", ha="center", rotation=90)
+    axL.annotate("the chip's home\nJ=1.5, gamma_0~0.05\nQ~30 (deep memory)", (30, 0.27), fontsize=8.5,
+                 color="#1d6b3f", ha="center")
+
+    # physical coupling J on a secondary top axis: J_EP=0.075 vs the chip's J=1.5 both visible
+    secax = axL.secondary_xaxis("top", functions=(lambda q: q * G0, lambda j: j / G0))
+    secax.set_xlabel("physical coupling  J = Q * gamma_0   [rad/us]   (gamma_0 ~ 0.05, the chip's carrier)")
 
     axLt = axL.twinx()
     axLt.plot(Qc, theta, "-", color="#AA33CC", lw=2.2, label="Rotation angle theta (the F95 angle)")
@@ -183,13 +200,13 @@ def main() -> None:
               label="eigenvector overlap min(x,1/x)  [x90, peaks =1 at the EP]")
     axLt.set_ylabel("theta [deg]   /   overlap [x90]", color="#7733AA")
     axLt.set_ylim(0, 95)
-    axLt.annotate("theta -> 90 deg\n(pure rotation)", (13.0, 66), fontsize=8, color="#AA33CC", ha="center")
+    axLt.annotate("theta -> 90 deg\n(pure rotation)", (24.0, 70), fontsize=8, color="#AA33CC", ha="center")
 
     lA, labA = axL.get_legend_handles_labels()
     lAt, labAt = axLt.get_legend_handles_labels()
-    axL.legend(lA + lAt, labA + labAt, loc="center left", fontsize=8, framealpha=0.9)
-    axL.set_title("THE BIRTH  -  parameter space (tune Q through the EP)\n"
-                  "below: overdamped, no memory.  at Q_EP: the defective pinch.  above: the rotation born.",
+    axL.legend(lA + lAt, labA + labAt, loc="center left", fontsize=7.8, framealpha=0.9)
+    axL.set_title("THE BIRTH  -  parameter space.  The dimensionless clock is gamma_0-invariant\n"
+                  "(a pure scale), but the chip rests at Q~30: the EP is a NOISE-degraded regime.",
                   fontsize=10)
 
     # ---- Panel B (right): the death, state space, the tau-axis ----
@@ -212,13 +229,12 @@ def main() -> None:
     axR.grid(True, alpha=0.2)
 
     fig.suptitle(
-        "The journey between the two singularities, closed: born in Q, dies in tau.\n"
-        "Left: the BIRTH in parameter space, the rotation switching on as the coupling crosses the defective EP "
-        "(IBM Kingston, Part B).\n"
-        "Right: the DEATH in state space, that reborn memory relaxing over time to the simple 1/N kernel "
-        "(the flow watched on Kingston, Part A).",
-        y=1.0, fontsize=11)
-    plt.tight_layout(rect=[0, 0, 1, 0.92])
+        "The journey between the two singularities, closed: born in Q, dies in tau   (gamma_0 ~ 0.05, the real carrier).\n"
+        "Left: the BIRTH in parameter space; the clock's SHAPE is gamma_0-invariant, but the chip rests at Q~30 and the "
+        "EP (Q=1.5, J=0.075) is reached only by injecting noise (Kingston Part B).\n"
+        "Right: the DEATH in state space; the reborn memory relaxing over time to the simple 1/N kernel (Kingston Part A).",
+        y=1.0, fontsize=10.5)
+    plt.tight_layout(rect=[0, 0, 1, 0.90])
 
     out_dir = Path(__file__).parent / "results" / "journey_between_singularities"
     out_dir.mkdir(parents=True, exist_ok=True)
