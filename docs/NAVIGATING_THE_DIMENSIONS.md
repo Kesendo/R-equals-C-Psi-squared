@@ -216,9 +216,18 @@ moves, the steady states hold, and the in-between is the resolvent-weighted mixi
 And the {I, Z} / {X, Y} banks we confirmed on the crossover are the same banks here: the kernel that
 holds is the settled near bank, the coherences that mix and shift are the far bank still being decided.
 
-The α_i themselves, the painter-rate phenomenology (the per-site purity rescaling P_B(i,t) ≈
-P_A(i, α_i·t) with its Σ ln α ≈ 0 closure), are the deferred phenomenological twin of this
-operator-algebra reading; the mixing matrix is where they come from.
+And the painter-rates are now read from the other side (`simulations/jdefect_painter_rates.py`,
+capture in `simulations/results/`). The per-site purity rescaling P_B(i,t) ≈ P_A(i, α_i·t), for the
+bonding-mode state at PTF's canonical γ = 0.05, gives a clean spatial signature: the defect side
+speeds up (site 0 α ≈ 1.05, site 1 α ≈ 1.07) and the far side slows (site 3 α ≈ 0.93). And the
+painters close: Σ ln α ≈ +0.046, inside PTF's ±0.05 window (looser, +0.097, at the telescope's more
+dissipative γ = 0.5). The global clock reads Takt gap = 2γ and a memory-mode rotation θ_mem ≈ 87°.
+
+The bridge is exact. The matrix elements ⟨W_s|V_L|M_{s'}⟩ the painter panel forms from the same V_L
+are the same object the C# mixing matrix computes: the six kernel modes are protected to ~10⁻²⁹ in
+both engines. The painter-rates ARE that mixing, read over finite time on the site purities. The
+operator-algebra face (the C# telescope) and the phenomenological face (the Python painters) are one
+structure, met from two ends.
 
 ## Where I had to decide (surfaced for keyword correction)
 
@@ -240,8 +249,9 @@ operator-algebra reading; the mixing matrix is where they come from.
   confirmed bit-exact by the Pauli projection.
 - (done, see The second axis) The J-defect is pointed at and reads the contrast: palindrome held but
   spectrum moving, kernel protected but coherences shifting, the in-between eigenvector mixing rather
-  than rotation. What remains: the α_i painter-rate phenomenology as the deferred twin of the mixing
-  matrix, and the third axis, the 1/4-to-1/2 interior.
+  than rotation. Its painter-rate phenomenology (the α_i, the closure, the clock) is read too and
+  ties back exactly to the C# mixing matrix (the same kernel protection). What remains: the third
+  axis, the 1/4-to-1/2 interior.
 - Whether the axes nest (a γ-distribution in-between at each fixed bond angle) or are an independent
   product, and the order to navigate.
 - What the first live navigator GameObject computes and how movement is expressed (a single position

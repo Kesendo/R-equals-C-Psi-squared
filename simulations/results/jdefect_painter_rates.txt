@@ -1,0 +1,35 @@
+=== J-defect painter-rates (N=5, gamma=0.5, bond 0=(0,1), dJ=0.05) ===
+clock: Takt gap=0.4879 (=2*gamma), tau=2.050; Rotation omega_mem=0.0000, theta_mem=0.0 deg
+
+painter   alpha_i    f_i=(a-1)/dJ   reliable
+  site 0   1.0618     +1.236      True   (faster)
+  site 1   1.0057     +0.114      True   (faster)
+  site 2   1.0235     +0.470      True   (faster)
+  site 3   1.0105     +0.211      True   (faster)
+  site 4   0.9974     -0.052      True   (slower)
+
+closure  Sum ln(alpha) = +0.0967 (all sites); +0.0967 (reliable, 5/5)
+         the contract among the painters: ~0 means no painter invents or omits
+
+connection to the C# mixing matrix (the same <W_s|V_L|M_s'>):
+  kernel modes 6: max |first-order shift| = 4.87e-30 (protected, U(1))
+  off-diagonal mixing mass = 0.163 (alive: the eigenvectors mix)
+  -> the painter-rates ARE this mixing, read over finite time on the site purities
+
+=== J-defect painter-rates (N=5, gamma=0.05, bond 0=(0,1), dJ=0.05) ===
+clock: Takt gap=0.1000 (=2*gamma), tau=10.000; Rotation omega_mem=1.7321, theta_mem=86.7 deg
+
+painter   alpha_i    f_i=(a-1)/dJ   reliable
+  site 0   1.0523     +1.045      True   (faster)
+  site 1   1.0698     +1.396      True   (faster)
+  site 2   1.0085     +0.169      True   (faster)
+  site 3   0.9298     -1.404      True   (slower)
+  site 4   0.9921     -0.158      True   (slower)
+
+closure  Sum ln(alpha) = +0.0461 (all sites); +0.0461 (reliable, 5/5)
+         the contract among the painters: ~0 means no painter invents or omits
+
+connection to the C# mixing matrix (the same <W_s|V_L|M_s'>):
+  kernel modes 6: max |first-order shift| = 2.79e-29 (protected, U(1))
+  off-diagonal mixing mass = 0.774 (alive: the eigenvectors mix)
+  -> the painter-rates ARE this mixing, read over finite time on the site purities
