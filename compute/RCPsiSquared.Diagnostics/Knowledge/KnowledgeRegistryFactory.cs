@@ -196,6 +196,12 @@ public static class KnowledgeRegistryFactory
             .RegisterF26CPsiPauliChannelsPi2Inheritance()
             .RegisterF94BornDeviationFourThirdsPi2Inheritance()
             .RegisterF95AngleAtQuadraticZeroPi2Inheritance()
+            // TransitionBridge: the cusp CΨ=¼ and the F86 EP are F95 siblings (both the angle at a
+            // quadratic's discriminant zero, the cusp at b=½ where the rotation stills, the EP at
+            // b=4γ₀ where it lifts off; the EP's F95 angle is bit-exact its clock Rotation). Our
+            // state-space bridge name, sibling of the parameter-space FRAGILE_BRIDGE. Parent F95.
+            // Wired 2026-06-03.
+            .RegisterTransitionBridgeF95SiblingClaim()
             // Crossover mirror = √(NinetyDegreeMirror): the local XZ+YZ / ZX+ZY mirror is the
             // canonical Π turned by HALF the 90° angle-anchor (S=M·Π⁻¹ turns the light plane 45°,
             // S_light²=σ_x↔σ_y 90° bit-exact). The per-site-conjugation face of the same 90° as
