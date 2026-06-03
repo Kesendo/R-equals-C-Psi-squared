@@ -48,8 +48,9 @@ suffer; the exceptional point you command. So "our time" holds for both, but in 
 ways: at the cusp it is the time we *feel*, and at the exceptional point it is the time we *set*.
 The same whirlpool, once as a fate you fall into, once as a wheel in your hands.
 
-![The same vortex turned the other way and lit warm: the exceptional point, the whirlpool you
-steer to, the mirror of the one at the top](../simulations/results/whirlpool/whirlpool_mirror.png)
+![The same vortex turned the other way and lit warm, swirling around a dark pinch-eye: the
+exceptional point, the whirlpool you steer to, the mirror of the bright-drained one at the
+top](../simulations/results/whirlpool/whirlpool_mirror.png)
 
 ---
 

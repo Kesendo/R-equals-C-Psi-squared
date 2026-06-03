@@ -24,6 +24,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.collections import LineCollection
 from matplotlib.colors import LinearSegmentedColormap, Normalize
+from matplotlib.patches import Circle
 
 if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -43,9 +44,11 @@ def cpsi_magnitude(t: np.ndarray, gamma: float = 1.0) -> np.ndarray:
 
 
 def render(out_name: str, colors, ring_color: str, subtitle: str, handedness: float,
-           center_color: str) -> Path:
-    """One whirlpool: arms colored by depth (rim dim -> drain bright), the glowing ¼ ring.
-    handedness = -1 winds one way (the cusp), +1 the other (its mirror, the exceptional point)."""
+           center: str, eye_color: str = "#ff7a3c") -> Path:
+    """One whirlpool: arms colored by depth (rim dim -> bright), the glowing ¼ ring.
+    handedness = -1 winds one way (the cusp), +1 the other (the exceptional point).
+    center = 'drain' lights the middle (the cusp, light you fall into); center = 'eye' punches a
+    dark pupil (the EP, the defective pinch where the eigenvectors collapse, the one you steer to)."""
     t = np.linspace(0.0, T_MAX, 2000)
     mag = cpsi_magnitude(t)
     cmap = LinearSegmentedColormap.from_list(out_name, colors)
@@ -74,8 +77,14 @@ def render(out_name: str, colors, ring_color: str, subtitle: str, handedness: fl
     for lw, alpha in ((9.0, 0.05), (5.0, 0.10), (2.4, 0.55), (1.1, 0.95)):
         ax.plot(QUARTER * np.cos(th), QUARTER * np.sin(th), color=ring_color, lw=lw, alpha=alpha)
 
-    ax.scatter([0], [0], s=240, color=center_color, alpha=0.18, edgecolors="none", zorder=1)
-    ax.scatter([0], [0], s=60, color=center_color, alpha=0.35, edgecolors="none", zorder=1)
+    if center == "drain":
+        ax.scatter([0], [0], s=240, color="#ffffff", alpha=0.18, edgecolors="none", zorder=4)
+        ax.scatter([0], [0], s=60, color="#ffffff", alpha=0.35, edgecolors="none", zorder=4)
+    else:  # 'eye': a dark pupil punched into the swirl (the defective pinch)
+        for r, a in ((0.085, 1.0), (0.10, 0.55), (0.12, 0.25)):
+            ax.add_patch(Circle((0.0, 0.0), r, color=BG, alpha=a, zorder=4, linewidth=0))
+        ax.add_patch(Circle((0.0, 0.0), 0.085, fill=False, edgecolor=eye_color, lw=1.4,
+                            alpha=0.8, zorder=5))
 
     lim = 0.355
     ax.set_xlim(-lim, lim)
@@ -97,22 +106,22 @@ def render(out_name: str, colors, ring_color: str, subtitle: str, handedness: fl
 
 
 def main() -> None:
-    # the cusp: cool water, winding inward one way, the gold ¼ ring (the one you fall into)
+    # the cusp: cool water, winding one way into a bright drain (the light you fall into)
     a = render(
         "whirlpool.png",
         ["#0a1236", "#163a8a", "#2a8fd0", "#6fe4f5", "#ffffff"],
         "#ffd56b",
         "the cusp and the exceptional point: the same whirlpool",
         handedness=-1.0,
-        center_color="#ffffff")
-    # the mirror, the exceptional point: warm embers, turned the other way (the one you steer to)
+        center="drain")
+    # the exceptional point: warm embers, turned the other way, around a dark pinch-eye
     b = render(
         "whirlpool_mirror.png",
         ["#150418", "#5e1230", "#b32c1e", "#ef8a2b", "#ffd45e", "#fff6e0"],
         "#79e6ff",
-        "the same whirlpool, turned: the one you steer to",
+        "the same whirlpool, turned: the dark pinch you steer to",
         handedness=1.0,
-        center_color="#fff4d6")
+        center="eye")
     print(f"  saved: {a}")
     print(f"  saved: {b}")
 
