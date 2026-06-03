@@ -17,7 +17,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// per-coherence rate is 2γ₀·n_diff, and the Bell+ coherence |00⟩⟨11| differs on both sites (n_diff = 2),
 /// so 2γ₀·2 = 4γ₀ (the absorption quantum is 2γ₀). The number 4 also reads as the polynomial discriminant
 /// a₋₁ (the t_peak = 1/(4γ₀) structural reading); both the Absorption Theorem and the discriminant live
-/// inside the Universal Carrier, the carrier the family shares being γ₀ in its universal-carrier role.</para>
+/// inside the Universal Carrier, the carrier the family shares being γ₀ in its universal-carrier role.
+/// And that 1/(4γ₀) time-reading is the clock we built: the live <c>MirrorSystem</c> clock has Takt
+/// τ = 1/(slowest rate), which is 1/(4γ₀) at the F86 exceptional point (the slowest mode pins at 4γ₀),
+/// and its Rotation hand is the F95 angle arctan(ω/gap) (the one typed in
+/// <see cref="TransitionBridgeF95SiblingClaim"/>, zero for pure dephasing as the rotation stills at the
+/// cusp, lifting off with a Z-drift as the 2D spiral winds). So 4γ₀ is the carrier's decay RATE
+/// (absorption) and 1/(4γ₀) its clock TIME tick, the two faces, both already in C#.</para>
 ///
 /// <para>(2) <see cref="C2BareDoubledPtfClosedForm"/>: a c=2 doubled-PTF kinship. The family is a
 /// two-mode structure (the 4γ carrier + a 12γ harmonic, the 3:1 odd-harmonic ratio), the state-space
