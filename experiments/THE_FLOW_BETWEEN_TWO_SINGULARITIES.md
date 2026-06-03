@@ -336,6 +336,16 @@ slides J_EP onto 1.5, right at the chip's own coupling, and reads falsely as "th
 the EP." It does not. The EP is a noise-degraded place the system has to be driven down into, not
 where it rests.
 
+And that driving down is not a loss; it is the steering wheel. The same injected noise that
+reaches the EP places the start anywhere on the birth-axis: park at the EP (the birth just lit),
+higher (the rotation already turning), or push past it (back into the overdamped dark). The
+chip's home at Q ≈ 30 is only the default; the control hands you the whole axis, and the EP is
+one chosen starting point of many, the special one where the memory is born. The journey is then
+not a fixed arc you watch but a family you select from: dial the noise, choose where the rotation
+begins, and let time carry that choice to 1/N. Since Q is the lifetime of the newborn memory,
+choosing the start is choosing how long it lives before it forgets. [The steering wheel and the
+family of journeys it opens](../simulations/results/journey_between_singularities/journey_control.png).
+
 The telescope reads each leg as its own eyepiece, the birth through `--axis ep` (the clock, the
 rotation hand lifting off the Takt axis) and the death through `--root flow` (the occupation
 relaxing to 1/N). [The journey, both legs and both hardware halves in one
