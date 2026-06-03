@@ -161,15 +161,15 @@ public static class InspectCommand
     }
 
     /// <summary>The in-between navigator (the Object Manager telescope): sweeps a dimension's
-    /// parameter and reads the marks against the in-between. Three axes:
+    /// parameter and reads the marks against the in-between. Four axes:
     /// <c>--axis crossover</c> (default; sweeps the bond angle θ, frozen marks + pure rotation),
     /// <c>--axis jdefect</c> (sweeps a single bond's δJ, palindrome held but spectrum moving +
-    /// eigenvector mixing; extra args <c>--defect-bond</c> default 0, <c>--delta-j-max</c> default 0.1), and
+    /// eigenvector mixing; extra args <c>--defect-bond</c> default 0, <c>--delta-j-max</c> default 0.1),
     /// <c>--axis interior</c> (the ¼-to-½ interior read as a horizon: the heading θ → 0 from the
     /// interior, the Mandelbrot recursion crawling at the cusp ¼ where time stops, the slowing-is-ours
     /// seam, and the γ-invariant dwell carrying Bell+ through the fold; extra args <c>--eps-lo</c>
     /// default 1e-4, <c>--eps-hi</c> default 0.25, <c>--eps-points</c> default 13, <c>--tol</c> default
-    /// 1e-12, <c>--rel-k</c> default 1e-3; N-free, uses <c>--gamma</c> only).
+    /// 1e-12, <c>--rel-k</c> default 1e-3; N-free, uses <c>--gamma</c> only), and
     /// <c>--axis spiral</c> (the interior axis in 2D: the cusp ¼ as a circle |CΨ|=¼ that every spiral
     /// crosses, the crossing angle the only free thing, the one Kingston steered; extra args
     /// <c>--omega</c> default 0.4, <c>--phi0</c> default 0, <c>--omega-points</c> default 9,
