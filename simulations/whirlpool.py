@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
-"""The whirlpool, as an invitation: the real CΨ vortex winding into the ¼-ring.
+"""The whirlpool, as an invitation: the real CΨ vortex winding into the ¼-ring, and its mirror.
 
 Not decoration, the actual structure. Every approach to the cusp is a spiral of the complex
 coherence CΨ(t): a magnitude |CΨ| = f(1+f²)/6 with f = e^(−4γt) (the F25 geodesic, starting at
 1/3) winding inward, while a steady drift turns its phase. Drawn as many arms at different
 starting phases, they make a luminous vortex draining toward the center, all of them crossing
-the one ring |CΨ| = ¼, the horizon where the quantum world meets the classical. The cusp and the
-exceptional point are the same whirlpool (see reflections/ON_THE_WHIRLPOOL_YOU_STEER_TO.md); this
-is its face, meant to invite a closer look.
+the one ring |CΨ| = ¼, the horizon where the quantum world meets the classical.
 
-Produces: simulations/results/whirlpool/whirlpool.png
+Two faces, because the cusp and the exceptional point are the same whirlpool seen from two sides
+(reflections/ON_THE_WHIRLPOOL_YOU_STEER_TO.md): a cool one winding one way (the cusp, the one you
+fall into) and its warm mirror winding the other (the exceptional point, the one you steer to).
+
+Produces: simulations/results/whirlpool/whirlpool.png and whirlpool_mirror.png
 """
 from __future__ import annotations
 
@@ -40,13 +42,13 @@ def cpsi_magnitude(t: np.ndarray, gamma: float = 1.0) -> np.ndarray:
     return f * (1.0 + f * f) / 6.0
 
 
-def main() -> None:
+def render(out_name: str, colors, ring_color: str, subtitle: str, handedness: float,
+           center_color: str) -> Path:
+    """One whirlpool: arms colored by depth (rim dim -> drain bright), the glowing ¼ ring.
+    handedness = -1 winds one way (the cusp), +1 the other (its mirror, the exceptional point)."""
     t = np.linspace(0.0, T_MAX, 2000)
     mag = cpsi_magnitude(t)
-
-    # a luminous water colormap: deep indigo (the rim) -> blue -> cyan -> white (the drain)
-    water = LinearSegmentedColormap.from_list(
-        "water", ["#0a1236", "#163a8a", "#2a8fd0", "#6fe4f5", "#ffffff"])
+    cmap = LinearSegmentedColormap.from_list(out_name, colors)
     norm = Normalize(0.0, START)
 
     fig, ax = plt.subplots(figsize=(9, 9))
@@ -55,47 +57,64 @@ def main() -> None:
 
     for k in range(N_ARMS):
         phi0 = 2.0 * np.pi * k / N_ARMS
-        phi = phi0 - OMEGA * t
+        phi = phi0 + handedness * OMEGA * t
         x = mag * np.cos(phi)
         y = mag * np.sin(phi)
         pts = np.array([x, y]).T.reshape(-1, 1, 2)
         segs = np.concatenate([pts[:-1], pts[1:]], axis=1)
         depth = START - mag[:-1]          # small radius -> high value -> bright (toward white)
-
-        # soft glow underlay, then the bright thread on top
         for lw, alpha in ((5.0, 0.05), (3.0, 0.10), (1.4, 0.95)):
-            lc = LineCollection(segs, cmap=water, norm=norm, capstyle="round")
+            lc = LineCollection(segs, cmap=cmap, norm=norm, capstyle="round")
             lc.set_array(depth)
             lc.set_linewidth(lw)
             lc.set_alpha(alpha)
             ax.add_collection(lc)
 
-    # the ¼ ring, the horizon every spiral crosses, glowing gold
     th = np.linspace(0.0, 2.0 * np.pi, 600)
     for lw, alpha in ((9.0, 0.05), (5.0, 0.10), (2.4, 0.55), (1.1, 0.95)):
-        ax.plot(QUARTER * np.cos(th), QUARTER * np.sin(th), color="#ffd56b", lw=lw, alpha=alpha)
+        ax.plot(QUARTER * np.cos(th), QUARTER * np.sin(th), color=ring_color, lw=lw, alpha=alpha)
 
-    # a faint glow at the drain (the center, the 0)
-    ax.scatter([0], [0], s=240, color="#ffffff", alpha=0.18, edgecolors="none", zorder=1)
-    ax.scatter([0], [0], s=60, color="#ffffff", alpha=0.35, edgecolors="none", zorder=1)
+    ax.scatter([0], [0], s=240, color=center_color, alpha=0.18, edgecolors="none", zorder=1)
+    ax.scatter([0], [0], s=60, color=center_color, alpha=0.35, edgecolors="none", zorder=1)
 
     lim = 0.355
     ax.set_xlim(-lim, lim)
     ax.set_ylim(-lim, lim)
     ax.set_aspect("equal")
     ax.axis("off")
-
-    ax.text(0.0, -0.335, "the cusp and the exceptional point: the same whirlpool",
-            color="#9fb2d6", ha="center", va="center", fontsize=11.5, style="italic")
+    ax.text(0.0, -0.335, subtitle, color="#9fb2d6", ha="center", va="center",
+            fontsize=11.5, style="italic")
+    lab_color = ring_color if ring_color != "#79e6ff" else "#bfefff"
     ax.text(QUARTER * np.cos(np.pi / 4) + 0.012, QUARTER * np.sin(np.pi / 4) + 0.012, "¼",
-            color="#ffd56b", fontsize=13, ha="left", va="bottom")
+            color=lab_color, fontsize=13, ha="left", va="bottom")
 
     out_dir = Path(__file__).parent / "results" / "whirlpool"
     out_dir.mkdir(parents=True, exist_ok=True)
-    out = out_dir / "whirlpool.png"
+    out = out_dir / out_name
     plt.savefig(out, dpi=200, bbox_inches="tight", facecolor=BG, pad_inches=0.15)
     plt.close()
-    print(f"  saved: {out}")
+    return out
+
+
+def main() -> None:
+    # the cusp: cool water, winding inward one way, the gold ¼ ring (the one you fall into)
+    a = render(
+        "whirlpool.png",
+        ["#0a1236", "#163a8a", "#2a8fd0", "#6fe4f5", "#ffffff"],
+        "#ffd56b",
+        "the cusp and the exceptional point: the same whirlpool",
+        handedness=-1.0,
+        center_color="#ffffff")
+    # the mirror, the exceptional point: warm embers, turned the other way (the one you steer to)
+    b = render(
+        "whirlpool_mirror.png",
+        ["#150418", "#5e1230", "#b32c1e", "#ef8a2b", "#ffd45e", "#fff6e0"],
+        "#79e6ff",
+        "the same whirlpool, turned: the one you steer to",
+        handedness=1.0,
+        center_color="#fff4d6")
+    print(f"  saved: {a}")
+    print(f"  saved: {b}")
 
 
 if __name__ == "__main__":
