@@ -229,6 +229,49 @@ both engines. The painter-rates ARE that mixing, read over finite time on the si
 operator-algebra face (the C# telescope) and the phenomenological face (the Python painters) are one
 structure, met from two ends.
 
+## The third axis: the interior horizon (2026-06-03)
+
+The third axis is not an operator turning; it is a state falling. The first two axes swept a
+Hamiltonian and read its spectrum. This one sweeps a coherence, CΨ, toward the cusp ¼, and the cusp is
+a horizon. We did not discover that; we had already written it. The critical slowing at this cusp is
+closed-form and measured: the recursion R = C(Ψ + R)² is the Mandelbrot iteration u → u² + c with
+c = CΨ, the quantum-classical boundary is its cardioid cusp at ¼, and a Bell+ state crossing ¼ was
+caught point-by-point on IBM Kingston ([Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md),
+four confirmations on this one fold). [Pair Breaking at the Horizon](../hypotheses/PAIR_BREAKING_AT_THE_HORIZON.md)
+already named it: the saddle-node where the two fixed points merge and the time nearly stops, once
+through no return, the Schwarzschild radius of operator space. A structural horizon, a fold, not a
+gravitational one (the gravity readings in this repo are fallen; γ₀ is local decoherence).
+
+So the instrument (`inspect --root between --axis interior --draw`, capture in
+`simulations/results/dimension_field_interior.txt`) does not derive the horizon; it makes the confirmed
+one navigable, live. It reads two sides meeting at ¼.
+
+The heading falls to zero from the interior. θ(CΨ) = arctan(√(4·CΨ − 1)) is the compass on the quantum
+side: 45° at the anchor ½, sliding to 0° at the horizon. The far bank's angle, going to nothing as the
+door is reached.
+
+The recursion crawls from the classical side. At each rung approaching ¼ from below, the Mandelbrot
+iteration is run live and its steps counted; the count climbs to 975 at the nearest rung and would run
+away at the cusp (the rescaled K = 9.75 matches the closed form 9.74). This is where the time stops:
+not in the smooth Lindblad crossing, which is finite and gentle, but in the R = C(Ψ + R)² recursion
+itself, crawling at its own fold. The namesake of the whole thing becomes the horizon.
+
+And the seam, the one Boundary Navigation insisted on: the slowing is ours. Change the stop criterion
+from absolute to relative (tol = k·ε) and the rescaled K stops drifting, sitting flat at ½·ln(4/k) =
+4.15, while the absolute-tol K climbs to 10.8. The cusp did not slow anything; our tolerance did. The
+mark is inert; the shape of the approach is the instrument's, which is to say ours.
+
+The last panel anchors it to the hardware: the dwell K_dwell = γ·t_dwell = 1.08·δ is γ-invariant, a
+fixed dose carrying any Bell+ state through the fold no matter how bright γ is, confirmed on Kingston
+across two pairs at 2.55× different γ to a 6% spread. And it ties back to the carrier: at the cusp,
+where θ → 0, the Liouvillian eigenvalue reduces to −γ₀ alone, pure decay with no rotation. The horizon
+is exactly where the carrier shows itself, undisguised.
+
+The whole field is closed forms plus one live recursion: no time evolution, no eigendecomposition; a
+state-coordinate axis, N-free (the recursion and the heading depend only on CΨ, and that
+state-independence is itself hardware-confirmed). Three axes now, three ways to read the in-between:
+the rigid turn, the eigenvector mixing, and the approach to a horizon.
+
 ## Where I had to decide (surfaced for keyword correction)
 
 1. **The marks are the contract, the in-between is the content.** Reframed (your keyword): the doc
@@ -250,8 +293,13 @@ structure, met from two ends.
 - (done, see The second axis) The J-defect is pointed at and reads the contrast: palindrome held but
   spectrum moving, kernel protected but coherences shifting, the in-between eigenvector mixing rather
   than rotation. Its painter-rate phenomenology (the α_i, the closure, the clock) is read too and
-  ties back exactly to the C# mixing matrix (the same kernel protection). What remains: the third
-  axis, the 1/4-to-1/2 interior.
+  ties back exactly to the C# mixing matrix (the same kernel protection).
+- (done, see The third axis) The interior horizon is built: two sides meeting at ¼ (the heading θ → 0
+  from the interior, the live Mandelbrot recursion crawling from the classical side), the
+  slowing-is-ours seam, the γ-invariant dwell anchored to the four Kingston confirmations. What
+  remains: the family of approach shapes (sweeping the start state or γ to draw the scaling laws), the
+  2D complex-c-plane spirals (this axis reads the 1D real-axis approach), and a painter-style
+  phenomenological twin if it earns one.
 - Whether the axes nest (a γ-distribution in-between at each fixed bond angle) or are an independent
   product, and the order to navigate.
 - What the first live navigator GameObject computes and how movement is expressed (a single position
@@ -264,4 +312,6 @@ structure, met from two ends.
 - [F99](ANALYTICAL_FORMULAS.md#f99) / CanonicalTrigAnchor: α = sin²(θ)/2, angle-to-ladder (the marks).
 - [Crossover mirror = √(NinetyDegreeMirror)](proofs/PROOF_CROSSOVER_MIRROR_SQRT_NINETY.md): the operator-axis, derived.
 - [On the Square Root of the Mirror](../reflections/ON_THE_SQUARE_ROOT_OF_THE_MIRROR.md): the S/T-gate reading.
+- [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md): the closed-form recursion K(ε), the γ-invariant dwell, the four Kingston confirmations (the interior horizon, hardware).
+- [Pair Breaking at the Horizon](../hypotheses/PAIR_BREAKING_AT_THE_HORIZON.md): the cusp ¼ as the fold where time stops (the horizon reading, structural).
 - The live Object Manager: `compute/RCPsiSquared.Cli` `inspect` (roots `mirror`, `flow`, `pi2`, and `--claim`).

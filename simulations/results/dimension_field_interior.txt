@@ -1,0 +1,40 @@
+# MKL: active, MaxDegreeOfParallelism = 24
+InteriorHorizonField (the ¼-to-½ interior, 13 rungs, |ε| 1E-004..0.25)  —  the horizon CΨ=¼: heading θ → 0 from the interior (θ=45° at the far rung), the recursion crawls to 975 steps at the nearest rung (time stops at the fold); the slowing is ours (relative stop → constant); dwell γ-invariant (Kingston-confirmed). Structural horizon, no gravity.
+├── the marks (the contract)  —  CΨ=¼ the horizon (θ=0, the saddle-node cusp); CΨ=½ the anchor (θ=45°). Inert, tabulated, hardware-observed.
+├── the heading from the interior (θ → 0 at the horizon)  —  θ = arctan(√(4·CΨ−1)): 45° at CΨ=0.5 down to 0° at the horizon. The compass on the quantum side (complex roots).  [curve[14]]
+│       45 ┤             █
+│          │            ██
+│          │          ▂███
+│          │        ▂▅████
+│        0 ┤ ▁▁▂▃▄▅▇██████
+│          └ CΨ (interior) 0.25 .. 0.5
+├── the recursion at the fold (the horizon, live)  —  u → u²+c run live: 975 steps at the nearest rung, diverging as CΨ → ¼⁻ (the recursion crawls, time stops). Rescaled K=9.75 matches the closed form 9.74.  [curve[13]]
+│       975 ┤█            
+│           │█▆           
+│           │██▆          
+│           │████▄▁       
+│         1 ┤██████▆▄▃▂▁▁ 
+│           └ CΨ (classical) 0.25 .. 0
+├── the slowing is ours (relative stop is flat)  —  rescaled K with a relative stop tol=k·ε is the constant ½·ln(4/k)=4.15; the absolute-tol K drifts. The slowing belonged to the stop criterion, not the cusp (the cusp is inert).
+│   ├── K with absolute tol (drifts)  —  the rescaled iteration count under a fixed tolerance  [curve[13]]
+│   │       10.769 ┤▄▅▆▇████▇▄▁  
+│   │              │███████████▂ 
+│   │              │████████████ 
+│   │              │████████████ 
+│   │          0.5 ┤████████████ 
+│   │              └ |ε| 0 .. 0.25
+│   └── K with relative stop (flat = ½·ln(4/k))  —  converges to 4.147  [curve[13]]
+│           4.05 ┤██▇▇▆▅▃▁     
+│                │████████▇▂   
+│                │██████████▅  
+│                │███████████▇ 
+│            0.5 ┤████████████ 
+│                └ |ε| 0 .. 0.25
+└── the dwell and the hardware (the dose)  —  K_dwell = γ·t_dwell = 1.080088·δ (F57), γ-invariant: a fixed dose carries Bell+ through the fold. Confirmed on IBM Kingston (f25_cusp_trajectory point-by-point; f57_kdwell_gamma_invariance two pairs, 6% spread, prefactor 0.67 under T1 damping). At the cusp θ→0 the Liouvillian eigenvalue is −γ₀ alone (pure decay): the horizon is where the carrier shows itself.  [curve[41]]
+        0.333 ┤█▆▄▃▁                                    
+              │█████▇▆▅▃▂                               
+              │███████████▇▆▅▄▂▁                        
+              │██████████████████▇▆▅▅▄▃▂▁▁              
+        0.119 ┤████████████████████████████▇▆▆▅▄▄▃▃▂▂▁  
+              └ t 0 .. 0.299
+
