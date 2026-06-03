@@ -1,0 +1,71 @@
+# MKL: active, MaxDegreeOfParallelism = 24
+JDefectField (N=5, defect bond 0=(0,1), 13 δJ samples)  —  palindrome holds across δJ (residual ≤ 4.5E-015, the contract); spectrum moves (to 0.174, no similarity); kernel (6 steady states) protected to 7.9E-030, eigenvectors mix (off-diagonal 0.24).
+├── the contract (the palindrome holds)  —  palindrome residual ≤ 4.5E-015 across δJ (Π-invariant: the mirror is kept, even as the spectrum moves)  [curve[13]]
+│       0 ┤    █▄▄██▄▄  
+│         │ ▆ ▆███████ ▆
+│         │ █ ████████ █
+│         │ █ ████████ █
+│       0 ┤ █ ████████ █
+│         └ δJ 0 .. 0.1
+├── the spectrum moves (no similarity)  —  eigenvalues move to 0.174 across δJ (a real perturbation, not the crossover's frozen marks)  [curve[13]]
+│       0.174 ┤          ▁▅█
+│             │        ▃▆███
+│             │     ▁▄▇█████
+│             │   ▂▅████████
+│           0 ┤ ▃▇██████████
+│             └ δJ 0 .. 0.1
+├── the mixing (more than a rotation)  —  kernel (6 steady states) protected to 7.9E-030 (U(1)); the coherences shift; off-diagonal mixing 0.24 alive (the eigenvectors mix, not a rotation)
+│   ├── the shift profile (kernel protected, coherences move)  —  first-order |δλ_s| per slow mode: 6 kernel ≈ 0, the rest shift  [vector[16]]
+│   │       Re0.0                                                     0.000
+│   │       Re0.0                                                     0.000
+│   │       Re0.0                                                     0.000
+│   │       Re-0.0                                                    0.000
+│   │       Re-0.0                                                    0.000
+│   │       Re0.0                                                     0.000
+│   │       Re-0.5 ███████                                            0.071
+│   │       Re-0.5 ███████                                            0.071
+│   │       Re-0.5 ███████                                            0.071
+│   │       Re-0.5 ███████                                            0.071
+│   │       Re-1.0 █▍                                                 0.014
+│   │       Re-1.0 █▍                                                 0.014
+│   │       Re-1.0                                                    0.000
+│   │       Re-1.0                                                    0.000
+│   │       Re-1.0 █████████████████████████████████████████████████  0.500
+│   │       Re-1.0 ████████████████████████████▎                      0.289
+│   └── the mixing matrix (eigenvectors mix)  —  |⟨W_s|V_L|M_s'⟩| on the slow modes: dark diagonal kernel, live off-diagonal  [matrix[16×16]]
+│           
+│           
+│           
+│           
+│           
+│           
+│                       ·
+│                         ·
+│                           ·
+│                             ·
+│           
+│           
+│                                         ·
+│                                         ·
+│                                       █
+│                                   ░     ▒
+│           |·| max 0.5
+└── the slow subspace moves (the fan)  —  principal-angle spectrum of the slow subspace across δJ (the in-between in motion)  [matrix[16×13]]
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+          █ ░ ░ █ █ ▒ ░ █ ░ ▒ ▒ ░
+          █ █ ▓ █ █ █ █ █ ▒ ▓ ▓ █
+          █ █ █ █ █ █ █ █ ▓ █ █ █
+          █ █ █ █ █ █ █ █ █ █ █ █
+        |·| max 90
+

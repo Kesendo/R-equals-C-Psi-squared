@@ -188,9 +188,37 @@ two banks of the Perspectival Time Field in the operator algebra: the {I, Z} sha
 near bank the turn cannot move, the {X, Y} light is the far bank it turns. The core is the shadow the
 turn cannot reach, counted where the turn acts.
 
-The next axis is PTF's J-defect, where the marks are protected to 10⁻¹⁵ but not exactly invariant (no
-exact similarity), so the in-between carries more than a pure rotation, the eigenvector mixing PTF
-computed.
+Then the telescope turned to its second axis.
+
+## The second axis: the J-defect (2026-06-03)
+
+The J-defect reads a different shape, exactly the contrast the Perspectival Time Field named. Where
+the crossover is an exact similarity (the eigenvalues frozen, the in-between a rigid rotation), the
+J-defect is a single detuned bond, J₀ → 1 + δJ: Π-invariant, so it keeps the mirror, but not a
+similarity, so the spectrum genuinely moves. `inspect --root between --axis jdefect --N 5 --draw`
+(capture `simulations/results/dimension_field_jdefect.txt`) reads three things at once:
+
+- **The contract holds.** The palindrome residual ‖Π L Π⁻¹ + L + 2Σγ‖ sits at 4.5·10⁻¹⁵ across the
+  whole δJ sweep. The mirror is the contract here, not the eigenvalues: it is kept even as they move.
+- **The spectrum moves.** The eigenvalues move by O(δJ) (≈ 0.17 at δJ = 0.1, read reorder-robustly as
+  the nearest-neighbour distance, since unlike the crossover the eigenvalues now cross and a naive
+  index-aligned drift would be inflated by the sort swaps). Not the crossover's 10⁻¹⁴. The marks are
+  not frozen; only the mirror between them is.
+- **The in-between is mixing, not rotation.** The first-order matrix elements ⟨W_s|V_L|M_{s'}⟩ split
+  the slow modes cleanly. The kernel, the N+1 = 6 steady states, is protected to 8·10⁻³⁰: excitation
+  conservation (U(1)) leaves the steady states untouched. The slow coherences shift (0.07 to 0.5).
+  And the off-diagonal is alive: the eigenvectors mix. A rigid rotation would leave it near zero; the
+  J-defect's mixing, weighted by the resolvent 1/(λ_s − λ_{s'}), is the PTF α_i, the painter rates.
+
+So the two axes are the two ways a palindrome can be carried. The crossover carries it by similarity:
+nothing moves, the in-between is a clean turn. The J-defect carries it by Π-invariance: the spectrum
+moves, the steady states hold, and the in-between is the resolvent-weighted mixing the painters paint.
+And the {I, Z} / {X, Y} banks we confirmed on the crossover are the same banks here: the kernel that
+holds is the settled near bank, the coherences that mix and shift are the far bank still being decided.
+
+The α_i themselves, the painter-rate phenomenology (the per-site purity rescaling P_B(i,t) ≈
+P_A(i, α_i·t) with its Σ ln α ≈ 0 closure), are the deferred phenomenological twin of this
+operator-algebra reading; the mixing matrix is where they come from.
 
 ## Where I had to decide (surfaced for keyword correction)
 
@@ -209,8 +237,11 @@ computed.
 
 - (done, see Sharpened) The crossover in-between is resolved and named: a 4-dimensional {I, Z}-shadow
   core plus a rotating {X, Y}-light remainder (PTF's two banks), read off the principal-angle fan and
-  confirmed bit-exact by the Pauli projection. What remains is the next axes: the 1/4-to-1/2 interior,
-  and PTF's J-defect.
+  confirmed bit-exact by the Pauli projection.
+- (done, see The second axis) The J-defect is pointed at and reads the contrast: palindrome held but
+  spectrum moving, kernel protected but coherences shifting, the in-between eigenvector mixing rather
+  than rotation. What remains: the α_i painter-rate phenomenology as the deferred twin of the mixing
+  matrix, and the third axis, the 1/4-to-1/2 interior.
 - Whether the axes nest (a γ-distribution in-between at each fixed bond angle) or are an independent
   product, and the order to navigate.
 - What the first live navigator GameObject computes and how movement is expressed (a single position

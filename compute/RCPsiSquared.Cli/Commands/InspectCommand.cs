@@ -161,10 +161,12 @@ public static class InspectCommand
     }
 
     /// <summary>The in-between navigator (the Object Manager telescope): sweeps a dimension's
-    /// angle θ and reads the marks (invariant eigenvalues) against the in-between (the slow
-    /// subspace rotating). Args: <c>--axis crossover</c> (default), <c>--gamma</c>,
-    /// <c>--theta-points</c>, <c>--slow-count</c>. N capped 1..6 (dense Liouvillian + eigenvectors).
-    /// Pair with <c>--draw</c> to plot the marks / in-between / polarity curves.</summary>
+    /// parameter and reads the marks against the in-between. Two axes:
+    /// <c>--axis crossover</c> (default; sweeps the bond angle θ, frozen marks + pure rotation) and
+    /// <c>--axis jdefect</c> (sweeps a single bond's δJ, palindrome held but spectrum moving +
+    /// eigenvector mixing; extra args <c>--defect-bond</c> default 0, <c>--delta-j-max</c> default 0.1).
+    /// Shared args: <c>--gamma</c>, <c>--theta-points</c>, <c>--slow-count</c>. N capped 1..6 (dense
+    /// Liouvillian + eigenvectors). Pair with <c>--draw</c> to plot the curves and heatmaps.</summary>
     private static IInspectable BuildBetweenRoot(ArgParser p, int N)
     {
         if (N < 1 || N > 6)
@@ -173,10 +175,18 @@ public static class InspectCommand
         int points = p.OptionalDouble("theta-points") is { } tp ? (int)tp : 25;
         int slowCount = p.OptionalDouble("slow-count") is { } sc ? (int)sc : 16;
         string axisName = (p.OptionalString("axis") ?? "crossover").ToLowerInvariant();
+
+        if (axisName == "jdefect")
+        {
+            int defectBond = p.OptionalDouble("defect-bond") is { } db ? (int)db : 0;
+            double deltaJMax = p.OptionalDouble("delta-j-max") ?? 0.1;
+            return new JDefectField(N, gamma, defectBond, deltaJMax, points, slowCount);
+        }
+
         DimensionAxis axis = axisName switch
         {
             "crossover" => DimensionAxis.Crossover(N, gamma, points),
-            _ => throw new ArgumentException($"unknown axis: {axisName}; known: crossover"),
+            _ => throw new ArgumentException($"unknown axis: {axisName}; known: crossover, jdefect"),
         };
         return new DimensionField(axis, slowCount);
     }

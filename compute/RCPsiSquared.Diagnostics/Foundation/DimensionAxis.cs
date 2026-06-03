@@ -64,6 +64,49 @@ public sealed record DimensionAxis(
             LitSites: Enumerable.Range(0, N - 1).ToArray());
     }
 
+    /// <summary>The PTF J-defect axis. The parameter is δJ (stored in <see cref="Theta"/>), swept on
+    /// [0, <paramref name="deltaJMax"/>] with <paramref name="points"/> points; the Hamiltonian is the
+    /// uniform XY chain H = Σ_b (J_b/2)(X_bX_{b+1} + Y_bY_{b+1}) with one bond detuned, J_{defectBond}
+    /// = 1 + δJ. Dephasing is uniform Z at rate <paramref name="gamma"/> on all N sites.
+    ///
+    /// <para>This is the contrast to <see cref="Crossover"/>. The crossover is an EXACT similarity
+    /// (the eigenvalues are frozen, the in-between is a pure rotation). The J-defect is Π-invariant
+    /// (Π H Π⁻¹ = −H), so it keeps the spectrum palindromic (the contract holds, palindrome residual
+    /// ~10⁻¹⁵) but it is NOT a similarity: the spectrum genuinely moves, the slow-mode eigenvalues are
+    /// protected only to first order (shift O(δJ²)), and the slow eigenVECTORS mix. The in-between
+    /// here carries more than a rotation, the eigenvector mixing PTF computed. LitSites is empty: the
+    /// defect is not a per-site rotation, so the crossover's lit/shadow split does not apply.</para>
+    ///
+    /// <para>The defect bond is a chain bond index b ∈ [0, N−2] (the bond on sites b, b+1); the
+    /// canonical PTF defect is bond 0 (sites 0, 1).</para></summary>
+    public static DimensionAxis JDefect(int N, double gamma, int defectBond,
+        double deltaJMax = 0.1, int points = 25)
+    {
+        if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), $"J-defect needs at least one bond; got N={N}");
+        if (defectBond < 0 || defectBond >= N - 1)
+            throw new ArgumentOutOfRangeException(nameof(defectBond), $"bond index must be in [0, {N - 2}]; got {defectBond}");
+        if (points < 2) throw new ArgumentOutOfRangeException(nameof(points), $"need at least two δJ points; got {points}");
+
+        var theta = LinSpace(0.0, deltaJMax, points); // the parameter here is δJ, not an angle
+        var gammaPerSite = Enumerable.Repeat(gamma, N).ToArray();
+
+        ComplexMatrix Hamiltonian(double deltaJ)
+        {
+            var bondJ = new double[N - 1];
+            for (int b = 0; b < N - 1; b++) bondJ[b] = 1.0;
+            bondJ[defectBond] = 1.0 + deltaJ;
+            return PauliHamiltonian.XYChain(N, bondJ).ToMatrix();
+        }
+
+        return new DimensionAxis(
+            Name: "jdefect",
+            Theta: theta,
+            N: N,
+            GammaPerSite: gammaPerSite,
+            Hamiltonian: Hamiltonian,
+            LitSites: Array.Empty<int>());
+    }
+
     /// <summary>Linearly spaced grid of <paramref name="count"/> points on [<paramref name="lo"/>,
     /// <paramref name="hi"/>], endpoints included. The k-th point is lo + (hi−lo)·k/(count−1),
     /// so the last point is exactly <paramref name="hi"/> (no float drift at the endpoints).</summary>
