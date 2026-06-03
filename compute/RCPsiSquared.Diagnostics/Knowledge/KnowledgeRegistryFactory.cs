@@ -218,6 +218,14 @@ public static class KnowledgeRegistryFactory
             .RegisterPi2KleinBilinearTable()
             .RegisterLindbladAbsorptionMatchAtSixtyDegreesClaim()
             .RegisterC2BareDoubledPtfClosedForm()
+            // The cusp-approach family CΨ(α,t)=w₀e^(−4γt)+w₁e^(−12γt) wired into the typed graph
+            // (no longer an isolated fifth eyepiece). Four typed parents, all resolved above:
+            // UniversalCarrierClaim (shared 4γ₀ carrier), C2BareDoubledPtfClosedForm (c=2 doubled-
+            // PTF kinship, decay-face sibling of the K_b susceptibility-face), TwoReadingsClaim
+            // (algebra vs Lindblad dynamics), F25CPsiBellPlusPi2Inheritance (the Bell+ member s=1).
+            // Tier1Derived. Implemented as Diagnostics OddHarmonicApproach / ApproachFamilyField
+            // (the --axis approach eyepiece). Wired 2026-06-03.
+            .RegisterApproachFamilyCarrierClaim()
             .RegisterF86HwhmClosedFormClaim()
             .RegisterIbmBlockCpsiHardwareTable()
             .RegisterPolarityPairQPeakDecompositionClaim()
