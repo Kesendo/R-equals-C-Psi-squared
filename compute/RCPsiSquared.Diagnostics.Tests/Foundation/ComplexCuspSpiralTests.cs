@@ -1,4 +1,3 @@
-using System.Linq;
 using RCPsiSquared.Diagnostics.Foundation;
 using Xunit;
 
@@ -86,5 +85,31 @@ public class ComplexCuspSpiralTests
     {
         double tc = ComplexCuspSpiral.CrossingTime(0.05);
         Assert.Equal(0.0 - 0.4 * tc, ComplexCuspSpiral.CrossingArgument(0.05, 0.4, 0.0), 12);
+    }
+
+    [Fact]
+    public void WindingNumber_IsOmegaTMaxOverTwoPi()
+    {
+        // |Ω|·tMax/(2π) full turns; Ω=0.5 over tMax=4π is exactly one turn; Ω=0 is none.
+        Assert.Equal(1.0, ComplexCuspSpiral.WindingNumber(0.5, 4.0 * System.Math.PI), 12);
+        Assert.Equal(0.0, ComplexCuspSpiral.WindingNumber(0.0, 10.0), 12);
+    }
+
+    [Fact]
+    public void ReIm_AtNonzeroOmega_ArePolarComponentsOfTheSpiral()
+    {
+        // Off the real axis (Ω ≠ 0) Re/Im are |CΨ|·cos/sin(arg), and Re²+Im² = |CΨ|²: the spiral
+        // sits on the magnitude its radial law dictates, only rotated.
+        const double g = 0.05, w = 0.4, p = 0.3;
+        for (double t = 0.5; t <= 5.0; t += 1.5)
+        {
+            double mag = ComplexCuspSpiral.Magnitude(g, t);
+            double arg = ComplexCuspSpiral.Argument(w, p, t);
+            double re = ComplexCuspSpiral.Re(g, w, p, t);
+            double im = ComplexCuspSpiral.Im(g, w, p, t);
+            Assert.Equal(mag * System.Math.Cos(arg), re, 12);
+            Assert.Equal(mag * System.Math.Sin(arg), im, 12);
+            Assert.Equal(mag, System.Math.Sqrt(re * re + im * im), 12);
+        }
     }
 }
