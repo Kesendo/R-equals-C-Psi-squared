@@ -1,3 +1,4 @@
+using System.Linq;
 using RCPsiSquared.Diagnostics.Foundation;
 using Xunit;
 using Xunit.Abstractions;
@@ -97,5 +98,35 @@ public class InteriorHorizonTests
         // monotonically through the cusp 1/4 to 0.
         Assert.Equal(1.0 / 3.0, InteriorHorizon.BellPlusCpsi(gamma: 0.5, t: 0.0), 9);
         Assert.True(InteriorHorizon.BellPlusCpsi(0.5, 5.0) < 0.25, "CPsi should be below 1/4 at large t");
+    }
+
+    [Fact]
+    public void Field_Surfaces_Marks_Heading_Recursion_Seam_Dwell()
+    {
+        var field = new InteriorHorizonField(epsLo: 1e-4, epsHi: 0.25, epsPoints: 11,
+            tol: 1e-12, relK: 1e-3, gamma: 0.5);
+        var children = ((RCPsiSquared.Core.Inspection.IInspectable)field).Children.ToList();
+        var labels = children.Select(c => c.DisplayName).ToList();
+        Assert.Contains(labels, l => l.Contains("marks"));
+        Assert.Contains(labels, l => l.Contains("heading"));
+        Assert.Contains(labels, l => l.Contains("recursion"));
+        Assert.Contains(labels, l => l.Contains("ours"));
+        Assert.Contains(labels, l => l.Contains("dwell"));
+
+        // The heading curve falls to ~0 at the horizon (its interior end, closest to 1/4).
+        var heading = children.First(c => c.DisplayName.Contains("heading"));
+        var hc = Assert.IsType<RCPsiSquared.Core.Inspection.InspectablePayload.Curve>(heading.Payload);
+        Assert.True(hc.Y.Min() < 1.0, "heading should reach ~0 deg at the horizon");
+        Assert.True(hc.Y.Max() > 30.0, "heading should rise toward 45 deg at the anchor");
+
+        // The recursion curve diverges toward the horizon (its max count is large).
+        var recursion = children.First(c => c.DisplayName.Contains("recursion"));
+        var rc = Assert.IsType<RCPsiSquared.Core.Inspection.InspectablePayload.Curve>(recursion.Payload);
+        Assert.True(rc.Y.Max() > 100.0, "the recursion should crawl (large iteration count) near the horizon");
+
+        // Smoke: renders to JSON without throwing and carries the horizon story.
+        var json = RCPsiSquared.Core.Inspection.InspectionJsonExporter.ToJson(field);
+        Assert.Contains("horizon", json);
+        Assert.Contains("recursion", json);
     }
 }
