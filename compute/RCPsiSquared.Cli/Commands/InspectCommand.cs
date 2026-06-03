@@ -161,12 +161,17 @@ public static class InspectCommand
     }
 
     /// <summary>The in-between navigator (the Object Manager telescope): sweeps a dimension's
-    /// parameter and reads the marks against the in-between. Two axes:
-    /// <c>--axis crossover</c> (default; sweeps the bond angle θ, frozen marks + pure rotation) and
+    /// parameter and reads the marks against the in-between. Three axes:
+    /// <c>--axis crossover</c> (default; sweeps the bond angle θ, frozen marks + pure rotation),
     /// <c>--axis jdefect</c> (sweeps a single bond's δJ, palindrome held but spectrum moving +
-    /// eigenvector mixing; extra args <c>--defect-bond</c> default 0, <c>--delta-j-max</c> default 0.1).
-    /// Shared args: <c>--gamma</c>, <c>--theta-points</c>, <c>--slow-count</c>. N capped 1..6 (dense
-    /// Liouvillian + eigenvectors). Pair with <c>--draw</c> to plot the curves and heatmaps.</summary>
+    /// eigenvector mixing; extra args <c>--defect-bond</c> default 0, <c>--delta-j-max</c> default 0.1), and
+    /// <c>--axis interior</c> (the ¼-to-½ interior read as a horizon: the heading θ → 0 from the
+    /// interior, the Mandelbrot recursion crawling at the cusp ¼ where time stops, the slowing-is-ours
+    /// seam, and the γ-invariant dwell carrying Bell+ through the fold; extra args <c>--eps-lo</c>
+    /// default 1e-4, <c>--eps-hi</c> default 0.25, <c>--eps-points</c> default 13, <c>--tol</c> default
+    /// 1e-12, <c>--rel-k</c> default 1e-3; N-free, uses <c>--gamma</c> only). Shared args (crossover /
+    /// jdefect): <c>--gamma</c>, <c>--theta-points</c>, <c>--slow-count</c>; those two are N capped 1..6
+    /// (dense Liouvillian + eigenvectors). Pair with <c>--draw</c> to plot the curves and heatmaps.</summary>
     private static IInspectable BuildBetweenRoot(ArgParser p, int N)
     {
         if (N < 1 || N > 6)
@@ -183,10 +188,20 @@ public static class InspectCommand
             return new JDefectField(N, gamma, defectBond, deltaJMax, points, slowCount);
         }
 
+        if (axisName == "interior")
+        {
+            double epsLo = p.OptionalDouble("eps-lo") ?? 1e-4;
+            double epsHi = p.OptionalDouble("eps-hi") ?? 0.25;
+            int epsPoints = p.OptionalDouble("eps-points") is { } ep ? (int)ep : 13;
+            double tol = p.OptionalDouble("tol") ?? 1e-12;
+            double relK = p.OptionalDouble("rel-k") ?? 1e-3;
+            return new InteriorHorizonField(epsLo, epsHi, epsPoints, tol, relK, gamma);
+        }
+
         DimensionAxis axis = axisName switch
         {
             "crossover" => DimensionAxis.Crossover(N, gamma, points),
-            _ => throw new ArgumentException($"unknown axis: {axisName}; known: crossover, jdefect"),
+            _ => throw new ArgumentException($"unknown axis: {axisName}; known: crossover, jdefect, interior"),
         };
         return new DimensionField(axis, slowCount);
     }
