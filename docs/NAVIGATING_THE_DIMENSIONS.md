@@ -155,10 +155,35 @@ it showed:
 So the first look already taught the eyepiece its next lens: the resolving readout is the **full
 principal-angle spectrum** of the slow subspace (all k angles per θ), which separates the invariant
 core (angles staying 0) from the rotating directions (angles that grow). The slow manifold is not one
-block; it carries its own marks-and-in-between split. `SlowBasis` is already exposed for this. The
-next axis to point at is PTF's J-defect, where the marks are protected to 10⁻¹⁵ but not exactly
-invariant (no exact similarity), so the in-between carries more than a pure rotation, the eigenvector
-mixing PTF computed.
+block; it carries its own marks-and-in-between split. `SlowBasis` is already exposed for this.
+
+## Sharpened: the fan (2026-06-03)
+
+The next lens is ground and mounted. `inspect --root between --axis crossover --N 3 --draw` now
+carries the fan: the full principal-angle spectrum, all k angles per θ, drawn as a heatmap (capture
+at `simulations/results/dimension_field_fan.txt`). The single largest angle saturated at the first
+step and told us nothing; the fan opens. Its top rows hold blank (the angles that stay at 0), its
+lower rows fill `· ░ ▒ ▓ █` as θ grows (the angles that turn), and the slow manifold's own
+marks-and-in-between split is finally on the glass.
+
+The reading: a **4-dimensional invariant core**, and it is robust. Sweeping the lens (slowCount 8,
+12, 16) the core holds at exactly 4 while every further slow mode added is a rotating one
+(rotating = slowCount − 4), so at the natural slowCount = 16 the manifold reads 4 fixed and 12
+turning. The count is itself a lens: below ≈ 8 the slow subspace is too small to hold the whole core,
+and above ≈ 16 it fills enough of the 64-dimensional operator space that the θ₀ and θ subspaces begin
+to re-include each other's rotated images, so the apparent core inflates (18 at slowCount 24, 27 at
+32). The window 8 to 16 is where the core reads true, and slowCount = 16 is the sweet spot: the whole
+core, and the rotating part at its widest.
+
+Why 4, and not the 8 of the diagonal {I, Z}^⊗3 sector? Because the turn does not touch every site. On
+the N = 3 chain the crossover bonds X₀Z₁ + X₁Z₂ light sites 0 and 1 (the X that becomes Y as θ runs)
+and leave site 2 a pure shadow Z. The transport turns only the lit sites, so the directions it fixes
+are the ones that read {I, Z} on sites 0 and 1, and exactly four of those are slow. The core is the
+shadow the turn cannot reach, counted where the turn actually acts. The precise attribution, that
+those 4 are {I, Z} on the lit sites and the 12 carry an X or a Y there, is one Pauli projection of
+`SlowBasis` away; that is the next probe. After it, the next axis is PTF's J-defect, where the marks
+are protected to 10⁻¹⁵ but not exactly invariant (no exact similarity), so the in-between carries more
+than a pure rotation, the eigenvector mixing PTF computed.
 
 ## Where I had to decide (surfaced for keyword correction)
 
@@ -175,9 +200,10 @@ mixing PTF computed.
 
 ## Open (the next decisions, not yet made)
 
-- (started, see First light) The S-to-T crossover in-between was pointed at first: the resolving
-  eyepiece is the full principal-angle spectrum, separating the slow manifold's invariant core from
-  its rotating directions. Still to look at: the 1/4-to-1/2 interior, and PTF's J-defect axis.
+- (done, see Sharpened) The crossover in-between is resolved: a 4-dimensional invariant core plus a
+  rotating remainder, read off the principal-angle fan. What remains is the precise {I, Z} / {X, Y}
+  attribution of the two halves (one Pauli projection of `SlowBasis`), then the next axes: the
+  1/4-to-1/2 interior, and PTF's J-defect.
 - Whether the axes nest (a γ-distribution in-between at each fixed bond angle) or are an independent
   product, and the order to navigate.
 - What the first live navigator GameObject computes and how movement is expressed (a single position

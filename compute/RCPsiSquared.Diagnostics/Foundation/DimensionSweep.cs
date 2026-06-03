@@ -27,14 +27,19 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// arbitrary basis chosen inside a degenerate eigenspace. Raw eigenvectors are never compared
 /// directly.</para>
 ///
-/// <para>The per-step <see cref="DimensionSweepResult.SubspaceRotation"/> is a coarse eyepiece:
-/// the chordal (Frobenius) projector distance saturates near its ceiling √(2k) once the subspace
-/// has turned a finite amount, so it cannot resolve how far the in-between has rotated.
-/// <see cref="DimensionSweepResult.CumulativeRotation"/> is the resolving eyepiece: the largest
-/// principal angle between the slow subspace at θ₀ and at θ[p]. Principal angles grow ~linearly
-/// for a small rotation, so they keep resolving where the chordal distance has already flattened.
-/// They are read from the singular values of Q(θ₀)ᴴ·Q(θ[p]) via
-/// <see cref="DimensionSweepResult.SlowBasis"/>, the per-θ orthonormal Q.</para>
+/// <para>The eyepiece progression. <see cref="DimensionSweepResult.SubspaceRotation"/> is the
+/// coarsest: the chordal (Frobenius) projector distance saturates near its ceiling √(2k) once the
+/// subspace has turned a finite amount. <see cref="DimensionSweepResult.CumulativeRotation"/>, the
+/// largest principal angle between the slow subspace at θ₀ and at θ[p], saturates almost as fast on
+/// a degenerate manifold, because the largest angle reports only the single fastest-rotating
+/// direction. The resolving eyepiece is the full
+/// <see cref="DimensionSweepResult.PrincipalAngleSpectrum"/>: all k principal angles per θ, sorted
+/// ascending. It shows the fan, the directions whose angle stays ≈ 0 are the invariant core (itself
+/// more contract, on the crossover axis the {I, Z} shadow that R_z fixes), the directions whose
+/// angle grows are the true in-between (the {X, Y} lit part that R_z turns). The slow manifold
+/// carries its own marks-and-in-between split, and the spectrum makes it visible. All readings are
+/// read from the singular values of Q(θ₀)ᴴ·Q(θ[p]) via <see cref="DimensionSweepResult.SlowBasis"/>,
+/// the per-θ orthonormal Q.</para>
 /// </summary>
 public sealed record DimensionSweepResult(
     IReadOnlyList<double> Theta,
@@ -43,7 +48,8 @@ public sealed record DimensionSweepResult(
     IReadOnlyList<double> SubspaceRotation,
     double MaxEigenvalueDriftAcrossTheta,
     IReadOnlyList<ComplexMatrix> SlowBasis,
-    IReadOnlyList<double> CumulativeRotation);
+    IReadOnlyList<double> CumulativeRotation,
+    IReadOnlyList<double[]> PrincipalAngleSpectrum);
 
 public static class DimensionSweep
 {
@@ -119,23 +125,24 @@ public static class DimensionSweep
         for (int p = 0; p < points - 1; p++)
             subspaceRotation[p] = (projectors[p] - projectors[p + 1]).FrobeniusNorm();
 
-        // In-between metric (resolving): the largest principal angle (radians) between the slow
-        // subspace at θ₀ and at θ[p], cumulative from θ₀. The principal angles are arccos of the
-        // singular values of Q(θ₀)ᴴ·Q(θ[p]); the largest angle is arccos of the smallest singular
-        // value. CumulativeRotation[0] = 0 by construction (Q(θ₀)ᴴ·Q(θ₀) has every σ = 1), and
-        // every angle is bounded above by π/2.
-        //
-        // Caveat measured on the N=3 crossover axis: the LARGEST principal angle of a highly
-        // degenerate slow manifold saturates near π/2 already at the first nonzero θ-step (some
-        // direction in the k-mode set rotates out almost immediately), so here it is no finer an
-        // eyepiece than the chordal SubspaceRotation. The smallest (first) principal angle is the
-        // one that grows ~linearly for small rotation; the largest is the most pessimistic and
-        // saturates first. The exposed SlowBasis lets a downstream reader form whichever principal
-        // angle (or the geodesic √Σθ_i²) the question needs.
+        // In-between (the full eyepiece): the principal-angle SPECTRUM between the slow subspace at
+        // θ₀ and at θ[p], all min(k) angles (radians) sorted ascending. The angles are arccos of the
+        // singular values of Q(θ₀)ᴴ·Q(θ[p]). The angles staying near 0 are the invariant core (the
+        // part of the slow manifold the rotation fixes; on the crossover axis the {I,Z} shadow R_z
+        // leaves alone); the angles growing are the rotating directions (the {X,Y} lit in-between
+        // R_z turns). The slow manifold carries its own marks-and-in-between split; the largest
+        // angle alone hides it (it saturates at the first step), the spectrum resolves it.
+        // CumulativeRotation keeps the largest angle (the last entry, ascending) for the summary.
+        var principalSpectrum = new double[points][];
         var cumulativeRotation = new double[points];
+        principalSpectrum[0] = new double[slowBasis[0].ColumnCount]; // θ₀ vs itself: every angle 0
         cumulativeRotation[0] = 0.0;
         for (int p = 1; p < points; p++)
-            cumulativeRotation[p] = LargestPrincipalAngle(slowBasis[0], slowBasis[p]);
+        {
+            var angles = PrincipalAngles(slowBasis[0], slowBasis[p]); // ascending, each in [0, π/2]
+            principalSpectrum[p] = angles;
+            cumulativeRotation[p] = angles.Length == 0 ? 0.0 : angles[^1]; // largest = last
+        }
 
         return new DimensionSweepResult(
             Theta: axis.Theta,
@@ -144,7 +151,8 @@ public static class DimensionSweep
             SubspaceRotation: subspaceRotation,
             MaxEigenvalueDriftAcrossTheta: maxDrift,
             SlowBasis: slowBasis,
-            CumulativeRotation: cumulativeRotation);
+            CumulativeRotation: cumulativeRotation,
+            PrincipalAngleSpectrum: principalSpectrum);
     }
 
     /// <summary>Order eigenvalues by (Re, then Im) with both keys rounded to
@@ -158,37 +166,31 @@ public static class DimensionSweep
         return Math.Round(a.Imaginary, decimals).CompareTo(Math.Round(b.Imaginary, decimals));
     }
 
-    /// <summary>The largest principal angle (radians) between the column spans of two orthonormal
-    /// bases <paramref name="qa"/> and <paramref name="qb"/>. Principal angles θ_i are arccos of the
-    /// singular values σ_i of qaᴴ·qb (each σ_i ∈ [0, 1]); the largest angle is arccos of the
-    /// smallest σ, clamped into [0, 1] against round-off. Returns a value in [0, π/2].
+    /// <summary>All principal angles (radians, sorted ascending) between the column spans of two
+    /// orthonormal bases <paramref name="qa"/> and <paramref name="qb"/>. Principal angles θ_i are
+    /// arccos of the singular values σ_i of qaᴴ·qb (each σ_i ∈ [0, 1]), clamped against round-off;
+    /// there are min(cols) of them. Sorted ascending, the leading entries near 0 are the invariant
+    /// directions (the core the rotation fixes) and the trailing entries near π/2 are the rotated-out
+    /// directions (the in-between).
     ///
     /// <para>Guard: if the two bases have different column counts (slow-mode membership changed
-    /// across θ, so the subspaces have different dimensions), the overlap matrix qaᴴ·qb is
-    /// rectangular and only min(cols) singular values exist. We compare on that common
-    /// min-dimension subspace rather than crash; the largest principal angle is then read from the
-    /// min(cols) singular values that the SVD returns.</para></summary>
-    private static double LargestPrincipalAngle(ComplexMatrix qa, ComplexMatrix qb)
+    /// across θ), the overlap qaᴴ·qb is rectangular and only min(cols) singular values exist; we read
+    /// those rather than crash.</para></summary>
+    private static double[] PrincipalAngles(ComplexMatrix qa, ComplexMatrix qb)
     {
         int ka = qa.ColumnCount;
         int kb = qb.ColumnCount;
-        if (ka == 0 || kb == 0) return 0.0; // degenerate: no shared subspace to rotate
+        if (ka == 0 || kb == 0) return Array.Empty<double>(); // no shared subspace to rotate
 
-        // Overlap matrix M = qaᴴ·qb (ka × kb). Its singular values are the cosines of the principal
-        // angles between the two spans; there are min(ka, kb) of them.
+        // Overlap M = qaᴴ·qb (ka × kb); its singular values are the cosines of the principal angles.
         var overlap = qa.ConjugateTranspose() * qb;
         var singular = overlap.Svd().S; // descending real singular values, length min(ka, kb)
 
-        double smallest = double.PositiveInfinity;
+        var angles = new double[singular.Count];
         for (int i = 0; i < singular.Count; i++)
-        {
-            double s = singular[i].Real;
-            if (s < smallest) smallest = s;
-        }
-        if (double.IsPositiveInfinity(smallest)) return 0.0;
-
-        double cosTheta = Math.Clamp(smallest, 0.0, 1.0);
-        return Math.Acos(cosTheta);
+            angles[i] = Math.Acos(Math.Clamp(singular[i].Real, 0.0, 1.0));
+        Array.Sort(angles); // ascending: invariant core first, rotated-out last
+        return angles;
     }
 
     /// <summary>Modified Gram-Schmidt: returns an orthonormal basis (in the standard Hermitian

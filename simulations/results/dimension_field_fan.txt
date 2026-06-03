@@ -1,0 +1,48 @@
+# MKL: active, MaxDegreeOfParallelism = 24
+DimensionField (axis=crossover, N=3, 25 samples)  —  α: 0 → 0.5; marks flat at 2.4E-014; in-between: 12 of 16 slow directions rotate to 88.4°, 4 stay fixed (the core). Gates on the θ-grid: 0°→XZ, 45°→T-gate→α=1/4, 90°→S-gate→α=1/2.
+├── marks (the contract)  —  max |Δλ| across θ = 2.40E-014 (the marks do not move)  [curve[25]]
+│       0 ┤                       █ 
+│         │  ▄     ▁   ▃█▃ ▂▅ ▇   █ 
+│         │ ▁█▂▃▅ ▆█▃▇▇███▅██▄█▇▇▃█▄
+│         │ ████████████████████████
+│       0 ┤ ████████████████████████
+│         └ θ° 0 .. 90
+├── in-between (the content)  —  slow subspace rotates to 89.8° (largest principal angle from θ₀; saturates on degenerate manifolds, the fan below resolves the split)  [curve[25]]
+│       89.8 ┤ █▅▅▆▇▇▇▇▆█▅▆█▆▅█▅▇▆█▇██▇
+│            │ ████████████████████████
+│            │ ████████████████████████
+│            │ ████████████████████████
+│          0 ┤ ████████████████████████
+│            └ θ° 0 .. 90
+├── the fan (principal-angle spectrum)  —  16 angles at the final θ: 4 stay ≈0 (the invariant core), 12 rotate to 88.4° (the in-between)  [matrix[16×25]]
+│       
+│       
+│       
+│       
+│                                       ·
+│                   ·           · · · · ·   · · ·     ·
+│                   · · · · · · · · · · · · · · · · · ·
+│               ·   · · · · ░ · ░ ░ ░ ░ ░ · · · ░ · · ░
+│         · · · · · · · ░ ░ ░ · ░ ░ ░ ░ ░ ░ ░ ░ ░ ░ ░ ░
+│         · ░ · ░ · ░ ░ ░ ░ ░ ░ ░ ▒ ░ ▒ ▒ ░ ░ ░ ▒ ░ ░ ░
+│         ░ ▒ ░ ░ · ░ ░ ▒ ▒ ▒ ░ ░ ▒ ▒ ▒ ▒ ▒ ▒ ░ ▒ ▒ ▒ ▒
+│         ▒ ▒ ░ ▒ ░ ▒ ▒ ▒ ▓ ▒ ▒ ▒ ▒ ▒ ▒ ▒ ▒ ▒ ▒ ▒ ▒ ▒ ▓
+│         ▒ ▓ ▒ ▒ ▒ ▒ ▓ ▓ ▓ ▓ ▒ ▒ ▓ ▒ ▓ ▓ ▓ ▓ ▒ ▓ ▓ ▓ ▓
+│         ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
+│         █ █ ▓ ▓ ▓ █ ▓ █ █ ▓ ▓ ▓ █ ▓ ▓ ▓ ▓ ▓ ▓ █ █ █ █
+│         █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █
+│       |·| max 89.8, 16×25→16×24
+├── polarity on the ladder  —  α = sin²θ/2: 0 → 0.5 (¼ at 45°, ½ at 90°)  [curve[25]]
+│       0.5 ┤                  ▂▄▅▆▇██
+│           │              ▁▄▆████████
+│           │           ▁▄▇███████████
+│           │        ▂▄▇██████████████
+│         0 ┤  ▁▂▃▄▆██████████████████
+│           └ θ° 0 .. 90
+└── the mirror here (θ=45°, the T-gate)  —  Ad_{R_z(π/4)}: the continuous mirror at the symmetric crossover, the √ of the 90° S-gate  [matrix[4×4]]
+        █
+          █
+            █
+              █
+        |·| max 1
+

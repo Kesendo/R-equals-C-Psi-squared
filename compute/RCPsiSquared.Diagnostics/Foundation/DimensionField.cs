@@ -2,17 +2,21 @@ using System.Globalization;
 using System.Numerics;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Symmetry;
+using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>The Object Manager's telescope onto a <see cref="DimensionAxis"/>: a single live
 /// IInspectable node that, at every θ on the axis, reads the marks (the Liouvillian eigenvalue
 /// multiset, the fixed contract) against the in-between (how the slow eigen-subspace rotates, the
-/// content). The C# home of the dimension-field sweep; the in-between is read as the principal-angle
-/// rotation of the slow subspace (<see cref="DimensionSweepResult.CumulativeRotation"/>). Caveat: the
-/// largest-angle reading saturates on a degenerate slow manifold (one direction rotates fully out at
-/// the first step), so it is a coarse eyepiece; the full principal-angle spectrum via
-/// <see cref="DimensionSweepResult.SlowBasis"/> is the finer reading.
+/// content). The C# home of the dimension-field sweep. The in-between is read at two eyepieces: the
+/// coarse <see cref="DimensionSweepResult.CumulativeRotation"/> (the single largest principal angle,
+/// which saturates on a degenerate slow manifold once one direction rotates fully out), and the
+/// resolving <see cref="DimensionSweepResult.PrincipalAngleSpectrum"/> (all k angles per θ). The
+/// spectrum is surfaced directly as the fan: it separates the invariant core (angles that stay ≈ 0,
+/// the part of the slow manifold the rotation fixes, on the crossover axis the {I, Z} shadow) from
+/// the rotating directions (angles that grow, the {X, Y} lit in-between). The slow manifold carries
+/// its own marks-and-in-between split, and the fan makes it visible.
 ///
 /// <para>On the <see cref="DimensionAxis.Crossover"/> axis the two readings split cleanly: the
 /// marks do not move (L(θ) is a similarity transform of L(0), so the sorted eigenvalues are
@@ -84,8 +88,8 @@ public sealed class DimensionField : IInspectable
         return drift;
     }
 
-    /// <summary>The resolving in-between eyepiece in degrees: the largest principal angle between
-    /// the slow subspace at θ₀ and at θ[p].</summary>
+    /// <summary>The coarse in-between eyepiece in degrees: the largest principal angle between the
+    /// slow subspace at θ₀ and at θ[p]. Saturates on a degenerate manifold; the fan resolves it.</summary>
     private double[] CumulativeRotationDegrees()
     {
         var cum = Sweep.CumulativeRotation;
@@ -93,6 +97,49 @@ public sealed class DimensionField : IInspectable
         for (int p = 0; p < cum.Count; p++)
             deg[p] = cum[p] * 180.0 / Math.PI;
         return deg;
+    }
+
+    /// <summary>The principal-angle fan: a (k × points) real matrix, entry [i, p] = the i-th
+    /// principal angle (degrees, ascending) of the slow subspace at θ[p] from θ₀. Rows are the angle
+    /// index (the invariant core at the top, near 0; the rotating directions toward the bottom),
+    /// columns are θ. Drawn as a magnitude heatmap it shows the fan open: the top rows stay blank
+    /// (the core the rotation fixes), the lower rows fill in as θ grows (the in-between that turns).</summary>
+    private ComplexMatrix SpectrumFanDegrees()
+    {
+        var spectrum = Sweep.PrincipalAngleSpectrum;
+        int points = spectrum.Count;
+        int k = spectrum[0].Length; // reference dimension: one angle per slow-basis column at θ₀
+        return ComplexMatrix.Build.Dense(k, points, (i, p) =>
+        {
+            double[] angles = spectrum[p];
+            double deg = i < angles.Length ? angles[i] * 180.0 / Math.PI : 0.0;
+            return new Complex(deg, 0.0);
+        });
+    }
+
+    /// <summary>The split read at the final θ: how many of the k principal angles stay in the
+    /// invariant core (below <paramref name="tolDeg"/>) versus rotate out, and how far the rotating
+    /// ones turned. The core is the part of the slow manifold the rotation fixes; the rest is the
+    /// content. tolDeg = 1° absorbs the dense-Evd floor on the core without catching any genuinely
+    /// rotating direction (which turns by tens of degrees).
+    ///
+    /// <para>The core count is lens-dependent in <see cref="SlowCount"/>. On the N = 3 crossover it
+    /// reads true (4) in the window slowCount ≈ 8 to 16: below it the slow subspace is too small to
+    /// hold the whole core, above it the subspace fills enough of the operator space that the θ₀ and θ
+    /// subspaces re-include each other's rotated images and the apparent core inflates (18 at
+    /// slowCount 24, 27 at 32). slowCount = 16, the default, sits at the top of the true window.</para></summary>
+    private (int Core, int Rotating, double MaxRotDeg) CoreSplitAtFinalTheta(double tolDeg = 1.0)
+    {
+        double[] finalAngles = Sweep.PrincipalAngleSpectrum[^1];
+        int core = 0, rotating = 0;
+        double maxRotDeg = 0.0;
+        foreach (double a in finalAngles)
+        {
+            double deg = a * 180.0 / Math.PI;
+            if (deg < tolDeg) core++;
+            else { rotating++; if (deg > maxRotDeg) maxRotDeg = deg; }
+        }
+        return (core, rotating, maxRotDeg);
     }
 
     public string DisplayName =>
@@ -103,16 +150,12 @@ public sealed class DimensionField : IInspectable
         get
         {
             double drift = Sweep.MaxEigenvalueDriftAcrossTheta;
-            double maxRotDeg = 0.0;
-            foreach (double a in Sweep.CumulativeRotation)
-            {
-                double deg = a * 180.0 / Math.PI;
-                if (deg > maxRotDeg) maxRotDeg = deg;
-            }
+            var (core, rotating, maxRotDeg) = CoreSplitAtFinalTheta();
             double aLo = Sweep.Polarity[0];
             double aHi = Sweep.Polarity[^1];
             return $"α: {aLo.ToString("0.###", Inv)} → {aHi.ToString("0.###", Inv)}; " +
-                   $"marks flat at {drift.ToString("E1", Inv)}; in-between rotates to {maxRotDeg.ToString("0.#", Inv)}°. " +
+                   $"marks flat at {drift.ToString("E1", Inv)}; in-between: {rotating} of {core + rotating} slow " +
+                   $"directions rotate to {maxRotDeg.ToString("0.#", Inv)}°, {core} stay fixed (the core). " +
                    "Gates on the θ-grid: 0°→XZ, 45°→T-gate→α=1/4, 90°→S-gate→α=1/2.";
         }
     }
@@ -130,24 +173,35 @@ public sealed class DimensionField : IInspectable
                 payload: new InspectablePayload.Curve(
                     "eigenvalue drift from θ₀", thetaDeg, DriftPerTheta(), "θ°", "max |Δλ|"));
 
-            // 2. The in-between (the content): the principal-angle rotation from θ₀ (largest angle;
-            // saturates on a degenerate slow manifold, the full spectrum via SlowBasis is finer).
+            // 2. The in-between (the content), coarse eyepiece: the largest principal angle from θ₀.
+            // Saturates on the degenerate slow manifold; the fan (next child) resolves what it hides.
             var cumDeg = CumulativeRotationDegrees();
             double maxRotDeg = cumDeg.Length == 0 ? 0.0 : cumDeg.Max();
             yield return new InspectableNode(
                 displayName: "in-between (the content)",
-                summary: $"slow subspace rotates to {maxRotDeg.ToString("0.#", Inv)}° (largest principal angle from θ₀; saturates on degenerate manifolds, see SlowBasis)",
+                summary: $"slow subspace rotates to {maxRotDeg.ToString("0.#", Inv)}° (largest principal angle from θ₀; saturates on degenerate manifolds, the fan below resolves the split)",
                 payload: new InspectablePayload.Curve(
                     "slow-subspace rotation from θ₀", thetaDeg, cumDeg, "θ°", "principal angle°"));
 
-            // 3. The polarity ladder α = sin²θ/2: ¼ at the T-gate (45°), ½ at the S-gate (90°).
+            // 3. The fan (resolving eyepiece): the full principal-angle spectrum, k angles per θ. The
+            // heatmap shows the invariant core (top rows, ≈0, blank) split from the rotating
+            // directions (lower rows, filling as θ grows), the structure the single largest angle hides.
+            var (core, rotating, fanMaxDeg) = CoreSplitAtFinalTheta();
+            yield return new InspectableNode(
+                displayName: "the fan (principal-angle spectrum)",
+                summary: $"{core + rotating} angles at the final θ: {core} stay ≈0 (the invariant core), " +
+                         $"{rotating} rotate to {fanMaxDeg.ToString("0.#", Inv)}° (the in-between)",
+                payload: new InspectablePayload.MatrixView(
+                    "principal-angle fan (rows: angle index, cols: θ; degrees)", SpectrumFanDegrees()));
+
+            // 4. The polarity ladder α = sin²θ/2: ¼ at the T-gate (45°), ½ at the S-gate (90°).
             yield return new InspectableNode(
                 displayName: "polarity on the ladder",
                 summary: $"α = sin²θ/2: {Sweep.Polarity[0].ToString("0.###", Inv)} → {Sweep.Polarity[^1].ToString("0.###", Inv)} (¼ at 45°, ½ at 90°)",
                 payload: new InspectablePayload.Curve(
                     "α = sin²θ/2", thetaDeg, Sweep.Polarity, "θ°", "α"));
 
-            // 4. The mirror here at θ = 45° (the T-gate): Ad_{R_z(π/4)} on one qubit, the √-of-90°.
+            // 5. The mirror here at θ = 45° (the T-gate): Ad_{R_z(π/4)} on one qubit, the √-of-90°.
             yield return new InspectableNode(
                 displayName: "the mirror here (θ=45°, the T-gate)",
                 summary: "Ad_{R_z(π/4)}: the continuous mirror at the symmetric crossover, the √ of the 90° S-gate",
