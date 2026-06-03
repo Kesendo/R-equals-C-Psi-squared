@@ -124,6 +124,21 @@ public class InteriorHorizonTests
         var rc = Assert.IsType<RCPsiSquared.Core.Inspection.InspectablePayload.Curve>(recursion.Payload);
         Assert.True(rc.Y.Max() > 100.0, "the recursion should crawl (large iteration count) near the horizon");
 
+        // The seam (the field's most distinctive reading): near the horizon the relative-stop K is
+        // ~flat at the constant 1/2*ln(4/k), while the absolute-tol K drifts above it. The slowing
+        // belonged to the stop criterion, not the cusp.
+        var ours = children.First(c => c.DisplayName.Contains("ours"));
+        var seam = ours.Children.ToList();
+        var relCurve = Assert.IsType<RCPsiSquared.Core.Inspection.InspectablePayload.Curve>(
+            seam.First(c => c.DisplayName.Contains("relative")).Payload);
+        var absCurve = Assert.IsType<RCPsiSquared.Core.Inspection.InspectablePayload.Curve>(
+            seam.First(c => c.DisplayName.Contains("absolute")).Payload);
+        double kConst = 0.5 * System.Math.Log(4.0 / 1e-3); // = 4.147, the relative-stop constant
+        Assert.True(System.Math.Abs(relCurve.Y[0] - kConst) < 0.2,
+            $"relative-stop K near the horizon should be ~{kConst:F2}; got {relCurve.Y[0]:F2}");
+        Assert.True(absCurve.Y[0] > relCurve.Y[0] + 2.0,
+            $"absolute-tol K should drift above the relative-stop constant; abs {absCurve.Y[0]:F2} rel {relCurve.Y[0]:F2}");
+
         // Smoke: renders to JSON without throwing and carries the horizon story.
         var json = RCPsiSquared.Core.Inspection.InspectionJsonExporter.ToJson(field);
         Assert.Contains("horizon", json);

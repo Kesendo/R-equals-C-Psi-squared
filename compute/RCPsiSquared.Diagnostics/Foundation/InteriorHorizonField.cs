@@ -38,6 +38,11 @@ public sealed class InteriorHorizonField : IInspectable
         if (epsPoints < 2) throw new ArgumentOutOfRangeException(nameof(epsPoints), $"need at least two ε points; got {epsPoints}");
         if (epsLo <= 0 || epsHi <= epsLo || epsHi > 0.25)
             throw new ArgumentOutOfRangeException(nameof(epsHi), $"need 0 < epsLo < epsHi ≤ 0.25; got [{epsLo}, {epsHi}]");
+        // These doubles flow straight into the closed forms (log/sqrt/divide), so the field owns their
+        // validation: a non-positive tol, relK, or gamma would silently produce NaN or invert the grid.
+        if (tol <= 0) throw new ArgumentOutOfRangeException(nameof(tol), $"tol must be positive; got {tol}");
+        if (relK <= 0) throw new ArgumentOutOfRangeException(nameof(relK), $"relK must be positive; got {relK}");
+        if (gamma <= 0) throw new ArgumentOutOfRangeException(nameof(gamma), $"gamma must be positive; got {gamma}");
         _eps = GeometricLadder(epsLo, epsHi, epsPoints);
         _tol = tol;
         _relK = relK;
@@ -86,6 +91,10 @@ public sealed class InteriorHorizonField : IInspectable
     {
         get
         {
+            // Readings are cheap closed forms plus one bounded live recursion (a few thousand steps
+            // total across the rungs), so there is no per-enumeration cache here, unlike JDefectField
+            // which caches because it rebuilds dense Liouvillians per sweep point.
+
             // 1. The marks (the contract): the horizon ¼ and the anchor ½, inert.
             yield return new InspectableNode(
                 displayName: "the marks (the contract)",
