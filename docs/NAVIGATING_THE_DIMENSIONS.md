@@ -310,6 +310,19 @@ fold.
 
 ![The cusp is a circle; every spiral crosses it](../simulations/results/cusp_spiral_2d/cusp_spiral_2d.png)
 
+One thing the eye catches in that picture: the spiral visibly slows as it winds in. It does, and the
+reason is the one the interior axis already taught us. Split the coherence into its two factors,
+CΨ = purity · coherence. The bare coherence, the off-diagonal itself, the carrier, the eigenvalue −γ₀,
+descends at a perfectly constant rate; it never slows. What slows is CΨ, because it folds in the purity,
+which collapses fast as the pure state mixes and then flattens at the floor. So CΨ's descent rate falls
+from 8γ to 4γ while the carrier holds at 4γ, and the gap between the two, the slowing, is exactly the
+depurification. The rotation does not brake it; it only winds the constant-rate fall into a logarithmic
+spiral that crowds geometrically toward the center (here each turn to about four percent). Not the
+rotation, then, and not a wall at ¼ (the trajectory crosses at full pace): the same reading as before,
+the slowing is ours and not the carrier's, now visible in the spiral.
+
+![The spiral slows, but the carrier does not: the slowing is ours](../simulations/results/cusp_spiral_2d/spiral_slowing.png)
+
 ## Where I had to decide (surfaced for keyword correction)
 
 1. **The marks are the contract, the in-between is the content.** Reframed (your keyword): the doc
