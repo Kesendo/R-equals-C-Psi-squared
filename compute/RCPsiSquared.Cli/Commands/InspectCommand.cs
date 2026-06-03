@@ -169,7 +169,11 @@ public static class InspectCommand
     /// interior, the Mandelbrot recursion crawling at the cusp ¼ where time stops, the slowing-is-ours
     /// seam, and the γ-invariant dwell carrying Bell+ through the fold; extra args <c>--eps-lo</c>
     /// default 1e-4, <c>--eps-hi</c> default 0.25, <c>--eps-points</c> default 13, <c>--tol</c> default
-    /// 1e-12, <c>--rel-k</c> default 1e-3; N-free, uses <c>--gamma</c> only). Shared args (crossover /
+    /// 1e-12, <c>--rel-k</c> default 1e-3; N-free, uses <c>--gamma</c> only).
+    /// <c>--axis spiral</c> (the interior axis in 2D: the cusp ¼ as a circle |CΨ|=¼ that every spiral
+    /// crosses, the crossing angle the only free thing, the one Kingston steered; extra args
+    /// <c>--omega</c> default 0.4, <c>--phi0</c> default 0, <c>--omega-points</c> default 9,
+    /// <c>--tmax-factor</c> default 4; N-free, uses <c>--gamma</c> only). Shared args (crossover /
     /// jdefect): <c>--gamma</c>, <c>--theta-points</c>, <c>--slow-count</c>; those two are N capped 1..6
     /// (dense Liouvillian + eigenvectors). Pair with <c>--draw</c> to plot the curves and heatmaps.</summary>
     private static IInspectable BuildBetweenRoot(ArgParser p, int N)
@@ -198,10 +202,19 @@ public static class InspectCommand
             return new InteriorHorizonField(epsLo, epsHi, epsPoints, tol, relK, gamma);
         }
 
+        if (axisName == "spiral")
+        {
+            double omega = p.OptionalDouble("omega") ?? 0.4;
+            double phi0 = p.OptionalDouble("phi0") ?? 0.0;
+            int omegaPoints = p.OptionalDouble("omega-points") is { } op ? (int)op : 9;
+            double tMaxFactor = p.OptionalDouble("tmax-factor") ?? 4.0;
+            return new ComplexCuspSpiralField(gamma, omega, phi0, omegaPoints, tMaxFactor);
+        }
+
         DimensionAxis axis = axisName switch
         {
             "crossover" => DimensionAxis.Crossover(N, gamma, points),
-            _ => throw new ArgumentException($"unknown axis: {axisName}; known: crossover, jdefect, interior"),
+            _ => throw new ArgumentException($"unknown axis: {axisName}; known: crossover, jdefect, interior, spiral"),
         };
         return new DimensionField(axis, slowCount);
     }
