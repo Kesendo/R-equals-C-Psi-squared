@@ -52,6 +52,20 @@ def first_crossing(c_vals: np.ndarray):
     return idx, float(np.degrees(np.angle(c_vals[idx])))
 
 
+def circle_crossing_point(c_vals: np.ndarray):
+    """The point ON the ¼-circle where |CΨ_com| first drops through ¼, linearly
+    interpolated between the last-outside and first-inside samples. Returns a
+    complex value sitting on the circle, or None if there is no crossing. Used for
+    sparse data (the 6-point Kingston arcs) so the crossing star lands on the circle,
+    not on the first inside sample."""
+    mags = np.abs(c_vals)
+    for k in range(1, len(mags)):
+        if mags[k - 1] > CUSP >= mags[k]:
+            f = (mags[k - 1] - CUSP) / (mags[k - 1] - mags[k])
+            return c_vals[k - 1] + f * (c_vals[k] - c_vals[k - 1])
+    return None
+
+
 def load_hardware():
     """Best-effort: the two real Kingston spirals. Returns a list of
     (label, c_vals) or [] if the data/loader is unavailable."""
@@ -86,12 +100,13 @@ def make_static(out_png: Path) -> None:
         {"gamma": gamma, "detuning_sum": 0.3, "phi_0": 0.0, "t_max": 25.0},
         {"gamma": gamma, "detuning_sum": 0.6, "phi_0": 0.0, "t_max": 25.0},
         {"gamma": gamma, "detuning_sum": 1.0, "phi_0": 0.0, "t_max": 25.0},
+        {"gamma": gamma, "detuning_sum": -0.6, "phi_0": 0.0, "t_max": 25.0},  # the other sense
     ]
     trajs = [trajectory(**c) for c in configs]
     hardware = load_hardware()
 
-    fig, axes = plt.subplots(1, 2, figsize=(15, 7))
-    ax_full, ax_zoom = axes
+    fig, axes = plt.subplots(1, 3, figsize=(21, 7))
+    ax_full, ax_zoom, ax_hw = axes
 
     c_card = main_cardioid()
     c_bulb = period_2_bulb()
@@ -113,9 +128,14 @@ def make_static(out_png: Path) -> None:
         col = COLORS[i % len(COLORS)]
         omega = tr["detuning_sum"]
         wind = omega / (4 * tr["gamma"])
-        lbl = f"Ω={omega:.1f} (Ω/4γ={wind:.1f})" if omega > 0 else "Ω=0 (the 1D real-axis line)"
+        if omega > 0:
+            lbl = f"Ω=+{omega:.1f} (Ω/4γ={wind:+.1f}, clockwise)"
+        elif omega < 0:
+            lbl = f"Ω={omega:.1f} (Ω/4γ={wind:+.1f}, counter-cw)"
+        else:
+            lbl = "Ω=0 (the 1D real-axis line, head-on)"
         idx, ang = first_crossing(c)
-        for ax in axes:
+        for ax in (ax_full, ax_zoom):   # idealized spirals stay out of the hardware panel
             ax.plot(c.real, c.imag, "-", color=col, lw=1.8, alpha=0.85, label=lbl)
             ax.plot(c.real[0], c.imag[0], "o", color=col, markersize=7)
             if idx is not None:
@@ -124,9 +144,35 @@ def make_static(out_png: Path) -> None:
         if idx is not None:
             print(f"  Ω={omega:.1f}: crosses |CΨ|=1/4 at angle {ang:+.1f}°")
 
-    for j, (label, c) in enumerate(hardware):
-        ax_zoom.plot(c.real, c.imag, "s-", color="#222", lw=1.3, markersize=5,
-                     alpha=0.7, label=label if j == 0 else None)
+    # The hardware panel (its own, tightly zoomed): the real Kingston arcs read as
+    # spirals only when given room. Each: a hollow start (t=0), the winding path, and
+    # a gold star ON the ¼-circle where it crosses (the two cues Tom's eye needs).
+    hw_base = {"Kingston A (clockwise)": "#B22222", "Kingston B (counter-cw)": "#1F6FB2"}
+    allre, allim = [], []
+    for label, c in hardware:
+        col = hw_base.get(label, "#333333")
+        a0, a1 = np.degrees(np.angle(c[0])), np.degrees(np.angle(c[-1]))
+        ax_hw.plot(c.real, c.imag, "o-", color=col, lw=1.6, markersize=6, alpha=0.9,
+                   zorder=4, label=f"{label}\n  arg {a0:+.0f}° → {a1:+.0f}°, |CΨ| {abs(c[0]):.2f}→{abs(c[-1]):.2f}")
+        ax_hw.plot(c.real[0], c.imag[0], "o", mfc="white", mec=col, mew=1.8,
+                   markersize=13, zorder=5)
+        ax_hw.annotate("t=0", (c.real[0], c.imag[0]), textcoords="offset points",
+                       xytext=(7, 4), fontsize=8, color=col, zorder=6)
+        cross = circle_crossing_point(c)
+        if cross is not None:
+            ax_hw.plot(cross.real, cross.imag, "*", color="gold", markeredgecolor="black",
+                       markeredgewidth=0.7, markersize=22, zorder=7)
+        allre += list(c.real)
+        allim += list(c.imag)
+    if allre:
+        pad = 0.045
+        ax_hw.set_xlim(min(allre) - pad, max(allre) + pad)
+        ax_hw.set_ylim(min(allim) - pad, max(allim) + pad)
+    else:
+        ax_hw.text(0.5, 0.5, "Kingston data not found", transform=ax_hw.transAxes,
+                   ha="center", va="center", fontsize=10, color="gray")
+        ax_hw.set_xlim(-0.02, 0.30)
+        ax_hw.set_ylim(-0.18, 0.20)
 
     ax_full.set_xlim(-1.0, 0.6)
     ax_full.set_ylim(-0.6, 0.6)
@@ -141,11 +187,19 @@ def make_static(out_png: Path) -> None:
     ax_zoom.set_ylim(-0.32, 0.32)
     ax_zoom.set_aspect("equal")
     ax_zoom.set_title("Zoom: the cusp is a circle, the angle is the free thing\n"
-                      "(stars = crossings; squares = real Kingston spirals)")
+                      "(idealized spirals; stars = their crossings)")
     ax_zoom.grid(True, alpha=0.2)
     ax_zoom.legend(loc="lower left", fontsize=7)
     ax_zoom.set_xlabel("Re(CΨ_com)")
     ax_zoom.set_ylabel("Im(CΨ_com)")
+
+    ax_hw.set_aspect("equal")
+    ax_hw.set_title("The real Kingston arcs (6 tomography points each):\n"
+                    "hollow = t=0, gold star = where it crosses |CΨ| = ¼")
+    ax_hw.grid(True, alpha=0.2)
+    ax_hw.legend(loc="lower left", fontsize=6.5)
+    ax_hw.set_xlabel("Re(CΨ_com)")
+    ax_hw.set_ylabel("Im(CΨ_com)")
 
     fig.suptitle(
         "The interior axis in 2D: the cusp ¼ is a circle, every spiral crosses it,\n"
