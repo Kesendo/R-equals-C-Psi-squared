@@ -323,6 +323,33 @@ the slowing is ours and not the carrier's, now visible in the spiral.
 
 ![The spiral slows, but the carrier does not: the slowing is ours](../simulations/results/cusp_spiral_2d/spiral_slowing.png)
 
+## The family of approach shapes (2026-06-03)
+
+So far one state, Bell+, has done all the approaching. But the interior axis reads a coherence falling
+toward ¼, and different states fall differently. Sweep the start across the partially-entangled family
+|ψ(α)⟩ = cosα|00⟩ + sinα|11⟩, with Bell+ the fully-entangled α = π/4, and the approach is always the same
+two-exponential; only the weights move:
+
+CΨ(α, t) = w₀·e^(−4γt) + w₁·e^(−12γt),  w₀ = s(1−s²/2)/3,  w₁ = s³/6,  s = sin 2α,
+
+which the algebra hands over exactly (checked against the Lindblad evolution to machine precision). Three
+scaling laws fall straight out. The start height is the entanglement itself, CΨ(0) = s/3, nothing else
+sets it. The crossing is a threshold: a state reaches ¼ only if it is entangled past s = 3/4; below that
+it starts under the cusp and never touches it, and exactly at s = 3/4 it begins life sitting on ¼. And the
+fast mode, the 12γ harmonic, carries a fraction s²/2 of the start, growing quadratically, so only strong
+entanglement excites it; Bell+ is the one member that splits its weight fifty-fifty.
+
+The fourth fact is the one that ties the family back to everything before it: every member shares the
+carrier 4γ. Late in time the 12γ harmonic has died and each trajectory runs parallel to that one slowest
+mode and collapses onto it. So the whole family is a single carrier wearing different early transients.
+That is the slowing-is-ours reading made plural: the carrier, the eigenvalue −γ₀, is universal across
+every start; the shape, the thing that tells one approach from another, lives entirely in the harmonic
+that fades. The eyepiece is `inspect --root between --axis approach` (the starts, the threshold, the
+shape parameter, the carrier collapse); the picture is
+[approach_family.py](../simulations/approach_family.py).
+
+![The family of approach shapes; every member shares the carrier](../simulations/results/approach_family/approach_family.png)
+
 ## Where I had to decide (surfaced for keyword correction)
 
 1. **The marks are the contract, the in-between is the content.** Reframed (your keyword): the doc
@@ -348,11 +375,13 @@ the slowing is ours and not the carrier's, now visible in the spiral.
 - (done, see The third axis) The interior horizon is built: two sides meeting at ¼ (the heading θ → 0
   from the interior, the live Mandelbrot recursion crawling from the classical side), the
   slowing-is-ours seam, the γ-invariant dwell anchored to the four Kingston confirmations. What
-  remains, after the 2D reading below: the family of approach shapes (sweeping the start state or γ to
-  draw the scaling laws), and a painter-style phenomenological twin if it earns one.
+  remains: a painter-style phenomenological twin if it earns one.
 - (done, see The interior axis in 2D) The 2D complex-c-plane reading is built: the cusp as a circle
   |CΨ| = ¼, the steerable crossing angle, the dense real-axis crossing (the precision run) and the
   sparse phase-carrying arcs (the cusp-slowing run) shown for what each is.
+- (done, see The family of approach shapes) The approach-shape family is built: the partial-entanglement
+  sweep |ψ(α)⟩, the start CΨ(0)=s/3, the crossing threshold s>3/4, the harmonic fraction s²/2, and every
+  member sharing the carrier 4γ (the slowing-is-ours reading made plural).
 - Whether the axes nest (a γ-distribution in-between at each fixed bond angle) or are an independent
   product, and the order to navigate.
 - What the first live navigator GameObject computes and how movement is expressed (a single position
