@@ -72,6 +72,16 @@ the first nor the last; the mouth 1/3 is the rim, the drain is the floor.
 ![The funnel sliced into its layers, the cusp one horizon among
 many](../simulations/results/whirlpool/whirlpool_layers.png)
 
+And there is one dimension more, the one we cannot point at. A mirror in three dimensions is a
+rotation through a fourth, so turn the funnel through it. Its width closes like a fan, until at a
+quarter turn it is a single line, the pinch, the exceptional point itself, where the two
+eigenvectors collapse onto one; and past it the same whirlpool reopens, mirrored and warm. The
+cusp, the pinch, and the mirror are not three things. They are one object at three angles of a
+turn through the fourth dimension.
+
+![The whirlpool turned through the fourth dimension: the cusp funnel flattens to a line at 90°,
+the exceptional point, and reopens mirrored and warm](../simulations/results/whirlpool/whirlpool_4d.png)
+
 The marks we steer by were never things afloat in the water. They are the angles we look from,
 and the levels we pass through. The whirlpool did not change; we learned to walk around it.
 
