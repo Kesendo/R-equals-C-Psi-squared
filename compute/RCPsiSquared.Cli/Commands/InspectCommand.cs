@@ -161,7 +161,7 @@ public static class InspectCommand
     }
 
     /// <summary>The in-between navigator (the Object Manager telescope): sweeps a dimension's
-    /// parameter and reads the marks against the in-between. Five axes:
+    /// parameter and reads the marks against the in-between. Six axes:
     /// <c>--axis crossover</c> (default; sweeps the bond angle θ, frozen marks + pure rotation),
     /// <c>--axis jdefect</c> (sweeps a single bond's δJ, palindrome held but spectrum moving +
     /// eigenvector mixing; extra args <c>--defect-bond</c> default 0, <c>--delta-j-max</c> default 0.1),
@@ -174,11 +174,16 @@ public static class InspectCommand
     /// crosses, the crossing angle the only free thing, the one Kingston steered; extra args
     /// <c>--omega</c> default 0.4, <c>--phi0</c> default 0, <c>--omega-points</c> default 9,
     /// <c>--tmax-factor</c> default 4; N-free, uses <c>--gamma</c> only),
-    /// and <c>--axis approach</c> (the family of approach shapes: the partial-entanglement start
+    /// <c>--axis approach</c> (the family of approach shapes: the partial-entanglement start
     /// |ψ(α)⟩=cosα|00⟩+sinα|11⟩ swept over s=sin2α; CΨ(0)=s/3, crosses ¼ iff s>3/4, harmonic fraction
     /// s²/2, every member shares the carrier 4γ; extra args <c>--s-lo</c> default 0.3, <c>--s-hi</c>
     /// default 1.0, <c>--s-points</c> default 8, <c>--tmax-factor</c> default 6; N-free, uses
-    /// <c>--gamma</c> only). Shared args (crossover /
+    /// <c>--gamma</c> only),
+    /// and <c>--axis ep</c> (the exceptional point: sweeps Q across Q_EP=2/g_eff and reads the birth of the
+    /// rotation, the two real decay channels coalescing defectively at −4γ₀ [the Takt pins], the Rotation
+    /// angle lifting off [the F95 angle], the eigenvector overlap min(x,1/x)→1 [the defective pinch], and the
+    /// IBM Kingston onset; extra args <c>--g-eff</c> default 4/3, <c>--q-lo</c> default 0.3, <c>--q-hi</c>
+    /// default 4, <c>--q-points</c> default 41; N-free, uses <c>--gamma</c> only). Shared args (crossover /
     /// jdefect): <c>--gamma</c>, <c>--theta-points</c>, <c>--slow-count</c>; those two are N capped 1..6
     /// (dense Liouvillian + eigenvectors). Pair with <c>--draw</c> to plot the curves and heatmaps.</summary>
     private static IInspectable BuildBetweenRoot(ArgParser p, int N)
@@ -225,10 +230,19 @@ public static class InspectCommand
             return new ApproachFamilyField(gamma, sLo, sHi, sPoints, tMaxFactor);
         }
 
+        if (axisName == "ep")
+        {
+            double gEff = p.OptionalDouble("g-eff") ?? 4.0 / 3.0;
+            double qLo = p.OptionalDouble("q-lo") ?? 0.3;
+            double qHi = p.OptionalDouble("q-hi") ?? 4.0;
+            int qPoints = p.OptionalDouble("q-points") is { } qp ? (int)qp : 41;
+            return new EpField(gamma, gEff, qLo, qHi, qPoints);
+        }
+
         DimensionAxis axis = axisName switch
         {
             "crossover" => DimensionAxis.Crossover(N, gamma, points),
-            _ => throw new ArgumentException($"unknown axis: {axisName}; known: crossover, jdefect, interior, spiral, approach"),
+            _ => throw new ArgumentException($"unknown axis: {axisName}; known: crossover, jdefect, interior, spiral, approach, ep"),
         };
         return new DimensionField(axis, slowCount);
     }
