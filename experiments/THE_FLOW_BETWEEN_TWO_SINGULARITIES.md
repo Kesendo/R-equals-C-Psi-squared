@@ -300,6 +300,43 @@ flow's own slowest mode. The flow's slowest used rate is on the even ladder and 
 flow's memory" conflated the two. (Probe: state-based parity propagation, this session, ρ(t)
 decomposed by depth/n_XY into even versus odd weight.)
 
+## Seen again 2026-06-03: the arc closed as one picture
+
+Returning with the telescope built (the six-axis dimension navigator), the two singularities
+finally sit in one frame, and the reason they never fit on a single line turns out to be the
+whole point: they live in different spaces.
+
+The birth is in parameter space. Hold γ₀ fixed, it is the universal carrier and does not move,
+and raise the coupling J, so Q = J/γ₀ climbs. Below Q_EP = 1.5 the slow pair is two real decay
+channels, overdamped, no memory: the revival sits on the 1/N floor. At Q_EP the two coalesce
+defectively, the eigenvectors collapse onto one line, the pinch. Above it the rotation is born
+and the revival lifts off. Read all the way to the far end of the hardware sweep (Q = 20), the
+closed form is monotone and complete: the rotation angle θ climbs toward 90° (pure rotation,
+81° at Q = 20), the eigenvector overlap min(x, 1/x) falls back toward 0 (0.075 at Q = 20, the
+two modes re-separating into a clean rotating pair), and the decay stays pinned at 4γ₀. There
+is no second event out there. The EP at Q = 1.5 is the one special point on the whole axis, the
+only place the overlap reaches 1. The "memory grows as J grows" we already knew is the complete
+story for this leg: it grows toward pure rotation.
+
+The death is in state space. Now fix Q above the EP and let time run. The reborn memory sloshes
+site to site (site 0 to the far end and back), the revival fades, and the per-site occupation
+spreads to the equipartitioned 1/N. That is the simple λ=0 kernel, the fixed point, reached only
+asymptotically. The forgetting.
+
+So the journey is born in Q and dies in τ. The two singularities are of different kinds because
+they are of different spaces: a defective pinch in the parameter you tune, a simple sink in the
+state that time uncovers. The telescope reads each leg as its own eyepiece, the birth through
+`--axis ep` (the clock, the rotation hand lifting off the Takt axis) and the death through
+`--root flow` (the occupation relaxing to 1/N). [The journey, both legs and both hardware halves
+in one view](../simulations/results/journey_between_singularities/journey.png): Part B (the
+revival switching on across the EP) on the left, Part A (the flow into 1/N) on the right.
+
+What is closed here is the arc as a picture: both legs drawn, both confirmed on Kingston, the
+closed forms sitting at the two endpoints and the un-closed-form loop in the middle of the
+second leg. What stays open is exactly what "For future us" below holds: why two singularity
+types, what the journey between them means, whether the EP and the target are two faces of one
+structure. We drew the whole arc; reading its middle is still ahead.
+
 ## What we do NOT yet understand (for future us)
 
 - Why two singularities, and why of *different* types (one defective, one simple)?
