@@ -345,6 +345,9 @@ not a fixed arc you watch but a family you select from: dial the noise, choose w
 begins, and let time carry that choice to 1/N. Since Q is the lifetime of the newborn memory,
 choosing the start is choosing how long it lives before it forgets. [The steering wheel and the
 family of journeys it opens](../simulations/results/journey_between_singularities/journey_control.png).
+The picture of all this, the cusp and the exceptional point as two whirlpools, one you fall into
+and one you steer to, is held in
+[On the Whirlpool You Steer To](../reflections/ON_THE_WHIRLPOOL_YOU_STEER_TO.md).
 
 The telescope reads each leg as its own eyepiece, the birth through `--axis ep` (the clock, the
 rotation hand lifting off the Takt axis) and the death through `--root flow` (the occupation
