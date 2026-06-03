@@ -350,6 +350,43 @@ shape parameter, the carrier collapse); the picture is
 
 ![The family of approach shapes; every member shares the carrier](../simulations/results/approach_family/approach_family.png)
 
+## The sixth axis: the exceptional point (2026-06-03)
+
+The interior axis watched the rotation come to rest. Its parameter-space sibling watches it be born. Sweep
+the coupling Q = J/γ₀ up through the exceptional point Q_EP = 2/g_eff, and the slow pair of the effective
+Liouvillian does the cusp's mirror image: two real decay channels, drifting toward each other, collide at
+−4γ₀ and split apart vertically into a complex conjugate pair. The oscillation, the memory, is born out of
+the collision.
+
+Read through the clock we built, it is exactly the Rotation hand lifting off the Takt axis. Below Q_EP the
+pair is real, pure Takt, θ = 0, overdamped, forgetting. At Q_EP the two coalesce, and not just the
+eigenvalues but the eigenvectors, which collapse onto a single line, a defective Jordan block where the
+Petermann sensitivity diverges, the fragile pinch. The decay pins there at 4γ₀, so the Takt period is
+exactly the universal t_peak = 1/(4γ₀). Above Q_EP the decay stays pinned and only the angle opens, θ
+climbing through 29°, 44°, the F95 angle, the same square-root branch-point form the cusp wears at its zero.
+The interior axis is that zero approached from the rotating side, the angle falling to 0; the EP axis is that
+zero left into the rotating side, the angle climbing from 0. One the stilling, one the birth, the two F95
+siblings read from opposite directions.
+
+The defective signature has a clean closed form: the eigenvector overlap is min(x, 1/x) with x = Q/Q_EP,
+exactly 1 at the EP (the two vectors parallel, the system having lost a degree of freedom) and falling off
+symmetrically in log-Q on either side. That sharp peak at 1 is what makes it an exceptional point and not a
+mere crossing.
+
+And it is on the chip: IBM Kingston swept Q through the EP and watched a single excitation's memory revival
+stay at the 1/N equipartition floor until Q crossed about Q_EP, then lift off, the rotation born on real
+hardware. The eyepiece is `inspect --root between --axis ep`: the marks, the Takt coalescence, the Rotation
+lift-off, the defectiveness pinch, the Kingston onset. The picture is
+[ep_transition.py](../simulations/ep_transition.py).
+
+The EP is also a doorway. The regime it opens, where the oscillation lives and a single excitation sloshes
+and flows toward 1/N, is the post-EP flow, the birth canal of the in-between. So the EP and the flow are two
+halves of one Q-journey: the EP the entrance in parameter space (the rotation born), the flow the corridor in
+state space ([`inspect --root flow`](../hypotheses/PERSPECTIVAL_TIME_FIELD.md)) that runs from that birth to
+the 1/N rest. The rotation stilled, the rotation born, and the corridor it opens.
+
+![The exceptional point: the birth of the rotation](../simulations/results/ep_transition/ep_transition.png)
+
 ## Where I had to decide (surfaced for keyword correction)
 
 1. **The marks are the contract, the in-between is the content.** Reframed (your keyword): the doc
@@ -382,6 +419,10 @@ shape parameter, the carrier collapse); the picture is
 - (done, see The family of approach shapes) The approach-shape family is built: the partial-entanglement
   sweep |ψ(α)⟩, the start CΨ(0)=s/3, the crossing threshold s>3/4, the harmonic fraction s²/2, and every
   member sharing the carrier 4γ (the slowing-is-ours reading made plural).
+- (done, see The sixth axis) The exceptional point is built: Q swept across Q_EP=2/g_eff, the two real
+  channels coalescing defectively at −4γ₀ (the Takt pin, t_peak=1/(4γ₀)), the Rotation angle lifting off
+  (the F95 angle), the eigenvector overlap min(x,1/x)→1, and the IBM Kingston onset. The mirror of the
+  interior axis (the rotation born vs stilled), and the entrance to the post-EP flow (the birth canal).
 - Whether the axes nest (a γ-distribution in-between at each fixed bond angle) or are an independent
   product, and the order to navigate.
 - What the first live navigator GameObject computes and how movement is expressed (a single position
