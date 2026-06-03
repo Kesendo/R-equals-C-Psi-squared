@@ -92,6 +92,28 @@ def load_hardware():
         return []
 
 
+def load_precision():
+    """Best-effort: the dense April-26 precision run, the experiment with many delays
+    sampled exactly across ¼. It stores only a real scalar CΨ per delay (no density
+    matrix, so no phase): this is the dense 1D crossing, living on the real axis, not a
+    spiral. Returns (t_us, cpsi) arrays, or (None, None) if unavailable."""
+    try:
+        import json
+        data_dir = Path(__file__).parent.parent / "data" / "ibm_cusp_precision_april2026"
+        jsons = sorted(data_dir.glob("cusp_precision_*.json"))
+        if not jsons:
+            return None, None
+        with open(jsons[-1], "r", encoding="utf-8") as f:
+            data = json.load(f)
+        pts = data.get("cpsi_data", [])
+        t = np.array([p["t_us"] for p in pts])
+        cpsi = np.array([p["cpsi"] for p in pts])
+        return (t, cpsi) if len(cpsi) else (None, None)
+    except Exception as e:  # noqa: BLE001  best-effort overlay
+        print(f"  (precision overlay skipped: {e})")
+        return None, None
+
+
 def make_static(out_png: Path) -> None:
     # Idealized spirals: fixed γ, a fan of Ω (Ω=0 is the real-axis 1D baseline).
     gamma = 0.05
@@ -104,6 +126,7 @@ def make_static(out_png: Path) -> None:
     ]
     trajs = [trajectory(**c) for c in configs]
     hardware = load_hardware()
+    t_prec, cpsi_prec = load_precision()
 
     fig, axes = plt.subplots(1, 3, figsize=(21, 7))
     ax_full, ax_zoom, ax_hw = axes
@@ -144,34 +167,45 @@ def make_static(out_png: Path) -> None:
         if idx is not None:
             print(f"  Ω={omega:.1f}: crosses |CΨ|=1/4 at angle {ang:+.1f}°")
 
-    # The hardware panel (its own, tightly zoomed): the real Kingston arcs read as
-    # spirals only when given room. Each: a hollow start (t=0), the winding path, and
-    # a gold star ON the ¼-circle where it crosses (the two cues Tom's eye needs).
-    hw_base = {"Kingston A (clockwise)": "#B22222", "Kingston B (counter-cw)": "#1F6FB2"}
+    # The hardware panel (its own, tightly zoomed). Two real runs, two honest roles:
+    #  - the dense April-26 precision run (green): 19 delays, real CΨ on the axis,
+    #    marching point-by-point through ¼ (the "many points exactly at ¼", Ω=0 head-on).
+    #  - the sparse April-16 cusp-slowing run: 6 complex points per pair, the only data
+    #    carrying phase, leaving the axis under residual drift (the 2D arc, suggestive).
     allre, allim = [], []
+    if t_prec is not None:
+        zeros = np.zeros_like(cpsi_prec)
+        ax_hw.plot(cpsi_prec, zeros, "o-", color="#2E8B57", markersize=6, lw=1.0, alpha=0.9,
+                   zorder=5, label=f"precision: {len(cpsi_prec)} delays, real CΨ (no phase), F25 point-by-point")
+        i0 = int(np.argmax(cpsi_prec))   # t=0 is the least-decayed (largest) CΨ
+        ax_hw.plot(cpsi_prec[i0], 0.0, "o", mfc="white", mec="#2E8B57", mew=1.8,
+                   markersize=12, zorder=6)
+        ax_hw.annotate("t=0", (cpsi_prec[i0], 0.0), textcoords="offset points",
+                       xytext=(2, 9), fontsize=8, color="#2E8B57")
+        allre += list(cpsi_prec)
+        allim += list(zeros)
+    hw_base = {"Kingston A (clockwise)": "#B22222", "Kingston B (counter-cw)": "#1F6FB2"}
     for label, c in hardware:
         col = hw_base.get(label, "#333333")
         a0, a1 = np.degrees(np.angle(c[0])), np.degrees(np.angle(c[-1]))
-        ax_hw.plot(c.real, c.imag, "o-", color=col, lw=1.6, markersize=6, alpha=0.9,
-                   zorder=4, label=f"{label}\n  arg {a0:+.0f}° → {a1:+.0f}°, |CΨ| {abs(c[0]):.2f}→{abs(c[-1]):.2f}")
-        ax_hw.plot(c.real[0], c.imag[0], "o", mfc="white", mec=col, mew=1.8,
-                   markersize=13, zorder=5)
-        ax_hw.annotate("t=0", (c.real[0], c.imag[0]), textcoords="offset points",
-                       xytext=(7, 4), fontsize=8, color=col, zorder=6)
+        ax_hw.plot(c.real, c.imag, "o-", color=col, lw=1.3, markersize=5, alpha=0.7,
+                   zorder=3, label=f"cusp-slowing {label[9:]}: complex, 6 pts, arg {a0:+.0f}°→{a1:+.0f}°")
+        ax_hw.plot(c.real[0], c.imag[0], "o", mfc="white", mec=col, mew=1.5,
+                   markersize=10, zorder=4)
         cross = circle_crossing_point(c)
         if cross is not None:
             ax_hw.plot(cross.real, cross.imag, "*", color="gold", markeredgecolor="black",
-                       markeredgewidth=0.7, markersize=22, zorder=7)
+                       markeredgewidth=0.6, markersize=18, zorder=6)
         allre += list(c.real)
         allim += list(c.imag)
     if allre:
-        pad = 0.045
+        pad = 0.04
         ax_hw.set_xlim(min(allre) - pad, max(allre) + pad)
         ax_hw.set_ylim(min(allim) - pad, max(allim) + pad)
     else:
         ax_hw.text(0.5, 0.5, "Kingston data not found", transform=ax_hw.transAxes,
                    ha="center", va="center", fontsize=10, color="gray")
-        ax_hw.set_xlim(-0.02, 0.30)
+        ax_hw.set_xlim(-0.02, 0.34)
         ax_hw.set_ylim(-0.18, 0.20)
 
     ax_full.set_xlim(-1.0, 0.6)
@@ -194,8 +228,8 @@ def make_static(out_png: Path) -> None:
     ax_zoom.set_ylabel("Im(CΨ_com)")
 
     ax_hw.set_aspect("equal")
-    ax_hw.set_title("The real Kingston arcs (6 tomography points each):\n"
-                    "hollow = t=0, gold star = where it crosses |CΨ| = ¼")
+    ax_hw.set_title("The real Kingston data at the fold: the dense crossing is on the\n"
+                    "axis (green, 19 pts); the phase-carrying arcs are sparse (gold = crossing)")
     ax_hw.grid(True, alpha=0.2)
     ax_hw.legend(loc="lower left", fontsize=6.5)
     ax_hw.set_xlabel("Re(CΨ_com)")

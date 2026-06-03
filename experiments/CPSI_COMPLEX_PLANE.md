@@ -5,6 +5,8 @@
 **Input data:** [`data/ibm_cusp_slowing_april2026/`](../data/ibm_cusp_slowing_april2026/README.md) (ibm_kingston, 2026-04-16)
 **Scripts:** [`cpsi_complex_plane.py`](../simulations/cpsi_complex_plane.py), [`hardware_cpsi_cplane.py`](../simulations/hardware_cpsi_cplane.py)
 **Images:** [`cpsi_complex_plane.png`](../simulations/results/cpsi_complex_plane.png), [`hardware_cpsi_cplane.png`](../simulations/results/hardware_cpsi_cplane.png)
+**Live instrument:** `inspect --root between --axis spiral` (`ComplexCuspSpiralField`), read as the interior axis in 2D in [NAVIGATING_THE_DIMENSIONS](../docs/NAVIGATING_THE_DIMENSIONS.md); figure [`cusp_spiral_2d.py`](../simulations/cusp_spiral_2d.py).
+**A note on the two runs:** this run (April 16) saved full density matrices, so it carries phase and shows the 2D spiral, but with only six delays per pair. The dense point-by-point crossing of ¼ is a separate, real-valued run on the real axis, the [April-26 precision run](../data/ibm_cusp_precision_april2026/README.md) (19 delays). The spiral here is sparse; the dense crossing there has no phase. They are complementary.
 
 ---
 

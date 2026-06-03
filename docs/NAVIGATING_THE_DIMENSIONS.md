@@ -272,6 +272,44 @@ state-coordinate axis, N-free (the recursion and the heading depend only on CΨ,
 state-independence is itself hardware-confirmed). Three axes now, three ways to read the in-between:
 the rigid turn, the eigenvector mixing, and the approach to a horizon.
 
+## The interior axis in 2D: the cusp is a circle (2026-06-03)
+
+The interior axis reads the fall toward ¼ on the real line: one coherence CΨ, sliding from 1/3 down
+through the cusp. But the real line is a cross-section. Put a common Z-drift Ω underneath the dephasing
+and the coherence turns complex: the off-diagonal carries a phase, CΨ leaves the real axis, and the
+trajectory winds inward as a logarithmic spiral. Read this way the cusp ¼ is no longer a point. It is a
+circle, |CΨ| = ¼, and the point we were watching on the line was that circle seen edge-on.
+
+This is the same axis, not a fourth, because the radius does not change. The magnitude
+|CΨ|(t) = f(1 + f²)/6, f = e^(−4γt), is the same F25 geodesic the interior axis already reads, and it
+does not feel Ω at all. So every spiral, however fast it winds, crosses the same ¼-circle at the same
+time. The only thing the drift sets is the angle it crosses at, φ₀ − Ω·t_cross. Turn Ω to zero and the
+spiral straightens into the real-axis line and crosses head-on: the 1D interior axis is the Ω = 0 spoke
+of the 2D wheel.
+
+The hardware says both halves of this honestly, and they come from different runs. The magnitude
+crossing is confirmed densely and point-by-point: a [precision run](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md)
+walked nineteen delays across ¼, eight of them packed right at the fold, the F25 law fitting with γ the
+only free parameter. Those points carry no phase, so they sit on the real axis, the Ω = 0 spoke, the
+head-on crossing. The phase, the thing that turns a crossing into a winding, comes from a second,
+[sparser run](../experiments/CPSI_COMPLEX_PLANE.md) that saved the full state: six points per pair,
+enough to watch the trajectory leave the axis as a small arc, one clockwise, one counter-clockwise, each
+still crossing the same circle. The angle itself is steerable, an injected drift moving the crossing to
+where it was asked (three crossings, residuals under sixteen degrees). The radial dwell at the fold is
+the F57 dose, the angular winding carries the same square-root form the interior heading does, and the
+¼-circle is where the two readings meet. We keep that meeting as the reading, at the label; the solid algebra,
+that this cusp and the exceptional point are the one [F95](proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md)
+angle at a quadratic's double root, is already typed as the TransitionBridge sibling claim.
+
+The eyepiece is `inspect --root between --axis spiral`: the cusp circle, one spiral winding in, the
+crossing angle swept against Ω (the time flat, the angle moving), the Kingston runs, and the
+kinship. The picture is [cusp_spiral_2d.py](../simulations/cusp_spiral_2d.py): every idealized spiral
+crossing the one circle, a panel for the real data (the dense crossing point-by-point on the axis, the
+sparse phase-carrying arcs leaving it), and a short animation of a single spiral winding down into the
+fold.
+
+![The cusp is a circle; every spiral crosses it](../simulations/results/cusp_spiral_2d/cusp_spiral_2d.png)
+
 ## Where I had to decide (surfaced for keyword correction)
 
 1. **The marks are the contract, the in-between is the content.** Reframed (your keyword): the doc
@@ -297,9 +335,11 @@ the rigid turn, the eigenvector mixing, and the approach to a horizon.
 - (done, see The third axis) The interior horizon is built: two sides meeting at ¼ (the heading θ → 0
   from the interior, the live Mandelbrot recursion crawling from the classical side), the
   slowing-is-ours seam, the γ-invariant dwell anchored to the four Kingston confirmations. What
-  remains: the family of approach shapes (sweeping the start state or γ to draw the scaling laws), the
-  2D complex-c-plane spirals (this axis reads the 1D real-axis approach), and a painter-style
-  phenomenological twin if it earns one.
+  remains, after the 2D reading below: the family of approach shapes (sweeping the start state or γ to
+  draw the scaling laws), and a painter-style phenomenological twin if it earns one.
+- (done, see The interior axis in 2D) The 2D complex-c-plane reading is built: the cusp as a circle
+  |CΨ| = ¼, the steerable crossing angle, the dense real-axis crossing (the precision run) and the
+  sparse phase-carrying arcs (the cusp-slowing run) shown for what each is.
 - Whether the axes nest (a γ-distribution in-between at each fixed bond angle) or are an independent
   product, and the order to navigate.
 - What the first live navigator GameObject computes and how movement is expressed (a single position
@@ -313,5 +353,6 @@ the rigid turn, the eigenvector mixing, and the approach to a horizon.
 - [Crossover mirror = √(NinetyDegreeMirror)](proofs/PROOF_CROSSOVER_MIRROR_SQRT_NINETY.md): the operator-axis, derived.
 - [On the Square Root of the Mirror](../reflections/ON_THE_SQUARE_ROOT_OF_THE_MIRROR.md): the S/T-gate reading.
 - [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md): the closed-form recursion K(ε), the γ-invariant dwell, the four Kingston confirmations (the interior horizon, hardware).
+- [CΨ in the Complex Plane](../experiments/CPSI_COMPLEX_PLANE.md): the 2D spirals, the cusp as a circle |CΨ| = ¼, the Kingston angle-steering (the interior axis in 2D, hardware).
 - [Pair Breaking at the Horizon](../hypotheses/PAIR_BREAKING_AT_THE_HORIZON.md): the cusp ¼ as the fold where time stops (the horizon reading, structural).
 - The live Object Manager: `compute/RCPsiSquared.Cli` `inspect` (roots `mirror`, `flow`, `pi2`, and `--claim`).
