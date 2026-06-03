@@ -13,7 +13,12 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// the slowest carrier rate 4γ (the eigenvalue −γ₀) and collapses onto it at late time. The shape is the
 /// early harmonic transient; the carrier is universal. This is the "the slowing is ours" reading across
 /// the whole family. Tier-1 closed form; the Bell+ member reproduces F25
-/// (<see cref="InteriorHorizon.BellPlusCpsi"/>) exactly.</para></summary>
+/// (<see cref="InteriorHorizon.BellPlusCpsi"/>) exactly.</para>
+///
+/// <para>Wired into the typed-knowledge graph (Core) as <c>ApproachFamilyCarrierClaim</c>: the shared
+/// carrier 4γ as the Universal Carrier, the c=2 doubled-PTF kinship to <c>C2BareDoubledPtfClosedForm</c>
+/// (decay vs susceptibility, a viewpoint not an identity), the algebra/dynamics two readings, and the
+/// Bell+ member as F25. Render it with <c>inspect --claim ApproachFamilyCarrierClaim</c>.</para></summary>
 public static class OddHarmonicApproach
 {
     /// <summary>The cusp / horizon CΨ = ¼.</summary>

@@ -10,7 +10,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// height is the entanglement); the crossing threshold (crosses ¼ iff s &gt; 3/4); the shape parameter
 /// (the harmonic fraction s²/2, the fast-mode content growing quadratically); and the carrier collapse
 /// (every member → e^(−4γt) late, the shape is the early harmonic, the slowing is ours). Closed-form,
-/// N-free; the Bell+ member reproduces F25.</summary>
+/// N-free; the Bell+ member reproduces F25. Wired into the typed graph (Core) as
+/// <c>ApproachFamilyCarrierClaim</c> (the Universal Carrier, the c=2 doubled-PTF kinship, the two
+/// readings, F25); render it with <c>inspect --claim ApproachFamilyCarrierClaim</c>.</summary>
 public sealed class ApproachFamilyField : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
