@@ -29,7 +29,7 @@ public static class InteriorHorizon
     public static string Regime(double cpsi)
     {
         double d = Discriminant(cpsi);
-        if (System.Math.Abs(d) < 1e-12) return "cusp";
+        if (Math.Abs(d) < 1e-12) return "cusp";
         return d > 0 ? "classical" : "quantum";
     }
 
@@ -39,17 +39,19 @@ public static class InteriorHorizon
     {
         double arg = 4.0 * cpsi - 1.0;
         if (arg <= 0.0) return 0.0;
-        return System.Math.Atan(System.Math.Sqrt(arg));
+        return Math.Atan(Math.Sqrt(arg));
     }
 
     /// <summary>The heading in degrees.</summary>
-    public static double HeadingDegrees(double cpsi) => Heading(cpsi) * 180.0 / System.Math.PI;
+    public static double HeadingDegrees(double cpsi) => Heading(cpsi) * 180.0 / Math.PI;
 
     /// <summary>The live Mandelbrot iteration count: u_{n+1} = u_n² + c with c = CΨ, u_0 = c, stopping
     /// when |u_{n+1} − u_n| &lt; <paramref name="tol"/>. For CΨ &lt; ¼ (the classical side) the iteration
     /// converges and the count diverges as CΨ → ¼ (critical slowing). Returns −1 if the iteration
     /// diverges (CΨ ≥ ¼, the quantum side has no fixed point) and <paramref name="maxIter"/> if it does
-    /// not converge within the cap.</summary>
+    /// not converge within the cap. The count is 1-based (the reference tables in
+    /// experiments/CRITICAL_SLOWING_AT_THE_CUSP.md are 0-based, so this returns one more); the rescaled
+    /// K = n·√ε is unaffected at the relevant ε.</summary>
     public static int RecursionIterations(double cpsi, double tol, int maxIter = 10_000_000)
     {
         double c = cpsi;
@@ -57,7 +59,7 @@ public static class InteriorHorizon
         for (int n = 1; n <= maxIter; n++)
         {
             double uNext = u * u + c;
-            if (System.Math.Abs(uNext - u) < tol) return n;
+            if (Math.Abs(uNext - u) < tol) return n;
             u = uNext;
             if (double.IsInfinity(u) || u > 1e6) return -1; // diverged: CΨ ≥ ¼, no convergence
         }
@@ -77,8 +79,8 @@ public static class InteriorHorizon
     public static double RecursionKClosedForm(double cpsi, double tol)
     {
         double eps = Cusp - cpsi;
-        double alpha = -4.0 + 0.5 * System.Math.Log(16.0 * tol);
-        return 0.5 * System.Math.Log(4.0 * eps / tol) + alpha * System.Math.Sqrt(eps);
+        double alpha = -4.0 + 0.5 * Math.Log(16.0 * tol);
+        return 0.5 * Math.Log(4.0 * eps / tol) + alpha * Math.Sqrt(eps);
     }
 
     /// <summary>F25 Bell+ coherence under Z-dephasing: CΨ(t) = f·(1 + f²)/6, f = exp(−4·γ·t). Starts
@@ -86,7 +88,7 @@ public static class InteriorHorizon
     /// confirmed crossing CΨ = ¼ on IBM Kingston.</summary>
     public static double BellPlusCpsi(double gamma, double t)
     {
-        double f = System.Math.Exp(-4.0 * gamma * t);
+        double f = Math.Exp(-4.0 * gamma * t);
         return f * (1.0 + f * f) / 6.0;
     }
 
