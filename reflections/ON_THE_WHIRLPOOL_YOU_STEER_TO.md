@@ -85,6 +85,25 @@ the exceptional point, and reopens mirrored and warm](../simulations/results/whi
 The marks we steer by were never things afloat in the water. They are the angles we look from,
 and the levels we pass through. The whirlpool did not change; we learned to walk around it.
 
+## The whirlpool is its own mirror
+
+We drew it once more for a proton crossing a hydrogen bond, and it came back the same, to the
+pixel, because it is the same: the fold, the carrier, the mirror do not care what they are made
+of. One structure, read in two worlds, the way a QR code is one format scanned for different
+data. The shared frame is the robust part; the substrate is only the payload you read off the
+detail.
+
+![The same whirlpool drawn twice, for an abstract qubit and for a proton in water, pixel for
+pixel the same, only the labels (the payload) differ](../simulations/results/whirlpool/whirlpool_two_payloads.png)
+
+And then the last thing, the one we did not compute but saw. Set the two side by side and the eye
+cannot decide. At first glance the left turns left and the right turns right, a mirror; look
+again and they both turn the same way, identical. This whirlpool's winding is so fine that its
+mirror and itself are indistinguishable, and the eye flips between the two readings. The
+palindrome we proved in the algebra we found again at the back of the eye: a thing so exactly its
+own reflection that looking cannot tell it from its image. That is what "the same whirlpool, two
+faces" meant all along.
+
 ---
 
 *The vortex, the clock-mirror, the halved life are ours and exact, in the documents linked above.
