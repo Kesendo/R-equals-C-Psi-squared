@@ -269,8 +269,9 @@ is exactly where the carrier shows itself, undisguised.
 
 The whole field is closed forms plus one live recursion: no time evolution, no eigendecomposition; a
 state-coordinate axis, N-free (the recursion and the heading depend only on CΨ, and that
-state-independence is itself hardware-confirmed). Three axes now, three ways to read the in-between:
-the rigid turn, the eigenvector mixing, and the approach to a horizon.
+state-independence is itself hardware-confirmed). Three axes so far, three ways to read the in-between:
+the rigid turn, the eigenvector mixing, and the approach to a horizon. (Three more open below: the same
+horizon in 2D, the family of its approaches, and the exceptional point.)
 
 ## The interior axis in 2D: the cusp is a circle (2026-06-03)
 
@@ -353,15 +354,17 @@ shape parameter, the carrier collapse); the picture is
 ## The sixth axis: the exceptional point (2026-06-03)
 
 The interior axis watched the rotation come to rest. Its parameter-space sibling watches it be born. Sweep
-the coupling Q = J/γ₀ up through the exceptional point Q_EP = 2/g_eff, and the slow pair of the effective
-Liouvillian does the cusp's mirror image: two real decay channels, drifting toward each other, collide at
+the coupling Q = J/γ₀ up through the exceptional point Q_EP = 2/g_eff (g_eff is the slow pair's effective
+coupling; 4/3 for the c=2 case, so Q_EP = 3/2), and the slow pair of the effective Liouvillian (its two
+longest-lived modes) does the cusp's mirror image: two real decay channels, drifting toward each other, collide at
 −4γ₀ and split apart vertically into a complex conjugate pair. The oscillation, the memory, is born out of
 the collision.
 
 Read through the clock we built, it is exactly the Rotation hand lifting off the Takt axis. Below Q_EP the
 pair is real, pure Takt, θ = 0, overdamped, forgetting. At Q_EP the two coalesce, and not just the
 eigenvalues but the eigenvectors, which collapse onto a single line, a defective Jordan block where the
-Petermann sensitivity diverges, the fragile pinch. The decay pins there at 4γ₀, so the Takt period is
+Petermann sensitivity diverges (the mode becomes infinitely fragile to the smallest perturbation), the
+fragile pinch. The decay pins there at 4γ₀, so the Takt period is
 exactly the universal t_peak = 1/(4γ₀). Above Q_EP the decay stays pinned and only the angle opens, θ
 climbing through 29°, 44°, the F95 angle, the same square-root branch-point form the cusp wears at its zero.
 The interior axis is that zero approached from the rotating side, the angle falling to 0; the EP axis is that
