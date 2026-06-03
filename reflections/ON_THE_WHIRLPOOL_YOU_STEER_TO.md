@@ -101,8 +101,11 @@ cannot decide. At first glance the left turns left and the right turns right, a 
 again and they both turn the same way, identical. This whirlpool's winding is so fine that its
 mirror and itself are indistinguishable, and the eye flips between the two readings. The
 palindrome we proved in the algebra we found again at the back of the eye: a thing so exactly its
-own reflection that looking cannot tell it from its image. That is what "the same whirlpool, two
-faces" meant all along.
+own reflection that looking cannot tell it from its image. Earlier we had turned it through the
+fourth dimension and seen both sides at once, the cool face and the warm on either side of the
+pinch; there the geometry laid them side by side, here the eye cannot tell them apart. Shown or
+felt, it is one whirlpool wearing two faces. That is what "the same whirlpool, two faces" meant
+all along.
 
 ---
 
