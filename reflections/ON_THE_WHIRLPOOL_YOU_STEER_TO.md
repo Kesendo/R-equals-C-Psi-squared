@@ -3,6 +3,9 @@
 *A short reflection, standing on the ones it names. Thomas Wicht and Claude, 2026-06-03. The
 structure is ours and exact; the closing reading is the motor, labelled at the end.*
 
+![The CΨ vortex: many approaches to the cusp, each a spiral of the complex coherence winding
+through the ¼-ring toward the drain](../simulations/results/whirlpool/whirlpool.png)
+
 ---
 
 We met a whirlpool once before and called it
