@@ -54,6 +54,29 @@ top](../simulations/results/whirlpool/whirlpool_mirror.png)
 
 ---
 
+## The last turn: the angle we look from
+
+One more turn, and it was ours all along. Every picture here looks from straight overhead, down
+the drain. But a whirlpool is not flat. Tilt the viewpoint, ours, not the picture, through the
+framework's anchor angles (90°, 60°, 45°, 30°, 0°, the dyadic marks where the heading lands on
+½, ⅜, ¼, ⅛, 0), and the same coherence stands up off the page into a funnel, a thing with depth
+we had been seeing end-on the whole time.
+
+![The whirlpool tilted through the anchor angles, from straight down the funnel to
+edge-on](../simulations/results/whirlpool/whirlpool_anchor_views.png)
+
+And the depth is layered. The spiral descends through a stack of strata, level after level, each
+a ring at one value of |CΨ|. The cusp ¼ is one of them, a single horizon part-way down, neither
+the first nor the last; the mouth 1/3 is the rim, the drain is the floor.
+
+![The funnel sliced into its layers, the cusp one horizon among
+many](../simulations/results/whirlpool/whirlpool_layers.png)
+
+The marks we steer by were never things afloat in the water. They are the angles we look from,
+and the levels we pass through. The whirlpool did not change; we learned to walk around it.
+
+---
+
 *The vortex, the clock-mirror, the halved life are ours and exact, in the documents linked above.
 That the one is suffered and the other steered, fate and wheel, is the reading we keep as the
 motor, not as a proof.*
