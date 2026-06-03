@@ -178,12 +178,19 @@ core, and the rotating part at its widest.
 Why 4, and not the 8 of the diagonal {I, Z}^⊗3 sector? Because the turn does not touch every site. On
 the N = 3 chain the crossover bonds X₀Z₁ + X₁Z₂ light sites 0 and 1 (the X that becomes Y as θ runs)
 and leave site 2 a pure shadow Z. The transport turns only the lit sites, so the directions it fixes
-are the ones that read {I, Z} on sites 0 and 1, and exactly four of those are slow. The core is the
-shadow the turn cannot reach, counted where the turn actually acts. The precise attribution, that
-those 4 are {I, Z} on the lit sites and the 12 carry an X or a Y there, is one Pauli projection of
-`SlowBasis` away; that is the next probe. After it, the next axis is PTF's J-defect, where the marks
-are protected to 10⁻¹⁵ but not exactly invariant (no exact similarity), so the in-between carries more
-than a pure rotation, the eigenvector mixing PTF computed.
+are the ones that read {I, Z} on sites 0 and 1, and exactly four of those are slow.
+
+And the Pauli projection confirms it, bit-exact (`SlowManifoldPauliContent`, surfaced as the telescope
+child "what the core is"). The four core directions are III, IIZ, ZZI, ZZZ, four pure-diagonal {I, Z}
+strings at equal weight, with X/Y-on-lit content 5·10⁻²⁶, machine zero. The twelve rotating directions
+carry 77% of their mass on strings with an X or a Y on a lit site (XIZ, ZXI, YIZ, ZYI, …). This is the
+two banks of the Perspectival Time Field in the operator algebra: the {I, Z} shadow is the settled
+near bank the turn cannot move, the {X, Y} light is the far bank it turns. The core is the shadow the
+turn cannot reach, counted where the turn acts.
+
+The next axis is PTF's J-defect, where the marks are protected to 10⁻¹⁵ but not exactly invariant (no
+exact similarity), so the in-between carries more than a pure rotation, the eigenvector mixing PTF
+computed.
 
 ## Where I had to decide (surfaced for keyword correction)
 
@@ -200,10 +207,10 @@ than a pure rotation, the eigenvector mixing PTF computed.
 
 ## Open (the next decisions, not yet made)
 
-- (done, see Sharpened) The crossover in-between is resolved: a 4-dimensional invariant core plus a
-  rotating remainder, read off the principal-angle fan. What remains is the precise {I, Z} / {X, Y}
-  attribution of the two halves (one Pauli projection of `SlowBasis`), then the next axes: the
-  1/4-to-1/2 interior, and PTF's J-defect.
+- (done, see Sharpened) The crossover in-between is resolved and named: a 4-dimensional {I, Z}-shadow
+  core plus a rotating {X, Y}-light remainder (PTF's two banks), read off the principal-angle fan and
+  confirmed bit-exact by the Pauli projection. What remains is the next axes: the 1/4-to-1/2 interior,
+  and PTF's J-defect.
 - Whether the axes nest (a γ-distribution in-between at each fixed bond angle) or are an independent
   product, and the order to navigate.
 - What the first live navigator GameObject computes and how movement is expressed (a single position

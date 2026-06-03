@@ -22,13 +22,16 @@ public sealed record DimensionAxis(
     IReadOnlyList<double> Theta,
     int N,
     IReadOnlyList<double> GammaPerSite,
-    Func<double, ComplexMatrix> Hamiltonian)
+    Func<double, ComplexMatrix> Hamiltonian,
+    IReadOnlyList<int> LitSites)
 {
     /// <summary>The verified crossover bond-angle axis. θ-grid is linearly spaced on [0, π/2]
     /// with <paramref name="thetaPoints"/> points (so θ_k = (π/2)·k/(thetaPoints−1)); the
     /// dephasing is uniform Z at rate <paramref name="gamma"/> on every one of the
     /// <paramref name="N"/> sites; the Hamiltonian sums the chain bonds
-    /// cos θ · X_iZ_{i+1} + sin θ · Y_iZ_{i+1} for i = 0 .. N−2.</summary>
+    /// cos θ · X_iZ_{i+1} + sin θ · Y_iZ_{i+1} for i = 0 .. N−2. The lit sites (the X/Y carriers
+    /// the turn rotates, the first site of every bond) are {0 .. N−2}; the last site is pure
+    /// shadow Z.</summary>
     public static DimensionAxis Crossover(int N, double gamma, int thetaPoints = 25)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), $"crossover needs at least one bond; got N={N}");
@@ -57,7 +60,8 @@ public sealed record DimensionAxis(
             Theta: theta,
             N: N,
             GammaPerSite: gammaPerSite,
-            Hamiltonian: Hamiltonian);
+            Hamiltonian: Hamiltonian,
+            LitSites: Enumerable.Range(0, N - 1).ToArray());
     }
 
     /// <summary>Linearly spaced grid of <paramref name="count"/> points on [<paramref name="lo"/>,

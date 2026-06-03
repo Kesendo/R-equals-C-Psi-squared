@@ -3,6 +3,7 @@ using System.Numerics;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Symmetry;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
+using ComplexVector = MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
@@ -54,6 +55,12 @@ public sealed class DimensionField : IInspectable
     /// eyepieces (the coarse chordal <see cref="DimensionSweepResult.SubspaceRotation"/> and the
     /// resolving <see cref="DimensionSweepResult.CumulativeRotation"/>).</summary>
     public DimensionSweepResult Sweep => _sweep ??= DimensionSweep.Compute(_axis, _slowCount);
+
+    private SlowManifoldPauliContent.Reading? _pauli;
+    /// <summary>The cached Pauli reading of the fan split: the projection of the invariant core and
+    /// the rotating remainder (θ₀ vs the last θ) onto the Pauli basis, which names the two halves.</summary>
+    public SlowManifoldPauliContent.Reading PauliContent =>
+        _pauli ??= SlowManifoldPauliContent.Compute(Sweep.SlowBasis[0], Sweep.SlowBasis[^1], _axis.N, _axis.LitSites);
 
     /// <summary>The θ-grid in degrees, the x-axis of every curve.</summary>
     private double[] ThetaDegrees()
@@ -115,6 +122,16 @@ public sealed class DimensionField : IInspectable
             double deg = i < angles.Length ? angles[i] * 180.0 / Math.PI : 0.0;
             return new Complex(deg, 0.0);
         });
+    }
+
+    /// <summary>A labelled magnitude bar chart of a Pauli-content top list: one bar per dominant
+    /// Pauli string, its height the string's mass fraction of the subspace, its label the string.</summary>
+    private static InspectablePayload.Vector PauliBars(string label,
+        IReadOnlyList<SlowManifoldPauliContent.StringWeight> strings)
+    {
+        var values = ComplexVector.Build.Dense(strings.Count, i => new Complex(strings[i].Weight, 0.0));
+        var labels = strings.Select(s => s.Label).ToList();
+        return new InspectablePayload.Vector(label, values, labels);
     }
 
     /// <summary>The split read at the final θ: how many of the k principal angles stay in the
@@ -194,14 +211,36 @@ public sealed class DimensionField : IInspectable
                 payload: new InspectablePayload.MatrixView(
                     "principal-angle fan (rows: angle index, cols: θ; degrees)", SpectrumFanDegrees()));
 
-            // 4. The polarity ladder α = sin²θ/2: ¼ at the T-gate (45°), ½ at the S-gate (90°).
+            // 4. What the core is (Pauli content): the projection that names the fan's two halves. On
+            // the crossover axis the core projects onto {I,Z}-on-lit Pauli strings (the shadow the turn
+            // fixes) and the rotating part carries X/Y on the lit sites (the light it turns), PTF's banks.
+            var pc = PauliContent;
+            string coreReads = pc.CoreLitXYWeight < 1e-9 ? "pure {I,Z}" : $"mostly {{I,Z}} (lit-XY {pc.CoreLitXYWeight.ToString("0.00", Inv)})";
+            yield return new InspectableNode(
+                displayName: "what the core is (Pauli content)",
+                summary: $"core: {coreReads}, lit-XY {pc.CoreLitXYWeight.ToString("E1", Inv)} (the shadow the turn fixes); " +
+                         $"rotating: carries X/Y on lit sites, lit-XY {pc.RotatingLitXYWeight.ToString("0.00", Inv)} (the light it turns). " +
+                         "PTF's near and far banks, in the operator algebra.",
+                children: new IInspectable[]
+                {
+                    new InspectableNode(
+                        displayName: "the core (pure {I,Z}, the shadow)",
+                        summary: $"{pc.CoreDim} fixed directions; top {pc.CoreTop.Count} Pauli strings (mass fraction)",
+                        payload: PauliBars("core Pauli weight", pc.CoreTop)),
+                    new InspectableNode(
+                        displayName: "the rotating (carries {X,Y}, the light)",
+                        summary: $"{pc.RotatingDim} turning directions; top {pc.RotatingTop.Count} Pauli strings (mass fraction)",
+                        payload: PauliBars("rotating Pauli weight", pc.RotatingTop)),
+                });
+
+            // 5. The polarity ladder α = sin²θ/2: ¼ at the T-gate (45°), ½ at the S-gate (90°).
             yield return new InspectableNode(
                 displayName: "polarity on the ladder",
                 summary: $"α = sin²θ/2: {Sweep.Polarity[0].ToString("0.###", Inv)} → {Sweep.Polarity[^1].ToString("0.###", Inv)} (¼ at 45°, ½ at 90°)",
                 payload: new InspectablePayload.Curve(
                     "α = sin²θ/2", thetaDeg, Sweep.Polarity, "θ°", "α"));
 
-            // 5. The mirror here at θ = 45° (the T-gate): Ad_{R_z(π/4)} on one qubit, the √-of-90°.
+            // 6. The mirror here at θ = 45° (the T-gate): Ad_{R_z(π/4)} on one qubit, the √-of-90°.
             yield return new InspectableNode(
                 displayName: "the mirror here (θ=45°, the T-gate)",
                 summary: "Ad_{R_z(π/4)}: the continuous mirror at the symmetric crossover, the √ of the 90° S-gate",

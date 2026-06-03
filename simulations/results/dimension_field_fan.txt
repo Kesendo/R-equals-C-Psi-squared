@@ -32,6 +32,19 @@ DimensionField (axis=crossover, N=3, 25 samples)  —  α: 0 → 0.5; marks flat
 │         █ █ ▓ ▓ ▓ █ ▓ █ █ ▓ ▓ ▓ █ ▓ ▓ ▓ ▓ ▓ ▓ █ █ █ █
 │         █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █
 │       |·| max 89.8, 16×25→16×24
+├── what the core is (Pauli content)  —  core: pure {I,Z}, lit-XY 5.3E-026 (the shadow the turn fixes); rotating: carries X/Y on lit sites, lit-XY 0.77 (the light it turns). PTF's near and far banks, in the operator algebra.
+│   ├── the core (pure {I,Z}, the shadow)  —  4 fixed directions; top 4 Pauli strings (mass fraction)  [vector[4]]
+│   │       ZZI ████████████████████████████████████████████████████  0.250
+│   │       ZZZ ████████████████████████████████████████████████████  0.250
+│   │       IIZ ████████████████████████████████████████████████████  0.250
+│   │       III ████████████████████████████████████████████████████  0.250
+│   └── the rotating (carries {X,Y}, the light)  —  12 turning directions; top 6 Pauli strings (mass fraction)  [vector[6]]
+│           XIZ ████████████████████████████████████████████████████  0.065
+│           ZXI █████████████████████████████████████████████▌        0.057
+│           YIZ █████████████████████████████████████████████▏        0.057
+│           ZYI █████████████████████████████████████████████▏        0.057
+│           ZYZ ███████████████████████████████████████████▉          0.055
+│           YII ███████████████████████████████████████████▉          0.055
 ├── polarity on the ladder  —  α = sin²θ/2: 0 → 0.5 (¼ at 45°, ½ at 90°)  [curve[25]]
 │       0.5 ┤                  ▂▄▅▆▇██
 │           │              ▁▄▆████████
