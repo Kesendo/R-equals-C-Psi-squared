@@ -22,7 +22,9 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <see cref="Core.Symmetry.ChiralKClaim"/>); the converse <b>non-bipartite ⟹ hard</b> is
 /// now derived (PROOF_F103 §7.5, 2026-06-04) modulo the first-order-block premise (the K3 triangle
 /// obstructs the chiral functional supplying the gain channel's −N reflection mode; any
-/// palindromizer forces a spectral palindrome), which un-derived premise keeps the witness Tier1Candidate.
+/// palindromizer forces a spectral palindrome); that premise is itself closed (§7.6, degenerate PT +
+/// analyticity), so the converse is fully derived modulo standard perturbation theory. Tier1Derived-eligible,
+/// kept Tier1Candidate pending the formal promotion pass.
 /// This primitive returns both the criterion's verdict (<see cref="BipartiteChiralityResult.PredictedClass"/>)
 /// and the actual F87 verdict (<see cref="PauliPairTrichotomy.Classify"/>) so a witness can
 /// check that they agree.</para>

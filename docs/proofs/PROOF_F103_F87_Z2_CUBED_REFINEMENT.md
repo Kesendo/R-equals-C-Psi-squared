@@ -1,6 +1,6 @@
 # PROOF F103: F87 Trichotomy Z₂³ Refinement at k=3 (N=4 Empirical Anchor)
 
-**Status:** Tier 1 derived. The 42:8 closed-form rule was found 2026-05-29 (diagonal-cell hardness rule, §6), and its two atomic sub-rules were then unified into a single criterion (§7): a diagonal-cell pair is soft iff H's hopping graph is bipartite in the dephasing letter's eigenbasis. The direction bipartite ⟹ soft is derived (Π followed by a chiral sublattice K). The converse non-bipartite ⟹ hard **closes at full support** (§7.4, 2026-05-30: at k=N a Mixed+Mixed pair has only two flip generators, which always admit the chiral K, settling F111's blocked "Mixed+Mixed = soft" modulo M) and is now **derived in the windowed regime modulo the first-order-block premise** (§7.5, 2026-06-04: the K3 triangle obstructs the chiral functional that would supply the gain channel's reflection-floor mode and pair its population Perron mode; separately, the operator-search is dissolved, since any palindromizer forces a spectral palindrome).
+**Status:** Tier 1 derived. The 42:8 closed-form rule was found 2026-05-29 (diagonal-cell hardness rule, §6), and its two atomic sub-rules were then unified into a single criterion (§7): a diagonal-cell pair is soft iff H's hopping graph is bipartite in the dephasing letter's eigenbasis. The direction bipartite ⟹ soft is derived (Π followed by a chiral sublattice K). The converse non-bipartite ⟹ hard **closes at full support** (§7.4, 2026-05-30: at k=N a Mixed+Mixed pair has only two flip generators, which always admit the chiral K, settling F111's blocked "Mixed+Mixed = soft" modulo M) and is now **derived in the windowed regime** (§7.5 gives the soft ⟺ bipartite criterion via the K3 triangle and the population Perron mode; §7.6, 2026-06-04, closes the first-order-block premise by degenerate PT + analyticity, adversarially stress-tested at N=4 and N=5), resting only on standard perturbation theory. Separately the operator-search is dissolved, since any palindromizer forces a spectral palindrome.
 **Date:** 2026-05-24
 **Anchor:** N=4, k_body=3, 294 Z₂³-homogeneous + Y-par-homogeneous Pauli pairs (pair count is N-independent at fixed k; the empirical anchor is N=4)
 **Regenerate:** `simulations/f87_z2cubed_split_n4_k3.py` (~60s)
@@ -420,10 +420,14 @@ at generic γ, the chiral-K similarity W L W⁻¹ = −L − 2σ holding exactly
 [`_f87_specB_defective.py`](../../simulations/_f87_specB_defective.py).
 
 **The block criterion is derived: a Perron-mode argument.** Read the first-order ω = 0 block as a
-quantum channel: the degenerate static block is Q = Σ_l Z_l (·) Z_l restricted to H's commutant W₀
-(the gain channel of the dephasing). Because Σ_l Z_l² = N·I, the identity (the population row-sum) is
-always an eigenvector with eigenvalue +N, a Perron mode always present. The block is centre-symmetric,
-hence soft, iff the reflection-floor −N is also attained, and ω = 0 is decisive: the +N mode can only
+quantum channel, in either of two equivalent normalisations: the gain channel Q = Σ_l Z_l (·) Z_l
+restricted to H's commutant W₀, and the first-order shift operator the block actually carries,
+D̂ = Q − N·I (the dissipator Σ_l (Z_l · Z_l − ·), which is what `f87_block_localize.py` builds). Each
+Ad_{Z_l} has eigenvalues ±1, so spec(Q) ⊆ [−N, +N] and spec(D̂) ⊆ [−2N, 0]. Because Σ_l Z_l² = N·I,
+the identity (the population row-sum) is always an eigenvector with eigenvalue +N of Q (0 of D̂): a
+Perron mode always present. The pair is soft iff the opposite extreme −N is also attained in Q,
+equivalently iff D̂ is symmetric about its centre −N (this is the discriminator, not whether −N is
+D̂'s minimum). And ω = 0 is decisive: the +N mode can only
 be palindrome-paired by another ω = 0 mode (partners share ω, and 0 = −0), so when −N is absent the +N
 Perron mode is globally unpaired and no nonzero-ω block can rescue it.
 
@@ -450,10 +454,54 @@ spec ⟺ hard above already covers all three letters.
 [`_f87_specA_blocklock.py`](../../simulations/_f87_specA_blocklock.py),
 [`_f87_specA_cayley_pure.py`](../../simulations/_f87_specA_cayley_pure.py).
 
-**What remains.** One premise is still verified, not derived: that the first-order ω = 0 block
-asymmetry is equivalent to the all-orders F87 hardness (the §7.3 first-order reduction). Granting it,
-the windowed rule-(b) converse is a theorem: the triangle is the unique odd 𝔽₂-relation that
-obstructs the chiral functional, which is exactly the anti-diagonal mode that would supply the
-channel's −N reflection and pair the population Perron +N. The remaining gap is thus narrowed from
-"the whole windowed converse" to "the first-order block reproduces the all-orders break", one clean
-perturbative statement.
+**What remains, and its closure.** The triangle is the unique odd 𝔽₂-relation that obstructs the
+chiral functional, which is exactly the anti-diagonal mode that would supply the channel's −N
+reflection and pair the population Perron +N. The one premise §7.5 leaned on, that the first-order
+ω = 0 block asymmetry is equivalent to the all-orders F87 hardness, is itself closed in §7.6 below
+by a degenerate-perturbation-theory + analyticity bridge: the windowed converse rests only on
+standard perturbation theory.
+
+### 7.6 The first-order premise, closed: a degenerate-PT + analyticity bridge (2026-06-04)
+
+**The first-order reduction is exact (degenerate PT, no Jordan).** Write L(γ) = −i[H, ·] + γ·D, affine
+in γ. The unperturbed L₀ = −i[H, ·] is normal (H ⊗ I and I ⊗ Hᵀ commute and each is normal), so it is
+diagonalizable in the coherence eigenbasis |E_a⟩⟨E_b| with eigenvalues −iω (ω = E_a − E_b), no defect
+(cond ≈ 63). Standard degenerate perturbation theory then gives the O(γ) eigenvalue corrections within
+each degenerate-ω sector as the eigenvalues of the projected perturbation, the M_ω block: the
+Richardson-extrapolated γ → 0 eigenvalue slopes equal spec(M_ω) to 10⁻⁹ across every ω-block, at N = 4
+(19 blocks) and N = 5 (101 blocks), zero ω-cluster-size mismatch, A(γ) ∼ γ¹ (log-log slope 1.00, ruling
+out a Puiseux/Jordan √γ). So the spectral asymmetry A(γ) = OT-distance(spec L, spec(−L − 2σ)) is
+A(γ) = c·γ + O(γ²), c the ω = 0 block asymmetry, c ≠ 0 ⟺ non-bipartite (§7.5).
+
+**Genericity from analyticity.** spec(L(γ)) = spec(−L(γ) − 2σ) iff char_L(x; γ) = char_{−L−2σ}(x; γ);
+since L is affine in γ, the coefficient differences Δ_j(γ) are polynomials in γ. If c ≠ 0 then
+A(γ) ≠ 0 for small γ > 0, so some Δ_j ≢ 0, so the soft set {γ : spec L = spec(−L − 2σ)} is the common
+zero-set of finitely many nonzero polynomials, hence finite. Non-bipartite ⟹ hard for all but finitely
+many γ. The F87 classification point (γ = 0.05, J = 1) is not an exception: there all 16 hard pairs are
+spec-broken (OT ≥ 0.053) and all 26 soft pairs spec-exact (≤ 2·10⁻¹³), at N = 4 and N = 5, and a
+700-point γ-sweep (400 dense in [0.005, 2] + 300 random) finds the closest any hard pair comes to
+restoration is 3.6·10⁻³ (at the smallest γ, as γ → 0), zero suspicious points for γ > 10⁻³. The only γ
+where a soft pair's L is defective (e.g. γ = 1, a Jordan artifact lifting at γ = 1.0001) are isolated
+and on the soft side, where the chiral-K similarity holds exactly throughout.
+
+**So the windowed converse is derived.** non-bipartite ⟹ c ≠ 0 (§7.5) ⟹ hard for generic γ (this
+bridge); bipartite ⟹ soft for all γ (the chiral K, §7.1). The "first-order ⟹ all-orders" link is
+exactly the genericity argument: a first-order break cannot be healed at higher order except at
+isolated accidental γ, which the physical γ avoids. The premise rests only on standard degenerate PT
+(valid because L₀ is normal) and the reading of hardness as palindrome-breaking for generic γ.
+
+**Adversarially stress-tested.** Five potential holes were each ruled out by computational
+counterexample search at N = 4 and N = 5: degenerate-PT validity, the OT first-order behaviour (no
+cross-block cancellation; the break sits specifically in the ω = 0 block for every hard pair), the
+genericity (the 700-point sweep), higher-order healing (none on the γ-line up to γ = 2), and the soft
+direction (K H K = −H exactly for all 26 soft pairs). Probes:
+[`_f87_premise_scout.py`](../../simulations/_f87_premise_scout.py) (the genericity backbone) and
+`simulations/_f87_premiseC_*.py` (the adversarial battery), with
+[`f87_break_gamma_scaling.py`](../../simulations/f87_break_gamma_scaling.py) and
+[`f87_block_localize.py`](../../simulations/f87_block_localize.py) as the first-order anchors.
+
+With this, the windowed rule-(b) converse is fully derived (modulo standard perturbation theory), so
+the F87 diagonal-cell soft ⟺ bipartite criterion is a theorem at the physical γ for k = 3, N = 4 and
+N = 5. The typed `F87DiagonalCellBipartiteWitness` / `BipartiteChirality` claims are correspondingly
+Tier1Derived-eligible; the formal promotion (with the tier tests and the registry inventory) is a
+deliberate follow-up.

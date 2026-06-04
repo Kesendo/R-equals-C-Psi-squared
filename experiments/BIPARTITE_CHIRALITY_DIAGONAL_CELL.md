@@ -182,7 +182,7 @@ soft ⟺ Tr((L+σ)^{odd}) = 0. But the first-order odd moments **vanish for both
 break , it is *moment-invisible*. The hardness is a **set-pairing asymmetry** (the optimal-transport
 distance between Spec(L) and Spec(−L−2σ)), finer than any low moment. So the converse's proof must
 be a set-level (combinatorial) statement about the degenerate D̂-block spectrum, not a moment
-identity. That set-level statement is now derived in PROOF_F103 §7.5 (2026-06-04): the odd cycle obstructs the chiral functional that would supply the gain channel's reflection-floor mode, leaving only the first-order reduction itself un-derived.
+identity. That set-level statement is now derived in PROOF_F103 §7.5 (2026-06-04): the odd cycle obstructs the chiral functional that would supply the gain channel's reflection-floor mode; the first-order reduction it rested on is itself closed in §7.6 (degenerate PT + analyticity), so the converse is fully derived modulo standard perturbation theory.
 
 ## Honest status
 
@@ -196,8 +196,12 @@ identity. That set-level statement is now derived in PROOF_F103 §7.5 (2026-06-0
   using FHF = −H) ⟺ bipartite ⟺ no K3 triangle. ω=0 is decisive (the +N mode pairs only at ω=0).
   Separately the operator-search is dissolved: any palindromizer forces spec(L) = spec(−L−2σ), so no
   non-chiral similarity escapes (verified 236 pairs, N=4 all letters + N=5 Z). The moment route stays
-  ruled out (moment-invisible). The one remaining un-derived premise is the first-order reduction
-  itself (that the ω=0-block asymmetry equals the all-orders F87 break).
+  ruled out (moment-invisible). The first-order reduction is itself closed
+  (§7.6, 2026-06-04): L₀ = −i[H,·] is normal so degenerate PT is exact (O(γ) shifts = M_ω eigenvalues to
+  1e-9, N=4/5), and analyticity (char-poly coefficients polynomial in γ) turns the nonzero first-order
+  break into a break for all but finitely many γ, so non-bipartite ⟹ hard at the generic physical γ.
+  Adversarially stress-tested (5 holes ruled out, N=4/5). So the converse is fully derived modulo
+  standard perturbation theory.
 - **Not yet tested:** windowed k=4 (N > 4) and k=5. The windowed converse is the open front; full
   support is settled.
 

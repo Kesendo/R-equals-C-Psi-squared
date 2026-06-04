@@ -25,8 +25,10 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// non-bipartite ⟹ hard is now derived (PROOF_F103 §7.5, 2026-06-04) modulo the first-order-block
 /// premise: the K3 triangle obstructs the chiral functional that would supply the gain channel's
 /// −N reflection mode and pair its +N population Perron mode, and any palindromizer forces a
-/// spectral palindrome (no non-chiral escape). The un-derived first-order reduction keeps this
-/// Tier1Candidate.</para>
+/// spectral palindrome (no non-chiral escape). The first-order reduction is itself closed (§7.6,
+/// degenerate PT + analyticity, adversarially stress-tested N=4/5), so the converse is fully derived
+/// modulo standard perturbation theory; the claim is Tier1Derived-eligible, kept Tier1Candidate
+/// pending the formal promotion pass (tier tests + registry inventory).</para>
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md</c> §7 +
 /// <see cref="Core.Symmetry.ChiralKClaim"/> + <see cref="PauliPairTrichotomy"/> +
