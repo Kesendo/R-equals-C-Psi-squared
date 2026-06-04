@@ -513,14 +513,17 @@ degenerate-PT + analyticity bridge are k-agnostic (the latter uses only that L�
 affine in γ, true for any H). So the windowed converse holds for any k < N in the diagonal cell. Spot
 -checked at the next case, k = 4 windowed (N = 5): Fact A, soft ⟺ bipartite, and soft ⟺ spec-exact at
 the physical γ all hold over a 6-soft + 6-hard sample
-([`_f87_k4_windowed_check.py`](../../simulations/_f87_k4_windowed_check.py)). The odd 𝔽₂-relation
-itself stays a triangle (three masks summing to 0) across k = 3..8: the minimal odd cycle has size 3
-for every hard pair at every body count tested (N = k+1), checked two ways, the Python scout
-[`_f87_oddcycle_kscaling.py`](../../simulations/_f87_oddcycle_kscaling.py) (k = 3, 4, 5: 16 / 192 / 1792
-hard) and the canonical C# pure-GF(2) scan `WindowedObstructionScan` (k through 8 in seconds,
-cross-validated bit-exact against the H-based bipartite classifier `BipartiteChirality`). Only the masks thicken with
-k, at k = 3 the three are popcount-2 on three consecutive sites (the literal K3, §7.2); at k = 4, 5 one
-or two become popcount-4, spanning up to 4-5 sites. So the obstruction shape is uniform, a Cayley-graph
-triangle / a 3-mask odd relation; only the edge thickness is k-dependent. (That every non-bipartite
-windowed cell pair carries a size-3 odd relation, rather than only a longer odd cycle, is itself a clean
-empirical regularity a general-k proof can lean on.)
+([`_f87_k4_windowed_check.py`](../../simulations/_f87_k4_windowed_check.py)). The shape of that odd 𝔽₂-relation is a genuine
+(k, window-count) family, not a uniform triangle, a regularity the C# scan `WindowedObstructionScan`
+maps cheaply (pure GF(2) bit arithmetic, no Liouvillian; cross-validated bit-exact against the H-based
+`BipartiteChirality` and matching the Python scout
+[`_f87_oddcycle_kscaling.py`](../../simulations/_f87_oddcycle_kscaling.py)). With W = N − k + 1 windows
+the data is clean: at W = 2 (the smallest windowed chain, N = k+1) the obstruction is forced to be a
+triangle, since each term places at two windows so |S| ≤ 4 and the only odd subset that can XOR to 0 has
+size 3; for k = 3 it stays a triangle at every W; but for k ≥ 4 longer odd cycles appear as W grows, the
+maximal odd-cycle size being 2W − 1 (size 5 at W = 3, 7 at W = 4, 9 at W = 5) and saturating once W is
+large. So some hard pairs carry no triangle, only a longer odd cycle, and the K3 triangle of §7.2 is the
+W = 2 / k = 3 face of this family. None of this touches the §7.5/§7.6 derivation, which proves
+soft ⟺ bipartite ⟺ hard from the EXISTENCE of an odd cycle, shape-agnostic. (An earlier note here
+claimed a uniform triangle through k = 8; that was the W = 2 artifact, corrected by the multi-window
+scan.)
