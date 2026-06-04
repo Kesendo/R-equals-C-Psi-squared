@@ -514,16 +514,70 @@ affine in γ, true for any H). So the windowed converse holds for any k < N in t
 -checked at the next case, k = 4 windowed (N = 5): Fact A, soft ⟺ bipartite, and soft ⟺ spec-exact at
 the physical γ all hold over a 6-soft + 6-hard sample
 ([`_f87_k4_windowed_check.py`](../../simulations/_f87_k4_windowed_check.py)). The shape of that odd 𝔽₂-relation is a genuine
-(k, window-count) family, not a uniform triangle, a regularity the C# scan `WindowedObstructionScan`
-maps cheaply (pure GF(2) bit arithmetic, no Liouvillian; cross-validated bit-exact against the H-based
-`BipartiteChirality` and matching the Python scout
-[`_f87_oddcycle_kscaling.py`](../../simulations/_f87_oddcycle_kscaling.py)). With W = N − k + 1 windows
-the data is clean: at W = 2 (the smallest windowed chain, N = k+1) the obstruction is forced to be a
-triangle, since each term places at two windows so |S| ≤ 4 and the only odd subset that can XOR to 0 has
-size 3; for k = 3 it stays a triangle at every W; but for k ≥ 4 longer odd cycles appear as W grows, the
-maximal odd-cycle size being 2W − 1 (size 5 at W = 3, 7 at W = 4, 9 at W = 5) and saturating once W is
-large. So some hard pairs carry no triangle, only a longer odd cycle, and the K3 triangle of §7.2 is the
-W = 2 / k = 3 face of this family. None of this touches the §7.5/§7.6 derivation, which proves
-soft ⟺ bipartite ⟺ hard from the EXISTENCE of an odd cycle, shape-agnostic. (An earlier note here
-claimed a uniform triangle through k = 8; that was the W = 2 artifact, corrected by the multi-window
-scan.)
+(k, window-count) family, not a uniform triangle: §7.7 derives its size law max = min(2W − 1, 2k − 3)
+in the GF(2)[x] picture, with the K3 triangle of §7.2 as the W = 2 / k = 3 face. None of that touches
+the §7.5/§7.6 derivation, which proves soft ⟺ bipartite ⟺ hard from the EXISTENCE of an odd cycle,
+shape-agnostic.
+
+### 7.7 The obstruction-size law: a GF(2)[x] derivation (2026-06-04)
+
+§7.5 made soft ⟺ bipartite a theorem for any k by reading the pair's edge-mask set S as a graph and
+asking whether it carries an odd 𝔽₂-relation. That left one question k-specific: how big is the
+smallest such relation, the obstruction? At k = 3 it is the K3 triangle (§7.2). The answer for general
+k is a clean two-regime law, and the cleanest route is to stop thinking of S as a graph and start
+thinking of it as polynomials.
+
+**The polynomial dictionary.** A k-body diagonal-cell term's X/Y positions form a k-bit window-mask;
+read it as a polynomial over GF(2), bit j ↦ x^j, so a popcount-2 mask on sites {i, j} is x^i + x^j.
+The sliding-window builder places the term at windows w = 0 … N − k, and placing it at window w is
+multiplication by x^w. So a pair with masks p₁, p₂ contributes the shift-families {x^w p₁} and
+{x^w p₂}, and an odd subset XOR-ing to 0 is exactly
+
+  q_A p₁ + q_B p₂ = 0   in GF(2)[x],   q_A = Σ_{w ∈ A} x^w,  q_B = Σ_{w ∈ B} x^w,
+
+where A, B ⊆ {0 … N − k} pick the windows used and the cycle size is |A| + |B| = popcount(q_A) +
+popcount(q_B). The window indicators q_A, q_B have degree ≤ W − 1, with W = N − k + 1 windows.
+
+**Hardness is a valuation difference.** Every diagonal-cell mask has even popcount (the (0,1) cell
+forces #(X+Y) even), and a GF(2) polynomial has even popcount iff p(1) = 0 iff (1 + x) | p. So write
+g = gcd(p₁, p₂), p₁ = g·a, p₂ = g·b with gcd(a, b) = 1. The relation becomes q_A a = q_B b, which since
+gcd(a, b) = 1 forces q_A = b·s, q_B = a·s, so every relation has size popcount(b·s) + popcount(a·s) and
+its parity is s(1)·(a(1) + b(1)). An odd cycle therefore exists iff a(1) ≠ b(1), i.e. iff exactly one
+of p₁/g, p₂/g is still divisible by (1 + x), i.e. iff the two masks have **different (1 + x)-adic
+valuations** v(p₁) ≠ v(p₂). That is the non-bipartite criterion of §7.5 in one line of polynomial
+algebra; when v(p₁) = v(p₂) every relation is even, so the pair is soft.
+
+**The size law.** Take the s = 1 relation q_A = b, q_B = a; it has size popcount(p₁/g) + popcount(p₂/g)
+and (for hard pairs) is odd. Two bounds cage the minimal odd cycle:
+
+- **Window leg, ≤ 2W − 1.** There are at most 2W masks in S (W shifts per term), and an odd-cardinality
+  subset uses at most 2W − 1 of them.
+- **Body leg, ≤ 2k − 3.** Since (1 + x) | p₁ and (1 + x) | p₂, the gcd g is divisible by (1 + x), so the
+  quotients p₁/g, p₂/g have degree ≤ k − 2 and hence popcount ≤ k − 1. Their sum is odd (hardness), and
+  two values each ≤ k − 1 with an odd sum cannot both be k − 1 (that sum is even), so the largest they
+  reach is (k − 1) + (k − 2) = 2k − 3. So the s = 1 relation, hence the minimal odd cycle, is ≤ 2k − 3.
+
+Both bounds are achieved. The window leg is tight below saturation; the body leg is achieved by the
+explicit family p₁ = x + x^{k−1}, p₂ = 1 + x^{k−1} (the terms I·X·I…I·Y and X·I…I·Y), where g = 1 + x
+and the quotients are x·(1 + x + … + x^{k−3}) and 1 + x + … + x^{k−2}, of popcount k − 2 and k − 1,
+summing to 2k − 3. Putting the legs together,
+
+  **max minimal-odd-cycle over hard pairs = min(2W − 1, 2k − 3),  W = N − k + 1.**
+
+Below W = k − 1 the window leg binds (the cycle grows as 2W − 1 with each added window); past it the body
+leg binds and the distribution saturates. k = 3 gives 2k − 3 = 3, so its obstruction is a triangle at
+every W: the always-triangle case is just the smallest body bound, not a universal shape. (An earlier
+note here read the obstruction as a uniform triangle through k = 8; that was the W = 2 artifact, where
+|S| ≤ 4 forces size 3, corrected by the multi-window scan.)
+
+**Verification.** The whole law is checked bit-exact in C# by `WindowedObstructionScan` and its tests
+(pure GF(2) bit arithmetic, no Liouvillian): the size law max = min(2W − 1, 2k − 3) across a (k, N) grid
+through k = 6; the valuation criterion hard ⟺ v(p₁) ≠ v(p₂) cross-checked against the actual
+minimal-odd-cycle search on every saturated pair through k = 6; and the extremal family achieving 2k − 3
+through k = 20, far past the exponential cycle-search range. The gcd-formula popcount(p₁/g) +
+popcount(p₂/g) is an upper bound on the minimal cycle, exact for most pairs but loose for a few at
+k ≥ 6 where a shorter relation exists via cancellation at s ≠ 1; the max bound 2k − 3 holds regardless,
+since it caps the gcd-formula itself. The Python scout
+[`_f87_obstruction_derivation.py`](../../simulations/_f87_obstruction_derivation.py) grounded the
+dictionary; [`_f87_oddcycle_kscaling.py`](../../simulations/_f87_oddcycle_kscaling.py) is the earlier
+size scan.

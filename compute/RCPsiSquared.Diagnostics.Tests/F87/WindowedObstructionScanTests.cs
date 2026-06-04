@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -109,6 +110,71 @@ public class WindowedObstructionScanTests
 
         // k = 3 is the special case that stays a triangle even with many windows.
         Assert.True(WindowedObstructionScan.Scan(k: 3, n: 10).ObstructionIsAlwaysTriangle);
+    }
+
+    /// <summary>The obstruction-size law: the maximal minimal-odd-cycle over the hard pairs equals
+    /// min(2W-1, 2k-3), with W = N-k+1 windows. The 2W-1 leg is the window count (|S| ≤ 2W masks, so
+    /// an odd subset has ≤ 2W-1 of them); the 2k-3 leg is the body count (in the GF(2)[x] view a mask
+    /// is a polynomial, even-popcount so divisible by 1+x, so the gcd-quotients p_i/g have degree ≤ k-2
+    /// hence popcount ≤ k-1, and an odd coprime pair maxes at (k-1)+(k-2) = 2k-3). Below saturation the
+    /// window leg binds; past W = k-1 the body leg binds. k=3 gives 2k-3 = 3, the always-triangle case.</summary>
+    [Theory]
+    [InlineData(3, 4)] [InlineData(3, 6)] [InlineData(3, 9)]
+    [InlineData(4, 5)] [InlineData(4, 6)] [InlineData(4, 7)] [InlineData(4, 9)]
+    [InlineData(5, 6)] [InlineData(5, 7)] [InlineData(5, 8)] [InlineData(5, 10)]
+    [InlineData(6, 7)] [InlineData(6, 8)] [InlineData(6, 9)] [InlineData(6, 10)] [InlineData(6, 11)]
+    public void SizeLaw_MaxIsMinOf2WMinus1And2kMinus3(int k, int n)
+    {
+        int w = n - k + 1;
+        int expected = Math.Min(2 * w - 1, 2 * k - 3);
+        var r = WindowedObstructionScan.Scan(k, n);
+        Assert.True(r.Hard > 0);
+        Assert.Equal(expected, r.MinOddCycleSizes.Keys.Max());
+        Assert.True(r.MinOddCycleSizes.Keys.All(s => s <= 2 * k - 3), "no obstruction exceeds 2k-3");
+    }
+
+    /// <summary>At saturation (N = 2k, W = k+1 &gt; k-1) a pair is hard ⟺ its two window-masks have
+    /// different (1+x)-adic valuations: hard ⟺ v(p1) ≠ v(p2). This is the non-bipartite criterion in
+    /// GF(2)[x] language: an odd relation q_A p1 = q_B p2 exists iff popcount(p1/g)+popcount(p2/g) is
+    /// odd, which holds iff the valuations differ (equal valuations force every relation to even size).
+    /// Cross-checked here against the actual minimal-odd-cycle search on every saturated pair.</summary>
+    [Theory]
+    [InlineData(3)] [InlineData(4)] [InlineData(5)] [InlineData(6)]
+    public void HardnessCriterion_IsValuationDifference_AtSaturation(int k)
+    {
+        int n = 2 * k;
+        var terms = WindowedObstructionScan.CellTerms(k);
+        int checkedPairs = 0;
+        for (int a = 0; a < terms.Count; a++)
+            for (int b = a; b < terms.Count; b++)
+            {
+                if (terms[a].YParity != terms[b].YParity) continue;
+                var set = new HashSet<ulong>();
+                for (int w = 0; w <= n - k; w++) { set.Add(terms[a].WindowMask << w); set.Add(terms[b].WindowMask << w); }
+                bool hard = WindowedObstructionScan.MinOddCycle(new List<ulong>(set)) > 0;
+                int v1 = WindowedObstructionScan.ValuationAtOnePlusX(terms[a].WindowMask);
+                int v2 = WindowedObstructionScan.ValuationAtOnePlusX(terms[b].WindowMask);
+                Assert.Equal(v1 != v2, hard);
+                checkedPairs++;
+            }
+        Assert.True(checkedPairs > 0);
+    }
+
+    /// <summary>The extremal family saturating the body bound: masks p1 = x + x^{k-1} and
+    /// p2 = 1 + x^{k-1} (the terms I·X·I…I·Y and X·I…I·Y) have gcd (1+x) and quotients of popcount
+    /// k-2 and k-1, so the gcd-formula size is (k-2)+(k-1) = 2k-3. Pure valuation/gcd arithmetic, so
+    /// this scales far past the exponential cycle-search range, confirming the bound is achieved for
+    /// every k. (Their (1+x)-valuations differ, so the pair is genuinely hard.)</summary>
+    [Theory]
+    [InlineData(3)] [InlineData(4)] [InlineData(5)] [InlineData(6)] [InlineData(7)]
+    [InlineData(8)] [InlineData(10)] [InlineData(12)] [InlineData(16)] [InlineData(20)]
+    public void ExtremalFamily_AchievesBodyBound(int k)
+    {
+        ulong p1 = (1UL << 1) | (1UL << (k - 1));   // x + x^{k-1}
+        ulong p2 = 1UL | (1UL << (k - 1));          // 1 + x^{k-1}
+        Assert.Equal(2 * k - 3, WindowedObstructionScan.GcdFormulaSize(p1, p2));
+        Assert.NotEqual(WindowedObstructionScan.ValuationAtOnePlusX(p1),
+                        WindowedObstructionScan.ValuationAtOnePlusX(p2));
     }
 
     /// <summary>Dumps the obstruction-size distribution over a (k, N) grid (run with a detailed

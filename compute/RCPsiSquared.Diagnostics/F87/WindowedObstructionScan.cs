@@ -3,20 +3,22 @@ using System.Collections.Generic;
 
 namespace RCPsiSquared.Diagnostics.F87;
 
-/// <summary>The shape of the windowed F87 hardness obstruction, by k. The §7.5/§7.6 derivation
+/// <summary>The shape of the windowed F87 hardness obstruction, by (k, N). The §7.5/§7.6 derivation
 /// proved soft ⟺ bipartite for any k (so the edge-mask set S having no odd 𝔽₂-relation IS the
-/// soft class); the one piece left k-specific is the SHAPE of the minimal odd 𝔽₂-relation in S.
-/// At k = 3 it is the K3 triangle (three popcount-2 masks on three consecutive sites). This scan
-/// asks, in pure GF(2) bit arithmetic (no Hamiltonian, no Liouvillian), whether the minimal odd
-/// relation stays size 3 (a Cayley-graph triangle) for larger k.
+/// soft class); this scan settles the size of that obstruction in pure GF(2) bit arithmetic (no
+/// Hamiltonian, no Liouvillian). The answer (PROOF_F103 §7.7) is the law
+/// max minimal-odd-cycle = min(2W − 1, 2k − 3), W = N − k + 1 windows: the K3 triangle at k = 3 is
+/// just the smallest body bound (2k − 3 = 3), not a universal shape.
 ///
 /// <para>For a k-body diagonal-cell (Klein (0,1)) Mixed term, the X/Y positions form a k-bit
 /// window-mask; placed on the N-site chain by the sliding-window builder it contributes
 /// {mask &lt;&lt; w : 0 ≤ w ≤ N−k}. The pair's edge set S is the union of both terms' window-masks,
 /// and bipartite ⟺ S carries no odd subset XOR-ing to 0. The minimal such odd subset is the
-/// obstruction; this scan reports its size distribution over the hard pairs. Pure bit ops scale to
-/// large k where the Liouvillian route cannot. The k=3 result reproduces the F103 §6 anchor
-/// (42 pairs, 16 hard, 26 soft, every obstruction a triangle).</para></summary>
+/// obstruction; this scan reports its size distribution over the hard pairs. Reading a mask as a
+/// GF(2)[x] polynomial (bit j = x^j) and a window shift as ×x^w turns the obstruction into a gcd
+/// question (see <see cref="GcdFormulaSize"/>, <see cref="ValuationAtOnePlusX"/>); pure bit ops then
+/// scale far past the Liouvillian route. The k=3 result reproduces the F103 §6 anchor (42 pairs,
+/// 16 hard, 26 soft, every obstruction a triangle).</para></summary>
 public static class WindowedObstructionScan
 {
     /// <summary>A diagonal-cell (0,1) Mixed term reduced to what the GF(2) scan needs: its X/Y
@@ -91,6 +93,63 @@ public static class WindowedObstructionScan
         /// least one hard pair.</summary>
         public bool ObstructionIsAlwaysTriangle =>
             Hard > 0 && MinOddCycleSizes.Count == 1 && MinOddCycleSizes.ContainsKey(3);
+    }
+
+    // ---- GF(2)[x] view: a k-bit X/Y mask is a polynomial (bit j = coeff of x^j); a window shift is
+    // multiplication by x^w. An odd relation is q_A p1 = q_B p2, and via g = gcd(p1,p2) the minimal
+    // candidate is popcount(p1/g)+popcount(p2/g). This underlies the size law max = min(2W-1, 2k-3).
+
+    /// <summary>GF(2)[x] degree (highest set bit) of a polynomial; -1 for 0.</summary>
+    public static int PolyDegree(ulong p) => p == 0 ? -1 : 63 - System.Numerics.BitOperations.LeadingZeroCount(p);
+
+    /// <summary>GF(2)[x] quotient a / b (b != 0), discarding the remainder.</summary>
+    public static ulong PolyDivQuotient(ulong a, ulong b)
+    {
+        if (b == 0) throw new DivideByZeroException();
+        ulong q = 0;
+        int db = PolyDegree(b);
+        while (a != 0 && PolyDegree(a) >= db)
+        {
+            int shift = PolyDegree(a) - db;
+            q ^= 1UL << shift;
+            a ^= b << shift;
+        }
+        return q;
+    }
+
+    /// <summary>GF(2)[x] gcd via the Euclidean algorithm.</summary>
+    public static ulong PolyGcd(ulong a, ulong b)
+    {
+        while (b != 0)
+        {
+            int db = PolyDegree(b);
+            ulong r = a;
+            while (r != 0 && PolyDegree(r) >= db) r ^= b << (PolyDegree(r) - db);
+            a = b; b = r;
+        }
+        return a;
+    }
+
+    /// <summary>The (1+x)-adic valuation of a polynomial: how many times (1+x) = 0b11 divides it.
+    /// A diagonal-cell mask has even popcount, so p(1) = 0 and the valuation is ≥ 1.</summary>
+    public static int ValuationAtOnePlusX(ulong p)
+    {
+        int v = 0;
+        while (p != 0 && (System.Numerics.BitOperations.PopCount(p) & 1) == 0) // p(1) == 0
+        {
+            p = PolyDivQuotient(p, 0b11);
+            v++;
+        }
+        return v;
+    }
+
+    /// <summary>The gcd-formula candidate odd-relation size popcount(p1/g)+popcount(p2/g), an upper
+    /// bound on the minimal odd cycle (the s=1 relation; a shorter one can exist via cancellation).</summary>
+    public static int GcdFormulaSize(ulong p1, ulong p2)
+    {
+        ulong g = PolyGcd(p1, p2);
+        return System.Numerics.BitOperations.PopCount(PolyDivQuotient(p1, g))
+             + System.Numerics.BitOperations.PopCount(PolyDivQuotient(p2, g));
     }
 
     /// <summary>Scan all y_par-homogeneous diagonal-cell Mixed pairs at body count k on an N-site
