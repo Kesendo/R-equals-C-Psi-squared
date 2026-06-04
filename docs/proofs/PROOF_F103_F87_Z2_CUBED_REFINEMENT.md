@@ -505,3 +505,14 @@ the F87 diagonal-cell soft ⟺ bipartite criterion is a theorem at the physical 
 N = 5. The typed `F87DiagonalCellBipartiteWitness` / `BipartiteChirality` claims are correspondingly
 Tier1Derived-eligible; the formal promotion (with the tier tests and the registry inventory) is a
 deliberate follow-up.
+
+**Scope: the derivation is not k = 3 specific.** Nothing in §7.5 or §7.6 uses k = 3. Fact A
+(F H F = −H) holds for every diagonal-cell term at any k, since #Y + #Z is the Klein cell's defining
+bit_b parity (odd in the (0,1) cell); the Perron / anti-diagonal / chiral-K criterion and the
+degenerate-PT + analyticity bridge are k-agnostic (the latter uses only that L₀ is normal and L is
+affine in γ, true for any H). So the windowed converse holds for any k < N in the diagonal cell. Spot
+-checked at the next case, k = 4 windowed (N = 5): Fact A, soft ⟺ bipartite, and soft ⟺ spec-exact at
+the physical γ all hold over a 6-soft + 6-hard sample
+([`_f87_k4_windowed_check.py`](../../simulations/_f87_k4_windowed_check.py)). Only the explicit shape of
+the odd 𝔽₂-relation is k-specific: at k = 3 it is the K3 triangle on three consecutive sites (§7.2); at
+k = 4 the windowed mask set is larger, so the obstruction is a larger odd cycle, not a 3-triangle.
