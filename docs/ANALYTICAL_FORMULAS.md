@@ -3312,9 +3312,12 @@ trichotomy class).
    Z-deph = (21, 55); (1,1) X-deph = (21, 55). Pattern C (3 cells, y_par=1-pure):
    (0,1) X-deph = (0, 21); (1,0) Z-deph = (0, 21); (1,0) Y-deph = (0, 21).
 
-**Open questions:** Closed-form derivation of the 42:8 split; N>4 and k>3
-universality; the (pair Klein, dephase letter) → (Pattern B vs Pattern C)
-selection rule; hardware confirmation of k≥3 F87 (all 5 Marrakesh F87
+**Status (2026-05-29/30):** the 42:8 split is derived by a closed-form counting rule
+(PROOF §6); the bipartite-chirality mechanism (§7) derives the soft direction, N-stability
+is verified at N=5 (F105), and F106 is the k=4 sibling. **Open:** the windowed (k<N)
+hard-direction converse non-bipartite ⟹ hard (the one edge gating Tier1Derived; verified,
+reduced to a set-level first-order statement); the (pair Klein, dephase letter) → (Pattern B
+vs Pattern C) selection rule; hardware confirmation of k≥3 F87 (all 5 Marrakesh F87
 confirmations are k=2).
 
 **Source:** [Proof](proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md);
@@ -3622,15 +3625,16 @@ y_par=1. At k = N = 4 the dominance is closed-form Tier1Candidate via the
 sibling Claim F111 (HardCellPureDTemplate, 2026-05-25): every F87-hard pair in
 the diagonal cell contains at least one "pure-D template" (only D and I
 letters), and pure-D templates have y_par = y_par(D) by construction. At k = 3
-the 42:8 dominance is empirical (see Aspect C).
+the 42:8 dominance follows from the §6 counting rule (see Aspect C).
 
-**Aspect C (k-purity sharpening, empirical):** k=3 N=4 (F103): 42:8 biased; k=3
+**Aspect C (k-purity sharpening, §6 closed-form counting rule):** k=3 N=4 (F103): 42:8 biased; k=3
 N=5 (F105): identical 42:8 (N-stable); k=4 N=4 (F106): 228:0 fully pure with
 Y-inversion preserved.
 
-**Open:** Closed-form derivation of the 42:8 (k=3) and 228:0 (k=4) ratios per
-Pauli-letter combinatorics (F103 Section 5). k ≥ 5 empirical confirmation. QPU
-confirmation at k ≥ 3.
+**Status:** the 42:8 (k=3) and 228:0 (k=4) ratios are derived by the §6 counting rule and
+the §7 bipartite mechanism; F111 closes the k=4 case at full support. **Open:** the windowed
+(k<N) hard-direction converse (non-bipartite ⟹ hard), the one edge still gating Tier1Derived;
+k ≥ 5 empirical confirmation; QPU confirmation at k ≥ 3.
 
 **Source:** [Proof](proofs/PROOF_F110_HARD_CELL_Y_INVERSION.md);
 `compute/RCPsiSquared.Core/Symmetry/HardCellYInversionPattern.cs`;

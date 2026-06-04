@@ -304,7 +304,7 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
                 summary: "F108 Part 1+3 (BitB-axis): close F107/F109/F110 derivation via Π_5bilinear under Z and Y dephasing. F108 Part 2 (BitA-axis, BitA twin of Part 1): closes the X-deph branch via the Z↔X Π² mirror. F108 Parts are NOT YParity-axis sisters (per their Z2Axis declarations); they are the cross-axis closure mechanism that grounds F107/F109/F110/F111's diagonal-cell scope.");
             yield return new InspectableNode("Open siblings",
                 summary: "Subclaim (d) Mixed+Mixed = soft closed-form: blocking subclaim for F111 promotion to Tier1Derived. " +
-                         "F110 Aspect C (k=3 ratio 42:8 closed-form derivation): open per F103 Section 5. " +
+                         "F110 Aspect C (k=3 ratio 42:8): derived by the F103 §6 counting rule + §7 bipartite mechanism. " +
                          "Pure-D Template Rule at k > 4 or N > 4: empirically unverified. " +
                          "Hardware QPU confirmation at k ≥ 3: open (no F87 QPU confirmations beyond Marrakesh k = 2).");
             yield return new InspectableNode("Cubic3 anchor parent",

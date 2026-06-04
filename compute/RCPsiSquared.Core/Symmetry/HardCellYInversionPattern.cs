@@ -20,14 +20,17 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         y_par(dephase letter): Z/X-deph dominantly y_par=0; Y-deph dominantly
 ///         y_par=1. Structural reading: the dephase letter's own Y-content
 ///         determines which y_par value the F87-hard split favors.</item>
-///   <item><b>Aspect C (k-purity sharpening, empirical):</b> At k=3 N=4: 42:8
+///   <item><b>Aspect C (k-purity sharpening, closed-form counting rule):</b> At k=3 N=4: 42:8
 ///         biased (per F103). At k=3 N=5: identical 42:8 (N-stable per F105). At
-///         k=4 N=4: 228:0 fully pure (per F106). Closed-form derivation of these
-///         ratios is open (F103 Section 5).</item>
+///         k=4 N=4: 228:0 fully pure (per F106). These ratios are derived by the
+///         diagonal-cell counting rule (F103 §6) and the bipartite-chirality
+///         mechanism (§7); the windowed k&lt;N hard-direction converse is the one
+///         remaining edge (F103 §7.3).</item>
 /// </list>
 ///
-/// <para>Tier1Candidate because Aspect A is closed-form but Aspect B+C are
-/// empirically anchored only. Proof:
+/// <para>Tier1Candidate because Aspect A is closed-form and Aspect B+C are derived
+/// by the F103 §6 counting rule + §7 mechanism, with the windowed (k&lt;N) hard-direction
+/// converse the one edge still verified-not-derived. Proof:
 /// <c>docs/proofs/PROOF_F110_HARD_CELL_Y_INVERSION.md</c>.</para></summary>
 public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
 {
@@ -80,8 +83,8 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
     /// <summary>The F110 theorem statement in one line, covering Aspect A + B + C.</summary>
     public string Theorem =>
         "Aspect A (closed-form): F87-hard pairs only in the diagonal Klein cell matching the dephase letter (Z → (0, 1), X → (1, 0), Y → (1, 1)). " +
-        "Aspect B (empirical Y-inversion): dominant y_par in hard cell equals y_par(dephase letter); Y-deph inverts to y_par=1. " +
-        "Aspect C (empirical k-sharpening): k=3 (42:8) sharpens to k=4 (228:0) with Y-inversion preserved.";
+        "Aspect B (Y-inversion, derived F103 §6): dominant y_par in hard cell equals y_par(dephase letter); Y-deph inverts to y_par=1. " +
+        "Aspect C (k-sharpening, derived F103 §6/§7): k=3 (42:8) sharpens to k=4 (228:0) with Y-inversion preserved.";
 
     /// <summary>F87 corollary: the dominant y_par value in any F87-hard cell is
     /// determined by y_par(dephase letter), not by the cell's Klein index.</summary>
@@ -114,8 +117,8 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
 
     public override string Summary =>
         $"Aspect A: F87-hard pairs only in the diagonal Klein cell matching the dephase letter (closed-form). " +
-        $"Aspect B (empirical): dominant y_par in hard cell equals y_par(dephase letter); Z/X-deph y_par=0, Y-deph y_par=1. " +
-        $"Aspect C (empirical): k=3 N=4 split 42:8 sharpens to k=4 N=4 split 228:0 ({Tier.Label()})";
+        $"Aspect B (derived F103 §6): dominant y_par in hard cell equals y_par(dephase letter); Z/X-deph y_par=0, Y-deph y_par=1. " +
+        $"Aspect C (derived F103 §6/§7): k=3 N=4 split 42:8 sharpens to k=4 N=4 split 228:0 ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -126,15 +129,15 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
             yield return new InspectableNode("Aspect A: diagonal Klein cell mapping (closed-form)",
                 summary: "Z → (0, 1), X → (1, 0), Y → (1, 1). Hard appears only in this cell per F108 Part 1+2+3 + F107 + F109 exclusion chain.");
             yield return new InspectableNode("Aspect B: Y-inversion structural reading",
-                summary: "Dominant y_par = y_par(dephase letter): Z/X → 0, Y → 1. The Y-letter's y_par=1 inverts the otherwise-y_par=0-preferred pattern. At k = N = 4 closed-form (Tier1Candidate) via sibling Claim F111 (HardCellPureDTemplate, 2026-05-25): hard pairs in diagonal cell contain at least one pure-D template, and pure-D templates have y_par = y_par(D) by construction. At k = 3 the 42:8 dominance is empirical (see Aspect C).");
-            yield return new InspectableNode("Aspect C: empirical k-purity sharpening",
+                summary: "Dominant y_par = y_par(dephase letter): Z/X → 0, Y → 1. The Y-letter's y_par=1 inverts the otherwise-y_par=0-preferred pattern. At k = N = 4 closed-form (Tier1Candidate) via sibling Claim F111 (HardCellPureDTemplate, 2026-05-25): hard pairs in diagonal cell contain at least one pure-D template, and pure-D templates have y_par = y_par(D) by construction. At k = 3 the 42:8 dominance follows from the F103 §6 counting rule (see Aspect C).");
+            yield return new InspectableNode("Aspect C: k-purity sharpening (§6 closed-form counting rule)",
                 summary: "k=3 N=4 (F103): 42:8 biased per diagonal cell. k=3 N=5 (F105): identical 42:8 (N-stable). k=4 N=4 (F106): 228:0 fully pure with Y-inversion preserved.");
             yield return new InspectableNode("Sibling YParity-axis claims",
                 summary: "F102 (YParityIndependenceAtK3, Tier1Derived), F103 (F87Z2CubedRefinementN4K3, Tier2Empirical), F105 (F87Z2CubedRefinementN5K3, Tier2Empirical), F106 (F87Z2CubedRefinementN4K4, Tier2Empirical), F107 (TrulyYParityZeroPurity, Tier1Derived), F109 (MotherSoftYParityOnePurity, Tier1Derived), F110 (HardCellYInversionPattern, THIS Claim, Tier1Candidate), F111 (HardCellPureDTemplate at k=N=4, Tier1Candidate; sharpens Aspect B). Together the 8 YParity-axis Claims pin the y_par signature of all three F87 trichotomy classes.");
             yield return new InspectableNode("Cross-axis dependencies (BitB and BitA): F108 Parts",
                 summary: "F108 Part 1+3 (BitB-axis): close F107/F109/F110 derivation via Π_5bilinear under Z and Y dephasing. F108 Part 2 (BitA-axis, BitA twin of Part 1): closes the X-deph branch via the Z↔X Π² mirror. F108 Parts are NOT YParity-axis siblings (per their Z2Axis declarations); they are the cross-axis closure mechanism that lets Aspect A be closed-form.");
             yield return new InspectableNode("Open work",
-                summary: "Closed-form derivation of the exact 42:8 (k=3) ratio open (F103 Section 5; F111 closes the k=4 228:0 case via Pure-D Template Rule). F111 subclaim (d) Mixed+Mixed=soft closed-form blocks promotion to Tier1Derived. k ≥ 5 empirical confirmation unverified.");
+                summary: "The exact 42:8 (k=3) ratio is derived by the F103 §6 counting rule and the §7 bipartite-chirality mechanism (soft direction derived); F111 closes the k=4 228:0 case via the Pure-D Template Rule. Promotion to Tier1Derived is gated on the windowed (k<N) hard-direction converse non-bipartite ⟹ hard (F103 §7.3, verified, reduced to a set-level statement). k ≥ 5 empirical confirmation unverified.");
             yield return new InspectableNode("Cubic3 anchor parent",
                 summary: $"KleinEightCellClaim ({KleinEightParent.Tier.Label()}): the Z₂³ 8-cell decomposition anchor for the y_par axis F110 lives on.");
         }
