@@ -513,6 +513,12 @@ degenerate-PT + analyticity bridge are k-agnostic (the latter uses only that L�
 affine in γ, true for any H). So the windowed converse holds for any k < N in the diagonal cell. Spot
 -checked at the next case, k = 4 windowed (N = 5): Fact A, soft ⟺ bipartite, and soft ⟺ spec-exact at
 the physical γ all hold over a 6-soft + 6-hard sample
-([`_f87_k4_windowed_check.py`](../../simulations/_f87_k4_windowed_check.py)). Only the explicit shape of
-the odd 𝔽₂-relation is k-specific: at k = 3 it is the K3 triangle on three consecutive sites (§7.2); at
-k = 4 the windowed mask set is larger, so the obstruction is a larger odd cycle, not a 3-triangle.
+([`_f87_k4_windowed_check.py`](../../simulations/_f87_k4_windowed_check.py)). The odd 𝔽₂-relation
+itself stays a triangle (three masks summing to 0) across k = 3, 4, 5: the minimal odd cycle has size 3
+for every hard pair (16 / 192 / 1792 at N = 4 / 5 / 6,
+[`_f87_oddcycle_kscaling.py`](../../simulations/_f87_oddcycle_kscaling.py)). Only the masks thicken with
+k, at k = 3 the three are popcount-2 on three consecutive sites (the literal K3, §7.2); at k = 4, 5 one
+or two become popcount-4, spanning up to 4-5 sites. So the obstruction shape is uniform, a Cayley-graph
+triangle / a 3-mask odd relation; only the edge thickness is k-dependent. (That every non-bipartite
+windowed cell pair carries a size-3 odd relation, rather than only a longer odd cycle, is itself a clean
+empirical regularity a general-k proof can lean on.)
