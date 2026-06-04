@@ -117,7 +117,31 @@ The bipartite-complete structure C_4 = K_{2,2} relies on the 4-cycle having exac
 - 6-cycle has 6 bonds, K_{3,3} has 9: a 6-cycle is bipartite but NOT bipartite-complete.
 - 8-cycle has 8 bonds, K_{4,4} has 16: same story.
 
-For odd N (3-cycle, 5-cycle, ...) the ring is not even bipartite. So the K_{2,2} = C_4 coincidence is unique to N=4. Ring N=6, ring N=8 etc. show Q-universal locks too (empirically, [`hypotheses/F1_DISSIPATION_GAP_PATTERN.md`](../../hypotheses/F1_DISSIPATION_GAP_PATTERN.md): ring N=6 = 0.717129·J·N at 6 Q-anchors), but the closed form requires Bethe ansatz on the cyclic dispersion rather than the simple Casimir argument that closes N=4.
+For odd N (3-cycle, 5-cycle, ...) the ring is not even bipartite. So the K_{2,2} = C_4 coincidence is unique to N=4. Ring N=6, ring N=8 etc. show Q-universal locks too (empirically, [`hypotheses/F1_DISSIPATION_GAP_PATTERN.md`](../../hypotheses/F1_DISSIPATION_GAP_PATTERN.md): ring N=6 = 0.717129·J·N at 6 Q-anchors), but the per-N closed form requires Bethe ansatz on the cyclic dispersion rather than the simple Casimir argument that closes N=4.
+
+## The N → ∞ limit: c_∞ = ln 2 (resolved 2026-06-04)
+
+Although the per-N value needs Bethe ansatz, the LIMIT is closed. Section 5 reduces the lock to the Hamiltonian alone, Im_max(L) = ΔE_max(H) = E_max − E_min (the dephasing adds only real decay), so the dimensionless constant is
+
+    c_N  ≡  Im_max / (J·N)  =  (E_max − E_min) / (J·N)  =  1/4 − E₀(N)/(J·N),
+
+with E_max = J·N/4 (the ferromagnet, exact) and E₀(N) the antiferromagnetic Heisenberg-ring ground state. The per-bond ground energy of the spin-½ Heisenberg ring has the Bethe/Hulthén thermodynamic limit E₀/(J·N) → 1/4 − ln 2, hence
+
+    c_∞  =  1/4 − (1/4 − ln 2)  =  ln 2  =  0.693147…     (NOT 1/√2 = 0.707107).
+
+Computing E₀(N) directly ([`simulations/ring_dihedral_lock_limit.py`](../../simulations/ring_dihedral_lock_limit.py), sparse ground state, N = 4..16) confirms it:
+
+| N | c_N = 1/4 − E₀/N | c_N − ln 2 |
+|---:|---:|---:|
+| 4 | 0.75000 | +0.05685 |
+| 6 | 0.71713 | +0.02398 |
+| 8 | 0.70639 | +0.01324 |
+| 10 | 0.70154 | +0.00840 |
+| 12 | 0.69895 | +0.00580 |
+| 14 | 0.69740 | +0.00425 |
+| 16 | 0.69639 | +0.00325 |
+
+The N=6 value 0.71713 reproduces the F1_DISSIPATION_GAP empirical 0.717129, validating the Im_max = ΔE_max(H) reduction. The sequence decreases monotonically to ln 2 with a clean 1/N² finite-size approach (c_N − ln 2 quarters as N doubles: 0.01324 at N=8 → 0.00325 at N=16). It crosses 1/√2 at N=8; 1/√2 is only a value the sequence passes through, not the limit (the same red-herring lesson as the birth-canal s* = 0.709). So the Q-universal ring dihedral lock, left open for general N, has the exact limit c_∞ = ln 2.
 
 ## Relationship to the star saturation
 
