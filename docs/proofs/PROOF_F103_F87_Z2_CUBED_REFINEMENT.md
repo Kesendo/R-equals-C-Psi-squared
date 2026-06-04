@@ -319,6 +319,15 @@ plus the 2-colouring construction. For a y_par = 1 cell the residual sits on the
   opposite parity closes an **odd** cycle (non-bipartite, hard). The §6 adjacency rule is the
   odd-cycle obstruction read at the chain level.
 
+Both halves are verified bit-exact over the whole N=4 diagonal cell (76 y_par-homogeneous
+pairs: 50 hard = 34 via the diagonal lift (a) + 16 via the odd cycle (b), the two mechanisms
+disjoint; [`_f87_rule_unification.py`](../../simulations/_f87_rule_unification.py)). The odd
+cycle of (b) is concretely a **K3 triangle**: the three popcount-2 edge-masks of a complete
+triangle on three consecutive chain sites (only the windows {0,1,2} and {1,2,3} occur at N=4),
+the minimal odd 𝔽₂-relation in the edge-mask set
+([`_f87_oddcycle_scout.py`](../../simulations/_f87_oddcycle_scout.py)). That triangle is the
+explicit 𝔽₂ object §7.3's converse must turn into a spectral asymmetry.
+
 So the §6 rules (a) and (b) are the two faces of one classical criterion, and the soft side is
 derived from the palindrome.
 
