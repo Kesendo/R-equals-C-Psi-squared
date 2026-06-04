@@ -514,9 +514,11 @@ affine in γ, true for any H). So the windowed converse holds for any k < N in t
 -checked at the next case, k = 4 windowed (N = 5): Fact A, soft ⟺ bipartite, and soft ⟺ spec-exact at
 the physical γ all hold over a 6-soft + 6-hard sample
 ([`_f87_k4_windowed_check.py`](../../simulations/_f87_k4_windowed_check.py)). The odd 𝔽₂-relation
-itself stays a triangle (three masks summing to 0) across k = 3, 4, 5: the minimal odd cycle has size 3
-for every hard pair (16 / 192 / 1792 at N = 4 / 5 / 6,
-[`_f87_oddcycle_kscaling.py`](../../simulations/_f87_oddcycle_kscaling.py)). Only the masks thicken with
+itself stays a triangle (three masks summing to 0) across k = 3..8: the minimal odd cycle has size 3
+for every hard pair at every body count tested (N = k+1), checked two ways, the Python scout
+[`_f87_oddcycle_kscaling.py`](../../simulations/_f87_oddcycle_kscaling.py) (k = 3, 4, 5: 16 / 192 / 1792
+hard) and the canonical C# pure-GF(2) scan `WindowedObstructionScan` (k through 8 in seconds,
+cross-validated bit-exact against the H-based bipartite classifier `BipartiteChirality`). Only the masks thicken with
 k, at k = 3 the three are popcount-2 on three consecutive sites (the literal K3, §7.2); at k = 4, 5 one
 or two become popcount-4, spanning up to 4-5 sites. So the obstruction shape is uniform, a Cayley-graph
 triangle / a 3-mask odd relation; only the edge thickness is k-dependent. (That every non-bipartite
