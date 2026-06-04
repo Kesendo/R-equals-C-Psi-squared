@@ -20,7 +20,9 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///
 /// <para><b>bipartite ⟹ soft is derived</b> (the chiral K construction, see
 /// <see cref="Core.Symmetry.ChiralKClaim"/>); the converse <b>non-bipartite ⟹ hard</b> is
-/// verified bit-exact (N=4 all three letters, N=5) but not yet proved, hence Tier1Candidate.
+/// now derived (PROOF_F103 §7.5, 2026-06-04) modulo the first-order-block premise (the K3 triangle
+/// obstructs the chiral functional supplying the gain channel's −N reflection mode; any
+/// palindromizer forces a spectral palindrome), which un-derived premise keeps the witness Tier1Candidate.
 /// This primitive returns both the criterion's verdict (<see cref="BipartiteChiralityResult.PredictedClass"/>)
 /// and the actual F87 verdict (<see cref="PauliPairTrichotomy.Classify"/>) so a witness can
 /// check that they agree.</para>

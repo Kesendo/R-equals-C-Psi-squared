@@ -21,8 +21,12 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///
 /// <para><b>Claim (Tier1Candidate):</b> a diagonal-cell pair is soft iff its hopping graph is
 /// bipartite in the dephasing basis. <c>bipartite ⟹ soft</c> is derived from the palindrome
-/// plus a chiral sublattice K (<see cref="Core.Symmetry.ChiralKClaim"/>); the converse is
-/// verified bit-exact but not yet proved, the one missing derivation piece.</para>
+/// plus a chiral sublattice K (<see cref="Core.Symmetry.ChiralKClaim"/>); the converse
+/// non-bipartite ⟹ hard is now derived (PROOF_F103 §7.5, 2026-06-04) modulo the first-order-block
+/// premise: the K3 triangle obstructs the chiral functional that would supply the gain channel's
+/// −N reflection mode and pair its +N population Perron mode, and any palindromizer forces a
+/// spectral palindrome (no non-chiral escape). The un-derived first-order reduction keeps this
+/// Tier1Candidate.</para>
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md</c> §7 +
 /// <see cref="Core.Symmetry.ChiralKClaim"/> + <see cref="PauliPairTrichotomy"/> +
