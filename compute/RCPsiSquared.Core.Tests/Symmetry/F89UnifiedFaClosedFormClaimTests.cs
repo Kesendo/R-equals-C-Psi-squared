@@ -157,6 +157,25 @@ public class F89UnifiedFaClosedFormClaimTests
         Assert.True(double.IsFinite(sum));
     }
 
+    [Fact]
+    public void PredictDenominator_MatchesBonusFreeCleanForm()
+    {
+        // The "deep-2-power bonus" is a parameterisation artifact: writing D_k = odd(k)²·2^E(k)
+        // forces the three-term E(k), but the identity v₂ + max(0, v₂−2) = 2·v₂ − min(v₂, 2)
+        // collapses the k-self and bonus terms into one cap, giving the bonus-free form
+        //   D_k = 2^max(0, ⌊(k−5)/2⌋) · k² / 2^min(v₂(k), 2).
+        // See PROOF_F89_PATH_D_CLOSED_FORM.md § "The bonus-free form" (Python guard
+        // simulations/_f89_dk_clean_form.py covers k=3..300 and the equivalence to k=3..600).
+        // This drift-guards the identity in the canonical layer over the int-safe range k=3..46.
+        for (int k = 3; k <= 46; k++)
+        {
+            int v2 = BitOperations.TrailingZeroCount(k);
+            int polyDeg = Math.Max(0, (k - 5) / 2);
+            long clean = (long)k * k * (1L << polyDeg) / (1L << Math.Min(v2, 2));
+            Assert.Equal((long)F89UnifiedFaClosedFormClaim.PredictDenominator(k), clean);
+        }
+    }
+
     [Theory]
     [InlineData(47)]
     [InlineData(50)]

@@ -218,8 +218,11 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
     ///   E(k) = max(0, ⌊(k-5)/2⌋) + v₂(k) + max(0, v₂(k) - 2)
     /// </code>
     /// Three additive contributions: polynomial-degree term, k-self 2-adic term,
-    /// deep-2-power bonus (kicks in at v₂(k) ≥ 3). For k ∈ {3..9} this returns
-    /// the same value as <see cref="PathPolynomial"/>'s tabulated denominator;
+    /// deep-2-power bonus (kicks in at v₂(k) ≥ 3). Equivalently and bonus-free,
+    /// <c>D_k = 2^max(0,⌊(k-5)/2⌋)·k²/2^min(v₂(k),2)</c> (the k-self and bonus terms
+    /// collapse to one cap on k² via v₂+max(0,v₂−2)=2v₂−min(v₂,2); PROOF § "The bonus-free
+    /// form", guarded by <c>PredictDenominator_MatchesBonusFreeCleanForm</c>). For k ∈ {3..9}
+    /// this returns the same value as <see cref="PathPolynomial"/>'s tabulated denominator;
     /// for k ≥ 10 it predicts D without requiring P_k extraction. Bit-exact
     /// match against <see cref="ComputePathPolynomialBig"/> at every tested k
     /// including v₂(k) = 3 (k=200) and v₂(k) = 2 with large k (k=100, 300).
