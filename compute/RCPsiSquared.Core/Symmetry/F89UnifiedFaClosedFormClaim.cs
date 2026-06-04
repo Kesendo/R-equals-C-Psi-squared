@@ -40,7 +40,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>D_k = (odd(k))² · 2^E(k)</c> where
 /// <c>E(k) = max(0, ⌊(k-5)/2⌋) + v₂(k) + max(0, v₂(k) - 2)</c>. Three additive
 /// contributions: polynomial-degree term (max(0, ⌊(k-5)/2⌋)), k-self 2-adic term
-/// (v₂(k)), deep-2-power bonus (kicks in at v₂(k) ≥ 3). Both <see cref="PredictDenominator"/>
+/// (v₂(k)), deep-2-power bonus (kicks in at v₂(k) ≥ 3). Equivalently and bonus-free,
+/// <c>D_k = 2^max(0,⌊(k-5)/2⌋) · k² / 2^min(v₂(k),2)</c>: the k-self and bonus terms
+/// collapse to one cap on the k² eigenvector-norm (PROOF_F89_PATH_D_CLOSED_FORM
+/// § "The bonus-free form", 2026-06-04). Both <see cref="PredictDenominator"/>
 /// and <see cref="PathPolynomial"/> are symbolically derived via the Chebyshev-expansion
 /// + orbit-polynomial-reduction pipeline, available natively in C# as
 /// <see cref="F89PathPolynomialPipeline"/> (<see cref="ComputePathPolynomialBig"/>);

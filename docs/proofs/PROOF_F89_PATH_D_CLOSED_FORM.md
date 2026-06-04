@@ -132,6 +132,24 @@ The exponent E(k) decomposes additively into three terms:
 For odd k, only the poly-degree term survives (v2(k) = 0), and D_k = k²·2^{(FA-3)+}.
 For k = 2·(odd), the k-self term adds 2^1. For k = 4·(odd), it adds 2^2. At k = 8·(odd) (v2 ≥ 3), the bonus term additionally adds 2^{v2(k)−2}.
 
+### The bonus-free form: there is no third mechanism (2026-06-04)
+
+The three-term split is a parameterisation artifact of writing the base as odd(k)². Pulling the odd part out front removes 2^{2·v2(k)} from k², which over-shoots once v2(k) ≥ 2; the k-self term and the "deep-2-power bonus" together are exactly the powers of 2 that add back. One identity, valid for every v2, folds them into a single cap:
+
+```
+v2(k) + max(0, v2(k) − 2)  =  2·v2(k) − min(v2(k), 2)
+```
+
+so odd(k)²·2^{v2 + max(0,v2−2)} = k² / 2^{min(v2(k),2)}, and the whole denominator is
+
+```
+D_k = 2^{max(0, ⌊(k−5)/2⌋)} · k² / 2^{min(v2(k), 2)}.
+```
+
+In this form the "deep-2-power bonus" does not appear at all. There are not three contributions, there are two: the Chebyshev degree-growth 2-power 2^{⌊(k−5)/2⌋} (untouched), and a single k² from the eigenvector 1/√k normalisation squared (p_n = |S_c|²·‖Mv‖²/2 carries 1/k from S_c and 1/k from Mv), of which at most a factor of 4 cancels. The cancellation caps at 2^{min(v2,2)}: odd k cancels nothing (k²), k ≡ 2 (mod 4) cancels one factor (k²/2), and 4 | k cancels two (k²/4 = (k/2)²) no matter how many further factors of 2 the chain length carries. The "2-adic over-divisibility chain" was the shadow this single cap casts when forced through the odd(k)² base.
+
+Verified bit-exact against the full table k=3..300 and proved algebraically equivalent to the three-term E(k) for k=3..600 by `simulations/_f89_dk_clean_form.py`. The genuinely-open structural question, sharpened: not "why a v2-growing deep bonus" (there is none) but "why does the k² eigenvector-norm lose exactly 2^{min(v2,2)}", one concrete cancellation cap.
+
 ---
 
 ## Theoretical Analysis
@@ -179,7 +197,7 @@ From `F89_TOPOLOGY_ORBIT_CLOSURE.md` and `simulations/_f89_path3_at_locked_ampli
 
 S_c(n) and Mv(n) both depend on sums of OBC tight-binding amplitudes ψ_n[j] = sqrt(2/(k+2))·sin(πnj/(k+2)). The product |S_c(n)|²·‖Mv(n)‖² is a rational polynomial in y_n with denominator k² (from the Bloch normalization factor 2/(k+2) squared over k terms). For odd k this gives odd(D_k) = k² = odd(k)². For even k = 2^a·(odd part), the additional 2^{v2(k)} factor from the 2J hopping matrix coefficients contributes to the 2-power of D_k.
 
-**Status:** The exact path-3 algebraic derivation is complete. The general k argument is a structural sketch; a full proof requires explicit sine-sum identities for Σ_j sin(πnj/(k+2))·sin(πn'j/(k+2)) summed over the overlap subspace.
+**Status:** The exact path-3 algebraic derivation is complete. The general-k sine-sum identities this sketch calls for are supplied by the Chebyshev expansion in § "Tier-1-Derived closure" below: A(c) = Σ_j U_j(c)(k−2j) and B(c) = Σ_j U_j(c)²(k−2j)² ARE the closed-form Σ sin·sin sums, and they reduce p_n(y) to P_k(y)/D_k symbolically. The amplitude-route derivation is complete. What stays verified-not-proven is the k-formula for D_k itself (bit-exact to k=300); its 2-power part is clarified by the bonus-free form above.
 
 ---
 
@@ -224,7 +242,7 @@ Structural observation: disc(p_α) primes ⊆ primes(m) (cyclotomic ramification
 
 **Structural interpretation (Tier-2 candidate):** When k=2^a·(odd) with a≥3, the OBC Bloch momentum grid {πn/(k+2)} for the S_2-anti orbit has 2-adic over-ramification. The Bloch energies 4·cos(πn/(k+2)) for even n acquire additional powers of 2 in the sine-sum products, beyond the base 2^a contribution from the 2J hopping. For a≥3: the effective exponent from the 2-power part is max(a, 2a−2) = 2a−2, i.e., (2^a)²/4 = (k/odd(k))²/4.
 
-**Status:** Empirically confirmed at 3 data points. Full derivation via sine-sum identities is open.
+**Resolution (2026-06-04): the bonus is a parameterisation artifact, not a mechanism.** The interpretation above already reaches the key number, 2a−2 = (k/odd(k))²/4, but reads it as a v2-growing "over-ramification" left open. It is neither growing without bound nor a separate mechanism. The identity v2 + max(0,v2−2) = 2v2 − min(v2,2) (all v2) folds the k-self term and the bonus into one cancellation cap, giving D_k = 2^{⌊(k−5)/2⌋}·k²/2^{min(v2,2)} (§ "The bonus-free form" above). The k² is the eigenvector 1/√k normalisation squared; it loses at most a factor of 4. The three data points are that cap saturating (min(v2,2) = 2) read against the over-removed odd(k)² base, not a deep 2-adic chain. The sharpened open question is the single cap 2^{min(v2,2)}.
 
 ---
 
@@ -331,11 +349,11 @@ The claim is constructed as a Schicht-1 bridge consuming `F89UnifiedFaClosedForm
 
 ### Candidate Attack Paths
 
-1. **Jordan-Wigner full general-k**: extend the path-3 algebraic derivation `(33+14√5)/9` to general k via OBC sine-mode Bessel coefficients. Most concrete path; significant algebraic work, expected to address all three gaps.
+1. **Jordan-Wigner / amplitude general-k** (carried out): the Chebyshev expansion of § "Tier-1-Derived closure" IS this route. It extends the path-3 `(33+14√5)/9` derivation to general k via the closed-form sine sums A(c), B(c), reducing p_n(y) to P_k(y)/D_k symbolically. This is what promoted F89 to Tier-1-Derived; the amplitude derivation is no longer open.
 
-2. **Cyclotomic Galois ring-of-integers**: compute the index `[O_K : Z[2·cos(π/(k+2))]]` for k=3..24 and check whether its 2-adic content matches the deep-2-power bonus pattern. Quick to probe (sympy); open-ended.
+2. **Cyclotomic Galois ring-of-integers** (closed negative, see Angle B): Washington's theorem gives [O_K : Z[2·cos(π/(k+2))]] = 1 identically, so disc(p_α) = disc(K) and D_k is not a Galois invariant of K = Q(2cos(π/(k+2))). Its 2-adic content lives in the eigenvector-amplitude reduction, not the Bloch eigenvalue field. The prime-disjointness argument closes this route.
 
-3. **Combinatorial / Chebyshev**: σ_n is a coefficient in a Chebyshev expansion over the orbit; the 2-adic content of Chebyshev coefficients has known structure (related to Eulerian numbers and Bernoulli denominators).
+3. **Combinatorial / Chebyshev** (the live route for the one remaining question): after the bonus-free form, the sole structural gap is why the k² eigenvector-norm loses exactly 2^{min(v2,2)}. That is a statement about the 2-adic valuation of the Chebyshev coefficients of A(c)²·B(c) under reduction (the Eulerian / Bernoulli-denominator structure named here), now a single cap rather than a v2-growing chain.
 
 ### Verification Stretching
 
