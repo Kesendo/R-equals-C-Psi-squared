@@ -152,6 +152,16 @@ public static class WindowedObstructionScan
              + System.Numerics.BitOperations.PopCount(PolyDivQuotient(p2, g));
     }
 
+    /// <summary>The whole §7 diagonal-cell hardness rule in one comparison (PROOF_F103 §7.7): a
+    /// Z-dephasing diagonal-cell Mixed pair is HARD iff its two X/Y window-masks have different
+    /// (1+x)-adic valuations, SOFT iff equal. Equivalent to "the edge set carries an odd 𝔽₂-relation"
+    /// (an odd relation exists iff popcount(p1/g)+popcount(p2/g) is odd iff the valuations differ), so
+    /// it collapses the graph 2-colouring, the K3 triangle, and the windowed odd-cycle family to a
+    /// single integer test. Mask-only by design: Mixed terms are off-diagonal, so the pair's hardness
+    /// is fixed by the X/Y flip structure alone (the Y-vs-X phase and the I-vs-Z choice do not move it).</summary>
+    public static bool IsHardPair(ulong p1, ulong p2) =>
+        ValuationAtOnePlusX(p1) != ValuationAtOnePlusX(p2);
+
     /// <summary>Scan all y_par-homogeneous diagonal-cell Mixed pairs at body count k on an N-site
     /// chain (k &lt; N is the windowed regime), classifying each by its minimal odd obstruction.</summary>
     public static ScanResult Scan(int k, int n)

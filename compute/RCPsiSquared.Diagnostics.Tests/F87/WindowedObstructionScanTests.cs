@@ -160,6 +160,35 @@ public class WindowedObstructionScanTests
         Assert.True(checkedPairs > 0);
     }
 
+    /// <summary>The valuation criterion predicts the actual SPECTRAL F87 verdict, not just the
+    /// combinatorial cycle: on every Z-dephasing diagonal-cell Mixed pair at k = 3, N = 4,
+    /// IsHardPair (a (1+x)-valuation difference of the two X/Y masks) matches BipartiteChirality's
+    /// actual trichotomy verdict. This closes the chain valuation → bipartite → spectral on the real
+    /// Liouvillian, and confirms the verdict is mask-only (Y-vs-X and I-vs-Z do not move it).</summary>
+    [Fact]
+    public void ValuationCriterion_PredictsSpectralVerdict_K3N4()
+    {
+        const int k = 3, n = 4;
+        var chain = new ChainSystem(N: n, J: 1.0, GammaZero: 0.05);
+        var withLetters = EnumerateCellTermsWithLetters(k);
+        int hard = 0, soft = 0;
+        for (int a = 0; a < withLetters.Count; a++)
+            for (int b = a; b < withLetters.Count; b++)
+            {
+                var (l1, m1, yp1) = withLetters[a];
+                var (l2, m2, yp2) = withLetters[b];
+                if (yp1 != yp2) continue;
+                var terms = new List<PauliTerm> { new(l1, Complex.One), new(l2, Complex.One) };
+                var result = BipartiteChirality.Classify(chain, terms, PauliLetter.Z);
+                bool valuationHard = WindowedObstructionScan.IsHardPair(m1, m2);
+                if (result.ActualClass == TrichotomyClass.Hard) { Assert.True(valuationHard); hard++; }
+                else if (result.ActualClass == TrichotomyClass.Soft) { Assert.False(valuationHard); soft++; }
+                // Truly (M = 0) is excluded: the criterion distinguishes soft from hard.
+            }
+        Assert.True(hard > 0, "expected some hard pairs");
+        Assert.True(soft > 0, "expected some soft pairs");
+    }
+
     /// <summary>The extremal family saturating the body bound: masks p1 = x + x^{k-1} and
     /// p2 = 1 + x^{k-1} (the terms I·X·I…I·Y and X·I…I·Y) have gcd (1+x) and quotients of popcount
     /// k-2 and k-1, so the gcd-formula size is (k-2)+(k-1) = 2k-3. Pure valuation/gcd arithmetic, so

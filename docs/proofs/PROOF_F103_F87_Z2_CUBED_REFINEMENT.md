@@ -581,3 +581,20 @@ since it caps the gcd-formula itself. The Python scout
 [`_f87_obstruction_derivation.py`](../../simulations/_f87_obstruction_derivation.py) grounded the
 dictionary; [`_f87_oddcycle_kscaling.py`](../../simulations/_f87_oddcycle_kscaling.py) is the earlier
 size scan.
+
+**The criterion in one number, and what it does not shorten.** Chaining the valuation reading with the
+spectral bridge of §7.5/§7.6 gives the whole §7 diagonal-cell rule in its shortest form: a Z-dephasing
+diagonal-cell Mixed pair is **soft ⟺ v_{1+x}(p₁) = v_{1+x}(p₂)**, hard otherwise. The graph 2-colouring
+of §7.1, the K3 triangle of §7.2, and the windowed odd-cycle family above all collapse to comparing two
+integers, the (1 + x)-adic valuations of the two X/Y masks. `WindowedObstructionScan.IsHardPair` is
+exactly that test, and it matches the actual trichotomy verdict on every k = 3, N = 4 pair on the real
+Liouvillian (test `ValuationCriterion_PredictsSpectralVerdict_K3N4`); the verdict is mask-only, the
+Y-vs-X phase and the I-vs-Z choice leave it unmoved, since Mixed terms are off-diagonal and only the flip
+structure counts. It is worth being clear that this shortens the COMBINATORIAL side and nothing else. It
+does not collapse the spectral bridge, because the valuation lives on the term masks while the reflection
+mode the bridge pairs lives on H's commutant: an operator carrying X/Y on every site, the −N eigenvector
+of the gain channel Σ_l Z_l(·)Z_l, whose eigenvalue on a Pauli operator A is N − 2·n_XY(A) (so +N is the
+diagonal I/Z operators, −N the fully-off-diagonal ones). The valuation tells you, in one subtraction,
+whether the chiral K that supplies that −N mode exists; the proof that K's presence is soft and its
+absence is hard stays the Perron + perturbation-theory argument of §7.5/§7.6. So the right reading is a
+simpler front door to the same house, not a smaller house.
