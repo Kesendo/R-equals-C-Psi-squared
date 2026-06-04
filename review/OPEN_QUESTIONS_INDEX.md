@@ -28,6 +28,7 @@ re-classification is still pending.
 | Subsystem-pair crossing | OQ-153, 154, 155, 156, 217, 219, 220 | Bell-pairs yes, GHZ/W no; non-monotonic threshold; ring 9× faster. `experiments/N_SCALING_BARRIER.md`, `SUBSYSTEM_CROSSING.md` |
 | Star-topology observer scaling | OQ-187, 189, 190, 199, 200–207, 211 | Cross/no-cross N=2..5; J_th(γ) ≈ 7.35·γ^1.08 + 1.18; the "zero window" was a sampling artifact. `experiments/STAR_TOPOLOGY_OBSERVERS.md` §8 |
 | Ring dihedral-lock N→∞ limit | (F1_DISSIPATION_GAP, STAR_SPECTRUM_COMPACTNESS) | c_∞ = ln 2 = 0.6931 (NOT 1/√2, which it crosses at N=8). Im_max = ΔE_max(H) ⟹ c_N = 1/4 − E₀/(JN) → ln 2 (Hulthén). Resolved 2026-06-04: `docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md`, `simulations/ring_dihedral_lock_limit.py` |
+| ph03 phase-freezing (OQ-096) | `experiments/COCKPIT_SCALING.md` §10.6 | The central-pair coherence is exactly REAL (ph03 ∈ {0,π}) by the global spin-flip Π² = X^⊗N (which commutes with H + Z-dephasing and fixes the symmetric initial state). Universal, all N; the "N≥7 only" was a PCA-variance-gate artifact (arg of the real coherence near an ESD dip). Resolved 2026-06-04: `simulations/phase_freezing_real_coherence.py` |
 
 ### Stale / retired / falsified
 
