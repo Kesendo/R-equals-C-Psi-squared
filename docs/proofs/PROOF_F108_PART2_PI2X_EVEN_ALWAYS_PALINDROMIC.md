@@ -28,7 +28,7 @@ Welle 14 later showed that Part 2 also follows from Part 1 as a Hadamard-transpo
 
 In particular, spec(L) is palindromic around −σ, hence no pure-Π²_X-even Pauli pair (truly or non-truly) can be F87-hard under X-dephasing.
 
-This is the BitA-axis twin of F108 Part 1; together they cover the Z- and X-dephasing branches of the F108 Π²-even palindrome family. The Y-dephasing analog (F108 Part 3) is open.
+This is the BitA-axis twin of F108 Part 1; together they cover the Z- and X-dephasing branches of the F108 Π²-even palindrome family. The Y-dephasing analog is F108 Part 3 ([`PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC`](PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md), Tier 1 derived 2026-05-25 via the Y-deph variant of Π_5bilinear, same I↔X / Y↔Z permutation as Part 1 with Y-deph's −i phase convention), completing the Z/X/Y trio and promoting F109 to fully unconditional Tier1Derived.
 
 ## The Π_5bilinear operator (X-dephasing variant)
 
