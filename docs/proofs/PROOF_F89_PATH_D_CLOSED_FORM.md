@@ -164,7 +164,30 @@ The cap was attacked from two independent directions: a c = y/4 Newton-polygon /
 
 Two rigorous sub-results fall out on the way. A(0) = m exactly for k ≡ 2 (mod 4): the alternating arithmetic series A(0) = Σ_i (−1)^i (k − 4i) collapses to m (and A(0) = 0 for 4|k), which is what injects the chain-length 2-content 2·v2(m). And v2(Rm_top) is not the orbit different's valuation (odd k has v2(disc Φ) = 0 yet v2(Rm_top) = 5), confirming the cap is a numerator-specific cancellation, not a Galois invariant, consistent with Angle B above.
 
-**The single remaining lemma.** Verified bit-exact (v2 = 0..6) but not yet derived from structure: (i) the maximal coefficient-denominator sits at the top degree FA−1 (the slope-2 Newton edge, margin ≥ 1 everywhere), and (ii) the leading reduction step contributes exactly one extra factor of 2: val₂(L̃) = (FA−1) + 1 for odd k and 4|k (and (FA−1) + 2·v2(κ+1) for k ≡ 2 mod 4), equivalently v2(Rm_top) = 5, which is 4 from clearing (4 − u²)²/16 plus this single "+1". The "+1" being exactly one is what caps the cancellation at min(v2,2). It is the 2-adic valuation of one explicit integer Chebyshev coefficient under nodal reduction: no division, no orbit field, no min(v2,2) remaining inside it. The cap is explained; this one constant is the sole underived input. Chain probes: `simulations/_f89_capA_mastertable.py` (c-route), `simulations/_f89_capB_chain.py` + `simulations/_f89_capB_crosscheck.py` (u-route); per-lemma verifications in the other `_f89_capA_*` / `_f89_capB_*` files.
+**The single remaining lemma.** Verified bit-exact (v2 = 0..6) but not yet derived from structure: (i) the maximal coefficient-denominator sits at the top degree FA−1 (the slope-2 Newton edge, margin ≥ 1 everywhere), and (ii) the leading reduction step contributes exactly one extra factor of 2: val₂(L̃) = (FA−1) + 1 for odd k and 4|k (and (FA−1) + 2·v2(κ+1) for k ≡ 2 mod 4), equivalently v2(Rm_top) = 5, which is 4 from clearing (4 − u²)²/16 plus this single "+1". The "+1" being exactly one is what caps the cancellation at min(v2,2). Part (ii), val₂(L̃), is closed in the next subsection: an explicit closed form for L̃ reduces it to an elementary congruence, leaving part (i), top-degree dominance, as the sole remaining underived input. Chain probes: `simulations/_f89_capA_mastertable.py` (c-route), `simulations/_f89_capB_chain.py` + `simulations/_f89_capB_crosscheck.py` (u-route); per-lemma verifications in the other `_f89_capA_*` / `_f89_capB_*` files.
+
+### The leading coefficient L̃ in closed form: the "+1" made elementary (2026-06-04)
+
+Part (ii), val₂(L̃), closes. L̃ is the leading coefficient of the reduced integer numerator, equal to the codifferent trace L̃ = Σ_j G(c_j)/Φ'(c_j) over the orbit nodes c_j = cos(2πj/m), j = 1..FA. Three node identities (verified to ~1e-55 in `simulations/_f89_plus1_scout.py`) make it explicit:
+
+- At a node θ = 2πj/m the sin-denominators of U_j(cos θ) = sin((j+1)θ)/sin θ cancel against (1−c²)² = sin⁴θ, so G(c_j) = S₁(θ)²·S₂(θ), with S₁ = Σ_i (m−2i) sin(iθ) (odd k), the pulled-out Σ_i (m/2 − i) sin(iθ) (even k), and S₂ the matching squared sum.
+- The first sum closes: S₁(θ_j) = m·cot(πj/m) (odd k), (m/2)·cot(πj/m) (even k), from Σ_i i·sin(iθ_j) = −(m/2)·cot(πj/m).
+- For odd m, T_m(c) − 1 = 2^{m−1}(c−1)·Φ(c)², so Φ'(c_j)² = −m²/(2^m (c_j−1)(1−c_j²)): the 2^m is the codifferent's 2-adic carrier.
+
+Summing the trace gives a closed form for L̃ (bit-exact k = 3..51, `simulations/_f89_plus1_closed.py`):
+
+```
+odd  k:  L̃ = 2^{FA−2} · m²     · (m² + 3),          m = k + 2
+even k:  L̃ = 2^{FA−1} · (m/2)² · ((m/2)² + 1)
+```
+
+and the 2-adic valuation reads off elementarily, rigorously for all k:
+
+- odd k: m odd ⟹ m² ≡ 1 (mod 8) ⟹ m² + 3 ≡ 4 (mod 8), so v2(m²+3) = 2 exactly, and v2(L̃) = (FA−2) + 2 = (FA−1) + 1.
+- 4 | k: m/2 odd ⟹ (m/2)² + 1 ≡ 2 (mod 8), so v2 = 1, and v2(L̃) = (FA−1) + 1.
+- k ≡ 2 (mod 4): m/2 even ⟹ (m/2)² + 1 is odd (v2 = 0), and v2(L̃) = (FA−1) + 2·v2(m/2) = (FA−1) + 2·v2(κ+1).
+
+The "+1" is therefore exactly the congruence m² + 3 ≡ 4 (mod 8) for odd k, or (m/2)² + 1 ≡ 2 (mod 8) for 4|k: a single power of 2 in an explicit integer bracket, which is what caps the cancellation at min(v2,2). These bracket parities are elementary and hold for all k; only the two closed forms for L̃ remain as bit-exact-verified (k=3..51) rather than derived from the trace, reducing the whole cap proof to one residual item, the top-degree dominance (i).
 
 ---
 
