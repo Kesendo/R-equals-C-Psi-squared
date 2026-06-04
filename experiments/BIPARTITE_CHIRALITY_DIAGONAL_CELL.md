@@ -182,18 +182,22 @@ soft ⟺ Tr((L+σ)^{odd}) = 0. But the first-order odd moments **vanish for both
 break , it is *moment-invisible*. The hardness is a **set-pairing asymmetry** (the optimal-transport
 distance between Spec(L) and Spec(−L−2σ)), finer than any low moment. So the converse's proof must
 be a set-level (combinatorial) statement about the degenerate D̂-block spectrum, not a moment
-identity. That set-level proof is the remaining gap.
+identity. That set-level statement is now derived in PROOF_F103 §7.5 (2026-06-04): the odd cycle obstructs the chiral functional that would supply the gain channel's reflection-floor mode, leaving only the first-order reduction itself un-derived.
 
 ## Honest status
 
 - **Derived:** bipartite ⟹ soft (modulo M = −2i(H⊗I), verified bit-exact); and, at full support
   (k=N), Mixed+Mixed ⟹ bipartite (the |S| ≤ 2 flip-generator / linear-φ argument). Together these
   close F111's "Mixed+Mixed = soft" modulo M.
-- **Verified, not derived:** the windowed converse non-bipartite ⟹ hard (k < N, |S| ≥ 3). Now
-  reduced to a validated *first-order* statement (c = the degenerate D̂-block set-asymmetry about
-  −σ, c = 0 ⟺ bipartite, bit-exact), with the moment route ruled out (the break is moment-invisible).
-  The remaining gap is the set-level (combinatorial) proof that the D̂-block spectrum fails to pair
-  iff an odd cycle is present.
+- **Derived modulo the first-order premise (2026-06-04, PROOF_F103 §7.5):** the windowed converse
+  non-bipartite ⟹ hard. The ω=0 first-order block is the gain channel Σ_l Z_l(·)Z_l restricted to
+  H's commutant; its +N population-Perron mode is always present (Σ_l Z_l² = N·I), and soft ⟺ the
+  −N reflection-floor is also attained ⟺ an anti-diagonal commutant element A = FK exists (F = X^⊗N,
+  using FHF = −H) ⟺ bipartite ⟺ no K3 triangle. ω=0 is decisive (the +N mode pairs only at ω=0).
+  Separately the operator-search is dissolved: any palindromizer forces spec(L) = spec(−L−2σ), so no
+  non-chiral similarity escapes (verified 236 pairs, N=4 all letters + N=5 Z). The moment route stays
+  ruled out (moment-invisible). The one remaining un-derived premise is the first-order reduction
+  itself (that the ω=0-block asymmetry equals the all-orders F87 break).
 - **Not yet tested:** windowed k=4 (N > 4) and k=5. The windowed converse is the open front; full
   support is settled.
 

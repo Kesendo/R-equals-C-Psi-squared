@@ -1,6 +1,6 @@
 # PROOF F103: F87 Trichotomy Z₂³ Refinement at k=3 (N=4 Empirical Anchor)
 
-**Status:** Tier 1 derived. The 42:8 closed-form rule was found 2026-05-29 (diagonal-cell hardness rule, §6), and its two atomic sub-rules were then unified into a single criterion (§7): a diagonal-cell pair is soft iff H's hopping graph is bipartite in the dephasing letter's eigenbasis. The direction bipartite ⟹ soft is derived (Π followed by a chiral sublattice K). The converse non-bipartite ⟹ hard **closes at full support** (§7.4, 2026-05-30: at k=N a Mixed+Mixed pair has only two flip generators, which always admit the chiral K, settling F111's blocked "Mixed+Mixed = soft" modulo M) and **stays verified-not-derived in the windowed regime** (k<N, all three letters, N=4 and N=5).
+**Status:** Tier 1 derived. The 42:8 closed-form rule was found 2026-05-29 (diagonal-cell hardness rule, §6), and its two atomic sub-rules were then unified into a single criterion (§7): a diagonal-cell pair is soft iff H's hopping graph is bipartite in the dephasing letter's eigenbasis. The direction bipartite ⟹ soft is derived (Π followed by a chiral sublattice K). The converse non-bipartite ⟹ hard **closes at full support** (§7.4, 2026-05-30: at k=N a Mixed+Mixed pair has only two flip generators, which always admit the chiral K, settling F111's blocked "Mixed+Mixed = soft" modulo M) and is now **derived in the windowed regime modulo the first-order-block premise** (§7.5, 2026-06-04: the K3 triangle obstructs the chiral functional that would supply the gain channel's reflection-floor mode and pair its population Perron mode; separately, the operator-search is dissolved, since any palindromizer forces a spectral palindrome).
 **Date:** 2026-05-24
 **Anchor:** N=4, k_body=3, 294 Z₂³-homogeneous + Y-par-homogeneous Pauli pairs (pair count is N-independent at fixed k; the empirical anchor is N=4)
 **Regenerate:** `simulations/f87_z2cubed_split_n4_k3.py` (~60s)
@@ -358,8 +358,9 @@ within each degenerate-frequency subspace) reproduces it bit-exact, with c = 0 �
 tempting moment proof is ruled out: D̂ is diagonal in the computational basis
 (D̂|i⟩⟨j| = −2·Hamming(i⊕j)·|i⟩⟨j|, the Absorption Theorem), but the odd spectral moments
 Tr((L+σ)^{2k+1}) vanish for soft and hard alike, so the break is moment-invisible , a set-pairing
-asymmetry, not a moment identity. The remaining gap is therefore set-level: that the degenerate
-first-order block spectrum fails to pair iff an odd cycle is present. See
+asymmetry, not a moment identity. That set-level statement is now derived in §7.5 (the odd cycle obstructs the chiral
+functional that would supply the gain channel's reflection-floor mode, pairing its population
+Perron mode), modulo the first-order reduction itself. See
 [experiments/BIPARTITE_CHIRALITY_DIAGONAL_CELL.md](../../experiments/BIPARTITE_CHIRALITY_DIAGONAL_CELL.md).
 
 ### 7.4 Full support closes the soft direction (the flip-generator count)
@@ -398,3 +399,61 @@ open part of §7.3 is therefore exactly the windowed regime; full support is set
 (the three derivation links plus the optimal-pairing residual), and
 [`f87_flip_generators.py`](../../simulations/f87_flip_generators.py) (the flip-generator count,
 full support vs windows).
+
+### 7.5 The windowed converse, derived (2026-06-04)
+
+The windowed rule-(b) converse, non-bipartite ⟹ hard, is now derived, modulo the one pre-existing
+premise of §7.3 (that the first-order-in-γ degenerate block reproduces the all-orders F87 break).
+Two independent routes, each verified bit-exact.
+
+**The operator-search is dissolved (assumption-free).** "No operator restores the palindrome" was
+never an operator-enumeration problem. For any invertible superoperator W, W L W⁻¹ = −L − 2σ forces
+spec(L) = spec(−L − 2σ): a similarity preserves the characteristic polynomial, whose
+roots-with-multiplicity are the eigenvalue multiset, with no diagonalizability or chirality assumed.
+Contrapositive: spec(L) ≠ spec(−L − 2σ) ⟹ no palindromizer of any kind exists (chiral, diagonal,
+non-diagonal, arbitrary). So the converse is exactly "non-bipartite ⟹ spec(L) ≠ spec(−L − 2σ)", and
+the "no escape through some non-chiral similarity" worry of §7.3 is closed. Verified spec-broken ⟺
+hard across 236 pairs (N=4 all three letters, N=5 Z), clean gap (soft ≤ 10⁻¹³, hard ≥ 0.65); the only
+apparent exceptions are two soft pairs whose L is defective at γ=1 (a Jordan-block artifact that lifts
+at generic γ, the chiral-K similarity W L W⁻¹ = −L − 2σ holding exactly throughout).
+[`_f87_specB_final.py`](../../simulations/_f87_specB_final.py),
+[`_f87_specB_defective.py`](../../simulations/_f87_specB_defective.py).
+
+**The block criterion is derived: a Perron-mode argument.** Read the first-order ω = 0 block as a
+quantum channel: the degenerate static block is Q = Σ_l Z_l (·) Z_l restricted to H's commutant W₀
+(the gain channel of the dephasing). Because Σ_l Z_l² = N·I, the identity (the population row-sum) is
+always an eigenvector with eigenvalue +N, a Perron mode always present. The block is centre-symmetric,
+hence soft, iff the reflection-floor −N is also attained, and ω = 0 is decisive: the +N mode can only
+be palindrome-paired by another ω = 0 mode (partners share ω, and 0 = −0), so when −N is absent the +N
+Perron mode is globally unpaired and no nonzero-ω block can rescue it.
+
+Now −N is attained iff there is an anti-diagonal element in W₀. The equation Σ_l Z_l A Z_l = −N·A
+forces, per site, Z_l A Z_l = −A, so A_{ij} ≠ 0 only when i and j differ in every bit: A is
+anti-diagonal, A = F·D with F = X^⊗N. Every diagonal-cell term carries odd #Y + #Z, so F H F = −H
+(Fact A); combined with the chiral K H K = −H of a bipartite graph this gives (FK) H (FK) = H, i.e.
+[FK, H] = 0, so the required anti-diagonal commutant element is exactly A = FK. Conversely an
+anti-diagonal commutant element forces {H, D} = 0, i.e. H_{ij}(d_i + d_j) = 0 on every edge, the
+chiral-K 2-colouring system, solvable iff G_H is bipartite iff S carries no odd 𝔽₂-relation. The K3
+triangle is precisely that odd relation. So
+
+  triangle ⟹ no chiral K ⟹ no anti-diagonal commutant element ⟹ −N absent ⟹ +N Perron unpaired
+  ⟹ ω = 0 block asymmetric ⟹ hard.
+
+Every link is verified bit-exact over the N=4 Z diagonal cell (the eight readings soft ⟺ block ⟺
+channel-floor ⟺ anti-diagonal ⟺ commutant ⟺ 2-colouring ⟺ φ ⟺ bipartite, all 42/42), with the soft
+eigenmode confirmed to be A = FK (residual 10⁻¹⁵) and "no nonzero 2-colouring ⟺ φ exists ⟺ no odd
+relation" an exact GF(2) identity (0 mismatches over 1200 random graphs). The argument is written in
+the Z eigenbasis; for X and Y dephasing it runs in the rotated basis of §7, and the basis-free
+spec ⟺ hard above already covers all three letters.
+[`_f87_specA_final_table.py`](../../simulations/_f87_specA_final_table.py),
+[`_f87_specA_FHF.py`](../../simulations/_f87_specA_FHF.py),
+[`_f87_specA_blocklock.py`](../../simulations/_f87_specA_blocklock.py),
+[`_f87_specA_cayley_pure.py`](../../simulations/_f87_specA_cayley_pure.py).
+
+**What remains.** One premise is still verified, not derived: that the first-order ω = 0 block
+asymmetry is equivalent to the all-orders F87 hardness (the §7.3 first-order reduction). Granting it,
+the windowed rule-(b) converse is a theorem: the triangle is the unique odd 𝔽₂-relation that
+obstructs the chiral functional, which is exactly the anti-diagonal mode that would supply the
+channel's −N reflection and pair the population Perron +N. The remaining gap is thus narrowed from
+"the whole windowed converse" to "the first-order block reproduces the all-orders break", one clean
+perturbative statement.
