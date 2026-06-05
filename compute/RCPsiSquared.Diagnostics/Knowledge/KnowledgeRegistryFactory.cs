@@ -111,6 +111,16 @@ public static class KnowledgeRegistryFactory
             // §7.5/§7.6 converse; per §7.10 only the (1+x)-valuation reaches the spectrum). Wired
             // 2026-06-05.
             .RegisterWindowedHardnessClaim()
+            // §7.12 Liouvillian-free soft-certifier as a registered Claim: the certifier tries three
+            // scalable structured 2-colourings (linear chiral K, excitation pairing, excitation parity)
+            // and certifies "soft" iff one applies; it never claims hard. The Claim asserts ONLY the
+            // settled facts: soundness (each soundness-battery case is Certified by PalindromeSoftCertifier
+            // AND not Hard by the spectral authority PauliPairTrichotomy) and the proven structural ceiling
+            // (XX+XZ is soft, non-bipartite, NotCertified, so no colouring can ever reach it). Typed parents:
+            // F87DiagonalCellBipartiteWitnessSet (the §7 diagonal-K criterion the linear strategy scales,
+            // Tier1Candidate) + F87TrichotomyClassification (the spectral authority, Tier1Derived).
+            // Tier1Candidate (4 ≥ 4 and 5 ≥ 4 inheritance). Wired 2026-06-05.
+            .RegisterPalindromeSoftCertifierClaim()
             .RegisterF89F87TrulyInheritance()
             .RegisterF89F87BreakPredictionFromF83()
             // Spectrum quantization root (parent to F33/F50/F55/F64-F68/F74/F89
