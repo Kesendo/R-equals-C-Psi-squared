@@ -94,6 +94,14 @@ public static class KnowledgeRegistryFactory
             // resolves PolarityLayerOriginClaim via b.Get<>() at registration-factory time.
             .RegisterF87Family()
             .RegisterF87StandardWitnessSet()
+            // F103 §7 diagonal-K (bipartite-chirality) criterion as a registered set-wrapper:
+            // a diagonal-cell pair is soft iff its hopping graph is bipartite in the dephasing
+            // basis (certified by a chiral K = diag(±1) with KHK = −H). Wraps the 4 canonical
+            // F87DiagonalCellBipartiteWitness instances (the witness type itself stays a deferred
+            // parameterised type). Typed parents: F87TrichotomyClassification (the F87 verdict the
+            // criterion is checked against) + ChiralKClaim (the chiral K, registered above as a
+            // sibling root). Tier1Candidate. Wired 2026-06-05.
+            .RegisterF87DiagonalCellBipartiteWitnessSet()
             .RegisterF89F87TrulyInheritance()
             .RegisterF89F87BreakPredictionFromF83()
             // Spectrum quantization root (parent to F33/F50/F55/F64-F68/F74/F89
