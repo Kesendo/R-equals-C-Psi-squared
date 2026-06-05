@@ -59,4 +59,38 @@ public class PalindromeSoftCertifierTests
         Assert.False(hard.Certified);
         Assert.Equal(Strategy.None, hard.Strategy);
     }
+
+    [Fact]
+    public void Certify_NeverFalsePositive_AgainstTheSpectralVerdict()
+    {
+        // A certificate must imply not-hard. Check against the actual trichotomy at N=4.
+        var chain = new ChainSystem(N: 4, J: 1.0, GammaZero: 0.05);
+        var battery = new[]
+        {
+            H("XY", "YX"),          // pairing, soft
+            H("XX", "YY"),          // truly
+            H("XY", "YX", "XX"),    // mixed cell-ish; whatever it is, certificate must not lie
+            H("XYI", "YIX"),        // hard
+            H("XIY", "IXY"),        // hard
+            H("XZ", "ZX"),          // soft
+        };
+        foreach (var terms in battery)
+        {
+            var cert = PalindromeSoftCertifier.Certify(terms, 4);
+            if (cert.Certified)
+            {
+                var spectral = PauliPairTrichotomy.Classify(chain, terms, dephaseLetter: PauliLetter.Z);
+                Assert.NotEqual(TrichotomyClass.Hard, spectral);   // certified => not hard
+            }
+        }
+    }
+
+    [Fact]
+    public void Certify_ScalesToLargeN_WithNoLiouvillian()
+    {
+        // Pure pairing certified at N=40 (excitation strategy is N-independent; no 2^40 matrix).
+        var cert = PalindromeSoftCertifier.Certify(H("XY", "YX"), 40);
+        Assert.True(cert.Certified);
+        Assert.Equal(Strategy.ExcitationPairing, cert.Strategy);
+    }
 }
