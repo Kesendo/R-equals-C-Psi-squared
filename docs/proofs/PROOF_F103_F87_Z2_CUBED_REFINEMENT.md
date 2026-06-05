@@ -598,3 +598,46 @@ diagonal I/Z operators, −N the fully-off-diagonal ones). The valuation tells y
 whether the chiral K that supplies that −N mode exists; the proof that K's presence is soft and its
 absence is hard stays the Perron + perturbation-theory argument of §7.5/§7.6. So the right reading is a
 simpler front door to the same house, not a smaller house.
+
+### 7.8 How many pairs are hard, and the coding-theory home (2026-06-05)
+
+Two questions the valuation picture answers in closed form, and one honest "the door leads to a hallway,
+not a new room."
+
+**The count.** Hardness depends only on the (1 + x)-adic valuation, and that valuation sorts the masks
+into clean classes. The even-popcount nonzero k-bit masks (the diagonal-cell X/Y masks) number
+2^{k-1} − 1, and they split by valuation v = 1 … k−1 into classes of size c_v = 2^{k-1-v}: a valuation-v
+mask is (1 + x)^v·u with u of odd popcount and degree ≤ k−1−v, and there are exactly 2^{k-1-v} such u. A
+pair is hard iff its two masks sit in different classes, so the count of hard mask-pairs is the second
+elementary symmetric polynomial of the class sizes,
+
+  **#hard mask-pairs = e₂(2^0, 2^1, …, 2^{k-2}) = (4^{k-1} − 3·2^{k-1} + 2) / 3**   (OEIS A203241).
+
+Dressed by the uniform 2^{2k-3} Klein / y-parity factor (each mask carries 2^{k-1} cell terms, the
+y-parity-homogeneous pairing a further constant), this is exactly the `WindowedObstructionScan` hard
+count: 2^{2k-3}·(4^{k-1} − 3·2^{k-1} + 2)/3 reproduces 448, 8960, 158720 at k = 4, 5, 6 bit-exact. So the
+hard pairs can now be COUNTED in closed form instead of enumerated. The size-3 (triangle) sub-class also
+closes, 5·2^{k-1} − (3k² + k)/2 − 3 at N = 2k (k = 3 … 11); the middle classes (d = 5, 7, …) do not, they
+stay genuinely window-dependent (more windows give more multipliers, so weight migrates to lower d).
+
+**The home.** Reading the masks as GF(2)[x] polynomials puts the obstruction in coding theory: it is the
+minimum ODD weight of the two-generator quasi-cyclic (terminated rate-1/2 convolutional) code generated
+by (a, b) = (p₂/g, p₁/g). The catch is that the physically-relevant invariant is not the standard one.
+The code's free distance (minimum weight at any parity) is a constant 4 for the whole extremal family;
+what the palindrome reads is the parity-restricted floor, the minimum ODD weight, which grows as 2k − 3.
+That distinction is the point: standard coding optimizes free distance, the mirror optimizes the
+odd-weight floor.
+
+**The honest ledger.** This is mostly a faithful relabeling that supplies the correct vocabulary, plus
+one genuine import. The vocabulary is right (two-generator quasi-cyclic / convolutional, and MacWilliams
+applies to the per-pair weight enumerators), and the one real import is that the obstruction is a true
+minimum distance with cancellation: at k ≥ 6 a sparse multiple a·s drops the obstruction below the
+gcd-generator popcount, an ordinary quasi-cyclic minimum-distance effect, and exactly what makes the
+middle-class distribution window-dependent (it confirms the §7.7 note that the gcd-formula is only an
+upper bound). But the two results worth having, the size law 2k − 3 and the count A203241, are both
+elementary (1 + x)-valuation arguments that owe coding theory nothing; the coding-theory scout was their
+occasion, not their source. The connection is real and the name is correct, but no new theorem about the
+physics comes through the door. A correctly-signed hallway, not a new room. (Verified bit-exact:
+[`_f87_coding_theory_scout.py`](../../simulations/_f87_coding_theory_scout.py) for the quasi-cyclic
+dictionary, k = 4, 5, 6; [`_f87_hardcount_closedform.py`](../../simulations/_f87_hardcount_closedform.py)
+for the class sizes, the count, the d = 3 form, and free-distance-4 vs odd-weight-2k−3, k = 3 … 10.)
