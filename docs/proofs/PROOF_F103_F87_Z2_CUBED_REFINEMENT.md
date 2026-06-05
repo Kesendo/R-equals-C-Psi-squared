@@ -743,3 +743,28 @@ the actual sector structure is letter-dependent (the XX + YY cancellation above)
 graph's bipartiteness, that is hard/soft, that is the −N mode. So the physics sees neither the geometry's
 count nor the algebra's metric, only the algebra's parity. The combinatorics between algebra and geometry
 is rich (§7.7–§7.9), but only its single homological Z₂ invariant crosses into the spectrum.
+
+### 7.12 The true soft criterion is the basis-state graph, not the site graph (Door 2a, 2026-06-05)
+
+Porting the mask test off the chain (Door 2a) exposed that the site/mask-bipartite test is a PROXY, and
+showed what it is a proxy FOR. The §7.5 −N mode, soft ⟺ ∃ a diagonal D with {H, D} = 0, unpacks for an
+off-diagonal H into {H, D}_{ij} = H_{ij}(D_i + D_j) = 0 on every nonzero off-diagonal, i.e. D_i = −D_j on
+every edge of the BASIS-STATE hopping graph (the 2^N basis states, edges = H's nonzero off-diagonals). So,
+among the non-truly (M ≠ 0) Hamiltonians,
+
+  **soft ⟺ the basis-state hopping graph of H is bipartite.**
+
+This is letter-dependent, the basis-state graph being the actual connectivity rather than the lattice.
+The chiral-K / mask-bipartite test 2-colours the SITE graph instead; on the chain the two coincide, but
+off the chain they diverge. The cleanest divergence is the symmetric pair term XY + YX = −2i(σ₊σ₊ −
+σ₋σ₋), pure Δn = ±2: its basis-state graph is bipartite by the excitation number, colour s ↦ ⌊n(s)/2⌋
+mod 2 (verified bit-exact), so it is SOFT on a frustrated triangle where the site graph is not bipartite,
+while XY (pair + hop) and XY − YX (pure hop) have non-bipartite basis-state graphs and are hard there. So
+the "other soft mechanism" the frustration thread hunted is not a new symmetry: it is the same −N mode,
+read on the basis-state graph, where the excitation-number structure of a pairing term keeps it
+2-colourable regardless of site frustration. (The truly cases, M = 0, sit outside this: XX + YY is truly
+on the triangle despite a non-bipartite basis-state graph.) So the Door 2 mask/site test is the
+chain-scalable PROXY for this true criterion; the basis-state criterion itself is the 2^N graph, not
+Liouvillian-free, though for structured terms it can reduce to a scalable statement (a pure pairing is
+soft at any N, any topology, by the excitation number). Verified:
+[`_f87_door2a_basis_graph.py`](../../simulations/_f87_door2a_basis_graph.py).
