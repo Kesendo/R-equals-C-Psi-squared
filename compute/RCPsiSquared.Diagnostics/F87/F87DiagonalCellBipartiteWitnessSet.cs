@@ -61,9 +61,7 @@ public sealed class F87DiagonalCellBipartiteWitnessSet : Claim
             yield return new InspectableNode("chain",
                 summary: $"N={Chain.N}, {Chain.HType}, {Chain.Topology}");
             foreach (var w in Witnesses)
-                yield return w is IInspectable node
-                    ? node
-                    : new InspectableNode(w.WitnessName, summary: w.Summary);
+                yield return w;   // F87DiagonalCellBipartiteWitness : Claim : IInspectable
         }
     }
 }
