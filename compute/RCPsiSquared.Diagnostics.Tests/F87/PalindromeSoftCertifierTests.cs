@@ -73,6 +73,20 @@ public class PalindromeSoftCertifierTests
     }
 
     [Fact]
+    public void ExcitationParity_CertifiesAllOddFlip_TopologyIndependent()
+    {
+        // Every term flips an odd number of sites (here one), so every basis-edge has odd Δn and the
+        // excitation parity n mod 2 two-colours the basis graph -> soft on any topology.
+        Assert.True(PalindromeSoftCertifier.IsAllOddFlip(H("XZ", "ZX")));
+        Assert.Equal(Strategy.ExcitationParity, PalindromeSoftCertifier.Certify(H("XZ", "ZX"), 4).Strategy);
+        Assert.Equal(Strategy.ExcitationParity, PalindromeSoftCertifier.Certify(H("XZ", "ZX"), 40).Strategy);
+        // Even or mixed k_xy is not the parity strategy.
+        Assert.False(PalindromeSoftCertifier.IsAllOddFlip(H("XY", "YX")));               // k_xy = 2 (even)
+        Assert.False(PalindromeSoftCertifier.IsAllOddFlip(H("XY", "YX", "XZ", "ZX")));   // mixed even + odd
+        Assert.False(PalindromeSoftCertifier.IsAllOddFlip(H("ZZ")));                     // k_xy = 0 (diagonal)
+    }
+
+    [Fact]
     public void Certify_NeverFalsePositive_AgainstTheSpectralVerdict()
     {
         // A certificate must imply not-hard. Check against the actual trichotomy at N=4.
@@ -84,9 +98,11 @@ public class PalindromeSoftCertifierTests
             H("XY", "YX", "XX"),    // mixed cell-ish; whatever it is, certificate must not lie
             H("XYI", "YIX"),        // hard
             H("XIY", "IXY"),        // hard
-            H("XZ", "ZX"),          // soft
+            H("XZ", "ZX"),          // all-odd-flip, soft (parity strategy)
+            H("XZ", "ZX", "YZ", "ZY"),  // all-odd-flip 4-term, soft (parity strategy)
             H("XX", "XY"),          // mixed Klein cell, hard (Bug 1 witness)
             new List<PauliTerm> { T("XY"), T("YX"), T("YZ") },  // pairing + odd-flip, hard (Bug 2 witness)
+            new List<PauliTerm> { T("XY"), T("YX"), T("XZ"), T("ZX") },  // pairing + odd mix, hard on chain
         };
         foreach (var terms in battery)
         {

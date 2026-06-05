@@ -9,11 +9,19 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// the bipartiteness of the BASIS-STATE hopping graph (a 2^N, letter-dependent object); this class tries
 /// scalable SUFFICIENT conditions ("soft colourings") and certifies soft if any holds. It never claims
 /// hard: NotCertified means no scalable strategy applies (the chain-scope hard proxy stays in
-/// <see cref="PalindromeMaskClassifier"/>). A certificate is correct for any N and any topology.</summary>
+/// <see cref="PalindromeMaskClassifier"/>). A certificate is correct for any N and any topology.
+///
+/// <para>The strategies are the structured 2-colourings of the basis-state graph: linear (the chiral K,
+/// <see cref="CertifyByLinearSiteColoring"/>), pure-pairing (⌊n/2⌋ mod 2, <see cref="CertifyByExcitationPairing"/>),
+/// and excitation-parity (n mod 2, <see cref="CertifyByExcitationParity"/>). They are SOUND but not
+/// complete: some soft Hamiltonians have a non-structured basis-graph 2-colouring that no scalable
+/// strategy reaches (XY+YX+XZ+ZX placed on a triangle is soft, yet bipartite only via a colouring that is
+/// neither linear nor an excitation grading), so NotCertified does not imply not-soft. That residual is
+/// the price of staying Liouvillian-free; the full criterion is the 2^N basis-state graph itself.</para></summary>
 public static class PalindromeSoftCertifier
 {
     /// <summary>Which scalable soft-colouring certified the Hamiltonian (None = not certified).</summary>
-    public enum SoftStrategy { None, LinearSiteColoring, ExcitationPairing }
+    public enum SoftStrategy { None, LinearSiteColoring, ExcitationPairing, ExcitationParity }
 
     /// <summary>Result of <see cref="Certify"/>: whether soft is certified, and by which strategy.</summary>
     public readonly record struct SoftCertificate(bool Certified, SoftStrategy Strategy);
@@ -76,6 +84,26 @@ public static class PalindromeSoftCertifier
     /// (then ⌊n/2⌋ mod 2 two-colours the basis-state graph, soft on any topology).</summary>
     public static bool CertifyByExcitationPairing(IReadOnlyList<PauliTerm> terms) => IsPurePairing(terms);
 
+    /// <summary>True iff every term flips an ODD number of sites (odd k_xy = #X/Y per term), i.e. the
+    /// Hamiltonian sits in the bit_a = 1 Klein-cell row. Then every basis-edge has odd Δn. N-independent.</summary>
+    public static bool IsAllOddFlip(IReadOnlyList<PauliTerm> terms)
+    {
+        if (terms.Count == 0) return false;
+        foreach (var t in terms)
+        {
+            int kxy = 0;
+            foreach (var letter in t.Letters)
+                if (letter == PauliLetter.X || letter == PauliLetter.Y) kxy++;
+            if (kxy % 2 == 0) return false;   // an even (incl. zero) X/Y count gives an even-Δn edge
+        }
+        return true;
+    }
+
+    /// <summary>The excitation-parity strategy: certify soft iff every term has odd k_xy (so every
+    /// basis-edge has odd Δn and the excitation parity n mod 2 two-colours the basis-state graph, soft on
+    /// any topology). The odd sibling of the pure-pairing strategy. N-independent.</summary>
+    public static bool CertifyByExcitationParity(IReadOnlyList<PauliTerm> terms) => IsAllOddFlip(terms);
+
     /// <summary>The linear site-colouring strategy: certify soft iff the chain flip-mask set is bipartite
     /// (the chiral K). Reuses <see cref="PalindromeMaskClassifier"/>.</summary>
     public static bool CertifyByLinearSiteColoring(IReadOnlyList<PauliTerm> terms, int n)
@@ -97,10 +125,12 @@ public static class PalindromeSoftCertifier
         return masks.Count > 0 && PalindromeMaskClassifier.MaskSetIsBipartite(masks);
     }
 
-    /// <summary>Try the stronger excitation strategy first, then the linear one; return the certificate.</summary>
+    /// <summary>Try the stronger, topology-independent excitation strategies first (pairing, then
+    /// parity; a term-set is at most one of them), then the chain-only linear one; return the certificate.</summary>
     public static SoftCertificate Certify(IReadOnlyList<PauliTerm> terms, int n)
     {
         if (CertifyByExcitationPairing(terms)) return new SoftCertificate(true, SoftStrategy.ExcitationPairing);
+        if (CertifyByExcitationParity(terms)) return new SoftCertificate(true, SoftStrategy.ExcitationParity);
         if (CertifyByLinearSiteColoring(terms, n)) return new SoftCertificate(true, SoftStrategy.LinearSiteColoring);
         return new SoftCertificate(false, SoftStrategy.None);
     }
