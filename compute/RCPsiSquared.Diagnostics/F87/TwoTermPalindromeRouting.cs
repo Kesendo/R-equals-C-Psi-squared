@@ -118,18 +118,17 @@ public static class TwoTermPalindromeRouting
             Reason: reason);
     }
 
-    /// <summary>Validate and canonicalize a two-letter Pauli label. Upper-cases the letters and checks each
-    /// is one of I/X/Y/Z and that the term has exactly two letters.</summary>
+    /// <summary>Validate a two-letter Pauli label: each letter must be one of I/X/Y/Z (case-sensitive,
+    /// matching the Python reference, which rejects lower-case) and the term must have exactly two letters.</summary>
     private static string NormalizeTerm(string term)
     {
         if (term is null) throw new System.ArgumentNullException(nameof(term));
-        string upper = term.ToUpperInvariant();
-        if (upper.Length != 2)
+        if (term.Length != 2)
             throw new System.ArgumentException($"term must be two letters; got '{term}'", nameof(term));
-        foreach (char ch in upper)
+        foreach (char ch in term)
             if (ch is not ('I' or 'X' or 'Y' or 'Z'))
                 throw new System.ArgumentException($"unknown Pauli letter '{ch}' in term '{term}'", nameof(term));
-        return upper;
+        return term;
     }
 
     /// <summary>Klein-Vierergruppe (Z₂ × Z₂) index (bit_a, bit_b) of a two-letter bilinear, via the Core
