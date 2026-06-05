@@ -4001,6 +4001,14 @@ polarity axis: it is the graded refinement of the bit_a axis, read at the pair l
 cell (bit_b selects that cell because the −N reflection mode needs F H F = −H, i.e. odd #Y + #Z). Verified
 bit-exact: bit_a = [v = 0] for all masks, and the bit_a = 0 cell's valuation classes reproduce c_v.
 
+The grade reads concretely as a tower of dyadic moments: moment_j is the parity of the X/Y count on the
+sites whose index has j as a submask (j AND i == j), moment_0 being bit_a (the total parity), and the
+grade is the number of leading vanishing moments, i.e. how deeply the X/Y pattern is dyadically balanced
+((1 + x)^{2^m} is a distance-2^m pair, of grade 2^m). So the combinations the grade produces, the §7.8
+classes, are the dyadic-balance strata of the X/Y pattern, not bookkeeping. The graded axis is pulled
+into the toolkit as C# `BitADyadicGrade` (`compute/RCPsiSquared.Core/Symmetry/`, with `Moment` / `Grade`
+/ `BitA`), tested against the GF(2)[x] valuation and the classes c_v.
+
 **Verified:** the valuation criterion vs the actual spectral verdict (k = 3, N = 4, every pair); the
 size law across a (k, N) grid through k = 6; the class sizes, count, d = 3 form, and
 free-distance-4-vs-odd-weight-2k−3 through k = 10, with the dressed totals matched against the C# scan
