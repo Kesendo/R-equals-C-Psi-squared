@@ -102,6 +102,15 @@ public static class KnowledgeRegistryFactory
             // criterion is checked against) + ChiralKClaim (the chiral K, registered above as a
             // sibling root). Tier1Candidate. Wired 2026-06-05.
             .RegisterF87DiagonalCellBipartiteWitnessSet()
+            // F115 windowed hardness: the mask-combinatorial reading of the same diagonal-cell
+            // hard/soft line, collapsed to one integer test (PROOF_F103 §7.7): a diagonal-cell
+            // Mixed pair is hard iff its two X/Y window-masks have different (1+x)-adic valuations,
+            // with a derived obstruction size law min(2W-1, 2k-3). Wraps the WindowedObstructionScan
+            // helper; single typed parent F87DiagonalCellBipartiteWitnessSet (F115 is the child mask
+            // reading of that §7 diagonal-K criterion). Tier1Candidate (the verdict rests on the
+            // §7.5/§7.6 converse; per §7.10 only the (1+x)-valuation reaches the spectrum). Wired
+            // 2026-06-05.
+            .RegisterWindowedHardnessClaim()
             .RegisterF89F87TrulyInheritance()
             .RegisterF89F87BreakPredictionFromF83()
             // Spectrum quantization root (parent to F33/F50/F55/F64-F68/F74/F89
