@@ -22,6 +22,9 @@ public static class PalindromeSoftCertifier
     /// by a σ± decomposition: the mixed (hopping) pieces must cancel. N-independent.</summary>
     public static bool IsPurePairing(IReadOnlyList<PauliTerm> terms)
     {
+        // The σ± coefficients are the input coefficients scaled by ±1 and ±i, so a true zero is exact;
+        // this tolerance only absorbs float round-off in the ±i accumulation.
+        const double CoefficientTolerance = 1e-12;
         // Accumulate σ± coefficients keyed by (X/Y mask, Z mask, sign pattern ε). ε bit set = σ_- there.
         var coeffs = new Dictionary<(ulong Xy, ulong Z, ulong Eps), Complex>();
         foreach (var t in terms)
@@ -35,12 +38,11 @@ public static class PalindromeSoftCertifier
                 else if (letter == PauliLetter.Z) zMask |= 1UL << i;
             }
             if (xyPositions.Count != 2) return false;   // the Δn=±2 colouring needs exactly 2 X/Y flips per term (this also rejects pure-diagonal terms)
-            int k = xyPositions.Count;
-            for (ulong bits = 0; bits < (1UL << k); bits++)
+            for (ulong bits = 0; bits < 4; bits++)       // the 4 sign patterns over the 2 X/Y positions pinned above
             {
                 ulong eps = 0;
                 Complex coeff = t.Coefficient;
-                for (int p = 0; p < k; p++)
+                for (int p = 0; p < 2; p++)
                 {
                     int pos = xyPositions[p];
                     bool minus = ((bits >> p) & 1UL) != 0;        // this position takes σ_-
@@ -60,9 +62,9 @@ public static class PalindromeSoftCertifier
             bool allMinus = kv.Key.Eps == kv.Key.Xy;
             if (allPlus || allMinus)
             {
-                if (kv.Value.Magnitude > 1e-12) anyPure = true;
+                if (kv.Value.Magnitude > CoefficientTolerance) anyPure = true;
             }
-            else if (kv.Value.Magnitude > 1e-12)
+            else if (kv.Value.Magnitude > CoefficientTolerance)
             {
                 return false;                                     // a surviving mixed (hopping) piece
             }
