@@ -760,9 +760,11 @@ general, though: the −N mode is sufficient, not necessary. XX + XZ, YY + YZ, a
 the chain at N = 3..6 (the spectral authority `PauliPairTrichotomy`, cross-checked against
 `BipartiteChirality`), yet their basis-state graphs are non-bipartite, no diagonal D, no chiral K: the
 palindrome is restored by an operator that is NOT diagonal in the dephasing basis (these are bit_a/bit_b
-cell-mixed, outside §7.6's diagonal-cell scope; the mechanism itself is open). So basis-state
-bipartiteness is the exact criterion inside the diagonal cell and a one-sided SUFFICIENT soft condition
-outside it.
+cell-mixed, outside §7.6's diagonal-cell scope). That operator is no longer a mystery: it is the hidden-Q
+routing, a per-site Q from the P1/P4 families, which `TwoTermPalindromeRouting` classifies bit-exactly for
+2-term pairs (XX+XZ routes to P4, soft); what remains past it is general-k, multi-term H beyond the 2-term
+routing. So basis-state bipartiteness is the exact criterion inside the diagonal cell and a one-sided
+SUFFICIENT soft condition outside it.
 
 This is letter-dependent, the basis-state graph being the actual connectivity rather than the lattice.
 The chiral-K / mask-bipartite test 2-colours the SITE graph instead; on the chain the two coincide, but

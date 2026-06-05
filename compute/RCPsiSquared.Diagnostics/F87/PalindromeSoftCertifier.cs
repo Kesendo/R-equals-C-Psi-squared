@@ -20,9 +20,11 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// structural ceiling, deeper: some soft Hamiltonians have a NON-bipartite basis-state graph, so NO
 /// colouring exists at any degree (XX+XZ on the chain is soft at N=3..6 by the spectral authority
 /// <see cref="PauliPairTrichotomy"/>, yet <see cref="BipartiteChirality"/> reports its basis-state graph
-/// non-bipartite, soft by a non-diagonal mechanism). So NotCertified does not imply not-soft; a colouring
-/// certifies exactly the diagonal −N-mode soft cases, and the non-bipartite-soft class is permanently
-/// beyond it. The full criterion is more than basis-state bipartiteness (PROOF_F103 §7.12).</para></summary>
+/// non-bipartite). The mechanism is NOT open: these are soft by the hidden-Q routing, a per-site Q from
+/// the P1/P4 families that <see cref="TwoTermPalindromeRouting"/> classifies bit-exactly for 2-term pairs
+/// (XX+XZ routes to P4). So NotCertified does not imply not-soft; a colouring certifies exactly the
+/// diagonal −N-mode soft cases, while the non-bipartite-soft class is named (not certified) by the
+/// routing. What stays beyond both is general-k, multi-term H past the 2-term routing (PROOF_F103 §7.12).</para></summary>
 public static class PalindromeSoftCertifier
 {
     /// <summary>Which scalable soft-colouring certified the Hamiltonian (None = not certified).</summary>
