@@ -688,3 +688,39 @@ B(k) + Σ_{d≥1} 2^{d-1}B(k − d) = (4^{k-1} − 3·2^{k-1} + 2)/3 = A203241, 
 shared non-(1 + x) factor degree sets both the obstruction-size cap (2k − 3 − 2d) and the population of
 each layer in closed form: the layering is total. Verified k = 3 … 8
 ([`_f87_dlayer_count.py`](../../simulations/_f87_dlayer_count.py)).
+
+### 7.10 Does the factorization reach the physics? Mostly no (2026-06-05)
+
+§7.9 layered the obstruction by the shared-factor degree, all of it combinatorial. The deeper question
+(Door 3 proper): does any of this finer GF(2) structure reach the Liouvillian SPECTRUM, or does it stay
+on the mask graph? The combinatorial structure is letter-independent (mask-only), but L depends on the
+actual letters (the Y-vs-X phases, the I-vs-Z diagonal), so a spectral correlate must itself be
+letter-independent. Tested across k = 3 (N = 4), k = 4 (N = 6, 7), k = 5 (N = 8) with letter-realization
+controls, the answer is clean: **exactly two mask-invariants reach the spectrum, and the obstruction size
+is neither.**
+
+1. The **(1 + x)-valuation** → hard/soft: the −N reflection-mode multiplicity of the gain channel
+   Σ_l Z_l(·)Z_l on the ω = 0 block (n_{−N} = 0 iff hard). The §7.5 layer.
+2. The **GF(2) span-rank r** of the windowed mask set {x^w p₁, x^w p₂} → the conserved-sector
+   multiplicity 2^{N-r}: the number of connected components of H's computational-basis hopping graph,
+   equivalently the dimension of the diagonal commutant, and (verified here) the kernel dim(ker L)
+   itself, all letter-independent. A second mask → spectrum fingerprint, coarser than the factorization.
+
+The **obstruction size and the shared-factor degree d reach nothing letter-independent.** The reason is
+principled: the first-order break is A(γ) = cγ + O(γ²) with c the asymmetry of the ω = 0 gain-channel
+spectrum about −N, and the only letter-independent parts of that block are its ±N eigenspaces (the rank
+and the valuation); everything strictly between depends on the Z-overlaps ⟨E_a|Z_l|E_{a'}⟩ in H's
+eigenbasis, which the letters control. The obstruction size is a property of the flip-graph's cycle
+structure, which lives exactly in those letter-dependent off-diagonal weights, so it cannot survive as a
+spectral invariant. Confirmed two ways: the size is letter-independent yet provably independent of the
+rank (at fixed r the obstruction still ranges over {3, 5, 7}), and the break-magnitude distributions for
+size 3 vs 5, controlled at fixed r, overlap and even flip their weak median ordering between two
+geometries (the signature of noise, not a law).
+
+So §7.8's "a simpler front door, not a smaller house" extends one floor down: the size layer is not even
+in the house. The factorization beyond (1 + x) is a clean combinatorial theory of the obstruction, its
+size cap and population (§7.9), with no spectral shadow; the physics sees only the valuation (whether the
+palindrome breaks) and the rank (how many conserved sectors). (Verified:
+[`_f87_rank_reaches_spectrum.py`](../../simulations/_f87_rank_reaches_spectrum.py) for
+dim(ker L) = 2^{N-r} letter-independent and the size ⊥ rank null; the full ω = 0-block magnitude controls
+were an Opus spectral sweep across k = 3, 4, 5.)
