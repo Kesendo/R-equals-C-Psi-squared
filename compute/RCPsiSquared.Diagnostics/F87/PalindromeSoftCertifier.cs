@@ -104,10 +104,14 @@ public static class PalindromeSoftCertifier
         return true;
     }
 
-    /// <summary>The excitation-parity strategy: certify soft iff every term has odd k_xy (so every
-    /// basis-edge has odd Δn and the excitation parity n mod 2 two-colours the basis-state graph, soft on
-    /// any topology). The odd sibling of the pure-pairing strategy. N-independent.</summary>
-    public static bool CertifyByExcitationParity(IReadOnlyList<PauliTerm> terms) => IsAllOddFlip(terms);
+    /// <summary>The excitation-parity strategy: certify soft iff every term has odd k_xy AND the terms
+    /// share one Klein cell (bit_b-homogeneous). Then every basis-edge has odd Δn, so n mod 2 two-colours
+    /// the basis-state graph; but a bipartite basis-state graph only certifies soft WITHIN a single Klein
+    /// cell (the §7.6 diagonal-cell scope). A bit_b-MIXED all-odd-flip set can be hard despite the n mod 2
+    /// colouring (e.g. XZ + ZXZ, bit_b = {1, 0}, is spectrally hard at N = 3..4), so the bit_b gate is a
+    /// soundness requirement, not a refinement. The odd sibling of the pure-pairing strategy. N-independent.</summary>
+    public static bool CertifyByExcitationParity(IReadOnlyList<PauliTerm> terms) =>
+        IsAllOddFlip(terms) && PalindromeMaskClassifier.IsBitBHomogeneous(terms);
 
     /// <summary>The linear site-colouring strategy: certify soft iff the chain flip-mask set is bipartite
     /// (the chiral K). Reuses <see cref="PalindromeMaskClassifier"/>.</summary>

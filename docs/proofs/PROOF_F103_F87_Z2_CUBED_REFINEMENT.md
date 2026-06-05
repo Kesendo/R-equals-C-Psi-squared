@@ -783,9 +783,12 @@ soft at any N, any topology, by the excitation number). Verified:
 criterion through STRUCTURED 2-colourings c(s) it can check per-term without the 2^N graph. Three are
 clean: the linear c(s) = ⟨φ, s⟩ (the chiral K of §7.1, the chain proxy); the pairing grading
 c(s) = ⌊n/2⌋ mod 2 (every basis-edge Δn = ±2, a pure Δn = ±2 pairing); and the parity grading
-c(s) = n mod 2 (every basis-edge Δn odd, i.e. every term has odd k_xy = #X/Y, the bit_a = 1 row that sits
-outside the Z-dephasing hardness cell). The two excitation gradings are topology-independent, and the
-parity one covers bit_b-MIXED all-odd Hamiltonians the linear strategy must reject. But the structured
+c(s) = n mod 2 (every basis-edge Δn odd, i.e. every term has odd k_xy = #X/Y). The two excitation gradings
+are topology-independent. The parity grading needs a bit_b-homogeneity gate, though: the n mod 2 colouring
+exists for any all-odd-flip set, but a bipartite basis-state graph only certifies soft WITHIN one Klein
+cell (§7.6), so a bit_b-MIXED all-odd set can be HARD despite the colouring (XZ + ZXZ is all-odd with
+bit_b = {1, 0} and spectrally hard at N = 3..4) while another is soft (XZ + ZX + YZ + ZY); the gate keeps
+the certificate sound. But even with the gates the structured
 colourings are SOUND, not complete, and the incompleteness is two-layered. (a) A scalability gap: some
 soft Hamiltonians are bipartite only through a non-structured 2-colouring no scalable strategy reaches
 (XY + YX + XZ + ZX on a triangle is soft, its basis-state graph bipartite at ANF-degree 2, yet neither

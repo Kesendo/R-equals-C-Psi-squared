@@ -25,7 +25,7 @@ public class PalindromeSoftCertifierCeilingTests
     public void NonBipartiteSoft_IsRealAndBeyondAnyColouring(int n)
     {
         // XX+XZ is soft by the spectral authority, yet its basis-state graph is non-bipartite, so no chiral
-        // K = diag(±1) exists. No colouring (scalable or not) can certify it -- the structural ceiling.
+        // K = diag(±1) exists. No colouring (scalable or not) can certify it, the structural ceiling.
         var terms = H("XX", "XZ");
         var chain = new ChainSystem(n, 1.0, 0.05);
         var bc = BipartiteChirality.Classify(chain, terms);

@@ -99,10 +99,12 @@ public class PalindromeSoftCertifierTests
             H("XYI", "YIX"),        // hard
             H("XIY", "IXY"),        // hard
             H("XZ", "ZX"),          // all-odd-flip, soft (parity strategy)
-            H("XZ", "ZX", "YZ", "ZY"),  // all-odd-flip 4-term, soft (parity strategy)
+            H("XZ", "ZX", "YZ", "ZY"),  // all-odd-flip but bit_b-MIXED: soft, yet the parity gate declines it (a miss, not a lie)
             H("XX", "XY"),          // mixed Klein cell, hard (Bug 1 witness)
             new List<PauliTerm> { T("XY"), T("YX"), T("YZ") },  // pairing + odd-flip, hard (Bug 2 witness)
             new List<PauliTerm> { T("XY"), T("YX"), T("XZ"), T("ZX") },  // pairing + odd mix, hard on chain
+            H("XZ", "ZXZ"),         // all-odd-flip but bit_b-MIXED ({1,0}) and hard (Bug 3 witness): the
+                                    // parity strategy needs the bit_b-homogeneity gate or it false-positives
         };
         foreach (var terms in battery)
         {
