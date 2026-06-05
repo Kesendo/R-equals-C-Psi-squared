@@ -14,8 +14,17 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// soft/hard verdict exactly when the terms are bit_b-homogeneous (a single Klein cell) AND have hopping
 /// (some X/Y). Mixed-cell Hamiltonians (terms of different #(Y+Z) parity) and pure-diagonal lifts fall
 /// outside, returning <see cref="Verdict.OutOfScope"/>: their soft/hard is not fixed by the flip-mask set
-/// alone (XX+YY is truly but XX+YY+XY is hard, and they share the same flip-mask set). Anchor: PROOF_F103
-/// §7.1, F87; the cancellation caveat is §7.10.</para></summary>
+/// alone (XX+YY is truly but XX+YY+XY is hard, and they share the same flip-mask set).</para>
+///
+/// <para><b>The two directions port differently (Door 2a, 2026-06-05).</b> The SOFT direction
+/// (mask-bipartite ⟹ soft) is topology-agnostic: the chiral K is a 2-colouring of the flip-graph and
+/// exists on any lattice, so a mask-bipartite verdict certifies soft for any placement, at any N. The
+/// HARD direction (non-bipartite ⟹ hard) is NOT general; it is the §7.5/§7.6 converse, derived for the
+/// CHAIN sliding-window placement this class uses. On a non-chain frustrated graph a non-bipartite
+/// flip-set can still be soft or truly via a non-chiral mechanism (verified: XY+YX on a triangle is soft
+/// despite the non-bipartite edge-set), so the <see cref="Verdict.Hard"/> verdict must not be ported off
+/// the chain. Anchor: PROOF_F103 §7.1, F87; cancellation caveat §7.10; frustration caveat
+/// simulations/_f87_door2_lattice_frustration.py.</para></summary>
 public static class PalindromeMaskClassifier
 {
     /// <summary>Soft (palindrome restorable), Hard (palindrome broken), or OutOfScope (the flip-mask
