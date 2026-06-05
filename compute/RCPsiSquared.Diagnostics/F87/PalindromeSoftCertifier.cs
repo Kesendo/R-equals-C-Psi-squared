@@ -92,5 +92,10 @@ public static class PalindromeSoftCertifier
     }
 
     /// <summary>Try the stronger excitation strategy first, then the linear one; return the certificate.</summary>
-    public static SoftCertificate Certify(IReadOnlyList<PauliTerm> terms, int n) => throw new NotImplementedException();
+    public static SoftCertificate Certify(IReadOnlyList<PauliTerm> terms, int n)
+    {
+        if (CertifyByExcitationPairing(terms)) return new SoftCertificate(true, SoftStrategy.ExcitationPairing);
+        if (CertifyByLinearSiteColoring(terms, n)) return new SoftCertificate(true, SoftStrategy.LinearSiteColoring);
+        return new SoftCertificate(false, SoftStrategy.None);
+    }
 }

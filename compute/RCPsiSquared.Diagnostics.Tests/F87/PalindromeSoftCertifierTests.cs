@@ -45,4 +45,18 @@ public class PalindromeSoftCertifierTests
         // even though the flip part (XX) is bipartite. (This guards against a false-positive certificate.)
         Assert.False(PalindromeSoftCertifier.CertifyByLinearSiteColoring(H("XX", "YY", "ZZ"), 4));
     }
+
+    [Fact]
+    public void Certify_PrefersExcitation_FallsBackToLinear_ElseNotCertified()
+    {
+        // Pure pairing -> ExcitationPairing (the stronger, topology-independent certificate).
+        Assert.Equal(Strategy.ExcitationPairing, PalindromeSoftCertifier.Certify(H("XY", "YX"), 4).Strategy);
+        // Pure hopping, chain-bipartite, not a pairing -> LinearSiteColoring.
+        Assert.Equal(Strategy.LinearSiteColoring, PalindromeSoftCertifier.Certify(
+            new List<PauliTerm> { T("XY"), T("YX", -Complex.One) }, 4).Strategy);
+        // F87 windowed hard pair -> neither strategy -> not certified.
+        var hard = PalindromeSoftCertifier.Certify(H("XYI", "YIX"), 4);
+        Assert.False(hard.Certified);
+        Assert.Equal(Strategy.None, hard.Strategy);
+    }
 }
