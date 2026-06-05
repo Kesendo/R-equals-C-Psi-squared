@@ -61,6 +61,18 @@ public class PalindromeSoftCertifierTests
     }
 
     [Fact]
+    public void Certify_RejectsMixedCellAndNonPairingWitnesses()
+    {
+        // Bug 1: XX (bit_b=0) + XY (bit_b=1) is a mixed Klein cell and spectrally Hard -> not certified.
+        Assert.False(PalindromeSoftCertifier.CertifyByLinearSiteColoring(H("XX", "XY"), 4));
+        Assert.False(PalindromeSoftCertifier.Certify(H("XX", "XY"), 4).Certified);
+        // Bug 2: a pairing plus an odd-flip term (|Δn| mixes 2 and 1) is not a pure pairing and is Hard.
+        var pairingPlusOddFlip = new List<PauliTerm> { T("XY"), T("YX"), T("YZ") };
+        Assert.False(PalindromeSoftCertifier.IsPurePairing(pairingPlusOddFlip));
+        Assert.False(PalindromeSoftCertifier.Certify(pairingPlusOddFlip, 4).Certified);
+    }
+
+    [Fact]
     public void Certify_NeverFalsePositive_AgainstTheSpectralVerdict()
     {
         // A certificate must imply not-hard. Check against the actual trichotomy at N=4.
@@ -73,6 +85,8 @@ public class PalindromeSoftCertifierTests
             H("XYI", "YIX"),        // hard
             H("XIY", "IXY"),        // hard
             H("XZ", "ZX"),          // soft
+            H("XX", "XY"),          // mixed Klein cell, hard (Bug 1 witness)
+            new List<PauliTerm> { T("XY"), T("YX"), T("YZ") },  // pairing + odd-flip, hard (Bug 2 witness)
         };
         foreach (var terms in battery)
         {

@@ -34,7 +34,7 @@ public static class PalindromeSoftCertifier
                 if (letter == PauliLetter.X || letter == PauliLetter.Y) { xyMask |= 1UL << i; xyPositions.Add(i); }
                 else if (letter == PauliLetter.Z) zMask |= 1UL << i;
             }
-            if (xyPositions.Count == 0) return false;   // a pure-diagonal term: not a pairing
+            if (xyPositions.Count != 2) return false;   // the Δn=±2 colouring needs exactly 2 X/Y flips per term (this also rejects pure-diagonal terms)
             int k = xyPositions.Count;
             for (ulong bits = 0; bits < (1UL << k); bits++)
             {
@@ -78,6 +78,10 @@ public static class PalindromeSoftCertifier
     /// (the chiral K). Reuses <see cref="PalindromeMaskClassifier"/>.</summary>
     public static bool CertifyByLinearSiteColoring(IReadOnlyList<PauliTerm> terms, int n)
     {
+        // The mask-bipartite test is a valid soft certificate only WITHIN a single Klein cell; a mixed
+        // cell (terms of different bit_b = #(Y+Z) parity) can be hard while still mask-bipartite. Gate on
+        // bit_b-homogeneity, matching PalindromeMaskClassifier.Classify, to avoid a false positive.
+        if (!PalindromeMaskClassifier.IsBitBHomogeneous(terms)) return false;
         // A pure-diagonal term (no X/Y) lifts the diagonal, which the diagonal chiral K cannot negate,
         // so the bipartite flip-graph would not actually certify soft. Reject to avoid a false positive.
         foreach (var t in terms)
