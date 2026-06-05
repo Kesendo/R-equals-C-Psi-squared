@@ -645,3 +645,34 @@ on this stretch of it we are ahead of the catalogued math, not behind it. (Verif
 [`_f87_coding_theory_scout.py`](../../simulations/_f87_coding_theory_scout.py) for the quasi-cyclic
 dictionary, k = 4, 5, 6; [`_f87_hardcount_closedform.py`](../../simulations/_f87_hardcount_closedform.py)
 for the class sizes, the count, the d = 3 form, and free-distance-4 vs odd-weight-2k−3, k = 3 … 10.)
+
+### 7.9 The other factors: the size law is layered (2026-06-05)
+
+§7.7 reads hardness through a single prime, (1 + x), the x = 1 / DC point. But a mask is a full GF(2)[x]
+polynomial with a complete factorization into irreducibles, each a different root of unity. Asking
+whether the OTHER factors carry structure (Door 3) gives two bit-exact findings.
+
+**(1 + x) is the unique hardness prime.** Testing every other irreducible φ through degree 5 as a
+would-be predictor, the valuation difference v_φ(p₁) ≠ v_φ(p₂) at φ ≠ (1 + x) agrees with hard/soft only
+about a third of the time (chance), never as a criterion. Hardness lives entirely at x = 1, which is
+exactly the §7.5 Perron reading: the +N / −N reflection mode the bridge pairs is the x = 1 uniform mode,
+so only the x = 1 valuation can decide it.
+
+**But the other shared factors set the obstruction size.** Write g = gcd(p₁, p₂) = (1 + x)^m·g_rest with
+g_rest the shared non-(1 + x) content and deg(g_rest) = d. The obstruction size obeys a layered bound,
+
+  **max obstruction over hard pairs with deg(g_rest) = d  =  2k − 3 − 2d:**
+
+the more the two masks share beyond (1 + x), the smaller the obstruction, by 2 per shared degree. The
+§7.7 cap 2k − 3 is the d = 0 (coprime-apart-from-(1 + x)) face. The derivation is the §7.7 degree bound
+with the fuller gcd: deg(p_i/g) ≤ (k − 1) − deg(g) = (k − 1) − (m + d) ≤ k − 2 − d (since m ≥ 1), so
+popcount(p_i/g) ≤ k − 1 − d, and an odd sum of two such maxes at (k − 1 − d) + (k − 2 − d) = 2k − 3 − 2d.
+Verified: the actual minimal obstruction realises this cap at k = 4, 5, 6, and the gcd-formula cap holds
+through k = 10 across all layers d = 0 … k − 3.
+
+So the valuation picture is two-layered: the (1 + x) valuation difference decides IF a pair is hard, and
+the shared non-(1 + x) factor degree decides HOW BIG the obstruction is. The full size law is
+max obstruction = min(2W − 1, 2k − 3 − 2·deg(g_rest)), and the 3, 5, 7, 9 size distribution is the
+layering by d. (Verified bit-exact:
+[`_f87_beyond_x1_scout.py`](../../simulations/_f87_beyond_x1_scout.py) for the unique-prime fact,
+[`_f87_size_second_layer.py`](../../simulations/_f87_size_second_layer.py) for the layered cap.)

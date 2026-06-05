@@ -3967,10 +3967,13 @@ all bit-exact.
    valuations ⟹ soft. This is the §7.5 non-bipartite criterion in one subtraction, and it matches the
    actual spectral trichotomy on every k = 3, N = 4 pair (derived for any k via §7.7 + §7.5/§7.6).
 
-2. *Obstruction-size law.* The minimal odd 𝔽₂-relation among the shifts (the hardness obstruction) has
-   maximal size over hard pairs = min(2W − 1, 2k − 3): the window leg 2W − 1 (at most 2W masks, an odd
-   subset ≤ 2W − 1), the body leg 2k − 3 ((1 + x) | p forces the gcd-quotients to degree ≤ k − 2,
-   popcount ≤ k − 1, odd sum ≤ (k−1)+(k−2)). k = 3 gives 2k − 3 = 3, the always-triangle case.
+2. *Obstruction-size law (two-layered).* The minimal odd 𝔽₂-relation among the shifts (the hardness
+   obstruction) has maximal size over hard pairs = min(2W − 1, 2k − 3 − 2d), where d = deg(g_rest) is the
+   degree of the shared non-(1 + x) part of g = gcd(p₁, p₂). The window leg 2W − 1 (at most 2W masks, an
+   odd subset ≤ 2W − 1); the body leg 2k − 3 − 2d ((1 + x) | p forces the gcd-quotients to degree
+   ≤ k − 2 − d, popcount ≤ k − 1 − d). Only (1 + x) governs hard/soft (the unique hardness prime, §7.9);
+   the other shared factors shrink the obstruction by 2 per degree. The d = 0 face is 2k − 3; k = 3 gives
+   3, the always-triangle case.
 
 3. *Closed-form hard count.* The even-popcount nonzero k-bit masks split by valuation into classes of
    size c_v = 2^{k-1-v} (v = 1 … k−1); a pair is hard iff its masks differ in class, so
@@ -3993,11 +3996,11 @@ size law across a (k, N) grid through k = 6; the class sizes, count, d = 3 form,
 free-distance-4-vs-odd-weight-2k−3 through k = 10, with the dressed totals matched against the C# scan
 at k = 4, 5, 6; the quasi-cyclic dictionary bit-exact k = 4, 5, 6.
 
-**Source:** [Proof](proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) §7.7–§7.8; C# `WindowedObstructionScan`
+**Source:** [Proof](proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) §7.7–§7.9; C# `WindowedObstructionScan`
 (`compute/RCPsiSquared.Diagnostics/F87/`, with the GF(2)[x] `PolyGcd` / `ValuationAtOnePlusX` /
 `GcdFormulaSize` / `IsHardPair` helpers) + `WindowedObstructionScanTests`; scouts
 `simulations/_f87_obstruction_derivation.py`, `_f87_coding_theory_scout.py`,
-`_f87_hardcount_closedform.py`.
+`_f87_hardcount_closedform.py`, `_f87_beyond_x1_scout.py`, `_f87_size_second_layer.py`.
 
 ---
 
