@@ -121,6 +121,17 @@ public static class KnowledgeRegistryFactory
             // Tier1Candidate) + F87TrichotomyClassification (the spectral authority, Tier1Derived).
             // Tier1Candidate (4 ≥ 4 and 5 ≥ 4 inheritance). Wired 2026-06-05.
             .RegisterPalindromeSoftCertifierClaim()
+            // Q-pair routing: the Liouvillian-free two-term router as a registered Claim. The
+            // non-diagonal counterpart to RegisterF87DiagonalCellBipartiteWitnessSet (which reads
+            // the diagonal P1-family case via a chiral K): this classifies any two-term bond
+            // bilinear's fate (truly/soft/hard) AND routes its hidden palindrome Q into a letter-
+            // based family (P1/Uniform/Alternating/Continuous/None), verified bit-exact vs the
+            // spectral authority over all two-term pairs (incl. self-pairs). Typed parents:
+            // F87TrichotomyClassification (the authority, Tier1Derived) + F87DiagonalCellBipartite-
+            // WitnessSet (the diagonal special case it generalises, Tier1Candidate) + Crossover-
+            // MirrorSqrtNinetyClaim (the Continuous-family crossover mirror, Tier1Derived).
+            // Tier2Empirical (a routing-rule viewpoint; all three parents ≥ child). Wired 2026-06-05.
+            .RegisterTwoTermPalindromeRoutingClaim()
             .RegisterF89F87TrulyInheritance()
             .RegisterF89F87BreakPredictionFromF83()
             // Spectrum quantization root (parent to F33/F50/F55/F64-F68/F74/F89
