@@ -747,12 +747,22 @@ is rich (§7.7–§7.9), but only its single homological Z₂ invariant crosses 
 ### 7.12 The true soft criterion is the basis-state graph, not the site graph (Door 2a, 2026-06-05)
 
 Porting the mask test off the chain (Door 2a) exposed that the site/mask-bipartite test is a PROXY, and
-showed what it is a proxy FOR. The §7.5 −N mode, soft ⟺ ∃ a diagonal D with {H, D} = 0, unpacks for an
-off-diagonal H into {H, D}_{ij} = H_{ij}(D_i + D_j) = 0 on every nonzero off-diagonal, i.e. D_i = −D_j on
-every edge of the BASIS-STATE hopping graph (the 2^N basis states, edges = H's nonzero off-diagonals). So,
-among the non-truly (M ≠ 0) Hamiltonians,
+showed what it is a proxy FOR. The §7.5 −N mode, a diagonal D with {H, D} = 0, unpacks for an off-diagonal
+H into {H, D}_{ij} = H_{ij}(D_i + D_j) = 0 on every nonzero off-diagonal, i.e. D_i = −D_j on every edge of
+the BASIS-STATE hopping graph (the 2^N basis states, edges = H's nonzero off-diagonals). A bipartite
+basis-state graph supplies that D, so among the non-truly (M ≠ 0) Hamiltonians
 
-  **soft ⟺ the basis-state hopping graph of H is bipartite.**
+  **a bipartite basis-state graph ⟹ soft,**
+
+and WITHIN the diagonal cell the converse holds too (§7.6's Perron argument: soft ⟹ the −N mode ⟹
+bipartite), making basis-state bipartiteness the exact soft/hard line there. It is NOT an equivalence in
+general, though: the −N mode is sufficient, not necessary. XX + XZ, YY + YZ, and XX + XZ + ZX are soft on
+the chain at N = 3..6 (the spectral authority `PauliPairTrichotomy`, cross-checked against
+`BipartiteChirality`), yet their basis-state graphs are non-bipartite, no diagonal D, no chiral K: the
+palindrome is restored by an operator that is NOT diagonal in the dephasing basis (these are bit_a/bit_b
+cell-mixed, outside §7.6's diagonal-cell scope; the mechanism itself is open). So basis-state
+bipartiteness is the exact criterion inside the diagonal cell and a one-sided SUFFICIENT soft condition
+outside it.
 
 This is letter-dependent, the basis-state graph being the actual connectivity rather than the lattice.
 The chiral-K / mask-bipartite test 2-colours the SITE graph instead; on the chain the two coincide, but
@@ -776,12 +786,19 @@ c(s) = ⌊n/2⌋ mod 2 (every basis-edge Δn = ±2, a pure Δn = ±2 pairing); a
 c(s) = n mod 2 (every basis-edge Δn odd, i.e. every term has odd k_xy = #X/Y, the bit_a = 1 row that sits
 outside the Z-dephasing hardness cell). The two excitation gradings are topology-independent, and the
 parity one covers bit_b-MIXED all-odd Hamiltonians the linear strategy must reject. But the structured
-colourings are SOUND, not complete: there are soft Hamiltonians whose basis-state graph is bipartite only
-through a non-structured 2-colouring, reachable by none of them (XY + YX + XZ + ZX on a triangle is soft,
-yet no linear or excitation grading 2-colours its basis-state graph), so a scalable certifier is sound
-but incomplete; that residual is the price of staying Liouvillian-free, and the full criterion remains
-the 2^N graph. Mixing excitation gradings breaks the structure outright: a pairing (Δn = ±2) plus an odd
+colourings are SOUND, not complete, and the incompleteness is two-layered. (a) A scalability gap: some
+soft Hamiltonians are bipartite only through a non-structured 2-colouring no scalable strategy reaches
+(XY + YX + XZ + ZX on a triangle is soft, its basis-state graph bipartite at ANF-degree 2, yet neither
+linear nor an excitation grading 2-colours it). (b) A structural ceiling, deeper: some soft Hamiltonians
+have a NON-bipartite basis-state graph, so no 2-colouring exists at any degree (XX + XZ on the chain is
+soft at N = 3..6 by the spectral authority, yet `BipartiteChirality` reports its basis-state graph
+non-bipartite). A colouring certifies exactly the diagonal −N-mode soft cases; the non-bipartite-soft
+class is permanently beyond ANY colouring, scalable or not. So the certifier is a one-sided diagonal-cell
+instrument, and the full soft criterion is more than basis-state bipartiteness, which XX + XZ violates
+while staying soft. Mixing excitation gradings breaks the structure outright: a pairing (Δn = ±2) plus an odd
 flip (Δn = ±1) gives the edge-difference set {1, 2}, whose ℤ-Cayley graph is non-bipartite, so the
 excitation colourings fail and the Hamiltonian can be hard. (Verified:
-[`_f87_door2_colouring_family.py`](../../simulations/_f87_door2_colouring_family.py); the certifier is
-`PalindromeSoftCertifier`.)
+[`_f87_door2_colouring_family.py`](../../simulations/_f87_door2_colouring_family.py) and, for (a)'s
+ANF-degree, [`_f87_door2_residual_structure.py`](../../simulations/_f87_door2_residual_structure.py); the
+(b) ceiling is pinned in C# by `PalindromeSoftCertifierCeilingTests` against the `PauliPairTrichotomy` /
+`BipartiteChirality` authorities; the certifier is `PalindromeSoftCertifier`.)

@@ -14,10 +14,15 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <para>The strategies are the structured 2-colourings of the basis-state graph: linear (the chiral K,
 /// <see cref="CertifyByLinearSiteColoring"/>), pure-pairing (⌊n/2⌋ mod 2, <see cref="CertifyByExcitationPairing"/>),
 /// and excitation-parity (n mod 2, <see cref="CertifyByExcitationParity"/>). They are SOUND but not
-/// complete: some soft Hamiltonians have a non-structured basis-graph 2-colouring that no scalable
-/// strategy reaches (XY+YX+XZ+ZX placed on a triangle is soft, yet bipartite only via a colouring that is
-/// neither linear nor an excitation grading), so NotCertified does not imply not-soft. That residual is
-/// the price of staying Liouvillian-free; the full criterion is the 2^N basis-state graph itself.</para></summary>
+/// complete, in two layers. (a) A scalability gap: some soft Hamiltonians are bipartite only through a
+/// non-structured colouring no scalable strategy reaches (XY+YX+XZ+ZX on a triangle is soft, its
+/// basis-state graph bipartite at ANF-degree 2, but neither linear nor an excitation grading). (b) A
+/// structural ceiling, deeper: some soft Hamiltonians have a NON-bipartite basis-state graph, so NO
+/// colouring exists at any degree (XX+XZ on the chain is soft at N=3..6 by the spectral authority
+/// <see cref="PauliPairTrichotomy"/>, yet <see cref="BipartiteChirality"/> reports its basis-state graph
+/// non-bipartite, soft by a non-diagonal mechanism). So NotCertified does not imply not-soft; a colouring
+/// certifies exactly the diagonal −N-mode soft cases, and the non-bipartite-soft class is permanently
+/// beyond it. The full criterion is more than basis-state bipartiteness (PROOF_F103 §7.12).</para></summary>
 public static class PalindromeSoftCertifier
 {
     /// <summary>Which scalable soft-colouring certified the Hamiltonian (None = not certified).</summary>
