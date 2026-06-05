@@ -87,6 +87,43 @@ public class PalindromeSoftCertifierTests
     }
 
     [Fact]
+    public void IsReversalSymmetric_TrueWhenReversingEachLabelFixesTheMultiset()
+    {
+        // {XY, YX}: reversing each label maps XY -> YX and YX -> XY, the multiset is unchanged.
+        Assert.True(PalindromeSoftCertifier.IsReversalSymmetric(H("XY", "YX")));
+        // {XX, XY, YX}: XX is its own reversal; XY <-> YX swap; multiset preserved.
+        Assert.True(PalindromeSoftCertifier.IsReversalSymmetric(H("XX", "XY", "YX")));
+        // {XX, XY}: XY reverses to YX, which is absent -> not symmetric.
+        Assert.False(PalindromeSoftCertifier.IsReversalSymmetric(H("XX", "XY")));
+        // {XY} alone reverses to {YX}, a different multiset -> not symmetric.
+        Assert.False(PalindromeSoftCertifier.IsReversalSymmetric(H("XY")));
+    }
+
+    [Fact]
+    public void SiteSwapSymmetry_CertifiesMixedBipartiteReversalSymmetric2Body()
+    {
+        // The Tom case: XX (bit_b=0) + XY,YX (bit_b=1) is bit_b-MIXED, so the three colourings decline it,
+        // but it is 2-body, mask-bipartite, and reversal-symmetric -> certified by the site-swap strategy.
+        Assert.True(PalindromeSoftCertifier.CertifyBySiteSwapSymmetry(H("XX", "XY", "YX"), 4));
+        Assert.Equal(Strategy.SiteSwapSymmetry, PalindromeSoftCertifier.Certify(H("XX", "XY", "YX"), 4).Strategy);
+        // YY (bit_b=0) + XY,YX (bit_b=1) is the same shape -> also certified by the site-swap strategy.
+        Assert.Equal(Strategy.SiteSwapSymmetry, PalindromeSoftCertifier.Certify(H("YY", "XY", "YX"), 4).Strategy);
+    }
+
+    [Fact]
+    public void SiteSwapSymmetry_RejectsThe3BodyKiller_AndTheAsymmetricHardPair()
+    {
+        // The 2-body gate rejects the 3-body killer XXX+XXY+YXX: reversal-symmetric, bit_b-MIXED, and
+        // mask-bipartite, yet spectrally HARD at N=4,5. It is 3-body, so it must not be certified.
+        Assert.False(PalindromeSoftCertifier.CertifyBySiteSwapSymmetry(H("XXX", "XXY", "YXX"), 4));
+        Assert.False(PalindromeSoftCertifier.Certify(H("XXX", "XXY", "YXX"), 4).Certified);
+        // The asymmetric pair XX+XY is bit_b-MIXED but not reversal-symmetric (XY reverses to absent YX)
+        // and is spectrally hard -> not certified by the site-swap strategy either.
+        Assert.False(PalindromeSoftCertifier.CertifyBySiteSwapSymmetry(H("XX", "XY"), 4));
+        Assert.False(PalindromeSoftCertifier.Certify(H("XX", "XY"), 4).Certified);
+    }
+
+    [Fact]
     public void Certify_NeverFalsePositive_AgainstTheSpectralVerdict()
     {
         // A certificate must imply not-hard. Check against the actual trichotomy at N=4.
@@ -105,6 +142,10 @@ public class PalindromeSoftCertifierTests
             new List<PauliTerm> { T("XY"), T("YX"), T("XZ"), T("ZX") },  // pairing + odd mix, hard on chain
             H("XZ", "ZXZ"),         // all-odd-flip but bit_b-MIXED ({1,0}) and hard (Bug 3 witness): the
                                     // parity strategy needs the bit_b-homogeneity gate or it false-positives
+            H("XX", "XY", "YX"),    // bit_b-MIXED, mask-bipartite, reversal-symmetric, soft (site-swap strategy)
+            H("YY", "XY", "YX"),    // same shape, soft (site-swap strategy)
+            H("XY", "YX", "XZ", "ZX"),  // bit_b-homogeneous but non-mask-bipartite on the chain: hard, declined
+            H("XXX", "XXY", "YXX"), // 3-body killer: reversal-symmetric, mask-bipartite, yet spectrally hard
         };
         foreach (var terms in battery)
         {

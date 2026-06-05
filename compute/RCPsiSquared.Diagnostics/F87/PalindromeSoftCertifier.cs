@@ -24,11 +24,22 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// the P1/P4 families that <see cref="TwoTermPalindromeRouting"/> classifies bit-exactly for 2-term pairs
 /// (XX+XZ routes to P4). So NotCertified does not imply not-soft; a colouring certifies exactly the
 /// diagonal −N-mode soft cases, while the non-bipartite-soft class is named (not certified) by the
-/// routing. What stays beyond both is general-k, multi-term H past the 2-term routing (PROOF_F103 §7.12).</para></summary>
+/// routing. What stays beyond both is general-k, multi-term H past the 2-term routing (PROOF_F103 §7.12).</para>
+///
+/// <para>The three colouring strategies all gate on bit_b-homogeneity (one Klein cell); a bit_b-MIXED set
+/// they simply decline, even when it is soft. That gate is no longer blunt: the fourth strategy,
+/// <see cref="CertifyBySiteSwapSymmetry"/>, recovers the soft bit_b-MIXED cases whose geometry is a spatial
+/// bond reflection. Its certificate is that the term-set is 2-body, mask-bipartite, and reversal-symmetric
+/// (the multiset of terms is invariant under reversing each label, <see cref="IsReversalSymmetric"/>); then
+/// the site-swap that reverses the chain is a soft symmetry the chiral colourings miss (XX+XY+YX is soft
+/// this way, bit_b-MIXED yet certified). This branch is EMPIRICALLY VERIFIED, not derived: zero
+/// false-positives over all 2-body bilinear sums (k = 2..9 terms, N = 3, 4, 5). It is SOUND only at 2-body;
+/// at 3-body the same rule false-positives (XXX+XXY+YXX is reversal-symmetric, bit_b-MIXED, mask-bipartite,
+/// yet spectrally HARD at N = 4, 5), so the strategy is hard-gated to 2-body terms and rejects 3-body sets.</para></summary>
 public static class PalindromeSoftCertifier
 {
     /// <summary>Which scalable soft-colouring certified the Hamiltonian (None = not certified).</summary>
-    public enum SoftStrategy { None, LinearSiteColoring, ExcitationPairing, ExcitationParity }
+    public enum SoftStrategy { None, LinearSiteColoring, ExcitationPairing, ExcitationParity, SiteSwapSymmetry }
 
     /// <summary>Result of <see cref="Certify"/>: whether soft is certified, and by which strategy.</summary>
     public readonly record struct SoftCertificate(bool Certified, SoftStrategy Strategy);
@@ -136,13 +147,72 @@ public static class PalindromeSoftCertifier
         return masks.Count > 0 && PalindromeMaskClassifier.MaskSetIsBipartite(masks);
     }
 
+    /// <summary>True iff the term-set is invariant under reversing each term's label (the site-swap that
+    /// reverses the chain): the multiset of (reversed-label, coefficient) equals the multiset of
+    /// (label, coefficient). A term's reversal reverses its <see cref="PauliLetter"/> sequence
+    /// ("XY" → "YX", "XYZ" → "ZYX"). The spatial-reflection witness used by the site-swap strategy.
+    /// N-independent.</summary>
+    public static bool IsReversalSymmetric(IReadOnlyList<PauliTerm> terms)
+    {
+        // Multiset over (label, coefficient): a reversal symmetry is the two multisets coinciding.
+        var original = new Dictionary<(string Label, Complex Coefficient), int>();
+        var reversed = new Dictionary<(string Label, Complex Coefficient), int>();
+        foreach (var t in terms)
+        {
+            int count = t.Letters.Count;
+            var rev = new PauliLetter[count];
+            for (int i = 0; i < count; i++) rev[i] = t.Letters[count - 1 - i];   // reverse the letter sequence
+            var oKey = (t.Label, t.Coefficient);
+            var rKey = (PauliLabel.Format(rev), t.Coefficient);
+            original[oKey] = original.GetValueOrDefault(oKey) + 1;
+            reversed[rKey] = reversed.GetValueOrDefault(rKey) + 1;
+        }
+        if (original.Count != reversed.Count) return false;
+        foreach (var kv in original)
+            if (reversed.GetValueOrDefault(kv.Key) != kv.Value) return false;
+        return true;
+    }
+
+    /// <summary>The site-swap-symmetry strategy: certify soft for a bit_b-MIXED set whose geometry is a
+    /// spatial bond reflection. Certifies iff ALL hold: every term is 2-body (exactly two non-identity
+    /// letters), the set is bit_b-MIXED (the gate the three colourings decline), no term is pure-diagonal
+    /// (some X/Y), the chain flip-mask set is bipartite, and the set is reversal-symmetric
+    /// (<see cref="IsReversalSymmetric"/>). The reversal symmetry is load-bearing: without it 2-body
+    /// mask-bipartite mixed sets can be hard. EMPIRICALLY VERIFIED (zero false-positives over all 2-body
+    /// bilinear sums, k = 2..9 terms, N = 3, 4, 5), not derived. The 2-body gate is a soundness
+    /// requirement: at 3-body the rule false-positives (XXX+XXY+YXX is reversal-symmetric, bit_b-MIXED,
+    /// mask-bipartite, yet spectrally HARD at N = 4, 5), so a 3-body set is rejected here.</summary>
+    public static bool CertifyBySiteSwapSymmetry(IReadOnlyList<PauliTerm> terms, int n)
+    {
+        // 2-body gate: every term has exactly two non-identity letters. This is the verified scope and
+        // rejects the 3-body killer XXX+XXY+YXX (reversal-symmetric, mask-bipartite, yet spectrally hard).
+        foreach (var t in terms)
+            if (t.KBody != 2) return false;
+        // This strategy exists for the cells the three colourings decline: require bit_b-MIXED.
+        if (PalindromeMaskClassifier.IsBitBHomogeneous(terms)) return false;
+        // A pure-diagonal term (no X/Y) lifts the diagonal the reflection cannot negate; reject it,
+        // matching the guard in CertifyByLinearSiteColoring.
+        foreach (var t in terms)
+        {
+            bool hasFlip = false;
+            foreach (var letter in t.Letters)
+                if (letter == PauliLetter.X || letter == PauliLetter.Y) { hasFlip = true; break; }
+            if (!hasFlip) return false;
+        }
+        var masks = PalindromeMaskClassifier.FlipMasks(terms, n);
+        if (masks.Count == 0 || !PalindromeMaskClassifier.MaskSetIsBipartite(masks)) return false;
+        return IsReversalSymmetric(terms);
+    }
+
     /// <summary>Try the stronger, topology-independent excitation strategies first (pairing, then
-    /// parity; a term-set is at most one of them), then the chain-only linear one; return the certificate.</summary>
+    /// parity; a term-set is at most one of them), then the chain-only linear one, then the bit_b-MIXED
+    /// site-swap-symmetry one; return the certificate. A certified set is at most one strategy.</summary>
     public static SoftCertificate Certify(IReadOnlyList<PauliTerm> terms, int n)
     {
         if (CertifyByExcitationPairing(terms)) return new SoftCertificate(true, SoftStrategy.ExcitationPairing);
         if (CertifyByExcitationParity(terms)) return new SoftCertificate(true, SoftStrategy.ExcitationParity);
         if (CertifyByLinearSiteColoring(terms, n)) return new SoftCertificate(true, SoftStrategy.LinearSiteColoring);
+        if (CertifyBySiteSwapSymmetry(terms, n)) return new SoftCertificate(true, SoftStrategy.SiteSwapSymmetry);
         return new SoftCertificate(false, SoftStrategy.None);
     }
 }
