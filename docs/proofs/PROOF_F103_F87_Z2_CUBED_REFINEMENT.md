@@ -696,31 +696,50 @@ each layer in closed form: the layering is total. Verified k = 3 … 8
 on the mask graph? The combinatorial structure is letter-independent (mask-only), but L depends on the
 actual letters (the Y-vs-X phases, the I-vs-Z diagonal), so a spectral correlate must itself be
 letter-independent. Tested across k = 3 (N = 4), k = 4 (N = 6, 7), k = 5 (N = 8) with letter-realization
-controls, the answer is clean: **exactly two mask-invariants reach the spectrum, and the obstruction size
-is neither.**
+controls, the answer, after a correction the algebra/geometry reading below forced, is: **only the (1 + x)-valuation
+reaches the spectrum cleanly; the obstruction size and the rest of the factorization do not.**
 
-1. The **(1 + x)-valuation** → hard/soft: the −N reflection-mode multiplicity of the gain channel
-   Σ_l Z_l(·)Z_l on the ω = 0 block (n_{−N} = 0 iff hard). The §7.5 layer.
-2. The **GF(2) span-rank r** of the windowed mask set {x^w p₁, x^w p₂} → the conserved-sector
-   multiplicity 2^{N-r}: the number of connected components of H's computational-basis hopping graph,
-   equivalently the dimension of the diagonal commutant, and (verified here) the kernel dim(ker L)
-   itself, all letter-independent. A second mask → spectrum fingerprint, coarser than the factorization.
+The one confirmed bridge is the **(1 + x)-valuation** → hard/soft. A pair is hard iff the spectral
+palindrome breaks, and that is letter-independent (mask-only, §7.7); in the §7.5 reading it is the −N
+reflection mode of the gain channel Σ_l Z_l(·)Z_l being absent iff hard.
 
-The **obstruction size and the shared-factor degree d reach nothing letter-independent.** The reason is
-principled: the first-order break is A(γ) = cγ + O(γ²) with c the asymmetry of the ω = 0 gain-channel
-spectrum about −N, and the only letter-independent parts of that block are its ±N eigenspaces (the rank
-and the valuation); everything strictly between depends on the Z-overlaps ⟨E_a|Z_l|E_{a'}⟩ in H's
-eigenbasis, which the letters control. The obstruction size is a property of the flip-graph's cycle
-structure, which lives exactly in those letter-dependent off-diagonal weights, so it cannot survive as a
-spectral invariant. Confirmed two ways: the size is letter-independent yet provably independent of the
-rank (at fixed r the obstruction still ranges over {3, 5, 7}), and the break-magnitude distributions for
-size 3 vs 5, controlled at fixed r, overlap and even flip their weak median ordering between two
-geometries (the signature of noise, not a law).
+The **obstruction size and the shared-factor degree d reach nothing letter-independent.** The size is
+letter-independent yet provably independent of the only other coarse mask handle (at fixed mask-span-rank
+r it still ranges over {3, 5, 7}), and the break-magnitude distributions for size 3 vs 5, controlled at
+fixed r, overlap and even flip their weak median ordering between two geometries (the signature of noise,
+not a law). The size lives in the flip-graph's cycle structure, carried by the letter-dependent
+off-diagonal weights ⟨E_a|Z_l|E_{a'}⟩, so it cannot be a spectral invariant.
 
-So §7.8's "a simpler front door, not a smaller house" extends one floor down: the size layer is not even
-in the house. The factorization beyond (1 + x) is a clean combinatorial theory of the obstruction, its
-size cap and population (§7.9), with no spectral shadow; the physics sees only the valuation (whether the
-palindrome breaks) and the rank (how many conserved sectors). (Verified:
-[`_f87_rank_reaches_spectrum.py`](../../simulations/_f87_rank_reaches_spectrum.py) for
-dim(ker L) = 2^{N-r} letter-independent and the size ⊥ rank null; the full ω = 0-block magnitude controls
-were an Opus spectral sweep across k = 3, 4, 5.)
+**A retraction belongs here.** An earlier version of this section, and the Opus spectral sweep that fed
+it, claimed a SECOND clean fingerprint: the mask-span rank r → a conserved-sector multiplicity 2^{N-r}
+(the hopping-graph components, the diagonal commutant, even dim ker L). That is wrong. The mask fixes only
+WHICH sites flip; the actual hopping amplitudes are letter-dependent and can cancel: XX + YY annihilates
+the |00⟩ ↔ |11⟩ channel (XX|00⟩ = +|11⟩, YY|00⟩ = −|11⟩), so the real graph is sparser than the mask and
+carries MORE conserved sectors than 2^{N-r}. The sector count is therefore letter-dependent, and dim ker L
+exceeds 2^{N-r} for soft and partial-support pairs; the apparent dim ker L = 2^{N-r} held only for the
+hard pairs first checked. So the rank is not a clean mask → spectrum bridge, and the (1 + x)-valuation is
+the only one. (The retracted claim lived in
+[`_f87_rank_reaches_spectrum.py`](../../simulations/_f87_rank_reaches_spectrum.py);
+[`_f87_rank_footprint.py`](../../simulations/_f87_rank_footprint.py) shows the breakdown.)
+
+So §7.8's "a simpler front door, not a smaller house" extends one floor down: neither the size nor the
+rank is in the house. The factorization beyond (1 + x) is a clean combinatorial theory of the obstruction,
+its size cap and population (§7.9), with no clean spectral shadow; the physics reads only whether the
+palindrome breaks. (Verified:
+[`_f87_rank_footprint.py`](../../simulations/_f87_rank_footprint.py) for the letter-dependent sector count
+and the size ⊥ rank null; the break-magnitude controls were the Opus spectral sweep across k = 3, 4, 5.)
+
+### 7.11 The algebra/geometry reading, refined (2026-06-05)
+
+The cleanest way to hold §7.5–§7.10 together is a reading Tom suggested: the hopping graph splits, by the
+rank-nullity of its mask set, into a geometry side and an algebra side. The windowed masks generate a
+subgroup of (Z₂)^N; the **geometry** is the rank r and the orbit/component structure (how Hilbert space
+would sectorise), the **algebra** is the nullity, the relation/cycle space where the obstruction (the
+minimal odd cycle) lives. That split is exactly what the physics-reach question turns on, and it sharpened
+the section by catching the retracted claim. The **geometry does NOT cleanly reach the spectrum**, because
+the actual sector structure is letter-dependent (the XX + YY cancellation above); the obstruction's
+**metric (its size) does not reach it either**. What reaches the spectrum is one Z₂ bit of the
+**algebra**: whether the cycle space contains an ODD cycle, that is the (1 + x)-parity, that is the
+graph's bipartiteness, that is hard/soft, that is the −N mode. So the physics sees neither the geometry's
+count nor the algebra's metric, only the algebra's parity. The combinatorics between algebra and geometry
+is rich (§7.7–§7.9), but only its single homological Z₂ invariant crosses into the spectrum.
