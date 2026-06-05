@@ -676,3 +676,15 @@ max obstruction = min(2W − 1, 2k − 3 − 2·deg(g_rest)), and the 3, 5, 7, 9
 layering by d. (Verified bit-exact:
 [`_f87_beyond_x1_scout.py`](../../simulations/_f87_beyond_x1_scout.py) for the unique-prime fact,
 [`_f87_size_second_layer.py`](../../simulations/_f87_size_second_layer.py) for the layered cap.)
+
+The same degree d organises the hard COUNT, not only the size cap. Splitting the A203241 hard
+mask-pairs of §7.8 by d = deg(g_rest),
+
+  **#hard mask-pairs with deg(g_rest) = d  =  2^{d-1}·B(k − d)   (d ≥ 1),   B(k) = (4^k − 12k + 8)/18,**
+
+where B(k) is the d = 0 (coprime-apart-from-(1+x)) count, itself closed (from the recurrence
+B(k) = 4B(k−1) + 2(k−2), B(3) = 2), and the deepest layer d = k − 3 holds 2^{k-3} pairs. Summing,
+B(k) + Σ_{d≥1} 2^{d-1}B(k − d) = (4^{k-1} − 3·2^{k-1} + 2)/3 = A203241, the §7.8 total. So the
+shared non-(1 + x) factor degree sets both the obstruction-size cap (2k − 3 − 2d) and the population of
+each layer in closed form: the layering is total. Verified k = 3 … 8
+([`_f87_dlayer_count.py`](../../simulations/_f87_dlayer_count.py)).
