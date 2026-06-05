@@ -3992,6 +3992,15 @@ all bit-exact.
    drops the obstruction below the gcd-generator popcount at k ≥ 6), which is what makes the middle-class
    distribution window-dependent.
 
+**Connection to the polarity cube: bit_a is the lowest valuation bit.** The (1 + x)-adic valuation grades
+the existing Klein bit_a axis. bit_a = #(X + Y) mod 2 = popcount(mask) mod 2 is exactly [v_{1+x}(mask) = 0],
+the lowest bit of the valuation (odd popcount ⟹ v = 0; even popcount ⟹ v ≥ 1). Inside the diagonal cell
+(bit_a = 0, bit_b = 1) the valuation keeps grading, v = 1 … k − 1, into the very classes c_v = 2^{k-1-v}
+of statement 3, and the hard/soft "Z bit" is the pair-difference v(p₁) ≠ v(p₂). So F115 is not a new
+polarity axis: it is the graded refinement of the bit_a axis, read at the pair level inside the bit_b = 1
+cell (bit_b selects that cell because the −N reflection mode needs F H F = −H, i.e. odd #Y + #Z). Verified
+bit-exact: bit_a = [v = 0] for all masks, and the bit_a = 0 cell's valuation classes reproduce c_v.
+
 **Verified:** the valuation criterion vs the actual spectral verdict (k = 3, N = 4, every pair); the
 size law across a (k, N) grid through k = 6; the class sizes, count, d = 3 form, and
 free-distance-4-vs-odd-weight-2k−3 through k = 10, with the dressed totals matched against the C# scan
