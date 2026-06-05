@@ -768,3 +768,20 @@ chain-scalable PROXY for this true criterion; the basis-state criterion itself i
 Liouvillian-free, though for structured terms it can reduce to a scalable statement (a pure pairing is
 soft at any N, any topology, by the excitation number). Verified:
 [`_f87_door2a_basis_graph.py`](../../simulations/_f87_door2a_basis_graph.py).
+
+**The structured colourings, and their ceiling.** A scalable soft-certifier realises the basis-state
+criterion through STRUCTURED 2-colourings c(s) it can check per-term without the 2^N graph. Three are
+clean: the linear c(s) = ⟨φ, s⟩ (the chiral K of §7.1, the chain proxy); the pairing grading
+c(s) = ⌊n/2⌋ mod 2 (every basis-edge Δn = ±2, a pure Δn = ±2 pairing); and the parity grading
+c(s) = n mod 2 (every basis-edge Δn odd, i.e. every term has odd k_xy = #X/Y, the bit_a = 1 row that sits
+outside the Z-dephasing hardness cell). The two excitation gradings are topology-independent, and the
+parity one covers bit_b-MIXED all-odd Hamiltonians the linear strategy must reject. But the structured
+colourings are SOUND, not complete: there are soft Hamiltonians whose basis-state graph is bipartite only
+through a non-structured 2-colouring, reachable by none of them (XY + YX + XZ + ZX on a triangle is soft,
+yet no linear or excitation grading 2-colours its basis-state graph), so a scalable certifier is sound
+but incomplete; that residual is the price of staying Liouvillian-free, and the full criterion remains
+the 2^N graph. Mixing excitation gradings breaks the structure outright: a pairing (Δn = ±2) plus an odd
+flip (Δn = ±1) gives the edge-difference set {1, 2}, whose ℤ-Cayley graph is non-bipartite, so the
+excitation colourings fail and the Hamiltonian can be hard. (Verified:
+[`_f87_door2_colouring_family.py`](../../simulations/_f87_door2_colouring_family.py); the certifier is
+`PalindromeSoftCertifier`.)
