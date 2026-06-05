@@ -19,12 +19,15 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <para><b>The two directions port differently (Door 2a, 2026-06-05).</b> The SOFT direction
 /// (mask-bipartite ⟹ soft) is topology-agnostic: the chiral K is a 2-colouring of the flip-graph and
 /// exists on any lattice, so a mask-bipartite verdict certifies soft for any placement, at any N. The
-/// HARD direction (non-bipartite ⟹ hard) is NOT general; it is the §7.5/§7.6 converse, derived for the
-/// CHAIN sliding-window placement this class uses. On a non-chain frustrated graph a non-bipartite
-/// flip-set can still be soft or truly via a non-chiral mechanism (verified: XY+YX on a triangle is soft
-/// despite the non-bipartite edge-set), so the <see cref="Verdict.Hard"/> verdict must not be ported off
-/// the chain. Anchor: PROOF_F103 §7.1, F87; cancellation caveat §7.10; frustration caveat
-/// simulations/_f87_door2_lattice_frustration.py.</para></summary>
+/// HARD direction (non-bipartite ⟹ hard) MOSTLY ports: the dissipator-resonance law survives off the
+/// chain, so a generic (0,1)-cell non-bipartite term is hard on a frustrated graph too (XY on a triangle
+/// is hard). But it is not universal: a specially-symmetric combination can be soft despite a
+/// non-bipartite flip-set, protected by a non-chiral symmetry the chiral-K test cannot see (verified:
+/// XY+YX, the symmetric pair term, is soft on a triangle while XY and XY−YX there are hard). So off the
+/// chain the <see cref="Verdict.Hard"/> verdict is a reliable heuristic except for such symmetric
+/// combinations, which need a direct check. Anchor: PROOF_F103 §7.1, F87; cancellation caveat §7.10;
+/// frustration thread simulations/_f87_door2_lattice_frustration.py and
+/// simulations/_f87_door2a_frustration_vs_kbody.py.</para></summary>
 public static class PalindromeMaskClassifier
 {
     /// <summary>Soft (palindrome restorable), Hard (palindrome broken), or OutOfScope (the flip-mask
