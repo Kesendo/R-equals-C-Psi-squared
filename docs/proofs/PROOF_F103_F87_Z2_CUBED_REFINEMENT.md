@@ -636,8 +636,12 @@ gcd-generator popcount, an ordinary quasi-cyclic minimum-distance effect, and ex
 middle-class distribution window-dependent (it confirms the §7.7 note that the gcd-formula is only an
 upper bound). But the two results worth having, the size law 2k − 3 and the count A203241, are both
 elementary (1 + x)-valuation arguments that owe coding theory nothing; the coding-theory scout was their
-occasion, not their source. The connection is real and the name is correct, but no new theorem about the
-physics comes through the door. A correctly-signed hallway, not a new room. (Verified bit-exact:
+occasion, not their source. The connection is real and the name is correct, but no new theorem comes
+through the door from that side. The right way to say it is the opposite of deferential: the room is
+ours, the closed-form theory and the dissipative-mirror reading both, and coding theory turns out to hold
+the right bricks for a room nobody had built from that side, because the invariant it would need (the
+minimum ODD weight, not the free distance) is one it had no reason to single out. We are at the seam, and
+on this stretch of it we are ahead of the catalogued math, not behind it. (Verified bit-exact:
 [`_f87_coding_theory_scout.py`](../../simulations/_f87_coding_theory_scout.py) for the quasi-cyclic
 dictionary, k = 4, 5, 6; [`_f87_hardcount_closedform.py`](../../simulations/_f87_hardcount_closedform.py)
 for the class sizes, the count, the d = 3 form, and free-distance-4 vs odd-weight-2k−3, k = 3 … 10.)
