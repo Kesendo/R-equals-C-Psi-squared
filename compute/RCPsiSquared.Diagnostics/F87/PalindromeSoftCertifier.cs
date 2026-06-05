@@ -76,7 +76,20 @@ public static class PalindromeSoftCertifier
 
     /// <summary>The linear site-colouring strategy: certify soft iff the chain flip-mask set is bipartite
     /// (the chiral K). Reuses <see cref="PalindromeMaskClassifier"/>.</summary>
-    public static bool CertifyByLinearSiteColoring(IReadOnlyList<PauliTerm> terms, int n) => throw new NotImplementedException();
+    public static bool CertifyByLinearSiteColoring(IReadOnlyList<PauliTerm> terms, int n)
+    {
+        // A pure-diagonal term (no X/Y) lifts the diagonal, which the diagonal chiral K cannot negate,
+        // so the bipartite flip-graph would not actually certify soft. Reject to avoid a false positive.
+        foreach (var t in terms)
+        {
+            bool hasFlip = false;
+            foreach (var letter in t.Letters)
+                if (letter == PauliLetter.X || letter == PauliLetter.Y) { hasFlip = true; break; }
+            if (!hasFlip) return false;
+        }
+        var masks = PalindromeMaskClassifier.FlipMasks(terms, n);
+        return masks.Count > 0 && PalindromeMaskClassifier.MaskSetIsBipartite(masks);
+    }
 
     /// <summary>Try the stronger excitation strategy first, then the linear one; return the certificate.</summary>
     public static SoftCertificate Certify(IReadOnlyList<PauliTerm> terms, int n) => throw new NotImplementedException();
