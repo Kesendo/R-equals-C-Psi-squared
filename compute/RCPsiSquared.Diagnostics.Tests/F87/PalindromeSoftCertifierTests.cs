@@ -111,12 +111,17 @@ public class PalindromeSoftCertifierTests
     }
 
     [Fact]
-    public void SiteSwapSymmetry_RejectsThe3BodyKiller_AndTheAsymmetricHardPair()
+    public void SiteSwapSymmetry_RejectsThe3BodyKiller_NonAdjacent2Body_AndAsymmetricHardPair()
     {
         // The 2-body gate rejects the 3-body killer XXX+XXY+YXX: reversal-symmetric, bit_b-MIXED, and
         // mask-bipartite, yet spectrally HARD at N=4,5. It is 3-body, so it must not be certified.
         Assert.False(PalindromeSoftCertifier.CertifyBySiteSwapSymmetry(H("XXX", "XXY", "YXX"), 4));
         Assert.False(PalindromeSoftCertifier.Certify(H("XXX", "XXY", "YXX"), 4).Certified);
+        // The CONTIGUITY gate rejects the non-adjacent 2-body killer {XIIX, XY, YX}: every term has exactly
+        // two non-identity letters, it is bit_b-MIXED, mask-bipartite, and reversal-symmetric, yet XIIX's two
+        // X's are 3 sites apart (outside the verified adjacent scope) and the set is spectrally HARD at N=5.
+        Assert.False(PalindromeSoftCertifier.CertifyBySiteSwapSymmetry(H("XIIX", "XY", "YX"), 5));
+        Assert.False(PalindromeSoftCertifier.Certify(H("XIIX", "XY", "YX"), 5).Certified);
         // The asymmetric pair XX+XY is bit_b-MIXED but not reversal-symmetric (XY reverses to absent YX)
         // and is spectrally hard -> not certified by the site-swap strategy either.
         Assert.False(PalindromeSoftCertifier.CertifyBySiteSwapSymmetry(H("XX", "XY"), 4));
@@ -146,6 +151,7 @@ public class PalindromeSoftCertifierTests
             H("YY", "XY", "YX"),    // same shape, soft (site-swap strategy)
             H("XY", "YX", "XZ", "ZX"),  // bit_b-homogeneous but non-mask-bipartite on the chain: hard, declined
             H("XXX", "XXY", "YXX"), // 3-body killer: reversal-symmetric, mask-bipartite, yet spectrally hard
+            H("XIIX", "XY", "YX"),  // non-adjacent 2-body killer: every term 2 non-I letters but XIIX spans 4 sites; hard
         };
         foreach (var terms in battery)
         {

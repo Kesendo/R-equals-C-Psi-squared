@@ -29,13 +29,14 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <para>The three colouring strategies all gate on bit_b-homogeneity (one Klein cell); a bit_b-MIXED set
 /// they simply decline, even when it is soft. That gate is no longer blunt: the fourth strategy,
 /// <see cref="CertifyBySiteSwapSymmetry"/>, recovers the soft bit_b-MIXED cases whose geometry is a spatial
-/// bond reflection. Its certificate is that the term-set is 2-body, mask-bipartite, and reversal-symmetric
-/// (the multiset of terms is invariant under reversing each label, <see cref="IsReversalSymmetric"/>); then
-/// the site-swap that reverses the chain is a soft symmetry the chiral colourings miss (XX+XY+YX is soft
-/// this way, bit_b-MIXED yet certified). This branch is EMPIRICALLY VERIFIED, not derived: zero
-/// false-positives over all 2-body bilinear sums (k = 2..9 terms, N = 3, 4, 5). It is SOUND only at 2-body;
-/// at 3-body the same rule false-positives (XXX+XXY+YXX is reversal-symmetric, bit_b-MIXED, mask-bipartite,
-/// yet spectrally HARD at N = 4, 5), so the strategy is hard-gated to 2-body terms and rejects 3-body sets.</para></summary>
+/// bond reflection. Its certificate is that the term-set is a sum of CONTIGUOUS (adjacent) 2-body
+/// bilinears, mask-bipartite, and reversal-symmetric (the multiset of terms is invariant under reversing
+/// each label, <see cref="IsReversalSymmetric"/>); then the site-swap that reverses the chain is a soft
+/// symmetry the chiral colourings miss (XX+XY+YX is soft this way, bit_b-MIXED yet certified). This branch
+/// is EMPIRICALLY VERIFIED, not derived: zero false-positives over all ADJACENT 2-body bilinear sums
+/// (k = 2..9 terms, N = 3, 4, 5). It is hard-gated to adjacent 2-body bilinears: a 3-body set (XXX+XXY+YXX)
+/// or a NON-adjacent 2-body label (XIIX) can be reversal-symmetric, bit_b-MIXED, mask-bipartite yet
+/// spectrally HARD, so both are rejected.</para></summary>
 public static class PalindromeSoftCertifier
 {
     /// <summary>Which scalable soft-colouring certified the Hamiltonian (None = not certified).</summary>
@@ -174,20 +175,33 @@ public static class PalindromeSoftCertifier
     }
 
     /// <summary>The site-swap-symmetry strategy: certify soft for a bit_b-MIXED set whose geometry is a
-    /// spatial bond reflection. Certifies iff ALL hold: every term is 2-body (exactly two non-identity
-    /// letters), the set is bit_b-MIXED (the gate the three colourings decline), no term is pure-diagonal
-    /// (some X/Y), the chain flip-mask set is bipartite, and the set is reversal-symmetric
-    /// (<see cref="IsReversalSymmetric"/>). The reversal symmetry is load-bearing: without it 2-body
-    /// mask-bipartite mixed sets can be hard. EMPIRICALLY VERIFIED (zero false-positives over all 2-body
-    /// bilinear sums, k = 2..9 terms, N = 3, 4, 5), not derived. The 2-body gate is a soundness
-    /// requirement: at 3-body the rule false-positives (XXX+XXY+YXX is reversal-symmetric, bit_b-MIXED,
-    /// mask-bipartite, yet spectrally HARD at N = 4, 5), so a 3-body set is rejected here.</summary>
+    /// spatial bond reflection. Certifies iff ALL hold: every term is a CONTIGUOUS bilinear (exactly two
+    /// non-identity letters on adjacent sites), the set is bit_b-MIXED (the gate the three colourings
+    /// decline), no term is pure-diagonal (some X/Y), the chain flip-mask set is bipartite, and the set is
+    /// reversal-symmetric (<see cref="IsReversalSymmetric"/>). The reversal symmetry is load-bearing:
+    /// without it 2-body mask-bipartite mixed sets can be hard. EMPIRICALLY VERIFIED (zero false-positives
+    /// over all ADJACENT 2-body bilinear sums, k = 2..9 terms, N = 3, 4, 5), not derived. The contiguity
+    /// and 2-body gates are soundness requirements: at 3-body the rule false-positives (XXX+XXY+YXX is
+    /// reversal-symmetric, bit_b-MIXED, mask-bipartite, yet spectrally HARD at N = 4, 5), and a NON-adjacent
+    /// 2-body label false-positives too ({XIIX, XY, YX} is hard at N = 5), so both are rejected here.</summary>
     public static bool CertifyBySiteSwapSymmetry(IReadOnlyList<PauliTerm> terms, int n)
     {
-        // 2-body gate: every term has exactly two non-identity letters. This is the verified scope and
-        // rejects the 3-body killer XXX+XXY+YXX (reversal-symmetric, mask-bipartite, yet spectrally hard).
+        // 2-body gate: every term is a CONTIGUOUS bilinear, exactly two non-identity letters on ADJACENT
+        // sites. This is the verified scope (adjacent 2-body bilinear sums). It rejects the 3-body killer
+        // XXX+XXY+YXX, AND non-adjacent 2-body labels like XIIX that a bare non-identity count would admit:
+        // those were never in the sweep and can be spectrally hard ({XIIX, XY, YX} is hard at N=5).
         foreach (var t in terms)
-            if (t.KBody != 2) return false;
+        {
+            int first = -1, last = -1, nonId = 0;
+            for (int i = 0; i < t.Letters.Count; i++)
+                if (t.Letters[i] != PauliLetter.I)
+                {
+                    if (first < 0) first = i;
+                    last = i;
+                    nonId++;
+                }
+            if (nonId != 2 || last - first != 1) return false;   // exactly two non-identity letters, adjacent
+        }
         // This strategy exists for the cells the three colourings decline: require bit_b-MIXED.
         if (PalindromeMaskClassifier.IsBitBHomogeneous(terms)) return false;
         // A pure-diagonal term (no X/Y) lifts the diagonal the reflection cannot negate; reject it,
