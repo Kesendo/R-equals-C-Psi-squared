@@ -41,7 +41,9 @@ public static class KBodyPalindromeRouting
     private const double AnticommuteTolerance = 1e-9;
 
     /// <summary>The default and only span bound: a term of span k yields a 4^k × 4^k check (4^5 = 1024²).
-    /// Terms of span &gt; 5 are out of scope (the strategy declines them upstream).</summary>
+    /// Terms of span &gt; 5 are out of scope (the strategy declines them upstream). Consumed by the Task 2
+    /// <c>CertifyByRoutingKBody</c> span gate, not by this primitive's <see cref="Routes"/> (which gates only
+    /// on span ≤ n).</summary>
     public const int MaxBody = 5;
 
     private static readonly Complex Im = Complex.ImaginaryOne;
@@ -230,11 +232,15 @@ public static class KBodyPalindromeRouting
 
     /// <summary>A candidate Q: a periodic pattern (each entry an index into <see cref="Representatives"/>)
     /// with its period.</summary>
+    // NOTE: only enumerated, never compared/hashed by value: the compiler-generated value-equality is
+    // reference equality on the Pattern array (two identical patterns compare unequal), so callers must not
+    // use this as a dictionary key without supplying structural equality.
     public readonly record struct Candidate(int[] Pattern, int Period, string Description);
 
     /// <summary>The bounded candidate-Q set: every periodic pattern map[i mod P] over the four
-    /// representatives {P1, P4, M2, M} for period P in 1 .. <paramref name="maxPeriod"/>. P^4 patterns at
-    /// each period. (Default <c>maxPeriod = 2</c> for the strategy; Task 1 evaluates 3 in the sweep.)</summary>
+    /// representatives {P1, P4, M2, M} for period P in 1 .. <paramref name="maxPeriod"/>. 4^P patterns at
+    /// period P (4 representatives {P1, P4, M2, M}, P slots). (Default <c>maxPeriod = 2</c> for the strategy;
+    /// Task 1 evaluates 3 in the sweep.)</summary>
     public static IReadOnlyList<Candidate> CandidateSet(int maxPeriod = 2)
     {
         var candidates = new List<Candidate>();

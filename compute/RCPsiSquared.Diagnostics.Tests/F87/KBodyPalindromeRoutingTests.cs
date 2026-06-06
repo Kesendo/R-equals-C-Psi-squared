@@ -134,3 +134,67 @@ public class KBodyPalindromeRoutingTests
             $"{mismatches.Count} witness(es) disagree with the spectral authority: {string.Join("; ", mismatches)}");
     }
 }
+
+/// <summary>First DIRECT coverage of the public surface of <see cref="KBodyPalindromeRouting"/>. The
+/// convention-guard suite above funnels everything through <see cref="KBodyPalindromeRouting.Routes"/>;
+/// these facts exercise the building blocks individually: the candidate-set enumeration
+/// (<see cref="KBodyPalindromeRouting.CandidateSet"/>), the per-term anticommutator
+/// (<see cref="KBodyPalindromeRouting.PerTermAnticommutes"/>, which drives BuildQk + the commutator
+/// superoperator) at a verified-true point, and the reporting helper
+/// (<see cref="KBodyPalindromeRouting.RoutingCandidate"/>) on both a routable set and the negative path.</summary>
+public class KBodyPalindromeRoutingPublicApiTests
+{
+    private static PauliTerm T(string label) => new(PauliLabel.Parse(label), Complex.One);
+    private static List<PauliTerm> H(params string[] labels) => labels.Select(T).ToList();
+
+    [Fact]
+    public void CandidateSet_Counts_Are_FourToThePeriod_PerPeriod()
+    {
+        // Period 1 only: 4^1 = 4 single-site patterns.
+        Assert.Equal(4, KBodyPalindromeRouting.CandidateSet(maxPeriod: 1).Count);
+        // Periods 1 and 2: 4^1 + 4^2 = 4 + 16 = 20.
+        Assert.Equal(20, KBodyPalindromeRouting.CandidateSet(maxPeriod: 2).Count);
+    }
+
+    [Fact]
+    public void PerTermAnticommutes_True_ForEveryTemplateAndOffset_UnderTheRoutingCandidate()
+    {
+        var terms = H("XIX", "XXY", "YXX");
+
+        // The reporting helper must exhibit a certificate (non-null) for this routable set.
+        string? description = KBodyPalindromeRouting.RoutingCandidate(terms, n: 4);
+        Assert.NotNull(description);
+
+        // Recover the actual candidate (Pattern + Period) the helper named, by matching its Description.
+        var candidate = KBodyPalindromeRouting.CandidateSet()
+            .Single(c => c.Description == description);
+
+        // The per-term anticommutator must vanish for each template at every window-offset under that pattern.
+        foreach (var term in terms)
+            for (int offset = 0; offset < candidate.Period; offset++)
+                Assert.True(
+                    KBodyPalindromeRouting.PerTermAnticommutes(term, offset, candidate.Pattern, candidate.Period),
+                    $"PerTermAnticommutes expected true for {term.Label} at offset {offset} under {description}");
+    }
+
+    [Fact]
+    public void RoutingCandidate_NonNull_ForRoutableSet()
+    {
+        // XIX+XXY+YXX is the canonical discrete-routable soft set: a per-site Q must be exhibited.
+        Assert.NotNull(KBodyPalindromeRouting.RoutingCandidate(H("XIX", "XXY", "YXX"), n: 4));
+    }
+
+    [Fact]
+    public void RoutingCandidate_Null_ForNonLocalCeiling()
+    {
+        // XZX+XZY+YZX is spectrally soft but admits no per-site product Q (the mirror is non-local).
+        Assert.Null(KBodyPalindromeRouting.RoutingCandidate(H("XZX", "XZY", "YZX"), n: 4));
+    }
+
+    [Fact]
+    public void RoutingCandidate_Null_ForHardSet()
+    {
+        // XXX+XXY+YXX is spectrally hard: no palindromizing Q of any kind.
+        Assert.Null(KBodyPalindromeRouting.RoutingCandidate(H("XXX", "XXY", "YXX"), n: 4));
+    }
+}
