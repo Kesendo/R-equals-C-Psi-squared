@@ -38,7 +38,9 @@ also carries its Klein-Vierergruppe index (`fw.klein_index`): with M = (0,0) = {
 F_a = (0,1) = {XY,YX}, C = (1,0) = {YZ,ZY}, F_b = (1,1) = {XZ,ZX}.
 
 The classification is N-invariant: the entire fate table, the Klein indices, and the parity flags are
-bit-identical at N = 3, 4, 5. N=3 is not a small-N accident; it is representative.
+bit-identical at N = 3, 4, 5. N=3 is not a small-N accident; it is representative. (That
+representativeness is specific to these two-term bilinears: for k≥3 or multi-term Hamiltonians the
+soft/hard verdict can itself be N-dependent, see [Softness Is N-Dependent](SOFTNESS_IS_N_DEPENDENT.md).)
 
 | fate | count | meaning |
 |------|:---:|---|
