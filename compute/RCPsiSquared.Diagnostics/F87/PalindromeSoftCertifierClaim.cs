@@ -76,8 +76,9 @@ public sealed class PalindromeSoftCertifierClaim : Claim
     /// <summary>Soundness battery: each case certified-and-not-hard (the one-sided soundness property).</summary>
     public IReadOnlyList<SoundnessCase> SoundnessBattery { get; }
 
-    /// <summary>The XZX+XZY+YZX k-body routed-soft ceiling witness: soft, NotCertified.</summary>
-    public CeilingWitness Ceiling { get; }
+    /// <summary>The 4 k-body routed-soft non-local ceiling cases (XZX+XZY+YZX, YZY+XZY+YZX, IXI+IIY+YII,
+    /// IYI+IIX+XII): each soft (spectral authority) yet NotCertified, admitting NO per-site product Q.</summary>
+    public IReadOnlyList<CeilingWitness> Ceiling { get; }
 
     public PalindromeSoftCertifierClaim(ChainSystem chain)
         : base("§7.12 soft certifier: sound, structurally incomplete (the k-body routed-soft ceiling)",
@@ -98,7 +99,7 @@ public sealed class PalindromeSoftCertifierClaim : Claim
     /// <summary>The full §7.12 self-check: every soundness case certified-and-not-hard, and the
     /// XZX+XZY+YZX k-body ceiling pair (soft, NotCertified) holding.</summary>
     public bool SelfCheckPasses =>
-        SoundnessBattery.All(c => c.Passes) && Ceiling.Holds;
+        SoundnessBattery.All(c => c.Passes) && Ceiling.All(c => c.Holds);
 
     public override string DisplayName =>
         $"§7.12 soft certifier (sound + k-body routed-soft ceiling, N={Chain.N}, {SoundnessBattery.Count} soundness cases)";
@@ -106,7 +107,8 @@ public sealed class PalindromeSoftCertifierClaim : Claim
     public override string Summary =>
         $"sound one-sided certifier (chiral K + 2-body routing Stufe A + derived k-body routing Stufe B): " +
         $"{SoundnessPassCount}/{SoundnessBattery.Count} battery cases certified-and-not-hard; " +
-        $"non-local ceiling: {Ceiling.Name} soft, NotCertified ({(Ceiling.Holds ? "PASS" : "FAIL")}) ({Tier.Label()})";
+        $"non-local ceiling: {Ceiling.Count(c => c.Holds)}/{Ceiling.Count} cases soft+NotCertified " +
+        $"({(Ceiling.All(c => c.Holds) ? "PASS" : "FAIL")}) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -120,9 +122,10 @@ public sealed class PalindromeSoftCertifierClaim : Claim
                 yield return new InspectableNode(c.Name,
                     summary: $"{c.Detail}; certified={c.Certified} (strategy {c.Strategy}), not-hard={c.NotHard}, " +
                              (c.Passes ? "PASS" : "FAIL"));
-            yield return new InspectableNode("ceiling (the k-body routed-soft frontier)",
-                summary: $"{Ceiling.Name}: soft={Ceiling.IsSoft}, certified={Ceiling.Certified} " +
-                         "(" + (Ceiling.Holds ? "PASS" : "FAIL") + ")");
+            foreach (var c in Ceiling)
+                yield return new InspectableNode($"ceiling: {c.Name}",
+                    summary: $"non-local (no per-site product Q): soft={c.IsSoft}, certified={c.Certified} " +
+                             "(" + (c.Holds ? "PASS" : "FAIL") + ")");
         }
     }
 
@@ -173,25 +176,31 @@ public sealed class PalindromeSoftCertifierClaim : Claim
         return cases;
     }
 
-    /// <summary>The §7.12 ceiling witness XZX+XZY+YZX: a NON-LOCAL 3-body routed-soft case. It is soft by
-    /// the spectral authority (the k-body <see cref="PauliPairTrichotomy.Classify(ChainSystem,
-    /// IReadOnlyList{PauliTerm}, double, double, PauliLetter)"/> overload) yet NotCertified, because it
-    /// admits NO per-site product Q at all (palindromized only by a non-local Π), so even the derived k-body
-    /// per-term routing (Stufe B) declines it. Its soft verdict is established at N = 4, 5, 6 (NOT at N = 3,
-    /// where k = 3 fills the whole chain, a different regime), so it is checked on the claim's chain when
-    /// N ≥ 4, else on a fixed N = 4 chain.
-    /// Mirrors <c>PalindromeSoftCertifierCeilingTests.KBodyRoutedSoft_IsRealAndBeyondTheRoutingTable</c>.</summary>
-    private static CeilingWitness BuildCeiling(ChainSystem chain)
+    /// <summary>The 4 §7.12 non-local ceiling witnesses. Each is a NON-LOCAL 3-body routed-soft case: soft
+    /// by the spectral authority (the k-body overload, verified at N=4,5,6) yet NotCertified, admitting NO
+    /// per-site product Q (palindromized only by a non-local Π). The 2 formerly-counted cases XIX+XIY+YIX,
+    /// YIY+XIY+YIX are NOT here: they are LOCAL (continuous-uniform routable, verified N=3,4,5; NotCertified
+    /// only because their router is an arbitrary continuous map outside the scalable strategies) — see
+    /// experiments/CEILING_FOUR_NONLOCAL_CASES.md. Soft is established at N≥4, so a fixed N=4 chain is used
+    /// when the claim's chain has N<4.</summary>
+    private static IReadOnlyList<CeilingWitness> BuildCeiling(ChainSystem chain)
     {
-        var terms = H("XZX", "XZY", "YZX");
-        // The 3-body witness needs room: its soft verdict is established at N ≥ 4. At N = 3 (k fills the
-        // whole chain) it is a different regime, so fall back to a fixed N = 4 chain there.
         var soundChain = chain.N >= 4 ? chain : new ChainSystem(N: 4, J: 1.0, GammaZero: 0.05);
-        var spectral = PauliPairTrichotomy.Classify(soundChain, terms);
-        var cert = PalindromeSoftCertifier.Certify(terms, soundChain.N);
-        return new CeilingWitness(
-            Name: "XZX+XZY+YZX",
-            IsSoft: spectral == TrichotomyClass.Soft,
-            Certified: cert.Certified);
+        var labels = new[]
+        {
+            ("XZX+XZY+YZX", new[] { "XZX", "XZY", "YZX" }),
+            ("YZY+XZY+YZX", new[] { "YZY", "XZY", "YZX" }),
+            ("IXI+IIY+YII", new[] { "IXI", "IIY", "YII" }),
+            ("IYI+IIX+XII", new[] { "IYI", "IIX", "XII" }),
+        };
+        var ceiling = new List<CeilingWitness>(labels.Length);
+        foreach (var (name, ls) in labels)
+        {
+            var terms = H(ls);
+            var spectral = PauliPairTrichotomy.Classify(soundChain, terms);
+            var cert = PalindromeSoftCertifier.Certify(terms, soundChain.N);
+            ceiling.Add(new CeilingWitness(name, IsSoft: spectral == TrichotomyClass.Soft, Certified: cert.Certified));
+        }
+        return ceiling;
     }
 }
