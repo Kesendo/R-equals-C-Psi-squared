@@ -173,6 +173,34 @@ public class PalindromeSoftCertifierTests
     }
 
     [Fact]
+    public void CertifyByRouting_SingleNonMotherBilinearIsInScope_SingleMotherIsExcluded()
+    {
+        // A single recognized non-Mother bilinear routes via its own uniform family: XZ alone -> {P4}.
+        Assert.True(PalindromeSoftCertifier.CertifyByRouting(H("XZ")));
+        // A single Mother bilinear is excluded by the all-Mother gate: ZZ alone is truly, not soft.
+        Assert.False(PalindromeSoftCertifier.CertifyByRouting(H("ZZ")));
+    }
+
+    [Fact]
+    public void CertifyByRouting_IsCoefficientIndependent()
+    {
+        // The routing strategy reads LABELS only: one uniform Q palindromizes any real linear combination.
+        // XX (fam {P1,P4}) + XZ (fam {P4}) share {P4}; varying the coefficients does not change the verdict.
+        var terms = new List<PauliTerm> { T("XX", new Complex(2, 0)), T("XZ", new Complex(-3, 0)) };
+        Assert.True(PalindromeSoftCertifier.CertifyByRouting(terms));
+        Assert.Equal(Strategy.Routing, PalindromeSoftCertifier.Certify(terms, 4).Strategy);
+    }
+
+    [Fact]
+    public void CertifyByRouting_CertifiesP1NarrowingMultiTerm()
+    {
+        // The existing routing positives all land on {P4}; this 3-term set narrows to the OTHER family bit.
+        // YY={P1,P4} ∩ YZ={P1} ∩ ZY={P1} = {P1}: one uniform Q palindromizes all three -> certified.
+        Assert.True(PalindromeSoftCertifier.CertifyByRouting(H("YY", "YZ", "ZY")));
+        Assert.Equal(Strategy.Routing, PalindromeSoftCertifier.Certify(H("YY", "YZ", "ZY"), 4).Strategy);
+    }
+
+    [Fact]
     public void Certify_LabelsUniformRoutingAsRouting()
     {
         // XX+XZ: non-diagonal hidden-Q soft, missed by all four colourings, certified by Routing.
@@ -207,6 +235,7 @@ public class PalindromeSoftCertifierTests
             H("XIIX", "XY", "YX"),  // non-adjacent 2-body killer: every term 2 non-I letters but XIIX spans 4 sites; hard
             H("XX", "XZ"),          // hidden-Q routing: non-bipartite-soft, certified by Routing (shared {P4})
             H("XX", "XZ", "ZX"),    // multi-term uniform routing-soft (intersection {P4})
+            H("YY", "YZ", "ZY"),    // multi-term uniform routing-soft narrowing to the OTHER bit (intersection {P1})
             H("XY", "XZ"),          // routing-declined: no shared family, not a two-term escape, spectrally hard
         };
         foreach (var terms in battery)

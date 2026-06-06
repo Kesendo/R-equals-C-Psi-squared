@@ -246,6 +246,10 @@ public static class PalindromeSoftCertifier
     ///     fate is read directly from <see cref="TwoTermPalindromeRouting.Classify"/> (these are
     ///     TWO-TERM-SPECIFIC, not generalized to 3+ terms).</item>
     /// </list>
+    /// <para>A single recognized non-Mother bilinear is in scope and certified via its own uniform family
+    /// (e.g. XZ alone routes to {P4}), while a single Mother bilinear (XX, YY, or ZZ) is excluded by the
+    /// all-Mother gate: it is truly, not soft, the canonical Π already pairs its spectrum.</para>
+    ///
     /// <para>SOUND by the additivity argument (the Q is exhibited as a uniform per-site product, not an
     /// N-dependent graph property, so the certificate is N-stable) and EMPIRICALLY VERIFIED: the soundness
     /// sweep found zero Hard false-positives over all multi-term 2-body bilinear sums (k = 2..5, N = 4, 5),
