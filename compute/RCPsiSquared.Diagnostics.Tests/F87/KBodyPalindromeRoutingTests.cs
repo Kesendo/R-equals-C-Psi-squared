@@ -18,7 +18,9 @@ namespace RCPsiSquared.Diagnostics.Tests.F87;
 ///
 /// <list type="bullet">
 ///   <item>the 8 discrete-routable soft sets (Routes == true AND spectral Soft);</item>
-///   <item>the 6 non-local ceiling cases (soft, but no per-site product Q exists, so Routes == false);</item>
+///   <item>the 4 NON-LOCAL ceiling cases (soft, NO per-site product Q, so Routes == false);</item>
+///   <item>the 2 LOCAL continuous-sum cases (soft, a per-site product Q DOES exist but routes via
+///     continuous-sum not per-term, so the per-term Routes still declines them, the coverage gap);</item>
 ///   <item>the hard XXX+XXY+YXX (no Q, spectral Hard, Routes == false).</item>
 /// </list>
 ///
@@ -49,16 +51,25 @@ public class KBodyPalindromeRoutingTests
         new object[] { new[] { "ZYZ", "XZY", "YZX" } },
     };
 
-    /// <summary>The 6 non-local ceiling cases: spectrally Soft, but NO per-site product Q palindromizes them
-    /// (the mirror is non-local), so Routes == false. These stay the certifier's ceiling.</summary>
+    /// <summary>The 4 NON-LOCAL ceiling cases: spectrally Soft, but NO per-site product Q palindromizes them
+    /// (the mirror is genuinely non-local), so Routes == false. These stay the certifier's ceiling.</summary>
     public static IEnumerable<object[]> NonLocalCeiling() => new[]
     {
         new object[] { new[] { "XZX", "XZY", "YZX" } },
-        new object[] { new[] { "XIX", "XIY", "YIX" } },
-        new object[] { new[] { "YIY", "XIY", "YIX" } },
         new object[] { new[] { "YZY", "XZY", "YZX" } },
         new object[] { new[] { "IXI", "IIY", "YII" } },
         new object[] { new[] { "IYI", "IIX", "XII" } },
+    };
+
+    /// <summary>The 2 LOCAL cases the per-term router cannot reach: spectrally Soft AND a per-site product Q
+    /// DOES palindromize them (a continuous-uniform M, residual ~1e-13, verified N=3,4,5,
+    /// simulations/ceiling_6to4_verification.py). But that M routes via continuous-SUM cancellation, which the
+    /// per-term {Q_k,[T,.]_k}=0 check does not see, AND it is an arbitrary continuous map (not a candidate), so
+    /// Routes == false here too: the honest coverage gap, NOT non-locality. Not part of the 4-case ceiling.</summary>
+    public static IEnumerable<object[]> LocalButNotPerTermRoutable() => new[]
+    {
+        new object[] { new[] { "XIX", "XIY", "YIX" } },
+        new object[] { new[] { "YIY", "XIY", "YIX" } },
     };
 
     [Theory]
@@ -73,12 +84,23 @@ public class KBodyPalindromeRoutingTests
 
     [Theory]
     [MemberData(nameof(NonLocalCeiling))]
-    public void Routes_False_ButSpectralSoft_ForTheSixNonLocalCeilingSets(string[] labels)
+    public void Routes_False_ButSpectralSoft_ForTheFourNonLocalCeilingSets(string[] labels)
     {
         var terms = H(labels);
         Assert.False(KBodyPalindromeRouting.Routes(terms, n: 4),
-            $"expected Routes == false (no per-site Q) for the non-local ceiling {string.Join("+", labels)}");
-        // The spectral authority still calls these Soft: NotCertified does not imply not-soft.
+            $"expected Routes == false (no per-site Q at all) for the non-local ceiling {string.Join("+", labels)}");
+        Assert.Equal(TrichotomyClass.Soft, Spectral(terms));   // NotCertified does not imply not-soft
+    }
+
+    [Theory]
+    [MemberData(nameof(LocalButNotPerTermRoutable))]
+    public void Routes_False_ButLocal_ForTheTwoContinuousSumCases(string[] labels)
+    {
+        // These ARE local (a continuous-uniform per-site product Q exists, verified). The per-term Routes
+        // declines them only because that Q routes via continuous-SUM cancellation, not per term: the gap.
+        var terms = H(labels);
+        Assert.False(KBodyPalindromeRouting.Routes(terms, n: 4),
+            $"per-term Routes declines the continuous-sum case {string.Join("+", labels)} (the coverage gap)");
         Assert.Equal(TrichotomyClass.Soft, Spectral(terms));
     }
 
@@ -92,9 +114,10 @@ public class KBodyPalindromeRoutingTests
 
     /// <summary>The single load-bearing assertion: <see cref="KBodyPalindromeRouting.Routes"/> never
     /// disagrees with the spectral authority across all 15 ground-truth witnesses. A Routes == true must be
-    /// Soft (constructive soundness), and the 7 Routes == false witnesses are exactly the non-local ceiling
-    /// (still Soft) plus the hard set; the certifier is one-sided, so a Routes == false carries no claim
-    /// about the spectral verdict beyond what the witness list records.</summary>
+    /// Soft (constructive soundness), and the 7 Routes == false witnesses are exactly the 4 non-local ceiling
+    /// cases (still Soft) plus the 2 local continuous-sum cases (still Soft) plus the hard set; the certifier
+    /// is one-sided, so a Routes == false carries no claim about the spectral verdict beyond what the witness
+    /// list records.</summary>
     [Fact]
     public void Routes_MatchesTheSpectralAuthority_OnAll15GroundTruthWitnesses()
     {
@@ -118,6 +141,16 @@ public class KBodyPalindromeRoutingTests
             var spectral = Spectral(terms);
             if (routes || spectral != TrichotomyClass.Soft)
                 mismatches.Add($"{string.Join("+", labels)}: Routes={routes} spectral={spectral} (want Routes=false, Soft)");
+        }
+
+        foreach (var row in LocalButNotPerTermRoutable())
+        {
+            var labels = (string[])row[0];
+            var terms = H(labels);
+            bool routes = KBodyPalindromeRouting.Routes(terms, n: 4);
+            var spectral = Spectral(terms);
+            if (routes || spectral != TrichotomyClass.Soft)
+                mismatches.Add($"{string.Join("+", labels)}: Routes={routes} spectral={spectral} (want Routes=false, Soft, local)");
         }
 
         {
