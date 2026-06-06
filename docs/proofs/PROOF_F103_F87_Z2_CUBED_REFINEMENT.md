@@ -805,8 +805,12 @@ through its shared uniform Q-family (P4). The certifier carries both, the diagon
 colourings) and the non-diagonal routing, so the 2-body soft cases are covered. A derived
 per-term k-site extension of the routing (Stufe B) then reaches the LOCAL k-body routed-soft cases too (one
 per-site Q palindromizing every term, checked on 4^k of the term's span, Liouvillian-free and
-N-independent), and the ceiling recedes further to the NON-LOCAL k-body cases (XZX + XZY + YZX and its
-siblings), which admit no per-site product Q at all (palindromized only by an entangled, non-local Π). Mixing excitation gradings breaks the structure outright: a pairing (Δn = ±2) plus an odd
+N-independent), and the ceiling recedes further to the 4 NON-LOCAL k-body cases (XZX+XZY+YZX, YZY+XZY+YZX,
+IXI+IIY+YII, IYI+IIX+XII), which admit no per-site product Q at all (palindromized only by an entangled,
+non-local Π; the continuous-periodic family is the explicit open frontier). Two cases once counted here,
+XIX+XIY+YIX and YIY+XIY+YIX, are in fact LOCAL: a continuous-uniform per-site Q palindromizes them
+(verified N=3,4,5), it simply routes via continuous-sum cancellation rather than per term. See
+experiments/CEILING_FOUR_NONLOCAL_CASES.md. Mixing excitation gradings breaks the structure outright: a pairing (Δn = ±2) plus an odd
 flip (Δn = ±1) gives the edge-difference set {1, 2}, whose ℤ-Cayley graph is non-bipartite, so the
 excitation colourings fail and the Hamiltonian can be hard. (Verified:
 [`_f87_door2_colouring_family.py`](../../simulations/_f87_door2_colouring_family.py) and, for (a)'s
