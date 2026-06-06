@@ -105,6 +105,6 @@ public class PalindromeSoftCertifierClaimRegistrationTests
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var claim = registry.Get<PalindromeSoftCertifierClaim>();
         Assert.True(claim.SelfCheckPasses,
-            "the full self-check (soundness battery all certified-and-not-hard; the XX+XZ ceiling triple) must pass");
+            "the full self-check (soundness battery all certified-and-not-hard; the k-body XZX+XZY+YZX ceiling pair) must pass");
     }
 }

@@ -798,12 +798,16 @@ linear nor an excitation grading 2-colours it). (b) A structural ceiling, deeper
 have a NON-bipartite basis-state graph, so no 2-colouring exists at any degree (XX + XZ on the chain is
 soft at N = 3..6 by the spectral authority, yet `BipartiteChirality` reports its basis-state graph
 non-bipartite). A colouring certifies exactly the diagonal −N-mode soft cases; the non-bipartite-soft
-class is permanently beyond ANY colouring, scalable or not. So the certifier is a one-sided diagonal-cell
-instrument, and the full soft criterion is more than basis-state bipartiteness, which XX + XZ violates
-while staying soft. Mixing excitation gradings breaks the structure outright: a pairing (Δn = ±2) plus an odd
+class is permanently beyond ANY colouring, scalable or not. The full soft criterion is more than basis-state bipartiteness, which XX + XZ
+violates while staying soft, and that non-bipartite-soft 2-body class is reached not by a colouring but by
+a second, non-diagonal mechanism: the hidden-Q routing, a per-site uniform Q ≠ Π that certifies XX + XZ
+through its shared uniform Q-family (P4). The certifier carries both, the diagonal chiral K (the
+colourings) and the non-diagonal routing, so the 2-body soft cases are covered and the ceiling recedes to
+the k-body routed-soft frontier (XZX + XZY + YZX), where the 2-body family table does not reach. Mixing excitation gradings breaks the structure outright: a pairing (Δn = ±2) plus an odd
 flip (Δn = ±1) gives the edge-difference set {1, 2}, whose ℤ-Cayley graph is non-bipartite, so the
 excitation colourings fail and the Hamiltonian can be hard. (Verified:
 [`_f87_door2_colouring_family.py`](../../simulations/_f87_door2_colouring_family.py) and, for (a)'s
 ANF-degree, [`_f87_door2_residual_structure.py`](../../simulations/_f87_door2_residual_structure.py); the
-(b) ceiling is pinned in C# by `PalindromeSoftCertifierCeilingTests` against the `PauliPairTrichotomy` /
-`BipartiteChirality` authorities; the certifier is `PalindromeSoftCertifier`.)
+former (b) colouring-ceiling XX + XZ is now certified by the routing strategy, and the receded k-body
+ceiling XZX + XZY + YZX is pinned in C# by `PalindromeSoftCertifierCeilingTests` against the
+`PauliPairTrichotomy` authority; the certifier is `PalindromeSoftCertifier`.)
