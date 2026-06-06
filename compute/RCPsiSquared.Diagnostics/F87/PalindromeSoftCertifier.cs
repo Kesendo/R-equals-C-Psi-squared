@@ -11,15 +11,17 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// means no scalable strategy applies (the chain-scope hard proxy stays in
 /// <see cref="PalindromeMaskClassifier"/>). A certificate is correct for any N and any topology.
 ///
-/// <para>The certifier carries BOTH soft mechanisms. (1) The DIAGONAL chiral K: the structured
+/// <para>The certifier carries THREE soft mechanisms. (1) The DIAGONAL chiral K: the structured
 /// 2-colourings of the basis-state graph, certifying the diagonal −N-mode soft cases. These are linear
 /// (the chiral K, <see cref="CertifyByLinearSiteColoring"/>), pure-pairing (⌊n/2⌋ mod 2,
 /// <see cref="CertifyByExcitationPairing"/>), excitation-parity (n mod 2,
 /// <see cref="CertifyByExcitationParity"/>), and the bit_b-MIXED site-swap reflection
-/// (<see cref="CertifyBySiteSwapSymmetry"/>). (2) The NON-DIAGONAL hidden-Q routing
-/// (<see cref="CertifyByRouting"/>): a per-site product Q from the P1/P4 families that palindromizes a sum
+/// (<see cref="CertifyBySiteSwapSymmetry"/>). (2) The NON-DIAGONAL 2-body hidden-Q routing (Stufe A,
+/// <see cref="CertifyByRouting"/>): a per-site product Q from the P1/P4 families that palindromizes a sum
 /// of 2-body bilinears sharing a uniform Q-family, reaching soft cases whose basis-state graph is
-/// NON-bipartite (so no colouring exists at any degree). The colourings are SOUND but not complete, in two
+/// NON-bipartite (so no colouring exists at any degree). (3) The DERIVED k-body per-term routing (Stufe B,
+/// <see cref="CertifyByRoutingKBody"/>, detailed below): the per-term k-site anticommutator condition that
+/// reaches the routable k-body cases the 2-body table misses. The colourings are SOUND but not complete, in two
 /// layers. (a) A scalability gap: some soft Hamiltonians are bipartite only through a non-structured
 /// colouring no scalable colouring reaches (XY+YX+XZ+ZX on a triangle is soft, its basis-state graph
 /// bipartite at ANF-degree 2, but neither linear nor an excitation grading). (b) A structural ceiling,
@@ -41,14 +43,24 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// or a NON-adjacent 2-body label (XIIX) can be reversal-symmetric, bit_b-MIXED, mask-bipartite yet
 /// spectrally HARD, so both are rejected.</para>
 ///
-/// <para>§7.12 ceiling (the remaining frontier): with the hidden-Q routing added, the non-bipartite-soft
-/// 2-body class (XX+XZ) is no longer the ceiling, it is certified. What stays beyond the certifier is the
-/// k-body routed-soft frontier (Stufe B): the routing family table is 2-body, so a 3-body routed-soft case
-/// like XZX+XZY+YZX (soft by the spectral authority at N=4,5,6, NotCertified) is the current ceiling.</para></summary>
+/// <para>(3) The DERIVED k-body per-term routing (Stufe B, <see cref="CertifyByRoutingKBody"/>): a periodic
+/// per-site product Q palindromizes a k-body (k ≥ 3) chain Hamiltonian iff each per-site map class-swaps
+/// {I,Z} ↔ {X,Y} (automatic, the dissipator leg) AND the per-term anticommutator {Q_k, [T,·]_k} = 0 at
+/// every window-parity (the Hamiltonian leg). This is checked on 4^k (the term's span), is Liouvillian-free,
+/// constructive-sound (it exhibits Q), and N-independent by additivity (<see cref="KBodyPalindromeRouting"/>).
+/// It reaches the k-body routed-soft cases the 2-body family table misses (XIX+XXY+YXX routes via the M2
+/// pattern, IYI+XZY+YZX via P4 ⊗ M2), span-bounded by <see cref="KBodyPalindromeRouting.MaxBody"/>.</para>
+///
+/// <para>§7.12 ceiling (the remaining frontier): with both routing mechanisms added, the non-bipartite-soft
+/// 2-body class (XX+XZ, Stufe A) and the routable k-body cases (Stufe B) are certified, no longer the
+/// ceiling. What stays beyond the certifier is the NON-LOCAL k-body routed-soft frontier: a soft case like
+/// XZX+XZY+YZX (and its 5 siblings, soft by the spectral authority at N=4,5,6, NotCertified) admits NO
+/// per-site product Q at all, so the derived per-term routing declines it; it is palindromized only by a
+/// non-local Π. NotCertified does not imply not-soft.</para></summary>
 public static class PalindromeSoftCertifier
 {
     /// <summary>Which scalable soft strategy certified the Hamiltonian (None = not certified).</summary>
-    public enum SoftStrategy { None, LinearSiteColoring, ExcitationPairing, ExcitationParity, SiteSwapSymmetry, Routing }
+    public enum SoftStrategy { None, LinearSiteColoring, ExcitationPairing, ExcitationParity, SiteSwapSymmetry, Routing, RoutingKBody }
 
     /// <summary>Result of <see cref="Certify"/>: whether soft is certified, and by which strategy.</summary>
     public readonly record struct SoftCertificate(bool Certified, SoftStrategy Strategy);
@@ -284,11 +296,42 @@ public static class PalindromeSoftCertifier
         return false;
     }
 
+    /// <summary>The DERIVED k-body hidden-Q routing strategy (Stufe B): the per-term, k-site-local,
+    /// Liouvillian-free palindrome condition that reaches the k-body (k ≥ 3) routed-soft cases the 2-body
+    /// family table (<see cref="CertifyByRouting"/>) cannot. The palindrome condition Q L Q⁻¹ = −L − 2σ
+    /// decomposes EXACTLY into (a) the automatic per-site dissipator swap {I,Z} ↔ {X,Y} (every candidate
+    /// map is class-swapping, n_XY → N − n_XY gives the −2σ shift) AND (b) the per-term anticommutator
+    /// {Q_k, [T,·]_k} = 0 for every placed term at every window-parity. Condition (b) is checked on 4^k
+    /// (the term's span, NOT the 2^N Liouvillian) and additivity over windows gives the palindrome at EVERY
+    /// N, so the certificate is CONSTRUCTIVE (it exhibits the periodic per-site product Q), sound by
+    /// derivation, and N-independent. See <see cref="KBodyPalindromeRouting"/>.
+    ///
+    /// <para>Span-bounded: a term of span k yields a 4^k × 4^k check, so the strategy declines a set with
+    /// any term outside [2, <see cref="KBodyPalindromeRouting.MaxBody"/>]. The non-local ceiling cases
+    /// (XZX+XZY+YZX and its 5 siblings) admit NO per-site product Q at all, so <see cref="Routes"/> returns
+    /// false and they stay NotCertified.</para></summary>
+    public static bool CertifyByRoutingKBody(IReadOnlyList<PauliTerm> terms, int n)
+    {
+        if (terms.Count == 0) return false;
+
+        // Span gate: every term's span k = label length must be in [2, MaxBody]. A span-1 term is not a
+        // routed bilinear; a span > MaxBody term makes the 4^k anticommutator check large (out of scope).
+        foreach (var t in terms)
+        {
+            int k = t.Letters.Count;
+            if (k < 2 || k > KBodyPalindromeRouting.MaxBody) return false;
+        }
+
+        return KBodyPalindromeRouting.Routes(terms, n);
+    }
+
     /// <summary>Try the stronger, topology-independent excitation strategies first (pairing, then
     /// parity; a term-set is at most one of them), then the chain-only linear one, then the bit_b-MIXED
-    /// site-swap-symmetry one, then the non-diagonal hidden-Q routing residual; return the certificate.
-    /// A certified set is at most one strategy (the existing strategies take precedence on overlap, e.g.
-    /// XY+YX stays ExcitationPairing, XZ+ZX stays ExcitationParity).</summary>
+    /// site-swap-symmetry one, then the 2-body hidden-Q routing (Stufe A), then the derived k-body per-term
+    /// routing residual (Stufe B); return the certificate. A certified set is at most one strategy (the
+    /// earlier strategies take precedence on overlap, e.g. XY+YX stays ExcitationPairing, XZ+ZX stays
+    /// ExcitationParity, and a pure-2-body routed set stays Routing; k ≥ 3 and mixed-span sets fall to
+    /// RoutingKBody).</summary>
     public static SoftCertificate Certify(IReadOnlyList<PauliTerm> terms, int n)
     {
         if (CertifyByExcitationPairing(terms)) return new SoftCertificate(true, SoftStrategy.ExcitationPairing);
@@ -296,6 +339,7 @@ public static class PalindromeSoftCertifier
         if (CertifyByLinearSiteColoring(terms, n)) return new SoftCertificate(true, SoftStrategy.LinearSiteColoring);
         if (CertifyBySiteSwapSymmetry(terms, n)) return new SoftCertificate(true, SoftStrategy.SiteSwapSymmetry);
         if (CertifyByRouting(terms)) return new SoftCertificate(true, SoftStrategy.Routing);
+        if (CertifyByRoutingKBody(terms, n)) return new SoftCertificate(true, SoftStrategy.RoutingKBody);
         return new SoftCertificate(false, SoftStrategy.None);
     }
 }

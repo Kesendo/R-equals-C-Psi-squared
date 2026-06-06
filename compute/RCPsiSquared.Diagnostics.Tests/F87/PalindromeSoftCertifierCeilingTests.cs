@@ -12,10 +12,11 @@ namespace RCPsiSquared.Diagnostics.Tests.F87;
 /// routing strategy receded it. The colouring strategies are all 2-colourings of the basis-state graph, so
 /// they reach only SOFT cases whose graph is bipartite. XX+XZ is soft yet its basis-state graph is
 /// NON-bipartite, so no colouring can express it; but the non-diagonal routing now CERTIFIES it (the shared
-/// uniform family {P4}), so it is no longer the ceiling. The remaining ceiling is the k-body routed-soft
-/// frontier (Stufe B): XZX+XZY+YZX is soft yet beyond the 2-body routing table, so NotCertified. These
-/// tests pin both down with the spectral authority, and also pin that XY+YX+XZ+ZX is HARD on the
-/// chain.</summary>
+/// uniform family {P4}), so it is no longer the ceiling. The derived k-body per-term routing (Stufe B) then
+/// reaches the routable k-body cases too; the remaining ceiling is the NON-LOCAL k-body routed-soft
+/// frontier: XZX+XZY+YZX is soft yet admits no per-site product Q (palindromized only by a non-local Π), so
+/// even Stufe B declines it and it stays NotCertified. These tests pin both down with the spectral
+/// authority, and also pin that XY+YX+XZ+ZX is HARD on the chain.</summary>
 public class PalindromeSoftCertifierCeilingTests
 {
     private static PauliTerm T(string label) => new(PauliLabel.Parse(label), Complex.One);
@@ -45,9 +46,10 @@ public class PalindromeSoftCertifierCeilingTests
     [InlineData(5)]
     public void KBodyRoutedSoft_IsRealAndBeyondTheRoutingTable(int n)
     {
-        // XZX+XZY+YZX is a 3-body routed-soft case: soft by the spectral authority, yet the routing family
-        // table is 2-body and cannot reach it, so the certifier returns NotCertified. The new ceiling
-        // (Stufe B). Checked at N=4,5 (not N=3, where k=3 fills the whole chain, a different regime).
+        // XZX+XZY+YZX is a NON-LOCAL 3-body routed-soft case: soft by the spectral authority, yet it admits
+        // no per-site product Q (palindromized only by a non-local Π), so even the derived k-body per-term
+        // routing (Stufe B) declines it and the certifier returns NotCertified. The remaining ceiling.
+        // Checked at N=4,5 (not N=3, where k=3 fills the whole chain, a different regime).
         var terms = H("XZX", "XZY", "YZX");
         var chain = new ChainSystem(n, 1.0, 0.05);
         Assert.Equal(TrichotomyClass.Soft, PauliPairTrichotomy.Classify(chain, terms));   // genuinely soft

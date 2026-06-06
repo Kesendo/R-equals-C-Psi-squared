@@ -11,32 +11,37 @@ using Strategy = RCPsiSquared.Diagnostics.F87.PalindromeSoftCertifier.SoftStrate
 namespace RCPsiSquared.Diagnostics.F87;
 
 /// <summary>Schicht-1 surface for the §7.12 Liouvillian-free SOFT-certifier
-/// (<see cref="PalindromeSoftCertifier"/>) as a single registry-queryable Claim. The certifier carries BOTH
-/// soft mechanisms: the DIAGONAL chiral K (the structured basis-state colourings, plus the site-swap
-/// reflection) AND the NON-DIAGONAL hidden-Q routing (one uniform per-site product Q palindromizes a sum of
-/// 2-body bilinears sharing a Q-family). It certifies "soft" iff one strategy applies; it never claims hard
-/// (NotCertified carries no claim). This Claim asserts ONLY the two settled facts:
+/// (<see cref="PalindromeSoftCertifier"/>) as a single registry-queryable Claim. The certifier carries the
+/// DIAGONAL chiral K (the structured basis-state colourings, plus the site-swap reflection) AND BOTH
+/// non-diagonal hidden-Q routing mechanisms: the 2-body family-intersection routing (Stufe A, one uniform
+/// per-site product Q palindromizes a sum of 2-body bilinears sharing a Q-family) AND the derived k-body
+/// per-term routing (Stufe B, the per-term k-site anticommutator {Q_k, [T,·]_k} = 0 reaches the routable
+/// k-body cases the 2-body table misses). It certifies "soft" iff one strategy applies; it never claims
+/// hard (NotCertified carries no claim). This Claim asserts ONLY the two settled facts:
 ///
 /// <list type="number">
 ///   <item><b>Soundness (one-sided)</b>: every case in the soundness battery is both Certified by
 ///     <see cref="PalindromeSoftCertifier.Certify"/> AND not Hard by the spectral authority
 ///     <see cref="PauliPairTrichotomy.Classify"/>. So a certificate never lies: certified ⟹ not hard.
 ///     The battery spans the strategies: XY+YX (ExcitationPairing), XZ+ZX (ExcitationParity),
-///     XY−YX (LinearSiteColoring, the chain chiral-K reading the §7 diagonal-K criterion scales), and
-///     XX+XZ (Routing, the non-diagonal hidden-Q family {P4}).</item>
-///   <item><b>The structural ceiling</b> (the receded incompleteness, PROOF_F103 §7.12): with routing
-///     added, the non-bipartite-soft 2-body class (XX+XZ) is now CERTIFIED, no longer the ceiling. The
-///     remaining ceiling is the k-body routed-soft frontier (Stufe B): XZX+XZY+YZX is soft
-///     (<see cref="PauliPairTrichotomy.Classify"/> == Soft, the k-body overload, verified at N=4,5,6) yet
-///     NotCertified, because the routing family table is 2-body and cannot reach a 3-body routed case.
+///     XY−YX (LinearSiteColoring, the chain chiral-K reading the §7 diagonal-K criterion scales),
+///     XX+XZ (Routing, the 2-body non-diagonal hidden-Q family {P4}), and XIX+XXY+YXX (RoutingKBody, the
+///     derived k-body per-term routing, routed by the M2 pattern).</item>
+///   <item><b>The structural ceiling</b> (the receded incompleteness, PROOF_F103 §7.12): with both routing
+///     mechanisms added, the non-bipartite-soft 2-body class (XX+XZ, Stufe A) and the routable k-body cases
+///     (Stufe B) are CERTIFIED, no longer the ceiling. The remaining ceiling is the NON-LOCAL k-body
+///     routed-soft frontier: XZX+XZY+YZX is soft (<see cref="PauliPairTrichotomy.Classify"/> == Soft, the
+///     k-body overload, verified at N=4,5,6) yet NotCertified, because it admits NO per-site product Q at
+///     all (it is palindromized only by a non-local Π), so the derived per-term routing declines it.
 ///     NotCertified therefore does not imply not-soft.</item>
 /// </list>
 ///
-/// <para>The k-body routing mechanism (Stufe B, the soft-criterion for the routed-soft frontier beyond the
-/// 2-body family table) is out of scope and is NOT asserted here.</para>
+/// <para>Certifying the non-local ceiling cases (XZX+XZY+YZX and its 5 siblings, which admit no per-site
+/// product Q) is out of scope and is NOT asserted here.</para>
 ///
-/// <para>Tier: Tier1Candidate. Routing is reused as a HELPER (like <see cref="PalindromeMaskClassifier"/>),
-/// so no new typed parent and no tier change. Typed parents: <see cref="F87DiagonalCellBipartiteWitnessSet"/>
+/// <para>Tier: Tier1Candidate. Both routing mechanisms are reused as HELPERS (like
+/// <see cref="PalindromeMaskClassifier"/>; the k-body leg via <see cref="KBodyPalindromeRouting"/>), so no
+/// new typed parent and no tier change. Typed parents: <see cref="F87DiagonalCellBipartiteWitnessSet"/>
 /// (the §7 diagonal-K bipartite criterion the certifier's linear strategy scales, Tier1Candidate) and
 /// <see cref="F87TrichotomyClassification"/> (the spectral authority the soundness is checked against,
 /// Tier1Derived). The strength-inheritance check is parent ≥ child, i.e. 4 ≥ 4 and 5 ≥ 4, both pass.</para>
@@ -55,8 +60,9 @@ public sealed class PalindromeSoftCertifierClaim : Claim
         public bool Passes => Certified && NotHard;
     }
 
-    /// <summary>The §7.12 structural ceiling witness (XZX+XZY+YZX): a k-body routed-soft case the
-    /// 2-body-gated certifier cannot reach, so it cannot (and must not) certify it. The pair
+    /// <summary>The §7.12 structural ceiling witness (XZX+XZY+YZX): a NON-LOCAL k-body routed-soft case
+    /// that admits NO per-site product Q (palindromized only by a non-local Π), so the derived k-body
+    /// per-term routing (Stufe B) declines it and the certifier cannot (and must not) certify it. The pair
     /// <see cref="Holds"/> iff it is soft (by the spectral authority) and NotCertified.</summary>
     public readonly record struct CeilingWitness(string Name, bool IsSoft, bool Certified)
     {
@@ -96,8 +102,9 @@ public sealed class PalindromeSoftCertifierClaim : Claim
         $"§7.12 soft certifier (sound + k-body routed-soft ceiling, N={Chain.N}, {SoundnessBattery.Count} soundness cases)";
 
     public override string Summary =>
-        $"sound one-sided certifier: {SoundnessPassCount}/{SoundnessBattery.Count} battery cases certified-and-not-hard; " +
-        $"ceiling: {Ceiling.Name} soft, NotCertified ({(Ceiling.Holds ? "PASS" : "FAIL")}) ({Tier.Label()})";
+        $"sound one-sided certifier (chiral K + 2-body routing Stufe A + derived k-body routing Stufe B): " +
+        $"{SoundnessPassCount}/{SoundnessBattery.Count} battery cases certified-and-not-hard; " +
+        $"non-local ceiling: {Ceiling.Name} soft, NotCertified ({(Ceiling.Holds ? "PASS" : "FAIL")}) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -130,8 +137,10 @@ public sealed class PalindromeSoftCertifierClaim : Claim
     ///   <item><b>XZ+ZX</b>: all-odd-flip, bit_b-homogeneous, certified by ExcitationParity.</item>
     ///   <item><b>XY−YX</b>: pure hopping, chain-bipartite flip-masks, certified by LinearSiteColoring
     ///     (the chain chiral-K reading the §7 diagonal-K criterion scales).</item>
-    ///   <item><b>XX+XZ</b>: non-diagonal hidden-Q routing, the shared uniform family {P4}, certified by
-    ///     Routing (a non-bipartite basis-state graph the colourings cannot reach).</item>
+    ///   <item><b>XX+XZ</b>: non-diagonal 2-body hidden-Q routing (Stufe A), the shared uniform family {P4},
+    ///     certified by Routing (a non-bipartite basis-state graph the colourings cannot reach).</item>
+    ///   <item><b>XIX+XXY+YXX</b>: derived k-body per-term hidden-Q routing (Stufe B), certified by
+    ///     RoutingKBody (a routable 3-body case the 2-body family table misses, routed by the M2 pattern).</item>
     /// </list></summary>
     private static IReadOnlyList<SoundnessCase> BuildSoundnessBattery(ChainSystem chain)
     {
@@ -143,6 +152,8 @@ public sealed class PalindromeSoftCertifierClaim : Claim
                 new List<PauliTerm> { T("XY", Complex.One), T("YX", -Complex.One) }),
             ("XX+XZ (Routing)", "hidden-Q uniform family {P4}, non-bipartite basis-state graph",
                 H("XX", "XZ")),
+            ("XIX+XXY+YXX (RoutingKBody)", "derived per-term k-site hidden-Q routing",
+                H("XIX", "XXY", "YXX")),
         };
 
         var cases = new List<SoundnessCase>(battery.Length);
@@ -160,12 +171,13 @@ public sealed class PalindromeSoftCertifierClaim : Claim
         return cases;
     }
 
-    /// <summary>The §7.12 ceiling witness XZX+XZY+YZX: a 3-body routed-soft case (Stufe B). It is soft by
+    /// <summary>The §7.12 ceiling witness XZX+XZY+YZX: a NON-LOCAL 3-body routed-soft case. It is soft by
     /// the spectral authority (the k-body <see cref="PauliPairTrichotomy.Classify(ChainSystem,
-    /// IReadOnlyList{PauliTerm}, double, double, PauliLetter)"/> overload) yet NotCertified, because the
-    /// routing family table is 2-body and cannot reach a 3-body routed case. Its soft verdict is
-    /// established at N = 4, 5, 6 (NOT at N = 3, where k = 3 fills the whole chain, a different regime), so
-    /// it is checked on the claim's chain when N ≥ 4, else on a fixed N = 4 chain.
+    /// IReadOnlyList{PauliTerm}, double, double, PauliLetter)"/> overload) yet NotCertified, because it
+    /// admits NO per-site product Q at all (palindromized only by a non-local Π), so even the derived k-body
+    /// per-term routing (Stufe B) declines it. Its soft verdict is established at N = 4, 5, 6 (NOT at N = 3,
+    /// where k = 3 fills the whole chain, a different regime), so it is checked on the claim's chain when
+    /// N ≥ 4, else on a fixed N = 4 chain.
     /// Mirrors <c>PalindromeSoftCertifierCeilingTests.KBodyRoutedSoft_IsRealAndBeyondTheRoutingTable</c>.</summary>
     private static CeilingWitness BuildCeiling(ChainSystem chain)
     {

@@ -86,6 +86,21 @@ public class PalindromeSoftCertifierClaimRegistrationTests
     }
 
     [Fact]
+    public void PalindromeSoftCertifierClaim_SoundnessBattery_IncludesTheRoutingKBodyCase()
+    {
+        var registry = KnowledgeRegistryFactory.BuildDefault();
+        var claim = registry.Get<PalindromeSoftCertifierClaim>();
+
+        // Stufe B adds XIX+XXY+YXX as a k-body routing soundness case: a routable 3-body set the 2-body
+        // family table misses, certified by the derived per-term k-site routing (the M2 pattern) and not hard.
+        var routingKBody = claim.SoundnessBattery.Single(c => c.Name == "XIX+XXY+YXX (RoutingKBody)");
+        Assert.Equal(Strategy.RoutingKBody, routingKBody.Strategy);
+        Assert.True(routingKBody.Certified, "XIX+XXY+YXX must be certified (by RoutingKBody)");
+        Assert.True(routingKBody.NotHard, "XIX+XXY+YXX must be not hard by the spectral authority");
+        Assert.True(routingKBody.Passes);
+    }
+
+    [Fact]
     public void PalindromeSoftCertifierClaim_Ceiling_KBodyRoutedSoft_Soft_NotCertified()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
@@ -95,7 +110,7 @@ public class PalindromeSoftCertifierClaimRegistrationTests
         Assert.Equal("XZX+XZY+YZX", ceiling.Name);
         Assert.True(ceiling.IsSoft, "ceiling witness XZX+XZY+YZX must be soft by the spectral authority");
         Assert.False(ceiling.Certified,
-            "ceiling witness XZX+XZY+YZX must be NotCertified (the 2-body-gated certifier cannot reach a 3-body routed case)");
+            "ceiling witness XZX+XZY+YZX must be NotCertified (non-local: it admits no per-site product Q, so even the k-body routing declines it)");
         Assert.True(ceiling.Holds, "the ceiling pair (soft, NotCertified) must hold");
     }
 

@@ -210,6 +210,37 @@ public class PalindromeSoftCertifierTests
     }
 
     [Fact]
+    public void CertifyByRoutingKBody_CertifiesRoutableKBodyWitnesses()
+    {
+        // XIX+XXY+YXX: a 3-body routed-soft set the 2-body table cannot reach; the derived per-term
+        // k-site routing certifies it (it routes via the M2 pattern).
+        Assert.True(PalindromeSoftCertifier.CertifyByRoutingKBody(H("XIX", "XXY", "YXX"), 4));
+        // IYI+XZY+YZX: a mixed-span routed-soft set (a 1-flip 3-body bilinear plus two 3-body terms);
+        // the same candidate Q routes every term (P4 ⊗ M2).
+        Assert.True(PalindromeSoftCertifier.CertifyByRoutingKBody(H("IYI", "XZY", "YZX"), 4));
+    }
+
+    [Fact]
+    public void CertifyByRoutingKBody_DeclinesNonLocalCeiling_Hard_AndOverMaxBody()
+    {
+        // The non-local ceiling XZX+XZY+YZX admits NO per-site product Q (palindromized only by a
+        // non-local Π), so the derived routing declines it -> NotCertified (stays the ceiling).
+        Assert.False(PalindromeSoftCertifier.CertifyByRoutingKBody(H("XZX", "XZY", "YZX"), 4));
+        // XXX+XXY+YXX is spectrally HARD; no Q routes it, so the constructive certifier declines it.
+        Assert.False(PalindromeSoftCertifier.CertifyByRoutingKBody(H("XXX", "XXY", "YXX"), 4));
+        // The span gate declines any term wider than MaxBody (=5): a span-6 term makes the 4^k check large.
+        Assert.False(PalindromeSoftCertifier.CertifyByRoutingKBody(H("XXXXXX", "XXY", "YXX"), 6));
+    }
+
+    [Fact]
+    public void Certify_LabelsRoutableKBodyAsRoutingKBody()
+    {
+        // XIX+XXY+YXX falls through every earlier strategy (3-body, the 2-body table declines it) and is
+        // caught by the derived k-body per-term routing -> labelled RoutingKBody.
+        Assert.Equal(Strategy.RoutingKBody, PalindromeSoftCertifier.Certify(H("XIX", "XXY", "YXX"), 4).Strategy);
+    }
+
+    [Fact]
     public void Certify_NeverFalsePositive_AgainstTheSpectralVerdict()
     {
         // A certificate must imply not-hard. Check against the actual trichotomy at N=4.
@@ -237,6 +268,9 @@ public class PalindromeSoftCertifierTests
             H("XX", "XZ", "ZX"),    // multi-term uniform routing-soft (intersection {P4})
             H("YY", "YZ", "ZY"),    // multi-term uniform routing-soft narrowing to the OTHER bit (intersection {P1})
             H("XY", "XZ"),          // routing-declined: no shared family, not a two-term escape, spectrally hard
+            H("XIX", "XXY", "YXX"), // k-body routing-soft (Stufe B): certified by RoutingKBody (the M2 pattern)
+            H("XZX", "XZY", "YZX"), // the non-local k-body ceiling: soft, but no per-site Q -> RoutingKBody declines it
+            H("XXX", "XXY", "YXX"), // 3-body hard: no Q routes it -> RoutingKBody declines it (must not lie)
         };
         foreach (var terms in battery)
         {
