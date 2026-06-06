@@ -47,7 +47,8 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// Tier1Derived). The strength-inheritance check is parent ≥ child, i.e. 4 ≥ 4 and 5 ≥ 4, both pass.</para>
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md</c> §7.12 +
-/// <see cref="PalindromeSoftCertifier"/> + <c>PalindromeSoftCertifierCeilingTests</c>.</para></summary>
+/// <see cref="PalindromeSoftCertifier"/> + <see cref="KBodyPalindromeRouting"/> (the Stufe B leg) +
+/// <c>PalindromeSoftCertifierCeilingTests</c>.</para></summary>
 public sealed class PalindromeSoftCertifierClaim : Claim
 {
     /// <summary>One soundness-battery case: a named soft Hamiltonian with the certifier's verdict
@@ -83,6 +84,7 @@ public sealed class PalindromeSoftCertifierClaim : Claim
                Tier.Tier1Candidate,
                "docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md §7.12 + " +
                "compute/RCPsiSquared.Diagnostics/F87/PalindromeSoftCertifier.cs + " +
+               "compute/RCPsiSquared.Diagnostics/F87/KBodyPalindromeRouting.cs + " +
                "compute/RCPsiSquared.Diagnostics.Tests/F87/PalindromeSoftCertifierCeilingTests.cs")
     {
         Chain = chain ?? throw new ArgumentNullException(nameof(chain));

@@ -10,9 +10,10 @@ namespace RCPsiSquared.Diagnostics.Tests.F87;
 /// <summary>Wiring audit for <see cref="PalindromeSoftCertifierClaim"/>: it surfaces the §7.12
 /// Liouvillian-free soft-certifier (sound, one-sided, structurally incomplete) as a registered,
 /// registry-queryable Claim. The Claim asserts ONLY the settled facts: the certifier's soundness
-/// against the spectral authority (<see cref="PauliPairTrichotomy"/>, now including the XX+XZ routing case)
-/// and the k-body routed-soft ceiling (XZX+XZY+YZX is soft yet NotCertified, beyond the 2-body routing
-/// table). Built from the full <see cref="KnowledgeRegistryFactory.BuildDefault"/> registry, so both typed
+/// against the spectral authority (<see cref="PauliPairTrichotomy"/>, now including the XX+XZ (Routing) and
+/// XIX+XXY+YXX (RoutingKBody) cases) and the non-local k-body routed-soft ceiling (XZX+XZY+YZX is soft yet
+/// NotCertified: it admits no per-site product Q, so even the derived k-body routing declines it). Built
+/// from the full <see cref="KnowledgeRegistryFactory.BuildDefault"/> registry, so both typed
 /// parents are present and the strength-inheritance check (4 ≥ 4 against F87DiagonalCellBipartiteWitnessSet,
 /// 5 ≥ 4 against F87TrichotomyClassification) is exercised in production.</summary>
 public class PalindromeSoftCertifierClaimRegistrationTests
