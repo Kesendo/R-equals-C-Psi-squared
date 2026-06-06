@@ -802,8 +802,11 @@ class is permanently beyond ANY colouring, scalable or not. The full soft criter
 violates while staying soft, and that non-bipartite-soft 2-body class is reached not by a colouring but by
 a second, non-diagonal mechanism: the hidden-Q routing, a per-site uniform Q ≠ Π that certifies XX + XZ
 through its shared uniform Q-family (P4). The certifier carries both, the diagonal chiral K (the
-colourings) and the non-diagonal routing, so the 2-body soft cases are covered and the ceiling recedes to
-the k-body routed-soft frontier (XZX + XZY + YZX), where the 2-body family table does not reach. Mixing excitation gradings breaks the structure outright: a pairing (Δn = ±2) plus an odd
+colourings) and the non-diagonal routing, so the 2-body soft cases are covered. A derived
+per-term k-site extension of the routing (Stufe B) then reaches the LOCAL k-body routed-soft cases too (one
+per-site Q palindromizing every term, checked on 4^k of the term's span, Liouvillian-free and
+N-independent), and the ceiling recedes further to the NON-LOCAL k-body cases (XZX + XZY + YZX and its
+siblings), which admit no per-site product Q at all (palindromized only by an entangled, non-local Π). Mixing excitation gradings breaks the structure outright: a pairing (Δn = ±2) plus an odd
 flip (Δn = ±1) gives the edge-difference set {1, 2}, whose ℤ-Cayley graph is non-bipartite, so the
 excitation colourings fail and the Hamiltonian can be hard. (Verified:
 [`_f87_door2_colouring_family.py`](../../simulations/_f87_door2_colouring_family.py) and, for (a)'s

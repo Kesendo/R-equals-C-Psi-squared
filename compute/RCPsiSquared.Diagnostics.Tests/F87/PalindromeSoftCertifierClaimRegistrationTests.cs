@@ -93,7 +93,7 @@ public class PalindromeSoftCertifierClaimRegistrationTests
         var claim = registry.Get<PalindromeSoftCertifierClaim>();
 
         // Stufe B adds XIX+XXY+YXX as a k-body routing soundness case: a routable 3-body set the 2-body
-        // family table misses, certified by the derived per-term k-site routing (the M2 pattern) and not hard.
+        // family table misses, certified by the derived per-term k-site routing (the P4 pattern) and not hard.
         var routingKBody = claim.SoundnessBattery.Single(c => c.Name == "XIX+XXY+YXX (RoutingKBody)");
         Assert.Equal(Strategy.RoutingKBody, routingKBody.Strategy);
         Assert.True(routingKBody.Certified, "XIX+XXY+YXX must be certified (by RoutingKBody)");

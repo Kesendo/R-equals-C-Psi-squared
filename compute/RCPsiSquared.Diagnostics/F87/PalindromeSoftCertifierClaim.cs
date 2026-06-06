@@ -26,7 +26,7 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///     The battery spans the strategies: XY+YX (ExcitationPairing), XZ+ZX (ExcitationParity),
 ///     XY−YX (LinearSiteColoring, the chain chiral-K reading the §7 diagonal-K criterion scales),
 ///     XX+XZ (Routing, the 2-body non-diagonal hidden-Q family {P4}), and XIX+XXY+YXX (RoutingKBody, the
-///     derived k-body per-term routing, routed by the M2 pattern).</item>
+///     derived k-body per-term routing, routed by the P4 pattern).</item>
 ///   <item><b>The structural ceiling</b> (the receded incompleteness, PROOF_F103 §7.12): with both routing
 ///     mechanisms added, the non-bipartite-soft 2-body class (XX+XZ, Stufe A) and the routable k-body cases
 ///     (Stufe B) are CERTIFIED, no longer the ceiling. The remaining ceiling is the NON-LOCAL k-body
@@ -142,7 +142,7 @@ public sealed class PalindromeSoftCertifierClaim : Claim
     ///   <item><b>XX+XZ</b>: non-diagonal 2-body hidden-Q routing (Stufe A), the shared uniform family {P4},
     ///     certified by Routing (a non-bipartite basis-state graph the colourings cannot reach).</item>
     ///   <item><b>XIX+XXY+YXX</b>: derived k-body per-term hidden-Q routing (Stufe B), certified by
-    ///     RoutingKBody (a routable 3-body case the 2-body family table misses, routed by the M2 pattern).</item>
+    ///     RoutingKBody (a routable 3-body case the 2-body family table misses, routed by the P4 pattern).</item>
     /// </list></summary>
     private static IReadOnlyList<SoundnessCase> BuildSoundnessBattery(ChainSystem chain)
     {

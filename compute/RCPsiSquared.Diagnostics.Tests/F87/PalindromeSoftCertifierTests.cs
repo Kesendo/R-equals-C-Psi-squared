@@ -213,7 +213,7 @@ public class PalindromeSoftCertifierTests
     public void CertifyByRoutingKBody_CertifiesRoutableKBodyWitnesses()
     {
         // XIX+XXY+YXX: a 3-body routed-soft set the 2-body table cannot reach; the derived per-term
-        // k-site routing certifies it (it routes via the M2 pattern).
+        // k-site routing certifies it (it routes via the P4 pattern).
         Assert.True(PalindromeSoftCertifier.CertifyByRoutingKBody(H("XIX", "XXY", "YXX"), 4));
         // IYI+XZY+YZX: a mixed-span routed-soft set (a 1-flip 3-body bilinear plus two 3-body terms);
         // the same candidate Q routes every term (P4 ⊗ M2).
@@ -268,7 +268,7 @@ public class PalindromeSoftCertifierTests
             H("XX", "XZ", "ZX"),    // multi-term uniform routing-soft (intersection {P4})
             H("YY", "YZ", "ZY"),    // multi-term uniform routing-soft narrowing to the OTHER bit (intersection {P1})
             H("XY", "XZ"),          // routing-declined: no shared family, not a two-term escape, spectrally hard
-            H("XIX", "XXY", "YXX"), // k-body routing-soft (Stufe B): certified by RoutingKBody (the M2 pattern)
+            H("XIX", "XXY", "YXX"), // k-body routing-soft (Stufe B): certified by RoutingKBody (the P4 pattern)
             H("XZX", "XZY", "YZX"), // the non-local k-body ceiling: soft, but no per-site Q -> RoutingKBody declines it
             H("XXX", "XXY", "YXX"), // 3-body hard: no Q routes it -> RoutingKBody declines it (must not lie)
         };

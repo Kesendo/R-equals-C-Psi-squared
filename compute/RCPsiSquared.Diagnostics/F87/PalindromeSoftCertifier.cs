@@ -48,8 +48,8 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// {I,Z} ↔ {X,Y} (automatic, the dissipator leg) AND the per-term anticommutator {Q_k, [T,·]_k} = 0 at
 /// every window-parity (the Hamiltonian leg). This is checked on 4^k (the term's span), is Liouvillian-free,
 /// constructive-sound (it exhibits Q), and N-independent by additivity (<see cref="KBodyPalindromeRouting"/>).
-/// It reaches the k-body routed-soft cases the 2-body family table misses (XIX+XXY+YXX routes via the M2
-/// pattern, IYI+XZY+YZX via P4 ⊗ M2), span-bounded by <see cref="KBodyPalindromeRouting.MaxBody"/>.</para>
+/// It reaches the k-body routed-soft cases the 2-body family table misses (XIX+XXY+YXX routes via the P4
+/// pattern, IYI+XZY+YZX via a period-2 alternating Q), span-bounded by <see cref="KBodyPalindromeRouting.MaxBody"/>.</para>
 ///
 /// <para>§7.12 ceiling (the remaining frontier): with both routing mechanisms added, the non-bipartite-soft
 /// 2-body class (XX+XZ, Stufe A) and the routable k-body cases (Stufe B) are certified, no longer the
