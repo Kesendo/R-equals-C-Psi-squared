@@ -78,6 +78,24 @@ public static class TwoTermPalindromeRouting
         ["YX"] = 0,
     };
 
+    /// <summary>Non-throwing lookup of a single bilinear's uniform Q-family mask: the bits {P1, P4, M2} =
+    /// {1, 2, 4} of the uniform product Q-families that close <paramref name="term"/> alone (see the
+    /// <see cref="Fam"/> table). Returns true with <paramref name="mask"/> = the family bits if
+    /// <paramref name="term"/> is one of the nine recognized bilinears (fam(XY) = fam(YX) = 0 still returns
+    /// true, recognized with an empty family); false with <paramref name="mask"/> = 0 for any other label
+    /// (a k-body template like "XZX", a padded label like "XIZ", or an unknown symbol). Unlike
+    /// <see cref="NormalizeTerm"/>, this never throws, so it is safe as a multi-term scope gate.</summary>
+    /// <param name="term">A Pauli label to look up (only the nine 2-letter bilinears are recognized).</param>
+    /// <param name="mask">The family bits P1|P4|M2 if recognized, else 0.</param>
+    /// <returns>True iff <paramref name="term"/> is a recognized bilinear.</returns>
+    public static bool TryGetUniformFamilyMask(string term, out int mask)
+    {
+        if (term is not null && Fam.TryGetValue(term, out mask))
+            return true;
+        mask = 0;
+        return false;
+    }
+
     // The two continuous-crossover escapes: same-site X&Y collision over a shared dark Z port. No discrete
     // signed-permutation crossover routes both bands, but a single continuous per-site rotation M (M² = −I)
     // does, so the mirror is LOCAL, not entangled.

@@ -9,8 +9,9 @@ using Strategy = RCPsiSquared.Diagnostics.F87.PalindromeSoftCertifier.SoftStrate
 
 namespace RCPsiSquared.Diagnostics.Tests.F87;
 
-/// <summary>The Liouvillian-free soft-certifier: the σ± pure-pairing test, the two strategies, the
-/// orchestration, and the safety property that a certificate is never a false positive.</summary>
+/// <summary>The Liouvillian-free soft-certifier: the σ± pure-pairing test, the colouring strategies, the
+/// non-diagonal hidden-Q routing strategy, the orchestration, and the safety property that a certificate
+/// is never a false positive.</summary>
 public class PalindromeSoftCertifierTests
 {
     private static PauliTerm T(string label) => new(PauliLabel.Parse(label), Complex.One);
@@ -129,6 +130,58 @@ public class PalindromeSoftCertifierTests
     }
 
     [Fact]
+    public void TryGetUniformFamilyMask_RecognizedBilinearsReturnTheirMask_UnknownLabelsReturnFalse()
+    {
+        // fam(XX) = {P1, P4} = 1 | 2 = 3 (both crossovers route a same-letter bilinear).
+        Assert.True(TwoTermPalindromeRouting.TryGetUniformFamilyMask("XX", out int xx));
+        Assert.Equal(3, xx);
+        // fam(XZ) = {P4} = 2 (only the Y-router survives the X·Z mix).
+        Assert.True(TwoTermPalindromeRouting.TryGetUniformFamilyMask("XZ", out int xz));
+        Assert.Equal(2, xz);
+        // fam(XY) = {} = 0, but XY is RECOGNIZED, so it returns true with an empty family.
+        Assert.True(TwoTermPalindromeRouting.TryGetUniformFamilyMask("XY", out int xy));
+        Assert.Equal(0, xy);
+        // A non-bilinear single-letter-ish label and a 3-body template are not recognized: false, mask 0.
+        Assert.False(TwoTermPalindromeRouting.TryGetUniformFamilyMask("XI", out int xi));
+        Assert.Equal(0, xi);
+        Assert.False(TwoTermPalindromeRouting.TryGetUniformFamilyMask("XZX", out int xzx));
+        Assert.Equal(0, xzx);
+    }
+
+    [Fact]
+    public void CertifyByRouting_CertifiesSharedUniformFamilyAndTwoTermEscapes()
+    {
+        // XX (fam {P1,P4}) + XZ (fam {P4}) share {P4}: one uniform Q palindromizes both -> certified.
+        Assert.True(PalindromeSoftCertifier.CertifyByRouting(H("XX", "XZ")));
+        // Multi-term uniform: XX,XZ,ZX all admit P4 (XX={P1,P4}, XZ=ZX={P4}); intersection {P4} -> certified.
+        Assert.True(PalindromeSoftCertifier.CertifyByRouting(H("XX", "XZ", "ZX")));
+        // YY (fam {P1,P4}) + YZ (fam {P1}) share {P1} -> certified.
+        Assert.True(PalindromeSoftCertifier.CertifyByRouting(H("YY", "YZ")));
+        // XY + ZZ: no shared uniform family, but it is a two-term alternating escape -> certified via Classify.
+        Assert.True(PalindromeSoftCertifier.CertifyByRouting(H("XY", "ZZ")));
+    }
+
+    [Fact]
+    public void CertifyByRouting_DeclinesNoSharedFamily_AllMother_AndKBodyLabels()
+    {
+        // XY (fam {}) + XZ (fam {P4}): no shared family AND not a two-term soft escape (spectrally hard).
+        Assert.False(PalindromeSoftCertifier.CertifyByRouting(H("XY", "XZ")));
+        // XX + YY is all-Mother: TRULY (canonical Π pairs the spectrum), not soft -> must decline.
+        Assert.False(PalindromeSoftCertifier.CertifyByRouting(H("XX", "YY")));
+        // A 3-body set has non-recognized labels: out of the 2-body scope (Stufe B) -> decline, no throw.
+        Assert.False(PalindromeSoftCertifier.CertifyByRouting(H("XZX", "XZY", "YZX")));
+    }
+
+    [Fact]
+    public void Certify_LabelsUniformRoutingAsRouting()
+    {
+        // XX+XZ: non-diagonal hidden-Q soft, missed by all four colourings, certified by Routing.
+        Assert.Equal(Strategy.Routing, PalindromeSoftCertifier.Certify(H("XX", "XZ"), 4).Strategy);
+        // The multi-term uniform case is also labelled Routing.
+        Assert.Equal(Strategy.Routing, PalindromeSoftCertifier.Certify(H("XX", "XZ", "ZX"), 4).Strategy);
+    }
+
+    [Fact]
     public void Certify_NeverFalsePositive_AgainstTheSpectralVerdict()
     {
         // A certificate must imply not-hard. Check against the actual trichotomy at N=4.
@@ -152,6 +205,9 @@ public class PalindromeSoftCertifierTests
             H("XY", "YX", "XZ", "ZX"),  // bit_b-homogeneous but non-mask-bipartite on the chain: hard, declined
             H("XXX", "XXY", "YXX"), // 3-body killer: reversal-symmetric, mask-bipartite, yet spectrally hard
             H("XIIX", "XY", "YX"),  // non-adjacent 2-body killer: every term 2 non-I letters but XIIX spans 4 sites; hard
+            H("XX", "XZ"),          // hidden-Q routing: non-bipartite-soft, certified by Routing (shared {P4})
+            H("XX", "XZ", "ZX"),    // multi-term uniform routing-soft (intersection {P4})
+            H("XY", "XZ"),          // routing-declined: no shared family, not a two-term escape, spectrally hard
         };
         foreach (var terms in battery)
         {

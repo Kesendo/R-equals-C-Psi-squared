@@ -7,24 +7,27 @@ namespace RCPsiSquared.Diagnostics.F87;
 
 /// <summary>A Liouvillian-free, one-sided SOFT-certifier (PROOF_F103 §7.12). The true soft criterion is
 /// the bipartiteness of the BASIS-STATE hopping graph (a 2^N, letter-dependent object); this class tries
-/// scalable SUFFICIENT conditions ("soft colourings") and certifies soft if any holds. It never claims
-/// hard: NotCertified means no scalable strategy applies (the chain-scope hard proxy stays in
+/// scalable SUFFICIENT conditions and certifies soft if any holds. It never claims hard: NotCertified
+/// means no scalable strategy applies (the chain-scope hard proxy stays in
 /// <see cref="PalindromeMaskClassifier"/>). A certificate is correct for any N and any topology.
 ///
-/// <para>The strategies are the structured 2-colourings of the basis-state graph: linear (the chiral K,
-/// <see cref="CertifyByLinearSiteColoring"/>), pure-pairing (⌊n/2⌋ mod 2, <see cref="CertifyByExcitationPairing"/>),
-/// and excitation-parity (n mod 2, <see cref="CertifyByExcitationParity"/>). They are SOUND but not
-/// complete, in two layers. (a) A scalability gap: some soft Hamiltonians are bipartite only through a
-/// non-structured colouring no scalable strategy reaches (XY+YX+XZ+ZX on a triangle is soft, its
-/// basis-state graph bipartite at ANF-degree 2, but neither linear nor an excitation grading). (b) A
-/// structural ceiling, deeper: some soft Hamiltonians have a NON-bipartite basis-state graph, so NO
-/// colouring exists at any degree (XX+XZ on the chain is soft at N=3..6 by the spectral authority
-/// <see cref="PauliPairTrichotomy"/>, yet <see cref="BipartiteChirality"/> reports its basis-state graph
-/// non-bipartite). The mechanism is NOT open: these are soft by the hidden-Q routing, a per-site Q from
-/// the P1/P4 families that <see cref="TwoTermPalindromeRouting"/> classifies bit-exactly for 2-term pairs
-/// (XX+XZ routes to P4). So NotCertified does not imply not-soft; a colouring certifies exactly the
-/// diagonal −N-mode soft cases, while the non-bipartite-soft class is named (not certified) by the
-/// routing. What stays beyond both is general-k, multi-term H past the 2-term routing (PROOF_F103 §7.12).</para>
+/// <para>The certifier carries BOTH soft mechanisms. (1) The DIAGONAL chiral K: the structured
+/// 2-colourings of the basis-state graph, certifying the diagonal −N-mode soft cases. These are linear
+/// (the chiral K, <see cref="CertifyByLinearSiteColoring"/>), pure-pairing (⌊n/2⌋ mod 2,
+/// <see cref="CertifyByExcitationPairing"/>), excitation-parity (n mod 2,
+/// <see cref="CertifyByExcitationParity"/>), and the bit_b-MIXED site-swap reflection
+/// (<see cref="CertifyBySiteSwapSymmetry"/>). (2) The NON-DIAGONAL hidden-Q routing
+/// (<see cref="CertifyByRouting"/>): a per-site product Q from the P1/P4 families that palindromizes a sum
+/// of 2-body bilinears sharing a uniform Q-family, reaching soft cases whose basis-state graph is
+/// NON-bipartite (so no colouring exists at any degree). The colourings are SOUND but not complete, in two
+/// layers. (a) A scalability gap: some soft Hamiltonians are bipartite only through a non-structured
+/// colouring no scalable colouring reaches (XY+YX+XZ+ZX on a triangle is soft, its basis-state graph
+/// bipartite at ANF-degree 2, but neither linear nor an excitation grading). (b) A structural ceiling,
+/// deeper: some soft Hamiltonians have a NON-bipartite basis-state graph (XX+XZ on the chain is soft at
+/// N=3..6 by the spectral authority <see cref="PauliPairTrichotomy"/>, yet <see cref="BipartiteChirality"/>
+/// reports its basis-state graph non-bipartite). That class is NOT open and NO LONGER beyond the certifier:
+/// the hidden-Q routing reaches it (XX+XZ routes to the uniform family {P4}), so it is now certified, not
+/// merely named. So NotCertified does not imply not-soft.</para>
 ///
 /// <para>The three colouring strategies all gate on bit_b-homogeneity (one Klein cell); a bit_b-MIXED set
 /// they simply decline, even when it is soft. That gate is no longer blunt: the fourth strategy,
@@ -36,11 +39,16 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// is EMPIRICALLY VERIFIED, not derived: zero false-positives over all ADJACENT 2-body bilinear sums
 /// (k = 2..9 terms, N = 3, 4, 5). It is hard-gated to adjacent 2-body bilinears: a 3-body set (XXX+XXY+YXX)
 /// or a NON-adjacent 2-body label (XIIX) can be reversal-symmetric, bit_b-MIXED, mask-bipartite yet
-/// spectrally HARD, so both are rejected.</para></summary>
+/// spectrally HARD, so both are rejected.</para>
+///
+/// <para>§7.12 ceiling (the remaining frontier): with the hidden-Q routing added, the non-bipartite-soft
+/// 2-body class (XX+XZ) is no longer the ceiling, it is certified. What stays beyond the certifier is the
+/// k-body routed-soft frontier (Stufe B): the routing family table is 2-body, so a 3-body routed-soft case
+/// like XZX+XZY+YZX (soft by the spectral authority at N=4,5,6, NotCertified) is the current ceiling.</para></summary>
 public static class PalindromeSoftCertifier
 {
-    /// <summary>Which scalable soft-colouring certified the Hamiltonian (None = not certified).</summary>
-    public enum SoftStrategy { None, LinearSiteColoring, ExcitationPairing, ExcitationParity, SiteSwapSymmetry }
+    /// <summary>Which scalable soft strategy certified the Hamiltonian (None = not certified).</summary>
+    public enum SoftStrategy { None, LinearSiteColoring, ExcitationPairing, ExcitationParity, SiteSwapSymmetry, Routing }
 
     /// <summary>Result of <see cref="Certify"/>: whether soft is certified, and by which strategy.</summary>
     public readonly record struct SoftCertificate(bool Certified, SoftStrategy Strategy);
@@ -218,15 +226,72 @@ public static class PalindromeSoftCertifier
         return IsReversalSymmetric(terms);
     }
 
+    /// <summary>True iff the label is a Mother bilinear {XX, YY, ZZ} (Klein cell (0,0)).</summary>
+    private static bool IsMotherLabel(string l) => l is "XX" or "YY" or "ZZ";
+
+    /// <summary>The hidden-Q routing strategy: the NON-DIAGONAL soft mechanism the colourings lack. A sum
+    /// of 2-body bilinears is certified soft when one uniform per-site product Q (a P1/P4 family member,
+    /// see <see cref="TwoTermPalindromeRouting"/>) palindromizes EVERY term, hence the whole sum.
+    ///
+    /// <para>The rule reads LABELS only (coefficient-independent: one uniform Q palindromizes any real
+    /// linear combination, Q(Σ cᵢ tᵢ)Q⁻¹ = Σ cᵢ(−tᵢ) = −H). For each term it looks up the per-term family
+    /// mask via <see cref="TwoTermPalindromeRouting.TryGetUniformFamilyMask"/>; if ANY term is not a
+    /// recognized 2-body bilinear (a k-body or padded label), the set is out of scope and declined (Stufe B,
+    /// the k-body routed-soft frontier is deferred). Otherwise it certifies in two cases:</para>
+    /// <list type="number">
+    ///   <item>The uniform-routing certificate: the family masks share a member (their bitwise-AND is
+    ///     non-zero) AND the set is not all-Mother ({XX, YY, ZZ}, which is truly, not soft, the canonical
+    ///     Π already pairs the spectrum). That shared Q palindromizes every term ⟹ the sum.</item>
+    ///   <item>The two-term alternating/continuous escapes (XY+ZZ, XZ+YZ, ...): at exactly two terms, the
+    ///     fate is read directly from <see cref="TwoTermPalindromeRouting.Classify"/> (these are
+    ///     TWO-TERM-SPECIFIC, not generalized to 3+ terms).</item>
+    /// </list>
+    /// <para>SOUND by the additivity argument (the Q is exhibited as a uniform per-site product, not an
+    /// N-dependent graph property, so the certificate is N-stable) and EMPIRICALLY VERIFIED: the soundness
+    /// sweep found zero Hard false-positives over all multi-term 2-body bilinear sums (k = 2..5, N = 4, 5),
+    /// N-stable through N = 6.</para></summary>
+    public static bool CertifyByRouting(IReadOnlyList<PauliTerm> terms)
+    {
+        if (terms.Count == 0) return false;
+
+        int intersection = 0;
+        bool allMother = true;
+        bool first = true;
+        foreach (var t in terms)
+        {
+            if (!TwoTermPalindromeRouting.TryGetUniformFamilyMask(t.Label, out int m))
+                return false;   // a non-recognized / k-body label: out of the 2-body scope (Stufe B)
+            intersection = first ? m : intersection & m;
+            first = false;
+            if (!IsMotherLabel(t.Label)) allMother = false;
+        }
+
+        // The uniform-routing certificate: one shared product Q palindromizes every term (the sum), unless
+        // the set is all-Mother (truly, the canonical Π already pairs it).
+        if (intersection != 0 && !allMother) return true;
+
+        // The two-term alternating/continuous escapes (read directly, two-term-specific).
+        if (terms.Count == 2)
+        {
+            var r = TwoTermPalindromeRouting.Classify(terms[0].Label, terms[1].Label);
+            if (r.Fate == TrichotomyClass.Soft) return true;
+        }
+
+        return false;
+    }
+
     /// <summary>Try the stronger, topology-independent excitation strategies first (pairing, then
     /// parity; a term-set is at most one of them), then the chain-only linear one, then the bit_b-MIXED
-    /// site-swap-symmetry one; return the certificate. A certified set is at most one strategy.</summary>
+    /// site-swap-symmetry one, then the non-diagonal hidden-Q routing residual; return the certificate.
+    /// A certified set is at most one strategy (the existing strategies take precedence on overlap, e.g.
+    /// XY+YX stays ExcitationPairing, XZ+ZX stays ExcitationParity).</summary>
     public static SoftCertificate Certify(IReadOnlyList<PauliTerm> terms, int n)
     {
         if (CertifyByExcitationPairing(terms)) return new SoftCertificate(true, SoftStrategy.ExcitationPairing);
         if (CertifyByExcitationParity(terms)) return new SoftCertificate(true, SoftStrategy.ExcitationParity);
         if (CertifyByLinearSiteColoring(terms, n)) return new SoftCertificate(true, SoftStrategy.LinearSiteColoring);
         if (CertifyBySiteSwapSymmetry(terms, n)) return new SoftCertificate(true, SoftStrategy.SiteSwapSymmetry);
+        if (CertifyByRouting(terms)) return new SoftCertificate(true, SoftStrategy.Routing);
         return new SoftCertificate(false, SoftStrategy.None);
     }
 }

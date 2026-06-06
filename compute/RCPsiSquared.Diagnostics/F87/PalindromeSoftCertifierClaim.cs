@@ -11,28 +11,33 @@ using Strategy = RCPsiSquared.Diagnostics.F87.PalindromeSoftCertifier.SoftStrate
 namespace RCPsiSquared.Diagnostics.F87;
 
 /// <summary>Schicht-1 surface for the §7.12 Liouvillian-free SOFT-certifier
-/// (<see cref="PalindromeSoftCertifier"/>) as a single registry-queryable Claim. The certifier tries
-/// three scalable structured 2-colourings of the basis-state graph (linear chiral K, excitation
-/// pairing, excitation parity) and certifies "soft" iff one applies; it never claims hard
+/// (<see cref="PalindromeSoftCertifier"/>) as a single registry-queryable Claim. The certifier carries BOTH
+/// soft mechanisms: the DIAGONAL chiral K (the structured basis-state colourings, plus the site-swap
+/// reflection) AND the NON-DIAGONAL hidden-Q routing (one uniform per-site product Q palindromizes a sum of
+/// 2-body bilinears sharing a Q-family). It certifies "soft" iff one strategy applies; it never claims hard
 /// (NotCertified carries no claim). This Claim asserts ONLY the two settled facts:
 ///
 /// <list type="number">
 ///   <item><b>Soundness (one-sided)</b>: every case in the soundness battery is both Certified by
 ///     <see cref="PalindromeSoftCertifier.Certify"/> AND not Hard by the spectral authority
 ///     <see cref="PauliPairTrichotomy.Classify"/>. So a certificate never lies: certified ⟹ not hard.
-///     The battery spans all three strategies: XY+YX (ExcitationPairing), XZ+ZX (ExcitationParity),
-///     and XY−YX (LinearSiteColoring, the chain chiral-K reading the §7 diagonal-K criterion scales).</item>
-///   <item><b>The structural ceiling</b> (the proven incompleteness, PROOF_F103 §7.12): XX+XZ is soft
-///     (<see cref="PauliPairTrichotomy.Classify"/> == Soft) yet its basis-state graph is NON-bipartite
-///     (<see cref="BipartiteChirality"/> reports IsBipartite == false), so NO colouring at any degree can
-///     reach it and the certifier returns NotCertified. NotCertified therefore does not imply not-soft.</item>
+///     The battery spans the strategies: XY+YX (ExcitationPairing), XZ+ZX (ExcitationParity),
+///     XY−YX (LinearSiteColoring, the chain chiral-K reading the §7 diagonal-K criterion scales), and
+///     XX+XZ (Routing, the non-diagonal hidden-Q family {P4}).</item>
+///   <item><b>The structural ceiling</b> (the receded incompleteness, PROOF_F103 §7.12): with routing
+///     added, the non-bipartite-soft 2-body class (XX+XZ) is now CERTIFIED, no longer the ceiling. The
+///     remaining ceiling is the k-body routed-soft frontier (Stufe B): XZX+XZY+YZX is soft
+///     (<see cref="PauliPairTrichotomy.Classify"/> == Soft, the k-body overload, verified at N=4,5,6) yet
+///     NotCertified, because the routing family table is 2-body and cannot reach a 3-body routed case.
+///     NotCertified therefore does not imply not-soft.</item>
 /// </list>
 ///
-/// <para>The OPEN non-diagonal mechanism behind the non-bipartite-soft class (what soft-criterion lies
-/// beyond basis-state bipartiteness) is out of scope and is NOT asserted here.</para>
+/// <para>The k-body routing mechanism (Stufe B, the soft-criterion for the routed-soft frontier beyond the
+/// 2-body family table) is out of scope and is NOT asserted here.</para>
 ///
-/// <para>Tier: Tier1Candidate. Typed parents: <see cref="F87DiagonalCellBipartiteWitnessSet"/> (the §7
-/// diagonal-K bipartite criterion the certifier's linear strategy scales, Tier1Candidate) and
+/// <para>Tier: Tier1Candidate. Routing is reused as a HELPER (like <see cref="PalindromeMaskClassifier"/>),
+/// so no new typed parent and no tier change. Typed parents: <see cref="F87DiagonalCellBipartiteWitnessSet"/>
+/// (the §7 diagonal-K bipartite criterion the certifier's linear strategy scales, Tier1Candidate) and
 /// <see cref="F87TrichotomyClassification"/> (the spectral authority the soundness is checked against,
 /// Tier1Derived). The strength-inheritance check is parent ≥ child, i.e. 4 ≥ 4 and 5 ≥ 4, both pass.</para>
 ///
@@ -50,13 +55,12 @@ public sealed class PalindromeSoftCertifierClaim : Claim
         public bool Passes => Certified && NotHard;
     }
 
-    /// <summary>The §7.12 structural ceiling witness (XX+XZ): a soft pair whose basis-state graph is
-    /// non-bipartite, so the certifier cannot (and must not) certify it. The triple
-    /// <see cref="Holds"/> iff it is soft, non-bipartite, and NotCertified.</summary>
-    public readonly record struct CeilingWitness(
-        string Name, bool IsSoft, bool IsBipartite, bool Certified)
+    /// <summary>The §7.12 structural ceiling witness (XZX+XZY+YZX): a k-body routed-soft case the
+    /// 2-body-gated certifier cannot reach, so it cannot (and must not) certify it. The pair
+    /// <see cref="Holds"/> iff it is soft (by the spectral authority) and NotCertified.</summary>
+    public readonly record struct CeilingWitness(string Name, bool IsSoft, bool Certified)
     {
-        public bool Holds => IsSoft && !IsBipartite && !Certified;
+        public bool Holds => IsSoft && !Certified;
     }
 
     /// <summary>Chain providing N for the spectral checks.</summary>
@@ -65,11 +69,11 @@ public sealed class PalindromeSoftCertifierClaim : Claim
     /// <summary>Soundness battery: each case certified-and-not-hard (the one-sided soundness property).</summary>
     public IReadOnlyList<SoundnessCase> SoundnessBattery { get; }
 
-    /// <summary>The XX+XZ structural ceiling witness: soft, non-bipartite, NotCertified.</summary>
+    /// <summary>The XZX+XZY+YZX k-body routed-soft ceiling witness: soft, NotCertified.</summary>
     public CeilingWitness Ceiling { get; }
 
     public PalindromeSoftCertifierClaim(ChainSystem chain)
-        : base("§7.12 soft certifier: sound, structurally incomplete (the non-bipartite-soft ceiling)",
+        : base("§7.12 soft certifier: sound, structurally incomplete (the k-body routed-soft ceiling)",
                Tier.Tier1Candidate,
                "docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md §7.12 + " +
                "compute/RCPsiSquared.Diagnostics/F87/PalindromeSoftCertifier.cs + " +
@@ -83,17 +87,17 @@ public sealed class PalindromeSoftCertifierClaim : Claim
     /// <summary>How many soundness cases pass (certified-and-not-hard).</summary>
     public int SoundnessPassCount => SoundnessBattery.Count(c => c.Passes);
 
-    /// <summary>The full §7.12 self-check: every soundness case certified-and-not-hard, and the XX+XZ
-    /// ceiling triple (soft, non-bipartite, NotCertified) holding.</summary>
+    /// <summary>The full §7.12 self-check: every soundness case certified-and-not-hard, and the
+    /// XZX+XZY+YZX k-body ceiling pair (soft, NotCertified) holding.</summary>
     public bool SelfCheckPasses =>
         SoundnessBattery.All(c => c.Passes) && Ceiling.Holds;
 
     public override string DisplayName =>
-        $"§7.12 soft certifier (sound + non-bipartite-soft ceiling, N={Chain.N}, {SoundnessBattery.Count} soundness cases)";
+        $"§7.12 soft certifier (sound + k-body routed-soft ceiling, N={Chain.N}, {SoundnessBattery.Count} soundness cases)";
 
     public override string Summary =>
         $"sound one-sided certifier: {SoundnessPassCount}/{SoundnessBattery.Count} battery cases certified-and-not-hard; " +
-        $"ceiling: XX+XZ soft, non-bipartite, NotCertified ({(Ceiling.Holds ? "PASS" : "FAIL")}) ({Tier.Label()})";
+        $"ceiling: {Ceiling.Name} soft, NotCertified ({(Ceiling.Holds ? "PASS" : "FAIL")}) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -107,9 +111,9 @@ public sealed class PalindromeSoftCertifierClaim : Claim
                 yield return new InspectableNode(c.Name,
                     summary: $"{c.Detail}; certified={c.Certified} (strategy {c.Strategy}), not-hard={c.NotHard}, " +
                              (c.Passes ? "PASS" : "FAIL"));
-            yield return new InspectableNode("ceiling (the proven incompleteness)",
-                summary: $"{Ceiling.Name}: soft={Ceiling.IsSoft}, bipartite={Ceiling.IsBipartite}, " +
-                         $"certified={Ceiling.Certified} (" + (Ceiling.Holds ? "PASS" : "FAIL") + ")");
+            yield return new InspectableNode("ceiling (the k-body routed-soft frontier)",
+                summary: $"{Ceiling.Name}: soft={Ceiling.IsSoft}, certified={Ceiling.Certified} " +
+                         "(" + (Ceiling.Holds ? "PASS" : "FAIL") + ")");
         }
     }
 
@@ -120,12 +124,14 @@ public sealed class PalindromeSoftCertifierClaim : Claim
         labels.Select(l => T(l, Complex.One)).ToList();
 
     /// <summary>The soundness battery, one case per certification strategy, each self-checked against
-    /// the spectral authority. All three are soft, so all three must be certified AND not hard.
+    /// the spectral authority. All are soft, so all must be certified AND not hard.
     /// <list type="bullet">
     ///   <item><b>XY+YX</b>: pure pairing, certified by ExcitationPairing (topology-independent).</item>
     ///   <item><b>XZ+ZX</b>: all-odd-flip, bit_b-homogeneous, certified by ExcitationParity.</item>
     ///   <item><b>XY−YX</b>: pure hopping, chain-bipartite flip-masks, certified by LinearSiteColoring
     ///     (the chain chiral-K reading the §7 diagonal-K criterion scales).</item>
+    ///   <item><b>XX+XZ</b>: non-diagonal hidden-Q routing, the shared uniform family {P4}, certified by
+    ///     Routing (a non-bipartite basis-state graph the colourings cannot reach).</item>
     /// </list></summary>
     private static IReadOnlyList<SoundnessCase> BuildSoundnessBattery(ChainSystem chain)
     {
@@ -135,6 +141,8 @@ public sealed class PalindromeSoftCertifierClaim : Claim
             ("XZ+ZX (ExcitationParity)", "all-odd-flip, bit_b-homogeneous, n mod 2 colouring", H("XZ", "ZX")),
             ("XY-YX (LinearSiteColoring)", "pure hopping, chain-bipartite flip-masks (chiral K)",
                 new List<PauliTerm> { T("XY", Complex.One), T("YX", -Complex.One) }),
+            ("XX+XZ (Routing)", "hidden-Q uniform family {P4}, non-bipartite basis-state graph",
+                H("XX", "XZ")),
         };
 
         var cases = new List<SoundnessCase>(battery.Length);
@@ -152,18 +160,24 @@ public sealed class PalindromeSoftCertifierClaim : Claim
         return cases;
     }
 
-    /// <summary>The §7.12 ceiling witness XX+XZ: soft by the spectral authority, but with a
-    /// non-bipartite basis-state graph (so no chiral K exists and the certifier returns NotCertified).
-    /// Mirrors <c>PalindromeSoftCertifierCeilingTests.NonBipartiteSoft_IsRealAndBeyondAnyColouring</c>.</summary>
+    /// <summary>The §7.12 ceiling witness XZX+XZY+YZX: a 3-body routed-soft case (Stufe B). It is soft by
+    /// the spectral authority (the k-body <see cref="PauliPairTrichotomy.Classify(ChainSystem,
+    /// IReadOnlyList{PauliTerm}, double, double, PauliLetter)"/> overload) yet NotCertified, because the
+    /// routing family table is 2-body and cannot reach a 3-body routed case. Its soft verdict is
+    /// established at N = 4, 5, 6 (NOT at N = 3, where k = 3 fills the whole chain, a different regime), so
+    /// it is checked on the claim's chain when N ≥ 4, else on a fixed N = 4 chain.
+    /// Mirrors <c>PalindromeSoftCertifierCeilingTests.KBodyRoutedSoft_IsRealAndBeyondTheRoutingTable</c>.</summary>
     private static CeilingWitness BuildCeiling(ChainSystem chain)
     {
-        var terms = H("XX", "XZ");
-        var bc = BipartiteChirality.Classify(chain, terms);
-        var cert = PalindromeSoftCertifier.Certify(terms, chain.N);
+        var terms = H("XZX", "XZY", "YZX");
+        // The 3-body witness needs room: its soft verdict is established at N ≥ 4. At N = 3 (k fills the
+        // whole chain) it is a different regime, so fall back to a fixed N = 4 chain there.
+        var soundChain = chain.N >= 4 ? chain : new ChainSystem(N: 4, J: 1.0, GammaZero: 0.05);
+        var spectral = PauliPairTrichotomy.Classify(soundChain, terms);
+        var cert = PalindromeSoftCertifier.Certify(terms, soundChain.N);
         return new CeilingWitness(
-            Name: "XX+XZ",
-            IsSoft: bc.ActualClass == TrichotomyClass.Soft,
-            IsBipartite: bc.IsBipartite,
+            Name: "XZX+XZY+YZX",
+            IsSoft: spectral == TrichotomyClass.Soft,
             Certified: cert.Certified);
     }
 }

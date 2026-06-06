@@ -3,17 +3,18 @@ using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Diagnostics.F87;
 using RCPsiSquared.Diagnostics.Knowledge;
 using Xunit;
+using Strategy = RCPsiSquared.Diagnostics.F87.PalindromeSoftCertifier.SoftStrategy;
 
 namespace RCPsiSquared.Diagnostics.Tests.F87;
 
 /// <summary>Wiring audit for <see cref="PalindromeSoftCertifierClaim"/>: it surfaces the §7.12
 /// Liouvillian-free soft-certifier (sound, one-sided, structurally incomplete) as a registered,
 /// registry-queryable Claim. The Claim asserts ONLY the settled facts: the certifier's soundness
-/// against the spectral authority (<see cref="PauliPairTrichotomy"/>) and the proven non-bipartite-soft
-/// ceiling (XX+XZ is soft, non-bipartite, NotCertified). Built from the full
-/// <see cref="KnowledgeRegistryFactory.BuildDefault"/> registry, so both typed parents are present and
-/// the strength-inheritance check (4 ≥ 4 against F87DiagonalCellBipartiteWitnessSet, 5 ≥ 4 against
-/// F87TrichotomyClassification) is exercised in production.</summary>
+/// against the spectral authority (<see cref="PauliPairTrichotomy"/>, now including the XX+XZ routing case)
+/// and the k-body routed-soft ceiling (XZX+XZY+YZX is soft yet NotCertified, beyond the 2-body routing
+/// table). Built from the full <see cref="KnowledgeRegistryFactory.BuildDefault"/> registry, so both typed
+/// parents are present and the strength-inheritance check (4 ≥ 4 against F87DiagonalCellBipartiteWitnessSet,
+/// 5 ≥ 4 against F87TrichotomyClassification) is exercised in production.</summary>
 public class PalindromeSoftCertifierClaimRegistrationTests
 {
     [Fact]
@@ -70,16 +71,32 @@ public class PalindromeSoftCertifierClaimRegistrationTests
     }
 
     [Fact]
-    public void PalindromeSoftCertifierClaim_Ceiling_XXxz_Soft_NonBipartite_NotCertified()
+    public void PalindromeSoftCertifierClaim_SoundnessBattery_IncludesTheRoutingCase()
+    {
+        var registry = KnowledgeRegistryFactory.BuildDefault();
+        var claim = registry.Get<PalindromeSoftCertifierClaim>();
+
+        // The receded ceiling adds XX+XZ as a routing soundness case: certified by the non-diagonal
+        // hidden-Q routing (the colourings cannot reach its non-bipartite basis-state graph) and not hard.
+        var routing = claim.SoundnessBattery.Single(c => c.Name == "XX+XZ (Routing)");
+        Assert.Equal(Strategy.Routing, routing.Strategy);
+        Assert.True(routing.Certified, "XX+XZ must be certified (by Routing)");
+        Assert.True(routing.NotHard, "XX+XZ must be not hard by the spectral authority");
+        Assert.True(routing.Passes);
+    }
+
+    [Fact]
+    public void PalindromeSoftCertifierClaim_Ceiling_KBodyRoutedSoft_Soft_NotCertified()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var claim = registry.Get<PalindromeSoftCertifierClaim>();
 
         var ceiling = claim.Ceiling;
-        Assert.True(ceiling.IsSoft, "ceiling witness XX+XZ must be soft by the spectral authority");
-        Assert.False(ceiling.IsBipartite, "ceiling witness XX+XZ must have a non-bipartite basis-state graph");
-        Assert.False(ceiling.Certified, "ceiling witness XX+XZ must be NotCertified (the proven incompleteness)");
-        Assert.True(ceiling.Holds, "the ceiling triple (soft, non-bipartite, NotCertified) must hold");
+        Assert.Equal("XZX+XZY+YZX", ceiling.Name);
+        Assert.True(ceiling.IsSoft, "ceiling witness XZX+XZY+YZX must be soft by the spectral authority");
+        Assert.False(ceiling.Certified,
+            "ceiling witness XZX+XZY+YZX must be NotCertified (the 2-body-gated certifier cannot reach a 3-body routed case)");
+        Assert.True(ceiling.Holds, "the ceiling pair (soft, NotCertified) must hold");
     }
 
     [Fact]

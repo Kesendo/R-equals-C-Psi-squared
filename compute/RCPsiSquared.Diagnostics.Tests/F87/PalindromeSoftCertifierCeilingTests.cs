@@ -8,12 +8,14 @@ using Xunit;
 
 namespace RCPsiSquared.Diagnostics.Tests.F87;
 
-/// <summary>Witnesses for the soft-certifier's structural ceiling (PROOF_F103 §7.12). The certifier's
-/// strategies are all 2-colourings of the basis-state graph, so they can only ever reach SOFT cases whose
-/// graph is bipartite. There are soft Hamiltonians whose basis-state graph is NON-bipartite (XX+XZ): soft
-/// by a non-diagonal mechanism no colouring can express. The certifier returns NotCertified for them and
-/// must (it is sound, not complete). These tests pin that down with the spectral authority, and also
-/// correct an earlier mislabelled example by pinning that XY+YX+XZ+ZX is HARD on the chain.</summary>
+/// <summary>Witnesses for the soft-certifier's structural ceiling (PROOF_F103 §7.12), AFTER the hidden-Q
+/// routing strategy receded it. The colouring strategies are all 2-colourings of the basis-state graph, so
+/// they reach only SOFT cases whose graph is bipartite. XX+XZ is soft yet its basis-state graph is
+/// NON-bipartite, so no colouring can express it; but the non-diagonal routing now CERTIFIES it (the shared
+/// uniform family {P4}), so it is no longer the ceiling. The remaining ceiling is the k-body routed-soft
+/// frontier (Stufe B): XZX+XZY+YZX is soft yet beyond the 2-body routing table, so NotCertified. These
+/// tests pin both down with the spectral authority, and also pin that XY+YX+XZ+ZX is HARD on the
+/// chain.</summary>
 public class PalindromeSoftCertifierCeilingTests
 {
     private static PauliTerm T(string label) => new(PauliLabel.Parse(label), Complex.One);
@@ -22,17 +24,34 @@ public class PalindromeSoftCertifierCeilingTests
     [Theory]
     [InlineData(3)]
     [InlineData(4)]
-    public void NonBipartiteSoft_IsRealAndBeyondAnyColouring(int n)
+    public void NonBipartiteSoft_XXxz_IsCertifiedByRouting(int n)
     {
         // XX+XZ is soft by the spectral authority, yet its basis-state graph is non-bipartite, so no chiral
-        // K = diag(±1) exists. No colouring (scalable or not) can certify it, the structural ceiling.
+        // K = diag(±1) exists and no colouring can certify it. The hidden-Q routing reaches it anyway
+        // (the shared uniform family {P4}): the ceiling has receded, this is now certified, not the wall.
         var terms = H("XX", "XZ");
         var chain = new ChainSystem(n, 1.0, 0.05);
         var bc = BipartiteChirality.Classify(chain, terms);
         Assert.Equal(TrichotomyClass.Soft, bc.ActualClass);   // genuinely soft
         Assert.False(bc.IsBipartite);                         // non-bipartite basis-state graph
-        Assert.False(bc.Agrees);                              // so the bipartite criterion mispredicts (Hard)
-        // The certifier is sound: it does not (and cannot) certify this soft case.
+        // The non-diagonal routing certifies it; the colourings could not (and the certifier never lies).
+        var cert = PalindromeSoftCertifier.Certify(terms, n);
+        Assert.True(cert.Certified);
+        Assert.Equal(PalindromeSoftCertifier.SoftStrategy.Routing, cert.Strategy);
+    }
+
+    [Theory]
+    [InlineData(4)]
+    [InlineData(5)]
+    public void KBodyRoutedSoft_IsRealAndBeyondTheRoutingTable(int n)
+    {
+        // XZX+XZY+YZX is a 3-body routed-soft case: soft by the spectral authority, yet the routing family
+        // table is 2-body and cannot reach it, so the certifier returns NotCertified. The new ceiling
+        // (Stufe B). Checked at N=4,5 (not N=3, where k=3 fills the whole chain, a different regime).
+        var terms = H("XZX", "XZY", "YZX");
+        var chain = new ChainSystem(n, 1.0, 0.05);
+        Assert.Equal(TrichotomyClass.Soft, PauliPairTrichotomy.Classify(chain, terms));   // genuinely soft
+        // The certifier is sound: it does not (and cannot) certify this k-body routed-soft case.
         Assert.False(PalindromeSoftCertifier.Certify(terms, n).Certified);
     }
 
