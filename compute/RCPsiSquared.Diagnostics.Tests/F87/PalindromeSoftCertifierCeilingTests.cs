@@ -14,9 +14,10 @@ namespace RCPsiSquared.Diagnostics.Tests.F87;
 /// NON-bipartite, so no colouring can express it; but the non-diagonal routing now CERTIFIES it (the shared
 /// uniform family {P4}), so it is no longer the ceiling. The derived k-body per-term routing (Stufe B) then
 /// reaches the routable k-body cases too; the remaining ceiling is the NON-LOCAL k-body routed-soft
-/// frontier: XZX+XZY+YZX is soft yet admits no per-site product Q (palindromized only by a non-local Π), so
-/// even Stufe B declines it and it stays NotCertified. These tests pin both down with the spectral
-/// authority, and also pin that XY+YX+XZ+ZX is HARD on the chain.</summary>
+/// frontier: the 4 cases XZX+XZY+YZX, YZY+XZY+YZX, IXI+IIY+YII, IYI+IIX+XII are each soft yet admit no
+/// per-site product Q (palindromized only by a non-local Π), so even Stufe B declines them and they stay
+/// NotCertified. These tests pin both down with the spectral authority, and also pin that XY+YX+XZ+ZX is
+/// HARD on the chain.</summary>
 public class PalindromeSoftCertifierCeilingTests
 {
     private static PauliTerm T(string label) => new(PauliLabel.Parse(label), Complex.One);
@@ -41,20 +42,30 @@ public class PalindromeSoftCertifierCeilingTests
         Assert.Equal(PalindromeSoftCertifier.SoftStrategy.Routing, cert.Strategy);
     }
 
-    [Theory]
-    [InlineData(4)]
-    [InlineData(5)]
-    public void KBodyRoutedSoft_IsRealAndBeyondTheRoutingTable(int n)
+    public static IEnumerable<object[]> FourNonLocalCeiling() => new[]
     {
-        // XZX+XZY+YZX is a NON-LOCAL 3-body routed-soft case: soft by the spectral authority, yet it admits
-        // no per-site product Q (palindromized only by a non-local Π), so even the derived k-body per-term
+        new object[] { new[] { "XZX", "XZY", "YZX" } },
+        new object[] { new[] { "YZY", "XZY", "YZX" } },
+        new object[] { new[] { "IXI", "IIY", "YII" } },
+        new object[] { new[] { "IYI", "IIX", "XII" } },
+    };
+
+    [Theory]
+    [MemberData(nameof(FourNonLocalCeiling))]
+    public void KBodyRoutedSoft_TheFourNonLocalCases_AreSoftAndNotCertified(string[] labels)
+    {
+        // The 4 NON-LOCAL 3-body routed-soft cases: soft by the spectral authority, yet each admits no
+        // per-site product Q (palindromized only by a non-local Π), so even the derived k-body per-term
         // routing (Stufe B) declines it and the certifier returns NotCertified. The remaining ceiling.
-        // Checked at N=4,5 (not N=3, where k=3 fills the whole chain, a different regime).
-        var terms = H("XZX", "XZY", "YZX");
-        var chain = new ChainSystem(n, 1.0, 0.05);
-        Assert.Equal(TrichotomyClass.Soft, PauliPairTrichotomy.Classify(chain, terms));   // genuinely soft
-        // The certifier is sound: it does not (and cannot) certify this k-body routed-soft case.
-        Assert.False(PalindromeSoftCertifier.Certify(terms, n).Certified);
+        // (The formerly-counted XIX+XIY+YIX, YIY+XIY+YIX are LOCAL — see KBodyPalindromeRoutingTests and
+        // experiments/CEILING_FOUR_NONLOCAL_CASES.md.) Checked at N=4 and N=5.
+        var terms = H(labels);
+        foreach (var n in new[] { 4, 5 })
+        {
+            var chain = new ChainSystem(n, 1.0, 0.05);
+            Assert.Equal(TrichotomyClass.Soft, PauliPairTrichotomy.Classify(chain, terms));
+            Assert.False(PalindromeSoftCertifier.Certify(terms, n).Certified);
+        }
     }
 
     [Theory]
