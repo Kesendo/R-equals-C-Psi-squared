@@ -815,6 +815,7 @@ flip (Δn = ±1) gives the edge-difference set {1, 2}, whose ℤ-Cayley graph is
 excitation colourings fail and the Hamiltonian can be hard. (Verified:
 [`_f87_door2_colouring_family.py`](../../simulations/_f87_door2_colouring_family.py) and, for (a)'s
 ANF-degree, [`_f87_door2_residual_structure.py`](../../simulations/_f87_door2_residual_structure.py); the
-former (b) colouring-ceiling XX + XZ is now certified by the routing strategy, and the receded k-body
-ceiling XZX + XZY + YZX is pinned in C# by `PalindromeSoftCertifierCeilingTests` against the
-`PauliPairTrichotomy` authority; the certifier is `PalindromeSoftCertifier`.)
+former (b) colouring-ceiling XX + XZ is now certified by the routing strategy, and the 4 receded k-body
+ceiling cases (XZX+XZY+YZX, YZY+XZY+YZX, IXI+IIY+YII, IYI+IIX+XII) are pinned in C# by
+`PalindromeSoftCertifierCeilingTests` against the `PauliPairTrichotomy` authority; the certifier is
+`PalindromeSoftCertifier`.)

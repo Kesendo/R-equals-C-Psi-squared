@@ -57,7 +57,7 @@ public class PalindromeSoftCertifierCeilingTests
         // The 4 NON-LOCAL 3-body routed-soft cases: soft by the spectral authority, yet each admits no
         // per-site product Q (palindromized only by a non-local Π), so even the derived k-body per-term
         // routing (Stufe B) declines it and the certifier returns NotCertified. The remaining ceiling.
-        // (The formerly-counted XIX+XIY+YIX, YIY+XIY+YIX are LOCAL — see KBodyPalindromeRoutingTests and
+        // (The formerly-counted XIX+XIY+YIX, YIY+XIY+YIX are LOCAL: see KBodyPalindromeRoutingTests and
         // experiments/CEILING_FOUR_NONLOCAL_CASES.md.) Checked at N=4 and N=5.
         var terms = H(labels);
         foreach (var n in new[] { 4, 5 })
