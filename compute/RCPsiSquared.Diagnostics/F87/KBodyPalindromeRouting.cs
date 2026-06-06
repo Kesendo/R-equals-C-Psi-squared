@@ -24,10 +24,13 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <see cref="PauliLetter"/>'s a + 2·b packing.</para>
 ///
 /// <para>Verified bit-exact against the spectral authority <see cref="PauliPairTrichotomy"/> on the 8
-/// discrete-routable soft sets, the 6 non-local ceiling cases (soft but no per-site Q), and the hard
-/// XXX+XXY+YXX (Python derivation 2026-06-06; the decomposition residuals are 0.00e+00, the k-site residual
-/// equals the full-N residual, and the full palindrome holds at N = 4, 5, 6). The non-local ceiling cases
-/// admit no per-site product Q at all and stay NotCertified.</para></summary>
+/// discrete-routable soft sets, the 4 non-local ceiling cases (XZX+XZY+YZX, YZY+XZY+YZX, IXI+IIY+YII,
+/// IYI+IIX+XII; soft but no per-site Q), and the hard XXX+XXY+YXX (Python derivation 2026-06-06; the
+/// decomposition residuals are 0.00e+00, the k-site residual equals the full-N residual, and the full
+/// palindrome holds at N = 4, 5, 6). These 4 admit no per-site product Q at all and stay NotCertified; the
+/// 2 cases once counted with them, XIX+XIY+YIX and YIY+XIY+YIX, are LOCAL (a continuous-uniform per-site Q
+/// palindromizes them, verified; NotCertified only because that Q routes via continuous-sum, outside the
+/// scalable strategies), see experiments/CEILING_FOUR_NONLOCAL_CASES.md.</para></summary>
 public static class KBodyPalindromeRouting
 {
     /// <summary>The single-site operator basis order for THIS file: I = 0, X = 1, Y = 2, Z = 3. The per-site

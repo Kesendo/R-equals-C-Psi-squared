@@ -30,14 +30,17 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///   <item><b>The structural ceiling</b> (the receded incompleteness, PROOF_F103 §7.12): with both routing
 ///     mechanisms added, the non-bipartite-soft 2-body class (XX+XZ, Stufe A) and the routable k-body cases
 ///     (Stufe B) are CERTIFIED, no longer the ceiling. The remaining ceiling is the NON-LOCAL k-body
-///     routed-soft frontier: XZX+XZY+YZX is soft (<see cref="PauliPairTrichotomy.Classify"/> == Soft, the
-///     k-body overload, verified at N=4,5,6) yet NotCertified, because it admits NO per-site product Q at
-///     all (it is palindromized only by a non-local Π), so the derived per-term routing declines it.
-///     NotCertified therefore does not imply not-soft.</item>
+///     routed-soft frontier, the 4 cases XZX+XZY+YZX, YZY+XZY+YZX, IXI+IIY+YII, IYI+IIX+XII: each is soft
+///     (<see cref="PauliPairTrichotomy.Classify"/> == Soft, the k-body overload, verified at N=4,5,6) yet
+///     NotCertified, because each admits NO per-site product Q at all (palindromized only by a non-local Π),
+///     so the derived per-term routing declines it. NotCertified therefore does not imply not-soft.</item>
 /// </list>
 ///
-/// <para>Certifying the non-local ceiling cases (XZX+XZY+YZX and its 5 siblings, which admit no per-site
-/// product Q) is out of scope and is NOT asserted here.</para>
+/// <para>Certifying the 4 non-local ceiling cases (XZX+XZY+YZX, YZY+XZY+YZX, IXI+IIY+YII, IYI+IIX+XII), which
+/// admit no per-site product Q, is out of scope and is NOT asserted here. The 2 cases once counted with them,
+/// XIX+XIY+YIX and YIY+XIY+YIX, are in fact LOCAL (a continuous-uniform per-site Q palindromizes them, verified;
+/// NotCertified only because that Q routes via continuous-sum, outside the scalable strategies),
+/// see experiments/CEILING_FOUR_NONLOCAL_CASES.md.</para>
 ///
 /// <para>Tier: Tier1Candidate. Both routing mechanisms are reused as HELPERS (like
 /// <see cref="PalindromeMaskClassifier"/>; the k-body leg via <see cref="KBodyPalindromeRouting"/>), so no
@@ -180,7 +183,7 @@ public sealed class PalindromeSoftCertifierClaim : Claim
     /// by the spectral authority (the k-body overload, verified at N=4,5,6) yet NotCertified, admitting NO
     /// per-site product Q (palindromized only by a non-local Π). The 2 formerly-counted cases XIX+XIY+YIX,
     /// YIY+XIY+YIX are NOT here: they are LOCAL (continuous-uniform routable, verified N=3,4,5; NotCertified
-    /// only because their router is an arbitrary continuous map outside the scalable strategies) — see
+    /// only because their router is an arbitrary continuous map outside the scalable strategies); see
     /// experiments/CEILING_FOUR_NONLOCAL_CASES.md. Soft is established at N≥4, so a fixed N=4 chain is used
     /// when the claim's chain has N<4.</summary>
     private static IReadOnlyList<CeilingWitness> BuildCeiling(ChainSystem chain)

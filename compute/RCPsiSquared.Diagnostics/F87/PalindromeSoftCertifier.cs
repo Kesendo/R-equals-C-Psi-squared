@@ -53,10 +53,14 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///
 /// <para>§7.12 ceiling (the remaining frontier): with both routing mechanisms added, the non-bipartite-soft
 /// 2-body class (XX+XZ, Stufe A) and the routable k-body cases (Stufe B) are certified, no longer the
-/// ceiling. What stays beyond the certifier is the NON-LOCAL k-body routed-soft frontier: a soft case like
-/// XZX+XZY+YZX (and its 5 siblings, soft by the spectral authority at N=4,5,6, NotCertified) admits NO
-/// per-site product Q at all, so the derived per-term routing declines it; it is palindromized only by a
-/// non-local Π. NotCertified does not imply not-soft.</para></summary>
+/// ceiling. What stays beyond the certifier is the NON-LOCAL k-body routed-soft frontier:
+/// the 4 non-local cases XZX+XZY+YZX, YZY+XZY+YZX, IXI+IIY+YII, IYI+IIX+XII (soft at N=4,5,6, NotCertified)
+/// admit NO per-site product Q at all (no uniform-continuous + no discrete-periodic Q; the continuous-periodic
+/// family is the explicit, named research frontier), so each is palindromized only by a non-local Π. The
+/// formerly-counted XIX+XIY+YIX, YIY+XIY+YIX are NOT here: they are LOCAL (a continuous-uniform per-site Q
+/// palindromizes them, verified N=3,4,5; NotCertified only because that Q routes via continuous-sum, not the
+/// scalable strategies). See experiments/CEILING_FOUR_NONLOCAL_CASES.md. NotCertified does not imply
+/// not-soft.</para></summary>
 public static class PalindromeSoftCertifier
 {
     /// <summary>Which scalable soft strategy certified the Hamiltonian (None = not certified).</summary>
@@ -307,9 +311,9 @@ public static class PalindromeSoftCertifier
     /// derivation, and N-independent. See <see cref="KBodyPalindromeRouting"/>.
     ///
     /// <para>Span-bounded: a term of span k yields a 4^k × 4^k check, so the strategy declines a set with
-    /// any term outside [2, <see cref="KBodyPalindromeRouting.MaxBody"/>]. The non-local ceiling cases
-    /// (XZX+XZY+YZX and its 5 siblings) admit NO per-site product Q at all, so <see cref="Routes"/> returns
-    /// false and they stay NotCertified.</para></summary>
+    /// any term outside [2, <see cref="KBodyPalindromeRouting.MaxBody"/>]. The 4 non-local ceiling cases
+    /// (XZX+XZY+YZX, YZY+XZY+YZX, IXI+IIY+YII, IYI+IIX+XII) admit NO per-site
+    /// product Q at all, so <see cref="Routes"/> returns false and they stay NotCertified.</para></summary>
     public static bool CertifyByRoutingKBody(IReadOnlyList<PauliTerm> terms, int n)
     {
         if (terms.Count == 0) return false;
