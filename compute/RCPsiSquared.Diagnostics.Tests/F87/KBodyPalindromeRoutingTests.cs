@@ -18,9 +18,11 @@ namespace RCPsiSquared.Diagnostics.Tests.F87;
 ///
 /// <list type="bullet">
 ///   <item>the 8 discrete-routable soft sets (Routes == true AND spectral Soft);</item>
-///   <item>the 4 NON-LOCAL ceiling cases (soft, NO per-site product Q, so Routes == false);</item>
+///   <item>the 2 NON-LOCAL Z-middle ceiling cases (soft, NO per-site product Q, so Routes == false);</item>
 ///   <item>the 2 LOCAL continuous-sum cases (soft, a per-site product Q DOES exist but routes via
 ///     continuous-sum not per-term, so the per-term Routes still declines them, the coverage gap);</item>
+///   <item>the 2 LOCAL single-site-field cases (the I-heavy: soft, certified by SingleSiteField, but the
+///     per-term Routes declines their single-site router, so Routes == false; the 4 to 2 step);</item>
 ///   <item>the hard XXX+XXY+YXX (no Q, spectral Hard, Routes == false).</item>
 /// </list>
 ///
@@ -51,12 +53,22 @@ public class KBodyPalindromeRoutingTests
         new object[] { new[] { "ZYZ", "XZY", "YZX" } },
     };
 
-    /// <summary>The 4 NON-LOCAL ceiling cases: spectrally Soft, but NO per-site product Q palindromizes them
-    /// (the mirror is genuinely non-local), so Routes == false. These stay the certifier's ceiling.</summary>
+    /// <summary>The 2 NON-LOCAL Z-middle ceiling cases: spectrally Soft, but NO per-site product Q palindromizes
+    /// them (the mirror is genuinely non-local), so Routes == false. These stay the certifier's ceiling.</summary>
     public static IEnumerable<object[]> NonLocalCeiling() => new[]
     {
         new object[] { new[] { "XZX", "XZY", "YZX" } },
         new object[] { new[] { "YZY", "XZY", "YZX" } },
+    };
+
+    /// <summary>The 2 I-heavy cases: spectrally Soft AND LOCAL (a site-varying per-site product Q palindromizes
+    /// them, a product of single-site crossover maps, constructive, machine-precision N=4,5,6,
+    /// simulations/ceiling_4to2_iheavy_local.py). PalindromeSoftCertifier.Certify certifies them via the
+    /// SingleSiteField strategy. But that router is single-site (not a discrete period≤2 per-term pattern), so
+    /// the per-term KBodyPalindromeRouting.Routes does not see it and returns false: the honest coverage gap of
+    /// the per-term router, NOT non-locality. The 4 to 2 correction; they are no longer in the ceiling.</summary>
+    public static IEnumerable<object[]> LocalViaSingleSiteFields() => new[]
+    {
         new object[] { new[] { "IXI", "IIY", "YII" } },
         new object[] { new[] { "IYI", "IIX", "XII" } },
     };
@@ -84,12 +96,27 @@ public class KBodyPalindromeRoutingTests
 
     [Theory]
     [MemberData(nameof(NonLocalCeiling))]
-    public void Routes_False_ButSpectralSoft_ForTheFourNonLocalCeilingSets(string[] labels)
+    public void Routes_False_ButSpectralSoft_ForTheTwoNonLocalCeilingSets(string[] labels)
     {
         var terms = H(labels);
         Assert.False(KBodyPalindromeRouting.Routes(terms, n: 4),
             $"expected Routes == false (no per-site Q at all) for the non-local ceiling {string.Join("+", labels)}");
         Assert.Equal(TrichotomyClass.Soft, Spectral(terms));   // NotCertified does not imply not-soft
+    }
+
+    [Theory]
+    [MemberData(nameof(LocalViaSingleSiteFields))]
+    public void Routes_False_ButLocal_ForTheTwoSingleSiteFieldCases(string[] labels)
+    {
+        // These ARE local (a site-varying per-site product Q exists; PalindromeSoftCertifier certifies them via
+        // SingleSiteField). The per-term Routes declines them only because the construction is single-site, not
+        // a discrete period≤2 per-term pattern: the coverage gap, NOT non-locality.
+        var terms = H(labels);
+        Assert.False(KBodyPalindromeRouting.Routes(terms, n: 4),
+            $"per-term Routes declines the single-site-field case {string.Join("+", labels)} (the coverage gap)");
+        Assert.Equal(TrichotomyClass.Soft, Spectral(terms));
+        Assert.Equal(PalindromeSoftCertifier.SoftStrategy.SingleSiteField,
+            PalindromeSoftCertifier.Certify(terms, n: 4).Strategy);   // but Certify DOES catch them
     }
 
     [Theory]
@@ -151,6 +178,16 @@ public class KBodyPalindromeRoutingTests
             var spectral = Spectral(terms);
             if (routes || spectral != TrichotomyClass.Soft)
                 mismatches.Add($"{string.Join("+", labels)}: Routes={routes} spectral={spectral} (want Routes=false, Soft, local)");
+        }
+
+        foreach (var row in LocalViaSingleSiteFields())
+        {
+            var labels = (string[])row[0];
+            var terms = H(labels);
+            bool routes = KBodyPalindromeRouting.Routes(terms, n: 4);
+            var spectral = Spectral(terms);
+            if (routes || spectral != TrichotomyClass.Soft)
+                mismatches.Add($"{string.Join("+", labels)}: Routes={routes} spectral={spectral} (want Routes=false, Soft, local-single-site)");
         }
 
         {
