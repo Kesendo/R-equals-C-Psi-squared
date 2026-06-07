@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
-"""Reproduction + verification of the ceiling 6->4 correction (committed evidence for
+"""Reproduction + verification of the ceiling 6->4->2 correction (committed evidence for
 experiments/CEILING_FOUR_NONLOCAL_CASES.md). Under the SAME reliable test -- the complete uniform-continuous
 per-site map family (16-real-param palindrome objective, Q = M^(x)N, residual ||Q L Q^-1 -(-L-2sigma)||) --
 applied to all 6 candidate term-sets:
-  * the 2 (XIX+XIY+YIX, YIY+XIY+YIX) ROUTE (palindrome ~1e-13, invertible M, N-stable 3,4,5) => LOCAL.
-  * the 4 (XZX+XZY+YZX, YZY+XZY+YZX, IXI+IIY+YII, IYI+IIX+XII) RESIST (bounded away) => non-local basis.
-  * the 2 fail the discrete {P1,P4,M2} per-term routers (O(1)): the continuous M is needed = the gap.
-Self-validating: asserts the routable below 1e-7 and the non-local above 1e-2. Run: python simulations/ceiling_6to4_verification.py
+  * the 2 (XIX+XIY+YIX, YIY+XIY+YIX) ROUTE this uniform family (palindrome ~1e-13, N-stable 3,4,5) => LOCAL (6->4).
+  * the 2 Z-middle (XZX+XZY+YZX, YZY+XZY+YZX) RESIST (bounded away) and resist every per-site product Q => non-local.
+  * the 2 I-heavy (IXI+IIY+YII, IYI+IIX+XII) RESIST this UNIFORM family too, but are LOCAL via a SITE-VARYING
+    per-site product of single-site crossover maps (the 4->2 step, machine-precision; see ceiling_4to2_iheavy_local.py).
+  * the 2 routable fail the discrete {P1,P4,M2} per-term routers (O(1)): the continuous M is needed = the gap.
+Self-validating: asserts the routable below 1e-7 and the resisting (Z-middle + I-heavy-uniform) above 1e-2.
+Run: python simulations/ceiling_6to4_verification.py
 """
 from __future__ import annotations
 import sys
@@ -97,8 +100,11 @@ def optimize(terms, restarts=90):
 
 
 ROUTABLE = {"XIX+XIY+YIX": [(1,0,1),(1,0,2),(2,0,1)], "YIY+XIY+YIX": [(2,0,2),(1,0,2),(2,0,1)]}
-NONLOCAL = {"XZX+XZY+YZX": [(1,3,1),(1,3,2),(2,3,1)], "YZY+XZY+YZX": [(2,3,2),(1,3,2),(2,3,1)],
-            "IXI+IIY+YII": [(0,1,0),(0,0,2),(2,0,0)], "IYI+IIX+XII": [(0,2,0),(0,0,1),(1,0,0)]}
+# The genuine non-local ceiling (the Z-middle): resist this uniform family AND every per-site product Q.
+NONLOCAL = {"XZX+XZY+YZX": [(1,3,1),(1,3,2),(2,3,1)], "YZY+XZY+YZX": [(2,3,2),(1,3,2),(2,3,1)]}
+# The I-heavy: resist this UNIFORM family (~0.81) but are LOCAL via a SITE-VARYING per-site product of
+# single-site crossover maps (the 4->2 step, machine-precision; see ceiling_4to2_iheavy_local.py).
+SITEVARYING_LOCAL = {"IXI+IIY+YII": [(0,1,0),(0,0,2),(2,0,0)], "IYI+IIX+XII": [(0,2,0),(0,0,1),(1,0,0)]}
 P1 = np.array([[0,1,0,0],[1,0,0,0],[0,0,0,1j],[0,0,1j,0]], dtype=complex)
 P4 = np.array([[0,0,1,0],[0,0,0,1j],[1,0,0,0],[0,1j,0,0]], dtype=complex)
 M2 = np.array([[0,0,1,0],[0,0,0,-1j],[1,0,0,0],[0,-1j,0,0]], dtype=complex)
@@ -113,12 +119,17 @@ def main():
         print(f"  {name}: route={best:.1e}  N=3/4/5 {r3:.1e}/{r4:.1e}/{r5:.1e}  best-discrete={disc:.2f}", flush=True)
         assert best < 1e-7 and r4 < 1e-7 and r5 < 1e-7, f"{name} must route (local)"
         assert disc > 1e-2, f"{name} must fail the discrete routers (continuous-sum gap)"
-    print("\nTHE 4 NON-LOCAL CASES (no per-site product Q):", flush=True)
+    print("\nTHE 2 NON-LOCAL Z-MIDDLE CASES (no per-site product Q at all, the genuine ceiling):", flush=True)
     for name, terms in NONLOCAL.items():
         best, _ = optimize(terms, restarts=70)
         print(f"  {name}: best={best:.3f}  => no per-site Q", flush=True)
         assert best > 1e-2, f"{name} must resist (non-local)"
-    print("\nOK: exactly 2 route (local), exactly 4 resist (non-local). 6->4 confirmed.", flush=True)
+    print("\nTHE 2 I-HEAVY CASES (resist this UNIFORM family, but LOCAL via site-varying; ceiling_4to2_iheavy_local.py):", flush=True)
+    for name, terms in SITEVARYING_LOCAL.items():
+        best, _ = optimize(terms, restarts=70)
+        print(f"  {name}: uniform best={best:.3f}  => resists UNIFORM only (routes site-varying = LOCAL)", flush=True)
+        assert best > 1e-2, f"{name} must resist the uniform family"
+    print("\nOK: 2 route uniform (local), 2 route site-varying (local), 2 Z-middle resist (non-local). 6->4->2.", flush=True)
 
 
 if __name__ == "__main__":
