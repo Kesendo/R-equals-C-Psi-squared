@@ -805,17 +805,33 @@ through its shared uniform Q-family (P4). The certifier carries both, the diagon
 colourings) and the non-diagonal routing, so the 2-body soft cases are covered. A derived
 per-term k-site extension of the routing (Stufe B) then reaches the LOCAL k-body routed-soft cases too (one
 per-site Q palindromizing every term, checked on 4^k of the term's span, Liouvillian-free and
-N-independent), and the ceiling recedes further to the 4 NON-LOCAL k-body cases (XZX+XZY+YZX, YZY+XZY+YZX,
-IXI+IIY+YII, IYI+IIX+XII), which admit no per-site product Q at all (palindromized only by an entangled,
-non-local Π; the continuous-periodic family is the explicit open frontier). Two cases once counted here,
-XIX+XIY+YIX and YIY+XIY+YIX, are in fact LOCAL: a continuous-uniform per-site Q palindromizes them
-(verified N=3,4,5), it simply routes via continuous-sum cancellation rather than per term. See
+N-independent), and the ceiling recedes further to the 2 NON-LOCAL Z-middle cases (XZX+XZY+YZX,
+YZY+XZY+YZX), which admit no per-site product Q at all (the continuous-periodic family is the explicit open
+frontier; the all-Q obstruction is banked). Two cases once counted here, XIX+XIY+YIX and YIY+XIY+YIX, are
+in fact LOCAL: a continuous-uniform per-site Q palindromizes them (verified N=3,4,5), it simply routes via
+continuous-sum cancellation rather than per term. Two further cases once counted here, the I-heavy
+IXI+IIY+YII and IYI+IIX+XII, are also LOCAL, by the single-site transverse-field lemma below. See
 experiments/CEILING_FOUR_NONLOCAL_CASES.md. Mixing excitation gradings breaks the structure outright: a pairing (Δn = ±2) plus an odd
 flip (Δn = ±1) gives the edge-difference set {1, 2}, whose ℤ-Cayley graph is non-bipartite, so the
 excitation colourings fail and the Hamiltonian can be hard. (Verified:
 [`_f87_door2_colouring_family.py`](../../simulations/_f87_door2_colouring_family.py) and, for (a)'s
 ANF-degree, [`_f87_door2_residual_structure.py`](../../simulations/_f87_door2_residual_structure.py); the
-former (b) colouring-ceiling XX + XZ is now certified by the routing strategy, and the 4 receded k-body
-ceiling cases (XZX+XZY+YZX, YZY+XZY+YZX, IXI+IIY+YII, IYI+IIX+XII) are pinned in C# by
+former (b) colouring-ceiling XX + XZ is now certified by the routing strategy, and the 2 non-local Z-middle
+ceiling cases (XZX+XZY+YZX, YZY+XZY+YZX) are pinned in C# by
 `PalindromeSoftCertifierCeilingTests` against the `PauliPairTrichotomy` authority; the certifier is
-`PalindromeSoftCertifier`.)
+`PalindromeSoftCertifier`, whose `SingleSiteField` strategy certifies the I-heavy pair.)
+
+**The single-site transverse-field lemma (the 4 → 2 step).** The two I-heavy cases IXI+IIY+YII and
+IYI+IIX+XII are LOCAL. Summed over the windows of an N-chain, each is a sum of weight-1 transverse fields,
+so the chain Hamiltonian is H = Σ_i (a_i X_i + b_i Y_i), a transverse field on each site. Single-site
+Paulis on distinct sites commute, so L = Σ_i L_i over commuting single-site Liouvillians. Each single-site
+transverse field is per-site palindromizable: by the R_z-rotation Ad_{R_z(θ_i)} (θ_i = atan2(b_i, a_i),
+which commutes with the Z-dephasing dissipator since R_z commutes with Z) it reduces to the single-site
+X-field, whose Liouvillian spectrum {0, −2γ, −γ ± 2i} is palindromic about the centre −γ. Let M_i be the
+resulting per-site map; then Q = ⊗_i M_i palindromizes the whole chain, Q L Q⁻¹ = −L − 2σ, constructively
+and N-independently. A single-site Z (longitudinal) field is by contrast HARD: its spectrum
+{0, 0, −2γ ± 2i} has no partner for the 0 eigenvalue about −γ, so the locality is specific to transverse
+fields and excludes Z. The derived k-body per-term router (Stufe B) declines these two only because its
+construction is a discrete period-2 per-term pattern, not a single-site product; the `SingleSiteField`
+strategy supplies the missing certificate. Verified to machine precision (residual ~1e-14) at N=4,5,6 by
+[`ceiling_4to2_iheavy_local.py`](../../simulations/ceiling_4to2_iheavy_local.py).
