@@ -24,13 +24,14 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <see cref="PauliLetter"/>'s a + 2·b packing.</para>
 ///
 /// <para>Verified bit-exact against the spectral authority <see cref="PauliPairTrichotomy"/> on the 8
-/// discrete-routable soft sets, the 4 non-local ceiling cases (XZX+XZY+YZX, YZY+XZY+YZX, IXI+IIY+YII,
-/// IYI+IIX+XII; soft but no per-site Q), and the hard XXX+XXY+YXX (Python derivation 2026-06-06; the
-/// decomposition residuals are 0.00e+00, the k-site residual equals the full-N residual, and the full
-/// palindrome holds at N = 4, 5, 6). These 4 admit no per-site product Q at all and stay NotCertified; the
-/// 2 cases once counted with them, XIX+XIY+YIX and YIY+XIY+YIX, are LOCAL (a continuous-uniform per-site Q
-/// palindromizes them, verified; NotCertified only because that Q routes via continuous-sum, outside the
-/// scalable strategies), see experiments/CEILING_FOUR_NONLOCAL_CASES.md.</para></summary>
+/// discrete-routable soft sets, the 2 non-local Z-middle ceiling cases (XZX+XZY+YZX, YZY+XZY+YZX; soft but no
+/// per-site Q), the 2 I-heavy cases (IXI+IIY+YII, IYI+IIX+XII; soft, Routes returns false here, but LOCAL via
+/// the SingleSiteField strategy, a site-varying single-site-field product), and the hard XXX+XXY+YXX (Python
+/// derivation 2026-06-06; the decomposition residuals are 0.00e+00, the k-site residual equals the full-N
+/// residual, and the full palindrome holds at N = 4, 5, 6). Only the 2 Z-middle admit no per-site product Q at
+/// all; the I-heavy and the 2 once-counted XIX+XIY+YIX, YIY+XIY+YIX are LOCAL (the I-heavy via single-site
+/// fields, XIX/YIY via a continuous-uniform per-site Q), with Routes returning false only because their routers
+/// are outside its per-term scalable strategies, see experiments/CEILING_FOUR_NONLOCAL_CASES.md.</para></summary>
 public static class KBodyPalindromeRouting
 {
     /// <summary>The single-site operator basis order for THIS file: I = 0, X = 1, Y = 2, Z = 3. The per-site

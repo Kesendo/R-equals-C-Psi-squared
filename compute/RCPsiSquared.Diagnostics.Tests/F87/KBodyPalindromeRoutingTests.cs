@@ -141,10 +141,10 @@ public class KBodyPalindromeRoutingTests
 
     /// <summary>The single load-bearing assertion: <see cref="KBodyPalindromeRouting.Routes"/> never
     /// disagrees with the spectral authority across all 15 ground-truth witnesses. A Routes == true must be
-    /// Soft (constructive soundness), and the 7 Routes == false witnesses are exactly the 4 non-local ceiling
-    /// cases (still Soft) plus the 2 local continuous-sum cases (still Soft) plus the hard set; the certifier
-    /// is one-sided, so a Routes == false carries no claim about the spectral verdict beyond what the witness
-    /// list records.</summary>
+    /// Soft (constructive soundness), and the 7 Routes == false witnesses are exactly the 2 non-local Z-middle
+    /// ceiling cases (still Soft), the 2 local single-site-field cases (still Soft, certified by SingleSiteField),
+    /// the 2 local continuous-sum cases (still Soft), and the hard set; the certifier is one-sided, so a
+    /// Routes == false carries no claim about the spectral verdict beyond what the witness list records.</summary>
     [Fact]
     public void Routes_MatchesTheSpectralAuthority_OnAll15GroundTruthWitnesses()
     {
