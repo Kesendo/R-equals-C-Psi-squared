@@ -14,10 +14,11 @@ namespace RCPsiSquared.Diagnostics.Tests.F87;
 /// NON-bipartite, so no colouring can express it; but the non-diagonal routing now CERTIFIES it (the shared
 /// uniform family {P4}), so it is no longer the ceiling. The derived k-body per-term routing (Stufe B) then
 /// reaches the routable k-body cases too; the remaining ceiling is the NON-LOCAL k-body routed-soft
-/// frontier: the 4 cases XZX+XZY+YZX, YZY+XZY+YZX, IXI+IIY+YII, IYI+IIX+XII are each soft yet admit no
-/// per-site product Q (palindromized only by a non-local Π), so even Stufe B declines them and they stay
-/// NotCertified. These tests pin both down with the spectral authority, and also pin that XY+YX+XZ+ZX is
-/// HARD on the chain.</summary>
+/// frontier: the 2 Z-middle cases XZX+XZY+YZX, YZY+XZY+YZX are each soft yet admit no per-site product Q
+/// (palindromized only by a non-local Π), so even Stufe B declines them and they stay NotCertified. The two
+/// I-heavy cases IXI+IIY+YII, IYI+IIX+XII are now LOCAL (certified by the SingleSiteField strategy, a sum of
+/// single-site transverse fields). These tests pin both down with the spectral authority, and also pin that
+/// XY+YX+XZ+ZX is HARD on the chain.</summary>
 public class PalindromeSoftCertifierCeilingTests
 {
     private static PauliTerm T(string label) => new(PauliLabel.Parse(label), Complex.One);
@@ -42,29 +43,51 @@ public class PalindromeSoftCertifierCeilingTests
         Assert.Equal(PalindromeSoftCertifier.SoftStrategy.Routing, cert.Strategy);
     }
 
-    public static IEnumerable<object[]> FourNonLocalCeiling() => new[]
+    public static IEnumerable<object[]> TwoNonLocalCeiling() => new[]
     {
         new object[] { new[] { "XZX", "XZY", "YZX" } },
         new object[] { new[] { "YZY", "XZY", "YZX" } },
-        new object[] { new[] { "IXI", "IIY", "YII" } },
-        new object[] { new[] { "IYI", "IIX", "XII" } },
     };
 
     [Theory]
-    [MemberData(nameof(FourNonLocalCeiling))]
-    public void KBodyRoutedSoft_TheFourNonLocalCases_AreSoftAndNotCertified(string[] labels)
+    [MemberData(nameof(TwoNonLocalCeiling))]
+    public void KBodyRoutedSoft_TheTwoNonLocalCases_AreSoftAndNotCertified(string[] labels)
     {
-        // The 4 NON-LOCAL 3-body routed-soft cases: soft by the spectral authority, yet each admits no
-        // per-site product Q (palindromized only by a non-local Π), so even the derived k-body per-term
-        // routing (Stufe B) declines it and the certifier returns NotCertified. The remaining ceiling.
-        // (The formerly-counted XIX+XIY+YIX, YIY+XIY+YIX are LOCAL: see KBodyPalindromeRoutingTests and
-        // experiments/CEILING_FOUR_NONLOCAL_CASES.md.) Checked at N=4 and N=5.
+        // The 2 NON-LOCAL Z-middle 3-body routed-soft cases: soft by the spectral authority, yet each admits
+        // no per-site product Q (palindromized only by a non-local Π), so even the derived k-body per-term
+        // routing (Stufe B) declines it and the certifier returns NotCertified. The remaining ceiling. (The
+        // formerly-counted XIX+XIY+YIX, YIY+XIY+YIX and the two I-heavy IXI+IIY+YII, IYI+IIX+XII are LOCAL:
+        // see the I-heavy theory below, KBodyPalindromeRoutingTests, and experiments/CEILING_FOUR_NONLOCAL_CASES.md.)
+        // Checked at N=4 and N=5.
         var terms = H(labels);
         foreach (var n in new[] { 4, 5 })
         {
             var chain = new ChainSystem(n, 1.0, 0.05);
             Assert.Equal(TrichotomyClass.Soft, PauliPairTrichotomy.Classify(chain, terms));
             Assert.False(PalindromeSoftCertifier.Certify(terms, n).Certified);
+        }
+    }
+
+    public static IEnumerable<object[]> IHeavyLocal() => new[]
+    {
+        new object[] { new[] { "IXI", "IIY", "YII" } },
+        new object[] { new[] { "IYI", "IIX", "XII" } },
+    };
+
+    [Theory]
+    [MemberData(nameof(IHeavyLocal))]
+    public void IHeavy_NowCertifiedLocal_BySingleSiteField(string[] labels)
+    {
+        // The 4 to 2 correction: the I-heavy are sums of single-site transverse fields, certified LOCAL by
+        // the SingleSiteField strategy (the constructive per-site crossover product). They left the ceiling.
+        var terms = H(labels);
+        foreach (var n in new[] { 4, 5 })
+        {
+            var chain = new ChainSystem(n, 1.0, 0.05);
+            Assert.Equal(TrichotomyClass.Soft, PauliPairTrichotomy.Classify(chain, terms));
+            var cert = PalindromeSoftCertifier.Certify(terms, n);
+            Assert.True(cert.Certified);
+            Assert.Equal(PalindromeSoftCertifier.SoftStrategy.SingleSiteField, cert.Strategy);
         }
     }
 

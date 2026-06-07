@@ -30,16 +30,20 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///   <item><b>The structural ceiling</b> (the receded incompleteness, PROOF_F103 §7.12): with both routing
 ///     mechanisms added, the non-bipartite-soft 2-body class (XX+XZ, Stufe A) and the routable k-body cases
 ///     (Stufe B) are CERTIFIED, no longer the ceiling. The remaining ceiling is the NON-LOCAL k-body
-///     routed-soft frontier, the 4 cases XZX+XZY+YZX, YZY+XZY+YZX, IXI+IIY+YII, IYI+IIX+XII: each is soft
+///     routed-soft frontier, the 2 Z-middle cases XZX+XZY+YZX, YZY+XZY+YZX: each is soft
 ///     (<see cref="PauliPairTrichotomy.Classify"/> == Soft, the k-body overload, verified at N=4,5,6) yet
 ///     NotCertified, because each admits NO per-site product Q at all (palindromized only by a non-local Π),
-///     so the derived per-term routing declines it. NotCertified therefore does not imply not-soft.</item>
+///     so the derived per-term routing declines it. NotCertified therefore does not imply not-soft. The two
+///     I-heavy cases IXI+IIY+YII, IYI+IIX+XII once counted here are now LOCAL: each is a sum of single-site
+///     transverse fields, certified by the SingleSiteField strategy (the per-site
+///     crossover product palindromizes the chain), so they left the ceiling (4 to 2).</item>
 /// </list>
 ///
-/// <para>Certifying the 4 non-local ceiling cases (XZX+XZY+YZX, YZY+XZY+YZX, IXI+IIY+YII, IYI+IIX+XII), which
-/// admit no per-site product Q, is out of scope and is NOT asserted here. The 2 cases once counted with them,
-/// XIX+XIY+YIX and YIY+XIY+YIX, are in fact LOCAL (a continuous-uniform per-site Q palindromizes them, verified;
-/// NotCertified only because that Q routes via continuous-sum, outside the scalable strategies),
+/// <para>Certifying the 2 non-local Z-middle ceiling cases (XZX+XZY+YZX, YZY+XZY+YZX), which admit no per-site
+/// product Q, is out of scope and is NOT asserted here. The cases once counted with them are in fact LOCAL:
+/// XIX+XIY+YIX and YIY+XIY+YIX route via a continuous-uniform per-site Q (continuous-sum, the 6 to 4 step),
+/// and IXI+IIY+YII, IYI+IIX+XII route via a site-varying per-site product of single-site crossover maps,
+/// now certified by SingleSiteField (the 4 to 2 step),
 /// see experiments/CEILING_FOUR_NONLOCAL_CASES.md.</para>
 ///
 /// <para>Tier: Tier1Candidate. Both routing mechanisms are reused as HELPERS (like
@@ -79,8 +83,9 @@ public sealed class PalindromeSoftCertifierClaim : Claim
     /// <summary>Soundness battery: each case certified-and-not-hard (the one-sided soundness property).</summary>
     public IReadOnlyList<SoundnessCase> SoundnessBattery { get; }
 
-    /// <summary>The 4 k-body routed-soft non-local ceiling cases (XZX+XZY+YZX, YZY+XZY+YZX, IXI+IIY+YII,
-    /// IYI+IIX+XII): each soft (spectral authority) yet NotCertified, admitting NO per-site product Q.</summary>
+    /// <summary>The 2 k-body routed-soft non-local ceiling cases XZX+XZY+YZX, YZY+XZY+YZX (the Z-middle): each
+    /// soft (spectral authority) yet NotCertified, admitting NO per-site product Q. The two I-heavy cases once
+    /// counted here are now LOCAL (certified by SingleSiteField).</summary>
     public IReadOnlyList<CeilingWitness> Ceiling { get; }
 
     public PalindromeSoftCertifierClaim(ChainSystem chain)
@@ -149,6 +154,8 @@ public sealed class PalindromeSoftCertifierClaim : Claim
     ///     certified by Routing (a non-bipartite basis-state graph the colourings cannot reach).</item>
     ///   <item><b>XIX+XXY+YXX</b>: derived k-body per-term hidden-Q routing (Stufe B), certified by
     ///     RoutingKBody (a routable 3-body case the 2-body family table misses, routed by the P4 pattern).</item>
+    ///   <item><b>IXI+IIY+YII</b>: a sum of single-site transverse fields, certified by SingleSiteField (the
+    ///     per-site crossover product palindromizes the chain; the 4 to 2 step, an I-heavy case now local).</item>
     /// </list></summary>
     private static IReadOnlyList<SoundnessCase> BuildSoundnessBattery(ChainSystem chain)
     {
@@ -162,6 +169,8 @@ public sealed class PalindromeSoftCertifierClaim : Claim
                 H("XX", "XZ")),
             ("XIX+XXY+YXX (RoutingKBody)", "derived per-term k-site hidden-Q routing",
                 H("XIX", "XXY", "YXX")),
+            ("IXI+IIY+YII (SingleSiteField)", "sum of single-site transverse fields, per-site crossover product",
+                H("IXI", "IIY", "YII")),
         };
 
         var cases = new List<SoundnessCase>(battery.Length);
@@ -179,11 +188,12 @@ public sealed class PalindromeSoftCertifierClaim : Claim
         return cases;
     }
 
-    /// <summary>The 4 §7.12 non-local ceiling witnesses. Each is a NON-LOCAL 3-body routed-soft case: soft
-    /// by the spectral authority (the k-body overload, verified at N=4,5,6) yet NotCertified, admitting NO
-    /// per-site product Q (palindromized only by a non-local Π). The 2 formerly-counted cases XIX+XIY+YIX,
-    /// YIY+XIY+YIX are NOT here: they are LOCAL (continuous-uniform routable, verified N=3,4,5; NotCertified
-    /// only because their router is an arbitrary continuous map outside the scalable strategies); see
+    /// <summary>The 2 §7.12 non-local ceiling witnesses (the Z-middle XZX+XZY+YZX, YZY+XZY+YZX). Each is a
+    /// NON-LOCAL 3-body routed-soft case: soft by the spectral authority (the k-body overload, verified at
+    /// N=4,5,6) yet NotCertified, admitting NO per-site product Q (palindromized only by a non-local Π). The
+    /// formerly-counted cases are NOT here: XIX+XIY+YIX, YIY+XIY+YIX are LOCAL (continuous-uniform routable,
+    /// the 6 to 4 step), and IXI+IIY+YII, IYI+IIX+XII are LOCAL (a site-varying product of single-site
+    /// crossover maps, now certified by SingleSiteField, the 4 to 2 step); see
     /// experiments/CEILING_FOUR_NONLOCAL_CASES.md. Soft is established at N≥4, so a fixed N=4 chain is used
     /// when the claim's chain has N<4.</summary>
     private static IReadOnlyList<CeilingWitness> BuildCeiling(ChainSystem chain)
@@ -193,8 +203,6 @@ public sealed class PalindromeSoftCertifierClaim : Claim
         {
             ("XZX+XZY+YZX", new[] { "XZX", "XZY", "YZX" }),
             ("YZY+XZY+YZX", new[] { "YZY", "XZY", "YZX" }),
-            ("IXI+IIY+YII", new[] { "IXI", "IIY", "YII" }),
-            ("IYI+IIX+XII", new[] { "IYI", "IIX", "XII" }),
         };
         var ceiling = new List<CeilingWitness>(labels.Length);
         foreach (var (name, ls) in labels)

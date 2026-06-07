@@ -11,9 +11,10 @@ namespace RCPsiSquared.Diagnostics.Tests.F87;
 /// Liouvillian-free soft-certifier (sound, one-sided, structurally incomplete) as a registered,
 /// registry-queryable Claim. The Claim asserts ONLY the settled facts: the certifier's soundness
 /// against the spectral authority (<see cref="PauliPairTrichotomy"/>, now including the XX+XZ (Routing) and
-/// XIX+XXY+YXX (RoutingKBody) cases) and the 4 non-local k-body routed-soft ceiling cases (XZX+XZY+YZX,
-/// YZY+XZY+YZX, IXI+IIY+YII, IYI+IIX+XII are each soft yet NotCertified, admitting no per-site product Q,
-/// so even the derived k-body routing declines them). Built
+/// XIX+XXY+YXX (RoutingKBody) cases) and the 2 non-local Z-middle k-body routed-soft ceiling cases
+/// (XZX+XZY+YZX, YZY+XZY+YZX are each soft yet NotCertified, admitting no per-site product Q, so even the
+/// derived k-body routing declines them; the two I-heavy IXI+IIY+YII, IYI+IIX+XII are now LOCAL, certified by
+/// the SingleSiteField strategy, the 4 to 2 step). Built
 /// from the full <see cref="KnowledgeRegistryFactory.BuildDefault"/> registry, so both typed
 /// parents are present and the strength-inheritance check (4 ≥ 4 against F87DiagonalCellBipartiteWitnessSet,
 /// 5 ≥ 4 against F87TrichotomyClassification) is exercised in production.</summary>
@@ -103,18 +104,34 @@ public class PalindromeSoftCertifierClaimRegistrationTests
     }
 
     [Fact]
+    public void PalindromeSoftCertifierClaim_SoundnessBattery_IncludesTheSingleSiteFieldCase()
+    {
+        var registry = KnowledgeRegistryFactory.BuildDefault();
+        var claim = registry.Get<PalindromeSoftCertifierClaim>();
+
+        // The 4 to 2 step adds IXI+IIY+YII as a single-site-field soundness case: a sum of single-site
+        // transverse fields, certified by the SingleSiteField strategy (the per-site crossover product) and
+        // not hard. An I-heavy case once on the ceiling, now local.
+        var singleSite = claim.SoundnessBattery.Single(c => c.Name == "IXI+IIY+YII (SingleSiteField)");
+        Assert.Equal(Strategy.SingleSiteField, singleSite.Strategy);
+        Assert.True(singleSite.Certified, "IXI+IIY+YII must be certified (by SingleSiteField)");
+        Assert.True(singleSite.NotHard, "IXI+IIY+YII must be not hard by the spectral authority");
+        Assert.True(singleSite.Passes);
+    }
+
+    [Fact]
     public void PalindromeSoftCertifierClaim_Ceiling_KBodyRoutedSoft_Soft_NotCertified()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var claim = registry.Get<PalindromeSoftCertifierClaim>();
 
         var ceiling = claim.Ceiling;
-        Assert.Equal(4, ceiling.Count);
+        Assert.Equal(2, ceiling.Count);
         var names = ceiling.Select(c => c.Name).ToList();
         Assert.Contains("XZX+XZY+YZX", names);
         Assert.Contains("YZY+XZY+YZX", names);
-        Assert.Contains("IXI+IIY+YII", names);
-        Assert.Contains("IYI+IIX+XII", names);
+        Assert.DoesNotContain("IXI+IIY+YII", names);   // I-heavy now local (SingleSiteField), left the ceiling (4 to 2)
+        Assert.DoesNotContain("IYI+IIX+XII", names);
         Assert.All(ceiling, c => Assert.True(c.IsSoft, $"ceiling witness {c.Name} must be soft"));
         Assert.All(ceiling, c => Assert.False(c.Certified, $"ceiling witness {c.Name} must be NotCertified (non-local)"));
         Assert.All(ceiling, c => Assert.True(c.Holds, $"ceiling pair {c.Name} (soft, NotCertified) must hold"));
@@ -126,6 +143,6 @@ public class PalindromeSoftCertifierClaimRegistrationTests
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var claim = registry.Get<PalindromeSoftCertifierClaim>();
         Assert.True(claim.SelfCheckPasses,
-            "the full self-check (soundness battery all certified-and-not-hard; the 4 k-body ceiling pairs) must pass");
+            "the full self-check (soundness battery all certified-and-not-hard; the 2 Z-middle k-body ceiling pairs) must pass");
     }
 }

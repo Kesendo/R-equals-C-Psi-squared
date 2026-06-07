@@ -54,17 +54,18 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <para>§7.12 ceiling (the remaining frontier): with both routing mechanisms added, the non-bipartite-soft
 /// 2-body class (XX+XZ, Stufe A) and the routable k-body cases (Stufe B) are certified, no longer the
 /// ceiling. What stays beyond the certifier is the NON-LOCAL k-body routed-soft frontier:
-/// the 4 non-local cases XZX+XZY+YZX, YZY+XZY+YZX, IXI+IIY+YII, IYI+IIX+XII (soft at N=4,5,6, NotCertified)
+/// the 2 non-local Z-middle cases XZX+XZY+YZX, YZY+XZY+YZX (soft at N=4,5,6, NotCertified)
 /// admit NO per-site product Q at all (no uniform-continuous + no discrete-periodic Q; the continuous-periodic
 /// family is the explicit, named research frontier), so each is palindromized only by a non-local Π. The
-/// formerly-counted XIX+XIY+YIX, YIY+XIY+YIX are NOT here: they are LOCAL (a continuous-uniform per-site Q
-/// palindromizes them, verified N=3,4,5; NotCertified only because that Q routes via continuous-sum, not the
-/// scalable strategies). See experiments/CEILING_FOUR_NONLOCAL_CASES.md. NotCertified does not imply
+/// formerly-counted cases are NOT here, they are LOCAL: XIX+XIY+YIX, YIY+XIY+YIX route via a continuous-uniform
+/// per-site Q (continuous-sum, the 6 to 4 step), and IXI+IIY+YII, IYI+IIX+XII route via a site-varying product
+/// of single-site crossover maps, certified by <see cref="CertifyBySingleSiteField"/> (the 4 to 2 step). See
+/// experiments/CEILING_FOUR_NONLOCAL_CASES.md. NotCertified does not imply
 /// not-soft.</para></summary>
 public static class PalindromeSoftCertifier
 {
     /// <summary>Which scalable soft strategy certified the Hamiltonian (None = not certified).</summary>
-    public enum SoftStrategy { None, LinearSiteColoring, ExcitationPairing, ExcitationParity, SiteSwapSymmetry, Routing, RoutingKBody }
+    public enum SoftStrategy { None, LinearSiteColoring, ExcitationPairing, ExcitationParity, SiteSwapSymmetry, Routing, RoutingKBody, SingleSiteField }
 
     /// <summary>Result of <see cref="Certify"/>: whether soft is certified, and by which strategy.</summary>
     public readonly record struct SoftCertificate(bool Certified, SoftStrategy Strategy);
@@ -311,9 +312,11 @@ public static class PalindromeSoftCertifier
     /// derivation, and N-independent. See <see cref="KBodyPalindromeRouting"/>.
     ///
     /// <para>Span-bounded: a term of span k yields a 4^k × 4^k check, so the strategy declines a set with
-    /// any term outside [2, <see cref="KBodyPalindromeRouting.MaxBody"/>]. The 4 non-local ceiling cases
-    /// (XZX+XZY+YZX, YZY+XZY+YZX, IXI+IIY+YII, IYI+IIX+XII) admit NO per-site
-    /// product Q at all, so <see cref="Routes"/> returns false and they stay NotCertified.</para></summary>
+    /// any term outside [2, <see cref="KBodyPalindromeRouting.MaxBody"/>]. The 2 non-local Z-middle ceiling
+    /// cases (XZX+XZY+YZX, YZY+XZY+YZX) admit NO per-site product Q at all, so <see cref="Routes"/> returns
+    /// false and they stay NotCertified. The two I-heavy cases IXI+IIY+YII, IYI+IIX+XII also return false here
+    /// (the per-term router does not see their single-site-field router), but they ARE local, certified by
+    /// <see cref="CertifyBySingleSiteField"/>.</para></summary>
     public static bool CertifyByRoutingKBody(IReadOnlyList<PauliTerm> terms, int n)
     {
         if (terms.Count == 0) return false;
@@ -329,13 +332,40 @@ public static class PalindromeSoftCertifier
         return KBodyPalindromeRouting.Routes(terms, n);
     }
 
+    /// <summary>The single-site-field strategy: certify soft iff every term is weight-1 with letter X or Y
+    /// (a transverse single-site field). Then the chain Hamiltonian is a sum of single-site transverse fields
+    /// H = Σ_i (a_i X_i + b_i Y_i), so L = Σ_i L_i over COMMUTING single-site Liouvillians, and the per-site
+    /// product Q = ⊗_i M_i palindromizes the whole chain (each M_i the per-site crossover map Ad_{R_z(θ_i)},
+    /// θ_i = atan2(b_i, a_i)). Constructive, N-independent, sound by derivation.
+    ///
+    /// <para>SOUND because the detection is gated to TRANSVERSE: a single-site X/Y field is soft (its
+    /// Liouvillian spectrum {0, −2γ, −γ ± 2i} is palindromic about −γ), and a sum of commuting soft single-site
+    /// Liouvillians is soft. Z is EXCLUDED: a single-site Z (longitudinal) field has spectrum {0, 0, −2γ ± 2i},
+    /// whose 0 eigenvalue has no partner −2γ about −γ, so it is HARD; certifying it would break the one-sided
+    /// soundness. This reaches the two I-heavy cases (IXI+IIY+YII, IYI+IIX+XII) the other strategies decline
+    /// (bit_b-MIXED weight-1), correcting the §7.12 ceiling from 4 to 2.</para></summary>
+    public static bool CertifyBySingleSiteField(IReadOnlyList<PauliTerm> terms)
+    {
+        if (terms.Count == 0) return false;
+        foreach (var t in terms)
+        {
+            int nonId = 0;
+            PauliLetter only = PauliLetter.I;
+            foreach (var letter in t.Letters)
+                if (letter != PauliLetter.I) { nonId++; only = letter; }
+            if (nonId != 1) return false;                                      // not weight-1
+            if (only != PauliLetter.X && only != PauliLetter.Y) return false;  // Z is longitudinal => hard, exclude
+        }
+        return true;
+    }
+
     /// <summary>Try the stronger, topology-independent excitation strategies first (pairing, then
     /// parity; a term-set is at most one of them), then the chain-only linear one, then the bit_b-MIXED
     /// site-swap-symmetry one, then the 2-body hidden-Q routing (Stufe A), then the derived k-body per-term
     /// routing residual (Stufe B); return the certificate. A certified set is at most one strategy (the
     /// earlier strategies take precedence on overlap, e.g. XY+YX stays ExcitationPairing, XZ+ZX stays
     /// ExcitationParity, and a pure-2-body routed set stays Routing; k ≥ 3 and mixed-span sets fall to
-    /// RoutingKBody).</summary>
+    /// RoutingKBody; weight-1 transverse single-site sums fall to SingleSiteField).</summary>
     public static SoftCertificate Certify(IReadOnlyList<PauliTerm> terms, int n)
     {
         if (CertifyByExcitationPairing(terms)) return new SoftCertificate(true, SoftStrategy.ExcitationPairing);
@@ -344,6 +374,7 @@ public static class PalindromeSoftCertifier
         if (CertifyBySiteSwapSymmetry(terms, n)) return new SoftCertificate(true, SoftStrategy.SiteSwapSymmetry);
         if (CertifyByRouting(terms)) return new SoftCertificate(true, SoftStrategy.Routing);
         if (CertifyByRoutingKBody(terms, n)) return new SoftCertificate(true, SoftStrategy.RoutingKBody);
+        if (CertifyBySingleSiteField(terms)) return new SoftCertificate(true, SoftStrategy.SingleSiteField);
         return new SoftCertificate(false, SoftStrategy.None);
     }
 }
