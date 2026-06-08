@@ -102,6 +102,42 @@ public class WindowedHardnessCountClosedFormTests
         return n;
     }
 
+    /// <summary>Oracle for the d=0 triangle base: the existing OracleTriangleCountAtN2k restricted to
+    /// deg(g_rest)=0 (saturated at N=2k, size-3 is the floor so it saturates by W=k-1 ≤ k+1).</summary>
+    private static long OracleTriangleCountD0AtN2k(int k)
+    {
+        var masks = WindowedObstructionScan.EvenPopcountMasks(k);
+        int nSites = 2 * k;
+        long n = 0;
+        for (int i = 0; i < masks.Count; i++)
+            for (int j = i + 1; j < masks.Count; j++)
+            {
+                if (WindowedObstructionScan.ValuationAtOnePlusX(masks[i])
+                    == WindowedObstructionScan.ValuationAtOnePlusX(masks[j])) continue;
+                if (WindowedObstructionScan.GRestDegree(masks[i], masks[j]) != 0) continue;
+                if (WindowedObstructionScan.MinOddCycle(WindowedEdgeSet(masks[i], masks[j], k, nSites)) == 3) n++;
+            }
+        return n;
+    }
+
+    /// <summary>Oracle for the d-layered triangle count at N=2k: triangle pairs split by deg(g_rest).</summary>
+    private static Dictionary<int, long> OracleTriangleByDAtN2k(int k)
+    {
+        var masks = WindowedObstructionScan.EvenPopcountMasks(k);
+        int nSites = 2 * k;
+        var byD = new Dictionary<int, long>();
+        for (int i = 0; i < masks.Count; i++)
+            for (int j = i + 1; j < masks.Count; j++)
+            {
+                if (WindowedObstructionScan.ValuationAtOnePlusX(masks[i])
+                    == WindowedObstructionScan.ValuationAtOnePlusX(masks[j])) continue;
+                if (WindowedObstructionScan.MinOddCycle(WindowedEdgeSet(masks[i], masks[j], k, nSites)) != 3) continue;
+                int d = WindowedObstructionScan.GRestDegree(masks[i], masks[j]);
+                byD[d] = byD.GetValueOrDefault(d) + 1;
+            }
+        return byD;
+    }
+
     // ---- helper sanity ----
 
     [Theory]
@@ -166,6 +202,25 @@ public class WindowedHardnessCountClosedFormTests
         Assert.Equal(3L * D - 1, WindowedObstructionScan.TriangleReducedPairCountByMaxDegree(D));
         Assert.Equal(OracleTriangleReducedPairsByMaxDegree(D),
                      WindowedObstructionScan.TriangleReducedPairCountByMaxDegree(D));
+    }
+
+    [Theory]
+    [InlineData(3)] [InlineData(4)] [InlineData(5)] [InlineData(6)] [InlineData(7)]
+    public void TriangleHardCountBaseD0_MatchesClosedForm_AndMaskOracle(int k)
+    {
+        long closed = (long)(k - 1) * (k - 1) * (k - 2) / 2;
+        Assert.Equal(closed, WindowedObstructionScan.TriangleHardCountBaseD0(k));
+        Assert.Equal(OracleTriangleCountD0AtN2k(k), WindowedObstructionScan.TriangleHardCountBaseD0(k));
+    }
+
+    [Theory]
+    [InlineData(3)] [InlineData(4)] [InlineData(5)] [InlineData(6)] [InlineData(7)] [InlineData(8)]
+    public void TriangleHardCountBaseD0_EqualsSumOfPerMaxDegree(int k)
+    {
+        long sum = 0;
+        for (int D = 1; D <= k - 2; D++)
+            sum += WindowedObstructionScan.TriangleReducedPairCountByMaxDegree(D) * (k - 1 - D);
+        Assert.Equal(sum, WindowedObstructionScan.TriangleHardCountBaseD0(k));
     }
 
     [Theory]

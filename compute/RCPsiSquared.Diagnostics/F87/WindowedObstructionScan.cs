@@ -271,4 +271,14 @@ public static class WindowedObstructionScan
         if (D < 1 || D > 31) throw new ArgumentOutOfRangeException(nameof(D));
         return 3L * D - 1;
     }
+
+    /// <summary>The d=0 base of the size-3 (triangle) count, by body k:
+    /// T0(k) = Σ_{D=1}^{k-2} (3D−1)(k−1−D) = (k−1)² (k−2) / 2. The d=0 slice sitting under the all-d
+    /// <see cref="TriangleHardMaskCount"/>, exactly as <see cref="HardCountBaseB"/> sits under
+    /// <see cref="HardMaskPairCount"/>.</summary>
+    public static long TriangleHardCountBaseD0(int k)
+    {
+        if (k < 3 || k > 31) throw new ArgumentOutOfRangeException(nameof(k));
+        return (long)(k - 1) * (k - 1) * (k - 2) / 2;
+    }
 }
