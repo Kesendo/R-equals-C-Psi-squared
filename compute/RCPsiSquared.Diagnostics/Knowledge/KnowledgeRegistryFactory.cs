@@ -186,6 +186,9 @@ public static class KnowledgeRegistryFactory
             .RegisterF77MmSaturationPi2Inheritance()
             .RegisterF60GhzBornBelowFoldPi2Inheritance()
             .RegisterF83AntiFractionPi2Inheritance()
+            // F81/F115 connector: needs both F83 (anti-fraction, just above) and WindowedHardnessClaim
+            // (registered earlier) present first.
+            .RegisterAntiFractionObstructionOrthogonalityClaim()
             .RegisterF71MirrorSymmetryPi2Inheritance()
             .RegisterF75MirrorPairMiPi2Inheritance()
             .RegisterF76TDecayMirrorPairMiPi2Inheritance()
