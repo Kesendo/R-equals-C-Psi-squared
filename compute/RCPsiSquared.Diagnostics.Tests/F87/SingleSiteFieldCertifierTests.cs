@@ -40,6 +40,24 @@ public class SingleSiteFieldCertifierTests
         Assert.Equal(TrichotomyClass.Soft, Spectral(terms, 5));
     }
 
+    [Theory]
+    [InlineData(4)]
+    [InlineData(1000)]
+    [InlineData(1_000_000)]
+    public void Certify_IHeavy_IsSingleSiteField_AtAnyN_TheClassifierIsNFree(int n)
+    {
+        // The whole point of the certifier is the shortcut around the 2^N wall: it is structural and k-local
+        // and NEVER builds the 4^N Liouvillian. The SingleSiteField detection reads only the term labels (it
+        // does not use n at all); the earlier strategies are scalable; RoutingKBody is N-independent by
+        // additivity. So a chain of a million sites certifies as fast as four. (Contrast: brute-forcing the
+        // full 4^N palindrome residual stops near N=7; that wall is exactly what the certifier exists to
+        // avoid. Certifying at N = 1_000_000 here completes in microseconds.)
+        var terms = H("IXI", "IIY", "YII");
+        var cert = PalindromeSoftCertifier.Certify(terms, n);
+        Assert.True(cert.Certified);
+        Assert.Equal(PalindromeSoftCertifier.SoftStrategy.SingleSiteField, cert.Strategy);
+    }
+
     [Fact]
     public void CertifyBySingleSiteField_True_ForWeightOneTransverse()
     {
