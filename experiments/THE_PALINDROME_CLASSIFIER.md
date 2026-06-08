@@ -1,5 +1,6 @@
 # The Palindrome Classifier: what it is, why it scales, and the landscape it charts
 
+**Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Date:** 2026-06-08
 **Status:** the classifier is settled C# machinery; this writeup is its first reading as a tool: the protected
 interior it draws, and the two coasts where the protection ends.
