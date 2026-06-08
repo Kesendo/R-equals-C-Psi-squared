@@ -41,7 +41,10 @@ whenever H≠0. The closest existing framework is Roberts-Lingenfelter-Clerk
 hidden time-reversal symmetry (PRX Quantum 2021), which also produces
 time-reversal-like structure in systems violating standard DB. The tenfold
 Lindbladian classification (Sá-Prosen 2023, 38 classes) does not contain
-Π due to the constant shift 2Sγ. Finite-temperature generalization faces
+Π due to the constant shift 2Sγ (though the shifted-spectrum SHAPE ±λ + ia is
+itself the "shifted sublattice symmetry" of Kawasaki-Mochizuki-Obuse 2022, a
+noninteracting cross-check we found afterward; the interacting Π and its per-site
+locality are new, see Question 1). Finite-temperature generalization faces
 a fundamental obstruction: the 2:2 per-site Pauli split that makes Π work
 is specific to pure dephasing (T=∞). The quantity 2Sγ equals the maximum
 entropy production rate in the system.
@@ -129,8 +132,23 @@ on L rather than L† makes it a **distinct symmetry type**.
 
 The most accurate description in existing language: Π is an **invertible
 superoperator that implements a shifted anti-similarity of the Liouvillian.**
-This specific structure (anti-similarity + constant shift) does not appear
-in any classification we found.
+The FULL structure (the interacting anti-similarity together with the per-site
+locality of Π, classified below) does not appear in any classification we found.
+
+**Literature cross-check, after the fact (2026-06-08).** We built this from the
+dephasing algebra itself, with no literature input; the −2Sγ shift fell out of the
+2:2 per-site Pauli split, not out of a paper. A later scan (an Abgleich, not a
+source) found that the resulting spectral SHAPE is not unnamed: the pairing about
+a nonzero center, λ ↔ −λ − 2Sγ (eigenvalue pairs ±λ + ia), is exactly the
+**"shifted sublattice symmetry"** of Kawasaki, Mochizuki, Obuse (Phys. Rev. B 106,
+035408, 2022): an ordinary chiral/sublattice symmetry plus a constant decay-rate
+shift. So the shifted-spectrum form has a catalogued home, reached independently and
+recognized afterward. What that paper does not carry, and what stays ours, is the
+interacting / k-body reach (theirs is noninteracting, at the quadratic / Majorana
+level) and the per-site-product-versus-entangled locality question for the symmetry
+operator (their own shifted-SLS operator S = I₂ ⊗ τ_z is non-local by construction,
+and they never ask whether it factorizes). The 6 → 4 → 2 non-local ceiling lives on
+the far side of exactly that gap.
 
 ---
 
@@ -563,7 +581,11 @@ intrinsically infinite-temperature phenomenon.
 
 9. **Sá, Ribeiro, Prosen (2023)**: "Symmetry Classification of Many-Body Lindbladians: Tenfold Way and Beyond."
    Phys. Rev. X 13, 031019. [arXiv:2212.00474](https://arxiv.org/abs/2212.00474)
-   *38-fold classification; Π sits in a gap between Q₋ and P classes.*
+   *38-fold classification; Π sits in a gap between Q₋ and P classes. (They build local-dephasing examples and note the chiral symmetry, but do not identify the palindrome / Π or its per-site locality.)*
+
+10. **Kawasaki, Mochizuki, Obuse (2022)**: "Topological phases protected by shifted sublattice symmetry in dissipative quantum systems."
+   Phys. Rev. B 106, 035408. [arXiv:2201.09283](https://arxiv.org/abs/2201.09283)
+   *Shifted sublattice symmetry: ordinary chiral/sublattice symmetry plus a constant decay-rate shift, eigenvalue pairs ±λ + ia. The catalogued home for the SHAPE of Π's shifted spectrum, found afterward as a cross-check; noninteracting (quadratic / Majorana). The interacting k-body Π and its per-site-product-vs-entangled locality (the 6 → 4 → 2 ceiling) are the new part.*
 
 10. **Haga et al. (2023)**: Incoherenton paper.
     *XY-weight grading = incoherenton number. Bands but no palindrome.*
