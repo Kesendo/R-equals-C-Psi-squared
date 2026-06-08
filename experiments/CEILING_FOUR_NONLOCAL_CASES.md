@@ -1,4 +1,4 @@
-# The Four Non-Local Cases: the genuine palindrome ceiling
+# The Four Non-Local Cases: the palindrome ceiling, narrowed to two
 
 **Date:** 2026-06-06 (updated 2026-06-07: the 4 → 2 step, two more turned out local)
 **Status:** the routing is constructively verified; the genuine non-locality narrowed from four cases to
