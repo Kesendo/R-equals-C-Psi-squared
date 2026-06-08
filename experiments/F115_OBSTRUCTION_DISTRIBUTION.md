@@ -117,7 +117,7 @@ factor is `a(m) ≈ 4^(m−1)/9`, which is not. This is a viewpoint-rotation on 
 
 ### Derivation of the doubling recurrence
 
-The recurrence `n(Δ+1, k+1) = 2·n(Δ, k)` is not just observed — it is derived. Write a d=0 pair via its
+The recurrence `n(Δ+1, k+1) = 2·n(Δ, k)` is not just observed, it is derived. Write a d=0 pair via its
 reduced generators: `g = gcd = (1+x)^m` (pure power, m ≥ 1 since both masks have even popcount), `u = `
 odd-valuation generator (`v(u)=0`), `w = ` the `v(w)=Δ` generator, coprime. Counting the valid powers m
 under the body-k width bound gives
@@ -136,7 +136,7 @@ The functions `{max(0,k−1−D)}_D` are linearly independent in k, so `n(Δ+1,k
   tie ↔ w-dominant, so **`E_Δ(D) = W_Δ(D)`**.
 - **(P) per-w doubling**: for a fixed `w` with `(1+x)|w` (true, since `v(w)=Δ≥1`), the coprimality
   `gcd(u,w)=1` already forces `v(u)=0`, and the count of `u` of degree exactly `e` coprime to `w` is
-  `2^(e−deg w)·φ(w)` (φ = units mod w) — it **doubles** with each step in `e`. Summing over w gives
+  `2^(e−deg w)·φ(w)` (φ = units mod w), it **doubles** with each step in `e`. Summing over w gives
   `U_Δ(D+1) = 2·(E_Δ(D) + U_Δ(D))`.
 
 Combine: `c_{Δ+1}(D+1) = U_Δ(D+1) + E_Δ(D) + W_Δ(D) = 2(E_Δ(D)+U_Δ(D)) + 2E_Δ(D) = 4E_Δ(D) + 2U_Δ(D)
@@ -174,7 +174,7 @@ weight redistribution inside the odd coset, and the x=1 handle (`a(1)+b(1)=1`) i
 
 ---
 
-## Finding 6: the MacWilliams kernel — floor closed, ceiling characterized, the hard core located
+## Finding 6: the MacWilliams kernel: floor closed, ceiling characterized, the hard core located
 
 The saturated obstruction depends only on the reduced pair `(a,b)` (not on `m` or the window once W is large),
 so the whole per-size distribution factors the same way the count did:
@@ -188,7 +188,7 @@ cap = D+4, cap-stability verified at D=5,6) closes everything that *can* close a
 
 **The floor (size 3) is closed.** `minweight=3 ⟺ the v=0 generator is a monomial x^j and the v=Δ generator
 has popcount 2` (forward: `t=1` gives `1+2=3`; converse: `minweight=3` ⟹ some `wt(a·t)=1` ⟹ `a·t=x^i` ⟹ `a`
-is a monomial — only `x` is irreducible with that factorization — and `b` can't be the monomial since
+is a monomial, only `x` is irreducible with that factorization, and `b` can't be the monomial since
 `v(b)≥1` ⟹ even popcount). This forces **Δ to be a power of two** (a weight-2 `b=x^p(1+x^r)` has
 `v=2^{v₂(r)}`), matching the data (size 3 present at Δ=1,2,4, absent at Δ=3,5). Hence
 
@@ -203,12 +203,12 @@ generator makes coprimality trivial (`gcd(x^j, ·)`), and the count stays polyno
 size 3 closes**: `3 = 1+2` is the only popcount split, and it has a monomial factor.
 
 **The ceiling (max size 2D+1) is the repunit pair.** For D ≥ 4 the count is exactly **2**: one generator is
-the full repunit `R_D = 1+x+…+x^D` (all ones), the other is `R_{D-1}` or `x·R_{D-1}` — the densest pairs, no
+the full repunit `R_D = 1+x+…+x^D` (all ones), the other is `R_{D-1}` or `x·R_{D-1}`, the densest pairs, no
 cancellation. (D=2,3 are small edge cases with 3, 4.) These are the same repunits that mark the Door-1 syzygy
 extreme.
 
 **The hard core is located, not closed.** The irregularity enters at the *first* popcount split with **both
-popcounts ≥ 2** — `(3,2)` at size 5 — and that cell is genuinely **not polynomial in D**
+popcounts ≥ 2**, `(3,2)` at size 5, and that cell is genuinely **not polynomial in D**
 (`3,16,51,114,215,348,556,822,1162,…`, erratic differences). It is honest GF(2)[x] weighted coprimality: a
 weight-3 `a` is coprime to `b=x^p(1+x^r)` iff coprime to `1+x^r`, which depends on the factorization of
 `1+x^r` (number-theoretic). The gcd-formula layer is already non-polynomial there (`f(D,5), f(D,7)`); the −2
@@ -226,8 +226,8 @@ F81↔F115 orthogonality (the next section) is the typed `AntiFractionObstructio
 
 ## Connection to the bit_b axis (F81/F83): orthogonal coordinates of M's polarity cube
 
-This obstruction theory and the F81/F83 anti-fraction are the two bits of the *same* object — the residual
-superoperator M (`PalindromeResidual`) — read on the two axes of its Klein polarity cube (`PolarityCubeMap`,
+This obstruction theory and the F81/F83 anti-fraction are the two bits of the *same* object, the residual
+superoperator M (`PalindromeResidual`), read on the two axes of its Klein polarity cube (`PolarityCubeMap`,
 `Z2Axis`). The pieces are already typed in C#; what follows is only their assembly.
 
 - **bit_b axis (F81/F83/F112).** `PiDecomposition` splits `M = M_sym + M_anti`; the anti-fraction
@@ -241,15 +241,15 @@ superoperator M (`PalindromeResidual`) — read on the two axes of its Klein pol
 **They meet at bit_b = 1 (the diagonal cell), and there the bit_b readout is degenerate.** Diagonal-cell
 Mixed terms are pure Π²-odd, so `r = 0`, and F83's anti-fraction sits at its *maximum* ½ exactly
 (`F83AntiFractionPi2Inheritance.MaximumAntiFraction`, the F81 Step-8 50/50). So the anti-fraction is pinned
-at ½ across the *entire* F115 cell — identical for hard and soft pairs and every obstruction size. The bit_b
+at ½ across the *entire* F115 cell, identical for hard and soft pairs and every obstruction size. The bit_b
 magnitude is blind precisely where the bit_a valuation carries all the information: **F81/F83 and F115 are
 orthogonal coordinates of M's cube, and F115 is the strictly finer probe.** The link is structural (one M,
-one shared bit_b = 1 gate), not quantitative — and it follows from an already-typed result, no new computation.
+one shared bit_b = 1 gate), not quantitative, and it follows from an already-typed result, no new computation.
 
 **Two breaks, one visible to the anti-fraction.** Per `DissipatorResonanceLaw`, hardness lives *inside* the
 dissipator's Klein cell (the bit_a obstruction, F115); the transverse-field Brecher breaks it from *outside*
 the cell (F89, predicted from F83). The anti-fraction sees the outside-cell Brecher, not the in-cell
-obstruction — the two are the two poles of dissipator-letter resonance. (If we ever want this orthogonality
+obstruction; the two are the two poles of dissipator-letter resonance. (If we ever want this orthogonality
 typed rather than recognized, its natural C# home is the open `BitATwin` slot that `PolarityCubeMap` already
 tracks for `F83AntiFractionPi2Inheritance`.)
 
@@ -270,8 +270,8 @@ tracks for `F83AntiFractionPi2Inheritance`.)
 
 F115 is now closed except for one piece, and that piece is **identified as number-theoretic, not merely
 unfinished**: the saturated middle (size ≥ 5) *is* the count of weighted coprime polynomial pairs in GF(2)[x]
-(plus the −2 convolutional cancellation on top). The boundary cells are all closed — the size-3 floor exactly,
-the monomial column as polynomials of degree β−1, the repunit ceiling at count 2 — and the closed-form
+(plus the −2 convolutional cancellation on top). The boundary cells are all closed: the size-3 floor exactly,
+the monomial column as polynomials of degree β−1, the repunit ceiling at count 2; and the closed-form
 frontier is sharp: **a size cell is polynomial in D iff some popcount split carries a monomial; the first
 irregular cell is `(3,2)` at size 5.**
 
