@@ -164,6 +164,30 @@ strategies do not see. So the load-bearing result here is the positive one, that
 whole's non-locality still rests on the uniform-continuous optimization floor above, not on the certifier's
 silence.
 
+### The same two sectors, read in Frobenius: F81 and F83 (2026-06-08)
+
+The joining is one lens on the two sectors, the routing one: each wants a different per-site map. There is a
+second lens on exactly the same pair, one the framework already typed and hardware-confirmed.
+[F81](../docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md) decomposes the canonical residual M = Π·L·Π⁻¹ + L + 2σ
+into a Π-symmetric and a Π-antisymmetric part, Frobenius-orthogonal, so ‖M‖² = ‖M_sym‖² + ‖M_anti‖². The
+antisymmetric part is exactly the Π²-odd Hamiltonian commutator, M_anti = L_{H_odd}, and for the ceiling H_odd
+is the single Π²-odd term, XZX (or YZY for the sibling case). So the two Π²-sectors of the joining ARE the F81
+split: M_anti the Π²-odd half, M_sym the Π²-even half together with the dissipator.
+
+Computed in C# from the built tools (PalindromeResidual and PiOperator) for the k=3 ceiling, both cases give
+the same numbers: ‖M‖² = 10240, ‖M_sym‖² = 9216, ‖M_anti‖² = 1024. The Π²-odd half, the floor-carrier, is
+exactly one tenth of M. That is the F83 anti-fraction ‖M_anti‖²/‖M‖² = 1/10, sitting on F83's closed form
+anti-fraction = 1/(2 + 4r) at r = ‖H_even_nontruly‖²/‖H_odd‖² = 2 (the ceiling carries one Π²-odd term against
+two Π²-even ones). On that ladder r = 0 gives 1/2 (pure Π²-odd), r = 1 gives 1/6, r → ∞ gives 0; the ceiling
+sits at r = 2, one tenth.
+
+This is a recognition, not a new mechanism. The obstruction we found by routing is the same structure F83
+reads off as a Frobenius fingerprint, and F83 is the hardware-confirmed one (the four-Hamiltonian Π²-class
+discriminator on Marrakesh and Kingston, per the PROOF_F81 hardware note). The routing lens says the two
+sectors need incompatible maps; the Frobenius lens weighs them, nine tenths symmetric to one tenth
+antisymmetric, and ties the ceiling to a quantity the hardware has actually measured. Two readings of one pair
+of sectors.
+
 ## The explicit frontier (no hidden bottom)
 
 A word on what "non-local" means here, because it is a bounded claim and we want the boundary visible. For
