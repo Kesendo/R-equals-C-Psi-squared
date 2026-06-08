@@ -127,6 +127,43 @@ are local and only the Z-middle pair remains here.)
 So for the Z-middle pair the conclusion stands: a product of single-site maps does not have the freedom the
 loaded second rotation needs. Their palindrome exists only as an entangled, non-local Π.
 
+### The obstruction is in the joining, not the part (2026-06-08)
+
+The picture above pins the obstruction on the Z-middle's extra Π²-even rotation, the second turn a single
+repeated map cannot also make. A sharper question is which of the two Π²-sectors is the hard one, the Π²-odd
+rotation the local cases route or the extra Π²-even one. We split the ceiling set along that seam and
+certified each sector on its own, and the answer was neither.
+
+The Π²-odd half is the single term XZX. On its own it is local: a per-site product palindromizes it,
+certified by the linear site-colouring route. The Π²-even half is the pair XZY+YZX. On its own it is local
+too: a per-site product palindromizes it, certified by the excitation-pairing route. Each half, alone, is
+per-site routable with no caveat. It is only their sum, the full XZX+XZY+YZX, that admits no per-site product
+at all. (Every piece stays spectrally soft throughout; the split is a statement about the routing operator,
+not the spectrum, which mirrors cleanly in each part.)
+
+So the non-locality is not hiding in one sector; it is born in the joining. Each sector routes, but by a
+different per-site rule: the Π²-odd half wants a site-colouring map, the Π²-even half wants an
+excitation-pairing map, and those are different per-site structures. A product Q is one per-site rule run
+down the chain; it can be one of the two routers, not both. The uniform-continuous search is the witness:
+across the whole 16-parameter family there is no common map, and the residual rests at the ~0.30 floor, the
+gap between serving one router and serving both. This refines the uniform-lens reading above: it is not that
+one sector resists clearing, each clears alone; it is that no single product Q clears both.
+
+This sharpens the banked all-Q question without closing it. "The floor holds for every Q" becomes a
+statement about two sets: the per-site Q's that route the Π²-odd half and the per-site Q's that route the
+Π²-even half have empty intersection. The optimization is the numerical witness of that emptiness; the
+analytic proof that a site-colouring map and an excitation-pairing map can never share a per-site factor is
+the part that stays banked. But the shape of the obstruction is now plain: the Z-middle pair is two
+individually-routable structures whose per-site routers conflict, so the mirror they share exists only as a
+whole-chain object, never as a per-site product.
+
+One honest note on the instrument. The soft-certifier is one-sided: a certificate proves local, but its
+silence proves nothing. It returns NotCertified for the genuinely non-local ceiling, and it returns
+NotCertified just the same for the known-local XIX+XIY+YIX, whose continuous-uniform router its scalable
+strategies do not see. So the load-bearing result here is the positive one, that the two halves certify; the
+whole's non-locality still rests on the uniform-continuous optimization floor above, not on the certifier's
+silence.
+
 ## The explicit frontier (no hidden bottom)
 
 A word on what "non-local" means here, because it is a bounded claim and we want the boundary visible. For
