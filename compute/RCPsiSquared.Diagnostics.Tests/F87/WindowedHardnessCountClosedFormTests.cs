@@ -80,6 +80,28 @@ public class WindowedHardnessCountClosedFormTests
         return cap;
     }
 
+    // ---- size-3 floor (the MacWilliams-kernel floor, mirror of simulations/f87_size_cells.py) ----
+
+    /// <summary>Oracle for c(D,3): reduced size-3 pairs are (monomial x^j, popcount-2 b) that are
+    /// coprime, with max(deg a, deg b) = D. Coprime ⟺ j==0 or low-bit(b)==0 (PolyGcd checks it).</summary>
+    private static long OracleTriangleReducedPairsByMaxDegree(int D)
+    {
+        long n = 0;
+        for (int j = 0; j <= D; j++)
+        {
+            ulong a = 1UL << j;
+            for (int p = 0; p <= D; p++)
+                for (int q = p + 1; q <= D; q++)
+                {
+                    ulong b = (1UL << p) | (1UL << q);
+                    if (System.Math.Max(j, q) != D) continue;
+                    if (WindowedObstructionScan.PolyGcd(a, b) != 1) continue;
+                    n++;
+                }
+        }
+        return n;
+    }
+
     // ---- helper sanity ----
 
     [Theory]
@@ -134,6 +156,16 @@ public class WindowedHardnessCountClosedFormTests
     public void TriangleSubCount_MatchesClosedForm(int k)
     {
         Assert.Equal(OracleTriangleCountAtN2k(k), WindowedObstructionScan.TriangleHardMaskCount(k));
+    }
+
+    [Theory]
+    [InlineData(1)] [InlineData(2)] [InlineData(3)] [InlineData(4)]
+    [InlineData(5)] [InlineData(6)] [InlineData(7)]
+    public void TriangleReducedPairCountByMaxDegree_Is3DMinus1_AndMatchesOracle(int D)
+    {
+        Assert.Equal(3L * D - 1, WindowedObstructionScan.TriangleReducedPairCountByMaxDegree(D));
+        Assert.Equal(OracleTriangleReducedPairsByMaxDegree(D),
+                     WindowedObstructionScan.TriangleReducedPairCountByMaxDegree(D));
     }
 
     [Theory]

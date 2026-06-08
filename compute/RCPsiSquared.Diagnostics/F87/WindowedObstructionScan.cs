@@ -256,4 +256,19 @@ public static class WindowedObstructionScan
     /// hard mask-pairs with deg(g_rest)=d is 2k-3-2d, once the window support binds the body leg
     /// (W ≥ k-1-d). The §7.7 overall cap 2k-3 is the d=0 face.</summary>
     public static int MaxObstructionSizeForGRestDegree(int k, int d) => 2 * k - 3 - 2 * d;
+
+    // ---- size-3 floor (the MacWilliams-kernel floor, PROOF_F103 §7 + simulations/f87_size_cells.py).
+    // The per-SIZE shape of the obstruction splits into a closed floor (size 3, below), a polynomial
+    // monomial column, a repunit ceiling, and a non-polynomial middle (size ≥ 5).
+
+    /// <summary>The per-max-degree count of d=0 reduced coprime mask-pairs whose saturated obstruction
+    /// is a triangle (size 3): c(D,3) = 3D − 1 (D ≥ 1). Size 3 ⟺ one reduced generator is a monomial
+    /// x^j and the other has popcount 2 (the only popcount split for an odd size-3 weight, and its
+    /// coprimality is trivial — which is why the floor closes). Sums to <see cref="TriangleHardCountBaseD0"/>
+    /// via Σ_D (3D−1)(k−1−D). Mirror of simulations/f87_size_cells.py.</summary>
+    public static long TriangleReducedPairCountByMaxDegree(int D)
+    {
+        if (D < 1 || D > 31) throw new ArgumentOutOfRangeException(nameof(D));
+        return 3L * D - 1;
+    }
 }
