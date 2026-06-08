@@ -216,6 +216,12 @@ convolutional cancellation (k ≥ 6) sits on top. So the MacWilliams middle resi
 reason: **closed-formness holds exactly while some popcount split carries a monomial; from `(3,2)` on, the
 count *is* the distribution of weighted coprime polynomial pairs.**
 
+**Ported to C# (2026-06-08).** The floor closed forms live in `WindowedObstructionScan`
+(`TriangleReducedPairCountByMaxDegree` = 3D−1, `TriangleHardCountBaseD0` = (k−1)²(k−2)/2,
+`TriangleHardCountByGRestDegree` the d-layering, `Repunit`), recorded on `WindowedHardnessClaim`; the
+F81↔F115 orthogonality (the next section) is the typed `AntiFractionObstructionOrthogonalityClaim`
+(Tier1Derived, parents `F83AntiFractionPi2Inheritance` + `WindowedHardnessClaim`).
+
 ---
 
 ## Connection to the bit_b axis (F81/F83): orthogonal coordinates of M's polarity cube
