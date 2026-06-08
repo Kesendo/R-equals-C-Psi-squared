@@ -70,6 +70,19 @@ public static class PalindromeSoftCertifier
     /// <summary>Result of <see cref="Certify"/>: whether soft is certified, and by which strategy.</summary>
     public readonly record struct SoftCertificate(bool Certified, SoftStrategy Strategy);
 
+    /// <summary>The two-sided verdict of <see cref="Decide"/>: Soft (a scalable soft pattern applies),
+    /// Hard (the F115 diagonal-cell valuation proves it), or Undetermined (defer to the spectral authority).</summary>
+    public enum Decision { Soft, Hard, Undetermined }
+
+    /// <summary>Which scalable HARD strategy decided (None = not hard-certified). Symmetric to
+    /// <see cref="SoftStrategy"/>.</summary>
+    public enum HardStrategy { None, DiagonalCellValuation }
+
+    /// <summary>Result of <see cref="Decide"/>: the verdict, the deciding strategy (soft or hard), and a
+    /// human-readable reason (the soft strategy name, or the exhibited (1+x)-valuation obstruction).</summary>
+    public readonly record struct PalindromeDecision(
+        Decision Verdict, SoftStrategy SoftStrategy, HardStrategy HardStrategy, string Reason);
+
     /// <summary>True iff the summed Hamiltonian is a pure pairing (every basis-edge Δn = ±2), detected
     /// by a σ± decomposition: the mixed (hopping) pieces must cancel. N-independent.</summary>
     public static bool IsPurePairing(IReadOnlyList<PauliTerm> terms)
@@ -410,5 +423,30 @@ public static class PalindromeSoftCertifier
         if (CertifyByRoutingKBody(terms, n)) return new SoftCertificate(true, SoftStrategy.RoutingKBody);
         if (CertifyBySingleSiteField(terms)) return new SoftCertificate(true, SoftStrategy.SingleSiteField);
         return new SoftCertificate(false, SoftStrategy.None);
+    }
+
+    /// <summary>Two-sided decider: certify Soft (the existing <see cref="Certify"/> strategies), else
+    /// certify Hard (the F115 diagonal-cell valuation, <see cref="CertifyHardByDiagonalCellValuation"/>),
+    /// else Undetermined (the caller defers to <see cref="PauliPairTrichotomy"/>). <see cref="Certify"/>
+    /// stays soft-only; this is the additive, more-powerful front door (N-free on both sides where it
+    /// decides).</summary>
+    public static PalindromeDecision Decide(IReadOnlyList<PauliTerm> terms, int n)
+    {
+        var soft = Certify(terms, n);
+        if (soft.Certified)
+            return new PalindromeDecision(Decision.Soft, soft.Strategy, HardStrategy.None, $"soft: {soft.Strategy}");
+
+        if (CertifyHardByDiagonalCellValuation(terms))
+        {
+            TryDiagonalCellMixedMask(terms[0], out ulong m0, out _);
+            TryDiagonalCellMixedMask(terms[1], out ulong m1, out _);
+            int v0 = WindowedObstructionScan.ValuationAtOnePlusX(m0);
+            int v1 = WindowedObstructionScan.ValuationAtOnePlusX(m1);
+            return new PalindromeDecision(Decision.Hard, SoftStrategy.None, HardStrategy.DiagonalCellValuation,
+                $"hard: diagonal-cell (1+x)-valuation {v0} != {v1} (F115 odd-cycle obstruction)");
+        }
+
+        return new PalindromeDecision(Decision.Undetermined, SoftStrategy.None, HardStrategy.None,
+            "undetermined: no scalable soft pattern, out of F115 hard scope; defer to PauliPairTrichotomy");
     }
 }
