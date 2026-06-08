@@ -4024,7 +4024,10 @@ at k = 4, 5, 6; the quasi-cyclic dictionary bit-exact k = 4, 5, 6.
 `MaxObstructionSizeForGRestDegree` (2k−3−2d) + `GRestDegree` / `EvenPopcountMasks`, ported 2026-06-08) +
 `WindowedObstructionScanTests` and `WindowedHardnessCountClosedFormTests`; scouts
 `simulations/_f87_obstruction_derivation.py`, `_f87_coding_theory_scout.py`,
-`_f87_hardcount_closedform.py`, `_f87_beyond_x1_scout.py`, `_f87_size_second_layer.py`.
+`_f87_hardcount_closedform.py`, `_f87_beyond_x1_scout.py`, `_f87_size_second_layer.py`. The N-free hard
+verdict is now wired into `PalindromeSoftCertifier.Decide` (`CertifyHardByDiagonalCellValuation`),
+soundness-gated against the spectral authority over the diagonal-cell pair space (`PalindromeHardSweepTests`),
+2026-06-08.
 
 ---
 

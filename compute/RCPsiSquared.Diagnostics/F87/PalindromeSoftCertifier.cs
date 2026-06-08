@@ -61,7 +61,13 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// per-site Q (continuous-sum, the 6 to 4 step), and IXI+IIY+YII, IYI+IIX+XII route via a site-varying product
 /// of single-site crossover maps, certified by <see cref="CertifyBySingleSiteField"/> (the 4 to 2 step). See
 /// experiments/CEILING_FOUR_NONLOCAL_CASES.md. NotCertified does not imply
-/// not-soft.</para></summary>
+/// not-soft.</para>
+///
+/// <para>Two-sided front door: <see cref="Certify"/> stays one-sided soft, while the new <see cref="Decide"/>
+/// adds the N-free HARD verdict for the diagonal cell (F115, <see cref="WindowedObstructionScan.IsHardPair"/>),
+/// the symmetric twin of the soft strategies above. It is gated to two-term Klein-(0,1) Mixed pairs and defers
+/// everything else to the spectral authority <see cref="PauliPairTrichotomy"/>. Anchor: F115 /
+/// <c>WindowedHardnessClaim</c>.</para></summary>
 public static class PalindromeSoftCertifier
 {
     /// <summary>Which scalable soft strategy certified the Hamiltonian (None = not certified).</summary>

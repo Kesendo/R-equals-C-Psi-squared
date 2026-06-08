@@ -17,7 +17,10 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// per-site product Q palindromizes a sum of 2-body bilinears sharing a Q-family) AND the derived k-body
 /// per-term routing (Stufe B, the per-term k-site anticommutator {Q_k, [T,·]_k} = 0 reaches the routable
 /// k-body cases the 2-body table misses). It certifies "soft" iff one strategy applies; it never claims
-/// hard (NotCertified carries no claim). This Claim asserts ONLY the two settled facts:
+/// hard (NotCertified carries no claim). The wrapped certifier now also exposes the two-sided
+/// <see cref="PalindromeSoftCertifier.Decide"/> (soft via <see cref="PalindromeSoftCertifier.Certify"/> plus
+/// the N-free hard verdict from the F115 diagonal-cell valuation); this Claim asserts ONLY the two settled
+/// facts:
 ///
 /// <list type="number">
 ///   <item><b>Soundness (one-sided)</b>: every case in the soundness battery is both Certified by
