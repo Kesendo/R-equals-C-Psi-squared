@@ -1,6 +1,7 @@
 using System.Numerics;
 using System.Collections.Generic;
 using RCPsiSquared.Core.Pauli;
+using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Diagnostics.F87;
 
 namespace RCPsiSquared.Diagnostics.Tests.F87;
@@ -55,5 +56,35 @@ public class PalindromeDecideTests
         // A 3-term frustrated hard set: soft strategies decline AND it is out of the F115 pair scope.
         var d = PalindromeSoftCertifier.Decide(new[] { T(X, X, X), T(X, X, Y), T(Y, X, X) }, n: 4);
         Assert.Equal(PalindromeSoftCertifier.Decision.Undetermined, d.Verdict);
+    }
+
+    private static ChainSystem MakeChainN4() => new ChainSystem(N: 4, J: 1.0, GammaZero: 0.05);
+
+    [Fact]
+    public void Decide_HardVerdict_MatchesEngineAndAuthority_OverDiagonalCell_N4()
+    {
+        var chain = MakeChainN4();
+        foreach (var t0 in PalindromeHardSweepTests.DiagonalCellMixedTerms(3))
+            foreach (var t1 in PalindromeHardSweepTests.DiagonalCellMixedTerms(3))
+            {
+                if (PalindromeHardSweepTests.YParity(t0) != PalindromeHardSweepTests.YParity(t1)) continue;
+                var terms = new[] { t0, t1 };
+                bool decideHard = PalindromeSoftCertifier.Decide(terms, 4).Verdict == PalindromeSoftCertifier.Decision.Hard;
+                bool engineHard = WindowedObstructionScan.IsHardPair(
+                    PalindromeHardSweepTests.XyMask(t0), PalindromeHardSweepTests.XyMask(t1));
+                Assert.Equal(engineHard, decideHard);                                  // Decide-hard == engine
+                if (decideHard)
+                    Assert.Equal(TrichotomyClass.Hard,                                 // == authority hard
+                        PauliPairTrichotomy.Classify(chain, terms, dephaseLetter: PauliLetter.Z));
+            }
+    }
+
+    [Fact]
+    public void Certify_StandardModels_Unchanged()
+    {
+        // Certify keeps its soft-only contract and verdicts (the doc-table models).
+        Assert.True(PalindromeSoftCertifier.Certify(new[] { T(X, X), T(Y, Y) }, 4).Certified);          // XY model -> soft
+        Assert.True(PalindromeSoftCertifier.Certify(new[] { T(X, Y), T(Y, X) }, 4).Certified);          // DM XY+YX -> soft
+        Assert.False(PalindromeSoftCertifier.Certify(new[] { T(X, X, Z), T(X, Z, X) }, 4).Certified);   // hard pair -> NOT soft-certified
     }
 }
