@@ -64,6 +64,7 @@ public class PalindromeDecideTests
     public void Decide_HardVerdict_MatchesEngineAndAuthority_OverDiagonalCell_N4()
     {
         var chain = MakeChainN4();
+        int checkedPairs = 0, hardPairs = 0;
         foreach (var t0 in PalindromeHardSweepTests.DiagonalCellMixedTerms(3))
             foreach (var t1 in PalindromeHardSweepTests.DiagonalCellMixedTerms(3))
             {
@@ -72,11 +73,18 @@ public class PalindromeDecideTests
                 bool decideHard = PalindromeSoftCertifier.Decide(terms, 4).Verdict == PalindromeSoftCertifier.Decision.Hard;
                 bool engineHard = WindowedObstructionScan.IsHardPair(
                     PalindromeHardSweepTests.XyMask(t0), PalindromeHardSweepTests.XyMask(t1));
-                Assert.Equal(engineHard, decideHard);                                  // Decide-hard == engine
+                Assert.True(engineHard == decideHard,                                  // Decide-hard == engine
+                    $"Decide/engine disagree for [{string.Concat(t0.Letters)},{string.Concat(t1.Letters)}]: engine={engineHard}, Decide={decideHard}");
                 if (decideHard)
+                {
+                    hardPairs++;
                     Assert.Equal(TrichotomyClass.Hard,                                 // == authority hard
                         PauliPairTrichotomy.Classify(chain, terms, dephaseLetter: PauliLetter.Z));
+                }
+                checkedPairs++;
             }
+        Assert.True(checkedPairs > 0, "the consistency loop enumerated no pairs");
+        Assert.True(hardPairs > 0, "no Decide-Hard pair occurred, so the authority cross-check never ran (vacuous)");
     }
 
     [Fact]
