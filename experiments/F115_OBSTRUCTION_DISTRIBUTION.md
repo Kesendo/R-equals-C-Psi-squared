@@ -4,15 +4,19 @@
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Status:** Tier 2 (computed, in progress). The d=0 reduction, the mirror condition `a(1)+b(1)=1`, and the
 Δ-organization are bit-exact on the grids below; the **Δ-bucket count closed form**
-(`n(Δ,k)=2^(Δ−1)·a(k−Δ+1)`) is now **derived** (three-bijection proof of the doubling recurrence + the proven
-`Σ_Δ n=B(k)`); the saturated per-(Δ, size) distribution (the size split inside each bucket) is OPEN.
+(`n(Δ,k)=2^(Δ−1)·a(k−Δ+1)`) is **derived** (three-bijection proof of the doubling recurrence + the proven
+`Σ_Δ n=B(k)`); the per-size **floor (size 3) is closed** `(k−1)²(k−2)/2`, the monomial column and repunit
+ceiling are closed, and the per-size **middle (size ≥ 5) is located as a number-theoretic hard core** (weighted
+coprime polynomial pairs in GF(2)[x]), not closed (Finding 6).
 **Builds on:** [F115 / ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md) (the windowed-hardness GF(2)[x]
 theory), [PROOF_F103 §7.7-§7.9](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md), and the lens of
 [ZERO_IS_THE_MIRROR.md](../hypotheses/ZERO_IS_THE_MIRROR.md) (x=1 = the mirror / DC / Perron point).
 **Scripts:** [`simulations/_f87_middle_distribution.py`](../simulations/_f87_middle_distribution.py),
 [`simulations/_f87_oddweight_filtration.py`](../simulations/_f87_oddweight_filtration.py),
 [`simulations/f87_per_delta_saturated.py`](../simulations/f87_per_delta_saturated.py) (the bucket-count
-derivation + the open per-size table).
+derivation + the per-size table),
+[`simulations/f87_size_cells.py`](../simulations/f87_size_cells.py) (the per-size kernel: floor, monomial
+column, repunit ceiling, the located hard core).
 
 ---
 
@@ -170,25 +174,71 @@ weight redistribution inside the odd coset, and the x=1 handle (`a(1)+b(1)=1`) i
 
 ---
 
+## Finding 6: the MacWilliams kernel — floor closed, ceiling characterized, the hard core located
+
+The saturated obstruction depends only on the reduced pair `(a,b)` (not on `m` or the window once W is large),
+so the whole per-size distribution factors the same way the count did:
+
+> `saturated_dist(k)[s] = Σ_D c(D,s)·max(0, k−1−D)`,  `c(D,s) = #{coprime (a,b): v(a)=0, v(b)≥1,
+> max(deg a, deg b)=D, minweight(a,b)=s}`,  where **`minweight(a,b)` = the odd-restricted free distance of the
+> convolutional code `⟨(a,b)⟩`** = `min_t` odd`[wt(a·t)+wt(b·t)]`.
+
+So `c(D,s)` is the per-size analog of the now-closed `c_Δ(D)`. The deep look (`f87_size_cells.py`,
+cap = D+4, cap-stability verified at D=5,6) closes everything that *can* close and locates the rest:
+
+**The floor (size 3) is closed.** `minweight=3 ⟺ the v=0 generator is a monomial x^j and the v=Δ generator
+has popcount 2` (forward: `t=1` gives `1+2=3`; converse: `minweight=3` ⟹ some `wt(a·t)=1` ⟹ `a·t=x^i` ⟹ `a`
+is a monomial — only `x` is irreducible with that factorization — and `b` can't be the monomial since
+`v(b)≥1` ⟹ even popcount). This forces **Δ to be a power of two** (a weight-2 `b=x^p(1+x^r)` has
+`v=2^{v₂(r)}`), matching the data (size 3 present at Δ=1,2,4, absent at Δ=3,5). Hence
+
+> `c(D,3) = 3D−1`,  and the d0 size-3 total `T₃(k) = Σ_{D=1}^{k−2}(3D−1)(k−1−D) = (k−1)²(k−2)/2`.
+
+(Cross-check: via the d-reduction `T_full(k) = T₃(k) + Σ_{d≥1} 2^{d-1}T₃(k−d)` reproduces the catalogued full
+triangle count `TriangleHardMaskCount`: 11, 37, … at k=4,5.)
+
+**The monomial column is closed (polynomial).** For a fixed even weight β, `#{(x^j, weight-β b) coprime,
+max deg D}` is a polynomial in D of degree `β−1` (leading difference `β+1`: β=2→3, β=4→5, β=6→7). A monomial
+generator makes coprimality trivial (`gcd(x^j, ·)`), and the count stays polynomial. **This is exactly why
+size 3 closes**: `3 = 1+2` is the only popcount split, and it has a monomial factor.
+
+**The ceiling (max size 2D+1) is the repunit pair.** For D ≥ 4 the count is exactly **2**: one generator is
+the full repunit `R_D = 1+x+…+x^D` (all ones), the other is `R_{D-1}` or `x·R_{D-1}` — the densest pairs, no
+cancellation. (D=2,3 are small edge cases with 3, 4.) These are the same repunits that mark the Door-1 syzygy
+extreme.
+
+**The hard core is located, not closed.** The irregularity enters at the *first* popcount split with **both
+popcounts ≥ 2** — `(3,2)` at size 5 — and that cell is genuinely **not polynomial in D**
+(`3,16,51,114,215,348,556,822,1162,…`, erratic differences). It is honest GF(2)[x] weighted coprimality: a
+weight-3 `a` is coprime to `b=x^p(1+x^r)` iff coprime to `1+x^r`, which depends on the factorization of
+`1+x^r` (number-theoretic). The gcd-formula layer is already non-polynomial there (`f(D,5), f(D,7)`); the −2
+convolutional cancellation (k ≥ 6) sits on top. So the MacWilliams middle resists closed form for a concrete
+reason: **closed-formness holds exactly while some popcount split carries a monomial; from `(3,2)` on, the
+count *is* the distribution of weighted coprime polynomial pairs.**
+
+---
+
 ## Status ledger
 
 - **Derived (proven):** the Δ-bucket **count** closed form `n(Δ,k) = 2^(Δ−1)·a(k−Δ+1)`,
-  `a(k)=B(k)−2B(k−1)=(4^(k−1)+6k−16)/9` (Finding 4, three-bijection proof of the doubling recurrence).
+  `a(k)=B(k)−2B(k−1)=(4^(k−1)+6k−16)/9` (Finding 4, three-bijection proof of the doubling recurrence); the
+  size-3 floor `c(D,3)=3D−1`, `T₃(k)=(k−1)²(k−2)/2` with its monomial×weight-2 characterization (Finding 6).
 - **Bit-exact (solid):** the d-reduction (Finding 1); the QC-code view (Finding 2); `a(1)+b(1)=1` (Finding 3);
-  the cancellation events and the saturated totals (Finding 5).
-- **Pattern-observed (not yet derived):** the exact saturated per-(Δ, *size*) distribution; a closed form /
-  generating function for the −2 cascade.
+  the cancellation events and the saturated totals (Finding 5); the monomial-column polynomiality (degree β−1)
+  and the repunit ceiling (count 2, D≥4) (Finding 6).
+- **Located, provably not closed:** the saturated per-size *middle* (size ≥ 5). It is the distribution of
+  weighted coprime polynomial pairs in GF(2)[x], non-polynomial from the `(3,2)` cell on (Finding 6).
 
 ## Open / next
 
-The bucket **counts** (former thread 2) are now derived (Finding 4). The one remaining open piece of F115 is
-the **size split inside each Δ bucket**:
+F115 is now closed except for one piece, and that piece is **identified as number-theoretic, not merely
+unfinished**: the saturated middle (size ≥ 5) *is* the count of weighted coprime polynomial pairs in GF(2)[x]
+(plus the −2 convolutional cancellation on top). The boundary cells are all closed — the size-3 floor exactly,
+the monomial column as polynomials of degree β−1, the repunit ceiling at count 2 — and the closed-form
+frontier is sharp: **a size cell is polynomial in D iff some popcount split carries a monomial; the first
+irregular cell is `(3,2)` at size 5.**
 
-> **The saturated per-(Δ, size) distribution** (W → ∞, the code's minimum-odd-weight distribution) as a
-> closed form or generating function: the MacWilliams target, with `a(1)+b(1)=1` and Δ as the axes and the
-> per-bucket total `n(Δ,k)` now known in closed form. The s=1 "gcd-formula" layer and the saturated layer are
-> tabulated per Δ in `f87_per_delta_saturated.py`; the open piece is the closed form for each, and the −2
-> cascade that maps one to the other (k ≥ 6 only).
-
-The mirror lens (x=1) reduced "the window-dependent middle is messy" to this single sharp sub-question, with
-the Δ-axis count now in hand in closed form.
+A generating-function attack (the weight enumerator of `⟨(a,b)⟩` summed over the coprime family, or a
+Möbius-over-gcd inclusion-exclusion on the weighted pair count) is the natural next tool if a closed form for
+the middle is wanted; but the result here is that the middle's content is exactly a catalogued-hard object,
+which is itself the answer to "why the MacWilliams middle resists."
