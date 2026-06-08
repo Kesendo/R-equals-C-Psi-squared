@@ -12,7 +12,7 @@ namespace RCPsiSquared.Diagnostics.Tests.F87;
 /// letter X or Y) is constructively soft-local. H = Σ_i (a_i X_i + b_i Y_i) gives L = Σ_i L_i over commuting
 /// single-site Liouvillians, palindromized by Q = ⊗_i M_i (each M_i the per-site crossover map). Sound by
 /// derivation: weight-1 transverse is always soft; a weight-1 Z (longitudinal) field is HARD (the partner of
-/// the 0 eigenvalue is absent), so Z is excluded. This is the 4→2 correction: the two I-heavy cases are now
+/// the 0 eigenvalue is absent), so Z is excluded. This is the 4 to 2 correction: the two I-heavy cases are now
 /// certified local, no longer the non-local ceiling.</summary>
 public class SingleSiteFieldCertifierTests
 {
