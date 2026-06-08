@@ -28,6 +28,16 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// (1 + x)-valuation crosses into the spectrum). Promoted from Tier1Candidate in the formal
 /// promotion pass (2026-06-08), together with the parent F87DiagonalCellBipartiteWitnessSet.</para>
 ///
+/// <para>The per-size shape of the obstruction (the MacWilliams kernel) splits into a closed floor
+/// and a number-theoretic middle: the size-3 floor closes — c(D,3)=3D−1 per reduced max-degree,
+/// d=0 base T0(k)=(k−1)²(k−2)/2 (<see cref="WindowedObstructionScan.TriangleHardCountBaseD0"/>),
+/// d-layered by the same 2^(d-1) reduction; the monomial column (one generator a monomial x^j) is
+/// polynomial of degree β−1 in the other's weight β; the ceiling (max size 2D+1) is the repunit
+/// pair (count → 2). The middle (size ≥ 5) is genuinely non-polynomial — it is the distribution of
+/// weighted coprime polynomial pairs in GF(2)[x] (the closed-form frontier is sharp: a size cell is
+/// polynomial iff some popcount split carries a monomial; first irregular cell (3,2) at size 5).
+/// See experiments/F115_OBSTRUCTION_DISTRIBUTION.md Finding 6.</para>
+///
 /// <para>Anchor: <c>docs/ANALYTICAL_FORMULAS.md</c> F115 +
 /// <c>docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md</c> §7.7-7.9 +
 /// <see cref="WindowedObstructionScan"/>.</para></summary>
@@ -130,6 +140,19 @@ public sealed class WindowedHardnessClaim : Claim
             Detail: $"k={sk}, N={sn}, W={sw}, max-obstruction={actualMax}, min(2W-1,2k-3)={expectedMax}",
             Expected: expectedMax.ToString(CultureInfo.InvariantCulture),
             Actual: actualMax.ToString(CultureInfo.InvariantCulture)));
+
+        // Size-3 floor (MacWilliams-kernel floor): the d-layered triangle counts sum to the all-d
+        // TriangleHardMaskCount. T0(k)=(k-1)^2(k-2)/2 is the d=0 base; c(D,3)=3D-1 the per-max-degree law.
+        const int fk = 5;
+        long triSum = 0;
+        for (int d = 0; d <= fk - 3; d++) triSum += WindowedObstructionScan.TriangleHardCountByGRestDegree(fk, d);
+        cases.Add(new BatteryCase(
+            Name: "size-3 floor: d-layered triangle counts sum to TriangleHardMaskCount",
+            Detail: $"k={fk}, Σ_d TriangleHardCountByGRestDegree = {triSum}, " +
+                    $"TriangleHardMaskCount = {WindowedObstructionScan.TriangleHardMaskCount(fk)}, " +
+                    $"d=0 base T0 = {WindowedObstructionScan.TriangleHardCountBaseD0(fk)}",
+            Expected: WindowedObstructionScan.TriangleHardMaskCount(fk).ToString(CultureInfo.InvariantCulture),
+            Actual: triSum.ToString(CultureInfo.InvariantCulture)));
 
         return cases;
     }
