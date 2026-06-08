@@ -224,6 +224,16 @@ public class WindowedHardnessCountClosedFormTests
     }
 
     [Theory]
+    [InlineData(3)] [InlineData(4)] [InlineData(5)] [InlineData(6)] [InlineData(7)]
+    public void TriangleHardCountByGRestDegree_MatchesEnumeration_AndSumsToTriangleTotal(int k)
+    {
+        var byD = OracleTriangleByDAtN2k(k);
+        foreach (var (d, count) in byD)
+            Assert.Equal(count, WindowedObstructionScan.TriangleHardCountByGRestDegree(k, d));
+        Assert.Equal(WindowedObstructionScan.TriangleHardMaskCount(k), byD.Values.Sum());
+    }
+
+    [Theory]
     [InlineData(4)] [InlineData(5)] [InlineData(6)]
     public void DLayeredMaxObstructionSize_Is2kMinus3Minus2d(int k)
     {

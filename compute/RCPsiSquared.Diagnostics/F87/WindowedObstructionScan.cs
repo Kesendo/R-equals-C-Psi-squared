@@ -281,4 +281,15 @@ public static class WindowedObstructionScan
         if (k < 3 || k > 31) throw new ArgumentOutOfRangeException(nameof(k));
         return (long)(k - 1) * (k - 1) * (k - 2) / 2;
     }
+
+    /// <summary>The d-layered size-3 count: #hard size-3 mask-pairs with deg(g_rest)=d is
+    /// <see cref="TriangleHardCountBaseD0"/>(k) for d=0 and 2^(d-1)·T0(k-d) for d≥1 (zero once
+    /// k-d &lt; 3) — the same 2^(d-1) d-reduction as <see cref="HardCountByGRestDegree"/>. The layers
+    /// sum to <see cref="TriangleHardMaskCount"/>.</summary>
+    public static long TriangleHardCountByGRestDegree(int k, int d)
+    {
+        if (d < 0) throw new ArgumentOutOfRangeException(nameof(d));
+        if (d == 0) return TriangleHardCountBaseD0(k);
+        return k - d < 3 ? 0 : (1L << (d - 1)) * TriangleHardCountBaseD0(k - d);
+    }
 }
