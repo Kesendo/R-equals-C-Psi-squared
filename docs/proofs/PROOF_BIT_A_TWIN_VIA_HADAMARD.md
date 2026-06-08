@@ -42,7 +42,7 @@ In case 1, C' is the conjugate of C by the operator-space Klein element Q_zx (`Q
 
 ## Consequence for the map
 
-The 52 slots that were NeedsDerivation split into a collapsible majority (this theorem, `CoveredByHadamardDuality`, of which the first 9 Absorption-descendants are now typed, leaving 43 still marked NeedsDerivation) and a small bespoke-operator residue (genuine open work). Together with the 7 already-typed Filled twins and the 8 BitBSpecific slots, the breakdown is now 7 / 8 / 9 / 43, and the bit_a side of the cubic architecture is closed in principle: one duality theorem plus a short residue list, not 52 independent derivations.
+The 52 slots that were NeedsDerivation split into a collapsible majority (this theorem, `CoveredByHadamardDuality`, of which the 9 Absorption-descendants plus F83 (the anti-fraction) are now typed, leaving 42 still marked NeedsDerivation) and a small bespoke-operator residue (genuine open work). Together with the 7 already-typed Filled twins and the 8 BitBSpecific slots, the breakdown is now 7 / 8 / 10 / 42, and the bit_a side of the cubic architecture is closed in principle: one duality theorem plus a short residue list, not 52 independent derivations.
 
 ## Anchors
 

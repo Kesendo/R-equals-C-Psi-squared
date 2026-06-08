@@ -178,10 +178,10 @@ original 2026-05-24 snapshot (Welle 7/15).
 
 Of the 67 BitB claims, the bit_a-twin slots are: **7 Filled** (typed bit_a sibling
 wired), **8 BitBSpecific** (no twin by construction: amplitude damping F1T1 / F82 /
-F84, plus F91, F93, F108Part3-Y, F113, F112-Y), **9 CoveredByHadamardDuality** (the
-Absorption-Theorem descendant family F33 / F50 / F55 / F64-F68 / F74, now typed: the
-bit_a twin is a corollary of the duality below, no bespoke twin owed), and **43
-NeedsDerivation** (open).
+F84, plus F91, F93, F108Part3-Y, F113, F112-Y), **10 CoveredByHadamardDuality** (the
+Absorption-Theorem descendant family F33 / F50 / F55 / F64-F68 / F74, plus F83 the
+anti-fraction, now typed: the bit_a twin is a corollary of the duality below, no
+bespoke twin owed), and **42 NeedsDerivation** (open).
 
 These open slots are not independent problems. They are governed by one proven principle,
 the **global Hadamard X↔Z duality** (the Klein-V₄ outer automorphism,
@@ -194,8 +194,9 @@ by the global Hadamard transports a bit_b result to its bit_a twin.
 
 - **Collapsible by the duality** (the majority, status `CoveredByHadamardDuality`):
   any claim reducing to Π/L spectrum, eigenspace, or operator-identity content. The
-  nine BitB members of the Absorption-descendant family (F33, F50, F55, F64-F68, F74)
-  are now typed with this status; F89 is itself an AT-descendant but sits on the Klein2
+  nine BitB members of the Absorption-descendant family (F33, F50, F55, F64-F68, F74),
+  plus F83 (the anti-fraction, an operator-space Frobenius-norm statement on the 4^N
+  Pauli space), are now typed with this status; F89 is itself an AT-descendant but sits on the Klein2
   axis, so it has no bit_a-twin slot. The operator-identity and spectral/mirror claims
   are corollaries of the same theorem and form the next batch to type.
 - **Bespoke-operator residue** (a handful): claims built on bespoke operators

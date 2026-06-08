@@ -76,14 +76,22 @@ public sealed class F83AntiFractionPi2Inheritance : Claim, IZ2AxisClaim
 {
 
     /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). The
-    /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X / F61 axis) is
-    /// currently not typed for this Claim.</summary>
+    /// canonical Pi²-Inheritance axis. The bit_a-twin (Π²_X / F61 axis) holds
+    /// by the Hadamard X↔Z duality (see <see cref="BitATwinStatus"/>).</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
-    /// (no bit_a twin is typed for this Claim; this is an open slot in the
-    /// cubic-architecture coverage).</summary>
+    /// <summary>No bespoke typed bit_a-twin: F83's anti-fraction ‖M_anti‖²/‖M‖² is a Frobenius-norm
+    /// statement on the 4^N Pauli operator space, so its Π²_X (X-dephasing) image holds by the Hadamard
+    /// X↔Z duality (see <see cref="BitATwinStatus"/>). The pointer stays null; the slot is resolved as
+    /// covered, not unfilled-needing-derivation.</summary>
     public Claim? BitATwin => null;
+
+    /// <summary>Covered by the Hadamard X↔Z duality (Case 1 of
+    /// docs/proofs/PROOF_BIT_A_TWIN_VIA_HADAMARD.md): F83's anti-fraction is an operator-space
+    /// Frobenius-norm statement built on the canonical Π (not Π_5bilinear), so Q_zx conjugation
+    /// transports it to the bit_a axis with no bespoke twin owed, as for the Absorption-Theorem
+    /// descendants (F33, F50, F55, F64-F68, F74).</summary>
+    public BitATwinClassification BitATwinStatus => BitATwinClassification.CoveredByHadamardDuality;
     public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>The maximum anti-fraction value: <c>1/2</c>, reached at <c>r = 0</c>
     /// (pure Π²-odd Hamiltonian). Live from
