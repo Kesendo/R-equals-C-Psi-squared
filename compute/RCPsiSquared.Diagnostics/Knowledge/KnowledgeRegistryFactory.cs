@@ -189,6 +189,8 @@ public static class KnowledgeRegistryFactory
             // F81/F115 connector: needs both F83 (anti-fraction, just above) and WindowedHardnessClaim
             // (registered earlier) present first.
             .RegisterAntiFractionObstructionOrthogonalityClaim()
+            // two-blind-spots connector: needs F89 (registered earlier) and the F115 connector (line above).
+            .RegisterAntiFractionTwoBlindSpots()
             .RegisterF71MirrorSymmetryPi2Inheritance()
             .RegisterF75MirrorPairMiPi2Inheritance()
             .RegisterF76TDecayMirrorPairMiPi2Inheritance()
