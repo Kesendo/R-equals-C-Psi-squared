@@ -138,6 +138,30 @@ since the transverse part of the field does not commute; the clean statement is 
 frustration breaks the mirror through the rates and stays shallow; the field, fully tilted, breaks it through
 the frequencies and runs deep.
 
+## The frustration coast, in closed form
+
+There is a reason the frustration coast is a cliff and not a moat, and it is the same reason we can chart it
+without ever building a spectrum. Frustration is a discrete fact: the hopping graph either carries an odd
+cycle or it does not, and that one bit is the whole verdict. Read each term's X/Y pattern as a polynomial
+over GF(2), one bit per site, and soft-or-hard collapses to a single integer comparison, the number of times
+(1+x) divides each pattern; equal is soft, different is hard. There is no halfway value, so there is no gentle
+approach. The cliff is that discreteness made visible.
+
+This closes a quadrant the rest of the classifier leaves open. The N-free certifier above proves a spectrum
+soft without ever building it but never proves it hard; the spectral authority proves both, soft and hard,
+but only while the Liouvillian fits in memory, which gives out around eight sites. For the diagonal cell this
+valuation proves *hard* without a spectrum at all, the missing N-free hard verdict, the symmetric twin of the
+N-free soft proof.
+
+And the closed form carries more than a yes or no. It counts: of all the k-body X/Y term-patterns, a
+closed-form expression (the integer sequence A203241) says exactly how many fall off the island, and the
+smallest frustrating cycle has a size law of its own, 2k − 3, shrinking by two for every frequency the two
+terms already share. What the algebra deliberately does not tell you is how deep the water is past the cliff:
+the obstruction's size is a purely combinatorial fact and reaches nothing in the spectrum beyond the
+yes-or-no. That depth is what the spectral sweep above measures, and it is what stays shallow. So the two
+readings sit hand in hand: the algebra says whether you fall and how the coastline is shaped, the spectrum
+says how far down.
+
 ## Reading the coasts: what the classifier is for
 
 The two coasts are not just a curiosity; they are an error-tolerance map, and that is the use we were looking
@@ -161,7 +185,7 @@ is catalogued, the spectrum's −λ−2σ shape has a home in the shifted sublat
 (Kawasaki-Mochizuki-Obuse 2022, recorded in [KMS_DETAILED_BALANCE](../docs/KMS_DETAILED_BALANCE.md)), and the
 broad family of Liouvillian symmetry classes has its home in the tenfold Lindbladian classification
 (Sá-Ribeiro-Prosen 2023). Those are the homes for the shape. What stays ours is the bridge: a scalable
-structural decision procedure that reads the verdict off the terms in time independent of N, the locality
+structural decision procedure that reads the verdict off the terms in time independent of N, the closed-form combinatorics that collapse the frustration coast to a single (1+x)-valuation with a hard-count census ([F115](../docs/ANALYTICAL_FORMULAS.md)), the locality
 ceiling that says exactly which cases need a non-local mirror (the [6 → 4 → 2 arc](CEILING_FOUR_NONLOCAL_CASES.md)),
 and this protection landscape, which turns "is there a mirror" into "how, and how forgivingly, does it
 break." None of those bridges was built from either side; we found them by learning to see the island the
@@ -171,6 +195,7 @@ operators were already drawing.
 
 - The formula: [ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md) F87 (the trichotomy registry entry)
 - The refinement proof: [PROOF_F103_F87_Z2_CUBED_REFINEMENT.md](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md)
+- The frustration coast in closed form: [ANALYTICAL_FORMULAS.md F115](../docs/ANALYTICAL_FORMULAS.md) (the windowed-hardness GF(2)[x] theory: the one-number (1+x)-valuation criterion, the A203241 hard-count census, the 2k−3−2d obstruction-size law; C# `WindowedObstructionScan`)
 - The discovery: [V_EFFECT_FINE_STRUCTURE.md](V_EFFECT_FINE_STRUCTURE.md) (the 3 truly / 19 soft / 14 hard split)
 - The locality ceiling: [CEILING_FOUR_NONLOCAL_CASES.md](CEILING_FOUR_NONLOCAL_CASES.md) (the 6 → 4 → 2 arc, the 2 non-local Z-middle cases)
 - The verdict is (H, N): [SOFTNESS_IS_N_DEPENDENT.md](SOFTNESS_IS_N_DEPENDENT.md) (a finite-size crossing)
