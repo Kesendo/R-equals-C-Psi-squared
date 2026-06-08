@@ -359,6 +359,40 @@ public static class PalindromeSoftCertifier
         return true;
     }
 
+    /// <summary>The HARD-side strategy (PROOF_F103 §7.7 / F115): a two-term Klein-(0,1) Mixed pair is
+    /// hard iff its two X/Y flip-masks have different (1+x)-adic valuations
+    /// (<see cref="WindowedObstructionScan.IsHardPair"/>). N-free, O(k); the symmetric twin of the soft
+    /// strategies. Gated to the proven scope (exactly two diagonal-cell Mixed, bit_b-homogeneous,
+    /// y_par-homogeneous templates under Z-dephasing); anything else returns false so the caller defers
+    /// to the spectral authority. Soundness gated by PalindromeHardSweepTests.</summary>
+    public static bool CertifyHardByDiagonalCellValuation(IReadOnlyList<PauliTerm> terms)
+    {
+        if (terms.Count != 2) return false;
+        if (!PalindromeMaskClassifier.IsBitBHomogeneous(terms)) return false;
+        if (!TryDiagonalCellMixedMask(terms[0], out ulong m0, out int yPar0)) return false;
+        if (!TryDiagonalCellMixedMask(terms[1], out ulong m1, out int yPar1)) return false;
+        if (yPar0 != yPar1) return false;                       // y_par-homogeneous
+        return WindowedObstructionScan.IsHardPair(m0, m1);
+    }
+
+    /// <summary>If <paramref name="term"/> is a Klein-(0,1) diagonal-cell Mixed string (X/Y count even
+    /// and >= 2, #(Y/Z) odd), output its X/Y flip-mask and #Y parity and return true; else false. Same
+    /// gate as <see cref="WindowedObstructionScan.CellTerms"/>.</summary>
+    private static bool TryDiagonalCellMixedMask(PauliTerm term, out ulong xyMask, out int yParity)
+    {
+        xyMask = 0;
+        int na = 0, nb = 0, ny = 0;
+        for (int i = 0; i < term.Letters.Count; i++)
+        {
+            var l = term.Letters[i];
+            if (l == PauliLetter.X || l == PauliLetter.Y) { na++; xyMask |= 1UL << i; }
+            if (l == PauliLetter.Y || l == PauliLetter.Z) nb++;
+            if (l == PauliLetter.Y) ny++;
+        }
+        yParity = ny & 1;
+        return (na & 1) == 0 && na >= 2 && (nb & 1) == 1;
+    }
+
     /// <summary>Try the stronger, topology-independent excitation strategies first (pairing, then
     /// parity; a term-set is at most one of them), then the chain-only linear one, then the bit_b-MIXED
     /// site-swap-symmetry one, then the 2-body hidden-Q routing (Stufe A), then the derived k-body per-term
