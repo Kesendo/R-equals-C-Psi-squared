@@ -62,20 +62,33 @@ condition on the terms themselves. The longest term reaches across some number o
 three-body term has k=3), and the check is a 4^k object, with k fixed by the Hamiltonian and not growing with
 the chain. The certificate, once found, is correct for any chain length and any topology.
 
-Here it is, measured. We take a fixed term-set (the single-site-field case IXI+IIY+YII) and ask the certifier
-for its verdict at three chain lengths spanning five orders of magnitude:
+Here it is, measured. We take two fixed term-sets, a soft one (the single-site-field case IXI+IIY+YII) and a
+hard one (the diagonal-cell pair XXZ+XZX), and ask the two-sided decider for each verdict at three chain
+lengths spanning five orders of magnitude:
 
-| N | certifier verdict | time per call |
+| N | verdict | time per call |
 |---|---|---|
-| 4 | SingleSiteField | 7.0 ms |
-| 1,000 | SingleSiteField | 7.1 ms |
-| 1,000,000 | SingleSiteField | 6.7 ms |
+| 4 | Soft (SingleSiteField) | 7.0 ms |
+| 1,000 | Soft (SingleSiteField) | 7.1 ms |
+| 1,000,000 | Soft (SingleSiteField) | 6.7 ms |
+| 4 | Hard (DiagonalCellValuation) | 0.0001 ms |
+| 1,000 | Hard (DiagonalCellValuation) | 0.0001 ms |
+| 1,000,000 | Hard (DiagonalCellValuation) | 0.0001 ms |
 
-The time is flat. A million-site chain costs the same few milliseconds as a four-site one, because the work
-is the term-span check (here a k=3 routing residual on a 64 by 64 object), and that check does not grow with
-N. The spectral test for the same million-site Hamiltonian would need a matrix with 4^(1000000) entries; it
-does not exist and never will. The classifier answers in milliseconds. That is the whole of why it is worth
-having: it turns an impossible question into a structural one, and the structure is small.
+The time is flat on both rows. The soft verdict costs the same few milliseconds at a million sites as at
+four, because the work is the term-span check (here a k=3 routing residual on a 64 by 64 object), and that
+check does not grow with N. The hard verdict is N-free in the strongest sense of all: its check (the F115
+(1+x)-valuation on the two k-bit masks) takes no N argument whatsoever, so it is N-free by construction, not
+merely by measurement, returning in about a ten-thousandth of a millisecond at any length. The spectral test
+for the same million-site Hamiltonian would need a matrix with 4^(1000000) entries; it does not exist and
+never will. The classifier answers in microseconds to milliseconds; it turns an impossible question into a
+structural one, and the structure is small.
+
+One honest caveat on the hard row: it times the hard check alone. A full two-sided `Decide` runs the soft
+cascade first and only then the hard check, so its end-to-end cost tracks the soft side, a few milliseconds
+for most term-sets, and more when a pair drives a soft strategy to allocate per-site (XXZ+XZX rises to about
+40 ms at a million sites). That cost is the soft cascade's, never the hard verdict's: the hard check itself
+never looks at N.
 
 ## The map it draws: a protected interior
 
