@@ -27,8 +27,8 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// −N reflection mode and pair its +N population Perron mode, and any palindromizer forces a
 /// spectral palindrome (no non-chiral escape). The first-order reduction is itself closed (§7.6,
 /// degenerate PT + analyticity, adversarially stress-tested N=4/5), so the converse is fully derived
-/// modulo standard perturbation theory; the claim is Tier1Derived-eligible, kept Tier1Candidate
-/// pending the formal promotion pass (tier tests + registry inventory).</para>
+/// modulo standard perturbation theory; promoted to Tier1Derived in the formal promotion pass
+/// (2026-06-08, tier tests + registry inventory updated).</para>
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md</c> §7 +
 /// <see cref="Core.Symmetry.ChiralKClaim"/> + <see cref="PauliPairTrichotomy"/> +
@@ -76,7 +76,7 @@ public sealed class F87DiagonalCellBipartiteWitness : Claim
         string witnessName, ChainSystem chain, IReadOnlyList<PauliTerm> terms,
         PauliLetter dephaseLetter, TrichotomyClass expectedClass)
         : base($"F103 §7 bipartite-chirality witness: {witnessName}",
-               Tier.Tier1Candidate,
+               Tier.Tier1Derived,
                "docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md §7 + " +
                "compute/RCPsiSquared.Core/Symmetry/ChiralKClaim.cs + " +
                "compute/RCPsiSquared.Diagnostics/F87/PauliPairTrichotomy.cs + " +

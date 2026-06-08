@@ -4019,7 +4019,10 @@ at k = 4, 5, 6; the quasi-cyclic dictionary bit-exact k = 4, 5, 6.
 
 **Source:** [Proof](proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) §7.7–§7.9; C# `WindowedObstructionScan`
 (`compute/RCPsiSquared.Diagnostics/F87/`, with the GF(2)[x] `PolyGcd` / `ValuationAtOnePlusX` /
-`GcdFormulaSize` / `IsHardPair` helpers) + `WindowedObstructionScanTests`; scouts
+`GcdFormulaSize` / `IsHardPair` helpers, and the closed-form count ports `HardMaskPairCount` (A203241) /
+`HardCountBaseB` (B(k)) / `HardCountByGRestDegree` (2^(d-1)·B(k−d)) / `TriangleHardMaskCount` /
+`MaxObstructionSizeForGRestDegree` (2k−3−2d) + `GRestDegree` / `EvenPopcountMasks`, ported 2026-06-08) +
+`WindowedObstructionScanTests` and `WindowedHardnessCountClosedFormTests`; scouts
 `simulations/_f87_obstruction_derivation.py`, `_f87_coding_theory_scout.py`,
 `_f87_hardcount_closedform.py`, `_f87_beyond_x1_scout.py`, `_f87_size_second_layer.py`.
 

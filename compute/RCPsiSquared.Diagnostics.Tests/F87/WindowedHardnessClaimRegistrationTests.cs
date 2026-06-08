@@ -11,7 +11,7 @@ namespace RCPsiSquared.Diagnostics.Tests.F87;
 /// <see cref="F87DiagonalCellBipartiteWitnessSet"/> reads through the chiral-K bipartite criterion,
 /// so it is wired as that set's child. Built from the full
 /// <see cref="KnowledgeRegistryFactory.BuildDefault"/> registry, so the §7.5/§7.6 converse parent
-/// (Tier1Candidate) is present and the strength-inheritance check (4 ≥ 4) is exercised in
+/// (Tier1Derived) is present and the strength-inheritance check (5 ≥ 5) is exercised in
 /// production.</summary>
 public class WindowedHardnessClaimRegistrationTests
 {
@@ -42,10 +42,10 @@ public class WindowedHardnessClaimRegistrationTests
     }
 
     [Fact]
-    public void WindowedHardnessClaim_TierIsTier1Candidate()
+    public void WindowedHardnessClaim_TierIsTier1Derived()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
-        Assert.Equal(Tier.Tier1Candidate, registry.Get<WindowedHardnessClaim>().Tier);
+        Assert.Equal(Tier.Tier1Derived, registry.Get<WindowedHardnessClaim>().Tier);
     }
 
     [Fact]

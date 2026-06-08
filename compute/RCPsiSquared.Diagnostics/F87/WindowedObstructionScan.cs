@@ -182,4 +182,78 @@ public static class WindowedObstructionScan
             }
         return new ScanResult(k, n, pairs, hard, soft, dist);
     }
+
+    // ---- Closed-form hard counts on the mask space (PROOF_F103 §7.8-§7.9). A diagonal-cell X/Y
+    // flip pattern is a nonzero even-popcount k-bit mask; the counts below are over PAIRS of such
+    // masks (the dressed full count multiplies by the 2^(2k-3) Klein / y-parity constant). Each is
+    // verified bit-exact against direct enumeration in WindowedHardnessCountClosedFormTests; mirror
+    // of simulations/_f87_hardcount_closedform.py, _f87_dlayer_count.py, _f87_size_second_layer.py.
+
+    /// <summary>Nonzero even-popcount k-bit masks: the diagonal-cell X/Y flip-pattern space the
+    /// hard-count closed forms live on. Count = 2^(k-1) - 1.</summary>
+    public static IReadOnlyList<ulong> EvenPopcountMasks(int k)
+    {
+        if (k < 1 || k > 30) throw new ArgumentOutOfRangeException(nameof(k));
+        var masks = new List<ulong>();
+        ulong top = 1UL << k;
+        for (ulong m = 1; m < top; m++)
+            if ((System.Numerics.BitOperations.PopCount(m) & 1) == 0) masks.Add(m);
+        return masks;
+    }
+
+    /// <summary>Degree of the non-(1+x) part of gcd(p1, p2): strip every (1+x)=0b11 factor from the
+    /// gcd, then take the degree of what remains (0 if it reduces to a unit). This shared
+    /// "other-frequency" degree d layers both the hard count and the obstruction-size cap (§7.9).</summary>
+    public static int GRestDegree(ulong p1, ulong p2)
+    {
+        ulong g = PolyGcd(p1, p2);
+        while (g != 1 && (System.Numerics.BitOperations.PopCount(g) & 1) == 0) // (1+x) | g  iff  g(1)=0
+            g = PolyDivQuotient(g, 0b11);
+        return g > 1 ? PolyDegree(g) : 0;
+    }
+
+    /// <summary>Closed-form count of hard diagonal-cell mask-pairs at body k (§7.8):
+    /// A203241 = (4^(k-1) - 3·2^(k-1) + 2)/3. Hard iff the two masks have different (1+x)-adic
+    /// valuations; the even-popcount masks split into valuation classes of size 2^(k-1-v) and this
+    /// counts the cross-class pairs. Equals the sum of <see cref="HardCountByGRestDegree"/> over d.</summary>
+    public static long HardMaskPairCount(int k)
+    {
+        if (k < 2 || k > 31) throw new ArgumentOutOfRangeException(nameof(k));
+        long p = 1L << (k - 1);                 // 2^(k-1)
+        return (p * p - 3 * p + 2) / 3;         // (4^(k-1) - 3·2^(k-1) + 2)/3 = A203241
+    }
+
+    /// <summary>The d=0 base of the d-layered hard count, B(k) = (4^k - 12k + 8)/18 (§7.9): the
+    /// number of hard mask-pairs whose shared gcd has only (1+x) powers (deg(g_rest)=0). Obeys the
+    /// recurrence B(k) = 4·B(k-1) + 2(k-2), B(3)=2.</summary>
+    public static long HardCountBaseB(int k)
+    {
+        if (k < 3 || k > 31) throw new ArgumentOutOfRangeException(nameof(k));
+        long fourK = 1L << (2 * k);             // 4^k = 2^(2k)
+        return (fourK - 12L * k + 8) / 18;
+    }
+
+    /// <summary>The d-layered hard count (§7.9): #hard mask-pairs with deg(g_rest)=d is B(k) for
+    /// d=0 and 2^(d-1)·B(k-d) for d≥1 (zero once k-d &lt; 3). The layers sum to
+    /// <see cref="HardMaskPairCount"/>.</summary>
+    public static long HardCountByGRestDegree(int k, int d)
+    {
+        if (d < 0) throw new ArgumentOutOfRangeException(nameof(d));
+        if (d == 0) return HardCountBaseB(k);
+        return k - d < 3 ? 0 : (1L << (d - 1)) * HardCountBaseB(k - d);
+    }
+
+    /// <summary>Closed-form count of hard mask-pairs whose minimal odd obstruction is a triangle
+    /// (size 3) at full window support N=2k (§7.8): 5·2^(k-1) - (3k²+k)/2 - 3. The smallest
+    /// obstruction size closes; the larger per-size "middle" counts stay window-dependent.</summary>
+    public static long TriangleHardMaskCount(int k)
+    {
+        if (k < 3 || k > 31) throw new ArgumentOutOfRangeException(nameof(k));
+        return 5L * (1L << (k - 1)) - (3L * k * k + k) / 2 - 3;
+    }
+
+    /// <summary>The d-layered obstruction-size cap (§7.9): the maximal minimal-odd obstruction over
+    /// hard mask-pairs with deg(g_rest)=d is 2k-3-2d, once the window support binds the body leg
+    /// (W ≥ k-1-d). The §7.7 overall cap 2k-3 is the d=0 face.</summary>
+    public static int MaxObstructionSizeForGRestDegree(int k, int d) => 2 * k - 3 - 2 * d;
 }

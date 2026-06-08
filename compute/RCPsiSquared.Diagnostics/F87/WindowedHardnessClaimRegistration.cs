@@ -11,10 +11,11 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <para>Requires: <see cref="F87DiagonalCellBipartiteWitnessSetRegistration.RegisterF87DiagonalCellBipartiteWitnessSet"/>
 /// to have run (the builder errors with <c>MissingParent</c> otherwise).</para>
 ///
-/// <para>Tier consistency: WindowedHardnessClaim is Tier1Candidate ← F87DiagonalCellBipartiteWitnessSet
-/// (Tier1Candidate). The strength-inheritance check is parent ≥ child, i.e. 4 ≥ 4, which passes; the
-/// verdict's §7.5/§7.6 converse fixes both at Tier1Candidate (per §7.10 only the (1 + x)-valuation,
-/// not the obstruction size, reaches the spectrum).</para></summary>
+/// <para>Tier consistency: WindowedHardnessClaim is Tier1Derived ← F87DiagonalCellBipartiteWitnessSet
+/// (Tier1Derived). The strength-inheritance check is parent ≥ child, i.e. 5 ≥ 5, which passes; both
+/// were promoted from candidate in the 2026-06-08 formal promotion pass once the §7.5/§7.6 converse
+/// closed (derived modulo standard PT; per §7.10 only the (1 + x)-valuation, not the obstruction
+/// size, reaches the spectrum).</para></summary>
 public static class WindowedHardnessClaimRegistration
 {
     public static ClaimRegistryBuilder RegisterWindowedHardnessClaim(

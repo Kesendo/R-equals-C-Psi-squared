@@ -21,11 +21,12 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// criterion is pure GF(2) bit arithmetic on the term masks (no Hamiltonian, no Liouvillian), which
 /// is why the helper scales far past the eigendecomposition range.</para>
 ///
-/// <para>Tier: Tier1Candidate. The hard/soft VERDICT rests on the §7.5/§7.6 converse
-/// (non-bipartite ⟹ hard), which is itself Tier1Candidate (modulo the first-order-block premise);
-/// only the obstruction size-law is pure derived combinatorics, and per §7.10 the obstruction size is
-/// spectrally inert (only the (1 + x)-valuation crosses into the spectrum). So the Claim inherits the
-/// parent's Tier1Candidate strength rather than the §7.7 combinatorics' standalone "derived" label.</para>
+/// <para>Tier: Tier1Derived. The hard/soft VERDICT rests on the §7.5/§7.6 converse
+/// (non-bipartite ⟹ hard), derived modulo standard perturbation theory (the first-order-block
+/// premise closed via degenerate-PT + analyticity, §7.6); the obstruction size-law and counts are
+/// pure derived combinatorics, and per §7.10 the obstruction size is spectrally inert (only the
+/// (1 + x)-valuation crosses into the spectrum). Promoted from Tier1Candidate in the formal
+/// promotion pass (2026-06-08), together with the parent F87DiagonalCellBipartiteWitnessSet.</para>
 ///
 /// <para>Anchor: <c>docs/ANALYTICAL_FORMULAS.md</c> F115 +
 /// <c>docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md</c> §7.7-7.9 +
@@ -44,7 +45,7 @@ public sealed class WindowedHardnessClaim : Claim
 
     public WindowedHardnessClaim()
         : base("F115 windowed hardness: one-number (1+x)-valuation criterion + obstruction size law",
-               Tier.Tier1Candidate,
+               Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F115 + " +
                "docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md §7.7-7.9 + " +
                "compute/RCPsiSquared.Diagnostics/F87/WindowedObstructionScan.cs")

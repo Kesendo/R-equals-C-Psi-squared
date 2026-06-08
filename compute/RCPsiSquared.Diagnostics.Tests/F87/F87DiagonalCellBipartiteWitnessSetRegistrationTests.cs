@@ -44,10 +44,10 @@ public class F87DiagonalCellBipartiteWitnessSetRegistrationTests
     }
 
     [Fact]
-    public void BipartiteWitnessSet_TierIsTier1Candidate()
+    public void BipartiteWitnessSet_TierIsTier1Derived()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
-        Assert.Equal(Tier.Tier1Candidate, registry.Get<F87DiagonalCellBipartiteWitnessSet>().Tier);
+        Assert.Equal(Tier.Tier1Derived, registry.Get<F87DiagonalCellBipartiteWitnessSet>().Tier);
     }
 
     [Fact]

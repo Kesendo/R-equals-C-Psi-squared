@@ -100,15 +100,15 @@ public static class KnowledgeRegistryFactory
             // F87DiagonalCellBipartiteWitness instances (the witness type itself stays a deferred
             // parameterised type). Typed parents: F87TrichotomyClassification (the F87 verdict the
             // criterion is checked against) + ChiralKClaim (the chiral K, registered above as a
-            // sibling root). Tier1Candidate. Wired 2026-06-05.
+            // sibling root). Tier1Derived (promoted 2026-06-08). Wired 2026-06-05.
             .RegisterF87DiagonalCellBipartiteWitnessSet()
             // F115 windowed hardness: the mask-combinatorial reading of the same diagonal-cell
             // hard/soft line, collapsed to one integer test (PROOF_F103 §7.7): a diagonal-cell
             // Mixed pair is hard iff its two X/Y window-masks have different (1+x)-adic valuations,
             // with a derived obstruction size law min(2W-1, 2k-3). Wraps the WindowedObstructionScan
             // helper; single typed parent F87DiagonalCellBipartiteWitnessSet (F115 is the child mask
-            // reading of that §7 diagonal-K criterion). Tier1Candidate (the verdict rests on the
-            // §7.5/§7.6 converse; per §7.10 only the (1+x)-valuation reaches the spectrum). Wired
+            // reading of that §7 diagonal-K criterion). Tier1Derived (verdict rests on the §7.5/§7.6
+            // converse, derived modulo standard PT, promoted 2026-06-08; per §7.10 only the (1+x)-valuation reaches the spectrum). Wired
             // 2026-06-05.
             .RegisterWindowedHardnessClaim()
             // §7.12 Liouvillian-free soft-certifier as a registered Claim: the certifier tries three
@@ -118,8 +118,8 @@ public static class KnowledgeRegistryFactory
             // AND not Hard by the spectral authority PauliPairTrichotomy) and the proven structural ceiling
             // (XX+XZ is soft, non-bipartite, NotCertified, so no colouring can ever reach it). Typed parents:
             // F87DiagonalCellBipartiteWitnessSet (the §7 diagonal-K criterion the linear strategy scales,
-            // Tier1Candidate) + F87TrichotomyClassification (the spectral authority, Tier1Derived).
-            // Tier1Candidate (4 ≥ 4 and 5 ≥ 4 inheritance). Wired 2026-06-05.
+            // Tier1Derived) + F87TrichotomyClassification (the spectral authority, Tier1Derived).
+            // Tier1Candidate (5 ≥ 4 and 5 ≥ 4 inheritance). Wired 2026-06-05.
             .RegisterPalindromeSoftCertifierClaim()
             // Q-pair routing: the Liouvillian-free two-term router as a registered Claim. The
             // non-diagonal counterpart to RegisterF87DiagonalCellBipartiteWitnessSet (which reads
@@ -128,7 +128,7 @@ public static class KnowledgeRegistryFactory
             // based family (P1/Uniform/Alternating/Continuous/None), verified bit-exact vs the
             // spectral authority over all two-term pairs (incl. self-pairs). Typed parents:
             // F87TrichotomyClassification (the authority, Tier1Derived) + F87DiagonalCellBipartite-
-            // WitnessSet (the diagonal special case it generalises, Tier1Candidate) + Crossover-
+            // WitnessSet (the diagonal special case it generalises, Tier1Derived) + Crossover-
             // MirrorSqrtNinetyClaim (the Continuous-family crossover mirror, Tier1Derived).
             // Tier2Empirical (a routing-rule viewpoint; all three parents ≥ child). Wired 2026-06-05.
             .RegisterTwoTermPalindromeRoutingClaim()

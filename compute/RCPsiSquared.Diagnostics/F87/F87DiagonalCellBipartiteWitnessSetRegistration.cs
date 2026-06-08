@@ -16,9 +16,9 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <see cref="F87TrichotomyClassification"/>, and the ChiralK registration for
 /// <see cref="ChiralKClaim"/>; the builder errors with <c>MissingParent</c> if any are absent.</para>
 ///
-/// <para>Tier consistency: F87DiagonalCellBipartiteWitnessSet is Tier1Candidate (lazy
-/// classification per witness) ← F87TrichotomyClassification (Tier1Derived) and ← ChiralKClaim
-/// (Tier1Derived). Inheritance check passes (5 ≥ 4). Each inner
+/// <para>Tier consistency: F87DiagonalCellBipartiteWitnessSet is Tier1Derived (promoted 2026-06-08;
+/// lazy classification per witness) ← F87TrichotomyClassification (Tier1Derived) and ← ChiralKClaim
+/// (Tier1Derived). Inheritance check passes (5 ≥ 5). Each inner
 /// <see cref="F87DiagonalCellBipartiteWitness"/> self-classifies when accessed; criterion vs F87
 /// mismatches surface via <see cref="F87DiagonalCellBipartiteWitness.Matches"/>.</para></summary>
 public static class F87DiagonalCellBipartiteWitnessSetRegistration

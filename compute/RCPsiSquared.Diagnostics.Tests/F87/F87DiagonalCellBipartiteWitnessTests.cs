@@ -34,12 +34,12 @@ public class F87DiagonalCellBipartiteWitnessTests
     }
 
     [Fact]
-    public void StandardSet_TierIsTier1Candidate()
+    public void StandardSet_TierIsTier1Derived()
     {
-        // bipartite ⟹ soft is derived; the converse (non-bipartite ⟹ hard) is verified, not
-        // yet proved. Tier1Candidate: strong witness, missing one derivation piece.
+        // bipartite ⟹ soft is derived (chiral K); the converse (non-bipartite ⟹ hard) is derived
+        // modulo standard perturbation theory (§7.5/§7.6). Promoted to Tier1Derived 2026-06-08.
         foreach (var w in F87DiagonalCellBipartiteWitness.StandardSet(MakeChainN4()))
-            Assert.Equal(Tier.Tier1Candidate, w.Tier);
+            Assert.Equal(Tier.Tier1Derived, w.Tier);
     }
 
     [Fact]
