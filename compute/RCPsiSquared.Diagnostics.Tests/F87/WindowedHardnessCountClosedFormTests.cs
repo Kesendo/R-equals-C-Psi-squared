@@ -234,6 +234,15 @@ public class WindowedHardnessCountClosedFormTests
     }
 
     [Theory]
+    [InlineData(0, 0b1UL)] [InlineData(1, 0b11UL)] [InlineData(2, 0b111UL)]
+    [InlineData(3, 0b1111UL)] [InlineData(4, 0b11111UL)]
+    public void Repunit_IsAllOnesMask(int D, ulong expected)
+    {
+        Assert.Equal(expected, WindowedObstructionScan.Repunit(D));
+        Assert.Equal(D + 1, System.Numerics.BitOperations.PopCount(WindowedObstructionScan.Repunit(D)));
+    }
+
+    [Theory]
     [InlineData(4)] [InlineData(5)] [InlineData(6)]
     public void DLayeredMaxObstructionSize_Is2kMinus3Minus2d(int k)
     {

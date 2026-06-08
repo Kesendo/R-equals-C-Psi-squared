@@ -292,4 +292,15 @@ public static class WindowedObstructionScan
         if (d == 0) return TriangleHardCountBaseD0(k);
         return k - d < 3 ? 0 : (1L << (d - 1)) * TriangleHardCountBaseD0(k - d);
     }
+
+    /// <summary>The repunit R_D = 1 + x + … + x^D = all-ones D+1-bit mask = (1 &lt;&lt; (D+1)) − 1.
+    /// The maximal-size (2D+1) obstruction pairs are the repunit family ({R_D with R_{D-1} or
+    /// x·R_{D-1}}), the densest no-cancellation extreme; the ceiling pair count is 2 for D ≥ 4 (D=2,3
+    /// edge cases give 3, 4). Characterization documented in <see cref="WindowedHardnessClaim"/> +
+    /// experiments/F115_OBSTRUCTION_DISTRIBUTION.md Finding 6; see simulations/f87_size_cells.py.</summary>
+    public static ulong Repunit(int D)
+    {
+        if (D < 0 || D > 62) throw new ArgumentOutOfRangeException(nameof(D));
+        return (1UL << (D + 1)) - 1;
+    }
 }
