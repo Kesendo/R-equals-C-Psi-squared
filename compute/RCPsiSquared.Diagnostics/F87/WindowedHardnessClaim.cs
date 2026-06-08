@@ -29,11 +29,11 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// promotion pass (2026-06-08), together with the parent F87DiagonalCellBipartiteWitnessSet.</para>
 ///
 /// <para>The per-size shape of the obstruction (the MacWilliams kernel) splits into a closed floor
-/// and a number-theoretic middle: the size-3 floor closes — c(D,3)=3D−1 per reduced max-degree,
+/// and a number-theoretic middle: the size-3 floor closes: c(D,3)=3D−1 per reduced max-degree,
 /// d=0 base T0(k)=(k−1)²(k−2)/2 (<see cref="WindowedObstructionScan.TriangleHardCountBaseD0"/>),
 /// d-layered by the same 2^(d-1) reduction; the monomial column (one generator a monomial x^j) is
 /// polynomial of degree β−1 in the other's weight β; the ceiling (max size 2D+1) is the repunit
-/// pair (count → 2). The middle (size ≥ 5) is genuinely non-polynomial — it is the distribution of
+/// pair (count → 2). The middle (size ≥ 5) is genuinely non-polynomial, it is the distribution of
 /// weighted coprime polynomial pairs in GF(2)[x] (the closed-form frontier is sharp: a size cell is
 /// polynomial iff some popcount split carries a monomial; first irregular cell (3,2) at size 5).
 /// See experiments/F115_OBSTRUCTION_DISTRIBUTION.md Finding 6.</para>

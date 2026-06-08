@@ -264,7 +264,7 @@ public static class WindowedObstructionScan
     /// <summary>The per-max-degree count of d=0 reduced coprime mask-pairs whose saturated obstruction
     /// is a triangle (size 3): c(D,3) = 3D − 1 (D ≥ 1). Size 3 ⟺ one reduced generator is a monomial
     /// x^j and the other has popcount 2 (the only popcount split for an odd size-3 weight, and its
-    /// coprimality is trivial — which is why the floor closes). Sums to <see cref="TriangleHardCountBaseD0"/>
+    /// coprimality is trivial, which is why the floor closes). Sums to <see cref="TriangleHardCountBaseD0"/>
     /// via Σ_D (3D−1)(k−1−D). Mirror of simulations/f87_size_cells.py.</summary>
     public static long TriangleReducedPairCountByMaxDegree(int D)
     {
@@ -284,7 +284,7 @@ public static class WindowedObstructionScan
 
     /// <summary>The d-layered size-3 count: #hard size-3 mask-pairs with deg(g_rest)=d is
     /// <see cref="TriangleHardCountBaseD0"/>(k) for d=0 and 2^(d-1)·T0(k-d) for d≥1 (zero once
-    /// k-d &lt; 3) — the same 2^(d-1) d-reduction as <see cref="HardCountByGRestDegree"/>. The layers
+    /// k-d &lt; 3), the same 2^(d-1) d-reduction as <see cref="HardCountByGRestDegree"/>. The layers
     /// sum to <see cref="TriangleHardMaskCount"/>.</summary>
     public static long TriangleHardCountByGRestDegree(int k, int d)
     {
