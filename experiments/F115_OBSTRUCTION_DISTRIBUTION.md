@@ -218,6 +218,37 @@ count *is* the distribution of weighted coprime polynomial pairs.**
 
 ---
 
+## Connection to the bit_b axis (F81/F83): orthogonal coordinates of M's polarity cube
+
+This obstruction theory and the F81/F83 anti-fraction are the two bits of the *same* object — the residual
+superoperator M (`PalindromeResidual`) — read on the two axes of its Klein polarity cube (`PolarityCubeMap`,
+`Z2Axis`). The pieces are already typed in C#; what follows is only their assembly.
+
+- **bit_b axis (F81/F83/F112).** `PiDecomposition` splits `M = M_sym + M_anti`; the anti-fraction
+  `‖M_anti‖²/‖M‖² = 1/(2+4r)` (`F83AntiFractionPi2Inheritance`), `r = ‖H_even_nontruly‖²/‖H_odd‖²`.
+  Continuous, hardware-measurable (F83, Marrakesh/Kingston).
+- **bit_a axis (F87/F115).** `BitADyadicGrade` makes precise that the Klein `bit_a = popcount(mask) mod 2`
+  is the `v=0` bottom rung of a `(1+x)`-valuation tower `v = 0…k−1`; the obstruction theory above is the
+  graded refinement of that axis (verified bit-exact against `WindowedObstructionScan.ValuationAtOnePlusX`).
+  Discrete, the hard/soft verdict + obstruction size.
+
+**They meet at bit_b = 1 (the diagonal cell), and there the bit_b readout is degenerate.** Diagonal-cell
+Mixed terms are pure Π²-odd, so `r = 0`, and F83's anti-fraction sits at its *maximum* ½ exactly
+(`F83AntiFractionPi2Inheritance.MaximumAntiFraction`, the F81 Step-8 50/50). So the anti-fraction is pinned
+at ½ across the *entire* F115 cell — identical for hard and soft pairs and every obstruction size. The bit_b
+magnitude is blind precisely where the bit_a valuation carries all the information: **F81/F83 and F115 are
+orthogonal coordinates of M's cube, and F115 is the strictly finer probe.** The link is structural (one M,
+one shared bit_b = 1 gate), not quantitative — and it follows from an already-typed result, no new computation.
+
+**Two breaks, one visible to the anti-fraction.** Per `DissipatorResonanceLaw`, hardness lives *inside* the
+dissipator's Klein cell (the bit_a obstruction, F115); the transverse-field Brecher breaks it from *outside*
+the cell (F89, predicted from F83). The anti-fraction sees the outside-cell Brecher, not the in-cell
+obstruction — the two are the two poles of dissipator-letter resonance. (If we ever want this orthogonality
+typed rather than recognized, its natural C# home is the open `BitATwin` slot that `PolarityCubeMap` already
+tracks for `F83AntiFractionPi2Inheritance`.)
+
+---
+
 ## Status ledger
 
 - **Derived (proven):** the Δ-bucket **count** closed form `n(Δ,k) = 2^(Δ−1)·a(k−Δ+1)`,
