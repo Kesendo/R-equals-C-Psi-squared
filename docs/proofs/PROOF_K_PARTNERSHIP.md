@@ -173,7 +173,7 @@ For **complex** hopping (Peierls phase, t_ℓ ∈ ℂ\ℝ), TRS breaks and the s
 
 Verified at N=9 in `simulations/_pi_partner_identity.py` (2026-04-25, single-excitation manifold):
 
-| Case                                              | γ regime | Worst |ΔMI(0, N-1)|     | Worst |ΔΣ_ℓ log π_ℓ|   | Result |
+| Case                                              | γ regime | Worst \|ΔMI(0, N-1)\|     | Worst \|ΔΣ_ℓ log π_ℓ\|   | Result |
 |---------------------------------------------------|----------|--------------------------|---------------------------|--------|
 | Uniform J = 1                                     | γ = 0    | ≤ 1.0 · 10⁻¹⁵            | ≤ 1.0 · 10⁻¹⁵             | hold   |
 | Uniform J = 1                                     | γ = 0.1  | ≤ 1.0 · 10⁻¹⁵            | ≤ 2.7 · 10⁻¹⁵             | hold   |

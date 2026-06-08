@@ -11,9 +11,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 import framework as fw
 
 
-def test_confirmations_has_thirteen_entries():
+def test_confirmations_has_fifteen_entries():
     names = fw.Confirmations.list_names()
-    assert len(names) == 13
+    assert len(names) == 15
     assert 'palindrome_trichotomy' in names
     assert 'lebensader_skeleton_trace_decoupling' in names
     assert 'gamma_0_marrakesh_calibration' in names
@@ -22,6 +22,10 @@ def test_confirmations_has_thirteen_entries():
     assert 'd_zero_sector_trichotomy_marrakesh' in names
     assert 'block_cpsi_saturation_kingston_may2026' in names
     assert 'f95_angle_steering_kingston_may2026' in names
+    # 2026-06-08 reconciliation with the C# ConfirmationsRegistry (both now hold the
+    # union of 15; these two were previously C#-only).
+    assert 'regime_uniformity_kingston_uniform_quantum' in names
+    assert 'gamma0_off_the_lever_kingston_may2026' in names
 
 
 def test_confirmations_lookup_f95_angle_steering():

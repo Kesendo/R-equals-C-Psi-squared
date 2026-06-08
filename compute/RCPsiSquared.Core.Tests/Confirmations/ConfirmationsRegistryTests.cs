@@ -22,9 +22,9 @@ public class ConfirmationsRegistryTests
     }
 
     [Fact]
-    public void All_HasThirteenEntries()
+    public void All_HasFifteenEntries()
     {
-        Assert.Equal(13, ConfirmationsRegistry.All.Count);
+        Assert.Equal(15, ConfirmationsRegistry.All.Count);
     }
 
     [Fact]
@@ -38,6 +38,8 @@ public class ConfirmationsRegistryTests
         Assert.Contains("lebensader_skeleton_trace_decoupling", names);
         Assert.Contains("f83_pi2_class_signature_marrakesh", names);
         Assert.Contains("f95_angle_steering_kingston_may2026", names);
+        Assert.Contains("gamma_0_marrakesh_calibration", names);
+        Assert.Contains("d_zero_sector_trichotomy_marrakesh", names);
     }
 
     [Fact]
@@ -150,15 +152,14 @@ public class ConfirmationsRegistryTests
     [Fact]
     public void EntriesWithoutDocumentedPath_StayNull()
     {
-        // Nine of thirteen have paths (five backfilled + the May-5 Kingston entry +
-        // the May-8 Kingston Block-CΨ saturation entry + the May-16 F95 angle-steering
-        // entry on pair A_mid [82,83] + the May-29 Kingston γ₀-off-the-lever entry on
-        // q13-q14); four remain null (chiral_mirror_law, f57_kdwell_gamma_invariance,
-        // bonding_mode_receiver, f25_cusp_trajectory) since their paths are not
-        // unambiguously documented.
+        // Eleven of fifteen have paths; four remain null (chiral_mirror_law,
+        // f57_kdwell_gamma_invariance, bonding_mode_receiver, f25_cusp_trajectory)
+        // since their paths are not unambiguously documented. The 2026-06-08
+        // reconciliation with the Python registry added gamma_0_marrakesh_calibration
+        // and d_zero_sector_trichotomy_marrakesh, both on the April-26 [48,49,50] run.
         int withPath = ConfirmationsRegistry.All.Count(c => c.QubitPath != null);
         int withoutPath = ConfirmationsRegistry.All.Count(c => c.QubitPath == null);
-        Assert.Equal(9, withPath);
+        Assert.Equal(11, withPath);
         Assert.Equal(4, withoutPath);
     }
 }

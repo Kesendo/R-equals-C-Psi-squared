@@ -268,6 +268,47 @@ public static class ConfirmationsRegistry
                 "Within-state ratios (the popcount/absorption ladder) wash on hardware (distance-blind noise, nothing cancels); this between-regime J-scan is the clean carrier probe. " +
                 "Sits on the same Q = J/γ₀ axis as the F86 Q-peak (Q ≈ 1.5, where |K_CC_pr| maxes): the residual F86 empirical deviation is grid/resolution-limited (fine-grid scans N≥9 pending), not a break in the structure now hardware-anchored.",
             QubitPath: new[] { 13, 14 }),
+
+        new Confirmation(
+            Name: "gamma_0_marrakesh_calibration",
+            Date: "2026-04-29",
+            Machine: "ibm_marrakesh",
+            JobId: "d7mjnjjaq2pc73a1pk4g",
+            Observable: "<X_0 Z_2> for 3 Pauli-pair Hamiltonians (truly XX+YY, soft XY+YX, hard XX+XY)",
+            PredictedValue:
+                "continuous-equivalent γ_Z ≈ 0.05 (continuous Lindblad fit); " +
+                "Trotter-modeled γ_Z ≈ 0.1 (the same 0.1 the framework idealized prediction used)",
+            MeasuredValue:
+                "best-fit γ_Z = 0.05 (sweep over [0.01, 0.15] with 71 points), total residual² = 6.4e-4 across 3 Hamiltonians (continuous Lindblad, no Trotter modeling). " +
+                "When Trotter n=3 is modeled, the same data fits γ_Z = 0.1 exactly via Δ matching to 0.0014.",
+            HardwareData: "data/ibm_soft_break_april2026/soft_break_ibm_marrakesh_20260426_001101.json",
+            ExperimentDoc: "data/ibm_soft_break_april2026/README.md",
+            FrameworkPrimitive: "ChainSystem.propagate_with_hardware_noise + 2D fit (continuous Lindblad)",
+            Description:
+                "Continuous-Lindblad fit of γ_Z against Marrakesh ⟨X₀Z₂⟩ data converges to 0.05, which absorbs the Trotter n=3 discretization into a lower effective γ_Z. " +
+                "The 2026-04-30 follow-up showed a Trotter-modeled fit returns γ_Z = 0.1 with Δ-matching to 0.0014, so the original framework-idealized γ_Z = 0.1 was correct (not 2× too high). " +
+                "The two values 0.05 (continuous) and 0.1 (Trotter) are the same data through two physics models; T1 contributes negligibly in either.",
+            QubitPath: new[] { 48, 49, 50 }),
+
+        new Confirmation(
+            Name: "d_zero_sector_trichotomy_marrakesh",
+            Date: "2026-05-01",
+            Machine: "ibm_marrakesh",
+            JobId: "d7mjnjjaq2pc73a1pk4g",
+            Observable: "⟨n⟩ on (q0, q2) reduced state, from Z-basis ZZ counts only",
+            PredictedValue:
+                "mean_n {truly_XXYY, soft_XYYX, hard_XXXY} = {1.0000, 1.2786, 0.8752} at γ_Z=0.1, t=0.8; " +
+                "spread relative to truly: soft = +0.2786, hard = -0.1248.",
+            MeasuredValue:
+                "mean_n {truly, soft, hard} = {1.0098, 1.2673, 0.9082}; " +
+                "spread relative to truly: soft = +0.2576, hard = -0.1016; max per-case deviation in mean_n = 0.0330 (~3% relative). All three classes separated by ≥0.10 in ⟨n⟩.",
+            HardwareData: "data/ibm_soft_break_april2026/soft_break_ibm_marrakesh_20260426_001101.json",
+            ExperimentDoc: "data/ibm_soft_break_april2026/README.md",
+            FrameworkPrimitive: "sector_populations (d_zero diagnostic)",
+            Description:
+                "Retrospective d=0-axis reading of the F77 trichotomy from existing Marrakesh data. The same three Hamiltonian classes the April-26 run discriminated via ⟨X₀Z₂⟩ at 9-Pauli-pair tomography are also discriminated by ⟨n⟩ from just the Z-basis ZZ counts. " +
+                "Operational consequence: the trichotomy can be read with 1/9 the Pauli-measurement cost when the question is classification, not full M-spectrum reconstruction. See simulations/d_zero_trichotomy_marrakesh.py.",
+            QubitPath: new[] { 48, 49, 50 }),
     };
 
     public static IReadOnlyList<Confirmation> All => _all;
