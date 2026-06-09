@@ -68,7 +68,7 @@ import sys
 from collections import Counter, deque
 from fractions import Fraction
 from functools import reduce
-from itertools import combinations, combinations_with_replacement, product
+from itertools import combinations_with_replacement, product
 from pathlib import Path
 
 import numpy as np
@@ -395,10 +395,6 @@ FLUX = [('I', 'X', 'Y'), ('X', 'I', 'Y')]                # ell=3, deg=3, COMPLEX
 MULTIZ = [('X', 'X', 'Z'), ('Z', 'Z', 'Z')]              # ell=1 diag-lift, deg=3, m*=5
 SOFT = [('X', 'X', 'Z'), ('Z', 'X', 'X')]                # bipartite (soft control)
 ELL5_N6 = [('I', 'X', 'Z', 'X'), ('X', 'I', 'Z', 'X')]   # ell=5 (N=6, k=4), heavy
-
-
-def _fmt(c):
-    return str(sp.nsimplify(c))
 
 
 # ======================================================================
