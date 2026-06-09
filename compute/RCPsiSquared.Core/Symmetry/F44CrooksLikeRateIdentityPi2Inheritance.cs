@@ -73,10 +73,15 @@ public sealed class F44CrooksLikeRateIdentityPi2Inheritance : Claim, IZ2AxisClai
     /// currently not typed for this Claim.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
-    /// (no bit_a twin is typed for this Claim; this is an open slot in the
-    /// cubic-architecture coverage).</summary>
+    /// <summary>No bespoke typed bit_a-twin: F44's rate-ratio identity is a Lindblad eigenvalue-pair
+    /// statement, covered by the Hadamard X↔Z duality (see <see cref="BitATwinStatus"/>).</summary>
     public Claim? BitATwin => null;
+
+    /// <summary>Covered by the Hadamard X↔Z duality (Case 2 of docs/proofs/PROOF_BIT_A_TWIN_VIA_HADAMARD.md):
+    /// F44's ln(d_fast/d_slow)=2·artanh(Δd/2Σγ) is a pure algebraic relation between palindromic Liouvillian
+    /// eigenvalues (the "β_eff" is explicitly not physical), generalizing the already-covered F68; U_H carries
+    /// the Z-dephasing eigenvalue pair to the X-dephasing one, so no bespoke twin is owed.</summary>
+    public BitATwinClassification BitATwinStatus => BitATwinClassification.CoveredByHadamardDuality;
     public Pi2DyadicLadderClaim Ladder { get; }
     public F1Pi2Inheritance F1 { get; }
 

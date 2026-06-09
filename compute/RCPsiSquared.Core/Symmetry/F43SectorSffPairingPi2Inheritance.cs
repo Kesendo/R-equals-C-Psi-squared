@@ -73,10 +73,15 @@ public sealed class F43SectorSffPairingPi2Inheritance : Claim, IZ2AxisClaim
     /// currently not typed for this Claim.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
-    /// (no bit_a twin is typed for this Claim; this is an open slot in the
-    /// cubic-architecture coverage).</summary>
+    /// <summary>No bespoke typed bit_a-twin: F43's sector SFF pairing is a Π operator-space statement (with
+    /// a Lindblad-spectral XOR corollary), covered by the Hadamard X↔Z duality (see <see cref="BitATwinStatus"/>).</summary>
     public Claim? BitATwin => null;
+
+    /// <summary>Covered by the Hadamard X↔Z duality (PROOF_BIT_A_TWIN_VIA_HADAMARD.md): F43's
+    /// K_freq(w)=K_freq(N−w) is a Π sector-pairing on the canonical Pauli-string weight partition (Case 1,
+    /// preserved by Q_zx), with the XOR-sector rate 2Nγ a Lindblad-spectral corollary (Case 2, U_H Z↔X). No
+    /// intrinsic Y-dephasing, so it transports to the bit_a axis with no bespoke twin owed.</summary>
+    public BitATwinClassification BitATwinStatus => BitATwinClassification.CoveredByHadamardDuality;
     public Pi2DyadicLadderClaim Ladder { get; }
     public F1Pi2Inheritance F1 { get; }
 

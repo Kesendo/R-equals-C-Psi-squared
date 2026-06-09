@@ -62,10 +62,15 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim, IZ2AxisClaim
     /// currently not typed for this Claim.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
-    /// (no bit_a twin is typed for this Claim; this is an open slot in the
-    /// cubic-architecture coverage).</summary>
+    /// <summary>No bespoke typed bit_a-twin: F3's decay-rate bounds are a Lindblad-spectral statement
+    /// (Re(λ) read off the Absorption popcount), covered by the Hadamard X↔Z duality (see <see cref="BitATwinStatus"/>).</summary>
     public Claim? BitATwin => null;
+
+    /// <summary>Covered by the Hadamard X↔Z duality (Case 2 of docs/proofs/PROOF_BIT_A_TWIN_VIA_HADAMARD.md):
+    /// F3's universal decay-rate bounds are a Lindblad Re(λ) statement, 2γ·⟨n_XY⟩ off the Absorption Theorem;
+    /// the global Hadamard U_H maps Z-dephasing to X-dephasing preserving the popcount reading, so it
+    /// transports to the bit_a axis with no bespoke twin owed.</summary>
+    public BitATwinClassification BitATwinStatus => BitATwinClassification.CoveredByHadamardDuality;
     public Pi2DyadicLadderClaim Ladder { get; }
     public F50WeightOneDegeneracyPi2Inheritance F50 { get; }
 

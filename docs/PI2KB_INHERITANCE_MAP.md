@@ -178,11 +178,11 @@ original 2026-05-24 snapshot (Welle 7/15).
 
 Of the 67 BitB claims, the bit_a-twin slots are: **7 Filled** (typed bit_a sibling
 wired), **8 BitBSpecific** (no twin by construction: amplitude damping F1T1 / F82 /
-F84, plus F91, F93, F108Part3-Y, F113, F112-Y), **14 CoveredByHadamardDuality** (the
+F84, plus F91, F93, F108Part3-Y, F113, F112-Y), **17 CoveredByHadamardDuality** (the
 Absorption-Theorem descendant family F33 / F50 / F55 / F64-F68 / F74, plus F83 the
-anti-fraction and the operator-space Π-decomposition family F49 / F49b / F80 / F81,
-now typed: the bit_a twin is a corollary of the duality below, no bespoke twin owed),
-and **38 NeedsDerivation** (open).
+anti-fraction, the operator-space Π-decomposition family F49 / F49b / F80 / F81, and the
+Lindblad-spectral Absorption family F3 / F43 / F44, now typed: the bit_a twin is a
+corollary of the duality below, no bespoke twin owed), and **35 NeedsDerivation** (open).
 
 These open slots are not independent problems. They are governed by one proven principle,
 the **global Hadamard X↔Z duality** (the Klein-V₄ outer automorphism,
@@ -198,7 +198,9 @@ by the global Hadamard transports a bit_b result to its bit_a twin.
   nine BitB members of the Absorption-descendant family (F33, F50, F55, F64-F68, F74),
   plus F83 (the anti-fraction, an operator-space Frobenius-norm statement on the 4^N
   Pauli space), plus F49 / F49b / F80 / F81 (the operator-space Π-decomposition family:
-  residual and dissipator Frobenius norms, Spec(M), and the Π-conjugation identity), are
+  residual and dissipator Frobenius norms, Spec(M), and the Π-conjugation identity), plus
+  F3 / F43 / F44 (the Lindblad-spectral Absorption family: decay-rate bounds, sector SFF
+  pairing, and the palindromic eigenvalue-pair rate identity), are
   now typed with this status; F89 is itself an AT-descendant but sits on the Klein2
   axis, so it has no bit_a-twin slot. The operator-identity and spectral/mirror claims
   are corollaries of the same theorem and form the next batch to type.
