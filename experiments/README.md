@@ -202,6 +202,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 
 | Experiment | Key finding |
 |-----------|------------|
+| [The Formation Window](THE_FORMATION_WINDOW.md) | Where a k-body bound complex forms on an XXZ chain: the marginal ridge is linear (chain Δ_ridge = 1.14 + 1.28·j2, ring 1.43 + 1.75·j2), the transition broadens linearly with integrability breaking (the ring ~4× faster), the edge is body-count independent at j2=0 but k=2 is the soft outlier, all N-converged. The marginal window read as the near-threshold resonance band (Hoyle) and the aromatic-ring geometry shift |
 | [Standing Wave (Two Observers)](STANDING_WAVE_TWO_OBSERVERS.md) | Standing wave pattern with two observer perspectives |
 | [Bridge Fingerprints](BRIDGE_FINGERPRINTS.md) | Different states produce different bridge signatures |
 | [Bridge Closure](BRIDGE_CLOSURE.md) | J=0 bridge is dead (no-signalling holds exactly) |
