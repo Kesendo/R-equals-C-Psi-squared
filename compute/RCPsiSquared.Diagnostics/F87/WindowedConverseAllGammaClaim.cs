@@ -4,79 +4,79 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Diagnostics.F87;
 
-/// <summary>The single typed home of the open F87 windowed-converse residual (Phase A "type the
-/// seam", 2026-06-09). The forward direction (bipartite ⟹ soft) and the converse at full support
-/// (k = N) are derived; in the windowed regime (k &lt; N) the converse non-bipartite ⟹ hard is
-/// derived only up to one residual.
+/// <summary>The F87 windowed-converse residual lemma. Phase A typed it as the open all-γ closure of
+/// the windowed converse; Phase B (2026-06-09) reduced it to a positive-monomial certificate and
+/// proved the spine, leaving two sharp residuals. It stays Tier1Candidate.
 ///
-/// <para>What is DERIVED (carried at Tier1Derived by <see cref="F87DiagonalCellBipartiteWitnessSet"/>):
-/// non-bipartite ⟹ hard for all but finitely many γ. The recentered characteristic-polynomial odd
-/// coefficients Δ_j(γ) are polynomials in γ; the first-order ω=0 block asymmetry c ≠ 0 (PROOF_F103
-/// §7.5/§7.6) forces some Δ_j ≢ 0, so the soft set is a finite common-zero set.</para>
+/// <para>PROVEN (Tier1Derived, via <see cref="WindowedConverseThresholdClaim"/> and
+/// <see cref="F87DiagonalCellBipartiteWitnessSet"/>): the two-reflection spine (𝓕=F⊗F, R=I⊗F ⟹
+/// #A_L,#A_R,#Q all odd ⟹ bipartite soft + non-bipartite #A≥2ℓ threshold), the monomial structure,
+/// and deg-1 positivity. The first nonvanishing odd power-sum of M=A+γQ is, for every hard pair, a
+/// positive monomial c·γ^deg (deg in {1,3}, m* = 2ℓ+deg), verified bit-exact cell-wide at N=4 and at
+/// N=5/N=6 reps. A positive monomial has no positive real root, so hard at every γ>0.</para>
 ///
-/// <para>What is OPEN (this Tier1Candidate node, the Phase B target): the physical γ is not one of
-/// the finitely-many accidental soft points, equivalently no positive γ is a common zero of the
-/// Δ_j(γ). Today a 700-point numerical spot-check, not a theorem. The moment route is dead (odd
-/// moments vanish for hard and soft alike; hardness is an optimal-transport set-distance).</para>
+/// <para>OPEN (the two residuals this lemma now reduces to, proven modulo them): R-deg and R-sign
+/// (see the two open-work nodes). Closing both makes the windowed converse non-bipartite ⟹ hard a
+/// closed-form general-N theorem and promotes F110/F111 to Tier1Derived.</para>
 ///
-/// <para>Consumers: <see cref="Core.Symmetry.HardCellYInversionPattern"/> (F110) and
-/// <see cref="Core.Symmetry.HardCellPureDTemplate"/> (F111) are gated on this lemma; closing it
-/// promotes both to Tier1Derived. Anchor:
-/// <c>docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md §7.3/§7.5/§7.6</c> +
-/// <c>experiments/BIPARTITE_CHIRALITY_DIAGONAL_CELL.md</c>.</para></summary>
+/// <para>Anchor: <c>docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md</c> +
+/// <c>simulations/f87_windowed_monomial_converse.py</c> +
+/// <c>docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md §7.5/§7.7</c>.</para></summary>
 public sealed class WindowedConverseAllGammaClaim : Claim
 {
     public WindowedConverseAllGammaClaim()
-        : base("F87 windowed converse, all-γ residual: non-bipartite ⟹ hard at every γ>0 (incl. the physical point), the closure beyond the Derived all-but-finitely-many-γ genericity result",
+        : base("F87 windowed converse, all-γ residual: non-bipartite ⟹ hard at every γ>0, the first nonvanishing odd power-sum is a positive monomial; proven modulo R-deg + R-sign",
                Tier.Tier1Candidate,
-               "docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md §7.3/§7.5/§7.6 + " +
-               "experiments/BIPARTITE_CHIRALITY_DIAGONAL_CELL.md")
+               "docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md + " +
+               "simulations/f87_windowed_monomial_converse.py + " +
+               "docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md §7.5/§7.7")
     {
     }
 
-    /// <summary>The residual lemma in one line.</summary>
+    /// <summary>The closing certificate.</summary>
     public string Theorem =>
-        "For a non-bipartite windowed diagonal-cell pair, the palindrome break is present at every γ>0 " +
-        "(in particular the physical operating point), not merely for all but finitely many γ. Equivalently: " +
-        "no positive γ is a common zero of the recentered characteristic-polynomial odd coefficients Δ_j(γ).";
+        "For a non-bipartite windowed diagonal-cell pair, the first nonvanishing odd power-sum of M = A + γQ is a " +
+        "positive monomial c·γ^deg (deg in {1,3}, m* = 2ℓ + deg). No positive real root ⟹ hard at every γ>0.";
 
-    /// <summary>The proven genericity sub-result this lemma strengthens (Tier1Derived, via the parent).</summary>
-    public string ProvenGenericity =>
-        "DERIVED (Tier1Derived, via F87DiagonalCellBipartiteWitnessSet): non-bipartite ⟹ hard for all but " +
-        "finitely many γ. The Δ_j(γ) are polynomials in γ; the first-order ω=0 block asymmetry c ≠ 0 " +
-        "(PROOF_F103 §7.5/§7.6) forces some Δ_j ≢ 0, so the soft set is a finite common-zero set.";
+    /// <summary>The proven spine (Tier1Derived, via WindowedConverseThresholdClaim).</summary>
+    public string ProvenSpine =>
+        "DERIVED (WindowedConverseThresholdClaim): the two reflections 𝓕=F⊗F, R=I⊗F force #A_L,#A_R,#Q all odd in " +
+        "every odd power-sum word, giving bipartite ⟹ soft and non-bipartite ⟹ #A ≥ 2ℓ; the monomial structure and " +
+        "deg-1 positivity are closed-form.";
 
-    /// <summary>The single open residual (Phase B target).</summary>
-    public string OpenResidual =>
-        "OPEN (Phase B target): the physical γ is not one of the finitely-many accidental soft points. Today a " +
-        "700-point numerical spot-check (closest restoration 3.6e-3, at γ→0), not a theorem.";
+    /// <summary>Open residual 1.</summary>
+    public string RDeg =>
+        "R-deg (OPEN; verified bit-exact cell-wide N=4, reps N=5/N=6): Tr(Q·A^{2ℓ}) on the (#A_L=ℓ,#A_R=ℓ) " +
+        "odd-cycle-traversal class sums to zero for pure off-diagonal H, so p_{2ℓ+1} ≡ 0 and deg rises to 3 for " +
+        "genuine cycles (the monomial at m* = 2ℓ+3). No uniform closed-form involution yet.";
 
-    /// <summary>The leading-order handle that reduces the residual to a finite algebraic question.</summary>
-    public string LeadingOrderHandle =>
-        "A(γ) ≥ 0 (optimal-transport distance) and A(γ) = c·γ + O(γ²) ⟹ c > 0; the residual reduces to showing " +
-        "one Δ_j*(γ) has no positive real root (a resultant/Sturm question).";
+    /// <summary>Open residual 2.</summary>
+    public string RSign =>
+        "R-sign (OPEN; verified 16/16 pure cycles at N=4): P_{m*,3} > 0 for genuine cycles, exactly the §7.5 " +
+        "+N-population-Perron top-skew (the −N reflection mode absent). Not yet a closed-form nonneg identity.";
 
-    /// <summary>The Tier1Candidate claims gated on this lemma.</summary>
+    /// <summary>The Tier1Candidate claims gated on closing both residuals.</summary>
     public string Consumers =>
-        "F110 (HardCellYInversionPattern) and F111 (HardCellPureDTemplate) are gated on this lemma; closing it " +
-        "promotes both from Tier1Candidate to Tier1Derived.";
+        "F110 (HardCellYInversionPattern) and F111 (HardCellPureDTemplate) are gated on this lemma; closing R-deg + " +
+        "R-sign promotes both from Tier1Candidate to Tier1Derived.";
 
     public override string DisplayName =>
-        "F87 windowed converse, all-γ residual (Tier1Candidate, OPEN; Phase B target)";
+        "F87 windowed converse, all-γ residual (Tier1Candidate, proven modulo R-deg + R-sign)";
 
     public override string Summary =>
-        "non-bipartite ⟹ hard is DERIVED for all but finitely many γ (genericity, via the witness set); the all-γ " +
-        $"closure incl. the physical point is OPEN, the Phase B target ({Tier.Label()})";
+        "the first nonvanishing odd power-sum is a positive monomial ⟹ hard ∀γ>0; the two-reflection spine + " +
+        "monomial structure + deg-1 positivity are PROVEN (WindowedConverseThresholdClaim); the full theorem is " +
+        $"proven modulo two open residuals R-deg + R-sign ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
-            yield return new InspectableNode("Theorem (residual)", summary: Theorem);
-            yield return new InspectableNode("Proven (genericity, Tier1Derived)", summary: ProvenGenericity);
-            yield return new InspectableNode("Open (residual, Phase B)", summary: OpenResidual);
-            yield return new InspectableNode("Leading-order handle", summary: LeadingOrderHandle);
-            yield return new InspectableNode("Consumers (gated on this lemma)", summary: Consumers);
+            yield return new InspectableNode("Theorem (positive-monomial certificate)", summary: Theorem);
+            yield return new InspectableNode("Proven spine (Tier1Derived)", summary: ProvenSpine);
+            yield return new InspectableNode("Open residual R-deg", summary: RDeg);
+            yield return new InspectableNode("Open residual R-sign", summary: RSign);
+            yield return new InspectableNode("Consumers (gated on closing both residuals)", summary: Consumers);
         }
     }
 }
