@@ -1,6 +1,6 @@
 # PROOF: the F87 windowed converse closes to a positive monomial (two-reflection theorem)
 
-**Status:** Tier1Derived spine + Tier1Candidate full theorem (proven modulo two residuals R-deg, R-sign). General N.
+**Status:** Tier1Derived spine + Tier1Candidate full theorem (proven modulo two residuals R-deg, R-sign). General N. Sharpened 2026-06-09 (review wave): the deg-1 positivity now carries the Pauli-coefficient closed form P_{3,1} = 6·4^N·Σ_l c_l², earning its RIGOROUS-GENERAL label outright.
 **Date:** 2026-06-09
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Builds on:**
@@ -14,13 +14,13 @@ A windowed diagonal-cell Pauli pair builds a chain Hamiltonian H, and the questi
 
 **Theorem (windowed converse, monomial form).** For a non-bipartite windowed diagonal-cell pair, the first nonvanishing odd power-sum of M is a strictly positive monomial in γ. A positive monomial has no positive real root, so that power-sum is nonzero for every γ > 0, hence spec(M) ≠ spec(−M) for all γ > 0: the pair is **hard at every operating point**, not merely at all-but-finitely-many γ.
 
-The proof splits cleanly into a rigorous spine and two sharp residuals. **RIGOROUS-GENERAL** (general N, no premise): the all-odd word parity, the threshold #A ≥ 2ℓ (#A the total commutator-factor count, ℓ the unsigned odd-girth), the soft re-proof bipartite ⟹ soft, and the degree-1 positivity closed form. **Proven modulo two residuals** R-deg and R-sign: the monomial property (a single Q-power survives at the first nonvanishing odd moment) and the positivity of the genuine-cycle coefficient. Both residuals are verified bit-exact over the entire N=4 k=3 Z diagonal cell (all 50 hard pairs, 16 of them pure cycles) and at N=5 / N=6 representatives, but neither yet has a uniform closed-form identity. The first nonvanishing moment sits at **m\* = 2ℓ + deg with deg ∈ {1, 3}** (deg the surviving γ-power); the tempting m\* = 3ℓ guess is a low-ℓ coincidence, false already at ℓ = 5 where m\* = 13, not 15.
+The proof splits cleanly into a rigorous spine and two sharp residuals. **RIGOROUS-GENERAL** (general N, no premise): the all-odd word parity, the threshold #A ≥ 2ℓ (#A the total commutator-factor count, ℓ the unsigned odd-girth), the soft re-proof bipartite ⟹ soft, and the degree-1 positivity closed form P_{3,1} = 6·4^N·Σ_l c_l² (the sum over H's single-site-Z Pauli coefficients). **Proven modulo two residuals** R-deg and R-sign: the monomial property (a single Q-power survives at the first nonvanishing odd moment) and the positivity of the genuine-cycle coefficient. Both residuals are verified bit-exact over the entire N=4 k=3 Z diagonal cell (all 50 hard pairs, 16 of them pure cycles) and at N=5 / N=6 representatives, but neither yet has a uniform closed-form identity. The first nonvanishing moment sits at **m\* = 2ℓ + deg with deg ∈ {1, 3}** (deg the surviving γ-power); the tempting m\* = 3ℓ guess is a low-ℓ coincidence, false already at ℓ = 5 where m\* = 13, not 15.
 
 The computational anchor is the self-validating script [`simulations/f87_windowed_monomial_converse.py`](../../simulations/f87_windowed_monomial_converse.py), whose seven `assert`-blocks carry exactly the spine / residual split above.
 
 ## §1 The recentered object
 
-Work on the d²-dimensional coherence space, d = 2^N, in the column-stacked operator basis |i⟩⟨j| (so that left multiplication kron(·, I) acts on the bra index i and right multiplication kron(I, ·) acts on the ket index j). Recenter the Liouvillian at the palindrome centre σ = Nγ and write
+Work on the d²-dimensional coherence space, d = 2^N, in the operator basis |i⟩⟨j| ↦ e_i ⊗ e_j (i-major, the row-stacking convention: left multiplication kron(·, I) acts on the bra index i and right multiplication kron(I, ·) acts on the ket index j). Recenter the Liouvillian at the palindrome centre σ = Nγ and write
 
   **M = A + γQ.**
 
@@ -77,15 +77,17 @@ This is proven per word from the sign table; the script confirms it two ways, by
 
 ## §3 The threshold and the soft re-proof
 
-Read a surviving trace as a closed double-walk. Since Tr(W) = Σ_{ij} ⟨ij|W|ij⟩, and A_L moves only the bra index, A_R only the ket index, Q neither, a diagonal element ⟨ij|W|ij⟩ is nonzero only if the bra index returns to i after its #A_L left-hops (a closed walk of length #A_L on H's hopping graph G_H) and the ket index returns to j after its #A_R right-hops (a closed walk of length #A_R). An odd-length closed walk exists in a graph if and only if the graph is **non-bipartite**, and the minimal odd length is the **unsigned odd-girth** ℓ.
+Read a surviving trace as a closed double-walk. Since Tr(W) = Σ_{ij} ⟨ij|W|ij⟩, and A_L moves only the bra index, A_R only the ket index, Q neither, a diagonal element ⟨ij|W|ij⟩ is nonzero only if the bra index returns to i after its #A_L left-hops (a closed walk of length #A_L on H's hopping graph G_H) and the ket index returns to j after its #A_R right-hops (a closed walk of length #A_R). Here G_H is the graph on the 2^N basis states with an edge for every nonzero off-diagonal entry of H **and a self-loop at i for every nonzero diagonal entry H_{ii}**; a self-loop is an odd closed walk of length 1, so a diagonal lift has ℓ = 1 and a graph with a loop is never bipartite. With that convention, an odd-length closed walk exists in a graph if and only if the graph is **non-bipartite**, and the minimal odd length is the **unsigned odd-girth** ℓ.
 
 **Path-existence, not signed cancellation.** The point worth stressing is that Q is diagonal, so a trace's support is governed by *index-trajectory existence*, the unsigned question (|H|^k)_{ii} > 0, and is immune to the signed XX+YY cancellation that the [PROOF_F103 §7.10](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) retraction warned about. The flux pair is the clean witness: its signed third-moment amplitude (H³)_{ii} cancels to 0, yet the unsigned three-walk count (|H|³)_{ii} = 6 > 0, so a closed odd walk genuinely exists and the threshold below still binds. (The script asserts exactly this, sgn (H³)_{ii} = 0 while unsigned > 0, for the flux pair.) Two conclusions follow.
 
 - **Bipartite ⟹ soft (RIGOROUS-GENERAL).** If G_H is bipartite there is no odd closed walk, so #A_L odd is impossible, so by §2 no word survives any odd power-sum, so every odd p_m ≡ 0, so spec(M) is symmetric about 0: **soft**. This is a second, independent proof of bipartite ⟹ soft, complementary to the chiral-K route of [ChiralKClaim](../../compute/RCPsiSquared.Core/Symmetry/ChiralKClaim.cs) and [PROOF_F103 §7.1](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md). Where the chiral-K argument exhibits a similarity W with W L W⁻¹ = −L − 2σ, this route never builds an operator: it simply observes there are no surviving words. The script's soft control (the bipartite pair XXZ+ZXX) confirms all odd p_m vanish exactly.
 
-- **Non-bipartite ⟹ the threshold.** If G_H is non-bipartite then both the bra walk and the ket walk must reach the odd-girth, #A_L ≥ ℓ and #A_R ≥ ℓ, so **#A ≥ 2ℓ**. Combined with #Q ≥ 1 odd from §2, the first nonvanishing odd moment sits at #A = 2ℓ, so
+- **Non-bipartite ⟹ the threshold.** If G_H is non-bipartite then both the bra walk and the ket walk must reach the odd-girth, #A_L ≥ ℓ and #A_R ≥ ℓ, so every word surviving an odd moment has **#A ≥ 2ℓ**. Combined with #Q ≥ 1 odd from §2,
 
   **m\* ≥ 2ℓ + 1.**
+
+  (That the minimal class #A = 2ℓ is also the one that actually fires is part of the observed law m\* = 2ℓ + deg, governed by R-deg; the spine needs only the inequality.)
 
 The threshold #A ≥ 2ℓ is RIGOROUS-GENERAL (it is the unsigned odd-girth path-existence statement, verified including the flux pair).
 
@@ -95,21 +97,25 @@ At the first nonvanishing odd moment m\*, the surviving (#A, #Q) classes have #A
 
   **P_{m,1} = m · Tr(Q · A^{m−1}).**
 
-**Degree-1 positivity (RIGOROUS-GENERAL, closed form).** At the lowest possible degree, m = 3 and #A = 2, the single-Q coefficient is P_{3,1} = 3·Tr(A²Q). Anti-Hermiticity of A (it is −i times a Hermitian commutator) gives the diagonal of A² as a manifestly non-positive quantity,
+**Degree-1 positivity (RIGOROUS-GENERAL, closed form).** At the lowest possible degree, m = 3 and #A = 2, the single-Q coefficient is P_{3,1} = 3·Tr(A²Q). Anti-Hermiticity of A (it is −i times a Hermitian commutator) gives a first identity: the diagonal of A² is manifestly non-positive, (A²)_{xx} = Σ_y A_{xy} A_{yx} = −Σ_y |A_{xy}|² ≤ 0, so with deg_A(x) = Σ_y |A_{xy}|² the coherence-space out-weight at x and Q_x the diagonal of Q,
 
-  (A²)_{xx} = Σ_y A_{xy} A_{yx} = −Σ_y |A_{xy}|² ≤ 0,
+  P_{3,1} = 3·Tr(A²Q) = −3·Σ_x deg_A(x)·Q_x = 6·Σ_x deg_A(x)·(w(x) − N/2),
 
-so, writing deg_A(x) = Σ_y |A_{xy}|² ≥ 0 for the coherence-space out-weight at x and Q_x for the diagonal of Q,
+where w(x) = (N − Q_x)/2 = popcount of the bra-ket difference at coherence index x. This form is exact but does not yet show the sign: the weights w(x) − N/2 are mixed-sign, and the sum lands positive only after cancellation. The sign comes from evaluating the same trace tensorially. With A = −i(H ⊗ I − I ⊗ Hᵀ),
 
-  **P_{3,1} = 3·Tr(A²Q) = −3·Σ_x deg_A(x)·Q_x = 6·Σ_x deg_A(x)·(w(x) − N/2),**
+  A² = −H² ⊗ I + 2·H ⊗ Hᵀ − I ⊗ (Hᵀ)²,
 
-where w(x) = (N − Q_x)/2 = popcount of the bra-ket difference at coherence index x. For the single-site-Z diagonal lift (the ℓ = 1, deg = 1 case) this evaluates to a strictly positive integer: the script checks P_{3,1} = 9216 (N=4) and 61440 (N=5), each matching the closed form bit-exact and each > 0. So at deg = 1 the positivity is not assumed; it is read off a manifestly non-negative block functional.
+and tracing against Q = Σ_l Z_l ⊗ Z_l kills the two single-leg terms on Tr(Z_l) = 0, leaving Tr(A²Q) = 2·Σ_l Tr(HZ_l)·Tr(HᵀZ_l) = 2·Σ_l Tr(HZ_l)², real even for a complex flux H since H is Hermitian. Reading off Pauli coefficients (Tr(HZ_l) = 2^N·c_l, with c_l the coefficient of the single-site string Z_l in H),
+
+  **P_{3,1} = 6·4^N·Σ_l c_l²,**
+
+manifestly non-negative, and strictly positive exactly when H carries a single-site-Z component. For the single-site-Z diagonal lift (the ℓ = 1, deg = 1 case) this gives 6·4⁴·(1² + 2² + 1²) = 9216 (N=4) and 6·4⁵·(1² + 2² + 2² + 1²) = 61440 (N=5), each matching the exact P_{3,1} bit-for-bit (the script checks both forms against the exact γ¹ coefficient of p₃). The identity also derives, rather than observes, the taxonomy's "deg = 1 only for a single-site-Z lift" at the m = 3 level: a pure hopping cycle or a multi-Z lift has every c_l = 0, so its P_{3,1} vanishes exactly and the first moment is pushed higher. The closed form is thereby the m = 3 instance of what R-deg asserts at general m; the higher single-Q coefficients P_{2ℓ+1,1} are exactly the residual frontier of §5.
 
 ## §5 The two residuals (open; verified bit-exact cell-wide N=4, reps N=5 / N=6)
 
 The spine of §§1–4 leaves two statements that the verification certifies but that do not yet have a uniform closed-form identity. They are the precise frontier of the theorem.
 
-- **R-deg (the degree lift for genuine cycles).** For a pure off-diagonal H (a genuine hopping cycle, no diagonal lift), the candidate degree-1 term `Tr(Q · A^{2ℓ})` restricted to the (#A_L = ℓ, #A_R = ℓ) odd-cycle-traversal class sums to **zero**, so p_{2ℓ+1} ≡ 0 and the first nonvanishing odd moment is forced up to degree 3, giving the monomial at **m\* = 2ℓ + 3**. What is missing is a uniform closed-form involution on the (ℓ-cycle, ℓ-cycle, 1-Q) configurations that exhibits this cancellation for all ℓ at once. It is verified bit-exact: the K3 pair (ℓ=3) has p_9 = 2064384·γ³ at N=4 and 16515072·γ³ at N=5 (pure γ³, p_1…p_7 vanishing), the complex-H flux pair has p_9 = 589824·γ³, and the ℓ=5 / N=6 representative has p_1…p_11 = 0 with p_13 = 50381979648·γ³ (pure γ³).
+- **R-deg (the degree lift for genuine cycles).** For a pure off-diagonal H (a genuine hopping cycle, no diagonal lift), the deg-1 class dies wholesale: the candidate degree-1 term `Tr(Q · A^{2ℓ})` restricted to the (#A_L = ℓ, #A_R = ℓ) odd-cycle-traversal class sums to **zero**, so p_{2ℓ+1} ≡ 0, and the deg-1 class stays dead at the next moment too (P_{2ℓ+3,1} = 0), so what survives at **m\* = 2ℓ + 3** is the single #Q = 3 power, the monomial. The m = 3 instance is closed by §4's identity (every c_l = 0 ⟹ P_{3,1} = 0 exactly); what is missing is the same statement at general m, a uniform closed-form identity for `Tr(Q · A^{2k})` on cycle pairs that exhibits the cancellation for all ℓ at once. It is verified bit-exact: the K3 pair (ℓ=3) has p_9 = 2064384·γ³ at N=4 and 16515072·γ³ at N=5 (pure γ³, p_1…p_7 vanishing), the complex-H flux pair has p_9 = 589824·γ³, and the ℓ=5 / N=6 representative has p_1…p_11 = 0 with p_13 = 50381979648·γ³ (pure γ³; this one certificate runs only under the script's `--heavy` flag, a single ~50-minute exact computation).
 
 - **R-sign (the genuine-cycle coefficient is positive).** The surviving coefficient P_{m\*,3} > 0 for genuine cycles. This is exactly [PROOF_F103 §7.5](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md)'s +N-population-Perron top-skew: the gain channel's +N Perron mode (the population row-sum, always present) is unpaired because its −N reflection partner (the anti-diagonal mode the chiral K would supply) is absent on a non-bipartite graph, and the skew lands with a definite, positive sign. It is verified for all 16 pure cycles of the N=4 Z diagonal cell (the +N eigenvalue present and the −N eigenvalue absent on Q restricted to ker A, all 16/16); what is missing is a closed-form identity writing P_{m\*,3} as a manifestly-non-negative block functional, the genuine-cycle analogue of §4's deg-1 closed form.
 
@@ -125,6 +131,6 @@ Put the pieces together. For a non-bipartite windowed diagonal-cell pair the fir
 
   **p_{m\*}(γ) > 0 for all γ > 0   ⟹   spec(M) ≠ spec(−M) for all γ > 0   ⟹   non-bipartite is hard at every operating point.**
 
-This is the upgrade. [PROOF_F103 §7.6](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) closed the windowed converse to "hard for all but finitely many γ" by a degenerate-perturbation-theory plus analyticity argument: a first-order break (c ≠ 0) forces some recentred characteristic-polynomial coefficient Δ_j(γ) to be a nonzero polynomial, whose zero-set is finite. The residual lemma there, the part flagged Tier1Candidate, was exactly "no positive γ is one of those finitely-many accidental soft points," a resultant / Sturm question on Δ_j. The monomial theorem answers it structurally: the first nonvanishing odd moment is itself one of those coefficients, and a positive monomial simply has no positive root, so there are no accidental soft points to rule out. "All but finitely many γ" becomes "all γ > 0," modulo R-deg + R-sign.
+This is the upgrade. [PROOF_F103 §7.6](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) closed the windowed converse to "hard for all but finitely many γ" by a degenerate-perturbation-theory plus analyticity argument: a first-order break (c ≠ 0) forces some recentred characteristic-polynomial coefficient Δ_j(γ) to be a nonzero polynomial, whose zero-set is finite. The residual lemma there, the part flagged Tier1Candidate, was exactly "no positive γ is one of those finitely-many accidental soft points," a resultant / Sturm question on Δ_j. The monomial theorem answers it structurally: the first nonvanishing odd moment is a positive monomial, hence nonzero at every γ > 0, so the spectrum is asymmetric at every operating point and there are no accidental soft points left to rule out. "All but finitely many γ" becomes "all γ > 0," modulo R-deg + R-sign.
 
 The result is carried by two typed claims and one script. The Tier1Derived spine, the threshold and the all-odd word parity and the soft re-proof and the deg-1 positivity, is the node `WindowedConverseThresholdClaim`. The Tier1Candidate full lemma, the monomial-and-positive statement that closes once R-deg + R-sign are written as closed forms, is the node `WindowedConverseAllGammaClaim` (the same residual [PROOF_F103](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) isolated, now sharpened from a 700-point numerical spot-check to a single polynomial-root statement that the monomial form discharges structurally). The reproducible anchor is [`simulations/f87_windowed_monomial_converse.py`](../../simulations/f87_windowed_monomial_converse.py), self-validating: every block raises on failure, prints a single PASS line on success, and the process exits 0 only if the whole spine / residual ledger holds.
