@@ -34,7 +34,7 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// routing-rule viewpoint empirically verified against the authority, not a derived theorem. Typed
 /// parents: <see cref="F87TrichotomyClassification"/> (the spectral authority the router is verified
 /// against, Tier1Derived), <see cref="F87DiagonalCellBipartiteWitnessSet"/> (the diagonal P1-family
-/// special case this generalises, Tier1Candidate), and
+/// special case this generalises, Tier1Derived), and
 /// <see cref="Core.Symmetry.CrossoverMirrorSqrtNinetyClaim"/> (the Continuous-family crossover
 /// mirror's existing C# realisation, Tier1Derived). All three are at least as strong as
 /// Tier2Empirical, so the strength-inheritance check (parent ≥ child) passes.</para>

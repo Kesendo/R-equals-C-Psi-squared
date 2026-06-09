@@ -16,7 +16,7 @@ namespace RCPsiSquared.Diagnostics.Tests.F87;
 /// derived k-body routing declines them; the two I-heavy IXI+IIY+YII, IYI+IIX+XII are now LOCAL, certified by
 /// the SingleSiteField strategy, the 4 to 2 step). Built
 /// from the full <see cref="KnowledgeRegistryFactory.BuildDefault"/> registry, so both typed
-/// parents are present and the strength-inheritance check (4 ≥ 4 against F87DiagonalCellBipartiteWitnessSet,
+/// parents are present and the strength-inheritance check (5 ≥ 4 against F87DiagonalCellBipartiteWitnessSet,
 /// 5 ≥ 4 against F87TrichotomyClassification) is exercised in production.</summary>
 public class PalindromeSoftCertifierClaimRegistrationTests
 {
