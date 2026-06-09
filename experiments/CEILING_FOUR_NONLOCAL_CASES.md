@@ -136,7 +136,8 @@ certified each sector on its own, and the answer was neither.
 
 The Π²-odd half is the single term XZX. On its own it is local: a per-site product palindromizes it,
 certified by the linear site-colouring route. The Π²-even half is the pair XZY+YZX. On its own it is local
-too: a per-site product palindromizes it, certified by the excitation-pairing route. Each half, alone, is
+too: a per-site product palindromizes it, certified by the excitation-pairing route (the per-part certifier
+verdicts are tabled in [ceiling_parts_certify.md](../simulations/results/ceiling_parts_certify.md)). Each half, alone, is
 per-site routable with no caveat. It is only their sum, the full XZX+XZY+YZX, that admits no per-site product
 at all. (Every piece stays spectrally soft throughout; the split is a statement about the routing operator,
 not the spectrum, which mirrors cleanly in each part.)
@@ -188,6 +189,42 @@ sectors need incompatible maps; the Frobenius lens weighs them, nine tenths symm
 antisymmetric, and ties the ceiling to a quantity the hardware has actually measured. Two readings of one pair
 of sectors.
 
+### The ceiling is an isolated soft point: a hard sea in between (2026-06-09)
+
+The joining picture begs one more question: if the local soft case and the ceiling soft case each mirror
+cleanly, can you walk from one to the other without losing the mirror? Turn the middle site's letter
+continuously from I to Z,
+
+  H(θ) = cos θ · (XIX + XIY + YIX) + sin θ · (XZX + XZY + YZX),
+
+which is exactly the middle-site operator cos θ·I + sin θ·Z inside each term (the two term triples pair up
+one to one: XIX ↔ XZX, XIY ↔ XZY, YIX ↔ YZX), and classify every 2.5° waypoint at γ = 0.05 per site.
+
+The answer is no, and not narrowly. Softness survives at exactly two angles, 0° and 90°; all 35 interior
+angles are hard. And the strait has a remarkably clean depth: in the optimal (minimax) pairing of spec(L)
+against −spec(L) − 2σ, the break sits at **exactly one dephasing-rate quantum, 2γ = 0.1, at every interior
+angle**, a flat hard sea from 2.5° through 87.5°. The moment the middle letter starts to turn, some
+eigenvalue's mirror partner is a full rate step off, and it stays exactly one step off until the other shore.
+Meanwhile the canonical residual loads smoothly and monotonically underneath, ‖M‖² rising 4096 → 10240, the
+same two endpoint values the F81/F83 section above weighs (the figure's right axis, ‖M‖ = 64 → 101.2).
+
+![The ceiling is an isolated soft point](../simulations/results/ceiling_middle_tilt.png)
+
+So the two soft structures are not two ends of one soft family. Each is its own island, and this is the
+spectral twin of the joining statement: the two halves want incompatible per-site routers, an interior
+mixture inherits both demands at once and satisfies neither, and even the spectrum-level palindrome (a
+strictly weaker ask than a per-site router) is already gone.
+
+Provenance, honestly: the sweep was first run 2026-06-08 by an ad-hoc script that was not preserved; only
+the data survived ([TSV](../simulations/results/ceiling_middle_tilt.tsv),
+[figure](../simulations/results/ceiling_middle_tilt.png)). The committed regenerator
+[`simulations/ceiling_middle_tilt.py`](../simulations/ceiling_middle_tilt.py) re-derives it and is the
+reproducible record: verdicts match the original 37/37, the residual-norm column matches row by row
+(rel < 1e-5, the original column is 2√2 × the framework residual convention), and the original's smooth
+small-angle pairing-error statistic (an unrecorded ad-hoc measure, the figure's left axis) is replaced by
+the canonical minimax pairing, under which the interior break is the constant 2γ wall above
+([regenerated TSV](../simulations/results/ceiling_middle_tilt_regen.tsv)).
+
 ## The explicit frontier (no hidden bottom)
 
 A word on what "non-local" means here, because it is a bounded claim and we want the boundary visible. For
@@ -209,7 +246,11 @@ definitively local.
 
 Beyond even that frontier sits the harder question we are not attempting here: the analytic all-Q
 obstruction, a proof of why the Z-middle floor holds for every Q, of any family, periodic or not. That is
-the banked hard problem. We reference it; we do not open it. What this experiment establishes is the
+the banked hard problem. We reference it; we do not open it. (One tempting certifier shortcut is ruled out
+as a null result, banked from a 2026-06-05 scout since removed: a Pauli string K that GF(2)-anticommutes
+with H exists for hard pairs too, e.g. XYI+YIX admits K = XXX-type strings, so Pauli-string anticommutation
+with H is not a softness criterion; a K with X or Y letters flips A but fixes the dephaser Q, producing
+−A + γQ rather than −M, an incomplete premise.) What this experiment establishes is the
 constructive half, told honestly: across the 6 → 4 → 2 arc, four route and are local (two by continuous-sum
 cancellation, two by the single-site-field product), and the two Z-middle cases resist over every test we
 can trust; the line between "verified" and "open" is drawn exactly where the optimization stops being
@@ -219,4 +260,6 @@ reliable.
 - Mechanism + classification: [PROOF_F103 §7.12](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) (the single-site transverse-field lemma)
 - The certifier + the 2-case Z-middle ceiling: `compute/RCPsiSquared.Diagnostics/F87/PalindromeSoftCertifier.cs` (the `SingleSiteField` strategy), `PalindromeSoftCertifierClaim.cs`, `KBodyPalindromeRouting.cs`
 - The 4 → 2 verification: [`simulations/ceiling_4to2_iheavy_local.py`](../simulations/ceiling_4to2_iheavy_local.py)
+- The per-part certifier table: [`simulations/results/ceiling_parts_certify.md`](../simulations/results/ceiling_parts_certify.md)
+- The isolated-soft-point tilt: [`simulations/ceiling_middle_tilt.py`](../simulations/ceiling_middle_tilt.py) (regenerator), [data](../simulations/results/ceiling_middle_tilt.tsv), [figure](../simulations/results/ceiling_middle_tilt.png)
 - Related: [SOFTNESS_IS_N_DEPENDENT](SOFTNESS_IS_N_DEPENDENT.md)
