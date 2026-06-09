@@ -19,7 +19,7 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <see cref="Matches"/> boolean. A failure signals either a broken witness (wrong N, dephase
 /// letter, or term set) or a regression in the criterion vs the trichotomy.</para>
 ///
-/// <para><b>Claim (Tier1Candidate):</b> a diagonal-cell pair is soft iff its hopping graph is
+/// <para><b>Claim (Tier1Derived):</b> a diagonal-cell pair is soft iff its hopping graph is
 /// bipartite in the dephasing basis. <c>bipartite ⟹ soft</c> is derived from the palindrome
 /// plus a chiral sublattice K (<see cref="Core.Symmetry.ChiralKClaim"/>); the converse
 /// non-bipartite ⟹ hard is now derived (PROOF_F103 §7.5, 2026-06-04) modulo the first-order-block

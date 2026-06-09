@@ -28,6 +28,12 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// (1 + x)-valuation crosses into the spectrum). Promoted from Tier1Candidate in the formal
 /// promotion pass (2026-06-08), together with the parent F87DiagonalCellBipartiteWitnessSet.</para>
 ///
+/// <para>Scope of the Tier1Derived label: the criterion itself (valuations-differ ⟺ non-bipartite is
+/// exact GF(2)) plus the genericity result (non-bipartite ⟹ hard for all but finitely many γ). The
+/// all-γ closure including the physical operating point is isolated as the Tier1Candidate
+/// <see cref="WindowedConverseAllGammaClaim"/> (Phase B target); it is a downstream strengthening, not
+/// a parent of this claim, so the tiers stay consistent.</para>
+///
 /// <para>The per-size shape of the obstruction (the MacWilliams kernel) splits into a closed floor
 /// and a number-theoretic middle: the size-3 floor closes: c(D,3)=3D−1 per reduced max-degree,
 /// d=0 base T0(k)=(k−1)²(k−2)/2 (<see cref="WindowedObstructionScan.TriangleHardCountBaseD0"/>),

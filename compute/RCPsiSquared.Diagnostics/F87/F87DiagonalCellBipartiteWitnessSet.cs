@@ -24,6 +24,11 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// theory (the first-order-block premise closed via degenerate-PT + analyticity, PROOF_F103
 /// §7.5/§7.6). Promoted from Tier1Candidate in the formal promotion pass (2026-06-08).</para>
 ///
+/// <para>"Derived modulo standard perturbation theory" means: derived at the genericity level
+/// (non-bipartite ⟹ hard for all but finitely many γ). The remaining all-γ closure incl. the physical
+/// point is isolated as the Tier1Candidate <see cref="WindowedConverseAllGammaClaim"/> (Phase B
+/// target).</para>
+///
 /// <para>Anchor: <c>docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md</c> §7 +
 /// <see cref="Core.Symmetry.ChiralKClaim"/> + <see cref="PauliPairTrichotomy"/>; per-witness
 /// anchors live on each inner <see cref="F87DiagonalCellBipartiteWitness.Anchor"/>.</para></summary>
