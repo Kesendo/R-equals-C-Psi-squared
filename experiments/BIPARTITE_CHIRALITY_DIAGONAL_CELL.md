@@ -202,6 +202,10 @@ identity. That set-level statement is now derived in PROOF_F103 §7.5 (2026-06-0
   break into a break for all but finitely many γ, so non-bipartite ⟹ hard at the generic physical γ.
   Adversarially stress-tested (5 holes ruled out, N=4/5). So the converse is fully derived modulo
   standard perturbation theory.
+- **Typed split (2026-06-08):** the genericity result (non-bipartite ⟹ hard for all but finitely many
+  γ) is Derived, carried by F87DiagonalCellBipartiteWitnessSet; the remaining all-γ closure including the
+  physical operating point is isolated as the Tier1Candidate WindowedConverseAllGammaClaim (the Phase B
+  target).
 - **Not yet tested:** windowed k=4 (N > 4) and k=5. The windowed converse is the open front; full
   support is settled.
 
@@ -211,4 +215,4 @@ identity. That set-level statement is now derived in PROOF_F103 §7.5 (2026-06-0
 - k=4 rule it unifies with: [PROOF_F111](../docs/proofs/PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md)
 - The chiral symmetry behind it: [ChiralKClaim](../compute/RCPsiSquared.Core/Symmetry/ChiralKClaim.cs) (AZ class BDI, KHK = −H)
 - The F80 one-sidedness it rests on: [PROOF_F80](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md) (M = ±2i times a Hamiltonian object for Π²-odd cell terms)
-- Typed witness: [F87DiagonalCellBipartiteWitness](../compute/RCPsiSquared.Diagnostics/F87/F87DiagonalCellBipartiteWitness.cs) (Tier1Candidate) + [BipartiteChirality](../compute/RCPsiSquared.Diagnostics/F87/BipartiteChirality.cs) primitive
+- Typed witness: [F87DiagonalCellBipartiteWitness](../compute/RCPsiSquared.Diagnostics/F87/F87DiagonalCellBipartiteWitness.cs) (Tier1Derived) + [BipartiteChirality](../compute/RCPsiSquared.Diagnostics/F87/BipartiteChirality.cs) primitive

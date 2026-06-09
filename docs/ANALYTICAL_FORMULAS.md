@@ -3320,7 +3320,9 @@ trichotomy class).
 is verified at N=5 (F105), and F106 is the k=4 sibling. The windowed (k<N) hard-direction
 converse non-bipartite ⟹ hard is now **derived** (PROOF §7.5 Perron-mode criterion + §7.6
 first-order premise closed via degenerate-PT + analyticity, 2026-06-04), so the mechanism is
-Tier1Derived modulo standard perturbation theory; and its combinatorics are closed-form (the
+Tier1Derived modulo standard perturbation theory. The all-γ residual of the windowed converse is
+isolated as WindowedConverseAllGammaClaim (Tier1Candidate, the Phase B target); the genericity result
+(hard for all but finitely many γ) is Derived. And its combinatorics are closed-form (the
 valuation criterion, the obstruction-size law min(2W−1, 2k−3), and the A203241 hard count, §7.7–§7.8 =
 **F115**). **Open:** the (pair Klein, dephase letter) → (Pattern B vs Pattern C) selection rule;
 hardware confirmation of k≥3 F87 (all 5 Marrakesh F87 confirmations are k=2).
@@ -3639,7 +3641,8 @@ Y-inversion preserved.
 **Status:** the 42:8 (k=3) and 228:0 (k=4) ratios are derived by the §6 counting rule and
 the §7 bipartite mechanism; F111 closes the k=4 case at full support. **Open:** the windowed
 (k<N) hard-direction converse (non-bipartite ⟹ hard), the one edge still gating Tier1Derived;
-k ≥ 5 empirical confirmation; QPU confirmation at k ≥ 3.
+its all-γ residual is typed as WindowedConverseAllGammaClaim (Tier1Candidate); closing it promotes
+F110/F111 to Tier1Derived. Also open: k ≥ 5 empirical confirmation; QPU confirmation at k ≥ 3.
 
 **Source:** [Proof](proofs/PROOF_F110_HARD_CELL_Y_INVERSION.md);
 `compute/RCPsiSquared.Core/Symmetry/HardCellYInversionPattern.cs`;
@@ -3688,8 +3691,10 @@ split into 36 Pure-Pure (all HARD) + 192 Pure-Mixed (all HARD) + 300 Mixed-Mixed
 across 3 dephases, all matching the rule with zero exceptions.
 
 **Open:** Subclaim (d) Mixed+Mixed = soft closed-form (blocks Tier1Derived).
-Pure-D Template Rule at k > 4 or N > 4 (empirically unverified). Hardware QPU
-confirmation at k ≥ 3.
+The windowed (k<N) hard-direction converse's all-γ residual is typed as
+WindowedConverseAllGammaClaim (Tier1Candidate); closing it promotes F110/F111 to
+Tier1Derived. Pure-D Template Rule at k > 4 or N > 4 (empirically unverified).
+Hardware QPU confirmation at k ≥ 3.
 
 **Source:** [Proof](proofs/PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md);
 `compute/RCPsiSquared.Core/Symmetry/HardCellPureDTemplate.cs`;

@@ -519,6 +519,29 @@ in the GF(2)[x] picture, with the K3 triangle of §7.2 as the W = 2 / k = 3 face
 the §7.5/§7.6 derivation, which proves soft ⟺ bipartite ⟺ hard from the EXISTENCE of an odd cycle,
 shape-agnostic.
 
+### Residual lemma (Phase A isolation)
+
+It is worth saying exactly which part of the §7.6 bridge is a theorem and which part is the one thread
+still hanging, so a future session does not have to re-read the whole argument to find the open front.
+Two statements, cleanly separated.
+
+**The genericity result (the Derived sub-result).** Non-bipartite ⟹ hard for all but finitely many γ.
+The recentered characteristic-polynomial odd coefficients Δ_j(γ) are polynomials in γ; the first-order
+ω = 0 block asymmetry c ≠ 0 (§7.5/§7.6) forces some Δ_j ≢ 0, so the soft set
+{γ : spec L = spec(−L − 2σ)} is a finite common-zero set. This is the part that rests only on standard
+perturbation theory and is settled.
+
+**The residual lemma (Tier1Candidate, the Phase B target).** No positive γ is a common zero of the
+Δ_j(γ); equivalently the physical γ is not one of the finitely-many accidental soft points. This is the
+piece that is, today, a 700-point numerical spot-check rather than a theorem. The leading-order handle is
+the cleanest route in: A(γ) ≥ 0 (it is an optimal-transport distance) and A(γ) = c·γ + O(γ²) ⟹ c > 0, so
+the residual reduces to showing one Δ_j*(γ) has no positive real root, a resultant/Sturm question.
+
+This residual is isolated as the typed node `WindowedConverseAllGammaClaim`
+(RCPsiSquared.Diagnostics.F87, Tier1Candidate). It does not weaken §7.3's "verified, not yet proved"
+framing; it sharpens it, naming precisely the single polynomial-root statement that stands between the
+genericity result and an all-γ theorem at the physical operating point.
+
 ### 7.7 The obstruction-size law: a GF(2)[x] derivation (2026-06-04)
 
 §7.5 made soft ⟺ bipartite a theorem for any k by reading the pair's edge-mask set S as a graph and
