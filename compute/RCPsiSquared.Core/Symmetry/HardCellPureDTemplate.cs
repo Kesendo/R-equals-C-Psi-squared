@@ -295,15 +295,15 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
             yield return new InspectableNode("Subclaim (d) OPEN: (Mixed, Mixed) pair is SOFT",
                 summary: SubclaimD_MixedMixedPairSoft_OPEN);
             yield return new InspectableNode("Sister claims on YParity axis",
-                summary: "F102 (YParityIndependenceAtK3, Tier1Derived). F103 (F87Z2CubedRefinementN4K3, Tier2Empirical). " +
-                         "F105 (F87Z2CubedRefinementN5K3, Tier2Empirical). F106 (F87Z2CubedRefinementN4K4, Tier2Empirical). " +
+                summary: "F102 (YParityIndependenceAtK3, Tier1Derived). F103 (F87Z2CubedRefinementN4K3, Tier1Derived). " +
+                         "F105 (F87Z2CubedRefinementN5K3, Tier1Derived). F106 (F87Z2CubedRefinementN4K4, Tier1Derived). " +
                          "F107 (TrulyYParityZeroPurity, Tier1Derived). F109 (MotherSoftYParityOnePurity, Tier1Derived unconditional). " +
                          "F110 (HardCellYInversionPattern, Tier1Candidate): empirical Y-inversion across k=3 and k=4. " +
                          "F111 (THIS, Tier1Candidate): sharper per-pair structural rule than F110 Aspect B; F111 implies F110 Aspect B at k=N=4 as immediate corollary.");
             yield return new InspectableNode("Cross-axis dependencies (BitB and BitA): F108 Parts",
                 summary: "F108 Part 1+3 (BitB-axis): close F107/F109/F110 derivation via Π_5bilinear under Z and Y dephasing. F108 Part 2 (BitA-axis, BitA twin of Part 1): closes the X-deph branch via the Z↔X Π² mirror. F108 Parts are NOT YParity-axis sisters (per their Z2Axis declarations); they are the cross-axis closure mechanism that grounds F107/F109/F110/F111's diagonal-cell scope.");
             yield return new InspectableNode("Open siblings",
-                summary: "Subclaim (d) Mixed+Mixed = soft closed-form: blocking subclaim for F111 promotion to Tier1Derived. " +
+                summary: "Subclaim (d) Mixed+Mixed = soft closed-form: blocking subclaim for F111 promotion to Tier1Derived; it reduces to the windowed converse residual now typed as WindowedConverseAllGammaClaim (RCPsiSquared.Diagnostics.F87, Tier1Candidate; the genericity result is Derived, the all-γ physical-point closure is the Phase B target). " +
                          "F110 Aspect C (k=3 ratio 42:8): derived by the F103 §6 counting rule + §7 bipartite mechanism. " +
                          "Pure-D Template Rule at k > 4 or N > 4: empirically unverified. " +
                          "Hardware QPU confirmation at k ≥ 3: open (no F87 QPU confirmations beyond Marrakesh k = 2).");
