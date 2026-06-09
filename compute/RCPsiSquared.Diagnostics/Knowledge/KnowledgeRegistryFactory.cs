@@ -111,6 +111,11 @@ public static class KnowledgeRegistryFactory
             // converse, derived modulo standard PT, promoted 2026-06-08; per §7.10 only the (1+x)-valuation reaches the spectrum). Wired
             // 2026-06-05.
             .RegisterWindowedHardnessClaim()
+            // F87 windowed-converse threshold (Phase B two-reflection spine, 2026-06-09): the
+            // Tier1Derived proven core (𝓕=F⊗F, R=I⊗F ⟹ all-odd #A_L/#A_R/#Q parity ⟹ #A≥2ℓ threshold +
+            // bipartite⟹soft re-proof + deg-1 positivity). Parent: F87DiagonalCellBipartiteWitnessSet.
+            // Registered before the all-γ residual lemma, which now takes this as a parent.
+            .RegisterWindowedConverseThresholdClaim()
             // F87 windowed-converse all-γ residual lemma (Phase A "type the seam", 2026-06-09): the
             // single typed home of the open windowed converse residual. The DERIVED genericity result
             // (non-bipartite ⟹ hard for all but finitely many γ) is carried by the witness set above;
