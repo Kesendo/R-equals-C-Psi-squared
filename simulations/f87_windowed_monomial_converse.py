@@ -2,15 +2,16 @@
 r"""F87 windowed-converse MONOMIAL THEOREM: committed, self-validating verification.
 
 This script is the computational anchor of the windowed-converse monomial theorem (Phase B). It
-consolidates the trustworthy parts of two WIP scouts (`_f87_monomial_law.py`, the structural law,
-and `_f87_rwinding_verify.py`, the two-reflection R-winding proof) into ONE committed file whose own
-`assert`s are the test: every block raises on failure, prints a single PASS line on success, and the
-process exits 0 only if all blocks pass.
+consolidated the trustworthy parts of two WIP scouts (`_f87_monomial_law.py`, the structural law,
+and `_f87_rwinding_verify.py`, the two-reflection R-winding proof; both since removed) into ONE
+committed file whose own `assert`s are the test: every block raises on failure, prints a single
+PASS line on success, and the process exits 0 only if all blocks pass.
 
 The object
 ----------
 Recenter the Liouvillian at the palindrome center, on the d^2 coherence space (d = 2^N, basis
-|i><j| column-stacked, so kron(.,I) acts on the BRA index i and kron(I,.) on the KET index j):
+|i><j| -> e_i (x) e_j, i-major / row-stacking, so kron(.,I) acts on the BRA index i and kron(I,.)
+on the KET index j):
 
     M(gamma) = A + gamma*Q ,
     A = -i[H,.] = A_L + A_R ,   A_L = -i(H (x) I)  (bra/left hop),  A_R = +i(I (x) H^T) (ket hop),
@@ -49,9 +50,13 @@ Block ledger (rigor labels)
                                          verified incl. the flux pair (signed (H^3)_ii = 0 but
                                          unsigned (|H|^3)_ii > 0).
   Block 5  soft control                : verified-exhaustively (all odd p_m == 0 exactly).
-  Block 6  deg-1 positivity closed form: RIGOROUS-GENERAL closed form, verified against exact p_3.
+  Block 6  deg-1 positivity closed form: RIGOROUS-GENERAL, P_{3,1} = 6*4^N*sum_l c_l^2 over the
+                                         single-site-Z Pauli coefficients (> 0 iff a single-site-Z
+                                         lift; = 0 exactly for cycles + multi-Z), vs exact p_3.
   Block 7  R-deg & R-sign cell-wide    : verified-exhaustively over all 50 hard pairs of the N=4
-                                         k=3 Z cell; the +N-Perron skew over the 16 pure cycles.
+                                         k=3 Z cell, incl. the law m* = 2*ell + deg, deg in {1,3},
+                                         deg=1 <=> single-site-Z (pure cycles pinned at 2*ell+3);
+                                         the +N-Perron skew over the 16 pure cycles.
 
 Run
 ---
@@ -129,11 +134,17 @@ def assert_generator_matches_framework(N, pair):
     """M(gamma) == framework Lindbladian + N*gamma*I at several gamma (correct by construction)."""
     Ar, Ai, Q = build_integer_generators(N, pair)
     H = build_H(N, pair)
-    for g in (0.3, 1.0, 2.7):
+    for g in (0.3, 1.0, 2.0, 2.7):
         L = lindbladian_pauli_dephasing(H, [g] * N, dephase_letter='Z')
         recon = (Ar + 1j * Ai).astype(complex) + g * Q.astype(complex)
-        assert np.allclose(L + (N * g) * np.eye(4 ** N), recon, atol=1e-9), \
-            f"generator mismatch vs framework at N={N} gamma={g}"
+        if g == int(g):
+            # at integer gamma every entry on both sides is an exact (Gaussian-)integer float,
+            # so the match is literally bit-for-bit
+            assert np.array_equal(L + (N * g) * np.eye(4 ** N), recon), \
+                f"generator mismatch (bit-for-bit, integer gamma) at N={N} gamma={g}"
+        else:
+            assert np.allclose(L + (N * g) * np.eye(4 ** N), recon, atol=1e-9), \
+                f"generator mismatch vs framework at N={N} gamma={g}"
 
 
 # ======================================================================
@@ -251,7 +262,10 @@ def first_nonvanishing_odd(Ar, Ai, Q, max_m, nprimes=10, use_int=False):
     odd_ms = list(range(1, max_m + 1, 2))
     polys, _ = pm_polynomials_exact(Ar, Ai, Q, odd_ms, nprimes=nprimes, use_int=use_int)
     for m in odd_ms:
-        re_co, _im = polys[m]
+        re_co, im_co = polys[m]
+        # Hermiticity-adapted realness: every Tr(M^m) is exactly real, so a nonzero imaginary
+        # coefficient can never hide below m* (asserted, not skipped).
+        assert all(c == 0 for c in im_co), f"imaginary coefficient of p_{m} nonzero at/below m*"
         if any(c != 0 for c in re_co):
             return m, polys[m][0], polys[m][1], polys
     return None, None, None, polys
@@ -463,6 +477,7 @@ def block1_structural_law(heavy=False):
         polys, _ = pm_polynomials_exact(Ar, Ai, Q, odd_ms, nprimes=7, use_int=False)
         for m in (1, 3, 5, 7, 9, 11):
             assert all(c == 0 for c in polys[m][0]), f"ell=5 N=6: p_{m} not exactly 0"
+            assert all(c == 0 for c in polys[m][1]), f"ell=5 N=6: p_{m} imag not exactly 0"
         re13 = polys[13][0]
         nz = [j for j, c in enumerate(re13) if c != 0]
         assert all(c == 0 for c in polys[13][1]), "ell=5 N=6: p_13 imag nonzero"
@@ -634,28 +649,65 @@ def block5_soft_control():
 
 
 # ======================================================================
-# BLOCK 6 -- deg-1 positivity closed form  P_{3,1} = 6 * sum_x deg_A(x)(w(x) - N/2).
+# BLOCK 6 -- deg-1 positivity closed form  P_{3,1} = 6 * 4^N * sum_l c_l^2.
 # ======================================================================
+def single_site_z_coeffs(H, N):
+    """c_l = Pauli coefficient of the single-site string Z_l in H (real for Hermitian H)."""
+    d = 2 ** N
+    cs = []
+    for l in range(N):
+        c = complex(np.trace(H @ site_op(N, l, 'Z'))) / d
+        assert abs(c.imag) < 1e-12, f"c_{l} not real (H not Hermitian?)"
+        cs.append(float(c.real))
+    return cs
+
+
 def block6_deg1_closed_form():
     print("-" * 92)
-    print("BLOCK 6  deg-1 closed form  [RIGOROUS-GENERAL closed form; checked against exact p_3]")
+    print("BLOCK 6  deg-1 closed form  [RIGOROUS-GENERAL: P_{3,1} = 6*4^N*sum_l c_l^2; exact p_3]")
     print("-" * 92)
-    # P_{3,1} = 3 Tr(A^2 Q) = -3 sum_x deg_A(x) Q_x = 6 sum_x deg_A(x)(w(x)-N/2), deg_A(x)=sum_y|A_xy|^2
-    for N, want in ((4, 9216), (5, 61440)):
+    # Two evaluations of P_{3,1} = 3 Tr(A^2 Q):
+    #   (i)  anti-Hermiticity: P_{3,1} = -3 sum_x deg_A(x) Q_x = 6 sum_x deg_A(x)(w(x)-N/2) with
+    #        deg_A(x) = sum_y |A_xy|^2. Exact, but its weights w(x)-N/2 are MIXED-SIGN, so the sign
+    #        of the sum is not visible from this form.
+    #   (ii) tensor traces: A^2 = -H^2(x)I + 2 H(x)H^T - I(x)(H^T)^2 traced against Q = sum Z_l(x)Z_l
+    #        kills the single-leg terms on Tr(Z_l) = 0, leaving P_{3,1} = 6 sum_l Tr(H Z_l)^2
+    #        = 6*4^N*sum_l c_l^2, c_l = single-site-Z Pauli coefficients of H. Manifestly
+    #        non-negative; > 0 exactly when a single-site-Z lift is present. THIS closes positivity.
+    for N, want, want_cs in ((4, 9216, [0.0, 1.0, 2.0, 1.0]),
+                             (5, 61440, [0.0, 1.0, 2.0, 2.0, 1.0])):
         A_L, A_R, Q, H = build_AL_AR_Q(N, DIAG_LIFT)
         A = A_L + A_R
         qdiag = np.round(Q.real).astype(np.int64).diagonal()
         degA = np.sum(np.abs(A) ** 2, axis=1)
         w = (N - qdiag) // 2
-        closed = int(round(6 * np.sum(degA * (w - N / 2))))
+        closed_degA = int(round(6 * np.sum(degA * (w - N / 2))))
+        cs = single_site_z_coeffs(H, N)
+        assert cs == want_cs, f"deg-1 N={N}: single-site-Z coefficients {cs} != {want_cs}"
+        closed_cl = 6 * 4 ** N * int(round(sum(c * c for c in cs)))
         # exact P_{3,1} from the polynomial (gamma^1 coefficient of p_3)
         Ar, Ai, Qi = build_integer_generators(N, DIAG_LIFT)
         polys, _ = pm_polynomials_exact(Ar, Ai, Qi, [3], nprimes=10)
         P31 = int(polys[3][0][1])
         assert P31 == want, f"deg-1 N={N}: exact P_31={P31} (expected {want})"
-        assert closed == want, f"deg-1 N={N}: closed form={closed} (expected {want})"
+        assert closed_degA == want, f"deg-1 N={N}: deg_A form={closed_degA} (expected {want})"
+        assert closed_cl == want, f"deg-1 N={N}: c_l^2 identity={closed_cl} (expected {want})"
         assert P31 > 0, f"deg-1 N={N}: P_31 not positive"
-        print(f"  N={N}: exact P_{{3,1}} = {P31} == 6*sum deg_A(x)(w(x)-N/2) = {closed} > 0  OK")
+        print(f"  N={N}: exact P_{{3,1}} = {P31} == 6*4^{N}*sum c_l^2 = {closed_cl} "
+              f"(c = {[int(c) for c in cs]}) == deg_A form {closed_degA} > 0  OK")
+    # The identity also DERIVES the deg=1 taxonomy at m=3: any pair WITHOUT a single-site-Z
+    # component (pure cycles, multi-Z lifts) has every c_l = 0, hence exact P_{3,1} = 0, so the
+    # first moment is pushed higher (this is the m=3 instance of R-deg, closed).
+    for label, pair in (("K3 (XXZ+XZX)", K3_EVEN), ("flux (IXY+XIY)", FLUX),
+                        ("multi-Z (XXZ+ZZZ)", MULTIZ)):
+        H = build_H(4, pair)
+        cs = single_site_z_coeffs(H, 4)
+        assert all(c == 0 for c in cs), f"{label}: expected all c_l = 0, got {cs}"
+        Ar, Ai, Qi = build_integer_generators(4, pair)
+        polys, _ = pm_polynomials_exact(Ar, Ai, Qi, [3], nprimes=10)
+        P31 = int(polys[3][0][1])
+        assert P31 == 0, f"{label}: exact P_31={P31} (identity predicts 0)"
+        print(f"  {label}: all c_l = 0  =>  exact P_{{3,1}} = 0 (deg-1 dead at m=3)  OK")
     print("BLOCK 6 PASS")
 
 
@@ -672,39 +724,60 @@ def block7_cell_wide():
              if not all(L == 'I' for L in t) and klein_index(''.join(t)) == (0, 1)]
     n_hard = 0
     n_pos_monomial = 0
+    n_law = 0
     pure_cycle = 0
     perron_pure = 0
     failures = []
+    law_failures = []
     for t1, t2 in combinations_with_replacement(terms, 2):
         if y_parity(t1) != y_parity(t2):
             continue
         if fw.classify_pauli_pair(chain, [tuple(t1), tuple(t2)], dephase_letter='Z') != 'hard':
             continue
         n_hard += 1
-        Ar, Ai, Q = build_integer_generators(N, [tuple(t1), tuple(t2)])
+        pair = [tuple(t1), tuple(t2)]
+        H = build_H(N, pair)
+        ell, _kind = effective_ell(N, pair)
+        Ar, Ai, Q = build_integer_generators(N, pair)
         # every hard pair in this cell breaks by m*<=9 (cycles 9, lifts 3 or 5); max_m=11 finds the
         # first nonvanishing odd moment with margin and recovers its (degree <=9) polynomial exactly.
         # nprimes=6: the node value |Tr(M^11)| at N=4, gamma<=11 is < d2*44^11 ~ 4e20, well inside
         # the product of 6 large primes (~1.05e6 each, product ~1.3e36), so the CRT is exact.
         mstar, re_co, im_co, _ = first_nonvanishing_odd(Ar, Ai, Q, 11, nprimes=6)
         nz = [j for j, c in enumerate(re_co) if c != 0] if re_co is not None else []
-        if mstar is not None and len(nz) == 1 and re_co[nz[0]] > 0 and all(c == 0 for c in im_co):
+        deg = nz[0] if len(nz) == 1 else None
+        pos_monomial = (mstar is not None and len(nz) == 1 and re_co[nz[0]] > 0
+                        and all(c == 0 for c in im_co))
+        if pos_monomial:
             n_pos_monomial += 1
         else:
             failures.append((t1, t2, mstar, nz))
+        # R-deg cell-wide: the law m* = 2*ell + deg with deg in {1,3}, and deg = 1 exactly when H
+        # carries a single-site-Z component (Block 6's c_l^2 identity at the m=3 level).
+        cs = single_site_z_coeffs(H, N)
+        if pos_monomial and deg in (1, 3) and mstar == 2 * ell + deg \
+                and (deg == 1) == any(c != 0 for c in cs):
+            n_law += 1
+        else:
+            law_failures.append((t1, t2, ell, mstar, nz))
         # the +N-Perron skew is the §7.5 reading for the PURE-CYCLE pairs (no diagonal in H)
-        H = build_H(N, [tuple(t1), tuple(t2)])
         if not has_nonzero_diagonal(H):
             pure_cycle += 1
+            # R-deg, pure-cycle form: the deg-1 class dies, the monomial sits at m* = 2*ell + 3.
+            assert deg == 3 and mstar == 2 * ell + 3, \
+                f"pure cycle {t1}+{t2}: m*={mstar}, deg={deg} (R-deg expects m*=2*{ell}+3, deg=3)"
             ev = np.linalg.eigvals(Q_on_kerA_block(H, N)[0]).real
             if np.any(np.abs(ev - N) < 1e-6) and not np.any(np.abs(ev + N) < 1e-6):
                 perron_pure += 1
     assert n_hard == 50, f"expected 50 hard pairs, got {n_hard}"
     assert n_pos_monomial == 50, f"positive-monomial only {n_pos_monomial}/50; fails {failures}"
+    assert n_law == 50, f"m* = 2*ell + deg law holds only {n_law}/50; fails {law_failures}"
     assert pure_cycle == 16, f"expected 16 pure-cycle pairs, got {pure_cycle}"
     assert perron_pure == 16, f"+N Perron skew only {perron_pure}/16 pure cycles"
     print(f"  hard pairs {n_hard}: first nonvanishing odd p_m is a positive monomial "
           f"{n_pos_monomial}/{n_hard}  OK")
+    print(f"  R-deg law m* = 2*ell + deg, deg in {{1,3}}, deg=1 <=> single-site-Z: "
+          f"{n_law}/{n_hard}  OK")
     print(f"  pure-cycle pairs {pure_cycle}: +N present & -N absent on Q|ker(A) "
           f"{perron_pure}/{pure_cycle}  OK")
     print("BLOCK 7 PASS")
