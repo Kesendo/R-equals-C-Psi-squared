@@ -20,8 +20,8 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// absent.</para>
 ///
 /// <para>Tier consistency: PalindromeSoftCertifierClaim is Tier1Candidate ←
-/// F87DiagonalCellBipartiteWitnessSet (Tier1Candidate) and ← F87TrichotomyClassification
-/// (Tier1Derived). The strength-inheritance check is parent ≥ child, i.e. 4 ≥ 4 and 5 ≥ 4, both
+/// F87DiagonalCellBipartiteWitnessSet (Tier1Derived) and ← F87TrichotomyClassification
+/// (Tier1Derived). The strength-inheritance check is parent ≥ child, i.e. 5 ≥ 4 and 5 ≥ 4, both
 /// pass.</para></summary>
 public static class PalindromeSoftCertifierClaimRegistration
 {

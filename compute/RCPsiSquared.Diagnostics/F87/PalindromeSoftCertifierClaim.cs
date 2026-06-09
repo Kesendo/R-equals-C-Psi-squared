@@ -52,9 +52,9 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <para>Tier: Tier1Candidate. Both routing mechanisms are reused as HELPERS (like
 /// <see cref="PalindromeMaskClassifier"/>; the k-body leg via <see cref="KBodyPalindromeRouting"/>), so no
 /// new typed parent and no tier change. Typed parents: <see cref="F87DiagonalCellBipartiteWitnessSet"/>
-/// (the §7 diagonal-K bipartite criterion the certifier's linear strategy scales, Tier1Candidate) and
+/// (the §7 diagonal-K bipartite criterion the certifier's linear strategy scales, Tier1Derived) and
 /// <see cref="F87TrichotomyClassification"/> (the spectral authority the soundness is checked against,
-/// Tier1Derived). The strength-inheritance check is parent ≥ child, i.e. 4 ≥ 4 and 5 ≥ 4, both pass.</para>
+/// Tier1Derived). The strength-inheritance check is parent ≥ child, i.e. 5 ≥ 4 and 5 ≥ 4, both pass.</para>
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md</c> §7.12 +
 /// <see cref="PalindromeSoftCertifier"/> + <see cref="KBodyPalindromeRouting"/> (the Stufe B leg) +

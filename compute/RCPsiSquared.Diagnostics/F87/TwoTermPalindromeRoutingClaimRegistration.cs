@@ -23,7 +23,7 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// are absent.</para>
 ///
 /// <para>Tier consistency: TwoTermPalindromeRoutingClaim is Tier2Empirical ←
-/// F87TrichotomyClassification (Tier1Derived), ← F87DiagonalCellBipartiteWitnessSet (Tier1Candidate),
+/// F87TrichotomyClassification (Tier1Derived), ← F87DiagonalCellBipartiteWitnessSet (Tier1Derived),
 /// and ← CrossoverMirrorSqrtNinetyClaim (Tier1Derived). All three parents are at least as strong as
 /// the child (parent ≥ child), so the strength-inheritance check passes.</para></summary>
 public static class TwoTermPalindromeRoutingClaimRegistration
