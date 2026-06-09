@@ -68,10 +68,16 @@ public sealed class F49cShadowCrossingPi2Inheritance : Claim, IZ2AxisClaim
     /// currently not typed for this Claim.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
-    /// (no bit_a twin is typed for this Claim; this is an open slot in the
-    /// cubic-architecture coverage).</summary>
+    /// <summary>No bespoke typed bit_a-twin: F49c's cross-term ratio R(N) is a Frobenius-norm statement
+    /// on the 4^N Pauli operator space, covered by the Hadamard X↔Z duality (see <see cref="BitATwinStatus"/>).</summary>
     public Claim? BitATwin => null;
+
+    /// <summary>Covered by the Hadamard X↔Z duality (Case 1 of docs/proofs/PROOF_BIT_A_TWIN_VIA_HADAMARD.md):
+    /// F49c's R(N) = ‖{L_H, L_Dc}‖_F / (‖L_H‖_F·‖L_Dc‖_F) is an operator-space Frobenius-norm scalar (sibling
+    /// of F49/F49b); U_H carries the Z-dephasing dissipator to X-dephasing preserving the norms, and the
+    /// shadow-crossing {X,Y}/{I,Z} family maps into itself (the Y→−Y sign drops out of every Frobenius norm),
+    /// so the Y-agnostic R(N) transports to the bit_a axis with no bespoke twin owed.</summary>
+    public BitATwinClassification BitATwinStatus => BitATwinClassification.CoveredByHadamardDuality;
     public Pi2DyadicLadderClaim Ladder { get; }
     public Pi2OperatorSpaceMirrorClaim Mirror { get; }
 
