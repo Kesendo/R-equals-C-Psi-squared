@@ -531,16 +531,32 @@ The recentered characteristic-polynomial odd coefficients Δ_j(γ) are polynomia
 {γ : spec L = spec(−L − 2σ)} is a finite common-zero set. This is the part that rests only on standard
 perturbation theory and is settled.
 
-**The residual lemma (Tier1Candidate, the Phase B target).** No positive γ is a common zero of the
-Δ_j(γ); equivalently the physical γ is not one of the finitely-many accidental soft points. This is the
-piece that is, today, a 700-point numerical spot-check rather than a theorem. The leading-order handle is
-the cleanest route in: A(γ) ≥ 0 (it is an optimal-transport distance) and A(γ) = c·γ + O(γ²) ⟹ c > 0, so
-the residual reduces to showing one Δ_j*(γ) has no positive real root, a resultant/Sturm question.
+**The residual lemma (Tier1Candidate, now proven modulo R-deg + R-sign, 2026-06-09).** No positive γ is a
+common zero of the Δ_j(γ); equivalently the physical γ is not one of the finitely-many accidental soft
+points. The Phase B two-reflection theorem [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)
+discharges this structurally rather than as a resultant/Sturm computation: the first nonvanishing odd
+power-sum p_{m\*}(γ) of the recentred M = A + γQ is itself one of the Δ_j coefficients, and it closes to a
+**positive monomial** c·γ^deg (c > 0, deg ∈ {1, 3}), which has no positive real root, so there are no
+accidental soft points to rule out and "all but finitely many γ" upgrades to **all γ > 0**. The leading-order
+handle that motivated the earlier spot-check, A(γ) ≥ 0 (an optimal-transport distance) with A(γ) = c·γ + O(γ²)
+⟹ c > 0, survives as the deg = 1 face of that monomial law.
 
-This residual is isolated as the typed node `WindowedConverseAllGammaClaim`
-(RCPsiSquared.Diagnostics.F87, Tier1Candidate). It does not weaken §7.3's "verified, not yet proved"
-framing; it sharpens it, naming precisely the single polynomial-root statement that stands between the
-genericity result and an all-γ theorem at the physical operating point.
+Three threads of that theorem are now **Tier1Derived** (general N, no premise), carried by the typed node
+`WindowedConverseThresholdClaim`: the two-reflection sign table (𝓕 = F⊗F, R = I⊗F) forcing every surviving
+odd word to have #A_L, #A_R, #Q all odd; the resulting threshold **#A ≥ 2ℓ** (ℓ the unsigned odd-girth), so
+m\* ≥ 2ℓ + 1; the degree-1 positivity closed form P_{3,1} = 6·Σ_x deg_A(x)·(w(x) − N/2) > 0; and a second,
+independent re-proof of **bipartite ⟹ soft** by the same two reflections (where §7.1's chiral K exhibits a
+similarity, this route simply observes that no odd word survives, and it covers complex-H flux pairs the
+chiral-K route never had to face). The first nonvanishing odd power-sum is a single positive monomial.
+
+What stays Tier1Candidate, isolated as `WindowedConverseAllGammaClaim` (RCPsiSquared.Diagnostics.F87, two
+Tier1Derived parents: `F87DiagonalCellBipartiteWitnessSet` + `WindowedConverseThresholdClaim`), is the
+monomial-and-positive statement gated on two sharp residuals: **R-deg** (the genuine-cycle degree lift
+m\* = 2ℓ + 3, a uniform involution on the (ℓ-cycle, ℓ-cycle, 1-Q) configurations missing) and **R-sign**
+(the genuine-cycle coefficient P_{m\*,3} > 0 as a manifestly-non-negative block functional). Both are verified
+bit-exact over the entire N = 4 k = 3 Z diagonal cell (all 50 hard pairs, 16 pure cycles) and at N = 5 / N = 6
+representatives. This does not weaken §7.3's "verified, not yet proved" framing; it sharpens it, narrowing the
+open front from a 700-point spot-check to exactly the two residuals R-deg + R-sign.
 
 ### 7.7 The obstruction-size law: a GF(2)[x] derivation (2026-06-04)
 

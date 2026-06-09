@@ -116,11 +116,14 @@ public static class KnowledgeRegistryFactory
             // bipartite⟹soft re-proof + deg-1 positivity). Parent: F87DiagonalCellBipartiteWitnessSet.
             // Registered before the all-γ residual lemma, which now takes this as a parent.
             .RegisterWindowedConverseThresholdClaim()
-            // F87 windowed-converse all-γ residual lemma (Phase A "type the seam", 2026-06-09): the
-            // single typed home of the open windowed converse residual. The DERIVED genericity result
-            // (non-bipartite ⟹ hard for all but finitely many γ) is carried by the witness set above;
-            // this Tier1Candidate node isolates the open all-γ closure incl. the physical point (the
-            // Phase B target). F110/F111 are gated on it. Parent: F87DiagonalCellBipartiteWitnessSet.
+            // F87 windowed-converse all-γ residual lemma (Phase B two-reflection theorem, 2026-06-09): the
+            // monomial-and-positive lemma, now proven modulo two sharp residuals R-deg + R-sign. The first
+            // nonvanishing odd power-sum of M=A+γQ closes to a positive monomial c·γ^deg (deg∈{1,3}), with no
+            // positive real root ⟹ hard ∀γ>0, upgrading "all but finitely many γ" to "all γ>0". Tier1Candidate,
+            // gated on R-deg (genuine-cycle degree lift m*=2ℓ+3) + R-sign (P_{m*,3}>0); both verified bit-exact
+            // cell-wide N=4 + N=5/N=6 reps. Two Tier1Derived parents: F87DiagonalCellBipartiteWitnessSet (the §7
+            // diagonal-K criterion) + WindowedConverseThresholdClaim (the spine: #A≥2ℓ + soft re-proof + deg-1
+            // positivity). F110/F111 are gated on closing R-deg + R-sign.
             .RegisterWindowedConverseAllGammaClaim()
             // §7.12 Liouvillian-free soft-certifier as a registered Claim: the certifier tries three
             // scalable structured 2-colourings (linear chiral K, excitation pairing, excitation parity)

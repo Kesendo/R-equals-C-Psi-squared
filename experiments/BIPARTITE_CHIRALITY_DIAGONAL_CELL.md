@@ -206,8 +206,29 @@ identity. That set-level statement is now derived in PROOF_F103 §7.5 (2026-06-0
   γ) is Derived, carried by F87DiagonalCellBipartiteWitnessSet; the remaining all-γ closure including the
   physical operating point is isolated as the Tier1Candidate WindowedConverseAllGammaClaim (the Phase B
   target).
-- **Not yet tested:** windowed k=4 (N > 4) and k=5. The windowed converse is the open front; full
-  support is settled.
+- **Proven modulo R-deg + R-sign (Phase B, 2026-06-09,
+  [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)):** recentre
+  the Liouvillian as M = A + γQ; two involutions 𝓕 = F⊗F and R = I⊗F force every surviving odd power-sum word
+  to have #A_L, #A_R, #Q all odd, giving the threshold #A ≥ 2ℓ (ℓ the unsigned odd-girth) and a second,
+  independent re-proof of bipartite ⟹ soft (no odd word survives). The first nonvanishing odd power-sum closes
+  to a **positive monomial** c·γ^deg (c > 0, deg ∈ {1, 3}), which has no positive real root, so non-bipartite is
+  **hard at every operating point γ > 0**, upgrading "all but finitely many γ" to "all γ > 0". This spine (the
+  sign table, the threshold, the soft re-proof, the deg-1 positivity P_{3,1} = 6·Σ_x deg_A(x)·(w(x) − N/2) > 0)
+  is Tier1Derived (`WindowedConverseThresholdClaim`); the monomial-and-positive lemma stays Tier1Candidate
+  (`WindowedConverseAllGammaClaim`), gated on the two residuals R-deg (the genuine-cycle degree lift
+  m\* = 2ℓ + 3) and R-sign (the genuine-cycle coefficient P_{m\*,3} > 0), both verified bit-exact cell-wide at
+  N = 4 and at N = 5 / N = 6 representatives.
+- **Retraction (the "flux moment-invisible exception" was a discarded-Im H bug).** An earlier reading treated
+  the complex-H flux pair (odd #Y, X…Y bond, Gaussian-integer H) as a genuine all-γ exception, on the grounds
+  that its signed third moment cancels, (H³)_{ii} = 0. That cancellation is real but irrelevant, and the
+  earlier read mis-handled the imaginary part of H. The two-reflection argument is governed by
+  *unsigned* index-trajectory existence: Q is diagonal, so a trace's support is the unsigned three-walk count
+  (|H|³)_{ii} = 6 > 0, which is immune to the signed XX+YY cancellation. The flux pairs therefore obey the
+  identical monomial law (the IXY+XIY flux pair has p_9 = 589824·γ³, pure γ³, hard ∀γ > 0), with no
+  exception. The sign table is checked bit-exact on this complex-H pair, so the converse covers flux pairs the
+  chiral-K route never had to face.
+- **Not yet tested:** windowed k=4 (N > 4) and k=5. The windowed converse is proven modulo R-deg + R-sign;
+  full support is settled.
 
 ## Links
 

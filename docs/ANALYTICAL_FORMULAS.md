@@ -3318,11 +3318,13 @@ trichotomy class).
 **Status (2026-06-05):** the 42:8 split is derived by a closed-form counting rule
 (PROOF §6); the bipartite-chirality mechanism (§7) derives the soft direction, N-stability
 is verified at N=5 (F105), and F106 is the k=4 sibling. The windowed (k<N) hard-direction
-converse non-bipartite ⟹ hard is now **derived** (PROOF §7.5 Perron-mode criterion + §7.6
-first-order premise closed via degenerate-PT + analyticity, 2026-06-04), so the mechanism is
-Tier1Derived modulo standard perturbation theory. The all-γ residual of the windowed converse is
-isolated as WindowedConverseAllGammaClaim (Tier1Candidate, the Phase B target); the genericity result
-(hard for all but finitely many γ) is Derived. Separately, the combinatorics are closed-form (the
+converse non-bipartite ⟹ hard is now **proven modulo R-deg + R-sign** (the Phase B two-reflection
+theorem [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md),
+2026-06-09): the threshold #A ≥ 2ℓ, the bipartite ⟹ soft re-proof, the monomial structure, and the
+deg-1 positivity are Tier1Derived (`WindowedConverseThresholdClaim`); the first nonvanishing odd
+power-sum is a positive monomial, so "all but finitely many γ" upgrades to **all γ > 0**. The residual
+lemma stays WindowedConverseAllGammaClaim (Tier1Candidate), now gated only on the two residuals R-deg +
+R-sign rather than a 700-point spot-check. Separately, the combinatorics are closed-form (the
 valuation criterion, the obstruction-size law min(2W−1, 2k−3), and the A203241 hard count, §7.7–§7.8 =
 **F115**). **Open:** the (pair Klein, dephase letter) → (Pattern B vs Pattern C) selection rule;
 hardware confirmation of k≥3 F87 (all 5 Marrakesh F87 confirmations are k=2).
@@ -3639,10 +3641,12 @@ N=5 (F105): identical 42:8 (N-stable); k=4 N=4 (F106): 228:0 fully pure with
 Y-inversion preserved.
 
 **Status:** the 42:8 (k=3) and 228:0 (k=4) ratios are derived by the §6 counting rule and
-the §7 bipartite mechanism; F111 closes the k=4 case at full support. **Open:** the windowed
-(k<N) hard-direction converse (non-bipartite ⟹ hard), the one edge still gating Tier1Derived;
-its all-γ residual is typed as WindowedConverseAllGammaClaim (Tier1Candidate); closing it promotes
-F110/F111 to Tier1Derived. Also open: k ≥ 5 empirical confirmation; QPU confirmation at k ≥ 3.
+the §7 bipartite mechanism; F111 closes the k=4 case at full support. The windowed
+(k<N) hard-direction converse (non-bipartite ⟹ hard) is now **proven modulo R-deg + R-sign**
+(the Phase B two-reflection spine is Tier1Derived, `WindowedConverseThresholdClaim`); its all-γ
+residual lemma is typed as WindowedConverseAllGammaClaim (Tier1Candidate), gated on the two residuals
+R-deg + R-sign, and closing those promotes F110/F111 to Tier1Derived. **Open:** R-deg + R-sign
+themselves; k ≥ 5 empirical confirmation; QPU confirmation at k ≥ 3.
 
 **Source:** [Proof](proofs/PROOF_F110_HARD_CELL_Y_INVERSION.md);
 `compute/RCPsiSquared.Core/Symmetry/HardCellYInversionPattern.cs`;
@@ -3691,10 +3695,11 @@ split into 36 Pure-Pure (all HARD) + 192 Pure-Mixed (all HARD) + 300 Mixed-Mixed
 across 3 dephases, all matching the rule with zero exceptions.
 
 **Open:** Subclaim (d) Mixed+Mixed = soft closed-form (blocks Tier1Derived).
-The windowed (k<N) hard-direction converse's all-γ residual is typed as
-WindowedConverseAllGammaClaim (Tier1Candidate); closing it promotes F110/F111 to
-Tier1Derived. Pure-D Template Rule at k > 4 or N > 4 (empirically unverified).
-Hardware QPU confirmation at k ≥ 3.
+The windowed (k<N) hard-direction converse is now proven modulo R-deg + R-sign (the
+two-reflection spine is Tier1Derived, `WindowedConverseThresholdClaim`); its all-γ residual
+lemma stays WindowedConverseAllGammaClaim (Tier1Candidate), gated on R-deg + R-sign, and
+closing those promotes F110/F111 to Tier1Derived. Pure-D Template Rule at k > 4 or N > 4
+(empirically unverified). Hardware QPU confirmation at k ≥ 3.
 
 **Source:** [Proof](proofs/PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md);
 `compute/RCPsiSquared.Core/Symmetry/HardCellPureDTemplate.cs`;
