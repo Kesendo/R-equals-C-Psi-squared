@@ -49,10 +49,15 @@ public sealed class F49bCenteredDissipatorPi2Inheritance : Claim, IZ2AxisClaim
     /// currently not typed for this Claim.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
-    /// (no bit_a twin is typed for this Claim; this is an open slot in the
-    /// cubic-architecture coverage).</summary>
+    /// <summary>No bespoke typed bit_a-twin: F49b's ‖L_Dc‖² is a Frobenius-norm statement on the 4^N Pauli
+    /// operator space, covered by the Hadamard X↔Z duality (see <see cref="BitATwinStatus"/>).</summary>
     public Claim? BitATwin => null;
+
+    /// <summary>Covered by the Hadamard X↔Z duality (Case 1 of docs/proofs/PROOF_BIT_A_TWIN_VIA_HADAMARD.md):
+    /// F49b's centered-dissipator Frobenius norm ‖L_Dc‖² is an operator-space statement; the global Hadamard
+    /// maps the Z-dephasing dissipator to the X-dephasing one, preserving the norm, so no bespoke twin is
+    /// owed.</summary>
+    public BitATwinClassification BitATwinStatus => BitATwinClassification.CoveredByHadamardDuality;
     public Pi2DyadicLadderClaim Ladder { get; }
     public Pi2OperatorSpaceMirrorClaim Mirror { get; }
 

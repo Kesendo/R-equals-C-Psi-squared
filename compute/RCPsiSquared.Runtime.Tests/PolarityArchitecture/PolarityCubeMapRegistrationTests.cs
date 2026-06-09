@@ -118,15 +118,16 @@ public class PolarityCubeMapRegistrationTests
     public void PolarityCubeMap_CoveredByHadamardDualityTwinSlots_MatchesAbsorptionDescendants()
     {
         // The 9 Absorption-Theorem descendants (F33, F50, F55, F64, F65, F66, F67,
-        // F68, F74) plus F83 (the anti-fraction, an operator-space Frobenius statement)
-        // reclassify their bit_a twin slot to CoveredByHadamardDuality: the
+        // F68, F74), plus F83 (anti-fraction) and F49/F49b/F80/F81 (the operator-space
+        // Pi-decomposition family: residual/dissipator Frobenius norms, Spec(M), the
+        // Pi-conjugation identity), reclassify their bit_a twin slot to CoveredByHadamardDuality: the
         // bit_a image holds by the global Hadamard X↔Z duality
         // (docs/proofs/PROOF_BIT_A_TWIN_VIA_HADAMARD.md), so no bespoke typed twin is
         // owed. If a future BitB Claim adopts (or drops) this status, update the count.
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var cubeMap = registry.Get<PolarityCubeMap>();
 
-        Assert.Equal(10, cubeMap.CoveredByHadamardDualityTwinSlots);
+        Assert.Equal(14, cubeMap.CoveredByHadamardDualityTwinSlots);
     }
 
     [Fact]

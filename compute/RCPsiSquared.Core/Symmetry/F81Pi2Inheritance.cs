@@ -53,10 +53,14 @@ public sealed class F81Pi2Inheritance : Claim, IZ2AxisClaim
     /// currently not typed for this Claim.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
-    /// (no bit_a twin is typed for this Claim; this is an open slot in the
-    /// cubic-architecture coverage).</summary>
+    /// <summary>No bespoke typed bit_a-twin: F81 is an operator identity on the canonical Π (plus a
+    /// Frobenius split), covered by the Hadamard X↔Z duality (see <see cref="BitATwinStatus"/>).</summary>
     public Claim? BitATwin => null;
+
+    /// <summary>Covered by the Hadamard X↔Z duality (Case 1 of docs/proofs/PROOF_BIT_A_TWIN_VIA_HADAMARD.md):
+    /// F81's Π·M·Π⁻¹ = M − 2·L_{H_odd} is an operator identity on the canonical Π (with a Frobenius
+    /// M_sym/M_anti split), so Q_zx conjugation carries it to the bit_a axis with no bespoke twin owed.</summary>
+    public BitATwinClassification BitATwinStatus => BitATwinClassification.CoveredByHadamardDuality;
     public Pi2DyadicLadderClaim Ladder { get; }
     public Pi2OperatorSpaceMirrorClaim Mirror { get; }
     public Pi2I4MemoryLoopClaim MemoryLoop { get; }

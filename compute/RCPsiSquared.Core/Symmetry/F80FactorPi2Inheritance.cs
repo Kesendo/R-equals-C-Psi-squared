@@ -42,10 +42,14 @@ public sealed class F80FactorPi2Inheritance : Claim, IZ2AxisClaim
     /// currently not typed for this Claim.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
-    /// (no bit_a twin is typed for this Claim; this is an open slot in the
-    /// cubic-architecture coverage).</summary>
+    /// <summary>No bespoke typed bit_a-twin: F80's Spec(M) is an operator-spectrum statement on the
+    /// canonical-Π residual M, covered by the Hadamard X↔Z duality (see <see cref="BitATwinStatus"/>).</summary>
     public Claim? BitATwin => null;
+
+    /// <summary>Covered by the Hadamard X↔Z duality (Case 1 of docs/proofs/PROOF_BIT_A_TWIN_VIA_HADAMARD.md):
+    /// F80's Spec(M) = ±2i·Spec(H_non-truly) is an operator-spectrum statement on the canonical Π; Q_zx
+    /// conjugation preserves spectra, so it transports to the bit_a axis with no bespoke twin owed.</summary>
+    public BitATwinClassification BitATwinStatus => BitATwinClassification.CoveredByHadamardDuality;
     public Pi2DyadicLadderClaim Ladder { get; }
     public Pi2I4MemoryLoopClaim Loop { get; }
     /// <summary>The "2" in F80's "±2i" — exactly <c>a_0</c> on the Pi2 dyadic ladder.</summary>
