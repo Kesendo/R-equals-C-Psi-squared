@@ -21,7 +21,9 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///         bipartite ⟹ soft, complementary to <see cref="Core.Symmetry.ChiralKClaim"/>;</item>
 ///   <item>non-bipartite ⟹ #A_L, #A_R ≥ ℓ ⟹ #A ≥ 2ℓ (THRESHOLD): the first asymmetric odd moment
 ///         sits at the odd-girth out-and-back;</item>
-///   <item>deg-1 positivity: P_{3,1} = 6·Σ_x deg_A(x)(w(x)−N/2) > 0 in closed form (anti-Hermiticity).</item>
+///   <item>deg-1 positivity: P_{3,1} = 6·4^N·Σ_l c_l² over H's single-site-Z Pauli coefficients
+///         (tensor traces: Tr(A²Q) = 2·Σ_l Tr(HZ_l)²), manifestly ≥ 0 and > 0 exactly for a
+///         single-site-Z lift.</item>
 /// </list>
 ///
 /// <para>Tier1Derived: this spine is proven general-N. The monomial property at m* (hence the full
@@ -59,8 +61,10 @@ public sealed class WindowedConverseThresholdClaim : Claim
         "power-sums ≡ 0 (soft); non-bipartite ⟹ #A_L,#A_R ≥ ℓ ⟹ #A ≥ 2ℓ (first asymmetry at the odd-girth).";
 
     public string Deg1Positivity =>
-        "deg-1 (single-site-Z lift): P_{3,1} = 6·Σ_x deg_A(x)(w(x)−N/2) > 0, deg_A(x)=Σ_y|A_{xy}|² ≥ 0 " +
-        "(anti-Hermiticity gives (A²)_{xx} = −Σ_y|A_{xy}|² ≤ 0). Closed form, RIGOROUS-GENERAL.";
+        "deg-1: P_{3,1} = 3·Tr(A²Q) = 6·4^N·Σ_l c_l² over H's single-site-Z Pauli coefficients (tensor " +
+        "traces: A² = −H²⊗I + 2H⊗H^T − I⊗(H^T)², and against Q = Σ_l Z_l⊗Z_l only the doubled leg " +
+        "survives, Tr(A²Q) = 2·Σ_l Tr(HZ_l)²). Manifestly ≥ 0; > 0 iff a single-site-Z lift; = 0 exactly " +
+        "for pure cycles and multi-Z lifts (the m=3 instance of R-deg, closed). Closed form, RIGOROUS-GENERAL.";
 
     public string FollowsModulo =>
         "Monomial at m* (hence hard ∀γ>0) follows once R-deg (the single-Q ℓ-cycle×ℓ-cycle traversal sums to " +

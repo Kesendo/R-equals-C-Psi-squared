@@ -10,8 +10,9 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///
 /// <para>PROVEN (Tier1Derived, via <see cref="WindowedConverseThresholdClaim"/> and
 /// <see cref="F87DiagonalCellBipartiteWitnessSet"/>): the two-reflection spine (𝓕=F⊗F, R=I⊗F ⟹
-/// #A_L,#A_R,#Q all odd ⟹ bipartite soft + non-bipartite #A≥2ℓ threshold), the monomial structure,
-/// and deg-1 positivity. The first nonvanishing odd power-sum of M=A+γQ is, for every hard pair, a
+/// #A_L,#A_R,#Q all odd ⟹ bipartite soft + non-bipartite #A≥2ℓ threshold), the §4 monomial
+/// expansion structure, and the deg-1 positivity closed form P_{3,1} = 6·4^N·Σ_l c_l².
+/// The first nonvanishing odd power-sum of M=A+γQ is, for every hard pair, a
 /// positive monomial c·γ^deg (deg in {1,3}, m* = 2ℓ+deg), verified bit-exact cell-wide at N=4 and at
 /// N=5/N=6 reps. A positive monomial has no positive real root, so hard at every γ>0.</para>
 ///
@@ -41,14 +42,15 @@ public sealed class WindowedConverseAllGammaClaim : Claim
     /// <summary>The proven spine (Tier1Derived, via WindowedConverseThresholdClaim).</summary>
     public string ProvenSpine =>
         "DERIVED (WindowedConverseThresholdClaim): the two reflections 𝓕=F⊗F, R=I⊗F force #A_L,#A_R,#Q all odd in " +
-        "every odd power-sum word, giving bipartite ⟹ soft and non-bipartite ⟹ #A ≥ 2ℓ; the monomial structure and " +
-        "deg-1 positivity are closed-form.";
+        "every odd power-sum word, giving bipartite ⟹ soft and non-bipartite ⟹ #A ≥ 2ℓ; the §4 monomial expansion " +
+        "structure and the deg-1 positivity (P_{3,1} = 6·4^N·Σ_l c_l²) are closed-form.";
 
     /// <summary>Open residual 1.</summary>
     public string RDeg =>
         "R-deg (OPEN; verified bit-exact cell-wide N=4, reps N=5/N=6): Tr(Q·A^{2ℓ}) on the (#A_L=ℓ,#A_R=ℓ) " +
         "odd-cycle-traversal class sums to zero for pure off-diagonal H, so p_{2ℓ+1} ≡ 0 and deg rises to 3 for " +
-        "genuine cycles (the monomial at m* = 2ℓ+3). No uniform closed-form involution yet.";
+        "genuine cycles (the monomial at m* = 2ℓ+3). The m=3 instance is closed (all c_l = 0 ⟹ P_{3,1} = 0 by " +
+        "the deg-1 identity); no uniform closed form at general m yet.";
 
     /// <summary>Open residual 2.</summary>
     public string RSign =>
@@ -65,8 +67,8 @@ public sealed class WindowedConverseAllGammaClaim : Claim
 
     public override string Summary =>
         "the first nonvanishing odd power-sum is a positive monomial ⟹ hard ∀γ>0; the two-reflection spine + " +
-        "monomial structure + deg-1 positivity are PROVEN (WindowedConverseThresholdClaim); the full theorem is " +
-        $"proven modulo two open residuals R-deg + R-sign ({Tier.Label()})";
+        "§4 monomial expansion structure + deg-1 positivity closed form are PROVEN (WindowedConverseThresholdClaim); " +
+        $"the full theorem is proven modulo two open residuals R-deg + R-sign ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {

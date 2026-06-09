@@ -26,9 +26,11 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// premise: the K3 triangle obstructs the chiral functional that would supply the gain channel's
 /// −N reflection mode and pair its +N population Perron mode, and any palindromizer forces a
 /// spectral palindrome (no non-chiral escape). The first-order reduction is itself closed (§7.6,
-/// degenerate PT + analyticity, adversarially stress-tested N=4/5), so the converse is fully derived
-/// modulo standard perturbation theory; promoted to Tier1Derived in the formal promotion pass
-/// (2026-06-08, tier tests + registry inventory updated).</para>
+/// degenerate PT + analyticity, adversarially stress-tested N=4/5), so the converse is derived at
+/// the genericity level (hard for all but finitely many γ), resting only on standard perturbation
+/// theory; promoted to Tier1Derived in the formal promotion pass (2026-06-08, tier tests + registry
+/// inventory updated). The all-γ closure is carried separately by
+/// <see cref="WindowedConverseAllGammaClaim"/> (Tier1Candidate, proven modulo R-deg + R-sign).</para>
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md</c> §7 +
 /// <see cref="Core.Symmetry.ChiralKClaim"/> + <see cref="PauliPairTrichotomy"/> +
