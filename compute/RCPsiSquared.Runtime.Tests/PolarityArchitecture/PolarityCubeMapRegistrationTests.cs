@@ -122,14 +122,15 @@ public class PolarityCubeMapRegistrationTests
         // Pi-decomposition family: residual/dissipator Frobenius norms, Spec(M), the
         // Pi-conjugation identity) and F3/F43/F44 (the Lindblad-spectral Absorption family: decay-rate
         // bounds, sector SFF pairing, the eigenvalue-pair rate identity), and F49c (the shadow-crossing
-        // Frobenius cross-term ratio), reclassify their bit_a twin slot to CoveredByHadamardDuality: the
+        // Frobenius cross-term ratio), and F85 (the k-body roll-up of the F49/F80/F81/F83 family),
+        // reclassify their bit_a twin slot to CoveredByHadamardDuality: the
         // bit_a image holds by the global Hadamard X↔Z duality
         // (docs/proofs/PROOF_BIT_A_TWIN_VIA_HADAMARD.md), so no bespoke typed twin is
         // owed. If a future BitB Claim adopts (or drops) this status, update the count.
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var cubeMap = registry.Get<PolarityCubeMap>();
 
-        Assert.Equal(18, cubeMap.CoveredByHadamardDualityTwinSlots);
+        Assert.Equal(19, cubeMap.CoveredByHadamardDualityTwinSlots);
     }
 
     [Fact]

@@ -85,10 +85,17 @@ public sealed class F85KBodyFChainPi2Inheritance : Claim, IZ2AxisClaim
     /// currently not typed for this Claim.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>The typed bit_a-twin sibling, if one exists. Currently null
-    /// (no bit_a twin is typed for this Claim; this is an open slot in the
-    /// cubic-architecture coverage).</summary>
+    /// <summary>No bespoke typed bit_a-twin: F85's content is the body-count-agnostic operator-space
+    /// roll-up ‖M‖²_F = 4·c(k)·‖H_k‖²·2^N and Spec(M) of the canonical-Π residual, covered by the Hadamard
+    /// X↔Z duality (see <see cref="BitATwinStatus"/>).</summary>
     public Claim? BitATwin => null;
+
+    /// <summary>Covered by the Hadamard X↔Z duality (Case 1, "body-count-agnostic roll-ups" clause of
+    /// docs/proofs/PROOF_BIT_A_TWIN_VIA_HADAMARD.md): F85 rolls the already-covered F49/F80/F81/F83 to k-body,
+    /// and its content is a scalar Frobenius-norm/Spec(M) value graded by bit_b parity, which Q_zx preserves
+    /// at any body count (it only permutes which terms fall in each Π²-class). No per-letter truly verdict and
+    /// no eigenvector/state-space content (unlike F78), so no bespoke twin is owed.</summary>
+    public BitATwinClassification BitATwinStatus => BitATwinClassification.CoveredByHadamardDuality;
     public Pi2DyadicLadderClaim Ladder { get; }
     public F49Pi2Inheritance F49 { get; }
     public F83AntiFractionPi2Inheritance F83 { get; }
