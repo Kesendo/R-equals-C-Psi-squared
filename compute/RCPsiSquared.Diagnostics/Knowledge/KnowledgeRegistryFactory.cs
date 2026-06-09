@@ -111,6 +111,12 @@ public static class KnowledgeRegistryFactory
             // converse, derived modulo standard PT, promoted 2026-06-08; per §7.10 only the (1+x)-valuation reaches the spectrum). Wired
             // 2026-06-05.
             .RegisterWindowedHardnessClaim()
+            // F87 windowed-converse all-γ residual lemma (Phase A "type the seam", 2026-06-09): the
+            // single typed home of the open windowed converse residual. The DERIVED genericity result
+            // (non-bipartite ⟹ hard for all but finitely many γ) is carried by the witness set above;
+            // this Tier1Candidate node isolates the open all-γ closure incl. the physical point (the
+            // Phase B target). F110/F111 are gated on it. Parent: F87DiagonalCellBipartiteWitnessSet.
+            .RegisterWindowedConverseAllGammaClaim()
             // §7.12 Liouvillian-free soft-certifier as a registered Claim: the certifier tries three
             // scalable structured 2-colourings (linear chiral K, excitation pairing, excitation parity)
             // and certifies "soft" iff one applies; it never claims hard. The Claim asserts ONLY the
