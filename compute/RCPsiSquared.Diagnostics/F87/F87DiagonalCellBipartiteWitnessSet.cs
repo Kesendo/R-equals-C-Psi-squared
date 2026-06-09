@@ -26,8 +26,8 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///
 /// <para>"Derived modulo standard perturbation theory" means: derived at the genericity level
 /// (non-bipartite ⟹ hard for all but finitely many γ). The remaining all-γ closure incl. the physical
-/// point is isolated as the Tier1Candidate <see cref="WindowedConverseAllGammaClaim"/> (Phase B
-/// target).</para>
+/// point is isolated as the Tier1Candidate <see cref="WindowedConverseAllGammaClaim"/>, now proven
+/// modulo R-deg + R-sign (the two-reflection spine is Tier1Derived, see WindowedConverseThresholdClaim).</para>
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md</c> §7 +
 /// <see cref="Core.Symmetry.ChiralKClaim"/> + <see cref="PauliPairTrichotomy"/>; per-witness

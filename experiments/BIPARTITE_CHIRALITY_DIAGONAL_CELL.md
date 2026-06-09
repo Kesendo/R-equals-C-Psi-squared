@@ -174,15 +174,13 @@ first-order D̂-block spectrum about −σ, and c = 0 ⟺ bipartite.**
 ([`f87_first_order_degenerate.py`](../simulations/f87_first_order_degenerate.py),
 [`f87_break_gamma_scaling.py`](../simulations/f87_break_gamma_scaling.py).)
 
-**The moment route is closed (negative).** In the computational basis D̂ is diagonal,
+**The low moments are blind (the early dead-end Phase B reopened).** In the computational basis D̂ is diagonal,
 D̂|i⟩⟨j| = −2·Hamming(i⊕j)·|i⟩⟨j| (the Absorption Theorem), which made a moment proof tempting:
 soft ⟺ Tr((L+σ)^{odd}) = 0. But the first-order odd moments **vanish for both soft and hard**
 (Tr((L+σ)³) = Tr((L+σ)⁵) = 0 to first order, verified for both;
 [`f87_moment_condition.py`](../simulations/f87_moment_condition.py)). The moments do not see the
-break , it is *moment-invisible*. The hardness is a **set-pairing asymmetry** (the optimal-transport
-distance between Spec(L) and Spec(−L−2σ)), finer than any low moment. So the converse's proof must
-be a set-level (combinatorial) statement about the degenerate D̂-block spectrum, not a moment
-identity. That set-level statement is now derived in PROOF_F103 §7.5 (2026-06-04): the odd cycle obstructs the chiral functional that would supply the gain channel's reflection-floor mode; the first-order reduction it rested on is itself closed in §7.6 (degenerate PT + analyticity), so the converse is fully derived modulo standard perturbation theory.
+break; it is *moment-invisible at low order*. The hardness is a **set-pairing asymmetry** (the optimal-transport
+distance between Spec(L) and Spec(−L−2σ)), finer than any low moment. At low order this read as the moment route being dead, forcing a set-level (combinatorial) statement about the degenerate D̂-block spectrum. But it is only blind at low order: Phase B (below) shows the first NONVANISHING odd moment, at m\* = 2ℓ + deg, is a positive monomial, so the moment route closes the converse after all, built on that same combinatorial structure. That set-level statement is independently derived in PROOF_F103 §7.5 (2026-06-04): the odd cycle obstructs the chiral functional that would supply the gain channel's reflection-floor mode; the first-order reduction it rested on is itself closed in §7.6 (degenerate PT + analyticity), so the converse is fully derived modulo standard perturbation theory.
 
 ## Honest status
 
@@ -195,8 +193,8 @@ identity. That set-level statement is now derived in PROOF_F103 §7.5 (2026-06-0
   −N reflection-floor is also attained ⟺ an anti-diagonal commutant element A = FK exists (F = X^⊗N,
   using FHF = −H) ⟺ bipartite ⟺ no K3 triangle. ω=0 is decisive (the +N mode pairs only at ω=0).
   Separately the operator-search is dissolved: any palindromizer forces spec(L) = spec(−L−2σ), so no
-  non-chiral similarity escapes (verified 236 pairs, N=4 all letters + N=5 Z). The moment route stays
-  ruled out (moment-invisible). The first-order reduction is itself closed
+  non-chiral similarity escapes (verified 236 pairs, N=4 all letters + N=5 Z). The low-order moment route stays
+  ruled out (Phase B, below, closes the converse at the first nonvanishing moment). The first-order reduction is itself closed
   (§7.6, 2026-06-04): L₀ = −i[H,·] is normal so degenerate PT is exact (O(γ) shifts = M_ω eigenvalues to
   1e-9, N=4/5), and analyticity (char-poly coefficients polynomial in γ) turns the nonzero first-order
   break into a break for all but finitely many γ, so non-bipartite ⟹ hard at the generic physical γ.
@@ -204,8 +202,8 @@ identity. That set-level statement is now derived in PROOF_F103 §7.5 (2026-06-0
   standard perturbation theory.
 - **Typed split (2026-06-08):** the genericity result (non-bipartite ⟹ hard for all but finitely many
   γ) is Derived, carried by F87DiagonalCellBipartiteWitnessSet; the remaining all-γ closure including the
-  physical operating point is isolated as the Tier1Candidate WindowedConverseAllGammaClaim (the Phase B
-  target).
+  physical operating point is isolated as the Tier1Candidate WindowedConverseAllGammaClaim (closed in the Phase B
+  bullet below).
 - **Proven modulo R-deg + R-sign (Phase B, 2026-06-09,
   [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)):** recentre
   the Liouvillian as M = A + γQ; two involutions 𝓕 = F⊗F and R = I⊗F force every surviving odd power-sum word

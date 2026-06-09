@@ -31,7 +31,7 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <para>Scope of the Tier1Derived label: the criterion itself (valuations-differ ⟺ non-bipartite is
 /// exact GF(2)) plus the genericity result (non-bipartite ⟹ hard for all but finitely many γ). The
 /// all-γ closure including the physical operating point is isolated as the Tier1Candidate
-/// <see cref="WindowedConverseAllGammaClaim"/> (Phase B target); it is a downstream strengthening, not
+/// <see cref="WindowedConverseAllGammaClaim"/> (now proven modulo R-deg + R-sign); it is a downstream strengthening, not
 /// a parent of this claim, so the tiers stay consistent.</para>
 ///
 /// <para>The per-size shape of the obstruction (the MacWilliams kernel) splits into a closed floor
