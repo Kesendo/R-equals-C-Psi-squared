@@ -176,9 +176,10 @@ first-order D̂-block spectrum about −σ, and c = 0 ⟺ bipartite.**
 
 **The low moments are blind (the early dead-end Phase B reopened).** In the computational basis D̂ is diagonal,
 D̂|i⟩⟨j| = −2·Hamming(i⊕j)·|i⟩⟨j| (the Absorption Theorem), which made a moment proof tempting:
-soft ⟺ Tr((L+σ)^{odd}) = 0. But the first-order odd moments **vanish for both soft and hard**
+soft ⟺ Tr((L+σ)^{odd}) = 0. But for the genuine-cycle pairs the scout tested, the first-order odd moments **vanish for soft and hard alike**
 (Tr((L+σ)³) = Tr((L+σ)⁵) = 0 to first order, verified for both;
-[`f87_moment_condition.py`](../simulations/f87_moment_condition.py)). The moments do not see the
+[`f87_moment_condition.py`](../simulations/f87_moment_condition.py); a lifted diagonal is different,
+it breaks already at first order, p₃ = 9216·γ for IIZ+IZI). For cycles the low moments do not see the
 break; it is *moment-invisible at low order*. The hardness is a **set-pairing asymmetry** (the optimal-transport
 distance between Spec(L) and Spec(−L−2σ)), finer than any low moment. At low order this read as the moment route being dead, forcing a set-level (combinatorial) statement about the degenerate D̂-block spectrum. But it is only blind at low order: Phase B (below) shows the first NONVANISHING odd moment, at m\* = 2ℓ + deg, is a positive monomial, so the moment route closes the converse after all, built on that same combinatorial structure. That set-level statement is independently derived in PROOF_F103 §7.5 (2026-06-04): the odd cycle obstructs the chiral functional that would supply the gain channel's reflection-floor mode; the first-order reduction it rested on is itself closed in §7.6 (degenerate PT + analyticity), so the converse is fully derived modulo standard perturbation theory.
 
@@ -202,8 +203,8 @@ distance between Spec(L) and Spec(−L−2σ)), finer than any low moment. At lo
   standard perturbation theory.
 - **Typed split (2026-06-08):** the genericity result (non-bipartite ⟹ hard for all but finitely many
   γ) is Derived, carried by F87DiagonalCellBipartiteWitnessSet; the remaining all-γ closure including the
-  physical operating point is isolated as the Tier1Candidate WindowedConverseAllGammaClaim (closed in the Phase B
-  bullet below).
+  physical operating point is isolated as the Tier1Candidate WindowedConverseAllGammaClaim (upgraded to
+  "proven modulo R-deg + R-sign" in the Phase B bullet below).
 - **Proven modulo R-deg + R-sign (Phase B, 2026-06-09,
   [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)):** recentre
   the Liouvillian as M = A + γQ; two involutions 𝓕 = F⊗F and R = I⊗F force every surviving odd power-sum word
@@ -211,7 +212,8 @@ distance between Spec(L) and Spec(−L−2σ)), finer than any low moment. At lo
   independent re-proof of bipartite ⟹ soft (no odd word survives). The first nonvanishing odd power-sum closes
   to a **positive monomial** c·γ^deg (c > 0, deg ∈ {1, 3}), which has no positive real root, so non-bipartite is
   **hard at every operating point γ > 0**, upgrading "all but finitely many γ" to "all γ > 0". This spine (the
-  sign table, the threshold, the soft re-proof, the deg-1 positivity P_{3,1} = 6·Σ_x deg_A(x)·(w(x) − N/2) > 0)
+  sign table, the threshold, the soft re-proof, the deg-1 positivity closed form P_{3,1} = 6·4^N·Σ_l c_l²
+  over H's single-site-Z Pauli coefficients, manifestly ≥ 0)
   is Tier1Derived (`WindowedConverseThresholdClaim`); the monomial-and-positive lemma stays Tier1Candidate
   (`WindowedConverseAllGammaClaim`), gated on the two residuals R-deg (the genuine-cycle degree lift
   m\* = 2ℓ + 3) and R-sign (the genuine-cycle coefficient P_{m\*,3} > 0), both verified bit-exact cell-wide at

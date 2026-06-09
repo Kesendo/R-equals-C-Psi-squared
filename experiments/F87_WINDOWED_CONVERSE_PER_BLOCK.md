@@ -1,10 +1,12 @@
 # The Windowed F87 Converse, Per Block: Where the Odd Cycle Breaks the Pairing
 
-**Status:** A sharpening of the open windowed converse, not a proof. The per-block decomposition
+**Status:** A sharpening of the then-open windowed converse, not a proof. The per-block decomposition
 is analytic (the transpose relation M(−ω) = M(ω)^T) and verified bit-exact at N=4; the localization
-(which block breaks) is read off the same N=4 anchor. The windowed converse non-bipartite ⟹ hard
-stays open exactly as [PROOF_F103 §7.3](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md)
-leaves it.
+(which block breaks) is read off the same N=4 anchor. At the time of writing the windowed converse
+non-bipartite ⟹ hard stayed open exactly as [PROOF_F103 §7.3](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md)
+left it. *Superseded 2026-06-09:* the converse is now proven modulo R-deg + R-sign by the
+[two-reflection monomial theorem](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md); this
+document remains the per-block localization record.
 **Date:** 2026-05-30
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Script:** [`simulations/f87_block_localize.py`](../simulations/f87_block_localize.py)
@@ -90,7 +92,8 @@ empirics put the robust break.
 
 ## Honest status
 
-- **Sharpening, not proof.** The windowed converse non-bipartite ⟹ hard remains open, as in §7.3.
+- **Sharpening, not proof.** At the time of writing the windowed converse non-bipartite ⟹ hard
+  remained open, as in §7.3 (since 2026-06-09: proven modulo R-deg + R-sign, see the Status note).
   What is added: the pairing is *per block* (analytic, via the transpose relation), and the break
   *localizes* (ω = 0 always; ω ≠ 0 in equal ± pairs). The open set-level claim becomes per-block:
   Z_ω symmetric about 0 ⟺ bipartite, with ω = 0 the natural first target.
