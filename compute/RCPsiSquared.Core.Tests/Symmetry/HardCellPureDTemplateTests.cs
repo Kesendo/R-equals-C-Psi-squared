@@ -267,15 +267,14 @@ public sealed class HardCellPureDTemplateTests
     }
 
     [Fact]
-    public void SubclaimD_MentionsBlocking()
+    public void SubclaimD_ClosedModuloM_GateIsConverse()
     {
-        Assert.Contains("SOFT", _claim.SubclaimD_MixedMixedPairSoft_OPEN);
-        // Subclaim (d) is OPEN by definition; the property text must signal that
-        // openness via "open" or "BLOCKED". "Tier1Derived" would contradict the
-        // OPEN status the test guards.
-        Assert.True(
-            _claim.SubclaimD_MixedMixedPairSoft_OPEN.Contains("open")
-            || _claim.SubclaimD_MixedMixedPairSoft_OPEN.Contains("BLOCKED"));
+        Assert.Contains("SOFT", _claim.SubclaimD_MixedMixedPairSoft);
+        // Subclaim (d) closed modulo M via PROOF_F103 §7.4 (2026-05-30); the F111
+        // promotion gate is the hard-direction converse behind (a)/(c), not (d).
+        Assert.Contains("CLOSED modulo M", _claim.SubclaimD_MixedMixedPairSoft);
+        Assert.Contains("§7.4", _claim.SubclaimD_MixedMixedPairSoft);
+        Assert.Contains("(a)/(c)", _claim.SubclaimD_MixedMixedPairSoft);
     }
 
     [Fact]

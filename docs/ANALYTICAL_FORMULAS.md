@@ -3320,9 +3320,10 @@ trichotomy class).
 is verified at N=5 (F105), and F106 is the k=4 sibling. The windowed (k<N) hard-direction
 converse non-bipartite ⟹ hard is now **proven modulo R-deg + R-sign** (the Phase B two-reflection
 theorem [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md),
-2026-06-09): the threshold #A ≥ 2ℓ, the bipartite ⟹ soft re-proof, the monomial structure, and the
-deg-1 positivity are Tier1Derived (`WindowedConverseThresholdClaim`); the first nonvanishing odd
-power-sum is a positive monomial, so "all but finitely many γ" upgrades to **all γ > 0**. The residual
+2026-06-09): the threshold #A ≥ 2ℓ, the bipartite ⟹ soft re-proof, the monomial expansion structure, and
+the deg-1 positivity closed form P_{3,1} = 6·4^N·Σ_l c_l² are Tier1Derived (`WindowedConverseThresholdClaim`);
+the first nonvanishing odd power-sum is then, modulo R-deg + R-sign, a positive monomial, so "all but
+finitely many γ" upgrades to **all γ > 0**. The residual
 lemma stays WindowedConverseAllGammaClaim (Tier1Candidate), now gated only on the two residuals R-deg +
 R-sign rather than a 700-point spot-check. Separately, the combinatorics are closed-form (the
 valuation criterion, the obstruction-size law min(2W−1, 2k−3), and the A203241 hard count, §7.7–§7.8 =
@@ -3683,19 +3684,22 @@ split into 36 Pure-Pure (all HARD) + 192 Pure-Mixed (all HARD) + 300 Mixed-Mixed
   spectrum non-palindromic around −σ). Empirical: 8/8 per cell.
 - (b) Mixed single-term H is SOFT: empirical (24/24 per cell).
 - (c) Pair (Pure-D, Mixed) H is HARD: empirical (192/192 per cell).
-- (d) Pair (Mixed, Mixed) H is SOFT: empirical (300/300 per cell). **Blocking
-  subclaim for Tier1Derived promotion**: sum of two soft H's can generically
-  be hard; no operator-level closed-form construction found (Task 1 BLOCKED
-  after exhausting Path 1 per-site M^N tensor product, Path 2 F108 Π_5bilinear
-  extended action, Path 3 Q_V × Π composition).
+- (d) Pair (Mixed, Mixed) H is SOFT: **CLOSED modulo M via PROOF_F103 §7.4
+  (2026-05-30)**. At full support k = N a Mixed+Mixed pair has at most two flip
+  generators, which always admit a linear φ and hence the chiral K, so the
+  hopping graph is bipartite and the pair soft. Empirical: 300/300 per cell.
+  (The earlier operator-level search, Task 1 Paths 1-3 per-site M^N tensor
+  product / F108 Π_5bilinear extended action / Q_V × Π composition, was
+  dissolved by the chiral route.)
 
 **Empirical anchor:** F106 N = 4 k = 4 records 228:0 in all 3 diagonal cells
 (684 hard pairs total, zero off-y_par). Independent verification at
 `simulations/_f111_pair_off_ypar_verify.py` covers 1584 pair classifications
 across 3 dephases, all matching the rule with zero exceptions.
 
-**Open:** Subclaim (d) Mixed+Mixed = soft closed-form (blocks Tier1Derived).
-The windowed (k<N) hard-direction converse is now proven modulo R-deg + R-sign (the
+**Open:** the hard-direction converse behind subclaims (a)/(c) (non-bipartite ⟹ hard
+at every γ; subclaim (d) is closed modulo M via PROOF_F103 §7.4, see above).
+That windowed (k<N) hard-direction converse is now proven modulo R-deg + R-sign (the
 two-reflection spine is Tier1Derived, `WindowedConverseThresholdClaim`); its all-γ residual
 lemma stays WindowedConverseAllGammaClaim (Tier1Candidate), gated on R-deg + R-sign, and
 closing those promotes F110/F111 to Tier1Derived. Pure-D Template Rule at k > 4 or N > 4
@@ -3979,6 +3983,9 @@ all bit-exact.
    pair is hard ⟺ v_{1+x}(p₁) ≠ v_{1+x}(p₂), the (1 + x)-adic valuations of the two masks; equal
    valuations ⟹ soft. This is the §7.5 non-bipartite criterion in one subtraction, and it matches the
    actual spectral trichotomy on every k = 3, N = 4 pair (derived for any k via §7.7 + §7.5/§7.6).
+   Scope of the Tier-1-derived label: the criterion plus the genericity result (hard for all but
+   finitely many γ); the all-γ closure is `WindowedConverseAllGammaClaim` (Tier1Candidate, proven
+   modulo R-deg + R-sign, [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)).
 
 2. *Obstruction-size law (two-layered).* The minimal odd 𝔽₂-relation among the shifts (the hardness
    obstruction) has maximal size over hard pairs = min(2W − 1, 2k − 3 − 2d), where d = deg(g_rest) is the

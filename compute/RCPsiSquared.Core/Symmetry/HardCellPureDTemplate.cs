@@ -57,10 +57,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// captures the F87-hard combinatorics tightly enough to imply F110 Aspect B
 /// without invoking a closed-form palindromic-operator construction.</para>
 ///
-/// <para><b>Open subclaim (d):</b> Mixed+Mixed pair ⟹ soft at k = N = 4. This is
-/// the blocking subclaim for Tier1Derived promotion: no operator-level
-/// closed-form has been constructed (3 derivation paths attempted and
-/// exhausted; see PROOF Section 6). Subclaim (a) (Pure+Pure single-term H is
+/// <para><b>Subclaim (d) is CLOSED modulo M</b> (PROOF_F103 §7.4, 2026-05-30):
+/// at full support k = N a Mixed+Mixed pair has at most two flip generators,
+/// which always admit a linear φ and hence the chiral K, so the hopping graph
+/// is bipartite and the pair soft; the earlier operator-level search (3
+/// derivation paths, PROOF Section 6) was dissolved by the chiral route. The
+/// remaining Tier1Derived promotion gate is the hard-direction converse behind
+/// subclaims (a)/(c), proven modulo R-deg + R-sign
+/// (WindowedConverseAllGammaClaim). Subclaim (a) (Pure+Pure single-term H is
 /// F87-hard) holds via a heuristic dissipator-commute mechanism, not a fully
 /// rigorous derivation; the Pure-Pure pair extension and the F110 Aspect B
 /// Y-inversion corollary follow as immediate consequences once (a) is granted.
@@ -131,13 +135,13 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
     public string SubclaimC_PureMixedPairHard =>
         "Pair (Pure-D, Mixed) H at k=N=4 in diagonal cell is F87-HARD. Closed-form mechanism open.";
 
-    /// <summary>Subclaim (d), empirically verified, BLOCKING SUBCLAIM:
+    /// <summary>Subclaim (d), CLOSED modulo M (PROOF_F103 §7.4, 2026-05-30):
     /// pair (Mixed, Mixed) Hamiltonians at k=N=4 are F87-SOFT (palindromic spec).
-    /// Sum of two soft H can generically be hard; the operator-level mechanism
-    /// for this Mixed+Mixed sum-soft is open and is the gap preventing F111
-    /// promotion from Tier1Candidate to Tier1Derived.</summary>
-    public string SubclaimD_MixedMixedPairSoft_OPEN =>
-        "Pair (Mixed, Mixed) H at k=N=4 in diagonal cell is F87-SOFT. Sum of two soft H can generically be hard; no operator-level mechanism found (Task 1 BLOCKED). Closing this subclaim would promote F111 to Tier1Derived.";
+    /// At full support a Mixed+Mixed pair has at most two flip generators, which
+    /// always admit the chiral K, hence bipartite hence soft. The F111 promotion
+    /// gate is the hard-direction converse behind subclaims (a)/(c), not (d).</summary>
+    public string SubclaimD_MixedMixedPairSoft =>
+        "Pair (Mixed, Mixed) H at k=N=4 in diagonal cell is F87-SOFT. CLOSED modulo M via PROOF_F103 §7.4 (2026-05-30): at most two flip generators at full support, always admitting the chiral K (bipartite ⟹ soft); the earlier operator-level search (Task 1 Paths 1-3) is dissolved. The remaining F111 promotion gate is the hard-direction converse behind subclaims (a)/(c).";
 
     /// <summary>F87 Y-inversion corollary (parallel to F110's F87Corollary): every
     /// pure-D template T has y_par(T) = y_par(D) by construction (templates contain
@@ -292,8 +296,8 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
                 summary: SubclaimB_MixedSingleTermSoft);
             yield return new InspectableNode("Subclaim (c): (Pure-D, Mixed) pair is HARD",
                 summary: SubclaimC_PureMixedPairHard);
-            yield return new InspectableNode("Subclaim (d) OPEN: (Mixed, Mixed) pair is SOFT",
-                summary: SubclaimD_MixedMixedPairSoft_OPEN);
+            yield return new InspectableNode("Subclaim (d) closed modulo M: (Mixed, Mixed) pair is SOFT",
+                summary: SubclaimD_MixedMixedPairSoft);
             yield return new InspectableNode("Sister claims on YParity axis",
                 summary: "F102 (YParityIndependenceAtK3, Tier1Derived). F103 (F87Z2CubedRefinementN4K3, Tier1Derived). " +
                          "F105 (F87Z2CubedRefinementN5K3, Tier1Derived). F106 (F87Z2CubedRefinementN4K4, Tier1Derived). " +
@@ -303,7 +307,7 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
             yield return new InspectableNode("Cross-axis dependencies (BitB and BitA): F108 Parts",
                 summary: "F108 Part 1+3 (BitB-axis): close F107/F109/F110 derivation via Π_5bilinear under Z and Y dephasing. F108 Part 2 (BitA-axis, BitA twin of Part 1): closes the X-deph branch via the Z↔X Π² mirror. F108 Parts are NOT YParity-axis sisters (per their Z2Axis declarations); they are the cross-axis closure mechanism that grounds F107/F109/F110/F111's diagonal-cell scope.");
             yield return new InspectableNode("Open siblings",
-                summary: "Subclaim (d) Mixed+Mixed = soft closed-form: blocking subclaim for F111 promotion to Tier1Derived; it reduces to the windowed converse residual now typed as WindowedConverseAllGammaClaim (RCPsiSquared.Diagnostics.F87, Tier1Candidate, proven modulo R-deg + R-sign; the two-reflection spine is Tier1Derived, the all-γ closure for genuine cycles gated on the two residuals). " +
+                summary: "Hard-direction converse behind subclaims (a)/(c), the F111 promotion gate: it reduces to the windowed converse residual now typed as WindowedConverseAllGammaClaim (RCPsiSquared.Diagnostics.F87, Tier1Candidate, proven modulo R-deg + R-sign; the two-reflection spine is Tier1Derived, the all-γ closure for genuine cycles gated on the two residuals). Subclaim (d) Mixed+Mixed = soft is CLOSED modulo M via PROOF_F103 §7.4. " +
                          "F110 Aspect C (k=3 ratio 42:8): derived by the F103 §6 counting rule + §7 bipartite mechanism. " +
                          "Pure-D Template Rule at k > 4 or N > 4: empirically unverified. " +
                          "Hardware QPU confirmation at k ≥ 3: open (no F87 QPU confirmations beyond Marrakesh k = 2).");
