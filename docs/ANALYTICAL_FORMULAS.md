@@ -3322,7 +3322,7 @@ converse non-bipartite ⟹ hard is now **derived** (PROOF §7.5 Perron-mode crit
 first-order premise closed via degenerate-PT + analyticity, 2026-06-04), so the mechanism is
 Tier1Derived modulo standard perturbation theory. The all-γ residual of the windowed converse is
 isolated as WindowedConverseAllGammaClaim (Tier1Candidate, the Phase B target); the genericity result
-(hard for all but finitely many γ) is Derived. And its combinatorics are closed-form (the
+(hard for all but finitely many γ) is Derived. Separately, the combinatorics are closed-form (the
 valuation criterion, the obstruction-size law min(2W−1, 2k−3), and the A203241 hard count, §7.7–§7.8 =
 **F115**). **Open:** the (pair Klein, dephase letter) → (Pattern B vs Pattern C) selection rule;
 hardware confirmation of k≥3 F87 (all 5 Marrakesh F87 confirmations are k=2).
