@@ -32,12 +32,22 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         Frobenius (Lemma A); combining gives ‖L_{H,+i}‖² = ‖L_{H,-i}‖². ∎</item>
 /// </list>
 ///
-/// <para><b>F87 orthogonality</b>: F87 (dissipator-resonance trichotomy) and F112 are
-/// orthogonal axes on the shared bit_b Z₂-grading of the Pauli group. F87 lives in
-/// spec(L) palindromy (Π conjugation acts on the spectrum); F112 lives in M_anti's
-/// Π +i / −i split (Π conjugation acts on the operator). All three F87 classes
-/// (truly, soft, hard) at N=3 under standard Z-dephasing give F112 asymmetry = 0
-/// bit-exactly (`simulations/_polarity_probe_f87_connection.py`).</para>
+/// <para><b>F87 orthogonality (derived 2026-06-10)</b>: F87 (dissipator-resonance
+/// trichotomy) and F112 are orthogonal axes on the shared bit_b Z₂-grading of the
+/// Pauli group, derived in three parts (previously empirical at N=3 via
+/// `simulations/_polarity_probe_f87_connection.py`): (a) scope inclusion: every F87
+/// input (Hermitian Pauli H + pure Z-dephasing, single-Pauli c = Z_l hence trivially
+/// bit_b-homogeneous) satisfies this Claim's hypotheses, so the F112 asymmetry is
+/// identically zero on F87's entire domain, all three trichotomy classes; (b) mechanism
+/// separation: on bit_b-odd H (the diagonal Klein cell hosting all F87 pair-hardness)
+/// the Step-5 dagger involution IS the windowed converse's first reflection,
+/// M_rec† = 𝓕 M_rec 𝓕 with 𝓕 = X^⊗N ⊗ X^⊗N on M_rec = L + σ·I; F112 reads it at
+/// degree 2 (Frobenius norms of Π-eigenprojections), the F87 hardness decision lives
+/// at odd degree (second reflection R + unsigned girth); (c) the scoped F113 one-way
+/// bridge (σ⁻/σ⁺ probe family): balance-broken implies F87-hard via the shared moment
+/// t₁^(l) = Tr(Z_l H). See the dated section "The F87 orthogonality, derived
+/// (2026-06-10)" in PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md; committed verifier
+/// `simulations/f112_f87_orthogonality.py`.</para>
 ///
 /// <para><b>Non-Hermitian H extension (Tier1Derived, universal N)</b>: writing
 /// H = H_re + i H_im with both summands Hermitian, the equality reduces algebraically
@@ -131,14 +141,34 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
         "decomposition of M = Π L Π⁻¹ + L + 2σ·I satisfies ‖M_plus_half‖² = ‖M_minus_half‖² " +
         "bit-exactly.";
 
-    /// <summary>F87 ↔ F112 orthogonality on the shared bit_b Z₂-grading: F87 acts on
-    /// spec(L), F112 acts on M_anti's Π-eigenspace decomposition.</summary>
+    /// <summary>F87 ↔ F112 orthogonality on the shared bit_b Z₂-grading, derived
+    /// 2026-06-10 (previously empirical): scope inclusion + mechanism separation + the
+    /// scoped F113 one-way bridge. Dated section in PROOF_F112; committed verifier
+    /// simulations/f112_f87_orthogonality.py.</summary>
     public string F87Orthogonality =>
         "F87 (dissipator-resonance trichotomy) and F112 are orthogonal axes on the shared " +
-        "bit_b Z₂-grading of the Pauli group. F87 lives in spec(L) palindromy (Π conjugation " +
-        "acts on the spectrum); F112 lives in M_anti's Π +i / −i split (Π conjugation acts on " +
-        "the operator). All three F87 classes (truly, soft, hard) at N=3 under standard " +
-        "Z-dephasing give F112 asymmetry = 0 bit-exactly.";
+        "bit_b Z₂-grading of the Pauli group, derived 2026-06-10 (previously empirical at " +
+        "N=3). F87 lives in spec(L) palindromy (Π conjugation acts on the spectrum); F112 " +
+        "lives in M_anti's Π +i / −i split (Π conjugation acts on the operator). " +
+        "(a) Scope inclusion: every F87 input (Hermitian Pauli H + pure Z-dephasing, " +
+        "single-Pauli c = Z_l hence trivially bit_b-homogeneous) satisfies this Claim's " +
+        "hypotheses, so the F112 asymmetry is identically zero on F87's entire domain, all " +
+        "three trichotomy classes (asym = 0.0 exact float zero at N = 3, 4); the two " +
+        "functionals never co-vary because one is identically zero where the other lives. " +
+        "(b) Mechanism separation: on bit_b-odd H (the diagonal Klein cell hosting all F87 " +
+        "pair-hardness, F110) the Step-5 dagger involution IS the windowed converse's first " +
+        "reflection, M_rec† = 𝓕 M_rec 𝓕 with 𝓕 = X^⊗N ⊗ X^⊗N on M_rec = L + σ·I (diff " +
+        "0.00e+00); F112's functional exhausts that involution at degree 2 (Frobenius norms " +
+        "of Π-eigenprojections), while the F87 hardness decision lives at odd degree (second " +
+        "reflection R + unsigned girth), invisible to those norms. (c) Scoped one-way " +
+        "implication (σ⁻/σ⁺ probe family, F113): balance-broken implies F87-hard via the " +
+        "shared moment t₁^(l) = Tr(Z_l H) = 2^N c_l = 2^(N−1) ω_l, which F113 reads linearly " +
+        "paired with the net rate (asym = 2^N · Σ_l t₁^(l) · (γ_pump,l − γ_T1,l)) and the " +
+        "girth ladder's ℓ=1 deg-1 face squares (p₃ = 6γ · Σ_l (t₁^(l))²); machine-precision " +
+        "match |diff| = 7.1e-15 at N=3 in the documented ω_l = 2c_l, σ⁻-lowering convention. " +
+        "Hard does NOT imply broken (flux/K3 hard pairs have all t₁ = 0 and keep the " +
+        "balance under T1). Committed verifier simulations/f112_f87_orthogonality.py; dated " +
+        "section in docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md.";
 
     /// <summary>Non-Hermitian H extension status: Tier1Derived universal N (Welle 11,
     /// 2026-05-27) via two-lemma structural proof in
@@ -252,6 +282,7 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
                "simulations/framework/diagnostics/polarity_coordinates.py + " +
                "simulations/_polarity_proof_verify.py + simulations/_polarity_step5_stress.py + " +
                "simulations/_polarity_probe_f87_connection.py + " +
+               "simulations/f112_f87_orthogonality.py + " +
                "simulations/_f112_universal_n_proof_verify.py")
     {
         Part1 = part1 ?? throw new ArgumentNullException(nameof(part1));

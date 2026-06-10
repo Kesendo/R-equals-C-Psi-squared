@@ -8,7 +8,7 @@
 - F63 ([L, Π²] = 0 for Z-dephasing; `docs/ANALYTICAL_FORMULAS.md` F63 entry)
 - F108 Part 1 ([PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md)); shared bit_b Z₂ grading
 - `polarity_coordinates_from_L` primitive (`simulations/framework/diagnostics/polarity_coordinates.py`, added 2026-05-25)
-- F87 dissipator-resonance law (orthogonal axis; empirically established via `simulations/_polarity_probe_f87_connection.py`)
+- F87 dissipator-resonance law (orthogonal axis; first observed via `simulations/_polarity_probe_f87_connection.py`, derived 2026-06-10 in the dated section below)
 
 ## Abstract
 
@@ -207,6 +207,34 @@ Both Welle 11 lemmas (N-A and N-B) reduce to per-position checks on the 4^N × 4
 
 **Welle 11 structural verifier** `simulations/_f112_universal_n_proof_verify.py` confirms each step of Lemmas A and B bit-exact at N = 1, 2, 3 (42 BitB-odd strings, 1050 off-diagonal pairs, 4368 all-pair F-values, all 0.000e+00 in numpy double precision).
 
+## The F87 orthogonality, derived (2026-06-10)
+
+The F87 connection probe (last entry in the empirical anchor list) left one line open since 2026-05-26: all three F87 trichotomy classes give F112 asymmetry = 0, observed at N=3 but not derived. The derivation turns out to need no new machinery. It has three parts, all verified in `simulations/f112_f87_orthogonality.py` (committed verifier; supersedes the hunt drafts `_f112_f87_orthogonality_check.py` and `_f112_f87_orth_supplement.py`).
+
+**(a) Scope inclusion.** Every F87 input is an instance of this proof's hypotheses. F87's domain is the commutator of a Hermitian Pauli Hamiltonian plus pure Z-dephasing; each collapse operator Z_l is a single Pauli string, hence trivially bit_b-homogeneous. So the theorem applies verbatim, and the F112 asymmetry is identically zero on F87's entire domain, across all three trichotomy classes (truly, soft, hard). The orthogonality is not a coincidence the probe happened to sample; it is the statement that the two functionals never co-vary because one is identically zero where the other lives. Verified: asymmetry = 0.0 exactly (float zero, not merely small) for truly Heisenberg, soft XXZ+ZXX, the hard pairs XXZ+ZZZ (m\*=5), XXZ+XZX and IXY+XIY (m\*=9), and the Z-drive XY chain, at N = 3 and N = 4.
+
+**(b) Mechanism separation: same involution, different degree.** For H supported on bit_b-odd Pauli strings, X^⊗N-conjugation flips the sign of every term (F H F = −H with F = X^⊗N; this is the driving lemma of [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §2, and it covers the diagonal Klein cell where all F87 pair-hardness lives, F110). There the dagger involution that powers Step 5 coincides with the windowed converse's first reflection, on the windowed converse's recentred object M_rec = L + σ·I:
+
+    M_rec† = 𝓕 M_rec 𝓕,   𝓕 = F ⊗ F = X^⊗N ⊗ X^⊗N.
+
+Derivation in one line: 𝓕 L_H 𝓕 = L_{FHF} = L_{−H} = −L_H = L_H† (Lemma B), while the Z-dephasing dissipator and the σ·I shift are Hermitian and 𝓕-invariant (F Z_l F = −Z_l, two sign flips cancelling across the two tensor legs). Verified diff 0.00e+00 for the diagonal-cell pairs XXZ+ZXX and IXY+XIY at N=3. The dagger map that 𝓕 implements here is the same L_H† = −L_H that Step 5 applies to the F1 residual. The separation: F112's functional reads exactly the degree-2 content of this shared involution, Frobenius norms of Π-eigenprojections (Steps 1-5 use nothing else). The F87 hardness decision lives at odd degree: the recentred power sums p₃, p₅, … under the second reflection R = I ⊗ F and the unsigned girth. Degree-2 norms are blind to odd-degree sign structure, so the same bit_b grading carries both functionals without coupling them. The verifier shows hard pairs firing at their true m\* (p₉ for XXZ+XZX and IXY+XIY at N=4) while the F112 asymmetry stays exactly 0.0.
+
+**(c) Scoped one-way implication on the σ⁻/σ⁺ probe family.** Off the shared domain, with amplitude damping added (the F113 regime), the two functionals finally meet, and they meet on a single shared moment:
+
+    t₁^(l) = Tr(Z_l H) = 2^N c_l = 2^(N−1) ω_l,
+
+where c_l is the Z_l coefficient of H and ω_l the documented F113 drive convention (H ⊇ Σ_l (ω_l/2) Z_l). The F113 closed form reads the moment linearly, paired with the net rate:
+
+    asymmetry = 2^N · Σ_l t₁^(l) · (γ_pump,l − γ_T1,l)   [= (4^N/2) · Σ_l ω_l · (γ_pump,l − γ_T1,l)],
+
+while the girth ladder's ℓ = 1 deg-1 face squares it:
+
+    p₃ = 6γ · Σ_l (t₁^(l))²   [= 6 · 4^N · Σ_l c_l² · γ].
+
+Hence: F112 balance broken under the σ⁻/σ⁺ family (generic rates) ⟹ some t₁^(l) ≠ 0 ⟹ p₃ > 0 ⟹ F87-hard. Strictly one-way: hard does not imply broken (the flux and K3 hard pairs have all t₁^(l) = 0 and keep the balance under T1, asymmetry = 0.0 in the verifier). Reconciled numbers at N=3, c = (1, 2, 1), γ_T1 = 0.03, γ_pump = 0: predicted −7.680000000000000 vs measured −7.680000000000007, |diff| = 7.1e-15, machine precision (not exactly equal as floats, so not "bit-exact"). The hunt draft printed pred = −asym/2; the missing chain was ω_l = 2c_l plus the standard-physics σ⁻-lowering sign convention (reconciled per the F113 entry and `LindbladBitBPiBreakMagnitude.cs`).
+
+**Scope note.** The verifier runs at N = 3 and N = 4. The trichotomy labels of the K3 and flux pairs are N-dependent (N=3-soft; hard from N=4 where m\* = 9 first fires), which is why the original probe at N=3 could only sample soft representatives of those pairs. Part (a) is N-independent (the theorem's hypotheses do not see N); part (b)'s identity is derived for any N and verified at N=3; part (c) combines the F113 universal-N closed form with the girth ladder's cell-free m = 3 face.
+
 ## Status
 
 **F112 is Tier 1 derived for both Hermitian and non-Hermitian H, universally in N.**
@@ -234,12 +262,12 @@ Connections:
 - **F38**: Π² = (-1)^{bit_b} on Pauli strings (foundational input).
 - **F63**: [L, Π²] = 0 for Z-deph (foundational input via Π²-eigenvalue commutation).
 - **F108 Part 1/2/3**: the bilinear set {XX, YY, YZ, ZY, ZZ} that F108 palindromizes is exactly the bit_b=0 (Π²-Z-even) family. F108's closure mechanism and F112's balance mechanism are both consequences of the bit_b Z₂ grading on the Pauli group.
-- **F87 dissipator-resonance law**: empirically established as orthogonal axis via `_polarity_probe_f87_connection.py` (all three F87 trichotomy classes give F112 balance = 0 bit-exact at N=3). F87 lives in M's spectrum-palindrome structure; F112 lives in M_anti's Π +i/-i split. Both projections of the same bit_b Z₂-grading.
+- **F87 dissipator-resonance law**: orthogonal axis, **derived 2026-06-10** (previously empirical via `_polarity_probe_f87_connection.py`). F87 lives in M's spectrum-palindrome structure; F112 lives in M_anti's Π +i/-i split. The derivation (scope inclusion + mechanism separation + the scoped F113 one-way bridge) is in [The F87 orthogonality, derived](#the-f87-orthogonality-derived-2026-06-10); committed verifier `simulations/f112_f87_orthogonality.py`.
 - **`polarity_coordinates_from_L`**: F112 makes the primitive's diagnostic value precise. Asymmetry ≠ 0 detects c with cross-bit_b Pauli support, which is OUTSIDE the F108-closure regime.
 
 ## Open
 
 - ~~**Step 5 extension to non-Hermitian H**~~: **CLOSED 2026-05-27 (Welle 11)** in [PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) via the two-lemma structural proof (Lemma N-A: ‖L_{σ,−i}‖² = 4^N for BitB-odd σ; Lemma N-B: ⟨L_{σ_α,−i}, L_{σ_β,−i}⟩ = 0 for σ_α ≠ σ_β both BitB-odd; both via Pauli-basis matrix-support disjointness). F112 non-Hermitian extension is now Tier1Derived universal N.
-- **F87 ↔ F112 orthogonality**: empirically confirmed via the F87-connection probe; structural derivation that both axes are projections of the bit_b Z₂-grading on the Pauli group is deferred.
+- ~~**F87 ↔ F112 orthogonality**~~: **CLOSED 2026-06-10** in [The F87 orthogonality, derived](#the-f87-orthogonality-derived-2026-06-10) above: (a) scope inclusion (F87's entire domain satisfies this proof's hypotheses, so the F112 asymmetry is identically zero where F87 lives), (b) mechanism separation (shared dagger involution M_rec† = 𝓕 M_rec 𝓕 on the diagonal cell; F112 reads it at degree 2, F87 hardness at odd degree), (c) the scoped one-way F113 bridge (balance-broken ⟹ F87-hard via the shared moment t₁^(l) = Tr(Z_l H)). Committed verifier `simulations/f112_f87_orthogonality.py`.
 - **C# Core typing**: Tier1Derived for both Hermitian and non-Hermitian H (universal N).
 - **Connection to F104, F105, F106** (F87 Z₂³-cubed refinements at various N, k): potential bridge to the F112 balance via shared bit_b structure.
