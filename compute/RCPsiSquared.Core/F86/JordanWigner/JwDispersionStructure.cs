@@ -18,6 +18,13 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 /// constants; the per-bond numerical answer itself is no longer the open piece.
 /// See <c>docs/proofs/PROOF_F90_F86C2_BRIDGE.md</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/F90F86C2BridgeIdentity.cs</c>.</para>
+///
+/// <para><b>Chiral ± pairing named 2026-06-10:</b> the global k-reflection k → N+1−k maps
+/// the triple (k, k₁, k₂) to (N+1−k, N+1−k₂, N+1−k₁) and flips δ → −δ because
+/// ε_{N+1−k} = −ε_k (the <see cref="RCPsiSquared.Core.Symmetry.ChiralKClaim"/> BDI spectrum
+/// inversion carried by <see cref="XyJordanWignerModes"/>, this claim's typed ancestor), so
+/// every cluster has a mirror cluster of equal size at −δ; verified at construction via
+/// <see cref="ChiralPartnerIndex"/> + <see cref="ChiralClusterPairingResidual"/>.</para>
 /// </summary>
 public sealed class JwDispersionStructure : Claim
 {
@@ -30,6 +37,17 @@ public sealed class JwDispersionStructure : Claim
 
     /// <summary>One <see cref="JwDispersionCluster"/> per distinct δ value, sorted ascending.</summary>
     public IReadOnlyList<JwDispersionCluster> Clusters { get; }
+
+    /// <summary>Index of each cluster's chiral mirror cluster under the global k-reflection
+    /// k → N+1−k (self-index for the δ ≈ 0 self-paired clusters). Equal sizes and
+    /// δ-negation are verified at construction; the pairing is an involution.</summary>
+    public IReadOnlyList<int> ChiralPartnerIndex { get; }
+
+    /// <summary>max over clusters of |δ + δ_mirror|: pure FP drift (≲ 1.4e-15 observed at
+    /// N ≤ 10); the ± pairing is algebraically exact.</summary>
+    public double ChiralClusterPairingResidual { get; }
+
+    public int SelfPairedClusterCount => ChiralPartnerIndex.Where((p, i) => p == i).Count();
 
     public int TotalTriples => Clusters.Sum(c => c.Triples.Count);
     public int LargestClusterSize => Clusters.Max(c => c.Triples.Count);
@@ -78,10 +96,47 @@ public sealed class JwDispersionStructure : Claim
         }
         if (current.Count > 0) clusters.Add(new JwDispersionCluster(currentδ, current));
 
-        return new JwDispersionStructure(N, modes, clusters);
+        // Chiral ± pairing witness (named 2026-06-10): k → N+1−k maps (k, k₁, k₂) to
+        // (N+1−k, N+1−k₂, N+1−k₁) and flips δ → −δ (ε_{N+1−k} = −ε_k, ChiralKClaim's BDI
+        // spectrum inversion), so every cluster mirrors onto exactly one cluster of equal
+        // size at −δ. Verified structurally here; FP drift only (clusters are exact algebra).
+        var tripleToCluster = new Dictionary<(int, int, int), int>();
+        for (int c = 0; c < clusters.Count; c++)
+            foreach (var t in clusters[c].Triples)
+                tripleToCluster[(t.K, t.K1, t.K2)] = c;
+
+        var chiralPartner = new int[clusters.Count];
+        double chiralResidual = 0.0;
+        for (int c = 0; c < clusters.Count; c++)
+        {
+            int partner = -1;
+            foreach (var t in clusters[c].Triples)
+            {
+                int pc = tripleToCluster[(N + 1 - t.K, N + 1 - t.K2, N + 1 - t.K1)];
+                if (partner < 0) partner = pc;
+                else if (partner != pc)
+                    throw new InvalidOperationException(
+                        $"Chiral pairing witness failed at N={N}: cluster {c} (δ={clusters[c].Delta:E6}) " +
+                        $"reflects into two clusters ({partner} and {pc}).");
+            }
+            chiralPartner[c] = partner;
+            if (clusters[partner].Triples.Count != clusters[c].Triples.Count)
+                throw new InvalidOperationException(
+                    $"Chiral pairing witness failed at N={N}: cluster {c} (size {clusters[c].Triples.Count}) " +
+                    $"mirrors cluster {partner} (size {clusters[partner].Triples.Count}); sizes must match.");
+            double residual = Math.Abs(clusters[partner].Delta + clusters[c].Delta);
+            if (residual > 2.0 * Tolerance)
+                throw new InvalidOperationException(
+                    $"Chiral pairing witness failed at N={N}: |δ_{c} + δ_{partner}| = {residual:E3} " +
+                    $"exceeds 2·Tolerance; the cluster table must be antisymmetric under k-reflection.");
+            chiralResidual = Math.Max(chiralResidual, residual);
+        }
+
+        return new JwDispersionStructure(N, modes, clusters, chiralPartner, chiralResidual);
     }
 
-    private JwDispersionStructure(int n, XyJordanWignerModes modes, IReadOnlyList<JwDispersionCluster> clusters)
+    private JwDispersionStructure(int n, XyJordanWignerModes modes, IReadOnlyList<JwDispersionCluster> clusters,
+        IReadOnlyList<int> chiralPartnerIndex, double chiralClusterPairingResidual)
         : base("c=2 JW-mode dispersion-degenerate clusters of L_H on (n=1, n+1=2)",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_F86_QPEAK.md Item 1' Direction (b'') (JW track) + " +
@@ -90,6 +145,8 @@ public sealed class JwDispersionStructure : Claim
         N = n;
         Modes = modes;
         Clusters = clusters;
+        ChiralPartnerIndex = chiralPartnerIndex;
+        ChiralClusterPairingResidual = chiralClusterPairingResidual;
     }
 
     public override string DisplayName =>
@@ -110,6 +167,12 @@ public sealed class JwDispersionStructure : Claim
             yield return InspectableNode.RealScalar("LargestClusterSize", LargestClusterSize);
             yield return InspectableNode.RealScalar("TriplesInDegenerateClusters", TriplesInDegenerateClusters);
             yield return InspectableNode.RealScalar("SingletonCount", SingletonCount);
+            yield return new InspectableNode("chiral ± pairing (ChiralKClaim)",
+                summary: "global k-reflection k → N+1−k maps (k, k₁, k₂) → (N+1−k, N+1−k₂, N+1−k₁) " +
+                         "and flips δ → −δ (ε_{N+1−k} = −ε_k, ChiralKClaim's BDI spectrum inversion): " +
+                         $"all {Clusters.Count} clusters pair off ± with equal sizes " +
+                         $"({SelfPairedClusterCount} self-paired at δ ≈ 0), " +
+                         $"residual {ChiralClusterPairingResidual:E2}");
             yield return InspectableNode.Group("Clusters", Clusters.Cast<IInspectable>().ToArray());
         }
     }

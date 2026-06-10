@@ -1,5 +1,6 @@
 using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.F86.JordanWigner;
+using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Runtime.ObjectManager;
 
 namespace RCPsiSquared.Runtime.F86Main;
@@ -18,10 +19,13 @@ namespace RCPsiSquared.Runtime.F86Main;
 ///   <item><see cref="JwClusterDEigenstructure"/> — per-cluster D-eigenvalue spectra.</item>
 /// </list>
 ///
-/// <para><b>Edges declared (parent ← child):</b> JwBlockBasis ← XyJordanWignerModes;
-/// JwDispersionStructure ← XyJordanWignerModes; JwClusterDEigenstructure ← JwBlockBasis +
-/// JwDispersionStructure. BondHdChannelWeights is independent (uses
-/// <c>BlockLDecomposition.MhPerBond</c>, not the JW modes).</para>
+/// <para><b>Edges declared (parent ← child):</b> XyJordanWignerModes ← ChiralKClaim
+/// (2026-06-10 chirality naming: the dispersion ε_k = 2J·cos(πk/(N+1)) satisfies
+/// ε_{N+1−k} = −ε_k, verbatim ChiralKClaim's BDI spectrum inversion; ChiralKClaim must be
+/// registered in the same builder, in the default factory via <c>RegisterChiralK</c>);
+/// JwBlockBasis ← XyJordanWignerModes; JwDispersionStructure ← XyJordanWignerModes;
+/// JwClusterDEigenstructure ← JwBlockBasis + JwDispersionStructure. BondHdChannelWeights is
+/// independent (uses <c>BlockLDecomposition.MhPerBond</c>, not the JW modes).</para>
 ///
 /// <para><b>Out of scope here</b> (deferred for the same reason as
 /// <see cref="F86Item1Registration"/>'s heavy primitives): <see cref="JwDispersionDProjection"/>
@@ -45,7 +49,15 @@ public static class F86JordanWignerRegistration
         // we let those throw with their canonical messages rather than re-checking here.
         var block = new CoherenceBlock(N, n, gammaZero);
         return builder
-            .Register<XyJordanWignerModes>(_ => XyJordanWignerModes.Build(N, J))
+            .Register<XyJordanWignerModes>(b =>
+            {
+                // Typed chirality edge (named 2026-06-10): the JW dispersion is ChiralKClaim's
+                // BDI spectrum inversion ε_{N+1−k} = −ε_k (K = diag((−1)^ℓ), KHK = −H on the
+                // tridiagonal hopping matrix). Requires ChiralKClaim registered in the same
+                // builder (default factory: RegisterChiralK).
+                _ = b.Get<ChiralKClaim>();
+                return XyJordanWignerModes.Build(N, J);
+            })
             .Register<BondHdChannelWeights>(_ => BondHdChannelWeights.Build(block))
             .Register<JwBlockBasis>(b =>
             {

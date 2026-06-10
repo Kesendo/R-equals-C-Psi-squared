@@ -65,6 +65,40 @@ public class XyJordanWignerModesTests
         Assert.Equal(expected, modes.SineMode(k, j), precision: 12);
     }
 
+    // ------------------------------------------------------------------
+    // Chirality witness (named 2026-06-10): the dispersion is ChiralKClaim's
+    // BDI spectrum inversion ε_{N+1−k} = −ε_k. Algebraically exact
+    // (cos(π − x) = −cos(x)); machine precision in FP (residual ≲ 7e-16).
+    // ------------------------------------------------------------------
+
+    [Theory]
+    [InlineData(4)]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    public void Dispersion_IsChirallyPaired_EpsilonReflectedEqualsMinusEpsilon(int N)
+    {
+        var modes = XyJordanWignerModes.Build(N);
+        for (int k = 1; k <= N; k++)
+        {
+            double residual = Math.Abs(modes.Dispersion[k - 1] + modes.Dispersion[N - k]);
+            Assert.True(residual <= XyJordanWignerModes.ChiralPairingTolerance,
+                $"N={N}, k={k}: |ε_k + ε_(N+1−k)| = {residual:E3} exceeds machine precision");
+        }
+        Assert.True(modes.ChiralPairingResidual <= XyJordanWignerModes.ChiralPairingTolerance,
+            $"N={N}: construction witness residual {modes.ChiralPairingResidual:E3}");
+    }
+
+    [Fact]
+    public void ChiralPairingWitness_HoldsForNonUnitJ()
+    {
+        // ε_k scales linearly with J, so the pairing is J-independent.
+        var modes = XyJordanWignerModes.Build(7, J: 2.5);
+        Assert.True(modes.ChiralPairingResidual <= XyJordanWignerModes.ChiralPairingTolerance,
+            $"J=2.5: residual {modes.ChiralPairingResidual:E3}");
+    }
+
     [Fact]
     public void Build_RejectsZeroOrNegativeN()
     {

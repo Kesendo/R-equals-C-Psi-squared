@@ -96,6 +96,10 @@ public static class KnowledgeRegistryFactory
             .RegisterF86PolarityLink()
             .RegisterF86LocalGlobalEpLink()
             .RegisterF86PerF71OrbitObservation()
+            // JW light family. Since 2026-06-10 XyJordanWignerModes takes ChiralKClaim
+            // (registered above via RegisterChiralK) as its typed parent: the JW dispersion
+            // is ChiralKClaim's BDI spectrum inversion ε_{N+1−k} = −ε_k, and the cluster
+            // tables downstream are chirally ± paired under the global k-reflection.
             .RegisterF86JordanWignerLight(N: defaultChain.N, n: 1, gammaZero: defaultChain.GammaZero)
             // F87 family + canonical witnesses
             // RegisterF87Family must follow RegisterPi2Family: DissipatorAxisSelectsPolarityClaim

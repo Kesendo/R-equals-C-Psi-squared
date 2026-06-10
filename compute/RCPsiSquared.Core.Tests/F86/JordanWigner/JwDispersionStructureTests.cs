@@ -83,6 +83,47 @@ public class JwDispersionStructureTests
     }
 
     [Theory]
+    [InlineData(4)]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    public void ClusterTable_IsAntisymmetric_UnderGlobalKReflection(int N)
+    {
+        // Chirality witness (named 2026-06-10): the global k-reflection k → N+1−k maps the
+        // triple (k, k₁, k₂) to (N+1−k, N+1−k₂, N+1−k₁) and flips δ → −δ, because
+        // ε_{N+1−k} = −ε_k is ChiralKClaim's BDI spectrum inversion on the JW dispersion.
+        // Computes the reflected table directly from the clusters and asserts the ± pairing,
+        // then cross-checks the construction-witness ChiralPartnerIndex.
+        var s = JwDispersionStructure.Build(N);
+
+        var tripleToCluster = new Dictionary<(int, int, int), int>();
+        for (int c = 0; c < s.Clusters.Count; c++)
+            foreach (var t in s.Clusters[c].Triples)
+                tripleToCluster[(t.K, t.K1, t.K2)] = c;
+
+        for (int c = 0; c < s.Clusters.Count; c++)
+        {
+            var partners = s.Clusters[c].Triples
+                .Select(t => tripleToCluster[(N + 1 - t.K, N + 1 - t.K2, N + 1 - t.K1)])
+                .Distinct().ToArray();
+            int p = Assert.Single(partners);   // the whole cluster reflects into ONE mirror cluster
+
+            Assert.Equal(s.Clusters[c].Triples.Count, s.Clusters[p].Triples.Count);
+            double residual = Math.Abs(s.Clusters[p].Delta + s.Clusters[c].Delta);
+            Assert.True(residual < 2.0 * JwDispersionStructure.Tolerance,
+                $"N={N}: cluster {c} (δ={s.Clusters[c].Delta:E12}) mirrors cluster {p} " +
+                $"(δ={s.Clusters[p].Delta:E12}); |δ + δ_mirror| = {residual:E3}");
+
+            Assert.Equal(p, s.ChiralPartnerIndex[c]);   // matches the construction witness
+            Assert.Equal(c, s.ChiralPartnerIndex[p]);   // and the pairing is an involution
+        }
+
+        Assert.True(s.ChiralClusterPairingResidual < 2.0 * JwDispersionStructure.Tolerance,
+            $"N={N}: construction-witness residual {s.ChiralClusterPairingResidual:E3}");
+    }
+
+    [Theory]
     [InlineData(2)]   // smallest valid N (2 sites, 1 popcount-2 state, 2 popcount-1 states)
     public void SmallestValidN_BuildsCleanly(int N)
     {
