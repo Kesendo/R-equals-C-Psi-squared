@@ -203,8 +203,8 @@ distance between Spec(L) and Spec(−L−2σ)), finer than any low moment. At lo
   standard perturbation theory.
 - **Typed split (2026-06-08):** the genericity result (non-bipartite ⟹ hard for all but finitely many
   γ) is Derived, carried by F87DiagonalCellBipartiteWitnessSet; the remaining all-γ closure including the
-  physical operating point is isolated as the Tier1Candidate WindowedConverseAllGammaClaim (upgraded to
-  "proven modulo R-deg + R-sign" in the Phase B bullet below).
+  physical operating point is isolated as the Tier1Candidate WindowedConverseAllGammaClaim (upgraded in
+  the Phase B and girth-ladder bullets below; since 2026-06-10 gated on R-sign in ladder form alone).
 - **Proven modulo R-deg + R-sign (Phase B, 2026-06-09,
   [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)):** recentre
   the Liouvillian as M = A + γQ; two involutions 𝓕 = F⊗F and R = I⊗F force every surviving odd power-sum word
@@ -215,9 +215,19 @@ distance between Spec(L) and Spec(−L−2σ)), finer than any low moment. At lo
   sign table, the threshold, the soft re-proof, the deg-1 positivity closed form P_{3,1} = 6·4^N·Σ_l c_l²
   over H's single-site-Z Pauli coefficients, manifestly ≥ 0)
   is Tier1Derived (`WindowedConverseThresholdClaim`); the monomial-and-positive lemma stays Tier1Candidate
-  (`WindowedConverseAllGammaClaim`), gated on the two residuals R-deg (the genuine-cycle degree lift
-  m\* = 2ℓ + 3) and R-sign (the genuine-cycle coefficient P_{m\*,3} > 0), both verified bit-exact cell-wide at
-  N = 4 and at N = 5 / N = 6 representatives.
+  (`WindowedConverseAllGammaClaim`), at the time gated on the two residuals R-deg (the genuine-cycle degree
+  lift m\* = 2ℓ + 3) and R-sign (the genuine-cycle coefficient P_{m\*,3} > 0), both verified bit-exact
+  cell-wide at N = 4 and at N = 5 / N = 6 representatives.
+- **The girth ladder (2026-06-10): R-deg retired, one residual remains.** The supertrace factorization
+  through the moments t_j = Tr(Z_l H^j) put the deg-1 class in closed form at every m
+  (P_{2ℓ+1,1} = (2ℓ+1)·C(2ℓ,ℓ)·Σ_l t_ℓ², a sum of squares), and the k = 4 cell census refined both
+  residuals at once: R-deg's "cycles always lift to deg 3" is a k = 3 truth (20 of the 192 hard k=4
+  pure-cycle pairs fire deg 1 at m\* = 2ℓ+1 with the sum-of-squares coefficient, hard at every γ outright,
+  IXXZ+XIXZ first), and R-sign's "P_{2ℓ+3,3} > 0" is also k = 3-scoped (the γ³ rung can be silent:
+  IIXY+ZXZY fires at γ⁵, p₁₁ = 86507520·γ⁵, positive). The law becomes m\* = 2ℓ + deg with deg odd, and
+  the one remaining residual is R-sign in ladder form: the first surviving class is single and positive.
+  See [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)
+  §4-§5 and the battery [`simulations/f87_girth_dichotomy.py`](../simulations/f87_girth_dichotomy.py).
 - **Retraction (the "flux moment-invisible exception" was a discarded-Im H bug).** An earlier reading treated
   the complex-H flux pair (odd #Y, X…Y bond, Gaussian-integer H) as a genuine all-γ exception, on the grounds
   that its signed third moment cancels, (H³)_{ii} = 0. That cancellation is real but irrelevant, and the
@@ -227,8 +237,9 @@ distance between Spec(L) and Spec(−L−2σ)), finer than any low moment. At lo
   identical monomial law (the IXY+XIY flux pair has p_9 = 589824·γ³, pure γ³, hard ∀γ > 0), with no
   exception. The sign table is checked bit-exact on this complex-H pair, so the converse covers flux pairs the
   chiral-K route never had to face.
-- **Not yet tested:** windowed k=4 (N > 4) and k=5. The windowed converse is proven modulo R-deg + R-sign;
-  full support is settled.
+- **Coverage:** the windowed k=4 cell is now census-complete at N=5 (1056 pairs, the girth-ladder battery
+  above); k=5 stays untested. The windowed converse is proven modulo R-sign in ladder form (R-deg retired
+  2026-06-10); full support is settled.
 
 ## Links
 

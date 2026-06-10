@@ -1,6 +1,6 @@
 # PROOF F103: F87 Trichotomy Z₂³ Refinement at k=3 (N=4 Empirical Anchor)
 
-**Status:** Tier 1 derived. The 42:8 closed-form rule was found 2026-05-29 (diagonal-cell hardness rule, §6), and its two atomic sub-rules were then unified into a single criterion (§7): a diagonal-cell pair is soft iff H's hopping graph is bipartite in the dephasing letter's eigenbasis. The direction bipartite ⟹ soft is derived (Π followed by a chiral sublattice K). The converse non-bipartite ⟹ hard **closes at full support** (§7.4, 2026-05-30: at k=N a Mixed+Mixed pair has only two flip generators, which always admit the chiral K, settling F111's blocked "Mixed+Mixed = soft" modulo M) and is now **derived in the windowed regime** (§7.5 gives the soft ⟺ bipartite criterion via the K3 triangle and the population Perron mode; §7.6, 2026-06-04, closes the first-order-block premise by degenerate PT + analyticity, adversarially stress-tested at N=4 and N=5): the genericity statement, hard for all but finitely many γ, rests only on standard perturbation theory. The remaining all-γ statement is **proven modulo R-deg + R-sign** (2026-06-09: the [two-reflection monomial theorem](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) shows the first nonvanishing odd power-sum is a positive monomial c·γ^deg, deg ∈ {1,3}, which has no positive root; see the residual-lemma section). Separately the operator-search is dissolved, since any palindromizer forces a spectral palindrome.
+**Status:** Tier 1 derived. The 42:8 closed-form rule was found 2026-05-29 (diagonal-cell hardness rule, §6), and its two atomic sub-rules were then unified into a single criterion (§7): a diagonal-cell pair is soft iff H's hopping graph is bipartite in the dephasing letter's eigenbasis. The direction bipartite ⟹ soft is derived (Π followed by a chiral sublattice K). The converse non-bipartite ⟹ hard **closes at full support** (§7.4, 2026-05-30: at k=N a Mixed+Mixed pair has only two flip generators, which always admit the chiral K, settling F111's blocked "Mixed+Mixed = soft" modulo M) and is now **derived in the windowed regime** (§7.5 gives the soft ⟺ bipartite criterion via the K3 triangle and the population Perron mode; §7.6, 2026-06-04, closes the first-order-block premise by degenerate PT + analyticity, adversarially stress-tested at N=4 and N=5): the genericity statement, hard for all but finitely many γ, rests only on standard perturbation theory. The remaining all-γ statement is **proven modulo R-sign (R-deg retired 2026-06-10)** (2026-06-09: the [two-reflection monomial theorem](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) shows the first nonvanishing odd power-sum is a positive monomial c·γ^deg, deg ∈ {1,3}, which has no positive root; see the residual-lemma section). Separately the operator-search is dissolved, since any palindromizer forces a spectral palindrome.
 **Date:** 2026-05-24
 **Anchor:** N=4, k_body=3, 294 Z₂³-homogeneous + Y-par-homogeneous Pauli pairs (pair count is N-independent at fixed k; the empirical anchor is N=4)
 **Regenerate:** `simulations/f87_z2cubed_split_n4_k3.py` (~60s)
@@ -11,7 +11,7 @@ F87 classifies Pauli pairs into three buckets (truly, soft, hard) based on how t
 
 The answer is yes, the trichotomy splits cleanly, with five structural patterns that survive across all three dephase letters. The 294 Pauli pairs (this count depends only on the k=3 letter alphabet, not on N) divide into three trichotomy classes, and inside each class, the y-parity axis carves the cells into sub-cells with recognizable shape: truly always lands in y_par = 0, mother-soft always in y_par = 1, the diagonal hard cells split 42:8 with a Y-inversion on the Y-dephasing diagonal, the diagonal soft cells split symmetrically 13:13, and the off-diagonal soft cells split into two named sub-patterns B and C.
 
-The proof begins empirical at the (N=4, k=3) anchor (an exhaustive enumeration verified bit-exactly) and is then closed: §6 gives a closed-form counting rule for the 42:8 split, and §7 supplies the bipartite-chirality mechanism (the soft direction, bipartite ⟹ soft, is derived; the windowed k<N hard-direction converse has since closed in stages, full support §7.4, genericity §7.5/§7.6, and all γ > 0 modulo R-deg + R-sign via the [two-reflection monomial theorem](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)). The question whether the pattern is k-stable and N-stable is answered by F105 (N=5, k=3, N-stable) and F106 (N=4, k=4, sharpening to 228:0) as sibling anchors. Together the three anchors map out which parts of the Z₂³ structure are N-stable, which are k-stable, and which depend on the specific (N, k) regime.
+The proof begins empirical at the (N=4, k=3) anchor (an exhaustive enumeration verified bit-exactly) and is then closed: §6 gives a closed-form counting rule for the 42:8 split, and §7 supplies the bipartite-chirality mechanism (the soft direction, bipartite ⟹ soft, is derived; the windowed k<N hard-direction converse has since closed in stages, full support §7.4, genericity §7.5/§7.6, and all γ > 0 modulo R-sign (R-deg retired 2026-06-10) via the [two-reflection monomial theorem](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)). The question whether the pattern is k-stable and N-stable is answered by F105 (N=5, k=3, N-stable) and F106 (N=4, k=4, sharpening to 228:0) as sibling anchors. Together the three anchors map out which parts of the Z₂³ structure are N-stable, which are k-stable, and which depend on the specific (N, k) regime.
 
 The diagnostic upshot is that the polarity cube has real teeth on the F87 trichotomy. Knowing the Klein signature alone leaves a 50-50 mix in the diagonal hard cells; adding the y-parity axis sharpens that to 42:8. The y-parity refinement is therefore not just a structural curiosity but a tighter classifier for hardware-relevant Pauli-pair analysis.
 
@@ -258,7 +258,7 @@ atomic sub-rules turn out to be the two ways of breaking a single criterion (bip
 H's hopping graph), and the soft direction is derived from the palindrome. (a) is the k=3 face
 of [F111](PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md)'s pure-D template rule. The converse
 (non-bipartite ⟹ hard) has since closed in stages: full support (§7.4), genericity in the
-windowed regime (§7.5/§7.6), and all γ > 0 modulo R-deg + R-sign (the residual-lemma section and
+windowed regime (§7.5/§7.6), and all γ > 0 modulo R-sign (R-deg retired 2026-06-10) (the residual-lemma section and
 the [two-reflection monomial theorem](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)).
 
 ## 7. The bipartite-chirality mechanism: why (a) and (b) hold (2026-05-29)
@@ -364,7 +364,7 @@ a set-pairing asymmetry. Seen again 2026-06-09: the blindness is depth, not prin
 [windowed monomial theorem](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) shows the first nonvanishing
 odd moment sits at m\* = 2ℓ + deg and *is* the break, a positive monomial in γ (a lifted diagonal
 is nonzero already at first order, p₃ = 9216·γ for IIZ+IZI; the K3 cycle waits until p₉), so the
-moment route closes the converse after all, modulo R-deg + R-sign (the residual-lemma section
+moment route closes the converse after all, modulo R-sign (R-deg retired 2026-06-10) (the residual-lemma section
 below). That set-level statement is also derived in §7.5 (the odd cycle obstructs the chiral
 functional that would supply the gain channel's reflection-floor mode, pairing its population
 Perron mode), modulo the first-order reduction itself. See
@@ -510,7 +510,7 @@ direction (K H K = −H exactly for all 26 soft pairs). Probes:
 With this, the windowed rule-(b) converse is fully derived (modulo standard perturbation theory), so
 the F87 diagonal-cell soft ⟺ bipartite criterion is a theorem at the physical γ for k = 3, N = 4 and
 N = 5 (the regimes where the accidental-soft-point question was exhaustively checked; the general-N
-all-γ statement is the residual lemma below, proven modulo R-deg + R-sign). The typed `F87DiagonalCellBipartiteWitness` / `BipartiteChirality` claims are correspondingly
+all-γ statement is the residual lemma below, proven modulo R-sign (R-deg retired 2026-06-10)). The typed `F87DiagonalCellBipartiteWitness` / `BipartiteChirality` claims are correspondingly
 Tier1Derived-eligible; the formal promotion (with the tier tests and the registry inventory) is a
 deliberate follow-up.
 
@@ -539,7 +539,7 @@ The recentered characteristic-polynomial odd coefficients Δ_j(γ) are polynomia
 {γ : spec L = spec(−L − 2σ)} is a finite common-zero set. This is the part that rests only on standard
 perturbation theory and is settled.
 
-**The residual lemma (Tier1Candidate, now proven modulo R-deg + R-sign, 2026-06-09).** No positive γ is a
+**The residual lemma (Tier1Candidate; proven modulo R-deg + R-sign 2026-06-09, sharpened to modulo R-sign alone 2026-06-10).** No positive γ is a
 common zero of the Δ_j(γ); equivalently the physical γ is not one of the finitely-many accidental soft
 points. The Phase B two-reflection theorem [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)
 discharges this structurally rather than as a resultant/Sturm computation: the first nonvanishing odd
@@ -554,21 +554,25 @@ Four threads of that theorem are now **Tier1Derived** (general N, no premise), c
 `WindowedConverseThresholdClaim`: the two-reflection sign table (𝓕 = F⊗F, R = I⊗F) forcing every surviving
 odd word to have #A_L, #A_R, #Q all odd; the resulting threshold **#A ≥ 2ℓ** (ℓ the unsigned odd-girth), so
 m\* ≥ 2ℓ + 1; the degree-1 positivity closed form P_{3,1} = 6·4^N·Σ_l c_l² (the sum over H's single-site-Z
-Pauli coefficients, manifestly ≥ 0, sharpened 2026-06-09 from the sign-ambiguous deg_A form); and a second,
+Pauli coefficients, manifestly ≥ 0, sharpened 2026-06-09 from the sign-ambiguous deg_A form, and again
+2026-06-10 to the general-m **girth dichotomy**: the supertrace factorization through t_j = Tr(Z_l H^j)
+gives P_{2ℓ+1,1} = (2ℓ+1)·C(2ℓ,ℓ)·Σ_l t_ℓ², a sum of squares); and a second,
 independent re-proof of **bipartite ⟹ soft** by the same two reflections (where §7.1's chiral K exhibits a
 similarity, this route simply observes that no odd word survives, and it covers complex-H flux pairs the
-chiral-K route never had to face). Modulo the two residuals of the next paragraph, the first nonvanishing
-odd power-sum is then a single positive monomial.
+chiral-K route never had to face). The monomial property is now proven on both branches of the dichotomy,
+and on the t_ℓ ≠ 0 branch the positive coefficient comes with it: hard at every γ > 0 outright.
 
 What stays Tier1Candidate, isolated as `WindowedConverseAllGammaClaim` (RCPsiSquared.Diagnostics.F87, two
-Tier1Derived parents: `F87DiagonalCellBipartiteWitnessSet` + `WindowedConverseThresholdClaim`), is the
-monomial-and-positive statement gated on two sharp residuals: **R-deg** (the genuine-cycle degree lift
-m\* = 2ℓ + 3, a uniform involution on the (ℓ-cycle, ℓ-cycle, 1-Q) configurations missing; its m = 3
-instance is closed by the c_l² identity) and **R-sign** (the genuine-cycle coefficient P_{m\*,3} > 0 as a
-manifestly-non-negative functional, the genuine-cycle analogue of the deg-1 c_l² identity). Both are verified
-bit-exact over the entire N = 4 k = 3 Z diagonal cell (all 50 hard pairs, 16 pure cycles) and at N = 5 / N = 6
+Tier1Derived parents: `F87DiagonalCellBipartiteWitnessSet` + `WindowedConverseThresholdClaim`), is since
+2026-06-10 gated on **one** residual: **R-sign** on the t_ℓ = 0 branch (the coefficient P_{2ℓ+3,3} > 0 as a
+manifestly-non-negative functional, the #Q = 3 analogue of the deg-1 sum of squares). The former second
+residual, **R-deg**, is retired: as formulated ("genuine cycles always lift to deg 3") it was a k = 3 truth,
+refuted at k = 4 by IXXZ+XIXZ (t₃ ≠ 0, m\* = 7, p₇ = 573440·γ, positive) and replaced by the dichotomy,
+which is stronger than what R-deg asked for. Verified bit-exact over the entire N = 4 k = 3 Z diagonal cell,
+the full k = 4 census (20 deg-1 cycles + 172 deg-3 cycles + 228 lifts), and the N = 5 / N = 6
 representatives. This does not weaken §7.3's "verified, not yet proved" framing; it sharpens it, narrowing the
-open front from a 700-point spot-check to exactly the two residuals R-deg + R-sign.
+open front from a 700-point spot-check to two residuals (2026-06-09) and then to one (2026-06-10), per
+[PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §4-§5.
 
 ### 7.7 The obstruction-size law: a GF(2)[x] derivation (2026-06-04)
 

@@ -3318,14 +3318,16 @@ trichotomy class).
 **Status (2026-06-05):** the 42:8 split is derived by a closed-form counting rule
 (PROOF §6); the bipartite-chirality mechanism (§7) derives the soft direction, N-stability
 is verified at N=5 (F105), and F106 is the k=4 sibling. The windowed (k<N) hard-direction
-converse non-bipartite ⟹ hard is now **proven modulo R-deg + R-sign** (the Phase B two-reflection
+converse non-bipartite ⟹ hard is now **proven modulo R-sign (R-deg retired 2026-06-10)** (the Phase B two-reflection
 theorem [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md),
 2026-06-09): the threshold #A ≥ 2ℓ, the bipartite ⟹ soft re-proof, the monomial expansion structure, and
-the deg-1 positivity closed form P_{3,1} = 6·4^N·Σ_l c_l² are Tier1Derived (`WindowedConverseThresholdClaim`);
-the first nonvanishing odd power-sum is then, modulo R-deg + R-sign, a positive monomial, so "all but
-finitely many γ" upgrades to **all γ > 0**. The residual
-lemma stays WindowedConverseAllGammaClaim (Tier1Candidate), now gated only on the two residuals R-deg +
-R-sign rather than a 700-point spot-check. Separately, the combinatorics are closed-form (the
+the deg-1 class in closed form (the girth ladder, 2026-06-10: the supertrace factorization through
+t_j = Tr(Z_l H^j) and P_{2ℓ+1,1} = (2ℓ+1)·C(2ℓ,ℓ)·Σ_l t_ℓ², whose ℓ=1 face is P_{3,1} = 6·4^N·Σ_l c_l²)
+are Tier1Derived (`WindowedConverseThresholdClaim`); pairs whose girth moment fires (t_ℓ ≠ 0) are hard at
+every γ **outright** (sum-of-squares positivity), and the rest fire at a higher odd rung modulo R-sign in
+ladder form, so "all but finitely many γ" upgrades to **all γ > 0** modulo that one residual. The residual
+lemma stays WindowedConverseAllGammaClaim (Tier1Candidate), gated only on R-sign (R-deg retired
+2026-06-10) rather than a 700-point spot-check. Separately, the combinatorics are closed-form (the
 valuation criterion, the obstruction-size law min(2W−1, 2k−3), and the A203241 hard count, §7.7–§7.8 =
 **F115**). **Open:** the (pair Klein, dephase letter) → (Pattern B vs Pattern C) selection rule;
 hardware confirmation of k≥3 F87 (all 5 Marrakesh F87 confirmations are k=2).
@@ -3643,11 +3645,12 @@ Y-inversion preserved.
 
 **Status:** the 42:8 (k=3) and 228:0 (k=4) ratios are derived by the §6 counting rule and
 the §7 bipartite mechanism; F111 closes the k=4 case at full support. The windowed
-(k<N) hard-direction converse (non-bipartite ⟹ hard) is now **proven modulo R-deg + R-sign**
+(k<N) hard-direction converse (non-bipartite ⟹ hard) is now **proven modulo R-sign (R-deg retired 2026-06-10)**
 (the Phase B two-reflection spine is Tier1Derived, `WindowedConverseThresholdClaim`); its all-γ
-residual lemma is typed as WindowedConverseAllGammaClaim (Tier1Candidate), gated on the two residuals
-R-deg + R-sign, and closing those promotes F110/F111 to Tier1Derived. **Open:** R-deg + R-sign
-themselves; k ≥ 5 empirical confirmation; QPU confirmation at k ≥ 3.
+residual lemma is typed as WindowedConverseAllGammaClaim (Tier1Candidate), gated since 2026-06-10 on
+the one residual R-sign in ladder form (R-deg retired by the girth ladder), and closing it promotes
+F110/F111 to Tier1Derived. **Open:** R-sign (the ladder positivity) itself; k ≥ 5 empirical
+confirmation; QPU confirmation at k ≥ 3.
 
 **Source:** [Proof](proofs/PROOF_F110_HARD_CELL_Y_INVERSION.md);
 `compute/RCPsiSquared.Core/Symmetry/HardCellYInversionPattern.cs`;
@@ -3699,10 +3702,10 @@ across 3 dephases, all matching the rule with zero exceptions.
 
 **Open:** the hard-direction converse behind subclaims (a)/(c) (non-bipartite ⟹ hard
 at every γ; subclaim (d) is closed modulo M via PROOF_F103 §7.4, see above).
-That windowed (k<N) hard-direction converse is now proven modulo R-deg + R-sign (the
+That windowed (k<N) hard-direction converse is now proven modulo R-sign (R-deg retired 2026-06-10) (the
 two-reflection spine is Tier1Derived, `WindowedConverseThresholdClaim`); its all-γ residual
-lemma stays WindowedConverseAllGammaClaim (Tier1Candidate), gated on R-deg + R-sign, and
-closing those promotes F110/F111 to Tier1Derived. Pure-D Template Rule at k > 4 or N > 4
+lemma stays WindowedConverseAllGammaClaim (Tier1Candidate), gated on R-sign in ladder form, and
+closing it promotes F110/F111 to Tier1Derived. Pure-D Template Rule at k > 4 or N > 4
 (empirically unverified). Hardware QPU confirmation at k ≥ 3.
 
 **Source:** [Proof](proofs/PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md);
@@ -3985,7 +3988,7 @@ all bit-exact.
    actual spectral trichotomy on every k = 3, N = 4 pair (derived for any k via §7.7 + §7.5/§7.6).
    Scope of the Tier-1-derived label: the criterion plus the genericity result (hard for all but
    finitely many γ); the all-γ closure is `WindowedConverseAllGammaClaim` (Tier1Candidate, proven
-   modulo R-deg + R-sign, [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)).
+   modulo R-sign (R-deg retired 2026-06-10), [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)).
 
 2. *Obstruction-size law (two-layered).* The minimal odd 𝔽₂-relation among the shifts (the hardness
    obstruction) has maximal size over hard pairs = min(2W − 1, 2k − 3 − 2d), where d = deg(g_rest) is the
