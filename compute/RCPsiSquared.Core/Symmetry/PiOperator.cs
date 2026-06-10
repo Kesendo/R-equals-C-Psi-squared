@@ -21,6 +21,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Π is unitary order-4. Per the existing class-AIII-chiral classification
 /// (PT_SYMMETRY_ANALYSIS), Π is *linear* — distinct from Bender-Boettcher PT (which
 /// requires anti-linear operators).
+///
+/// 2026-06-10: the canonical Z-dephasing Π factors as Π_Z = R·D on coherence space
+/// (Π_Z(ρ) = ρᵀ·X^⊗N; D the transpose superoperator first, R = I⊗F the ket reflection
+/// second) and ⟨R, D⟩ ≅ D₄; see <see cref="MirrorGroupD4Claim"/> +
+/// docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md.
 /// </summary>
 public static class PiOperator
 {

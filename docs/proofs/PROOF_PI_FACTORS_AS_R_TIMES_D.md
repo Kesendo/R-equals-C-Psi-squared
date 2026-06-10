@@ -137,7 +137,7 @@ The temptation, once eight mirrors close into one group, is to type every mirror
 - **E.** F114 N = 5 spot check via the transpose identification, dev 0.00e+00.
 - **F.** The U(1) absorber cross-check e^{iπN̂} = Z^⊗N (documented elsewhere; tabled here because it is the one global string the inventory keeps meeting).
 
-No C# typed claims are added in this wave; wiring `⟨R, D⟩ ≅ D₄` into the Core claim graph (parents: F1, the spine claim, F114) is deliberate follow-up work.
+No C# typed claims are added in this wave; wiring `⟨R, D⟩ ≅ D₄` into the Core claim graph (parents: F1, the spine claim, F114) is deliberate follow-up work. (Done later the same day, 2026-06-10: `MirrorGroupD4Claim` in `compute/RCPsiSquared.Core/Symmetry/`, with an N = 2 self-check battery; the typed parents became KleinEightCellClaim + CommutatorDConjugationSign + Pi2KleinV4DephaseSwapGroup, since the spine claim lives in Diagnostics, which Core cannot reference, and F1 is already an ancestor through the Pi2 chain; the spine edge is carried by the §2 anchor in prose.)
 
 ## §7 The cube filled: the polarity cube's three axes are two conjugations and the transpose (same day)
 

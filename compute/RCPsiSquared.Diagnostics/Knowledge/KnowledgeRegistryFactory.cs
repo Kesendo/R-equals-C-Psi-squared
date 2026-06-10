@@ -305,6 +305,15 @@ public static class KnowledgeRegistryFactory
             // those Claims to take KleinEightCellClaim as a typed ctor parent (2026-05-26),
             // formalising the Klein2 → Cubic3 → YParity inheritance chain.
             .RegisterKleinEightCellClaim()
+            // The mirror group D₄ (2026-06-10): Π_Z = R·D (transpose first, ket reflection
+            // by X^⊗N second); ⟨R, D⟩ ≅ D₄ of order 8 closes the mirror inventory, with the
+            // windowed-converse spine V₄ {I, 𝓕, R, 𝓕R} as Klein subgroup; the palindrome
+            // splits along the generators (D flips L_H, R carries −2Σγ); the polarity cube
+            // axes are characters (bit_a/bit_b = Ad_{Z^⊗N}/Ad_{X^⊗N}, y_par = the transpose
+            // θ, the antiautomorphism axis). Typed parents: KleinEightCellClaim (registered
+            // immediately above), CommutatorDConjugationSign (F114) and
+            // Pi2KleinV4DephaseSwapGroup (Welle 12's D), both registered earlier.
+            .RegisterMirrorGroupD4Claim()
             // YParity-axis seed (F102): standalone Tier1Derived Claim filling the cubic
             // Z₂³ architecture's YParity slot. Must come AFTER every Pi²-Inheritance Claim
             // above but BEFORE RegisterPolarityCubeMap so the cube map's b.Get<...>()

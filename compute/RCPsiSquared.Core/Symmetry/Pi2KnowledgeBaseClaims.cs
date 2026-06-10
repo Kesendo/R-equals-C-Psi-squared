@@ -174,7 +174,12 @@ public sealed class KleinFourCellClaim : Claim, IZ2AxisClaim
 /// <para>Z2Axis: <see cref="Z2Axis.Cubic3"/> (the third axis, currently the only
 /// fully Z₂³-cubic Claim). This Claim is the structural anchor for F87 Z₂³
 /// refinement work (F103/F105/F106) which enumerates Klein+y_par-homogeneous
-/// pairs across these 8 cells under each dephase letter.</para></summary>
+/// pairs across these 8 cells under each dephase letter.</para>
+///
+/// <para>2026-06-10: the three axes are now characterized as two unitary conjugations
+/// plus the transpose, bit_a = char(Ad_{Z^⊗N}), bit_b = char(Ad_{X^⊗N}),
+/// y_par = char(θ); see <see cref="MirrorGroupD4Claim"/> +
+/// docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md §7.</para></summary>
 public sealed class KleinEightCellClaim : Claim, IZ2AxisClaim
 {
     /// <summary>Full Z₂³ cubic decomposition: uses bit_a, bit_b, AND y_par.</summary>
