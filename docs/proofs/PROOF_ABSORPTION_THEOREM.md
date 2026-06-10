@@ -1,6 +1,6 @@
 # The Absorption Theorem
 
-**Status:** Tier 1 derived (analytical proof + bit-exact numerical verification at N=2..5, 1,342 modes, CV=0)
+**Status:** Tier 1 derived (analytical proof + bit-exact numerical verification at N=2..5, 1,342 modes, CV=0). Extended 2026-06-10 (Section 2 extensions: the vector form as Theorem 2, the two-sided reading, the projector form for degenerate clusters, the dephase-letter rotation; Section 4.7: the recentred face, one diagonal shared with the F87 palindrome machinery; C# test-gating of the per-mode identity).
 **Date:** 2026-04-04 (discovery + proof same day)
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.6)
 **Statement:** `Re(λ) = −2γ ⟨n_XY⟩` for any Lindblad eigenmode under uniform Z-dephasing
@@ -233,6 +233,62 @@ The genuine boundary is the dissipator, not the Hamiltonian: non-dephasing
 channels (amplitude damping, depolarizing) add a non-diagonal Hermitian part
 and shift the rate (F82/F84 above); no Hamiltonian, real or complex, breaks it.
 
+### Extensions (2026-06-10)
+
+The pillar carries more weight than the single equation, and on a return visit
+with the year's newer machinery, four readings that were implicit in the
+three-step proof deserve their own statements. None changes the proof; each is
+the same Rayleigh quotient read in a different coordinate. All four were
+verified numerically before being written down (vector form 2.7·10⁻¹⁴,
+two-sided reading 4.8·10⁻¹⁴ across all 256 N=4 modes of a random complex
+Hermitian H with a non-uniform γ profile, recentred face exactly 0).
+
+**Theorem 2 (the vector form).** For site-dependent rates γ_l, the dissipator
+splits per site, D = Σ_l γ_l D_l, each D_l diagonal in the coherence basis
+with entry −2·Δ_l(x) where Δ_l(x) ∈ {0, 1} marks whether bit l differs
+between the bra and ket labels of coherence index x. The same Step-3 argument
+gives, for any right eigenvector v,
+
+    Re(λ) = −2 Σ_l γ_l · light_l(v),    light_l(v) = Σ_x Δ_l(x)|v_x|² / Σ_x |v_x|²
+
+the **per-site light profile** weighted by the γ profile. The uniform case
+recovers Theorem 1 (Σ_l light_l = ⟨n_XY⟩). This is the form the flow kernel
+lives on: the sterile zone vs birth canal dichotomy
+([`PostEpFlowField`](../../compute/RCPsiSquared.Diagnostics/Foundation/PostEpFlowField.cs))
+is the question whether the slow subspace's light profile light_l is frozen
+or redistributed as Q moves, and the rate moves *only* through this weighted
+share. The typed carrier-is-a-vector node on
+[`AbsorptionTheoremClaim`](../../compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs)
+states it; this section proves it.
+
+**Corollary (the two-sided reading).** A left eigenvector w (w†L = λw†)
+satisfies w†Lw = λ‖w‖², and the identical decomposition applies: the real
+part reads the light of w. Hence **left and right eigenvectors of the same
+eigenvalue carry the same weighted light**, both equal to −Re(λ)/2 in
+γ-weighted units, even though v and w are different vectors of a non-normal
+L. The light content is two-sided; biorthogonal bookkeeping cannot disagree
+with itself about absorption.
+
+**Corollary (the projector form, degeneracy-safe).** For a degenerate cluster
+{λ_k} with right vectors M_k and biorthogonal left covectors W_k, the spectral
+projector P = Σ_k M_k W_k is basis-free (invariant under any change of basis
+inside the cluster). The cluster's light profile read through P,
+
+    light_l(P) = Σ_x Δ_l(x) · weight_x(P) / Σ_x weight_x(P),
+
+is therefore basis-free too, while per-eigenvector light profiles inside a
+degenerate cluster are gauge-dependent. This is the correct object for the
+flow kernel's degenerate slow carriers (it retires the documented averaging
+caveat in `PostEpFlowField.ReadAssembly`) and is what the
+`SlowLightDistribution` primitive computes.
+
+**Remark (the dephase-letter rotation).** Nothing in Steps 1-3 privileges Z.
+For X-dephasing the dissipator is diagonal with light = n_YZ (the letters
+anticommuting with X); for Y-dephasing, n_XZ. The three theorems are one
+theorem conjugated through the Klein-V₄ dephase-swap group
+([`Pi2KleinV4DephaseSwapGroup`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KleinV4DephaseSwapGroup.cs)):
+light is always "the letters the dephasing letter refuses to commute with."
+
 ---
 
 ## 3. Numerical Verification
@@ -260,6 +316,17 @@ under the free-evolution T2* baseline: absorption ratio excess/(2γ) =
 1/f noise is filtered out by Hahn echo; the T2* baseline is the correct
 one for free-evolution tomography. See
 [`IBM_ABSORPTION_THEOREM.md`](../../experiments/IBM_ABSORPTION_THEOREM.md).
+
+**C# test-gating (2026-06-10).** The per-mode identity is now asserted in the
+typed compute layer:
+[`F8PartnerLightComplementarityTests`](../../compute/RCPsiSquared.Diagnostics.Tests/Ptf/F8PartnerLightComplementarityTests.cs)
+checks |Re λ + 2γ·light(v)| < 10⁻⁹ for all 256 eigenmodes of the N=4 XY chain
+(observed at the 10⁻¹⁵ floor), the complete palindrome pairing with
+light_s + light_f = N per pair, and the standing-wave null. The Section-2
+extensions were verified the same day against a random complex Hermitian H
+with a non-uniform γ profile: vector form worst deviation 2.7·10⁻¹⁴,
+two-sided (left-eigenvector) reading 4.8·10⁻¹⁴ across all 256 modes,
+recentred-face identity L_D = γ(Q − N·I) exactly 0.
 
 ---
 
@@ -399,6 +466,39 @@ superposition modes. The absorption rate of the superposition is the
 weighted average of the component rates, exactly as the theorem predicts.
 Non-integer ⟨n_XY⟩ values arise from Hamiltonian mixing, not from any
 breakdown of the rule.
+
+### 4.7 The recentred face: one diagonal, three pillars (2026-06-10)
+
+The dissipator's diagonal is, entry for entry, the same object the F87
+palindrome machinery calls its dephasing generator. With w(x) = popcount of
+the bra-ket difference at coherence index x, the uniform dissipator has
+diagonal −2γw(x), and the windowed-converse generator Q = Σ_l Z_l ⊗ Z_l has
+diagonal Q_xx = N − 2w(x). So, exactly (verified to 0):
+
+    L_D = γ·(Q − N·I)        and        M := L + γN·I = L_H + γQ
+
+The shift by the palindrome centre σ = Σγ = Nγ that recentres L into M
+([PROOF_F87_WINDOWED_MONOMIAL_CONVERSE](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §1)
+is the shift that moves the absorption ladder's midpoint ⟨n_XY⟩ = N/2 to
+zero. Three pillars stand on this one diagonal, each reading it in its own
+coordinate:
+
+- **the absorption ladder** (this proof): Re(λ) = −2γ⟨n_XY⟩, rates as light;
+- **the palindrome** (F1/F8): spec(L) symmetric about −Nγ ⟺ spec(M)
+  symmetric about 0 ⟺ partners carry complementary light,
+  ⟨n_XY⟩_s + ⟨n_XY⟩_f = N (the §4.2 sum rule, since 2026-06-10 test-gated
+  per mode in C#,
+  [`F8PartnerLightComplementarityTests`](../../compute/RCPsiSquared.Diagnostics.Tests/Ptf/F8PartnerLightComplementarityTests.cs):
+  the palindrome pairing IS complementary light in absorption coordinates);
+- **the windowed converse** (F87/F117): the odd power-sums of M = L_H + γQ
+  decide hard vs soft, the girth ladder's moments t_j = Tr(Z_l H^j) organize
+  the γ-expansion, and the Pascal-Gram positivity theorem closes it with no
+  residual.
+
+What looked like three subjects (absorption rates, mirror symmetry, the
+trichotomy classifier) is one diagonal matrix entering three different
+arguments: a Rayleigh quotient, a spectral pairing, and a power-sum
+expansion.
 
 ---
 

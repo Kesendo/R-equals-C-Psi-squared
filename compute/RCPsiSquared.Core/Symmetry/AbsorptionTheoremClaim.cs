@@ -65,6 +65,24 @@ namespace RCPsiSquared.Core.Symmetry;
 /// bit-exact N=3 (64 modes, weak and strong coupling) in
 /// <c>simulations/_absorption_gamma_vector.py</c>.</para>
 ///
+/// <para><b>Extensions (2026-06-10, PROOF_ABSORPTION_THEOREM.md Section 2 extensions
+/// + Section 4.7).</b> Four readings of the same Rayleigh quotient, verified before
+/// being written (2.7e-14 / 4.8e-14 / exactly 0 against a random complex Hermitian H
+/// with non-uniform γ): (i) the vector form above is now Theorem 2 in the proof, not
+/// a stepping-stone remark; (ii) two-sided reading: LEFT and right eigenvectors of the
+/// same eigenvalue carry the same weighted light (the identical Rayleigh argument on
+/// w†Lw), so biorthogonal bookkeeping cannot disagree about absorption; (iii) projector
+/// form: for a degenerate cluster the light profile of the biorthogonal spectral
+/// projector Σ_k M_k W_k is basis-free, the correct object for degenerate slow carriers
+/// (consumed by the flow kernel's per-site light reading); (iv) dephase-letter rotation:
+/// X-dephasing reads n_YZ, Y-dephasing n_XZ, one theorem conjugated through the Klein-V₄
+/// dephase-swap group. AND the recentred face: L_D = γ·(Q − N·I) with Q = Σ_l Z_l⊗Z_l
+/// exactly, so the F87 windowed-converse recentring M = L + γN·I = L_H + γQ is the
+/// absorption ladder shifted to its midpoint; the palindrome pairing IS complementary
+/// light (light_s + light_f = N, test-gated per mode in
+/// F8PartnerLightComplementarityTests, 2026-06-10). One diagonal, three pillars:
+/// absorption ladder, palindrome, windowed converse.</para>
+///
 /// <para>Pi2-Foundation anchor: the "2" absorption quantum IS
 /// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = a_0 = polynomial root d in
 /// d² − 2d = 0. Same anchor as F1 TwoFactor, F50 DecayRateFactor, F66
