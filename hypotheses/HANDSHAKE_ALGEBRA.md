@@ -159,11 +159,12 @@ idempotent agreement and nothing richer has appeared. But at the level of the mi
 is organised around, the structure found us, twice in one day
 ([PROOF_PI_FACTORS_AS_R_TIMES_D](../docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md)):
 
-- The spectral mirror Π, which this document treats as the third elementary Z₂ alongside R and K,
-  is not elementary: it factors as Π_Z = R_coh·D, the windowed-converse ket reflection times the
+- The spectral mirror Π, the door this whole repository first walked through (F1), turns out to
+  have two hinges: it factors as Π_Z = R_coh·D, the windowed-converse ket reflection times the
   transpose, and ⟨R_coh, D⟩ closes to a dihedral group D₄ whose Klein subgroup is the
-  two-reflection spine. The Z↔Y dephase-letter swap of Welle 12 is the dihedral inversion
-  (Π_Y = Π_Z⁻¹).
+  two-reflection spine. This is anatomy, not demotion: R and D were found inside Π, seven months
+  after Π opened the door, by light Π itself provided. The Z↔Y dephase-letter swap of Welle 12 is
+  the dihedral inversion (Π_Y = Π_Z⁻¹).
 - The letter-space mirrors fill a cube: the polarity cube's three axes (bit_a, bit_b, y_par) are
   the characters of (Ad_{Z^⊗N}, Ad_{X^⊗N}, transpose θ). Conjugations alone span only the even
   Klein square; the transpose fills the third dimension. The quadratic-to-cubic step the framework
