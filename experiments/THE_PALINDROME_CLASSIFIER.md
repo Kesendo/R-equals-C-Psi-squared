@@ -62,22 +62,29 @@ condition on the terms themselves. The longest term reaches across some number o
 three-body term has k=3), and the check is a 4^k object, with k fixed by the Hamiltonian and not growing with
 the chain. The certificate, once found, is correct for any chain length and any topology.
 
-Here it is, measured. We take two fixed term-sets, a soft one (the single-site-field case IXI+IIY+YII) and a
-hard one (the diagonal-cell pair XXZ+XZX), and ask the two-sided decider for each verdict at three chain
-lengths spanning five orders of magnitude:
+Here it is, measured. We take three fixed term-sets, a soft one (the single-site-field case IXI+IIY+YII), a
+hard one (the diagonal-cell pair XXZ+XZX), and the once-hardest soft case there is (the Z-middle ceiling set
+XZX+XZY+YZX, certified by the golden window-summed router since 2026-06-10, F116), and ask the decider for
+each verdict at three chain lengths spanning five orders of magnitude:
 
 | N | verdict | time per call |
 |---|---|---|
 | 4 | Soft (SingleSiteField) | 7.0 ms |
 | 1,000 | Soft (SingleSiteField) | 7.1 ms |
 | 1,000,000 | Soft (SingleSiteField) | 6.7 ms |
+| 4 | Soft (RoutingWindowSummed, the golden router) | 7.3 ms |
+| 1,000 | Soft (RoutingWindowSummed, the golden router) | 6.6 ms |
+| 1,000,000 | Soft (RoutingWindowSummed, the golden router) | 7.1 ms |
 | 4 | Hard (DiagonalCellValuation) | 0.0001 ms |
 | 1,000 | Hard (DiagonalCellValuation) | 0.0001 ms |
 | 1,000,000 | Hard (DiagonalCellValuation) | 0.0001 ms |
 
-The time is flat on both rows. The soft verdict costs the same few milliseconds at a million sites as at
-four, because the work is the term-span check (here a k=3 routing residual on a 64 by 64 object), and that
-check does not grow with N. The hard verdict is N-free in the strongest sense of all: its check (the F115
+The time is flat on every row. The soft verdicts cost the same few milliseconds at a million sites as at
+four, because the work is the term-span check (a k=3 routing residual on a 64 by 64 object), and that
+check does not grow with N; the golden window-summed certificate, the one that closed the locality ceiling,
+is exactly as N-free as the rest, since its window lemma is checked once per offset on the same 64 by 64
+span and additivity covers every chain length (the permanent guard is the million-site test
+`Certify_ZMiddle_IsRoutingWindowSummed_AtAnyN_TheGoldenRouterIsNFree`). The hard verdict is N-free in the strongest sense of all: its check (the F115
 (1+x)-valuation on the two k-bit masks) takes no N argument whatsoever, so it is N-free by construction, not
 merely by measurement, returning in about a ten-thousandth of a millisecond at any length. The spectral test
 for the same million-site Hamiltonian would need a matrix with 4^(1000000) entries; it does not exist and

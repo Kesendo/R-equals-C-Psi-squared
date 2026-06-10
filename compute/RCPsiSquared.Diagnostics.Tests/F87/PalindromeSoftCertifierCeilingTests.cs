@@ -72,6 +72,25 @@ public class PalindromeSoftCertifierCeilingTests
         }
     }
 
+    [Theory]
+    [InlineData(4)]
+    [InlineData(1000)]
+    [InlineData(1_000_000)]
+    public void Certify_ZMiddle_IsRoutingWindowSummed_AtAnyN_TheGoldenRouterIsNFree(int n)
+    {
+        // Same N-freedom as the SingleSiteField million-site test: the window-summed check is a 4^k
+        // object (k = 3: one 64 × 64 anticommutator per window offset), and n enters only the span gate
+        // k ≤ n. The window lemma gives the palindrome at EVERY N ≥ 3 by additivity
+        // (PROOF_CEILING_GOLDEN_ROUTER.md §2/§3), so the golden certificate for a million-site chain
+        // costs the same few milliseconds as for four sites; the verdict and the strategy never change.
+        foreach (var labels in new[] { new[] { "XZX", "XZY", "YZX" }, new[] { "YZY", "XZY", "YZX" } })
+        {
+            var cert = PalindromeSoftCertifier.Certify(H(labels), n);
+            Assert.True(cert.Certified);
+            Assert.Equal(PalindromeSoftCertifier.SoftStrategy.RoutingWindowSummed, cert.Strategy);
+        }
+    }
+
     public static IEnumerable<object[]> IHeavyLocal() => new[]
     {
         new object[] { new[] { "IXI", "IIY", "YII" } },
