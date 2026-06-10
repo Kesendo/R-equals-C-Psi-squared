@@ -45,6 +45,10 @@ Run
 Part (1) is the heavy step: 2 pairs x 3^9 = 19683 exact-CRT word traces each. The CRT prime
 count is auto-sized from the rigorous trace bound |Tr(W)| <= d^2 * prod ||letter||_inf, so the
 census arithmetic is exact by construction.
+
+2026-06-10: the R-sign residual this census mapped is resolved (Pascal-Gram positivity, registry
+F117; see docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md §5 and
+simulations/f87_pascal_gram_positivity.py); the skew data below remains the historical record.
 """
 from __future__ import annotations
 

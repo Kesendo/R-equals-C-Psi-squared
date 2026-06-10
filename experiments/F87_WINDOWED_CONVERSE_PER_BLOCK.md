@@ -4,8 +4,10 @@
 is analytic (the transpose relation M(−ω) = M(ω)^T) and verified bit-exact at N=4; the localization
 (which block breaks) is read off the same N=4 anchor. At the time of writing the windowed converse
 non-bipartite ⟹ hard stayed open exactly as [PROOF_F103 §7.3](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md)
-left it. *Superseded 2026-06-09:* the converse is now proven modulo R-sign (R-deg retired 2026-06-10) by the
-[two-reflection monomial theorem](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md); this
+left it. *Superseded 2026-06-09, closed 2026-06-10:* the converse is now a theorem with no residual
+(R-deg retired by the girth ladder, R-sign resolved by the Pascal-Gram positivity theorem, F117) via the
+[two-reflection monomial theorem](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §5, verifier
+[`simulations/f87_pascal_gram_positivity.py`](../simulations/f87_pascal_gram_positivity.py); this
 document remains the per-block localization record.
 **Date:** 2026-05-30
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
@@ -93,7 +95,8 @@ empirics put the robust break.
 ## Honest status
 
 - **Sharpening, not proof.** At the time of writing the windowed converse non-bipartite ⟹ hard
-  remained open, as in §7.3 (since 2026-06-09: proven modulo R-sign (R-deg retired 2026-06-10), see the Status note).
+  remained open, as in §7.3 (proven modulo residuals 2026-06-09, closed with no residual 2026-06-10
+  via Pascal-Gram positivity F117, see the Status note).
   What is added: the pairing is *per block* (analytic, via the transpose relation), and the break
   *localizes* (ω = 0 always; ω ≠ 0 in equal ± pairs). The open set-level claim becomes per-block:
   Z_ω symmetric about 0 ⟺ bipartite, with ω = 0 the natural first target.

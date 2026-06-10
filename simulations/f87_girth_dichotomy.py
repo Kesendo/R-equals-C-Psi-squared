@@ -15,8 +15,11 @@ The GIRTH LADDER follows, replacing the former R-deg residual:
   - t_ell == 0 everywhere  =>  the deg-1 class is dead at 2*ell+1 AND 2*ell+3 (proven); if the
     gamma^3 class fires, p_{2*ell+3} = P_{2ell+3,3} * gamma^3 exactly (monomial PROVEN at that
     rung); if it does not, the ladder continues to higher odd rungs (k=4 witness IIXY+ZXZY:
-    m* = 11 = 2*ell+5, p_11 = 86507520 * gamma^5, positive). The open residual (R-sign, ladder
-    form) is that the first surviving class is single and positive.
+    m* = 11 = 2*ell+5, p_11 = 86507520 * gamma^5, positive). The residual this verifier left
+    open (R-sign, ladder form: the first surviving class is single and positive) was RESOLVED
+    later the same day, 2026-06-10, by the Pascal-Gram positivity theorem (registry F117; see
+    simulations/f87_pascal_gram_positivity.py): positivity holds at every rung, so the windowed
+    converse closes with NO residual.
 The single-site-Z lift is the ell = 1 face: t_1 = 2^N * c_l, and the closed form reproduces
 P_{3,1} = 6 * 4^N * Sum c_l^2 bit-exactly. The k=3 taxonomy ("deg = 1 only for a single-site-Z
 lift", deg in {1,3}) was a k=3-cell fact: at k = 4 exactly 20 pure-cycle pairs carry t_3 != 0

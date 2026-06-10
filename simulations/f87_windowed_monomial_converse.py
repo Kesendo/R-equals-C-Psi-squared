@@ -58,6 +58,21 @@ Block ledger (rigor labels)
                                          deg=1 <=> single-site-Z (pure cycles pinned at 2*ell+3);
                                          the +N-Perron skew over the 16 pure cycles.
 
+Status update (2026-06-10)
+--------------------------
+Both residuals this anchor carried are closed:
+  - R-deg RETIRED in ladder form (girth dichotomy, f87_girth_dichotomy.py): the k=3 taxonomy
+    "deg in {1,3}, deg = 1 only for a single-site-Z lift" is a k=3-cell fact; the general law is
+    m* = 2*ell + deg with deg odd (at k=4 deg-1 pure cycles exist, and a gamma^5 rung appears).
+  - R-sign RESOLVED (Pascal-Gram positivity theorem, registry F117; proof
+    docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md §5; verifier
+    simulations/f87_pascal_gram_positivity.py): every #Q = d class at m* is either exactly zero
+    or an equal-leg-total Pascal-Gram sum of squares P_{m*,d} = (m*/d) * sum_l sum_k |U|^2 over
+    d-leg moments T = Tr(Z_l1 H^a1 ... Z_ld H^ad), so p_{m*}(gamma) > 0 for all gamma > 0.
+The windowed converse is now residual-free. Singleness (monomiality) is DERIVED for deg <= 3 by
+a mod-4 selection rule; from deg = 5 positivity alone carries. Every block below remains valid
+as verification; only the framing of R-deg + R-sign as open residuals is superseded.
+
 Run
 ---
     python simulations/f87_windowed_monomial_converse.py            # fast (N<=5), all blocks
@@ -462,9 +477,12 @@ def block1_structural_law(heavy=False):
               f"coeff {re_co[deg]} > 0  OK")
 
     # (d) the ell=5 instance.  RIGOROUS-GENERAL by Blocks 2+4: a pure cycle has deg=3 (Block 2's
-    #     R-deg kills the deg-1 class), and the threshold (Block 4) gives #A=2*ell, so m*=2*ell+deg
-    #     = 13 != 3*ell = 15.  The smallest realiser is N=6 (k=4); its exact p_13 (one ~50-min run)
-    #     is asserted only under --heavy.  The symbolic prediction is asserted unconditionally.
+    #     R-deg kills the deg-1 class; NOTE 2026-06-10: R-deg as a general law is retired by the
+    #     girth dichotomy, f87_girth_dichotomy.py, where k=4 deg-1 pure cycles exist; THIS pair
+    #     sits on the t_ell = 0 branch, where deg=3 holds), and the threshold (Block 4) gives
+    #     #A=2*ell, so m*=2*ell+deg = 13 != 3*ell = 15.  The smallest realiser is N=6 (k=4); its
+    #     exact p_13 (one ~50-min run) is asserted only under --heavy.  The symbolic prediction
+    #     is asserted unconditionally.
     ell5, deg5 = 5, 3
     assert 2 * ell5 + deg5 == 13 and 3 * ell5 == 15, "ell=5 arithmetic"
     print(f"  ell=5 (symbolic): m* = 2*5+3 = 13 (deg=3 != ell=5); task conj m*=3*ell=15 FAILS  OK")
@@ -697,7 +715,8 @@ def block6_deg1_closed_form():
               f"(c = {[int(c) for c in cs]}) == deg_A form {closed_degA} > 0  OK")
     # The identity also DERIVES the deg=1 taxonomy at m=3: any pair WITHOUT a single-site-Z
     # component (pure cycles, multi-Z lifts) has every c_l = 0, hence exact P_{3,1} = 0, so the
-    # first moment is pushed higher (this is the m=3 instance of R-deg, closed).
+    # first moment is pushed higher (this is the m=3 instance of R-deg, closed; R-deg in full
+    # was retired in ladder form 2026-06-10 by the girth dichotomy).
     for label, pair in (("K3 (XXZ+XZX)", K3_EVEN), ("flux (IXY+XIY)", FLUX),
                         ("multi-Z (XXZ+ZZZ)", MULTIZ)):
         H = build_H(4, pair)
@@ -713,6 +732,9 @@ def block6_deg1_closed_form():
 
 # ======================================================================
 # BLOCK 7 -- R-deg & R-sign cell-wide over the N=4 k=3 Z diagonal cell.
+#   Status 2026-06-10: R-deg retired in ladder form (girth dichotomy, f87_girth_dichotomy.py);
+#   R-sign resolved (Pascal-Gram positivity, f87_pascal_gram_positivity.py). The cell-wide
+#   verification below stands unchanged as data; the residuals it tracked are closed.
 # ======================================================================
 def block7_cell_wide():
     print("-" * 92)

@@ -204,7 +204,8 @@ distance between Spec(L) and Spec(−L−2σ)), finer than any low moment. At lo
 - **Typed split (2026-06-08):** the genericity result (non-bipartite ⟹ hard for all but finitely many
   γ) is Derived, carried by F87DiagonalCellBipartiteWitnessSet; the remaining all-γ closure including the
   physical operating point is isolated as the Tier1Candidate WindowedConverseAllGammaClaim (upgraded in
-  the Phase B and girth-ladder bullets below; since 2026-06-10 gated on R-sign in ladder form alone).
+  the Phase B and girth-ladder bullets below; resolved 2026-06-10 by Pascal-Gram positivity, F117:
+  now Tier1Derived, see the resolution bullet below).
 - **Proven modulo R-deg + R-sign (Phase B, 2026-06-09,
   [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)):** recentre
   the Liouvillian as M = A + γQ; two involutions 𝓕 = F⊗F and R = I⊗F force every surviving odd power-sum word
@@ -228,6 +229,24 @@ distance between Spec(L) and Spec(−L−2σ)), finer than any low moment. At lo
   the one remaining residual is R-sign in ladder form: the first surviving class is single and positive.
   See [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)
   §4-§5 and the battery [`simulations/f87_girth_dichotomy.py`](../simulations/f87_girth_dichotomy.py).
+  *Resolved later the same day (2026-06-10): R-sign closed by the Pascal-Gram positivity theorem,
+  registry F117, see the next bullet.*
+- **Pascal-Gram positivity (2026-06-10, later the same day): R-sign resolved, no residual remains
+  (F117).** Every #Q = d class coefficient at the first nonvanishing odd moment m\* factorizes through
+  d-leg moments T^(l⃗)_α⃗ = Tr(Z_{l₁}H^{α₁}···Z_{l_d}H^{α_d}) and is either exactly zero (parity mod 4,
+  girth, cascade) or an equal-leg-total Pascal-Gram sum of squares
+  P_{m\*,d} = (m\*/d)·Σ_l⃗ Σ_k⃗ |U^(l⃗)_k⃗|² ≥ 0, with U the binomial (Vandermonde) transform of the
+  d-leg moments. At least one class is positive, so p_{m\*}(γ) > 0 for every γ > 0: hard at one γ is
+  hard at **all** γ. The ladder law m\* = 2ℓ + deg thus holds with all classes non-negative, no residual;
+  singleness (monomiality) is itself derived for deg ≤ 3 by a selection rule (d ≡ m\* − 2 mod 4,
+  d ≤ m\* − 2ℓ), while from deg = 5 two classes may coexist and positivity alone carries (the γ⁵ witness
+  IIXY+ZXZY is single only because its t₅ = 0 too). Verified exactly: d = 1 (IXXZ+XIXZ, 573440),
+  d = 3 (K3 2064384, flux 589824, multi-Z 61440), d = 5 (IIXY+ZXZY, 86507520), plus the cascade forced
+  zeros. The windowed converse is now a theorem with **no residual**: `WindowedConverseAllGammaClaim`
+  is Tier1Derived, and F110/F111 promote to Tier1Derived. See
+  [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §5
+  and the self-validating verifier
+  [`simulations/f87_pascal_gram_positivity.py`](../simulations/f87_pascal_gram_positivity.py).
 - **Retraction (the "flux moment-invisible exception" was a discarded-Im H bug).** An earlier reading treated
   the complex-H flux pair (odd #Y, X…Y bond, Gaussian-integer H) as a genuine all-γ exception, on the grounds
   that its signed third moment cancels, (H³)_{ii} = 0. That cancellation is real but irrelevant, and the
@@ -238,8 +257,8 @@ distance between Spec(L) and Spec(−L−2σ)), finer than any low moment. At lo
   exception. The sign table is checked bit-exact on this complex-H pair, so the converse covers flux pairs the
   chiral-K route never had to face.
 - **Coverage:** the windowed k=4 cell is now census-complete at N=5 (1056 pairs, the girth-ladder battery
-  above); k=5 stays untested. The windowed converse is proven modulo R-sign in ladder form (R-deg retired
-  2026-06-10); full support is settled.
+  above); k=5 stays untested. The windowed converse is a theorem with no residual (R-deg retired and
+  R-sign resolved via Pascal-Gram positivity F117, both 2026-06-10); full support is settled.
 
 ## Links
 
