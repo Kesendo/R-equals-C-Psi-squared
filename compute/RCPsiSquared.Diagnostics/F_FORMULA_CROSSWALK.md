@@ -82,6 +82,7 @@ For Core-side F-formulas (Pauli, Lindblad, Symmetry, etc.) see
 |----|--------|------------|--------------|
 | `Ptf.PerturbationMatrixElements.Compute` | first-order PT ⟨W_s|V_L|M_{s'}⟩ matrix elements | [`hypotheses/PERSPECTIVAL_TIME_FIELD.md`](../../hypotheses/PERSPECTIVAL_TIME_FIELD.md) (Tier 2 after EQ-014) | — |
 | `Ptf.PerturbationMatrixElements.EigenvectorShift` | δM_s = Σ_{s'≠s} [⟨W_{s'}|V_L|M_s⟩ / (λ_s − λ_{s'})] · M_{s'} | same | — |
+| `Ptf.StationaryManifold.Count` / `.Forecast` | closure guardian: PTF closure holds iff all N+1 stationary projectors survive (frame-independent count, Edge 5 of the 2026-06-10 fresh-eyes chain; `simulations/ptf_carrier_seam_retrodiction.py`) | [`experiments/PTF_PALINDROME_BREAKING_PERTURBATIONS.md`](../../experiments/PTF_PALINDROME_BREAKING_PERTURBATIONS.md) "Edge 5 result", [`reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md`](../../reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md) "Seen again" | — |
 
 ---
 
