@@ -6,9 +6,10 @@ using RCPsiSquared.Diagnostics.Knowledge;
 namespace RCPsiSquared.Diagnostics.Tests.F87;
 
 /// <summary>Wiring audit for <see cref="WindowedConverseAllGammaClaim"/>, the F87 windowed-converse
-/// residual lemma. After Phase B it is "proven modulo R-deg + R-sign": it stays Tier1Candidate and
-/// gains the Tier1Derived <see cref="WindowedConverseThresholdClaim"/> as a typed parent, while the
-/// two residuals R-deg / R-sign remain its named open content.</summary>
+/// residual lemma. After Phase B it was "proven modulo R-deg + R-sign"; since 2026-06-10 the girth
+/// dichotomy retired R-deg, so it is "proven modulo R-sign" (t_ℓ = 0 branch only). It stays
+/// Tier1Candidate with the Tier1Derived <see cref="WindowedConverseThresholdClaim"/> as a typed
+/// parent, and R-sign is its one named open content.</summary>
 public class WindowedConverseAllGammaClaimRegistrationTests
 {
     [Fact]
@@ -47,12 +48,13 @@ public class WindowedConverseAllGammaClaimRegistrationTests
     }
 
     [Fact]
-    public void Summary_StatesProvenModuloTwoResiduals()
+    public void Summary_StatesProvenModuloRSign_AndRDegRetired()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var claim = registry.Get<WindowedConverseAllGammaClaim>();
         Assert.Contains("modulo", claim.Summary);
-        Assert.Contains("R-deg", claim.Summary);
         Assert.Contains("R-sign", claim.Summary);
+        Assert.Contains("R-deg retired", claim.Summary);
+        Assert.Contains("outright", claim.Summary.ToLowerInvariant());
     }
 }

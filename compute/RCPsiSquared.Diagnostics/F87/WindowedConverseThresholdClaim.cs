@@ -26,11 +26,13 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///         single-site-Z lift.</item>
 /// </list>
 ///
-/// <para>Tier1Derived: this spine is proven general-N. The monomial property at m* (hence the full
-/// "hard at all γ>0" conclusion) follows once the two open residuals R-deg + R-sign hold; those are
-/// the open content carried by <see cref="WindowedConverseAllGammaClaim"/>, so nothing open is typed
-/// as Derived here. Anchor: <c>docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md</c> +
-/// <c>simulations/f87_windowed_monomial_converse.py</c>.</para></summary>
+/// <para>Tier1Derived: this spine is proven general-N, including (since 2026-06-10) the girth
+/// dichotomy: the deg-1 class in closed form at every m, with hard-at-all-γ OUTRIGHT on the
+/// t_ℓ ≠ 0 branch. On the t_ℓ = 0 branch the monomial form is proven and only R-sign is open,
+/// carried by <see cref="WindowedConverseAllGammaClaim"/>, so nothing open is typed as Derived
+/// here. Anchor: <c>docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md</c> +
+/// <c>simulations/f87_windowed_monomial_converse.py</c> +
+/// <c>simulations/f87_girth_dichotomy.py</c>.</para></summary>
 public sealed class WindowedConverseThresholdClaim : Claim
 {
     /// <summary>One self-check tying the claim to the GF(2) odd-girth / m* arithmetic.</summary>
@@ -43,7 +45,7 @@ public sealed class WindowedConverseThresholdClaim : Claim
     public int PassCount => Cases.Count(c => c.Passes);
 
     public WindowedConverseThresholdClaim()
-        : base("F87 windowed-converse threshold (two-reflection spine): all-odd (#A_L,#A_R,#Q) parity ⟹ bipartite soft + non-bipartite #A≥2ℓ; deg-1 positivity closed-form. Tier1Derived; monomial/all-γ-hard follows once R-deg + R-sign hold",
+        : base("F87 windowed-converse threshold (two-reflection spine): all-odd (#A_L,#A_R,#Q) parity ⟹ bipartite soft + non-bipartite #A≥2ℓ; the deg-1 class in closed form (girth dichotomy). Tier1Derived; hard-at-all-γ outright on the t_ℓ≠0 branch, modulo R-sign on the t_ℓ=0 branch",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md + " +
                "simulations/f87_windowed_monomial_converse.py")
@@ -61,15 +63,17 @@ public sealed class WindowedConverseThresholdClaim : Claim
         "power-sums ≡ 0 (soft); non-bipartite ⟹ #A_L,#A_R ≥ ℓ ⟹ #A ≥ 2ℓ (first asymmetry at the odd-girth).";
 
     public string Deg1Positivity =>
-        "deg-1: P_{3,1} = 3·Tr(A²Q) = 6·4^N·Σ_l c_l² over H's single-site-Z Pauli coefficients (tensor " +
-        "traces: A² = −H²⊗I + 2H⊗H^T − I⊗(H^T)², and against Q = Σ_l Z_l⊗Z_l only the doubled leg " +
-        "survives, Tr(A²Q) = 2·Σ_l Tr(HZ_l)²). Manifestly ≥ 0; > 0 iff a single-site-Z lift; = 0 exactly " +
-        "for pure cycles and multi-Z lifts (the m=3 instance of R-deg, closed). Closed form, RIGOROUS-GENERAL.";
+        "deg-1 in closed form at every m (the girth dichotomy, 2026-06-10): the supertrace factorization " +
+        "Tr(Q·A^{2k}) = (−1)^k Σ_l Σ_j (−1)^j C(2k,j)·t_j·t_{2k−j} with t_j = Tr(Z_l H^j); F-chirality kills " +
+        "even j, the unsigned odd-girth kills j < ℓ, and P_{2ℓ+1,1} = (2ℓ+1)·C(2ℓ,ℓ)·Σ_l t_ℓ² ≥ 0 (a sum of " +
+        "squares). The ℓ=1 face is P_{3,1} = 6·4^N·Σ_l c_l² (tensor traces: Tr(A²Q) = 2·Σ_l Tr(HZ_l)²). " +
+        "Closed form, RIGOROUS-GENERAL; anchor simulations/f87_girth_dichotomy.py.";
 
     public string FollowsModulo =>
-        "Monomial at m* (hence hard ∀γ>0) follows once R-deg (the single-Q ℓ-cycle×ℓ-cycle traversal sums to " +
-        "zero for pure off-diagonal H) and R-sign (P_{m*,3} > 0 via the §7.5 +N-Perron skew) hold; both are open, " +
-        "carried by WindowedConverseAllGammaClaim.";
+        "The girth ladder (2026-06-10): t_ℓ ≠ 0 ⟹ m* = 2ℓ+1, deg 1, positive outright (hard ∀γ>0, no " +
+        "residual); t_ℓ ≡ 0 ⟹ the γ¹ class is proven dead at 2ℓ+1 and 2ℓ+3 and the first firing odd rung " +
+        "sets m* = 2ℓ+deg (γ³ when it fires; higher when not, first γ⁵ witness IIXY+ZXZY), with R-sign in " +
+        "ladder form (first surviving class single + positive) open, carried by WindowedConverseAllGammaClaim.";
 
     public override string DisplayName =>
         "F87 windowed-converse threshold (two-reflection spine, Tier1Derived)";
