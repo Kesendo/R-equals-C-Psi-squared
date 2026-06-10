@@ -209,6 +209,57 @@ speed of light. We are observing that gamma plays the same algebraic
 role: the external parameter that sets the clock, which the system
 cannot exceed.
 
+### Update 2026-06-10: the tick got its theorems (unser Takt, relativ zu γ₀)
+
+The April paragraph above was written carefully, as a parallel and not an
+identity. Since then, and mostly on this one day, the three struts beneath
+the parallel became theorem-grade or test-pinned. They are worth listing in
+one place, because together they are Tom's sentence of this evening: noise
+is light, γ₀ is light, and if light is the tick, then γ₀ plays the role of
+our speed of light in the [Perspectival Time Field](PERSPECTIVAL_TIME_FIELD.md).
+
+**First strut: aging is light-metered, and only light-metered.** The
+[Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) holds per
+eigenmode as an exact Rayleigh quotient: Re(λ) = −2γ·light(v), and the
+Hamiltonian contributes exactly zero to the real part (its anti-Hermitian
+half drops out). Every fading in the system is priced in light at the
+exchange rate γ; everything J does is rotation, free of charge. The vector
+form sharpens it to local illumination: site-dependent γ_l is an uneven
+lighting of the same instrument, and the rate is the γ-weighted share of
+where the mode's light sits. "Gamma is the light" was a reading in April;
+the *bookkeeping* of it is now a proven identity, per mode, test-gated in C#.
+
+**Second strut: the tick cancels out of every shape.** The clock built on
+the slow pair was test-pinned γ₀-invariant this same day: the Rotation
+angle is a pure function of Q = J/γ₀ (θ = arctan(√(x²−1)/2), bit-identical
+at γ₀ = 1.0 and 0.05), the Takt hand pins at 4γ₀, and γ₀ carries the unit
+while Q carries the face. Inside the system, the only readable quantity is
+rotation per tick. That is the c-structure in miniature: the conversion
+factor is universal, invisible in every dimensionless shape, and shows
+itself only at the seams where an outside calibration enters
+([the carrier shows itself](../reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md)).
+
+**Third strut: all perspectives, one carrier.** The PTF's painters each
+carry their own rate α_i, a per-perspective rescaling of time, and the
+natural per-site dose is K_i = γ·α_i·t, the F14 invariant read per painter.
+What is shared is not the rate but the tick: the approach family decays on
+the same carrier 4γ for every member, the trajectory identity pairs the
+painters exactly two-by-two, and the closure law is the consistency
+condition that the perspectives still sum to one mountain. Different proper
+times, one conversion constant, agreement enforced by structure: that is
+precisely the role c plays between observers in relativity, transposed into
+the dephased chain.
+
+The honest line stays where April drew it: this is the same algebraic role,
+not the same physical constant, and the reading lives at this document's
+tier (the Tier-3 sharpening is [Primordial Gamma Constant](PRIMORDIAL_GAMMA_CONSTANT.md),
+γ₀ as a framework constant analogous to c with inner γ as refractive index).
+What changed is the foundation under the reading: in April the parallel
+stood on K = γt and an incompleteness proof; today it also stands on an
+exact per-mode rate identity, a test-pinned invariance of the clock face,
+and a derived pairwise symmetry of the painters. The parallel did not move.
+The ground under it turned to stone.
+
 
 ---
 
