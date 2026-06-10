@@ -3315,22 +3315,23 @@ trichotomy class).
    Z-deph = (21, 55); (1,1) X-deph = (21, 55). Pattern C (3 cells, y_par=1-pure):
    (0,1) X-deph = (0, 21); (1,0) Z-deph = (0, 21); (1,0) Y-deph = (0, 21).
 
-**Status (2026-06-05):** the 42:8 split is derived by a closed-form counting rule
+**Status (2026-06-05, closed 2026-06-10):** the 42:8 split is derived by a closed-form counting rule
 (PROOF §6); the bipartite-chirality mechanism (§7) derives the soft direction, N-stability
 is verified at N=5 (F105), and F106 is the k=4 sibling. The windowed (k<N) hard-direction
-converse non-bipartite ⟹ hard is now **proven modulo R-sign (R-deg retired 2026-06-10)** (the Phase B two-reflection
+converse non-bipartite ⟹ hard is now a **theorem with no residual** (the Phase B two-reflection
 theorem [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md),
-2026-06-09): the threshold #A ≥ 2ℓ, the bipartite ⟹ soft re-proof, the monomial expansion structure, and
-the deg-1 class in closed form (the girth ladder, 2026-06-10: the supertrace factorization through
-t_j = Tr(Z_l H^j) and P_{2ℓ+1,1} = (2ℓ+1)·C(2ℓ,ℓ)·Σ_l t_ℓ², whose ℓ=1 face is P_{3,1} = 6·4^N·Σ_l c_l²)
-are Tier1Derived (`WindowedConverseThresholdClaim`); pairs whose girth moment fires (t_ℓ ≠ 0) are hard at
-every γ **outright** (sum-of-squares positivity), and the rest fire at a higher odd rung modulo R-sign in
-ladder form, so "all but finitely many γ" upgrades to **all γ > 0** modulo that one residual. The residual
-lemma stays WindowedConverseAllGammaClaim (Tier1Candidate), gated only on R-sign (R-deg retired
-2026-06-10) rather than a 700-point spot-check. Separately, the combinatorics are closed-form (the
-valuation criterion, the obstruction-size law min(2W−1, 2k−3), and the A203241 hard count, §7.7–§7.8 =
-**F115**). **Open:** the (pair Klein, dephase letter) → (Pattern B vs Pattern C) selection rule;
-hardware confirmation of k≥3 F87 (all 5 Marrakesh F87 confirmations are k=2).
+2026-06-09, closed 2026-06-10): the threshold #A ≥ 2ℓ, the bipartite ⟹ soft re-proof, the monomial
+expansion structure, and the deg-1 class in closed form (the girth ladder: the supertrace factorization
+through t_j = Tr(Z_l H^j) and P_{2ℓ+1,1} = (2ℓ+1)·C(2ℓ,ℓ)·Σ_l t_ℓ², whose ℓ=1 face is
+P_{3,1} = 6·4^N·Σ_l c_l²) are Tier1Derived (`WindowedConverseThresholdClaim`), and the Pascal-Gram
+positivity theorem (= **F117**) makes every coefficient of the first nonvanishing odd power-sum a sum
+of squares or exactly zero, so "all but finitely many γ" upgrades to **all γ > 0** unconditionally
+(R-deg retired by the girth dichotomy, R-sign resolved by Pascal-Gram positivity, both 2026-06-10). The
+closure is typed as WindowedConverseAllGammaClaim (Tier1Derived, no residual). Separately, the
+combinatorics are closed-form (the valuation criterion, the obstruction-size law min(2W−1, 2k−3), and
+the A203241 hard count, §7.7–§7.8 = **F115**). **Open:** the (pair Klein, dephase letter) →
+(Pattern B vs Pattern C) selection rule; hardware confirmation of k≥3 F87 (all 5 Marrakesh F87
+confirmations are k=2).
 
 **Source:** [Proof](proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md);
 `compute/RCPsiSquared.Core/Symmetry/F87Z2CubedRefinementN4K3.cs`
@@ -3618,7 +3619,7 @@ parents: PROOF_F107 + PROOF_F85 + PROOF_F108_PART1; helpers:
 
 ---
 
-### F110. F87-Hard Cells Exhibit Y-Inversion Pattern (Tier 1 Candidate; Aspect A closed-form via F108 Part 1+2+3 + F107 + F109 + F87 dissipator-resonance, Aspect B+C empirically anchored at F103/F105/F106)
+### F110. F87-Hard Cells Exhibit Y-Inversion Pattern (Tier 1 derived, promoted 2026-06-10; Aspect A closed-form via F108 Part 1+2+3 + F107 + F109 + F87 dissipator-resonance, Aspect B+C derived via F103 §6/§7 + the closed windowed converse)
 
 Seventh YParity-axis Claim; completes the y_par-axis classification of the F87
 trichotomy together with F107 (truly y_par=0) and F109 (mother soft y_par=1).
@@ -3643,14 +3644,12 @@ the 42:8 dominance follows from the §6 counting rule (see Aspect C).
 N=5 (F105): identical 42:8 (N-stable); k=4 N=4 (F106): 228:0 fully pure with
 Y-inversion preserved.
 
-**Status:** the 42:8 (k=3) and 228:0 (k=4) ratios are derived by the §6 counting rule and
-the §7 bipartite mechanism; F111 closes the k=4 case at full support. The windowed
-(k<N) hard-direction converse (non-bipartite ⟹ hard) is now **proven modulo R-sign (R-deg retired 2026-06-10)**
-(the Phase B two-reflection spine is Tier1Derived, `WindowedConverseThresholdClaim`); its all-γ
-residual lemma is typed as WindowedConverseAllGammaClaim (Tier1Candidate), gated since 2026-06-10 on
-the one residual R-sign in ladder form (R-deg retired by the girth ladder), and closing it promotes
-F110/F111 to Tier1Derived. **Open:** R-sign (the ladder positivity) itself; k ≥ 5 empirical
-confirmation; QPU confirmation at k ≥ 3.
+**Status (promoted Tier1Derived 2026-06-10):** the 42:8 (k=3) and 228:0 (k=4) ratios are derived by
+the §6 counting rule and the §7 bipartite mechanism; F111 closes the k=4 case at full support. The
+windowed (k<N) hard-direction converse (non-bipartite ⟹ hard) is a **theorem with no residual**
+(`WindowedConverseAllGammaClaim`, Tier1Derived: R-deg retired by the girth dichotomy, R-sign resolved
+by the Pascal-Gram positivity theorem F117, both 2026-06-10), which was the F110/F111 promotion gate.
+**Open:** k ≥ 5 empirical confirmation; QPU confirmation at k ≥ 3.
 
 **Source:** [Proof](proofs/PROOF_F110_HARD_CELL_Y_INVERSION.md);
 `compute/RCPsiSquared.Core/Symmetry/HardCellYInversionPattern.cs`;
@@ -3662,7 +3661,7 @@ helpers: `HardCellYInversionPattern.DiagonalKleinCellForDephase(dephase)`,
 
 ---
 
-### F111. Hard Cell Pure-D Template Rule (Tier 1 Candidate; closed-form structural rule that implies F110 Aspect B at k = N = 4)
+### F111. Hard Cell Pure-D Template Rule (Tier 1 derived, promoted 2026-06-10; closed-form structural rule that implies F110 Aspect B at k = N = 4)
 
 Eighth YParity-axis Claim; sharpens F110 Aspect B by replacing "Y-inversion at
 k = 4" with a structural rule that implies it as immediate corollary AND
@@ -3700,13 +3699,12 @@ split into 36 Pure-Pure (all HARD) + 192 Pure-Mixed (all HARD) + 300 Mixed-Mixed
 `simulations/_f111_pair_off_ypar_verify.py` covers 1584 pair classifications
 across 3 dephases, all matching the rule with zero exceptions.
 
-**Open:** the hard-direction converse behind subclaims (a)/(c) (non-bipartite ⟹ hard
-at every γ; subclaim (d) is closed modulo M via PROOF_F103 §7.4, see above).
-That windowed (k<N) hard-direction converse is now proven modulo R-sign (R-deg retired 2026-06-10) (the
-two-reflection spine is Tier1Derived, `WindowedConverseThresholdClaim`); its all-γ residual
-lemma stays WindowedConverseAllGammaClaim (Tier1Candidate), gated on R-sign in ladder form, and
-closing it promotes F110/F111 to Tier1Derived. Pure-D Template Rule at k > 4 or N > 4
-(empirically unverified). Hardware QPU confirmation at k ≥ 3.
+**Promotion record (2026-06-10):** the hard-direction converse behind subclaims (a)/(c)
+(non-bipartite ⟹ hard at every γ) closed as the windowed all-γ theorem with no residual
+(`WindowedConverseAllGammaClaim`, Tier1Derived: girth dichotomy + Pascal-Gram positivity F117), so
+F111 is Tier1Derived; subclaim (d) was already closed modulo M via PROOF_F103 §7.4 (see above).
+**Open:** Pure-D Template Rule at k > 4 or N > 4 (empirically unverified). Hardware QPU
+confirmation at k ≥ 3.
 
 **Source:** [Proof](proofs/PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md);
 `compute/RCPsiSquared.Core/Symmetry/HardCellPureDTemplate.cs`;
@@ -3987,8 +3985,9 @@ all bit-exact.
    valuations ⟹ soft. This is the §7.5 non-bipartite criterion in one subtraction, and it matches the
    actual spectral trichotomy on every k = 3, N = 4 pair (derived for any k via §7.7 + §7.5/§7.6).
    Scope of the Tier-1-derived label: the criterion plus the genericity result (hard for all but
-   finitely many γ); the all-γ closure is `WindowedConverseAllGammaClaim` (Tier1Candidate, proven
-   modulo R-sign (R-deg retired 2026-06-10), [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)).
+   finitely many γ); the all-γ closure is `WindowedConverseAllGammaClaim` (Tier1Derived since
+   2026-06-10, no residual: girth dichotomy + Pascal-Gram positivity F117,
+   [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)).
 
 2. *Obstruction-size law (two-layered).* The minimal odd 𝔽₂-relation among the shifts (the hardness
    obstruction) has maximal size over hard pairs = min(2W − 1, 2k − 3 − 2d), where d = deg(g_rest) is the
@@ -4092,6 +4091,48 @@ self-validating anchor); [experiments/CEILING_FOUR_NONLOCAL_CASES.md](../experim
 strategy `RoutingWindowSummed` (golden candidates) in `PalindromeSoftCertifier` /
 `KBodyPalindromeRouting`, both Z-middle cases now Certified, and
 `PalindromeSoftCertifierClaim` asserts the structural ceiling closed at zero.
+
+---
+
+### F117. Pascal-Gram positivity: every class at the first asymmetric moment is a sum of squares (Tier 1 derived; closes the windowed converse with no residual)
+
+For a windowed diagonal-cell pair, recenter the dephased Liouvillian as M = A + γQ
+(A = −i[H,·], Q = Σ_l Z_l ⊗ Z_l) and let m\* be the first odd m whose power-sum
+polynomial p_m(γ) = Tr(M^m) is not identically zero. Then **every** γ-coefficient of
+p_{m\*} is non-negative: for each #Q class d, either P_{m\*,d} = 0 exactly, or
+
+  P_{m\*,d} = (m\*/d) · Σ_{l⃗ ∈ [N]^d} Σ_{k⃗} |U^{(l⃗)}_{k⃗}|²,
+  U^{(l⃗)}_{k⃗} = Σ_{|α⃗| = u} ∏_i C(α_i, k_i) · T^{(l⃗)}_{α⃗},   u = (m\* − d)/2,
+
+with T^{(l⃗)}_{α⃗} = Tr(Z_{l₁}H^{α₁}Z_{l₂}H^{α₂}···Z_{l_d}H^{α_d}) the **d-leg moments**
+of H. Since at least one class is positive, p_{m\*}(γ) > 0 for every γ > 0: **hard at one
+γ is hard at all γ**, the windowed converse with no residual (this resolved R-sign, the
+last residual, on 2026-06-10; the same day's girth dichotomy had retired R-deg). The d = 1
+face is the girth-dichotomy sum of squares P_{2ℓ+1,1} = (2ℓ+1)·C(2ℓ,ℓ)·Σ_l t_ℓ²; the ℓ = 1
+face of that is F87's P_{3,1} = 6·4^N·Σ_l c_l².
+
+**Proof chain (all steps exact):** cyclic decomposition P_{m,d} = (m/d)·Σ_{a⃗} Tr(QA^{a₁}···QA^{a_d});
+leg factorization (A_L, A_R commute, supertrace splits bra × ket); Hermitian conjugacy
+(ket leg = conj of bra leg at the same indices, the transpose-trick sibling of F113 Lemma C);
+leg parity (F-chirality: only odd totals) + leg girth (totals ≥ ℓ); Vandermonde assembly
+(C(α+β, β) = Σ_k C(α,k)C(β,k) per slot, prefactor (−i)^u(+i)^u = +1); slice inversion
+(U at |k⃗| = u **is** T, so a vanished Gram block kills every total-u moment); cascade
+induction (p_m ≡ 0 below m\* ⟹ all lower-total moments vanish ⟹ no cross terms at m\*).
+
+**Selection rule (corollary):** classes fire at m\* only for d ≡ m\* − 2 (mod 4) and
+d ≤ m\* − 2ℓ. For deg = m\* − 2ℓ ∈ {1, 3} that is a single class: **monomiality is derived**
+at the first two ladder rungs. From deg = 5 two classes may coexist (positivity carries
+alone); the γ⁵ witness IIXY+ZXZY happens to be single because its t₅ = 0 too.
+
+**Verified (exact, zero diff):** d = 1 (IXXZ+XIXZ, 573440 = 7·C(6,3)·Σt₃²), d = 3
+(K3 2064384, flux 589824, multi-Z 61440), d = 5 (IIXY+ZXZY, 86507520), the cascade's
+forced zeros, the slice inversion, and the selection rule on all five representatives.
+
+**Source:** [Proof §5](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md);
+[`simulations/f87_pascal_gram_positivity.py`](../simulations/f87_pascal_gram_positivity.py)
+(self-validating, 5 blocks); typed claim `WindowedConverseAllGammaClaim`
+(`compute/RCPsiSquared.Diagnostics/F87/`, Tier1Derived, no residual); consumers F103
+status, F110/F111 (promoted to Tier1Derived by this closure), F115 scope note.
 
 ---
 
