@@ -124,6 +124,18 @@ public sealed class DimensionField : IInspectable
         });
     }
 
+    /// <summary>The per-site light profile as an (N × points) real matrix, entry [l, p] = the slow
+    /// manifold's light at site l and θ[p], read on the cluster-closed window. On the crossover axis
+    /// every row is exactly constant (the flatness theorem); drawn as a heatmap the flatness is the
+    /// statement.</summary>
+    private ComplexMatrix PerSiteLightMatrix()
+    {
+        var light = Sweep.PerSiteLight;
+        int points = light.Count;
+        return ComplexMatrix.Build.Dense(_axis.N, points,
+            (l, p) => new Complex(light[p][l], 0.0));
+    }
+
     /// <summary>A labelled magnitude bar chart of a Pauli-content top list: one bar per dominant
     /// Pauli string, its height the string's mass fraction of the subspace, its label the string.</summary>
     private static InspectablePayload.Vector PauliBars(string label,
@@ -144,7 +156,20 @@ public sealed class DimensionField : IInspectable
     /// reads true (4) in the window slowCount ≈ 8 to 16: below it the slow subspace is too small to
     /// hold the whole core, above it the subspace fills enough of the operator space that the θ₀ and θ
     /// subspaces re-include each other's rotated images and the apparent core inflates (18 at
-    /// slowCount 24, 27 at 32). slowCount = 16, the default, sits at the top of the true window.</para></summary>
+    /// slowCount 24, 27 at 32). slowCount = 16, the default, sits at the top of the true window.</para>
+    ///
+    /// <para>Dated note (2026-06-10): the caveat above is RETIRED as a lens problem by the
+    /// intersection core, <see cref="SlowManifoldPauliContent.IntersectionCoreRank"/> on the
+    /// cluster-closed basis <see cref="DimensionSweepResult.ClusterClosedBasis"/>. That read is a
+    /// single-θ rank, dim(slow ∩ fixed cell), with no angle threshold: the inflation to 18/27 was
+    /// image re-inclusion (those directions are NOT rotation-fixed; the intersection core never
+    /// counts them), and the residual window-dependence is honest membership only. On the N = 3
+    /// crossover, requested slowCount 8, 16, 24 all close to the same 28-dim rate manifold and read
+    /// 10; requested 32 closes to 36 and reads 12 (real fixed-cell content that became slow). The
+    /// historical 4 is itself a window reading: the closed 6-dim manifold (kernel + the slowest
+    /// oscillatory cluster) holds exactly 4 fixed directions, the diagonal {I, Z} shadow. This
+    /// angle-based split stays as the fan's raw-window eyepiece; the intersection core is the
+    /// threshold-free read.</para></summary>
     private (int Core, int Rotating, double MaxRotDeg) CoreSplitAtFinalTheta(double tolDeg = 1.0)
     {
         double[] finalAngles = Sweep.PrincipalAngleSpectrum[^1];
@@ -233,14 +258,34 @@ public sealed class DimensionField : IInspectable
                         payload: PauliBars("rotating Pauli weight", pc.RotatingTop)),
                 });
 
-            // 5. The polarity ladder α = sin²θ/2: ¼ at the T-gate (45°), ½ at the S-gate (90°).
+            // 5. The light of the in-between: the gauge-free per-site light coordinate of the slow
+            // manifold, read on the cluster-closed window. Ad_{R_z(θ)} is diagonal on coherence
+            // space and commutes with every Δ_l, so on the crossover axis the profile is EXACTLY
+            // flat in θ: the turn moves the light's carriers (the manifold rotates), never the
+            // per-site profile. The intersection core is the threshold-free count of the
+            // rotation-fixed directions inside the same closed manifold.
+            var closed0 = Sweep.ClusterClosedBasis[0];
+            int closedK = closed0.ColumnCount;
+            int fixedRank = SlowManifoldPauliContent.IntersectionCoreRank(closed0, _axis.N, _axis.LitSites);
+            var light0 = Sweep.PerSiteLight[0];
+            string profile = string.Join(", ", light0.Select(v => v.ToString("0.###", Inv)));
+            yield return new InspectableNode(
+                displayName: "the light of the in-between",
+                summary: $"per-site light [{profile}] on the cluster-closed window (k={closedK}); " +
+                         $"flat across θ to {Sweep.MaxLightDriftAcrossTheta.ToString("E1", Inv)} " +
+                         "(the rotation turns the light's carriers, never its per-site profile); " +
+                         $"intersection core {fixedRank} of {closedK} (rotation-fixed cell content, threshold-free)",
+                payload: new InspectablePayload.MatrixView(
+                    "per-site light (rows: site, cols: θ)", PerSiteLightMatrix()));
+
+            // 6. The polarity ladder α = sin²θ/2: ¼ at the T-gate (45°), ½ at the S-gate (90°).
             yield return new InspectableNode(
                 displayName: "polarity on the ladder",
                 summary: $"α = sin²θ/2: {Sweep.Polarity[0].ToString("0.###", Inv)} → {Sweep.Polarity[^1].ToString("0.###", Inv)} (¼ at 45°, ½ at 90°)",
                 payload: new InspectablePayload.Curve(
                     "α = sin²θ/2", thetaDeg, Sweep.Polarity, "θ°", "α"));
 
-            // 6. The mirror here at θ = 45° (the T-gate): Ad_{R_z(π/4)} on one qubit, the √-of-90°.
+            // 7. The mirror here at θ = 45° (the T-gate): Ad_{R_z(π/4)} on one qubit, the √-of-90°.
             yield return new InspectableNode(
                 displayName: "the mirror here (θ=45°, the T-gate)",
                 summary: "Ad_{R_z(π/4)}: the continuous mirror at the symmetric crossover, the √ of the 90° S-gate",

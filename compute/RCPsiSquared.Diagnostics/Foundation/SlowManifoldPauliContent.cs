@@ -19,7 +19,12 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <para>The projection is done in the row-major vec convention the dissipator and SlowBasis use
 /// (vec(σ)[a·d + b] = σ[a, b]), built string by string here rather than through
 /// <see cref="PauliBasis.VecToPauliBasisTransform"/> (whose columns are column-major vec_F), so the
-/// inner products line up with the SlowBasis vectors without a transpose twist.</para></summary>
+/// inner products line up with the SlowBasis vectors without a transpose twist.</para>
+///
+/// <para>Two core reads live here: <see cref="Compute"/> is the angle-thresholded two-θ read (the
+/// fan's eyepiece, with its slowCount-window caveat), and <see cref="IntersectionCoreRank"/> is the
+/// threshold-free single-θ read, dim(slow ∩ fixed cell), which needs neither an angle tolerance nor
+/// a θ-pair and retires the window artifact.</para></summary>
 public static class SlowManifoldPauliContent
 {
     /// <summary>One Pauli string's share of a subspace's mass, with the lit-XY flag (does it carry an
@@ -35,6 +40,71 @@ public static class SlowManifoldPauliContent
         double RotatingLitXYWeight,
         IReadOnlyList<StringWeight> CoreTop,
         IReadOnlyList<StringWeight> RotatingTop);
+
+    /// <summary>The threshold-free core: dim(slow ∩ fixed cell), read from ONE subspace at ONE θ.
+    ///
+    /// <para>The fixed cell C is the joint-fixed cell of the per-site rotation characters on the lit
+    /// sites: coherences x = a·d + b with Δ_l(x) = 0 for every lit l (bra and ket agree on every lit
+    /// bit), equivalently the span of Pauli strings reading {I, Z} on every lit site. Ad_{R_z(θ)} is
+    /// DIAGONAL in the coherence basis and acts on x as the phase exp(iθ·Σ_lit(bit_l(a) − bit_l(b))),
+    /// so it is the IDENTITY exactly on C: every direction in C is genuinely rotation-fixed, no
+    /// principal-angle threshold and no θ-pair needed. The projector Π_C is diagonal (Π_C(x) = 1 iff
+    /// x ∈ C), and the core is rank(Π_C·P_slow·Π_C), counted through the projected Gram matrix
+    /// (Π_C·Q)ᴴ·(Π_C·Q): its eigenvalues are the squared singular values of the cell-restricted slow
+    /// basis, and the count at 1 is the rank (the pinned N = 3 spectrum has the near-1 cluster
+    /// separated from the next singular value by ≥ 0.05, so <paramref name="rankTol"/> is a numerical
+    /// rank cut, not a lens).</para>
+    ///
+    /// <para>This retires the angle-core's slowCount-window artifact (see the dated note at
+    /// <see cref="DimensionField"/>'s core split): the angle count inflated 4 → 18 → 27 at slowCount
+    /// 16 → 24 → 32 because the θ₀ and θ windows re-include each other's rotated images; the
+    /// intersection core counts only genuinely fixed directions. Pass the cluster-closed basis
+    /// (<see cref="DimensionSweepResult.ClusterClosedBasis"/>): on it the read is exact, θ-stable,
+    /// and window-free in the meaningful sense, every requested slowCount that closes to the same
+    /// manifold reads the same rank (N = 3 crossover: requested 8, 16, 24 all close to the 28-dim
+    /// manifold and read 10; requested 32 closes to 36 and honestly reads 12, real fixed content
+    /// that became slow, not a lens artifact; the historical core 4 is the closed 6-dim manifold's
+    /// read). On a RAW window that slices a degenerate rate cluster the rank inherits the
+    /// membership gauge and can flicker (pinned 2026-06-10: raw slowCount = 16 reads 4 at twelve of
+    /// thirteen θ and 5 at θ = π/4).</para>
+    ///
+    /// <para>With empty <paramref name="litSites"/> the cell is the whole coherence space and the
+    /// rank is just the basis dimension (the J-defect axis has no lit/shadow split).</para></summary>
+    public static int IntersectionCoreRank(ComplexMatrix slowBasis, int N, IReadOnlyList<int> litSites,
+        double rankTol = 1e-6)
+    {
+        int k = slowBasis.ColumnCount;
+        if (k == 0) return 0;
+        int d = 1 << N;
+        int dim = slowBasis.RowCount; // d²
+        if (dim != d * d)
+            throw new ArgumentException($"slowBasis must have 4^N = {d * d} rows for N={N}, got {dim}", nameof(slowBasis));
+
+        // The fixed cell's rows: bra and ket agree on every lit bit (site l ↔ bit N−1−l).
+        var rows = new List<int>(dim);
+        for (int x = 0; x < dim; x++)
+        {
+            int diff = (x / d) ^ (x % d);
+            bool inCell = true;
+            foreach (int l in litSites)
+                if (((diff >> (N - 1 - l)) & 1) != 0) { inCell = false; break; }
+            if (inCell) rows.Add(x);
+        }
+
+        // The projected Gram matrix G = (Π_C·Q)ᴴ·(Π_C·Q), k × k Hermitian PSD; its eigenvalues are
+        // the σ² of the cell-restricted basis, and an eigenvalue at 1 ⟺ a slow direction lies
+        // entirely in the cell. Counting them is rank(Π_C·P_slow·Π_C). (Gram + Hermitian Evd rather
+        // than an SVD of the restricted matrix: the restriction is wide, |C| < k, on the closed
+        // windows, and the Gram route is shape-independent.)
+        var restricted = ComplexMatrix.Build.Dense(rows.Count, k, (r, j) => slowBasis[rows[r], j]);
+        var gram = restricted.ConjugateTranspose() * restricted;
+        var eigenvalues = gram.Evd(MathNet.Numerics.LinearAlgebra.Symmetricity.Hermitian).EigenValues;
+        double cut = (1.0 - rankTol) * (1.0 - rankTol);
+        int rank = 0;
+        for (int i = 0; i < eigenvalues.Count; i++)
+            if (eigenvalues[i].Real >= cut) rank++;
+        return rank;
+    }
 
     /// <summary>Split Q(θ₀) versus Q(θ) into the core (principal angle &lt; <paramref name="angleTolDeg"/>)
     /// and the rotating remainder, and project both onto the Pauli basis. <paramref name="litSites"/>

@@ -14,6 +14,7 @@ public class DimensionFieldTests
         var labels = children.Select(c => c.DisplayName).ToList();
         Assert.Contains(labels, l => l.Contains("marks"));
         Assert.Contains(labels, l => l.Contains("in-between"));
+        Assert.Contains(labels, l => l.Contains("light"));
         Assert.Contains(labels, l => l.Contains("polarity"));
         Assert.Contains(labels, l => l.Contains("mirror"));
         // smoke: it renders to JSON without throwing and mentions the in-between

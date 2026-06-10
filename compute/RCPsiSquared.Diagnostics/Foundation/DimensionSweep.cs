@@ -40,6 +40,25 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// carries its own marks-and-in-between split, and the spectrum makes it visible. All readings are
 /// read from the singular values of Q(θ₀)ᴴ·Q(θ[p]) via <see cref="DimensionSweepResult.SlowBasis"/>,
 /// the per-θ orthonormal Q.</para>
+///
+/// <para>The light coordinate. <see cref="DimensionSweepResult.PerSiteLight"/> is the slow
+/// manifold's per-site light profile at each θ: light_l = Tr(Π_V·Δ_l)/k, the trace of the
+/// orthonormal slow projector against the diagonal mask Δ_l(x) = 1 iff bit l differs between bra
+/// and ket of the coherence index x = a·d + b (the same Δ_l as the Absorption Theorem and
+/// <see cref="Ptf.SlowLightDistribution"/>). The coordinate is gauge-free three times over: no
+/// eigenvector phase or intra-degenerate basis enters (it is a projector trace), no vec
+/// convention enters (the popcount of a⊕b is bra/ket symmetric), and no window-membership gauge
+/// enters, because the profile is read on <see cref="DimensionSweepResult.ClusterClosedBasis"/>,
+/// the slowCount window extended to the rate-cluster boundary. The closure is what makes the
+/// coordinate honest: a cut INSIDE a degenerate |Re λ| cluster selects a solver-arbitrary slice
+/// of that cluster (pinned 2026-06-10 at the N = 3 crossover, slowCount = 16: the raw-window
+/// profile drifts 4.9·10⁻² across θ, while the closed window, 28 modes, is flat to 1.7·10⁻¹⁶,
+/// profile exactly [11/28, 11/28, 2/28]). On the crossover axis the flatness is a theorem, not a
+/// numerical accident: Ad_{R_z(θ)} is diagonal on coherence space, so it commutes with every
+/// Δ_l, and the slow manifold's per-site light profile is EXACTLY θ-invariant even as the
+/// manifold itself rotates; the turn moves the light's carriers, never its per-site profile.
+/// <see cref="DimensionSweepResult.MaxLightDriftAcrossTheta"/> is the flatness gate. On a
+/// non-similarity axis (the J-defect) the same number reads the REAL light redistribution.</para>
 /// </summary>
 public sealed record DimensionSweepResult(
     IReadOnlyList<double> Theta,
@@ -49,10 +68,20 @@ public sealed record DimensionSweepResult(
     double MaxEigenvalueDriftAcrossTheta,
     IReadOnlyList<ComplexMatrix> SlowBasis,
     IReadOnlyList<double> CumulativeRotation,
-    IReadOnlyList<double[]> PrincipalAngleSpectrum);
+    IReadOnlyList<double[]> PrincipalAngleSpectrum,
+    IReadOnlyList<ComplexMatrix> ClusterClosedBasis,
+    IReadOnlyList<double[]> PerSiteLight,
+    double MaxLightDriftAcrossTheta);
 
 public static class DimensionSweep
 {
+    /// <summary>Eigenvalues whose |Re λ| differ by less than this belong to the same rate cluster.
+    /// The cluster-closed window extends the slowCount cut up to the next boundary where the gap
+    /// exceeds it. Same standing as <see cref="Ptf.SlowLightDistribution.DefaultClusterTolerance"/>:
+    /// the dense-Evd floor sits at ~10⁻¹⁴ and the real rate gaps at N ≤ 6 are O(γ), so anything in
+    /// between works.</summary>
+    public const double ClusterTolerance = 1e-6;
+
     /// <summary>Sweep <paramref name="axis"/>, reading the marks and the in-between at every θ.
     /// The slow subspace is spanned by the <paramref name="slowCount"/> eigenvalues with the
     /// smallest |Re λ| (the longest-lived Liouvillian modes).</summary>
@@ -65,6 +94,8 @@ public static class DimensionSweep
         var sortedEigenvalues = new Complex[points][];   // by (Re, then Im), for the marks-drift read
         var projectors = new ComplexMatrix[points];      // orthonormal slow-subspace projectors, for the in-between
         var slowBasis = new ComplexMatrix[points];        // per-θ orthonormal Q, for the cumulative principal-angle read
+        var closedBasis = new ComplexMatrix[points];      // the cluster-closed window, for the gauge-free light read
+        var perSiteLight = new double[points][];
         var polarity = new double[points];
 
         for (int p = 0; p < points; p++)
@@ -90,16 +121,39 @@ public static class DimensionSweep
             // In-between: the slowCount eigenvalues with smallest |Re λ|, their right eigenvectors
             // orthonormalized (modified Gram-Schmidt) into Q, then the projector P = Q·Qᴴ.
             int k = Math.Min(slowCount, dim);
-            var slowIdx = Enumerable.Range(0, dim)
+            var byRate = Enumerable.Range(0, dim)
                 .OrderBy(i => Math.Abs(evals[i].Real))
-                .Take(k)
                 .ToArray();
             var slowVecs = Matrix<Complex>.Build.Dense(dim, k);
             for (int j = 0; j < k; j++)
-                slowVecs.SetColumn(j, evd.EigenVectors.Column(slowIdx[j]));
+                slowVecs.SetColumn(j, evd.EigenVectors.Column(byRate[j]));
             var Q = OrthonormalizeColumns(slowVecs);
             slowBasis[p] = Q;
             projectors[p] = Q * Q.ConjugateTranspose();
+
+            // The cluster-closed window: extend the cut to the rate-cluster boundary, so the
+            // window is a union of full |Re λ| clusters. A cut INSIDE a degenerate cluster picks a
+            // solver-arbitrary slice (which members survive the cut depends on the Evd's internal
+            // ordering, a membership gauge); the closed window is the smallest well-defined slow
+            // manifold containing the request, and on a similarity axis it is the exact rotated
+            // image of its θ₀ self. The light coordinate is read here, never on the raw slice.
+            int kk = k;
+            while (kk < dim && Math.Abs(Math.Abs(evals[byRate[kk]].Real) - Math.Abs(evals[byRate[kk - 1]].Real)) < ClusterTolerance)
+                kk++;
+            ComplexMatrix closed;
+            if (kk == k)
+            {
+                closed = Q;
+            }
+            else
+            {
+                var closedVecs = Matrix<Complex>.Build.Dense(dim, kk);
+                for (int j = 0; j < kk; j++)
+                    closedVecs.SetColumn(j, evd.EigenVectors.Column(byRate[j]));
+                closed = OrthonormalizeColumns(closedVecs);
+            }
+            closedBasis[p] = closed;
+            perSiteLight[p] = PerSiteLightOf(closed, axis.N);
 
             // Polarity ladder reading (F99): sin²(θ)/2, ¼ at the symmetric crossover, ½ at pure YZ.
             double s = Math.Sin(theta);
@@ -144,6 +198,19 @@ public static class DimensionSweep
             cumulativeRotation[p] = angles.Length == 0 ? 0.0 : angles[^1]; // largest = last
         }
 
+        // Light flatness gate: max over θ and over site l of |light_l(θ) − light_l(θ₀)|. On the
+        // crossover axis Ad_{R_z(θ)} commutes with every Δ_l, so this is exactly zero up to the
+        // Evd floor (pinned 1.7·10⁻¹⁶ at N = 3); on a real perturbation axis it reads the real
+        // light redistribution.
+        double maxLightDrift = 0.0;
+        var lightRef = perSiteLight[0];
+        for (int p = 1; p < points; p++)
+            for (int l = 0; l < lightRef.Length; l++)
+            {
+                double dl = Math.Abs(perSiteLight[p][l] - lightRef[l]);
+                if (dl > maxLightDrift) maxLightDrift = dl;
+            }
+
         return new DimensionSweepResult(
             Theta: axis.Theta,
             Eigenvalues: sortedEigenvalues,
@@ -152,7 +219,41 @@ public static class DimensionSweep
             MaxEigenvalueDriftAcrossTheta: maxDrift,
             SlowBasis: slowBasis,
             CumulativeRotation: cumulativeRotation,
-            PrincipalAngleSpectrum: principalSpectrum);
+            PrincipalAngleSpectrum: principalSpectrum,
+            ClusterClosedBasis: closedBasis,
+            PerSiteLight: perSiteLight,
+            MaxLightDriftAcrossTheta: maxLightDrift);
+    }
+
+    /// <summary>The per-site light profile of the subspace spanned by the orthonormal columns of
+    /// <paramref name="q"/>: light_l = Tr(Π_V·Δ_l)/k = Σ_x Δ_l(x)·Σ_j |q[x,j]|² / k, where
+    /// Δ_l(x) = 1 iff bit l differs between bra a = x/d and ket b = x mod d of the coherence
+    /// index (site l ↔ bit n−1−l, the <see cref="RCPsiSquared.Core.Lindblad.PauliDephasingDissipator"/>
+    /// convention). Gauge-free: a projector trace, so no eigenvector phase or intra-degenerate
+    /// basis choice enters, and a⊕b is bra/ket symmetric, so no vec convention enters either.
+    /// Each light_l ∈ [0, 1].</summary>
+    private static double[] PerSiteLightOf(ComplexMatrix q, int n)
+    {
+        var light = new double[n];
+        int k = q.ColumnCount;
+        if (k == 0) return light;
+        int d = 1 << n;
+        int dim = q.RowCount; // d²
+        for (int x = 0; x < dim; x++)
+        {
+            double w = 0.0;
+            for (int j = 0; j < k; j++)
+            {
+                var c = q[x, j];
+                w += c.Real * c.Real + c.Imaginary * c.Imaginary;
+            }
+            if (w == 0.0) continue;
+            int diff = (x / d) ^ (x % d);
+            for (int l = 0; l < n; l++)
+                if (((diff >> (n - 1 - l)) & 1) != 0) light[l] += w;
+        }
+        for (int l = 0; l < n; l++) light[l] /= k;
+        return light;
     }
 
     /// <summary>Order eigenvalues by (Re, then Im) with both keys rounded to

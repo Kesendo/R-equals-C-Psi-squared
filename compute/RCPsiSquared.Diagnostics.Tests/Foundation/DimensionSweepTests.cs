@@ -69,6 +69,56 @@ public class DimensionSweepTests
     }
 
     [Fact]
+    public void Crossover_PerSiteLight_Is_GaugeFree_And_Exactly_Flat()
+    {
+        // The light coordinate (Edge 1). Ad_{R_z(θ)} is diagonal on coherence space, so it commutes
+        // with every Δ_l: along the crossover axis the slow manifold's per-site light profile is
+        // EXACTLY flat in θ, even as the manifold itself rotates. The read is on the cluster-closed
+        // window: requested slowCount 16 closes to the full 28-dim rate manifold (kernel 2 +
+        // Re=−γ cluster 4 + Re=−2γ cluster 22 at N = 3, γ = 0.5), where the subspace is the exact
+        // rotated image of its θ₀ self. The raw 16-slice of the 22-fold cluster is membership-gauged
+        // (solver-arbitrary) and drifts ~5·10⁻² (pinned 2026-06-10); the closed window is flat to
+        // the Evd floor (pinned 1.7·10⁻¹⁶ in the NumPy twin).
+        var axis = DimensionAxis.Crossover(N: 3, gamma: 0.5, thetaPoints: 13);
+        var sweep = DimensionSweep.Compute(axis, slowCount: 16);
+
+        Assert.True(sweep.MaxLightDriftAcrossTheta < 1e-9,
+            $"the light of the in-between must be flat on the crossover axis; drift {sweep.MaxLightDriftAcrossTheta:E2}");
+
+        // The closed window: 16 requested, 28 delivered (the cut snapped to the cluster boundary).
+        Assert.Equal(13, sweep.ClusterClosedBasis.Count);
+        Assert.Equal(28, sweep.ClusterClosedBasis[0].ColumnCount);
+        Assert.Equal(16, sweep.SlowBasis[0].ColumnCount); // the raw window is untouched
+
+        // The pinned exact profile: [11/28, 11/28, 2/28]. Sites 0, 1 are lit (the X/Y bond carriers),
+        // site 2 is the pure-Z shadow end and carries only 1/14 of a unit of light.
+        Assert.Equal(13, sweep.PerSiteLight.Count);
+        var light = sweep.PerSiteLight[0];
+        Assert.Equal(3, light.Length);
+        Assert.Equal(11.0 / 28.0, light[0], 1e-9);
+        Assert.Equal(11.0 / 28.0, light[1], 1e-9);
+        Assert.Equal(2.0 / 28.0, light[2], 1e-9);
+    }
+
+    [Fact]
+    public void Crossover_SlowestClosedManifold_Has_Zero_Light_On_The_Shadow_Site()
+    {
+        // The closed 6-dim manifold (kernel + the slowest oscillatory cluster): per-site light
+        // [1/6, 1/6, 0] exactly. The slowest in-between carries NO light on the unlit shadow site;
+        // all of its light sits on the lit bond carriers. Flat in θ like every closed window here.
+        var axis = DimensionAxis.Crossover(N: 3, gamma: 0.5, thetaPoints: 13);
+        var sweep = DimensionSweep.Compute(axis, slowCount: 6);
+
+        Assert.Equal(6, sweep.ClusterClosedBasis[0].ColumnCount); // 6 is already cluster-aligned
+        var light = sweep.PerSiteLight[0];
+        Assert.Equal(1.0 / 6.0, light[0], 1e-9);
+        Assert.Equal(1.0 / 6.0, light[1], 1e-9);
+        Assert.True(light[2] < 1e-12, $"the shadow site must be dark on the slowest manifold; got {light[2]:E2}");
+        Assert.True(sweep.MaxLightDriftAcrossTheta < 1e-9,
+            $"flatness holds on every closed window; drift {sweep.MaxLightDriftAcrossTheta:E2}");
+    }
+
+    [Fact]
     public void PrincipalAngleSpectrum_Resolves_The_Slow_Manifold_Split()
     {
         // The sharpened eyepiece. The single largest principal angle saturates on the degenerate slow
