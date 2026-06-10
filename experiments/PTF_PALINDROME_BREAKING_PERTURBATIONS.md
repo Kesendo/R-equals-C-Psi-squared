@@ -170,6 +170,23 @@ field flips it), and the large-ε wander region (ε ≳ 0.2, the O(0.5) peak) is
 stays unclassified. The load-bearing story is unchanged, closure ⟸ U(1); the honest note's
 mystery is resolved into EQ-014's known physics.
 
+**Edge 5 result (same day): "rides on U(1)" sharpens to "rides on the complete stationary
+sector manifold, in any frame".** The carrier-seam break list
+([ON_HOW_THE_CARRIER_SHOWS_ITSELF](../reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md), 2026-05-16)
+is retrodicted by one lens ([`simulations/ptf_carrier_seam_retrodiction.py`](../simulations/ptf_carrier_seam_retrodiction.py)):
+the closure holds iff the dynamics retains all N+1 stationary sector projectors, where the count
+is taken in any frame. Three sharpenings of this experiment's own conclusion. (1) The
+weaker-guardian question is settled: XY+YX, a ΔN = ±2 parity-conserving term, keeps the two
+parity projectors yet breaks the canonical closure *fastest* (S = +1.85 already at ε = 0.02);
+partial survival buys nothing, the rescaling fit needs the whole manifold. (2) The frame matters:
+the tour's XY+YX "hold" is a **hidden U(1)**, a sublattice X-flip maps the pure XY+YX chain onto
+a U(1)-conserving one while commuting with Z-dephasing, so its replacement Liouvillian keeps the
+full manifold (5/5 at N = 4) although [V, N̂] ≠ 0 naively. The bare commutator lens misfires
+there; the frame-independent projector count does not. (3) The tour's XZ+ZX "hold" is an
+initial-state coincidence of the |+−+⟩ protocol (from the bonding mode it breaks at S = +6.90),
+not a closure property. F87 verdicts are soft for all five tour bilinears: the spectral
+palindrome stays the orthogonal axis this experiment said it was.
+
 ## What this is and is not
 
 It is a sharpening of the PTF doc's own protection #1 vs #2, using the framework's existing
