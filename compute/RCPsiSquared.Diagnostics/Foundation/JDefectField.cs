@@ -27,7 +27,10 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para>A plain <see cref="IInspectable"/> (a live reading, not a Claim). N ≤ 6 (dense Liouvillian +
 /// eigenvectors; the mixing also needs the eigenvector inverse). The α_i painter-rate phenomenology
-/// (the Python PTF workflow) is the deferred twin of this operator-algebra reading.</para></summary>
+/// (the Python PTF workflow) is the deferred twin of this operator-algebra reading.</para>
+///
+/// <para>The axis's first typed inhabitant: <see cref="JDefectLightMigrationClaim"/> (the spectral
+/// motion read here is exactly eigenvector light migration, δJ-pointwise).</para></summary>
 public sealed class JDefectField : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;

@@ -1,6 +1,7 @@
 using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Lindblad;
 using RCPsiSquared.Diagnostics.F87;
+using RCPsiSquared.Diagnostics.Foundation;
 using RCPsiSquared.Diagnostics.Ptf;
 using RCPsiSquared.Runtime.F1Family;
 using RCPsiSquared.Runtime.F71Family;
@@ -163,6 +164,14 @@ public static class KnowledgeRegistryFactory
             // Spectrum quantization root (parent to F33/F50/F55/F64-F68/F74/F89
             // via per-Registration discard-Get edges; absorption quantum 2γ₀ from a_0)
             .RegisterAbsorptionTheoremClaim()
+            // JDefect light migration (in-between Edge 4, 2026-06-10): the first typed claim
+            // living ON a navigator axis (JDefectField, inspect --root between, axis jdefect).
+            // Along the J-defect axis the per-mode absorption identity Re λ(δJ) = −2γ·light(v(δJ))
+            // is δJ-pointwise, the N+1 kernel modes stay dark (U(1)), and palindrome partners
+            // migrate oppositely (light_s + light_f = N pointwise). Tier1Derived as an honest
+            // composition of two proven identities. Typed parents: AbsorptionTheoremClaim
+            // (registered directly above) + F1PalindromeIdentity (via RegisterF1Family at the top).
+            .RegisterJDefectLightMigrationClaim()
             .RegisterF86LEffMirrorAxis()
             // F-formula Pi2-Foundation inheritance claims.
             // F63 + F61 registered first because F1Pi2Inheritance now ctor-takes F61 as
