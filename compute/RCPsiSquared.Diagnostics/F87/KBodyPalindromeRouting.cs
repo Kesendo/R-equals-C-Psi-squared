@@ -9,10 +9,15 @@ namespace RCPsiSquared.Diagnostics.F87;
 
 /// <summary>The DERIVED k-body hidden-Q routing soft-certifier (Stufe B). A periodic per-site product Q
 /// palindromizes a Z-dephased k-body chain Hamiltonian H = Σ_windows Σ_terms T iff (a) each per-site map
-/// swaps the dephasing classes {I, Z} ↔ {X, Y} (automatic for the candidate set) AND (b) for every term and
-/// every window-parity the k-site anticommutator {Q_k, [T,·]_k} = 0. Condition (b) is checked on 4^k (the
-/// term's span, NOT the 2^N Liouvillian) and additivity over windows gives the palindrome at EVERY N, so the
-/// certificate is CONSTRUCTIVE (it exhibits Q), sound by derivation, and N-independent.
+/// swaps the dephasing classes {I, Z} ↔ {X, Y} (automatic for the candidate set) AND (b′) at every
+/// window-parity the TEMPLATE-SUMMED anticommutator {Q_k, Σ_T [T,·]_k} = 0: the window-level condition is
+/// the sharp one. The PER-TERM variant (b) ({Q_k, [T,·]_k} = 0 for every template separately) is SUFFICIENT
+/// but NOT necessary: a router may cancel the templates against each other inside one window
+/// (cross-template), as the committed continuous-sum XIX+XIY+YIX case showed and the golden period-4 router
+/// now proves discretely (docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md, F116). Either condition is checked on
+/// 4^k (the term's span, NOT the 2^N Liouvillian) and additivity over windows gives the palindrome at EVERY
+/// N, so the certificate is CONSTRUCTIVE (it exhibits Q), sound by derivation, and N-independent.
+/// <see cref="Routes"/> carries the per-term lens; <see cref="RoutesWindowSummed"/> the window-summed one.
 ///
 /// <para><b>The convention-safety point</b>: both Q_k and [T,·]_k are built as 4^k × 4^k matrices in the
 /// SAME Pauli-string basis, the k-fold tensor of the single-site operator basis {I, X, Y, Z} (index I = 0,
@@ -24,14 +29,18 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <see cref="PauliLetter"/>'s a + 2·b packing.</para>
 ///
 /// <para>Verified bit-exact against the spectral authority <see cref="PauliPairTrichotomy"/> on the 8
-/// discrete-routable soft sets, the 2 non-local Z-middle ceiling cases (XZX+XZY+YZX, YZY+XZY+YZX; soft but no
-/// per-site Q), the 2 I-heavy cases (IXI+IIY+YII, IYI+IIX+XII; soft, Routes returns false here, but LOCAL via
-/// the SingleSiteField strategy, a site-varying single-site-field product), and the hard XXX+XXY+YXX (Python
-/// derivation 2026-06-06; the decomposition residuals are 0.00e+00, the k-site residual equals the full-N
-/// residual, and the full palindrome holds at N = 4, 5, 6). Only the 2 Z-middle admit no per-site product Q at
-/// all; the I-heavy and the 2 once-counted XIX+XIY+YIX, YIY+XIY+YIX are LOCAL (the I-heavy via single-site
-/// fields, XIX/YIY via a continuous-uniform per-site Q), with Routes returning false only because their routers
-/// are outside its per-term scalable strategies, see experiments/CEILING_FOUR_NONLOCAL_CASES.md.</para></summary>
+/// discrete-routable soft sets, the 2 Z-middle ceiling cases (XZX+XZY+YZX, YZY+XZY+YZX; soft, and routed by
+/// the period-4 GOLDEN per-site router under the window-summed condition,
+/// docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md + F116; the per-term <see cref="Routes"/> correctly returns
+/// false for them, a documented coverage gap of the per-term lens, NOT non-locality), the 2 I-heavy cases
+/// (IXI+IIY+YII, IYI+IIX+XII; soft, Routes returns false here, but LOCAL via the SingleSiteField strategy, a
+/// site-varying single-site-field product), and the hard XXX+XXY+YXX (Python derivation 2026-06-06; the
+/// decomposition residuals are 0.00e+00, the k-site residual equals the full-N residual, and the full
+/// palindrome holds at N = 4, 5, 6). EVERY soft member of this family is per-site routable: the I-heavy via
+/// single-site fields, the once-counted XIX+XIY+YIX, YIY+XIY+YIX via a continuous-uniform per-site Q, and
+/// the Z-middle pair via the golden router (<see cref="RoutesWindowSummed"/>), with the per-term Routes
+/// returning false on those six only because their routers are outside its per-term scalable strategies,
+/// see experiments/CEILING_FOUR_NONLOCAL_CASES.md.</para></summary>
 public static class KBodyPalindromeRouting
 {
     /// <summary>The single-site operator basis order for THIS file: I = 0, X = 1, Y = 2, Z = 3. The per-site
@@ -337,6 +346,176 @@ public static class KBodyPalindromeRouting
         foreach (var cand in CandidateSet(maxPeriod))
             if (RoutesUnder(cand, terms, commByTerm))
                 return cand.Description;
+        return null;
+    }
+
+    // ---------------------------------------------------------------------------------------------------
+    // The window-summed routing primitive and the golden period-4 candidates (Stufe B′, F116).
+    // The per-term condition above is sufficient but not necessary; the sharp condition is the
+    // TEMPLATE-SUMMED anticommutator at every window parity. The golden router passes it while failing
+    // per term (cross-template cancellation inside one window, PROOF_CEILING_GOLDEN_ROUTER.md §2).
+    // ---------------------------------------------------------------------------------------------------
+
+    /// <summary>The golden ratio φ = (1+√5)/2, the frame constant of the F116 golden router (φ² = φ + 1).
+    /// The frame directions a = φX + Y, b = X − φY are the two roots of the golden locus
+    /// α² − αβ − β² = 0 (slopes 1/φ and −φ, frame angle tan 2θ = 2).</summary>
+    private static readonly double Phi = (1.0 + Math.Sqrt(5.0)) / 2.0;
+
+    /// <summary>One golden per-site map from its frame data g = q(I) and h = q(Z) (the {X, Y} images of the
+    /// dephasing-dead letters). The {I, Z} images of the lit letters are forced by the block structure
+    /// B = diag(−1, 1)·Cᵀ: q(X) = −g_X·I + h_X·Z, q(Y) = −g_Y·I + h_Y·Z. Class-swapping by construction
+    /// (the {I,Z}→{I,Z} and {X,Y}→{X,Y} blocks are zero, so the dissipator condition (a) is automatic)
+    /// with q² = −(2+φ)·I, a scalar times a unitary. Same basis order as <see cref="P1"/>
+    /// (rows = output I,X,Y,Z; cols = input I,X,Y,Z).</summary>
+    private static ComplexMatrix BuildGoldenSiteMap(Complex gx, Complex gy, Complex hx, Complex hy) =>
+        Matrix<Complex>.Build.DenseOfArray(new Complex[,]
+        {
+            {   0, -gx, -gy,   0 },
+            {  gx,   0,   0,  hx },
+            {  gy,   0,   0,  hy },
+            {   0,  hx,  hy,   0 },
+        });
+
+    /// <summary>The golden period-4 router (F116, PROOF_CEILING_GOLDEN_ROUTER.md §1): the per-site maps q_l
+    /// for l = 0..3, applied as l mod 4 down the chain. g_l = q_l(I) follows the [a, a, b, b] rhythm with
+    /// a = φX + Y and b = X − φY (the two golden-locus roots), and h_l = q_l(Z) = (−1)^(l+1)·i·R(g_l) with R
+    /// the 90° rotation in the (X, Y) plane. The product W = ⊗_l q_{l mod 4} palindromizes the Z-middle
+    /// XZX+XZY+YZX chain (W L W⁻¹ = −L − 2σ) at every N ≥ 3 and arbitrary site rates, via the window lemma
+    /// (<see cref="RoutesWindowSummed"/>).</summary>
+    public static IReadOnlyList<ComplexMatrix> GoldenSiteMaps { get; } = new[]
+    {
+        BuildGoldenSiteMap(Phi, 1.0,        Im, -Im * Phi),   // l = 0: g = a = (φ, 1),  h = −i·R(a) = (i, −iφ)
+        BuildGoldenSiteMap(Phi, 1.0,       -Im,  Im * Phi),   // l = 1: g = a = (φ, 1),  h = +i·R(a) = (−i, iφ)
+        BuildGoldenSiteMap(1.0, -Phi, -Im * Phi, -Im),        // l = 2: g = b = (1, −φ), h = −i·R(b) = (−iφ, −i)
+        BuildGoldenSiteMap(1.0, -Phi,  Im * Phi,  Im),        // l = 3: g = b = (1, −φ), h = +i·R(b) = (iφ, i)
+    };
+
+    /// <summary>The per-site X↔Y conjugation s (I → I, X ↔ Y, Z → −Z) on the operator basis: the involution
+    /// that maps each golden map to its sibling-routing twin, q′ = s·q·s.</summary>
+    private static readonly ComplexMatrix XySwap = Matrix<Complex>.Build.DenseOfArray(new Complex[,]
+    {
+        { 1, 0, 0,  0 },
+        { 0, 0, 1,  0 },
+        { 0, 1, 0,  0 },
+        { 0, 0, 0, -1 },
+    });
+
+    /// <summary>The sibling candidate: the per-site X↔Y conjugation of the golden maps, q′_l = s·q_l·s.
+    /// Routes the X↔Y sibling YZY+XZY+YZX; the X↔Y mirror is not a self-equivalence of the golden router,
+    /// it maps one case's routers to the other's (PROOF_CEILING_GOLDEN_ROUTER.md §5). Class-swap and
+    /// q′² = −(2+φ)·I are preserved by the conjugation.</summary>
+    public static IReadOnlyList<ComplexMatrix> GoldenMirrorSiteMaps { get; } = BuildGoldenMirrorSiteMaps();
+
+    private static ComplexMatrix[] BuildGoldenMirrorSiteMaps()
+    {
+        var mirror = new ComplexMatrix[GoldenSiteMaps.Count];
+        for (int l = 0; l < mirror.Length; l++)
+            mirror[l] = XySwap * GoldenSiteMaps[l] * XySwap;
+        return mirror;
+    }
+
+    /// <summary>The golden pattern period: the maps repeat as q_{l mod 4} down the chain.</summary>
+    public const int GoldenPeriod = 4;
+
+    /// <summary>The certificate descriptions the window-summed router reports (mirroring
+    /// <see cref="DescribePattern"/>'s naming for the per-term candidates).</summary>
+    public const string GoldenDescription = "Golden[a,a,b,b] (P=4)";
+    public const string GoldenMirrorDescription = "Golden-mirror[a,a,b,b] (P=4)";
+
+    /// <summary>Q_k from an explicit pattern of per-site MATRICES (the golden maps are not members of
+    /// <see cref="Representatives"/>): the Kronecker product of pattern[(offset + j) mod period] over the
+    /// span sites j = 0 .. k − 1, in the same {I,X,Y,Z}^⊗k Pauli-string basis as <see cref="BuildQk"/>
+    /// (most-significant digit = the leftmost span site).</summary>
+    public static ComplexMatrix BuildQkFromMaps(IReadOnlyList<ComplexMatrix> pattern, int period, int offset, int k)
+    {
+        if (pattern is null) throw new ArgumentNullException(nameof(pattern));
+        if (period <= 0 || period > pattern.Count) throw new ArgumentOutOfRangeException(nameof(period));
+        if (k <= 0) throw new ArgumentOutOfRangeException(nameof(k));
+
+        ComplexMatrix q = pattern[((offset + 0) % period + period) % period];
+        for (int j = 1; j < k; j++)
+            q = q.KroneckerProduct(pattern[((offset + j) % period + period) % period]);
+        return q;
+    }
+
+    /// <summary>The TEMPLATE-SUMMED commutator superoperator Σ_T c_T·[T,·]_k on the shared 4^k window
+    /// space: the per-window Hamiltonian action of the whole term-set. Coefficient-WEIGHTED, because the
+    /// window-summed cancellation is cross-template (unlike the per-term lens, which one Q serves for any
+    /// real linear combination): {Q_k, Σ_T c_T·[T,·]_k} = 0 certifies exactly the placed sum Σ_T c_T·T, not
+    /// each template alone. All templates must share one span k (mixed spans have no common window space).</summary>
+    public static ComplexMatrix BuildSummedCommutatorSuperoperator(IReadOnlyList<PauliTerm> templates)
+    {
+        if (templates is null) throw new ArgumentNullException(nameof(templates));
+        if (templates.Count == 0) throw new ArgumentException("at least one template is required", nameof(templates));
+
+        int k = templates[0].Letters.Count;
+        ComplexMatrix? sum = null;
+        foreach (var t in templates)
+        {
+            if (t.Letters.Count != k)
+                throw new ArgumentException("all templates must share the same span k (mixed spans have no common window space)", nameof(templates));
+            ComplexMatrix comm = BuildCommutatorSuperoperator(t) * t.Coefficient;
+            sum = sum is null ? comm : sum + comm;
+        }
+        return sum!;
+    }
+
+    /// <summary>The k-site WINDOW-SUMMED condition (b′): build Q_k for the matrix pattern at this offset
+    /// and the template-summed superoperator S = Σ_T c_T·[T,·]_k, and return true iff
+    /// ‖Q_k·S + S·Q_k‖_F &lt; tol (the summed anticommutator vanishes). The per-term condition
+    /// (<see cref="PerTermAnticommutes"/>) is the special case where every summand vanishes alone; this is
+    /// the SHARP one (the golden router passes it at every offset while failing per term, the
+    /// cross-template window lemma of PROOF_CEILING_GOLDEN_ROUTER.md §2). A single-template list
+    /// degenerates to that template's per-term check under the same matrix pattern.</summary>
+    public static bool PerWindowSummedAnticommutes(
+        IReadOnlyList<PauliTerm> templates, int offset, IReadOnlyList<ComplexMatrix> pattern, int period)
+    {
+        ComplexMatrix summed = BuildSummedCommutatorSuperoperator(templates);
+        ComplexMatrix qk = BuildQkFromMaps(pattern, period, offset, templates[0].Letters.Count);
+        ComplexMatrix anti = qk * summed + summed * qk;
+        return anti.FrobeniusNorm() < AnticommuteTolerance;
+    }
+
+    /// <summary>The window-summed routing decision (Stufe B′, F116): try the two golden period-4 candidates
+    /// (<see cref="GoldenSiteMaps"/> and its X↔Y conjugate <see cref="GoldenMirrorSiteMaps"/>) and return
+    /// the description of the FIRST whose summed anticommutator vanishes at EVERY window offset 0..3, or
+    /// null if neither does. Each candidate map is class-swapping (condition (a), the dissipator leg,
+    /// automatic) with q² = −(2+φ)·I (so W = ⊗_l q_{l mod 4} is invertible), and the vanishing summed
+    /// anticommutator at all four offsets is the window lemma: additivity over windows then gives
+    /// W L W⁻¹ = −L − 2σ at EVERY N ≥ k, so the certificate is CONSTRUCTIVE, sound by derivation, and
+    /// N-independent (PROOF_CEILING_GOLDEN_ROUTER.md §3). This is the lens that certifies the two Z-middle
+    /// ceiling cases (XZX+XZY+YZX golden, YZY+XZY+YZX golden-mirror) the per-term <see cref="Routes"/>
+    /// correctly declines.
+    ///
+    /// <para>Gates: every template must share one span k (a mixed-span set has no common window space and
+    /// is declined), with k ≤ <see cref="MaxBody"/> and k ≤ <paramref name="n"/>.</para></summary>
+    public static string? RoutesWindowSummed(IReadOnlyList<PauliTerm> terms, int n)
+    {
+        if (terms is null || terms.Count == 0) return null;
+
+        int k = terms[0].Letters.Count;
+        foreach (var term in terms)
+            if (term.Letters.Count != k)
+                return null;                                    // mixed spans: no shared window space
+        if (k > MaxBody || k > n) return null;
+
+        ComplexMatrix summed = BuildSummedCommutatorSuperoperator(terms);
+        foreach (var (maps, description) in new[]
+        {
+            (GoldenSiteMaps, GoldenDescription),
+            (GoldenMirrorSiteMaps, GoldenMirrorDescription),
+        })
+        {
+            bool allOffsets = true;
+            for (int offset = 0; offset < GoldenPeriod && allOffsets; offset++)
+            {
+                ComplexMatrix qk = BuildQkFromMaps(maps, GoldenPeriod, offset, k);
+                ComplexMatrix anti = qk * summed + summed * qk;
+                if (anti.FrobeniusNorm() >= AnticommuteTolerance)
+                    allOffsets = false;
+            }
+            if (allOffsets) return description;
+        }
         return null;
     }
 }

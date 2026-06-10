@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Pauli;
 using RCPsiSquared.Diagnostics.F87;
@@ -18,7 +19,9 @@ namespace RCPsiSquared.Diagnostics.Tests.F87;
 ///
 /// <list type="bullet">
 ///   <item>the 8 discrete-routable soft sets (Routes == true AND spectral Soft);</item>
-///   <item>the 2 NON-LOCAL Z-middle ceiling cases (soft, NO per-site product Q, so Routes == false);</item>
+///   <item>the 2 Z-middle golden-routed cases (soft AND per-site routable, by the period-4 golden
+///     window-summed router, F116; the per-term Routes correctly returns false because the cancellation
+///     is cross-template inside one window, the documented coverage gap of the per-term lens);</item>
 ///   <item>the 2 LOCAL continuous-sum cases (soft, a per-site product Q DOES exist but routes via
 ///     continuous-sum not per-term, so the per-term Routes still declines them, the coverage gap);</item>
 ///   <item>the 2 LOCAL single-site-field cases (the I-heavy: soft, certified by SingleSiteField, but the
@@ -53,9 +56,13 @@ public class KBodyPalindromeRoutingTests
         new object[] { new[] { "ZYZ", "XZY", "YZX" } },
     };
 
-    /// <summary>The 2 NON-LOCAL Z-middle ceiling cases: spectrally Soft, but NO per-site product Q palindromizes
-    /// them (the mirror is genuinely non-local), so Routes == false. These stay the certifier's ceiling.</summary>
-    public static IEnumerable<object[]> NonLocalCeiling() => new[]
+    /// <summary>The 2 Z-middle cases: spectrally Soft AND LOCAL after all (the period-4 golden router
+    /// palindromizes them under the window-summed condition, docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md +
+    /// F116; certified by the RoutingWindowSummed strategy). The old verdict "the mirror is genuinely
+    /// non-local" is overturned; the per-term Routes == false stays CORRECT (each template's anticommutator
+    /// alone is nonzero, the cancellation is cross-template inside one window), the documented coverage
+    /// gap of the per-term lens.</summary>
+    public static IEnumerable<object[]> LocalViaGoldenWindowRouting() => new[]
     {
         new object[] { new[] { "XZX", "XZY", "YZX" } },
         new object[] { new[] { "YZY", "XZY", "YZX" } },
@@ -95,13 +102,16 @@ public class KBodyPalindromeRoutingTests
     }
 
     [Theory]
-    [MemberData(nameof(NonLocalCeiling))]
-    public void Routes_False_ButSpectralSoft_ForTheTwoNonLocalCeilingSets(string[] labels)
+    [MemberData(nameof(LocalViaGoldenWindowRouting))]
+    public void Routes_False_PerTermLens_ButSpectralSoft_ForTheTwoGoldenRoutedSets(string[] labels)
     {
+        // A PER-TERM statement only: each template's anticommutator alone is nonzero, so the per-term
+        // Routes correctly declines these. They ARE per-site routable (the golden window-summed router,
+        // F116), certified by RoutesWindowSummed: see KBodyPalindromeRoutingWindowSummedTests below.
         var terms = H(labels);
         Assert.False(KBodyPalindromeRouting.Routes(terms, n: 4),
-            $"expected Routes == false (no per-site Q at all) for the non-local ceiling {string.Join("+", labels)}");
-        Assert.Equal(TrichotomyClass.Soft, Spectral(terms));   // NotCertified does not imply not-soft
+            $"per-term Routes declines the golden-routed Z-middle case {string.Join("+", labels)} (the per-term coverage gap)");
+        Assert.Equal(TrichotomyClass.Soft, Spectral(terms));   // NotCertified-per-term does not imply not-soft
     }
 
     [Theory]
@@ -141,8 +151,9 @@ public class KBodyPalindromeRoutingTests
 
     /// <summary>The single load-bearing assertion: <see cref="KBodyPalindromeRouting.Routes"/> never
     /// disagrees with the spectral authority across all 15 ground-truth witnesses. A Routes == true must be
-    /// Soft (constructive soundness), and the 7 Routes == false witnesses are exactly the 2 non-local Z-middle
-    /// ceiling cases (still Soft), the 2 local single-site-field cases (still Soft, certified by SingleSiteField),
+    /// Soft (constructive soundness), and the 7 Routes == false witnesses are exactly the 2 Z-middle
+    /// golden-routed cases (still Soft, certified by RoutingWindowSummed, F116), the 2 local
+    /// single-site-field cases (still Soft, certified by SingleSiteField),
     /// the 2 local continuous-sum cases (still Soft), and the hard set; the certifier is one-sided, so a
     /// Routes == false carries no claim about the spectral verdict beyond what the witness list records.</summary>
     [Fact]
@@ -160,14 +171,14 @@ public class KBodyPalindromeRoutingTests
                 mismatches.Add($"{string.Join("+", labels)}: Routes={routes} spectral={spectral} (want Routes=true, Soft)");
         }
 
-        foreach (var row in NonLocalCeiling())
+        foreach (var row in LocalViaGoldenWindowRouting())
         {
             var labels = (string[])row[0];
             var terms = H(labels);
             bool routes = KBodyPalindromeRouting.Routes(terms, n: 4);
             var spectral = Spectral(terms);
             if (routes || spectral != TrichotomyClass.Soft)
-                mismatches.Add($"{string.Join("+", labels)}: Routes={routes} spectral={spectral} (want Routes=false, Soft)");
+                mismatches.Add($"{string.Join("+", labels)}: Routes={routes} spectral={spectral} (want Routes=false, Soft, golden-window-routed)");
         }
 
         foreach (var row in LocalButNotPerTermRoutable())
@@ -255,9 +266,11 @@ public class KBodyPalindromeRoutingPublicApiTests
     }
 
     [Fact]
-    public void RoutingCandidate_Null_ForNonLocalCeiling()
+    public void RoutingCandidate_Null_PerTermLens_ForTheZMiddleGoldenCase()
     {
-        // XZX+XZY+YZX is spectrally soft but admits no per-site product Q (the mirror is non-local).
+        // XZX+XZY+YZX is spectrally soft and golden-window-routable (F116), but no PER-TERM candidate
+        // routes it (the cancellation is cross-template inside one window), so the per-term reporting
+        // helper correctly returns null; RoutesWindowSummed exhibits the golden certificate instead.
         Assert.Null(KBodyPalindromeRouting.RoutingCandidate(H("XZX", "XZY", "YZX"), n: 4));
     }
 
@@ -266,5 +279,92 @@ public class KBodyPalindromeRoutingPublicApiTests
     {
         // XXX+XXY+YXX is spectrally hard: no palindromizing Q of any kind.
         Assert.Null(KBodyPalindromeRouting.RoutingCandidate(H("XXX", "XXY", "YXX"), n: 4));
+    }
+}
+
+/// <summary>The WINDOW-SUMMED routing primitive (Stufe B′, F116,
+/// docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md): the golden period-4 candidates
+/// (<see cref="KBodyPalindromeRouting.GoldenSiteMaps"/> and the X↔Y conjugate
+/// <see cref="KBodyPalindromeRouting.GoldenMirrorSiteMaps"/>), the cross-template window lemma (the
+/// template-summed anticommutator vanishes at all four offsets while every per-term check fails), the
+/// per-site invariants (class-swap and q² = −(2+φ)·I, the two halves of the routing derivation), and the
+/// gates (hard sets and mixed-span sets are declined). The candidate values are pinned by the proof and
+/// the exact-ring anchor <c>simulations/ceiling_golden_router.py</c>; these tests are the C#-port guard
+/// (a sign error in any h entry flips the window lemma).</summary>
+public class KBodyPalindromeRoutingWindowSummedTests
+{
+    private static PauliTerm T(string label) => new(PauliLabel.Parse(label), Complex.One);
+    private static List<PauliTerm> H(params string[] labels) => labels.Select(T).ToList();
+
+    [Fact]
+    public void RoutesWindowSummed_ReturnsTheGoldenCandidate_ForTheXzxSet()
+    {
+        // The Z-middle XZX+XZY+YZX routes via the golden [a, a, b, b] pattern (a = φX + Y, b = X − φY).
+        Assert.Equal("Golden[a,a,b,b] (P=4)",
+            KBodyPalindromeRouting.RoutesWindowSummed(H("XZX", "XZY", "YZX"), n: 4));
+    }
+
+    [Fact]
+    public void RoutesWindowSummed_ReturnsTheMirrorCandidate_ForTheYzySet()
+    {
+        // The X↔Y sibling YZY+XZY+YZX routes via the conjugated maps q′ = s·q·s: the X↔Y mirror is not a
+        // self-equivalence of the golden router, it maps one case's routers to the other's (proof §5).
+        Assert.Equal("Golden-mirror[a,a,b,b] (P=4)",
+            KBodyPalindromeRouting.RoutesWindowSummed(H("YZY", "XZY", "YZX"), n: 4));
+    }
+
+    [Fact]
+    public void WindowSummedAnticommutator_VanishesAtAllFourOffsets_WhileEveryPerTermCheckFails()
+    {
+        // The window lemma (the mechanism, proof §2): {Q_3, [XZX+XZY+YZX,·]_3} = 0 at every window offset
+        // 0..3, while no single template's anticommutator vanishes (a single-template list degenerates to
+        // the per-term check under the same maps). The cancellation is CROSS-TEMPLATE inside one window:
+        // exactly why the per-term lens (Routes / RoutingCandidate) could never see this router.
+        var terms = H("XZX", "XZY", "YZX");
+        var maps = KBodyPalindromeRouting.GoldenSiteMaps;
+        for (int offset = 0; offset < 4; offset++)
+        {
+            Assert.True(KBodyPalindromeRouting.PerWindowSummedAnticommutes(terms, offset, maps, period: 4),
+                $"the template-summed anticommutator must vanish at offset {offset}");
+            foreach (var term in terms)
+                Assert.False(
+                    KBodyPalindromeRouting.PerWindowSummedAnticommutes(new[] { term }, offset, maps, period: 4),
+                    $"the per-term anticommutator for {term.Label} must NOT vanish at offset {offset}");
+        }
+    }
+
+    [Fact]
+    public void GoldenMaps_AreClassSwapping_WithQSquaredMinusTwoPlusPhiIdentity()
+    {
+        // The two per-site invariants behind the certificate, for BOTH candidate sets: class-swap (the
+        // {I,Z}→{I,Z} and {X,Y}→{X,Y} blocks are zero, so the dissipator leg {W, D̂} = −2σW is automatic)
+        // and q² = −(2+φ)·I (a scalar times a unitary, so W = ⊗q is invertible with condition number 1).
+        double phi = (1.0 + System.Math.Sqrt(5.0)) / 2.0;
+        var minusTwoPlusPhi = Matrix<Complex>.Build.DenseIdentity(4) * new Complex(-(2.0 + phi), 0.0);
+        foreach (var maps in new[] { KBodyPalindromeRouting.GoldenSiteMaps, KBodyPalindromeRouting.GoldenMirrorSiteMaps })
+        {
+            Assert.Equal(4, maps.Count);
+            foreach (var q in maps)
+            {
+                foreach (int r in new[] { 0, 3 })          // {I,Z} rows take nothing from {I,Z} columns
+                    foreach (int c in new[] { 0, 3 })
+                        Assert.Equal(Complex.Zero, q[r, c]);
+                foreach (int r in new[] { 1, 2 })          // {X,Y} rows take nothing from {X,Y} columns
+                    foreach (int c in new[] { 1, 2 })
+                        Assert.Equal(Complex.Zero, q[r, c]);
+                Assert.True((q * q - minusTwoPlusPhi).FrobeniusNorm() < 1e-12,
+                    "q·q must equal −(2+φ)·Identity");
+            }
+        }
+    }
+
+    [Fact]
+    public void RoutesWindowSummed_Null_ForAHardSet_AndForAMixedSpanSet()
+    {
+        // A hard set must not be window-summed-certified: a vanishing summed anticommutator plus
+        // class-swap would PROVE the palindrome, so it cannot vanish on a spectrally hard set.
+        Assert.Null(KBodyPalindromeRouting.RoutesWindowSummed(H("XXX", "XXY", "YXX"), n: 4));
+        // Mixed spans have no shared window space: the gate declines them.
+        Assert.Null(KBodyPalindromeRouting.RoutesWindowSummed(H("XX", "XZX"), n: 4));
     }
 }

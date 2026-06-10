@@ -8,13 +8,13 @@ using Strategy = RCPsiSquared.Diagnostics.F87.PalindromeSoftCertifier.SoftStrate
 namespace RCPsiSquared.Diagnostics.Tests.F87;
 
 /// <summary>Wiring audit for <see cref="PalindromeSoftCertifierClaim"/>: it surfaces the §7.12
-/// Liouvillian-free soft-certifier (sound, one-sided, structurally incomplete) as a registered,
-/// registry-queryable Claim. The Claim asserts ONLY the settled facts: the certifier's soundness
-/// against the spectral authority (<see cref="PauliPairTrichotomy"/>, now including the XX+XZ (Routing) and
-/// XIX+XXY+YXX (RoutingKBody) cases) and the 2 non-local Z-middle k-body routed-soft ceiling cases
-/// (XZX+XZY+YZX, YZY+XZY+YZX are each soft yet NotCertified, admitting no per-site product Q, so even the
-/// derived k-body routing declines them; the two I-heavy IXI+IIY+YII, IYI+IIX+XII are now LOCAL, certified by
-/// the SingleSiteField strategy, the 4 to 2 step). Built
+/// Liouvillian-free soft-certifier (sound, one-sided, the structural ceiling closed at zero) as a
+/// registered, registry-queryable Claim. The Claim asserts ONLY the settled facts: the certifier's
+/// soundness against the spectral authority (<see cref="PauliPairTrichotomy"/>, including the XX+XZ
+/// (Routing), XIX+XXY+YXX (RoutingKBody), IXI+IIY+YII (SingleSiteField), and the two Z-middle
+/// XZX+XZY+YZX, YZY+XZY+YZX (RoutingWindowSummed, the golden period-4 router, Stufe B′, F116) cases) and
+/// the EMPTY recomputed ceiling (no soft-yet-NotCertified member remains in the k=3 windowed family; the
+/// arc closed 6 → 4 → 2 → 0, docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md). Built
 /// from the full <see cref="KnowledgeRegistryFactory.BuildDefault"/> registry, so both typed
 /// parents are present and the strength-inheritance check (5 ≥ 4 against F87DiagonalCellBipartiteWitnessSet,
 /// 5 ≥ 4 against F87TrichotomyClassification) is exercised in production.</summary>
@@ -120,21 +120,33 @@ public class PalindromeSoftCertifierClaimRegistrationTests
     }
 
     [Fact]
-    public void PalindromeSoftCertifierClaim_Ceiling_KBodyRoutedSoft_Soft_NotCertified()
+    public void PalindromeSoftCertifierClaim_SoundnessBattery_IncludesTheRoutingWindowSummedCases()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var claim = registry.Get<PalindromeSoftCertifierClaim>();
 
-        var ceiling = claim.Ceiling;
-        Assert.Equal(2, ceiling.Count);
-        var names = ceiling.Select(c => c.Name).ToList();
-        Assert.Contains("XZX+XZY+YZX", names);
-        Assert.Contains("YZY+XZY+YZX", names);
-        Assert.DoesNotContain("IXI+IIY+YII", names);   // I-heavy now local (SingleSiteField), left the ceiling (4 to 2)
-        Assert.DoesNotContain("IYI+IIX+XII", names);
-        Assert.All(ceiling, c => Assert.True(c.IsSoft, $"ceiling witness {c.Name} must be soft"));
-        Assert.All(ceiling, c => Assert.False(c.Certified, $"ceiling witness {c.Name} must be NotCertified (non-local)"));
-        Assert.All(ceiling, c => Assert.True(c.Holds, $"ceiling pair {c.Name} (soft, NotCertified) must hold"));
+        // The 2 to 0 step (F116): the former Z-middle ceiling pair joins the battery as certified-positive
+        // witnesses, certified by the window-summed golden period-4 router (Stufe B′) and not hard.
+        foreach (var name in new[] { "XZX+XZY+YZX (RoutingWindowSummed)", "YZY+XZY+YZX (RoutingWindowSummed)" })
+        {
+            var c = claim.SoundnessBattery.Single(x => x.Name == name);
+            Assert.Equal(Strategy.RoutingWindowSummed, c.Strategy);
+            Assert.True(c.Certified, $"{name} must be certified (by RoutingWindowSummed)");
+            Assert.True(c.NotHard, $"{name} must be not hard by the spectral authority");
+            Assert.True(c.Passes);
+        }
+    }
+
+    [Fact]
+    public void PalindromeSoftCertifierClaim_Ceiling_IsClosedAtZero()
+    {
+        var registry = KnowledgeRegistryFactory.BuildDefault();
+        var claim = registry.Get<PalindromeSoftCertifierClaim>();
+
+        // F116 closes the arc 6 → 4 → 2 → 0: the recomputed ceiling (soft-yet-NotCertified members of the
+        // k=3 windowed family) is EMPTY. The former witnesses XZX+XZY+YZX, YZY+XZY+YZX did not vanish from
+        // the record: they moved to the soundness battery (RoutingWindowSummed), asserted above.
+        Assert.Empty(claim.Ceiling);
     }
 
     [Fact]
@@ -143,6 +155,6 @@ public class PalindromeSoftCertifierClaimRegistrationTests
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var claim = registry.Get<PalindromeSoftCertifierClaim>();
         Assert.True(claim.SelfCheckPasses,
-            "the full self-check (soundness battery all certified-and-not-hard; the 2 Z-middle k-body ceiling pairs) must pass");
+            "the full self-check (soundness battery all certified-and-not-hard, incl. the two Z-middle golden cases; the recomputed ceiling empty) must pass");
     }
 }

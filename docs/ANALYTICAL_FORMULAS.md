@@ -4085,9 +4085,10 @@ sampled) in the 2026-06-10 adversarial audit.
 **Source:** [Proof](proofs/PROOF_CEILING_GOLDEN_ROUTER.md);
 [`simulations/ceiling_golden_router.py`](../simulations/ceiling_golden_router.py) (the
 self-validating anchor); [experiments/CEILING_FOUR_NONLOCAL_CASES.md](../experiments/CEILING_FOUR_NONLOCAL_CASES.md)
-(the 6 → 4 → 2 → 0 arc). C# integration (window-summed Stufe B′ strategy + claim) is the
-planned follow-up wave; until it lands, NotCertified for these two cases reads as a
-documented per-term coverage gap, not as non-locality.
+(the 6 → 4 → 2 → 0 arc). C# integration landed 2026-06-10: the window-summed Stufe B′
+strategy `RoutingWindowSummed` (golden candidates) in `PalindromeSoftCertifier` /
+`KBodyPalindromeRouting`, both Z-middle cases now Certified, and
+`PalindromeSoftCertifierClaim` asserts the structural ceiling closed at zero.
 
 ---
 

@@ -51,16 +51,19 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// It reaches the k-body routed-soft cases the 2-body family table misses (XIX+XXY+YXX routes via the P4
 /// pattern, IYI+XZY+YZX via a period-2 alternating Q), span-bounded by <see cref="KBodyPalindromeRouting.MaxBody"/>.</para>
 ///
-/// <para>§7.12 ceiling (the remaining frontier): with both routing mechanisms added, the non-bipartite-soft
+/// <para>§7.12 ceiling (CLOSED at zero): with both routing mechanisms added, the non-bipartite-soft
 /// 2-body class (XX+XZ, Stufe A) and the routable k-body cases (Stufe B) are certified, no longer the
-/// ceiling. What stays beyond the certifier is the NON-LOCAL k-body routed-soft frontier:
-/// the 2 non-local Z-middle cases XZX+XZY+YZX, YZY+XZY+YZX (soft at N=4,5,6, NotCertified)
-/// admit NO per-site product Q at all (no uniform-continuous + no discrete-periodic Q; the continuous-periodic
-/// family is the explicit, named research frontier), so each is palindromized only by a non-local Π. The
-/// formerly-counted cases are NOT here, they are LOCAL: XIX+XIY+YIX, YIY+XIY+YIX route via a continuous-uniform
-/// per-site Q (continuous-sum, the 6 to 4 step), and IXI+IIY+YII, IYI+IIX+XII route via a site-varying product
-/// of single-site crossover maps, certified by <see cref="CertifyBySingleSiteField"/> (the 4 to 2 step). See
-/// experiments/CEILING_FOUR_NONLOCAL_CASES.md. NotCertified does not imply
+/// ceiling. And the 2 Z-middle cases XZX+XZY+YZX, YZY+XZY+YZX, formerly read as "palindromized only by a
+/// non-local Π", route after all: the period-4 GOLDEN per-site router palindromizes each under the
+/// WINDOW-SUMMED anticommutator condition (Stufe B′, <see cref="CertifyByRoutingWindowSummed"/>; the
+/// cancellation is cross-template inside one window, which the per-term Stufe B cannot see), so they are
+/// now certified, see docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md + F116. The formerly-counted cases were
+/// already LOCAL: XIX+XIY+YIX, YIY+XIY+YIX route via a continuous-uniform per-site Q (continuous-sum, the
+/// 6 to 4 step), and IXI+IIY+YII, IYI+IIX+XII route via a site-varying product of single-site crossover
+/// maps, certified by <see cref="CertifyBySingleSiteField"/> (the 4 to 2 step). The arc completes
+/// 6 → 4 → 2 → 0: within the k=3 sliding-window soft family no case needs a non-local mirror, see
+/// experiments/CEILING_FOUR_NONLOCAL_CASES.md. What remains is coverage/scalability (soft cases whose
+/// routers sit outside the scalable strategies), not locality; NotCertified still does not imply
 /// not-soft.</para>
 ///
 /// <para>Two-sided front door: <see cref="Certify"/> stays one-sided soft, while the new <see cref="Decide"/>
@@ -71,7 +74,7 @@ namespace RCPsiSquared.Diagnostics.F87;
 public static class PalindromeSoftCertifier
 {
     /// <summary>Which scalable soft strategy certified the Hamiltonian (None = not certified).</summary>
-    public enum SoftStrategy { None, LinearSiteColoring, ExcitationPairing, ExcitationParity, SiteSwapSymmetry, Routing, RoutingKBody, SingleSiteField }
+    public enum SoftStrategy { None, LinearSiteColoring, ExcitationPairing, ExcitationParity, SiteSwapSymmetry, Routing, RoutingKBody, SingleSiteField, RoutingWindowSummed }
 
     /// <summary>Result of <see cref="Certify"/>: whether soft is certified, and by which strategy.</summary>
     public readonly record struct SoftCertificate(bool Certified, SoftStrategy Strategy);
@@ -331,10 +334,13 @@ public static class PalindromeSoftCertifier
     /// derivation, and N-independent. See <see cref="KBodyPalindromeRouting"/>.
     ///
     /// <para>Span-bounded: a term of span k yields a 4^k × 4^k check, so the strategy declines a set with
-    /// any term outside [2, <see cref="KBodyPalindromeRouting.MaxBody"/>]. The 2 non-local Z-middle ceiling
-    /// cases (XZX+XZY+YZX, YZY+XZY+YZX) admit NO per-site product Q at all, so <see cref="Routes"/> returns
-    /// false and they stay NotCertified. The two I-heavy cases IXI+IIY+YII, IYI+IIX+XII also return false here
-    /// (the per-term router does not see their single-site-field router), but they ARE local, certified by
+    /// any term outside [2, <see cref="KBodyPalindromeRouting.MaxBody"/>]. The 2 Z-middle ceiling cases
+    /// (XZX+XZY+YZX, YZY+XZY+YZX) fail the PER-TERM condition (each template's anticommutator alone is
+    /// nonzero), so <see cref="KBodyPalindromeRouting.Routes"/> correctly returns false for them; they ARE
+    /// per-site routable, by the golden period-4 router under the window-summed condition, and are
+    /// certified by <see cref="CertifyByRoutingWindowSummed"/> (Stufe B′, F116). The two I-heavy cases
+    /// IXI+IIY+YII, IYI+IIX+XII also return false here (the per-term router does not see their
+    /// single-site-field router), but they ARE local, certified by
     /// <see cref="CertifyBySingleSiteField"/>.</para></summary>
     public static bool CertifyByRoutingKBody(IReadOnlyList<PauliTerm> terms, int n)
     {
@@ -378,6 +384,24 @@ public static class PalindromeSoftCertifier
         return true;
     }
 
+    /// <summary>The DERIVED window-summed k-body routing strategy (Stufe B′, F116): the golden period-4
+    /// per-site router for the term-sets whose palindromizer cancels CROSS-TEMPLATE inside one window,
+    /// which the per-term Stufe B (<see cref="CertifyByRoutingKBody"/>) cannot see. The palindrome
+    /// condition Q L Q⁻¹ = −L − 2σ decomposes exactly as in Stufe B into (a) the automatic per-site
+    /// dissipator class-swap {I,Z} ↔ {X,Y} AND (b′) the TEMPLATE-SUMMED anticommutator
+    /// {Q_k, Σ_T [T,·]_k} = 0 at every window offset 0..3, the sharp window-level condition (the per-term
+    /// (b) is sufficient, not necessary). Checked on 4^k; window additivity gives the palindrome at EVERY
+    /// N ≥ k, so the certificate is CONSTRUCTIVE (the candidate is exhibited by
+    /// <see cref="KBodyPalindromeRouting.RoutesWindowSummed"/>), sound by derivation, and N-independent.
+    /// This certifies the two formerly "non-local" Z-middle ceiling cases, XZX+XZY+YZX (the golden
+    /// [a, a, b, b] pattern) and YZY+XZY+YZX (its X↔Y conjugate), closing the §7.12 ceiling at zero. See
+    /// docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md + F116.</summary>
+    public static bool CertifyByRoutingWindowSummed(IReadOnlyList<PauliTerm> terms, int n)
+    {
+        if (terms.Count == 0) return false;
+        return KBodyPalindromeRouting.RoutesWindowSummed(terms, n) is not null;
+    }
+
     /// <summary>The HARD-side strategy (PROOF_F103 §7.7 / F115): a two-term Klein-(0,1) Mixed pair is
     /// hard iff its two X/Y flip-masks have different (1+x)-adic valuations
     /// (<see cref="WindowedObstructionScan.IsHardPair"/>). N-free, O(k); the symmetric twin of the soft
@@ -415,10 +439,13 @@ public static class PalindromeSoftCertifier
     /// <summary>Try the stronger, topology-independent excitation strategies first (pairing, then
     /// parity; a term-set is at most one of them), then the chain-only linear one, then the bit_b-MIXED
     /// site-swap-symmetry one, then the 2-body hidden-Q routing (Stufe A), then the derived k-body per-term
-    /// routing residual (Stufe B); return the certificate. A certified set is at most one strategy (the
-    /// earlier strategies take precedence on overlap, e.g. XY+YX stays ExcitationPairing, XZ+ZX stays
+    /// routing residual (Stufe B), then the single-site-field products, and LAST the window-summed golden
+    /// routing (Stufe B′); return the certificate. A certified set is at most one strategy (the earlier
+    /// strategies take precedence on overlap, e.g. XY+YX stays ExcitationPairing, XZ+ZX stays
     /// ExcitationParity, and a pure-2-body routed set stays Routing; k ≥ 3 and mixed-span sets fall to
-    /// RoutingKBody; weight-1 transverse single-site sums fall to SingleSiteField).</summary>
+    /// RoutingKBody; weight-1 transverse single-site sums fall to SingleSiteField; the two Z-middle golden
+    /// cases fall to RoutingWindowSummed, and its last place keeps every pre-existing certificate on its
+    /// original strategy label).</summary>
     public static SoftCertificate Certify(IReadOnlyList<PauliTerm> terms, int n)
     {
         if (CertifyByExcitationPairing(terms)) return new SoftCertificate(true, SoftStrategy.ExcitationPairing);
@@ -428,6 +455,7 @@ public static class PalindromeSoftCertifier
         if (CertifyByRouting(terms)) return new SoftCertificate(true, SoftStrategy.Routing);
         if (CertifyByRoutingKBody(terms, n)) return new SoftCertificate(true, SoftStrategy.RoutingKBody);
         if (CertifyBySingleSiteField(terms)) return new SoftCertificate(true, SoftStrategy.SingleSiteField);
+        if (CertifyByRoutingWindowSummed(terms, n)) return new SoftCertificate(true, SoftStrategy.RoutingWindowSummed);
         return new SoftCertificate(false, SoftStrategy.None);
     }
 

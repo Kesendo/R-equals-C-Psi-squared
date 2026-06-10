@@ -12,15 +12,16 @@ namespace RCPsiSquared.Diagnostics.F87;
 
 /// <summary>Schicht-1 surface for the §7.12 Liouvillian-free SOFT-certifier
 /// (<see cref="PalindromeSoftCertifier"/>) as a single registry-queryable Claim. The certifier carries the
-/// DIAGONAL chiral K (the structured basis-state colourings, plus the site-swap reflection) AND BOTH
+/// DIAGONAL chiral K (the structured basis-state colourings, plus the site-swap reflection) AND the
 /// non-diagonal hidden-Q routing mechanisms: the 2-body family-intersection routing (Stufe A, one uniform
-/// per-site product Q palindromizes a sum of 2-body bilinears sharing a Q-family) AND the derived k-body
+/// per-site product Q palindromizes a sum of 2-body bilinears sharing a Q-family), the derived k-body
 /// per-term routing (Stufe B, the per-term k-site anticommutator {Q_k, [T,·]_k} = 0 reaches the routable
-/// k-body cases the 2-body table misses). It certifies "soft" iff one strategy applies; it never claims
-/// hard (NotCertified carries no claim). The wrapped certifier now also exposes the two-sided
-/// <see cref="PalindromeSoftCertifier.Decide"/> (soft via <see cref="PalindromeSoftCertifier.Certify"/> plus
-/// the N-free hard verdict from the F115 diagonal-cell valuation); this Claim asserts ONLY the two settled
-/// facts:
+/// k-body cases the 2-body table misses), the single-site-field products, and the window-summed golden
+/// routing (Stufe B′, F116: the period-4 golden router whose window lemma the per-term lens cannot see).
+/// It certifies "soft" iff one strategy applies; it never claims hard (NotCertified carries no claim). The
+/// wrapped certifier now also exposes the two-sided <see cref="PalindromeSoftCertifier.Decide"/> (soft via
+/// <see cref="PalindromeSoftCertifier.Certify"/> plus the N-free hard verdict from the F115 diagonal-cell
+/// valuation); this Claim asserts ONLY the two settled facts:
 ///
 /// <list type="number">
 ///   <item><b>Soundness (one-sided)</b>: every case in the soundness battery is both Certified by
@@ -28,36 +29,38 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///     <see cref="PauliPairTrichotomy.Classify"/>. So a certificate never lies: certified ⟹ not hard.
 ///     The battery spans the strategies: XY+YX (ExcitationPairing), XZ+ZX (ExcitationParity),
 ///     XY−YX (LinearSiteColoring, the chain chiral-K reading the §7 diagonal-K criterion scales),
-///     XX+XZ (Routing, the 2-body non-diagonal hidden-Q family {P4}), and XIX+XXY+YXX (RoutingKBody, the
-///     derived k-body per-term routing, routed by the P4 pattern).</item>
-///   <item><b>The structural ceiling</b> (the receded incompleteness, PROOF_F103 §7.12): with both routing
-///     mechanisms added, the non-bipartite-soft 2-body class (XX+XZ, Stufe A) and the routable k-body cases
-///     (Stufe B) are CERTIFIED, no longer the ceiling. The remaining ceiling is the NON-LOCAL k-body
-///     routed-soft frontier, the 2 Z-middle cases XZX+XZY+YZX, YZY+XZY+YZX: each is soft
-///     (<see cref="PauliPairTrichotomy.Classify"/> == Soft, the k-body overload, verified at N=4,5,6) yet
-///     NotCertified, because each admits NO per-site product Q at all (palindromized only by a non-local Π),
-///     so the derived per-term routing declines it. NotCertified therefore does not imply not-soft. The two
-///     I-heavy cases IXI+IIY+YII, IYI+IIX+XII once counted here are now LOCAL: each is a sum of single-site
-///     transverse fields, certified by the SingleSiteField strategy (the per-site
-///     crossover product palindromizes the chain), so they left the ceiling (4 to 2).</item>
+///     XX+XZ (Routing, the 2-body non-diagonal hidden-Q family {P4}), XIX+XXY+YXX (RoutingKBody, the
+///     derived k-body per-term routing, routed by the P4 pattern), IXI+IIY+YII (SingleSiteField), and the
+///     two Z-middle cases XZX+XZY+YZX, YZY+XZY+YZX (RoutingWindowSummed, the golden period-4 router and
+///     its X↔Y conjugate).</item>
+///   <item><b>The structural ceiling is CLOSED at zero</b> (PROOF_F103 §7.12 +
+///     docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md, F116): the arc ran 6 → 4 → 2 → 0. The 2 Z-middle cases,
+///     once read as "palindromized only by a non-local Π", are per-site routable after all: the golden
+///     period-4 router palindromizes each under the WINDOW-SUMMED anticommutator condition (the
+///     cancellation is cross-template inside one window, which the per-term Stufe B correctly cannot see),
+///     and the RoutingWindowSummed strategy certifies them. The recomputed ceiling (the soft-yet-NotCertified
+///     members of the k=3 sliding-window family) is EMPTY; the claim asserts Count == 0. The remaining
+///     incompleteness of the certifier is coverage/scalability (soft cases whose routers sit outside the
+///     scalable strategies), not locality. NotCertified still does not imply not-soft.</item>
 /// </list>
 ///
-/// <para>Certifying the 2 non-local Z-middle ceiling cases (XZX+XZY+YZX, YZY+XZY+YZX), which admit no per-site
-/// product Q, is out of scope and is NOT asserted here. The cases once counted with them are in fact LOCAL:
-/// XIX+XIY+YIX and YIY+XIY+YIX route via a continuous-uniform per-site Q (continuous-sum, the 6 to 4 step),
-/// and IXI+IIY+YII, IYI+IIX+XII route via a site-varying per-site product of single-site crossover maps,
-/// now certified by SingleSiteField (the 4 to 2 step),
-/// see experiments/CEILING_FOUR_NONLOCAL_CASES.md.</para>
+/// <para>The earlier ceiling members are all LOCAL: XIX+XIY+YIX and YIY+XIY+YIX route via a
+/// continuous-uniform per-site Q (continuous-sum, the 6 to 4 step), IXI+IIY+YII, IYI+IIX+XII route via a
+/// site-varying per-site product of single-site crossover maps, certified by SingleSiteField (the 4 to 2
+/// step), and the Z-middle pair routes via the golden window-summed router (the 2 to 0 step), see
+/// experiments/CEILING_FOUR_NONLOCAL_CASES.md.</para>
 ///
-/// <para>Tier: Tier1Candidate. Both routing mechanisms are reused as HELPERS (like
-/// <see cref="PalindromeMaskClassifier"/>; the k-body leg via <see cref="KBodyPalindromeRouting"/>), so no
-/// new typed parent and no tier change. Typed parents: <see cref="F87DiagonalCellBipartiteWitnessSet"/>
-/// (the §7 diagonal-K bipartite criterion the certifier's linear strategy scales, Tier1Derived) and
-/// <see cref="F87TrichotomyClassification"/> (the spectral authority the soundness is checked against,
-/// Tier1Derived). The strength-inheritance check is parent ≥ child, i.e. 5 ≥ 4 and 5 ≥ 4, both pass.</para>
+/// <para>Tier: Tier1Candidate. The routing mechanisms are reused as HELPERS (like
+/// <see cref="PalindromeMaskClassifier"/>; the k-body and window-summed legs via
+/// <see cref="KBodyPalindromeRouting"/>), so no new typed parent and no tier change. Typed parents:
+/// <see cref="F87DiagonalCellBipartiteWitnessSet"/> (the §7 diagonal-K bipartite criterion the certifier's
+/// linear strategy scales, Tier1Derived) and <see cref="F87TrichotomyClassification"/> (the spectral
+/// authority the soundness is checked against, Tier1Derived). The strength-inheritance check is
+/// parent ≥ child, i.e. 5 ≥ 4 and 5 ≥ 4, both pass.</para>
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md</c> §7.12 +
-/// <see cref="PalindromeSoftCertifier"/> + <see cref="KBodyPalindromeRouting"/> (the Stufe B leg) +
+/// <c>docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md</c> (F116, the Stufe B′ leg) +
+/// <see cref="PalindromeSoftCertifier"/> + <see cref="KBodyPalindromeRouting"/> (the Stufe B + B′ legs) +
 /// <c>PalindromeSoftCertifierCeilingTests</c>.</para></summary>
 public sealed class PalindromeSoftCertifierClaim : Claim
 {
@@ -71,10 +74,11 @@ public sealed class PalindromeSoftCertifierClaim : Claim
         public bool Passes => Certified && NotHard;
     }
 
-    /// <summary>The §7.12 structural ceiling witness (XZX+XZY+YZX): a NON-LOCAL k-body routed-soft case
-    /// that admits NO per-site product Q (palindromized only by a non-local Π), so the derived k-body
-    /// per-term routing (Stufe B) declines it and the certifier cannot (and must not) certify it. The pair
-    /// <see cref="Holds"/> iff it is soft (by the spectral authority) and NotCertified.</summary>
+    /// <summary>A §7.12 structural-ceiling member: a case that is soft (by the spectral authority) yet
+    /// NotCertified by every scalable strategy. <see cref="Holds"/> iff the member genuinely sits on the
+    /// ceiling. Since the window-summed golden routing landed (Stufe B′, F116) the recomputed ceiling is
+    /// EMPTY: the former witnesses XZX+XZY+YZX, YZY+XZY+YZX are certified-positive battery cases now, and
+    /// the claim asserts that no member remains.</summary>
     public readonly record struct CeilingWitness(string Name, bool IsSoft, bool Certified)
     {
         public bool Holds => IsSoft && !Certified;
@@ -86,15 +90,17 @@ public sealed class PalindromeSoftCertifierClaim : Claim
     /// <summary>Soundness battery: each case certified-and-not-hard (the one-sided soundness property).</summary>
     public IReadOnlyList<SoundnessCase> SoundnessBattery { get; }
 
-    /// <summary>The 2 k-body routed-soft non-local ceiling cases XZX+XZY+YZX, YZY+XZY+YZX (the Z-middle): each
-    /// soft (spectral authority) yet NotCertified, admitting NO per-site product Q. The two I-heavy cases once
-    /// counted here are now LOCAL (certified by SingleSiteField).</summary>
+    /// <summary>The recomputed §7.12 structural ceiling: the soft-yet-NotCertified members of the k=3
+    /// sliding-window family, EMPTY since F116 (the golden window-summed router certifies the last two
+    /// Z-middle cases, the 2 to 0 step). The claim asserts Count == 0; a non-empty list would be a
+    /// regression of a certification strategy.</summary>
     public IReadOnlyList<CeilingWitness> Ceiling { get; }
 
     public PalindromeSoftCertifierClaim(ChainSystem chain)
-        : base("§7.12 soft certifier: sound, structurally incomplete (the k-body routed-soft ceiling)",
+        : base("§7.12 soft certifier: sound, the k=3 windowed structural ceiling closed at zero (F116)",
                Tier.Tier1Candidate,
                "docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md §7.12 + " +
+               "docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md (F116) + " +
                "compute/RCPsiSquared.Diagnostics/F87/PalindromeSoftCertifier.cs + " +
                "compute/RCPsiSquared.Diagnostics/F87/KBodyPalindromeRouting.cs + " +
                "compute/RCPsiSquared.Diagnostics.Tests/F87/PalindromeSoftCertifierCeilingTests.cs")
@@ -107,19 +113,19 @@ public sealed class PalindromeSoftCertifierClaim : Claim
     /// <summary>How many soundness cases pass (certified-and-not-hard).</summary>
     public int SoundnessPassCount => SoundnessBattery.Count(c => c.Passes);
 
-    /// <summary>The full §7.12 self-check: every soundness case certified-and-not-hard, and the
-    /// XZX+XZY+YZX k-body ceiling pair (soft, NotCertified) holding.</summary>
+    /// <summary>The full §7.12 self-check: every soundness case certified-and-not-hard (including the two
+    /// Z-middle golden cases via RoutingWindowSummed), and the recomputed structural ceiling EMPTY.</summary>
     public bool SelfCheckPasses =>
-        SoundnessBattery.All(c => c.Passes) && Ceiling.All(c => c.Holds);
+        SoundnessBattery.All(c => c.Passes) && Ceiling.Count == 0;
 
     public override string DisplayName =>
-        $"§7.12 soft certifier (sound + k-body routed-soft ceiling, N={Chain.N}, {SoundnessBattery.Count} soundness cases)";
+        $"§7.12 soft certifier (sound, ceiling closed at zero, N={Chain.N}, {SoundnessBattery.Count} soundness cases)";
 
     public override string Summary =>
-        $"sound one-sided certifier (chiral K + 2-body routing Stufe A + derived k-body routing Stufe B): " +
+        $"sound one-sided certifier (chiral K + routing Stufe A/B/B′ + single-site fields): " +
         $"{SoundnessPassCount}/{SoundnessBattery.Count} battery cases certified-and-not-hard; " +
-        $"non-local ceiling: {Ceiling.Count(c => c.Holds)}/{Ceiling.Count} cases soft+NotCertified " +
-        $"({(Ceiling.All(c => c.Holds) ? "PASS" : "FAIL")}) ({Tier.Label()})";
+        $"structural ceiling closed at zero (F116 golden router): {Ceiling.Count} remaining " +
+        $"({(Ceiling.Count == 0 ? "PASS" : "FAIL")}) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -133,10 +139,14 @@ public sealed class PalindromeSoftCertifierClaim : Claim
                 yield return new InspectableNode(c.Name,
                     summary: $"{c.Detail}; certified={c.Certified} (strategy {c.Strategy}), not-hard={c.NotHard}, " +
                              (c.Passes ? "PASS" : "FAIL"));
+            yield return new InspectableNode("ceiling (closed at zero, F116)",
+                summary: $"6 → 4 → 2 → 0: the golden window-summed router certifies the Z-middle pair; " +
+                         $"{Ceiling.Count} soft-yet-NotCertified members remain " +
+                         "(" + (Ceiling.Count == 0 ? "PASS" : "FAIL") + ")");
             foreach (var c in Ceiling)
-                yield return new InspectableNode($"ceiling: {c.Name}",
-                    summary: $"non-local (no per-site product Q): soft={c.IsSoft}, certified={c.Certified} " +
-                             "(" + (c.Holds ? "PASS" : "FAIL") + ")");
+                yield return new InspectableNode($"ceiling REGRESSION: {c.Name}",
+                    summary: $"soft={c.IsSoft}, certified={c.Certified}: a certification strategy regressed " +
+                             "(the ceiling must be empty)");
         }
     }
 
@@ -159,6 +169,9 @@ public sealed class PalindromeSoftCertifierClaim : Claim
     ///     RoutingKBody (a routable 3-body case the 2-body family table misses, routed by the P4 pattern).</item>
     ///   <item><b>IXI+IIY+YII</b>: a sum of single-site transverse fields, certified by SingleSiteField (the
     ///     per-site crossover product palindromizes the chain; the 4 to 2 step, an I-heavy case now local).</item>
+    ///   <item><b>XZX+XZY+YZX</b> and <b>YZY+XZY+YZX</b>: the former Z-middle ceiling pair, certified by
+    ///     RoutingWindowSummed (Stufe B′, F116: the golden period-4 router and its X↔Y conjugate, the
+    ///     window-summed anticommutator condition the per-term lens cannot see; the 2 to 0 step).</item>
     /// </list></summary>
     private static IReadOnlyList<SoundnessCase> BuildSoundnessBattery(ChainSystem chain)
     {
@@ -174,6 +187,10 @@ public sealed class PalindromeSoftCertifierClaim : Claim
                 H("XIX", "XXY", "YXX")),
             ("IXI+IIY+YII (SingleSiteField)", "sum of single-site transverse fields, per-site crossover product",
                 H("IXI", "IIY", "YII")),
+            ("XZX+XZY+YZX (RoutingWindowSummed)", "the golden period-4 window-summed router (Stufe B′, F116)",
+                H("XZX", "XZY", "YZX")),
+            ("YZY+XZY+YZX (RoutingWindowSummed)", "the X↔Y golden sibling, window-summed router (Stufe B′, F116)",
+                H("YZY", "XZY", "YZX")),
         };
 
         var cases = new List<SoundnessCase>(battery.Length);
@@ -191,14 +208,13 @@ public sealed class PalindromeSoftCertifierClaim : Claim
         return cases;
     }
 
-    /// <summary>The 2 §7.12 non-local ceiling witnesses (the Z-middle XZX+XZY+YZX, YZY+XZY+YZX). Each is a
-    /// NON-LOCAL 3-body routed-soft case: soft by the spectral authority (the k-body overload, verified at
-    /// N=4,5,6) yet NotCertified, admitting NO per-site product Q (palindromized only by a non-local Π). The
-    /// formerly-counted cases are NOT here: XIX+XIY+YIX, YIY+XIY+YIX are LOCAL (continuous-uniform routable,
-    /// the 6 to 4 step), and IXI+IIY+YII, IYI+IIX+XII are LOCAL (a site-varying product of single-site
-    /// crossover maps, now certified by SingleSiteField, the 4 to 2 step); see
-    /// experiments/CEILING_FOUR_NONLOCAL_CASES.md. Soft is established at N≥4, so a fixed N=4 chain is used
-    /// when the claim's chain has N<4.</summary>
+    /// <summary>Recompute the §7.12 structural ceiling: of the last two candidate cases (the Z-middle
+    /// XZX+XZY+YZX, YZY+XZY+YZX, the 6 → 4 → 2 arc's survivors), keep any that is STILL soft-yet-NotCertified.
+    /// With the window-summed golden routing strategy (Stufe B′, F116, PROOF_CEILING_GOLDEN_ROUTER.md) both
+    /// are certified, so the returned list is EMPTY: the ceiling closed at zero, and the two cases live in
+    /// the soundness battery as certified-positive witnesses (strategy RoutingWindowSummed) instead. A
+    /// non-empty result is a certification regression, surfaced by <see cref="SelfCheckPasses"/>. Soft is
+    /// established at N≥4, so a fixed N=4 chain is used when the claim's chain has N&lt;4.</summary>
     private static IReadOnlyList<CeilingWitness> BuildCeiling(ChainSystem chain)
     {
         var soundChain = chain.N >= 4 ? chain : new ChainSystem(N: 4, J: 1.0, GammaZero: 0.05);
@@ -207,13 +223,14 @@ public sealed class PalindromeSoftCertifierClaim : Claim
             ("XZX+XZY+YZX", new[] { "XZX", "XZY", "YZX" }),
             ("YZY+XZY+YZX", new[] { "YZY", "XZY", "YZX" }),
         };
-        var ceiling = new List<CeilingWitness>(labels.Length);
+        var ceiling = new List<CeilingWitness>();
         foreach (var (name, ls) in labels)
         {
             var terms = H(ls);
             var spectral = PauliPairTrichotomy.Classify(soundChain, terms);
             var cert = PalindromeSoftCertifier.Certify(terms, soundChain.N);
-            ceiling.Add(new CeilingWitness(name, IsSoft: spectral == TrichotomyClass.Soft, Certified: cert.Certified));
+            if (spectral == TrichotomyClass.Soft && !cert.Certified)
+                ceiling.Add(new CeilingWitness(name, IsSoft: true, Certified: false));
         }
         return ceiling;
     }

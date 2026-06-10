@@ -10,8 +10,8 @@ using Strategy = RCPsiSquared.Diagnostics.F87.PalindromeSoftCertifier.SoftStrate
 namespace RCPsiSquared.Diagnostics.Tests.F87;
 
 /// <summary>The Liouvillian-free soft-certifier: the σ± pure-pairing test, the colouring strategies, the
-/// non-diagonal hidden-Q routing strategy, the orchestration, and the safety property that a certificate
-/// is never a false positive.</summary>
+/// non-diagonal hidden-Q routing strategies (per-term Stufe A/B and the window-summed golden Stufe B′,
+/// F116), the orchestration, and the safety property that a certificate is never a false positive.</summary>
 public class PalindromeSoftCertifierTests
 {
     private static PauliTerm T(string label) => new(PauliLabel.Parse(label), Complex.One);
@@ -221,15 +221,42 @@ public class PalindromeSoftCertifierTests
     }
 
     [Fact]
-    public void CertifyByRoutingKBody_DeclinesNonLocalCeiling_Hard_AndOverMaxBody()
+    public void CertifyByRoutingKBody_DeclinesZMiddlePerTerm_Hard_AndOverMaxBody()
     {
-        // The non-local ceiling XZX+XZY+YZX admits NO per-site product Q (palindromized only by a
-        // non-local Π), so the derived routing declines it -> NotCertified (stays the ceiling).
+        // The Z-middle XZX+XZY+YZX fails the PER-TERM condition (each template's anticommutator alone is
+        // nonzero), so the per-term Stufe B correctly declines it. It IS per-site routable, via the golden
+        // window-summed router (Stufe B′, F116, docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md), and is
+        // certified there: see CertifyByRoutingWindowSummed_CertifiesTheTwoZMiddleCases below.
         Assert.False(PalindromeSoftCertifier.CertifyByRoutingKBody(H("XZX", "XZY", "YZX"), 4));
         // XXX+XXY+YXX is spectrally HARD; no Q routes it, so the constructive certifier declines it.
         Assert.False(PalindromeSoftCertifier.CertifyByRoutingKBody(H("XXX", "XXY", "YXX"), 4));
         // The span gate declines any term wider than MaxBody (=5): a span-6 term makes the 4^k check large.
         Assert.False(PalindromeSoftCertifier.CertifyByRoutingKBody(H("XXXXXX", "XXY", "YXX"), 6));
+    }
+
+    [Fact]
+    public void CertifyByRoutingWindowSummed_CertifiesTheTwoZMiddleCases()
+    {
+        // The 2 to 0 step (Stufe B′, F116): the golden period-4 router certifies both Z-middle sets under
+        // the WINDOW-SUMMED anticommutator condition; the cancellation is cross-template inside one window,
+        // which is exactly why every per-term strategy (incl. Stufe B, asserted above) fails on them.
+        Assert.True(PalindromeSoftCertifier.CertifyByRoutingWindowSummed(H("XZX", "XZY", "YZX"), 4));
+        Assert.True(PalindromeSoftCertifier.CertifyByRoutingWindowSummed(H("YZY", "XZY", "YZX"), 4));
+        // The full chain labels them RoutingWindowSummed (LAST in the chain, so every pre-existing
+        // certificate keeps its strategy label).
+        Assert.Equal(Strategy.RoutingWindowSummed, PalindromeSoftCertifier.Certify(H("XZX", "XZY", "YZX"), 4).Strategy);
+        Assert.Equal(Strategy.RoutingWindowSummed, PalindromeSoftCertifier.Certify(H("YZY", "XZY", "YZX"), 4).Strategy);
+    }
+
+    [Fact]
+    public void CertifyByRoutingWindowSummed_DeclinesHardSets()
+    {
+        // The golden candidates must not falsely certify a known-hard set: a vanishing window-summed
+        // anticommutator plus class-swap would PROVE the palindrome, so it cannot vanish on a hard set.
+        // The frustrated 3-body XXX+XXY+YXX and the F87 windowed hard pair XYI+YIX are both declined.
+        Assert.False(PalindromeSoftCertifier.CertifyByRoutingWindowSummed(H("XXX", "XXY", "YXX"), 4));
+        Assert.False(PalindromeSoftCertifier.CertifyByRoutingWindowSummed(H("XYI", "YIX"), 4));
+        Assert.False(PalindromeSoftCertifier.Certify(H("XXX", "XXY", "YXX"), 4).Certified);
     }
 
     [Fact]
@@ -269,8 +296,9 @@ public class PalindromeSoftCertifierTests
             H("YY", "YZ", "ZY"),    // multi-term uniform routing-soft narrowing to the OTHER bit (intersection {P1})
             H("XY", "XZ"),          // routing-declined: no shared family, not a two-term escape, spectrally hard
             H("XIX", "XXY", "YXX"), // k-body routing-soft (Stufe B): certified by RoutingKBody (the P4 pattern)
-            H("XZX", "XZY", "YZX"), // the non-local k-body ceiling: soft, but no per-site Q -> RoutingKBody declines it
-            H("XXX", "XXY", "YXX"), // 3-body hard: no Q routes it -> RoutingKBody declines it (must not lie)
+            H("XZX", "XZY", "YZX"), // the Z-middle golden case: soft, per-term declines it, certified by RoutingWindowSummed (Stufe B′, F116)
+            H("YZY", "XZY", "YZX"), // the X↔Y golden sibling: soft, certified by RoutingWindowSummed (the mirror candidate)
+            H("XXX", "XXY", "YXX"), // 3-body hard: no Q routes it -> RoutingKBody AND RoutingWindowSummed decline it (must not lie)
         };
         foreach (var terms in battery)
         {

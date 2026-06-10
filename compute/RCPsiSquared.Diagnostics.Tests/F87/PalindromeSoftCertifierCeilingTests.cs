@@ -8,17 +8,17 @@ using Xunit;
 
 namespace RCPsiSquared.Diagnostics.Tests.F87;
 
-/// <summary>Witnesses for the soft-certifier's structural ceiling (PROOF_F103 §7.12), AFTER the hidden-Q
-/// routing strategy receded it. The colouring strategies are all 2-colourings of the basis-state graph, so
+/// <summary>Witnesses for the soft-certifier's structural ceiling (PROOF_F103 §7.12), now CLOSED at zero
+/// (the 6 → 4 → 2 → 0 arc). The colouring strategies are all 2-colourings of the basis-state graph, so
 /// they reach only SOFT cases whose graph is bipartite. XX+XZ is soft yet its basis-state graph is
-/// NON-bipartite, so no colouring can express it; but the non-diagonal routing now CERTIFIES it (the shared
-/// uniform family {P4}), so it is no longer the ceiling. The derived k-body per-term routing (Stufe B) then
-/// reaches the routable k-body cases too; the remaining ceiling is the NON-LOCAL k-body routed-soft
-/// frontier: the 2 Z-middle cases XZX+XZY+YZX, YZY+XZY+YZX are each soft yet admit no per-site product Q
-/// (palindromized only by a non-local Π), so even Stufe B declines them and they stay NotCertified. The two
-/// I-heavy cases IXI+IIY+YII, IYI+IIX+XII are now LOCAL (certified by the SingleSiteField strategy, a sum of
-/// single-site transverse fields). These tests pin both down with the spectral authority, and also pin that
-/// XY+YX+XZ+ZX is HARD on the chain.</summary>
+/// NON-bipartite, so no colouring can express it; but the non-diagonal routing CERTIFIES it (the shared
+/// uniform family {P4}). The derived k-body per-term routing (Stufe B) then reaches the routable k-body
+/// cases; the two I-heavy cases IXI+IIY+YII, IYI+IIX+XII are LOCAL (certified by the SingleSiteField
+/// strategy, a sum of single-site transverse fields, the 4 to 2 step); and the last 2 Z-middle cases
+/// XZX+XZY+YZX, YZY+XZY+YZX, once read as "palindromized only by a non-local Π", route after all via the
+/// golden period-4 router under the WINDOW-SUMMED anticommutator condition (Stufe B′, certified by
+/// RoutingWindowSummed; docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md + F116, the 2 to 0 step). These tests
+/// pin each step down with the spectral authority, and also pin that XY+YX+XZ+ZX is HARD on the chain.</summary>
 public class PalindromeSoftCertifierCeilingTests
 {
     private static PauliTerm T(string label) => new(PauliLabel.Parse(label), Complex.One);
@@ -43,28 +43,32 @@ public class PalindromeSoftCertifierCeilingTests
         Assert.Equal(PalindromeSoftCertifier.SoftStrategy.Routing, cert.Strategy);
     }
 
-    public static IEnumerable<object[]> TwoNonLocalCeiling() => new[]
+    public static IEnumerable<object[]> LocalViaGoldenWindowRouting() => new[]
     {
         new object[] { new[] { "XZX", "XZY", "YZX" } },
         new object[] { new[] { "YZY", "XZY", "YZX" } },
     };
 
     [Theory]
-    [MemberData(nameof(TwoNonLocalCeiling))]
-    public void KBodyRoutedSoft_TheTwoNonLocalCases_AreSoftAndNotCertified(string[] labels)
+    [MemberData(nameof(LocalViaGoldenWindowRouting))]
+    public void KBodyRoutedSoft_TheTwoZMiddleCases_AreSoftAndCertifiedByWindowSummedRouting(string[] labels)
     {
-        // The 2 NON-LOCAL Z-middle 3-body routed-soft cases: soft by the spectral authority, yet each admits
-        // no per-site product Q (palindromized only by a non-local Π), so even the derived k-body per-term
-        // routing (Stufe B) declines it and the certifier returns NotCertified. The remaining ceiling. (The
-        // formerly-counted XIX+XIY+YIX, YIY+XIY+YIX and the two I-heavy IXI+IIY+YII, IYI+IIX+XII are LOCAL:
-        // see the I-heavy theory below, KBodyPalindromeRoutingTests, and experiments/CEILING_FOUR_NONLOCAL_CASES.md.)
-        // Checked at N=4 and N=5.
+        // The 2 Z-middle 3-body cases: soft by the spectral authority AND certified by the golden period-4
+        // router under the WINDOW-SUMMED anticommutator condition (Stufe B′, F116). The old verdict "admits
+        // no per-site product Q (palindromized only by a non-local Π)" is overturned by
+        // docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md: the per-site router exists, it just cancels the
+        // templates CROSS-TEMPLATE inside one window, which the per-term lens cannot see. The ceiling
+        // closes 6 → 4 → 2 → 0. (The formerly-counted XIX+XIY+YIX, YIY+XIY+YIX and the two I-heavy
+        // IXI+IIY+YII, IYI+IIX+XII are LOCAL too: see the I-heavy theory below, KBodyPalindromeRoutingTests,
+        // and experiments/CEILING_FOUR_NONLOCAL_CASES.md.) Checked at N=4 and N=5.
         var terms = H(labels);
         foreach (var n in new[] { 4, 5 })
         {
             var chain = new ChainSystem(n, 1.0, 0.05);
             Assert.Equal(TrichotomyClass.Soft, PauliPairTrichotomy.Classify(chain, terms));
-            Assert.False(PalindromeSoftCertifier.Certify(terms, n).Certified);
+            var cert = PalindromeSoftCertifier.Certify(terms, n);
+            Assert.True(cert.Certified);
+            Assert.Equal(PalindromeSoftCertifier.SoftStrategy.RoutingWindowSummed, cert.Strategy);
         }
     }
 
