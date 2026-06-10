@@ -300,15 +300,16 @@ public class PostEpFlowFieldTests
         Assert.Equal(a.SlowestRate, a.AbsorptionRate, 6);   // rate = 2·Σ γ_k·light_k (Absorption)
         Assert.Equal(2.0, a.SlowestRate, 4);            // = 2γ uniform
         Assert.Equal(0.25, a.MaxSaturationCeiling, 12);
-        // the slowest rate is degenerate; the carrier is the gauge-invariant average over that
-        // subspace. For the symmetric uniform chain it must be left-right symmetric, sum to the
-        // depth (one quantum), and be roughly equipartitioned (no gauge-dependent single-mode spike).
+        // the slowest rate is degenerate; the carrier is basis-free since 2026-06-10: read
+        // through the orthogonal projector onto the slow invariant subspace
+        // (SlowLightDistribution), not averaged over an eigenvector basis. For the symmetric
+        // uniform chain the distribution is exactly equipartitioned, 1/N per site.
         Assert.True(a.Degeneracy > 1, $"uniform slowest rate should be degenerate, got {a.Degeneracy}");
         Assert.Equal(a.PerSiteLight[0], a.PerSiteLight[4], 3);
         Assert.Equal(a.PerSiteLight[1], a.PerSiteLight[3], 3);
         Assert.Equal(1.0, a.PerSiteLight.Sum(), 4);
         foreach (double lk in a.PerSiteLight)
-            Assert.InRange(lk, 0.10, 0.30);
+            Assert.Equal(0.2, lk, 6);
     }
 
     [Fact]

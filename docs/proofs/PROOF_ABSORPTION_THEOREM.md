@@ -271,15 +271,22 @@ with itself about absorption.
 
 **Corollary (the projector form, degeneracy-safe).** For a degenerate cluster
 {λ_k} with right vectors M_k and biorthogonal left covectors W_k, the spectral
-projector P = Σ_k M_k W_k is basis-free (invariant under any change of basis
-inside the cluster). The cluster's light profile read through P,
+projector P = Σ_k M_k W_k fixes the slow invariant subspace V = range(P)
+basis-freely. The correct light reading is through the **orthogonal** projector
+Π_V onto that subspace (not P's own diagonal, whose entries can leave [0, 1]
+and even turn negative; verified to fail the absorption cross-check at 10⁻¹ in
+the birth canal):
 
-    light_l(P) = Σ_x Δ_l(x) · weight_x(P) / Σ_x weight_x(P),
+    light_l(V) = Tr(Π_V Δ_l) / dim V  ∈ [0, 1],
 
-is therefore basis-free too, while per-eigenvector light profiles inside a
-degenerate cluster are gauge-dependent. This is the correct object for the
-flow kernel's degenerate slow carriers (it retires the documented averaging
-caveat in `PostEpFlowField.ReadAssembly`) and is what the
+with Δ_l the site-l disagreement projector. Absorption-exactness follows from
+a block-triangular argument: in an orthonormal basis adapted to the invariant
+subspace, L is block upper-triangular, so Re Tr(Π_V L) = Σ_k Re λ_k, and the
+anti-Hermitian Hamiltonian part drops from the real trace, leaving exactly the
+γ-weighted light of Π_V. At cluster dimension 1 this reduces identically to the
+per-eigenvector Rayleigh light (verified: difference 0.0). This is the correct
+object for the flow kernel's degenerate slow carriers (it retires the
+documented averaging caveat in `PostEpFlowField.ReadAssembly`) and is what the
 `SlowLightDistribution` primitive computes.
 
 **Remark (the dephase-letter rotation).** Nothing in Steps 1-3 privileges Z.

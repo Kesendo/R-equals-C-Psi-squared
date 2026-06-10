@@ -5,6 +5,7 @@ using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Lindblad;
 using RCPsiSquared.Core.Pauli;
 using RCPsiSquared.Core.Propagation;
+using RCPsiSquared.Diagnostics.Ptf;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 using ComplexVector = MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex>;
 
@@ -303,57 +304,17 @@ public sealed class PostEpFlowField : IInspectable
     /// light = rate (Absorption), the parity rail, and the bilinear ceiling are one reading.</summary>
     public FlowAssemblyReading ReadAssembly(double q)
     {
-        int d = 1 << N;
-        var evd = DimensionlessLiouvillian(q).Evd();
-        var vals = evd.EigenValues;
-        const double kernelTol = 1e-7;
-        double maxRe = double.NegativeInfinity;
-        for (int k = 0; k < vals.Count; k++)
-            if (vals[k].Magnitude > kernelTol && vals[k].Real > maxRe) maxRe = vals[k].Real;
-        if (double.IsNegativeInfinity(maxRe))
-            throw new InvalidOperationException("L has no non-kernel mode to read.");
-        double slowestRate = -maxRe;
-
-        // The slowest rate is generally DEGENERATE (e.g. the N single-particle vacuum coherences of
-        // a uniform chain all decay at 2γ, differing only in frequency). The per-site light of any
-        // single eigenvector is then gauge-dependent; the carrier vector is averaged over the whole
-        // degenerate subspace. Accumulate |M_ab|² over every mode at the slowest rate. Row-major
-        // vec: M[a,b] = v[a·d+b]; site l ↔ bit (N−1−l); light = weight where a,b differ.
-        // Caveat: L is non-Hermitian, so a degenerate block's right-eigenvectors are not orthonormal;
-        // the average reduces but does not fully remove the basis-dependence for a HIGHLY degenerate
-        // carrier (it lands ~uniform for the symmetric uniform chain, where uniform is the obvious
-        // answer). SlowestRate / SlowestDepth / Rung / AbsorptionRate / Degeneracy are basis-independent
-        // and exact; the per-site carrier is exact when the slowest rate is non-degenerate (Degeneracy=1),
-        // the regime where it is interesting (a perturbed site, the para coupling on a ring).
-        const double degTol = 1e-6;
-        double norm2 = 0.0;
-        var perSite = new double[N];
-        int degeneracy = 0;
-        for (int kk = 0; kk < vals.Count; kk++)
-        {
-            if (vals[kk].Magnitude <= kernelTol || Math.Abs(vals[kk].Real - maxRe) > degTol) continue;
-            degeneracy++;
-            var v = evd.EigenVectors.Column(kk);
-            for (int a = 0; a < d; a++)
-                for (int b = 0; b < d; b++)
-                {
-                    var c = v[a * d + b];
-                    double w = c.Real * c.Real + c.Imaginary * c.Imaginary;
-                    norm2 += w;
-                    int diff = a ^ b;
-                    for (int l = 0; l < N; l++)
-                        if (((diff >> (N - 1 - l)) & 1) != 0) perSite[l] += w;
-                }
-        }
-        double depth = 0.0, absorption = 0.0;
-        for (int l = 0; l < N; l++)
-        {
-            perSite[l] /= norm2;
-            depth += perSite[l];
-            absorption += 2.0 * GammaProfile[l] * perSite[l];
-        }
-        int rung = (int)Math.Round(depth) & 1;
-        return new FlowAssemblyReading(slowestRate, depth, perSite, absorption, rung, rung == 1, MaxSaturationCeiling, degeneracy);
+        // Basis-free since 2026-06-10: the per-site carrier is read through the orthogonal
+        // projector onto the slow invariant subspace (range of the biorthogonal spectral
+        // projector over the slowest-rate cluster), see SlowLightDistribution. The former
+        // degeneracy-averaged carrier and its gauge caveat (the |v|² average over a degenerate
+        // cluster of non-orthogonal eigenvectors stayed mildly basis-dependent) are retired:
+        // the projector reading is frame-independent at every degeneracy, keeps the absorption
+        // identity machine-exact, and coincides with the old average wherever Degeneracy = 1.
+        var slow = SlowLightDistribution.Compute(DimensionlessLiouvillian(q), N, GammaProfile);
+        int rung = (int)Math.Round(slow.TotalLight) & 1;
+        return new FlowAssemblyReading(slow.Rate, slow.TotalLight, slow.PerSiteLight,
+            slow.AbsorptionRate, rung, rung == 1, MaxSaturationCeiling, slow.Degeneracy);
     }
 
     /// <summary>Oscillation count: strict sign changes of the first difference (local extrema).
@@ -420,13 +381,15 @@ public sealed record PostEpQFlow(double Q, bool Underdamped, IReadOnlyList<PostE
 /// <summary>The slowest non-kernel rate read through the whole assembly, the scattered pieces in
 /// one place: <paramref name="SlowestRate"/> (−Re λ); <paramref name="SlowestDepth"/> = the drain
 /// depth ⟨popcount(i⊕j)⟩ = the light n_XY; <paramref name="PerSiteLight"/> = the carrier vector
-/// ⟨X/Y at k⟩, AVERAGED over the degenerate slowest-rate subspace (so it is gauge-invariant, not a
-/// single-eigenvector pick); <paramref name="AbsorptionRate"/> = 2·Σ_k γ_k·light_k (the Absorption
+/// ⟨X/Y at k⟩, BASIS-FREE via the orthogonal projector onto the slow invariant subspace
+/// (<see cref="RCPsiSquared.Diagnostics.Ptf.SlowLightDistribution"/>, 2026-06-10; it equals the
+/// per-eigenvector reading wherever <paramref name="Degeneracy"/> = 1);
+/// <paramref name="AbsorptionRate"/> = 2·Σ_k γ_k·light_k (the Absorption
 /// Theorem, equal to the rate); <paramref name="Rung"/> = depth mod 2 (0 even = the
 /// number-conserving flow rail, 1 odd = the number-changing birth rail);
 /// <paramref name="OnBirthRail"/> = Rung is odd; <paramref name="MaxSaturationCeiling"/> = ¼, the
 /// rail's bilinear ceiling; <paramref name="Degeneracy"/> = how many modes share the slowest rate
-/// (the size of the subspace the carrier was averaged over).</summary>
+/// (the dimension of the slow invariant subspace the projector reads).</summary>
 public sealed record FlowAssemblyReading(
     double SlowestRate,
     double SlowestDepth,
