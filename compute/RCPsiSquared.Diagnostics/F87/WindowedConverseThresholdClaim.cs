@@ -111,7 +111,7 @@ public sealed class WindowedConverseThresholdClaim : Claim
             Detail: "MinOddCycle({011,110,101})",
             Expected: "3",
             Actual: ell.ToString(CultureInfo.InvariantCulture)));
-        int mStar = 2 * ell + 3; // m* = 2ℓ + deg, deg = 3 for a genuine cycle
+        int mStar = 2 * ell + 3; // m* = 2ℓ + deg; deg = 3 here because the K3 triangle sits on the t_ℓ ≡ 0 branch of the girth dichotomy (pure cycles with t_ℓ ≠ 0 fire deg 1 at 2ℓ+1)
         cases.Add(new BatteryCase(
             Name: "first asymmetric moment m* = 2ℓ + deg (deg = 3)",
             Detail: $"2·{ell} + 3",

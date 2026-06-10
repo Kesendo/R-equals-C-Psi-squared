@@ -24,7 +24,9 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// obstructs the chiral functional supplying the gain channel's −N reflection mode; any
 /// palindromizer forces a spectral palindrome); that premise is itself closed (§7.6, degenerate PT +
 /// analyticity), so the converse is fully derived modulo standard perturbation theory. Promoted to
-/// Tier1Derived in the formal promotion pass (2026-06-08).
+/// Tier1Derived in the formal promotion pass (2026-06-08). The all-γ form of the converse closed
+/// 2026-06-10 via <see cref="WindowedConverseAllGammaClaim"/> (girth dichotomy + Pascal-Gram
+/// positivity, no residual), removing the perturbative and finitely-many-γ caveats.
 /// This primitive returns both the criterion's verdict (<see cref="BipartiteChiralityResult.PredictedClass"/>)
 /// and the actual F87 verdict (<see cref="PauliPairTrichotomy.Classify"/>) so a witness can
 /// check that they agree.</para>

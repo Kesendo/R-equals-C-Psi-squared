@@ -5,7 +5,7 @@ using RCPsiSquared.Runtime.ObjectManager;
 namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 registration for <see cref="HardCellPureDTemplate"/>
-/// (F111, 8th YParity-axis Claim, Tier1Candidate). Standalone Claim: no ctor
+/// (F111, 8th YParity-axis Claim, Tier1Derived, promoted 2026-06-10). Standalone Claim: no ctor
 /// parents in this registration extension.
 ///
 /// <para><b>Layer-boundary note</b>: F111's empirical anchor depends on the

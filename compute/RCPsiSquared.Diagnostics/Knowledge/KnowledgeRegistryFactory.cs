@@ -123,7 +123,7 @@ public static class KnowledgeRegistryFactory
             // girth dichotomy, R-sign resolved by Pascal-Gram positivity, both 2026-06-10). Two
             // Tier1Derived parents: F87DiagonalCellBipartiteWitnessSet (the §7 diagonal-K criterion) +
             // WindowedConverseThresholdClaim (the spine: #A≥2ℓ + soft re-proof + deg-1 positivity).
-            // The F110/F111 promotion gate is open.
+            // The F110/F111 promotion gate opened 2026-06-10 (promotions recorded below).
             .RegisterWindowedConverseAllGammaClaim()
             // §7.12 Liouvillian-free soft-certifier as a registered Claim: the certifier tries three
             // scalable structured 2-colourings (linear chiral K, excitation pairing, excitation parity)
@@ -325,17 +325,19 @@ public static class KnowledgeRegistryFactory
             .RegisterMotherSoftYParityOnePurity()
             // YParity-axis F110: F87-hard pairs only in diagonal Klein cells with
             // Y-inversion. Aspect A closed-form via F108 Part 1+2+3 + F87 dissipator-
-            // resonance; Aspect B (Y-inversion) and Aspect C (k-purity sharpening)
-            // empirically anchored at F103/F105/F106. Tier1Candidate. PolarityCubeMap's
+            // resonance; Aspects B+C derived via the F103 §6 counting rule + §7 mechanism
+            // + the closed windowed converse. Tier1Derived (promoted 2026-06-10, gate
+            // WindowedConverseAllGammaClaim). PolarityCubeMap's
             // YParityClaims grows from 6 to 7.
             .RegisterHardCellYInversionPattern()
             // YParity-axis F111: Pure-D Template Rule sharpening F110 Aspect B at
             // k = N = 4 in the diagonal Klein cell. Per-pair structural criterion:
             // pair is F87-hard ⟺ at least one term is a pure-D template (uses only
             // dephase letter D and identity I). Implies F110 Aspect B 228:0 Y-
-            // inversion as immediate corollary. Tier1Candidate (empirical anchor at
-            // F106 N=4 k=4 across 3 dephase letters; open subclaim Mixed+Mixed = soft
-            // closed-form). PolarityCubeMap's YParityClaims grows from 7 to 8.
+            // inversion as immediate corollary. Tier1Derived (promoted 2026-06-10 via
+            // WindowedConverseAllGammaClaim, Pascal-Gram positivity; Mixed+Mixed = soft
+            // closed modulo M via PROOF_F103 §7.4). PolarityCubeMap's YParityClaims
+            // grows from 7 to 8.
             .RegisterHardCellPureDTemplate()
             // BitA-axis F108 Part 2: Π²_X-even H + X-dephasing admits exact
             // operator-level palindrome (X-deph variant of Π_5bilinear). BitA twin

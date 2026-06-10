@@ -19,7 +19,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// template T has #Y(T) = [D = Y] (i.e. y_par(T) = y_par(D) by construction), and
 /// since at least one of P, Q is pure-D, the pair's dominant y_par inherits
 /// y_par(D). The "no Mixed+Mixed hard" half of the rule is what makes the
-/// corollary clean (no off-y_par hard residue), and remains the open subclaim.</para>
+/// corollary clean (no off-y_par hard residue); subclaim (d) closed modulo M via
+/// PROOF_F103 §7.4 (see the status paragraph below).</para>
 ///
 /// <para><b>Structural decomposition (per diagonal cell, k = N = 4):</b></para>
 /// <list type="bullet">
@@ -34,7 +35,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         pure-template support.</item>
 ///   <item><b>Mixed+Mixed: 0 hard pairs (300 soft).</b> Both terms have non-D
 ///         non-I letters. Empirically all 300 such pairs per cell classify soft;
-///         the operator-level closed-form proof is the open subclaim (d).</item>
+///         subclaim (d) is closed modulo M via the chiral-K route (PROOF_F103 §7.4).</item>
 ///   <item><b>Total: 36 + 192 + 0 = 228 hard pairs per diagonal cell</b>, matching
 ///         the F106 N = 4 k = 4 anchor 228:0 across all three dephase letters.</item>
 /// </list>
@@ -115,24 +116,29 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
         "Mixed-Mixed pairs: 24*25/2 = 300 (all SOFT). " +
         "Total hard: 36 + 192 + 0 = 228 (matches F106 anchor exactly, across all 3 dephase letters Z, X, Y).";
 
-    /// <summary>Subclaim (a), empirically verified, heuristic mechanism: pure-D
-    /// single-term Hamiltonians at k=N=4 in the diagonal cell are F87-HARD.
+    /// <summary>Subclaim (a), originally empirically verified with a heuristic
+    /// mechanism (the hard-direction converse closed 2026-06-10,
+    /// WindowedConverseAllGammaClaim): pure-D single-term Hamiltonians at k=N=4
+    /// in the diagonal cell are F87-HARD.
     /// Mechanism: D[D] commutes with pure-D H (the dissipator letter D commutes
     /// with itself), so L = -i[H, .] + L_D has additive independent spectra;
     /// the combined spectrum is non-palindromic around -σ.</summary>
     public string SubclaimA_PureDSingleTermHard =>
         "Pure-D single-term H at k=N=4 in diagonal cell is F87-HARD. Mechanism: D[D] commutes with pure-D H, so L = L_H + L_D has additive independent spectra; combined spectrum non-palindromic.";
 
-    /// <summary>Subclaim (b), empirically verified, no closed-form mechanism:
-    /// mixed single-term Hamiltonians at k=N=4 in the diagonal cell (contain
-    /// non-D non-I letters) are F87-SOFT (palindromic spec, M ≠ 0).</summary>
+    /// <summary>Subclaim (b), empirically verified; mechanism closed via the
+    /// chiral route (PROOF_F103 §7.4): mixed single-term Hamiltonians at k=N=4
+    /// in the diagonal cell (contain non-D non-I letters) are F87-SOFT
+    /// (palindromic spec, M ≠ 0).</summary>
     public string SubclaimB_MixedSingleTermSoft =>
-        "Mixed single-term H at k=N=4 in diagonal cell is F87-SOFT (palindromic spec, M ≠ 0). Closed-form mechanism open.";
+        "Mixed single-term H at k=N=4 in diagonal cell is F87-SOFT (palindromic spec, M ≠ 0). Mechanism closed via the chiral route: a single Mixed term at full support always admits the chiral K (bipartite hopping graph), PROOF_F103 §7.4.";
 
-    /// <summary>Subclaim (c), empirically verified, no closed-form mechanism:
-    /// pair (Pure-D, Mixed) Hamiltonians at k=N=4 are F87-HARD.</summary>
+    /// <summary>Subclaim (c), originally empirically verified with no closed-form
+    /// mechanism (the hard-direction converse closed 2026-06-10,
+    /// WindowedConverseAllGammaClaim): pair (Pure-D, Mixed) Hamiltonians at
+    /// k=N=4 are F87-HARD.</summary>
     public string SubclaimC_PureMixedPairHard =>
-        "Pair (Pure-D, Mixed) H at k=N=4 in diagonal cell is F87-HARD. Closed-form mechanism open.";
+        "Pair (Pure-D, Mixed) H at k=N=4 in diagonal cell is F87-HARD. Closed-form mechanism was open until the hard-direction converse closed 2026-06-10 (WindowedConverseAllGammaClaim).";
 
     /// <summary>Subclaim (d), CLOSED modulo M (PROOF_F103 §7.4, 2026-05-30):
     /// pair (Mixed, Mixed) Hamiltonians at k=N=4 are F87-SOFT (palindromic spec).

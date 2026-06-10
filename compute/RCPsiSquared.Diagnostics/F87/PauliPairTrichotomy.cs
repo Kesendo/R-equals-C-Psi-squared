@@ -24,6 +24,14 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// matching the dephase letter's Klein index: Z = (0, 1), X = (1, 0), Y = (1, 1).
 /// SU(2)-rotation-equivalent.
 ///
+/// γ-universality of the verdict: the classification is evaluated at the chain's single
+/// operating γ (<see cref="ChainSystem.GammaZero"/>, uniform across sites). Since 2026-06-10
+/// a Hard verdict for a windowed diagonal-cell pair is γ-universal, hard at one γ is hard at
+/// every γ &gt; 0 (the windowed all-γ theorem, <see cref="WindowedConverseAllGammaClaim"/>,
+/// Pascal-Gram positivity F117, no residual), so the choice of γ does not affect the verdict
+/// for that scope. Truly and Soft are γ-independent statements of the operator identity
+/// (‖M‖ = 0) and the palindrome spectrum pairing by construction.
+///
 /// See docs/ANALYTICAL_FORMULAS.md F87 entry for the structural derivation.
 /// </summary>
 public static class PauliPairTrichotomy
@@ -65,7 +73,12 @@ public static class PauliPairTrichotomy
     /// <para>Pipeline identical to the k=2 overload: build H via ChainKBody,
     /// build L via dephasing dissipator, build M via palindrome residual, then
     /// truly-test (‖M‖_F &lt; opTolerance) followed by soft/hard test
-    /// (greedy multiset eigenvalue pairing).</para></summary>
+    /// (greedy multiset eigenvalue pairing).</para>
+    ///
+    /// <para>Evaluated at the chain's single operating γ; for a windowed diagonal-cell
+    /// pair a Hard verdict is γ-universal (hard at one γ is hard at every γ &gt; 0,
+    /// <see cref="WindowedConverseAllGammaClaim"/>), so the choice of γ does not affect
+    /// the verdict in that scope.</para></summary>
     public static TrichotomyClass Classify(ChainSystem chain, IReadOnlyList<PauliTerm> termTemplates,
         double opTolerance = 1e-10, double spectrumTolerance = 1e-6,
         PauliLetter dephaseLetter = PauliLetter.Z)

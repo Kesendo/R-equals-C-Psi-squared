@@ -24,8 +24,10 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <para>Tier: Tier1Derived. The hard/soft VERDICT rests on the §7.5/§7.6 converse
 /// (non-bipartite ⟹ hard), derived modulo standard perturbation theory (the first-order-block
 /// premise closed via degenerate-PT + analyticity, §7.6); the obstruction size-law and counts are
-/// pure derived combinatorics, and per §7.10 the obstruction size is spectrally inert (only the
-/// (1 + x)-valuation crosses into the spectrum). Promoted from Tier1Candidate in the formal
+/// pure derived combinatorics, and per §7.10 the obstruction size is spectrally inert for the
+/// hard/soft verdict (only the (1 + x)-valuation decides it); since the 2026-06-10 girth ladder
+/// the unsigned odd-girth ℓ does cross into the spectrum at the next level of detail, setting the
+/// first asymmetric moment m* = 2ℓ + deg. Promoted from Tier1Candidate in the formal
 /// promotion pass (2026-06-08), together with the parent F87DiagonalCellBipartiteWitnessSet.</para>
 ///
 /// <para>Scope of the Tier1Derived label: the criterion itself (valuations-differ ⟺ non-bipartite is

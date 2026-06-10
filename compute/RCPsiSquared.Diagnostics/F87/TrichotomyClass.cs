@@ -13,6 +13,9 @@ public enum TrichotomyClass
 {
     Truly,
     Soft,
+    /// <summary>For a windowed diagonal-cell pair this verdict is γ-universal: hard at one γ
+    /// is hard at every γ &gt; 0 (the windowed all-γ theorem,
+    /// <see cref="WindowedConverseAllGammaClaim"/>, Pascal-Gram positivity F117, no residual).</summary>
     Hard,
 }
 
