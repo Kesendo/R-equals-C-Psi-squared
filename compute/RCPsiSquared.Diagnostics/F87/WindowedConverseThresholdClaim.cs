@@ -28,11 +28,12 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///
 /// <para>Tier1Derived: this spine is proven general-N, including (since 2026-06-10) the girth
 /// dichotomy: the deg-1 class in closed form at every m, with hard-at-all-γ OUTRIGHT on the
-/// t_ℓ ≠ 0 branch. On the t_ℓ = 0 branch the monomial form is proven and only R-sign is open,
-/// carried by <see cref="WindowedConverseAllGammaClaim"/>, so nothing open is typed as Derived
-/// here. Anchor: <c>docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md</c> +
+/// t_ℓ ≠ 0 branch. The t_ℓ = 0 branch closed the same day via the Pascal-Gram positivity
+/// theorem, carried by <see cref="WindowedConverseAllGammaClaim"/> (now Tier1Derived, no
+/// residual). Anchor: <c>docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md</c> +
 /// <c>simulations/f87_windowed_monomial_converse.py</c> +
-/// <c>simulations/f87_girth_dichotomy.py</c>.</para></summary>
+/// <c>simulations/f87_girth_dichotomy.py</c> +
+/// <c>simulations/f87_pascal_gram_positivity.py</c>.</para></summary>
 public sealed class WindowedConverseThresholdClaim : Claim
 {
     /// <summary>One self-check tying the claim to the GF(2) odd-girth / m* arithmetic.</summary>
@@ -45,7 +46,7 @@ public sealed class WindowedConverseThresholdClaim : Claim
     public int PassCount => Cases.Count(c => c.Passes);
 
     public WindowedConverseThresholdClaim()
-        : base("F87 windowed-converse threshold (two-reflection spine): all-odd (#A_L,#A_R,#Q) parity ⟹ bipartite soft + non-bipartite #A≥2ℓ; the deg-1 class in closed form (girth dichotomy). Tier1Derived; hard-at-all-γ outright on the t_ℓ≠0 branch, modulo R-sign on the t_ℓ=0 branch",
+        : base("F87 windowed-converse threshold (two-reflection spine): all-odd (#A_L,#A_R,#Q) parity ⟹ bipartite soft + non-bipartite #A≥2ℓ; the deg-1 class in closed form (girth dichotomy). Tier1Derived; the all-γ closure on both branches is carried by WindowedConverseAllGammaClaim (Pascal-Gram positivity, no residual since 2026-06-10)",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md + " +
                "simulations/f87_windowed_monomial_converse.py")
@@ -72,16 +73,17 @@ public sealed class WindowedConverseThresholdClaim : Claim
     public string FollowsModulo =>
         "The girth ladder (2026-06-10): t_ℓ ≠ 0 ⟹ m* = 2ℓ+1, deg 1, positive outright (hard ∀γ>0, no " +
         "residual); t_ℓ ≡ 0 ⟹ the γ¹ class is proven dead at 2ℓ+1 and 2ℓ+3 and the first firing odd rung " +
-        "sets m* = 2ℓ+deg (γ³ when it fires; higher when not, first γ⁵ witness IIXY+ZXZY), with R-sign in " +
-        "ladder form (first surviving class single + positive) open, carried by WindowedConverseAllGammaClaim.";
+        "sets m* = 2ℓ+deg (γ³ when it fires; higher when not, first γ⁵ witness IIXY+ZXZY). R-sign in ladder " +
+        "form was resolved the same day by the Pascal-Gram positivity theorem (every class at m* a sum of " +
+        "squares or exactly zero), carried by WindowedConverseAllGammaClaim: hard ∀γ>0 on BOTH branches.";
 
     public override string DisplayName =>
         "F87 windowed-converse threshold (two-reflection spine, Tier1Derived)";
 
     public override string Summary =>
         "two reflections force #A_L,#A_R,#Q all odd in every odd power-sum word; bipartite ⟹ all odd power-sums " +
-        "≡ 0 (soft), non-bipartite ⟹ #A ≥ 2ℓ, deg-1 positivity closed-form; monomial/all-γ-hard follows once " +
-        $"R-deg + R-sign hold; {PassCount}/{Cases.Count} PASS ({Tier.Label()})";
+        "≡ 0 (soft), non-bipartite ⟹ #A ≥ 2ℓ, deg-1 positivity closed-form; the all-γ closure is carried by " +
+        $"WindowedConverseAllGammaClaim (Pascal-Gram positivity, no residual); {PassCount}/{Cases.Count} PASS ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -90,7 +92,7 @@ public sealed class WindowedConverseThresholdClaim : Claim
             yield return new InspectableNode("Two reflections (𝓕, R) ⟹ all-odd parity", summary: TwoReflections);
             yield return new InspectableNode("Threshold #A ≥ 2ℓ + soft re-proof", summary: Threshold);
             yield return new InspectableNode("deg-1 positivity (closed form)", summary: Deg1Positivity);
-            yield return new InspectableNode("Follows once R-deg + R-sign hold", summary: FollowsModulo);
+            yield return new InspectableNode("The girth ladder + Pascal-Gram closure (2026-06-10)", summary: FollowsModulo);
             foreach (var c in Cases)
                 yield return new InspectableNode(c.Name,
                     summary: $"{c.Detail}; expected {c.Expected}, got {c.Actual}, " + (c.Passes ? "PASS" : "FAIL"));

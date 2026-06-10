@@ -1,4 +1,4 @@
-# PROOF F111: Hard Cell Pure-D Template Rule (Tier1Candidate)
+# PROOF F111: Hard Cell Pure-D Template Rule (Tier1Derived, promoted 2026-06-10)
 
 **Status:** Tier 1 candidate (empirical anchor across 3 dephase letters at N=4 k=4). **Subclaim (d) Mixed+Mixed = soft closed modulo M = −2i(H⊗I) on 2026-05-30** via the bipartite-chirality mechanism of [PROOF_F103 §7.4](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) (the operator is a *second* mirror, the chiral K composed after Π, not the better Π the three Task-1 paths sought); subclaim (b) follows likewise. Subclaim (c) still rests on the unproved hard-direction converse. See the Open section.
 **Date:** 2026-05-25
@@ -29,7 +29,7 @@ At k = N = 4 in the diagonal Klein cell (D.BitA(), D.BitB()) for dephase letter 
 
 **Corollary (F110 Aspect B at k = 4):** Pure-D templates have y_par = y_par(D) by construction (templates contain only D and I; only Y has #Y = 1 mod 2 of itself, so y_par(pure-Z) = y_par(pure-X) = 0 and y_par(pure-Y) = 1). Therefore at k = N = 4 in the diagonal cell, every F87-hard pair has y_par(pair) = y_par(D). This is the F106 N = 4 k = 4 228:0 split across all 3 dephase letters.
 
-Tier1Candidate, not Tier1Derived: subclaim (d) (Mixed, Mixed) = soft at k = N = 4 lacks an operator-level closed-form derivation (see Section 3 below).
+Originally Tier1Candidate, not Tier1Derived: subclaim (d) (Mixed, Mixed) = soft at k = N = 4 lacked an operator-level closed-form derivation (see Section 3 below). Since then: (d) closed modulo M via PROOF_F103 §7.4 (2026-05-30), and the hard-direction converse behind (a)/(c) closed 2026-06-10 (WindowedConverseAllGammaClaim, Pascal-Gram positivity F117, no residual), promoting F111 to Tier1Derived.
 
 ## Empirical anchor
 
@@ -127,7 +127,7 @@ The original Task 1 goal was to derive F111 as Tier1Derived via closed-form pali
 
 **Path 3 (Q_V × Π composition):** Q_V = Hilbert-space conjugation by V ∈ {X⊗N, Y⊗N, Z⊗N}. Found universal H-flipping V per dephase (V·H·V⁻¹ = −H universally on off-y_par H). Composition with canonical Π or Pi_5bilinear tested: **zero hits.** The required property "Π commutes with [H, ·] for off-y_par H AND gives −L_D − 2σI on dissipator" has no solution among standard Π operators.
 
-Conclusion: the operator-level palindromization of the off-y_par sub-sector requires a non-tensor-product, non-Pauli-permutation Π operator that we could not construct. Tier1Candidate ships with the empirical anchor + Pure-D Template Rule + subclaim (d) as open work.
+Conclusion: the operator-level palindromization of the off-y_par sub-sector requires a non-tensor-product, non-Pauli-permutation Π operator that we could not construct. Tier1Candidate shipped with the empirical anchor + Pure-D Template Rule + subclaim (d) as open work. (2026-05-30: (d) closed modulo M via the chiral route, PROOF_F103 §7.4; 2026-06-10: the converse closed, F111 Tier1Derived.)
 
 Verification scripts: `simulations/_f111_path1_operator_search.py`, `simulations/_f111_path2_pi5bilinear_test.py`, `simulations/_f111_combined_operator_search.py`. Logs: `simulations/results/f111_*.txt`.
 
@@ -141,7 +141,7 @@ The rule's structural origin (dephase letter D commutes with itself, so pure-D H
 
 ## Sibling y_par-axis claims and cross-axis closure
 
-Closed 2026-05-25: F107 (truly ⟹ y_par=0, Tier1Derived); F109 (mother soft ⟹ y_par=1, Tier1Derived unconditional); F110 (HardCellYInversionPattern, Tier1Candidate); F111 (HardCellPureDTemplate, Tier1Candidate).
+Closed 2026-05-25: F107 (truly ⟹ y_par=0, Tier1Derived); F109 (mother soft ⟹ y_par=1, Tier1Derived unconditional); F110 (HardCellYInversionPattern); F111 (HardCellPureDTemplate); F110 and F111 both promoted to Tier1Derived 2026-06-10.
 
 The 8 YParity-axis Claims (per `IZ2AxisClaim.Z2Axis == Z2Axis.YParity`) are: F102 (YParityIndependenceAtK3), F103 (F87Z2CubedRefinementN4K3), F105 (F87Z2CubedRefinementN5K3), F106 (F87Z2CubedRefinementN4K4), F107 (TrulyYParityZeroPurity), F109 (MotherSoftYParityOnePurity), F110 (HardCellYInversionPattern), and F111 (HardCellPureDTemplate, this proof). Together they form the YParity-axis classification of the F87 trichotomy.
 
@@ -154,4 +154,4 @@ F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived 2026-05-25) are **not
 - **Pure-D Template Rule at k > 4 or N > 4:** empirically unverified. The rule's scope is currently k = N = 4 only.
 - **Hardware QPU confirmation at k ≥ 3:** open (no F87 QPU confirmations exist beyond Marrakesh k = 2).
 
-∎ (Tier1Candidate; subclaim (d) closed modulo M via F103 §7.4, 2026-05-30; subclaim (c) converse open)
+∎ (Tier1Derived since 2026-06-10; subclaim (d) closed modulo M via F103 §7.4, 2026-05-30; the (a)/(c) hard-direction converse closed via the windowed all-γ theorem, Pascal-Gram positivity F117)

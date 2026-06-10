@@ -6,10 +6,10 @@ using RCPsiSquared.Diagnostics.Knowledge;
 namespace RCPsiSquared.Diagnostics.Tests.F87;
 
 /// <summary>Wiring audit for <see cref="WindowedConverseAllGammaClaim"/>, the F87 windowed-converse
-/// residual lemma. After Phase B it was "proven modulo R-deg + R-sign"; since 2026-06-10 the girth
-/// dichotomy retired R-deg, so it is "proven modulo R-sign" (t_ℓ = 0 branch only). It stays
-/// Tier1Candidate with the Tier1Derived <see cref="WindowedConverseThresholdClaim"/> as a typed
-/// parent, and R-sign is its one named open content.</summary>
+/// all-γ theorem. After Phase B it was "proven modulo R-deg + R-sign"; 2026-06-10 retired R-deg
+/// (girth dichotomy) and resolved R-sign (Pascal-Gram positivity) the same day. It is now
+/// Tier1Derived with NO residual, the Tier1Derived <see cref="WindowedConverseThresholdClaim"/>
+/// as a typed parent.</summary>
 public class WindowedConverseAllGammaClaimRegistrationTests
 {
     [Fact]
@@ -41,20 +41,21 @@ public class WindowedConverseAllGammaClaimRegistrationTests
     }
 
     [Fact]
-    public void TierIsTier1Candidate()
+    public void TierIsTier1Derived()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
-        Assert.Equal(Tier.Tier1Candidate, registry.Get<WindowedConverseAllGammaClaim>().Tier);
+        Assert.Equal(Tier.Tier1Derived, registry.Get<WindowedConverseAllGammaClaim>().Tier);
     }
 
     [Fact]
-    public void Summary_StatesProvenModuloRSign_AndRDegRetired()
+    public void Summary_StatesNoResidual_RDegRetired_AndRSignResolved()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var claim = registry.Get<WindowedConverseAllGammaClaim>();
-        Assert.Contains("modulo", claim.Summary);
-        Assert.Contains("R-sign", claim.Summary);
+        Assert.Contains("NO residual", claim.Summary);
         Assert.Contains("R-deg retired", claim.Summary);
-        Assert.Contains("outright", claim.Summary.ToLowerInvariant());
+        Assert.Contains("R-sign resolved", claim.Summary);
+        Assert.Contains("Pascal-Gram", claim.Summary);
+        Assert.DoesNotContain("modulo", claim.Summary);
     }
 }

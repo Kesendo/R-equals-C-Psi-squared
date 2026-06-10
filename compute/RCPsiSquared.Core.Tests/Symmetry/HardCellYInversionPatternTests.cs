@@ -21,8 +21,8 @@ public class HardCellYInversionPatternTests
             ((IZ2AxisClaim)new HardCellYInversionPattern(new KleinEightCellClaim(new KleinFourCellClaim()))).BitATwinStatus);
 
     [Fact]
-    public void Tier_IsTier1Candidate() =>
-        Assert.Equal(Tier.Tier1Candidate, new HardCellYInversionPattern(new KleinEightCellClaim(new KleinFourCellClaim())).Tier);
+    public void Tier_IsTier1Derived() =>
+        Assert.Equal(Tier.Tier1Derived, new HardCellYInversionPattern(new KleinEightCellClaim(new KleinFourCellClaim())).Tier);
 
     // ============================================================
     // Aspect A: diagonal Klein cell membership (closed-form)

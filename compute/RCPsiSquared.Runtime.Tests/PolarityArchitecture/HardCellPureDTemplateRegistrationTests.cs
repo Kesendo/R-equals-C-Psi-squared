@@ -23,7 +23,7 @@ public sealed class HardCellPureDTemplateRegistrationTests
         var registry = BuildRegistry();
         var claim = registry.Get<HardCellPureDTemplate>();
         Assert.NotNull(claim);
-        Assert.Equal(Tier.Tier1Candidate, claim.Tier);
+        Assert.Equal(Tier.Tier1Derived, claim.Tier);
     }
 
     [Fact]

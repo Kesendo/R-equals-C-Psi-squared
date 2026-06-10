@@ -24,10 +24,10 @@ public class HardCellYInversionPatternRegistrationTests
     }
 
     [Fact]
-    public void HardCellYInversionPattern_IsTier1Candidate()
+    public void HardCellYInversionPattern_IsTier1Derived()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var claim = registry.Get<HardCellYInversionPattern>();
-        Assert.Equal(RCPsiSquared.Core.Knowledge.Tier.Tier1Candidate, claim.Tier);
+        Assert.Equal(RCPsiSquared.Core.Knowledge.Tier.Tier1Derived, claim.Tier);
     }
 }

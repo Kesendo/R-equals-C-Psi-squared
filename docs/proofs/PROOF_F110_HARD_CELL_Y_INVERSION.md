@@ -1,6 +1,6 @@
 # PROOF F110: F87-Hard Cells Exhibit Y-Inversion Pattern
 
-**Status:** Tier 1 Candidate (Aspect A closed-form via F108 Part 1+2+3 + F107 + F109 + F87 dissipator-resonance; Aspect B Y-inversion closed-form at k = N = 4 via sibling F111 Pure-D Template Rule, and at k = 3 via the F103 §6 diagonal-cell rule (atomics verified, palindrome-proof pending); Aspect C k-purity 42:8 ratio at k = 3 likewise derived by the F103 §6 rule)
+**Status:** Tier 1 derived (promoted 2026-06-10: the windowed hard-direction converse, the one edge that kept this Candidate, closed as the all-γ theorem with no residual, WindowedConverseAllGammaClaim / Pascal-Gram positivity F117). Original status 2026-05-25: Tier 1 Candidate (Aspect A closed-form via F108 Part 1+2+3 + F107 + F109 + F87 dissipator-resonance; Aspect B Y-inversion closed-form at k = N = 4 via sibling F111 Pure-D Template Rule, and at k = 3 via the F103 §6 diagonal-cell rule; Aspect C k-purity 42:8 ratio at k = 3 likewise derived by the F103 §6 rule)
 **Date:** 2026-05-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
@@ -91,9 +91,9 @@ F110 completes the y_par-axis classification of the F87 trichotomy:
 
 - **F107 (Tier1Derived):** truly classifications have y_par = 0 across all dephase letters and all Klein cells.
 - **F109 (Tier1Derived):** mother sector Klein (0, 0) soft classifications have y_par = 1 across all dephase letters.
-- **F110 (Tier1Candidate, THIS PROOF):** F87-hard classifications appear only in the diagonal Klein cell, with dominant y_par equal to the dephase letter's own y_par (Y-inversion).
+- **F110 (THIS PROOF; Tier1Derived since 2026-06-10):** F87-hard classifications appear only in the diagonal Klein cell, with dominant y_par equal to the dephase letter's own y_par (Y-inversion).
 
-Together F107 + F109 + F110 characterize the dominant y_par signature of every F87 trichotomy class. The remaining open work (now that the 42:8 k=3 ratio is derived by the F103 §6 rule, atomics pending a palindrome proof) is the closed-form completion of F111 subclaim (d) Mixed+Mixed = soft, which is what gates F111 (and hence the k=4 228:0 split) from Tier1Candidate to Tier1Derived.
+Together F107 + F109 + F110 characterize the dominant y_par signature of every F87 trichotomy class. The gates have since closed: F111 subclaim (d) Mixed+Mixed = soft closed modulo M via PROOF_F103 §7.4 (2026-05-30), and the hard-direction converse closed 2026-06-10 (WindowedConverseAllGammaClaim, Pascal-Gram positivity F117, no residual); both F110 and F111 are Tier1Derived since 2026-06-10.
 
 ## 6. Open
 

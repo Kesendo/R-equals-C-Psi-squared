@@ -11,8 +11,8 @@ public sealed class HardCellPureDTemplateTests
     private readonly HardCellPureDTemplate _claim = new(new KleinEightCellClaim(new KleinFourCellClaim()));
 
     [Fact]
-    public void Tier_IsTier1Candidate() =>
-        Assert.Equal(Tier.Tier1Candidate, _claim.Tier);
+    public void Tier_IsTier1Derived() =>
+        Assert.Equal(Tier.Tier1Derived, _claim.Tier);
 
     [Fact]
     public void Z2Axis_IsYParity() =>

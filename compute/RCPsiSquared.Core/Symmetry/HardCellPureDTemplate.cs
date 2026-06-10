@@ -4,7 +4,7 @@ using RCPsiSquared.Core.Pauli;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>F111 (Tier1Candidate): Pure-D Template Rule for F87-hard classification
+/// <summary>F111 (Tier1Derived, promoted 2026-06-10): Pure-D Template Rule for F87-hard classification
 /// at k = N = 4 in the diagonal Klein cell. Sister to <see cref="HardCellYInversionPattern"/>
 /// (F110) on the same y_par axis; F111 sharpens F110 Aspect B by giving a per-pair
 /// structural criterion whose corollary is the 228:0 Y-inversion split.
@@ -62,15 +62,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// which always admit a linear φ and hence the chiral K, so the hopping graph
 /// is bipartite and the pair soft; the earlier operator-level search (3
 /// derivation paths, PROOF Section 6) was dissolved by the chiral route. The
-/// remaining Tier1Derived promotion gate is the hard-direction converse behind
-/// subclaims (a)/(c), proven modulo R-deg + R-sign
-/// (WindowedConverseAllGammaClaim). Subclaim (a) (Pure+Pure single-term H is
-/// F87-hard) holds via a heuristic dissipator-commute mechanism, not a fully
-/// rigorous derivation; the Pure-Pure pair extension and the F110 Aspect B
-/// Y-inversion corollary follow as immediate consequences once (a) is granted.
-/// Subclaims (b) (mixed single-term H is soft) and (c) (Pure-Mixed pair is
-/// hard) are empirically verified, closed-form mechanism still open in both
-/// cases. The PROOF document is authoritative for this status breakdown.</para>
+/// Tier1Derived promotion gate, the hard-direction converse behind subclaims
+/// (a)/(c), CLOSED 2026-06-10: WindowedConverseAllGammaClaim is the all-γ
+/// theorem with no residual (girth dichotomy + Pascal-Gram positivity), so the
+/// non-bipartite hopping graphs behind (a)/(c) are hard at every γ by theorem
+/// rather than by the earlier heuristic dissipator-commute reading; the
+/// Pure-Pure pair extension and the F110 Aspect B Y-inversion corollary follow
+/// as immediate consequences. The PROOF document is authoritative for the
+/// status breakdown.</para>
 ///
 /// <para>Implements <see cref="IZ2AxisClaim"/> with <see cref="Z2Axis.YParity"/>;
 /// <b>eighth member</b> of the YParity-axis Claim family (after F107
@@ -79,8 +78,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <see cref="F108Part2Pi2XEvenAlwaysPalindromic"/>, Part 3
 /// <see cref="F108Part3Pi2YEvenAlwaysPalindromic"/>, F109
 /// <see cref="MotherSoftYParityOnePurity"/>, F110
-/// <see cref="HardCellYInversionPattern"/>). Sibling to F110 (also
-/// Tier1Candidate): F110 records the empirical pattern at the cell-aggregate
+/// <see cref="HardCellYInversionPattern"/>). Sibling to F110 (both
+/// Tier1Derived since 2026-06-10): F110 records the empirical pattern at the cell-aggregate
 /// level (228:0 Y-inversion), F111 sharpens to the per-pair structural criterion
 /// whose corollary IS that pattern. Proof placeholder:
 /// <c>docs/proofs/PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md</c> (Task 7).</para></summary>
@@ -141,7 +140,7 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
     /// always admit the chiral K, hence bipartite hence soft. The F111 promotion
     /// gate is the hard-direction converse behind subclaims (a)/(c), not (d).</summary>
     public string SubclaimD_MixedMixedPairSoft =>
-        "Pair (Mixed, Mixed) H at k=N=4 in diagonal cell is F87-SOFT. CLOSED modulo M via PROOF_F103 §7.4 (2026-05-30): at most two flip generators at full support, always admitting the chiral K (bipartite ⟹ soft); the earlier operator-level search (Task 1 Paths 1-3) is dissolved. The remaining F111 promotion gate is the hard-direction converse behind subclaims (a)/(c).";
+        "Pair (Mixed, Mixed) H at k=N=4 in diagonal cell is F87-SOFT. CLOSED modulo M via PROOF_F103 §7.4 (2026-05-30): at most two flip generators at full support, always admitting the chiral K (bipartite ⟹ soft); the earlier operator-level search (Task 1 Paths 1-3) is dissolved. The F111 promotion gate was the hard-direction converse behind subclaims (a)/(c); it closed 2026-06-10 (WindowedConverseAllGammaClaim, no residual).";
 
     /// <summary>F87 Y-inversion corollary (parallel to F110's F87Corollary): every
     /// pure-D template T has y_par(T) = y_par(D) by construction (templates contain
@@ -258,8 +257,8 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
     public KleinEightCellClaim KleinEightParent { get; }
 
     public HardCellPureDTemplate(KleinEightCellClaim klein8)
-        : base("F111 hard-cell pure-D template rule: at k = N = 4 in diagonal Klein cell for dephase D, pair is F87-hard iff at least one term is a pure-D template. Tier1Candidate (empirical anchor F106 N = 4 k = 4 across 3 dephase letters; open subclaim Mixed+Mixed = soft closed-form); typed Cubic3 parent = KleinEightCellClaim.",
-               Tier.Tier1Candidate,
+        : base("F111 hard-cell pure-D template rule: at k = N = 4 in diagonal Klein cell for dephase D, pair is F87-hard iff at least one term is a pure-D template. Tier1Derived (promoted 2026-06-10: the hard-direction converse gate closed via WindowedConverseAllGammaClaim, Pascal-Gram positivity; Mixed+Mixed = soft closed modulo M via PROOF_F103 §7.4); typed Cubic3 parent = KleinEightCellClaim.",
+               Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F111 + " +
                "docs/proofs/PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md + " +
                "docs/proofs/PROOF_F110_HARD_CELL_Y_INVERSION.md + " +
@@ -273,14 +272,14 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
     }
 
     public override string DisplayName =>
-        "F111 hard-cell pure-D template rule (Tier1Candidate, F110 Aspect B corollary)";
+        "F111 hard-cell pure-D template rule (Tier1Derived, F110 Aspect B corollary)";
 
     public override string Summary =>
         $"Theorem: at k = N = 4 in diagonal Klein cell (D.BitA(), D.BitB()), pair is F87-hard ⟺ at least one term is a pure-D template " +
         $"(only D and I, no other non-I letters). Implies F110 Aspect B 228:0 Y-inversion as corollary. " +
         $"Per-cell decomposition: 36 Pure+Pure + 192 Pure+Mixed + 0 Mixed+Mixed = 228 hard. " +
         $"Empirical anchor: 1584 classifications across 3 dephase letters (N = 4, k = 4), all matching, zero exceptions. " +
-        $"Open subclaim (d): Mixed+Mixed = soft closed-form ({Tier.Label()})";
+        $"Promoted 2026-06-10: the hard-direction converse gate closed (WindowedConverseAllGammaClaim, no residual) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -302,12 +301,12 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
                 summary: "F102 (YParityIndependenceAtK3, Tier1Derived). F103 (F87Z2CubedRefinementN4K3, Tier1Derived). " +
                          "F105 (F87Z2CubedRefinementN5K3, Tier1Derived). F106 (F87Z2CubedRefinementN4K4, Tier1Derived). " +
                          "F107 (TrulyYParityZeroPurity, Tier1Derived). F109 (MotherSoftYParityOnePurity, Tier1Derived unconditional). " +
-                         "F110 (HardCellYInversionPattern, Tier1Candidate): empirical Y-inversion across k=3 and k=4. " +
-                         "F111 (THIS, Tier1Candidate): sharper per-pair structural rule than F110 Aspect B; F111 implies F110 Aspect B at k=N=4 as immediate corollary.");
+                         "F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10): Y-inversion across k=3 and k=4. " +
+                         "F111 (THIS, Tier1Derived since 2026-06-10): sharper per-pair structural rule than F110 Aspect B; F111 implies F110 Aspect B at k=N=4 as immediate corollary.");
             yield return new InspectableNode("Cross-axis dependencies (BitB and BitA): F108 Parts",
                 summary: "F108 Part 1+3 (BitB-axis): close F107/F109/F110 derivation via Π_5bilinear under Z and Y dephasing. F108 Part 2 (BitA-axis, BitA twin of Part 1): closes the X-deph branch via the Z↔X Π² mirror. F108 Parts are NOT YParity-axis sisters (per their Z2Axis declarations); they are the cross-axis closure mechanism that grounds F107/F109/F110/F111's diagonal-cell scope.");
-            yield return new InspectableNode("Open siblings",
-                summary: "Hard-direction converse behind subclaims (a)/(c), the F111 promotion gate: it reduces to the windowed converse residual now typed as WindowedConverseAllGammaClaim (RCPsiSquared.Diagnostics.F87, Tier1Candidate, proven modulo R-deg + R-sign; the two-reflection spine is Tier1Derived, the all-γ closure for genuine cycles gated on the two residuals). Subclaim (d) Mixed+Mixed = soft is CLOSED modulo M via PROOF_F103 §7.4. " +
+            yield return new InspectableNode("Promotion record (2026-06-10) + open siblings",
+                summary: "Hard-direction converse behind subclaims (a)/(c), the F111 promotion gate: it reduced to the windowed converse typed as WindowedConverseAllGammaClaim (RCPsiSquared.Diagnostics.F87), CLOSED 2026-06-10 with no residual (girth dichotomy retired R-deg, Pascal-Gram positivity resolved R-sign) ⟹ F111 Tier1Derived. Subclaim (d) Mixed+Mixed = soft is CLOSED modulo M via PROOF_F103 §7.4. " +
                          "F110 Aspect C (k=3 ratio 42:8): derived by the F103 §6 counting rule + §7 bipartite mechanism. " +
                          "Pure-D Template Rule at k > 4 or N > 4: empirically unverified. " +
                          "Hardware QPU confirmation at k ≥ 3: open (no F87 QPU confirmations beyond Marrakesh k = 2).");
