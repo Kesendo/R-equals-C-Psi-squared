@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using RCPsiSquared.Core.Pauli;
 
 namespace RCPsiSquared.Diagnostics.F87;
 
@@ -161,6 +162,92 @@ public static class WindowedObstructionScan
     /// is fixed by the X/Y flip structure alone (the Y-vs-X phase and the I-vs-Z choice do not move it).</summary>
     public static bool IsHardPair(ulong p1, ulong p2) =>
         ValuationAtOnePlusX(p1) != ValuationAtOnePlusX(p2);
+
+    // ---- GF(2)[x] syzygy production criterion (the girth-ladder deg-1 channel; mirror of
+    // simulations/f87_girth_dichotomy.py Block 5: _gf2_mul, _is_monomial, syzygy_B). Beyond the
+    // X/Y mask p (bit j ⟺ letter_j ∈ {X, Y}) each window template carries a second mask q
+    // (bit j ⟺ letter_j ∈ {Y, Z}: the per-letter bitB that CellTerms computes and discards, which
+    // is why the channel test below takes letter templates rather than CellTerm). The single-site-Z
+    // production channel of a windowed pair is the syzygy B of (p1, p2) applied to (q1, q2):
+    // B monomial (exactly one bit) ⟺ the channel exists at the mask level.
+
+    /// <summary>GF(2)[x] (carry-less) product of two polynomials.</summary>
+    public static ulong PolyMul(ulong a, ulong b)
+    {
+        if (a != 0 && b != 0 && PolyDegree(a) + PolyDegree(b) > 63)
+            throw new ArgumentOutOfRangeException(nameof(b), "GF(2)[x] product degree exceeds 63");
+        ulong r = 0;
+        while (b != 0)
+        {
+            if ((b & 1) != 0) r ^= a;
+            a <<= 1;
+            b >>= 1;
+        }
+        return r;
+    }
+
+    /// <summary>True iff p is a GF(2)[x] monomial x^j (exactly one bit set).</summary>
+    public static bool IsMonomial(ulong p) => p != 0 && (p & (p - 1)) == 0;
+
+    /// <summary>The syzygy B-polynomial of a windowed same-y-parity diagonal-cell pair with
+    /// template mask polynomials (p1, q1) and (p2, q2): B = (p2/g)·q1 + (p1/g)·q2 over GF(2)[x],
+    /// g = gcd(p1, p2). B MONOMIAL ⟺ the single-site-Z production channel exists at the mask level
+    /// (every k=4 deg-1 pure cycle has B monomial; the K3 triangle's B = x + x² + x³ is not).
+    /// Soft pairs (equal (1+x)-valuations) have B(1) = 0, i.e. even popcount, never monomial, so a
+    /// monomial B already implies <see cref="IsHardPair"/> (at saturated windows; a small chain can
+    /// still be window-starved, e.g. IXZX+XIZX is open yet soft below N = 6). Degenerate faces:
+    /// for p1 = 0 (term 1 diagonal) the formula reduces to B = q1, the single-site-Z lift channel
+    /// (production ⟺ q1 monomial), and symmetrically to q2 for p2 = 0; the fully diagonal pair
+    /// p1 = p2 = 0 has no syzygy and throws (the Python anchor's syzygy_B returns None there), its
+    /// deg-1 question being the q-monomial lift reading directly.</summary>
+    public static ulong SyzygyB(ulong p1, ulong q1, ulong p2, ulong q2)
+    {
+        if (p1 == 0 && p2 == 0)
+            throw new ArgumentException(
+                "fully diagonal pair (p1 = p2 = 0): B is undefined; read the q-masks directly " +
+                "(single-site-Z lift channel ⟺ a q mask is monomial)");
+        ulong g = PolyGcd(p1, p2);
+        return PolyMul(PolyDivQuotient(p2, g), q1) ^ PolyMul(PolyDivQuotient(p1, g), q2);
+    }
+
+    /// <summary>The two GF(2)[x] mask polynomials and the #Y parity of a k-letter window template:
+    /// p (bit j ⟺ letter_j ∈ {X, Y}, the X/Y window-mask <see cref="CellTerms"/> exposes) and
+    /// q (bit j ⟺ letter_j ∈ {Y, Z}, the bitB-side mask the syzygy needs).</summary>
+    public static (ulong P, ulong Q, int YParity) TemplateMasks(IReadOnlyList<PauliLetter> template)
+    {
+        if (template.Count < 1 || template.Count > 30)
+            throw new ArgumentOutOfRangeException(nameof(template), "template length must be 1..30");
+        ulong p = 0, q = 0;
+        int ny = 0;
+        for (int j = 0; j < template.Count; j++)
+        {
+            if (template[j].BitA() == 1) p |= 1UL << j;
+            if (template[j].BitB() == 1) q |= 1UL << j;
+            if (template[j] == PauliLetter.Y) ny++;
+        }
+        return (p, q, ny & 1);
+    }
+
+    /// <summary>The girth-ladder deg-1 channel test for a windowed Z-dephasing diagonal-cell pair
+    /// of k-letter window templates: TRUE iff the pair is y_par-homogeneous, that parity is EVEN,
+    /// and <see cref="SyzygyB"/> is a monomial. On the y_par = 0 face an open channel converts to
+    /// an actual deg-1 firing (m* = 2ℓ+1, positive γ¹ monomial) once the chain offers enough
+    /// windows: at k = 4 the 28 open pairs split into the 20 deg-1 pure cycles of the girth
+    /// dichotomy (first representative IXXZ+XIXZ, p₇ = 573440·γ) plus 8 window-starved pairs that
+    /// fire at larger N (IXZX+XIZX needs N ≥ 6). On the y_par = 1 face word reversal is a
+    /// sign-reversing involution that kills every odd girth moment t_j regardless of production
+    /// (pinned example IIXY+ZXZY: B monomial yet all t_j = 0, fires at γ⁵), so the verdict there
+    /// is FALSE outright. Like <see cref="IsHardPair"/> this is a pure mask statement: no
+    /// Hamiltonian, no Liouvillian. The fully diagonal pair throws via <see cref="SyzygyB"/>.</summary>
+    public static bool Deg1ChannelOpen(IReadOnlyList<PauliLetter> template1, IReadOnlyList<PauliLetter> template2)
+    {
+        if (template1.Count != template2.Count)
+            throw new ArgumentException("window templates of a pair must have the same length");
+        var (p1, q1, y1) = TemplateMasks(template1);
+        var (p2, q2, y2) = TemplateMasks(template2);
+        if (y1 != y2 || y1 != 0) return false;
+        return IsMonomial(SyzygyB(p1, q1, p2, q2));
+    }
 
     /// <summary>Scan all y_par-homogeneous diagonal-cell Mixed pairs at body count k on an N-site
     /// chain (k &lt; N is the windowed regime), classifying each by its minimal odd obstruction.</summary>
