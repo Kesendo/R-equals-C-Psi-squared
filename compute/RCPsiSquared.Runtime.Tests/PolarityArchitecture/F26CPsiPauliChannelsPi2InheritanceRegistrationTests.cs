@@ -11,6 +11,8 @@ public class F26CPsiPauliChannelsPi2InheritanceRegistrationTests
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
+            // F25's rung-2 edge (2026-06-10) requires AbsorptionTheoremClaim.
+            .RegisterAbsorptionTheoremClaim()
             .RegisterF25CPsiBellPlusPi2Inheritance();
 
     [Fact]
@@ -45,6 +47,8 @@ public class F26CPsiPauliChannelsPi2InheritanceRegistrationTests
             .Select(c => c.GetType()).ToHashSet();
 
         Assert.Contains(typeof(F25CPsiBellPlusPi2Inheritance), ancestors);
+        // Transitive via F25's rung-2 edge (2026-06-10).
+        Assert.Contains(typeof(AbsorptionTheoremClaim), ancestors);
     }
 
     [Fact]

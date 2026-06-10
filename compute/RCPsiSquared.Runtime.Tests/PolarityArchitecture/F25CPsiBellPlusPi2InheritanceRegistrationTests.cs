@@ -10,7 +10,9 @@ public class F25CPsiBellPlusPi2InheritanceRegistrationTests
     private static ClaimRegistryBuilder BuildBaseRegistry() =>
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
-            .RegisterPi2DyadicLadder();
+            .RegisterPi2DyadicLadder()
+            // F25's rung-2 edge (2026-06-10) requires AbsorptionTheoremClaim.
+            .RegisterAbsorptionTheoremClaim();
 
     [Fact]
     public void RegisterF25_AddsClaim()
@@ -44,6 +46,9 @@ public class F25CPsiBellPlusPi2InheritanceRegistrationTests
             .Select(c => c.GetType()).ToHashSet();
 
         Assert.Contains(typeof(Pi2DyadicLadderClaim), ancestors);
+        // Rung-2 edge (2026-06-10): the Bell+ rate 4γ is two absorption quanta,
+        // per-site −2(γ₁+γ₂) exact.
+        Assert.Contains(typeof(AbsorptionTheoremClaim), ancestors);
     }
 
     [Fact]

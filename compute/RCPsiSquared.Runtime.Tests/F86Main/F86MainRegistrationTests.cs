@@ -1,20 +1,32 @@
 using RCPsiSquared.Core.F86;
 using RCPsiSquared.Core.Knowledge;
+using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Runtime.F86Main;
 using RCPsiSquared.Runtime.ObjectManager;
+using RCPsiSquared.Runtime.PolarityArchitecture;
 
 namespace RCPsiSquared.Runtime.Tests.F86Main;
 
 public class F86MainRegistrationTests
 {
+    // TPeakLaw declares an AbsorptionTheoremClaim parent (rung-2 edge, 2026-06-10),
+    // so standalone builders must carry the absorption chain: Pi2Family (9) +
+    // Pi2DyadicLadder (1) + AbsorptionTheoremClaim (1).
+    private static ClaimRegistryBuilder BuildBaseRegistry(double gammaZero, double gEff) =>
+        new ClaimRegistryBuilder()
+            .RegisterPi2Family()
+            .RegisterPi2DyadicLadder()
+            .RegisterAbsorptionTheoremClaim()
+            .RegisterF86Main(gammaZero, gEff);
+
     [Fact]
     public void RegisterF86Main_BuildsFiveClaims()
     {
-        var registry = new ClaimRegistryBuilder()
-            .RegisterF86Main(gammaZero: 0.05, gEff: 1.0)
+        var registry = BuildBaseRegistry(gammaZero: 0.05, gEff: 1.0)
             .Build();
 
-        Assert.Equal(5, registry.All().Count());
+        // 11 absorption-chain claims (see BuildBaseRegistry) + the five F86 claims.
+        Assert.Equal(16, registry.All().Count());
         Assert.True(registry.Contains<ChiralAiiiClassification>());
         Assert.True(registry.Contains<DressedModeWeightClaim>());
         Assert.True(registry.Contains<F71MirrorInvariance>());
@@ -23,10 +35,23 @@ public class F86MainRegistrationTests
     }
 
     [Fact]
+    public void RegisterF86Main_TPeakLawAncestorsContainAbsorptionTheorem()
+    {
+        // The rung-2 edge (2026-06-10): t_peak's four is 2γ·2, the Absorption
+        // Theorem's second rung, not the discriminant d².
+        var registry = BuildBaseRegistry(gammaZero: 0.05, gEff: 1.0)
+            .Build();
+
+        var ancestors = registry.AncestorsOf<TPeakLaw>()
+            .Select(c => c.GetType()).ToHashSet();
+
+        Assert.Contains(typeof(AbsorptionTheoremClaim), ancestors);
+    }
+
+    [Fact]
     public void RegisterF86Main_TierMix_FourTier1DerivedPlusOneCandidate()
     {
-        var registry = new ClaimRegistryBuilder()
-            .RegisterF86Main(gammaZero: 0.05, gEff: 1.0)
+        var registry = BuildBaseRegistry(gammaZero: 0.05, gEff: 1.0)
             .Build();
 
         // Four of five claims are Tier1Derived; DressedModeWeightClaim is
@@ -43,8 +68,7 @@ public class F86MainRegistrationTests
     [Fact]
     public void RegisterF86Main_TPeakLaw_UsesProvidedGamma()
     {
-        var registry = new ClaimRegistryBuilder()
-            .RegisterF86Main(gammaZero: 0.1, gEff: 1.0)
+        var registry = BuildBaseRegistry(gammaZero: 0.1, gEff: 1.0)
             .Build();
 
         var tpeak = registry.Get<TPeakLaw>();
@@ -55,8 +79,7 @@ public class F86MainRegistrationTests
     [Fact]
     public void RegisterF86Main_QEpLaw_UsesProvidedGEff()
     {
-        var registry = new ClaimRegistryBuilder()
-            .RegisterF86Main(gammaZero: 0.05, gEff: 4.0)
+        var registry = BuildBaseRegistry(gammaZero: 0.05, gEff: 4.0)
             .Build();
 
         var qep = registry.Get<QEpLaw>();

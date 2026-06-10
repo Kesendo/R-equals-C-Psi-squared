@@ -11,6 +11,8 @@ public class F57DwellTimeQuarterPi2InheritanceRegistrationTests
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
+            // F25's rung-2 edge (2026-06-10) requires AbsorptionTheoremClaim.
+            .RegisterAbsorptionTheoremClaim()
             .RegisterF25CPsiBellPlusPi2Inheritance();
 
     [Fact]
@@ -46,6 +48,8 @@ public class F57DwellTimeQuarterPi2InheritanceRegistrationTests
 
         Assert.Contains(typeof(Pi2DyadicLadderClaim), ancestors);
         Assert.Contains(typeof(QuarterAsBilinearMaxvalClaim), ancestors);
+        // Transitive via F25's rung-2 edge (2026-06-10).
+        Assert.Contains(typeof(AbsorptionTheoremClaim), ancestors);
     }
 
     [Fact]

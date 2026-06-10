@@ -16,6 +16,8 @@ public class F86QEpPi2InheritanceRegistrationTests
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
+            // TPeakLaw's rung-2 edge (2026-06-10) requires AbsorptionTheoremClaim.
+            .RegisterAbsorptionTheoremClaim()
             .RegisterF86Main(GammaZero, GEff);
 
     [Fact]
@@ -62,6 +64,9 @@ public class F86QEpPi2InheritanceRegistrationTests
         Assert.Throws<InvariantViolationException>(() =>
             new ClaimRegistryBuilder()
                 .RegisterPi2Family()
+                // AbsorptionTheoremClaim registered (TPeakLaw's rung-2 edge, 2026-06-10)
+                // so the only missing piece stays the ladder.
+                .RegisterAbsorptionTheoremClaim()
                 .RegisterF86Main(GammaZero, GEff)
                 // Missing: RegisterPi2DyadicLadder
                 .RegisterF86QEpPi2Inheritance()

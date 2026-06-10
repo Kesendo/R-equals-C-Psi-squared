@@ -16,6 +16,8 @@ public class F86TPeakPi2InheritanceRegistrationTests
         new ClaimRegistryBuilder()
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
+            // TPeakLaw's rung-2 edge (2026-06-10) requires AbsorptionTheoremClaim.
+            .RegisterAbsorptionTheoremClaim()
             .RegisterF86Main(GammaZero, GEff);
 
     [Fact]
@@ -40,6 +42,9 @@ public class F86TPeakPi2InheritanceRegistrationTests
 
         Assert.Contains(typeof(TPeakLaw), ancestors);
         Assert.Contains(typeof(Pi2DyadicLadderClaim), ancestors);
+        // Transitive via TPeakLaw's rung-2 edge (2026-06-10): the t_peak four
+        // is two absorption quanta.
+        Assert.Contains(typeof(AbsorptionTheoremClaim), ancestors);
     }
 
     [Fact]

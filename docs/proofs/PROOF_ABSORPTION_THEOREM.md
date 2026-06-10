@@ -296,6 +296,28 @@ theorem conjugated through the Klein-V₄ dephase-swap group
 ([`Pi2KleinV4DephaseSwapGroup`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KleinV4DephaseSwapGroup.cs)):
 light is always "the letters the dephasing letter refuses to commute with."
 
+**Remark (two different fours, 2026-06-10).** The repository's recurring 4γ₀
+has two genealogies, and only one of them lives on this ladder. The **rung-2
+four** is 2γ·2: two absorption quanta, the second rung of the §6 ladder,
+equivalently the trace-half/centre of the palindrome (the midpoint of the
+HD=(1,3) channel pair, where HD is the Hamming distance of the coherence:
+(2γ+6γ)/2 = 4γ). Every *dynamical* 4γ₀ in the repository is this one object:
+t_peak = 1/(4γ₀) ([`TPeakLaw`](../../compute/RCPsiSquared.Core/F86/TPeakLaw.cs)),
+the clock's Takt pin 4γ₀, the L_eff mirror axis −4γ₀, the approach-family
+carrier e^{−4γt}, and the F25 Bell+ rate. Verified per-site today: |00⟩⟨11| is
+an exact N=2 eigenmode of the XY-chain Liouvillian with rate −2(γ₁+γ₂),
+residual 0.0
+([`simulations/at_rung2_per_site_split.py`](../../simulations/at_rung2_per_site_split.py)),
+so the dynamical four splits into two per-site absorption quanta. The
+**discriminant four** is a₋₁ = d² on the Pi2 dyadic ladder: the half-gap
+*squared* in the EP discriminant 4γ₀², i.e. ((6γ−2γ)/2)² = (2γ)², a quantum
+squared rather than two quanta. The two fours coincide only at the HD=(1,3)
+pair, glued by the dyadic root d² − 2d = 0 (d² = 2d exactly because d = 2).
+Counterfactual HD=(1,5) pair: centre-based (2γ+10γ)/2 = 6γ vs
+discriminant-based ((10γ−2γ)/2)² = 16γ². Red-herring discipline: same number,
+two genealogies; cite the rung-2 four for rates and carriers, the discriminant
+four for squared half-gaps, never interchangeably.
+
 ---
 
 ## 3. Numerical Verification

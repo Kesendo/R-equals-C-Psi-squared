@@ -8,11 +8,19 @@ namespace RCPsiSquared.Runtime.Tests.PolarityArchitecture;
 
 public class F86LocalGlobalEpLinkRegistrationTests
 {
+    // TPeakLaw's rung-2 edge (2026-06-10) requires the absorption chain under
+    // RegisterF86Main: Pi2Family + Pi2DyadicLadder + AbsorptionTheoremClaim.
+    private static ClaimRegistryBuilder BuildBaseRegistry() =>
+        new ClaimRegistryBuilder()
+            .RegisterPi2Family()
+            .RegisterPi2DyadicLadder()
+            .RegisterAbsorptionTheoremClaim()
+            .RegisterF86Main(gammaZero: 0.05, gEff: 1.74);
+
     [Fact]
     public void RegisterF86LocalGlobalEpLink_AddsClaim()
     {
-        var registry = new ClaimRegistryBuilder()
-            .RegisterF86Main(gammaZero: 0.05, gEff: 1.74)
+        var registry = BuildBaseRegistry()
             .RegisterF86LocalGlobalEpLink()
             .Build();
 
@@ -22,8 +30,7 @@ public class F86LocalGlobalEpLinkRegistrationTests
     [Fact]
     public void RegisterF86LocalGlobalEpLink_AncestorsContainsChiralAiii()
     {
-        var registry = new ClaimRegistryBuilder()
-            .RegisterF86Main(gammaZero: 0.05, gEff: 1.74)
+        var registry = BuildBaseRegistry()
             .RegisterF86LocalGlobalEpLink()
             .Build();
 
@@ -35,8 +42,7 @@ public class F86LocalGlobalEpLinkRegistrationTests
     [Fact]
     public void RegisterF86LocalGlobalEpLink_TierIsTier2Verified()
     {
-        var registry = new ClaimRegistryBuilder()
-            .RegisterF86Main(gammaZero: 0.05, gEff: 1.74)
+        var registry = BuildBaseRegistry()
             .RegisterF86LocalGlobalEpLink()
             .Build();
 
@@ -46,8 +52,7 @@ public class F86LocalGlobalEpLinkRegistrationTests
     [Fact]
     public void RegisterF86LocalGlobalEpLink_AnchorReferencesProofF86Qpeak_AndFragileBridge()
     {
-        var registry = new ClaimRegistryBuilder()
-            .RegisterF86Main(gammaZero: 0.05, gEff: 1.74)
+        var registry = BuildBaseRegistry()
             .RegisterF86LocalGlobalEpLink()
             .Build();
 
