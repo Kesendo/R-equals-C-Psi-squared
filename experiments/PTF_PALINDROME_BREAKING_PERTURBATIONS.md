@@ -152,6 +152,24 @@ honest note's "higher order" also gains a well-posed form: the leak channel's le
 coefficient scales as ε²·γ, so the question "does the closure residual track the m = 3 channel"
 is a scaling probe rather than a gesture (run as Edge 2 of the PTF fresh-eyes chain).
 
+**Edge 2 result (same day): the leak hypothesis is refuted, and the residual gets a cleaner
+home.** The scaling probe ([`simulations/ptf_leak_scaling.py`](../simulations/ptf_leak_scaling.py),
+N = 5 and 6, ε ∈ [0.005, 0.4], γ ∈ {0.025, 0.05, 0.1}, the committed Phase-4/5 machinery
+reproduced to 0.00e+00) finds the small-ε closure residual is **first order in ε** with a nearly
+γ-independent coefficient: S ≈ k·ε, k ≈ −0.58…−0.61 across a 4× range of γ (ε-exponent
+0.88-0.99 at R² ≥ 0.997; the ε²γ collapse table varies by a factor ~50 with a sign change, no
+collapse; every cell far above the ~1e-5 fit-noise floor). The spectral-asymmetry channel is
+second order in ε and first order in γ, so the residual does not ride it: the wander is not the
+palindrome break leaking in. What it is instead is already in the repo's own ledger: each site's
+ln α_i responds at first order with a stable site-dependent profile (site-0 field:
+−0.63, −0.48, −0.19, +0.67, +0.05), and Σ ln α is that profile's imperfect cancellation, the
+same first-order non-closure [EQ-014](../review/EQ014_FINDINGS.md) established for the J-defect,
+now seen for a Z-field perturbation. Its γ-blindness is the fingerprint: a Hamiltonian-side
+first-order effect, not a dissipation-side one. The sign is site-profile-dependent (center-site
+field flips it), and the large-ε wander region (ε ≳ 0.2, the O(0.5) peak) is higher-order and
+stays unclassified. The load-bearing story is unchanged, closure ⟸ U(1); the honest note's
+mystery is resolved into EQ-014's known physics.
+
 ## What this is and is not
 
 It is a sharpening of the PTF doc's own protection #1 vs #2, using the framework's existing
