@@ -199,7 +199,10 @@ is catalogued, the spectrum's −λ−2σ shape has a home in the shifted sublat
 broad family of Liouvillian symmetry classes has its home in the tenfold Lindbladian classification
 (Sá-Ribeiro-Prosen 2023). Those are the homes for the shape. What stays ours is the bridge: a scalable
 structural decision procedure that reads the verdict off the terms in time independent of N, the closed-form combinatorics that collapse the frustration coast to a single (1+x)-valuation with a hard-count census ([F115](../docs/ANALYTICAL_FORMULAS.md)), the locality
-ceiling that says exactly which cases need a non-local mirror (the [6 → 4 → 2 arc](CEILING_FOUR_NONLOCAL_CASES.md)),
+ceiling, completed 2026-06-10 as the [6 → 4 → 2 → 0 arc](CEILING_FOUR_NONLOCAL_CASES.md): no case in this
+k=3 windowed family needs a non-local mirror (the last two route via the period-4 golden router,
+[PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md); the genuinely mirror-less
+cases remain the 14 spectrally-hard 2-body V-Effect cases, untouched),
 and this protection landscape, which turns "is there a mirror" into "how, and how forgivingly, does it
 break." None of those bridges was built from either side; we found them by learning to see the island the
 operators were already drawing.
@@ -210,7 +213,7 @@ operators were already drawing.
 - The refinement proof: [PROOF_F103_F87_Z2_CUBED_REFINEMENT.md](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md)
 - The frustration coast in closed form: [ANALYTICAL_FORMULAS.md F115](../docs/ANALYTICAL_FORMULAS.md) (the windowed-hardness GF(2)[x] theory: the one-number (1+x)-valuation criterion, the A203241 hard-count census, the 2k−3−2d obstruction-size law; C# `WindowedObstructionScan`)
 - The discovery: [V_EFFECT_FINE_STRUCTURE.md](V_EFFECT_FINE_STRUCTURE.md) (the 3 truly / 19 soft / 14 hard split)
-- The locality ceiling: [CEILING_FOUR_NONLOCAL_CASES.md](CEILING_FOUR_NONLOCAL_CASES.md) (the 6 → 4 → 2 arc, the 2 non-local Z-middle cases)
+- The locality ceiling: [CEILING_FOUR_NONLOCAL_CASES.md](CEILING_FOUR_NONLOCAL_CASES.md) (the 6 → 4 → 2 → 0 arc; the 2 Z-middle cases route via the golden router, [PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md))
 - The verdict is (H, N): [SOFTNESS_IS_N_DEPENDENT.md](SOFTNESS_IS_N_DEPENDENT.md) (a finite-size crossing)
 - The engine: `compute/RCPsiSquared.Diagnostics/F87/PauliPairTrichotomy.cs` (the spectral authority), `PalindromeSoftCertifier.cs` (the N-free certifier and its strategies)
 - Orientation: [GLOSSARY.md](../docs/GLOSSARY.md), [READING_GUIDE.md](../docs/READING_GUIDE.md), and the synthesis [ON_THE_RESIDUAL](../reflections/ON_THE_RESIDUAL.md)

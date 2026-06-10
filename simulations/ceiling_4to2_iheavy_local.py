@@ -21,7 +21,9 @@ spectrum {0, 0, −2γ ± 2i} has no partner for the 0 eigenvalue about −γ. T
 only transverse fields and excludes Z; the script confirms the Z exclusion as a contrast.
 
 Self-validating: asserts the two I-heavy cases palindromize below 1e-12 at N=4,5,6 (LOCAL), the Z-middle
-pair stays bounded away (non-local, the genuine ceiling), and the single-site Z field is hard.
+pair lies outside this single-site-field family (weight-3; it resists per-term routing and routes instead
+via the period-4 golden router, docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md), and the single-site Z field
+is hard.
 Run: python simulations/ceiling_4to2_iheavy_local.py
 """
 from __future__ import annotations
@@ -180,9 +182,9 @@ def is_palindromic(ev, sigma, tol=1e-9):
     return True
 
 
-# The Z-middle pair: the genuine non-local ceiling (no per-site product Q at all). Verified bounded away
-# from a palindrome by ceiling_6to4_verification.py; reproduced here for contrast via the same construction
-# (the single-site-field router does not apply: these are weight-3, not weight-1).
+# The Z-middle pair: resists the UNIFORM family (ceiling_6to4_verification.py) and per-term routing, but
+# is LOCAL via the period-4 golden router (docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md). Kept here for
+# contrast: the single-site-field router does not apply (these are weight-3, not weight-1).
 ZMIDDLE = {"XZX+XZY+YZX": [(1, 3, 1), (1, 3, 2), (2, 3, 1)],
            "YZY+XZY+YZX": [(2, 3, 2), (1, 3, 2), (2, 3, 1)]}
 
@@ -210,15 +212,18 @@ def main():
         print(f"  {name}: single-site-field Q residual  N=4/5/6  {r4:.1e}/{r5:.1e}/{r6:.1e}", flush=True)
         assert r4 < 1e-12 and r5 < 1e-12 and r6 < 1e-12, f"{name} must palindromize (LOCAL via single-site fields)"
 
-    print("\nTHE 2 Z-MIDDLE CASES, THE GENUINE NON-LOCAL CEILING (weight-3, not single-site):", flush=True)
+    print("\nTHE 2 Z-MIDDLE CASES, OUTSIDE THIS STRATEGY (weight-3, not single-site; local via the golden"
+          " router):", flush=True)
     for name, terms in ZMIDDLE.items():
         # The single-site-field router does not apply (terms are weight-3). Confirm the gate rejects them:
         # there is no per-site transverse-field decomposition, so no Q = ⊗ M_i from this construction.
         applies = all(sum(1 for x in t if x != 0) == 1 and any(x in (1, 2) for x in t) for t in terms)
-        print(f"  {name}: single-site-field strategy applies: {applies}  => declined (the all-Q problem is banked)", flush=True)
+        print(f"  {name}: single-site-field strategy applies: {applies}  => declined here (routes via the"
+              " golden router, PROOF_CEILING_GOLDEN_ROUTER)", flush=True)
         assert not applies, f"{name} is not a single-site-field set"
 
-    print("\nOK: the 2 I-heavy are LOCAL (single-site fields), the 2 Z-middle stay non-local. 4->2 confirmed.", flush=True)
+    print("\nOK: the 2 I-heavy are LOCAL (single-site fields); the 2 Z-middle are outside this strategy"
+          " (golden-router local). 4->2 confirmed.", flush=True)
 
 
 if __name__ == "__main__":

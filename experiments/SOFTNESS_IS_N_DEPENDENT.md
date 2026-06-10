@@ -81,9 +81,14 @@ boundary where N-stable softness ends for the lit family.
 ## Where the genuine higher-body soft cases live
 
 Not every k≥3 soft case is a finite-size accident. XZX+XZY+YZX pairs to machine precision at N=4, 5,
-and 6 alike, genuinely and stably soft. The difference is the Z. The dark channel routes a hidden Q
-(the uniform and alternating families of the [Klein routing](TWO_TERM_PALINDROME_KLEIN_ROUTING.md)), a
-soft mechanism distinct from the lit chiral-K colouring. So the soft k≥3 world splits in two: the
+and 6 alike, genuinely and stably soft. The difference is the Z. The dark channel does route a hidden Q,
+but not the one this note first guessed (corrected 2026-06-10): the Z-middle case routes no Klein-family
+Q, neither the uniform nor the alternating families of the
+[Klein routing](TWO_TERM_PALINDROME_KLEIN_ROUTING.md) reach it (the discrete candidates sit off the
+golden locus). Its actual router is the period-4 golden product in the frame a = φX+Y, b = X−φY
+([PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md)), a
+soft mechanism distinct from the lit chiral-K colouring and exact at every N ≥ 3, a single window already
+suffices, which is exactly the length-independence seen here. So the soft k≥3 world splits in two: the
 fully-lit cases that are soft only by the grace of a short chain, and the Z-routed cases that are soft
 for a real, length-independent reason. The first is a mirage; the second is the honest frontier for
 extending the certifier.

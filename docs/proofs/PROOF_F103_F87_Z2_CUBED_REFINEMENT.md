@@ -856,9 +856,13 @@ through its shared uniform Q-family (P4). The certifier carries both, the diagon
 colourings) and the non-diagonal routing, so the 2-body soft cases are covered. A derived
 per-term k-site extension of the routing (Stufe B) then reaches the LOCAL k-body routed-soft cases too (one
 per-site Q palindromizing every term, checked on 4^k of the term's span, Liouvillian-free and
-N-independent), and the ceiling recedes further to the 2 NON-LOCAL Z-middle cases (XZX+XZY+YZX,
-YZY+XZY+YZX), which admit no per-site product Q at all (the continuous-periodic family is the explicit open
-frontier; the all-Q obstruction is banked). Two cases once counted here, XIX+XIY+YIX and YIY+XIY+YIX, are
+N-independent), and the ceiling recedes further to the 2 Z-middle cases (XZX+XZY+YZX,
+YZY+XZY+YZX), and then closes to ZERO (2026-06-10): the continuous-periodic family, once named as the
+explicit open frontier, resolved constructively by the period-4 golden router, a per-site class-swap
+product in the golden frame a = φX+Y, b = X−φY with W L W⁻¹ = −L − 2σ exact at every N ≥ 3
+([PROOF_CEILING_GOLDEN_ROUTER](PROOF_CEILING_GOLDEN_ROUTER.md), F116), and the banked all-Q obstruction
+answered negatively (no obstruction; the uniform and period-2 emptiness are now theorems, and the per-term
+lens misses the router because the cancellation is window-summed, cross-template). Two cases once counted here, XIX+XIY+YIX and YIY+XIY+YIX, are
 in fact LOCAL: a continuous-uniform per-site Q palindromizes them (verified N=3,4,5), it simply routes via
 continuous-sum cancellation rather than per term. Two further cases once counted here, the I-heavy
 IXI+IIY+YII and IYI+IIX+XII, are also LOCAL, by the single-site transverse-field lemma below. See
@@ -867,9 +871,11 @@ flip (Δn = ±1) gives the edge-difference set {1, 2}, whose ℤ-Cayley graph is
 excitation colourings fail and the Hamiltonian can be hard. (Verified:
 [`_f87_door2_colouring_family.py`](../../simulations/_f87_door2_colouring_family.py) and, for (a)'s
 ANF-degree, [`_f87_door2_residual_structure.py`](../../simulations/_f87_door2_residual_structure.py); the
-former (b) colouring-ceiling XX + XZ is now certified by the routing strategy, and the 2 non-local Z-middle
-ceiling cases (XZX+XZY+YZX, YZY+XZY+YZX) are pinned in C# by
-`PalindromeSoftCertifierCeilingTests` against the `PauliPairTrichotomy` authority; the certifier is
+former (b) colouring-ceiling XX + XZ is now certified by the routing strategy, and the 2 Z-middle
+cases (XZX+XZY+YZX, YZY+XZY+YZX) are pinned in C# by
+`PalindromeSoftCertifierCeilingTests` against the `PauliPairTrichotomy` authority; their NotCertified
+verdict is a per-term-lens coverage gap, not non-locality, per
+[PROOF_CEILING_GOLDEN_ROUTER](PROOF_CEILING_GOLDEN_ROUTER.md); the certifier is
 `PalindromeSoftCertifier`, whose `SingleSiteField` strategy certifies the I-heavy pair.)
 
 **The single-site transverse-field lemma (the 4 → 2 step).** The two I-heavy cases IXI+IIY+YII and
