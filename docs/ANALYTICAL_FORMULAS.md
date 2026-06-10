@@ -3767,10 +3767,26 @@ remains the historical numerical validation.
 - F63: [L, Π²] = 0 for Z-dephasing; foundational input.
 - F108 Part 1/2/3: the bilinear set {XX, YY, YZ, ZY, ZZ} F108 palindromizes
   is exactly the bit_b = 0 (Π²-Z-even) family.
-- F87 dissipator-resonance trichotomy: orthogonal axis. F87 lives in M's
-  spectrum-palindrome structure; F112 lives in M_anti's Π +i/−i split.
-  Empirically orthogonal across all three F87 classes (truly, soft, hard)
-  under standard Z-deph (`_polarity_probe_f87_connection.py`).
+- F87 dissipator-resonance trichotomy: orthogonal axis, derived 2026-06-10
+  (previously empirical via `_polarity_probe_f87_connection.py`). F87 lives
+  in M's spectrum-palindrome structure; F112 lives in M_anti's Π +i/−i
+  split. Three-part derivation: (a) scope inclusion (every F87 input,
+  Hermitian Pauli H + pure Z-deph with single-Pauli c = Z_l, satisfies
+  F112's hypotheses, so the asymmetry is identically zero on F87's entire
+  domain, all three classes; asym = 0.0 exact float zero at N = 3, 4);
+  (b) mechanism separation (on bit_b-odd H, the diagonal Klein cell, the
+  dagger involution IS the windowed converse's first reflection,
+  M_rec† = 𝓕 M_rec 𝓕 with 𝓕 = X^⊗N ⊗ X^⊗N, diff 0.00e+00; F112 reads it
+  at degree 2 via Frobenius norms of Π-eigenprojections, F87 hardness at
+  odd degree via the second reflection R + unsigned girth); (c) scoped
+  one-way F113 bridge on the σ⁻/σ⁺ family: both functionals read the shared
+  moment t₁^(l) = Tr(Z_l H) = 2^N c_l = 2^(N−1) ω_l, F113 linearly
+  (asym = 2^N · Σ_l t₁^(l) · (γ_pump,l − γ_T1,l); machine-precision match
+  |diff| = 7.1e-15 at N=3 after the ω_l = 2c_l + σ⁻-lowering convention
+  reconciliation), the girth ladder's ℓ=1 face quadratically
+  (p₃ = 6γ · Σ_l (t₁^(l))²), so balance-broken ⟹ F87-hard, one-way only.
+  See the dated section in the proof; committed verifier
+  `simulations/f112_f87_orthogonality.py`.
 
 **Empirical anchor:** 14 probes (`simulations/_polarity_probe_*.py`,
 `_polarity_proof_verify.py`, `_polarity_step5_stress.py`) cover
@@ -3782,10 +3798,13 @@ bit_b-homogeneous c), and direct Π-eigenspace L_H projection across 30
 random H (10 Hermitian + 10 non-Hermitian Pauli + 10 random complex matrix)
 at N = 2, 3 (14, all bit-exact).
 
-**Open:** structural derivation of F87 ↔ F112 orthogonality as two projections
-of the same bit_b Z₂-grading; connection to F104 / F105 / F106 (F87 Z₂³-cubed
-refinements). (Step 5 extension to non-Hermitian H closed Welle 11, 2026-05-27;
-see `docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md`.)
+**Open:** connection to F104 / F105 / F106 (F87 Z₂³-cubed refinements).
+(Step 5 extension to non-Hermitian H closed Welle 11, 2026-05-27; see
+`docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md`. Structural derivation
+of the F87 ↔ F112 orthogonality closed 2026-06-10: scope inclusion +
+mechanism separation + the scoped F113 one-way bridge, dated section "The
+F87 orthogonality, derived (2026-06-10)" in the parent proof; committed
+verifier `simulations/f112_f87_orthogonality.py`.)
 
 **Source:** [Proof (parent, Hermitian H)](proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md);
 [Proof (Welle 11, non-Hermitian extension, universal N)](proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md);
@@ -3957,8 +3976,22 @@ numpy double precision).
 via InspectableNode. 35 unit tests including matrix-level `D·L·D = ε·L`
 bit-exact verification at N = 2.
 
+**Closed general-N (2026-06-10, the transpose reading).** D is the transpose
+superoperator θ(ρ) = ρᵀ written in the Pauli basis, so
+D·L_σ·D = θ∘L_σ∘θ = −L_{σᵀ} = (−1)^{n_Y(σ)+1}·L_σ for every σ and every N
+in one line (σᵀ = (−1)^{n_Y}σ; Y is the only antisymmetric Pauli). The
+girth-ladder reversal kill
+([PROOF_F87_WINDOWED_MONOMIAL_CONVERSE](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §4:
+word reversal = transpose × (−1)^{n_Y(word)}) is the same antiautomorphism
+at word length j; F113 Lemma C is its Hermitian-conjugacy sibling.
+Bit-exact anchor: `simulations/_mirror_inventory_bridge_check.py`
+(blocks D/E: 63/63 strings at N = 3 plus an N = 5 case, dev 0.00e+00).
+
 **Open:** N = 5, 6 verification at scale (estimated O(4^N) per N for the
-single-string sweep, tractable but not run). Connection to the Welle 11
+single-string sweep, tractable but not run). *Superseded 2026-06-10:* the
+transpose reading above derives ε(σ) structurally for every σ and every N,
+and the `_mirror_inventory_bridge_check.py` anchor includes an N = 5 case
+bit-exact; the per-N sweep is closed. Connection to the Welle 11
 F112 Lemma A/B structural proof: does F114 give an alternative derivation
 of the parent F112 Step 5 (Lemma B) via D-conjugation parity rather than
 dagger anti-Hermiticity?

@@ -374,6 +374,7 @@ def block5_production_channels():
     # K3 (deg-3 branch) must have B non-monomial (production impossible at the parity level);
     # the flux pair has B monomial yet t_3 = 0: production open but sign-cancelled
     # (y_par = 1: word reversal is sign-reversing; the Cartier-Foata kill).
+    # The involution is the Pauli transpose theta: reversal = transpose * (-1)^n_Y; F114's D = theta in the Pauli basis.
     N = 5
     n_deg1 = 0
     for pair in k4_pairs():

@@ -142,6 +142,18 @@ The identity is universal in N. ∎
 - **F112 non-Hermitian extension (Welle 11)** is stated for Z-dephasing and consumed by the `LindbladBitBPiBalance` NonHermitianExtension docstring; the D · Π_Z · D = Π_Y identity proven here intertwines the two Π operators, but **does not** lift to a Hilbert-space-unitary conjugation of the Lindbladian L_Z onto a Lindblad-form L_Y (D-conjugation would require a Hilbert-space V flipping Y while preserving X and Z, contradicted by Pauli algebra). The correct transport of F112 from Z-dephasing to Y-dephasing is the per-axis structural re-run of the Welle 11 lemmas (the per-pair identity F = 0 is closed by F38 + Pauli-support disjointness, both axis-independent), formalized in Welle 13's [PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md](PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md) Route 1. The D · Π_Z · D = Π_Y identity here remains the structural reason F112 has the *same* bit_b-axis hypothesis under Z- and Y-dephasing (because Π_Z² and Π_Y² agree as scalar phases per Pauli string), but it is not by itself a transport mechanism for L.
 - **Future callers of `VecToPauliBasisTransform`** that need natural L_σ entry signs (not just D-conjugation-invariant quantities) can conjugate by D to recover the natural form; the PauliBasis docstring (commit `7fc1ec0`) carries this warning and now references this proof for the Z ↔ Y swap interpretation.
 
+## The transpose reading (2026-06-10)
+
+D has a basis-free name. Transposition acts on Pauli strings letter-wise as σᵀ = (−1)^{n_Y(σ)}·σ (X and Z are symmetric; Y is the only antisymmetric Pauli), so the transpose superoperator θ(ρ) = ρᵀ, written in the Pauli basis, is exactly the diagonal involution D = diag((−1)^{n_Y(k)}). The per-site Kronecker proof above and this reading are the same fact in two bases: d_l = diag(1, 1, 1, −1) on (I, X, Z, Y) is the single-site transpose, and the Step 2 mixed-product lift is the statement that transposition factorizes site-by-site.
+
+The reading closes the F114 sign law ([ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md), F114) for any σ and any N in one line:
+
+    D · L_σ · D (ρ) = (−i[σ, ρᵀ])ᵀ = +i[σᵀ, ρ] = (−1)^{n_Y(σ)+1} · L_σ(ρ),
+
+using σᵀ = (−1)^{n_Y(σ)}·σ and the antiautomorphism property (AB)ᵀ = BᵀAᵀ. The same antiautomorphism at word length j is the girth-ladder reversal kill ([PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §4: word reversal = transpose × (−1)^{n_Y(word)}); F113's Lemma C is its Hermitian-conjugacy sibling. It also names why no Hilbert-space unitary implements D (the Implications note above): θ is an antiautomorphism of the matrix algebra, not conjugation by any unitary.
+
+Verified bit-exact by [`simulations/_mirror_inventory_bridge_check.py`](../../simulations/_mirror_inventory_bridge_check.py) (blocks D/E: θ-in-Pauli-basis equals D, 63/63 strings at N = 3 plus an N = 5 case, dev 0.00e+00).
+
 ## Open
 
 - **Klein-V₄ completion (Welle 12 Task 2)**: CLOSED 2026-05-27. The Z↔X and Y↔X swaps both lift to operator-space involutions; the pre-dispatch order-4 conjecture is falsified. All three swaps form a Klein-V₄ subgroup {I, D, Q_zx, Q_yx} of U(4^N), faithfully realizing V₄ on operator space. See [PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md).
