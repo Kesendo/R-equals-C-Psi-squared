@@ -4109,7 +4109,11 @@ of H. Since at least one class is positive, p_{m\*}(γ) > 0 for every γ > 0: **
 γ is hard at all γ**, the windowed converse with no residual (this resolved R-sign, the
 last residual, on 2026-06-10; the same day's girth dichotomy had retired R-deg). The d = 1
 face is the girth-dichotomy sum of squares P_{2ℓ+1,1} = (2ℓ+1)·C(2ℓ,ℓ)·Σ_l t_ℓ²; the ℓ = 1
-face of that is F87's P_{3,1} = 6·4^N·Σ_l c_l².
+face of that is F87's P_{3,1} = 6·4^N·Σ_l c_l², and that m = 3 face is **cell-free** (the
+companion coefficients of p₃ vanish for every Hermitian H, no diagonal-cell premise:
+any H with a single-site-Z component breaks the palindrome at every γ > 0;
+[`simulations/f87_deg1_face_cell_free.py`](../simulations/f87_deg1_face_cell_free.py),
+the PTF Π-break Z-row made theorem-grade).
 
 **Proof chain (all steps exact):** cyclic decomposition P_{m,d} = (m/d)·Σ_{a⃗} Tr(QA^{a₁}···QA^{a_d});
 leg factorization (A_L, A_R commute, supertrace splits bra × ket); Hermitian conjugacy

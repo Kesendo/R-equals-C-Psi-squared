@@ -140,6 +140,18 @@ scan shows, wanders in O(0.5) before receding). This residual may be the spectra
 break leaking into the closure at higher order. The fit RMSE stays clean throughout, so the
 load-bearing story, closure ⟸ U(1), holds.
 
+**Update 2026-06-10 (the Z-row becomes theorem-grade, and the leak gets a name).** The girth
+ladder wave closed the windowed converse and, in passing, made the Z-field row of the table
+exact: the m = 3 face of the ladder is **cell-free** (the three companion coefficients of
+p₃(γ) = Tr(M³) vanish for every Hermitian H, [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md §4](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)),
+so the mixed-cell chain H = XY + εZ_m breaks the spectral palindrome at **every γ > 0** with the
+closed-form leading coefficient p₃(γ) = 6·4^N·ε²·γ, verified exactly in
+[`simulations/f87_deg1_face_cell_free.py`](../simulations/f87_deg1_face_cell_free.py). What was
+measured here at one ε and one γ is now a theorem on the experiment's own configuration. The
+honest note's "higher order" also gains a well-posed form: the leak channel's leading
+coefficient scales as ε²·γ, so the question "does the closure residual track the m = 3 channel"
+is a scaling probe rather than a gesture (run as Edge 2 of the PTF fresh-eyes chain).
+
 ## What this is and is not
 
 It is a sharpening of the PTF doc's own protection #1 vs #2, using the framework's existing
