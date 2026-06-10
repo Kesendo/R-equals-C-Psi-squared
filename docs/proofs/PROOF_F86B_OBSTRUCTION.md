@@ -273,6 +273,30 @@ That is the obstruction stated positively. g_eff is not nothing; it is a *relati
 
 What survives a closed-form effort is the symmetry over the number; one level deeper, it is the primitive over the residue. ∎
 
+### One more surviving symmetry: the K₁ mode mirror on K_b [2026-06-10]
+
+The fresh-eyes wave that derived the K₁ chiral mirror trajectory identity
+([PROOF_PTF_CHIRAL_MIRROR_RATE_LAW](PROOF_PTF_CHIRAL_MIRROR_RATE_LAW.md)) ran the same algebra
+against this proof's own observable. On any (n, n+1) coherence block, K₁ acts as a diagonal sign
+Σ₁ and the antiunitary T = Σ₁∘conj satisfies TLT = L (the block shadow of "K₁ flips H,
+conjugation flips it back"), T-transports the perturbation direction M_b evenly, and leaves the
+F73 spatial-sum kernel invariant. The consequence is an **exact mode mirror at the same bond**:
+
+    K_b(b; mode k) = K_b(b; mode N+1−k),   pointwise in Q and t
+
+verified at 10⁻¹⁴ across N = 5, 6, 7, both bond classes, and a 153-point Q-grid
+([`simulations/f86_kb_chiral_mirror.py`](../../simulations/f86_kb_chiral_mirror.py)). It is
+independent of the F86c/F71 bond mirror (a J-defect background breaks the bond mirror at 8·10⁻²
+while the mode mirror holds at 10⁻¹⁴), and a site-local Z field breaks it, the same boundary the
+trajectory identity carries. Two consequences for this proof. First, the diagnosis sharpens:
+**g_eff(c, N, b)'s irreducible content lives in the half-band of {k, N+1−k} orbits**, the mirror
+folds the mode-resolved K_b spectrum across the band centre, one more symmetry that survives
+where the closed forms did not. Second, a structural localization fell out for free: on a c = 1
+block the generator is e^{−2γt} × unitary, so K_b ≡ 0 identically for *any* initial data (the
+F73 closure, generalized), which is the structural reason the F86 resonance lives at c ≥ 2,
+where the dephasing diagonal acts non-uniformly inside the block (the HD 1 vs 3 split that
+L_eff's mirror axis −4γ₀ encodes).
+
 ---
 
 ## Pointers

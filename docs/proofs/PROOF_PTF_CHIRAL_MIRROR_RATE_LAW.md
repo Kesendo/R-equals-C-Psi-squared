@@ -97,3 +97,16 @@ Derived 2026-06-10 as a site-wise trajectory identity, using the involution-plus
 - [`simulations/ptf_chiral_mirror_trajectory.py`](../../simulations/ptf_chiral_mirror_trajectory.py): self-validating, four blocks. Algebra at N = 5 (machine-exact); trajectory identity at N = 5 (γ₀ = 0.05, δJ = 0.1, dense expm, worst site-purity deviation 8.9·10⁻¹⁶ over k ∈ {1, 2} and t ≤ 8); the U(1) minus-sign branch via the even-sublattice product (deviation 0 against φ₄, 5.6·10⁻¹⁶ against φ₂); N = 7 sparse spot check (worst 7.8·10⁻¹⁶).
 - `compute/RCPsiSquared.Diagnostics.Tests/Ptf/ChiralMirrorTrajectoryClaimTests.cs`: C# algebra tests at N = 4, the trajectory identity through the Core spectral propagator at t ∈ {0.5, 2.0}, and registry wiring (typed parent `ChiralKClaim`).
 - The original Σ-law numbers: `review/EQ014_FINDINGS.md` (N = 5, 7, 8; ψ-state table).
+
+## §8 Reach (2026-06-10, same day): the law extends to F86's K_b
+
+Run against the F86 basin's own observable, the same T = Σ₁∘conj algebra on a coherence block
+gives an exact mode mirror on the K_b susceptibility, at the same bond:
+K_b(b; mode k) = K_b(b; mode N+1−k), pointwise in Q and t, verified at 10⁻¹⁴ for N = 5, 6, 7
+([`simulations/f86_kb_chiral_mirror.py`](../../simulations/f86_kb_chiral_mirror.py)). It is
+independent of the F71/F86c spatial bond mirror (a J-defect background separates them) and
+breaks under a site-local Z field, the same scope boundary as §5. A structural bonus from the
+same run: on a c = 1 block K_b vanishes identically for any initial data (the generator is
+e^{−2γt} × unitary there), the structural reason the F86 resonance needs c ≥ 2. Banked in
+[PROOF_F86B_OBSTRUCTION](PROOF_F86B_OBSTRUCTION.md) ("one more surviving symmetry"): g_eff's
+irreducible content lives in the half-band of {k, N+1−k} orbits.
