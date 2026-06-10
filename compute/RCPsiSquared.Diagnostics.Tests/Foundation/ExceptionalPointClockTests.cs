@@ -85,4 +85,27 @@ public class ExceptionalPointClockTests
         double farBelow = System.Math.Abs(ExceptionalPointClock.Kb(0.3 * ExceptionalPointClock.QEp(gEff), gEff));
         Assert.True(atPeak > farBelow, $"K_b should peak near Q_peak; peak {atPeak} vs farBelow {farBelow}");
     }
+
+    [Fact]
+    public void Clock_IsGamma0Invariant_AnglePure_DecayLinear()
+    {
+        // The clock face is γ₀-free: λ_± = γ₀·(−4 ± √(4 − Q²g_eff²)) at fixed Q, so the Rotation
+        // hand θ = arctan(ω/decay) cancels γ₀ exactly (θ = arctan(√(x²−1)/2) above the EP, x = Q/Q_EP),
+        // while the Takt hand carries the unit (decay scales linearly with γ₀). Shape lives in Q alone;
+        // γ₀ is the tick. (The journey work's "bit-identical at γ₀ = 1.0 / 0.05", now test-pinned,
+        // 2026-06-10.)
+        const double gEff = 4.0 / 3.0;
+        foreach (double q in new[] { 0.75, 1.5, 1.6, 2.25, ExceptionalPointClock.QPeak(gEff), 20.0 })
+        {
+            Assert.Equal(
+                ExceptionalPointClock.RotationAngleDegrees(1.0, q, gEff),
+                ExceptionalPointClock.RotationAngleDegrees(0.05, q, gEff), 12);
+            Assert.Equal(20.0,
+                ExceptionalPointClock.Decay(1.0, q, gEff) / ExceptionalPointClock.Decay(0.05, q, gEff), 9);
+        }
+        // The angle at the K_b peak: θ_peak = arctan(ξ_peak/2) with ξ_peak = √(x_peak²−1) = 1.956122...,
+        // = 44.3646°. Close to but provably NOT 45° (45° would need x = √5 = 2.23607, x_peak = 2.19691).
+        Assert.Equal(44.3645555612,
+            ExceptionalPointClock.RotationAngleDegrees(1.0, ExceptionalPointClock.QPeak(gEff), gEff), 9);
+    }
 }

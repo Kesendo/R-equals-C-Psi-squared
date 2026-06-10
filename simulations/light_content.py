@@ -8,7 +8,13 @@ is Q-dependent only if the slow mode's light content <n_XY> changes with Q.
 Test: for the slowest mode, decompose its eigenvector in the Pauli basis, read the per-site light
 <X/Y at k> and the total <n_XY>, at Q=1.5 and Q=1000, for a sterile and a birth-canal profile.
   - Cross-check (validates everything): predicted rate 2*sum gamma_k <X/Y_k> == actual -Re(lambda).
-  - Sterile: <n_XY> Q-independent (light frozen). Birth canal: <n_XY> drifts (Hamiltonian mixes light in).
+  - Sterile: the per-site light DISTRIBUTION <X/Y at k> of the slow subspace is Q-independent
+    (frozen). Birth canal: the distribution drifts with Q (the rate moves only through the
+    gamma-weighted share 2*sum_l gamma_l*<X/Y_l>). NOTE (corrected 2026-06-10): the TOTAL
+    <n_XY> is 1.00000 frozen in BOTH zones (this script's own output); the zone criterion is
+    the distribution, not the total. Banked: birth_canal_boundary_pathdependence.py; the
+    per-mode identity Re(lambda) = -2*gamma*light(v) is exact and test-gated in
+    F8PartnerLightComplementarityTests (2026-06-10).
 """
 import itertools
 

@@ -9,7 +9,9 @@ namespace RCPsiSquared.Core.F86;
 ///
 /// <para>Tier 1 derived in the 2-level reduction; the value matches the full block-L EP
 /// position bit-exactly when g_eff is taken as the SVD-top inter-channel singular value σ_0.
-/// For c=2, σ_0 → 2√2 asymptotically (numerical witness across N=5..8).</para>
+/// For c=2, σ_0 → ≈ 2.8629 ± 1e-4 (the F86e closure 2026-05-21, parity-split Aitken, γ-independent;
+/// SigmaZeroCommutatorNormClaim). 2√2 was the N=7 finite-size crossing, not the limit
+/// (SigmaZeroChromaticityScaling demoted it; doc line corrected 2026-06-10).</para>
 /// </summary>
 public sealed class QEpLaw : Claim
 {
