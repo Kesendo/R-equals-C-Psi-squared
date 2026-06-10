@@ -9,7 +9,10 @@ namespace RCPsiSquared.Diagnostics.Ptf;
 /// <para>For a slow-mode basis {M_s, W_s, λ_s} of the unperturbed Liouvillian L_A and a
 /// bond-perturbation V_L = ∂L/∂J_b, this gives the matrix elements that drive the per-site
 /// rate-of-painting α_i in the painter framing (PERSPECTIVAL_TIME_FIELD.md, Tier 2 after
-/// EQ-014 retraction; the surviving Tier 1 result is the K_1 chiral mirror law).</para>
+/// EQ-014 retraction; the surviving Tier 1 result is the K_1 chiral mirror law, since
+/// 2026-06-10 derived as a site-wise trajectory identity and typed as
+/// <see cref="ChiralMirrorTrajectoryClaim"/>, anchor
+/// <c>docs/proofs/PROOF_PTF_CHIRAL_MIRROR_RATE_LAW.md</c>).</para>
 ///
 /// <para>Uses <see cref="Core.Lindblad.BondPerturbation"/> for V_L and any slow-mode
 /// extraction (e.g. <see cref="DZero.StationaryModes"/> for kernel modes plus the

@@ -1,6 +1,7 @@
 using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Lindblad;
 using RCPsiSquared.Diagnostics.F87;
+using RCPsiSquared.Diagnostics.Ptf;
 using RCPsiSquared.Runtime.F1Family;
 using RCPsiSquared.Runtime.F71Family;
 using RCPsiSquared.Runtime.F86Main;
@@ -42,6 +43,13 @@ public static class KnowledgeRegistryFactory
             // F1 at the Liouvillian level; neither derives from the other. Wired 2026-05-30 to
             // bring the second mirror into the Object Manager (inspect --claim ChiralKClaim).
             .RegisterChiralK()
+            // PTF K₁ chiral mirror (Edge 3 of the PTF chain, 2026-06-10): the site-wise
+            // trajectory identity P_i(t; φ_k) = P_i(t; φ_{N+1−k}) (K₁-conjugation + complex
+            // conjugation + U(1) sign absorption), of which the EQ-014 Σ f_i mirror law, PTF's
+            // only surviving exact law, is the summed corollary. Tier1Derived. Typed parent:
+            // ChiralKClaim (the eigenvalue side of the same sublattice chirality, registered
+            // directly above). Wired 2026-06-10.
+            .RegisterChiralMirrorTrajectoryClaim()
             .RegisterF71Family(N: defaultChain.N)
             .RegisterPi2Family()
             .RegisterF86Main(gammaZero: defaultChain.GammaZero, gEff: gEff)

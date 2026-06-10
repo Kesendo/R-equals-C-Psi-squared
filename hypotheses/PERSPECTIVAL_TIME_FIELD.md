@@ -353,6 +353,18 @@ So the painter's lit half *is* the far bank, the open water. A perspective only 
 
 ---
 
+## Update 2026-06-10: the surviving law is derived, the Z-row is a theorem, the wander has a name
+
+The fresh-eyes pass after the windowed-converse closure (the girth ladder and Pascal-Gram waves of 2026-06-09/10) came back to this document with three results, one per kind.
+
+**The surviving law is now derived, and it is stronger than we knew.** The chiral mirror Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k}), the one exact law EQ-014 left standing, turns out to be the summed shadow of a *site-wise trajectory identity*: P_i(t; φ_k) = P_i(t; φ_{N+1−k}) for every site, every time, at every finite δJ, exactly. The derivation is four short steps (K₁-conjugation flips H and the defect together; the dynamics of −H is the complex conjugate of the dynamics of +H for our real chain; site purities see neither; the sine modes map k ↦ N+1−k under K₁ with the leftover sign absorbed by a U(1) phase) and is written up in [PROOF_PTF_CHIRAL_MIRROR_RATE_LAW](../docs/proofs/PROOF_PTF_CHIRAL_MIRROR_RATE_LAW.md), verified to 9·10⁻¹⁶ at N = 5 and 7 ([`simulations/ptf_chiral_mirror_trajectory.py`](../simulations/ptf_chiral_mirror_trajectory.py)), and typed as `ChiralMirrorTrajectoryClaim` (Tier1Derived) next to its eigenvalue-side sibling `ChiralKClaim`: the same sublattice chirality that makes the bipartite chain *soft* makes the painters' mirror *exact*. That the fitted Σ-law came out machine-precise in April was never fit luck; the trajectories themselves are identical pairwise.
+
+**The Z-field row of the Π-break table is now theorem-grade.** The m = 3 face of the girth ladder is cell-free (any Hermitian H with a single-site-Z component breaks the spectral palindrome at every γ > 0, with p₃(γ) = 6·4^N·Σ_l c_l²·γ exactly; [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE §4](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)). What the 2026-06-01 experiment measured at one ε and one γ holds at every operating point, with a closed-form coefficient, on this document's own chain.
+
+**The honest wander is EQ-014's own physics, not a leak.** The small Z-field closure residual is first order in ε with a nearly γ-independent coefficient (S ≈ −0.59·ε at small ε), so it cannot be the spectral-asymmetry channel (which is ε²·γ). It is the same first-order non-closure EQ-014 established for the J-defect, seen for a Z-field perturbation: a site-dependent first-order profile whose imperfect cancellation is the residual ([Edge 2](../simulations/ptf_leak_scaling.py), banked in the [Π-break experiment](../experiments/PTF_PALINDROME_BREAKING_PERTURBATIONS.md)). No tier changes: the closure stays a Tier-2 empirical regularity with its guardian (U(1)) named, now with its residual named too.
+
+---
+
 ## Acceptance summary
 
 ### Positive core (survives)
