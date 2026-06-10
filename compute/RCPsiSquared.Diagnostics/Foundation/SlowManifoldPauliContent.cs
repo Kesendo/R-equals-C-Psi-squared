@@ -69,7 +69,18 @@ public static class SlowManifoldPauliContent
     /// thirteen θ and 5 at θ = π/4).</para>
     ///
     /// <para>With empty <paramref name="litSites"/> the cell is the whole coherence space and the
-    /// rank is just the basis dimension (the J-defect axis has no lit/shadow split).</para></summary>
+    /// rank is just the basis dimension (the J-defect axis has no lit/shadow split).</para>
+    ///
+    /// <para><b>Two quarters, two genealogies (numerological guard, 2026-06-10).</b> The window
+    /// ratios of the ranks (4/6, 10/28, 12/36 at N = 3) are NOT a law: at N = 4 the corresponding
+    /// reads are 6/10, 8/12, 10/24, 12/32, no pattern recurs (the tempting 12/36 = 1/3 was a
+    /// cluster-size coincidence). What IS a law is the fixed CELL's dimension fraction:
+    /// (1/2)^(#lit), the structural half per lit site ({I,Z} is half of the four letters), which
+    /// lands on ¼ at exactly two lit sites (N = 3) and ⅛ at three (N = 4). That ¼ is a COUSIN of
+    /// the cusp horizon's CΨ = ¼ through the shared root ½ (the half-of-half node,
+    /// HalfAsStructuralFixedPointClaim / QuarterAsBilinearMaxvalClaim), not the same object: the
+    /// horizon's quarter is the bilinear apex p(1−p) ≤ ¼ and N-free; the cell fraction halves per
+    /// lit site. Same number at N = 3, two family trees.</para></summary>
     public static int IntersectionCoreRank(ComplexMatrix slowBasis, int N, IReadOnlyList<int> litSites,
         double rankTol = 1e-6)
     {
