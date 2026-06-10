@@ -266,5 +266,36 @@ for _ in range(N4):
 dev_f = np.max(np.abs(lhs - rhs))
 print(f'   dev = {dev_f:.2e}')
 assert dev_f < TOL
+print()
+
+# ----------------------------------------------------------------- G
+print('G. The cube filled (PROOF_PI_FACTORS_AS_R_TIMES_D section 7): the polarity cube axes')
+print('   (bit_a, bit_b, y_par) are the characters of (Ad_Z^N, Ad_X^N, transpose theta);')
+print('   conjugations give only the even Klein square, theta breaks into the odd half.')
+from itertools import product as _iproduct  # noqa: E402
+_P1 = {'I': np.eye(2, dtype=complex),
+       'X': np.array([[0, 1], [1, 0]], dtype=complex),
+       'Y': np.array([[0, -1j], [1j, 0]], dtype=complex),
+       'Z': np.array([[1, 0], [0, -1]], dtype=complex)}
+NG = 3
+FXg = np.array([[1.0]], dtype=complex)
+FZg = np.array([[1.0]], dtype=complex)
+for _ in range(NG):
+    FXg = np.kron(FXg, _P1['X'])
+    FZg = np.kron(FZg, _P1['Z'])
+checked = 0
+for s in _iproduct('IXYZ', repeat=NG):
+    sig = np.array([[1.0]], dtype=complex)
+    for ch in s:
+        sig = np.kron(sig, _P1[ch])
+    pX, pY, pZ = (s.count('X') % 2, s.count('Y') % 2, s.count('Z') % 2)
+    bit_a, bit_b = (s.count('X') + s.count('Y')) % 2, (s.count('Y') + s.count('Z')) % 2
+    assert np.allclose(FZg @ sig @ FZg, (-1.0) ** bit_a * sig)       # Ad_Z^N reads bit_a
+    assert np.allclose(FXg @ sig @ FXg, (-1.0) ** bit_b * sig)       # Ad_X^N reads bit_b
+    assert np.allclose(sig.T, (-1.0) ** pY * sig)                     # theta reads y_par
+    assert np.allclose((FZg @ sig @ FZg).T, (-1.0) ** pX * sig)       # theta o Ad_Z = (-1)^n_X
+    assert np.allclose((FXg @ sig @ FXg).T, (-1.0) ** pZ * sig)       # theta o Ad_X = (-1)^n_Z = FD
+    checked += 1
+print(f'   all {checked} strings at N={NG}: three characters == the three cube axes, exact')
 
 print('\nALL BLOCKS PASS')

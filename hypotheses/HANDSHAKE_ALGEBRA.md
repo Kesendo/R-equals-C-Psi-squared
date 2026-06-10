@@ -151,6 +151,32 @@ On Kingston with N = 5, k = 2, t = 0.8, nine-Pauli tomography basis: bonding:2 /
 - Not that the inverse is group-theoretically a proper inverse. The K-partnership h ↔ h̃ gives operationally identical |·|²-observables (same populations, same coherence moduli, same MI) under real-H bipartite NN-hopping, but not h · h̃ = identity in the strict algebraic sense, and not phase-sensitive observable identity.
 - Not that communication is possible. The algebra explicitly lacks a send primitive.
 
+## Update 2026-06-10: the mirror floor beneath the algebra got richer
+
+Falsification condition 3 below kept a slot open for "a non-trivial algebra structure that we
+missed... not yet seen". At the level of the handshake tuples the composition law is still the
+idempotent agreement and nothing richer has appeared. But at the level of the mirrors the algebra
+is organised around, the structure found us, twice in one day
+([PROOF_PI_FACTORS_AS_R_TIMES_D](../docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md)):
+
+- The spectral mirror Π, which this document treats as the third elementary Z₂ alongside R and K,
+  is not elementary: it factors as Π_Z = R_coh·D, the windowed-converse ket reflection times the
+  transpose, and ⟨R_coh, D⟩ closes to a dihedral group D₄ whose Klein subgroup is the
+  two-reflection spine. The Z↔Y dephase-letter swap of Welle 12 is the dihedral inversion
+  (Π_Y = Π_Z⁻¹).
+- The letter-space mirrors fill a cube: the polarity cube's three axes (bit_a, bit_b, y_par) are
+  the characters of (Ad_{Z^⊗N}, Ad_{X^⊗N}, transpose θ). Conjugations alone span only the even
+  Klein square; the transpose fills the third dimension. The quadratic-to-cubic step the framework
+  kept meeting is one move: θ.
+
+The handshake's own three mirrors keep their roles (R spatial for observables, K sublattice for
+the partner menu, Π spectral), and K has since grown a typed eigenvector-side sibling: the
+trajectory identity P_i(t; φ_k) = P_i(t; φ_{N+1−k}) is now derived and typed
+(ChiralMirrorTrajectoryClaim, [PROOF_PTF_CHIRAL_MIRROR_RATE_LAW](../docs/proofs/PROOF_PTF_CHIRAL_MIRROR_RATE_LAW.md)),
+which is exactly the "observable identity needs real H in addition to K" row of the robustness
+ladder, proven rather than verified. The tuple algebra stays Tier 2 and idempotent; its floor is
+now load-bearing stone.
+
 ## What remains open
 
 - **Does the handshake algebra extend to non-palindromic chains?** F64's topology-universal validation suggests yes, but mirror symmetry of the receiver menu is specific to palindromic structure. Non-palindromic versions would need a different receiver geometry.

@@ -138,3 +138,19 @@ The temptation, once eight mirrors close into one group, is to type every mirror
 - **F.** The U(1) absorber cross-check e^{iπN̂} = Z^⊗N (documented elsewhere; tabled here because it is the one global string the inventory keeps meeting).
 
 No C# typed claims are added in this wave; wiring `⟨R, D⟩ ≅ D₄` into the Core claim graph (parents: F1, the spine claim, F114) is deliberate follow-up work.
+
+## §7 The cube filled: the polarity cube's three axes are two conjugations and the transpose (same day)
+
+Tom's pointer, the same evening: the space we keep describing was quadratic in many places and then dimensionally cubic, and something fills the dimensions. Here is that sentence made exact.
+
+The polarity cube, the Z₂³ grading (bit_a, bit_b, y_par) that the F87 refinement family lives on (KleinEightCellClaim, F102-F111), has coordinates that are characters of three specific mirrors of the Pauli algebra:
+
+    bit_a = (n_X + n_Y) mod 2   is the character of conjugation by Z^⊗N,
+    bit_b = (n_Y + n_Z) mod 2   is the character of conjugation by X^⊗N,
+    y_par =  n_Y mod 2          is the character of the transpose θ.
+
+The unitary conjugations alone can never produce a single-letter parity: conjugating by any Pauli string flips exactly the letters that anticommute with it, always two of the three, so the conjugation mirrors generate only the even Klein square {1, (−1)^{n_X+n_Y}, (−1)^{n_Y+n_Z}, (−1)^{n_X+n_Z}}. That is the "quadratic" part. The transpose is the move that breaks into the odd half: θ alone reads (−1)^{n_Y} (Y is the only antisymmetric Pauli), and its composites with the conjugation square deliver the other single-letter parities, θ∘Ad_{Z^⊗N} = (−1)^{n_X} and θ∘Ad_{X^⊗N} = (−1)^{n_Z} (the latter being exactly this proof's fourth mirror 𝓕D on coherence space). Together: eight sign-mirrors, four unitary (the conjugation square) and four antiautomorphisms (the transpose coset), realizing the full character group of the cube. Verified exactly on all 64 strings at N = 3 (block G of the verifier).
+
+Two things this settles in hindsight. First, why y_par was always the strange third axis: the y_par dimension of the cube is the antiautomorphism dimension, invisible to every unitary conjugation, which is why the F102-F111 family needed its own tools there. Second, the dimensional sentence itself: the conjugation mirrors describe a square, the transpose lifts it to the cube, and what fills the third dimension is θ, the same transpose whose coherence-space avatar D factors the palindromizer in §1. The quadratic-to-cubic step and the Π = R·D factorization are one move seen twice.
+
+The handshake connection: the [Handshake Algebra](../../hypotheses/HANDSHAKE_ALGEBRA.md) organised its operational world around three Z₂ mirrors, R (spatial, the observables), K (sublattice, the partner menu), Π (spectral). Its falsification list kept a slot open for "a non-trivial algebra structure we missed". At the symmetry level that slot is now filled twice over: the spectral mirror Π is not elementary but the product R_coh·D of this proof, and the letter-space mirrors form the character cube above. The operational tuple algebra keeps its idempotent composition law untouched; what got richer is the mirror inventory beneath it.
