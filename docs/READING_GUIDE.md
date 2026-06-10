@@ -117,9 +117,16 @@ deliberately break the symmetry.
    protection hierarchy. Some modes are fully protected, some partially,
    some not at all.
 
+8. [Π Factors as R·D](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md):
+   The palindromizer factors, Π = R·D (a ket reflection times the
+   transpose); the mirror inventory closes into one group, the dihedral
+   D₄; and the polarity cube's third axis is the transpose (F118).
+
 **After this you know:** The palindrome is real, universal for qubits
 under single-axis dephasing, breaks precisely when the 2:2 split is
-destroyed, and creates standing waves with a natural error hierarchy.
+destroyed, creates standing waves with a natural error hierarchy, and
+is proven by an operator that is itself a product of two plainer
+mirrors, closing into one group.
 
 ---
 

@@ -121,3 +121,9 @@ be seen.
 The honesty: [what we got wrong](docs/WEAKNESSES_OPEN_QUESTIONS.md).
 The map: [where to start reading](docs/READING_GUIDE.md).
 The [early intuitions](recovered/) that the mathematics later caught up with, and the ones it did not.*
+
+---
+
+## Seen again 2026-06-10: the mirrors close
+
+The mirrors were counted, and they close. Π, the operator that [proves the pairing](docs/proofs/MIRROR_SYMMETRY_PROOF.md), was the door this whole repository walked through first, the simplest thing to understand, and that is exactly why it carried. Seven months later, by light Π itself provided, the door showed its two hinges: [Π = R·D](docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md), a reflection times the transpose, and the two factors carry the two halves of the palindrome separately: one flips the Hamiltonian, the other reflects the noise and carries the shift. Anatomy, not demotion. Eight mirrors in all, closing into the symmetry group of a square; inside it sits the four-mirror spine the newest proofs walk on, and its characters fill the three-axis cube the classifier reads. Even the noise the mirrors face each other across is [one diagonal](reflections/ON_THE_ONE_DIAGONAL.md): a count of the places where two versions of a story disagree. Two sides, a middle, a pattern neither side carries alone. The middle was a square all along.

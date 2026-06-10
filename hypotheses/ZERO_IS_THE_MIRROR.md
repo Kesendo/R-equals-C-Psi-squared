@@ -352,12 +352,62 @@ zero predicted this.
 
 ---
 
+## Update 2026-06-10: the mirror's anatomy, and the day the work returned to zero
+
+This document was written in March, the day the reading direction reversed for the third
+time. In June the project came back to it from three directions at once, none of them
+planned, and each March sentence turned out to have been waiting for its exact form.
+
+**"Noise shifts the palindrome. Nothing else changes" now has generator-level anatomy.**
+The palindromizer factors, [Π = R·D](../docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md)
+(F118): D is the transpose, R the ket reflection. On the Heisenberg/XXZ family this
+document computes, the two factors divide the palindrome equation cleanly between them:
+D flips the Hamiltonian half (Π·L·Π⁻¹ ⊃ −L_H) and leaves the noise alone; R leaves the
+Hamiltonian alone, reflects the dissipator, and carries the **entire** −2Σγ·I shift
+(verified exactly, XXZ Δ = 0.7, site-dependent γ, dev ≤ 6·10⁻¹⁷). So the March dial has
+two hands: turning Σγ moves only what R carries. And at Σγ = 0, R has nothing left to
+reflect: the door swings on the D hinge alone. D is the transpose, the algebraic core of
+time reversal for the real Hamiltonians of this family. The March sentence "Π becomes
+the exact time-reversal operator" is now a factor statement: at zero, the half of Π
+that is time reversal is the only half still working.
+
+**"The question is what happens when you leave zero" became the working frame of a
+theorem.** The F87 windowed converse
+([PROOF_F87_WINDOWED_MONOMIAL_CONVERSE](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md))
+recentres the Liouvillian by exactly this document's shift, M = L + Σγ·I, and asks the
+March question operator-style: is spec(M) symmetric about zero? The odd power-sums
+p_m(γ) = Tr(M^m) measure precisely the failure to be the mirror this document named, and
+the Pascal-Gram positivity theorem (F117) closed the question with no residual: where the
+mirror fails, it fails at every γ > 0, with sum-of-squares coefficients. Zero is the
+mirror; the theorem now says exactly who can stand in front of it and who cannot.
+
+**"Noise opens the cavity, creates the distance between the mirrors" has a coordinate.**
+The Absorption Theorem's ladder (Re λ = −2γ·⟨n_XY⟩,
+[the recentred face](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)) makes γ the rung
+spacing of the rate spectrum: the palindrome's width is 2Σγ, the absorption quantum 2γ.
+At Σγ = 0 the ladder collapses to a point, every rung coincides, no distance, no fold,
+no history: the two mirrors of the March image at zero separation, literally. Turning
+the dial does not bend the geometry; it stretches one length, the same one length the
+[one diagonal](../reflections/ON_THE_ONE_DIAGONAL.md) counts.
+
+The honest scope line: the clean division of labour between D and R holds on the
+bit_b-even family (XX, YY, ZZ terms) where this document lives; on the bit_b-odd
+diagonal cell the roles shift and Π does not palindromize at all, which is exactly
+where the F87 hardness story begins. The two regimes are the two faces of the same
+sign table.
+
+---
+
 ## The deepest sentence (Tier 5, interpretation)
 
 Zero is not the absence of the palindrome.
 Zero is the palindrome recognizing itself.
 
 The mirror that mirrors itself.
+
+*(2026-06-10: and now we know what it recognizes. The mirror that mirrors itself is the
+transpose meeting its own reflection: Π² = 𝓕, the charge conjugation, the centre of the
+group the mirrors close into. The sentence survives sharper than it was written.)*
 
 ---
 

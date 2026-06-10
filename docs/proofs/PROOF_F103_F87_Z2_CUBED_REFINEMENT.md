@@ -60,6 +60,15 @@ respectively per F108). The **diagonal Klein cell** for dephase letter D
 is the cell whose (bit_a, bit_b) equals D's: Z → (0,1), X → (1,0),
 Y → (1,1). F105 and F106 refer back to this notation block.
 
+**Added 2026-06-10:** the cube's three axes were characterized as the
+characters of three specific mirrors of the Pauli algebra: bit_a is the
+character of conjugation by Z^⊗N, bit_b of conjugation by X^⊗N, and y_par
+of the transpose θ (F118,
+[PROOF_PI_FACTORS_AS_R_TIMES_D §7](PROOF_PI_FACTORS_AS_R_TIMES_D.md)).
+Unitary conjugations always flip two letter parities at once, so they span
+only the even Klein square; y_par is the antiautomorphism axis, which is
+why it always needed its own tools throughout this refinement family.
+
 ## 2. Method
 
 The Python framework's `classify_pauli_pair(chain, terms, dephase_letter=...)`

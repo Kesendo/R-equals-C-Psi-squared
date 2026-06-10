@@ -4173,5 +4173,75 @@ status, F110/F111 (promoted to Tier1Derived by this closure), F115 scope note.
 
 ---
 
+### F118. The mirror group: Π = R·D, the dihedral D₄, and the cube of characters (Tier 1 derived; signed-permutation identities, exact)
+
+The canonical palindromizer is not elementary. On the coherence space of an N-qubit chain,
+with F = X^⊗N, define the ket reflection R(ρ) = ρ·F (the windowed-converse spine's
+reflection, I ⊗ F in row-stacking vec) and the transpose D(ρ) = ρᵀ (on the Pauli basis
+exactly F114's diagonal sign diag((−1)^{n_Y})). Then, with D applied first,
+
+  Π_Z = R ∘ D,   Π_Z(ρ) = ρᵀ·X^⊗N,
+
+per site σ ↦ σᵀ·X, reproducing the April rule I → X, X → I, Y → iZ, Z → iY with no extra
+phase: the hard-won factors i fall out of Yᵀ = −Y meeting YX = −iZ. The opposite order IS
+the other palindromizer, Π_Y = D ∘ R: ρ ↦ F·ρᵀ = Π_Z⁻¹, so Welle 12's identity
+D·Π_Z·D = Π_Y is the dihedral inversion relation s·r·s = r⁻¹ in disguise.
+
+**The group:** ⟨R, D⟩ ≅ D₄, eight signed permutations, every one already in use plus one
+never named: rotations {I, Π_Z, 𝓕 = Π_Z² = F1², Π_Y = Π_Z³}; diagonal mirrors
+{D = diag((−1)^{n_Y}), 𝓕D = diag((−1)^{n_Z})}, literally the diagonal matrices of the
+Pauli basis; edge mirrors {R: ρ ↦ ρ·F, 𝓕R: ρ ↦ F·ρ}, the spine's one-sided reflections.
+The spine's involution set {I, 𝓕, R, 𝓕R} is a Klein four-subgroup of D₄; the center is 𝓕,
+the charge conjugation.
+
+**The palindrome splits along the generators.** D flips the Hamiltonian commutator
+(D·L_H·D = −L_H, F114's ε(H) = −1 in action) and fixes the dissipator; R fixes L_H and
+reflects the dissipator, carrying the entire constant: R·L_diss·R = −L_diss − 2σ·I with
+σ = Σ_l γ_l, because flipping the ket index complements the lit-site set. April multiplied
+the generators (Π = R·D, one conjugation, the full palindrome); June kept them apart
+(𝓕 = (RD)², R, the spine's sign table). Same two generators, two angles.
+
+**The cube of characters.** The polarity cube's three axes (`KleinEightCellClaim`, the
+F102-F111 family) are the characters of two conjugations and the transpose:
+
+  bit_a = (n_X + n_Y) mod 2  is the character of Ad_{Z^⊗N},
+  bit_b = (n_Y + n_Z) mod 2  is the character of Ad_{X^⊗N},
+  y_par = n_Y mod 2          is the character of the transpose θ.
+
+Conjugating by any Pauli string flips exactly the two letter parities that anticommute with
+it, so unitary mirrors span only the even Klein square {1, (−1)^{n_X+n_Y}, (−1)^{n_Y+n_Z},
+(−1)^{n_X+n_Z}}; the transpose is the unique odd move (Y is the only antisymmetric Pauli)
+and fills the third dimension, with θ∘Ad_{Z^⊗N} = (−1)^{n_X} and θ∘Ad_{X^⊗N} = (−1)^{n_Z}.
+That is why y_par was always the strange third axis: the F102-F111 family worked on the
+antiautomorphism dimension, invisible to every unitary conjugation, and needed its own
+tools. The truly criterion (n_Y even AND n_Z even) is the **joint-fixed cell** of the
+diagonal mirror pair: σ is truly iff both D and 𝓕D fix it. And 𝓕D = diag((−1)^{n_Z}),
+acting as ρ ↦ F·ρᵀ·F, is the fourth mirror, named here for the first time: its character
+carried the second leg of the truly criterion for weeks before the operator was ever
+written down.
+
+**Deliberately outside:** K₁ (grades by site, not by letter), the golden router W (F116;
+two-sided, non-involutive, covering exactly the n_Z-odd ceiling territory that D₄'s
+class-swapping elements cannot enter), F71's bond mirror (spatial, site k ↔ N+1−k), and
+the dephase-letter swaps Q_zx / Q_yx (the Z↔Y swap is D itself, which is Welle 12; the
+other two need the X↔Z basis move). Adjoining the letter group S₃ would assemble the
+expected full mirror group **S₃ ⋉ D₄**; that completion is named open.
+
+**Verified (exact):** group closure |⟨R, D⟩| = 8, the factorization Π_Z = R·D, the dihedral
+relations, and all eight Pauli-basis forms at dev 0.00e+00 (N = 3, signed permutations
+compare exactly); the action Π_Z(ρ) = ρᵀ·F on random ρ at N = 1..3 with the wrong-sided
+F·ρᵀ rejected at O(1); the palindrome generator rows on XXZ Δ = 0.7 with site-dependent γ
+at ≤ 5.6·10⁻¹⁷; the truly-cell equivalence 63/63 strings; the cube characters on all 64
+strings at N = 3; F114 spot check at N = 5.
+
+**Source:** [Proof](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md) (§7 for the cube);
+[`simulations/mirror_inventory_d4.py`](../simulations/mirror_inventory_d4.py)
+(self-validating, 7 blocks A-G, exact); typed claim `MirrorGroupD4Claim`
+(`compute/RCPsiSquared.Core/Symmetry/`, landing in the same 2026-06-10 wave); F114 (D's
+row of the table); `KleinEightCellClaim` (the cube the characters coordinatize); the dated
+2026-06-10 update in [HANDSHAKE_ALGEBRA](../hypotheses/HANDSHAKE_ALGEBRA.md).
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*

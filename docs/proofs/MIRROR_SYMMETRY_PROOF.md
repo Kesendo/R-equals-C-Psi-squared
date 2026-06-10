@@ -145,6 +145,16 @@ X⊗N = ⊗_l X_l. This corollary, Π² = X⊗N, is registered as F1² in
 [ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md); X⊗N is the BlockSpectrum builder's
 sector-pairing shortcut (`XGlobalChargeConjugationPairing`).
 
+**Seen again 2026-06-10:** this Π is not elementary. It factors as Π = R·D,
+the transpose D (ρ ↦ ρᵀ, a pure diagonal sign on the Pauli basis) followed by
+the ket reflection R (ρ ↦ ρ·X⊗N), and the palindrome's two halves below are
+carried separately by the two factors: D flips the Hamiltonian part (Step 2)
+while R flips the noise part and carries the entire −2Σγᵢ shift (Step 1).
+The two factors close into a dihedral group of order 8 that contains every
+mirror of the palindrome story; see
+[PROOF_PI_FACTORS_AS_R_TIMES_D](PROOF_PI_FACTORS_AS_R_TIMES_D.md) and F118 in
+[ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md).
+
 ---
 ## The Proof (3 steps)
 
