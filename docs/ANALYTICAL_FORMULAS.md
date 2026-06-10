@@ -4048,5 +4048,48 @@ soundness-gated against the spectral authority over the diagonal-cell pair space
 
 ---
 
+### F116. The Golden Ceiling Router (Tier 1 derived: constructive existence, exact arithmetic, every N ≥ 3)
+
+The two Z-middle ceiling cases, H = Σ_windows (XZX+XZY+YZX) and the X↔Y sibling
+YZY+XZY+YZX under Z-dephasing, are palindromized by a **per-site product** after all:
+the period-4 golden router
+
+  W = ⊗_l q_{l mod 4},   W L W⁻¹ = −L − 2σ,   σ = Σ_l γ_l (site-dependent rates allowed),
+
+with the closed form (φ² = φ + 1, all entries in ℤ[φ]+iℤ[φ]):
+g_l = q_l(I) follows [a, a, b, b] with a = φX + Y, b = X − φY; h_l = q_l(Z) =
+(−1)^(l+1)·i·R(g_l); q_l(X) = −(g_l)_X·I + (h_l)_X·Z, q_l(Y) = −(g_l)_Y·I + (h_l)_Y·Z.
+Each q_l is class-swapping with q_l² = −(2+φ)·I (a scalar times a unitary, cond(W) = 1).
+The frame directions are the two roots of the **golden locus α² − αβ − β² = 0**
+(slopes 1/φ and −φ; tan 2θ = 2). Two-sided form: W(ρ) = (2+φ)^(N/2)·P ρ Q with product
+unitaries P, Q each anticommuting with H (so spec(H) is exactly ±E-symmetric, and
+G = PQ is a weak Z₂ symmetry of L and an exact eigenmode at the palindrome floor −2σ).
+
+**Mechanism:** the window-summed anticommutator {Q₃, [XZX+XZY+YZX, ·]₃} = 0 exactly at
+every window offset (cross-template cancellation inside one window; per-term it fails,
+which is why the per-term certifier search could never see it); window additivity gives
+every N ≥ 3. **Exclusion side (derived):** the identity-column functional forces
+[H, ⊗g_l] = 0 with per-window equations whose only uniform or period-2 solution is g = 0
+(the committed optimization floors are now theorems), period 3 is impossible for N ≥ 5,
+and the discrete Klein candidates P1/P4/M2/M sit off the locus (values +1, −1, −1, −1/2).
+**Rigidity:** zero continuous moduli; the invertible solution set at N=5 is exhaustively
+4 cyclic shifts × an explicit order-32 sign group, all golden. The ceiling arc closes
+6 → 4 → 2 → **0**: no case in the k=3 windowed soft family needs a non-local mirror.
+Open chains only (rings untested).
+
+**Verified:** {W,A} = 0 and the window lemma EXACT over ℤ[φ]+iℤ[φ] at N = 3..6 (both
+siblings); end-to-end vs the framework Lindbladian at N = 5, 6, γ ∈ {0.3, 0.7, 1.0} and
+site-dependent rates (rel ~2e-16); independently re-implemented five ways (through N = 9
+sampled) in the 2026-06-10 adversarial audit.
+
+**Source:** [Proof](proofs/PROOF_CEILING_GOLDEN_ROUTER.md);
+[`simulations/ceiling_golden_router.py`](../simulations/ceiling_golden_router.py) (the
+self-validating anchor); [experiments/CEILING_FOUR_NONLOCAL_CASES.md](../experiments/CEILING_FOUR_NONLOCAL_CASES.md)
+(the 6 → 4 → 2 → 0 arc). C# integration (window-summed Stufe B′ strategy + claim) is the
+planned follow-up wave; until it lands, NotCertified for these two cases reads as a
+documented per-term coverage gap, not as non-locality.
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*
