@@ -5,7 +5,9 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>The crossover mirror is the canonical Π turned by √(NinetyDegreeMirror)
-/// (Tier 1 candidate; bit-exact numerical witness, analytical derivation open; 2026-06-02).
+/// (Tier 1 derived; the exact-transport derivation closed the same day, see the Derived
+/// paragraph below and PROOF_CROSSOVER_MIRROR_SQRT_NINETY.md; header line corrected 2026-06-10,
+/// it had kept the morning's candidate status after the evening's derivation).
 ///
 /// <para>The two-term bilinear Hamiltonians XZ+YZ and ZX+ZY were once read as having a
 /// "genuinely non-local" palindrome mirror (operator-Schmidt / Choi rank 8-9). They do not:

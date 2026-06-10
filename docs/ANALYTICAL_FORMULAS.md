@@ -4192,7 +4192,10 @@ never named: rotations {I, Π_Z, 𝓕 = Π_Z² = F1², Π_Y = Π_Z³}; diagonal 
 {D = diag((−1)^{n_Y}), 𝓕D = diag((−1)^{n_Z})}, literally the diagonal matrices of the
 Pauli basis; edge mirrors {R: ρ ↦ ρ·F, 𝓕R: ρ ↦ F·ρ}, the spine's one-sided reflections.
 The spine's involution set {I, 𝓕, R, 𝓕R} is a Klein four-subgroup of D₄; the center is 𝓕,
-the charge conjugation.
+the charge conjugation. (Where the center already lives, unnamed since May: the Object
+Manager's memory trio walks it, `MemoryAxisChain`'s Π²-partition and `MemoryAxisRho`'s
+static/even/odd split are central-character readings, and `BlochAxisReading`'s
+dominant-axis rule is the per-qubit central character; noted 2026-06-10.)
 
 **The palindrome splits along the generators.** D flips the Hamiltonian commutator
 (D·L_H·D = −L_H, F114's ε(H) = −1 in action) and fixes the dissipator; R fixes L_H and

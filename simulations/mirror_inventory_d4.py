@@ -35,6 +35,16 @@ Block ledger:
   E. F114 at N=5 via the transpose identification (one size beyond its verified N<=4).
   F. e^{i pi N_hat} = Z^(x)N (the trajectory-claim U(1) absorber; documented,
      here only as a table cross-check).
+  G. The cube filled (sect.7): (bit_a, bit_b, y_par) are the characters of
+     (Ad_Z^(x)N, Ad_X^(x)N, transpose theta); unitary conjugations span only
+     the even Klein square, theta breaks into the odd half. 64 strings, N = 3.
+  H. The crossover dial (sect.5 addendum): per site N90 = diag((-1)^n_X) * t_xy
+     = t_xy * diag((-1)^n_Y), t_xy the pure X<->Y letter swap (reversed orders
+     give N90^-1, the -90 deg gauge; the Klein-V4 q_yx = X<->Z index perm is
+     rejected at O(1)); N90 is outside the order-128 discrete completion
+     <r, d, h> under any global phase (the missing S3 transposition, signed);
+     D inverts the dial, D Ad_{R_z(theta)} D = Ad_{R_z(-theta)} (per site at
+     five theta + N = 2 coherence space); Ad_{R_z(pi/4)}^2 = N90.
 
 Conventions: row-stacking (C-order) vec, |i><j| -> e_i (x) e_j, kron(A,B) = A rho B^T,
 matching framework.lindblad and PROOF_F87_WINDOWED_MONOMIAL_CONVERSE sect.1.
@@ -297,5 +307,98 @@ for s in _iproduct('IXYZ', repeat=NG):
     assert np.allclose((FXg @ sig @ FXg).T, (-1.0) ** pZ * sig)       # theta o Ad_X = (-1)^n_Z = FD
     checked += 1
 print(f'   all {checked} strings at N={NG}: three characters == the three cube axes, exact')
+print()
+
+# ----------------------------------------------------------------- H
+print('H. The crossover dial (sect.5 addendum): N90 = cube-signed X<->Y letter swap,')
+print('   D inverts the dial, Ad_{R_z(pi/4)}^2 = N90')
+M1 = basis_transform_C(1)
+M1inv = M1.conj().T / 2
+
+
+def ad_rz_pauli(theta):
+    """Ad_{R_z(theta)} on the single-site Pauli basis (I, X, Z, Y).
+
+    R_z(theta) = exp(-i theta Z / 2) = diag(e^{-i theta/2}, e^{+i theta/2}),
+    the convention of PROOF_CROSSOVER_MIRROR_SQRT_NINETY; vec_C(U rho U^dag)
+    = kron(U, U^*) vec_C(rho).
+    """
+    U = np.diag([np.exp(-0.5j * theta), np.exp(0.5j * theta)])
+    return M1inv @ np.kron(U, U.conj()) @ M1
+
+
+N90 = ad_rz_pauli(np.pi / 2)            # repo gauge: X -> Y, Y -> -X, I and Z fixed
+t_xy = np.eye(4, dtype=complex)
+t_xy[[1, 3]] = t_xy[[3, 1]]             # pure X<->Y letter transposition (indices 1, 3)
+h_zx = np.eye(4, dtype=complex)
+h_zx[[1, 2]] = h_zx[[2, 1]]             # PROOF_KLEIN_V4's q_yx: X<->Z basis-index perm
+s_x = np.diag([1.0, -1.0, 1.0, 1.0]).astype(complex)   # diag((-1)^n_X) = theta o Ad_Z
+s_y = np.diag([1.0, 1.0, 1.0, -1.0]).astype(complex)   # diag((-1)^n_Y) = per-site D
+d1_pauli = M1inv @ swap_perm(1).astype(complex) @ M1   # the script's own D, per site
+assert np.max(np.abs(d1_pauli - s_y)) < TOL            # = diag((-1)^n_Y), as in block B
+
+# (i) the factorization, both sign placements; the reversed orders are N90^-1
+dev_i1 = np.max(np.abs(N90 - s_x @ t_xy))
+dev_i2 = np.max(np.abs(N90 - t_xy @ s_y))
+dev_i3 = np.max(np.abs(np.linalg.inv(N90) - t_xy @ s_x))
+gap_rev = np.max(np.abs(N90 - t_xy @ s_x))             # wrong order rejected at O(1)
+gap_h = np.max(np.abs(np.abs(N90) - h_zx))             # Klein q_yx rejected at O(1)
+print(f'   N90 = diag((-1)^n_X) * t_xy:       dev = {dev_i1:.2e}')
+print(f'   N90 = t_xy * diag((-1)^n_Y):       dev = {dev_i2:.2e}')
+print(f'   t_xy * diag((-1)^n_X) = N90^-1:    dev = {dev_i3:.2e}  '
+      f'(reversed order = -90 deg gauge, gap to N90 = {gap_rev:.1f})')
+print(f'   Klein q_yx (X<->Z index perm) is NOT the factor: skeleton gap = {gap_h:.1f}')
+assert dev_i1 < TOL and dev_i2 < TOL and dev_i3 < TOL
+assert gap_rev > 1.0 and gap_h > 0.5
+
+# N90 is OUTSIDE the discrete completion: close <r, d, h_zx> per site (r: sigma
+# -> sigma X, the per-site R; d = s_y; h_zx carries Q_zx and Q_yx). Its letter
+# skeletons never include the bare X<->Y swap, so N90 = the missing S3
+# transposition, signed by a cube character.
+r1_pauli = M1inv @ np.kron(np.eye(2, dtype=complex), xn(1)) @ M1
+gens_h = [r1_pauli, d1_pauli, h_zx]
+elems_h = [np.eye(4, dtype=complex)]
+changed = True
+while changed:
+    changed = False
+    for g in gens_h:
+        for e in list(elems_h):
+            cand = g @ e
+            if not any(np.max(np.abs(cand - x)) < TOL for x in elems_h):
+                elems_h.append(cand)
+                changed = True
+in_completion = any(np.max(np.abs(ph * N90 - x)) < 1e-9
+                    for ph in (1, 1j, -1, -1j) for x in elems_h)
+print(f'   |<r, d, h_zx>| per site = {len(elems_h)} (the discrete completion); '
+      f'N90 in it (any phase): {in_completion}')
+assert len(elems_h) == 128 and not in_completion
+
+# (ii) D inverts the dial: D Ad_{R_z(theta)} D = Ad_{R_z(-theta)} for all theta
+# (transposition complex-conjugates R_z), the continuum extension of the
+# dihedral inversion D Pi_Z D = Pi_Z^-1 of block B.
+worst_dial = 0.0
+for th in (0.3, np.pi / 4, np.pi / 2, 1.234, 2.0):
+    worst_dial = max(worst_dial, np.max(np.abs(
+        s_y @ ad_rz_pauli(th) @ s_y - ad_rz_pauli(-th))))
+th2 = 0.83                              # N = 2 coherence space, uniform rotation
+U2 = np.diag([np.exp(-0.5j * th2), np.exp(0.5j * th2)])
+UN2, UN2m = np.kron(U2, U2), np.kron(U2.conj(), U2.conj())
+D2 = swap_perm(2).astype(complex)
+dev_n2 = np.max(np.abs(D2 @ np.kron(UN2, UN2.conj()) @ D2
+                       - np.kron(UN2m, UN2m.conj())))
+dev_corner = np.max(np.abs(s_y @ N90 @ s_y - np.linalg.inv(N90)))
+print(f'   D Ad_(R_z(th)) D = Ad_(R_z(-th)):  worst dev = {worst_dial:.2e} (5 theta, per site)')
+print(f'   same at N=2 on coherence space:    dev = {dev_n2:.2e} (theta = 0.83)')
+print(f'   discrete corner D N90 D = N90^-1:  dev = {dev_corner:.2e}')
+assert worst_dial < TOL and dev_n2 < TOL and dev_corner < TOL
+
+# (iii) the crossover transport squares to N90 (CrossoverMirrorSqrtNinetyClaim
+# re-check); the pi/4 point is a cos/sin mix, not a monomial matrix.
+A8 = ad_rz_pauli(np.pi / 4)
+dev_sq8 = np.max(np.abs(A8 @ A8 - N90))
+print(f'   Ad_(R_z(pi/4))^2 = N90:            dev = {dev_sq8:.2e}; '
+      f'Ad_(R_z(pi/4))[X,X] = {A8[1, 1].real:.6f} (not monomial)')
+assert dev_sq8 < TOL
+assert abs(A8[1, 1].real - np.sqrt(0.5)) < TOL
 
 print('\nALL BLOCKS PASS')
