@@ -251,6 +251,29 @@ class Confirmations:
             'framework_primitive': 'UniversalCarrierClaim.DefaultGammaZero (γ₀ = 0.05) + Q = J/γ₀ regime axis; run_q_jscan.py (external pipeline)',
             'description': 'First direct read-off of the carrier γ₀ from its only lever J on hardware. The H-clock frequency tracks J (first transfer peak ∝ 1/J), and the coherent swing dies where J crosses γ₀ (critical damping, T = ½). Confirms the typed UniversalCarrierClaim.DefaultGammaZero = 0.05 on Kingston q13-q14, made readable via the swing-death threshold even though γ₀ is invisible head-on (Inside-Observability: only Q = J/γ₀ accessible from inside). Sits on the same Q = J/γ₀ axis as the F86 Q-peak (Q ≈ 1.5).',
         },
+        'ibm_ep_onset_may2026': {
+            'date': '2026-05-31',
+            'machine': 'ibm_kingston',
+            'job_id': 'd8dr7dfd0j8c73f4man0 (Part A, flow to 1/3) + d8drjbfd0j8c73f4mobg (Part B, EP onset)',
+            'observable': 'Per-site populations ⟨n_l⟩ of a single-excitation walk on a 3-site chain (q13-q14-q15, Z-basis, no tomography); Part B revival = max ⟨n_0⟩ for t ≥ 2 μs under injected random-Z-twirl dephasing, Q = J/γ swept over {0.5, 1, 1.5, 2.5, 5, 20}',
+            'predicted_value': {
+                'ep_onset_reading': 'revival pinned at the 1/N = 1/3 equipartition floor below Q_EP ≈ 1.5 (overdamped, two real decay channels, no memory), lifting off above it (the rotation born at the F86 exceptional point)',
+                'twirl_simulate_revival': '0.31 → 0.84 across the same Q scan (K=16 exact-statevector twirl validation)',
+                'part_A_flow_target': 'per-site populations converge to 1/N = 1/3 at late t (the post-EP flow fixed point)',
+            },
+            'measured_value': {
+                'Q_grid': [0.5, 1.0, 1.5, 2.5, 5.0, 20.0],
+                'revival': [0.30, 0.36, 0.34, 0.49, 0.56, 0.70],
+                'floor_below_ep': '~1/3 for Q ≤ 1.5 (0.30, 0.36, 0.34)',
+                'liftoff_above_ep': '0.49 → 0.56 → 0.70 as Q crosses 2.5 → 5 → 20',
+                'part_A_late_t_populations': '0.34 / 0.43 / 0.34 at 20 μs (converging to 1/3)',
+                'high_Q_suppression': '0.70 measured vs 0.84 simulate at Q=20 (two-qubit gate error, ~160 RZZ gates by 20 μs at ~0.5%); the floor and the onset are clean',
+            },
+            'hardware_data': 'data/ibm_ep_onset_may2026/ (Part A ep_onset_hardware_ibm_kingston_20260531_060943.json, Part B ep_onset_hardware_ep_ibm_kingston_20260531_064022.json + same-day simulate JSONs)',
+            'experiment_doc': 'experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md',
+            'framework_primitive': 'ExceptionalPointClock (decay pinning at 4γ₀, F95 rotation angle, eigenvector overlap min(x,1/x)) + EpField hardware node (inspect --axis ep); F86 Q_EP',
+            'description': 'The F86 exceptional point watched switching the memory on, on a real chip, populations only. Part A (job d8dr7dfd0j8c73f4man0) at the chip\'s natural Q ≫ 1: the excitation sloshes 0 → 2 → 1 → 0 with ~3 μs period (the reborn memory), the site-0 revival fades 0.84 → 0.43 over 15 μs (the forgetting), and the populations converge to 1/3 = 1/N at 20 μs (the flow target). Part B (job d8drjbfd0j8c73f4mobg) injects dephasing via a random-Z twirl (K=16 instances; the RZ gates are virtual on IBM, so the injection is error-free) to push Q = J/γ down through Q_EP ≈ 1.5: the revival sits on the equipartition floor (~1/3) for Q ≤ 1.5 and lifts off as Q crosses 1.5 → 2.5 (0.34 → 0.49 → 0.56 → 0.70). The rotation born at the EP, hardware-anchored. The revival decay envelope is gate-cost-limited (Trotterization, ~9 μs), not T2-limited (~200 μs); only the rate is gate cost, the floor and the onset are physics. This table is the hardware node of EpField (compute/RCPsiSquared.Diagnostics/Foundation/EpField.cs) and the overlay in simulations/ep_transition.py.',
+        },
     }
 
     @classmethod

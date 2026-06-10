@@ -11,9 +11,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 import framework as fw
 
 
-def test_confirmations_has_fifteen_entries():
+def test_confirmations_has_sixteen_entries():
     names = fw.Confirmations.list_names()
-    assert len(names) == 15
+    assert len(names) == 16
     assert 'palindrome_trichotomy' in names
     assert 'lebensader_skeleton_trace_decoupling' in names
     assert 'gamma_0_marrakesh_calibration' in names
@@ -23,9 +23,11 @@ def test_confirmations_has_fifteen_entries():
     assert 'block_cpsi_saturation_kingston_may2026' in names
     assert 'f95_angle_steering_kingston_may2026' in names
     # 2026-06-08 reconciliation with the C# ConfirmationsRegistry (both now hold the
-    # union of 15; these two were previously C#-only).
+    # union; these two were previously C#-only).
     assert 'regime_uniformity_kingston_uniform_quantum' in names
     assert 'gamma0_off_the_lever_kingston_may2026' in names
+    # 2026-06-10: Kingston EP-onset run added to BOTH registries (union of 16).
+    assert 'ibm_ep_onset_may2026' in names
 
 
 def test_confirmations_lookup_f95_angle_steering():
@@ -46,6 +48,22 @@ def test_confirmations_lookup_palindrome_trichotomy():
     assert e['machine'] == 'ibm_marrakesh'
     assert e['job_id'] == 'd7mjnjjaq2pc73a1pk4g'
     assert e['measured_value']['delta_soft_minus_truly'] == -0.722
+
+
+def test_confirmations_lookup_ibm_ep_onset():
+    # The Kingston EP-onset run: the revival lifts off the 1/N floor as Q crosses
+    # Q_EP ≈ 1.5. Registry anchor for the hard-coded hardware table in
+    # compute/RCPsiSquared.Diagnostics/Foundation/EpField.cs (node 5, "the hardware").
+    e = fw.Confirmations.lookup('ibm_ep_onset_may2026')
+    assert e['date'] == '2026-05-31'
+    assert e['machine'] == 'ibm_kingston'
+    assert 'd8dr7dfd0j8c73f4man0' in e['job_id']
+    assert 'd8drjbfd0j8c73f4mobg' in e['job_id']
+    assert e['measured_value']['Q_grid'] == [0.5, 1.0, 1.5, 2.5, 5.0, 20.0]
+    assert e['measured_value']['revival'] == [0.30, 0.36, 0.34, 0.49, 0.56, 0.70]
+    assert '1/N = 1/3 equipartition floor' in e['predicted_value']['ep_onset_reading']
+    assert 'ExceptionalPointClock' in e['framework_primitive']
+    assert e['experiment_doc'] == 'experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md'
 
 
 def test_confirmations_unknown_raises():

@@ -22,9 +22,12 @@ public class ConfirmationsRegistryTests
     }
 
     [Fact]
-    public void All_HasFifteenEntries()
+    public void All_HasSixteenEntries()
     {
-        Assert.Equal(15, ConfirmationsRegistry.All.Count);
+        // Union discipline with simulations/framework/confirmations.py: both registries
+        // hold the same set. Reconciled to 15 on 2026-06-08; ibm_ep_onset_may2026
+        // (Kingston EP onset, 2026-05-31) added to both on 2026-06-10 makes 16.
+        Assert.Equal(16, ConfirmationsRegistry.All.Count);
     }
 
     [Fact]
@@ -40,6 +43,7 @@ public class ConfirmationsRegistryTests
         Assert.Contains("f95_angle_steering_kingston_may2026", names);
         Assert.Contains("gamma_0_marrakesh_calibration", names);
         Assert.Contains("d_zero_sector_trichotomy_marrakesh", names);
+        Assert.Contains("ibm_ep_onset_may2026", names);
     }
 
     [Fact]
@@ -72,6 +76,24 @@ public class ConfirmationsRegistryTests
         var onPath = ConfirmationsRegistry.ByPath(new[] { 13, 14 }).Select(c => c.Name).ToList();
         Assert.Contains("gamma0_off_the_lever_kingston_may2026", onPath);
         Assert.Contains("block_cpsi_saturation_kingston_may2026", onPath);
+    }
+
+    [Fact]
+    public void Lookup_IbmEpOnset_AnchorsEpFieldHardwareTable()
+    {
+        // The Kingston EP-onset run: the revival lifts off the 1/N floor as Q crosses
+        // Q_EP. This entry is the registry anchor for the hard-coded hardware table in
+        // Diagnostics/Foundation/EpField.cs (node 5, "the hardware").
+        var entry = ConfirmationsRegistry.Lookup("ibm_ep_onset_may2026");
+        Assert.NotNull(entry);
+        Assert.Equal("ibm_kingston", entry!.Machine);
+        Assert.Equal("2026-05-31", entry.Date);
+        Assert.Contains("d8dr7dfd0j8c73f4man0", entry.JobId);
+        Assert.Contains("d8drjbfd0j8c73f4mobg", entry.JobId);
+        Assert.Contains("1/N = 1/3 equipartition floor", entry.PredictedValue);
+        Assert.Contains("{0.30, 0.36, 0.34, 0.49, 0.56, 0.70}", entry.MeasuredValue);
+        Assert.Contains("ExceptionalPointClock", entry.FrameworkPrimitive);
+        Assert.Equal(new[] { 13, 14, 15 }, entry.QubitPath);
     }
 
     [Fact]
@@ -152,14 +174,15 @@ public class ConfirmationsRegistryTests
     [Fact]
     public void EntriesWithoutDocumentedPath_StayNull()
     {
-        // Eleven of fifteen have paths; four remain null (chiral_mirror_law,
+        // Twelve of sixteen have paths; four remain null (chiral_mirror_law,
         // f57_kdwell_gamma_invariance, bonding_mode_receiver, f25_cusp_trajectory)
         // since their paths are not unambiguously documented. The 2026-06-08
         // reconciliation with the Python registry added gamma_0_marrakesh_calibration
         // and d_zero_sector_trichotomy_marrakesh, both on the April-26 [48,49,50] run.
+        // ibm_ep_onset_may2026 (2026-06-10) is documented on Kingston [13,14,15].
         int withPath = ConfirmationsRegistry.All.Count(c => c.QubitPath != null);
         int withoutPath = ConfirmationsRegistry.All.Count(c => c.QubitPath == null);
-        Assert.Equal(11, withPath);
+        Assert.Equal(12, withPath);
         Assert.Equal(4, withoutPath);
     }
 }

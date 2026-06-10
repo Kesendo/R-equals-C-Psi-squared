@@ -78,6 +78,7 @@ public sealed class EpField : IInspectable
                 payload: new InspectablePayload.Curve("eigenvector overlap vs Q", _qGrid, overlap, "Q", "|⟨v₊|v₋⟩| (→1 at the EP)"));
 
             // 5. The hardware (IBM Kingston EP onset, Part B).
+            // Registry anchor: ConfirmationsRegistry.Lookup("ibm_ep_onset_may2026") (mirrored in simulations/framework/confirmations.py).
             var hwQ = new double[] { 0.5, 1.0, 1.5, 2.5, 5.0, 20.0 };
             var hwRev = new double[] { 0.30, 0.36, 0.34, 0.49, 0.56, 0.70 };   // data/ibm_ep_onset_may2026 README, job d8drjbfd0j8c73f4mobg
             yield return new InspectableNode(
