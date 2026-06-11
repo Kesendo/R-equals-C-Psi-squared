@@ -93,3 +93,21 @@ The two ℓ·m = −1 vertices invert every dial (they are the O(2) reflections 
 The three maps are textbook, and antiunitary symmetry is Wigner's. What this document banks is the viewpoint, assembled independently and recognized afterwards: the two-character grading with the **product character as the transport sign**, the identification θ = D docking the triangle onto our mirror group, the antilinear double of D₄, and above all the recognition that five repository proofs, written weeks apart for different theorems (a sign law, a moment kill, a balance, a coefficient formula, a mode mirror), were each holding one face of the same four-element group. None of the five proofs changes; they gain a shared parent. The typed claim is `AntilinearTriangleClaim` (Core/Symmetry, parents `MirrorGroupD4Claim`, `CommutatorDConjugationSign`, `LindbladBitBPiBalance`; the `ChiralMirrorTrajectoryClaim` edge is carried here in prose, across the layer boundary).
 
 The verification anchor is [`simulations/antilinear_triangle.py`](../../simulations/antilinear_triangle.py): the V₄ table and gradings, the transport law for all four vertices on non-Hermitian H, the five legs each re-derived from the engine and cross-checked against its home formulation, the order-16 closure, and the dial trio. Every block raises on failure; the process exits 0 only if the whole ledger holds.
+
+## §6 The qudit generalization: the Weyl-Heisenberg lattice (added 2026-06-11, same day)
+
+The triangle above is a qubit statement: on a Pauli string θ(σ) = conj(σ) = (−1)^{n_Y}σ, †(σ) = σ. That sign is the d = 2 shadow of a lattice action the Weyl-Heisenberg algebra carries at every local dimension d.
+
+Replace the Pauli basis by the **Weyl-Heisenberg operators** P_{a,b} = X^a Z^b (a, b ∈ Z_d), where X is the clock shift |x⟩ ↦ |x+1⟩, Z = diag(ω^x) with ω = e^{2πi/d}, and ZX = ωXZ. They span the d² operators per site and generalize {I, X, Y, Z} = {P_{0,0}, P_{1,0}, P_{1,1}, P_{0,1}} (d = 2, ω = −1, Y = XZ up to phase). The three involutions act on the labels with a **symplectic phase**:
+
+  θ(P_{a,b}) = ω^{−ab} P_{−a, b},  conj(P_{a,b}) = P_{a, −b},  †(P_{a,b}) = ω^{ab} P_{−a, −b},
+
+verified machine-exact at d = 2, 3, 4, 5, with † = θ∘conj on the labels (the Klein four-group). The transport law μ∘L_H∘μ = ℓ(μ)·m(μ)·L_{μ(H)} is **basis-free and holds verbatim at every d** (the −i and the commutator order know nothing of the dimension; verified machine-zero d = 2..5 on non-Hermitian H).
+
+Two things become clear at once. First, **the qubit (−1)^{n_Y} is the degeneration of the symplectic phase**: at d = 2, ω = −1 and the label flip a ↦ −a is trivial (every label is its own inverse), so θ(P_{a,b}) = (−1)^{ab}P_{a,b}, and (−1)^{ab} = −1 only on (1,1) = Y. The textbook "only Y is both antisymmetric and imaginary" is ω^{ab} evaluated at the one label where a and b are both nonzero, at the one ω where the flip collapses. Second, **for d > 2 the involutions genuinely move the labels** (a ↦ −a is nontrivial for a ≠ 0, d/2): the triangle is no longer a sign on each operator but a reflection of the Z_d × Z_d lattice dressed by the symplectic phase, and the Klein four-group {id, θ, conj, †} acts as the sign-flip group {(±a, ±b)}.
+
+This dovetails with the [qudit mirror group](PROOF_QUDIT_PARTIAL_PALINDROME.md) (F121's Z_d ≀ Z₂): the mirror generator Π_d = ρᵀ·Shift^{⊗N} is the lattice **translation** a ↦ a + 1 composed with θ, while θ and conj are its **reflections**, so ⟨Π_d, D⟩ acts as the symmetry group of the Weyl-Heisenberg lattice, with the qubit D₄ = ⟨R, D⟩ its d = 2 cell.
+
+**Open (the arc this opens, named for re-entry):** the **antilinear double** ⟨Π_d, D, 𝒦⟩ over general d (F119's D₄ × Z₂ is the d = 2 case), and whether the clock Z_d, as d → ∞, becomes the continuous rotation circle the [S₃ ⋉ D₄ completion](PROOF_PI_FACTORS_AS_R_TIMES_D.md) §5 must thicken: the discrete phase-space lattice Z_d × Z_d limiting to the continuous torus, the mirror group's two axes (local dimension and rotation) becoming one.
+
+The verification anchor is [`simulations/qudit_mirror_group_family.py`](../../simulations/qudit_mirror_group_family.py) (self-validating: the symplectic-phase label action d = 2..5, the d = 2 collapse to (−1)^{n_Y}, the universal transport law, and the d > 2 label permutation).
