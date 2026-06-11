@@ -14,8 +14,8 @@ public static class OpenArcsRegistry
             Name: "ptf_painter_pipeline",
             Opened: "2026-06-03",
             Origin: "simulations/ptf workflow + C# SlowModeMixing",
-            ParkedAt: "Python painter-rates twin matches C# SlowModeMixing exactly (same <W|V_L|M>, 6 kernel modes ~1e-29); alpha extraction is extraction-noise-limited",
-            NextStep: "robust alpha extraction, then the closure law as a live witness",
+            ParkedAt: "the closure law lives as a live witness (Symphony painters movement: alpha per site with the two-deltaJ reliability guard, closure -0.0444 IN window at canonical N=5, chiral mirror replayed live at 1e-15, alpha = Python twin to 1e-3); learned on the way: the protocol needs the BONDING state class (Bell+/localized states break the rescaling and the guard refuses, in both languages); C# golden-section also found a true global alpha minimum where scipy's Brent traps 920x worse (severed-bond case, harness simulations/_ptf_symphony_crossval.py)",
+            NextStep: "backport the global-minimum fit fix to framework ptf.py (multi-start or grid-seed), then consider retiring this arc",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
