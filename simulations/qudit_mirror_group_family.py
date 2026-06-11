@@ -84,7 +84,7 @@ def main():
             ok_triangle &= np.allclose(Pab.conj().T, (Pab.conj()).T, atol=1e-9)
         print(f"    d={d}: theta (a,b)->(-a,b) w^-ab {'OK' if ok_theta else 'FAIL'}; "
               f"conj ->(a,-b) {'OK' if ok_conj else 'FAIL'}; "
-              f"dagger ->(-a,-b) w^-ab {'OK' if ok_dag else 'FAIL'}; "
+              f"dagger ->(-a,-b) w^+ab {'OK' if ok_dag else 'FAIL'}; "
               f"dag=theta.conj {'OK' if ok_triangle else 'FAIL'}")
         assert ok_theta and ok_conj and ok_dag and ok_triangle
 
