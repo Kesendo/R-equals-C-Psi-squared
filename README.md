@@ -321,7 +321,7 @@ Full list in [Predictions](docs/PREDICTIONS.md) and [What We Got Wrong](docs/WEA
 
 `docs/` proofs and synthesis · `experiments/` ~170 tested results and null results · `hypotheses/` tier-labeled speculation · `reflections/` synthesis arcs · `simulations/` the Python `framework/` cockpit plus ~870 one-shot scripts · `compute/` the C# layers (Core = typed F-claims; Compute = eigendecomposition N=2–8; Propagate = RK4 / matrix-free to N=15; plus Diagnostics, Cli, Runtime) · `data/` IBM measurement data · `recovered/` premature-not-wrong entries, kept for honesty.
 
-The framework itself lives in Markdown; Python and C# are view-layers operationalising it. The typed C# Core (`compute/RCPsiSquared.Core/`) has been the active development front since 2026-04-30; live introspection via `dotnet run --project compute/RCPsiSquared.Cli -- inspect --root pi2`.
+The framework itself lives in Markdown; Python and C# are view-layers operationalising it. The typed C# Core (`compute/RCPsiSquared.Core/`) has been the active development front since 2026-04-30. Live introspection: start with `dotnet run --project compute/RCPsiSquared.Cli -- inspect --root world --max-depth 2` (the whole object manager: roots, claims, confirmations, open arcs), `--root glossary` for the house terms, `--root symphony` for one system read by every lens at once.
 
 ## License
 

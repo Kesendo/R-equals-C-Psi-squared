@@ -78,8 +78,8 @@ public static class OpenArcsRegistry
             Name: "stranger_door",
             Opened: "2026-06-11",
             Origin: "third-party review: 'a coherent instrument panel wearing a poet's coat' - the house dialect has no doormat",
-            ParkedAt: "CLI and docs assume the house language: no glossary surface for the ten load-bearing terms (tier scale, claim, witness, arc, F-number, truly/soft/hard, light/lens, Q, --n); README's first CLI example firehoses 305 lines of the densest root; no live/stored provenance badge; qudit root silently ignores --N; qudit witness docstring overclaims (the live layer is the pairing census, the rate law itself comes from the proof)",
-            NextStep: "a glossary root (two lines per term), README first command = world --max-depth 2, provenance badges, warn on ignored flags, honest witness boundary text",
+            ParkedAt: "four of five doors hung (inspect --root glossary with 11 house terms in stranger language; qudit witness boundary text honest: census live, rate law from the proof; explicit --N to an N-free root warns on stderr; README first command is now world --max-depth 2)",
+            NextStep: "[live]/[stored] provenance badge per node, then retire this arc",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
