@@ -54,8 +54,8 @@ public static class OpenArcsRegistry
             Name: "symphony_view",
             Opened: "2026-06-11",
             Origin: "Tom's founding Object Manager idea, sharpened: each of the 122 formulas is a maximum-zoom view; the symphony is the zoom-out",
-            ParkedAt: "world catalogs the zooms (15 roots, 208 claims, 2 live witnesses) but every root is still an instrument visited alone; ON_THE_ONE_DIAGONAL proved three instruments are one diagonal read three ways, the symphony view is that theorem as a picture",
-            NextStep: "a Symphony root: ONE system, ONE evolution, every applicable lens reading the same trajectory on a shared timeline, cross-lens events (fold crossing, EP passage, dose marks) on one axis",
+            ParkedAt: "first movement plays (inspect --root symphony): one shared evolution (built once, EvolveCount-guarded), four lenses (palindrome, quarter, dose, light) on one timeline, cross-lens events axis; F25 closed form reproduced exactly at N=2 (fold at K=0.0376); honest limit: under the global-Psi convention the quarter fold is N=2-only (CPsi(0)=1/(d-1) < 1/4 at N>=3, the witness says so instead of faking)",
+            NextStep: "second movement: a block/local-CPsi lens so the fold is audible at N>=3, then more instruments (chiral K, Y-parity, Pi-protected observables) reading the same trajectory",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
