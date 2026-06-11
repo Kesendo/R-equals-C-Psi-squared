@@ -39,17 +39,20 @@ public static class InspectCommand
         string? claimName = p.OptionalString("claim");
         if (claimName is not null) return RunClaim(p, claimName);
 
-        int N = p.RequireInt("N");
         string rootKind = p.OptionalString("root") ?? "fourmode";
+        var entry = Catalog.FirstOrDefault(e => e.Name == rootKind)
+            ?? throw new ArgumentException(
+                $"unknown root: {rootKind}; known: {string.Join(", ", Catalog.Select(e => e.Name))}");
+
+        // N is required only for roots that consume the global --N (fourmode, f71, mirror, …);
+        // the qudit and world roots carry their own dimensions, so they run without --N.
+        int N = entry.RequiresN ? p.RequireInt("N") : (p.OptionalDouble("N") is { } nv ? (int)nv : 1);
         bool withQSweep = p.HasFlag("q-sweep");
         string? exportJson = p.OptionalString("export-json");
         bool withMeasured = p.HasFlag("with-measured");
         int? qGridPoints = p.OptionalDouble("q-grid-points") is { } v ? (int)v : null;
         var ctx = new InspectRootContext(p, N, withQSweep, withMeasured, qGridPoints);
 
-        var entry = Catalog.FirstOrDefault(e => e.Name == rootKind)
-            ?? throw new ArgumentException(
-                $"unknown root: {rootKind}; known: {string.Join(", ", Catalog.Select(e => e.Name))}");
         int maxDepth = (int)(p.OptionalDouble("max-depth") ?? entry.DefaultDepth);
         IInspectable root = entry.Factory(ctx);
 
@@ -237,6 +240,21 @@ public static class InspectCommand
         return new DimensionField(axis, slowCount);
     }
 
+    /// <summary>The F121 live lab: builds a <see cref="QuditPartialPalindromeWitness"/> that
+    /// materialises the qudit full-Cartan dephasing dissipator at inspect time and recomputes
+    /// the partial-palindrome ceiling, the product cap, and the non-product remainder from the
+    /// live spectrum. Args: <c>--qudit-d</c> (local dimension, default 3), <c>--qudit-n</c>
+    /// (sites, default 2), <c>--gamma</c> (default 0.05). Guarded at d^(2N) ≤ 1024 so
+    /// (3,2)=81, (4,2)=256, (3,3)=729 are admitted and (4,3)=4096 is not. Pair with
+    /// <c>--draw</c> to plot the live spectrum.</summary>
+    private static IInspectable BuildQuditRoot(ArgParser p)
+    {
+        int d = p.OptionalDouble("qudit-d") is { } dv ? (int)dv : 3;
+        int n = p.OptionalDouble("qudit-n") is { } nv ? (int)nv : 2;
+        double gamma = p.OptionalDouble("gamma") ?? 0.05;
+        return new QuditPartialPalindromeWitness(d, n, gamma);
+    }
+
     private static CoherenceBlock BuildCoherenceBlock(ArgParser p, int N)
     {
         int n = p.RequireInt("n");
@@ -392,8 +410,10 @@ public static class InspectCommand
             c => BuildFlowRoot(c.Parser, c.N)),
         new("between", "the in-between navigator (six axes: crossover/jdefect/interior/spiral/approach/ep)",
             c => BuildBetweenRoot(c.Parser, c.N)),
+        new("qudit", "F121 qudit partial palindrome, recomputed live",
+            c => BuildQuditRoot(c.Parser), RequiresN: false),
         new("world", "the whole Object Manager: every root, the typed claims, the hardware confirmations",
-            BuildWorldRoot, DefaultDepth: 2),
+            BuildWorldRoot, DefaultDepth: 2, RequiresN: false),
     };
 
     /// <summary>The world root: one tree over the entire Object Manager. The "roots" group lists

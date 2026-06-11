@@ -1,3 +1,4 @@
+using RCPsiSquared.Cli;
 using RCPsiSquared.Cli.Commands;
 
 namespace RCPsiSquared.Cli.Tests.Commands;
@@ -58,5 +59,32 @@ public class InspectRootCatalogTests
     public void Catalog_EveryEntryHasADescription()
     {
         Assert.All(InspectCommand.Catalog, e => Assert.False(string.IsNullOrWhiteSpace(e.Description)));
+    }
+
+    [Fact]
+    public void Catalog_AddsTheQuditRoot_WhichDoesNotRequireN()
+    {
+        var qudit = InspectCommand.Catalog.Single(e => e.Name == "qudit");
+        Assert.Equal("F121 qudit partial palindrome, recomputed live", qudit.Description);
+        Assert.False(qudit.RequiresN);
+    }
+
+    [Fact]
+    public void Catalog_QuditFactory_BuildsTheLiveWitness_DefaultD3N2()
+    {
+        var qudit = InspectCommand.Catalog.Single(e => e.Name == "qudit");
+        var ctx = new InspectRootContext(new ArgParser(Array.Empty<string>()), N: 1,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var root = qudit.Factory(ctx);
+        Assert.Contains("d=3", root.Summary);
+        Assert.Contains("ceiling met", root.Summary);
+    }
+
+    [Fact]
+    public void Catalog_WorldAndQudit_DoNotRequireN()
+    {
+        Assert.False(InspectCommand.Catalog.Single(e => e.Name == "world").RequiresN);
+        Assert.False(InspectCommand.Catalog.Single(e => e.Name == "qudit").RequiresN);
+        Assert.True(InspectCommand.Catalog.Single(e => e.Name == "fourmode").RequiresN);
     }
 }

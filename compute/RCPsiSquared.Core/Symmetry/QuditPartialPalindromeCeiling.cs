@@ -258,6 +258,10 @@ public sealed class QuditPartialPalindromeCeiling : Claim
                 summary: "the unique fully-paired column; (d−1)^k = 1 only at d = 2; this IS d² − 2d = 0 (parent QubitNecessityPi2Inheritance) as an N-family");
             yield return new InspectableNode("interacting spectrum (H degrades it)",
                 summary: "adding H reduces the pairing at every fixed center (54→48 about −Nγ for N = 2); the interacting count is H-dependent (no H-independent closed form); for the symmetric SU(3) Heisenberg the real parts follow Re(λ) = −2γ⟨Q⟩ (PROOF §4)");
+            yield return new InspectableNode("live lab (the witness)",
+                summary: "this ceiling is recomputed from the actual built dissipator spectrum by " +
+                         "QuditPartialPalindromeWitness; run `inspect --root qudit [--qudit-d 3 --qudit-n 2]` " +
+                         "to build L_D live and watch the live paired count meet this closed form");
             foreach (var c in Cases)
                 yield return new InspectableNode(c.Name,
                     summary: $"{c.Detail}; expected {c.Expected}, got {c.Actual}, " + (c.Passes ? "PASS" : "FAIL"));

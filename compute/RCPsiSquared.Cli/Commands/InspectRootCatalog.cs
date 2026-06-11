@@ -19,4 +19,5 @@ public sealed record RootCatalogEntry(
     string Name,
     string Description,
     Func<InspectRootContext, IInspectable> Factory,
-    int DefaultDepth = 4);
+    int DefaultDepth = 4,
+    bool RequiresN = true);
