@@ -4117,6 +4117,25 @@ siblings); end-to-end vs the framework Lindbladian at N = 5, 6, γ ∈ {0.3, 0.7
 site-dependent rates (rel ~2e-16); independently re-implemented five ways (through N = 9
 sampled) in the 2026-06-10 adversarial audit.
 
+**The metallic family (2026-06-11):** the golden point is the c = 1 member of a
+one-real-parameter line. For weighted templates t₁·XZX + t₂·XZY + t₃·YZX the soft set
+is exactly **t₂ = t₃** (off-line is hard by the girth ladder; witness (1,2,1) fires at
+m\* = 11 with p₁₁ = 1730150400·γ³ exact). On the line, with c = t₁/t₂, the same
+[a, a, b, b] router works with a = (r, 1), b = (1, −r), **r(c) = (c + √(c²+4))/2 the
+metallic mean** (golden c=1, silver c=2, bronze c=3; r(−c) = 1/r(c) so c=−1 is 1/φ;
+c=0 is the 45° diagonal), q_l² = −(1+r²)·I. **Derived for ALL real c** by degree bound
++ exact interpolation: every entry of r·{Q₃,[T_c,·]₃} is a degree ≤ 5 polynomial in r
+(c = r − 1/r), and exact Fraction arithmetic finds 8 rational nodes identically zero,
+so the window lemma is a polynomial identity in r. The exclusion generalizes: the
+identity-column determinant factors as **c·(α² − cαβ − β²)**, so the metallic locus
+gates the frame for every c ≠ 0 (alternation forced, uniform/period-2 empty, zero
+moduli verified at silver), while at **c = 0 the determinant dies and a modulus is
+born**: the partner map degenerates to the X-axis mirror (α, β) ↦ (α, −β), the parity
+chains decouple, the Pauli axes give period-2 uniform-frame routers, and the Jacobian
+counts 8 physical moduli (16 = 8 gauge + 8; golden and silver count exactly 8 = gauge).
+Verifier: [`simulations/metallic_router_family.py`](../simulations/metallic_router_family.py);
+proof §8 of the same document.
+
 **Source:** [Proof](proofs/PROOF_CEILING_GOLDEN_ROUTER.md);
 [`simulations/ceiling_golden_router.py`](../simulations/ceiling_golden_router.py) (the
 self-validating anchor); [experiments/CEILING_FOUR_NONLOCAL_CASES.md](../experiments/CEILING_FOUR_NONLOCAL_CASES.md)

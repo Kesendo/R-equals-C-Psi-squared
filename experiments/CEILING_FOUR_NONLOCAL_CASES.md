@@ -32,6 +32,14 @@ Z-middle cases ([PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDE
 > their historical wording where it reads as dated narrative, with in-place corrections where a sentence
 > asserted the non-locality as a present fact.
 
+> **Update, the golden point is a line (2026-06-11).** Weight the three templates t₁·XZX + t₂·XZY + t₃·YZX
+> and the soft set is exactly the line t₂ = t₃; along it the same period-4 router runs with the **metallic
+> mean** r(c) = (c + √(c²+4))/2 of c = t₁/t₂ in place of φ, derived for every real c (golden c = 1, silver
+> c = 2, the 45° diagonal at c = 0, where the frame gains an 8-parameter modulus). The isolated-soft-point
+> tilt recorded below tilted the *angle*, which leaves the line; the weights tilt *along* it. See
+> [PROOF_CEILING_GOLDEN_ROUTER §8](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md) and the committed verifier
+> [`simulations/metallic_router_family.py`](../simulations/metallic_router_family.py).
+
 ## The correction: six were really four
 
 We had a ceiling, and the ceiling was too high. For a while the certifier's story ended with six k-body
