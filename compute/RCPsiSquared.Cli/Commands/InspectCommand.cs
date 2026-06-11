@@ -267,7 +267,13 @@ public static class InspectCommand
     /// <c>--N 2..5</c> (default 3), <c>--J</c> (default 1), <c>--gamma</c> (default 0.1),
     /// <c>--htype XY|Heisenberg</c>, <c>--topology chain|star|ring</c>, <c>--initial bell|excitation</c>
     /// (default bell), <c>--t-max</c> (default 1/γ), <c>--t-points</c> (default 60). Pair with
-    /// <c>--draw</c> to plot the CΨ, K, and light curves.</summary>
+    /// <c>--draw</c> to plot the CΨ, K, and light curves.
+    ///
+    /// <para>The painters' movement (PTF): pass <c>--defect-bond &lt;int&gt;</c> (and optionally
+    /// <c>--delta-j</c>, default 0.02) to grow the "movement: painters" child — the piece played a
+    /// second (defected) and a guard third (δJ/2) time, the per-site α_i field, the closure Σ ln α,
+    /// and the live K₁ chiral mirror. Canonical to the XY chain with a real initial state; declines
+    /// honestly otherwise.</para></summary>
     private static IInspectable BuildSymphonyRoot(ArgParser p, int N)
     {
         if (N < 2 || N > Symphony.MaxN)
@@ -292,7 +298,9 @@ public static class InspectCommand
         };
         double tMax = p.OptionalDouble("t-max") ?? double.NaN;
         int tPoints = p.OptionalDouble("t-points") is { } np ? (int)np : 60;
-        return new Symphony(N, j, gamma, htype, topo, initial, tMax, tPoints);
+        int? defectBond = p.OptionalDouble("defect-bond") is { } db ? (int)db : null;
+        double deltaJ = p.OptionalDouble("delta-j") ?? 0.02;
+        return new Symphony(N, j, gamma, htype, topo, initial, tMax, tPoints, defectBond, deltaJ);
     }
 
     /// <summary>The F116 live lab: builds a <see cref="GoldenRouterWitness"/> that re-runs the soft-certifier
