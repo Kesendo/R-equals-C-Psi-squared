@@ -429,6 +429,19 @@ public static class KnowledgeRegistryFactory
             // BitATwin slot (intrinsically about Z-axis single-site drives, no
             // meaningful bit_a analog). PolarityCubeMap's BitBClaims grows by 1.
             .RegisterLindbladBitBPiBreakMagnitude()
+            // The antilinear triangle (2026-06-11): θ (transpose), conj (entrywise
+            // conjugation), † (adjoint) close with id into one Klein four-group graded by
+            // linearity ℓ and multiplicativity m; the transport law
+            // μ∘L_H∘μ = ℓ(μ)·m(μ)·L_{μ(H)} is the one engine behind five existing proofs
+            // (F114 θ-leg, the girth-ladder reversal kill, F112 Lemmas A+B †-leg, F113/F117
+            // Hermitian conjugacy, the K_b mode mirror conj-leg); in the Pauli basis θ = D
+            // and † = 𝒦, and ⟨R, D, 𝒦⟩ ≅ D₄ × Z₂ (order 16), the antilinear double of the
+            // mirror group. NOT an IZ2AxisClaim (cross-axis structural, like
+            // MirrorGroupD4Claim; cube-map counts unchanged). Typed parents:
+            // MirrorGroupD4Claim, CommutatorDConjugationSign (F114), and
+            // LindbladBitBPiBalance (F112), all registered above; the conj-leg claim
+            // (ChiralMirrorTrajectoryClaim, Diagnostics) stays a prose edge.
+            .RegisterAntilinearTriangleClaim()
             // Polarity cube map (cubic Z₂³ architecture inventory; aggregates every IZ2AxisClaim)
             // Must come AFTER every Pi²-Inheritance Claim registration above so its b.Get<T>()
             // dependencies resolve. Currently snapshot-only; rebuild registry to refresh.
