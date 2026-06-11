@@ -4400,7 +4400,11 @@ Absorption Theorem's Rayleigh reading), with ⟨Q⟩ quantized to {0, 1, 1.5, 2}
 is ⟨Q⟩ = 1.5, a Hamming-1/Hamming-2 mix. This exactness is a symmetry effect (a generic H
 breaks it). The interacting paired count is H-dependent (60 for SU(3) Heisenberg, robust across
 J/γ; ~0 for generic H), so there is **no H-independent closed form** for the interacting
-palindrome; the dissipator's 54 (about −Nγ) is the only invariant.
+palindrome; the dissipator's 54 (about −Nγ) is the only invariant. The SU(3)
+Heisenberg's specific 60 is **decoded by representation theory** (§8): the operator
+space splits into SU(3) energy sectors (intra 6⊗6̄ ⊕ 3̄⊗3 at L_H = 0, inter 6↔3̄ at
+L_H = ±4J), the −3γ rung (⟨Q⟩ = 3/2) is exactly the inter-sector sym↔antisym seam,
+and 60 = (energy sectors) × (Hamming rungs) × (±Δ conjugation).
 
 **Verified (exact):** the per-site equidistance (every i ≠ j at rate −2); c_k vs brute
 enumeration (d = 3, N = 2 and d = 2, N = 3); the dissipator spectrum {0:9, −2γ:36, −4γ:36}
@@ -4432,6 +4436,8 @@ the operator realization);
 (the dissipator ceiling) +
 [`simulations/qutrit_interacting_palindrome.py`](../simulations/qutrit_interacting_palindrome.py)
 (the H-degradation, the −2γ⟨Q⟩ law, the H-dependence) +
+[`simulations/su3_heisenberg_rep_theory.py`](../simulations/su3_heisenberg_rep_theory.py)
+(the SU(3)-Heisenberg 60 decoded) +
 [`simulations/qudit_product_mirror_cap.py`](../simulations/qudit_product_mirror_cap.py)
 (the cap, the operator, the wreath law) +
 [`simulations/qudit_ti_intermediate.py`](../simulations/qudit_ti_intermediate.py)
