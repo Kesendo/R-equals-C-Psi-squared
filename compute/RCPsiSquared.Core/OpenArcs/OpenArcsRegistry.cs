@@ -38,8 +38,8 @@ public static class OpenArcsRegistry
             Name: "witness_coverage",
             Opened: "2026-06-11",
             Origin: "QuditPartialPalindromeWitness, the first live witness",
-            ParkedAt: "one claim of the whole registry recomputes its evidence live",
-            NextStep: "next witnesses: F116 golden router, F117 Pascal-Gram",
+            ParkedAt: "two claims recompute their evidence live (F121 qudit, F116 router)",
+            NextStep: "next witness: F117 Pascal-Gram positivity",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

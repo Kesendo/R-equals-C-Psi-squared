@@ -256,6 +256,25 @@ public static class InspectCommand
         return new QuditPartialPalindromeWitness(d, n, gamma);
     }
 
+    /// <summary>The F116 live lab: builds a <see cref="GoldenRouterWitness"/> that re-runs the soft-certifier
+    /// router machinery at inspect time, watches the §7.12 ceiling close on the Z-middle cases (the 2 → 0
+    /// step, the window-summed golden router), and root-finds the metallic frame ratio r(c) from the router
+    /// itself, comparing it against the closed-form metallic mean. Args: <c>--router-c</c> (comma-separated
+    /// weights, default 0,1,2,3). Pair with <c>--draw</c> to plot the residual ‖{W, S}‖_F over r at c = 1
+    /// (dipping to zero at φ).</summary>
+    private static IInspectable BuildRouterRoot(ArgParser p)
+    {
+        IReadOnlyList<double>? weights = null;
+        if (p.OptionalString("router-c") is { } raw)
+        {
+            var parsed = raw.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Select(s => double.Parse(s, System.Globalization.CultureInfo.InvariantCulture))
+                .ToList();
+            if (parsed.Count > 0) weights = parsed;
+        }
+        return new GoldenRouterWitness(weights);
+    }
+
     private static CoherenceBlock BuildCoherenceBlock(ArgParser p, int N)
     {
         int n = p.RequireInt("n");
@@ -413,6 +432,8 @@ public static class InspectCommand
             c => BuildBetweenRoot(c.Parser, c.N)),
         new("qudit", "F121 qudit partial palindrome, recomputed live",
             c => BuildQuditRoot(c.Parser), RequiresN: false),
+        new("router", "F116 golden/metallic router, ceiling closed live",
+            c => BuildRouterRoot(c.Parser), RequiresN: false),
         new("arcs", "the open-arcs ledger: started, not finished, not forgotten",
             _ => OpenArcsInspectableNode.Build(), RequiresN: false),
         new("world", "the whole Object Manager: every root, the typed claims, the hardware confirmations, incl. the open-arcs ledger",

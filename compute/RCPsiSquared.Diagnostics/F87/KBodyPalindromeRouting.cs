@@ -390,6 +390,84 @@ public static class KBodyPalindromeRouting
         BuildGoldenSiteMap(1.0, -Phi,  Im * Phi,  Im),        // l = 3: g = b = (1, −φ), h = +i·R(b) = (iφ, i)
     };
 
+    /// <summary>The metallic mean of <paramref name="c"/>: the positive root of r² = c·r + 1,
+    /// r(c) = (c + √(c² + 4)) / 2. The golden ratio φ is r(1); the silver mean 1 + √2 is r(2);
+    /// the bronze mean (3 + √13)/2 is r(3); r(0) = 1 (the 45° frame). The CLOSED FORM the live
+    /// router root <see cref="LiveMetallicRatio"/> is cross-checked against (the metallic family,
+    /// PROOF_CEILING_GOLDEN_ROUTER.md §8; F116 is the c = 1 member). N-free, frame-only.</summary>
+    public static double MetallicMean(double c) => (c + Math.Sqrt(c * c + 4.0)) / 2.0;
+
+    /// <summary>The metallic period-4 router for frame ratio <paramref name="r"/> (the golden router
+    /// <see cref="GoldenSiteMaps"/> is the r = φ member): the per-site maps q_l, l = 0..3, with the
+    /// [a, a, b, b] rhythm a = (r, 1), b = (1, −r) (the two roots of the metallic locus
+    /// α² − c·αβ − β² = 0, r = r(c)) and h_l = (−1)^(l+1)·i·R(g_l), R the 90° (X, Y) rotation. Each
+    /// map is class-swapping by <see cref="BuildGoldenSiteMap"/>'s block form with q² = −(1 + r²)·I,
+    /// a scalar times a unitary. When the weighted Z-middle Hamiltonian c·XZX + XZY + YZX is built with
+    /// c = r − 1/r (so r = r(c)), the window-summed anticommutator vanishes at every offset; that root is
+    /// the live r(c) (PROOF_CEILING_GOLDEN_ROUTER.md §8, the metallic family).</summary>
+    public static IReadOnlyList<ComplexMatrix> MetallicSiteMaps(double r) => new[]
+    {
+        BuildGoldenSiteMap(r,  1.0,        Im, -Im * r),   // l = 0: g = a = (r, 1),  h = −i·R(a) = (i, −ir)
+        BuildGoldenSiteMap(r,  1.0,       -Im,  Im * r),   // l = 1: g = a = (r, 1),  h = +i·R(a) = (−i, ir)
+        BuildGoldenSiteMap(1.0, -r,  -Im * r, -Im),        // l = 2: g = b = (1, −r), h = −i·R(b) = (−ir, −i)
+        BuildGoldenSiteMap(1.0, -r,   Im * r,  Im),        // l = 3: g = b = (1, −r), h = +i·R(b) = (ir, i)
+    };
+
+    /// <summary>The weighted Z-middle window Hamiltonian templates c·XZX + XZY + YZX (the metallic family's
+    /// term-set; c = 1 is the golden anchor XZX+XZY+YZX up to the unit XZX weight). Coefficient-weighted,
+    /// because the window-summed cancellation is cross-template; at c = 0 the XZX term drops and the
+    /// remaining XZY+YZX are cancelled against each other.</summary>
+    public static IReadOnlyList<PauliTerm> WeightedZMiddleTemplates(double c) => new[]
+    {
+        new PauliTerm(PauliLabel.Parse("XZX"), new Complex(c, 0.0)),
+        new PauliTerm(PauliLabel.Parse("XZY"), Complex.One),
+        new PauliTerm(PauliLabel.Parse("YZX"), Complex.One),
+    };
+
+    /// <summary>The worst-offset Frobenius norm of the window-summed anticommutator ‖{W_offset, S}‖_F for
+    /// the metallic period-4 router at frame ratio <paramref name="r"/> against the weighted Z-middle
+    /// templates with weight <paramref name="c"/>, maximised over the four window offsets 0..3. This is
+    /// the live residual whose zero pins the frame ratio: it vanishes exactly when r = r(c) (the metallic
+    /// mean). The witness root-finds this to recover r(c) from the router itself, NOT from the closed
+    /// form. k = 3 (the span of XZX), so each anticommutator is a 64 × 64 object; N-free.</summary>
+    public static double WindowSummedAnticommutatorNorm(double c, double r)
+    {
+        var maps = MetallicSiteMaps(r);
+        ComplexMatrix summed = BuildSummedCommutatorSuperoperator(WeightedZMiddleTemplates(c));
+        int k = 3;
+        double worst = 0.0;
+        for (int offset = 0; offset < GoldenPeriod; offset++)
+        {
+            ComplexMatrix qk = BuildQkFromMaps(maps, GoldenPeriod, offset, k);
+            double norm = (qk * summed + summed * qk).FrobeniusNorm();
+            if (norm > worst) worst = norm;
+        }
+        return worst;
+    }
+
+    /// <summary>The LIVE metallic frame ratio for weight <paramref name="c"/>: the value of r at which
+    /// <see cref="WindowSummedAnticommutatorNorm"/>(c, r) vanishes, found by bisection on the residual's
+    /// derivative-sign-free bracket [<paramref name="lo"/>, <paramref name="hi"/>] (the residual is a
+    /// smooth positive function with a single zero at the metallic mean r(c) on r &gt; 0). Computed from the
+    /// router construction alone, so its agreement with <see cref="MetallicMean"/> is a genuine check, not
+    /// a tautology. <paramref name="iterations"/> bisection steps give ≈ (hi−lo)·2^(−iterations) precision.
+    /// Default bracket [0.1, 12] covers r(c) for c ∈ [−2, 10].</summary>
+    public static double LiveMetallicRatio(double c, double lo = 0.1, double hi = 12.0, int iterations = 80)
+    {
+        // The residual ‖{W, S}‖_F is ≥ 0 with a single interior zero at r = r(c); minimise it by golden-
+        // section-free ternary contraction toward the minimum (which is the zero), robust without a sign change.
+        for (int it = 0; it < iterations; it++)
+        {
+            double m1 = lo + (hi - lo) / 3.0;
+            double m2 = hi - (hi - lo) / 3.0;
+            if (WindowSummedAnticommutatorNorm(c, m1) < WindowSummedAnticommutatorNorm(c, m2))
+                hi = m2;
+            else
+                lo = m1;
+        }
+        return 0.5 * (lo + hi);
+    }
+
     /// <summary>The per-site X↔Y conjugation s (I → I, X ↔ Y, Z → −Z) on the operator basis: the involution
     /// that maps each golden map to its sibling-routing twin, q′ = s·q·s.</summary>
     private static readonly ComplexMatrix XySwap = Matrix<Complex>.Build.DenseOfArray(new Complex[,]

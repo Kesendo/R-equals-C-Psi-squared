@@ -143,6 +143,11 @@ public sealed class PalindromeSoftCertifierClaim : Claim
                 summary: $"6 → 4 → 2 → 0: the golden window-summed router certifies the Z-middle pair; " +
                          $"{Ceiling.Count} soft-yet-NotCertified members remain " +
                          "(" + (Ceiling.Count == 0 ? "PASS" : "FAIL") + ")");
+            yield return new InspectableNode("live lab (the F116 witness)",
+                summary: "the golden router and the metallic family r(c) are recomputed from the actual " +
+                         "window-summed anticommutator by GoldenRouterWitness; run `inspect --root router " +
+                         "[--router-c 0,1,2,3]` to watch the ceiling close live and r(c) match the closed-form " +
+                         "metallic mean (golden φ at c=1, silver 1+√2 at c=2)");
             foreach (var c in Ceiling)
                 yield return new InspectableNode($"ceiling REGRESSION: {c.Name}",
                     summary: $"soft={c.IsSoft}, certified={c.Certified}: a certification strategy regressed " +
