@@ -265,7 +265,7 @@ public static class InspectCommand
     /// <summary>The zoom-out, the Symphony: one open quantum system, one time evolution, every lens on a
     /// shared timeline, plus the cross-lens events axis. Args (honored like <c>mirror</c>):
     /// <c>--N 2..5</c> (default 3), <c>--J</c> (default 1), <c>--gamma</c> (default 0.1),
-    /// <c>--htype XY|Heisenberg</c>, <c>--topology chain|star|ring</c>, <c>--initial bell|excitation</c>
+    /// <c>--htype XY|Heisenberg</c>, <c>--topology chain|star|ring</c>, <c>--initial bell|excitation|bonding</c>
     /// (default bell), <c>--t-max</c> (default 1/γ), <c>--t-points</c> (default 60). Pair with
     /// <c>--draw</c> to plot the CΨ, K, and light curves.
     ///
@@ -294,6 +294,7 @@ public static class InspectCommand
         var initial = (p.OptionalString("initial") ?? "bell").ToLowerInvariant() switch
         {
             "excitation" or "single" or "se" => InitialStateKind.SingleExcitation,
+            "bonding" or "sine" => InitialStateKind.BondingMode,
             _ => InitialStateKind.BellPair,
         };
         double tMax = p.OptionalDouble("t-max") ?? double.NaN;

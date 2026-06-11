@@ -20,18 +20,46 @@ public class PtfMovementTests
     private static PaintersMovement Movement(Symphony s) =>
         Children(s).OfType<PaintersMovement>().Single();
 
-    private static Symphony Canonical() =>
-        new Symphony(n: 4, j: 1.0, gamma: 0.1, hType: HamiltonianType.XY,
-                     initialState: InitialStateKind.BellPair, defectBond: 1, deltaJ: 0.02);
+    // The canonical PTF protocol: XY chain, Z-dephasing, |δJ| ≤ 0.1, and a BONDING-MODE
+    // initial state (the delocalized k=1 sine mode, F67). Localized (|10…0⟩) or multi-sector
+    // (Bell+) states break the rescaling picture and the guard rightly flags every site
+    // unreliable; that discovery is pinned in StateClass_Matters_GuardRefusesBellPair below.
+    private static Symphony Canonical(int n = 4) =>
+        new Symphony(n: n, j: 1.0, gamma: 0.05, hType: HamiltonianType.XY,
+                     initialState: InitialStateKind.BondingMode, defectBond: 1, deltaJ: 0.02);
 
     [Fact]
-    public void Closure_WithinWindow_ForCanonicalXY()
+    public void Closure_WithinWindow_ForCanonicalXY_N5()
     {
-        var m = Movement(Canonical());
+        var m = Movement(Canonical(5));
         Assert.True(m.HasLenses);
+        Assert.Equal(5, m.Reliable.Count(r => r));
         Assert.True(m.ClosureInWindow,
             $"closure Σ ln α (reliable) = {m.ClosureSum} should be in ±{PaintersMovement.ClosureWindow}");
-        Assert.True(Math.Abs(m.ClosureSum) <= PaintersMovement.ClosureWindow);
+        Assert.Equal(-0.0444, m.ClosureSum, 3);
+    }
+
+    [Fact]
+    public void Closure_FiniteSize_N4_JustOutsideWindow_ReportedHonestly()
+    {
+        // At N=4 the same canonical protocol lands at −0.067: all sites reliable, the number
+        // finite and mirror-symmetric, but outside ±0.05. The lens must say so, not round it in.
+        var m = Movement(Canonical(4));
+        Assert.Equal(4, m.Reliable.Count(r => r));
+        Assert.False(m.ClosureInWindow);
+        Assert.Equal(-0.0671, m.ClosureSum, 3);
+    }
+
+    [Fact]
+    public void StateClass_Matters_GuardRefusesBellPair()
+    {
+        // Bell+ is a two-sector state, outside the PTF class: the rescaling picture breaks,
+        // α is δJ-independent junk, and the guard must refuse every site (f_guard ≈ 2f).
+        var s = new Symphony(n: 4, j: 1.0, gamma: 0.05, hType: HamiltonianType.XY,
+                             initialState: InitialStateKind.BellPair, defectBond: 1, deltaJ: 0.02);
+        var m = Movement(s);
+        Assert.Equal(0, m.Reliable.Count(r => r));
+        Assert.False(m.ClosureInWindow);
     }
 
     [Fact]
@@ -97,11 +125,11 @@ public class PtfMovementTests
         var m = Movement(Canonical());
         var clock = m.Children.Single(c => c.DisplayName == "clock");
         Assert.Contains("Takt gap", clock.Summary);
-        // 2γ = 0.2 at γ=0.1; read it off the typed scalar child.
+        // 2γ = 0.1 at γ=0.05; read it off the typed scalar child.
         var gap = clock.Children
             .Select(c => c.Payload).OfType<InspectablePayload.Real>()
             .Single(r => r.Label == "Takt gap").Value;
-        Assert.Equal(0.2, gap, 6);
+        Assert.Equal(0.1, gap, 6);
     }
 
     [Fact]
@@ -134,17 +162,19 @@ public class PtfMovementTests
     }
 
     [Fact]
-    public void Alphas_MatchPythonGlobalMinimum_ForReliableSites()
+    public void Alphas_MatchPythonTwin_AndAreMirrorSymmetric()
     {
-        // Cross-validation anchor (see simulations/_ptf_symphony_crossval.py): the C# golden-section
-        // fit lands the genuine global MSE minima. Sites 0, 1, 3 agree with the Python twin to ~1e-2;
-        // site 2 is a featureless trajectory whose global min is α≈1.016 (the Python reference's Brent
-        // got trapped at α≈3.15, MSE 920× worse). Pin the three well-conditioned sites here.
-        var m = Movement(Canonical());
+        // Cross-language anchor: Python perspectives_panel on the identical case gives
+        // α = [0.98124, 0.98551, 0.98551, 0.98124] (N=4 bonding, bond 1, δJ=0.02, γ=0.05).
+        // The α mirror symmetry (site i ↔ N−1−i) is the K₁ chiral law showing up in the
+        // painter rates for the reflection-symmetric middle-bond defect.
+        var m = Movement(Canonical(4));
         var a = m.Alphas;
         Assert.Equal(4, a.Count);
-        Assert.Equal(8.878, a[0], 2);
-        Assert.Equal(3.679, a[1], 2);
-        Assert.Equal(6.556, a[3], 2);
+        Assert.Equal(0.9812, a[0], 3);
+        Assert.Equal(0.9855, a[1], 3);
+        Assert.Equal(a[0], a[3], 6);
+        Assert.Equal(a[1], a[2], 6);
+        Assert.All(a, x => Assert.InRange(x, 0.9, 1.1));
     }
 }

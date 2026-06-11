@@ -194,6 +194,24 @@ public sealed class Symphony : IInspectable
                 // |10…0⟩: site 0 excited (most-significant bit), rest |0⟩.
                 psi[1 << (N - 1)] = Complex.One;
                 break;
+            case InitialStateKind.BondingMode:
+            {
+                // ψ₁ = Σ_l sin(π(l+1)/(N+1)) |1_l⟩: the delocalized single-excitation sine mode
+                // (the F67 receiver state). The canonical carrier of the PTF painter protocol;
+                // localized or multi-sector states break the rescaling picture and the guard
+                // rightly flags every site unreliable.
+                double norm = 0.0;
+                for (int l = 0; l < N; l++)
+                {
+                    double a = Math.Sin(Math.PI * (l + 1) / (N + 1));
+                    psi[1 << (N - 1 - l)] = a;
+                    norm += a * a;
+                }
+                norm = Math.Sqrt(norm);
+                for (int l = 0; l < N; l++)
+                    psi[1 << (N - 1 - l)] /= norm;
+                break;
+            }
             case InitialStateKind.BellPair:
             default:
                 // (|00…0⟩ + |11 0…0⟩)/√2: Bell+ on sites 0,1 (the two most-significant bits), rest |0⟩.
@@ -1028,4 +1046,7 @@ public enum InitialStateKind
 {
     BellPair,
     SingleExcitation,
+    /// <summary>The k=1 sine mode Σ_l sin(π(l+1)/(N+1))|1_l⟩ (F67 bonding receiver):
+    /// the canonical carrier of the PTF painter protocol.</summary>
+    BondingMode,
 }
