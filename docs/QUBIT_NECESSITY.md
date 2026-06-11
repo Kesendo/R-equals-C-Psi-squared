@@ -324,7 +324,7 @@ Lindblad structure and are not covered by the per-site rate argument.
 
 ### 8b. Relaxed mirror conditions
 
-**PARTIALLY ADDRESSED (March 20, 2026):** Qutrit spectra show partial
+**RESOLVED 2026-06-11 (was PARTIALLY ADDRESSED March 20, 2026):** Qutrit spectra show partial
 structure: 36-52/81 eigenvalues pair at optimal centers, far above
 random (0/81) but far below qubits (100%). Level spacing ratio
 std/mean = 0.354, more structured than random but not palindromic.
