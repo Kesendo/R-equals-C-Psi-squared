@@ -4368,5 +4368,49 @@ in [PREDICTIONS](PREDICTIONS.md) §4.
 
 ---
 
+### F121. The qudit partial palindrome: the symmetric overlap of the disagreement count (Tier 1 derived; closed-form combinatorial identity, resolves OQ-002)
+
+The palindromic mirror is exact only at d = 2 (F-trunk d² − 2d = 0; the per-site balance
+d = d² − d closes only there). For d > 2 the spectrum is not random but partial: N = 2
+qutrits pair 36–52 of 81 eigenvalues, a residual no principle had captured. Here is the
+principle. Under full-Cartan dephasing the d levels are **equidistant**, so the decay rate
+of a coherence |i⟩⟨j| is exactly −2γ·Hamming(i, j), the **same rate ladder as the qubit**
+(the Absorption Theorem one dimension up). What differs is the multiplicity per rung:
+
+  **c_k = d^N · C(N, k) · (d−1)^k**   (coherences at Hamming distance k),   Σ_k c_k = d^{2N}.
+
+The palindrome reflects rung k ↔ N−k. For d = 2 the factor (d−1)^k = 1, c_k = 2^N·C(N, k)
+is symmetric, all pair (100%). For d > 2 the (d−1)^k tilts toward large k and only the
+overlap pairs; the dissipator's paired ceiling is
+
+  **paired(d, N) = Σ_k d^N · C(N, k) · (d−1)^{min(k, N−k)},**
+
+equal to d^{2N} **iff d = 2** (the unique fully-paired column of an N-family; this is the
+d² − 2d = 0 necessity re-seen). For d = 3, N = 2: c = [9, 36, 36], rung 0 pairs into rung 2
+leaving 27, rung 1 self-mirrors, paired = **54/81**, excess 27. The qutrit fraction erodes
+with N (66.7%, 66.7%, 51.9% for N = 1, 2, 3); d = 4 gives 50%, 50%, 31.2%. The tilt base
+d − 1 is exactly the per-site decaying : immune ratio (d² − d) : d, raised to the number of
+disagreeing sites.
+
+**Open (the interacting spectrum):** the ceiling is the *dissipator's* partial palindrome.
+The full L = L_H + L_D does not respect it: SU(3) Heisenberg H redistributes real parts off
+the rungs (N = 2: a new rung at −3γ, distribution {0:6, −2γ:36, −3γ:12, −4γ:27}), pairing
+60/81 at center −3γ (exceeding the ceiling) and 48/81 at the dissipator center −γ
+(reproducing the documented 36–52, which was center-suboptimal). H is redistributive, not
+destructive. A closed form for the interacting partial palindrome is open.
+
+**Verified (exact):** the per-site equidistance (every i ≠ j at rate −2); c_k vs brute
+enumeration (d = 3, N = 2 and d = 2, N = 3); the dissipator spectrum {0:9, −2γ:36, −4γ:36}
+and its 54/81 pairing; the ceiling formula vs brute combinatorial pairing on the (d, N) ∈
+{2,3,4}×{1,2,3} grid; d = 2 full in every column.
+
+**Source:** [Proof](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md);
+[`simulations/qutrit_partial_palindrome.py`](../simulations/qutrit_partial_palindrome.py)
+(self-validating); resolves OQ-002 in [QUBIT_NECESSITY](QUBIT_NECESSITY.md) §8b/§10.2;
+typed claim `QuditPartialPalindromeCeiling` (`compute/RCPsiSquared.Core/Symmetry/`, parent
+`QubitNecessityPi2Inheritance`).
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*
