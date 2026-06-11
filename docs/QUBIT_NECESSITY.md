@@ -341,10 +341,13 @@ rung k↔N−k, so the dissipator's paired ceiling is Σ_k d^N·C(N,k)·(d−1)^
 which equals d^(2N) (100%) iff d=2. For d=3,N=2 it is 54/81 (the 27 excess
 is the high rung's overflow). The qubit's uniqueness is not qualified: it is
 the unique fully-paired column of the N-family, the d²−2d=0 necessity re-seen.
-The documented 36-52/81 was the full interacting spectrum at a suboptimal
-center; the dissipator skeleton is exactly 54, and the full L (H redistributes
-real parts) reaches 60/81 at center −3γ. See
-[PROOF_QUDIT_PARTIAL_PALINDROME](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md).
+The documented 36-52/81 was the full interacting spectrum read at various
+centers; the dissipator skeleton (about the physical center −Nγ) is exactly 54,
+and adding H degrades it at every fixed center (54→48 about −Nγ): the palindrome
+is fragile under H, not improved by it. For the symmetric SU(3) Heisenberg the
+interacting real parts follow the Absorption Theorem Re(λ)=−2γ⟨Q⟩, but the
+interacting count is H-dependent with no H-independent closed form. See
+[PROOF_QUDIT_PARTIAL_PALINDROME](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md) §4.
 
 ### 8c. Composition failure at large N
 
@@ -416,9 +419,11 @@ following questions remain genuinely open:
    The dissipator's partial pairing is the symmetric overlap of the
    disagreement-count multiplicity c_k = d^N·C(N,k)·(d−1)^k under k↔N−k:
    paired = Σ_k d^N·C(N,k)·(d−1)^min(k,N−k), full iff d=2, 54/81 at d=3,N=2.
-   Still open: the FULL interacting spectrum (H redistributes the rungs and
-   exceeds the dissipator ceiling, 60/81 at d=3,N=2); whether it has its own
-   closed form is unknown.
+   The FULL interacting spectrum is understood too: adding H degrades the pairing
+   at every fixed center (54→48 about −Nγ); for the symmetric SU(3) Heisenberg the
+   real parts follow the Absorption Theorem Re(λ)=−2γ⟨Q⟩ (the −3γ rung = ⟨Q⟩=1.5),
+   but the interacting count is H-dependent (no H-independent closed form). The
+   dissipator's 54 (about −Nγ) is the only invariant skeleton.
 
 3. **Macroscopic relevance:** The XOR fraction vanishes exponentially
    with N. At what point does the mirror become operationally invisible?

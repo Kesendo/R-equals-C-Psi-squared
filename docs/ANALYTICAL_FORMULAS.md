@@ -4392,23 +4392,28 @@ with N (66.7%, 66.7%, 51.9% for N = 1, 2, 3); d = 4 gives 50%, 50%, 31.2%. The t
 d − 1 is exactly the per-site decaying : immune ratio (d² − d) : d, raised to the number of
 disagreeing sites.
 
-**Open (the interacting spectrum):** the ceiling is the *dissipator's* partial palindrome.
-The full L = L_H + L_D does not respect it: SU(3) Heisenberg H redistributes real parts off
-the rungs (N = 2: a new rung at −3γ, distribution {0:6, −2γ:36, −3γ:12, −4γ:27}), pairing
-60/81 at center −3γ (exceeding the ceiling) and 48/81 at the dissipator center −γ
-(reproducing the documented 36–52, which was center-suboptimal). H is redistributive, not
-destructive. A closed form for the interacting partial palindrome is open.
+**The interacting spectrum (H degrades it):** the ceiling is the *dissipator's* palindrome
+about the physical center −Nγ. Adding H reduces the pairing at **every** fixed center (54 → 48
+about −Nγ = −2γ; 72 → 60 about −3γ, where the two large rungs sit); the palindrome is fragile
+under H. For the symmetric SU(3) Heisenberg the real parts lie exactly on Re(λ) = −2γ⟨Q⟩ (the
+Absorption Theorem's Rayleigh reading), with ⟨Q⟩ quantized to {0, 1, 1.5, 2}: the new −3γ rung
+is ⟨Q⟩ = 1.5, a Hamming-1/Hamming-2 mix. This exactness is a symmetry effect (a generic H
+breaks it). The interacting paired count is H-dependent (60 for SU(3) Heisenberg, robust across
+J/γ; ~0 for generic H), so there is **no H-independent closed form** for the interacting
+palindrome; the dissipator's 54 (about −Nγ) is the only invariant.
 
 **Verified (exact):** the per-site equidistance (every i ≠ j at rate −2); c_k vs brute
 enumeration (d = 3, N = 2 and d = 2, N = 3); the dissipator spectrum {0:9, −2γ:36, −4γ:36}
 and its 54/81 pairing; the ceiling formula vs brute combinatorial pairing on the (d, N) ∈
 {2,3,4}×{1,2,3} grid; d = 2 full in every column.
 
-**Source:** [Proof](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md);
+**Source:** [Proof](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md) (§4 the interacting case);
 [`simulations/qutrit_partial_palindrome.py`](../simulations/qutrit_partial_palindrome.py)
-(self-validating); resolves OQ-002 in [QUBIT_NECESSITY](QUBIT_NECESSITY.md) §8b/§10.2;
-typed claim `QuditPartialPalindromeCeiling` (`compute/RCPsiSquared.Core/Symmetry/`, parent
-`QubitNecessityPi2Inheritance`).
+(the dissipator ceiling) +
+[`simulations/qutrit_interacting_palindrome.py`](../simulations/qutrit_interacting_palindrome.py)
+(the H-degradation, the −2γ⟨Q⟩ law, the H-dependence), both self-validating; resolves OQ-002
+in [QUBIT_NECESSITY](QUBIT_NECESSITY.md) §8b/§10.2; typed claim `QuditPartialPalindromeCeiling`
+(`compute/RCPsiSquared.Core/Symmetry/`, parent `QubitNecessityPi2Inheritance`).
 
 ---
 

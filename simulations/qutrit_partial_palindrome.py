@@ -193,40 +193,37 @@ def main():
         f"ceiling mismatch: {paired_D} {ceil} {comb_pair}"
     print("    -> 54/81: the algebraic ceiling. 27 excess at k=2 unpaired. OK")
 
-    # ---- Part D: full L -> H REDISTRIBUTES real parts off the clean rungs ----
-    # Correction to the first hypothesis (refuted by the data 2026-06-11):
-    # H does not merely split rate-degenerate rungs in the imaginary axis and
-    # push the count BELOW 54. The SU(3) Heisenberg does not commute with the
-    # dissipator, so it moves REAL parts off {0,-2g,-4g}, builds a new -3g rung,
-    # and the resulting distribution is more symmetric about -3g than the bare
-    # dissipator was about -2g. The full L therefore EXCEEDS the dissipator
-    # ceiling. The documented 36-52 was center-suboptimal (it sat near the
-    # dissipator center -g, where the count is ~48); the true optimum is higher.
-    print("\n[D] Full Liouvillian (H_SU3 + dephasing): H redistributes real parts")
+    # ---- Part D: full L -> H DEGRADES the palindrome at every fixed center ----
+    # The dissipator's 54 (Part C) is the pairing about the PHYSICAL center -N*g
+    # (the k<->N-k reflection, where the qubit palindrome is exact). Adding the
+    # Hamiltonian degrades it: at EVERY fixed center the full L pairs FEWER than
+    # the dissipator. An earlier reading mistook full-L-best-center (60 at -3g)
+    # for "exceeding" the dissipator's 54 at -2g - a comparison of two DIFFERENT
+    # centers; at equal center H always reduces pairing. The full interacting
+    # analysis (real parts = -2g*<Q>, H-dependence, no closed form) lives in
+    # simulations/qutrit_interacting_palindrome.py.
+    print("\n[D] Full Liouvillian (H_SU3 + dephasing): H DEGRADES at fixed center")
     H = H_su3_heisenberg(N, [(0, 1)])
-    Lf = L_hamiltonian(H) + L_dephasing(N, GAMMA, jumps1)
-    evF = np.linalg.eigvals(Lf)
+    evF = np.linalg.eigvals(L_hamiltonian(H) + L_dephasing(N, GAMMA, jumps1))
+    evD = np.linalg.eigvals(L_dephasing(N, GAMMA, jumps1))
     rungs = {}
     for r in np.round(evF.real / GAMMA, 1):
         rungs[r] = rungs.get(r, 0) + 1
-    print(f"    real-part rungs (gamma units): "
+    print(f"    full-L real-part rungs (gamma units): "
           f"{ {k: rungs[k] for k in sorted(rungs)} }")
-    print(f"    (dissipator alone was {{0: 9, -2: 36, -4: 36}})")
-    p_diss_center = palindrome_pairs(evF, N * GAMMA, tol=1e-4)   # center -g
-    best = 0
-    best_c = None
-    for cc in np.linspace(0, 0.8, 401):
-        p = palindrome_pairs(evF, cc / 2, tol=1e-4)
-        if p > best:
-            best, best_c = p, cc
-    print(f"    pairing at dissipator center (-1g): {p_diss_center}/81  "
-          f"(reproduces the documented 36-52 band)")
-    print(f"    pairing at optimal center ({-best_c / 2 / GAMMA:.0f}g): {best}/81")
-    assert 36 <= p_diss_center <= 54, \
-        f"dissipator-center pairing {p_diss_center} outside doc band"
-    assert best >= 54, f"full-L optimum {best} below the dissipator ceiling"
-    print(f"    -> H is redistributive, not destructive: optimum {best} > "
-          f"dissipator ceiling 54. OK")
+    print(f"    (dissipator alone was {{0: 9, -2: 36, -4: 36}}; H builds a -3g rung)")
+    # palindrome_pairs(ev, Sg) reflects lambda -> -2*Sg - lambda (center -Sg),
+    # so a fixed center -c*gamma is reached with Sg = c*gamma.
+    for cg, name in ((2.0, "physical center -N*g"), (3.0, "-3g, the two big rungs")):
+        pD = palindrome_pairs(evD, cg * GAMMA, tol=1e-4)
+        pF = palindrome_pairs(evF, cg * GAMMA, tol=1e-4)
+        print(f"    center -{cg:.0f}g ({name}): dissipator {pD}/81, full L {pF}/81 "
+              f"-> H {'degrades' if pF < pD else 'does NOT degrade'}")
+        assert pF < pD, f"H should degrade at center -{cg}g: {pD} -> {pF}"
+    assert palindrome_pairs(evD, 2 * GAMMA, tol=1e-4) == 54
+    assert palindrome_pairs(evF, 2 * GAMMA, tol=1e-4) == 48
+    print("    -> at EVERY fixed center H reduces the pairing (54->48, 72->60);")
+    print("       the palindrome is fragile under H. 54 (about -N*g) is the invariant.")
 
     # ---- Part E: the formula across (d, N): d=2 always full, d>2 partial ----
     print("\n[E] Closed-form ceiling vs brute force, grid of (d, N):")
@@ -248,12 +245,13 @@ def main():
     print("\n" + "=" * 68)
     print("ALL CHECKS PASSED. The DEPHASING dissipator's partial palindrome =")
     print("the symmetric overlap of the disagreement-count distribution")
-    print("c_k = d^N C(N,k)(d-1)^k under k<->N-k. The (d-1)^k tilt vanishes only")
-    print("at d=2 (the unique fully-paired column); for d=3,N=2 the ceiling is")
-    print("54/81. The full L is richer: H does not commute with the dissipator,")
-    print("redistributes real parts onto a new -3g rung, and the optimum (60/81")
-    print("at center -3g) EXCEEDS the dissipator ceiling. H is redistributive,")
-    print("not destructive; the documented 36-52 was center-suboptimal (48 at -1g).")
+    print("c_k = d^N C(N,k)(d-1)^k under k<->N-k, about the physical center -N*g.")
+    print("The (d-1)^k tilt vanishes only at d=2 (the unique fully-paired column);")
+    print("for d=3,N=2 the ceiling is 54/81. Adding the Hamiltonian DEGRADES this:")
+    print("at every fixed center H reduces the pairing (54->48 about -N*g), the")
+    print("palindrome is fragile under H. The full interacting analysis (real parts")
+    print("= -2g<Q>, H-dependent count, no closed form) is in")
+    print("simulations/qutrit_interacting_palindrome.py. 54 is the invariant skeleton.")
     print("=" * 68)
 
 

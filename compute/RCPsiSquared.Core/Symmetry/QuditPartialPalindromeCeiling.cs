@@ -24,10 +24,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// the parent's per-site decaying : immune ratio (d² − d) : d = (d − 1) : 1, raised to the
 /// number of disagreeing sites.
 ///
-/// <para><b>Open (not claimed here):</b> the ceiling is the dissipator's partial palindrome.
-/// The full L = L_H + L_D does not respect it (the SU(3) Heisenberg redistributes real parts;
-/// N = 2 reaches 60/81 at center −3γ, exceeding the ceiling). That is the open follow-up,
-/// carried in <c>docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md</c> §4, not in this claim.</para>
+/// <para><b>The interacting case (not claimed here):</b> the ceiling is the dissipator's
+/// palindrome about the physical center −Nγ. Adding the Hamiltonian degrades it at every
+/// fixed center (54 → 48 about −Nγ for N = 2); the palindrome is fragile under H. The
+/// interacting paired count is H-dependent (no H-independent closed form), and for the
+/// symmetric SU(3) Heisenberg the real parts follow the Absorption Theorem Re(λ) = −2γ⟨Q⟩
+/// (the −3γ rung = ⟨Q⟩ = 1.5). Carried in
+/// <c>docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md</c> §4 and
+/// <c>simulations/qutrit_interacting_palindrome.py</c>, not in this claim.</para>
 ///
 /// <para><b>Self-check battery (integer-exact, built in the ctor):</b> c_k vs brute
 /// enumeration at d = 3, N = 2 and d = 2, N = 3; the closed-form ceiling vs an independent
@@ -252,8 +256,8 @@ public sealed class QuditPartialPalindromeCeiling : Claim
                 summary: $"d = 3, N = 2: c = [9,36,36], paired = {Ceiling(3, 2)}/{Total(3, 2)}, excess = {Total(3, 2) - Ceiling(3, 2)}");
             yield return new InspectableNode("d = 2 uniqueness",
                 summary: "the unique fully-paired column; (d−1)^k = 1 only at d = 2; this IS d² − 2d = 0 (parent QubitNecessityPi2Inheritance) as an N-family");
-            yield return new InspectableNode("open: interacting spectrum",
-                summary: "the full L = L_H + L_D exceeds the ceiling (H redistributes real parts; N = 2 reaches 60/81 at −3γ); its closed form is open (PROOF §4)");
+            yield return new InspectableNode("interacting spectrum (H degrades it)",
+                summary: "adding H reduces the pairing at every fixed center (54→48 about −Nγ for N = 2); the interacting count is H-dependent (no H-independent closed form); for the symmetric SU(3) Heisenberg the real parts follow Re(λ) = −2γ⟨Q⟩ (PROOF §4)");
             foreach (var c in Cases)
                 yield return new InspectableNode(c.Name,
                     summary: $"{c.Detail}; expected {c.Expected}, got {c.Actual}, " + (c.Passes ? "PASS" : "FAIL"));
