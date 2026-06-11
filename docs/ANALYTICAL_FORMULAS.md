@@ -4292,6 +4292,8 @@ antilinear unit 𝒦, conj = D∘𝒦, and the closure is the **antilinear doubl
 open S₃ ⋉ D₄ completion: θ and conj invert every rotation dial (the O(2) reflections of
 each thickened circle), † commutes with every unitary conjugation.
 
+**Qudit generalization (§6):** on the Weyl-Heisenberg operators P_{a,b} = X^a Z^b (a, b ∈ Z_d) the three involutions act with a symplectic phase, θ(P_{a,b}) = ω^{−ab}P_{−a,b}, conj(P_{a,b}) = P_{a,−b}, †(P_{a,b}) = ω^{ab}P_{−a,−b} (ω = e^{2πi/d}); the transport law is basis-free at every d; the qubit (−1)^{n_Y} is the d = 2 degeneration (ω^{ab} at the one label (1,1) = Y where the a ↦ −a flip collapses), and for d > 2 the triangle is a reflection of the Z_d × Z_d lattice, dovetailing with F121's Z_d ≀ Z₂.
+
 **Verified (exact):** the V₄ table and Pauli action; the transport law for all four
 vertices on non-Hermitian H (machine-exact, N = 2, 3); each leg re-derived from the
 engine and cross-checked against its home formulation; the order-16 closure with
@@ -4299,7 +4301,8 @@ exactly 8 antilinear members (N = 2); the dial trio at a generic angle.
 
 **Source:** [Proof](proofs/PROOF_ANTILINEAR_TRIANGLE.md);
 [`simulations/antilinear_triangle.py`](../simulations/antilinear_triangle.py)
-(self-validating); typed claim `AntilinearTriangleClaim`
+(self-validating) + [`simulations/qudit_mirror_group_family.py`](../simulations/qudit_mirror_group_family.py)
+(the Weyl-Heisenberg generalization, §6); typed claim `AntilinearTriangleClaim`
 (`compute/RCPsiSquared.Core/Symmetry/`, parents `MirrorGroupD4Claim`,
 `CommutatorDConjugationSign`, `LindbladBitBPiBalance`; the `ChiralMirrorTrajectoryClaim`
 edge carried in prose across the layer boundary).
