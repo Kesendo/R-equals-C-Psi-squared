@@ -10,24 +10,31 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <summary>The live lab for F121, the qudit partial palindrome (2026-06-11). Where the typed
 /// claims <see cref="QuditPartialPalindromeCeiling"/> and <see cref="QuditProductMirrorCap"/>
 /// carry the closed forms as integer arithmetic, this witness BUILDS the actual full-Cartan
-/// dephasing dissipator at inspect time and reads its spectrum: it materialises the
-/// d^{2N}×d^{2N} Liouvillian L_D in the computational coherence basis (diagonal, rate of
-/// |i⟩⟨j| = −2γ·Hamming(i, j) per the Absorption Theorem one dimension up), counts the modes
-/// that actually pair under the palindrome reflection λ ↦ −2(Nγ) − λ about the physical
-/// center −Nγ, and asserts that the live count equals the closed-form ceiling
-/// Σ_k d^N·C(N,k)·(d−1)^{min(k, N−k)}. It then reads the product-mirror cap (2d)^N and the
-/// non-product remainder off the same spectrum.
+/// dephasing dissipator at inspect time and reads its spectrum.
 ///
-/// <para>The dissipator is diagonal in this basis, so the spectrum is the matrix diagonal
-/// (eigenvalues of a diagonal matrix), no O(n³) eigendecomposition needed; the matrix is built
-/// in full so the witness is a genuine compute, not a formula lookup. Guard:
+/// <para>Be precise about what is derived and what is recomputed. The dissipator's diagonal is
+/// WRITTEN FROM the derived rate law: entry of |i⟩⟨j| = −2γ·Hamming(i, j). That law is not
+/// rediscovered here; it is the theorem of <c>PROOF_QUDIT_PARTIAL_PALINDROME.md</c> (full-Cartan
+/// dephasing makes the d levels equidistant, so the rate is the per-site disagreement count, the
+/// Absorption Theorem one dimension up). What is genuinely recomputed live is the OTHER side: the
+/// pairing census on that spectrum. The witness materialises the d^{2N}×d^{2N} Liouvillian L_D,
+/// then greedily counts the modes that actually pair under the palindrome reflection
+/// λ ↦ −2(Nγ) − λ about the physical center −Nγ, and checks that this independently-counted
+/// number equals the closed-form ceiling Σ_k d^N·C(N,k)·(d−1)^{min(k, N−k)}. Two independent
+/// computations — a written-out spectrum and a closed-form integer — meeting. It then reads the
+/// product-mirror cap (2d)^N and the non-product remainder off the same census.</para>
+///
+/// <para>The dissipator is diagonal in this basis, so the spectrum IS the matrix diagonal we
+/// wrote, no O(n³) eigendecomposition needed; the matrix is built in full so the pairing census
+/// runs against a real d^{2N}×d^{2N} object, not a length-d^{2N} list. Guard:
 /// d^{2N} ≤ <see cref="MaxDim"/> (= 1024), admitting (d, N) ∈ {(2,2):16, (2,3):64, (3,2):81,
 /// (4,2):256, (3,3):729} and excluding (4,3):4096 and beyond.</para>
 ///
 /// <para>Children: one node per Hamming/disagreement rung k with (multiplicity c_k, tilt
 /// (d−1)^{min(k,N−k)}, mirror rung N−k, paired count), plus a cap node splitting the live
 /// paired count into the product-attained (2d)^N and the non-product remainder. Summary, e.g.
-/// "d=3 N=2: paired 54/81 (ceiling met), cap 36, non-product 18; full iff d=2".</para>
+/// "d=3 N=2: paired 54/81 (ceiling met), cap 36, non-product 18; full iff d=2". The "paired"
+/// number is the live census; the "ceiling" is the closed form it is checked against.</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md</c> +
 /// <c>simulations/qutrit_partial_palindrome.py</c> +
@@ -171,7 +178,9 @@ public sealed class QuditPartialPalindromeWitness : IInspectable
             return $"d={D} N={N}: paired {paired}/{Dim} " +
                    $"({(met ? "ceiling met" : $"ceiling {ceil} NOT met")}), cap {cap}, " +
                    $"non-product {nonProduct}; full {(full ? "yes" : "no")} (full iff d=2). " +
-                   $"Live spectrum built ({Dim}×{Dim} L_D), counted about center −Nγ={Center.ToString("0.###", Inv)}.";
+                   $"Diagonal written from the derived rate −2γ·Hamming(i,j) (PROOF_QUDIT_PARTIAL_PALINDROME); " +
+                   $"the live recompute is the pairing census on it ({Dim}×{Dim} L_D, " +
+                   $"counted about center −Nγ={Center.ToString("0.###", Inv)}) vs the closed-form ceiling.";
         }
     }
 
@@ -185,13 +194,19 @@ public sealed class QuditPartialPalindromeWitness : IInspectable
             long nonProduct = QuditProductMirrorCap.NonProductPart(D, N);
             var live = LiveRungCounts();
 
-            // 1. The live spectrum vs the closed-form ceiling (the assert made visible).
+            // 1. The live pairing census vs the closed-form ceiling (the assert made visible).
+            // Boundary: the dissipator diagonal is WRITTEN FROM the derived rate −2γ·Hamming(i,j)
+            // (the law is the theorem, not recomputed here); what is genuinely recomputed live is
+            // the census below — counting which modes pair — checked against the closed form.
             yield return new InspectableNode(
                 displayName: "the live count vs the closed form",
-                summary: $"built the {Dim}×{Dim} dissipator L_D, counted modes pairing under λ ↦ −2(Nγ)−λ " +
-                         $"about the center −Nγ={Center.ToString("0.###", Inv)}: paired = {paired}; " +
-                         $"closed-form ceiling Σ_k d^N·C(N,k)·(d−1)^min(k,N−k) = {ceil}. " +
-                         (paired == ceil ? "MATCH (live = closed form)." : "MISMATCH."));
+                summary: $"the {Dim}×{Dim} dissipator L_D has its diagonal WRITTEN from the derived rate law " +
+                         $"−2γ·Hamming(i,j) (anchored in PROOF_QUDIT_PARTIAL_PALINDROME, not rederived here). " +
+                         $"The live recompute is the pairing census on that spectrum: modes pairing under " +
+                         $"λ ↦ −2(Nγ)−λ about the center −Nγ={Center.ToString("0.###", Inv)} are counted to " +
+                         $"paired = {paired}; this independent count is checked against the closed-form ceiling " +
+                         $"Σ_k d^N·C(N,k)·(d−1)^min(k,N−k) = {ceil}. " +
+                         (paired == ceil ? "MATCH (two independent computations meet)." : "MISMATCH."));
 
             // 2. One node per Hamming/disagreement rung k.
             for (int k = 0; k <= N; k++)

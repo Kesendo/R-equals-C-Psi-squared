@@ -87,4 +87,47 @@ public class InspectRootCatalogTests
         Assert.False(InspectCommand.Catalog.Single(e => e.Name == "qudit").RequiresN);
         Assert.True(InspectCommand.Catalog.Single(e => e.Name == "fourmode").RequiresN);
     }
+
+    [Fact]
+    public void Catalog_AddsTheGlossaryRoot_WhichDoesNotRequireN()
+    {
+        var glossary = InspectCommand.Catalog.Single(e => e.Name == "glossary");
+        Assert.False(glossary.RequiresN);
+        Assert.False(string.IsNullOrWhiteSpace(glossary.Description));
+    }
+
+    // The load-bearing house terms the glossary root must define for a stranger.
+    private static readonly string[] ExpectedGlossaryTerms =
+    {
+        "claim", "tier", "confirmation", "witness", "arc", "F-number",
+        "palindrome / Π", "light / lens", "truly / soft / hard", "Q and γ", "--N and --n",
+    };
+
+    [Fact]
+    public void Glossary_DefinesEveryLoadBearingTerm_WithNonEmptyDefinitions()
+    {
+        var glossary = InspectCommand.Catalog.Single(e => e.Name == "glossary");
+        var ctx = new InspectRootContext(new ArgParser(Array.Empty<string>()), N: 1,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var root = glossary.Factory(ctx);
+
+        var children = root.Children.ToList();
+        var names = children.Select(c => c.DisplayName).ToList();
+        foreach (var term in ExpectedGlossaryTerms)
+            Assert.Contains(term, names);
+
+        // Every term carries a real, non-trivial definition (a stranger must be able to read it).
+        Assert.All(children, c => Assert.False(string.IsNullOrWhiteSpace(c.Summary)));
+        Assert.All(children, c => Assert.True(c.Summary.Length >= 40));
+    }
+
+    [Fact]
+    public void Glossary_RootSummary_PointsAStrangerOnward()
+    {
+        var glossary = InspectCommand.Catalog.Single(e => e.Name == "glossary");
+        var ctx = new InspectRootContext(new ArgParser(Array.Empty<string>()), N: 1,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var root = glossary.Factory(ctx);
+        Assert.Contains("--root world", root.Summary);
+    }
 }

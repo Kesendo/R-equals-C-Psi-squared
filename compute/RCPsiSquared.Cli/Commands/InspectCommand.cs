@@ -47,6 +47,12 @@ public static class InspectCommand
 
         // N is required only for roots that consume the global --N (fourmode, f71, mirror, …);
         // the qudit and world roots carry their own dimensions, so they run without --N.
+        // If such a root is handed an explicit --N it is silently ignored; warn once on stderr
+        // so a caller does not believe the flag did anything (ArgParser.HasFlag tells us the
+        // flag was actually passed, as opposed to its synthesized default).
+        if (!entry.RequiresN && p.HasFlag("N"))
+            Console.Error.WriteLine(
+                $"note: --N is not used by root '{entry.Name}' (it carries its own dimensions; ignored).");
         int N = entry.RequiresN ? p.RequireInt("N") : (p.OptionalDouble("N") is { } nv ? (int)nv : 1);
         bool withQSweep = p.HasFlag("q-sweep");
         string? exportJson = p.OptionalString("export-json");
@@ -436,7 +442,9 @@ public static class InspectCommand
             c => BuildRouterRoot(c.Parser), RequiresN: false),
         new("arcs", "the open-arcs ledger: started, not finished, not forgotten",
             _ => OpenArcsInspectableNode.Build(), RequiresN: false),
-        new("world", "the whole Object Manager: every root, the typed claims, the hardware confirmations, incl. the open-arcs ledger",
+        new("glossary", "the house language: load-bearing terms in plain words for a stranger (start here)",
+            _ => GlossaryInspectableNode.Build(), RequiresN: false),
+        new("world", "the whole Object Manager: every root, the typed claims, the hardware confirmations, the open-arcs ledger, and the glossary (try --root glossary first if the language is new)",
             BuildWorldRoot, DefaultDepth: 2, RequiresN: false),
     };
 
