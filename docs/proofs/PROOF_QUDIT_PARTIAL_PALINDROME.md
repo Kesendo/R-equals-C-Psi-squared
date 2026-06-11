@@ -62,7 +62,7 @@ The ceiling above is the **dissipator's** palindrome, taken about the physical c
 
 What H does carry is a clean **real-part law in the symmetric case**. For the SU(3) Heisenberg the real parts sit exactly on Re(λ) = −2γ⟨Q⟩, where ⟨Q⟩ is the biorthogonal Hamming-distance expectation over each eigenmode (the [Absorption Theorem](PROOF_ABSORPTION_THEOREM.md)'s Rayleigh reading: the real part comes from the self-adjoint dissipator alone). The SU(3) symmetry quantizes ⟨Q⟩ into {0, 1, 1.5, 2} with multiplicities {6, 36, 12, 27}; the new −3γ rung is exactly ⟨Q⟩ = 1.5, a 50/50 mix of Hamming-1 and Hamming-2 coherences. This exactness is a symmetry effect, not a general law: a random Hermitian H breaks it (the real parts spread off the ladder, deviation ≈ 10⁻³).
 
-So the interacting partial palindrome has **no H-independent closed form**: the paired count floats with the Hamiltonian (60 for the SU(3) Heisenberg, robust across all coupling ratios J/γ; 48 and 52 for less symmetric couplings; near zero for a generic H). The dissipator's closed form (54 about −Nγ, full iff d = 2) is the only invariant skeleton; the interacting count is a property of each H's symmetry. Verified in [`simulations/qutrit_interacting_palindrome.py`](../../simulations/qutrit_interacting_palindrome.py) (self-validating).
+So the interacting partial palindrome has **no H-independent closed form**: the paired count floats with the Hamiltonian (60 for the SU(3) Heisenberg, robust across all coupling ratios J/γ; 48 and 52 for less symmetric couplings; near zero for a generic H). The dissipator's closed form (54 about −Nγ, full iff d = 2) is the only invariant skeleton; the interacting count is a property of each H's symmetry. Verified in [`simulations/qutrit_interacting_palindrome.py`](../../simulations/qutrit_interacting_palindrome.py) (self-validating). The SU(3) Heisenberg's specific 60 is decoded by representation theory in §8.
 
 ## §5 What is ours and what is the home
 
@@ -92,7 +92,7 @@ Per site Π_d sends the letter (i, j) to (j, i−1): dark (x, x) ↦ (x, x−1),
 
 (the elements are the index swaps-or-not composed with independent two-sided shifts (a, b) ∈ Z_d × Z_d; D-conjugation exchanges the two shift factors rather than inverting them, which is what makes the extension a wreath product and not a generalized dihedral group). At d = 2 this is exactly D₄: **the [F118 mirror group](PROOF_PI_FACTORS_AS_R_TIMES_D.md) is the d = 2 column of a d-indexed wreath family**, and for d ≥ 3 the reflection D swaps the Π_d^± chiralities instead of normalizing one mirror, the group-level face of the partiality.
 
-The verification anchor for this section is [`simulations/qudit_product_mirror_cap.py`](../../simulations/qudit_product_mirror_cap.py) (self-validating, six blocks: cap + trunk arithmetic d = 2..5; exact alignment residuals; random class-swap rank compliance; the global ceiling-reacher; the group law; the d = 2 degeneracy). The typed claim is `QuditProductMirrorCap` (`compute/RCPsiSquared.Core/Symmetry/`, parents `QuditPartialPalindromeCeiling` + `QubitNecessityPi2Inheritance`). The first question this section left open, whether a translation-invariant non-product mirror can exceed (2d)^N, is resolved in §7; the SU(3)-Heisenberg interacting count 60 of §4 as a representation-theory exercise remains open.
+The verification anchor for this section is [`simulations/qudit_product_mirror_cap.py`](../../simulations/qudit_product_mirror_cap.py) (self-validating, six blocks: cap + trunk arithmetic d = 2..5; exact alignment residuals; random class-swap rank compliance; the global ceiling-reacher; the group law; the d = 2 degeneracy). The typed claim is `QuditProductMirrorCap` (`compute/RCPsiSquared.Core/Symmetry/`, parents `QuditPartialPalindromeCeiling` + `QubitNecessityPi2Inheritance`). The first question this section left open, whether a translation-invariant non-product mirror can exceed (2d)^N, is resolved in §7, and the SU(3)-Heisenberg interacting count 60 of §4 as a representation-theory exercise is resolved in §8.
 
 ## §7 No intermediate: the non-product part is translation-invariant (added 2026-06-11, same day)
 
@@ -107,3 +107,25 @@ So the gap of §6 is **non-product, not non-translation-invariant**. The whole n
 This completes the inversion of the [golden-router story](PROOF_CEILING_GOLDEN_ROUTER.md). There the per-term test *suspected* non-locality and the window sums (a translation-invariant reading) dissolved it; here the strict product is *provably* capped, and again the next structure up, translation invariance, recovers everything. Both seams say one thing: the apparent non-locality is the home of a **homogeneous** structure, and only the strict per-site product is too rigid to see it. The hierarchy is two-tiered, product and translation-invariant = ceiling, with the d² − 2d = 0 trunk as the gate between them.
 
 The verification anchor is [`simulations/qudit_ti_intermediate.py`](../../simulations/qudit_ti_intermediate.py) (self-validating: the unconstrained generic intertwiner rank reproduces the ceiling, the translation-invariant generic rank equals it at d = 3, 4 while the product cap is strictly below, and d = 2 is full throughout).
+
+## §8 The SU(3)-Heisenberg count, decoded (added 2026-06-11, same day)
+
+§4 found the interacting count H-dependent and gave 60/81 for the SU(3) Heisenberg without saying why 60. Representation theory says why. SU(3) does not survive the dephasing (the single-site jumps break the global symmetry, so ⟨Q⟩ is not an SU(3) class function), but it organizes the skeleton, and the count falls out of three layers.
+
+**The operator space as an SU(3) representation.** The two-qutrit Hilbert space is 3⊗3 = 6 ⊕ 3̄ (symmetric sextet, antisymmetric antitriplet), so the Liouville space End(ℂ³⊗ℂ³) = (6⊕3̄)⊗(6̄⊕3) decomposes into the irreps 1 (×2), 8 (×4), 27, 10, 1̄0̄ (dimensions 2 + 32 + 27 + 10 + 10 = 81, verified by the quadratic Casimir on coherence space). The SU(3) Heisenberg H = Σ_a λ_a⊗λ_a is a Casimir difference, constant on each Hilbert sector: E(6) = +4/3, E(3̄) = −8/3, a single gap Δ = E(6) − E(3̄) = 4J. So L_H has exactly three eigenvalues, splitting the coherences by which sectors the ket and bra live in: the **intra-sector** (L_H = 0, 45 coherences, 6⊗6̄ ⊕ 3̄⊗3) and the **inter-sector** (L_H = ±iΔ, 36 coherences, 6↔3̄).
+
+**The dephasing reads the energy split.** Because Re(λ) = −2γ⟨Q⟩ (§4) and ⟨Q⟩ respects the L_H blocks (it commutes with the H-energy grading even while breaking SU(3)), the Hamming average distributes as
+
+  intra: ⟨Q⟩ ∈ {0:6, 1:18, 2:21},  inter: ⟨Q⟩ ∈ {1:18, 3/2:12, 2:6},
+
+reconstructing §4's {0:6, 1:36, 3/2:12, 2:27}. The half-integer ⟨Q⟩ = 3/2 (the −3γ rung) is **exactly the inter-sector**: every one of its 12 modes is a 6↔3̄ coherence (inter-sector weight 1, machine-exact). The half-integer Hamming average is the signature of crossing the symmetric/antisymmetric divide; intra-sector coherences carry integer ⟨Q⟩ only.
+
+**The 60.** The palindrome about the center −3γ reflects each mode (⟨Q⟩, Im λ) to (3 − ⟨Q⟩, −Im λ): the Hamming rung must complement and the energy ±Δ must conjugate. Counting the (⟨Q⟩, sign Im) census,
+
+  intra Q = 1 ↔ Q = 2: 2·min(18, 21) = 36;
+  inter Q = 1 ↔ Q = 2 across ±Δ: 2·(min(9, 3) + min(9, 3)) = 12;
+  inter Q = 3/2 self across ±Δ: 2·min(6, 6) = 12;
+
+total **36 + 12 + 12 = 60**, with 21 unpaired (the 6 immortal ⟨Q⟩ = 0 populations, 3 surplus intra Q = 2, and 12 surplus inter Q = 1). So the SU(3)-Heisenberg's 60 is (SU(3) energy sectors) × (Hamming rungs) × (±Δ energy conjugation), and the standout is structural: the −3γ rung is the sym↔antisym seam. This is the representation-theory account of one H's count, not a universal law (it leans on H having exactly two Hilbert sectors with the 6/3̄ structure), consistent with §4's H-dependence.
+
+The verification anchor is [`simulations/su3_heisenberg_rep_theory.py`](../../simulations/su3_heisenberg_rep_theory.py) (self-validating: the Casimir multiplicities, the L_H sectors, the intra/inter ⟨Q⟩ split with the 3/2-is-inter-sector identity, and the 60 from the census).
