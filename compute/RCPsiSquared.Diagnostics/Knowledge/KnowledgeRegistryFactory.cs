@@ -213,6 +213,14 @@ public static class KnowledgeRegistryFactory
             // Σ d^N·C(N,k)·(d−1)^min(k,N−k), full iff d=2. Parent QubitNecessityPi2Inheritance
             // (registered directly above). Wired 2026-06-11.
             .RegisterQuditPartialPalindromeCeiling()
+            // The qudit product-mirror cap (2026-06-11): the operator side of F121. Any
+            // per-site mirror W = ⊗q_l intertwining W·L_D = (−L_D − 2Nγ)·W pairs ≤ (2d)^N
+            // coherences (full ⟺ d² − 2d = 0 ⟺ d = 2, the trunk's third appearance);
+            // Π_d(ρ) = ρᵀ·Shift^{⊗N} attains the cap exactly on the shift-aligned subspace;
+            // ⟨Π_d, D⟩ ≅ Z_d ≀ Z₂ of order 2d² (D₄ at d = 2). Parents
+            // QuditPartialPalindromeCeiling (line above) + QubitNecessityPi2Inheritance.
+            // Wired 2026-06-11.
+            .RegisterQuditProductMirrorCap()
             .RegisterF1T1AmplitudeDampingPi2Inheritance()
             .RegisterF5DepolarizingErrorPi2Inheritance()
             .RegisterDickeSuperpositionQuarterPi2Inheritance()

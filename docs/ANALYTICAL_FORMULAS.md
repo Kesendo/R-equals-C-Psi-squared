@@ -4407,13 +4407,32 @@ enumeration (d = 3, N = 2 and d = 2, N = 3); the dissipator spectrum {0:9, −2�
 and its 54/81 pairing; the ceiling formula vs brute combinatorial pairing on the (d, N) ∈
 {2,3,4}×{1,2,3} grid; d = 2 full in every column.
 
-**Source:** [Proof](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md) (§4 the interacting case);
+**The operator realization (2026-06-11, same day, §6 of the proof):** the count gained its
+operator. **Product cap (theorem):** any per-site mirror W = ⊗q_l (site-dependent, one- or
+two-sided, antilinear allowed) intertwining the dissipator palindrome pairs at most
+**(2d)^N** of the d^{2N} coherences (rate additivity forces strict per-site class swap;
+rank ≤ 2·min(d, d²−d) = 2d); full ⟺ (2d)^N = d^{2N} ⟺ **d² − 2d = 0**, the trunk's third
+appearance. The cap is attained by the qubit palindromizer's verbatim formula
+**Π_d(ρ) = ρᵀ·Shift^⊗N** (clock shift), exactly zero residual on the shift-aligned
+(2d)^N-dim subspace (per-site {(x,x)} ∪ {(a, a−1)}); two chiralities Π_d^±, which merge at
+d = 2 (the two off-diagonals coincide): the qubit's full mirror IS that degeneracy. The gap
+to the combinatorial ceiling (18 at d = 3, N = 2) is reached by a global partial isometry
+and is therefore **provably the non-product part** (the inverse of the F116 story: here the
+locality obstruction is real). Group law, verified d = 2..5: ord(Π_d) = 2d,
+**|⟨Π_d, D⟩| = 2d², ⟨Π_d, D⟩ ≅ Z_d ≀ Z₂** (D-conjugation exchanges the two shift factors;
+for d > 2 it swaps the chiralities): **F118's D₄ is the d = 2 column of a wreath family.**
+
+**Source:** [Proof](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md) (§4 the interacting case, §6
+the operator realization);
 [`simulations/qutrit_partial_palindrome.py`](../simulations/qutrit_partial_palindrome.py)
 (the dissipator ceiling) +
 [`simulations/qutrit_interacting_palindrome.py`](../simulations/qutrit_interacting_palindrome.py)
-(the H-degradation, the −2γ⟨Q⟩ law, the H-dependence), both self-validating; resolves OQ-002
-in [QUBIT_NECESSITY](QUBIT_NECESSITY.md) §8b/§10.2; typed claim `QuditPartialPalindromeCeiling`
-(`compute/RCPsiSquared.Core/Symmetry/`, parent `QubitNecessityPi2Inheritance`).
+(the H-degradation, the −2γ⟨Q⟩ law, the H-dependence) +
+[`simulations/qudit_product_mirror_cap.py`](../simulations/qudit_product_mirror_cap.py)
+(the cap, the operator, the wreath law), all self-validating; resolves OQ-002
+in [QUBIT_NECESSITY](QUBIT_NECESSITY.md) §8b/§10.2; typed claims `QuditPartialPalindromeCeiling`
+(parent `QubitNecessityPi2Inheritance`) and `QuditProductMirrorCap` (parents both of those),
+`compute/RCPsiSquared.Core/Symmetry/`.
 
 ---
 

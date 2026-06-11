@@ -67,3 +67,29 @@ So the interacting partial palindrome has **no H-independent closed form**: the 
 ## §5 What is ours and what is the home
 
 The d : (d²−d) per-site split, the binomial rung count, and the d = 2 necessity are catalogued (the necessity is typed as `QubitNecessityPi2Inheritance`; the qubit rate law is the Absorption Theorem). What this proof banks is the **synthesis**: the equidistant-ladder reading that carries the qubit rate law verbatim to d > 2, the multiplicity tilt (d−1)^k as the per-site ratio raised to the disagreement count, and the closed-form ceiling whose unique full column recovers d² − 2d = 0 as an N-family. The verification anchor is [`simulations/qutrit_partial_palindrome.py`](../../simulations/qutrit_partial_palindrome.py) (self-validating); the typed claim is `QuditPartialPalindromeCeiling` (`compute/RCPsiSquared.Core/Symmetry/`, parent `QubitNecessityPi2Inheritance`).
+
+## §6 The operator realization: the product cap, Π's formula one dimension up, and the wreath family (added 2026-06-11, same day)
+
+The sections above count the pairs; this section asks **which operator performs the pairing**, and the answer closes the review's open question with the trunk polynomial appearing a third time.
+
+**Theorem (the product cap).** Any per-site mirror, W = ⊗_l q_l with arbitrary site-dependent q_l, one-sided or two-sided, linear or antilinear, that intertwines the dissipator palindrome W L_D = (−L_D − 2Nγ)·W on its support, pairs at most
+
+  **(2d)^N of the d^{2N} coherences.**
+
+*Proof.* The rate ladder is per-site additive, so the intertwining forces each q_l to be a strict class swap: q_l(dark) ⊆ lit and q_l(lit) ⊆ dark, where dark = {|i⟩⟨i|} (d dims, rate 0) and lit (d² − d dims, rate −2γ) per site. (If some q_l(e) mixed the characters, fixing the other sites' letters dark would put the image across two rungs, breaking the intertwining; product coefficients cannot cancel across independent site choices.) Then rank(q_l) = rank(q_l|dark) + rank(q_l|lit) ≤ min(d, d²−d) + min(d, d²−d) = 2d for d ≥ 2, and rank(W) = Π_l rank(q_l) ≤ (2d)^N. ∎
+
+The cap is the full space iff (2d)^N = d^{2N}, i.e. iff **d² − 2d = 0**: the [QUBIT_NECESSITY](../QUBIT_NECESSITY.md) trunk, now as an operator bound (third appearance, after the per-site split and the ceiling column). And the cap is strictly below §3's combinatorial ceiling for every d ≥ 3, N ≥ 2 (at d = 3, N = 2: cap 36 < ceiling 54): since a global, non-product partial isometry reaches the ceiling exactly (greedy rung matching, exact intertwining on its support; verified), **the gap ceiling − (2d)^N is precisely the non-product part of the partial palindrome**. This is the inverse of the [golden-router story](PROOF_CEILING_GOLDEN_ROUTER.md): there the suspected non-locality dissolved because window sums gave per-site maps room the per-term test could not see; here the dissipator is strictly local, the rung count is rigid, and the non-locality is provable.
+
+**The operator attaining the cap is the qubit palindromizer's own formula.** Define, exactly as in [F118](PROOF_PI_FACTORS_AS_R_TIMES_D.md) (Π_Z(ρ) = ρᵀ·X^⊗N),
+
+  **Π_d(ρ) = ρᵀ · Shift^⊗N,**  Shift the cyclic clock shift |x⟩ ↦ |x+1⟩.
+
+Per site Π_d sends the letter (i, j) to (j, i−1): dark (x, x) ↦ (x, x−1), lit-aligned (a, a−1) ↦ (a−1, a−1) dark. On the **shift-aligned subspace**, per-site span{(x,x)} ∪ {(a, a−1)} of dimension 2d per site, hence (2d)^N in all, Π_d is closed and the intertwining residual is **exactly zero** (verified at d = 3, N = 1..3 and d = 4, N = 1..2); on the complement it fails at O(γ), which is the provably unpaired part. There are two chiralities Π_d^± (the two shift directions, aligned subspaces {(a, a∓1)}); at d = 2 the two off-diagonals coincide, the chiralities merge, the aligned subspace is everything, and the mirror is full: **the qubit magic of §3 is, in operator language, the degeneracy of the two shift chiralities.**
+
+**The mirror group becomes a wreath family.** With D the transpose (F118's reflection), the closure obeys, verified exactly at d = 2, 3, 4, 5:
+
+  **ord(Π_d) = 2d,  |⟨Π_d, D⟩| = 2d²,  ⟨Π_d, D⟩ ≅ Z_d ≀ Z₂**
+
+(the elements are the index swaps-or-not composed with independent two-sided shifts (a, b) ∈ Z_d × Z_d; D-conjugation exchanges the two shift factors rather than inverting them, which is what makes the extension a wreath product and not a generalized dihedral group). At d = 2 this is exactly D₄: **the [F118 mirror group](PROOF_PI_FACTORS_AS_R_TIMES_D.md) is the d = 2 column of a d-indexed wreath family**, and for d ≥ 3 the reflection D swaps the Π_d^± chiralities instead of normalizing one mirror, the group-level face of the partiality.
+
+The verification anchor for this section is [`simulations/qudit_product_mirror_cap.py`](../../simulations/qudit_product_mirror_cap.py) (self-validating, six blocks: cap + trunk arithmetic d = 2..5; exact alignment residuals; random class-swap rank compliance; the global ceiling-reacher; the group law; the d = 2 degeneracy). The typed claim is `QuditProductMirrorCap` (`compute/RCPsiSquared.Core/Symmetry/`, parents `QuditPartialPalindromeCeiling` + `QubitNecessityPi2Inheritance`). Open after this section: whether structured intermediates between product and global (translation-invariant non-product W's, the qudit analogue of the window-summed router) can exceed (2d)^N, and the SU(3)-Heisenberg interacting count 60 of §4 as a representation-theory exercise.
