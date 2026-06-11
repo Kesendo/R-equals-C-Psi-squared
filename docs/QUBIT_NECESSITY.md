@@ -332,11 +332,19 @@ std/mean = 0.354, more structured than random but not palindromic.
 systems, gives 0.52; Poisson statistics, the benchmark for uncorrelated
 levels, give 1.0. The qutrit sits between order and chaos.)
 
-The qutrit is not unstructured; it is differently structured. A weaker
-"partial palindrome" theory for d > 2 might exist but has not been
-formulated. If such a theory provides comparable organizational power
-to the full palindrome, the claim that d = 2 is uniquely special would
-need qualification.
+The qutrit is not unstructured; it is differently structured, and the
+structure now has a closed form (RESOLVED 2026-06-11, F121). Under
+full-Cartan dephasing the d levels are equidistant, so the decay rate is
+−2γ·Hamming(i,j), the same rate ladder as the qubit. Only the multiplicity
+per Hamming rung differs: c_k = d^N·C(N,k)·(d−1)^k. The palindrome reflects
+rung k↔N−k, so the dissipator's paired ceiling is Σ_k d^N·C(N,k)·(d−1)^min(k,N−k),
+which equals d^(2N) (100%) iff d=2. For d=3,N=2 it is 54/81 (the 27 excess
+is the high rung's overflow). The qubit's uniqueness is not qualified: it is
+the unique fully-paired column of the N-family, the d²−2d=0 necessity re-seen.
+The documented 36-52/81 was the full interacting spectrum at a suboptimal
+center; the dissipator skeleton is exactly 54, and the full L (H redistributes
+real parts) reaches 60/81 at center −3γ. See
+[PROOF_QUDIT_PARTIAL_PALINDROME](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md).
 
 ### 8c. Composition failure at large N
 
@@ -403,10 +411,14 @@ following questions remain genuinely open:
    environments have different Lindblad structure. Does the d = 2
    exclusivity extend to these?
 
-2. **Partial palindrome theory:** Qutrits show 36-52/81 partial pairing.
-   Is there a weaker symmetry principle that captures this structure?
-   Would it provide any of the organizational benefits of the full
-   palindrome (standing waves, error hierarchy)?
+2. **Partial palindrome theory:** RESOLVED 2026-06-11 (F121,
+   [PROOF_QUDIT_PARTIAL_PALINDROME](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md)).
+   The dissipator's partial pairing is the symmetric overlap of the
+   disagreement-count multiplicity c_k = d^N·C(N,k)·(d−1)^k under k↔N−k:
+   paired = Σ_k d^N·C(N,k)·(d−1)^min(k,N−k), full iff d=2, 54/81 at d=3,N=2.
+   Still open: the FULL interacting spectrum (H redistributes the rungs and
+   exceeds the dissipator ceiling, 60/81 at d=3,N=2); whether it has its own
+   closed form is unknown.
 
 3. **Macroscopic relevance:** The XOR fraction vanishes exponentially
    with N. At what point does the mirror become operationally invisible?
