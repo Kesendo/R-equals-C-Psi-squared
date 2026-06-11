@@ -4306,5 +4306,47 @@ edge carried in prose across the layer boundary).
 
 ---
 
+### F120. The moment-tower pump channel: the device's own damping reads the girth ladder linearly (Tier 1 derived; protocol derived, not yet run)
+
+Amplitude damping is the standard noise model's unique non-unital piece, and its pump
+direction is a pure local Z (D[σ⁻_l](I) = +Z_l, D[σ⁺_l](I) = −Z_l, the same (Z_l, I)
+entry that is F82's entire Π²-antisymmetric content), so at the maximally mixed state
+
+  **d/dt ⟨A⟩ |_{ρ=I/d} = (1/d) · Σ_l Δγ_l · Tr(A Z_l),   Δγ_l = γ↓_l − γ↑_l,**
+
+exactly, for every A and every H. With A = H^j the slope is (1/d)·Σ_l Δγ_l·**t_j(l)**:
+the girth ladder's deg-1 tower t_j(l) = Tr(Z_l H^j), read LINEARLY, rung by rung, by
+nothing but the chip's own damping. Three exact blindnesses: dephasing-blind (unital),
+evolution-blind (only the measured polynomial enters), detailed-balance closure (the
+weight is F84's net vacuum rate). **Rung one is F113**: within F113's scope the static
+Frobenius polarity asymmetry equals **−4^N · slope⟨H⟩** exactly (a static spectral
+imbalance IS a measurable pump rate). The first firing rung is the girth ℓ, certifying
+**hard at m\* = 2ℓ+1 for every γ > 0** (the F117 deg-1 sum of squares); honestly
+one-sided: silence is not softness (IIXY+ZXZY is silent at every rung, hard at m\* = 11
+through deg-5). One order up the curvature is exactly affine in the generator and reads
+X/Y-flavored parasites linearly against the commutator probes [Z_l, H_p^j], while
+Z-flavored parasites are exactly invisible: **F113's balance channel and the pump
+curvature partition the single-site parasite algebra** into complementary linear
+readers. Hardware protocol (derived, parameter-free from T1 calibration): basis-state
+averaging, early-window slopes of Pauli-polynomial energy moments, per-site partial
+damping for site resolution.
+
+**Verified (exact):** pump directions and the law vs dense generators (N = 2, 3,
+site-dependent rates, all three channels); the blindnesses; the three-way F113 bridge
+(closed form = polarity decomposition = −4^N·slope, dev 0); girth-1/girth-2 witnesses
+plus the honest deg-5 negative control; curvature affinity + the probe law + the
+Z-invisibility; the finite-time protocol fit; detailed-balance closure.
+
+**Source:** [Proof + protocol](proofs/PROOF_MOMENT_TOWER_PUMP_CHANNEL.md);
+[`simulations/moment_tower_pump_channel.py`](../simulations/moment_tower_pump_channel.py)
+(self-validating); cockpit diagnostic `framework/diagnostics/f120_moment_tower.py`;
+typed claim `MomentTowerPumpChannelClaim` (`compute/RCPsiSquared.Core/Symmetry/`, parents
+`LindbladBitBPiBreakMagnitude` for the F113 bridge and
+`F84ThermalAmplitudeDampingPi2Inheritance` for the pump weight; the girth-ladder edge
+carried in prose, `GirthLadder.cs` is a Diagnostics compute primitive); prediction row
+in [PREDICTIONS](PREDICTIONS.md) §4.
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*
