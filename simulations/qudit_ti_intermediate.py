@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-_qudit_ti_intermediate.py - WIP scout: is there a TI layer between the
+qudit_ti_intermediate.py - is there a TI layer between the
 product cap (2d)^N and the combinatorial ceiling of the qudit partial palindrome?
 
 F121 / the product-mirror cap (PROOF §6):
