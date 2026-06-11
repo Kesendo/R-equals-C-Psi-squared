@@ -1,6 +1,7 @@
 using System.Globalization;
 using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.CoherenceBlocks;
+using RCPsiSquared.Core.Confirmations;
 using RCPsiSquared.Core.Decomposition;
 using RCPsiSquared.Core.Decomposition.Views;
 using RCPsiSquared.Core.F1;
@@ -40,28 +41,17 @@ public static class InspectCommand
 
         int N = p.RequireInt("N");
         string rootKind = p.OptionalString("root") ?? "fourmode";
-        int maxDepth = (int)(p.OptionalDouble("max-depth") ?? DefaultDepthForRoot(rootKind));
         bool withQSweep = p.HasFlag("q-sweep");
         string? exportJson = p.OptionalString("export-json");
         bool withMeasured = p.HasFlag("with-measured");
         int? qGridPoints = p.OptionalDouble("q-grid-points") is { } v ? (int)v : null;
+        var ctx = new InspectRootContext(p, N, withQSweep, withMeasured, qGridPoints);
 
-        IInspectable root = rootKind switch
-        {
-            "f71" => new F71KnowledgeBase(N),
-            "f1" => BuildF1Root(p, N),
-            "f87" => BuildF87Root(p, N),
-            "pi2" => BuildPi2Root(p, N),
-            "mirror" => BuildMirrorRoot(p, N),
-            "flow" => BuildFlowRoot(p, N),
-            "between" => BuildBetweenRoot(p, N),
-            "fourmode" => BuildFourModeRoot(BuildCoherenceBlock(p, N), withQSweep, qGridPoints),
-            "f86" => BuildF86Root(BuildCoherenceBlock(p, N), withMeasured, qGridPoints),
-            "c2hwhm" => C2HwhmRatio.Build(BuildCoherenceBlock(p, N), BuildOptionalQGrid(p, qGridPoints)),
-            "c2cpsi" => BuildC2CpsiRoot(BuildCoherenceBlock(p, N), p),
-            "c2cpsi-scan" => BuildC2CpsiScanRoot(BuildCoherenceBlock(p, N), p),
-            _ => throw new ArgumentException($"unknown root: {rootKind}; known: fourmode, f86, c2hwhm, c2cpsi, c2cpsi-scan, f71, f1, f87, pi2, mirror, flow, between"),
-        };
+        var entry = Catalog.FirstOrDefault(e => e.Name == rootKind)
+            ?? throw new ArgumentException(
+                $"unknown root: {rootKind}; known: {string.Join(", ", Catalog.Select(e => e.Name))}");
+        int maxDepth = (int)(p.OptionalDouble("max-depth") ?? entry.DefaultDepth);
+        IInspectable root = entry.Factory(ctx);
 
         bool wroteSomething = false;
 
@@ -366,12 +356,72 @@ public static class InspectCommand
         return wroteSomething ? 0 : 2;
     }
 
-    /// <summary>Default <c>--max-depth</c> when the user did not pass one. F86's full
-    /// knowledge base, expanded at depth ≥ 2, accesses Summary/Payload on
-    /// <see cref="F86.UniversalShapeWitness"/> instances and triggers their
-    /// <see cref="Resonance.WitnessCache"/>-backed full-block scans across the entire
-    /// (c, N) anchor grid — OOM-prone on workstation memory. Default depth 1 keeps the
-    /// render to the F86KB root + Tier groups only; pass <c>--max-depth N</c> for deeper.</summary>
-    private static int DefaultDepthForRoot(string rootKind) =>
-        rootKind == "f86" ? 1 : 4;
+    /// <summary>The single source of truth for inspect roots: name, one-line description, the
+    /// factory that builds the <see cref="IInspectable"/> from a parsed context, and the default
+    /// <c>--max-depth</c> for a bare render. The <c>Run</c> switch is a lookup into this list;
+    /// the world root walks it. F86 keeps default depth 1 because its full knowledge base,
+    /// expanded at depth ≥ 2, triggers <see cref="Resonance.WitnessCache"/>-backed full-block
+    /// scans across the entire (c, N) anchor grid — OOM-prone on workstation memory. The world
+    /// root keeps default depth 2 so a bare <c>--root world</c> never enumerates a catalog node's
+    /// children (and so never fires any heavy factory). Pass <c>--max-depth N</c> for deeper.
+    /// </summary>
+    public static readonly IReadOnlyList<RootCatalogEntry> Catalog = new RootCatalogEntry[]
+    {
+        new("fourmode", "the live 4-mode effective block (default root)",
+            c => BuildFourModeRoot(BuildCoherenceBlock(c.Parser, c.N), c.WithQSweep, c.QGridPoints)),
+        new("f86", "F86 universal-shape knowledge base (Q-peak, t-peak, EP)",
+            c => BuildF86Root(BuildCoherenceBlock(c.Parser, c.N), c.WithMeasured, c.QGridPoints),
+            DefaultDepth: 1),
+        new("c2hwhm", "C₂ HWHM-ratio across a Q-grid",
+            c => C2HwhmRatio.Build(BuildCoherenceBlock(c.Parser, c.N), BuildOptionalQGrid(c.Parser, c.QGridPoints))),
+        new("c2cpsi", "block CΨ trajectory through the ¼ cusp under L_block(Q)",
+            c => BuildC2CpsiRoot(BuildCoherenceBlock(c.Parser, c.N), c.Parser)),
+        new("c2cpsi-scan", "block CΨ Q-scan with a single-bond perturbation",
+            c => BuildC2CpsiScanRoot(BuildCoherenceBlock(c.Parser, c.N), c.Parser)),
+        new("f71", "F71 chain-mirror knowledge base",
+            c => new F71KnowledgeBase(c.N)),
+        new("f1", "F1 palindrome knowledge base",
+            c => BuildF1Root(c.Parser, c.N)),
+        new("f87", "F87 trichotomy knowledge base",
+            c => BuildF87Root(c.Parser, c.N)),
+        new("pi2", "Π² polarity knowledge base",
+            c => BuildPi2Root(c.Parser, c.N)),
+        new("mirror", "the live MirrorSystem (slow modes, palindrome, the clock's two hands)",
+            c => BuildMirrorRoot(c.Parser, c.N)),
+        new("flow", "the post-EP single-excitation flow to 1/N",
+            c => BuildFlowRoot(c.Parser, c.N)),
+        new("between", "the in-between navigator (six axes: crossover/jdefect/interior/spiral/approach/ep)",
+            c => BuildBetweenRoot(c.Parser, c.N)),
+        new("world", "the whole Object Manager: every root, the typed claims, the hardware confirmations",
+            BuildWorldRoot, DefaultDepth: 2),
+    };
+
+    /// <summary>The world root: one tree over the entire Object Manager. The "roots" group lists
+    /// every catalog entry (lazily, so a shallow render fires no heavy factory), then the typed
+    /// claim registry grouped by tier, then the hardware confirmations. Default render depth 2
+    /// (see <see cref="Catalog"/>) keeps a bare <c>--root world</c> to section headers only.
+    /// </summary>
+    private static IInspectable BuildWorldRoot(InspectRootContext ctx)
+    {
+        var registry = KnowledgeRegistryFactory.BuildDefault();
+
+        var rootNodes = Catalog
+            .Where(e => e.Name != "world")
+            .Select(e => (IInspectable)new LazyInspectableNode(
+                e.Name, e.Description, () => e.Factory(ctx)))
+            .ToArray();
+        var rootsGroup = new InspectableNode(
+            displayName: "roots",
+            summary: $"{rootNodes.Length} inspect root(s)",
+            children: rootNodes);
+
+        var claimsNode = ClaimRegistryInspectableNode.Build(registry);
+        var confirmationsNode = ConfirmationsInspectableNode.Build();
+
+        return new InspectableNode(
+            displayName: "world",
+            summary: $"{rootNodes.Length} roots, {registry.Count} claims, " +
+                     $"{ConfirmationsRegistry.All.Count} confirmations",
+            children: new[] { (IInspectable)rootsGroup, claimsNode, confirmationsNode });
+    }
 }
