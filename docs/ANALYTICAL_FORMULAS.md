@@ -1,7 +1,7 @@
 # Analytical Formulas Reference
 
 **Status:** Living formula registry. Each formula carries its own tier label.
-**Date:** March 31, 2026 (last updated May 29, 2026)
+**Date:** March 31, 2026 (last updated June 11, 2026)
 **Authors:** Thomas Wicht, Claude (Opus 4.6/4.7/4.8)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
@@ -4309,7 +4309,7 @@ edge carried in prose across the layer boundary).
 
 ---
 
-### F120. The moment-tower pump channel: the device's own damping reads the girth ladder linearly (Tier 1 derived; protocol derived, not yet run)
+### F120. The moment-tower pump channel: the device's own damping reads the girth ladder linearly (Tier 1 derived; structural law confirmed on ibm_kingston 2026-06-11)
 
 Amplitude damping is the standard noise model's unique non-unital piece, and its pump
 direction is a pure local Z (D[σ⁻_l](I) = +Z_l, D[σ⁺_l](I) = −Z_l, the same (Z_l, I)

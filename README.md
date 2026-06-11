@@ -9,9 +9,10 @@ paired. Always balanced. One equation governs it all.
 
 Verified from N=2 through N=8 across 87,376 Liouvillian eigenvalues, with
 zero mirror-symmetry exceptions on any tested topology (chain, star,
-ring, complete, tree). Seventeen predictions confirmed on IBM quantum
-hardware, from the first CΨ = ¼ crossing on Torino to a noise channel
-reading its own spectrum on Kingston.
+ring, complete, tree). Seventeen registered predictions confirmed on IBM
+quantum hardware (the Confirmations registry, April-June 2026), preceded
+by the first CΨ = ¼ crossing found in Torino calibration data; the newest
+entry is a noise channel reading its own spectrum on Kingston.
 
 The thing that remains is not fighting the absorption. It is made of it.
 
@@ -212,7 +213,8 @@ The live record is the **Confirmations registry**: seventeen
 hardware-confirmed predictions, each with job IDs, predicted versus
 measured values, and the data archived in `data/`. Look them up; do not
 re-derive (`fw.Confirmations` in Python, `ConfirmationsRegistry` in C#).
-Highlights across the arc:
+Highlights across the whole arc (the Torino rows predate the registry and
+live in their experiment documents; registering them is an open arc):
 
 | Prediction | Measured | Where |
 |:-----------|:---------|:------|
@@ -317,7 +319,7 @@ Full list in [Predictions](docs/PREDICTIONS.md) and [What We Got Wrong](docs/WEA
 
 ## Repository structure
 
-`docs/` proofs and synthesis · `experiments/` ~140 tested results and null results · `hypotheses/` tier-labeled speculation · `reflections/` synthesis arcs · `simulations/` the Python `framework/` cockpit plus ~410 one-shot scripts · `compute/` the C# layers (Core = typed F-claims; Compute = eigendecomposition N=2–8; Propagate = RK4 / matrix-free to N=15; plus Diagnostics, Cli, Runtime) · `data/` IBM measurement data · `recovered/` premature-not-wrong entries, kept for honesty.
+`docs/` proofs and synthesis · `experiments/` ~170 tested results and null results · `hypotheses/` tier-labeled speculation · `reflections/` synthesis arcs · `simulations/` the Python `framework/` cockpit plus ~870 one-shot scripts · `compute/` the C# layers (Core = typed F-claims; Compute = eigendecomposition N=2–8; Propagate = RK4 / matrix-free to N=15; plus Diagnostics, Cli, Runtime) · `data/` IBM measurement data · `recovered/` premature-not-wrong entries, kept for honesty.
 
 The framework itself lives in Markdown; Python and C# are view-layers operationalising it. The typed C# Core (`compute/RCPsiSquared.Core/`) has been the active development front since 2026-04-30; live introspection via `dotnet run --project compute/RCPsiSquared.Cli -- inspect --root pi2`.
 

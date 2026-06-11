@@ -67,6 +67,22 @@ public static class OpenArcsRegistry
             Status: OpenArcStatus.Open),
 
         new OpenArc(
+            Name: "front_matter_truth",
+            Opened: "2026-06-11",
+            Origin: "third-party review (three cold readers, 2026-06-11): every failure was front matter vs body",
+            ParkedAt: "headline surfaces lag verified bodies: Torino-era confirmations absent from all three registries yet counted in the README's seventeen (wording patched, entries not registered); '121 formulas' is a label (124 headers, 119 base numbers, F53/F54 silently missing, no tombstone); stale anchors (XOR_SPACE 'README Section 10', Pi discovery-date contradiction Mar-14 vs Apr-05)",
+            NextStep: "register the Torino-era confirmations in Python+C#+tests, tombstone F53/F54 in the registry, sweep stale cross-references",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "stranger_door",
+            Opened: "2026-06-11",
+            Origin: "third-party review: 'a coherent instrument panel wearing a poet's coat' - the house dialect has no doormat",
+            ParkedAt: "CLI and docs assume the house language: no glossary surface for the ten load-bearing terms (tier scale, claim, witness, arc, F-number, truly/soft/hard, light/lens, Q, --n); README's first CLI example firehoses 305 lines of the densest root; no live/stored provenance badge; qudit root silently ignores --N; qudit witness docstring overclaims (the live layer is the pairing census, the rate law itself comes from the proof)",
+            NextStep: "a glossary root (two lines per term), README first command = world --max-depth 2, provenance badges, warn on ignored flags, honest witness boundary text",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
             Name: "f86b2_robust_extraction",
             Opened: "2026-06-11",
             Origin: "simulations/f86b2_shape_invariance_dial.py",
