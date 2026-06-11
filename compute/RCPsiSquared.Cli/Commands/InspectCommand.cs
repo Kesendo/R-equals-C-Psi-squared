@@ -256,6 +256,39 @@ public static class InspectCommand
         return new QuditPartialPalindromeWitness(d, n, gamma);
     }
 
+    /// <summary>The zoom-out, the Symphony: one open quantum system, one time evolution, every lens on a
+    /// shared timeline, plus the cross-lens events axis. Args (honored like <c>mirror</c>):
+    /// <c>--N 2..5</c> (default 3), <c>--J</c> (default 1), <c>--gamma</c> (default 0.1),
+    /// <c>--htype XY|Heisenberg</c>, <c>--topology chain|star|ring</c>, <c>--initial bell|excitation</c>
+    /// (default bell), <c>--t-max</c> (default 1/γ), <c>--t-points</c> (default 60). Pair with
+    /// <c>--draw</c> to plot the CΨ, K, and light curves.</summary>
+    private static IInspectable BuildSymphonyRoot(ArgParser p, int N)
+    {
+        if (N < 2 || N > Symphony.MaxN)
+            throw new ArgumentException($"--root symphony needs N in 2..{Symphony.MaxN} (dense d²×d² Liouvillian); got {N}");
+        double j = p.OptionalDouble("J") ?? 1.0;
+        double gamma = p.OptionalDouble("gamma") ?? 0.1;
+        var htype = (p.OptionalString("htype") ?? "XY").ToLowerInvariant() switch
+        {
+            "heisenberg" or "heis" => HamiltonianType.Heisenberg,
+            _ => HamiltonianType.XY,
+        };
+        var topo = (p.OptionalString("topology") ?? "chain").ToLowerInvariant() switch
+        {
+            "star" => TopologyKind.Star,
+            "ring" => TopologyKind.Ring,
+            _ => TopologyKind.Chain,
+        };
+        var initial = (p.OptionalString("initial") ?? "bell").ToLowerInvariant() switch
+        {
+            "excitation" or "single" or "se" => InitialStateKind.SingleExcitation,
+            _ => InitialStateKind.BellPair,
+        };
+        double tMax = p.OptionalDouble("t-max") ?? double.NaN;
+        int tPoints = p.OptionalDouble("t-points") is { } np ? (int)np : 60;
+        return new Symphony(N, j, gamma, htype, topo, initial, tMax, tPoints);
+    }
+
     /// <summary>The F116 live lab: builds a <see cref="GoldenRouterWitness"/> that re-runs the soft-certifier
     /// router machinery at inspect time, watches the §7.12 ceiling close on the Z-middle cases (the 2 → 0
     /// step, the window-summed golden router), and root-finds the metallic frame ratio r(c) from the router
@@ -426,6 +459,8 @@ public static class InspectCommand
             c => BuildPi2Root(c.Parser, c.N)),
         new("mirror", "the live MirrorSystem (slow modes, palindrome, the clock's two hands)",
             c => BuildMirrorRoot(c.Parser, c.N)),
+        new("symphony", "the zoom-out: one system, one evolution, every lens on a shared timeline",
+            c => BuildSymphonyRoot(c.Parser, c.N)),
         new("flow", "the post-EP single-excitation flow to 1/N",
             c => BuildFlowRoot(c.Parser, c.N)),
         new("between", "the in-between navigator (six axes: crossover/jdefect/interior/spiral/approach/ep)",
