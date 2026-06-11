@@ -9,6 +9,7 @@ using RCPsiSquared.Core.F71;
 using RCPsiSquared.Core.F86;
 using RCPsiSquared.Core.F86.Item1Derivation;
 using RCPsiSquared.Core.Inspection;
+using RCPsiSquared.Core.OpenArcs;
 using RCPsiSquared.Core.Resonance;
 using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Diagnostics.F87;
@@ -412,7 +413,9 @@ public static class InspectCommand
             c => BuildBetweenRoot(c.Parser, c.N)),
         new("qudit", "F121 qudit partial palindrome, recomputed live",
             c => BuildQuditRoot(c.Parser), RequiresN: false),
-        new("world", "the whole Object Manager: every root, the typed claims, the hardware confirmations",
+        new("arcs", "the open-arcs ledger: started, not finished, not forgotten",
+            _ => OpenArcsInspectableNode.Build(), RequiresN: false),
+        new("world", "the whole Object Manager: every root, the typed claims, the hardware confirmations, incl. the open-arcs ledger",
             BuildWorldRoot, DefaultDepth: 2, RequiresN: false),
     };
 
@@ -437,11 +440,13 @@ public static class InspectCommand
 
         var claimsNode = ClaimRegistryInspectableNode.Build(registry);
         var confirmationsNode = ConfirmationsInspectableNode.Build();
+        var arcsNode = OpenArcsInspectableNode.Build();
 
         return new InspectableNode(
             displayName: "world",
             summary: $"{rootNodes.Length} roots, {registry.Count} claims, " +
-                     $"{ConfirmationsRegistry.All.Count} confirmations",
-            children: new[] { (IInspectable)rootsGroup, claimsNode, confirmationsNode });
+                     $"{ConfirmationsRegistry.All.Count} confirmations, " +
+                     $"{OpenArcsRegistry.OpenCount} open arcs",
+            children: new[] { (IInspectable)rootsGroup, claimsNode, confirmationsNode, arcsNode });
     }
 }

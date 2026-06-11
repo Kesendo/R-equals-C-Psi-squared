@@ -2,6 +2,7 @@ using RCPsiSquared.Cli;
 using RCPsiSquared.Cli.Commands;
 using RCPsiSquared.Core.Confirmations;
 using RCPsiSquared.Core.Inspection;
+using RCPsiSquared.Core.OpenArcs;
 
 namespace RCPsiSquared.Cli.Tests.Commands;
 
@@ -17,11 +18,18 @@ public class WorldRootTests
     }
 
     [Fact]
-    public void World_HasThreeSectionChildren_RootsClaimsConfirmations()
+    public void World_HasFourSectionChildren_RootsClaimsConfirmationsArcs()
     {
         var children = BuildWorld().Children.ToList();
         var names = children.Select(c => c.DisplayName).ToList();
-        Assert.Equal(new[] { "roots", "claims", "confirmations" }, names);
+        Assert.Equal(new[] { "roots", "claims", "confirmations", "arcs" }, names);
+    }
+
+    [Fact]
+    public void World_ArcsSection_HasExactlyRegistryCountChildren()
+    {
+        var arcs = BuildWorld().Children.Single(c => c.DisplayName == "arcs");
+        Assert.Equal(OpenArcsRegistry.All.Count, arcs.Children.Count());
     }
 
     [Fact]
@@ -47,6 +55,7 @@ public class WorldRootTests
         Assert.Contains($"{roots} roots", summary);
         Assert.Contains($"{ConfirmationsRegistry.All.Count} confirmations", summary);
         Assert.Contains("claims", summary);
+        Assert.Contains($"{OpenArcsRegistry.OpenCount} open arcs", summary);
     }
 
     [Fact]

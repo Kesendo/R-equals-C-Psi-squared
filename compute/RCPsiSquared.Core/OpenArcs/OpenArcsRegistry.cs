@@ -1,0 +1,77 @@
+namespace RCPsiSquared.Core.OpenArcs;
+
+/// <summary>The open-arcs ledger: research threads that were started, reached a first
+/// exemplar, then parked, indexed by name. The world's antidote to its chronic failure
+/// mode (victory declared at the first exemplar, then forgotten): each entry records where
+/// it stopped and the concrete next move, so a returning session looks the arc up instead
+/// of re-discovering its incompleteness. Mirrors <see cref="Confirmations.ConfirmationsRegistry"/>
+/// in shape; surfaced as the inspect "arcs" section via <see cref="Inspection.OpenArcsInspectableNode"/>.</summary>
+public static class OpenArcsRegistry
+{
+    private static readonly IReadOnlyList<OpenArc> _all = new[]
+    {
+        new OpenArc(
+            Name: "ptf_painter_pipeline",
+            Opened: "2026-06-03",
+            Origin: "simulations/ptf workflow + C# SlowModeMixing",
+            ParkedAt: "Python painter-rates twin matches C# SlowModeMixing exactly (same <W|V_L|M>, 6 kernel modes ~1e-29); alpha extraction is extraction-noise-limited",
+            NextStep: "robust alpha extraction, then the closure law as a live witness",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "birth_canal_surface",
+            Opened: "2026-05-31",
+            Origin: "experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md + PostEpFlowField",
+            ParkedAt: "boundary recognized as a SURFACE (slow-subspace light-distribution Q-invariance); s*=0.709 was one hand-picked line's crossing (path-specific 0.11-0.77); PostEpFlowField shows membership only",
+            NextStep: "a live object that computes the surface itself, not one line through it",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "block_spectrum_n9",
+            Opened: "2026-05-19",
+            Origin: "Core LiouvillianBlockSpectrum.ComputeSpectrumPerBlock + SLOW_N9 xUnit test",
+            ParkedAt: "N=9 per-joint-popcount-sector spectra land only inside a tagged slow test; not an inspect root, no artifact a session can browse",
+            NextStep: "surface the per-sector spectra as a live root or witness",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "witness_coverage",
+            Opened: "2026-06-11",
+            Origin: "QuditPartialPalindromeWitness, the first live witness",
+            ParkedAt: "one claim of the whole registry recomputes its evidence live",
+            NextStep: "next witnesses: F116 golden router, F117 Pascal-Gram",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "cockpit_workflows_csharp",
+            Opened: "2026-06-11",
+            Origin: "gap map: simulations/framework/workflows vs compute/",
+            ParkedAt: "cockpit_panel, diagnose_hardware, gamma_probe, lens_pipeline, ptf fitting, bridge dynamics are Python-only; C# has the primitives but no composed workflows",
+            NextStep: "port one workflow end-to-end (cockpit_panel) as the template",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "whirlpool_carbon_layers",
+            Opened: "2026-06-03",
+            Origin: "reflections/ON_THE_WHIRLPOOL_YOU_STEER_TO + simulations/whirlpool*.py",
+            ParkedAt: "water adaptation done (proton crossing an H-bond); carbon layers/anchors (periodic-table valences) and a water prose note never written",
+            NextStep: "carbon-layer translation in the target layer's language",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "f86b2_robust_extraction",
+            Opened: "2026-06-11",
+            Origin: "simulations/f86b2_shape_invariance_dial.py",
+            ParkedAt: "(N,b)-family traces alpha=-0.133 vs fitted -0.129, extraction-noise-limited; g_eff convention gotcha pinned (4.394/(Qp+2))",
+            NextStep: "robust extraction, then close the shape-invariance claim",
+            Status: OpenArcStatus.Open),
+    };
+
+    public static IReadOnlyList<OpenArc> All => _all;
+
+    public static OpenArc? Lookup(string name) =>
+        _all.FirstOrDefault(a => a.Name == name);
+
+    /// <summary>Count of arcs still <see cref="OpenArcStatus.Open"/> (the live unfinished business).</summary>
+    public static int OpenCount => _all.Count(a => a.Status == OpenArcStatus.Open);
+}
