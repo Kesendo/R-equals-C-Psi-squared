@@ -4420,7 +4420,11 @@ to the combinatorial ceiling (18 at d = 3, N = 2) is reached by a global partial
 and is therefore **provably the non-product part** (the inverse of the F116 story: here the
 locality obstruction is real). Group law, verified d = 2..5: ord(Π_d) = 2d,
 **|⟨Π_d, D⟩| = 2d², ⟨Π_d, D⟩ ≅ Z_d ≀ Z₂** (D-conjugation exchanges the two shift factors;
-for d > 2 it swaps the chiralities): **F118's D₄ is the d = 2 column of a wreath family.**
+for d > 2 it swaps the chiralities): **F118's D₄ is the d = 2 column of a wreath family.** The
+non-product gap is **translation-invariant**: a [W, T] = 0 palindrome intertwiner has generic
+rank equal to the full ceiling (54, 378, 128 at (3,2), (3,3), (4,2)), strictly above the
+product cap, so there is **no intermediate layer** (§7); the hierarchy is two-tiered (product
+vs translation-invariant = ceiling), gated by d² − 2d = 0, the F116 story inverted.
 
 **Source:** [Proof](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md) (§4 the interacting case, §6
 the operator realization);
@@ -4429,7 +4433,9 @@ the operator realization);
 [`simulations/qutrit_interacting_palindrome.py`](../simulations/qutrit_interacting_palindrome.py)
 (the H-degradation, the −2γ⟨Q⟩ law, the H-dependence) +
 [`simulations/qudit_product_mirror_cap.py`](../simulations/qudit_product_mirror_cap.py)
-(the cap, the operator, the wreath law), all self-validating; resolves OQ-002
+(the cap, the operator, the wreath law) +
+[`simulations/qudit_ti_intermediate.py`](../simulations/qudit_ti_intermediate.py)
+(no intermediate: TI recovers the ceiling), all self-validating; resolves OQ-002
 in [QUBIT_NECESSITY](QUBIT_NECESSITY.md) §8b/§10.2; typed claims `QuditPartialPalindromeCeiling`
 (parent `QubitNecessityPi2Inheritance`) and `QuditProductMirrorCap` (parents both of those),
 `compute/RCPsiSquared.Core/Symmetry/`.
