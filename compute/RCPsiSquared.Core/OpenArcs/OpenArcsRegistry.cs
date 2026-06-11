@@ -47,7 +47,15 @@ public static class OpenArcsRegistry
             Opened: "2026-06-11",
             Origin: "gap map: simulations/framework/workflows vs compute/",
             ParkedAt: "cockpit_panel, diagnose_hardware, gamma_probe, lens_pipeline, ptf fitting, bridge dynamics are Python-only; C# has the primitives but no composed workflows",
-            NextStep: "port one workflow end-to-end (cockpit_panel) as the template",
+            NextStep: "not a 1:1 port: cockpit_panel becomes the symphony's first movement (see arc symphony_view)",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "symphony_view",
+            Opened: "2026-06-11",
+            Origin: "Tom's founding Object Manager idea, sharpened: each of the 122 formulas is a maximum-zoom view; the symphony is the zoom-out",
+            ParkedAt: "world catalogs the zooms (15 roots, 208 claims, 2 live witnesses) but every root is still an instrument visited alone; ON_THE_ONE_DIAGONAL proved three instruments are one diagonal read three ways, the symphony view is that theorem as a picture",
+            NextStep: "a Symphony root: ONE system, ONE evolution, every applicable lens reading the same trajectory on a shared timeline, cross-lens events (fold crossing, EP passage, dose marks) on one axis",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
