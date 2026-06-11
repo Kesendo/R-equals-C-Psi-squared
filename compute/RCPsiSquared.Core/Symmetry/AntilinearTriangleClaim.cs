@@ -60,7 +60,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// non-Hermitian counterexample, the word-reversal kill on six fixed words covering both
 /// signs, and the BFS closure |⟨R, D, 𝒦⟩| = 16 with 8 antilinear members on the 16-dim
 /// Pauli coefficient space. Mirrors the blocks of
-/// <c>simulations/antilinear_triangle.py</c>.</para></summary>
+/// <c>simulations/antilinear_triangle.py</c>; the §6 qudit generalization (the Weyl-Heisenberg
+/// lattice) is verified in <c>simulations/qudit_mirror_group_family.py</c>.</para></summary>
 public sealed class AntilinearTriangleClaim : Claim
 {
     private const double Tol = 1e-12;
@@ -105,7 +106,8 @@ public sealed class AntilinearTriangleClaim : Claim
                "Tier1Derived (one-line algebraic identities, exact)",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_ANTILINEAR_TRIANGLE.md + " +
-               "simulations/antilinear_triangle.py")
+               "simulations/antilinear_triangle.py + " +
+               "simulations/qudit_mirror_group_family.py")
     {
         MirrorGroup = mirrorGroup ?? throw new ArgumentNullException(nameof(mirrorGroup));
         F114 = f114 ?? throw new ArgumentNullException(nameof(f114));
@@ -143,6 +145,19 @@ public sealed class AntilinearTriangleClaim : Claim
         "with 8 antiunitary members is the antilinear double of the mirror group: every mirror " +
         "acquires an antiunitary twin.";
 
+    /// <summary>The qudit generalization (Weyl-Heisenberg) in one line.</summary>
+    public string QuditGeneralization =>
+        "The triangle is the d = 2 shadow of a Weyl-Heisenberg lattice action. On the qudit " +
+        "operators P_{a,b} = X^a Z^b (a, b ∈ Z_d; clock X, phase Z, ZX = ωXZ, ω = e^{2πi/d}) the " +
+        "involutions act with a symplectic phase: θ(P_{a,b}) = ω^{−ab}P_{−a,b}, " +
+        "conj(P_{a,b}) = P_{a,−b}, †(P_{a,b}) = ω^{ab}P_{−a,−b} (verified d = 2..5), and the " +
+        "transport law is basis-free at every d. The qubit (−1)^{n_Y} is the degeneration: at " +
+        "d = 2 the flip a ↦ −a is trivial and ω^{ab} = −1 only on (1,1) = Y. For d > 2 the " +
+        "involutions move the labels, so the sign becomes a reflection of the Z_d × Z_d lattice; " +
+        "⟨Π_d, D⟩ (F121's Z_d ≀ Z₂) is that lattice's symmetry group. The antilinear double over " +
+        "general d and the d → ∞ rotation circle are the open arc. " +
+        "Verified in simulations/qudit_mirror_group_family.py.";
+
     public override string DisplayName =>
         "The antilinear triangle: θ, conj, † as one Klein four-group; five proofs, one engine";
 
@@ -162,6 +177,7 @@ public sealed class AntilinearTriangleClaim : Claim
             yield return new InspectableNode("The transport law (the engine)", summary: TransportLaw);
             yield return new InspectableNode("Five legs, one engine", summary: FiveLegs);
             yield return new InspectableNode("The antilinear double ⟨R, D, 𝒦⟩ ≅ D₄ × Z₂", summary: AntilinearDouble);
+            yield return new InspectableNode("The qudit generalization (Weyl-Heisenberg lattice)", summary: QuditGeneralization);
             yield return new InspectableNode("Conj-leg claim (prose edge only)",
                 summary: "The conj-leg's typed claim (ChiralMirrorTrajectoryClaim, the K₁ trajectory " +
                          "identity behind the K_b mode mirror T = Σ₁∘conj) lives in " +
