@@ -55,8 +55,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// intertwining on support; and the chirality swap D(+aligned) = −aligned at d = 3.
 /// Mirrors the blocks of <c>simulations/qudit_product_mirror_cap.py</c>.</para>
 ///
-/// <para>Anchors: <c>docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md</c> §6 +
-/// <c>simulations/qudit_product_mirror_cap.py</c>.</para></summary>
+/// <para>Anchors: <c>docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md</c> §6 (the cap) and §7
+/// (no intermediate: TI recovers the ceiling) +
+/// <c>simulations/qudit_product_mirror_cap.py</c> +
+/// <c>simulations/qudit_ti_intermediate.py</c>.</para></summary>
 public sealed class QuditProductMirrorCap : Claim
 {
     /// <summary>One exact integer/permutation self-check.</summary>
@@ -95,7 +97,8 @@ public sealed class QuditProductMirrorCap : Claim
                "Tier1Derived (exact integer/permutation arithmetic)",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md + " +
-               "simulations/qudit_product_mirror_cap.py")
+               "simulations/qudit_product_mirror_cap.py + " +
+               "simulations/qudit_ti_intermediate.py")
     {
         PartialPalindrome = partialPalindrome ?? throw new ArgumentNullException(nameof(partialPalindrome));
         QubitNecessity = qubitNecessity ?? throw new ArgumentNullException(nameof(qubitNecessity));
@@ -131,6 +134,15 @@ public sealed class QuditProductMirrorCap : Claim
         "the gap ceiling − (2d)^N (= 18 at d = 3, N = 2) is exactly the non-product part of " +
         "the partial palindrome.";
 
+    /// <summary>The translation-invariant reach in one line.</summary>
+    public string TranslationInvariantReach =>
+        "The non-product gap ceiling − (2d)^N is recovered ENTIRELY by a translation-invariant " +
+        "(non-product) mirror: the generic rank of a [W, T] = 0 palindrome intertwiner equals the " +
+        "full ceiling (54, 378, 128 at (3, 2), (3, 3), (4, 2)), strictly above the product cap. No " +
+        "intermediate layer exists; the hierarchy is two-tiered, product vs translation-invariant = " +
+        "ceiling, gated by d² − 2d = 0 (the F116 inversion: the apparent non-locality is the home of " +
+        "a homogeneous structure, only the strict per-site product is too rigid to see it).";
+
     // ============================================================
     // Static helpers mirroring the Python verifier
     // ============================================================
@@ -150,6 +162,15 @@ public sealed class QuditProductMirrorCap : Claim
         ValidateGrid(d, N);
         return QuditPartialPalindromeCeiling.Ceiling(d, N);
     }
+
+    /// <summary>The non-product part of the partial palindrome: ceiling − (2d)^N, the number
+    /// of coherence pairs no per-site product mirror can reach. It is recovered ENTIRELY by a
+    /// translation-invariant (non-product) mirror: the generic rank of a [W, T] = 0 palindrome
+    /// intertwiner equals the full ceiling (verified at (d, N) = (3, 2), (3, 3), (4, 2) in
+    /// <c>simulations/qudit_ti_intermediate.py</c>), so the hierarchy is two-tiered (product vs
+    /// translation-invariant = ceiling) with no intermediate, gated by d² − 2d = 0. Zero iff the
+    /// product mirror is already full, i.e. d = 2 or N = 1. Requires d ≥ 2, N ≥ 1.</summary>
+    public static long NonProductPart(int d, int N) => CombinatorialCeiling(d, N) - ProductCap(d, N);
 
     /// <summary>Build Π_d as a permutation of the d^{2N} coherence indices: basis pair
     /// (i, j) at index i·d^N + j maps to (j, i − chirality mod d per digit), i.e.
@@ -488,6 +509,33 @@ public sealed class QuditProductMirrorCap : Claim
                 Actual: swapOk ? "D(+aligned) = −aligned, masks distinct" : "chirality swap broken"));
         }
 
+        // (h) The non-product part and its translation-invariant recovery: the integer gap
+        //     ceiling − (2d)^N is positive exactly when the product mirror is not full
+        //     (d > 2 and N ≥ 2), zero at d = 2 or N = 1, and 18 at (3, 2). The TI generic-rank
+        //     intertwiner reaching the full ceiling is verified in qudit_ti_intermediate.py.
+        {
+            int gapGridOk = 0, gapGridTot = 0;
+            for (int d = 2; d <= 5; d++)
+                for (int N = 1; N <= 3; N++)
+                {
+                    gapGridTot++;
+                    long gap = NonProductPart(d, N);
+                    if (gap >= 0 && (gap > 0) == (d > 2 && N >= 2)) gapGridOk++;
+                }
+            bool anchorOk = NonProductPart(3, 2) == 18
+                         && NonProductPart(2, 3) == 0
+                         && NonProductPart(4, 2) == 64;
+            cases.Add(new BatteryCase(
+                Name: "non-product part = ceiling − (2d)^N, translation-invariant-recovered",
+                Detail: "the gap is positive exactly when the product mirror is not full (d > 2 and " +
+                        "N ≥ 2), 18 at (3, 2); a translation-invariant intertwiner recovers it to the " +
+                        "full ceiling (verified in qudit_ti_intermediate.py)",
+                Expected: "12/12 grid, anchors 18/0/64",
+                Actual: (gapGridOk == gapGridTot && anchorOk)
+                    ? "12/12 grid, anchors 18/0/64"
+                    : $"{gapGridOk}/{gapGridTot} grid, anchors {(anchorOk ? "ok" : "off")}"));
+        }
+
         return cases;
     }
 
@@ -510,6 +558,8 @@ public sealed class QuditProductMirrorCap : Claim
             yield return new InspectableNode("The operator Π_d(ρ) = ρᵀ·Shift^{⊗N}", summary: OperatorRealization);
             yield return new InspectableNode("The mirror group law ⟨Π_d, D⟩ ≅ Z_d ≀ Z₂", summary: MirrorGroupLaw);
             yield return new InspectableNode("The non-product gap (honesty)", summary: NonProductGap);
+            yield return new InspectableNode("Translation-invariant recovery (no intermediate)", summary: TranslationInvariantReach);
+            yield return InspectableNode.RealScalar("NonProductPart(d=3, N=2)", NonProductPart(3, 2));
             yield return InspectableNode.RealScalar("ProductCap(d=3, N=2)", ProductCap(3, 2));
             yield return InspectableNode.RealScalar("CombinatorialCeiling(d=3, N=2)", CombinatorialCeiling(3, 2));
             yield return new InspectableNode("Typed parents",

@@ -71,7 +71,7 @@ public class QuditProductMirrorCapTests
     public void Battery_AllCasesPass()
     {
         var claim = MakeClaim();
-        Assert.Equal(7, claim.Cases.Count);
+        Assert.Equal(8, claim.Cases.Count);
         foreach (var c in claim.Cases)
             Assert.True(c.Passes, $"battery case '{c.Name}' failed: expected {c.Expected}, got {c.Actual}");
         Assert.Equal(claim.Cases.Count, claim.PassCount);
@@ -114,6 +114,18 @@ public class QuditProductMirrorCapTests
         Assert.Throws<ArgumentOutOfRangeException>(() => QuditProductMirrorCap.CombinatorialCeiling(1, 1));
         Assert.Throws<ArgumentOutOfRangeException>(() => QuditProductMirrorCap.BuildPiD(3, 1, chirality: 2));
         Assert.Throws<ArgumentOutOfRangeException>(() => QuditProductMirrorCap.BuildPiD(1, 1));
+    }
+
+    [Fact]
+    public void NonProductPart_IsCeilingMinusCap_AndPositiveExactlyWhenNotFull()
+    {
+        Assert.Equal(18, QuditProductMirrorCap.NonProductPart(3, 2));   // 54 − 36
+        Assert.Equal(0, QuditProductMirrorCap.NonProductPart(2, 3));    // d = 2 full
+        Assert.Equal(0, QuditProductMirrorCap.NonProductPart(3, 1));    // N = 1 full
+        Assert.Equal(64, QuditProductMirrorCap.NonProductPart(4, 2));   // 128 − 64
+        for (int d = 2; d <= 5; d++)
+            for (int N = 1; N <= 3; N++)
+                Assert.Equal(d > 2 && N >= 2, QuditProductMirrorCap.NonProductPart(d, N) > 0);
     }
 
     [Fact]
