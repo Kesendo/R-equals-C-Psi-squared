@@ -4265,5 +4265,46 @@ row of the table); `KleinEightCellClaim` (the cube the characters coordinatize);
 
 ---
 
+### F119. The antilinear triangle: θ, conj, † as one Klein four-group, and the transport law (Tier 1 derived; one-line identities, universal N)
+
+The transpose θ(A) = Aᵀ, the entrywise conjugation conj(A) = Ā, and the adjoint
+†(A) = A† satisfy † = θ∘conj and form, with the identity, a Klein four-group graded by
+two ±1 characters: **ℓ (linearity)** and **m (multiplicativity)**. θ = (linear,
+reversing), conj = (antilinear, preserving), † = (antilinear, reversing). On a Pauli
+string: θ(σ) = conj(σ) = (−1)^{n_Y}σ, †(σ) = σ. The engine is the **transport law**
+
+  μ ∘ L_H ∘ μ = ℓ(μ)·m(μ) · L_{μ(H)},   L_H = −i[H,·], any H,
+
+the sign being the product character: θ → −L_{Hᵀ}, conj → −L_{H̄}, † → +L_{H†} (its two
+signs cancel). One sign from the −i (antilinearity), one from the commutator's order
+(reversal); the dephasing dissipator is fixed by all three. **Five proofs, one engine:**
+F114 is the θ face at word length 2; the girth-ladder reversal kill is θ at word length
+j (Tr reversed = (−1)^{n_Y}·Tr forward); F112 Lemmas A+B are the † face at the
+Hilbert-Schmidt pairing ((L_H)\* = −L_{H†}, the dagger an antilinear isometry
+conjugating Π-eigenvalues, and the skew/self-adjoint split under this pairing is the
+Absorption Theorem's Rayleigh floor); F113 Lemma C / F117's Hermitian conjugacy is the
+**fixed-point collapse** (each vertex's fixed-point set is where the other two agree:
+H = H† ⟺ Hᵀ = H̄, ket leg = conj of bra leg); the K₁/K_b mirrors T = Σ₁∘conj are the
+conj face dressed on a coherence block (antilinearity pairs λ ↔ λ̄, hence mode k ↔
+N+1−k). In the Pauli basis the triangle docks onto F118's mirror group: θ = D, † = the
+antilinear unit 𝒦, conj = D∘𝒦, and the closure is the **antilinear double**
+⟨R, D, 𝒦⟩ ≅ D₄ × Z₂ (order 16, eight antiunitary members). The dial trio points at the
+open S₃ ⋉ D₄ completion: θ and conj invert every rotation dial (the O(2) reflections of
+each thickened circle), † commutes with every unitary conjugation.
+
+**Verified (exact):** the V₄ table and Pauli action; the transport law for all four
+vertices on non-Hermitian H (machine-exact, N = 2, 3); each leg re-derived from the
+engine and cross-checked against its home formulation; the order-16 closure with
+exactly 8 antilinear members (N = 2); the dial trio at a generic angle.
+
+**Source:** [Proof](proofs/PROOF_ANTILINEAR_TRIANGLE.md);
+[`simulations/antilinear_triangle.py`](../simulations/antilinear_triangle.py)
+(self-validating); typed claim `AntilinearTriangleClaim`
+(`compute/RCPsiSquared.Core/Symmetry/`, parents `MirrorGroupD4Claim`,
+`CommutatorDConjugationSign`, `LindbladBitBPiBalance`; the `ChiralMirrorTrajectoryClaim`
+edge carried in prose across the layer boundary).
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*
