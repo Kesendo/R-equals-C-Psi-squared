@@ -442,6 +442,21 @@ public static class KnowledgeRegistryFactory
             // LindbladBitBPiBalance (F112), all registered above; the conj-leg claim
             // (ChiralMirrorTrajectoryClaim, Diagnostics) stays a prose edge.
             .RegisterAntilinearTriangleClaim()
+            // The F120 moment-tower pump channel (2026-06-11): amplitude damping is the
+            // unique non-unital piece of the standard Lindbladian and pumps along pure
+            // local Z (D[σ⁻_l](I) = +Z_l, D[σ⁺_l](I) = −Z_l), so the slope of ⟨H^j⟩ at
+            // the maximally mixed state reads the girth-ladder tower t_j(l) = Tr(Z_l·H^j)
+            // linearly: slope_j = (1/d)·Σ_l Δγ_l·t_j(l). Dephasing-blind, evolution-blind,
+            // closed at detailed balance; rung 1 is F113 (asymmetry = −4^N·slope⟨H⟩
+            // exactly); the curvature is exactly affine and fingerprints X/Y-flavored
+            // parasites while Z-flavored ones stay invisible (complementary to F113's
+            // Z-drive reader); the girth certificate is one-sided. NOT an IZ2AxisClaim
+            // (cross-axis structural; cube-map counts unchanged). Typed parents:
+            // LindbladBitBPiBreakMagnitude (F113, the bridge) and
+            // F84ThermalAmplitudeDampingPi2Inheritance (the Δγ vacuum-rate pump weight),
+            // both registered above; the Diagnostics girth-ladder primitive stays a
+            // prose edge (compute primitive, not a Claim).
+            .RegisterMomentTowerPumpChannelClaim()
             // Polarity cube map (cubic Z₂³ architecture inventory; aggregates every IZ2AxisClaim)
             // Must come AFTER every Pi²-Inheritance Claim registration above so its b.Get<T>()
             // dependencies resolve. Currently snapshot-only; rebuild registry to refresh.
