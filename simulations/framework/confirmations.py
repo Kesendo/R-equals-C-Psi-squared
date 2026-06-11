@@ -274,6 +274,39 @@ class Confirmations:
             'framework_primitive': 'ExceptionalPointClock (decay pinning at 4γ₀, F95 rotation angle, eigenvector overlap min(x,1/x)) + EpField hardware node (inspect --axis ep); F86 Q_EP',
             'description': 'The F86 exceptional point watched switching the memory on, on a real chip, populations only. Part A (job d8dr7dfd0j8c73f4man0) at the chip\'s natural Q ≫ 1: the excitation sloshes 0 → 2 → 1 → 0 with ~3 μs period (the reborn memory), the site-0 revival fades 0.84 → 0.43 over 15 μs (the forgetting), and the populations converge to 1/3 = 1/N at 20 μs (the flow target). Part B (job d8drjbfd0j8c73f4mobg) injects dephasing via a random-Z twirl (K=16 instances; the RZ gates are virtual on IBM, so the injection is error-free) to push Q = J/γ down through Q_EP ≈ 1.5: the revival sits on the equipartition floor (~1/3) for Q ≤ 1.5 and lifts off as Q crosses 1.5 → 2.5 (0.34 → 0.49 → 0.56 → 0.70). The rotation born at the EP, hardware-anchored. The revival decay envelope is gate-cost-limited (Trotterization, ~9 μs), not T2-limited (~200 μs); only the rate is gate cost, the floor and the onset are physics. This table is the hardware node of EpField (compute/RCPsiSquared.Diagnostics/Foundation/EpField.cs) and the overlay in simulations/ep_transition.py.',
         },
+        'f120_moment_tower_kingston_june2026': {
+            'date': '2026-06-11',
+            'machine': 'ibm_kingston',
+            'job_id': 'd8l6c7rqv2lc73863acg (Arm A) + d8l6c832d42s73cb16a0 (Arm B) + d8l6h03nn5bs738rmrug (standard-T1 arbiter)',
+            'observable': 'Energy-moment slopes d/dt⟨H_p^j⟩ from the maximally mixed state (8-basis-state average) under pure idle, H_p = X₀+X₀Z₁+0.7·X₁X₂ (girth-2 witness, H_p² = 2.49·I+2·Z₁+1.4·XXX exact); qubits q149/q13/q9, NO two-qubit gates, dynamical decoupling disabled, τ ∈ {0..150} μs, two arms permuting the middle qubit',
+            'predicted_value': {
+                'rung_1_null': 'slope⟨H_p⟩ = 0 at all τ (t₁ ≡ 0; evolution-blind, robust against all Z-flavored idle parasitics)',
+                'rung_2_fires': 'slope⟨H_p²⟩ = 2·Δγ_mid (t₂ = [0,16,0] fires at the middle site only)',
+                'row_identity': '⟨H_p²⟩ = 2.49 + 2⟨Z₁⟩ + 1.4⟨XXX⟩ row by row; ⟨XXX⟩ stays 0',
+                'site_tracking': 'the firing follows the middle-qubit identity across arms; per-qubit pump slopes arm-independent',
+                'rates_from_calibration': 'Δγ_l = 1/T1_l (the textbook noise-model assumption; this is the layer the chip declined)',
+            },
+            'measured_value': {
+                'rung_1_null': 'slope⟨H⟩ = +2.4e-4/μs (z = +1.47, Arm A) and −6.8e-6/μs (z = −0.04, Arm B): the double null HELD',
+                'row_identity': 'exact in every measured row (e.g. τ=100 Arm A: 2.49+2·0.4147+1.4·0.0186 = 3.345 vs 3.3455); |⟨XXX⟩| ≤ 0.02 throughout',
+                'per_qubit_pump_slopes_per_us': {'q149': [2.327e-3, 2.193e-3], 'q13': [3.029e-3, 3.090e-3], 'q9': [5.794e-3, 5.779e-3]},
+                'cross_arm_reproducibility': 'q9 0.3%, q13 1.9%, q149 5.7% (different chain roles, different jobs)',
+                'arbiter_T1_us': {'q149': 424.6, 'q13': 430.3, 'q9': 99.9},
+                'model_test': 'pump/Γ ratios 0.93-0.99 (q149, textbook), 1.30-1.33 (q13, VIOLATES pump ≤ Γ at 4-6σ: non-unital content beyond two-level amplitude damping, telegraph jump in Arm A), 0.58 (q9, deficit; its |1⟩-decay is itself non-exponential, 13.4e-3 → 7.7e-3/μs)',
+            },
+            'hardware_data': 'data/ibm_moment_tower_june2026/ (main + arbiter JSONs + the 06:33Z calibration snapshot)',
+            'experiment_doc': 'experiments/F120_MOMENT_TOWER_KINGSTON.md',
+            'framework_primitive': 'moment_tower + predict_pump_slope + f113_bridge_asymmetry_from_slope (diagnostics/f120_moment_tower, called by the pipeline script at startup); MomentTowerPumpChannelClaim (C#); PROOF_MOMENT_TOWER_PUMP_CHANNEL',
+            'description': 'F120 first hardware reading, the cleanest protocol we ever sent to a QPU (not one entangling gate). '
+                           'The structural law confirmed: the first energy-moment rung stays silent while the second fires as exactly '
+                           'twice the middle qubit\'s pump curve, the girth read from hardware is 2, and the per-qubit pump rates '
+                           'reproduce across arms to 0.3-5.7%. The rate layer returned a finding instead of a number: the pump slope '
+                           'reads Tr(Z_l·D(I)), the device\'s TRUE non-unital pump vector, and it disagrees with calibrated amplitude '
+                           'damping on two of three qubits. The unplanned bonus is a per-qubit noise-model test: pump ≤ Γ_T1 holds for '
+                           'every two-level Lindblad model, q149 passes it, q9 dodges it (non-exponential decay, 1/T1 ill-defined), '
+                           'and q13 violates it reproducibly, pointing at leakage/TLS physics beyond the textbook channel. The '
+                           'hardness rung of a programmed Hamiltonian is now a quantity a chip measures about itself by decaying.',
+        },
     }
 
     @classmethod

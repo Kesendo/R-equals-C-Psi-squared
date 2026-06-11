@@ -306,6 +306,47 @@ public static class ConfirmationsRegistry
             QubitPath: new[] { 13, 14, 15 }),
 
         new Confirmation(
+            Name: "f120_moment_tower_kingston_june2026",
+            Date: "2026-06-11",
+            Machine: "ibm_kingston",
+            JobId: "d8l6c7rqv2lc73863acg (Arm A) + d8l6c832d42s73cb16a0 (Arm B) + d8l6h03nn5bs738rmrug (standard-T1 arbiter)",
+            Observable:
+                "Energy-moment slopes d/dt⟨H_p^j⟩ from the maximally mixed state (8-basis-state average) under pure idle; " +
+                "H_p = X₀+X₀Z₁+0.7·X₁X₂ (girth-2 witness, H_p² = 2.49·I+2·Z₁+1.4·XXX exact, tower t₁ ≡ 0, t₂ = [0,16,0]); " +
+                "qubits q149/q13/q9, NO two-qubit gates, dynamical decoupling disabled, τ ∈ {0..150} μs, two arms permuting the middle qubit",
+            PredictedValue:
+                "Rung-1 null: slope⟨H_p⟩ = 0 at all τ (t₁ ≡ 0; evolution-blind, robust against all Z-flavored idle parasitics). " +
+                "Rung 2 fires: slope⟨H_p²⟩ = 2·Δγ_mid (t₂ fires at the middle site only); row identity ⟨H_p²⟩ = 2.49 + 2⟨Z₁⟩ + 1.4⟨XXX⟩; " +
+                "site tracking across arms. Rates-from-calibration Δγ_l = 1/T1_l was the textbook noise-model assumption (the layer the chip declined).",
+            MeasuredValue:
+                "Double null HELD: slope⟨H⟩ = +2.4e-4/μs (z = +1.47, Arm A) and −6.8e-6/μs (z = −0.04, Arm B); |⟨XXX⟩| ≤ 0.02 throughout. " +
+                "Row identity exact in every measured row (τ=100 Arm A: 2.49+2·0.4147+1.4·0.0186 = 3.345 vs 3.3455). " +
+                "Per-qubit pump slopes (Arm A / B, per μs): q149 2.327e-3 / 2.193e-3, q13 3.029e-3 / 3.090e-3, q9 5.794e-3 / 5.779e-3 " +
+                "(cross-arm reproducibility 5.7% / 1.9% / 0.3%). Arbiter standard T1: q149 424.6, q13 430.3, q9 99.9 μs (calibration confirmed, no drift). " +
+                "Model test pump/Γ: q149 0.93-0.99 (textbook), q13 1.30-1.33 (VIOLATES pump ≤ Γ at 4-6σ: non-unital content beyond " +
+                "two-level amplitude damping; telegraph jump in Arm A), q9 0.58 (deficit; its |1⟩-decay is itself non-exponential, 13.4e-3 → 7.7e-3/μs).",
+            HardwareData:
+                "data/ibm_moment_tower_june2026/ (moment_tower_hardware_ibm_kingston_20260611T073908Z.json, " +
+                "t1_arbiter_20260611T075540Z.json, the 06:33Z calibration snapshot)",
+            ExperimentDoc: "experiments/F120_MOMENT_TOWER_KINGSTON.md",
+            FrameworkPrimitive:
+                "moment_tower + predict_pump_slope + f113_bridge_asymmetry_from_slope (framework diagnostics f120_moment_tower, " +
+                "called by the pipeline script run_moment_tower.py at startup); MomentTowerPumpChannelClaim (Core/Symmetry); " +
+                "PROOF_MOMENT_TOWER_PUMP_CHANNEL",
+            Description:
+                "F120's first hardware reading, the cleanest protocol ever sent to a QPU from this project: not one entangling gate " +
+                "(X-gate preparation of all 8 basis states = exact I/d, pure idle as evolution, single-qubit basis rotations to read). " +
+                "The structural law confirmed: the first energy-moment rung stays silent (the double null) while the second fires as " +
+                "exactly twice the middle qubit's pump curve (row-exact identity), the girth read from hardware is 2, the firing follows " +
+                "the middle-qubit identity across arms, and the per-qubit pump rates reproduce across arms to 0.3-5.7%. " +
+                "The rate layer returned a finding instead of a number: the pump slope reads Tr(Z_l·D(I)), the device's TRUE non-unital " +
+                "pump vector, and it disagrees with calibrated amplitude damping on two of three qubits. The unplanned bonus is a cheap " +
+                "per-qubit noise-model test (pump ≤ Γ_T1 holds for every two-level Lindblad model): q149 passes, q9 dodges (non-exponential " +
+                "decay, 1/T1 ill-defined for it), q13 violates reproducibly, pointing at leakage/TLS physics beyond the textbook channel. " +
+                "The hardness rung of a programmed Hamiltonian is now a quantity a chip measures about itself by decaying.",
+            QubitPath: new[] { 149, 13, 9 }),
+
+        new Confirmation(
             Name: "gamma_0_marrakesh_calibration",
             Date: "2026-04-29",
             Machine: "ibm_marrakesh",

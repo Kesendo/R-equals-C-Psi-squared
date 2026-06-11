@@ -1,0 +1,48 @@
+# F120 on hardware: the moment tower read by the chip's own damping (ibm_kingston, 2026-06-11)
+
+**Date:** 2026-06-11 (calibration 06:33Z, main run 07:39Z, arbiter 07:55Z)
+**Machine:** ibm_kingston (Heron r2), qubits q149 / q13 / q9, no two-qubit gates anywhere
+**Jobs:** d8l6c7rqv2lc73863acg (Arm A), d8l6c832d42s73cb16a0 (Arm B), d8l6h03nn5bs738rmrug (T1 arbiter)
+**Data:** [data/ibm_moment_tower_june2026/](../data/ibm_moment_tower_june2026/) (main JSON + arbiter JSON + the calibration snapshot)
+**Theory:** [PROOF_MOMENT_TOWER_PUMP_CHANNEL](../docs/proofs/PROOF_MOMENT_TOWER_PUMP_CHANNEL.md) (F120); pipeline script `run_moment_tower.py` (AIEvolution, imports the repo framework and calls `fw.moment_tower` / `fw.predict_pump_slope` at startup)
+**Status:** the structural law is confirmed on hardware; the rate layer returned a genuine finding (a model violation on q13, reproducible at 4-6σ)
+
+## What was asked
+
+[F120](../docs/ANALYTICAL_FORMULAS.md) says the device needs no instrument to read the girth ladder's deg-1 tower beyond its own amplitude damping: from the maximally mixed state, d/dt⟨A⟩ = (1/d)·Σ_l Δγ_l·Tr(A Z_l), so the energy-moment polynomials ⟨H_p^j⟩ respond to the chip's damping rung by rung, and the first responding rung is the girth. The protocol is the cleanest we have ever sent to a QPU: X gates to prepare the eight computational basis states (their average is I/d exactly), a delay, single-qubit basis rotations, measure. No entangling gate exists in any circuit, so the three qubits were chosen by quality alone: q149 (T1 = 447.5 μs at calibration), q13 (415.8 μs, the same physical qubit as the [F112 Kingston lens](F112_HARDWARE_LENS_KINGSTON.md)), and q9 (101.5 μs, the deliberate short-T1 contrast).
+
+The measured polynomial is the girth-2 witness H_p = X₀ + X₀Z₁ + 0.7·X₁X₂ with the exact identity H_p² = 2.49·I + 2·Z₁ + 1.4·X₀X₁X₂ and tower t₁ ≡ 0, t₂ = [0, 16, 0]: the first rung must stay silent while the second fires, and the firing reads the *middle* qubit's pump. Two arms permute which physical qubit sits in the middle (Arm A: q13; Arm B: q9), making the site resolution a parameter-free ratio. Three measurement settings cover both rungs; τ ∈ {0, 25, 50, 75, 100, 150} μs; 4096 shots; 288 circuits; dynamical decoupling explicitly disabled (DD's X pulses during the idle would invert the very populations the pump builds).
+
+## Layer one: the structural law, confirmed
+
+- **The double null held.** slope⟨H_p⟩ = +2.4·10⁻⁴/μs (z = +1.47) in Arm A and **−6.8·10⁻⁶/μs (z = −0.04)** in Arm B: the first rung is silent on real hardware, through real idle-time parasitics, exactly as the evolution-blindness predicts (static ZZ and Stark shifts are Z-flavored and cannot reach the slope). The X-strings stayed dark (|⟨XXX⟩| ≤ 0.02 at every τ).
+- **The second rung fired, and it is purely the predicted pump.** The operator identity ⟨H_p²⟩ = 2.49 + 2⟨Z₁⟩ + 1.4⟨XXX⟩ holds row by row in the measured table (τ = 100, Arm A: 2.49 + 2·0.4147 + 1.4·0.0186 = 3.345 vs 3.3455 measured): the H²-moment grows as exactly twice the middle site's pump curve, which is the law with j = 2 in action.
+- **Site tracking works.** The firing followed the middle-qubit identity across the arms, and the per-qubit early-window pump slopes reproduce across the two arms at **0.3% (q9), 1.9% (q13), 5.7% (q149)**, measured in different chain roles, in different jobs. The girth read from the data is 2, hence m\* = 5 for this witness, exactly the certificate F120 promised.
+
+## Layer two: the rates, and the finding
+
+The parameter-free rate predictions used the morning calibration (Δγ_l = 1/T1_l), and they did not match: Arm A fired ~30% high, Arm B ~20% low, ratio 1.88 instead of 4.10. The first suspect was stale calibration, so a five-circuit standard T1 arbiter ran immediately on the same qubits (|1⟩, delay, measure): **q149 = 424.6 μs, q13 = 430.3 μs, q9 = 99.9 μs**, all consistent with the morning values. No drift. The deviation is physics, not bookkeeping:
+
+| qubit | pump slope (Arm A / B, μs⁻¹) | arbiter 1/T1 | ratio (= z∞ if the noise were pure amplitude damping) |
+|---|---|---|---|
+| q149 | 2.33·10⁻³ / 2.19·10⁻³ | 2.36·10⁻³ | **0.99 / 0.93, textbook** |
+| q13 | 3.03·10⁻³ / 3.09·10⁻³ | 2.32·10⁻³ | **1.30 / 1.33, violation** |
+| q9 | 5.79·10⁻³ / 5.78·10⁻³ | 1.00·10⁻² | **0.58, deficit** |
+
+Within *any* two-level Lindblad model with amplitude damping (γ↓, γ↑), dephasing, and unitary terms, the pump slope is γ↓ − γ↑ and the |1⟩-decay rate is γ↓ + γ↑, so **pump ≤ Γ_T1 strictly**, with equality only at zero temperature. The protocol is therefore, unplanned, a *model test*, and the three qubits return three different verdicts:
+
+- **q149 passes**: the textbook qubit, pump/Γ = 0.93-0.99, the law and the noise model both hold.
+- **q13 violates the inequality at 4-6σ**, reproducibly (1.9% across arms): its Z-pump runs 30% *faster* than its relaxation rate, which no thermal correction can produce (z∞ ≤ 1). Something non-unital beyond two-level amplitude damping pumps q13 toward |0⟩: candidate mechanisms are leakage through the third transmon level, a TLS, or correlated channels. Consistent with this, q13's Arm-A pump curve shows a telegraph-like jump between τ = 75 and 100 μs (0.23 → 0.41) that Arm B, minutes earlier, does not have: the extra channel appears to switch.
+- **q9's deficit (0.58) would mean 21% thermal population if read as temperature, which is absurd**; the arbiter resolves it differently: q9's |1⟩-decay is itself non-exponential (local rate 13.4·10⁻³ → 7.7·10⁻³ μs⁻¹ across the window), so "1/T1" is not a well-defined number for this qubit (calibrated T2 = 28.5 μs ≪ T1 already flagged it). The pump channel and the |1⟩-decay weight the same non-exponential bath differently, and neither is wrong.
+
+The honest summary of layer two: **F120's slope reads Tr(Z_l·D(I)), the device's true non-unital pump vector, and on this chip the true pump vector disagrees with calibrated amplitude damping on two of three qubits.** Equating the pump with 1/T1 was the textbook-model assumption, and the chip declines it, per qubit, with signatures (an inequality violation, a non-exponential arbiter, a telegraph switch) that point at specific physics beyond the model. This is the same shape as the [F112 Kingston reading](F112_HARDWARE_LENS_KINGSTON.md), where the lens found a transverse-field anomaly: the channel works, and what it reads through is the gap between the chip and its datasheet.
+
+## What this confirms, and what it opens
+
+Confirmed (registered as `f120_moment_tower_kingston_june2026` in the Confirmations registries): the pump-slope law's structure on hardware: the double null (z = 1.47 / 0.04), the row-exact H² identity, the girth-2 pattern (rung 1 silent, rung 2 firing), site tracking across arms, and per-qubit pump rates reproducible to 0.3-5.7%. The deg-1 hardness rung of a programmed Hamiltonian is, as of this run, a quantity a quantum computer measures about itself by doing nothing but decaying.
+
+Opened: the **pump ≤ Γ inequality as a cheap, per-qubit noise-model test** (5 + 288 one-qubit-gate circuits, no tomography); q13's violation deserves its own chase (a |2⟩-leakage check would discriminate the leading candidate); and the F113 complementarity prediction, that a deliberately injected X/Y-drive shifts the pump *curvature* while a Z-drive cannot, is the natural second hardware arm, now with a validated baseline.
+
+## Honest fences
+
+The girth certificate is one-sided by design (a silent deg-1 tower proves nothing about softness; the deg-5 control IIXY+ZXZY lives in the verifier, not on hardware yet). The exponential full-curve fits are degenerate when the window covers < 50% of saturation (q13's z∞ railed in Arm A); the early-window linear slopes quoted above are the conditioned readout and carry the conclusions. The F113 static twin was reported per arm (−4³·slope⟨H⟩ = −1.5·10⁻² and +4.4·10⁻⁴ against a prediction of 0) and is consistent with the null at the same significance as the slopes themselves. Readout correction uses the morning assignment matrices (errors ≤ 1%, two orders below the q13 effect); measurement crosstalk and correction systematics cannot scale a slope by 1.3.

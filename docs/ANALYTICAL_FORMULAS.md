@@ -4337,6 +4337,20 @@ site-dependent rates, all three channels); the blindnesses; the three-way F113 b
 plus the honest deg-5 negative control; curvature affinity + the probe law + the
 Z-invisibility; the finite-time protocol fit; detailed-balance closure.
 
+**First hardware reading (2026-06-11, ibm_kingston q149/q13/q9, not one entangling
+gate):** the structural law CONFIRMED: the double null held (slope⟨H⟩ at z = +1.47 and
+−0.04), the second rung fired as exactly twice the middle qubit's pump (row-exact
+⟨H²⟩ identity), the girth read from hardware is 2, site tracking across two arms, and
+per-qubit pump rates reproducible to 0.3-5.7%. The rate layer returned a finding: the
+slope reads Tr(Z_l·D(I)), the device's TRUE non-unital pump vector, which disagrees
+with calibrated amplitude damping on two of three qubits; the unplanned **pump ≤ Γ
+model test** (exact for every two-level Lindblad channel) is passed by q149
+(0.93-0.99), dodged by q9 (0.58, its own decay non-exponential), and **violated by q13
+at 4-6σ reproducibly** (1.30-1.33: non-unital content beyond two-level amplitude
+damping, leakage/TLS candidates). Registered as `f120_moment_tower_kingston_june2026`
+(both registries); [experiments/F120_MOMENT_TOWER_KINGSTON.md](../experiments/F120_MOMENT_TOWER_KINGSTON.md);
+data in `data/ibm_moment_tower_june2026/`.
+
 **Source:** [Proof + protocol](proofs/PROOF_MOMENT_TOWER_PUMP_CHANNEL.md);
 [`simulations/moment_tower_pump_channel.py`](../simulations/moment_tower_pump_channel.py)
 (self-validating); cockpit diagnostic `framework/diagnostics/f120_moment_tower.py`;

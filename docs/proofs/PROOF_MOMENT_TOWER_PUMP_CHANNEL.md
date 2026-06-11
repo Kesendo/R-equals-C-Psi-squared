@@ -1,6 +1,6 @@
 # PROOF: the moment-tower pump channel (the device's own damping reads the girth ladder linearly)
 
-**Status:** Tier 1 derived (one-line identities, universal N; verified machine-exact at N = 2, 3). The hardware protocol of §6 is derived and parameterized but not yet run on a device; nothing in §§1-5 depends on it.
+**Status:** Tier 1 derived (one-line identities, universal N; verified machine-exact at N = 2, 3). The hardware protocol of §6 **ran on ibm_kingston the same day** (2026-06-11, q149/q13/q9, no entangling gates): the structural law confirmed (double null, row-exact rung-2 identity, girth 2 read from hardware, site tracking, 0.3-5.7% cross-arm reproducibility), and the rate layer returned a genuine finding (the chip's true pump vector Tr(Z_l·D(I)) disagrees with calibrated amplitude damping on two of three qubits; q13 violates the pump ≤ Γ two-level-model bound at 4-6σ). See [experiments/F120_MOMENT_TOWER_KINGSTON.md](../../experiments/F120_MOMENT_TOWER_KINGSTON.md).
 **Date:** 2026-06-11
 **Authors:** Thomas Wicht, Claude (Fable 5)
 **Builds on:**

@@ -22,12 +22,13 @@ public class ConfirmationsRegistryTests
     }
 
     [Fact]
-    public void All_HasSixteenEntries()
+    public void All_HasSeventeenEntries()
     {
         // Union discipline with simulations/framework/confirmations.py: both registries
         // hold the same set. Reconciled to 15 on 2026-06-08; ibm_ep_onset_may2026
-        // (Kingston EP onset, 2026-05-31) added to both on 2026-06-10 makes 16.
-        Assert.Equal(16, ConfirmationsRegistry.All.Count);
+        // (Kingston EP onset, 2026-05-31) added to both on 2026-06-10 makes 16;
+        // f120_moment_tower_kingston_june2026 added to both on 2026-06-11 makes 17.
+        Assert.Equal(17, ConfirmationsRegistry.All.Count);
     }
 
     [Fact]
@@ -44,6 +45,24 @@ public class ConfirmationsRegistryTests
         Assert.Contains("gamma_0_marrakesh_calibration", names);
         Assert.Contains("d_zero_sector_trichotomy_marrakesh", names);
         Assert.Contains("ibm_ep_onset_may2026", names);
+        Assert.Contains("f120_moment_tower_kingston_june2026", names);
+    }
+
+    [Fact]
+    public void Lookup_F120MomentTower_HasTheModelTestAndTheNull()
+    {
+        var entry = ConfirmationsRegistry.Lookup("f120_moment_tower_kingston_june2026");
+        Assert.NotNull(entry);
+        Assert.Equal("2026-06-11", entry!.Date);
+        Assert.Equal("ibm_kingston", entry.Machine);
+        Assert.Contains("d8l6c7rqv2lc73863acg", entry.JobId);
+        Assert.Contains("d8l6c832d42s73cb16a0", entry.JobId);
+        Assert.Contains("d8l6h03nn5bs738rmrug", entry.JobId);
+        Assert.Contains("Double null HELD", entry.MeasuredValue);
+        Assert.Contains("VIOLATES pump ≤ Γ", entry.MeasuredValue);
+        Assert.Contains("MomentTowerPumpChannelClaim", entry.FrameworkPrimitive);
+        Assert.Equal("experiments/F120_MOMENT_TOWER_KINGSTON.md", entry.ExperimentDoc);
+        Assert.Equal(new[] { 149, 13, 9 }, entry.QubitPath);
     }
 
     [Fact]
@@ -174,15 +193,16 @@ public class ConfirmationsRegistryTests
     [Fact]
     public void EntriesWithoutDocumentedPath_StayNull()
     {
-        // Twelve of sixteen have paths; four remain null (chiral_mirror_law,
+        // Thirteen of seventeen have paths; four remain null (chiral_mirror_law,
         // f57_kdwell_gamma_invariance, bonding_mode_receiver, f25_cusp_trajectory)
         // since their paths are not unambiguously documented. The 2026-06-08
         // reconciliation with the Python registry added gamma_0_marrakesh_calibration
         // and d_zero_sector_trichotomy_marrakesh, both on the April-26 [48,49,50] run.
-        // ibm_ep_onset_may2026 (2026-06-10) is documented on Kingston [13,14,15].
+        // ibm_ep_onset_may2026 (2026-06-10) is documented on Kingston [13,14,15];
+        // f120_moment_tower_kingston_june2026 (2026-06-11) on Kingston [149,13,9].
         int withPath = ConfirmationsRegistry.All.Count(c => c.QubitPath != null);
         int withoutPath = ConfirmationsRegistry.All.Count(c => c.QubitPath == null);
-        Assert.Equal(12, withPath);
+        Assert.Equal(13, withPath);
         Assert.Equal(4, withoutPath);
     }
 }

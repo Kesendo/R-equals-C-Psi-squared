@@ -11,9 +11,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 import framework as fw
 
 
-def test_confirmations_has_sixteen_entries():
+def test_confirmations_has_seventeen_entries():
     names = fw.Confirmations.list_names()
-    assert len(names) == 16
+    assert len(names) == 17
     assert 'palindrome_trichotomy' in names
     assert 'lebensader_skeleton_trace_decoupling' in names
     assert 'gamma_0_marrakesh_calibration' in names
@@ -28,6 +28,22 @@ def test_confirmations_has_sixteen_entries():
     assert 'gamma0_off_the_lever_kingston_may2026' in names
     # 2026-06-10: Kingston EP-onset run added to BOTH registries (union of 16).
     assert 'ibm_ep_onset_may2026' in names
+    # 2026-06-11: F120 moment-tower pump channel, first hardware reading (union of 17).
+    assert 'f120_moment_tower_kingston_june2026' in names
+
+
+def test_confirmations_lookup_f120_moment_tower():
+    e = fw.Confirmations.lookup('f120_moment_tower_kingston_june2026')
+    assert e['date'] == '2026-06-11'
+    assert e['machine'] == 'ibm_kingston'
+    assert 'd8l6c7rqv2lc73863acg' in e['job_id']
+    assert 'd8l6c832d42s73cb16a0' in e['job_id']
+    assert 'd8l6h03nn5bs738rmrug' in e['job_id']
+    assert e['measured_value']['per_qubit_pump_slopes_per_us']['q9'] == [5.794e-3, 5.779e-3]
+    assert e['measured_value']['arbiter_T1_us']['q13'] == 430.3
+    assert 'VIOLATES pump ≤ Γ' in e['measured_value']['model_test']
+    assert 'moment_tower' in e['framework_primitive']
+    assert e['experiment_doc'] == 'experiments/F120_MOMENT_TOWER_KINGSTON.md'
 
 
 def test_confirmations_lookup_f95_angle_steering():
