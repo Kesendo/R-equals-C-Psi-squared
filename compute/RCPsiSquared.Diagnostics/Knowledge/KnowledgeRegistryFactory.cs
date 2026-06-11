@@ -208,6 +208,11 @@ public static class KnowledgeRegistryFactory
             .RegisterF86TPeakPi2Inheritance()
             .RegisterF87Pi2Inheritance()
             .RegisterQubitNecessityPi2Inheritance()
+            // F121 the qudit partial palindrome (2026-06-11): the dissipator's d>2 partial
+            // pairing = symmetric overlap of c_k = d^N·C(N,k)·(d−1)^k under k↔N−k; ceiling
+            // Σ d^N·C(N,k)·(d−1)^min(k,N−k), full iff d=2. Parent QubitNecessityPi2Inheritance
+            // (registered directly above). Wired 2026-06-11.
+            .RegisterQuditPartialPalindromeCeiling()
             .RegisterF1T1AmplitudeDampingPi2Inheritance()
             .RegisterF5DepolarizingErrorPi2Inheritance()
             .RegisterDickeSuperpositionQuarterPi2Inheritance()
