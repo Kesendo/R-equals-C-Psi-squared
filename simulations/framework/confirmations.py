@@ -292,7 +292,8 @@ class Confirmations:
                 'per_qubit_pump_slopes_per_us': {'q149': [2.327e-3, 2.193e-3], 'q13': [3.029e-3, 3.090e-3], 'q9': [5.794e-3, 5.779e-3]},
                 'cross_arm_reproducibility': 'q9 0.3%, q13 1.9%, q149 5.7% (different chain roles, different jobs)',
                 'arbiter_T1_us': {'q149': 424.6, 'q13': 430.3, 'q9': 99.9},
-                'model_test': 'pump/Γ ratios 0.93-0.99 (q149, textbook), 1.30-1.33 (q13, VIOLATES pump ≤ Γ at 4-6σ: non-unital content beyond two-level amplitude damping, telegraph jump in Arm A), 0.58 (q9, deficit; its |1⟩-decay is itself non-exponential, 13.4e-3 → 7.7e-3/μs)',
+                'model_test_in_situ': 'prep-conditioned split of the SAME circuits (pump = (s1+s0)/2, Γ = (s1−s0)/2, bound ⟺ s0 ≤ 0): pump/Γ = 0.972-0.979 (q149), 0.965-0.966 (q13), 0.994-0.996 (q9) — the bound HOLDS everywhere in-situ; margins read per-qubit thermal population (q13 1.7%, q149 1.1-1.4%, q9 0.2-0.3%)',
+                'corrected_same_day': 'the first reading "q13 violates pump ≤ Γ at 4-6σ" compared the run against the 16-minutes-later arbiter and was an EPOCH ARTIFACT: T1 telegraphs on minute scale (q13 ~315 μs in-run vs 430 at the arbiter; q9 ~172 in-run vs ~75-100 at the arbiter; q149 stable). Two-level Lindblad holds within epochs; the protocol self-arbitrates via prep-splitting (no separate T1 experiment needed). Re-analysis: simulations/f120_prep_split_reanalysis.py',
             },
             'hardware_data': 'data/ibm_moment_tower_june2026/ (main + arbiter JSONs + the 06:33Z calibration snapshot)',
             'experiment_doc': 'experiments/F120_MOMENT_TOWER_KINGSTON.md',
@@ -300,12 +301,14 @@ class Confirmations:
             'description': 'F120 first hardware reading, the cleanest protocol we ever sent to a QPU (not one entangling gate). '
                            'The structural law confirmed: the first energy-moment rung stays silent while the second fires as exactly '
                            'twice the middle qubit\'s pump curve, the girth read from hardware is 2, and the per-qubit pump rates '
-                           'reproduce across arms to 0.3-5.7%. The rate layer returned a finding instead of a number: the pump slope '
-                           'reads Tr(Z_l·D(I)), the device\'s TRUE non-unital pump vector, and it disagrees with calibrated amplitude '
-                           'damping on two of three qubits. The unplanned bonus is a per-qubit noise-model test: pump ≤ Γ_T1 holds for '
-                           'every two-level Lindblad model, q149 passes it, q9 dodges it (non-exponential decay, 1/T1 ill-defined), '
-                           'and q13 violates it reproducibly, pointing at leakage/TLS physics beyond the textbook channel. The '
-                           'hardness rung of a programmed Hamiltonian is now a quantity a chip measures about itself by decaying.',
+                           'reproduce across arms to 0.3-5.7%. The rate layer told a two-act story: the first reading ("q13 violates '
+                           'pump ≤ Γ") was corrected the same day by the prep-conditioned re-analysis — the 8-basis-state preparation '
+                           'contains the |0⟩- and |1⟩-branches, so pump AND Γ come from the same circuits, epoch-matched, and the bound '
+                           'holds everywhere in-situ (worst 0.996) with 1-3% margins that READ the per-qubit thermal population. What '
+                           'the cross-epoch comparison had actually detected is minute-scale T1 telegraphing on q13 (~315 ↔ 430 μs) and '
+                           'q9 (~172 ↔ ~75-100 μs), once visible inside a single arm (q13, τ = 75→100). Two lessons banked: the protocol '
+                           'is self-arbitrating (pump, Γ, γ↑ from one circuit set, the in-situ model test is s₀ ≤ 0), and the hardness '
+                           'rung of a programmed Hamiltonian is now a quantity a chip measures about itself by decaying.',
         },
     }
 

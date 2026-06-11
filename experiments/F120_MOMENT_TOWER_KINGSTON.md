@@ -5,7 +5,7 @@
 **Jobs:** d8l6c7rqv2lc73863acg (Arm A), d8l6c832d42s73cb16a0 (Arm B), d8l6h03nn5bs738rmrug (T1 arbiter)
 **Data:** [data/ibm_moment_tower_june2026/](../data/ibm_moment_tower_june2026/) (main JSON + arbiter JSON + the calibration snapshot)
 **Theory:** [PROOF_MOMENT_TOWER_PUMP_CHANNEL](../docs/proofs/PROOF_MOMENT_TOWER_PUMP_CHANNEL.md) (F120); pipeline script `run_moment_tower.py` (AIEvolution, imports the repo framework and calls `fw.moment_tower` / `fw.predict_pump_slope` at startup)
-**Status:** the structural law is confirmed on hardware; the rate layer returned a genuine finding (a model violation on q13, reproducible at 4-6σ)
+**Status:** the structural law is confirmed on hardware. The rate layer's first reading ("q13 violates pump ≤ Γ") was **corrected the same day** by the prep-conditioned re-analysis (§ Correction below): in-situ, every qubit satisfies the bound; the real finding is minute-scale T1 telegraphing on q13 and q9, and the discovery that the protocol measures pump and Γ simultaneously, self-arbitrating.
 
 ## What was asked
 
@@ -37,11 +37,27 @@ Within *any* two-level Lindblad model with amplitude damping (γ↓, γ↑), dep
 
 The honest summary of layer two: **F120's slope reads Tr(Z_l·D(I)), the device's true non-unital pump vector, and on this chip the true pump vector disagrees with calibrated amplitude damping on two of three qubits.** Equating the pump with 1/T1 was the textbook-model assumption, and the chip declines it, per qubit, with signatures (an inequality violation, a non-exponential arbiter, a telegraph switch) that point at specific physics beyond the model. This is the same shape as the [F112 Kingston reading](F112_HARDWARE_LENS_KINGSTON.md), where the lens found a transverse-field anomaly: the channel works, and what it reads through is the gap between the chip and its datasheet.
 
+## Correction, same day: the violation was an epoch artifact, and the protocol is its own arbiter
+
+The model-test table above compares the run's pump slopes against the arbiter's Γ, measured 16 minutes later. That comparison contains a hidden variable, and the run's own data exposes it. The pump protocol prepares all eight basis states, so conditioning each qubit's ⟨Z⟩(τ) on its own preparation bit splits the same circuits into a |0⟩-branch and a |1⟩-branch: s₀ measures −2γ↑ (heating only; in any two-level model ⟨Z⟩ cannot rise from the ground state), s₁ measures the decay, pump = (s₁+s₀)/2 and **Γ = (s₁−s₀)/2 in-situ, from the same shots, the same minutes**. The inequality pump ≤ Γ is equivalent to s₀ ≤ 0. (One bit-ordering gotcha for reproducers: the saved count keys are little-endian; the mapping is verified bit-exactly against the unconditioned curves, e.g. q13's mixed ⟨Z₁⟩ at τ = 50 equals (0.9947 + (−0.6737))/2 = 0.1605 exactly. Re-analysis: [`simulations/f120_prep_split_reanalysis.py`](../simulations/f120_prep_split_reanalysis.py).)
+
+The in-situ table (early window τ ≤ 75 μs, readout-corrected):
+
+| qubit | pump (Arm A / B, μs⁻¹) | Γ in-situ (A / B) | pump/Γ (A / B) | s₀ |
+|---|---|---|---|---|
+| q149 | 2.33·10⁻³ / 2.19·10⁻³ | 2.38·10⁻³ / 2.25·10⁻³ | 0.979 / 0.972 | < 0 ✓ |
+| q13 | 3.03·10⁻³ / 3.10·10⁻³ | **3.14·10⁻³ / 3.21·10⁻³** | **0.965 / 0.966** | < 0 ✓ |
+| q9 | 5.79·10⁻³ / 5.78·10⁻³ | **5.83·10⁻³ / 5.80·10⁻³** | **0.994 / 0.996** | < 0 ✓ |
+
+**No violation, anywhere.** Every qubit sits 1-3% below the bound, and the margin is itself a measurement: −s₀/2 = γ↑ reads the per-qubit thermal excitation directly (q13 ≈ 1.8%, q149 ≈ 0.7-2%, q9 ≈ 0.3%, realistic transmon numbers). What the cross-epoch comparison actually detected is **minute-scale T1 telegraphing**: during the run q13's Γ was 3.14-3.21·10⁻³ (T1 ≈ 315 μs) and by the arbiter it was 2.32·10⁻³ (T1 = 430 μs, matching the morning calibration); q9 switched the other way (in-run T1 ≈ 172 μs, arbiter early-window ≈ 75 μs); q149 held still, which is why it looked "textbook" in the flawed comparison. All three earlier verdicts (violation, deficit, pass) collapse into one statement: **two of three qubits telegraph their T1 between epochs, the two-level model holds within each epoch, and the epoch was the hidden variable.** q13's mid-run jump (τ = 75 → 100, Arm A, localized in the |1⟩-branch) is the telegraph caught inside a single arm.
+
+The upgrade this leaves behind: the pump protocol never needed the separate arbiter. Prep-conditioning makes it **self-arbitrating** (pump, Γ, and γ↑ from one set of circuits, epoch-matched by construction), and the model test in its sharp in-situ form is simply s₀ ≤ 0 per qubit per block. The original table above is kept as the honest record of how the wrong reading arose.
+
 ## What this confirms, and what it opens
 
-Confirmed (registered as `f120_moment_tower_kingston_june2026` in the Confirmations registries): the pump-slope law's structure on hardware: the double null (z = 1.47 / 0.04), the row-exact H² identity, the girth-2 pattern (rung 1 silent, rung 2 firing), site tracking across arms, and per-qubit pump rates reproducible to 0.3-5.7%. The deg-1 hardness rung of a programmed Hamiltonian is, as of this run, a quantity a quantum computer measures about itself by doing nothing but decaying.
+Confirmed (registered as `f120_moment_tower_kingston_june2026` in the Confirmations registries): the pump-slope law's structure on hardware: the double null (z = 1.47 / 0.04), the row-exact H² identity, the girth-2 pattern (rung 1 silent, rung 2 firing), site tracking across arms, per-qubit pump rates reproducible to 0.3-5.7%, and, after the same-day correction, the **in-situ pump ≤ Γ bound holding on all three qubits at 1-3% margins that read the per-qubit thermal population**. The deg-1 hardness rung of a programmed Hamiltonian is, as of this run, a quantity a quantum computer measures about itself by doing nothing but decaying.
 
-Opened: the **pump ≤ Γ inequality as a cheap, per-qubit noise-model test** (5 + 288 one-qubit-gate circuits, no tomography); q13's violation deserves its own chase (a |2⟩-leakage check would discriminate the leading candidate); and the F113 complementarity prediction, that a deliberately injected X/Y-drive shifts the pump *curvature* while a Z-drive cannot, is the natural second hardware arm, now with a validated baseline.
+Opened: **minute-scale T1 telegraphing on q13 and q9**, detected across epochs and once inside a single arm, asking for a time-resolved chase (interleaved blocks over wall-clock, per-block pump/Γ/s₀: the switches caught in the act, the inequality riding through them); the prep-conditioned **self-arbitrating form of the protocol** as the standing cheap noise diagnostic (pump, Γ, γ↑ from one circuit set, no tomography, no separate T1 experiment); and the F113 complementarity prediction, that a deliberately injected X/Y-drive shifts the pump *curvature* while a Z-drive cannot, as the second hardware arm with a validated baseline.
 
 ## Honest fences
 

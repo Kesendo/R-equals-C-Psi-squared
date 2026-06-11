@@ -41,7 +41,9 @@ def test_confirmations_lookup_f120_moment_tower():
     assert 'd8l6h03nn5bs738rmrug' in e['job_id']
     assert e['measured_value']['per_qubit_pump_slopes_per_us']['q9'] == [5.794e-3, 5.779e-3]
     assert e['measured_value']['arbiter_T1_us']['q13'] == 430.3
-    assert 'VIOLATES pump ≤ Γ' in e['measured_value']['model_test']
+    assert 'HOLDS everywhere in-situ' in e['measured_value']['model_test_in_situ']
+    assert 'EPOCH ARTIFACT' in e['measured_value']['corrected_same_day']
+    assert 'f120_prep_split_reanalysis' in e['measured_value']['corrected_same_day']
     assert 'moment_tower' in e['framework_primitive']
     assert e['experiment_doc'] == 'experiments/F120_MOMENT_TOWER_KINGSTON.md'
 

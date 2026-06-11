@@ -4341,14 +4341,20 @@ Z-invisibility; the finite-time protocol fit; detailed-balance closure.
 gate):** the structural law CONFIRMED: the double null held (slope⟨H⟩ at z = +1.47 and
 −0.04), the second rung fired as exactly twice the middle qubit's pump (row-exact
 ⟨H²⟩ identity), the girth read from hardware is 2, site tracking across two arms, and
-per-qubit pump rates reproducible to 0.3-5.7%. The rate layer returned a finding: the
-slope reads Tr(Z_l·D(I)), the device's TRUE non-unital pump vector, which disagrees
-with calibrated amplitude damping on two of three qubits; the unplanned **pump ≤ Γ
-model test** (exact for every two-level Lindblad channel) is passed by q149
-(0.93-0.99), dodged by q9 (0.58, its own decay non-exponential), and **violated by q13
-at 4-6σ reproducibly** (1.30-1.33: non-unital content beyond two-level amplitude
-damping, leakage/TLS candidates). Registered as `f120_moment_tower_kingston_june2026`
-(both registries); [experiments/F120_MOMENT_TOWER_KINGSTON.md](../experiments/F120_MOMENT_TOWER_KINGSTON.md);
+per-qubit pump rates reproducible to 0.3-5.7%. The rate layer told a two-act story:
+the first reading ("q13 violates pump ≤ Γ at 4-6σ") was **corrected the same day** by
+the prep-conditioned re-analysis: the 8-basis-state preparation contains the |0⟩- and
+|1⟩-branches, so **pump = (s₁+s₀)/2 and Γ = (s₁−s₀)/2 come from the same circuits**,
+epoch-matched (the bound is equivalent to s₀ ≤ 0), and it **holds everywhere in-situ**
+(worst pump/Γ = 0.996) with 1-3% margins that read the per-qubit thermal population
+(q13 1.7%, q149 1.1-1.4%, q9 0.2-0.3%). The cross-epoch comparison had actually
+detected **minute-scale T1 telegraphing** (q13: ~315 ↔ 430 μs; q9: ~172 ↔ ~75-100 μs;
+q149 stable): two-level Lindblad holds within epochs, the epoch was the hidden
+variable, and the protocol is **self-arbitrating** (pump, Γ, γ↑ from one circuit set).
+Registered as `f120_moment_tower_kingston_june2026` (both registries);
+[experiments/F120_MOMENT_TOWER_KINGSTON.md](../experiments/F120_MOMENT_TOWER_KINGSTON.md)
+(incl. the Correction section);
+[`simulations/f120_prep_split_reanalysis.py`](../simulations/f120_prep_split_reanalysis.py);
 data in `data/ibm_moment_tower_june2026/`.
 
 **Source:** [Proof + protocol](proofs/PROOF_MOMENT_TOWER_PUMP_CHANNEL.md);

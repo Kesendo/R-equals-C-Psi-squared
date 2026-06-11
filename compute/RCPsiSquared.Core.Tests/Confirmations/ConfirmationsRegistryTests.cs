@@ -59,7 +59,9 @@ public class ConfirmationsRegistryTests
         Assert.Contains("d8l6c832d42s73cb16a0", entry.JobId);
         Assert.Contains("d8l6h03nn5bs738rmrug", entry.JobId);
         Assert.Contains("Double null HELD", entry.MeasuredValue);
-        Assert.Contains("VIOLATES pump ≤ Γ", entry.MeasuredValue);
+        Assert.Contains("HOLDS everywhere in-situ", entry.MeasuredValue);
+        Assert.Contains("EPOCH ARTIFACT", entry.MeasuredValue);
+        Assert.Contains("f120_prep_split_reanalysis", entry.MeasuredValue);
         Assert.Contains("MomentTowerPumpChannelClaim", entry.FrameworkPrimitive);
         Assert.Equal("experiments/F120_MOMENT_TOWER_KINGSTON.md", entry.ExperimentDoc);
         Assert.Equal(new[] { 149, 13, 9 }, entry.QubitPath);

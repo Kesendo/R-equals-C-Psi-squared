@@ -322,9 +322,13 @@ public static class ConfirmationsRegistry
                 "Double null HELD: slope⟨H⟩ = +2.4e-4/μs (z = +1.47, Arm A) and −6.8e-6/μs (z = −0.04, Arm B); |⟨XXX⟩| ≤ 0.02 throughout. " +
                 "Row identity exact in every measured row (τ=100 Arm A: 2.49+2·0.4147+1.4·0.0186 = 3.345 vs 3.3455). " +
                 "Per-qubit pump slopes (Arm A / B, per μs): q149 2.327e-3 / 2.193e-3, q13 3.029e-3 / 3.090e-3, q9 5.794e-3 / 5.779e-3 " +
-                "(cross-arm reproducibility 5.7% / 1.9% / 0.3%). Arbiter standard T1: q149 424.6, q13 430.3, q9 99.9 μs (calibration confirmed, no drift). " +
-                "Model test pump/Γ: q149 0.93-0.99 (textbook), q13 1.30-1.33 (VIOLATES pump ≤ Γ at 4-6σ: non-unital content beyond " +
-                "two-level amplitude damping; telegraph jump in Arm A), q9 0.58 (deficit; its |1⟩-decay is itself non-exponential, 13.4e-3 → 7.7e-3/μs).",
+                "(cross-arm reproducibility 5.7% / 1.9% / 0.3%). Arbiter standard T1: q149 424.6, q13 430.3, q9 99.9 μs. " +
+                "IN-SITU model test (prep-conditioned split of the same circuits; bound ⟺ s₀ ≤ 0): pump/Γ = 0.972-0.979 (q149), " +
+                "0.965-0.966 (q13), 0.994-0.996 (q9) — the bound HOLDS everywhere in-situ; the 1-3% margins read the per-qubit thermal " +
+                "population (q13 1.7%, q149 1.1-1.4%, q9 0.2-0.3%). CORRECTED SAME DAY: the first reading (q13 violates pump ≤ Γ at " +
+                "4-6σ) compared the run against the 16-minutes-later arbiter and was an EPOCH ARTIFACT: T1 telegraphs on minute scale " +
+                "(q13 ~315 μs in-run vs 430 at the arbiter; q9 ~172 vs ~75-100; q149 stable). " +
+                "Re-analysis: simulations/f120_prep_split_reanalysis.py.",
             HardwareData:
                 "data/ibm_moment_tower_june2026/ (moment_tower_hardware_ibm_kingston_20260611T073908Z.json, " +
                 "t1_arbiter_20260611T075540Z.json, the 06:33Z calibration snapshot)",
@@ -339,11 +343,13 @@ public static class ConfirmationsRegistry
                 "The structural law confirmed: the first energy-moment rung stays silent (the double null) while the second fires as " +
                 "exactly twice the middle qubit's pump curve (row-exact identity), the girth read from hardware is 2, the firing follows " +
                 "the middle-qubit identity across arms, and the per-qubit pump rates reproduce across arms to 0.3-5.7%. " +
-                "The rate layer returned a finding instead of a number: the pump slope reads Tr(Z_l·D(I)), the device's TRUE non-unital " +
-                "pump vector, and it disagrees with calibrated amplitude damping on two of three qubits. The unplanned bonus is a cheap " +
-                "per-qubit noise-model test (pump ≤ Γ_T1 holds for every two-level Lindblad model): q149 passes, q9 dodges (non-exponential " +
-                "decay, 1/T1 ill-defined for it), q13 violates reproducibly, pointing at leakage/TLS physics beyond the textbook channel. " +
-                "The hardness rung of a programmed Hamiltonian is now a quantity a chip measures about itself by decaying.",
+                "The rate layer told a two-act story: the first reading (q13 violates pump ≤ Γ) was corrected the same day by the " +
+                "prep-conditioned re-analysis — the 8-basis-state preparation contains the |0⟩- and |1⟩-branches, so pump AND Γ come " +
+                "from the same circuits, epoch-matched, and the bound holds everywhere in-situ (worst 0.996) with margins that READ the " +
+                "per-qubit thermal population. What the cross-epoch comparison had actually detected is minute-scale T1 telegraphing on " +
+                "q13 (~315 ↔ 430 μs) and q9 (~172 ↔ ~75-100 μs), once visible inside a single arm. Two lessons banked: the protocol is " +
+                "self-arbitrating (pump, Γ, γ↑ from one circuit set; the in-situ model test is s₀ ≤ 0), and the hardness rung of a " +
+                "programmed Hamiltonian is now a quantity a chip measures about itself by decaying.",
             QubitPath: new[] { 149, 13, 9 }),
 
         new Confirmation(
