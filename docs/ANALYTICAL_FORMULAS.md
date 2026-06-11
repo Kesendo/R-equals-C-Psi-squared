@@ -4403,7 +4403,7 @@ J/γ; ~0 for generic H), so there is **no H-independent closed form** for the in
 palindrome; the dissipator's 54 (about −Nγ) is the only invariant. The SU(3)
 Heisenberg's specific 60 is **decoded by representation theory** (§8): the operator
 space splits into SU(3) energy sectors (intra 6⊗6̄ ⊕ 3̄⊗3 at L_H = 0, inter 6↔3̄ at
-L_H = ±4J), the −3γ rung (⟨Q⟩ = 3/2) is exactly the inter-sector sym↔antisym seam,
+L_H = ±iΔ with Δ = 4J), the −3γ rung (⟨Q⟩ = 3/2) is exactly the inter-sector sym↔antisym seam,
 and 60 = (energy sectors) × (Hamming rungs) × (±Δ conjugation).
 
 **Verified (exact):** the per-site equidistance (every i ≠ j at rate −2); c_k vs brute
