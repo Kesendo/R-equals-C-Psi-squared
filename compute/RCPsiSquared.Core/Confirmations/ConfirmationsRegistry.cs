@@ -327,8 +327,12 @@ public static class ConfirmationsRegistry
                 "0.965-0.966 (q13), 0.994-0.996 (q9) — the bound HOLDS everywhere in-situ; the 1-3% margins read the per-qubit thermal " +
                 "population (q13 1.7%, q149 1.1-1.4%, q9 0.2-0.3%). CORRECTED SAME DAY: the first reading (q13 violates pump ≤ Γ at " +
                 "4-6σ) compared the run against the 16-minutes-later arbiter and was an EPOCH ARTIFACT: T1 telegraphs on minute scale " +
-                "(q13 ~315 μs in-run vs 430 at the arbiter; q9 ~172 vs ~75-100; q149 stable). " +
-                "Re-analysis: simulations/f120_prep_split_reanalysis.py.",
+                "(q13 ~315 μs in-run vs 430 at the arbiter; q9 ~172 vs ~75-100; q149 stable across the morning epochs). " +
+                "Re-analysis: simulations/f120_prep_split_reanalysis.py. TELEGRAPH CHASE (12:02Z, job d8l8f7r2d42s73cb3q7g, " +
+                "16 self-arbitrating blocks): within-job Γ flat at the shot-noise floor (no switch in 75 s), s₀ ≤ 0 in 47/48 " +
+                "block-cells; across the day EVERY qubit moved, including the stable control (q149 430 → ~285 μs; q13 in a third " +
+                "state ~200 μs; q9 ~108). Verdict: q13 was never special, the device T1 landscape breathes everywhere by 1.5-2x " +
+                "on minute-to-hour scales, the two-level model holds within any ~minute window; the hidden variable was time.",
             HardwareData:
                 "data/ibm_moment_tower_june2026/ (moment_tower_hardware_ibm_kingston_20260611T073908Z.json, " +
                 "t1_arbiter_20260611T075540Z.json, the 06:33Z calibration snapshot)",

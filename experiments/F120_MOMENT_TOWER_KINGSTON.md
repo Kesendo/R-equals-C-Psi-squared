@@ -53,6 +53,24 @@ The in-situ table (early window τ ≤ 75 μs, readout-corrected):
 
 The upgrade this leaves behind: the pump protocol never needed the separate arbiter. Prep-conditioning makes it **self-arbitrating** (pump, Γ, and γ↑ from one set of circuits, epoch-matched by construction), and the model test in its sharp in-situ form is simply s₀ ≤ 0 per qubit per block. The original table above is kept as the honest record of how the wrong reading arose.
 
+## The telegraph chase (same day, 12:02Z): no qubit is special, time is
+
+The follow-up run (`run_moment_tower_telegraph.py`, job d8l8f7r2d42s73cb3q7g; a first submission d8l78s32d42s73cb2b00 sat RUNNING for 90 minutes with zero quantum seconds, an open-plan fair-share stall, and was cancelled; the Batch-mode resubmission ran cleanly) made the epoch the measured axis: 16 blocks inside one job, each block reading s₀ and s₁ per qubit from two preparations (|000⟩, |111⟩) over τ ∈ {0, 20, 40, 70} μs, 8 circuits per block, self-arbitrating by construction.
+
+**Within the job (~75 s execution): everything still.** All three qubits' Γ(b) traces are flat at the shot-noise floor (block-to-block sd 0.15-0.21·10⁻³ against floors 0.19-0.63·10⁻³), no switch was caught in the act, and the in-situ model test s₀ ≤ 0 passed in 47 of 48 block-qubit cells (the one excursion, q149 block 3 at +2σ, is the expected false-positive rate). Per-block thermometry stayed at the few-tenths-of-a-percent level.
+
+**Across the day's three epochs: every qubit moved, including the control.**
+
+| qubit | 07:39 in-situ Γ (μs⁻¹) | 07:55 arbiter | 12:02 in-situ Γ | bias-corrected T1 now |
+|---|---|---|---|---|
+| q149 | 2.33 / 2.19·10⁻³ | 2.36·10⁻³ | **3.10·10⁻³** | ≈ 285 μs (was ≈ 430) |
+| q13 | 3.14 / 3.21·10⁻³ | 2.32·10⁻³ | **4.31·10⁻³** | ≈ 197 μs (a third state: 430 ↔ 315 ↔ ~200) |
+| q9 | 5.83 / 5.80·10⁻³ | 1.00·10⁻² | **6.95·10⁻³** | ≈ 108 μs (back near the arbiter state) |
+
+(The 07:39 and 12:02 columns share the same window-matched linear estimator and compare directly; the arbiter column is a global exponential fit and is only roughly comparable. The bias correction inverts the finite-window factor calibrated in the script's simulate mode.)
+
+The chase's verdict closes the q13 investigation: **q13 was never special.** Its T1 has now been seen in three states across five hours, but so has q149's, the qubit the morning's comparison crowned "textbook-stable" on the strength of two epochs that happened to agree. On this device the T1 landscape breathes everywhere, by 1.5-2×, on timescales between minutes and hours, while within any ~minute window the two-level model holds cleanly (flat Γ, s₀ ≤ 0, thermometry steady). The hidden variable of the original "violation" was time, and the prep-split protocol is the right instrument precisely because it is epoch-immune: pump, Γ, and γ↑ from the same shots, every time. Data: `moment_tower_telegraph_ibm_kingston_20260611T100206Z.json` in [data/ibm_moment_tower_june2026/](../data/ibm_moment_tower_june2026/).
+
 ## What this confirms, and what it opens
 
 Confirmed (registered as `f120_moment_tower_kingston_june2026` in the Confirmations registries): the pump-slope law's structure on hardware: the double null (z = 1.47 / 0.04), the row-exact H² identity, the girth-2 pattern (rung 1 silent, rung 2 firing), site tracking across arms, per-qubit pump rates reproducible to 0.3-5.7%, and, after the same-day correction, the **in-situ pump ≤ Γ bound holding on all three qubits at 1-3% margins that read the per-qubit thermal population**. The deg-1 hardness rung of a programmed Hamiltonian is, as of this run, a quantity a quantum computer measures about itself by doing nothing but decaying.
