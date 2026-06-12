@@ -327,6 +327,23 @@ public class SymphonyTests
     }
 
     [Fact]
+    public void GridFitness_FiniteWhenOscillating_InfiniteWhenPureDephasing()
+    {
+        // J=5 chain oscillates: finite samples/oscillation and a positive peak-clip floor.
+        var osc = new Symphony(n: 3, j: 5.0, gamma: 0.01, tMax: 25.0, tPoints: 1600);
+        var f = osc.GridFitness(0.333);
+        Assert.True(f.Omega > 0.0);
+        Assert.True(f.SamplesPerOscillation > 0.0 && !double.IsInfinity(f.SamplesPerOscillation));
+        Assert.True(f.PeakClipFloor > 0.0);
+
+        // J=0: no Hamiltonian, no coherent oscillation, ω≈0 → infinite samples/oscillation.
+        var still = new Symphony(n: 3, j: 0.0, gamma: 0.1);
+        var g = still.GridFitness(0.333);
+        Assert.Equal(0.0, g.Omega, 9);
+        Assert.True(double.IsInfinity(g.SamplesPerOscillation));
+    }
+
+    [Fact]
     public void OneEvolution_StillBuiltOnce_WithLocalLensAndEvents()
     {
         var s = new Symphony(n: 3, initialState: InitialStateKind.BellPair);

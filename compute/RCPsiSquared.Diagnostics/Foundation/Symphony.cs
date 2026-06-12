@@ -139,6 +139,23 @@ public sealed class Symphony : IInspectable
     /// clock (Takt gap, ω_mem) is read off these by the painters' movement.</summary>
     public IReadOnlyList<Complex> LiouvillianEigenvalues { get { EnsureEvolved(); return _lambdaA!; } }
 
+    /// <summary>Grid-resolution fitness for the envelope lenses, from the shared L spectrum:
+    /// ω = max |Im λ| (fastest coherent oscillation), samples per oscillation 2π/(ωΔt), and the
+    /// conservative peak-clip floor ½·(ωΔt)²·peakScale (the raw peak-height clip; with parabolic
+    /// apex the true residual is far smaller, so this over-estimates — a safe floor to surface).
+    /// ω ≈ 0 (pure dephasing) ⟹ SamplesPerOscillation = +∞ and PeakClipFloor = 0.</summary>
+    public (double Omega, double SamplesPerOscillation, double PeakClipFloor) GridFitness(double peakScale)
+    {
+        EnsureEvolved();
+        double omega = 0.0;
+        foreach (var e in _lambdaA!) omega = Math.Max(omega, Math.Abs(e.Imaginary));
+        double dt = TPoints > 1 ? TMax / (TPoints - 1) : TMax;
+        double wdt = omega * dt;
+        double samples = wdt > 1e-12 ? 2.0 * Math.PI / wdt : double.PositiveInfinity;
+        double floor = 0.5 * wdt * wdt * peakScale;
+        return (omega, samples, floor);
+    }
+
     /// <summary>The shared timeline: t = 0, …, TMax in <see cref="TPoints"/> equal steps.</summary>
     public IReadOnlyList<double> TimeGrid { get { EnsureEvolved(); return _tGrid!; } }
 
