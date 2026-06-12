@@ -451,21 +451,37 @@ public sealed class Symphony : IInspectable
             });
     }
 
-    /// <summary>lens: quarter (CΨ) — CΨ(t) along the one trajectory, curve payload, start/min and the
-    /// ¼-crossing times.</summary>
+    /// <summary>lens: quarter (CΨ) — the global CΨ(t), now the Envelope-Theorem witness. Reports the
+    /// direction-split ¼-crossing count, the live envelope verdict (the peaks form a non-increasing
+    /// sequence — proven N=2, verified N≥3, PROOF_MONOTONICITY_CPSI), and the envelope fold (the
+    /// absorbing ¼ crossing; "the fold" now means THIS, never an upward oscillation).</summary>
     private InspectableNode QuarterLens()
     {
         var cpsi = _cpsi!;
         var tGrid = _tGrid!;
-        double start = cpsi[0];
-        double min = cpsi.Min();
-        var crossings = QuarterCrossingTimes();
-        string crossClause = crossings.Count == 0
+        double start = cpsi[0], min = cpsi.Min();
+
+        var dirs = QuarterCrossingDirections(cpsi);
+        int down = dirs.Count(d => d < 0), up = dirs.Count(d => d > 0);
+        var (_, samples, floor) = GridFitness(cpsi.Max());
+        string gridClause = double.IsInfinity(samples) ? "" : $" [≈{samples.ToString("0.#", Inv)} samples/oscillation]";
+        string crossClause = dirs.Length == 0
             ? "no ¼ crossing in window"
-            : $"{crossings.Count} ¼ crossing(s) at t = " +
-              string.Join(", ", crossings.Select(t => t.ToString("0.###", Inv)));
+            : $"{dirs.Length} ¼ crossing(s): {down}↓ + {up}↑{gridClause}";
+
+        var env = QuarterEnvelope.Of(cpsi, tGrid);
+        string envClause = env.IsNonIncreasing
+            ? "envelope non-increasing ✓ (the Envelope Theorem holds live — proven N=2, verified N≥3, PROOF_MONOTONICITY_CPSI)"
+            : $"envelope shows {env.RiseCount} predecessor-rise(s), max Δ={env.MaxRiseMagnitude.ToString("0.#####", Inv)} " +
+              $"(peak-clip floor on this grid ≈ {floor.ToString("0.#####", Inv)}) — grid-sensitive, verify with ≥4× t-points; " +
+              "a rise that SURVIVES refinement would falsify the Tier-2 verification";
+        string foldClause = env.EnvelopeFoldTime is { } ft
+            ? $"the fold (envelope, absorbing) at t={ft.ToString("0.###", Inv)} (K={(Gamma * ft).ToString("0.####", Inv)})"
+            : "no envelope fold in window";
+
         return new InspectableNode("lens: quarter (CΨ)",
-            summary: $"CΨ(0) = {start.ToString("0.####", Inv)}, min = {min.ToString("0.####", Inv)}; {crossClause}.",
+            summary: $"CΨ(0) = {start.ToString("0.####", Inv)}, min = {min.ToString("0.####", Inv)}; {crossClause}. " +
+                     $"{envClause}. {foldClause}.",
             payload: new InspectablePayload.Curve("CΨ(t)", tGrid, cpsi, "t", "CΨ"));
     }
 

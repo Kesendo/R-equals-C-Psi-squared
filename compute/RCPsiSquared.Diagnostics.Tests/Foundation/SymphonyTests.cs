@@ -344,6 +344,28 @@ public class SymphonyTests
     }
 
     [Fact]
+    public void GlobalEnvelope_NonIncreasing_AtBothRegimes_TheoremLive()
+    {
+        // The Envelope Theorem (proven N=2, verified N≥3): the global CΨ peaks never rise. Verified at
+        // the gentle (J=1) and strong-coupling (J=5) regimes, at two grid densities.
+        foreach (var (j, gamma, tmax, pts) in new[]
+            { (1.0, 0.1, 10.0, 400), (5.0, 0.01, 25.0, 400), (5.0, 0.01, 25.0, 1600) })
+        {
+            var s = new Symphony(n: 3, j: j, gamma: gamma, initialState: InitialStateKind.BellPair,
+                tMax: tmax, tPoints: pts);
+            var global = s.States.Select(Symphony.Cpsi).ToArray();
+            var env = QuarterEnvelope.Of(global, s.TimeGrid.ToArray());
+            Assert.Equal(0, env.RiseCount);
+            Assert.True(env.IsNonIncreasing);
+        }
+        // The global lens names the theorem.
+        var lens = Children(new Symphony(n: 3, j: 5.0, gamma: 0.01, tMax: 25.0, tPoints: 1600))
+            .Single(c => c.DisplayName == "lens: quarter (CΨ)");
+        Assert.Contains("Envelope Theorem", lens.Summary);
+        Assert.Contains("the fold", lens.Summary);   // "the fold" now means the envelope fold
+    }
+
+    [Fact]
     public void OneEvolution_StillBuiltOnce_WithLocalLensAndEvents()
     {
         var s = new Symphony(n: 3, initialState: InitialStateKind.BellPair);
