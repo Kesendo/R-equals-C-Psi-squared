@@ -91,10 +91,13 @@ assumed; the law and its tables are the next section.
 
 Valid readings conserve. Total light is exact: ⟨n_XY⟩_s + ⟨n_XY⟩_f = N
 (`AbsorptionTheoremClaim`, the light-complementarity), and the Π-pair flux balance is
-machine-exact under δJ. Here the design spec's honesty distinction is load-bearing: the PTF
-sum Σ ln α ≈ 0 is Tier-2 *empirical* (its first-order promotion was closed by EQ-014); the
-*exact* closure is the chiral mirror trajectory identity (`ChiralMirrorTrajectoryClaim`,
-Tier-1). The mirror law is the exact parity-check; the PTF sum is its empirical companion.
+machine-exact under δJ. Here the design spec's honesty distinction is load-bearing: the
+per-site rescaling sum Σ ln α ≈ 0 of the Perspectival Time Field (PTF; α is the per-site
+time-rescaling a bond defect induces, the quantity the painters read, see "Live
+instruments" below) is Tier-2 *empirical*, holding within ±0.05 only in its perturbative
+window; the *exact* closure is the chiral mirror trajectory identity
+(`ChiralMirrorTrajectoryClaim`, Tier-1). The mirror law is the exact parity-check; the
+PTF sum is its empirical companion.
 
 ---
 
