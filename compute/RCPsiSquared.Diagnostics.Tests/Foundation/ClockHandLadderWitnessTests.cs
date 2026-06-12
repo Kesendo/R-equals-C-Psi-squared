@@ -99,6 +99,7 @@ public class ClockHandLadderWitnessTests
     {
         var w = new ClockHandLadderWitness();
         Assert.Contains("ClockHandLadderClaim", w.Summary);
+        Assert.Equal(4, ((IInspectable)w).Children.Count());
         var labels = ((IInspectable)w).Children.Select(c => c.DisplayName).ToList();
         Assert.Contains(labels, l => l.Contains("ladder"));
         Assert.Contains(labels, l => l.Contains("protection"));

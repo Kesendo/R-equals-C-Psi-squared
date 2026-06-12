@@ -119,7 +119,8 @@ public sealed class ClockHandLadderWitness : IInspectable
             yield return new InspectableNode("the dial (the angle is Q)",
                 summary: $"θ = arctan(Omega/Gap): N=3 → {AngleDegrees(3).ToString("0.##", Inv)}°, " +
                          $"N=2 → {AngleDegrees(2).ToString("0.##", Inv)}°. For N≥3, θ = arctan(Q·cos(π/(N+1))); " +
-                         "for N=2, θ = arctan(√(Q²−1)), zero at the EP. The angle between the hands is Q.",
+                         "for N=2, θ = arctan(√(Q²−1)), zero at the EP. The angle between the hands is Q. " +
+                         "(on the curve, the N=2 point is the pulled block, not a ladder rung)",
                 payload: new InspectablePayload.Curve("Omega vs N", ns, omegas, "N", "Omega (coherence hand)"));
         }
     }
