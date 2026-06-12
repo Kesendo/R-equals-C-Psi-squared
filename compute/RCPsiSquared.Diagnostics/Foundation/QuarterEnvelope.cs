@@ -22,6 +22,11 @@ public readonly record struct EnvelopeReading(
 /// rises (each peak vs the one before — the theorem's "non-increasing sequence", NOT a running max).</summary>
 public static class QuarterEnvelope
 {
+    /// <summary>Analyse a CΨ(t) curve into its envelope reading.</summary>
+    /// <param name="cpsi">The CΨ samples; same length as <paramref name="tGrid"/>.</param>
+    /// <param name="tGrid">The strictly-ascending time grid the samples sit on.</param>
+    /// <param name="threshold">The ¼ boundary (default 0.25) for the envelope fold.</param>
+    /// <param name="riseTol">A predecessor-rise counts only if it exceeds this (default 1e-9).</param>
     public static EnvelopeReading Of(double[] cpsi, double[] tGrid,
                                      double threshold = 0.25, double riseTol = 1e-9)
     {
@@ -64,6 +69,8 @@ public static class QuarterEnvelope
                     if (cpsi[k] >= threshold) { staysBelow = false; break; }
                 if (staysBelow)
                 {
+                    // At most one downward crossing can satisfy stays-below (once below for good, there is
+                    // no later down-crossing); the overwrite simply keeps that last absorbing one.
                     double frac = (cpsi[s - 1] - threshold) / (cpsi[s - 1] - cpsi[s]);
                     fold = tGrid[s - 1] + frac * (tGrid[s] - tGrid[s - 1]);
                 }

@@ -73,4 +73,39 @@ public class QuarterEnvelopeTests
         var e = QuarterEnvelope.Of(cpsi, t);
         Assert.Null(e.EnvelopeFoldTime);
     }
+
+    [Fact]
+    public void ParabolicApex_RecoversRise_RawSamplingWouldHide()
+    {
+        // Two peaks. Peak A is sampled at its apex (raw 0.30). Peak B's true apex (0.317563) is HIGHER,
+        // but B is sampled off-apex so its raw peak sample (0.295) is BELOW A's — raw comparison sees no
+        // rise. Parabolic apex recovers B's true height and the predecessor-rise is detected. This is
+        // the whole point of the parabolic step.
+        double[] cpsi = { 0.1, 0.30, 0.1, 0.29, 0.295, 0.10 };
+        double[] t = { 0, 1, 2, 3, 4, 5 };
+        var e = QuarterEnvelope.Of(cpsi, t);
+        Assert.Equal(2, e.Maxima.Count);
+        Assert.Equal(0.30, e.Maxima[0].ApexValue, 9);        // peak A: symmetric, apex == sample
+        Assert.Equal(0.3175625, e.Maxima[1].ApexValue, 6);   // peak B: apex ABOVE its 0.295 raw sample
+        Assert.Equal(1, e.RiseCount);                        // raw (0.30 vs 0.295) would give 0
+        Assert.Equal(0.0175625, e.MaxRiseMagnitude, 6);
+    }
+
+    [Fact]
+    public void EmptyArray_NoMaximaNoFold()
+    {
+        var e = QuarterEnvelope.Of(new double[0], new double[0]);
+        Assert.Empty(e.Maxima);
+        Assert.Equal(0, e.RiseCount);
+        Assert.True(e.IsNonIncreasing);
+        Assert.Null(e.EnvelopeFoldTime);
+    }
+
+    [Fact]
+    public void SinglePoint_NoMaximaNoFold()
+    {
+        var e = QuarterEnvelope.Of(new[] { 0.5 }, new[] { 0.0 });
+        Assert.Empty(e.Maxima);
+        Assert.Null(e.EnvelopeFoldTime);
+    }
 }
