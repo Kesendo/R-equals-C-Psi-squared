@@ -151,7 +151,12 @@ public sealed class CoherenceHorizonWitness : IInspectable
             summary: $"Q*(2) = {q2.ToString("0.#####", Inv)} is the exceptional point itself (γ=J, the two clocks " +
                      "merge into one). It is the base rung the carbon polyene layer (N≥3) cannot reach: the quantum " +
                      "side supplies it. Carbon's coherent↔incoherent ladder begins at N=3 (a polyene needs ≥3 sites); " +
-                     "the EP is below it.");
+                     "the EP is below it. Mechanism note: at N=2 the crossover the bisection lands is NOT the pulled " +
+                     "coherence hand 2√(J²−γ²) freezing. Symphony.Clock.Omega(2) reads the ±J band mode (Omega=1) right " +
+                     "down to γ=J, then drops to 0, because that band mode ceases to be the slowest-decay (gap) mode " +
+                     "exactly at γ=J, which coincides with the exceptional point. So Q*(2)=1 marks the ±J band mode " +
+                     "ceasing to be the gap mode, coinciding with the EP, distinct from the N≥3 band-edge-vs-overdamped " +
+                     "crossover (see ClockHandLadderWitness for the N=2 raw-clock subtlety).");
     }
 
     /// <summary>the band-edge coincidence: Q*(N) = 2cos(π/(N+1)) at N=2,3 ONLY, a low-N accident.</summary>
