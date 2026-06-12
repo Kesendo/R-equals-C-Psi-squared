@@ -63,6 +63,14 @@ public static class OpenArcsRegistry
             Status: OpenArcStatus.Open),
 
         new OpenArc(
+            Name: "handshake_decoder",
+            Opened: "2026-06-12",
+            Origin: "docs/superpowers/specs/2026-06-12-handshake-decoder-reading-grammar-design.md (Tom + Opus + Fable)",
+            ParkedAt: "M2a LANDED: ReadoutFisher + ReadingPowerWitness (inspect --root decoder) measure FI(Q) live - resolution = the Q-factor (FI ~ c*Q on Z, c=0.0795 at N=4, residual 15%), no EP peak in Z/X/Y, basis ordering (X span 1555 vs Z 22: coherence readouts fade fastest toward low Q); hypotheses/HANDSHAKE_GEOMETRY.md carries the codebook (five code-parts, bright/dark letters, the triple shape/Q/K, the carrier-relative completeness conjecture)",
+            NextStep: "M2b: invert the proto-decoder (alpha-profile -> (b, deltaJ), accuracy metric); M2c: the read-cost law ~2/Q (untested hypothesis, falsifiable form in the doc); then M3 (mirror-group equivalence classes of readings) and M4 (closure as parity-check)",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
             Name: "envelope_n4_rise",
             Opened: "2026-06-12",
             Origin: "EnvelopeTheoremWitness, day one: inspect --root envelope --N 4 fired the honest branch",
