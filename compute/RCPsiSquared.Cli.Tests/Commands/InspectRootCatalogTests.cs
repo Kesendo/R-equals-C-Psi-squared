@@ -1,5 +1,6 @@
 using RCPsiSquared.Cli;
 using RCPsiSquared.Cli.Commands;
+using RCPsiSquared.Diagnostics.Foundation;
 
 namespace RCPsiSquared.Cli.Tests.Commands;
 
@@ -129,5 +130,23 @@ public class InspectRootCatalogTests
             WithQSweep: false, WithMeasured: false, QGridPoints: null);
         var root = glossary.Factory(ctx);
         Assert.Contains("--root world", root.Summary);
+    }
+
+    [Fact]
+    public void Catalog_HasEnvelopeRoot_WithDescription()
+    {
+        var envelope = InspectCommand.Catalog.Single(e => e.Name == "envelope");
+        Assert.False(string.IsNullOrWhiteSpace(envelope.Description));
+    }
+
+    [Fact]
+    public void Catalog_EnvelopeFactory_BuildsTheLiveWitness()
+    {
+        var envelope = InspectCommand.Catalog.Single(e => e.Name == "envelope");
+        var ctx = new InspectRootContext(new ArgParser(Array.Empty<string>()), N: 3,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var root = envelope.Factory(ctx);
+        Assert.IsType<EnvelopeTheoremWitness>(root);
+        Assert.Contains("Envelope Theorem", root.Summary);
     }
 }

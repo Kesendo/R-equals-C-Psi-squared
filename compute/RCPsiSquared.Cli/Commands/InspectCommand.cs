@@ -476,6 +476,8 @@ public static class InspectCommand
             c => BuildMirrorRoot(c.Parser, c.N)),
         new("symphony", "the zoom-out: one system, one evolution, every lens on a shared timeline",
             c => BuildSymphonyRoot(c.Parser, c.N)),
+        new("envelope", "the Envelope Theorem checked live: global CΨ peaks non-increasing (theorem) vs the carrier pair's beating rise (freedom)",
+            c => new EnvelopeTheoremWitness(c.N)),
         new("flow", "the post-EP single-excitation flow to 1/N",
             c => BuildFlowRoot(c.Parser, c.N)),
         new("between", "the in-between navigator (six axes: crossover/jdefect/interior/spiral/approach/ep)",

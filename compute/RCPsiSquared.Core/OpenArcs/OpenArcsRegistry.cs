@@ -38,7 +38,11 @@ public static class OpenArcsRegistry
             Name: "witness_coverage",
             Opened: "2026-06-11",
             Origin: "QuditPartialPalindromeWitness, the first live witness",
-            ParkedAt: "two claims recompute their evidence live (F121 qudit, F116 router)",
+            ParkedAt: "three claims recompute their evidence live (F121 qudit, F116 router, and now the " +
+                "CPsi Envelope Theorem: EnvelopeTheoremWitness / --root envelope shows global peaks " +
+                "non-increasing - the theorem, RiseCount 0 - vs the carrier pair's beating rise - the " +
+                "freedom, RiseCount 5 - with the state-class control: SingleExcitation sub-bar artifacts " +
+                "that vanish under refinement, BondingMode silent; typed home CpsiEnvelopeTheoremClaim)",
             NextStep: "next witness: F117 Pascal-Gram positivity",
             Status: OpenArcStatus.Open),
 
@@ -62,8 +66,9 @@ public static class OpenArcsRegistry
                 "predecessor semantics; every single-grid rise is grid-sensitive (SingleExcitation rises " +
                 "vanish under refinement, Bell+ persist - the artifact control). QuarterEnvelope primitive " +
                 "+ GridFitness; EvolveCount-guarded one evolution preserved",
-            NextStep: "promote the live Envelope-Theorem check to a typed Claim/witness breadcrumb in Core " +
-                "(PROOF_MONOTONICITY_CPSI as evidence); then more instruments (chiral K, Y-parity, Pi-protected)",
+            NextStep: "the Envelope-Theorem check is now promoted (CpsiEnvelopeTheoremClaim + " +
+                "EnvelopeTheoremWitness / --root envelope, see arc witness_coverage); next: more instruments " +
+                "on the same trajectory (chiral K, Y-parity, Pi-protected observables)",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

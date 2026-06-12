@@ -229,6 +229,7 @@ public static class KnowledgeRegistryFactory
             // F38 / F63 / F61 hoisted up (see above), required by F1Pi2Inheritance
             .RegisterF49cShadowCrossingPi2Inheritance()
             .RegisterF25CPsiBellPlusPi2Inheritance()
+            .RegisterCpsiEnvelopeTheoremClaim()
             .RegisterF57DwellTimeQuarterPi2Inheritance()
             .RegisterF66PoleModesPi2Inheritance()
             .RegisterF77MmSaturationPi2Inheritance()
