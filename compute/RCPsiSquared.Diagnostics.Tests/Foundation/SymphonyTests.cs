@@ -514,7 +514,7 @@ public class SymphonyTests
     public void TempoCertification_PaintersArm_AlphaAndClosureArePure_WildRegime()
     {
         // Wild regime (J=5, γ=0.01) + the painters movement on the bonding carrier + δJ scaled by r (Task 2):
-        // the per-site α and the closure Σ ln α are (Q,K)-pure — identical at both tempos. (Probe: δJ unscaled
+        // the per-site α and the closure Σ ln α are (Q,K)-pure, identical at both tempos. (Probe: δJ unscaled
         // breaks the per-site purity by 1.4e-2; δJ scaled gives 2.1e-15.)
         var s = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.BondingMode,
             tMax: 25.0, tPoints: 400, defectBond: 0, deltaJ: 0.02, tempoRatio: 20.0);
