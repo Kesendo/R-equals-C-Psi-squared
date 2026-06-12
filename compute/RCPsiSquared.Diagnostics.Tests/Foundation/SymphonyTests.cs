@@ -384,6 +384,25 @@ public class SymphonyTests
     }
 
     [Fact]
+    public void Events_GlobalRelabelled_FoldsAndFreedom_AtHeartbeat()
+    {
+        var s = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.BellPair,
+            tMax: 25.0, tPoints: 1600);
+        var summaries = Children(s).Single(c => c.DisplayName == "events").Children
+            .Select(c => c.Summary).ToList();
+
+        // global crossings are now direction-tagged, and the old mislabel is gone
+        Assert.Contains(summaries, sm => sm.Contains("global CΨ crosses ¼ (up)"));
+        Assert.Contains(summaries, sm => sm.Contains("global CΨ crosses ¼ (down)"));
+        Assert.DoesNotContain(summaries, sm => sm.Contains("quantum→classical boundary"));
+        // the absorbing global envelope fold is its own event
+        Assert.Contains(summaries, sm => sm.Contains("global CΨ envelope fold"));
+        // the local freedom: an envelope fold and an envelope-rise event carrying the grid caveat
+        Assert.Contains(summaries, sm => sm.Contains("local CΨ envelope fold") && sm.Contains("carrier pair"));
+        Assert.Contains(summaries, sm => sm.Contains("local CΨ envelope rises") && sm.Contains("grid-sensitive"));
+    }
+
+    [Fact]
     public void OneEvolution_StillBuiltOnce_WithLocalLensAndEvents()
     {
         var s = new Symphony(n: 3, initialState: InitialStateKind.BellPair);

@@ -591,10 +591,24 @@ public sealed class Symphony : IInspectable
         var light = _light!;
         var events = new List<SymphonyEvent>();
 
-        // lens quarter: every ¼ crossing (linearly interpolated crossing time).
-        foreach (double tc in QuarterCrossingTimes())
+        // lens quarter (global): direction-tagged ¼ crossings + the absorbing envelope fold.
+        // "the fold" is the envelope fold, NOT every crossing (upward crossings are coherence pumping
+        // back up, the opposite of a quantum→classical collapse).
+        var globalTimes = QuarterCrossingTimes();
+        var globalDirs = QuarterCrossingDirections(cpsi);
+        System.Diagnostics.Debug.Assert(globalTimes.Count == globalDirs.Length,
+            "QuarterCrossingTimes and QuarterCrossingDirections must return order-aligned, equal-length results");
+        for (int k = 0; k < globalTimes.Count; k++)
+        {
+            double tc = globalTimes[k];
+            string dir = globalDirs[k] < 0 ? "down" : "up";
             events.Add(new SymphonyEvent(tc, Gamma * tc, "quarter",
-                $"CΨ crosses ¼ (the fold; quantum→classical boundary)"));
+                $"global CΨ crosses ¼ ({dir})"));
+        }
+        var gEnv = QuarterEnvelope.Of(cpsi, tGrid);
+        if (gEnv.EnvelopeFoldTime is { } gft)
+            events.Add(new SymphonyEvent(gft, Gamma * gft, "quarter",
+                "global CΨ envelope fold (the absorbing ¼ crossing)"));
 
         // lens local quarter: the carrier-pair fold (audible at N≥3 where the global one is silent),
         // counted in both directions (the open-subsystem heartbeat).
@@ -609,6 +623,16 @@ public sealed class Symphony : IInspectable
             events.Add(new SymphonyEvent(tc, Gamma * tc, "local quarter",
                 $"local CΨ (carrier pair {CarrierPair.Site1},{CarrierPair.Site2}) crosses ¼ ({dir})"));
         }
+
+        // lens local quarter: the absorbing envelope fold, and — when the beat envelope rises — the
+        // freedom (carried with its grid-sensitive caveat so a single-grid rise is never read as fact).
+        var lEnv = QuarterEnvelope.Of(_localCpsi!, tGrid);
+        if (lEnv.EnvelopeFoldTime is { } lft)
+            events.Add(new SymphonyEvent(lft, Gamma * lft, "local quarter",
+                $"local CΨ envelope fold (carrier pair {CarrierPair.Site1},{CarrierPair.Site2}; absorbing)"));
+        if (lEnv.RiseCount > 0 && lEnv.FirstRiseTime is { } lrt)
+            events.Add(new SymphonyEvent(lrt, Gamma * lrt, "local quarter",
+                $"local CΨ envelope rises (carrier pair {CarrierPair.Site1},{CarrierPair.Site2}; the freedom, beating; grid-sensitive)"));
 
         // lens dose: K reaching the milestones, within the window.
         foreach (double kMark in new[] { 0.25, 0.5, 1.0 })
