@@ -247,4 +247,30 @@ public class SymphonyTests
         var times = Symphony.QuarterCrossingTimes(curve, grid);
         Assert.Equal(times.Count, dirs.Length);
     }
+
+    [Fact]
+    public void Witness_SurfacesLocalQuarterLens()
+    {
+        var labels = Children(new Symphony(n: 3)).Select(c => c.DisplayName).ToList();
+        Assert.Contains("lens: quarter (local CΨ)", labels);
+    }
+
+    [Fact]
+    public void LocalQuarterLens_N3Default_FoldsWhereGlobalIsSilent()
+    {
+        // Default Symphony(n:3): global CΨ(0)=1/7 < ¼ so the global lens never crosses; the local lens
+        // starts at 1/3 and folds through ¼ once. The audible fold the second movement exists for.
+        var s = new Symphony(n: 3, initialState: InitialStateKind.BellPair);
+        Assert.Null(s.FirstQuarterCrossing());   // global silent
+        var lens = Children(s).Single(c => c.DisplayName == "lens: quarter (local CΨ)");
+        Assert.Contains("↓", lens.Summary);      // at least one downward crossing reported
+    }
+
+    [Fact]
+    public void LocalQuarterLens_SingleExcitation_SaysNoPairCoherence()
+    {
+        var s = new Symphony(n: 3, initialState: InitialStateKind.SingleExcitation);
+        var lens = Children(s).Single(c => c.DisplayName == "lens: quarter (local CΨ)");
+        Assert.Contains("no pair coherence", lens.Summary);
+    }
 }

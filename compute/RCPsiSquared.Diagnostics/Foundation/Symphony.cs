@@ -347,7 +347,7 @@ public sealed class Symphony : IInspectable
         get
         {
             EnsureLenses();
-            int lenses = 4;
+            int lenses = 5;
             var events = BuildEvents();
             var cross = FirstQuarterCrossing();
             string crossClause = cross is { } c
@@ -370,6 +370,7 @@ public sealed class Symphony : IInspectable
             yield return ScoreNode();
             yield return PalindromeLens();
             yield return QuarterLens();
+            yield return LocalQuarterLens();
             yield return DoseLens();
             yield return LightLens();
             if (DefectBond is not null)
@@ -449,6 +450,40 @@ public sealed class Symphony : IInspectable
         return new InspectableNode("lens: quarter (CΨ)",
             summary: $"CΨ(0) = {start.ToString("0.####", Inv)}, min = {min.ToString("0.####", Inv)}; {crossClause}.",
             payload: new InspectablePayload.Curve("CΨ(t)", tGrid, cpsi, "t", "CΨ"));
+    }
+
+    /// <summary>lens: quarter (local CΨ) — CΨ of the reduced 2-site state on the carrier pair along the
+    /// one trajectory. Audible at N≥3 where the global lens is silent. NOT monotone: the carrier pair is
+    /// an open subsystem, so coherence pumps back and CΨ re-crosses ¼ (the TEMPORAL_SACRIFICE heartbeat).
+    /// Crossings are counted in both directions.</summary>
+    private InspectableNode LocalQuarterLens()
+    {
+        var local = _localCpsi!;
+        var tGrid = _tGrid!;
+        double start = local[0], min = local.Min(), max = local.Max();
+        string pair = $"({CarrierPair.Site1},{CarrierPair.Site2})";
+
+        var dirs = QuarterCrossingDirections(local);
+
+        // The carrier pair begins with no shared coherence (local CΨ(0) ≈ 0) and never folds: a single
+        // excitation, say, places no coherence on the pair, and although the Hamiltonian pumps some in by
+        // hopping, it stays below ¼. There is no quarter-fold to report.
+        if (start <= 1e-12 && dirs.Length == 0)
+            return new InspectableNode("lens: quarter (local CΨ)",
+                summary: $"2-site reduced ρ on carrier pair {pair}: no pair coherence in this initial " +
+                         $"state (local CΨ(0) ≈ 0); the Hamiltonian pumps it to at most " +
+                         $"{max.ToString("0.####", Inv)} (< ¼), so no fold.",
+                payload: new InspectablePayload.Curve("local CΨ(t)", tGrid, local, "t", "local CΨ"));
+
+        int down = dirs.Count(d => d < 0), up = dirs.Count(d => d > 0);
+        string crossClause = dirs.Length == 0
+            ? "no ¼ crossing in window"
+            : $"{dirs.Length} ¼ crossing(s): {down}↓ + {up}↑";
+        return new InspectableNode("lens: quarter (local CΨ)",
+            summary: $"2-site reduced ρ on carrier pair {pair}: local CΨ(0) = {start.ToString("0.####", Inv)}, " +
+                     $"min = {min.ToString("0.####", Inv)}, max = {max.ToString("0.####", Inv)}; {crossClause}. " +
+                     "NOT monotone (open subsystem; coherence pumps back, the TEMPORAL_SACRIFICE heartbeat).",
+            payload: new InspectablePayload.Curve("local CΨ(t)", tGrid, local, "t", "local CΨ"));
     }
 
     /// <summary>lens: dose (K) — K = γ·t marks; the dose of the fold is K at the first ¼ crossing.</summary>
