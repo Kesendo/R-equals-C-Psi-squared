@@ -492,9 +492,16 @@ public sealed class Symphony : IInspectable
         var cross = FirstQuarterCrossing();
         string doseClause = cross is { } c
             ? $"the dose of the fold: K = {c.Dose.ToString("0.####", Inv)} at the first ¼ crossing (t={c.Time.ToString("0.###", Inv)})"
-            : "no ¼ crossing in window, so no fold dose";
+            : "no global ¼ crossing in window, so no global fold dose";
+
+        var localTimes = QuarterCrossingTimes(_localCpsi!, _tGrid!);
+        string localClause = localTimes.Count == 0
+            ? "; no local fold in window"
+            : $"; the local fold: K = {(Gamma * localTimes[0]).ToString("0.####", Inv)} at the first local " +
+              $"¼ crossing (carrier pair {CarrierPair.Site1},{CarrierPair.Site2}, t={localTimes[0].ToString("0.###", Inv)})";
+
         return new InspectableNode("lens: dose (K)",
-            summary: $"K = γ·t reaches {(Gamma * TMax).ToString("0.####", Inv)} at the window end; {doseClause}.",
+            summary: $"K = γ·t reaches {(Gamma * TMax).ToString("0.####", Inv)} at the window end; {doseClause}{localClause}.",
             payload: new InspectablePayload.Curve("K = γ·t", _tGrid!, _dose!, "t", "K"));
     }
 
@@ -544,6 +551,18 @@ public sealed class Symphony : IInspectable
         foreach (double tc in QuarterCrossingTimes())
             events.Add(new SymphonyEvent(tc, Gamma * tc, "quarter",
                 $"CΨ crosses ¼ (the fold; quantum→classical boundary)"));
+
+        // lens local quarter: the carrier-pair fold (audible at N≥3 where the global one is silent),
+        // counted in both directions (the open-subsystem heartbeat).
+        var localTimes = QuarterCrossingTimes(_localCpsi!, tGrid);
+        var localDirs = QuarterCrossingDirections(_localCpsi!);
+        for (int k = 0; k < localTimes.Count; k++)
+        {
+            double tc = localTimes[k];
+            string dir = localDirs[k] < 0 ? "down" : "up";
+            events.Add(new SymphonyEvent(tc, Gamma * tc, "local quarter",
+                $"local CΨ (carrier pair {CarrierPair.Site1},{CarrierPair.Site2}) crosses ¼ ({dir})"));
+        }
 
         // lens dose: K reaching the milestones, within the window.
         foreach (double kMark in new[] { 0.25, 0.5, 1.0 })

@@ -273,4 +273,26 @@ public class SymphonyTests
         var lens = Children(s).Single(c => c.DisplayName == "lens: quarter (local CΨ)");
         Assert.Contains("no pair coherence", lens.Summary);
     }
+
+    [Fact]
+    public void Events_IncludeLocalQuarter_AtN3()
+    {
+        var s = new Symphony(n: 3, initialState: InitialStateKind.BellPair);
+        var eventsNode = Children(s).Single(c => c.DisplayName == "events");
+        var summaries = eventsNode.Children.Select(c => c.Summary).ToList();
+        Assert.Contains(summaries, sm => sm.Contains("[local quarter]") && sm.Contains("carrier pair"));
+        // stranger-door: the surfaced text says "carrier pair", never "born pair"
+        Assert.DoesNotContain(summaries, sm => sm.Contains("born pair"));
+    }
+
+    [Fact]
+    public void DoseLens_ReportsFirstLocalCrossing_N2CoincidesWithGlobal()
+    {
+        // At N=2 the local and global curves are identical, so the first-local-crossing dose must equal
+        // the global fold dose (K = 0.0374, F25).
+        var s = new Symphony(n: 2, gamma: 0.1, initialState: InitialStateKind.BellPair, tMax: 6.0, tPoints: 120);
+        var dose = Children(s).Single(c => c.DisplayName == "lens: dose (K)");
+        Assert.Contains("local fold", dose.Summary);
+        Assert.Contains("0.037", dose.Summary);   // K of the first local crossing ≈ global 0.0374
+    }
 }
