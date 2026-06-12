@@ -286,6 +286,19 @@ public class SymphonyTests
     }
 
     [Fact]
+    public void Events_SurfaceUpwardLocalCrossing_AtHeartbeat()
+    {
+        // At strong coupling the carrier pair re-crosses ¼ upward (coherence pumps back); the events axis
+        // must surface that recovery as a "(up)" local-quarter event, not only the downward folds.
+        var s = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.BellPair,
+            tMax: 25.0, tPoints: 500);
+        var eventsNode = Children(s).Single(c => c.DisplayName == "events");
+        var summaries = eventsNode.Children.Select(c => c.Summary).ToList();
+        Assert.Contains(summaries, sm => sm.Contains("[local quarter]") && sm.Contains("(up)"));
+        Assert.Contains(summaries, sm => sm.Contains("[local quarter]") && sm.Contains("(down)"));
+    }
+
+    [Fact]
     public void DoseLens_ReportsFirstLocalCrossing_N2CoincidesWithGlobal()
     {
         // At N=2 the local and global curves are identical, so the first-local-crossing dose must equal
