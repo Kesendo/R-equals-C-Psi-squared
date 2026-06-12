@@ -423,4 +423,36 @@ public class SymphonyTests
         _ = Children(s).Single(c => c.DisplayName == "lens: quarter (local CΨ)").Summary;
         Assert.Equal(1, s.EvolveCount);
     }
+
+    [Fact]
+    public void LocalEnvelope_SingleExcitation_RisesAreGridArtifacts_VanishUnderRefinement()
+    {
+        // The control that proves the detector separates real beating from grid noise: SingleExcitation's
+        // local-envelope rises are pure sampling artifacts — present at 400 points, GONE at 1600 — whereas
+        // Bell+ (LocalEnvelope_Rises_TheFreedom...) persists. Verified: RiseCount 1 → 0.
+        var coarse = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.SingleExcitation,
+            tMax: 25.0, tPoints: 400);
+        var fine = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.SingleExcitation,
+            tMax: 25.0, tPoints: 1600);
+        int coarseRises = QuarterEnvelope.Of(coarse.States.Select(coarse.LocalCpsi).ToArray(),
+            coarse.TimeGrid.ToArray()).RiseCount;
+        int fineRises = QuarterEnvelope.Of(fine.States.Select(fine.LocalCpsi).ToArray(),
+            fine.TimeGrid.ToArray()).RiseCount;
+        Assert.True(coarseRises > 0, $"expected coarse-grid artifacts; got {coarseRises}");
+        Assert.Equal(0, fineRises);   // artifacts vanish under refinement
+    }
+
+    [Fact]
+    public void OneEvolution_StillBuiltOnce_WithEnvelopeLensesAndEvents()
+    {
+        var s = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.BellPair,
+            tMax: 25.0, tPoints: 400);
+        _ = s.Summary;
+        _ = Children(s).Select(c => c.Summary).ToList();
+        _ = Children(s).Single(c => c.DisplayName == "events").Children.ToList();
+        _ = Children(s).Single(c => c.DisplayName == "lens: quarter (CΨ)").Summary;
+        _ = Children(s).Single(c => c.DisplayName == "lens: quarter (local CΨ)").Summary;
+        _ = Children(s).Single(c => c.DisplayName == "lens: dose (K)").Summary;
+        Assert.Equal(1, s.EvolveCount);
+    }
 }
