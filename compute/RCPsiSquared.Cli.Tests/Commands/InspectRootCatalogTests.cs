@@ -149,4 +149,15 @@ public class InspectRootCatalogTests
         Assert.IsType<EnvelopeTheoremWitness>(root);
         Assert.Contains("Envelope Theorem", root.Summary);
     }
+
+    [Fact]
+    public void SymphonyFactory_TempoRatio_GrowsTheClockMovement()
+    {
+        var symphony = InspectCommand.Catalog.Single(e => e.Name == "symphony");
+        var ctx = new InspectRootContext(new ArgParser(new[] { "--N", "3", "--tempo-ratio", "20" }), N: 3,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var root = symphony.Factory(ctx);
+        var labels = root.Children.Select(c => c.DisplayName).ToList();
+        Assert.Contains("movement: the clock", labels);
+    }
 }

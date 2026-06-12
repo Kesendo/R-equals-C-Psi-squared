@@ -78,6 +78,11 @@ public sealed class Symphony : IInspectable
     /// <summary>The defect strength δJ (added to J on the defect bond) for the painters' movement.</summary>
     public double DeltaJ { get; }
 
+    /// <summary>The clock movement: if set, the Symphony plays the piece a second time at r× the tempo
+    /// (every dimensionful coupling ×r, the window ÷r, the same K-grid) and certifies every dimensionless
+    /// lens is a pure (Q,K)-observable. Null = no clock movement.</summary>
+    public double? TempoRatio { get; }
+
     /// <summary>Hilbert dimension 2^N.</summary>
     public int Dim => 1 << N;
 
@@ -95,7 +100,8 @@ public sealed class Symphony : IInspectable
         int tPoints = 60,
         int? defectBond = null,
         double deltaJ = 0.02,
-        (int Site1, int Site2)? carrierPair = null)
+        (int Site1, int Site2)? carrierPair = null,
+        double? tempoRatio = null)
     {
         if (n < 2 || n > MaxN)
             throw new ArgumentOutOfRangeException(nameof(n),
@@ -126,6 +132,10 @@ public sealed class Symphony : IInspectable
             throw new ArgumentException(
                 $"carrier pair sites must be distinct; got ({pair.Site1}, {pair.Site2})", nameof(carrierPair));
         CarrierPair = pair;
+
+        if (tempoRatio is { } tr && tr <= 0.0)
+            throw new ArgumentOutOfRangeException(nameof(tempoRatio), $"tempo ratio must be positive; got {tr}");
+        TempoRatio = tempoRatio;
     }
 
     // ---- The one evolution, computed once, shared by all lenses ----
@@ -138,6 +148,24 @@ public sealed class Symphony : IInspectable
     /// <summary>The L_A (clean) Liouvillian eigenvalues, available after the one evolution; the global
     /// clock (Takt gap, ω_mem) is read off these by the painters' movement.</summary>
     public IReadOnlyList<Complex> LiouvillianEigenvalues { get { EnsureEvolved(); return _lambdaA!; } }
+
+    /// <summary>The global clock from the shared L spectrum (the inside-visible time): Takt gap = the
+    /// slowest nonzero decay rate (min over rate = −Re λ above tol), ω_mem = max |Im λ| among the modes
+    /// at the gap. τ = 1/gap is the longest breath. γ = 0 ⟹ the clock is stopped (0, 0).</summary>
+    public (double Gap, double Omega) Clock
+    {
+        get
+        {
+            EnsureEvolved();
+            double gap = double.PositiveInfinity;
+            foreach (var e in _lambdaA!) { double rate = -e.Real; if (rate > 1e-9 && rate < gap) gap = rate; }
+            if (double.IsInfinity(gap)) return (0.0, 0.0);
+            double omega = 0.0;
+            foreach (var e in _lambdaA!)
+                if (Math.Abs(-e.Real - gap) <= 1e-6) omega = Math.Max(omega, Math.Abs(e.Imaginary));
+            return (gap, omega);
+        }
+    }
 
     /// <summary>Grid-resolution fitness for the envelope lenses, from the shared L spectrum:
     /// ω = max |Im λ| (fastest coherent oscillation), samples per oscillation 2π/(ωΔt), and the
@@ -390,8 +418,11 @@ public sealed class Symphony : IInspectable
             yield return LocalQuarterLens();
             yield return DoseLens();
             yield return LightLens();
+            yield return ClockNode();
             if (DefectBond is not null)
                 yield return Painters();
+            if (TempoRatio is not null)
+                yield return TempoCertification!;
             yield return EventsNode();
         }
     }
@@ -401,11 +432,16 @@ public sealed class Symphony : IInspectable
     /// the global clock. Built lazily and cached so its trajectories, like the clean one, are each
     /// built exactly once.</summary>
     private PaintersMovement? _painters;
-    private PaintersMovement Painters()
+    internal PaintersMovement Painters()
     {
         EnsureEvolved();
         return _painters ??= new PaintersMovement(this, DefectBond!.Value, DeltaJ);
     }
+
+    private TempoCertificationMovement? _tempo;
+    /// <summary>The clock movement (only when tempoRatio is set): the two-tempo certification. Built lazily.</summary>
+    public TempoCertificationMovement? TempoCertification =>
+        TempoRatio is { } r ? (_tempo ??= new TempoCertificationMovement(this, r)) : null;
 
     public InspectablePayload Payload => InspectablePayload.Empty;
 
@@ -563,6 +599,28 @@ public sealed class Symphony : IInspectable
             payload: new InspectablePayload.Curve("light(t)", _tGrid!, light, "t", "⟨popcount(i⊕j)⟩"));
     }
 
+    /// <summary>clock — the Taktgeber, promoted to the base symphony (always present). The global clock
+    /// off the shared L spectrum: Takt gap (= 2γ floor for a dephasing chain), τ = 1/gap (the longest
+    /// breath, mirroring MirrorSystem.TaktReading), ω_mem, and the inside-visible dial Q = J/γ.</summary>
+    private InspectableNode ClockNode()
+    {
+        var (gap, omega) = Clock;
+        double tau = gap > 0.0 ? 1.0 / gap : double.PositiveInfinity;
+        string tauStr = double.IsInfinity(tau) ? "∞" : tau.ToString("0.###", Inv);
+        return new InspectableNode("clock",
+            summary: $"the global clock (the inside-visible time): Takt gap (slowest nonzero decay rate) = " +
+                     $"{gap.ToString("0.#####", Inv)} (= 2γ floor for a dephasing chain), τ = 1/gap = {tauStr} " +
+                     $"(the longest breath); ω_mem (max |Im λ| at the gap) = {omega.ToString("0.#####", Inv)}; " +
+                     $"Q = J/γ = {(J / Gamma).ToString("0.###", Inv)} (the only dial the inside can read).",
+            children: new IInspectable[]
+            {
+                InspectableNode.RealScalar("Takt gap", gap, "0.######"),
+                InspectableNode.RealScalar("τ = 1/gap", double.IsInfinity(tau) ? 0.0 : tau, "0.####"),
+                InspectableNode.RealScalar("ω_mem", omega, "0.######"),
+                InspectableNode.RealScalar("Q = J/γ", J / Gamma, "0.####"),
+            });
+    }
+
     /// <summary>events — the cross-lens axis: every detected event from every lens merged and sorted
     /// by time. THIS NODE IS THE POINT: interplay is coincidence made visible on one axis.</summary>
     private InspectableNode EventsNode()
@@ -672,6 +730,13 @@ public sealed class Symphony : IInspectable
                         $"chiral mirror BROKEN: max site-wise |ΔP| = {pm.ChiralMirrorDeviation.ToString("E2", Inv)}"));
             }
         }
+
+        // the clock movement (only when tempoRatio is set): a single two-tempo certification verdict at
+        // the window end. Identical-by-construction-in-K, so no per-step events are duplicated.
+        if (TempoRatio is { } rTempo && TempoCertification is { } tempoCert)
+            events.Add(new SymphonyEvent(TMax, Gamma * TMax, "clock",
+                $"two-tempo certification (γ₀ vs {rTempo.ToString("0.#", Inv)}·γ₀ at fixed Q): " +
+                $"{(tempoCert.Pass ? "PASS" : "FAIL")} (max residual {tempoCert.MaxResidual.ToString("E2", Inv)})"));
 
         events.Sort((a, b) => a.Time.CompareTo(b.Time));
         return events;
@@ -862,7 +927,7 @@ public sealed class PaintersMovement : IInspectable
                              PauliString.SiteOp(_n, i, PauliLetter.Z));
 
         // The clock from L_A (read once, off the SHARED clean eigendecomposition the Symphony kept).
-        (_taktGap, _omegaMem) = GlobalClock(p.LiouvillianEigenvalues);
+        (_taktGap, _omegaMem) = p.Clock;
 
         // The four trajectories, each built exactly once.
         _pA = PuritySites(L_A, rho0, tGrid, sitePaulis);            // clean
@@ -1105,24 +1170,6 @@ public sealed class PaintersMovement : IInspectable
         return true;
     }
 
-    /// <summary>The global clock from an L spectrum: Takt gap = slowest nonzero decay rate
-    /// (= min over rate = −Re λ of the rates above tol), ω_mem = max |Im λ| among the modes at the gap.</summary>
-    private static (double gap, double omega) GlobalClock(IReadOnlyList<Complex> evals,
-        double tol = 1e-9, double gapTol = 1e-6)
-    {
-        double gap = double.PositiveInfinity;
-        foreach (var e in evals)
-        {
-            double rate = -e.Real;
-            if (rate > tol && rate < gap) gap = rate;
-        }
-        if (double.IsInfinity(gap)) return (0.0, 0.0);   // γ = 0: the clock is stopped
-        double omega = 0.0;
-        foreach (var e in evals)
-            if (Math.Abs(-e.Real - gap) <= gapTol) omega = Math.Max(omega, Math.Abs(e.Imaginary));
-        return (gap, omega);
-    }
-
     // ---- IInspectable ----
 
     public string DisplayName => "movement: painters";
@@ -1208,6 +1255,148 @@ public sealed class PaintersMovement : IInspectable
                 InspectableNode.RealScalar("Takt gap", _taktGap, "0.######"),
                 InspectableNode.RealScalar("ω_mem", _omegaMem, "0.######"),
             });
+}
+
+/// <summary>The clock movement: the two-tempo certification. γ₀ is the Universal Carrier — invisible from
+/// inside, where only Q = J/γ₀ and K = γ₀·t are real. This plays the SAME piece at a second tempo r·γ₀
+/// (every dimensionful coupling scaled by r: J, γ, and the painters' δJ; the window ÷r; the same tPoints,
+/// so the K-grid K_i = γ·t_i is identical) and checks that every dimensionless lens curve is bit-identical
+/// at matched K — i.e. a pure (Q,K)-observable.
+///
+/// <para>This CERTIFIES the instruments; it does NOT confirm a law of nature. The invariance is exact
+/// algebra: scaling J and γ by r scales the whole Lindbladian L → r·L, so ρ(t; r·L) = ρ(r·t; L)
+/// identically (verified ≈5.5e-16). The residual is an implementation invariant; a lens that breaks it
+/// has smuggled absolute time — it "sees the carrier". The verdict says "exact identity, certified",
+/// never "theorem confirmed".</para></summary>
+public sealed class TempoCertificationMovement : IInspectable
+{
+    private static readonly System.Globalization.CultureInfo Inv = System.Globalization.CultureInfo.InvariantCulture;
+
+    /// <summary>A certified lens's matched-K residual must be ≤ this. The exact identity gives ≈1e-16; any
+    /// time-smuggling lens breaks it by O(1). Conditioning-bound (certification is for moderate r ~ 10-100).</summary>
+    public const double PassTol = 1e-9;
+
+    public Symphony Parent { get; }
+    public double R { get; }
+
+    public TempoCertificationMovement(Symphony parent, double r) { Parent = parent; R = r; }
+
+    private bool _built;
+    private Symphony? _second;
+    private double _residGlobal, _residLocal, _residLight, _residK, _maxResidual;
+    private double _paintersResidual;
+
+    private void Ensure()
+    {
+        if (_built) return;
+        _built = true;
+        var p = Parent;
+        // The second performance: every dimensionful coupling ×r (J, γ, AND the painters' δJ; δJ/J fixed),
+        // the window ÷r, the SAME tPoints ⟹ the same K-grid. NOT a recursive tempoRatio.
+        _second = new Symphony(p.N, R * p.J, R * p.Gamma, p.HType, p.Topology, p.InitialState,
+            p.TMax / R, p.TPoints, p.DefectBond, R * p.DeltaJ, p.CarrierPair);
+
+        var gA = p.States.Select(Symphony.Cpsi).ToArray();
+        var gB = _second.States.Select(Symphony.Cpsi).ToArray();
+        var lA = p.States.Select(p.LocalCpsi).ToArray();
+        var lB = _second.States.Select(_second.LocalCpsi).ToArray();
+        var liA = p.States.Select(Symphony.LightContent).ToArray();
+        var liB = _second.States.Select(Symphony.LightContent).ToArray();
+        var kA = p.TimeGrid.Select(t => p.Gamma * t).ToArray();
+        var kB = _second.TimeGrid.Select(t => _second.Gamma * t).ToArray();
+
+        _residGlobal = MaxAbsDiff(gA, gB);
+        _residLocal = MaxAbsDiff(lA, lB);
+        _residLight = MaxAbsDiff(liA, liB);
+        _residK = MaxAbsDiff(kA, kB);
+        _maxResidual = Math.Max(Math.Max(_residGlobal, _residLocal), Math.Max(_residLight, _residK));
+
+        // The painters arm: when the defect is in play, α and the closure Σ ln α must be (Q,K)-pure too
+        // (the second performance scaled δJ by r above). If the painters declined (no lenses), the arm is 0.
+        _paintersResidual = 0.0;
+        if (p.DefectBond is not null)
+        {
+            var pmA = p.Painters();
+            var pmB = _second!.Painters();
+            if (pmA.HasLenses && pmB.HasLenses)
+            {
+                double aRes = MaxAbsDiff(pmA.Alphas.ToArray(), pmB.Alphas.ToArray());
+                double cRes = Math.Abs(pmA.ClosureSum - pmB.ClosureSum);
+                _paintersResidual = Math.Max(aRes, cRes);
+                _maxResidual = Math.Max(_maxResidual, _paintersResidual);
+            }
+        }
+    }
+
+    /// <summary>The max absolute element-wise difference of two equal-length curves; the certification
+    /// residual. Static and pure so the guard logic is directly testable.</summary>
+    public static double MaxAbsDiff(double[] a, double[] b)
+    {
+        double m = 0.0; int n = Math.Min(a.Length, b.Length);
+        for (int i = 0; i < n; i++) m = Math.Max(m, Math.Abs(a[i] - b[i]));
+        return m;
+    }
+
+    public Symphony Second { get { Ensure(); return _second!; } }
+    public double MaxResidual { get { Ensure(); return _maxResidual; } }
+    /// <summary>The painters arm residual: max |α_i − α'_i| and |Σ ln α − Σ ln α'| between tempos (0 when
+    /// the painters are not in play or declined). With δJ scaled by r this is machine epsilon.</summary>
+    public double PaintersResidual { get { Ensure(); return _paintersResidual; } }
+    public bool Pass => MaxResidual <= PassTol;
+    /// <summary>How many times the second performance evolved its trajectory (must be 1).</summary>
+    public int SecondEvolveCount { get { Ensure(); return _second!.EvolveCount; } }
+
+    public string DisplayName => "movement: the clock";
+
+    public string Summary
+    {
+        get
+        {
+            Ensure();
+            return Pass
+                ? $"two tempos (γ₀, {R.ToString("0.#", Inv)}·γ₀ at fixed Q = {(Parent.J / Parent.Gamma).ToString("0.###", Inv)}): " +
+                  $"the inside cannot tell them apart: max residual {_maxResidual.ToString("E2", Inv)} across the " +
+                  "dimensionless lenses (exact rescaling identity, certified, NOT a theorem confirmed)."
+                : $"two-tempo certification FAILED: max residual {_maxResidual.ToString("E2", Inv)} > {PassTol.ToString("E0", Inv)}: " +
+                  "a lens sees the carrier (absolute time leaked).";
+        }
+    }
+
+    public IEnumerable<IInspectable> Children
+    {
+        get
+        {
+            Ensure();
+            yield return LensNode("global CΨ", _residGlobal);
+            yield return LensNode("local CΨ (carrier pair)", _residLocal);
+            yield return LensNode("light content", _residLight);
+            yield return new InspectableNode("the K-grid",
+                summary: $"K_i = γ·t_i identical at both tempos (same tPoints, window ÷r): residual {_residK.ToString("E2", Inv)}.");
+            var (gapA, omA) = Parent.Clock;
+            var (gapB, omB) = _second!.Clock;
+            yield return new InspectableNode("the clock comparison (the hands spin r× faster)",
+                summary: $"gap {gapA.ToString("0.#####", Inv)} → {gapB.ToString("0.#####", Inv)} " +
+                         $"(ratio {(gapA > 0 ? (gapB / gapA) : 0.0).ToString("0.##", Inv)}), " +
+                         $"ω_mem {omA.ToString("0.#####", Inv)} → {omB.ToString("0.#####", Inv)}: the clock is " +
+                         "dimensionful and scales by r: the hands spin r× faster, but the song (every (Q,K)-lens) is the same.");
+            if (Parent.DefectBond is not null)
+                yield return new InspectableNode("the painters arm (α, closure)",
+                    summary: $"with the defect rescaled by r, the per-site α and the closure Σ ln α are (Q,K)-pure: " +
+                             $"residual {_paintersResidual.ToString("E2", Inv)} " +
+                             $"({(_paintersResidual <= PassTol ? "PASS" : "FAIL: the α fit smuggled absolute time")}).");
+        }
+    }
+
+    private InspectableNode LensNode(string lens, double residual)
+    {
+        bool pass = residual <= PassTol;
+        return new InspectableNode($"lens: {lens}",
+            summary: pass
+                ? $"matched-K residual {residual.ToString("E2", Inv)} ≤ {PassTol.ToString("E0", Inv)}: PASS, a pure (Q,K)-observable."
+                : $"matched-K residual {residual.ToString("E2", Inv)} > {PassTol.ToString("E0", Inv)}: FAIL: this lens sees the carrier: absolute time leaked.");
+    }
+
+    public InspectablePayload Payload => InspectablePayload.Empty;
 }
 
 /// <summary>Which initial density matrix the Symphony evolves. <see cref="BellPair"/> (default) is

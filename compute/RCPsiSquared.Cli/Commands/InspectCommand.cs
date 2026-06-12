@@ -301,7 +301,8 @@ public static class InspectCommand
         int tPoints = p.OptionalDouble("t-points") is { } np ? (int)np : 60;
         int? defectBond = p.OptionalDouble("defect-bond") is { } db ? (int)db : null;
         double deltaJ = p.OptionalDouble("delta-j") ?? 0.02;
-        return new Symphony(N, j, gamma, htype, topo, initial, tMax, tPoints, defectBond, deltaJ);
+        double? tempoRatio = p.OptionalDouble("tempo-ratio");
+        return new Symphony(N, j, gamma, htype, topo, initial, tMax, tPoints, defectBond, deltaJ, carrierPair: null, tempoRatio: tempoRatio);
     }
 
     /// <summary>The F116 live lab: builds a <see cref="GoldenRouterWitness"/> that re-runs the soft-certifier

@@ -189,6 +189,18 @@ public class SymphonyTests
     }
 
     [Fact]
+    public void Clock_NodeIsPresentInBaseSymphony_WithTaktAndQ()
+    {
+        var s = new Symphony(n: 3, j: 1.0, gamma: 0.1);
+        var clock = Children(s).Single(c => c.DisplayName == "clock");
+        Assert.Contains("Takt gap", clock.Summary);
+        Assert.Contains("Q = J/γ", clock.Summary);
+        var (gap, omega) = s.Clock;
+        Assert.True(gap > 0.0);
+        Assert.True(omega >= 0.0);
+    }
+
+    [Fact]
     public void Witness_RendersToJson()
     {
         var json = InspectionJsonExporter.ToJson(new Symphony(n: 2));
@@ -454,5 +466,59 @@ public class SymphonyTests
         _ = Children(s).Single(c => c.DisplayName == "lens: quarter (local CΨ)").Summary;
         _ = Children(s).Single(c => c.DisplayName == "lens: dose (K)").Summary;
         Assert.Equal(1, s.EvolveCount);
+    }
+
+    [Fact]
+    public void TempoCertification_DefaultRegime_AllLensesPass()
+    {
+        var s = new Symphony(n: 3, j: 1.0, gamma: 0.1, tempoRatio: 20.0);
+        var node = Children(s).Single(c => c.DisplayName == "movement: the clock");
+        Assert.Contains("certified", node.Summary);
+        Assert.True(s.TempoCertification!.MaxResidual <= TempoCertificationMovement.PassTol,
+            $"residual {s.TempoCertification!.MaxResidual} exceeded the PASS tol");
+        Assert.True(s.TempoCertification!.Pass);
+    }
+
+    [Fact]
+    public void TempoCertification_Guard_FiresOnATimeSmugglingCurve()
+    {
+        double[] clean = { 0.3, 0.28, 0.26, 0.24 };
+        double[] shifted = { 0.3, 0.28, 0.26, 0.24 + 0.01 };
+        Assert.True(TempoCertificationMovement.MaxAbsDiff(clean, clean) <= TempoCertificationMovement.PassTol);
+        Assert.True(TempoCertificationMovement.MaxAbsDiff(clean, shifted) > TempoCertificationMovement.PassTol);
+    }
+
+    [Fact]
+    public void TempoCertification_OneEvolutionPerSymphony_SecondPerformanceCounted()
+    {
+        var s = new Symphony(n: 3, j: 1.0, gamma: 0.1, tempoRatio: 20.0);
+        _ = s.TempoCertification!.MaxResidual;
+        Assert.Equal(1, s.EvolveCount);
+        Assert.Equal(1, s.TempoCertification!.SecondEvolveCount);
+    }
+
+    [Fact]
+    public void TempoCertification_N2FoldDose_IdenticalAtBothTempos_KNumber()
+    {
+        var s = new Symphony(n: 2, gamma: 0.1, initialState: InitialStateKind.BellPair,
+            tMax: 6.0, tPoints: 120, tempoRatio: 20.0);
+        var foldA = s.FirstQuarterCrossing();
+        var foldB = s.TempoCertification!.Second.FirstQuarterCrossing();
+        Assert.NotNull(foldA);
+        Assert.NotNull(foldB);
+        Assert.Equal(0.0374, foldA!.Value.Dose, 3);
+        Assert.Equal(foldA!.Value.Dose, foldB!.Value.Dose, 9);
+    }
+
+    [Fact]
+    public void TempoCertification_PaintersArm_AlphaAndClosureArePure_WildRegime()
+    {
+        // Wild regime (J=5, γ=0.01) + the painters movement on the bonding carrier + δJ scaled by r (Task 2):
+        // the per-site α and the closure Σ ln α are (Q,K)-pure, identical at both tempos. (Probe: δJ unscaled
+        // breaks the per-site purity by 1.4e-2; δJ scaled gives 2.1e-15.)
+        var s = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.BondingMode,
+            tMax: 25.0, tPoints: 400, defectBond: 0, deltaJ: 0.02, tempoRatio: 20.0);
+        Assert.True(s.TempoCertification!.PaintersResidual <= TempoCertificationMovement.PassTol,
+            $"painters α/closure residual {s.TempoCertification!.PaintersResidual} exceeded the PASS tol");
     }
 }

@@ -88,6 +88,11 @@ public sealed class UniversalCarrierClaim : Claim
                 summary: "ValidateAgainstPythonStepFTests covers γ₀ ∈ {0.025, 0.05, 0.10} with identical Q-values; structural slot is substrate-invariant. IBM hardware (T2* ~ 100μs → γ ~ 10⁴ Hz) different physical value, identical role.");
             yield return new InspectableNode("hardware-confirmed",
                 summary: "IBM Q52 absorption ratio 1.03 (3% deviation); IBM Run 3 ¼-boundary 1.9% deviation; Marrakesh F87 trichotomy Δ(soft, truly) = −0.722. γ₀ measured only via Q-ratios.");
+            yield return new InspectableNode("live certification (the two-tempo Taktgeber)",
+                summary: "the carrier's inside-invisibility is checked live: inspect --root symphony --tempo-ratio 20 " +
+                         "plays the piece at γ₀ and 20·γ₀ (Q fixed, K-grid fixed) and certifies every dimensionless " +
+                         "lens is a pure (Q,K)-observable (residual ≈ 1e-16). Exact rescaling identity, certified: " +
+                         "the seam where a lens 'sees the carrier' is where γ₀ becomes measurable.");
         }
     }
 }

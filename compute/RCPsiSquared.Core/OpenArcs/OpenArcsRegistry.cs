@@ -73,10 +73,17 @@ public static class OpenArcsRegistry
                 "(the freedom, no theorem binds the reduced open subsystem) via parabolic-apex + " +
                 "predecessor semantics; every single-grid rise is grid-sensitive (SingleExcitation rises " +
                 "vanish under refinement, Bell+ persist - the artifact control). QuarterEnvelope primitive " +
-                "+ GridFitness; EvolveCount-guarded one evolution preserved",
-            NextStep: "the Envelope-Theorem check is now promoted (CpsiEnvelopeTheoremClaim + " +
-                "EnvelopeTheoremWitness / --root envelope, see arc witness_coverage); next: more instruments " +
-                "on the same trajectory (chiral K, Y-parity, Pi-protected observables)",
+                "+ GridFitness; EvolveCount-guarded one evolution preserved. THIRD movement (2026-06-12): the " +
+                "clock - gamma_0 as the Taktgeber. The clock node (Takt gap, tau, omega_mem, Q=J/gamma) is " +
+                "promoted to the base symphony; --tempo-ratio r grows 'movement: the clock', the two-tempo " +
+                "certification: play the piece at gamma_0 and r*gamma_0 (every dimensionful coupling scaled by " +
+                "r incl. the painters' delta_J, window /r, K-grid fixed) and certify every dimensionless lens " +
+                "is a pure (Q,K)-observable (residual 8.3e-16 at r=20, the inside cannot tell the tempos apart). " +
+                "Exact rescaling identity, CERTIFIED not theorem-confirmed; a lens that breaks it sees the carrier. " +
+                "Painters arm (alpha, closure) pure too (delta_J scaled). UniversalCarrierClaim breadcrumbs to it",
+            NextStep: "the seam movement (the converse: feed ONE externally-calibrated observable in lab units and " +
+                "extract gamma_0 - the calibration topology of ON_HOW_THE_CARRIER_SHOWS_ITSELF, this movement's " +
+                "foundation); plus the remaining instruments (chiral K, Y-parity, Pi-protected observables)",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
