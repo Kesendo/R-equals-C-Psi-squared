@@ -556,6 +556,8 @@ public sealed class Symphony : IInspectable
         // counted in both directions (the open-subsystem heartbeat).
         var localTimes = QuarterCrossingTimes(_localCpsi!, tGrid);
         var localDirs = QuarterCrossingDirections(_localCpsi!);
+        System.Diagnostics.Debug.Assert(localTimes.Count == localDirs.Length,
+            "QuarterCrossingTimes and QuarterCrossingDirections must return order-aligned, equal-length results");
         for (int k = 0; k < localTimes.Count; k++)
         {
             double tc = localTimes[k];
