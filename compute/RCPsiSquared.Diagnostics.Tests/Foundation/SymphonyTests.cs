@@ -275,6 +275,24 @@ public class SymphonyTests
     }
 
     [Fact]
+    public void LocalEnvelope_Rises_TheFreedom_BeatingAtStrongCoupling()
+    {
+        // The reduced carrier pair has no theorem; its beat envelope genuinely rises. Verified: at
+        // J=5, γ=0.01, 1600 points the local envelope has 5 predecessor-rises, max Δ≈0.0122.
+        var s = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.BellPair,
+            tMax: 25.0, tPoints: 1600);
+        var local = s.States.Select(s.LocalCpsi).ToArray();
+        var env = QuarterEnvelope.Of(local, s.TimeGrid.ToArray());
+        Assert.True(env.RiseCount >= 1, $"expected a beating rise; got {env.RiseCount}");
+        Assert.True(env.MaxRiseMagnitude > 1e-3, $"expected a real (>1e-3) rise; got {env.MaxRiseMagnitude}");
+
+        var lens = Children(s).Single(c => c.DisplayName == "lens: quarter (local CΨ)");
+        Assert.Contains("freedom", lens.Summary);
+        Assert.Contains("beating", lens.Summary);
+        Assert.Contains("grid-sensitive", lens.Summary);
+    }
+
+    [Fact]
     public void Events_IncludeLocalQuarter_AtN3()
     {
         var s = new Symphony(n: 3, initialState: InitialStateKind.BellPair);
@@ -310,6 +328,17 @@ public class SymphonyTests
     }
 
     [Fact]
+    public void DoseLens_PointsAtEnvelopeFold_N2RegressionToF25()
+    {
+        // At N=2 the curve is monotone: the single downward crossing IS the envelope fold, so the dose
+        // lens still reports the F25 fold dose K ≈ 0.0374 — the redefinition did not move N=2.
+        var s = new Symphony(n: 2, gamma: 0.1, initialState: InitialStateKind.BellPair, tMax: 6.0, tPoints: 120);
+        var dose = Children(s).Single(c => c.DisplayName == "lens: dose (K)");
+        Assert.Contains("envelope fold", dose.Summary);
+        Assert.Contains("0.0374", dose.Summary);
+    }
+
+    [Fact]
     public void LocalCpsi_Recrosses_TheHeartbeat_N3StrongCoupling()
     {
         // The carrier-pair CΨ is NOT monotone: at strong coupling (J=5) and weak dephasing (γ=0.01) the
@@ -327,6 +356,64 @@ public class SymphonyTests
     }
 
     [Fact]
+    public void GridFitness_FiniteWhenOscillating_InfiniteWhenPureDephasing()
+    {
+        // J=5 chain oscillates: finite samples/oscillation and a positive peak-clip floor.
+        var osc = new Symphony(n: 3, j: 5.0, gamma: 0.01, tMax: 25.0, tPoints: 1600);
+        var f = osc.GridFitness(0.333);
+        Assert.True(f.Omega > 0.0);
+        Assert.True(f.SamplesPerOscillation > 0.0 && !double.IsInfinity(f.SamplesPerOscillation));
+        Assert.True(f.PeakClipFloor > 0.0);
+
+        // J=0: no Hamiltonian, no coherent oscillation, ω≈0 → infinite samples/oscillation.
+        var still = new Symphony(n: 3, j: 0.0, gamma: 0.1);
+        var g = still.GridFitness(0.333);
+        Assert.Equal(0.0, g.Omega, 9);
+        Assert.True(double.IsInfinity(g.SamplesPerOscillation));
+    }
+
+    [Fact]
+    public void GlobalEnvelope_NonIncreasing_AtBothRegimes_TheoremLive()
+    {
+        // The Envelope Theorem (proven N=2, verified N≥3): the global CΨ peaks never rise. Verified at
+        // the gentle (J=1) and strong-coupling (J=5) regimes, at two grid densities.
+        foreach (var (j, gamma, tmax, pts) in new[]
+            { (1.0, 0.1, 10.0, 400), (5.0, 0.01, 25.0, 400), (5.0, 0.01, 25.0, 1600) })
+        {
+            var s = new Symphony(n: 3, j: j, gamma: gamma, initialState: InitialStateKind.BellPair,
+                tMax: tmax, tPoints: pts);
+            var global = s.States.Select(Symphony.Cpsi).ToArray();
+            var env = QuarterEnvelope.Of(global, s.TimeGrid.ToArray());
+            Assert.Equal(0, env.RiseCount);
+            Assert.True(env.IsNonIncreasing);
+        }
+        // The global lens names the theorem.
+        var lens = Children(new Symphony(n: 3, j: 5.0, gamma: 0.01, tMax: 25.0, tPoints: 1600))
+            .Single(c => c.DisplayName == "lens: quarter (CΨ)");
+        Assert.Contains("Envelope Theorem", lens.Summary);
+        Assert.Contains("the fold", lens.Summary);   // "the fold" now means the envelope fold
+    }
+
+    [Fact]
+    public void Events_GlobalRelabelled_FoldsAndFreedom_AtHeartbeat()
+    {
+        var s = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.BellPair,
+            tMax: 25.0, tPoints: 1600);
+        var summaries = Children(s).Single(c => c.DisplayName == "events").Children
+            .Select(c => c.Summary).ToList();
+
+        // global crossings are now direction-tagged, and the old mislabel is gone
+        Assert.Contains(summaries, sm => sm.Contains("global CΨ crosses ¼ (up)"));
+        Assert.Contains(summaries, sm => sm.Contains("global CΨ crosses ¼ (down)"));
+        Assert.DoesNotContain(summaries, sm => sm.Contains("quantum→classical boundary"));
+        // the absorbing global envelope fold is its own event
+        Assert.Contains(summaries, sm => sm.Contains("global CΨ envelope fold"));
+        // the local freedom: an envelope fold and an envelope-rise event carrying the grid caveat
+        Assert.Contains(summaries, sm => sm.Contains("local CΨ envelope fold") && sm.Contains("carrier pair"));
+        Assert.Contains(summaries, sm => sm.Contains("local CΨ envelope rises") && sm.Contains("grid-sensitive"));
+    }
+
+    [Fact]
     public void OneEvolution_StillBuiltOnce_WithLocalLensAndEvents()
     {
         var s = new Symphony(n: 3, initialState: InitialStateKind.BellPair);
@@ -334,6 +421,38 @@ public class SymphonyTests
         _ = Children(s).Select(c => c.Summary).ToList();
         _ = Children(s).Single(c => c.DisplayName == "events").Children.ToList();
         _ = Children(s).Single(c => c.DisplayName == "lens: quarter (local CΨ)").Summary;
+        Assert.Equal(1, s.EvolveCount);
+    }
+
+    [Fact]
+    public void LocalEnvelope_SingleExcitation_RisesAreGridArtifacts_VanishUnderRefinement()
+    {
+        // The control that proves the detector separates real beating from grid noise: SingleExcitation's
+        // local-envelope rises are pure sampling artifacts — present at 400 points, GONE at 1600 — whereas
+        // Bell+ (LocalEnvelope_Rises_TheFreedom...) persists. Verified: RiseCount 1 → 0.
+        var coarse = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.SingleExcitation,
+            tMax: 25.0, tPoints: 400);
+        var fine = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.SingleExcitation,
+            tMax: 25.0, tPoints: 1600);
+        int coarseRises = QuarterEnvelope.Of(coarse.States.Select(coarse.LocalCpsi).ToArray(),
+            coarse.TimeGrid.ToArray()).RiseCount;
+        int fineRises = QuarterEnvelope.Of(fine.States.Select(fine.LocalCpsi).ToArray(),
+            fine.TimeGrid.ToArray()).RiseCount;
+        Assert.True(coarseRises > 0, $"expected coarse-grid artifacts; got {coarseRises}");
+        Assert.Equal(0, fineRises);   // artifacts vanish under refinement
+    }
+
+    [Fact]
+    public void OneEvolution_StillBuiltOnce_WithEnvelopeLensesAndEvents()
+    {
+        var s = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.BellPair,
+            tMax: 25.0, tPoints: 400);
+        _ = s.Summary;
+        _ = Children(s).Select(c => c.Summary).ToList();
+        _ = Children(s).Single(c => c.DisplayName == "events").Children.ToList();
+        _ = Children(s).Single(c => c.DisplayName == "lens: quarter (CΨ)").Summary;
+        _ = Children(s).Single(c => c.DisplayName == "lens: quarter (local CΨ)").Summary;
+        _ = Children(s).Single(c => c.DisplayName == "lens: dose (K)").Summary;
         Assert.Equal(1, s.EvolveCount);
     }
 }

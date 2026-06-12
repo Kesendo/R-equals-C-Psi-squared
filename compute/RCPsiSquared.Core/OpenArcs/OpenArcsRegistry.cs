@@ -54,12 +54,16 @@ public static class OpenArcsRegistry
             Name: "symphony_view",
             Opened: "2026-06-11",
             Origin: "Tom's founding Object Manager idea, sharpened: each of the 122 formulas is a maximum-zoom view; the symphony is the zoom-out",
-            ParkedAt: "second movement plays: lens quarter (local CPsi) reads the carrier-pair reduced rho " +
-                "(PartialTrace.Of + Cpsi), audible at N>=3 where the global /(d-1) lens is silent; F25 " +
-                "reproduced bit-exact at N=2 (local=global), the TEMPORAL_SACRIFICE heartbeat live " +
-                "(N=3 J=5 gamma=0.01: 7 bidirectional 1/4 crossings, NOT monotone - open-subsystem backflow); " +
-                "first movement's four lenses + events axis still on the one EvolveCount-guarded trajectory",
-            NextStep: "more instruments on the same trajectory: chiral K, Y-parity, Pi-protected observables",
+            ParkedAt: "second movement round 2: the quarter lenses are envelope-aware. Global lens " +
+                "checks the Envelope Theorem live (peaks non-increasing, proven N=2 / verified N>=3) and " +
+                "'the fold' = the absorbing envelope fold (upward crossings no longer mislabeled the " +
+                "quantum->classical boundary). Local carrier-pair lens surfaces the genuine BEATING rise " +
+                "(the freedom, no theorem binds the reduced open subsystem) via parabolic-apex + " +
+                "predecessor semantics; every single-grid rise is grid-sensitive (SingleExcitation rises " +
+                "vanish under refinement, Bell+ persist - the artifact control). QuarterEnvelope primitive " +
+                "+ GridFitness; EvolveCount-guarded one evolution preserved",
+            NextStep: "promote the live Envelope-Theorem check to a typed Claim/witness breadcrumb in Core " +
+                "(PROOF_MONOTONICITY_CPSI as evidence); then more instruments (chiral K, Y-parity, Pi-protected)",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

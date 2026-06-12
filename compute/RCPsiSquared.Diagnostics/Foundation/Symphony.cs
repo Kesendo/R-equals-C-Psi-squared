@@ -35,7 +35,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///         (C = Tr(ρ²) = Σ|ρ_ij|², Ψ = ℓ₁-coherence/(d−1), the repo's canonical convention where
 ///         Bell+ has CΨ(0) = 1/3); curve payload, ¼-crossing times.</item>
 ///   <item><b>dose (K)</b> — the dimensionless dose K = γ·t along the same grid; the dose of the
-///         fold is K at the first ¼ crossing.</item>
+///         fold is K at the absorbing envelope fold.</item>
 ///   <item><b>light</b> — the state's light content over time, the purity-weighted mean
 ///         popcount(i⊕j) over the coherences |i⟩⟨j| (popcount(i⊕j) = the number of sites where ket
 ///         and bra differ = the Absorption-Theorem light channel); curve payload.</item>
@@ -138,6 +138,23 @@ public sealed class Symphony : IInspectable
     /// <summary>The L_A (clean) Liouvillian eigenvalues, available after the one evolution; the global
     /// clock (Takt gap, ω_mem) is read off these by the painters' movement.</summary>
     public IReadOnlyList<Complex> LiouvillianEigenvalues { get { EnsureEvolved(); return _lambdaA!; } }
+
+    /// <summary>Grid-resolution fitness for the envelope lenses, from the shared L spectrum:
+    /// ω = max |Im λ| (fastest coherent oscillation), samples per oscillation 2π/(ωΔt), and the
+    /// conservative peak-clip floor ½·(ωΔt)²·peakScale (the raw peak-height clip; with parabolic
+    /// apex the true residual is far smaller, so this over-estimates — a safe floor to surface).
+    /// ω ≈ 0 (pure dephasing) ⟹ SamplesPerOscillation = +∞ and PeakClipFloor = 0.</summary>
+    public (double Omega, double SamplesPerOscillation, double PeakClipFloor) GridFitness(double peakScale)
+    {
+        EnsureEvolved();
+        double omega = 0.0;
+        foreach (var e in _lambdaA!) omega = Math.Max(omega, Math.Abs(e.Imaginary));
+        double dt = TPoints > 1 ? TMax / (TPoints - 1) : TMax;
+        double wdt = omega * dt;
+        double samples = wdt > 1e-12 ? 2.0 * Math.PI / wdt : double.PositiveInfinity;
+        double floor = 0.5 * wdt * wdt * peakScale;
+        return (omega, samples, floor);
+    }
 
     /// <summary>The shared timeline: t = 0, …, TMax in <see cref="TPoints"/> equal steps.</summary>
     public IReadOnlyList<double> TimeGrid { get { EnsureEvolved(); return _tGrid!; } }
@@ -434,28 +451,46 @@ public sealed class Symphony : IInspectable
             });
     }
 
-    /// <summary>lens: quarter (CΨ) — CΨ(t) along the one trajectory, curve payload, start/min and the
-    /// ¼-crossing times.</summary>
+    /// <summary>lens: quarter (CΨ) — the global CΨ(t), now the Envelope-Theorem witness. Reports the
+    /// direction-split ¼-crossing count, the live envelope verdict (the peaks form a non-increasing
+    /// sequence — proven N=2, verified N≥3, PROOF_MONOTONICITY_CPSI), and the envelope fold (the
+    /// absorbing ¼ crossing; "the fold" now means THIS, never an upward oscillation).</summary>
     private InspectableNode QuarterLens()
     {
         var cpsi = _cpsi!;
         var tGrid = _tGrid!;
-        double start = cpsi[0];
-        double min = cpsi.Min();
-        var crossings = QuarterCrossingTimes();
-        string crossClause = crossings.Count == 0
+        double start = cpsi[0], min = cpsi.Min();
+
+        var dirs = QuarterCrossingDirections(cpsi);
+        int down = dirs.Count(d => d < 0), up = dirs.Count(d => d > 0);
+        var (_, samples, floor) = GridFitness(cpsi.Max());
+        string gridClause = double.IsInfinity(samples) ? "" : $" [≈{samples.ToString("0.#", Inv)} samples/oscillation]";
+        string crossClause = dirs.Length == 0
             ? "no ¼ crossing in window"
-            : $"{crossings.Count} ¼ crossing(s) at t = " +
-              string.Join(", ", crossings.Select(t => t.ToString("0.###", Inv)));
+            : $"{dirs.Length} ¼ crossing(s): {down}↓ + {up}↑{gridClause}";
+
+        var env = QuarterEnvelope.Of(cpsi, tGrid);
+        string envClause = env.IsNonIncreasing
+            ? "envelope non-increasing ✓ (the Envelope Theorem holds live — proven N=2, verified N≥3, PROOF_MONOTONICITY_CPSI)"
+            : $"envelope shows {env.RiseCount} predecessor-rise(s), max Δ={env.MaxRiseMagnitude.ToString("0.#####", Inv)} " +
+              $"(peak-clip floor on this grid ≈ {floor.ToString("0.#####", Inv)}) — grid-sensitive, verify with ≥4× t-points; " +
+              "a rise that SURVIVES refinement would falsify the Tier-2 verification";
+        string foldClause = env.EnvelopeFoldTime is { } ft
+            ? $"the fold (envelope, absorbing) at t={ft.ToString("0.###", Inv)} (K={(Gamma * ft).ToString("0.####", Inv)})"
+            : "no envelope fold in window";
+
         return new InspectableNode("lens: quarter (CΨ)",
-            summary: $"CΨ(0) = {start.ToString("0.####", Inv)}, min = {min.ToString("0.####", Inv)}; {crossClause}.",
+            summary: $"CΨ(0) = {start.ToString("0.####", Inv)}, min = {min.ToString("0.####", Inv)}; {crossClause}. " +
+                     $"{envClause}. {foldClause}.",
             payload: new InspectablePayload.Curve("CΨ(t)", tGrid, cpsi, "t", "CΨ"));
     }
 
-    /// <summary>lens: quarter (local CΨ) — CΨ of the reduced 2-site state on the carrier pair along the
-    /// one trajectory. Audible at N≥3 where the global lens is silent. NOT monotone: the carrier pair is
-    /// an open subsystem, so coherence pumps back and CΨ re-crosses ¼ (the TEMPORAL_SACRIFICE heartbeat).
-    /// Crossings are counted in both directions.</summary>
+    /// <summary>lens: quarter (local CΨ) — CΨ of the reduced 2-site carrier-pair state along the one
+    /// trajectory. Audible at N≥3 where the global lens is silent. Direction-split ¼-crossing count,
+    /// plus the envelope verdict: unlike the global CΨ (theorem-bound non-increasing), the reduced open
+    /// subsystem has NO such theorem, so its beat envelope can genuinely RISE — the freedom. A detected
+    /// rise is reported grid-sensitive (parabolic-apex + predecessor semantics; verify under refinement).
+    /// See QuarterEnvelope and PROOF_MONOTONICITY_CPSI.</summary>
     private InspectableNode LocalQuarterLens()
     {
         var local = _localCpsi!;
@@ -479,26 +514,36 @@ public sealed class Symphony : IInspectable
         string crossClause = dirs.Length == 0
             ? "no ¼ crossing in window"
             : $"{dirs.Length} ¼ crossing(s): {down}↓ + {up}↑";
+
+        var env = QuarterEnvelope.Of(local, tGrid);
+        var (_, _, floor) = GridFitness(max);
+        string envClause = env.RiseCount > 0 && env.FirstRiseTime is { } rt
+            ? $"envelope RISES: {env.RiseCount} predecessor-rise(s), max Δ={env.MaxRiseMagnitude.ToString("0.#####", Inv)} " +
+              $"at t={rt.ToString("0.###", Inv)} — the freedom (beating; no theorem binds the reduced open subsystem; " +
+              $"peak-clip floor ≈ {floor.ToString("0.#####", Inv)}). The rise is grid-sensitive: verify with ≥4× t-points"
+            : "envelope non-increasing in this window (no rise resolved on this grid)";
+
         return new InspectableNode("lens: quarter (local CΨ)",
             summary: $"2-site reduced ρ on carrier pair {pair}: local CΨ(0) = {start.ToString("0.####", Inv)}, " +
                      $"min = {min.ToString("0.####", Inv)}, max = {max.ToString("0.####", Inv)}; {crossClause}. " +
-                     "NOT monotone (open subsystem; coherence pumps back, the TEMPORAL_SACRIFICE heartbeat).",
+                     $"{envClause}.",
             payload: new InspectablePayload.Curve("local CΨ(t)", tGrid, local, "t", "local CΨ"));
     }
 
-    /// <summary>lens: dose (K) — K = γ·t marks; the dose of the fold is K at the first ¼ crossing.</summary>
+    /// <summary>lens: dose (K) — K = γ·t marks; "the dose of the fold" is K at the ENVELOPE fold (the
+    /// absorbing ¼ crossing), for both the global and the local carrier-pair curve.</summary>
     private InspectableNode DoseLens()
     {
-        var cross = FirstQuarterCrossing();
-        string doseClause = cross is { } c
-            ? $"the dose of the fold: K = {c.Dose.ToString("0.####", Inv)} at the first ¼ crossing (t={c.Time.ToString("0.###", Inv)})"
-            : "no global ¼ crossing in window, so no global fold dose";
+        var gEnv = QuarterEnvelope.Of(_cpsi!, _tGrid!);
+        string doseClause = gEnv.EnvelopeFoldTime is { } gft
+            ? $"the dose of the fold: K = {(Gamma * gft).ToString("0.####", Inv)} at the global envelope fold (t={gft.ToString("0.###", Inv)})"
+            : "no global envelope fold in window, so no global fold dose";
 
-        var localTimes = QuarterCrossingTimes(_localCpsi!, _tGrid!);
-        string localClause = localTimes.Count == 0
-            ? "; no local fold in window"
-            : $"; the local fold: K = {(Gamma * localTimes[0]).ToString("0.####", Inv)} at the first local " +
-              $"¼ crossing (carrier pair {CarrierPair.Site1},{CarrierPair.Site2}, t={localTimes[0].ToString("0.###", Inv)})";
+        var lEnv = QuarterEnvelope.Of(_localCpsi!, _tGrid!);
+        string localClause = lEnv.EnvelopeFoldTime is { } lft
+            ? $"; the local fold: K = {(Gamma * lft).ToString("0.####", Inv)} at the local envelope fold " +
+              $"(carrier pair {CarrierPair.Site1},{CarrierPair.Site2}, t={lft.ToString("0.###", Inv)})"
+            : "; no local envelope fold in window";
 
         return new InspectableNode("lens: dose (K)",
             summary: $"K = γ·t reaches {(Gamma * TMax).ToString("0.####", Inv)} at the window end; {doseClause}{localClause}.",
@@ -547,10 +592,24 @@ public sealed class Symphony : IInspectable
         var light = _light!;
         var events = new List<SymphonyEvent>();
 
-        // lens quarter: every ¼ crossing (linearly interpolated crossing time).
-        foreach (double tc in QuarterCrossingTimes())
+        // lens quarter (global): direction-tagged ¼ crossings + the absorbing envelope fold.
+        // "the fold" is the envelope fold, NOT every crossing (upward crossings are coherence pumping
+        // back up, the opposite of a quantum→classical collapse).
+        var globalTimes = QuarterCrossingTimes();
+        var globalDirs = QuarterCrossingDirections(cpsi);
+        System.Diagnostics.Debug.Assert(globalTimes.Count == globalDirs.Length,
+            "QuarterCrossingTimes and QuarterCrossingDirections must return order-aligned, equal-length results");
+        for (int k = 0; k < globalTimes.Count; k++)
+        {
+            double tc = globalTimes[k];
+            string dir = globalDirs[k] < 0 ? "down" : "up";
             events.Add(new SymphonyEvent(tc, Gamma * tc, "quarter",
-                $"CΨ crosses ¼ (the fold; quantum→classical boundary)"));
+                $"global CΨ crosses ¼ ({dir})"));
+        }
+        var gEnv = QuarterEnvelope.Of(cpsi, tGrid);
+        if (gEnv.EnvelopeFoldTime is { } gft)
+            events.Add(new SymphonyEvent(gft, Gamma * gft, "quarter",
+                "global CΨ envelope fold (the absorbing ¼ crossing)"));
 
         // lens local quarter: the carrier-pair fold (audible at N≥3 where the global one is silent),
         // counted in both directions (the open-subsystem heartbeat).
@@ -565,6 +624,16 @@ public sealed class Symphony : IInspectable
             events.Add(new SymphonyEvent(tc, Gamma * tc, "local quarter",
                 $"local CΨ (carrier pair {CarrierPair.Site1},{CarrierPair.Site2}) crosses ¼ ({dir})"));
         }
+
+        // lens local quarter: the absorbing envelope fold, and — when the beat envelope rises — the
+        // freedom (carried with its grid-sensitive caveat so a single-grid rise is never read as fact).
+        var lEnv = QuarterEnvelope.Of(_localCpsi!, tGrid);
+        if (lEnv.EnvelopeFoldTime is { } lft)
+            events.Add(new SymphonyEvent(lft, Gamma * lft, "local quarter",
+                $"local CΨ envelope fold (carrier pair {CarrierPair.Site1},{CarrierPair.Site2}; absorbing)"));
+        if (lEnv.RiseCount > 0 && lEnv.FirstRiseTime is { } lrt)
+            events.Add(new SymphonyEvent(lrt, Gamma * lrt, "local quarter",
+                $"local CΨ envelope rises (carrier pair {CarrierPair.Site1},{CarrierPair.Site2}; the freedom, beating; grid-sensitive)"));
 
         // lens dose: K reaching the milestones, within the window.
         foreach (double kMark in new[] { 0.25, 0.5, 1.0 })
