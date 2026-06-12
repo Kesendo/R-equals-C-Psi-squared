@@ -487,6 +487,8 @@ public static class InspectCommand
                 c.Parser.OptionalDouble("J") ?? ClockHandLadderWitness.DefaultJ,
                 c.Parser.OptionalDouble("gamma") ?? ClockHandLadderWitness.DefaultGamma),
             RequiresN: false),
+        new("horizon", "the coherence horizon Q*(N): where the slowest mode stops oscillating = the carbon Frost-Hückel coherent↔incoherent threshold",
+            _ => new CoherenceHorizonWitness(), RequiresN: false),
         new("decoder", "reading power measured live: Fisher information vs Q per readout basis - resolution grows with the Q-factor; the exceptional point reads worst",
             c => new ReadingPowerWitness(c.Parser.HasFlag("N") ? c.N : 4),
             RequiresN: false, HonorsOptionalN: true),

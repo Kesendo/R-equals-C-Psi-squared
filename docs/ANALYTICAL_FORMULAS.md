@@ -187,6 +187,25 @@ form 2√(J²−γ²) exact.
 ([`ClockHandLadderClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/ClockHandLadderClaim.cs)).
 **Carbon-layer twin:** [FROST_CIRCLE_AS_THE_CLOCK_FACE](carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md).
 
+**Coherence horizon Q*(N) (our label for the carbon coherent↔incoherent threshold).**
+Sweeping Q downward, the slowest mode stops oscillating (the coherence hand freezes) at
+exact per-N values:
+
+    Q*(N):   N=2 → 1,   N=3 → √2,   N=4 → 1.8785,   N=5 → 2.3722
+
+verified bit-for-bit against the carbon Frost-Hückel coherent↔incoherent threshold
+(√2 / 1.879 / 2.372 at N=3/4/5) under the label swap J ↔ |β|, Z-dephasing ↔ Holstein
+phonon. Same ladder, two labels: the dimensionful unit (β or J) is the carrier carrying no
+information, the dimensionless Q*(N) is the shared mountain. N=2 (Q*=1) is the exceptional
+point itself, the base rung the polyene layer (N≥3) cannot reach; the quantum side supplies
+it. Q*(N) equals the band edge 2cos(π/(N+1)) at N=2 and N=3 ONLY (1 = 2cos60°, √2 = 2cos45°),
+a low-N accident departing at N≥4 (Q*=1.8785 ≠ φ); that is why the √2 looked exact at N=3 and
+"the rest awaited a clean form" (it is exact, but coincidental, not a cos-law). **Open:** the
+closed form. The freezing mode just below Q* is overdamped (Im=0) and half-lit (⟨n_XY⟩ ≈ ½,
+NOT the dark {I,Z} sector, a verified clue that refuted a "dark-storage-undercuts-bright-readout"
+guess); the mechanism and the closed form of Q*(N) are the open remainder.
+**Verified:** N=2..5 vs carbon (`simulations/_carbon_quantum_same_mountain.py`).
+
 ### AT. Absorption Theorem (Tier 1, proven)
 
     Re(lambda_k) = -2*gamma * <n_XY>_k       (exact)
