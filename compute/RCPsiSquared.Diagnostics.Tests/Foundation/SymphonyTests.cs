@@ -233,4 +233,13 @@ public class SymphonyTests
         Assert.Equal(1.0 / 3.0, onCarrier.LocalCpsi(onCarrier.States[0]), 9);
         Assert.Equal(0.0, offCarrier.LocalCpsi(offCarrier.States[0]), 9);
     }
+
+    [Fact]
+    public void QuarterCrossings_TagDirection_DownThenUp()
+    {
+        // A hand-built curve that dips below ¼ and recovers ABOVE ¼ must yield one down then one up crossing.
+        double[] curve = { 0.40, 0.30, 0.20, 0.18, 0.30, 0.40 };  // down (idx 1→2), up (idx 3→4)
+        var dirs = Symphony.QuarterCrossingDirections(curve);
+        Assert.Equal(new[] { -1, +1 }, dirs);
+    }
 }

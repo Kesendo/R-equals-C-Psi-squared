@@ -552,13 +552,11 @@ public sealed class Symphony : IInspectable
         return events;
     }
 
-    /// <summary>The ¼-crossing times of CΨ(t), linearly interpolated between the bracketing grid
-    /// points (both downward and upward crossings, in case a trajectory dips and recovers).</summary>
-    private List<double> QuarterCrossingTimes(double threshold = 0.25)
+    /// <summary>The ¼-crossing times of a CΨ array on its t grid, linearly interpolated between the
+    /// bracketing grid points (both downward and upward crossings, in case a trajectory dips and
+    /// recovers). Static so both the global and the local curves can share it.</summary>
+    public static List<double> QuarterCrossingTimes(double[] cpsi, double[] tGrid, double threshold = 0.25)
     {
-        EnsureLenses();
-        var tGrid = _tGrid!;
-        var cpsi = _cpsi!;
         var times = new List<double>();
         for (int s = 1; s < cpsi.Length; s++)
         {
@@ -567,11 +565,34 @@ public sealed class Symphony : IInspectable
             if (a == 0.0) { times.Add(tGrid[s - 1]); continue; }
             if (a * b < 0.0)
             {
-                double frac = a / (a - b);   // linear interpolation to the crossing
+                double frac = a / (a - b);
                 times.Add(tGrid[s - 1] + frac * (tGrid[s] - tGrid[s - 1]));
             }
         }
         return times;
+    }
+
+    /// <summary>The direction of each ¼ crossing of a CΨ array: −1 for a downward crossing (CΨ falls
+    /// through ¼), +1 for an upward crossing (it rises back through ¼). Same order as
+    /// <see cref="QuarterCrossingTimes(double[], double[], double)"/>.</summary>
+    public static int[] QuarterCrossingDirections(double[] cpsi, double threshold = 0.25)
+    {
+        var dirs = new List<int>();
+        for (int s = 1; s < cpsi.Length; s++)
+        {
+            double a = cpsi[s - 1] - threshold;
+            double b = cpsi[s] - threshold;
+            if (a == 0.0) { dirs.Add(b < 0 ? -1 : +1); continue; }
+            if (a * b < 0.0) dirs.Add(a > 0 ? -1 : +1);
+        }
+        return dirs.ToArray();
+    }
+
+    /// <summary>The ¼-crossing times of the GLOBAL CΨ curve (the one trajectory's CΨ(t)).</summary>
+    private List<double> QuarterCrossingTimes(double threshold = 0.25)
+    {
+        EnsureLenses();
+        return QuarterCrossingTimes(_cpsi!, _tGrid!, threshold);
     }
 }
 
