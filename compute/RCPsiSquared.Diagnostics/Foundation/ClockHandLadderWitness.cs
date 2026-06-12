@@ -71,7 +71,11 @@ public sealed class ClockHandLadderWitness : IInspectable
     public double N2PulledOmega() => Gamma < J ? 2.0 * Math.Sqrt(J * J - Gamma * Gamma) : 0.0;
 
     /// <summary>The dial angle θ = arctan(Omega/Gap) at the given N (degrees). For N≥3,
-    /// θ = arctan(Q·cos(π/(N+1))); for N=2, θ = arctan(√(Q²−1)), zero at the EP Q=1.</summary>
+    /// θ = arctan(Q·cos(π/(N+1))); for N=2, θ = arctan(√(Q²−1)), zero at the EP Q=1.
+    /// NOTE: the method computes arctan(<see cref="OmegaMem"/>(n)/<see cref="Gap"/>(n)) from the
+    /// live clock. For N=2 OmegaMem(2) equals the pulled form arctan(√(Q²−1)) only above the
+    /// crossover Q=2/√3; near the EP OmegaMem(2) is the ±J band mode (see <see cref="N2PulledOmega"/>),
+    /// so the method returns arctan(1/(2γ)) there, not arctan(√(Q²−1)).</summary>
     public double AngleDegrees(int n)
     {
         double gap = Gap(n);

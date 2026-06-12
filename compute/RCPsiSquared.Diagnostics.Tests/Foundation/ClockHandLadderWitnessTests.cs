@@ -85,4 +85,12 @@ public class ClockHandLadderWitnessTests
             $"below the crossover the pulled hand {below.N2PulledOmega()} has dropped under the " +
             $"live ±J gap modes {below.OmegaMem(2)}");
     }
+
+    [Fact]
+    public void Angle_AtN3_DefaultRegime_MatchesArctanOmegaOverGap()
+    {
+        var w = new ClockHandLadderWitness(); // J=1, γ=0.2
+        double expected = Math.Atan(Math.Sqrt(2.0) / (2.0 * 0.2)) * 180.0 / Math.PI;
+        Assert.Equal(expected, w.AngleDegrees(3), 6);
+    }
 }
