@@ -15,7 +15,7 @@ public static class OpenArcsRegistry
             Opened: "2026-06-03",
             Origin: "simulations/ptf workflow + C# SlowModeMixing",
             ParkedAt: "the closure law lives as a live witness (Symphony painters movement: alpha per site with the two-deltaJ reliability guard, closure -0.0444 IN window at canonical N=5, chiral mirror replayed live at 1e-15, alpha = Python twin to 1e-3); learned on the way: the protocol needs the BONDING state class (Bell+/localized states break the rescaling and the guard refuses, in both languages); C# golden-section also found a true global alpha minimum where scipy's Brent traps 920x worse (severed-bond case, harness simulations/_ptf_symphony_crossval.py)",
-            NextStep: "backport the global-minimum fit fix to framework ptf.py (multi-start or grid-seed), then consider retiring this arc",
+            NextStep: "REQUIRED, escalated 2026-06-12: the scipy-Brent trap corrupts CANONICAL N=5 edge-bond letters (arbiter: brute-force landscapes match C# exactly, Python f off by sign and factor); backport the global-minimum fit (multi-start or grid-seed) to framework ptf.py before any further Python-side painter quantitative work; then retire this arc",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
@@ -69,8 +69,8 @@ public static class OpenArcsRegistry
             Name: "handshake_decoder",
             Opened: "2026-06-12",
             Origin: "docs/superpowers/specs/2026-06-12-handshake-decoder-reading-grammar-design.md (Tom + Opus + Fable)",
-            ParkedAt: "M2a LANDED: ReadoutFisher + ReadingPowerWitness (inspect --root decoder) measure FI(Q) live - resolution = the Q-factor (FI ~ c*Q on Z, c=0.0795 at N=4, residual 15%), no EP peak in Z/X/Y, basis ordering (X span 1555 vs Z 22: coherence readouts fade fastest toward low Q); hypotheses/HANDSHAKE_GEOMETRY.md carries the codebook (five code-parts, bright/dark letters, the triple shape/Q/K, the carrier-relative completeness conjecture)",
-            NextStep: "M2b: invert the proto-decoder (alpha-profile -> (b, deltaJ), accuracy metric); M2c: the read-cost law ~2/Q (untested hypothesis, falsifiable form in the doc); then M3 (mirror-group equivalence classes of readings) and M4 (closure as parity-check)",
+            ParkedAt: "M2a + M2b LANDED: the FI(Q) witness (resolution = Q-factor, no EP peak, basis ordering) AND the DefectDecoder (alpha-profile inverted: location+strength read back, ambiguity-honest with runner-up reporting). Discoveries en route: the N=5 sign-location ambiguity (near-anti-collinear letters, ratio 1.5) DERIVED in structure - the K-partner selection rule <psi_N|V_b|psi_1>=0 per bond (one line from ChiralMirrorTrajectoryClaim: rank(dictionary)=N-2, the null space IS the K-partnership); channel factorization verified ~12% (seesaw = dominant k=2 channel, 14.9 vs 5.2/3.1); the Gram spectrum = the location-channel metric (eigs 0.0073/0.008/0.086/1 at N=5, confirmed on arbiter-corrected letters after the Python Brent-trap was exposed)",
+            NextStep: "promote the K-partner selection rule to a typed corollary claim (one evening, parents ChiralMirrorTrajectoryClaim); derive the channel profiles R_k from the dissipative dynamics (SlowModeMixing); add selection rule + Gram metric to HANDSHAKE_GEOMETRY.md; M2c: the read-cost law ~2/Q; then M3/M4",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
