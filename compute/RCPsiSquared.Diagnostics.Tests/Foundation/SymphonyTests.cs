@@ -295,4 +295,32 @@ public class SymphonyTests
         Assert.Contains("local fold", dose.Summary);
         Assert.Contains("0.037", dose.Summary);   // K of the first local crossing ≈ global 0.0374
     }
+
+    [Fact]
+    public void LocalCpsi_Recrosses_TheHeartbeat_N3StrongCoupling()
+    {
+        // The carrier-pair CΨ is NOT monotone: at strong coupling (J=5) and weak dephasing (γ=0.01) the
+        // chain pumps coherence back and local CΨ re-crosses ¼ many times (TEMPORAL_SACRIFICE: 81 at a
+        // quiet bath). Uniform dephasing here gives 7 crossings on this grid; assert the floor, not the
+        // exact count (it is grid- and window-dependent).
+        var s = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.BellPair,
+            tMax: 25.0, tPoints: 500);
+        var local = s.States.Select(s.LocalCpsi).ToArray();
+        int crossings = Symphony.QuarterCrossingTimes(local, s.TimeGrid.ToArray()).Count;
+        Assert.True(crossings >= 3, $"expected the local heartbeat (≥3 ¼ crossings); got {crossings}");
+        var dirs = Symphony.QuarterCrossingDirections(local);
+        Assert.Contains(-1, dirs);   // at least one downward
+        Assert.Contains(+1, dirs);   // and at least one upward (the recovery the global theorem forbids)
+    }
+
+    [Fact]
+    public void OneEvolution_StillBuiltOnce_WithLocalLensAndEvents()
+    {
+        var s = new Symphony(n: 3, initialState: InitialStateKind.BellPair);
+        _ = s.Summary;
+        _ = Children(s).Select(c => c.Summary).ToList();
+        _ = Children(s).Single(c => c.DisplayName == "events").Children.ToList();
+        _ = Children(s).Single(c => c.DisplayName == "lens: quarter (local CΨ)").Summary;
+        Assert.Equal(1, s.EvolveCount);
+    }
 }
