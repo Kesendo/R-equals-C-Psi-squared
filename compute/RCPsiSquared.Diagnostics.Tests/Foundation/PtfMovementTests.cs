@@ -87,6 +87,18 @@ public class PtfMovementTests
     }
 
     [Fact]
+    public void ReadBack_DecodesOwnProfile_MatchesCanonicalCase()
+    {
+        // The closed-loop self-test: the painters' movement calibrates a decoder for its own (N, J, γ)
+        // and decodes its OWN α-profile. For the canonical case (N=4, bond 1, δJ=0.02) the decoder must
+        // return bond 1, recover δĴ near 0.02 (within the linear-window tolerance), and report a residual.
+        var m = Movement(Canonical(4));
+        var readBack = m.Children.Single(c => c.DisplayName == "the decoder reads back");
+        Assert.Contains("bond 1", readBack.Summary);
+        Assert.Contains("match", readBack.Summary);
+    }
+
+    [Fact]
     public void NonXY_DeclinesHonestly_NoLenses()
     {
         var s = new Symphony(n: 4, hType: HamiltonianType.Heisenberg, defectBond: 1);
