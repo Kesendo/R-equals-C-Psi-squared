@@ -485,10 +485,12 @@ public sealed class Symphony : IInspectable
             payload: new InspectablePayload.Curve("CΨ(t)", tGrid, cpsi, "t", "CΨ"));
     }
 
-    /// <summary>lens: quarter (local CΨ) — CΨ of the reduced 2-site state on the carrier pair along the
-    /// one trajectory. Audible at N≥3 where the global lens is silent. NOT monotone: the carrier pair is
-    /// an open subsystem, so coherence pumps back and CΨ re-crosses ¼ (the TEMPORAL_SACRIFICE heartbeat).
-    /// Crossings are counted in both directions.</summary>
+    /// <summary>lens: quarter (local CΨ) — CΨ of the reduced 2-site carrier-pair state along the one
+    /// trajectory. Audible at N≥3 where the global lens is silent. Direction-split ¼-crossing count,
+    /// plus the envelope verdict: unlike the global CΨ (theorem-bound non-increasing), the reduced open
+    /// subsystem has NO such theorem, so its beat envelope can genuinely RISE — the freedom. A detected
+    /// rise is reported grid-sensitive (parabolic-apex + predecessor semantics; verify under refinement).
+    /// See QuarterEnvelope and PROOF_MONOTONICITY_CPSI.</summary>
     private InspectableNode LocalQuarterLens()
     {
         var local = _localCpsi!;
