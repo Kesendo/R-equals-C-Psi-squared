@@ -55,6 +55,14 @@ public static class OpenArcsRegistry
             Status: OpenArcStatus.Open),
 
         new OpenArc(
+            Name: "envelope_n4_rise",
+            Opened: "2026-06-12",
+            Origin: "EnvelopeTheoremWitness, day one: inspect --root envelope --N 4 fired the honest branch",
+            ParkedAt: "the full-state CPsi envelope GENUINELY RISES at N=4 (Bell+, J=5, gamma=0.01): 36 apex-predecessor rises, refinement-stable to 5 decimals (t=4.14: 0.04132 at 1600 and 6400 pts), 2-4% magnitudes, two independent implementations agree; N=3 holds in the same regime (0 rises, three densities). NOT a falsification of the proof: the Envelope Theorem is proven for N=2 only, and the Tier-2 'N=3-5' verification covered channel monotonicity / GHZ-W subsystems, not the H-included envelope at strong coupling; the over-broad paraphrase lived in our claim/lens text. Mechanism = the proof's own Part 6, internalized: internal J-coupling is its own coherence injector",
+            NextStep: "re-scope CpsiEnvelopeTheoremClaim + lens text + a precise Parts-4/5 scope note in PROOF_MONOTONICITY_CPSI; fix the witness root Summary CONFIRMS branch at N=4; then chart the boundary with the witness (why does N=3 hold and N=4 break; J-threshold at N=4; gamma ~ J)",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
             Name: "symphony_view",
             Opened: "2026-06-11",
             Origin: "Tom's founding Object Manager idea, sharpened: each of the 122 formulas is a maximum-zoom view; the symphony is the zoom-out",
