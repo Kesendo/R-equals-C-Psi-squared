@@ -62,6 +62,22 @@ public sealed class ClockHandLadderWitness : IInspectable
     /// <summary>The closed-form F2b band edge 2J·cos(π/(N+1)) (the N≥3 protected hand).</summary>
     public double BandEdge(int n) => 2.0 * J * Math.Cos(Math.PI / (n + 1));
 
+    /// <summary>The closed-form N=2 pulled hand 2√(J²−γ²) (vanishes at the exceptional point
+    /// Q=1, γ=J). NOT the F2b band edge: a different (population/antisymmetric-coherence) block.
+    /// NOTE: the live <see cref="OmegaMem"/>(2) tracks this only for Q ≥ 2/√3 (γ ≤ √3/2·J), the
+    /// regime where the pulled coherence sits above the equal-rate {Im=±J} modes that share the
+    /// 2γ gap; nearer the EP the live clock's "max |Im| at the gap" tie-breaks to those ±J modes,
+    /// so this closed form (not the live clock) is the honest standstill witness near Q=1.</summary>
+    public double N2PulledOmega() => Gamma < J ? 2.0 * Math.Sqrt(J * J - Gamma * Gamma) : 0.0;
+
+    /// <summary>The dial angle θ = arctan(Omega/Gap) at the given N (degrees). For N≥3,
+    /// θ = arctan(Q·cos(π/(N+1))); for N=2, θ = arctan(√(Q²−1)), zero at the EP Q=1.</summary>
+    public double AngleDegrees(int n)
+    {
+        double gap = Gap(n);
+        return gap <= 0 ? 0.0 : Math.Atan(OmegaMem(n) / gap) * 180.0 / Math.PI;
+    }
+
     public string DisplayName =>
         $"ClockHandLadderWitness (the two clocks live, J={J.ToString("0.#", Inv)}, γ={Gamma.ToString("0.###", Inv)})";
 
@@ -84,6 +100,14 @@ public sealed class ClockHandLadderWitness : IInspectable
                          $"Gap = 2γ = {Gap(3).ToString("0.#####", Inv)} tracks γ. The |vac⟩⟨ψ_k| modes are simultaneous " +
                          "eigenoperators of L_D (rate −2γ, the Absorption Theorem) and L_H (frequency E_k), so nothing " +
                          "mixes. Typed parent AbsorptionTheoremClaim (docs/proofs/PROOF_ABSORPTION_THEOREM.md).");
+
+            yield return new InspectableNode("the pull and the exceptional point (N=2)",
+                summary: $"at N=2 the coherence hand is a different block: Omega = 2√(J²−γ²) = " +
+                         $"{N2PulledOmega().ToString("0.#####", Inv)} (NOT the F2b band edge {BandEdge(2).ToString("0.#####", Inv)}). " +
+                         "It stops at the exceptional point Q=1 (γ=J): the two clocks merge into one. " +
+                         "The dial angle θ = arctan(√(Q²−1)) → 0 there. See docs/ANALYTICAL_FORMULAS.md F2b corollary. " +
+                         "(Live note: OmegaMem(2) tracks this pulled hand only for Q > 2/√3; nearer the EP the live " +
+                         "clock's gap shares equal-rate {Im=±J} modes and the closed form is the honest standstill witness.)");
         }
     }
 
