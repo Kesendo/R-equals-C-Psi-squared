@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using RCPsiSquared.Core.Inspection;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
@@ -15,8 +14,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// γ-protected F2b band-edge ladder Omega = 2J·cos(π/(N+1)) (√2 / φ / √3 at N=3/4/5), and for
 /// N=2 it is γ-pulled to Omega = 2√(J²−γ²), stopping at the exceptional point Q=1.
 ///
-/// <para>It reuses <see cref="Symphony"/> as the spectrum engine (it does not re-diagonalize);
-/// the typed parent edges to F2b and the Absorption Theorem live on the claim, not here. The
+/// <para>It reuses <see cref="Symphony"/> as the spectrum engine: each reading builds a Symphony
+/// and reads its clock (the per-N spectrum is memoized so repeated renders do not re-diagonalize).
+/// The typed parent edges to F2b and the Absorption Theorem live on the claim, not here. The
 /// witness is the numeric lab: it recomputes the live clock and checks it against the closed
 /// forms.</para></summary>
 public sealed class ClockHandLadderWitness : IInspectable
@@ -38,22 +38,26 @@ public sealed class ClockHandLadderWitness : IInspectable
         Gamma = gamma;
     }
 
-    /// <summary>The live coherence hand Omega = max|Im λ| at the gap, read from the Symphony
-    /// clock at the given N (XY chain, this witness's J and γ).</summary>
-    public double OmegaMem(int n)
+    // Per-N clock cache: one Symphony build (one dense eigendecomposition) per N, shared by
+    // OmegaMem(n) and Gap(n). Keeps repeated Children/Summary renders from re-diagonalizing.
+    private readonly Dictionary<int, (double Gap, double Omega)> _clockCache = new();
+
+    private (double Gap, double Omega) ClockAt(int n)
     {
+        if (_clockCache.TryGetValue(n, out var c)) return c;
         var s = new Symphony(n: n, j: J, gamma: Gamma, initialState: InitialStateKind.BellPair,
             tPoints: SpectrumPoints);
-        return s.Clock.Omega;
+        c = s.Clock;
+        _clockCache[n] = c;
+        return c;
     }
 
+    /// <summary>The live coherence hand Omega = max|Im λ| at the gap, read from the Symphony
+    /// clock at the given N (XY chain, this witness's J and γ).</summary>
+    public double OmegaMem(int n) => ClockAt(n).Omega;
+
     /// <summary>The live Takt hand Gap = slowest non-zero decay rate (= 2γ).</summary>
-    public double Gap(int n)
-    {
-        var s = new Symphony(n: n, j: J, gamma: Gamma, initialState: InitialStateKind.BellPair,
-            tPoints: SpectrumPoints);
-        return s.Clock.Gap;
-    }
+    public double Gap(int n) => ClockAt(n).Gap;
 
     /// <summary>The closed-form F2b band edge 2J·cos(π/(N+1)) (the N≥3 protected hand).</summary>
     public double BandEdge(int n) => 2.0 * J * Math.Cos(Math.PI / (n + 1));
