@@ -855,6 +855,9 @@ public sealed class PaintersMovement : IInspectable
     public double ChiralMirrorDeviation { get { Ensure(); return _chiralDev; } }
     public bool ChiralMirrorExact => HasLenses && _chiralDev <= ChiralExactTol;
     public IReadOnlyList<double> Alphas { get { Ensure(); return _alpha ?? Array.Empty<double>(); } }
+    /// <summary>The per-site f-profile f_i = (α_i − 1)/δJ at δJ — the painters' linear response, the
+    /// DefectDecoder's dictionary entry for this bond. Empty when the movement is silent.</summary>
+    public IReadOnlyList<double> F { get { Ensure(); return _f ?? Array.Empty<double>(); } }
     public IReadOnlyList<bool> Reliable { get { Ensure(); return _reliable ?? Array.Empty<bool>(); } }
 
     public PaintersMovement(Symphony parent, int bond, double deltaJ)
@@ -1204,8 +1207,69 @@ public sealed class PaintersMovement : IInspectable
             yield return PaintersLens();
             yield return ClosureLens();
             yield return ChiralMirrorLens();
+            yield return ReadBackNode();
             yield return ClockNode();
         }
+    }
+
+    /// <summary>the decoder reads back — the closed-loop self-test. The movement calibrates a
+    /// DefectDecoder for its own (N, J, γ) — at the FIXED canonical δJ_cal, independent of this
+    /// movement's own δJ — and decodes its OWN α-profile: the decoder should return the movement's
+    /// actual (Bond, δJ). The summary states the decoded bond and strength, whether they match the
+    /// truth, and the least-squares residual as the confidence.
+    ///
+    /// <para>Calibrating at the movement's own δJ would be circular: the dictionary entry for this
+    /// movement's bond would be the very profile being decoded, a self-test that cannot fail (residual
+    /// exactly 0.0, strength error exactly 0%). The decoder is calibrated at the fixed canonical
+    /// δJ_cal (= <see cref="DefectDecoder.DefaultDeltaJCal"/>) instead, so an off-calibration movement
+    /// (δJ ≠ δJ_cal) yields honest nonzero confidence numbers; only the canonical movement (δJ = δJ_cal)
+    /// lands exactly on the calibration point and reads back exact.</para>
+    ///
+    /// <para>Cost note: calibration builds N−1 extra painters performances (one per bond). Those are
+    /// counted on the decoder's own <see cref="DefectDecoder.CalibrationBuildCount"/>, NOT on this
+    /// movement's <see cref="BuildCount"/> (which stays exactly 4: P_A, P_B, P_guard, K₁). The two
+    /// accountings are kept separate on purpose so the movement-level BuildCount contract is unchanged.</para></summary>
+    private InspectableNode ReadBackNode()
+    {
+        // N is guarded to 3..5 by the decoder; the painters movement allows N=2, where there is no
+        // interior bond to decode. Decline honestly in that case rather than throwing.
+        if (_n < 3 || _n > 5)
+            return new InspectableNode("the decoder reads back",
+                summary: $"the decoder needs N in 3..5 (an interior bond to locate); this movement is at N={_n}, " +
+                         "so the read-back self-test does not run here.");
+
+        // Calibrate at the FIXED canonical δJ_cal, NOT this movement's δJ (the latter would be circular).
+        var decoder = DefectDecoder.Calibrate(_n, Parent.J, Parent.Gamma, DefectDecoder.DefaultDeltaJCal);
+        var result = decoder.Decode(_alpha!);
+        bool bondMatch = result.Bond == Bond;
+        bool truthAmongCandidates = result.Bond == Bond || result.RunnerUpBond == Bond;
+        double strengthErr = Math.Abs(DeltaJ) > 0 ? Math.Abs(result.DeltaJ - DeltaJ) / Math.Abs(DeltaJ) : 0.0;
+        string verdict = bondMatch ? "match" : "MISMATCH";
+
+        if (result.IsAmbiguous)
+        {
+            double ratio = result.Residual > 0 ? result.RunnerUpResidual / result.Residual : double.PositiveInfinity;
+            return new InspectableNode("the decoder reads back",
+                summary: $"the movement hands the decoder its OWN per-site reading (calibrated at the fixed " +
+                         $"δJ_cal = {DefectDecoder.DefaultDeltaJCal.ToString(Inv)}, not this movement's δJ). " +
+                         $"Ambiguous reading: bond {result.Bond} at {result.DeltaJ.ToString("0.#####", Inv)} or " +
+                         $"bond {result.RunnerUpBond} at {result.RunnerUpDeltaJ.ToString("0.#####", Inv)} " +
+                         $"(residuals within {ratio.ToString("0.##", Inv)}×); a single α-profile cannot separate " +
+                         $"these two letters. Truth: bond {Bond} at {DeltaJ.ToString("0.#####", Inv)} ⟹ " +
+                         $"{(truthAmongCandidates ? "truth is among the two candidates" : "TRUTH NOT AMONG CANDIDATES")}. " +
+                         $"Calibration cost: {decoder.CalibrationBuildCount} extra performances (counted on the decoder, " +
+                         $"not this movement's BuildCount={_buildCount}).");
+        }
+
+        return new InspectableNode("the decoder reads back",
+            summary: $"the movement hands the decoder its OWN per-site reading (calibrated at the fixed " +
+                     $"δJ_cal = {DefectDecoder.DefaultDeltaJCal.ToString(Inv)}, not this movement's δJ); " +
+                     $"the decoder returns bond {result.Bond} at strength {result.DeltaJ.ToString("0.#####", Inv)} " +
+                     $"(truth: bond {Bond} at {DeltaJ.ToString("0.#####", Inv)}) ⟹ {verdict}; " +
+                     $"strength error {(strengthErr * 100).ToString("0.#", Inv)} %, residual " +
+                     $"{result.Residual.ToString("E2", Inv)} (the confidence — smaller is surer). " +
+                     $"Calibration cost: {decoder.CalibrationBuildCount} extra performances (counted on the decoder, " +
+                     $"not this movement's BuildCount={_buildCount}).");
     }
 
     private InspectableNode SecondPerformanceNode() =>

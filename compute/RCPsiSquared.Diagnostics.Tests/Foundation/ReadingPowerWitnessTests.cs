@@ -41,6 +41,19 @@ public class ReadingPowerWitnessTests
     }
 
     [Fact]
+    public void Children_CarryTheDecodeDemo_ThreePlantedDefects_AllExactBond()
+    {
+        // The decode demonstration: calibrate at the witness's N, plant three defects (bond 0/+0.01,
+        // middle/+0.025, last/−0.02), decode each. The demo node carries a per-case table child; each
+        // case's truth bond must be recovered exactly (the closing of the loop, surfaced live).
+        var demo = ((IInspectable)W()).Children.Single(c => c.DisplayName.Contains("decoder (read a planted defect)"));
+        var cases = ((IInspectable)demo).Children.ToList();
+        Assert.Equal(3, cases.Count);
+        foreach (var c in cases)
+            Assert.Contains("match", c.Summary);   // each planted case decodes to its true bond
+    }
+
+    [Fact]
     public void Sweep_ComputedOnce()
     {
         var w = W();

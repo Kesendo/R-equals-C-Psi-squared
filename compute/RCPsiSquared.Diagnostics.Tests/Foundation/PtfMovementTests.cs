@@ -87,6 +87,54 @@ public class PtfMovementTests
     }
 
     [Fact]
+    public void ReadBack_DecodesOwnProfile_MatchesCanonicalCase()
+    {
+        // The closed-loop self-test: the painters' movement calibrates a decoder for its own (N, J, γ)
+        // at the FIXED canonical δJ_cal (= 0.02) and decodes its OWN α-profile. For the canonical case
+        // (N=4, bond 1, δJ=0.02) the movement's defect IS the calibration point, so the decoder returns
+        // bond 1 with an exact match — the existing contract stays green.
+        var m = Movement(Canonical(4));
+        var readBack = m.Children.Single(c => c.DisplayName == "the decoder reads back");
+        Assert.Contains("bond 1", readBack.Summary);
+        Assert.Contains("match", readBack.Summary);
+    }
+
+    [Fact]
+    public void ReadBack_OffCalibration_GivesHonestNonzeroNumbers()
+    {
+        // Fix A: the read-back must NOT calibrate at the movement's own δJ (that is circular — the
+        // dictionary entry for this bond would be the very profile being decoded, residual exactly 0.0,
+        // strength error exactly 0%). It calibrates at the fixed canonical δJ_cal = 0.02. An
+        // off-calibration movement (bond 0, δJ ≠ δJ_cal) must read back to bond 0, with a strength error
+        // strictly in (0, 25] % and a residual strictly > 0 — honest numbers, not the self-fulfilling 0/0.
+        //
+        // δJ = 0.025 (a small step off the 0.02 calibration point) is used rather than 0.05: the C#
+        // painters' EDGE-bond (bond 0) α-response is steeply nonlinear — its f-profile peaks at the far
+        // site, so δJ=0.05 already sits outside the linear window for this bond (the projected δĴ runs to
+        // ~0.09, an 80% error, and the read even becomes ambiguous). At δJ=0.025 the bond is still well
+        // inside the window: the point of the test is the no-longer-circular contract, which only needs
+        // δJ ≠ δJ_cal, so it is exercised in the regime where the linear dictionary is honest.
+        const double offDeltaJ = 0.025;
+        var s = new Symphony(n: 5, j: 1.0, gamma: 0.05, hType: HamiltonianType.XY,
+                             initialState: InitialStateKind.BondingMode, defectBond: 0, deltaJ: offDeltaJ);
+        var m = Movement(s);
+        Assert.True(m.HasLenses);
+
+        var dec = DefectDecoder.Calibrate(5, 1.0, 0.05, DefectDecoder.DefaultDeltaJCal);
+        var r = dec.Decode(m.Alphas);
+        Assert.Equal(0, r.Bond);
+        Assert.True(r.Residual > 0.0, $"off-calibration residual should be strictly positive, got {r.Residual}");
+        double strengthErr = Math.Abs(r.DeltaJ - offDeltaJ) / offDeltaJ;
+        Assert.True(strengthErr > 0.0 && strengthErr <= 0.25,
+            $"off-calibration strength error should be in (0, 25] %, got {strengthErr:P2} (δĴ={r.DeltaJ})");
+
+        // And the live read-back node text is honest, not the self-fulfilling 0.0 / 0%.
+        var readBack = m.Children.Single(c => c.DisplayName == "the decoder reads back");
+        Assert.Contains("bond 0", readBack.Summary);
+        Assert.DoesNotContain("residual 0.00E+000", readBack.Summary);
+    }
+
+    [Fact]
     public void NonXY_DeclinesHonestly_NoLenses()
     {
         var s = new Symphony(n: 4, hType: HamiltonianType.Heisenberg, defectBond: 1);
