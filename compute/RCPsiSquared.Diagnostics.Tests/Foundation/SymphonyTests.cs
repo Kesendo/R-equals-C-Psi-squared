@@ -27,6 +27,16 @@ public class SymphonyTests
     }
 
     [Fact]
+    public void CarrierPair_DefaultsToZeroOne_AndValidates()
+    {
+        Assert.Equal((0, 1), new Symphony(n: 3).CarrierPair);
+        Assert.Equal((1, 2), new Symphony(n: 3, carrierPair: (1, 2)).CarrierPair);
+        // out of range and duplicate sites are rejected
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Symphony(n: 3, carrierPair: (0, 3)));
+        Assert.Throws<ArgumentException>(() => new Symphony(n: 3, carrierPair: (1, 1)));
+    }
+
+    [Fact]
     public void OneEvolution_BuiltOnce_NoMatterHowManyLensesRead()
     {
         var s = new Symphony(n: 3);

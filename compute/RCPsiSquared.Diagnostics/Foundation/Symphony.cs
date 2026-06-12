@@ -61,6 +61,11 @@ public sealed class Symphony : IInspectable
     public HamiltonianType HType { get; }
     public TopologyKind Topology { get; }
     public InitialStateKind InitialState { get; }
+
+    /// <summary>The two sites the local-CΨ lens reduces ρ(t) onto (0-indexed, site 0 = MSB).
+    /// Default (0,1) is Bell+'s carrier pair, where the lens reproduces F25 at N=2.</summary>
+    public (int Site1, int Site2) CarrierPair { get; }
+
     public double TMax { get; }
     public int TPoints { get; }
 
@@ -88,7 +93,8 @@ public sealed class Symphony : IInspectable
         double tMax = double.NaN,
         int tPoints = 60,
         int? defectBond = null,
-        double deltaJ = 0.02)
+        double deltaJ = 0.02,
+        (int Site1, int Site2)? carrierPair = null)
     {
         if (n < 2 || n > MaxN)
             throw new ArgumentOutOfRangeException(nameof(n),
@@ -110,6 +116,15 @@ public sealed class Symphony : IInspectable
 
         DefectBond = defectBond;
         DeltaJ = deltaJ;
+
+        var pair = carrierPair ?? (0, 1);
+        if (pair.Site1 < 0 || pair.Site1 >= N || pair.Site2 < 0 || pair.Site2 >= N)
+            throw new ArgumentOutOfRangeException(nameof(carrierPair),
+                $"carrier pair sites must be in [0, {N - 1}]; got ({pair.Site1}, {pair.Site2})");
+        if (pair.Site1 == pair.Site2)
+            throw new ArgumentException(
+                $"carrier pair sites must be distinct; got ({pair.Site1}, {pair.Site2})", nameof(carrierPair));
+        CarrierPair = pair;
     }
 
     // ---- The one evolution, computed once, shared by all lenses ----
