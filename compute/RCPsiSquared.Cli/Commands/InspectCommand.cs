@@ -479,6 +479,11 @@ public static class InspectCommand
             c => BuildSymphonyRoot(c.Parser, c.N)),
         new("envelope", "the Envelope Theorem checked live: global CΨ peaks non-increasing (theorem) vs the carrier pair's beating rise (freedom)",
             c => new EnvelopeTheoremWitness(c.N)),
+        new("clock", "the two clocks: the γ-protected band-edge ladder (N≥3) and the γ-pulled exceptional point (N=2)",
+            c => new ClockHandLadderWitness(
+                c.Parser.OptionalDouble("J") ?? ClockHandLadderWitness.DefaultJ,
+                c.Parser.OptionalDouble("gamma") ?? ClockHandLadderWitness.DefaultGamma),
+            RequiresN: false),
         new("flow", "the post-EP single-excitation flow to 1/N",
             c => BuildFlowRoot(c.Parser, c.N)),
         new("between", "the in-between navigator (six axes: crossover/jdefect/interior/spiral/approach/ep)",
