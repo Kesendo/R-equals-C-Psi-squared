@@ -432,7 +432,7 @@ public sealed class Symphony : IInspectable
     /// the global clock. Built lazily and cached so its trajectories, like the clean one, are each
     /// built exactly once.</summary>
     private PaintersMovement? _painters;
-    private PaintersMovement Painters()
+    internal PaintersMovement Painters()
     {
         EnsureEvolved();
         return _painters ??= new PaintersMovement(this, DefectBond!.Value, DeltaJ);
@@ -1284,6 +1284,7 @@ public sealed class TempoCertificationMovement : IInspectable
     private bool _built;
     private Symphony? _second;
     private double _residGlobal, _residLocal, _residLight, _residK, _maxResidual;
+    private double _paintersResidual;
 
     private void Ensure()
     {
@@ -1309,6 +1310,22 @@ public sealed class TempoCertificationMovement : IInspectable
         _residLight = MaxAbsDiff(liA, liB);
         _residK = MaxAbsDiff(kA, kB);
         _maxResidual = Math.Max(Math.Max(_residGlobal, _residLocal), Math.Max(_residLight, _residK));
+
+        // The painters arm: when the defect is in play, α and the closure Σ ln α must be (Q,K)-pure too
+        // (the second performance scaled δJ by r above). If the painters declined (no lenses), the arm is 0.
+        _paintersResidual = 0.0;
+        if (p.DefectBond is not null)
+        {
+            var pmA = p.Painters();
+            var pmB = _second!.Painters();
+            if (pmA.HasLenses && pmB.HasLenses)
+            {
+                double aRes = MaxAbsDiff(pmA.Alphas.ToArray(), pmB.Alphas.ToArray());
+                double cRes = Math.Abs(pmA.ClosureSum - pmB.ClosureSum);
+                _paintersResidual = Math.Max(aRes, cRes);
+                _maxResidual = Math.Max(_maxResidual, _paintersResidual);
+            }
+        }
     }
 
     /// <summary>The max absolute element-wise difference of two equal-length curves; the certification
@@ -1322,6 +1339,9 @@ public sealed class TempoCertificationMovement : IInspectable
 
     public Symphony Second { get { Ensure(); return _second!; } }
     public double MaxResidual { get { Ensure(); return _maxResidual; } }
+    /// <summary>The painters arm residual: max |α_i − α'_i| and |Σ ln α − Σ ln α'| between tempos (0 when
+    /// the painters are not in play or declined). With δJ scaled by r this is machine epsilon.</summary>
+    public double PaintersResidual { get { Ensure(); return _paintersResidual; } }
     public bool Pass => MaxResidual <= PassTol;
     /// <summary>How many times the second performance evolved its trajectory (must be 1).</summary>
     public int SecondEvolveCount { get { Ensure(); return _second!.EvolveCount; } }
@@ -1359,6 +1379,11 @@ public sealed class TempoCertificationMovement : IInspectable
                          $"(ratio {(gapA > 0 ? (gapB / gapA) : 0.0).ToString("0.##", Inv)}), " +
                          $"ω_mem {omA.ToString("0.#####", Inv)} → {omB.ToString("0.#####", Inv)}: the clock is " +
                          "dimensionful and scales by r: the hands spin r× faster, but the song (every (Q,K)-lens) is the same.");
+            if (Parent.DefectBond is not null)
+                yield return new InspectableNode("the painters arm (α, closure)",
+                    summary: $"with the defect rescaled by r, the per-site α and the closure Σ ln α are (Q,K)-pure: " +
+                             $"residual {_paintersResidual.ToString("E2", Inv)} " +
+                             $"({(_paintersResidual <= PassTol ? "PASS" : "FAIL: the α fit smuggled absolute time")}).");
         }
     }
 
