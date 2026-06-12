@@ -55,6 +55,14 @@ public static class OpenArcsRegistry
             Status: OpenArcStatus.Open),
 
         new OpenArc(
+            Name: "clock_hand_ladder",
+            Opened: "2026-06-12",
+            Origin: "the promoted Symphony clock node, read across N on day one",
+            ParkedAt: "two clockworks, verified: for N>=3 the rotation hand omega_mem walks the band-edge ladder 2J*cos(pi/(N+1)) gamma-PROTECTED (sqrt2 / PHI / sqrt3 at N=3/4/5; gamma quadrupled, hand unmoved) - the vacuum<->single-excitation lines are simultaneous eigenoperators of L_D (1-site-difference class, rate exactly -2gamma) and L_H (band frequency), so nothing mixes. At N=2 the hand is gamma-PULLED: omega_mem = 2*sqrt(J^2-gamma^2) (predicted 1.95959 at gamma=0.2, measured 1.95959) - the {population-difference, antisymmetric-coherence} 2x2 damped-oscillator block lands exactly at Re=-2gamma (rates 0 and 4gamma averaging, a two-level accident) and its pulled beat outruns the protected J-line at the same gap; the hand would stop at gamma=J (Q=1, EP-family). Mode-level check at N=3: the big 2*sqrt2 intra-band beats sit OFF the gap (Re=-0.125/-0.175), so the protected edge wins; fine structure: a second, weakly pulled gap line at 1.41067 (factor 0.99750)",
+            NextStep: "write the small proof note (N=2 block algebra is closed-form; general off-gap argument for the hybrid blocks at N>=3 is open), connect to the ring dihedral-lock sibling (Im_max = Delta_E_max) and the EP family (hand death at Q=1); derive the 0.99750 fine-structure pull",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
             Name: "envelope_n4_rise",
             Opened: "2026-06-12",
             Origin: "EnvelopeTheoremWitness, day one: inspect --root envelope --N 4 fired the honest branch",
