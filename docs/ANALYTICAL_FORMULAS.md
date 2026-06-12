@@ -201,10 +201,19 @@ point itself, the base rung the polyene layer (N≥3) cannot reach; the quantum 
 it. Q*(N) equals the band edge 2cos(π/(N+1)) at N=2 and N=3 ONLY (1 = 2cos60°, √2 = 2cos45°),
 a low-N accident departing at N≥4 (Q*=1.8785 ≠ φ); that is why the √2 looked exact at N=3 and
 "the rest awaited a clean form" (it is exact, but coincidental, not a cos-law). **Open:** the
-closed form. The freezing mode just below Q* is overdamped (Im=0) and half-lit (⟨n_XY⟩ ≈ ½,
-NOT the dark {I,Z} sector, a verified clue that refuted a "dark-storage-undercuts-bright-readout"
-guess); the mechanism and the closed form of Q*(N) are the open remainder.
-**Verified:** N=2..5 vs carbon (`simulations/_carbon_quantum_same_mountain.py`).
+closed form, and the verified mechanism that explains why it is open is that the freezing mode
+CHANGES SECTOR at N=4. At N=2,3 the mode that freezes just below Q* is a {0,2}-coherence (its
+computational-basis weight has n_diff histogram {0: ½, 2: ½}, a small oscillation frequency); at
+N≥4 it is instead the pure n_diff=1 band-edge single-excitation mode (Im = 2cos(π/(N+1)) = φ at
+N=4, √3 at N=5), undercut just below Q* by a half-lit ⟨n_XY⟩ ≈ ½ overdamped mode. This sector
+bifurcation at N=4 is the structural reason Q*=2cos(π/(N+1)) holds only at N=2,3: the band edge
+is the horizon only once the band-edge mode is the one that freezes, which it is not at low N.
+The freezing mode is overdamped (Im=0) and half-lit (⟨n_XY⟩ ≈ ½, NOT the dark {I,Z} sector, a
+verified clue that refuted a "dark-storage-undercuts-bright-readout" guess). This is a verified
+mechanism observation, not a derived closed form; the closed form of Q*(N) remains the open
+remainder.
+**Verified:** N=2..5 vs carbon (`simulations/_carbon_quantum_same_mountain.py`); the sector
+bifurcation at N=4 (`simulations/_coherence_horizon_closed_form.py`).
 
 ### AT. Absorption Theorem (Tier 1, proven)
 

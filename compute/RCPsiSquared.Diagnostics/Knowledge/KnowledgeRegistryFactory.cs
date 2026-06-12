@@ -329,6 +329,16 @@ public static class KnowledgeRegistryFactory
             // .RegisterAbsorptionTheoremClaim() (the −2γ), .RegisterUniversalCarrierClaim()
             // (carrier-blindness), all resolved by build time.
             .RegisterClockHandLadderClaim()
+            // The coherence horizon Q*(N) (Tier1Candidate, 2026-06-12): Q*(N) = 1/√2/1.8785/2.3722
+            // for N=2..5, the Q below which the slowest non-zero Liouvillian mode stops oscillating
+            // (the coherence hand freezes), verified equal to the carbon Frost-Hückel coherent↔incoherent
+            // threshold under J ↔ |β| (the cross-substrate identity). N=2 (Q*=1) is the EP base the
+            // carbon polyene layer cannot reach. The closed form is OPEN: the freezing mode bifurcates
+            // sector at N=4 ({0,2}-coherence at N=2,3, pure n_diff=1 band edge at N≥4), the reason
+            // Q*=2cos(π/(N+1)) holds only at N=2,3. Live: inspect --root horizon. Two typed parents,
+            // both registered in this chain: ClockHandLadderClaim (the clock's Q-floor made exact,
+            // directly above) + F2bXyChainSpectrumPi2Inheritance (the band edge, registered earlier in this chain).
+            .RegisterCoherenceHorizonClaim()
             .RegisterF86HwhmClosedFormClaim()
             .RegisterIbmBlockCpsiHardwareTable()
             .RegisterPolarityPairQPeakDecompositionClaim()
