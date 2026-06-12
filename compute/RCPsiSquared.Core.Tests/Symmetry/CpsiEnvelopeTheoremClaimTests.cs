@@ -32,4 +32,12 @@ public class CpsiEnvelopeTheoremClaimTests
         Assert.Contains(kids, k => k is F25CPsiBellPlusPi2Inheritance);
         Assert.Contains(kids, k => k is QuarterAsBilinearMaxvalClaim);
     }
+
+    [Fact]
+    public void Build_SharesOneQuarterInstance_AcrossF25AndTheDirectEdge()
+    {
+        var c = CpsiEnvelopeTheoremClaim.Shared;
+        // Build() threads ONE QuarterAsBilinearMaxvalClaim into both F25 and the ¼-boundary edge.
+        Assert.Same(c.Quarter, c.F25.Quarter);
+    }
 }
