@@ -93,4 +93,16 @@ public class ClockHandLadderWitnessTests
         double expected = Math.Atan(Math.Sqrt(2.0) / (2.0 * 0.2)) * 180.0 / Math.PI;
         Assert.Equal(expected, w.AngleDegrees(3), 6);
     }
+
+    [Fact]
+    public void Witness_SurfacesAllFourStories_AndNamesTheClaimAndDocs()
+    {
+        var w = new ClockHandLadderWitness();
+        Assert.Contains("ClockHandLadderClaim", w.Summary);
+        var labels = ((IInspectable)w).Children.Select(c => c.DisplayName).ToList();
+        Assert.Contains(labels, l => l.Contains("ladder"));
+        Assert.Contains(labels, l => l.Contains("protection"));
+        Assert.Contains(labels, l => l.Contains("exceptional point"));
+        Assert.Contains(labels, l => l.Contains("dial"));
+    }
 }

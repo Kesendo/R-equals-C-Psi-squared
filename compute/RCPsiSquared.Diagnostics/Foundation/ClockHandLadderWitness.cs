@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using RCPsiSquared.Core.Inspection;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
@@ -112,6 +113,14 @@ public sealed class ClockHandLadderWitness : IInspectable
                          "The dial angle θ = arctan(√(Q²−1)) → 0 there. See docs/ANALYTICAL_FORMULAS.md F2b corollary. " +
                          "(Live note: OmegaMem(2) tracks this pulled hand only for Q > 2/√3; nearer the EP the live " +
                          "clock's gap shares equal-rate {Im=±J} modes and the closed form is the honest standstill witness.)");
+
+            var ns = new double[] { 2, 3, 4, 5 };
+            var omegas = ns.Select(n => OmegaMem((int)n)).ToArray();
+            yield return new InspectableNode("the dial (the angle is Q)",
+                summary: $"θ = arctan(Omega/Gap): N=3 → {AngleDegrees(3).ToString("0.##", Inv)}°, " +
+                         $"N=2 → {AngleDegrees(2).ToString("0.##", Inv)}°. For N≥3, θ = arctan(Q·cos(π/(N+1))); " +
+                         "for N=2, θ = arctan(√(Q²−1)), zero at the EP. The angle between the hands is Q.",
+                payload: new InspectablePayload.Curve("Omega vs N", ns, omegas, "N", "Omega (coherence hand)"));
         }
     }
 
