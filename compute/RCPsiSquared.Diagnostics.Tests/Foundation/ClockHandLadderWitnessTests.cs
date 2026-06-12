@@ -16,7 +16,7 @@ public class ClockHandLadderWitnessTests
     [InlineData(5, 1.7320508075688772)] // sqrt(3)
     public void OmegaMem_AtNge3_IsTheF2bBandEdge_2JcosPiOverNPlus1(int n, double expected)
     {
-        var w = new ClockHandLadderWitness();
+        var w = new ClockHandLadderWitness(j: 1.0); // J=1 ladder (the witness default J is the EP point 0.075)
         double omega = w.OmegaMem(n); // live from Symphony.Clock at J=1
         Assert.Equal(expected, omega, 6);
         double bandEdge = 2.0 * 1.0 * Math.Cos(Math.PI / (n + 1));
@@ -89,8 +89,8 @@ public class ClockHandLadderWitnessTests
     [Fact]
     public void Angle_AtN3_DefaultRegime_MatchesArctanOmegaOverGap()
     {
-        var w = new ClockHandLadderWitness(); // J=1, default γ
-        // robust against the witness default: θ(N=3) = arctan(bandEdge √2 / Gap 2γ)
+        var w = new ClockHandLadderWitness(j: 1.0); // J=1, default γ (Q=20, protected)
+        // robust against the witness γ default: θ(N=3) = arctan(bandEdge √2 / Gap 2γ)
         double expected = Math.Atan(Math.Sqrt(2.0) / (2.0 * w.Gamma)) * 180.0 / Math.PI;
         Assert.Equal(expected, w.AngleDegrees(3), 6);
     }
@@ -119,13 +119,30 @@ public class ClockHandLadderWitnessTests
     }
 
     [Fact]
-    public void Ladder_AtDefaultGamma_IsInTheProtectedRegime_ShowsTheBandEdge()
+    public void Ladder_InProtectedRegime_ShowsTheBandEdgeLadder()
     {
-        var w = new ClockHandLadderWitness(); // γ=0.2, H-competitive
+        var w = new ClockHandLadderWitness(j: 1.0, gamma: 0.05); // Q=20, H-competitive, all rungs hold
         Assert.True(w.BandEdgeIsTheGapMode(3) && w.BandEdgeIsTheGapMode(4) && w.BandEdgeIsTheGapMode(5));
         var ladder = ((IInspectable)w).Children.First(c => c.DisplayName.Contains("ladder"));
-        Assert.Contains("F2b band edge", ladder.Summary);
+        Assert.Contains("band-edge ladder ω_mem/J = √2/φ/√3", ladder.Summary);
         Assert.DoesNotContain("out of the protected regime", ladder.Summary);
+    }
+
+    [Fact]
+    public void LadderAndProtection_AtIntermediateGamma_AgreeOnRegime_NoContradiction()
+    {
+        // The blocker the review caught: at intermediate γ the higher rungs leave the regime while N=3
+        // still holds. The ladder node (all-three gate) and the protection node MUST report the same
+        // regime membership, never one saying "in the protected regime" while the other says "out".
+        var w = new ClockHandLadderWitness(j: 1.0, gamma: 0.5); // N=3 holds, higher rungs overdamped
+        Assert.True(w.BandEdgeIsTheGapMode(3), "N=3 still holds at γ=0.5");
+        Assert.False(w.BandEdgeIsTheGapMode(4) && w.BandEdgeIsTheGapMode(5), "a higher rung has left at γ=0.5");
+        var ladder = ((IInspectable)w).Children.First(c => c.DisplayName.Contains("ladder"));
+        var protection = ((IInspectable)w).Children.First(c => c.DisplayName.Contains("protection"));
+        Assert.Contains("out of the protected regime", ladder.Summary);
+        // the protection node must NOT claim the in-regime narrative when the ladder is out
+        Assert.DoesNotContain("in the protected regime", protection.Summary);
+        Assert.Contains("partially exited", protection.Summary);
     }
 
     [Fact]

@@ -24,7 +24,12 @@ public sealed class ClockHandLadderWitness : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
 
-    public const double DefaultJ = 1.0;
+    // Default operating point: the EP-family coupling J_EP=0.075 and the canonical carrier γ₀=0.05,
+    // so Q = J/γ = 1.5 (= EP(2) − ½). This is a deliberately marginal regime: only the N=3 rung of the
+    // band-edge ladder still holds (the higher rungs are overdamped), so the witness defaults to the
+    // physically loaded point near the exceptional point, not the abstract clean ladder. Pass --J 1
+    // (or new ClockHandLadderWitness(j: 1.0)) for the H-competitive regime where all rungs are protected.
+    public const double DefaultJ = 0.075;
     public const double DefaultGamma = 0.05;
     private const int SpectrumPoints = 8; // the clock reads the spectrum, grid-independent
 
@@ -91,7 +96,9 @@ public sealed class ClockHandLadderWitness : IInspectable
     /// protection holds only while the |vac⟩⟨ψ_k| sector (decay rate 2γ) is the slowest mode, the
     /// H-competitive regime. At strong dephasing a slower real (non-oscillating) mode takes the gap;
     /// OmegaMem(n) then drops to ~0 and the band edge is no longer the coherence hand, so this returns
-    /// false. The witness default γ=0.05 is well inside the regime.</summary>
+    /// false. The H-competitive regime (high Q, J≫γ) is in; the default operating point Q=1.5 is marginal
+    /// (only the N=3 rung holds). Only meaningful for n≥3 (at n=2 the gap-mode is the pulled block, not the
+    /// band edge; see <see cref="N2PulledOmega"/>).</summary>
     public bool BandEdgeIsTheGapMode(int n)
     {
         const double tol = 1e-6;
@@ -99,41 +106,44 @@ public sealed class ClockHandLadderWitness : IInspectable
     }
 
     public string DisplayName =>
-        $"ClockHandLadderWitness (the two clocks live, J={J.ToString("0.#", Inv)}, γ={Gamma.ToString("0.###", Inv)})";
+        $"ClockHandLadderWitness (the two clocks live, J={J.ToString("0.###", Inv)}, γ={Gamma.ToString("0.###", Inv)}, Q={(J / Gamma).ToString("0.##", Inv)})";
 
     public string Summary => "the two clocks live (typed home: ClockHandLadderClaim): for N≥3 the " +
-        "coherence hand Omega is the γ-protected F2b band edge 2J·cos(π/(N+1)); for N=2 it is γ-pulled " +
-        "to 2√(J²−γ²) and stops at the exceptional point Q=1.";
+        "coherence hand Omega is the F2b band edge 2J·cos(π/(N+1)), γ-protected in the H-competitive regime " +
+        "(high Q); for N=2 it is γ-pulled to 2√(J²−γ²) and stops at the exceptional point Q=1. The default " +
+        "operating point is Q=1.5 (the EP family), where only the N=3 rung still holds.";
 
     public IEnumerable<IInspectable> Children
     {
         get
         {
-            bool protectedRegime = BandEdgeIsTheGapMode(3) && BandEdgeIsTheGapMode(4) && BandEdgeIsTheGapMode(5);
+            int protectedCount = new[] { 3, 4, 5 }.Count(BandEdgeIsTheGapMode);
+            bool protectedRegime = protectedCount == 3;
+            string regimeHead = $"γ={Gamma.ToString("0.###", Inv)}, J={J.ToString("0.###", Inv)} (Q={(J / Gamma).ToString("0.##", Inv)})";
 
             yield return new InspectableNode("the ladder (N≥3, the band edge)",
                 summary: protectedRegime
-                    ? $"Omega = 2J·cos(π/(N+1)) = F2b band edge: N=3 → {OmegaMem(3).ToString("0.#####", Inv)} (√2), " +
-                      $"N=4 → {OmegaMem(4).ToString("0.#####", Inv)} (φ), N=5 → {OmegaMem(5).ToString("0.#####", Inv)} (√3). " +
+                    ? $"the band-edge ladder ω_mem/J = √2/φ/√3 (J-independent): live ω_mem at {regimeHead}: " +
+                      $"N=3 → {OmegaMem(3).ToString("0.#####", Inv)} (J√2), N=4 → {OmegaMem(4).ToString("0.#####", Inv)} (Jφ), " +
+                      $"N=5 → {OmegaMem(5).ToString("0.#####", Inv)} (J√3). The |vac⟩⟨ψ_k| sector (rate 2γ) is the slowest mode. " +
                       "Typed parent F2b (docs/ANALYTICAL_FORMULAS.md F2b)."
-                    : $"out of the protected regime at γ={Gamma.ToString("0.###", Inv)} (Q={(J / Gamma).ToString("0.##", Inv)}): the F2b " +
-                      $"band edge 2J·cos(π/(N+1)) (√2/φ/√3 = {BandEdge(3).ToString("0.####", Inv)}/{BandEdge(4).ToString("0.####", Inv)}/" +
-                      $"{BandEdge(5).ToString("0.####", Inv)}) is no longer the slowest mode; a real overdamped mode takes the gap " +
-                      $"(rate {Gap(3).ToString("0.#####", Inv)} < 2γ), so the live coherence hand reads N=3 → {OmegaMem(3).ToString("0.#####", Inv)}, " +
-                      $"N=4 → {OmegaMem(4).ToString("0.#####", Inv)}, N=5 → {OmegaMem(5).ToString("0.#####", Inv)}. The protection holds in the " +
-                      "H-competitive regime (the witness default γ=0.05). Typed parent F2b (docs/ANALYTICAL_FORMULAS.md F2b).");
+                    : $"out of the protected regime at {regimeHead}: the band edge ω_mem/J = √2/φ/√3 is no longer the slowest mode for " +
+                      $"{3 - protectedCount} of the three rungs; a real overdamped mode (gap {Gap(3).ToString("0.#####", Inv)}) takes over, so " +
+                      $"live ω_mem reads N=3 → {OmegaMem(3).ToString("0.#####", Inv)}, N=4 → {OmegaMem(4).ToString("0.#####", Inv)}, " +
+                      $"N=5 → {OmegaMem(5).ToString("0.#####", Inv)} (the higher rungs leave first). The band-edge protection holds only in the " +
+                      "H-competitive regime (high Q). Typed parent F2b (docs/ANALYTICAL_FORMULAS.md F2b).");
 
             yield return new InspectableNode("the γ-protection (N≥3, the hand holds)",
-                summary: BandEdgeIsTheGapMode(3)
-                    ? $"in the protected regime the coherence hand sits at the band edge independently of γ: at N=3, Omega = " +
-                      $"{OmegaMem(3).ToString("0.#####", Inv)} = √2, the Takt hand Gap = 2γ = {Gap(3).ToString("0.#####", Inv)} tracks γ. " +
+                summary: protectedRegime
+                    ? $"in the protected regime the coherence hand sits at the band edge independently of γ: at N=3, ω_mem = " +
+                      $"{OmegaMem(3).ToString("0.#####", Inv)} = J√2, the Takt hand Gap = 2γ = {Gap(3).ToString("0.#####", Inv)} tracks γ. " +
                       "The |vac⟩⟨ψ_k| modes are simultaneous eigenoperators of L_D (rate −2γ, the Absorption Theorem) and L_H " +
-                      "(frequency E_k), so nothing mixes (γ-independent across the H-competitive regime). Typed parent " +
+                      "(frequency E_k), so nothing mixes (γ-independent while all of N=3-5 hold). Typed parent " +
                       "AbsorptionTheoremClaim (docs/proofs/PROOF_ABSORPTION_THEOREM.md)."
-                    : $"the protection is exited at γ={Gamma.ToString("0.###", Inv)} (Q={(J / Gamma).ToString("0.##", Inv)}): the gap is no " +
-                      $"longer 2γ (Gap = {Gap(3).ToString("0.#####", Inv)}, a slower real mode), so the band edge is not the gap-mode and the " +
-                      $"coherence hand reads {OmegaMem(3).ToString("0.#####", Inv)}. The simultaneous-eigenoperator protection holds while the " +
-                      "|vac⟩⟨ψ_k| sector (rate 2γ) is the slowest mode, the H-competitive regime (the witness default γ=0.05). Typed parent " +
+                    : $"the band-edge protection is {(protectedCount == 0 ? "exited" : "partially exited")} at {regimeHead}: " +
+                      $"{protectedCount}/3 of N=3-5 still sit at the band edge (the higher rungs leave first as a slower real mode takes the " +
+                      "gap; see the ladder node for the live per-rung values). The simultaneous-eigenoperator protection (L_D rate −2γ, L_H " +
+                      "frequency E_k) holds rung-by-rung only while the |vac⟩⟨ψ_k| sector (rate 2γ) is the slowest mode. Typed parent " +
                       "AbsorptionTheoremClaim (docs/proofs/PROOF_ABSORPTION_THEOREM.md).");
 
             yield return new InspectableNode("the pull and the exceptional point (N=2)",

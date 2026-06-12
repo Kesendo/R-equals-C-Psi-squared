@@ -154,9 +154,14 @@ open-system clock (the slowest-decaying |vac⟩⟨ψ_k| sector, decay rate
 The Takt hand is the dephasing floor, Gap = 2γ. The protection is exact
 because |vac⟩⟨ψ_k| is a simultaneous eigenoperator of L_D (eigenvalue
 −2γ) and L_H (eigenvalue iE_k): the rate is pure dissipator, the
-frequency pure Hamiltonian. The mechanism is derived; gap-dominance (no
-faster-oscillating mode shares the exact gap rate) is verified N = 3-5,
-the general off-gap argument open, hence Tier 1 candidate.
+frequency pure Hamiltonian. The "γ-independent" above holds in the
+H-competitive regime, while the |vac⟩⟨ψ_k| sector at rate 2γ is the
+slowest mode; at strong dephasing (low Q) a slower real overdamped mode
+takes the gap and the band edge ceases to be the coherence hand, the
+higher rungs leaving first (live: `inspect --root clock --J 1 --gamma 0.5`
+shows N=5 gone at Q=2). The mechanism is derived; gap-dominance (no
+faster-oscillating mode shares the exact gap rate) is verified N = 3-5 in
+that regime, the general off-gap argument open, hence Tier 1 candidate.
 
 At N = 2 the gap-mode is a different (population / antisymmetric-coherence)
 block and the coherence hand is γ-pulled:
