@@ -70,14 +70,17 @@ public sealed class ClockHandLadderClaim : Claim
         {
             yield return new InspectableNode("the ladder (N≥3, γ-protected)",
                 summary: "ω_mem = 2J·cos(π/(N+1)) = F2b band edge (√2/φ/√3 at N=3/4/5), held fixed under a γ-sweep " +
-                         "because |vac⟩⟨ψ_k| modes are simultaneous L_D/L_H eigenoperators. Gap-dominance verified N=3-5. " +
+                         "because |vac⟩⟨ψ_k| modes are simultaneous L_D/L_H eigenoperators. Gap-dominance verified N=3-5, " +
+                         "in the H-competitive regime (while the |vac⟩⟨ψ_k| sector at rate 2γ is the slowest mode; at strong " +
+                         "dephasing a slower real mode takes the gap and the band edge ceases to be the coherence hand). " +
                          "Live: inspect --root clock.");
             yield return new InspectableNode("the exceptional point (N=2)",
                 summary: "ω_mem = 2√(J²−γ²), a different block (not the band edge), exactly derivable; stops at Q=1 (γ=J). " +
                          "docs/ANALYTICAL_FORMULAS.md F2b corollary.");
             yield return new InspectableNode("carrier-blindness = γ-protection",
                 summary: "the N≥3 γ-protection IS the two-tempo certification's carrier-blindness read from the other " +
-                         "side: ω_mem/Q does not depend on γ, so the carrier γ₀ is invisible from inside.");
+                         "side: in the H-competitive regime ω_mem/Q does not depend on γ, so the carrier γ₀ is invisible " +
+                         "from inside.");
             yield return BandEdge;    // typed parent edge
             yield return Absorption;  // typed parent edge
             yield return Carrier;     // typed parent edge
