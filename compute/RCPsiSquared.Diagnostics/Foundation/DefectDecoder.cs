@@ -29,6 +29,19 @@ public sealed class DefectDecoder
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
 
+    /// <summary>The canonical calibration defect strength. The decoder calibrates its dictionary here
+    /// (and a self-test/read-back must pass THIS, not the movement's own δJ — calibrating at the
+    /// movement's δJ is circular).</summary>
+    public const double DefaultDeltaJCal = 0.02;
+
+    /// <summary>A reading is AMBIGUOUS when the runner-up bond's residual is within this factor of the
+    /// winner's: the linear dictionary cannot cleanly separate the two letters. Calibrated from the two
+    /// verified regimes at N=5: the near-anti-collinear mismatch case (edge bond 3 weakened reads almost
+    /// like complementary interior bond 1 strengthened) sits at residual ratio ≈ 1.5 (ambiguous); the
+    /// clean positive-defect cases sit at ratio ≫ 10 (unambiguous). The 3.0 threshold flags the former
+    /// and clears the latter.</summary>
+    public const double AmbiguityFactor = 3.0;
+
     public int N { get; }
     public double J { get; }
     public double Gamma { get; }
@@ -57,7 +70,7 @@ public sealed class DefectDecoder
     /// its per-site f-profile through PaintersMovement. The resulting f-dictionary is the decoder's
     /// codebook. N is guarded to 3..5 (the painters' canonical range: location needs an interior bond,
     /// and the dense Liouvillian caps the top).</summary>
-    public static DefectDecoder Calibrate(int n, double j, double gamma, double deltaJCal = 0.02)
+    public static DefectDecoder Calibrate(int n, double j, double gamma, double deltaJCal = DefaultDeltaJCal)
     {
         if (n < 3 || n > 5)
             throw new ArgumentOutOfRangeException(nameof(n),
@@ -83,13 +96,23 @@ public sealed class DefectDecoder
         return new DefectDecoder(n, j, gamma, deltaJCal, dictionary, buildCount);
     }
 
-    /// <summary>The decode result: the identified bond, the recovered strength δĴ, and the least-squares
-    /// residual ‖(α−1) − δĴ·f‖² of the winning fit (the confidence — smaller is more certain).</summary>
-    public readonly record struct DecodeResult(int Bond, double DeltaJ, double Residual);
+    /// <summary>The decode result: the identified (winning) bond, the recovered strength δĴ, and the
+    /// least-squares residual ‖(α−1) − δĴ·f‖² of the winning fit (the confidence — smaller is more
+    /// certain); plus the RUNNER-UP bond, its δĴ and residual, and the ambiguity flag. A linear
+    /// dictionary cannot always separate sign+location: at N=5 an edge bond and the complementary
+    /// interior bond have nearly anti-collinear f-profiles (weakening the edge reads almost like
+    /// strengthening the interior). When the runner-up residual is within
+    /// <see cref="AmbiguityFactor"/>× the winner's, <see cref="IsAmbiguous"/> is set and the honest
+    /// reading reports BOTH candidate letters, never the winner alone.</summary>
+    public readonly record struct DecodeResult(
+        int Bond, double DeltaJ, double Residual,
+        int RunnerUpBond, double RunnerUpDeltaJ, double RunnerUpResidual,
+        bool IsAmbiguous);
 
     /// <summary>Decode an observed per-site α-profile: for each dictionary bond, least-squares project
     /// (α−1) onto that bond's f-profile (δĴ = (α−1)·f / (f·f)) and score the residual
-    /// ‖(α−1) − δĴ·f‖²; return the minimum-residual bond with its δĴ and residual.</summary>
+    /// ‖(α−1) − δĴ·f‖²; return the minimum-residual bond with its δĴ and residual, the runner-up bond,
+    /// and the ambiguity flag (runner-up residual within <see cref="AmbiguityFactor"/>× the winner's).</summary>
     public DecodeResult Decode(IReadOnlyList<double> alphaObserved)
     {
         if (alphaObserved is null) throw new ArgumentNullException(nameof(alphaObserved));
@@ -100,9 +123,9 @@ public sealed class DefectDecoder
         var delta = new double[N];
         for (int i = 0; i < N; i++) delta[i] = alphaObserved[i] - 1.0;
 
-        int bestBond = -1;
-        double bestDeltaJ = 0.0;
-        double bestResidual = double.PositiveInfinity;
+        int bestBond = -1, secondBond = -1;
+        double bestDeltaJ = 0.0, secondDeltaJ = 0.0;
+        double bestResidual = double.PositiveInfinity, secondResidual = double.PositiveInfinity;
 
         for (int b = 0; b < _dictionary.Length; b++)
         {
@@ -120,12 +143,17 @@ public sealed class DefectDecoder
 
             if (residual < bestResidual)
             {
-                bestResidual = residual;
-                bestBond = b;
-                bestDeltaJ = deltaJ;
+                secondResidual = bestResidual; secondBond = bestBond; secondDeltaJ = bestDeltaJ;
+                bestResidual = residual; bestBond = b; bestDeltaJ = deltaJ;
+            }
+            else if (residual < secondResidual)
+            {
+                secondResidual = residual; secondBond = b; secondDeltaJ = deltaJ;
             }
         }
 
-        return new DecodeResult(bestBond, bestDeltaJ, bestResidual);
+        bool ambiguous = secondBond >= 0 && secondResidual < AmbiguityFactor * bestResidual;
+        return new DecodeResult(bestBond, bestDeltaJ, bestResidual,
+                                secondBond, secondDeltaJ, secondResidual, ambiguous);
     }
 }

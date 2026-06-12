@@ -223,14 +223,32 @@ public sealed class ReadingPowerWitness : IInspectable
         {
             var alpha = PlantedAlphaProfile(bond, deltaJ);
             var r = decoder.Decode(alpha);
-            bool bondMatch = r.Bond == bond;
+            // A case is honestly read if the truth is the winner, OR (ambiguous AND truth is winner-or-runner-up):
+            // the linear dictionary cannot always separate sign+location, and the honest decoder reports the pair.
+            bool truthAmongCandidates = r.Bond == bond || r.RunnerUpBond == bond;
+            bool honestlyRead = r.Bond == bond || (r.IsAmbiguous && truthAmongCandidates);
             double strengthErr = Math.Abs(deltaJ) > 0 ? Math.Abs(r.DeltaJ - deltaJ) / Math.Abs(deltaJ) : 0.0;
+
+            string summary;
+            if (r.IsAmbiguous)
+            {
+                double ratio = r.Residual > 0 ? r.RunnerUpResidual / r.Residual : double.PositiveInfinity;
+                summary = $"truth bond {bond} at {deltaJ.ToString("0.#####", Inv)}; ambiguous reading: " +
+                          $"bond {r.Bond} at {r.DeltaJ.ToString("0.#####", Inv)} or bond {r.RunnerUpBond} at " +
+                          $"{r.RunnerUpDeltaJ.ToString("0.#####", Inv)} (residuals within {ratio.ToString("0.##", Inv)}×); " +
+                          $"a single α-profile cannot separate these two letters ⟹ " +
+                          $"{(honestlyRead ? "truth is among the two candidates" : "TRUTH NOT AMONG CANDIDATES")}.";
+            }
+            else
+            {
+                summary = $"truth bond {bond} at {deltaJ.ToString("0.#####", Inv)}; decoded bond {r.Bond} at " +
+                          $"{r.DeltaJ.ToString("0.#####", Inv)} ⟹ {(honestlyRead ? "match" : "MISMATCH")}; " +
+                          $"strength error {(strengthErr * 100).ToString("0.#", Inv)} %, residual " +
+                          $"{r.Residual.ToString("E2", Inv)} (the confidence).";
+            }
             cases.Add(new InspectableNode(
                 displayName: $"planted: bond {bond}, strength {deltaJ.ToString("0.###", Inv)}",
-                summary: $"truth bond {bond} at {deltaJ.ToString("0.#####", Inv)}; decoded bond {r.Bond} at " +
-                         $"{r.DeltaJ.ToString("0.#####", Inv)} ⟹ {(bondMatch ? "match" : "MISMATCH")}; " +
-                         $"strength error {(strengthErr * 100).ToString("0.#", Inv)} %, residual " +
-                         $"{r.Residual.ToString("E2", Inv)} (the confidence)."));
+                summary: summary));
         }
 
         return new InspectableNode(
@@ -238,7 +256,11 @@ public sealed class ReadingPowerWitness : IInspectable
             summary: $"given only the per-site reading, the decoder returns where the defect sits and how " +
                      $"strong it is; the residual is its confidence (it grows toward the edge of the linear " +
                      $"window). Calibrated at N = {N}, γ = {DemoGamma.ToString(Inv)}, δJ_cal = {DemoDeltaJCal.ToString(Inv)} " +
-                     $"({decoder.CalibrationBuildCount} calibration performances); three planted defects decoded below.",
+                     $"({decoder.CalibrationBuildCount} calibration performances); three planted defects decoded below. " +
+                     $"Honest scope: at N = 5 the alphabet contains a near-anti-collinear letter pair " +
+                     $"(weakening an edge bond ≈ strengthening the complementary interior bond), so sign+location " +
+                     $"are not always separable by a single α-profile; the decoder reports the ambiguity rather than " +
+                     $"guessing, and a second feature axis is the planned tie-breaker.",
             children: cases);
     }
 

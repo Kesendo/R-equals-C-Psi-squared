@@ -85,6 +85,53 @@ public class DefectDecoderTests
         Assert.Equal(3, r3.Bond);
     }
 
+    [Fact]
+    public void N5_NegativeEdgeDefect_ReportsAmbiguity_TruthAmongCandidates()
+    {
+        // Fix B (verified physics): at N=5 an edge bond weakened (bond 3, δJ = −0.02) has an f-profile
+        // nearly ANTI-collinear with the complementary interior bond (bond 1 strengthened). The linear
+        // dictionary cannot cleanly separate sign+location: bond 1 wins over the true bond 3 by only
+        // ~1.5× in residual. The honest decoder must REPORT the ambiguity (not guess), and the truth
+        // (bond 3) must be among the two candidates {Bond, RunnerUpBond}.
+        var dec = Calib(5);
+        var r = dec.Decode(AlphaProfile(5, 3, -0.02));
+        Assert.True(r.IsAmbiguous,
+            $"N=5 (3, −0.02) should be flagged ambiguous (residual ratio ≈ 1.5 < {DefectDecoder.AmbiguityFactor}); " +
+            $"winner bond {r.Bond} res {r.Residual:E3}, runner-up bond {r.RunnerUpBond} res {r.RunnerUpResidual:E3}");
+        Assert.True(r.Bond == 3 || r.RunnerUpBond == 3,
+            $"the truth (bond 3) must be among the two candidates; got winner {r.Bond}, runner-up {r.RunnerUpBond}");
+    }
+
+    [Fact]
+    public void N5_PositiveDefect_IsClean_NotAmbiguous_ExactBond()
+    {
+        // The mirror case: a positive defect is clean. Calibrating and decoding at the SAME point
+        // (bond 3, +0.02) lands on the calibration profile, residual ~0, runner-up ratio ≫ 10 ⟹ not
+        // ambiguous, and the bond is exact.
+        var dec = Calib(5);
+        var r = dec.Decode(AlphaProfile(5, 3, +0.02));
+        Assert.False(r.IsAmbiguous,
+            $"N=5 (3, +0.02) is a clean positive defect (ratio ≫ {DefectDecoder.AmbiguityFactor}); " +
+            $"winner res {r.Residual:E3}, runner-up res {r.RunnerUpResidual:E3}");
+        Assert.Equal(3, r.Bond);
+    }
+
+    [Theory]
+    [InlineData(0, 0.010)]
+    [InlineData(1, 0.015)]
+    [InlineData(2, 0.025)]
+    [InlineData(2, -0.020)]
+    public void N4_SpecTable_AllUnambiguous_RatiosWellAboveThreshold(int bond, double deltaJ)
+    {
+        // At N=4 every spec-table case is unambiguous: the f-profiles are well-separated (residual
+        // ratios ≫ 3), so the decoder never has to report a tie.
+        var dec = Calib(4);
+        var r = dec.Decode(AlphaProfile(4, bond, deltaJ));
+        Assert.False(r.IsAmbiguous,
+            $"N=4 ({bond}, {deltaJ}) should be unambiguous; winner bond {r.Bond} res {r.Residual:E3}, " +
+            $"runner-up bond {r.RunnerUpBond} res {r.RunnerUpResidual:E3} (ratio {r.RunnerUpResidual / r.Residual:F2})");
+    }
+
     [Theory]
     [InlineData(2)]
     [InlineData(6)]
