@@ -93,12 +93,15 @@ public sealed class EnvelopeTheoremWitness : IInspectable
         get
         {
             Ensure();
+            string globalClause = _globalBell.IsNonIncreasing
+                ? $"At N={N} the live evolution CONFIRMS it (global RiseCount = 0, non-increasing)"
+                : $"At N={N} the live evolution REFUTES it (global RiseCount = {_globalBell.RiseCount} rises): a candidate " +
+                  "falsification of the over-broad 'verified N=3-5' paraphrase (the proof is Tier-1 for the 2-qubit case only)";
             return $"the CΨ Envelope Theorem live (typed home: CpsiEnvelopeTheoremClaim): the proof predicts the " +
-                   $"full-state envelope is non-increasing; the live evolution CONFIRMS it (global RiseCount = " +
-                   $"{_globalBell.RiseCount}) and shows the reduced carrier pair ESCAPE it (local RiseCount = " +
-                   $"{_localBell.RiseCount}, max Δ = {_localBell.MaxRiseMagnitude.ToString("0.#####", Inv)} > " +
-                   $"{GenuinenessBar.ToString("0.###", Inv)}, the freedom — beating). Two independent " +
-                   "computations meeting (theorem vs live evolution).";
+                   $"full-state envelope is non-increasing. {globalClause}. The reduced carrier pair has no theorem and " +
+                   $"its beat envelope rises (local RiseCount = {_localBell.RiseCount}, max Δ = " +
+                   $"{_localBell.MaxRiseMagnitude.ToString("0.#####", Inv)} > {GenuinenessBar.ToString("0.###", Inv)}, the " +
+                   "freedom, beating). Two independent computations meeting (theorem vs live evolution).";
         }
     }
 
@@ -117,15 +120,26 @@ public sealed class EnvelopeTheoremWitness : IInspectable
             yield return new InspectableNode("the freedom (local carrier pair)",
                 summary: $"the reduced carrier-pair CΨ has no theorem and its beat envelope RISES: RiseCount = " +
                          $"{_localBell.RiseCount}, max Δ = {_localBell.MaxRiseMagnitude.ToString("0.#####", Inv)} " +
-                         $"(> the genuineness bar {GenuinenessBar.ToString("0.###", Inv)}), grid-sensitive — verify with ≥4× t-points. " +
-                         "The freedom GROWS with N (a richer bath; N=4 shows ~13× this magnitude — try --N 4).");
+                         $"(> the genuineness bar {GenuinenessBar.ToString("0.###", Inv)}), grid-sensitive: verify with ≥4× t-points. " +
+                         "The freedom grows with N (a richer bath)" +
+                         (N < Symphony.MaxN ? $"; try --N {N + 1} for a larger rise." : "."));
 
+            // The artifact control is N-dependent: at N=3 SingleExcitation's apparent rises are sub-bar grid
+            // noise that vanish under refinement; at N=4 the richer bath lets even the localized state beat,
+            // so the bar no longer cleanly separates it. Report which case is live rather than hardcoding N=3.
+            bool singleIsArtifact = _singleCoarse.MaxRiseMagnitude < GenuinenessBar
+                                    && _singleFine.MaxRiseMagnitude < GenuinenessBar
+                                    && _singleFine.RiseCount == 0;
+            string singleClause = singleIsArtifact
+                ? $"SingleExcitation = artifacts only (max Δ {_singleCoarse.MaxRiseMagnitude.ToString("0.#####", Inv)} at 400 pts " +
+                  $"and {_singleFine.MaxRiseMagnitude.ToString("0.#####", Inv)} at 1600 pts, both < bar; RiseCount " +
+                  $"{_singleFine.RiseCount} at 1600: they vanish under refinement)"
+                : $"SingleExcitation = ALSO beating at this N (max Δ {_singleFine.MaxRiseMagnitude.ToString("0.#####", Inv)} at 1600 pts " +
+                  $"{(_singleFine.MaxRiseMagnitude >= GenuinenessBar ? "> bar" : "< bar")}, RiseCount {_singleFine.RiseCount} at 1600: " +
+                  "the richer bath lets even the localized state beat, so the bar no longer cleanly separates it here)";
             yield return new InspectableNode("the state-class control (beats / artifacts / silent)",
-                summary: "the genuineness bar separates the state classes convention-robustly: " +
-                         $"Bell+ = genuine beating (max Δ {_localBell.MaxRiseMagnitude.ToString("0.#####", Inv)} > bar); " +
-                         $"SingleExcitation = artifacts only (max Δ {_singleCoarse.MaxRiseMagnitude.ToString("0.#####", Inv)} at 400 pts " +
-                         $"and {_singleFine.MaxRiseMagnitude.ToString("0.#####", Inv)} at 1600 pts, both < bar; RiseCount " +
-                         $"{_singleFine.RiseCount} at 1600 — they vanish under refinement); " +
+                summary: $"Bell+ = genuine beating (max Δ {_localBell.MaxRiseMagnitude.ToString("0.#####", Inv)} > bar); " +
+                         $"{singleClause}; " +
                          $"BondingMode = silent (RiseCount {_localBonding.RiseCount}: an H-eigenstate's pair CΨ decays without beating). " +
                          "Genuine rise needs a state that is not an H-mode and survives refinement.");
 

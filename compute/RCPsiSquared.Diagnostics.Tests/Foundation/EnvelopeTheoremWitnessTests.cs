@@ -9,6 +9,32 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 public class EnvelopeTheoremWitnessTests
 {
     [Fact]
+    public void Witness_AtN4_IsHonest_GlobalRefutes_ControlDoesNotFakeVanishing()
+    {
+        // The envelope_n4_rise finding: at N=4 the full-state envelope GENUINELY rises (refinement-stable).
+        // The witness must NOT lie: the Summary must say the live evolution REFUTES the theorem at this N,
+        // never "CONFIRMS"; and the artifact control must not hardcode "vanish under refinement" when
+        // SingleExcitation actually persists at N=4.
+        var w = new EnvelopeTheoremWitness(n: 4);
+        Assert.True(w.GlobalBell.RiseCount > 0, "precondition: the N=4 global envelope rises");
+        Assert.DoesNotContain("CONFIRMS", w.Summary);
+        Assert.Contains("REFUTES", w.Summary);
+
+        var control = ((IInspectable)w).Children.Single(c => c.DisplayName.Contains("control"));
+        if (w.SingleFine.RiseCount > 0)
+            Assert.DoesNotContain("they vanish under refinement", control.Summary);
+    }
+
+    [Fact]
+    public void Witness_AtN3_StillConfirms_TheoremHoldsAndControlVanishes()
+    {
+        var w = new EnvelopeTheoremWitness(n: 3);
+        Assert.Equal(0, w.GlobalBell.RiseCount);
+        Assert.Contains("CONFIRMS", w.Summary);
+        Assert.DoesNotContain("REFUTES", w.Summary);
+    }
+
+    [Fact]
     public void Global_EnvelopeNonIncreasing_TheoremHoldsLive()
     {
         var w = new EnvelopeTheoremWitness(n: 3);
