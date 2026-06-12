@@ -195,4 +195,42 @@ public class SymphonyTests
         Assert.Contains("one evolution", json);
         Assert.Contains("events", json);
     }
+
+    [Fact]
+    public void LocalCpsi_AtN2_EqualsGlobalCpsi_BitExact()
+    {
+        // At N=2, tracing onto (0,1) keeps both qubits: the reduced state IS the full state,
+        // so the local lens reproduces the global CΨ exactly (and thus F25).
+        var s = new Symphony(n: 2, gamma: 0.1, initialState: InitialStateKind.BellPair, tMax: 6.0, tPoints: 40);
+        foreach (var rho in s.States)
+            Assert.Equal(Symphony.Cpsi(rho), s.LocalCpsi(rho), 12);
+    }
+
+    [Fact]
+    public void LocalCpsi_N3BellPair_StartsAtOneThird()
+    {
+        // The reduced pair (0,1) of Bell+ is the Bell+ 4×4 state: local CΨ(0) = 1/3, ABOVE ¼,
+        // even though the global CΨ(0) = 1/(d−1) = 1/7 is below ¼.
+        var s = new Symphony(n: 3, initialState: InitialStateKind.BellPair);
+        Assert.Equal(1.0 / 3.0, s.LocalCpsi(s.States[0]), 9);
+    }
+
+    [Fact]
+    public void LocalCpsi_SingleExcitation_HasNoPairCoherence()
+    {
+        // |100⟩ reduced onto (0,1) is |10⟩⟨10|, diagonal: zero coherence, local CΨ ≡ 0.
+        var s = new Symphony(n: 3, initialState: InitialStateKind.SingleExcitation);
+        Assert.Equal(0.0, s.LocalCpsi(s.States[0]), 12);
+    }
+
+    [Fact]
+    public void LocalCpsi_ConfigurablePair_ReadsTheChosenSites()
+    {
+        // Bell+ lives on (0,1): pair (0,1) sees the coherence (CΨ=1/3), pair (1,2) sees a diagonal
+        // mixture (CΨ=0). The lens reads the pair it is told to.
+        var onCarrier = new Symphony(n: 3, carrierPair: (0, 1), initialState: InitialStateKind.BellPair);
+        var offCarrier = new Symphony(n: 3, carrierPair: (1, 2), initialState: InitialStateKind.BellPair);
+        Assert.Equal(1.0 / 3.0, onCarrier.LocalCpsi(onCarrier.States[0]), 9);
+        Assert.Equal(0.0, offCarrier.LocalCpsi(offCarrier.States[0]), 9);
+    }
 }

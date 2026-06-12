@@ -8,6 +8,7 @@ using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Lindblad;
 using RCPsiSquared.Core.Pauli;
+using RCPsiSquared.Core.States;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 using ComplexVector = MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex>;
 
@@ -273,6 +274,14 @@ public sealed class Symphony : IInspectable
     /// <summary>CΨ = purity × normalized coherence (the repo convention: Bell+ → 1/3).</summary>
     public static double Cpsi(ComplexMatrix rho) => Purity(rho) * NormalizedCoherence(rho);
 
+    /// <summary>The local CΨ: the canonical <see cref="Cpsi"/> of the reduced 2-site density matrix on
+    /// the <see cref="CarrierPair"/>. At N=2 with the default pair this equals the global CΨ exactly
+    /// (the partial trace keeps both qubits), reproducing F25; for N≥3 it reads the coherence where it
+    /// sits — in the carrier pair — so the fold stays audible where the global /(d−1) normalization
+    /// has pushed CΨ(0) below ¼.</summary>
+    public double LocalCpsi(ComplexMatrix rho)
+        => Cpsi(PartialTrace.Of(rho, N, new[] { CarrierPair.Site1, CarrierPair.Site2 }));
+
     /// <summary>The light content of ρ: the purity-weighted mean light over the coherences, where the
     /// light of |i⟩⟨j| is popcount(i⊕j), the number of sites where ket and bra differ (the
     /// Absorption-Theorem light channel; the diagonal i=j carries light 0). Returns
@@ -295,7 +304,7 @@ public sealed class Symphony : IInspectable
         return total > 0 ? weighted / total : 0.0;
     }
 
-    private double[]? _cpsi, _light, _dose;
+    private double[]? _cpsi, _light, _dose, _localCpsi;
 
     private void EnsureLenses()
     {
@@ -305,11 +314,13 @@ public sealed class Symphony : IInspectable
         _cpsi = new double[n];
         _light = new double[n];
         _dose = new double[n];
+        _localCpsi = new double[n];
         for (int s = 0; s < n; s++)
         {
             _cpsi[s] = Cpsi(_states[s]);
             _light[s] = LightContent(_states[s]);
             _dose[s] = Gamma * _tGrid![s];
+            _localCpsi[s] = LocalCpsi(_states[s]);
         }
     }
 
