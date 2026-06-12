@@ -275,6 +275,24 @@ public class SymphonyTests
     }
 
     [Fact]
+    public void LocalEnvelope_Rises_TheFreedom_BeatingAtStrongCoupling()
+    {
+        // The reduced carrier pair has no theorem; its beat envelope genuinely rises. Verified: at
+        // J=5, γ=0.01, 1600 points the local envelope has 5 predecessor-rises, max Δ≈0.0122.
+        var s = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.BellPair,
+            tMax: 25.0, tPoints: 1600);
+        var local = s.States.Select(s.LocalCpsi).ToArray();
+        var env = QuarterEnvelope.Of(local, s.TimeGrid.ToArray());
+        Assert.True(env.RiseCount >= 1, $"expected a beating rise; got {env.RiseCount}");
+        Assert.True(env.MaxRiseMagnitude > 1e-3, $"expected a real (>1e-3) rise; got {env.MaxRiseMagnitude}");
+
+        var lens = Children(s).Single(c => c.DisplayName == "lens: quarter (local CΨ)");
+        Assert.Contains("freedom", lens.Summary);
+        Assert.Contains("beating", lens.Summary);
+        Assert.Contains("grid-sensitive", lens.Summary);
+    }
+
+    [Fact]
     public void Events_IncludeLocalQuarter_AtN3()
     {
         var s = new Symphony(n: 3, initialState: InitialStateKind.BellPair);

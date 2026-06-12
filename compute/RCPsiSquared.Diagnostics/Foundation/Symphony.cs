@@ -512,10 +512,19 @@ public sealed class Symphony : IInspectable
         string crossClause = dirs.Length == 0
             ? "no ¼ crossing in window"
             : $"{dirs.Length} ¼ crossing(s): {down}↓ + {up}↑";
+
+        var env = QuarterEnvelope.Of(local, tGrid);
+        var (_, _, floor) = GridFitness(max);
+        string envClause = env.RiseCount > 0 && env.FirstRiseTime is { } rt
+            ? $"envelope RISES: {env.RiseCount} predecessor-rise(s), max Δ={env.MaxRiseMagnitude.ToString("0.#####", Inv)} " +
+              $"at t={rt.ToString("0.###", Inv)} — the freedom (beating; no theorem binds the reduced open subsystem; " +
+              $"peak-clip floor ≈ {floor.ToString("0.#####", Inv)}). The rise is grid-sensitive: verify with ≥4× t-points"
+            : "envelope non-increasing in this window (no rise resolved on this grid)";
+
         return new InspectableNode("lens: quarter (local CΨ)",
             summary: $"2-site reduced ρ on carrier pair {pair}: local CΨ(0) = {start.ToString("0.####", Inv)}, " +
                      $"min = {min.ToString("0.####", Inv)}, max = {max.ToString("0.####", Inv)}; {crossClause}. " +
-                     "NOT monotone (open subsystem; coherence pumps back, the TEMPORAL_SACRIFICE heartbeat).",
+                     $"{envClause}.",
             payload: new InspectablePayload.Curve("local CΨ(t)", tGrid, local, "t", "local CΨ"));
     }
 
