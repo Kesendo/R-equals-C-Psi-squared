@@ -56,7 +56,7 @@ public class ClockHandLadderWitnessTests
         // The HONEST witness near the EP is the closed form N2PulledOmega(), NOT the live
         // OmegaMem(2): past γ = √3/2·J the pulled coherence (here 0.28213) drops below the
         // {Im = ±J} modes that share the 2γ gap, so the live clock's "max |Im| at the gap"
-        // tie-breaks to those ±J modes and reports 1.0 — a true mode at the gap, but not the
+        // tie-breaks to those ±J modes and reports 1.0, a true mode at the gap, but not the
         // pulled hand. See the N2_OmegaMem_TracksPulledForm_OnlyAboveTheCrossover test for the
         // boundary, and N2PulledOmega's note for the mechanism.
         var nearEp = new ClockHandLadderWitness(j: 1.0, gamma: 0.99);
