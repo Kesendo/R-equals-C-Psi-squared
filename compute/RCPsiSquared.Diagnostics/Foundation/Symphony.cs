@@ -8,6 +8,7 @@ using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Lindblad;
 using RCPsiSquared.Core.Pauli;
+using RCPsiSquared.Core.States;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 using ComplexVector = MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex>;
 
@@ -61,6 +62,11 @@ public sealed class Symphony : IInspectable
     public HamiltonianType HType { get; }
     public TopologyKind Topology { get; }
     public InitialStateKind InitialState { get; }
+
+    /// <summary>The two sites the local-CΨ lens reduces ρ(t) onto (0-indexed, site 0 = MSB).
+    /// Default (0,1) is Bell+'s carrier pair, where the lens reproduces F25 at N=2.</summary>
+    public (int Site1, int Site2) CarrierPair { get; }
+
     public double TMax { get; }
     public int TPoints { get; }
 
@@ -88,7 +94,8 @@ public sealed class Symphony : IInspectable
         double tMax = double.NaN,
         int tPoints = 60,
         int? defectBond = null,
-        double deltaJ = 0.02)
+        double deltaJ = 0.02,
+        (int Site1, int Site2)? carrierPair = null)
     {
         if (n < 2 || n > MaxN)
             throw new ArgumentOutOfRangeException(nameof(n),
@@ -110,6 +117,15 @@ public sealed class Symphony : IInspectable
 
         DefectBond = defectBond;
         DeltaJ = deltaJ;
+
+        var pair = carrierPair ?? (0, 1);
+        if (pair.Site1 < 0 || pair.Site1 >= N || pair.Site2 < 0 || pair.Site2 >= N)
+            throw new ArgumentOutOfRangeException(nameof(carrierPair),
+                $"carrier pair sites must be in [0, {N - 1}]; got ({pair.Site1}, {pair.Site2})");
+        if (pair.Site1 == pair.Site2)
+            throw new ArgumentException(
+                $"carrier pair sites must be distinct; got ({pair.Site1}, {pair.Site2})", nameof(carrierPair));
+        CarrierPair = pair;
     }
 
     // ---- The one evolution, computed once, shared by all lenses ----
@@ -258,6 +274,14 @@ public sealed class Symphony : IInspectable
     /// <summary>CΨ = purity × normalized coherence (the repo convention: Bell+ → 1/3).</summary>
     public static double Cpsi(ComplexMatrix rho) => Purity(rho) * NormalizedCoherence(rho);
 
+    /// <summary>The local CΨ: the canonical <see cref="Cpsi"/> of the reduced 2-site density matrix on
+    /// the <see cref="CarrierPair"/>. At N=2 with the default pair this equals the global CΨ exactly
+    /// (the partial trace keeps both qubits), reproducing F25; for N≥3 it reads the coherence where it
+    /// sits — in the carrier pair — so the fold stays audible where the global /(d−1) normalization
+    /// has pushed CΨ(0) below ¼.</summary>
+    public double LocalCpsi(ComplexMatrix rho)
+        => Cpsi(PartialTrace.Of(rho, N, new[] { CarrierPair.Site1, CarrierPair.Site2 }));
+
     /// <summary>The light content of ρ: the purity-weighted mean light over the coherences, where the
     /// light of |i⟩⟨j| is popcount(i⊕j), the number of sites where ket and bra differ (the
     /// Absorption-Theorem light channel; the diagonal i=j carries light 0). Returns
@@ -280,7 +304,7 @@ public sealed class Symphony : IInspectable
         return total > 0 ? weighted / total : 0.0;
     }
 
-    private double[]? _cpsi, _light, _dose;
+    private double[]? _cpsi, _light, _dose, _localCpsi;
 
     private void EnsureLenses()
     {
@@ -290,11 +314,13 @@ public sealed class Symphony : IInspectable
         _cpsi = new double[n];
         _light = new double[n];
         _dose = new double[n];
+        _localCpsi = new double[n];
         for (int s = 0; s < n; s++)
         {
             _cpsi[s] = Cpsi(_states[s]);
             _light[s] = LightContent(_states[s]);
             _dose[s] = Gamma * _tGrid![s];
+            _localCpsi[s] = LocalCpsi(_states[s]);
         }
     }
 
@@ -321,7 +347,7 @@ public sealed class Symphony : IInspectable
         get
         {
             EnsureLenses();
-            int lenses = 4;
+            int lenses = 5;
             var events = BuildEvents();
             var cross = FirstQuarterCrossing();
             string crossClause = cross is { } c
@@ -344,6 +370,7 @@ public sealed class Symphony : IInspectable
             yield return ScoreNode();
             yield return PalindromeLens();
             yield return QuarterLens();
+            yield return LocalQuarterLens();
             yield return DoseLens();
             yield return LightLens();
             if (DefectBond is not null)
@@ -425,15 +452,56 @@ public sealed class Symphony : IInspectable
             payload: new InspectablePayload.Curve("CΨ(t)", tGrid, cpsi, "t", "CΨ"));
     }
 
+    /// <summary>lens: quarter (local CΨ) — CΨ of the reduced 2-site state on the carrier pair along the
+    /// one trajectory. Audible at N≥3 where the global lens is silent. NOT monotone: the carrier pair is
+    /// an open subsystem, so coherence pumps back and CΨ re-crosses ¼ (the TEMPORAL_SACRIFICE heartbeat).
+    /// Crossings are counted in both directions.</summary>
+    private InspectableNode LocalQuarterLens()
+    {
+        var local = _localCpsi!;
+        var tGrid = _tGrid!;
+        double start = local[0], min = local.Min(), max = local.Max();
+        string pair = $"({CarrierPair.Site1},{CarrierPair.Site2})";
+
+        var dirs = QuarterCrossingDirections(local);
+
+        // The carrier pair begins with no shared coherence (local CΨ(0) ≈ 0) and never folds: a single
+        // excitation, say, places no coherence on the pair, and although the Hamiltonian pumps some in by
+        // hopping, it stays below ¼. There is no quarter-fold to report.
+        if (start <= 1e-12 && dirs.Length == 0)
+            return new InspectableNode("lens: quarter (local CΨ)",
+                summary: $"2-site reduced ρ on carrier pair {pair}: no pair coherence in this initial " +
+                         $"state (local CΨ(0) ≈ 0); the Hamiltonian pumps it to at most " +
+                         $"{max.ToString("0.####", Inv)} (< ¼), so no fold.",
+                payload: new InspectablePayload.Curve("local CΨ(t)", tGrid, local, "t", "local CΨ"));
+
+        int down = dirs.Count(d => d < 0), up = dirs.Count(d => d > 0);
+        string crossClause = dirs.Length == 0
+            ? "no ¼ crossing in window"
+            : $"{dirs.Length} ¼ crossing(s): {down}↓ + {up}↑";
+        return new InspectableNode("lens: quarter (local CΨ)",
+            summary: $"2-site reduced ρ on carrier pair {pair}: local CΨ(0) = {start.ToString("0.####", Inv)}, " +
+                     $"min = {min.ToString("0.####", Inv)}, max = {max.ToString("0.####", Inv)}; {crossClause}. " +
+                     "NOT monotone (open subsystem; coherence pumps back, the TEMPORAL_SACRIFICE heartbeat).",
+            payload: new InspectablePayload.Curve("local CΨ(t)", tGrid, local, "t", "local CΨ"));
+    }
+
     /// <summary>lens: dose (K) — K = γ·t marks; the dose of the fold is K at the first ¼ crossing.</summary>
     private InspectableNode DoseLens()
     {
         var cross = FirstQuarterCrossing();
         string doseClause = cross is { } c
             ? $"the dose of the fold: K = {c.Dose.ToString("0.####", Inv)} at the first ¼ crossing (t={c.Time.ToString("0.###", Inv)})"
-            : "no ¼ crossing in window, so no fold dose";
+            : "no global ¼ crossing in window, so no global fold dose";
+
+        var localTimes = QuarterCrossingTimes(_localCpsi!, _tGrid!);
+        string localClause = localTimes.Count == 0
+            ? "; no local fold in window"
+            : $"; the local fold: K = {(Gamma * localTimes[0]).ToString("0.####", Inv)} at the first local " +
+              $"¼ crossing (carrier pair {CarrierPair.Site1},{CarrierPair.Site2}, t={localTimes[0].ToString("0.###", Inv)})";
+
         return new InspectableNode("lens: dose (K)",
-            summary: $"K = γ·t reaches {(Gamma * TMax).ToString("0.####", Inv)} at the window end; {doseClause}.",
+            summary: $"K = γ·t reaches {(Gamma * TMax).ToString("0.####", Inv)} at the window end; {doseClause}{localClause}.",
             payload: new InspectablePayload.Curve("K = γ·t", _tGrid!, _dose!, "t", "K"));
     }
 
@@ -484,6 +552,20 @@ public sealed class Symphony : IInspectable
             events.Add(new SymphonyEvent(tc, Gamma * tc, "quarter",
                 $"CΨ crosses ¼ (the fold; quantum→classical boundary)"));
 
+        // lens local quarter: the carrier-pair fold (audible at N≥3 where the global one is silent),
+        // counted in both directions (the open-subsystem heartbeat).
+        var localTimes = QuarterCrossingTimes(_localCpsi!, tGrid);
+        var localDirs = QuarterCrossingDirections(_localCpsi!);
+        System.Diagnostics.Debug.Assert(localTimes.Count == localDirs.Length,
+            "QuarterCrossingTimes and QuarterCrossingDirections must return order-aligned, equal-length results");
+        for (int k = 0; k < localTimes.Count; k++)
+        {
+            double tc = localTimes[k];
+            string dir = localDirs[k] < 0 ? "down" : "up";
+            events.Add(new SymphonyEvent(tc, Gamma * tc, "local quarter",
+                $"local CΨ (carrier pair {CarrierPair.Site1},{CarrierPair.Site2}) crosses ¼ ({dir})"));
+        }
+
         // lens dose: K reaching the milestones, within the window.
         foreach (double kMark in new[] { 0.25, 0.5, 1.0 })
         {
@@ -526,13 +608,11 @@ public sealed class Symphony : IInspectable
         return events;
     }
 
-    /// <summary>The ¼-crossing times of CΨ(t), linearly interpolated between the bracketing grid
-    /// points (both downward and upward crossings, in case a trajectory dips and recovers).</summary>
-    private List<double> QuarterCrossingTimes(double threshold = 0.25)
+    /// <summary>The ¼-crossing times of a CΨ array on its t grid, linearly interpolated between the
+    /// bracketing grid points (both downward and upward crossings, in case a trajectory dips and
+    /// recovers). Static so both the global and the local curves can share it.</summary>
+    public static List<double> QuarterCrossingTimes(double[] cpsi, double[] tGrid, double threshold = 0.25)
     {
-        EnsureLenses();
-        var tGrid = _tGrid!;
-        var cpsi = _cpsi!;
         var times = new List<double>();
         for (int s = 1; s < cpsi.Length; s++)
         {
@@ -541,11 +621,34 @@ public sealed class Symphony : IInspectable
             if (a == 0.0) { times.Add(tGrid[s - 1]); continue; }
             if (a * b < 0.0)
             {
-                double frac = a / (a - b);   // linear interpolation to the crossing
+                double frac = a / (a - b);
                 times.Add(tGrid[s - 1] + frac * (tGrid[s] - tGrid[s - 1]));
             }
         }
         return times;
+    }
+
+    /// <summary>The direction of each ¼ crossing of a CΨ array: −1 for a downward crossing (CΨ falls
+    /// through ¼), +1 for an upward crossing (it rises back through ¼). Same order as
+    /// <see cref="QuarterCrossingTimes(double[], double[], double)"/>.</summary>
+    public static int[] QuarterCrossingDirections(double[] cpsi, double threshold = 0.25)
+    {
+        var dirs = new List<int>();
+        for (int s = 1; s < cpsi.Length; s++)
+        {
+            double a = cpsi[s - 1] - threshold;
+            double b = cpsi[s] - threshold;
+            if (a == 0.0) { dirs.Add(b < 0 ? -1 : +1); continue; }
+            if (a * b < 0.0) dirs.Add(a > 0 ? -1 : +1);
+        }
+        return dirs.ToArray();
+    }
+
+    /// <summary>The ¼-crossing times of the GLOBAL CΨ curve (the one trajectory's CΨ(t)).</summary>
+    private List<double> QuarterCrossingTimes(double threshold = 0.25)
+    {
+        EnsureLenses();
+        return QuarterCrossingTimes(_cpsi!, _tGrid!, threshold);
     }
 }
 

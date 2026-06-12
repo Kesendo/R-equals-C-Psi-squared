@@ -54,8 +54,12 @@ public static class OpenArcsRegistry
             Name: "symphony_view",
             Opened: "2026-06-11",
             Origin: "Tom's founding Object Manager idea, sharpened: each of the 122 formulas is a maximum-zoom view; the symphony is the zoom-out",
-            ParkedAt: "first movement plays (inspect --root symphony): one shared evolution (built once, EvolveCount-guarded), four lenses (palindrome, quarter, dose, light) on one timeline, cross-lens events axis; F25 closed form reproduced exactly at N=2 (fold at K=0.0376); honest limit: under the global-Psi convention the quarter fold is N=2-only (CPsi(0)=1/(d-1) < 1/4 at N>=3, the witness says so instead of faking)",
-            NextStep: "second movement: a block/local-CPsi lens so the fold is audible at N>=3, then more instruments (chiral K, Y-parity, Pi-protected observables) reading the same trajectory",
+            ParkedAt: "second movement plays: lens quarter (local CPsi) reads the carrier-pair reduced rho " +
+                "(PartialTrace.Of + Cpsi), audible at N>=3 where the global /(d-1) lens is silent; F25 " +
+                "reproduced bit-exact at N=2 (local=global), the TEMPORAL_SACRIFICE heartbeat live " +
+                "(N=3 J=5 gamma=0.01: 7 bidirectional 1/4 crossings, NOT monotone - open-subsystem backflow); " +
+                "first movement's four lenses + events axis still on the one EvolveCount-guarded trajectory",
+            NextStep: "more instruments on the same trajectory: chiral K, Y-parity, Pi-protected observables",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

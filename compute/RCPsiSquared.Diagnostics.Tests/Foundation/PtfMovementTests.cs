@@ -103,10 +103,10 @@ public class PtfMovementTests
         Assert.Null(s.DefectBond);
         Assert.DoesNotContain(Children(s), c => c is PaintersMovement);
         Assert.DoesNotContain(Children(s), c => c.DisplayName == "movement: painters");
-        // The first movement's children stay exactly the original six.
+        // The first movement's children stay exactly the clean-run lenses (no painters).
         var labels = Children(s).Select(c => c.DisplayName).ToList();
         Assert.Equal(new[] { "score", "lens: palindrome", "lens: quarter (CΨ)",
-                             "lens: dose (K)", "lens: light", "events" }, labels);
+                             "lens: quarter (local CΨ)", "lens: dose (K)", "lens: light", "events" }, labels);
     }
 
     [Fact]

@@ -27,6 +27,16 @@ public class SymphonyTests
     }
 
     [Fact]
+    public void CarrierPair_DefaultsToZeroOne_AndValidates()
+    {
+        Assert.Equal((0, 1), new Symphony(n: 3).CarrierPair);
+        Assert.Equal((1, 2), new Symphony(n: 3, carrierPair: (1, 2)).CarrierPair);
+        // out of range and duplicate sites are rejected
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Symphony(n: 3, carrierPair: (0, 3)));
+        Assert.Throws<ArgumentException>(() => new Symphony(n: 3, carrierPair: (1, 1)));
+    }
+
+    [Fact]
     public void OneEvolution_BuiltOnce_NoMatterHowManyLensesRead()
     {
         var s = new Symphony(n: 3);
@@ -184,5 +194,146 @@ public class SymphonyTests
         var json = InspectionJsonExporter.ToJson(new Symphony(n: 2));
         Assert.Contains("one evolution", json);
         Assert.Contains("events", json);
+    }
+
+    [Fact]
+    public void LocalCpsi_AtN2_EqualsGlobalCpsi_BitExact()
+    {
+        // At N=2, tracing onto (0,1) keeps both qubits: the reduced state IS the full state,
+        // so the local lens reproduces the global CΨ exactly (and thus F25).
+        var s = new Symphony(n: 2, gamma: 0.1, initialState: InitialStateKind.BellPair, tMax: 6.0, tPoints: 40);
+        foreach (var rho in s.States)
+            Assert.Equal(Symphony.Cpsi(rho), s.LocalCpsi(rho), 12);
+    }
+
+    [Fact]
+    public void LocalCpsi_N3BellPair_StartsAtOneThird()
+    {
+        // The reduced pair (0,1) of Bell+ is the Bell+ 4×4 state: local CΨ(0) = 1/3, ABOVE ¼,
+        // even though the global CΨ(0) = 1/(d−1) = 1/7 is below ¼.
+        var s = new Symphony(n: 3, initialState: InitialStateKind.BellPair);
+        Assert.Equal(1.0 / 3.0, s.LocalCpsi(s.States[0]), 9);
+    }
+
+    [Fact]
+    public void LocalCpsi_SingleExcitation_HasNoPairCoherence()
+    {
+        // |100⟩ reduced onto (0,1) is |10⟩⟨10|, diagonal: zero coherence, local CΨ ≡ 0.
+        var s = new Symphony(n: 3, initialState: InitialStateKind.SingleExcitation);
+        Assert.Equal(0.0, s.LocalCpsi(s.States[0]), 12);
+    }
+
+    [Fact]
+    public void LocalCpsi_ConfigurablePair_ReadsTheChosenSites()
+    {
+        // Bell+ lives on (0,1): pair (0,1) sees the coherence (CΨ=1/3), pair (1,2) sees a diagonal
+        // mixture (CΨ=0). The lens reads the pair it is told to.
+        var onCarrier = new Symphony(n: 3, carrierPair: (0, 1), initialState: InitialStateKind.BellPair);
+        var offCarrier = new Symphony(n: 3, carrierPair: (1, 2), initialState: InitialStateKind.BellPair);
+        Assert.Equal(1.0 / 3.0, onCarrier.LocalCpsi(onCarrier.States[0]), 9);
+        Assert.Equal(0.0, offCarrier.LocalCpsi(offCarrier.States[0]), 9);
+    }
+
+    [Fact]
+    public void QuarterCrossings_TagDirection_DownThenUp()
+    {
+        // A hand-built curve that dips below ¼ and recovers ABOVE ¼ must yield one down then one up crossing.
+        double[] curve = { 0.40, 0.30, 0.20, 0.18, 0.30, 0.40 };  // down (idx 1→2), up (idx 3→4)
+        var dirs = Symphony.QuarterCrossingDirections(curve);
+        Assert.Equal(new[] { -1, +1 }, dirs);
+
+        // Times and directions must be EQUAL-LENGTH and order-aligned (the refactor's central contract).
+        double[] grid = { 0.0, 1.0, 2.0, 3.0, 4.0, 5.0 };
+        var times = Symphony.QuarterCrossingTimes(curve, grid);
+        Assert.Equal(times.Count, dirs.Length);
+    }
+
+    [Fact]
+    public void Witness_SurfacesLocalQuarterLens()
+    {
+        var labels = Children(new Symphony(n: 3)).Select(c => c.DisplayName).ToList();
+        Assert.Contains("lens: quarter (local CΨ)", labels);
+    }
+
+    [Fact]
+    public void LocalQuarterLens_N3Default_FoldsWhereGlobalIsSilent()
+    {
+        // Default Symphony(n:3): global CΨ(0)=1/7 < ¼ so the global lens never crosses; the local lens
+        // starts at 1/3 and folds through ¼ once. The audible fold the second movement exists for.
+        var s = new Symphony(n: 3, initialState: InitialStateKind.BellPair);
+        Assert.Null(s.FirstQuarterCrossing());   // global silent
+        var lens = Children(s).Single(c => c.DisplayName == "lens: quarter (local CΨ)");
+        Assert.Contains("↓", lens.Summary);      // at least one downward crossing reported
+    }
+
+    [Fact]
+    public void LocalQuarterLens_SingleExcitation_SaysNoPairCoherence()
+    {
+        var s = new Symphony(n: 3, initialState: InitialStateKind.SingleExcitation);
+        var lens = Children(s).Single(c => c.DisplayName == "lens: quarter (local CΨ)");
+        Assert.Contains("no pair coherence", lens.Summary);
+    }
+
+    [Fact]
+    public void Events_IncludeLocalQuarter_AtN3()
+    {
+        var s = new Symphony(n: 3, initialState: InitialStateKind.BellPair);
+        var eventsNode = Children(s).Single(c => c.DisplayName == "events");
+        var summaries = eventsNode.Children.Select(c => c.Summary).ToList();
+        Assert.Contains(summaries, sm => sm.Contains("[local quarter]") && sm.Contains("carrier pair"));
+        // stranger-door: the surfaced text says "carrier pair", never "born pair"
+        Assert.DoesNotContain(summaries, sm => sm.Contains("born pair"));
+    }
+
+    [Fact]
+    public void Events_SurfaceUpwardLocalCrossing_AtHeartbeat()
+    {
+        // At strong coupling the carrier pair re-crosses ¼ upward (coherence pumps back); the events axis
+        // must surface that recovery as a "(up)" local-quarter event, not only the downward folds.
+        var s = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.BellPair,
+            tMax: 25.0, tPoints: 500);
+        var eventsNode = Children(s).Single(c => c.DisplayName == "events");
+        var summaries = eventsNode.Children.Select(c => c.Summary).ToList();
+        Assert.Contains(summaries, sm => sm.Contains("[local quarter]") && sm.Contains("(up)"));
+        Assert.Contains(summaries, sm => sm.Contains("[local quarter]") && sm.Contains("(down)"));
+    }
+
+    [Fact]
+    public void DoseLens_ReportsFirstLocalCrossing_N2CoincidesWithGlobal()
+    {
+        // At N=2 the local and global curves are identical, so the first-local-crossing dose must equal
+        // the global fold dose (K = 0.0374, F25).
+        var s = new Symphony(n: 2, gamma: 0.1, initialState: InitialStateKind.BellPair, tMax: 6.0, tPoints: 120);
+        var dose = Children(s).Single(c => c.DisplayName == "lens: dose (K)");
+        Assert.Contains("local fold", dose.Summary);
+        Assert.Contains("0.037", dose.Summary);   // K of the first local crossing ≈ global 0.0374
+    }
+
+    [Fact]
+    public void LocalCpsi_Recrosses_TheHeartbeat_N3StrongCoupling()
+    {
+        // The carrier-pair CΨ is NOT monotone: at strong coupling (J=5) and weak dephasing (γ=0.01) the
+        // chain pumps coherence back and local CΨ re-crosses ¼ many times (TEMPORAL_SACRIFICE: 81 at a
+        // quiet bath). Uniform dephasing here gives 7 crossings on this grid; assert the floor, not the
+        // exact count (it is grid- and window-dependent).
+        var s = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.BellPair,
+            tMax: 25.0, tPoints: 500);
+        var local = s.States.Select(s.LocalCpsi).ToArray();
+        int crossings = Symphony.QuarterCrossingTimes(local, s.TimeGrid.ToArray()).Count;
+        Assert.True(crossings >= 3, $"expected the local heartbeat (≥3 ¼ crossings); got {crossings}");
+        var dirs = Symphony.QuarterCrossingDirections(local);
+        Assert.Contains(-1, dirs);   // at least one downward
+        Assert.Contains(+1, dirs);   // and at least one upward (the recovery the global theorem forbids)
+    }
+
+    [Fact]
+    public void OneEvolution_StillBuiltOnce_WithLocalLensAndEvents()
+    {
+        var s = new Symphony(n: 3, initialState: InitialStateKind.BellPair);
+        _ = s.Summary;
+        _ = Children(s).Select(c => c.Summary).ToList();
+        _ = Children(s).Single(c => c.DisplayName == "events").Children.ToList();
+        _ = Children(s).Single(c => c.DisplayName == "lens: quarter (local CΨ)").Summary;
+        Assert.Equal(1, s.EvolveCount);
     }
 }
