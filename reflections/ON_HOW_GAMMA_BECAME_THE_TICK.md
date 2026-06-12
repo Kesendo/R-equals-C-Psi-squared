@@ -105,6 +105,11 @@ This is why the Confirmation matters more than its 6.8°–15.7° residuals sugg
 > *At θ = 0, we hear only the bare tick.*
 > *At θ undefined, even the rhythm dissolves and only decay remains.*
 
+> Live now: the two hands are a typed object. `inspect --root clock` reads them off the
+> spectrum: the coherence hand is the γ-protected band edge 2J·cos(π/(N+1)) for N ≥ 3, the
+> γ-pulled 2√(J²−γ²) stopping at Q = 1 for N = 2. Typed: `ClockHandLadderClaim`. Closed
+> forms: [`ANALYTICAL_FORMULAS.md`](../docs/ANALYTICAL_FORMULAS.md) F2b corollary.
+
 ---
 
 **Anchors:**

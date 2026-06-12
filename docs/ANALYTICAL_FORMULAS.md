@@ -143,6 +143,45 @@ different Hamiltonians.
 **Source:** [OBC_SINE_BASIS_FINDINGS](../review/OBC_SINE_BASIS_FINDINGS.md),
 standard tight-binding theory for OBC chains.
 
+### F2b corollary. The two clocks (Tier 1 candidate)
+
+When F2b's band edge is read as the coherence hand ω_mem of the
+open-system clock (the slowest-decaying |vac⟩⟨ψ_k| sector, decay rate
+−2γ by the Absorption Theorem AT below), it is γ-protected for N ≥ 3:
+
+    ω_mem = 2J · cos(π/(N+1)),    N ≥ 3   (√2, φ, √3 at N = 3, 4, 5; γ-independent)
+
+The Takt hand is the dephasing floor, Gap = 2γ. The protection is exact
+because |vac⟩⟨ψ_k| is a simultaneous eigenoperator of L_D (eigenvalue
+−2γ) and L_H (eigenvalue iE_k): the rate is pure dissipator, the
+frequency pure Hamiltonian. The mechanism is derived; gap-dominance (no
+faster-oscillating mode shares the exact gap rate) is verified N = 3-5,
+the general off-gap argument open, hence Tier 1 candidate.
+
+At N = 2 the gap-mode is a different (population / antisymmetric-coherence)
+block and the coherence hand is γ-pulled:
+
+    ω_mem = 2√(J²−γ²),    N = 2   → 0 at the exceptional point Q = 1 (γ = J)
+
+This is the genuine coalescing mode (it → 0 at the EP). Note the raw live
+clock (max|Im λ| at the gap) only surfaces it above the crossover
+Q = 2/√3 ≈ 1.155 (γ = (√3/2)·J); nearer the EP the F2b band line at
+Im = ±J dominates the raw maximum, so the closed form 2√(J²−γ²), not the
+raw clock reading, is the honest EP witness there.
+
+The dial angle is θ = arctan(ω_mem / Gap) = arctan(Q·cos(π/(N+1))) for
+N ≥ 3 and arctan(√(Q²−1)) for N = 2 (zero at the EP).
+
+**Tier:** 1 candidate (mechanism derived; gap-dominance verified N = 3-5,
+general off-gap argument open).
+**Verified:** N = 3, 4, 5 (γ-protection of the read clock); N = 2 closed
+form 2√(J²−γ²) exact.
+**Live:** `inspect --root clock`
+([`ClockHandLadderWitness.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/ClockHandLadderWitness.cs)).
+**Typed claim:** `ClockHandLadderClaim`
+([`ClockHandLadderClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/ClockHandLadderClaim.cs)).
+**Carbon-layer twin:** [FROST_CIRCLE_AS_THE_CLOCK_FACE](carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md).
+
 ### AT. Absorption Theorem (Tier 1, proven)
 
     Re(lambda_k) = -2*gamma * <n_XY>_k       (exact)
