@@ -57,6 +57,9 @@ public static class ReadoutFisher
 
     public static double[] KGrid(double gamma, double kMax, int points)
     {
+        if (gamma <= 0) throw new ArgumentOutOfRangeException(nameof(gamma));
+        if (kMax <= 0) throw new ArgumentOutOfRangeException(nameof(kMax));
+        if (points < 1) throw new ArgumentOutOfRangeException(nameof(points));
         var ts = new double[points];
         for (int i = 0; i < points; i++)
             ts[i] = (kMax / gamma) * (i + 1) / points;   // (0, kMax/γ], no t=0 point
@@ -91,44 +94,87 @@ public static class ReadoutFisher
         return outRhos;
     }
 
-    /// <summary>Per-outcome probabilities of measuring every site in the given Pauli
-    /// basis: p = diag(U ρ U†), U the per-site rotation mapping the basis to Z.</summary>
-    public static double[] Probs(Matrix<Complex> rho, ReadoutBasis basis)
+    /// <summary>The n-fold per-site rotation mapping the given Pauli basis to Z, or
+    /// null for Z (identity, hoisted out of the time loop by the FI core).</summary>
+    static Matrix<Complex>? BasisRotation(int n, ReadoutBasis basis)
     {
-        int d = rho.RowCount; int n = (int)Math.Round(Math.Log2(d));
-        Matrix<Complex> u1 = basis switch
-        { ReadoutBasis.X => Had, ReadoutBasis.Y => Ymeas, _ => I2 };
-        var rr = rho;
-        if (basis != ReadoutBasis.Z)
-        {
-            var u = Matrix<Complex>.Build.DenseIdentity(1);
-            for (int s = 0; s < n; s++) u = u.KroneckerProduct(u1);
-            rr = u * rho * u.ConjugateTranspose();
-        }
+        if (basis == ReadoutBasis.Z) return null;
+        Matrix<Complex> u1 = basis == ReadoutBasis.X ? Had : Ymeas;
+        var u = Matrix<Complex>.Build.DenseIdentity(1);
+        for (int s = 0; s < n; s++) u = u.KroneckerProduct(u1);
+        return u;
+    }
+
+    /// <summary>Per-outcome probabilities given a precomputed basis rotation (null = Z):
+    /// p = diag(U ρ U†), normalized.</summary>
+    static double[] ProbsRotated(Matrix<Complex> rho, Matrix<Complex>? u)
+    {
+        int d = rho.RowCount;
+        var rr = u is null ? rho : u * rho * u.ConjugateTranspose();
         var p = new double[d]; double sum = 0;
+        // 1e-12 floor: structurally-zero outcomes cancel in the forward difference; FI is
+        // invariant to this value across 1e-10..1e-14 (verified 2026-06-12) - do not tune.
         for (int i = 0; i < d; i++) { p[i] = Math.Max(rr[i, i].Real, 1e-12); sum += p[i]; }
         for (int i = 0; i < d; i++) p[i] /= sum;
         return p;
     }
 
-    /// <summary>max over the K-grid of the classical FI of the readout w.r.t. δJ at the
-    /// given bond (forward difference: clean vs defected trajectory).</summary>
-    public static double StrengthFiMax(int n, double j, double gamma, int defectBond,
-        double deltaJ, ReadoutBasis basis, double kMax, int points)
+    /// <summary>Per-outcome probabilities of measuring every site in the given Pauli
+    /// basis: p = diag(U ρ U†), U the per-site rotation mapping the basis to Z.</summary>
+    public static double[] Probs(Matrix<Complex> rho, ReadoutBasis basis)
     {
-        var ts = KGrid(gamma, kMax, points);
-        var clean = Trajectory(n, j, gamma, null, 0.0, ts);
-        var pert = Trajectory(n, j, gamma, defectBond, deltaJ, ts);
+        int d = rho.RowCount; int n = (int)Math.Round(Math.Log2(d));
+        return ProbsRotated(rho, BasisRotation(n, basis));
+    }
+
+    /// <summary>FI from precomputed trajectories (share the clean run across bases/bonds).</summary>
+    public static double FiMax(IReadOnlyList<Matrix<Complex>> clean,
+        IReadOnlyList<Matrix<Complex>> perturbed, double deltaJ, ReadoutBasis basis)
+    {
+        int n = (int)Math.Round(Math.Log2(clean[0].RowCount));
+        var u = BasisRotation(n, basis);
         double best = 0;
-        for (int k = 0; k < ts.Length; k++)
+        for (int k = 0; k < clean.Count; k++)
         {
-            var p0 = Probs(clean[k], basis); var p1 = Probs(pert[k], basis);
+            var p0 = ProbsRotated(clean[k], u); var p1 = ProbsRotated(perturbed[k], u);
             double fi = 0;
             for (int i = 0; i < p0.Length; i++)
             { double dp = (p1[i] - p0[i]) / deltaJ; fi += dp * dp / p0[i]; }
             best = Math.Max(best, fi);
         }
         return best;
+    }
+
+    /// <summary>Location discrimination from precomputed trajectories.</summary>
+    public static double DiscriminationMax(IReadOnlyList<Matrix<Complex>> clean,
+        IReadOnlyList<Matrix<Complex>> a, IReadOnlyList<Matrix<Complex>> b, ReadoutBasis basis)
+    {
+        int n = (int)Math.Round(Math.Log2(clean[0].RowCount));
+        var u = BasisRotation(n, basis);
+        double best = 0;
+        for (int k = 0; k < clean.Count; k++)
+        {
+            var p0 = ProbsRotated(clean[k], u);
+            var pa = ProbsRotated(a[k], u); var pb = ProbsRotated(b[k], u);
+            double dsc = 0;
+            for (int i = 0; i < p0.Length; i++)
+            { double dd = pa[i] - pb[i]; dsc += dd * dd / p0[i]; }
+            best = Math.Max(best, dsc);
+        }
+        return best;
+    }
+
+    /// <summary>max over the K-grid of the classical FI of the readout w.r.t. δJ at the
+    /// given bond (forward difference: clean vs defected trajectory). Forward-difference
+    /// surrogate at the given δJ (O(δJ) bias, ~1% at δJ=0.02); reference values in the
+    /// tests carry that convention.</summary>
+    public static double StrengthFiMax(int n, double j, double gamma, int defectBond,
+        double deltaJ, ReadoutBasis basis, double kMax, int points)
+    {
+        var ts = KGrid(gamma, kMax, points);
+        var clean = Trajectory(n, j, gamma, null, 0.0, ts);
+        var pert = Trajectory(n, j, gamma, defectBond, deltaJ, ts);
+        return FiMax(clean, pert, deltaJ, basis);
     }
 
     /// <summary>max over the K-grid of the location-discrimination surrogate between a
@@ -140,16 +186,6 @@ public static class ReadoutFisher
         var clean = Trajectory(n, j, gamma, null, 0.0, ts);
         var a = Trajectory(n, j, gamma, bondA, deltaJ, ts);
         var b = Trajectory(n, j, gamma, bondB, deltaJ, ts);
-        double best = 0;
-        for (int k = 0; k < ts.Length; k++)
-        {
-            var p0 = Probs(clean[k], basis);
-            var pa = Probs(a[k], basis); var pb = Probs(b[k], basis);
-            double dsc = 0;
-            for (int i = 0; i < p0.Length; i++)
-            { double dd = pa[i] - pb[i]; dsc += dd * dd / p0[i]; }
-            best = Math.Max(best, dsc);
-        }
-        return best;
+        return DiscriminationMax(clean, a, b, basis);
     }
 }

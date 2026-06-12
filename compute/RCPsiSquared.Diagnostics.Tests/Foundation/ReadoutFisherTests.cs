@@ -64,4 +64,15 @@ public class ReadoutFisherTests
         double fy = ReadoutFisher.StrengthFiMax(4, 1.0, 0.2, 0, 0.02, ReadoutBasis.Y, 1.0, 80);
         Assert.Equal(fx, fy, 8);
     }
+
+    [Fact]
+    public void FiMax_OnPrecomputedTrajectories_EqualsStrengthFiMax()
+    {
+        var ts = ReadoutFisher.KGrid(0.2, 1.0, 40);
+        var clean = ReadoutFisher.Trajectory(4, 1.0, 0.2, null, 0.0, ts);
+        var pert = ReadoutFisher.Trajectory(4, 1.0, 0.2, 0, 0.02, ts);
+        double viaCore = ReadoutFisher.FiMax(clean, pert, 0.02, ReadoutBasis.Z);
+        double viaWrapper = ReadoutFisher.StrengthFiMax(4, 1.0, 0.2, 0, 0.02, ReadoutBasis.Z, 1.0, 40);
+        Assert.Equal(viaWrapper, viaCore, 10);
+    }
 }
