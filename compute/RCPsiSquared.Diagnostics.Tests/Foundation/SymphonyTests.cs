@@ -328,6 +328,17 @@ public class SymphonyTests
     }
 
     [Fact]
+    public void DoseLens_PointsAtEnvelopeFold_N2RegressionToF25()
+    {
+        // At N=2 the curve is monotone: the single downward crossing IS the envelope fold, so the dose
+        // lens still reports the F25 fold dose K ≈ 0.0374 — the redefinition did not move N=2.
+        var s = new Symphony(n: 2, gamma: 0.1, initialState: InitialStateKind.BellPair, tMax: 6.0, tPoints: 120);
+        var dose = Children(s).Single(c => c.DisplayName == "lens: dose (K)");
+        Assert.Contains("envelope fold", dose.Summary);
+        Assert.Contains("0.0374", dose.Summary);
+    }
+
+    [Fact]
     public void LocalCpsi_Recrosses_TheHeartbeat_N3StrongCoupling()
     {
         // The carrier-pair CΨ is NOT monotone: at strong coupling (J=5) and weak dephasing (γ=0.01) the

@@ -531,18 +531,20 @@ public sealed class Symphony : IInspectable
     }
 
     /// <summary>lens: dose (K) — K = γ·t marks; the dose of the fold is K at the first ¼ crossing.</summary>
+    /// <summary>lens: dose (K) — K = γ·t marks; "the dose of the fold" is K at the ENVELOPE fold (the
+    /// absorbing ¼ crossing), for both the global and the local carrier-pair curve.</summary>
     private InspectableNode DoseLens()
     {
-        var cross = FirstQuarterCrossing();
-        string doseClause = cross is { } c
-            ? $"the dose of the fold: K = {c.Dose.ToString("0.####", Inv)} at the first ¼ crossing (t={c.Time.ToString("0.###", Inv)})"
-            : "no global ¼ crossing in window, so no global fold dose";
+        var gEnv = QuarterEnvelope.Of(_cpsi!, _tGrid!);
+        string doseClause = gEnv.EnvelopeFoldTime is { } gft
+            ? $"the dose of the fold: K = {(Gamma * gft).ToString("0.####", Inv)} at the global envelope fold (t={gft.ToString("0.###", Inv)})"
+            : "no global envelope fold in window, so no global fold dose";
 
-        var localTimes = QuarterCrossingTimes(_localCpsi!, _tGrid!);
-        string localClause = localTimes.Count == 0
-            ? "; no local fold in window"
-            : $"; the local fold: K = {(Gamma * localTimes[0]).ToString("0.####", Inv)} at the first local " +
-              $"¼ crossing (carrier pair {CarrierPair.Site1},{CarrierPair.Site2}, t={localTimes[0].ToString("0.###", Inv)})";
+        var lEnv = QuarterEnvelope.Of(_localCpsi!, _tGrid!);
+        string localClause = lEnv.EnvelopeFoldTime is { } lft
+            ? $"; the local fold: K = {(Gamma * lft).ToString("0.####", Inv)} at the local envelope fold " +
+              $"(carrier pair {CarrierPair.Site1},{CarrierPair.Site2}, t={lft.ToString("0.###", Inv)})"
+            : "; no local envelope fold in window";
 
         return new InspectableNode("lens: dose (K)",
             summary: $"K = γ·t reaches {(Gamma * TMax).ToString("0.####", Inv)} at the window end; {doseClause}{localClause}.",
