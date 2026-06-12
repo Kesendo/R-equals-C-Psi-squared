@@ -93,6 +93,9 @@ public sealed class UniversalCarrierClaim : Claim
                          "plays the piece at γ₀ and 20·γ₀ (Q fixed, K-grid fixed) and certifies every dimensionless " +
                          "lens is a pure (Q,K)-observable (residual ≈ 1e-16). Exact rescaling identity, certified: " +
                          "the seam where a lens 'sees the carrier' is where γ₀ becomes measurable.");
+            yield return new InspectableNode("the two clocks (descendant)",
+                summary: "ClockHandLadderClaim reads the carrier-blindness as γ-protection of the coherence hand: " +
+                         "ω_mem = 2J·cos(π/(N+1)) is γ-independent for N≥3 (live: inspect --root clock).");
         }
     }
 }

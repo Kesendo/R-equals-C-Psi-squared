@@ -318,6 +318,17 @@ public static class KnowledgeRegistryFactory
             // Tier1Derived. Implemented as Diagnostics OddHarmonicApproach / ApproachFamilyField
             // (the --axis approach eyepiece). Wired 2026-06-03.
             .RegisterApproachFamilyCarrierClaim()
+            // The two clocks (Tier1Candidate, 2026-06-12): the Symphony clock node's coherence
+            // hand ω_mem = 2J·cos(π/(N+1)) is, for N≥3, the F2b band edge and is γ-protected
+            // (the |vac⟩⟨ψ_k| modes are simultaneous L_D/L_H eigenoperators, eigenvalue −2γ from
+            // the Absorption Theorem + iE_k from F2b), so γ moves the Takt hand (2γ) but not the
+            // coherence hand; the N≥3 γ-protection IS the Universal Carrier's inside-invisibility
+            // read from the other side. N=2 is γ-pulled to 2√(J²−γ²), stopping at the EP Q=1.
+            // Live: inspect --root clock. ClockHandLadderClaim: three typed parents, all registered
+            // earlier in this chain: .RegisterF2bXyChainSpectrumPi2Inheritance() (the band edge),
+            // .RegisterAbsorptionTheoremClaim() (the −2γ), .RegisterUniversalCarrierClaim()
+            // (carrier-blindness), all resolved by build time.
+            .RegisterClockHandLadderClaim()
             .RegisterF86HwhmClosedFormClaim()
             .RegisterIbmBlockCpsiHardwareTable()
             .RegisterPolarityPairQPeakDecompositionClaim()

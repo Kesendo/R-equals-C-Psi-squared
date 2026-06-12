@@ -38,11 +38,11 @@ public static class OpenArcsRegistry
             Name: "witness_coverage",
             Opened: "2026-06-11",
             Origin: "QuditPartialPalindromeWitness, the first live witness",
-            ParkedAt: "three claims recompute their evidence live (F121 qudit, F116 router, and now the " +
-                "CPsi Envelope Theorem: EnvelopeTheoremWitness / --root envelope shows global peaks " +
-                "non-increasing - the theorem, RiseCount 0 - vs the carrier pair's beating rise - the " +
-                "freedom, RiseCount 5 - with the state-class control: SingleExcitation sub-bar artifacts " +
-                "that vanish under refinement, BondingMode silent; typed home CpsiEnvelopeTheoremClaim)",
+            ParkedAt: "four claims recompute their evidence live (F121 qudit, F116 router, the " +
+                "CPsi Envelope Theorem via EnvelopeTheoremWitness / --root envelope, and now the two clocks " +
+                "via ClockHandLadderWitness / --root clock: the coherence hand = gamma-protected band edge " +
+                "2J*cos(pi/(N+1)) for N>=3 vs the gamma-pulled 2*sqrt(J^2-gamma^2) at N=2 stopping at Q=1; " +
+                "typed home ClockHandLadderClaim, see arc clock_hand_ladder)",
             NextStep: "next witness: F117 Pascal-Gram positivity",
             Status: OpenArcStatus.Open),
 
@@ -58,8 +58,8 @@ public static class OpenArcsRegistry
             Name: "clock_hand_ladder",
             Opened: "2026-06-12",
             Origin: "the promoted Symphony clock node, read across N on day one",
-            ParkedAt: "two clockworks, verified: for N>=3 the rotation hand omega_mem walks the band-edge ladder 2J*cos(pi/(N+1)) gamma-PROTECTED (sqrt2 / PHI / sqrt3 at N=3/4/5; gamma quadrupled, hand unmoved) - the vacuum<->single-excitation lines are simultaneous eigenoperators of L_D (1-site-difference class, rate exactly -2gamma) and L_H (band frequency), so nothing mixes. At N=2 the hand is gamma-PULLED: omega_mem = 2*sqrt(J^2-gamma^2) (predicted 1.95959 at gamma=0.2, measured 1.95959) - the {population-difference, antisymmetric-coherence} 2x2 damped-oscillator block lands exactly at Re=-2gamma (rates 0 and 4gamma averaging, a two-level accident) and its pulled beat outruns the protected J-line at the same gap; the hand would stop at gamma=J (Q=1, EP-family). Mode-level check at N=3: the big 2*sqrt2 intra-band beats sit OFF the gap (Re=-0.125/-0.175), so the protected edge wins; fine structure: a second, weakly pulled gap line at 1.41067 (factor 0.99750)",
-            NextStep: "write the small proof note (N=2 block algebra is closed-form; general off-gap argument for the hybrid blocks at N>=3 is open), connect to the ring dihedral-lock sibling (Im_max = Delta_E_max) and the EP family (hand death at Q=1); derive the 0.99750 fine-structure pull",
+            ParkedAt: "LANDED as a typed object (2026-06-12, merged): live witness ClockHandLadderWitness (inspect --root clock, four nodes: ladder / gamma-protection / N=2 pull+EP / dial angle + an omega-vs-N curve), typed claim ClockHandLadderClaim (Tier1Candidate, parents F2b + AbsorptionTheorem + UniversalCarrier), and a docs/ANALYTICAL_FORMULAS.md F2b corollary, all cross-referenced both directions (MD<->C#). The physics, verified: for N>=3 the coherence hand omega_mem walks the band-edge ladder 2J*cos(pi/(N+1)) gamma-PROTECTED (sqrt2 / PHI / sqrt3 at N=3/4/5; gamma quadrupled, hand unmoved) - the vacuum<->single-excitation lines are simultaneous eigenoperators of L_D (rate exactly -2gamma) and L_H (band frequency), so nothing mixes; gap-dominance verified N=3-5, general off-gap argument OPEN (hence Tier1Candidate, not Derived). At N=2 the hand is gamma-PULLED: omega_mem = 2*sqrt(J^2-gamma^2) (1.95959 at gamma=0.2), the {population-difference, antisymmetric-coherence} 2x2 block, stopping at gamma=J (Q=1, EP). NEW finding from the build: the live max|Im| clock only SURFACES the pulled mode above the crossover Q=2/sqrt3 (~1.155, gamma=(sqrt3/2)J); nearer the EP the F2b band line at Im=+-J dominates the raw maximum, so the closed form 2*sqrt(J^2-gamma^2) (NOT the raw clock) is the honest EP witness there",
+            NextStep: "the parked FROST_CIRCLE seam: a Tier-4 reflection on the SAME ladder appearing in carbon (docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md, optics view, writes omega_mem already) and quantum (the clock node) - the carbon<->quantum twin, write only when the structure stands, in its own genre; plus the still-open proof note (N=2 block is closed-form; the general N>=3 off-gap / gap-dominance argument for the hybrid blocks is the open remainder); connect to the ring dihedral-lock sibling (Im_max = Delta_E_max) and derive the 0.99750 fine-structure pull",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
