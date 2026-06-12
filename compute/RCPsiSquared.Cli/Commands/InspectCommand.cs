@@ -49,8 +49,11 @@ public static class InspectCommand
         // the qudit and world roots carry their own dimensions, so they run without --N.
         // If such a root is handed an explicit --N it is silently ignored; warn once on stderr
         // so a caller does not believe the flag did anything (ArgParser.HasFlag tells us the
-        // flag was actually passed, as opposed to its synthesized default).
-        if (!entry.RequiresN && p.HasFlag("N"))
+        // flag was actually passed, as opposed to its synthesized default). A handful of
+        // RequiresN:false roots DO honour an optionally-passed --N (e.g. decoder, whose witness
+        // size changes with N); those are flagged HonorsOptionalN and stay silent — the value
+        // was used, so claiming it was ignored would be a lie.
+        if (!entry.RequiresN && !entry.HonorsOptionalN && p.HasFlag("N"))
             Console.Error.WriteLine(
                 $"note: --N is not used by root '{entry.Name}' (it carries its own dimensions; ignored).");
         int N = entry.RequiresN ? p.RequireInt("N") : (p.OptionalDouble("N") is { } nv ? (int)nv : 1);
@@ -486,7 +489,7 @@ public static class InspectCommand
             RequiresN: false),
         new("decoder", "reading power measured live: Fisher information vs Q per readout basis - resolution grows with the Q-factor; the exceptional point reads worst",
             c => new ReadingPowerWitness(c.Parser.HasFlag("N") ? c.N : 4),
-            RequiresN: false),
+            RequiresN: false, HonorsOptionalN: true),
         new("flow", "the post-EP single-excitation flow to 1/N",
             c => BuildFlowRoot(c.Parser, c.N)),
         new("between", "the in-between navigator (six axes: crossover/jdefect/interior/spiral/approach/ep)",

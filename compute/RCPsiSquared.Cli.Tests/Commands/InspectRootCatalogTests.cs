@@ -159,6 +159,22 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void DecoderRoot_HonorsOptionalN()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "decoder");
+        Assert.False(entry.RequiresN);
+        Assert.True(entry.HonorsOptionalN);
+    }
+
+    [Fact]
+    public void QuditRoot_IgnoresOptionalN_WarningStaysCorrect()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "qudit");
+        Assert.False(entry.RequiresN);
+        Assert.False(entry.HonorsOptionalN);
+    }
+
+    [Fact]
     public void SymphonyFactory_TempoRatio_GrowsTheClockMovement()
     {
         var symphony = InspectCommand.Catalog.Single(e => e.Name == "symphony");
