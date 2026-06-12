@@ -241,5 +241,10 @@ public class SymphonyTests
         double[] curve = { 0.40, 0.30, 0.20, 0.18, 0.30, 0.40 };  // down (idx 1→2), up (idx 3→4)
         var dirs = Symphony.QuarterCrossingDirections(curve);
         Assert.Equal(new[] { -1, +1 }, dirs);
+
+        // Times and directions must be EQUAL-LENGTH and order-aligned (the refactor's central contract).
+        double[] grid = { 0.0, 1.0, 2.0, 3.0, 4.0, 5.0 };
+        var times = Symphony.QuarterCrossingTimes(curve, grid);
+        Assert.Equal(times.Count, dirs.Length);
     }
 }
