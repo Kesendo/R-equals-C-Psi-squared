@@ -467,4 +467,46 @@ public class SymphonyTests
         _ = Children(s).Single(c => c.DisplayName == "lens: dose (K)").Summary;
         Assert.Equal(1, s.EvolveCount);
     }
+
+    [Fact]
+    public void TempoCertification_DefaultRegime_AllLensesPass()
+    {
+        var s = new Symphony(n: 3, j: 1.0, gamma: 0.1, tempoRatio: 20.0);
+        var node = Children(s).Single(c => c.DisplayName == "movement: the clock");
+        Assert.Contains("certified", node.Summary);
+        Assert.True(s.TempoCertification!.MaxResidual <= TempoCertificationMovement.PassTol,
+            $"residual {s.TempoCertification!.MaxResidual} exceeded the PASS tol");
+        Assert.True(s.TempoCertification!.Pass);
+    }
+
+    [Fact]
+    public void TempoCertification_Guard_FiresOnATimeSmugglingCurve()
+    {
+        double[] clean = { 0.3, 0.28, 0.26, 0.24 };
+        double[] shifted = { 0.3, 0.28, 0.26, 0.24 + 0.01 };
+        Assert.True(TempoCertificationMovement.MaxAbsDiff(clean, clean) <= TempoCertificationMovement.PassTol);
+        Assert.True(TempoCertificationMovement.MaxAbsDiff(clean, shifted) > TempoCertificationMovement.PassTol);
+    }
+
+    [Fact]
+    public void TempoCertification_OneEvolutionPerSymphony_SecondPerformanceCounted()
+    {
+        var s = new Symphony(n: 3, j: 1.0, gamma: 0.1, tempoRatio: 20.0);
+        _ = s.TempoCertification!.MaxResidual;
+        Assert.Equal(1, s.EvolveCount);
+        Assert.Equal(1, s.TempoCertification!.SecondEvolveCount);
+    }
+
+    [Fact]
+    public void TempoCertification_N2FoldDose_IdenticalAtBothTempos_KNumber()
+    {
+        var s = new Symphony(n: 2, gamma: 0.1, initialState: InitialStateKind.BellPair,
+            tMax: 6.0, tPoints: 120, tempoRatio: 20.0);
+        var foldA = s.FirstQuarterCrossing();
+        var foldB = s.TempoCertification!.Second.FirstQuarterCrossing();
+        Assert.NotNull(foldA);
+        Assert.NotNull(foldB);
+        Assert.Equal(0.0374, foldA!.Value.Dose, 3);
+        Assert.Equal(foldA!.Value.Dose, foldB!.Value.Dose, 9);
+    }
 }

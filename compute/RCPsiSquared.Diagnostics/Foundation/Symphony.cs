@@ -78,6 +78,11 @@ public sealed class Symphony : IInspectable
     /// <summary>The defect strength δJ (added to J on the defect bond) for the painters' movement.</summary>
     public double DeltaJ { get; }
 
+    /// <summary>The clock movement: if set, the Symphony plays the piece a second time at r× the tempo
+    /// (every dimensionful coupling ×r, the window ÷r, the same K-grid) and certifies every dimensionless
+    /// lens is a pure (Q,K)-observable. Null = no clock movement.</summary>
+    public double? TempoRatio { get; }
+
     /// <summary>Hilbert dimension 2^N.</summary>
     public int Dim => 1 << N;
 
@@ -95,7 +100,8 @@ public sealed class Symphony : IInspectable
         int tPoints = 60,
         int? defectBond = null,
         double deltaJ = 0.02,
-        (int Site1, int Site2)? carrierPair = null)
+        (int Site1, int Site2)? carrierPair = null,
+        double? tempoRatio = null)
     {
         if (n < 2 || n > MaxN)
             throw new ArgumentOutOfRangeException(nameof(n),
@@ -126,6 +132,10 @@ public sealed class Symphony : IInspectable
             throw new ArgumentException(
                 $"carrier pair sites must be distinct; got ({pair.Site1}, {pair.Site2})", nameof(carrierPair));
         CarrierPair = pair;
+
+        if (tempoRatio is { } tr && tr <= 0.0)
+            throw new ArgumentOutOfRangeException(nameof(tempoRatio), $"tempo ratio must be positive; got {tr}");
+        TempoRatio = tempoRatio;
     }
 
     // ---- The one evolution, computed once, shared by all lenses ----
@@ -411,6 +421,8 @@ public sealed class Symphony : IInspectable
             yield return ClockNode();
             if (DefectBond is not null)
                 yield return Painters();
+            if (TempoRatio is not null)
+                yield return TempoCertification!;
             yield return EventsNode();
         }
     }
@@ -425,6 +437,11 @@ public sealed class Symphony : IInspectable
         EnsureEvolved();
         return _painters ??= new PaintersMovement(this, DefectBond!.Value, DeltaJ);
     }
+
+    private TempoCertificationMovement? _tempo;
+    /// <summary>The clock movement (only when tempoRatio is set): the two-tempo certification. Built lazily.</summary>
+    public TempoCertificationMovement? TempoCertification =>
+        TempoRatio is { } r ? (_tempo ??= new TempoCertificationMovement(this, r)) : null;
 
     public InspectablePayload Payload => InspectablePayload.Empty;
 
@@ -713,6 +730,13 @@ public sealed class Symphony : IInspectable
                         $"chiral mirror BROKEN: max site-wise |ΔP| = {pm.ChiralMirrorDeviation.ToString("E2", Inv)}"));
             }
         }
+
+        // the clock movement (only when tempoRatio is set): a single two-tempo certification verdict at
+        // the window end. Identical-by-construction-in-K, so no per-step events are duplicated.
+        if (TempoRatio is { } rTempo && TempoCertification is { } tempoCert)
+            events.Add(new SymphonyEvent(TMax, Gamma * TMax, "clock",
+                $"two-tempo certification (γ₀ vs {rTempo.ToString("0.#", Inv)}·γ₀ at fixed Q): " +
+                $"{(tempoCert.Pass ? "PASS" : "FAIL")} (max residual {tempoCert.MaxResidual.ToString("E2", Inv)})"));
 
         events.Sort((a, b) => a.Time.CompareTo(b.Time));
         return events;
@@ -1231,6 +1255,123 @@ public sealed class PaintersMovement : IInspectable
                 InspectableNode.RealScalar("Takt gap", _taktGap, "0.######"),
                 InspectableNode.RealScalar("ω_mem", _omegaMem, "0.######"),
             });
+}
+
+/// <summary>The clock movement: the two-tempo certification. γ₀ is the Universal Carrier — invisible from
+/// inside, where only Q = J/γ₀ and K = γ₀·t are real. This plays the SAME piece at a second tempo r·γ₀
+/// (every dimensionful coupling scaled by r: J, γ, and the painters' δJ; the window ÷r; the same tPoints,
+/// so the K-grid K_i = γ·t_i is identical) and checks that every dimensionless lens curve is bit-identical
+/// at matched K — i.e. a pure (Q,K)-observable.
+///
+/// <para>This CERTIFIES the instruments; it does NOT confirm a law of nature. The invariance is exact
+/// algebra: scaling J and γ by r scales the whole Lindbladian L → r·L, so ρ(t; r·L) = ρ(r·t; L)
+/// identically (verified ≈5.5e-16). The residual is an implementation invariant; a lens that breaks it
+/// has smuggled absolute time — it "sees the carrier". The verdict says "exact identity, certified",
+/// never "theorem confirmed".</para></summary>
+public sealed class TempoCertificationMovement : IInspectable
+{
+    private static readonly System.Globalization.CultureInfo Inv = System.Globalization.CultureInfo.InvariantCulture;
+
+    /// <summary>A certified lens's matched-K residual must be ≤ this. The exact identity gives ≈1e-16; any
+    /// time-smuggling lens breaks it by O(1). Conditioning-bound (certification is for moderate r ~ 10-100).</summary>
+    public const double PassTol = 1e-9;
+
+    public Symphony Parent { get; }
+    public double R { get; }
+
+    public TempoCertificationMovement(Symphony parent, double r) { Parent = parent; R = r; }
+
+    private bool _built;
+    private Symphony? _second;
+    private double _residGlobal, _residLocal, _residLight, _residK, _maxResidual;
+
+    private void Ensure()
+    {
+        if (_built) return;
+        _built = true;
+        var p = Parent;
+        // The second performance: every dimensionful coupling ×r (J, γ, AND the painters' δJ — δJ/J fixed),
+        // the window ÷r, the SAME tPoints ⟹ the same K-grid. NOT a recursive tempoRatio.
+        _second = new Symphony(p.N, R * p.J, R * p.Gamma, p.HType, p.Topology, p.InitialState,
+            p.TMax / R, p.TPoints, p.DefectBond, R * p.DeltaJ, p.CarrierPair);
+
+        var gA = p.States.Select(Symphony.Cpsi).ToArray();
+        var gB = _second.States.Select(Symphony.Cpsi).ToArray();
+        var lA = p.States.Select(p.LocalCpsi).ToArray();
+        var lB = _second.States.Select(_second.LocalCpsi).ToArray();
+        var liA = p.States.Select(Symphony.LightContent).ToArray();
+        var liB = _second.States.Select(Symphony.LightContent).ToArray();
+        var kA = p.TimeGrid.Select(t => p.Gamma * t).ToArray();
+        var kB = _second.TimeGrid.Select(t => _second.Gamma * t).ToArray();
+
+        _residGlobal = MaxAbsDiff(gA, gB);
+        _residLocal = MaxAbsDiff(lA, lB);
+        _residLight = MaxAbsDiff(liA, liB);
+        _residK = MaxAbsDiff(kA, kB);
+        _maxResidual = Math.Max(Math.Max(_residGlobal, _residLocal), Math.Max(_residLight, _residK));
+    }
+
+    /// <summary>The max absolute element-wise difference of two equal-length curves; the certification
+    /// residual. Static and pure so the guard logic is directly testable.</summary>
+    public static double MaxAbsDiff(double[] a, double[] b)
+    {
+        double m = 0.0; int n = Math.Min(a.Length, b.Length);
+        for (int i = 0; i < n; i++) m = Math.Max(m, Math.Abs(a[i] - b[i]));
+        return m;
+    }
+
+    public Symphony Second { get { Ensure(); return _second!; } }
+    public double MaxResidual { get { Ensure(); return _maxResidual; } }
+    public bool Pass => MaxResidual <= PassTol;
+    /// <summary>How many times the second performance evolved its trajectory (must be 1).</summary>
+    public int SecondEvolveCount { get { Ensure(); return _second!.EvolveCount; } }
+
+    public string DisplayName => "movement: the clock";
+
+    public string Summary
+    {
+        get
+        {
+            Ensure();
+            return Pass
+                ? $"two tempos (γ₀, {R.ToString("0.#", Inv)}·γ₀ at fixed Q = {(Parent.J / Parent.Gamma).ToString("0.###", Inv)}): " +
+                  $"the inside cannot tell them apart — max residual {_maxResidual.ToString("E2", Inv)} across the " +
+                  "dimensionless lenses (exact rescaling identity, certified — NOT a theorem confirmed)."
+                : $"two-tempo certification FAILED: max residual {_maxResidual.ToString("E2", Inv)} > {PassTol.ToString("E0", Inv)} — " +
+                  "a lens sees the carrier (absolute time leaked).";
+        }
+    }
+
+    public IEnumerable<IInspectable> Children
+    {
+        get
+        {
+            Ensure();
+            yield return LensNode("global CΨ", _residGlobal);
+            yield return LensNode("local CΨ (carrier pair)", _residLocal);
+            yield return LensNode("light content", _residLight);
+            yield return new InspectableNode("the K-grid",
+                summary: $"K_i = γ·t_i identical at both tempos (same tPoints, window ÷r): residual {_residK.ToString("E2", Inv)}.");
+            var (gapA, omA) = Parent.Clock;
+            var (gapB, omB) = _second!.Clock;
+            yield return new InspectableNode("the clock comparison (the hands spin r× faster)",
+                summary: $"gap {gapA.ToString("0.#####", Inv)} → {gapB.ToString("0.#####", Inv)} " +
+                         $"(ratio {(gapA > 0 ? (gapB / gapA) : 0.0).ToString("0.##", Inv)}), " +
+                         $"ω_mem {omA.ToString("0.#####", Inv)} → {omB.ToString("0.#####", Inv)}: the clock is " +
+                         "dimensionful and scales by r — the hands spin r× faster, but the song (every (Q,K)-lens) is the same.");
+        }
+    }
+
+    private InspectableNode LensNode(string lens, double residual)
+    {
+        bool pass = residual <= PassTol;
+        return new InspectableNode($"lens: {lens}",
+            summary: pass
+                ? $"matched-K residual {residual.ToString("E2", Inv)} ≤ {PassTol.ToString("E0", Inv)}: PASS — a pure (Q,K)-observable."
+                : $"matched-K residual {residual.ToString("E2", Inv)} > {PassTol.ToString("E0", Inv)}: FAIL — this lens sees the carrier: absolute time leaked.");
+    }
+
+    public InspectablePayload Payload => InspectablePayload.Empty;
 }
 
 /// <summary>Which initial density matrix the Symphony evolves. <see cref="BellPair"/> (default) is
