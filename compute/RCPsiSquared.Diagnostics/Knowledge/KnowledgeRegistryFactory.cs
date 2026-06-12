@@ -337,7 +337,7 @@ public static class KnowledgeRegistryFactory
             // sector at N=4 ({0,2}-coherence at N=2,3, pure n_diff=1 band edge at N≥4), the reason
             // Q*=2cos(π/(N+1)) holds only at N=2,3. Live: inspect --root horizon. Two typed parents,
             // both registered in this chain: ClockHandLadderClaim (the clock's Q-floor made exact,
-            // directly above) + F2bXyChainSpectrumPi2Inheritance (the band edge, registered below).
+            // directly above) + F2bXyChainSpectrumPi2Inheritance (the band edge, registered earlier in this chain).
             .RegisterCoherenceHorizonClaim()
             .RegisterF86HwhmClosedFormClaim()
             .RegisterIbmBlockCpsiHardwareTable()

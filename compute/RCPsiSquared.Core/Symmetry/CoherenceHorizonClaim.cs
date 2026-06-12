@@ -93,7 +93,8 @@ public sealed class CoherenceHorizonClaim : Claim
 
     public static CoherenceHorizonClaim Build()
     {
-        // Reuse one shared Pi2DyadicLadderClaim across both parent subtrees so the graph is consistent.
+        // Reuse one ladder within the F2b band-edge subtree; the ClockHandLadder subtree builds its
+        // own (standalone Build()/Shared only; the live registry shares both by type via b.Get).
         var ladder = new Pi2DyadicLadderClaim();
         var qubit = new QubitDimensionalAnchorClaim();
 
