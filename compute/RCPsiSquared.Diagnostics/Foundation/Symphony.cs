@@ -1290,7 +1290,7 @@ public sealed class TempoCertificationMovement : IInspectable
         if (_built) return;
         _built = true;
         var p = Parent;
-        // The second performance: every dimensionful coupling ×r (J, γ, AND the painters' δJ — δJ/J fixed),
+        // The second performance: every dimensionful coupling ×r (J, γ, AND the painters' δJ; δJ/J fixed),
         // the window ÷r, the SAME tPoints ⟹ the same K-grid. NOT a recursive tempoRatio.
         _second = new Symphony(p.N, R * p.J, R * p.Gamma, p.HType, p.Topology, p.InitialState,
             p.TMax / R, p.TPoints, p.DefectBond, R * p.DeltaJ, p.CarrierPair);
@@ -1335,9 +1335,9 @@ public sealed class TempoCertificationMovement : IInspectable
             Ensure();
             return Pass
                 ? $"two tempos (γ₀, {R.ToString("0.#", Inv)}·γ₀ at fixed Q = {(Parent.J / Parent.Gamma).ToString("0.###", Inv)}): " +
-                  $"the inside cannot tell them apart — max residual {_maxResidual.ToString("E2", Inv)} across the " +
-                  "dimensionless lenses (exact rescaling identity, certified — NOT a theorem confirmed)."
-                : $"two-tempo certification FAILED: max residual {_maxResidual.ToString("E2", Inv)} > {PassTol.ToString("E0", Inv)} — " +
+                  $"the inside cannot tell them apart: max residual {_maxResidual.ToString("E2", Inv)} across the " +
+                  "dimensionless lenses (exact rescaling identity, certified, NOT a theorem confirmed)."
+                : $"two-tempo certification FAILED: max residual {_maxResidual.ToString("E2", Inv)} > {PassTol.ToString("E0", Inv)}: " +
                   "a lens sees the carrier (absolute time leaked).";
         }
     }
@@ -1358,7 +1358,7 @@ public sealed class TempoCertificationMovement : IInspectable
                 summary: $"gap {gapA.ToString("0.#####", Inv)} → {gapB.ToString("0.#####", Inv)} " +
                          $"(ratio {(gapA > 0 ? (gapB / gapA) : 0.0).ToString("0.##", Inv)}), " +
                          $"ω_mem {omA.ToString("0.#####", Inv)} → {omB.ToString("0.#####", Inv)}: the clock is " +
-                         "dimensionful and scales by r — the hands spin r× faster, but the song (every (Q,K)-lens) is the same.");
+                         "dimensionful and scales by r: the hands spin r× faster, but the song (every (Q,K)-lens) is the same.");
         }
     }
 
@@ -1367,8 +1367,8 @@ public sealed class TempoCertificationMovement : IInspectable
         bool pass = residual <= PassTol;
         return new InspectableNode($"lens: {lens}",
             summary: pass
-                ? $"matched-K residual {residual.ToString("E2", Inv)} ≤ {PassTol.ToString("E0", Inv)}: PASS — a pure (Q,K)-observable."
-                : $"matched-K residual {residual.ToString("E2", Inv)} > {PassTol.ToString("E0", Inv)}: FAIL — this lens sees the carrier: absolute time leaked.");
+                ? $"matched-K residual {residual.ToString("E2", Inv)} ≤ {PassTol.ToString("E0", Inv)}: PASS, a pure (Q,K)-observable."
+                : $"matched-K residual {residual.ToString("E2", Inv)} > {PassTol.ToString("E0", Inv)}: FAIL: this lens sees the carrier: absolute time leaked.");
     }
 
     public InspectablePayload Payload => InspectablePayload.Empty;
