@@ -324,9 +324,10 @@ public static class KnowledgeRegistryFactory
             // the Absorption Theorem + iE_k from F2b), so γ moves the Takt hand (2γ) but not the
             // coherence hand; the N≥3 γ-protection IS the Universal Carrier's inside-invisibility
             // read from the other side. N=2 is γ-pulled to 2√(J²−γ²), stopping at the EP Q=1.
-            // Live: inspect --root clock. Typed parents F2bXyChainSpectrumPi2Inheritance (the band
-            // edge, registered below at line ~289), AbsorptionTheoremClaim (the −2γ, line ~175),
-            // and UniversalCarrierClaim (carrier-blindness, line ~318), all resolved by build time.
+            // Live: inspect --root clock. ClockHandLadderClaim: three typed parents, all registered
+            // earlier in this chain: .RegisterF2bXyChainSpectrumPi2Inheritance() (the band edge),
+            // .RegisterAbsorptionTheoremClaim() (the −2γ), .RegisterUniversalCarrierClaim()
+            // (carrier-blindness), all resolved by build time.
             .RegisterClockHandLadderClaim()
             .RegisterF86HwhmClosedFormClaim()
             .RegisterIbmBlockCpsiHardwareTable()
