@@ -1,4 +1,8 @@
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Inspection;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
@@ -191,7 +195,61 @@ public sealed class ReadingPowerWitness : IInspectable
                          $"The law is per-DOSE: a fixed lab-time budget rates the two routes to high Q " +
                          $"(raise J, or lower γ) differently. Defect strength read at bond 0; location " +
                          $"discrimination is bond 0 vs bond {N - 2}.");
+
+            // 6. The decode demonstration (M2b): the reading grammar's first full machine-spoken sentence.
+            yield return DecodeDemoNode();
         }
+    }
+
+    /// <summary>The dephasing rate at which the decode demo calibrates and plants its defects: the
+    /// witness's high-Q end (Q = 20 at J = 1), well inside the perturbative window.</summary>
+    const double DemoGamma = 0.05, DemoDeltaJCal = 0.02;
+
+    /// <summary>the decoder (read a planted defect) — the closed loop. Calibrate a DefectDecoder at this
+    /// witness's N, plant three defects (bond 0/+0.01, the middle bond/+0.025, the last bond/−0.02),
+    /// decode each from its per-site reading alone, and table the result: truth, decoded, residual, and
+    /// strength error. The residual is the decoder's own confidence (it grows toward the linear
+    /// window's edge). Built lazily, evaluated only when this child is read.</summary>
+    InspectableNode DecodeDemoNode()
+    {
+        var decoder = DefectDecoder.Calibrate(N, J, DemoGamma, DemoDeltaJCal);
+
+        int last = N - 2;
+        int middle = (N - 1) / 2;
+        var plants = new (int Bond, double DeltaJ)[] { (0, +0.01), (middle, +0.025), (last, -0.02) };
+
+        var cases = new List<IInspectable>();
+        foreach (var (bond, deltaJ) in plants)
+        {
+            var alpha = PlantedAlphaProfile(bond, deltaJ);
+            var r = decoder.Decode(alpha);
+            bool bondMatch = r.Bond == bond;
+            double strengthErr = Math.Abs(deltaJ) > 0 ? Math.Abs(r.DeltaJ - deltaJ) / Math.Abs(deltaJ) : 0.0;
+            cases.Add(new InspectableNode(
+                displayName: $"planted: bond {bond}, strength {deltaJ.ToString("0.###", Inv)}",
+                summary: $"truth bond {bond} at {deltaJ.ToString("0.#####", Inv)}; decoded bond {r.Bond} at " +
+                         $"{r.DeltaJ.ToString("0.#####", Inv)} ⟹ {(bondMatch ? "match" : "MISMATCH")}; " +
+                         $"strength error {(strengthErr * 100).ToString("0.#", Inv)} %, residual " +
+                         $"{r.Residual.ToString("E2", Inv)} (the confidence)."));
+        }
+
+        return new InspectableNode(
+            displayName: "the decoder (read a planted defect)",
+            summary: $"given only the per-site reading, the decoder returns where the defect sits and how " +
+                     $"strong it is; the residual is its confidence (it grows toward the edge of the linear " +
+                     $"window). Calibrated at N = {N}, γ = {DemoGamma.ToString(Inv)}, δJ_cal = {DemoDeltaJCal.ToString(Inv)} " +
+                     $"({decoder.CalibrationBuildCount} calibration performances); three planted defects decoded below.",
+            children: cases);
+    }
+
+    /// <summary>The per-site α-profile a real defect (bond, δJ) produces, read through the SAME painters
+    /// pipeline the decoder calibrated against — this is the "observed reading" the demo then inverts.</summary>
+    double[] PlantedAlphaProfile(int bond, double deltaJ)
+    {
+        var s = new Symphony(n: N, j: J, gamma: DemoGamma, hType: HamiltonianType.XY,
+                             initialState: InitialStateKind.BondingMode, defectBond: bond, deltaJ: deltaJ);
+        var pm = ((IInspectable)s).Children.OfType<PaintersMovement>().Single();
+        return pm.Alphas.ToArray();
     }
 
     public InspectablePayload Payload => InspectablePayload.Empty;
