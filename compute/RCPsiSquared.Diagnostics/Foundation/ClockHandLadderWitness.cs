@@ -77,6 +77,13 @@ public sealed class ClockHandLadderWitness : IInspectable
                 summary: $"Omega = 2J·cos(π/(N+1)) = F2b band edge: N=3 → {OmegaMem(3).ToString("0.#####", Inv)} (√2), " +
                          $"N=4 → {OmegaMem(4).ToString("0.#####", Inv)} (φ), N=5 → {OmegaMem(5).ToString("0.#####", Inv)} (√3). " +
                          "Typed parent F2b (docs/ANALYTICAL_FORMULAS.md F2b).");
+
+            yield return new InspectableNode("the γ-protection (N≥3, the hand holds)",
+                summary: $"quadrupling γ leaves the coherence hand unmoved: at N=3, Omega = " +
+                         $"{OmegaMem(3).ToString("0.#####", Inv)} at γ={Gamma.ToString("0.###", Inv)}; the Takt hand " +
+                         $"Gap = 2γ = {Gap(3).ToString("0.#####", Inv)} tracks γ. The |vac⟩⟨ψ_k| modes are simultaneous " +
+                         "eigenoperators of L_D (rate −2γ, the Absorption Theorem) and L_H (frequency E_k), so nothing " +
+                         "mixes. Typed parent AbsorptionTheoremClaim (docs/proofs/PROOF_ABSORPTION_THEOREM.md).");
         }
     }
 

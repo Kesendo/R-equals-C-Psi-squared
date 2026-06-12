@@ -23,4 +23,17 @@ public class ClockHandLadderWitnessTests
         Assert.True(Math.Abs(omega - bandEdge) < Tol,
             $"N={n}: live Omega {omega} must equal F2b band edge {bandEdge}");
     }
+
+    [Fact]
+    public void GammaProtection_AtN3_OmegaUnmoved_WhileGapTracks2Gamma()
+    {
+        var weak = new ClockHandLadderWitness(j: 1.0, gamma: 0.1);
+        var strong = new ClockHandLadderWitness(j: 1.0, gamma: 0.4);
+        // the coherence hand is γ-protected: quadrupling γ leaves it unmoved
+        Assert.Equal(weak.OmegaMem(3), strong.OmegaMem(3), 9);
+        // the Takt hand is NOT protected: it is exactly 2γ and tracks γ
+        Assert.True(Math.Abs(weak.Gap(3) - 2.0 * 0.1) < Tol, $"weak gap {weak.Gap(3)} must be 2γ = 0.2");
+        Assert.True(Math.Abs(strong.Gap(3) - 2.0 * 0.4) < Tol, $"strong gap {strong.Gap(3)} must be 2γ = 0.8");
+        Assert.True(strong.Gap(3) > weak.Gap(3) + Tol, "the Takt hand moved with γ");
+    }
 }
