@@ -35,7 +35,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///         (C = Tr(ρ²) = Σ|ρ_ij|², Ψ = ℓ₁-coherence/(d−1), the repo's canonical convention where
 ///         Bell+ has CΨ(0) = 1/3); curve payload, ¼-crossing times.</item>
 ///   <item><b>dose (K)</b> — the dimensionless dose K = γ·t along the same grid; the dose of the
-///         fold is K at the first ¼ crossing.</item>
+///         fold is K at the absorbing envelope fold.</item>
 ///   <item><b>light</b> — the state's light content over time, the purity-weighted mean
 ///         popcount(i⊕j) over the coherences |i⟩⟨j| (popcount(i⊕j) = the number of sites where ket
 ///         and bra differ = the Absorption-Theorem light channel); curve payload.</item>
