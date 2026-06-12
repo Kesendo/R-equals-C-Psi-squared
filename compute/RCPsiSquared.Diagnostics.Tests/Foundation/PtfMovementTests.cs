@@ -106,7 +106,7 @@ public class PtfMovementTests
         // The first movement's children stay exactly the clean-run lenses (no painters).
         var labels = Children(s).Select(c => c.DisplayName).ToList();
         Assert.Equal(new[] { "score", "lens: palindrome", "lens: quarter (CΨ)",
-                             "lens: quarter (local CΨ)", "lens: dose (K)", "lens: light", "events" }, labels);
+                             "lens: quarter (local CΨ)", "lens: dose (K)", "lens: light", "clock", "events" }, labels);
     }
 
     [Fact]

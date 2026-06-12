@@ -189,6 +189,18 @@ public class SymphonyTests
     }
 
     [Fact]
+    public void Clock_NodeIsPresentInBaseSymphony_WithTaktAndQ()
+    {
+        var s = new Symphony(n: 3, j: 1.0, gamma: 0.1);
+        var clock = Children(s).Single(c => c.DisplayName == "clock");
+        Assert.Contains("Takt gap", clock.Summary);
+        Assert.Contains("Q = J/γ", clock.Summary);
+        var (gap, omega) = s.Clock;
+        Assert.True(gap > 0.0);
+        Assert.True(omega >= 0.0);
+    }
+
+    [Fact]
     public void Witness_RendersToJson()
     {
         var json = InspectionJsonExporter.ToJson(new Symphony(n: 2));

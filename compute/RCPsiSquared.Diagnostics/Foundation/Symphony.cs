@@ -139,6 +139,24 @@ public sealed class Symphony : IInspectable
     /// clock (Takt gap, ω_mem) is read off these by the painters' movement.</summary>
     public IReadOnlyList<Complex> LiouvillianEigenvalues { get { EnsureEvolved(); return _lambdaA!; } }
 
+    /// <summary>The global clock from the shared L spectrum (the inside-visible time): Takt gap = the
+    /// slowest nonzero decay rate (min over rate = −Re λ above tol), ω_mem = max |Im λ| among the modes
+    /// at the gap. τ = 1/gap is the longest breath. γ = 0 ⟹ the clock is stopped (0, 0).</summary>
+    public (double Gap, double Omega) Clock
+    {
+        get
+        {
+            EnsureEvolved();
+            double gap = double.PositiveInfinity;
+            foreach (var e in _lambdaA!) { double rate = -e.Real; if (rate > 1e-9 && rate < gap) gap = rate; }
+            if (double.IsInfinity(gap)) return (0.0, 0.0);
+            double omega = 0.0;
+            foreach (var e in _lambdaA!)
+                if (Math.Abs(-e.Real - gap) <= 1e-6) omega = Math.Max(omega, Math.Abs(e.Imaginary));
+            return (gap, omega);
+        }
+    }
+
     /// <summary>Grid-resolution fitness for the envelope lenses, from the shared L spectrum:
     /// ω = max |Im λ| (fastest coherent oscillation), samples per oscillation 2π/(ωΔt), and the
     /// conservative peak-clip floor ½·(ωΔt)²·peakScale (the raw peak-height clip; with parabolic
@@ -390,6 +408,7 @@ public sealed class Symphony : IInspectable
             yield return LocalQuarterLens();
             yield return DoseLens();
             yield return LightLens();
+            yield return ClockNode();
             if (DefectBond is not null)
                 yield return Painters();
             yield return EventsNode();
@@ -561,6 +580,28 @@ public sealed class Symphony : IInspectable
                      $"{start.ToString("0.####", Inv)} → {end.ToString("0.####", Inv)}, " +
                      $"min {light.Min().ToString("0.####", Inv)}, max {light.Max().ToString("0.####", Inv)}.",
             payload: new InspectablePayload.Curve("light(t)", _tGrid!, light, "t", "⟨popcount(i⊕j)⟩"));
+    }
+
+    /// <summary>clock — the Taktgeber, promoted to the base symphony (always present). The global clock
+    /// off the shared L spectrum: Takt gap (= 2γ floor for a dephasing chain), τ = 1/gap (the longest
+    /// breath, mirroring MirrorSystem.TaktReading), ω_mem, and the inside-visible dial Q = J/γ.</summary>
+    private InspectableNode ClockNode()
+    {
+        var (gap, omega) = Clock;
+        double tau = gap > 0.0 ? 1.0 / gap : double.PositiveInfinity;
+        string tauStr = double.IsInfinity(tau) ? "∞" : tau.ToString("0.###", Inv);
+        return new InspectableNode("clock",
+            summary: $"the global clock (the inside-visible time): Takt gap (slowest nonzero decay rate) = " +
+                     $"{gap.ToString("0.#####", Inv)} (= 2γ floor for a dephasing chain), τ = 1/gap = {tauStr} " +
+                     $"(the longest breath); ω_mem (max |Im λ| at the gap) = {omega.ToString("0.#####", Inv)}; " +
+                     $"Q = J/γ = {(J / Gamma).ToString("0.###", Inv)} (the only dial the inside can read).",
+            children: new IInspectable[]
+            {
+                InspectableNode.RealScalar("Takt gap", gap, "0.######"),
+                InspectableNode.RealScalar("τ = 1/gap", double.IsInfinity(tau) ? 0.0 : tau, "0.####"),
+                InspectableNode.RealScalar("ω_mem", omega, "0.######"),
+                InspectableNode.RealScalar("Q = J/γ", J / Gamma, "0.####"),
+            });
     }
 
     /// <summary>events — the cross-lens axis: every detected event from every lens merged and sorted
@@ -862,7 +903,7 @@ public sealed class PaintersMovement : IInspectable
                              PauliString.SiteOp(_n, i, PauliLetter.Z));
 
         // The clock from L_A (read once, off the SHARED clean eigendecomposition the Symphony kept).
-        (_taktGap, _omegaMem) = GlobalClock(p.LiouvillianEigenvalues);
+        (_taktGap, _omegaMem) = p.Clock;
 
         // The four trajectories, each built exactly once.
         _pA = PuritySites(L_A, rho0, tGrid, sitePaulis);            // clean
@@ -1103,24 +1144,6 @@ public sealed class PaintersMovement : IInspectable
             for (int b = 0; b < m.ColumnCount; b++)
                 if (Math.Abs(m[a, b].Imaginary) > tol) return false;
         return true;
-    }
-
-    /// <summary>The global clock from an L spectrum: Takt gap = slowest nonzero decay rate
-    /// (= min over rate = −Re λ of the rates above tol), ω_mem = max |Im λ| among the modes at the gap.</summary>
-    private static (double gap, double omega) GlobalClock(IReadOnlyList<Complex> evals,
-        double tol = 1e-9, double gapTol = 1e-6)
-    {
-        double gap = double.PositiveInfinity;
-        foreach (var e in evals)
-        {
-            double rate = -e.Real;
-            if (rate > tol && rate < gap) gap = rate;
-        }
-        if (double.IsInfinity(gap)) return (0.0, 0.0);   // γ = 0: the clock is stopped
-        double omega = 0.0;
-        foreach (var e in evals)
-            if (Math.Abs(-e.Real - gap) <= gapTol) omega = Math.Max(omega, Math.Abs(e.Imaginary));
-        return (gap, omega);
     }
 
     // ---- IInspectable ----
