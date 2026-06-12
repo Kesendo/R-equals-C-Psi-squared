@@ -151,6 +151,14 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void Catalog_HasDecoderRoot_NFree()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "decoder");
+        Assert.False(entry.RequiresN);
+        Assert.Contains("Q-factor", entry.Description);
+    }
+
+    [Fact]
     public void SymphonyFactory_TempoRatio_GrowsTheClockMovement()
     {
         var symphony = InspectCommand.Catalog.Single(e => e.Name == "symphony");
