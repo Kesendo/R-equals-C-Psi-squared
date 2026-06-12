@@ -530,7 +530,6 @@ public sealed class Symphony : IInspectable
             payload: new InspectablePayload.Curve("local CΨ(t)", tGrid, local, "t", "local CΨ"));
     }
 
-    /// <summary>lens: dose (K) — K = γ·t marks; the dose of the fold is K at the first ¼ crossing.</summary>
     /// <summary>lens: dose (K) — K = γ·t marks; "the dose of the fold" is K at the ENVELOPE fold (the
     /// absorbing ¼ crossing), for both the global and the local carrier-pair curve.</summary>
     private InspectableNode DoseLens()
