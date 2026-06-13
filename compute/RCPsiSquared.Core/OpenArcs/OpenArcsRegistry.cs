@@ -44,6 +44,34 @@ public static class OpenArcsRegistry
             Status: OpenArcStatus.Open),
 
         new OpenArc(
+            Name: "birth_canal_horizon_junction",
+            Opened: "2026-06-13",
+            Origin: "Weg-1 independent verifier of the birth-canal boundary via the |1-exc><vac| block " +
+                "(simulations/birth_canal_vacuum_block_verifier.py + the N=6 mode-crossing diagnostic " +
+                "simulations/birth_canal_n6_mode_crossing.py)",
+            ParkedAt: "VALIDATED + a new junction found. The birth-canal slowest-rate mode (the witness's " +
+                "BirthCanalDeviation) is the ODD, number-changing |1-excitation><vacuum| coherence (n_diff=1, " +
+                "rate -2*gamma_k), NOT the single-excitation density block - so it reduces to an N x N matrix " +
+                "L_(1,0) = -iQ*h - 2*diag(gamma) (h tridiagonal, off-diag 2). This N x N reduction reproduces " +
+                "the full 4^N boundary EXACTLY across the WHOLE N=5 surface (80 grid points, worst gap 5.9e-12, " +
+                "0 verdict mismatches, block spectrum an exact sub-spectrum of the full L) - an independent " +
+                "ground truth confirming BirthCanalSurfaceWitness at N=5. R1's flat-gamma blindness is now " +
+                "analytic at every N: at flat gamma, L = -iQ*h - 2*gamma*I and -iQ*h is anti-Hermitian, so " +
+                "Re=-2*gamma for every mode => rate Q-invariant by uniformity alone. THE JUNCTION: the (1,0) " +
+                "reduction does NOT scale past N=5. At N=6 (deep-edge, two protected gamma=0.25 edges, low Q) " +
+                "the global slowest CROSSES to the EVEN {0,2}-coherence in the 2-excitation density block " +
+                "(n_diff hist {0:0.78,2:0.22}, <n_XY>=0.44 < 1, hence slower than the odd mode) - the SAME " +
+                "{0,2}-coherence the coherence-horizon arc (clock_hand_ladder) studies as its EP mode. So " +
+                "birth_canal and coherence_horizon TOUCH at N>=6, via a Q-dependent mode crossing",
+            NextStep: "two threads. (1) BANK the N=5 result as a typed claim + (C# witness first) port the " +
+                "N x N |1-exc><vac| reduction to a live C# witness (today the evidence is the Python verifier). " +
+                "(2) CHASE the junction: chart the 'which mode is slowest' phase diagram over Q x profile x N - " +
+                "where exactly the boundary mode switches odd<->even {0,2}, and how it connects to the " +
+                "coherence-horizon Q*(N). The honest boundary at N>=6 may be a min over a mode crossing, not a " +
+                "single mode's light-freeze",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
             Name: "block_spectrum_n9",
             Opened: "2026-05-19",
             Origin: "Core LiouvillianBlockSpectrum.ComputeSpectrumPerBlock + SLOW_N9 xUnit test",
