@@ -51,6 +51,14 @@ public static class KnowledgeRegistryFactory
             // ChiralKClaim (the eigenvalue side of the same sublattice chirality, registered
             // directly above). Wired 2026-06-10.
             .RegisterChiralMirrorTrajectoryClaim()
+            // K-partner selection rule (the reading-grammar arc's first DERIVED result, 2026-06-12):
+            // ⟨ψ_N|V_b|ψ_1⟩ = 0 for every bond defect V_b, a two-line corollary of the parent
+            // (K₁ψ_1 = ψ_N from its Step 4; K₁V_bK₁ = −V_b from its Step 1). The carrier never couples
+            // to its K-partner through any bond defect, so the DefectDecoder's location dictionary has
+            // rank N−2 (machine-exact N = 3..8) and its sign-location ambiguity IS this K-partner null
+            // direction. Tier1Derived. Typed parent: ChiralMirrorTrajectoryClaim (registered directly
+            // above; both ingredients). Wired 2026-06-12.
+            .RegisterKPartnerSelectionRuleClaim()
             .RegisterF71Family(N: defaultChain.N)
             .RegisterPi2Family()
             .RegisterF86Main(gammaZero: defaultChain.GammaZero, gEff: gEff)
