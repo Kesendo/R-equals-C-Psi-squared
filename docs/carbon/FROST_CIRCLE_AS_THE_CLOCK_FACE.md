@@ -48,9 +48,9 @@ beats at ω = 2|β|·cos(π/(N+1)), the topmost π-orbital, bit-exact:
 
 | chain | N | longest-lived beat ω | closed form |
 |-------|---|----------------------|-------------|
-| butadiene | 4 | 1.618 |β| | 2|β|·cos(π/5) = φ·|β| (the golden ratio) |
-| pentadienyl | 5 | 1.732 |β| | 2|β|·cos(π/6) = √3·|β| |
-| hexatriene | 6 | 1.802 |β| | 2|β|·cos(π/7) |
+| butadiene | 4 | 1.618 \|β\| | 2\|β\|·cos(π/5) = φ·\|β\| (the golden ratio) |
+| pentadienyl | 5 | 1.732 \|β\| | 2\|β\|·cos(π/6) = √3·\|β\| |
+| hexatriene | 6 | 1.802 \|β\| | 2\|β\|·cos(π/7) |
 
 The hand sits on the band edge, the outermost vertex of the (now open-chain) circle. So
 the first thing the clock adds is a reading the still photograph cannot give: of all the
@@ -87,8 +87,8 @@ resting state.
 
 | Chemistry | Framework | Status |
 |-----------|-----------|--------|
-| Frost-Musulin circle (ring π-MO energies on radius 2|β|) | the dial of the clock, the Bohr-frequency face | Tier 2 structural identification |
-| longest-lived π-coherence frequency | the angular hand (Rotation) on the slowest mode | Tier 1 bit-exact (2|β| ring, 2|β|·cos(π/(N+1)) chain) |
+| Frost-Musulin circle (ring π-MO energies on radius 2\|β\|) | the dial of the clock, the Bohr-frequency face | Tier 2 structural identification |
+| longest-lived π-coherence frequency | the angular hand (Rotation) on the slowest mode | Tier 1 bit-exact (2\|β\| ring, 2\|β\|·cos(π/(N+1)) chain) |
 | π-coherence lifetime τ = 1/(2γ) | the radial hand (Takt), gap = 2γ | Tier 1 algebraic |
 | coherent ↔ incoherent threshold Q* | the crossover where the slowest mode loses its frequency | Tier 2 (verified N=3,4,5; √2 at N=3) |
 | Holstein phonon dephasing γ | Z-dephasing rate (D[n_l] = ¼·D[Z_l]) | Tier 1 |
