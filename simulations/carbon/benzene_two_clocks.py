@@ -16,6 +16,16 @@ even N)": the full 4^6 Liouvillian's slowest mode below the beat is a DOUBLE-EXC
 sector (2,2)/(4,4)), so the full-L handover (~1.95) does NOT coincide with the clean SE-EP Uhr 2
 (1.609). That split is benzene's concrete probe of the open seam.
 
+Model note (carbon = XY, free fermions). H is XY only, no ZZ: the physically correct Hueckel
+pi-hopping model. The seam mode (sector (2,2)/(4,4)) is a frozen DRESSED magnon-admixture - its
+effective light content is FRACTIONAL (<n_XY> = 0.72 at Q=1.6, not 1), Absorption-Theorem-governed
+exactly like CHAIN_GAP_SECTOR_DIAGNOSTIC's half-filling slow mode. But that diagnostic is HEISENBERG
+(XXX, with ZZ), where the same survivor sits at the dead-center (3,3) and is darker (<n_XY> = 0.23 at
+ring N=6 Q=2). Same law (the Absorption Theorem), same kind of object; the ZZ retunes the darkness and
+the sector. So do NOT compare this XY computation's numbers directly against CHAIN_GAP's Heisenberg
+ones - the model differs; _xy_vs_heisenberg_slowmode.py shows both side by side (and confirms this
+builder reproduces CHAIN_GAP's -0.230 (3,3) bit-for-bit once the ZZ is added).
+
 Self-validating: run it, every assert must pass. Conventions match
 simulations/coherence_horizon_se_block.py (H = (J/2) sum(XX+YY), dephasing g * sum_l D[Z_l]).
 Wall-clock note: the benzene asserts each do one or two 4096x4096 eigendecompositions (~1 min total)."""
