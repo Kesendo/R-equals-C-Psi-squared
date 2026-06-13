@@ -91,12 +91,20 @@ public sealed class SurvivalIncompletenessMirrorClaim : Claim
     /// <summary>a_0 * a_2 = d*(1/d) = 1 (the inversion-mirror identity), live.</summary>
     public double MirrorProduct => Survival.Ladder.ProductWithMirrorPartner(0);
 
+    // Culture-invariant renderings for the prose summaries (so a_2 prints "0.5", not "0,5" on a
+    // German locale), matching the InvariantCulture formatting the sibling claims use.
+    private static string Fmt(double v) => v.ToString("0.#", CultureInfo.InvariantCulture);
+    private string A0Text => Fmt(A0);
+    private string A2Text => Fmt(A2);
+    private string MirrorProductText => Fmt(MirrorProduct);
+    private string MirrorPartnerText => MirrorPartnerOfSurvival.ToString(CultureInfo.InvariantCulture);
+
     public override string DisplayName =>
         "Survival mirrors incompleteness: a_0 (2gamma) and a_2 (C=1/2) are Pi2-ladder mirror partners (Tier1Candidate)";
 
     public override string Summary =>
-        $"the survival law (a_0={A0:0.#}) and the V-Effect/incompleteness (a_2={A2:0.#}) are inversion-mirror partners " +
-        $"(a_0*a_2={MirrorProduct:0.#}=d*1/d); dynamically the longest-lived mode is the interior incompleteness coherence on " +
+        $"the survival law (a_0={A0Text}) and the V-Effect/incompleteness (a_2={A2Text}) are inversion-mirror partners " +
+        $"(a_0*a_2={MirrorProductText}=d*1/d); dynamically the longest-lived mode is the interior incompleteness coherence on " +
         $"dispersive matter (chain/ring), the central-spin star the boundary counterexample; {PassCount}/{Cases.Count} PASS ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -104,9 +112,9 @@ public sealed class SurvivalIncompletenessMirrorClaim : Claim
         get
         {
             yield return new InspectableNode("(a) the algebra: a_0 <-> a_2 mirror",
-                summary: $"a_0={A0:0.#} (survival quantum 2gamma == qubit dim d) and a_2={A2:0.#} (incompleteness C=1/2 == 1/d) " +
-                         $"are Pi2-ladder inversion-mirror partners: MirrorPartnerIndex(0)={MirrorPartnerOfSurvival}, " +
-                         $"a_0*a_2={MirrorProduct:0.#}=d*(1/d), self-mirror a_1=1 between, forced by d^2-2d=0.");
+                summary: $"a_0={A0Text} (survival quantum 2gamma == qubit dim d) and a_2={A2Text} (incompleteness C=1/2 == 1/d) " +
+                         $"are Pi2-ladder inversion-mirror partners: MirrorPartnerIndex(0)={MirrorPartnerText}, " +
+                         $"a_0*a_2={MirrorProductText}=d*(1/d), self-mirror a_1=1 between, forced by d^2-2d=0.");
             yield return new InspectableNode("(b) the dynamic enactment (the incomplete survives on dispersive matter)",
                 summary: "below the handover Q the longest-lived mode is the interior incompleteness coherence on dispersive " +
                          "extended matter (chain dead-centre half-filling, ring off-centre); the hub-localized central-spin star " +

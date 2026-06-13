@@ -7,7 +7,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <summary>The dynamic survival probe, live (<c>inspect --root survivor</c>): WHERE the longest-lived
 /// dissipative mode lives across the three physically-grounded topologies, and HOW its lifetime scales
 /// with N. The thread-(b) companion to the <c>survival_incompleteness_mirror</c> arc; the C# witness for
-/// <see cref="RCPsiSquared.Core.Symmetry.SurvivalIncompletenessMirrorClaim"/>.
+/// <see cref="SurvivalIncompletenessMirrorClaim"/>.
 ///
 /// <para><b>The labels are physical, not abstract graph types:</b>
 /// <list type="bullet">
