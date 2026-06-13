@@ -100,6 +100,25 @@ def q_star(N):
 for N in (3, 4, 5):
     print(f"   N={N}:  Q* = {q_star(N):.3f}")
 print("   Q* grows with N (sqrt(2) at N=3): the longer the conjugated chain, the less")
-print("   phonon dephasing it tolerates before its slowest pi-coherence stops beating.")
+print("   phonon dephasing it tolerates before a silent relaxation overtakes the (protected)")
+print("   band-edge beat as the longest-lived mode (the longest-lived ROLE swaps; the beat")
+print("   itself never stops, mechanism sharpened 2026-06-13).")
 print("   Real conjugated systems sit at Q ~ 100 (room T), deep in the beating regime;")
 print("   Q* is the strong-dephasing edge, and it tightens with conjugation length.")
+
+# --- 4. Benzene's own ring crossover: the half-filled even-N ring sits on the V-Effect seam ----
+print()
+print("4. Benzene's own ring crossover (the half-filled even-N ring sits on the V-Effect seam):")
+print("   the single-excitation erasure point (Uhr 2) is Q* = 1.609; the full-L band-edge handover")
+print("   is a DOUBLE-excitation mode near Q ~ 1.95. The two SPLIT here, though they coincide for the")
+print("   open chains. Computed and asserted in simulations/carbon/benzene_two_clocks.py.")
+
+# --- self-check (this script is otherwise print-only): the chain ladder is canonical, and benzene's
+#     coherence hand sits at the Frost radius 2|beta|. ----
+_LADDER = {3: 2.0 ** 0.5, 4: 1.87874, 5: 2.37367}
+for _n, _q in _LADDER.items():
+    _got = q_star(_n)
+    assert abs(_got - _q) < 5e-3, f"chain Q*({_n})={_got:.4f} != canonical {_q:.4f}"
+assert abs(clock(6, 1.0, 'ring')[1] - 2.0) < 1e-6, "benzene coherence hand omega_mem != 2|beta|"
+print()
+print("   [self-check] chain ladder Q*(3,4,5) and benzene omega_mem = 2|beta| reproduced.")

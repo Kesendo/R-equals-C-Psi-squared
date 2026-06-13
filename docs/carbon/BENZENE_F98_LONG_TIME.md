@@ -111,6 +111,12 @@ derived on.
   BENZENE_LIOUVILLIAN_PALINDROME, "The structure of the Peierls break"); the F98
   bridge holds only under Holstein dephasing, and its fate under a mixed
   Holstein + Peierls bath is untested.
+- The clock's V-Effect seam: [FROST_CIRCLE_AS_THE_CLOCK_FACE](FROST_CIRCLE_AS_THE_CLOCK_FACE.md)
+  finds that for benzene (even N, half-filled) the mode that overtakes the band-edge coherence below
+  the crossover Q* lives in the double-excitation filling sector, the same half-filled region this
+  note's KIntermediate Dicke state (|D₂⟩+|D₃⟩) and its long-time ρ_∞ inhabit. The F98 long-time bridge
+  and the clock's coherent↔incoherent seam look to be two readings of benzene's half-filled-sector
+  physics; making that precise is open.
 
 ## Anchor
 

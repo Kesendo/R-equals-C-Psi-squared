@@ -89,6 +89,22 @@ The threshold grows with chain length: a longer conjugated system needs *less* d
 longest-lived feature. The coherent regime is harder to hold the further the coherence has
 to reach, even though the band-edge beat itself stays protected throughout.
 
+**Benzene's own crossover, and where the ring breaks the clean picture.** The rows above are
+open chains; benzene closes the ring. Read by the same single-excitation erasure point that gives
+the ladder (Uhr 2 of F2b's two clocks, the {0,2}-coherence EP), benzene's threshold is Q* = 1.609,
+transcendental like the chains at N ≥ 4
+([`simulations/carbon/benzene_two_clocks.py`](../../simulations/carbon/benzene_two_clocks.py)).
+It sits *below* every open polyene: the closed ring, beating at the full 2|β| band edge, holds its
+coherence down to a lower Q than any chain. But benzene is also the even-N, half-filled ring where
+the V-Effect seam opens, and there the two clocks come apart. For an open chain the Absorption
+Theorem pins the band-edge survivor (Uhr 1) and the erasure point (Uhr 2) to the same gap rate −2γ,
+so the full Liouvillian's crossover and the single-excitation EP coincide (that is the ladder). On
+benzene they split: the mode that actually overtakes the band-edge beat in the full Liouvillian is a
+*double-excitation* coherence (the (2,2)/(4,4) filling sector), and its handover sits higher, near
+Q ≈ 1.95, not at the single-excitation erasure point. So benzene answers two of the questions this
+note left open at once: its ring crossover is 1.609, and the V-Effect does reshape the late-time
+channel there, from a single-excitation relaxation into a double-excitation one.
+
 A caveat that keeps it honest: real π-conjugated systems at room temperature sit at
 Q ~ 100 (β ~ 2.4 eV against phonon dephasing ~ 25 meV), far above any of these
 thresholds, deep in the beating regime. Q* is the strong-dephasing edge, the dephasing
@@ -124,18 +140,25 @@ strength, not merely present), and the dephasing edge Q* where a longer-lived no
 component emerges as the dominant late-time signal, are read directly from those
 experiments.
 
-Open from here: the closed form of Q*(N) (the √2 at N=3 looks exact; the rest await a
-clean expression, now understood to be the critical-damping condition of the silent
-relaxation channel that overtakes the beat, not a property of the beat itself, sharpened
-2026-06-13), the ring crossover (benzene's own Q*, not only the chains'), and whether the
-band-edge selection survives the V-Effect's boundary-sector structure at the half-filled
-shell.
+Open from here, now mostly closed. The closed form of Q*(N) is the single-excitation
+(Haken-Strobl) EP: exact (the clean 2×2 λ² + 4γλ + c·J² = 0, so Q* = 2/√c) only at N = 2, 3, and
+transcendental for N ≥ 4, a diffusive critical-damping condition, not a property of the beat (the
+quantum side, [F2b](../ANALYTICAL_FORMULAS.md) and
+[`coherence_horizon_se_block.py`](../../simulations/coherence_horizon_se_block.py)). Benzene's ring
+crossover is Q* = 1.609 (the benzene paragraph above). What the V-Effect does is now visible: on the
+half-filled even-N ring the band-edge selection does *not* simply survive, the overtaking channel
+hands over to a double-excitation coherence near Q ≈ 1.95. What stays open is the exact mechanism of
+that double-excitation seam, and whether the split is special to the ring or general to every even N
+(the open-chain control is the next probe).
 
 ## Anchor
 
 - Script: [`simulations/carbon/frost_circle_as_clock.py`](../../simulations/carbon/frost_circle_as_clock.py)
 - Parent: [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md) (open question 5, the Frost circle), [README](README.md)
-- Framework: the clock voices (Takt + Rotation) on `MirrorSystem`; [F1 palindrome](../ANALYTICAL_FORMULAS.md#f1);
+- Framework: the clock voices (Takt + Rotation) on `MirrorSystem`; the two clocks,
+  [F2b corollary "The two clocks"](../ANALYTICAL_FORMULAS.md) / `ClockHandLadderClaim` /
+  `inspect --root clock` (Uhr 1 the band-edge survivor, Uhr 2 the erasure point Q*);
+  [F1 palindrome](../ANALYTICAL_FORMULAS.md#f1);
   the many-body memory frequency ω_mem = 8J·cos²(π/2N) (Heisenberg) and 2J·cos(π/(N+1)) (XY),
   [`simulations/_the_dial_at_many_body.py`](../../simulations/_the_dial_at_many_body.py)
 - Literature: Frost + Musulin (1953) "A mnemonic device for molecular orbital energies",
