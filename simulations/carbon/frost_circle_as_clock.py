@@ -12,10 +12,12 @@ the static picture does not carry:
   1. WHICH coherence outlives the rest, and how long. The longest-lived pi-coherence is
      the band-edge one, beating at omega = 2|beta|*cos(pi/(N+1)) for an N-carbon polyene
      chain (2|beta| for the benzene ring), with lifetime tau = 1/(2 gamma_phonon).
-  2. A crossover Q* = J/gamma (coherent <-> incoherent). Below Q* the band-edge coherence
-     stops beating (the slowest Liouvillian mode becomes pure decay); above it, it beats.
-     Q* grows with chain length: longer conjugated systems tolerate less dephasing before
-     their slowest pi-coherence freezes.
+  2. A crossover Q* = J/gamma (coherent <-> incoherent). The band-edge beat itself is
+     gamma-PROTECTED (omega and tau hold steady across Q); below Q* a non-beating relaxation
+     of the pi-populations OVERTAKES it as the longest-lived (slowest) mode, so the slowest
+     Liouvillian mode becomes pure decay (that relaxation channel is critically damped at
+     Q*, an exceptional point). Q* grows with chain length. (Mechanism sharpened 2026-06-13;
+     the band-edge coherence does NOT itself freeze, the longest-lived role swaps.)
 
 Carbon map (docs/carbon README, resolved 2026-05-22): each carbon pi-site is a qubit
 (occupied/empty), Huckel hopping beta = the XX+YY coupling J, Holstein phonon = the
@@ -76,7 +78,7 @@ for N in (4, 5, 6):
 print()
 
 # --- 3. The crossover Q* (coherent <-> incoherent), grows with chain length -------------
-print("3. Crossover Q* = J/gamma  (below: band-edge coherence frozen; above: beating):")
+print("3. Crossover Q* = J/gamma  (below: a silent relaxation outlives the protected beat; above: beating leads):")
 
 
 def omega_mem(N, Q):

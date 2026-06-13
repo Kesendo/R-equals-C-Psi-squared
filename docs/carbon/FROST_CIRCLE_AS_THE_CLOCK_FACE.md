@@ -61,10 +61,22 @@ you would still hear last, and for how long.
 ## The crossover: when the beat stops
 
 The second thing the clock adds has no counterpart in the closed-system picture at all.
-Sweep the ratio Q = J/γ, hopping against dephasing, and the band-edge coherence does not
-simply fade: below a threshold Q* it stops being a coherence. The slowest mode of the
-open system changes character, from a turning coherence into a pure, non-turning decay;
-the angular hand freezes at zero. Above Q* it beats; below it, silence.
+Sweep the ratio Q = J/γ, hopping against dephasing. The band-edge beat itself is
+remarkably robust: its frequency 2|β|·cos(π/(N+1)) and its lifetime 1/(2γ) hold steady all
+the way down. Dephasing pulls the radius in but never touches the angle, the beat is
+protected. What turns over at the threshold Q* is which mode lives *longest*. Below Q* a
+non-beating mode, a pure relaxation of the π-populations, outlives the band-edge coherence
+and becomes the slowest surviving feature; the clock's slowest hand changes character, from
+a turning coherence into a non-turning decay, not because the beat died but because a
+quieter, longer-lived channel overtook it. Above Q* the last thing still moving is the
+turning coherence; below it, a silent relaxation. And right at Q* that relaxation channel
+is critically damped, two of its decay modes coalescing into one, an exceptional point: the
+knife-edge a damped pendulum crosses between overshoot and slow crawl. The coherent ↔
+incoherent threshold is that knife-edge.
+
+*(Mechanism sharpened 2026-06-13. The earlier telling had the band-edge coherence itself
+freezing at Q*; that was the longest-lived role swapping seen from the outside, the
+band-edge beat is in fact protected and never stops. The values below are unchanged.)*
 
 | chain (N) | Q* (coherent ↔ incoherent) |
 |-----------|-----------------------------|
@@ -72,9 +84,10 @@ the angular hand freezes at zero. Above Q* it beats; below it, silence.
 | 4 | 1.879 |
 | 5 | 2.372 |
 
-The threshold grows with chain length. A longer conjugated system tolerates *less*
-dephasing before its slowest π-coherence freezes; the coherence is more fragile the
-further it has to reach.
+The threshold grows with chain length: a longer conjugated system needs *less* dephasing
+(a higher Q) before the silent relaxation channel overtakes its band-edge beat as the
+longest-lived feature. The coherent regime is harder to hold the further the coherence has
+to reach, even though the band-edge beat itself stays protected throughout.
 
 A caveat that keeps it honest: real π-conjugated systems at room temperature sit at
 Q ~ 100 (β ~ 2.4 eV against phonon dephasing ~ 25 meV), far above any of these
@@ -90,7 +103,7 @@ resting state.
 | Frost-Musulin circle (ring π-MO energies on radius 2\|β\|) | the dial of the clock, the Bohr-frequency face | Tier 2 structural identification |
 | longest-lived π-coherence frequency | the angular hand (Rotation) on the slowest mode | Tier 1 bit-exact (2\|β\| ring, 2\|β\|·cos(π/(N+1)) chain) |
 | π-coherence lifetime τ = 1/(2γ) | the radial hand (Takt), gap = 2γ | Tier 1 algebraic |
-| coherent ↔ incoherent threshold Q* | the crossover where the slowest mode loses its frequency | Tier 2 (verified N=3,4,5; √2 at N=3) |
+| coherent ↔ incoherent threshold Q* | where a non-beating relaxation channel overtakes the (protected) band-edge beat as the longest-lived mode, critically damped there (an exceptional point) | Tier 2 (verified N=3,4,5; √2 at N=3) |
 | Holstein phonon dephasing γ | Z-dephasing rate (D[n_l] = ¼·D[Z_l]) | Tier 1 |
 | Hückel β | coupling J | Tier 1 |
 
@@ -106,13 +119,17 @@ diagram cannot hold.
 It is testable on the carbon side without any process tomography. Two-dimensional
 electronic spectroscopy of conjugated systems already measures π-coherence beat
 frequencies and their dephasing times; the band-edge prediction ω = 2|β|·cos(π/(N+1)) with
-τ = 1/(2γ), and the existence of a dephasing edge where the slowest beat vanishes, are
-read directly from those experiments.
+τ = 1/(2γ) (a beat whose frequency and lifetime are predicted robust against the dephasing
+strength, not merely present), and the dephasing edge Q* where a longer-lived non-beating
+component emerges as the dominant late-time signal, are read directly from those
+experiments.
 
 Open from here: the closed form of Q*(N) (the √2 at N=3 looks exact; the rest await a
-clean expression), the ring crossover (benzene's own Q*, not only the chains'), and
-whether the band-edge selection survives the V-Effect's boundary-sector structure at the
-half-filled shell.
+clean expression, now understood to be the critical-damping condition of the silent
+relaxation channel that overtakes the beat, not a property of the beat itself, sharpened
+2026-06-13), the ring crossover (benzene's own Q*, not only the chains'), and whether the
+band-edge selection survives the V-Effect's boundary-sector structure at the half-filled
+shell.
 
 ## Anchor
 

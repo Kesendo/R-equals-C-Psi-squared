@@ -201,19 +201,24 @@ point itself, the base rung the polyene layer (N≥3) cannot reach; the quantum 
 it. Q*(N) equals the band edge 2cos(π/(N+1)) at N=2 and N=3 ONLY (1 = 2cos60°, √2 = 2cos45°),
 a low-N accident departing at N≥4 (Q*=1.8785 ≠ φ); that is why the √2 looked exact at N=3 and
 "the rest awaited a clean form" (it is exact, but coincidental, not a cos-law). **Open:** the
-closed form, and the verified mechanism that explains why it is open is that the freezing mode
-CHANGES SECTOR at N=4. At N=2,3 the mode that freezes just below Q* is a {0,2}-coherence (its
-computational-basis weight has n_diff histogram {0: ½, 2: ½}, a small oscillation frequency); at
-N≥4 it is instead the pure n_diff=1 band-edge single-excitation mode (Im = 2cos(π/(N+1)) = φ at
-N=4, √3 at N=5), undercut just below Q* by a half-lit ⟨n_XY⟩ ≈ ½ overdamped mode. This sector
-bifurcation at N=4 is the structural reason Q*=2cos(π/(N+1)) holds only at N=2,3: the band edge
-is the horizon only once the band-edge mode is the one that freezes, which it is not at low N.
-The freezing mode is overdamped (Im=0) and half-lit (⟨n_XY⟩ ≈ ½, NOT the dark {I,Z} sector, a
-verified clue that refuted a "dark-storage-undercuts-bright-readout" guess). This is a verified
-mechanism observation, not a derived closed form; the closed form of Q*(N) remains the open
-remainder.
-**Verified:** N=2..5 vs carbon (`simulations/_carbon_quantum_same_mountain.py`); the sector
-bifurcation at N=4 (`simulations/_coherence_horizon_closed_form.py`).
+closed form. The mechanism (corrected 2026-06-13, physics-first review via phase rigidity, after
+an earlier "sector bifurcation at N=4" reading that contradicted the two-clocks corollary above
+and was an argmax-Re / Im-tracking artifact): the mode that COALESCES at Q*(N) is the
+{0,2}-coherence (population / antisymmetric-coherence block, n_diff histogram {0: ½, 2: ½},
+⟨n_diff⟩ = 1) at ALL N = 2..5, a genuine square-root EP (phase rigidity r → 0, Im ∝ √(Q−Q*); r at
+Q* = 0.000 / 0.015 / 0.026 at N = 3 / 4 / 5). There is NO sector bifurcation at N=4: the
+{0,2}-coherence is the N-continuation of the N=2 coalescing mode 2√(J²−γ²). The band edge
+2cos(π/(N+1)) is the co-located SURVIVOR, not the freezer: the |vac⟩⟨ψ_k| coherence hand (Uhr 1,
+γ-protected, r ≈ 1, Im γ-independent to 1e-15) sits at the SAME gap Re = −2γ as the
+{0,2}-coherence EP only because the Absorption Theorem pins both (both ⟨n_diff⟩ = 1), and that
+degeneracy is what fooled the Im-tracking. So Q*(N) is, at every N≥3, simultaneously a
+{0,2}-coherence EP (Uhr 2, the erasure point, which CLIMBS the ladder) and a band-edge crossing
+(Uhr 1, which SURVIVES the handover). The closed form of Q*(N) is the discriminant-zero of the
+{0,2}-coherence block; that block grows with N (its N≥3 frequency does not follow the N=2
+2√(J²−γ²)), and extracting it is the open remainder.
+**Verified:** N=2..5 vs carbon (`simulations/_carbon_quantum_same_mountain.py`); the
+{0,2}-coherence EP at all N=2..5 via phase rigidity (physics-first review 2026-06-13;
+`simulations/_coherence_horizon_closed_form.py` to gain the rigidity sweep).
 
 ### AT. Absorption Theorem (Tier 1, proven)
 

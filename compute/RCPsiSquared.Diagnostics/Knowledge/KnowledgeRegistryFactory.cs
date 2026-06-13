@@ -341,9 +341,11 @@ public static class KnowledgeRegistryFactory
             // for N=2..5, the Q below which the slowest non-zero Liouvillian mode stops oscillating
             // (the coherence hand freezes), verified equal to the carbon Frost-Hückel coherent↔incoherent
             // threshold under J ↔ |β| (the cross-substrate identity). N=2 (Q*=1) is the EP base the
-            // carbon polyene layer cannot reach. The closed form is OPEN: the freezing mode bifurcates
-            // sector at N=4 ({0,2}-coherence at N=2,3, pure n_diff=1 band edge at N≥4), the reason
-            // Q*=2cos(π/(N+1)) holds only at N=2,3. Live: inspect --root horizon. Two typed parents,
+            // carbon polyene layer cannot reach. The mode that coalesces at Q*(N) is the {0,2}-coherence
+            // (population/antisymmetric block) at ALL N=2..5, a genuine √-EP (phase rigidity r→0; corrected
+            // 2026-06-13); the band edge 2cos(π/(N+1)) is the co-located γ-protected survivor, not the freezer
+            // (no bifurcation at N=4). Closed form OPEN = the {0,2}-block discriminant. Live: inspect --root
+            // horizon. Two typed parents,
             // both registered in this chain: ClockHandLadderClaim (the clock's Q-floor made exact,
             // directly above) + F2bXyChainSpectrumPi2Inheritance (the band edge, registered earlier in this chain).
             .RegisterCoherenceHorizonClaim()
