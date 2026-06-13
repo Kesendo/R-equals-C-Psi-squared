@@ -121,7 +121,12 @@ public sealed class CoherenceHorizonClaim : Claim
                          "(1.609). For the open chains the Absorption Theorem co-locates the two at Re = −2γ (that IS the " +
                          "ladder); benzene breaks it. The split is RING-SPECIFIC: the open even-N chain N=6 overtaker " +
                          "spreads across all fillings at its own SE-EP, so the double-excitation seam is a feature of the " +
-                         "closed aromatic ring at half-filling, not even N alone. Carbon doc: FROST_CIRCLE_AS_THE_CLOCK_FACE.md.");
+                         "closed ring at half-filling (the C=0.5 boundary), not even N alone. Aromaticity (Hückel 4n+2) " +
+                         "is NOT the discriminant (tested C4/C8 in simulations/carbon/aromatic_ring_v_effect.py): the " +
+                         "seam is RING-UNIVERSAL, the C=0.5 half-filling boundary made dynamic, a sibling of the " +
+                         "incompleteness V-Effect (docs/HIERARCHY_OF_INCOMPLETENESS.md). The 4n anti-aromatics C4 and C8 " +
+                         "do NOT group (C4 is a small-ring anomaly, its seam dominates even at weak dephasing). Carbon " +
+                         "doc: FROST_CIRCLE_AS_THE_CLOCK_FACE.md.");
             yield return Horizon;   // typed parent edge
             yield return BandEdge;  // typed parent edge
         }

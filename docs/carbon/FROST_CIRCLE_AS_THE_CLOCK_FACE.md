@@ -149,8 +149,12 @@ quantum side, [F2b](../ANALYTICAL_FORMULAS.md) and
 crossover is Q* = 1.609 (the benzene paragraph above). What the V-Effect does is now visible: on the
 half-filled even-N ring the band-edge selection does *not* simply survive, the overtaking channel
 hands over to a double-excitation coherence near Q ≈ 1.95. What stays open is the exact mechanism of
-that double-excitation seam, and whether the split is special to the ring or general to every even N
-(the open-chain control is the next probe).
+that double-excitation seam, and the dynamic C=0.5 question it opens. The split is now known to be RING-UNIVERSAL, not aromatic:
+C4, C6, and C8 rings all hand over to a frozen double-excitation mode at strong dephasing (the open
+chains do not), so it is the C=0.5 half-filling boundary, a sibling of the incompleteness V-Effect
+([HIERARCHY_OF_INCOMPLETENESS](../HIERARCHY_OF_INCOMPLETENESS.md)); Hückel's 4n+2 is not the
+discriminant (the 4n anti-aromatics C4 and C8 do not group, C4 being a small-ring anomaly;
+[`aromatic_ring_v_effect.py`](../../simulations/carbon/aromatic_ring_v_effect.py)).
 
 ## Anchor
 
