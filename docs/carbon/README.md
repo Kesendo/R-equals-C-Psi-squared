@@ -1,5 +1,7 @@
 # Carbon Domain (Quantum Carbon, V-Effect, Conjugated Systems)
 
+**Authors:** Tom + Claude
+
 Consolidation folder for the carbon thread, mirroring `docs/water/` as a substrate
 domain. The carbon material had been scattered across [HIERARCHY_OF_INCOMPLETENESS](../HIERARCHY_OF_INCOMPLETENESS.md),
 [QUBIT_NECESSITY](../QUBIT_NECESSITY.md), [V_EFFECT_PALINDROME](../../experiments/V_EFFECT_PALINDROME.md),

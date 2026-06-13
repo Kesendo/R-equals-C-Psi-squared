@@ -1,6 +1,7 @@
 # Reverse-Spear: the Periodic Table as a Probe of Framework Completeness
 
 **Date:** 2026-05-17 night (third stack of the day)
+**Authors:** Tom + Claude
 **Status:** Tier 2 (structural observation + named gap candidates)
 **Script:** [`simulations/carbon/spear_reversed_missing_anchors.py`](../../simulations/carbon/spear_reversed_missing_anchors.py)
 

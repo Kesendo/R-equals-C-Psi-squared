@@ -1,6 +1,7 @@
 # Off-Niven Constructible Angles Are the Framework's Wave-Breaking / Heat Source
 
 **Date:** 2026-05-17 night (seventh stack of the day, after F99 Niven-completeness)
+**Authors:** Tom + Claude
 **Status:** Tier 2 structural reading (closed-form verification of α-values at constructible angles; mapping to V-Effect, anti-aromatic Jahn-Teller, and golden-ratio chemistry)
 **Script:** [`simulations/carbon/off_niven_angles_as_wave_breaking.py`](../../simulations/carbon/off_niven_angles_as_wave_breaking.py)
 

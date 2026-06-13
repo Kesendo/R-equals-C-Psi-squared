@@ -1,6 +1,7 @@
 # Benzene Hückel through the Framework Lens
 
 **Date:** 2026-05-17 evening
+**Authors:** Tom + Claude
 **Status:** Tier 2 (structural observation, not yet a new theorem); first substantive
 carbon-domain reading.
 **Script:** [`simulations/carbon/benzene_huckel_framework_lens.py`](../../simulations/carbon/benzene_huckel_framework_lens.py)

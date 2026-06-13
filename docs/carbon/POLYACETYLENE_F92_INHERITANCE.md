@@ -1,6 +1,7 @@
 # Polyacetylene as F92 Inheritance: The SSH Chain Reads as Anti-Palindromic-J
 
 **Date:** 2026-05-27
+**Authors:** Tom + Claude
 **Status:** Tier 2 candidate. Framework predictions are tight and follow directly from F92 / F100 / F101 ([PROOF_F92_BOND_ANTI_PALINDROMIC_J](../proofs/PROOF_F92_BOND_ANTI_PALINDROMIC_J.md), [PROOF_F100](../proofs/PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md), [PROOF_F101](../proofs/PROOF_F101_C1_MIRROR_GAMMA_PARITY.md), all Tier 1 derived). Numerical verification on the open-system SSH chain is the deferred next pass.
 **Continues:** [BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md) (Holstein/Peierls fork), [BENZENE_THREE_DEPHASE_LETTERS](BENZENE_THREE_DEPHASE_LETTERS.md) (the Klein-V₄ return visit).
 **Reads alongside:** [README](README.md) Open Question 4 (graphene K-point) and the candidate doc list.

@@ -1,6 +1,7 @@
 # F99: Depth-3 Anchor Derived, the Bridge Goes Both Ways with Material
 
 **Date:** 2026-05-17 night (fifth stack of the day)
+**Authors:** Tom + Claude
 **Status:** Tier 1 derived (bit-exact N = 4, 6, 8 across 5 canonical trig angles)
 **Script:** [`simulations/carbon/depth_3_anchor_derivation.py`](../../simulations/carbon/depth_3_anchor_derivation.py)
 

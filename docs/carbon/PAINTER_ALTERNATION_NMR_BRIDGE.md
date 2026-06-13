@@ -1,6 +1,7 @@
 # From the Painter Alternation to the NMR Bench
 
 **Date:** 2026-05-27 (later the same day)
+**Authors:** Tom + Claude
 **Status:** Tier 3 (translation bridge from a Liouvillian-eigenmode observation to a standard NMR measurement)
 **Continues:** [`_carbon_ptf_real_imag_per_painter.py`](../../simulations/_carbon_ptf_real_imag_per_painter.py) (this morning's Painter Re/Im read on the N = 4 ring), [BENZENE_THREE_DEPHASE_LETTERS](BENZENE_THREE_DEPHASE_LETTERS.md) (morning's three-letter vocabulary)
 

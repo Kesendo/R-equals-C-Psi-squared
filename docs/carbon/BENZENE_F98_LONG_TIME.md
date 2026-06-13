@@ -1,6 +1,7 @@
 # Benzene and the F98 Long-Time Bridge
 
 **Date:** 2026-05-22
+**Authors:** Tom + Claude
 **Status:** Tier 1: F98 is a proven theorem (`docs/ANALYTICAL_FORMULAS.md` F98,
 derived and bit-exact N=4..16); this is its verified benzene-ring instance. The
 benzene-as-qubit-ring embedding is itself a Tier 4 candidate (see [README](README.md),

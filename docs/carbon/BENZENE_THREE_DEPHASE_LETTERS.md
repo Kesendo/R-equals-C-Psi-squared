@@ -1,6 +1,7 @@
 # Benzene and the Three Dephase Letters: Klein-V₄ Returns
 
 **Date:** 2026-05-27
+**Authors:** Tom + Claude
 **Status:** Tier 3 (translation bridge; some pieces Tier 1 verified, others Tier 4 candidates marked)
 **Continues:** [BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md) (2026-05-22)
 **Adds:** Klein-V₄ vocabulary ([Welle 12](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)), F112 cross-dephase ([Welle 13](../proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md)), F114 sign functional ([ANALYTICAL_FORMULAS § F114](../ANALYTICAL_FORMULAS.md#f114))

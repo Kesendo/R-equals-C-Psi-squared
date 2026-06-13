@@ -1,6 +1,7 @@
 # The Periodic Palindrome and the V-Effect: Hierarchy, Not Mechanism
 
 **Date:** 2026-05-22
+**Authors:** Tom + Claude
 **Status:** Tier 1 computational result inside a Tier 5 hierarchy framing. The
 periodic table is a Level-1 instance of the V-Effect's incompleteness hierarchy;
 that structural correspondence is established by

@@ -1,6 +1,7 @@
 # Where 1/4 and 1/2 Appear Exactly in Carbon
 
 **Date:** 2026-05-17 evening
+**Authors:** Tom + Claude
 **Status:** Tier 2 (structural observation, three layers verified exact)
 **Script:** [`simulations/carbon/carbon_quarter_half_search.py`](../../simulations/carbon/carbon_quarter_half_search.py)
 

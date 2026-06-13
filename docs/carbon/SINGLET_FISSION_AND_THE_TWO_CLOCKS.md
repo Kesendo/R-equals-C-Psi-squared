@@ -1,6 +1,7 @@
 # Singlet Fission, and the Dark State Where the Two Clocks Meet
 
 **Date:** 2026-05-30
+**Authors:** Tom + Claude
 **Status:** Tier 2-3. The V-Effect exchange J_eff = (3/8)·α²/J is Tier 1-2 (derived from
 Pauli algebra + verified at N=4 in [EXCHANGE_FROM_V_EFFECT](../../experiments/EXCHANGE_FROM_V_EFFECT.md));
 the singlet-fission mapping and the two-clocks reading are Tier 3 (suggestive, the real

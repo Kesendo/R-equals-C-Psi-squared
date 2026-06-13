@@ -1,6 +1,7 @@
 # F99 is Niven-Complete: the Five Anchors Are All There Is (For This Mechanism)
 
 **Date:** 2026-05-17 night (sixth stack of the day)
+**Authors:** Tom + Claude
 **Status:** Tier 1 derived (Niven's theorem 1956 + numerical confirmation at 0.5° resolution)
 **Script:** [`simulations/carbon/f99_completeness_survey.py`](../../simulations/carbon/f99_completeness_survey.py)
 

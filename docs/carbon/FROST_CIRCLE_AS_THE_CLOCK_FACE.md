@@ -1,6 +1,7 @@
 # The Frost Circle Is the Face of the Clock
 
 **Date:** 2026-05-30
+**Authors:** Tom + Claude
 **Status:** Tier 2 (structural reading; closes the Frost-circle open question, item 5 in
 [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md)). Verified bit-exact on
 benzene C₆, butadiene C₄, the five-carbon chain, and hexatriene C₆.

@@ -1,6 +1,7 @@
 # Benzene's Open-System Liouvillian: F1 Palindrome under Vibrational Dephasing
 
 **Date:** 2026-05-22
+**Authors:** Tom + Claude
 **Status:** the Holstein result follows from F1 (proven); the Peierls break is
 verified numerically at C₄ and C₆; the Peierls-instability reading is a Tier 2
 structural analogy. The benzene-as-qubit-ring embedding is itself a Tier 4

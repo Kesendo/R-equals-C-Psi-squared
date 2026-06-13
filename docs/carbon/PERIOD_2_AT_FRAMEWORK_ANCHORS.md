@@ -1,6 +1,7 @@
 # Period 2 + 3 Atoms Sit on the Framework's Polarity Anchors
 
 **Date:** 2026-05-17 night
+**Authors:** Tom + Claude
 **Status:** Tier 2 (combinatorial fact, no derivation needed; the valence ratios are exact)
 **Script:** [`simulations/carbon/period_2_at_framework_anchors.py`](../../simulations/carbon/period_2_at_framework_anchors.py)
 **Reading:** load-bearing evidence for `project_no_classicalization` and
