@@ -55,4 +55,19 @@ public class SectorReductionWitnessTests
         Assert.Contains("N=8", node.Summary + " " + string.Join(" ",
             System.Linq.Enumerable.Select(System.Linq.Enumerable.ToList(node.Children), c => c.Summary)));
     }
+
+    [Fact]
+    public void Junction_AtN6DeepEdge_GlobalSlowestCrossesToTheO2DensityMode()
+    {
+        // birth_canal_n6_mode_crossing.py in C#: at N=6 deep-edge, Q=1.5 the (2,2) density block's
+        // slowest non-kernel rate is LESS than the (0,1) block's -> the {0,2} mode wins (the crossing).
+        var deep = new[] { 0.25, 1.375, 1.375, 1.375, 1.375, 0.25 };
+        double vac10 = SectorReductionWitness.VacBlockSlowest(6, 1.5, deep, TopologyKind.Chain);    // ~1.471
+        double dens22 = SectorReductionWitness.SectorSlowest(6, 1.5, deep, 2, 2, TopologyKind.Chain); // ~1.120
+        Assert.True(dens22 < vac10, $"(2,2) {dens22} should be slower than (0,1) {vac10} at N=6 deep-edge Q=1.5");
+        // and at high Q the (0,1) mode is back to (or below) the density mode:
+        double vac10Hi = SectorReductionWitness.VacBlockSlowest(6, 1000.0, deep, TopologyKind.Chain);
+        double dens22Hi = SectorReductionWitness.SectorSlowest(6, 1000.0, deep, 2, 2, TopologyKind.Chain);
+        Assert.True(vac10Hi <= dens22Hi + 1e-9, "at Q=1000 the (0,1) odd mode is the global slowest again");
+    }
 }

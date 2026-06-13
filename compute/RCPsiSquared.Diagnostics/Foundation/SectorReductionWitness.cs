@@ -3,6 +3,7 @@ using System.Numerics;
 using RCPsiSquared.Core.BlockSpectrum;
 using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Inspection;
+using RCPsiSquared.Core.Numerics;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
@@ -115,6 +116,38 @@ public sealed class SectorReductionWitness : IInspectable
         return p;
     }
 
+    /// <summary>The slowest non-kernel mode of the (pc,pr) density block, with its n_diff histogram
+    /// (the {0,2} signature) and phase rigidity (the EP detector).</summary>
+    private (double Rate, double Rigidity, IReadOnlyDictionary<int,double> Hist) DensityMode(int n, double q, double[] profile, int pc, int pr)
+    {
+        var H = QHUnit(n, q, Topology);
+        var block = PerBlockLiouvillianBuilder.BuildBlockZ(H, profile, SectorFlat(n, pc, pr));
+        var modes = PhaseRigidity.Compute(block).Where(m => m.Lambda.Magnitude > KernelTol).ToList();
+        if (modes.Count == 0) return (0.0, 1.0, new Dictionary<int,double>());
+        var slow = modes.OrderByDescending(m => m.Lambda.Real).First();
+        var (_, hist) = LiouvilleOperatorContent.NDiffHistogram(slow.Right, n);
+        return (-slow.Lambda.Real, slow.Rigidity, hist);
+    }
+
+    private InspectableNode TheJunctionNode()
+    {
+        if (N < 6 || N > 8)
+            return new InspectableNode("the {0,2} junction",
+                summary: "the odd<->even crossing is visible at N=6..8 (the (2,2) density block, " +
+                         "C(N,2)^2-dim); set N in 6..8 to read it. At N=5 the (0,1) mode always wins.");
+        var deep = DeepEdge(N);
+        double vacLo = VacBlockSlowest(N, 1.5, deep, Topology);
+        var (densLo, rigLo, histLo) = DensityMode(N, 1.5, deep, 2, 2);
+        bool crosses = densLo < vacLo;
+        string h0 = histLo.GetValueOrDefault(0).ToString("0.00", Inv), h2 = histLo.GetValueOrDefault(2).ToString("0.00", Inv);
+        return new InspectableNode("the {0,2} junction",
+            summary: $"deep-edge, N={N}, Q=1.5: (0,1) odd rate {vacLo.ToString("0.000", Inv)} vs (2,2) density rate " +
+                     $"{densLo.ToString("0.000", Inv)} -> {(crosses ? "the {0,2} density mode WINS (the crossing): " : "(0,1) still wins: ")}" +
+                     $"n_diff hist {{0:{h0}, 2:{h2}}}, rigidity {rigLo.ToString("0.000", Inv)}. This is where birth_canal " +
+                     "meets coherence_horizon (the {0,2}-coherence = its EP mode). Identity with the V-Effect (w=N/2) " +
+                     "self-pair is co-located, OPEN, not claimed.");
+    }
+
     public string DisplayName => $"SectorReductionWitness (N={N}, {Topology}, gamma={Gamma.ToString("0.###", Inv)})";
     public string Summary =>
         "the birth-canal boundary as a Liouville sector reduction: the slowest mode is the |1-exc><vac| " +
@@ -126,7 +159,8 @@ public sealed class SectorReductionWitness : IInspectable
         get
         {
             yield return TheVacReductionNode();
-            // the {0,2} junction + chain/ring in later tasks
+            yield return TheJunctionNode();
+            // chain/ring in a later task
         }
     }
     public InspectablePayload Payload => InspectablePayload.Empty;
