@@ -22,8 +22,25 @@ public static class OpenArcsRegistry
             Name: "birth_canal_surface",
             Opened: "2026-05-31",
             Origin: "experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md + PostEpFlowField",
-            ParkedAt: "boundary recognized as a SURFACE (slow-subspace light-distribution Q-invariance); s*=0.709 was one hand-picked line's crossing (path-specific 0.11-0.77); PostEpFlowField shows membership only",
-            NextStep: "a live object that computes the surface itself, not one line through it",
+            ParkedAt: "LANDED 2026-06-13: live witness BirthCanalSurfaceWitness / inspect --root surface " +
+                "draws the sterile<->birth-canal boundary as a 2D slice of gamma-profile space (symmetric " +
+                "profiles by (w_edge, w_center), bulk solved by sum=N), the boundary curve extracted live " +
+                "(interpolated at grid resolution), every point read through six lenses (L1 membership / " +
+                "Q-invariance, L2 light distribution, L3 absorption cross-check, L4 rate, L5 parity rail, " +
+                "L6 degeneracy) + the L7 ray lens (s*=0.709 peaked-V vs 0.105 uniform on two lines, live " +
+                "bisection). R1 from the physics review: sterility has TWO KINDS, genuine light-freeze " +
+                "(robust, peaked-V, breaks at 0.709) vs flat-gamma distribution-blindness (fragile, uniform, " +
+                "breaks at 0.105) - Deviation=0 is necessary but not sufficient for light-freeze; the witness " +
+                "tells them apart. Answers the old script's open sub-question live: none of the scalars " +
+                "(center-gamma, rate) is invariant at the boundary, the MECHANISM is. Reuses " +
+                "PostEpFlowField.BirthCanalDeviation membership (pinned bit-identical by test), no new Claim " +
+                "(breadcrumbs AbsorptionTheoremClaim). N=5 only (the verified anchors and s* lines are the " +
+                "N=5 pins). Side-fix en route: the inspect JSON exporter now tolerates non-finite doubles " +
+                "(NaN heatmap cells)",
+            NextStep: "remaining: the ring/aromatic slice (PostEpFlowField already supports " +
+                "FlowTopology.Ring); the N>=6 higher-dim surface (currently N=5-only, since the node anchors " +
+                "and s* lines are N=5-specific - generalizing them is the extension). Retire when those are " +
+                "judged out of scope",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
@@ -45,7 +62,10 @@ public static class OpenArcsRegistry
                 "typed home ClockHandLadderClaim, see arc clock_hand_ladder); FIVE: CoherenceHorizonWitness / " +
                 "--root horizon bisects the live spectrum to compute Q*(N) and verify it EQUALS the carbon " +
                 "Frost-Hueckel coherent-incoherent threshold (the cross-substrate seam made live, see arc " +
-                "clock_hand_ladder FROST_CIRCLE first stone)",
+                "clock_hand_ladder FROST_CIRCLE first stone); SIX: BirthCanalSurfaceWitness / --root surface " +
+                "draws the sterile<->birth-canal boundary as a live 2D gamma-profile slice (six lenses + the " +
+                "L7 s* ray lens, R1 two sterility kinds), reusing PostEpFlowField membership, no new Claim " +
+                "(breadcrumbs AbsorptionTheoremClaim), see arc birth_canal_surface",
             NextStep: "next witness: F117 Pascal-Gram positivity",
             Status: OpenArcStatus.Open),
 

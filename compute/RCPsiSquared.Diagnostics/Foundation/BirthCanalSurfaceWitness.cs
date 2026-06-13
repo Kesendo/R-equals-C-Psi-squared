@@ -105,7 +105,10 @@ public sealed class BirthCanalSurfaceWitness : IInspectable
     private SurfacePoint[,]? _grid;
     /// <summary>The lazy, cached Deviation grid over the admissible (w_edge, w_center) box. Rows =
     /// w_center (index i), columns = w_edge (index j). Heavy (up to GridK² × 2 EVDs); computed only
-    /// when "the surface" node is inspected.</summary>
+    /// when "the surface" node is inspected — measured ≈4 min at the 9×9 default (≈162 dense
+    /// 2^N × 2^N EVDs at N=5, Release; full --max-depth 3 render ≈6 min). The mechanism / point /
+    /// s* nodes are seconds, and a shallow render is instant; pass --grid to trade resolution for
+    /// speed.</summary>
     private SurfacePoint[,] Grid => _grid ??= ComputeGrid();
 
     private SurfacePoint[,] ComputeGrid()
