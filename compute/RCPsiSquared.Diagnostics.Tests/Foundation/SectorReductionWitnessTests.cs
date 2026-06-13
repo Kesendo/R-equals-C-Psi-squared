@@ -70,4 +70,15 @@ public class SectorReductionWitnessTests
         double dens22Hi = SectorReductionWitness.SectorSlowest(6, 1000.0, deep, 2, 2, TopologyKind.Chain);
         Assert.True(vac10Hi <= dens22Hi + 1e-9, "at Q=1000 the (0,1) odd mode is the global slowest again");
     }
+
+    [Fact]
+    public void JunctionNode_RendersAtN6_WithO2WeightedHistogram_NoCrash()
+    {
+        // Exercises TheJunctionNode -> DensityMode -> NDiffHistogram (the path the rate tests skip).
+        var children = System.Linq.Enumerable.ToList(new SectorReductionWitness(6).Children);
+        var junction = System.Linq.Enumerable.Single(children, c => c.DisplayName == "the {0,2} junction");
+        // at N=6 deep-edge the {0,2} density mode wins, and the n_diff histogram is {0,2}-weighted:
+        Assert.Contains("WINS (the crossing)", junction.Summary);
+        Assert.Contains("n_diff hist {0:", junction.Summary);
+    }
 }

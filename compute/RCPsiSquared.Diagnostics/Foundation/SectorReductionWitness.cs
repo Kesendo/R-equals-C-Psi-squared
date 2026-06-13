@@ -121,11 +121,18 @@ public sealed class SectorReductionWitness : IInspectable
     private (double Rate, double Rigidity, IReadOnlyDictionary<int,double> Hist) DensityMode(int n, double q, double[] profile, int pc, int pr)
     {
         var H = QHUnit(n, q, Topology);
-        var block = PerBlockLiouvillianBuilder.BuildBlockZ(H, profile, SectorFlat(n, pc, pr));
+        var flat = SectorFlat(n, pc, pr);
+        var block = PerBlockLiouvillianBuilder.BuildBlockZ(H, profile, flat);
         var modes = PhaseRigidity.Compute(block).Where(m => m.Lambda.Magnitude > KernelTol).ToList();
         if (modes.Count == 0) return (0.0, 1.0, new Dictionary<int,double>());
         var slow = modes.OrderByDescending(m => m.Lambda.Real).First();
-        var (_, hist) = LiouvilleOperatorContent.NDiffHistogram(slow.Right, n);
+        // slow.Right is in REDUCED block coordinates (length = sector size); embed it into the
+        // full d^2 Liouville vector (full[flat[k]] = slow.Right[k]) so NDiffHistogram's vec[a*d+b]
+        // indexing is valid. flat[] holds full row*d+col positions (JointPopcountSectorBuilder).
+        int d = 1 << n;
+        var full = MathNet.Numerics.LinearAlgebra.Vector<Complex>.Build.Dense(d * d);
+        for (int k = 0; k < flat.Length; k++) full[flat[k]] = slow.Right[k];
+        var (_, hist) = LiouvilleOperatorContent.NDiffHistogram(full, n);
         return (-slow.Lambda.Real, slow.Rigidity, hist);
     }
 
