@@ -189,9 +189,9 @@ form 2√(J²−γ²) exact.
 
 **Coherence horizon Q*(N) (our label for the carbon coherent↔incoherent threshold).**
 Sweeping Q downward, the slowest mode stops oscillating (the coherence hand freezes) at
-exact per-N values:
+per-N values (closed form at N=2,3; transcendental at N≥4):
 
-    Q*(N):   N=2 → 1,   N=3 → √2,   N=4 → 1.8785,   N=5 → 2.3722
+    Q*(N):   N=2 → 1,   N=3 → √2,   N=4 → 1.8787,   N=5 → 2.3737
 
 verified bit-for-bit against the carbon Frost-Hückel coherent↔incoherent threshold
 (√2 / 1.879 / 2.372 at N=3/4/5) under the label swap J ↔ |β|, Z-dephasing ↔ Holstein
@@ -199,9 +199,9 @@ phonon. Same ladder, two labels: the dimensionful unit (β or J) is the carrier 
 information, the dimensionless Q*(N) is the shared mountain. N=2 (Q*=1) is the exceptional
 point itself, the base rung the polyene layer (N≥3) cannot reach; the quantum side supplies
 it. Q*(N) equals the band edge 2cos(π/(N+1)) at N=2 and N=3 ONLY (1 = 2cos60°, √2 = 2cos45°),
-a low-N accident departing at N≥4 (Q*=1.8785 ≠ φ); that is why the √2 looked exact at N=3 and
-"the rest awaited a clean form" (it is exact, but coincidental, not a cos-law). **Open:** the
-closed form. The mechanism (corrected 2026-06-13, physics-first review via phase rigidity, after
+a low-N accident departing at N≥4 (Q*=1.8787 ≠ φ); that is why the √2 looked exact at N=3 and
+"the rest awaited a clean form". **Mechanism and closed form, both resolved 2026-06-13.**
+The mechanism (phase rigidity, after
 an earlier "sector bifurcation at N=4" reading that contradicted the two-clocks corollary above
 and was an argmax-Re / Im-tracking artifact): the mode that COALESCES at Q*(N) is the
 {0,2}-coherence (population / antisymmetric-coherence block, n_diff histogram {0: ½, 2: ½},
@@ -213,12 +213,26 @@ Q* = 0.000 / 0.015 / 0.026 at N = 3 / 4 / 5). There is NO sector bifurcation at 
 {0,2}-coherence EP only because the Absorption Theorem pins both (both ⟨n_diff⟩ = 1), and that
 degeneracy is what fooled the Im-tracking. So Q*(N) is, at every N≥3, simultaneously a
 {0,2}-coherence EP (Uhr 2, the erasure point, which CLIMBS the ladder) and a band-edge crossing
-(Uhr 1, which SURVIVES the handover). The closed form of Q*(N) is the discriminant-zero of the
-{0,2}-coherence block; that block grows with N (its N≥3 frequency does not follow the N=2
-2√(J²−γ²)), and extracting it is the open remainder.
-**Verified:** N=2..5 vs carbon (`simulations/_carbon_quantum_same_mountain.py`); the
-{0,2}-coherence EP at all N=2..5 via phase rigidity (physics-first review 2026-06-13;
-`simulations/_coherence_horizon_closed_form.py` to gain the rigidity sweep).
+(Uhr 1, which SURVIVES the handover).
+
+The closed form (Approach A, `simulations/coherence_horizon_se_block.py`): **Q*(N) reduces from 4^N
+to N².** The coalescing mode lives in the single-excitation sector, so Q*(N) is the exceptional
+point of the single-excitation (Haken-Strobl) Liouvillian, the N-site dephased tight-binding chain
+ρ⁽¹⁾ (validated bit-for-bit as a sub-spectrum of the full L). At N=2,3 the coalescing pair are the
+roots of **λ² + 4γλ + c·J² = 0 with c constant** (sum = −4γ and product = c·J² are γ-independent
+identities; c=4 at N=2, c=2 at N=3), so **Q*(N) = 2/√c → 1, √2 exactly**. That is the structural
+form of the 2cos(π/(N+1)) low-N accident: not only the value, the whole clean-2×2 picture exists
+only at N=2,3. At N≥4 the pair is collectively dressed (its trace departs from −4γ by 1.017 / 1.043
+/ 1.072 at N=4/5/6), so there is no clean 2×2 and the exact EP condition is transcendental (the SE
+slowest-mode double root) — a **diffusive long-wavelength critical damping**: Q*(N) grows ~linearly
+(slope ≈ 0.59 at N=14, creeping toward ~2/π), NOT the band-edge value (which saturates at 2).
+Canonical N≥4 values from the SE EP, superseding the bisection grid: **Q*(4) = 1.87874,
+Q*(5) = 2.37367.** Open remainder: the exact asymptotic slope; the half-filling double-excitation
+V-Effect seam co-located at even N.
+**Verified:** N=2..5 vs carbon (`simulations/_carbon_quantum_same_mountain.py`); the {0,2}-coherence
+EP at all N via phase rigidity (2026-06-13); the single-excitation reduction, the N=2,3 closed forms
+and the N≥4 transcendental verdict (`simulations/coherence_horizon_se_block.py`, self-validating
+N=2..8).
 
 ### AT. Absorption Theorem (Tier 1, proven)
 
