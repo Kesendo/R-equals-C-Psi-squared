@@ -225,6 +225,24 @@ def _assert_closed_forms():
     print("        reproducing the ladder + the N=6..14 sequence (Task 1).")
 
 
+def _report_canonical():
+    """N>=4 is transcendental, so the canonical Q*(4)/Q*(5) are the high-precision SE-EP values
+    (they supersede the 1.8785/2.3722 bisection digits). Plus the diffusive asymptotic slope."""
+    # N=2,3 exact closed forms validate the bisector's precision
+    print(f"[Task5] precision check vs the closed forms: Q*(2)={qstar_se(2):.8f} (exact 1), "
+          f"Q*(3)={qstar_se(3):.8f} (exact sqrt2={np.sqrt(2.0):.8f})")
+    q4, q5 = qstar_se(4), qstar_se(5)
+    print(f"[Task5] canonical (SE-EP, transcendental): Q*(4)={q4:.6f}, Q*(5)={q5:.6f} "
+          f"(supersede the 1.8785/2.3722 grid digits)")
+    # diffusive asymptotic: Q*(N) ~ a N + b + c/N, fit on N=8..14
+    Ns = np.arange(8, 15)
+    ys = np.array([qstar_se(int(N)) for N in Ns])
+    A = np.vstack([Ns, np.ones_like(Ns), 1.0 / Ns]).T
+    a, b, c = np.linalg.lstsq(A, ys, rcond=None)[0]
+    print(f"[Task5] asymptotic Q*(N) ~ {a:.5f} N + {b:.5f} + {c:.5f}/N   "
+          f"(2/pi = {2/np.pi:.5f}; long-wavelength critical damping, slope still creeping up)")
+
+
 if __name__ == "__main__":
     _assert_ladder()
     _assert_full_reduction()
@@ -232,3 +250,4 @@ if __name__ == "__main__":
     _report_pair_invariants()
     _assert_fork()
     _assert_closed_forms()
+    _report_canonical()
