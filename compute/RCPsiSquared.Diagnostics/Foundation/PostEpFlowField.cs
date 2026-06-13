@@ -198,9 +198,11 @@ public sealed class PostEpFlowField : IInspectable
     }
 
     // ---- The sterile zone vs the birth canal: where the closed form holds, and where the new is born ----
-    private const double BirthCanalProbeQLow = 1.5;
-    private const double BirthCanalProbeQHigh = 1000.0;
-    private const double BirthCanalTolerance = 1e-4;
+    // internal (not private) so BirthCanalSurfaceWitness shares these probe points and tolerance and
+    // cannot drift from them; same assembly, so no InternalsVisibleTo is needed.
+    internal const double BirthCanalProbeQLow = 1.5;
+    internal const double BirthCanalProbeQHigh = 1000.0;
+    internal const double BirthCanalTolerance = 1e-4;
 
     private double SlowestRateAt(double q)
     {
