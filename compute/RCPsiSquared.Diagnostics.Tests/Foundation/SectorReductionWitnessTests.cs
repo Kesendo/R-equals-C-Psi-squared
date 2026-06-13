@@ -81,4 +81,13 @@ public class SectorReductionWitnessTests
         Assert.Contains("WINS (the crossing)", junction.Summary);
         Assert.Contains("n_diff hist {0:", junction.Summary);
     }
+
+    [Fact]
+    public void ChainAndRing_GiveDifferentRates()
+    {
+        var deep = new[] { 0.25, 1.375, 1.375, 1.375, 1.375, 0.25 };
+        double chain = SectorReductionWitness.VacBlockSlowest(6, 1.5, deep, TopologyKind.Chain);
+        double ring = SectorReductionWitness.VacBlockSlowest(6, 1.5, deep, TopologyKind.Ring);
+        Assert.True(Math.Abs(chain - ring) > 1e-6, $"ring wrap bond must matter: chain {chain}, ring {ring}");
+    }
 }

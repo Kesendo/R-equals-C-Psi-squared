@@ -500,6 +500,14 @@ public static class InspectCommand
             c => new BirthCanalSurfaceWitness(
                     grid: c.Parser.OptionalDouble("grid") is { } g ? (int)g : 9),
             RequiresN: false),
+        new("reduction", "the birth-canal boundary as a Liouville sector reduction: the |1-exc><vac| (0,1) " +
+            "block (N-dim, validated vs the full witness at N=5, runs past it) and the {0,2} junction where it " +
+            "crosses to the coherence-horizon mode at N>=6",
+            c => new SectorReductionWitness(
+                    c.Parser.HasFlag("N") ? c.N : 5,
+                    c.Parser.OptionalDouble("gamma") ?? 0.5,
+                    TopologyKind.Chain),
+            RequiresN: false, HonorsOptionalN: true),
         new("between", "the in-between navigator (six axes: crossover/jdefect/interior/spiral/approach/ep)",
             c => BuildBetweenRoot(c.Parser, c.N)),
         new("qudit", "F121 qudit partial palindrome, recomputed live",

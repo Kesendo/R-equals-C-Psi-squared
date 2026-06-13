@@ -155,6 +155,17 @@ public sealed class SectorReductionWitness : IInspectable
                      "self-pair is co-located, OPEN, not claimed.");
     }
 
+    private InspectableNode TheChainVsRingNode()
+    {
+        var deep = DeepEdge(N);
+        double chain = VacBlockSlowest(N, 1.5, deep, TopologyKind.Chain);
+        double ring = N >= 3 ? VacBlockSlowest(N, 1.5, deep, TopologyKind.Ring) : double.NaN;
+        return new InspectableNode("chain vs ring",
+            summary: $"the (0,1) reduction on both substrates (N={N}, deep-edge, Q=1.5): chain rate " +
+                     $"{chain.ToString("0.0000", Inv)}, ring rate {ring.ToString("0.0000", Inv)} (the aromatic " +
+                     "substrate; the wrap bond shifts it). No aromaticity 4n-vs-4n+2 thesis here (open; C8 breaks it).");
+    }
+
     public string DisplayName => $"SectorReductionWitness (N={N}, {Topology}, gamma={Gamma.ToString("0.###", Inv)})";
     public string Summary =>
         "the birth-canal boundary as a Liouville sector reduction: the slowest mode is the |1-exc><vac| " +
@@ -167,7 +178,7 @@ public sealed class SectorReductionWitness : IInspectable
         {
             yield return TheVacReductionNode();
             yield return TheJunctionNode();
-            // chain/ring in a later task
+            yield return TheChainVsRingNode();
         }
     }
     public InspectablePayload Payload => InspectablePayload.Empty;
