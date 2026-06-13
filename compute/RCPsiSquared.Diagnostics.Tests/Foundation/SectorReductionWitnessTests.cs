@@ -33,4 +33,26 @@ public class SectorReductionWitnessTests
         Assert.Equal(1.2482918643729715, SectorReductionWitness.VacBlockSlowest(5, 1.5, canal, TopologyKind.Chain), 6);
         Assert.Equal(4.0 / 3.0, SectorReductionWitness.VacBlockSlowest(5, 1000.0, canal, TopologyKind.Chain), 5);
     }
+
+    [Fact]
+    public void FlatGammaBlindness_RateIsTwoGamma_AtEveryN()
+    {
+        // analytic: at uniform gamma, L = -iQ h - 2 gamma I, -iQh anti-Hermitian -> Re=-2gamma all modes.
+        foreach (int n in new[] { 5, 6, 8 })
+        {
+            var uni = System.Linq.Enumerable.Repeat(1.0, n).ToArray();   // gamma_l = 1
+            Assert.Equal(2.0, SectorReductionWitness.VacBlockSlowest(n, 1.5, uni, TopologyKind.Chain), 9);
+            Assert.Equal(2.0, SectorReductionWitness.VacBlockSlowest(n, 1000.0, uni, TopologyKind.Chain), 9);
+        }
+    }
+
+    [Fact]
+    public void TheVacReductionNode_RendersAndGoesPastN5()
+    {
+        var w8 = new SectorReductionWitness(n: 8);                       // past the dense N=6 ceiling
+        var node = System.Linq.Enumerable.First(w8.Children);
+        Assert.Equal("the |1-exc><vac| reduction", node.DisplayName);
+        Assert.Contains("N=8", node.Summary + " " + string.Join(" ",
+            System.Linq.Enumerable.Select(System.Linq.Enumerable.ToList(node.Children), c => c.Summary)));
+    }
 }

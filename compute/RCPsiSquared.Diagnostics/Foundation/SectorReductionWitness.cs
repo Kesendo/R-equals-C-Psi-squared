@@ -75,12 +75,59 @@ public sealed class SectorReductionWitness : IInspectable
     public static double VacBlockSlowest(int n, double q, IReadOnlyList<double> gammaProfile, TopologyKind topology) =>
         SectorSlowest(n, q, gammaProfile, pCol: 0, pRow: 1, topology);
 
+    private double Deviation(int n, double[] profile, TopologyKind topo) =>
+        VacBlockSlowest(n, 1000.0, profile, topo) - VacBlockSlowest(n, 1.5, profile, topo);
+
+    private InspectableNode TheVacReductionNode()
+    {
+        var kids = new List<IInspectable>();
+        // flat-gamma blindness (uniform): rate == 2*gamma, Q-invariant (analytic).
+        var uni = Enumerable.Repeat(Gamma, N).ToArray();
+        double uLo = VacBlockSlowest(N, 1.5, uni, Topology), uHi = VacBlockSlowest(N, 1000.0, uni, Topology);
+        kids.Add(new InspectableNode("flat-gamma blindness",
+            summary: $"uniform gamma={Gamma.ToString("0.###", Inv)}: rate {uLo.ToString("0.0000", Inv)} (Q=1.5) -> " +
+                     $"{uHi.ToString("0.0000", Inv)} (Q=1000) = 2*gamma, Q-invariant (analytic: -iQh anti-Hermitian)"));
+        // N=5 validation breadcrumb (the canal anchor reproduces PostEpFlowField; see test).
+        if (N == 5)
+        {
+            var canal = new[] { 0.25, 1.5, 1.5, 1.5, 0.25 };
+            kids.Add(new InspectableNode("N=5 validation (canal anchor)",
+                summary: $"(0,1)-block rate {VacBlockSlowest(5, 1.5, canal, Topology).ToString("0.0000", Inv)} -> " +
+                         $"{VacBlockSlowest(5, 1000.0, canal, Topology).ToString("0.0000", Inv)} == PostEpFlowField " +
+                         "(bit-identical, see SectorReductionWitnessTests); the N-dim block IS the full boundary at N=5"));
+        }
+        // past N=5: the block builds at this N regardless (the dense witness cannot beyond N=6).
+        var deep = DeepEdge(N);
+        kids.Add(InspectableNode.RealScalar($"deep-edge deviation (N={N})", Deviation(N, deep, Topology), "0.000000"));
+        return new InspectableNode("the |1-exc><vac| reduction",
+            summary: $"the (0,1) sector block (N={N}, {Topology}): an N-dim invariant block whose slowest mode is " +
+                     "the birth-canal boundary. Reproduces the full 4^N witness at N=5, runs past it here.",
+            children: kids);
+    }
+
+    /// <summary>The general-N "deep-edge" profile: edges depressed to 0.25, the rest flat to sum N
+    /// (the sibling of the N=5 flat-bulk-edge canal anchor).</summary>
+    private static double[] DeepEdge(int n)
+    {
+        double edge = 0.25, rest = (n - 2 * edge) / (n - 2);
+        var p = new double[n];
+        for (int i = 0; i < n; i++) p[i] = (i == 0 || i == n - 1) ? edge : rest;
+        return p;
+    }
+
     public string DisplayName => $"SectorReductionWitness (N={N}, {Topology}, gamma={Gamma.ToString("0.###", Inv)})";
     public string Summary =>
         "the birth-canal boundary as a Liouville sector reduction: the slowest mode is the |1-exc><vac| " +
         "(0,1) block (N-dim), reproducing the full-4^N witness at N=5 and running past it; at N>=6 the " +
         "global slowest crosses to the {0,2}-coherence (the coherence-horizon mode). Reuses the per-sector " +
         "builder. No V-Effect identity, no aromaticity thesis (both open).";
-    public IEnumerable<IInspectable> Children => Array.Empty<IInspectable>();   // nodes in later tasks
+    public IEnumerable<IInspectable> Children
+    {
+        get
+        {
+            yield return TheVacReductionNode();
+            // the {0,2} junction + chain/ring in later tasks
+        }
+    }
     public InspectablePayload Payload => InspectablePayload.Empty;
 }
