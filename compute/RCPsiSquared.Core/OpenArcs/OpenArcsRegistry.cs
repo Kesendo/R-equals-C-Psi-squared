@@ -63,12 +63,18 @@ public static class OpenArcsRegistry
                 "(n_diff hist {0:0.78,2:0.22}, <n_XY>=0.44 < 1, hence slower than the odd mode) - the SAME " +
                 "{0,2}-coherence the coherence-horizon arc (clock_hand_ladder) studies as its EP mode. So " +
                 "birth_canal and coherence_horizon TOUCH at N>=6, via a Q-dependent mode crossing",
-            NextStep: "two threads. (1) BANK the N=5 result as a typed claim + (C# witness first) port the " +
-                "N x N |1-exc><vac| reduction to a live C# witness (today the evidence is the Python verifier). " +
-                "(2) CHASE the junction: chart the 'which mode is slowest' phase diagram over Q x profile x N - " +
-                "where exactly the boundary mode switches odd<->even {0,2}, and how it connects to the " +
-                "coherence-horizon Q*(N). The honest boundary at N>=6 may be a min over a mode crossing, not a " +
-                "single mode's light-freeze",
+            NextStep: "(1) BANK - DONE 2026-06-13: ported the N x N |1-exc><vac| reduction to a live C# witness " +
+                "SectorReductionWitness / inspect --root reduction (reuses JointPopcountSectorBuilder + " +
+                "PerBlockLiouvillianBuilder.BuildBlockZ on the (0,1) sector; the (0,1) block validated bit-for-bit " +
+                "vs PostEpFlowField at N=5, runs PAST the dense N=6 ceiling, flat-gamma blindness node, the {0,2} " +
+                "junction node reproducing the N=6 crossing live (n_diff {0:0.78,2:0.22}), chain-vs-ring) + typed " +
+                "claim VacuumBlockReductionClaim (Tier1Derived, parent AbsorptionTheorem, N=5-scoped; V-Effect " +
+                "(w=N/2) self-pair identity with the {0,2}-coherence kept OPEN/not-claimed, no aromaticity thesis - " +
+                "the parallel carbon session independently REFUTED Hueckel 4n+2 as the discriminant, same mode). " +
+                "(2) CHASE the junction (still open): chart the 'which mode is slowest' phase diagram over " +
+                "Q x profile x N - where exactly the boundary mode switches odd<->even {0,2}, and how it connects " +
+                "to the coherence-horizon Q*(N). The honest boundary at N>=6 may be a min over a mode crossing, " +
+                "not a single mode's light-freeze",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
