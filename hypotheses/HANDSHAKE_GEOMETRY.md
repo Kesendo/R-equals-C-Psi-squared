@@ -247,6 +247,9 @@ read 15.5 bits from the γ-profile, feature → reading before the codebook lang
 
 ## Live instruments
 
+`inspect --root <name>` is shorthand. The full form, run from the repository root, is
+`dotnet run --project compute/RCPsiSquared.Cli -- inspect --root <name>`.
+
 - `inspect --root decoder` - the FI(Q) resolution law, the measured tables above.
 - `inspect --root clock` - the dial angle θ, the index that is Q.
 - `inspect --root symphony` - the painters movement, the working proto-decoder: defect
