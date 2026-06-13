@@ -9,8 +9,10 @@ namespace RCPsiSquared.Core.Numerics;
 /// eigenvectors |R_i⟩ (L|R_i⟩ = λ_i|R_i⟩) and left eigenvectors ⟨L_i| (⟨L_i|L = λ_i⟨L_i|),
 /// r_i = |⟨L_i|R_i⟩| / (‖L_i‖·‖R_i‖) with the Hermitian inner product. r_i = 1 for a normal/isolated
 /// mode; r_i → 0 at an exceptional point (the coalescing left/right eigenvectors become orthogonal,
-/// the Petermann factor 1/r_i² diverges). Computed from Evd(L) and Evd(Lᴴ) matched by eigenvalue,
-/// which is numerically stabler near an EP than inverting the (there-singular) eigenvector matrix.</summary>
+/// the Petermann factor 1/r_i² diverges). Computed in Petermann form r_i = 1/(‖R⁻¹_row_i‖·‖R_col_i‖)
+/// from a single Evd(L) (R = eigenvector matrix): near an EP the matching R⁻¹ row diverges so r → 0,
+/// while a merely-degenerate non-defective mode keeps a bounded R⁻¹ row so r stays > 0. This is
+/// basis-robust at a degeneracy, where eigenvalue-matched left/right overlaps mis-pair and fake r → 0.</summary>
 public static class PhaseRigidity
 {
     /// <summary>One eigenmode: its eigenvalue, its phase rigidity, and its right eigenvector.</summary>
@@ -19,36 +21,19 @@ public static class PhaseRigidity
     /// <summary>Per-eigenvalue phase rigidity of L, returned in L's Evd eigenvalue order.</summary>
     public static IReadOnlyList<Mode> Compute(Matrix<Complex> L)
     {
-        var evdR = L.Evd();
-        var evdL = L.ConjugateTranspose().Evd();
-        var lamR = evdR.EigenValues;
-        var lamL = evdL.EigenValues;
-        var vR = evdR.EigenVectors;
-        var vL = evdL.EigenVectors;
-        int n = lamR.Count;
+        var evd = L.Evd();
+        var lam = evd.EigenValues;
+        var r = evd.EigenVectors;     // columns = right eigenvectors
+        var rInv = r.Inverse();       // rows = left eigenvectors (biorthogonal duals)
+        int n = lam.Count;
 
-        var used = new bool[n];
         var modes = new List<Mode>(n);
         for (int i = 0; i < n; i++)
         {
-            // L's left eigenvector for λ_i is Lᴴ's right eigenvector for conj(λ_i): match by that.
-            Complex target = Complex.Conjugate(lamR[i]);
-            int best = -1;
-            double bestDist = double.PositiveInfinity;
-            for (int j = 0; j < n; j++)
-            {
-                if (used[j]) continue;
-                double dist = (lamL[j] - target).Magnitude;
-                if (dist < bestDist) { bestDist = dist; best = j; }
-            }
-            used[best] = true;
-
-            var right = vR.Column(i);
-            var left = vL.Column(best);
-            // Hermitian inner product ⟨left|right⟩, both normalized.
-            Complex ip = left.ConjugateDotProduct(right);
-            double r = ip.Magnitude / (left.L2Norm() * right.L2Norm());
-            modes.Add(new Mode(lamR[i], r, right));
+            var right = r.Column(i);
+            // Petermann form: ‖left‖·‖right‖ with left = R⁻¹ row i. Diverges at an EP ⟹ rigidity → 0.
+            double rigidity = 1.0 / (rInv.Row(i).L2Norm() * right.L2Norm());
+            modes.Add(new Mode(lam[i], rigidity, right));
         }
         return modes;
     }
