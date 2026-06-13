@@ -508,6 +508,15 @@ public static class InspectCommand
                     c.Parser.OptionalDouble("gamma") ?? 0.5,
                     TopologyKind.Chain),
             RequiresN: false, HonorsOptionalN: true),
+        new("survivor", "the dynamic survival probe: WHERE the longest-lived dissipative mode lives across the " +
+            "three physically-grounded topologies - the interior incompleteness (C=0.5) coherence on DISPERSIVE " +
+            "extended matter (chain: polyenes/spin-chains/proton-wire; ring: aromatics/light-harvesting), the " +
+            "boundary hub coherence on the hub-localized central-spin STAR (NV/quantum-dot/mediator, the " +
+            "counterexample); lifetime <n_XY> ~ Q^2/N^2, ring/chain -> 4 (model-independent)",
+            c => new IncompletenessSurvivorWitness(
+                    c.Parser.HasFlag("N") ? c.N : 6,
+                    c.Parser.OptionalDouble("q") ?? 1.5),
+            RequiresN: false, HonorsOptionalN: true),
         new("between", "the in-between navigator (six axes: crossover/jdefect/interior/spiral/approach/ep)",
             c => BuildBetweenRoot(c.Parser, c.N)),
         new("qudit", "F121 qudit partial palindrome, recomputed live",

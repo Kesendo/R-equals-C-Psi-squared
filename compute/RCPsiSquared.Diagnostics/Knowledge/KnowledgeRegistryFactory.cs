@@ -191,6 +191,14 @@ public static class KnowledgeRegistryFactory
             // typed parent AbsorptionTheoremClaim (registered above; the (0,1)-block rate is the
             // absorption law restricted to a conserved sector).
             .RegisterVacuumBlockReductionClaim()
+            // Survival mirrors incompleteness (the survival_incompleteness_mirror arc, 2026-06-13):
+            // a_0 (2γ, AbsorptionTheorem, = the qubit dim d) and a_2 (C=1/2, the V-Effect/incompleteness,
+            // = 1/d) are Pi2-ladder inversion-mirror partners (a_0·a_2 = d·(1/d) = 1). Dynamically the
+            // longest-lived mode is the interior incompleteness coherence on DISPERSIVE matter (chain/ring);
+            // the hub-localized central-spin STAR is the boundary counterexample. Tier1Candidate. Typed
+            // parents AbsorptionTheoremClaim (registered above) + HalfAsStructuralFixedPointClaim (a_2, the
+            // foundation root, constructed fresh). Live witness IncompletenessSurvivorWitness (inspect --root survivor).
+            .RegisterSurvivalIncompletenessMirrorClaim()
             .RegisterF86LEffMirrorAxis()
             // F-formula Pi2-Foundation inheritance claims.
             // F63 + F61 registered first because F1Pi2Inheritance now ctor-takes F61 as

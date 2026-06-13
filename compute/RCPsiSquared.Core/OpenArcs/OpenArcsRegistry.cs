@@ -147,12 +147,16 @@ public static class OpenArcsRegistry
                 "VacuumBlockReductionClaim): whether the V-Effect (Pauli-string weight w=N/2 self-pair) EQUALS the " +
                 "{0,2}-coherence (n_diff) survivor is a DIFFERENT decomposition - my work is the constant-mirror + " +
                 "the light-survivor, NOT that weight-vs-n_diff identity",
-            NextStep: "BANK witness-first (cockpit discipline; incompleteness_survivor.py is a witness waiting to be " +
-                "ported). Extend SectorReductionWitness (reuse JointPopcountSectorBuilder + PerBlockLiouvillianBuilder." +
-                "BuildBlockZ from the (0,1) block to the interior diagonal (p,p) blocks) into a live survivor witness, " +
-                "then breadcrumb a typed SurvivalIncompletenessMirrorClaim (Tier1Candidate; parents AbsorptionTheorem" +
-                "Claim a_0 + HalfAsStructuralFixedPointClaim a_2; the a_0*a_2=1 mirror is already live on " +
-                "Pi2DyadicLadderClaim.ProductWithMirrorPartner). ALSO OPEN: the Pauli-weight w=N/2 vs n_diff {0,2} " +
+            NextStep: "BANKED witness-first 2026-06-13: live witness IncompletenessSurvivorWitness (inspect --root " +
+                "survivor, reuses SectorReductionWitness.SectorSlowest - the C# port reproduces the Python anchors " +
+                "bit-for-bit: chain (3,3) <n_XY>=0.161 / ring (2,2) 0.632 / star (1,1) 0.425, ring/chain 3.92 at N=6) " +
+                "+ typed SurvivalIncompletenessMirrorClaim (Tier1Candidate, parents AbsorptionTheoremClaim a_0 + " +
+                "HalfAsStructuralFixedPointClaim a_2; ancestry bottoms at d^2-2d=0 via both parents; 8/8 battery = " +
+                "4 algebra (a_0=2, a_2=1/2, mirror partner, a_0*a_2=1) + 4 dynamic (chain centre / ring off-centre / " +
+                "star boundary / ring-chain~4)). The physical labels are grounded: chain/ring = dispersive extended " +
+                "matter (polyenes, spin chains, the Grotthuss proton wire / aromatics, light-harvesting), star = " +
+                "hub-localized central-spin (NV/quantum-dot/mediator), the repo's own dispersive-vs-hub-spoke split. " +
+                "STILL OPEN: the Pauli-weight w=N/2 vs n_diff {0,2} " +
                 "V-Effect identity (VacuumBlockReduction left it open); WHY the XY interior winner is chain-centre but " +
                 "ring-off-centre (the ZZ pulls the ring survivor (2,2)->(3,3)); whether the handover Q (where the " +
                 "incomplete stops winning and the odd band edge takes over) has a closed form. The reflection in its " +
