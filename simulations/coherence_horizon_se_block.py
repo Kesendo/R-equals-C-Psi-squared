@@ -152,7 +152,47 @@ def _assert_basis_and_parity():
           f"the horizon lives in the {'even' if slow_e > slow_o else 'odd'} sector.")
 
 
+def coalescing_pair(N, J=1.0, above=1.10):
+    """The coalescing conjugate pair just above Q*(N): among the slow (near-gap) oscillating modes,
+    the one with the SMALLEST |Im| is the {0,2}-coherence about to freeze (the band-edge survivor
+    has the large |Im|=2cos(pi/(N+1))). Returns (lambda, sum s, product p) of that pair."""
+    g = J / (above * qstar_se(N))
+    ev = np.linalg.eigvals(L_se(N, J, g))
+    nz = ev[ev.real < -1e-7]
+    osc = nz[nz.imag > 1e-7]                       # upper-half oscillating modes
+    slow = osc[osc.real > osc.real.max() - 0.25]   # near the gap
+    la = slow[np.argmin(np.abs(slow.imag))]        # the coalescer: smallest |Im|
+    lb = np.conj(la)
+    return la, g, (la + lb).real, (la * lb).real
+
+
+def _report_pair_invariants():
+    """Is the coalescing pair a clean 2x2 with N-simple invariants (s, p)? If s = -4g and p has a
+    pattern, Q* has a closed form via s^2 = 4p; if not, the pair is dressed -> transcendental."""
+    print("[Task3] coalescing-pair invariants just above Q* (the fork test):")
+    print(f"  {'N':>2} {'g':>7} {'s=la+lb':>10} {'s/(-4g)':>9} {'p=la*lb':>10} "
+          f"{'p/(4J^2)':>9} {'s^2-4p':>10}")
+    for N in range(2, 9):
+        la, g, s, p = coalescing_pair(N)
+        print(f"  {N:>2} {g:>7.4f} {s:>10.5f} {s/(-4*g):>9.4f} {p:>10.5f} "
+              f"{p/4.0:>9.4f} {s*s-4*p:>10.5f}")
+
+
+def _assert_fork():
+    """The clean 2x2 (s = -4g) holds EXACTLY at N=2,3 and breaks at N>=4: the structural form of the
+    2cos(pi/(N+1)) low-N accident. N=2,3 -> closed form; N>=4 -> collectively dressed, transcendental."""
+    for N in (2, 3):
+        _, g, s, p = coalescing_pair(N)
+        assert abs(s / (-4 * g) - 1.0) < 1e-3, f"N={N}: expected the clean 2x2 trace s=-4g"
+    _, g4, s4, _ = coalescing_pair(4)
+    assert abs(s4 / (-4 * g4) - 1.0) > 1e-2, "N=4 should DEVIATE from s=-4g (collective dressing)"
+    print("[Task3] FORK: clean 2x2 (s=-4g, p=4J^2/2J^2) at N=2,3 -> closed form; "
+          "N>=4 dressed -> exact transcendental condition.")
+
+
 if __name__ == "__main__":
     _assert_ladder()
     _assert_full_reduction()
     _assert_basis_and_parity()
+    _report_pair_invariants()
+    _assert_fork()
