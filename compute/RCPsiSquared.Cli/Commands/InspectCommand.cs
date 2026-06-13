@@ -494,6 +494,12 @@ public static class InspectCommand
             RequiresN: false, HonorsOptionalN: true),
         new("flow", "the post-EP single-excitation flow to 1/N",
             c => BuildFlowRoot(c.Parser, c.N)),
+        new("surface", "the sterile<->birth-canal boundary computed as a live surface in gamma-profile " +
+            "space (N=5): the light-freeze mechanism read through every lens (the whole surface, not the " +
+            "s*=0.709 line)",
+            c => new BirthCanalSurfaceWitness(
+                    grid: c.Parser.OptionalDouble("grid") is { } g ? (int)g : 9),
+            RequiresN: false),
         new("between", "the in-between navigator (six axes: crossover/jdefect/interior/spiral/approach/ep)",
             c => BuildBetweenRoot(c.Parser, c.N)),
         new("qudit", "F121 qudit partial palindrome, recomputed live",
