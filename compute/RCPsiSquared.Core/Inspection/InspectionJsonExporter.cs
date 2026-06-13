@@ -29,6 +29,10 @@ public static class InspectionJsonExporter
         // Keep ⟩, γ, ⊥, ‖·‖, ², · etc. readable in the export instead of Unicode-escaping them.
         // Output is consumption-oriented (browse / diff / pipe), not embedded into a webpage.
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        // Non-finite doubles (NaN/±Infinity) are legitimate payload values — e.g. a witness that
+        // masks an inadmissible heatmap cell as NaN. Emit them as the JSON string tokens
+        // "NaN"/"Infinity"/"-Infinity" instead of throwing.
+        NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals,
     };
 
     public static string ToJson(IInspectable root, JsonSerializerOptions? options = null) =>

@@ -110,6 +110,21 @@ public class InspectionJsonExporterTests
     }
 
     [Fact]
+    public void ToJson_MatrixWithNonFiniteCell_DoesNotThrow_AndEmitsNamedLiteral()
+    {
+        // A witness may mask an inadmissible heatmap cell as NaN (the blank-cell semantic).
+        // The JSON export must tolerate non-finite doubles rather than throw.
+        var m = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>.Build.Dense(
+            1, 1, (_, _) => new System.Numerics.Complex(double.NaN, 0.0));
+        var node = new InspectableNode("n", "s",
+            payload: new InspectablePayload.MatrixView("heat", m, null, null));
+
+        var json = InspectionJsonExporter.ToJson(node);   // must not throw
+
+        Assert.Contains("NaN", json);
+    }
+
+    [Fact]
     public void WriteToFile_RoundtripsThroughDisk()
     {
         var block = new CoherenceBlock(N: 5, n: 1, gammaZero: 0.05);
