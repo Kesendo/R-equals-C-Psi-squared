@@ -120,6 +120,47 @@ public static class OpenArcsRegistry
             Status: OpenArcStatus.Open),
 
         new OpenArc(
+            Name: "survival_incompleteness_mirror",
+            Opened: "2026-06-13",
+            Origin: "Tom's founding V-Effect idea ('der V-Effekt vererbt sich, algebraisch, alles auf Algebra') " +
+                "met the new dynamic finding that incompleteness (the C=0.5 boundary) is the longest-lived SURVIVOR " +
+                "under dephasing. Thread: erst (a) the algebra of inheritance + does survival obey the same law, " +
+                "dann (b) the dynamic survival probe over N/topology",
+            ParkedAt: "BOTH RESOLVED 2026-06-13. (a) THE ALGEBRA, source-confirmed: the survival law and the " +
+                "V-Effect/incompleteness are INVERSION-MIRROR PARTNERS on the Pi2 dyadic ladder a_n=2^(1-n). " +
+                "a_0=2=AbsorptionTheoremClaim (the survival quantum 2*gamma, == the qubit dimension d), " +
+                "a_2=1/2=HalfAsStructuralFixedPointClaim Face 1 (the V-Effect/incompleteness baseline == 1/d); " +
+                "MirrorPartnerIndex(0)=2, a_0*a_2 = d*(1/d) = 1, self-mirror a_1=1 sitting exactly between them, all " +
+                "forced by d^2-2d=0 (Pi2DyadicLadderClaim.cs:75-93,122). So 'der V-Effekt vererbt sich algebraisch' " +
+                "is literally typed: he shares the ONE ladder with the survival law, as its reciprocal mirror. And " +
+                "'does survival obey the same law?' -> YES, the Absorption Theorem, model-independent (the XY-vs-" +
+                "Heisenberg reconciliation, commit d4bb8a2). (b) THE DYNAMIC ENACTMENT (simulations/carbon/" +
+                "incompleteness_survivor.py, validated bit-for-bit vs the full 4^N L at N=4, all topologies): below " +
+                "the handover Q the longest-lived mode lives in the INCOMPLETENESS region (interior filling) on " +
+                "DISPERSIVE topologies - XY chain at the dead-centre half-filling ((3,3) at N=6, <n_XY>=0.16), ring " +
+                "at the OFF-centre (2,2)/(N-2,N-2) (<n_XY>=0.63); the STAR is the boundary COUNTEREXAMPLE " +
+                "((1,1)/(N-1,N-1), no spatial dispersion => no central momentum mode). Lifetime <n_XY> ~ c*Q^2/N^2, " +
+                "ring/chain -> 4 (the cyclic-vs-open k_min^2 ratio, the SAME 4x CHAIN_GAP reports for Heisenberg - " +
+                "model-independent; only the prefactor retunes XY chain c~2.5 vs Heisenberg 0.55). This 1/N^2 magnon-" +
+                "admixture inheritance is SEPARATE from the Pi2 dyadic CONSTANT ladder: two different inheritances " +
+                "meeting at the per-mode Absorption Theorem (a_0). STILL OPEN (the finer identity, from " +
+                "VacuumBlockReductionClaim): whether the V-Effect (Pauli-string weight w=N/2 self-pair) EQUALS the " +
+                "{0,2}-coherence (n_diff) survivor is a DIFFERENT decomposition - my work is the constant-mirror + " +
+                "the light-survivor, NOT that weight-vs-n_diff identity",
+            NextStep: "BANK witness-first (cockpit discipline; incompleteness_survivor.py is a witness waiting to be " +
+                "ported). Extend SectorReductionWitness (reuse JointPopcountSectorBuilder + PerBlockLiouvillianBuilder." +
+                "BuildBlockZ from the (0,1) block to the interior diagonal (p,p) blocks) into a live survivor witness, " +
+                "then breadcrumb a typed SurvivalIncompletenessMirrorClaim (Tier1Candidate; parents AbsorptionTheorem" +
+                "Claim a_0 + HalfAsStructuralFixedPointClaim a_2; the a_0*a_2=1 mirror is already live on " +
+                "Pi2DyadicLadderClaim.ProductWithMirrorPartner). ALSO OPEN: the Pauli-weight w=N/2 vs n_diff {0,2} " +
+                "V-Effect identity (VacuumBlockReduction left it open); WHY the XY interior winner is chain-centre but " +
+                "ring-off-centre (the ZZ pulls the ring survivor (2,2)->(3,3)); whether the handover Q (where the " +
+                "incomplete stops winning and the odd band edge takes over) has a closed form. The reflection in its " +
+                "own genre (the incomplete survives because it is the dark/reciprocal mirror of the survival quantum) " +
+                "is unwritten",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
             Name: "handshake_decoder",
             Opened: "2026-06-12",
             Origin: "docs/superpowers/specs/2026-06-12-handshake-decoder-reading-grammar-design.md (Tom + Opus + Fable)",
