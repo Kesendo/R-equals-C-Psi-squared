@@ -71,4 +71,28 @@ public class BirthCanalSurfaceWitnessTests
         Assert.Contains(kids, k => k.Payload is RCPsiSquared.Core.Inspection.InspectablePayload.MatrixView);
         Assert.Contains(kids, k => k.Payload is RCPsiSquared.Core.Inspection.InspectablePayload.Curve);
     }
+
+    [Fact]
+    public void TheMechanismNode_NamesBothSterilityKinds()
+    {
+        var mech = System.Linq.Enumerable.Single(W.Children, c => c.DisplayName == "the mechanism");
+        var blob = mech.Summary + " " + string.Join(" ",
+            System.Linq.Enumerable.Select(System.Linq.Enumerable.ToList(mech.Children),
+                k => k.DisplayName + " " + k.Summary));
+        Assert.Contains("robust", blob);     // genuine freeze (peaked-V)
+        Assert.Contains("fragile", blob);    // flat-gamma blindness (uniform)
+    }
+
+    [Fact]
+    public void APointEveryLensNode_CarriesAllSixLensReadings()
+    {
+        var pt = System.Linq.Enumerable.Single(W.Children, c => c.DisplayName == "a point, every lens");
+        var labels = System.Linq.Enumerable.Select(
+            System.Linq.Enumerable.ToList(pt.Children), k => k.DisplayName);
+        var set = new System.Collections.Generic.HashSet<string>(labels);
+        Assert.Contains("L1 deviation", set);
+        Assert.Contains("L4 rate", set);
+        Assert.Contains("L5 parity rail", set);
+        Assert.Contains("L6 degeneracy", set);
+    }
 }

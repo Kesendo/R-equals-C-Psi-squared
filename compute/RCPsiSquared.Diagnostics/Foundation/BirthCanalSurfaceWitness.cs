@@ -187,12 +187,86 @@ public sealed class BirthCanalSurfaceWitness : IInspectable
             children: new IInspectable[] { heatNode, boundaryNode });
     }
 
+    private static InspectablePayload LightVector(string label, IReadOnlyList<double> light)
+    {
+        var v = MathNet.Numerics.LinearAlgebra.Vector<Complex>.Build.Dense(
+            light.Count, i => new Complex(light[i], 0.0));
+        return new InspectablePayload.Vector(label, v);
+    }
+
+    /// <summary>R1: the two sterility kinds, told apart. Genuine freeze (peaked-V: the light avoids
+    /// the strong center, drift ~0, robust) vs flat-γ blindness (uniform: rate = 2γ·total-light is
+    /// Q-invariant by uniformity alone, blind to drift, fragile) vs a canal contrast (flat-bulk-edge:
+    /// the light drifts). Each carries its light vector (L2) and absorption residual (L3).</summary>
+    private InspectableNode TheMechanismNode()
+    {
+        var freeze = ReadPoint(0.25, 3.0);   // peaked-V, robust genuine freeze
+        var blind = ReadPoint(1.0, 1.0);     // uniform, fragile flat-γ blindness
+        var canal = ReadPoint(0.25, 1.5);    // flat-bulk-edge, the canal
+
+        var freezeNode = new InspectableNode("genuine freeze (peaked-V)",
+            summary: $"sterile, robust: light avoids the strong center (light[center]=" +
+                     $"{freeze.Low!.PerSiteLight[2].ToString("0.000", Inv)}), drift " +
+                     $"{freeze.DriftMax.ToString("0.0E0", Inv)} ~ 0; breaks only at s*=0.709",
+            payload: LightVector("light (peaked-V, Q=1.5)", freeze.Low!.PerSiteLight));
+
+        var blindNode = new InspectableNode("flat-gamma blindness (uniform)",
+            summary: $"sterile, FRAGILE: flat gamma makes rate = 2*gamma*total-light Q-invariant by " +
+                     $"uniformity alone (light flat {blind.Low!.PerSiteLight[0].ToString("0.00", Inv)} " +
+                     $"each), blind to spatial drift; breaks early at s*=0.105",
+            payload: LightVector("light (uniform, Q=1.5)", blind.Low!.PerSiteLight));
+
+        var canalNode = new InspectableNode("the canal (flat-bulk-edge)",
+            summary: $"birth canal: light drifts {canal.DriftMax.ToString("0.000", Inv)} between the " +
+                     $"probes; rate {canal.Low!.SlowestRate.ToString("0.000", Inv)} -> " +
+                     $"{canal.High!.SlowestRate.ToString("0.000", Inv)}",
+            payload: LightVector("light (flat-bulk-edge, Q=1.5)", canal.Low!.PerSiteLight));
+
+        return new InspectableNode("the mechanism",
+            summary: "two sterility kinds (R1): genuine light-freeze (robust) vs flat-gamma " +
+                     "distribution-blindness (fragile). Deviation=0 is necessary but not sufficient " +
+                     "for light-freeze; the L7 ray node proves the split (0.709 vs 0.105). Absorption " +
+                     $"residual ~0 throughout (L3): freeze " +
+                     $"{Math.Abs(freeze.Low!.SlowestRate - freeze.Low!.AbsorptionRate).ToString("0.0E0", Inv)}, " +
+                     $"canal {Math.Abs(canal.Low!.SlowestRate - canal.Low!.AbsorptionRate).ToString("0.0E0", Inv)}.",
+            children: new IInspectable[] { freezeNode, blindNode, canalNode });
+    }
+
+    /// <summary>One canal point read through all six lenses on one live computation (L1 deviation,
+    /// L2 light + drift, L3 absorption residual, L4 rates, L5 parity rail + ceiling, L6 degeneracy).</summary>
+    private InspectableNode APointEveryLensNode()
+    {
+        var p = ReadPoint(0.25, 1.5);   // the flat-bulk-edge canal point
+        var kids = new List<IInspectable>
+        {
+            InspectableNode.RealScalar("L1 deviation", p.Deviation, "0.0000"),
+            new InspectableNode("L2 light + drift",
+                summary: $"max per-site drift {p.DriftMax.ToString("0.000", Inv)} (Q=1.5 -> Q=1000)",
+                payload: LightVector("light (Q=1.5)", p.Low!.PerSiteLight)),
+            InspectableNode.RealScalar("L3 absorption residual",
+                Math.Abs(p.Low!.SlowestRate - p.Low!.AbsorptionRate), "0.0E0"),
+            new InspectableNode("L4 rate",
+                summary: $"rate(Q=1.5) {p.Low!.SlowestRate.ToString("0.0000", Inv)} -> " +
+                         $"rate(Q=1000) {p.High!.SlowestRate.ToString("0.0000", Inv)}"),
+            new InspectableNode("L5 parity rail",
+                summary: $"rung {p.Low!.Rung} ({(p.Low!.OnBirthRail ? "odd: number-changing birth rail" : "even: number-conserving flow rail")}), " +
+                         $"ceiling {p.Low!.MaxSaturationCeiling.ToString("0.##", Inv)}"),
+            InspectableNode.RealScalar("L6 degeneracy", p.Low!.Degeneracy),
+        };
+        return new InspectableNode("a point, every lens",
+            summary: $"the canal point (w_edge=0.25, w_center=1.5) read through L1-L6 on one live " +
+                     $"computation: {(p.IsCanal ? "canal" : "sterile")}.",
+            children: kids);
+    }
+
     public IEnumerable<IInspectable> Children
     {
         get
         {
             yield return TheSurfaceNode();
-            // "the mechanism", "a point, every lens", "s* is one line" added in Tasks 4-5
+            yield return TheMechanismNode();
+            yield return APointEveryLensNode();
+            // "s* is one line" added in Task 5
         }
     }
 
