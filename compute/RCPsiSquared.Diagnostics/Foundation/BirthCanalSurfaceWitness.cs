@@ -1,4 +1,6 @@
 using System.Globalization;
+using System.Numerics;
+using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 using RCPsiSquared.Core.Inspection;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
@@ -98,7 +100,101 @@ public sealed class BirthCanalSurfaceWitness : IInspectable
         "Theorem (rate = 2*sum gamma_l*light_l). Two sterility kinds: genuine freeze (robust) vs " +
         "flat-gamma blindness (fragile).";
 
-    public IEnumerable<IInspectable> Children => Array.Empty<IInspectable>();   // nodes added in Tasks 3-5
+    private SurfacePoint[,]? _grid;
+    /// <summary>The lazy, cached Deviation grid over the admissible (w_edge, w_center) box. Rows =
+    /// w_center (index i), columns = w_edge (index j). Heavy (up to GridK² × 2 EVDs); computed only
+    /// when "the surface" node is inspected.</summary>
+    private SurfacePoint[,] Grid => _grid ??= ComputeGrid();
+
+    private SurfacePoint[,] ComputeGrid()
+    {
+        var g = new SurfacePoint[GridK, GridK];
+        for (int i = 0; i < GridK; i++)
+        {
+            double wCenter = CenterLo + (CenterHi - CenterLo) * i / (GridK - 1);
+            for (int j = 0; j < GridK; j++)
+            {
+                double wEdge = EdgeLo + (EdgeHi - EdgeLo) * j / (GridK - 1);
+                g[i, j] = ReadPoint(wEdge, wCenter);
+            }
+        }
+        return g;
+    }
+
+    /// <summary>The boundary curve, interpolated at grid resolution (M3 — not a quantitative
+    /// coordinate source; the L7 bisections are). For each row, every adjacent admissible,
+    /// non-EP-suspect pair whose canal verdict flips contributes a crossing, linearly interpolated
+    /// on (|Deviation| − tolerance) (M2: all crossings per row, not just the first). Returns the
+    /// w_edge crossings (X) and their w_center (Y).</summary>
+    public (System.Collections.Generic.List<double> X, System.Collections.Generic.List<double> Y) BoundaryCurve()
+    {
+        var xs = new System.Collections.Generic.List<double>();
+        var ys = new System.Collections.Generic.List<double>();
+        var g = Grid;
+        for (int i = 0; i < GridK; i++)
+            for (int j = 0; j + 1 < GridK; j++)
+            {
+                var a = g[i, j];
+                var b = g[i, j + 1];
+                if (!a.Admissible || !b.Admissible || a.EpSuspect || b.EpSuspect) continue;
+                if (a.IsCanal == b.IsCanal) continue;
+                double fa = Math.Abs(a.Deviation) - PostEpFlowField.BirthCanalTolerance;
+                double fb = Math.Abs(b.Deviation) - PostEpFlowField.BirthCanalTolerance;
+                double t = fa / (fa - fb);                 // zero-crossing of f, fa and fb opposite signs
+                xs.Add(a.WEdge + t * (b.WEdge - a.WEdge));
+                ys.Add(a.WCenter);
+            }
+        return (xs, ys);
+    }
+
+    private InspectableNode TheSurfaceNode()
+    {
+        var g = Grid;
+        // Heatmap: |Deviation| over the box; inadmissible / EP-suspect cells -> NaN (rendered blank).
+        var heat = ComplexMatrix.Build.Dense(GridK, GridK, (i, j) =>
+        {
+            var p = g[i, j];
+            return (p.Admissible && !p.EpSuspect)
+                ? new Complex(Math.Abs(p.Deviation), 0.0)
+                : new Complex(double.NaN, 0.0);
+        });
+        var colLabels = new string[GridK];
+        var rowLabels = new string[GridK];
+        for (int j = 0; j < GridK; j++)
+            colLabels[j] = (EdgeLo + (EdgeHi - EdgeLo) * j / (GridK - 1)).ToString("0.00", Inv);
+        for (int i = 0; i < GridK; i++)
+            rowLabels[i] = (CenterLo + (CenterHi - CenterLo) * i / (GridK - 1)).ToString("0.00", Inv);
+
+        var heatNode = new InspectableNode(
+            displayName: "deviation heatmap",
+            summary: $"|rate(Q=1000) - rate(Q=1.5)| over (w_edge x w_center), {GridK}x{GridK}; " +
+                     "blank = inadmissible or EP-suspect (M4)",
+            payload: new InspectablePayload.MatrixView(
+                "|Deviation| (w_center rows x w_edge cols)", heat, rowLabels, colLabels));
+
+        var (bx, by) = BoundaryCurve();
+        var boundaryNode = new InspectableNode(
+            displayName: "boundary curve",
+            summary: $"{bx.Count} crossing(s), interpolated at grid resolution ({GridK}x{GridK}); " +
+                     "the quantitative anchors are the L7 bisections, not this contour (M3)",
+            payload: new InspectablePayload.Curve("boundary", bx, by, "w_edge", "w_center"));
+
+        return new InspectableNode(
+            displayName: "the surface",
+            summary: "the sterile<->canal boundary drawn live: a curve in (w_edge, w_center), not a " +
+                     "single s*. Any straight line through this plane crosses it somewhere (see " +
+                     "\"s* is one line\").",
+            children: new IInspectable[] { heatNode, boundaryNode });
+    }
+
+    public IEnumerable<IInspectable> Children
+    {
+        get
+        {
+            yield return TheSurfaceNode();
+            // "the mechanism", "a point, every lens", "s* is one line" added in Tasks 4-5
+        }
+    }
 
     public InspectablePayload Payload => InspectablePayload.Empty;
 }

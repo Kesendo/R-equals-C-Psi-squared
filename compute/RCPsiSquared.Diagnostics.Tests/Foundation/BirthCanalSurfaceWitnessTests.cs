@@ -52,4 +52,23 @@ public class BirthCanalSurfaceWitnessTests
         Assert.True(Math.Abs(W.ReadPoint(1.0, 1.0).Low!.SlowestRate - W.ReadPoint(1.0, 1.0).Low!.AbsorptionRate) < 1e-6);
         Assert.True(Math.Abs(W.ReadPoint(0.25, 1.5).Low!.SlowestRate - W.ReadPoint(0.25, 1.5).Low!.AbsorptionRate) < 1e-6);
     }
+
+    [Fact]
+    public void Grid_HasANonEmptyBoundaryCurve_AtN5()
+    {
+        var (xs, ys) = W.BoundaryCurve();
+        Assert.NotEmpty(xs);                       // at least one sterile->canal crossing in the box
+        Assert.Equal(xs.Count, ys.Count);
+        foreach (double x in xs) Assert.InRange(x, 0.2, 1.0);   // crossings live in the edge range
+    }
+
+    [Fact]
+    public void TheSurfaceNode_RendersHeatmapAndBoundary()
+    {
+        var surface = System.Linq.Enumerable.First(W.Children);   // "the surface" is the first node
+        Assert.Equal("the surface", surface.DisplayName);
+        var kids = System.Linq.Enumerable.ToList(surface.Children);
+        Assert.Contains(kids, k => k.Payload is RCPsiSquared.Core.Inspection.InspectablePayload.MatrixView);
+        Assert.Contains(kids, k => k.Payload is RCPsiSquared.Core.Inspection.InspectablePayload.Curve);
+    }
 }
