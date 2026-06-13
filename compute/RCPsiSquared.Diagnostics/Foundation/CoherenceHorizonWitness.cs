@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Inspection;
+using RCPsiSquared.Core.Numerics;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
@@ -93,6 +95,53 @@ public sealed class CoherenceHorizonWitness : IInspectable
     /// (1 = 2cos60°, √2 = 2cos45°), then departing (Q*(4)=1.8785 ≠ φ=1.618).</summary>
     public static double BandEdgeCoincidence(int n) => 2.0 * Math.Cos(Math.PI / (n + 1));
 
+    /// <summary>The rigidity below which a gap mode counts as coalescing (an EP).</summary>
+    private const double REpThreshold = 0.05;
+
+    /// <summary>The non-zero modes within a small band of the slowest decay rate (the gap), with their
+    /// phase rigidity, built at Q = J/γ on the live Liouvillian.</summary>
+    private static List<PhaseRigidity.Mode> GapModes(int n, double gamma)
+    {
+        var L = new ChainSystem(n, J, gamma).BuildLiouvillian();
+        var nz = PhaseRigidity.Compute(L).Where(m => m.Lambda.Real < -1e-6).ToList();
+        double gap = nz.Max(m => m.Lambda.Real);
+        return nz.Where(m => m.Lambda.Real > gap - 0.15).ToList();
+    }
+
+    /// <summary>At Q*(n): the coalescing gap mode (minimum phase rigidity, the {0,2}-coherence whose
+    /// r → 0) with its n_diff histogram, and the co-located band-edge survivor (Im ≈ 2cos(π/(N+1)),
+    /// r ≈ 1). The instrument that distinguishes the EP (erasure) from the crossing (survival).</summary>
+    public (PhaseRigidity.Mode Coalescer,
+            IReadOnlyDictionary<int, double> CoalescerHist,
+            double CoalescerMeanNDiff,
+            PhaseRigidity.Mode BandEdge,
+            double BandEdgeR) EpModes(int n)
+    {
+        var gapModes = GapModes(n, J / Horizon(n));
+        var coalescer = gapModes.OrderBy(m => m.Rigidity).First();
+        var (mean, hist) = LiouvilleOperatorContent.NDiffHistogram(coalescer.Right, n);
+        double bandIm = 2.0 * Math.Cos(Math.PI / (n + 1));
+        var bandEdge = gapModes.OrderBy(m => Math.Abs(Math.Abs(m.Lambda.Imaginary) - bandIm)).First();
+        return (coalescer, hist, mean, bandEdge, bandEdge.Rigidity);
+    }
+
+    /// <summary>√-scaling certificate of a 2nd-order EP: Im²/(Q−Q*) for the small-Im coalescer branch
+    /// at Q = Q*(n)·(1+delta). Constant across deltas ⟹ Im ∝ √(Q−Q*) ⟹ a clean 2-dim EP (not a
+    /// cluster). Returns NaN if no coalescer branch is resolved above Q*.</summary>
+    public double SqrtScalingRatio(int n, double delta)
+    {
+        double qStar = Horizon(n);
+        double q = qStar * (1.0 + delta);
+        double bandIm = 2.0 * Math.Cos(Math.PI / (n + 1));
+        var branches = GapModes(n, J / q)
+            .Where(m => Math.Abs(m.Lambda.Imaginary) > 1e-6 && Math.Abs(m.Lambda.Imaginary) < bandIm - 0.2)
+            .OrderBy(m => Math.Abs(m.Lambda.Imaginary))
+            .ToList();
+        if (branches.Count == 0) return double.NaN;
+        double im = Math.Abs(branches[0].Lambda.Imaginary);
+        return im * im / Math.Abs(q - qStar);
+    }
+
     public string DisplayName =>
         $"CoherenceHorizonWitness (Q*(N) live, J={J.ToString("0.#", Inv)}, ε={OmegaEps.ToString("0.###", Inv)})";
 
@@ -112,7 +161,7 @@ public sealed class CoherenceHorizonWitness : IInspectable
             yield return TheLadder();
             yield return TheEpBase();
             yield return TheBandEdgeCoincidence();
-            yield return WhatIsOpen();
+            yield return TheEpVerdict();
         }
     }
 
@@ -173,15 +222,39 @@ public sealed class CoherenceHorizonWitness : IInspectable
                      "coincide with the horizon.");
     }
 
-    /// <summary>what is open: the closed form of Q*(N) is OPEN; the freezing mode is half-lit, not dark.</summary>
-    private InspectableNode WhatIsOpen()
+    /// <summary>the EP verdict, recomputed live: per N=2..5 the coalescing {0,2}-coherence (r → 0,
+    /// histogram {0:½,2:½}) and the co-located band-edge survivor (r ≈ 1). No bifurcation at N=4: the
+    /// {0,2}-coherence is the freezer at every N, the band edge the γ-protected survivor; they share
+    /// the gap Re = −2γ (Absorption Theorem, both ⟨n_diff⟩ = 1). The closed form of Q*(N) is OPEN.</summary>
+    private InspectableNode TheEpVerdict()
     {
-        return new InspectableNode("what is open",
-            summary: "the closed form of Q*(N) is OPEN (the band edge 2cos(π/(N+1)) fits only N=2,3). The mode that " +
-                     "freezes just below Q* is overdamped (real) AND half-lit: its light content ⟨n_XY⟩ ≈ ½, NOT the " +
-                     "dark {I,Z} sector (⟨n_XY⟩ ≈ 0). The probe _carbon_quantum_same_mountain.py reads this directly. " +
-                     "No mechanism is asserted here: the witness reports the live threshold and its carbon coincidence, " +
-                     "not why the freezing mode sits where it does.");
+        var rungs = new List<IInspectable>();
+        foreach (int n in new[] { 2, 3, 4, 5 })
+        {
+            var ep = EpModes(n);
+            string h0 = ep.CoalescerHist.GetValueOrDefault(0).ToString("0.00", Inv);
+            string h2 = ep.CoalescerHist.GetValueOrDefault(2).ToString("0.00", Inv);
+            bool isEp = ep.Coalescer.Rigidity < REpThreshold;
+            string label = isEp ? "EP" : "crossing";
+            string verdict = isEp ? "genuine EP, the {0,2}-coherence coalesces" : "no EP (a crossing)";
+            rungs.Add(new InspectableNode($"N={n}: {label}",
+                summary: $"coalescer r = {ep.Coalescer.Rigidity.ToString("0.000", Inv)} " +
+                         $"(Im = {ep.Coalescer.Lambda.Imaginary.ToString("0.000", Inv)}, hist {{0:{h0}, 2:{h2}}}, " +
+                         $"mean n_diff = {ep.CoalescerMeanNDiff.ToString("0.0", Inv)}) → {verdict}; " +
+                         $"band edge Im = {Math.Abs(ep.BandEdge.Lambda.Imaginary).ToString("0.000", Inv)} " +
+                         $"(2cos(π/(N+1))), r = {ep.BandEdgeR.ToString("0.000", Inv)} → the γ-protected survivor."));
+        }
+        double ratio = SqrtScalingRatio(4, 0.03);
+        return new InspectableNode("the EP verdict (live phase rigidity)",
+            summary: "the mode that coalesces at Q*(N) is the {0,2}-coherence (population/antisymmetric block) " +
+                     "at ALL N=2..5, a genuine square-root EP (phase rigidity r → 0). NO sector bifurcation at " +
+                     "N=4: the band edge 2cos(π/(N+1)) is the co-located γ-protected SURVIVOR (r ≈ 1), sharing the " +
+                     "gap Re = −2γ only because the Absorption Theorem pins both (both ⟨n_diff⟩ = 1). So Q*(N) is at " +
+                     "once a {0,2}-coherence EP (the erasure point, which climbs the ladder) and a band-edge crossing " +
+                     $"(the clock survives). √-scaling Im²/(Q−Q*) at N=4 = {ratio.ToString("0.00", Inv)} (constant ⟹ " +
+                     "a clean 2nd-order EP). The closed form of Q*(N) (the {0,2}-block discriminant) is OPEN. " +
+                     "Recomputed live via PhaseRigidity; supersedes the earlier narrated 'bifurcation at N=4'.",
+            children: rungs);
     }
 
     public InspectablePayload Payload => InspectablePayload.Empty;
