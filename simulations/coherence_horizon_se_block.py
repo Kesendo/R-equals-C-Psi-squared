@@ -190,9 +190,45 @@ def _assert_fork():
           "N>=4 dressed -> exact transcendental condition.")
 
 
+def _pair_sp_at(N, g, J=1.0):
+    """(s, p) = (sum, product) of the coalescing pair at a given g (no rescaling), to test whether
+    s = -4g and p = c*J^2 are gamma-INDEPENDENT identities (a genuine 2x2) or just hold at one point."""
+    ev = np.linalg.eigvals(L_se(N, J, g))
+    nz = ev[ev.real < -1e-7]
+    osc = nz[nz.imag > 1e-7]
+    slow = osc[osc.real > osc.real.max() - 0.25]
+    la = slow[np.argmin(np.abs(slow.imag))]
+    return 2.0 * la.real, abs(la) ** 2
+
+
+def _assert_closed_forms():
+    """N=2,3: the coalescing pair are the roots of lambda^2 + 4g*lambda + c*J^2 = 0 with c constant
+    (s=-4g and p=c*J^2 hold for all g below the EP), so Q* = 2/sqrt(c) exactly. N>=4: that identity
+    breaks (collective dressing) and the exact condition is transcendental."""
+    J = 1.0
+    for N, c in [(2, 4.0), (3, 2.0)]:
+        for g in (0.30, 0.45, 0.60):                 # several g below the EP (pair clearly complex)
+            s, p = _pair_sp_at(N, g)
+            assert abs(s - (-4 * g)) < 1e-6, f"N={N} g={g}: s={s:.6f} != -4g"
+            assert abs(p - c * J * J) < 1e-6, f"N={N} g={g}: p={p:.6f} != {c}J^2"
+        qstar_cf = 2.0 / np.sqrt(c)                   # EP: discriminant 16g^2 - 4cJ^2 = 0 -> g=J*sqrt(c)/2
+        assert abs(qstar_cf - qstar_se(N)) < 1e-4, f"N={N}: closed form 2/sqrt(c) != bisected Q*"
+        print(f"[Task4] N={N}: closed form  lambda^2 + 4g*lambda + {c:.0f}*J^2 = 0  "
+              f"(s=-4g, p={c:.0f}J^2 exact for all g)  ->  Q* = 2/sqrt({c:.0f}) = {qstar_cf:.6f}")
+    # N>=4: (s,p) is not constant in g -> no clean 2x2 -> transcendental
+    s4a, p4a = _pair_sp_at(4, 0.45)
+    s4b, p4b = _pair_sp_at(4, 0.55)
+    assert abs(p4a - p4b) > 1e-3 or abs(s4a / (-4 * 0.45) - 1.0) > 1e-2, \
+        "N=4 (s,p) should vary with g (collective dressing)"
+    print("[Task4] N>=4: (s,p) varies with g -> no clean 2x2. The exact condition is the SE")
+    print("        Liouvillian's slowest-mode double root (transcendental); Q*(N) = qstar_se(N),")
+    print("        reproducing the ladder + the N=6..14 sequence (Task 1).")
+
+
 if __name__ == "__main__":
     _assert_ladder()
     _assert_full_reduction()
     _assert_basis_and_parity()
     _report_pair_invariants()
     _assert_fork()
+    _assert_closed_forms()
