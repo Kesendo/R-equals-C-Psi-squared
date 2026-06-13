@@ -34,7 +34,7 @@ public sealed class BirthCanalSurfaceWitness : IInspectable
     public int GridK { get; }
 
     // The N=5 admissible box: contains the verified anchors and the boundary curve (which runs
-    // (w_edge, w_center) ≈ (0.25, 1.94) → (0.92, 1.05)). N=6 may need a different box (a Risk).
+    // (w_edge, w_center) ≈ (0.25, 1.94) → (0.92, 1.05)).
     private const double EdgeLo = 0.2, EdgeHi = 1.0, CenterLo = 0.5, CenterHi = 3.0;
 
     // M4: at the low probe Q an EP makes the eigenbasis singular and the light reading drift, which
@@ -261,6 +261,65 @@ public sealed class BirthCanalSurfaceWitness : IInspectable
             children: kids);
     }
 
+    /// <summary>The deviation magnitude of an arbitrary profile, via the same engine and constants
+    /// as the grid (so it equals that profile's PostEpFlowField.BirthCanalDeviation).</summary>
+    private double DeviationOfProfile(double[] profile)
+    {
+        var field = new PostEpFlowField(N,
+            new[] { PostEpFlowField.BirthCanalProbeQLow, PostEpFlowField.BirthCanalProbeQHigh },
+            new[] { 0.0, 1.0 }, profile);
+        return Math.Abs(field.BirthCanalDeviation);
+    }
+
+    /// <summary>Bisect the straight line (1−s)·p0 + s·p1 (renormalized to Σ=N) for the first s where
+    /// the deviation crosses the tolerance, i.e. where the line crosses the boundary surface. p0 must
+    /// be sterile (s=0), p1 in the canal (s=1). The C# twin of the Python script's find_star (34
+    /// bisection steps).</summary>
+    public double BisectStar(double[] p0, double[] p1)
+    {
+        double lo = 0.0, hi = 1.0;
+        for (int k = 0; k < 34; k++)
+        {
+            double mid = 0.5 * (lo + hi);
+            if (DeviationOfProfile(Lerp(p0, p1, mid)) < PostEpFlowField.BirthCanalTolerance) lo = mid;
+            else hi = mid;
+        }
+        return hi;
+    }
+
+    private double[] Lerp(double[] p0, double[] p1, double s)
+    {
+        var p = new double[N];
+        double sum = 0.0;
+        for (int l = 0; l < N; l++) { p[l] = (1 - s) * p0[l] + s * p1[l]; sum += p[l]; }
+        for (int l = 0; l < N; l++) p[l] *= N / sum;   // renormalize to Σ=N
+        return p;
+    }
+
+    /// <summary>L7 (the punchline): two straight lines crossing the one boundary at different s*,
+    /// naming 0.709 as a coordinate, not a constant — and as the two sterility kinds (R1): peaked-V
+    /// is robust (0.709), uniform is fragile (0.105).</summary>
+    private InspectableNode TheStarNode()
+    {
+        double[] peakedV = { 0.25, 0.75, 3.0, 0.75, 0.25 };
+        double[] flatBulkEdge = { 0.25, 1.5, 1.5, 1.5, 0.25 };
+        double[] uniform = { 1.0, 1.0, 1.0, 1.0, 1.0 };
+        double sRobust = BisectStar(peakedV, flatBulkEdge);
+        double sFragile = BisectStar(uniform, flatBulkEdge);
+
+        return new InspectableNode("s* is one line",
+            summary: $"the celebrated s*=0.709 is ONE line's crossing of the surface: peaked-V -> " +
+                     $"flat-bulk-edge bisects to {sRobust.ToString("0.###", Inv)} (the robust kind, " +
+                     $"genuine freeze), uniform -> flat-bulk-edge to {sFragile.ToString("0.###", Inv)} " +
+                     $"(the fragile kind, flat-gamma blindness). Same curve, two crossings; s* is a " +
+                     $"coordinate, not a constant.",
+            children: new IInspectable[]
+            {
+                InspectableNode.RealScalar("s* peaked-V -> flat-bulk-edge (robust)", sRobust, "0.#####"),
+                InspectableNode.RealScalar("s* uniform -> flat-bulk-edge (fragile)", sFragile, "0.#####"),
+            });
+    }
+
     public IEnumerable<IInspectable> Children
     {
         get
@@ -268,7 +327,7 @@ public sealed class BirthCanalSurfaceWitness : IInspectable
             yield return TheSurfaceNode();
             yield return TheMechanismNode();
             yield return APointEveryLensNode();
-            // "s* is one line" added in Task 5
+            yield return TheStarNode();
         }
     }
 

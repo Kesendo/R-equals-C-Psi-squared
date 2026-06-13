@@ -102,4 +102,22 @@ public class BirthCanalSurfaceWitnessTests
         Assert.Throws<ArgumentOutOfRangeException>(() => new BirthCanalSurfaceWitness(6));
         Assert.Throws<ArgumentOutOfRangeException>(() => new BirthCanalSurfaceWitness(4));
     }
+
+    [Fact]
+    public void Bisect_ReproducesThePathSpecificStars()
+    {
+        double[] peakedV = { 0.25, 0.75, 3.0, 0.75, 0.25 };
+        double[] flatBulkEdge = { 0.25, 1.5, 1.5, 1.5, 0.25 };
+        double[] uniform = { 1.0, 1.0, 1.0, 1.0, 1.0 };
+        Assert.Equal(0.70921, W.BisectStar(peakedV, flatBulkEdge), 2);   // the original line
+        Assert.Equal(0.10526, W.BisectStar(uniform, flatBulkEdge), 2);   // a different crossing
+    }
+
+    [Fact]
+    public void StarNode_NamesPathDependenceAndTheTwoKinds()
+    {
+        var node = System.Linq.Enumerable.Single(W.Children, c => c.DisplayName == "s* is one line");
+        Assert.Contains("0.7", node.Summary);
+        Assert.Contains("0.1", node.Summary);
+    }
 }
