@@ -95,4 +95,11 @@ public class BirthCanalSurfaceWitnessTests
         Assert.Contains("L5 parity rail", set);
         Assert.Contains("L6 degeneracy", set);
     }
+
+    [Fact]
+    public void Ctor_IsN5Only()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => new BirthCanalSurfaceWitness(6));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new BirthCanalSurfaceWitness(4));
+    }
 }

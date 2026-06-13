@@ -43,10 +43,12 @@ public sealed class BirthCanalSurfaceWitness : IInspectable
 
     public BirthCanalSurfaceWitness(int n = 5, int grid = 9)
     {
-        if (n < 5 || n > 6)
+        if (n != 5)
             throw new ArgumentOutOfRangeException(nameof(n), n,
-                "the surface slice needs N in 5..6 (N=5 is the instrument; N=6 is a 4096^2 EVD per " +
-                "point, coarse-grid only; N<5 has no bulk reservoir)");
+                "the surface witness is N=5 only: its anchors (peaked-V / uniform / flat-bulk-edge) and " +
+                "s* lines (0.709 / 0.105) are the verified N=5 pins, and N=5 is the displayable 2D-slice " +
+                "instrument. N=4 has no bulk reservoir; N>=6 is a 4096^2-EVD-per-point higher-dim window, " +
+                "left as a documented extension (the dimension-grows note), not a runtime path.");
         if (grid < 3) throw new ArgumentOutOfRangeException(nameof(grid), grid, "grid must be >= 3");
         N = n;
         GridK = grid;
