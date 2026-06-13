@@ -101,6 +101,40 @@ PTF sum is its empirical companion.
 
 ---
 
+## The K-partnership is a selection rule (Tier 1 derived)
+
+The reading grammar's first derived result is a fact about the codebook's null directions: the
+carrier never leaks into its K-partner under any bond defect. The carrier ψ_1 (the
+single-excitation band-edge mode) and the top mode ψ_N are K-partners, ψ_N = K₁ψ_1 with
+K₁ = Π_{l odd} Z_l the odd-sublattice Z product (equivalently ψ_N(i) = (−1)^i ψ_1(i)); and for
+every bond the hopping/defect V_b = ½(X_bX_{b+1} + Y_bY_{b+1}) has
+
+> **⟨ψ_N|V_b|ψ_1⟩ = 0 for every bond b.**
+
+It is a two-line corollary of the chiral mirror trajectory identity (`ChiralMirrorTrajectoryClaim`),
+borrowing both its ingredients: ⟨ψ_N|V_b|ψ_1⟩ = ⟨K₁ψ_1|V_b|ψ_1⟩ = ⟨ψ_1|K₁V_b|ψ_1⟩
+= −⟨ψ_1|V_bK₁|ψ_1⟩ = −⟨ψ_1|V_b|ψ_N⟩ = −⟨ψ_N|V_b|ψ_1⟩, since K₁ψ_1 = ψ_N (the parent's Step 4)
+and V_b is K₁-odd, K₁V_bK₁ = −V_b (its Step 1). The modes are real and V_b is symmetric, so the
+matrix element is real; a real number equal to its own negative is 0.
+
+**The consequence is the decoder's rank deficit.** Build the location dictionary
+M[b, k] = ⟨ψ_k|V_b|ψ_1⟩ over bonds b = 0..N−2 and modes k = 2..N (k = 1 is the strength channel).
+The selection rule kills the k = N column entirely, so M has rank N−2 (machine-exact, N = 3..8).
+The carrier couples to N−1 other modes under bond defects, but the K-partner channel is forbidden,
+leaving only N−2 independent location channels. This IS the `DefectDecoder`'s sign-location
+ambiguity: an edge bond reads almost like the complementary interior bond (residual ratio ≈ 1.5
+at N=5, the `AmbiguityFactor` flag), and the reason it cannot cleanly separate sign from location
+is exactly that the K-partner pairs are the dictionary's null direction. The forbidden channel is
+the one that would have lifted the degeneracy.
+
+Typed as `KPartnerSelectionRuleClaim` (Tier 1 derived, child of `ChiralMirrorTrajectoryClaim`,
+live at `inspect --claim KPartnerSelectionRuleClaim`); the decoder it explains is
+[`DefectDecoder.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/DefectDecoder.cs); the probe is
+[`_k_partner_selection_rule.py`](../simulations/_k_partner_selection_rule.py) (selection-rule max
+~1e-16, rank = N−2 exactly, N = 3..8).
+
+---
+
 ## The resolution law (measured)
 
 The honest objective is the Fisher information FI of the readout with respect to the feature
