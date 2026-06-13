@@ -180,6 +180,17 @@ public static class KnowledgeRegistryFactory
             // composition of two proven identities. Typed parents: AbsorptionTheoremClaim
             // (registered directly above) + F1PalindromeIdentity (via RegisterF1Family at the top).
             .RegisterJDefectLightMigrationClaim()
+            // Vacuum-block reduction (the birth-canal boundary as a Liouville sector, 2026-06-13):
+            // the boundary's slowest mode is the odd |1-exc><vac| (0,1) coherence; that sector is an
+            // exact invariant sub-block (ket#/bra# bi-grading conserved by H_unit + Z-dephasing) -
+            // DERIVED; its N-dim block L_(1,0) = -iQ·h - 2·diag(γ) carries the global slowest across
+            // the whole γ-surface at N=5 - VERIFIED bit-exact (SectorReductionWitness vs PostEpFlowField,
+            // inspect --root reduction; simulations/birth_canal_vacuum_block_verifier.py). Flat-γ
+            // blindness Re λ = -2γ is analytic at every N. SCOPE N=5; at N>=6 a {0,2}-coherence can
+            // win (the birth_canal_horizon_junction arc), V-Effect identity OPEN. Tier1Derived. Single
+            // typed parent AbsorptionTheoremClaim (registered above; the (0,1)-block rate is the
+            // absorption law restricted to a conserved sector).
+            .RegisterVacuumBlockReductionClaim()
             .RegisterF86LEffMirrorAxis()
             // F-formula Pi2-Foundation inheritance claims.
             // F63 + F61 registered first because F1Pi2Inheritance now ctor-takes F61 as
