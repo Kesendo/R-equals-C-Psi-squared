@@ -91,6 +91,68 @@ def _assert_full_reduction():
     print("[Task1] SE spectrum is an exact sub-spectrum of the full Liouvillian (N=2,3).")
 
 
+def sine_U(N):
+    """OBC sine transform: columns are the eigenvectors of h_single (real orthogonal).
+    U[i,k] = sqrt(2/(N+1)) sin((i+1)(k+1) pi/(N+1)); h = U diag(E_k) U^T, E_k = 2J cos((k+1)pi/(N+1))."""
+    i = np.arange(1, N + 1)[:, None]
+    k = np.arange(1, N + 1)[None, :]
+    return np.sqrt(2.0 / (N + 1)) * np.sin(i * k * np.pi / (N + 1))
+
+
+def L_se_mode(N, J, g):
+    """L_se in the sine-mode basis: W L W^T with W = U^T (x) U^T (orthogonal). The coherent part
+    is diag(-i(E_k - E_l)); the real-space dephasing becomes an explicit mode-coupling block."""
+    U = sine_U(N).astype(complex)
+    W = np.kron(U.T, U.T)
+    return W @ L_se(N, J, g) @ W.T
+
+
+def reversal_R(N):
+    """Site reflection i <-> N-1-i as an N x N permutation matrix."""
+    R = np.zeros((N, N))
+    for i in range(N):
+        R[i, N - 1 - i] = 1.0
+    return R
+
+
+def parity_blocks(N, J, g):
+    """Split L_se into reflection-parity even/odd sectors. P = R (x) R commutes with L_se.
+    Returns (L_even, L_odd, basis_even, basis_odd)."""
+    R = reversal_R(N)
+    P = np.kron(R, R)
+    L = L_se(N, J, g)
+    w, V = np.linalg.eigh(P)               # P is a real symmetric involution: eigenvalues +-1
+    even = V[:, w > 0]
+    odd = V[:, w < 0]
+    Le = even.T @ L @ even
+    Lo = odd.T @ L @ odd
+    return Le, Lo, even, odd
+
+
+def _spec_match(a, b, atol=1e-6):
+    """Two spectra match as multisets: equal size, every element of a has a close partner in b
+    (robust to eigenvalue ordering, which is arbitrary and unstable at near-degeneracies)."""
+    return len(a) == len(b) and max(np.min(np.abs(np.asarray(b) - x)) for x in a) < atol
+
+
+def _assert_basis_and_parity():
+    N, g = 5, 0.4
+    # basis change preserves the spectrum (similarity transform by an orthogonal W)
+    a = np.linalg.eigvals(L_se(N, 1.0, g))
+    b = np.linalg.eigvals(L_se_mode(N, 1.0, g))
+    assert _spec_match(a, b), "mode-basis spectrum differs from real-space"
+    # parity blocks union = full spectrum, and the slowest non-zero mode is in one sector
+    Le, Lo, _, _ = parity_blocks(N, 1.0, g)
+    union = np.concatenate([np.linalg.eigvals(Le), np.linalg.eigvals(Lo)])
+    assert _spec_match(a, union), "parity blocks do not reconstruct the spectrum"
+    ee, eo = np.linalg.eigvals(Le), np.linalg.eigvals(Lo)
+    slow_e = ee[ee.real < -1e-7].real.max()
+    slow_o = eo[eo.real < -1e-7].real.max()
+    print(f"[Task2] basis + parity OK. slowest non-zero: even={slow_e:.4f}, odd={slow_o:.4f}, "
+          f"the horizon lives in the {'even' if slow_e > slow_o else 'odd'} sector.")
+
+
 if __name__ == "__main__":
     _assert_ladder()
     _assert_full_reduction()
+    _assert_basis_and_parity()
