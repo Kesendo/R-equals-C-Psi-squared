@@ -170,8 +170,9 @@ def _assert_benzene_v_effect():
 
 # ---- 5. The split is RING-SPECIFIC: the open even-N chain does NOT show the clean double-excitation
 #         seam. Its overtaker spreads across fillings (single-excitation included), and its full-L
-#         handover sits at its SE-EP (co-located), so the V-Effect is a feature of the closed aromatic
-#         ring at half-filling, not of even N alone. ----
+#         handover sits at its SE-EP (co-located), so the V-Effect is a feature of the closed ring at
+#         half-filling (the C=0.5 boundary; aromaticity is NOT the discriminant, see
+#         aromatic_ring_v_effect.py), not of even N alone. ----
 def _assert_v_effect_is_ring_specific():
     g = 1.0 / 2.4   # open chain N=6, below its handover (~2.89 = its SE-EP)
     w, sectors = slowest_full(6, 1.0, g, ring=False, vectors=True)
@@ -181,7 +182,7 @@ def _assert_v_effect_is_ring_specific():
     assert dbl < 0.6, f"chain overtaker should NOT be the clean double-excitation seam (got {sectors})"
     print(f"[5] ring-specific: open chain N=6 overtaker spreads across fillings {sectors};")
     print("    single-excitation present, double-excitation not dominant, UNLIKE benzene's pure (2,2)/(4,4).")
-    print("    The V-Effect double-excitation seam is a feature of the closed aromatic ring, not even N alone.")
+    print("    The V-Effect double-excitation seam is a feature of the closed ring at half-filling (C=0.5), not even N alone.")
 
 
 if __name__ == "__main__":
