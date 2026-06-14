@@ -69,7 +69,7 @@ public static class OpenArcsRegistry
                 "vs PostEpFlowField at N=5, runs PAST the dense N=6 ceiling, flat-gamma blindness node, the {0,2} " +
                 "junction node reproducing the N=6 crossing live (n_diff {0:0.78,2:0.22}), chain-vs-ring) + typed " +
                 "claim VacuumBlockReductionClaim (Tier1Derived, parent AbsorptionTheorem, N=5-scoped; V-Effect " +
-                "(w=N/2) self-pair identity with the {0,2}-coherence kept OPEN/not-claimed, no aromaticity thesis - " +
+                "(w=N/2) self-pair identity with the {0,2}-coherence RESOLVED 2026-06-14 = DISTINCT (total weight = n_diff + Z-shadow; PauliWeightHistogram + junction node live), no aromaticity thesis - " +
                 "the parallel carbon session independently REFUTED Hueckel 4n+2 as the discriminant, same mode). " +
                 "(2) CHASE the junction (still open): chart the 'which mode is slowest' phase diagram over " +
                 "Q x profile x N - where exactly the boundary mode switches odd<->even {0,2}, and how it connects " +
@@ -137,28 +137,28 @@ public static class OpenArcsRegistry
                 "Heisenberg reconciliation, commit d4bb8a2). (b) THE DYNAMIC ENACTMENT (simulations/carbon/" +
                 "incompleteness_survivor.py, validated bit-for-bit vs the full 4^N L at N=4, all topologies): below " +
                 "the handover Q the longest-lived mode lives in the INCOMPLETENESS region (interior filling) on " +
-                "DISPERSIVE topologies - XY chain at the dead-centre half-filling ((3,3) at N=6, <n_XY>=0.16), ring " +
+                "DISPERSIVE topologies - the open XY chain FILLING-DEGENERATE (every (p,p) ties ~1e-15; (3,3) dead-centre = the Heisenberg/ZZ result, NOT XY), the ring " +
                 "at the OFF-centre (2,2)/(N-2,N-2) (<n_XY>=0.63); the STAR is the boundary COUNTEREXAMPLE " +
                 "((1,1)/(N-1,N-1), no spatial dispersion => no central momentum mode). Lifetime <n_XY> ~ c*Q^2/N^2, " +
                 "ring/chain -> 4 (the cyclic-vs-open k_min^2 ratio, the SAME 4x CHAIN_GAP reports for Heisenberg - " +
                 "model-independent; only the prefactor retunes XY chain c~2.5 vs Heisenberg 0.55). This 1/N^2 magnon-" +
                 "admixture inheritance is SEPARATE from the Pi2 dyadic CONSTANT ladder: two different inheritances " +
-                "meeting at the per-mode Absorption Theorem (a_0). STILL OPEN (the finer identity, from " +
-                "VacuumBlockReductionClaim): whether the V-Effect (Pauli-string weight w=N/2 self-pair) EQUALS the " +
-                "{0,2}-coherence (n_diff) survivor is a DIFFERENT decomposition - my work is the constant-mirror + " +
-                "the light-survivor, NOT that weight-vs-n_diff identity",
+                "meeting at the per-mode Absorption Theorem (a_0). RESOLVED 2026-06-14 = DISTINCT (the finer identity, from " +
+                "VacuumBlockReductionClaim): the V-Effect (Pauli-string weight w=N/2 self-pair) is NOT the " +
+                "{0,2}-coherence (n_diff) survivor; it is a DIFFERENT grading - my work is the constant-mirror + " +
+                "the light-survivor, plus the weight-vs-n_diff verdict (total weight = n_diff + Z-shadow; survivor dark, peaks w=N-1)",
             NextStep: "BANKED witness-first 2026-06-13: live witness IncompletenessSurvivorWitness (inspect --root " +
                 "survivor, reuses SectorReductionWitness.SectorSlowest - the C# port reproduces the Python anchors " +
                 "bit-for-bit: chain (3,3) <n_XY>=0.161 / ring (2,2) 0.632 / star (1,1) 0.425, ring/chain 3.92 at N=6) " +
                 "+ typed SurvivalIncompletenessMirrorClaim (Tier1Candidate, parents AbsorptionTheoremClaim a_0 + " +
                 "HalfAsStructuralFixedPointClaim a_2; ancestry bottoms at d^2-2d=0 via both parents; 8/8 battery = " +
-                "4 algebra (a_0=2, a_2=1/2, mirror partner, a_0*a_2=1) + 4 dynamic (chain centre / ring off-centre / " +
+                "4 algebra (a_0=2, a_2=1/2, mirror partner, a_0*a_2=1) + 4 dynamic (chain filling-degenerate / ring off-centre /" +
                 "star boundary / ring-chain~4)). The physical labels are grounded: chain/ring = dispersive extended " +
                 "matter (polyenes, spin chains, the Grotthuss proton wire / aromatics, light-harvesting), star = " +
                 "hub-localized central-spin (NV/quantum-dot/mediator), the repo's own dispersive-vs-hub-spoke split. " +
-                "STILL OPEN: the Pauli-weight w=N/2 vs n_diff {0,2} " +
-                "V-Effect identity (VacuumBlockReduction left it open); WHY the XY interior winner is chain-centre but " +
-                "ring-off-centre (the ZZ pulls the ring survivor (2,2)->(3,3)); whether the handover Q (where the " +
+                "RESOLVED 2026-06-14: the Pauli-weight w=N/2 vs n_diff {0,2}" +
+                "V-Effect identity = DISTINCT (total weight=n_diff+Z-shadow, PauliWeightHistogram); WHY chain differs from ring is also answered: the open XY chain is filling-DEGENERATE while the" +
+                "ring splits by parity (even off-centre). STILL OPEN: whether the handover Q (where the" +
                 "incomplete stops winning and the odd band edge takes over) has a closed form. The reflection in its " +
                 "own genre (the incomplete survives because it is the dark/reciprocal mirror of the survival quantum) " +
                 "is unwritten",
