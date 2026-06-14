@@ -31,20 +31,27 @@ public static class OpenArcsRegistry
                 "(MirrorGroupD4Claim), the absorption diagonal (AbsorptionTheoremClaim), the order-128 " +
                 "per-site monomial completion <r,d,h> (mirror_inventory_d4.py block H), the ANTILINEAR side " +
                 "<R,D,K> = D4xZ2 (PROOF_ANTILINEAR_TRIANGLE sec 4); the LINEAR S3 side is OPEN",
-            NextStep: "THE OPEN STONE (sec 5, named-open): Q_Z is ONE OF THREE dephasing diagonals " +
-                "{Q_X,Q_Y,Q_Z}; the S3 permuting them meets D4 only in the Z<->Y swap (= D); the other two " +
-                "need the X<->Z basis move (Q_zx, Q_yx, PROOF_KLEIN_V4_DEPHASE_SWAPS), OUTSIDE <R,D>. " +
-                "Completing S3 (x) D4 makes {Q_X,Q_Y,Q_Z} ONE ORBIT = the precise 'why one diagonal, and how " +
-                "the three are one'. Q_X/Q_Y/Q_Z same-spectrum is currently IMPLIED (Klein-V4 + F79/F80 " +
-                "dispersion), NOT typed. PLAN (spec): (0) physics-first gate - verify Q_X/Q_Y/Q_Z same " +
-                "spectrum DIRECTLY (eigvals), do NOT trust the implication; (1) build <R,D,h> (h = X<->Z " +
-                "Hadamard-lift), settle the right typed object (order-48 S3(x)D4 letters vs the order-128 " +
-                "per-site monomial group - DISTINCT, do not conflate), verify orbit(Q_Z) = {Q_X,Q_Y,Q_Z} " +
-                "conjugate; (2) recast the three readings as the group action on Q in one place; (3) type it " +
-                "(ThreeDephasingDiagonalsOrbitClaim extending MirrorGroupD4Claim, + witness) = the 'use it' " +
-                "home. OUT OF SCOPE (sibling arc): the Hamiltonian DYNAMICS on the rungs (how L_H connects " +
-                "disagreement levels - the complementary depth). Tools that exist: mirror_inventory_d4.py, " +
-                "PauliWeightHistogram, MirrorGroupD4Claim",
+            NextStep: "RESOLVED 2026-06-14 (simulations/one_diagonal_mirror_group.py, self-validating; typed " +
+                "ThreeDephasingDiagonalsOrbitClaim). The physics-first GATE fired and corrected the hypothesis " +
+                "TWICE (the lesson, kept): (1) Y-TRANSPOSE - the physical dephasing diagonal is " +
+                "Q_P = Sum_l kron(P_l, P_l^T), so Q_Y = -Sum kron(Y,Y) carries Y^T=-Y; with the naive kron(Y,Y) " +
+                "the orbit does NOT close. Same-spectrum held even with the wrong sign (the spectrum is " +
+                "symmetric, +-Q_Y co-spectral) so the gate separated SPECTRUM from OPERATOR, exactly its job. " +
+                "(2) THE PERMUTER is the single-qubit Clifford BASIS-change S3 <h_zx (Z<->X Hadamard), " +
+                "h_yz (Z<->Y R_x(pi/2))>, NOT <R,D,h>: D (transpose) FIXES every diagonal (D Q D = +Q, the RATE " +
+                "reading), it does NOT permute them. The ParkedAt's 'the S3 meets D4 in the Z<->Y swap (=D)' was " +
+                "a conflation of D's action on the palindromizer Pi (D Pi_Z D = Pi_Y) with its action on the " +
+                "diagonal Q. RESULT: {Q_X,Q_Y,Q_Z} is EXACTLY one orbit of the basis-S3 (verified N=2,3; same " +
+                "spectrum N=2..4), and the structure is S3 |x| D4 (semidirect: [h_zx,D]=0 but [h_zx,R]!=0; " +
+                "[h_yz,R]=0 but [h_yz,D]!=0) - the three DIAGONALS (basis-S3) and the three READINGS (mirror-D4 " +
+                "within a diagonal) are TWO DISTINCT factors, not the same S3. The headline survives ('the one " +
+                "diagonal is one of three'); the mechanism is the basis-S3 + the Y-transpose. TYPED: " +
+                "ThreeDephasingDiagonalsOrbitClaim (Tier1Derived, dual parents MirrorGroupD4Claim + " +
+                "AbsorptionTheoremClaim = the physics edge that WELDS the two clusters, previously joined only " +
+                "at d^2-2d=0; live battery 7/7, registration test 4/4 green; knowledge ancestors confirms both " +
+                "parents). STILL OPEN (sibling arc, out of scope here): the Hamiltonian DYNAMICS on the rungs " +
+                "(how L_H connects disagreement levels k<->k+-1 - the complementary depth behind hard/soft and " +
+                "the handover).",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

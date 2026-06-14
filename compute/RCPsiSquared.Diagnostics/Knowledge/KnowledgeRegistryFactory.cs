@@ -392,6 +392,14 @@ public static class KnowledgeRegistryFactory
             // immediately above), CommutatorDConjugationSign (F114) and
             // Pi2KleinV4DephaseSwapGroup (Welle 12's D), both registered earlier.
             .RegisterMirrorGroupD4Claim()
+            // Three dephasing diagonals as one orbit (2026-06-14): {Q_X,Q_Y,Q_Z} is one orbit of the
+            // single-qubit Clifford basis-change S3 <h_zx,h_yz>; the three readings are the mirror D4
+            // within a diagonal (the structure is S3 |x| D4). Its TWO typed parents are the physics edge
+            // welding the mirror-group and absorption clusters (previously joined only at d^2-2d=0):
+            // MirrorGroupD4Claim (directly above) + AbsorptionTheoremClaim (registered ~line 174). Anchor
+            // simulations/one_diagonal_mirror_group.py (the physics-first gate that corrected the first
+            // hypothesis: the Y-transpose, and the permuter is the basis-S3, not <R,D,h>).
+            .RegisterThreeDephasingDiagonalsOrbitClaim()
             // YParity-axis seed (F102): standalone Tier1Derived Claim filling the cubic
             // Z₂³ architecture's YParity slot. Must come AFTER every Pi²-Inheritance Claim
             // above but BEFORE RegisterPolarityCubeMap so the cube map's b.Get<...>()
