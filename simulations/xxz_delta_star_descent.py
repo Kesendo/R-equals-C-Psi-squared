@@ -77,6 +77,47 @@ def check_R_is_generator():
     print("[6] R is a valid generator (symmetric, zero column sums, single zero mode).  OK")
 
 
+DSTAR_GAMMA0 = {4: 1.61961, 5: 1.52798, 6: 1.38463, 7: 1.33007, 8: 1.27243}
+
+
+def delta_star_reduction(N, lo=1.0, hi=2.5):
+    """Delta* where gap(R)=2 (the gamma->0 handover condition).
+    gap(R)-2 is MONOTONE-decreasing through zero on [1, 2.5] (more Delta -> more Neel order ->
+    slower Lebensader -> smaller gap), so this is a ROOT-find of a monotone function. brentq is
+    correct and safe -- this is NOT the multimodal Brent MINIMIZATION that failed in the
+    ptf_painter arc (that was a non-convex global-min search; a bracketed monotone root-find is
+    a different algorithm). f(lo)>0 (band-edge regime, gap>2), f(hi)<0 (Lebensader regime, gap<2)."""
+    f = lambda D: gapR(N, D) - 2.0
+    assert f(lo) > 0 > f(hi), f"N={N}: gap(R)-2 does not bracket a root on [{lo},{hi}]"
+    return brentq(f, lo, hi, xtol=1e-7)
+
+
+def check_reduction_matches_full():
+    """assert #1: gamma*gap(R) -> the full-sector Lebensader rate as gamma->0 (ratio -> 1)."""
+    for N in (4, 5):
+        gap = gapR(N, 1.5)
+        ratios = []
+        for g in (0.05, 0.0125, 0.003125):
+            full = lebensader_rate(N, 1.5, gamma=g)  # the (p,p) sector method, finite gamma
+            ratios.append(full / (g * gap))
+        # the ratio must approach 1 as gamma shrinks (the gamma->0 limit is exact)
+        assert abs(ratios[-1] - 1.0) < 5e-3, f"N={N}: gamma*gap(R) not matching full as g->0: {ratios}"
+        assert abs(ratios[-1] - 1.0) < abs(ratios[0] - 1.0) + 1e-9, f"N={N}: not converging: {ratios}"
+    print("[1] gamma*gap(R) -> full Lebensader rate as gamma->0 (ratio -> 1).  OK")
+
+
+def check_reduction_reproduces_gamma0_dstar():
+    """assert #2b: delta_star_reduction reproduces the gamma->0 Delta* (NOT the Q=20 numbers --
+    the N=4 drift 1.7e-3 exceeds a 1e-3 tolerance, so asserting vs Q=20 would falsely fail)."""
+    for N, expected in DSTAR_GAMMA0.items():
+        got = delta_star_reduction(N)
+        assert abs(got - expected) < 1e-3, f"gamma->0 Delta*({N})={got} != {expected}"
+    print("[2b] gamma->0 reduction reproduces Delta*(4..8) = "
+          + ", ".join(f"{v:.5f}" for v in DSTAR_GAMMA0.values()) + ".  OK")
+
+
 if __name__ == "__main__":
     check_finite_gamma_baseline()
     check_R_is_generator()
+    check_reduction_matches_full()
+    check_reduction_reproduces_gamma0_dstar()
