@@ -166,6 +166,21 @@ carotenoid dark / triplet-pair side lives on the Lebensader end, and the V-Effec
       slow mode's darkness (the Z-coupled rate-matrix gap), and the finite-N offset above Δ = 1 is the
       finite Néel correlation length: once N exceeds it, the dissipative handover tracks the
       closed-system quantum critical point.
-- **Still open:** a rigorous (Bethe-ansatz) derivation that the N→∞ limit is *exactly* Δ = 1, and the
-  log-correction structure of the approach (the non-universal fitted exponent is a symptom of it, not
-  yet a derivation).
+- **Ring topology (2026-06-14, the periodic twin; arc `xxz_axis_handover`):** the **ring** Δ\*(N) is
+  *qualitatively unlike* the chain. Computed with the same γ→0 reduction plus one wrap bond
+  ([`simulations/ring_xxz_delta_star_descent.py`](../simulations/ring_xxz_delta_star_descent.py),
+  self-validating). It is **non-monotone**: both parities rise to a peak ≈ 1.31–1.33 near N=9–10
+  (odd 1.331 at N=9, even 1.308 at N=10) then **descend** through N=14 (odd → 1.295 at N=13, even →
+  1.278 at N=14). The ring **crosses above the chain** near N=7–8 (the chain keeps descending toward
+  Δ=1, the ring humps up). **N=4 has no handover**: the full half-filling block is *tangent* to the
+  floor at the XY point Δ=0 (peak 0.99998·2γ) and a survivor elsewhere — the K₂,₂ special case (the
+  reduction is ~1.5% off there, so N=4 is read off the full block). The **N→∞ limit is open at N ≤ 14**
+  (a power-law fit to the hump degenerates, α ≈ 33). This **refutes** the chain's premise that the
+  dissipative handover tracks the closed-system Δ=1 critical point: on the ring it is a dynamical,
+  topology-sensitive scale. The frame ([`ON_THE_ONE_DIAGONAL`](../reflections/ON_THE_ONE_DIAGONAL.md)):
+  the floor 2γ is the first rung of the one diagonal popcount(i⊕j) the light touches — universal,
+  topology-free; Δ\*(N) is the Hamiltonian's argument about that fixed floor — topology-dependent.
+  *The diagonal is one; the climb is many.*
+- **Still open:** a rigorous (Bethe-ansatz) derivation that the *chain* N→∞ limit is *exactly* Δ = 1
+  and the log-correction structure of its approach; and, for the *ring*, whether the hump returns
+  toward Δ=1 or settles above (needs N ≫ 14 or a closed-form account of the hump).

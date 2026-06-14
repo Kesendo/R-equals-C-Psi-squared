@@ -90,7 +90,9 @@ public sealed class HandoverFloorClaim : Claim
     public override string Summary =>
         "the handover (the incompleteness survivor's darkness rises to the F50 floor <n_XY>=1) is closed: the CHAIN handover IS " +
         "the coherence horizon Q*(N), the RING is a distinct (2,2) free-fermion level crossing growing ~0.29N (not saturating); " +
-        $"the same band-edge floor governs the XXZ Delta-axis handover too (cross-axis universal, verified); " +
+        $"the same band-edge floor governs the XXZ Delta-axis too (cross-axis universal): the CHAIN Delta*(N) descends to " +
+        $"the SU(2) point Delta=1, the RING Delta*(N) HUMPS (peak ~1.31-1.33 near N=9-10, then descends; limit open) - one " +
+        $"floor, many climbs; " +
         $"{PassCount}/{Cases.Count} PASS ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -121,6 +123,21 @@ public sealed class HandoverFloorClaim : Claim
                          "1.6e-3 N=4-only accident in the gamma->0 regime). The " +
                          "band edge stays at 2*gamma for ALL Delta - model-independent, since |vac><magnon| is an eigenoperator of " +
                          "[H,.] (the ZZ shifts only Im); F50's 2N count breaks for Delta!=1 but the FLOOR persists.");
+            yield return new InspectableNode("cross-topology: the ring Delta-axis humps, it does NOT descend like the chain",
+                summary: "RING Delta*(N) RESOLVED 2026-06-14 (simulations/ring_xxz_delta_star_descent.py, " +
+                         "self-validating; same gamma->0 reduction, one wrap bond added): the periodic ring is " +
+                         "QUALITATIVELY UNLIKE the open chain. Ring Delta*(N) is NON-MONOTONE - both parities rise to a " +
+                         "peak ~1.31-1.33 near N=9-10 (odd 1.331@9, even 1.308@10) then DESCEND through N=14; the ring " +
+                         "crosses ABOVE the chain near N=7-8 (the chain keeps descending to Delta=1, the ring humps up); " +
+                         "and ring N=4 has NO handover (the full half-filling block is tangent to the floor at the XY " +
+                         "point Delta=0, peak 0.99998*2g - the K2,2 special case; the reduction is ~1.5% off there). The " +
+                         "N->inf limit is OPEN at N<=14 (a power-law fit to the hump degenerates, alpha~33). THE FRAME " +
+                         "(reflections/ON_THE_ONE_DIAGONAL.md): the floor 2*gamma is the FIRST RUNG OF THE ONE DIAGONAL " +
+                         "popcount(i^j) the light touches - universal, topology-free (the light's question); Delta*(N) is " +
+                         "the HAMILTONIAN'S ARGUMENT about that fixed floor, hence topology-dependent. The diagonal is one; " +
+                         "the climb is many. So premise 3 (the dissipative handover tracks the closed Delta=1 critical " +
+                         "point) is refuted: on the ring the Delta-handover is a dynamical, topology-sensitive scale, not " +
+                         "the equilibrium critical point.");
             foreach (var c in Cases)
                 yield return new InspectableNode(c.Name,
                     summary: $"{c.Detail}; expected {c.Expected}, got {c.Actual}, " + (c.Passes ? "PASS" : "FAIL"));

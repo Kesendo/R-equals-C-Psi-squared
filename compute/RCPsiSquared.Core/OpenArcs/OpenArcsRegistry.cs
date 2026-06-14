@@ -217,7 +217,19 @@ public static class OpenArcsRegistry
                 "a rise) - the offset above 1 is the finite Neel correlation length, and the dissipative handover tracks the " +
                 "closed-system critical point as N exceeds it. (experiments/XXZ_AXIS_BANDEDGE_TO_LEBENSADER.md + the " +
                 "ANALYTICAL_FORMULAS handover entry updated.) STILL OPEN (a deeper stone, not the original axis question): a " +
-                "rigorous Bethe-ansatz derivation that the limit is EXACTLY Delta=1, and the log-correction structure of the approach.",
+                "rigorous Bethe-ansatz derivation that the limit is EXACTLY Delta=1, and the log-correction structure of the " +
+                "approach. RING TOPOLOGY RESOLVED 2026-06-14 (simulations/ring_xxz_delta_star_descent.py, self-validating; " +
+                "same gamma->0 reduction, one wrap bond): the periodic ring is QUALITATIVELY UNLIKE the open chain. Ring " +
+                "Delta*(N) is NON-MONOTONE - both parities hump to ~1.31-1.33 near N=9-10 (odd peak 1.331@9, even 1.308@10) " +
+                "then DESCEND through N=14; the ring crosses ABOVE the chain near N=7-8 (chain descends to Delta=1, ring " +
+                "humps); ring N=4 has NO handover (full-block tangency to the floor at the XY point Delta=0, peak 0.99998*2g, " +
+                "the K2,2 special case; the reduction is ~1.5% off there so N=4 is read off the full block). The N->inf limit " +
+                "is OPEN at N<=14 (a power-law fit to the hump degenerates, alpha~33). This REFUTES premise 3 (the dissipative " +
+                "handover tracking the closed Delta=1 critical point): on the ring the Delta-handover is a dynamical, " +
+                "topology-sensitive scale. THE FRAME (reflections/ON_THE_ONE_DIAGONAL.md): the floor 2*gamma is the first rung " +
+                "of the one diagonal popcount(i^j) the light touches (universal, topology-free); Delta*(N) is the Hamiltonian's " +
+                "argument about that fixed floor (topology-dependent). The diagonal is one; the climb is many. STILL OPEN: " +
+                "whether the ring hump returns toward 1 or settles above (needs N>>14 or a closed-form account of the hump).",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
