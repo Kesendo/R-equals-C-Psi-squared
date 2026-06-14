@@ -119,8 +119,24 @@ def check_reduction_reproduces_gamma0_dstar():
           + ", ".join(f"{v:.5f}" for v in DSTAR_GAMMA0.values()) + ".  OK")
 
 
+def check_no_degeneracy_at_dstar():
+    """Spec risk: the population/coherence split (the reduction's premise) breaks at an energy
+    degeneracy. Confirm the half-filling H spectrum is non-degenerate in a Delta-window around
+    Delta*, and that gap(R) is smooth there (no level-crossing kink in the reduction's own input)."""
+    for N in (4, 5, 6):
+        dstar = delta_star_reduction(N)
+        p = (N + 1) // 2
+        for D in (dstar - 0.05, dstar, dstar + 0.05):
+            H, _ = xxz_Hp(N, p, D)
+            E = np.sort(eigh(H)[0].real)
+            min_gap = np.min(np.diff(E))
+            assert min_gap > 1e-6, f"N={N} Delta={D:.3f}: near-degenerate H spectrum (gap {min_gap:.1e})"
+    print("[risk] half-filling H spectrum non-degenerate in a window around Delta*.  OK")
+
+
 if __name__ == "__main__":
     check_finite_gamma_baseline()
     check_R_is_generator()
     check_reduction_matches_full()
     check_reduction_reproduces_gamma0_dstar()
+    check_no_degeneracy_at_dstar()
