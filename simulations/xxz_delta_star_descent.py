@@ -92,6 +92,28 @@ def delta_star_reduction(N, lo=1.0, hi=2.5):
     return brentq(f, lo, hi, xtol=1e-7)
 
 
+# gamma->0 Delta*(N), computed once via descent_sequence(14) (EXPENSIVE: ~6.4 min total to N=14;
+# regenerate with that call). Per-N wall clock (this machine): N=9 0.5s, 10 2.3s, 11 8.7s, 12 25s,
+# 13 64s, 14 364s. N=4..8 duplicate DSTAR_GAMMA0 and are live-revalidated by check #2b; the higher
+# N are validated by the fast-subset recompute in check_descent_sequence (FAST_REVAL) plus the
+# strict-monotonicity + all-above-1 asserts there. Every value is from a delta_star_reduction run.
+DSTAR_SEQUENCE = {4: 1.619612, 5: 1.527984, 6: 1.384629, 7: 1.330070, 8: 1.272426,
+                  9: 1.247380, 10: 1.215778, 11: 1.199583, 12: 1.179327,
+                  13: 1.168273, 14: 1.153892}
+
+# N values that recompute FAST (<~10s each on this machine: N=9 0.5s, 10 2.3s, 11 8.7s); used to
+# live-revalidate the recorded high-N constants on every verifier run (N=12+ are too slow for main).
+FAST_REVAL = (9, 10, 11)
+
+
+def descent_sequence(N_max, N_min=4):
+    """gamma->0 Delta*(N) for N=N_min..N_max (live). Expensive at high N: delta_star_reduction
+    does a brentq of gap(R)=2, each eval an eigh of a C(N,ceil(N/2))-dim matrix. Used to GENERATE
+    the recorded DSTAR_SEQUENCE; the routine self-assert recomputes only a fast subset (see
+    check_descent_sequence)."""
+    return {N: delta_star_reduction(N) for N in range(N_min, N_max + 1)}
+
+
 def check_reduction_matches_full():
     """assert #1: gamma*gap(R) -> the full-sector Lebensader rate as gamma->0 (ratio -> 1)."""
     for N in (4, 5):
@@ -119,6 +141,25 @@ def check_reduction_reproduces_gamma0_dstar():
           + ", ".join(f"{v:.5f}" for v in DSTAR_GAMMA0.values()) + ".  OK")
 
 
+def check_descent_sequence():
+    """assert #4: the recorded gamma->0 Delta*(N) is strictly DECREASING and (for all computed N)
+    > 1. The crossing-1 question is about the N->inf LIMIT (Task 7), not the finite points; if a
+    computed point ever drops <= 1 that is itself the headline result, and this assert flags it.
+    Also live-revalidate a FAST subset so the recorded high-N constants cannot silently rot."""
+    Ns = sorted(DSTAR_SEQUENCE)
+    vals = [DSTAR_SEQUENCE[N] for N in Ns]
+    assert all(vals[i] > vals[i + 1] for i in range(len(vals) - 1)), \
+        f"DSTAR_SEQUENCE not strictly decreasing: {dict(zip(Ns, vals))}"
+    assert all(v > 1.0 for v in vals), \
+        f"a computed Delta* dropped <= 1 (the crossing happened at finite N -- a real finding!): {dict(zip(Ns, vals))}"
+    # fast-subset live revalidation: recompute the recorded values for N in FAST_REVAL and confirm match
+    for N in FAST_REVAL:
+        got = delta_star_reduction(N)
+        assert abs(got - DSTAR_SEQUENCE[N]) < 1e-3, f"recorded DSTAR_SEQUENCE[{N}]={DSTAR_SEQUENCE[N]} != live {got}"
+    print(f"[4] gamma->0 Delta*(N) strictly decreasing, all > 1, N={Ns[0]}..{Ns[-1]} "
+          f"(recorded; live-revalidated at N={FAST_REVAL}).  OK")
+
+
 def check_no_degeneracy_at_dstar():
     """Spec risk: the population/coherence split (the reduction's premise) breaks at an energy
     degeneracy. Confirm the half-filling H spectrum is non-degenerate in a Delta-window around
@@ -140,3 +181,4 @@ if __name__ == "__main__":
     check_reduction_matches_full()
     check_reduction_reproduces_gamma0_dstar()
     check_no_degeneracy_at_dstar()
+    check_descent_sequence()
