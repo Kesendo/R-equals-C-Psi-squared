@@ -134,13 +134,15 @@ if __name__ == "__main__":
         diff = (seq[i] - seq[i - 1]) if i > 0 else float("nan")
         print(f"    Delta*({N}) = {seq[i]:.5f}   d = {diff:+.5f}")
     phi = 2 * np.cos(np.pi / 5)
-    print(f"\n  VERDICT: no clean elementary closed form. phi=2cos(pi/5)={phi:.5f} is a 1e-4 ACCIDENT")
-    print(f"  (Delta*(4)={ds[4]:.5f} != phi by {abs(ds[4]-phi):.1e}); 2cos(pi/(N+1)) and 1+1/N both fail.")
-    print("  Delta*(N) is (in the gamma->0 limit) a property of the XXZ Hamiltonian alone - where the")
-    print("  dead-centre mode's intrinsic light content <n_XY> = 1 (the dephasing sets the floor, not the")
-    print("  value; weakly Q-dependent, converging as Q->inf). It DECREASES with an even/odd zigzag from")
-    print("  1.618 (N=4) toward the SU(2)/Heisenberg point Delta=1 as N->inf (the handover descends to the")
-    print("  closed-system critical point); all tested Delta* > 1 (the Neel side).")
+    print(f"\n  VERDICT (finite-gamma, Q=20): no clean elementary closed form. At Q=20, "
+          f"phi=2cos(pi/5)={phi:.5f} sits {abs(ds[4]-phi):.1e} from Delta*(4)={ds[4]:.5f}")
+    print("  -- but that ~1e-4 proximity is a FINITE-GAMMA artifact: in the physical gamma->0 limit the gap")
+    print("  to phi widens to 1.6e-3. 2cos(pi/(N+1)) and 1+1/N both fail. CANONICAL RESOLUTION (gamma->0,")
+    print("  high-N to N=14): simulations/xxz_delta_star_descent.py -- there the gamma->0 Delta*(N) is")
+    print("  MONOTONE (no zigzag) and descends to EXACTLY the SU(2)/Heisenberg point Delta=1 (free-exponent")
+    print("  fits just above 1, fixed-1/N just below, bracketing it; no finite-N crossing). This script")
+    print("  computes the finite-gamma (Q=20) Delta* and is kept for its sector functions + the sector-vs-")
+    print("  full bit-exactness check below.")
 
     # ---- self-validation (this is a committed verifier) ----
     assert abs(0.085056 - full_slowest_rate(4, 1.8)) < 1e-5, "sector!=full at N=4"   # [1] re-pinned
