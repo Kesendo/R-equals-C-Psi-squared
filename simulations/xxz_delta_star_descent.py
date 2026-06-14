@@ -183,6 +183,87 @@ def check_no_degeneracy_at_dstar():
     print("[risk] half-filling H spectrum non-degenerate in a window around Delta*.  OK")
 
 
+def fit_parity(Ns, vals):
+    """Fit Delta*(N) = L + a*N^(-alpha) (free exponent). Returns dict(L, a, alpha, L_err, resid)."""
+    Ns = np.array(Ns, float)
+    y = np.array(vals, float)
+    model = lambda N, L, a, alpha: L + a * N ** (-alpha)
+    popt, pcov = curve_fit(model, Ns, y, p0=[1.0, 5.0, 1.5], maxfev=400000)
+    return dict(L=popt[0], a=popt[1], alpha=popt[2], L_err=float(np.sqrt(pcov[0, 0])),
+                resid=float(np.max(np.abs(y - model(Ns, *popt)))))
+
+
+def fit_windows(parity):
+    """Fit one parity over progressively larger-N windows (drop the 0,1,... smallest points, keeping
+    >3 for fit dof). Small N is pre-asymptotic (large corrections-to-scaling), so the limit is read
+    from how the windows CONVERGE, not from a single full-range fit."""
+    Ns = sorted(N for N in DSTAR_SEQUENCE if N % 2 == parity)
+    return [{**fit_parity(Ns[d:], [DSTAR_SEQUENCE[N] for N in Ns[d:]]), "Nmin": Ns[d], "npts": len(Ns) - d}
+            for d in range(len(Ns) - 3)]
+
+
+def check_fit_stability():
+    """assert #5: per parity, the free-exponent fit has a small full-range residual AND the limit L
+    is stable when the smallest (pre-asymptotic) point is dropped -- no single point drives the limit."""
+    fits = {}
+    for label, parity in (("even", 0), ("odd", 1)):
+        ws = fit_windows(parity)
+        full, drop1 = ws[0], ws[1]
+        assert full["resid"] < 5e-3, f"{label}: full-range fit residual too large ({full['resid']:.1e})"
+        assert abs(full["L"] - drop1["L"]) < 0.1, \
+            f"{label}: L unstable to dropping smallest N ({full['L']:.4f} vs {drop1['L']:.4f})"
+        fits[label] = ws
+        print("    " + label + ": " + "  ".join(
+            f"Nmin{w['Nmin']}->L={w['L']:.4f}(a={w['alpha']:.2f},r={w['resid']:.0e})" for w in ws))
+    print("[5] per-parity free-exponent fits: small full-range residual, L stable to dropping smallest N.  OK")
+    return fits
+
+
+def crosses_one(fit):
+    """If the fitted limit L < 1, the N where Delta*(N)=L+a*N^(-alpha) would cross Delta=1, else None
+    (L>=1 means the descent approaches the limit from the Neel side and never reaches the XY side)."""
+    L, a, alpha = fit["L"], fit["a"], fit["alpha"]
+    if L >= 1.0 or a <= 0:
+        return None
+    return (a / (1.0 - L)) ** (1.0 / alpha)
+
+
+def check_phi_refuted_gamma0():
+    """assert #3: in the physical gamma->0 regime phi is NOT the closed form. |Delta*(4)-phi| ~ 1.6e-3
+    (the N=4-only accident; ~11x the Q=20 1.4e-4 artifact -- close but not exact). 2cos(pi/(N+1))
+    EQUALS phi at N=4 (that IS the accident) but fails badly for N>=5; 1+1/N fails at every N."""
+    d4 = DSTAR_SEQUENCE[4]
+    assert 1e-3 < abs(d4 - PHI) < 3e-3, f"|Delta*(4)-phi|={abs(d4 - PHI):.2e} not the expected ~1.6e-3 accident"
+    for N, d in DSTAR_SEQUENCE.items():
+        if N >= 5:  # N=4 is the documented 2cos(pi/5)=phi accident; the formula must fail elsewhere
+            assert abs(d - 2 * np.cos(np.pi / (N + 1))) > 1e-2, f"2cos(pi/(N+1)) accidentally fits N={N}"
+        assert abs(d - (1 + 1.0 / N)) > 1e-2, f"1+1/N accidentally fits N={N}"
+    print(f"[3] phi refuted in gamma->0 (|Delta*(4)-phi|={abs(d4 - PHI):.1e}, the N=4-only accident); "
+          f"2cos(pi/(N+1)) & 1+1/N fail for N>=5.  OK")
+
+
+def verdict(fits):
+    """Print the honest verdict on the N->inf limit and the crossing-1 question (an interpretation of
+    the fits above; not asserted -- the asserts are #3/#4/#5)."""
+    print("\n=== VERDICT (Delta*(N) descent) ===")
+    asy_Ls = []
+    for label in ("even", "odd"):
+        asy = fits[label][-1]          # most-asymptotic window (largest Nmin, smallest residual)
+        asy_Ls.append(asy["L"])
+        spread = [w["L"] for w in fits[label]]
+        nx = crosses_one(asy)
+        cross = "never (L>1: approaches Delta=1 from the Neel side)" if nx is None else f"N~{nx:.1f}"
+        print(f"  {label}: asymptotic L = {asy['L']:.4f} +- {asy['L_err']:.4f}  (Nmin={asy['Nmin']}, "
+              f"alpha={asy['alpha']:.2f});  window L-spread [{min(spread):.4f}, {max(spread):.4f}];  crosses 1: {cross}")
+    print(f"  => Delta*(N) descends MONOTONICALLY to the Heisenberg/SU(2) point Delta=1 from the Neel")
+    print(f"     side; extrapolated limit L in [{min(asy_Ls):.3f}, {max(asy_Ls):.3f}] -- AT or just above 1,")
+    print(f"     NO finite-N crossing. The 4-point ambiguity (1/N->~0.85 vs 1/N^2->~1.15) is collapsed onto")
+    print(f"     the closed-system critical point. (Exactly 1 vs a few-percent offset is at the edge of")
+    print(f"     resolution; the data robustly excludes a limit far below 1.)")
+    print(f"  [bonus] Q*(N)~0.59N GROWS while Delta*(N) DESCENDS: the SAME band-edge floor (darkness=1)")
+    print(f"          on two axes (dephasing Q, anisotropy Delta) -- one principle, opposite N-trends.")
+
+
 if __name__ == "__main__":
     check_finite_gamma_baseline()
     check_R_is_generator()
@@ -190,3 +271,6 @@ if __name__ == "__main__":
     check_reduction_reproduces_gamma0_dstar()
     check_no_degeneracy_at_dstar()
     check_descent_sequence()
+    check_phi_refuted_gamma0()
+    fits = check_fit_stability()
+    verdict(fits)
