@@ -73,7 +73,8 @@ public sealed class ThreeDephasingDiagonalsOrbitClaim : Claim
                Tier.Tier1Derived,
                "simulations/one_diagonal_mirror_group.py (self-validating Stages 0-2 + an N=3 attack) + " +
                "simulations/mirror_inventory_d4.py (block D 63/63 truly cell) + " +
-               "docs/proofs/PROOF_ABSORPTION_THEOREM.md §4.7 + docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md §5")
+               "docs/proofs/PROOF_ABSORPTION_THEOREM.md §4.7 + docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md §5 + " +
+               "compute/RCPsiSquared.Diagnostics/Foundation/DiagonalWitness.cs (DiagonalWitness, inspect --root diagonal)")
     {
         MirrorGroup = mirrorGroup ?? throw new ArgumentNullException(nameof(mirrorGroup));
         Diagonal = diagonal ?? throw new ArgumentNullException(nameof(diagonal));
@@ -115,7 +116,9 @@ public sealed class ThreeDephasingDiagonalsOrbitClaim : Claim
             yield return new InspectableNode("the weld",
                 summary: "this claim's two typed parents (MirrorGroupD4Claim + AbsorptionTheoremClaim) are the " +
                          "first physics edge linking the mirror-group cluster to the dephasing-diagonal cluster, " +
-                         "which previously met only at the d²−2d=0 foundation.");
+                         "which previously met only at the d²−2d=0 foundation. Live: inspect --root diagonal " +
+                         "(DiagonalWitness recomputes the whole functioning - rungs, the three readings, the orbit, " +
+                         "and the L_H even-step dynamics - at inspect time).");
             foreach (var c in Cases)
                 yield return new InspectableNode(c.Name,
                     summary: $"{c.Detail}; expected {c.Expected}, got {c.Actual}, " + (c.Passes ? "PASS" : "FAIL"));

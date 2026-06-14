@@ -527,6 +527,13 @@ public static class InspectCommand
             _ => OpenArcsInspectableNode.Build(), RequiresN: false),
         new("glossary", "the house language: load-bearing terms in plain words for a stranger (start here)",
             _ => GlossaryInspectableNode.Build(), RequiresN: false),
+        new("diagonal", "the one diagonal, recomputed live: the rungs k=popcount(i^j) (rate -2gk), the three " +
+            "readings (D-fix/R-anti/judge = the mirror group D4 within a diagonal), the basis-S3 orbit " +
+            "{Q_X,Q_Y,Q_Z}, and the L_H even-step dynamics (k-parity conserved) - the whole functioning, " +
+            "symmetry + dynamics, S3 |x| D4 (typed: ThreeDephasingDiagonalsOrbitClaim)",
+            c => new DiagonalWitness(c.Parser.HasFlag("N") ? c.N : 3,
+                                     c.Parser.OptionalDouble("gamma") ?? 0.05),
+            RequiresN: false, HonorsOptionalN: true),
         new("world", "the whole Object Manager: every root, the typed claims, the hardware confirmations, the open-arcs ledger, and the glossary (try --root glossary first if the language is new)",
             BuildWorldRoot, DefaultDepth: 2, RequiresN: false),
     };
