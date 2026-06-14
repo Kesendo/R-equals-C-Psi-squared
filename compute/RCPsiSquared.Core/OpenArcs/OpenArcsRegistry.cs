@@ -174,6 +174,40 @@ public static class OpenArcsRegistry
             Status: OpenArcStatus.Open),
 
         new OpenArc(
+            Name: "xxz_axis_handover",
+            Opened: "2026-06-14",
+            Origin: "noticed while banking the Q-axis handover (HandoverFloorClaim, simulations/carbon/handover_q.py): " +
+                "the Delta-axis 'baton relay' of experiments/XXZ_AXIS_BANDEDGE_TO_LEBENSADER.md (2026-05-30) + " +
+                "hypotheses/HEISENBERG_RELOADED.md (the 'Return' section) is a SIBLING handover - on the Hamiltonian-" +
+                "anisotropy axis rather than the dephasing axis",
+            ParkedAt: "THE Delta-HANDOVER (verified N=4,5, Tier2, simulations/xxz_axis_bandedge_lebensader.py): walking " +
+                "H = J*sum(XX+YY) + Delta*sum(ZZ) on an open chain under uniform Z-dephasing at deep-quantum Q=J/gamma=20, the " +
+                "SLOWEST surviving Liouvillian mode relays the baton at a handover Delta*. BELOW Delta* (XY/charge side): the " +
+                "survivor is the bright single-magnon band-edge coherence (n_XY=1, fast-beating, decay exactly 2*gamma). ABOVE " +
+                "Delta* (Ising/Neel side): the ZZ slows the near-conserved I/Z population mode until it drops below 2*gamma and " +
+                "becomes the slowest - the LEBENSADER (n_XY=0-dominated + a small n_XY=2 magnon admixture, non-rotating Im=0, " +
+                "sub-2*gamma; = CHAIN_GAP's half-filling slow mode emerging along the axis). Values: Delta*(N=5)=1.525, " +
+                "Delta*(N=4)=1.618 ~ phi (= 2cos(pi/5), N=4's band-edge frequency) - FLAGGED not claimed (N=5 has no clean form, " +
+                "so a universal phi is NOT supported). The handover sits ABOVE the closed-system SU(2) transition (Delta=J=1); " +
+                "the dephasing pushes Delta* into the Neel side. Spinless XXZ (t-V), the 'spin' label interpretive.",
+            NextStep: "THE UNIFICATION CONJECTURE (the reason to bank this, 2026-06-14): the Delta-handover and the Q-handover " +
+                "(HandoverFloorClaim) are the SAME two players - the band-edge coherence at the Absorption-Theorem floor " +
+                "(decay 2*gamma, <n_diff>=1, i.e. <n_XY>=1) vs an interior/Lebensader dressed mode (sub-2*gamma, <n_XY><1). The " +
+                "Q-axis BRIGHTENS the interior UP to the floor (handover = where <n_XY>_interior rises to 1); the Delta-axis " +
+                "DARKENS the Lebensader DOWN through the floor (Delta* = where <n_XY>_Lebensader falls to 1?). So the open " +
+                "conjecture: Delta* is the SAME <n_XY>=1 = band-edge-floor crossing as HandoverFloorClaim, just driven along the " +
+                "anisotropy axis instead of the dephasing axis - TO BE VERIFIED (the XXZ walk reports the n_XY composition but " +
+                "has NOT been checked against the <n_XY>=1 condition; its table at Delta=1.6, just past Delta*(5)=1.525, shows " +
+                "n_XY {0:56%,2:43%,4:1%} = <n_XY>~0.90 < 1, i.e. already darkened past the floor - consistent, but unconfirmed at " +
+                "the exact crossing). CAVEAT: F50's 2N-degeneracy COUNT breaks for Delta!=1 (the ZZ mixes X/Y, SWAP-invariance " +
+                "fails), BUT the band-edge 2*gamma FLOOR itself is Absorption-Theorem-pinned (model-independent, n_XY=1), so the " +
+                "floor persists; it is the count, not the floor, that the anisotropy breaks. STILL OPEN (the doc's own list): a " +
+                "closed form for Delta*(N) (is N=4's phi an accident?); whether the Delta-handover is an EP or a level crossing " +
+                "(cf. the Q-handover: chain=coalescence/EP, ring=level crossing - which is Delta*?); the same walk at N>=6 via " +
+                "the sparse/block path; whether the Lebensader admixture at Delta* obeys a clean law as in CHAIN_GAP.",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
             Name: "handshake_decoder",
             Opened: "2026-06-12",
             Origin: "docs/superpowers/specs/2026-06-12-handshake-decoder-reading-grammar-design.md (Tom + Opus + Fable)",
