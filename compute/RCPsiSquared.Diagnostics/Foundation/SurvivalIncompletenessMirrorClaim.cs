@@ -24,8 +24,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para><b>(b) THE DYNAMIC ENACTMENT (verified).</b> Below the handover Q the longest-lived mode lives
 /// in the incompleteness region (interior filling) on DISPERSIVE EXTENDED matter - the labels are
-/// physical: CHAIN = conjugated polyene chains / spin chains / the Grotthuss proton wire (dead-centre
-/// half-filling survivor); RING = aromatic rings / light-harvesting macrocycles (off-centre interior
+/// physical: the open XY CHAIN = conjugated polyene chains / spin chains / the Grotthuss proton wire (filling-
+/// degenerate, no unique sector; the dead-centre is the Heisenberg/ZZ result); RING = aromatic rings / light-harvesting macrocycles (off-centre interior
 /// (2,2)/(N-2,N-2)). The HUB-LOCALIZED central-spin STAR (NV centre / quantum dot / the mediator) is the
 /// COUNTEREXAMPLE: its survivor is the boundary hub coherence (1,1)/(N-1,N-1), because a hub-spoke bath
 /// has no dispersion and thus no central momentum mode. Lifetime &lt;n_XY&gt; ~ c*Q^2/N^2, ring/chain -&gt; 4
@@ -33,10 +33,10 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// a SEPARATE 1/N^2 magnon-admixture inheritance from the Pi2 dyadic CONSTANT ladder, the two meeting at
 /// the per-mode Absorption Theorem (a_0).</para>
 ///
-/// <para><b>STILL OPEN</b> (from <see cref="VacuumBlockReductionClaim"/>): whether the V-Effect
-/// (Pauli-string weight w=N/2 self-pair) EQUALS the {0,2}-coherence (n_diff) survivor is a different
+/// <para><b>RESOLVED (2026-06-14).</b> (from <see cref="VacuumBlockReductionClaim"/>) the V-Effect
+/// (Pauli-string weight w=N/2 self-pair) is NOT the {0,2}-coherence (n_diff) survivor: it is a different
 /// decomposition (weight vs bra-ket disagreement count); this claim is the constant-mirror + the
-/// light-survivor, NOT that finer identity.</para>
+/// light-survivor, AND the finer verdict: a different grading (w = n_diff + Z-shadow; dark, peaks at w=N-1 not w=N/2; same axis as the Born-rule mirror's 97/3, F94).</para>
 ///
 /// <para>Typed parents: <see cref="AbsorptionTheoremClaim"/> (a_0, the survival law) +
 /// <see cref="HalfAsStructuralFixedPointClaim"/> (a_2, the incompleteness baseline).
@@ -64,10 +64,11 @@ public sealed class SurvivalIncompletenessMirrorClaim : Claim
                "and the V-Effect/incompleteness (a_2=1/2=Half, C=1/2 = 1/d) are inversion-mirror partners on the Pi2 dyadic " +
                "ladder (a_0*a_2 = d*(1/d) = 1, self-mirror a_1=1 between, forced by d^2-2d=0) - the algebra of 'der V-Effekt " +
                "vererbt sich', DERIVED+live. Dynamically VERIFIED (N<=7): below the handover Q the longest-lived mode lives in " +
-               "the incompleteness region on DISPERSIVE extended matter (chain at dead-centre half-filling, ring off-centre); " +
+               "the incompleteness region on DISPERSIVE extended matter (the RING at the even off-centre interior; the open XY " +
+               "CHAIN is filling-degenerate, the dead-centre being the Heisenberg/ZZ result); " +
                "the hub-localized central-spin STAR is the boundary counterexample. Lifetime <n_XY> ~ Q^2/N^2, ring/chain->4 " +
-               "(model-independent), a separate 1/N^2 inheritance from the dyadic constants. OPEN: the Pauli-weight w=N/2 vs " +
-               "n_diff {0,2} V-Effect identity (VacuumBlockReduction).",
+               "(model-independent), a separate 1/N^2 inheritance from the dyadic constants. RESOLVED (2026-06-14): the " +
+               "Pauli-weight w=N/2 V-Effect is DISTINCT from the {0,2}-coherence (w = n_diff + Z-shadow, two gradings).",
                Tier.Tier1Candidate,
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "simulations/carbon/incompleteness_survivor.py + " +
@@ -116,10 +117,10 @@ public sealed class SurvivalIncompletenessMirrorClaim : Claim
                          $"are Pi2-ladder inversion-mirror partners: MirrorPartnerIndex(0)={MirrorPartnerText}, " +
                          $"a_0*a_2={MirrorProductText}=d*(1/d), self-mirror a_1=1 between, forced by d^2-2d=0.");
             yield return new InspectableNode("(b) the dynamic enactment (the incomplete survives on dispersive matter)",
-                summary: "below the handover Q the longest-lived mode is the interior incompleteness coherence on dispersive " +
-                         "extended matter (chain dead-centre half-filling, ring off-centre); the hub-localized central-spin star " +
-                         "is the boundary counterexample. Lifetime <n_XY> ~ Q^2/N^2, ring/chain -> 4 (model-independent). " +
-                         "Live: inspect --root survivor (IncompletenessSurvivorWitness).");
+                summary: "below the handover Q the longest-lived mode is the interior incompleteness coherence on the dispersive " +
+                         "RING (even off-centre); the open XY CHAIN is filling-degenerate (no unique sector - the dead-centre is " +
+                         "the Heisenberg/ZZ result, CHAIN_GAP); the hub-localized central-spin star is the boundary counterexample. " +
+                         "Lifetime <n_XY> ~ Q^2/N^2, ring/chain -> 4 (model-independent). Live: inspect --root survivor.");
             foreach (var c in Cases)
                 yield return new InspectableNode(c.Name,
                     summary: $"{c.Detail}; expected {c.Expected}, got {c.Actual}, " + (c.Passes ? "PASS" : "FAIL"));
@@ -154,13 +155,18 @@ public sealed class SurvivalIncompletenessMirrorClaim : Claim
             "ProductWithMirrorPartner(0)", "1", R(L.ProductWithMirrorPartner(0))));
 
         // (b) the dynamic enactment via the witness (carbon XY, N=6, Q=1.5, below the handover).
+        // chain: for the rate-based ring/chain ratio (the rate is well-defined though its sector is degenerate).
         var chain = IncompletenessSurvivorWitness.Survivor(6, 1.5, TopologyKind.Chain);
         var ring = IncompletenessSurvivorWitness.Survivor(6, 1.5, TopologyKind.Ring);
         var star = IncompletenessSurvivorWitness.Survivor(6, 1.5, TopologyKind.Star);
-        cases.Add(new BatteryCase("chain survivor = interior centre (dispersive)",
-            $"N=6 Q=1.5 -> sector ({chain.PCol},{chain.PRow})", "centre", Classify(6, chain.PCol, chain.PRow)));
-        cases.Add(new BatteryCase("ring survivor = off-centre interior (dispersive)",
-            $"N=6 Q=1.5 -> sector ({ring.PCol},{ring.PRow})", "off-centre interior", Classify(6, ring.PCol, ring.PRow)));
+        bool chainDegen = IncompletenessSurvivorWitness.IsFillingDegenerate(6, 1.5, TopologyKind.Chain);
+        bool ringSplit = !IncompletenessSurvivorWitness.IsFillingDegenerate(6, 1.5, TopologyKind.Ring);
+        cases.Add(new BatteryCase("chain = filling-degenerate (XY free-fermion, no unique survivor sector)",
+            "N=6 Q=1.5: every (p,p) sector shares the slowest rate (the dead-centre is the Heisenberg/ZZ result)",
+            "filling-degenerate", chainDegen ? "filling-degenerate" : "split"));
+        cases.Add(new BatteryCase("ring survivor = off-centre interior (dispersive, even filling)",
+            $"N=6 Q=1.5 -> sector ({ring.PCol},{ring.PRow}), filling split {ringSplit}", "off-centre interior",
+            ringSplit ? Classify(6, ring.PCol, ring.PRow) : "degenerate"));
         cases.Add(new BatteryCase("star survivor = boundary (central-spin counterexample)",
             $"N=6 Q=1.5 -> sector ({star.PCol},{star.PRow})", "boundary", Classify(6, star.PCol, star.PRow)));
         double ratio = chain.NXy > 1e-9 ? ring.NXy / chain.NXy : 0.0;

@@ -33,8 +33,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// guaranteed to carry the boundary; see the <c>birth_canal_horizon_junction</c> arc and
 /// <c>simulations/birth_canal_n6_mode_crossing.py</c>. The V-Effect (Pauli-string weight w=N/2)
 /// self-pair co-locates with that {0,2}-coherence, but it is a DIFFERENT decomposition
-/// (Pauli-string weight vs n_diff bra-ket disagreement count); their identity is OPEN and is NOT
-/// claimed here. No aromaticity 4n-vs-4n+2 thesis is asserted (open; the C8 ring case breaks the
+/// (RESOLVED 2026-06-14): total weight = n_diff + Z-shadow, so the dark {0,2}-coherence (peaking at w=N-1) is NOT
+/// the w=N/2 self-pair. No aromaticity 4n-vs-4n+2 thesis is asserted (open; the C8 ring case breaks the
 /// naive reading).</para>
 ///
 /// <para><b>Tier1Derived honestly stated.</b> Like its sibling
@@ -73,7 +73,7 @@ public sealed class VacuumBlockReductionClaim : Claim
                "its N-dim block L_(1,0) = -iQ·h - 2·diag(γ) carries the global slowest across the whole γ-surface at N=5 - VERIFIED bit-exact " +
                "(worst gap 5.9e-12, 80 pts; + SectorReductionWitness vs PostEpFlowField). Flat-γ blindness is analytic at every N (-iQh anti-Hermitian => Re λ = -2γ, Q-invariant). " +
                "SCOPE: N=5; at N>=6 a {0,2}-coherence (the (2,2) block) can become the global slowest (Q-dependent crossing, the birth_canal_horizon_junction arc). " +
-               "The V-Effect (w=N/2) self-pair co-locates there but is a DIFFERENT decomposition (weight vs n_diff); identity OPEN, not claimed. No aromaticity 4n-vs-4n+2 thesis.",
+               "The V-Effect (w=N/2) self-pair co-locates there but is a DIFFERENT decomposition (RESOLVED 2026-06-14: total weight = n_diff + Z-shadow; the dark {0,2}-coherence peaks at w=N-1, not w=N/2). No aromaticity 4n-vs-4n+2 thesis.",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_ABSORPTION_THEOREM.md + " +
                "simulations/birth_canal_vacuum_block_verifier.py + " +
@@ -100,7 +100,8 @@ public sealed class VacuumBlockReductionClaim : Claim
         "can cross to a {0,2}-coherence in the (2,2) density block (Q-dependent mode crossing, the " +
         "birth_canal_horizon_junction arc); the (0,1) block is then no longer guaranteed to carry " +
         "the boundary. The V-Effect (w=N/2) self-pair co-locates with that {0,2}-coherence but is a " +
-        "DIFFERENT decomposition (Pauli-string weight vs n_diff); their identity is OPEN, not claimed. " +
+        "DIFFERENT decomposition (RESOLVED 2026-06-14): n_diff = XY-weight, total Pauli weight = n_diff + " +
+        "Z-shadow, so the dark {0,2}-coherence (total weight peaking at w=N-1) is NOT the w=N/2 self-pair. " +
         "No aromaticity 4n-vs-4n+2 thesis (open; C8 breaks the naive reading).";
 
     public override string DisplayName =>
@@ -110,7 +111,7 @@ public sealed class VacuumBlockReductionClaim : Claim
         "the birth-canal boundary's slowest mode is the odd |1-exc><vac| (0,1) coherence; the (0,1) " +
         "sector is an exact invariant sub-block (DERIVED), carrying the global slowest at N=5 (VERIFIED " +
         "bit-exact); flat-γ blindness Re λ = -2γ analytic at every N; SCOPE N=5 (at N>=6 a {0,2}-coherence " +
-        $"can win, V-Effect identity OPEN); {PassCount}/{Cases.Count} PASS ({Tier.Label()})";
+        $"can win; V-Effect w=N/2 identity RESOLVED = distinct); {PassCount}/{Cases.Count} PASS ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -118,7 +119,7 @@ public sealed class VacuumBlockReductionClaim : Claim
         {
             yield return new InspectableNode("the invariant sub-block (DERIVED)", summary: InvariantSubBlock);
             yield return new InspectableNode("flat-γ blindness (analytic at every N)", summary: FlatGammaBlindness);
-            yield return new InspectableNode("scope (N=5; the {0,2} junction + open V-Effect identity)", summary: Scope);
+            yield return new InspectableNode("scope (N=5; the {0,2} junction; V-Effect identity RESOLVED = distinct)", summary: Scope);
             yield return new InspectableNode("verification (simulations/birth_canal_vacuum_block_verifier.py)",
                 summary: "80 surface points: worst gap 5.9e-12 between the (0,1) sub-spectrum's slowest " +
                          "non-kernel rate and the full Liouvillian's; the live SectorReductionWitness pins " +

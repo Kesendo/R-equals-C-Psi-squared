@@ -22,8 +22,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// dephasing matches PostEpFlowField, pinned by the validation test.</para>
 ///
 /// <para>Honest scope: this banks the N=5 birth-canal result and the analytic flat-gamma blindness.
-/// It does NOT assert the V-Effect (w=N/2) self-pair IS the {0,2}-coherence (different
-/// decompositions, identity open), and carries no aromaticity / 4n-vs-4n+2 thesis (open, the C8
+/// The V-Effect (w=N/2) self-pair is NOT the {0,2}-coherence (RESOLVED 2026-06-14): different
+/// gradings, w = n_diff + Z-shadow; the dark survivor peaks at w=N-1 not w=N/2. Carries no aromaticity / 4n-vs-4n+2 thesis (open, the C8
 /// case breaks the naive reading).</para></summary>
 public sealed class SectorReductionWitness : IInspectable
 {
@@ -118,13 +118,13 @@ public sealed class SectorReductionWitness : IInspectable
 
     /// <summary>The slowest non-kernel mode of the (pc,pr) density block, with its n_diff histogram
     /// (the {0,2} signature) and phase rigidity (the EP detector).</summary>
-    private (double Rate, double Rigidity, IReadOnlyDictionary<int,double> Hist) DensityMode(int n, double q, double[] profile, int pc, int pr)
+    private (double Rate, double Rigidity, IReadOnlyDictionary<int,double> Hist, IReadOnlyDictionary<int,double> WHist) DensityMode(int n, double q, double[] profile, int pc, int pr)
     {
         var H = QHUnit(n, q, Topology);
         var flat = SectorFlat(n, pc, pr);
         var block = PerBlockLiouvillianBuilder.BuildBlockZ(H, profile, flat);
         var modes = PhaseRigidity.Compute(block).Where(m => m.Lambda.Magnitude > KernelTol).ToList();
-        if (modes.Count == 0) return (0.0, 1.0, new Dictionary<int,double>());
+        if (modes.Count == 0) return (0.0, 1.0, new Dictionary<int,double>(), new Dictionary<int,double>());
         var slow = modes.OrderByDescending(m => m.Lambda.Real).First();
         // slow.Right is in REDUCED block coordinates (length = sector size); embed it into the
         // full d^2 Liouville vector (full[flat[k]] = slow.Right[k]) so NDiffHistogram's vec[a*d+b]
@@ -133,7 +133,8 @@ public sealed class SectorReductionWitness : IInspectable
         var full = MathNet.Numerics.LinearAlgebra.Vector<Complex>.Build.Dense(d * d);
         for (int k = 0; k < flat.Length; k++) full[flat[k]] = slow.Right[k];
         var (_, hist) = LiouvilleOperatorContent.NDiffHistogram(full, n);
-        return (-slow.Lambda.Real, slow.Rigidity, hist);
+        var (_, whist) = LiouvilleOperatorContent.PauliWeightHistogram(full, n);
+        return (-slow.Lambda.Real, slow.Rigidity, hist, whist);
     }
 
     private InspectableNode TheJunctionNode()
@@ -144,15 +145,18 @@ public sealed class SectorReductionWitness : IInspectable
                          "C(N,2)^2-dim); set N in 6..8 to read it. At N=5 the (0,1) mode always wins.");
         var deep = DeepEdge(N);
         double vacLo = VacBlockSlowest(N, 1.5, deep, Topology);
-        var (densLo, rigLo, histLo) = DensityMode(N, 1.5, deep, 2, 2);
+        var (densLo, rigLo, histLo, wHistLo) = DensityMode(N, 1.5, deep, 2, 2);
         bool crosses = densLo < vacLo;
         string h0 = histLo.GetValueOrDefault(0).ToString("0.00", Inv), h2 = histLo.GetValueOrDefault(2).ToString("0.00", Inv);
+        int peakW = wHistLo.Count == 0 ? 0 : wHistLo.OrderByDescending(kv => kv.Value).First().Key;
+        string massHalf = wHistLo.GetValueOrDefault(N / 2).ToString("0.00", Inv);
         return new InspectableNode("the {0,2} junction",
             summary: $"deep-edge, N={N}, Q=1.5: (0,1) odd rate {vacLo.ToString("0.000", Inv)} vs (2,2) density rate " +
                      $"{densLo.ToString("0.000", Inv)} -> {(crosses ? "the {0,2} density mode WINS (the crossing): " : "(0,1) still wins: ")}" +
                      $"n_diff hist {{0:{h0}, 2:{h2}}}, rigidity {rigLo.ToString("0.000", Inv)}. This is where birth_canal " +
-                     "meets coherence_horizon (the {0,2}-coherence = its EP mode). Identity with the V-Effect (w=N/2) " +
-                     "self-pair is co-located, OPEN, not claimed.");
+                     "meets coherence_horizon (the {0,2}-coherence = its EP mode). V-EFFECT IDENTITY RESOLVED (distinct): " +
+                     $"the survivor is DARK (n_diff in {{0,2}}) but its TOTAL Pauli weight peaks at w={peakW} (=N-1), with only " +
+                     $"{massHalf} mass at w=N/2={N / 2} -> it is NOT the w=N/2 V-Effect self-pair (w = n_diff + Z-shadow, two gradings).");
     }
 
     private InspectableNode TheChainVsRingNode()
@@ -171,7 +175,8 @@ public sealed class SectorReductionWitness : IInspectable
         "the birth-canal boundary as a Liouville sector reduction: the slowest mode is the |1-exc><vac| " +
         "(0,1) block (N-dim), reproducing the full-4^N witness at N=5 and running past it; at N>=6 the " +
         "global slowest crosses to the {0,2}-coherence (the coherence-horizon mode). Reuses the per-sector " +
-        "builder. No V-Effect identity, no aromaticity thesis (both open).";
+        "builder. V-Effect (w=N/2) identity RESOLVED (distinct from the {0,2}-coherence: w = n_diff + Z-shadow); " +
+        "no aromaticity thesis (open).";
     public IEnumerable<IInspectable> Children
     {
         get

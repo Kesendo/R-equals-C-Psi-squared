@@ -20,7 +20,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// </list></para>
 ///
 /// <para><b>Finding (verified):</b> on the DISPERSIVE substrates (chain, ring) the survivor is the
-/// INTERIOR (incompleteness, C=0.5) coherence - chain at the dead-centre half-filling, ring at the
+/// INTERIOR (incompleteness, C=0.5) coherence - the open XY chain filling-degenerate; the ring at the even
 /// off-centre (2,2)/(N-2,N-2); the central-spin STAR is the COUNTEREXAMPLE (boundary (1,1), no central
 /// momentum mode). Lifetime &lt;n_XY&gt; ~ Q^2/N^2, ring/chain -&gt; 4 (cyclic-vs-open k_min^2,
 /// model-independent). Reuses <see cref="SectorReductionWitness.SectorSlowest"/> (no full 4^N).</para>
@@ -64,6 +64,30 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
         return (best, bc, br, best / (2.0 * gamma));
     }
 
+    /// <summary>The slowest non-kernel rate of each diagonal (p,p) filling sector, p=1..N-1 (carbon
+    /// XY convention). On the OPEN chain these are degenerate to machine precision (the free-fermion
+    /// dressed-magnon rate is filling-blind), so the "survivor sector" is a tie-break artifact; the ZZ
+    /// of Heisenberg lifts it to the dead-centre (the CHAIN_GAP result). On the ring they split by
+    /// parity (the even fillings are slower).</summary>
+    public static double[] SectorRates(int n, double q, TopologyKind topology)
+    {
+        double gamma = 1.0 / q;
+        var profile = Enumerable.Repeat(gamma, n).ToArray();
+        var rates = new double[n - 1];
+        for (int p = 1; p < n; p++)
+            rates[p - 1] = SectorReductionWitness.SectorSlowest(n, Qh, profile, p, p, topology);
+        return rates;
+    }
+
+    /// <summary>True iff every diagonal (p,p) filling sector shares the slowest rate (max-min &lt; tol):
+    /// the open XY chain's free-fermion degeneracy, where NO single filling is the survivor (the
+    /// dead-centre is the Heisenberg/ZZ result). The ring splits by parity, so it is not degenerate.</summary>
+    public static bool IsFillingDegenerate(int n, double q, TopologyKind topology, double tol = 1e-9)
+    {
+        var r = SectorRates(n, q, topology);
+        return r.Length > 0 && r.Max() - r.Min() < tol;
+    }
+
     private static string Kind(int n, int pc, int pr)
     {
         if (pc == 0 && pr == 1) return "band-edge (above the handover)";
@@ -78,13 +102,24 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
         foreach (var topo in new[] { TopologyKind.Chain, TopologyKind.Ring, TopologyKind.Star })
         {
             var (gap, pc, pr, nxy) = Survivor(N, Q, topo);
-            kids.Add(new InspectableNode($"{topo}",
-                summary: $"survivor sector ({pc},{pr}), <n_XY>={nxy.ToString("0.000", Inv)}, gap={gap.ToString("0.000", Inv)} " +
-                         $"-> {Kind(N, pc, pr)}"));
+            if (IsFillingDegenerate(N, Q, topo))
+            {
+                var rates = SectorRates(N, Q, topo);
+                kids.Add(new InspectableNode($"{topo}",
+                    summary: $"FILLING-DEGENERATE: every (p,p) sector shares the slowest rate {rates[0].ToString("0.000", Inv)} " +
+                             $"(spread {(rates.Max() - rates.Min()).ToString("E1", Inv)}) -> the free-fermion XY chain has NO " +
+                             "unique survivor sector. The dead-centre (N/2,N/2) winner is the HEISENBERG (ZZ) result " +
+                             $"(CHAIN_GAP); the ZZ lifts this degeneracy. Shared <n_XY>={nxy.ToString("0.000", Inv)}, gap={gap.ToString("0.000", Inv)}."));
+            }
+            else
+                kids.Add(new InspectableNode($"{topo}",
+                    summary: $"survivor sector ({pc},{pr}), <n_XY>={nxy.ToString("0.000", Inv)}, gap={gap.ToString("0.000", Inv)} " +
+                             $"-> {Kind(N, pc, pr)}"));
         }
         return new InspectableNode($"where the survivor lives (N={N}, Q={Q.ToString("0.##", Inv)})",
-            summary: "dispersive chain/ring -> the interior incompleteness coherence; the central-spin star -> " +
-                     "the boundary hub coherence (no momentum mode). The label is physical, not the graph type.",
+            summary: "the dispersive RING puts the survivor at the even off-centre interior (incompleteness); the open XY " +
+                     "CHAIN is filling-degenerate (no unique sector, the ZZ-free accident; Heisenberg's ZZ pins the dead-centre); " +
+                     "the hub-spoke STAR sits at the boundary (no momentum mode). The label is physical.",
             children: kids);
     }
 
@@ -110,9 +145,10 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
     public string DisplayName => $"IncompletenessSurvivorWitness (N={N}, Q={Q.ToString("0.##", Inv)})";
 
     public string Summary =>
-        "the dynamic survival probe: on dispersive extended matter (chain, ring) the longest-lived mode is the " +
-        "interior incompleteness (C=0.5) coherence; the hub-localized central-spin star is the boundary " +
-        "counterexample. Lifetime <n_XY> ~ Q^2/N^2, ring/chain -> 4. Reuses SectorReductionWitness.SectorSlowest.";
+        "the dynamic survival probe: the dispersive RING puts the longest-lived mode at the even off-centre interior " +
+        "(incompleteness, C=0.5) coherence; the open XY CHAIN is filling-degenerate (no unique survivor sector - the " +
+        "dead-centre is the Heisenberg/ZZ result, CHAIN_GAP); the central-spin STAR is the boundary counterexample. " +
+        "Lifetime <n_XY> ~ Q^2/N^2, ring/chain -> 4. Reuses SectorReductionWitness.SectorSlowest.";
 
     public IEnumerable<IInspectable> Children
     {

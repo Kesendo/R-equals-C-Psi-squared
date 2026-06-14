@@ -9,7 +9,7 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>VacuumBlockReductionClaim (the N=5 birth-canal boundary = the |1-exc&gt;&lt;vac| (0,1)
 /// Liouville sector block): (a) the claim's own honest-scope metadata (Tier1Derived, N=5 scope,
-/// the open V-Effect identity and absent aromaticity thesis named in the Summary); (b) the
+/// the resolved V-Effect identity and absent aromaticity thesis named in the Summary); (b) the
 /// bit-exact N=5 anchor the claim banks, recomputed live through its witness; (c) registry wiring
 /// (typed parent AbsorptionTheoremClaim). Witness twin: <see cref="SectorReductionWitness"/>
 /// (inspect --root reduction); Python twin: <c>simulations/birth_canal_vacuum_block_verifier.py</c>.</summary>
@@ -26,13 +26,15 @@ public class VacuumBlockReductionClaimTests
     }
 
     [Fact]
-    public void Claim_Summary_NamesN5ScopeAndTheOpenIdentity()
+    public void Claim_Summary_NamesN5ScopeAndTheResolvedIdentity()
     {
         var s = VacuumBlockReductionClaim.Shared.Summary;
         Assert.Contains("N=5", s);
         Assert.Contains("(0,1)", s);
-        // honest scope is load-bearing: the V-Effect self-pair identity stays OPEN, not claimed.
-        Assert.Contains("OPEN", s, System.StringComparison.OrdinalIgnoreCase);
+        // honest scope is load-bearing: the V-Effect w=N/2 self-pair identity is now RESOLVED (distinct
+        // from the {0,2}-coherence: total weight = n_diff + Z-shadow), no longer the open question it was.
+        Assert.Contains("RESOLVED", s, System.StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("distinct", s, System.StringComparison.OrdinalIgnoreCase);
     }
 
     [Fact]
