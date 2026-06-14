@@ -113,8 +113,12 @@ public sealed class HandoverFloorClaim : Claim
                 summary: "CONFIRMED 2026-06-14 (simulations/xxz_handover_unification.py; arc xxz_axis_handover): the band-edge " +
                          "floor (darkness=1 = the Absorption-Theorem 2*gamma) is the handover threshold on BOTH the dephasing (Q) " +
                          "axis AND the Hamiltonian-anisotropy (Delta) axis. Walking H=J(XX+YY)+Delta*ZZ, the Lebensader (the " +
-                         "dead-centre I/Z survivor) overtakes the band edge exactly where its darkness crosses 1 (Delta*(4)=1.618=phi, " +
-                         "Delta*(5)=1.525), a LEVEL CROSSING (frozen Lebensader meets oscillating band edge, the ring family). The " +
+                         "dead-centre I/Z survivor) overtakes the band edge exactly where its darkness crosses 1, a LEVEL CROSSING " +
+                         "(frozen Lebensader meets oscillating band edge, the ring family). RESOLVED to N=14 (gamma->0 reduction " +
+                         "Delta*<=>gap(R)=2, simulations/xxz_delta_star_descent.py): Delta*(N) descends MONOTONICALLY to the " +
+                         "SU(2)/Heisenberg point Delta=1 (the closed-system critical point), consistent with EXACTLY 1 (free-exponent " +
+                         "fits just above 1, fixed-1/N just below, bracketing it; no finite-N crossing); no clean closed form (phi a " +
+                         "1.6e-3 N=4-only accident in the gamma->0 regime). The " +
                          "band edge stays at 2*gamma for ALL Delta - model-independent, since |vac><magnon| is an eigenoperator of " +
                          "[H,.] (the ZZ shifts only Im); F50's 2N count breaks for Delta!=1 but the FLOOR persists.");
             foreach (var c in Cases)
