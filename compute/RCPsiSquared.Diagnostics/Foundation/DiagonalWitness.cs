@@ -113,6 +113,12 @@ public sealed class DiagonalWitness : IInspectable
     public int OrbitSizeOfQZ() => OrbitSize(_qZ, new[] { _hZX, _hYZ });
     /// <summary>spec(Q_X) = spec(Q_Y) = spec(Q_Z) (conjugate ⟹ co-spectral).</summary>
     public bool ThreeDiagonalsSameSpectrum() => SpectraEqual(_qX, _qY) && SpectraEqual(_qX, _qZ);
+    /// <summary>The §3 Hamiltonian column of the palindrome split (PROOF_PI_FACTORS_AS_R_TIMES_D): the
+    /// devs of D·L_H·D = −L_H (D flips L_H) and R·L_H·R = +L_H (R fixes L_H). The mirror group's action
+    /// on L_H — the bridge between the symmetry (D₄) and the even-step rung dynamics (same L_H, two views).</summary>
+    public (double DFlipLH, double RFixLH) MirrorActionOnLH() =>
+        (MaxAbsDiff(_Dsuper * _LH * _Dsuper, _LH.Multiply(-Complex.One)),
+         MaxAbsDiff(_R * _LH * _R, _LH));
 
     // ---------------------------------------------------------------- node 1: the rungs
     private IInspectable TheRungs()
@@ -179,6 +185,7 @@ public sealed class DiagonalWitness : IInspectable
         bool parity = ParityConserved();
         int kBandEdge = _rung[0 * D + 1];                 // |vac⟩⟨1-magnon|: i=0, j=1
         int kBackwards = MirrorBackwardsWorst();          // max | rung(R m) − (N − rung(m)) |
+        var (dFlipLH, rFixLH) = MirrorActionOnLH();       // §3: D·L_H·D = −L_H, R·L_H·R = +L_H
         return new InspectableNode("the dynamics (L_H is an even-step rung ladder — the complement)",
             summary: $"L_H connects rungs by Δk ∈ {{{string.Join(",", steps)}}} (even only); disagreement-count "
                    + $"parity {(parity ? "CONSERVED" : "BROKEN")}; band edge k={kBandEdge} (odd) ⟂ {{0,2}} (even) ⟹ level crossing.",
@@ -195,6 +202,11 @@ public sealed class DiagonalWitness : IInspectable
                 new InspectableNode("the mirror reads the rungs backwards: R : k → N−k",
                     summary: $"max | rung(R·m) − (N − rung(m)) | = {kBackwards} (0 ⟹ the palindrome IS the "
                            + "disagreement count read from the other end)"),
+                new InspectableNode("the mirror group acts on L_H (§3 of PROOF_PI_FACTORS — the bridge to the symmetry)",
+                    summary: $"D flips it (D·L_H·D = −L_H, dev {dFlipLH:0.0e+00}); R fixes it (R·L_H·R = +L_H, dev "
+                           + $"{rFixLH:0.0e+00}). With the rate/mirror readings (the L_diss column) this completes the FULL "
+                           + "§3 2×2 palindrome split, live: the SAME L_H seen by the mirror group (D-flip/R-fix) and by the "
+                           + "rung ladder (even-step) — the symmetry and the dynamics, welded."),
             });
     }
 

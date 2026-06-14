@@ -28,6 +28,19 @@ public class DiagonalWitnessTests
         Assert.True(w.ThreeDiagonalsSameSpectrum());  // conjugate => co-spectral
     }
 
+    [Theory]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    public void mirror_group_acts_on_LH_per_PROOF_PI_FACTORS_section3(int n)
+    {
+        // the §3 Hamiltonian column of the palindrome split: D flips L_H, R fixes L_H
+        var w = new DiagonalWitness(n);
+        var (dFlip, rFix) = w.MirrorActionOnLH();
+        Assert.True(dFlip < 1e-9, $"§3 row 1 D·L_H·D = −L_H failed: dev {dFlip}");
+        Assert.True(rFix < 1e-9, $"§3 row 3 R·L_H·R = +L_H failed: dev {rFix}");
+    }
+
     [Fact]
     public void guards_against_too_large_N()
     {
