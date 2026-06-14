@@ -368,6 +368,11 @@ public static class KnowledgeRegistryFactory
             // both registered in this chain: ClockHandLadderClaim (the clock's Q-floor made exact,
             // directly above) + F2bXyChainSpectrumPi2Inheritance (the band edge, registered earlier in this chain).
             .RegisterCoherenceHorizonClaim()
+            // The handover Q = the F50-floor condition (chain = Q*(N), ring = a distinct (2,2) level
+            // crossing). Parents AbsorptionTheoremClaim (the -2g<n_XY> rate, registered above), F50WeightOne-
+            // DegeneracyPi2Inheritance (the floor =1, above), CoherenceHorizonClaim (the chain solution, directly
+            // above). Live witness: IncompletenessSurvivorWitness handover node (inspect --root survivor).
+            .RegisterHandoverFloorClaim()
             .RegisterF86HwhmClosedFormClaim()
             .RegisterIbmBlockCpsiHardwareTable()
             .RegisterPolarityPairQPeakDecompositionClaim()

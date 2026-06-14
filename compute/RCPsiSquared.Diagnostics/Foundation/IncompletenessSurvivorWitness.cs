@@ -88,6 +88,37 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
         return r.Length > 0 && r.Max() - r.Min() < tol;
     }
 
+    /// <summary>The interior survivor's darkness ⟨n_XY⟩ in the (2,2) two-fermion block at this Q
+    /// (= rate/2γ). On the RING this is the darkest interior (the V-Effect seam, p*=2); on the open
+    /// XY CHAIN every (p,p) ties (filling-degenerate), so (2,2) equals the global interior survivor -
+    /// so the (2,2) block gives the handover for BOTH topologies (N≥4), cheaply.</summary>
+    public static double Interior22NXy(int n, double q, TopologyKind topology)
+    {
+        double gamma = 1.0 / q;
+        double rate = SectorReductionWitness.SectorSlowest(n, Qh, Enumerable.Repeat(gamma, n).ToArray(), 2, 2, topology);
+        return rate / (2.0 * gamma);
+    }
+
+    /// <summary>The HANDOVER Q: where the interior incompleteness survivor brightens to the F50
+    /// off-diagonal floor ⟨n_XY⟩ = 1 (the (0,1) band edge, Re = −2γ exactly), so the band edge takes
+    /// over. Below it the dressed interior mode is darker (the incomplete survives); above it the F50
+    /// floor wins. A closed, F50-grounded condition; spectral, γ-independent (depends only on Q=J/γ).
+    /// Bisects <see cref="Interior22NXy"/> = 1; NaN if no crossing in [lo,hi]. (CHAIN handover = the
+    /// coherence horizon Q*(N) by filling-degeneracy; RING = a distinct (2,2) level crossing that grows
+    /// ~linearly. Verifier: simulations/carbon/handover_q.py.)</summary>
+    public static double HandoverQ(int n, TopologyKind topology, double lo = 0.5, double hi = 12.0, double tol = 1e-4)
+    {
+        if (n < 4) return double.NaN;   // (2,2) is interior only for N≥4
+        double F(double q) => Interior22NXy(n, q, topology) - 1.0;
+        if (F(lo) > 0 || F(hi) < 0) return double.NaN;
+        for (int it = 0; it < 60 && hi - lo > tol; it++)
+        {
+            double m = 0.5 * (lo + hi);
+            if (F(m) < 0) lo = m; else hi = m;
+        }
+        return 0.5 * (lo + hi);
+    }
+
     private static string Kind(int n, int pc, int pr)
     {
         if (pc == 0 && pr == 1) return "band-edge (above the handover)";
@@ -142,6 +173,40 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
             children: kids);
     }
 
+    /// <summary>The handover Q across topologies: the chain handover IS the coherence horizon Q*(N)
+    /// (filling-degeneracy), the ring is a distinct (2,2) free-fermion level crossing that GROWS
+    /// ~linearly (not saturating). N-independent of the witness's own N (shows the ladder).</summary>
+    private InspectableNode TheHandoverNode()
+    {
+        // Q*(N) canonical (the coherence horizon, F2b corollary / CoherenceHorizonClaim), indexed by N.
+        double[] qStar = { 0, 0, 1.0, 1.41421, 1.87874, 2.37367, 2.88925 };
+        var kids = new List<IInspectable>();
+        foreach (int n in new[] { 4, 5, 6 })
+        {
+            double qh = HandoverQ(n, TopologyKind.Chain);
+            kids.Add(new InspectableNode($"chain N={n} (= Q*(N))",
+                summary: $"handover Q={qh.ToString("0.0000", Inv)} = the coherence horizon Q*({n})=" +
+                         $"{qStar[n].ToString("0.0000", Inv)} (filling-degenerate; gap {(qStar[n] - qh).ToString("+0.0000;-0.0000", Inv)} " +
+                         "= the trace dressing, exact only at the clean-2x2 N=2,3 - a coalescence/EP)"));
+        }
+        foreach (int n in new[] { 6, 8 })
+        {
+            double qh = HandoverQ(n, TopologyKind.Ring);
+            kids.Add(new InspectableNode($"ring N={n} ((2,2) seam)",
+                summary: $"handover Q={qh.ToString("0.0000", Inv)} (the (2,2) free-fermion V-Effect seam, a LEVEL " +
+                         $"CROSSING; c_eff=(N/Qh)^2={((n / qh) * (n / qh)).ToString("0.00", Inv)} - flat in N => linear growth)"));
+        }
+        return new InspectableNode("the handover Q (the incomplete meets the F50 floor)",
+            summary: "the diagonal (p,p) survivor brightens with Q until ⟨n_XY⟩ reaches the F50 OFF-diagonal floor =1 " +
+                     "(the (0,1) band edge / Uhr 1, Re=-2γ exactly), where the band edge takes over: a closed, F50-grounded " +
+                     "condition (spectral, depends only on Q=J/γ). CHAIN: filling-degenerate, so the handover IS the " +
+                     "coherence horizon Q*(N) (a coalescence/EP). RING: a distinct (2,2) free-fermion LEVEL CROSSING, growing " +
+                     "~linearly Q_h~0.29N (c_eff~12 flat, ~4x chain darkness => ~half the slope), NOT saturating; NOT " +
+                     "co-located with the ring SE-EP (curves cross near N~10; benzene's 2.0-vs-1.609 split is small-N). " +
+                     "Verifier simulations/carbon/handover_q.py; the F50 floor = F50WeightOneDegeneracyPi2Inheritance.",
+            children: kids);
+    }
+
     public string DisplayName => $"IncompletenessSurvivorWitness (N={N}, Q={Q.ToString("0.##", Inv)})";
 
     public string Summary =>
@@ -156,6 +221,7 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
         {
             yield return TheWhereNode();
             yield return TheScalingNode();
+            yield return TheHandoverNode();
         }
     }
 

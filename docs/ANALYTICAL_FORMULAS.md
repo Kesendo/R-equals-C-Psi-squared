@@ -227,8 +227,25 @@ only at N=2,3. At N≥4 the pair is collectively dressed (its trace departs from
 slowest-mode double root) — a **diffusive long-wavelength critical damping**: Q*(N) grows ~linearly
 (slope ≈ 0.59 at N=14, creeping toward ~2/π), NOT the band-edge value (which saturates at 2).
 Canonical N≥4 values from the SE EP, superseding the bisection grid: **Q*(4) = 1.87874,
-Q*(5) = 2.37367.** Open remainder: the exact asymptotic slope; the half-filling double-excitation
-V-Effect seam co-located at even N.
+Q*(5) = 2.37367.** Open remainder: the exact asymptotic slope (the 2/π question).
+
+**The handover Q, resolved 2026-06-14** (`simulations/carbon/handover_q.py`, self-validating).
+Q*(N) is one face of a topology-universal HANDOVER. The diagonal (p,p) "incompleteness survivor"
+decays at −2γ·⟨n_XY⟩ with fractional ⟨n_XY⟩ < 1 (the Absorption Theorem), out-surviving the bare band
+edge until, as Q rises, its darkness reaches the F50-pinned off-diagonal floor ⟨n_XY⟩ = 1 (the (0,1)
+band edge / Uhr 1, Re = −2γ exactly). That meeting is the handover: a closed, F50-grounded condition
+(spectral, state-independent, depends only on Q = J/γ). Its solution is topology-specific.
+**Chain:** filling-degenerate (free-fermion/OBC — the (1,1)-only handover equals the all-(p,p)
+handover bit-for-bit), so the chain handover IS the single-excitation Q*(N), a coalescence/EP. It
+coincides with Q*(N) exactly only at the clean-2×2 N=2,3 (a tangency: ⟨n_XY⟩ touches 1 at the EP) and
+sits just below it by the trace dressing O((tr−1)²) at N≥4 (gap 0.0002/0.0015/0.0050 at N=4/5/6).
+**Ring:** NOT filling-degenerate (the wrap bond's Fermi degeneracy at half-filling); the survivor is
+the (2,2) two-fermion V-Effect seam and the handover is a frozen LEVEL CROSSING (|Im| ≈ 1e-15, a
+different sector than the SE-EP), growing ~linearly Q_h ≈ N/√c_eff with c_eff ≈ 12 flat in N (≈4× the
+chain's darkness constant, so ≈half the chain's handover slope, ~0.29N vs ~0.59N) — NOT saturating,
+and faster than √N. So the V-Effect seam is NOT "co-located at even N": the ring handover and the ring
+SE-EP are mechanistically distinct and their values merely CROSS near N≈10 (benzene's 2.0-vs-1.609
+split is a small-N feature; N=6 ≈ exactly 2 is a hexagon coincidence).
 **Verified:** N=2..5 vs carbon (`simulations/_carbon_quantum_same_mountain.py`); the {0,2}-coherence
 EP at all N via phase rigidity (2026-06-13); the single-excitation reduction, the N=2,3 closed forms
 and the N≥4 transcendental verdict (`simulations/coherence_horizon_se_block.py`, self-validating
