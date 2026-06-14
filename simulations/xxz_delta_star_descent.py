@@ -94,9 +94,10 @@ def delta_star_reduction(N, lo=1.0, hi=2.5):
 
 # gamma->0 Delta*(N), computed once via descent_sequence(14) (EXPENSIVE: ~6.4 min total to N=14;
 # regenerate with that call). Per-N wall clock (this machine): N=9 0.5s, 10 2.3s, 11 8.7s, 12 25s,
-# 13 64s, 14 364s. N=4..8 duplicate DSTAR_GAMMA0 and are live-revalidated by check #2b; the higher
-# N are validated by the fast-subset recompute in check_descent_sequence (FAST_REVAL) plus the
-# strict-monotonicity + all-above-1 asserts there. Every value is from a delta_star_reduction run.
+# 13 64s, 14 364s. Validation (check_descent_sequence): N=4..8 are asserted equal to DSTAR_GAMMA0
+# (itself live-reproduced by check #2b); N=9..11 (FAST_REVAL) are recomputed live every run; N=12..14
+# get the strict-monotonicity + all-above-1 asserts only (too slow to recompute in main). Every value
+# is from a delta_star_reduction run.
 DSTAR_SEQUENCE = {4: 1.619612, 5: 1.527984, 6: 1.384629, 7: 1.330070, 8: 1.272426,
                   9: 1.247380, 10: 1.215778, 11: 1.199583, 12: 1.179327,
                   13: 1.168273, 14: 1.153892}
@@ -152,10 +153,17 @@ def check_descent_sequence():
         f"DSTAR_SEQUENCE not strictly decreasing: {dict(zip(Ns, vals))}"
     assert all(v > 1.0 for v in vals), \
         f"a computed Delta* dropped <= 1 (the crossing happened at finite N -- a real finding!): {dict(zip(Ns, vals))}"
-    # fast-subset live revalidation: recompute the recorded values for N in FAST_REVAL and confirm match
+    # overlap consistency: the N=4..8 entries must agree with DSTAR_GAMMA0 (the live-reproduced
+    # target of check #2b), else the two recorded copies could drift apart silently and the fit
+    # would consume a stale point. This closes that loop at zero compute cost.
+    for N in DSTAR_GAMMA0:
+        assert abs(DSTAR_SEQUENCE[N] - DSTAR_GAMMA0[N]) < 1e-4, \
+            f"DSTAR_SEQUENCE[{N}]={DSTAR_SEQUENCE[N]} drifted from DSTAR_GAMMA0[{N}]={DSTAR_GAMMA0[N]}"
+    # fast-subset live revalidation: recompute the recorded values for N in FAST_REVAL and confirm
+    # match (brentq runs at xtol=1e-7, so the recorded 6-dp values reproduce well inside 1e-5).
     for N in FAST_REVAL:
         got = delta_star_reduction(N)
-        assert abs(got - DSTAR_SEQUENCE[N]) < 1e-3, f"recorded DSTAR_SEQUENCE[{N}]={DSTAR_SEQUENCE[N]} != live {got}"
+        assert abs(got - DSTAR_SEQUENCE[N]) < 1e-5, f"recorded DSTAR_SEQUENCE[{N}]={DSTAR_SEQUENCE[N]} != live {got}"
     print(f"[4] gamma->0 Delta*(N) strictly decreasing, all > 1, N={Ns[0]}..{Ns[-1]} "
           f"(recorded; live-revalidated at N={FAST_REVAL}).  OK")
 
