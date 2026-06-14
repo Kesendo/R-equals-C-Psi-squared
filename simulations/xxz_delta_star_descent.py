@@ -37,7 +37,7 @@ def rate_matrix_R(N, Delta, J=1.0):
         R_ab = sum_k |<E_a|Z_k|E_b>|^2   (a != b, gain)
         R_aa = -4 sum_k Var_a(n_k)        (loss)
     Built on the SECTOR Hamiltonian (dim C(N,p)) via xxz_Hp -- NOT the full 2^N H. This is what
-    makes N~14-16 feasible (a full 2^16 H is ~34 GB; the sector H is 12870x12870)."""
+    makes N~14-16 feasible (a full 2^16 H is ~69 GB complex128; the sector H is 12870x12870)."""
     p = (N + 1) // 2
     H, states = xxz_Hp(N, p, Delta, J)        # sector H, dim C(N,p); states = popcount-p bitmasks
     E, V = eigh(H)                            # V[:, a] = |E_a> in the sector computational basis
@@ -49,11 +49,12 @@ def rate_matrix_R(N, Delta, J=1.0):
         zk = 1.0 - 2.0 * nk[:, k]             # Z_k eigenvalue +-1 per sector state (diagonal op)
         Mk = Vd @ (zk[:, None] * V)           # <E_a|Z_k|E_b>
         R += np.abs(Mk) ** 2                  # GAIN in Z_k (the load-bearing factor-4 choice)
-    np.fill_diagonal(R, 0.0)
+    # the gain loop also accumulated a diagonal (the Z self-term sum_k <E_a|Z_k|E_a>^2); it is NOT
+    # the generator loss and is unconditionally overwritten below by the true loss -4*Var_a(n).
     w = np.abs(V) ** 2                         # |<s|E_a>|^2, ns x ns
     mean_n = w.T @ nk                          # <n_k>_a, ns x N
     var = (mean_n - mean_n ** 2).sum(axis=1)   # sum_k Var_a(n_k)  (n^2=n so <n^2>=<n>)
-    R[np.diag_indices(ns)] = -4.0 * var        # LOSS in n_k
+    R[np.diag_indices(ns)] = -4.0 * var        # LOSS in n_k (overwrites the gain loop's diagonal)
     return R
 
 
