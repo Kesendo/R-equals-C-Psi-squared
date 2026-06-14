@@ -32,5 +32,50 @@ def check_finite_gamma_baseline():
     print("[2a] finite-gamma sector method reproduces canonical Q=20 Delta*(4..7).  OK")
 
 
+def rate_matrix_R(N, Delta, J=1.0):
+    """Gamma-free classical rate matrix among the half-filling XXZ eigenstates, coupled by Z_k:
+        R_ab = sum_k |<E_a|Z_k|E_b>|^2   (a != b, gain)
+        R_aa = -4 sum_k Var_a(n_k)        (loss)
+    Built on the SECTOR Hamiltonian (dim C(N,p)) via xxz_Hp -- NOT the full 2^N H. This is what
+    makes N~14-16 feasible (a full 2^16 H is ~34 GB; the sector H is 12870x12870)."""
+    p = (N + 1) // 2
+    H, states = xxz_Hp(N, p, Delta, J)        # sector H, dim C(N,p); states = popcount-p bitmasks
+    E, V = eigh(H)                            # V[:, a] = |E_a> in the sector computational basis
+    ns = len(states)
+    nk = np.array([[(s >> k) & 1 for k in range(N)] for s in states])  # occupations, ns x N
+    Vd = V.conj().T
+    R = np.zeros((ns, ns))
+    for k in range(N):
+        zk = 1.0 - 2.0 * nk[:, k]             # Z_k eigenvalue +-1 per sector state (diagonal op)
+        Mk = Vd @ (zk[:, None] * V)           # <E_a|Z_k|E_b>
+        R += np.abs(Mk) ** 2                  # GAIN in Z_k (the load-bearing factor-4 choice)
+    np.fill_diagonal(R, 0.0)
+    w = np.abs(V) ** 2                         # |<s|E_a>|^2, ns x ns
+    mean_n = w.T @ nk                          # <n_k>_a, ns x N
+    var = (mean_n - mean_n ** 2).sum(axis=1)   # sum_k Var_a(n_k)  (n^2=n so <n^2>=<n>)
+    R[np.diag_indices(ns)] = -4.0 * var        # LOSS in n_k
+    return R
+
+
+def gapR(N, Delta):
+    """Magnitude of R's slowest nonzero relaxation mode (= Lebensader rate / gamma)."""
+    ev = np.sort(eigh(rate_matrix_R(N, Delta))[0])  # ascending; ev[-1] ~ 0 is the steady state
+    nz = ev[ev < -1e-9]
+    return -nz.max()                                 # smallest-magnitude nonzero mode
+
+
+def check_R_is_generator():
+    """assert #6: R real-symmetric, zero column sums, single zero mode. The Z<->n factor of 4 is
+    LOAD-BEARING (gain in Z_k, loss in n_k via Var(Z)=4Var(n)); harmonizing them breaks colsum by 4x."""
+    for N in (4, 5):
+        R = rate_matrix_R(N, 1.5)
+        assert np.max(np.abs(R - R.T)) < 1e-12, f"N={N}: R not symmetric"
+        assert np.max(np.abs(R.sum(axis=0))) < 1e-10, f"N={N}: R columns do not sum to zero"
+        ev = np.sort(eigh(R)[0])
+        assert np.sum(np.abs(ev) < 1e-9) == 1, f"N={N}: R does not have exactly one zero mode"
+    print("[6] R is a valid generator (symmetric, zero column sums, single zero mode).  OK")
+
+
 if __name__ == "__main__":
     check_finite_gamma_baseline()
+    check_R_is_generator()
