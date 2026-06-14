@@ -187,7 +187,7 @@ public static class KnowledgeRegistryFactory
             // the whole γ-surface at N=5 - VERIFIED bit-exact (SectorReductionWitness vs PostEpFlowField,
             // inspect --root reduction; simulations/birth_canal_vacuum_block_verifier.py). Flat-γ
             // blindness Re λ = -2γ is analytic at every N. SCOPE N=5; at N>=6 a {0,2}-coherence can
-            // win (the birth_canal_horizon_junction arc), V-Effect identity OPEN. Tier1Derived. Single
+            // win (the birth_canal_horizon_junction arc); V-Effect identity RESOLVED 2026-06-14 = distinct (w = n_diff + Z-shadow). Tier1Derived. Single
             // typed parent AbsorptionTheoremClaim (registered above; the (0,1)-block rate is the
             // absorption law restricted to a conserved sector).
             .RegisterVacuumBlockReductionClaim()
