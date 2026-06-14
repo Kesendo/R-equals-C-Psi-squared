@@ -102,7 +102,10 @@ def check_reduction_matches_full():
             ratios.append(full / (g * gap))
         # the ratio must approach 1 as gamma shrinks (the gamma->0 limit is exact)
         assert abs(ratios[-1] - 1.0) < 5e-3, f"N={N}: gamma*gap(R) not matching full as g->0: {ratios}"
-        assert abs(ratios[-1] - 1.0) < abs(ratios[0] - 1.0) + 1e-9, f"N={N}: not converging: {ratios}"
+        # full monotonic convergence (each smaller gamma strictly closer to 1), not just endpoints:
+        # this catches a middle-point regression (e.g. a gamma-scaling slip) an endpoint test misses.
+        assert all(abs(ratios[i + 1] - 1.0) < abs(ratios[i] - 1.0) for i in range(len(ratios) - 1)), \
+            f"N={N}: ratio not monotonically converging to 1: {ratios}"
     print("[1] gamma*gap(R) -> full Lebensader rate as gamma->0 (ratio -> 1).  OK")
 
 
