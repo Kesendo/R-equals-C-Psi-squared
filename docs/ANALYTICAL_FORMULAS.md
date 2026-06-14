@@ -251,6 +251,21 @@ EP at all N via phase rigidity (2026-06-13); the single-excitation reduction, th
 and the N≥4 transcendental verdict (`simulations/coherence_horizon_se_block.py`, self-validating
 N=2..8).
 
+**The handover Δ (the anisotropy axis), resolved 2026-06-14** (`simulations/xxz_delta_star_descent.py`,
+self-validating to N=14; experiment `XXZ_AXIS_BANDEDGE_TO_LEBENSADER`). The SAME band-edge-floor
+handover (darkness ⟨n_XY⟩ = 1) driven along the XXZ anisotropy Δ instead of the dephasing Q: Δ* is
+where the half-filling Lebensader rate crosses 2γ. In the γ→0 limit it is a property of the XXZ
+Hamiltonian alone — **Δ* ⟺ gap(R) = 2**, R the Z-coupled classical rate matrix among the half-filling
+XXZ eigenstates (a Pauli / Fermi-golden-rule relaxation; γ·gap(R) reproduces the full-Liouvillian
+Lebensader rate as γ→0). **Verdict: Δ*(N) descends monotonically to Δ = 1** (the SU(2)/Heisenberg
+point, the closed-system critical point) from the Néel side, consistent with EXACTLY 1: free-exponent
+fits give L just above 1 (≈ 1.02 / 1.05 even/odd), a fixed-1/N ansatz just below (≈ 1.00 / 0.98), the
+two forms bracketing Δ = 1; no finite-N crossing (all Δ*(N ≤ 14) > 1). No clean closed form (φ is a
+1.6e-3 N=4-only accident in the γ→0 regime; the fitted exponent is non-universal, α ≈ 1.16–1.73,
+consistent with the SU(2)-point marginal/log corrections). The two handover axes mirror: **Q*(N) GROWS
+(~0.59N) while Δ*(N) DESCENDS to 1** — one band-edge floor (darkness = 1), two axes, opposite N-trends.
+Open: a rigorous Bethe-ansatz derivation that the limit is exactly Δ = 1.
+
 ### AT. Absorption Theorem (Tier 1, proven)
 
     Re(lambda_k) = -2*gamma * <n_XY>_k       (exact)

@@ -134,12 +134,38 @@ carotenoid dark / triplet-pair side lives on the Lebensader end, and the V-Effec
   - **The N=6+ walk:** done via dead-centre sector reduction
     ([`simulations/xxz_delta_star.py`](../simulations/xxz_delta_star.py), validated bit-exact vs the
     full L): Δ*(6)=1.381, Δ*(7)=1.325.
-  - **A closed form for Δ*(N)?** **No clean elementary form.** The φ at N=4 is a **1e-4 accident**
-    (Δ*(4)=1.61789 ≠ φ=2cos(π/5)=1.61803); 2cos(π/(N+1)) and 1+1/N both fail. Δ*(N) is (in the γ→0
-    limit) a property of the **XXZ Hamiltonian alone** — where the dead-centre mode's intrinsic
-    ⟨n_XY⟩=1 (the dephasing only sets the floor, not the value; weakly Q-dependent, converging as
-    Q→∞). It **decreases with an even/odd zigzag** from 1.618 (N=4) toward the **SU(2)/Heisenberg
-    point Δ=1** as N→∞ (the handover descends to the closed-system critical point; all tested Δ* > 1,
-    the Néel side).
-- **Still open:** the exact N→∞ limit (is it exactly Δ=1? needs N>8) and any clean even/odd
-  subsequence law for Δ*(N).
+  - **A closed form for Δ*(N)? No clean elementary form, and the limit is the critical point**
+    (resolved to N=14, 2026-06-14). Pushed via the γ→0 reduction (Δ* ⟺ gap(R) = 2, where R is the
+    Z-coupled classical rate matrix among the half-filling XXZ eigenstates — a Pauli / Fermi-golden-rule
+    relaxation), in the new self-validating verifier
+    [`simulations/xxz_delta_star_descent.py`](../simulations/xxz_delta_star_descent.py) (γ·gap(R)
+    reproduces the full-Liouvillian Lebensader rate as γ→0, ratio→1). The **γ→0** sequence (the
+    physical fit target; the earlier Q=20 numbers sit below it, by a drift that grows with N) is
+    **monotone decreasing**: Δ*(4..14) = 1.61961, 1.52798, 1.38463, 1.33007, 1.27243, 1.24738,
+    1.21578, 1.19958, 1.17933, 1.16827, 1.15389.
+    - **The verdict: Δ*(N) → Δ = 1 (the SU(2)/Heisenberg point, the closed-system critical point),
+      from the Néel side, consistent with EXACTLY 1.** A free-exponent fit Δ* = L + a·N^(−α) per
+      parity gives L just *above* 1 (even ≈ 1.02, odd ≈ 1.05); a fixed-1/N ansatz gives L just *below*
+      1 (even ≈ 1.00, odd ≈ 0.98); the two forms **bracket Δ = 1** (L ∈ [0.98, 1.05]). Every computed
+      Δ*(N ≤ 14) stays > 1 (no finite-N crossing; the fixed-1/N form would dip below 1 only at
+      N ≈ 100–450, far beyond the data). The earlier 4-point ambiguity (a 1/N fit → ≈ 0.85, a 1/N²
+      fit → ≈ 1.15) is **collapsed onto the critical point**. (The curve_fit covariance bars, ±0.001
+      to ±0.003, are statistical-only; the true uncertainty is the fit-window/fit-form spread above.)
+    - **Even/odd:** the γ→0 sequence is monotone (no raw zigzag); the even and odd subsequences are
+      two smooth approaches that *both* land on Δ = 1. The fitted exponent is **non-universal**
+      (α ≈ 1.16–1.73, even vs odd, window-dependent) — consistent with the **marginal/logarithmic
+      corrections** characteristic of the Δ = 1 SU(2) point, which is *why* no clean power law fits and
+      the limit is best read as "exactly 1 with a log-corrected approach" rather than a clean exponent.
+      (A rigorous Bethe-ansatz derivation of the limit and the log structure is the remaining open item.)
+    - **φ refuted (in the physical γ→0 regime):** |Δ*(4) − φ| = **1.6e-3** (φ = 2cos(π/5) = 1.61803,
+      Δ*(4)_{γ→0} = 1.61961). The often-quoted "1e-4" was a *finite-γ* (Q=20) artifact of the
+      evaluation point; 2cos(π/(N+1)) equals φ at N=4 (that *is* the accident) but fails badly for
+      N ≥ 5, and 1+1/N fails everywhere.
+    - **Mechanism (against the naive intuition).** The naive reading "Néel order sharpens with N, so
+      the handover needs higher Δ" predicts Δ* should *rise*; it *falls*. The handover is set by the
+      slow mode's darkness (the Z-coupled rate-matrix gap), and the finite-N offset above Δ = 1 is the
+      finite Néel correlation length: once N exceeds it, the dissipative handover tracks the
+      closed-system quantum critical point.
+- **Still open:** a rigorous (Bethe-ansatz) derivation that the N→∞ limit is *exactly* Δ = 1, and the
+  log-correction structure of the approach (the non-universal fitted exponent is a symptom of it, not
+  yet a derivation).

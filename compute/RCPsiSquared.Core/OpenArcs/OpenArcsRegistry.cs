@@ -202,14 +202,22 @@ public static class OpenArcsRegistry
                 "distinct branches crossing in Re. So the EP/crossing dichotomy has three members: chain-Q = the lone " +
                 "coalescence/EP, ring-Q + Delta = level crossings (frozen-interior-meets-oscillating-floor). THE THRESHOLD IS " +
                 "UNIVERSAL: the band-edge floor (darkness=1) is the handover condition across BOTH the dephasing (Q) and the " +
-                "anisotropy (Delta) axes. DELTA*(N) CHARACTERIZED 2026-06-14 (simulations/xxz_delta_star.py, sector reduction " +
-                "validated bit-exact vs full L, extends the doc to N=4..7): NO clean elementary closed form - phi=2cos(pi/5) is a " +
-                "1e-4 ACCIDENT (Delta*(4)=1.61789 != phi=1.61803), 2cos(pi/(N+1)) and 1+1/N both fail. Delta*(N) is (in the " +
-                "gamma->0 limit) a property of the XXZ Hamiltonian ALONE - where the dead-centre mode's intrinsic <n_XY>=1 (the " +
-                "dephasing only sets the floor, not the value; weakly Q-dependent, converging as Q->inf), decreasing with an " +
-                "EVEN/ODD zigzag (1.618/1.525/1.381/1.325 at N=4/5/6/7) toward the SU(2)/Heisenberg point Delta=1 as N->inf (the " +
-                "handover descends to the closed-system critical point; all tested Delta* > 1, the Neel side). STILL OPEN: the " +
-                "exact N->inf limit (is it exactly Delta=1? needs N>8) and any clean even/odd subsequence law.",
+                "anisotropy (Delta) axes. DELTA*(N) RESOLVED 2026-06-14 to N=14 (simulations/xxz_delta_star_descent.py, " +
+                "self-validating: the gamma->0 reduction Delta* <=> gap(R)=2, R the Z-coupled classical rate matrix among the " +
+                "half-filling XXZ eigenstates - a Pauli/Fermi-golden-rule relaxation, built sector-direct so N~14-16 is reachable; " +
+                "gamma*gap(R) reproduces the full-L Lebensader rate as gamma->0). NO clean elementary closed form (phi=2cos(pi/5) " +
+                "is a 1.6e-3 N=4-only accident in the physical gamma->0 regime - the old '1e-4' was a Q=20 artifact; 2cos(pi/(N+1)) " +
+                "and 1+1/N both fail). VERDICT: the gamma->0 Delta*(N) is MONOTONE decreasing (1.61961..1.15389 at N=4..14) and the " +
+                "N->inf limit is the SU(2)/Heisenberg point Delta=1 (the closed-system critical point), consistent with EXACTLY 1: " +
+                "free-exponent fits give L just above 1 (~1.02/1.05 even/odd), a fixed-1/N ansatz just below (~1.00/0.98), the two " +
+                "forms BRACKETING Delta=1; no finite-N crossing (all Delta*(N<=14) > 1; the fixed-1/N form would dip <1 only at " +
+                "N~100-450). The even/odd structure lives in the CORRECTION (both subsequences smooth, both -> 1); the fitted " +
+                "exponent is non-universal (alpha~1.16-1.73), consistent with the SU(2)-point marginal/log corrections (which is " +
+                "why no clean power law fits). Mechanism: the descent runs AGAINST the naive Neel-ordering intuition (which predicts " +
+                "a rise) - the offset above 1 is the finite Neel correlation length, and the dissipative handover tracks the " +
+                "closed-system critical point as N exceeds it. (experiments/XXZ_AXIS_BANDEDGE_TO_LEBENSADER.md + the " +
+                "ANALYTICAL_FORMULAS handover entry updated.) STILL OPEN (a deeper stone, not the original axis question): a " +
+                "rigorous Bethe-ansatz derivation that the limit is EXACTLY Delta=1, and the log-correction structure of the approach.",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
