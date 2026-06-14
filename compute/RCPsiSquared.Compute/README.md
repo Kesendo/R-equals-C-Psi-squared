@@ -15,6 +15,7 @@ For time-domain dynamics (information flow, relay protocols, sacrifice-zone form
 - .NET 10.0 SDK
 - Intel MKL (via MathNet NuGet, auto-restored)
 - OpenBLAS 0.3.31 (native DLLs, manual setup; see below)
+- [RCPsiSquared.Core](../RCPsiSquared.Core/) (project reference, auto-built): supplies the shared `Numerics/MklDirect.cs` LAPACK bridge, which used to live in this project
 - ~8 GB RAM for N=7, ~73 GB for N=8
 
 ## Setup
@@ -101,33 +102,54 @@ dotnet run -c Release -- n8
 # Validation only (~6 seconds)
 dotnet run -c Release -- validate
 
-# RMT eigenvalue export: all complex eigenvalues as CSV (N=2-7)
+# RMT eigenvalue export: all complex eigenvalues as CSV (N=2-7, Chain by default)
 # N=2-6 in ~1 min, N=7 in ~95 min
 dotnet run -c Release -- rmt
+# Other topologies (N=3-6): start one N earlier, write topology-prefixed CSVs
+dotnet run -c Release -- rmt star
+dotnet run -c Release -- rmt ring
+dotnet run -c Release -- rmt complete
 
 # Cavity modes at zero noise (N=2-7, ~40 min for N=7)
 dotnet run -c Release -- cavity
 
 # Cavity topology/coupling tests (Ring, Complete, non-uniform J)
 dotnet run -c Release -- cavity tests
+
+# Eigenvector export + Pauli projection at Re=-2γ (N=2-6, Chain)
+# Weight-1 coefficients of the 2N real eigenmodes, with L·v=λv residual checks
+dotnet run -c Release -- eigvec
+
+# Slow-mode lens survey: N=5 IBM-profile validation gate, then sweep
+# chain/ring/star × {uniform, edge/center sacrifice, moderate asymmetry}
+dotnet run -c Release -- lens
+
+# PTF dense eigendecomp at N=7 (eigenvalues + left + right vectors)
+# XY chain in PTF convention H=(J/2)(XX+YY); ~16 GB peak, heaviest single run
+dotnet run -c Release -- ptf
 ```
 
-Results are written to:
+`eigvec`, `lens`, and `ptf` print progress to stdout and write their artifacts under `simulations/results/`. Results are written to:
 - `simulations/results/csharp_compute.txt` (main suite)
-- `simulations/results/rmt_eigenvalues_N{2..7}.csv` (RMT export)
+- `simulations/results/rmt_eigenvalues_N{2..7}.csv` (RMT export, Chain); `rmt_eigenvalues_{star,ring,complete}_N{3..6}.csv` (other topologies)
 - `simulations/results/cavity_modes_zero_noise.txt` (cavity modes)
 - `simulations/results/cavity_modes_tests.txt` (cavity tests)
+- `simulations/results/eigvec_at_minus_gamma_N{2..6}.csv` (eigvec export)
+- `simulations/results/lens_survey/` (lens survey: `lens_survey_summary.txt`, `lens_survey_scaling.txt`, `lens_survey_results.json`, `lens_survey_errors.log`)
+- `simulations/results/eq014_{eigvals,left_eigvecs,right_eigvecs}_n7.bin` + `eq014_metadata.json` (PTF export; consumed by `simulations/eq014_step23_biorth.py`)
 
 ## Architecture
 
 | File | Purpose |
 |------|---------|
-| PauliOps.cs | Pauli matrices, tensor products, N-qubit Pauli basis |
-| Topology.cs | Star, Chain, Ring, Complete, Tree bond generators |
-| Liouvillian.cs | Lindblad superoperator: three build paths by N. `GetAllEigenvalues()` for RMT export. `GetCavityModes()` for zero-noise eigenfrequency analysis |
-| MklDirect.cs | Direct LAPACK P/Invoke: LP64 + ILP64 with backend auto-detection |
+| PauliOps.cs | Pauli matrices, tensor products, N-qubit Pauli basis, Pauli-basis projection (`ProjectOntoPauliBasis`, `PauliLabel`, `XYWeight`) |
+| Topology.cs | Star, Chain, Ring, Complete, Tree, ChainXY (PTF convention) bond generators |
+| Liouvillian.cs | Lindblad superoperator: three build paths by N. `GetAllEigenvalues()` for RMT export, `GetAllEigenvaluesAndVectors()` for eigvec, `GetAllEigenvaluesLeftRightMklRaw()` for PTF, `GetCavityModes()` for zero-noise eigenfrequencies |
+| LensAnalysis.cs | Slow-mode lens pipeline: extracts the optimal single-excitation state from the slowest eigenmode (`RunFullLensPipeline`, `FindSlowModes`) |
 | MirrorAnalysis.cs | Mirror symmetry scoring and spectral statistics |
-| Program.cs | Benchmark, topology survey, stress tests, validation, N=8, RMT export |
+| Program.cs | Dispatch: default suite (benchmark + topology survey + stress + N=8), `validate`, `n8`, `rmt`, `cavity`, `eigvec`, `lens`, `ptf` |
+
+The direct LAPACK P/Invoke layer (LP64 + ILP64 with backend auto-detection) used to live here as `MklDirect.cs`; it was promoted to [`RCPsiSquared.Core/Numerics/MklDirect.cs`](../RCPsiSquared.Core/Numerics/MklDirect.cs) once Core's block-spectrum bridge needed it, and is referenced from there.
 
 ## Three compute paths
 
@@ -136,6 +158,8 @@ Results are written to:
 | 2-6 | ≤4096² | `Build()` MathNet Kronecker | MathNet `Evd()` via MKL | ≤1 GB |
 | 7 | 16384² | `BuildDirectRaw()` element-wise | MKL `z_eigen` (with eigenvectors) | ~8 GB |
 | 8 | 65536² | `BuildDirectNative()` parallel, native memory | OpenBLAS `zgeev_` ILP64 (eigenvalues only) | ~73 GB |
+
+N=9 (262144² full, ~9 TB dense, infeasible) is not dispatched from this project. For popcount-conserving (F1-truly) Hamiltonians it is reached by block decomposition through Core's `LiouvillianBlockSpectrum.ComputeSpectrumPerBlock` (largest joint-popcount sector ≈ 17000²), run via the `SLOW_N9`-tagged xUnit test `F1GeneralTopologyN9BlockSpectrumChainTests` in `compute/RCPsiSquared.Core.Tests/`.
 
 ### Why N=8 needs special handling
 
@@ -169,7 +193,8 @@ All timings measured on Intel Core Ultra 9 285k (24 cores), 128 GB RAM, Windows 
 | [Cavity Modes Formula](../../experiments/CAVITY_MODES_FORMULA.md) | Zero-noise eigenfrequencies N=2-7. Closed-form via Clebsch-Gordan. Topology comparison |
 | [IBM Cavity Spectral](../../experiments/IBM_CAVITY_SPECTRAL_ANALYSIS.md) | Sacrifice zone protects cavity modes at 2.81x. Real IBM T2* data |
 | [Cavity Mode Localization](../../experiments/CAVITY_MODE_LOCALIZATION.md) | Eigenvector Pauli decomposition: protected modes are center-localized (r = 0.994) |
-| [Random Matrix Theory](../../experiments/RANDOM_MATRIX_THEORY.md) | RMT analysis of 21,832 eigenvalues (N=2-7): Poisson level statistics, chiral symmetry class AIII. Uses `--rmt` CSV export |
+| [Random Matrix Theory](../../experiments/RANDOM_MATRIX_THEORY.md) | RMT analysis of 21,832 eigenvalues (N=2-7): Poisson level statistics, chiral symmetry class AIII. Uses `rmt` CSV export |
+| [PTF Palindrome-Breaking Perturbations](../../experiments/PTF_PALINDROME_BREAKING_PERTURBATIONS.md) | Full left+right eigendecomposition at N=7 (XY chain, PTF convention) for EP / channel-uniform mode geometry. Uses `ptf` binary export |
 
 ## See also
 
