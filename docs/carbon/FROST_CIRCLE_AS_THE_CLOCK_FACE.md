@@ -148,8 +148,15 @@ quantum side, [F2b](../ANALYTICAL_FORMULAS.md) and
 [`coherence_horizon_se_block.py`](../../simulations/coherence_horizon_se_block.py)). Benzene's ring
 crossover is Q* = 1.609 (the benzene paragraph above). What the V-Effect does is now visible: on the
 half-filled even-N ring the band-edge selection does *not* simply survive, the overtaking channel
-hands over to a double-excitation coherence near Q ≈ 1.95. What stays open is the exact mechanism of
-that double-excitation seam, and the dynamic C=0.5 question it opens. The split is now known to be RING-UNIVERSAL, not aromatic:
+hands over to a double-excitation coherence near Q ≈ 2.0 (the earlier ~1.95 estimate; precisely the Q
+where the (2,2) seam's darkness ⟨n_XY⟩ reaches the F50 off-diagonal floor = 1, the (0,1) band edge at
+Re = −2γ). **That handover mechanism is now resolved** ([`handover_q.py`](../../simulations/carbon/handover_q.py),
+the typed `HandoverFloorClaim`, `inspect --root survivor`): it is a frozen *level crossing* (not the
+single-excitation coalescence the filling-degenerate open chain has, where the handover IS the
+coherence horizon Q*(N)), and it grows ~linearly with N (Q_h ≈ 0.29N, NOT saturating; benzene's ≈ 2.0
+is a hexagon coincidence), not cleanly co-located with the ring single-excitation Q* (the two curves
+merely cross near N ≈ 10). What stays open is the dynamic C=0.5 question it opens: whether the
+half-occupied coherence is always the longest-lived survivor over N and topology. The split is now known to be RING-UNIVERSAL, not aromatic:
 C4, C6, and C8 rings all hand over to a frozen double-excitation mode at strong dephasing (the open
 chains do not), so it is the C=0.5 half-filling boundary, a sibling of the incompleteness V-Effect
 ([HIERARCHY_OF_INCOMPLETENESS](../HIERARCHY_OF_INCOMPLETENESS.md)); Hückel's 4n+2 is not the
