@@ -202,9 +202,14 @@ public static class OpenArcsRegistry
                 "distinct branches crossing in Re. So the EP/crossing dichotomy has three members: chain-Q = the lone " +
                 "coalescence/EP, ring-Q + Delta = level crossings (frozen-interior-meets-oscillating-floor). THE THRESHOLD IS " +
                 "UNIVERSAL: the band-edge floor (darkness=1) is the handover condition across BOTH the dephasing (Q) and the " +
-                "anisotropy (Delta) axes. STILL OPEN: a closed form for Delta*(N) - now RECAST as the closed form for the " +
-                "Lebensader rate law (the Delta where it = 2*gamma); the N=4 phi=2cos(pi/5) coincidence (meaningful or accident? " +
-                "N=5=1.525 has no clean form); the same walk at N>=6 via the sparse/block path.",
+                "anisotropy (Delta) axes. DELTA*(N) CHARACTERIZED 2026-06-14 (simulations/xxz_delta_star.py, sector reduction " +
+                "validated bit-exact vs full L, extends the doc to N=4..7): NO clean elementary closed form - phi=2cos(pi/5) is a " +
+                "1e-4 ACCIDENT (Delta*(4)=1.61789 != phi=1.61803), 2cos(pi/(N+1)) and 1+1/N both fail. Delta*(N) is (in the " +
+                "gamma->0 limit) a property of the XXZ Hamiltonian ALONE - where the dead-centre mode's intrinsic <n_XY>=1 (the " +
+                "dephasing only sets the floor, not the value; weakly Q-dependent, converging as Q->inf), decreasing with an " +
+                "EVEN/ODD zigzag (1.618/1.525/1.381/1.325 at N=4/5/6/7) toward the SU(2)/Heisenberg point Delta=1 as N->inf (the " +
+                "handover descends to the closed-system critical point; all tested Delta* > 1, the Neel side). STILL OPEN: the " +
+                "exact N->inf limit (is it exactly Delta=1? needs N>8) and any clean even/odd subsequence law.",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

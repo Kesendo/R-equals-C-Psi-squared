@@ -122,7 +122,24 @@ carotenoid dark / triplet-pair side lives on the Lebensader end, and the V-Effec
   [CHAIN_GAP_SECTOR_DIAGNOSTIC](CHAIN_GAP_SECTOR_DIAGNOSTIC.md).
 - The clock + the two-clocks: [FROST_CIRCLE_AS_THE_CLOCK_FACE](../docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md),
   [SINGLET_FISSION_AND_THE_TWO_CLOCKS](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md).
-- Open: a closed form for Δ*(N) (is N=4's φ an accident?); whether the handover is an
-  exceptional point or a level crossing (the band-edge 2γ and the Lebensader cross there);
-  the same walk at N=6+ via the sparse / block path; and whether the Lebensader admixture at
-  the handover obeys a clean law as in CHAIN_GAP_SECTOR_DIAGNOSTIC.
+- **Resolved (2026-06-14, the handover-Q unification; arc `xxz_axis_handover`):**
+  - **EP or level crossing?** A **level crossing**: the frozen Lebensader (|Im|≈1e-15) meets the
+    oscillating band edge (|Im|≈9) and they cross in Re, they do not coalesce. The Δ-handover is the
+    *same event* as the dephasing-axis Q-handover
+    ([`handover_q.py`](../simulations/carbon/handover_q.py), the typed `HandoverFloorClaim`): the
+    interior/Lebensader darkness ⟨n_XY⟩ crossing 1 = the Absorption-Theorem band-edge floor 2γ.
+    Verified [`simulations/xxz_handover_unification.py`](../simulations/xxz_handover_unification.py) —
+    the band edge sits at *exactly* 2γ for all Δ (|vac⟩⟨magnon| is an eigenoperator of [H,·]; the ZZ
+    shifts only Im, so F50's 2N *count* breaks for Δ≠1 but the *floor* persists).
+  - **The N=6+ walk:** done via dead-centre sector reduction
+    ([`simulations/xxz_delta_star.py`](../simulations/xxz_delta_star.py), validated bit-exact vs the
+    full L): Δ*(6)=1.381, Δ*(7)=1.325.
+  - **A closed form for Δ*(N)?** **No clean elementary form.** The φ at N=4 is a **1e-4 accident**
+    (Δ*(4)=1.61789 ≠ φ=2cos(π/5)=1.61803); 2cos(π/(N+1)) and 1+1/N both fail. Δ*(N) is (in the γ→0
+    limit) a property of the **XXZ Hamiltonian alone** — where the dead-centre mode's intrinsic
+    ⟨n_XY⟩=1 (the dephasing only sets the floor, not the value; weakly Q-dependent, converging as
+    Q→∞). It **decreases with an even/odd zigzag** from 1.618 (N=4) toward the **SU(2)/Heisenberg
+    point Δ=1** as N→∞ (the handover descends to the closed-system critical point; all tested Δ* > 1,
+    the Néel side).
+- **Still open:** the exact N→∞ limit (is it exactly Δ=1? needs N>8) and any clean even/odd
+  subsequence law for Δ*(N).
