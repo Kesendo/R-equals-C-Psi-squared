@@ -11,6 +11,43 @@ public static class OpenArcsRegistry
     private static readonly IReadOnlyList<OpenArc> _all = new[]
     {
         new OpenArc(
+            Name: "one_diagonal_mirror_group",
+            Opened: "2026-06-14",
+            Origin: "Tom asked to DEEPEN the one-diagonal principle (reflections/ON_THE_ONE_DIAGONAL.md: " +
+                "Z-dephasing touches one diagonal Q, L_D = gamma*(Q - N*I), read three ways - rates/mirror/" +
+                "judge); his pointer docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md is the depth. Tom delegated " +
+                "the decision (he keeps the cross-session overview; Claude decides + assembles + makes findable)",
+            ParkedAt: "BRAINSTORMED + DECIDED 2026-06-14 (spec docs/superpowers/specs/" +
+                "2026-06-14-one-diagonal-mirror-group-design.md; 3-agent survey over markdown/typed/" +
+                "generalization). THE SYNTHESIS: the dissipator-diagonal Q is NOT a lone object - it is the " +
+                "fixed/reflected CENTER of the mirror group <R,D> = D4 (PROOF_PI_FACTORS_AS_R_TIMES_D, " +
+                "MirrorGroupD4Claim). D (transpose, diag((-1)^n_Y)) FIXES Q = the price-list/rate reading; " +
+                "R (ket-flip) REFLECTS it R*Q*R = -Q carrying the whole -2*Sum(gamma) palindrome shift = the " +
+                "mirror reading; the F87 truly cell (n_Y even AND n_Z even) is the joint-fixed cell of the " +
+                "diagonal mirrors {D, FD} = the judge reading (sec 4d). So the reflection's 'one diagonal, " +
+                "read three times' IS 'one diagonal, moved three ways by D4'. Sec 7 is the same object as a " +
+                "GRADING: the diagonal's light-parity n_XY mod 2 = the Ad_(Z^N) character bit_a of the " +
+                "polarity cube (axes = two conjugations + the transpose). ALREADY DONE: the D4 core " +
+                "(MirrorGroupD4Claim), the absorption diagonal (AbsorptionTheoremClaim), the order-128 " +
+                "per-site monomial completion <r,d,h> (mirror_inventory_d4.py block H), the ANTILINEAR side " +
+                "<R,D,K> = D4xZ2 (PROOF_ANTILINEAR_TRIANGLE sec 4); the LINEAR S3 side is OPEN",
+            NextStep: "THE OPEN STONE (sec 5, named-open): Q_Z is ONE OF THREE dephasing diagonals " +
+                "{Q_X,Q_Y,Q_Z}; the S3 permuting them meets D4 only in the Z<->Y swap (= D); the other two " +
+                "need the X<->Z basis move (Q_zx, Q_yx, PROOF_KLEIN_V4_DEPHASE_SWAPS), OUTSIDE <R,D>. " +
+                "Completing S3 (x) D4 makes {Q_X,Q_Y,Q_Z} ONE ORBIT = the precise 'why one diagonal, and how " +
+                "the three are one'. Q_X/Q_Y/Q_Z same-spectrum is currently IMPLIED (Klein-V4 + F79/F80 " +
+                "dispersion), NOT typed. PLAN (spec): (0) physics-first gate - verify Q_X/Q_Y/Q_Z same " +
+                "spectrum DIRECTLY (eigvals), do NOT trust the implication; (1) build <R,D,h> (h = X<->Z " +
+                "Hadamard-lift), settle the right typed object (order-48 S3(x)D4 letters vs the order-128 " +
+                "per-site monomial group - DISTINCT, do not conflate), verify orbit(Q_Z) = {Q_X,Q_Y,Q_Z} " +
+                "conjugate; (2) recast the three readings as the group action on Q in one place; (3) type it " +
+                "(ThreeDephasingDiagonalsOrbitClaim extending MirrorGroupD4Claim, + witness) = the 'use it' " +
+                "home. OUT OF SCOPE (sibling arc): the Hamiltonian DYNAMICS on the rungs (how L_H connects " +
+                "disagreement levels - the complementary depth). Tools that exist: mirror_inventory_d4.py, " +
+                "PauliWeightHistogram, MirrorGroupD4Claim",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
             Name: "ptf_painter_pipeline",
             Opened: "2026-06-03",
             Origin: "simulations/ptf workflow + C# SlowModeMixing",
