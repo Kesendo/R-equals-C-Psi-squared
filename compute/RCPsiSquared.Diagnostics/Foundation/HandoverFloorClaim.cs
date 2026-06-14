@@ -51,7 +51,11 @@ public sealed class HandoverFloorClaim : Claim
         public bool Passes => string.Equals(Expected, Actual, StringComparison.Ordinal);
     }
 
-    public IReadOnlyList<BatteryCase> Cases { get; }
+    // Lazy: the battery runs several eigendecomposition bisections (incl. an N=8 ring block), and the
+    // registry build (KnowledgeRegistryFactory.BuildDefault) constructs every claim eagerly - so without
+    // this, every `inspect`/`knowledge` command pays the battery up front. Deferred to first access.
+    private readonly Lazy<IReadOnlyList<BatteryCase>> _cases;
+    public IReadOnlyList<BatteryCase> Cases => _cases.Value;
     public int PassCount => Cases.Count(c => c.Passes);
 
     public HandoverFloorClaim(
@@ -75,7 +79,7 @@ public sealed class HandoverFloorClaim : Claim
         Survival = survival ?? throw new ArgumentNullException(nameof(survival));
         Floor = floor ?? throw new ArgumentNullException(nameof(floor));
         ChainSolution = chainSolution ?? throw new ArgumentNullException(nameof(chainSolution));
-        Cases = BuildBattery();
+        _cases = new Lazy<IReadOnlyList<BatteryCase>>(BuildBattery);
     }
 
     private static string Fmt(double v) => v.ToString("0.####", CultureInfo.InvariantCulture);
@@ -132,15 +136,16 @@ public sealed class HandoverFloorClaim : Claim
         cases.Add(new BatteryCase("the F50 floor: the (0,1) band edge <n_XY> = 1 (Re=-2g)",
             $"N=6, Q=2: (0,1) band-edge <n_XY> = {Fmt(floor)}", "1", Math.Abs(floor - 1.0) < 1e-6 ? "1" : Fmt(floor)));
 
-        // 2. CHAIN = Q*(N): the chain handover reproduces the coherence horizon Q*(4)=1.87874.
+        // 2. CHAIN = Q*(N): the chain handover reproduces the coherence horizon Q*(4) (shared ladder).
+        double qStar4 = IncompletenessSurvivorWitness.CoherenceHorizonQStar[4];
         double qhChain4 = IncompletenessSurvivorWitness.HandoverQ(4, TopologyKind.Chain);
         cases.Add(new BatteryCase("chain handover = the coherence horizon Q*(4)",
-            $"HandoverQ(4, chain) = {Fmt(qhChain4)} vs Q*(4) = 1.87874", "= Q*(4)",
-            Math.Abs(qhChain4 - 1.87874) < 0.01 ? "= Q*(4)" : Fmt(qhChain4)));
+            $"HandoverQ(4, chain) = {Fmt(qhChain4)} vs Q*(4) = {Fmt(qStar4)}", "= Q*(4)",
+            Math.Abs(qhChain4 - qStar4) < 0.01 ? "= Q*(4)" : Fmt(qhChain4)));
 
         // 3. CHAIN below Q* by the trace dressing (N=6): 0 < Q*(6) - handover < 0.02.
         double qhChain6 = IncompletenessSurvivorWitness.HandoverQ(6, TopologyKind.Chain);
-        double gap6 = 2.88925 - qhChain6;
+        double gap6 = IncompletenessSurvivorWitness.CoherenceHorizonQStar[6] - qhChain6;
         cases.Add(new BatteryCase("chain handover just below Q*(6) (the trace dressing)",
             $"Q*(6) - HandoverQ(6, chain) = {Fmt(gap6)}", "in (0, 0.02)",
             gap6 > 0 && gap6 < 0.02 ? "in (0, 0.02)" : Fmt(gap6)));

@@ -34,6 +34,15 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
     private const double Qh = 0.5;          // H = qh*(XX+YY) reproduces the carbon J=1
     private const double KernelTol = 1e-7;
 
+    /// <summary>The canonical coherence-horizon ladder Q*(N) (F2b corollary / <see cref="CoherenceHorizonClaim"/>),
+    /// indexed by N: the chain handover co-locates with this. One shared source for the handover node and the
+    /// <c>HandoverFloorClaim</c> battery, instead of two literal copies of 1.87874 / 2.88925.</summary>
+    public static readonly double[] CoherenceHorizonQStar = { 0, 0, 1.0, 1.41421, 1.87874, 2.37367, 2.88925 };
+
+    // HandoverQ is pure in (N, topology) (gamma-independent by construction, J fixed via Qh), so memoize it:
+    // the battery, the witness node, and the Shared static otherwise each re-run the same (heavy, N=8) bisection.
+    private static readonly System.Collections.Concurrent.ConcurrentDictionary<(int, TopologyKind), double> _handoverCache = new();
+
     public int N { get; }
     public double Q { get; }                 // J/gamma in the carbon convention (J=1, gamma=1/Q)
 
@@ -109,14 +118,21 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
     public static double HandoverQ(int n, TopologyKind topology, double lo = 0.5, double hi = 12.0, double tol = 1e-4)
     {
         if (n < 4) return double.NaN;   // (2,2) is interior only for N≥4
+        if (_handoverCache.TryGetValue((n, topology), out var hit)) return hit;
         double F(double q) => Interior22NXy(n, q, topology) - 1.0;
-        if (F(lo) > 0 || F(hi) < 0) return double.NaN;
-        for (int it = 0; it < 60 && hi - lo > tol; it++)
+        double result;
+        if (F(lo) > 0 || F(hi) < 0)
+            result = double.NaN;
+        else
         {
-            double m = 0.5 * (lo + hi);
-            if (F(m) < 0) lo = m; else hi = m;
+            for (int it = 0; it < 60 && hi - lo > tol; it++)
+            {
+                double m = 0.5 * (lo + hi);
+                if (F(m) < 0) lo = m; else hi = m;
+            }
+            result = 0.5 * (lo + hi);
         }
-        return 0.5 * (lo + hi);
+        return _handoverCache[(n, topology)] = result;
     }
 
     private static string Kind(int n, int pc, int pr)
@@ -178,15 +194,13 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
     /// ~linearly (not saturating). N-independent of the witness's own N (shows the ladder).</summary>
     private InspectableNode TheHandoverNode()
     {
-        // Q*(N) canonical (the coherence horizon, F2b corollary / CoherenceHorizonClaim), indexed by N.
-        double[] qStar = { 0, 0, 1.0, 1.41421, 1.87874, 2.37367, 2.88925 };
         var kids = new List<IInspectable>();
         foreach (int n in new[] { 4, 5, 6 })
         {
             double qh = HandoverQ(n, TopologyKind.Chain);
             kids.Add(new InspectableNode($"chain N={n} (= Q*(N))",
                 summary: $"handover Q={qh.ToString("0.0000", Inv)} = the coherence horizon Q*({n})=" +
-                         $"{qStar[n].ToString("0.0000", Inv)} (filling-degenerate; gap {(qStar[n] - qh).ToString("+0.0000;-0.0000", Inv)} " +
+                         $"{CoherenceHorizonQStar[n].ToString("0.0000", Inv)} (filling-degenerate; gap {(CoherenceHorizonQStar[n] - qh).ToString("+0.0000;-0.0000", Inv)} " +
                          "= the trace dressing, exact only at the clean-2x2 N=2,3 - a coalescence/EP)"));
         }
         foreach (int n in new[] { 6, 8 })
