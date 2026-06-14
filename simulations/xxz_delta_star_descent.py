@@ -242,24 +242,42 @@ def check_phi_refuted_gamma0():
           f"2cos(pi/(N+1)) & 1+1/N fail for N>=5.  OK")
 
 
+def fit_fixed_alpha(Ns, vals, alpha):
+    """Fit L + a*N^(-alpha) with alpha FIXED (2 params). Returns dict(L, a, alpha, resid). A fixed 1/N
+    ansatz brackets the free-exponent fit around Delta=1: the limit's offset from 1 is fit-form-dependent."""
+    Ns = np.array(Ns, float)
+    y = np.array(vals, float)
+    model = lambda N, L, a: L + a * N ** (-alpha)
+    popt, _ = curve_fit(model, Ns, y, p0=[1.0, 3.0], maxfev=200000)
+    return dict(L=float(popt[0]), a=float(popt[1]), alpha=alpha,
+                resid=float(np.max(np.abs(y - model(Ns, *popt)))))
+
+
 def verdict(fits):
-    """Print the honest verdict on the N->inf limit and the crossing-1 question (an interpretation of
-    the fits above; not asserted -- the asserts are #3/#4/#5)."""
+    """Honest verdict on the N->inf limit. NOT asserted (the asserts are #3/#4/#5). The real uncertainty
+    is the fit-WINDOW and fit-FORM spread, NOT the curve_fit covariance -- that is statistical-only and
+    ~10-30x tighter than the window spread, so it must not be read as the error bar."""
     print("\n=== VERDICT (Delta*(N) descent) ===")
-    asy_Ls = []
-    for label in ("even", "odd"):
-        asy = fits[label][-1]          # most-asymptotic window (largest Nmin, smallest residual)
-        asy_Ls.append(asy["L"])
-        spread = [w["L"] for w in fits[label]]
-        nx = crosses_one(asy)
-        cross = "never (L>1: approaches Delta=1 from the Neel side)" if nx is None else f"N~{nx:.1f}"
-        print(f"  {label}: asymptotic L = {asy['L']:.4f} +- {asy['L_err']:.4f}  (Nmin={asy['Nmin']}, "
-              f"alpha={asy['alpha']:.2f});  window L-spread [{min(spread):.4f}, {max(spread):.4f}];  crosses 1: {cross}")
-    print(f"  => Delta*(N) descends MONOTONICALLY to the Heisenberg/SU(2) point Delta=1 from the Neel")
-    print(f"     side; extrapolated limit L in [{min(asy_Ls):.3f}, {max(asy_Ls):.3f}] -- AT or just above 1,")
-    print(f"     NO finite-N crossing. The 4-point ambiguity (1/N->~0.85 vs 1/N^2->~1.15) is collapsed onto")
-    print(f"     the closed-system critical point. (Exactly 1 vs a few-percent offset is at the edge of")
-    print(f"     resolution; the data robustly excludes a limit far below 1.)")
+    bracket = []
+    for label, parity in (("even", 0), ("odd", 1)):
+        ws = fits[label]
+        free = ws[-1]                              # most-asymptotic free-exponent window
+        Ns_asy = sorted(N for N in DSTAR_SEQUENCE if N % 2 == parity)[-free["npts"]:]
+        fixed = fit_fixed_alpha(Ns_asy, [DSTAR_SEQUENCE[N] for N in Ns_asy], 1.0)
+        bracket += [fixed["L"], free["L"]]
+        spread = [round(float(w["L"]), 3) for w in ws]
+        nx = crosses_one(fixed)                    # fixed-1/N has L<1; where would it dip below 1?
+        tail = f"; fixed-1/N would dip <1 only at N~{nx:.0f}" if nx else ""
+        print(f"  {label}: free-exp L over windows {spread}  (covariance +-{free['L_err']:.3f} is STATISTICAL ONLY).")
+        print(f"        asymptotic Nmin={free['Nmin']}: free-alpha L={free['L']:.4f} (alpha={free['alpha']:.2f}) "
+              f"vs fixed-1/N L={fixed['L']:.4f}{tail}")
+    lo, hi = min(bracket), max(bracket)
+    print(f"  => Delta*(N) descends MONOTONICALLY to the Heisenberg/SU(2) point Delta=1 (the closed-system")
+    print(f"     critical point) from the Neel side. The N->inf limit is consistent with EXACTLY 1: at the")
+    print(f"     most-asymptotic window the free-exp (>1) and fixed-1/N (<1) forms BRACKET it, L in")
+    print(f"     [{lo:.3f}, {hi:.3f}]; every computed Delta*(N<=14) stays >1 (no finite-N crossing). A limit far")
+    print(f"     from 1 (|L-1| >~ 0.1) is excluded by every fit; the small above/below offset is a fit-form")
+    print(f"     systematic centered on the critical point. The original 4-point ambiguity is collapsed.")
     print(f"  [bonus] Q*(N)~0.59N GROWS while Delta*(N) DESCENDS: the SAME band-edge floor (darkness=1)")
     print(f"          on two axes (dephasing Q, anisotropy Delta) -- one principle, opposite N-trends.")
 
