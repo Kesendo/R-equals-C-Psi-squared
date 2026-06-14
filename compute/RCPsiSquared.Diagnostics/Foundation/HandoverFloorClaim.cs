@@ -85,7 +85,8 @@ public sealed class HandoverFloorClaim : Claim
 
     public override string Summary =>
         "the handover (the incompleteness survivor's darkness rises to the F50 floor <n_XY>=1) is closed: the CHAIN handover IS " +
-        $"the coherence horizon Q*(N), the RING is a distinct (2,2) free-fermion level crossing growing ~0.29N (not saturating); " +
+        "the coherence horizon Q*(N), the RING is a distinct (2,2) free-fermion level crossing growing ~0.29N (not saturating); " +
+        $"the same band-edge floor governs the XXZ Delta-axis handover too (cross-axis universal, verified); " +
         $"{PassCount}/{Cases.Count} PASS ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -104,6 +105,14 @@ public sealed class HandoverFloorClaim : Claim
                          "mode, not a bound pair) hands over by a frozen level crossing, growing ~linearly Q_h~0.29N (c_eff~12 flat), " +
                          "NOT saturating; its values cross the ring SE-EP near N~10 (benzene's 2.0-vs-1.609 split is small-N). " +
                          "Live: inspect --root survivor (the handover node).");
+            yield return new InspectableNode("cross-axis universality: the same floor governs the XXZ Delta-axis",
+                summary: "CONFIRMED 2026-06-14 (simulations/xxz_handover_unification.py; arc xxz_axis_handover): the band-edge " +
+                         "floor (darkness=1 = the Absorption-Theorem 2*gamma) is the handover threshold on BOTH the dephasing (Q) " +
+                         "axis AND the Hamiltonian-anisotropy (Delta) axis. Walking H=J(XX+YY)+Delta*ZZ, the Lebensader (the " +
+                         "dead-centre I/Z survivor) overtakes the band edge exactly where its darkness crosses 1 (Delta*(4)=1.618=phi, " +
+                         "Delta*(5)=1.525), a LEVEL CROSSING (frozen Lebensader meets oscillating band edge, the ring family). The " +
+                         "band edge stays at 2*gamma for ALL Delta - model-independent, since |vac><magnon| is an eigenoperator of " +
+                         "[H,.] (the ZZ shifts only Im); F50's 2N count breaks for Delta!=1 but the FLOOR persists.");
             foreach (var c in Cases)
                 yield return new InspectableNode(c.Name,
                     summary: $"{c.Detail}; expected {c.Expected}, got {c.Actual}, " + (c.Passes ? "PASS" : "FAIL"));

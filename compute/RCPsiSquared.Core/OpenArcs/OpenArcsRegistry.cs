@@ -190,21 +190,21 @@ public static class OpenArcsRegistry
                 "Delta*(N=4)=1.618 ~ phi (= 2cos(pi/5), N=4's band-edge frequency) - FLAGGED not claimed (N=5 has no clean form, " +
                 "so a universal phi is NOT supported). The handover sits ABOVE the closed-system SU(2) transition (Delta=J=1); " +
                 "the dephasing pushes Delta* into the Neel side. Spinless XXZ (t-V), the 'spin' label interpretive.",
-            NextStep: "THE UNIFICATION CONJECTURE (the reason to bank this, 2026-06-14): the Delta-handover and the Q-handover " +
-                "(HandoverFloorClaim) are the SAME two players - the band-edge coherence at the Absorption-Theorem floor " +
-                "(decay 2*gamma, <n_diff>=1, i.e. <n_XY>=1) vs an interior/Lebensader dressed mode (sub-2*gamma, <n_XY><1). The " +
-                "Q-axis BRIGHTENS the interior UP to the floor (handover = where <n_XY>_interior rises to 1); the Delta-axis " +
-                "DARKENS the Lebensader DOWN through the floor (Delta* = where <n_XY>_Lebensader falls to 1?). So the open " +
-                "conjecture: Delta* is the SAME <n_XY>=1 = band-edge-floor crossing as HandoverFloorClaim, just driven along the " +
-                "anisotropy axis instead of the dephasing axis - TO BE VERIFIED (the XXZ walk reports the n_XY composition but " +
-                "has NOT been checked against the <n_XY>=1 condition; its table at Delta=1.6, just past Delta*(5)=1.525, shows " +
-                "n_XY {0:56%,2:43%,4:1%} = <n_XY>~0.90 < 1, i.e. already darkened past the floor - consistent, but unconfirmed at " +
-                "the exact crossing). CAVEAT: F50's 2N-degeneracy COUNT breaks for Delta!=1 (the ZZ mixes X/Y, SWAP-invariance " +
-                "fails), BUT the band-edge 2*gamma FLOOR itself is Absorption-Theorem-pinned (model-independent, n_XY=1), so the " +
-                "floor persists; it is the count, not the floor, that the anisotropy breaks. STILL OPEN (the doc's own list): a " +
-                "closed form for Delta*(N) (is N=4's phi an accident?); whether the Delta-handover is an EP or a level crossing " +
-                "(cf. the Q-handover: chain=coalescence/EP, ring=level crossing - which is Delta*?); the same walk at N>=6 via " +
-                "the sparse/block path; whether the Lebensader admixture at Delta* obeys a clean law as in CHAIN_GAP.",
+            NextStep: "THE UNIFICATION, CONFIRMED 2026-06-14 (simulations/xxz_handover_unification.py, self-validating N=4,5): " +
+                "the Delta-handover and the Q-handover (HandoverFloorClaim) ARE the same event - the interior/Lebensader dressed " +
+                "mode's darkness <n_XY> crossing 1 = the Absorption-Theorem band-edge floor 2*gamma. (1) THE FLOOR is exact and " +
+                "model-independent: the bright single-magnon band-edge coherence sits at rate = 2*gamma (darkness 1) for ALL " +
+                "Delta, because |vac><magnon| is an eigenoperator of [H_XXZ,.] (lambda = -2g + i*E_k; the ZZ shifts only the " +
+                "frequency E_k, not Re) - so F50's 2N COUNT breaks for Delta!=1 but the FLOOR persists, and the Absorption " +
+                "Theorem rate/2g == Sum_k k*w_k holds bit-exact in XXZ for both modes. (2) at Delta* the slowest mode's darkness " +
+                "= 1.00000 (the Lebensader rate crosses the floor), reproducing Delta*(4)=1.618(=phi), Delta*(5)=1.525. (3) it is " +
+                "a LEVEL CROSSING, NOT an EP: the frozen Lebensader (|Im|~1e-15) meets the oscillating band edge (|Im|~9), two " +
+                "distinct branches crossing in Re. So the EP/crossing dichotomy has three members: chain-Q = the lone " +
+                "coalescence/EP, ring-Q + Delta = level crossings (frozen-interior-meets-oscillating-floor). THE THRESHOLD IS " +
+                "UNIVERSAL: the band-edge floor (darkness=1) is the handover condition across BOTH the dephasing (Q) and the " +
+                "anisotropy (Delta) axes. STILL OPEN: a closed form for Delta*(N) - now RECAST as the closed form for the " +
+                "Lebensader rate law (the Delta where it = 2*gamma); the N=4 phi=2cos(pi/5) coincidence (meaningful or accident? " +
+                "N=5=1.525 has no clean form); the same walk at N>=6 via the sparse/block path.",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
