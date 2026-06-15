@@ -1062,17 +1062,34 @@ public sealed class PaintersMovement : IInspectable
             return sum / tGrid.Length;
         }
 
-        // Golden-section minimization on [AlphaLo, AlphaHi], to scipy's xatol ~1e-7.
+        // Global grid-seed over [AlphaLo, AlphaHi] to locate the global basin FIRST: a bare
+        // golden-section (like scipy's bounded-Brent) traps in a local basin on featureless /
+        // multimodal landscapes (a site far from the defect, P_A ≈ P_B) — e.g. Bell+ at γ=0.05
+        // returned α ≈ 4–6 where the true global is ≈ 1.016 (MSE ~100–300× worse, brute-grid
+        // confirmed; arc ptf_bonding_class_guard). The seed finds the basin; the golden-section
+        // refines within it. Mirrors simulations/framework/workflows/ptf.py _alpha_fit_one_site.
+        const int seeds = 512;
+        double aBest = AlphaLo, fBest = Mse(AlphaLo);
+        for (int g = 1; g < seeds; g++)
+        {
+            double ag = AlphaLo + (AlphaHi - AlphaLo) * g / (seeds - 1.0);
+            double fg = Mse(ag);
+            if (fg < fBest) { fBest = fg; aBest = ag; }
+        }
+        double step = (AlphaHi - AlphaLo) / (seeds - 1.0);
+
+        // Golden-section refine inside the winning bracket [aBest−step, aBest+step].
         const double gr = 0.6180339887498949;
-        double a = AlphaLo, b = AlphaHi;
+        double a = Math.Max(AlphaLo, aBest - step), b = Math.Min(AlphaHi, aBest + step);
         double c = b - gr * (b - a), dd = a + gr * (b - a);
         double fc = Mse(c), fd = Mse(dd);
-        for (int it = 0; it < 200 && (b - a) > 1e-7; it++)
+        for (int it = 0; it < 200 && (b - a) > 1e-9; it++)
         {
             if (fc < fd) { b = dd; dd = c; fd = fc; c = b - gr * (b - a); fc = Mse(c); }
             else { a = c; c = dd; fc = fd; dd = a + gr * (b - a); fd = Mse(dd); }
         }
-        return 0.5 * (a + b);
+        double refined = 0.5 * (a + b);
+        return Mse(refined) <= fBest ? refined : aBest;   // never worse than the best grid point
     }
 
     /// <summary>A natural cubic spline through (x, y), the same construction scipy's

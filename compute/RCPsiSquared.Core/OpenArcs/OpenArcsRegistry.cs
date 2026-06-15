@@ -37,7 +37,26 @@ public static class OpenArcsRegistry
                 "restriction is real. Anchors: simulations/framework/workflows/ptf.py (perspectives_panel guard); " +
                 "the C# Symphony painters witness + its tests; simulations/_ptf_symphony_crossval.py (the Bell+ " +
                 "N=4 case). Assert the EXPECTED guard verdict for Bell+ in BOTH languages and let it fire.",
-            Status: OpenArcStatus.Open),
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "RESOLVED 2026-06-15, same session it was opened (C# fix in " +
+                "compute/RCPsiSquared.Diagnostics/Foundation/Symphony.cs FitAlpha + test correction in " +
+                "PtfMovementTests.cs; 15/15 green). THE ANSWER: the divergence was a C# MINIMIZER BUG, not a " +
+                "guard difference. The C# guard is logically IDENTICAL to Python's (same sane + linear terms, no " +
+                "extra check). C#'s bare golden-section ALSO traps (gamma-dependent): at gamma=0.05 Bell+ it " +
+                "returned alpha=4.4-6.6 where the brute-grid global is 1.016 (MSE 100-300x worse) - the SAME " +
+                "minimizer-trap class we fixed in Python (scipy-Brent), now found in C#'s golden-section (at " +
+                "gamma=0.1 it happened to find the global; golden-section is NOT globally robust). FIX: ported the " +
+                "grid-seed (512 pts + golden-section refine) into C# FitAlpha, mirroring framework/ptf.py; C# Bell+ " +
+                "now -> alpha~=1.016, 4 reliable, matching Python. THE C# TEST StateClass_Matters_GuardRefusesBellPair " +
+                "encoded the trap as physics ('Bell+ breaks the rescaling, the guard refuses') - WRONG; corrected + " +
+                "renamed StateClass_PerSiteGuardDoesNotRefuseBellPair (Bell+ rescales per-site like the bonding mode, " +
+                "all reliable; the per-site guard does NOT enforce the bonding-state class). THE REAL DISCRIMINATOR " +
+                "is the CLOSURE law (Sigma ln alpha): Bell+ stays OUT of the +-0.05 window where the canonical bonding " +
+                "mode closes (N=5: -0.0444) - in BOTH languages once the minimizer is robust. Cross-language fidelity " +
+                "restored; well-conditioned cases (Python-twin BondingMode, canonical N=5, finite-size N=4) unchanged. " +
+                "LESSON: golden-section is not globally robust either; grid-seed BOTH languages. The arc's hypothesis " +
+                "(C# might be the robust reference) was wrong - both minimizers trapped; Python's grid-seed fix was " +
+                "the most robust and is now ported to C#."),
 
         new OpenArc(
             Name: "one_diagonal_mirror_group",

@@ -21,9 +21,10 @@ public class PtfMovementTests
         Children(s).OfType<PaintersMovement>().Single();
 
     // The canonical PTF protocol: XY chain, Z-dephasing, |δJ| ≤ 0.1, and a BONDING-MODE
-    // initial state (the delocalized k=1 sine mode, F67). Localized (|10…0⟩) or multi-sector
-    // (Bell+) states break the rescaling picture and the guard rightly flags every site
-    // unreliable; that discovery is pinned in StateClass_Matters_GuardRefusesBellPair below.
+    // initial state (the delocalized k=1 sine mode, F67). The bonding-state class shows up in
+    // the CLOSURE (Σ ln α inside the ±0.05 window), NOT in the per-site reliability guard: Bell+
+    // also rescales per-site (α ≈ 1, all reliable) but does not close — see
+    // StateClass_PerSiteGuardDoesNotRefuseBellPair below.
     private static Symphony Canonical(int n = 4) =>
         new Symphony(n: n, j: 1.0, gamma: 0.05, hType: HamiltonianType.XY,
                      initialState: InitialStateKind.BondingMode, defectBond: 1, deltaJ: 0.02);
@@ -51,15 +52,23 @@ public class PtfMovementTests
     }
 
     [Fact]
-    public void StateClass_Matters_GuardRefusesBellPair()
+    public void StateClass_PerSiteGuardDoesNotRefuseBellPair()
     {
-        // Bell+ is a two-sector state, outside the PTF class: the rescaling picture breaks,
-        // α is δJ-independent junk, and the guard must refuse every site (f_guard ≈ 2f).
+        // CORRECTED 2026-06-15 (arc ptf_bonding_class_guard). The prior assertion "the guard refuses
+        // every Bell+ site" was a MINIMIZER-TRAP artifact, not physics: a bare golden-section trapped
+        // on Bell+'s featureless trajectories (α ≈ 4–6, junk), and the |f| ≤ FMax sanity check caught
+        // the junk → 0 reliable, which LOOKED like a state-class veto. With the grid-seed global fit
+        // (FitAlpha), Bell+ rescales just like the bonding mode at the per-site level: α ≈ 1.016 on
+        // every site, all RELIABLE (brute-grid + Python perspectives_panel agree; the global min is
+        // α ≈ 1.016, MSE ~100–300× below the trapped α ≈ 4–6). So the per-site reliability guard does
+        // NOT enforce the bonding-state class. The class distinction lives in the CLOSURE (Σ ln α):
+        // Bell+ stays OUT of the ±0.05 window where the canonical bonding mode closes (N=5: −0.0444).
         var s = new Symphony(n: 4, j: 1.0, gamma: 0.05, hType: HamiltonianType.XY,
                              initialState: InitialStateKind.BellPair, defectBond: 1, deltaJ: 0.02);
         var m = Movement(s);
-        Assert.Equal(0, m.Reliable.Count(r => r));
-        Assert.False(m.ClosureInWindow);
+        Assert.Equal(4, m.Reliable.Count(r => r));            // the guard does NOT refuse Bell+
+        Assert.All(m.Alphas, x => Assert.InRange(x, 0.9, 1.1));  // it rescales per-site, like bonding
+        Assert.False(m.ClosureInWindow);                      // but Bell+ does not close (the discriminator)
     }
 
     [Fact]
