@@ -110,6 +110,13 @@ public sealed class DiagonalWitness : IInspectable
     public IReadOnlyList<int> RungStepsOfLH() => RungSteps(_LH);
     /// <summary>The disagreement-count parity is conserved (L = L_H + L_D block-diagonal in k mod 2).</summary>
     public bool DisagreementParityConserved() => ParityConserved();
+    /// <summary>Max even↔odd block coupling of L = L_H(XXZ + h·Σ X_l) + L_D. h=0 ⇒ 0 (parity conserved);
+    /// h≠0 ⇒ &gt;0 (the transverse field is a single-bit flip, Δk=±1, an odd step that breaks the U(1) parity).</summary>
+    public double EvenOddBlockMaxWithField(double hField) => EvenOddBlockMax(LHWithField(hField));
+    /// <summary>The |Δk| that L_H(XXZ + h·Σ X_l) connects. h=0 ⇒ {0,2} (even only); h≠0 ⇒ includes 1 (the odd step).</summary>
+    public IReadOnlyList<int> RungStepsWithField(double hField) => RungSteps(LHWithField(hField));
+    private ComplexMatrix LHWithField(double hField) =>
+        hField == 0.0 ? _LH : HamiltonianSuper(BuildChainH(N, J, Delta) + TransverseFieldH(N, hField), N);
     /// <summary>The orbit of Q_Z under the basis-change S₃ ⟨h_zx, h_yz⟩ (= 3 ⟹ the three diagonals are one orbit).</summary>
     public int OrbitSizeOfQZ() => OrbitSize(_qZ, new[] { _hZX, _hYZ });
     /// <summary>spec(Q_X) = spec(Q_Y) = spec(Q_Z) (conjugate ⟹ co-spectral).</summary>
@@ -197,7 +204,14 @@ public sealed class DiagonalWitness : IInspectable
                     summary: $"a hop flips two bits ⟹ Δk even; rung steps = {{{string.Join(",", steps)}}} (no k±1)"),
                 new InspectableNode("disagreement-count parity conserved",
                     summary: $"L = L_H + L_D is block-diagonal in k mod 2: even↔odd block max = "
-                           + $"{EvenOddBlockMax():0.0e+00} (U(1) feature; a transverse field would break it)"),
+                           + $"{EvenOddBlockMax(_LH):0.0e+00} (U(1) feature; the transverse-field counter-case below breaks it)"),
+                new InspectableNode("the U(1) boundary: a transverse field breaks the parity (the tested counter-case)",
+                    summary: $"k mod 2 = (m_i − m_j) mod 2, a Z₂ shadow of the U(1) magnetization. Add a transverse field "
+                           + $"h·Σ X_l (a single-bit flip, Δk = ±1, the ODD step) and the conservation breaks: even↔odd block "
+                           + $"max {EvenOddBlockMaxWithField(0.0):0.0e+00} (h=0) → {EvenOddBlockMaxWithField(0.5):0.0e+00} "
+                           + $"(h=0.5, BROKEN); rung steps {{{string.Join(",", RungStepsWithField(0.0))}}} → "
+                           + $"{{{string.Join(",", RungStepsWithField(0.5))}}}. A tested fact (DiagonalWitnessTests): the gate "
+                           + "fires if the field fails to add the odd step."),
                 new InspectableNode("the sector split (why the handover is a level crossing)",
                     summary: $"band edge |vac⟩⟨magnon| at k={kBandEdge} (odd); the {{0,2}} survivor even — "
                            + "parity-protected from hybridizing ⟹ a level crossing, not an EP coalescence"),
@@ -280,6 +294,15 @@ public sealed class DiagonalWitness : IInspectable
         return h;
     }
 
+    private static ComplexMatrix TransverseFieldH(int n, double h)
+    {
+        int d = 1 << n;
+        var field = Matrix<Complex>.Build.Dense(d, d);
+        for (int l = 0; l < n; l++)
+            field += PauliString.SiteOp(n, l, PauliLetter.X).Multiply(new Complex(h, 0));   // h·Σ_l X_l
+        return field;
+    }
+
     private static ComplexMatrix HamiltonianSuper(ComplexMatrix h, int n)
     {
         int d = 1 << n;
@@ -309,13 +332,13 @@ public sealed class DiagonalWitness : IInspectable
         return set.ToList();
     }
 
-    private bool ParityConserved() => EvenOddBlockMax() < 1e-12;
+    private bool ParityConserved() => EvenOddBlockMax(_LH) < 1e-12;
 
-    private double EvenOddBlockMax()
+    private double EvenOddBlockMax(ComplexMatrix lh)
     {
         var ld = Matrix<Complex>.Build.Dense(Dim, Dim);
         for (int m = 0; m < Dim; m++) ld[m, m] = new Complex(-2.0 * Gamma * _rung[m], 0);   // L_D diagonal
-        var l = _LH + ld;
+        var l = lh + ld;
         double worst = 0.0;
         for (int m = 0; m < Dim; m++)
             for (int nn = 0; nn < Dim; nn++)
