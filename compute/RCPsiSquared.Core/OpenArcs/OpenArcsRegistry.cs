@@ -56,7 +56,8 @@ public static class OpenArcsRegistry
                 "girth(l)/rung(k)/moment(j) is resolved: the two factors of one F87-hardness coefficient on " +
                 "M = A + gamma*Q, hinged by Q (spectrum = the rung, action = the girth-moment projector), " +
                 "P_{m,1} = m*Tr(Q*A^{m-1}) = the girth moments at every rung. TYPED: ThreeLadderHingeClaim " +
-                "(parents AbsorptionTheoremClaim + MomentTowerPumpChannelClaim); live inspect --root ladders.",
+                "(parents AbsorptionTheoremClaim + MomentTowerPumpChannelClaim); live inspect --root ladders. " +
+                "Synthesis writeup: docs/THE_THREE_DIAGONALS.md (the one diagonal as one of three).",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
@@ -98,7 +99,8 @@ public static class OpenArcsRegistry
                 "docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md sec.5 + PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md; " +
                 "compute/RCPsiSquared.Core/Symmetry/{MirrorGroupD4Claim, Pi2KleinV4DephaseSwapGroup, " +
                 "ThreeDephasingDiagonalsOrbitClaim}.cs; compute/RCPsiSquared.Diagnostics/Foundation/" +
-                "MirrorGroupWitness.cs (the D4 witness to extend); simulations/mirror_inventory_d4.py block H.",
+                "MirrorGroupWitness.cs (the D4 witness to extend); simulations/mirror_inventory_d4.py block H; " +
+                "docs/THE_THREE_DIAGONALS.md (the basis-S3 side, written up).",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

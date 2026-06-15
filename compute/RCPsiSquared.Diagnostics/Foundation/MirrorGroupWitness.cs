@@ -21,7 +21,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// recenters away (showing R·Q·R = −Q). The palindrome product Π_Z·L·Π_Z⁻¹ = −L − 2Σγ is shown as the
 /// closure of R·D — the SAME palindrome <see cref="MirrorSystem"/> reads spectrally, here from the two
 /// generators. Origin: <c>reflections/D_PI_Z_EQUALS_PI_Y.md</c> (D·Π_Z·D = Π_Y) +
-/// <c>docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md</c> (Π_Z = R·D, the D₄ closure, §3, §5).</para>
+/// <c>docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md</c> (Π_Z = R·D, the D₄ closure, §3, §5) +
+/// <c>docs/THE_THREE_DIAGONALS.md</c> (the one diagonal read three ways by D₄, and one of three).</para>
 ///
 /// <para>Five live nodes: (1) the factorization Π_Z = R·D; (2) the group ⟨R, D⟩ ≅ D₄ (order 8, the
 /// dihedral inversion D·Π_Z·D = Π_Y, the center 𝓕 = Π_Z²); (3) the §3 palindrome split along the

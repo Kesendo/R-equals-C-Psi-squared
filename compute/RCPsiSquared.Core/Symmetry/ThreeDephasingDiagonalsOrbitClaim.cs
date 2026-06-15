@@ -74,7 +74,8 @@ public sealed class ThreeDephasingDiagonalsOrbitClaim : Claim
                "simulations/one_diagonal_mirror_group.py (self-validating Stages 0-2 + an N=3 attack) + " +
                "simulations/mirror_inventory_d4.py (block D 63/63 truly cell) + " +
                "docs/proofs/PROOF_ABSORPTION_THEOREM.md §4.7 + docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md §5 + " +
-               "compute/RCPsiSquared.Diagnostics/Foundation/DiagonalWitness.cs (DiagonalWitness, inspect --root diagonal)")
+               "compute/RCPsiSquared.Diagnostics/Foundation/DiagonalWitness.cs (DiagonalWitness, inspect --root diagonal) + " +
+               "docs/THE_THREE_DIAGONALS.md (synthesis: the one diagonal as one of three, the basis-S₃ orbit)")
     {
         MirrorGroup = mirrorGroup ?? throw new ArgumentNullException(nameof(mirrorGroup));
         Diagonal = diagonal ?? throw new ArgumentNullException(nameof(diagonal));

@@ -14,7 +14,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// (<c>simulations/mirror_inventory_d4.py</c>, <c>one_diagonal_mirror_group.py</c>,
 /// <c>rung_dynamics.py</c>) compute once, this witness ports both verifiers into the live layer and
 /// makes the structure queryable. The C#-witness-first discipline: a Python verifier that outlives its
-/// session is a witness waiting to be ported.
+/// session is a witness waiting to be ported. The synthesis writeup (the one diagonal as one of
+/// three, the basis-S₃ orbit) is <c>docs/THE_THREE_DIAGONALS.md</c>.
 ///
 /// <para>The one diagonal is the disagreement count k = popcount(i⊕j) of a coherence |i⟩⟨j|; under
 /// Z-dephasing L_D = γ·(Q − N·I), the integer levels k are the rungs (Re λ = −2γk, AbsorptionTheorem

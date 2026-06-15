@@ -25,6 +25,7 @@ Every decay rate d pairs with 2Σγ - d.
 
 **Valid for:** Heisenberg, XY, Ising, XXZ, DM; Z-dephasing; any graph;
 any N; non-uniform γ per qubit. Two Π families (P1, P4).
+**See also:** [THE_THREE_DIAGONALS](THE_THREE_DIAGONALS.md) — the dissipator diagonal Q (whose levels carry the −2γ rate) is one of three, Q_X / Q_Y / Q_Z, one basis-S₃ orbit.
 **Breaks for:** depolarizing noise (error = (2/3)Σγ, linear in γ and N).
 **Replaces:** palindrome verification (54,118 eigenvalues at N=8).
 **Source:** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)

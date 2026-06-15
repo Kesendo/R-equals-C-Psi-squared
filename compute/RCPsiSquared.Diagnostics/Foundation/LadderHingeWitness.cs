@@ -20,6 +20,11 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// moments. So Q's SPECTRUM is the rung ladder, Q's ACTION is the girth-moment projector — the same
 /// operator is both ladders, and that is why the three meet.</para>
 ///
+/// <para>Sibling witnesses on the same dephasing diagonal Q: <see cref="DiagonalWitness"/> reads its
+/// rung spectrum (--root diagonal), <see cref="MirrorGroupWitness"/> its three D₄ readings
+/// (--root mirrorgroup); this one reads how Q weights the Hamiltonian. Context:
+/// <c>docs/THE_THREE_DIAGONALS.md</c>.</para>
+///
 /// <para>Five live nodes: (1) the hinge Q; (2) the bridge identity P_{m,1} = m·Tr(Q·A^{m−1}) = the girth
 /// moments (m=3, the cell-free face); (3) the per-rung decomposition (how each rung k contributes); (4)
 /// the rung is essential (remove Q → the moment projection is gone); (5) the general rung (m=5, not an
