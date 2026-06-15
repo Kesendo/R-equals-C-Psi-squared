@@ -3,6 +3,7 @@ using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Pauli;
+using RCPsiSquared.Core.Symmetry;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
@@ -84,24 +85,25 @@ public sealed class LadderHingeWitness : IInspectable
     // ============================ public live readouts ============================
     /// <summary>The F87 deg-1 hardness coefficient as the rung weighting A's closed walks:
     /// P_{m,1} = m·Tr(Q·A^{m−1}) = m·Σ_x (N−2k(x))·(A^{m−1})_xx.</summary>
-    public double RungWeightedCoefficient(int m) => m * Trace(_Q * MatrixPow(_A, m - 1)).Real;
+    public double RungWeightedCoefficient(int m) => m * (_Q * MatrixPow(_A, m - 1)).Trace().Real;
 
     /// <summary>The same coefficient as the girth moments: m·(−1)^k·Σ_l Σ_j (−1)^j C(2k,j) t_j(l) t_{2k−j}(l),
     /// k=(m−1)/2, t_j(l) = Tr(Z_l H^j) (the supertrace factorization, proof §4).</summary>
     public double GirthMomentCoefficient(int m)
     {
         int twoK = m - 1, k = twoK / 2;
-        var hPow = new ComplexMatrix[twoK + 1];
-        hPow[0] = ComplexMatrix.Build.DenseIdentity(D);
-        for (int j = 1; j <= twoK; j++) hPow[j] = hPow[j - 1] * _H;
+        var towers = new IReadOnlyList<double>[twoK + 1];   // towers[j][l] = t_j(l) = Tr(Z_l H^j), j ≥ 1
+        for (int j = 1; j <= twoK; j++) towers[j] = MomentTowerPumpChannelClaim.MomentTower(_H, j, N);
         double total = 0.0;
         for (int l = 0; l < N; l++)
         {
-            var zl = SiteZ(N, l);
-            var t = new double[twoK + 1];
-            for (int j = 0; j <= twoK; j++) t[j] = Trace(zl * hPow[j]).Real;
             double s = 0.0;
-            for (int j = 0; j <= twoK; j++) s += Sign(j) * Binom(twoK, j) * t[j] * t[twoK - j];
+            for (int j = 0; j <= twoK; j++)
+            {
+                double tj = j == 0 ? 0.0 : towers[j][l];
+                double tc = (twoK - j) == 0 ? 0.0 : towers[twoK - j][l];
+                s += Sign(j) * Binom(twoK, j) * tj * tc;   // t_0 = Tr(Z_l) = 0
+            }
             total += s;
         }
         return m * Sign(k) * total;
@@ -109,7 +111,7 @@ public sealed class LadderHingeWitness : IInspectable
 
     /// <summary>The coefficient with the rung weighting removed (Q → I): m·Tr(A^{m−1}). It does NOT equal
     /// the girth-moment form — the rung is essential to the projection.</summary>
-    public double RungLessCoefficient(int m) => m * Trace(MatrixPow(_A, m - 1)).Real;
+    public double RungLessCoefficient(int m) => m * MatrixPow(_A, m - 1).Trace().Real;
 
     /// <summary>|rung-weighted − girth-moment| at moment m: the bridge identity dev (the gate).</summary>
     public double BridgeIdentityDev(int m) => Math.Abs(RungWeightedCoefficient(m) - GirthMomentCoefficient(m));
@@ -219,8 +221,6 @@ public sealed class LadderHingeWitness : IInspectable
         return acc;
     }
 
-    private static ComplexMatrix SiteZ(int n, int l) => PauliString.SiteOp(n, l, PauliLetter.Z);
-
     private static int[] RungLabels(int n)
     {
         int d = 1 << n;
@@ -237,13 +237,6 @@ public sealed class LadderHingeWitness : IInspectable
         var r = Matrix<Complex>.Build.DenseIdentity(a.RowCount);
         for (int i = 0; i < p; i++) r *= a;
         return r;
-    }
-
-    private static Complex Trace(ComplexMatrix a)
-    {
-        Complex t = Complex.Zero;
-        for (int i = 0; i < a.RowCount; i++) t += a[i, i];
-        return t;
     }
 
     private static double Sign(int j) => (j & 1) == 0 ? 1.0 : -1.0;

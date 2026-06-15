@@ -173,7 +173,7 @@ public sealed class ThreeLadderHingeClaim : Claim
     // ============================ dense building blocks (row-stacking vec, kron(A,B): ρ↦AρBᵀ) ============================
     /// <summary>P_{m,1} as the rung weighting A's closed walks: m·Tr(Q·A^{m−1}).</summary>
     private static double RungWeighted(ComplexMatrix h, int n, int m) =>
-        m * Trace(Q(n) * MatrixPower(CommSuper(h, n), m - 1)).Real;
+        m * (Q(n) * MatrixPower(CommSuper(h, n), m - 1)).Trace().Real;
 
     /// <summary>P_{m,1} as the girth moments: m·(−1)^k·Σ_l Σ_j (−1)^j C(2k,j) t_j(l) t_{2k−j}(l), k=(m−1)/2,
     /// using the typed parent's moment-tower primitive for t_j (j ≥ 1; t_0 = Tr(Z_l) = 0).</summary>
@@ -199,10 +199,10 @@ public sealed class ThreeLadderHingeClaim : Claim
 
     /// <summary>The coefficient with the rung weighting removed (Q → I): m·Tr(A^{m−1}).</summary>
     private static double RungLess(ComplexMatrix h, int n, int m) =>
-        m * Trace(MatrixPower(CommSuper(h, n), m - 1)).Real;
+        m * MatrixPower(CommSuper(h, n), m - 1).Trace().Real;
 
     private static double SingleSiteZCoeff(ComplexMatrix h, int n, int l) =>
-        Trace(h * Embed(PauliZ(), l, n)).Real / (1 << n);
+        (h * Embed(PauliZ(), l, n)).Trace().Real / (1 << n);
 
     /// <summary>A = −i[H,·] = −i(H⊗I − I⊗Hᵀ) on the 4^N coherence space.</summary>
     private static ComplexMatrix CommSuper(ComplexMatrix h, int n)
@@ -226,24 +226,17 @@ public sealed class ThreeLadderHingeClaim : Claim
     }
 
     /// <summary>H = Σ_l Z_l (uniform field, c_l = 1) + 0.5·Σ_b (X_b X_{b+1} + Y_b Y_{b+1}).</summary>
-    private static ComplexMatrix BuildH(int n)
-    {
-        int d = 1 << n;
-        var h = ComplexMatrix.Build.Dense(d, d);
-        for (int l = 0; l < n; l++) h += Embed(PauliZ(), l, n);
-        for (int b = 0; b < n - 1; b++)
-        {
-            var xx = Embed(PauliX(), b, n) * Embed(PauliX(), b + 1, n);
-            var yy = Embed(PauliY(), b, n) * Embed(PauliY(), b + 1, n);
-            h += (xx + yy).Multiply(new Complex(0.5, 0));
-        }
-        return h;
-    }
+    private static ComplexMatrix BuildH(int n) => BuildChain(n, includeZField: true);
 
-    private static ComplexMatrix HoppingOnly(int n)
+    /// <summary>The soft / bipartite control: pure XY hopping, no single-site-Z (c_l = 0).</summary>
+    private static ComplexMatrix HoppingOnly(int n) => BuildChain(n, includeZField: false);
+
+    private static ComplexMatrix BuildChain(int n, bool includeZField)
     {
         int d = 1 << n;
         var h = ComplexMatrix.Build.Dense(d, d);
+        if (includeZField)
+            for (int l = 0; l < n; l++) h += Embed(PauliZ(), l, n);
         for (int b = 0; b < n - 1; b++)
         {
             var xx = Embed(PauliX(), b, n) * Embed(PauliX(), b + 1, n);
@@ -288,13 +281,6 @@ public sealed class ThreeLadderHingeClaim : Claim
         var r = ComplexMatrix.Build.DenseIdentity(a.RowCount);
         for (int i = 0; i < p; i++) r *= a;
         return r;
-    }
-
-    private static Complex Trace(ComplexMatrix a)
-    {
-        Complex t = Complex.Zero;
-        for (int i = 0; i < a.RowCount; i++) t += a[i, i];
-        return t;
     }
 
     private static double Sign(int j) => (j & 1) == 0 ? 1.0 : -1.0;
