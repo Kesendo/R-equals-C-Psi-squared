@@ -29,7 +29,8 @@ def L_se_sparse(N, J, g):
 
 def slow_im(N, J, g, k=8):
     """max|Im| over the slowest non-zero cluster, via shift-invert. The resummed-ladder dispersion
-    lambda^2 + 8g lambda + 4J^2 q^2 = 0 puts the slow mode at Re = -4g, so target sigma = -4g."""
+    lambda^2 + 8g lambda + 4J^2 q^2 = 0 puts the slow mode near Re = -4g (asymptotically; at finite N it sits
+    between -2g and -4g). We shift to sigma = -2g, just inside the slow cluster (see below)."""
     L = L_se_sparse(N, J, g)
     sigma = -2.0 * g   # between the kernel (0) and the slow mode (-4g): near it, but not ON it (singular)
     kk = min(k, N * N - 2)

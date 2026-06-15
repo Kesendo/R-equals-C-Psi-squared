@@ -4,6 +4,22 @@
 **Date:** 2026-06-15
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 
+## What this is about
+
+A spin chain hums. Left alone, its slowest collective mode oscillates: a coherence that rings like a struck string. Add local noise, the dephasing, and the ringing slows; past a certain point it stops altogether, the mode just fading with no beat left. The Coherence Horizon is the tipping point between the two: how strong the coupling has to be, set against the noise, for the slowest mode to still ring.
+
+The one question here is how that tipping point moves as the chain grows longer. A longer chain's slowest mode is a slower, more sluggish swing, and a slow swing is easier for the noise to kill, so a longer chain needs proportionally stronger coupling to keep ringing. That required strength, the horizon, climbs with length in the cleanest way there is: a straight line, rising in lockstep with the number of sites.
+
+This proof pins the exact steepness of that line. The subtlety it settles: a quick, near-sighted accounting that watches only a coherence and its nearest neighbour gets the steepness wrong; you have to follow the whole ladder of longer-range coherences to land on the true value. Everything below is that calculation.
+
+## Abstract
+
+The Coherence Horizon Q*(N) is the dephasing dose at which the slowest single-excitation Liouvillian mode of an XY chain stops oscillating, a square-root exceptional point. At N = 2, 3 the coalescing pair is a clean 2×2 (Q* = 1, √2 exactly); for N ≥ 4 it is collectively dressed and the exact condition is transcendental, leaving only the asymptotic growth to pin down.
+
+This proof pins it. The slow mode is not the two-field (population + nearest-neighbour current) telegrapher one might write down; it is a population coupled to the **entire ladder of coherence ranges** r = j − i. Resumming that geometric ladder gives the dispersion λ² + 8γλ + 4J²q², with both coefficients doubled relative to the nearest-neighbour-truncated telegrapher λ² + 4γλ + 2J²q². The exceptional point (vanishing discriminant) sits at γ* = Jq/2; the horizon is the longest-wavelength mode, q_min → π/N, so Q*(N) = 2/q_min → (2/π)·N, slope exactly 2/π.
+
+The doubling is the whole story: the truncated telegrapher predicts the wrong slope √2/π ≈ 0.450, while the numerics (dense to N = 30, sparse shift-invert to N = 120) approach 2/π ≈ 0.637 from below with the predicted O(1/N) tail, decisively excluding √2/π. The ring sibling (q_min = 2π/N) gives exactly half, 1/π.
+
 ## Statement
 
 The Coherence Horizon Q*(N) (the dephasing dose Q = J/γ at which the slowest non-zero single-excitation
@@ -86,10 +102,12 @@ last to freeze as Q drops), q_min → π/N for the chain, so
 2. **The 8γ coefficient, directly (the discriminator).** Two independent reads of L_se confirm 8γ over the
    telegrapher's 4γ. (a) In the overdamped regime the slow eigenvalue is a clean real number; fed back
    through λ²+8γλ+4J²q²=0 it yields a γ-constant q² (coefficient of variation 0.008 across γ), whereas the
-   4γ telegrapher form scatters 3.6× worse (0.030): the resummed dispersion is the fixed mode. (b) The
-   coalescing-pair trace −2Re(λ)/γ climbs monotonically toward 8 (7.18 at N=24, 7.71 at N=60) with no mode
-   anywhere near 4. Incidentally, placing the shift-invert shift at σ = −4γ makes the factorization exactly
-   singular: the slow mode sits precisely there.
+   4γ telegrapher form scatters 3.6× worse (0.030): the resummed dispersion is the fixed mode. (b) Corroboratively, the coalescing-pair rate −2Re(λ)/γ at the EP
+   equals the linear dispersion coefficient: it grows from 4 at N=2,3 (the short ladder λ²+4γλ, double root at
+   −2γ) toward the full-ladder value 8 (λ²+8γλ, double root at −4γ) as N → ∞, reaching ≈6 at N=60. This metric
+   is mode-selection sensitive near the horizon, where the γ-protected band-edge survivor co-locates at Re=−2γ
+   (metric 4), so it corroborates the 4γ → 8γ doubling rather than cleanly discriminating it; the
+   selection-robust discriminator is (a).
 3. **q_min·N → π.** From Q* = 2/q_min, the data give q_min·N = 2N/Q* decreasing monotonically toward π
    (3.86 at N=12, 3.58 at N=28, 3.32 at N=120), i.e. Q*/N → 2/π from below.
 
@@ -97,7 +115,7 @@ last to freeze as Q drops), q_min → π/N for the chain, so
 
 The single-excitation EP, by dense eigendecomposition (N ≤ 30) and sparse shift-invert (N ≤ 120,
 `coherence_horizon_slope.py` / the SE block in `coherence_horizon_se_block.py`). The discrete slope
-dQ* = Q*(N) − Q*(N−1) climbs monotonically toward 2/π from below:
+dQ* = ΔQ*/ΔN (the secant over the sampled N below, not a unit step) climbs monotonically toward 2/π from below:
 
     N      Q*         Q*/N      dQ*(secant)
     10     5.07008    0.50701   0.5578
@@ -135,9 +153,22 @@ geometric resummation, recovering the discrete accident.
 Round 1 (2026-06-15, independent adversarial agent, physics-first): **GO**. Re-derived the dispersion in
 sympy (the m₋₁ = −μ·m₀ left-ladder sign and the r=0 closure confirmed; the eigenvector's r=+1 / r=−1
 amplitude ratio is −1.0000 at every N, no error coincidentally producing 2/π). Ran the 8γ discriminator
-independently: −2Re(λ)/γ for the slow mode climbs 7.18 (N=24) → 7.71 (N=60) with no mode near 4, decisively
+independently: −2Re(λ)/γ for the slow mode climbs 7.18 (N=24) → 7.71 (N=60) with no mode near 4 [superseded —
+Round 2: these −2Re/γ figures are a mode-selection artifact; the metric runs 4→8], decisively
 excluding the 4γ telegrapher (slope √2/π). Iterated Richardson on the slope → 0.6363 = 2/π. Confirmed
 chain-specific (built the ring: slope → 1/π, half the chain, exactly as q_min = 2π/N vs π/N predicts).
 Caveat banked: extrapolation alone is inconclusive at N ≤ 70 (low-order fits land 0.617–0.633); the value is
 fixed by the 8γ derivation, not the fit. The overdamped diffusion constant D = J²/2γ is shared by both the 4γ
 and 8γ models, so it is NOT the discriminator (the EP / conjugate-pair-sum is), stated in cross-check #1.
+
+Round 2 (2026-06-15, physics-first re-review: every load-bearing number re-derived independently + both
+verifiers re-run; second reviewer + Tom): **GO; one required fix applied.** Reconfirmed independently: the
+dispersion λ²+8γλ+4J²q² (including the left-ladder sign m₋₁=−μ·m₀), the EP γ*=Jq/2, the slope 2/π, the √2/π
+refutation via the robust CV discriminator (cross-check 2a, CV 0.0084 vs 0.0303), the ring 1/π, the N=2,3
+closed forms, and the entire N≤120 table (to 5 decimals). The fix: Round 1's cross-check (b) figures
+(−2Re(λ)/γ = 7.18 → 7.71, "no mode near 4") were a mode-selection artifact. The metric is a pure (Q,N)
+observable (verified J-independent) whose EP value equals the linear dispersion coefficient: 4 at N=2,3
+(short ladder, double root −2γ), climbing to 8 as N→∞ (full ladder, −4γ), ≈6 at N=60; the γ-protected
+survivor sits at metric 4, so it corroborates the 4γ→8γ doubling but does not cleanly discriminate it (that
+is 2a's role). Cross-check (b) rewritten accordingly; the OpenArcs note and the dQ* label corrected. Both
+verifiers (coherence_horizon_slope.py, _largeN.py) never used the fragile metric and remain green.
