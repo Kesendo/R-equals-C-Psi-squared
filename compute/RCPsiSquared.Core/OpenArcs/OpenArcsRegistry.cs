@@ -49,9 +49,14 @@ public static class OpenArcsRegistry
                 "ThreeDephasingDiagonalsOrbitClaim (Tier1Derived, dual parents MirrorGroupD4Claim + " +
                 "AbsorptionTheoremClaim = the physics edge that WELDS the two clusters, previously joined only " +
                 "at d^2-2d=0; live battery 7/7, registration test 4/4 green; knowledge ancestors confirms both " +
-                "parents). STILL OPEN (sibling arc, out of scope here): the Hamiltonian DYNAMICS on the rungs " +
-                "(how L_H connects disagreement levels k<->k+-1 - the complementary depth behind hard/soft and " +
-                "the handover).",
+                "parents). SIBLING ARC RESOLVED 2026-06-15: the Hamiltonian DYNAMICS on the rungs is the " +
+                "EVEN-step ladder L_H : k<->k,k+-2 (NOT k+-1 - a hop flips two bits), so the disagreement-count " +
+                "parity is conserved (the U(1) feature, now a TESTED fact: a transverse field adds the odd step " +
+                "k+-1 and breaks it, DiagonalWitness counter-case). And the three-ladder bridge " +
+                "girth(l)/rung(k)/moment(j) is resolved: the two factors of one F87-hardness coefficient on " +
+                "M = A + gamma*Q, hinged by Q (spectrum = the rung, action = the girth-moment projector), " +
+                "P_{m,1} = m*Tr(Q*A^{m-1}) = the girth moments at every rung. TYPED: ThreeLadderHingeClaim " +
+                "(parents AbsorptionTheoremClaim + MomentTowerPumpChannelClaim); live inspect --root ladders.",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

@@ -542,6 +542,12 @@ public static class InspectCommand
             c => new MirrorGroupWitness(c.Parser.HasFlag("N") ? c.N : 3,
                                         c.Parser.OptionalDouble("gamma") ?? 0.05),
             RequiresN: false, HonorsOptionalN: true),
+        new("ladders", "the three-ladder hinge, live: girth(ℓ)/rung(k)/moment(j) are not three orthogonal " +
+            "axes but the two factors of one F87-hardness coefficient on M = A + γQ, hinged by Q (its spectrum " +
+            "is the rung k = N−2k; its action Σ Z_l⊗Z_l projects A's closed walks onto the girth moments). " +
+            "P_{m,1} = m·Tr(Q·A^{m−1}) = the girth moments, at every rung (typed: ThreeLadderHingeClaim)",
+            c => new LadderHingeWitness(c.Parser.HasFlag("N") ? c.N : 3),
+            RequiresN: false, HonorsOptionalN: true),
         new("world", "the whole Object Manager: every root, the typed claims, the hardware confirmations, the open-arcs ledger, and the glossary (try --root glossary first if the language is new)",
             BuildWorldRoot, DefaultDepth: 2, RequiresN: false),
     };

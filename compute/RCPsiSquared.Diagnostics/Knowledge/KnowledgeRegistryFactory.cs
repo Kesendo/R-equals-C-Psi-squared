@@ -534,6 +534,11 @@ public static class KnowledgeRegistryFactory
             // both registered above; the Diagnostics girth-ladder primitive stays a
             // prose edge (compute primitive, not a Claim).
             .RegisterMomentTowerPumpChannelClaim()
+            // The three-ladder hinge (Tier1Derived, 2026-06-15): girth(ℓ)/rung(k)/moment(j) are the two
+            // factors of one F87-hardness coefficient on M = A + γQ, hinged by Q (spectrum = the rung,
+            // action = the girth-moment projector). Parents AbsorptionTheoremClaim (the rung) +
+            // MomentTowerPumpChannelClaim (the moments), both registered above. Live: inspect --root ladders.
+            .RegisterThreeLadderHingeClaim()
             // Polarity cube map (cubic Z₂³ architecture inventory; aggregates every IZ2AxisClaim)
             // Must come AFTER every Pi²-Inheritance Claim registration above so its b.Get<T>()
             // dependencies resolve. Currently snapshot-only; rebuild registry to refresh.
