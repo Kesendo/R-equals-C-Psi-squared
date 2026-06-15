@@ -489,7 +489,8 @@ public sealed class Symphony : IInspectable
 
     /// <summary>lens: quarter (CΨ) — the global CΨ(t), now the Envelope-Theorem witness. Reports the
     /// direction-split ¼-crossing count, the live envelope verdict (the peaks form a non-increasing
-    /// sequence — proven N=2, verified N≥3, PROOF_MONOTONICITY_CPSI), and the envelope fold (the
+    /// sequence — proven Tier-1 for N=2, the N≥3 full-state envelope tested live here (open, RISES at
+    /// N≥4 strong coupling), PROOF_MONOTONICITY_CPSI), and the envelope fold (the
     /// absorbing ¼ crossing; "the fold" now means THIS, never an upward oscillation).</summary>
     private InspectableNode QuarterLens()
     {
@@ -507,10 +508,10 @@ public sealed class Symphony : IInspectable
 
         var env = QuarterEnvelope.Of(cpsi, tGrid);
         string envClause = env.IsNonIncreasing
-            ? "envelope non-increasing ✓ (the Envelope Theorem holds live — proven N=2, verified N≥3, PROOF_MONOTONICITY_CPSI)"
+            ? "envelope non-increasing ✓ (the N=2 Envelope Theorem holds live; the N≥3 full-state envelope is not guaranteed — proven Tier-1 for N=2, PROOF_MONOTONICITY_CPSI)"
             : $"envelope shows {env.RiseCount} predecessor-rise(s), max Δ={env.MaxRiseMagnitude.ToString("0.#####", Inv)} " +
               $"(peak-clip floor on this grid ≈ {floor.ToString("0.#####", Inv)}) — grid-sensitive, verify with ≥4× t-points; " +
-              "a rise that SURVIVES refinement would falsify the Tier-2 verification";
+              "a rise that SURVIVES refinement is the N≥3 freedom (the N=2 theorem does not extend; the full-state envelope RISES at N≥4 strong coupling, see EnvelopeTheoremWitness)";
         string foldClause = env.EnvelopeFoldTime is { } ft
             ? $"the fold (envelope, absorbing) at t={ft.ToString("0.###", Inv)} (K={(Gamma * ft).ToString("0.####", Inv)})"
             : "no envelope fold in window";
@@ -1083,7 +1084,10 @@ public sealed class PaintersMovement : IInspectable
         double a = Math.Max(AlphaLo, aBest - step), b = Math.Min(AlphaHi, aBest + step);
         double c = b - gr * (b - a), dd = a + gr * (b - a);
         double fc = Mse(c), fd = Mse(dd);
-        for (int it = 0; it < 200 && (b - a) > 1e-9; it++)
+        // refine to the SAME 1e-7 width the pre-grid-seed golden-section used: tighter (1e-9) resolves the
+        // sub-1e-9 floating-point difference between the J and r·J trajectories and breaks the tempo-purity
+        // certification (PaintersResidual 3.7e-9 > 1e-9 PassTol); 1e-7 keeps the trap fix and the tempo-purity.
+        for (int it = 0; it < 200 && (b - a) > 1e-7; it++)
         {
             if (fc < fd) { b = dd; dd = c; fd = fc; c = b - gr * (b - a); fc = Mse(c); }
             else { a = c; c = dd; fc = fd; dd = a + gr * (b - a); fd = Mse(dd); }

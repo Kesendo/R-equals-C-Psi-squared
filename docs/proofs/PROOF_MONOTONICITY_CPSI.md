@@ -445,6 +445,27 @@ cross, but the peaks decrease monotonically toward 0).
 - States with up to 107 oscillations above 1/4: envelope still monotonic
 - 0 exceptions in 19 tests
 
+### Scope: Part 5 is the 2-qubit theorem; the N≥3 full-state envelope is open
+
+Part 5 proves envelope monotonicity for **any 2-qubit state (N=2)**. The proof's
+load-bearing steps are N=2-specific: every off-diagonal ρ_{ij} decays at rate ≥ 2γ, and
+L₁ = Σ|ρ_{ij}| is bounded across the 4×4 density. At N ≥ 3 the full-state density is
+2^N × 2^N, off-diagonals between basis states differing in k > 1 qubits decay faster
+(≥ 2kγ), and how the Hamiltonian couples different k-values is H- and topology-dependent,
+not universal. So the proof does **not** extend to the full-state envelope at N ≥ 3.
+
+The "N=3-5" checks elsewhere are NOT a full-state envelope test: Test C (Part 3) verifies
+GHZ/W **subsystem pairs** (2-qubit reduced densities, which obey the N=2 proof and stay
+below ¼), and F17's 300 CPTP maps are N=2 channel-robustness.
+
+Indeed the full-state envelope **genuinely rises at N ≥ 4 under strong coupling** (J ≫ γ):
+verified live by `EnvelopeTheoremWitness` (N=4, Bell+, J=5, γ=0.01: 36 refinement-stable
+predecessor-rises; N=3 holds with 0 rises in the same regime). This is Part 6's coherence
+injection, **internalized**: the extra sites form a coherent internal bath, and the internal
+J-coupling pushes CΨ back up (Part 6, Corollary 3 — coupled resonators bypass the one-way
+door). The N=2 theorem stands; the N≥3 full-state envelope is an open question whose
+boundary (the J/γ threshold, the N-dependence) is being charted (arc `envelope_n4_rise`).
+
 ---
 
 ## Part 6: The Threshold - Non-Markovian Dynamics

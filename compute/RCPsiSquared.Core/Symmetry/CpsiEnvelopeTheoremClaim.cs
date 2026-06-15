@@ -3,17 +3,22 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>The CΨ Envelope Theorem in the typed graph: under any Hamiltonian + local Z-dephasing the
-/// local maxima of the FULL-state CΨ form a strictly non-increasing sequence (¼ is the absorbing
-/// boundary). Proven for 2-qubit states, Tier-2 verified N=3-5 (PROOF_MONOTONICITY_CPSI). The reduced
-/// carrier-pair CΨ is explicitly OUTSIDE the theorem — its beat envelope can genuinely RISE (the
-/// freedom), which the live <c>EnvelopeTheoremWitness</c> demonstrates.
+/// <summary>The CΨ Envelope Theorem in the typed graph: for any 2-qubit state (N=2) under any
+/// Hamiltonian + local Z-dephasing the local maxima of CΨ form a strictly non-increasing sequence
+/// (¼ is the absorbing boundary) — proven Tier-1 (PROOF_MONOTONICITY_CPSI Part 5). The N≥3 FULL-state
+/// envelope is OPEN: the earlier "verified N=3-5" was channel-monotonicity + GHZ/W subsystem-PAIRS
+/// (2-qubit reduced densities staying below ¼), NOT a full-state envelope test. At N≥4 strong coupling
+/// (J≫γ) the full-state envelope GENUINELY RISES (the live <c>EnvelopeTheoremWitness</c>): the internal
+/// J-coupling acts as the Part-6 coherence injector (Corollary 3, coupled resonators), internalized;
+/// N=3 holds in the same regime. The reduced carrier-pair CΨ is likewise outside the N=2 theorem — its
+/// beat envelope rises (the freedom).
 ///
 /// <para>Two typed parent edges: <see cref="F25CPsiBellPlusPi2Inheritance"/> (the 2-qubit Bell+ closed
 /// form the proof's base case rests on) and <see cref="QuarterAsBilinearMaxvalClaim"/> (¼ as the
 /// bilinear maxval, the absorbing boundary).</para>
 ///
-/// <para>Anchors: <c>docs/proofs/PROOF_MONOTONICITY_CPSI.md</c> +
+/// <para>Anchors: <c>docs/proofs/PROOF_MONOTONICITY_CPSI.md</c> (Part 5 the 2-qubit theorem, Part 6 +
+/// Corollary 3 the coherence-injection mechanism) +
 /// <c>compute/RCPsiSquared.Diagnostics/Foundation/QuarterEnvelope.cs</c> +
 /// <c>compute/RCPsiSquared.Diagnostics/Foundation/EnvelopeTheoremWitness.cs</c>.</para></summary>
 public sealed class CpsiEnvelopeTheoremClaim : Claim
@@ -27,10 +32,13 @@ public sealed class CpsiEnvelopeTheoremClaim : Claim
     public CpsiEnvelopeTheoremClaim(
         F25CPsiBellPlusPi2Inheritance f25,
         QuarterAsBilinearMaxvalClaim quarter)
-        : base("Under any Hamiltonian + local Z-dephasing the local maxima of the full-state CΨ form a " +
-               "strictly non-increasing sequence (the Envelope Theorem); ¼ is the absorbing boundary. " +
-               "Proven for 2-qubit states, Tier-2 verified N=3-5. The reduced-subsystem CΨ is explicitly " +
-               "NOT covered — its beat envelope can rise (the freedom).",
+        : base("For any 2-qubit state (N=2) under any Hamiltonian + local Z-dephasing the local maxima of " +
+               "CΨ form a strictly non-increasing sequence (the Envelope Theorem); ¼ is the absorbing " +
+               "boundary. Proven Tier-1 for N=2 (Part 5). The N≥3 full-state envelope is OPEN: the earlier " +
+               "'verified N=3-5' was channel-monotonicity + GHZ/W subsystem-pairs (2-qubit reduced), NOT a " +
+               "full-state envelope test; at N≥4 strong coupling it GENUINELY RISES (witness: the internal " +
+               "J-coupling is the Part-6 coherence injector; N=3 holds). The reduced-subsystem CΨ likewise " +
+               "rises (the freedom).",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_MONOTONICITY_CPSI.md + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/QuarterEnvelope.cs + " +
@@ -54,25 +62,30 @@ public sealed class CpsiEnvelopeTheoremClaim : Claim
     public static CpsiEnvelopeTheoremClaim Shared { get; } = Build();
 
     public override string DisplayName =>
-        "CΨ Envelope Theorem (full-state peaks non-increasing — proven N=2 / verified N≥3; the reduced pair escapes: the freedom)";
+        "CΨ Envelope Theorem (2-qubit peaks non-increasing — proven Tier-1 for N=2; N≥3 OPEN, RISES at N≥4 strong coupling; the reduced pair escapes: the freedom)";
 
     public override string Summary =>
-        "the local maxima of the full-state CΨ form a non-increasing sequence under any H + local Z-dephasing " +
-        "(¼ absorbing; proven 2-qubit, verified N=3-5); the reduced carrier-pair CΨ is NOT covered and its beat " +
-        $"envelope can rise (the freedom) — see EnvelopeTheoremWitness ({Tier.Label()})";
+        "for any 2-qubit state the local maxima of CΨ form a non-increasing sequence under any H + local " +
+        "Z-dephasing (¼ absorbing; proven Tier-1 for N=2). The N≥3 full-state envelope is OPEN and GENUINELY " +
+        "RISES at N≥4 strong coupling (internal J = the Part-6 injector; N=3 holds); the reduced carrier-pair " +
+        $"also rises (the freedom) — see EnvelopeTheoremWitness ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
-            yield return new InspectableNode("the theorem (global, full state)",
-                summary: "under any Hamiltonian + local Z-dephasing the local maxima of CΨ form a strictly " +
-                         "non-increasing sequence; ¼ is the absorbing boundary. Proven for 2-qubit states " +
-                         "(PROOF_MONOTONICITY_CPSI), Tier-2 verified N=3-5.");
+            yield return new InspectableNode("the theorem (2-qubit, proven) + the N≥3 boundary (open)",
+                summary: "for any 2-qubit state under any Hamiltonian + local Z-dephasing the local maxima of CΨ " +
+                         "form a strictly non-increasing sequence (¼ absorbing) — proven Tier-1 for N=2 " +
+                         "(PROOF_MONOTONICITY_CPSI Part 5). The N≥3 full-state envelope is OPEN: the 'verified " +
+                         "N=3-5' was channel-monotonicity + GHZ/W subsystem-pairs (2-qubit reduced), not a " +
+                         "full-state test; at N≥4 strong coupling it RISES (witness; internal J = the Part-6 " +
+                         "injector, Corollary 3; N=3 holds).");
             yield return new InspectableNode("the boundary (the freedom)",
                 summary: "reduced subsystems escape the theorem: the carrier-pair CΨ is a reduced open " +
                          "subsystem with no such guarantee, and its beat envelope can genuinely RISE (beating). " +
-                         "The live EnvelopeTheoremWitness shows global = 0 rises vs the reduced pair rising.");
+                         "The live EnvelopeTheoremWitness shows global = 0 rises at N=3 vs the full state rising " +
+                         "at N≥4 (and the reduced pair rising).");
             yield return F25;
             yield return Quarter;
         }

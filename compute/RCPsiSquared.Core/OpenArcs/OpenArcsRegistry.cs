@@ -439,7 +439,18 @@ public static class OpenArcsRegistry
             Opened: "2026-06-12",
             Origin: "EnvelopeTheoremWitness, day one: inspect --root envelope --N 4 fired the honest branch",
             ParkedAt: "the full-state CPsi envelope GENUINELY RISES at N=4 (Bell+, J=5, gamma=0.01): 36 apex-predecessor rises, refinement-stable to 5 decimals (t=4.14: 0.04132 at 1600 and 6400 pts), 2-4% magnitudes, two independent implementations agree; N=3 holds in the same regime (0 rises, three densities). NOT a falsification of the proof: the Envelope Theorem is proven for N=2 only, and the Tier-2 'N=3-5' verification covered channel monotonicity / GHZ-W subsystems, not the H-included envelope at strong coupling; the over-broad paraphrase lived in our claim/lens text. Mechanism = the proof's own Part 6, internalized: internal J-coupling is its own coherence injector",
-            NextStep: "re-scope CpsiEnvelopeTheoremClaim + lens text + a precise Parts-4/5 scope note in PROOF_MONOTONICITY_CPSI; fix the witness root Summary CONFIRMS branch at N=4; then chart the boundary with the witness (why does N=3 hold and N=4 break; J-threshold at N=4; gamma ~ J)",
+            NextStep: "RE-SCOPE DONE 2026-06-15: the over-broad 'verified N=3-5' is corrected to 'proven Tier-1 " +
+                "for any 2-qubit state (N=2); the N≥3 full-state envelope is OPEN and GENUINELY RISES at N≥4 strong " +
+                "coupling (internal J-coupling = the Part-6 coherence injector, Corollary 3 internalized; N=3 holds)' " +
+                "across CpsiEnvelopeTheoremClaim (+ its test), the Symphony quarter-lens (3 spots), F17, and a " +
+                "witness node; a Parts-4/5 scope note was added to PROOF_MONOTONICITY_CPSI (the r_{ij}≥2γ off-diag " +
+                "bound + the 4×4 density structure are N=2-specific; at N≥3 the decay is H/topology-dependent). The " +
+                "witness root Summary was already honest (bc59bc8). En route, caught + fixed a committed FitAlpha " +
+                "regression (the ptf_painter_pipeline grid-seed's 1e-9 refine broke the tempo-purity certification, " +
+                "PaintersResidual 3.7e-9 > 1e-9 PassTol; reverted the refine to 1e-7, keeping the trap fix). " +
+                "REMAINING (the only open piece): chart the boundary — sweep (N=3,4,5 at J=5,γ=0.01; J at N=4 for " +
+                "J_c; γ at N=4 for the Q=J/γ threshold) via Symphony + QuarterEnvelope.Of to find where the " +
+                "N=3-holds/N=4-rises boundary sits and whether it is a sharp N-step or a J/γ contour.",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

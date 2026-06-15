@@ -19,8 +19,10 @@ public class CpsiEnvelopeTheoremClaimTests
     {
         var name = CpsiEnvelopeTheoremClaim.Shared.Name;
         Assert.Contains("non-increasing", name);
-        Assert.Contains("Proven for 2-qubit", name);
-        Assert.Contains("verified N=3-5", name);
+        Assert.Contains("2-qubit", name);          // proven scope, narrowed from the over-broad "N=3-5"
+        Assert.Contains("N=2", name);
+        Assert.Contains("OPEN", name);             // the N≥3 full-state envelope is open
+        Assert.Contains("RISES", name);            // and genuinely rises at N≥4 strong coupling
         Assert.Contains("reduced", name);
         Assert.Contains("freedom", name);
     }

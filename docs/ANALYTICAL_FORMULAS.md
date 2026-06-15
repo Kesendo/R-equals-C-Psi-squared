@@ -737,12 +737,16 @@ Boundary at CΨ = 1/4 (discriminant of fixed-point equation).
 
 **Source:** [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md)
 
-### F17. CΨ monotonicity (Tier 1, proven)
+### F17. CΨ monotonicity (Tier 1, proven for N=2)
 
-    dCPsi/dt < 0  for all local Markovian channels
+    dCPsi/dt < 0  for all local Markovian channels (2-qubit)
 
-Envelope theorem for arbitrary states. 300 random CPTP maps, 0
-exceptions. CΨ is Pauli-invariant (DD cannot change it).
+Envelope theorem for any 2-qubit state (N=2): 300 random CPTP maps, 0
+exceptions; CΨ is Pauli-invariant (DD cannot change it). The N≥3 FULL-state
+envelope is OPEN and genuinely RISES at N≥4 strong coupling (the internal
+J-coupling is the Part-6 coherence injector; live `EnvelopeTheoremWitness`,
+arc `envelope_n4_rise`) — the "N=3-5" checks were subsystem pairs, not the
+full-state envelope.
 
 **Source:** [CΨ Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
 

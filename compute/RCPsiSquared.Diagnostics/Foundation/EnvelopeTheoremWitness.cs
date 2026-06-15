@@ -114,8 +114,8 @@ public sealed class EnvelopeTheoremWitness : IInspectable
             yield return new InspectableNode("the theorem (global, live)",
                 summary: $"full-state CΨ at N={N}, J={JStrong.ToString("0.#", Inv)}, γ={GammaStrong.ToString("0.###", Inv)}, " +
                          $"1600 pts: envelope RiseCount = {_globalBell.RiseCount} " +
-                         $"({(_globalBell.IsNonIncreasing ? "non-increasing ✓ — the Envelope Theorem holds live" : "RISES — unexpected, would falsify the Tier-2 verification")}). " +
-                         "Proven N=2, verified N≥3 (PROOF_MONOTONICITY_CPSI / CpsiEnvelopeTheoremClaim).");
+                         $"({(_globalBell.IsNonIncreasing ? "non-increasing ✓ — consistent with the N=2 theorem (N≥3 is not guaranteed)" : "RISES — the N≥3 full-state envelope is OPEN; at N≥4 strong coupling the internal J-coupling is the Part-6 coherence injector, NOT a falsification of the N=2 theorem")}). " +
+                         "Proven Tier-1 for N=2; N≥3 OPEN (PROOF_MONOTONICITY_CPSI Part 5 / CpsiEnvelopeTheoremClaim).");
 
             yield return new InspectableNode("the freedom (local carrier pair)",
                 summary: $"the reduced carrier-pair CΨ has no theorem and its beat envelope RISES: RiseCount = " +
