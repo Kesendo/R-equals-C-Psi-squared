@@ -9,6 +9,21 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 public class EnvelopeTheoremWitnessTests
 {
     [Fact]
+    public void GlobalRiseCount_StaticDetector_MatchesTheLiveWitness_NoDrift()
+    {
+        // The boundary sweep reuses a static detector lifted out of the witness; it must reproduce the
+        // witness's own live GlobalBell reading at the witness regime (J=5, γ=0.01, tMax=25, 1600 pts)
+        // exactly — N=3 holds (0), N=4 rises. If the two paths ever drift, the sweep stops measuring the
+        // same thing the witness shows.
+        foreach (int n in new[] { 3, 4 })
+        {
+            var w = new EnvelopeTheoremWitness(n);
+            int viaStatic = EnvelopeTheoremWitness.GlobalRiseCount(n, 5.0, 0.01, 25.0, 1600);
+            Assert.Equal(w.GlobalBell.RiseCount, viaStatic);
+        }
+    }
+
+    [Fact]
     public void Witness_AtN4_IsHonest_GlobalRefutes_ControlDoesNotFakeVanishing()
     {
         // The envelope_n4_rise finding: at N=4 the full-state envelope GENUINELY rises (refinement-stable).

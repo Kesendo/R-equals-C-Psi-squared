@@ -463,8 +463,16 @@ verified live by `EnvelopeTheoremWitness` (N=4, Bell+, J=5, γ=0.01: 36 refineme
 predecessor-rises; N=3 holds with 0 rises in the same regime). This is Part 6's coherence
 injection, **internalized**: the extra sites form a coherent internal bath, and the internal
 J-coupling pushes CΨ back up (Part 6, Corollary 3 — coupled resonators bypass the one-way
-door). The N=2 theorem stands; the N≥3 full-state envelope is an open question whose
-boundary (the J/γ threshold, the N-dependence) is being charted (arc `envelope_n4_rise`).
+door). The N=2 theorem stands; the N≥3 full-state envelope is an open question.
+
+Its boundary is now **charted** (arc `envelope_n4_rise`, `experiments/ENVELOPE_RISE_BOUNDARY.md`,
+gate-first `EnvelopeBoundaryTests`): it is **not** a sharp N-step and **not** a pure J/γ contour, but
+both, cleanly factored. (i) The rise is a pure **(N, Q=J/γ)** observable: the J-sweep and the γ-sweep
+give the bit-identical reading over a fixed dose window (the clock movement's (Q,K)-purity applied to
+the rise), so there is one Q-axis, not two. (ii) An **N≥4 floor**: N=3 holds non-increasing even at
+Q=2000 (one internal site cannot inject); the rise needs an internal ≥2-site coherent subsystem. (iii)
+Above the floor a threshold **Q_c(N) that climbs with N**: Q_c(4)≈27, Q_c(5)≈45, the rise strength at
+fixed Q falling with N (maxΔ N=4: 0.041 > N=5: 0.020 at Q=500).
 
 ---
 

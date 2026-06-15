@@ -746,7 +746,11 @@ exceptions; CΨ is Pauli-invariant (DD cannot change it). The N≥3 FULL-state
 envelope is OPEN and genuinely RISES at N≥4 strong coupling (the internal
 J-coupling is the Part-6 coherence injector; live `EnvelopeTheoremWitness`,
 arc `envelope_n4_rise`) — the "N=3-5" checks were subsystem pairs, not the
-full-state envelope.
+full-state envelope. The boundary is charted
+(`experiments/ENVELOPE_RISE_BOUNDARY.md`, `EnvelopeBoundaryTests`): a pure
+(N, Q=J/γ) observable (the J- and γ-sweeps collapse, certified bit-identical),
+an N≥4 floor (N=3 never rises, Q_c(3)=∞) times a threshold Q_c(N) that climbs
+with N (Q_c(4)≈27, Q_c(5)≈45).
 
 **Source:** [CΨ Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
 

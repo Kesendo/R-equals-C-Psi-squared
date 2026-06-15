@@ -60,9 +60,8 @@ public sealed class EnvelopeTheoremWitness : IInspectable
         var bell = new Symphony(n: N, j: JStrong, gamma: GammaStrong,
             initialState: InitialStateKind.BellPair, tMax: TMaxStrong, tPoints: FinePoints);
         var t = bell.TimeGrid.ToArray();
-        var globalCurve = bell.States.Select(Symphony.Cpsi).ToArray();
         var localCurve = bell.States.Select(bell.LocalCpsi).ToArray();
-        _globalBell = QuarterEnvelope.Of(globalCurve, t);
+        _globalBell = GlobalEnvelope(bell);   // the same core the static GlobalReading uses — no drift
         _localBell = QuarterEnvelope.Of(localCurve, t);
         _payloadT = t;
         _payloadCurve = localCurve;
@@ -78,6 +77,25 @@ public sealed class EnvelopeTheoremWitness : IInspectable
             initialState: init, tMax: TMaxStrong, tPoints: points);
         return QuarterEnvelope.Of(s.States.Select(s.LocalCpsi).ToArray(), s.TimeGrid.ToArray());
     }
+
+    /// <summary>The full-state (global) CΨ envelope on an already-evolved engine — the exact detector the
+    /// witness reads for its theorem child. A shared core so the live witness and the boundary sweep
+    /// cannot drift.</summary>
+    private static EnvelopeReading GlobalEnvelope(Symphony bell) =>
+        QuarterEnvelope.Of(bell.States.Select(Symphony.Cpsi).ToArray(), bell.TimeGrid.ToArray());
+
+    /// <summary>The global CΨ envelope reading for a Bell+ carrier at (<paramref name="n"/>,
+    /// <paramref name="j"/>, <paramref name="gamma"/>) over [0, <paramref name="tMax"/>] on
+    /// <paramref name="points"/> grid points — the witness's own detector, parameterised so the
+    /// envelope_n4_rise boundary sweep reuses it verbatim instead of re-deriving it.</summary>
+    public static EnvelopeReading GlobalReading(int n, double j, double gamma, double tMax, int points) =>
+        GlobalEnvelope(new Symphony(n: n, j: j, gamma: gamma,
+            initialState: InitialStateKind.BellPair, tMax: tMax, tPoints: points));
+
+    /// <summary>The number of predecessor-rises in the global CΨ envelope at (N, J, γ): 0 means the
+    /// full-state envelope is non-increasing (the N=2 theorem's behaviour), &gt;0 means it RISES.</summary>
+    public static int GlobalRiseCount(int n, double j, double gamma, double tMax, int points) =>
+        GlobalReading(n, j, gamma, tMax, points).RiseCount;
 
     public EnvelopeReading GlobalBell { get { Ensure(); return _globalBell; } }
     public EnvelopeReading LocalBell { get { Ensure(); return _localBell; } }
@@ -115,7 +133,8 @@ public sealed class EnvelopeTheoremWitness : IInspectable
                 summary: $"full-state CΨ at N={N}, J={JStrong.ToString("0.#", Inv)}, γ={GammaStrong.ToString("0.###", Inv)}, " +
                          $"1600 pts: envelope RiseCount = {_globalBell.RiseCount} " +
                          $"({(_globalBell.IsNonIncreasing ? "non-increasing ✓ — consistent with the N=2 theorem (N≥3 is not guaranteed)" : "RISES — the N≥3 full-state envelope is OPEN; at N≥4 strong coupling the internal J-coupling is the Part-6 coherence injector, NOT a falsification of the N=2 theorem")}). " +
-                         "Proven Tier-1 for N=2; N≥3 OPEN (PROOF_MONOTONICITY_CPSI Part 5 / CpsiEnvelopeTheoremClaim).");
+                         "Proven Tier-1 for N=2; N≥3 OPEN (PROOF_MONOTONICITY_CPSI Part 5 / CpsiEnvelopeTheoremClaim). " +
+                         "The rise boundary is charted (EnvelopeBoundaryTests): an N≥4 floor, Q_c(4)≈27, Q_c(5)≈45.");
 
             yield return new InspectableNode("the freedom (local carrier pair)",
                 summary: $"the reduced carrier-pair CΨ has no theorem and its beat envelope RISES: RiseCount = " +

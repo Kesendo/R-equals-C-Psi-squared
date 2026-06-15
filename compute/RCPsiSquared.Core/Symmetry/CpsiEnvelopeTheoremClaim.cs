@@ -38,11 +38,16 @@ public sealed class CpsiEnvelopeTheoremClaim : Claim
                "'verified N=3-5' was channel-monotonicity + GHZ/W subsystem-pairs (2-qubit reduced), NOT a " +
                "full-state envelope test; at N≥4 strong coupling it GENUINELY RISES (witness: the internal " +
                "J-coupling is the Part-6 coherence injector; N=3 holds). The reduced-subsystem CΨ likewise " +
-               "rises (the freedom).",
+               "rises (the freedom). The N≥3 rise BOUNDARY is now charted (EnvelopeBoundaryTests): a pure " +
+               "(N, Q=J/γ) observable (the J- and γ-sweeps collapse, certified bit-identical), with an N≥4 " +
+               "floor (N=3 never rises, Q_c(3)=∞) and, above it, a threshold Q_c(N) that climbs with N " +
+               "(Q_c(4)≈27, Q_c(5)≈45).",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_MONOTONICITY_CPSI.md + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/QuarterEnvelope.cs + " +
-               "compute/RCPsiSquared.Diagnostics/Foundation/EnvelopeTheoremWitness.cs")
+               "compute/RCPsiSquared.Diagnostics/Foundation/EnvelopeTheoremWitness.cs + " +
+               "compute/RCPsiSquared.Diagnostics.Tests/Foundation/EnvelopeBoundaryTests.cs + " +
+               "experiments/ENVELOPE_RISE_BOUNDARY.md")
     {
         F25 = f25 ?? throw new ArgumentNullException(nameof(f25));
         Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
@@ -68,7 +73,8 @@ public sealed class CpsiEnvelopeTheoremClaim : Claim
         "for any 2-qubit state the local maxima of CΨ form a non-increasing sequence under any H + local " +
         "Z-dephasing (¼ absorbing; proven Tier-1 for N=2). The N≥3 full-state envelope is OPEN and GENUINELY " +
         "RISES at N≥4 strong coupling (internal J = the Part-6 injector; N=3 holds); the reduced carrier-pair " +
-        $"also rises (the freedom) — see EnvelopeTheoremWitness ({Tier.Label()})";
+        "also rises (the freedom). The boundary is charted (an N≥4 floor and a Q_c(N) contour climbing with " +
+        $"N): see EnvelopeTheoremWitness / EnvelopeBoundaryTests ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
