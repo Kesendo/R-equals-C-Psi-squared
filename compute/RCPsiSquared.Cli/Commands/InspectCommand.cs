@@ -554,6 +554,13 @@ public static class InspectCommand
             "(d=1/3/5) live from H and reproduces the exact CRT coefficients (typed: WindowedConverseAllGammaClaim)",
             c => new PascalGramPositivityWitness(),
             RequiresN: false),
+        new("zeroimmune", "Zero-Sector Immunity, live: a random parity-violating 2-body H gives M ≈ 0 on the " +
+            "w=0 ({I,Z}^⊗N) and w=N ({X,Y}^⊗N) Pauli blocks while ‖M‖ > 0 (the non-trivial gate); the classical " +
+            "extreme is immune to every 2-body coupling, the palindrome-breaking lives in 0<w<N " +
+            "(typed: ZeroSectorImmunityClaim)",
+            c => new ZeroSectorImmunityWitness(c.Parser.HasFlag("N") ? c.N : 3,
+                                               c.Parser.OptionalDouble("gamma") ?? 0.05),
+            RequiresN: false, HonorsOptionalN: true),
         new("world", "the whole Object Manager: every root, the typed claims, the hardware confirmations, the open-arcs ledger, and the glossary (try --root glossary first if the language is new)",
             BuildWorldRoot, DefaultDepth: 2, RequiresN: false),
     };

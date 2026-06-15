@@ -539,6 +539,11 @@ public static class KnowledgeRegistryFactory
             // action = the girth-moment projector). Parents AbsorptionTheoremClaim (the rung) +
             // MomentTowerPumpChannelClaim (the moments), both registered above. Live: inspect --root ladders.
             .RegisterThreeLadderHingeClaim()
+            // Zero-Sector Immunity (Tier1Derived, PROOF_ZERO_IMMUNITY): the palindromic residual M
+            // vanishes on the extreme weight blocks (w=0 {I,Z}^⊗N and w=N {X,Y}^⊗N) for every 2-body H
+            // + Z-dephasing. Parents F1PalindromeIdentity + F61 + F63 + AbsorptionTheoremClaim, all
+            // registered above. Live: inspect --root zeroimmune.
+            .RegisterZeroSectorImmunityClaim()
             // Polarity cube map (cubic Z₂³ architecture inventory; aggregates every IZ2AxisClaim)
             // Must come AFTER every Pi²-Inheritance Claim registration above so its b.Get<T>()
             // dependencies resolve. Currently snapshot-only; rebuild registry to refresh.

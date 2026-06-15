@@ -4,6 +4,7 @@
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Companion:** [V_EFFECT_BOUNDARY_LOCALIZATION](../../experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md) (numerical results), [PROOF_BIT_B_PARITY_SYMMETRY](PROOF_BIT_B_PARITY_SYMMETRY.md) ([L, Π²] = 0 analytically), [ZERO_IS_THE_MIRROR](../../hypotheses/ZERO_IS_THE_MIRROR.md) (Σγ=0 as the unitary ground state)
+**Typed claim:** [`ZeroSectorImmunityClaim`](../../compute/RCPsiSquared.Core/Symmetry/ZeroSectorImmunityClaim.cs) (Tier 1 derived; parents F1PalindromeIdentity + F61 + F63 + AbsorptionTheoremClaim). **Live witness:** `inspect --root zeroimmune` ([`ZeroSectorImmunityWitness`](../../compute/RCPsiSquared.Diagnostics/Foundation/ZeroSectorImmunityWitness.cs)) builds a random parity-violating 2-body H and reads ‖M|(w=0)‖ = ‖M|(w=N)‖ ≈ 0 while ‖M‖ > 0 (added 2026-06-15, closing the typed-layer gap).
 
 ---
 
