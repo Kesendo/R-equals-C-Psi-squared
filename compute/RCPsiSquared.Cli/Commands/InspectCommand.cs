@@ -534,6 +534,14 @@ public static class InspectCommand
             c => new DiagonalWitness(c.Parser.HasFlag("N") ? c.N : 3,
                                      c.Parser.OptionalDouble("gamma") ?? 0.05),
             RequiresN: false, HonorsOptionalN: true),
+        new("mirrorgroup", "the mirror group D₄'s operator algebra, live (the factorization side of " +
+            "--root mirror's spectral palindrome): Π_Z = R·D, the dihedral inversion D·Π_Z·D = Π_Y " +
+            "(reflections/D_PI_Z_EQUALS_PI_Y), the order-8 closure, and the §3 palindrome split " +
+            "generator-by-generator WITH the −2Σγ shift the diagonal witness recenters away (typed: " +
+            "MirrorGroupD4Claim)",
+            c => new MirrorGroupWitness(c.Parser.HasFlag("N") ? c.N : 3,
+                                        c.Parser.OptionalDouble("gamma") ?? 0.05),
+            RequiresN: false, HonorsOptionalN: true),
         new("world", "the whole Object Manager: every root, the typed claims, the hardware confirmations, the open-arcs ledger, and the glossary (try --root glossary first if the language is new)",
             BuildWorldRoot, DefaultDepth: 2, RequiresN: false),
     };

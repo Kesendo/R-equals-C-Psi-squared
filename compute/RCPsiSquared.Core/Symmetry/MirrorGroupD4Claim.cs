@@ -127,7 +127,8 @@ public sealed class MirrorGroupD4Claim : Claim
                "simulations/mirror_inventory_d4.py + " +
                "docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md (§2 spine involutions 𝓕 and R) + " +
                "docs/ANALYTICAL_FORMULAS.md F114 + " +
-               "compute/RCPsiSquared.Core/Symmetry/PiOperator.cs")
+               "compute/RCPsiSquared.Core/Symmetry/PiOperator.cs + " +
+               "compute/RCPsiSquared.Diagnostics/Foundation/MirrorGroupWitness.cs (live, inspect --root mirrorgroup)")
     {
         Cube = cube ?? throw new ArgumentNullException(nameof(cube));
         F114 = f114 ?? throw new ArgumentNullException(nameof(f114));
@@ -190,6 +191,12 @@ public sealed class MirrorGroupD4Claim : Claim
                          "non-involutive; covers the n_Z-odd ceiling scope D₄ provably cannot enter), the " +
                          "crossover mirror M (continuous R_z(π/4)), F71's spatial bond mirror, and the " +
                          "Q_zx/Q_yx dephase swaps (S₃ ⋉ D₄ completion named open in the proof §5).");
+            yield return new InspectableNode("Live witness (inspect --root mirrorgroup)",
+                summary: "MirrorGroupWitness recomputes this whole structure at inspect time, N-parameterized: " +
+                         "the factorization Π_Z = R·D, the dihedral inversion D·Π_Z·D = Π_Y, the order-8 closure, " +
+                         "and the §3 palindrome split generator-by-generator WITH the −2Σγ shift (this claim's " +
+                         "battery is N=2-fixed and asserts the split in prose). The operator-algebra complement to " +
+                         "--root mirror's spectral palindrome (MirrorSystem).");
             yield return new InspectableNode("Spine claim (prose edge only)",
                 summary: "The windowed-converse spine's typed claim (WindowedConverseThresholdClaim) lives " +
                          "in RCPsiSquared.Diagnostics; Core cannot reference it, so the edge is carried by " +

@@ -22,8 +22,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <list type="number">
 ///   <item><b>the rungs</b>: k = 0..N, rate −2γk, multiplicity 2^N·C(N,k); the band-edge floor at k=1 is 2γ.</item>
 ///   <item><b>the three readings</b> (the SYMMETRY, the mirror group D₄ within one diagonal): D fixes Q
-///         (D·Q·D = +Q, the rate reading), R reflects it (R·Q·R = −Q, the mirror/palindrome reading,
-///         carrying −2Σγ), the {D, 𝓕D} joint-fixed cell (n_Y even ∧ n_Z even) is truly (the judge reading).</item>
+///         (D·Q·D = +Q, the rate reading), R reflects it (R·Q·R = −Q, the mirror/palindrome reading; the
+///         −2Σγ shift itself lives in the un-recentered L_diss, see <c>--root mirrorgroup</c>), the {D, 𝓕D}
+///         joint-fixed cell (n_Y even ∧ n_Z even) is truly (the judge reading).</item>
 ///   <item><b>the orbit</b>: {Q_X, Q_Y, Q_Z} (Q_P = Σ_l kron(P_l, P_lᵀ)) is one orbit of the single-qubit
 ///         Clifford basis-change S₃ ⟨h_zx, h_yz⟩, hence same spectrum; the structure is S₃ ⋉ D₄.</item>
 ///   <item><b>the dynamics</b> (the COMPLEMENT): L_H = −i[H,·] connects rung k ↔ {k, k±2} — EVEN steps
@@ -152,7 +153,8 @@ public sealed class DiagonalWitness : IInspectable
                 new InspectableNode("rate: D fixes Q (D·Q·D = +Q)",
                     summary: $"the transpose fixes the diagonal — the rate is what the diagonal says; dev = {dRate:0.0e+00}"),
                 new InspectableNode("mirror: R reflects Q (R·Q·R = −Q)",
-                    summary: $"the ket-flip anti-fixes Q, carrying the −2Σγ palindrome shift; dev = {dMirror:0.0e+00}"),
+                    summary: $"the ket-flip anti-fixes the recentered Q; the −2Σγ palindrome shift itself appears in "
+                           + $"the un-recentered R·L_diss·R = −L_diss − 2Σγ (--root mirrorgroup). dev = {dMirror:0.0e+00}"),
                 new InspectableNode("judge: the {D, 𝓕D} joint-fixed cell = truly",
                     summary: $"truly (n_Y even ∧ n_Z even) = {truly}/{total} Pauli strings at N={N} "
                            + "(the F87 trichotomy cell; 63/63 N=3 in mirror_inventory_d4.py block D)"),
@@ -204,9 +206,10 @@ public sealed class DiagonalWitness : IInspectable
                            + "disagreement count read from the other end)"),
                 new InspectableNode("the mirror group acts on L_H (§3 of PROOF_PI_FACTORS — the bridge to the symmetry)",
                     summary: $"D flips it (D·L_H·D = −L_H, dev {dFlipLH:0.0e+00}); R fixes it (R·L_H·R = +L_H, dev "
-                           + $"{rFixLH:0.0e+00}). With the rate/mirror readings (the L_diss column) this completes the FULL "
-                           + "§3 2×2 palindrome split, live: the SAME L_H seen by the mirror group (D-flip/R-fix) and by the "
-                           + "rung ladder (even-step) — the symmetry and the dynamics, welded."),
+                           + $"{rFixLH:0.0e+00}). With the recentered Q readings above (the L_diss column without its shift) "
+                           + "this is the §3 2×2 in the recentered frame: the SAME L_H seen by the mirror group (D-flip/R-fix) "
+                           + "and by the rung ladder (even-step) — symmetry and dynamics, welded. The un-recentered split "
+                           + "(R·L_diss·R = −L_diss − 2Σγ) and the palindrome product Π·L·Π⁻¹ = −L − 2Σγ live in --root mirrorgroup."),
             });
     }
 
