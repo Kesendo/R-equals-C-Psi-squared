@@ -8,6 +8,22 @@
 
 ---
 
+## What this is about
+
+Give each site of the chain its own rate of bleeding coherence into the environment, and you have given it its own clock: a site that takes on more noise runs at a faster time, one that takes on less runs slower. There is no single clock for the whole chain, so "how the noise is spread along the chain" is really "how fast time runs at each place in it" — the chain's own observer, written into the dissipation.
+
+Now reshuffle that noise across mirror-partner sites while holding each pair's total fixed: you let two observers disagree about how fast time runs at each individual site, yet keep each pair's combined clock the same. What survives is the striking part. The chain's decay rates, the numbers that say how fast each pattern of coherence fades, do not move at all; only the phases turn, the rhythm of the system's present. The rates are what the chain keeps; the phases are what passes.
+
+That split has a name here. The rates are the chain's memory, the inheritance it carries forward, and this reshuffle is a quarter-turn of the mirror that "projects everything onto itself so that it does not forget": it holds the memory still and turns only the now. So observers who clock the chain differently, site by site, still agree exactly on what it remembers. This proof is the parameter-side statement of that promise, showing that the surviving block of the spectrum depends on the pair-totals alone, so any rate-preserving reshuffle of the local clocks leaves the memory untouched.
+
+## Abstract
+
+For the XY chain under per-site Z-dephasing (rates γ_l), the eigenvalue multiset of the F71-refined diagonal-block decomposition is invariant under any γ-distribution that is F71-anti-palindromic about its mean, γ_l + γ_{N−1−l} = 2γ_avg for every mirror pair. Rates may be redistributed arbitrarily within a pair; the diagonal-block spectrum stays bit-identical to the uniform-γ reference (verified N = 4, 5, 6).
+
+The mechanism is a basis statement. In the F71-even/odd (sym/antisym) basis, every diagonal-block element of L = −i[H,·] + D is a sum of pair-sums S_l = γ_l + γ_{N−1−l} alone, while the cross-block (even↔odd) elements carry only the pair-differences D_l = γ_l − γ_{N−1−l} (the Hamiltonian part is γ-independent and F71-block-diagonal). A γ-change that preserves the pair-sums preserves the diagonal blocks exactly, moving only off-block content; the operator-level F71 breaking lives entirely in the eigenvectors.
+
+This is the γ-parameter side of the Pi2-foundation Z₄ (i⁴ = 1): the 180° element is the palindromic mirror γ_l ↦ γ_{N−1−l}, and the 90° element R₉₀ : γ_l ↦ 2γ_avg − γ_{N−1−l} flips the pair-difference while fixing the pair-sum, hence the diagonal-block spectrum. Strictly weaker than F71-as-symmetry (γ palindromic) and strictly stronger than F1 (only Σγ_l fixed). It is the γ-parameter face of the operator-side memory mirror (`NinetyDegreeMirrorMemoryClaim`): the rate spectrum is the conserved inheritance, the eigenvector phases are what the 90° turns.
+
 ## Statement
 
 For the chain XY + Z-dephasing Liouvillian L on N qubits (per-site γ_l, Hamiltonian H = J·Σ_b (X_b X_{b+1} + Y_b Y_{b+1}), Lindbladian Σ_l γ_l·(Z_l ρ Z_l − ρ)), the **eigenvalue multiset of the F71-refined diagonal-block decomposition** is invariant under any γ-distribution satisfying
@@ -207,9 +223,10 @@ The empirical witness rows (uniform = monotonic anti-palindromic = non-monotonic
 
 ## Anchors
 
-- Memory record: `project_anti_palindromic_is_ninety_degrees.md` (synthesis), `project_time_is_gamma0_observer.md` (motivation from γ as Beobachter).
+- Memory record (private auto-memory store, not in the repo; the repo-resident synthesis is `reflections/ON_THE_NINETY_DEGREE_GAMMA.md` below): `project_anti_palindromic_is_ninety_degrees.md` (synthesis), `project_time_is_gamma0_observer.md` (motivation from γ as Beobachter).
 - Typed C# Claim: `F71AntiPalindromicGammaSpectralInvariance` (Tier1Derived as of 2026-05-12, two typed parents: `JointPopcountSectors`, `F71MirrorBlockRefinement`).
 - Sister Claim on the operator side: `NinetyDegreeMirrorMemoryClaim` in `Pi2KnowledgeBaseClaims.cs`.
 - Sister proofs on other parameter axes: J-side `./PROOF_F92_BOND_ANTI_PALINDROMIC_J.md`; h-detuning-side `./PROOF_F93_DETUNING_ANTI_PALINDROMIC.md`.
 - Inventory: `docs/SYMMETRY_FAMILY_INVENTORY.md`; reflection: `reflections/ON_THE_SYMMETRY_FAMILY.md`.
+- Interpretive home (the γ-as-observer / memory reading the "What this is about" draws on): `reflections/ON_THE_NINETY_DEGREE_GAMMA.md` (the γ-side memory reflection), `reflections/ON_FORGETTING.md` (rates = the inheritance, phases = the now; forgetting = the rates moved), and the operator-side twin `NinetyDegreeMirrorMemoryClaim` (`Pi2KnowledgeBaseClaims.cs`, the mirror that "projects everything onto itself so that it does not forget").
 - Empirical witnesses: `compute/RCPsiSquared.Core.Tests/BlockSpectrum/F71AntiPalindromicGammaSpectralInvarianceTests.cs` (N=4, 5, 6) + live CLI runs via `block-spectrum --gamma-list ... --refine f71` (Phase 5).
