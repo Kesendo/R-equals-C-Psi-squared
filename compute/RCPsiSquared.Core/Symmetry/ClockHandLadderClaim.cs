@@ -12,8 +12,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// blindness of the two-tempo certification read from the other side.
 ///
 /// <para>What is DERIVED: the γ-protection mechanism (two Tier-1 results compose) and the N=2 closed form.
-/// What is VERIFIED N=3-5 (not yet generally proven): gap-dominance, that no faster-oscillating mode shares
-/// the exact gap rate for N≥3 (the general off-gap argument is the open remainder). Hence Tier1Candidate.</para>
+/// The gap-dominance off-gap argument is PARTLY RESOLVED (2026-06-15, simulations/offgap_band_edge.py):
+/// (i) the regime, i.e. the Q-floor below which the band edge stops being the gap, IS the Coherence Horizon
+/// Q*(N) (the floor brackets Q*(4)=1.879/Q*(5)=2.374 exactly; derived → 2N/π, PROOF_COHERENCE_HORIZON_SLOPE);
+/// (ii) that the band edge E1 is the MAX|Im| at the exact gap rate 2γ is CONFIRMED N=3-5 and reframed via the
+/// Absorption Theorem (Re=−2γ⟨n_XY⟩, so the exact−2γ modes are the n_XY=1 subspace; the |vac⟩⟨ψ_k|/|full⟩⟨φ_k|
+/// ladders are a subset achieving E1). STILL OPEN (the Tier1Candidate gate): the general proof that the max
+/// frequency in the protected n_XY=1 subspace is E1 (L_H can leak n_XY=1→3, so the dephased chain is
+/// interacting, no free-fermion shortcut). Hence Tier1Candidate.</para>
 ///
 /// <para>Live witness: <c>inspect --root clock</c>
 /// (<c>compute/RCPsiSquared.Diagnostics/Foundation/ClockHandLadderWitness.cs</c>).</para>
@@ -51,7 +57,8 @@ public sealed class ClockHandLadderClaim : Claim
                "reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md + " +
                "reflections/ON_TWO_TIMES.md + " +
                "reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md + " +
-               "compute/RCPsiSquared.Diagnostics/Foundation/ClockHandLadderWitness.cs (ClockHandLadderWitness, inspect --root clock)")
+               "compute/RCPsiSquared.Diagnostics/Foundation/ClockHandLadderWitness.cs (ClockHandLadderWitness, inspect --root clock) + " +
+               "simulations/offgap_band_edge.py (the off-gap gate-first verifier)")
     {
         BandEdge = bandEdge ?? throw new ArgumentNullException(nameof(bandEdge));
         Absorption = absorption ?? throw new ArgumentNullException(nameof(absorption));

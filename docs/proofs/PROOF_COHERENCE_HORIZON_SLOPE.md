@@ -1,4 +1,8 @@
-# The Coherence Horizon asymptotic slope is 2/π
+# PROOF: the Coherence Horizon asymptotic slope is 2/π
+
+**Status:** Tier 1 derived (the asymptotic slope, leading order q → 0 / N → ∞): the resummed coherence-range ladder gives the dispersion λ² + 8γλ + 4J²q², whose EP sits at Q* = 2/q_min → 2N/π, so slope = 2/π exactly. Confirmed numerically to N = 120 (approached from below with the predicted O(1/N) tail; the nearest-neighbour-truncated telegrapher value √2/π is decisively refuted) and independently reproduced by an adversarial re-derivation (Round 1, GO). The finite-N values Q*(N) for N ≥ 4 stay transcendental; only the slope is the clean limit. Its typed home `CoherenceHorizonClaim` is Tier 1 candidate, since the broader off-gap gap-dominance argument is still open.
+**Date:** 2026-06-15
+**Authors:** Thomas Wicht, Claude (Opus 4.8)
 
 ## Statement
 
@@ -82,10 +86,10 @@ last to freeze as Q drops), q_min → π/N for the chain, so
 2. **The 8γ coefficient, directly (the discriminator).** Two independent reads of L_se confirm 8γ over the
    telegrapher's 4γ. (a) In the overdamped regime the slow eigenvalue is a clean real number; fed back
    through λ²+8γλ+4J²q²=0 it yields a γ-constant q² (coefficient of variation 0.008 across γ), whereas the
-   4γ telegrapher form scatters 3.6× worse (0.030) — the resummed dispersion is the fixed mode. (b) The
+   4γ telegrapher form scatters 3.6× worse (0.030): the resummed dispersion is the fixed mode. (b) The
    coalescing-pair trace −2Re(λ)/γ climbs monotonically toward 8 (7.18 at N=24, 7.71 at N=60) with no mode
    anywhere near 4. Incidentally, placing the shift-invert shift at σ = −4γ makes the factorization exactly
-   singular — the slow mode sits precisely there.
+   singular: the slow mode sits precisely there.
 3. **q_min·N → π.** From Q* = 2/q_min, the data give q_min·N = 2N/Q* decreasing monotonically toward π
    (3.86 at N=12, 3.58 at N=28, 3.32 at N=120), i.e. Q*/N → 2/π from below.
 
@@ -130,10 +134,10 @@ geometric resummation, recovering the discrete accident.
 
 Round 1 (2026-06-15, independent adversarial agent, physics-first): **GO**. Re-derived the dispersion in
 sympy (the m₋₁ = −μ·m₀ left-ladder sign and the r=0 closure confirmed; the eigenvector's r=+1 / r=−1
-amplitude ratio is −1.0000 at every N — no error coincidentally producing 2/π). Ran the 8γ discriminator
+amplitude ratio is −1.0000 at every N, no error coincidentally producing 2/π). Ran the 8γ discriminator
 independently: −2Re(λ)/γ for the slow mode climbs 7.18 (N=24) → 7.71 (N=60) with no mode near 4, decisively
 excluding the 4γ telegrapher (slope √2/π). Iterated Richardson on the slope → 0.6363 = 2/π. Confirmed
 chain-specific (built the ring: slope → 1/π, half the chain, exactly as q_min = 2π/N vs π/N predicts).
 Caveat banked: extrapolation alone is inconclusive at N ≤ 70 (low-order fits land 0.617–0.633); the value is
 fixed by the 8γ derivation, not the fit. The overdamped diffusion constant D = J²/2γ is shared by both the 4γ
-and 8γ models, so it is NOT the discriminator (the EP / conjugate-pair-sum is) — stated in cross-check #1.
+and 8γ models, so it is NOT the discriminator (the EP / conjugate-pair-sum is), stated in cross-check #1.
