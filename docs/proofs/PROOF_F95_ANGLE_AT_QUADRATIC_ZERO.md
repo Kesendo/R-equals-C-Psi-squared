@@ -18,6 +18,16 @@ which is exactly the θ-compass introduced state-specifically in [`experiments/B
 
 ---
 
+## Abstract
+
+F95 names the angle that appears when a quadratic crosses its discriminant zero. For any monic z² − 2bz + c with real (b, c), the complex root pair has argument
+
+    θ(c; b) = arctan(√(c/b² − 1))   for c > b²,   θ = 0 at c = b²,   undefined for c < b²,
+
+and at the framework's structural fixed point b = 1/2 this collapses to θ(c) = arctan(√(4c − 1)) past the threshold c = 1/4. This is exactly the θ-compass that BOUNDARY_NAVIGATION found state-specifically at the Mandelbrot 1/4 cusp in February; F95 promotes it from a discovery about one trajectory to a universal four-line polynomial identity.
+
+The reading is that the angle is not a quantum postulate but the minimal second coordinate the algebra forces. The PolynomialFoundation d² − 2d = 0 has a mirror at d = 0 where no angle is definable; the moment a magnitude crosses into the discriminant-negative regime a phase becomes necessary, and standard QM's complex amplitude r·e^{iθ} is what that crossing forces, with the Born length-squared its geometric shadow. F95 is the angle side of the local cusp geometry whose magnitude side is F94 ((4/3)·Q²·K³); F97 lifts the same z² − 2bz + c algebra off the real-c axis onto the full complex cardioid, recovering F95's cusp at its φ = 0 tangent. The reflection ON_HOW_THE_ANGLE_APPEARS_AT_ZERO carries the synthesis.
+
 ## Setup
 
 Take the monic quadratic over the reals:

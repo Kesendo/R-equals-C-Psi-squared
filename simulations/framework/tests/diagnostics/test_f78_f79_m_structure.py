@@ -86,8 +86,10 @@ def test_F78_single_body_M_additive_decomposition():
     """F78: For single-body H = Σ_l c_l·Y_l, M's SVD clusters predict from
     additive single-site decomposition M = Σ_l M_l ⊗ I_others.
 
-    Per-site M_l is normal with eigenvalues ±2c_l·γ·i (mult 2 each).
-    Full M's SVs = |Σ_l ε_l · 2c_l·γ| with multiplicity 2^N per sign-combo.
+    Per-site M_l is normal with eigenvalues ±2c_l·i (mult 2 each), γ-independent
+    by the Master Lemma. Full M's SVs = |Σ_l ε_l · 2c_l| with multiplicity 2^N
+    per sign-combo. Exercised at γ≠1 so the γ-independence is actually tested
+    (at γ=1 the spurious-γ and correct formulas coincide).
     Verifies that the previously-open "Group-Theory cluster question" is closed.
     """
     from itertools import product as iproduct
@@ -106,12 +108,13 @@ def test_F78_single_body_M_additive_decomposition():
     chain = fw.ChainSystem(N=N)  # chain degrees [1, 2, 2, 1]
     bilinear = [('I', 'Y', 1.0), ('Y', 'I', 1.0)]
     H = fw._build_bilinear(N, chain.bonds, bilinear)  # bond-summed → Σ_l deg(l)·Y_l
-    L = lindbladian_z_dephasing(H, [1.0]*N)
-    M_full = palindrome_residual(L, N*1.0, N)
+    GAMMA = 2.5  # != 1: at γ=1 the spurious-γ and correct formulas coincide, hiding regressions
+    L = lindbladian_z_dephasing(H, [GAMMA]*N)
+    M_full = palindrome_residual(L, N*GAMMA, N)
     direct_svs = np.sort(np.linalg.svd(M_full, compute_uv=False))[::-1]
 
-    # Predicted: each combination Σ_l ε_l·2c_l, all eigenvalue products
-    M_per_site = [_single_site_M(d) for d in chain.degrees]
+    # Predicted: each combination Σ_l ε_l·2c_l, all eigenvalue products (γ-independent)
+    M_per_site = [_single_site_M(d, GAMMA) for d in chain.degrees]
     eigs_per_site = [np.linalg.eigvals(M) for M in M_per_site]
     pred_evs = [sum(eigs_per_site[l][combo[l]] for l in range(N))
                 for combo in iproduct(*[range(4) for _ in range(N)])]

@@ -43,7 +43,7 @@ The cluster *values* are the structure's dispersion, one per graph family. The *
 
 For chain bond-summed Π²-odd 2-body Hamiltonian H = c · Σ_l (P_l ⊗ Q_{l+1}) on an N-site open chain with uniform Z-dephasing γ, the singular values of M = Π·L·Π⁻¹ + L + 2σ·I (with σ = Nγ) form clusters at values
 
-    cluster value(N) = 2|c|γ · |Σ_{k=1}^{⌊N/2⌋} σ_k · ε(k)|
+    cluster value(N) = 2|c| · |Σ_{k=1}^{⌊N/2⌋} σ_k · ε(k)|
 
 for sign-vectors (σ_1, ..., σ_{⌊N/2⌋}) ∈ {±1}^{⌊N/2⌋}, where
 

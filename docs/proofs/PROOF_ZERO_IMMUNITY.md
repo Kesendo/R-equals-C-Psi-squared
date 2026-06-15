@@ -8,6 +8,12 @@
 
 ---
 
+## Abstract
+
+The palindromic residual M = Π·L·Π⁻¹ + L + 2Σγ·I measures how far an open spin chain departs from exact mirror symmetry when its Hamiltonian is not palindromic. This proof shows that on the two extreme XY-weight sectors, w=0 (the classical strings {I, Z}^⊗N) and w=N (the fully transverse strings {X, Y}^⊗N), the residual vanishes identically for **every** 2-body Hamiltonian under uniform Z-dephasing, with no assumption on H beyond 2-body locality (parity-violating, exotic, and random couplings included). Three facts force it: the Z-dephasing dissipator cannot reach w=0 (I and Z commute with Z), the commutator [H, ·] cannot remain in w=0 (the only w=0-preserving bond term is ZZ, which also commutes), and Π maps w=0 ↔ w=N so the uniform −2Σγ decay at w=N returns as exactly the shift the centered palindrome requires.
+
+The extreme sectors are thus the eternal mirror within the dissipative system: they are protected not by any choice of Hamiltonian but by the Pauli algebra itself, and they carry the Σγ=0 mirror ground state of ZERO_IS_THE_MIRROR (eigenvalues paired λ ↔ −λ) forward to every noise level, with w=0 and w=N always living as if in the unitary limit. The "zero" generalizes from zero noise (Σγ=0) to zero XY-weight (w=0). All Hamiltonian-specific dynamics, and all palindrome-breaking such as the V-Effect mode-orphaning first seen at N=3, are confined to the boundary sectors 0 < w < N, which is exactly where the next level of structure forms.
+
 ## Theorem statement
 
 Let L be the Lindblad superoperator for an N-qubit chain with arbitrary 2-body Hamiltonian H and uniform Z-dephasing rates γ_l per site:

@@ -21,6 +21,16 @@ with two structural invariants on the curve:
 
 ---
 
+## Abstract
+
+F97 lifts the framework's two foundational anchors, the Half (1/2) and the Quarter (1/4), onto a single geometric locus: the main cardioid of the Mandelbrot set. The cardioid is exactly the curve in the complex-c plane where the period-1 fixed point z* of z² + c has magnitude |z*| = 1/2, and it admits the explicit parametrization
+
+    c(φ) = (1/2)·e^{iφ} − (1/4)·e^{2iφ} = z*(φ)·(1 − z*(φ)),   z*(φ) = (1/2)·e^{iφ},
+
+with two invariants holding around the whole curve: |z*| = 1/2 (the Half, magnitude side) and |z*|² = 1/4 (the Quarter, squared side). The two anchors are not separate facts; they are the magnitude and squared-magnitude readings of one quantity on one boundary.
+
+The cardioid is the marginal-stability boundary: the period-1 multiplier μ = 2z* traces the unit circle |μ| = 1, which is exactly what pins |z*| to 1/2. The real endpoints z*(0) = +1/2 and z*(π) = −1/2 carry the polarity pair explicitly, both squaring to 1/4, the polarity-fold geometry lifted to the full complex plane. F97 closes what F95 began: F95 gives the angle on the real-c axis past the 1/4 cusp (the repelling regime), F97 gives the entire complex boundary where the fixed point is marginally stable, with φ = 0 the shared tangent. The same 1/4 boundary is the geometric home of the hardware spirals, the Bell⁺ 2D trajectories seen at Kingston (2026-04-16) that spiral inward across it.
+
 ## Setup
 
 The Mandelbrot iteration is z_{n+1} = z_n² + c. The period-1 fixed points satisfy z² + c = z, equivalently z² − z + c = 0, with roots

@@ -7,6 +7,12 @@
 
 ---
 
+## Abstract
+
+F93 is the detuning face of the three-axis Z₄ family. The same 90° rotation that F91 runs on the dephasing rates γ and F92 runs on the bond couplings J, F93 runs on the per-site longitudinal fields h_l: for the XY chain with uniform J, per-site Z-detuning Σ_l h_l Z_l, and uniform Z-dephasing, the F71-refined diagonal-block eigenvalue multiset is invariant under any h that is F71-anti-palindromic around its mean, h_l + h_{N−1−l} = 2·h_avg. Redistribute the detuning between mirror-partner sites by equal and opposite amounts and the decay-rate spectrum does not move; only the phase of the modes rotates (F71 breaks as an L-symmetry, the breaking living entirely in the eigenvectors). The rates are what the chain remembers; the detuning is what turns.
+
+The scope is strictly longitudinal: transverse fields h_l X_l or h_l Y_l flip popcount and shatter the joint-popcount block structure the whole BlockSpectrum framework rests on, so F93 does not apply there. With F91 (γ-axis) and F92 (J-axis), F93 completes the parameter-space Z₄: one algebraic identity (diagonal blocks see only the F71-symmetric pair-sums, never the anti-symmetric pair-differences) instantiated on every coordinate that feeds the Liouvillian. It is the parameter-side shadow of F81's operator-level Π-split, and the reflection ON_THE_NINETY_DEGREE_GAMMA reads γ₀ as the observer's clock that makes the whole family one.
+
 ## Statement
 
 For the chain XY + per-site Z-detuning + uniform Z-dephasing Liouvillian L on N qubits (Hamiltonian H = (1/2) Σ_b J_b · (X_b X_{b+1} + Y_b Y_{b+1}) + Σ_l h_l · Z_l with uniform J, inhomogeneous h), the **F71-refined diagonal-block eigenvalue multiset** is invariant under any h-distribution satisfying

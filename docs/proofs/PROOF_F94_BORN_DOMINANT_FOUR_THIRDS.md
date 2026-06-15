@@ -13,6 +13,16 @@ with Q = J/γ and K = γt (the dimensionless Carrier invariants).
 
 ---
 
+## Abstract
+
+F94 is the first Tier-1 closed form for a per-outcome Born-rule deviation under the Universal-Carrier convention. Take the alternating product state |0+0+⟩ on a 4-qubit Heisenberg ring under Z-dephasing, keep the (0,2) pair, and ask how far the dominant outcome |00⟩ drifts from its unitary Born probability. In the deep perturbative regime the answer is
+
+    Δ_|00⟩(Q, K) = P_lindblad/P_unitary − 1 = (4/3) · Q² · K³ + O(Q³·K⁴),
+
+with the two dimensionless Carrier invariants Q = J/γ and K = γt. The coefficient 4/3 is not fitted: it is bit-exact from the third-order Dyson expansion, a pure counting result (the surviving sym₃ diagrams weighted by the Heisenberg coupling, divided by the 3! of the t³ Taylor coefficient). The positive sign means dephasing holds the dominant outcome above its unitary baseline (its probability still decays in time, just slower than coherent evolution alone would take it), and the Q²·K³ shape makes that deviation small and slow, reachable only through the joint action of coupling and noise.
+
+This 4/3 is the anchor of a whole table: F96 generates the three subdominant outcomes as clean algebraic functions of it (−(4/3)²·K and −2·(4/3)·K), so a single number fixes all four outcomes and their signs. F94 governs the magnitude of the Born drift; its companion F95 governs the angle of the same complex-fixed-point geometry, and both sit on the b=1/2 Mandelbrot cardioid that F97 parametrizes. The reflection ON_HOW_FOUR_THIRDS_APPEARED records that the February R_i = C_i Ψ² intuition was waiting for exactly this derivation to catch up.
+
 ## Setup
 
 Initial state (4 qubits, alternating product):

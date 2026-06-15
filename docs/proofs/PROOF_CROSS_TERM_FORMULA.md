@@ -15,6 +15,16 @@ Y_i Z_j), non-uniform gamma, or non-Pauli noise types.
 
 ---
 
+## Abstract
+
+The cross term measures how much the oscillatory and dissipative parts of the dynamics fail to be orthogonal. For N ≥ 2 qubits with any shadow-balanced bond coupling on any graph under uniform Z-dephasing, the normalized anticommutator of the Hamiltonian superoperator L_H with the centered dissipator L_Dc = L_D + Nγ·I is a pure geometric constant:
+
+    ‖{L_H, L_Dc}‖ / (‖L_H‖ · ‖L_Dc‖) = √((N−2) / (N · 4^(N−1))),
+
+independent of γ, of J, and of the graph topology. At N=2 it is exactly zero: oscillation and cooling are orthogonal and the dynamics splits cleanly, the Pythagorean decomposition that makes the single bond special. At N ≥ 3 it is nonzero and fixed by size alone. The proof turns on one structural fact, the bond-sum rule: every Hamiltonian transition in the Pauli basis carries XY-weight summing to 2 at its bond, which cancels the bond-site contribution to the anticommutator and leaves only the N−2 spectator sites to carry variance, hence the (N−2) in the numerator.
+
+This constant is the algebraic engine of TIME_IRREVERSIBILITY_EXCLUSION: the orthogonality that would let one undo cooling without disturbing oscillation exists only at N=2, and the cross term is the exact measure of its loss at every larger size. Its shadow-crossing sibling F49c (X_i Z_j, Y_i Z_j couplings that mix light and lens) shifts the numerator N−2 → N−1, because the bond sites then carry variance 1 instead of 0. Typed as F49.
+
 ## Theorem
 
 For N >= 2 qubits with any shadow-balanced bond coupling (each bond term

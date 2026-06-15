@@ -9,6 +9,16 @@
 
 ---
 
+## Abstract
+
+The Absorption Theorem reads the decay rate of any Lindblad eigenmode straight off its Pauli content. Under uniform Z-dephasing at rate γ, for any Hermitian Hamiltonian on any graph,
+
+    Re(λ) = −2γ · ⟨n_XY⟩,
+
+where ⟨n_XY⟩ is the average number of X or Y factors (the "light content") in the eigenmode's Pauli decomposition. The dissipator is built from Z, so it sorts every Pauli letter into two classes: the lens {I, Z}, opaque to the dephasing light and costing nothing, and the light {X, Y}, transparent and absorbed at exactly 2γ per factor. A mode's lifetime is therefore fixed by one number, how much of its own structure it exposes to the light: pure {I, Z}^⊗N modes are immortal (rate 0), pure {X, Y}^⊗N modes die fastest (rate 2Nγ).
+
+This is the rate-side companion of the F1 palindrome. Π swaps light and lens, so paired eigenvalues satisfy ⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N and sit symmetrically about the center, which is the F8 factor-of-two decay law in one line. The recentered face L_D = γ(Q − N·I), with Q = Σ_l Z_l⊗Z_l, shifts the absorption ladder's midpoint to zero and is literally the same diagonal that the F87 girth-moment machinery and the palindrome share: one diagonal, three readings (absorption rates, palindromic pairing, power-sum expansion). The formula replaces numerical eigendecomposition for the real part, exact and verified bit-exact at N=2..5.
+
 ## Preface
 
 A guitar string vibrates in modes. Each mode spans the entire string.

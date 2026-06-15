@@ -8,6 +8,12 @@
 
 ---
 
+## Abstract
+
+The chain has a second mirror, hidden in its bipartite sublattice. The gauge K = diag((−1)^ℓ), alternating site signs, anticommutes with every nearest-neighbor hopping term, KHK = −H, so the lattice itself reflects the spectrum: mirror-partner single-excitation modes satisfy K ψ_k ∝ ψ_{N+1−k} with E_{N+1−k} = −E_k. Under real dynamics (real H plus Z-dephasing) the partnership lifts from spectrum to trajectory, ρ_{N+1−k}(t) = (K ρ_k(t) K)*, so partner modes agree pointwise in every observable built from populations and coherence magnitudes: (ρ_{N+1−k})_{ℓℓ} = (ρ_k)_{ℓℓ} and |(ρ_{N+1−k})_{ℓm}| = |(ρ_k)_{ℓm}|.
+
+K is a distinct symmetry from the spatial reflection R: R fixes each mode up to a sign, K swaps partners. Together they give the handshake algebra two independent axes, R choosing which sites to measure and K folding which modes are equivalent, which is exactly why the receiver menu collapses from N to ⌈N/2⌉ entries without losing information (F67). The spectral shadow of the anticommutation is the bonding-mode pairing α_k = α_{N+1−k} (F65); its eigenvector/PTF companion is the K₁ chiral mirror trajectory law (ChiralMirrorTrajectoryClaim), the site-wise purity identity that survived the closure-law retraction.
+
 ## Statement
 
 Let H₁ ≅ ℂᴺ be the single-excitation Hilbert space of an N-site chain in the basis {|1_ℓ⟩}_{ℓ=0..N-1}, and define the **bipartite sublattice gauge**

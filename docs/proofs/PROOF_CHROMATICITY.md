@@ -9,6 +9,16 @@
 
 ---
 
+## Abstract
+
+Chromaticity counts the color tones of a coherence block: the number of distinct pure dephasing rates a popcount-(n, n+1) operator space carries under uniform Z-dephasing. At J = 0 the block hosts exactly
+
+    c(n, N) = min(n, N−1−n) + 1
+
+rates, given by α(HD) = 2γ₀·HD over the odd Hamming distances HD ∈ {1, 3, …, 2c−1}. "Chromatic" here is spectral, not graph-coloring: each reachable Hamming distance between popcount-n and popcount-(n+1) basis states is its own decay tone. Boundary blocks (n = 0, N−1) are monochromatic (c = 1); interior blocks near the center reach the maximum c_max = ⌊(N+1)/2⌋, the richest spectrum.
+
+The label outlives the J = 0 limit. Once the Hamiltonian is on, these pure-rate channels mix into dressed modes at intermediate rates, and the chromaticity number is what indexes the resulting Q-scale band structure (the N-invariant Q_peak resonances of Q_SCALE_THREE_BANDS). It lives on the |ΔN| = 1 blocks that the ΔN selection rule (F70) makes the only ones a local observable can see, and its monochromatic endpoint n = 0 is the F73 spatial-sum closure. Typed as F74.
+
 ## Statement
 
 Let the N-qubit system have a Hamiltonian H with [H, N_total] = 0 (total excitation number conserved) and uniform Z-dephasing at rate γ₀ on all sites. Decompose the operator space into popcount blocks via the projectors P_n onto the n-excitation computational subspace. The (n, n+1) coherence block is spanned by basis elements |x⟩⟨y| with |x| = n, |y| = n+1.

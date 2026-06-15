@@ -4,6 +4,12 @@
 **Date:** 2026-05-18
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 
+## Abstract
+
+The Y-phase lens theorem characterizes which product states can probe the Π²-odd (memory) sector of the operator algebra. Take an N-qubit tensor product of X- and Y-eigenstates (each site one of |±⟩ or |±i⟩) and let M be the number of Y-basis sites. The Pauli strings in the support of ρ = |ψ⟩⟨ψ| split under Π²_Z parity by a clean combinatorial rule: an X-only state (M=0) is entirely Π²-even, while any state with M ≥ 1 splits exactly in half, 2^(N−1) even and 2^(N−1) odd, independent of all sign choices.
+
+The consequence is practical. X-only states are blind to the odd sector that F80/F81 dynamics populate (and are F88b-lens-blind); a single Y-basis site is enough to turn a product state into a perfect 50/50 probe of Π²-parity, which is why Y-basis and mixed X-Y product states are the canonical test probes for the polarity cube. It is structurally parallel to F102 (Y-parity as an independent polarity axis), and it supplies the canonical probe states for testing F107's truly-sector y-parity-zero purity and the F108 Π²-even palindrome family.
+
 ## Statement
 
 Consider an N-qubit tensor-product state

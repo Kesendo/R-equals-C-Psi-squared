@@ -9,6 +9,16 @@
 
 ---
 
+## Abstract
+
+F70 is the kinematic skeleton of the sector structure: a selection rule not about dynamics but about what a local measurement can see. Decompose any N-qubit operator into excitation-sector blocks ρ^(n,m) = P_n ρ P_m. Then the single-site partial trace annihilates every block whose left and right popcounts differ by two or more:
+
+    Tr_{¬i}(ρ^(n,m)) = 0   whenever |n − m| ≥ 2,
+
+and more generally a k-local trace kills |ΔN| ≥ k+1, so a k-local observable sees at most |ΔN| ≤ k. The proof is pure popcount arithmetic on computational basis states; it holds for any Hamiltonian, any dissipator, any evolution. A single-qubit observable therefore reads only the |n⟩⟨n| populations and the |n⟩⟨n±1| coherences; everything deeper is locally invisible.
+
+This is the observability gate behind much of the rest. It explains why the closure-breaking coefficient c₁ collects contributions only from |ΔN| ≤ 1 coherences, and why a GHZ state, living entirely in the |ΔN| = N center modes that decay at the maximal rate 2Σγ, is invisible to any site-local probe while a W state is not. F70 runs on the excitation-number axis; the n_XY parity rule (PROOF_PARITY_SELECTION_RULE) runs on the orthogonal Pauli-weight axis, and the two together fix the full sector decomposition that DIRECT_SUM_DECOMPOSITION builds on. Its anchors a₁ = 1 and a₀ = 2 sit on the same Pi2 dyadic ladder as the d² − 2d = 0 polynomial root.
+
 ## Statement
 
 Let ρ be an operator on N qubits, decomposed into excitation-sector blocks ρ^(n, m) = P_n ρ P_m, where P_n is the projector onto the n-excitation computational subspace. Then for each site i:

@@ -11,6 +11,16 @@
 
 ---
 
+## Abstract
+
+The two-term couplings XZ+YZ and ZX+ZY were long read as having a non-local mirror, one that seemed to need operator-Schmidt entanglement across the whole chain. They do not. This proof shows the crossover mirror is strictly local, a single per-site unitary applied uniformly: the XZ-bond Liouvillian transported by a rotation,
+
+    L_cross = Ad_{V₀} · L_{√2·XZ} · Ad_{V₀}⁻¹,   V₀ = R_z(π/4),   with   Ad_{V₀}² = the NinetyDegreeMirror,
+
+exact to machine precision at N = 2, 3, 4. So the crossover mirror is the XZ-bond mirror turned by the square root of the framework's recurring 90° angle-anchor (F80 on the operator-defect side, F91 on the γ-parameter side). The geometry forces it: the lit operator X+Y bisects the X-Y plane, 45° from X, and that rotation commutes with the dephasing axis Z, so it lifts the entire Liouvillian and its mirror intact.
+
+In gate language the 90° is the S (Clifford) gate and the 45° transport is its square root T, so the crossover is where the first non-Clifford element is forced into the mirror algebra; the continuous transport around the angle is the circle that the JDefectLightMigration N90 witness lives on. The full reading is in ON_THE_SQUARE_ROOT_OF_THE_MIRROR.
+
 ## The object
 
 Work in the operator (Liouville) space of an N-qubit chain under uniform Z-dephasing at rate γ, with Liouvillian L = L_H + D, where L_H(O) = −i[H, O] and D is the Z-dephasing dissipator D(O) = Σ_l γ(Z_l O Z_l − O). The palindromic mirror Π of L satisfies Π L Π⁻¹ = −L − 2σ·I with σ = Nγ.

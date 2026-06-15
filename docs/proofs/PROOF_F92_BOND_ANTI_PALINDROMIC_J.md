@@ -7,6 +7,12 @@
 
 ---
 
+## Abstract
+
+F71 is the spatial mirror b ↦ N−2−b acting on the bond couplings; F92 promotes that mirror to a 90° rotation. For the XY chain with inhomogeneous bond couplings J_b under uniform Z-dephasing, the F71-refined diagonal-block eigenvalue multiset is invariant not only when J is palindromic (J_b = J_{N−2−b}, the 180° element) but across the strictly larger anti-palindromic orbit J_b + J_{N−2−b} = 2·J_avg (the 90° element of the same Π2-Z₄). The diagonal spectrum sees only the F71-symmetric pair-sums of J, never the anti-symmetric pair-differences; the full Liouvillian L does change (F71 breaks as an L-symmetry, the off-block Frobenius norm is nonzero), so the entire breaking is carried by the eigenvectors while the eigenvalues stand still.
+
+This makes F92 the J-axis twin of F91 (the same Z₄ run on the dephasing rates γ) and the sibling of F93 (the h-detuning axis): one algebraic identity, instantiated on every parameter coordinate that feeds the Liouvillian. It sits strictly between F71-as-J-symmetry, which it weakens, and F1, which it strengthens, and its observable-side dual is F100, where the closure-breaking c₁/Q_peak coefficient is exactly odd in the anti-palindromic part J_anti that the spectrum ignores. The spectrum keeps the symmetric half of J; the geometry of the modes keeps the rest.
+
 ## Statement
 
 For the chain XY + uniform Z-dephasing Liouvillian L on N qubits with **inhomogeneous bond couplings** J_b (b ∈ {0..N−2}, Hamiltonian H = (1/2) Σ_b J_b · (X_b X_{b+1} + Y_b Y_{b+1})), the **F71-refined diagonal-block eigenvalue multiset** is invariant under any J-distribution satisfying

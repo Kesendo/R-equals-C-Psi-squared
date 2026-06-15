@@ -13,6 +13,16 @@ shadow-crossing terms in the same bond.
 
 ---
 
+## Abstract
+
+This is the shadow-crossing companion of the cross-term formula F49. When a bond couples one Pauli in the light {X, Y} to one in the lens {I, Z}, the normalized anticommutator of the Hamiltonian and centered-dissipator superoperators is
+
+    ‖{L_H, L_Dc}‖ / (‖L_H‖ · ‖L_Dc‖) = √((N−1) / (N · 4^(N−1))),
+
+for any such coupling on any graph under uniform Z-dephasing. The only change from the shadow-balanced F49 is the numerator, N−2 → N−1: a crossing bond connects a light site to a lens site, an asymmetry that makes the bond itself carry one unit of variance instead of zero, so the N−2 spectators gain the bond as one more contributor. At N=2, where F49 vanishes (orthogonality, the Pythagorean decomposition), F49c is already nonzero, the bond's own asymmetry breaking the clean split; at large N the relative gap between the two shrinks toward zero (the ratio → 1, though F49c stays strictly above F49).
+
+The proof inherits Lemmas 1 and 3 of the parent F49 unchanged and only re-runs the variance count. Typed as F49c, it closes the shadow-crossing regime (EQ-012) that F49 left open.
+
 ## Theorem
 
 For N >= 2 qubits with any shadow-crossing bond coupling on any graph G

@@ -7,6 +7,16 @@
 
 ---
 
+## Abstract
+
+Under Heisenberg dynamics with local Z-dephasing on any graph, the long-time state is decided entirely by where the initial state sits among the excitation sectors, not by any coherence between them. The excitation-sector populations p_w = Tr(P_w ρ₀) are exact constants of motion: the XX+YY hopping moves excitations within a sector without changing the total count, and the dephasing dissipator commutes with the sector projector. Every inter-sector coherence decays, and within each sector the dynamics drives to the maximally mixed state, so
+
+    ρ(∞) = Σ_{w=0}^{N} p_w · (P_w / d_w),   p_w = Tr(P_w ρ₀),   d_w = C(N, w),
+
+an N+1-way attractor, one basin per sector, each weighted by its untouched initial share.
+
+The reading unifies two apparent exits of the dynamics: the lens regime (a single-excitation state, all weight in one sector) and the cusp regime (weight spread across several) are the same N+1-exit structure seen from different initial conditions. It is the excitation-number companion of the parity selection rule and of F4's stationary-mode count (kernel dimension N+1), and the proof runs in three independent steps: sector-population conservation (kinematic), the unique steady state per sector (dynamic), and the decay of off-diagonal coherence.
+
 ## Theorem
 
 Let ρ₀ be any initial density matrix on N qubits. Let the dynamics be the Lindblad equation with Heisenberg Hamiltonian H = Σ J (X_k X_{k+1} + Y_k Y_{k+1} + Z_k Z_{k+1}) on any graph topology, and local Z-dephasing jump operators L_k = √(γ_k) Z_k with arbitrary site-dependent rates γ_k ≥ 0. Let P_w = Σ_{i: popcount(i)=w} |i⟩⟨i| be the projector onto the excitation-number sector w, and let d_w = C(N, w) be its dimension.

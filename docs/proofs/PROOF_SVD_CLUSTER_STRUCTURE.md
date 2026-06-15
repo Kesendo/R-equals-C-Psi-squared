@@ -20,6 +20,12 @@
 
 ---
 
+## Abstract
+
+The palindrome residual M = Π·L·Π⁻¹ + L + 2σ·I is what the mirror conjugation cannot reflect away, the exact measure of a Hamiltonian's incompatibility with palindromic symmetry. A Master Lemma first strips the dephasing rate out entirely: for Z-dephasing M does not depend on γ at all, only on the Hamiltonian's Pauli-letter composition. Two theorems then read M's structure off that composition. F78: every single-body H = Σ_l c_l·P_l decomposes M additively over sites, M = Σ_l M_l ⊗ I, with each M_l a normal 4×4 block whose eigenvalues ±2c_l·i (for P ∈ {Y, Z}) or 0 (for P = X) fix M's whole spectrum by sign-walk combinatorics. F79: every two-body bond bilinear is sorted by Π²-parity (the count of Y/Z letters per term, mod 2), and that parity alone decides the shape, all-even ⟹ M block-diagonal in the V_± eigenspaces, all-odd ⟹ M purely off-diagonal, mixed ⟹ both.
+
+This is the Lebensader funnel made precise: the broad space of Hamiltonians narrows to a small set of combinatorial rules on M's singular-value clusters, holding across chain, star, and complete graphs. It generalizes the F1 palindrome (M = 0 exactly for the "truly" Hamiltonians) to the non-truly case, is closed for chains by the F80 Bloch sign-walk, and is split by Π into its symmetric and antisymmetric parts by F81 (the antisymmetric part being exactly L_{H_odd}).
+
 ## Theorems
 
 ### Theorem F78 (Single-body Additive Decomposition)
@@ -32,9 +38,9 @@ where each M_l is a 4×4 matrix on per-site Pauli space. Furthermore:
 
 1. Each M_l is **normal**.
 2. For P = X: M_l = 0.
-3. For P ∈ {Y, Z}: M_l has eigenvalues +2c_l·γ_l·i and −2c_l·γ_l·i, each with multiplicity 2 in the per-site basis (singular values all equal to 2|c_l|·γ_l). Y and Z give algebraically distinct M_l matrices but spectrally identical.
+3. For P ∈ {Y, Z}: M_l has eigenvalues +2c_l·i and −2c_l·i, each with multiplicity 2 in the per-site basis (singular values all equal to 2|c_l|). Y and Z give algebraically distinct M_l matrices but spectrally identical. (The eigenvalues are γ-independent: the dephasing rate cancels by Lemma 1; verified numerically at γ≠1 in `simulations/_f78_gamma_check.py`.)
 
-The full M's eigenvalues are Σ_l ε_l·2c_l·γ_l·i for ε_l ∈ {±1}, each sign-combination with multiplicity 2^N. Singular values are |Σ_l ε_l·2c_l·γ_l|, with the same multiplicities. Cluster sizes are pure sign-combination statistics on the weight vector (c_l).
+The full M's eigenvalues are Σ_l ε_l·2c_l·i for ε_l ∈ {±1}, each sign-combination with multiplicity 2^N. Singular values are |Σ_l ε_l·2c_l|, with the same multiplicities. Cluster sizes are pure sign-combination statistics on the weight vector (c_l).
 
 ### Theorem F79 (Two-body Π²-Block Decomposition)
 

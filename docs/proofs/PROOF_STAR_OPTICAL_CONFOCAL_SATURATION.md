@@ -4,6 +4,16 @@
 **Date:** 2026-05-19
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 
+## Abstract
+
+The star (one hub, N−1 spokes) is the point-focus member of the optical-cavity family, and it saturates the Liouvillian's imaginary-spectrum bound exactly. Under isotropic Heisenberg coupling on the star bonds with uniform Z-dephasing,
+
+    Im_max(star, N, J) ≡ max_{λ ∈ σ(L)} |Im(λ)| = J·N/2,   equivalently   Im_max/σ = Q/2  (σ = Nγ, Q = J/γ),
+
+independently of γ and of the dephasing-to-coupling ratio. The mechanism is geometric: every bond touches the hub, so the Hamiltonian factors through the hub-leaves total spins, H = J·S⃗_hub·S⃗_leaves, and its largest energy gap, J·N/2, is reached when all leaves align ferromagnetically (S_L = (N−1)/2). The Liouvillian eigenmode between the aligned and anti-aligned hub states realizes exactly that gap, and pure Z-dephasing adds only real decay, never imaginary part, so the gap survives untouched into the spectrum.
+
+In the optical-cavity reading the star converts the entire external illumination dose into coherent oscillation, the maximally resonant configuration; its sibling the N=4 ring (K_{2,2}) locks at the stronger 3J·N/4, from its bipartite-complete Casimir gap rather than from bond count alone. The bound is verified bit-exact at 29 anchors across N ∈ {3,4,5,6,8} and Q ∈ {0.5,…,2.5} and typed as StarImMaxBoundClaim.
+
 ## Statement
 
 For the open quantum system on N ≥ 3 qubits with

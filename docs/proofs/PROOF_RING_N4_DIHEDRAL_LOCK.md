@@ -4,6 +4,16 @@
 **Date:** 2026-05-19
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 
+## Abstract
+
+The 4-cycle is the one ring size that coincides with the bipartite-complete graph K_{2,2}: two sublattices of two qubits, every inter-sublattice bond present, none within. On it the isotropic Heisenberg Hamiltonian factors through total sublattice spins, H = J·S⃗_A·S⃗_B, and the SU(2) Casimir spectrum {−2J, −J, 0, 0, 0, +J} has maximal gap 3J. Under uniform Z-dephasing the Liouvillian's largest imaginary eigenvalue is pinned exactly to that gap,
+
+    Im_max(ring, N=4, J) = (3/4)·J·N = 3J,   equivalently   Im/σ = 3Q/4,
+
+independently of γ and Q = J/γ. The dissipator is pure dephasing, adding only real decay, so no eigenmode can exceed the Hamiltonian's spread: the bound is saturated, not approached.
+
+This is a finite-N exact, Q-universal lock with an exactly rational coefficient, the dihedral-symmetry sibling of the star's point-focus bound Im_max = J·N/2 (3/4 vs 1/2, traced to the bipartite-complete K_{2,2} Casimir gap 3J versus the star's hub-spoke gap, not to bond count alone). What does not carry to larger even rings is the rational closed form: they keep a Q-universal lock but at transcendental constants (ring N=6 at 0.7171·J·N, descending toward ln 2), because the bipartite-complete structure is special to N=4. Typed as RingN4DihedralLockClaim.
+
 ## Statement
 
 For the open quantum system on N=4 qubits with

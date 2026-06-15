@@ -26,6 +26,16 @@ Combined with F94 the full per-outcome table for this setup is:
 
 ---
 
+## Abstract
+
+F96 completes the per-outcome Born-deviation table that F94 opened. Same setup (the (0,2) pair of |0+0+⟩ on a 4-qubit Heisenberg ring under Z-dephasing), but now the three subdominant outcomes. Where the dominant |00⟩ grows as (4/3)·Q²·K³, the subdominants are linear in K = γt and entirely Q-independent:
+
+    Δ_|01⟩ = Δ_|10⟩ = −(16/9)·K = −(4/3)²·K,   Δ_|11⟩ = −(8/3)·K = −2·(4/3)·K.
+
+Every slope is a simple algebraic expression in the single F94 anchor 4/3: the singly-flipped pair squares it, the doubly-flipped outcome doubles and negates it. The Q-independence is the Universal-Carrier signature: from inside the pair only the product K = γt is visible at this order, the dissipator acting at first order while the dominant outcome's drift waits for the third.
+
+The closed forms are bit-exact from direct evaluation of the Dyson sym₃ and sym₅ matrix elements against the unitary normalizations A and B, and they close the books on this setup: the single number 4/3 sets every subdominant magnitude (its square and its double), while the signs come from the Dyson elements themselves — the dominant deviation positive (running above its unitary baseline), the three subdominant deviations negative (below it). F96 is the subdominant twin of F94; F95 and F97 carry the same geometry on the angle and cardioid sides.
+
 ## Setup
 
 Identical to F94: initial state |ψ_0⟩ = |0⟩ ⊗ |+⟩ ⊗ |0⟩ ⊗ |+⟩ on N = 4 qubits, Heisenberg ring Hamiltonian H = (J/4) Σ_b (X_b X_{b+1} + Y_b Y_{b+1} + Z_b Z_{b+1}), uniform Z-dephasing L_dis[ρ] = γ Σ_l (Z_l ρ Z_l − ρ), reduce to pair (0, 2), measure each of the four Z-basis outcomes |00⟩, |01⟩, |10⟩, |11⟩. The deviation is Δ_i(t) = P_lindblad(i, t) / P_unitary(i, t) − 1.

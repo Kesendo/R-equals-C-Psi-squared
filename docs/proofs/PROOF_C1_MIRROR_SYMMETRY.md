@@ -8,6 +8,16 @@
 
 ---
 
+## Abstract
+
+F71 is the spatial-mirror law of the closure-breaking coefficient. For a uniform N-qubit XY chain under uniform Z-dephasing and any reflection-symmetric initial state, perturbing the coupling at bond b produces the same first-order purity response as perturbing its mirror partner bond N−2−b:
+
+    c₁(N, b, ρ₀) = c₁(N, N−2−b, ρ₀)   for all b ∈ {0, …, N−2},
+
+where c₁ is the leading coefficient of the closure sum Σ_i ln α_i under a single-bond δJ. The proof is purely kinematic: the spatial reflection R (site i ↔ N−1−i) commutes with the uniform Hamiltonian and with Z-dephasing, so the bond-wise profile is blind to handedness. The chain does not care which half you flip; the count of independent c₁ components drops from N−1 to ⌈(N−1)/2⌉.
+
+The law degrades gracefully off the uniform line. Its observable-side twin F100 carries the same mirror to the F86c Q_peak, with the bond-mirror deviation D(b) = c₁(b) − c₁(N−2−b) exactly odd in the F71-anti-palindromic part of J (any palindromic J keeps D = 0; asymmetry breaks it only at linear order); F101 is the dephasing-axis version, and the spectrum-side partner F91 says the eigenvalues see only the symmetric part of γ. Orthogonal to all of these is the K₁ chiral mirror (PTF), which pairs single-excitation modes by sublattice color rather than bonds across the center.
+
 ## Statement
 
 For a uniform N-qubit XY chain with uniform Z-dephasing γ₀ and any reflection-symmetric initial state ρ₀, the closure-breaking coefficient c₁ satisfies:

@@ -7,6 +7,14 @@
 
 ---
 
+## Abstract
+
+For a path-k chain (k bonds, k+1 sites, uniform J, open boundaries) under Z-dephasing, the F_a signal modes live on the AT-locked overlap subspace where every entry carries dephasing rate exactly 2γ, so the eigenvalue is λ_n = −2γ + i·y_n with y_n = 4J·cos(πn/(k+2)) a pure Bloch dispersion. The eigenvalue is the easy half of the story; what one actually observes is the amplitude, and that needs the eigenvector overlap with the initial state and its reduction onto the observable. F89 closes that amplitude half in closed form:
+
+    σ_n(N) = P_k(y_n) / [D_k · N²·(N−1)],   D_k = odd(k)² · 2^{E(k)},   E(k) = max(0, ⌊(k−5)/2⌋) + v₂(k) + max(0, v₂(k) − 2).
+
+The denominator does not live in the Bloch eigenvalue field (it is not a Galois invariant of it); it traces to the free-fermion envelope (Chebyshev U_j sums) and the orbit-polynomial reduction, that is, to the squared eigenvector norm. The bonus-free form D_k = k² / 2^{min(v₂(k), 2)} makes the arithmetic plain: the eigenvector norm loses at most a factor 4, saturating the amplitude's 2-adic cost (odd k loses nothing, 2·odd loses 2, 4·odd loses 4, and no deeper power of 2 costs more). Verified bit-exact for k = 3..46 against the cached tabulation and extended past the int32 boundary by an exact-arithmetic C# pipeline, F89 is the amplitude-layer twin of F86's per-bond obstruction and, through the F90 bridge, the origin of F86's per-bond K_b constants.
+
 ## Statement
 
 For path-k (a k-bond uniform-J OBC chain with k+1 sites under Z-dephasing), the **F_a signal amplitudes** (the AT-locked overlap-subspace eigenmodes on the S_2-anti Bloch orbit; see § "Setting" for precise definitions) satisfy
