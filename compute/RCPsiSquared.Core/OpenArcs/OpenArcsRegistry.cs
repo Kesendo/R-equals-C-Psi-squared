@@ -11,6 +11,35 @@ public static class OpenArcsRegistry
     private static readonly IReadOnlyList<OpenArc> _all = new[]
     {
         new OpenArc(
+            Name: "ptf_bonding_class_guard",
+            Opened: "2026-06-15",
+            Origin: "surfaced by the ptf_painter_pipeline fix (2026-06-15): replacing the scipy-Brent " +
+                "local-min trap with a grid-seed global fit (framework/ptf.py _alpha_fit_one_site) revealed " +
+                "that the prior 'Bell+ -> all sites unreliable' was a TRAP ARTIFACT, not a genuine guard veto",
+            ParkedAt: "before the fix, Bell+(0,1) at N=4, deltaJ=0.02 gave all sites alpha=3-9 (the Brent " +
+                "trap), |f|=100-400 > FMax=10, so the SANITY check flagged every site unreliable - which LOOKED " +
+                "like the two-deltaJ guard enforcing the bonding-state-class restriction (PTF needs the F67 " +
+                "single-excitation bonding mode; Bell+ is a 2-excitation+vacuum superposition). After the fix " +
+                "Bell+ gives alpha~=1.01, f~=0.6-0.8, LINEAR (f~=f_guard), so all sites read RELIABLE. So in " +
+                "Python the guard does NOT actually refuse Bell+ at small deltaJ: a tiny perturbation barely " +
+                "moves any trajectory, so alpha~=1 fits trivially and passes both the sanity and the two-deltaJ " +
+                "linearity checks. The 'bonding-state-class is required' claim (the ParkedAt of the retired " +
+                "ptf_painter_pipeline arc) is therefore too strong for Python.",
+            NextStep: "Cross-check C# vs Python: does the C# Symphony painters guard genuinely refuse Bell+ " +
+                "(a real test asserting 0 reliable, per the survey), or does C#'s golden-section also give Bell+ " +
+                "alpha~=1.01 reliable (making the C# 'refused' claim a former-Brent-style artifact or a " +
+                "different-case effect)? If C# genuinely refuses and Python does not, the guards have DIVERGED and " +
+                "the Python guard needs a real bonding-class / ansatz-validity test (e.g. a rescaled-fit RMSE " +
+                "floor, or a featureless-trajectory detector that does NOT rely on the minimizer producing absurd " +
+                "alpha). If neither refuses, the 'bonding-state-class required' framing is a small-deltaJ illusion " +
+                "to re-scope. Gate-first hazard: at small deltaJ everything barely moves, so a guard that passes " +
+                "alpha~=1 is not wrong - test at LARGER deltaJ where Bell+ should genuinely break if the " +
+                "restriction is real. Anchors: simulations/framework/workflows/ptf.py (perspectives_panel guard); " +
+                "the C# Symphony painters witness + its tests; simulations/_ptf_symphony_crossval.py (the Bell+ " +
+                "N=4 case). Assert the EXPECTED guard verdict for Bell+ in BOTH languages and let it fire.",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
             Name: "one_diagonal_mirror_group",
             Opened: "2026-06-14",
             Origin: "Tom asked to DEEPEN the one-diagonal principle (reflections/ON_THE_ONE_DIAGONAL.md: " +
@@ -138,7 +167,24 @@ public static class OpenArcsRegistry
             Origin: "simulations/ptf workflow + C# SlowModeMixing",
             ParkedAt: "the closure law lives as a live witness (Symphony painters movement: alpha per site with the two-deltaJ reliability guard, closure -0.0444 IN window at canonical N=5, chiral mirror replayed live at 1e-15, alpha = Python twin to 1e-3); learned on the way: the protocol needs the BONDING state class (Bell+/localized states break the rescaling and the guard refuses, in both languages); C# golden-section also found a true global alpha minimum where scipy's Brent traps 920x worse (severed-bond case, harness simulations/_ptf_symphony_crossval.py)",
             NextStep: "REQUIRED, escalated 2026-06-12: the scipy-Brent trap corrupts CANONICAL N=5 edge-bond letters (arbiter: brute-force landscapes match C# exactly, Python f off by sign and factor); backport the global-minimum fit (multi-start or grid-seed) to framework ptf.py before any further Python-side painter quantitative work; then retire this arc",
-            Status: OpenArcStatus.Open),
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "RESOLVED 2026-06-15 (fix in simulations/framework/workflows/ptf.py _alpha_fit_one_site; " +
+                "arbiter simulations/_ptf_symphony_crossval.py; 14/14 framework PTF tests green; 3-agent survey). " +
+                "DIAGNOSIS: the bug was the MINIMIZER, not the objective. mse(alpha)=mean((spline_PA(alpha*t)-PB)^2) " +
+                "is correct (identical to C#); the 'Python f off by sign and factor' hypothesis was RULED OUT. " +
+                "scipy minimize_scalar(method='bounded') (fminbound, Brent+parabolic) trapped in a local basin on " +
+                "featureless/multimodal alpha-landscapes (a site far from the defect, P_A~=P_B): the severed-bond " +
+                "case returned alpha~=3.15 where the true global is ~=1.0157 (MSE 920x worse). FIX: replaced the bare " +
+                "bounded-Brent with a global GRID-SEED (512 pts over [0.1,10]) + local bounded-Brent refine in the " +
+                "winning bracket; deterministic (the two-deltaJ guard still detects featureless fits), matches the " +
+                "brute-grid argmin and the C# golden-section. VALIDATION: arbiter site 2 now 1.015705 (= brute " +
+                "1.01566 / C# 1.01571); 14/14 tests pass; well-conditioned cases unchanged by construction. " +
+                "SIDE-FINDING (hedged, NOT part of this arc): Python Bell+ at small deltaJ now reads RELIABLE " +
+                "(alpha~=1.01, linear) - the prior 'all unreliable' was the trap artifact (the |f|<=10 sanity check " +
+                "was catching the trap's absurd alpha=3-9, not a genuine guard veto). So the ParkedAt's 'Bell+ breaks " +
+                "the rescaling, the guard refuses, in both languages' is too strong for Python; whether C# refuses " +
+                "Bell+ for a genuine reason is an open cross-check (a possible follow-up, not this arc). No pinned doc " +
+                "value changes (the documented N=7 bonding-mode pattern is well-conditioned, no trap)."),
 
         new OpenArc(
             Name: "birth_canal_surface",

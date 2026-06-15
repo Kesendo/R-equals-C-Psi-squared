@@ -28,6 +28,7 @@ from ._propagation import propagation_setup as _propagation_setup, per_site_bloc
 
 _ALPHA_BOUNDS = (0.1, 10.0)
 _BOUNDARY_TOL = 1e-3
+_ALPHA_SEED_GRID = 512  # coarse grid to locate the global basin before local refine
 
 
 def _purity_trajectory(evals, R, c0, t_grid, site_paulis):
@@ -41,7 +42,16 @@ def _purity_trajectory(evals, R, c0, t_grid, site_paulis):
 
 
 def _alpha_fit_one_site(t_grid, P_A, P_B):
-    """Fit α minimizing Σ_t (P_A(α·t) − P_B(t))²."""
+    """Fit α minimizing Σ_t (P_A(α·t) − P_B(t))² with a global grid-seed + local refine.
+
+    A bare scipy bounded-Brent (parabolic) traps in a local basin on featureless or
+    multimodal trajectories (a site far from the defect, where P_A ≈ P_B): it returned
+    α ≈ 3.15 where the true global minimum is α ≈ 1.016 (MSE ~920× worse, the
+    severed-bond case, _ptf_symphony_crossval.py). A coarse grid-seed over the bounded
+    interval locates the global basin first; bounded-Brent then refines within it. The
+    fit stays deterministic, so the two-δJ reliability guard still detects featureless
+    fits; the result matches the C# golden-section and the brute-grid argmin."""
+    lo, hi = _ALPHA_BOUNDS
     interp = interp1d(t_grid, P_A, bounds_error=False,
                       fill_value=(float(P_A[0]), float(P_A[-1])),
                       kind='cubic')
@@ -50,12 +60,24 @@ def _alpha_fit_one_site(t_grid, P_A, P_B):
         d = interp(alpha * t_grid) - P_B
         return float(np.mean(d * d))
 
-    res = minimize_scalar(mse, bounds=_ALPHA_BOUNDS, method='bounded',
-                          options={'xatol': 1e-7})
-    alpha = float(res.x)
-    rmse = float(np.sqrt(res.fun))
-    boundary = (abs(alpha - _ALPHA_BOUNDS[0]) < _BOUNDARY_TOL
-                or abs(alpha - _ALPHA_BOUNDS[1]) < _BOUNDARY_TOL)
+    # grid-seed: scan the whole bounded interval to find the global basin
+    grid = np.linspace(lo, hi, _ALPHA_SEED_GRID)
+    vals = np.fromiter((mse(a) for a in grid), dtype=float, count=grid.size)
+    k = int(np.argmin(vals))
+
+    # local refine inside the winning bracket [grid[k-1], grid[k+1]]
+    a_lo = grid[k - 1] if k > 0 else lo
+    a_hi = grid[k + 1] if k < grid.size - 1 else hi
+    res = minimize_scalar(mse, bounds=(a_lo, a_hi), method='bounded',
+                          options={'xatol': 1e-9})
+    # never accept a refine that is worse than the best grid point (safety net)
+    if res.fun <= vals[k]:
+        alpha, fun = float(res.x), float(res.fun)
+    else:
+        alpha, fun = float(grid[k]), float(vals[k])
+
+    rmse = float(np.sqrt(fun))
+    boundary = (abs(alpha - lo) < _BOUNDARY_TOL or abs(alpha - hi) < _BOUNDARY_TOL)
     return alpha, rmse, boundary
 
 

@@ -53,12 +53,13 @@ print("  reliable =", pp['reliable'])
 print("  sigma_log_alpha_reliable =", pp['sigma_log_alpha_reliable'])
 print("  clock =", pp['clock'])
 
-# --- The site-2 deviation, explained by the MSE landscape -------------------
-# The C# golden-section fit and the Python (scipy bounded-Brent) fit agree to ~1e-2 on the
-# well-conditioned sites (0, 1, 3) but disagree on site 2 (a featureless trajectory: P_A and
-# P_B differ by < 0.009 at every t). A brute-grid scan of the MSE landscape shows the GENUINE
-# global minimum is alpha ~ 1.016 (the C# answer); the Python alpha ~ 3.15 is a Brent local-min
-# artifact with MSE ~920x larger. C#'s fit is the better global optimum here.
+# --- The site-2 landscape: the trap this arc FIXED (2026-06-15) -------------
+# Historically scipy's bounded-Brent trapped at alpha ~ 3.15 on site 2 (a featureless
+# trajectory: P_A and P_B differ by < 0.009 at every t), MSE ~920x worse than the true
+# global alpha ~ 1.016. _alpha_fit_one_site now uses a grid-seed + local refine, so the
+# per-site alphas printed above already match the brute-grid global / the C# golden-section.
+# The landscape probe below is kept as the regression: the brute argmin must equal the
+# (now correct) fitted alpha for site 2 (~1.0157).
 from scipy.interpolate import interp1d
 i = 2
 interp = interp1d(out['t_grid'], out['P_A'][i], bounds_error=False,
