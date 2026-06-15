@@ -1,3 +1,4 @@
+using System.Linq;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.OpenArcs;
 
@@ -12,10 +13,27 @@ public class OpenArcsInspectableNodeTests
     }
 
     [Fact]
-    public void Registry_AllEntriesAreCurrentlyOpen()
+    public void Registry_OpenAndRetiredCountsPartitionTheRegistry()
     {
-        Assert.All(OpenArcsRegistry.All, a => Assert.Equal(OpenArcStatus.Open, a.Status));
-        Assert.Equal(OpenArcsRegistry.All.Count, OpenArcsRegistry.OpenCount);
+        int retired = OpenArcsRegistry.All.Count(a => a.Status == OpenArcStatus.Retired);
+        Assert.Equal(OpenArcsRegistry.All.Count, OpenArcsRegistry.OpenCount + retired);
+    }
+
+    [Fact]
+    public void Registry_RetiredArcsCarryAReason()
+    {
+        Assert.All(
+            OpenArcsRegistry.All.Where(a => a.Status == OpenArcStatus.Retired),
+            a => Assert.False(string.IsNullOrWhiteSpace(a.RetiredReason)));
+    }
+
+    [Fact]
+    public void OneDiagonalMirrorGroup_IsRetired_SpunOutToLinearS3()
+    {
+        var entry = OpenArcsRegistry.Lookup("one_diagonal_mirror_group");
+        Assert.NotNull(entry);
+        Assert.Equal(OpenArcStatus.Retired, entry!.Status);
+        Assert.Contains("linear_s3_mirror_completion", entry.RetiredReason!);
     }
 
     [Fact]
@@ -53,7 +71,8 @@ public class OpenArcsInspectableNodeTests
     public void Build_RootSummaryReportsOpenAndRetiredCounts()
     {
         var node = OpenArcsInspectableNode.Build();
+        int retired = OpenArcsRegistry.All.Count(a => a.Status == OpenArcStatus.Retired);
         Assert.Contains($"{OpenArcsRegistry.OpenCount} open arc(s)", node.Summary);
-        Assert.Contains("0 retired", node.Summary);
+        Assert.Contains($"{retired} retired", node.Summary);
     }
 }

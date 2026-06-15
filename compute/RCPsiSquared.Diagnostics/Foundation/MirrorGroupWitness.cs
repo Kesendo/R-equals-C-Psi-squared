@@ -218,9 +218,14 @@ public sealed class MirrorGroupWitness : IInspectable
                            + "(the T-gate to D₄'s S-gate)."),
                 new InspectableNode("F71's bond mirror",
                     summary: "a spatial reflection of the chain (site k ↔ N+1−k), not an operator-space letter map."),
-                new InspectableNode("the dephase-letter swaps Q_zx, Q_yx (the S₃ ⋉ D₄ completion, named open)",
+                new InspectableNode("the dephase-letter swaps Q_zx, Q_yx (the S₃ completion, RESOLVED 2026-06-15)",
                     summary: "the Z↔Y swap IS D (inside ⟨R,D⟩); the other two need the X↔Z basis permutation and are "
-                           + "outside. Adjoining them is the open completion the proof §5 named."),
+                           + "outside. The completion is resolved (arc linear_s3_mirror_completion, "
+                           + "simulations/linear_s3_mirror_closure.py): the letter-S₃ exists (order 6, from the "
+                           + "involutive Cliffords) but does NOT normalize D₄ (R = I⊗F is one-sided and spreads, "
+                           + "h_zx·R·h_zx⁻¹ = the one-sided Z^⊗N multiplication outside ⟨R,D⟩), so the coherence-space "
+                           + "closure ⟨R,D,h_zx,t_yz⟩ = 96·2^N — NOT a finite order-48 S₃⋉D₄, the discrete slice of "
+                           + "§5's O(2) completion."),
             });
     }
 

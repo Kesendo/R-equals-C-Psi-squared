@@ -58,7 +58,18 @@ public static class OpenArcsRegistry
                 "P_{m,1} = m*Tr(Q*A^{m-1}) = the girth moments at every rung. TYPED: ThreeLadderHingeClaim " +
                 "(parents AbsorptionTheoremClaim + MomentTowerPumpChannelClaim); live inspect --root ladders. " +
                 "Synthesis writeup: docs/THE_THREE_DIAGONALS.md (the one diagonal as one of three).",
-            Status: OpenArcStatus.Open),
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "RESOLVED across 2026-06-14/06-15. The synthesis landed: the dissipator diagonal Q " +
+                "is the fixed/reflected CENTER of the mirror group <R,D> = D4 (D fixes Q = the rate reading; " +
+                "R reflects R*Q*R = -Q carrying the -2*Sum(gamma) palindrome shift = the mirror reading; the " +
+                "F87 truly cell = the joint-fixed cell = the judge reading), so 'one diagonal read three times' " +
+                "IS 'one diagonal moved three ways by D4'. Typed ThreeDephasingDiagonalsOrbitClaim (the S3 |x| D4 " +
+                "weld edge, dual parents MirrorGroupD4Claim + AbsorptionTheoremClaim); the U(1) sibling (even-step " +
+                "ladder k<->k,k+-2, a transverse field breaks the disagreement parity) and the three-ladder hinge " +
+                "(ThreeLadderHingeClaim) both resolved; live witnesses inspect --root diagonal / mirrorgroup / " +
+                "ladders; writeup docs/THE_THREE_DIAGONALS.md. The ONE remaining open piece - the LINEAR S3 side " +
+                "assembled as a closed order-48 group on coherence space - was spun out into its own arc " +
+                "linear_s3_mirror_completion (2026-06-15)."),
 
         new OpenArc(
             Name: "linear_s3_mirror_completion",
@@ -101,7 +112,25 @@ public static class OpenArcsRegistry
                 "ThreeDephasingDiagonalsOrbitClaim}.cs; compute/RCPsiSquared.Diagnostics/Foundation/" +
                 "MirrorGroupWitness.cs (the D4 witness to extend); simulations/mirror_inventory_d4.py block H; " +
                 "docs/THE_THREE_DIAGONALS.md (the basis-S3 side, written up).",
-            Status: OpenArcStatus.Open),
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "RESOLVED 2026-06-15 (simulations/linear_s3_mirror_closure.py, self-validating " +
+                "N=2,3, gate-first; PROOF_PI_FACTORS_AS_R_TIMES_D sec.5 'Resolution of the S3 side' note). " +
+                "The linear S3 EXISTS as superoperators (order 6) from the INVOLUTIVE letter-transposition " +
+                "Cliffords (Hadamard for X<->Z, (Y+Z)/sqrt2 for Y<->Z; each order 2, product order 3) - NOT " +
+                "the order-4 rotation R_x(pi/2), which generates the order-24 single-qubit Clifford group (the " +
+                "gauge trap). But the S3 does NOT normalize the D4 = <R,D>: R = I(x)F is one-sided and spreads " +
+                "under the letter-S3 (h_zx.R.h_zx^-1 = the one-sided multiplication by Z^(x)N, dev 0, outside " +
+                "D4), so the coherence-space closure <R,D,h_zx,t_yz> = 96*2^N (384, 768 at N=2,3), NOT a finite " +
+                "order-48 S3|xD4. THREE distinct not-48 realizations: per-site monomial <r,d,h>=128 (sec.5 " +
+                "addendum), coherence-space 96*2^N (this arc), continuous O(2) (sec.5 addendum) - the abstract " +
+                "S3|xD4 has NO faithful finite realization on coherence space. NOT an overturning: sec.5's " +
+                "addendum already had per-site-128 and O(2); only the sec.5-MAIN 'expected order-48' line was " +
+                "imprecise (now corrected). THE TWO-S3 QUESTION DISSOLVES: there is ONE S3 (the letter " +
+                "permutation), faithful on the sign-blind diagonals {Q_X,Q_Y,Q_Z} (orbit 3, " +
+                "ThreeDephasingDiagonalsOrbitClaim / THE_THREE_DIAGONALS) and signed on the palindromizers " +
+                "(larger orbit). LESSON (Tom caught it mid-session): the first run used R_x(pi/2) and wrongly " +
+                "concluded 'the basis-change is order-24, not S3'; the involutive generators give the genuine " +
+                "order-6 S3, and the real obstruction to 48 is the one-sided R, not the S3 size."),
 
         new OpenArc(
             Name: "ptf_painter_pipeline",
