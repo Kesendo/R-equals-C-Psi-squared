@@ -60,6 +60,48 @@ public static class OpenArcsRegistry
             Status: OpenArcStatus.Open),
 
         new OpenArc(
+            Name: "linear_s3_mirror_completion",
+            Opened: "2026-06-15",
+            Origin: "PROOF_PI_FACTORS_AS_R_TIMES_D.md sec.5 names it open: the mirror group's D4 core <R,D> is " +
+                "typed (MirrorGroupD4Claim, order 8), but the FULL mirror group of the palindrome family is " +
+                "S3-letter-action |x| D4 (order 48). The S3 permutes the three dephase letters {X,Y,Z}; one " +
+                "transposition (Z<->Y) is already D INSIDE D4 (Welle 12, D Pi_Z D = Pi_Y), but the other two " +
+                "(X<->Z, X<->Y) move bit_a against bit_b and need the X<->Z basis permutation h, so they sit " +
+                "OUTSIDE <R,D>. Surfaced again 2026-06-15 (the mirrorgroup witness + the three-ladder session " +
+                "flagged the S3 side as the last unassembled piece of the mirror group).",
+            ParkedAt: "ALREADY BUILT (do not re-derive): (1) the D4 core <R,D> (MirrorGroupD4Claim: Pi_Z=R*D, " +
+                "the 8-element closure, the dihedral inversion). (2) the dephase-letter swaps as a Klein-V4 " +
+                "{I, D, Q_zx, Q_yx} (Pi2KleinV4DephaseSwapGroup + PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md): " +
+                "canonical per-site q_zx = h*d_l (h = X<->Z basis permutation on the ordered basis (I,X,Z,Y), " +
+                "d_l = diag(1,1,1,-1)), q_yx = h, D = diag((-1)^{n_Y}); N-site Q_zx = H*D, Q_yx = H with " +
+                "H = h^{otimes N}. (3) the BASIS-S3 on the three DIAGONALS {Q_X,Q_Y,Q_Z} " +
+                "(ThreeDephasingDiagonalsOrbitClaim, structure S3 |x| D4 - but its S3 is the single-qubit " +
+                "Clifford basis-change <h_zx,h_yz>, which PERMUTES the diagonals, NOT the dephase swap; note D " +
+                "FIXES every diagonal Q while it SWAPS the palindromizers Pi). (4) the order-128 PER-SITE " +
+                "monomial completion <r,d,h> (mirror_inventory_d4.py block H) - a DIFFERENT object from the " +
+                "coherence-space group. (5) the ANTILINEAR double <R,D,K> = D4 x Z2 (PROOF_ANTILINEAR_TRIANGLE " +
+                "sec.4). Only the LINEAR S3 side on coherence space is never assembled as a closed group.",
+            NextStep: "Build the full mirror group S3 |x| D4 (order 48) on COHERENCE SPACE: adjoin the X<->Z " +
+                "basis permutation (the coherence-space lift of h, i.e. Q_zx or Q_yx from " +
+                "Pi2KleinV4DephaseSwapGroup) to <R,D> and verify the closure is order 48 with semidirect " +
+                "structure S3 |x| D4. Then TYPE it (a MirrorGroupS3D4Claim, parents MirrorGroupD4Claim + " +
+                "Pi2KleinV4DephaseSwapGroup) + a live witness (the S3xD4 twin of inspect --root mirrorgroup). " +
+                "THE KEY OPEN PHYSICS QUESTION: is the dephase-letter-swap S3 (this completion, acting on the " +
+                "palindromizers Pi) the SAME abstract S3 as the basis-change S3 of " +
+                "ThreeDephasingDiagonalsOrbitClaim (acting on the diagonals Q)? Both permute {X,Y,Z} but act " +
+                "differently (D swaps Pi_Z<->Pi_Y yet FIXES the diagonals Q) - resolve whether they are one S3 " +
+                "in two realizations or two distinct S3's. GATE-FIRST hazard (learned twice in the mirrorgroup " +
+                "work): pin ONE representation - the coherence-space superoperators (target order 48), NOT the " +
+                "per-site order-128 monomial <r,d,h>; the convention twist (vec_F vs vec_R, the (-1)^{n_Y} of " +
+                "reflections/D_PI_Z_EQUALS_PI_Y.md) is where a naive closure breaks, so Stage 0 should check " +
+                "Pi_Z = R*D and the new generator against PiOperator before building any tree. Anchors: " +
+                "docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md sec.5 + PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md; " +
+                "compute/RCPsiSquared.Core/Symmetry/{MirrorGroupD4Claim, Pi2KleinV4DephaseSwapGroup, " +
+                "ThreeDephasingDiagonalsOrbitClaim}.cs; compute/RCPsiSquared.Diagnostics/Foundation/" +
+                "MirrorGroupWitness.cs (the D4 witness to extend); simulations/mirror_inventory_d4.py block H.",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
             Name: "ptf_painter_pipeline",
             Opened: "2026-06-03",
             Origin: "simulations/ptf workflow + C# SlowModeMixing",
