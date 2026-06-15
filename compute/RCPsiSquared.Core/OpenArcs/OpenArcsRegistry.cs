@@ -286,8 +286,15 @@ public static class OpenArcsRegistry
                 "clock_hand_ladder FROST_CIRCLE first stone); SIX: BirthCanalSurfaceWitness / --root surface " +
                 "draws the sterile<->birth-canal boundary as a live 2D gamma-profile slice (six lenses + the " +
                 "L7 s* ray lens, R1 two sterility kinds), reusing PostEpFlowField membership, no new Claim " +
-                "(breadcrumbs AbsorptionTheoremClaim), see arc birth_canal_surface",
-            NextStep: "next witness: F117 Pascal-Gram positivity",
+                "(breadcrumbs AbsorptionTheoremClaim), see arc birth_canal_surface; SEVEN: " +
+                "PascalGramPositivityWitness / --root pascalgram recomputes the F117 Pascal-Gram SOS coefficient " +
+                "P_{m*,d} = (m*/d)·Sum_l Sum_k |U|^2 live from H for the 5 canonical branch cases (d=1/3/5), " +
+                "reproducing the exact CRT integers (573440 / 2064384 / 589824 / 61440 / 86507520), breadcrumbed " +
+                "from WindowedConverseAllGammaClaim (2026-06-15)",
+            NextStep: "F117 DONE (PascalGramPositivityWitness / --root pascalgram, 7/7 tests, 5/5 exact live). The " +
+                "witness-first program continues opportunistically: a typed claim whose evidence is still only a " +
+                "Python verifier is the next candidate (no specific target pinned). Retire this tracker when the " +
+                "remaining proven claims either have live witnesses or are judged out of scope",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

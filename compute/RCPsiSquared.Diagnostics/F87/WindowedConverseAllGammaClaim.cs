@@ -38,6 +38,7 @@ public sealed class WindowedConverseAllGammaClaim : Claim
                Tier.Tier1Derived,
                "docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md + " +
                "simulations/f87_pascal_gram_positivity.py + " +
+               "compute/RCPsiSquared.Diagnostics/F87/PascalGramPositivityWitness.cs (live, inspect --root pascalgram) + " +
                "simulations/f87_windowed_monomial_converse.py + " +
                "docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md §7.5/§7.7")
     {
@@ -97,6 +98,10 @@ public sealed class WindowedConverseAllGammaClaim : Claim
             yield return new InspectableNode("Proven spine (Tier1Derived)", summary: ProvenSpine);
             yield return new InspectableNode("Girth dichotomy (retired R-deg, 2026-06-10)", summary: GirthDichotomy);
             yield return new InspectableNode("Pascal-Gram positivity (resolved R-sign, 2026-06-10)", summary: PascalGramPositivity);
+            yield return new InspectableNode("Live witness (inspect --root pascalgram)",
+                summary: "PascalGramPositivityWitness recomputes P_{m*,d} = (m*/d)·Σ|U|² from H at inspect time for the " +
+                         "five canonical branch cases (d=1/3/5), reproducing the exact CRT coefficients " +
+                         "(573440 / 2064384 / 589824 / 61440 / 86507520) live — the witness complement to this closed-form theorem.");
             yield return new InspectableNode("Consumers (gate now open: F110/F111 promote)", summary: Consumers);
         }
     }

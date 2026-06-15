@@ -548,6 +548,12 @@ public static class InspectCommand
             "P_{m,1} = m·Tr(Q·A^{m−1}) = the girth moments, at every rung (typed: ThreeLadderHingeClaim)",
             c => new LadderHingeWitness(c.Parser.HasFlag("N") ? c.N : 3),
             RequiresN: false, HonorsOptionalN: true),
+        new("pascalgram", "F117 Pascal-Gram positivity, live: for a non-bipartite windowed pair every #Q class " +
+            "at m* is the equal-leg-total sum of squares P_{m*,d} = (m*/d)·Σ_l⃗ Σ_k⃗ |U|² ≥ 0, so p_{m*}(γ) > 0 " +
+            "for every γ>0 (hard at one γ ⟹ hard at all γ). Recomputes the five canonical branch cases " +
+            "(d=1/3/5) live from H and reproduces the exact CRT coefficients (typed: WindowedConverseAllGammaClaim)",
+            c => new PascalGramPositivityWitness(),
+            RequiresN: false),
         new("world", "the whole Object Manager: every root, the typed claims, the hardware confirmations, the open-arcs ledger, and the glossary (try --root glossary first if the language is new)",
             BuildWorldRoot, DefaultDepth: 2, RequiresN: false),
     };
