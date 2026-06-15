@@ -23,8 +23,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (resolved 2026-06-13, single-excitation reduction): Q*(N) reduces 4^N → N² (the coalescing mode
 /// is single-excitation, so Q*(N) is the EP of the Haken-Strobl Liouvillian); at N=2,3 the pair are
 /// roots of λ²+4γλ+c·J²=0 (c=4, 2), giving Q* = 2/√c = 1, √2 exactly; at N≥4 the pair is collectively
-/// dressed (no clean 2×2), the exact condition transcendental, Q* a diffusive ~linear growth.
-/// Tier1Candidate: the general-N asymptotic slope remains open; the half-filling V-Effect seam now has
+/// dressed (no clean 2×2), the exact condition transcendental, Q* a diffusive ~linear growth with asymptotic
+/// slope DERIVED = 2/π (2026-06-15, PROOF_COHERENCE_HORIZON_SLOPE: the resummed coherence-range ladder gives
+/// λ²+8γλ+4J²q², EP at Q*=2/q_min → 2N/π; the ring sibling is exactly half, 1/π).
+/// Tier1Candidate: the half-filling V-Effect seam now has
 /// a concrete carbon-ring probe (benzene C₆ Q* = 1.609; the double-excitation mode that overtakes the
 /// beat there is ring-specific, see the benzene node and simulations/carbon/benzene_two_clocks.py).</para>
 ///
@@ -58,11 +60,13 @@ public sealed class CoherenceHorizonClaim : Claim
                "at ALL N=2..5, a genuine √-EP; the band edge is the co-located γ-protected survivor (no bifurcation " +
                "at N=4). Closed form (2026-06-13): Q*(N) reduces to the single-excitation (Haken-Strobl) Liouvillian; " +
                "N=2,3 the pair are roots of λ²+4γλ+c·J²=0 (c=4,2) so Q*=2/√c=1,√2 exactly; N≥4 collectively dressed, " +
-               "the exact condition transcendental (a diffusive ~linear growth).",
+               "the exact condition transcendental; the asymptotic slope is DERIVED = 2/π " +
+               "(PROOF_COHERENCE_HORIZON_SLOPE: the resummed coherence-ladder dispersion λ²+8γλ+4J²q², EP at Q*=2/q_min → 2N/π).",
                Tier.Tier1Candidate,
                "docs/ANALYTICAL_FORMULAS.md F2b corollary \"Coherence horizon Q*(N)\" + " +
                "docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md (the carbon-layer twin) + " +
-               "compute/RCPsiSquared.Diagnostics/Foundation/CoherenceHorizonWitness.cs (CoherenceHorizonWitness, inspect --root horizon)")
+               "compute/RCPsiSquared.Diagnostics/Foundation/CoherenceHorizonWitness.cs (CoherenceHorizonWitness, inspect --root horizon) + " +
+               "docs/proofs/PROOF_COHERENCE_HORIZON_SLOPE.md (the asymptotic slope 2/π) + simulations/coherence_horizon_slope.py")
     {
         Horizon = horizon ?? throw new ArgumentNullException(nameof(horizon));
         BandEdge = bandEdge ?? throw new ArgumentNullException(nameof(bandEdge));
@@ -73,7 +77,8 @@ public sealed class CoherenceHorizonClaim : Claim
     public override string Summary =>
         $"Q*(N) = 1/√2/1.8787/2.3737 (N=2..5) = the carbon Frost-Hückel coherent↔incoherent threshold under J ↔ |β|; " +
         $"N=2 (Q*=1) is the EP base; the {{0,2}}-coherence coalesces (√-EP) at every N. Closed form (2026-06-13): Q*(N) is " +
-        $"the single-excitation (Haken-Strobl) EP, λ²+4γλ+c·J²=0 at N=2,3 (Q*=2/√c=1,√2), transcendental N≥4 ({Tier.Label()})";
+        $"the single-excitation (Haken-Strobl) EP, λ²+4γλ+c·J²=0 at N=2,3 (Q*=2/√c=1,√2), transcendental N≥4; " +
+        $"asymptotic slope 2/π (derived) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -108,8 +113,10 @@ public sealed class CoherenceHorizonClaim : Claim
                          "independent identities; c=4, 2), so Q*=2/√c = 1, √2 EXACTLY — the structural form of the low-N " +
                          "accident (the whole clean 2×2, not just the value, exists only at N=2,3). At N≥4 the pair is " +
                          "collectively dressed (the trace departs from −4γ), no clean 2×2, the exact condition transcendental: " +
-                         "a diffusive long-wavelength critical damping, Q*(N) ~ 0.59 N (canonical Q*(4)=1.87874, Q*(5)=2.37367). " +
-                         "Verifier simulations/coherence_horizon_se_block.py (self-validating N=2..8).");
+                         "a diffusive long-wavelength critical damping with asymptotic slope DERIVED = 2/π (the resummed coherence-" +
+                         "range ladder dispersion λ²+8γλ+4J²q², EP at Q*=2/q_min → 2N/π; the nearest-neighbour telegrapher truncation " +
+                         "gives the wrong √2/π; canonical Q*(4)=1.87874, Q*(5)=2.37367). Verifiers coherence_horizon_se_block.py + " +
+                         "coherence_horizon_slope.py (self-validating); proof PROOF_COHERENCE_HORIZON_SLOPE.md.");
             yield return new InspectableNode("the benzene ring instance + the V-Effect seam (ring-specific)",
                 summary: "the ring carbon case (2026-06-13, verifier simulations/carbon/benzene_two_clocks.py). " +
                          "Benzene C₆'s own coherence horizon (Uhr 2, the single-excitation {0,2}-EP via the same " +

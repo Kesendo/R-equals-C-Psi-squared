@@ -225,10 +225,15 @@ identities; c=4 at N=2, c=2 at N=3), so **Q*(N) = 2/√c → 1, √2 exactly**. 
 form of the 2cos(π/(N+1)) low-N accident: not only the value, the whole clean-2×2 picture exists
 only at N=2,3. At N≥4 the pair is collectively dressed (its trace departs from −4γ by 1.017 / 1.043
 / 1.072 at N=4/5/6), so there is no clean 2×2 and the exact EP condition is transcendental (the SE
-slowest-mode double root) — a **diffusive long-wavelength critical damping**: Q*(N) grows ~linearly
-(slope ≈ 0.59 at N=14, creeping toward ~2/π), NOT the band-edge value (which saturates at 2).
-Canonical N≥4 values from the SE EP, superseding the bisection grid: **Q*(4) = 1.87874,
-Q*(5) = 2.37367.** Open remainder: the exact asymptotic slope (the 2/π question).
+slowest-mode double root) — a **diffusive long-wavelength critical damping**: Q*(N) grows linearly with
+**asymptotic slope exactly 2/π** (derived 2026-06-15, `proofs/PROOF_COHERENCE_HORIZON_SLOPE.md`). The slow
+mode is a population coupled to the FULL ladder of coherence ranges r (geometric decay μ^r), not a two-field
+telegrapher; resumming the ladder gives the dispersion **λ² + 8γλ + 4J²q² = 0** (both coefficients doubled
+vs the nearest-neighbour-truncated telegrapher λ²+4γλ+2J²q², which gives the WRONG slope √2/π = 0.450), EP at
+γ* = Jq/2, so Q*(N) = 2/q_min → 2N/π. NOT the band-edge value (which saturates at 2). Canonical N≥4 values
+from the SE EP, superseding the bisection grid: **Q*(4) = 1.87874, Q*(5) = 2.37367**; the finite-N apparent
+slope (≈0.59 at N=14, ≈0.62 at N=120) approaches 2/π from below with an O(1/N) tail. The ring sibling
+(q_min = 2π/N) is exactly half: slope 1/π. (8γ confirmed against L_se; adversarial review GO.)
 
 **The handover Q, resolved 2026-06-14** (`simulations/carbon/handover_q.py`, self-validating).
 Q*(N) is one face of a topology-universal HANDOVER. The diagonal (p,p) "incompleteness survivor"
