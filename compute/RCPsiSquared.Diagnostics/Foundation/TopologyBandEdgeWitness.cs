@@ -30,11 +30,6 @@ public sealed class TopologyBandEdgeWitness : IInspectable
     public const double DefaultGamma = 0.05;
     private const double Tol = 1e-6;
 
-    // Clock tolerances, matched to Symphony.Clock (Symphony.cs): a mode "decays" if its rate exceeds
-    // GapFloor; ω_mem is read off the modes whose rate is within GapMatch of the strict gap.
-    private const double GapFloor = 1e-9;
-    private const double GapMatch = 1e-6;
-
     private static readonly TopologyKind[] Topos = { TopologyKind.Chain, TopologyKind.Star, TopologyKind.Ring };
     private static readonly int[] Ns = { 3, 4, 5 };
 
@@ -61,15 +56,7 @@ public sealed class TopologyBandEdgeWitness : IInspectable
         var chain = new ChainSystem(N: n, J: q * Gamma, GammaZero: Gamma,
             HType: HamiltonianType.XY, Topology: topo);
         var L = chain.BuildLiouvillian();
-        var eigs = L.Evd().EigenValues;
-
-        double gap = double.PositiveInfinity;
-        foreach (var e in eigs) { double rate = -e.Real; if (rate > GapFloor && rate < gap) gap = rate; }
-        if (double.IsInfinity(gap)) { c = (0.0, 0.0); _cache[key] = c; return c; }
-        double omega = 0.0;
-        foreach (var e in eigs)
-            if (Math.Abs(-e.Real - gap) <= GapMatch) omega = Math.Max(omega, Math.Abs(e.Imaginary));
-        c = (gap, omega);
+        c = EigenvalueClockExtraction.ExtractClockFromSpectrum(L.Evd().EigenValues);
         _cache[key] = c;
         return c;
     }

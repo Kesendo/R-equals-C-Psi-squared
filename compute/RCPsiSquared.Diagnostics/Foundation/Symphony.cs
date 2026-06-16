@@ -172,13 +172,7 @@ public sealed class Symphony : IInspectable
         get
         {
             EnsureEvolved();
-            double gap = double.PositiveInfinity;
-            foreach (var e in _lambdaA!) { double rate = -e.Real; if (rate > 1e-9 && rate < gap) gap = rate; }
-            if (double.IsInfinity(gap)) return (0.0, 0.0);
-            double omega = 0.0;
-            foreach (var e in _lambdaA!)
-                if (Math.Abs(-e.Real - gap) <= 1e-6) omega = Math.Max(omega, Math.Abs(e.Imaginary));
-            return (gap, omega);
+            return EigenvalueClockExtraction.ExtractClockFromSpectrum(_lambdaA!);
         }
     }
 
