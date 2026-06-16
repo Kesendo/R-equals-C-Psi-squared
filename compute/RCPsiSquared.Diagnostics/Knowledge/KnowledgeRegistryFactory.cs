@@ -392,6 +392,16 @@ public static class KnowledgeRegistryFactory
             // Absorption Theorem + commutant linear algebra). Live witness: StructuralCeilingWitness
             // (inspect --root ceiling).
             .RegisterStructuralCeilingClaim()
+            // The second clock's regime map (Tier1Candidate, 2026-06-16, "the stitch"): the {0,2}/half-filling
+            // coherence (the second clock) is ONE mode whose regime is selected by the single-particle band via
+            // two knobs — knob 1 (degeneracy m) → the high-Q ceiling 4/(m+1) (below the −2γ floor iff m≥4), knob 2
+            // (dispersion) → the low-Q character (sharp √-EP coherence horizon on a dispersive band, only
+            // asymptotic protection on a flat one). It stitches CoherenceHorizonClaim (the EP regime) +
+            // StructuralCeilingClaim (the CEILING regime, 4/(m+1) the bridge) + the star-no-horizon (GRADUAL) into
+            // one node. Two typed parents = the two regimes, both registered above: CoherenceHorizonClaim (the
+            // weaker, Tier1Candidate, caps this child) + StructuralCeilingClaim (Tier1Derived). Gate-verified 15/15
+            // (simulations/second_clock_regime_axis.py); live N=4 full-Liouvillian gate (inspect --root secondclock).
+            .RegisterSecondClockRegimeClaim()
             .RegisterF86HwhmClosedFormClaim()
             .RegisterIbmBlockCpsiHardwareTable()
             .RegisterPolarityPairQPeakDecompositionClaim()

@@ -504,6 +504,8 @@ public static class InspectCommand
             _ => new StructuralCeilingWitness(), RequiresN: false),
         new("horizon", "the coherence horizon Q*(N): where the slowest mode stops oscillating = the carbon Frost-Hückel coherent↔incoherent threshold",
             _ => new CoherenceHorizonWitness(), RequiresN: false),
+        new("secondclock", "the stitch: the {0,2}/half-filling coherence (the second clock) is ONE mode whose regime = map(band degeneracy, dispersion) — joining the EP horizon, the structural ceiling, and the gradual star into one node (live N=4 full-Liouvillian gate)",
+            _ => new SecondClockRegimeWitness(), RequiresN: false),
         new("decoder", "reading power measured live: Fisher information vs Q per readout basis - resolution grows with the Q-factor; the exceptional point reads worst",
             c => new ReadingPowerWitness(c.Parser.HasFlag("N") ? c.N : 4),
             RequiresN: false, HonorsOptionalN: true),

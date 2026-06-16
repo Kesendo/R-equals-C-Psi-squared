@@ -324,9 +324,14 @@ public static class OpenArcsRegistry
                 "n_XY=2 is maximal (3 sites) so the {0,2} block closes; for N>=4 they drift off -2g (extras=0). Harmless to " +
                 "gap-dominance (all < E1) but a genuine N=3 structural peculiarity. OTHER known N=3 specials, scattered, NOT " +
                 "yet collected: Q*(N) closed form clean only at N=2,3 (the clean 2x2 EP, lambda^2+4g*lambda+cJ^2); star N=3 = " +
-                "the path P_3 (so 'star-3' is really a chain); and others to be gathered.",
-            NextStep: "low priority, dig out when curious: collect the project's N=3 anomalies into one view (this gap-dominance " +
-                "(n,n) family; the Q*(2,3)-only closed form; star-3=path; any others), and ask whether they share a root " +
+                "the path P_3 (so 'star-3' is really a chain); and others to be gathered. SIBLING N=4 (2,2) HALF-FILLING " +
+                "specials (from the second-clock regime map, SecondClockRegimeClaim / second_clock_regime_axis.py): the 4/N " +
+                "ceiling ladder hits 1 exactly at N=4, vacating the sub-floor region to the (2,2) two-excitation sector, where " +
+                "K_4 = 2-2/sqrt(3) (a structural ceiling, complete-4) and ring-4 = 1 co-occupies the floor (GRADUAL, the only " +
+                "GRADUAL ring) - same 'small-N maximality' root, one filling step up from N=3's (1,1) n_XY=2 maximality.",
+            NextStep: "low priority, dig out when curious: collect the project's N=3 (and sibling N=4 (2,2) half-filling) " +
+                "anomalies into one view (this gap-dominance (n,n) family; the Q*(2,3)-only closed form; star-3=path; the " +
+                "second-clock N=4 (2,2) ceiling/ring anomalies; any others), and ask whether they share a root " +
                 "(small-N maximality / accidental degeneracy) or are independent coincidences",
             Status: OpenArcStatus.Open),
 
