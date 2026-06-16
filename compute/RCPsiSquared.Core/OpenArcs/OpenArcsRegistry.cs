@@ -501,6 +501,30 @@ public static class OpenArcsRegistry
             Status: OpenArcStatus.Open),
 
         new OpenArc(
+            Name: "topology_band_edge",
+            Opened: "2026-06-16",
+            Origin: "fell out of the seam movement (symphony_view): its J-anchor band edge was chain-specific, so the seam gate fired on star/ring even at moderate Q - the band edge is topology-specific",
+            ParkedAt: "LANDED: the LAW typed + witnessed + the seam fixed. THE LAW (Im side, generalizes the chain-only F2b): " +
+                "the XY single-excitation band edge = J * the hopping graph's adjacency SPECTRAL RADIUS rho - chain " +
+                "2cos(pi/(N+1)), star sqrt(N-1), ring 2 (the SE block of XY = J*adjacency). The Re=-2gamma floor is the " +
+                "Absorption Theorem (n_XY=1, CITED not re-derived - Tom's prior-work catch). Core primitive " +
+                "TopologyBandEdge.SpectralRadius/BandEdge (from the bonds, general); TopologyBandEdgeClaim (Tier1Candidate - " +
+                "capped by its Tier1Candidate parent ClockHandLadderClaim via the registry tier-inheritance invariant, plus " +
+                "AbsorptionTheoremClaim); live TopologyBandEdgeWitness (inspect --root bandedge): the law + the gap-dominance " +
+                "MAP. THE MAP (witnessed, not claimed): whether omega_mem reads the band edge is topology-specific - chain " +
+                "Q-horizon all N; star Q-horizon N<=5 (Q*(N) rises steeply, N=5 protects only by Q~1000) / STRUCTURAL CEILING " +
+                "N>=6 (strict gap saturates at 0.80*2gamma, J-independent); ring N=4 CO-OCCUPIED FLOOR (a (2,2) two-fermion mode " +
+                "at -2gamma with Im=2sqrt(2)*J > band edge 2J, never the band edge). Seam J-anchor now topology-aware (J*rho) - " +
+                "passes on star N<=4 and odd rings, FIRES split three ways (non-XY / omega~0 horizon-or-ceiling / " +
+                "different-mode-at-floor). Oracle simulations/_topology_band_edge_review.py (full Q-sweep to 1000) agrees; " +
+                "suites Core 11, witness 5, seam 15, audit green",
+            NextStep: "the MECHANISM dig (out of the claim): WHY the star structural sub-floor mode first appears at N=6 " +
+                "(gap -> 0.80*2gamma), what sets the star horizon Q*(N) for N<=5, whether other even rings show the ring-N=4 " +
+                "co-occupied-floor pattern. Plus a DRY cleanup: hoist a shared ClockFromSpectrum primitive (the witness " +
+                "duplicates Symphony.Clock's gap/omega_mem extraction because Symphony.MaxN=5 cannot reach the N=6 ceiling)",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
             Name: "whirlpool_carbon_layers",
             Opened: "2026-06-03",
             Origin: "reflections/ON_THE_WHIRLPOOL_YOU_STEER_TO + simulations/whirlpool*.py",
