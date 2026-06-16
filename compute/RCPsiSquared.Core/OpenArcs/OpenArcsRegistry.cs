@@ -516,7 +516,7 @@ public static class OpenArcsRegistry
                 "N>=6 (strict gap saturates at 0.80*2gamma, J-independent); ring N=4 CO-OCCUPIED FLOOR (a (2,2) two-fermion mode " +
                 "at -2gamma with Im=2sqrt(2)*J > band edge 2J, never the band edge). Seam J-anchor now topology-aware (J*rho) - " +
                 "passes on star N<=4 and odd rings, FIRES split three ways (non-XY / omega~0 horizon-or-ceiling / " +
-                "different-mode-at-floor). Oracle simulations/_topology_band_edge_review.py (full Q-sweep to 1000) agrees; " +
+                "different-mode-at-floor). Oracle simulations/topology_band_edge_review.py (full Q-sweep to 1000) agrees; " +
                 "suites Core 11, witness 5, seam 15, audit green",
             NextStep: "the MECHANISM dig (out of the claim): WHY the star structural sub-floor mode first appears at N=6 " +
                 "(gap -> 0.80*2gamma), what sets the star horizon Q*(N) for N<=5, whether other even rings show the ring-N=4 " +

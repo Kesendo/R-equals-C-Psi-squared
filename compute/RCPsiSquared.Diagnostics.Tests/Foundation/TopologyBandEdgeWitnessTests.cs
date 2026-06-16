@@ -4,7 +4,7 @@ using RCPsiSquared.Diagnostics.Foundation;
 using Xunit;
 
 /// <summary>The gate-first map: the band edge is the gap mode (ω_mem == J·ρ) only in a topology-specific
-/// regime. Ground truth: simulations/_topology_band_edge_review.py (full Q-sweep to Q=1000).</summary>
+/// regime. Ground truth: simulations/topology_band_edge_review.py (full Q-sweep to Q=1000).</summary>
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 public class TopologyBandEdgeWitnessTests

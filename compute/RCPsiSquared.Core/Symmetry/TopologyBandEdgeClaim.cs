@@ -43,7 +43,7 @@ public sealed class TopologyBandEdgeClaim : Claim
                Tier.Tier1Candidate,
                "docs/proofs/PROOF_ABSORPTION_THEOREM.md (§4.3 gap=2γ, §4.5 n_XY=Hamming — the −2γ floor) + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/TopologyBandEdgeWitness.cs (inspect --root bandedge) + " +
-               "simulations/_topology_band_edge_review.py (the gate-first verifier, full Q-sweep to Q=1000)")
+               "simulations/topology_band_edge_review.py (the gate-first verifier, full Q-sweep to Q=1000)")
     {
         ChainInstance = chainInstance ?? throw new ArgumentNullException(nameof(chainInstance));
         Absorption = absorption ?? throw new ArgumentNullException(nameof(absorption));
