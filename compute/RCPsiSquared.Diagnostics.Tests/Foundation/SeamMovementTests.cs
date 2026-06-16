@@ -63,4 +63,24 @@ public class SeamMovementTests
         var s = Protected3();
         Assert.Contains(((IInspectable)s).Children, c => c.DisplayName == "movement: the seam");
     }
+
+    [Fact]
+    public void JAnchor_RecoversJ_InProtectedRegime()
+    {
+        var seam = Protected3().Seam!;
+        Assert.True(seam.XyOk);
+        Assert.Equal(0.075, seam.JRecovered, 9);   // J_rec = ω_mem / (2 cos(π/4)) = J to ~1e-9
+    }
+
+    [Fact]
+    public void JAnchor_IsNotApplicable_UnderNonXyNormalization()
+    {
+        // R2/Test 7: the band edge 2J·cos(π/(N+1)) is XY-specific; Heisenberg breaks it ~4×.
+        var seam = new Symphony(n: 3, j: 0.075, gamma: 0.05,
+            hType: HamiltonianType.Heisenberg, calibrate: true).Seam!;
+        Assert.False(seam.XyOk);
+        Assert.Equal(0.0, seam.JRecovered);   // guarded: no recovery off the XY normalization
+        var coh = ((IInspectable)seam).Children.Single(c => c.DisplayName == "seam: coherence-hand");
+        Assert.Contains("N/A", coh.Summary);
+    }
 }

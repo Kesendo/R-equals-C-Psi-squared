@@ -1560,18 +1560,24 @@ public sealed class SeamMovement : IInspectable
         // The shared regime flag (BandEdgeIsTheGapMode, inlined on the parent spectrum). N=2 uses the
         // pulled hand 2√(J²−γ²); N≥3 the F2b band edge 2J·cos(π/(N+1)).
         if (p.N == 2)
-            _bandEdge = p.Gamma < p.J ? 2.0 * System.Math.Sqrt(p.J * p.J - p.Gamma * p.Gamma) : 0.0;
+            _bandEdge = p.Gamma < p.J ? 2.0 * Math.Sqrt(p.J * p.J - p.Gamma * p.Gamma) : 0.0;
         else
-            _bandEdge = 2.0 * p.J * System.Math.Cos(System.Math.PI / (p.N + 1));
-        _protected = System.Math.Abs(gap - 2.0 * p.Gamma) < Tol
+            _bandEdge = 2.0 * p.J * Math.Cos(Math.PI / (p.N + 1));
+        _protected = Math.Abs(_gap - 2.0 * p.Gamma) < Tol
                      && _bandEdge > 0.0
-                     && System.Math.Abs(omega - _bandEdge) < Tol;
+                     && Math.Abs(_omega - _bandEdge) < Tol;
 
-        // J-anchor (filled in Task 2): default 0 until the band-edge inversion lands.
-        _jRec = 0.0;
+        // J-anchor: invert the band edge for J (XY only, in-regime only). N=2 uses the pulled hand
+        // J = √((ω/2)² + γ²); N≥3 the band edge J = ω / (2 cos(π/(N+1))).
+        if (_xyOk && _protected)
+            _jRec = p.N == 2
+                ? Math.Sqrt((_omega / 2.0) * (_omega / 2.0) + p.Gamma * p.Gamma)
+                : _omega / (2.0 * Math.Cos(Math.PI / (p.N + 1)));
+        else
+            _jRec = 0.0;
         // Gate (filled in Task 3).
         _ratio = 0.0;
-        _gateResidual = System.Math.Abs(_ratio - _q);
+        _gateResidual = Math.Abs(_ratio - _q);
         _gatePass = false;
     }
 
@@ -1586,6 +1592,10 @@ public sealed class SeamMovement : IInspectable
 
     /// <summary>True iff the configured H is XY (the J-anchor band-edge formula is XY-specific).</summary>
     public bool XyOk { get { Ensure(); return _xyOk; } }
+
+    /// <summary>The recovered J from the coherence hand (XY band-edge inversion; N=2 pulled hand).
+    /// Zero when off the XY normalization or below the coherence horizon (not recoverable there).</summary>
+    public double JRecovered { get { Ensure(); return _jRec; } }
 
     public string DisplayName => "movement: the seam";
 
@@ -1607,6 +1617,7 @@ public sealed class SeamMovement : IInspectable
         {
             Ensure();
             yield return TaktLens();
+            yield return CoherenceHandLens();
         }
     }
 
@@ -1618,7 +1629,7 @@ public sealed class SeamMovement : IInspectable
         string body = _protected
             ? $"γ-anchor (the dephasing floor): gap = 2γ₀ = {_gap.ToString("0.#####", Inv)}; " +
               $"γ₀_rec = gap/2 = {_gammaRec.ToString("0.#####", Inv)} (model γ₀ = {p.Gamma.ToString("0.###", Inv)}, " +
-              $"residual {System.Math.Abs(_gammaRec - p.Gamma).ToString("E2", Inv)}). Operational reading: one external " +
+              $"residual {Math.Abs(_gammaRec - p.Gamma).ToString("E2", Inv)}). Operational reading: one external " +
               $"rate R [{p.LabUnit}⁻¹] → γ₀ = R/2. Typed parent AbsorptionTheoremClaim."
             : $"γ-anchor OUTSIDE the protected regime (Q = {_q.ToString("0.###", Inv)} < Q*(N)): the slowest mode is an " +
               $"overdamped coherence below the 2γ₀ floor, so gap/2 = {_gammaRec.ToString("0.#####", Inv)} UNDER-recovers " +
@@ -1626,6 +1637,29 @@ public sealed class SeamMovement : IInspectable
               "J-anchor). See CoherenceHorizonClaim.";
         return new InspectableNode("seam: takt", summary: body,
             payload: new InspectablePayload.Real("γ₀_rec", _gammaRec, "0.######"));
+    }
+
+    /// <summary>seam: coherence-hand — the J-anchor. ω_mem = 2J·cos(π/(N+1)) (XY; N=2 pulled hand
+    /// 2√(J²−γ²)) ⟹ J_rec. XY-guarded: the band edge is normalization-specific.</summary>
+    private InspectableNode CoherenceHandLens()
+    {
+        var p = Parent;
+        string body;
+        if (!_xyOk)
+            body = $"J-anchor N/A: the band edge 2J·cos(π/(N+1)) is XY-specific; under {p.HType} the coherence " +
+                   $"hand ω_mem = {_omega.ToString("0.#####", Inv)} ≠ the formula ({_bandEdge.ToString("0.#####", Inv)}), " +
+                   "so J is not recoverable (XY-guarded). See ClockHandLadderClaim (the F2bXyChainSpectrum lineage).";
+        else if (_protected)
+            body = $"J-anchor (the coherence hand): ω_mem = {_omega.ToString("0.#####", Inv)} = " +
+                   $"{(p.N == 2 ? "2√(J²−γ²) [pulled hand]" : "2J·cos(π/(N+1))")}; J_rec = {_jRec.ToString("0.#####", Inv)} " +
+                   $"(model J = {p.J.ToString("0.###", Inv)}, residual {Math.Abs(_jRec - p.J).ToString("E2", Inv)}). " +
+                   "Typed parent ClockHandLadderClaim / F2b.";
+        else
+            body = $"J-anchor OUTSIDE the protected regime: ω_mem at the gap = {_omega.ToString("0.#####", Inv)} " +
+                   $"(the band edge {_bandEdge.ToString("0.#####", Inv)} is no longer the gap mode; an overdamped real " +
+                   "mode took it). J not recoverable here. See CoherenceHorizonClaim.";
+        return new InspectableNode("seam: coherence-hand", summary: body,
+            payload: new InspectablePayload.Real("J_rec", _jRec, "0.######"));
     }
 
     public InspectablePayload Payload => InspectablePayload.Empty;
