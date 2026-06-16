@@ -356,6 +356,17 @@ public static class KnowledgeRegistryFactory
             // .RegisterAbsorptionTheoremClaim() (the −2γ), .RegisterUniversalCarrierClaim()
             // (carrier-blindness), all resolved by build time.
             .RegisterClockHandLadderClaim()
+            // The topology band edge (Tier1Candidate, 2026-06-16): the XY single-excitation band edge =
+            // J × the hopping graph's adjacency spectral radius ρ (chain 2cos(π/(N+1)), star √(N−1),
+            // ring 2), generalizing the chain-only F2b band edge to any topology (the Im/L_H side). The
+            // Re=−2γ floor (the band-edge coherence has n_XY=1) is the Absorption Theorem, cited not
+            // re-derived. Two typed parents, both registered earlier in this chain: ClockHandLadderClaim
+            // (the chain instance, directly above) + AbsorptionTheoremClaim (the floor). Gap-dominance is
+            // witnessed (inspect --root bandedge), not separately claimed. Tier1Candidate (not Derived):
+            // the typed parent ClockHandLadderClaim is Tier1Candidate, so the tier-inheritance invariant
+            // caps this child there too — matching the sibling CoherenceHorizonClaim (the spec said
+            // Derived; the gate caught the candidate parent).
+            .RegisterTopologyBandEdgeClaim()
             // The coherence horizon Q*(N) (Tier1Candidate, 2026-06-12): Q*(N) = 1/√2/1.8785/2.3722
             // for N=2..5, the Q below which the slowest non-zero Liouvillian mode stops oscillating
             // (the coherence hand freezes), verified equal to the carbon Frost-Hückel coherent↔incoherent
