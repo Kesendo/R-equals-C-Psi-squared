@@ -495,6 +495,11 @@ public static class InspectCommand
                 c.Parser.OptionalDouble("J") ?? ClockHandLadderWitness.DefaultJ,
                 c.Parser.OptionalDouble("gamma") ?? ClockHandLadderWitness.DefaultGamma),
             RequiresN: false),
+        new("bandedge", "the topology-general band edge = J × adjacency spectral radius; the law + the gap-dominance map (chain/star/ring)",
+            c => new TopologyBandEdgeWitness(
+                c.Parser.OptionalDouble("J") ?? TopologyBandEdgeWitness.DefaultJ,
+                c.Parser.OptionalDouble("gamma") ?? TopologyBandEdgeWitness.DefaultGamma),
+            RequiresN: false),
         new("horizon", "the coherence horizon Q*(N): where the slowest mode stops oscillating = the carbon Frost-Hückel coherent↔incoherent threshold",
             _ => new CoherenceHorizonWitness(), RequiresN: false),
         new("decoder", "reading power measured live: Fisher information vs Q per readout basis - resolution grows with the Q-factor; the exceptional point reads worst",
