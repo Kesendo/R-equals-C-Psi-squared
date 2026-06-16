@@ -8,8 +8,9 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>The Symphony seam movement (movement 4): the calibration topology. Gate-first —
 /// the γ- and J-anchors recover (γ₀, J) from the dimensionful spectrum and the over-determination
-/// gate fires when the spectrum leaves the (XY, Q ≥ Q*(N)) domain. Ground truth:
-/// simulations/_seam_movement_review.py.</summary>
+/// gate fires when the spectrum leaves the (XY, Q ≥ Q*(N)) domain. The test configs are pinned to the
+/// closed-form coherence horizon Q*(N) = {1, √2, 1.879, 2.374} (CoherenceHorizonClaim): N=3,Q=1.5 is
+/// protected (gate PASS); N=4,Q=1.5 is below Q*(4)=1.879 (gate FIRES).</summary>
 public class SeamMovementTests
 {
     // The protected config: N=3, J=0.075, γ=0.05 ⟹ Q=1.5 > Q*(3)=√2 (the ClockHandLadder default).
