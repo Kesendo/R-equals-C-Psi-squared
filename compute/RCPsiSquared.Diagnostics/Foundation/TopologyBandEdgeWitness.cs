@@ -155,8 +155,10 @@ public sealed class TopologyBandEdgeWitness : IInspectable
                     summary: $"at Q={qLo.ToString("0", Inv)}: ω_mem/J = {(OmegaAtGap(topo, n, qLo) / J).ToString("0.####", Inv)}, " +
                              $"band edge/J = {(BandEdge(topo, n) / J).ToString("0.####", Inv)} → {Regime(topo, n, qLo, qHi)}"));
         return new InspectableNode("the gap-dominance map (is the band edge the strict gap mode?)",
-            summary: "Q-horizon: chain (all N), star N≤5, odd rings. Structural ceiling: star N≥6 (test suite). " +
-                     "Co-occupied floor: ring N=4 (a (2,2) mode at −2γ, Im=2√2·J > band edge).",
+            summary: "is the band edge the strict gap mode? At Q=20: PROTECTED = chain (all N), star N≤4, odd rings. " +
+                     "Q-horizon (broken at Q=20, climbs to the band edge by high Q) = star N=5. " +
+                     "Co-occupied floor (a different mode at −2γ, never the band edge) = ring N=4 (a (2,2) mode, Im=2√2·J > band edge). " +
+                     "Structural ceiling (gap saturates below 2γ) = star N≥6 (test suite only).",
             children: rows);
     }
 
