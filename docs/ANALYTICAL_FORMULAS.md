@@ -144,7 +144,7 @@ different Hamiltonians.
 **Source:** [OBC_SINE_BASIS_FINDINGS](../review/OBC_SINE_BASIS_FINDINGS.md),
 standard tight-binding theory for OBC chains.
 
-### F2b corollary. The two clocks (Tier 1 candidate)
+### F2b corollary. The two clocks (Tier 1 derived; the Q*(N) coherence horizon below stays Tier 1 candidate)
 
 When F2b's band edge is read as the coherence hand ω_mem of the
 open-system clock (the slowest-decaying |vac⟩⟨ψ_k| sector, decay rate
@@ -160,9 +160,13 @@ H-competitive regime, while the |vac⟩⟨ψ_k| sector at rate 2γ is the
 slowest mode; at strong dephasing (low Q) a slower real overdamped mode
 takes the gap and the band edge ceases to be the coherence hand, the
 higher rungs leaving first (live: `inspect --root clock --J 1 --gamma 0.5`
-shows N=5 gone at Q=2). The mechanism is derived; gap-dominance (no
-faster-oscillating mode shares the exact gap rate) is verified N = 3-5 in
-that regime, the general off-gap argument open, hence Tier 1 candidate.
+shows N=5 gone at Q=2). The mechanism is derived, and gap-dominance — that
+the band edge is the fastest oscillation on the −2γ floor — is now PROVEN
+via free fermions (max|Im| = E1 for all N; the floor modes are
+c_k^(†)·f(N_tot) at ±E_k, see
+[PROOF_CHAIN_GAP_DOMINANCE](proofs/PROOF_CHAIN_GAP_DOMINANCE.md)). Above the
+Coherence Horizon Q*(N) the floor is the strict gap and the clock reads the
+band edge; below it a slower real mode takes the gap.
 
 At N = 2 the gap-mode is a different (population / antisymmetric-coherence)
 block and the coherence hand is γ-pulled:
@@ -178,9 +182,11 @@ raw clock reading, is the honest EP witness there.
 The dial angle is θ = arctan(ω_mem / Gap) = arctan(Q·cos(π/(N+1))) for
 N ≥ 3 and arctan(√(Q²−1)) for N = 2 (zero at the EP).
 
-**Tier:** 1 candidate (mechanism derived; gap-dominance verified N = 3-5,
-general off-gap argument open).
-**Verified:** N = 3, 4, 5 (γ-protection of the read clock); N = 2 closed
+**Tier:** 1 derived (mechanism + gap-dominance proven via free fermions,
+[PROOF_CHAIN_GAP_DOMINANCE](proofs/PROOF_CHAIN_GAP_DOMINANCE.md); ClockHandLadderClaim
+graduated). The Q*(N) coherence-horizon sub-result below stays Tier 1 candidate
+(its own half-filling V-Effect-seam open piece).
+**Verified:** gap-dominance gate-exact N = 3..6 (and γ-independent across γ); N = 2 closed
 form 2√(J²−γ²) exact.
 **Live:** `inspect --root clock`
 ([`ClockHandLadderWitness.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/ClockHandLadderWitness.cs)).

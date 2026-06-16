@@ -9,10 +9,12 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 public class ClockHandLadderClaimTests
 {
     [Fact]
-    public void Claim_IsTier1Candidate_AndNamesTheTwoClocks()
+    public void Claim_IsTier1Derived_AndNamesTheTwoClocks()
     {
+        // Tier1Derived since 2026-06-16: the gap-dominance lemma is proven (PROOF_CHAIN_GAP_DOMINANCE,
+        // free fermions); all three parents (F2b, Absorption, UniversalCarrier) are Tier1Derived.
         var c = ClockHandLadderClaim.Shared;
-        Assert.Equal(Tier.Tier1Candidate, c.Tier);
+        Assert.Equal(Tier.Tier1Derived, c.Tier);
         Assert.Contains("ω_mem", c.Summary);
     }
 

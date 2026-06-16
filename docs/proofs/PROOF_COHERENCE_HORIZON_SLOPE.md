@@ -1,6 +1,6 @@
 # PROOF: the Coherence Horizon asymptotic slope is 2/π
 
-**Status:** Tier 1 derived (the asymptotic slope, leading order q → 0 / N → ∞): the resummed coherence-range ladder gives the dispersion λ² + 8γλ + 4J²q², whose EP sits at Q* = 2/q_min → 2N/π, so slope = 2/π exactly. Confirmed numerically to N = 120 (approached from below with the predicted O(1/N) tail; the nearest-neighbour-truncated telegrapher value √2/π is decisively refuted) and independently reproduced by an adversarial re-derivation (Round 1, GO). The finite-N values Q*(N) for N ≥ 4 stay transcendental; only the slope is the clean limit. Its typed home `CoherenceHorizonClaim` is Tier 1 candidate, since the broader off-gap gap-dominance argument is still open.
+**Status:** Tier 1 derived (the asymptotic slope, leading order q → 0 / N → ∞): the resummed coherence-range ladder gives the dispersion λ² + 8γλ + 4J²q², whose EP sits at Q* = 2/q_min → 2N/π, so slope = 2/π exactly. Confirmed numerically to N = 120 (approached from below with the predicted O(1/N) tail; the nearest-neighbour-truncated telegrapher value √2/π is decisively refuted) and independently reproduced by an adversarial re-derivation (Round 1, GO). The finite-N values Q*(N) for N ≥ 4 stay transcendental; only the slope is the clean limit. Its typed home `CoherenceHorizonClaim` stays Tier 1 candidate — not for the gap-dominance (now proven, [PROOF_CHAIN_GAP_DOMINANCE](PROOF_CHAIN_GAP_DOMINANCE.md)), but for its own open piece, the half-filling V-Effect ring seam.
 **Date:** 2026-06-15
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 
@@ -142,6 +142,9 @@ geometric resummation, recovering the discrete accident.
 
 - Typed home: `CoherenceHorizonClaim` (the asymptotic-slope line); parent `ClockHandLadderClaim` (the two
   clocks), arc `clock_hand_ladder`.
+- Sibling proof: [`PROOF_CHAIN_GAP_DOMINANCE`](PROOF_CHAIN_GAP_DOMINANCE.md) — the band edge is the max
+  frequency on the −2γ floor (free fermions); the {0,2} mode whose coalescence sets this horizon's Q*(N) is
+  the same "second clock" family.
 - F-registry: the F2b "two clocks" corollary, `docs/ANALYTICAL_FORMULAS.md`.
 - Verifiers: `simulations/coherence_horizon_slope.py` (self-validating: slope refutes √2/π, q_min·N → π, the
   8γ dispersion via overdamped real roots) and `simulations/coherence_horizon_slope_largeN.py` (the sparse

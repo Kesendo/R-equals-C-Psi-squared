@@ -9,15 +9,15 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 public class TopologyBandEdgeClaimTests
 {
     [Fact]
-    public void Build_WiresParents_AndIsTier1Candidate()
+    public void Build_WiresParents_AndIsTier1Derived()
     {
         var claim = TopologyBandEdgeClaim.Build();
-        // Tier1Candidate, NOT Derived: the typed parent edge to ClockHandLadderClaim (Tier1Candidate)
-        // forces the tier down by the registry's tier-inheritance invariant (a child can be no stronger
-        // than its weakest parent). The band-edge LAW is exact and the floor is the Tier1Derived
-        // Absorption Theorem, but the gap-dominance map reuses the chain's open gap-dominance proof.
-        // The sibling CoherenceHorizonClaim (the other ClockHandLadder child) is Tier1Candidate too.
-        Assert.Equal(Tier.Tier1Candidate, claim.Tier);
+        // Tier1Derived since 2026-06-16: both typed parents are now Tier1Derived. The band-edge LAW is exact,
+        // the Re=−2γ floor is the Absorption Theorem, and the chain gap-dominance that capped the parent
+        // ClockHandLadderClaim is proven (PROOF_CHAIN_GAP_DOMINANCE), so ClockHandLadder graduated and the
+        // inherited cap is lifted. (The sibling CoherenceHorizonClaim stays Tier1Candidate for its own open
+        // piece — the half-filling V-Effect ring seam — not the gap-dominance.)
+        Assert.Equal(Tier.Tier1Derived, claim.Tier);
         Assert.NotNull(claim.ChainInstance);   // ClockHandLadderClaim (the chain Im instance)
         Assert.NotNull(claim.Absorption);      // AbsorptionTheoremClaim (the Re=-2γ floor)
         var kids = ((IInspectable)claim).Children.ToList();

@@ -3,7 +3,7 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>The topology-general XY band edge (Tier 1 candidate). The single-excitation band edge (the
+/// <summary>The topology-general XY band edge (Tier 1 derived). The single-excitation band edge (the
 /// largest |E_k| of the vac↔single-excitation coherences) = J × the hopping graph's adjacency spectral
 /// radius ρ: chain 2cos(π/(N+1)), star √(N−1), ring 2 — generalizing the chain-only F2b band edge to any
 /// topology. This is the Im/L_H side; the Re=−2γ floor (the band-edge coherence has n_XY=1) is the
@@ -21,15 +21,15 @@ namespace RCPsiSquared.Core.Symmetry;
 /// such ±symmetry. The ring-4 (2,2) co-occupier 2√2·J is the anti-periodic even-sector image of this same
 /// chiral structure (PROOF_STRUCTURAL_CEILING §4).</para>
 ///
-/// <para>Tier: Tier1Candidate, not Derived. The band-edge LAW (SE block of XY = J·adjacency) is exact, and
-/// the Re=−2γ floor rests on the Tier1Derived <see cref="AbsorptionTheoremClaim"/>. But the typed parent edge
-/// to <see cref="ClockHandLadderClaim"/> (the chain instance this generalizes) makes the claim rest on a
-/// Tier1Candidate, and the registry's tier-inheritance invariant forbids a child stronger than its weakest
-/// parent. This is honest: the gap-dominance "map" reuses exactly the chain's open gap-dominance proof (the
-/// general proof that the max frequency in the protected n_XY=1 subspace is the band edge — still open in
-/// ClockHandLadderClaim). The sibling <c>CoherenceHorizonClaim</c>, the other ClockHandLadder child, is
-/// Tier1Candidate for the same reason. (The design spec said Tier1Derived; the tier-inheritance gate caught
-/// the overlooked candidate parent — see commit message.)</para>
+/// <para>Tier: Tier1Derived (2026-06-16). The band-edge LAW (SE block of XY = J·adjacency) is exact; the
+/// Re=−2γ floor is the Tier1Derived <see cref="AbsorptionTheoremClaim"/>; and the chain gap-dominance that its
+/// parent <see cref="ClockHandLadderClaim"/> had left open is now PROVEN (docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md:
+/// the exact-(−2γ) modes are free fermions c_k^(†)·f(N_tot) at ±E_k, max E1), so ClockHandLadder graduated to
+/// Tier1Derived and this inherited cap is lifted. The topology-specific gap-dominance map (below) is
+/// witnessed, and independently understood: the star has no coherence horizon (flat band,
+/// PROOF_STRUCTURAL_CEILING §7), and complete/star structurally ceiling (g2=4/N, 4/(N−1); F122 /
+/// <see cref="StructuralCeilingClaim"/>). The sibling <c>CoherenceHorizonClaim</c> stays Tier1Candidate for
+/// its OWN open piece (the half-filling V-Effect ring seam), not the gap-dominance.</para>
 ///
 /// <para>Typed parents: <see cref="ClockHandLadderClaim"/> (the chain instance it generalizes — its
 /// ω_mem = 2J·cos(π/(N+1)) is the chain ρ), <see cref="AbsorptionTheoremClaim"/> (the Re=−2γ floor).</para></summary>
@@ -49,8 +49,9 @@ public sealed class TopologyBandEdgeClaim : Claim
                "Gap-dominance (whether ω_mem reads the band edge) is topology-specific and witnessed: Q-horizon " +
                "for chain (all N) / star (N≤5) / odd rings; structural ceiling for star N≥6; co-occupied floor " +
                "for ring N=4 (a (2,2) mode at −2γ with Im=2√2·J > band edge).",
-               Tier.Tier1Candidate,
+               Tier.Tier1Derived,
                "docs/proofs/PROOF_ABSORPTION_THEOREM.md (§4.3 gap=2γ, §4.5 n_XY=Hamming — the −2γ floor) + " +
+               "docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md (the chain gap-dominance proof that lifts the cap) + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/TopologyBandEdgeWitness.cs (inspect --root bandedge) + " +
                "simulations/topology_band_edge_review.py (the gate-first verifier, full Q-sweep to Q=1000)")
     {

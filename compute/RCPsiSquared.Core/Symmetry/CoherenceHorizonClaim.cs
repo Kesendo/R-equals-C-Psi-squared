@@ -26,9 +26,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// dressed (no clean 2×2), the exact condition transcendental, Q* a diffusive ~linear growth with asymptotic
 /// slope DERIVED = 2/π (2026-06-15, PROOF_COHERENCE_HORIZON_SLOPE: the resummed coherence-range ladder gives
 /// λ²+8γλ+4J²q², EP at Q*=2/q_min → 2N/π; the ring sibling is exactly half, 1/π).
-/// Tier1Candidate: the half-filling V-Effect seam now has
-/// a concrete carbon-ring probe (benzene C₆ Q* = 1.609; the double-excitation mode that overtakes the
-/// beat there is ring-specific, see the benzene node and simulations/carbon/benzene_two_clocks.py).</para>
+/// Tier1Candidate — NOT for the gap-dominance (now PROVEN, docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md, so the
+/// parent <see cref="ClockHandLadderClaim"/> graduated to Tier1Derived), but for its OWN open piece: the
+/// half-filling V-Effect seam now has a concrete carbon-ring probe (benzene C₆ Q* = 1.609; the
+/// double-excitation mode that overtakes the beat there is ring-specific, see the benzene node and
+/// simulations/carbon/benzene_two_clocks.py).</para>
 ///
 /// <para>Live witness: <c>inspect --root horizon</c>
 /// (<c>compute/RCPsiSquared.Diagnostics/Foundation/CoherenceHorizonWitness.cs</c>).</para>
