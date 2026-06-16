@@ -1509,8 +1509,9 @@ public sealed class TempoCertificationMovement : IInspectable
 /// <summary>The seam movement (movement 4): the converse of the clock movement, the calibration
 /// topology of reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md. Where the clock movement certifies that
 /// dimensionless lenses CANNOT see the carrier γ₀, the seam movement takes the seams that DO see it —
-/// the dimensionful rate (takt gap = 2γ₀) and frequency (coherence hand ω_mem = 2J·cos(π/(N+1))) — and
-/// recovers (γ₀, J), gating their over-determination through the inside-known Q = J/γ₀.
+/// the dimensionful rate (takt gap = 2γ₀) and frequency (coherence hand ω_mem = J·ρ, the topology band
+/// edge — chain 2cos(π/(N+1)), star √(N−1), ring 2; Unit TopologyBandEdge) — and recovers (γ₀, J),
+/// gating their over-determination through the inside-known Q = J/γ₀.
 ///
 /// <para>Spectrum-only: it reads the parent's <see cref="Symphony.Clock"/> (the already-computed
 /// Liouvillian eigenvalues), never the ρ(t) trajectory, so the parent's EvolveCount stays 1.</para>
@@ -1680,8 +1681,9 @@ public sealed class SeamMovement : IInspectable
             payload: new InspectablePayload.Real("γ₀_rec", _gammaRec, "0.######"));
     }
 
-    /// <summary>seam: coherence-hand — the J-anchor. ω_mem = 2J·cos(π/(N+1)) (XY; N=2 pulled hand
-    /// 2√(J²−γ²)) ⟹ J_rec. XY-guarded: the band edge is normalization-specific.</summary>
+    /// <summary>seam: coherence-hand — the J-anchor. ω_mem = J·ρ, the topology band edge (chain
+    /// 2cos(π/(N+1)), star √(N−1), ring 2; XY; N=2 pulled hand 2√(J²−γ²)) ⟹ J_rec. XY-guarded: the band
+    /// edge is normalization-specific.</summary>
     private InspectableNode CoherenceHandLens()
     {
         var p = Parent;
