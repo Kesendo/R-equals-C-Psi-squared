@@ -83,6 +83,15 @@ public sealed class Symphony : IInspectable
     /// lens is a pure (Q,K)-observable. Null = no clock movement.</summary>
     public double? TempoRatio { get; }
 
+    /// <summary>The seam movement (movement 4): if true, the Symphony grows "movement: the seam",
+    /// the calibration topology — the dimensionful anchors recover (γ₀, J) and the over-determination
+    /// gate certifies they reconcile through Q. Spectrum-only; no second evolution. Default false.</summary>
+    public bool Calibrate { get; }
+
+    /// <summary>The lab-unit label for the seam movement's chain-collapse output (the external clock
+    /// the synthetic peg is read against). Default "model-unit".</summary>
+    public string LabUnit { get; }
+
     /// <summary>Hilbert dimension 2^N.</summary>
     public int Dim => 1 << N;
 
@@ -101,7 +110,9 @@ public sealed class Symphony : IInspectable
         int? defectBond = null,
         double deltaJ = 0.02,
         (int Site1, int Site2)? carrierPair = null,
-        double? tempoRatio = null)
+        double? tempoRatio = null,
+        bool calibrate = false,
+        string? labUnit = null)
     {
         if (n < 2 || n > MaxN)
             throw new ArgumentOutOfRangeException(nameof(n),
@@ -136,6 +147,9 @@ public sealed class Symphony : IInspectable
         if (tempoRatio is { } tr && tr <= 0.0)
             throw new ArgumentOutOfRangeException(nameof(tempoRatio), $"tempo ratio must be positive; got {tr}");
         TempoRatio = tempoRatio;
+
+        Calibrate = calibrate;
+        LabUnit = string.IsNullOrWhiteSpace(labUnit) ? "model-unit" : labUnit;
     }
 
     // ---- The one evolution, computed once, shared by all lenses ----
@@ -423,6 +437,8 @@ public sealed class Symphony : IInspectable
                 yield return Painters();
             if (TempoRatio is not null)
                 yield return TempoCertification!;
+            if (Calibrate)
+                yield return Seam!;
             yield return EventsNode();
         }
     }
@@ -442,6 +458,11 @@ public sealed class Symphony : IInspectable
     /// <summary>The clock movement (only when tempoRatio is set): the two-tempo certification. Built lazily.</summary>
     public TempoCertificationMovement? TempoCertification =>
         TempoRatio is { } r ? (_tempo ??= new TempoCertificationMovement(this, r)) : null;
+
+    private SeamMovement? _seam;
+    /// <summary>The seam movement (only when --calibrate is set): the γ₀ extractor / calibration
+    /// topology. Built lazily; reads the parent's spectrum only.</summary>
+    public SeamMovement? Seam => Calibrate ? (_seam ??= new SeamMovement(this)) : null;
 
     public InspectablePayload Payload => InspectablePayload.Empty;
 
@@ -1479,6 +1500,132 @@ public sealed class TempoCertificationMovement : IInspectable
             summary: pass
                 ? $"matched-K residual {residual.ToString("E2", Inv)} ≤ {PassTol.ToString("E0", Inv)}: PASS, a pure (Q,K)-observable."
                 : $"matched-K residual {residual.ToString("E2", Inv)} > {PassTol.ToString("E0", Inv)}: FAIL: this lens sees the carrier: absolute time leaked.");
+    }
+
+    public InspectablePayload Payload => InspectablePayload.Empty;
+}
+
+/// <summary>The seam movement (movement 4): the converse of the clock movement, the calibration
+/// topology of reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md. Where the clock movement certifies that
+/// dimensionless lenses CANNOT see the carrier γ₀, the seam movement takes the seams that DO see it —
+/// the dimensionful rate (takt gap = 2γ₀) and frequency (coherence hand ω_mem = 2J·cos(π/(N+1))) — and
+/// recovers (γ₀, J), gating their over-determination through the inside-known Q = J/γ₀.
+///
+/// <para>Spectrum-only: it reads the parent's <see cref="Symphony.Clock"/> (the already-computed
+/// Liouvillian eigenvalues), never the ρ(t) trajectory, so the parent's EvolveCount stays 1.</para>
+///
+/// <para>Both anchors are TWO-SIDED: exact above the coherence horizon Q*(N), and both break below it
+/// (the same overdamped transition takes the J-anchor's band edge AND drops the slowest real part below
+/// the γ-anchor's 2γ₀ floor). The shared regime flag <see cref="Protected"/> is the live
+/// BandEdgeIsTheGapMode test (|gap − 2γ₀| &lt; tol AND |ω_mem − band edge| &lt; tol). The J-anchor and
+/// the gate are XY-normalization-specific (the band edge formula); the γ-anchor is normalization-free.
+///
+/// <para>With the synthetic peg (the model's own γ₀), the in-regime pass J_rec/γ₀_rec = Q is exact
+/// algebra; the gate's live content is a DOMAIN DETECTOR — it fires when the spectrum leaves the
+/// (XY, Q ≥ Q*(N)) region. Typed homes: <c>UniversalCarrierClaim</c> (γ₀ as carrier),
+/// <c>CoherenceHorizonClaim</c> (the Q*(N) boundary), <c>AbsorptionTheoremClaim</c> (the 2γ₀ floor),
+/// <c>ClockHandLadderClaim</c> / F2b (the band edge).</para></summary>
+public sealed class SeamMovement : IInspectable
+{
+    private static readonly System.Globalization.CultureInfo Inv = System.Globalization.CultureInfo.InvariantCulture;
+
+    /// <summary>Regime / gate tolerance (matches ClockHandLadderWitness.BandEdgeIsTheGapMode = 1e-6).</summary>
+    public const double Tol = 1e-6;
+
+    /// <summary>The closed-form N=2 carrier-pair CΨ envelope fold K_fold (from the F25/F86 closed form,
+    /// NOT a sampled ρ(t) value — the witness is spectrum-only).</summary>
+    public const double KFoldN2 = 0.0374;
+
+    public Symphony Parent { get; }
+    public SeamMovement(Symphony parent) { Parent = parent; }
+
+    private bool _built;
+    private double _gap, _omega, _q, _gammaRec, _bandEdge, _jRec, _ratio, _gateResidual;
+    private bool _xyOk, _protected, _gatePass;
+
+    private void Ensure()
+    {
+        if (_built) return;
+        _built = true;
+        var p = Parent;
+        var (gap, omega) = p.Clock;   // spectrum-only; reuses the parent's one evolution
+        _gap = gap;
+        _omega = omega;
+        _q = p.J / p.Gamma;
+        _xyOk = p.HType == HamiltonianType.XY;
+
+        // γ-anchor: the dephasing floor gap = 2γ₀ ⟹ γ₀_rec = gap/2 (normalization-free).
+        _gammaRec = gap / 2.0;
+
+        // The shared regime flag (BandEdgeIsTheGapMode, inlined on the parent spectrum). N=2 uses the
+        // pulled hand 2√(J²−γ²); N≥3 the F2b band edge 2J·cos(π/(N+1)).
+        if (p.N == 2)
+            _bandEdge = p.Gamma < p.J ? 2.0 * System.Math.Sqrt(p.J * p.J - p.Gamma * p.Gamma) : 0.0;
+        else
+            _bandEdge = 2.0 * p.J * System.Math.Cos(System.Math.PI / (p.N + 1));
+        _protected = System.Math.Abs(gap - 2.0 * p.Gamma) < Tol
+                     && _bandEdge > 0.0
+                     && System.Math.Abs(omega - _bandEdge) < Tol;
+
+        // J-anchor (filled in Task 2): default 0 until the band-edge inversion lands.
+        _jRec = 0.0;
+        // Gate (filled in Task 3).
+        _ratio = 0.0;
+        _gateResidual = System.Math.Abs(_ratio - _q);
+        _gatePass = false;
+    }
+
+    /// <summary>The recovered γ₀ = gap/2. In-regime equals the model γ₀; below Q*(N) it under-recovers
+    /// (the slowest mode is an overdamped coherence below the 2γ₀ floor).</summary>
+    public double GammaRecovered { get { Ensure(); return _gammaRec; } }
+
+    /// <summary>True iff the band edge IS the gap mode at this (N, J, γ): the shared two-sided regime
+    /// flag for both anchors. Below the coherence horizon Q*(N) this is false and neither anchor may be
+    /// trusted.</summary>
+    public bool Protected { get { Ensure(); return _protected; } }
+
+    /// <summary>True iff the configured H is XY (the J-anchor band-edge formula is XY-specific).</summary>
+    public bool XyOk { get { Ensure(); return _xyOk; } }
+
+    public string DisplayName => "movement: the seam";
+
+    public string Summary
+    {
+        get
+        {
+            Ensure();
+            return $"the calibration topology (γ₀ from one external peg): Q = {_q.ToString("0.###", Inv)}, " +
+                   $"{(_protected ? "protected" : "OUT OF REGIME (Q < Q*(N))")}; " +
+                   $"γ-anchor γ₀_rec = gap/2 = {_gammaRec.ToString("0.#####", Inv)} " +
+                   $"(model γ₀ = {Parent.Gamma.ToString("0.###", Inv)}).";
+        }
+    }
+
+    public IEnumerable<IInspectable> Children
+    {
+        get
+        {
+            Ensure();
+            yield return TaktLens();
+        }
+    }
+
+    /// <summary>seam: takt — the γ-anchor. gap = 2γ₀ ⟹ γ₀_rec = gap/2. Two-sided: under-recovers
+    /// below the coherence horizon, where the slowest mode is overdamped below the 2γ₀ floor.</summary>
+    private InspectableNode TaktLens()
+    {
+        var p = Parent;
+        string body = _protected
+            ? $"γ-anchor (the dephasing floor): gap = 2γ₀ = {_gap.ToString("0.#####", Inv)}; " +
+              $"γ₀_rec = gap/2 = {_gammaRec.ToString("0.#####", Inv)} (model γ₀ = {p.Gamma.ToString("0.###", Inv)}, " +
+              $"residual {System.Math.Abs(_gammaRec - p.Gamma).ToString("E2", Inv)}). Operational reading: one external " +
+              $"rate R [{p.LabUnit}⁻¹] → γ₀ = R/2. Typed parent AbsorptionTheoremClaim."
+            : $"γ-anchor OUTSIDE the protected regime (Q = {_q.ToString("0.###", Inv)} < Q*(N)): the slowest mode is an " +
+              $"overdamped coherence below the 2γ₀ floor, so gap/2 = {_gammaRec.ToString("0.#####", Inv)} UNDER-recovers " +
+              $"γ₀ = {p.Gamma.ToString("0.###", Inv)}. The γ-anchor is NOT regime-free (it shares the horizon with the " +
+              "J-anchor). See CoherenceHorizonClaim.";
+        return new InspectableNode("seam: takt", summary: body,
+            payload: new InspectablePayload.Real("γ₀_rec", _gammaRec, "0.######"));
     }
 
     public InspectablePayload Payload => InspectablePayload.Empty;
