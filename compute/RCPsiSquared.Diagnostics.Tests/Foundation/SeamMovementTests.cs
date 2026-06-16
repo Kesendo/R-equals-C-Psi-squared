@@ -83,4 +83,36 @@ public class SeamMovementTests
         var coh = ((IInspectable)seam).Children.Single(c => c.DisplayName == "seam: coherence-hand");
         Assert.Contains("N/A", coh.Summary);
     }
+
+    [Fact]
+    public void Gate_Passes_InTheProtectedXyRegime()
+    {
+        var seam = Protected3().Seam!;
+        Assert.True(seam.GatePass);
+        Assert.Equal(1.5, seam.Ratio, 6);           // J_rec/γ₀_rec = Q
+        Assert.True(seam.GateResidual < 1e-6);
+    }
+
+    [Fact]
+    public void Gate_Fires_BelowTheCoherenceHorizon()
+    {
+        // Test 3 (the test that can fail): N=4, Q=1.5 < Q*(4)=1.879. The gap mode is overdamped,
+        // ω_mem → 0, J_rec → 0, ratio → 0 ≠ Q, the gate FAILS.
+        var seam = Below4().Seam!;
+        Assert.False(seam.Protected);
+        Assert.Equal(0.0, seam.JRecovered);
+        Assert.Equal(0.0, seam.Ratio);
+        Assert.True(seam.GateResidual > 1.0);       // |0 − 1.5| = 1.5
+        Assert.False(seam.GatePass);
+        var gate = ((IInspectable)seam).Children.Single(c => c.DisplayName == "the gate");
+        Assert.Contains("FIRES", gate.Summary);
+    }
+
+    [Fact]
+    public void Gate_Fires_OnNonXyNormalization()
+    {
+        var seam = new Symphony(n: 3, j: 0.075, gamma: 0.05,
+            hType: HamiltonianType.Heisenberg, calibrate: true).Seam!;
+        Assert.False(seam.GatePass);
+    }
 }

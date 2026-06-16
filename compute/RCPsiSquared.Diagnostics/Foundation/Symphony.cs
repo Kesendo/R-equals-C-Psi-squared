@@ -1575,10 +1575,11 @@ public sealed class SeamMovement : IInspectable
                 : _omega / (2.0 * Math.Cos(Math.PI / (p.N + 1)));
         else
             _jRec = 0.0;
-        // Gate (filled in Task 3).
-        _ratio = 0.0;
+        // The gate: over-determination J_rec/γ₀_rec == Q. With the synthetic peg the in-regime pass is
+        // exact algebra; the gate's live content is detecting departure from the (XY, Q ≥ Q*(N)) domain.
+        _ratio = _gammaRec > 0.0 ? _jRec / _gammaRec : 0.0;
         _gateResidual = Math.Abs(_ratio - _q);
-        _gatePass = false;
+        _gatePass = _xyOk && _protected && _gateResidual < Tol;
     }
 
     /// <summary>The recovered γ₀ = gap/2. In-regime equals the model γ₀; below Q*(N) it under-recovers
@@ -1596,6 +1597,17 @@ public sealed class SeamMovement : IInspectable
     /// <summary>The recovered J from the coherence hand (XY band-edge inversion; N=2 pulled hand).
     /// Zero when off the XY normalization or below the coherence horizon (not recoverable there).</summary>
     public double JRecovered { get { Ensure(); return _jRec; } }
+
+    /// <summary>The over-determination ratio J_rec/γ₀_rec (should equal Q in the protected XY domain).</summary>
+    public double Ratio { get { Ensure(); return _ratio; } }
+
+    /// <summary>The gate residual |Ratio − Q|. Near 0 in-regime; ≈ Q when the gate fires (J_rec → 0).</summary>
+    public double GateResidual { get { Ensure(); return _gateResidual; } }
+
+    /// <summary>The gate verdict: PASS iff XY AND protected AND the over-determination holds. A firing
+    /// gate is a finding — the spectrum has left the (XY, Q ≥ Q*(N)) domain (a domain detector, not a
+    /// falsifier of the inheritance formulas; that needs the real-external-reading mode).</summary>
+    public bool GatePass { get { Ensure(); return _gatePass; } }
 
     public string DisplayName => "movement: the seam";
 
@@ -1618,6 +1630,7 @@ public sealed class SeamMovement : IInspectable
             Ensure();
             yield return TaktLens();
             yield return CoherenceHandLens();
+            yield return GateLens();
         }
     }
 
@@ -1660,6 +1673,28 @@ public sealed class SeamMovement : IInspectable
                    "mode took it). J not recoverable here. See CoherenceHorizonClaim.";
         return new InspectableNode("seam: coherence-hand", summary: body,
             payload: new InspectablePayload.Real("J_rec", _jRec, "0.######"));
+    }
+
+    /// <summary>the gate — the over-determination / domain detector. γ-anchor → γ₀, J-anchor → J,
+    /// and the inside-known Q ties them: J_rec/γ₀_rec == Q. Fires when the spectrum leaves the
+    /// (XY, Q ≥ Q*(N)) domain.</summary>
+    private InspectableNode GateLens()
+    {
+        string body;
+        if (_gatePass)
+            body = $"over-determination PASS: γ-anchor → γ₀ = {_gammaRec.ToString("0.#####", Inv)}, " +
+                   $"J-anchor → J = {_jRec.ToString("0.#####", Inv)}, and J_rec/γ₀_rec = {_ratio.ToString("0.#####", Inv)} " +
+                   $"= Q = {_q.ToString("0.###", Inv)} (residual {_gateResidual.ToString("E2", Inv)}). The two independent " +
+                   "dimensionful seams reconcile through the inside-known Q. (Synthetic peg: in-regime this is exact " +
+                   "algebra — the gate's live content is the domain check.)";
+        else
+            body = $"over-determination FIRES: J_rec/γ₀_rec = {_ratio.ToString("0.#####", Inv)} ≠ Q = " +
+                   $"{_q.ToString("0.###", Inv)} (residual {_gateResidual.ToString("E2", Inv)}). The spectrum LEFT the " +
+                   $"(XY, Q ≥ Q*(N)) domain: {(!_xyOk ? $"non-XY normalization ({Parent.HType}: band edge ≠ 2J·cos)" : "Q < Q*(N): an overdamped mode took the gap, ω_mem → 0")}. " +
+                   "A firing gate is a finding, not a bug — the witness detects the seam is outside its regime of validity. " +
+                   "(Falsifying a formula or lab units needs the real-external-reading mode, out of scope.)";
+        return new InspectableNode("the gate", summary: body,
+            payload: new InspectablePayload.Real("gate residual |ratio − Q|", _gateResidual, "0.######"));
     }
 
     public InspectablePayload Payload => InspectablePayload.Empty;
