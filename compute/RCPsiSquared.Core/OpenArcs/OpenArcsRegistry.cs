@@ -539,10 +539,17 @@ public static class OpenArcsRegistry
                 "HALF-FILLING sector (the SAME sector special for ring-4): K_4=2-2/sqrt(3) below the floor, ring-4=1.0 co-occupies. " +
                 "NOT a universal 4/(m+1) law - the ring (Fourier manifold) breaks it (ring-5=1.6!=4/3); per-family forms are real. " +
                 "Live witness StructuralCeilingWitness (inspect --root ceiling)",
-            NextStep: "Items 1,2,3 (the closed-form derivations) DONE. Remaining: the DRY cleanup - hoist a shared " +
-                "ClockFromSpectrum primitive (the witness duplicates Symphony.Clock's gap/omega_mem extraction because " +
-                "Symphony.MaxN=5 cannot reach the N=6 ceiling). Optional follow-ons: the star Q*(N) horizon for N<=5 (the " +
-                "OTHER, low-Q regime, distinct from the high-Q ceiling derived here); a closed form for the (2,2) ring-4 Im=2sqrt(2)J",
+            NextStep: "Items 1,2,3 (the high-Q closed-form derivations) DONE. STAR Q*(N) RESOLVED (2026-06-16, null + " +
+                "unification, PROOF_STRUCTURAL_CEILING §7 + verifier star_no_coherence_horizon.py): the star has NO chain-like " +
+                "coherence horizon - its single-particle band is FLAT (adjacency +-sqrt(N-1), 0 with mult N-2), no dispersion, " +
+                "no {0,2}-EP; the chain Haken-Strobl SE-EP does NOT port (predicts a spurious Q~261 at N=4 the full L " +
+                "contradicts - protected already at Q=20). The SAME (1,1)-commutant value 4/(N-1) governs ALL Q: >1 protects " +
+                "(N=4, down to a low-Q real-mode CROSSING ~1.9, not an EP), =1 marginal (N=5, g2=1-1/Q^2, NO horizon, the " +
+                "apparent Q~316 a tolerance artifact), <1 ceilings (N>=6); N=3=path P_3=chain is the lone exception (genuine " +
+                "sqrt2 {0,2}-EP). The low-Q question is subsumed by the high-Q ceiling; no separate star Q*(N) closed form. " +
+                "Remaining: the DRY cleanup - hoist a shared ClockFromSpectrum primitive (TopologyBandEdgeWitness duplicates " +
+                "Symphony.Clock's gap/omega_mem extraction because Symphony.MaxN=5 cannot reach the N=6 ceiling); a closed form " +
+                "for the (2,2) ring-4 Im=2sqrt(2)J (the omega the StructuralCeilingWitness already computes and discards)",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

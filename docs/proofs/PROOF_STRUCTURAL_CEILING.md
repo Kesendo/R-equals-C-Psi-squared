@@ -108,3 +108,18 @@ More edges → larger degenerate manifold → darker coherence → lower ceiling
 ## 6. Relation to the band edge and the Absorption Theorem
 
 The structural ceiling is the Re-side companion of the topology band edge. The band edge `= J·ρ` (`ρ` the adjacency spectral radius) is the Im side: when it is the gap mode the clock reads `ω_mem = J·ρ` at `Re = −2γ` (`g2 = 1`). The ceiling is the regime where a darker `[H,A]=0` coherence undercuts it, dragging the strict gap to `g2 < 1` and the clock to `ω_mem = 0` (overdamped). Both rest on the Absorption Theorem `Re = −2γ⟨n_XY⟩`: the band edge is its `⟨n_XY⟩ = 1` line, the ceiling its darkest commutant value. Nothing here uses the open chain gap-dominance proof, so the closed forms are Tier 1 derived independently of the `TopologyBandEdgeClaim` candidacy cap.
+
+## 7. Corollary: the star has no coherence horizon (the low-Q regime)
+
+The chain has a **coherence horizon** `Q*(N)`: below it the band edge stops being the slowest oscillating mode and an overdamped mode holds the gap (the clock reads `ω_mem → 0`). That horizon is a *dispersion* effect, a square-root exceptional point where the `{0,2}`-coherence pair of the dispersive single-particle band coalesces; it reduces to the single-excitation (Haken-Strobl) Liouvillian and scales as `Q*(N) ~ 2N/π` ([`CoherenceHorizonClaim`](../../compute/RCPsiSquared.Core/Symmetry/CoherenceHorizonClaim.cs), `PROOF_COHERENCE_HORIZON_SLOPE.md`).
+
+**The star has no such horizon.** Its single-particle band is *flat*: the star adjacency spectrum is `±√(N−1)` (once each) and `0` with multiplicity `N−2`. No dispersion, no coalescence, no EP. The chain's Haken-Strobl SE-EP does not port: applied to the star it predicts a spurious horizon (e.g. `N=4` at `Q ≈ 261`) that the full Liouvillian flatly contradicts (the star is already protected far below it, at `Q = 20`).
+
+Instead the *same* `(1,1)`-commutant value `4/(N−1)` that sets the high-Q ceiling governs the star at **every** `Q`:
+
+- `4/(N−1) > 1` (`N = 4`): the sub-band mode is above the `2γ` floor, so the band edge protects down to a low-Q *crossing* near `Q ≈ 1.9` (a real, overdamped mode crosses the floor, not an EP).
+- `4/(N−1) = 1` (`N = 5`, marginal): the sub-band mode sits *exactly* on the floor and is pulled marginally below at finite `Q` as `g2 = 1 − 1/Q²`. There is no horizon and no oscillating memory at any finite `Q`, only asymptotic protection. (An apparent `Q* ≈ 316` read off a finite tolerance is an artifact of this `1/Q²` approach.)
+- `4/(N−1) < 1` (`N ≥ 6`): the structural ceiling `g2 = 4/(N−1)` (§2–§3).
+- `N = 3` is the path `P_3`, i.e. a chain, the lone exception, with the genuine `{0,2}`-EP at `√2`.
+
+So the low-Q question is **subsumed** by the high-Q ceiling: one number, `4/(N−1)`, decides protection at all `Q`, and there is no separate star `Q*(N)` closed form. The chain's coherence horizon is the special case of a *dispersive* band; flat-band graphs do not have one. Verifier: [`star_no_coherence_horizon.py`](../../simulations/star_no_coherence_horizon.py) (gate-first: chain SE-EP fidelity, the spurious star SE-EP, the `4/(N−1)` governance, the real-mode dichotomy).
