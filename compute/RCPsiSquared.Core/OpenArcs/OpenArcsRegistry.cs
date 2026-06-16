@@ -517,10 +517,20 @@ public static class OpenArcsRegistry
                 "at -2gamma with Im=2sqrt(2)*J > band edge 2J, never the band edge). Seam J-anchor now topology-aware (J*rho) - " +
                 "passes on star N<=4 and odd rings, FIRES split three ways (non-XY / omega~0 horizon-or-ceiling / " +
                 "different-mode-at-floor). Oracle simulations/topology_band_edge_review.py (full Q-sweep to 1000) agrees; " +
-                "suites Core 11, witness 5, seam 15, audit green",
-            NextStep: "the MECHANISM dig (out of the claim): WHY the star structural sub-floor mode first appears at N=6 " +
-                "(gap -> 0.80*2gamma), what sets the star horizon Q*(N) for N<=5, whether other even rings show the ring-N=4 " +
-                "co-occupied-floor pattern. Plus a DRY cleanup: hoist a shared ClockFromSpectrum primitive (the witness " +
+                "suites Core 11, witness 5, seam 15, audit green. " +
+                "MECHANISM RESOLVED (2026-06-16, gate-first verifier simulations/topology_ceiling_mechanism.py): g2 = " +
+                "strict_gap/(2gamma) = <n_XY> of the slowest non-steady mode (Absorption Theorem, CITED - the established " +
+                "HandoverFloorClaim band-edge<->Lebensader framing). Gap-dominance <=> that mode IS the band edge " +
+                "(<n_XY>=1, the |vac><psi_k| SE line always at Re=-2gamma) vs a lens-dominated ({I,Z}-heavy) Hamiltonian-mixed " +
+                "sub-floor mode (<n_XY><1). CONNECTIVITY drives <n_XY>_slowest down: ceiling onset chain NEVER < star N>=6 < " +
+                "COMPLETE K_N N>=4 (more edges -> earlier ceiling; K_3=triangle=ring(3) protects). NEW CLOSED FORM g2(K_N)=4/N " +
+                "for N>=5 (K_5,6,7 = 4/5, 2/3, 4/7 exact, gate-verified); K_4=0.8453 the N=4 OUTLIER, the same N=4 anomaly as " +
+                "the ring (both K_4 and ring-N=4 special). Benzene ring N=6 PROTECTS (so ring-N=4 co-occupation is N=4-specific, " +
+                "the K_2,2 dihedral lock, not a general even-ring pattern). Read the RATE not the Im (the band edge is " +
+                "Re-degenerate at -2gamma)",
+            NextStep: "DERIVE the closed forms from rep structure (mechanism is understood, the numbers are banked): g2(K_N)=4/N " +
+                "from the K_N S_N decomposition; the star N>=6 -> 0.80*2gamma ceiling and the star Q*(N) for N<=5; WHY N=4 is the " +
+                "outlier on both K_N and the ring. Plus a DRY cleanup: hoist a shared ClockFromSpectrum primitive (the witness " +
                 "duplicates Symphony.Clock's gap/omega_mem extraction because Symphony.MaxN=5 cannot reach the N=6 ceiling)",
             Status: OpenArcStatus.Open),
 
