@@ -41,7 +41,6 @@ public sealed class TopologyBandEdgeClaim : Claim
                "for chain (all N) / star (N≤5) / odd rings; structural ceiling for star N≥6; co-occupied floor " +
                "for ring N=4 (a (2,2) mode at −2γ with Im=2√2·J > band edge).",
                Tier.Tier1Candidate,
-               "docs/superpowers/specs/2026-06-16-topology-band-edge-design.md + " +
                "docs/proofs/PROOF_ABSORPTION_THEOREM.md (§4.3 gap=2γ, §4.5 n_XY=Hamming — the −2γ floor) + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/TopologyBandEdgeWitness.cs (inspect --root bandedge) + " +
                "simulations/_topology_band_edge_review.py (the gate-first verifier, full Q-sweep to Q=1000)")
