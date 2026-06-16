@@ -527,11 +527,22 @@ public static class OpenArcsRegistry
                 "for N>=5 (K_5,6,7 = 4/5, 2/3, 4/7 exact, gate-verified); K_4=0.8453 the N=4 OUTLIER, the same N=4 anomaly as " +
                 "the ring (both K_4 and ring-N=4 special). Benzene ring N=6 PROTECTS (so ring-N=4 co-occupation is N=4-specific, " +
                 "the K_2,2 dihedral lock, not a general even-ring pattern). Read the RATE not the Im (the band edge is " +
-                "Re-degenerate at -2gamma)",
-            NextStep: "DERIVE the closed forms from rep structure (mechanism is understood, the numbers are banked): g2(K_N)=4/N " +
-                "from the K_N S_N decomposition; the star N>=6 -> 0.80*2gamma ceiling and the star Q*(N) for N<=5; WHY N=4 is the " +
-                "outlier on both K_N and the ring. Plus a DRY cleanup: hoist a shared ClockFromSpectrum primitive (the witness " +
-                "duplicates Symphony.Clock's gap/omega_mem extraction because Symphony.MaxN=5 cannot reach the N=6 ceiling)",
+                "Re-degenerate at -2gamma). " +
+                "DERIVATION RESOLVED (2026-06-16, F122 + PROOF_STRUCTURAL_CEILING + StructuralCeilingClaim Tier1Derived + " +
+                "gate-first verifier simulations/topology_ceiling_rep_derivation.py): the high-Q ceiling = min nonzero eigenvalue " +
+                "of N_XY (diagonal, entry hamming(a,b)) block-diagonalized by the ad_H eigenspaces; band edge = the (0,1) sector " +
+                "where hamming==1 so N_XY=I, rate 2gamma exactly (g2<=1 always); ceiling = the darkest [H,A]=0 coherence in the " +
+                "LARGEST degenerate single-particle level. g2(K_N)=4/N PROVEN: (1,1) commutant = the S_N standard rep of the " +
+                "(N-1)-fold -J band, g2=2(1-lambda2), lambda2=(N-2)/N the 2nd principal-angle overlap commutant<->diagonal. " +
+                "g2(star_N)=4/(N-1) PROVEN same way on the (N-2)-fold 0-eigenvalue leaf manifold (CORRECTS the '0.80 constant' " +
+                "reading - 0.80=4/5 was N=6 only). N=4 UNIFIED: the 4/N ladder hits 1.0 at N=4 so the ceiling moves to the (2,2) " +
+                "HALF-FILLING sector (the SAME sector special for ring-4): K_4=2-2/sqrt(3) below the floor, ring-4=1.0 co-occupies. " +
+                "NOT a universal 4/(m+1) law - the ring (Fourier manifold) breaks it (ring-5=1.6!=4/3); per-family forms are real. " +
+                "Live witness StructuralCeilingWitness (inspect --root ceiling)",
+            NextStep: "Items 1,2,3 (the closed-form derivations) DONE. Remaining: the DRY cleanup - hoist a shared " +
+                "ClockFromSpectrum primitive (the witness duplicates Symphony.Clock's gap/omega_mem extraction because " +
+                "Symphony.MaxN=5 cannot reach the N=6 ceiling). Optional follow-ons: the star Q*(N) horizon for N<=5 (the " +
+                "OTHER, low-Q regime, distinct from the high-Q ceiling derived here); a closed form for the (2,2) ring-4 Im=2sqrt(2)J",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

@@ -500,6 +500,8 @@ public static class InspectCommand
                 c.Parser.OptionalDouble("J") ?? TopologyBandEdgeWitness.DefaultJ,
                 c.Parser.OptionalDouble("gamma") ?? TopologyBandEdgeWitness.DefaultGamma),
             RequiresN: false),
+        new("ceiling", "the structural ceiling closed forms: g2(K_N)=4/N, g2(star_N)=4/(N−1), the N=4 (2,2) outlier 2−2/√3, from the commutant rep structure",
+            _ => new StructuralCeilingWitness(), RequiresN: false),
         new("horizon", "the coherence horizon Q*(N): where the slowest mode stops oscillating = the carbon Frost-Hückel coherent↔incoherent threshold",
             _ => new CoherenceHorizonWitness(), RequiresN: false),
         new("decoder", "reading power measured live: Fisher information vs Q per readout basis - resolution grows with the Q-factor; the exceptional point reads worst",

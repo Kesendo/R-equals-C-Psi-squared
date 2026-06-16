@@ -384,6 +384,14 @@ public static class KnowledgeRegistryFactory
             // DegeneracyPi2Inheritance (the floor =1, above), CoherenceHorizonClaim (the chain solution, directly
             // above). Live witness: IncompletenessSurvivorWitness handover node (inspect --root survivor).
             .RegisterHandoverFloorClaim()
+            // The structural ceiling (Tier1Derived, 2026-06-16, F122): the high-Q gap-rate closed forms
+            // g2(K_N)=4/N, g2(star_N)=4/(N−1), g2(K_4)=2−2/√3 — the darkest [H,A]=0 coherence in the largest
+            // degenerate single-particle level (the Re-side ceiling companion of TopologyBandEdgeClaim's J·ρ
+            // band edge). Single typed parent AbsorptionTheoremClaim (the g2=⟨n_XY⟩ floor, registered above);
+            // NOT the Tier1Candidate band-edge claim (the forms are dimensionless, depend only on the
+            // Absorption Theorem + commutant linear algebra). Live witness: StructuralCeilingWitness
+            // (inspect --root ceiling).
+            .RegisterStructuralCeilingClaim()
             .RegisterF86HwhmClosedFormClaim()
             .RegisterIbmBlockCpsiHardwareTable()
             .RegisterPolarityPairQPeakDecompositionClaim()

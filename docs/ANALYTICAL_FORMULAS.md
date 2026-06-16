@@ -4588,5 +4588,42 @@ in [QUBIT_NECESSITY](QUBIT_NECESSITY.md) §8b/§10.2; typed claims `QuditPartial
 
 ---
 
+### F122. The structural ceiling: closed forms for the topology gap rate (Tier 1 derived; principal-angle proof + gate-exact N=4..8; 2026-06-16)
+
+Under uniform Z-dephasing the slowest non-steady mode sits at `Re = −2γ·g2` with
+`g2 = ⟨n_XY⟩` of that mode (the Absorption Theorem). The chain has `g2 = 1` (the
+single-excitation band edge `|vac⟩⟨ψ_k|`, `n_XY = 1`, is slowest). More connected graphs
+grow a darker `[H,A]=0` coherence below the band edge, a **structural ceiling** `g2 < 1`:
+
+  **g2(K_N) = 4/N**  (N ≥ 5),    **g2(star_N) = 4/(N−1)**  (N ≥ 6),    **g2(K_4) = 2 − 2/√3.**
+
+*Mechanism* (high-Q degenerate PT): the decay rates are the eigenvalues of `N_XY`
+(diagonal in the coherence basis, entry `hamming(a,b)`) block-diagonalized by the `ad_H`
+eigenspaces. The band edge is the `(0,1)` sector where `hamming ≡ 1`, so `N_XY = I` and the
+rate is `2γ` exactly at all Q (`g2 ≤ 1` always). The ceiling is the darkest coherence in the
+largest *degenerate single-particle level*. For `K_N` that is the `(N−1)`-fold `−J` band (the
+`S_N` standard rep): `g2 = 2(1 − λ₂)` with `λ₂ = (N−2)/N` the second principal-angle overlap
+between the H-commutant and the population (diagonal) operators, giving `4/N`. For the star it
+is the `(N−2)`-fold `0`-eigenvalue leaf manifold, giving `4/(N−1)` by the same computation.
+Gate-exact: `K_{5,6,7} = 4/5, 2/3, 4/7`; `star_{6,7,8} = 4/5, 4/6, 4/7` (`<10⁻⁹`).
+
+*Connectivity onset* (chain never `<` star `N≥6` `<` complete `N≥5`) is the growth of that
+degeneracy with edge count. *`N = 4` outlier*: the `4/N` ladder hits `1` at `N = 4`, so the
+ceiling is set instead by the `(2,2)` half-filling sector, the **same sector that makes ring-4
+special** (`K_4 = 2 − 2/√3 < 1` dips below the floor; ring-4 `= 1` co-occupies it). One
+mechanism, two topologies. *Not universal*: the tempting `4/(m+1)` in the degeneracy `m` fits
+complete + star but the ring (Fourier-degenerate manifold) breaks it (ring-5 `= 1.6 ≠ 4/3`);
+the per-family forms are the result, the degeneracy is only the intuition. This corrects the
+band-edge arc's tentative "star saturates at 0.80, N-independent" (`0.80 = 4/5` was `N=6` only).
+
+**Source:** [Proof](proofs/PROOF_STRUCTURAL_CEILING.md);
+[`simulations/topology_ceiling_rep_derivation.py`](../simulations/topology_ceiling_rep_derivation.py)
+(gate-first, the all-Ω mechanism vs full-L, the `4/N` and `4/(N−1)` exactness, the `N=4`
+unification, the ring non-universality diagnostic); typed claim `StructuralCeilingClaim`
+(parent `AbsorptionTheoremClaim`), `compute/RCPsiSquared.Core/Symmetry/`; the Im-side companion
+is the topology band edge `= J·ρ` (`TopologyBandEdgeClaim`).
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*
