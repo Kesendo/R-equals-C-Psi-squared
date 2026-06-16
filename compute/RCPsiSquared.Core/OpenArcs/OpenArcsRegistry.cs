@@ -555,7 +555,16 @@ public static class OpenArcsRegistry
                 "(C_4 bipartite, K H K = -H, E<->-E; ChiralKClaim) - the +-2sqrt(2) a chiral K-mirror pair (Tom's catch). " +
                 "Cross-ref edge added TopologyBandEdgeClaim -> ChiralKClaim (band edge rho = E_max = -E_min for bipartite " +
                 "chain/star/even-ring; non-bipartite K_N/odd-rings have no +-symmetry). ARC COMPLETE: every NextStep item resolved.",
-            Status: OpenArcStatus.Open),
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "COMPLETED 2026-06-16 (every NextStep item derived, gate-verified, typed). The LAW: " +
+                "TopologyBandEdgeClaim (band edge = J*rho). The CEILING closed forms: F122 / StructuralCeilingClaim " +
+                "(g2(K_N)=4/N, star 4/(N-1), K_4=2-2/sqrt(3); PROOF_STRUCTURAL_CEILING, principal-angle proof + live " +
+                "StructuralCeilingWitness 'inspect --root ceiling'). The STAR low-Q regime: NO coherence horizon (flat " +
+                "band, the chain dispersion-EP does not port; PROOF section 7 + verifier star_no_coherence_horizon.py). " +
+                "The RING-4 (2,2) Im=2sqrt(2)J: anti-periodic JW two-fermion top + chiral-K palindrome (PROOF section 4 + " +
+                "verifier Stage 2b; ChiralKClaim cross-ref). The DRY cleanup: EigenvalueClockExtraction in Core/Numerics. " +
+                "NOT closed here (separate arc clock_hand_ladder): the general gap-dominance proof that caps " +
+                "TopologyBandEdgeClaim at Tier1Candidate."),
 
         new OpenArc(
             Name: "whirlpool_carbon_layers",
