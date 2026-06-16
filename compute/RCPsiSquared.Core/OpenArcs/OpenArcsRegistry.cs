@@ -484,10 +484,20 @@ public static class OpenArcsRegistry
                 "r incl. the painters' delta_J, window /r, K-grid fixed) and certify every dimensionless lens " +
                 "is a pure (Q,K)-observable (residual 8.3e-16 at r=20, the inside cannot tell the tempos apart). " +
                 "Exact rescaling identity, CERTIFIED not theorem-confirmed; a lens that breaks it sees the carrier. " +
-                "Painters arm (alpha, closure) pure too (delta_J scaled). UniversalCarrierClaim breadcrumbs to it",
-            NextStep: "the seam movement (the converse: feed ONE externally-calibrated observable in lab units and " +
-                "extract gamma_0 - the calibration topology of ON_HOW_THE_CARRIER_SHOWS_ITSELF, this movement's " +
-                "foundation); plus the remaining instruments (chiral K, Y-parity, Pi-protected observables)",
+                "Painters arm (alpha, closure) pure too (delta_J scaled). UniversalCarrierClaim breadcrumbs to it. " +
+                "FOURTH movement (2026-06-16): the seam - the converse of the clock, the calibration topology of " +
+                "ON_HOW_THE_CARRIER_SHOWS_ITSELF. --calibrate grows 'movement: the seam' (spectrum-only, reads " +
+                "Parent.Clock, EvolveCount stays 1): the gamma-anchor (gap=2gamma_0 -> gamma_0_rec=gap/2) and the " +
+                "J-anchor (omega_mem=2J*cos(pi/(N+1)), XY-only -> J_rec) over-determine (J, gamma_0) through the " +
+                "inside-known Q; the gate is a DOMAIN DETECTOR - in the (XY, Q>=Q*(N)) domain J_rec/gamma_0_rec==Q " +
+                "(exact with the synthetic peg), it FIRES below the horizon (omega_mem->0->ratio->0) or off XY. Both " +
+                "anchors TWO-SIDED (break below Q*(N), one shared regime flag = BandEdgeIsTheGapMode). Four lenses " +
+                "(takt/coherence-hand/gate/chain-collapse); chain-collapse re-expresses dimensionful predictions in " +
+                "lab units (state-free tau/omega_mem + N=2 Bell+ t_peak/fold from closed forms). 13 unit + 1 CLI test; " +
+                "oracle simulations/_seam_movement_review.py agrees (Q*(N) transition exact). Witness breadcrumbs " +
+                "UniversalCarrierClaim + CoherenceHorizonClaim",
+            NextStep: "the remaining instruments (chiral K, Y-parity, Pi-protected observables) - each an additional " +
+                "calibration leaf / lens, after the now-landed seam movement",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
