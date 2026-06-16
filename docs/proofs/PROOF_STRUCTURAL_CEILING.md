@@ -7,8 +7,21 @@
 **Typed claim:** [`StructuralCeilingClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/StructuralCeilingClaim.cs) (Tier 1 derived)
 **Verifier:** [`topology_ceiling_rep_derivation.py`](../../simulations/topology_ceiling_rep_derivation.py) (gate-first, all stages exact)
 **Builds on:** [the Absorption Theorem](PROOF_ABSORPTION_THEOREM.md) (the floor `Re = −2γ⟨n_XY⟩`); the [topology band edge](../../compute/RCPsiSquared.Core/Symmetry/TopologyBandEdgeClaim.cs) (the regime where the band edge loses gap-dominance).
+**Formula registry:** [F122 in `ANALYTICAL_FORMULAS.md`](../ANALYTICAL_FORMULAS.md).
 
 ---
+
+## What this is about
+
+A small quantum network, a handful of spins wired together, is being watched. The watching is not passive: light from outside reads the system out, and the reading makes its internal rhythms fade. Different patterns of coherence fade at different speeds, and the one that lingers longest is the system's memory, the last rhythm still ringing after the others have gone quiet.
+
+On a plain chain the longest-ringing pattern is a single gentle wave, the most spread-out way one excitation can sit along the line. It rings at a fixed pace that the watching light cannot hurry: the chain keeps its clock, and the memory is that clock.
+
+Wire the network more tightly and something new appears. A dimmer pattern, one that barely shows itself to the light, outlives even that ringing wave, and it does not ring at all; it just sits and fades, slowly. Because it lasts longer than the ringing pattern, it puts a lid on how long the audible memory can survive. That lid is the structural ceiling, and this document works out, for each shape of network, exactly how low the lid sits and why.
+
+The answer is a story about symmetry. The more interchangeable a network's parts are, the more ways these dim, nearly hidden patterns have to fold themselves away from the watching light, and the lower the ceiling drops. The fully-connected network, where every part touches every other, drops it furthest; the star, one hub with many spokes, less so; the plain chain, with no symmetry to exploit, never grows such a pattern at all and keeps ringing freely.
+
+Two surprises sit inside the story. At one particular small size, two networks that look nothing alike, the fully-connected one and the ring, go strange in the very same way and for the very same reason: a pattern built from two excitations, rather than one, takes the lead. And a tidy single rule that seems to predict every ceiling from how symmetric a network is almost works, then quietly fails for the ring, so we keep the honest shape-by-shape answers rather than the clean law that is not quite true.
 
 ## Abstract
 

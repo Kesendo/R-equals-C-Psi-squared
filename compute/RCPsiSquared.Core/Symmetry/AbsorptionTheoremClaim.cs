@@ -91,7 +91,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Descendants (live via <c>rcpsi knowledge descendants AbsorptionTheoremClaim</c>;
 /// per-formula one-liners in <c>compute/RCPsiSquared.Core/F_FORMULA_CROSSWALK.md</c>):
-/// F33, F50, F55, F64, F65, F66, F67, F68, F74, F89.</para>
+/// F33, F50, F55, F64, F65, F66, F67, F68, F74, F89, F122.</para>
 ///
 /// <para>Tier1Derived: proven analytically (PROOF_ABSORPTION_THEOREM.md) +
 /// verified bit-exact at N=2..5 (1,342 active Liouvillian modes, CV=0) +

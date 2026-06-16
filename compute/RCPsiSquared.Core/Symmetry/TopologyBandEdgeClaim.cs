@@ -10,7 +10,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Absorption Theorem, cited not re-derived. Whether the clock/seam reads that band edge as ω_mem is a
 /// topology-specific regime (witnessed, not separately claimed): a Q-horizon for chain (all N), star
 /// (N≤5), and odd rings; a structural ceiling for star N≥6 (strict gap saturates below 2γ); a
-/// co-occupied-floor mismatch for ring N=4 (a (2,2) mode at the floor with Im=2√2·J > band edge).
+/// co-occupied-floor mismatch for ring N=4 (a (2,2) mode at the floor with Im=2√2·J > band edge). The
+/// quantitative Re-side ceiling (the closed forms g2(K_N)=4/N, star √(N−1)→4/(N−1), K_4=2−2/√3, derived
+/// from the commutant rep structure) is the companion <see cref="StructuralCeilingClaim"/> (F122).
 ///
 /// <para>Tier: Tier1Candidate, not Derived. The band-edge LAW (SE block of XY = J·adjacency) is exact, and
 /// the Re=−2γ floor rests on the Tier1Derived <see cref="AbsorptionTheoremClaim"/>. But the typed parent edge
