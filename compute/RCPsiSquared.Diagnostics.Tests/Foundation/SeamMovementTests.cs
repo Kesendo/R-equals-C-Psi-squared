@@ -143,4 +143,29 @@ public class SeamMovementTests
         Assert.Contains("PASS", Protected3().Seam!.Summary);
         Assert.Contains("FIRES", Below4().Seam!.Summary);
     }
+
+    [Fact]
+    public void Seam_TopologyAware_PassesOnStarAndOddRing()
+    {
+        // Star N=3 at Q=20 (J=1): the band edge is √2·J (the star ρ), so the gate PASSES.
+        var star = new Symphony(n: 3, j: 1.0, gamma: 0.05, topology: TopologyKind.Star, calibrate: true).Seam!;
+        Assert.True(star.GatePass);
+        Assert.Equal(1.0 / 0.05, star.Ratio, 4);   // J_rec/γ_rec = Q = 20
+
+        // Ring N=5 at Q=20: band edge 2·J, protected, gate PASSES.
+        var ring = new Symphony(n: 5, j: 1.0, gamma: 0.05, topology: TopologyKind.Ring, calibrate: true).Seam!;
+        Assert.True(ring.GatePass);
+    }
+
+    [Fact]
+    public void Seam_RingN4_FiresWithCoOccupiedFloorReason()
+    {
+        // Ring N=4 at Q=1000 (J=50): gap reaches the floor but a (2,2) mode (Im=2√2·J) co-occupies it,
+        // so ω_mem ≠ band edge → the gate FIRES with reason (b) "different mode", not (a) "overdamped".
+        var seam = new Symphony(n: 4, j: 50.0, gamma: 0.05, topology: TopologyKind.Ring, calibrate: true).Seam!;
+        Assert.False(seam.GatePass);
+        var gate = ((IInspectable)seam).Children.Single(c => c.DisplayName == "the gate");
+        Assert.Contains("different mode", gate.Summary);
+        Assert.DoesNotContain("ω_mem → 0", gate.Summary);   // not the overdamped reason
+    }
 }

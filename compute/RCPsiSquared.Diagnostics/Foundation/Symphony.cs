@@ -7,6 +7,7 @@ using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Lindblad;
+using RCPsiSquared.Core.Numerics;
 using RCPsiSquared.Core.Pauli;
 using RCPsiSquared.Core.States;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
@@ -1541,7 +1542,7 @@ public sealed class SeamMovement : IInspectable
     public SeamMovement(Symphony parent) { Parent = parent; }
 
     private bool _built;
-    private double _gap, _omega, _q, _gammaRec, _bandEdge, _jRec, _ratio, _gateResidual;
+    private double _gap, _omega, _q, _gammaRec, _bandEdge, _rho, _jRec, _ratio, _gateResidual;
     private bool _xyOk, _protected, _gatePass;
 
     private void Ensure()
@@ -1559,21 +1560,29 @@ public sealed class SeamMovement : IInspectable
         _gammaRec = gap / 2.0;
 
         // The shared regime flag (BandEdgeIsTheGapMode, inlined on the parent spectrum). N=2 uses the
-        // pulled hand 2√(J²−γ²); N≥3 the F2b band edge 2J·cos(π/(N+1)).
+        // pulled hand 2√(J²−γ²); N≥3 the topology band edge J·ρ (Unit 1: chain ρ=2cos(π/(N+1)),
+        // star √(N−1), ring 2). _rho is the adjacency spectral radius of the parent's topology.
         if (p.N == 2)
-            _bandEdge = p.Gamma < p.J ? 2.0 * Math.Sqrt(p.J * p.J - p.Gamma * p.Gamma) : 0.0;
+        {
+            _rho = p.Gamma < p.J ? 2.0 * Math.Sqrt(p.J * p.J - p.Gamma * p.Gamma) / p.J : 0.0;  // pulled hand / J (N=2 only)
+            _bandEdge = _rho * p.J;
+        }
         else
-            _bandEdge = 2.0 * p.J * Math.Cos(Math.PI / (p.N + 1));
+        {
+            var bonds = new ChainSystem(p.N, p.J, p.Gamma, p.HType, p.Topology).Bonds;
+            _rho = TopologyBandEdge.SpectralRadius(p.N, bonds);
+            _bandEdge = _rho * p.J;
+        }
         _protected = Math.Abs(_gap - 2.0 * p.Gamma) < Tol
                      && _bandEdge > 0.0
                      && Math.Abs(_omega - _bandEdge) < Tol;
 
         // J-anchor: invert the band edge for J (XY only, in-regime only). N=2 uses the pulled hand
-        // J = √((ω/2)² + γ²); N≥3 the band edge J = ω / (2 cos(π/(N+1))).
+        // J = √((ω/2)² + γ²); N≥3 the topology band edge J·ρ ⟹ J_rec = ω / ρ.
         if (_xyOk && _protected)
             _jRec = p.N == 2
                 ? Math.Sqrt((_omega / 2.0) * (_omega / 2.0) + p.Gamma * p.Gamma)
-                : _omega / (2.0 * Math.Cos(Math.PI / (p.N + 1)));
+                : _omega / _rho;
         else
             _jRec = 0.0;
         // The gate: over-determination J_rec/γ₀_rec == Q. With the synthetic peg the in-regime pass is
@@ -1678,12 +1687,12 @@ public sealed class SeamMovement : IInspectable
         var p = Parent;
         string body;
         if (!_xyOk)
-            body = $"J-anchor N/A: the band edge 2J·cos(π/(N+1)) is XY-specific; under {p.HType} the coherence " +
+            body = $"J-anchor N/A: the band edge J·ρ is XY-specific; under {p.HType} the coherence " +
                    $"hand ω_mem = {_omega.ToString("0.#####", Inv)} ≠ the formula ({_bandEdge.ToString("0.#####", Inv)}), " +
                    "so J is not recoverable (XY-guarded). See ClockHandLadderClaim (the F2bXyChainSpectrum lineage).";
         else if (_protected)
             body = $"J-anchor (the coherence hand): ω_mem = {_omega.ToString("0.#####", Inv)} = " +
-                   $"{(p.N == 2 ? "2√(J²−γ²) [pulled hand]" : "2J·cos(π/(N+1))")}; J_rec = {_jRec.ToString("0.#####", Inv)} " +
+                   $"{(p.N == 2 ? "2√(J²−γ²) [pulled hand]" : $"J·ρ (ρ={_rho.ToString("0.###", Inv)})")}; J_rec = {_jRec.ToString("0.#####", Inv)} " +
                    $"(model J = {p.J.ToString("0.###", Inv)}, residual {Math.Abs(_jRec - p.J).ToString("E2", Inv)}). " +
                    "Typed parent ClockHandLadderClaim / F2b.";
         else
@@ -1707,11 +1716,17 @@ public sealed class SeamMovement : IInspectable
                    "dimensionful seams reconcile through the inside-known Q. (Synthetic peg: in-regime this is exact " +
                    "algebra — the gate's live content is the domain check.)";
         else
+        {
+            string reason = !_xyOk
+                ? $"non-XY normalization ({Parent.HType}: band edge ≠ J·ρ)"
+                : _omega < Tol
+                    ? "ω_mem ≈ 0: a slower real mode holds the strict gap — either a Q-horizon not yet reached at this Q (raise Q), or, for N≥6 on the star, a structural ceiling; a single-Q reading cannot tell (see inspect --root bandedge / the Q-sweep verifier)"
+                    : $"a different mode at the −2γ floor took ω_mem (ω_mem/J = {(_omega / Parent.J).ToString("0.###", Inv)} ≠ ρ = {_rho.ToString("0.###", Inv)}; e.g. the ring-N=4 (2,2) mode at 2√2·J)";
             body = $"over-determination FIRES: J_rec/γ₀_rec = {_ratio.ToString("0.#####", Inv)} ≠ Q = " +
-                   $"{_q.ToString("0.###", Inv)} (residual {_gateResidual.ToString("E2", Inv)}). The spectrum LEFT the " +
-                   $"(XY, Q ≥ Q*(N)) domain: {(!_xyOk ? $"non-XY normalization ({Parent.HType}: band edge ≠ 2J·cos)" : "Q < Q*(N): an overdamped mode took the gap, ω_mem → 0")}. " +
-                   "A firing gate is a finding, not a bug — the witness detects the seam is outside its regime of validity. " +
+                   $"{_q.ToString("0.###", Inv)} (residual {_gateResidual.ToString("E2", Inv)}). The band edge J·ρ is not the strict gap mode: {reason}. " +
+                   "A firing gate is a finding, not a bug — the seam is outside its (XY, protected-topology) regime. " +
                    "(Falsifying a formula or lab units needs the real-external-reading mode, out of scope.)";
+        }
         return new InspectableNode("the gate", summary: body,
             payload: new InspectablePayload.Real("gate residual |ratio − Q|", _gateResidual, "0.######"));
     }
