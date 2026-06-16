@@ -276,7 +276,12 @@ public static class InspectCommand
     /// <c>--delta-j</c>, default 0.02) to grow the "movement: painters" child — the piece played a
     /// second (defected) and a guard third (δJ/2) time, the per-site α_i field, the closure Σ ln α,
     /// and the live K₁ chiral mirror. Canonical to the XY chain with a real initial state; declines
-    /// honestly otherwise.</para></summary>
+    /// honestly otherwise.</para>
+    /// <para>The seam movement (movement 4, the calibration topology): pass <c>--calibrate</c> (and
+    /// optionally <c>--lab-unit &lt;name&gt;</c>, default "model-unit") to grow "movement: the seam" —
+    /// the γ-anchor (γ₀ = gap/2) and J-anchor (J from the coherence hand) recover (γ₀, J), and the
+    /// over-determination gate certifies they reconcile through Q (firing outside the XY, Q ≥ Q*(N)
+    /// domain). Spectrum-only; the converse of the clock movement (--tempo-ratio).</para></summary>
     private static IInspectable BuildSymphonyRoot(ArgParser p, int N)
     {
         if (N < 2 || N > Symphony.MaxN)
@@ -305,7 +310,10 @@ public static class InspectCommand
         int? defectBond = p.OptionalDouble("defect-bond") is { } db ? (int)db : null;
         double deltaJ = p.OptionalDouble("delta-j") ?? 0.02;
         double? tempoRatio = p.OptionalDouble("tempo-ratio");
-        return new Symphony(N, j, gamma, htype, topo, initial, tMax, tPoints, defectBond, deltaJ, carrierPair: null, tempoRatio: tempoRatio);
+        bool calibrate = p.HasFlag("calibrate");
+        string? labUnit = p.OptionalString("lab-unit");
+        return new Symphony(N, j, gamma, htype, topo, initial, tMax, tPoints, defectBond, deltaJ,
+            carrierPair: null, tempoRatio: tempoRatio, calibrate: calibrate, labUnit: labUnit);
     }
 
     /// <summary>The F116 live lab: builds a <see cref="GoldenRouterWitness"/> that re-runs the soft-certifier
