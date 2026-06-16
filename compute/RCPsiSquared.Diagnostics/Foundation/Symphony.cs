@@ -1533,8 +1533,9 @@ public sealed class SeamMovement : IInspectable
     public const double Tol = 1e-6;
 
     /// <summary>The closed-form N=2 carrier-pair CΨ envelope fold K_fold (from the F25/F86 closed form,
-    /// NOT a sampled ρ(t) value — the witness is spectrum-only).</summary>
-    public const double KFoldN2 = 0.0374;
+    /// NOT a sampled ρ(t) value — the witness is spectrum-only). Aliases the canonical typed home
+    /// <see cref="CpsiBellPlus.CuspK.PureZ"/> (F25 closed form), so the fold dose can never drift.</summary>
+    public const double KFoldN2 = CpsiBellPlus.CuspK.PureZ;
 
     public Symphony Parent { get; }
     public SeamMovement(Symphony parent) { Parent = parent; }
@@ -1609,10 +1610,15 @@ public sealed class SeamMovement : IInspectable
     /// falsifier of the inheritance formulas; that needs the real-external-reading mode).</summary>
     public bool GatePass { get { Ensure(); return _gatePass; } }
 
-    /// <summary>The breathing time τ = 1/(2γ₀) (state-free), in lab units once γ₀ is pinned. ∞ if γ₀=0.</summary>
+    /// <summary>The breathing time τ = 1/(2γ₀) (state-free), in lab units once γ₀ is pinned. The +∞ at
+    /// γ₀=0 is a "not applicable / undefined" sentinel (a stopped clock has no breath), distinct from the
+    /// gate's 0.0 for <see cref="JRecovered"/>/<see cref="Ratio"/>, which is a real collapsed reading (an
+    /// overdamped J genuinely tends to 0).</summary>
     public double TauPredicted { get { Ensure(); return _gammaRec > 0.0 ? 1.0 / (2.0 * _gammaRec) : double.PositiveInfinity; } }
 
-    /// <summary>The N=2 Bell+ CΨ peak time t_peak = 1/(4γ₀) (state-class-specific). NaN for N≠2.</summary>
+    /// <summary>The N=2 Bell+ CΨ peak time t_peak = 1/(4γ₀) (state-class-specific). The NaN for N≠2 is a
+    /// "not applicable / undefined" sentinel (no Bell+ peak time outside N=2), distinct from the gate's
+    /// 0.0 collapsed readings for <see cref="JRecovered"/>/<see cref="Ratio"/>.</summary>
     public double TPeakPredicted
     {
         get { Ensure(); return Parent.N == 2 && _gammaRec > 0.0 ? 1.0 / (4.0 * _gammaRec) : double.NaN; }
@@ -1730,7 +1736,7 @@ public sealed class SeamMovement : IInspectable
             double fold = KFoldN2 / _gammaRec;
             stateClass = $" State-class (N=2): t_peak (Bell+) = 1/(4γ₀) = {tPeak.ToString("0.###", Inv)} {u}; " +
                          $"envelope fold (carrier-pair) = K_fold/γ₀ = {fold.ToString("0.###", Inv)} {u} " +
-                         "(K_fold = 0.0374, closed form, not sampled).";
+                         $"(K_fold = {KFoldN2.ToString("0.####", Inv)}, closed form, not sampled).";
         }
         return new InspectableNode("the chain collapse",
             summary: $"given one external peg (the takt reading in {u}), the chain above the leaf collapses to lab " +
