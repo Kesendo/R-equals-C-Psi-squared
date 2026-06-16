@@ -547,9 +547,14 @@ public static class OpenArcsRegistry
                 "(N=4, down to a low-Q real-mode CROSSING ~1.9, not an EP), =1 marginal (N=5, g2=1-1/Q^2, NO horizon, the " +
                 "apparent Q~316 a tolerance artifact), <1 ceilings (N>=6); N=3=path P_3=chain is the lone exception (genuine " +
                 "sqrt2 {0,2}-EP). The low-Q question is subsumed by the high-Q ceiling; no separate star Q*(N) closed form. " +
-                "Remaining: the DRY cleanup - hoist a shared ClockFromSpectrum primitive (TopologyBandEdgeWitness duplicates " +
-                "Symphony.Clock's gap/omega_mem extraction because Symphony.MaxN=5 cannot reach the N=6 ceiling); a closed form " +
-                "for the (2,2) ring-4 Im=2sqrt(2)J (the omega the StructuralCeilingWitness already computes and discards)",
+                "DRY CLEANUP DONE: EigenvalueClockExtraction.ExtractClockFromSpectrum hoisted into Core/Numerics; " +
+                "Symphony.Clock + TopologyBandEdgeWitness.ClockAt both call it (45 regression tests green, no drift). " +
+                "RING-4 (2,2) Im=2sqrt(2)J DONE (PROOF_STRUCTURAL_CEILING §4 + verifier Stage 2b): = the anti-periodic " +
+                "even-parity two-fermion band top (the JW string wraps the ring -> k=pi(2m+1)/N -> single-fermion +-sqrt(2)*J), " +
+                "exceeding the periodic band edge 2J; and the (2,2) spectrum {+-2sqrt(2), 0^4} is the CHIRAL palindrome about 0 " +
+                "(C_4 bipartite, K H K = -H, E<->-E; ChiralKClaim) - the +-2sqrt(2) a chiral K-mirror pair (Tom's catch). " +
+                "Cross-ref edge added TopologyBandEdgeClaim -> ChiralKClaim (band edge rho = E_max = -E_min for bipartite " +
+                "chain/star/even-ring; non-bipartite K_N/odd-rings have no +-symmetry). ARC COMPLETE: every NextStep item resolved.",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

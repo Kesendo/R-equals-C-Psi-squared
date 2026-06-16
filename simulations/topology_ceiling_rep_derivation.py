@@ -51,10 +51,11 @@ KEY STRUCTURE (the reduction that makes the rep story exact):
     ~ 0.845299. The N=4 outlier = 4/N reaching 1.0 so the half-filling mode wins only there.
 
 First-principles build (own Pauli/H/superoperators); Stage 0 cross-checks against framework full-L.
-Run:  python simulations/_topology_ceiling_rep_derivation.py
+Run:  python simulations/topology_ceiling_rep_derivation.py
 """
 import sys
-from math import sqrt
+import itertools
+from math import sqrt, cos, pi
 import numpy as np
 
 sys.path.insert(0, 'simulations')
@@ -242,6 +243,30 @@ print(f"\nSTAGE 2 PASS: K_4 (1,1) commutant = 1.0 exactly (= 4/4 = the band edge
       f"the K_4 ceiling g2 = {gK4:.9f} = 2 - 2/sqrt(3) lives in the (2,2) HALF-FILLING sector -- the same "
       f"two-excitation sector that makes ring-4 special. THE N=4 OUTLIER = the 4/N ladder reaching 1.0 at "
       f"N=4, so the half-filling mode is the only one left below the floor.")
+
+# =====================================================================================
+# STAGE 2b -- ring-4 (2,2) co-occupier: 2sqrt(2)*J = the anti-periodic even-sector two-fermion band
+#             top (JW string wraps the ring); the (2,2) spectrum is the CHIRAL palindrome about 0
+#             (C_4 bipartite, K H K = -H, E<->-E; ChiralKClaim / PROOF_K_PARTNERSHIP).
+# =====================================================================================
+print("\n" + "=" * 100)
+print("STAGE 2b -- ring-4 (2,2): Im=2sqrt(2)*J = anti-periodic two-fermion top; chiral palindrome about 0")
+print("=" * 100)
+Hr4 = H_full('ring', 4, J=1.0)
+states22 = sector_states(4, 2)
+e22 = np.sort(np.linalg.eigvalsh(Hr4[np.ix_(states22, states22)]).real)
+ek_anti = sorted(2.0 * cos(pi * (2 * m + 1) / 4) for m in range(4))   # anti-periodic single-fermion E_k
+sums_anti = np.sort([ek_anti[a] + ek_anti[b] for a, b in itertools.combinations(range(4), 2)])
+two_sqrt2 = 2.0 * sqrt(2.0)
+print(f"  ring-4 (2,2) energies / J:      {np.round(e22, 6)}")
+print(f"  anti-periodic 2-fermion sums:   {np.round(sums_anti, 6)}  (single-fermion E_k = +-sqrt(2), k=pi/4)")
+assert np.allclose(e22, sums_anti, atol=1e-9), "STAGE 2b GATE FIRED: (2,2) energies != anti-periodic two-fermion sums"
+assert np.allclose(e22, -e22[::-1], atol=1e-9), "STAGE 2b GATE FIRED: (2,2) spectrum not palindromic about 0 (chiral K)"
+assert abs(e22.max() - two_sqrt2) < 1e-9, f"STAGE 2b GATE FIRED: (2,2) top {e22.max():.6f} != 2sqrt(2)={two_sqrt2:.6f}"
+assert two_sqrt2 > 2.0, "STAGE 2b: 2sqrt(2) should exceed the periodic ring band edge 2J"
+print(f"  top = {e22.max():.6f} = 2sqrt(2) > band edge 2 (periodic, k=0); +-2sqrt(2) are a CHIRAL K-mirror")
+print(f"  pair about 0 (C_4 bipartite, E<->-E; ChiralKClaim). The value = anti-periodic JW (even sector).")
+print("STAGE 2b PASS: the co-occupier value (anti-periodic top) and its mirror symmetry (chiral K) derived.")
 
 # =====================================================================================
 # STAGE 3 -- the STAR closed form (NextStep item 2, fell out for free): g2(star_N) = 4/(N-1)

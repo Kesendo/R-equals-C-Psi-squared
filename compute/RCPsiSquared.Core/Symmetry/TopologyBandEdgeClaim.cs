@@ -14,6 +14,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// quantitative Re-side ceiling (the closed forms g2(K_N)=4/N, star √(N−1)→4/(N−1), K_4=2−2/√3, derived
 /// from the commutant rep structure) is the companion <see cref="StructuralCeilingClaim"/> (F122).
 ///
+/// <para>Map note (why the magnitude ρ suffices): the band edge uses only ρ = |E_max|. For BIPARTITE hopping
+/// graphs (chain, star, even rings) the single-particle spectrum is ±symmetric under the chiral K-mirror
+/// (<see cref="ChiralKClaim"/>: K·H·K = −H ⟹ E ↔ −E, the sibling of F1 acting on H), so ρ = E_max = −E_min
+/// and the band edge carries a mirror partner at −ρ; non-bipartite graphs (complete K_N, odd rings) have no
+/// such ±symmetry. The ring-4 (2,2) co-occupier 2√2·J is the anti-periodic even-sector image of this same
+/// chiral structure (PROOF_STRUCTURAL_CEILING §4).</para>
+///
 /// <para>Tier: Tier1Candidate, not Derived. The band-edge LAW (SE block of XY = J·adjacency) is exact, and
 /// the Re=−2γ floor rests on the Tier1Derived <see cref="AbsorptionTheoremClaim"/>. But the typed parent edge
 /// to <see cref="ClockHandLadderClaim"/> (the chain instance this generalizes) makes the claim rest on a
