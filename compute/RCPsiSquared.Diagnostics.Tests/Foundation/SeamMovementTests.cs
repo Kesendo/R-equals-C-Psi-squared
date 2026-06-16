@@ -115,4 +115,31 @@ public class SeamMovementTests
             hType: HamiltonianType.Heisenberg, calibrate: true).Seam!;
         Assert.False(seam.GatePass);
     }
+
+    [Fact]
+    public void ChainCollapse_PredictsTau_AndRoundTripsAgainstTheModel()
+    {
+        var seam = Protected3().Seam!;
+        // τ = 1/(2γ₀) = 1/gap; pin via the takt reading and round-trip against the model's own clock.
+        Assert.True(seam.Protected);
+        Assert.Equal(1.0 / (2.0 * 0.05), seam.TauPredicted, 6);   // 1/(2·0.05) = 10
+        var collapse = ((IInspectable)seam).Children.Single(c => c.DisplayName == "the chain collapse");
+        Assert.Contains("τ", collapse.Summary);
+    }
+
+    [Fact]
+    public void ChainCollapse_PredictsTPeak_AtN2BellPlus()
+    {
+        // t_peak = 1/(4γ₀) is the N=2 Bell+ closed form (state-class-specific).
+        var seam = new Symphony(n: 2, j: 0.1, gamma: 0.05, calibrate: true).Seam!;   // Q=2 > Q*(2)=1
+        Assert.True(seam.Protected);
+        Assert.Equal(1.0 / (4.0 * 0.05), seam.TPeakPredicted, 6);   // 1/(4·0.05) = 5
+    }
+
+    [Fact]
+    public void Summary_SurfacesTheGateVerdict()
+    {
+        Assert.Contains("PASS", Protected3().Seam!.Summary);
+        Assert.Contains("FIRES", Below4().Seam!.Summary);
+    }
 }

@@ -1609,6 +1609,15 @@ public sealed class SeamMovement : IInspectable
     /// falsifier of the inheritance formulas; that needs the real-external-reading mode).</summary>
     public bool GatePass { get { Ensure(); return _gatePass; } }
 
+    /// <summary>The breathing time τ = 1/(2γ₀) (state-free), in lab units once γ₀ is pinned. ∞ if γ₀=0.</summary>
+    public double TauPredicted { get { Ensure(); return _gammaRec > 0.0 ? 1.0 / (2.0 * _gammaRec) : double.PositiveInfinity; } }
+
+    /// <summary>The N=2 Bell+ CΨ peak time t_peak = 1/(4γ₀) (state-class-specific). NaN for N≠2.</summary>
+    public double TPeakPredicted
+    {
+        get { Ensure(); return Parent.N == 2 && _gammaRec > 0.0 ? 1.0 / (4.0 * _gammaRec) : double.NaN; }
+    }
+
     public string DisplayName => "movement: the seam";
 
     public string Summary
@@ -1616,8 +1625,11 @@ public sealed class SeamMovement : IInspectable
         get
         {
             Ensure();
-            return $"the calibration topology (γ₀ from one external peg): Q = {_q.ToString("0.###", Inv)}, " +
-                   $"{(_protected ? "protected" : "OUT OF REGIME (Q < Q*(N))")}; " +
+            string verdict = _gatePass
+                ? $"gate PASS (J_rec/γ₀_rec = {_ratio.ToString("0.###", Inv)} = Q)"
+                : $"gate FIRES ({(!_xyOk ? "non-XY" : "Q < Q*(N)")}; residual {_gateResidual.ToString("E2", Inv)})";
+            return $"the calibration topology (γ₀ from one external peg): {verdict}; Q = {_q.ToString("0.###", Inv)}, " +
+                   $"{(_protected ? "protected" : "OUT OF REGIME")}; " +
                    $"γ-anchor γ₀_rec = gap/2 = {_gammaRec.ToString("0.#####", Inv)} " +
                    $"(model γ₀ = {Parent.Gamma.ToString("0.###", Inv)}).";
         }
@@ -1631,6 +1643,7 @@ public sealed class SeamMovement : IInspectable
             yield return TaktLens();
             yield return CoherenceHandLens();
             yield return GateLens();
+            yield return ChainCollapseLens();
         }
     }
 
@@ -1695,6 +1708,36 @@ public sealed class SeamMovement : IInspectable
                    "(Falsifying a formula or lab units needs the real-external-reading mode, out of scope.)";
         return new InspectableNode("the gate", summary: body,
             payload: new InspectablePayload.Real("gate residual |ratio − Q|", _gateResidual, "0.######"));
+    }
+
+    /// <summary>the chain collapse — the payoff. Given one external peg (the takt reading in lab units),
+    /// the whole chain above the leaf collapses to lab units. State-free: τ = 1/(2γ₀), ω_mem. State-class
+    /// (N=2): t_peak (Bell+) = 1/(4γ₀), the envelope fold (carrier-pair) = K_fold/γ₀ from the closed form
+    /// (K_fold = 0.0374, NOT a sampled ρ(t) value — the witness stays spectrum-only).</summary>
+    private InspectableNode ChainCollapseLens()
+    {
+        var p = Parent;
+        if (!_protected)
+            return new InspectableNode("the chain collapse",
+                summary: "chain collapse unavailable: γ₀ is not recovered outside the protected regime " +
+                         "(the takt reading under-recovers), so no lab-unit pinning is honest here.");
+        double tau = 1.0 / (2.0 * _gammaRec);
+        string u = p.LabUnit;
+        string stateClass = "";
+        if (p.N == 2)
+        {
+            double tPeak = 1.0 / (4.0 * _gammaRec);
+            double fold = KFoldN2 / _gammaRec;
+            stateClass = $" State-class (N=2): t_peak (Bell+) = 1/(4γ₀) = {tPeak.ToString("0.###", Inv)} {u}; " +
+                         $"envelope fold (carrier-pair) = K_fold/γ₀ = {fold.ToString("0.###", Inv)} {u} " +
+                         "(K_fold = 0.0374, closed form, not sampled).";
+        }
+        return new InspectableNode("the chain collapse",
+            summary: $"given one external peg (the takt reading in {u}), the chain above the leaf collapses to lab " +
+                     $"units: γ₀ = {_gammaRec.ToString("0.#####", Inv)} {u}⁻¹, J = {_jRec.ToString("0.#####", Inv)} {u}⁻¹. " +
+                     $"State-free: τ = 1/(2γ₀) = {tau.ToString("0.###", Inv)} {u}, ω_mem = {_omega.ToString("0.#####", Inv)} {u}⁻¹." +
+                     stateClass,
+            payload: new InspectablePayload.Real($"τ ({u})", tau, "0.####"));
     }
 
     public InspectablePayload Payload => InspectablePayload.Empty;
