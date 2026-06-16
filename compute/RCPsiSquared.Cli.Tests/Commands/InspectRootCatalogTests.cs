@@ -184,4 +184,24 @@ public class InspectRootCatalogTests
         var labels = root.Children.Select(c => c.DisplayName).ToList();
         Assert.Contains("movement: the clock", labels);
     }
+
+    [Fact]
+    public void SymphonyFactory_Calibrate_GrowsTheSeamMovement()
+    {
+        var symphony = InspectCommand.Catalog.Single(e => e.Name == "symphony");
+
+        // With --calibrate, the seam movement appears (N=3 defaults J=1, γ=0.1 ⟹ Q=10, in the protected regime).
+        var ctxWith = new InspectRootContext(new ArgParser(new[] { "--N", "3", "--calibrate" }), N: 3,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var rootWith = symphony.Factory(ctxWith);
+        var labelsWith = rootWith.Children.Select(c => c.DisplayName).ToList();
+        Assert.Contains("movement: the seam", labelsWith);
+
+        // Without --calibrate, no seam movement is grown.
+        var ctxWithout = new InspectRootContext(new ArgParser(new[] { "--N", "3" }), N: 3,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var rootWithout = symphony.Factory(ctxWithout);
+        var labelsWithout = rootWithout.Children.Select(c => c.DisplayName).ToList();
+        Assert.DoesNotContain("movement: the seam", labelsWithout);
+    }
 }
