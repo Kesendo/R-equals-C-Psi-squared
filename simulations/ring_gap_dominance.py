@@ -33,7 +33,6 @@ I2 = np.eye(2, dtype=complex)
 X = np.array([[0, 1], [1, 0]], dtype=complex)
 Y = np.array([[0, -1j], [1j, 0]], dtype=complex)
 Z = np.array([[1, 0], [0, -1]], dtype=complex)
-SM = np.array([[0, 1], [0, 0]], dtype=complex)        # sigma^- = |0><1|
 
 
 def kron_list(ops):
@@ -54,10 +53,6 @@ def H_ring(N):
         j = (i + 1) % N
         H += (J / 2) * (site(X, i, N) @ site(X, j, N) + site(Y, i, N) @ site(Y, j, N))
     return H
-
-
-def jw_c(j, N):
-    return kron_list([Z if l < j else SM if l == j else I2 for l in range(N)])
 
 
 def liouvillian(N, g=GAMMA):

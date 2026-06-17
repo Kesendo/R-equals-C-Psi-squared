@@ -50,7 +50,7 @@ public sealed class QuditMirrorProtectionScalingClaim : Claim
     {
         if (d < 2) throw new ArgumentOutOfRangeException(nameof(d), $"local dimension d must be ≥ 2; got {d}");
         if (n < 1) throw new ArgumentOutOfRangeException(nameof(n), $"N must be ≥ 1; got {n}");
-        return QuditPartialPalindromeCeiling.IntPow((long)d * d, n);
+        return QuditPartialPalindromeCeiling.Total(d, n);   // d^{2N}, the canonical full Liouville dim (one node up)
     }
 
     /// <summary>The product-mirror-protected fraction (2/d)^N = (2d)^N / d^{2N}. Requires d ≥ 2, N ≥ 1.</summary>

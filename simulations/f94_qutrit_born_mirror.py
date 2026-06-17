@@ -50,13 +50,6 @@ def gell_mann(d):
     return gens   # length d^2 - 1
 
 
-def kron_at(d, N, ops_by_site):
-    out = np.array([[1]], dtype=complex)
-    for k in range(N):
-        out = np.kron(out, ops_by_site.get(k, np.eye(d, dtype=complex)))
-    return out
-
-
 def swap_op(d):
     S = np.zeros((d * d, d * d), dtype=complex)
     for i in range(d):
@@ -87,7 +80,6 @@ def embed_two_site(d, N, i, j, op2):
     """Embed a (d^2 x d^2) two-site operator op2 (ordered site-i (x) site-j) into the full d^N space."""
     D = d ** N
     out = np.zeros((D, D), dtype=complex)
-    sites = list(range(N))
     for a in itertools.product(range(d), repeat=N):
         ai, aj = a[i], a[j]
         rowin = ai * d + aj

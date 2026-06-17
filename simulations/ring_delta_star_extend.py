@@ -84,8 +84,8 @@ assert odd[15] < odd[13] < odd[11] < odd[9], "STAGE 1 GATE FIRED: odd parity not
 # a plateau-above-1 would DECELERATE (each |step| smaller); here the later steps are NOT smaller than the first
 assert abs(steps[-1]) >= abs(steps[0]) - 1e-9, \
     f"STAGE 1 GATE FIRED: descent is DECELERATING (steps {steps}) -- would indicate settling to a plateau"
-print(f"STAGE 1 PASS: descent continues to N=15 (Delta*=1.27413); steps {[f'{s:+.4f}' for s in steps]} do NOT")
-print("  shrink -> NO plateau deceleration; the 'settles above 1' reading is disfavored.")
+print(f"STAGE 1 PASS: descent continues to N=15 (Delta*=1.27413); the latest step is NOT smaller than the")
+print(f"  first ({[f'{s:+.4f}' for s in steps]}) -> NO overall deceleration toward a plateau; 'settles above 1' disfavored.")
 
 # STAGE 2 -- the honest limit read
 print("\nSTAGE 2 -- honest limit read:")

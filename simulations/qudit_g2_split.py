@@ -33,7 +33,6 @@ STAGE 1  -- the probe: d=3 K_N (1,1) commutant darkest + global min; reads off t
 
 Run:  python simulations/qudit_g2_split.py
 """
-import sys
 import itertools
 from math import sqrt
 import numpy as np
