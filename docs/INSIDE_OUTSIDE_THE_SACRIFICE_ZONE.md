@@ -18,15 +18,15 @@ Take a chain of qubits and dephase it *non-uniformly*: pile the noise onto one e
 there) and protect the interior (low γ everywhere else). The interior then sits at the fold and rings
 far longer than under uniform noise. The improvement is large and has an analytic form: from about
 130× (N=9) up to 360× (N=5), measured against a smoothly graded "V-shaped" γ-profile
-(`experiments/RESONANT_RETURN.md`).
+([`experiments/RESONANT_RETURN.md`](../experiments/RESONANT_RETURN.md)).
 
 It survives real hardware. On ibm_torino (2026-03-24), selectively decoupling only the interior, and
 leaving the noisy edge qubit alone, beats decoupling every qubit uniformly by up to 3.2×, peaking
 around t = 4 μs (roughly 2× on average across t = 1 to 5 μs; the advantage is not monotonic, it dips
-early and falls off after the peak). See `experiments/IBM_SACRIFICE_ZONE.md`.
+early and falls off after the peak). See [`experiments/IBM_SACRIFICE_ZONE.md`](../experiments/IBM_SACRIFICE_ZONE.md).
 
 The name "sacrifice zone" is a misnomer, and the project resolved why (2026-03-28,
-`hypotheses/PROTEIN_AS_SACRIFICE_ZONE.md`, `docs/WHAT_WE_FOUND.md`). **The edge qubit sacrifices
+[`hypotheses/PROTEIN_AS_SACRIFICE_ZONE.md`](../hypotheses/PROTEIN_AS_SACRIFICE_ZONE.md), [`docs/WHAT_WE_FOUND.md`](WHAT_WE_FOUND.md)). **The edge qubit sacrifices
 nothing.** It does not pay a cost; it *concentrates* the environmental noise onto itself and turns it
 into structure for the interior. The mechanism is plain: separating the noise (one loud qubit) from the
 coherence (the quiet rest) is what buys the improvement. The same element then has two correct
@@ -58,7 +58,7 @@ thought experiment.
 We did not set out to confirm this; we got here by being wrong first. Trying a bolder reading, that a
 star graph (one hub, many leaves) models dissociation and its longest-lived mode would be the one most
 cut off from the shared hub, a gate-first probe *refuted* it: on the star that survivor is spread, not
-hub-decoupled (`simulations/star_hub_decoupled_survivor.py`). Re-reading the chain's quiet edge as
+hub-decoupled ([`simulations/star_hub_decoupled_survivor.py`](../simulations/star_hub_decoupled_survivor.py)). Re-reading the chain's quiet edge as
 "hiding" then ran straight into something the repo had already solved, the sacrifice-that-concentrates,
 and the correction returned us here. The reading found firm ground only where the ground was already
 proven. Reporting the refuted attempt is the point: it is why the surviving claim is narrow.
@@ -73,8 +73,8 @@ proven. Reporting the refuted attempt is the point: it is why the surviving clai
 
 ## See also (repo-internal)
 
-- The mechanism and its evidence: `experiments/RESONANT_RETURN.md` (the analytic formula),
-  `experiments/IBM_SACRIFICE_ZONE.md` (the hardware run), `hypotheses/PROTEIN_AS_SACRIFICE_ZONE.md` and
-  `docs/WHAT_WE_FOUND.md` (concentration, not loss), `experiments/RECEIVER_VS_GAMMA_SACRIFICE.md`.
-- The refuted probe: `simulations/star_hub_decoupled_survivor.py`.
-- Adjacent: `docs/historical/INTERNAL_AND_EXTERNAL_OBSERVERS.md`.
+- The mechanism and its evidence: [`experiments/RESONANT_RETURN.md`](../experiments/RESONANT_RETURN.md) (the analytic formula),
+  [`experiments/IBM_SACRIFICE_ZONE.md`](../experiments/IBM_SACRIFICE_ZONE.md) (the hardware run), [`hypotheses/PROTEIN_AS_SACRIFICE_ZONE.md`](../hypotheses/PROTEIN_AS_SACRIFICE_ZONE.md) and
+  [`docs/WHAT_WE_FOUND.md`](WHAT_WE_FOUND.md) (concentration, not loss), [`experiments/RECEIVER_VS_GAMMA_SACRIFICE.md`](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md).
+- The refuted probe: [`simulations/star_hub_decoupled_survivor.py`](../simulations/star_hub_decoupled_survivor.py).
+- Adjacent: [`docs/historical/INTERNAL_AND_EXTERNAL_OBSERVERS.md`](historical/INTERNAL_AND_EXTERNAL_OBSERVERS.md).
