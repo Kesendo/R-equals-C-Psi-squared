@@ -261,7 +261,23 @@ public static class OpenArcsRegistry
                 "(2) CHASE the junction (still open): chart the 'which mode is slowest' phase diagram over " +
                 "Q x profile x N - where exactly the boundary mode switches odd<->even {0,2}, and how it connects " +
                 "to the coherence-horizon Q*(N). The honest boundary at N>=6 may be a min over a mode crossing, " +
-                "not a single mode's light-freeze",
+                "not a single mode's light-freeze. " +
+                "PROGRESS 2026-06-17 (simulations/birth_canal_junction_nature.py, gate-first; doc " +
+                "docs/STERILE_BIRTHCANAL_AND_THE_JUNCTION.md): the SEAM to the sterile<->birth-canal boundary " +
+                "(PostEpFlowField / BirthCanalSurfaceWitness) is PINNED. Both are facets of rate_slow(Q) = min " +
+                "over joint-popcount sectors, organised by dn=|p_col-p_row|: dn=1 = the number-changing band " +
+                "edge (-2g floor, Q-flat at uniform gamma, Q-drifting at non-uniform gamma), dn=0 = the " +
+                "number-conserving interior (-2g<n_XY>(Q), Q-dependent). The JUNCTION (dn flips 0->1, the " +
+                "interior overtakes = the handover Q*(N)) IMPLIES birth canal but NOT conversely: the birth " +
+                "canal is also entered by ODD-DRIFT (the dn=1 survivor itself drifting under a non-uniform " +
+                "profile, no dn switch - the edge-protected canal profile). So the junction is a STRICT " +
+                "sub-mechanism of the birth canal; sterile = the dn=1 band edge reigns Q-flat. INTERIOR " +
+                "SURVIVOR NATURE: ring (2,2) = a frozen level crossing ROBUST to the gamma-profile " +
+                "(continuation-tracked, intrinsic to the wrap-bond two-fermion structure); chain (2,2) = " +
+                "oscillating (filling-degenerate SE-EP, rigidity->0 at Q*, NOT the ring's frozen seam). " +
+                "Gate-first caught 3 oversimplifications en route (profile-unfreezing / same-boundary / " +
+                "sector-tuple-vs-dn-with-a-convention-slip). STILL OPEN: the star (flat-band, the C=0.5 " +
+                "counterexample - assert no junction) and the full (Q, profile, N) sweep as one artifact",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
