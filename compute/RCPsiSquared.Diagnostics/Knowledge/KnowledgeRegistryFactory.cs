@@ -402,6 +402,15 @@ public static class KnowledgeRegistryFactory
             // weaker, Tier1Candidate, caps this child) + StructuralCeilingClaim (Tier1Derived). Gate-verified 15/15
             // (simulations/second_clock_regime_axis.py); live N=4 full-Liouvillian gate (inspect --root secondclock).
             .RegisterSecondClockRegimeClaim()
+            // The Niven root (Tier1Derived, 2026-06-17): Niven's theorem on the SE cyclotomic angle π/(N+1)
+            // is the number-theoretic ceiling on the spectrum's closed forms, with three faces — RE the
+            // dissipator rates (rational iff N+1 ∈ {1,2,3,4,6}, F65/F99), IM the band edge (rational iff N≤2,
+            // quadratic surd √2/φ/√3 iff N≤5, degree φ_euler(2(N+1))/2), V the V-Effect gain (golden at N=5).
+            // N=4 = first golden on both SE faces (band edge = φ = 2cos(π/5)). Two Tier1Derived typed parents,
+            // both registered above: TopologyBandEdgeClaim (the IM-face) + F65XxChainSpectrumPi2Inheritance (the
+            // RE-face). Gate-first sympy-exact verifier simulations/niven_rationality_root.py; live witness
+            // NivenRationalityRootWitness (inspect --root niven). Folds the n3_special_cases arc's number-theoretic root.
+            .RegisterNivenRationalityRootClaim()
             .RegisterF86HwhmClosedFormClaim()
             .RegisterIbmBlockCpsiHardwareTable()
             .RegisterPolarityPairQPeakDecompositionClaim()

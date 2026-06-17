@@ -344,10 +344,11 @@ public static class OpenArcsRegistry
                 "(the (n,n)/{0,2} extra modes at N=3, the (2,2) N=4 anomalies above), independent of the arithmetic; " +
                 "star-3=path is a third, graph-theoretic coincidence. So: two real roots (arithmetic + combinatorial), not one.",
             NextStep: "the central 'do they share a root' question is ANSWERED (two roots: number-theoretic Niven + " +
-                "combinatorial filling-maximality, niven_rationality_root.py). Remaining, low priority: optionally graduate " +
-                "the Niven root to a typed claim (parent TopologyBandEdgeClaim / F65) if it earns reuse; and gather any " +
-                "further stray small-N specials (e.g. is the combinatorial filling-maximality face itself an arithmetic " +
-                "consequence, or genuinely independent?)",
+                "combinatorial filling-maximality, niven_rationality_root.py). The Niven root is now TYPED (2026-06-17): " +
+                "NivenRationalityRootClaim (Tier1Derived, parents TopologyBandEdgeClaim + F65XxChainSpectrumPi2Inheritance) " +
+                "+ live witness NivenRationalityRootWitness (inspect --root niven). Remaining, low priority: gather any " +
+                "further stray small-N specials, and the open question whether the combinatorial filling-maximality face is " +
+                "itself an arithmetic consequence or genuinely independent of the Niven root.",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
