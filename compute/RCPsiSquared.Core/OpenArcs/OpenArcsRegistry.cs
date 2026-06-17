@@ -355,7 +355,16 @@ public static class OpenArcsRegistry
                 "flavored (rational only on {1,2,3,4,6}), and the (2,2) ceiling is itself a surd; the sharper axis is " +
                 "graph-spectral (cyclotomic) vs S_N-standard-rep (rational). N=4 POLYGON CONFLUENCE: at the first even " +
                 "half-filled N, three sectors light three DISTINCT polygons at once - single-excitation band edge = pentagon " +
-                "(phi), K_4 (2,2) ceiling = hexagon (sqrt3), ring-4 (2,2) frequency = square (sqrt2).",
+                "(phi), K_4 (2,2) ceiling = hexagon (sqrt3), ring-4 (2,2) frequency = square (sqrt2). " +
+                "N=4 IS UNIQUE (2026-06-17, n4_polygon_uniqueness.py, gate-first 3/3): N=6 does NOT reproduce the confluence, " +
+                "and both N=4 ingredients trace to the SAME cyclotomic accident. (i) Among EVEN N only N=4 (N+1=5, pentagon) " +
+                "has a QUADRATIC-surd band edge (the unique even-N golden); N=6 (N+1=7, heptagon) is CUBIC (degree 3), N=8 " +
+                "cubic too. (ii) The Re-side surd LEAK needs the (1,1) ceiling ladder 4/N to hit 1 and vacate the sub-floor " +
+                "so a half-filling sector becomes the ceiling - that happens ONLY at N=4; at N=6 the (1,1) ceiling is already " +
+                "4/6=2/3 (rational) and IS the floor, with the (2,2)/(3,3) surds sitting ABOVE it (no leak). The N=6 ring is " +
+                "the integer hexagon (band {+-2,+-1}, commutant 4/3 in every sector) - fully rational, no frequency surd " +
+                "(unlike ring-4's 2sqrt2). The pentagon is the hinge; N=4's recurring specialness across the project IS this " +
+                "uniqueness.",
             NextStep: "the central 'do they share a root' question is ANSWERED (two roots: number-theoretic Niven + " +
                 "combinatorial filling-maximality, niven_rationality_root.py). The Niven root is now TYPED (2026-06-17): " +
                 "NivenRationalityRootClaim (Tier1Derived, parents TopologyBandEdgeClaim + F65XxChainSpectrumPi2Inheritance) " +
