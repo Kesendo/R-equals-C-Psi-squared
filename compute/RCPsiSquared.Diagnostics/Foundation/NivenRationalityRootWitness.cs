@@ -40,17 +40,23 @@ public sealed class NivenRationalityRootWitness : IInspectable
     /// <summary>The V-Effect gain 1 + cos(π/N).</summary>
     private static double VGain(int n) => 1.0 + Math.Cos(Math.PI / n);
 
-    /// <summary>Name the band edge: rational value, √2/φ/√3, or "degree d".</summary>
-    private static string BandEdgeIdentity(int n)
+    /// <summary>The independent numeric route: recognize the band-edge value 2cos(π/(N+1)) and return its name
+    /// plus its algebraic degree (0 = unrecognized, i.e. a higher-degree surd). This is the second route the
+    /// IM-face cross-checks against the totient degree <see cref="NivenRationalityRootClaim.BandEdgeDegree"/> —
+    /// value recognition vs φ_euler(2(N+1))/2 must agree wherever the value is a named surd (the sibling-witness
+    /// two-route convention, not a literal-vs-static check).</summary>
+    private static (string Name, int NumericDegree) RecognizeBandEdge(double be)
     {
-        double be = BandEdge(n);
-        int deg = NivenRationalityRootClaim.BandEdgeDegree(n);
-        if (deg == 1) return $"{Math.Round(be):0} (rational)";
-        if (Math.Abs(be - Math.Sqrt(2.0)) < Tol) return "√2";
-        if (Math.Abs(be - (1.0 + Math.Sqrt(5.0)) / 2.0) < Tol) return "φ = (1+√5)/2";
-        if (Math.Abs(be - Math.Sqrt(3.0)) < Tol) return "√3";
-        return $"degree {deg}";
+        if (Math.Abs(be - Math.Round(be)) < Tol) return ($"{Math.Round(be):0} (rational)", 1);
+        if (Math.Abs(be - Math.Sqrt(2.0)) < Tol) return ("√2", 2);
+        if (Math.Abs(be - (1.0 + Math.Sqrt(5.0)) / 2.0) < Tol) return ("φ = (1+√5)/2", 2);
+        if (Math.Abs(be - Math.Sqrt(3.0)) < Tol) return ("√3", 2);
+        return ("", 0);   // a higher-degree surd, not a named quadratic
     }
+
+    /// <summary>The shared gate label: a tag for the node header and a sentence for its summary.</summary>
+    private static (string Tag, string Note) Gate(bool ok) =>
+        ok ? ("gate ✓", "Gate passes.") : ("GATE FIRED", "Gate FIRED — investigate.");
 
     public string DisplayName => "NivenRationalityRootWitness (the SE cyclotomic arithmetic, three faces, live)";
 
@@ -72,27 +78,36 @@ public sealed class NivenRationalityRootWitness : IInspectable
         }
     }
 
-    /// <summary>IM-face: the band edge degree ladder, gated rational-iff-N≤2 and quadratic-surd-iff-N≤5.</summary>
+    /// <summary>IM-face: the band edge degree ladder. A genuine two-route cross-check (the sibling-witness
+    /// convention): the totient degree φ_euler(2(N+1))/2 must agree with the independent numeric value
+    /// recognition (√2/φ/√3/rational) wherever the value is a named surd, and the rational/quadratic-surd
+    /// cutoffs must be N≤2 / N≤5.</summary>
     private InspectableNode ImFace()
     {
         var rows = new List<IInspectable>();
         var rationalNs = new List<int>();
         var quadraticNs = new List<int>();
+        bool routesAgree = true;
         for (int n = 1; n <= 8; n++)
         {
-            int deg = NivenRationalityRootClaim.BandEdgeDegree(n);
+            double be = BandEdge(n);
+            int deg = NivenRationalityRootClaim.BandEdgeDegree(n);   // route A: the totient φ_euler(2(N+1))/2
+            var (name, numericDeg) = RecognizeBandEdge(be);          // route B: independent value recognition
             if (deg == 1) rationalNs.Add(n);
             if (deg <= 2) quadraticNs.Add(n);
+            if (numericDeg != 0 && numericDeg != deg) routesAgree = false;   // the two routes disagree
             rows.Add(new InspectableNode($"N={n}",
-                summary: $"2cos(π/{n + 1}) = {BandEdge(n).ToString("0.######", Inv)} = {BandEdgeIdentity(n)} (degree {deg})"));
+                summary: $"2cos(π/{n + 1}) = {be.ToString("0.######", Inv)} = {(name.Length > 0 ? name : $"degree {deg}")} (degree {deg})"));
         }
-        bool ok = string.Join(",", rationalNs) == "1,2"
-                  && string.Join(",", quadraticNs) == "1,2,3,4,5"
-                  && NivenRationalityRootClaim.BandEdgeDegree(6) == 3;
-        return new InspectableNode($"IM-face: the band edge 2cos(π/(N+1)) [{(ok ? "gate ✓" : "GATE FIRED")}]",
-            summary: $"algebraic degree φ_euler(2(N+1))/2: rational iff N≤2 (last N=2 = 1), a single quadratic surd " +
-                     $"(√2, φ, √3 at N=3,4,5) iff N≤5, degree ≥3 (first cubic) from N=6. " +
-                     $"{(ok ? "All gates pass." : "A gate FIRED — investigate.")}",
+        bool ok = rationalNs.SequenceEqual(new[] { 1, 2 })
+                  && quadraticNs.SequenceEqual(new[] { 1, 2, 3, 4, 5 })
+                  && NivenRationalityRootClaim.BandEdgeDegree(6) == 3
+                  && routesAgree;
+        var (tag, note) = Gate(ok);
+        return new InspectableNode($"IM-face: the band edge 2cos(π/(N+1)) [{tag}]",
+            summary: $"algebraic degree φ_euler(2(N+1))/2 (agreeing with the independent numeric value recognition): " +
+                     $"rational iff N≤2 (last N=2 = 1), a single quadratic surd (√2, φ, √3 at N=3,4,5) iff N≤5, " +
+                     $"degree ≥3 (first cubic) from N=6. {note}",
             children: rows);
     }
 
@@ -111,10 +126,12 @@ public sealed class NivenRationalityRootWitness : IInspectable
             rows.Add(new InspectableNode($"N={n}",
                 summary: $"rates {(rat ? "rational" : "IRRATIONAL")} (N+1={n + 1}); α_k/γ₀ = {sample}"));
         }
-        bool ok = string.Join(",", rationalNs) == "1,2,3,5";   // N+1 ∈ {2,3,4,6} of {1,2,3,4,6}
-        return new InspectableNode($"RE-face: the dissipator rates α_k (F65/F99) [{(ok ? "gate ✓" : "GATE FIRED")}]",
+        bool ok = rationalNs.SequenceEqual(new[] { 1, 2, 3, 5 });   // N+1 ∈ {2,3,4,6} of {1,2,3,4,6}
+        var (tag, note) = Gate(ok);
+        return new InspectableNode($"RE-face: the dissipator rates α_k (F65/F99) [{tag}]",
             summary: $"α_k/γ₀ = (4/(N+1))·sin²(kπ/(N+1)) all rational iff N+1 ∈ {{1,2,3,4,6}} — N=3 the last rational " +
-                     $"before the gap, N=5 a rational island. {(ok ? "Gate passes." : "Gate FIRED — investigate.")}",
+                     $"before the gap, N=5 a rational island (the exact rationality proof is the sympy gate in " +
+                     $"niven_rationality_root.py). {note}",
             children: rows);
     }
 
@@ -138,10 +155,11 @@ public sealed class NivenRationalityRootWitness : IInspectable
             new InspectableNode("N=5 (pentagon)", summary: $"V = 1+cos(π/5) = {v5.ToString("0.######", Inv)} = (5+√5)/4 (GOLDEN)"),
             new InspectableNode("N=6 (hexagon)", summary: $"V = 1+cos(π/6) = {VGain(6).ToString("0.######", Inv)} = 1+√3/2 (√3)"),
         };
-        return new InspectableNode($"V-face: the V-Effect gain 1+cos(π/N) [{(ok ? "gate ✓" : "GATE FIRED")}]",
+        var (tag, note) = Gate(ok);
+        return new InspectableNode($"V-face: the V-Effect gain 1+cos(π/N) [{tag}]",
             summary: "Niven-rational iff N ∈ {2,3}; for N ≥ 4 the named constant of the next ring polygon — silver " +
                      "(N=4), GOLDEN (N=5), √3 (N=6). Its golden is N=5 because the angle is π/N, not π/(N+1) " +
-                     "(docs/carbon/OFF_NIVEN_AS_WAVE_BREAKING.md). 'First golden' is angle-convention-dependent.",
+                     $"(docs/carbon/OFF_NIVEN_AS_WAVE_BREAKING.md). 'First golden' is angle-convention-dependent. {note}",
             children: rows);
     }
 
@@ -151,11 +169,12 @@ public sealed class NivenRationalityRootWitness : IInspectable
         double be4 = BandEdge(4), phi = (1.0 + Math.Sqrt(5.0)) / 2.0;
         double rate41 = Rate(4, 1), goldenRate = (5.0 - Math.Sqrt(5.0)) / 10.0;   // (4/5)sin²(π/5) = (5−√5)/10
         bool ok = Math.Abs(be4 - phi) < Tol && Math.Abs(rate41 - goldenRate) < Tol && !NivenRationalityRootClaim.RatesAllRational(4);
-        return new InspectableNode($"the hinge: N=4 = first golden [{(ok ? "gate ✓" : "GATE FIRED")}]",
+        var (tag, note) = Gate(ok);
+        return new InspectableNode($"the hinge: N=4 = first golden [{tag}]",
             summary: $"N=4 is the FIRST GOLDEN on both SE faces: the band edge IS φ (2cos(π/5) = {be4.ToString("0.######", Inv)} " +
                      $"= (1+√5)/2 = {phi.ToString("0.######", Inv)}), and the rates carry √5 (α_1/γ₀ = (4/5)sin²(π/5) = " +
                      $"{rate41.ToString("0.######", Inv)} = (5−√5)/10). The golden ratio is forced by the cyclotomic " +
-                     $"geometry, not chosen. {(ok ? "Gate passes." : "Gate FIRED — investigate.")}");
+                     $"geometry, not chosen. {note}");
     }
 
     private static InspectableNode TwoRoots() =>
