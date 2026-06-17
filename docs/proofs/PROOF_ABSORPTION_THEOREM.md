@@ -328,22 +328,35 @@ discriminant-based ((10γ−2γ)/2)² = 16γ². Red-herring discipline: same num
 two genealogies; cite the rung-2 four for rates and carriers, the discriminant
 four for squared half-gaps, never interchangeably.
 
-**Remark (the qutrit prism: three fours, 2026-06-17).** Those two fours plus the
-structural-ceiling four (g2(K_N) = 4/N, F122 / `StructuralCeilingClaim`) are THREE
-genealogies that all read 4 at d=2 and split at the qutrit
+**Remark (the qutrit prism: the qudit sorts the fours into two families, 2026-06-17).**
+The recurring 4 at d=2 has more than the two genealogies above; the qutrit
 ([`simulations/qudit_g2_split.py`](../../simulations/qudit_g2_split.py), gate-first,
-validated against the full d=3 Liouvillian). The **discriminant four** is d² → 9 (it
-is a₋₁ on the dyadic ladder, = d²). The **rung/cap four** is 2d → 6 (the
-centre/absorption-quanta count; the F121 qudit product-mirror cap is (2d)^N). The
-**ceiling four** in g2 = 4/N is 2·(2/N) = (the Hamming distance between two
-single-excitation strings, = 2 at any d) × (the S_N standard-rep angle 1 − λ₂ = 2/N,
-pure graph theory): both factors are d-INDEPENDENT, so g2(K_N) = 4/N holds unchanged
-at d=3 (verified including the global ceiling at N=5 and the d-independent N=4 outlier
-2 − 2/√3). The white-light coincidence d² = 2d = 2·2 = 4 holds only at d=2 — the qubit
-magic — because the foundational polynomial d² − 2d = 0 makes d² = 2d exactly there;
-the qutrit is the prism that fans the one 4 into {9, 6, 4}. So the structural-ceiling
-four is a THIRD genealogy, neither the discriminant four (`PolynomialDiscriminantAnchorClaim`)
-nor the rung four: cite the ceiling four for the g2 closed forms only.
+validated against the full d=3 Liouvillian and against F121) is the prism that fans
+the one 4 into {9, 6, 4} and sorts the readings into two families.
+
+*The trunk terms (they SPLIT).* The foundational polynomial d² − 2d = 0 has two terms,
+and they are two of the fours: the **d² term** → 9 (the squared dimension = a₋₁ on the
+dyadic ladder = the half-gap-squared discriminant four, `PolynomialDiscriminantAnchorClaim`)
+and the **2d term** → 6 (the F121 qudit product-mirror cap base (2d)^N, `QuditProductMirrorCap`:
+each per-site mirror is a strict swap between the d dark and the d²−d lit letters, so its
+rank is min(d, d²−d) + min(d²−d, d) = 2d; F121 measures cap(3,2) = 36 = 6², not 81 = 9²).
+These two coincide at 4 only at the root d=2 — d² − 2d = 0 ⟺ d = 2, the qubit magic — and
+the qutrit splits them to 9 and 6.
+
+*The Hamming-2 fours (they STAY).* The **rung-2 four** 2γ·2 = 4γ (the HD=(1,3) palindrome
+centre above) is the second rung of the §6 ladder, and the ladder rungs are 2γ·(Hamming),
+d-INDEPENDENT — Hamming distance 2 is two differing sites at any d — so the dynamical 4γ
+stays 4γ at the qutrit. The **structural-ceiling four** in g2(K_N) = 4/N (F122 /
+`StructuralCeilingClaim`) is 2·(2/N) = (the Hamming distance between two single-excitation
+strings, = 2 at any d) × (the S_N standard-rep angle 1 − λ₂ = 2/N, pure graph theory): both
+factors carry no d, so g2 = 4/N holds unchanged at d=3 (verified including the global ceiling
+at N=5 and the d-independent N=4 outlier 2 − 2/√3). Both land on the 4-ray.
+
+So the red-herring discipline sharpens: the cap four (2d, F121) is NOT the rung-2 four (4γ,
+dynamical) even though both read 4 at d=2 — the cap rides 2d → 6, the rung-2 four rides
+Hamming-2 → stays 4γ. Cite the trunk-term fours (d², 2d) for operator-space dimensions and
+the F121 cap, the Hamming-2 fours (rung-2 centre, g2 ceiling) for rates and the structural
+ceiling; never interchange across families.
 
 ---
 

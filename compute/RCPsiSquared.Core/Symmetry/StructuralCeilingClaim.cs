@@ -25,9 +25,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>Map note (the 4 here is NOT the discriminant four — a see-cref, not a typed edge): the 4 in 4/N is
 /// 2·(2/N) = (the Hamming distance 2 between two single-excitation strings) × (the S_N angle 1 − λ₂ = 2/N),
 /// and BOTH factors are d-independent, so g2(K_N) = 4/N survives unchanged at the qutrit. This is a DISTINCT
-/// genealogy from the discriminant four d² of <see cref="PolynomialDiscriminantAnchorClaim"/> (which → 9 at
-/// d=3) and the rung/cap four 2d (→ 6): all three read 4 only at d=2 (the qubit magic, where d² − 2d = 0
-/// forces d² = 2d). Verified gate-first against the full d=3 Liouvillian (simulations/qudit_g2_split.py).
+/// genealogy from the two TERMS of the trunk d² − 2d = 0: the discriminant four d² (the squared-dimension
+/// term of <see cref="PolynomialDiscriminantAnchorClaim"/>, → 9 at d=3) and the F121 cap four 2d (the other
+/// term, the QuditProductMirrorCap base (2d)^N, → 6). Those two coincide at 4 only at the root d=2 (the qubit
+/// magic, d² − 2d = 0 ⟹ d² = 2d) and split at the qutrit; the ceiling four instead STAYS 4 (a third,
+/// trunk-external reading, with the dynamical rung-2 four 4γ a fourth, also Hamming-based and d-independent).
+/// Verified gate-first against the full d=3 Liouvillian and against F121 (simulations/qudit_g2_split.py).
 /// No typed edge: they coincide only at d=2.</para>
 ///
 /// <para>Tier1Derived: a principal-angle proof of the closed forms (PROOF_STRUCTURAL_CEILING.md §2–§4) plus

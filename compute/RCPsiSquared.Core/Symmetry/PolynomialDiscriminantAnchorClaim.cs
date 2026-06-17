@@ -59,11 +59,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para><b>Map note (a four that is NOT this one — qutrit-split, see-cref not a typed edge):</b> the
 /// structural-ceiling four in g2(K_N) = 4/N (<see cref="StructuralCeilingClaim"/>, F122) looks like this
 /// discriminant four but is NOT. It is 2·(2/N) = (the Hamming distance 2 between two single-excitation
-/// strings) × (the S_N angle 1 − λ₂), both d-INDEPENDENT, so it stays 4/N at the qutrit while this
-/// discriminant four = d² → 9 (and the rung/cap four 2d → 6). All three coincide at 4 only at d=2, because
-/// this polynomial's own identity d² − 2d = 0 forces d² = 2d there (the qubit magic; the qutrit is the prism
-/// that fans the one 4 into {9, 6, 4}). Verified gate-first against the full d=3 Liouvillian
-/// (simulations/qudit_g2_split.py). A see-cref, not a typed edge — distinct genealogies.</para>
+/// strings) × (the S_N angle 1 − λ₂), both d-INDEPENDENT, so it STAYS 4/N at the qutrit. By contrast this
+/// discriminant four = the d² TERM of the trunk d² − 2d = 0 (→ 9), and its partner the 2d TERM is the F121
+/// product-mirror cap base (2d)^N (QuditProductMirrorCap, → 6, measured cap(3,2)=36=6² not 81): the two
+/// trunk terms coincide at 4 only at the root d=2 (this polynomial's own identity d² = 2d there, the qubit
+/// magic) and the qutrit fans them to {9, 6}; the ceiling four is a third reading that stays 4 (the dynamical
+/// rung-2 four 4γ a fourth, also Hamming-based and d-independent). Verified gate-first against the full d=3
+/// Liouvillian and F121 (simulations/qudit_g2_split.py). A see-cref, not a typed edge — distinct genealogies.</para>
 ///
 /// <para>Anchors: <c>compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs</c>
 /// (PolynomialFoundationClaim + QubitDimensionalAnchorClaim) +
