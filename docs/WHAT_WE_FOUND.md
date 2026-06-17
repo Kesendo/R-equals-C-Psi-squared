@@ -769,8 +769,10 @@ of the qubit. The qubit is a consequence of half. And
 
 The edge qubit in a sacrifice-zone does not lose anything. It concentrates
 noise onto itself so the interior can operate at the fold. The result is
-139-360x coherence improvement (IBM validated: the advantage grows over
-time). The protein shell around an enzyme active site may do the same:
+139-360x coherence improvement in simulation (IBM-confirmed on hardware:
+selective decoupling beats uniform by up to ~3.2x, peaking near t=4 us;
+the advantage is non-monotonic, not a steady climb). The protein shell
+around an enzyme active site may do the same:
 concentrate thermal noise so the protons inside can tunnel at maximum
 sensitivity. From the inside it looks like sacrifice. From the outside
 it looks like protection.
