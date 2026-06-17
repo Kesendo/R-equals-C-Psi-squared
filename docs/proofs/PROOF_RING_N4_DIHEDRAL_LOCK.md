@@ -3,6 +3,7 @@
 **Status:** Tier 1 derived. The 4-cycle is the bipartite-complete graph K_{2,2}; its isotropic Heisenberg Hamiltonian factors through total sublattice spins via SU(2) Casimir, yielding a 6-eigenvalue spectrum {−2J, −J, 0, 0, 0, +J} with max gap 3J. The Liouvillian eigenmode realising this gap is the standard transition between the maximally-antialigned (S_A=1, S_B=1, S_tot=0) ground and the maximally-aligned (S_tot=2) ferromagnet, and the Z-dephasing dissipator only adds real decay so the gap survives into Im(λ).
 **Date:** 2026-05-19
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
+**Distinct from:** [`PROOF_RING_GAP_DOMINANCE.md`](PROOF_RING_GAP_DOMINANCE.md), the *XY* ring gap-dominance result (max|Im| = 2J = J·ρ, the dihedral lock). Same words "ring N=4 dihedral lock", different Hamiltonian and different result; this proof is the *isotropic-Heisenberg* ring (max|Im| = 3J via the K_{2,2} Casimir gap).
 
 ## Abstract
 

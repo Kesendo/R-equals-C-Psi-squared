@@ -23,6 +23,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// √(E1²−(2γ)²)<E1). So max|Im|=E1: the band edge is gap-dominant. Hence Tier1Derived. (Scope: the chain;
 /// Jordan-Wigner is 1D. The N=3 extra family is one more entry in the chain's list of N=3 accidents.)</para>
 ///
+/// <para>Ring sibling (2026-06-17): the cyclic analogue is docs/proofs/PROOF_RING_GAP_DOMINANCE.md (verifier
+/// simulations/ring_gap_dominance.py). The dihedral lock pins the ring's max|Im| to the k=0 uniform single-
+/// excitation mode at 2J=J·ρ for general N, except N=4 where the half-filling (2,2) {0,2} √-EP reaches
+/// 2√2·J above the band top — the mirror of this chain's N=3 {0,2} exception, which sits below E1. Both
+/// topologies: max|Im|=J·ρ. The ring statement is typed into <see cref="TopologyBandEdgeClaim"/> (gate-verified
+/// N=3..6, full all-N completeness open).</para>
+///
 /// <para>Live witness: <c>inspect --root clock</c>
 /// (<c>compute/RCPsiSquared.Diagnostics/Foundation/ClockHandLadderWitness.cs</c>).</para>
 ///
