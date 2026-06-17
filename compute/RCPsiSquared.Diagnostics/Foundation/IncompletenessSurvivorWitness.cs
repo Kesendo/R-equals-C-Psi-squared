@@ -227,7 +227,8 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
         "the dynamic survival probe: the dispersive RING puts the longest-lived mode at the even off-centre interior " +
         "(incompleteness, C=0.5) coherence; the open XY CHAIN is filling-degenerate (no unique survivor sector - the " +
         "dead-centre is the Heisenberg/ZZ result, CHAIN_GAP); the central-spin STAR is the boundary counterexample. " +
-        "Lifetime <n_XY> ~ Q^2/N^2, ring/chain -> 4. Reuses SectorReductionWitness.SectorSlowest.";
+        "Lifetime <n_XY> ~ Q^2/N^2, ring/chain -> 4. Reuses SectorReductionWitness.SectorSlowest. " +
+        "Sector overview: inspect --root blockspectrum (this zooms the diagonal (p,p) half-filling sectors).";
 
     public IEnumerable<IInspectable> Children
     {

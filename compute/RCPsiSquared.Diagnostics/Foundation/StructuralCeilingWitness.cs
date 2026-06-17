@@ -144,7 +144,8 @@ public sealed class StructuralCeilingWitness : IInspectable
     public string Summary =>
         "the structural ceiling computed live (typed home: StructuralCeilingClaim): g2 = the darkest [H,A]=0 " +
         "coherence in the largest degenerate single-particle level. Complete 4/N, star 4/(N−1), the N=4 (2,2) " +
-        "outlier 2−2/√3; recomputed from the rep structure, not the 4^N Liouvillian.";
+        "outlier 2−2/√3; recomputed from the rep structure, not the 4^N Liouvillian. " +
+        "Sector overview: inspect --root blockspectrum (this zooms the (1,1) commutant sector).";
 
     public IEnumerable<IInspectable> Children
     {

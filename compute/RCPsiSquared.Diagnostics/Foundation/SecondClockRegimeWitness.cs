@@ -162,7 +162,8 @@ public sealed class SecondClockRegimeWitness : IInspectable
         "the second clock's regime map computed live (typed home: SecondClockRegimeClaim): the {0,2}/half-filling " +
         "coherence is ONE mode whose regime is set by the band — knob 1 (degeneracy m) → high-Q ceiling 4/(m+1) " +
         "(below the floor iff m≥4), knob 2 (dispersion) → low-Q √-EP horizon (dispersive) vs gradual (flat). " +
-        "The N=4 frame is a self-validating full-Liouvillian gate (all three regimes present).";
+        "The N=4 frame is a self-validating full-Liouvillian gate (all three regimes present). " +
+        "Sector overview: inspect --root blockspectrum (this zooms the (2,2)/half-filling {0,2} sector).";
 
     public IEnumerable<IInspectable> Children
     {

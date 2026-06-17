@@ -176,7 +176,7 @@ public sealed class SectorReductionWitness : IInspectable
         "(0,1) block (N-dim), reproducing the full-4^N witness at N=5 and running past it; at N>=6 the " +
         "global slowest crosses to the {0,2}-coherence (the coherence-horizon mode). Reuses the per-sector " +
         "builder. V-Effect (w=N/2) identity RESOLVED (distinct from the {0,2}-coherence: w = n_diff + Z-shadow); " +
-        "no aromaticity thesis (open).";
+        "no aromaticity thesis (open). Sector overview: inspect --root blockspectrum (this zooms the (0,1) sector).";
     public IEnumerable<IInspectable> Children
     {
         get

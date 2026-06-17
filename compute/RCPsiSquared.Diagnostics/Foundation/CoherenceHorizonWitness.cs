@@ -152,7 +152,8 @@ public sealed class CoherenceHorizonWitness : IInspectable
         $"Q*(2)={Horizon(2).ToString("0.####", Inv)}, Q*(3)={Horizon(3).ToString("0.####", Inv)}, " +
         $"Q*(4)={Horizon(4).ToString("0.####", Inv)}, Q*(5)={Horizon(5).ToString("0.####", Inv)}. " +
         "This equals the carbon Frost-Hückel coherent↔incoherent threshold (√2 / 1.879 / 2.372 at N=3/4/5, " +
-        "FROST_CIRCLE_AS_THE_CLOCK_FACE.md) under the label swap J ↔ |β|.";
+        "FROST_CIRCLE_AS_THE_CLOCK_FACE.md) under the label swap J ↔ |β|. " +
+        "Sector overview: inspect --root blockspectrum (this zooms the single-excitation {0,2} sector).";
 
     public IEnumerable<IInspectable> Children
     {

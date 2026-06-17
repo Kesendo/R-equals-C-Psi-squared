@@ -121,4 +121,20 @@ public class BlockSpectrumWitnessTests
         foreach (var root in new[] { "reduction", "ceiling", "horizon", "survivor", "secondclock" })
             Assert.Contains(root, text);
     }
+
+    // The reverse leg of the hub: each sector-specific witness points back to blockspectrum (the
+    // per-sector overview), so the navigation is bidirectional.
+    [Fact]
+    public void TheFiveSectorWitnesses_PointBackToBlockSpectrum()
+    {
+        var summaries = new[]
+        {
+            new SectorReductionWitness(n: 5).Summary,
+            new StructuralCeilingWitness().Summary,
+            new CoherenceHorizonWitness().Summary,
+            new IncompletenessSurvivorWitness(6, 1.5).Summary,
+            new SecondClockRegimeWitness().Summary,
+        };
+        Assert.All(summaries, s => Assert.Contains("blockspectrum", s));
+    }
 }
