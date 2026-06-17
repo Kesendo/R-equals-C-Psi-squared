@@ -62,6 +62,23 @@ public class BlockSpectrumWitnessTests
         Assert.Equal(n + 1, BlockSpectrumWitness.KernelDimension(spectrum));
     }
 
+    // Gate 2b: the F1 metric must be MULTISET-aware, not set-aware. {+1 x3, -1 x1} is closed under
+    // lambda -> -lambda as a SET (sigma=0) but NOT as a multiset (reflected = {-1 x3, +1 x1}). A
+    // set-distance metric blindly reports ~0; the real F1 check (greedy NN with removal) must see the
+    // gap -- the surplus +1 can only pair to a -1, distance 2. This is the failure mode a reconstruction
+    // bug (a dropped/duplicated eigenvalue with a same-valued neighbour) would produce.
+    [Fact]
+    public void PalindromePairingDistance_DetectsAMultiplicityDefect()
+    {
+        var defective = new[]
+        {
+            new System.Numerics.Complex(1, 0), new System.Numerics.Complex(1, 0),
+            new System.Numerics.Complex(1, 0), new System.Numerics.Complex(-1, 0),
+        };
+        double d = BlockSpectrumWitness.PalindromePairingDistance(defective, sigma: 0.0);
+        Assert.True(d > 1.0, $"a multiplicity defect must be visible; a set-blind metric returns ~0, got {d:E3}");
+    }
+
     // Gate 3: the (0,1) band-edge sector is entirely at Re = -2gamma. On (p_c=0, p_r=1) every
     // basis coherence disagrees in exactly one bit, so L_D = -2gamma*I (scalar) and L_H restricted
     // is anti-Hermitian -> every eigenvalue has Re = -2gamma exactly (uniform gamma; Absorption).

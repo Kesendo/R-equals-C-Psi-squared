@@ -228,7 +228,8 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
         "(incompleteness, C=0.5) coherence; the open XY CHAIN is filling-degenerate (no unique survivor sector - the " +
         "dead-centre is the Heisenberg/ZZ result, CHAIN_GAP); the central-spin STAR is the boundary counterexample. " +
         "Lifetime <n_XY> ~ Q^2/N^2, ring/chain -> 4. Reuses SectorReductionWitness.SectorSlowest. " +
-        "Sector overview: inspect --root blockspectrum (this zooms the diagonal (p,p) half-filling sectors).";
+        "Sector overview: inspect --root blockspectrum (this zooms the diagonal (p,p) interior sectors — the " +
+        "(2,2) two-excitation {0,2}, half-filling at N=4; DISTINCT from horizon's (1,1) single-excitation {0,2}).";
 
     public IEnumerable<IInspectable> Children
     {

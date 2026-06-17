@@ -113,14 +113,15 @@ public sealed class BlockSpectrumWitness : IInspectable
         return flat;
     }
 
-    /// <summary>Reconstruct the spectrum from the per-sector blocks: for each joint-popcount sector
-    /// whose size ≤ <paramref name="cap"/>, build the block (<see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/>)
-    /// and concatenate its eigenvalues. With cap ≥ the max block this is the FULL 4^N spectrum
-    /// (the blocks are L's exact diagonal blocks). Larger sectors are skipped (too slow to eig live).</summary>
+    /// <summary>Reconstruct the spectrum from the per-sector blocks of a prebuilt H: for each
+    /// joint-popcount sector whose size ≤ <paramref name="cap"/>, build the block
+    /// (<see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/>) and concatenate its eigenvalues. With
+    /// cap ≥ the max block this is the FULL 4^N spectrum (the blocks are L's exact diagonal blocks).
+    /// Larger sectors are skipped (too slow to eig live). Takes H so a render builds it once and
+    /// shares it with the band-edge node (H grows as 2^N — cheap at N≤9, but built once on principle).</summary>
     public static (Complex[] Spectrum, int SectorsUsed, int SectorsSkipped, bool Full) ReconstructSpectrum(
-        int n, double gamma, double j, long cap)
+        ComplexMatrix h, int n, double gamma, long cap)
     {
-        var H = HeisenbergChain(n, j);
         var gammaPerSite = Enumerable.Repeat(gamma, n).ToArray();
         var decomp = JointPopcountSectorBuilder.Build(n);
         var eigs = new List<Complex>();
@@ -128,12 +129,17 @@ public sealed class BlockSpectrumWitness : IInspectable
         foreach (var s in decomp.SectorRanges)
         {
             if (s.Size > cap) { skipped++; continue; }
-            var block = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, SectorFlat(decomp, s));
+            var block = PerBlockLiouvillianBuilder.BuildBlockZ(h, gammaPerSite, SectorFlat(decomp, s));
             foreach (var z in block.Evd().EigenValues) eigs.Add(z);
             used++;
         }
         return (eigs.ToArray(), used, skipped, skipped == 0);
     }
+
+    /// <summary>Convenience overload that builds the Heisenberg chain H (for tests / direct callers).</summary>
+    public static (Complex[] Spectrum, int SectorsUsed, int SectorsSkipped, bool Full) ReconstructSpectrum(
+        int n, double gamma, double j, long cap) =>
+        ReconstructSpectrum(HeisenbergChain(n, j), n, gamma, cap);
 
     public static double MinReal(Complex[] spectrum)
     {
@@ -149,61 +155,25 @@ public sealed class BlockSpectrumWitness : IInspectable
         return k;
     }
 
-    /// <summary>The F1 symmetry distance of a spectrum: the (symmetric Hausdorff) distance between
-    /// the multiset {λ} and its reflection {−2σ − λ}. ~0 iff {λ} is closed under λ ↦ −2σ − λ (F1).
-    /// A nearest-neighbour set distance, NOT an index-pairing — index-pairing on sorted arrays
-    /// breaks here because the reflection flips Im while many eigenvalues share a near-equal Re,
-    /// so floating-point Re-noise reorders {λ} and {−2σ−λ} inconsistently. Robust to that.</summary>
-    public static double PalindromePairingDistance(Complex[] spectrum, double sigma)
-    {
-        int m = spectrum.Length;
-        var reflected = new Complex[m];
-        for (int i = 0; i < m; i++) reflected[i] = -2.0 * sigma - spectrum[i];
-        return Math.Max(OneSidedHausdorff(spectrum, reflected), OneSidedHausdorff(reflected, spectrum));
-    }
-
-    /// <summary>max over <paramref name="from"/> of the nearest-neighbour distance into
-    /// <paramref name="to"/>. Sorts <paramref name="to"/> by Re and windows the search (prune once
-    /// |ΔRe| ≥ the current best), so once an exact partner is found the window collapses — fast even
-    /// with heavy spectral degeneracy.</summary>
-    private static double OneSidedHausdorff(Complex[] from, Complex[] to)
-    {
-        var sorted = (Complex[])to.Clone();
-        Array.Sort(sorted, (x, y) => x.Real.CompareTo(y.Real));
-        double worst = 0.0;
-        foreach (var p in from)
-        {
-            int lo = 0, hi = sorted.Length;
-            while (lo < hi) { int mid = (lo + hi) >> 1; if (sorted[mid].Real < p.Real) lo = mid + 1; else hi = mid; }
-            double best = double.PositiveInfinity;
-            for (int j = lo; j < sorted.Length; j++)
-            {
-                if (sorted[j].Real - p.Real >= best) break;
-                double d = (p - sorted[j]).Magnitude;
-                if (d < best) best = d;
-            }
-            for (int j = lo - 1; j >= 0; j--)
-            {
-                if (p.Real - sorted[j].Real >= best) break;
-                double d = (p - sorted[j]).Magnitude;
-                if (d < best) best = d;
-            }
-            if (best > worst) worst = best;
-        }
-        return worst;
-    }
+    /// <summary>The F1 symmetry distance of the spectrum about −σ: ~0 iff {λ} is closed as a
+    /// MULTISET under λ ↦ −2σ − λ (the mirror-symmetry F1). Delegates to the canonical
+    /// multiplicity-aware greedy matcher <see cref="F1SpectrumStatistics.MaxF1PairingDistance"/>
+    /// (the same one the SLOW F1 dogfood tests use). A set/Hausdorff distance is multiplicity-BLIND
+    /// — it cannot see a dropped or duplicated eigenvalue that still has a same-valued neighbour,
+    /// exactly the failure a reconstruction-wiring bug would produce — so it must not be used here.</summary>
+    public static double PalindromePairingDistance(Complex[] spectrum, double sigma) =>
+        F1SpectrumStatistics.MaxF1PairingDistance(spectrum, sigma);
 
     /// <summary>The Re-span of the (p_c=0, p_r=1) band-edge sector — the |1-excitation⟩⟨vacuum⟩
     /// coherences. Every basis element there disagrees in exactly one bit, so with uniform γ the
     /// dissipator is L_D = −2γ·I (scalar) on the block and L_H restricted is anti-Hermitian, so
     /// every eigenvalue has Re = −2γ exactly (the F50 weight-1 Absorption floor).</summary>
-    public static (double MinRe, double MaxRe) BandEdgeSectorReSpan(int n, double gamma, double j)
+    public static (double MinRe, double MaxRe) BandEdgeSectorReSpan(ComplexMatrix h, int n, double gamma)
     {
-        var H = HeisenbergChain(n, j);
         var gammaPerSite = Enumerable.Repeat(gamma, n).ToArray();
         var decomp = JointPopcountSectorBuilder.Build(n);
         var s = decomp.SectorRanges.First(r => r.PCol == 0 && r.PRow == 1);
-        var block = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, SectorFlat(decomp, s));
+        var block = PerBlockLiouvillianBuilder.BuildBlockZ(h, gammaPerSite, SectorFlat(decomp, s));
         double min = double.PositiveInfinity, max = double.NegativeInfinity;
         foreach (var z in block.Evd().EigenValues)
         {
@@ -212,6 +182,10 @@ public sealed class BlockSpectrumWitness : IInspectable
         }
         return (min, max);
     }
+
+    /// <summary>Convenience overload that builds the Heisenberg chain H (for tests / direct callers).</summary>
+    public static (double MinRe, double MaxRe) BandEdgeSectorReSpan(int n, double gamma, double j) =>
+        BandEdgeSectorReSpan(HeisenbergChain(n, j), n, gamma);
 
     // ---- the banked N=9 headline (live read of the committed artifact) ----
 
@@ -281,7 +255,10 @@ public sealed class BlockSpectrumWitness : IInspectable
             InspectableNode.RealScalar("X⊗N order-2 spectral classes (= banked PrimarySectorCount)", d.XnClasses),
             InspectableNode.RealScalar("F1 Π order-4 orbit classes (the eig-calls; Π² = X⊗N)", d.PiOrbitClasses),
             new InspectableNode("max block",
-                summary: $"C({N},{N / 2})² = {d.MaxBlock} at sector ({d.MaxPc},{d.MaxPr})"),
+                summary: $"C({N},{N / 2})² = {d.MaxBlock} at sector ({d.MaxPc},{d.MaxPr})" +
+                         (N % 2 == 0
+                            ? " (the unique max at even N)"
+                            : ", one of a 4-way tie at odd N — C(N,(N−1)/2)=C(N,(N+1)/2), so (⌊N/2⌋,⌈N/2⌉) etc. tie")),
             InspectableNode.RealScalar("cubic-cost speedup over dense (4^N)³", d.CubicSpeedup, "0.0"),
         };
         return new InspectableNode("the joint-popcount sector decomposition",
@@ -304,31 +281,32 @@ public sealed class BlockSpectrumWitness : IInspectable
                 summary: "inspect --root reduction (SectorReductionWitness): the |1-exc⟩⟨vac| birth-canal " +
                          "boundary mode; the whole sector sits at Re=−2γ (the Absorption floor). Its {0,2} " +
                          "junction at N≥6 crosses into the (2,2) sector."),
-            new InspectableNode("(1,1) — the commutant",
-                summary: "inspect --root ceiling (StructuralCeilingWitness): the high-Q structural ceiling " +
-                         "g2 = strict_gap/2γ from the darkest [H,A]=0 coherence here — the S_N standard-rep " +
-                         "sector, g2(K_N)=4/N, g2(star_N)=4/(N−1)."),
-            new InspectableNode("single-excitation {0,2} — the EP",
-                summary: "inspect --root horizon (CoherenceHorizonWitness): the coherence horizon Q*(N) where " +
-                         "the slowest mode stops oscillating — the single-excitation Haken-Strobl √-EP (4^N→N²), " +
-                         "= the carbon Frost-Hückel coherent↔incoherent threshold."),
-            new InspectableNode("(p,p) half-filling — the second clock",
-                summary: "inspect --root survivor (IncompletenessSurvivorWitness): where the longest-lived " +
-                         "dissipative mode lives — the interior C=0.5 incompleteness coherence; and inspect " +
-                         "--root secondclock (SecondClockRegimeWitness): the {0,2}/half-filling second clock, " +
-                         "regime = map(band degeneracy, dispersion). The (2,2) sector is the recurring N=4 " +
-                         "anomaly (ceiling's K_4 = 2−2/√3, ring-4 = 1)."),
+            new InspectableNode("(1,1) — single-excitation: the {0,2}-coherence, two regimes",
+                summary: "the single-excitation populations (n_diff=0) + coherences (n_diff=2) — ONE sector, two " +
+                         "regimes: inspect --root ceiling (StructuralCeilingWitness) reads the HIGH-Q dark [H,A]=0 " +
+                         "commutant (g2=strict_gap/2γ, the S_N standard rep, g2(K_N)=4/N, star 4/(N−1)); inspect " +
+                         "--root horizon (CoherenceHorizonWitness) reads the LOW-Q √-EP Q*(N) where it stops " +
+                         "oscillating (the Haken-Strobl reduction 4^N→N², = the carbon Frost-Hückel threshold). " +
+                         "inspect --root secondclock stitches the two regimes."),
+            new InspectableNode("(2,2)/(p,p) — half-filling: a DISTINCT {0,2}-coherence",
+                summary: "NOT the (1,1) mode — same n_diff∈{0,2} histogram, but the TWO-excitation filling sector " +
+                         "(the V-Effect seam). inspect --root survivor (IncompletenessSurvivorWitness): the " +
+                         "longest-lived interior C=0.5 coherence (ring (2,2)/(N−2,N−2), chain dead-centre). The " +
+                         "reduction's {0,2} junction (N≥6) and secondclock's N=4 anomaly (ceiling's K_4 = 2−2/√3, " +
+                         "ring-4 = 1) live here, not in (1,1)."),
         };
         return new InspectableNode("the sector map — which live witness zooms each load-bearing sector",
-            summary: "the per-sector overview is the index to the sector-specific witnesses: each is a max-zoom " +
-                     "on one sector of THIS decomposition. (0,1) → reduction; (1,1) → ceiling; single-excitation " +
-                     "{0,2} → horizon; (p,p)/(2,2) half-filling → survivor + secondclock.",
+            summary: "the per-sector overview indexes the sector-specific witnesses; each is a max-zoom on one " +
+                     "sector of THIS decomposition. (0,1) band edge → reduction; (1,1) single-excitation → ceiling " +
+                     "(high-Q) + horizon (low-Q EP), stitched by secondclock; (2,2)/(p,p) half-filling → survivor. " +
+                     "The (1,1) and (2,2) {0,2}-coherences are DISTINCT modes (same n_diff, different filling) — do " +
+                     "not conflate them.",
             children: kids);
     }
 
-    private InspectableNode ThePalindromeNode()
+    private InspectableNode ThePalindromeNode(ComplexMatrix h)
     {
-        var (spectrum, used, skipped, full) = ReconstructSpectrum(N, Gamma, J, LiveEigCap);
+        var (spectrum, used, skipped, full) = ReconstructSpectrum(h, N, Gamma, LiveEigCap);
         double sigma = N * Gamma;
         double pairing = PalindromePairingDistance(spectrum, sigma);
         double minRe = MinReal(spectrum);
@@ -354,9 +332,9 @@ public sealed class BlockSpectrumWitness : IInspectable
             children: kids);
     }
 
-    private InspectableNode TheAbsorptionFloorNode()
+    private InspectableNode TheAbsorptionFloorNode(ComplexMatrix h)
     {
-        var (minRe, maxRe) = BandEdgeSectorReSpan(N, Gamma, J);
+        var (minRe, maxRe) = BandEdgeSectorReSpan(h, N, Gamma);
         return new InspectableNode("the per-sector Absorption floor (Re = −2γ)",
             summary: $"the (0,1) band-edge sector — the |1-exc⟩⟨vac| coherences, {N}-dim — sits entirely at " +
                      $"Re ∈ [{minRe.ToString("0.0000", Inv)}, {maxRe.ToString("0.0000", Inv)}] = −2γ = " +
@@ -413,8 +391,10 @@ public sealed class BlockSpectrumWitness : IInspectable
         {
             yield return TheDecompositionNode();
             yield return TheSectorMapNode();
-            yield return ThePalindromeNode();
-            yield return TheAbsorptionFloorNode();
+            // Build the Hilbert-space H (2^N × 2^N) once and share it between the two spectrum nodes.
+            var h = HeisenbergChain(N, J);
+            yield return ThePalindromeNode(h);
+            yield return TheAbsorptionFloorNode(h);
             yield return TheBankedN9Node();
         }
     }

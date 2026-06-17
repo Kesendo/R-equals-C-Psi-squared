@@ -336,6 +336,27 @@ public static class F1SpectrumStatistics
                   $"max pairing distance = {m.MaxPairingDistance:E3}, palindromic pairing OK");
     }
 
+    /// <summary>The F1 symmetry distance of a spectrum: the max greedy nearest-neighbour (with
+    /// removal) distance between the multiset {λ} and its F1 reflection {−2σ − λ}, σ the dephasing
+    /// center. ~0 iff {λ} is closed as a MULTISET under λ ↦ −2σ − λ (the mirror-symmetry F1).
+    ///
+    /// <para>Multiplicity-aware by construction (each mirror point is consumed once via
+    /// <see cref="NearestNeighbourDistances"/>'s removal): a dropped or duplicated eigenvalue — even
+    /// one with a same-valued neighbour — leaves an unmatched point and surfaces as a large distance.
+    /// A set / Hausdorff distance is BLIND to that. This is the canonical F1 check; it is the same
+    /// matcher behind the SLOW F1 dogfood metrics (<see cref="Compute"/>) and
+    /// <c>MultisetAssert.NearestNeighbourEqual</c>.</para></summary>
+    public static double MaxF1PairingDistance(Complex[] spectrum, double sigma)
+    {
+        if (spectrum is null) throw new ArgumentNullException(nameof(spectrum));
+        var reflected = new Complex[spectrum.Length];
+        for (int i = 0; i < spectrum.Length; i++) reflected[i] = -2.0 * sigma - spectrum[i];
+        double max = 0.0;
+        foreach (var d in NearestNeighbourDistances(spectrum, reflected))
+            if (d > max) max = d;
+        return max;
+    }
+
     /// <summary>Greedy nearest-neighbour matching: for each <c>actual[i]</c>, find the
     /// closest still-unmatched <c>expected[j]</c> by Euclidean (Magnitude) distance and
     /// record that distance. Returns the array of N matched distances. Same algorithm as
