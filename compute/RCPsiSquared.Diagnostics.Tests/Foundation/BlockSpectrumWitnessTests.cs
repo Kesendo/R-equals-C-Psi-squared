@@ -79,6 +79,31 @@ public class BlockSpectrumWitnessTests
         Assert.True(d > 1.0, $"a multiplicity defect must be visible; a set-blind metric returns ~0, got {d:E3}");
     }
 
+    // Gate 2c: the physics-review's STRONGEST counterexample, on a REAL spectrum (not a toy multiset).
+    // Take a genuine F1-symmetric N=5 reconstruction, drop one eigenvalue and duplicate a different
+    // (non-axis) one -- the exact defect a reconstruction-wiring bug produces. The old set/Hausdorff
+    // metric gave ~3e-14 (invisible); the multiplicity-aware metric must flag it large.
+    [Fact]
+    public void PalindromePairingDistance_FlagsADropAndDuplicateInARealSpectrum()
+    {
+        const int n = 5;
+        const double gamma = 0.5, j = 1.0;
+        double sigma = n * gamma;
+        var (clean, _, _, _) = BlockSpectrumWitness.ReconstructSpectrum(n, gamma, j, 2048);
+        Assert.True(BlockSpectrumWitness.PalindromePairingDistance(clean, sigma) < 1e-9, "clean spectrum: F1 holds");
+
+        // duplicate a non-axis eigenvalue (Re away from -sigma) over a different-valued slot:
+        // removes one value, adds a copy of another -> breaks multiset F1 closure.
+        int dup = System.Array.FindIndex(clean, z => System.Math.Abs(z.Real - (-sigma)) > 0.5);
+        int drop = System.Array.FindIndex(clean, z => z != clean[dup]);
+        Assert.True(dup >= 0 && drop >= 0 && clean[dup] != clean[drop], "test setup: distinct non-axis pair exists");
+        var defective = (System.Numerics.Complex[])clean.Clone();
+        defective[drop] = clean[dup];
+
+        double d = BlockSpectrumWitness.PalindromePairingDistance(defective, sigma);
+        Assert.True(d > 1e-6, $"a drop+duplicate defect must be visible; the old set-blind metric gave ~3e-14, got {d:E3}");
+    }
+
     // Gate 3: the (0,1) band-edge sector is entirely at Re = -2gamma. On (p_c=0, p_r=1) every
     // basis coherence disagrees in exactly one bit, so L_D = -2gamma*I (scalar) and L_H restricted
     // is anti-Hermitian -> every eigenvalue has Re = -2gamma exactly (uniform gamma; Absorption).
