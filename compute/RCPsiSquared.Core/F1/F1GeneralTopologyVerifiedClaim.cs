@@ -283,6 +283,12 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
                     : "none");
             yield return new InspectableNode("spectrum metrics data files",
                 summary: string.Join("; ", SpectrumMetricsDataFiles));
+            yield return new InspectableNode("live witness",
+                summary: "inspect --root blockspectrum (BlockSpectrumWitness): the browsable face of the per-" +
+                         "joint-popcount-sector spectra this record banks -- the (N+1)² decomposition halved by " +
+                         "X⊗N and quartered by the F1 Π orbit, the palindrome {λ}={−2σ−λ} reconstructed live " +
+                         "sector-by-sector (full at N≤7), the (0,1) Absorption floor Re=−2γ, and the N=9 headline " +
+                         "read live from chain_N9.json; closes the block_spectrum_n9 arc NextStep");
             yield return new InspectableNode("sister Tier-1 claim",
                 summary: "PalindromeResidualScalingClaim: the (B, D2) closed form whose universality this record verifies");
         }

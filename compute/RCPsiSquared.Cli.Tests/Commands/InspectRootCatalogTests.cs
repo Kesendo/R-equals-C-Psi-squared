@@ -175,6 +175,26 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void Catalog_HasBlockSpectrumRoot_NFree_HonorsOptionalN()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "blockspectrum");
+        Assert.False(entry.RequiresN);
+        Assert.True(entry.HonorsOptionalN);
+        Assert.Contains("block_spectrum_n9", entry.Description);
+    }
+
+    [Fact]
+    public void Catalog_BlockSpectrumFactory_BuildsTheLiveWitness_DefaultN6()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "blockspectrum");
+        var ctx = new InspectRootContext(new ArgParser(Array.Empty<string>()), N: 1,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var root = entry.Factory(ctx);
+        Assert.IsType<BlockSpectrumWitness>(root);
+        Assert.Contains("N=6", root.DisplayName);
+    }
+
+    [Fact]
     public void SymphonyFactory_TempoRatio_GrowsTheClockMovement()
     {
         var symphony = InspectCommand.Catalog.Single(e => e.Name == "symphony");

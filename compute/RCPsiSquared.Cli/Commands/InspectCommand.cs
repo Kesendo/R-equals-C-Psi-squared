@@ -529,6 +529,16 @@ public static class InspectCommand
                     c.Parser.OptionalDouble("gamma") ?? 0.5,
                     TopologyKind.Chain),
             RequiresN: false, HonorsOptionalN: true),
+        new("blockspectrum", "the joint-popcount block spectrum, live: the (N+1)² sector decomposition " +
+            "(halved by X⊗N, quartered by the F1 Π orbit -- the 100->50->25 story at N=9), the F1 palindrome " +
+            "{λ}={−2σ−λ} reconstructed sector-by-sector (full at N≤7), the (0,1) band-edge Absorption floor " +
+            "Re=−2γ, and the N=9 banked headline read live from chain_N9.json -- the browsable face of the " +
+            "SLOW_N9 result (arc block_spectrum_n9)",
+            c => new BlockSpectrumWitness(
+                    c.Parser.HasFlag("N") ? c.N : 6,
+                    c.Parser.OptionalDouble("gamma") ?? 0.5,
+                    c.Parser.OptionalDouble("J") ?? 1.0),
+            RequiresN: false, HonorsOptionalN: true),
         new("survivor", "the dynamic survival probe: WHERE the longest-lived dissipative mode lives across the " +
             "three physically-grounded topologies - the interior incompleteness (C=0.5) coherence on DISPERSIVE " +
             "extended matter (chain: polyenes/spin-chains/proton-wire; ring: aromatics/light-harvesting), the " +

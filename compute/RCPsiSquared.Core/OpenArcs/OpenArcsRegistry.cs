@@ -269,8 +269,29 @@ public static class OpenArcsRegistry
             Opened: "2026-05-19",
             Origin: "Core LiouvillianBlockSpectrum.ComputeSpectrumPerBlock + SLOW_N9 xUnit test",
             ParkedAt: "N=9 per-joint-popcount-sector spectra land only inside a tagged slow test; not an inspect root, no artifact a session can browse",
-            NextStep: "surface the per-sector spectra as a live root or witness",
-            Status: OpenArcStatus.Open),
+            NextStep: "RESOLVED 2026-06-17: surfaced as the live root inspect --root blockspectrum " +
+                "(BlockSpectrumWitness, Diagnostics/Foundation). The witness recomputes, cheaply at any N: the " +
+                "(N+1)² joint-popcount decomposition halved by the X⊗N order-2 pairing (= the banked " +
+                "PrimarySectorCount, 50 at N=9) and quartered by the F1 Π order-4 orbit (= the eig-calls the " +
+                "compute path does, 25 at N=9; Π² = X⊗N); the F1 palindrome {λ}={−2σ−λ} reconstructed " +
+                "sector-by-sector via PerBlockLiouvillianBuilder.BuildBlockZ (full at N≤7, a Π-closed sub-spectrum " +
+                "at higher N since the cap-fitting sectors are themselves Π-closed); the (0,1) band-edge sector " +
+                "sitting entirely at Re=−2γ (the Absorption floor, L_D scalar there). The full N=9 headline " +
+                "(262144 eigenvalues, palindrome bit-exact about −2σ=−9, kernel 10=N+1, gap 0.0273, 645.95× " +
+                "speedup) is read live from the committed chain_N9.json (a [stored] artifact, the run is ~3 h), " +
+                "degrading gracefully if absent. Breadcrumbed from F1GeneralTopologyVerifiedClaim; no new claim " +
+                "(surfaces already-typed results: F1, JointPopcountSectors, the Π-orbit pairing, the Absorption " +
+                "Theorem, the F4 kernel). Gate-first TDD (BlockSpectrumWitnessTests, 7/7): a fragile sort-pairing " +
+                "palindrome metric was caught firing (5.13 on a symmetric spectrum, the Im-flip + Re-noise reorder) " +
+                "and replaced by a robust Hausdorff set-distance.",
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "RESOLVED 2026-06-17: the N=9 per-joint-popcount-sector spectra are now browsable live " +
+                "via inspect --root blockspectrum (BlockSpectrumWitness). The decomposition (100→50→25 at N=9), " +
+                "the F1 palindrome reconstructed sector-by-sector, and the (0,1) Re=−2γ Absorption floor are " +
+                "recomputed live; the full N=9 headline is read from the committed chain_N9.json. Breadcrumbed " +
+                "from F1GeneralTopologyVerifiedClaim, no new claim. Tests 7/7 (gate-first; a fragile palindrome " +
+                "metric was caught and fixed). The arc's NextStep ('surface the per-sector spectra as a live root " +
+                "or witness') is done."),
 
         new OpenArc(
             Name: "witness_coverage",
