@@ -501,8 +501,13 @@ public static class OpenArcsRegistry
                 "handover tracking the closed Delta=1 critical point): on the ring the Delta-handover is a dynamical, " +
                 "topology-sensitive scale. THE FRAME (reflections/ON_THE_ONE_DIAGONAL.md): the floor 2*gamma is the first rung " +
                 "of the one diagonal popcount(i^j) the light touches (universal, topology-free); Delta*(N) is the Hamiltonian's " +
-                "argument about that fixed floor (topology-dependent). The diagonal is one; the climb is many. STILL OPEN: " +
-                "whether the ring hump returns toward 1 or settles above (needs N>>14 or a closed-form account of the hump).",
+                "argument about that fixed floor (topology-dependent). The diagonal is one; the climb is many. EXTENDED to " +
+                "N=15 2026-06-17 (simulations/ring_delta_star_extend.py, gamma->0 reduction, port-verified): Delta*(15)=1.27413 " +
+                "(odd); the descent CONTINUES with NON-SHRINKING steps (-.015,-.021,-.021), so it is NOT decelerating toward a " +
+                "plateau -- this DISFAVORS 'settles above 1' (a plateau would shrink the steps) and is consistent with a slow " +
+                "approach to Delta=1, further refuting the Round-2 plateau-trap one N deeper. STILL OPEN (formally): the N->inf " +
+                "limit -- at N=15 Delta*=1.274 is still far from 1, and resolving 1-vs-settles needs N>>16 (infeasible: dense eigh " +
+                "past C(N,p)~25000) or a closed-form account of the hump; a power-law fit degenerates even on the descending tail.",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
