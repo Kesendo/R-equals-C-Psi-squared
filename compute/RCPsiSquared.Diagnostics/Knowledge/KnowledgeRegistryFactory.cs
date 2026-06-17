@@ -248,6 +248,14 @@ public static class KnowledgeRegistryFactory
             // QuditPartialPalindromeCeiling (line above) + QubitNecessityPi2Inheritance.
             // Wired 2026-06-11.
             .RegisterQuditProductMirrorCap()
+            // The qudit mirror-protection scaling law (2026-06-17): the corollary of the cap that the
+            // palindrome-protected fraction is (2d)^N / d^{2N} = (2/d)^N, decaying exponentially in the
+            // local dimension d and = 1 only at the qubit d=2 (the unique full-mirror dimension; the trunk
+            // root d²−2d=0). Complementary qutrit finding: the decay rates 2γ·Hamming and the structural
+            // ceiling 4/N are d-independent (simulations/qudit_g2_split.py), so a qudit decays like a qubit
+            // but loses mirror protection (2/d)^N. Single parent QuditProductMirrorCap (line above). Live
+            // witness: QuditMirrorProtectionWitness (inspect --root protection). Wired 2026-06-17.
+            .RegisterQuditMirrorProtectionScalingClaim()
             .RegisterF1T1AmplitudeDampingPi2Inheritance()
             .RegisterF5DepolarizingErrorPi2Inheritance()
             .RegisterDickeSuperpositionQuarterPi2Inheritance()

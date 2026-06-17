@@ -502,6 +502,8 @@ public static class InspectCommand
             RequiresN: false),
         new("ceiling", "the structural ceiling closed forms: g2(K_N)=4/N, g2(star_N)=4/(N−1), the N=4 (2,2) outlier 2−2/√3, from the commutant rep structure",
             _ => new StructuralCeilingWitness(), RequiresN: false),
+        new("protection", "the qudit mirror-protection scaling law: the per-site product mirror protects (2d)^N / d^{2N} = (2/d)^N of the coherence space, decaying exponentially in d; = 1 ⟺ d=2 (the qubit is the unique full-mirror dimension). Rates stay d-independent.",
+            _ => new QuditMirrorProtectionWitness(), RequiresN: false),
         new("horizon", "the coherence horizon Q*(N): where the slowest mode stops oscillating = the carbon Frost-Hückel coherent↔incoherent threshold",
             _ => new CoherenceHorizonWitness(), RequiresN: false),
         new("secondclock", "the stitch: the {0,2}/half-filling coherence (the second clock) is ONE mode whose regime = map(band degeneracy, dispersion) — joining the EP horizon, the structural ceiling, and the gradual star into one node (live N=4 full-Liouvillian gate)",
