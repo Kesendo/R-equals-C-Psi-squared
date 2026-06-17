@@ -5,7 +5,7 @@
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.8)
 **Statement:** For the open XY chain under uniform Z-dephasing, the maximum oscillation frequency among the Liouvillian modes that sit at exactly `Re λ = −2γ` equals the band edge `E1 = 2J·cos(π/(N+1))`.
 **Typed claim:** [`ClockHandLadderClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/ClockHandLadderClaim.cs) (Tier 1 derived)
-**Verifier:** [`chain_gap_dominance.py`](../../simulations/chain_gap_dominance.py) (gate-first, all stages exact)
+**Verifier:** [`chain_gap_dominance.py`](../../simulations/chain_gap_dominance.py) (gate-first, all stages exact) + [`chain_gap_dominance_skeptic.py`](../../simulations/chain_gap_dominance_skeptic.py) (the independent-convention adversarial companion: a from-scratch column-stack re-derivation, a basis-independent purity gate, and a γ≪J/γ~J/γ≫J regime sweep — two vec conventions agree, so the result is not a stacking artifact)
 **Builds on:** [the Absorption Theorem](PROOF_ABSORPTION_THEOREM.md) (`Re = −2γ⟨n_XY⟩`, so the exact-(−2γ) modes are the `⟨n_XY⟩ = 1` modes); [F2b](../ANALYTICAL_FORMULAS.md) (the single-particle band `E_k = 2J cos(πk/(N+1))`); the chiral / Jordan-Wigner free-fermion structure ([`ChiralKClaim`](../../compute/RCPsiSquared.Core/Symmetry/ChiralKClaim.cs)).
 
 ---
