@@ -342,7 +342,20 @@ public static class OpenArcsRegistry
                 "is why the clean closed forms (Q* clean-2x2, band edge) exist at small N and degrade beyond: a " +
                 "number-theoretic ceiling, not a physics accident. (B) THE COMBINATORIAL ROOT = small-N filling maximality " +
                 "(the (n,n)/{0,2} extra modes at N=3, the (2,2) N=4 anomalies above), independent of the arithmetic; " +
-                "star-3=path is a third, graph-theoretic coincidence. So: two real roots (arithmetic + combinatorial), not one.",
+                "star-3=path is a third, graph-theoretic coincidence. So: two real roots (arithmetic + combinatorial), not one. " +
+                "POLYGON CENSUS (2026-06-17, surd_census.py, gate-first sympy-exact 4/4): turning the Niven lens on the " +
+                "WHOLE spectrum, EVERY small-N special number is a cyclotomic POLYGON constant 2cos(pi/m) - not only the " +
+                "band edge (sqrt2/phi/sqrt3 = square/pentagon/hexagon) but the seemingly-foreign surds too: the K_4 (2,2) " +
+                "ceiling's sqrt3 = 2cos(pi/6) (hexagon, entering via a rep principal angle lambda2=1/sqrt3), the ring-4 (2,2) " +
+                "frequency's 2*sqrt2 (sqrt2 = 2cos(pi/4), square). TWO ARITHMETICS on the two axes (suggestive, not exact): " +
+                "the Im axis (frequencies, L_H graph spectrum) IS the cyclotomic ladder 2cos(pi/(N+1)) directly; the Re axis " +
+                "(decay, L_D commutant) is RATIONAL (the structural ceiling g2=4/N, S_N standard-rep principal angle " +
+                "lambda2=(N-2)/N). The (2,2) half-filling anomaly is where a polygon surd LEAKS onto the Re side. CAVEAT: " +
+                "'Re rational / Im surd' is not exact - the F65 single-excitation rates are Re-values yet cyclotomically " +
+                "flavored (rational only on {1,2,3,4,6}), and the (2,2) ceiling is itself a surd; the sharper axis is " +
+                "graph-spectral (cyclotomic) vs S_N-standard-rep (rational). N=4 POLYGON CONFLUENCE: at the first even " +
+                "half-filled N, three sectors light three DISTINCT polygons at once - single-excitation band edge = pentagon " +
+                "(phi), K_4 (2,2) ceiling = hexagon (sqrt3), ring-4 (2,2) frequency = square (sqrt2).",
             NextStep: "the central 'do they share a root' question is ANSWERED (two roots: number-theoretic Niven + " +
                 "combinatorial filling-maximality, niven_rationality_root.py). The Niven root is now TYPED (2026-06-17): " +
                 "NivenRationalityRootClaim (Tier1Derived, parents TopologyBandEdgeClaim + F65XxChainSpectrumPi2Inheritance) " +
