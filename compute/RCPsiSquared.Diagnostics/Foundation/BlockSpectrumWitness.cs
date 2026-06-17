@@ -292,6 +292,40 @@ public sealed class BlockSpectrumWitness : IInspectable
             children: kids);
     }
 
+    /// <summary>The navigation hub: each load-bearing joint-popcount sector points to the
+    /// sector-specific witness(es) that max-zoom it. blockspectrum is the OVERVIEW; reduction /
+    /// ceiling / horizon / survivor / secondclock are the zooms on individual sectors of this same
+    /// decomposition. (Sector→witness mappings verified at each witness's source.)</summary>
+    private static InspectableNode TheSectorMapNode()
+    {
+        var kids = new List<IInspectable>
+        {
+            new InspectableNode("(0,1) — the band edge",
+                summary: "inspect --root reduction (SectorReductionWitness): the |1-exc⟩⟨vac| birth-canal " +
+                         "boundary mode; the whole sector sits at Re=−2γ (the Absorption floor). Its {0,2} " +
+                         "junction at N≥6 crosses into the (2,2) sector."),
+            new InspectableNode("(1,1) — the commutant",
+                summary: "inspect --root ceiling (StructuralCeilingWitness): the high-Q structural ceiling " +
+                         "g2 = strict_gap/2γ from the darkest [H,A]=0 coherence here — the S_N standard-rep " +
+                         "sector, g2(K_N)=4/N, g2(star_N)=4/(N−1)."),
+            new InspectableNode("single-excitation {0,2} — the EP",
+                summary: "inspect --root horizon (CoherenceHorizonWitness): the coherence horizon Q*(N) where " +
+                         "the slowest mode stops oscillating — the single-excitation Haken-Strobl √-EP (4^N→N²), " +
+                         "= the carbon Frost-Hückel coherent↔incoherent threshold."),
+            new InspectableNode("(p,p) half-filling — the second clock",
+                summary: "inspect --root survivor (IncompletenessSurvivorWitness): where the longest-lived " +
+                         "dissipative mode lives — the interior C=0.5 incompleteness coherence; and inspect " +
+                         "--root secondclock (SecondClockRegimeWitness): the {0,2}/half-filling second clock, " +
+                         "regime = map(band degeneracy, dispersion). The (2,2) sector is the recurring N=4 " +
+                         "anomaly (ceiling's K_4 = 2−2/√3, ring-4 = 1)."),
+        };
+        return new InspectableNode("the sector map — which live witness zooms each load-bearing sector",
+            summary: "the per-sector overview is the index to the sector-specific witnesses: each is a max-zoom " +
+                     "on one sector of THIS decomposition. (0,1) → reduction; (1,1) → ceiling; single-excitation " +
+                     "{0,2} → horizon; (p,p)/(2,2) half-filling → survivor + secondclock.",
+            children: kids);
+    }
+
     private InspectableNode ThePalindromeNode()
     {
         var (spectrum, used, skipped, full) = ReconstructSpectrum(N, Gamma, J, LiveEigCap);
@@ -367,15 +401,18 @@ public sealed class BlockSpectrumWitness : IInspectable
 
     public string Summary =>
         "the joint-popcount block spectrum, live: the (N+1)² sector decomposition (halved by X⊗N, " +
-        "quartered by the F1 Π orbit), the F1 palindrome {λ} = {−2σ − λ} reconstructed sector-by-sector " +
-        "(full at N ≤ 7), the (0,1) band-edge Absorption floor Re = −2γ, and the N=9 banked headline read " +
-        "live from chain_N9.json. The browsable face of the SLOW_N9 result (arc block_spectrum_n9).";
+        "quartered by the F1 Π orbit), a sector map indexing the sector-specific witnesses (reduction / " +
+        "ceiling / horizon / survivor / secondclock each max-zoom one sector of this decomposition), the " +
+        "F1 palindrome {λ} = {−2σ − λ} reconstructed sector-by-sector (full at N ≤ 7), the (0,1) band-edge " +
+        "Absorption floor Re = −2γ, and the N=9 banked headline read live from chain_N9.json. The browsable " +
+        "overview face of the SLOW_N9 result (arc block_spectrum_n9).";
 
     public IEnumerable<IInspectable> Children
     {
         get
         {
             yield return TheDecompositionNode();
+            yield return TheSectorMapNode();
             yield return ThePalindromeNode();
             yield return TheAbsorptionFloorNode();
             yield return TheBankedN9Node();

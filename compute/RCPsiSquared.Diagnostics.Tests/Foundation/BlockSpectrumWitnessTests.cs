@@ -95,18 +95,30 @@ public class BlockSpectrumWitnessTests
         Assert.True(Math.Abs(b.EffectiveSpeedup - 645.9495725858463) < 0.01);
     }
 
-    // Render smoke: the default (N=6) witness renders four nodes without crashing, and the live
+    // Render smoke: the default (N=6) witness renders five nodes without crashing, and the live
     // reconstruction node at N=6 is full (max block C(6,3)^2 = 400 < the 2048 cap).
     [Fact]
-    public void Witness_RendersFourNodes_WithoutCrash()
+    public void Witness_RendersFiveNodes_WithoutCrash()
     {
         var w = new BlockSpectrumWitness();   // default N=6, gamma=0.5, J=1
         Assert.Contains("N=6", w.DisplayName);
         Assert.False(string.IsNullOrWhiteSpace(w.Summary));
 
         var children = w.Children.ToList();
-        Assert.Equal(4, children.Count);
+        Assert.Equal(5, children.Count);
         Assert.All(children, c => Assert.False(string.IsNullOrWhiteSpace(c.DisplayName)));
         Assert.All(children, c => Assert.False(string.IsNullOrWhiteSpace(c.Summary)));
+    }
+
+    // The sector map turns blockspectrum into the navigation hub: each load-bearing sector points
+    // to the sector-specific witness(es) that zoom it. The five roots must all be reachable from it.
+    [Fact]
+    public void SectorMap_PointsToTheSectorSpecificWitnesses()
+    {
+        var w = new BlockSpectrumWitness();
+        var map = w.Children.Single(c => c.DisplayName.Contains("sector map"));
+        var text = string.Join(" | ", map.Children.Select(c => $"{c.DisplayName} {c.Summary}"));
+        foreach (var root in new[] { "reduction", "ceiling", "horizon", "survivor", "secondclock" })
+            Assert.Contains(root, text);
     }
 }
