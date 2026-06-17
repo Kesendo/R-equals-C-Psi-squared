@@ -381,7 +381,16 @@ public static class OpenArcsRegistry
                 "Niven root is TYPED (NivenRationalityRootClaim Tier1Derived + witness inspect --root niven). Only an " +
                 "open-ended tail remains (low priority): gather any further stray small-N specials as they appear. Candidate " +
                 "for retirement once nothing new surfaces.",
-            Status: OpenArcStatus.Open),
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "RESOLVED 2026-06-17: the central 'do the small-N specials share a root' question is fully " +
+                "answered - they do NOT share one root; there are THREE INDEPENDENT THREADS of N (cyclotomic Niven " +
+                "band-edge degree / rep-theoretic S_N ceiling 4/N / combinatorial even-half-filling) meeting only at the " +
+                "N=4 TRIPLE COINCIDENCE (combinatorial_root_independence.py, gate-first 3/3, decoupled at N=5 and N=6). The " +
+                "Niven root is TYPED (NivenRationalityRootClaim Tier1Derived + inspect --root niven); the polygon census " +
+                "(surd_census.py) and N=4 uniqueness (n4_polygon_uniqueness.py) are folded into the ParkedAt above, which " +
+                "stands as the collected small-N catalogue. Only an open-ended 'gather any future stray small-N special' tail " +
+                "remained, which does not justify an open arc. Reopen if a new small-N special surfaces that the three-thread " +
+                "frame (cyclotomic + rep-theoretic + combinatorial) does not place."),
 
         new OpenArc(
             Name: "survival_incompleteness_mirror",
