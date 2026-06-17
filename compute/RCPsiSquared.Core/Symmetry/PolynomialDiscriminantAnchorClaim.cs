@@ -56,6 +56,15 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         16·tol = 4²·tol in α(tol).</item>
 /// </list>
 ///
+/// <para><b>Map note (a four that is NOT this one — qutrit-split, see-cref not a typed edge):</b> the
+/// structural-ceiling four in g2(K_N) = 4/N (<see cref="StructuralCeilingClaim"/>, F122) looks like this
+/// discriminant four but is NOT. It is 2·(2/N) = (the Hamming distance 2 between two single-excitation
+/// strings) × (the S_N angle 1 − λ₂), both d-INDEPENDENT, so it stays 4/N at the qutrit while this
+/// discriminant four = d² → 9 (and the rung/cap four 2d → 6). All three coincide at 4 only at d=2, because
+/// this polynomial's own identity d² − 2d = 0 forces d² = 2d there (the qubit magic; the qutrit is the prism
+/// that fans the one 4 into {9, 6, 4}). Verified gate-first against the full d=3 Liouvillian
+/// (simulations/qudit_g2_split.py). A see-cref, not a typed edge — distinct genealogies.</para>
+///
 /// <para>Anchors: <c>compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs</c>
 /// (PolynomialFoundationClaim + QubitDimensionalAnchorClaim) +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c> (a_{−1}) +

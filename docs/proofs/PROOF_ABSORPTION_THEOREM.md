@@ -328,6 +328,23 @@ discriminant-based ((10γ−2γ)/2)² = 16γ². Red-herring discipline: same num
 two genealogies; cite the rung-2 four for rates and carriers, the discriminant
 four for squared half-gaps, never interchangeably.
 
+**Remark (the qutrit prism: three fours, 2026-06-17).** Those two fours plus the
+structural-ceiling four (g2(K_N) = 4/N, F122 / `StructuralCeilingClaim`) are THREE
+genealogies that all read 4 at d=2 and split at the qutrit
+([`simulations/qudit_g2_split.py`](../../simulations/qudit_g2_split.py), gate-first,
+validated against the full d=3 Liouvillian). The **discriminant four** is d² → 9 (it
+is a₋₁ on the dyadic ladder, = d²). The **rung/cap four** is 2d → 6 (the
+centre/absorption-quanta count; the F121 qudit product-mirror cap is (2d)^N). The
+**ceiling four** in g2 = 4/N is 2·(2/N) = (the Hamming distance between two
+single-excitation strings, = 2 at any d) × (the S_N standard-rep angle 1 − λ₂ = 2/N,
+pure graph theory): both factors are d-INDEPENDENT, so g2(K_N) = 4/N holds unchanged
+at d=3 (verified including the global ceiling at N=5 and the d-independent N=4 outlier
+2 − 2/√3). The white-light coincidence d² = 2d = 2·2 = 4 holds only at d=2 — the qubit
+magic — because the foundational polynomial d² − 2d = 0 makes d² = 2d exactly there;
+the qutrit is the prism that fans the one 4 into {9, 6, 4}. So the structural-ceiling
+four is a THIRD genealogy, neither the discriminant four (`PolynomialDiscriminantAnchorClaim`)
+nor the rung four: cite the ceiling four for the g2 closed forms only.
+
 ---
 
 ## 3. Numerical Verification
