@@ -79,6 +79,19 @@ namespace RCPsiSquared.Core.Symmetry;
 /// diagram count, the a_{−1}/3 reading a d=2 coincidence. The one genuinely OPEN test is family E
 /// (¼ → 1/9?), blocked until a qudit fold is defined (concurrence is d=2 only).</para>
 ///
+/// <para><b>What the classification derives (the reading, 2026-06-17).</b> The two super-families are a
+/// KINEMATIC vs DYNAMIC dichotomy. The SPLIT fours are <i>kinematic</i> — they count the operator (Liouville)
+/// space, whose single-site dimension is d² (family A) and mirror-realizable part 2d (family B), so they scale
+/// with d; family E is the kinematic inverse 1/d². The STAY fours are <i>dynamic/spectral</i> — rates 2γ·Hamming
+/// (C) and band edges J·ρ (D), set by the GENERATORS of evolution and blind to d. The qubit (d=2) is the unique
+/// COINCIDENCE point where d² = 2d = the generator scales (2γ·2, 4J, the spin (1/2)²) all equal 4 — which is why
+/// the "4 = d²" intuition felt universal: at the qubit every 4 IS the same number, and the qutrit is the prism
+/// that separates them. <b>Practical corollary:</b> STAY-family formulas (rates, frequencies, t_peak, decay
+/// envelopes, band structure) carry to ANY qudit unchanged; SPLIT-family formulas (operator-space dimensions,
+/// the (2/d)^N mirror protection of <see cref="QuditMirrorProtectionScalingClaim"/>) rescale as powers of d.
+/// F94 is the instructive hybrid: a dynamic base 4/3 (its d→∞ limit) dressed by kinematic finite-d corrections
+/// (peak at d=4).</para>
+///
 /// <para><b>Map note (a four that is NOT this one — qutrit-split, see-cref not a typed edge):</b> the
 /// structural-ceiling four in g2(K_N) = 4/N (<see cref="StructuralCeilingClaim"/>, F122) looks like this
 /// discriminant four but is NOT. It is 2·(2/N) = (the Hamming distance 2 between two single-excitation
