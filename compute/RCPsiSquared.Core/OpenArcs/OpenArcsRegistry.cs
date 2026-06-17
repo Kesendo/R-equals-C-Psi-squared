@@ -328,11 +328,26 @@ public static class OpenArcsRegistry
                 "specials (from the second-clock regime map, SecondClockRegimeClaim / second_clock_regime_axis.py): the 4/N " +
                 "ceiling ladder hits 1 exactly at N=4, vacating the sub-floor region to the (2,2) two-excitation sector, where " +
                 "K_4 = 2-2/sqrt(3) (a structural ceiling, complete-4) and ring-4 = 1 co-occupies the floor (GRADUAL, the only " +
-                "GRADUAL ring) - same 'small-N maximality' root, one filling step up from N=3's (1,1) n_XY=2 maximality.",
-            NextStep: "low priority, dig out when curious: collect the project's N=3 (and sibling N=4 (2,2) half-filling) " +
-                "anomalies into one view (this gap-dominance (n,n) family; the Q*(2,3)-only closed form; star-3=path; the " +
-                "second-clock N=4 (2,2) ceiling/ring anomalies; any others), and ask whether they share a root " +
-                "(small-N maximality / accidental degeneracy) or are independent coincidences",
+                "GRADUAL ring) - same 'small-N maximality' root, one filling step up from N=3's (1,1) n_XY=2 maximality. " +
+                "ROOT IDENTIFIED (2026-06-17, niven_rationality_root.py, gate-first sympy-exact): the small-N specials do " +
+                "NOT all share one root - there are (at least) TWO. (A) THE NUMBER-THEORETIC ROOT = Niven's theorem on the " +
+                "cyclotomic angle pi/(N+1) (the only rational cosines of rational-pi angles are 0,+-1/2,+-1), with THREE " +
+                "faces by angle convention: RE the dissipator rates -2g*sin^2(k*pi/(N+1)) rational iff N+1 in {1,2,3,4,6} " +
+                "(the crystallographic set, F65/F99 'Niven rationality'; N=3 last rational before the gap, N=5 a rational " +
+                "island); IM the band edge 2cos(pi/(N+1)) rational iff N<=2, a single quadratic surd (a+-sqrt b) iff N<=5 " +
+                "(sqrt2/phi/sqrt3 at N=3/4/5), first cubic at N=6 (degree = euler_phi(2(N+1))/2; NEW, not previously " +
+                "documented); V the V-Effect gain 1+cos(pi/N) Niven-rational iff N in {2,3}, golden at N=5 " +
+                "(OFF_NIVEN_AS_WAVE_BREAKING.md). N=4 = FIRST GOLDEN on the two SE faces (band edge = phi = 2cos(pi/5); " +
+                "rates carry sqrt5); the V-face golden is N=5 (angle pi/N), so 'first golden' is convention-dependent. THIS " +
+                "is why the clean closed forms (Q* clean-2x2, band edge) exist at small N and degrade beyond: a " +
+                "number-theoretic ceiling, not a physics accident. (B) THE COMBINATORIAL ROOT = small-N filling maximality " +
+                "(the (n,n)/{0,2} extra modes at N=3, the (2,2) N=4 anomalies above), independent of the arithmetic; " +
+                "star-3=path is a third, graph-theoretic coincidence. So: two real roots (arithmetic + combinatorial), not one.",
+            NextStep: "the central 'do they share a root' question is ANSWERED (two roots: number-theoretic Niven + " +
+                "combinatorial filling-maximality, niven_rationality_root.py). Remaining, low priority: optionally graduate " +
+                "the Niven root to a typed claim (parent TopologyBandEdgeClaim / F65) if it earns reuse; and gather any " +
+                "further stray small-N specials (e.g. is the combinatorial filling-maximality face itself an arithmetic " +
+                "consequence, or genuinely independent?)",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
