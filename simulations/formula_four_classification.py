@@ -151,7 +151,7 @@ rows = [
     ("F73 (1/2)e^{-4*g0*t}",            "C rate",   "4*g0 -> stays"),
     ("F76 e^{-4*g0*t}, 16J element",    "C ; D",    "4*g0 rate stays ; 16J graph element stays"),
     ("F86 t_peak = 1/(4*g0)",           "C rate",   "4*g0 -> stays"),
-    ("F94 Delta = (4/3) Q^2 K^3",       "A (explicit!)", "4/3 = a_-1/3 = d^2/3 -> 3 ?  [OPEN, SU(d) Born-mirror]"),
+    ("F94 Delta = (4/3) Q^2 K^3",       "A? REFUTED",    "c(d)=4(d+2)(d-1)/(3d^2), NOT d^2/3=3 (f94_qutrit_born_mirror.py)"),
     ("F1  ||M||^2 ~ 4^(N-1)",           "A d^2",    "4^(N-1) = d^{2N}/d^2 -> 9^(N-1)"),
     ("F97/F98 CPsi=1/4 cusp",           "E fold",   "1/4 = a_3 = 1/a_-1 = 1/d^2 -> 1/9 ?  [blocked: CPsi d=2 only]"),
 ]
@@ -161,7 +161,8 @@ for f, fam, verdict in rows:
 
 print("\nSUMMARY: the '4's partition into SPLIT (A=d^2->9, B=2d->6: operator-counting) and STAY (C=rate,\n"
       "  D=graph, E=fold-inverse: dynamical/spectral). Gated here: A (4^N->9^N), C (4*gamma stays),\n"
-      "  D (4J stays). DEEP OPEN: F94's explicit a_-1/3 (does 4/3 -> 3?) and family E's 1/4 -> 1/9 (needs a\n"
-      "  qudit fold, since concurrence is d=2 only). F94 is the most explicit discriminant and is MISSING\n"
-      "  from the anchor's cited F-list.")
+      "  D (4J stays). F94 RESOLVED (f94_qutrit_born_mirror.py): the family-A 'smoking gun' candidate is\n"
+      "  REFUTED -- its qudit coefficient is 4(d+2)(d-1)/(3d^2) (peak 3/2 at d=4, ->4/3), NOT d^2/3=3; F94's\n"
+      "  4 is a setup-specific diagram count, the a_-1/3 reading a d=2 coincidence. ONE test still OPEN:\n"
+      "  family E's 1/4 -> 1/9, blocked until a qudit fold is defined (concurrence is d=2 only).")
 print("\nDONE.")

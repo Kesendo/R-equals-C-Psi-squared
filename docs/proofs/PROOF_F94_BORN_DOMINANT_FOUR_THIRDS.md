@@ -148,9 +148,28 @@ with:
 
 Equivalent reading via the typed-claim sibling: 4/3 = a_{−1} / 3, with a_{−1} appearing in the numerator after the (1/a_{−1}) factor cancels into the per-diagram contribution. Both readings hold; the structural decomposition above is the bit-explained derivation, the a_{−1}/3 reading is the typed-anchor inheritance.
 
+> **Caution (the a_{−1}/3 reading is a d=2 coincidence; qutrit-refuted 2026-06-17).** The "4/3 = a_{−1}/3" reading suggests the 4 is the squared-dimension discriminant a_{−1} = d² (which would give c → d²/3 = 3 at the qutrit). It is **not**: the qutrit generalization (see "Qudit generalization" below) gives c(d) = 4(d+2)(d−1)/(3d²), with c(2) = 4/3 but c(3) = 40/27, **not** 3. The (J/4) per-bond factor is the spin S = σ/2 normalization (1/2)² — equal to 1/d² **only at d=2** — and the dynamics is the d-independent (J/2)·SWAP. So a_{−1} = d² and the (J/4) coupling coincide only at the qubit; F94's 4 is the setup-specific diagram count, not the discriminant. Verifier: [`simulations/f94_qutrit_born_mirror.py`](../../simulations/f94_qutrit_born_mirror.py).
+
 ## Universality remarks
 
 The form Q² · K³ for the dominant-outcome deviation is universal across (initial state, Hamiltonian, dissipator): it is the dimensional shape of the leading 3rd-order Dyson term with one γ-vertex and two H-vertices, applicable wherever the dominant outcome's direct 1st-order γ correction vanishes by parity / commutation. The coefficient 4/3 is specific to this setup. The structural decomposition of 8 just above shows that the coefficient counts a clean 32 surviving Dyson diagrams modulated by the Heisenberg-bond and Taylor normalizations; a different (initial-state, Hamiltonian, dissipator) triple would change the surviving-diagram count and possibly the per-diagram value, but the general 4/3 = N_diagrams / (a_{−1} · 3!) form should hold whenever Heisenberg-style (J/4)·XYZ bonds and Z-dephasing apply.
+
+## Qudit generalization (2026-06-17): c(d) = 4(d+2)(d−1) / (3d²), refuting the d² reading
+
+The "setup-specific" caveat above is now quantitative. Lift the F94 setup to local dimension d with the **faithful** generalization (which reduces to F94 exactly at d=2):
+
+- **H** = (J/4) Σ_bonds Σ_a λ^a_i λ^a_j with the generalized Gell-Mann generators λ^a (the 3 Paulis at d=2). By the Fierz identity Σ_a λ^a ⊗ λ^a = 2·SWAP − (2/d)·I, the **dynamics** is L_H = −i[H, ·] = −i(J/2)[SWAP, ·] for **every** d (the identity part drops from the commutator). So the physical coupling is the **d-independent** (J/2)·SWAP, not (J/4) and not (J/d²).
+- **L'_dis**[ρ]_{a,b} = −2·Hamming(a,b)·ρ_{a,b} (the full-Cartan equidistant dephasing; = Σ_l (Z_l ρ Z_l − ρ) at d=2).
+- **|+⟩** = (Σ_k |k⟩)/√d (equal superposition); ρ_0 = |0+0+⟩.
+
+Computing c = ⟨00|_pair Tr_{1,3}[sym₃ ρ_0]|00⟩_pair / (6 · P_u0) gives, bit-exact for d = 2..7 ([`simulations/f94_qutrit_born_mirror.py`](../../simulations/f94_qutrit_born_mirror.py), gate-first; Gell-Mann and (J/2)·SWAP builds agree):
+
+    c(d) = 4(d+2)(d−1) / (3d²) = (4/3)·(1 + 1/d − 2/d²)
+
+    d :  2     3      4     5      6      7
+    c : 4/3  40/27  3/2  112/75  40/27  72/49
+
+This **refutes the family-A / "4 = d²" reading**: family A would require c → d²/3 = 3 at d=3, but c(3) = 40/27 ≈ 1.48. Instead the coefficient is a bounded curve: c(2) = 4/3 is both the qubit value and the d → ∞ limit, and the finite-d correction (d+2)(d−1)/d² **peaks at d = 4** (= 2²; c(4) = 3/2) before decaying back to 4/3. The 4/3 = a_{−1}/3 numerology holds only at the qubit, where the (J/4) spin normalization (1/2)² coincides with 1/d². F94's "4" is the setup-specific surviving-diagram count, classified in the discriminant anchor's genealogy as the **falsified family-A candidate** ([`PolynomialDiscriminantAnchorClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/PolynomialDiscriminantAnchorClaim.cs)).
 
 ## Diagnostic application: F94 as a (state, pair)-symmetry signature
 
