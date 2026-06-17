@@ -79,6 +79,13 @@ public sealed class TopologyBandEdgeClaim : Claim
                 summary: "Q-horizon: chain (all N), star (N≤5), odd rings. Structural ceiling: star N≥6 " +
                          "(strict gap saturates ≈0.80·2γ). Co-occupied floor: ring N=4 (a (2,2) mode at −2γ, " +
                          "Im=2√2·J > band edge). Live: inspect --root bandedge.");
+            yield return new InspectableNode("ring gap-dominance (the dihedral lock, characterized 2026-06-17)",
+                summary: "PROOF_RING_GAP_DOMINANCE.md / ring_gap_dominance.py (gate-first N=3..6): max|Im| over the " +
+                         "exact-(−2γ) ring modes = 2J = J·ρ (the periodic band top = the k=0 uniform single-excitation " +
+                         "mode fixed by C_N), reached via the (0,1) sector for general N — for all N EXCEPT N=4, the " +
+                         "lone exception where the half-filling (2,2) {0,2} √-EP reaches 2√2·J > 2J (the same (2,2) " +
+                         "sector as K_4's ceiling; the ring analogue of the chain's N=3 special, but ABOVE the band " +
+                         "top not below). The ring sibling of chain gap-dominance; both give max|Im| = J·ρ.");
             yield return ChainInstance;   // typed parent edge
             yield return Absorption;      // typed parent edge
         }
