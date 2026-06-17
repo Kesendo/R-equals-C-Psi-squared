@@ -47,6 +47,22 @@ The wrap bond, under Jordan-Wigner, carries the fermion-parity factor (−1)^{N_
 
 Both: max|Im| = J·ρ, the adjacency spectral radius (= the TopologyBandEdge band edge), with a lone small-N half-filling {0,2} √-EP exception. The ring's exception is genuine (it exceeds the band top) because the ring band top 2J sits low enough that the anti-periodic half-filling sum 2√2·J overtakes it; the chain's does not.
 
+## The second-clock floor frequency: chain N=3 and ring N=4 are one law
+
+The chain's N=3 exception and the ring's N=4 exception look unrelated — one sits *below* the band edge (√(E1²−(2γ)²) < E1), the other *above* the band top (2√2·J > 2J). They are the same law (`simulations/second_clock_frequency.py`, gate-first, all stages green). The on-floor {0,2}-coherence √-EP is a 2×2 block [[−2γ, ω],[−ω, −2γ]] (a population coupled to a 2-Hamming coherence), so its floor frequency is
+
+    |Im| = √(B² − (2γ)²),     B = the free-fermion band top of the {0,2} block's sector (the γ→0 coupling),
+
+with the EP at B = 2γ (i.e. Q* = 2J/B). B is γ-independent (verified by a γ-sweep, spread < 1e-15). The three on-floor instances:
+
+| instance | B | = free-fermion band top | floor freq vs band edge |
+|---|---|---|---|
+| chain N=3 (1,1) | √2·J | E1 = 2J cos(π/4), single-particle | √(E1²−(2γ)²) **below** E1 |
+| ring N=4 (1,1) | 2J | periodic single-particle top | **below** 2J (√-shift) |
+| ring N=4 (2,2) | 2√2·J | anti-periodic TWO-fermion top | **above** 2J |
+
+So "the second clock overtakes the first (band edge J·ρ)" reduces to **B > J·ρ**: the ring (2,2) is the lone exceed-case (its B = the anti-periodic two-fermion top 2√2·J overtops the periodic band edge 2J); the (1,1) instances have B = J·ρ and the √-shift puts the floor frequency just below. One √-envelope; only B is sector/topology-specific. **Scope:** the {0,2} pins to the −2γ floor (for all Q) only at chain N=3 and ring N=4 — at other N it drifts off-floor — so this is the unification of those two specials, not an all-N floor law. It characterizes the second-clock *floor frequency*; it does NOT close the CoherenceHorizon Tier1Candidate cap (the half-filling V-Effect seam / the dynamic C=0.5 survivor question), which is about the off-floor dynamics, not this frequency.
+
 ## Scope and the open extension
 
 Proven for general N: 2J = J·ρ is reached (the (0,1) uniform mode). Gate-verified N = 3..6: it is the maximum, with N = 4 the exception. The remaining step for an all-N theorem is the ring free-fermion completeness (that the parity-resolved free-fermion family spans the exact-(−2γ) subspace for N ≥ 5, so nothing exceeds 2J) — the cyclic analogue of the chain proof's span argument, complicated by the periodic/anti-periodic parity split. The structural picture (N = 4 the unique even half-filling exception) and the N ≤ 6 verification make the all-N statement the strongly-expected extension.
