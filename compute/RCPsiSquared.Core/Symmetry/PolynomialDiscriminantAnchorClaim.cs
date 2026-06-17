@@ -54,7 +54,24 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         bandwidth-prefactor 4J, F86 t_peak = 1/(4γ₀).</item>
 ///   <item><b>Critical-slowing corrections:</b> F56 4·ε in the saddle-node log,
 ///         16·tol = 4²·tol in α(tol).</item>
+///   <item><b>Born-rule-mirror coefficient (the MOST explicit appearance):</b> F94
+///         Δ = (4/3)·Q²·K³ writes the discriminant by name — 4/3 = a_{−1}/3 and the
+///         per-diagram normalization 1/16 = 1/a_{−1}². (Missing from the original list;
+///         added 2026-06-17.)</item>
 /// </list>
+///
+/// <para><b>Genealogy of the visible fours (the qutrit prism, 2026-06-17;
+/// <c>simulations/formula_four_classification.py</c>, gate-first).</b> The "4"s above classify by what they
+/// BECOME at the qutrit (d = 3) into two super-families, cross-cutting the visible clusters above (which group
+/// by where the 4 appears, not by what it is). SPLIT (operator-counting, d-dependent): <b>family A</b> = the
+/// squared dimension d² (F23/F49 4^N = (d²)^N → 9^N; F1 4^{N−1}; F94's 4/3 = a_{−1}/3 → 3?), <b>family B</b>
+/// = the cap base 2d (F121 (2d)^N → 6). STAY (rate/spectral, d-independent): <b>family C</b> = the rate
+/// 2γ·Hamming (F25/F73/F86 4γ, F65/F67 4γ₀/(N+1) — verified d-independent), <b>family D</b> = the band edge /
+/// graph 4J (F2/F41; F121's Heisenberg gap Δ = 4J holds at d = 3 too), <b>family E</b> = the inversion-fold
+/// ¼ = a₃ = 1/a_{−1} = 1/d² (F56/F95/F97/F98 / <see cref="QuarterAsBilinearMaxvalClaim"/>; the qudit value 1/9
+/// is conjectural — blocked, since concurrence is d = 2 only). Gated here: A (4^N → 9^N), C (4γ stays),
+/// D (4J stays). The standout OPEN family-A gate-test is F94 (does 4/3 = a_{−1}/3 → d²/3 = 3 at the qutrit?),
+/// which needs the SU(d) Born-mirror normalization ((J/4)² → the SU(d) Casimir).</para>
 ///
 /// <para><b>Map note (a four that is NOT this one — qutrit-split, see-cref not a typed edge):</b> the
 /// structural-ceiling four in g2(K_N) = 4/N (<see cref="StructuralCeilingClaim"/>, F122) looks like this
@@ -152,7 +169,7 @@ public sealed class PolynomialDiscriminantAnchorClaim : Claim
         PolynomialFoundationClaim polynomial,
         QubitDimensionalAnchorClaim qubit,
         Pi2DyadicLadderClaim ladder)
-        : base("Polynomial discriminant of d²−2d=0 IS a_{-1} = 4 = d² for d=2; the structural cause of '4γ' prefactor in F25/F65/F73/F76/F2/F23/F67/F86/F56",
+        : base("Polynomial discriminant of d²−2d=0 IS a_{-1} = 4 = d² for d=2; the structural cause of '4γ' prefactor in F25/F65/F73/F76/F2/F23/F67/F86/F56/F94 (F94 the most explicit: 4/3=a_{-1}/3); genealogy of the fours split by the qutrit (formula_four_classification.py)",
                Tier.Tier1Derived,
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (PolynomialFoundationClaim + QubitDimensionalAnchorClaim) + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
