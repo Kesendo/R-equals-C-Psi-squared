@@ -16,6 +16,19 @@ public class TrichotomyWitnessTests
     public void Ctor_RejectsOutOfRangeN() =>
         Assert.Throws<ArgumentOutOfRangeException>(() => new TrichotomyWitness(n: 9));
 
+    [Fact] // the two reads MUST stay on DIFFERENT conventions — guards against re-merging them onto one
+    public void TwoReads_StayOnDifferentConventions()  // (the Round-2 defect this whole feature fixed)
+    {
+        // At the same nominal q=1.5 the two reads see DIFFERENT survivors, because they are different
+        // physical sweeps: the CARBON un-freeze read (ClassifyUnfreeze, J/γ=Q) sees the frozen (p,p)
+        // interior below Q*(5)≈2.374; the ABSOLUTE read (SurvivorSector, what ClassifySeam uses) sees the
+        // (0,1) band edge (J/γ=3, above Q*). If a future change re-merges them onto one convention, one of
+        // these Δn flips and this fails — re-introducing the chain mislabel the two-read split removed.
+        Assert.Equal(0, TrichotomyWitness.ClassifyUnfreeze(TopologyKind.Chain, 5, 1.5).Dn);   // carbon: interior
+        var (pc, pr, _) = TrichotomyWitness.SurvivorSector(TopologyKind.Chain, 5, 1.5, Uniform(5, 0.5));
+        Assert.Equal(1, Math.Abs(pc - pr));                                                  // absolute: band edge
+    }
+
     [Fact]
     public void SurvivorRate_MatchesPostEpFlowField_AtN5_VacBlock()
     {
