@@ -52,6 +52,11 @@ When the Δn=0 interior is the survivor, its nature is topology-set, not γ-prof
   inherit the ring's frozen character. The EP-vs-crossing distinction is read by Petermann phase
   rigidity (`PhaseRigidity`, `CoherenceHorizonWitness`), not by |Im| alone (the SE-EP is
   overdamped-real below Q*, so a single-Q |Im| is blind).
+- **Star (1,1): frozen, the commutant route.** Its boundary survivor never un-freezes (|Im| ≈ 0 at all Q,
+  N ≥ 5), because it is the darkest [H,A]=0 commutant coherence (commutes with H ⟹ no oscillation) and it
+  undercuts the −2γ floor exactly when the structural ceiling g2 = 4/(N−1) ≤ 1; N=4 (g2 = 4/3 > 1) is the
+  outlier that un-freezes. So the star's frozen seam IS the ceiling read dynamically, a different route to
+  |Im|=0 than the ring's level crossing. See `docs/THE_STAR_FROZEN_SEAM.md`.
 
 ## See also
 
@@ -66,4 +71,6 @@ When the Δn=0 interior is the survivor, its nature is topology-set, not γ-prof
 - `docs/ANALYTICAL_FORMULAS.md` F2b corollary (the handover entry); `docs/HIERARCHY_OF_INCOMPLETENESS.md`
   (the C=0.5 / sterile reading).
 
-Open: the star (flat band, the C=0.5 counterexample) and a full sweep of the seam over (Q, profile, N).
+Open: a full sweep of the seam over (Q, profile, N). The star is now characterized (`docs/THE_STAR_FROZEN_SEAM.md`):
+its survivor is frozen at all Q for N ≥ 5 (the commutant route), exactly the structural ceiling g2 = 4/(N−1) ≤ 1
+read dynamically; N=4 is the outlier.

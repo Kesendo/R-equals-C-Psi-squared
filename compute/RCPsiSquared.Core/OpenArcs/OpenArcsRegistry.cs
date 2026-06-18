@@ -276,8 +276,14 @@ public static class OpenArcsRegistry
                 "(continuation-tracked, intrinsic to the wrap-bond two-fermion structure); chain (2,2) = " +
                 "oscillating (filling-degenerate SE-EP, rigidity->0 at Q*, NOT the ring's frozen seam). " +
                 "Gate-first caught 3 oversimplifications en route (profile-unfreezing / same-boundary / " +
-                "sector-tuple-vs-dn-with-a-convention-slip). STILL OPEN: the star (flat-band, the C=0.5 " +
-                "counterexample - assert no junction) and the full (Q, profile, N) sweep as one artifact",
+                "sector-tuple-vs-dn-with-a-convention-slip). STAR DONE 2026-06-18 (simulations/star_frozen_seam.py, " +
+                "doc docs/THE_STAR_FROZEN_SEAM.md): the star's (1,1) boundary survivor never un-freezes -- frozen " +
+                "(|Im|=0) at ALL Q for N>=5, unlike chain/ring which un-freeze at their horizon/handover. The " +
+                "threshold IS the structural ceiling read dynamically: frozen <=> g2=4/(N-1)<=1 (the darkest " +
+                "[H,A]=0 commutant (1,1) coherence is the survivor only when it undercuts the -2g floor); N=4 " +
+                "(g2=4/3>1) is the outlier that un-freezes. Third member of the trichotomy chain(SE-EP un-freeze) / " +
+                "ring(frozen level crossing) / star(frozen commutant). Gate-first caught N=4 (the find, the known " +
+                "outlier). STILL OPEN: the full (Q, profile, N) sweep as one artifact",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
