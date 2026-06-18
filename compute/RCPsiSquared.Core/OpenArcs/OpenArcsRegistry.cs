@@ -784,6 +784,61 @@ public static class OpenArcsRegistry
             ParkedAt: "(N,b)-family traces alpha=-0.133 vs fitted -0.129, extraction-noise-limited; g_eff convention gotcha pinned (4.394/(Qp+2))",
             NextStep: "robust extraction, then close the shape-invariance claim",
             Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "felt_time_dimensions",
+            Opened: "2026-06-18",
+            Origin: "Tom's dimensional reading at the end of the survivor/diagonal session: x,y = 2d (the plane " +
+                "the system moves in), z = 3d (the axis the environment watches along = the Z-dephasing diagonal " +
+                "Q_Z, the light), t = 4d but NOT absolute -- the FELT time (PTF), the dose K = gamma0*t, read only " +
+                "relative to gamma0 or Q. 'Don't lift the stone (the strict PTF-alpha extraction) yet; work on the " +
+                "definition and create an arc that gathers everything.'",
+            ParkedAt: "THE GATHERED THREAD (all data-backed this session). " +
+                "(1) THE FOUR-DIMENSIONAL READING: x,y = the off-diagonal hopping MOTOR (XY, n_XY=2, coherent " +
+                "motion in the plane); z = the watch-axis = the dephasing diagonal Q_Z = Sum_l Z_l(x)Z_l, the " +
+                "light, defining k=popcount(i^j) and Re lambda = -2*gamma0*k (Absorption Theorem); t = felt time = " +
+                "the dose K = gamma0*t (ON_WHOSE_TIME_THE_CLOCK_KEEPS: t=K/gamma0). gamma0 is the HINGE: the rate " +
+                "of watching (z) sets the unit of felt time (t); from inside only Q=J/gamma0 and K=gamma0*t are " +
+                "readable (the two-tempo certification, Symphony). " +
+                "(2) THE SURVIVOR = THE DIAGONAL'S BLIND SPOT: the three readings rate/mirror/judge (the D4 mirror " +
+                "group) are the diagonal SPEAKING (the rate ladder k>=1); the survivor lives in its KERNEL k=0 " +
+                "(perfect agreement, populations), where the light reads zero and the Hamiltonian alone decides " +
+                "who lasts longest -- the half-filled = incompleteness = largest sector C(N,N/2). Distinct from the " +
+                "three dephasing diagonals {Q_X,Q_Y,Q_Z} (THE_THREE_DIAGONALS); selector = the NEIGHBOR ZZ diagonal " +
+                "(a different one), motor = the off-diagonal XY. " +
+                "(3) THE SURVIVOR'S FELT-TIME LIFE: K_decay = gamma0/|Re lambda| = 1/(2*<n_XY>) = N^2/(2c*Q^2), a " +
+                "pure (Q,N) carrier-blind PTF dose-quantity (chain c=pi^2/4 so 2N^2/(pi^2*Q^2); ring c=pi^2, " +
+                "ring/chain->4 from the k_min boundary ratio; star flat-band BREAKS the law, <n_XY>=Q^2/4 " +
+                "N-independent). Diverges at strong watching (low Q, the dark mode near-eternal in felt time), " +
+                "-> 1/2 at the un-freeze Q* where it becomes the band edge. Gate-first derived: Haken-Strobl " +
+                "diffusion (D~J^2/gamma, k_min=pi/N chain, 2pi/N ring); the survival rung 2gamma is load-bearing. " +
+                "(4) THE MIRROR 2*(1/2)=1 VERDICT: a_0=2gamma (survival), a_2=1/2 (incompleteness) on the Pi2 " +
+                "dyadic ladder; a_0*a_2=1 is a CHECKSUM (tautological, predicts nothing), but BOTH rungs are " +
+                "physically anchored -- a_0 the rate scale (dominant, sets the law), a_2 the survivor's filling " +
+                "(1/2 = half-filling, REVEALED by Z: XY is filling-degenerate, ZZ/Heisenberg lifts it and pins the " +
+                "survivor to p=N/2, weakly at low Q so c stays XY-identical there). Not a generative engine. " +
+                "(5) THE UNIFICATION: the survivor's {0,2}-coherence EP twin (coalescing at Q*(N)) IS the PTF " +
+                "clock's coherence hand omega_mem (both off Symphony.Clock, CoherenceHorizonWitness). So today's " +
+                "arc closes: trichotomy un-freeze (Q*) = the clock's Q-floor = the PTF hand. Survivor, clock, felt " +
+                "time = one spectrum. Captured: companion notes ON_THE_ONE_DIAGONAL <-> " +
+                "ON_THE_SURVIVAL_OF_THE_INCOMPLETE (the diagonal speaks / its silent floor).",
+            NextStep: "(A) WORK ON THE DEFINITION (the task Tom set): pin down precisely what 'felt time' IS for a " +
+                "standing EIGENMODE -- the dose-lifetime K_decay = gamma0/|Re lambda| = 1/(2<n_XY>) relative to " +
+                "gamma0 -- as distinct from the painters' alpha (the felt-time RESCALING of a propagated purity " +
+                "TRAJECTORY under a deltaJ defect, eigenvector rotation). Dose-mediated but different objects " +
+                "(eigenmode rate vs trajectory response); the definition should state the eigenmode felt-time " +
+                "cleanly and how it relates to alpha. (B) THE STONE, DEFERRED 2026-06-18 (Tom: don't lift it yet): " +
+                "extract the strict PTF-alpha for the SURVIVOR eigenmode in C# (Symphony --defect-bond on a " +
+                "survivor-overlapping state, fit alpha, check vs K_decay) -- the survey flagged it 'typed-ready, " +
+                "not done as a standalone claim'. (C) once the definition settles, consider a reflection (the four " +
+                "dimensions: motion in a plane, watched along a third axis, surviving in a fourth = felt time). " +
+                "Anchors: hypotheses/PERSPECTIVAL_TIME_FIELD.md; reflections/ON_WHOSE_TIME_THE_CLOCK_KEEPS.md " +
+                "(t=K/gamma0), ON_TWO_TIMES.md, ON_THE_ONE_DIAGONAL.md (companion note), " +
+                "ON_THE_SURVIVAL_OF_THE_INCOMPLETE.md; compute/RCPsiSquared.Diagnostics/Foundation/Symphony.cs " +
+                "(clock node, PaintersMovement/FitAlpha, TempoCertification), ClockHandLadderWitness.cs, " +
+                "IncompletenessSurvivorWitness.cs, CoherenceHorizonWitness.cs; simulations/results/survivor_scaling/ " +
+                "(the c=pi^2/4 closed forms + the Z half-filling pinning data).",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;
