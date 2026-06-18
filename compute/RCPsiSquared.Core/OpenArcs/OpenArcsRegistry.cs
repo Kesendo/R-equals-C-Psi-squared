@@ -296,7 +296,22 @@ public static class OpenArcsRegistry
                 "bit-for-bit vs IncompletenessSurvivorWitness.Survivor. Spec+plan in docs/superpowers (gitignored). " +
                 "STILL OPEN: nothing on the sweep; the broader junction phase-diagram depth is now browsable, retire " +
                 "after a survey confirms no residual",
-            Status: OpenArcStatus.Open),
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "RESOLVED 2026-06-18 (gate-first survey, no residual found in this arc's scope). The " +
+                "junction phase diagram is fully browsable as the live witness inspect --root trichotomy " +
+                "(TrichotomyWitness): 'which mode is slowest' swept over all four axes -- Q {1..50}, profile " +
+                "(uniform/canal/deep-edge), N=4..8, topology (chain/ring/star) -- recomputed live, reporting the " +
+                "survivor sector, its dn, the freeze-route, |Im|, the Petermann rigidity r, and <n_XY>. The odd<->even " +
+                "{0,2} switch is the explicit dn 0->1 flip (the Junction SeamKind); the connection to the coherence " +
+                "horizon is the threshold ladder (chain Q*(N) / ring Q_h / star g2=4/(N-1) per N, gate-pinned " +
+                "bit-for-bit to the carbon IncompletenessSurvivorWitness.Survivor). The gate-first build found and " +
+                "fixed a real two-convention defect (carbon un-freeze read vs absolute dn-seam read). Docs: " +
+                "STERILE_BIRTHCANAL_AND_THE_JUNCTION.md (seam pinned), THE_STAR_FROZEN_SEAM.md (the star member), " +
+                "THE_TRICHOTOMY_SEEN.md (the assembly, sharpened 2026-06-18 with the rigidity third axis r and the " +
+                "Petermann factor K=1/r^2 diverging ~1/|Q-Q*| at Q*(N), r~|Q-Q*|^(1/2) the second-order-EP law). The " +
+                "only residuals ADJACENT to this arc -- the static gamma-surface N>=6/ring extension and the dynamic " +
+                "C=0.5 survivor question -- are owned by birth_canal_surface and clock_hand_ladder / " +
+                "survival_incompleteness_mirror respectively, NOT this arc's scope."),
 
         new OpenArc(
             Name: "block_spectrum_n9",
