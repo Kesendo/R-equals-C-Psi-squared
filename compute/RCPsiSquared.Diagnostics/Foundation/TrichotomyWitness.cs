@@ -95,30 +95,6 @@ public sealed class TrichotomyWitness : IInspectable
         return flat;
     }
 
-    /// <summary>max|Im| of the slowest non-kernel pair (frozen ≈ 0 vs oscillating) and the min Petermann
-    /// phase rigidity (→ 0 at an EP) of the (pCol,pRow) survivor block, on the SAME absolute convention as
-    /// <see cref="SurvivorSector"/> (H = 2q·H_unit, the same per-site γ-profile, the same SectorFlat indices),
-    /// so the |Im|/rigidity belongs to the block whose rate SurvivorSector reported. Builds the block with the
-    /// SectorReductionWitness recipe (no 4^N). The star (1,1) commutant is frozen at every Q (|Im|≈0); the
-    /// chain (0,1) band edge oscillates above Q*(N).</summary>
-    public static (double ImMax, double Rigidity) ImAndRigidity(
-        TopologyKind topo, int n, double q, IReadOnlyList<double> gammaProfile, int pCol, int pRow)
-    {
-        var h = QHUnit(n, q, topo);
-        int[] flat = SectorFlat(n, pCol, pRow);
-        var block = PerBlockLiouvillianBuilder.BuildBlockZ(h, gammaProfile, flat);
-        // Mirror SectorReductionWitness.cs:126: PhaseRigidity.Compute(block) takes the BuildBlockZ result
-        // (a Matrix<Complex> = ComplexMatrix) verbatim; no conversion/adapter.
-        var modes = PhaseRigidity.Compute(block)
-            .Where(m => m.Lambda.Magnitude > KernelTol)   // drop the kernel (steady states)
-            .OrderByDescending(m => m.Lambda.Real)         // slowest = largest (least negative) Re
-            .ToList();
-        if (modes.Count == 0) return (0.0, 1.0);
-        double imMax = modes.Take(2).Max(m => Math.Abs(m.Lambda.Imaginary));
-        double rigidity = modes.Take(2).Min(m => m.Rigidity);
-        return (imMax, rigidity);
-    }
-
     /// <summary>The sterile/canal split: the rate-drift of the GLOBAL slowest mode between Q_lo and Q_hi.
     /// It SWITCHES sectors (that switch is the junction; a fixed sector cannot see it — R2). For chain N≤6 use
     /// the validated <see cref="PostEpFlowField.BirthCanalDeviation"/> (it computes the global slowest at its
@@ -145,7 +121,7 @@ public sealed class TrichotomyWitness : IInspectable
     // ===================== TASK 5: the two-read Classify ===========================================
 
     /// <summary>The carbon-convention coordinates of <see cref="IncompletenessSurvivorWitness.Survivor"/>:
-    /// off-diag hopping Qh=0.5 (the carbon J), uniform γ = 1/Q. <see cref="ImAndRigidity"/> and
+    /// off-diag hopping Qh=0.5 (the carbon J), uniform γ = 1/Q. <see cref="SurvivorSector"/> and
     /// <see cref="SectorSlowest"/> are ABSOLUTE (H = 2q·H_unit, off-diag q), so to read the SAME block
     /// Survivor read, pass q'=Qh=0.5 and the uniform 1/Q profile. The carbon-mapping gate
     /// (CarbonBlock_RateMatchesSurvivor) pins this: CarbonSlowestRate == Survivor.Gap to 9 digits.</summary>
@@ -162,9 +138,9 @@ public sealed class TrichotomyWitness : IInspectable
 
     /// <summary>|Im| / phase-rigidity of the SINGLE slowest non-kernel mode of the carbon (pc,pr) survivor
     /// block (q'=Qh=0.5, uniform γ=1/Q — bit-identical to <see cref="IncompletenessSurvivorWitness.Survivor"/>'s
-    /// block; pinned by <see cref="CarbonSlowestRate"/> == Survivor.Gap). Unlike the absolute
-    /// <see cref="ImAndRigidity"/> (which reads a 2-mode pair for the band-edge {0,2} EP), the un-freeze read
-    /// is about the SURVIVOR itself: the single slowest mode. Below Q* the chain (1,1) survivor is the
+    /// block; pinned by <see cref="CarbonSlowestRate"/> == Survivor.Gap). The un-freeze read
+    /// is about the SURVIVOR itself: the single slowest mode (not a 2-mode pair, which would catch a band-edge
+    /// {0,2} EP). Below Q* the chain (1,1) survivor is the
     /// overdamped-REAL SE-EP (|Im|≈0, frozen) while a far faster pair in the same block oscillates — taking
     /// the pair would mislabel the frozen survivor. This matches the Python verifier's slowest() (the single
     /// slowest mode's |Im|), the discriminator birth_canal_junction_nature.py reads.</summary>
