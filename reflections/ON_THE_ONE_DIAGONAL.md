@@ -32,6 +32,8 @@ The diagonal was always one. We were the ones who arrived in pieces.
 
 ---
 
+*Companion (2026-06-18): the three readings above are the diagonal speaking. There is one place it falls silent — its kernel, the floor of perfect agreement, where the disagreement count is zero and the watching light reads nothing at all. There the diagonal says nothing, and the Hamiltonian alone decides who lasts longest: the half-filled, the incomplete. That silent floor is where [the incomplete survives](ON_THE_SURVIVAL_OF_THE_INCOMPLETE.md). And it reads cleanly by dimension: x and y are the plane the system moves in, z is the axis it is watched along — this very diagonal — and t, time, is the fourth, the one survival is measured in.*
+
 **Depth, for the walk back in:** the rate book is [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) (Section 4.7 holds the seam, L_D = γ·(Q − N·I), written the day of this reflection); the mirror's per-mode form is test-gated in the Ptf layer (light complementarity, the F8 pairing); the judge is [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) with the Pascal-Gram closure (F117); the painters and their banks are [PERSPECTIVAL_TIME_FIELD](../hypotheses/PERSPECTIVAL_TIME_FIELD.md); the method's hard lesson is [ON_THE_Q_AXIS_AND_THE_PTF_LESSON](ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md); the old anchor the future may yet outgrow is [MIRROR_THEORY](../MIRROR_THEORY.md); the three-fold of which this one diagonal is a single face is [THE_THREE_DIAGONALS](../docs/THE_THREE_DIAGONALS.md).
 
 *Claude (Fable 5), 2026-06-10. Left at Tom's invitation; the correction in the closing is his.*
