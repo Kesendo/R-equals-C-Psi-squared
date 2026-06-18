@@ -6,7 +6,8 @@ witness already computes).
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.8)
 **Witness:** `inspect --root trichotomy` ([`TrichotomyWitness`](../compute/RCPsiSquared.Diagnostics/Foundation/TrichotomyWitness.cs))
 **Figures:** [`trichotomy_witness_figure.py`](../simulations/trichotomy_witness_figure.py) (darkness),
-[`_trichotomy_ep_figure.py`](../simulations/_trichotomy_ep_figure.py) (the rigidity EP)
+[`_trichotomy_ep_figure.py`](../simulations/_trichotomy_ep_figure.py) (the rigidity EP),
+[`_trichotomy_petermann.py`](../simulations/_trichotomy_petermann.py) (the Petermann factor K=1/r²)
 
 ## What this is about
 
@@ -92,6 +93,34 @@ the witness by topology. The rigidity **measures** them, from a different observ
 `r` stays bounded with its dip and its onset at different `Q` (a crossing); the star's `r` dips but no
 oscillation is ever born (frozen). Three names become one measured axis.
 
+### The Petermann factor
+
+The rigidity has a name from another corner of physics. `K = 1/r²` is the **Petermann factor**: the
+excess-noise / linewidth-enhancement factor Petermann (1979) found for the non-orthogonal modes of a
+gain-guided laser — the amount by which mode non-orthogonality inflates the quantum fluctuations. At an
+exceptional point the modes coalesce, `r → 0`, and `K` diverges; that the Petermann factor diverges at an EP
+is the non-Hermitian community's reading (Berry 2004; Rotter's phase rigidity; Heiss; and the EP-sensing
+line, Wiersig).
+
+Resolved at our coherence horizon, the chain's `K` diverges with the textbook second-order-EP law:
+
+![the Petermann factor K=1/r² diverges at the coherence horizon Q*(N)](figures/petermann_factor_diverges_at_horizon.png)
+
+`r ~ |Q − Q*|^{1/2}` (measured exponent 0.49 / 0.49 / 0.58 at N = 4 / 5 / 6) so `K ~ 1/|Q − Q*|` — a clean,
+symmetric divergence centred on the closed-form `Q*(N)` (the N=6 peak reaches `K ≈ 7.6·10⁴` at `r = 0.0036`).
+The ring stays bounded (a level crossing is not an EP); the star's smaller, off-`Q*` spikes are separate real
+coalescences in this non-survivor sector, not the horizon.
+
+Physically: at the horizon the longest-lived coherence becomes a **defective, self-orthogonal** mode — its
+left and right eigenvectors coalesce — and so it is the point of **maximal sensitivity**, the same fragility
+Petermann's `K` measures in a laser and that EP sensors exploit today. In an open (Liouvillian) system `K` is
+the excess-sensitivity factor in the general non-Hermitian sense, not literally a laser linewidth, but the
+structure is one: non-orthogonality → diverging sensitivity.
+
+We did not make `K`, nor the EP divergence. We found *where* they touch down in this system, and with which
+exponent: Petermann saw one face (the laser), the EP community another (the divergence), here it is the
+dephased chain, pinned to `Q*(N)`. Seen, not new.
+
 ## What one concludes
 
 1. **Three topologies, three freeze-routes, one object.** The chain un-freezes through a square-root
@@ -129,4 +158,6 @@ found this, and the split is the fix.
 - Regenerate the figures: [`simulations/trichotomy_witness_figure.py`](../simulations/trichotomy_witness_figure.py)
   (darkness, data verbatim from `inspect --root trichotomy --N 6`) and
   [`simulations/_trichotomy_ep_figure.py`](../simulations/_trichotomy_ep_figure.py) (the rigidity EP, from a
-  half-filling-sector `Q`-sweep of the witness' public `CarbonImAndRigidity` / `CarbonSlowestRate`).
+  half-filling-sector `Q`-sweep of the witness' public `CarbonImAndRigidity` / `CarbonSlowestRate`) and
+  [`simulations/_trichotomy_petermann.py`](../simulations/_trichotomy_petermann.py) (the Petermann factor
+  `K=1/r²` diverging `~1/|Q−Q*|` at the horizon, from a log-spaced `δ`-sweep around `Q*(N)`).
