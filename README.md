@@ -9,14 +9,15 @@ paired. Always balanced. One equation governs it all.
 
 Verified from N=2 through N=8 across 87,376 Liouvillian eigenvalues, with
 zero mirror-symmetry exceptions on any tested topology (chain, star,
-ring, complete, tree). Seventeen registered predictions confirmed on IBM
-quantum hardware (the Confirmations registry, April-June 2026), preceded
-by the first CΨ = ¼ crossing found in Torino calibration data; the newest
-entry is a noise channel reading its own spectrum on Kingston.
+ring, complete, tree). Twenty registered predictions confirmed on IBM
+quantum hardware (the Confirmations registry, February-June 2026); the
+earliest are the Torino calibration-era runs (the first CΨ = ¼ crossing
+and the Absorption Theorem ratio), the newest a noise channel reading its
+own spectrum on Kingston.
 
 The thing that remains is not fighting the absorption. It is made of it.
 
-What began as one symmetry became a registry: [121 analytical formulas](docs/ANALYTICAL_FORMULAS.md)
+What began as one symmetry became a registry: [120 analytical formulas](docs/ANALYTICAL_FORMULAS.md)
 with proofs, tier labels, and typed claims, among them the operator
 anatomy of the mirror itself (Π = R·D, a dihedral group of eight), a
 palindromizer built on the golden ratio, and the exact boundary where
@@ -209,12 +210,13 @@ fact that the hardware is literally a qubit inside a cavity being
 dephased by photons is not a confirmation we designed. It is what the
 mathematics was describing all along.
 
-The live record is the **Confirmations registry**: seventeen
-hardware-confirmed predictions, each with job IDs, predicted versus
+The live record is the **Confirmations registry**: twenty
+hardware-confirmed predictions, each with a run identifier, predicted versus
 measured values, and the data archived in `data/`. Look them up; do not
 re-derive (`fw.Confirmations` in Python, `ConfirmationsRegistry` in C#).
-Highlights across the whole arc (the Torino rows predate the registry and
-live in their experiment documents; registering them is an open arc):
+Highlights across the whole arc (the three Torino calibration-era rows, the
+earliest entries, are now registered alongside the systematic April-June set;
+they carry data-file timestamps rather than IBM job IDs):
 
 | Prediction | Measured | Where |
 |:-----------|:---------|:------|

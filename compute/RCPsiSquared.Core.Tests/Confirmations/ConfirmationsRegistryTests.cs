@@ -22,13 +22,15 @@ public class ConfirmationsRegistryTests
     }
 
     [Fact]
-    public void All_HasSeventeenEntries()
+    public void All_HasTwentyEntries()
     {
         // Union discipline with simulations/framework/confirmations.py: both registries
         // hold the same set. Reconciled to 15 on 2026-06-08; ibm_ep_onset_may2026
         // (Kingston EP onset, 2026-05-31) added to both on 2026-06-10 makes 16;
-        // f120_moment_tower_kingston_june2026 added to both on 2026-06-11 makes 17.
-        Assert.Equal(17, ConfirmationsRegistry.All.Count);
+        // f120_moment_tower_kingston_june2026 added to both on 2026-06-11 makes 17;
+        // the three Torino calibration-era runs (Feb-Mar 2026) registered 2026-06-18
+        // (front_matter_truth arc) make 20.
+        Assert.Equal(20, ConfirmationsRegistry.All.Count);
     }
 
     [Fact]
@@ -195,16 +197,17 @@ public class ConfirmationsRegistryTests
     [Fact]
     public void EntriesWithoutDocumentedPath_StayNull()
     {
-        // Thirteen of seventeen have paths; four remain null (chiral_mirror_law,
+        // Sixteen of twenty have paths; four remain null (chiral_mirror_law,
         // f57_kdwell_gamma_invariance, bonding_mode_receiver, f25_cusp_trajectory)
         // since their paths are not unambiguously documented. The 2026-06-08
         // reconciliation with the Python registry added gamma_0_marrakesh_calibration
         // and d_zero_sector_trichotomy_marrakesh, both on the April-26 [48,49,50] run.
         // ibm_ep_onset_may2026 (2026-06-10) is documented on Kingston [13,14,15];
         // f120_moment_tower_kingston_june2026 (2026-06-11) on Kingston [149,13,9].
+        // The three Torino runs (2026-06-18) carry single-qubit paths: q52 (×2) and q80.
         int withPath = ConfirmationsRegistry.All.Count(c => c.QubitPath != null);
         int withoutPath = ConfirmationsRegistry.All.Count(c => c.QubitPath == null);
-        Assert.Equal(13, withPath);
+        Assert.Equal(16, withPath);
         Assert.Equal(4, withoutPath);
     }
 }

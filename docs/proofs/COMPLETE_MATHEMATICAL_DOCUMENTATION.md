@@ -331,7 +331,7 @@ See: [Relay Protocol](../../experiments/RELAY_PROTOCOL.md),
 [Scaling Curve](../../experiments/SCALING_CURVE.md),
 [Optimal QST Encoding](../../experiments/OPTIMAL_QST_ENCODING.md),
 [Receiver vs γ-Sacrifice](../../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md);
-main README Section 10 (engineering consequences) and Section 11 (receiver menu).
+main README Section 6 (engineering consequences; the F67 receiver menu is Rule 2 there).
 
 ---
 

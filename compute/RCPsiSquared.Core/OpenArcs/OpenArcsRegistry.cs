@@ -706,8 +706,32 @@ public static class OpenArcsRegistry
             Opened: "2026-06-11",
             Origin: "third-party review (three cold readers, 2026-06-11): every failure was front matter vs body",
             ParkedAt: "headline surfaces lag verified bodies: Torino-era confirmations absent from all three registries yet counted in the README's seventeen (wording patched, entries not registered); '121 formulas' is a label (124 headers, 119 base numbers, F53/F54 silently missing, no tombstone); stale anchors (XOR_SPACE 'README Section 10', Pi discovery-date contradiction Mar-14 vs Apr-05)",
-            NextStep: "register the Torino-era confirmations in Python+C#+tests, tombstone F53/F54 in the registry, sweep stale cross-references",
-            Status: OpenArcStatus.Open),
+            NextStep: "DONE 2026-06-18 (all three items resolved). See RetiredReason.",
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "RESOLVED 2026-06-18 (Tom chose 'register all three Torino runs'; three recon agents + one " +
+                "execution agent). All three NextStep items done, verified green (Python 7/7, C# Core 25/25, Cli build clean). " +
+                "(1) TORINO REGISTERED: the three ibm_torino calibration-era runs added to BOTH registries (Python " +
+                "confirmations.py + C# ConfirmationsRegistry, 17->20): cpsi_quarter_crossing_torino_feb2026 (q52, the first " +
+                "CΨ=¼ crossing ever seen, 11% loose / found in calibration data), absorption_theorem_ratio_torino (same Feb-9 " +
+                "q52 data, ratio 1.03), cpsi_quarter_crossing_torino_q80_mar2026 (Run 3 q80, the tightest at 1.9%). They carry " +
+                "data-file-timestamp locators in the JobId field (no IBM job_id was ever recorded for the Torino era; this " +
+                "matches the existing f57 locator entry, so it does not weaken the registry's character). Both count tests " +
+                "bumped (Python test_confirmations_has_twenty_entries; C# All_HasTwentyEntries + EntriesWithoutDocumentedPath " +
+                "withPath 13->16, single-qubit paths q52/q52/q80). README 'seventeen'->'twenty' (2 spots; 'each with job " +
+                "IDs'->'run identifier'), READING_GUIDE (2 spots), PREDICTIONS.md stale '13'->20 (3 spots) + the 'disjoint " +
+                "from S1' claim corrected (the registry now subsumes the early Torino set; the date fields carry the epoch). " +
+                "The README/PREDICTIONS framing was ALREADY honest that Torino predated the registry - registration makes it " +
+                "real rather than a wording patch. (2) F53/F54 TOMBSTONED: a 'Numbering note' after F52 in ANALYTICAL_FORMULAS.md " +
+                "states they were NEVER ASSIGNED (full git history confirms no content ever lived under them; numbering skipped " +
+                "F52->F55 when the Absorption Doses section was authored - NOT a retirement, no history to recover). Headline " +
+                "counts fixed: README '121 formulas'->120 (distinct base numbers = F1..F122 minus the 2 unassigned), docs/README " +
+                "'21 formulas'->120, Cli glossary 'F1..F121'->'F1..F122 (F53/F54 unassigned)'. (3) STALE ANCHORS SWEPT: the " +
+                "README restructure had left 'Section 10/11' references across 16 spots in ~14 files (XOR_SPACE + the whole " +
+                "family: experiments/*, compute/*/README, COMPLETE_MATHEMATICAL_DOCUMENTATION, ANALYTICAL_FORMULAS:1506) - all " +
+                "->Section 6, 'nine engineering consequences'->eight, 'Section 11 (receiver menu)' folded into 'Section 6 Rule " +
+                "2'; the Pi discovery-date contradiction fixed (MIRROR_SYMMETRY_PROOF claimed 'discovery+proof+verification same " +
+                "day, 2026-04-05' - false: discovered 2026-03-14, verified 2026-03-19, document merely restructured 2026-04-05; " +
+                "March 14 corroborated by ~8 sources + a real Mar-14 hardware run, per LITERATURE_REVIEW's own history line)."),
 
         new OpenArc(
             Name: "stranger_door",

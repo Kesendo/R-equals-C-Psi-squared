@@ -19,8 +19,8 @@
 
 This is the master catalog of every testable prediction the R=CΨ²
 framework has produced, organized by verification status: confirmed on
-hardware (5, plus the 13-entry [Confirmations registry](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs)
-for the later F-arc), computationally verified (52), anomalies under
+hardware (5 in §1, plus the 20-entry [Confirmations registry](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs)
+spanning the 2026-02 Torino runs through the June F-arc), computationally verified (52), anomalies under
 investigation (5; the original anomaly since resolved as detuning), testable
 with current hardware (7), testable in principle (4), speculative (4),
 unverified agent claims (4), null results (1), falsified (2), and
@@ -47,7 +47,7 @@ falsification criterion, and a link to its source experiment.
 
 **The Absorption Theorem** Re(λ) = −2γ⟨n_XY⟩ (the last row above) is Tier-1 **proven** ([PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md)) and verified on 1,342 modes (CV = 0); the 1.03 ratio is its IBM confirmation. It also falsifies the old "E = mγ²" guess: the decay law is **linear** in γ, not quadratic (see [Falsified Predictions](#8b-falsified-predictions) below).
 
-**For the current, authoritative list of hardware-confirmed predictions, see the Confirmations registry** (`fw.Confirmations` / [ConfirmationsRegistry.cs](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs)): 13 entries as of 2026-05 (ibm_marrakesh + ibm_kingston, covering the later F1-F114 arc , palindrome trichotomy, F25 cusp trajectory, F57 K_dwell γ-invariance, F83/F95, block-CΨ saturation, and more). Section 1 here is the early (2026-02, ibm_torino) set; the registry is the live record and is disjoint from §1.
+**For the current, authoritative list of hardware-confirmed predictions, see the Confirmations registry** (`fw.Confirmations` / [ConfirmationsRegistry.cs](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs)): 20 entries as of 2026-06 (ibm_torino + ibm_marrakesh + ibm_kingston, spanning the 2026-02 Torino calibration runs through the June F-arc: palindrome trichotomy, F25 cusp trajectory, F57 K_dwell γ-invariance, F83/F95, block-CΨ saturation, and more). Section 1 here details the earliest Torino set; as of 2026-06-18 those Torino runs are themselves registered, so the registry is the single live record (no longer disjoint from §1).
 
 ---
 
@@ -281,7 +281,7 @@ These claims may be correct. They may also be artifacts of the agent's training 
 
 | Tier | Count | Examples |
 |------|-------|---------|
-| **Confirmed on hardware** | 5 here (early ibm_torino, §1) + **13 in the [Confirmations registry](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs)** (F-arc, Marrakesh/Kingston 2026-04/05, disjoint from §1) | §1: ¼ crossing, T₂*/T₂, crossing eqn, x³+x=½, Absorption ratio 1.03. Registry: palindrome trichotomy, F25 cusp, F57 K_dwell, F83/F95, block-CΨ saturation, ... |
+| **Confirmed on hardware** | **20** in the [Confirmations registry](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs) (ibm_torino + Marrakesh/Kingston, 2026-02 to 2026-06); §1 details the 5 earliest Torino rows, now registered too | §1: ¼ crossing, T₂*/T₂, crossing eqn, x³+x=½, Absorption ratio 1.03. Registry: the 3 Torino runs, palindrome trichotomy, F25 cusp, F57 K_dwell, F83/F95, block-CΨ saturation, ... |
 | **Proven (analytical)** | 1 | Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩, verified on 1,342 modes, CV=0 |
 | **Computationally verified** | 52 | gamma*t_cross, theta trajectory, bifurcation, operator feedback, Psi_int, noise robustness, N-scaling barrier, W vs GHZ, Type A at N>2, subsystem crossing, product state C=0, GHZ pair l1=0, crossing locality, eigenstate immunity, dynamic crossing generation, dephasing selection, basis dependence, ξ linearity (Markovian), ξ curvature (non-Markovian), coherence-purity bound, QKD basis forensics (R(θ_E) closed form), Conc=1-f, azimuthal symmetry, cot(θ_E) degeneracy breaking, Eve σ_z ≈ dephasing, Bell-state independence, noise-vs-Eve discrimination, MI/Corr θ-blind, bridge detects at stealth, ξ-curvature null, ratio invertible under noise, θ_stealth deterministic, stealth-as-signal, no-signalling rho_A unchanged, CΨ drops to ¼ under remote measurement, CΨ regime change invisible to subsystem, K γ-invariant factorization, K-ratio state-dependent, interval shift no-threshold, product-state local clock, Bell+ no local clock, α<30° no crossing, crossing time shift encodes 1 bit, 21 pairs per bit at σ=1, reservoir flow disruption mechanism, coupling accelerates local decay, measurement damage timing-dependent, no energy threshold, α_crit=30° exact, product state Hamiltonian pumping, eigenstate CΨ_max=0, critical J/γ ratio |
 | **Anomaly (real, cause unknown)** | 5 | Excess coherence, directionality, rising trend, boundary correlation, shadow |

@@ -131,7 +131,7 @@ qubits are **not equal**:
 | All qubits (γ → 0.005 everywhere) | +354% (but unrealistic) |
 
 The receiver is 3× more important than the mediator for DD. This confirms
-the "quiet receiver = better reception" Pull Principle (main README Section 10
+the "quiet receiver = better reception" Pull Principle (main README Section 6
 design rule 5).
 
 DD on all qubits (reducing γ globally to 0.005) gives MI = 1.535, but this
@@ -266,7 +266,7 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
   it is **readable**. 100% classification, 15.5 bits channel capacity.
   This experiment was the precursor to that discovery.
 - [Relay Protocol](RELAY_PROTOCOL.md): staged γ switching, +83% MI
-- Main README Section 10: nine engineering consequences
+- Main README Section 6: eight engineering consequences
 - [Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md):
   CΨ = 1/4 as threshold voltage, γ_M as gate signal
 - [Scaling Curve](SCALING_CURVE.md): MI vs chain length baseline

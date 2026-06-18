@@ -261,4 +261,4 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 - [The Flow Between Two Singularities](THE_FLOW_BETWEEN_TWO_SINGULARITIES.md): transport is the slosh above the EP (2026-05-31 revisit)
 - [γ₀ Is Always There](GAMMA0_IS_ALWAYS_THERE.md): the measured γ₀ ≈ 0.05 behind the setup's guessed baseline
 - [Q-Regime Anchor Map](../docs/Q_REGIME_ANCHORS.md): the Q = J/γ₀ axis the protocol sits on
-- Main README Section 10: nine engineering consequences
+- Main README Section 6: eight engineering consequences

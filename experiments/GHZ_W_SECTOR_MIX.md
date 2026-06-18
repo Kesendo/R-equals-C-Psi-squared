@@ -22,7 +22,7 @@ three-tangle, CKW, F60, F61, F62, spherical scan artifact, product state -->
 **Depends on:**
 - F60 (GHZ_N born below the fold), F62 (CΨ(0) for W_N)
 - F61 (n_XY parity selection rule) via [PROOF_PARITY_SELECTION_RULE](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md)
-- Main README Section 10 Rule 1: W-type encoding over GHZ (preparation-vs-evolution asymmetry of F61 is the structural reason F69 is allowed)
+- Main README Section 6 Rule 1: W-type encoding over GHZ (preparation-vs-evolution asymmetry of F61 is the structural reason F69 is allowed)
 
 **Registry entry:** [F69 in ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md)
 

@@ -11,9 +11,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 import framework as fw
 
 
-def test_confirmations_has_seventeen_entries():
+def test_confirmations_has_twenty_entries():
     names = fw.Confirmations.list_names()
-    assert len(names) == 17
+    assert len(names) == 20
     assert 'palindrome_trichotomy' in names
     assert 'lebensader_skeleton_trace_decoupling' in names
     assert 'gamma_0_marrakesh_calibration' in names
@@ -30,6 +30,11 @@ def test_confirmations_has_seventeen_entries():
     assert 'ibm_ep_onset_may2026' in names
     # 2026-06-11: F120 moment-tower pump channel, first hardware reading (union of 17).
     assert 'f120_moment_tower_kingston_june2026' in names
+    # 2026-06-18: the three Torino calibration-era runs (Feb-Mar 2026) registered at last
+    # (front_matter_truth arc); they predate the systematic April-June campaign (union of 20).
+    assert 'cpsi_quarter_crossing_torino_feb2026' in names
+    assert 'absorption_theorem_ratio_torino' in names
+    assert 'cpsi_quarter_crossing_torino_q80_mar2026' in names
 
 
 def test_confirmations_lookup_f120_moment_tower():

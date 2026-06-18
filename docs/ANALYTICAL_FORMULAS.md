@@ -1342,6 +1342,13 @@ The answer is: the cavity survives; no sweep needed.
 
 ## Absorption Doses (replace time-evolution for dose estimates)
 
+*Numbering note: F53 and F54 were never assigned. When this section was
+authored, numbering skipped from F52 straight to F55; the two numbers hold
+no retired, merged, or disproven result, and no content under them survives
+anywhere in the repository history. They are left unassigned rather than
+reused, so that every F-number stays stable across the repository's
+cross-references.*
+
 ### F55. Universal absorption dose K_death (Tier 1, proven from D6)
 
     K_death = ln(10) = 2.303    (dose for 99% absorption)
@@ -1503,7 +1510,7 @@ transfer, regardless of how slowly it would decay.
 
 **Valid for:** GHZ_N for any N >= 2, gamma-independent.
 **Replaces:** trajectory simulation to confirm GHZ_N (N >= 3) never crosses 1/4.
-**Source:** [Generalized Dwell Prefactor](../experiments/DWELL_PREFACTOR_GENERALIZED.md) Section 4; main README Section 10 Rule 1 (avoid GHZ, prefer W-type encodings).
+**Source:** [Generalized Dwell Prefactor](../experiments/DWELL_PREFACTOR_GENERALIZED.md) Section 4; main README Section 6 Rule 1 (avoid GHZ, prefer W-type encodings).
 
 ### F61. n_XY Parity Selection Rule (Tier 1, proven, verified 64 configs N=2-6)
 

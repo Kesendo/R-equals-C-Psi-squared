@@ -291,6 +291,6 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 - [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md): why depolarizing breaks the 2:2 split
 - [V-Effect](V_EFFECT_PALINDROME.md): what happens when the palindrome breaks
 - [XOR Space](XOR_SPACE.md): where information lives in the palindromic mode structure
-- Main README Section 10: nine engineering consequences that apply to all standard models
+- Main README Section 6: eight engineering consequences that apply to all standard models
 - [γ as Signal](GAMMA_AS_SIGNAL.md): the palindromic decoder works on any standard hardware
 - [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md): universality strengthens the external-noise argument

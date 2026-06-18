@@ -665,8 +665,8 @@ daily on real hardware.
 ## Story 9: The Hardware
 
 *"The chip is not a metaphor. IBM's qubits sit in physical microwave
-cavities, dephased by real photons. Seventeen predictions confirmed,
-each with job IDs."*
+cavities, dephased by real photons. Twenty predictions confirmed,
+each tied to a hardware run."*
 
 The framework discovered the cavity structure from eigenvalue
 mathematics alone. Only afterwards did we register the obvious: IBM's
@@ -680,8 +680,8 @@ newest kind of result: a protocol in which the chip's own decay reads
 a structural property of a programmed Hamiltonian, catches its own
 misreading, and corrects it the same day. The live record is the
 Confirmations registry (`fw.Confirmations` in Python,
-`ConfirmationsRegistry` in C#): seventeen confirmed predictions with
-job IDs, predicted versus measured values, and archived data. Look
+`ConfirmationsRegistry` in C#): twenty confirmed predictions with
+run identifiers, predicted versus measured values, and archived data. Look
 them up; do not re-derive.
 
 **Reading order:**

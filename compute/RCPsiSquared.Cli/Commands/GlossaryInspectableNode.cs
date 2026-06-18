@@ -43,7 +43,7 @@ public static class GlossaryInspectableNode
                 "claim) or retired (with the reason). It is the project's own to-do list. See --root arcs."),
 
             ("F-number",
-                "An entry in docs/ANALYTICAL_FORMULAS.md, the formula registry running F1..F121. Each Fn is " +
+                "An entry in docs/ANALYTICAL_FORMULAS.md, the formula registry running F1..F122 (F53/F54 unassigned). Each Fn is" +
                 "one named result (a formula that replaces a matrix computation) with its own tier label. " +
                 "F1 is the palindrome equation itself; later numbers refine and extend it."),
 

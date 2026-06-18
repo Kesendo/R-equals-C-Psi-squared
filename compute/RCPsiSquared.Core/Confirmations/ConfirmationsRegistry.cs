@@ -396,6 +396,73 @@ public static class ConfirmationsRegistry
                 "Retrospective d=0-axis reading of the F77 trichotomy from existing Marrakesh data. The same three Hamiltonian classes the April-26 run discriminated via ⟨X₀Z₂⟩ at 9-Pauli-pair tomography are also discriminated by ⟨n⟩ from just the Z-basis ZZ counts. " +
                 "Operational consequence: the trichotomy can be read with 1/9 the Pauli-measurement cost when the question is classification, not full M-spectrum reconstruction. See simulations/d_zero_trichotomy_marrakesh.py.",
             QubitPath: new[] { 48, 49, 50 }),
+
+        // --- Torino calibration-era runs (Feb-Mar 2026), registered 2026-06-18 ---
+        // These predate the systematic April-June campaign and have no recorded IBM
+        // job_id (only data-file timestamps). The first two share the Feb-9 q52 run.
+        new Confirmation(
+            Name: "cpsi_quarter_crossing_torino_feb2026",
+            Date: "2026-02-09",
+            Machine: "ibm_torino",
+            JobId: "tomography_ibm_torino_20260209_131521 (data-file timestamp; no IBM job_id recorded for the Torino calibration-era runs)",
+            Observable: "CΨ(t) = Tr(ρ²)·L₁/(d−1) for |+⟩ under free decoherence; crossing time t* of the CΨ = ¼ boundary",
+            PredictedValue:
+                "t*/T₂* = 0.936 (generalized, r = T₂*/T₁ = 0.456); 0.858 in the pure-dephasing limit (x³+x = ½)",
+            MeasuredValue:
+                "t* = 114.7 μs, t*/T₂* = 1.041 (11.3% above the generalized prediction); CΨ(0) = 0.885, C∞ = 0.740. " +
+                "Qubit 52: T1 = 221.2 μs, T2_echo = 298.2 μs, T2*(FID) = 110.7 μs",
+            HardwareData: "data/ibm_tomography_feb2026/tomography_ibm_torino_20260209_131521.json",
+            ExperimentDoc: "experiments/IBM_QUANTUM_TOMOGRAPHY.md",
+            FrameworkPrimitive: "F25 closed-form CΨ(t) + the CΨ = ¼ fold (K_fold dose)",
+            Description:
+                "The first CΨ = ¼ crossing ever seen on hardware, found in IBM Torino single-qubit calibration tomography " +
+                "(Heron r2, q52, 2026-02-09), predating the systematic April-June 2026 campaign. A QUALITATIVE confirmation that " +
+                "the ¼ fold is real on a physical device, not a precision match: t*/T₂* = 1.041 sits 11% above the generalized " +
+                "prediction 0.936 because the crossing was extracted from a calibration run, not a purpose-built sweep. No IBM " +
+                "job_id was recorded for the Torino-era runs; the data-file timestamp is the locator.",
+            QubitPath: new[] { 52 }),
+
+        new Confirmation(
+            Name: "absorption_theorem_ratio_torino",
+            Date: "2026-04-04",
+            Machine: "ibm_torino",
+            JobId: "tomography_ibm_torino_20260209_131521 (data-file timestamp; analysis 2026-04-04 of the 2026-02-09 q52 run; no IBM job_id recorded)",
+            Observable: "Re(λ) / (−2γ⟨n_XY⟩), the excess coherence-decay ratio; effective ⟨n_XY⟩",
+            PredictedValue:
+                "ratio = 1 (Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩, with ⟨n_XY⟩ = 1 for single-qubit coherence)",
+            MeasuredValue:
+                "ratio = 1.03 (3% deviation) on the T2* baseline: excess α = 0.006960 μs⁻¹ vs 2γ* = 0.006771 μs⁻¹, with a 2.8% " +
+                "slow tail at the resolution limit. (The 6.37 figure quoted elsewhere used the wrong T2_echo baseline; the " +
+                "dephasing-relevant T2* baseline gives 1.03.)",
+            HardwareData: "data/ibm_tomography_feb2026/tomography_ibm_torino_20260209_131521.json",
+            ExperimentDoc: "experiments/IBM_ABSORPTION_THEOREM.md",
+            FrameworkPrimitive: "Absorption Theorem Re(λ) = −2γ⟨n_XY⟩ (PROOF_ABSORPTION_THEOREM); simulations/ibm_absorption_theorem.py",
+            Description:
+                "Retrospective Absorption-Theorem reading of the same 2026-02-09 Torino q52 tomography run (analysis 2026-04-04). " +
+                "The single-qubit coherence decays at the predicted Re(λ) = −2γ floor (⟨n_XY⟩ = 1), ratio 1.03. Predates the " +
+                "systematic registry campaign; shares the Feb-9 q52 data with cpsi_quarter_crossing_torino_feb2026.",
+            QubitPath: new[] { 52 }),
+
+        new Confirmation(
+            Name: "cpsi_quarter_crossing_torino_q80_mar2026",
+            Date: "2026-03-18",
+            Machine: "ibm_torino",
+            JobId: "palindrome_ibm_torino_20260318_191348 (data-file timestamp; no IBM job_id recorded)",
+            Observable: "CΨ = ¼ crossing time t* (8-point single-qubit tomography, q80 the \"permanent crosser\" of Run 3)",
+            PredictedValue:
+                "t* = 15.01 μs (from the same-day in-situ Ramsey T2* = 17.36 μs)",
+            MeasuredValue:
+                "t* = 15.29 μs, deviation 1.9% (0.28 μs). Qubit 80: T1 = 143.1-159 μs, same-day T2* = 17.36 μs (drifted 58% in " +
+                "6 days from 11.0 μs, which is why the prediction uses the same-day Ramsey, not the stale calibration)",
+            HardwareData: "data/ibm_run3_march2026/palindrome_ibm_torino_20260318_191348.json",
+            ExperimentDoc: "experiments/IBM_RUN3_PALINDROME.md",
+            FrameworkPrimitive: "F25 closed-form CΨ(t) + the CΨ = ¼ fold; same-day in-situ Ramsey T2*",
+            Description:
+                "The tightest Torino-era CΨ = ¼ confirmation (1.9%): Run 3 on q80, 2026-03-18, with a same-day in-situ Ramsey " +
+                "T2* (17.36 μs). Predates the systematic April-June campaign but is precision-grade because the in-situ T2* " +
+                "removed the calibration-drift error (q80 T2* had drifted 58% in 6 days). The earlier two Torino rows (Feb-9 " +
+                "q52) are looser; this one pins the fold to 0.28 μs.",
+            QubitPath: new[] { 80 }),
     };
 
     public static IReadOnlyList<Confirmation> All => _all;
