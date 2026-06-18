@@ -1,11 +1,39 @@
 # The star's frozen survivor is the structural ceiling, read dynamically
 
-**What this is about.** Watch the longest-lived coherence of a dephased spin network as you weaken the
-dephasing (raise `Q = J/γ`, the coupling-to-observation ratio). Does that survivor stay *frozen* (a pure
-decay, no oscillation, `|Im λ| = 0`) or does it *un-freeze* (start ringing)? The answer separates the
-topologies, and it gives the star its own place in a trichotomy the typed layer had named only for the
-chain and the ring. (`|Im λ|` is the imaginary part of the survivor's Liouvillian eigenvalue: its
-oscillation frequency. `g2 = 4/(N−1)` is the star's structural ceiling, the darkest reachable decay-gap.)
+**Status:** Tier 1 candidate (gate-verified N = 4..8, numerical). The star's longest-lived survivor
+never un-freezes for N ≥ 5; the frozen seam is the structural ceiling g2 = 4/(N−1) ≤ 1, read dynamically.
+**Date:** 2026-06-18
+**Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.8)
+**Typed claim:** [`StarFrozenSeamClaim`](../compute/RCPsiSquared.Core/Symmetry/StarFrozenSeamClaim.cs)
+(Tier 1 candidate) + the live witness `StarFrozenSeamWitness` (`inspect --root starseam`).
+**Verifier:** [`star_frozen_seam.py`](../simulations/star_frozen_seam.py) (self-validating, N = 4..8).
+**Builds on:** [`PROOF_STRUCTURAL_CEILING.md`](proofs/PROOF_STRUCTURAL_CEILING.md) §7 (the star has no
+coherence horizon, the structural ceiling g2 = 4/(N−1)); `SecondClockRegimeClaim`, `CoherenceHorizonClaim`.
+
+## What this is about
+
+Watch the longest-lived coherence of a dephased spin network as you weaken the dephasing (raise
+`Q = J/γ`, the coupling-to-observation ratio). Does that survivor stay *frozen* (a pure decay, no
+oscillation, `|Im λ| = 0`) or does it *un-freeze* (start ringing)? The answer separates the topologies,
+and it gives the star its own place in a trichotomy the typed layer had named only for the chain and the
+ring. (`|Im λ|` is the imaginary part of the survivor's Liouvillian eigenvalue, its oscillation
+frequency. `g2 = 4/(N−1)` is the star's structural ceiling, the darkest reachable decay-gap.)
+
+## Abstract
+
+A dephased spin network's longest-lived coherence is either frozen (overdamped, `|Im λ| = 0`) or
+oscillating, and which one it is as `Q = J/γ` grows separates the topologies. The chain and ring both
+*un-freeze*: the chain's `(p,p)` interior survivor yields to an oscillating `(0,1)` band edge above its
+coherence horizon `Q*(N)` (a square-root exceptional point of the dispersive band), and the ring's
+`(2,2)` frozen level crossing yields to its band edge above the handover. The **star does not.** Its
+survivor is the darkest `[H,A] = 0` commutant `(1,1)` coherence, which lies in the `ad_H` kernel
+(`−i[H,ρ] = 0`) and so cannot oscillate; it is frozen at *every* `Q`. But it is the survivor (the slowest
+mode) only when it undercuts the `−2γ` Absorption floor, i.e. exactly when the structural ceiling
+`g2 = 4/(N−1) ≤ 1`, which holds for `N ≥ 5`. `N = 4` (`g2 = 4/3 > 1`) is the outlier: the commutant mode
+is not dark enough, an oscillating band-edge mode wins, and the star un-freezes (max `|Im| = √3·J ≈ 1.73`,
+the `(2,2)`/`K₄` half-filling special case). So the star's frozen seam *is* the structural ceiling read
+dynamically, and it is the third member of the trichotomy chain (un-freezing SE-EP) / ring (level
+crossing) / star (commutant). Gate-verified `N = 4..8`; Tier 1 candidate.
 
 ## The finding
 
@@ -29,9 +57,9 @@ is frozen by construction. But it is only the *survivor* (the slowest mode) when
 `−2γ` Absorption floor, i.e. exactly when the ceiling `g2 = 4/(N−1) ≤ 1`:
 
 - `N ≥ 5` (`g2 ≤ 1`): the commutant coherence undercuts the floor, is the survivor, and is frozen at all
-  `Q`. Gate-verified frozen at `N = 5, 6, 7, 8` (max `|Im|` over the `Q` sweep `< 1e-15`).
+  `Q`. Gate-verified frozen at `N = 5, 6, 7, 8` (max `|Im|` over the `Q` sweep ≈ 1e-15, machine zero).
 - `N = 4` (`g2 = 4/3 > 1`): the commutant mode is not dark enough; an oscillating band-edge mode wins and
-  the star **un-freezes** (max `|Im| = 1.73`). This is the known star outlier (the `(2,2)`/`K₄` half-filling
+  the star **un-freezes** (max `|Im| = √3·J ≈ 1.73`). This is the known star outlier (the `(2,2)`/`K₄` half-filling
   special case).
 
 **So the star's frozen seam IS the structural ceiling `g2 = 4/(N−1) ≤ 1`, read dynamically.** The high-Q
