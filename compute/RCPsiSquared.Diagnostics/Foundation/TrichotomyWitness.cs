@@ -36,6 +36,32 @@ public sealed class TrichotomyWitness : IInspectable
     public int N { get; }
     public double Q { get; }
 
+    private const double RateTieTol = 1e-9; // an F1-conjugate (p,p)<->(N-p,N-p) rate-tie is exact in physics;
+                                            // independent eigensolves split it by ~ULPs. A new block must beat
+                                            // the incumbent by more than this to win, so the canonical (smallest-p)
+                                            // representative of a tied floor orbit is reported, not a noise pick.
+
+    /// <summary>The survivor sector + its rate, scanning the candidate low-light blocks
+    /// ((p,p) for p=1..N-1 plus the (0,1) band edge) with <see cref="SectorReductionWitness.SectorSlowest"/>
+    /// on the absolute convention (H = Q·H_unit, per-site γ-profile). One scale for Rate, the route gates,
+    /// and Deviation (a later task). The reported (PCol,PRow) of a Δn=1 survivor is the canonical (0,1)
+    /// representative of the band-edge floor orbit; for a (p,p) survivor it is the smallest-p representative
+    /// of the F1-conjugate ((p,p)~(N-p,N-p)) rate-tied orbit. The route keys on Δn + rate, not the literal
+    /// sector. Ties (within <see cref="RateTieTol"/>) keep the incumbent so the canonical representative is
+    /// stable against eigensolve noise.</summary>
+    public static (int PCol, int PRow, double Rate) SurvivorSector(
+        TopologyKind topo, int n, double q, IReadOnlyList<double> gammaProfile)
+    {
+        int bestPc = 0, bestPr = 1;
+        double best = SectorReductionWitness.SectorSlowest(n, q, gammaProfile, 0, 1, topo);
+        for (int p = 1; p <= n - 1; p++)
+        {
+            double r = SectorReductionWitness.SectorSlowest(n, q, gammaProfile, p, p, topo);
+            if (r < best - RateTieTol) { best = r; bestPc = p; bestPr = p; }
+        }
+        return (bestPc, bestPr, best);
+    }
+
     public string DisplayName => $"TrichotomyWitness (N={N}, Q={Q.ToString("0.###", Inv)})";
     public string Summary => "the chain/ring/star survivor trichotomy as one sweep; see --root starseam / horizon / surface";
     public IEnumerable<IInspectable> Children { get { yield break; } } // filled in a later task
