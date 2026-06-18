@@ -1,6 +1,9 @@
 using System.Globalization;
+using RCPsiSquared.Core.BlockSpectrum;
 using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Inspection;
+using RCPsiSquared.Core.Numerics;
+using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
@@ -60,6 +63,49 @@ public sealed class TrichotomyWitness : IInspectable
             if (r < best - RateTieTol) { best = r; bestPc = p; bestPr = p; }
         }
         return (bestPc, bestPr, best);
+    }
+
+    private const double KernelTol = 1e-7;
+
+    /// <summary>H = Q·H_unit = ChainSystem(N, J=2Q, XY).BuildHamiltonian() (off-diag Q): the SAME absolute
+    /// convention SectorReductionWitness.QHUnit uses, so the block here is the survivor block whose rate
+    /// <see cref="SurvivorSector"/> computed. Copied (not shared) to keep this witness self-contained.</summary>
+    private static ComplexMatrix QHUnit(int n, double q, TopologyKind topology) =>
+        new ChainSystem(n, 2.0 * q, 1.0, HamiltonianType.XY, topology).BuildHamiltonian();
+
+    /// <summary>The flat indices of the (pCol, pRow) sector. Copied verbatim from
+    /// SectorReductionWitness.SectorFlat (do NOT edit the shipped witness to expose it).</summary>
+    private static int[] SectorFlat(int n, int pCol, int pRow)
+    {
+        var decomp = JointPopcountSectorBuilder.Build(n);
+        var s = decomp.SectorRanges.First(r => r.PCol == pCol && r.PRow == pRow);
+        var flat = new int[s.Size];
+        for (int k = 0; k < s.Size; k++) flat[k] = decomp.Permutation[s.Offset + k];
+        return flat;
+    }
+
+    /// <summary>max|Im| of the slowest non-kernel pair (frozen ≈ 0 vs oscillating) and the min Petermann
+    /// phase rigidity (→ 0 at an EP) of the (pCol,pRow) survivor block, on the SAME absolute convention as
+    /// <see cref="SurvivorSector"/> (H = 2q·H_unit, the same per-site γ-profile, the same SectorFlat indices),
+    /// so the |Im|/rigidity belongs to the block whose rate SurvivorSector reported. Builds the block with the
+    /// SectorReductionWitness recipe (no 4^N). The star (1,1) commutant is frozen at every Q (|Im|≈0); the
+    /// chain (0,1) band edge oscillates above Q*(N).</summary>
+    public static (double ImMax, double Rigidity) ImAndRigidity(
+        TopologyKind topo, int n, double q, IReadOnlyList<double> gammaProfile, int pCol, int pRow)
+    {
+        var h = QHUnit(n, q, topo);
+        int[] flat = SectorFlat(n, pCol, pRow);
+        var block = PerBlockLiouvillianBuilder.BuildBlockZ(h, gammaProfile, flat);
+        // Mirror SectorReductionWitness.cs:126: PhaseRigidity.Compute(block) takes the BuildBlockZ result
+        // (a Matrix<Complex> = ComplexMatrix) verbatim; no conversion/adapter.
+        var modes = PhaseRigidity.Compute(block)
+            .Where(m => m.Lambda.Magnitude > KernelTol)   // drop the kernel (steady states)
+            .OrderByDescending(m => m.Lambda.Real)         // slowest = largest (least negative) Re
+            .ToList();
+        if (modes.Count == 0) return (0.0, 1.0);
+        double imMax = modes.Take(2).Max(m => Math.Abs(m.Lambda.Imaginary));
+        double rigidity = modes.Take(2).Min(m => m.Rigidity);
+        return (imMax, rigidity);
     }
 
     public string DisplayName => $"TrichotomyWitness (N={N}, Q={Q.ToString("0.###", Inv)})";

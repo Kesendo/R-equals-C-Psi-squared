@@ -36,4 +36,19 @@ public class TrichotomyWitnessTests
         var (pc, pr, _) = TrichotomyWitness.SurvivorSector(TopologyKind.Star, 5, 1.5, Uniform(5, 0.5));
         Assert.Equal((1, 1), (pc, pr));
     }
+
+    [Fact]
+    public void ImRigidity_Star5_Frozen()
+    {
+        var (im, _) = TrichotomyWitness.ImAndRigidity(TopologyKind.Star, 5, 8.0, Uniform(5, 0.5), 1, 1);
+        Assert.True(im < 1e-6, $"star (1,1) must be frozen at every Q; got |Im|={im}");
+    }
+
+    [Fact]
+    public void ImRigidity_Chain5_AboveQStar_Oscillates()
+    {
+        // Q*(5) ≈ 2.374; above it the (0,1) band edge oscillates.
+        var (im, _) = TrichotomyWitness.ImAndRigidity(TopologyKind.Chain, 5, 5.0, Uniform(5, 0.5), 0, 1);
+        Assert.True(im > 1e-2, $"chain (0,1) band edge must oscillate above Q*; got |Im|={im}");
+    }
 }
