@@ -20,14 +20,26 @@ public sealed class TrichotomyWitness : IInspectable
     // Tolerances (reuse the shared birth-canal tolerance later; do not invent literals).
     private const double ImTol = 1e-6;          // matches StarFrozenSeamWitness frozen/oscillating split
     private const double RigTol = 1e-2;          // matches the horizon EP detector
-    private const double CommutantRelTol = 1e-3; // relative match Rate ≈ 2γ·CommutantDarkest
+    // The commutant ceiling 2γ·CommutantDarkest is the high-Q ASYMPTOTE; at a finite carbon Q the frozen
+    // star (p,p) rate approaches it from below (relErr 1.6% at Q=8, 0.25% at Q=20, → 0 — gate-measured),
+    // so the match is RELATIVE to the rate, |rate − ceilingRate| / ceilingRate ≤ tol. 3e-2 catches the
+    // star's finite-Q approach at Q=8 yet rejects the ring interior, whose (p,p) survivor sits nowhere near
+    // its commutant ceiling (relErr 64–85% at N=5 — a level crossing, not a commutant ceiling). The window
+    // 1.6% < tol < 64% is wide; 3e-2 sits well inside it.
+    private const double CommutantRelTol = 3e-2; // RELATIVE match Rate ≈ 2γ·CommutantDarkest (high-Q asymptote)
 
-    public enum Route { UnfreezingSeEp, FrozenLevelCrossing, FrozenCommutant, OddDriftBandEdge, SterileBandEdge }
-    // Five labels, four physical routes: the (0,1) band edge carries two (Sterile/OddDrift, split by |Deviation|).
+    // TWO physical sweeps, two reads (the convention defect of a single Classify, resolved 2026-06-18):
+    //  - Route: the CARBON un-freeze trichotomy (Q = J/γ, uniform γ = 1/Q). Frozen (p,p) interior below
+    //    Q*, oscillating (0,1) band edge above. Read by ClassifyUnfreeze.
+    //  - SeamKind: the ABSOLUTE Δn-seam (fixed γ-profile, the global slowest's drift). Read by ClassifySeam.
+    public enum Route { UnfreezingSeEp, FrozenLevelCrossing, FrozenCommutant }
+    public enum SeamKind { Sterile, OddDrift, Junction }
 
     public readonly record struct SurvivorReading(
         int PCol, int PRow, int Dn, Route Route,
         double ImMax, double NXy, double Rate, double Rigidity, double Deviation);
+
+    public readonly record struct SeamReading(int DnLo, int DnHi, double Deviation, SeamKind Kind);
 
     public TrichotomyWitness(int n = 6, double q = 1.5)
     {
@@ -130,6 +142,99 @@ public sealed class TrichotomyWitness : IInspectable
         double GlobalSlowest(double q) => SurvivorSector(topo, n, q, gammaProfile).Rate;
         return GlobalSlowest(qHi) - GlobalSlowest(qLo);
     }
+
+    // ===================== TASK 5: the two-read Classify ===========================================
+
+    /// <summary>The carbon-convention coordinates of <see cref="IncompletenessSurvivorWitness.Survivor"/>:
+    /// off-diag hopping Qh=0.5 (the carbon J), uniform γ = 1/Q. <see cref="ImAndRigidity"/> and
+    /// <see cref="SectorSlowest"/> are ABSOLUTE (H = 2q·H_unit, off-diag q), so to read the SAME block
+    /// Survivor read, pass q'=Qh=0.5 and the uniform 1/Q profile. The carbon-mapping gate
+    /// (CarbonBlock_RateMatchesSurvivor) pins this: CarbonSlowestRate == Survivor.Gap to 9 digits.</summary>
+    private const double CarbonQh = 0.5; // = IncompletenessSurvivorWitness.Qh (its private carbon J builder)
+
+    private static IReadOnlyList<double> CarbonProfile(int n, double Q) =>
+        Enumerable.Repeat(1.0 / Q, n).ToList();
+
+    /// <summary>The slowest non-kernel rate of the carbon (pc,pr) block — the SAME block, built the SAME
+    /// way, as <see cref="IncompletenessSurvivorWitness.Survivor"/> (off-diag Qh=0.5, uniform γ=1/Q). Used
+    /// by the carbon-mapping gate to certify the |Im|/rigidity block is the canonical Survivor block.</summary>
+    public static double CarbonSlowestRate(TopologyKind topo, int n, double Q, int pc, int pr) =>
+        SectorReductionWitness.SectorSlowest(n, CarbonQh, CarbonProfile(n, Q), pc, pr, topo);
+
+    /// <summary>|Im| / phase-rigidity of the SINGLE slowest non-kernel mode of the carbon (pc,pr) survivor
+    /// block (q'=Qh=0.5, uniform γ=1/Q — bit-identical to <see cref="IncompletenessSurvivorWitness.Survivor"/>'s
+    /// block; pinned by <see cref="CarbonSlowestRate"/> == Survivor.Gap). Unlike the absolute
+    /// <see cref="ImAndRigidity"/> (which reads a 2-mode pair for the band-edge {0,2} EP), the un-freeze read
+    /// is about the SURVIVOR itself: the single slowest mode. Below Q* the chain (1,1) survivor is the
+    /// overdamped-REAL SE-EP (|Im|≈0, frozen) while a far faster pair in the same block oscillates — taking
+    /// the pair would mislabel the frozen survivor. This matches the Python verifier's slowest() (the single
+    /// slowest mode's |Im|), the discriminator birth_canal_junction_nature.py reads.</summary>
+    public static (double ImMax, double Rigidity) CarbonImAndRigidity(
+        TopologyKind topo, int n, double Q, int pc, int pr)
+    {
+        var h = QHUnit(n, CarbonQh, topo);
+        int[] flat = SectorFlat(n, pc, pr);
+        var block = PerBlockLiouvillianBuilder.BuildBlockZ(h, CarbonProfile(n, Q), flat);
+        var slow = PhaseRigidity.Compute(block)
+            .Where(m => m.Lambda.Magnitude > KernelTol)   // drop the kernel (steady states)
+            .OrderByDescending(m => m.Lambda.Real)         // slowest = largest (least negative) Re
+            .FirstOrDefault();
+        if (slow.Right is null) return (0.0, 1.0);
+        return (Math.Abs(slow.Lambda.Imaginary), slow.Rigidity);
+    }
+
+    /// <summary>The carbon-convention un-freeze read (Q = J/γ, uniform γ = 1/Q): frozen (p,p) interior below
+    /// Q*, oscillating (0,1) band edge above. Drives RouteSweep + ThresholdLadder. The survivor sector is the
+    /// canonical IncompletenessSurvivorWitness.Survivor (J=1, γ=1/Q, validated bit-for-bit vs the full 4^N);
+    /// |Im|/rigidity are read off the SAME carbon block.</summary>
+    public static SurvivorReading ClassifyUnfreeze(TopologyKind topo, int n, double Q)
+    {
+        var (rate, pc, pr, nXy) = IncompletenessSurvivorWitness.Survivor(n, Q, topo); // (Gap, PCol, PRow, NXy)
+        int dn = Math.Abs(pc - pr);
+        var (imMax, rigidity) = CarbonImAndRigidity(topo, n, Q, pc, pr);
+        Route route;
+        if (dn == 1) route = Route.UnfreezingSeEp;       // the (0,1) band edge above Q* (oscillating)
+        else
+        {
+            double? commutant = StructuralCeilingWitness.CommutantDarkest(TopoString(topo), n, pc, pr);
+            double gamma = 1.0 / Q;
+            double ceilingRate = commutant.HasValue ? 2.0 * gamma * commutant.Value : double.PositiveInfinity;
+            // RELATIVE match to the high-Q commutant asymptote: the star (p,p) survivor sits ON the ceiling
+            // (relErr → 0); the ring's interior level crossing sits far below it (relErr O(1)).
+            double relErr = double.IsPositiveInfinity(ceilingRate) ? double.PositiveInfinity
+                          : Math.Abs(rate - ceilingRate) / ceilingRate;
+            if (relErr <= CommutantRelTol)
+                route = Route.FrozenCommutant;            // star N≥5 (flat-band non-dispersive hub)
+            else
+                route = topo == TopologyKind.Chain ? Route.UnfreezingSeEp : Route.FrozenLevelCrossing; // R1 topo-key
+        }
+        return new SurvivorReading(pc, pr, dn, route, imMax, nXy, rate, rigidity, 0.0);
+    }
+
+    /// <summary>The absolute-convention sterile/odd-drift/junction read (fixed γ-profile, the global slowest's
+    /// drift between Q_lo and Q_hi). Drives DeltaNSeam. Reproduces birth_canal_junction_nature.py.</summary>
+    public static SeamReading ClassifySeam(TopologyKind topo, int n, IReadOnlyList<double> gammaProfile)
+    {
+        const double qLo = 1.5, qHi = 1000.0;
+        int dnLo = AbsDn(SurvivorSector(topo, n, qLo, gammaProfile));
+        int dnHi = AbsDn(SurvivorSector(topo, n, qHi, gammaProfile));
+        double dev = Deviation(topo, n, gammaProfile);
+        SeamKind kind = Math.Abs(dev) < PostEpFlowField.BirthCanalTolerance ? SeamKind.Sterile
+                      : dnLo != dnHi ? SeamKind.Junction      // the interior overtakes at low Q (Δn flips 0→1)
+                      : SeamKind.OddDrift;                      // the (0,1) edge drifts, no Δn switch
+        return new SeamReading(dnLo, dnHi, dev, kind);
+    }
+
+    private static int AbsDn((int PCol, int PRow, double Rate) s) => Math.Abs(s.PCol - s.PRow);
+
+    /// <summary>The lowercase topology name <see cref="StructuralCeilingWitness.CommutantDarkest"/> keys on.</summary>
+    private static string TopoString(TopologyKind topo) => topo switch
+    {
+        TopologyKind.Chain => "chain",
+        TopologyKind.Ring => "ring",
+        TopologyKind.Star => "star",
+        _ => throw new ArgumentOutOfRangeException(nameof(topo), topo, "unsupported topology"),
+    };
 
     public string DisplayName => $"TrichotomyWitness (N={N}, Q={Q.ToString("0.###", Inv)})";
     public string Summary => "the chain/ring/star survivor trichotomy as one sweep; see --root starseam / horizon / surface";

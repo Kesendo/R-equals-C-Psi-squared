@@ -71,4 +71,78 @@ public class TrichotomyWitnessTests
         var deep = new[] { 0.25, 1.375, 1.375, 1.375, 1.375, 0.25 };
         Assert.Equal(0.4079, TrichotomyWitness.Deviation(TopologyKind.Chain, 6, deep), 3);
     }
+
+    // ====================== TASK 5: the two-read Classify ============================
+    // CARBON read (Q = J/γ, uniform γ = 1/Q): ClassifyUnfreeze drives the un-freeze trichotomy.
+
+    [Fact] // THE R1 GATE — now correct under the carbon read
+    public void ClassifyUnfreeze_ChainBelowQStar_FrozenInterior_UnfreezingSeEp()
+    {
+        var r = TrichotomyWitness.ClassifyUnfreeze(TopologyKind.Chain, 5, 1.5); // Q=1.5 < Q*(5)≈2.374 (carbon)
+        Assert.Equal(0, r.Dn);                 // frozen (p,p) interior
+        Assert.True(r.ImMax < 1e-6, $"frozen below the horizon; got |Im|={r.ImMax}");
+        Assert.Equal(TrichotomyWitness.Route.UnfreezingSeEp, r.Route);
+    }
+
+    [Fact]
+    public void ClassifyUnfreeze_ChainAboveQStar_BandEdgeOscillates()
+    {
+        var r = TrichotomyWitness.ClassifyUnfreeze(TopologyKind.Chain, 5, 5.0);
+        Assert.Equal(1, r.Dn);
+        Assert.True(r.ImMax > 1e-2, $"band edge oscillates above Q*; got |Im|={r.ImMax}");
+        Assert.Equal(TrichotomyWitness.Route.UnfreezingSeEp, r.Route);
+    }
+
+    [Fact]
+    public void ClassifyUnfreeze_Star5_FrozenCommutant()
+    {
+        var r = TrichotomyWitness.ClassifyUnfreeze(TopologyKind.Star, 5, 8.0);
+        Assert.Equal(TrichotomyWitness.Route.FrozenCommutant, r.Route);
+        Assert.True(r.ImMax < 1e-6, $"star (1,1) commutant is frozen at every Q; got |Im|={r.ImMax}");
+    }
+
+    [Fact]
+    public void ClassifyUnfreeze_Ring5_FrozenLevelCrossing()
+    {
+        // GATE-FIRST CORRECTION (2026-06-18): the spec's Q=1.5 is ABOVE the ring N=5 interior handover —
+        // at Q=1.5 the ring survivor is the (0,1) band edge (Dn=1), gap=2γ=1.333 (gate-measured). The ring
+        // interior (the frozen V-Effect level crossing) only wins below Q≈1.3 (handover grows ~0.29N). At
+        // Q=1.0 the survivor is the frozen (1,1) interior (slowIm=0), whose rate sits 76% below its commutant
+        // ceiling (a level crossing, not a commutant ceiling) -> FrozenLevelCrossing. Diagnosed, not loosened.
+        var r = TrichotomyWitness.ClassifyUnfreeze(TopologyKind.Ring, 5, 1.0);
+        Assert.Equal(0, r.Dn);
+        Assert.True(r.ImMax < 1e-6, $"ring interior is a frozen level crossing; got |Im|={r.ImMax}");
+        Assert.Equal(TrichotomyWitness.Route.FrozenLevelCrossing, r.Route);
+    }
+
+    [Fact] // the carbon-mapping gate: the carbon block rate == the canonical Survivor.Gap
+    public void CarbonBlock_RateMatchesSurvivor()
+    {
+        const int n = 5; const double Q = 1.5;
+        var (gap, pc, pr, _) = IncompletenessSurvivorWitness.Survivor(n, Q, TopologyKind.Chain);
+        // The carbon |Im|/rigidity block is built the SAME way Survivor builds its block (Qh=0.5,
+        // uniform γ=1/Q). Its slowest non-kernel rate must equal Survivor.Gap to ~9 digits, else
+        // the |Im| we read belongs to a different block. CarbonSlowestRate exposes that rate.
+        double carbonRate = TrichotomyWitness.CarbonSlowestRate(TopologyKind.Chain, n, Q, pc, pr);
+        Assert.Equal(gap, carbonRate, 9);
+    }
+
+    // ABSOLUTE read (fixed γ-profile): ClassifySeam drives the Δn-seam, reproducing the script.
+
+    [Fact] // the seam read — absolute, matching birth_canal_junction_nature.py
+    public void ClassifySeam_Uniform_Sterile_Canal_OddDrift_DeepEdge_Junction()
+    {
+        // uniform N=5: probe window above Q*(5), the (0,1) band edge is Q-flat -> sterile.
+        Assert.Equal(TrichotomyWitness.SeamKind.Sterile,
+            TrichotomyWitness.ClassifySeam(TopologyKind.Chain, 5, Uniform(5, 0.5)).Kind);
+        // canal N=5: edge-protected (0,1) survivor drifts, no Δn switch -> odd-drift.
+        var canal = new[] { 0.25, 1.5, 1.5, 1.5, 0.25 }; // exact from the script (line 281)
+        Assert.Equal(TrichotomyWitness.SeamKind.OddDrift,
+            TrichotomyWitness.ClassifySeam(TopologyKind.Chain, 5, canal).Kind);
+        // deep-edge N=6: deep_edge(6,0.25)=[0.25,1.375x4,0.25]; interior (2,2) overtakes at low Q,
+        // the survivor's Δn flips 0->1 -> junction.
+        var deep = new[] { 0.25, 1.375, 1.375, 1.375, 1.375, 0.25 };
+        Assert.Equal(TrichotomyWitness.SeamKind.Junction,
+            TrichotomyWitness.ClassifySeam(TopologyKind.Chain, 6, deep).Kind);
+    }
 }
