@@ -5,7 +5,8 @@ witness already computes).
 **Date:** 2026-06-18
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.8)
 **Witness:** `inspect --root trichotomy` ([`TrichotomyWitness`](../compute/RCPsiSquared.Diagnostics/Foundation/TrichotomyWitness.cs))
-**Figure:** [`trichotomy_witness_figure.py`](../simulations/trichotomy_witness_figure.py)
+**Figures:** [`trichotomy_witness_figure.py`](../simulations/trichotomy_witness_figure.py) (darkness),
+[`_trichotomy_ep_figure.py`](../simulations/_trichotomy_ep_figure.py) (the rigidity EP)
 
 ## What this is about
 
@@ -41,17 +42,17 @@ What the witness prints (`inspect --root trichotomy --N 6 --max-depth 3`):
 TrichotomyWitness (N=6, Q=1.5)  —  the chain/ring/star survivor trichotomy as one sweep
 ├── the route sweep (carbon): survivor + freeze-route across Q
 │   ├── chain
-│   │   ├── Q=1     (1,1) Δn=0 | UnfreezingSeEp | frozen      | ⟨n_XY⟩=0.069
-│   │   ├── Q=2     (2,2) Δn=0 | UnfreezingSeEp | frozen      | ⟨n_XY⟩=0.307
-│   │   └── Q=3     (0,1) Δn=1 | UnfreezingSeEp | oscillating | ⟨n_XY⟩=1     ← un-freezes at Q*(6)≈2.88
+│   │   ├── Q=1     (1,1) Δn=0 | UnfreezingSeEp | frozen      | r=0.93 | ⟨n_XY⟩=0.069
+│   │   ├── Q=2     (2,2) Δn=0 | UnfreezingSeEp | frozen      | r=0.70 | ⟨n_XY⟩=0.307   ← r dips toward the EP
+│   │   └── Q=3     (0,1) Δn=1 | UnfreezingSeEp | oscillating | r=1.00 | ⟨n_XY⟩=1       ← un-freezes at Q*(6)≈2.88
 │   ├── ring
-│   │   ├── Q=1.5   (2,2) Δn=0 | FrozenLevelCrossing | frozen      | ⟨n_XY⟩=0.632
-│   │   ├── Q=2     (2,2) Δn=0 | FrozenLevelCrossing | frozen      | ⟨n_XY⟩=1     ← reaches the floor at Q_h=2
-│   │   └── Q=3     (0,1) Δn=1 | UnfreezingSeEp      | oscillating | ⟨n_XY⟩=1
+│   │   ├── Q=1.5   (2,2) Δn=0 | FrozenLevelCrossing | frozen      | r=0.51 | ⟨n_XY⟩=0.632
+│   │   ├── Q=2     (2,2) Δn=0 | FrozenLevelCrossing | frozen      | r=0.50 | ⟨n_XY⟩=1     ← bounded r: a crossing, not an EP
+│   │   └── Q=3     (0,1) Δn=1 | UnfreezingSeEp      | oscillating | r=0.98 | ⟨n_XY⟩=1
 │   └── star
-│       ├── Q=1.5   (1,1) Δn=0 | FrozenCommutant | frozen | ⟨n_XY⟩=0.425
-│       ├── Q=6     (5,5) Δn=0 | FrozenCommutant | frozen | ⟨n_XY⟩=0.774
-│       └── Q=50    (1,1) Δn=0 | FrozenCommutant | frozen | ⟨n_XY⟩=0.8       ← saturates on the ceiling
+│       ├── Q=1.5   (1,1) Δn=0 | FrozenCommutant | frozen | r=0.43 | ⟨n_XY⟩=0.425
+│       ├── Q=6     (5,5) Δn=0 | FrozenCommutant | frozen | r=0.91 | ⟨n_XY⟩=0.774
+│       └── Q=50    (1,1) Δn=0 | FrozenCommutant | frozen | r=0.87 | ⟨n_XY⟩=0.8       ← saturates on the ceiling
 ├── the threshold ladder over N
 │   ├── N=4   chain Q*=1.879 | ring Q_h=n/a | star g₂=1.333 → UN-FREEZES (g₂>1; the outlier)
 │   ├── N=5   chain Q*=2.372 | ring Q_h=1.491 | star g₂=1.0   → UN-FREEZES (marginal)
@@ -66,15 +67,45 @@ TrichotomyWitness (N=6, Q=1.5)  —  the chain/ring/star survivor trichotomy as 
 
 (Abridged; the live root sweeps Q ∈ {1, 1.5, 2, 3, 6, 12, 25, 50} and N = 4…8 in full.)
 
+## The third axis: rigidity
+
+The route row carries a third number besides `⟨n_XY⟩` (the rate) and `|Im|` (does it oscillate):
+`r`, the **Petermann phase rigidity** of the survivor's slowest mode — the same `r = 1/(‖R⁻¹_row‖·‖R_col‖)`
+the horizon witness uses to locate the chain EP. The witness computed it all along; the row now shows it.
+`r ∈ (0,1]`: `r = 1` is a clean, isolated, normal mode; `r → 0` is an **exceptional point** (left and
+right eigenvectors coalesce, the Petermann factor `1/r²` diverges) — not the same thing as a mere
+eigenvalue degeneracy, where `r` stays bounded. So `r` reads the **mechanism**, not just the outcome.
+
+Pin the half-filling `(m,m)` coherence sector and sweep `Q` through the transition (the route row only
+sees `r` while that sector is the survivor; pinning shows the whole curve):
+
+![rigidity r(Q) per topology in the half-filling sector: chain collapses to r→0 at Q*(N)](figures/coherence_horizon_is_an_EP.png)
+
+| sector `(m,m)` | chain | ring | star |
+|----------------|-------|------|------|
+| N=4 `(2,2)` | `r → 0.05` at **Q=1.88**, coincident with the `|Im|` birth — an **EP** at `Q*(4)=1.879` | `r` bottoms at `0.43`, `|Im|` **never born** — the K₄/`(2,2)` commutant outlier (frozen, no handover; the ladder's `Q_h=n/a`) | `r` dips, `|Im|` **never born** — frozen |
+| N=6 `(3,3)` | `r → 0.03` at **Q=2.89**, coincident with the `|Im|` birth — an **EP** at `Q*(6)=2.884` | `r` bottoms at `0.31`, dip and onset at different `Q` — a **level crossing** | `r` dips, no `|Im|` onset — frozen |
+
+The three route *labels* — `UnfreezingSeEp` / `FrozenLevelCrossing` / `FrozenCommutant` — are assigned in
+the witness by topology. The rigidity **measures** them, from a different observable: only the chain hits
+`r → 0` coincident with the oscillation birth, and it lands exactly on the closed-form `Q*(N)`. The ring's
+`r` stays bounded with its dip and its onset at different `Q` (a crossing); the star's `r` dips but no
+oscillation is ever born (frozen). Three names become one measured axis.
+
 ## What one concludes
 
 1. **Three topologies, three freeze-routes, one object.** The chain un-freezes through a square-root
    exceptional point (the dispersive band), the ring through a level crossing yielding to its band edge,
    the star never (its commutant survivor is frozen by construction). The map they were narrated across
-   is now one read.
-2. **The structural ceiling is a dynamical fact.** The star's darkness saturates on `g₂ = 4/(N−1)` —
-   the high-Q closed form (F122, proven by a principal-angle argument) is the value the slowest mode's
-   decay actually approaches. The static proof and the dynamical sweep meet on one number.
+   is now one read — and the rigidity `r` (above) **measures** the three mechanisms, rather than asserting
+   them: `r → 0` at the chain EP, bounded for the ring crossing, no oscillation onset for the star.
+2. **The structural ceiling is a dynamical fact, floor-capped.** The star's darkness saturates on
+   `min(g₂, 1)` with `g₂ = 4/(N−1)`: for `N ≥ 6` (`g₂ < 1`) it lands on `g₂` and stays frozen *below* the
+   floor (0.800 at N=6, 0.667 at N=7 — the F122 high-Q closed form, proven by a principal-angle argument,
+   is the value the slowest mode's decay actually approaches); for `N ≤ 5` (`g₂ ≥ 1`) the ceiling is above
+   the `−2γ` floor, so the darkness hits `1` and the star **un-freezes** like the chain and ring (the N=4
+   outlier, N=5 marginal). The single statement `⟨n_XY⟩(Q→∞) = min(g₂, 1)` is exactly the threshold
+   ladder's "un-freezes iff `g₂ > 1`". The static proof and the dynamical sweep meet on one number.
 3. **Un-freezing is a sector switch.** Where the chain/ring reach the floor, the survivor's identity
    flips from the number-conserving `(p,p)` interior (Δn=0) to the number-changing `(0,1)` band edge
    (Δn=1). That same Δn-flip is the **junction** of the sterile↔birth-canal seam (the deep-edge row) —
@@ -95,5 +126,7 @@ found this, and the split is the fix.
   [`STERILE_BIRTHCANAL_AND_THE_JUNCTION.md`](STERILE_BIRTHCANAL_AND_THE_JUNCTION.md),
   [`proofs/PROOF_STRUCTURAL_CEILING.md`](proofs/PROOF_STRUCTURAL_CEILING.md) (F122),
   [`proofs/PROOF_COHERENCE_HORIZON_SLOPE.md`](proofs/PROOF_COHERENCE_HORIZON_SLOPE.md).
-- Regenerate the figure: [`simulations/trichotomy_witness_figure.py`](../simulations/trichotomy_witness_figure.py)
-  (data verbatim from `inspect --root trichotomy --N 6`).
+- Regenerate the figures: [`simulations/trichotomy_witness_figure.py`](../simulations/trichotomy_witness_figure.py)
+  (darkness, data verbatim from `inspect --root trichotomy --N 6`) and
+  [`simulations/_trichotomy_ep_figure.py`](../simulations/_trichotomy_ep_figure.py) (the rigidity EP, from a
+  half-filling-sector `Q`-sweep of the witness' public `CarbonImAndRigidity` / `CarbonSlowestRate`).
