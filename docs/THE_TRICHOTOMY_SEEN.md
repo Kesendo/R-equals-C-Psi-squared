@@ -1,7 +1,7 @@
 # The trichotomy, seen
 
-**Status:** A reading of the live witness `inspect --root trichotomy` (no new result; it shows what the
-witness already computes).
+**Status:** A reading of the live witness `inspect --root trichotomy`: its picture, assembled into one
+figure and one tree so it is legible without running anything.
 **Date:** 2026-06-18
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.8)
 **Witness:** `inspect --root trichotomy` ([`TrichotomyWitness`](../compute/RCPsiSquared.Diagnostics/Foundation/TrichotomyWitness.cs))
@@ -20,6 +20,11 @@ The survivor's **darkness** is `⟨n_XY⟩ = Re(λ) / (−2γ)`: how slowly the 
 in units of the dephasing. `⟨n_XY⟩ = 1` is the `−2γ` Absorption floor (the band edge). `Q = J/γ` is the
 coupling-to-dephasing ratio; raising it means weakening the dephasing (watching the chain less hard).
 
+A coherence is labelled `(a,b)` by how many excitations its two sides carry (the bra and ket particle
+numbers, the joint popcount); `Δn = |a − b|` counts the places the two sides disagree. `(p,p)` (Δn=0) is a
+number-conserving *interior* coherence; `(0,1)` (Δn=1) is the single-excitation *band edge*. The survivor is
+whichever sector holds the longest-lived mode; at half filling `m = N/2` the interior is `(m,m)`.
+
 ## The one figure
 
 ![survivor darkness ⟨n_XY⟩ vs Q for chain, ring, star at N=6](figures/trichotomy_nxy_vs_q.png)
@@ -34,6 +39,11 @@ The question the trichotomy answers: **does the longest-lived survivor reach the
 
 That saturation at 0.8 is the structural ceiling (F122) read **dynamically**: the proof's high-Q closed
 form `g₂ = 4/(N−1)` is exactly the value the darkness lands on.
+
+A note on the coordinate: `⟨n_XY⟩` measures longevity, and `1` is its top, the band-edge value the chain and
+ring climb *up* to. "Floor" names the `−2γ` rate floor seen from the spectrum; "ceiling" names the structural
+cap `g₂` on the commutant darkness. For `N ≥ 6` that cap sits below `1`, so here the ceiling is numerically
+*below* the floor, and the star stops short of the band edge.
 
 ## The rendered tree
 
@@ -55,7 +65,7 @@ TrichotomyWitness (N=6, Q=1.5)  —  the chain/ring/star survivor trichotomy as 
 │       ├── Q=6     (5,5) Δn=0 | FrozenCommutant | frozen | r=0.91 | ⟨n_XY⟩=0.774
 │       └── Q=50    (1,1) Δn=0 | FrozenCommutant | frozen | r=0.87 | ⟨n_XY⟩=0.8       ← saturates on the ceiling
 ├── the threshold ladder over N
-│   ├── N=4   chain Q*=1.879 | ring Q_h=n/a | star g₂=1.333 → UN-FREEZES (g₂>1; the outlier)
+│   ├── N=4   chain Q*=1.879 | ring Q_h=n/a | star g₂=1.333 → UN-FREEZES (g₂>1; the star outlier)
 │   ├── N=5   chain Q*=2.372 | ring Q_h=1.491 | star g₂=1.0   → UN-FREEZES (marginal)
 │   ├── N=6   chain Q*=2.884 | ring Q_h=2.0   | star g₂=0.8   → frozen (g₂≤1)
 │   └── N=8   chain Q*=3.940 | ring Q_h=2.35  | star g₂=0.571 → frozen (g₂≤1)
@@ -84,7 +94,7 @@ sees `r` while that sector is the survivor; pinning shows the whole curve):
 
 | sector `(m,m)` | chain | ring | star |
 |----------------|-------|------|------|
-| N=4 `(2,2)` | `r → 0.05` at **Q=1.88**, coincident with the `|Im|` birth — an **EP** at `Q*(4)=1.879` | `r` bottoms at `0.43`, `|Im|` **never born** — the K₄/`(2,2)` commutant outlier (frozen, no handover; the ladder's `Q_h=n/a`) | `r` dips, `|Im|` **never born** — frozen |
+| N=4 `(2,2)` | `r → 0.05` at **Q=1.88**, coincident with the `|Im|` birth — an **EP** at `Q*(4)=1.879` | `r` bottoms at `0.43`, `|Im|` **never born**: the ring's lone frozen case, its `(2,2)` sector sitting on the same commutant ceiling as the complete graph `K₄` (no handover; the ladder's `Q_h=n/a`) | `r` dips, `|Im|` **never born** — frozen |
 | N=6 `(3,3)` | `r → 0.03` at **Q=2.89**, coincident with the `|Im|` birth — an **EP** at `Q*(6)=2.884` | `r` bottoms at `0.31`, dip and onset at different `Q` — a **level crossing** | `r` dips, no `|Im|` onset — frozen |
 
 The three route *labels* — `UnfreezingSeEp` / `FrozenLevelCrossing` / `FrozenCommutant` — are assigned in
@@ -106,20 +116,21 @@ Resolved at our coherence horizon, the chain's `K` diverges with the textbook se
 
 ![the Petermann factor K=1/r² diverges at the coherence horizon Q*(N)](figures/petermann_factor_diverges_at_horizon.png)
 
-`r ~ |Q − Q*|^{1/2}` (measured exponent 0.49 / 0.49 / 0.58 at N = 4 / 5 / 6) so `K ~ 1/|Q − Q*|` — a clean,
-symmetric divergence centred on the closed-form `Q*(N)` (the N=6 peak reaches `K ≈ 7.6·10⁴` at `r = 0.0036`).
+`r ~ |Q − Q*|^{1/2}` (measured 0.49 / 0.49 / 0.58 at N = 4 / 5 / 6, scattered around ½ by the fit window and
+finite size) so `K ~ 1/|Q − Q*|`, a symmetric divergence centred on the closed-form `Q*(N)` (the N=6 peak
+reaches `K ≈ 7.6·10⁴` at `r = 0.0036`). The exponent ½ is the second-order-EP prediction.
 The ring stays bounded (a level crossing is not an EP); the star's smaller, off-`Q*` spikes are separate real
 coalescences in this non-survivor sector, not the horizon.
 
-Physically: at the horizon the longest-lived coherence becomes a **defective, self-orthogonal** mode — its
-left and right eigenvectors coalesce — and so it is the point of **maximal sensitivity**, the same fragility
+Physically: at the horizon the longest-lived coherence becomes a **defective, self-orthogonal** mode (its
+left and right eigenvectors coalesce), and so it is the point of **maximal sensitivity**, the same fragility
 Petermann's `K` measures in a laser and that EP sensors exploit today. In an open (Liouvillian) system `K` is
-the excess-sensitivity factor in the general non-Hermitian sense, not literally a laser linewidth, but the
-structure is one: non-orthogonality → diverging sensitivity.
+the excess-sensitivity factor in the general non-Hermitian sense: the same non-orthogonality → diverging
+sensitivity that Petermann found in the laser, now carried by the Liouvillian.
 
-We did not make `K`, nor the EP divergence. We found *where* they touch down in this system, and with which
-exponent: Petermann saw one face (the laser), the EP community another (the divergence), here it is the
-dephased chain, pinned to `Q*(N)`. Seen, not new.
+`K` and the EP divergence are Petermann's and the non-Hermitian community's; what is ours is the *address*.
+Petermann saw it in a laser, the EP-sensing line in the divergence; here it is in the dephased chain, pinned
+to the closed-form `Q*(N)` with exponent ½. The same structure, a new place it lands.
 
 ## What one concludes
 
@@ -137,8 +148,10 @@ dephased chain, pinned to `Q*(N)`. Seen, not new.
    ladder's "un-freezes iff `g₂ > 1`". The static proof and the dynamical sweep meet on one number.
 3. **Un-freezing is a sector switch.** Where the chain/ring reach the floor, the survivor's identity
    flips from the number-conserving `(p,p)` interior (Δn=0) to the number-changing `(0,1)` band edge
-   (Δn=1). That same Δn-flip is the **junction** of the sterile↔birth-canal seam (the deep-edge row) —
-   the two facets are one quantity, `rate_slow(Q) = min over Δn-sorted sectors`.
+   (Δn=1). That same Δn-flip is the **junction** of the sterile↔birth-canal seam (the deep-edge row): the
+   sterile / odd-drift / junction rows classify how the slowest mode's disagreement pattern drifts as the
+   γ-profile changes (detailed in [`STERILE_BIRTHCANAL_AND_THE_JUNCTION.md`](STERILE_BIRTHCANAL_AND_THE_JUNCTION.md)).
+   The two facets are one quantity, `rate_slow(Q) = min over Δn-sorted sectors`.
 
 ## Two conventions, on purpose
 
