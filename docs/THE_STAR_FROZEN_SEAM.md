@@ -55,6 +55,9 @@ star by a **commutant** (the mode commutes with `H`). Both are frozen; the chain
   (the sector-projected survivor, validated bit-for-bit vs the full `4^N` `L` at `N = 4`).
 - The ceiling: `docs/proofs/PROOF_STRUCTURAL_CEILING.md` (`g2 = 4/(N−1)`, §7 no-horizon); `StructuralCeilingClaim`,
   `SecondClockRegimeClaim` (the regimes), `CoherenceHorizonClaim` (the chain's un-freezing).
+- Typed: `StarFrozenSeamClaim` (Core/Symmetry, Tier1Candidate, parents `StructuralCeilingClaim` +
+  `SecondClockRegimeClaim`) + the live witness `StarFrozenSeamWitness` (`inspect --root starseam`, recomputes the
+  `g2 = 4/(N−1)` commutant ceiling and the `|Im|(Q)` frozen/un-freeze sweep, N≤5).
 - The seam picture this extends: `docs/STERILE_BIRTHCANAL_AND_THE_JUNCTION.md` (chain/ring frozen vs
   oscillating); the sibling negative result `experiments/THE_HUB_KILLS_THE_HORIZON.md` (a hub removes the
   horizon however dispersive the leaves).

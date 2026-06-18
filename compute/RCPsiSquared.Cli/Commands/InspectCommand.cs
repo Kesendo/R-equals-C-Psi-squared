@@ -508,6 +508,8 @@ public static class InspectCommand
             _ => new CoherenceHorizonWitness(), RequiresN: false),
         new("secondclock", "the stitch: the {0,2}/half-filling coherence (the second clock) is ONE mode whose regime = map(band degeneracy, dispersion) — joining the EP horizon, the structural ceiling, and the gradual star into one node (live N=4 full-Liouvillian gate)",
             _ => new SecondClockRegimeWitness(), RequiresN: false),
+        new("starseam", "the star's frozen seam: the longest-lived coherence never un-freezes (N≥5) — its survivor is the [H,A]=0 commutant (1,1) coherence, frozen by construction, the survivor iff g2=4/(N−1)≤1; N=4 (4/3>1) un-freezes (the (2,2)/K₄ outlier). The third member of chain(SE-EP)/ring(frozen crossing)/star(frozen commutant): the structural ceiling read dynamically",
+            _ => new StarFrozenSeamWitness(), RequiresN: false),
         new("niven", "the Niven root: Niven's theorem on the SE cyclotomic angle π/(N+1) is the number-theoretic ceiling on the spectrum's closed forms (three faces; N=4 = first golden, band edge = φ); the arithmetic root of the small-N specials",
             _ => new NivenRationalityRootWitness(), RequiresN: false),
         new("decoder", "reading power measured live: Fisher information vs Q per readout basis - resolution grows with the Q-factor; the exceptional point reads worst",

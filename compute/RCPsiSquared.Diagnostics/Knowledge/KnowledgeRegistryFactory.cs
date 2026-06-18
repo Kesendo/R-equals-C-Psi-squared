@@ -410,6 +410,16 @@ public static class KnowledgeRegistryFactory
             // weaker, Tier1Candidate, caps this child) + StructuralCeilingClaim (Tier1Derived). Gate-verified 15/15
             // (simulations/second_clock_regime_axis.py); live N=4 full-Liouvillian gate (inspect --root secondclock).
             .RegisterSecondClockRegimeClaim()
+            // The star's frozen seam (Tier1Candidate, 2026-06-18): on the star the longest-lived coherence never
+            // un-freezes — its survivor is the darkest [H,A]=0 commutant (1,1) coherence (frozen by living in the
+            // ad_H kernel), the survivor exactly when it undercuts the −2γ floor, i.e. g2=4/(N−1)≤1 (N≥5). N=4
+            // (4/3>1) un-freezes (the band edge wins, the (2,2)/K₄ outlier). The third member of the trichotomy
+            // chain(SE-EP un-freeze)/ring(frozen level crossing)/star(frozen commutant); the structural ceiling
+            // read dynamically. Two typed parents, both registered above: StructuralCeilingClaim (Tier1Derived,
+            // the g2 threshold + the commutant mechanism) + SecondClockRegimeClaim (Tier1Candidate, the regime
+            // map it sharpens; caps this child). Gate-verified N=4..8 (simulations/star_frozen_seam.py); live
+            // inspect --root starseam.
+            .RegisterStarFrozenSeamClaim()
             // The Niven root (Tier1Derived, 2026-06-17): Niven's theorem on the SE cyclotomic angle π/(N+1)
             // is the number-theoretic ceiling on the spectrum's closed forms, with three faces — RE the
             // dissipator rates (rational iff N+1 ∈ {1,2,3,4,6}, F65/F99), IM the band edge (rational iff N≤2,
