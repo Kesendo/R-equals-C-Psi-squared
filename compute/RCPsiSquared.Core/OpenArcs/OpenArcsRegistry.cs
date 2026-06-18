@@ -283,7 +283,19 @@ public static class OpenArcsRegistry
                 "[H,A]=0 commutant (1,1) coherence is the survivor only when it undercuts the -2g floor); N=4 " +
                 "(g2=4/3>1) is the outlier that un-freezes. Third member of the trichotomy chain(SE-EP un-freeze) / " +
                 "ring(frozen level crossing) / star(frozen commutant). Gate-first caught N=4 (the find, the known " +
-                "outlier). STILL OPEN: the full (Q, profile, N) sweep as one artifact",
+                "outlier). THE (Q, profile, N, topology) SWEEP AS ONE ARTIFACT: DONE 2026-06-18 -- the live " +
+                "witness inspect --root trichotomy (TrichotomyWitness, Diagnostics/Foundation), the two-read " +
+                "assembly of the scattered route-detectors: a CARBON un-freeze read (RouteSweep + ThresholdLadder: " +
+                "frozen (p,p) interior below Q* / oscillating (0,1) above; chain UnfreezingSeEp / ring " +
+                "FrozenLevelCrossing / star FrozenCommutant) AND an ABSOLUTE Dn-seam read (ClassifySeam: sterile / " +
+                "odd-drift / junction via the global BirthCanalDeviation). The gate-first build FOUND AND FIXED a real " +
+                "two-convention defect: the un-freeze trichotomy lives on the carbon (Q=J/g, uniform g) sweep, the " +
+                "sterile/canal seam on the absolute (fixed g, vary profile) sweep -- one Classify on one convention " +
+                "mislabeled the chain's own default (N=5,q=1.5). No new claim (breadcrumbs StarFrozenSeam / " +
+                "CoherenceHorizon / Handover / SecondClockRegime / VacuumBlockReduction); carbon mapping gate-verified " +
+                "bit-for-bit vs IncompletenessSurvivorWitness.Survivor. Spec+plan in docs/superpowers (gitignored). " +
+                "STILL OPEN: nothing on the sweep; the broader junction phase-diagram depth is now browsable, retire " +
+                "after a survey confirms no residual",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
