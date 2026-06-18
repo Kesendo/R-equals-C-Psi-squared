@@ -270,7 +270,8 @@ public sealed class TrichotomyWitness : IInspectable
             string frozen = r.ImMax < ImTol ? "frozen" : "oscillating";
             yield return new InspectableNode($"Q={q.ToString("0.##", Inv)}",
                 summary: $"({r.PCol},{r.PRow}) Δn={r.Dn} | {r.Route} | {frozen} " +
-                         $"|Im|={r.ImMax.ToString("0.##e+0", Inv)} | ⟨n_XY⟩={r.NXy.ToString("0.###", Inv)}");
+                         $"|Im|={r.ImMax.ToString("0.##e+0", Inv)} | r={r.Rigidity.ToString("0.###", Inv)} " +
+                         $"| ⟨n_XY⟩={r.NXy.ToString("0.###", Inv)}");
         }
     }
 

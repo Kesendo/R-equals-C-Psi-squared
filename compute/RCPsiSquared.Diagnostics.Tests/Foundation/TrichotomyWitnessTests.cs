@@ -167,4 +167,14 @@ public class TrichotomyWitnessTests
         foreach (var k in kids) _ = k.Children.ToList();   // force lazy enumeration; must not throw
         Assert.NotEmpty(w.DisplayName);
     }
+
+    [Fact] // the RouteSweep row surfaces the Petermann rigidity r (computed all along, never shown):
+    public void RouteRow_SurfacesRigidity()  // r→0 is the EP that distinguishes UnfreezingSeEp from a crossing
+    {
+        var w = new TrichotomyWitness(n: 6, q: 1.5);
+        var routeSweep = ((IInspectable)w).Children.First();   // "the route sweep (carbon) ..."
+        var chain = routeSweep.Children.First();               // chain topology node
+        var firstRow = chain.Children.First();                 // the Q=1 row
+        Assert.Contains("| r=", firstRow.Summary);             // the rigidity column is rendered
+    }
 }
