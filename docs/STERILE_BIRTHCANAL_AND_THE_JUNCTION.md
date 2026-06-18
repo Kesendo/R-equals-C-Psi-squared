@@ -104,7 +104,9 @@ When the Δn=0 interior is the survivor, its nature is topology-set, not γ-prof
 - Sibling cluster docs: `docs/THE_STAR_FROZEN_SEAM.md` (the star's commutant route to |Im|=0),
   `experiments/THE_HUB_KILLS_THE_HORIZON.md` (a dominant hub removes the horizon however dispersive the
   leaves), `docs/proofs/PROOF_STRUCTURAL_CEILING.md` §7 (the g2 = 4/(N−1) ceiling) and
-  `docs/proofs/PROOF_COHERENCE_HORIZON_SLOPE.md` (the chain's horizon Q*(N)).
+  `docs/proofs/PROOF_COHERENCE_HORIZON_SLOPE.md` (the chain's horizon Q*(N)); and the unified view
+  [`docs/THE_TRICHOTOMY_SEEN.md`](THE_TRICHOTOMY_SEEN.md) — this Δn-seam alongside the chain/ring/star
+  un-freeze, as one figure + the live `inspect --root trichotomy` tree.
 - Claims: `HandoverFloorClaim`, `CoherenceHorizonClaim`, `VacuumBlockReductionClaim`,
   `SecondClockRegimeClaim`; the floor is `AbsorptionTheoremClaim`.
 - Code: `PostEpFlowField`, `BirthCanalSurfaceWitness` (`--root surface`), `SectorReductionWitness`
@@ -114,6 +116,8 @@ When the Δn=0 interior is the survivor, its nature is topology-set, not γ-prof
 - `docs/ANALYTICAL_FORMULAS.md` F2b corollary (the handover entry); `docs/HIERARCHY_OF_INCOMPLETENESS.md`
   (the C=0.5 / sterile reading).
 
-Open: a full sweep of the seam over (Q, profile, N). The star is now characterized (`docs/THE_STAR_FROZEN_SEAM.md`):
-its survivor is frozen at all Q for N ≥ 5 (the commutant route), exactly the structural ceiling g2 = 4/(N−1) ≤ 1
-read dynamically; N=4 is the outlier.
+The full sweep of the seam over (Q, profile, N, topology) is now the live witness `inspect --root trichotomy`
+([`docs/THE_TRICHOTOMY_SEEN.md`](THE_TRICHOTOMY_SEEN.md)) — the carbon un-freeze read and this absolute Δn-seam
+read assembled into one object. The star is characterized (`docs/THE_STAR_FROZEN_SEAM.md`): its survivor is
+frozen at all Q for N ≥ 5 (the commutant route), exactly the structural ceiling g2 = 4/(N−1) ≤ 1 read
+dynamically; N=4 is the outlier.

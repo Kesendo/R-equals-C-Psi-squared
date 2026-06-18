@@ -89,3 +89,6 @@ star by a **commutant** (the mode commutes with `H`). Both are frozen; the chain
 - The seam picture this extends: `docs/STERILE_BIRTHCANAL_AND_THE_JUNCTION.md` (chain/ring frozen vs
   oscillating); the sibling negative result `experiments/THE_HUB_KILLS_THE_HORIZON.md` (a hub removes the
   horizon however dispersive the leaves).
+- The unified view: [`docs/THE_TRICHOTOMY_SEEN.md`](THE_TRICHOTOMY_SEEN.md) — the chain/ring/star trichotomy
+  rendered as one figure + the live `inspect --root trichotomy` tree; this star frozen seam sits there
+  alongside the chain's un-freeze and the ring's level crossing.
