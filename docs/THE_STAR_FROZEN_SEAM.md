@@ -31,7 +31,7 @@ survivor is the darkest `[H,A] = 0` commutant `(1,1)` coherence, which lies in t
 mode) only when it undercuts the `−2γ` Absorption floor, i.e. exactly when the structural ceiling
 `g2 = 4/(N−1) ≤ 1`, which holds for `N ≥ 5`. `N = 4` (`g2 = 4/3 > 1`) is the outlier: the commutant mode
 is not dark enough, an oscillating band-edge mode wins, and the star un-freezes (max `|Im| = √3·J ≈ 1.73`,
-the `(2,2)`/`K₄` half-filling special case). So the star's frozen seam *is* the structural ceiling read
+the `(0,1)` band edge oscillating at the star's single-excitation top `√(N−1)·J`). So the star's frozen seam *is* the structural ceiling read
 dynamically, and it is the third member of the trichotomy chain (un-freezing SE-EP) / ring (level
 crossing) / star (commutant). Gate-verified `N = 4..8`; Tier 1 candidate.
 
@@ -59,8 +59,8 @@ is frozen by construction. But it is only the *survivor* (the slowest mode) when
 - `N ≥ 5` (`g2 ≤ 1`): the commutant coherence undercuts the floor, is the survivor, and is frozen at all
   `Q`. Gate-verified frozen at `N = 5, 6, 7, 8` (max `|Im|` over the `Q` sweep ≈ 1e-15, machine zero).
 - `N = 4` (`g2 = 4/3 > 1`): the commutant mode is not dark enough; an oscillating band-edge mode wins and
-  the star **un-freezes** (max `|Im| = √3·J ≈ 1.73`). This is the known star outlier (the `(2,2)`/`K₄` half-filling
-  special case).
+  the star **un-freezes** (max `|Im| = √3·J ≈ 1.73`). This is the known star outlier: the `(0,1)` band edge
+  oscillating at the star's single-excitation top `√(N−1)·J`.
 
 **So the star's frozen seam IS the structural ceiling `g2 = 4/(N−1) ≤ 1`, read dynamically.** The high-Q
 ceiling and the all-Q frozenness of the survivor are the same fact: the commutant coherence sits below the
