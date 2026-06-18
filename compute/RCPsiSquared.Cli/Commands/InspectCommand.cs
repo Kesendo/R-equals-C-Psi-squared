@@ -550,6 +550,12 @@ public static class InspectCommand
                     c.Parser.HasFlag("N") ? c.N : 6,
                     c.Parser.OptionalDouble("q") ?? 1.5),
             RequiresN: false, HonorsOptionalN: true),
+        new("trichotomy",
+            "the chain/ring/star survivor trichotomy as one sweep: carbon un-freeze read (RouteSweep) + absolute Δn-seam read",
+            c => new TrichotomyWitness(
+                    c.Parser.HasFlag("N") ? c.N : 6,
+                    c.Parser.OptionalDouble("q") ?? 1.5),
+            DefaultDepth: 2, RequiresN: false, HonorsOptionalN: true),
         new("between", "the in-between navigator (six axes: crossover/jdefect/interior/spiral/approach/ep)",
             c => BuildBetweenRoot(c.Parser, c.N)),
         new("qudit", "F121 qudit partial palindrome, recomputed live",

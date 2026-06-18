@@ -257,52 +257,78 @@ public sealed class TrichotomyWitness : IInspectable
 
     /// <summary>1. RouteSweep — the CARBON un-freeze read across Q, per topology (the trichotomy visible in one
     /// place). Chain flips frozen→oscillating at Q*(N), ring at Q_h, star never (N≥5). Drives
-    /// <see cref="ClassifyUnfreeze"/>.</summary>
+    /// <see cref="ClassifyUnfreeze"/>. The per-Q <see cref="ClassifyUnfreeze"/> work is LAZY: each topology
+    /// node's rows are a <c>yield</c>-based iterator (<see cref="RouteRows"/>), so the eigensolves run only
+    /// when that topology node is enumerated by the renderer — a shallow render fires none of them.</summary>
     private InspectableNode TheRouteSweep()
     {
         var topos = new List<IInspectable>();
         foreach (var topo in Trio)
         {
-            var rows = new List<IInspectable>();
-            foreach (double q in QGrid)
-            {
-                var r = ClassifyUnfreeze(topo, N, q);
-                string frozen = r.ImMax < ImTol ? "frozen" : "oscillating";
-                rows.Add(new InspectableNode($"Q={q.ToString("0.##", Inv)}",
-                    summary: $"({r.PCol},{r.PRow}) Δn={r.Dn} | {r.Route} | {frozen} " +
-                             $"|Im|={r.ImMax.ToString("0.##e+0", Inv)} | ⟨n_XY⟩={r.NXy.ToString("0.###", Inv)}"));
-            }
-            topos.Add(new InspectableNode(TopoString(topo),
-                summary: $"survivor + route across Q (carbon, N={N})", children: rows));
+            var t = topo; // capture per-iteration for the lazy iterator
+            topos.Add(new InspectableNode(TopoString(t),
+                summary: $"survivor + route across Q (carbon, N={N})", children: RouteRows(t)));
         }
         return new InspectableNode("the route sweep (carbon): survivor + freeze-route across Q",
             summary: "chain flips frozen→oscillating at Q*(N), ring at Q_h, star never (N≥5)", children: topos);
     }
 
-    /// <summary>2. ThresholdLadder — the three thresholds over N: chain Q*(N), ring Q_h≈0.29N, star g2=4/(N−1).
-    /// N=4 star is the lone (2,2)/K₄ outlier (g2=4/3>1, un-freezes).</summary>
-    private InspectableNode TheThresholdLadder()
+    /// <summary>The per-Q rows of one topology in <see cref="TheRouteSweep"/>, computed lazily: the
+    /// <see cref="ClassifyUnfreeze"/> eigensolve for each Q runs only as the renderer pulls the next row,
+    /// so an un-enumerated topology node costs nothing.</summary>
+    private IEnumerable<IInspectable> RouteRows(TopologyKind topo)
     {
-        var rows = new List<IInspectable>();
+        foreach (double q in QGrid)
+        {
+            var r = ClassifyUnfreeze(topo, N, q);
+            string frozen = r.ImMax < ImTol ? "frozen" : "oscillating";
+            yield return new InspectableNode($"Q={q.ToString("0.##", Inv)}",
+                summary: $"({r.PCol},{r.PRow}) Δn={r.Dn} | {r.Route} | {frozen} " +
+                         $"|Im|={r.ImMax.ToString("0.##e+0", Inv)} | ⟨n_XY⟩={r.NXy.ToString("0.###", Inv)}");
+        }
+    }
+
+    /// <summary>2. ThresholdLadder — the three thresholds over N: chain Q*(N), ring Q_h≈0.29N, star g2=4/(N−1).
+    /// N=4 star is the lone (2,2)/K₄ outlier (g2=4/3>1, un-freezes). The per-N rows are LAZY
+    /// (<see cref="LadderRows"/> is a <c>yield</c> iterator): the <see cref="IncompletenessSurvivorWitness.HandoverQ"/>
+    /// and <see cref="StructuralCeilingWitness.CommutantDarkest"/> compute for each N runs only when this node's
+    /// children are enumerated, so a shallow render that stops at this slice header pays nothing.</summary>
+    private InspectableNode TheThresholdLadder() => new(
+        "the threshold ladder over N",
+        summary: "chain Q*(N) / ring Q_h≈0.29N / star g2=4/(N−1); N=4 star outlier", children: LadderRows());
+
+    /// <summary>The per-N rows of <see cref="TheThresholdLadder"/>, computed lazily: each N's HandoverQ +
+    /// CommutantDarkest runs only as the renderer pulls the next row.</summary>
+    private IEnumerable<IInspectable> LadderRows()
+    {
         for (int n = 4; n <= 8; n++)
         {
             double chainQStar = IncompletenessSurvivorWitness.HandoverQ(n, TopologyKind.Chain);
             double ringQh = IncompletenessSurvivorWitness.HandoverQ(n, TopologyKind.Ring);
             double starCeil = StructuralCeilingWitness.CommutantDarkest("star", n, 1, 1) ?? double.NaN;
             string starVerdict = starCeil <= 1.0 ? "frozen (g2≤1)" : "UN-FREEZES (g2>1; (0,1) edge at √(N−1)·J)";
-            rows.Add(new InspectableNode($"N={n}",
+            yield return new InspectableNode($"N={n}",
                 summary: $"chain Q*={chainQStar.ToString("0.###", Inv)} | ring Q_h={ringQh.ToString("0.###", Inv)} | " +
-                         $"star g2=4/(N−1)={starCeil.ToString("0.###", Inv)} → {starVerdict}"));
+                         $"star g2=4/(N−1)={starCeil.ToString("0.###", Inv)} → {starVerdict}");
         }
-        return new InspectableNode("the threshold ladder over N",
-            summary: "chain Q*(N) / ring Q_h≈0.29N / star g2=4/(N−1); N=4 star outlier", children: rows);
     }
 
     /// <summary>3. DeltaNSeam — the ABSOLUTE seam read (uniform/canal/deep-edge), reproducing
     /// simulations/birth_canal_junction_nature.py. NOTE: for chain N=6 this calls the slow PostEpFlowField
-    /// path (full 4^N, ~2 min) — it is LAZY (only computed when this node is expanded). Drives
+    /// path (full 4^N, ~2 min) — it is LAZY (<see cref="SeamRows"/> is a <c>yield</c> iterator), so the
+    /// <see cref="ClassifySeam"/> work runs ONLY when this node's children are enumerated by the renderer,
+    /// not when this method is called. A shallow render (this slice header only) fires none of it. Drives
     /// <see cref="ClassifySeam"/>.</summary>
-    private InspectableNode TheDeltaNSeam()
+    private InspectableNode TheDeltaNSeam() => new(
+        "the Δn seam (absolute): sterile / odd-drift / junction",
+        summary: "junction ⟹ birth canal, not conversely (birth_canal_junction_nature.py); slow node (~2 min)",
+        children: SeamRows());
+
+    /// <summary>The seam-case rows of <see cref="TheDeltaNSeam"/>, computed lazily: the slow per-case
+    /// <see cref="ClassifySeam"/> (full 4^N PostEpFlowField for chain N=6, ~2 min total) runs only as the
+    /// renderer pulls the next row, so the parent <see cref="Children"/> getter can list this slice header
+    /// without paying for the seam compute.</summary>
+    private IEnumerable<IInspectable> SeamRows()
     {
         // The EXACT profiles from simulations/birth_canal_junction_nature.py.
         var cases = new (string Name, int N, double[] Profile)[]
@@ -311,16 +337,12 @@ public sealed class TrichotomyWitness : IInspectable
             ("canal N=5",     5, new[] { 0.25, 1.5, 1.5, 1.5, 0.25 }),
             ("deep-edge N=6", 6, new[] { 0.25, 1.375, 1.375, 1.375, 1.375, 0.25 }),
         };
-        var rows = new List<IInspectable>();
         foreach (var (name, n, profile) in cases)
         {
             var s = ClassifySeam(TopologyKind.Chain, n, profile);
-            rows.Add(new InspectableNode(name,
-                summary: $"{s.Kind} | Deviation={s.Deviation.ToString("0.####", Inv)} | Δn {s.DnLo}→{s.DnHi}"));
+            yield return new InspectableNode(name,
+                summary: $"{s.Kind} | Deviation={s.Deviation.ToString("0.####", Inv)} | Δn {s.DnLo}→{s.DnHi}");
         }
-        return new InspectableNode("the Δn seam (absolute): sterile / odd-drift / junction",
-            summary: "junction ⟹ birth canal, not conversely (birth_canal_junction_nature.py); slow node (~2 min)",
-            children: rows);
     }
 
     /// <summary>4. Vocabulary — prose + cross-links: the two reads and where they live.</summary>
