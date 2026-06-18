@@ -51,4 +51,24 @@ public class TrichotomyWitnessTests
         var (im, _) = TrichotomyWitness.ImAndRigidity(TopologyKind.Chain, 5, 5.0, Uniform(5, 0.5), 0, 1);
         Assert.True(im > 1e-2, $"chain (0,1) band edge must oscillate above Q*; got |Im|={im}");
     }
+
+    [Fact]
+    public void Deviation_CanalN5_IsGlobal_NotSectorPinned()
+    {
+        // The EXACT "canal N=5" profile from simulations/birth_canal_junction_nature.py line 281
+        // (_stage2_seam cases). The global slowest mode stays the (0,1) edge-survivor (odd-drift,
+        // no sector switch) — its rate-drift is 0.085, NOT the sector-pinned 0.304 (R2).
+        var canal = new[] { 0.25, 1.5, 1.5, 1.5, 0.25 };
+        Assert.Equal(0.0850, TrichotomyWitness.Deviation(TopologyKind.Chain, 5, canal), 3);
+    }
+
+    [Fact]
+    public void Deviation_DeepEdgeN6_IsTheJunction()
+    {
+        // The EXACT "deep-edge N=6" profile from birth_canal_junction_nature.py line 280:
+        // deep_edge(6, edge=0.25) = [0.25] + [(6-0.5)/4]*4 + [0.25] = [0.25, 1.375x4, 0.25].
+        // Here the global slowest SWITCHES sectors (the junction): the interior (2,2) wins at low Q.
+        var deep = new[] { 0.25, 1.375, 1.375, 1.375, 1.375, 0.25 };
+        Assert.Equal(0.4079, TrichotomyWitness.Deviation(TopologyKind.Chain, 6, deep), 3);
+    }
 }

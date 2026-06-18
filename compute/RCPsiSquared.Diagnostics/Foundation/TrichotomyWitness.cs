@@ -108,6 +108,29 @@ public sealed class TrichotomyWitness : IInspectable
         return (imMax, rigidity);
     }
 
+    /// <summary>The sterile/canal split: the rate-drift of the GLOBAL slowest mode between Q_lo and Q_hi.
+    /// It SWITCHES sectors (that switch is the junction; a fixed sector cannot see it — R2). For chain N≤6 use
+    /// the validated <see cref="PostEpFlowField.BirthCanalDeviation"/> (it computes the global slowest at its
+    /// own Q_lo=1.5/Q_hi=1000 on the full 4^N Liouvillian); for the sector-reduced path (N>6, or ring/star,
+    /// which PostEpFlowField's FlowTopology cannot represent) recompute the global min over the candidate
+    /// sectors at each Q via <see cref="SurvivorSector"/> and difference. A sector-PINNED (0,1) deviation
+    /// gives 0.304 for canal-N5 — WRONG; the correct global value is 0.085.</summary>
+    public static double Deviation(TopologyKind topo, int n, IReadOnlyList<double> gammaProfile)
+    {
+        const double qLo = PostEpFlowField.BirthCanalProbeQLow;   // 1.5
+        const double qHi = PostEpFlowField.BirthCanalProbeQHigh;  // 1000.0
+        if (topo == TopologyKind.Chain && n <= 6)
+        {
+            // Same construction as BirthCanalSurfaceWitness.ReadPoint: the probe-Q grid, a 2-point
+            // τ-grid (PostEpFlowField needs ≥2), the literal per-site profile, default FlowTopology.Chain.
+            var flow = new PostEpFlowField(n,
+                new[] { qLo, qHi }, new[] { 0.0, 1.0 }, gammaProfile);
+            return flow.BirthCanalDeviation;
+        }
+        double GlobalSlowest(double q) => SurvivorSector(topo, n, q, gammaProfile).Rate;
+        return GlobalSlowest(qHi) - GlobalSlowest(qLo);
+    }
+
     public string DisplayName => $"TrichotomyWitness (N={N}, Q={Q.ToString("0.###", Inv)})";
     public string Summary => "the chain/ring/star survivor trichotomy as one sweep; see --root starseam / horizon / surface";
     public IEnumerable<IInspectable> Children { get { yield break; } } // filled in a later task
