@@ -171,19 +171,26 @@ public sealed class TrichotomyWitness : IInspectable
         if (dn == 1) route = Route.UnfreezingSeEp;       // the (0,1) band edge above Q* (oscillating)
         else
         {
+            // Dn==0 frozen interior — the route is the topology's MECHANISM (not the instantaneous rate):
+            //   star  → FrozenCommutant: the flat-band hub's survivor IS the [H,A]=0 commutant coherence at
+            //           EVERY Q (that is why it is frozen); its rate only approaches the ceiling g2=4/(N−1)
+            //           asymptotically, so the mechanism is commutant throughout, not just near the ceiling.
+            //   chain → UnfreezingSeEp: the dispersive-band SE-EP (frozen below Q*, un-freezes above).
+            //   ring  → FrozenLevelCrossing: the wrap-bond (2,2) level crossing — EXCEPT the N=4 ring (2,2),
+            //           which sits ON the K_4/ring-4 commutant ceiling (g2=1) and routes FrozenCommutant,
+            //           caught by the relative rate-match to the high-Q commutant asymptote.
             double? commutant = StructuralCeilingWitness.CommutantDarkest(TopoString(topo), n, pc, pr);
             double gamma = 1.0 / Q;
-            double ceilingRate = commutant.HasValue ? 2.0 * gamma * commutant.Value : double.PositiveInfinity;
-            // RELATIVE match to the high-Q commutant asymptote: the star (p,p) survivor sits ON the ceiling
-            // (relErr → 0); the ring's interior level crossing sits far below it (relErr O(1)). The N=4 ring
-            // (2,2) is the documented exception — it sits ON the K_4/ring-4 commutant ceiling (g2=1), so it
-            // correctly routes here too (FrozenCommutant is the right mechanism there, not a star-only label).
-            double relErr = double.IsPositiveInfinity(ceilingRate) ? double.PositiveInfinity
-                          : Math.Abs(rate - ceilingRate) / ceilingRate;
-            if (relErr <= CommutantRelTol)
-                route = Route.FrozenCommutant;            // star N≥5 (flat-band non-dispersive hub)
-            else
-                route = topo == TopologyKind.Chain ? Route.UnfreezingSeEp : Route.FrozenLevelCrossing; // R1 topo-key
+            double relErr = commutant.HasValue
+                ? Math.Abs(rate - 2.0 * gamma * commutant.Value) / (2.0 * gamma * commutant.Value)
+                : double.PositiveInfinity;
+            route = topo switch
+            {
+                TopologyKind.Chain => Route.UnfreezingSeEp,
+                TopologyKind.Star => Route.FrozenCommutant,
+                TopologyKind.Ring => relErr <= CommutantRelTol ? Route.FrozenCommutant : Route.FrozenLevelCrossing,
+                _ => Route.FrozenLevelCrossing,
+            };
         }
         // Deviation (last field) is the SEAM read's quantity; the carbon un-freeze read has none → 0.0.
         return new SurvivorReading(pc, pr, dn, route, imMax, nXy, rate, rigidity, 0.0);

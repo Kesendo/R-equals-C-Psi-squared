@@ -100,6 +100,17 @@ public class TrichotomyWitnessTests
         Assert.True(r.ImMax < 1e-6, $"star (1,1) commutant is frozen at every Q; got |Im|={r.ImMax}");
     }
 
+    [Fact] // the star is FrozenCommutant at LOW Q too, not just at the high-Q ceiling (the tool-test catch)
+    public void ClassifyUnfreeze_StarLowQ_IsFrozenCommutant_NotLevelCrossing()
+    {
+        // The star's frozen survivor is the [H,A]=0 commutant at EVERY Q; below the ceiling asymptote it must
+        // NOT fall to the ring's FrozenLevelCrossing label (the bug the rendered tree exposed at Q≤6).
+        var r = TrichotomyWitness.ClassifyUnfreeze(TopologyKind.Star, 6, 1.5);
+        Assert.Equal(0, r.Dn);
+        Assert.True(r.ImMax < 1e-6);
+        Assert.Equal(TrichotomyWitness.Route.FrozenCommutant, r.Route);  // NOT FrozenLevelCrossing
+    }
+
     [Fact]
     public void ClassifyUnfreeze_Ring5_FrozenLevelCrossing()
     {
