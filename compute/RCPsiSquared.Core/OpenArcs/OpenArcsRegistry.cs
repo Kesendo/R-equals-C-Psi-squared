@@ -514,7 +514,16 @@ public static class OpenArcsRegistry
                 "split is small-N). STILL OPEN: the reflection in its " +
                 "own genre (the incomplete survives because it is the dark/reciprocal mirror of the survival quantum) " +
                 "is unwritten",
-            Status: OpenArcStatus.Open),
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "RESOLVED 2026-06-18: the reflection is written -- reflections/ON_THE_SURVIVAL_OF_THE_INCOMPLETE.md, " +
+                "the sole remaining open piece (all the physics -- the Pi2-ladder inversion-mirror a_0*a_2=1, the dynamic " +
+                "half-filling survivor, the handover floor -- was already banked + typed in SurvivalIncompletenessMirrorClaim " +
+                "+ IncompletenessSurvivorWitness). The piece is the half's DYNAMIC face (where the incomplete endures), the " +
+                "sibling of the canonical ON_THE_HALF (bridge/horizon/substrate, 2026-05-03) which it postdates and links to; " +
+                "plain-words, gamma as observing light, the star/hub kept as the honest boundary where the rule breaks. A " +
+                "2-agent 'faces of the half' survey (Tom's invitation) confirmed her gallery is rich and largely catalogued " +
+                "already (HalfAsStructuralFixedPointClaim's literal Face 1/2/3, the dyadic a_2=1/2, the quadratic shadow 1/4, " +
+                "the {0,2}/half-filling sectors), so this reflection ADDS one new face, it does not re-derive."),
 
         new OpenArc(
             Name: "xxz_axis_handover",
