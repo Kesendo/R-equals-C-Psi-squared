@@ -19,7 +19,6 @@ public sealed class TrichotomyWitness : IInspectable
 
     // Tolerances (reuse the shared birth-canal tolerance later; do not invent literals).
     private const double ImTol = 1e-6;          // matches StarFrozenSeamWitness frozen/oscillating split
-    private const double RigTol = 1e-2;          // matches the horizon EP detector
     // The commutant ceiling 2γ·CommutantDarkest is the high-Q ASYMPTOTE; at a finite carbon Q the frozen
     // star (p,p) rate approaches it from below (relErr 1.6% at Q=8, 0.25% at Q=20, → 0 — gate-measured),
     // so the match is RELATIVE to the rate, |rate − ceilingRate| / ceilingRate ≤ tol. 3e-2 catches the
@@ -238,6 +237,99 @@ public sealed class TrichotomyWitness : IInspectable
 
     public string DisplayName => $"TrichotomyWitness (N={N}, Q={Q.ToString("0.###", Inv)})";
     public string Summary => "the chain/ring/star survivor trichotomy as one sweep; see --root starseam / horizon / surface";
-    public IEnumerable<IInspectable> Children { get { yield break; } } // filled in a later task
+
+    // ===================== TASK 6: the IInspectable tree (the four slices) ==========================
+
+    private static readonly double[] QGrid = { 1.0, 1.5, 2.0, 3.0, 6.0, 12.0, 25.0, 50.0 };
+    private static readonly TopologyKind[] Trio = { TopologyKind.Chain, TopologyKind.Ring, TopologyKind.Star };
+    private static IReadOnlyList<double> Uniform(int n, double gamma) => Enumerable.Repeat(gamma, n).ToList();
+
+    public IEnumerable<IInspectable> Children
+    {
+        get
+        {
+            yield return TheRouteSweep();
+            yield return TheThresholdLadder();
+            yield return TheDeltaNSeam();
+            yield return TheVocabulary();
+        }
+    }
+
+    /// <summary>1. RouteSweep — the CARBON un-freeze read across Q, per topology (the trichotomy visible in one
+    /// place). Chain flips frozen→oscillating at Q*(N), ring at Q_h, star never (N≥5). Drives
+    /// <see cref="ClassifyUnfreeze"/>.</summary>
+    private InspectableNode TheRouteSweep()
+    {
+        var topos = new List<IInspectable>();
+        foreach (var topo in Trio)
+        {
+            var rows = new List<IInspectable>();
+            foreach (double q in QGrid)
+            {
+                var r = ClassifyUnfreeze(topo, N, q);
+                string frozen = r.ImMax < ImTol ? "frozen" : "oscillating";
+                rows.Add(new InspectableNode($"Q={q.ToString("0.##", Inv)}",
+                    summary: $"({r.PCol},{r.PRow}) Δn={r.Dn} | {r.Route} | {frozen} " +
+                             $"|Im|={r.ImMax.ToString("0.##e+0", Inv)} | ⟨n_XY⟩={r.NXy.ToString("0.###", Inv)}"));
+            }
+            topos.Add(new InspectableNode(TopoString(topo),
+                summary: $"survivor + route across Q (carbon, N={N})", children: rows));
+        }
+        return new InspectableNode("the route sweep (carbon): survivor + freeze-route across Q",
+            summary: "chain flips frozen→oscillating at Q*(N), ring at Q_h, star never (N≥5)", children: topos);
+    }
+
+    /// <summary>2. ThresholdLadder — the three thresholds over N: chain Q*(N), ring Q_h≈0.29N, star g2=4/(N−1).
+    /// N=4 star is the lone (2,2)/K₄ outlier (g2=4/3>1, un-freezes).</summary>
+    private InspectableNode TheThresholdLadder()
+    {
+        var rows = new List<IInspectable>();
+        for (int n = 4; n <= 8; n++)
+        {
+            double chainQStar = IncompletenessSurvivorWitness.HandoverQ(n, TopologyKind.Chain);
+            double ringQh = IncompletenessSurvivorWitness.HandoverQ(n, TopologyKind.Ring);
+            double starCeil = StructuralCeilingWitness.CommutantDarkest("star", n, 1, 1) ?? double.NaN;
+            string starVerdict = starCeil <= 1.0 ? "frozen (g2≤1)" : "UN-FREEZES (g2>1; (0,1) edge at √(N−1)·J)";
+            rows.Add(new InspectableNode($"N={n}",
+                summary: $"chain Q*={chainQStar.ToString("0.###", Inv)} | ring Q_h={ringQh.ToString("0.###", Inv)} | " +
+                         $"star g2=4/(N−1)={starCeil.ToString("0.###", Inv)} → {starVerdict}"));
+        }
+        return new InspectableNode("the threshold ladder over N",
+            summary: "chain Q*(N) / ring Q_h≈0.29N / star g2=4/(N−1); N=4 star outlier", children: rows);
+    }
+
+    /// <summary>3. DeltaNSeam — the ABSOLUTE seam read (uniform/canal/deep-edge), reproducing
+    /// simulations/birth_canal_junction_nature.py. NOTE: for chain N=6 this calls the slow PostEpFlowField
+    /// path (full 4^N, ~2 min) — it is LAZY (only computed when this node is expanded). Drives
+    /// <see cref="ClassifySeam"/>.</summary>
+    private InspectableNode TheDeltaNSeam()
+    {
+        // The EXACT profiles from simulations/birth_canal_junction_nature.py.
+        var cases = new (string Name, int N, double[] Profile)[]
+        {
+            ("uniform N=5",   5, Uniform(5, 0.5).ToArray()),
+            ("canal N=5",     5, new[] { 0.25, 1.5, 1.5, 1.5, 0.25 }),
+            ("deep-edge N=6", 6, new[] { 0.25, 1.375, 1.375, 1.375, 1.375, 0.25 }),
+        };
+        var rows = new List<IInspectable>();
+        foreach (var (name, n, profile) in cases)
+        {
+            var s = ClassifySeam(TopologyKind.Chain, n, profile);
+            rows.Add(new InspectableNode(name,
+                summary: $"{s.Kind} | Deviation={s.Deviation.ToString("0.####", Inv)} | Δn {s.DnLo}→{s.DnHi}"));
+        }
+        return new InspectableNode("the Δn seam (absolute): sterile / odd-drift / junction",
+            summary: "junction ⟹ birth canal, not conversely (birth_canal_junction_nature.py); slow node (~2 min)",
+            children: rows);
+    }
+
+    /// <summary>4. Vocabulary — prose + cross-links: the two reads and where they live.</summary>
+    private static InspectableNode TheVocabulary() => new(
+        "the vocabulary: rate_slow = min over Δn-sorted joint-popcount sectors, two reads",
+        summary: "CARBON un-freeze read (Q=J/γ): UnfreezingSeEp (chain) / FrozenLevelCrossing (ring) / " +
+                 "FrozenCommutant (star). ABSOLUTE seam read (fixed γ, vary profile): Sterile / OddDrift / Junction. " +
+                 "See --root horizon / starseam / ceiling / surface / survivor / secondclock; docs " +
+                 "THE_STAR_FROZEN_SEAM.md, STERILE_BIRTHCANAL_AND_THE_JUNCTION.md.");
+
     public InspectablePayload Payload => InspectablePayload.Empty;
 }

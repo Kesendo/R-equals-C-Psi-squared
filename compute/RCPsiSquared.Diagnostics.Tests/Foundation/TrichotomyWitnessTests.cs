@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using RCPsiSquared.Core.ChainSystems;
+using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Diagnostics.Foundation;
 using Xunit;
 
@@ -144,5 +145,17 @@ public class TrichotomyWitnessTests
         var deep = new[] { 0.25, 1.375, 1.375, 1.375, 1.375, 0.25 };
         Assert.Equal(TrichotomyWitness.SeamKind.Junction,
             TrichotomyWitness.ClassifySeam(TopologyKind.Chain, 6, deep).Kind);
+    }
+
+    // ====================== TASK 6: the IInspectable tree (four slices) ============================
+
+    [Fact]
+    public void Witness_RendersAndGoesPastN5()
+    {
+        var w = new TrichotomyWitness(n: 6, q: 1.5);
+        var kids = ((IInspectable)w).Children.ToList();
+        Assert.Equal(4, kids.Count);                       // RouteSweep, ThresholdLadder, ΔnSeam, Vocabulary
+        foreach (var k in kids) _ = k.Children.ToList();   // force lazy enumeration; must not throw
+        Assert.NotEmpty(w.DisplayName);
     }
 }
