@@ -147,7 +147,9 @@ it rests on is Tier 1 derived (F122, principal-angle proof).
   never un-freezes, the same ceiling read dynamically (`StarFrozenSeamClaim`, `inspect --root starseam`).
 - The unifying frame: `SecondClockRegimeClaim` (`inspect --root secondclock`), the one {0,2} second clock
   whose regime is set by band degeneracy and dispersion; the hub/star "no horizon" is its gradual branch.
-  Band edge magnitude J·√(N−1): `TopologyBandEdgeClaim` (`inspect --root bandedge`).
+  Band edge magnitude J·√(N−1): `TopologyBandEdgeClaim` (`inspect --root bandedge`). The seam tying these
+  survivors together (sterile↔birth-canal and the odd↔even junction as one object):
+  [`STERILE_BIRTHCANAL_AND_THE_JUNCTION.md`](../docs/STERILE_BIRTHCANAL_AND_THE_JUNCTION.md).
 - The recognition this reinforces: [`INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md`](../docs/INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md);
   the refuted sibling probe [`star_hub_decoupled_survivor.py`](../simulations/star_hub_decoupled_survivor.py).
 - Verifiers: [`wheel_qstar_bandwidth.py`](../simulations/wheel_qstar_bandwidth.py) (the refutation),
