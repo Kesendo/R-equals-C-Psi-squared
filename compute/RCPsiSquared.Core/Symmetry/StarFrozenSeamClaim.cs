@@ -56,7 +56,9 @@ public sealed class StarFrozenSeamClaim : Claim
                "survivor exactly when it undercuts the −2γ floor, i.e. g2=4/(N−1)≤1 (N≥5). N=4 (g2=4/3>1) un-freezes " +
                "(the band edge wins, the (2,2)/K₄ outlier). The third member of the trichotomy chain(SE-EP)/ring" +
                "(level crossing)/star(commutant); the high-Q ceiling and the all-Q frozenness are one fact. " +
-               "Gate-verified N=4..8 (simulations/star_frozen_seam.py).",
+               "g2 is not only the threshold but the value the survivor darkness saturates at: " +
+               "⟨n_XY⟩(Q→∞) = min(g2, 1) — on g2 below the floor (0.800 at N=6, 0.667 at N=7) or the −2γ floor 1 " +
+               "above it (N≤5, where it un-freezes). Gate-verified N=4..8 (simulations/star_frozen_seam.py).",
                Tier.Tier1Candidate,
                "simulations/star_frozen_seam.py + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/StarFrozenSeamWitness.cs (StarFrozenSeamWitness, inspect --root starseam)")
@@ -91,7 +93,10 @@ public sealed class StarFrozenSeamClaim : Claim
                 summary: "the commutant coherence is the survivor only when it undercuts the −2γ floor, i.e. " +
                          "g2=4/(N−1)≤1 (N≥5). At N=4 (4/3>1) it is brighter than the floor → an oscillating band-edge " +
                          "mode wins → the star un-freezes. The high-Q ceiling and the all-Q frozenness are the same " +
-                         "fact; the frozen seam is the ceiling read dynamically.");
+                         "fact; the frozen seam is the ceiling read dynamically. Sharper: g2 is the survivor darkness " +
+                         "itself in the high-Q limit, ⟨n_XY⟩(Q→∞)=min(g2,1) — measured 0.800 at N=6, 0.667 at N=7 " +
+                         "(= g2), and pinned to the floor 1 for N≤5. The single formula min(g2,1) is exactly the " +
+                         "ladder's 'un-freezes iff g2>1'.");
             yield return Ceiling;   // typed parent edge (the ceiling threshold + commutant mechanism, Tier1Derived)
             yield return Regime;    // typed parent edge (the second-clock regime map it sharpens, Tier1Candidate, caps this child)
         }

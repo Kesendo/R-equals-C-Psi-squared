@@ -133,11 +133,13 @@ public sealed class StarFrozenSeamWitness : IInspectable
                          $"{(Math.Abs(g - cf) < 1e-6 ? "match" : "MISMATCH")}); the (1,1) commutant " +
                          $"{(frozenSeam ? "undercuts the floor ⟹ it is the FROZEN survivor" : "is brighter than the floor ⟹ the survivor is an oscillating mode (UN-FREEZES)")}"));
         }
-        return new InspectableNode("the commutant ceiling g2 = 4/(N−1) (the threshold, exact)",
+        return new InspectableNode("the commutant ceiling g2 = 4/(N−1) (the threshold AND the high-Q darkness)",
             summary: "the darkest [H,A]=0 commutant (1,1) coherence on the star leaf manifold, recomputed live " +
                      "(StructuralCeilingWitness.CommutantDarkest). It is frozen at every N (ad_H kernel); the " +
                      "frozen seam holds iff it is the survivor, i.e. g2 = 4/(N−1) ≤ 1 (N ≥ 5). N=4 (4/3 > 1) is " +
-                     "the lone outlier.",
+                     "the lone outlier. g2 is also the value the survivor darkness saturates at in the high-Q " +
+                     "limit: ⟨n_XY⟩(Q→∞) = min(g2,1) — on g2 below the −2γ floor (N≥6), or pinned to the floor 1 " +
+                     "when g2 ≥ 1 (N≤5, where the star un-freezes).",
             children: rows);
     }
 
