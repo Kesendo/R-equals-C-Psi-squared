@@ -724,12 +724,13 @@ synaptic weights, thermal noise, and developmental variability.
 
 The formula predicts: giving one edge qubit more noise (sacrifice) while
 protecting the interior improves coherence transfer. Tested on IBM Torino
-(5-qubit chain, March 24, 2026): at early times (1-2 microseconds), the
-measured improvement matches the formula within 6-13%. At later times, the
-hardware exceeds the prediction (2.9x measured vs 1.3x predicted) because
-imperfections in the echo pulses on the fragile sacrifice qubit accumulate
-and amplify the effect. The hardware imperfections work WITH the formula,
-not against it.
+(5-qubit chain, March 24, 2026): at early times (1-2 microseconds) the
+measured improvement matches the formula within 6-13%. At later times the
+hardware exceeds the prediction (2.9x measured vs 1.3x predicted at t = 5 μs;
+the measured advantage itself peaks near t = 4 μs and is not monotonic)
+because imperfections in the echo pulses on the fragile sacrifice qubit
+accumulate and amplify the effect. The hardware imperfections work WITH the
+formula, not against it.
 ([IBM Sacrifice Zone](../experiments/IBM_SACRIFICE_ZONE.md))
 
 ### The fold is in water

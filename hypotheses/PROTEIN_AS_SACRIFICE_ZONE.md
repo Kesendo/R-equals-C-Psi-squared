@@ -75,9 +75,12 @@ survives long enough to cross the fold.
 
 The sacrifice-zone principle has been validated on IBM Torino hardware:
 selective DD (protecting inner qubits while leaving the sacrifice qubit
-unprotected) outperforms uniform DD by 1.6-2.9x, with the advantage
-growing over time as DD-gate imperfections accumulate on the fragile
-sacrifice qubit. This is the first quantitative hardware evidence that
+unprotected) outperforms uniform DD by up to 3.2x (peaking at t = 4 μs,
+about 2x on average across t = 1-5 μs, non-monotonic). At later times the
+*measured* advantage runs increasingly ahead of the *formula's prediction*
+(2.9x measured vs ~1.3x predicted at t = 5 μs), as DD-gate imperfections
+accumulate on the fragile sacrifice qubit and worsen the uniform
+configuration. This is the first quantitative hardware evidence that
 the sacrifice-zone effect works beyond simulation.
 See [IBM Sacrifice Zone](../experiments/IBM_SACRIFICE_ZONE.md).
 
