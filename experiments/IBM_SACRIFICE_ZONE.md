@@ -275,4 +275,5 @@ Script: [`simulations/ibm_formula_test.py`](../simulations/ibm_formula_test.py).
 - [IBM Run 3 (1.9% CΨ validation)](IBM_RUN3_PALINDROME.md)
 - [gamma as Signal](GAMMA_AS_SIGNAL.md): 15.5 bits channel capacity
 - [gamma Control](GAMMA_CONTROL.md): V-shape 21.5x baseline
+- [Inside and Outside the Sacrifice Zone](../docs/INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md): this hardware run read from both sides of the γ-boundary (sacrifice vs concentration)
 - Raw data: [data/ibm_sacrifice_zone_march2026/](../data/ibm_sacrifice_zone_march2026/)

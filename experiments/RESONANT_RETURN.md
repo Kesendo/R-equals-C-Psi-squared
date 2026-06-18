@@ -644,3 +644,4 @@ effect, not a small-signal perturbation.
 - [Relay Protocol](RELAY_PROTOCOL.md): Mediator bridge, staged gamma relay
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the eigenstructure
 - [C# Propagate Engine](../compute/RCPsiSquared.Propagate/README.md): profile evaluator used for all N >= 5 results
+- [Inside and Outside the Sacrifice Zone](../docs/INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md): the inside/outside observer reading of the concentration mechanism (appearance-vs-reality, hardware-confirmed)

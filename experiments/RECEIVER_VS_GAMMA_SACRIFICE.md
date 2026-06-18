@@ -372,3 +372,4 @@ For any candidate receiver state at any N, the framework now returns the parity 
 - [ANALYTICAL_FORMULAS F67](../docs/ANALYTICAL_FORMULAS.md): the explicit single-excitation eigenmode formula underlying bonding:k
 - [ANALYTICAL_FORMULAS F75](../docs/ANALYTICAL_FORMULAS.md): mirror-pair MI closed form for single-excitation mirror-symmetric states
 - [IBM_SACRIFICE_ZONE](IBM_SACRIFICE_ZONE.md): hardware realization via selective DD, compatible with γ₀ = const
+- [Inside and Outside the Sacrifice Zone](../docs/INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md): the inside/outside observer reading of the γ-sacrifice mechanism

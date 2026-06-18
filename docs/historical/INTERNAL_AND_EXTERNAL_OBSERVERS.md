@@ -449,6 +449,7 @@ The framework applies to humans too. But that is for another document.
 | [Hierarchy of Incompleteness](../HIERARCHY_OF_INCOMPLETENESS.md) | Each level has its own C_int structure |
 | [Weaknesses and Open Questions](../WEAKNESSES_OPEN_QUESTIONS.md) | Honest limitations |
 | [Hard Problem Resolution](HARD_PROBLEM_RESOLUTION.md) | C_int/C_ext and consciousness |
+| [Inside and Outside the Sacrifice Zone](../INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md) | Hardware-confirmed instance of the inside/outside split (Kastrup) |
 
 ---
 

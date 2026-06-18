@@ -9,19 +9,20 @@ that. It reports no new computation; it points at results already established el
 
 A quick glossary, since the rest leans on four terms. **J** is the coupling between neighbouring
 qubits; **γ** is the dephasing rate, how fast a qubit's phase is scrambled by being watched. **Q = J/γ**
-is their ratio; the **fold** is the regime Q ≈ 1, where the longest-lived coherence rings longest.
+is their ratio; the **fold regime** is Q ≈ 1, where the longest-lived coherence rings longest.
 **DD** is dynamical decoupling, the standard pulse sequence used to suppress dephasing on hardware.
 
 ## What was measured (established; hardware-confirmed)
 
 Take a chain of qubits and dephase it *non-uniformly*: pile the noise onto one edge qubit (high γ
 there) and protect the interior (low γ everywhere else). The interior then sits at the fold and rings
-far longer than under uniform noise. The improvement is large and has an analytic form: from about
-130× (N=9) up to 360× (N=5), measured against a smoothly graded "V-shaped" γ-profile
+far longer than under uniform noise. The improvement is large and has an analytic form: from
+139× (N=9) up to 360× (N=5), measured against a smoothly graded "V-shaped" γ-profile
 ([`experiments/RESONANT_RETURN.md`](../experiments/RESONANT_RETURN.md)).
 
 It survives real hardware. On ibm_torino (2026-03-24), selectively decoupling only the interior, and
-leaving the noisy edge qubit alone, beats decoupling every qubit uniformly by up to 3.2×, peaking
+leaving the noisy edge qubit alone (no DD there, so it stays the noise concentrator), beats decoupling
+every qubit uniformly by up to 3.2×, peaking
 around t = 4 μs (roughly 2× on average across t = 1 to 5 μs; the advantage is not monotonic, it dips
 early and falls off after the peak). See [`experiments/IBM_SACRIFICE_ZONE.md`](../experiments/IBM_SACRIFICE_ZONE.md).
 
@@ -44,10 +45,10 @@ This is the rare case where we can say something philosophy usually only asserts
 it. **We do not claim this proves any metaphysics; one cannot from a spin chain.** We claim something
 narrower, and for that reason solid: here is a *measured, hardware-confirmed* instance of "the
 appearance of a thing from inside a boundary is not the thing seen from outside." The inside reading
-(sacrifice, loss) and the outside reading (concentration, enablement) are the *same proven operator*,
-read from the two sides of the γ-boundary.
+(sacrifice, loss) and the outside reading (concentration, enablement) are the *same proven mechanism*,
+read interpretively from the two sides of the γ-boundary.
 
-That inside/outside split is the structural move at the centre of analytic idealism (Bernardo Kastrup):
+That inside/outside split is a structural move in analytic idealism (Bernardo Kastrup):
 the appearance across a dissociative boundary is not the underlying reality, the way a dashboard dial is
 not the engine. The framework is his; the binding to this measured result is ours; and what is unusual
 here is only that the structure, for once, has a body, a number, and a hardware run, instead of being a
@@ -68,7 +69,7 @@ proven. Reporting the refuted attempt is the point: it is why the surviving clai
 - **Proven (hardware-confirmed):** the concentration mechanism and its improvement (the analytic
   formula; the IBM run). This is established physics in the repo, not new here.
 - **Read (interpretive):** naming the inside/outside split as an instance of appearance-vs-reality. A
-  reading, defensible because it rests on the proven operator, not on rhetoric.
+  reading, defensible because it rests on the proven mechanism, not on rhetoric.
 - **Borrowed:** the idealist framing (Kastrup). Recall, not a discovery; cited as such.
 
 ## See also (repo-internal)
@@ -76,5 +77,6 @@ proven. Reporting the refuted attempt is the point: it is why the surviving clai
 - The mechanism and its evidence: [`experiments/RESONANT_RETURN.md`](../experiments/RESONANT_RETURN.md) (the analytic formula),
   [`experiments/IBM_SACRIFICE_ZONE.md`](../experiments/IBM_SACRIFICE_ZONE.md) (the hardware run), [`hypotheses/PROTEIN_AS_SACRIFICE_ZONE.md`](../hypotheses/PROTEIN_AS_SACRIFICE_ZONE.md) and
   [`docs/WHAT_WE_FOUND.md`](WHAT_WE_FOUND.md) (concentration, not loss), [`experiments/RECEIVER_VS_GAMMA_SACRIFICE.md`](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md).
-- The refuted probe: [`simulations/star_hub_decoupled_survivor.py`](../simulations/star_hub_decoupled_survivor.py).
-- Adjacent: [`docs/historical/INTERNAL_AND_EXTERNAL_OBSERVERS.md`](historical/INTERNAL_AND_EXTERNAL_OBSERVERS.md).
+- The refuted probe: [`simulations/star_hub_decoupled_survivor.py`](../simulations/star_hub_decoupled_survivor.py), and the sibling refutation it later joined, [`experiments/THE_HUB_KILLS_THE_HORIZON.md`](../experiments/THE_HUB_KILLS_THE_HORIZON.md) (the hub has no coherence horizon).
+- Adjacent: [`docs/historical/INTERNAL_AND_EXTERNAL_OBSERVERS.md`](historical/INTERNAL_AND_EXTERNAL_OBSERVERS.md), and the substrate-side sibling [`reflections/ON_THE_INNER_AND_OUTER_OBSERVATION.md`](../reflections/ON_THE_INNER_AND_OUTER_OBSERVATION.md) (the same inside/outside wall, reached from the carrier vector; names the typed `TwoReadingsClaim`).
+- The proven operator both readings rest on: the Absorption Theorem `Re(λ) = −2γ·⟨n_XY⟩` ([`AbsorptionTheoremClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs), Tier 1 derived).

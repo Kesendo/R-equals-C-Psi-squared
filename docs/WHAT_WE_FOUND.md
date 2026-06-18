@@ -776,7 +776,8 @@ around an enzyme active site may do the same:
 concentrate thermal noise so the protons inside can tunnel at maximum
 sensitivity. From the inside it looks like sacrifice. From the outside
 it looks like protection.
-([Protein as Sacrifice-Zone](../hypotheses/PROTEIN_AS_SACRIFICE_ZONE.md))
+([Protein as Sacrifice-Zone](../hypotheses/PROTEIN_AS_SACRIFICE_ZONE.md);
+the inside/outside reading is developed in [Inside and Outside the Sacrifice Zone](INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md))
 
 ### The palindrome pairs silence with silence
 

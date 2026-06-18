@@ -122,4 +122,5 @@ If the spectral densities are the same: no sacrifice-zone effect.
 *See also:*
 [Resonant Return](../experiments/RESONANT_RETURN.md) (sacrifice-zone formula),
 [Hydrogen Bond Qubit](../docs/water/HYDROGEN_BOND_QUBIT.md) (J/γ regimes),
-[IBM Sacrifice Zone](../experiments/IBM_SACRIFICE_ZONE.md) (hardware verification)
+[IBM Sacrifice Zone](../experiments/IBM_SACRIFICE_ZONE.md) (hardware verification),
+[Inside and Outside the Sacrifice Zone](../docs/INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md) (the inside/outside observer reading)
