@@ -867,7 +867,8 @@ public static class OpenArcsRegistry
                 "(C) once " +
                 "the four-dimensions definition settles, consider a reflection (motion in a plane, watched along a " +
                 "third axis, surviving in a fourth = felt time). " +
-                "(D) THE CLOSURE-STRUCTURE SEAM (mining 2026-06-19, simulations/_stone_mine.py, OPEN). Driving the " +
+                "(D) THE CLOSURE-STRUCTURE SEAM (2026-06-19, _stone_mine.py + _stone_seam.py, RESOLVED + one " +
+                "follow-up). Driving the " +
                 "stone tool broadly (N x Q x sector x topology) surfaced TWO findings that are ONE seam. (i) " +
                 "Q-INVARIANCE: the survivor closure is FLAT in Q (Sum ln alpha ~ +0.16 at N=4, +0.074 at N=5 across " +
                 "Q=1.0..2.0) while <n_XY> runs 0.16->1.0 and biorth collapses near the EP; the eigenvalue prediction " +
@@ -880,11 +881,21 @@ public static class OpenArcsRegistry
                 "Q-invariant geometric constant (sharpens the review's 'scaling+sign'). Also surfaced: the chain " +
                 "closure is FILLING-BLIND (all (p,p) incl. boundary (1,1) give the IDENTICAL closure, the " +
                 "free-fermion degeneracy extending to the closure; only (0,1) differs), and the per-site alpha is " +
-                "DEFECT-LOCALIZED (f largest at the defect bond) with the standing-wave centre NODE dropped. TO " +
-                "PURSUE (one seam-investigation, BOTH facets): (a) characterize the Q-invariant value geometrically " +
-                "(vary the defect bond; the mode's amplitude at the defect; is closure = g(defect geometry, " +
-                "eigenvector profile), dJ-scaled?), (b) confirm the rigidity-reading on the RING's non-degenerate " +
-                "(p,p) (where <n_XY> truly varies by sector) + the star. Linked: the seam is the closure-vs-<n_XY> " +
+                "DEFECT-LOCALIZED (f largest at the defect bond) with the standing-wave centre NODE dropped. " +
+                "RESOLVED 2026-06-19 (simulations/_stone_seam.py): both facets confirmed, the seam is a GEOMETRIC " +
+                "reading. (a) the closure is dJ-LINEAR (closure/dJ = Sum f ~ 3.7 constant, coh=1) and DEFECT-" +
+                "POSITION-dependent -- ~ZERO at the END bonds (Sum ln a = 0.0009) but max at INTERIOR bonds " +
+                "(0.074), mirror-symmetric: it reads the mode's coupling to the defect bond (nothing where the " +
+                "standing wave has no amplitude). Candidate: Sum f prop-to the standing-wave amplitude at the " +
+                "defect -- which EXPLAINS the Q-invariance (the k_min shape is Q-fixed). (b) closure ORTHOGONAL to " +
+                "<n_XY> confirmed decisively: ring (1,1) IN vs (2,2) OUT at the SAME <n_XY>=1.016. (c) the sign-" +
+                "coherence guard earns its keep: the dispersive ring breaks with coh~0.98 (clean rate-shift), the " +
+                "non-dispersive STAR breaks with coh<0.8 (redistribution, correctly flagged NOT a rate-shift) -- " +
+                "the star counterexample again. THE SEAM RESOLVED: the closure reads the mode's STANDING-WAVE " +
+                "GEOMETRY at the defect bond (dJ-scaled, Q-invariant because the shape is fixed) + structural " +
+                "rigidity, orthogonal to <n_XY>; Q-invariance + rigidity = two zooms on this ONE geometric reading. " +
+                "OPEN follow-up (not now): the exact functional Sum f = g(standing-wave amplitude at the defect). " +
+                "Linked: the seam is the closure-vs-<n_XY> " +
                 "orthogonality, a sibling of the (A) value/vector cut (rigid = value-frozen) read at the trajectory. " +
                 "Anchors: hypotheses/PERSPECTIVAL_TIME_FIELD.md; " +
                 "reflections/ON_WHOSE_TIME_THE_CLOCK_KEEPS.md (t=K/gamma0), ON_TWO_TIMES.md, ON_THE_ONE_DIAGONAL.md " +
