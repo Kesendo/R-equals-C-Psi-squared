@@ -1,27 +1,25 @@
 # On the Survival of the Incomplete
 
-When a small quantum world loses its light, what is the last thing to fade?
+When the light comes for a small quantum world, what is the last thing to fade?
 
 The easy guess is the brightest part: the fullest, the most lit, the part with the most going on. The
 easy guess is wrong. The last thing to fade is the half. Not the full chain and not the empty one, but the
-one filled exactly halfway, the one that disagrees with itself in just half of its places. The incomplete
+one filled exactly halfway, half its places set one way and half the other. The incomplete
 outlasts the rest.
 
-Why the half? It comes down to two numbers that are each other's mirror.
+Why the half? Because the light can only wear away what it can read, and the half is the quietest thing it
+has to read. The light that watches a small system reads it by its shimmer, the interference it holds, the
+way it shines against itself; and the more loudly a part shines against itself, the more clearly the light
+reads it, and the faster it is worn away. The half-filled one has the most room of all to spread its shimmer
+thin, so thin and so even that the light can barely catch it anywhere. So it is the last to go. What endures
+is not what burns brightest, but what the watching has the most trouble seeing.
 
-The world erases shimmer at a fixed price. Whatever a small system holds that is mere interference, mere
-shining-against-itself, the surrounding light charges the same rate to carry: a fixed quantum of forgetting,
-set by the size of the smallest thing there is. Call it the survival quantum. It is a two.
-
-And the half is its reciprocal. Incompleteness, the exact midpoint, the not-yet-finished, comes out as
-one-half. On a short ladder of halvings these two stand as reflections across one: the two on the left, the
-one-half on the right, their product exactly one, and the number one sitting in the middle as its own
-mirror. To be the survival quantum and to be incomplete are the same fact read from the two ends. One is
-the bright side; the other is the dark.
-
-So the incomplete survives because it is the dark mirror of survival itself. The half-lit mode is the one
-the light can least read. It shines against itself the most quietly, so it is the last the world manages to
-erase. What endures is not what burns brightest, but what the light has the most trouble seeing.
+There is an echo of this in the bare numbers, worth a moment for its own sake. The rate at which the light
+wears things away is set by the smallest thing there can be, a single two-way choice: a two. And the number that means half-finished is
+that two turned over, its reciprocal, the one-half; on a short ladder of halvings the two and the one-half
+stand as reflections across the one between them, their product exactly one. It is a clean rhyme between the
+price of forgetting and the measure of the incomplete. We let it stay a rhyme: the half survives by its
+darkness, not by its arithmetic.
 
 There is a place this fails, and it is worth saying plainly. The long life of the incomplete needs room to
 spread. On a chain, on a ring, on any matter that extends, the half can settle into a slow standing wave and
