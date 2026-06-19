@@ -76,7 +76,7 @@ The reduction of §2 is leading-order in `γ/J`-secular perturbation theory, exa
 
 **The regime sweep is the decisive test, and it is the engine itself** (`inspect --root gradient --N 5 --q …`, which reports the slope, the CV, and the off-diagonal weight per Q):
 
-| Q = J/γ | sector | off-diag weight | log-log slope `dRe` vs `|grad|` | CV of `dRe/grad²` | witness verdict |
+| Q = J/γ | sector | off-diag weight | log-log slope (`dRe` vs grad) | CV of `dRe/grad²` | witness verdict |
 |---|---|---|---|---|---|
 | 0.3 | (p,p) | 0.07 | **2.00** | 0.001 | LAW HOLDS |
 | 0.5 | (p,p) | 0.09 | 2.01 | 0.002 | LAW HOLDS |
