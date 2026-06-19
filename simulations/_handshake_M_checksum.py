@@ -35,7 +35,7 @@ def main():
     print("=== deepen: ‖M‖_F² = 2 − endpoint, and λ_min(MMᵀ) = endpoint? ===\n", flush=True)
     print(f"{'N':>3} {'‖M‖_F²':>11} {'2−endpoint':>11} {'diff':>10} | {'λ_min':>11} {'endpoint':>11} {'diff':>10}", flush=True)
     allok = True
-    for N in range(4, 21):
+    for N in range(3, 21):                                  # incl. N=3, the stated lower endpoint
         M, c = build_M(N)
         fro2 = (M ** 2).sum()
         endpoint = c[0] ** 2 + c[-1] ** 2
