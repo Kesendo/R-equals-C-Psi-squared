@@ -56,6 +56,7 @@ public sealed class SurvivorDiffusionGradientWitness : IInspectable
     private IReadOnlyList<GradientBond>? _bonds;
     private int _survivorP;
     private double[]? _density;
+    private double _offDiag;
 
     /// <summary>Per-bond readout (all chain bonds, in order): |dRe(b)|, grad^2(b), and the ratio.</summary>
     public IReadOnlyList<GradientBond> Bonds { get { _bonds ??= Compute(); return _bonds; } }
@@ -65,6 +66,11 @@ public sealed class SurvivorDiffusionGradientWitness : IInspectable
 
     /// <summary>The slow diffusion mode's per-site density profile n(j).</summary>
     public IReadOnlyList<double> Density { get { _ = Bonds; return _density!; } }
+
+    /// <summary>Density-mode character: ‖M − diag(M)‖ / ‖M‖ of the embedded slow mode (0 = a pure density
+    /// mode, the diffusion-Rayleigh premise). ~0 in the strong-dephasing limit (Q -> 0); grows with Q as
+    /// the survivor picks up off-diagonal coherence dressing, and the law (slope, CV) degrades with it.</summary>
+    public double OffDiagonalWeight { get { _ = Bonds; return _offDiag; } }
 
     /// <summary>Coefficient of variation of |dRe(b)|/grad^2(b) over the bonds: ~0 means the rate shift is
     /// LINEAR in grad^2 with a bond-independent constant (the diffusion-Rayleigh law holds).</summary>
@@ -146,6 +152,13 @@ public sealed class SurvivorDiffusionGradientWitness : IInspectable
         }
         _density = n;
 
+        // density-mode character: ‖M − diag(M)‖ / ‖M‖ of the embedded mode. full is unit-norm (rUnit), so
+        // ‖M‖² = Σ|full|²; the off-diagonal weight is sqrt(1 − diagonal-weight). ~0 = a pure density mode.
+        double totSq = 0.0, diagSq = 0.0;
+        for (int i = 0; i < full.Length; i++) totSq += full[i].Real * full[i].Real + full[i].Imaginary * full[i].Imaginary;
+        for (int s = 0; s < d; s++) { var z = full[s * d + s]; diagSq += z.Real * z.Real + z.Imaginary * z.Imaginary; }
+        _offDiag = totSq > 1e-300 ? Math.Sqrt(Math.Max(0.0, 1.0 - diagSq / totSq)) : 0.0;
+
         // 4. per bond: |dRe(b)| = |Re (R^-1 row . V_b . R col)| and grad^2 = (n(j)-n(j+1))^2.
         var bonds = new List<GradientBond>(chain.Bonds.Count);
         foreach (var bond in chain.Bonds)
@@ -194,7 +207,9 @@ public sealed class SurvivorDiffusionGradientWitness : IInspectable
                          $"(~2 => amplitude^2). {(LawHolds ? "LAW HOLDS." : "law not clean.")}");
             yield return new InspectableNode("the density standing wave",
                 summary: $"n(j) = [{string.Join(", ", Density.Select(x => x.ToString("+0.00;-0.00", Inv)))}] " +
-                         "(the slow diffusion mode; antisymmetric, quiet at the reflecting ends).");
+                         $"(off-diag weight {OffDiagonalWeight.ToString("0.000", Inv)}: " +
+                         $"{(OffDiagonalWeight < 0.1 ? "a pure density mode (strong-dephasing limit)" : "dressed with coherence at this Q")}; " +
+                         "antisymmetric, quiet at the reflecting ends).");
             foreach (var b in Bonds)
                 yield return new InspectableNode($"bond ({b.SiteA},{b.SiteB})",
                     summary: $"|dRe| = {b.RateShift.ToString("0.0000", Inv)}, grad^2 = {b.GradSq.ToString("0.00000", Inv)}, " +

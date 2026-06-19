@@ -25,6 +25,20 @@ public class SurvivorDiffusionGradientWitnessTests
     }
 
     [Fact]
+    public void Survivor_is_a_density_mode_in_the_strong_dephasing_limit()
+    {
+        // The diffusion-Rayleigh derivation's premise: at Q -> 0 (gamma >> J) the survivor's mode
+        // operator is (nearly) diagonal, a pure density mode (off-diagonal weight -> 0). At finite Q it
+        // picks up coherence dressing, so the off-diagonal weight grows with Q (and the law degrades).
+        var strong = new SurvivorDiffusionGradientWitness(5, 0.3);
+        var dressed = new SurvivorDiffusionGradientWitness(5, 1.5);
+        Assert.True(strong.OffDiagonalWeight < 0.1,
+            $"strong-dephasing off-diag = {strong.OffDiagonalWeight} (want < 0.1: a clean density mode)");
+        Assert.True(dressed.OffDiagonalWeight > strong.OffDiagonalWeight,
+            "off-diagonal coherence dressing should grow with Q");
+    }
+
+    [Fact]
     public void Density_gradient_is_quiet_at_the_no_flux_ends()
     {
         var w = new SurvivorDiffusionGradientWitness(5);

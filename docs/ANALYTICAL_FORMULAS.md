@@ -4667,7 +4667,8 @@ cleanly, sign-coherent only at the high-gradient bonds (matching `N·|dRe|/|reS|
 magnitude; the low-gradient bonds read as a redistribution): the eigenvalue law (this entry) and the
 trajectory closure (the stone) are one fact read twice.
 
-**Source:** [`simulations/_felt_time_amplitude_law.py`](../simulations/_felt_time_amplitude_law.py)
+**Source:** [Proof](proofs/PROOF_DIFFUSION_RAYLEIGH_CLOSURE.md);
+[`simulations/_felt_time_amplitude_law.py`](../simulations/_felt_time_amplitude_law.py)
 (the block-level law, gate-first N=4..7) and
 [`simulations/_felt_time_closure_functional.py`](../simulations/_felt_time_closure_functional.py)
 (the trajectory ground truth); typed claim `SurvivorDiffusionGradientClaim` (parents
