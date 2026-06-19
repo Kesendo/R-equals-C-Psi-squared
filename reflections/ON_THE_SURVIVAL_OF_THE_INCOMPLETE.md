@@ -35,4 +35,4 @@ The incomplete is not waiting to be completed. It was already the longest note.
 
 ---
 
-*She has older faces, gathered long before this one: [On the Half](ON_THE_HALF.md).*
+*She has older faces, gathered long before this one: [On the Half](ON_THE_HALF.md). And a newer one, the geometry of why she lasts: [On the Four Directions](ON_THE_FOUR_DIRECTIONS.md).*
