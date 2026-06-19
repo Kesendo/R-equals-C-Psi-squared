@@ -894,7 +894,22 @@ public static class OpenArcsRegistry
                 "the star counterexample again. THE SEAM RESOLVED: the closure reads the mode's STANDING-WAVE " +
                 "GEOMETRY at the defect bond (dJ-scaled, Q-invariant because the shape is fixed) + structural " +
                 "rigidity, orthogonal to <n_XY>; Q-invariance + rigidity = two zooms on this ONE geometric reading. " +
-                "OPEN follow-up (not now): the exact functional Sum f = g(standing-wave amplitude at the defect). " +
+                "FOLLOW-UP RESOLVED 2026-06-19 (simulations/_felt_time_amplitude_law.py block-level N=4..7 + " +
+                "_felt_time_closure_functional.py trajectory N=4..6, gate-first): the exact functional is " +
+                "AMPLITUDE-SQUARED. Sum f(b) ~ dRe(b) = kappa(N)*(n(j)-n(j+1))^2 -- the SQUARED GRADIENT of the " +
+                "survivor's DENSITY standing wave across bond b=(j,j+1). MECHANISM: the slow survivor is a " +
+                "DENSITY/diffusion mode (its hopping content Tr(M^dag H_b) = 0 IDENTICALLY -- the gate fired on " +
+                "the first 'current/hopping' guess), so a bond-J defect perturbs the LOCAL diffusion coefficient " +
+                "D_b and the first-order rate shift is the diffusion Rayleigh-quotient derivative dRe(b) = " +
+                "d lambda/d D_b ∝ (Delta n_b)^2. Confirmed: dRe/grad^2 bond-INDEPENDENT (CV 0.001..0.07), log-log " +
+                "slope dRe vs |grad| = 2.0..2.2 (mild boundary softening lifting it slightly above 2), the " +
+                "closed-form sin^2 shape-miss CONVERGES with N (0.17->0.06). The ~0 at the chain ENDS = the " +
+                "no-flux (reflecting) boundary (the density gradient -> 0 there); Q-invariant because the lowest " +
+                "diffusion harmonic k_min is Q-fixed. The earlier single-particle phi*phi candidate used the WRONG " +
+                "standing wave (single-particle, not the multi-magnon DENSITY mode): right POWER (squared in the " +
+                "per-site gradient amplitude), wrong wave. The trajectory closure (B link) confirms it WHERE it " +
+                "reads cleanly -- coh~1 only at the high-gradient bonds, there matching N*|dRe|/|reS| in sign and " +
+                "O(1) magnitude (the low-gradient bonds correctly read as redistribution, coh<0.8). " +
                 "Linked: the seam is the closure-vs-<n_XY> " +
                 "orthogonality, a sibling of the (A) value/vector cut (rigid = value-frozen) read at the trajectory. " +
                 "Anchors: hypotheses/PERSPECTIVAL_TIME_FIELD.md; " +
@@ -902,7 +917,9 @@ public static class OpenArcsRegistry
                 "(companion note), ON_THE_SURVIVAL_OF_THE_INCOMPLETE.md; compute/RCPsiSquared.Diagnostics/" +
                 "Foundation/Symphony.cs (clock node, PaintersMovement/FitAlpha, TempoCertification), " +
                 "ClockHandLadderWitness.cs, IncompletenessSurvivorWitness.cs, CoherenceHorizonWitness.cs; " +
-                "simulations/value_vector_felt_time.py (the value/vector crossover); simulations/results/" +
+                "simulations/value_vector_felt_time.py (the value/vector crossover), _felt_time_amplitude_law.py " +
+                "(the dRe ~ grad^2 diffusion-Rayleigh law, block-level), _felt_time_closure_functional.py (the " +
+                "trajectory ground truth); simulations/results/" +
                 "survivor_scaling/ (the c=pi^2/4 closed forms + the Z half-filling pinning data).",
             Status: OpenArcStatus.Open),
     };
