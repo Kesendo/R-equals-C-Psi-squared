@@ -5,12 +5,12 @@ K_decay = gamma/|Re lambda| = 1/(2<n_XY>) is the survivor's felt (dose) lifetime
 alpha reads the eigenVECTOR rotation under a single delta-J bond defect. The clean "value frozen /
 vector rotates" split needs Re lambda (-> K_decay) DEFECT-INVARIANT.
 
-ROUND 1+2 (table mode below) FIRED for the interior survivor: Re lambda moves at first order
+An earlier Re/Im-split diagnostic FIRED for the interior survivor: Re lambda moves at first order
 (Re(dlam) = -0.86/-0.29/-0.12/-0.054 for N=4/5/6/8, linear), because its darkness <n_XY> is SOFT
 (fractional, hopping-dependent). The (0,1) band edge is RIGID-dark (<n_XY>=1 -> Re=-2g structural,
 J-independent) -> there Re(dlam) ~ 0, K_decay frozen, the clean split holds.
 
-CROSSOVER (main mode): the survivor switches interior (p,p) -> band edge (0,1) at the handover Q*.
+CROSSOVER (what main() runs): the survivor switches interior (p,p) -> band edge (0,1) at the handover Q*.
 CLAIM: K_decay's defect-sensitivity |Re(dlam)| switches OFF exactly at that sector switch -- i.e.
 the value/vector split turns ON at the handover.
 GATE (can fire): if |Re(dlam)| does NOT drop to ~0 when the survivor becomes (0,1), or the drop is
