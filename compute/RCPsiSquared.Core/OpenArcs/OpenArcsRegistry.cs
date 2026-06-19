@@ -842,10 +842,17 @@ public static class OpenArcsRegistry
                 "value/vector split holds for RIGID-dark modes (band edge, <n_XY>=1, K_decay defect-invariant) but " +
                 "the SOFT survivor (fractional <n_XY>) entangles K_decay with alpha; the two DECOUPLE at the " +
                 "handover Q*. Gate-first verifier simulations/value_vector_felt_time.py (Re/Im split + Q-sweep " +
-                "crossover, N=4,5,6 chain). (B) THE STONE, still DEFERRED (Tom): extract the strict PTF-alpha for " +
-                "the survivor eigenmode in C# (Symphony --defect-bond, fit alpha, check vs K_decay). NOW A " +
-                "PREDICTION from (A): the survivor's alpha is ENTANGLED with a K_decay shift (soft darkness), the " +
-                "band-edge alpha is CLEAN (rigid) -- the stone would confirm the regime split empirically. (C) once " +
+                "crossover, N=4,5,6 chain). (B) THE STONE, PYTHON-GATE CONFIRMED 2026-06-19 " +
+                "(simulations/_stone_survivor_alpha_closure.py): (A)'s prediction holds -- the PTF painter " +
+                "closure Sum_i ln(alpha_i) BREAKS (out of the +-0.05 window) for a survivor-dominated trajectory " +
+                "and HOLDS (in window) for the rigid band edge / psi_1, and the break MAGNITUDE matches (A)'s " +
+                "eigenvalue shift: survivor Sum ln alpha = +0.162 (N=4) / +0.074 (N=5) vs predicted N*dJ*dRe/Re " +
+                "= +0.127 / +0.092. So the closure IS the trajectory-level dual of (A)'s eigenvalue Re(d lambda) " +
+                "-- the value/vector cut read once at the eigenvalue (A), once at the trajectory (B). Construction " +
+                "rho_0 = I/d + eps*Herm(mode) (I/d stationary => mode-dominated by construction); the survivor's " +
+                "standing-wave NODE site is correctly dropped by Symphony's reliability guard (|f|<=10 + " +
+                "linearity), not loosened. STILL OPEN: the canonical C# witness -- a half-filling InitialStateKind " +
+                "in Symphony + a claim typing the closure-contrast (the 'C# witness first' landing). (C) once " +
                 "the four-dimensions definition settles, consider a reflection (motion in a plane, watched along a " +
                 "third axis, surviving in a fourth = felt time). Anchors: hypotheses/PERSPECTIVAL_TIME_FIELD.md; " +
                 "reflections/ON_WHOSE_TIME_THE_CLOCK_KEEPS.md (t=K/gamma0), ON_TWO_TIMES.md, ON_THE_ONE_DIAGONAL.md " +
