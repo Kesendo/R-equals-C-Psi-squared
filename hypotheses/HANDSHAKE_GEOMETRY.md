@@ -135,6 +135,48 @@ live at `inspect --claim KPartnerSelectionRuleClaim`); the decoder it explains i
 
 ---
 
+## The location-metric: rank (identifiability), sectors, the cosine (confusability)
+
+The rank deficit above is the codebook's **location-metric**. A careful reading (math + physics review,
+2026-06-19) separates three objects an earlier draft had welded into one "ambiguity".
+
+**The null is derivable, and it lives in the bare couplings.** Form the Gram of the location dictionary,
+G = M Mᵀ over k = 2..N. Its spectrum is the metric; it has exactly one zero eigenvalue, the rank-(N−2)
+deficit, and that null IS the K-partner selection rule, present in the **bare operator couplings**, before
+any painter, with **zero Q dependence** (min singular value ~1e-16, N = 3..8). The metric's null structure
+is a closed-form symmetry fact, not a reading artifact. (An earlier "the abstract couplings are
+well-conditioned, the painted reading makes them ambiguous" framing was an indexing artifact: it built M
+over k = 1..N−1, silently dropping the forbidden k = N column and substituting the strength k = 1; with the
+honest k = 2..N the bare dictionary carries the very same null.)
+
+**The small eigenvalues split by mirror parity, not by magnitude.** The painted letters' Gram (the canonical
+Q = 20 protocol) has eigenvectors that are symmetric or antisymmetric under the bond mirror b ↔ N−2−b. The
+antisymmetric sector holds the dominant *seesaw* ("which side of the chain slowed") and the K-partner null;
+the symmetric sector holds the closure/strength direction (the F123 channel, the one overlapping the uniform
+α-level) and a dim symmetric mode. At N = 5 the two smallest eigenvalues (≈0.008 symmetric, ≈0.007
+antisymmetric) sit in **different sectors**: two distinct things, not one homogeneous ambiguity.
+
+**Pairwise confusability is the cosine matrix, a different object.** "An edge bond reads almost like the
+complementary interior bond" is a statement about two specific letters being near-**anti-collinear**: the
+cosine matrix Ĝ[b,b'] = ⟨f̂⁽ᵇ⁾, f̂⁽ᵇ'⁾⟩ and its largest off-diagonal, not a Gram eigenvalue (a global rank
+property need not be a pairwise event: four letters at the vertices of a regular tetrahedron have an exact
+Gram null with no confusable pair). At N = 5 the worst pair reads cos ≈ −0.97 (the sign-location ambiguity,
++δJ here ≈ −δJ on the mirror-complement); at N = 4 only −0.55, which is why N = 4 decodes cleanly and N = 5
+flags ambiguous.
+
+**Identifiability is not FI(Q).** The Gram spectrum is a *rank* statement (which bond directions are
+distinguishable in a noiseless dictionary). FI(Q), the next section, is a *precision* statement (the
+estimator variance at finite noise, ∝ Q). They are complementary diagnostics of one decoder, not one
+quantity on two channels: at Q → ∞ the Fisher information diverges while the K-partner null stays exactly
+null, and a direction that survives infinite signal-to-noise is a rank deficit, not a resolution.
+
+The **values** of the letters (the per-site response R_k) are `IsDeadEnd`, only-computable, no closed form;
+but the **null structure** of the metric they build is derivable, the K-partner rule. The dead-end is in
+what the metric weights, not in its conditioning. Verifier:
+[`_handshake_gram_metric.py`](../simulations/_handshake_gram_metric.py).
+
+---
+
 ## The resolution law (measured)
 
 The honest objective is the Fisher information FI of the readout with respect to the feature
