@@ -23,7 +23,9 @@ public readonly record struct GradientBond(int SiteA, int SiteB, double RateShif
 ///
 /// <para>The PTF painter closure Sum f(b) (step B / <see cref="StoneSurvivorClosureWitness"/>) reads the
 /// survivor's first-order RATE shift dRe(b). This witness gives that rate shift its EXACT bond functional:
-/// the slow survivor is a DENSITY / diffusion mode n(j) (not a current -- its hopping content is zero), so
+/// the slow survivor is predominantly a density mode (a dominant diagonal carrying n(j)) dressed by a
+/// rate-bearing Hamming-2 coherence admixture (the diagonal is dark; the coherence carries the rate;
+/// Tr(M^dag H_b)=0 is no-nearest-neighbour-hopping, not diagonality); in the secular effective theory
 /// a delta-J defect on bond b=(j,j+1) perturbs the LOCAL diffusion coefficient D_b, and the first-order
 /// rate shift is the diffusion Rayleigh-quotient derivative dRe(b) = dlambda/dD_b ~ (n(j)-n(j+1))^2 -- the
 /// SQUARED density GRADIENT ("amplitude^2"). It vanishes at the no-flux (reflecting) chain ends (the
@@ -190,7 +192,8 @@ public sealed class SurvivorDiffusionGradientWitness : IInspectable
     public string Summary =>
         "(D) the felt_time closure functional: the survivor's first-order bond rate shift dRe(b) ~ " +
         "(density-mode gradient at bond b)^2 -- the diffusion Rayleigh quotient (amplitude^2). The slow " +
-        $"survivor (sector ({SurvivorP},{SurvivorP})) is a DENSITY/diffusion mode; a delta-J defect perturbs the " +
+        $"survivor (sector ({SurvivorP},{SurvivorP})) is predominantly a density mode (dominant diagonal n(j), rate-bearing " +
+        "coherence dressing); a delta-J defect perturbs the " +
         "local diffusion coefficient, so dRe = dlambda/dD_b ~ (n(j)-n(j+1))^2, ~0 at the no-flux chain ends. " +
         $"dRe/grad^2 bond-independent (CV={RatioCv.ToString("0.000", Inv)}), log-log slope dRe vs |grad| = " +
         $"{PowerSlope.ToString("0.00", Inv)} ({(LawHolds ? "amplitude^2 CONFIRMED" : "law not clean")}). The " +

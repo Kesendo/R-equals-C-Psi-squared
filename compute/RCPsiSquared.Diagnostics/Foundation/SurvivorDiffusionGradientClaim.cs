@@ -16,13 +16,16 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para>The PTF painter closure Sum f(b) (step B, <see cref="StoneSurvivorClosureClaim"/>) reads the
 /// survivor's first-order RATE shift dRe(b). This is its exact bond functional: the slow survivor is a
-/// DENSITY / diffusion mode n(j) (NOT a current -- its hopping content Tr(M^dag H_b) is identically zero),
+/// density mode whose dominant real diagonal carries n(j), dressed by a rate-bearing Hamming-2 coherence
+/// admixture (the HD-0 diagonal is DARK; the HD-2 coherence carries the rate; Tr(M^dag H_b)=0 rules out only
+/// nearest-neighbour hopping -- the phi*phi current picture -- NOT diagonality),
 /// so a delta-J defect on bond b=(j,j+1) perturbs the LOCAL diffusion coefficient D_b, and the first-order
 /// rate shift is the diffusion Rayleigh-quotient derivative dRe(b) = dlambda/dD_b ~ (n(j)-n(j+1))^2 -- the
 /// SQUARED density GRADIENT ("amplitude^2"). It vanishes at the no-flux (reflecting) chain ends (gradient
 /// -> 0) and peaks in the interior, mirror-symmetric, Q-invariant (the lowest diffusion harmonic k_min is
-/// Q-fixed). Gate-first verified N=4..7: dRe/grad^2 bond-independent (CV 0.001..0.07), log-log slope dRe vs
-/// |grad| = 2.0..2.2. The earlier single-particle phi*phi candidate used the WRONG standing wave
+/// Q-fixed). Gate-first: the slope dRe vs |grad| -> 2.00 and CV -> 0 as Q -> 0 (the exact diffusion limit,
+/// off-diagonal weight -> 0); it drifts above 2 with the finite-Q coherence dressing, not a boundary effect.
+/// The earlier single-particle phi*phi candidate used the WRONG standing wave
 /// (single-particle, not the multi-magnon density mode): right power, wrong wave.</para>
 ///
 /// <para>Typed parents: <see cref="AbsorptionTheoremClaim"/> (the -2gamma rate the diffusion mode decays
@@ -35,7 +38,7 @@ public sealed class SurvivorDiffusionGradientClaim : Claim
     /// <summary>Typed parent: the -2gamma rate law (the diffusion mode decays at this dephasing rate).</summary>
     public AbsorptionTheoremClaim RateLaw { get; }
 
-    /// <summary>Typed parent: the (A) survivor (the slow density mode whose gradient this is).
+    /// <summary>Typed parent: the (A) survivor (the slow mode whose density-profile gradient this is).
     /// Tier1Candidate, so it caps this claim's tier.</summary>
     public SurvivalIncompletenessMirrorClaim Survivor { get; }
 
@@ -53,10 +56,13 @@ public sealed class SurvivorDiffusionGradientClaim : Claim
     public SurvivorDiffusionGradientClaim(AbsorptionTheoremClaim rateLaw, SurvivalIncompletenessMirrorClaim survivor)
         : base("(D) THE CLOSURE FUNCTIONAL (felt_time arc D follow-up): the survivor's first-order bond rate shift " +
                "dRe(b) ~ (density-mode gradient at bond b)^2 -- the diffusion Rayleigh quotient (amplitude^2). The slow " +
-               "survivor is a DENSITY/diffusion mode n(j) (its hopping content Tr(M^dag H_b)=0 identically), so a delta-J " +
-               "defect perturbs the local diffusion coefficient D_b and dRe(b)=dlambda/dD_b ~ (n(j)-n(j+1))^2: ~0 at the " +
-               "no-flux chain ends, peaked interior, mirror-symmetric, Q-invariant (k_min harmonic Q-fixed). Gate-first " +
-               "N=4..7: dRe/grad^2 bond-independent (CV 0.001..0.07), log-log slope dRe vs |grad| = 2.0..2.2. The exact " +
+               "survivor is PREDOMINANTLY a density mode (dominant diagonal n(j)) with a rate-bearing Hamming-2 coherence " +
+               "admixture (the diagonal is DARK, the HD-2 coherence carries the rate; Tr(M^dag H_b)=0 rules out only " +
+               "nearest-neighbour hopping, NOT diagonality). In the secular effective theory a delta-J defect perturbs the " +
+               "local diffusion coefficient D_b and dRe(b)=dlambda/dD_b ~ (n(j)-n(j+1))^2: ~0 at the " +
+               "no-flux chain ends, peaked interior, mirror-symmetric, Q-invariant in shape (k_min harmonic Q-fixed). " +
+               "Gate-first: slope dRe vs |grad| -> 2.00 and CV -> 0 as Q -> 0 (exact diffusion limit), drifting above 2 " +
+               "with the finite-Q coherence dressing. The exact " +
                "bond functional UNDERLYING the PTF closure (B, the trajectory-level dual). The earlier single-particle " +
                "phi*phi candidate used the wrong standing wave (multi-magnon density mode, not single-particle): right " +
                "power, wrong wave. Live: inspect --root gradient.",
@@ -73,8 +79,10 @@ public sealed class SurvivorDiffusionGradientClaim : Claim
 
     public override string Summary =>
         "the survivor's first-order bond rate shift dRe(b) ~ (density-mode gradient)^2 -- the diffusion Rayleigh quotient. " +
-        "The slow survivor is a density/diffusion mode; a delta-J bond defect perturbs the local diffusion coefficient, so " +
-        "dRe ~ (n(j)-n(j+1))^2, ~0 at the no-flux ends. The exact bond functional underlying the PTF closure (B). " +
+        "The slow survivor is predominantly a density mode (dominant diagonal n(j)) with a rate-bearing coherence " +
+        "admixture (the diagonal is dark, the coherence carries the rate); in the secular effective theory a delta-J bond " +
+        "defect perturbs the local diffusion coefficient, so dRe ~ (n(j)-n(j+1))^2, ~0 at the no-flux ends. The exact " +
+        "bond functional underlying the PTF closure (B). " +
         "Tier1Candidate. Live: inspect --root gradient.";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -82,8 +90,9 @@ public sealed class SurvivorDiffusionGradientClaim : Claim
         get
         {
             yield return new InspectableNode("the amplitude^2 reading",
-                summary: "dRe(b) is the survivor mode's first-order rate shift under a delta-J defect on bond b. Because the " +
-                         "mode is a DENSITY/diffusion standing wave, dRe(b) is the diffusion Rayleigh-quotient derivative " +
+                summary: "dRe(b) is the survivor mode's first-order rate shift under a delta-J defect on bond b. The mode's " +
+                         "dominant part is a density standing wave n(j) (the rate carried by its subdominant coherence admixture, " +
+                         "the diagonal dark); in the secular effective theory dRe(b) is the diffusion Rayleigh-quotient derivative " +
                          "~ (n(j)-n(j+1))^2 (the squared gradient): LINEAR in grad^2 (bond-independent ratio), quadratic in " +
                          "the per-site amplitude, ~0 at the reflecting chain ends. The trajectory-level dual is inspect --root stone.");
             foreach (var c in Cases)

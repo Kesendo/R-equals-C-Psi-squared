@@ -5,8 +5,12 @@ mode's bond rate shift dRe(b). So the EXACT functional g question reduces to a C
 block question: how does dRe(b) depend on the survivor mode's standing-wave amplitude at bond b?
 
 FIRST GUESS REFUTED (gate fired): the mode's HOPPING content k(b)=|Tr(M^dag H_b)| is IDENTICALLY
-ZERO -- the slow survivor is a DENSITY (population) mode, diagonal in the dephasing basis, so the
-off-diagonal hopping operator has zero overlap. The survivor is a DIFFUSION mode n(j), not a current.
+ZERO -- so the survivor carries no NEAREST-NEIGHBOUR hopping content, which kills the single-particle
+current picture. NOTE (post physics-first-review 2026-06-19): Tr(M^dag H_b)=0 does NOT make M diagonal.
+The survivor is PREDOMINANTLY a density mode (dominant diagonal n(j)) with a rate-bearing Hamming-2
+coherence admixture (off-diag weight 24-45% at Q=1.5, ->0 as Q->0); the HD-0 diagonal is DARK and the
+HD-2 coherence carries the rate -2*gamma*<n_XY>. The diffusion treatment below is the secular EFFECTIVE
+description of the rate's bond-profile (the coherence eliminated into a population diffusion), exact as Q->0.
 
 THE MECHANISM (diffusion Rayleigh quotient): a bond-J defect perturbs the LOCAL diffusion coefficient
 D_b of the slow density mode. First-order, the decay rate of a diffusion mode is lambda ~ -D * sum_b
@@ -124,10 +128,11 @@ def main():
           f"{'BOND-INDEPENDENT (the law holds)' if g2_ok else 'not constant -- diagnose'}", flush=True)
     ok = g1_ok and g2_ok
     if ok:
-        print("  => g IS amplitude^2: Sum f(b) ~ dRe(b) ~ (density-mode gradient at bond b)^2. The "
-              "earlier phi*phi guess used the SINGLE-PARTICLE wave; the real survivor is a DENSITY/"
-              "diffusion mode and the square is the diffusion-rate Rayleigh quotient. ~0 at ends = "
-              "no-flux boundary; Q-invariant = k_min harmonic is Q-fixed.")
+        print("  => g IS amplitude^2: Sum f(b) ~ dRe(b) ~ (density-gradient at bond b)^2. The "
+              "earlier phi*phi guess used the SINGLE-PARTICLE wave; the real survivor is a multi-magnon mode "
+              "(predominantly diagonal n(j), rate carried by a Hamming-2 coherence dressing) and the square is "
+              "the diffusion-rate Rayleigh quotient (secular effective theory). ~0 at ends = no-flux boundary; "
+              "shape Q-invariant = k_min harmonic is Q-fixed.")
     else:
         print("  => a gate fired -- the functional is NOT clean amplitude^2; diagnose, do not loosen.")
     return ok

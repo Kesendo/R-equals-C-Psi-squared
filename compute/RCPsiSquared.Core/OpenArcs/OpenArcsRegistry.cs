@@ -899,12 +899,17 @@ public static class OpenArcsRegistry
                 "FOLLOW-UP RESOLVED 2026-06-19 (simulations/_felt_time_amplitude_law.py block-level N=4..7 + " +
                 "_felt_time_closure_functional.py trajectory N=4..6, gate-first): the exact functional is " +
                 "AMPLITUDE-SQUARED. Sum f(b) ~ dRe(b) = kappa(N)*(n(j)-n(j+1))^2 -- the SQUARED GRADIENT of the " +
-                "survivor's DENSITY standing wave across bond b=(j,j+1). MECHANISM: the slow survivor is a " +
-                "DENSITY/diffusion mode (its hopping content Tr(M^dag H_b) = 0 IDENTICALLY -- the gate fired on " +
-                "the first 'current/hopping' guess), so a bond-J defect perturbs the LOCAL diffusion coefficient " +
+                "survivor's DENSITY standing wave across bond b=(j,j+1). MECHANISM: the slow survivor is " +
+                "PREDOMINANTLY a density mode (dominant diagonal n(j)) dressed by a rate-bearing Hamming-2 coherence " +
+                "admixture -- the HD-0 diagonal is DARK, the HD-2 coherence carries the rate (Tr(M^dag H_b)=0 rules " +
+                "out only NN hopping, the gate's first 'current/hopping' guess, NOT diagonality). In the secular " +
+                "effective theory a bond-J defect perturbs the LOCAL diffusion coefficient " +
                 "D_b and the first-order rate shift is the diffusion Rayleigh-quotient derivative dRe(b) = " +
                 "d lambda/d D_b ∝ (Delta n_b)^2. Confirmed: dRe/grad^2 bond-INDEPENDENT (CV 0.001..0.07), log-log " +
-                "slope dRe vs |grad| = 2.0..2.2 (mild boundary softening lifting it slightly above 2), the " +
+                "slope dRe vs |grad| -> 2.00 and CV -> 0 as Q->0 (the exact diffusion limit, off-diag weight ->0), " +
+                "drifting above 2 with the finite-Q coherence dressing (a finite-Q effect, NOT boundary; engine " +
+                "Q-sweep inspect --root gradient --q, witness LawHolds flips at Q=2.0; handover Q*~2.5 -> rigid " +
+                "(0,1) band edge), the " +
                 "closed-form sin^2 shape-miss CONVERGES with N (0.17->0.06). The ~0 at the chain ENDS = the " +
                 "no-flux (reflecting) boundary (the density gradient -> 0 there); Q-invariant because the lowest " +
                 "diffusion harmonic k_min is Q-fixed. The earlier single-particle phi*phi candidate used the WRONG " +
