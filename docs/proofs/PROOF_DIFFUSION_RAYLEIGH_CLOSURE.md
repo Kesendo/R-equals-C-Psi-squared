@@ -1,6 +1,6 @@
 # The Closure Functional: the survivor's bond rate shift is the squared density gradient
 
-**Status:** Tier 1 candidate (leading-order analytical derivation in the strong-dephasing diffusion limit; confirmed *exact* as Q → 0 by an engine Q-sweep, slope → 2.00 and CV → 0, and dressed by off-diagonal coherence at finite Q). Tier capped at candidate by its felt-time parent, not by the derivation. Resolves the `felt_time_dimensions` arc (D) follow-up. Physics-first-reviewed 2026-06-19 (see `## Review`).
+**Status:** Tier 1 candidate (leading-order analytical derivation in the strong-dephasing diffusion limit; confirmed *exact* as Q → 0 by an engine Q-sweep, slope → 2.00 and CV → 0, and dressed by off-diagonal coherence at finite Q). Tier capped at candidate by its felt-time parent, not by the derivation. Resolves the `felt_time_dimensions` arc (D) follow-up. Physics-first-reviewed 2026-06-19.
 **Date:** 2026-06-19
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.8)
 **Statement:** for the half-filling survivor (whose single-site occupation profile is `n(j)`), the first-order shift of its decay rate under a single-bond defect on bond `b = (j, j+1)` is `∂(Re λ)/∂J_b ∝ (n(j) − n(j+1))²`, the squared density gradient: ≈ 0 at the no-flux chain ends, maximal in the interior, mirror-symmetric. Exact in the strong-dephasing limit; dressed by off-diagonal coherence through the soft-survivor regime, and superseded at the handover where the survivor becomes the rigid `(0,1)` band edge.
@@ -107,15 +107,3 @@ The companion verifier `_felt_time_closure_functional.py` confirms the **traject
 - **Registry:** [F123](../ANALYTICAL_FORMULAS.md).
 - **Outward reading:** [`ON_THE_FOUR_DIRECTIONS`](../../reflections/ON_THE_FOUR_DIRECTIONS.md) (the fourth direction, felt time, is the in-plane shape read by the watching).
 - **Trajectory dual:** the stone, [`StoneSurvivorClosureClaim`](../../compute/RCPsiSquared.Diagnostics/Foundation/StoneSurvivorClosureClaim.cs) (`inspect --root stone`).
-
-## Review
-
-**Round 1, 2026-06-19 (physics-first-review, two lenses: an engine Q-regime gate + an independent adversarial re-derivation). Verdict: GO-with-required-fixes; fixes applied below.**
-
-The squared-gradient *scaling law* (`∂(Re λ)/∂J_b ∝ (Δn_b)²`, zero at the ends, max interior, mirror-symmetric, Q-fixed shape) was reproduced independently and is sound: slope `→ 2.00` and `CV → 0` as `Q → 0` for every N. Three required fixes, all about mechanism/scope honesty rather than the law, were applied:
-
-- **R1 (mechanism).** Dropped the claim that `M` is "diagonal / a density not a current." `M` is *predominantly* diagonal but carries a 24–45 % (Q=1.5) Hamming-distance-2 coherence admixture; `Tr(M†H_b)=0` rules out only nearest-neighbour hopping, not that admixture. The HD=0 diagonal is **dark** (`⟨n_XY⟩=0`); the decay rate is carried *entirely* by the HD=2 coherence. §1 rewritten accordingly; §"What this is about" now says the smooth density is invisible and what fades is the coherence it stirs up; §2 frames the diffusion picture as the secular *effective* theory (the coherence eliminated into `D ∝ J²/γ`).
-- **R2 (slope trend).** The slope's drift above 2 is a **finite-Q** correction (it grows with Q; `→ 2.00` exactly as `Q → 0` at every N), not "boundary softening", and at fixed Q=1.5 it drifts *away* from 2 with N. Only the *shape-miss* converges with N. §4 separates the two metrics explicitly; "boundary softening" removed.
-- **R3 (regime).** Stated plainly that the verified `Q = 1.5` is outside the `γ ≫ J` limit the derivation assumes (biorthogonality 0.60, `⟨n_XY⟩/Q²` drifted ~23 %); the derivation is exact only as `Q → 0`, and the measured drift is the size of the gap.
-
-Minor (applied): the `(p,p)` sector is filling-degenerate (no unique `p = ⌊N/2⌋`; all tied blocks share the law); `cos(π(j−½)/N)` labelled the continuum/large-N form, not exact at finite N. Confirmed no error (no fix): the `D ∝ J²/γ` vs linear-`V_b` consistency, and the Hellmann-Feynman scoping (shape-only; the prefactor is disclaimed).
