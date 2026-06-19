@@ -866,7 +866,27 @@ public static class OpenArcsRegistry
                 "battery). Symphony seam = PuritySites/FitAlpha made internal static (49 Ptf tests green, no regression). " +
                 "(C) once " +
                 "the four-dimensions definition settles, consider a reflection (motion in a plane, watched along a " +
-                "third axis, surviving in a fourth = felt time). Anchors: hypotheses/PERSPECTIVAL_TIME_FIELD.md; " +
+                "third axis, surviving in a fourth = felt time). " +
+                "(D) THE CLOSURE-STRUCTURE SEAM (mining 2026-06-19, simulations/_stone_mine.py, OPEN). Driving the " +
+                "stone tool broadly (N x Q x sector x topology) surfaced TWO findings that are ONE seam. (i) " +
+                "Q-INVARIANCE: the survivor closure is FLAT in Q (Sum ln alpha ~ +0.16 at N=4, +0.074 at N=5 across " +
+                "Q=1.0..2.0) while <n_XY> runs 0.16->1.0 and biorth collapses near the EP; the eigenvalue prediction " +
+                "N*dJ*dRe/Re diverges there but the closure does not. (ii) RIGIDITY-READING: the closure detects " +
+                "STRUCTURAL pinning, not the <n_XY> value -- the ring (2,2) BREAKS at <n_XY>~1.016 (dressed-soft) " +
+                "while the (0,1) band edge HOLDS at <n_XY>=1 (structural Re=-2gamma); ring/chain closure ~1.66 != " +
+                "the <n_XY> ratio ~4. THE SEAM: the closure is ORTHOGONAL to the dynamical magnitude <n_XY> -- it " +
+                "reads STRUCTURE (the mode's defect-invariance + the trajectory-warp geometry), not the rate " +
+                "magnitude; so OUT+sign-coherence certifies the rate shift QUALITATIVELY but the VALUE is a " +
+                "Q-invariant geometric constant (sharpens the review's 'scaling+sign'). Also surfaced: the chain " +
+                "closure is FILLING-BLIND (all (p,p) incl. boundary (1,1) give the IDENTICAL closure, the " +
+                "free-fermion degeneracy extending to the closure; only (0,1) differs), and the per-site alpha is " +
+                "DEFECT-LOCALIZED (f largest at the defect bond) with the standing-wave centre NODE dropped. TO " +
+                "PURSUE (one seam-investigation, BOTH facets): (a) characterize the Q-invariant value geometrically " +
+                "(vary the defect bond; the mode's amplitude at the defect; is closure = g(defect geometry, " +
+                "eigenvector profile), dJ-scaled?), (b) confirm the rigidity-reading on the RING's non-degenerate " +
+                "(p,p) (where <n_XY> truly varies by sector) + the star. Linked: the seam is the closure-vs-<n_XY> " +
+                "orthogonality, a sibling of the (A) value/vector cut (rigid = value-frozen) read at the trajectory. " +
+                "Anchors: hypotheses/PERSPECTIVAL_TIME_FIELD.md; " +
                 "reflections/ON_WHOSE_TIME_THE_CLOCK_KEEPS.md (t=K/gamma0), ON_TWO_TIMES.md, ON_THE_ONE_DIAGONAL.md " +
                 "(companion note), ON_THE_SURVIVAL_OF_THE_INCOMPLETE.md; compute/RCPsiSquared.Diagnostics/" +
                 "Foundation/Symphony.cs (clock node, PaintersMovement/FitAlpha, TempoCertification), " +
