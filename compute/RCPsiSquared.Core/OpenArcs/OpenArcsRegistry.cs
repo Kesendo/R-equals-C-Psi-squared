@@ -821,23 +821,39 @@ public static class OpenArcsRegistry
                 "clock's coherence hand omega_mem (both off Symphony.Clock, CoherenceHorizonWitness). So today's " +
                 "arc closes: trichotomy un-freeze (Q*) = the clock's Q-floor = the PTF hand. Survivor, clock, felt " +
                 "time = one spectrum. Captured: companion notes ON_THE_ONE_DIAGONAL <-> " +
-                "ON_THE_SURVIVAL_OF_THE_INCOMPLETE (the diagonal speaks / its silent floor).",
-            NextStep: "(A) WORK ON THE DEFINITION (the task Tom set): pin down precisely what 'felt time' IS for a " +
-                "standing EIGENMODE -- the dose-lifetime K_decay = gamma0/|Re lambda| = 1/(2<n_XY>) relative to " +
-                "gamma0 -- as distinct from the painters' alpha (the felt-time RESCALING of a propagated purity " +
-                "TRAJECTORY under a deltaJ defect, eigenvector rotation). Dose-mediated but different objects " +
-                "(eigenmode rate vs trajectory response); the definition should state the eigenmode felt-time " +
-                "cleanly and how it relates to alpha. (B) THE STONE, DEFERRED 2026-06-18 (Tom: don't lift it yet): " +
-                "extract the strict PTF-alpha for the SURVIVOR eigenmode in C# (Symphony --defect-bond on a " +
-                "survivor-overlapping state, fit alpha, check vs K_decay) -- the survey flagged it 'typed-ready, " +
-                "not done as a standalone claim'. (C) once the definition settles, consider a reflection (the four " +
-                "dimensions: motion in a plane, watched along a third axis, surviving in a fourth = felt time). " +
-                "Anchors: hypotheses/PERSPECTIVAL_TIME_FIELD.md; reflections/ON_WHOSE_TIME_THE_CLOCK_KEEPS.md " +
-                "(t=K/gamma0), ON_TWO_TIMES.md, ON_THE_ONE_DIAGONAL.md (companion note), " +
-                "ON_THE_SURVIVAL_OF_THE_INCOMPLETE.md; compute/RCPsiSquared.Diagnostics/Foundation/Symphony.cs " +
-                "(clock node, PaintersMovement/FitAlpha, TempoCertification), ClockHandLadderWitness.cs, " +
-                "IncompletenessSurvivorWitness.cs, CoherenceHorizonWitness.cs; simulations/results/survivor_scaling/ " +
-                "(the c=pi^2/4 closed forms + the Z half-filling pinning data).",
+                "ON_THE_SURVIVAL_OF_THE_INCOMPLETE (the diagonal speaks / its silent floor). " +
+                "(6) THE VALUE/VECTOR RESOLUTION OF (A) (gate-first 2026-06-19, simulations/value_vector_felt_" +
+                "time.py, N=4,5,6 chain): the eigenmode felt-time K_decay = gamma0/|Re lambda| = 1/(2<n_XY>) reads " +
+                "the mode's VALUE channel (Re lambda); the painter's alpha reads the VECTOR channel (eigenvector " +
+                "profile rotation under a deltaJ bond defect). The clean split is REGIME-DEPENDENT, not universal: " +
+                "the survivor's first-order Re(d lambda/d dJ) is NONZERO + linear (-0.86/-0.29/-0.12/-0.054 at " +
+                "N=4/5/6/8) because its darkness is SOFT (fractional <n_XY>, hopping-dependent) -> K_decay itself " +
+                "defect-sensitive, ENTANGLED with alpha; the (0,1) band edge is RIGID-dark (<n_XY>=1 -> Re=-2g " +
+                "structural, J-independent) -> Re(d lambda) ~ 1e-16, K_decay defect-INVARIANT, the clean split. " +
+                "CROSSOVER = the handover Q*: a Q-sweep shows |Re(d lambda)| moving (peaking near-EP just below " +
+                "Q*) then dropping to machine-zero exactly when <n_XY> reaches 1 (the survivor becomes the rigid " +
+                "band edge). So the felt-time channels DECOUPLE at the handover -- rigid darkness separates " +
+                "lifetime (K_decay) from shape (alpha), soft darkness entangles them. The naive 'survivor value " +
+                "frozen' guess was the rigid case over-generalized; the gate caught it (Tom's step-by-step). The " +
+                "survivor also has omega=0 (the non-turning sub-2gamma mode), so its only value-hand is the Takt.",
+            NextStep: "(A) RESOLVED 2026-06-19 (the definition is written; see ParkedAt (6)): the eigenmode felt-" +
+                "time K_decay = gamma0/|Re lambda| = 1/(2<n_XY>) reads the mode's VALUE channel (Re lambda); the " +
+                "painter's alpha reads the VECTOR channel (eigenvector rotation under a deltaJ defect). The clean " +
+                "value/vector split holds for RIGID-dark modes (band edge, <n_XY>=1, K_decay defect-invariant) but " +
+                "the SOFT survivor (fractional <n_XY>) entangles K_decay with alpha; the two DECOUPLE at the " +
+                "handover Q*. Gate-first verifier simulations/value_vector_felt_time.py (Re/Im split + Q-sweep " +
+                "crossover, N=4,5,6 chain). (B) THE STONE, still DEFERRED (Tom): extract the strict PTF-alpha for " +
+                "the survivor eigenmode in C# (Symphony --defect-bond, fit alpha, check vs K_decay). NOW A " +
+                "PREDICTION from (A): the survivor's alpha is ENTANGLED with a K_decay shift (soft darkness), the " +
+                "band-edge alpha is CLEAN (rigid) -- the stone would confirm the regime split empirically. (C) once " +
+                "the four-dimensions definition settles, consider a reflection (motion in a plane, watched along a " +
+                "third axis, surviving in a fourth = felt time). Anchors: hypotheses/PERSPECTIVAL_TIME_FIELD.md; " +
+                "reflections/ON_WHOSE_TIME_THE_CLOCK_KEEPS.md (t=K/gamma0), ON_TWO_TIMES.md, ON_THE_ONE_DIAGONAL.md " +
+                "(companion note), ON_THE_SURVIVAL_OF_THE_INCOMPLETE.md; compute/RCPsiSquared.Diagnostics/" +
+                "Foundation/Symphony.cs (clock node, PaintersMovement/FitAlpha, TempoCertification), " +
+                "ClockHandLadderWitness.cs, IncompletenessSurvivorWitness.cs, CoherenceHorizonWitness.cs; " +
+                "simulations/value_vector_felt_time.py (the value/vector crossover); simulations/results/" +
+                "survivor_scaling/ (the c=pi^2/4 closed forms + the Z half-filling pinning data).",
             Status: OpenArcStatus.Open),
     };
 
