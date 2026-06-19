@@ -933,7 +933,30 @@ public static class OpenArcsRegistry
                 "(the dRe ~ grad^2 diffusion-Rayleigh law, block-level), _felt_time_closure_functional.py (the " +
                 "trajectory ground truth); simulations/results/" +
                 "survivor_scaling/ (the c=pi^2/4 closed forms + the Z half-filling pinning data).",
-            Status: OpenArcStatus.Open),
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "COMPLETED 2026-06-19: every sub-thread (1)-(6) landed and is typed/witnessed; the " +
+                "closing act was consolidation, not new physics. The headline felt-time decay law " +
+                "K_decay = gamma0/|Re lambda| = 1/(2<n_XY>) = N^2/(2cQ^2) was found ALREADY assembled across typed " +
+                "homes -- a SURVEY-CONFIRMED NON-GAP, deliberately NOT rebuilt (a fresh claim would have duplicated " +
+                "live witnesses; the survey caught it). Map of the homes: (3) Re lambda = -2gamma<n_XY> is " +
+                "AbsorptionTheoremClaim; the survivor occupation <n_XY> ~ cQ^2/N^2 with c=pi^2/4 (chain) / pi^2 (ring), " +
+                "ring/chain->4, is STATED in SurvivalIncompletenessMirrorClaim and computed LIVE in " +
+                "IncompletenessSurvivorWitness.TheScalingNode (inspect --root survivor); the STAR breaks the diffusion " +
+                "law (its survivor is the frozen (1,1) commutant, g2=4/(N-1)<=1) = StarFrozenSeamClaim, the third " +
+                "trichotomy member, with the whole chain/ring/star trichotomy assembled live in TrichotomyWitness. " +
+                "(2) survivor = the Z-diagonal's k=0 blind spot + (4) the 2*(1/2)=1 mirror checksum are " +
+                "SurvivalIncompletenessMirrorClaim (a_0=2gamma <-> a_2=1/2 inversion-mirror, a_0*a_2=1). (5) the clock " +
+                "unification (the {0,2}-coherence EP twin IS the PTF coherence hand) is ClockHandLadderClaim + " +
+                "CoherenceHorizonWitness. (6) the value/vector cut (K_decay reads the VALUE channel Re lambda, the " +
+                "painter's alpha the VECTOR channel; they decouple at the handover Q*, rigid darkness separating " +
+                "lifetime from shape) is StoneSurvivorClosureClaim (inspect --root stone). The (D) closure functional " +
+                "-- the bond rate shift is amplitude-squared in the survivor's density gradient (diffusion Rayleigh) " +
+                "-- is F123/SurvivorDiffusionGradientClaim (inspect --root gradient) + PROOF_DIFFUSION_RAYLEIGH_" +
+                "CLOSURE.md, its sin^2 shape-miss CONVERGING with N (0.17->0.06, confirmed to N=8,9 = the continuum " +
+                "limit). (1) the four-dimensional reading is the reflection reflections/ON_THE_FOUR_DIRECTIONS.md " +
+                "(motion in a plane, watched along the Z-diagonal = the light, surviving in felt time read off the " +
+                "shape). Nothing left to build; the star is kept as the honest boundary where the diffusion reading " +
+                "breaks."),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;
