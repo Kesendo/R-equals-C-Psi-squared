@@ -910,6 +910,11 @@ public static class OpenArcsRegistry
                 "per-site gradient amplitude), wrong wave. The trajectory closure (B link) confirms it WHERE it " +
                 "reads cleanly -- coh~1 only at the high-gradient bonds, there matching N*|dRe|/|reS| in sign and " +
                 "O(1) magnitude (the low-gradient bonds correctly read as redistribution, coh<0.8). " +
+                "TYPED 2026-06-19: SurvivorDiffusionGradientClaim (Tier1Candidate, parents AbsorptionTheorem + " +
+                "SurvivalIncompletenessMirror; sibling of StoneSurvivorClosureClaim = the same rate shift read at " +
+                "the trajectory level) + live witness SurvivorDiffusionGradientWitness (inspect --root gradient; " +
+                "reproduces the python bit-for-bit: n(j)=[-0.81,-0.38,+0.38,+0.81], ratios 1.529/1.527/1.529, " +
+                "slope 2.00 at N=4). " +
                 "Linked: the seam is the closure-vs-<n_XY> " +
                 "orthogonality, a sibling of the (A) value/vector cut (rigid = value-frozen) read at the trajectory. " +
                 "Anchors: hypotheses/PERSPECTIVAL_TIME_FIELD.md; " +

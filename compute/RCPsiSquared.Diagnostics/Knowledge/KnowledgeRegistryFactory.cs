@@ -203,6 +203,11 @@ public static class KnowledgeRegistryFactory
             // the mode's rate shift on the I/d+eps probe. Parents AbsorptionTheoremClaim + the survivor mirror
             // (just above) + ChiralMirrorTrajectoryClaim, all registered above. Witness: inspect --root stone.
             .RegisterStoneSurvivorClosureClaim()
+            // (D) THE CLOSURE FUNCTIONAL (felt_time arc D follow-up): the EIGENVALUE-level dual of the stone -
+            // the survivor's first-order bond rate shift dRe(b) ~ (density-mode gradient)^2 (the diffusion
+            // Rayleigh quotient, amplitude^2). Parents AbsorptionTheoremClaim + the survivor mirror (just above).
+            // Tier1Candidate. Witness: inspect --root gradient.
+            .RegisterSurvivorDiffusionGradientClaim()
             .RegisterF86LEffMirrorAxis()
             // F-formula Pi2-Foundation inheritance claims.
             // F63 + F61 registered first because F1Pi2Inheritance now ctor-takes F61 as
