@@ -116,4 +116,24 @@ public class EpistemicFacetTests
         Assert.False(EpistemicFacetMap.Facet("g_eff").HasFlag(EpistemicFacet.IsAlive));
         Assert.False(EpistemicFacetMap.Facet("gamma0").HasFlag(EpistemicFacet.IsAlive));
     }
+
+    [Fact]
+    public void HandshakeRk_IsAStaticDeadEnd_LikeXPeak()
+    {
+        // The bonding-mode per-bond defect response f(b) (handshake_decoder R_k): rate-protected
+        // (U(1) + Π => re_shift(0,1) ~ 0) so it is eigenvector mixing, NOT a rate functional, and no
+        // simple closed form fits it across N (EQ-021 power-law fails; the only-computable gate's
+        // battery stays R^2 0.38-0.73 at N>=6). It is the PTF mixing calc instanced -- computable
+        // (the painter, exact, carrier-independent to 0.999) but not derivable. A pure, static
+        // dead-end like x_peak: nothing core rides on its value, and the per-N profile does not stir.
+        var rk = EpistemicFacetMap.Facet("handshake_Rk");
+        Assert.True(rk.HasFlag(EpistemicFacet.IsDeadEnd));
+        Assert.False(rk.HasFlag(EpistemicFacet.IsCore));
+        Assert.False(rk.HasFlag(EpistemicFacet.IsAlive));
+
+        // It joins the static dead-ends (x_peak, g_eff), not the living ones (PTF, the_angle).
+        var living = EpistemicFacetMap.WithAll(EpistemicFacet.IsDeadEnd | EpistemicFacet.IsAlive);
+        Assert.DoesNotContain("handshake_Rk", living);
+        Assert.Contains("handshake_Rk", EpistemicFacetMap.WithAll(EpistemicFacet.IsDeadEnd));
+    }
 }
