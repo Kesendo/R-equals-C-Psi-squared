@@ -4642,5 +4642,40 @@ is the topology band edge `= J·ρ` (`TopologyBandEdgeClaim`).
 
 ---
 
+### F123. The closure functional: the survivor's bond rate shift is the squared density gradient (Tier 1 candidate; diffusion Rayleigh quotient, gate-exact N=4..7; 2026-06-19)
+
+The longest-lived mode on a dispersive chain is the half-filling **survivor**, a density (diffusion)
+standing wave `n(j)` (the slowest `(p,p)`-sector mode; its hopping content `Tr(M†H_b) = 0`, a density
+mode and not a current). Under a single-bond defect `δJ` on bond `b = (j, j+1)`, the first-order shift
+of its decay rate is the **squared density gradient** across that bond:
+
+  **∂(Re λ)/∂J_b ∝ (n(j) − n(j+1))²**
+
+*Mechanism* (diffusion Rayleigh quotient): the slow density mode decays through
+`Re λ ∝ −Σ_b D_b·(n(j) − n(j+1))² / ‖n‖²`, so `∂/∂D_b` selects the local squared gradient. The shift is
+therefore ≈ 0 at the no-flux (reflecting) chain **ends** (the gradient vanishes there) and maximal in the
+**interior**, mirror-symmetric. Its bond-*shape* is **Q-invariant** (set by the lowest diffusion harmonic
+`k_min`); the overall rate scale is not.
+
+*Verification* (gate-first, N=4..7 chain): `dRe/grad²` is bond-independent (CV `0.001..0.07`); the
+log-log slope of `dRe` against `|grad|` is `2.0..2.2` (a mild boundary softening lifts it slightly above
+2); the closed-form `sin²` shape-miss converges with N (`0.17 → 0.06`). The earlier single-particle
+`φ·φ` candidate used the wrong standing wave (the survivor is multi-magnon): right power, wrong wave.
+
+*Trajectory dual*: the PTF painter closure `Σ_i ln(α_i)` reads this same rate shift where it reads
+cleanly, sign-coherent only at the high-gradient bonds (matching `N·|dRe|/|reS|` in sign and `O(1)`
+magnitude; the low-gradient bonds read as a redistribution): the eigenvalue law (this entry) and the
+trajectory closure (the stone) are one fact read twice.
+
+**Source:** [`simulations/_felt_time_amplitude_law.py`](../simulations/_felt_time_amplitude_law.py)
+(the block-level law, gate-first N=4..7) and
+[`simulations/_felt_time_closure_functional.py`](../simulations/_felt_time_closure_functional.py)
+(the trajectory ground truth); typed claim `SurvivorDiffusionGradientClaim` (parents
+`AbsorptionTheoremClaim` + `SurvivalIncompletenessMirrorClaim`,
+`compute/RCPsiSquared.Diagnostics/Foundation/`), live witness `inspect --root gradient`; the outward
+reading is [`reflections/ON_THE_FOUR_DIRECTIONS.md`](../reflections/ON_THE_FOUR_DIRECTIONS.md).
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*
