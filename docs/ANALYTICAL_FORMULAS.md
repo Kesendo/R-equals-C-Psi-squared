@@ -4684,5 +4684,17 @@ reading is [`reflections/ON_THE_FOUR_DIRECTIONS.md`](../reflections/ON_THE_FOUR_
 
 ---
 
+### F124. The handshake location-matrix invariant: total reading-power plus weakest mode is exactly two (Tier 1 derived; gate-exact N=4..20; open chain; 2026-06-20)
+
+For the open chain, the handshake decoder's **location matrix** `M_loc[b,k] = ⟨ψ_k|V_b|ψ_1⟩` (bonds `b` × bonding modes `k`, carrier `ψ_1`, `V_b` the single-bond perturbation) obeys the exact, `N`-independent invariant
+
+  **‖M_loc‖_F² + λ_min(M_loc M_locᵀ) = 2.**
+
+Both halves are the carrier's leakage off the two *free* chain-ends, `E = c₀² + c_{N-1}² = (4/(N+1))·sin²(π/(N+1))` (`c_i = ψ_1(i)`): the total reading-power `‖M_loc‖_F² = 2 − E` (the stacked bonds see all of the carrier except its degree-1 end weight), and the weakest reading-mode `λ_min = E`, whose eigenvector is the **staggered** bond wave `(−1)^b` — the K-partner's own staggering, `ψ_N(i) = (−1)^i ψ_1(i)`. The same `E` enters once as the Frobenius deficit and once as the smallest bond-Gram eigenvalue, summing to the doubled carrier norm `2`. The Frobenius half is degree-counting of the normalized carrier; the eigenvalue half is the conserved discrete-energy invariant of the carrier's sine recurrence (`Q = c_a² + c_{a+1}² − E₁·c_a c_{a+1} = c₀²`, with band edge `E₁ = 2cos(π/(N+1))`, the `ClockHandLadder` quantity). As `N → ∞`, `E → 0` so `‖M_loc‖_F² → 2⁻` and `λ_min → 0`. `M_loc` is the handshake location matrix, **distinct** from the F1/F49 palindrome-residual `M`.
+
+**Source:** [Proof](proofs/PROOF_HANDSHAKE_LOCATION_INVARIANT.md); [`simulations/_handshake_M_checksum.py`](../simulations/_handshake_M_checksum.py) (derivation gate, N=4..20) + [`simulations/_handshake_M_explore.py`](../simulations/_handshake_M_explore.py) (discovery); context [`hypotheses/HANDSHAKE_GEOMETRY.md`](../hypotheses/HANDSHAKE_GEOMETRY.md) (the `handshake_decoder` arc).
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*
