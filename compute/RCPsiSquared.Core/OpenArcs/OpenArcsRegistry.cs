@@ -858,9 +858,12 @@ public static class OpenArcsRegistry
                 "f (asserted, coh>0.8). (iii) magnitude is SCALING + SIGN, not quantitative (measured/predicted " +
                 "drifts ~2.5x toward the handover as biorth->0.28). (iv) psi_1 is a fast multi-mode BASELINE " +
                 "(dom Re~-1.7), not a band-edge contrast. The standing-wave NODE site (odd N) is correctly " +
-                "dropped by the |f|<=10 + linearity guard (proven structural). STILL OPEN: the canonical C# " +
-                "witness -- it MUST encode the I/d+eps*Herm(mode) probe (a PURE half-filling state would HOLD " +
-                "and reproduce nothing) + a claim typing the rate-shift readout with the sign-coherence guard. " +
+                "dropped by the |f|<=10 + linearity guard (proven structural). DONE 2026-06-19: the canonical C# " +
+                "witness landed -- StoneSurvivorClosureWitness (inspect --root stone) drives the STRICT Symphony " +
+                "FitAlpha on the I/d+eps*Herm(mode) probe and reproduces the python gate bit-for-bit (survivor +0.162 " +
+                "OUT/coh=1.0, band edge +0.006 IN), + the typed StoneSurvivorClosureClaim (Tier1Candidate, parents " +
+                "AbsorptionTheorem + SurvivalIncompletenessMirror + ChiralMirrorTrajectory; sign-coherence in the " +
+                "battery). Symphony seam = PuritySites/FitAlpha made internal static (49 Ptf tests green, no regression). " +
                 "(C) once " +
                 "the four-dimensions definition settles, consider a reflection (motion in a plane, watched along a " +
                 "third axis, surviving in a fourth = felt time). Anchors: hypotheses/PERSPECTIVAL_TIME_FIELD.md; " +

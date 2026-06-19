@@ -550,6 +550,16 @@ public static class InspectCommand
                     c.Parser.HasFlag("N") ? c.N : 6,
                     c.Parser.OptionalDouble("q") ?? 1.5),
             RequiresN: false, HonorsOptionalN: true),
+        new("stone", "THE STONE (felt_time arc B): the PTF painter closure Sum_i ln(alpha_i), via the CANONICAL " +
+            "Symphony FitAlpha on the mode-isolating probe rho_0 = I/d + eps*Herm(mode), reads the mode's first-order " +
+            "RATE shift - OUT + sign-coherent (rate-shift) for the soft survivor interior (2,2), IN (frozen) for the " +
+            "rigid (0,1) band edge: the TRAJECTORY-level dual of the eigenvalue value/vector split. Probe-state-specific " +
+            "(review-pinned, not a universal law), the rate shift certified by sign-coherence; N in 4..5",
+            c => new StoneSurvivorClosureWitness(
+                    c.Parser.HasFlag("N") ? c.N : 4,
+                    c.Parser.OptionalDouble("q") ?? 1.5,
+                    c.Parser.OptionalDouble("delta-j") ?? 0.02),
+            RequiresN: false, HonorsOptionalN: true),
         new("trichotomy",
             "the chain/ring/star survivor trichotomy as one sweep: carbon un-freeze read (RouteSweep) + absolute Δn-seam read",
             c => new TrichotomyWitness(

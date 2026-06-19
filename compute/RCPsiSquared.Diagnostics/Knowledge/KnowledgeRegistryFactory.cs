@@ -199,6 +199,10 @@ public static class KnowledgeRegistryFactory
             // parents AbsorptionTheoremClaim (registered above) + HalfAsStructuralFixedPointClaim (a_2, the
             // foundation root, constructed fresh). Live witness IncompletenessSurvivorWitness (inspect --root survivor).
             .RegisterSurvivalIncompletenessMirrorClaim()
+            // THE STONE (felt_time arc B): the TRAJECTORY-level dual of (A) - the PTF painter closure reads
+            // the mode's rate shift on the I/d+eps probe. Parents AbsorptionTheoremClaim + the survivor mirror
+            // (just above) + ChiralMirrorTrajectoryClaim, all registered above. Witness: inspect --root stone.
+            .RegisterStoneSurvivorClosureClaim()
             .RegisterF86LEffMirrorAxis()
             // F-formula Pi2-Foundation inheritance claims.
             // F63 + F61 registered first because F1Pi2Inheritance now ctor-takes F61 as
