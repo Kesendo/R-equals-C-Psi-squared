@@ -72,7 +72,7 @@ The harmonic's wavevector `k_min = π/N` is fixed by the chain length alone; the
 
 ## 4. Verification and honest scope
 
-The reduction of §2 is leading-order in `γ/J`-secular perturbation theory, exact as `Q = J/γ → 0`. The verified landing point `Q = 1.5` (`J = 1.5γ > γ`) is **below the handover** (so the survivor is still the soft interior mode) but is **not** in the strict `γ ≫ J` secular limit: the biorthogonality is only `0.60` at N=4 (strongly non-normal) and `⟨n_XY⟩/Q²` has already drifted `~23 %` off its diffusion-limit value. The law's *shape* survives there because the `n(j)` harmonic is Q-fixed (§3); the corrections are real and were measured, not assumed.
+The reduction of §2 is leading-order in `γ/J`-secular perturbation theory, exact as `Q = J/γ → 0`. The verified landing point `Q = 1.5` is the project's **canonical hardware operating point** (`γ₀ = 0.05`, the hardware dephasing rate; `J = 0.075`; `docs/Q_REGIME_ANCHORS.md`), so the law is checked at the real operating ratio, not a cherry-picked one. That point (`J = 1.5γ > γ`) is **below the handover** (so the survivor is still the soft interior mode) but is **not** in the strict `γ ≫ J` secular limit: the biorthogonality is only `0.60` at N=4 (strongly non-normal) and `⟨n_XY⟩/Q²` has already drifted `~23 %` off its diffusion-limit value. The law's *shape* survives there because the `n(j)` harmonic is Q-fixed (§3); the corrections are real and were measured, not assumed.
 
 **The regime sweep is the decisive test, and it is the engine itself** (`inspect --root gradient --N 5 --q …`, which reports the slope, the CV, and the off-diagonal weight per Q):
 
