@@ -66,7 +66,7 @@ Open boundaries impose **no-flux (Neumann)** conditions on the diffusion: no pop
 
     n(j) ∝ cos(π (j − ½) / N),   so   Δn_b = n(j) − n(j+1) ∝ sin(π j / N),
 
-which vanishes at the boundary bonds (`j → 0, N`), peaks in the interior, and is mirror-symmetric. Hence `∂(Re λ)/∂J_b ∝ sin²(π j / N)`: zero at the ends, maximal in the middle. This is the reflection's "untouchable where it lies flat against the wall, alive to the touch where it climbs". The discrete many-body profile approaches this form, with the `sin²` shape-miss shrinking from `0.17` at `N=4` to `0.06` at `N=7` (§4).
+which vanishes at the boundary bonds (`j → 0, N`), peaks in the interior, and is mirror-symmetric. Hence `∂(Re λ)/∂J_b ∝ sin²(π j / N)`: zero at the ends, maximal in the middle. This is the reflection's "untouchable where it lies flat against the wall, alive to the touch where it climbs". The discrete many-body profile approaches this form, with the `sin²` shape-miss shrinking monotonically from `0.17` at `N=4` through `0.06` at `N=7` to `0.043` / `0.035` at `N=8` / `N=9` (§4), confirming the continuum harmonic as the large-N limit.
 
 The harmonic's wavevector `k_min = π/N` is fixed by the chain length alone; the diffusion scale `D ∝ J²/γ ∝ Q` multiplies `W` overall and so sets the magnitude of `Re λ` but not the *shape* of its eigenvector. So the bond-profile `(Δn_b)²` is Q-invariant **in the strong-dephasing regime** where the classical reduction holds; as `Q` rises the off-diagonal dressing perturbs the bond-independence (the CV grows, §4). This is the origin of the seam observation that the closure is flat in `Q` while `⟨n_XY⟩` runs: in its regime the closure reads the Q-fixed shape, not the Q-dependent scale.
 
@@ -95,6 +95,10 @@ At a fixed moderate `Q = 1.5` the law still holds across N (the original landing
 | 5 | 0.73, 0.67 | 0.040 | 2.12 | 0.12 |
 | 6 | 0.32, 0.31, 0.28 | 0.060 | 2.16 | 0.08 |
 | 7 | 0.18, 0.17, 0.15 | 0.070 | 2.17 | 0.06 |
+| 8 | — | — | — | 0.043 |
+| 9 | — | — | — | 0.035 |
+
+(The N=8, 9 rows recompute only the `sin²` shape-miss — `_felt_time_highn_shapemiss.py`, the half-filling `(p,p)` block reaching `15876²` at N=9, the dense ceiling on 128 GB; the Q-correction columns are the N≤7 landing. The monotone descent `0.17 → 0.035` confirms the continuum harmonic as the large-N limit.)
 
 The squared-gradient law is thus **exact in the strong-dephasing (diffusion) limit, holds with small dressing corrections through the soft-survivor regime, and is superseded at the handover**; it is not an exact all-`Q` closed form, and the prefactor constant is scaling-plus-sign, consistent with the two-lens review of the trajectory side.
 
