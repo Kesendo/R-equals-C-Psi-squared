@@ -842,17 +842,26 @@ public static class OpenArcsRegistry
                 "value/vector split holds for RIGID-dark modes (band edge, <n_XY>=1, K_decay defect-invariant) but " +
                 "the SOFT survivor (fractional <n_XY>) entangles K_decay with alpha; the two DECOUPLE at the " +
                 "handover Q*. Gate-first verifier simulations/value_vector_felt_time.py (Re/Im split + Q-sweep " +
-                "crossover, N=4,5,6 chain). (B) THE STONE, PYTHON-GATE CONFIRMED 2026-06-19 " +
-                "(simulations/_stone_survivor_alpha_closure.py): (A)'s prediction holds -- the PTF painter " +
-                "closure Sum_i ln(alpha_i) BREAKS (out of the +-0.05 window) for a survivor-dominated trajectory " +
-                "and HOLDS (in window) for the rigid band edge / psi_1, and the break MAGNITUDE matches (A)'s " +
-                "eigenvalue shift: survivor Sum ln alpha = +0.162 (N=4) / +0.074 (N=5) vs predicted N*dJ*dRe/Re " +
-                "= +0.127 / +0.092. So the closure IS the trajectory-level dual of (A)'s eigenvalue Re(d lambda) " +
-                "-- the value/vector cut read once at the eigenvalue (A), once at the trajectory (B). Construction " +
-                "rho_0 = I/d + eps*Herm(mode) (I/d stationary => mode-dominated by construction); the survivor's " +
-                "standing-wave NODE site is correctly dropped by Symphony's reliability guard (|f|<=10 + " +
-                "linearity), not loosened. STILL OPEN: the canonical C# witness -- a half-filling InitialStateKind " +
-                "in Symphony + a claim typing the closure-contrast (the 'C# witness first' landing). (C) once " +
+                "crossover, N=4,5,6 chain). (B) THE STONE, PYTHON-GATE CONFIRMED + TWO-LENS REVIEWED " +
+                "2026-06-19 (simulations/_stone_survivor_alpha_closure.py; physics + math review GO-with-fixes, " +
+                "fixes applied). PRECISE claim: for the near-stationary MODE-ISOLATING probe rho_0 = I/d + " +
+                "eps*Herm(mode) (I/d stationary, so the single-site purity is driven almost only by the chosen " +
+                "mode), the PTF painter closure Sum_i ln(alpha_i) reads the mode's first-order RATE shift -- OUT " +
+                "of +-0.05 for the soft survivor (Re moves; sign-coherent per-site f, coh=1.0) and IN for the " +
+                "rigid band edge (Re frozen). So (B) is a CONSTRUCTIVE confirmation of (A) FOR THIS PROBE (the " +
+                "value/vector cut read once at the eigenvalue (A), once at the painter trajectory (B)), NOT a " +
+                "universal trajectory law. REVIEW-PINNED SCOPE: (i) PROBE-STATE-DEPENDENT -- a survivor-dominated " +
+                "but POLARIZED state HOLDS (closure collapses 0.16->0.007 under added single-site polarization " +
+                "while the survivor stays dominant); the closure measures how cleanly the probe isolates the mode " +
+                "in the single-site purity. (ii) Sum ln alpha != 0 does NOT by itself imply a rate shift (an " +
+                "asymmetric redistribution also breaks it); certified only via the SIGN-COHERENCE of the reliable " +
+                "f (asserted, coh>0.8). (iii) magnitude is SCALING + SIGN, not quantitative (measured/predicted " +
+                "drifts ~2.5x toward the handover as biorth->0.28). (iv) psi_1 is a fast multi-mode BASELINE " +
+                "(dom Re~-1.7), not a band-edge contrast. The standing-wave NODE site (odd N) is correctly " +
+                "dropped by the |f|<=10 + linearity guard (proven structural). STILL OPEN: the canonical C# " +
+                "witness -- it MUST encode the I/d+eps*Herm(mode) probe (a PURE half-filling state would HOLD " +
+                "and reproduce nothing) + a claim typing the rate-shift readout with the sign-coherence guard. " +
+                "(C) once " +
                 "the four-dimensions definition settles, consider a reflection (motion in a plane, watched along a " +
                 "third axis, surviving in a fourth = felt time). Anchors: hypotheses/PERSPECTIVAL_TIME_FIELD.md; " +
                 "reflections/ON_WHOSE_TIME_THE_CLOCK_KEEPS.md (t=K/gamma0), ON_TWO_TIMES.md, ON_THE_ONE_DIAGONAL.md " +
