@@ -949,14 +949,14 @@ public sealed class PaintersMovement : IInspectable
         // The clock from L_A (read once, off the SHARED clean eigendecomposition the Symphony kept).
         (_taktGap, _omegaMem) = p.Clock;
 
-        // The four trajectories, each built exactly once.
-        _pA = PuritySites(L_A, rho0, tGrid, sitePaulis);            // clean
-        _pB = PuritySites(L_B, rho0, tGrid, sitePaulis);            // defected (the second performance)
-        var pGuardSites = PuritySites(L_guard, rho0, tGrid, sitePaulis);   // guard third (δJ/2)
+        // The four trajectories, each built exactly once (_buildCount contract = 4).
+        _pA = PuritySites(_n, L_A, rho0, tGrid, sitePaulis); _buildCount++;            // clean
+        _pB = PuritySites(_n, L_B, rho0, tGrid, sitePaulis); _buildCount++;            // defected (second performance)
+        var pGuardSites = PuritySites(_n, L_guard, rho0, tGrid, sitePaulis); _buildCount++;   // guard (δJ/2)
 
         // The K₁ chiral-mirror run: same defected system, initial state K₁ψ.
         var rhoK1 = ConjugateByK1(rho0);
-        var pBk1 = PuritySites(L_B, rhoK1, tGrid, sitePaulis);
+        var pBk1 = PuritySites(_n, L_B, rhoK1, tGrid, sitePaulis); _buildCount++;
         double dev = 0.0;
         for (int i = 0; i < _n; i++)
             for (int s = 0; s < tGrid.Length; s++)
@@ -999,7 +999,7 @@ public sealed class PaintersMovement : IInspectable
     /// <summary>Per-site purity P_i(t) = ½(1 + ⟨X_i⟩² + ⟨Y_i⟩² + ⟨Z_i⟩²) along the spectral evolution
     /// of L from ρ0 on tGrid. One eigendecomposition of L, one mat-vec per step (the same propagation
     /// the Symphony uses). Counts one trajectory build.</summary>
-    private double[][] PuritySites(ComplexMatrix L, ComplexMatrix rho0, double[] tGrid,
+    internal static double[][] PuritySites(int n, ComplexMatrix L, ComplexMatrix rho0, double[] tGrid,
         (ComplexMatrix X, ComplexMatrix Y, ComplexMatrix Z)[] sitePaulis)
     {
         int d = rho0.RowCount;
@@ -1016,8 +1016,8 @@ public sealed class PaintersMovement : IInspectable
                 vec0[a * d + b] = rho0[a, b];
         var c0 = Rinv * vec0;
 
-        var purity = new double[_n][];
-        for (int i = 0; i < _n; i++) purity[i] = new double[tGrid.Length];
+        var purity = new double[n][];
+        for (int i = 0; i < n; i++) purity[i] = new double[tGrid.Length];
 
         var expDiag = ComplexVector.Build.Dense(dim2);
         var rhoT = ComplexMatrix.Build.Dense(d, d);
@@ -1037,7 +1037,7 @@ public sealed class PaintersMovement : IInspectable
                     rhoT[a, b] = avg;
                     rhoT[b, a] = Complex.Conjugate(avg);
                 }
-            for (int i = 0; i < _n; i++)
+            for (int i = 0; i < n; i++)
             {
                 double x = Trace(sitePaulis[i].X, rhoT);
                 double y = Trace(sitePaulis[i].Y, rhoT);
@@ -1046,7 +1046,6 @@ public sealed class PaintersMovement : IInspectable
             }
         }
 
-        _buildCount++;
         return purity;
     }
 
@@ -1064,7 +1063,7 @@ public sealed class PaintersMovement : IInspectable
     /// <summary>Fit α ∈ [0.1, 10] minimizing Σ_t (P_A(α·t) − P_B(t))² (golden-section search; P_A is
     /// natural-cubic-spline-interpolated to match scipy's interp1d(kind='cubic'), clamped to the
     /// endpoint values off-grid, the scipy fill_value=(y0, y_end) the reference uses).</summary>
-    private static double FitAlpha(double[] tGrid, double[] pA, double[] pB)
+    internal static double FitAlpha(double[] tGrid, double[] pA, double[] pB)
     {
         var spline = new NaturalCubicSpline(tGrid, pA);
 
