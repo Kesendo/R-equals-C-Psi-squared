@@ -864,9 +864,11 @@ public static class OpenArcsRegistry
                 "OUT/coh=1.0, band edge +0.006 IN), + the typed StoneSurvivorClosureClaim (Tier1Candidate, parents " +
                 "AbsorptionTheorem + SurvivalIncompletenessMirror + ChiralMirrorTrajectory; sign-coherence in the " +
                 "battery). Symphony seam = PuritySites/FitAlpha made internal static (49 Ptf tests green, no regression). " +
-                "(C) once " +
-                "the four-dimensions definition settles, consider a reflection (motion in a plane, watched along a " +
-                "third axis, surviving in a fourth = felt time). " +
+                "(C) DONE 2026-06-19: reflections/ON_THE_FOUR_DIRECTIONS.md (motion in a plane, watched along a " +
+                "third axis, surviving in a fourth = felt time; the heart = GEOMETRY IS THE REASON: the survivor's " +
+                "lifetime is read off the slope of its own density standing wave, the (D) result in plain words). " +
+                "Three-lens reviewed (cold/philosopher/physics): fixed the flat-vs-smooth equivocation; four sparse " +
+                "inline depth-links; bidirectional with ON_THE_SURVIVAL_OF_THE_INCOMPLETE. " +
                 "(D) THE CLOSURE-STRUCTURE SEAM (2026-06-19, _stone_mine.py + _stone_seam.py, RESOLVED + one " +
                 "follow-up). Driving the " +
                 "stone tool broadly (N x Q x sector x topology) surfaced TWO findings that are ONE seam. (i) " +
