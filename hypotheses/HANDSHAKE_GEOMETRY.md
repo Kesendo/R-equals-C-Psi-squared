@@ -204,9 +204,9 @@ and this cross-feature reflection are the two symmetry structures of one diction
 
 **The confusability, now derived.** The two mirror-image bonds read with cosine
 
-> **`cos(b, N−2−b) = Σ_{k=2..N} (−1)^{k−1} w_k`,  `w_k = M[b,k]² / ‖M[b,·]‖²`** —
+> **`cos(b, N−2−b) = Σ_{k=2..N} (−1)^{k−1} w_k`,  `w_k = M[b,k]² / ‖M[b,·]‖²`**
 
-a closed-form parity-weighted mode sum. It is negative (anti-collinear) exactly when the **R-odd**
+This is a closed-form parity-weighted mode sum. It is negative (anti-collinear) exactly when the **R-odd**
 channels, above all the seesaw k=2 (the sign representation), carry the net location weight. This is
 the structural origin of the sign-location ambiguity: the mirror-image bonds are R-images, the
 distinguishing channel is the K-partner null, and the confusability sign is fixed by the R-odd
@@ -304,7 +304,7 @@ then read is how you recall what is written in the dark. γ₀ erases only the b
 > than holding at 2, with a regime break near Q ≈ 8 where the best read jumps to a later coherent
 > revival (not monotone there). The diagnostic rules out the operational definition as the
 > culprit: argmax-FI equals the first local maximum (one peak; the break is physical), and only a
-> first-turnover/inflection cost gives a cleaner monotone ~0.75/Q (slope −0.82) — but that is the
+> first-turnover/inflection cost gives a cleaner monotone ~0.75/Q (slope −0.82), but that is the
 > *onset* of the first feature, not the dose you actually read at. It is a Q-decreasing crossover,
 > not a single 2/Q power law; the "2" and the "−1" are not established. The gate was held strict,
 > not loosened.
@@ -336,7 +336,7 @@ who is written upon.
 - **The read-cost law** (~2/Q per recall): tested 2026-06-20 (above). Cost-per-recall decreases
   with Q (the qualitative law and the stated flat-or-inverted falsification line both survive), but
   the quantitative ~2/Q does not: exponent ≈ −0.7, prefactor drifting 1.3 → 3.6, a regime break
-  near Q ≈ 8 — a crossover, not a single power law. Open: a closed form for the crossover, and
+  near Q ≈ 8, a crossover, not a single power law. Open: a closed form for the crossover, and
   whether the break tracks a known scale (coherence horizon / band edge).
 - **Codebook completeness:** that every γ₀-relative position is readable by some handshake.
   A feature no handshake decodes refutes it.
