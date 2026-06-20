@@ -11,17 +11,17 @@
 
 ## Abstract
 
-F112's parent proof handles the Hermitian-Hamiltonian case via a clean dagger argument: for Hermitian H, the dagger map on operator space sends the Π +i eigenspace bijectively to Π −i, and that isometry forces equal Frobenius weights on the two sides. The argument stops working when H stops being Hermitian. Some physically meaningful systems live there: PT-symmetric effective Hamiltonians, gain-loss models, post-selection dynamics. The empirical probes hinted that the polarity-coordinates balance still holds in all those cases, but the structural reason was open.
+F112's parent proof handles the Hermitian-Hamiltonian case via a clean dagger argument: for Hermitian H, the dagger map on operator space sends the Π +i eigenspace bijectively to Π −i, and that isometry forces equal Frobenius weights on the two sides. The argument stops working when H stops being Hermitian. Non-Hermitian H matrices arise in PT-symmetric, gain-loss, and post-selection settings. The empirical probes hinted that the balance of the commutator superoperator −i[H,·] still holds when such a non-Hermitian matrix is placed in it, but the structural reason was open. (The commutator −i[H,·] is NOT those systems' physical generator −i(Hρ−ρH†), which fails the balance; see the Scope note below.)
 
 This proof closes the universal-N case for arbitrary H by a different route. Write a general H as a Hermitian real part plus i times a Hermitian imaginary part. The polarity-balance identity then reduces algebraically to a single open identity: the imaginary part of a specific Frobenius inner product must vanish for every pair of Hermitian operators. By bilinearity the identity further reduces to a per-pair check on Pauli-string basis pairs.
 
 Two lemmas close the per-pair check structurally. The first computes a clean closed form: for any Pauli string whose Y and Z letters sum to an odd parity, the Frobenius norm squared of its Π −i projection equals the operator-space dimension exactly, a uniform 4^N regardless of which string we picked. The second shows that for any pair of distinct such strings, their Π −i projections land on disjoint Pauli-basis support, so their inner product vanishes by orthogonality alone.
 
-Together: the diagonal entries of the open identity are real because they are squared norms, and the off-diagonal entries vanish because the inner products themselves vanish. The imaginary part is therefore zero across the entire Hermitian operator space, and F112's typed scope widens from "Hermitian H" to "any H" with no change to the bit_b-homogeneous hypothesis on the collapse operators. The polarity-coordinates witness now reads PT-symmetric and gain-loss Lindblad systems on the same footing as their Hermitian cousins.
+Together: the diagonal entries of the open identity are real because they are squared norms, and the off-diagonal entries vanish because the inner products themselves vanish. The imaginary part is therefore zero across the entire Hermitian operator space, and F112's typed scope widens from "Hermitian H" to "any H" with no change to the bit_b-homogeneous hypothesis on the collapse operators. Scope (corrected 2026-06-20, see `docs/CAUGHT_ERRORS.md`): this widening is about the **commutator** superoperator −i[H,·] for an arbitrary matrix H, a structural ‖·‖² identity. It is NOT the physical generator of PT-symmetric / gain-loss / post-selection dynamics, which is −i(Hρ − ρH†) with H†; for H = A + iB that generator is −i[A,ρ] + {B,ρ} (anticommutator in the anti-Hermitian part), a different operator, and the balance FAILS for it (nonzero; mean |‖·_{+i}‖² − ‖·_{−i}‖²| ≈ 132/270 at N=2/3 over a fixed-norm random non-Hermitian ensemble, the magnitude normalization-dependent; the signed asymmetry averages to 0). "non-Hermitian H" here always means a non-Hermitian matrix placed in the commutator, nothing more.
 
 ## Introduction
 
-**The motivating question.** [PROOF_F112](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md)'s parent statement covers most standard physical Lindblad systems (any H Hermitian, c bit_b-homogeneous). The Hermitian-H assumption is a real restriction, though: PT-symmetric effective Hamiltonians, gain/loss models, post-selection dynamics, and any L built from an arbitrary c-with-its-conjugate kron channel in principle live outside the parent's typed scope. The empirical anchor (POLARITY_COORDINATES.md Probe 14: 20 non-Hermitian-H configurations, all bit-exact balanced) suggested the identity should hold there too. The structural question: why?
+**The motivating question.** [PROOF_F112](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md)'s parent statement covers most standard physical Lindblad systems (any H Hermitian, c bit_b-homogeneous). The Hermitian-H assumption is a real restriction, though: PT-symmetric effective Hamiltonians, gain/loss models, post-selection dynamics, and any L built from an arbitrary c-with-its-conjugate kron channel in principle live outside the parent's typed scope. The empirical anchor (POLARITY_COORDINATES.md Probe 14: 20 non-Hermitian-H configurations, all bit-exact balanced) tested the commutator superoperator −i[H,·] and found the balance holds for non-Hermitian matrices placed there (NOT those systems' physical generator −i(Hρ−ρH†); see the Scope note in the abstract). The structural question: why?
 
 **The empirical anchor.** [experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md](../../experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md) sharpened the empirical observation into a per-pair check: enumerate every Pauli-string pair `(σ_α, σ_β)` at chain length `N ≤ 5` and compute `F(σ_α, σ_β)` directly. The result was zero bit-exact across all 559,912 pairs. That pattern was clean enough to type Tier1Derived at N ≤ 5. What was missing was a structural argument lifting the per-pair identity to general N.
 
@@ -33,7 +33,7 @@ Together: the diagonal entries of the open identity are real because they are sq
 
 Combined: the diagonal entries `F(σ, σ) = Im⟨L_{σ,−i}, L_{σ,−i}⟩` are zero because `Im(‖·‖²) = 0`, and the off-diagonal entries vanish because the inner products themselves vanish. So `F ≡ 0` and the F112 polarity-balance identity holds universally in N for any H.
 
-**Diagnostic consequence.** F112's typed scope expands from "Hermitian H" to "any H" with no change to the bit_b-homogeneous-c hypothesis. The `polarity_coordinates_from_L` primitive now witnesses the bit_b-homogeneous Lindblad regime independent of whether H is Hermitian; the asymmetry = 0 case includes PT-symmetric and gain-loss systems built via the standard Lindblad kron channel.
+**Diagnostic consequence.** F112's typed scope expands from "Hermitian H" to "any H" with no change to the bit_b-homogeneous-c hypothesis. The `polarity_coordinates_from_L` primitive now witnesses the bit_b-homogeneous regime independent of whether the matrix H in the commutator −i[H,·] is Hermitian. (As in the Scope note: this is the commutator superoperator, not the physical −i(Hρ−ρH†) generator of PT/gain-loss dynamics, for which the balance fails.)
 
 ## (a) Restatement
 
@@ -235,19 +235,13 @@ F(σ_α, σ_β) := Im⟨L_{σ_α,−i}, L_{σ_β,−i}⟩_F = 0.
 
 All cases give F(σ_α, σ_β) = 0. **∎**
 
-**Corollary (universal-N closure of F112 non-Hermitian extension).** F is real-bilinear in (H_re, H_im) and is determined by its values on Pauli-string pairs (per the reduction in section (a)). Since F = 0 on every Pauli-string pair at every N, F(H_re, H_im) = 0 for any Hermitian H_re, H_im at any N. Combining with the Hermitian-H Tier 1 derived parent theorem, F112 holds for ANY Lindblad-form Liouvillian
-
-```
-L = −i [H, ·] + Σ_k γ_k · np.kron(c_k, c_k^*)
-```
-
-with H Hermitian OR non-Hermitian, provided each c_k is bit_b-homogeneous. **The F112 non-Hermitian extension is therefore Tier 1 derived for all N.**
+**Corollary (universal-N closure of F112 non-Hermitian extension).** F is real-bilinear in (H_re, H_im) and is determined by its values on Pauli-string pairs (per the reduction in section (a)). Since F = 0 on every Pauli-string pair at every N, F(H_re, H_im) = 0 for any Hermitian H_re, H_im at any N. Combining with the Hermitian-H Tier 1 derived parent theorem, the polarity balance holds for the Hamiltonian superoperator −i[H,·] with H Hermitian OR an arbitrary non-Hermitian matrix (the dissipator's c_k bit_b-homogeneous). This is a structural ‖·‖² statement about the **commutator**; it is NOT about physical non-Hermitian dynamics, whose generator −i(Hρ−ρH†) fails the balance (see Scope). **The F112 commutator-balance extension is therefore Tier 1 derived for all N, any matrix H.**
 
 ## (f) Implications for `LindbladBitBPiBalance`
 
 1. **Typed Claim update**: The C# typed Claim `compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs`'s `NonHermitianExtension` docstring (and the constructor summary) drop the "Tier1Candidate at N ≥ 6" caveat. Both Hermitian and non-Hermitian H now fall under Tier 1 derived for all N. The basis-enumeration result at N ≤ 5 (Welle 10a Python + Welle 10b C# SLOW_F112) remains the **empirical anchor** that motivated the search for the structural proof; it is preserved as the historical numerical validation.
 
-2. **Diagnostic strength**: The `polarity_coordinates_from_L` diagnostic asymmetry is now an exact witness for any Lindblad-form L (Hermitian or non-Hermitian H), universally in N, under the bit_b-homogeneous-c regime. Asymmetry ≠ 0 detects c with cross-bit_b Pauli support, OUTSIDE the bit_b-homogeneous regime, regardless of N or H's Hermiticity.
+2. **Diagnostic strength**: The `polarity_coordinates_from_L` diagnostic asymmetry is now an exact witness for the commutator superoperator −i[H,·] with H Hermitian or any non-Hermitian matrix, universally in N, under the bit_b-homogeneous-c regime (a structural identity, not the physical −i(Hρ−ρH†) generator). Asymmetry ≠ 0 detects c with cross-bit_b Pauli support, OUTSIDE the bit_b-homogeneous regime, regardless of N or H's Hermiticity.
 
 3. **Polarity-axis completion**: F108 Parts 1–3 (palindrome closure of bit_b = 0 bilinears), F112 (now universal N, Hermitian and non-Hermitian H), F113 (T1 break-magnitude closed form): all three live on the bit_b Z₂-grading of the Pauli group and are now Tier 1 derived universal N. The bit_b axis description is structurally complete on the BitB-axis side.
 
@@ -277,4 +271,4 @@ The N = 5 anchor at 524,800 pairs (Welle 10) remains as cross-validation that th
 
 ## Status
 
-**F112 non-Hermitian extension: Tier 1 derived for all N.** The two-lemma proof composes Π-conjugation eigenspace algebra (Steps A.2, A.4, B.3) with explicit Pauli-basis support analysis (Steps A.1, A.3, B.1, B.2). Both lemmas reduce to per-position checks on the 4^N × 4^N matrix of L_σ that are uniform in N. F112's full statement (both Hermitian and non-Hermitian H, bit_b-homogeneous c) is now closed structurally for arbitrary N ≥ 1.
+**F112 non-Hermitian extension: Tier 1 derived for all N.** The two-lemma proof composes Π-conjugation eigenspace algebra (Steps A.2, A.4, B.3) with explicit Pauli-basis support analysis (Steps A.1, A.3, B.1, B.2). Both lemmas reduce to per-position checks on the 4^N × 4^N matrix of L_σ that are uniform in N. F112's commutator-balance statement (−i[H,·] with H Hermitian or any non-Hermitian matrix, bit_b-homogeneous c; NOT the physical −i(Hρ−ρH†) generator) is now closed structurally for arbitrary N ≥ 1.
