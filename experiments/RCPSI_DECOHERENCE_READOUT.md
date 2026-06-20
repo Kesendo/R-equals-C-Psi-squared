@@ -1,7 +1,9 @@
 # R=CΨ² as a decoherence readout: the deviation from Born is a γ-meter
 
 **Status:** Tier 2/3. The leading-order deviation is Tier-1 (F94); the invertibility/monotonicity of the
-readout is gate-verified numerically (not yet an analytic theorem).
+readout is gate-verified numerically (not yet an analytic theorem) and is **convention-dependent** — it
+holds on F94's canonical `(J/4)·Σ` substrate, not under an arbitrary coupling normalization (corrected on
+review, 2026-06-20).
 **Date:** 2026-06-20
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.8)
 **Grounded in:** [F94](../docs/ANALYTICAL_FORMULAS.md) (`Δ = P_lindblad/P_unitary − 1 = (4/3)J²γt³`,
@@ -19,8 +21,9 @@ Open the system to a dephasing environment and the measured populations drift a 
 Born prediction. The usual name for that drift is *noise*. This note says the opposite: the drift is
 *signal*. The amount by which the open-system population deviates from the closed-system Born value is a
 clean, monotone, invertible function of the decoherence rate γ, so **measuring the deviation reads γ from
-inside**, no separate probe, no environment access. The system's own departure from the textbook rule
-*is* the measurement of its environment.
+inside** — no separate *environment* probe, though it does need the known closed-system model. The
+system's own departure from the textbook rule *is* the measurement of its environment, read against the
+textbook prediction.
 
 ## The mechanism: R = C·Ψ²
 
@@ -69,14 +72,31 @@ Z-dephasing) shows the same: `C_|1⟩(γ) = R/sin²(Jt)` strictly monotone, hidd
   qubit; F94's `|0+0+⟩`-ring). **Where it does not:** the stationary / perfect-mirror limit, the N=2 `|++⟩`
   Heisenberg case ([`_rcpsi_as_readout.py`](../simulations/_rcpsi_as_readout.py)) has stationary populations,
   `R = Ψ²` exactly, `C ≡ 1`, nothing to read. That take-1 is a documented null, not a success.
+- **What the readout needs (it is a calibrated estimate).** Forming `C_i = R_i/Ψ_i²` requires the
+  closed-system reference `Ψ_i² = ⟨i|Uρ₀U†|i⟩` (so the Hamiltonian, initial state, and time must be known)
+  and a calibration curve `C(γ)` to invert. It is a **model-dependent single-parameter estimate** of γ,
+  not a model-free probe; the novelty is the `R = C·Ψ²` framing and the F94 grounding, not the estimation
+  technique itself.
+- **The node caveat.** `C_i = R_i/Ψ_i²` diverges where the closed-system Born population `Ψ_i² → 0` (e.g.
+  the Rabi `C_|1⟩ = R/sin²(Jt)` at `Jt = 0, π`), so the readout is stable only away from the unitary
+  nodes. The dominant outcome `|00⟩` stays bounded away from zero (`Ψ² ≈ 0.16` at t=1, → 1 as t → 0),
+  chosen partly for this reason.
 - **Tier.** The leading-order deviation `(4/3)J²γt³` is Tier-1 (F94). Global monotonicity / invertibility is
   **gate-verified numerically** over the tested range, not an analytic theorem; a Zeno turnover at extreme
   dephasing (`γ ≫ J`) is physically expected but does not appear up to `Q = 0.1` here. So the readout is
   Tier 2/3: a proven seed (F94) with a numerically-verified invertibility.
-- **A convention caveat learned here.** F94's Hamiltonian is `(J/4)·Σ(XX+YY+ZZ)` per bond, not
-  `J·Σ(XX+YY+ZZ)`; a naive build with the wrong normalization produced a *spurious* turnover at `γ ≈ 0.4`.
-  Anchoring on F94's own functions removed it. (The deviation value is convention-sensitive; the
-  invertibility thesis is not.)
+- **A convention caveat learned here (and corrected on review, 2026-06-20).** F94's Hamiltonian is
+  `(J/4)·Σ(XX+YY+ZZ)` per bond, not `J·Σ(XX+YY+ZZ)`. A build with the un-normalized `J·Σ` (a 4× stronger
+  coupling) turns `C(γ)` over at `γ* ≈ 0.48` — but this is **not** a spurious artifact. A *consistent* 4×-J
+  build, with `Ψ²` and `R` from the **same** Hamiltonian, makes the raw open population `P_{00}` itself
+  overshoot (0.547 → 0.572) then recede (→ 0.553): the turnover is in the physical population, the genuine
+  Zeno-vs-transfer competition brought into the tested γ-window by the stronger coupling. So the global
+  monotonicity is **coupling/convention-dependent**: it holds on F94's canonical `(J/4)·Σ` substrate over
+  `γ ∈ [0.01, 10]` (no interior turnover there even at enormous γ), but is **not** convention-robust — a
+  larger coupling moves the turnover into range. The invertibility window is set by the `(Jt, γt)` regime;
+  pinning F94's convention is what keeps this substrate monotone. (The earlier "spurious / the invertibility
+  thesis is not convention-sensitive" reading was backwards: the turnover is real and the invertibility is
+  convention-dependent.)
 
 ## Relation to GAMMA_AS_SIGNAL (a different readout)
 
