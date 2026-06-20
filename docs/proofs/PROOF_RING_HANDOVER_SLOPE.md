@@ -109,6 +109,15 @@ proof's load-bearing test); the explicit two-particle EOM resummation (the dilut
 not yet set down term-by-term as the SE proof does for one particle. Topology: the ring (the `q_min = 2π/N`
 COM density wave); the chain handover is the co-located SE-EP (filling-degenerate), a different mechanism.
 
+Axis: the dephasing Q-axis (XY, free fermions) only. The XXZ anisotropy Δ-axis handover (`Δ*`, the same
+`darkness = 1` floor driven by the anisotropy instead of Q; ANALYTICAL_FORMULAS "the handover Δ",
+`Δ*(N) → 1`) is a **distinct, interacting mechanism**: turning on the ZZ term moves the handover off
+`Q·q = √3` (gate-checked, `simulations/_ring_handover_zz_extension.py`: at N = 6, 8 the (2,2) handover
+`Q_h·q_min` shifts at Δ = 0.5 and the crossing leaves the range by Δ = 1), so √3 is XY/free-fermion-specific
+and the dispersion `λ² + 8γλ + 4J²q²` does not survive the ZZ coupling. The two handovers mirror only
+through the shared `darkness = 1` floor (Q_h grows ~N, Δ* descends to 1); the Δ* closed form stays the open
+Bethe-ansatz problem.
+
 ## Links
 
 - Sibling proof: [PROOF_COHERENCE_HORIZON_SLOPE](PROOF_COHERENCE_HORIZON_SLOPE.md) (same dispersion, the EP

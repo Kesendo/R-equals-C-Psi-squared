@@ -251,11 +251,15 @@ band edge / Uhr 1, Re = −2γ exactly). That meeting is the handover: a closed,
 handover bit-for-bit), so the chain handover IS the single-excitation Q*(N), a coalescence/EP. It
 coincides with Q*(N) exactly only at the clean-2×2 N=2,3 (a tangency: ⟨n_XY⟩ touches 1 at the EP) and
 sits just below it by the trace dressing O((tr−1)²) at N≥4 (gap 0.0002/0.0015/0.0050 at N=4/5/6).
-**Ring:** NOT filling-degenerate (the wrap bond's Fermi degeneracy at half-filling); the survivor is
-the (2,2) two-fermion V-Effect seam and the handover is a frozen LEVEL CROSSING (|Im| ≈ 1e-15, a
-different sector than the SE-EP), growing ~linearly Q_h ≈ N/√c_eff with c_eff ≈ 12 flat in N (≈4× the
-chain's darkness constant, so ≈half the chain's handover slope, ~0.29N vs ~0.59N) — NOT saturating,
-and faster than √N. So the V-Effect seam is NOT "co-located at even N": the ring handover and the ring
+**Ring:** the survivor is the 2-EXCITATION doublet (2,2)/(N−2,N−2) (particle-hole partners, isospectral;
+full-Liouvillian-verified at N=6 — NOT half-filling, correcting an earlier label), and the handover is a
+frozen LEVEL CROSSING (|Im| ≈ 1e-15, a different sector than the SE-EP), growing linearly with
+**asymptotic slope √3/(2π) ≈ 0.276, DERIVED** (2026-06-20, [PROOF_RING_HANDOVER_SLOPE](proofs/PROOF_RING_HANDOVER_SLOPE.md),
+Tier1-standard, pending review): the (2,2) slow mode obeys the SE coherence-ladder dispersion
+λ² + 8γλ + 4J²q² (CV-confirmed), darkness = 2 − √(4 − (Qq)²), so the handover (darkness = 1) is at
+Qq = √3 — the **darkness-1 sibling** of the SE coherence horizon (the same dispersion's EP at Qq = 2 →
+Q* = N/π); Q_h/Q* = √3/2 asymptotically. (The earlier "c_eff ≈ 12 flat, ~0.29N" was the finite-N Q_h/N,
+refuted as a constant — c_eff climbs toward 4π²/3 = 13.16.) So the V-Effect seam is NOT "co-located at even N": the ring handover and the ring
 SE-EP are mechanistically distinct and their values merely CROSS near N≈10 (benzene's 2.0-vs-1.609
 split is a small-N feature; N=6 ≈ exactly 2 is a hexagon coincidence).
 **Verified:** N=2..5 vs carbon (`simulations/_carbon_quantum_same_mountain.py`); the {0,2}-coherence
