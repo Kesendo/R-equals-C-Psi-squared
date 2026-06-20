@@ -46,7 +46,23 @@ public static class OpenArcsRegistry
                 "gated reference incl. the new Q + frame checks); " +
                 "compute/RCPsiSquared.Diagnostics/Ptf/KPartnerSelectionRuleClaim.cs (the sibling template + " +
                 "null-column parent); ANALYTICAL_FORMULAS.md F124.",
-            Status: OpenArcStatus.Open),
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "RESOLVED 2026-06-20, same session it was opened. Typed as " +
+                "BandEdgeTransitionInvariantClaim (Tier1Derived) in compute/RCPsiSquared.Diagnostics/Ptf/, two " +
+                "Tier1Derived typed parents KPartnerSelectionRuleClaim (the k=N null column = the frame kernel; " +
+                "the same M, here completed with the strength column k=1) + ClockHandLadderClaim (the band edge " +
+                "E1=2cos(pi/(N+1)) the conserved envelope rides on, which selects the carrier). Live witness " +
+                "BandEdgeTransitionInvariantWitness (inspect --root transition) recomputes the identity " +
+                "||M||_F^2 + lambda_min(M M^T) = 2 across N=3..12 (||M||_F^2=2-E, lambda_min=E), the conserved " +
+                "envelope Q=c0^2, the GENUINE-MINIMUM carrier-selection hazard (interior carrier -> staggered is " +
+                "still an eigenvector but NOT the minimum, off-diagonals not all positive, sum<2), the frame " +
+                "identities (lambda_min=sigma_min^2(M), the K-partner null column, condition number kappa growing " +
+                "3.4/5.3/7.6 at N=4,5,6), and the object/topology breakages (location dictionary k=2..N -> " +
+                "lambda_min=0; odd ring sum>2; star ||M||_F^2=N/2). 10-case gate-first battery + 16 xUnit " +
+                "witness/claim tests green (26 filtered); RegistryWiringAudit 3/3. The gate-first hazard HELD: " +
+                "lambda_min is checked as the genuine MINIMUM (full spectrum), and the interior-carrier gate " +
+                "fires exactly as predicted. Anchors breadcrumbed in PROOF_HANDSHAKE_TRANSITION_INVARIANT.md + " +
+                "ANALYTICAL_FORMULAS.md F124 (both now point at the typed claim + witness)."),
 
         new OpenArc(
             Name: "ptf_bonding_class_guard",

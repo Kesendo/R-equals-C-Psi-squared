@@ -512,6 +512,8 @@ public static class InspectCommand
             _ => new StarFrozenSeamWitness(), RequiresN: false),
         new("niven", "the Niven root: Niven's theorem on the SE cyclotomic angle π/(N+1) is the number-theoretic ceiling on the spectrum's closed forms (three faces; N=4 = first golden, band edge = φ); the arithmetic root of the small-N specials",
             _ => new NivenRationalityRootWitness(), RequiresN: false),
+        new("transition", "F124 the band-edge transition invariant: the full bond-transition matrix M[b,k]=⟨ψ_k|V_b|ψ_1⟩ (all N modes) has ‖M‖_F² + λ_min(MMᵀ) = z = 2 exactly (‖M‖_F²=2−E, λ_min=E=(4/(N+1))sin²(π/(N+1))). The real content λ_min=E is the Dirichlet-edge coupling (an SSH/Peierls edge effect); frame reading λ_min=σ_min²=the lower frame bound, kernel = the K-partner ψ_N. Only the band-edge carrier makes staggered the genuine minimum (interior carrier → sum<2); the location dictionary k=2..N gives λ_min=0",
+            _ => new BandEdgeTransitionInvariantWitness(), RequiresN: false),
         new("decoder", "reading power measured live: Fisher information vs Q per readout basis - resolution grows with the Q-factor; the exceptional point reads worst",
             c => new ReadingPowerWitness(c.Parser.HasFlag("N") ? c.N : 4),
             RequiresN: false, HonorsOptionalN: true),

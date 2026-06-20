@@ -66,6 +66,18 @@ public static class KnowledgeRegistryFactory
             // Tier1Derived. Single typed parent: KPartnerSelectionRuleClaim (registered directly above:
             // it defines M[b,k], the null column, rank N−2). Wired 2026-06-20.
             .RegisterDefectReadingEquivarianceClaim()
+            // F124, the band-edge transition invariant (the reading-grammar arc's frame-theoretic capstone,
+            // 2026-06-20): for the open chain's band-edge carrier the full bond-transition matrix
+            // M[b,k]=⟨ψ_k|V_b|ψ_1⟩ (all N modes) has ‖M‖_F² + λ_min(MMᵀ) = z = 2 exactly, with ‖M‖_F²=2−E and
+            // λ_min=E=(4/(N+1))sin²(π/(N+1)); the non-trivial half λ_min=E is the Dirichlet-edge coupling (an
+            // SSH/Peierls edge effect, the bulk telescoping via the conserved envelope Q=c₀²), and the same E is
+            // the carrier's degree-weighted-norm deficit from z. Frame reading: {V_bψ_1} a deficient Riesz basis,
+            // λ_min=σ_min²=the lower frame bound, kernel = the K-partner ψ_N. Tier1Derived. Two Tier1Derived typed
+            // parents: KPartnerSelectionRuleClaim (the kernel = the K-partner; the same M, here completed with the
+            // strength column k=1, registered above) + ClockHandLadderClaim (the band edge E₁=2cos(π/(N+1)) the
+            // conserved envelope rides on; registered later in this chain, resolved topologically). Live witness:
+            // inspect --root transition. Wired 2026-06-20.
+            .RegisterBandEdgeTransitionInvariantClaim()
             .RegisterF71Family(N: defaultChain.N)
             .RegisterPi2Family()
             .RegisterF86Main(gammaZero: defaultChain.GammaZero, gEff: gEff)
