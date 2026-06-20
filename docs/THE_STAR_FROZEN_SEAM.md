@@ -35,6 +35,27 @@ the `(0,1)` band edge oscillating at the star's single-excitation top `√(N−1
 dynamically, and it is the third member of the trichotomy chain (un-freezing SE-EP) / ring (level
 crossing) / star (commutant). Gate-verified `N = 4..8`; Tier 1 candidate.
 
+## Model scope: the XY ceiling vs the Heisenberg survivor
+
+The darkness value `g2 = 4/(N−1)` here is the **XY network** (hopping-only) ceiling, by design:
+`StructuralCeilingClaim` is "the high-Q gap rate of an XY network," and both `StructuralCeilingWitness`
+and `StarFrozenSeamWitness` build the star's XY hopping Hamiltonian with no ZZ diagonal. For the XY star
+this is exactly the survivor darkness, `⟨n_XY⟩(Q→∞) = 4/(N−1)`.
+
+The project's canonical survivor model is **Heisenberg** (`XX+YY+ZZ`: the chain survivor,
+[`SurvivalIncompletenessMirrorClaim`](../compute/RCPsiSquared.Diagnostics/Foundation/SurvivalIncompletenessMirrorClaim.cs),
+[`SURVIVOR_FLIP_AND_REFLECTION_ODD`](../experiments/SURVIVOR_FLIP_AND_REFLECTION_ODD.md)). The Heisenberg
+star survivor darkens *further*, to **`⟨n_XY⟩(Q→∞) = 4/N`** (verified N = 5..8, full-`4^N` cross-checked
+at N = 6): the single-excitation ZZ potential (hub `−(N−1)`, leaves `N−3`) shifts which `ad_H`-kernel
+commutant is darkest, from `4/(N−1)` (XY) to `4/N` (Heisenberg). Companion verifier:
+[`_star_survivor_heisenberg.py`](../simulations/_star_survivor_heisenberg.py).
+
+What is **model-robust** (holds in both XY and Heisenberg): the survivor is frozen (`|Im λ| = 0`) at
+every Q for N ≥ 5; it is the `[H,ρ] = 0` commutant only in the high-Q *limit* (`‖[H,ρ]‖ ∝ 1/Q`, not zero
+at finite Q); it sits at the `(1,1)/(N−1,N−1)` popcount boundary; the star has no coherence horizon. Only
+the darkness *value* is model-specific. (The XY threshold logic — frozen iff `g2 = 4/(N−1) ≤ 1`, the N=4
+outlier — is likewise XY-specific; the Heisenberg `4/N` analog is not characterized below N = 5 here.)
+
 ## The finding
 
 A single `Q` does not tell the topologies apart: *below* its coherence horizon every topology's slowest
