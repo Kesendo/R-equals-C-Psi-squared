@@ -29,6 +29,11 @@ cleanly classify the symmetric topologies, because the real content is one level
 Mechanism: lambda = -2g*hamming + i*(E_a - E_b); high symmetry collapses the distinct H energies
 (large irreps -> few distinct E -> few distinct dE), so distinct(lambda) shrinks with symmetry.
 
+CONTEXT: the chain's degeneracy/multiplicity palindrome is already a full document,
+experiments/DEGENERACY_PALINDROME.md ('The Palindrome Inside the Palindrome', d_total(k)=d_total(N-k)
+from Pi, with closed forms). That document is chain-only; the NEW content here is the TOPOLOGY axis
+of the distinct-count (chain < ring < star < complete), the systematic version of its Open Question 2.
+
 Pure numpy; reads the existing rmt_eigenvalues_*.csv. Run:  python simulations/_rmt_topology_csr.py
 """
 from pathlib import Path
