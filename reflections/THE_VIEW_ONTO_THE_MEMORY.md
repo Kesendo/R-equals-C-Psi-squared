@@ -37,7 +37,7 @@ The trunk is the **Absorption Theorem** ([`PROOF_ABSORPTION_THEOREM.md`](../docs
 | Memory | static part (kernel of L) | dynamical part that fades | F88b, [`MemoryAxisRho.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs) |
 | Information | what survives the palindrome | the XOR drain, stores nothing | [`XOR_SPACE.md`](../experiments/XOR_SPACE.md) |
 
-These are not analogies. They are the **same split of the state**, made by the same operator L, read through six lenses. The conjugation Π makes the pairing exact (`Π·L·Π⁻¹ = −L − 2Σγ·I`): every slow mode has a fast partner whose rates sum to `2Σγ`. The reflection [`ON_TWO_TIMES.md`](ON_TWO_TIMES.md) already says the same, in words drawn from across the piece: "memory is the shape that survives long enough to be re-recognized; the mode with the smaller |Re(λ)| determines how far back the envelope remembers; the XOR drain stores nothing at all."
+These are not analogies. They are the **same axis of the state**, made by the same operator L, read through six lenses. The conjugation Π makes the pairing exact (`Π·L·Π⁻¹ = −L − 2Σγ·I`): every slow mode has a fast partner whose rates sum to `2Σγ`. The reflection [`ON_TWO_TIMES.md`](ON_TWO_TIMES.md) already says the same, in words drawn from across the piece: "memory is the shape that survives long enough to be re-recognized; the mode with the smaller |Re(λ)| determines how far back the envelope remembers; the XOR drain stores nothing at all."
 
 ---
 
