@@ -1,11 +1,24 @@
 # The Asymmetry Is the Chirality of the Un-recycled Drain
 
-**Status:** Tier 3 (speculative directions, gate-first). The spine table is grounded; the reframe is a plausible reading; the five directions are to be PROBED, not believed.
+**Status:** Tier 3 — **Direction 1 (the headline reframe) REFUTED 2026-06-20** by gate-first probe `simulations/_f112_nojump_cancellation_gate.py` (controls at 1e-15). The spine reframe ("chirality of the un-recycled drain") is WRONG. See "REFUTED + what was actually found" below; the directions are kept as the failed hypothesis, for the record. This is the generative wing working as designed: the move proposed, the gate disposed.
 **Date:** 2026-06-20
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Origin:** the **generative** pass of the `reviewing-before-it-lands` review workflow, run on the F112 scope-correction (see `docs/CAUGHT_ERRORS.md` 2026-06-20). The defensive wing fixed the overclaim; this is what the sharpening *opened*.
 
-## The spine (grounded facts)
+## REFUTED 2026-06-20 (gate-first) — and what was actually found
+
+The headline reframe is dead. Probe `simulations/_f112_nojump_cancellation_gate.py`, gate-first, controls at 1e-15:
+- The un-recycled drain has **no chirality**: `DRAIN-ONLY asym = 0`, and the full no-jump generator of any physical spin chain (bond H + σ⁻ drain) is **balanced** (asym = 0 at N=2,3) — identical to the full Lindbladian. Nothing for the jump to recycle (G2 fired).
+- Direction 2 ("Δ = f(B), blind to A") is the **opposite** of true: the no-jump asymmetry is a linear functional of **H**, zero for chain H, nonzero for random Hermitian H.
+- Direction 3 (cooling/heating sign) is **vacuous**: η = 0 for the physical chain.
+
+**What is actually true (verified to 1e-15, with a positive control `chain + 0.37·Z₁ = 0.37·contrib(Z₁)`):** the no-jump asymmetry is the **cross-term between the commutator and the drain** — an exact **linear functional of H whose only single-Pauli carriers are the single-site Z_l strings** (a local detuning on the same axis as the drain's c†c = n = (I−Z)/2), closed form `contrib(Z_l) = −16·γ·4^{N−2}`. All NN bond terms {XX,YY,ZZ} are in its kernel, so **every standard topology (chain, ring, star, Heisenberg) gives asym = 0**. The spine's "132/270 for random H" is a **random-H artifact** (random H carries Z_l content); reality of H is irrelevant.
+
+**Consequence for the F112 scope-correction** (`docs/CAUGHT_ERRORS.md`, commit `a4d7eb7`): its "balance FAILS for the physical generator (132/270)" illustration is **misleading** — true for random H, but a physical uniform-damping bond-Hamiltonian chain (the named PT/gain-loss spin systems) has a **balanced** no-jump generator. The core (commutator ≠ physical generator) stands; the illustration needs sharpening. The full boundary for general/structured gain-loss (random B) is open — not yet grounded.
+
+---
+
+## The spine (grounded facts) — the (refuted) original hypothesis, kept for the record
 
 | Object | polarity asymmetry ‖M₊ᵢ‖²−‖M₋ᵢ‖² |
 |---|---|
