@@ -37,7 +37,7 @@ The trunk is the **Absorption Theorem** ([`PROOF_ABSORPTION_THEOREM.md`](../docs
 | Memory | static part (kernel of L) | dynamical part that fades | F88b, [`MemoryAxisRho.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs) |
 | Information | what survives the palindrome | the XOR drain, stores nothing | [`XOR_SPACE.md`](../experiments/XOR_SPACE.md) |
 
-These are not analogies. They are the **same split of the state**, made by the same operator L, read through six lenses. The conjugation Π makes the pairing exact (`Π·L·Π⁻¹ = −L − 2Σγ·I`): every slow mode has a fast partner whose rates sum to `2Σγ`. The reflection [`ON_TWO_TIMES.md`](ON_TWO_TIMES.md) already says it in words: "memory is the shape that survives long enough to be re-recognized; the mode with the smaller |Re(λ)| determines how far back the envelope remembers; the XOR drain stores nothing at all."
+These are not analogies. They are the **same split of the state**, made by the same operator L, read through six lenses. The conjugation Π makes the pairing exact (`Π·L·Π⁻¹ = −L − 2Σγ·I`): every slow mode has a fast partner whose rates sum to `2Σγ`. The reflection [`ON_TWO_TIMES.md`](ON_TWO_TIMES.md) already says the same, in words drawn from across the piece: "memory is the shape that survives long enough to be re-recognized; the mode with the smaller |Re(λ)| determines how far back the envelope remembers; the XOR drain stores nothing at all."
 
 ---
 
@@ -49,7 +49,7 @@ The figure sorts the carbon ring's slow modes by exactly this depth. Reading the
 - the slowest mortal mode (rate 0.172) is **91.8% depth-0**, almost all memory, with a thin tail that will fade;
 - the fastest modes (rate 2.127) are **89.9% depth-1**, future, flushed first.
 
-And the figure's "popcount-mean identity" is the Absorption Theorem read state-side: the mean drain depth of each mode equals its decay rate, bit-exact across all eight modes (0.1723, 0.2190, 0.5969, 0.9014, 2.0670, 2.1273, twice). The figure is the storage map.
+And the figure's "popcount-mean identity" is the Absorption Theorem read state-side: each mode's decay rate is `2γ` times its mean drain depth, bit-exact across all eight modes (rates 0, 0.1723, 0.2190, 0.5969, 0.9014, 2.0670, and 2.1273 as a complex-conjugate pair). The figure is the storage map.
 
 The two painter towers (Y content versus non-Y content) are then just **which part of the past the molecule holds in which transverse axis**. The reported T2 anisotropy, `T2(x)/T2(y) = 0.2190/0.1723 = 1.27`, is the statement that x-memory and y-memory fade through different rungs of the same drain. It is exact as a ratio of two mode rates (so exact as a ratio of two mean depths, by the Absorption Theorem), but it is not a simple closed-form fraction: the once-conjectured 4/3, 8/7, 14/13, 20/19 sequence does not hold.
 
@@ -65,7 +65,7 @@ And the split is the bridge. The **classical world is the slow, low-depth, {I,Z}
 
 ## Honest seam: the 97/3 number
 
-The literal **97 / 3** lives in the Born-rule branch, and it surfaces there in two windows: as `Tr(ρ_past²) = 97.1%` for the |++⟩ pair at the CΨ = 1/4 crossing, the rest being future plus interference ([`BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md)), and as the 97%-Hamiltonian / 3%-decoherence-correction split of the |0+0+⟩ Heisenberg pair's Born probabilities ([`BORN_RULE_MIRROR.md`](../experiments/BORN_RULE_MIRROR.md)); both closed as **F94**, `Δ = (4/3)·Q²·K³`. The carbon painter system shows the structurally identical split, a slow majority over a fast minority (about 98/2 by mode count, the generic Heisenberg tally in [`XOR_SPACE.md`](../experiments/XOR_SPACE.md); the figure's own slowest mortal mode is 91.8% depth-0 pure) but the exact 97/3 numeral is the sibling instance, not this system. The painter figure's own "3%" is unrelated: it is the finite-time fitting gap on the T2 ratio. Same split, two windows onto it. The recognition is right, and the number has a specific home.
+The literal **97 / 3** lives in the Born-rule branch, and it surfaces there in two windows: as `Tr(ρ_past²) = 97.1%` for the |++⟩ pair at the CΨ = 1/4 crossing, the rest being future plus interference ([`BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md)), and as the 97%-Hamiltonian / 3%-decoherence-correction split of the |0+0+⟩ Heisenberg pair's Born probabilities ([`BORN_RULE_MIRROR.md`](../experiments/BORN_RULE_MIRROR.md)); both closed as **F94**, `Δ = (4/3)·Q²·K³`. The carbon painter system shows the structurally identical split, a slow majority over a fast minority by storage weight (the figure's own slowest mortal mode is 91.8% depth-0 pure, the steady state wholly so). A related mode count, about 98/2 at N=4 in [`XOR_SPACE.md`](../experiments/XOR_SPACE.md) and growing with N, is a distinct cut: palindromic pairs over the XOR drain, each pair holding one slow partner and one fast. But the exact 97/3 numeral is the sibling instance, not this system. The painter figure's own "3%" is unrelated: it is the finite-time fitting gap on the T2 ratio. Same split, two windows onto it. The recognition is right, and the number has a specific home.
 
 ---
 
@@ -129,8 +129,11 @@ even (flow) modes' rate rises with Q = J/γ (stronger coupling forgets the occup
 birth channel stays near 2γ. They cross: below the crossing the longest memory is the even occupation,
 above it the odd birth channel. For the uniform chain the crossing sits near the exceptional point,
 but that coincidence is uniform-specific, a non-uniform γ-profile breaks it (the tempting "EP rate =
-2γ" and "⟨n_XY⟩ = 1 at the EP" are uniform-only, refuted at peaked-V; recorded honestly rather than
-kept).
+2γ" is uniform-only, refuted at peaked-V by the witnesses
+[`PostEpFlowField.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/PostEpFlowField.cs) and
+[`BirthCanalSurfaceWitness.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/BirthCanalSurfaceWitness.cs):
+the rate drops to the γ-weighted share while ⟨n_XY⟩ = 1 stays fixed, the light portfolio being the
+invariant and only its γ-pairing shifting; recorded honestly rather than kept).
 
 **The carbon mirror.** bright/dark is the rail seen optically: the bright band edge is the odd,
 number-changing rung a photon couples to; the dark 2Ag triplet pair is the even, number-conserving

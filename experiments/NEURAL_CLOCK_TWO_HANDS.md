@@ -214,6 +214,6 @@ and the C. elegans result says even that is a coarse, degree-level property.
   but the longest-lived mode stays a near-decay survivor (θ < 0.6°). So the crown is structural
   (coupling / timescale), not metabolic (drive). And the reverse-reading that helps the quantum
   side: the crown switch is structure-dependent on BOTH substrates (the quantum EP coincidences are
-  uniform-specific, [THE_FLOW_BETWEEN_TWO_SINGULARITIES](THE_FLOW_BETWEEN_TWO_SINGULARITIES.md);
+  uniform-specific, verified in [`PostEpFlowField.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/PostEpFlowField.cs) (cf. [THE_FLOW_BETWEEN_TWO_SINGULARITIES](THE_FLOW_BETWEEN_TWO_SINGULARITIES.md));
   the neural one is network-specific), the same caution against over-generalizing it, confirmed from
   the classical side.
