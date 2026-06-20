@@ -59,6 +59,13 @@ public static class KnowledgeRegistryFactory
             // direction. Tier1Derived. Typed parent: ChiralMirrorTrajectoryClaim (registered directly
             // above; both ingredients). Wired 2026-06-12.
             .RegisterKPartnerSelectionRuleClaim()
+            // M3 of the reading-grammar arc (2026-06-20): the defect-reading map is spatial-reflection
+            // equivariant, M[N−2−b,k] = (−1)^{k−1}M[b,k] exactly, so the sign-location confusability is
+            // the closed-form parity-weighted mode sum cos = Σ(−1)^{k−1}w_k. The geometric chain mirror
+            // R (i→N−1−j), distinct from MirrorGroupD4's coherence-space ket-flip (a see-also sibling).
+            // Tier1Derived. Single typed parent: KPartnerSelectionRuleClaim (registered directly above:
+            // it defines M[b,k], the null column, rank N−2). Wired 2026-06-20.
+            .RegisterDefectReadingEquivarianceClaim()
             .RegisterF71Family(N: defaultChain.N)
             .RegisterPi2Family()
             .RegisterF86Main(gammaZero: defaultChain.GammaZero, gEff: gEff)
