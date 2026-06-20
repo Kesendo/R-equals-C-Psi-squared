@@ -84,6 +84,9 @@ public class BandEdgeTransitionInvariantWitnessTests
         Assert.True(r.StagResid < 1e-8, "staggered should remain an eigenvector for any carrier");
         Assert.True(r.StagRayleigh > r.LamMin + 1e-8, "staggered should NOT be the minimum for an interior carrier");
         Assert.True(r.Sum < 2.0 - 1e-8, "the sum should drop below 2 for an interior carrier");
+        // tie the refutation to the Perron mechanism: a noded interior carrier loses the all-positive
+        // Gram off-diagonals that make the staggered mode the minimum for the band edge.
+        Assert.False(r.OffDiagAllPositive, "an interior (noded) carrier should lose the Perron positivity precondition");
     }
 
     /// <summary>The frame reading: λ_min = σ_min²(M) (the lower frame bound = the Eckart-Young distance² to
@@ -111,7 +114,7 @@ public class BandEdgeTransitionInvariantWitnessTests
     }
 
     /// <summary>The object guard: the decoder's location dictionary k=2..N (strength channel dropped) has
-    /// λ_min = 0 — the K-partner null column makes M_loc M_locᵀ rank-deficient. The strength column lifts the
+    /// λ_min = 0: the K-partner null column makes M_loc M_locᵀ rank-deficient. The strength column lifts the
     /// floor from 0 to E.</summary>
     [Theory]
     [InlineData(4)]
@@ -123,6 +126,19 @@ public class BandEdgeTransitionInvariantWitnessTests
     {
         Assert.True(BandEdgeTransitionInvariantWitness.LocationDictionaryLamMin(n) < 1e-9,
             $"N={n}: the location dictionary k=2..N should have λ_min = 0");
+    }
+
+    /// <summary>Topology scope: the even ring holds DEGENERATELY (E=0, no boundary): sum=2 like the chain but
+    /// with λ_min=0, so it is not a second instance of the Dirichlet-edge mechanism. The proof discloses this in
+    /// its Scope section; this gate keeps the topology table honest.</summary>
+    [Theory]
+    [InlineData(4)]
+    [InlineData(6)]
+    public void EvenRing_HoldsDegenerately_SumIsTwoAndLambdaMinZero(int n)
+    {
+        var r = BandEdgeTransitionInvariantWitness.Analyse(Topo.Ring, n);
+        Assert.Equal(2.0, r.Sum, 9);
+        Assert.True(r.LamMin < 1e-9, $"N={n}: the even ring should have λ_min = 0 (no boundary, E=0)");
     }
 
     /// <summary>Topology scope: the odd ring frustrates the staggering (λ_min > 0, sum > 2): the "2" is the

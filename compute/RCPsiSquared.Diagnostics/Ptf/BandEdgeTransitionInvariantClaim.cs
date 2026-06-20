@@ -18,22 +18,24 @@ namespace RCPsiSquared.Diagnostics.Ptf;
 ///
 /// where z=2 is the chain's coordination number and E = c₀²+c_{N-1}² = (4/(N+1))·sin²(π/(N+1)) is the
 /// carrier's weight on the two free ends. The non-trivial half is λ_min = E: a staggered (zone-boundary,
-/// q=π) bond modulation Σ_b(−1)^b V_b couples to the band-edge carrier ONLY through the Dirichlet ends — the
+/// q=π) bond modulation Σ_b(−1)^b V_b couples to the band-edge carrier ONLY through the Dirichlet ends: the
 /// bulk telescopes away via the conserved discrete-energy envelope Q_a = c_a²+c_{a+1}²−E₁ c_a c_{a+1} = c₀²
-/// (E₁ = 2cos(π/(N+1)), the band edge / ClockHandLadder) — an SSH/Peierls edge effect; and the SAME E is the
+/// (E₁ = 2cos(π/(N+1)), the band edge / ClockHandLadder), an SSH/Peierls edge effect; and the SAME E is the
 /// deficit of the carrier's degree-weighted norm from z. One boundary quantity c₀² fixes both the spectral
 /// floor and the trace deficit.
 ///
 /// <para><b>The frame reading</b> (grounding-in-the-quantum + borrowing-a-discipline converged): the
 /// bond-scattered carriers {V_bψ_1} are a deficient, non-tight Riesz basis (rank N−1); λ_min is the optimal
-/// lower frame bound = σ_min²(M) = the Eckart-Young squared distance to rank-collapse; the end-leakage E is
-/// the conditioner, condition number κ = λ_max/λ_min growing with N; and the exact kernel is the K-partner
-/// ψ_N — ⟨ψ_N|V_b|ψ_1⟩ ≡ 0, the typed <see cref="KPartnerSelectionRuleClaim"/>.</para>
+/// lower frame bound = σ_min²(M) = the Eckart-Young squared distance to rank-collapse (this last equality is
+/// a definitional Evd↔SVD identity, not a falsifiable check; the falsifiable kernel content is the K-partner
+/// null column); the end-leakage E is the conditioner, condition number κ = λ_max/λ_min → ∞ (a theorem, since
+/// λ_min = E → 0 like N⁻³); and the exact kernel is the K-partner ψ_N: ⟨ψ_N|V_b|ψ_1⟩ ≡ 0, the typed
+/// <see cref="KPartnerSelectionRuleClaim"/>.</para>
 ///
 /// <para><b>Carrier-selecting (the genuine-minimum hazard).</b> Part 2's conserved envelope makes the
 /// staggered mode an eigenvector for ANY carrier (eigenvalue 2Q_k); only the nodeless band-edge carrier has
 /// all-positive Gram off-diagonals (Perron), which is what makes the staggered mode the MINIMUM. An interior
-/// carrier keeps it an eigenvector but not the least, and the sum drops strictly below 2 — so λ_min must be
+/// carrier keeps it an eigenvector but not the least, and the sum drops strictly below 2, so λ_min must be
 /// read as the genuine minimum, not merely "staggered is an eigenvalue".</para>
 ///
 /// <para><b>Object guard.</b> M is the FULL k=1..N matrix, NOT the decoder's location dictionary k=2..N
@@ -78,7 +80,7 @@ public sealed class BandEdgeTransitionInvariantClaim : Claim
                "transition matrix M[b,k]=⟨ψ_k|V_b|ψ_1⟩ (all N modes) has ‖M‖_F² + λ_min(MMᵀ) = z = 2 exactly, with " +
                "‖M‖_F²=2−E and λ_min=E=(4/(N+1))sin²(π/(N+1)); the non-trivial half λ_min=E is the Dirichlet-edge " +
                "coupling (a staggered bond modulation reaches the band-edge carrier only through the two free ends, " +
-               "the bulk telescoping via the conserved envelope Q=c₀²) — an SSH/Peierls edge effect — and the same E " +
+               "the bulk telescoping via the conserved envelope Q=c₀²), an SSH/Peierls edge effect, and the same E " +
                "is the carrier's degree-weighted-norm deficit from z. Frame reading: {V_bψ_1} a deficient Riesz basis, " +
                "λ_min=σ_min²=the lower frame bound, kernel = the K-partner ψ_N. Only the band-edge carrier makes the " +
                "staggered mode the genuine minimum (interior carrier → sum<2); the location dictionary k=2..N gives " +
@@ -108,10 +110,12 @@ public sealed class BandEdgeTransitionInvariantClaim : Claim
 
     public string FrameReading =>
         "{V_bψ_1} is a deficient, non-tight Riesz basis (rank N−1). λ_min is the optimal lower frame bound = " +
-        "σ_min²(M) = the Eckart-Young squared distance to rank-collapse; the end-leakage E is the CONDITIONER " +
-        "(κ = λ_max/λ_min grows with N, shorter chains better-conditioned); the exact kernel is the K-partner ψ_N " +
-        "(⟨ψ_N|V_b|ψ_1⟩ ≡ 0, KPartnerSelectionRuleClaim). F124 is a completeness ⊕ conditioning identity: the " +
-        "Parseval deficit (z − trace) and the lower frame bound A are both E.";
+        "σ_min²(M) = the Eckart-Young squared distance to rank-collapse (λ_min = σ_min² is a definitional Evd↔SVD " +
+        "identity, not a falsifiable gate); the end-leakage E is the CONDITIONER (κ = λ_max/λ_min → ∞ as a theorem " +
+        "since λ_min = E → 0 like N⁻³, strict step-monotonicity observed on N=4..8, shorter chains better-conditioned); " +
+        "the falsifiable kernel content is the K-partner ψ_N null column (⟨ψ_N|V_b|ψ_1⟩ ≡ 0, KPartnerSelectionRuleClaim). " +
+        "F124 is a completeness ⊕ conditioning identity: the Parseval deficit (z − trace) and the lower frame bound A " +
+        "are both E.";
 
     public string ObjectGuard =>
         "M is the FULL transition matrix k=1..N, NOT the decoder's location dictionary k=2..N. Dropping the " +
@@ -153,8 +157,13 @@ public sealed class BandEdgeTransitionInvariantClaim : Claim
 
     /// <summary>Gate-first battery on the small dense transition matrix (no Liouvillian, no propagation): the
     /// headline identity, the genuine-minimum carrier-selection hazard, the frame identities, and the object /
-    /// topology breakages. Each case CAN fire (interior carrier, location dictionary, rings, star are real
-    /// gates), so all-pass is a validation, not a tautology. Computation delegates to the live witness.</summary>
+    /// topology breakages. The FALSIFIABLE gates (these can fire on a wrong physics or a wrong generalization)
+    /// are: the identity sum=2 and λ_min=E closed form (1-3), the genuine-minimum carrier selection (4-5), the
+    /// K-partner null column (the kernel half of 6), κ growth (7), and the topology breakages (9-11: even ring
+    /// degenerate, odd ring sum&gt;2, star N/2). Two sub-checks are STRUCTURAL identities that demonstrate the
+    /// object distinction rather than test it: λ_min=σ_min² (the σ-half of case 6 is a definitional Evd↔SVD
+    /// identity) and the location-dictionary λ_min=0 (case 8, a rank corollary of the K-partner null column).
+    /// Computation delegates to the live witness.</summary>
     private static IReadOnlyList<BatteryCase> BuildBattery()
     {
         var cases = new List<BatteryCase>();
@@ -204,30 +213,40 @@ public sealed class BandEdgeTransitionInvariantClaim : Claim
             var r = Witness.Analyse(Witness.Topo.Chain, n);
             return Math.Abs(r.SigmaMinSq - r.LamMin) < 1e-9 && r.KPartnerColNorm < 1e-9;
         });
-        cases.Add(new BatteryCase("frame reading: λ_min = σ_min²(M) and ⟨ψ_N|V_b|ψ_1⟩ ≡ 0 (the K-partner kernel, N=3..12)",
-            "λ_min is the lower frame bound = the squared smallest singular value; the exact kernel is the K-partner null column",
+        cases.Add(new BatteryCase("frame reading: λ_min = σ_min²(M) [definitional] and ⟨ψ_N|V_b|ψ_1⟩ ≡ 0 [falsifiable] (the K-partner kernel, N=3..12)",
+            "λ_min = σ_min² is a definitional Evd↔SVD identity (cannot fire); the falsifiable half is the K-partner null column, the exact kernel of the frame",
             "OK", Tol(frameOk)));
 
-        // 7. the conditioner: κ = λ_max/λ_min grows with N
+        // 7. the conditioner: κ = λ_max/λ_min grows with N (theorem: λ_min ~ N⁻³ → 0; step-monotonicity empirical here)
         var kappas = new[] { 4, 5, 6, 7, 8 }.Select(n => Witness.Analyse(Witness.Topo.Chain, n).Kappa).ToArray();
         bool kappaGrows = Enumerable.Range(1, kappas.Length - 1).All(i => kappas[i] > kappas[i - 1]);
         cases.Add(new BatteryCase("the conditioner: κ = λ_max/λ_min grows with N (N=4..8)",
-            "the end-leakage E conditions the bond→mode map; shorter chains are better-conditioned, the long-chain limit goes singular",
+            "κ → ∞ is a theorem (λ_min = E → 0 like N⁻³); strict step-monotonicity on N=4..8 is the observed instance; the long-chain limit goes singular",
             "OK", Tol(kappaGrows)));
 
-        // 8. object guard: the location dictionary k=2..N gives λ_min = 0
+        // 8. object guard: the location dictionary k=2..N gives λ_min = 0 (a structural corollary of the K-partner rule)
         bool guardOk = new[] { 4, 5, 6, 7, 8 }.All(n => Witness.LocationDictionaryLamMin(n) < 1e-9);
         cases.Add(new BatteryCase("object guard: location dictionary k=2..N has λ_min = 0 (N=4..8)",
-            "dropping the strength channel k=1 leaves the K-partner null column ⟹ M_loc M_locᵀ rank-deficient; the clean 2 needs the strength column",
+            "a structural corollary of the K-partner null column (dropping the strength channel k=1 leaves it ⟹ M_loc M_locᵀ rank-deficient); demonstrates that the clean 2 needs the strength column",
             "OK", Tol(guardOk)));
 
-        // 9. topology: the odd ring frustrates the staggering (sum > 2)
+        // 9. topology: the even ring holds degenerately (sum=2 AND λ_min=0: E=0, no boundary)
+        bool evenRingOk = new[] { 4, 6 }.All(n =>
+        {
+            var r = Witness.Analyse(Witness.Topo.Ring, n);
+            return Math.Abs(r.Sum - 2.0) < 1e-9 && r.LamMin < 1e-9;
+        });
+        cases.Add(new BatteryCase("topology: even ring holds degenerately, sum=2 AND λ_min=0 (N=4,6)",
+            "the even ring 2-colours perfectly with zero boundary leakage (E=0): sum=2 holds but DEGENERATELY (λ_min=0, no boundary), not a second instance of the Dirichlet-edge mechanism",
+            "OK", Tol(evenRingOk)));
+
+        // 10. topology: the odd ring frustrates the staggering (sum > 2)
         bool oddRingOk = new[] { 5, 7 }.All(n => Witness.Analyse(Witness.Topo.Ring, n).Sum > 2.0 + 1e-6);
         cases.Add(new BatteryCase("topology: odd ring frustrates the staggering, sum > 2 (N=5,7)",
             "the '2' is the coordination number, not a universal constant; the odd cycle cannot 2-colour the staggered mode",
             "OK", Tol(oddRingOk)));
 
-        // 10. topology: the star breaks the trace half (‖M‖_F² = N/2)
+        // 11. topology: the star breaks the trace half (‖M‖_F² = N/2)
         bool starOk = new[] { 5, 6 }.All(n =>
             Math.Abs(Witness.Analyse(Witness.Topo.Star, n).Fro2 - n / 2.0) < 1e-9);
         cases.Add(new BatteryCase("topology: star breaks the trace half, ‖M‖_F² = N/2 (N=5,6)",

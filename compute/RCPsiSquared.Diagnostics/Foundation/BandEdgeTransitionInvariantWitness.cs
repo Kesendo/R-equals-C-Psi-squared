@@ -16,13 +16,13 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// where z=2 is the chain's coordination number and E = c₀² + c_{N-1}² = (4/(N+1))·sin²(π/(N+1)) is the
 /// carrier's weight on the two free ends. The non-trivial half is λ_min = E: a staggered (zone-boundary,
-/// q=π) bond modulation Σ_b(−1)^b V_b couples to the band-edge carrier ONLY through the Dirichlet ends —
+/// q=π) bond modulation Σ_b(−1)^b V_b couples to the band-edge carrier ONLY through the Dirichlet ends:
 /// the bulk telescopes away via the conserved discrete-energy envelope Q_a = c_a²+c_{a+1}²−E₁ c_a c_{a+1} = c₀²
-/// (E₁ = 2cos(π/(N+1)), the band edge / ClockHandLadder) — an SSH/Peierls edge effect; the same E is the
+/// (E₁ = 2cos(π/(N+1)), the band edge / ClockHandLadder), an SSH/Peierls edge effect; the same E is the
 /// deficit of the carrier's degree-weighted norm from z. One boundary quantity c₀² fixes both.
 ///
 /// <para>This witness recomputes the identity over a chain sweep, the carrier-selection hazard (only the
-/// band-edge carrier makes the staggered mode the genuine MINIMUM — an interior carrier keeps it an
+/// band-edge carrier makes the staggered mode the genuine MINIMUM: an interior carrier keeps it an
 /// eigenvector but not the least, so the sum drops below 2), the frame reading (λ_min = σ_min²(M), the
 /// condition number κ = λ_max/λ_min, the K-partner null column ⟨ψ_N|V_b|ψ_1⟩ ≡ 0), and the object/topology
 /// scope (the decoder's location dictionary k=2..N gives λ_min=0, sum≠2; the odd ring frustrates, sum>2;
@@ -245,7 +245,7 @@ public sealed class BandEdgeTransitionInvariantWitness : IInspectable
         }
         return new InspectableNode("the carrier-selecting step: only the band edge makes λ_min the genuine minimum",
             summary: "the conserved envelope makes the staggered mode an eigenvector for ANY carrier (eigenvalue 2Q_k), " +
-                     "but the equality sum=2 needs it to be the LEAST eigenvalue — true only for the nodeless band-edge " +
+                     "but the equality sum=2 needs it to be the LEAST eigenvalue, true only for the nodeless band-edge " +
                      "carrier, whose Gram off-diagonals are all positive (Perron). An interior carrier keeps staggered " +
                      "an eigenvector but not the minimum, and the sum drops strictly below 2. This is why λ_min must be " +
                      "read as the genuine minimum (full spectrum), not merely 'staggered is an eigenvalue'.",
@@ -254,8 +254,11 @@ public sealed class BandEdgeTransitionInvariantWitness : IInspectable
 
     /// <summary>The frame reading (grounding-in-the-quantum + borrowing-a-discipline): {V_bψ_1} is a deficient
     /// non-tight Riesz basis; λ_min is the lower frame bound = σ_min²(M) = the Eckart-Young distance² to
-    /// rank-collapse; the end-leakage E is the conditioner, κ = λ_max/λ_min growing with N; the exact kernel is
-    /// the K-partner ψ_N (⟨ψ_N|V_b|ψ_1⟩ ≡ 0, the typed KPartnerSelectionRuleClaim).</summary>
+    /// rank-collapse; the end-leakage E is the conditioner, κ = λ_max/λ_min; the exact kernel is the K-partner
+    /// ψ_N (⟨ψ_N|V_b|ψ_1⟩ ≡ 0, the typed KPartnerSelectionRuleClaim). Honesty: λ_min=σ_min²(M) is a definitional
+    /// Evd↔SVD identity (the eigenvalues of M Mᵀ ARE the squared singular values), so it cannot fire; the
+    /// FALSIFIABLE content of the frame reading is the K-partner null column (a real selection rule) and the
+    /// closed-form λ_min=E (gated in the identity ladder).</summary>
     private InspectableNode TheFrameReading()
     {
         var rows = new List<IInspectable>();
@@ -275,17 +278,20 @@ public sealed class BandEdgeTransitionInvariantWitness : IInspectable
         }
         return new InspectableNode("the frame reading: λ_min = σ_min² = lower frame bound; kernel = the K-partner",
             summary: $"the bond-scattered carriers {{V_bψ_1}} are a deficient, non-tight Riesz basis (rank N−1); λ_min is " +
-                     $"the optimal lower frame bound = σ_min²(M) = the Eckart-Young squared distance to rank-collapse. The " +
-                     $"end-leakage E is the CONDITIONER: κ = λ_max/λ_min grows with N ({(kappaGrows ? "confirmed" : "NOT monotone")}; " +
-                     $"≈3.4, 5.3, 7.6 at N=4,5,6), so shorter chains are better-conditioned and the long-chain / ring limit " +
-                     $"(E→0) goes singular. The exact kernel is the K-partner ψ_N: ⟨ψ_N|V_b|ψ_1⟩ ≡ 0 (KPartnerSelectionRuleClaim).",
+                     $"the optimal lower frame bound = σ_min²(M) (a definitional Evd↔SVD identity, not a falsifiable check). " +
+                     $"The end-leakage E is the CONDITIONER: κ = λ_max/λ_min → ∞ (a theorem, since λ_min = E → 0 like N⁻³ " +
+                     $"while λ_max stays O(1/N) at most; strict step-monotonicity 3.4, 5.3, 7.6 at N=4,5,6 observed here, " +
+                     $"{(kappaGrows ? "monotone on N=4..8" : "NOT monotone")}), so shorter chains are better-conditioned and " +
+                     $"the long-chain / ring limit (E→0) goes singular. The FALSIFIABLE kernel content: the K-partner ψ_N " +
+                     $"column ⟨ψ_N|V_b|ψ_1⟩ ≡ 0 (KPartnerSelectionRuleClaim).",
             children: rows);
     }
 
     /// <summary>The object guard and topology scope: the decoder's location dictionary k=2..N (strength channel
-    /// dropped) gives λ_min=0 and sum≠2 — the clean "2" needs the strength column, so this is the full transition
-    /// matrix, not the location reading. Topology: the odd ring frustrates the staggering (sum>2); the star breaks
-    /// the trace half (‖M‖_F²=N/2).</summary>
+    /// dropped) gives λ_min=0 and sum≠2 (the clean "2" needs the strength column, so this is the full transition
+    /// matrix, not the location reading). Topology: the even ring holds DEGENERATELY (E=0, λ_min=0, sum=2, no
+    /// boundary, not a second instance of the mechanism); the odd ring frustrates the staggering (sum>2); the
+    /// star breaks the trace half (‖M‖_F²=N/2).</summary>
     private InspectableNode TheObjectAndTopologyScope()
     {
         var rows = new List<IInspectable>();
@@ -300,6 +306,18 @@ public sealed class BandEdgeTransitionInvariantWitness : IInspectable
                 summary: $"λ_min(M_loc M_locᵀ)={locLamMin:0.0e+0} (= 0: the K-partner is a null column ⟹ rank-deficient); " +
                          $"the full k=1..N matrix has λ_min={full.LamMin.ToString("0.####", Inv)}=E and sum=2. The strength " +
                          $"column lifts the floor from 0 to E → {(guardOk ? "OK" : "GATE-FIRE")}"));
+        }
+
+        // topology scope: even ring holds degenerately (E=0, λ_min=0, sum=2, no boundary)
+        foreach (int n in new[] { 4, 6 })
+        {
+            var r = Analyse(Topo.Ring, n);
+            bool degenerate = Math.Abs(r.Sum - 2.0) < 1e-9 && r.LamMin < 1e-9;
+            rows.Add(new InspectableNode($"even ring N={n}",
+                summary: $"‖M‖_F²={r.Fro2.ToString("0.####", Inv)}, λ_min={r.LamMin:0.0e+0} (= 0: no boundary, E=0), " +
+                         $"sum={r.Sum.ToString("0.######", Inv)} = 2 DEGENERATELY (the perfect 2-colouring closes the " +
+                         $"staggering with zero boundary leakage, NOT a second instance of the mechanism) → " +
+                         $"{(degenerate ? "holds degenerately (OK)" : "GATE-FIRE")}"));
         }
 
         // topology scope: odd ring frustrates (sum>2)
@@ -327,8 +345,9 @@ public sealed class BandEdgeTransitionInvariantWitness : IInspectable
         return new InspectableNode("the object guard + topology scope (where the clean '2' breaks)",
             summary: "the full transition matrix k=1..N is NOT the decoder's location dictionary k=2..N: dropping the " +
                      "strength column k=1 leaves the K-partner null column, M_loc M_locᵀ is rank-deficient and λ_min=0, " +
-                     "sum≠2. The clean 2 needs the strength column. Topology: chain (Dirichlet) holds; the odd ring " +
-                     "frustrates the staggering (λ_min>0, sum>2); the star breaks the trace half at the hub (‖M‖_F²=N/2).",
+                     "sum≠2. The clean 2 needs the strength column. Topology: chain (Dirichlet) holds; the even ring holds " +
+                     "degenerately (E=0, λ_min=0, sum=2, no boundary); the odd ring frustrates the staggering (λ_min>0, " +
+                     "sum>2); the star breaks the trace half at the hub (‖M‖_F²=N/2).",
             children: rows);
     }
 

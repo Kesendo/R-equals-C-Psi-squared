@@ -58,10 +58,14 @@ public static class OpenArcsRegistry
                 "still an eigenvector but NOT the minimum, off-diagonals not all positive, sum<2), the frame " +
                 "identities (lambda_min=sigma_min^2(M), the K-partner null column, condition number kappa growing " +
                 "3.4/5.3/7.6 at N=4,5,6), and the object/topology breakages (location dictionary k=2..N -> " +
-                "lambda_min=0; odd ring sum>2; star ||M||_F^2=N/2). 10-case gate-first battery + 16 xUnit " +
-                "witness/claim tests green (26 filtered); RegistryWiringAudit 3/3. The gate-first hazard HELD: " +
-                "lambda_min is checked as the genuine MINIMUM (full spectrum), and the interior-carrier gate " +
-                "fires exactly as predicted. Anchors breadcrumbed in PROOF_HANDSHAKE_TRANSITION_INVARIANT.md + " +
+                "lambda_min=0; even ring sum=2 degenerate; odd ring sum>2; star ||M||_F^2=N/2). 11-case " +
+                "gate-first battery + 18 xUnit witness/claim tests green (28 filtered); RegistryWiringAudit 3/3. " +
+                "The gate-first hazard HELD: lambda_min is checked as the genuine MINIMUM (full spectrum), and " +
+                "the interior-carrier gate fires exactly as predicted. A 3-lens review pass (physics " +
+                "re-derivation / mathematical-object / C# code, all GO) hardened honest labeling (lambda_min=" +
+                "sigma_min^2 is a definitional Evd-SVD identity not a falsifiable gate; location-dictionary " +
+                "lambda_min=0 is a K-partner rank corollary; kappa->inf is a theorem, step-monotonicity " +
+                "empirical) and added the even-ring degenerate gate. Anchors breadcrumbed in PROOF_HANDSHAKE_TRANSITION_INVARIANT.md + " +
                 "ANALYTICAL_FORMULAS.md F124 (both now point at the typed claim + witness)."),
 
         new OpenArc(
