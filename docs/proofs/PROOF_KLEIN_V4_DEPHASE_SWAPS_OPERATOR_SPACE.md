@@ -9,7 +9,7 @@
 
 ## Abstract
 
-The dephase letters {I, X, Y, Z} carry a natural Klein four-group structure: pair each letter with its (bit_a, bit_b) label (I sits at 00, X at 10, Z at 01, Y at 11), and the three non-trivial group elements correspond to the three letter-swaps Z↔Y, Z↔X, Y↔X. The Welle 12 Task 1 companion proof already showed that the Z↔Y swap lifts to an operator-space involution: conjugation by a diagonal D maps Π_Z to Π_Y. The follow-up question was whether the X-axis swap lifts the same way, and whether the three lifts close into a single group.
+The dephase letters {I, X, Y, Z} carry a natural Klein four-group structure: pair each letter with its (bit_a, bit_b) label (I sits at 00, X at 10, Z at 01, Y at 11), and the three non-trivial group elements are the three *double*-transpositions of the four labels — e.g. adding (1,0) gives (I↔X, Z↔Y), conventionally named by its action on the dephasing pair (here Z↔Y), and likewise Z↔X and Y↔X for the other two. (The single-swap shorthand is convenient but hides that each element also moves the I-slot; this matters for the operator-space action — see the precision note after the Statement.) The Welle 12 Task 1 companion proof already showed that the Z↔Y swap lifts to an operator-space involution: conjugation by a diagonal D maps Π_Z to Π_Y. The follow-up question was whether the X-axis swap lifts the same way, and whether the three lifts close into a single group.
 
 They do, and the group is a clean Klein four-group on the 4^N Pauli operator space. The diagonal involution D handles Z↔Y as before. A second involution Q_zx, built from D together with a basis-index permutation that exchanges the X and Z positions, handles Z↔X. The third Q_yx is the basis permutation alone. All three are order-2, all three commute pairwise, and their product (in any order) is the identity. Together with the identity itself they form the Klein four-group of dephase-letter swaps acting on operator space.
 
@@ -30,11 +30,11 @@ The diagnostic reading: any F1 diagnostic (Frobenius norms, spectra, eigenspace 
 3. **Per-site Klein-V₄ closure.** Algebra on the 4×4 matrices: `d_l² = h² = I`, `q_zx² = I` via `d_l · h = h · d_l`, `d_l · q_zx · q_yx = h² · d_l² = I`, pairwise commutativity.
 4. **Lift to universal N.** Mixed-product property of the Kronecker product: every per-site identity tensor-powers to its N-site version.
 
-**Diagnostic consequence.** Any F1 diagnostic computed under one dephase letter automatically transfers to the other two by unitary conjugation with the appropriate Klein-V₄ element. F112's Z-dephase identity transports to X- and Y-dephase via the cross-dephase machinery in [PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4](PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md), and F108's Π_5bilinear Z-dephase identity transports to F108 Parts 2 and 3 in [PROOF_F108_KLEIN_V4_EQUIVALENCE](PROOF_F108_KLEIN_V4_EQUIVALENCE.md). The Klein-V₄ subgroup is the abstract structure unifying the three F1 palindrome variants.
+**Diagnostic consequence.** Any F1 diagnostic computed under one dephase letter automatically transfers to the other two by unitary conjugation with the appropriate Klein-V₄ element. (Caveat: this transports a diagnostic of a *fixed* operator. Transporting an *identity* to a genuinely different dephase channel needs the swap element to rotate the dephasing axis — true only for the Hadamard lift Q_zx, Z → X; D and Q_yx are the transpose / a basis permutation, which intertwine the Π's but keep the dissipator on its axis, so a Y-identity is re-derived directly rather than transported. See §(d) of the cross-dephase proof.) F112's Z-dephase identity transports to X- and Y-dephase via the cross-dephase machinery in [PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4](PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md), and F108's Π_5bilinear Z-dephase identity transports to F108 Parts 2 and 3 in [PROOF_F108_KLEIN_V4_EQUIVALENCE](PROOF_F108_KLEIN_V4_EQUIVALENCE.md). The Klein-V₄ subgroup is the abstract structure unifying the three F1 palindrome variants.
 
 ## Statement
 
-The Klein four-group V₄ = Z₂ × Z₂ acts on the set of dephase letters {I, X, Y, Z} by Klein-product (additive on the (bit_a, bit_b) labels). Its three non-trivial elements correspond to the three letter-swaps {Z↔Y, Z↔X, Y↔X}. We claim these swaps lift to operator-space involutions on the 4^N Pauli basis, forming a faithful Klein-V₄ subgroup.
+The Klein four-group V₄ = Z₂ × Z₂ acts on the set of dephase letters {I, X, Y, Z} by Klein-product (additive on the (bit_a, bit_b) labels). Its three non-trivial elements are the three double-transpositions of {I, X, Y, Z} (e.g. (1,0) = (I↔X, Z↔Y)), named below by their action on the dephasing pair (Z↔Y, Z↔X, Y↔X). We claim these lift to operator-space involutions on the 4^N Pauli basis, forming a faithful Klein-V₄ subgroup.
 
 Specifically, define on the single-site Pauli basis ordered (I, X, Z, Y):
 
@@ -82,6 +82,8 @@ Together: {I, D, Q_zx, Q_yx} is a Klein-V₄ subgroup of U(4^N), and the assignm
 ```
 
 is V₄-equivariant under the conjugation action by {I, D, Q_zx, Q_yx}.
+
+**Precision note (the action acts on four oriented operators, not three letters; 2026-06-20).** The equivariance is onto the **four oriented palindrome operators** {Π_X, Π_X⁻¹, Π_Y, Π_Z}, not the three named letters {X, Y, Z}. The reason: **Π_Y = Π_Z⁻¹** exactly at all N (per-site π_Y · π_Z = I, since the Y- and Z-phase conventions are complex-conjugate on an order-4 operator), so the three letters carry only two independent palindrome operators, and the identity-letter slot is realized by Π_X⁻¹. Under the correspondence I ↦ Π_X⁻¹, X ↦ Π_X, Y ↦ Π_Y, Z ↦ Π_Z, the V₄ acts as the **regular (free, transitive) action** by double transpositions — e.g. D = (Π_X Π_X⁻¹)(Π_Y Π_Z) — landing in the signed-permutation group B₂ ≅ D₄. The restriction to {Π_X, Π_Y, Π_Z} alone is not a closed permutation action (D · Π_X · D⁻¹ = Π_X⁻¹ escapes the triple), so the structure is genuinely Klein-V₄, not S₃: the four oriented operators are a copy of the Pauli Klein group {I, X, Y, Z} itself. (The three *dephasing-diagonal* operators Q_v carry the complementary S₃ structure; the V₄-vs-S₃ difference is the Π-vs-Q distinction.)
 
 ## Proof
 

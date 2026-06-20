@@ -233,8 +233,10 @@ public sealed class Pi2KleinV4DephaseSwapGroup : Claim
                          "first formalization. Route 2 (Hadamard transport via Q_zx): identities " +
                          "depending on L itself transfer only between (Z, X) via Q_zx, which is " +
                          "the operator-space lift of U_H^⊗N. D and Q_yx (= H) are operator-space-" +
-                         "only and do NOT transport L between dephase representations (no Hilbert-" +
-                         "space lift exists for D). F108 Welle 14 closure " +
+                         "only and do NOT transport L between dephase representations: D is the " +
+                         "transpose ρ ↦ ρ^T, so D·L_Z·D⁻¹ stays a valid Z-dephasing Lindbladian " +
+                         "(= L_Z with H → −H^T) — it keeps Lindblad form but does not rotate the " +
+                         "dephasing axis (no Hilbert-space lift for D). F108 Welle 14 closure " +
                          "(PROOF_F108_KLEIN_V4_EQUIVALENCE.md): F108 Part 3 follows from Part 1 via " +
                          "OPERATOR-SPACE D-conjugation (D · Π_5b(Z) · D = Π_5b(Y) bit-exact; bilinear " +
                          "set fixed); F108 Part 2 follows from Part 1 via HILBERT-SPACE Hadamard " +
@@ -251,6 +253,19 @@ public sealed class Pi2KleinV4DephaseSwapGroup : Claim
                          "the Pauli group itself: X = (1, 0) and Z = (0, 1) are the single-axis " +
                          "generators, and swapping their basis indices via h is precisely the V₄ " +
                          "involution (a, b) ↔ (b, a) that maps the bit_a-axis to the bit_b-axis.");
+            yield return new InspectableNode("Action precision: four oriented operators, not three letters (2026-06-20)",
+                summary: "The conjugation action is the REGULAR V₄-action on the four oriented " +
+                         "palindrome operators {Π_X, Π_X⁻¹, Π_Y = Π_Z⁻¹, Π_Z}, not a permutation " +
+                         "of the three letters {X, Y, Z} (three transpositions would generate S₃, " +
+                         "and the bare-letter map is ill-defined for Q_zx and H). Π_Y = Π_Z⁻¹ " +
+                         "exactly at all N (per-site π_Y·π_Z = I), so the three letters carry only " +
+                         "two independent operators and the identity-letter slot is realized by " +
+                         "Π_X⁻¹ (I ↦ Π_X⁻¹, X ↦ Π_X, Y ↦ Π_Y, Z ↦ Π_Z). Each generator is a " +
+                         "fixed-point-free double transposition (e.g. D = (Π_X Π_X⁻¹)(Π_Y Π_Z)); " +
+                         "ambient group B₂ ≅ D₄. The four oriented operators are a copy of the " +
+                         "Pauli Klein group {I, X, Y, Z} itself — which is why 'Klein-V₄' is the " +
+                         "right name. (The three dephasing-DIAGONAL operators Q_v carry the " +
+                         "complementary S₃; the V₄-vs-S₃ difference is the Π-vs-Q distinction.)");
             yield return new InspectableNode("Downstream sibling: F114 commutator D-conjugation parity",
                 summary: "CommutatorDConjugationSign (F114, Tier1Derived, ctor child of this Claim, " +
                          "Welle 15 closure 2026-05-27) characterizes D's action on the H-commutator " +
