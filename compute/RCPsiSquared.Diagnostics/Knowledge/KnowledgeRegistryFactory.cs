@@ -78,6 +78,17 @@ public static class KnowledgeRegistryFactory
             // conserved envelope rides on; registered later in this chain, resolved topologically). Live witness:
             // inspect --root transition. Wired 2026-06-20.
             .RegisterBandEdgeTransitionInvariantClaim()
+            // The resolution-limit reading of F124 (the optics/signal facet, 2026-06-20): the same transition
+            // matrix M read as a bond-recovery inverse problem - lambda_min=E the worst-case reconstruction floor
+            // (the lower frame bound), kappa=lambda_max/lambda_min ~ N^2 the noise amplification, the contrast
+            // sigma_max/sigma_min=sqrt(kappa) ~ N (a staggered q=pi defect sqrt(kappa) ~ N times harder to
+            // localize, matched-filter SNR), the worst direction F124's staggered lambda_min eigenvector (the
+            // diffraction limit), the floor sigma_min ~ (N+1)^-3/2 (E*(N+1)^3 -> 4pi^2). One object in three
+            // trades (inverse problem / observability Gramian / optics MTF). NOT the decoder's 1.5 alpha-
+            // parametrization ambiguity (gate-refuted, separate). Tier1Derived; single parent
+            // BandEdgeTransitionInvariantClaim (registered directly above). Live: inspect --root resolution.
+            // From the f124_inverse_problem_resolution_seam arc, Stage 0. Wired 2026-06-20.
+            .RegisterBandEdgeResolutionLimitClaim()
             .RegisterF71Family(N: defaultChain.N)
             .RegisterPi2Family()
             .RegisterF86Main(gammaZero: defaultChain.GammaZero, gEff: gEff)

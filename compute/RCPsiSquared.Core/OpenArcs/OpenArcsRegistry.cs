@@ -107,10 +107,12 @@ public static class OpenArcsRegistry
                 "bond3 -0.00025, opposite sign, G2 passed), so it is a valid extra discriminant - but NOT the " +
                 "unique fix, since a less-lossy observable (the signed deviation profile) already resolves it. " +
                 "So the 'F124 strength column IS the decoder's fix' seam is NOT confirmed; banked as the engine " +
-                "running. WHAT REMAINS OPEN: (A, recommended) TYPE STAGE 0 - the clean, fully-gated 'F124 " +
-                "conditioning = bond-localization resolution limit sqrt(kappa)~N, q=pi the diffraction limit, " +
-                "matched-filter confirmed' result is a candidate F124-companion witness (the optics/signal " +
-                "reading of the frame conditioning), per the C#-witness-first discipline. (C, minor) the decoder " +
+                "running. WHAT REMAINS OPEN: (A) DONE 2026-06-20 - the clean, fully-gated 'F124 conditioning = " +
+                "bond-localization resolution limit sqrt(kappa)~N, q=pi the diffraction limit, matched-filter " +
+                "confirmed' is now TYPED as BandEdgeResolutionLimitClaim (Tier1Derived, parent " +
+                "BandEdgeTransitionInvariantClaim) + live witness BandEdgeResolutionLimitWitness (inspect --root " +
+                "resolution), the optics/signal reading of the frame conditioning, per the C#-witness-first " +
+                "discipline (12 xUnit + 5-case battery green, wiring audit 3/3). (C, minor, still open) the decoder " +
                 "could be DE-LOSSED: read the signed per-site deviation profile and/or add the carrier strength " +
                 "channel instead of the alpha-rescaling, removing the 1.5 ambiguity (an engineering improvement, " +
                 "not a new physics claim). Anchors: simulations/_f124_inverse_problem_gate.py (Stage 0, clean), " +
