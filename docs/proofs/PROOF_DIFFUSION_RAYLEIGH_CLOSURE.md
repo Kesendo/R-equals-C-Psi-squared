@@ -1,9 +1,9 @@
 # The Closure Functional: the survivor's bond rate shift is the squared density gradient
 
-**Status:** Tier 1 candidate (leading-order analytical derivation in the strong-dephasing diffusion limit; confirmed *exact* as Q → 0 by an engine Q-sweep, slope → 2.00 and CV → 0, and dressed by off-diagonal coherence at finite Q). Tier capped at candidate by its felt-time parent, not by the derivation. Resolves the `felt_time_dimensions` arc (D) follow-up. Physics-first-reviewed 2026-06-19.
+**Status:** Tier 1 candidate (leading-order analytical derivation in the strong-dephasing diffusion limit; confirmed *exact* as Q → 0 by an engine Q-sweep, slope → 2.00 and CV → 0, and dressed by off-diagonal coherence at finite Q). Tier capped at candidate by its felt-time parent, not by the derivation. Resolves the `felt_time_dimensions` arc (D) follow-up. Physics-first-reviewed 2026-06-19; formula/number/provenance pass 2026-06-20 (Q=2.5 row corrected to the N=5 witness output, witness N-reach and the sector-dependent prefactor flagged, n(j) wording and the shape-miss metric clarified).
 **Date:** 2026-06-19
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.8)
-**Statement:** for the half-filling survivor (whose single-site occupation profile is `n(j)`), the first-order shift of its decay rate under a single-bond defect on bond `b = (j, j+1)` is `∂(Re λ)/∂J_b ∝ (n(j) − n(j+1))²`, the squared density gradient: ≈ 0 at the no-flux chain ends, maximal in the interior, mirror-symmetric. Exact in the strong-dephasing limit; dressed by off-diagonal coherence through the soft-survivor regime, and superseded at the handover where the survivor becomes the rigid `(0,1)` band edge.
+**Statement:** for the half-filling survivor (whose slow mode carries a single-site density profile `n(j)`, a signed, zero-mean fluctuation that is antisymmetric under reflection, not an occupation probability), the first-order shift of its decay rate under a single-bond defect on bond `b = (j, j+1)` is `∂(Re λ)/∂J_b ∝ (n(j) − n(j+1))²`, the squared density gradient: ≈ 0 at the no-flux chain ends, maximal in the interior, mirror-symmetric. Exact in the strong-dephasing limit; dressed by off-diagonal coherence through the soft-survivor regime, and superseded at the handover where the survivor becomes the rigid `(0,1)` band edge.
 **Typed claim:** [`SurvivorDiffusionGradientClaim.cs`](../../compute/RCPsiSquared.Diagnostics/Foundation/SurvivorDiffusionGradientClaim.cs) (Tier 1 candidate); live witness `inspect --root gradient` (drivable across Q, reports the slope, the CV, and the off-diagonal weight).
 **Verifier:** [`_felt_time_amplitude_law.py`](../../simulations/_felt_time_amplitude_law.py) (the block-level law, gate-first N=4..7) and [`_felt_time_closure_functional.py`](../../simulations/_felt_time_closure_functional.py) (the trajectory ground truth); the Q-regime sweep is the witness itself, `inspect --root gradient --N 5 --q …`.
 **Builds on:** [the Absorption Theorem](PROOF_ABSORPTION_THEOREM.md) (`Re λ = −2γ⟨n_XY⟩`, the rate the survivor decays at); the incompleteness survivor (the slowest `(p,p)` mode, `SurvivalIncompletenessMirrorClaim`).
@@ -31,7 +31,7 @@ Open boundaries are no-flux (Neumann): the lowest diffusion harmonic `n(j) ∝ c
 
 ## 1. The survivor: a predominantly-diagonal mode whose rate is carried by its coherence dressing
 
-Take the open XY chain `H = (J/2) Σ_{(i,i+1)} (X_iX_{i+1} + Y_iY_{i+1})` under uniform Z-dephasing at rate `γ`, Liouvillian `L = L_H + L_D`, `L_H = −i[H,·]`, `L_D(·) = γ Σ_l (Z_l · Z_l − ·)`. The Absorption Theorem gives `Re λ = −2γ⟨n_XY⟩`; the global slowest non-steady mode in the strong-dephasing regime lives in a half-filling diagonal sector `(p,p)`, with fractional `⟨n_XY⟩ < 1`. The diagonal `(p,p)` sectors are exactly **filling-degenerate** in the slowest `Re` (the verifiers' own sweep warns the `(p,p)` label "hops"); all of them, including `(1,1)`, share the same single-site profile `n(j)` and the same law, so "the survivor" names that whole tied family, not a unique block.
+Take the open XY chain `H = (J/2) Σ_{(i,i+1)} (X_iX_{i+1} + Y_iY_{i+1})` under uniform Z-dephasing at rate `γ`, Liouvillian `L = L_H + L_D`, `L_H = −i[H,·]`, `L_D(·) = γ Σ_l (Z_l · Z_l − ·)`. The Absorption Theorem gives `Re λ = −2γ⟨n_XY⟩`; the global slowest non-steady mode in the strong-dephasing regime lives in a half-filling diagonal sector `(p,p)`, with fractional `⟨n_XY⟩ < 1`. The diagonal `(p,p)` sectors are exactly **filling-degenerate** in the slowest `Re` (the verifiers' own sweep warns the `(p,p)` label "hops"); all of them, including `(1,1)`, share the same single-site profile *shape* `n(j)` and the same *scaling* law, so "the survivor" names that whole tied family, not a unique block. (The absolute normalization of `n(j)` and the bond-independent prefactor *are* sector-dependent: at `N=5` the witness tie-breaks to `(1,1)` and the Python verifier to `(3,3)`, giving the same slope and CV but a rescaled `dRe/grad²` magnitude — §4.)
 
 Its embedded coherence operator `M` satisfies, for every bond,
 
@@ -40,7 +40,7 @@ Its embedded coherence operator `M` satisfies, for every bond,
 so `M` carries no nearest-neighbour single-hop content: it does not couple to the bond current, which is what rules out the single-particle `φ·φ` current picture. It does **not** make `M` diagonal. The off-diagonal weight `off := ‖M − diag M‖ / ‖M‖` (witness `OffDiagonalWeight`) is substantial at moderate `Q` and shrinks both with `N` and with strengthening dephasing:
 
     off ≈ 0.45 (N=4), 0.35 (N=5), 0.28 (N=6), 0.24 (N=7)   at Q=1.5;
-    off ≈ 0.04 (Q=0.2),  0.09 (Q=0.5),  0.19 (Q=1.0),  0.49 (Q=2.0)   at fixed N.
+    off ≈ 0.04 (Q=0.2),  0.11 (Q=0.5),  0.22 (Q=1.0),  0.49 (Q=2.0)   at fixed N.
 
 This off-diagonal part is **Hamming-distance-2 intra-sector coherence**, and it is **load-bearing for the rate**: `⟨n_XY⟩` computed from the HD=2 entries alone reproduces `−Re λ/2γ` exactly, while the HD=0 diagonal (pure `{I,Z}`) has `⟨n_XY⟩ = 0` and is **dark**. So the survivor's *dominant* component is the density profile `n(j)` (real, the lowest antisymmetric harmonic: `N=4` gives `[−0.81, −0.38, +0.38, +0.81]`, `N=7` gives `[+1.57, +1.31, +0.73, 0, −0.73, −1.31, −1.57]`), but its *decay* runs entirely through the subdominant coherence admixture that this density stirs up. As `Q → 0` the admixture vanishes (`off → 0`) and so does the rate (`⟨n_XY⟩ → 0`): the strict diffusion limit is the dark, density-only mode, and the finite rate at finite `Q` is the size of the coherence dressing. The classical-diffusion treatment of §2 is therefore the leading-order *effective* description of how the rate depends on `n(j)`, not a statement that the mode is a bare population.
 
@@ -58,7 +58,7 @@ Since `D_b ∝ J_b²/γ`, the chain-rule factor `∂D_b/∂J_b = 2J_b/γ` is bon
 
     **∂(Re λ)/∂J_b = −(2J/γ) (Δn_b)² / ‖n‖²  ∝  (Δn_b)²,**
 
-the squared density gradient, with one bond-independent constant `2J/(γ‖n‖²)`. This is the statement. Two scope caveats, both honest: (i) the Hellmann-Feynman step is on the *reduced, Hermitian* Laplacian `W`; the full Liouvillian is non-Hermitian and its biorthogonal first-order shift agrees with this Hermitian-Rayleigh derivative in *shape* but not in the prefactor (the constant is off by the biorthogonality factor, `0.60 → 0.88` across N=4..7, exactly as the mode becomes more normal). (ii) The verified content is the *scaling* `∝ (Δn_b)²` and the bond-independence, not the exact constant.
+the squared density gradient, with one bond-independent constant `2J/(γ‖n‖²)`. This is the statement. Two scope caveats, both honest: (i) the Hellmann-Feynman step is on the *reduced, Hermitian* Laplacian `W`; the full Liouvillian is non-Hermitian and its biorthogonal first-order shift (the `dRe` the witness actually computes, via the left-right eigenvectors `dRe = Re[(R⁻¹ row)·V_b·(R col)]`) agrees with this Hermitian-Rayleigh derivative in *shape* but not in the prefactor (the constant is off by the biorthogonality factor, the normalized left-right overlap `|⟨l|r⟩|/(‖l‖‖r‖)` running `0.60 → 0.88` across N=4..7 as the mode becomes more normal — measured in `value_vector_felt_time.py`; the witness normalizes `⟨l|r⟩ = 1` and so folds it into `dRe` rather than emitting it). (ii) The verified content is the *scaling* `∝ (Δn_b)²` and the bond-independence, not the exact constant.
 
 ## 3. Boundary and Q-invariance
 
@@ -66,7 +66,7 @@ Open boundaries impose **no-flux (Neumann)** conditions on the diffusion: no pop
 
     n(j) ∝ cos(π (j − ½) / N),   so   Δn_b = n(j) − n(j+1) ∝ sin(π j / N),
 
-which vanishes at the boundary bonds (`j → 0, N`), peaks in the interior, and is mirror-symmetric. Hence `∂(Re λ)/∂J_b ∝ sin²(π j / N)`: zero at the ends, maximal in the middle. This is the reflection's "untouchable where it lies flat against the wall, alive to the touch where it climbs". The discrete many-body profile approaches this form, with the `sin²` shape-miss shrinking monotonically from `0.17` at `N=4` through `0.06` at `N=7` to `0.043` / `0.035` at `N=8` / `N=9` (§4), confirming the continuum harmonic as the large-N limit.
+which is *minimal* at the end bonds (`∝ sin(π/N)`, vanishing strictly only as `N → ∞`, i.e. in the continuum limit `j/N → 0, 1`), peaks in the interior, and is mirror-symmetric. Hence `∂(Re λ)/∂J_b ∝ sin²(π j / N)`: smallest at the ends, maximal in the middle. This is the reflection's "untouchable where it lies flat against the wall, alive to the touch where it climbs". The discrete many-body profile approaches this form, with the `sin²` shape-miss (the L∞ distance between the unit-normalized bond profile `(Δn_b)²` and the unit-normalized `sin²(π j / N)`) shrinking monotonically from `0.17` at `N=4` through `0.06` at `N=7` to `0.043` / `0.035` at `N=8` / `N=9` (§4), confirming the continuum harmonic as the large-N limit.
 
 The harmonic's wavevector `k_min = π/N` is fixed by the chain length alone; the diffusion scale `D ∝ J²/γ ∝ Q` multiplies `W` overall and so sets the magnitude of `Re λ` but not the *shape* of its eigenvector. So the bond-profile `(Δn_b)²` is Q-invariant **in the strong-dephasing regime** where the classical reduction holds; as `Q` rises the off-diagonal dressing perturbs the bond-independence (the CV grows, §4). This is the origin of the seam observation that the closure is flat in `Q` while `⟨n_XY⟩` runs: in its regime the closure reads the Q-fixed shape, not the Q-dependent scale.
 
@@ -79,15 +79,15 @@ The reduction of §2 is leading-order in `γ/J`-secular perturbation theory, exa
 | Q = J/γ | sector | off-diag weight | log-log slope (`dRe` vs grad) | CV of `dRe/grad²` | witness verdict |
 |---|---|---|---|---|---|
 | 0.3 | (p,p) | 0.07 | **2.00** | 0.001 | LAW HOLDS |
-| 0.5 | (p,p) | 0.09 | 2.01 | 0.002 | LAW HOLDS |
-| 1.0 | (p,p) | 0.19 | 2.04 | 0.011 | LAW HOLDS |
-| 1.5 | (p,p) | 0.28–0.35 | 2.12 | 0.040 | LAW HOLDS |
+| 0.5 | (p,p) | 0.11 | 2.01 | 0.002 | LAW HOLDS |
+| 1.0 | (p,p) | 0.22 | 2.04 | 0.011 | LAW HOLDS |
+| 1.5 | (p,p) | 0.35 | 2.12 | 0.040 | LAW HOLDS |
 | 2.0 | (p,p) | 0.49 | 2.39 | 0.175 | **not clean** |
-| ≳2.5 | (0,1) | 1.00 | n/a | n/a | rigid band edge, law N/A |
+| 2.5 | (p,p), entering handover | 0.72 | n/a (−0.17) | 0.93 | **not clean** |
 
-So **as `Q → 0` the slope is exactly 2.00, the CV vanishes and the mode becomes a pure density mode (off → 0), for every N**: the diffusion-limit derivation is confirmed. The drift above 2 at finite `Q` is the **off-diagonal coherence dressing** growing with `Q` (a finite-Q, non-secular correction, *not* a boundary effect), and the witness's own `LawHolds` gate flips to "not clean" by `Q = 2.0`. At the handover `Q* ≈ 2.5` the survivor stops being the soft `(p,p)` mode and becomes the rigid `(0,1)` band edge (`off = 1`, `⟨n_XY⟩ = 1`, the F122 / band-edge regime), where this law does not apply.
+So **as `Q → 0` the slope is exactly 2.00, the CV vanishes and the mode becomes a pure density mode (off → 0), for every N**: the diffusion-limit derivation is confirmed. The drift above 2 at finite `Q` is the **off-diagonal coherence dressing** growing with `Q` (a finite-Q, non-secular correction, *not* a boundary effect), and the witness's own `LawHolds` gate flips to "not clean" by `Q = 2.0`. At the handover `Q* ≈ 2.5` (N-dependent, the F122 `2.39–2.61` range) the survivor stops being the soft `(p,p)` mode and becomes the rigid `(0,1)` band edge (`off = 1`, `⟨n_XY⟩ = 1`, the F122 / band-edge regime), where this law does not apply. The table's `Q = 2.5` row is `N = 5` just *entering* that handover (still a `(p,p)` block, `off = 0.72`, the log-log slope already nonsense and the gate not clean), not the fully-developed `(0,1)` edge with `off = 1`.
 
-At a fixed moderate `Q = 1.5` the law still holds across N (the original landing). Note the slope here **drifts away from 2 as N grows** (2.00, 2.12, 2.16, 2.17 for N=4..7); this is the residual finite-Q correction (Q=1.5 is fixed), **not** convergence: it is the *shape-miss* metric that converges with N. The two must not be conflated:
+At a fixed moderate `Q = 1.5` the law still holds across N (the original landing). Note the slope here **drifts away from 2 as N grows** (2.00, 2.12, 2.16, 2.17 for N=4..7); this is the residual finite-Q correction (Q=1.5 is fixed), **not** convergence: it is the *shape-miss* metric that converges with N. The two must not be conflated (and the `N=4` slope `2.00` is the weakest datum — mirror symmetry leaves only two distinct bonds, so a log-log fit through two points of equal `dRe/grad²` is *forced* to exactly 2 independent of the physics; the genuine drift evidence is `N=5,6,7`, with ≥3 distinct bonds):
 
 | N | `dRe/grad²` (interior → end) | CV | slope (Q-correction, away from 2) | `sin²` shape-miss (converges with N) |
 |---|---|---|---|---|
@@ -100,13 +100,15 @@ At a fixed moderate `Q = 1.5` the law still holds across N (the original landing
 
 (The N=8, 9 rows recompute only the `sin²` shape-miss — `_felt_time_highn_shapemiss.py`, the half-filling `(p,p)` block reaching `15876²` at N=9, the dense ceiling on 128 GB; the Q-correction columns are the N≤7 landing. The monotone descent `0.17 → 0.035` confirms the continuum harmonic as the large-N limit.)
 
+**Provenance.** The live witness `inspect --root gradient` covers `N = 4, 5` only (it throws above N=5); the `N = 6, 7` rows of both tables, and the `N = 7` `n(j)` profile of §1, come from the Python verifier `_felt_time_amplitude_law.py`. The slope and CV are sector-independent and agree between the two engines; the absolute `dRe/grad²` column is the verifier's sector (e.g. `(3,3)` at `N=5`), while the witness's own tie-break (`(1,1)` at `N=5`) reproduces the same slope/CV at a rescaled magnitude (§1). Both engines confirm the *law*; only the bond-independent prefactor is sector-labelled.
+
 The squared-gradient law is thus **exact in the strong-dephasing (diffusion) limit, holds with small dressing corrections through the soft-survivor regime, and is superseded at the handover**; it is not an exact all-`Q` closed form, and the prefactor constant is scaling-plus-sign, consistent with the two-lens review of the trajectory side.
 
 The companion verifier `_felt_time_closure_functional.py` confirms the **trajectory dual**: the PTF painter closure `Σ_i ln(α_i)` reads this same rate shift, sign-coherent (`coh ~ 1`) only at the high-gradient bonds, there matching `N·|dRe|/|reS|` in sign and `O(1)` magnitude; the low-gradient end bonds read as a redistribution (`coh < 0.8`) and are correctly not counted. The eigenvalue-level law (this proof, the stone's bond functional) and the trajectory-level closure (the stone, `StoneSurvivorClosureClaim`) are one fact read at two levels.
 
 ## Where it lives
 
-- **Typed + the regime probe:** [`SurvivorDiffusionGradientClaim`](../../compute/RCPsiSquared.Diagnostics/Foundation/SurvivorDiffusionGradientClaim.cs) (Tier 1 candidate; parents `AbsorptionTheoremClaim` + `SurvivalIncompletenessMirrorClaim`), live witness `inspect --root gradient` ([`SurvivorDiffusionGradientWitness`](../../compute/RCPsiSquared.Diagnostics/Foundation/SurvivorDiffusionGradientWitness.cs)): reproduces both tables and the off-diagonal weight, and the Q-sweep is just driving it across `--q`.
+- **Typed + the regime probe:** [`SurvivorDiffusionGradientClaim`](../../compute/RCPsiSquared.Diagnostics/Foundation/SurvivorDiffusionGradientClaim.cs) (Tier 1 candidate; parents `AbsorptionTheoremClaim` + `SurvivalIncompletenessMirrorClaim`), live witness `inspect --root gradient` ([`SurvivorDiffusionGradientWitness`](../../compute/RCPsiSquared.Diagnostics/Foundation/SurvivorDiffusionGradientWitness.cs)): reproduces the `N = 4, 5` rows and the off-diagonal weight (it caps at `N = 5`; the `N = 6, 7` rows are `_felt_time_amplitude_law.py`), and the Q-sweep is just driving it across `--q`.
 - **Verifiers:** [`_felt_time_amplitude_law.py`](../../simulations/_felt_time_amplitude_law.py), [`_felt_time_closure_functional.py`](../../simulations/_felt_time_closure_functional.py).
 - **Registry:** [F123](../ANALYTICAL_FORMULAS.md).
 - **Outward reading:** [`ON_THE_FOUR_DIRECTIONS`](../../reflections/ON_THE_FOUR_DIRECTIONS.md) (the fourth direction, felt time, is the in-plane shape read by the watching).
