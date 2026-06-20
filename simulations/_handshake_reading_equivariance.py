@@ -31,6 +31,8 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 
 def psi(N, k):
+    # unit-normalized via the norm; equivalent to BondingMode's baked-in sqrt(2/(N+1))
+    # prefactor (every tested quantity -- parity, equivariance, cosine -- is scale-invariant).
     v = np.array([np.sin(np.pi * k * (i + 1) / (N + 1)) for i in range(N)])
     return v / np.linalg.norm(v)
 

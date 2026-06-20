@@ -162,7 +162,7 @@ public sealed class DefectReadingEquivarianceClaim : Claim
             }
             cases.Add(new BatteryCase(
                 $"R-parity Rψ_k = (−1)^(k−1)ψ_k (N={N})",
-                "single-excitation amplitudes reflect with sign (−1)^(k−1) under the chain mirror i→N−1−j",
+                "single-excitation amplitudes reflect with sign (−1)^(k−1) under the chain mirror i→N−1−i",
                 "0", Zero(worstRparity)));
 
             // (2) equivariance M[N−2−b,k] = (−1)^{k−1} M[b,k]

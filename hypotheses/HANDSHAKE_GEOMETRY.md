@@ -188,7 +188,7 @@ what the metric weights, not in its conditioning. Verifier:
 ## The reading's spatial-mirror equivariance (M3)
 
 The location metric above has a symmetry the codebook can name exactly. The defect-reading map is
-**equivariant under the geometric chain mirror** R (`i → N−1−j`, a ℤ₂ with `R² = I`): the bare
+**equivariant under the geometric chain mirror** R (`i → N−1−i`, a ℤ₂ with `R² = I`): the bare
 location dictionary `M[b,k] = ⟨ψ_k|V_b|ψ_1⟩` (carrier ψ_1, modes k = 2..N) satisfies
 
 > **`M[N−2−b, k] = (−1)^{k−1} M[b, k]`**  (exact, single-excitation algebra; machine-verified N = 4,5,6).
