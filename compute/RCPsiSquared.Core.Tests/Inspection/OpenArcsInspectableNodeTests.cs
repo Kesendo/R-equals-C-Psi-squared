@@ -7,9 +7,9 @@ namespace RCPsiSquared.Core.Tests.Inspection;
 public class OpenArcsInspectableNodeTests
 {
     [Fact]
-    public void Registry_HasTwentyThreeEntries()
+    public void Registry_HasTwentyFourEntries()
     {
-        Assert.Equal(23, OpenArcsRegistry.All.Count);
+        Assert.Equal(24, OpenArcsRegistry.All.Count);
     }
 
     [Fact]

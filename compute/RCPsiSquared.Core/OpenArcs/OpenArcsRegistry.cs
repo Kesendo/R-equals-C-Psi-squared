@@ -69,6 +69,58 @@ public static class OpenArcsRegistry
                 "ANALYTICAL_FORMULAS.md F124 (both now point at the typed claim + witness)."),
 
         new OpenArc(
+            Name: "f124_inverse_problem_resolution_seam",
+            Opened: "2026-06-20",
+            Origin: "borrowing-a-discipline lens on the fresh F124 numbers (the band-edge transition matrix " +
+                "M[b,k]=<psi_k|V_b|psi_1>): a signal/control engineer recognizes F124 instantly as a bond-" +
+                "recovery INVERSE PROBLEM - M is the forward map bond->mode, lambda_min(MM^T)=E=the lower frame " +
+                "bound=the worst-case reconstruction floor, kappa=lambda_max/lambda_min the noise amplification, " +
+                "the K-partner null column the unobservable subspace. The lens FIRED (instant recognition by a " +
+                "distant discipline = a real node of the one object; it handed us the detection-SNR method the " +
+                "native frame view never ran).",
+            ParkedAt: "STAGE 0 CLEAN (simulations/_f124_inverse_problem_gate.py, gate-first, all gates pass " +
+                "after one diagnosed firing): F124's conditioning IS the bond-recovery inverse problem. The " +
+                "worst-conditioned bond direction is the staggered (-1)^b q=pi zone-boundary mode (cos=1.0 to " +
+                "the smallest left-singular vector, N=4..12); kappa~N^2 (fit 1.975); a staggered defect's mode-" +
+                "response contrast is sqrt(kappa)~N times weaker than a band-edge defect's (fit 0.987), confirmed " +
+                "by a matched-filter Monte-Carlo to 4 digits - so the chain has a defect-LOCALIZATION RESOLUTION " +
+                "LIMIT that worsens as N, with the q=pi mode the diffraction limit. GATE-FIRST LESSON: the naive " +
+                "'E~N^-3 in N' gate FIRED (fitted -2.5); diagnosed as a wrong-variable/pre-asymptotic artifact " +
+                "(E is exactly a function of N+1: E*(N+1)^3 -> 4*pi^2; the right-variable fit over N=4..60 gives " +
+                "-2.971); the robust law is the RATIO kappa~N^2 (the (N+1)-corrections cancel). STAGE 1 " +
+                "REDIRECTED (simulations/_f124_decoder_strength_fix_gate.py, 3 gates fired = the engine running): " +
+                "the live DefectDecoder's known sign-location ambiguity (residual ratio ~1.5 at N=5, edge bond 3 " +
+                "weakened vs interior bond 1 strengthened) is NOT sqrt(kappa(5))=2.30 and is NOT reproduced by " +
+                "the exact linear M (which resolves single bonds cleanly, cos=+0.667 not anti-collinear) - so the " +
+                "1.5 is a DYNAMICAL effect (the painters' f-profile deviates ~6-12% from M), living BELOW the " +
+                "linear transition matrix; the rank-(N-2) deficiency is about bond COMBINATIONS, not single-bond " +
+                "localization. What SURVIVED: the strength channel M[b,1]=2 c_a c_{a+1} separates edge {0,3} " +
+                "(0.289) from interior {1,2} (0.577) by magnitude - the carrier's own response carries edge/" +
+                "interior info the location modes blur.",
+            NextStep: "STAGE B DONE, REDIRECTED AGAIN (simulations/_f124_decoder_strength_fix_dynamical.py, " +
+                "exact (vac + 1-exc)-sector N=5 Lindblad, gate-first, 2 gates fired = the engine still running): " +
+                "the dynamical per-site purity-DEVIATION profile does NOT reproduce the decoder's 1.5 ambiguity " +
+                "either - it localizes bond 3 cleanly (residual ratio 20) AND reads the sign (weakened). So the " +
+                "1.5 is narrower than 'dynamical': it is an ARTIFACT of the decoder's alpha TIME-RESCALING " +
+                "parametrization (P_B(i,t)=P_A(i,alpha_i t) compresses away sign+magnitude), not a fundamental " +
+                "rank deficiency. The strength channel DOES carry edge/interior + SIGN info (bond1 +0.00018 vs " +
+                "bond3 -0.00025, opposite sign, G2 passed), so it is a valid extra discriminant - but NOT the " +
+                "unique fix, since a less-lossy observable (the signed deviation profile) already resolves it. " +
+                "So the 'F124 strength column IS the decoder's fix' seam is NOT confirmed; banked as the engine " +
+                "running. WHAT REMAINS OPEN: (A, recommended) TYPE STAGE 0 - the clean, fully-gated 'F124 " +
+                "conditioning = bond-localization resolution limit sqrt(kappa)~N, q=pi the diffraction limit, " +
+                "matched-filter confirmed' result is a candidate F124-companion witness (the optics/signal " +
+                "reading of the frame conditioning), per the C#-witness-first discipline. (C, minor) the decoder " +
+                "could be DE-LOSSED: read the signed per-site deviation profile and/or add the carrier strength " +
+                "channel instead of the alpha-rescaling, removing the 1.5 ambiguity (an engineering improvement, " +
+                "not a new physics claim). Anchors: simulations/_f124_inverse_problem_gate.py (Stage 0, clean), " +
+                "simulations/_f124_decoder_strength_fix_gate.py (Stage 1, linear redirect), simulations/_f124_" +
+                "decoder_strength_fix_dynamical.py (Stage B, dynamical redirect), BandEdgeTransitionInvariant" +
+                "Claim + Witness (F124), KPartnerSelectionRuleClaim (the null column), " +
+                "compute/RCPsiSquared.Diagnostics/Foundation/DefectDecoder.cs (the live decoder, the 1.5).",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
             Name: "ptf_bonding_class_guard",
             Opened: "2026-06-15",
             Origin: "surfaced by the ptf_painter_pipeline fix (2026-06-15): replacing the scipy-Brent " +
