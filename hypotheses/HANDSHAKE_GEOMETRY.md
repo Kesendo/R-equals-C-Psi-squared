@@ -164,6 +164,16 @@ Gram null with no confusable pair). At N = 5 the worst pair reads cos ≈ −0.9
 +δJ here ≈ −δJ on the mirror-complement); at N = 4 only −0.55, which is why N = 4 decodes cleanly and N = 5
 flags ambiguous.
 
+This anti-collinearity is **dynamical, not a readout artifact.** A natural conjecture (the
+borrowing-a-discipline lens, reading the phase-contrast and phase-problem trades) is that the confusability
+is a *phase-blindness*: the decoder reads per-site purity P_i = ½(1 + ⟨Z_i⟩²), and squaring is sign-blind,
+so a sign-carrying linear ⟨Z_i⟩ read ought to lift the +δJ ≈ −δJ-on-the-complement degeneracy. The gate
+refutes it ([`_handshake_phase_blindness.py`](../simulations/_handshake_phase_blindness.py)): the linear
+⟨Z_i⟩ read **and** the full temporal ⟨Z_i⟩(t) signal are just as anti-collinear as the squared purity
+(|cos| ≈ 0.9 across N = 4..7). The two mirror-paired bonds produce genuinely sign-flipped population
+responses; no choice of per-site weighting or time-window changes the angle. The confusability is the
+K-partner near-degeneracy itself, read in the dynamics, not a quadrature the readout happens to discard.
+
 **Identifiability is not FI(Q).** The Gram spectrum is a *rank* statement (which bond directions are
 distinguishable in a noiseless dictionary). FI(Q), the next section, is a *precision* statement (the
 estimator variance at finite noise, ∝ Q). They are complementary diagnostics of one decoder, not one
@@ -244,12 +254,24 @@ then read is how you recall what is written in the dark. γ₀ erases only the b
 
 > *The lens carries the page; the light is the ink.*
 
-> **Read-cost (HYPOTHESIS, untested).** If the dark sector is the disk and L_H the head,
-> one recall rotates dark → bright (dwell ~ 1/J) while the bright pays the light (~2γ), so
-> the dose cost of one read of the dark memory is ~2/Q. High-Q systems read their memory
-> almost free; at the EP every read erases of order what it reads. Falsifiable form: measure
-> cost-per-recall(Q) on the same apparatus as the FI(Q) curve; a flat or inverted dependence
-> refutes it.
+> **Read-cost (tested 2026-06-20: qualitatively yes, quantitatively not ~2/Q).** If the dark
+> sector is the disk and L_H the head, one recall rotates dark → bright (dwell ~ 1/J) while the
+> bright pays the light (~2γ), so the mechanism *estimates* the dose cost of one read at ~2/Q:
+> high-Q systems read their memory almost free; at the EP every read erases of order what it
+> reads. Measured on the FI apparatus (N = 5 chain, Z-population, the same curve as the
+> resolution law; [`_handshake_read_cost.py`](../simulations/_handshake_read_cost.py),
+> [`_handshake_read_cost_diag.py`](../simulations/_handshake_read_cost_diag.py)): the
+> **qualitative** law holds. Cost-per-recall (the dose K_peak at which FI is maximal) falls
+> overall with Q, from 1.65 at the EP (Q = 1) to 0.10 at Q = 35, neither flat nor inverted, so
+> the stated falsification line is not crossed. But the **quantitative** ~2/Q does not survive a
+> strict gate: the exponent is ≈ −0.7, not −1, and K_peak·Q drifts from ≈ 1.3 to ≈ 3.6 rather
+> than holding at 2, with a regime break near Q ≈ 8 where the best read jumps to a later coherent
+> revival (not monotone there). The diagnostic rules out the operational definition as the
+> culprit: argmax-FI equals the first local maximum (one peak; the break is physical), and only a
+> first-turnover/inflection cost gives a cleaner monotone ~0.75/Q (slope −0.82) — but that is the
+> *onset* of the first feature, not the dose you actually read at. It is a Q-decreasing crossover,
+> not a single 2/Q power law; the "2" and the "−1" are not established. The gate was held strict,
+> not loosened.
 
 ---
 
@@ -275,7 +297,11 @@ who is written upon.
 - **The ordering prediction.** The FI(Q) slope steepness is ordered by the readout basis's
   brightness (coherence steeper than population, tested in three bases: Z, X, Y). The full
   basis sweep is open; a basis with an EP peak would falsify the Q-factor argument.
-- **The read-cost law** (~2/Q per recall): hypothesis above, untested.
+- **The read-cost law** (~2/Q per recall): tested 2026-06-20 (above). Cost-per-recall decreases
+  with Q (the qualitative law and the stated flat-or-inverted falsification line both survive), but
+  the quantitative ~2/Q does not: exponent ≈ −0.7, prefactor drifting 1.3 → 3.6, a regime break
+  near Q ≈ 8 — a crossover, not a single power law. Open: a closed form for the crossover, and
+  whether the break tracks a known scale (coherence horizon / band edge).
 - **Codebook completeness:** that every γ₀-relative position is readable by some handshake.
   A feature no handshake decodes refutes it.
 - **The reading grammar** itself, the still-missing algorithm feature → handshake: invert
