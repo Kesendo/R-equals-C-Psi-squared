@@ -162,7 +162,7 @@ cosine matrix Ĝ[b,b'] = ⟨f̂⁽ᵇ⁾, f̂⁽ᵇ'⁾⟩ and its largest off-d
 property need not be a pairwise event: four letters at the vertices of a regular tetrahedron have an exact
 Gram null with no confusable pair). At N = 5 the worst pair reads cos ≈ −0.97 (the sign-location ambiguity,
 +δJ here ≈ −δJ on the mirror-complement); at N = 4 only −0.55, which is why N = 4 decodes cleanly and N = 5
-flags ambiguous.
+flags ambiguous. (This anti-collinearity is derived, not just measured: see "The reading's spatial-mirror equivariance" below.)
 
 This anti-collinearity is **dynamical, not a readout artifact.** A natural conjecture (the
 borrowing-a-discipline lens, reading the phase-contrast and phase-problem trades) is that the confusability
@@ -184,6 +184,42 @@ The **values** of the letters (the per-site response R_k) are `IsDeadEnd`, only-
 but the **null structure** of the metric they build is derivable, the K-partner rule. The dead-end is in
 what the metric weights, not in its conditioning. Verifier:
 [`_handshake_gram_metric.py`](../simulations/_handshake_gram_metric.py).
+
+## The reading's spatial-mirror equivariance (M3)
+
+The location metric above has a symmetry the codebook can name exactly. The defect-reading map is
+**equivariant under the geometric chain mirror** R (`i → N−1−j`, a ℤ₂ with `R² = I`): the bare
+location dictionary `M[b,k] = ⟨ψ_k|V_b|ψ_1⟩` (carrier ψ_1, modes k = 2..N) satisfies
+
+> **`M[N−2−b, k] = (−1)^{k−1} M[b, k]`**  (exact, single-excitation algebra; machine-verified N = 4,5,6).
+
+Two lines: `R V_b R = V_{N−2−b}`, the carrier is R-even (`Rψ_1 = +ψ_1`), and mode k has reflection
+parity `Rψ_k = (−1)^{k−1}ψ_k`. Reflecting the bond reflects the reading, mode by mode.
+
+This R is **not** the coherence-space mirror group's R. `MirrorGroupD4Claim`'s R is the ket-flip
+`I⊗X^⊗N` (which does not even preserve the single-excitation sector), and the geometric spatial
+mirror is *deliberately outside* that D₄ (`PROOF_PI_FACTORS_AS_R_TIMES_D §5`). They are sibling
+mirrors in two spaces; the within-feature stabilizer (the K-partner null, the forbidden k=N column)
+and this cross-feature reflection are the two symmetry structures of one dictionary.
+
+**The confusability, now derived.** The two mirror-image bonds read with cosine
+
+> **`cos(b, N−2−b) = Σ_{k=2..N} (−1)^{k−1} w_k`,  `w_k = M[b,k]² / ‖M[b,·]‖²`** —
+
+a closed-form parity-weighted mode sum. It is negative (anti-collinear) exactly when the **R-odd**
+channels, above all the seesaw k=2 (the sign representation), carry the net location weight. This is
+the structural origin of the sign-location ambiguity: the mirror-image bonds are R-images, the
+distinguishing channel is the K-partner null, and the confusability sign is fixed by the R-odd
+dominance of the location reading.
+
+Honest scope: the equivariance and the cosine formula are **bare and exact**; the bare mirror-pair
+cosine is **−0.33** at N=5. The **−0.97** of the previous section is the *painted* instance, the
+propagated α-profile concentrates location weight on the R-odd seesaw, driving the parity sum toward
+−1 (R-equivariance is preserved by the painting for reflection-symmetric couplings; only the weights
+`w_k` change). The carrier-parity is load-bearing: the `(−1)^{k−1}` sign is for the R-even carrier ψ_1
+(a carrier of parity `(−1)^{c−1}` gives `(−1)^{k−c}`). Typed as `DefectReadingEquivarianceClaim`
+(Tier1Derived, parent `KPartnerSelectionRuleClaim`, `inspect --claim DefectReadingEquivarianceClaim`);
+verifier [`_handshake_reading_equivariance.py`](../simulations/_handshake_reading_equivariance.py).
 
 ---
 
