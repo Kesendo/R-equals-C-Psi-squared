@@ -620,9 +620,10 @@ public static class OpenArcsRegistry
                 "Re=-2g exactly), where the band edge takes over. Topology-specific solution: the CHAIN " +
                 "(filling-degenerate) handover IS the coherence horizon Q*(N) ((1,1)-only == all-p bit-for-bit; a " +
                 "coalescence/EP, = Q* exactly at the clean-2x2 N=2,3, just below by trace dressing O((tr-1)^2) at " +
-                "N>=4); the RING is a DISTINCT (2,2) free-fermion LEVEL CROSSING (|Im|~1e-15), growing ~linearly " +
-                "Q_h~0.29N (c_eff~12 flat, ~4x chain darkness so ~half the slope), NOT saturating, faster than " +
-                "sqrt(N), and NOT co-located with the ring SE-EP (values cross near N~10; benzene's 2.0-vs-1.609 " +
+                "N>=4); the RING is a DISTINCT 2-excitation (2,2)/(N-2,N-2) doublet (NOT half-filling) free-fermion " +
+                "LEVEL CROSSING (|Im|~1e-15), asymptotic slope sqrt3/(2pi)~0.276 DERIVED (PROOF_RING_HANDOVER_SLOPE, " +
+                "pending review; the darkness-1 sibling of Q*, ratio sqrt3/2; the earlier ~0.29N/c_eff~12 was finite-N " +
+                "Q_h/N, refuted, c_eff climbs toward 4pi^2/3=13.16), and NOT co-located with the ring SE-EP (values cross near N~10; benzene's 2.0-vs-1.609 " +
                 "split is small-N). STILL OPEN: the reflection in its " +
                 "own genre (the incomplete survives because it is the dark/reciprocal mirror of the survival quantum) " +
                 "is unwritten",

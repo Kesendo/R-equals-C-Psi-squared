@@ -153,8 +153,10 @@ where the (2,2) seam's darkness ⟨n_XY⟩ reaches the F50 off-diagonal floor = 
 Re = −2γ). **That handover mechanism is now resolved** ([`handover_q.py`](../../simulations/carbon/handover_q.py),
 the typed `HandoverFloorClaim`, `inspect --root survivor`): it is a frozen *level crossing* (not the
 single-excitation coalescence the filling-degenerate open chain has, where the handover IS the
-coherence horizon Q*(N)), and it grows ~linearly with N (Q_h ≈ 0.29N, NOT saturating; benzene's ≈ 2.0
-is a hexagon coincidence), not cleanly co-located with the ring single-excitation Q* (the two curves
+coherence horizon Q*(N)), and it grows linearly with N (Q_h → N·√3/(2π) ≈ 0.276N, asymptotic slope DERIVED
+2026-06-20, [`PROOF_RING_HANDOVER_SLOPE`](../proofs/PROOF_RING_HANDOVER_SLOPE.md), pending review, the darkness-1
+sibling of Q*; benzene's ≈ 2.0 is a small-N value; the earlier "≈ 0.29N" was the finite-N Q_h/N), not cleanly
+co-located with the ring single-excitation Q* (the two curves
 merely cross near N ≈ 10). What stays open is the dynamic C=0.5 question it opens: whether the
 half-occupied coherence is always the longest-lived survivor over N and topology. The split is now known to be RING-UNIVERSAL, not aromatic:
 C4, C6, and C8 rings all hand over to a frozen double-excitation mode at strong dephasing (the open

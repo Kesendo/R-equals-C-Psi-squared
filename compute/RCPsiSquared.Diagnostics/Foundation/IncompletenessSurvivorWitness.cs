@@ -207,15 +207,18 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
         {
             double qh = HandoverQ(n, TopologyKind.Ring);
             kids.Add(new InspectableNode($"ring N={n} ((2,2) seam)",
-                summary: $"handover Q={qh.ToString("0.0000", Inv)} (the (2,2) free-fermion V-Effect seam, a LEVEL " +
-                         $"CROSSING; c_eff=(N/Qh)^2={((n / qh) * (n / qh)).ToString("0.00", Inv)} - flat in N => linear growth)"));
+                summary: $"handover Q={qh.ToString("0.0000", Inv)} (the 2-excitation (2,2) doublet, a LEVEL " +
+                         $"CROSSING; c_eff=(N/Qh)^2={((n / qh) * (n / qh)).ToString("0.00", Inv)}, climbs toward 4pi^2/3=13.16 => " +
+                         $"slope sqrt3/(2pi)~0.276 derived, PROOF_RING_HANDOVER_SLOPE)"));
         }
         return new InspectableNode("the handover Q (the incomplete meets the F50 floor)",
             summary: "the diagonal (p,p) survivor brightens with Q until ⟨n_XY⟩ reaches the F50 OFF-diagonal floor =1 " +
                      "(the (0,1) band edge / Uhr 1, Re=-2γ exactly), where the band edge takes over: a closed, F50-grounded " +
                      "condition (spectral, depends only on Q=J/γ). CHAIN: filling-degenerate, so the handover IS the " +
-                     "coherence horizon Q*(N) (a coalescence/EP). RING: a distinct (2,2) free-fermion LEVEL CROSSING, growing " +
-                     "~linearly Q_h~0.29N (c_eff~12 flat, ~4x chain darkness => ~half the slope), NOT saturating; NOT " +
+                     "coherence horizon Q*(N) (a coalescence/EP). RING: a distinct 2-excitation (2,2)/(N-2,N-2) doublet (NOT " +
+                     "half-filling) free-fermion LEVEL CROSSING, asymptotic slope sqrt3/(2pi)~0.276 DERIVED (PROOF_RING_HANDOVER_SLOPE, " +
+                     "pending review; the darkness-1 sibling of Q*, ratio sqrt3/2; the earlier ~0.29N/c_eff~12 was finite-N Q_h/N, " +
+                     "refuted, c_eff climbs toward 4pi^2/3=13.16); NOT " +
                      "co-located with the ring SE-EP (curves cross near N~10; benzene's 2.0-vs-1.609 split is small-N). " +
                      "Verifier simulations/carbon/handover_q.py; the F50 floor = F50WeightOneDegeneracyPi2Inheritance.",
             children: kids);

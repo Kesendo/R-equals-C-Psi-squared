@@ -116,7 +116,7 @@ public class TrichotomyWitnessTests
     {
         // GATE-FIRST CORRECTION (2026-06-18): the spec's Q=1.5 is ABOVE the ring N=5 interior handover —
         // at Q=1.5 the ring survivor is the (0,1) band edge (Dn=1), gap=2γ=1.333 (gate-measured). The ring
-        // interior (the frozen V-Effect level crossing) only wins below Q≈1.3 (handover grows ~0.29N). At
+        // interior (the frozen V-Effect level crossing) only wins below Q≈1.3 (handover slope √3/(2π)≈0.276, derived). At
         // Q=1.0 the survivor is the frozen (1,1) interior (slowIm=0), whose rate sits 76% below its commutant
         // ceiling (a level crossing, not a commutant ceiling) -> FrozenLevelCrossing. Diagnosed, not loosened.
         var r = TrichotomyWitness.ClassifyUnfreeze(TopologyKind.Ring, 5, 1.0);

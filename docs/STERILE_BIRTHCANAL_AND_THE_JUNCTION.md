@@ -111,7 +111,7 @@ When the Δn=0 interior is the survivor, its nature is topology-set, not γ-prof
   `SecondClockRegimeClaim`; the floor is `AbsorptionTheoremClaim`.
 - Code: `PostEpFlowField`, `BirthCanalSurfaceWitness` (`--root surface`), `SectorReductionWitness`
   (`--root reduction`), `IncompletenessSurvivorWitness` (`--root survivor`).
-- Prior ground truth: `simulations/carbon/handover_q.py` (the chain = Q*(N) / ring = 0.29N handover),
+- Prior ground truth: `simulations/carbon/handover_q.py` (the chain = Q*(N) / ring = N√3/(2π) handover, slope DERIVED in `docs/proofs/PROOF_RING_HANDOVER_SLOPE.md`),
   `simulations/birth_canal_n6_mode_crossing.py` (the N=6 deep-edge crossing).
 - `docs/ANALYTICAL_FORMULAS.md` F2b corollary (the handover entry); `docs/HIERARCHY_OF_INCOMPLETENESS.md`
   (the C=0.5 / sterile reading).

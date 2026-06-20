@@ -275,14 +275,14 @@ public sealed class TrichotomyWitness : IInspectable
         }
     }
 
-    /// <summary>2. ThresholdLadder — the three thresholds over N: chain Q*(N), ring Q_h≈0.29N, star g2=4/(N−1).
+    /// <summary>2. ThresholdLadder — the three thresholds over N: chain Q*(N), ring Q_h→N√3/(2π) (slope √3/(2π)≈0.276 DERIVED, PROOF_RING_HANDOVER_SLOPE), star g2=4/(N−1).
     /// N=4 star is the lone (2,2)/K₄ outlier (g2=4/3>1, un-freezes). The per-N rows are LAZY
     /// (<see cref="LadderRows"/> is a <c>yield</c> iterator): the <see cref="IncompletenessSurvivorWitness.HandoverQ"/>
     /// and <see cref="StructuralCeilingWitness.CommutantDarkest"/> compute for each N runs only when this node's
     /// children are enumerated, so a shallow render that stops at this slice header pays nothing.</summary>
     private InspectableNode TheThresholdLadder() => new(
         "the threshold ladder over N",
-        summary: "chain Q*(N) / ring Q_h≈0.29N / star g2=4/(N−1); N=4 star outlier", children: LadderRows());
+        summary: "chain Q*(N) / ring Q_h→N√3/(2π) / star g2=4/(N−1); N=4 star outlier", children: LadderRows());
 
     /// <summary>The per-N rows of <see cref="TheThresholdLadder"/>, computed lazily: each N's HandoverQ +
     /// CommutantDarkest runs only as the renderer pulls the next row.</summary>

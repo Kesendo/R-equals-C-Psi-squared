@@ -24,13 +24,16 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// exactly only at the clean-2×2 N=2,3 (a tangency) and sits just below it by the trace dressing
 /// O((tr−1)²) at N≥4 (gap 0.0002/0.0015/0.0050 at N=4/5/6).</para>
 ///
-/// <para><b>THE RING SOLUTION = a distinct (2,2) free-fermion level crossing, growing ~linearly.</b>
-/// The wrap bond breaks filling-degeneracy (Fermi degeneracy at half-filling); the survivor is the
-/// (2,2) two-fermion V-Effect seam (in pure XY a free-fermion dephasing mode, NOT a Hamiltonian bound
-/// pair). Its handover is a frozen LEVEL CROSSING (a different sector than the SE-EP), growing
-/// ~linearly Q_h ≈ N/√c_eff with c_eff ≈ 12 flat in N (≈4× the chain darkness, so ≈half the chain
-/// slope, ~0.29N) - NOT saturating, faster than √N. The handover and the ring SE-EP are mechanistically
-/// distinct but their values merely CROSS near N≈10 (benzene's 2.0-vs-1.609 split is a small-N feature).</para>
+/// <para><b>THE RING SOLUTION = a distinct 2-excitation level crossing; slope √3/(2π) DERIVED.</b>
+/// The wrap bond breaks filling-degeneracy; the survivor is the 2-EXCITATION doublet (2,2)/(N−2,N−2)
+/// (particle-hole partners, isospectral; NOT half-filling, full-Liouvillian-verified at N=6, correcting
+/// an earlier label), in pure XY a free-fermion dephasing mode. Its handover is a frozen LEVEL CROSSING
+/// (a different sector than the SE-EP), growing linearly with asymptotic slope √3/(2π) ≈ 0.276 (DERIVED
+/// 2026-06-20, docs/proofs/PROOF_RING_HANDOVER_SLOPE.md, pending review: the (2,2) slow mode obeys the SE
+/// coherence-ladder dispersion λ²+8γλ+4J²q², darkness = 2−√(4−(Qq)²), handover at Qq=√3, the darkness-1
+/// sibling of the SE coherence horizon's EP at Qq=2; ratio Q_h/Q* = √3/2). The earlier "~0.29N, c_eff≈12
+/// flat" was the finite-N Q_h/N, refuted as a constant (c_eff climbs toward 4π²/3 = 13.16). Handover and
+/// ring SE-EP are mechanistically distinct, their finite-N values crossing near N≈10.</para>
 ///
 /// <para>Anchors: <c>simulations/carbon/handover_q.py</c> (self-validating) +
 /// <c>docs/ANALYTICAL_FORMULAS.md</c> F2b corollary + <c>IncompletenessSurvivorWitness.cs</c>
@@ -66,9 +69,11 @@ public sealed class HandoverFloorClaim : Claim
                "F50-grounded condition: the diagonal (p,p) survivor decays at -2g<n_XY> (Absorption Theorem, <n_XY><1, the " +
                "incomplete out-survives) and brightens with Q until <n_XY> reaches the F50 off-diagonal floor =1 (the (0,1) band " +
                "edge, Re=-2g exactly). CHAIN: filling-degenerate, so the handover IS the coherence horizon Q*(N) (a coalescence/EP; " +
-               "= Q* exactly at the clean-2x2 N=2,3, just below by trace dressing O((tr-1)^2) at N>=4). RING: a DISTINCT (2,2) " +
-               "free-fermion LEVEL CROSSING, growing ~linearly Q_h~0.29N (c_eff~12 flat, ~4x chain darkness so ~half the slope), " +
-               "NOT saturating; NOT co-located with the ring SE-EP (their values cross near N~10, benzene's 2.0-vs-1.609 is small-N). " +
+               "= Q* exactly at the clean-2x2 N=2,3, just below by trace dressing O((tr-1)^2) at N>=4). RING: a DISTINCT " +
+               "2-excitation (2,2)/(N-2,N-2) doublet (NOT half-filling) free-fermion LEVEL CROSSING, asymptotic slope " +
+               "sqrt3/(2pi)~0.276 DERIVED (PROOF_RING_HANDOVER_SLOPE, pending review; the darkness-1 sibling of Q*, ratio sqrt3/2; " +
+               "the earlier ~0.29N/c_eff~12 was the finite-N Q_h/N, refuted, c_eff climbs toward 4pi^2/3=13.16); " +
+               "NOT co-located with the ring SE-EP (their values cross near N~10, benzene's 2.0-vs-1.609 is small-N). " +
                "Tier1Candidate: the chain identity and the mechanism are derived+live (witness bit-for-bit vs Python), the ring " +
                "growth law and the general handover proof are verified (N<=10), not proven.",
                Tier.Tier1Candidate,
@@ -89,7 +94,8 @@ public sealed class HandoverFloorClaim : Claim
 
     public override string Summary =>
         "the handover (the incompleteness survivor's darkness rises to the F50 floor <n_XY>=1) is closed: the CHAIN handover IS " +
-        "the coherence horizon Q*(N), the RING is a distinct (2,2) free-fermion level crossing growing ~0.29N (not saturating); " +
+        "the coherence horizon Q*(N), the RING is a distinct 2-excitation (2,2) doublet level crossing, asymptotic slope " +
+        "sqrt3/(2pi)~0.276 derived (PROOF_RING_HANDOVER_SLOPE, pending review; the earlier ~0.29N was finite-N Q_h/N); " +
         $"the same band-edge floor governs the XXZ Delta-axis too (cross-axis universal): the CHAIN Delta*(N) descends to " +
         $"the SU(2) point Delta=1, the RING Delta*(N) HUMPS (peak ~1.31-1.33 near N=9-10, then descends; limit open) - one " +
         $"floor, many climbs; " +
@@ -107,9 +113,10 @@ public sealed class HandoverFloorClaim : Claim
                 summary: "the open XY chain is filling-degenerate, so the handover is the single-excitation {0,2}-coherence point " +
                          "= the coherence horizon Q*(N); = Q* exactly only at the clean-2x2 N=2,3, just below by trace dressing at N>=4.");
             yield return new InspectableNode("ring = a distinct (2,2) level crossing, growing",
-                summary: "the wrap bond breaks filling-degeneracy; the (2,2) two-fermion V-Effect seam (a free-fermion dephasing " +
-                         "mode, not a bound pair) hands over by a frozen level crossing, growing ~linearly Q_h~0.29N (c_eff~12 flat), " +
-                         "NOT saturating; its values cross the ring SE-EP near N~10 (benzene's 2.0-vs-1.609 split is small-N). " +
+                summary: "the wrap bond breaks filling-degeneracy; the 2-excitation (2,2)/(N-2,N-2) doublet (NOT half-filling; a " +
+                         "free-fermion dephasing mode) hands over by a frozen level crossing, asymptotic slope sqrt3/(2pi)~0.276 " +
+                         "DERIVED (PROOF_RING_HANDOVER_SLOPE, pending review; the darkness-1 sibling of Q*, ratio sqrt3/2; the earlier " +
+                         "~0.29N/c_eff~12 was finite-N Q_h/N, refuted); its values cross the ring SE-EP near N~10. " +
                          "Live: inspect --root survivor (the handover node).");
             yield return new InspectableNode("cross-axis universality: the same floor governs the XXZ Delta-axis",
                 summary: "CONFIRMED 2026-06-14 (simulations/xxz_handover_unification.py; arc xxz_axis_handover): the band-edge " +
