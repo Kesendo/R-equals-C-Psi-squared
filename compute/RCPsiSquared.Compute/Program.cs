@@ -459,7 +459,7 @@ static void RunRmtExport(string resultsDir, bool mklAvailable, string topology =
     var sw = new Stopwatch();
 
     int nMin = topology == "chain" ? 2 : 3; // non-chain topologies start at N=3
-    int nMax = topology == "chain" ? 7 : 6; // non-chain up to N=6
+    int nMax = 7; // N=7 (16384^2, ~8 GB) via the direct MKL path, works for every topology
 
     for (int N = nMin; N <= nMax; N++)
     {

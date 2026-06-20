@@ -393,6 +393,29 @@ same N = 4 anomaly that recurs in the structural ceiling (the (2,2) half-filling
 in the distinct-eigenvalue count. No universal closed form for the inner positions, consistent with
 the weight-2 kernel transforming under mixed (not trivial) S_N representations (Open Question 2).
 
+### Inner closed forms by parity (block decomposition to N=9)
+
+The full Liouvillian is exactly block-diagonal in the `(popcount_a, popcount_b)` coherence sectors
+(Heisenberg conserves magnetization; dephasing is diagonal), so `d_real(k)` is the count of
+purely-real, on-grid eigenvalues summed over the small per-`(p,q)` blocks. This is gate-verified
+against the full CSVs through N=7 and reaches N=8,9 cheaply
+([`_dreal_block_decomposed.py`](../simulations/_dreal_block_decomposed.py),
+[`_dreal_block_n9.py`](../simulations/_dreal_block_n9.py)). The key the document's original
+`[3,6,14,14,19,22]` hid is **parity**: it mixed even and odd N. Separated, the **sparse** topologies
+have clean linear inner closed forms:
+
+| topology (odd N) | d_real(2) | N = 3, 5, 7, 9 |
+|---|---|---|
+| chain | **4N − 6** | 6, 14, 22, 30 |
+| ring  | **7N − 13** | 8, 22, 36, 50 |
+
+Both verified at four odd points. The **even**-N column is contaminated by the N=4 center spike
+(k=2 is the Π-invariant midpoint there) and stays under-determined (the next clean even point N=10
+needs the 63504² half-filling block). The **dense** topologies grow super-linearly (star odd
+6, 30, 136; complete odd 8, 54, 216), with no clean polynomial, consistent with the weight-2 kernel's
+mixed S_N representation. So the inner degeneracy splits two ways: by parity (the center spike) and by
+connectivity (sparse = linear, dense = rep-structured).
+
 ---
 
 ## Summary of closed-form results
@@ -463,10 +486,13 @@ If the patterns hold at N = 8 (65,536 eigenvalues, ~73 GB RAM):
 
 ## Null results
 
-- **d_real(2) has no simple formula.** The sequence [3, 6, 14, 14, 19, 22]
-  was tested against C(N, 2) + offset, Catalan numbers, and Stirling
-  numbers with no match. The inner degeneracy structure requires
-  N-dependent Hamiltonian-specific information.
+- **d_real(2): PARTIALLY RESOLVED by parity (see Result 7).** The chain sequence
+  [3, 6, 14, 14, 19, 22] matched nothing because it **mixed even and odd N**. Split by parity, the
+  sparse topologies have clean linear inner closed forms: chain odd = 4N − 6, ring odd = 7N − 13
+  (both verified at N = 3, 5, 7, 9 via the block decomposition). The even column stays
+  center-spike-contaminated and the dense topologies (star, complete) remain rep-structured
+  (super-linear, no clean polynomial). So it is not "no formula", it is "one formula per parity per
+  connectivity class".
 
 - **No sub-grid for off-grid eigenvalues.** Half-grid, third-grid, and
   quarter-grid assignments were tested with zero matches. The off-grid
