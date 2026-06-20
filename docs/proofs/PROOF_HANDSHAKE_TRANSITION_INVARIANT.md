@@ -13,7 +13,7 @@ A band-edge standing wave `ψ_1` (the smoothest single-excitation mode, the F67 
 
 ## The real content (lead with this, not the "2")
 
-The non-trivial fact is **`λ_min = E`**. For the BAND-EDGE carrier, a staggered (zone-boundary, `q = π`) bond modulation `Σ_b (−1)^b V_b` couples to `ψ_1` **only through the Dirichlet ends** — the bulk cancels identically, by a conserved standing-wave envelope of the carrier's recurrence — leaving the carrier's end-weight `E`. This is an **SSH / Peierls** statement: a dimerization perturbation on a band-edge state is a pure edge effect. And the *same* `E` is the deficit of the carrier's degree-weighted norm from the coordination number. One boundary quantity, `c₀²`, governs both the spectral floor and the trace deficit.
+The non-trivial fact is **`λ_min = E`**. For the BAND-EDGE carrier, the staggered (zone-boundary, `q = π`) bond modulation `Σ_b (−1)^b V_b` scatters `ψ_1` with a strength `λ_min = E` set **entirely by the Dirichlet ends**: a conserved standing-wave envelope `Q` of the carrier's recurrence makes the bulk telescope away *in the eigenvalue*, leaving only the boundary value `2Q_0 = E` (the scattered state itself is a bulk staggered-cosine — it is the coupling *strength*, not the wavefunction, that the boundary fixes). This **reads as** an **SSH / Peierls** edge effect: a dimerization's grip on a band-edge state is boundary-dominated. And the *same* `E` is the deficit of the carrier's degree-weighted norm from the coordination number. One boundary quantity, `c₀²`, governs both the spectral floor and the trace deficit.
 
 ## Statement
 

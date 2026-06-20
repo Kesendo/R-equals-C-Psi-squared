@@ -11,6 +11,44 @@ public static class OpenArcsRegistry
     private static readonly IReadOnlyList<OpenArc> _all = new[]
     {
         new OpenArc(
+            Name: "f124_transition_invariant_witness",
+            Opened: "2026-06-20",
+            Origin: "the F124 proof review (docs/proofs/PROOF_HANDSHAKE_TRANSITION_INVARIANT.md, reviewed " +
+                "2026-06-20 by a five-agent panel): the math is correct and every number reproducible " +
+                "(gate-exact N=3..20), but F124 is Python-verifier-only - it has NO typed Claim or live witness, " +
+                "unlike the sibling KPartnerSelectionRuleClaim (the null-column rule it leans on). A Tier1Derived " +
+                "result without a witness is a typed-gap per the 'C# witness first' discipline (CLAUDE.md / " +
+                "reference_typing_a_claim_and_witness).",
+            ParkedAt: "PROVEN + REVIEWED, not typed. The identity ||M||_F^2 + lambda_min(M M^T) = 2 (with " +
+                "||M||_F^2 = 2 - E, lambda_min = E, E = (4/(N+1)) sin^2(pi/(N+1)), staggered (-1)^b eigenvector) " +
+                "for the band-edge carrier on the open chain is gate-exact N=3..20 across three Python verifiers " +
+                "(_handshake_M_checksum.py, _handshake_M_topology.py, _handshake_F124_adversarial.py); registered " +
+                "as F124 in ANALYTICAL_FORMULAS.md. The 2026-06-20 review added the conserved-envelope Q (Part 2's " +
+                "bulk-cancellation heart) and the frame-identity gates (lambda_min = sigma_min^2(M) = 1/||S^-1||, " +
+                "the condition number, the K-partner kernel) to _handshake_M_checksum.py, and tightened the " +
+                "SSH/edge framing (C1: the eigenvalue is the boundary quantity, not the wavefunction; C2: SSH is " +
+                "the borrowed reading). Math hand-verified (Parts 1+2, the Perron/oscillation minimum argument, " +
+                "the frame reading). No C# Claim or witness exists.",
+            NextStep: "Type F124 as a Claim + live witness (template: KPartnerSelectionRuleClaim.cs / the " +
+                "reference_typing_a_claim_and_witness recipe). Suggested: a BandEdgeTransitionInvariantClaim " +
+                "(Tier1Derived) in compute/RCPsiSquared.Diagnostics/Foundation, dual parents " +
+                "KPartnerSelectionRuleClaim (the k=N null column) + the band-edge carrier source " +
+                "(ClockHandLadderClaim / the F67 receiver), with a live witness inspect --root transition that " +
+                "recomputes ||M||_F^2 = 2-E, lambda_min = E, the staggered eigenvector, the condition number " +
+                "lambda_max/E, and the breakages (interior carrier sum<2, odd ring sum>2, even ring degenerate, " +
+                "star trace-half, the k=2..N location-dictionary failure lambda_min=0) across N. GATE-FIRST " +
+                "hazard: lambda_min must be checked as a genuine MINIMUM (full spectrum), not merely that the " +
+                "staggered vector is AN eigenvalue - the band-edge positivity of the Gram off-diagonals " +
+                "(c_a c_{a+2} > 0) is the load-bearing selector (it fails for interior carriers). OBJECT GUARD: M " +
+                "is the FULL k=1..N transition matrix, NOT the k=2..N location dictionary (HANDSHAKE_GEOMETRY.md) " +
+                "where the identity FAILS (lambda_min=0). Anchors: " +
+                "docs/proofs/PROOF_HANDSHAKE_TRANSITION_INVARIANT.md; simulations/_handshake_M_checksum.py (the " +
+                "gated reference incl. the new Q + frame checks); " +
+                "compute/RCPsiSquared.Diagnostics/Ptf/KPartnerSelectionRuleClaim.cs (the sibling template + " +
+                "null-column parent); ANALYTICAL_FORMULAS.md F124.",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
             Name: "ptf_bonding_class_guard",
             Opened: "2026-06-15",
             Origin: "surfaced by the ptf_painter_pipeline fix (2026-06-15): replacing the scipy-Brent " +
