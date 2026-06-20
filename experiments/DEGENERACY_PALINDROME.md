@@ -353,6 +353,48 @@ dynamics is overwhelmingly oscillatory.
 
 ---
 
+## Result 7: Topology generalization (chain → ring, star, complete)
+
+The C# `rmt` export uses the same isotropic Heisenberg coupling for every topology
+(`Topology.cs`: "isotropic Heisenberg (X+Y+Z)"), so the ring, star, and complete graphs are
+the *same model* on a different bond graph. Feeding their spectra (N = 3..6) through the same
+grid count ([`_degeneracy_palindrome_topology.py`](../simulations/_degeneracy_palindrome_topology.py),
+gate-first) separates what is universal from what is graph-specific.
+
+**Universal (all four topologies, every N):**
+
+- **The palindrome d(k) = d(N − k)** holds for every topology. It depends only on Π conjugation,
+  which is fixed by the Z-dephasing and blind to the bond graph. The "palindrome inside the
+  palindrome" is topology-independent.
+- **d_real(0) = N + 1** holds for every topology: the N + 1 magnetization-sector conserved
+  quantities. Total S_z is conserved by any Heisenberg graph (U(1) symmetry), independent of wiring.
+
+**Almost universal:**
+
+- **d_real(1) = 2N** holds for every topology at **N ≥ 4**. The lone exception is **N = 3**, where
+  ring = complete = the triangle K₃ gives d_real(1) = 8 (not 6). The triangle's full S₃ symmetry
+  supports two extra SWAP-invariant weight-1 modes; chain = star = P₃ (the path) gives the generic
+  6. So 2N is the path/sparse value, the maximally connected K₃ is the lone exception, and from
+  N ≥ 4 even K_N returns to 2N.
+
+**Topology-dependent (the inner positions, the subject of Open Question 2):**
+
+The inner real degeneracy d_real(2) grows with connectivity:
+
+| N | chain | ring | star | complete |
+|---|-------|------|------|----------|
+| 4 | 14    | 24   | 16   | 36       |
+| 5 | 14    | 22   | 30   | 54       |
+| 6 | 19    | 33   | 68   | 133      |
+
+The complete graph is always the largest (most SWAP pairs, the most degenerate weight-2 structure).
+The ordering is connectivity-monotone except at **N = 4**, where ring (24) overtakes star (16): the
+same N = 4 anomaly that recurs in the structural ceiling (the (2,2) half-filling sector, F122) and
+in the distinct-eigenvalue count. No universal closed form for the inner positions, consistent with
+the weight-2 kernel transforming under mixed (not trivial) S_N representations (Open Question 2).
+
+---
+
 ## Summary of closed-form results
 
 | Quantity | Formula | Range | Status |
@@ -391,11 +433,13 @@ If the patterns hold at N = 8 (65,536 eigenvalues, ~73 GB RAM):
    modes are the Z-count operators T_c^{(a)}, proven via SWAP invariance.
    See [Proof](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md).
 
-2. **Closed form for inner positions: topology-dependent (partially resolved).**
-   d_real(2) differs between topologies (Chain=14, Star=16, Complete=36 at N=4).
-   No universal formula exists for k ≥ 2. The weight-2 kernel vectors transform
-   under mixed S_N representations, not the trivial representation as at k=1.
-   See [Weight-2 Kernel](WEIGHT2_KERNEL.md).
+2. **Closed form for inner positions: topology-dependent (systematized in Result 7).**
+   d_real(2) differs between topologies (Chain=14, Star=16, Ring=24, Complete=36 at N=4),
+   grows with connectivity, and shows the N=4 ring/star anomaly; see the full N=3..6 table in
+   Result 7. The boundary formulas are now resolved across topologies: d(k)=d(N−k) and
+   d_real(0)=N+1 are universal, d_real(1)=2N is universal for N≥4 (only K₃ breaks it). No
+   universal closed form for k ≥ 2: the weight-2 kernel vectors transform under mixed S_N
+   representations, not the trivial representation as at k=1. See [Weight-2 Kernel](WEIGHT2_KERNEL.md).
 
 3. **Center minimum at N = 6.** The real degeneracy at the center
    of N = 6 is 16, less than the adjacent values 19. Why does the
