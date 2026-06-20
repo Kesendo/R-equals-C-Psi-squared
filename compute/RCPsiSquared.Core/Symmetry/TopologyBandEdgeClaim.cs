@@ -85,7 +85,11 @@ public sealed class TopologyBandEdgeClaim : Claim
                          "mode fixed by C_N), reached via the (0,1) sector for general N — for all N EXCEPT N=4, the " +
                          "lone exception where the half-filling (2,2) {0,2} √-EP reaches 2√2·J > 2J (the same (2,2) " +
                          "sector as K_4's ceiling; the ring analogue of the chain's N=3 special, but ABOVE the band " +
-                         "top not below). The ring sibling of chain gap-dominance; both give max|Im| = J·ρ.");
+                         "top not below). The ring sibling of chain gap-dominance; both give max|Im| = J·ρ. " +
+                         "Free-fermion COMPLETENESS gate-verified 2026-06-20 (ring_gap_completeness.py): the n_XY=1 " +
+                         "family spans the exact-(−2γ) subspace (V_1 dim = full-L dim at N=5,6; chain sanity 32/50/72), " +
+                         "so nothing exceeds 2J; dihedral lock carried to N=7 in V_1; N=4 is the lone exception (full-L " +
+                         "dim > V_1, the {0,2} extras). Residual all-N step = the chain's, split by wrap-bond parity.");
             yield return ChainInstance;   // typed parent edge
             yield return Absorption;      // typed parent edge
         }

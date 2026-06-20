@@ -27,8 +27,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// simulations/ring_gap_dominance.py). The dihedral lock pins the ring's max|Im| to the k=0 uniform single-
 /// excitation mode at 2J=J·ρ for general N, except N=4 where the half-filling (2,2) {0,2} √-EP reaches
 /// 2√2·J above the band top — the mirror of this chain's N=3 {0,2} exception, which sits below E1. Both
-/// topologies: max|Im|=J·ρ. The ring statement is typed into <see cref="TopologyBandEdgeClaim"/> (gate-verified
-/// N=3..6, full all-N completeness open).</para>
+/// topologies: max|Im|=J·ρ. The ring statement is typed into <see cref="TopologyBandEdgeClaim"/>. The ring
+/// free-fermion COMPLETENESS (that the n_XY=1 family spans the exact-(−2γ) subspace, so nothing exceeds 2J)
+/// is now gate-verified to the chain's standing (2026-06-20, simulations/ring_gap_completeness.py): the V_1
+/// operator-subspace dimension match (chain sanity 32/50/72; ring V_1 dim = full-L dim at N=5,6) plus the
+/// n_XY=1 dihedral lock carried to N=7; the residual genuinely-all-N step is the same one the chain leaves
+/// (a dimension count for every N, here split by the wrap-bond periodic/anti-periodic parity).</para>
 ///
 /// <para>Live witness: <c>inspect --root clock</c>
 /// (<c>compute/RCPsiSquared.Diagnostics/Foundation/ClockHandLadderWitness.cs</c>).</para>
