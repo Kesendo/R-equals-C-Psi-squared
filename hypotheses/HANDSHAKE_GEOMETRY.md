@@ -99,6 +99,24 @@ window; the *exact* closure is the chiral mirror trajectory identity
 (`ChiralMirrorTrajectoryClaim`, Tier-1). The mirror law is the exact parity-check; the
 PTF sum is its empirical companion.
 
+**The operational parity-check (M4).** Made into a usable test, the parity-check is the JOINT of
+two single-state closure laws on a candidate reading ψ = Σ_i c_i |1_i⟩: the F77 bandwidth
+`MM(0) = Σ_ℓ MI(site ℓ, site N−1−ℓ) ≈ B(N)` (the bonding plateau, → 1 bit as N → ∞) AND the
+chiral-mirror symmetry `O = |⟨ψ|Rψ⟩| ≈ 1` (R the site reflection i → N−1−i). `MM(0)` depends only on
+the populations and is symmetric within each mirror pair, so it is blind to mirror asymmetry; the
+chiral-mirror law catches exactly the asymmetric states it lets through. Both are needed: mirror
+symmetry alone admits end-localized symmetric states like (|1_0⟩+|1_{N−1}⟩)/√2 (which `MM(0)` rejects,
+`MM(0) = 2 ≫ B`); `MM(0)` alone admits asymmetric generic single-excitation states (which the mirror
+law rejects). On 40k random single-excitation draws the joint checksum cuts the false-accept rate from
+~25% (`MM(0)` alone) to 2.4% / 0.7% / 0.2% at N = 4/6/8. **Honest scope:** the accepted set is the
+grammatical *manifold*, mirror-symmetric delocalized single-excitation near `B(N)` (it admits the
+W-state and every sine mode, not the unique bonding carrier); it is even-N-favorable (odd N is a lower
+curve, `B(5) = 0.80`); and it is a *necessary* consistency condition, not a sufficient "iff the
+carrier". The complementary-light (`⟨n_XY⟩_s + ⟨n_XY⟩_f = N`) and Π-flux laws are Liouville-pair
+properties, not single-state checksums, so they sit outside this reading test. Verifier
+`simulations/_handshake_closure_paritycheck.py`; decider `simulations/_handshake_m4_second_law_decider.py`.
+The parent spec's "zero-holonomy loop" is retired (it had no definition; this concrete checksum replaces it).
+
 ---
 
 ## The K-partnership is a selection rule (Tier 1 derived)
