@@ -4629,16 +4629,28 @@ degeneracy with edge count. *`N = 4` outlier*: the `4/N` ladder hits `1` at `N =
 ceiling is set instead by the `(2,2)` half-filling sector, the **same sector that makes ring-4
 special** (`K_4 = 2 − 2/√3 < 1` dips below the floor; ring-4 `= 1` co-occupies it). One
 mechanism, two topologies. *Not universal*: the tempting `4/(m+1)` in the degeneracy `m` fits
-complete + star but the ring (Fourier-degenerate manifold) breaks it (ring-5 `= 1.6 ≠ 4/3`);
-the per-family forms are the result, the degeneracy is only the intuition. This corrects the
-band-edge arc's tentative "star saturates at 0.80, N-independent" (`0.80 = 4/5` was `N=6` only).
+complete + star but the ring (Fourier-degenerate manifold) breaks it. The ring in fact has **no
+ceiling at all**: a full (p,q)-sector sweep gives global high-Q `g2 = 1` at every N=4..11
+(band-edge-protected like the chain), because its only degeneracy is the weak 2-fold Fourier
+pairing `k ↔ −k`, too little to build a dark `[H,A]=0` coherence below the band edge. The flagged
+`ring-5 = 1.6 ≠ 4/3` is the `(1,1)` commutant, which sits ABOVE the band edge (so it is not the
+ceiling) and itself has a closed form: `2(N−2)/N` (even N) / `2(N−1)/N` (odd N), both `→ 2` (the
+darkest single-excitation commutant coherence grows brighter, not darker; the even/odd split is
+the singleton count, two self-paired modes `k=0, N/2` for even vs one `k=0` for odd). For even N
+the half-filling `(N/2,N/2)` commutant equals the `(1,1)` value (a ring sector degeneracy); ring-4
+`= 1` co-occupies the band edge, the lone N=4 anomaly. The per-family forms are the result, the
+degeneracy is only the intuition. This corrects the band-edge arc's tentative "star saturates at
+0.80, N-independent" (`0.80 = 4/5` was `N=6` only).
 
 **Source:** [Proof](proofs/PROOF_STRUCTURAL_CEILING.md);
 [`simulations/topology_ceiling_rep_derivation.py`](../simulations/topology_ceiling_rep_derivation.py)
 (gate-first, the all-Ω mechanism vs full-L, the `4/N` and `4/(N−1)` exactness, the `N=4`
-unification, the ring non-universality diagnostic); typed claim `StructuralCeilingClaim`
-(parent `AbsorptionTheoremClaim`), `compute/RCPsiSquared.Core/Symmetry/`; the Im-side companion
-is the topology band edge `= J·ρ` (`TopologyBandEdgeClaim`).
+unification, the ring non-universality diagnostic);
+[`simulations/_ring_ceiling_commutant_sweep.py`](../simulations/_ring_ceiling_commutant_sweep.py)
+(the ring `g2 = 1`, the `(1,1)` commutant closed form to N=11, the half-filling seam); typed claim
+`StructuralCeilingClaim` (parent `AbsorptionTheoremClaim`), `compute/RCPsiSquared.Core/Symmetry/`;
+the ring sweep is rendered live by `StructuralCeilingWitness` (`inspect --root ceiling`, the
+RingNode); the Im-side companion is the topology band edge `= J·ρ` (`TopologyBandEdgeClaim`).
 
 ---
 
