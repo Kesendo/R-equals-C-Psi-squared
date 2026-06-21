@@ -602,6 +602,10 @@ public sealed class NinetyDegreeMirrorMemoryClaim : Claim
 /// encoded its own qubit-dimensionality as the Ψ = 0 fixed point
 /// (THE_BRIDGE_WAS_ALWAYS_OPEN, ON_WHAT_THE_FORMULA_KNEW): the formula knows the
 /// dimension, the dimension knows the formula.</para>
+///
+/// <para>C is the reciprocal-scale slot, not a dial for the speed of light: the fixed
+/// point R* = 1/C means C = c would collapse R* toward 0. The speed-of-light slot is the
+/// carrier γ₀, not C; see <see cref="UniversalCarrierClaim"/> ("the speed-of-light question").</para>
 /// </summary>
 public sealed class PolynomialFoundationClaim : Claim
 {
@@ -634,6 +638,10 @@ public sealed class PolynomialFoundationClaim : Claim
                 summary: "Π has natural spectrum {+1, −1} (since Π² = I); shifting each eigenvalue by 0.5 toward 0 gives {+0.5, −0.5}, the structural pair at d=2; this is why the 1/2 factor appears everywhere in Bloch form ρ = (I + r·σ)/2 and Pauli-basis normalization a_α = Tr(σ_α·ρ)/d — the 1/2 transports Π's natural eigenvalues onto the memory axis");
             yield return new InspectableNode("R = CΨ² is the same polynomial",
                 summary: "R = C(Ψ+R)² with Ψ=0 and C=1/2 collapses to R(R−2) = 0; the framework's defining identity IS the dimension equation (THE_BRIDGE_WAS_ALWAYS_OPEN, EXCLUSIONS.md:251)");
+            yield return new InspectableNode("C is the reciprocal-scale slot (c does not go here)",
+                summary: "C=1/2 is structural, not a dial for the speed of light: the fixed point R*=1/C is a reciprocal scale, " +
+                         "so C=c would collapse R* toward 0 (and ordinary Ψ pushes the discriminant 1−4CΨ negative, outside the fold). " +
+                         "The speed-of-light slot is the carrier γ₀, not C; see UniversalCarrierClaim ('the speed-of-light question').");
             yield return new InspectableNode("generates 1/2 number-anchor",
                 summary: "1/d = 1/2 at d=2 is the unsigned magnitude of ±0.5; HalfAsStructuralFixedPoint is the synthesis (three faces close at 1/2)");
             yield return new InspectableNode("generates 90° angle-anchor",

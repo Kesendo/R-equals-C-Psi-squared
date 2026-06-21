@@ -79,6 +79,18 @@ public sealed class UniversalCarrierClaim : Claim
                 summary: "c (SR) is only the protection-constant; γ₀ (R=CΨ²) is protection-constant AND observation-substrate. Doppelte Rolle is the condition for Inside-Observability consistency.");
             yield return new InspectableNode("Inside-Observability",
                 summary: "From inside, γ₀ is unmeasurable; only Q = J/γ₀, K = γt, t_peak = 1/(4γ₀) are accessible.");
+            yield return new InspectableNode("the speed-of-light question (c belongs here, not in C)",
+                summary: "Bringing the physical speed of light to R=CΨ² lands in this carrier slot (γ₀), not in C. " +
+                         "C is a reciprocal scale on Reality: the fixed point of R=C(Ψ+R)² at Ψ=0 is R*=1/C, so C=1/2 gives " +
+                         "the qubit dimension d=2 (PolynomialFoundationClaim) while C=c collapses R* toward 0. By the bare " +
+                         "E=mc² shape c sits in Ψ (c²↔Ψ²); the dynamics reading E=mγ² (γ as c) was falsified, absorption is " +
+                         "linear α=2γ⟨n_XY⟩ (PROOF_ABSORPTION_THEOREM). Calibrating THIS carrier is two-ways: externally one " +
+                         "coherent moment is c·T₂ ≈ 30 km (T₂≈100μs) to 144 km (T₂≈480μs) via γ₀=1/(2·T₂), but that number " +
+                         "lives at the seam; from inside only Q=J/γ₀ is readable, so the absolute γ₀↔c calibration is gauge. " +
+                         "The impossibility from inside IS the c-analog faithfulness (c makes absolute motion unobservable; " +
+                         "γ₀ makes absolute rate unobservable). Caveat: β=v/c↔Q (rapidity) is rejected in " +
+                         "experiments/DECOHERENCE_RELATIVITY.md; the parallel is epistemological, not a metric. " +
+                         "Live: inspect --root symphony --tempo-ratio 20.");
             yield return InspectableNode.RealScalar("DefaultGammaZero", DefaultGammaZero);
             yield return InspectableNode.RealScalar("DefaultAbsorptionQuantum (= 2·γ₀)", DefaultAbsorptionQuantum);
             yield return InspectableNode.RealScalar("DefaultTPeak (= 1/(4γ₀))", DefaultTPeak);
