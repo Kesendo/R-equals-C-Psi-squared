@@ -105,6 +105,6 @@ This generalisation predicts F93 (h-detuning axis) automatically; whether furthe
 - Typed claim: `F92BondAntiPalindromicJSpectralInvariance` (Tier1Derived, two parents).
 - Sister proof (γ-side): `./PROOF_F91_GAMMA_NINETY_DEGREES.md`.
 - Future sister (h-side): `./PROOF_F93_DETUNING_ANTI_PALINDROMIC.md`.
-- Observable-side twin: `./PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md` (F100). Same J_sym/J_anti split, read on the c₁/Q_peak bond-mirror observable instead of the diagonal-block spectrum: F92 says the spectrum depends only on J_sym, F100 says the c₁/Q_peak deviation depends only on J_anti and is exactly odd in it.
+- Observable-side twin: `./PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md` (F100). Same J_sym/J_anti split, read on the c₁/Q_peak bond-mirror observable instead of the diagonal-block spectrum: F92 says the diagonal-block spectrum depends only on J_sym, F100 says the c₁/Q_peak deviation vanishes for palindromic J and is exactly odd in J_anti (its parity fixed by J_anti alone; its magnitude also carries J_sym).
 - Inventory: `docs/SYMMETRY_FAMILY_INVENTORY.md`.
 - Reflection: `reflections/ON_THE_SYMMETRY_FAMILY.md`.

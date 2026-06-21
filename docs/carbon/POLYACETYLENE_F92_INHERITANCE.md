@@ -50,7 +50,7 @@ For the rest of this document we focus on **odd-length SSH chains**, where the a
 
 F92 ([PROOF_F92_BOND_ANTI_PALINDROMIC_J](../proofs/PROOF_F92_BOND_ANTI_PALINDROMIC_J.md)) says: for any open-system Liouvillian built from an XY-class Hamiltonian with bond couplings J_b and uniform Z-dephasing, the diagonal-block eigenvalues depend only on the F71-palindromic part of J. The anti-palindromic part is invisible to the spectrum.
 
-Applied to odd-length SSH chains: δ enters entirely in J_anti, so the diagonal-block spectrum of the SSH Liouvillian under Z-dephasing is identical for any δ at fixed J. The eigenvalues you would measure on the (n, n+1) coherence blocks of a 5-site or 7-site SSH chain are the same as for a uniform chain with bond coupling J, regardless of how strong the alternation is.
+Applied to odd-length SSH chains: δ enters entirely in J_anti, so the F71-refined diagonal-block spectrum of the SSH Liouvillian under Z-dephasing is identical for any δ at fixed J. The diagonal-block (F71-compressed) eigenvalues on the (n, n+1) coherence blocks of a 5-site or 7-site SSH chain are the same as for a uniform chain with bond coupling J, regardless of how strong the alternation is. (Caveat, per F92's corrected scope: once δ ≠ 0 breaks the F71 mirror, those compressed-block eigenvalues are a basis-relative layer, NOT L's physical decay rates — the full-L spectrum does move with δ; the genuine δ-independent structure is the joint-popcount sectors.)
 
 This is a striking prediction. SSH spectroscopy in solid-state physics is normally read in the closed-system band-structure picture, where δ is the gap-opening parameter and topology is everything. In the open-system Liouvillian picture under Z-dephasing, δ becomes spectrum-invisible. The topology is still there (it has not gone anywhere), but it has moved off the diagonal-block spectrum into the cross-block eigenvectors.
 
@@ -64,7 +64,7 @@ F100 ([PROOF_F100](../proofs/PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md)) gives the 
 
 For SSH on an odd-length chain: δ is exactly J_anti, so the bond-mirror deviation D(b) is exactly odd in δ. At δ = 0 the deviation vanishes (the chain is uniform); as δ grows, D(b) grows linearly in δ to leading order, with no quadratic or higher even-power admixture. The bond-mirror observable becomes a clean linear readout of the SSH alternation amplitude.
 
-This is the dual prediction to F92's invisibility statement. F92 says: the spectrum does not see δ. F100 says: the bond-mirror observable sees ONLY δ, and sees it as an exactly odd function. Together they decompose the entire SSH structure into a "spectrum lives at J" half and an "observable deviation lives at δ" half.
+This is the dual prediction to F92's invisibility statement. F92 says: the diagonal-block spectrum does not see δ. F100 says: the bond-mirror deviation vanishes without δ and is an exactly odd function of δ (at fixed J; its magnitude also carries J). Together they decompose the entire SSH structure into a "diagonal-block spectrum lives at J" half and an "observable deviation born of δ" half.
 
 F101 is the γ-axis sibling: for non-uniform per-site Z-dephasing rates, the same bond-mirror deviation is exactly odd in the anti-palindromic γ component. This adds a second axis: if we tune the dephasing rates non-uniformly (γ_l alternating with the bond pattern, say), we can probe the cross-coupling between J and γ asymmetries.
 

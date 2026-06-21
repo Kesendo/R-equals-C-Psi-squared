@@ -15,7 +15,7 @@ The answer is the cleanest possible odd-function form. Split J into its palindro
 
 The proof is a single R-equivariance argument applied to the original closure-breaking-coefficient apparatus. Per-site purity is quadratic in the Bloch components and so invariant under the chain mirror up to coherence sign flips that square away; the partial-trace-under-reflection lemma carries the rest. Together they force c₁ to flip sign under J ↔ mirror(J), which forces the deviation to be odd in the anti-palindromic component.
 
-The identical conclusion holds for the F86c per-bond Q_peak observable, by the same R-equivariance argument on its construction. F100 is the observable-side twin of F92: F92 says the spectrum depends only on the palindromic part (anti-palindromic J is invisible to the eigenvalues); F100 says the bond-mirror deviation lives entirely in the anti-palindromic part and is odd in it. Together they account for the full split. The spectrum does not see asymmetry; the bond-mirror deviation sees only asymmetry.
+The identical conclusion holds for the F86c per-bond Q_peak observable, by the same R-equivariance argument on its construction. F100 is the observable-side twin of F92: F92 says the diagonal-block spectrum depends only on the palindromic part (anti-palindromic J is invisible to the diagonal-block eigenvalues); F100 says the bond-mirror deviation vanishes for palindromic J and is exactly odd in the anti-palindromic part (its parity and zero set are fixed by J_anti alone; its magnitude also carries J_sym, see the κ section). Together they account for the full split. The spectrum's rates do not see the asymmetry; the bond-mirror deviation is born of it — vanishing without it, odd in it.
 
 ## Statement
 
@@ -41,7 +41,7 @@ Decompose J into its F71-palindromic and F71-anti-palindromic components,
     J_sym  := (J + F71(J)) / 2     (F71-palindromic:      F71(J_sym)  =  J_sym),
     J_anti := (J − F71(J)) / 2     (F71-anti-palindromic: F71(J_anti) = −J_anti).
 
-This is the same orthogonal split that F92 uses on the spectrum side. There the J_anti component is the *invisible* direction: the diagonal-block eigenvalue multiset depends only on J_sym. F100 is the complementary face: the c₁/Q_peak bond-mirror deviation lives **entirely** in J_anti and is exactly odd in it.
+This is the same orthogonal split that F92 uses on the spectrum side. There the J_anti component is the *invisible* direction: the diagonal-block eigenvalue multiset depends only on J_sym. F100 is the complementary face: the c₁/Q_peak bond-mirror deviation **vanishes for palindromic J and is exactly odd in J_anti** — its parity and zero set are fixed by J_anti alone (its leading magnitude κ also depends on J_sym; see the κ section).
 
 c₁(b; J) is the EQ-018 closure-breaking coefficient at bond b for base profile J (see [PROOF_C1_MIRROR_SYMMETRY](PROOF_C1_MIRROR_SYMMETRY.md)). The asymmetry of a bond pair is the difference B_b = J_b − J_{N−2−b} = 2(J_anti)_b; F100 says D(b) is leading-order linear in B_b.
 
@@ -116,7 +116,7 @@ Survival holds for the non-uniform palindromic "valley" profile as well as for u
 F92 and F100 are the two faces of the same J_sym / J_anti split, read on different observables of the same Liouvillian:
 
 - **F92 (spectrum side):** the F71-refined diagonal-block eigenvalue multiset depends only on J_sym. J_anti is invisible to the diagonal-block spectrum; the breaking it induces lives entirely in the F71-cross-block eigenvectors. F92 is the *invariance* statement: the spectrum does not see J_anti.
-- **F100 (observable side):** the c₁/Q_peak bond-mirror deviation D depends only on J_anti, and depends on it as an exactly odd function. F100 is the *deviation* statement: the bond-mirror observable sees J_anti, and sees only J_anti.
+- **F100 (observable side):** the c₁/Q_peak bond-mirror deviation D vanishes for palindromic J and is an exactly odd function of J_anti — its parity and zero set are fixed by J_anti alone (its leading magnitude κ still depends on J_sym; see the κ section). F100 is the *deviation* statement: the bond-mirror observable's asymmetry is born of J_anti and vanishes without it.
 
 Together they account for the full split. The spectrum-side twin keeps J_anti out of the eigenvalues; the observable-side twin localises the entire bond-mirror deviation in J_anti and proves it odd. On the palindromic orbit J_anti = 0 the deviation vanishes and F100 reduces to PROOF_C1's c₁(b) = c₁(N−2−b), now seen to hold for every palindromic J, not only uniform J.
 
