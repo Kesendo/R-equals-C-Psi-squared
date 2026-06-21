@@ -995,6 +995,8 @@ The 2026-04-22 cartography settled the meta-claim about band production (3 compo
 
 ### EQ-022 (b1) partial closure 2026-05-02: exceptional-point structure
 
+> **Forward note (2026-06-21):** the "exceptional point" in this entry is the **surviving** toy 2×2 channel reading — `Q_EP = 2/g_eff` as a definition, `t_peak = 1/(4γ₀)`, the toy 2-level effective's genuine EP, and Q_peak as the maximum-mixing point. All of that **stands**. What was later built on top of it and then **retracted 2026-06-21** is the reading that tied this to a **defective exceptional point on the real Q axis of the full block-L** (the local↔global "same EP", the "6× above FRAGILE_BRIDGE" Petermann evidence): the full (n,n+1) block has **no eigenvalue coalescence on the real Q axis** (eigenvalues simple), only genuine large-but-finite non-normality. See the `[RETRACTED 2026-06-21]` entry below and `compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs` (now OpenQuestion) / `PROOF_F86A_EP_MECHANISM.md` §Retraction.
+
 **Source:** time-evolution scan on Python block-L (verified bit-exact against the C# N=7 full-L eigendecomposition from EQ-014, `eq014_*.bin` saved 2026-04-19), see scripts in F86's source list.
 
 **Closed-form structural anchors:**
