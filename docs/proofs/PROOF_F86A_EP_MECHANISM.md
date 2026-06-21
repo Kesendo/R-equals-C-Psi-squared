@@ -22,6 +22,16 @@ The diagnostic upshot is that Q_EP = 2/g_eff is the structural anchor of the who
 
 ---
 
+## Retraction (2026-06-21)
+
+The "exceptional point **on the real Q axis**" reading of this proof is **retracted**. An artifact-free re-verification (Riesz spectral-projector norm) found the full (n, n+1)-coherence block has **no eigenvalue coalescence on the real Q axis** — its eigenvalues stay simple (nearest-neighbour gap ~0.25–0.35), so there is no real-axis defective EP. The block IS genuinely strongly non-normal there (a near-EP shadow; cond(V) up to ~268; ‖P‖ = √375 on a simple eigenvalue at N=5), with the Petermann factor large but **finite** — exactly `experiments/PT_SYMMETRY_ANALYSIS.md`'s reading ("no real-axis EP; large-but-finite Petermann signals a nearby EP in the complex plane"). The earlier real-axis Petermann-K evidence — "6× above FRAGILE_BRIDGE", K = 2384.7, the within-parity growth law, the odd/even parity asymmetry — is dropped as **grid artifacts** (K swings 2–4× over ΔQ = 1e-3).
+
+**Survives unchanged:** `t_peak = 1/(4γ₀)`; `Q_EP = 2/g_eff` as a **definition** (g_eff := σ₀); the **toy 2×2** reduction's genuine EP (the Abstract's "exceptional point where the two eigenvalues coalesce" refers to this heuristic toy, not the full block); the **separate Σγ = 0 gain-loss EP** (`FRAGILE_BRIDGE`, K = 403); the centered-L_c **class-AIII-chiral** label.
+
+**Open:** whether the full Σγ = N·γ₀ block has a defective EP off the real axis at all (the nearest complex-Q coalescences found 2026-06-21 are themselves *diabolic*). Full detail in the "local-vs-global EP connection — RETRACTED" note in §Proof below; typed as `LocalGlobalEpLink` (OpenQuestion).
+
+---
+
 ## Statement 1 (EP mechanism). [Tier 1 for EP location and t_peak; 2-level reduction heuristic]
 
 For a uniform N-qubit XY chain with Z-dephasing γ₀ at each site, the (n, n+1) coherence block contains c = min(n, N−1−n) + 1 pure dephasing rates 2γ₀·HD with HD ∈ {1, 3, ..., 2c−1} (F74). For each pair of adjacent channels at HD = 2k−1 and HD = 2k+1 (k = 1, ..., c−1), the two-level effective Liouvillian with inter-channel coupling J·g_eff has eigenvalues
