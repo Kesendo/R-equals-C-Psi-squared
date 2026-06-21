@@ -32,8 +32,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// double-excitation mode that overtakes the beat there is ring-specific, see the benzene node and
 /// simulations/carbon/benzene_two_clocks.py).</para>
 ///
-/// <para>Live witness: <c>inspect --root horizon</c>
-/// (<c>compute/RCPsiSquared.Diagnostics/Foundation/CoherenceHorizonWitness.cs</c>).</para>
+/// <para>Live witnesses: <c>inspect --root horizon</c>
+/// (<c>compute/RCPsiSquared.Diagnostics/Foundation/CoherenceHorizonWitness.cs</c>, the ladder + the eig
+/// phase-rigidity reading) and <c>inspect --root epcharacter</c>
+/// (<c>compute/RCPsiSquared.Diagnostics/Foundation/EpCharacterWitness.cs</c>, the ARTIFACT-FREE EP-
+/// character verdict: the non-eig sibling of <see cref="Numerics.PhaseRigidity"/> that confirms the
+/// EP is genuinely DEFECTIVE — Riesz ‖P‖, departure-from-normality ≈ 4, geometric mult 1 &lt; algebraic
+/// mult 2 — gate-first on a known defective + diabolic toy).</para>
 ///
 /// <para>Typed parents: <see cref="ClockHandLadderClaim"/> (the horizon IS the clock's Q-floor made
 /// exact: where the coherence hand finally freezes) and <see cref="F2bXyChainSpectrumPi2Inheritance"/>
@@ -112,7 +117,10 @@ public sealed class CoherenceHorizonClaim : Claim
                          "co-located SURVIVOR, the γ-protected |vac⟩⟨ψ_k| coherence hand (Uhr 1, r ≈ 1), sharing the gap " +
                          "Re = −2γ only because the Absorption Theorem pins both (both ⟨n_diff⟩=1). So Q*(N) is at once a " +
                          "{0,2}-coherence EP (the erasure point, climbs the ladder) and a band-edge crossing (Uhr 1 survives). " +
-                         "Probe: simulations/coherence_horizon_se_block.py.");
+                         "Probe: simulations/coherence_horizon_se_block.py + simulations/_review_coherence_horizon_ep.py. " +
+                         "Live artifact-free witness (the non-eig sibling of PhaseRigidity, gate-first): " +
+                         "inspect --root epcharacter (EpCharacterWitness), which recomputes the Riesz ‖P‖ / " +
+                         "departure-from-normality / geo-vs-alg verdict at inspect time and reads DEFECTIVE at every N=2..5.");
             yield return new InspectableNode("the closed form: the single-excitation (Haken-Strobl) reduction",
                 summary: "resolved 2026-06-13 (Approach A). Q*(N) reduces 4^N → N²: the coalescing mode is single-" +
                          "excitation, so Q*(N) is the EP of the single-excitation (Haken-Strobl) Liouvillian, the N-site " +

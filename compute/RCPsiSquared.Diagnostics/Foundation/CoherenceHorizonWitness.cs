@@ -255,7 +255,10 @@ public sealed class CoherenceHorizonWitness : IInspectable
                      "once a {0,2}-coherence EP (the erasure point, which climbs the ladder) and a band-edge crossing " +
                      $"(the clock survives). √-scaling Im²/(Q−Q*) at N=4 = {ratio.ToString("0.00", Inv)} (constant ⟹ " +
                      "a clean 2nd-order EP). The closed form of Q*(N) (the {0,2}-block discriminant) is OPEN. " +
-                     "Recomputed live via PhaseRigidity; supersedes the earlier narrated 'bifurcation at N=4'.",
+                     "Recomputed live via PhaseRigidity (the eig instrument, the F86a-misfire-prone family); supersedes " +
+                     "the earlier narrated 'bifurcation at N=4'. The ARTIFACT-FREE confirmation (Riesz ‖P‖ / departure-" +
+                     "from-normality / geo-vs-alg, no eig eigenvector) lives at inspect --root epcharacter " +
+                     "(EpCharacterWitness): DEFECTIVE at every N=2..5, dep≈4, geo 1 < alg 2.",
             children: rungs);
     }
 

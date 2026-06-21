@@ -151,6 +151,27 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void Catalog_HasEpCharacterRoot_NFree()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "epcharacter");
+        Assert.False(entry.RequiresN);
+        Assert.Contains("artifact-free", entry.Description);
+        Assert.Contains("DEFECTIVE", entry.Description);
+    }
+
+    [Fact]
+    public void Catalog_EpCharacterFactory_BuildsTheLiveWitness_GatePassesDefectiveHorizon()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "epcharacter");
+        var ctx = new InspectRootContext(new ArgParser(Array.Empty<string>()), N: 1,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var root = entry.Factory(ctx);
+        Assert.IsType<EpCharacterWitness>(root);
+        Assert.Contains("GATE PASSED", root.Summary);
+        Assert.Contains("Defective", root.Summary);
+    }
+
+    [Fact]
     public void Catalog_HasDecoderRoot_NFree()
     {
         var entry = InspectCommand.Catalog.Single(e => e.Name == "decoder");

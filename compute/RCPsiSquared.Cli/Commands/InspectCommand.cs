@@ -509,6 +509,8 @@ public static class InspectCommand
             _ => new QuditMirrorProtectionWitness(), RequiresN: false),
         new("horizon", "the coherence horizon Q*(N): where the slowest mode stops oscillating = the carbon Frost-Hückel coherent↔incoherent threshold",
             _ => new CoherenceHorizonWitness(), RequiresN: false),
+        new("epcharacter", "the artifact-free EP-character diagnostic (Riesz ‖P‖ / departure-from-normality / geo-vs-alg): the non-eig sibling of PhaseRigidity that confirms the coherence-horizon √-EP is genuinely DEFECTIVE (a Jordan block, dep≈4, geo 1<alg 2), not a diabolic degeneracy. Gate-first (toy Jordan→DEFECTIVE, diag→DIABOLIC); the family that misfired in the F86a retraction is here corroborating-but-not-load-bearing",
+            _ => new EpCharacterWitness(), RequiresN: false),
         new("secondclock", "the stitch: the {0,2}/half-filling coherence (the second clock) is ONE mode whose regime = map(band degeneracy, dispersion) — joining the EP horizon, the structural ceiling, and the gradual star into one node (live N=4 full-Liouvillian gate)",
             _ => new SecondClockRegimeWitness(), RequiresN: false),
         new("starseam", "the star's frozen seam: the longest-lived coherence never un-freezes (N≥5) — its survivor is the [H,A]=0 commutant (1,1) coherence, frozen by construction, the survivor iff g2=4/(N−1)≤1; N=4 (4/3>1) un-freezes (the (2,2)/K₄ outlier). The third member of chain(SE-EP)/ring(frozen crossing)/star(frozen commutant): the structural ceiling read dynamically",
