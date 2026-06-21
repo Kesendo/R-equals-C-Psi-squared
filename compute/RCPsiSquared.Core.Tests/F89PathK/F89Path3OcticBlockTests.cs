@@ -51,8 +51,9 @@ public class F89Path3OcticBlockTests
     {
         // Gate-first: the artifact-free instrument must read DIABOLIC at the exact double root.
         // Load-bearing facts (basis-independent): Kind, geo=alg=2, dep≈0. ‖P‖ is grid-sensitive
-        // (the EP magnitudes are not load-bearing) so it is only bounded-finite-checked
-        // (a DEFECTIVE EP would diverge).
+        // and is NOT the diabolic discriminator (a closed-block defective EP also reads bounded
+        // ‖P‖ — see Gate0a); the verdict rests on geo=alg & dep≈0. ‖P‖<1e3 is only a loose
+        // finiteness sanity bound.
         double g = 1.0, j = QEp;
         var l = F89Path3OcticBlock.BuildSeDeSymBlock(j, g);
         var center = F89Path3OcticEpClaim.MergedEigenvalue(g, j);    // λ_EP = −4γ + 2iJ
@@ -62,7 +63,7 @@ public class F89Path3OcticBlockTests
         Assert.Equal(2, r.Algebraic);
         Assert.Equal(2, r.Geometric);                              // geo == alg ⟹ diabolic
         Assert.True(r.Departure < 1e-6, $"diabolic departure {r.Departure} should be ≈ 0");
-        Assert.True(r.ProjectorNorm < 1e3, $"‖P‖ {r.ProjectorNorm} must be finite (defective ⟹ diverges)");
+        Assert.True(r.ProjectorNorm < 1e3, $"‖P‖ {r.ProjectorNorm} should be a bounded sanity value (not a diabolic discriminator)");
         Assert.True(r.EigenvectorMergeCos < 0.99, $"|cos| {r.EigenvectorMergeCos} must stay < 1 (independent eigenvectors)");
     }
 }

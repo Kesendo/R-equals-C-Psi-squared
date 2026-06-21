@@ -43,7 +43,7 @@ public sealed class F89OcticCharacterWitness : IInspectable
                 summary: $"{r.Kind} (geo={r.Geometric}=alg={r.Algebraic}, dep={r.Departure:E2}); " +
                          "DIABOLIC = eigenvalues coalesce, eigenvectors independent — NOT a defective EP");
             yield return InspectableNode.RealScalar("q_EP", QEp);
-            yield return InspectableNode.RealScalar("projector-norm ‖P‖ (finite ⟹ not defective)", r.ProjectorNorm);
+            yield return InspectableNode.RealScalar("projector-norm ‖P‖ (>1 ⟹ obliquely embedded / non-normal; the diabolic discriminators are geo=alg & dep≈0, not ‖P‖)", r.ProjectorNorm);
             yield return InspectableNode.RealScalar("departure-from-normality (≈0 ⟹ diabolic)", r.Departure);
             yield return new InspectableNode("grid-free anchor",
                 summary: "disc(F_8) has (3q⁴+q²−1) to even multiplicity 2 = a double zero ⟹ linear crossing ⟹ semisimple");
