@@ -17,21 +17,25 @@ public class KnowledgeCliPolarityArchitectureTests
             .Build();
 
     [Fact]
-    public void Cli_TierT1D_OutputListsAllEightTier1DerivedClaims()
+    public void Cli_TierT1D_OutputListsAllTenTier1DerivedClaims()
     {
         var cli = new KnowledgeCli(BuildPolarityRegistry());
         var output = cli.Render(new KnowledgeQuery.Tier(KnowledgeTier.Tier1Derived));
 
-        // 7 Pi2 + 1 F88b = 8 Tier1Derived claims (F86 is Tier2Verified, not in this filter)
+        // 9 Pi2 + 1 F88b = 10 Tier1Derived claims (F86 PolarityInheritanceLink is Tier2Verified,
+        // not in this filter). QuarterAsBilinearMaxval + ArgmaxMaxvalPair joined RegisterPi2Family
+        // on 2026-05-08/09 (see Pi2FamilyRegistration), growing the family from 7 to 9.
         Assert.Contains("PolynomialFoundationClaim", output);
         Assert.Contains("QubitDimensionalAnchorClaim", output);
         Assert.Contains("NinetyDegreeMirrorMemoryClaim", output);
         Assert.Contains("PolarityLayerOriginClaim", output);
         Assert.Contains("BilinearApexClaim", output);
         Assert.Contains("HalfAsStructuralFixedPointClaim", output);
+        Assert.Contains("QuarterAsBilinearMaxvalClaim", output);
         Assert.Contains("KleinFourCellClaim", output);
+        Assert.Contains("ArgmaxMaxvalPairClaim", output);
         Assert.Contains("PopcountCoherenceClaim", output);
-        Assert.Contains("8 Claim(s)", output);
+        Assert.Contains("10 Claim(s)", output);
     }
 
     [Fact]
@@ -47,13 +51,14 @@ public class KnowledgeCliPolarityArchitectureTests
     }
 
     [Fact]
-    public void Cli_DescendantsPolynomialFoundation_OutputListsEightDescendants()
+    public void Cli_DescendantsPolynomialFoundation_OutputListsTenDescendants()
     {
         var cli = new KnowledgeCli(BuildPolarityRegistry());
         var output = cli.Render(new KnowledgeQuery.Descendants(typeof(PolynomialFoundationClaim)));
 
-        // 8 descendants: 6 Pi2 (everything except the trunk) + F86 + F88b
-        Assert.Contains("8 Claim(s)", output);
+        // 10 descendants: 8 Pi2 (everything except the trunk) + F86 PolarityInheritanceLink + F88b.
+        // Was 8 before QuarterAsBilinearMaxval + ArgmaxMaxvalPair joined RegisterPi2Family (2026-05-08/09).
+        Assert.Contains("10 Claim(s)", output);
         Assert.Contains("PolarityInheritanceLink", output);
         Assert.Contains("PopcountCoherenceClaim", output);
     }
