@@ -90,7 +90,8 @@ public sealed class UniversalCarrierClaim : Claim
                          "The impossibility from inside IS the c-analog faithfulness (c makes absolute motion unobservable; " +
                          "γ₀ makes absolute rate unobservable). Caveat: β=v/c↔Q (rapidity) is rejected in " +
                          "experiments/DECOHERENCE_RELATIVITY.md; the parallel is epistemological, not a metric. " +
-                         "Live: inspect --root symphony --tempo-ratio 20.");
+                         "Live: inspect --root symphony --tempo-ratio 20. Plain-words for non-programmers: " +
+                         "hypotheses/GAMMA_IS_LIGHT.md ('What if you put the actual speed of light into the formula?').");
             yield return InspectableNode.RealScalar("DefaultGammaZero", DefaultGammaZero);
             yield return InspectableNode.RealScalar("DefaultAbsorptionQuantum (= 2·γ₀)", DefaultAbsorptionQuantum);
             yield return InspectableNode.RealScalar("DefaultTPeak (= 1/(4γ₀))", DefaultTPeak);

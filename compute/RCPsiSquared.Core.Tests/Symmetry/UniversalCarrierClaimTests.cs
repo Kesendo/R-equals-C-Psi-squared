@@ -36,6 +36,7 @@ public class UniversalCarrierClaimTests
         var kids = ((IInspectable)claim).Children.ToList();
         Assert.Contains(kids, k => k.DisplayName.Contains("speed-of-light question")
             && k.Summary.Contains("R*=1/C")
-            && k.Summary.Contains("γ₀=1/(2·T₂)"));
+            && k.Summary.Contains("γ₀=1/(2·T₂)")
+            && k.Summary.Contains("GAMMA_IS_LIGHT"));
     }
 }
