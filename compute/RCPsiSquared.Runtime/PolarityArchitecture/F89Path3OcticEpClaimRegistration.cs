@@ -4,7 +4,7 @@ using RCPsiSquared.Runtime.ObjectManager;
 namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring of <see cref="F89Path3OcticEpClaim"/>: the path-3
-/// octic EP at q ≈ 0.659 with merged eigenvalue −4γ + 2iJ. Two typed parent edges:
+/// octic diabolic degeneracy at q ≈ 0.659 with merged eigenvalue −4γ + 2iJ. Two typed parent edges:
 ///
 /// <list type="bullet">
 ///   <item><see cref="F89TopologyOrbitClosure"/>: orbit-closure framework parent.</item>
