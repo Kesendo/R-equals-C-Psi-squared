@@ -1,4 +1,4 @@
-"""F89 path-3: locate the exceptional point at q ≈ 0.659.
+"""F89 path-3: locate the diabolic degeneracy at q ≈ 0.659.
 
 The path-3 octic discriminant has a perfect-square factor (3q⁴ + q² − 1)².
 Its zero at q² = (−1+√13)/6 ≈ 0.4343, q ≈ 0.6590, locates an EP where two
@@ -8,10 +8,16 @@ Goals:
   1. Verify the EP location numerically (sample q densely near 0.659).
   2. Identify WHICH two octic eigenvalues collide.
   3. Track their (rate, freq) labels through the EP.
-  4. Diagnose Jordan-block formation: at the EP, the eigvec matrix becomes
-     rank-deficient (defective). Compute the smallest singular value of
-     (L_sym - λ_EP·I) to detect.
-  5. Compare to F86's c=2 Q_EP = 1/√2 ≈ 0.7071: are they the same EP or different?
+  4. [CORRECTED 2026-06-21] This goal was MISFRAMED. sigma_min(L - lam*I) = 0
+     holds at ANY eigenvalue (diabolic OR defective), so rank-deficiency-by-1
+     means only "lam is an eigenvalue" -- it is NOT evidence of defectiveness.
+     The path-3 octic degeneracy is DIABOLIC (semisimple), proven grid-free by
+     the discriminant double-zero and confirmed by the nullity test
+     g1 = dim null(L - lam*I) = 2 (see _f89_jordan_definitive.py /
+     _f89_jordan_corroborate.py). The sigma_min computation below is kept only
+     as the eigenVALUE-coalescence locator (correct for that); it does NOT
+     diagnose Jordan structure.
+  5. Compare to F86's c=2 Q_EP = 1/sqrt2 ~ 0.7071: are they the same EP or different?
 """
 
 from __future__ import annotations
@@ -96,7 +102,7 @@ def octic_eigenvalues(q: float, gamma: float = 1.0):
 
 
 def smallest_singular_value(L_sym, lam):
-    """For Jordan-block detection: smallest σ of (L_sym - λI)."""
+    """Smallest σ of (L_sym - λI): the eigenVALUE-coalescence locator. NOTE: σ_min→0 at ANY eigenvalue (diabolic or defective); it does NOT diagnose Jordan structure (see goal 4)."""
     M = L_sym - lam * np.eye(L_sym.shape[0])
     s = np.linalg.svd(M, compute_uv=False)
     return s[-1]
