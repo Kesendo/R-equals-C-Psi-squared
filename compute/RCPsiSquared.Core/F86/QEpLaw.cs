@@ -4,14 +4,20 @@ using RCPsiSquared.Core.Resonance;
 using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.F86;
 
-/// <summary>F86 Statement 1 partial: <c>Q_EP = 2/g_eff</c> — exceptional-point Q at which
-/// the slowest 2-level eigenvalue pair coalesces.
+/// <summary>F86 Statement 1 partial: <c>Q_EP = 2/g_eff</c> — the definitional resonance Q,
+/// where g_eff := σ_0, the SVD-top inter-channel singular value (no closed form). In the toy
+/// 2-level reduction this is the genuine exceptional point at which the slowest eigenvalue pair
+/// coalesces (PROOF_F86_QPEAK Statement 1).
 ///
-/// <para>Tier 1 derived in the 2-level reduction; the value matches the full block-L EP
-/// position bit-exactly when g_eff is taken as the SVD-top inter-channel singular value σ_0.
-/// For c=2, σ_0 → ≈ 2.8629 ± 1e-4 (the F86e closure 2026-05-21, parity-split Aitken, γ-independent;
-/// SigmaZeroCommutatorNormClaim). 2√2 was the N=7 finite-size crossing, not the limit
-/// (SigmaZeroChromaticityScaling demoted it; doc line corrected 2026-06-10).</para>
+/// <para>Tier 1 derived in the 2-level reduction. <c>Q_EP = 2/g_eff</c> is a DEFINITION
+/// (g_eff := σ_0); it is NOT "the full block-L exceptional-point position, bit-exact". The full
+/// (n, n+1) block-L is genuinely NON-NORMAL near Q_peak but has NO defective EP on the real Q
+/// axis — its eigenvalues stay simple there, and the large Petermann factor is finite and
+/// grid-sensitive (the earlier "bit-exact full-block EP match" reading is retracted; see
+/// <see cref="LocalGlobalEpLink"/>, now an OpenQuestion). For c=2, σ_0 → ≈ 2.8629 ± 1e-4 (the
+/// F86e closure 2026-05-21, parity-split Aitken, γ-independent; SigmaZeroCommutatorNormClaim).
+/// 2√2 was the N=7 finite-size crossing, not the limit (SigmaZeroChromaticityScaling demoted
+/// it; doc line corrected 2026-06-10).</para>
 /// </summary>
 public sealed class QEpLaw : Claim
 {
