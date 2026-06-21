@@ -26,12 +26,15 @@ namespace RCPsiSquared.Core.F86;
 ///         <see cref="F86HwhmClosedFormClaim"/>; c=2-only <see cref="C2UniversalShapeDerivation"/>.</item>
 ///   <item><b>Tier 2</b> (verified and empirical): <see cref="SigmaZeroChromaticityScaling"/>,
 ///         the per-block and per-bond Q_peak tables, <see cref="PerF71OrbitObservation"/>,
-///         <see cref="LocalGlobalEpLink"/>, <see cref="PolarityInheritanceLink"/>,
-///         <see cref="IbmBlockCpsiHardwareTable"/>; c=2-only the live orbit-K and
-///         full-block σ-anatomy tables.</item>
+///         <see cref="PolarityInheritanceLink"/>, <see cref="IbmBlockCpsiHardwareTable"/>;
+///         c=2-only the live orbit-K and full-block σ-anatomy tables.</item>
 ///   <item><b>Retracted</b>: the two refuted closed forms (<see cref="RetractedClaim.Standard"/>).</item>
 ///   <item><b>Open questions</b>: <see cref="F86OpenQuestions.Standard"/>, the items still
-///         missing for full Tier-1 promotion, followed by the 4-mode insufficiency note.</item>
+///         missing for full Tier-1 promotion, plus <see cref="LocalGlobalEpLink"/> (demoted to
+///         <see cref="Knowledge.Tier.OpenQuestion"/> by the F86a-retraction 2026-06-21:
+///         genuine non-normality on the real axis but no real-axis EP; whether the full block
+///         has an off-axis defective EP at all is open), followed by the 4-mode insufficiency
+///         note.</item>
 /// </list>
 /// </summary>
 public sealed class F86KnowledgeBase : IInspectable
@@ -79,14 +82,14 @@ public sealed class F86KnowledgeBase : IInspectable
 
     private readonly Lazy<C2UniversalShapeDerivation?> _c2UniversalShape;
 
-    /// <summary>Block-independent meta-claim: the F86 local EP at real Q_EP and the
-    /// FRAGILE_BRIDGE global EP in the complex-γ plane are the same exceptional-point
-    /// structure under shared AIII chiral algebra, validated empirically by the c=2
-    /// N=5..8 Petermann-K sweep. <see cref="Knowledge.Tier.Tier2Verified"/>:
-    /// shared algebra + real-axis hit empirically pinned; complex-γ analytic continuation
-    /// is the documented gap. Exposed at the KB root for any block, not just c=2 — the
-    /// algebraic statement is shared across all c. Lazy: a single static-data Claim with
-    /// no compute cost.</summary>
+    /// <summary>Block-independent meta-claim: the F86 ↔ FRAGILE_BRIDGE EP-side relation.
+    /// <see cref="Knowledge.Tier.OpenQuestion"/> after the F86a-retraction 2026-06-21
+    /// (demoted from Tier2Verified): the full Σγ=N·γ₀ block is genuinely strongly non-normal
+    /// on the real Q axis but has NO eigenvalue coalescence there (eigenvalues simple), the
+    /// Petermann factor large but finite (artifact-free ‖P‖); whether it has an off-axis
+    /// defective EP at all — and thus the "same EP" link to FRAGILE_BRIDGE — is open. The
+    /// surviving shared substrate is the AIII chiral algebra. Exposed at the KB root for any
+    /// block, not just c=2. Lazy: a single static-data Claim with no compute cost.</summary>
     public LocalGlobalEpLink LocalGlobalEpLink => _localGlobalEpLink.Value;
 
     private readonly Lazy<LocalGlobalEpLink> _localGlobalEpLink;
@@ -364,7 +367,11 @@ public sealed class F86KnowledgeBase : IInspectable
                 Retracted.Cast<IInspectable>().ToArray());
 
             yield return InspectableNode.Group("open questions",
-                OpenQuestions.Cast<IInspectable>().ToArray());
+                OpenQuestions.Cast<IInspectable>()
+                    // LocalGlobalEpLink (OpenQuestion since the F86a-retraction 2026-06-21):
+                    // whether the full Σγ=N·γ₀ block has an off-axis defective EP at all.
+                    .Append(LocalGlobalEpLink)
+                    .ToArray());
 
             yield return FourModeInsufficiencyNote;
         }
@@ -417,9 +424,12 @@ public sealed class F86KnowledgeBase : IInspectable
         yield return EndpointPerBondTable;
         yield return InteriorPerBondTable;
         yield return PerOrbitSubstructure;
-        yield return LocalGlobalEpLink;
         yield return PolarityInheritanceLink;
         yield return IbmBlockCpsiHardwareTable;
+        // LocalGlobalEpLink is NOT yielded here: it was demoted Tier2Verified → OpenQuestion
+        // by the F86a-retraction 2026-06-21, so it now displays under the "open questions"
+        // group (see Children) to keep the tier-group labels honest (guarded by
+        // F86KnowledgeBase_TierGroups_HoldOnlyClaimsOfMatchingTier).
     }
 
     /// <summary>Build the Interior witness list — each witness computes its HWHM/Q from the

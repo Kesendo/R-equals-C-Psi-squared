@@ -8,13 +8,15 @@ namespace RCPsiSquared.Core.F86;
 /// in <b>class AIII chiral</b> — distinct from Bender-Boettcher PT (Π is linear; classical
 /// PT requires anti-linear operators).
 ///
-/// <para>The local 2-level EP at Q_EP = 2/g_eff is the rate-channel instance of the chiral
+/// <para>The toy 2-level EP at Q_EP = 2/g_eff is the rate-channel instance of the chiral
 /// classification established for the full Liouvillian; the Hopf bifurcation in
-/// <c>hypotheses/FRAGILE_BRIDGE.md</c> is the global instance with Petermann factor K=403
-/// signaling an EP in the complex γ plane. The local-2-level-EP and the
-/// global-complex-γ-EP are now connected at Tier 2 via <see cref="LocalGlobalEpLink"/>
-/// (real-axis hit empirically confirmed at c=2 N=5..8); promotion to Tier 1 requires the
-/// analytic continuation along complex γ to be carried out.</para>
+/// <c>hypotheses/FRAGILE_BRIDGE.md</c> is the separate Σγ=0 gain-loss instance with Petermann
+/// factor K=403 signaling an EP in the complex γ plane. These two are the firmly-established
+/// genuine defective EPs. Whether they share a defective-EP structure with the FULL Σγ=N·γ₀
+/// block is an OPEN question (<see cref="LocalGlobalEpLink"/>, demoted Tier2Verified →
+/// OpenQuestion by the F86a-retraction 2026-06-21): the full block is genuinely non-normal on
+/// the real Q axis but has NO real-axis EP, and its nearest complex-Q coalescences are
+/// diabolic. The surviving shared content is exactly this AIII chiral algebraic label.</para>
 /// </summary>
 public sealed class ChiralAiiiClassification : Claim
 {

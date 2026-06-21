@@ -59,10 +59,12 @@ namespace RCPsiSquared.Core.F86;
 /// not just c=2, mirroring <see cref="LocalGlobalEpLink"/>. The witnesses pin the concrete
 /// c=2 bond-class numbers that motivated the polarity-layer reading; the inheritance claim
 /// itself is shared. Locus 5 (<see cref="LocalGlobalEpLink"/>) carries the parallel EP-side
-/// closure (F86 ↔ FRAGILE_BRIDGE shared exceptional-point structure under AIII chiral
-/// algebra); this Locus 6 claim carries the symmetry-side closure (F86 ↔ polarity-layer
-/// pair under the 0.5-shift ρ = (I + r·σ)/2). Together they bracket the F86 c=2 derivation
-/// with EP-side and symmetry-side parent-claim references in <c>Pi2KnowledgeBase</c>.</para>
+/// relation (F86 ↔ FRAGILE_BRIDGE; now OpenQuestion after the F86a-retraction 2026-06-21 —
+/// the surviving shared substrate is the AIII chiral algebra, while whether the full block
+/// has a defective EP linking it to FRAGILE_BRIDGE is open); this Locus 6 claim carries the
+/// symmetry-side closure (F86 ↔ polarity-layer pair under the 0.5-shift ρ = (I + r·σ)/2).
+/// Together they bracket the F86 c=2 derivation with EP-side and symmetry-side parent-claim
+/// references in <c>Pi2KnowledgeBase</c>.</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Statement 2 (Locus 6 inheritance
 /// reading), <c>compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs</c>
@@ -80,10 +82,12 @@ public sealed class PolarityInheritanceLink : Claim
     public string PolarityRootAnchor =>
         "Pi2KnowledgeBase: QubitDimensionalAnchorClaim + PolarityLayerOriginClaim + HalfAsStructuralFixedPointClaim";
 
-    /// <summary>The parallel Locus 5 closure: F86 ↔ FRAGILE_BRIDGE EP-side inheritance
-    /// (<see cref="LocalGlobalEpLink"/> Tier2Verified). This claim is the symmetry-side
-    /// twin: F86 bond-class split inherits from the polarity-layer pair via the
-    /// 0.5-shift ρ = (I + r·σ)/2.</summary>
+    /// <summary>The parallel Locus 5 closure: the F86 ↔ FRAGILE_BRIDGE EP-side relation
+    /// (<see cref="LocalGlobalEpLink"/>, now OpenQuestion after the F86a-retraction
+    /// 2026-06-21: the full block is genuinely non-normal on the real axis but has no
+    /// real-axis EP, and whether it has an off-axis defective EP at all is open). This
+    /// claim is the symmetry-side twin: F86 bond-class split inherits from the
+    /// polarity-layer pair via the 0.5-shift ρ = (I + r·σ)/2.</summary>
     public string ParallelLocusReference =>
         "compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs (Locus 5, EP-side)";
 

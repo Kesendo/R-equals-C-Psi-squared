@@ -4,7 +4,8 @@ using RCPsiSquared.Runtime.ObjectManager;
 namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring for <see cref="LocalGlobalEpLink"/> (Locus 5 — F86 ↔
-/// FRAGILE_BRIDGE shared exceptional-point structure under AIII chiral algebra).
+/// FRAGILE_BRIDGE EP-side relation; the surviving shared substrate is the AIII chiral
+/// algebra).
 ///
 /// <para>Parallel to <see cref="F86PolarityLinkRegistration"/> (Locus 6, polarity-side
 /// closure). Together they bracket the F86 c=2 derivation with EP-side and symmetry-side
@@ -15,15 +16,17 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// Both are F86 main-family claims; ChiralAiiiClassification is the Tier1Derived algebraic
 /// label that F86 and FRAGILE_BRIDGE share, so the EP-link inherits from it.</para>
 ///
-/// <para>Tier consistency: LocalGlobalEpLink is Tier2Verified; ChiralAiiiClassification is
-/// Tier1Derived. The TierStrength inheritance check (parent at least as strong as child)
-/// passes (5 ≥ 3).</para>
+/// <para>Tier consistency: LocalGlobalEpLink is <see cref="Knowledge.Tier.OpenQuestion"/>
+/// (demoted from Tier2Verified by the F86a-retraction 2026-06-21); ChiralAiiiClassification
+/// is Tier1Derived. The TierStrength inheritance check (parent at least as strong as child)
+/// passes (5 ≥ 1), so the parent edge survives the demotion.</para>
 ///
-/// <para>The complex-γ analytic continuation that would promote LocalGlobalEpLink to
-/// Tier1Derived is documented as the explicit gap in
-/// <see cref="LocalGlobalEpLink.PendingDerivationNote"/>. Until then, the Schicht-1 wiring
-/// makes the c=2 N=5..8 PetermannSpikeWitness table queryable through the registry; future
-/// drift checks against extended-N or extended-c sweeps land here.</para></summary>
+/// <para>The retraction (F86a, 2026-06-21): the full Σγ=N·γ₀ block is genuinely non-normal
+/// on the real Q axis but has NO real-axis EP (eigenvalues simple, Petermann large but
+/// finite); whether it has an off-axis defective EP at all is the OPEN question documented in
+/// <see cref="LocalGlobalEpLink.PendingDerivationNote"/>. The Schicht-1 wiring keeps the c=2
+/// N=5..8 PetermannSpikeWitness cautionary non-normality table queryable through the registry;
+/// future drift checks against extended-N or extended-c sweeps land here.</para></summary>
 public static class F86LocalGlobalEpLinkRegistration
 {
     public static ClaimRegistryBuilder RegisterF86LocalGlobalEpLink(this ClaimRegistryBuilder builder) =>

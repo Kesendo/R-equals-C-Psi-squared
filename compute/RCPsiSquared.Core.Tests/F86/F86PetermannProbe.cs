@@ -54,10 +54,14 @@ public class F86PetermannProbe(ITestOutputHelper output)
 
     /// <summary>Finer-grid Petermann sweep across N=5..8 at c=2, with explicit Interior/Endpoint
     /// peak tracking. Counterpart to <see cref="Probe_PetermannArgMax_VsN_AtC2"/> with twice the
-    /// Q-resolution near the empirical Q_peak ≈ 1.5-2.5 region. Used to decide whether K grows
-    /// monotonically with N (real-axis hit of FRAGILE_BRIDGE's complex-γ EP) or stays bounded
-    /// (off-axis siblings). The σ_0 R-even/R-odd degeneracy at even N (A3 finding) predicts a
-    /// parity asymmetry in the K-spike pattern across N.
+    /// Q-resolution near the Q_peak ≈ 1.5-2.5 region. NOTE (F86a-retraction 2026-06-21): the
+    /// peak K magnitudes this sweep reports are grid-sensitive (K swings 2–4× over ΔQ=1e-3), so
+    /// the original "K grows monotonically with N = real-axis hit of FRAGILE_BRIDGE's complex-γ
+    /// EP" and the σ_0-driven "parity asymmetry across N" readings were retracted as grid
+    /// artifacts (there is no eigenvalue coalescence on the real axis — the block is genuinely
+    /// non-normal but the Petermann factor is large-but-finite). The sweep is RETAINED only as a
+    /// cautionary non-normality probe, not as EP evidence or a magnitude/growth/parity law; see
+    /// <see cref="LocalGlobalEpLink"/>.
     /// </summary>
     [Fact(Skip = "Expensive ~30s probe; run via --filter when investigating local↔global EP link or refreshing LocalGlobalEpLink witnesses")]
     public void Probe_PetermannFineGrid_C2_VsN()
