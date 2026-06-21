@@ -84,7 +84,7 @@ def test_confirmations_lookup_ibm_ep_onset():
     assert 'd8drjbfd0j8c73f4mobg' in e['job_id']
     assert e['measured_value']['Q_grid'] == [0.5, 1.0, 1.5, 2.5, 5.0, 20.0]
     assert e['measured_value']['revival'] == [0.30, 0.36, 0.34, 0.49, 0.56, 0.70]
-    assert '1/N = 1/3 equipartition floor' in e['predicted_value']['ep_onset_reading']
+    assert '1/N = 1/3 equipartition floor' in e['predicted_value']['se_walk_handover_reading']
     assert 'ExceptionalPointClock' in e['framework_primitive']
     assert e['experiment_doc'] == 'experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md'
 
