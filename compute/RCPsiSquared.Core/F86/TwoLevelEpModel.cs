@@ -17,9 +17,13 @@ namespace RCPsiSquared.Core.F86;
 /// long-time response — this is the universality basis of <see cref="TPeakLaw"/>.</para>
 ///
 /// <para>Algebraic note: the same-sign-imaginary off-diagonal form gives an EP at finite
-/// J·g_eff = 2γ₀. This is "PT-like phenomenology" but algebraically inside class AIII chiral
-/// (Π linear; classical PT anti-linear) — see <c>experiments/PT_SYMMETRY_ANALYSIS.md</c>
-/// and <c>hypotheses/FRAGILE_BRIDGE.md</c>.</para>
+/// J·g_eff = 2γ₀, with both eigenvalues coalescing on the real axis at Re=−4γ₀·k. This is
+/// "PT-like phenomenology" (a separate object); it carries no λ↔−λ pairing in isolation, so
+/// it is NOT an instance of the AIII chiral classification. That classification is the
+/// property of Π on the <b>centered</b> Liouvillian L_c (the F1 palindrome; Π linear, order
+/// 4; classical PT would need anti-linear operators), and its defining λ↔−λ pairing is exact
+/// only in the Σγ=0 gain-loss case — see <c>experiments/PT_SYMMETRY_ANALYSIS.md</c> and
+/// <c>hypotheses/FRAGILE_BRIDGE.md</c>, and <see cref="ChiralAiiiClassification"/>.</para>
 /// </summary>
 public sealed class TwoLevelEpModel : Claim
 {

@@ -191,7 +191,7 @@ For hardware-confirmed predictions on top of these formulas, see
 | `F86.F86Claim` | base abstraction: every typed F86 fact is an `IInspectable` carrying `Name`, `Tier`, `Anchor` |
 | `F86.TPeakLaw(γ₀)` | **F86a**: t_peak = 1/(4γ₀), Tier 1 derived |
 | `F86.QEpLaw(g_eff)` | **F86a**: Q_EP = 2/g_eff, Tier 1 derived |
-| `F86.TwoLevelEpModel(γ₀, J, g_eff)` | full 2-level eigenvalue state with `EpRegime` (PreEp / AtEp / PostEp); algebraic class AIII chiral, NOT Bender PT |
+| `F86.TwoLevelEpModel(γ₀, J, g_eff)` | full 2-level eigenvalue state with `EpRegime` (PreEp / AtEp / PostEp); the toy 2×2 EP is PT-like phenomenology (coalesces at Re=−4γ₀, no λ↔−λ in isolation), a separate object — NOT an instance of the AIII chiral classification (which is Π on the centered L_c; see `F86.ChiralAiiiClassification`) |
 | `F86.LEffMirrorAxisClaim` | **PROOF_F86B_OBSTRUCTION (the diagnosis)**: L_eff real part −4γ₀ = −2γ₀·2 is the mirror axis of the (−2γ₀, −6γ₀) channel pair; the EP is the coalescence onto it; Absorption Theorem exact at ⟨n_XY⟩=2; g_eff lives in Im(λ) as the branch's relative clock. Tier 1 derived; parent edge ← AbsorptionTheoremClaim |
 | `F86.UniversalShapePrediction(class, ratio, tol, witnesses)` | **F86b** (Tier 1 candidate): Interior ≈ 0.756, Endpoint ≈ 0.770; carries empirical witness list |
 | `F86.UniversalShapeWitness(c, N, γ₀, ratio)` | one (c, N) data point — the Tier-1-candidate evidence base across c=2..4, N=5..8 |
