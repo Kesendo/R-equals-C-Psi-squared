@@ -19,6 +19,16 @@ public class F89Path3OcticEpClaimTests
     }
 
     [Fact]
+    public void DisplayName_IsRecharacterizedDiabolic_NotExceptionalPoint()
+    {
+        // 2026-06-21 correction: the degeneracy is diabolic (semisimple), not a defective EP.
+        // Regression-lock the corrected character so it cannot silently revert.
+        var name = BuildClaim().DisplayName;
+        Assert.Contains("diabolic", name, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("exceptional point", name, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
     public void QEpSquared_IsMinusOnePlusSqrt13Over6()
     {
         // q² = (-1 + √13) / 6 from the (3q⁴+q²-1)² discriminant factor zero
@@ -44,7 +54,7 @@ public class F89Path3OcticEpClaimTests
     [Theory]
     [InlineData(0.05, 0.05 * 0.658983)]
     [InlineData(1.0, 0.658983)]
-    [InlineData(1.0, 0.0)]   // J=0 degenerate: λ_EP = -4γ + 0i (no oscillation)
+    [InlineData(1.0, 0.0)]   // formal J→0 reading: λ = -4γ + 0i (no oscillation); NOT a degeneracy at J=0 (q_EP fixes J≠0)
     public void MergedEigenvalueLambdaEp_IsMinusFourGammaPlusTwoIJ(double gamma, double j)
     {
         var lam = F89Path3OcticEpClaim.MergedEigenvalue(gamma, j);
@@ -66,9 +76,9 @@ public class F89Path3OcticEpClaimTests
     [Fact]
     public void MergedEigenvalueAtQEp_OmegaIsTwoTimesQEp()
     {
-        // At J = QEp (the EP location in q = J/γ units), Im(λ_EP) should equal 2·QEp.
+        // At J = QEp (the q_EP location in q = J/γ units), Im(λ_EP) should equal 2·QEp.
         // This tests consistency between the QEp constant and the MergedEigenvalue formula
-        // (catches any drift between the analytical EP location and the merged-eigenvalue claim).
+        // (catches any drift between the analytical q_EP location and the merged-eigenvalue claim).
         var lam = F89Path3OcticEpClaim.MergedEigenvalue(1.0, F89Path3OcticEpClaim.QEp);
         Assert.Equal(2.0 * F89Path3OcticEpClaim.QEp, lam.Imaginary, precision: 12);
     }
