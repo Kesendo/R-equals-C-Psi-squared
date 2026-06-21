@@ -172,6 +172,26 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void Catalog_HasF89OcticRoot_NFree()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "f89octic");
+        Assert.False(entry.RequiresN);
+        Assert.Contains("DIABOLIC", entry.Description);
+        Assert.Contains("epcharacter", entry.Description);
+    }
+
+    [Fact]
+    public void Catalog_F89OcticFactory_BuildsTheLiveWitness_ReadsDiabolic()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "f89octic");
+        var ctx = new InspectRootContext(new ArgParser(Array.Empty<string>()), N: 1,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var root = entry.Factory(ctx);
+        Assert.IsType<F89OcticCharacterWitness>(root);
+        Assert.Contains("Diabolic", root.Summary);
+    }
+
+    [Fact]
     public void Catalog_HasDecoderRoot_NFree()
     {
         var entry = InspectCommand.Catalog.Single(e => e.Name == "decoder");
