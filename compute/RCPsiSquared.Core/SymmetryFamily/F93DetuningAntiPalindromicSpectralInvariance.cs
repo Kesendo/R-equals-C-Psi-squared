@@ -17,8 +17,11 @@ namespace RCPsiSquared.Core.SymmetryFamily;
 /// flip popcount and break joint-popcount conservation, taking us out of the BlockSpectrum
 /// framework entirely.</para>
 ///
-/// <para>Pi2-Z₄ structure (parameter-side, h-axis): identical to F91 (γ) and F92 (J).
-/// h-side detuning twin in the family.</para>
+/// <para>Parameter-side Klein V₄ (h-axis): identical to F91 (γ) and F92 (J). The
+/// anti-palindromic reshuffle R_{90} : h ↦ 2h_avg − F71(h) is an involution (R_{90}² = id)
+/// that, with the palindromic mirror F71, generates the Klein V₄ = Z₂×Z₂ on parameters; this is
+/// the order-2 shadow of the genuine operator-side Z₄ (i⁴ = 1). h-side detuning twin in the
+/// family.</para>
 ///
 /// <para>Algebraic proof + empirical witness (bit-exact at N=4, 5):
 /// <c>docs/proofs/PROOF_F93_DETUNING_ANTI_PALINDROMIC.md</c>.</para></summary>
@@ -34,7 +37,7 @@ public sealed class F93DetuningAntiPalindromicSpectralInvariance : Claim
         BlockSpectrum.JointPopcountSectors sectors,
         BlockSpectrum.F71MirrorBlockRefinement f71,
         SymmetryFamilyInventory inventory)
-        : base("F93DetuningAntiPalindromicSpectralInvariance: chain XY+Z-deph+h_l Z_l L diagonal-block spectrum invariant under h-distributions satisfying h_l+h_{N-1-l}=2·h_avg; h-side twin of F91 γ-Z₄ + F92 J-Z₄.",
+        : base("F93DetuningAntiPalindromicSpectralInvariance: chain XY+Z-deph+h_l Z_l L diagonal-block spectrum invariant under h-distributions satisfying h_l+h_{N-1-l}=2·h_avg; h-side twin of F91 + F92 (parameter-side Klein V₄, the order-2 shadow of the operator-side Pi2-Z₄).",
                Tier.Tier1Derived,
                "Algebraic mechanism parallel to F91/F92 (diagonal blocks depend only on F71-pair-sums; cross blocks on pair-differences); bit-exact at N=4,5")
     {
@@ -67,7 +70,7 @@ public sealed class F93DetuningAntiPalindromicSpectralInvariance : Claim
         => AntiPalindromicDeviation(hPerSite) < tolerance;
 
     public override string DisplayName =>
-        "F93: F71-anti-palindromic h spectral invariance (Pi2-Z₄ h-side twin of F91/F92)";
+        "F93: F71-anti-palindromic h spectral invariance (parameter-side Klein V₄ h-side twin of F91/F92)";
 
     public override string Summary =>
         $"chain XY+Z-deph+h_l Z_l L diagonal-block spectrum invariant under h_l+h_{{N-1-l}}=2·h_avg; algebraic proof + bit-exact N=4,5 ({Tier.Label()})";
@@ -79,8 +82,8 @@ public sealed class F93DetuningAntiPalindromicSpectralInvariance : Claim
             yield return new InspectableNode("axis", summary: "parameter (longitudinal Z-detuning h_l)");
             yield return new InspectableNode("scope",
                 summary: "longitudinal h_l Z_l only; transverse h_l X_l / h_l Y_l breaks joint-popcount and is out of scope");
-            yield return new InspectableNode("Z₄ orbit",
-                summary: "anti-palindromic class h_l + h_{N-1-l} = 2·h_avg ∀l (closed under 90°-rotation)");
+            yield return new InspectableNode("anti-palindromic orbit",
+                summary: "anti-palindromic class h_l + h_{N-1-l} = 2·h_avg ∀l (closed under 90°-rotation h ↦ 2h_avg − F71(h); an involution, R_{90}² = id)");
             yield return new InspectableNode("sister claims",
                 summary: "F91 (γ_l, Z-deph), F92 (J_b, bond-coupling)");
             yield return new InspectableNode("anchor proof",

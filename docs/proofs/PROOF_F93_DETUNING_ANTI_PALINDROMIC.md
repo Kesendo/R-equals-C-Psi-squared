@@ -9,9 +9,9 @@
 
 ## Abstract
 
-F93 is the detuning face of the three-axis Z₄ family. The same 90° rotation that F91 runs on the dephasing rates γ and F92 runs on the bond couplings J, F93 runs on the per-site longitudinal fields h_l: for the XY chain with uniform J, per-site Z-detuning Σ_l h_l Z_l, and uniform Z-dephasing, the F71-refined diagonal-block eigenvalue multiset is invariant under any h that is F71-anti-palindromic around its mean, h_l + h_{N−1−l} = 2·h_avg. Redistribute the detuning between mirror-partner sites by equal and opposite amounts and the decay-rate spectrum does not move; only the phase of the modes rotates (F71 breaks as an L-symmetry, the breaking living entirely in the eigenvectors). The rates are what the chain remembers; the detuning is what turns.
+F93 is the detuning face of the three-axis anti-palindromic family. The same anti-palindromic reshuffle that F91 runs on the dephasing rates γ and F92 runs on the bond couplings J, F93 runs on the per-site longitudinal fields h_l: for the XY chain with uniform J, per-site Z-detuning Σ_l h_l Z_l, and uniform Z-dephasing, the F71-refined diagonal-block eigenvalue multiset is invariant under any h that is F71-anti-palindromic around its mean, h_l + h_{N−1−l} = 2·h_avg. Redistribute the detuning between mirror-partner sites by equal and opposite amounts (holding each pair-sum fixed) and the diagonal-block decay-rate spectrum does not move; only the phase of the modes rotates (F71 breaks as an L-symmetry, the breaking living entirely in the eigenvectors, and the full-L spectrum does move). The rates are what the chain remembers; the detuning is what turns.
 
-The scope is strictly longitudinal: transverse fields h_l X_l or h_l Y_l flip popcount and shatter the joint-popcount block structure the whole BlockSpectrum framework rests on, so F93 does not apply there. With F91 (γ-axis) and F92 (J-axis), F93 completes the parameter-space Z₄: one algebraic identity (diagonal blocks see only the F71-symmetric pair-sums, never the anti-symmetric pair-differences) instantiated on every coordinate that feeds the Liouvillian. It is the parameter-side shadow of F81's operator-level Π-split, and the reflection ON_THE_NINETY_DEGREE_GAMMA reads γ₀ as the observer's clock that makes the whole family one.
+The scope is strictly longitudinal: transverse fields h_l X_l or h_l Y_l flip popcount and shatter the joint-popcount block structure the whole BlockSpectrum framework rests on, so F93 does not apply there. With F91 (γ-axis) and F92 (J-axis), F93 completes the parameter-side Klein V₄ family (the operator-side Z₄'s order-2 shadow on each parameter axis): one algebraic identity (diagonal blocks see only the F71-symmetric pair-sums, never the anti-symmetric pair-differences) instantiated on every coordinate that feeds the Liouvillian. It is the parameter-side shadow of F81's operator-level Π-split, and the reflection ON_THE_NINETY_DEGREE_GAMMA reads γ₀ as the observer's clock that makes the whole family one.
 
 ## Statement
 
@@ -25,18 +25,18 @@ i.e. **h is F71-anti-palindromic around its mean**.
 
 **Middle-site constraint:** for N odd, the middle site at l = (N−1)/2 is F71-fixed (l = N−1−l). Anti-palindromy then requires h_{(N−1)/2} = h_avg. For N even, all sites pair up; no middle constraint.
 
-## Pi2-Z₄ structure (parameter-side, h-axis)
+## Parameter-side Klein V₄ (h-axis)
 
-Same Z₄ as F91 (γ-axis) and F92 (J-axis). Action on h_l (sites l ∈ {0..N−1}):
+Same parameter-side structure as F91 (γ-axis) and F92 (J-axis): on the h-vector, Klein V₄ = Z₂×Z₂ (two commuting involutions), the order-2 shadow of the genuine operator-side Z₄ (i⁴ = 1; `NinetyDegreeMirrorMemoryClaim`). Action on h_l (sites l ∈ {0..N−1}):
 
-| Z₄ element | Action on h_l | Effect on L | Effect on F71-refined diagonal spectrum |
-|---|---|---|---|
-| e | h_l ↦ h_l | unchanged | unchanged |
-| i² (180°, F71-palindromic) | h_l ↦ h_{N−1−l} | F71 holds as L-symmetry | unchanged |
-| i (90°, F71-anti-palindromic) | h_l ↦ 2·h_avg − h_{N−1−l} | F71 broken | **unchanged** |
-| i³ (270°) | composition | F71 broken | unchanged |
+| V₄ element | Action on h_l | Order | Effect on L | Effect on F71-refined diagonal spectrum |
+|---|---|---|---|---|
+| e | h_l ↦ h_l | 1 | unchanged | unchanged |
+| F71 (palindromic mirror) | h_l ↦ h_{N−1−l} | 2 | F71 holds as L-symmetry | unchanged |
+| R₉₀ (anti-palindromic reshuffle) | h_l ↦ 2·h_avg − h_{N−1−l} | 2 | F71 broken | **unchanged** |
+| F71∘R₉₀ (mean-reflection) | h_l ↦ 2·h_avg − h_l | 2 | F71 broken | unchanged |
 
-The 90°-rotation preserves the anti-palindromic orbit pair-sum h_l + h_{N−1−l} = 2·h_avg.
+R₉₀ is an involution (R₉₀² = e, not F71): it preserves each pair-difference and reflects each pair-sum about 2·h_avg (U_l ↦ 4·h_avg − U_l), with the anti-palindromic orbit U_l = h_l + h_{N−1−l} = 2·h_avg as its fixed-point set, on which the diagonal-block spectrum is constant.
 
 ## Algebraic mechanism (parallel to F91/F92)
 
@@ -52,7 +52,7 @@ In the F71-refined basis: diagonal-block matrix elements ⟨sym|h_l Z_l|sym⟩ p
 
 Therefore **diagonal-block matrix elements depend on h only through pair-sums** U_l; cross-block entries depend on pair-differences h_l − h_{N−1−l}.
 
-The XY chain Hamiltonian (uniform J) is F71-symmetric per Step 5 of PROOF_F91 (F92/F93 use the H = (J/2)·(XX+YY) convention; F91 uses H = J·(XX+YY); see F90F86C2BridgeIdentity.JConventionFactor for the relationship; the F71-symmetry argument is unchanged by the J/2 factor); it contributes the same to every F71-block independent of h. The uniform Z-dephasing contributes the same diagonal shift to every F71-block independent of h.
+The XY chain Hamiltonian (uniform J) is F71-symmetric per Step 5 of PROOF_F91 (F92/F93 use the H = (J/2)·(XX+YY) convention; F91 uses H = J·(XX+YY); see F90F86C2BridgeIdentity.JConventionFactor for the relationship; the F71-symmetry argument is unchanged by the J/2 factor); it contributes the same to every F71-block independent of h. The uniform Z-dephasing is a Π-commuting diagonal operator (eigenvalue −2γ·popcount(a⊕b)), independent of h, and preserves the F71-block structure.
 
 Anti-palindromy U_l = 2·h_avg ∀l is the orbit on which all h give identical diagonal-block spectra equal to uniform h_avg.
 

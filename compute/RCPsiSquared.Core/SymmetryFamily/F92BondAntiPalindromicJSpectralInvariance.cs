@@ -13,10 +13,13 @@ namespace RCPsiSquared.Core.SymmetryFamily;
 /// L-symmetry, off-block-Frobenius nonzero), but diagonal-block eigenvalues coincide;
 /// the breaking lives in eigenvectors only.</para>
 ///
-/// <para>Pi2-Z₄ structure on the J-axis: identical to F91 (γ-axis) and F93 (h-axis).
-/// Diagonal blocks depend on J only through F71-pair-sums T_b = J_b + J_{N-2-b};
-/// cross blocks on pair-differences. See <c>docs/proofs/PROOF_F92_BOND_ANTI_PALINDROMIC_J.md</c>
-/// for the full Z₄ table and algebraic derivation.</para>
+/// <para>Parameter-side Klein V₄ on the J-axis: identical to F91 (γ-axis) and F93 (h-axis).
+/// The anti-palindromic reshuffle R_{90} : J ↦ 2J_avg − F71(J) is an involution (R_{90}² = id)
+/// that, with the palindromic mirror F71, generates the Klein V₄ = Z₂×Z₂ on parameters; this is
+/// the order-2 shadow of the genuine operator-side Z₄ (i⁴ = 1). Diagonal blocks depend on J only
+/// through F71-pair-sums T_b = J_b + J_{N-2-b}; cross blocks on pair-differences. See
+/// <c>docs/proofs/PROOF_F92_BOND_ANTI_PALINDROMIC_J.md</c> for the full table and algebraic
+/// derivation.</para>
 ///
 /// <para>Algebraic proof + empirical witness (bit-exact at N=4, 5):
 /// <c>docs/proofs/PROOF_F92_BOND_ANTI_PALINDROMIC_J.md</c>.</para></summary>
@@ -32,7 +35,7 @@ public sealed class F92BondAntiPalindromicJSpectralInvariance : Claim
         BlockSpectrum.JointPopcountSectors sectors,
         BlockSpectrum.F71MirrorBlockRefinement f71,
         SymmetryFamilyInventory inventory)
-        : base("F92BondAntiPalindromicJSpectralInvariance: chain XY+Z-deph L diagonal-block spectrum invariant under J-distributions satisfying J_b+J_{N-2-b}=2·J_avg; J-side twin of F91 γ-Z₄.",
+        : base("F92BondAntiPalindromicJSpectralInvariance: chain XY+Z-deph L diagonal-block spectrum invariant under J-distributions satisfying J_b+J_{N-2-b}=2·J_avg; J-side twin of F91 (parameter-side Klein V₄, the order-2 shadow of the operator-side Pi2-Z₄).",
                Tier.Tier1Derived,
                "Algebraic mechanism parallel to F91 PROOF (diagonal blocks depend only on F71-pair-sums T_b = J_b+J_{N-2-b}; cross blocks on pair-differences); bit-exact at N=4,5")
     {
@@ -66,7 +69,7 @@ public sealed class F92BondAntiPalindromicJSpectralInvariance : Claim
         => AntiPalindromicDeviation(bondJ) < tolerance;
 
     public override string DisplayName =>
-        "F92: F71-anti-palindromic J spectral invariance (Pi2-Z₄ J-side twin of F91)";
+        "F92: F71-anti-palindromic J spectral invariance (parameter-side Klein V₄ J-side twin of F91)";
 
     public override string Summary =>
         $"chain XY+Z-deph L diagonal-block spectrum invariant under J_b+J_{{N-2-b}}=2·J_avg; algebraic proof + bit-exact N=4,5 ({Tier.Label()})";
@@ -76,8 +79,8 @@ public sealed class F92BondAntiPalindromicJSpectralInvariance : Claim
         get
         {
             yield return new InspectableNode("axis", summary: "parameter (bond-coupling J_b)");
-            yield return new InspectableNode("Z₄ orbit",
-                summary: "anti-palindromic class T_b = 2·J_avg ∀b (closed under 90°-rotation J ↦ 2J_avg − F71(J))");
+            yield return new InspectableNode("anti-palindromic orbit",
+                summary: "anti-palindromic class T_b = 2·J_avg ∀b (closed under 90°-rotation J ↦ 2J_avg − F71(J); an involution, R_{90}² = id)");
             yield return new InspectableNode("sister claims",
                 summary: "F91 (γ_l, Z-deph axis), F93 (h_l, Z-detuning axis)");
             yield return new InspectableNode("anchor proof",

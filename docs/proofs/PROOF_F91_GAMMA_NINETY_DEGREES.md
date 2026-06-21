@@ -22,7 +22,7 @@ For the XY chain under per-site Z-dephasing (rates γ_l), the eigenvalue multise
 
 The mechanism is a basis statement. In the F71-even/odd (sym/antisym) basis, every diagonal-block element of L = −i[H,·] + D is a sum of pair-sums S_l = γ_l + γ_{N−1−l} alone, while the cross-block (even↔odd) elements carry only the pair-differences D_l = γ_l − γ_{N−1−l} (the Hamiltonian part is γ-independent and F71-block-diagonal). A γ-change that preserves the pair-sums preserves the diagonal blocks exactly, moving only off-block content; the operator-level F71 breaking lives entirely in the eigenvectors.
 
-This is the γ-parameter side of the Pi2-foundation Z₄ (i⁴ = 1): the 180° element is the palindromic mirror γ_l ↦ γ_{N−1−l}, and the 90° element R₉₀ : γ_l ↦ 2γ_avg − γ_{N−1−l} flips the pair-difference while fixing the pair-sum, hence the diagonal-block spectrum. Strictly weaker than F71-as-symmetry (γ palindromic) and strictly stronger than F1 (only Σγ_l fixed). It is the γ-parameter face of the operator-side memory mirror (`NinetyDegreeMirrorMemoryClaim`): the rate spectrum is the conserved inheritance, the eigenvector phases are what the 90° turns.
+This is the γ-parameter face of the Pi2-foundation memory mirror, whose genuine order-4 quarter-turn (i⁴ = 1) lives on the operator side (`NinetyDegreeMirrorMemoryClaim`). On the γ-vector itself the structure is Klein V₄: the palindromic mirror γ_l ↦ γ_{N−1−l} and the anti-palindromic involution R₉₀ : γ_l ↦ 2γ_avg − γ_{N−1−l} are two commuting order-2 maps. R₉₀ preserves each pair-difference and reflects each pair-sum about 2γ_avg (S_l ↦ 4γ_avg − S_l), so the anti-palindromic orbit S_l = 2γ_avg is its fixed-point set, on which the diagonal-block spectrum is constant. Strictly weaker than F71-as-symmetry (γ palindromic) and strictly stronger than F1 (only Σγ_l fixed). The rate spectrum is the conserved inheritance, the eigenvector phases are what R₉₀ turns.
 
 ## Statement
 
@@ -52,20 +52,20 @@ The bit-exact diagonal-block coincidence across the first three rows, and the bi
 
 ---
 
-## Pi2-Z₄ structure (operator-side and γ-side)
+## Pi2 structure: operator-side Z₄, parameter-side Klein V₄
 
-The Pi2-Foundation Z₄ rotational axis (per `NinetyDegreeMirrorMemoryClaim` in `Pi2KnowledgeBaseClaims.cs`, Tier 1 derived) has four group elements `{e, i, i², i³}` from `i⁴ = 1`. The repository's prior typed statement of this Z₄ uses the operator-quaternion side: Pauli rotation σ_x ↔ σ_y under 90° around the z-axis, i² = −1 giving palindromic-reflection, i and i³ the 90° pair.
+The Pi2-Foundation Z₄ (per `NinetyDegreeMirrorMemoryClaim` in `Pi2KnowledgeBaseClaims.cs`, Tier 1 derived) is genuinely cyclic of order 4 on the **operator side**: the Pauli quarter-turn σ_x ↔ σ_y around the z-axis, the literal i in F80's Spec(M) = ±2i·Spec(H) with i² = −1, i⁴ = 1.
 
-**This proof identifies the γ-parameter side of the same Z₄:**
+**On the γ-parameter vector the realized structure is Klein V₄ = Z₂×Z₂**, two commuting involutions (not a cyclic Z₄): the palindromic mirror and the anti-palindromic reshuffle.
 
-| Z₄ element | Action on γ_l | Effect on L | Effect on F71-refined diagonal spectrum |
-|---|---|---|---|
-| e | γ_l ↦ γ_l | unchanged | unchanged |
-| i² (180°, F71-palindromic) | γ_l ↦ γ_{N−1−l} | F71 holds as L-symmetry | unchanged |
-| i (90°, F71-anti-palindromic) | γ_l ↦ 2γ_avg − γ_{N−1−l} | F71 broken as L-symmetry | **unchanged (the surprising claim)** |
-| i³ (270°) | composition of the above | F71 broken | unchanged |
+| V₄ element | Action on γ_l | Order | Effect on L | Effect on F71-refined diagonal spectrum |
+|---|---|---|---|---|
+| e | γ_l ↦ γ_l | 1 | unchanged | unchanged |
+| F71 (palindromic mirror) | γ_l ↦ γ_{N−1−l} | 2 | F71 holds as L-symmetry | unchanged |
+| R₉₀ (anti-palindromic reshuffle) | γ_l ↦ 2γ_avg − γ_{N−1−l} | 2 | F71 broken as L-symmetry | **unchanged (the surprising claim)** |
+| F71∘R₉₀ (mean-reflection) | γ_l ↦ 2γ_avg − γ_l | 2 | F71 broken | unchanged |
 
-The 90° rotation is precisely the operation that flips the F71-pair *difference* but preserves the F71-pair *sum*. Diagonal-block matrix elements in the F71-refined basis are functions of pair-sums only (by construction of the F71-even/odd basis), so they are 90°-invariant. Cross-block matrix elements depend on pair-differences and are not 90°-invariant; but they are off-diagonal in the F71-refined basis, so they enter eigenvalues only at higher perturbative orders, which our empirical witness shows vanish on the diagonal-spectrum level.
+R₉₀ is an **involution** (R₉₀² = e, NOT F71; verified in Step 7): it **preserves each F71-pair difference and reflects each pair-sum about 2γ_avg** (S_l ↦ 4γ_avg − S_l). Its fixed-point set is exactly the anti-palindromic orbit S_l = 2γ_avg. Diagonal-block matrix elements in the F71-refined basis are functions of the pair-sums only (by construction of the F71-even/odd basis), so on the orbit they are R₉₀-invariant; cross-block matrix elements depend on pair-differences. The cross-blocks are off-diagonal in the F71-refined basis, so they do not enter the diagonal-block eigenvalues at all (the blocks are diagonalised separately); the full-L eigenvalues, which mix both, do move. R₉₀ is the order-2 parameter-side **shadow** of the operator-side 90° turn, not itself a quarter-turn.
 
 ---
 
@@ -81,7 +81,7 @@ The bit-exactness of the empirical witness (not just first-order) is now derived
 
 ## § Algebraic proof (Tier 1 derived as of 2026-05-12)
 
-We prove the **sharper claim**: in the F71-refined basis, the diagonal-block matrix elements of L = −i[H, ·] + D depend on the per-site γ-distribution only through the multiset of F71-pair-sums S_l := γ_l + γ_{N−1−l}. The 90°-rotation invariance is then a corollary of the special case where all S_l equal 2γ_avg.
+We prove the **sharper claim**: in the F71-refined basis, the diagonal-block matrix elements of L = −i[H, ·] + D depend on the per-site γ-distribution only through the indexed F71-pair-sums S_l := γ_l + γ_{N−1−l} (equivalently, through the F71-symmetric part γ_sym as a vector), never through individual γ_l or pair-differences. The 90°-rotation invariance is then a corollary of the special case where all S_l equal 2γ_avg.
 
 ### Setup
 
@@ -174,7 +174,7 @@ The unitary part −i[H, ·] is γ-independent. H itself is F71-symmetric (chain
 
 The Hamiltonian contribution to the diagonal blocks is independent of γ, hence trivially in the "depends only on S_l" class.
 
-### Step 6. Conclusion: diagonal-block spectrum is a function of the pair-sum multiset {S_l}.
+### Step 6. Conclusion: diagonal-block spectrum is a function of the indexed pair-sums S_l.
 
 Combining Steps 3, 5, 6:
 
@@ -185,7 +185,7 @@ Combining Steps 3, 5, 6:
 
     ⟨sym|L|antisym⟩ = 0 + (−Σ_{l ∈ Δ(a, b)} D_l)                    (Eq. 12)
 
-The F71-refined diagonal blocks (F71-even × F71-even and F71-odd × F71-odd) of L therefore depend on the per-site γ-distribution **only through the multiset of F71-pair-sums {S_l : l = 0..⌊(N−1)/2⌋}**. Eigenvalues of the diagonal blocks are similarity-invariants of those blocks and hence functions of the same {S_l} multiset.
+The F71-refined diagonal blocks (F71-even × F71-even and F71-odd × F71-odd) of L therefore depend on the per-site γ-distribution **only through the indexed F71-pair-sums S_l (l = 0..⌊(N−1)/2⌋), equivalently through γ_sym as a vector**. This is the *assignment* l ↦ S_l, not merely the multiset {S_l}: by Eq. 7a each diagonal element is a sum of S_l over the specific differing-site set Δ(a, b), so reassigning which site-pair carries which pair-sum changes the blocks (the identical-structure J-axis sibling F92 exhibits a concrete N=6 same-multiset / different-assignment pair with distinct block spectra). Eigenvalues of the diagonal blocks are similarity-invariants of those blocks and hence functions of the same indexed S_l.
 
 ### Step 7. Corollary: 90° rotation as anti-palindromic-orbit involution.
 
@@ -205,7 +205,7 @@ By Step 6 (eigenvalues depend only on the pair-sum multiset), all γ-distributio
 
 The proof shows two things:
 
-1. **Strong (pair-sum-multiset claim).** F71-refined diagonal-block spectrum is a function of the multiset {S_l} alone. Two γ-distributions with the **same pair-sum multiset** give identical diagonal-block spectra, regardless of how the individual γ_l are distributed within each F71-pair (and regardless of γ_avg agreement, as long as the multisets match; two distributions with the same {S_l} multiset automatically have the same Σγ_l = Σ_l S_l for paired sites).
+1. **Strong (indexed-pair-sum claim).** The F71-refined diagonal-block spectrum is a function of the indexed pair-sums S_l (equivalently, of γ_sym as a vector) alone. It is therefore invariant under **within-pair redistribution**: moving dephasing between mirror-partner sites while holding each pair-sum S_l fixed leaves the diagonal blocks bit-identical, no matter how the individual γ_l split within the pair. It is **not** invariant under reassigning the same multiset of pair-sums to different site-pairs (that changes the indexed S_l, hence the blocks); the dependence is on the assignment l ↦ S_l, not on the bare multiset {S_l}.
 
 2. **Anti-palindromic corollary (the originally claimed F91).** Within the orbit S_l = 2γ_avg ∀l, all γ are equivalent on the diagonal-block level; this orbit is closed under the 90° rotation R_{90}.
 

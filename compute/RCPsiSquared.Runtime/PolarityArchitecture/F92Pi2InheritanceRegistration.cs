@@ -5,12 +5,14 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring of <see cref="F92Pi2Inheritance"/>: F92's anti-palindromic
 /// J orbit (J_b + J_{N−2−b} = 2·J_avg) as the parameter-side J-axis instance of the
-/// Pi2-Z₄ rotational structure. One parent edge:
+/// Pi2 rotational structure (a Klein V₄ on parameters, the order-2 shadow of the
+/// operator-side Z₄). One parent edge:
 ///
 /// <list type="bullet">
-///   <item><see cref="Pi2I4MemoryLoopClaim"/>: provides the i⁴ = 1 closure that
-///         generates the Z₄. F92's 90°-rotation J ↦ 2·J_avg − F71(J) closes at
-///         order 4, structurally the same Z₄ that
+///   <item><see cref="Pi2I4MemoryLoopClaim"/>: provides the operator-side i⁴ = 1
+///         closure (the genuine order-4 Z₄). F92's reshuffle R_{90} : J ↦ 2·J_avg − F71(J)
+///         is an INVOLUTION (R_{90}² = identity, order 2) that inherits from that
+///         operator-side Z₄ which
 ///         <see cref="NinetyDegreeMirrorMemoryClaim"/> types on the
 ///         operator-quaternion side.</item>
 /// </list>

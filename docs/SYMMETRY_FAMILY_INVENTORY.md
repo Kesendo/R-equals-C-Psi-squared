@@ -10,9 +10,9 @@
 |---|---|---|---|---|---|
 | 1 | **U(1) × U(1)** per-side popcount | operator (continuous) | block-diagonal (N+1)² sectors | Tier1Derived | `JointPopcountSectors` |
 | 2 | **F71** chain spatial mirror (Z₂) | operator | within-sector splitting (factor 2), chain only, palindromic γ only | Tier1Derived | `F71MirrorBlockRefinement` |
-| 3 | **F91** γ-Z₄ anti-palindromic | parameter (γ_l) | spectral invariance on diagonal-block layer | Tier1Derived | `F71AntiPalindromicGammaSpectralInvariance` |
-| 4 | **F92** J-Z₄ anti-palindromic (NEW) | parameter (J_b) | spectral invariance on diagonal-block layer | Tier1Derived | `F92BondAntiPalindromicJSpectralInvariance` |
-| 5 | **F93** h-Z₄ anti-palindromic (NEW) | parameter (h_l detuning) | spectral invariance on diagonal-block layer | Tier1Derived | `F93DetuningAntiPalindromicSpectralInvariance` |
+| 3 | **F91** γ anti-palindromic (parameter-side Klein V₄, shadow of the operator-side Z₄) | parameter (γ_l) | spectral invariance on diagonal-block layer | Tier1Derived | `F71AntiPalindromicGammaSpectralInvariance` |
+| 4 | **F92** J anti-palindromic (parameter-side Klein V₄, shadow of the operator-side Z₄) (NEW) | parameter (J_b) | spectral invariance on diagonal-block layer | Tier1Derived | `F92BondAntiPalindromicJSpectralInvariance` |
+| 5 | **F93** h anti-palindromic (parameter-side Klein V₄, shadow of the operator-side Z₄) (NEW) | parameter (h_l detuning) | spectral invariance on diagonal-block layer | Tier1Derived | `F93DetuningAntiPalindromicSpectralInvariance` |
 
 ## Sector-pairing primitives (do not split; identify equal-spectrum sectors)
 
@@ -55,7 +55,7 @@
 
 - **K** (chiral / sublattice / AZ class BDI, KHK = −H): Hamilton-symmetry only; NOT a full L-symmetry under Z-dephasing → not a BlockSpectrum refinement. Typed as `ChiralK.cs` in `Symmetry/`.
 - **Π** (palindrome master, F1): non-diagonal master operator; F1 spectrum mirror around −Σγ. Typed as `PiOperator.cs` in `Symmetry/` and as `F1` in `ANALYTICAL_FORMULAS.md`. Its square Π² is the X⊗N charge-conjugation (#7 above, registered as F1²).
-- **Pi2-Z₄** (operator-quaternion, NinetyDegreeMirrorMemory): operator-side of the same Z₄ that F91/F92/F93 inhabit on the parameter side. Typed in `Pi2KnowledgeBaseClaims.cs`.
+- **Pi2-Z₄** (operator-quaternion, NinetyDegreeMirrorMemory): the genuine order-4 Z₄ (`i⁴=1`, `i²=−1`) on the operator side. F91/F92/F93 inhabit its order-2 *shadow* on the parameter side — a Klein V₄ = Z₂×Z₂ (palindromic mirror F71 × anti-palindromic involution R₉₀), not the order-4 Z₄ itself. Typed in `Pi2KnowledgeBaseClaims.cs`.
 
 ## Combinatorial reach
 

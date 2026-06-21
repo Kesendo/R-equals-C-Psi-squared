@@ -5,19 +5,25 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>F91's anti-palindromic γ orbit (γ_l + γ_{N−1−l} = 2·γ_avg ∀l) is the
-/// parameter-side γ-axis instance of the Pi2-Z₄ rotational structure. The
-/// 90°-rotation γ ↦ 2·γ_avg − F71(γ) is one of the four Z₄ elements; closing
-/// under i⁴ = 1 returns to identity. The Z₄ generator on parameters is
-/// structurally the same Z₄ that
-/// <see cref="NinetyDegreeMirrorMemoryClaim"/> types on the operator-quaternion
-/// side; F91 inherits that algebra rather than introducing a new orbit closure.
+/// parameter-side γ-axis instance of the Pi2 rotational structure. On the
+/// parameter vector the anti-palindromic reshuffle R_{90} : γ ↦ 2·γ_avg − F71(γ)
+/// is an INVOLUTION (R_{90}² = identity, NOT order 4, NOT equal to F71); together
+/// with the palindromic mirror F71 (also an involution) it generates the Klein
+/// four-group V₄ = Z₂×Z₂ on parameters, the order-2 shadow of the genuine
+/// operator-side Z₄. The genuine order-4 quarter-turn (i⁴ = 1, i² = −1) lives
+/// only on the operator side that <see cref="NinetyDegreeMirrorMemoryClaim"/>
+/// types (Spec(M) = ±2i·Spec(H)); F91 inherits that operator-side Z₄ as its
+/// parameter-side involution rather than introducing a new order-4 closure.
 ///
 /// <para>Parameter axis: γ_l (per-site Z-dephasing rate). Anti-palindromic
 /// orbit: γ_l + γ_{N−1−l} = 2·γ_avg for all l ∈ {0, ..., N−1}; for odd N the
-/// middle site γ_{(N−1)/2} = γ_avg is forced by self-pairing. Closure under the
-/// 90°-rotation: applied four times R_{90}^4 = identity, which is exactly the
-/// i⁴ = 1 closure on the Pi2-Z₄ memory loop. F91 is the γ-axis instance of one
-/// rotational structure; F92 is the J-axis instance, F93 the h-axis instance.</para>
+/// middle site γ_{(N−1)/2} = γ_avg is forced by self-pairing. R_{90} PRESERVES
+/// each pair-difference and REFLECTS each pair-sum about 2·γ_avg, and is its own
+/// inverse (R_{90}² = identity): it already returns to identity at order 2, so
+/// R_{90}⁴ = identity is trivially true but is not the closure. The order-4
+/// i⁴ = 1 loop it inherits from is the operator-side Pi2-Z₄ memory loop. F91 is
+/// the γ-axis instance of this parameter-side Klein V₄; F92 is the J-axis
+/// instance, F93 the h-axis instance.</para>
 ///
 /// <para>Tier1Derived: composition. F91 is Tier1Derived in
 /// <c>docs/proofs/PROOF_F91_GAMMA_NINETY_DEGREES.md</c> (algebraic proof
@@ -56,13 +62,18 @@ public sealed class F91Pi2Inheritance : Claim, IZ2AxisClaim
         BitATwinClassification.BitBSpecific;
 
     public Pi2I4MemoryLoopClaim MemoryLoop { get; }
-    /// <summary>The Z₄ closure order of the 90°-rotation R_{90}: γ_l ↦ 2·γ_avg − γ_{N−1−l}.
-    /// Four applications return to identity, matching <see cref="Pi2I4MemoryLoopClaim.ClosureOrder"/>.</summary>
+    /// <summary>The order (4) of the OPERATOR-side Z₄ memory loop that R_{90}
+    /// inherits from, reported from <see cref="Pi2I4MemoryLoopClaim.ClosureOrder"/>.
+    /// Note: the parameter-side reshuffle R_{90} : γ_l ↦ 2·γ_avg − γ_{N−1−l} is
+    /// itself an INVOLUTION (R_{90}² = identity, order 2); the order-4 i⁴ = 1
+    /// closure is the operator-side quarter-turn (Spec(M) = ±2i·Spec(H)), not the
+    /// parameter map.</summary>
     public int Z4ClosureOrder => Pi2I4MemoryLoopClaim.ClosureOrder;
 
-    /// <summary>Live drift check: i^4 = 1 exactly on the parent Pi2-Z₄ memory loop.
-    /// F91's parameter-side 90°-rotation closes at the same order as the operator-side
-    /// quaternion algebra.</summary>
+    /// <summary>Live drift check: i⁴ = 1 exactly on the OPERATOR-side Pi2-Z₄
+    /// memory loop (the genuine order-4 quarter-turn). F91's parameter-side
+    /// reshuffle R_{90} is the order-2 involution shadow of that operator-side
+    /// Z₄; this member checks the operator-side drift it inherits from.</summary>
     public Complex MemoryLoopClosure => MemoryLoop.MemoryClosure();
 
     /// <summary>Verbal name of the parameter axis F91 lives on: per-site Z-dephasing
@@ -71,7 +82,7 @@ public sealed class F91Pi2Inheritance : Claim, IZ2AxisClaim
     public string ParameterAxis => "γ_l (per-site Z-dephasing rate)";
 
     public F91Pi2Inheritance(Pi2I4MemoryLoopClaim memoryLoop)
-        : base("F91 anti-palindromic γ orbit (γ_l + γ_{N-1-l} = 2·γ_avg) inherits from Pi2-Z₄ structure (i⁴ = 1 closure); parameter-side γ-axis instance of the same Z₄ that NinetyDegreeMirrorMemoryClaim types on the operator-quaternion side",
+        : base("F91 anti-palindromic γ orbit (γ_l + γ_{N-1-l} = 2·γ_avg) inherits from the Pi2 structure; the parameter-side reshuffle R_{90} is an involution (R_{90}² = identity) generating, with F71, the Klein V₄ on parameters — the order-2 shadow of the operator-side Z₄ (i⁴ = 1) that NinetyDegreeMirrorMemoryClaim types on the operator-quaternion side",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_F91_GAMMA_NINETY_DEGREES.md + " +
                "compute/RCPsiSquared.Core/BlockSpectrum/F71AntiPalindromicGammaSpectralInvariance.cs + " +
@@ -82,10 +93,10 @@ public sealed class F91Pi2Inheritance : Claim, IZ2AxisClaim
     }
 
     public override string DisplayName =>
-        "F91 γ-Z₄ anti-palindromic orbit as Pi2-Foundation parameter-side instance";
+        "F91 γ-axis anti-palindromic orbit (parameter-side Klein V₄, shadow of the operator-side Z₄)";
 
     public override string Summary =>
-        $"γ_l + γ_{{N-1-l}} = 2·γ_avg orbit closes under 90°-rotation R_{{90}}: γ_l ↦ 2·γ_avg − γ_{{N-1-l}} at order {Z4ClosureOrder} (i⁴ = 1); parameter-side γ-axis instance of the Pi2-Z₄ operator-quaternion structure ({Tier.Label()})";
+        $"γ_l + γ_{{N-1-l}} = 2·γ_avg orbit is the fixed-point set of the anti-palindromic involution R_{{90}}: γ_l ↦ 2·γ_avg − γ_{{N-1-l}} (R_{{90}}² = identity); R_{{90}} and F71 generate the parameter-side Klein V₄, the order-2 shadow of the operator-side Z₄ (i⁴ = 1; operator-side memory-loop order {Z4ClosureOrder}) that NinetyDegreeMirrorMemoryClaim types ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -97,19 +108,19 @@ public sealed class F91Pi2Inheritance : Claim, IZ2AxisClaim
                 summary: ParameterAxis);
             yield return new InspectableNode("anti-palindromic condition",
                 summary: "γ_l + γ_{N-1-l} = 2·γ_avg for all l ∈ {0, ..., N-1}; for odd N the middle site γ_{(N-1)/2} = γ_avg is forced");
-            yield return new InspectableNode("Z₄ generator on parameters",
-                summary: "the 90°-rotation γ ↦ 2·γ_avg − F71(γ) is one of four Z₄ elements; structurally the same Z₄ that NinetyDegreeMirrorMemoryClaim types on the operator-quaternion side");
-            yield return InspectableNode.RealScalar("Z4ClosureOrder (= 4)", Z4ClosureOrder);
-            yield return InspectableNode.RealScalar("MemoryLoopClosure.Real (= 1, drift check on i⁴ = 1)", MemoryLoopClosure.Real);
+            yield return new InspectableNode("anti-palindromic involution on parameters",
+                summary: "the reshuffle R_{90}: γ ↦ 2·γ_avg − F71(γ) is an involution (R_{90}² = identity); with the palindromic mirror F71 it generates the Klein V₄ = Z₂×Z₂ on parameters, the order-2 shadow of the operator-side Z₄ that NinetyDegreeMirrorMemoryClaim types");
+            yield return InspectableNode.RealScalar("Z4ClosureOrder (operator-side Z₄ memory-loop order = 4; R_{90} itself is an involution, order 2)", Z4ClosureOrder);
+            yield return InspectableNode.RealScalar("MemoryLoopClosure.Real (= 1, operator-side i⁴ = 1 drift check)", MemoryLoopClosure.Real);
             yield return InspectableNode.RealScalar("MemoryLoopClosure.Imaginary (= 0, drift check)", MemoryLoopClosure.Imaginary);
             yield return new InspectableNode("F-formula anchor",
                 summary: "docs/proofs/PROOF_F91_GAMMA_NINETY_DEGREES.md");
             yield return new InspectableNode("typed Claim anchor",
                 summary: "compute/RCPsiSquared.Core/BlockSpectrum/F71AntiPalindromicGammaSpectralInvariance.cs (the F91 closed form as a typed Claim)");
             yield return new InspectableNode("sister claims",
-                summary: "F92 (J_b, bond-coupling axis), F93 (h_l, longitudinal Z-detuning axis); three parameter-side instances of one Z₄ rotational structure");
+                summary: "F92 (J_b, bond-coupling axis), F93 (h_l, longitudinal Z-detuning axis); three parameter-side instances of one Klein V₄ (the order-2 shadow of the operator-side Z₄)");
             yield return new InspectableNode("inheritance",
-                summary: "the Z₄ closure on the γ-axis is not introduced by F91; it inherits from the Pi2-Z₄ memory loop i⁴ = 1, which is the same closure that lives on NinetyDegreeMirrorMemoryClaim's operator-quaternion side");
+                summary: "the parameter-side Klein V₄ on the γ-axis is not introduced by F91; R_{90} is the order-2 involution shadow of the operator-side Pi2-Z₄ memory loop i⁴ = 1, the genuine order-4 quarter-turn that lives on NinetyDegreeMirrorMemoryClaim's operator-quaternion side");
         }
     }
 }
