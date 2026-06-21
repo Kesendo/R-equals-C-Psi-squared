@@ -182,11 +182,14 @@ public static class InspectCommand
     /// s²/2, every member shares the carrier 4γ; extra args <c>--s-lo</c> default 0.3, <c>--s-hi</c>
     /// default 1.0, <c>--s-points</c> default 8, <c>--tmax-factor</c> default 6; N-free, uses
     /// <c>--gamma</c> only),
-    /// and <c>--axis ep</c> (the exceptional point: sweeps Q across Q_EP=2/g_eff and reads the birth of the
-    /// rotation, the two real decay channels coalescing defectively at −4γ₀ [the Takt pins], the Rotation
-    /// angle lifting off [the F95 angle], the eigenvector overlap min(x,1/x)→1 [the defective pinch], and the
-    /// IBM Kingston onset; extra args <c>--g-eff</c> default 4/3, <c>--q-lo</c> default 0.3, <c>--q-hi</c>
-    /// default 4, <c>--q-points</c> default 41; N-free, uses <c>--gamma</c> only). Shared args (crossover /
+    /// and <c>--axis ep</c> (the toy 2×2 rate-channel exceptional point: sweeps Q across Q_EP=2/g_eff and
+    /// reads the birth of the rotation in the 2-level reduction, the toy's two real decay channels coalescing
+    /// defectively at −4γ₀ [the Takt pins], the Rotation angle lifting off [the F95 angle], the toy eigenvector
+    /// overlap min(x,1/x)→1 [the toy EP pinch], and the IBM Kingston single-excitation-walk overdamped→revival
+    /// handover at Q≈1.5. The defectiveness is the toy reduction's; the physical (n,n+1) chain block is
+    /// non-normal on the real Q axis but has NO real-axis defective EP, eigenvalues simple [F86a-retraction;
+    /// RCPsiSquared.Core.F86.LocalGlobalEpLink]. Extra args <c>--g-eff</c> default 4/3, <c>--q-lo</c> default
+    /// 0.3, <c>--q-hi</c> default 4, <c>--q-points</c> default 41; N-free, uses <c>--gamma</c> only). Shared args (crossover /
     /// jdefect): <c>--gamma</c>, <c>--theta-points</c>, <c>--slow-count</c>; those two are N capped 1..6
     /// (dense Liouvillian + eigenvectors). Pair with <c>--draw</c> to plot the curves and heatmaps.</summary>
     private static IInspectable BuildBetweenRoot(ArgParser p, int N)

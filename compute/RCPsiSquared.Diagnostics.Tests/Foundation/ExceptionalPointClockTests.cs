@@ -55,10 +55,13 @@ public class ExceptionalPointClockTests
     }
 
     [Fact]
-    public void EigenvectorOverlap_IsMinXOneOverX_PeaksAtTheEp()
+    public void EigenvectorOverlap_IsMinXOneOverX_PeaksAtTheToyEp()
     {
+        // The toy 2×2 rate-channel reduction is genuinely defective at its EP (overlap→1); these numerics
+        // are TRUE OF THE TOY. They are NOT a claim about the physical (n,n+1) chain block, which is
+        // non-normal on the real axis but has NO real-axis defective EP (F86a-retraction; LocalGlobalEpLink).
         const double gEff = 4.0 / 3.0;   // Q_EP = 1.5
-        Assert.Equal(1.0, ExceptionalPointClock.EigenvectorOverlap(1.5, gEff), 9);   // x=1, defective (parallel)
+        Assert.Equal(1.0, ExceptionalPointClock.EigenvectorOverlap(1.5, gEff), 9);   // x=1, the toy EP: defective (parallel)
         Assert.Equal(0.5, ExceptionalPointClock.EigenvectorOverlap(0.75, gEff), 9);  // x=0.5
         Assert.Equal(1.0 / 1.5, ExceptionalPointClock.EigenvectorOverlap(2.25, gEff), 9); // x=1.5 → 1/x = 0.667
     }
