@@ -59,7 +59,7 @@ For two adjacent rate channels (HD = 2k−1, HD = 2k+1) coupled by a bond, the e
     L_eff − (trace/2)·I  =  [ −Δ/2     iJ·g_eff ]
                             [ +iJ·g_eff   +Δ/2  ]      with Δ = 4γ₀
 
-The same-sign-imaginary off-diagonal pattern is the non-Hermitian form that admits an EP at finite coupling. This is "PT-phenomenology-like" but algebraically inside class AIII chiral per [PT_SYMMETRY_ANALYSIS](../../experiments/PT_SYMMETRY_ANALYSIS.md), distinct from Bender-Boettcher PT (Π is linear; classical PT requires anti-linear operators). See also [FRAGILE_BRIDGE](../../hypotheses/FRAGILE_BRIDGE.md) for the global Hopf-bifurcation instance with Petermann K=403. The eigenvalues are
+The same-sign-imaginary off-diagonal pattern is the non-Hermitian form that gives this toy 2×2 reduction its genuine EP at the Q_EP = 2/g_eff normalisation. This is "PT-phenomenology-like" but algebraically inside class AIII chiral per [PT_SYMMETRY_ANALYSIS](../../experiments/PT_SYMMETRY_ANALYSIS.md), distinct from Bender-Boettcher PT (Π is linear; classical PT requires anti-linear operators). See also [FRAGILE_BRIDGE](../../hypotheses/FRAGILE_BRIDGE.md) for the SEPARATE Σγ=0 gain-loss EP (the global Hopf-bifurcation instance, Petermann K=403 in the complex γ plane); the full Σγ=N·γ₀ block-L is genuinely non-normal on the real Q axis but has no real-axis coalescence (see [`LocalGlobalEpLink`](../../compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs), OpenQuestion). The eigenvalues are
 
     λ_±  =  ±√((Δ/2)² − J²·g_eff²)  =  ±√(4γ₀² − J²·g_eff²)    (relative to trace/2)
 

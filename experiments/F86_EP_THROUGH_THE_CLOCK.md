@@ -92,13 +92,15 @@ The EP is not a smooth pass-through, it is a genuine singular event. Read the 2-
   at Q_EP: rank(L_eff − λ_EP·I) = 1   (defective: one eigenvector, a Jordan block)
 ```
 
-Three things happen at once, all faces of the single discriminant = 0. The two right eigenvectors
-**coalesce** (the angle between them collapses 90° → 0); the **Petermann factor diverges** (the
-modes become maximally non-orthogonal, maximal sensitivity , the 2×2 shows the mechanism, the full
-block-L measures K up to ≈ 2384 at N=7, [FRAGILE_BRIDGE](../hypotheses/FRAGILE_BRIDGE.md)); and
-exactly at Q_EP the Liouvillian is **defective** (rank 1, a Jordan block: one eigenvector for the
-double eigenvalue). The system loses a degree of freedom at that single point , two channels become
-one, a pinch.
+Three things happen at once in this 2×2 toy, all faces of the single discriminant = 0. The two right
+eigenvectors **coalesce** (the angle between them collapses 90° → 0); the **Petermann factor
+diverges** (the modes become maximally non-orthogonal, maximal sensitivity); and exactly at Q_EP the
+toy Liouvillian is **defective** (rank 1, a Jordan block: one eigenvector for the double eigenvalue).
+The toy loses a degree of freedom at that single point , two channels become one, a pinch. (The
+**full** (n, n+1) block does NOT do this on the real Q axis: its eigenvalues stay simple, no
+real-axis coalescence; it is genuinely non-normal there, large but FINITE Petermann, the shadow of a
+nearby EP off the real axis. F86a-retraction, 2026-06-21. The genuine defective EPs are this 2×2 toy
+and the SEPARATE Σγ=0 gain-loss system, [FRAGILE_BRIDGE](../hypotheses/FRAGILE_BRIDGE.md).)
 
 And the pinch reads as a crossing of memory. The clock's two axes are forgetting and remembering:
 the **real axis (decay, absorption) is forgetting** , the coherence is lost to the bath, the phase
@@ -111,35 +113,39 @@ forgetting → remembering crossover, and what passes over there is the memory. 
 2-level instance of the band-edge → Lebensader handover the slowest mode walks on the XXZ axis: the
 Lebensader is the surviving memory, and the EP is where it takes the lead.
 
-**The seam.** The transition is bit-exact: the coalescence, the Petermann divergence, the
-defectiveness, the absorption saturation. "Forgetting / remembering" is the reading , the F80 /
+**The seam.** The toy 2×2's transition is bit-exact: the coalescence, the Petermann divergence, the
+defectiveness, the absorption saturation (these are the 2-level reduction's, not the full block's on
+the real axis — see the F86a-retraction note above). "Forgetting / remembering" is the reading , the F80 /
 clock vocabulary, grounded (F80 is Tier 1), but the word "memory" is ours, painted onto the
 imaginary axis. The structure is not ours; the seeing is.
 
 ## The two ends of the Takt (the dynamic exit)
 
-The one F86 front that sits directly on M is the local-vs-global EP (F86a, Tier 2). The clock
-reads it as **one EP at two ends of the Takt**, the two residuals of the same palindrome
-Π·L·Π⁻¹ + L + 2Σγ·I:
+The one F86 front that sits directly on M is the local-vs-global EP relationship (F86a; the
+"local-vs-global EP" connection was **retracted 2026-06-21 → OpenQuestion**, but the clock's
+two-ends-of-the-Takt *view* of the shared algebra survives). The clock reads it as **two ends of
+the Takt**, the two residuals of the same palindrome Π·L·Π⁻¹ + L + 2Σγ·I:
 
-- **Σγ = N·γ₀ (local).** F86a's real-axis EP at Q_EP = 2/g_eff. The Takt is running; the mode
+- **Σγ = N·γ₀ (local).** The toy 2×2's EP at Q_EP = 2/g_eff. The Takt is running; the mode
   spirals *inward* (decay pinned at −4γ₀k), and the EP is the Rotation hand lifting off. A
-  dissipative resonance peak.
+  dissipative resonance peak. (The **full** block-L is genuinely non-normal on the real Q axis but
+  has no real-axis coalescence — there is no real-axis defective EP for the local instance; the
+  genuine EP here is the toy 2×2.)
 - **Σγ = 0 (global).** [FRAGILE_BRIDGE](../hypotheses/FRAGILE_BRIDGE.md): a decaying chain bridged
   to an amplifying one, gain cancelling loss. Here Π forces λ ↔ −λ exactly (chiral AIII), the
   eigenvalues sit on the imaginary axis , the Takt is *stopped*, the clock's pure-circle limit
   θ = π/2 , and the instability, when it comes, is a **Hopf bifurcation**: a complex pair crosses
-  Re = 0 and the spiral turns *outward* (the feedback screech, the system explodes). The Petermann
-  factor spikes (K up to ≈ 2385 on the real-Q sweep, vs ≈ 403 in complex γ), the near-singularity
-  of the same EP.
+  Re = 0 and the spiral turns *outward* (the feedback screech, the system explodes). This is a
+  SEPARATE genuine EP, its Petermann factor peaking at K ≈ 403 in the complex γ plane.
 
 So the net dephasing Σγ is the **dial between the two ends**: at Σγ = N·γ₀ the Takt holds the
 spiral in (the local dissipative EP); slide Σγ to 0 and the Takt stops (the pure circle), where the
 Hopf can push the spiral out. The global side is an **exit**, the dynamics escaping into
 self-sustained oscillation , not a static quantity. That is why we do not force it: γ_crit(N) is
-non-monotonic with no power law, and a closed-form K(N) at the EP is the named-but-open path to
-promoting the local-vs-global link from Tier 2. Both docs leave it open on purpose; the clock lets
-us *see* the two ends as one EP on the Takt dial without pretending the exit is a formula.
+non-monotonic with no power law. Both docs leave the dynamic exit open on purpose; the clock lets
+us *see* the two ends on the Takt dial without pretending the exit is a formula, and without
+pretending the two ends are one defective EP (they are two SEPARATE genuine EPs sharing the same
+2×2 algebra; the full block's own EP structure off the real axis is open since the F86a-retraction).
 
 ## The clock as the lens on the two live-open fronts
 
@@ -180,8 +186,9 @@ either.
 
 - Script: [`f86_ep_through_the_clock.py`](../simulations/f86_ep_through_the_clock.py) (the 2-level
   EP read through the Takt/Rotation hands; Q_EP at g_eff ∈ {4/3, 0.8} → the 1.5 / 2.5 peaks; and
-  the EP as an event , eigenvector coalescence, Petermann divergence, and defectiveness (a Jordan
-  block) at Q_EP).
+  the toy 2×2's EP as an event , eigenvector coalescence, Petermann divergence, and defectiveness
+  (a Jordan block) at Q_EP — a property of the 2-level reduction, not of the full block on the real
+  axis; see the F86a-retraction).
 - Script: [`clock_two_hands_two_fronts.py`](../simulations/clock_two_hands_two_fronts.py) (the two
   live-open fronts through the clock's two hands: Rotation → F86b₃ shape collapse onto Q/Q_EP,
   Takt → F87 break first-order in the γ-tick, residual/γ → 0.2559).

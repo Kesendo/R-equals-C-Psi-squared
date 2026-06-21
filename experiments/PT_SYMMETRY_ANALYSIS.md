@@ -409,22 +409,31 @@ an open question.
    point in the complex gamma plane. Mapping this EP (by analytic
    continuation to complex gamma) is an open problem.
 
-   **2026-05-06 update.** The local-vs-global EP relationship is no
-   longer fully open: a Petermann-K sweep on the real Q axis at c=2
-   N=5..8 (`compute/RCPsiSquared.Core.Tests/F86/F86PetermannProbe.cs:Probe_PetermannFineGrid_C2_VsN`)
-   records max K = 1333.6 / 337.9 / 2384.7 / 795.4 across N = 5 / 6 / 7 / 8,
-   with the N=7 spike sitting ≈ 6× above the K = 403 ballpark above.
-   Reading: F86 Statement 1's local EP at Q_EP = 2/g_eff is a real-axis
-   hit of the same EP this file detects at complex γ; same algebraic
-   object (same-sign-imaginary 2×2, AIII chiral) read at two residuals
-   of the F1 palindrome `Π · L · Π⁻¹ + L + 2Σγ · I = 0` (Σγ = N·γ₀ for
-   the local instance, Σγ = 0 for the global gain-loss instance).
-   Encoded as `compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs`
-   (Tier2Verified). The complex-γ analytic continuation, explicit
-   modulated gain-loss in `LindbladPropagator`, remains the open piece
-   for Tier1Derived promotion. The 2-4× odd/even Petermann-K asymmetry
-   empirically confirms A3's σ_0 R-even/R-odd-degeneracy prediction
-   (`compute/RCPsiSquared.Core/F86/Item1Derivation/C2InterChannelAnalytical.cs`).
+   **2026-05-06 → retracted 2026-06-21.** A 2026-05-06 reading tried to
+   close the local-vs-global EP relationship by reading F86 Statement 1's
+   local EP at Q_EP = 2/g_eff as "a real-axis hit of the same EP this
+   file detects at complex γ", citing a Petermann-K sweep on the real Q
+   axis at c=2 N=5..8 (max K = 1333.6 / 337.9 / 2384.7 / 795.4 across
+   N = 5 / 6 / 7 / 8, the N=7 spike read as ≈ 6× above the K = 403
+   ballpark). That reading is **retracted**. It contradicts this file's
+   own baseline (above): an artifact-free re-verification (Riesz
+   spectral-projector norm) found the full (n, n+1)-coherence block has
+   **no eigenvalue coalescence on the real Q axis** — its eigenvalues
+   stay simple (gap ~0.25–0.35), so there is no real-axis EP to "hit".
+   The block IS genuinely non-normal there (large but FINITE Petermann),
+   exactly the baseline statement; the earlier peak magnitudes, the
+   "6× above FRAGILE_BRIDGE", and the 2-4× odd/even asymmetry are
+   dropped as grid artifacts (K swings 2–4× over ΔQ = 1e-3). What
+   survives is only the shared algebra (the same-sign-imaginary 2×2,
+   AIII chiral, read at two residuals of the F1 palindrome
+   `Π · L · Π⁻¹ + L + 2Σγ · I = 0`, Σγ = N·γ₀ vs Σγ = 0); the genuine
+   EPs are the toy 2×2 reduction and the SEPARATE Σγ = 0 gain-loss
+   system (this file, K = 403). Encoded as
+   `compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs` (**OpenQuestion**,
+   demoted from Tier2Verified; the four sweep rows retained only as a
+   cautionary non-normality record). Whether the full Σγ = N·γ₀ block
+   has an off-axis defective EP at all is open (the nearest complex-Q
+   coalescences found 2026-06-21 are themselves diabolic, ‖P‖ = 1).
 
 ---
 
