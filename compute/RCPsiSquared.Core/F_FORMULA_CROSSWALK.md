@@ -110,7 +110,7 @@ For hardware-confirmed predictions on top of these formulas, see
 | `F89Path3SeDeFactorisationClaim` (Symmetry/) | **F89 path-3 (SE,DE) S_2-sym factorisation**: char(λ) = F_a · F_b · F_8 (deg 2·2·8); F_a roots λ = −2γ + iJ(−1±√5), F_b roots λ = −6γ + iJ(−1±√5); F_8 octic irreducible over Q[i, √5] (sympy verified). Tier 1 derived. |
 | `F89Path3SeDeFactorisationClaim.FaRoots(γ, J)` | the two F_a quadratic roots |
 | `F89Path3SeDeFactorisationClaim.FbRoots(γ, J)` | the two F_b quadratic roots |
-| `F89Path3OcticEpClaim` (Symmetry/) | **F89 path-3 octic exceptional point**: q² = (−1+√13)/6 (from disc factor (3q⁴+q²−1)²); merged eigenvalue λ_EP = −4γ + 2iJ; Re(λ_EP) sits at AT-spectral midpoint of rates 2γ (overlap) and 6γ (no-overlap). Tier 1 derived (analytical + machine-precision numerical). |
+| `F89Path3OcticEpClaim` (Symmetry/) | **F89 path-3 octic diabolic degeneracy** (semisimple, not a defective EP): q² = (−1+√13)/6 (from disc factor (3q⁴+q²−1)², a *double* zero ⟹ linear crossing ⟹ non-defective); merged eigenvalue λ_EP = −4γ + 2iJ; Re(λ_EP) sits at AT-spectral midpoint of rates 2γ (overlap) and 6γ (no-overlap). Tier 1 derived (analytical + machine-precision numerical). |
 | `F89Path3OcticEpClaim.QEpSquared` | (−1+√13)/6 |
 | `F89Path3OcticEpClaim.QEp` | √((−1+√13)/6) ≈ 0.658983 |
 | `F89Path3OcticEpClaim.MergedEigenvalue(γ, J)` | λ_EP = −4γ + 2iJ |
