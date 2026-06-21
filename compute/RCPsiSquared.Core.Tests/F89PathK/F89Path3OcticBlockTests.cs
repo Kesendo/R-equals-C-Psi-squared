@@ -2,6 +2,7 @@ using System.Linq;
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.F89PathK;
+using RCPsiSquared.Core.Numerics;
 using RCPsiSquared.Core.Symmetry;
 using Xunit;
 
@@ -43,5 +44,25 @@ public class F89Path3OcticBlockTests
             double nearest = fullEvals.Min(f => (f - s).Magnitude);
             Assert.True(nearest < 1e-9, $"block eigenvalue {s} is not in the full spectrum (nearest {nearest:E2})");
         }
+    }
+
+    [Fact]
+    public void EpCharacter_AtQEp_ReadsDiabolic_NotDefective()
+    {
+        // Gate-first: the artifact-free instrument must read DIABOLIC at the exact double root.
+        // Load-bearing facts (basis-independent): Kind, geo=alg=2, dep≈0. ‖P‖ is grid-sensitive
+        // (the EP magnitudes are not load-bearing) so it is only bounded-finite-checked
+        // (a DEFECTIVE EP would diverge).
+        double g = 1.0, j = QEp;
+        var l = F89Path3OcticBlock.BuildSeDeSymBlock(j, g);
+        var center = F89Path3OcticEpClaim.MergedEigenvalue(g, j);    // λ_EP = −4γ + 2iJ
+        var r = EpCharacter.Characterize(l, center, radius: 0.5);
+
+        Assert.Equal(EpCharacter.EpKind.Diabolic, r.Kind);          // the verdict
+        Assert.Equal(2, r.Algebraic);
+        Assert.Equal(2, r.Geometric);                              // geo == alg ⟹ diabolic
+        Assert.True(r.Departure < 1e-6, $"diabolic departure {r.Departure} should be ≈ 0");
+        Assert.True(r.ProjectorNorm < 1e3, $"‖P‖ {r.ProjectorNorm} must be finite (defective ⟹ diverges)");
+        Assert.True(r.EigenvectorMergeCos < 0.99, $"|cos| {r.EigenvectorMergeCos} must stay < 1 (independent eigenvectors)");
     }
 }
