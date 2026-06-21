@@ -101,8 +101,14 @@ public sealed class CoherenceHorizonClaim : Claim
                 summary: "corrected 2026-06-13 (phase-rigidity review, superseding an earlier \"sector bifurcation at N=4\" " +
                          "reading that was an argmax-Re / Im-tracking artifact). The mode that coalesces at Q*(N) is the " +
                          "{0,2}-coherence (population/antisymmetric block, n_diff histogram {0: ½, 2: ½}, ⟨n_diff⟩=1) at ALL " +
-                         "N=2..5, a genuine square-root EP (phase rigidity r → 0; r at Q* = 0.000/0.015/0.026 at N=3/4/5, " +
-                         "Im ∝ √(Q−Q*)). NO bifurcation at N=4. The band edge 2cos(π/(N+1)) (Im = φ at N=4, √3 at N=5) is the " +
+                         "N=2..5, a genuine square-root EP. CONFIRMED ARTIFACT-FREE (gate-first on known defective + diabolic " +
+                         "toys, diabolic control at γ=0): the coalescing pair has departure-from-normality ≈ 4 as the split→0, " +
+                         "geometric mult 1 < algebraic mult 2, Schur off-diagonal = the departure (the Jordan coupling), and the " +
+                         "two eigenvectors merge (|cos|→1). The eig-phase-rigidity r → 0 (the older read; r at Q* ≈ 0.0/0.015/0.026 " +
+                         "at N=3/4/5) is grid-sensitive (Kmax swings orders of magnitude under ΔQ=1e-3, sitting on the coalescence) " +
+                         "and is the F86a-misfire-prone family, so it CORROBORATES the EP here but is not load-bearing; the " +
+                         "defective-Jordan measure above is. Im ∝ √(Q−Q*). NO bifurcation at N=4. The band edge 2cos(π/(N+1)) " +
+                         "(Im = φ at N=4, √3 at N=5) is the " +
                          "co-located SURVIVOR, the γ-protected |vac⟩⟨ψ_k| coherence hand (Uhr 1, r ≈ 1), sharing the gap " +
                          "Re = −2γ only because the Absorption Theorem pins both (both ⟨n_diff⟩=1). So Q*(N) is at once a " +
                          "{0,2}-coherence EP (the erasure point, climbs the ladder) and a band-edge crossing (Uhr 1 survives). " +

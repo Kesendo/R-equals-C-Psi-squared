@@ -212,9 +212,18 @@ The mechanism (phase rigidity, after
 an earlier "sector bifurcation at N=4" reading that contradicted the two-clocks corollary above
 and was an argmax-Re / Im-tracking artifact): the mode that COALESCES at Q*(N) is the
 {0,2}-coherence (population / antisymmetric-coherence block, n_diff histogram {0: ½, 2: ½},
-⟨n_diff⟩ = 1) at ALL N = 2..5, a genuine square-root EP (phase rigidity r → 0, Im ∝ √(Q−Q*); r at
-Q* = 0.000 / 0.015 / 0.026 at N = 3 / 4 / 5). There is NO sector bifurcation at N=4: the
-{0,2}-coherence is the N-continuation of the N=2 coalescing mode 2√(J²−γ²). The band edge
+⟨n_diff⟩ = 1) at ALL N = 2..5, a genuine square-root EP (Im ∝ √(Q−Q*)). The EP-ness is **confirmed
+artifact-free** (gate-first on known defective + diabolic toys, with a diabolic control on the same object
+at γ=0): the coalescing pair's **departure-from-normality → ≈ 4** as the pair-split → 0, its **geometric
+multiplicity 1 < algebraic multiplicity 2**, the Schur off-diagonal equal to that departure (the literal
+Jordan coupling), and the two compression-eigenvectors **merge** (|cos| → 1) — the defective Jordan
+structure, read without eig eigenvectors. The older eig-phase-rigidity read (`r → 0`; `r` at
+Q* ≈ 0.0 / 0.015 / 0.026 at N = 3 / 4 / 5) is **grid-sensitive** — sitting on an unresolvable coalescence,
+the Petermann `Kmax` swings by orders of magnitude under a ΔQ = 1e-3 grid shift, so those small `r` values
+are artifacts of where the grid lands, not load-bearing; and `r` is eig-based, the F86a-misfire-prone family.
+It **corroborates** the EP here (it agrees with the artifact-free verdict, because this object genuinely is
+defective), but the defective-Jordan measure is what the EP-ness rests on. There is NO sector bifurcation at
+N=4: the {0,2}-coherence is the N-continuation of the N=2 coalescing mode 2√(J²−γ²). The band edge
 2cos(π/(N+1)) is the co-located SURVIVOR, not the freezer: the |vac⟩⟨ψ_k| coherence hand (Uhr 1,
 γ-protected, r ≈ 1, Im γ-independent to 1e-15) sits at the SAME gap Re = −2γ as the
 {0,2}-coherence EP only because the Absorption Theorem pins both (both ⟨n_diff⟩ = 1), and that
