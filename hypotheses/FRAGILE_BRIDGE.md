@@ -177,7 +177,7 @@ K = 1333.6 / 337.9 / 2384.7 / 795.4, the N=7 spike read as ≈ 6× above
 this file's K = 403, with a 2-4× odd/even parity asymmetry). **That
 extension is retracted.** An artifact-free re-verification (Riesz
 spectral-projector norm) found the full F86 (n, n+1)-coherence block
-has **no eigenvalue coalescence on the real Q axis** — its eigenvalues
+has **no eigenvalue coalescence on the real Q axis**, its eigenvalues
 stay simple (gap ~0.25–0.35), so there is no real-axis EP for the
 local F86 instance to hit. The block IS genuinely non-normal on the
 real axis (large but FINITE Petermann); the peak magnitudes, the "6×

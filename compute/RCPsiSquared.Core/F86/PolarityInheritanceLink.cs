@@ -59,7 +59,7 @@ namespace RCPsiSquared.Core.F86;
 /// not just c=2, mirroring <see cref="LocalGlobalEpLink"/>. The witnesses pin the concrete
 /// c=2 bond-class numbers that motivated the polarity-layer reading; the inheritance claim
 /// itself is shared. Locus 5 (<see cref="LocalGlobalEpLink"/>) carries the parallel EP-side
-/// relation (F86 ↔ FRAGILE_BRIDGE; now OpenQuestion after the F86a-retraction 2026-06-21 —
+/// relation (F86 ↔ FRAGILE_BRIDGE; now OpenQuestion after the F86a-retraction 2026-06-21:
 /// the surviving shared substrate is the AIII chiral algebra, while whether the full block
 /// has a defective EP linking it to FRAGILE_BRIDGE is open); this Locus 6 claim carries the
 /// symmetry-side closure (F86 ↔ polarity-layer pair under the 0.5-shift ρ = (I + r·σ)/2).

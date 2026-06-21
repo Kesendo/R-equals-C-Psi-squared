@@ -418,7 +418,7 @@ an open question.
    ballpark). That reading is **retracted**. It contradicts this file's
    own baseline (above): an artifact-free re-verification (Riesz
    spectral-projector norm) found the full (n, n+1)-coherence block has
-   **no eigenvalue coalescence on the real Q axis** — its eigenvalues
+   **no eigenvalue coalescence on the real Q axis**, its eigenvalues
    stay simple (gap ~0.25–0.35), so there is no real-axis EP to "hit".
    The block IS genuinely non-normal there (large but FINITE Petermann),
    exactly the baseline statement; the earlier peak magnitudes, the

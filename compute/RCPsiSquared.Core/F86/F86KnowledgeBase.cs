@@ -29,7 +29,7 @@ namespace RCPsiSquared.Core.F86;
 ///         <see cref="PolarityInheritanceLink"/>, <see cref="IbmBlockCpsiHardwareTable"/>;
 ///         c=2-only the live orbit-K and full-block σ-anatomy tables.</item>
 ///   <item><b>Retracted</b>: the refuted F86 closed forms / mechanisms
-///         (<see cref="RetractedClaim.Standard"/>) — the two 2026-05-02 Q_peak csc(...)
+///         (<see cref="RetractedClaim.Standard"/>): the two 2026-05-02 Q_peak csc(...)
 ///         conjectures plus the 2026-06-21 F86a real-axis-EP mechanism (no eigenvalue
 ///         coalescence on the real Q axis; the Petermann factor is genuine non-normality,
 ///         not an EP artifact).</item>
@@ -91,7 +91,7 @@ public sealed class F86KnowledgeBase : IInspectable
     /// (demoted from Tier2Verified): the full Σγ=N·γ₀ block is genuinely strongly non-normal
     /// on the real Q axis but has NO eigenvalue coalescence there (eigenvalues simple), the
     /// Petermann factor large but finite (artifact-free ‖P‖); whether it has an off-axis
-    /// defective EP at all — and thus the "same EP" link to FRAGILE_BRIDGE — is open. The
+    /// defective EP at all, and thus the "same EP" link to FRAGILE_BRIDGE, is open. The
     /// surviving shared substrate is the AIII chiral algebra. Exposed at the KB root for any
     /// block, not just c=2. Lazy: a single static-data Claim with no compute cost.</summary>
     public LocalGlobalEpLink LocalGlobalEpLink => _localGlobalEpLink.Value;

@@ -4,7 +4,7 @@ using RCPsiSquared.Core.Resonance;
 using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.F86;
 
-/// <summary>F86 Statement 1 partial: <c>Q_EP = 2/g_eff</c> — the definitional resonance Q,
+/// <summary>F86 Statement 1 partial: <c>Q_EP = 2/g_eff</c>, the definitional resonance Q,
 /// where g_eff := σ_0, the SVD-top inter-channel singular value (no closed form). In the toy
 /// 2-level reduction this is the genuine exceptional point at which the slowest eigenvalue pair
 /// coalesces (PROOF_F86_QPEAK Statement 1).
@@ -12,7 +12,7 @@ namespace RCPsiSquared.Core.F86;
 /// <para>Tier 1 derived in the 2-level reduction. <c>Q_EP = 2/g_eff</c> is a DEFINITION
 /// (g_eff := σ_0); it is NOT "the full block-L exceptional-point position, bit-exact". The full
 /// (n, n+1) block-L is genuinely NON-NORMAL near Q_peak but has NO defective EP on the real Q
-/// axis — its eigenvalues stay simple there, and the large Petermann factor is finite and
+/// axis; its eigenvalues stay simple there, and the large Petermann factor is finite and
 /// grid-sensitive (the earlier "bit-exact full-block EP match" reading is retracted; see
 /// <see cref="LocalGlobalEpLink"/>, now an OpenQuestion). For c=2, σ_0 → ≈ 2.8629 ± 1e-4 (the
 /// F86e closure 2026-05-21, parity-split Aitken, γ-independent; SigmaZeroCommutatorNormClaim).

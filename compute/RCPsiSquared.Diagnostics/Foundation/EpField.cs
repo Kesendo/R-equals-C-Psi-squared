@@ -53,7 +53,7 @@ public sealed class EpField : IInspectable
         $"the toy 2×2 rate-channel EP, sweeping Q across Q_EP={QEp.ToString("0.###", Inv)}: the toy's two real decay " +
         $"channels coalesce defectively at −4γ₀ (the Takt pins, t_peak=1/(4γ₀)), the Rotation angle lifts off 0 (the " +
         $"oscillation born), the 2×2 eigenvectors collapse (overlap→1). This defectiveness is the toy reduction's, NOT " +
-        $"the physical chain block's (which is non-normal but has no real-axis EP — F86a-retraction; see LocalGlobalEpLink). " +
+        $"the physical chain block's (which is non-normal but has no real-axis EP, F86a-retraction; see LocalGlobalEpLink). " +
         $"The cusp's mirror: there the rotation stills at ¼, here it is born. Hardware-anchored by the IBM Kingston " +
         "single-excitation-walk overdamped→revival handover at Q≈1.5. The post-EP regime it opens is the BirthCanal.";
 
@@ -88,9 +88,9 @@ public sealed class EpField : IInspectable
                 displayName: "the defectiveness (the toy 2×2 EP pinch)",
                 summary: "the toy 2×2's eigenvector overlap |⟨v₊|v₋⟩| = min(x,1/x), x=Q/Q_EP: peaks at 1 exactly at the toy EP " +
                          "(the two 2×2 eigenvectors coalesce, a Jordan block, the toy's Petermann sensitivity diverging), falling off on " +
-                         "either side. This is the defective signature of the toy 2×2 rate-channel reduction — a genuine EP OF THE TOY. " +
+                         "either side. This is the defective signature of the toy 2×2 rate-channel reduction, a genuine EP OF THE TOY. " +
                          "It is NOT a claim about the physical (n,n+1) chain block, which is non-normal on the real Q axis (large but " +
-                         "FINITE Petermann) with NO real-axis coalescence (eigenvalues simple) — F86a-retraction; see LocalGlobalEpLink.",
+                         "FINITE Petermann) with NO real-axis coalescence (eigenvalues simple), F86a-retraction; see LocalGlobalEpLink.",
                 payload: new InspectablePayload.Curve("eigenvector overlap vs Q", _qGrid, overlap, "Q", "|⟨v₊|v₋⟩| (→1 at the EP)"));
 
             // 5. The hardware (IBM Kingston single-excitation-walk overdamped→revival handover, Part B).

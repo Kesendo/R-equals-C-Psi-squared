@@ -15,7 +15,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para><b>Scope (F86a-retraction, 2026-06-21):</b> the defective EP computed here belongs to the toy
 /// 2×2 rate-channel reduction. The full physical (n,n+1)-coherence block of the chain is genuinely
-/// NON-NORMAL on the real Q axis (large but finite Petermann factor) but has NO defective EP there —
+/// NON-NORMAL on the real Q axis (large but finite Petermann factor) but has NO defective EP there;
 /// its eigenvalues stay simple (nearest-neighbour gap ~0.25–0.35), so there is no real-axis coalescence
 /// to "hit". Do not read this toy EP as the chain block's behaviour on the real axis. See
 /// <c>RCPsiSquared.Core.F86.LocalGlobalEpLink</c> (OpenQuestion) and
@@ -24,7 +24,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <para>The eigenvector overlap |⟨v₊|v₋⟩| = min(x, 1/x), x = Q/Q_EP: exactly 1 at the toy EP (the two
 /// 2×2 eigenvectors coalesce, defective, a Jordan block, the toy's Petermann sensitivity spiking),
 /// falling off as the modes re-separate on either side. This is the defective signature of the toy 2×2
-/// rate-channel EP — a property of the reduction, not a claim that the physical block is defective on the
+/// rate-channel EP, a property of the reduction, not a claim that the physical block is defective on the
 /// real axis. The cusp (interior axis) is the mirror event at the same F95 zero: there the rotation
 /// stills (θ → 0 descending to ¼), here it is born (θ lifts off ascending past Q_EP). The post-EP regime
 /// this opens is the BirthCanal of <see cref="PostEpFlowField"/>; hardware-anchored by the IBM Kingston
@@ -35,7 +35,7 @@ public static class ExceptionalPointClock
     public const double XPeak = C2BareDoubledPtfClosedForm.XPeakPrecise;
 
     /// <summary>The toy 2×2 exceptional point Q_EP = 2/g_eff (where the toy's two slow modes coalesce
-    /// defectively; the physical block has no such real-axis coalescence — see the class summary).</summary>
+    /// defectively; the physical block has no such real-axis coalescence, see the class summary).</summary>
     public static double QEp(double gEff) => EpAlgebra.QEp(gEff);
 
     /// <summary>The resonance peak Q_peak = x_peak·Q_EP (where K_b peaks, in the post-EP regime).</summary>

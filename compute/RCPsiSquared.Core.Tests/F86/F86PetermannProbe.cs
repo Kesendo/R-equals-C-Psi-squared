@@ -58,7 +58,7 @@ public class F86PetermannProbe(ITestOutputHelper output)
     /// peak K magnitudes this sweep reports are grid-sensitive (K swings 2–4× over ΔQ=1e-3), so
     /// the original "K grows monotonically with N = real-axis hit of FRAGILE_BRIDGE's complex-γ
     /// EP" and the σ_0-driven "parity asymmetry across N" readings were retracted as grid
-    /// artifacts (there is no eigenvalue coalescence on the real axis — the block is genuinely
+    /// artifacts (there is no eigenvalue coalescence on the real axis; the block is genuinely
     /// non-normal but the Petermann factor is large-but-finite). The sweep is RETAINED only as a
     /// cautionary non-normality probe, not as EP evidence or a magnitude/growth/parity law; see
     /// <see cref="LocalGlobalEpLink"/>.

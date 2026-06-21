@@ -22,7 +22,7 @@ namespace RCPsiSquared.Core.F86;
 /// it is NOT an instance of the AIII chiral classification. That classification is the
 /// property of Π on the <b>centered</b> Liouvillian L_c (the F1 palindrome; Π linear, order
 /// 4; classical PT would need anti-linear operators), and its defining λ↔−λ pairing is exact
-/// only in the Σγ=0 gain-loss case — see <c>experiments/PT_SYMMETRY_ANALYSIS.md</c> and
+/// only in the Σγ=0 gain-loss case; see <c>experiments/PT_SYMMETRY_ANALYSIS.md</c> and
 /// <c>hypotheses/FRAGILE_BRIDGE.md</c>, and <see cref="ChiralAiiiClassification"/>.</para>
 /// </summary>
 public sealed class TwoLevelEpModel : Claim

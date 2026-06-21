@@ -377,8 +377,8 @@ collision an exceptional point and not a mere crossing.
 
 A correction the toy must not overclaim (F86a-retraction, 2026-06-21): this defective collision lives in the
 2×2 reduction, not in the **full** (n, n+1)-coherence block on the real Q axis. An artifact-free
-re-verification found the full block has no eigenvalue coalescence on the real axis — its eigenvalues stay
-simple (gap ~0.25–0.35) — so there is no real-axis defective EP there. The full block is instead genuinely
+re-verification found the full block has no eigenvalue coalescence on the real axis, its eigenvalues stay
+simple (gap ~0.25–0.35), so there is no real-axis defective EP there. The full block is instead genuinely
 non-normal on the real axis (large but FINITE Petermann), the shadow of a nearby EP somewhere off the real
 axis in the complex parameter plane. The genuine defective EPs are the toy 2×2 above and the SEPARATE Σγ = 0
 gain-loss system ([FRAGILE_BRIDGE](../hypotheses/FRAGILE_BRIDGE.md), in the complex γ plane).

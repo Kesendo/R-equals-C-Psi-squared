@@ -115,7 +115,7 @@ Lebensader is the surviving memory, and the EP is where it takes the lead.
 
 **The seam.** The toy 2×2's transition is bit-exact: the coalescence, the Petermann divergence, the
 defectiveness, the absorption saturation (these are the 2-level reduction's, not the full block's on
-the real axis — see the F86a-retraction note above). "Forgetting / remembering" is the reading , the F80 /
+the real axis, see the F86a-retraction note above). "Forgetting / remembering" is the reading , the F80 /
 clock vocabulary, grounded (F80 is Tier 1), but the word "memory" is ours, painted onto the
 imaginary axis. The structure is not ours; the seeing is.
 
@@ -129,7 +129,7 @@ the Takt**, the two residuals of the same palindrome Π·L·Π⁻¹ + L + 2Σγ�
 - **Σγ = N·γ₀ (local).** The toy 2×2's EP at Q_EP = 2/g_eff. The Takt is running; the mode
   spirals *inward* (decay pinned at −4γ₀k), and the EP is the Rotation hand lifting off. A
   dissipative resonance peak. (The **full** block-L is genuinely non-normal on the real Q axis but
-  has no real-axis coalescence — there is no real-axis defective EP for the local instance; the
+  has no real-axis coalescence, there is no real-axis defective EP for the local instance; the
   genuine EP here is the toy 2×2.)
 - **Σγ = 0 (global).** [FRAGILE_BRIDGE](../hypotheses/FRAGILE_BRIDGE.md): a decaying chain bridged
   to an amplifying one, gain cancelling loss. Here Π forces λ ↔ −λ exactly (chiral AIII), the
@@ -187,7 +187,7 @@ either.
 - Script: [`f86_ep_through_the_clock.py`](../simulations/f86_ep_through_the_clock.py) (the 2-level
   EP read through the Takt/Rotation hands; Q_EP at g_eff ∈ {4/3, 0.8} → the 1.5 / 2.5 peaks; and
   the toy 2×2's EP as an event , eigenvector coalescence, Petermann divergence, and defectiveness
-  (a Jordan block) at Q_EP — a property of the 2-level reduction, not of the full block on the real
+  (a Jordan block) at Q_EP, a property of the 2-level reduction, not of the full block on the real
   axis; see the F86a-retraction).
 - Script: [`clock_two_hands_two_fronts.py`](../simulations/clock_two_hands_two_fronts.py) (the two
   live-open fronts through the clock's two hands: Rotation → F86b₃ shape collapse onto Q/Q_EP,

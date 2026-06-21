@@ -5,7 +5,7 @@ The 5-agent review checked the (n,n+1) COHERENCE block (rate channels) → diabo
 The hardware measured the SE walk (per-site populations, revival liftoff at Q≈1.5).
 These are DIFFERENT blocks. The SE walk's overdamped→underdamped (critical-damping)
 transition could be a genuine defective EP. If so, retracting 'the EP' would be an
-OVER-CORRECTION — the EP is real (just mis-described by F86a's rate-channel toy).
+OVER-CORRECTION: the EP is real (just mis-described by F86a's rate-channel toy).
 
 Test: build the full L (N=3,4), sweep Q=J/γ0, and for the SE-relevant slow modes
 check whether two REAL decay rates coalesce into a COMPLEX pair (critical damping),
