@@ -28,4 +28,20 @@ public class F89Path3OcticBlockTests
         int nearEp = octic.Count(e => (e - lamEp).Magnitude < 1e-6);
         Assert.Equal(2, nearEp);                                   // the double root
     }
+
+    [Fact]
+    public void SymBlock_SpectrumIsASubSpectrumOfTheFullN4Liouvillian()
+    {
+        // The (SE,DE) coherence block is an invariant sub-block (XY conserves Sz;
+        // Z-dephasing is computational-basis-diagonal), so its spectrum ⊆ the full 4^N L.
+        // This certifies the hand-rolled block is the real object (review finding A.1).
+        double j = QEp, g = 1.0;
+        var blockEvals = F89Path3OcticBlock.BuildSeDeSymBlock(j, g).Evd().EigenValues.ToArray();
+        var fullEvals = F89BlockLiouvillian.BuildBlockL(j, g, 4).Evd().EigenValues.ToArray();
+        foreach (var s in blockEvals)
+        {
+            double nearest = fullEvals.Min(f => (f - s).Magnitude);
+            Assert.True(nearest < 1e-9, $"block eigenvalue {s} is not in the full spectrum (nearest {nearest:E2})");
+        }
+    }
 }
