@@ -31,6 +31,9 @@ public static class F89Path3OcticBlock
     /// <summary>The full 24×24 (SE,DE) coherence block at (J, γ).</summary>
     public static ComplexMatrix BuildSeDeBlock(double j, double gamma)
     {
+        if (gamma < 0)
+            throw new ArgumentOutOfRangeException(nameof(gamma), gamma, "gamma must be ≥ 0.");
+
         // M_SE: nearest-neighbour hop on the 4-chain, amplitude 2J
         var mse = new double[4, 4];
         for (int a = 0; a < 4; a++)
@@ -61,7 +64,7 @@ public static class F89Path3OcticBlock
             for (int p = 0; p < 6; p++)
             {
                 int col = Idx(i, p);
-                for (int i2 = 0; i2 < 4; i2++)                       // SE side (ket): −i·M_SE
+                for (int i2 = 0; i2 < 4; i2++)                       // SE side (ket): −i·M_SE (opposite signs = ket vs bra side of the commutator)
                     if (mse[i2, i] != 0)
                         l[Idx(i2, p), col] += new Complex(0, -mse[i2, i]);
                 for (int p2 = 0; p2 < 6; p2++)                       // DE side (bra): +i·M_DE
@@ -94,6 +97,7 @@ public static class F89Path3OcticBlock
                 if (handled.Contains(n)) continue;
                 int m = Idx(perm[i], ReflPair(p));
                 var v = ComplexVector.Build.Dense(24);
+                // perm {3,2,1,0} is fixed-point-free, so n==m never fires here; kept for parity with the general Python reflection_projector.
                 if (n == m) { v[n] = Complex.One; }
                 else
                 {

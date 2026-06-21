@@ -24,7 +24,7 @@ public class F89Path3OcticBlockTests
         Assert.Equal(8, octic.Length);
 
         // exactly one coalescing pair at λ_EP = −4 + 2i·q_EP
-        var lamEp = new Complex(-4.0, 2.0 * QEp);
+        var lamEp = F89Path3OcticEpClaim.MergedEigenvalue(1.0, QEp);
         int nearEp = octic.Count(e => (e - lamEp).Magnitude < 1e-6);
         Assert.Equal(2, nearEp);                                   // the double root
     }
