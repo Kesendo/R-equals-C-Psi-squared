@@ -36,7 +36,10 @@ public sealed class RetractedClaim : Claim
         }
     }
 
-    /// <summary>The two retracted F86 closed forms from the 2026-05-02 retraction.</summary>
+    /// <summary>The retracted F86 closed forms / mechanisms: the two 2026-05-02 Q_peak
+    /// csc(...) conjectures, plus the 2026-06-21 F86a "exceptional point on the real Q axis"
+    /// mechanism (no eigenvalue coalescence found on the real axis; the Petermann factor is
+    /// genuine non-normality on a simple eigenvalue, but its peak magnitude is a grid artifact).</summary>
     public static IReadOnlyList<RetractedClaim> Standard { get; } = new[]
     {
         new RetractedClaim(
@@ -49,5 +52,10 @@ public sealed class RetractedClaim : Claim
             "HWHM_left/Q_peak = csc(π/5) for c=3 Interior bonds",
             "N=7 coincidence; refuted by extended-N data",
             "docs/proofs/PROOF_F86B_OBSTRUCTION.md (Retracted Q_peak conjectures, c=3 Interior) + memory: project_q_peak_ep_structure"),
+        new RetractedClaim(
+            "F86a real-axis EP mechanism",
+            "the (n,n+1)-coherence-block rate-channel degeneracy at Q_EP=2/g_eff is a defective exceptional point on the real Q axis; Petermann K ~6x FRAGILE_BRIDGE proves a real-axis EP",
+            "Independently re-computed (artifact-free) 2026-06-21: NO eigenvalue coalescence on the real Q axis - the relevant eigenvalues stay simple (nearest-neighbour gap ~0.25-0.35), so neither a defective EP nor a diabolic degeneracy sits there. The Petermann factor is GENUINE non-normality (the Riesz spectral-projector norm reproduces it on a simple isolated eigenvalue at Re~-4gamma0; N=5: ||P||=19.4=sqrt(375); cond(V)=49-268), NOT a degenerate-eigenspace eig artifact - but its peak MAGNITUDE is grid-sensitive (2-4x over deltaQ=1e-3), so '6x', '2384.7' and the within-parity growth law are grid artifacts, dropped. Adopted reading (PT_SYMMETRY_ANALYSIS): no real-axis EP; large-but-finite Petermann signals a nearby EP in the complex plane. Firmly-established defective EPs: the toy 2x2 reduction and the SEPARATE Sigma-gamma=0 gain-loss system (FRAGILE_BRIDGE). Whether the full Sigma-gamma=N*gamma0 block has an off-axis defective EP at all is OPEN (nearest complex-Q coalescences found are themselves diabolic). t_peak=1/(4gamma0) and Q_EP=2/g_eff-as-definition survive.",
+            "docs/proofs/PROOF_F86A_EP_MECHANISM.md (Retraction section, 2026-06-21); typed at F86.LocalGlobalEpLink (OpenQuestion)"),
     };
 }

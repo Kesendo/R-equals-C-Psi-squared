@@ -28,7 +28,11 @@ namespace RCPsiSquared.Core.F86;
 ///         the per-block and per-bond Q_peak tables, <see cref="PerF71OrbitObservation"/>,
 ///         <see cref="PolarityInheritanceLink"/>, <see cref="IbmBlockCpsiHardwareTable"/>;
 ///         c=2-only the live orbit-K and full-block σ-anatomy tables.</item>
-///   <item><b>Retracted</b>: the two refuted closed forms (<see cref="RetractedClaim.Standard"/>).</item>
+///   <item><b>Retracted</b>: the refuted F86 closed forms / mechanisms
+///         (<see cref="RetractedClaim.Standard"/>) — the two 2026-05-02 Q_peak csc(...)
+///         conjectures plus the 2026-06-21 F86a real-axis-EP mechanism (no eigenvalue
+///         coalescence on the real Q axis; the Petermann factor is genuine non-normality,
+///         not an EP artifact).</item>
 ///   <item><b>Open questions</b>: <see cref="F86OpenQuestions.Standard"/>, the items still
 ///         missing for full Tier-1 promotion, plus <see cref="LocalGlobalEpLink"/> (demoted to
 ///         <see cref="Knowledge.Tier.OpenQuestion"/> by the F86a-retraction 2026-06-21:

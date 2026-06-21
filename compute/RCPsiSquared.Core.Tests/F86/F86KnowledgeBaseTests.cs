@@ -72,12 +72,15 @@ public class F86KnowledgeBaseTests
     }
 
     [Fact]
-    public void RetractedClaim_StandardList_ContainsTwoKnownRetractions()
+    public void RetractedClaim_StandardList_ContainsThreeKnownRetractions()
     {
         var retracted = RetractedClaim.Standard;
-        Assert.Equal(2, retracted.Count);
+        Assert.Equal(3, retracted.Count);
         Assert.Contains(retracted, r => r.PreviousFormula.Contains("csc(π/(N+1))"));
         Assert.Contains(retracted, r => r.PreviousFormula.Contains("csc(π/5)"));
+        // F86a real-axis-EP mechanism, retracted 2026-06-21 (no eigenvalue coalescence on
+        // the real Q axis; the Petermann factor is genuine non-normality, not an EP artifact).
+        Assert.Contains(retracted, r => r.Name == "F86a real-axis EP mechanism");
         Assert.All(retracted, r => Assert.Equal(Tier.Retracted, r.Tier));
     }
 
@@ -94,7 +97,7 @@ public class F86KnowledgeBaseTests
         Assert.Equal(3, kb.EpTraversal.Count);
         Assert.Equal(BondClass.Interior, kb.InteriorShape.BondClass);
         Assert.Equal(BondClass.Endpoint, kb.EndpointShape.BondClass);
-        Assert.Equal(2, kb.Retracted.Count);
+        Assert.Equal(3, kb.Retracted.Count);
 
         Assert.Equal(10, kb.QAnchors.Anchors.Count);
         Assert.NotNull(kb.QAnchors.AnkerAt(1.0));

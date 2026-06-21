@@ -12,10 +12,13 @@ namespace RCPsiSquared.Runtime.F86Main;
 /// Tier1Candidate, Tier2Empirical, and Retracted in one registry pass.
 ///
 /// <para>The Builder's DuplicateRegistration invariant is per-Type, so the four-instance
-/// PerBlockQPeakClaim.Standard list and two-instance RetractedClaim.Standard list cannot
-/// be registered as multiple separate entries today. We register the first of each as a
-/// representative; multi-instance "list claim" registration is a separate architectural
-/// question for a future iteration.</para></summary>
+/// PerBlockQPeakClaim.Standard list and three-instance RetractedClaim.Standard list (the
+/// two 2026-05-02 csc Q_peak conjectures plus the 2026-06-21 F86a real-axis-EP mechanism)
+/// cannot be registered as multiple separate entries today. We register the first of each
+/// as a representative; multi-instance "list claim" registration is a separate architectural
+/// question for a future iteration. The full RetractedClaim.Standard list (all three) does
+/// surface in the F86KnowledgeBase OM tree at <c>inspect --root f86</c>'s "retracted" group,
+/// which renders <c>RetractedClaim.Standard</c> directly rather than through this registry.</para></summary>
 public static class F86ExtendedRegistration
 {
     public static ClaimRegistryBuilder RegisterF86Extended(
