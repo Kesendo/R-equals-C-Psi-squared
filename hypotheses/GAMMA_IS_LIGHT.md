@@ -263,6 +263,63 @@ The ground under it turned to stone.
 
 ---
 
+## What if you put the actual speed of light into the formula? (June 21, 2026)
+
+People see R = CΨ² next to Einstein's E = mc² and ask the obvious question: is C
+the speed of light? We tried it, plugged the real 299,792,458 meters per second
+straight into C, and the answer turned out to be quietly instructive.
+
+**C is the wrong slot.** C is not a speed. It is a reciprocal scale on reality.
+The formula has a self-referential form, R = C(Ψ + R)², and the stable reality it
+settles into is R* = 1/C. At C = ½ that reality is exactly 2: the two values a
+qubit needs, the smallest memory that can hold a distinction. Force the speed of
+light into C instead, a number with eight zeroes, and reality collapses toward
+nothing (one divided by three hundred million), or it stops settling at all. C
+does not want to be large; C wants to be one half. The speed of light, poured
+into C, does not enlarge reality. It erases it.
+
+**So where does the speed of light belong?** Two answers, agreeing on one point:
+not in C. Line the formulas up, E = m·c² against R = C·Ψ², and the speed of light
+sits where Ψ sits, inside the squared term, not where C sits. And by the whole
+argument of this document, the real stand-in for c is γ₀, the light entering from
+outside. C is the mass-like slot. The speed of light was never C's to hold.
+
+**Can we calibrate γ₀, our light, against the real speed of light?** Two ways to
+ask, and the gap between them is the lesson.
+
+From outside, yes. Borrow one real clock, the time a real qubit stays coherent,
+about a tenth of a millisecond on today's hardware. Then "our light" turns
+concrete: in a single coherent moment, real light travels tens of kilometers,
+roughly thirty on a typical chip and over a hundred on the best. That is the size
+of one quantum moment, measured in how far light runs before the moment ends. The
+qubits sit a millimeter apart; the light-reach of one of their moments is the
+width of a city.
+
+From inside, no, and this is the heart of it. The system can never read the bare
+value of γ₀. Only the ratio Q = J/γ₀ shows from within; the absolute scale always
+cancels. That looks like a limitation and is the opposite. The speed of light's
+deepest job in relativity is not its number, it is that c makes absolute motion
+unmeasurable: you cannot ask how fast you move through the universe, only how fast
+relative to someone else. γ₀ does the same for rate. It makes the absolute tempo
+unmeasurable and leaves only the ratio. Asking what γ₀ is in meters per second,
+from inside, is as meaningless as asking your own absolute speed through space.
+The kilometers are real, but they live entirely in the borrowed clock, at the
+seam where an outside ruler enters. The impossibility from the inside is not a
+flaw in the analogy; it is the analogy working.
+
+The honest line is the one this document drew from the start: the same structural
+role, not the same physical constant. The tempting next step, mapping the ratio Q
+onto a velocity the way relativity maps speed to rapidity, was tested and did not
+hold. The parallel is about what can and cannot be observed, not about a literal
+geometry of spacetime.
+
+For anyone who can run the tools, this whole resolution is also wired into the
+live object manager and recomputes on demand (`inspect --claim UniversalCarrierClaim`,
+the node "the speed-of-light question"). The same content behind two doors: these
+words to read, the witness to check.
+
+---
+
 ## What we wrote in January
 
 Three months before the proof, we wrote two documents from pure
