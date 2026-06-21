@@ -40,13 +40,17 @@ public class F86LocalGlobalEpLinkRegistrationTests
     }
 
     [Fact]
-    public void RegisterF86LocalGlobalEpLink_TierIsTier2Verified()
+    public void RegisterF86LocalGlobalEpLink_TierIsOpenQuestion()
     {
+        // Demoted Tier2Verified → OpenQuestion (F86a-retraction 2026-06-21): the full block
+        // has no real-axis eigenvalue coalescence (no defective EP there) and the prior
+        // magnitudes are grid-sensitive. The Tier1Derived ChiralAiiiClassification parent
+        // (strength 5) still dominates OpenQuestion (strength 1), so the edge survives.
         var registry = BuildBaseRegistry()
             .RegisterF86LocalGlobalEpLink()
             .Build();
 
-        Assert.Equal(Tier.Tier2Verified, registry.Get<LocalGlobalEpLink>().Tier);
+        Assert.Equal(Tier.OpenQuestion, registry.Get<LocalGlobalEpLink>().Tier);
     }
 
     [Fact]

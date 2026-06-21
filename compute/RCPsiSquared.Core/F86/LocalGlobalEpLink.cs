@@ -3,37 +3,53 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.F86;
 
-/// <summary>F86 meta-claim: the c=2 local EP at real Q_EP and the FRAGILE_BRIDGE global
-/// EP in the complex-γ plane are the same exceptional-point structure under shared algebra,
-/// validated empirically by the c=2 N=5..8 Petermann-K sweep on the real Q axis.
+/// <summary>F86 open question (was an F86a meta-claim, demoted 2026-06-21): whether the
+/// full Σγ = N·γ₀ (n,n+1)-coherence block has a defective exceptional point OFF the real
+/// Q axis AT ALL, and — if so — whether it is the same EP structure as the firmly-established
+/// genuine EPs (the toy 2×2 reduction and the SEPARATE Σγ = 0 gain-loss system,
+/// FRAGILE_BRIDGE, complex-γ, K=403).
 ///
-/// <para><b>Tier outcome: Tier2Verified.</b> The shared algebra (same-sign-imaginary 2×2
-/// form, AIII chiral classification) is a Tier1-style structural fact already pinned in
-/// <see cref="ChiralAiiiClassification"/>. The empirical real-axis K-divergence + parity
-/// asymmetry (encoded in the four <see cref="PetermannSpikeWitness"/> entries from the
-/// 2026-05-06 sweep) validates the connection: K grows monotonically with N within each
-/// parity class (odd: ~1.79× per step; even: ~2.36× per step), odd-N peaks dominate even-N
-/// peaks by 2–4× at every step (matches A3's σ_0 R-even/R-odd-degeneracy prediction),
-/// and by N=7 the c=2 K=2384 sits ~6× above FRAGILE_BRIDGE's K=403 ballpark on the real
-/// Q axis. Verdict: F86's local EP at real Q_EP is a real-axis hit of the same EP whose
-/// near-singularity FRAGILE_BRIDGE detects at K=403 in the complex-γ direction. They are
-/// not off-axis siblings; they are connected.</para>
+/// <para><b>Tier outcome: OpenQuestion</b> (demoted from Tier2Verified 2026-06-21 by the
+/// F86a-retraction review). The prior reading — "F86's local EP at real Q_EP is a real-axis
+/// hit of the same EP FRAGILE_BRIDGE detects at K=403" — does NOT survive an artifact-free
+/// re-verification from below. The full block has NO eigenvalue coalescence on the real Q
+/// axis: its eigenvalues stay SIMPLE there (nearest-neighbour gap ~0.25–0.35). So there is
+/// no defective EP on the real axis to be "hit".</para>
 ///
-/// <para><b>Why Tier2Verified, not Tier1Derived:</b> the explicit complex-γ analytic
-/// continuation linking the two real-axis K-divergence regimes to a single off-axis EP
-/// has not been carried out in code. That promotion requires either complex-γ
-/// infrastructure in <c>LindbladPropagator</c> or a closed-form K(N) at the EP. The
-/// <see cref="PendingDerivationNote"/> carries the gap explicitly.</para>
+/// <para><b>What is genuine (the phenomenon stays):</b> the block IS strongly NON-NORMAL on
+/// the real axis (cond(V) = 48.7 / 50.9 / 268.5 at N = 5 / 6 / 7 — the opposite of a diabolic,
+/// i.e. normal, crossing). This is NOT an <c>eig</c> artifact and NOT a degenerate-eigenspace
+/// effect: the artifact-free Riesz spectral-projector norm ‖P‖ reproduces the large Petermann
+/// factor on a SIMPLE, isolated eigenvalue at Re ≈ −4γ₀ (N=5: ‖P‖ = 19.4 = √375, gap ~0.25).
+/// Adopting PT_SYMMETRY_ANALYSIS's reading verbatim: there is no real-axis EP; the Petermann
+/// factor is large but FINITE on the real axis, signalling a nearby EP in the complex
+/// parameter plane.</para>
+///
+/// <para><b>What is retracted (the numbers go):</b> (i) reading the real-axis Petermann sweep
+/// as a defective EP on the real axis (there is no coalescence there), and (ii) the peak
+/// MAGNITUDES and the law built on them — K swings 2–4× over ΔQ = 1e-3 (grid-sensitive), so
+/// "6× above FRAGILE_BRIDGE", the specific peak K=2384.7, and the "within-parity monotonic
+/// growth law" + the odd-dominates-even parity-asymmetry reading are grid artifacts and are
+/// dropped. The four <see cref="PetermannSpikeWitness"/> rows are RETAINED as a cautionary
+/// record of genuine non-normality near each Q_peak, NOT as EP evidence and NOT as a magnitude
+/// law.</para>
+///
+/// <para><b>The open question:</b> whether the full Σγ = N·γ₀ block has an off-axis defective
+/// EP at all is OPEN. A search on 2026-06-21 found the nearest complex-Q eigenvalue
+/// coalescences of the full block are themselves DIABOLIC (‖P‖ = 1, departure-from-normality
+/// = 0), not defective — so even off the real axis the same-EP-structure connection to the
+/// toy 2×2 / FRAGILE_BRIDGE is not established.</para>
 ///
 /// <para>Block-independent meta-claim: registered at the F86 KB root for any block, not
 /// just c=2 (similar to <see cref="ChiralAiiiClassification"/>). The witnesses pin the
-/// concrete c=2 sweep that motivated the connection; the algebraic claim itself is shared
-/// across all c.</para>
+/// concrete c=2 sweep that motivated the original connection; the open question itself is
+/// shared across all c.</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F86_QPEAK.md</c> (F86 local instance, Statement 1),
-/// <c>hypotheses/FRAGILE_BRIDGE.md</c> (global instance, K=403), and
+/// <c>hypotheses/FRAGILE_BRIDGE.md</c> (separate Σγ=0 gain-loss instance, K=403), and
 /// <c>experiments/PT_SYMMETRY_ANALYSIS.md</c> (AIII chiral classification, the shared
-/// algebraic substrate).</para>
+/// algebraic substrate; "no real-axis EP, Petermann large but finite, nearby EP in the
+/// complex plane").</para>
 /// </summary>
 public sealed class LocalGlobalEpLink : Claim
 {
@@ -51,10 +67,12 @@ public sealed class LocalGlobalEpLink : Claim
     /// <inheritdoc cref="SweepGammaZero"/>
     public const int SweepQPoints = 121;
 
-    /// <summary>FRAGILE_BRIDGE Petermann K=403 ballpark — the global-EP near-singularity
-    /// reference value from <c>hypotheses/FRAGILE_BRIDGE.md</c>. Used by
-    /// <see cref="LocalGlobalEpLinkTests"/> as the comparison baseline for the
-    /// real-axis hit at N=7.</summary>
+    /// <summary>FRAGILE_BRIDGE Petermann K=403 ballpark — the near-singularity reference
+    /// value of the SEPARATE Σγ = 0 gain-loss system (complex-γ) from
+    /// <c>hypotheses/FRAGILE_BRIDGE.md</c>. Kept as a documentary reference to one of the
+    /// two firmly-established genuine EPs; the prior "the real-axis K-sweep sits ~6× above
+    /// this" comparison was retracted 2026-06-21 (the magnitudes are grid-sensitive and the
+    /// full block has no real-axis EP — see the class summary).</summary>
     public const double FragileBridgeKReference = 403.0;
 
     /// <summary>Same-sign-imaginary 2×2 algebra, the shared algebraic object:
@@ -69,38 +87,51 @@ public sealed class LocalGlobalEpLink : Claim
     /// <summary>FRAGILE_BRIDGE global instance (Σγ = 0, complex-γ-plane EP, Petermann K=403).</summary>
     public string GlobalInstanceAnchor => "hypotheses/FRAGILE_BRIDGE.md";
 
-    /// <summary>Empirical witnesses from the c=2 N=5..8 Petermann-K sweep
+    /// <summary>Cautionary record from the c=2 N=5..8 Petermann-K sweep
     /// (pinned to <see cref="SweepGammaZero"/>, <see cref="SweepQMin"/>,
     /// <see cref="SweepQMax"/>, <see cref="SweepQPoints"/>; c=2 block (1,2);
-    /// 2026-05-06). One witness per N. Hard-coded as a static pinned table —
-    /// this is a frozen empirical anchor, not a live-recomputed Claim.</summary>
+    /// 2026-05-06). One row per N. RETAINED to document genuine non-normality near each
+    /// Q_peak (large but finite Petermann factor), NOT as EP evidence: the peak magnitudes
+    /// are grid-sensitive (K swings 2–4× over ΔQ = 1e-3) and were retracted 2026-06-21, so
+    /// these numbers do not support a defective-EP reading or a growth law. Hard-coded as a
+    /// static pinned table — a frozen record, not a live-recomputed Claim.</summary>
     public IReadOnlyList<PetermannSpikeWitness> Witnesses => _petermannWitnesses;
 
-    /// <summary>The not-yet-executed bridge: explicit complex-γ analytic continuation.
-    /// Names the surviving symmetry, the structural divergence, and the promotion path
-    /// to Tier1Derived.</summary>
+    /// <summary>The 2026-06-21 F86a-retraction correction and the resulting open question.
+    /// Records what was retracted (the real-axis defective-EP reading and the grid-sensitive
+    /// magnitudes), what survives (genuine non-normality, artifact-free via the Riesz
+    /// projector norm), and the open question (whether the full block has an off-axis
+    /// defective EP at all).</summary>
     public string PendingDerivationNote =>
-        "Surviving symmetry: AIII chiral classification — the same linear Π with Π⁴=I and " +
-        "{Π, L_c}=0 anti-commutation governs both instances. Structural divergence: the " +
-        "F86 local EP sits at real Q_EP = 2/g_eff with Σγ = N·γ₀ ≠ 0 (rate-channel axis), " +
-        "while FRAGILE_BRIDGE's global EP sits in the complex-γ plane with Σγ = 0 " +
-        "(off-real-axis Hopf-bifurcation continuation). The c=2 N=5..8 sweep witnesses " +
-        "establish the real-axis K-divergence; the explicit complex-γ analytic continuation " +
-        "linking these two regimes to a single off-axis EP is NOT executed in code. " +
-        "Promotion to Tier1Derived requires either (a) complex-γ infrastructure in " +
-        "LindbladPropagator (so the K-divergence trajectory can be traced into the complex " +
-        "γ plane), or (b) a closed-form K(N) at the EP that matches FRAGILE_BRIDGE's K=403 " +
-        "ballpark via known asymptotics. Until then, Tier2Verified is honest: shared " +
-        "algebra + empirically validated real-axis hit, with the analytic continuation as " +
-        "the documented gap.";
+        "Correction (2026-06-21, independently re-verified from below, artifact-free): the " +
+        "full Σγ = N·γ₀ (n,n+1) block has NO eigenvalue coalescence on the real Q axis — its " +
+        "eigenvalues stay SIMPLE there (nearest-neighbour gap ~0.25–0.35), so there is no " +
+        "defective EP on the real axis. The block IS genuinely strongly NON-NORMAL on the " +
+        "real axis (cond(V) = 48.7 / 50.9 / 268.5 at N = 5 / 6 / 7); this is NOT an eig " +
+        "artifact: the artifact-free Riesz spectral-projector norm ‖P‖ reproduces the large " +
+        "Petermann factor on a SIMPLE, isolated eigenvalue at Re ≈ −4γ₀ (N=5: ‖P‖ = 19.4 = " +
+        "√375, gap ~0.25). Adopting PT_SYMMETRY_ANALYSIS verbatim: no real-axis EP; the " +
+        "Petermann factor is large but FINITE on the real axis, signalling a nearby EP in " +
+        "the complex parameter plane. RETRACTED: (i) reading the sweep as a defective EP on " +
+        "the real axis, and (ii) the peak magnitudes and the law on them — K swings 2–4× over " +
+        "ΔQ = 1e-3, so '6×', the peak K=2384.7, and the within-parity monotonic growth / " +
+        "odd-dominates-even parity-asymmetry readings are grid artifacts. The firmly-" +
+        "established genuine defective EPs are ONLY the toy 2×2 reduction (PROOF_F86_QPEAK " +
+        "Statement 1) and the SEPARATE Σγ = 0 gain-loss system (FRAGILE_BRIDGE, complex-γ, " +
+        "K=403). OPEN QUESTION: whether the full Σγ = N·γ₀ block has an off-axis defective EP " +
+        "AT ALL — a 2026-06-21 search found the nearest complex-Q coalescences of the full " +
+        "block are themselves DIABOLIC (‖P‖ = 1, departure-from-normality = 0), not " +
+        "defective. The surviving shared algebraic substrate (AIII chiral classification, " +
+        "linear Π with Π⁴=I and {Π, L_c}=0) is unchanged; what is unestablished is the " +
+        "defective-EP connection between the full block and the two genuine EPs.";
 
     private LocalGlobalEpLink()
-        : base("local–global EP link (F86 ↔ FRAGILE_BRIDGE)",
-               Tier.Tier2Verified,
-               "docs/proofs/PROOF_F86_QPEAK.md (F86 Statement 1) + " +
-               "hypotheses/FRAGILE_BRIDGE.md (Petermann K=403) + " +
-               "experiments/PT_SYMMETRY_ANALYSIS.md (AIII chiral) + " +
-               "docs/superpowers/syntheses/2026-05-06-petermann-sweep-c2.md (empirical witnesses)")
+        : base("local–global EP link (F86 ↔ FRAGILE_BRIDGE) — OPEN",
+               Tier.OpenQuestion,
+               "docs/proofs/PROOF_F86_QPEAK.md (F86 Statement 1, toy 2×2 EP) + " +
+               "hypotheses/FRAGILE_BRIDGE.md (separate Σγ=0 gain-loss EP, K=403) + " +
+               "experiments/PT_SYMMETRY_ANALYSIS.md (AIII chiral; no real-axis EP, nearby complex EP) + " +
+               "docs/superpowers/syntheses/2026-05-06-petermann-sweep-c2.md (cautionary non-normality record)")
     { }
 
     /// <summary>Public factory: builds the meta-claim with the four pinned Petermann
@@ -113,7 +144,12 @@ public sealed class LocalGlobalEpLink : Claim
         "F86 ↔ FRAGILE_BRIDGE: shared EP under AIII chiral algebra";
 
     public override string Summary =>
-        $"Tier2Verified: real-axis hit empirically validated (c=2 N=5..8 Petermann K up to {_petermannWitnesses.Single(w => w.N == 7).MaxKGlobal:F0} at N=7, ~6× FRAGILE_BRIDGE K=403); analytic continuation pending";
+        "OpenQuestion (F86a-retraction 2026-06-21): the full Σγ=N·γ₀ block is genuinely " +
+        "non-normal on the real Q axis but has NO eigenvalue coalescence there (eigenvalues " +
+        "simple), the Petermann factor large but finite (artifact-free ‖P‖, magnitudes " +
+        "grid-sensitive and dropped); whether it has an off-axis defective EP at all is OPEN " +
+        "(nearest complex-Q coalescences are diabolic). Firmly-established genuine EPs: the " +
+        "toy 2×2 and the separate Σγ=0 gain-loss system (FRAGILE_BRIDGE, K=403).";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -125,18 +161,20 @@ public sealed class LocalGlobalEpLink : Claim
             yield return new InspectableNode("global instance anchor",
                 summary: GlobalInstanceAnchor);
             yield return InspectableNode.Group(
-                "Petermann-K witnesses (c=2 N=5..8 real-axis sweep)",
+                "Petermann-K cautionary record (c=2 N=5..8 real-axis sweep; genuine non-normality, magnitudes grid-sensitive, NOT EP evidence)",
                 _petermannWitnesses.Cast<IInspectable>().ToArray());
-            yield return new InspectableNode("PendingDerivationNote",
+            yield return new InspectableNode("correction + open question (F86a-retraction)",
                 summary: PendingDerivationNote);
         }
     }
 
-    /// <summary>Pinned empirical table from the 2026-05-06 c=2 N=5..8 Petermann-K sweep.
+    /// <summary>Pinned cautionary table from the 2026-05-06 c=2 N=5..8 Petermann-K sweep.
     /// Pinned to <see cref="SweepGammaZero"/>, <see cref="SweepQMin"/>,
     /// <see cref="SweepQMax"/>, <see cref="SweepQPoints"/>; c=2 block (1,2).
-    /// Order: N=5, 6, 7, 8 (parity alternates odd/even/odd/even).</summary>
-    // Pinned data from F86PetermannProbe.Probe_PetermannFineGrid_C2_VsN; refresh by un-skipping that probe.
+    /// Order: N=5, 6, 7, 8. RETAINED as a record of genuine non-normality near each Q_peak;
+    /// the peak magnitudes are grid-sensitive (K swings 2–4× over ΔQ = 1e-3, retracted
+    /// 2026-06-21) and do NOT constitute EP evidence, a magnitude law, or a parity asymmetry.</summary>
+    // Pinned data from F86PetermannProbe.Probe_PetermannFineGrid_C2_VsN; magnitudes are grid-sensitive (see class summary).
     private static readonly PetermannSpikeWitness[] _petermannWitnesses = new[]
     {
         new PetermannSpikeWitness(N: 5, BlockDim: 50,
@@ -154,14 +192,16 @@ public sealed class LocalGlobalEpLink : Claim
     };
 }
 
-/// <summary>One row of the c=2 Petermann-K sweep witness table — a frozen empirical
-/// data point linking the F86 local EP at real Q to FRAGILE_BRIDGE's K=403 ballpark.
+/// <summary>One row of the c=2 Petermann-K sweep — a frozen, cautionary data point
+/// recording genuine non-normality near Q_peak. It is NOT EP evidence: the full block has
+/// no eigenvalue coalescence on the real axis, and the peak magnitude is grid-sensitive
+/// (retracted 2026-06-21; see <see cref="LocalGlobalEpLink"/>).
 ///
 /// <para>Hosts the per-N spike data: the global Petermann factor maximum across the
 /// Q-grid, the Q at which it peaked, and the per-bond-class breakdown. The
-/// <see cref="Parity"/> label (derived from <paramref name="N"/>) carries A3's σ_0
-/// R-even/R-odd-degeneracy prediction: odd-N peaks empirically dominate even-N peaks
-/// by 2–4× at every step.</para>
+/// <see cref="Parity"/> label (derived from <paramref name="N"/>) is kept only as a
+/// descriptive tag; the earlier "odd-N peaks dominate even-N by 2–4×" parity-asymmetry
+/// reading was a grid artifact and is retracted (the magnitudes are unreliable).</para>
 ///
 /// <para>Block dimension is the dimension of the c=2 block (n=1 → n=2 coherence
 /// subspace) — verifies the sweep ran on the correct block.</para>
@@ -182,8 +222,9 @@ public sealed record PetermannSpikeWitness(
     double MaxKEndpoint
 ) : IInspectable
 {
-    /// <summary>Parity class derived from <see cref="N"/>: "odd" or "even".
-    /// A3 prediction: odd-N peaks dominate even-N peaks by 2–4× at every step.</summary>
+    /// <summary>Parity class derived from <see cref="N"/>: "odd" or "even". Descriptive tag
+    /// only; the earlier "odd-N peaks dominate even-N by 2–4×" reading was a grid artifact
+    /// (retracted 2026-06-21 — the peak magnitudes are unreliable).</summary>
     public string Parity => N % 2 == 0 ? "even" : "odd";
 
     public string DisplayName => $"Petermann-K spike at c=2 N={N} ({Parity})";
