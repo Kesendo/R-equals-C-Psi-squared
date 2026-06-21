@@ -95,6 +95,42 @@ public class EpCharacterTests
         Assert.True(r.Departure < 1e-6, $"rotated-diabolic departure {r.Departure} should be ≈ 0");
     }
 
+    [Fact]
+    public void Gate0e_ObliquelyEmbeddedJordan_StillReadsDefective()
+    {
+        // A 2×2 Jordan block direct-summed with distinct eigenvalues, then conjugated by a
+        // fixed non-orthogonal S so the eigenspace is OBLIQUE / non-normal (‖P‖>1).
+        // The dep/geo signal must NOT be fooled (the failure mode that sank F86a's eig instruments).
+        var lam = new Complex(-4, 1.3);
+        var jb = Mat(new Complex[,]
+        {
+            { lam, Complex.One, 0, 0, 0, 0 },
+            { 0, lam, 0, 0, 0, 0 },
+            { 0, 0, new Complex(1,0), 0, 0, 0 },
+            { 0, 0, 0, new Complex(2,0), 0, 0 },
+            { 0, 0, 0, 0, new Complex(3,0), 0 },
+            { 0, 0, 0, 0, 0, new Complex(-1,0) },
+        });
+        var s = Mat(FixedObliqueSimilarity());
+        var l = s * jb * s.Inverse();
+        var r = EpCharacter.Characterize(l, lam, radius: 0.5);
+        Assert.Equal(EpCharacter.EpKind.Defective, r.Kind);   // load-bearing: still defective despite obliqueness
+        Assert.Equal(1, r.Geometric);                         // load-bearing: geo=1 (Jordan)
+        Assert.Equal(2, r.Algebraic);
+        Assert.True(r.ProjectorNorm > 1.5, $"oblique embedding should give ‖P‖>1.5, got {r.ProjectorNorm}");
+    }
+
+    [Fact]
+    public void Gate0f_F89ModelAtGammaZero_ReadsDiabolic_NotRigged()
+    {
+        // At γ=0 the (SE,DE) block is anti-Hermitian (normal) ⟹ all degeneracies are diabolic.
+        // If the instrument read defective here, it would be rigged.
+        var l = RCPsiSquared.Core.F89PathK.F89Path3OcticBlock.BuildSeDeSymBlock(0.69, 0.0);
+        var (center, _) = NearestPairMidpoint(l);
+        var r = EpCharacter.Characterize(l, center, radius: 0.3);
+        Assert.NotEqual(EpCharacter.EpKind.Defective, r.Kind);
+    }
+
     // ---- the eigenvector-merge corroborator ----
 
     [Fact]
@@ -158,5 +194,32 @@ public class EpCharacterTests
             { Complex.Zero, Complex.One },
         });
         Assert.Equal(3.0, EpCharacter.DepartureFromNormality(jordan), 6);
+    }
+
+    // ---- deterministic helpers for the oblique-embedding / γ=0 gates ----
+
+    private static Complex[,] FixedObliqueSimilarity()
+    {
+        // I + a fixed off-diagonal perturbation (deterministic, invertible: det = 1).
+        // Magnitudes calibrated so the conjugated Jordan eigenspace is oblique enough that ‖P‖ ≈ 2.2 > 1.5
+        // (the original 0.7/-0.5/… set was only mildly oblique at ‖P‖ ≈ 1.40); the verdict stays Defective/geo=1.
+        var a = new Complex[6, 6];
+        for (int i = 0; i < 6; i++) a[i, i] = Complex.One;
+        a[0, 2] = 1.1; a[1, 4] = -0.8; a[3, 0] = 0.6; a[5, 1] = 0.9; a[2, 5] = -0.5;
+        return a;
+    }
+
+    private static (Complex Center, double Dist) NearestPairMidpoint(
+        MathNet.Numerics.LinearAlgebra.Matrix<Complex> l)
+    {
+        var ev = l.Evd().EigenValues.ToArray();
+        double best = double.MaxValue; Complex mid = Complex.Zero;
+        for (int i = 0; i < ev.Length; i++)
+            for (int k = i + 1; k < ev.Length; k++)
+            {
+                double d = (ev[i] - ev[k]).Magnitude;
+                if (d < best) { best = d; mid = 0.5 * (ev[i] + ev[k]); }
+            }
+        return (mid, best);
     }
 }
