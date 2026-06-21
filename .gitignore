@@ -6,6 +6,8 @@ __pycache__/
 GPT_Prompts/
 ClaudeTasks
 docs/superpowers/
+# Review apparatus is private (local-only): the caught-errors ledger
+docs/CAUGHT_ERRORS.md
 commit_msg.tmp
 check.bat/
 compute/**/bin/
