@@ -11,6 +11,55 @@ public static class OpenArcsRegistry
     private static readonly IReadOnlyList<OpenArc> _all = new[]
     {
         new OpenArc(
+            Name: "f116_golden_router_typed_claim",
+            Opened: "2026-06-22",
+            Origin: "the F116 golden-router proof review (docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md, reviewed " +
+                "2026-06-22, CLEAN PASS, no content fixes): the math is correct and reproduced bit-exact from " +
+                "below by two review agents - the 'same operator written twice' unity (the sec1 per-site product " +
+                "W = the sec2 two-sided sandwich (2+phi)^(N/2)*P rho Q to ~1.8e-16), the router identity " +
+                "W L W^-1 = -L - 2sigma (~2.3e-16, uniform + site-dependent gamma), the exclusion side DEDUCTIVE " +
+                "from the K1/K2 identity-column functional, and the metallic family an exact polynomial identity " +
+                "in r. The proof header AND ANALYTICAL_FORMULAS F116 both label the result 'Tier 1 derived', but " +
+                "no standalone tiered Claim carries it. Per 'C# witness first' (reference_typing_a_claim_and_witness) " +
+                "this is the inverse of the usual typed-gap: the witness already EXISTS; the tiered Claim wrapper " +
+                "is what is missing.",
+            ParkedAt: "PROVEN + REVIEWED + WITNESSED, not a standalone tiered Claim. What EXISTS in C#: the live " +
+                "witness GoldenRouterWitness (compute/RCPsiSquared.Diagnostics/Foundation/GoldenRouterWitness.cs, " +
+                "inspect --root router) recomputes the router live; the helper machinery KBodyPalindromeRouting " +
+                "(compute/RCPsiSquared.Diagnostics/F87/, with GoldenSiteMaps / MetallicSiteMaps / MetallicMean / " +
+                "LiveMetallicRatio / RoutesWindowSummed); and the only Claim touching F116 is " +
+                "PalindromeSoftCertifierClaim (Tier1Candidate), a related-but-DISTINCT proposition (soft-certifier " +
+                "soundness + 'the k=3 windowed ceiling closed at zero') that uses the golden/metallic router as an " +
+                "UNTYPED helper (its docstring: 'no new typed parent and no tier change'). What is MARKDOWN-ONLY " +
+                "(no tiered Claim): (1) the router EXISTENCE + closed form - W = period-4 [a,a,b,b] product, " +
+                "a=phi*X+Y, b=X-phi*Y on the golden locus alpha^2-alpha*beta-beta^2=0, W L W^-1 = -L - 2sigma at " +
+                "every N>=3 for arbitrary site-dependent gamma; (2) the EXCLUSION theorems (sec4: no uniform / no " +
+                "period-2 / period-3 impossible N>=5 / Klein off-locus, all deductive from K1/K2); (3) the METALLIC " +
+                "family (sec8: golden = c=1 of r(c)=(c+sqrt(c^2+4))/2, the window-summed anticommutator identically " +
+                "zero as a polynomial in r). No contradiction (proof + registry + witness agree on 'Tier 1 " +
+                "derived'); a typed-coverage gap only.",
+            NextStep: "Type the F116 router as a standalone Tier1Derived Claim (template: " +
+                "reference_typing_a_claim_and_witness). This is mainly the Claim wrapper + parent edges, NOT new " +
+                "verification - the 2026-06-22 review already verified existence/unity/exclusion/metallic bit-exact, " +
+                "and GoldenRouterWitness already carries the from-below truth. Suggested: a GoldenRouterClaim " +
+                "(Tier1Derived) for the existence + closed form (W L W^-1 = -L - 2sigma via the class-swap " +
+                "dissipator leg + the window lemma), parents = the soft-certifier ceiling line " +
+                "(PalindromeSoftCertifierClaim) + the chiral-driving F H F = -H lemma " +
+                "(PROOF_F87_WINDOWED_MONOMIAL_CONVERSE); fold the exclusion (sec4) and the metallic family (sec8) " +
+                "as child claims or InspectableNodes; breadcrumb the new Claim from PROOF_CEILING_GOLDEN_ROUTER.md " +
+                "+ ANALYTICAL_FORMULAS F116; wire it through KnowledgeRegistryFactory + the RegistryWiringAudit. " +
+                "GATE-FIRST hazards (from the review): scope any uniqueness to INVERTIBLE W (the anticommutation " +
+                "equation alone carries singular strata, proof sec5); 'Tier 1 derived' is solid for " +
+                "existence/closed-form/exclusion/metallic, but the c=0 station's '8 physical moduli' (sec8) is a " +
+                "finite-difference Jacobian count, so type its rigidity carefully (golden + silver are zero-moduli, " +
+                "c=0 is the soft station). Anchors: docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md; " +
+                "simulations/ceiling_golden_router.py + metallic_router_family.py (self-validating, exact ring " +
+                "arithmetic); compute/RCPsiSquared.Diagnostics/Foundation/GoldenRouterWitness.cs (inspect --root " +
+                "router); compute/RCPsiSquared.Diagnostics/F87/KBodyPalindromeRouting.cs + " +
+                "PalindromeSoftCertifierClaim.cs; ANALYTICAL_FORMULAS.md F116.",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
             Name: "f124_transition_invariant_witness",
             Opened: "2026-06-20",
             Origin: "the F124 proof review (docs/proofs/PROOF_HANDSHAKE_TRANSITION_INVARIANT.md, reviewed " +
