@@ -9,6 +9,8 @@
 - `compute/RCPsiSquared.Diagnostics/F87/KBodyPalindromeRouting.cs`: the per-site routing machinery; its condition (a) (class-swap handles the dissipator) is committed prior art used as-is, and its continuous map M is the (1,1)-frame member of the family constructed here.
 - [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §2: the chiral driving lemma F H F = −H whose failure on the ceiling's cross-terms the golden frame repairs.
 
+**Typed as (2026-06-22):** `GoldenRouterClaim` (Tier1Derived; `compute/RCPsiSquared.Diagnostics/F87/GoldenRouterClaim.cs`, `inspect --claim GoldenRouterClaim`), with a live from-below self-check battery that re-runs the window-summed router (`KBodyPalindromeRouting`). Typed parents: `F1PalindromeIdentity` (the global palindrome this router realizes locally for the ceiling class) and `WindowedConverseThresholdClaim` (the F87 two-reflection chiral spine its two-sided form instantiates). The c = 0 "8 moduli" of §8 is held below the Tier 1 line as a finite-difference Jacobian count at N = 5 only, not an analytic result.
+
 ## Abstract
 
 The two Z-middle ceiling cases, the sliding-window chain Hamiltonians built from XZX+XZY+YZX and its X↔Y sibling YZY+XZY+YZX, were the last two members of the soft family that resisted every per-site palindromizer we could test: no uniform-continuous map, no discrete-periodic Klein pattern, and the committed verdict read "palindromized only by a non-local Π," with the continuous-periodic family named as the explicit open frontier. This proof closes that frontier in the direction nobody expected: **with a router, not an obstruction**.

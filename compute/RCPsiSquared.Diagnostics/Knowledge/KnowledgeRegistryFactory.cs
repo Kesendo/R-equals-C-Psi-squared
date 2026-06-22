@@ -186,6 +186,20 @@ public static class KnowledgeRegistryFactory
             // Tier1Derived) + F87TrichotomyClassification (the spectral authority, Tier1Derived).
             // Tier1Candidate (5 ≥ 4 and 5 ≥ 4 inheritance). Wired 2026-06-05.
             .RegisterPalindromeSoftCertifierClaim()
+            // F116 golden/metallic router as a standalone Tier1Derived Claim (2026-06-22, the "C# witness
+            // first" inverse gap: the live witness GoldenRouterWitness + the helper KBodyPalindromeRouting
+            // already existed; only the tiered Claim wrapper was missing). An invertible period-4 per-site
+            // product W = ⊗_l q_{l mod 4} ([a,a,b,b] on the golden locus, q²=−(2+φ)I) palindromizes the
+            // Z-middle sliding-window ceiling: W L W⁻¹ = −L − 2σ at every N≥3 for arbitrary site γ; the
+            // ceiling cases are continuous-periodic-LOCAL, not non-local. Generalises to the metallic
+            // family r(c)=(c+√(c²+4))/2 (polynomial identity in r); exclusion is deductive from K₁,K₂.
+            // The c=0 "8 moduli" is held soft (finite-difference Jacobian, N=5 only). Two Tier1Derived
+            // parents: F1PalindromeIdentity (the global palindrome W realizes locally for the ceiling
+            // class, via RegisterF1Family at the top) + WindowedConverseThresholdClaim (the F87
+            // two-reflection chiral spine its two-sided form instantiates, registered above; 5 ≥ 5 both).
+            // This router CLOSES PalindromeSoftCertifierClaim's k=3 ceiling (the certifier uses it as a
+            // helper, so this is upstream of it: a see-cref, not a parent edge).
+            .RegisterGoldenRouterClaim()
             // Q-pair routing: the Liouvillian-free two-term router as a registered Claim. The
             // non-diagonal counterpart to RegisterF87DiagonalCellBipartiteWitnessSet (which reads
             // the diagonal P1-family case via a chiral K): this classifies any two-term bond

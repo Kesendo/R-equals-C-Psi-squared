@@ -57,7 +57,30 @@ public static class OpenArcsRegistry
                 "arithmetic); compute/RCPsiSquared.Diagnostics/Foundation/GoldenRouterWitness.cs (inspect --root " +
                 "router); compute/RCPsiSquared.Diagnostics/F87/KBodyPalindromeRouting.cs + " +
                 "PalindromeSoftCertifierClaim.cs; ANALYTICAL_FORMULAS.md F116.",
-            Status: OpenArcStatus.Open),
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "RESOLVED 2026-06-22. Typed as GoldenRouterClaim (Tier1Derived, " +
+                "compute/RCPsiSquared.Diagnostics/F87/GoldenRouterClaim.cs + GoldenRouterClaimRegistration.cs, " +
+                "wired in KnowledgeRegistryFactory after the soft-certifier; inspect --claim GoldenRouterClaim). " +
+                "The Claim carries the existence + closed form W L W^-1 = -L - 2sigma, the window lemma, the " +
+                "deductive exclusion (K1/K2), and the metallic family as ExtraChildren, with a LIVE from-below " +
+                "self-check battery that re-runs the window-summed router via KBodyPalindromeRouting (golden + " +
+                "X-Y sibling certified, per-term lens declines, metallic mean live = closed form at golden + " +
+                "silver, residual vanishes at r=phi). The c=0 '8 moduli' is held below the Tier1 line as an " +
+                "explicit soft scope-fence node (finite-difference Jacobian, N=5 only, not analytic), and " +
+                "uniqueness is scoped to invertible W, per the review's gate-first hazards. Tests: " +
+                "GoldenRouterClaimRegistrationTests (9, incl. the live battery), all PASS; RegistryWiringAudit + " +
+                "AnchorAudit PASS; PalindromeSoftCertifier 11 still green. Breadcrumbed from " +
+                "PROOF_CEILING_GOLDEN_ROUTER.md + ANALYTICAL_FORMULAS F116. " +
+                "GATE-FIRST CATCH (corrected the arc's own NextStep): the suggested parents " +
+                "(PalindromeSoftCertifierClaim + the chiral lemma) were WRONG. PalindromeSoftCertifierClaim is " +
+                "Tier1Candidate (strength 4 < 5), so parenting a Tier1Derived claim on it violates the " +
+                "TierStrength parent >= child rule; AND it is backwards (the certifier USES this router as a " +
+                "helper, so the router is logically UPSTREAM of the certifier, not its child). Correct " +
+                "tier-legal parents: F1PalindromeIdentity (the palindrome form the router realizes locally) + " +
+                "WindowedConverseThresholdClaim (the F87 two-reflection chiral spine that actually homes the " +
+                "F H F = -H lemma, anchored on PROOF_F87_WINDOWED_MONOMIAL_CONVERSE). The certifier relationship " +
+                "is a see-cref, not a parent edge. ChiralKClaim was dropped as a redundant direct parent (it " +
+                "already appears transitively via the windowed-converse spine)."),
 
         new OpenArc(
             Name: "f124_transition_invariant_witness",

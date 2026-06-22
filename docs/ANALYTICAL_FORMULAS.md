@@ -4341,6 +4341,12 @@ self-validating anchor); [experiments/CEILING_FOUR_NONLOCAL_CASES.md](../experim
 strategy `RoutingWindowSummed` (golden candidates) in `PalindromeSoftCertifier` /
 `KBodyPalindromeRouting`, both Z-middle cases now Certified, and
 `PalindromeSoftCertifierClaim` asserts the structural ceiling closed at zero.
+**Typed (2026-06-22):** the result is its own standalone Tier1Derived Claim
+`GoldenRouterClaim` (`compute/RCPsiSquared.Diagnostics/F87/GoldenRouterClaim.cs`,
+`inspect --claim GoldenRouterClaim`), with a live from-below self-check battery; typed
+parents `F1PalindromeIdentity` (the palindrome form W realizes locally) and
+`WindowedConverseThresholdClaim` (the chiral spine). The c = 0 "8 moduli" is held below
+the Tier 1 line as a finite-difference Jacobian count at N = 5 only, not analytic.
 
 ---
 
