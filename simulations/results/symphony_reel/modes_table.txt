@@ -1,0 +1,19 @@
+REEL AND PROJECTOR (from live C# Symphony)  N=5 gamma=0.05 J=0.075 Q=1.5 sigma=0.25 center=-0.25
+modes 1024, frozen 6 (expect N+1=6)
+
+   Re lambda    Im lambda  frozen?  shape
+--------------------------------------------------
+     0.00000     -0.00000      YES  still point
+    -0.02401      0.00000       no  radial fall
+    -0.05145      0.00000       no  radial fall
+    -0.10000     -0.00000       no  radial fall
+    -0.10000     -0.07500       no  inward spiral
+    -0.10000     -0.12990       no  inward spiral
+    -0.12007     -0.00000       no  radial fall
+    -0.12538     -0.00000       no  radial fall
+    -0.12871     -0.07576       no  inward spiral
+    -0.13313     -0.07058       no  inward spiral
+    -0.13645     -0.00000       no  radial fall
+    -0.13926      0.13118       no  inward spiral
+    -0.14459      0.16547       no  inward spiral
+    -0.15283      0.00000       no  radial fall

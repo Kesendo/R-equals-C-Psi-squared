@@ -446,3 +446,9 @@ had the complete picture. Here is how our work relates to theirs:
 - [QST Bridge](../../experiments/QST_BRIDGE.md): palindrome applies to all QST channels, provides decay diagnostics
 - [Non-Heisenberg Palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md): the Π families (P1/P4, alternating, continuous per-site), all local, for parity-broken Hamiltonians
 - [Absorption Theorem](PROOF_ABSORPTION_THEOREM.md): rate quantization Re(λ) = −2γ⟨n_XY⟩, the principal descendant of F1
+
+## The spectrum, drawn live
+
+![The Liouvillian spectrum of an N = 5 chain at Q = 1.5, exported live from the Symphony witness: every mode's whole life compressed to one point λ. The cloud is mirror-symmetric about the dashed line at −σ = −0.25, the F1 palindrome made visible.](../../simulations/results/symphony_reel/without_t_axis_spectrum.png)
+
+The palindrome of this proof, seen at a glance. The 1024 eigenvalues of the live Liouvillian (`inspect --root symphony --N 5 --J 0.075 --gamma 0.05 --export`, drawn by `simulations/reel_and_projector.py`) sit symmetric about the center −σ: every fast mode paired with a slow one. The same figure is the shared anchor of two descendants also visible in it: the frozen sector on the Re = 0 edge is the [F4 kernel](PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md) (N + 1 = 6 modes that never fade), and the vertical rungs are the [absorption law](PROOF_ABSORPTION_THEOREM.md) Re λ = −2γ·n_XY. Nothing in the picture is chance.

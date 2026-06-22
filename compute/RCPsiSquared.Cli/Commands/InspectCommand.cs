@@ -1,4 +1,6 @@
 using System.Globalization;
+using System.IO;
+using System.Text;
 using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.Confirmations;
@@ -9,6 +11,7 @@ using RCPsiSquared.Core.F71;
 using RCPsiSquared.Core.F86;
 using RCPsiSquared.Core.F86.Item1Derivation;
 using RCPsiSquared.Core.Inspection;
+using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.OpenArcs;
 using RCPsiSquared.Core.Resonance;
 using RCPsiSquared.Core.Symmetry;
@@ -315,8 +318,48 @@ public static class InspectCommand
         double? tempoRatio = p.OptionalDouble("tempo-ratio");
         bool calibrate = p.HasFlag("calibrate");
         string? labUnit = p.OptionalString("lab-unit");
-        return new Symphony(N, j, gamma, htype, topo, initial, tMax, tPoints, defectBond, deltaJ,
+        var sym = new Symphony(N, j, gamma, htype, topo, initial, tMax, tPoints, defectBond, deltaJ,
             carrierPair: null, tempoRatio: tempoRatio, calibrate: calibrate, labUnit: labUnit);
+        if (p.HasFlag("export"))
+            ExportSymphonyCsv(sym);
+        return sym;
+    }
+
+    /// <summary>Writes the Symphony's already-computed reel to CSV for an external plotter (--export):
+    /// the Liouvillian spectrum (every mode's whole life as one point λ) and the film curves (global CΨ,
+    /// local CΨ, light over the shared timeline). Lets simulations/reel_and_projector.py draw the
+    /// "with t-axis" film and the "without t-axis" time-erased spectrum from the LIVE LAB, not the
+    /// deprecated Python framework. I/O lives here in the Cli layer; the Symphony witness stays pure.</summary>
+    private static void ExportSymphonyCsv(Symphony s)
+    {
+        string dir = Path.Combine(RepoRootLocator.Require(), "simulations", "results", "symphony_reel");
+        Directory.CreateDirectory(dir);
+        var inv = CultureInfo.InvariantCulture;
+        double sigma = s.N * s.Gamma;
+
+        var ev = new StringBuilder();
+        ev.AppendLine($"# N={s.N} J={s.J.ToString("R", inv)} gamma={s.Gamma.ToString("R", inv)} "
+            + $"Q={(s.J / s.Gamma).ToString("R", inv)} sigma={sigma.ToString("R", inv)} "
+            + $"center={(-sigma).ToString("R", inv)}");
+        ev.AppendLine("Re,Im");
+        foreach (var lam in s.LiouvillianEigenvalues)
+            ev.AppendLine($"{lam.Real.ToString("R", inv)},{lam.Imaginary.ToString("R", inv)}");
+        File.WriteAllText(Path.Combine(dir, "symphony_eigenvalues.csv"), ev.ToString());
+
+        var cu = new StringBuilder();
+        cu.AppendLine("t,K,global_CPsi,local_CPsi,light");
+        var t = s.TimeGrid;
+        var st = s.States;
+        for (int i = 0; i < t.Count; i++)
+            cu.AppendLine(
+                $"{t[i].ToString("R", inv)},{(s.Gamma * t[i]).ToString("R", inv)},"
+                + $"{Symphony.Cpsi(st[i]).ToString("R", inv)},{s.LocalCpsi(st[i]).ToString("R", inv)},"
+                + $"{Symphony.LightContent(st[i]).ToString("R", inv)}");
+        File.WriteAllText(Path.Combine(dir, "symphony_curves.csv"), cu.ToString());
+
+        System.Console.WriteLine($"[export] symphony reel written to {dir}");
+        System.Console.WriteLine($"[export]   symphony_eigenvalues.csv  ({s.LiouvillianEigenvalues.Count} modes)");
+        System.Console.WriteLine($"[export]   symphony_curves.csv       ({t.Count} time points)");
     }
 
     /// <summary>The F116 live lab: builds a <see cref="GoldenRouterWitness"/> that re-runs the soft-certifier

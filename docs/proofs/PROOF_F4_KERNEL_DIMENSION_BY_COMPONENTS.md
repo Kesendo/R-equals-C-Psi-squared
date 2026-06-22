@@ -96,3 +96,9 @@ The Clebsch-Gordan route is the natural one given F4's existing structure (Σ_J 
 - Data anchors: `simulations/results/f1_n8_n9_metrics/{chain,ring,star,k4_plus_disjoint_4chain}_N8.json` (`KernelDimension` field of each)
 - Corroborating per-weight ker breakdown: [docs/proofs/PROOF_WEIGHT1_DEGENERACY.md](PROOF_WEIGHT1_DEGENERACY.md) § Appendix 2026-05-17 (per-weight ker(w) decomposition across topologies; the w=0 row pins the kernel-projector count to N+1 for every connected graph tested at N=3..5, corroborating the boundary upper-bound used here)
 - Related: [PROOF_F1_GENERAL_TOPOLOGY](PROOF_F1_GENERAL_TOPOLOGY.md) (the (B, D2) parameterisation of the F1 residual norm under the same disconnected / weighted graph extensions used by this proof's Section 2)
+
+## The kernel, drawn live
+
+![The live Liouvillian spectrum of an N = 5 chain at Q = 1.5 (Symphony export). The N + 1 = 6 frozen modes (Re λ = 0, the dephased kernel of this proof) sit on the right edge, highlighted; every other mode fades.](../../simulations/results/symphony_reel/without_t_axis_spectrum.png)
+
+This proof's count, seen at a glance: the 6 modes on the Re = 0 edge are exactly N + 1 = 6, the dephased kernel for the connected N = 5 chain. The same figure is the shared anchor of the [F1 palindrome](MIRROR_SYMMETRY_PROOF.md) (the mirror about −σ) and the [absorption rungs](PROOF_ABSORPTION_THEOREM.md) Re λ = −2γ·n_XY. Exported by `inspect --root symphony --N 5 --J 0.075 --gamma 0.05 --export`, drawn by `simulations/reel_and_projector.py`.

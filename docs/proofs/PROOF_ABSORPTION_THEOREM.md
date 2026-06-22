@@ -666,3 +666,9 @@ One equation. Three symbols. The entire absorption spectrum in one line.
 - XOR drain: [XOR Space](../../experiments/XOR_SPACE.md)
 - Palindrome proof: [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)
 - Π definition: I ↔ X, Y ↔ iZ, Z ↔ iY (per site, tensor product)
+
+## The rungs, drawn live
+
+![The live Liouvillian spectrum of an N = 5 chain at Q = 1.5 (Symphony export). The eigenvalues' real parts fill the absorption envelope [−2σ, 0] = [−0.5, 0] and align on the rungs −2γ·n (dotted vertical lines).](../../simulations/results/symphony_reel/without_t_axis_spectrum.png)
+
+This proof's quantization, seen at a glance: the real parts (the fade rates) live in [−2σ, 0] and cluster on the rungs −2γ·n. The same figure is the shared anchor of the [F1 palindrome](MIRROR_SYMMETRY_PROOF.md) (the mirror about −σ) and the [F4 kernel](PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md) (the N + 1 frozen modes at Re = 0). Exported by `inspect --root symphony --N 5 --J 0.075 --gamma 0.05 --export`, drawn by `simulations/reel_and_projector.py`.
