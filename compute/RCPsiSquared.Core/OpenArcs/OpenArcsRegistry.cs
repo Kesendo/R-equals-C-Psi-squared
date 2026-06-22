@@ -1191,7 +1191,41 @@ public static class OpenArcsRegistry
                 "typed Claim/witness for the dynamical absorber existed (confirmed: 'knowledge ancestors " +
                 "SubsystemCrossing' -> not registered), so no Claim retraction was needed; the algebraic 1/4 " +
                 "(QuarterAsBilinearMaxvalClaim, block-CPsi <= 1/4) was untouched.",
+            RetiredReason: "Scope-retraction APPLIED 2026-06-22 (second deep review, Tom-led): the general " +
+                "primitive-CPTP claim is FALSE (counterexample re-verified from below, CPsi(sigma)=0.2935 in the " +
+                "proof's own metric); PROOF_SUBSYSTEM_CROSSING + F28 + PROOF_ROADMAP_QUARTER_BOUNDARY scoped to " +
+                "physical noise. The false claim was never typed, so no Claim retraction was needed. The clean-iff " +
+                "follow-up is the new arc subsystem_crossing_separable_fixed_point_characterization.",
             Status: OpenArcStatus.Retired),
+
+        new OpenArc(
+            Name: "subsystem_crossing_separable_fixed_point_characterization",
+            Opened: "2026-06-22",
+            Origin: "the generative pass of the A5 scope-retraction (subsystem_crossing_general_cptp_overreach, " +
+                "now Retired). Correcting the SUBSYSTEM_CROSSING theorem revealed that the 1/4 'eventual absorber' " +
+                "depends not on PRIMITIVITY but on the FIXED POINT being separable/classical. Physical noise " +
+                "(unital/local/Pauli/AD) relaxes to rho* = I/d or a product/pure state, all with CPsi = 0; the " +
+                "counterexample eps=(1-p)rho+p*Tr(rho)*sigma (sigma=0.95|Phi+><Phi+|+0.05*I/4) is primitive and " +
+                "full-rank yet has an ENTANGLED fixed point with CPsi(sigma)=0.2935 > 1/4. The clean question: what " +
+                "is the exact channel/fixed-point class for which the 1/4 absorber holds? The natural candidate is " +
+                "'separable fixed point', but it is NOT yet verified: a separable 2-qubit state still carries " +
+                "l1-coherence in the computational basis, so CPsi(rho)=Tr(rho^2)*L1/(d-1) of a separable state need " +
+                "not be 0 and might exceed 1/4; if it can, the right class is narrower (classical/diagonal, or " +
+                "zero-discord), not merely separable.",
+            ParkedAt: "a CONJECTURE, gate-not-yet-run. Verified from below: physical-noise fixed points have CPsi=0 " +
+                "(_review2_A5_subsystem.py REPLACEMENT check: depol/Z-dephasing/amp-damp all 0); the entangled-target " +
+                "counterexample has CPsi=0.2935. Unverified: whether SEPARABILITY of the fixed point alone bounds " +
+                "CPsi <= 1/4 (the metric is basis-dependent l1-coherence, so separable-but-coherent states are the " +
+                "decisive test case).",
+            NextStep: "gate-first: (1) search/sample SEPARABLE 2-qubit states for CPsi = Tr(rho^2)*L1/(d-1) > 1/4 " +
+                "(a one-screen numpy sweep over product states + separable mixtures). If a separable state can " +
+                "exceed 1/4, the absorber class is NOT 'separable' -- narrow to classical (diagonal) / zero-discord " +
+                "and re-test. (2) If a clean iff emerges ('the 1/4 absorber holds iff the fixed point is in class " +
+                "X'), restate the SUBSYSTEM_CROSSING theorem as that iff and consider TYPING it as a Claim -- the " +
+                "dynamical absorber is currently UNTYPED (only the algebraic 1/4 QuarterAsBilinearMaxvalClaim is). " +
+                "Anchors: docs/proofs/PROOF_SUBSYSTEM_CROSSING.md (Case C, the separable-vs-entangled mechanism); " +
+                "simulations/_review2_A5_subsystem.py.",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;

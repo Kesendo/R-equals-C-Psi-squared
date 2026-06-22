@@ -80,7 +80,7 @@ and the dissipator is block-diagonal in the parity grading.
 *form* of L (it respects the mirror parity), not about where the noise comes
 from. It is satisfied by the ordinary EXTERNAL Z-dephasing generator we always
 use, so it cannot, by itself, rule out an internal origin. It is also
-*axis-agnostic*: it holds equally for X-, Y-, and Z-dephasing — every dephasing
+*axis-agnostic*: it holds equally for X-, Y-, and Z-dephasing; every dephasing
 dissipator is diagonal in the Pauli basis and Π² is a sign on each Pauli
 string, so the two commute trivially (verified from below in
 [_review2_A9_incompleteness.py](../../simulations/_review2_A9_incompleteness.py):

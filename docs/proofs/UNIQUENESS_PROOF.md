@@ -83,8 +83,8 @@ merge, is
 
     CΨ*_α = (α − 1)^(α − 1) / (α^α · Ψ^(α − 2)).
 
-This threshold is independent of the state Ψ — the boundary is the same for
-every state — **if and only if α = 2**, where it equals exactly 1/4. For any
+This threshold is independent of the state Ψ (the boundary is the same for
+every state) **if and only if α = 2**, where it equals exactly 1/4. For any
 other α it carries a Ψ^(α − 2) factor and depends on the coherence. So 1/4 is
 singled out not merely because purity is degree 2, but because α = 2 is the
 unique Rényi order whose critical boundary is state-independent. This is the
