@@ -6,17 +6,17 @@
 
 ## Abstract
 
-The Heisenberg Liouvillian at zero dephasing has a kernel: the operator subspace that is left untouched by the dynamics. For a connected chain of N qubits the kernel dimension is N + 1, matching the number of total-spin-z eigenvalues. The question this proof answers is what happens when the graph has multiple connected components.
+The dephased Heisenberg Liouvillian (Heisenberg coupling under uniform Z-dephasing, at any Σγ > 0) has a steady-state kernel: the operator subspace left untouched by the dynamics. For a connected chain of N qubits the kernel dimension is N + 1, matching the number of total-spin-z eigenvalues. The dephasing is essential here: at Σγ = 0 the bare commutator kernel is the full commutant of H, which is strictly larger (10 at N = 2, 24 at N = 3 for the chain); the Z-dephasing restricts the kernel to the diagonal functions of total S_z, leaving N + 1. The question this proof answers is what happens when the graph has multiple connected components.
 
 The answer is a clean factorization. If the graph splits into components of sizes |c_1|, |c_2|, ..., |c_k|, the kernel dimension factorizes as the product of (|c_i| + 1) across components. A single component of size N reproduces the chain answer N + 1; two components of sizes 4 and 4 give (4 + 1) · (4 + 1) = 25; the multiplicative structure is the same as if each component lived in its own independent Heisenberg dynamics, which it effectively does because L_H tensor-sums across disjoint components.
 
-The per-component statement (each connected component contributes a factor |c| + 1) is the deeper result. It comes from a magnetization-conservation argument: the operators left untouched by L_H on a connected component are exactly the diagonal functions of the total z-spin in that component, and there are |c| + 1 such functions (one per total-z eigenvalue from −|c|/2 to +|c|/2 in unit steps). Disjoint components have independent total-z conservations, so their kernels multiply.
+The per-component statement (each connected component contributes a factor |c| + 1) is the deeper result. It comes from a magnetization-conservation argument: the operators left untouched by the dephased dynamics on a connected component (those that both commute with H and are annihilated by the Z-dephasing dissipator) are exactly the diagonal functions of the total z-spin in that component, and there are |c| + 1 such functions (one per total-z eigenvalue from −|c|/2 to +|c|/2 in unit steps). Disjoint components have independent total-z conservations, so their kernels multiply.
 
 The diagnostic upshot is that the F1 kernel dimension is an immediate graph topology readout. Measuring the operator subspace fixed by the Heisenberg Hamiltonian tells you the component structure of the underlying connectivity, and the factor pattern in the kernel dimension reveals whether the system is one piece or several. F4 turns the kernel into an observable for graph reconstruction, which is occasionally a useful inverse problem.
 
 ## Statement
 
-For a graph G with connected components {G_1, G_2, ..., G_k} where component G_c contains |c| qubits (so Σ_c |c| = N), the kernel dimension of the Heisenberg Liouvillian L_H = −i[H_Heisenberg, ·] at Σγ = 0 factorises as
+For a graph G with connected components {G_1, G_2, ..., G_k} where component G_c contains |c| qubits (so Σ_c |c| = N), the kernel dimension of the dephased Heisenberg Liouvillian L_H (here the full Liouvillian −i[H_Heisenberg, ·] + L_D under uniform Z-dephasing at any Σγ > 0, whose kernel is the joint kernel of the commutator and the dephasing dissipator, i.e. the steady-state space) factorises as
 
     dim ker L_H(G)  =  Π_c (|c| + 1).
 
