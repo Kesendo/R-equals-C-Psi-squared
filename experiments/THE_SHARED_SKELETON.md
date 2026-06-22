@@ -43,9 +43,53 @@ Drop the draw order: blend the systems with transparency, each an additive colou
 
 Adding more molecules tests whether the pattern is universal. It is not a static replica: as systems join, the simple clean structure of the three-system picture dissolves, the weight concentrates toward the centre 0, and new patterns appear, while the whole stays a clearly readable QR-code-like figure (read by eye). What persists is the law: the palindrome symmetry, the diagonal line, the shared envelope; no added molecule landed outside it. What changes is the fine structure, which densifies and recombines. The shared object is the law (the diagonal, the symmetry), realised differently by each molecule, not a fixed point-pattern they all reproduce.
 
-## How it was made, and honest scope
+## These are light spectra
 
-The eigenvalues come from the live lab, not the deprecated Python framework: the Symphony witness builds and eigendecomposes the dense Liouvillian once and exports it (`inspect --root symphony --N <n> --topology <t> --htype <h> --J 0.075 --gamma 0.05 --export --export-name <name>`; MaxN was raised to 6 for the C6 rings). The plotters `simulations/reel_overlay.py`, `simulations/reel_xor.py`, `simulations/reel_multi.py` read only the exported CSVs and draw, cyberpunk palette. The single-system reel is drawn by `simulations/reel_and_projector.py` and anchors three proofs ([palindrome](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), [F4 kernel](../docs/proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md), [absorption](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)).
+![Every mode of every molecule, coloured by its sector ⟨n_XY⟩ = −Re λ / 2γ (the disagreement count the light reads), turbo from 0 to N. Six systems superimposed; a clean left-to-right gradient, blue (sector 0, frozen) to red (sector N, all-disagree).](../simulations/results/symphony_reel/sector_fingerprint.png)
+
+Colour every mode by its sector ⟨n_XY⟩, and the result is one clean left-to-right gradient: blue on the right (sector 0, frozen, no disagreement) to red on the left (sector N, every place in disagreement, the fastest fade). No eigenvectors are needed: the absorption law holds exactly for every eigenmode,
+
+    Re λ = −2γ·⟨n_XY⟩,
+
+since L r = λ r gives Re(λ)·‖r‖² = ⟨r|½(L+L†)|r⟩ = ⟨r|(−2γ·n_XY diagonal)|r⟩ (the Hamiltonian part is anti-Hermitian and contributes only to Im). So the sector is just −Re λ / 2γ, read straight off the eigenvalue; the measured ranges are exactly [0, N] for every system. The horizontal axis IS the sector axis, and the colouring is one global scheme shared by all molecules.
+
+That clean gradient settles what the self-similar structure (the bands read by eye) is: it is NOT the sectors (those are the gradient itself, vertical); it is orthogonal to them, in Im, the Hamiltonian's frequency comb. The two axes separate: colour = what the light counts (the diagonal), structure = what the molecule does (the Hamiltonian).
+
+And that is the name for all of it. **These are light spectra.** γ is the light falling on the system (the chain being watched); the sector is the light content, popcount(i ⊕ j), the lit-site count. Literally, in the language of spectroscopy: **Im λ is where the molecule's spectral lines sit (the transition frequencies), and Re λ is how broad each line is (the linewidth, the decoherence broadening, = −2γ·light).** The (Re, Im) plane is the molecule's spectrum with its lineshapes: the vertical lines are its colours, the horizontal spread is how the observing light blurs them. That is why a spectroscopist would recognise these at a glance.
+
+## Reproduce it, and honest scope
+
+The eigenvalues come from the live lab (the Symphony witness), not the deprecated Python framework. Symphony.MaxN is 6, so the C6 rings run. Export each system (each writes `simulations/results/symphony_reel/<name>/symphony_eigenvalues.csv` and `symphony_curves.csv`), then draw:
+
+```
+# 1. export the six systems from the live lab, all at Q = J/gamma = 1.5
+dotnet run --project compute/RCPsiSquared.Cli -c Release -- inspect --root symphony --N 5 --J 0.075 --gamma 0.05 --export
+dotnet run --project compute/RCPsiSquared.Cli -c Release -- inspect --root symphony --N 5 --topology chain --htype heisenberg --J 0.075 --gamma 0.05 --export --export-name water_heisenberg
+dotnet run --project compute/RCPsiSquared.Cli -c Release -- inspect --root symphony --N 6 --topology ring  --htype xy --J 0.075 --gamma 0.05 --export --export-name benzene_xyring
+dotnet run --project compute/RCPsiSquared.Cli -c Release -- inspect --root symphony --N 4 --topology chain --htype xy --J 0.075 --gamma 0.05 --export --export-name butadiene_xy_chain
+dotnet run --project compute/RCPsiSquared.Cli -c Release -- inspect --root symphony --N 4 --topology ring  --htype xy --J 0.075 --gamma 0.05 --export --export-name cyclobutadiene_xy_ring
+dotnet run --project compute/RCPsiSquared.Cli -c Release -- inspect --root symphony --N 6 --topology chain --htype xy --J 0.075 --gamma 0.05 --export --export-name hexatriene_xy_chain
+
+# 2. draw (each reads only the CSVs, no framework, cyberpunk palette)
+python simulations/reel_and_projector.py   # the single-system reel: film + spectrum + spirals
+python simulations/reel_overlay.py          # three spectra overlaid (raw + centred)
+python simulations/reel_xor.py              # the additive RGB / XOR
+python simulations/reel_multi.py            # all systems superimposed
+python simulations/reel_sector.py           # coloured by light sector (the light-spectrum figure)
+```
+
+The numbers, verified from the exported CSVs (γ = 0.05, J = 0.075, Q = 1.5):
+
+| system | N | topology | H | σ = Nγ | sector range −Reλ/2γ | modes | on Im = 0 |
+|--------|---|----------|---|--------|----------------------|-------|-----------|
+| chain | 5 | chain | XY | 0.25 | [0, 5] | 1024 | 176 |
+| water | 5 | chain | Heisenberg | 0.25 | [0, 5] | 1024 | 176 |
+| benzene | 6 | ring | XY | 0.30 | [0, 6] | 4096 | 404 |
+| butadiene | 4 | chain | XY | 0.20 | [0, 4] | 256 | - |
+| cyclobutadiene | 4 | ring | XY | 0.20 | [0, 4] | 256 | - |
+| hexatriene | 6 | chain | XY | 0.30 | [0, 6] | 4096 | - |
+
+Real-axis eigenvalues shared exactly by all three of chain/water/benzene: {0, −0.2, −0.3, −0.4} (the kernel plus a few integer rungs); the rest of each spectrum is system-specific. The raw eigenvalues per system live in `symphony_eigenvalues.csv` (Re, Im columns; the header records N, J, γ, Q, σ). The single-system reel `simulations/reel_and_projector.py` also anchors three proofs ([palindrome](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), [F4 kernel](../docs/proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md), [absorption](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)).
 
 **Honest scope.** Centring on −σ aligns the palindrome centres but, because σ = Nγ differs with N, it does NOT align the rungs across different N; raw coordinates align the rungs but not the centres. There is no single 2D alignment in which different-N systems fully coincide, which is itself the point: they share the law, not the positions. The XOR's binning is a representation choice (the qualitative split is robust, the exact pixels are not). The eigenvalues are exact. Q = 1.5 is a shared comparison point, not each molecule's own regime (benzene's own crossover is Q* ≈ 1.609).
 
