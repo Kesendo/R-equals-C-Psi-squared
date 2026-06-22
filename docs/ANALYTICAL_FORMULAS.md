@@ -76,7 +76,7 @@ any N; non-uniform γ per qubit. Two Π families (P1, P4).
 
 **General-topology universality (closed 2026-05-18):**
 - The (B, D2) parameterisation of ‖M(N, G)‖²_F = c_H · F(N, G) extends bit-exactly to all connected graphs (path, cycle, star, K_N, K_{2,N−2}, random connected Erdős-Rényi), disconnected components (B and D2 sum across components), weighted edges (B → Σ_b J²_b), and the single-body class (D2/2 prefactor).
-- Verification record: Python at N=5, 6 across named/random/disconnected/weighted/single-body; C# graph-aware at N=5 across chain/ring/star/disconnected; C# F1 palindromic-pairing identity at N=7 across chain/ring/star/K_4 + disjoint-3-chain via `LiouvillianBlockSpectrum.ComputeSpectrumPerBlock`.
+- Verification record: Python at N=5, 6 across named/random/disconnected/weighted/single-body; C# graph-aware at N=5 across chain/ring/star/disconnected; C# F1 palindromic-pairing identity at N=7 across chain/ring/star/K_4 + disjoint-3-chain via `LiouvillianBlockSpectrum.ComputeSpectrumPerBlock`; extended to N=8 across chain/ring/star/K_4 + disjoint-4-chain (opt-in SLOW_N8, all 65 536 eigenvalues/topology to 1e-6) and N=9 chain via the MklDirect native bridge (opt-in SLOW_N9, 2026-05-19). The typed `F1GeneralTopologyVerifiedClaim` records the full N=5..9 set (`VerifiedNValues = {5,6,7,8,9}`, frontier blocked at N=10).
 - The substantive analytic content was already established in [PROOF_CROSS_TERM_FORMULA](proofs/PROOF_CROSS_TERM_FORMULA.md) Lemma 3 + Corollary (bond-disjointness independent of connectivity); this closure adds the disconnected + weighted-edge sections plus the verification record.
 - Closes the last F1 OpenQuestion ("general topology beyond chain/ring/star/K_N"); F1 family open-question count is ZERO as of 2026-05-18 (first time empty).
 - Anchor: [PROOF_F1_GENERAL_TOPOLOGY](proofs/PROOF_F1_GENERAL_TOPOLOGY.md); verification: [simulations/_f1_general_topology_verify.py](../simulations/_f1_general_topology_verify.py) + [F1GeneralTopologyN7BlockSpectrumTests](../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs); typed: F1GeneralTopologyVerifiedClaim (Tier 2 verified).
@@ -2921,7 +2921,7 @@ The table above lists path-3..9 hand-derived anchors. Path-10..46 are cached in 
 
 Polynomial degree = floor(N_block/2) − 1. Sum F_a · N²(N−1) is rational across all paths via Newton's identities on the cyclotomic minimal polynomial: path-3 → 22/3, path-4 → 25/2, path-5 → 483/25, path-6 → 256/9 (in units of N²(N−1); see `F89UnifiedFaClosedFormClaim.SigmaSum`). AT-lock: the F_a eigenvalue is λ_n = −2γ + i·y_n exactly (overlap subspace entries have dephasing rate 2γ regardless of N).
 
-**Source:** [`F89UnifiedFaClosedFormClaim`](../compute/RCPsiSquared.Core/Symmetry/F89UnifiedFaClosedFormClaim.cs) (k=3..46 cached, `ComputePathPolynomialBig` for k≥47, `Sigma`/`SigmaSum` lifted to any k ≥ 3), [`F89PathPolynomialPipeline`](../compute/RCPsiSquared.Core/Symmetry/F89PathPolynomialPipeline.cs) (native Chebyshev expansion + orbit-polynomial reduction, replaces Python sympy prototype), [`F89AmplitudeLayerClaim`](../compute/RCPsiSquared.Core/Symmetry/F89AmplitudeLayerClaim.cs) (Tier-2-Verified Angle A identity p_n = |S_c|²·‖Mv‖²/2), `simulations/_f89_path3_at_locked_amplitude_symbolic.py`, `simulations/f89_pathk_symbolic_derivation.py` (sympy prototype, retained as cross-check probe), `experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md` § "Unified closed form", `docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md`.
+**Source:** [`F89UnifiedFaClosedFormClaim`](../compute/RCPsiSquared.Core/Symmetry/F89UnifiedFaClosedFormClaim.cs) (k=3..46 cached, `ComputePathPolynomialBig` for k≥47, `Sigma`/`SigmaSum` lifted to any k ≥ 3), [`F89PathPolynomialPipeline`](../compute/RCPsiSquared.Core/Symmetry/F89PathPolynomialPipeline.cs) (native Chebyshev expansion + orbit-polynomial reduction, replaces Python sympy prototype), [`F89AmplitudeLayerClaim`](../compute/RCPsiSquared.Core/Symmetry/F89AmplitudeLayerClaim.cs) (Tier 1 derived Angle A identity p_n = |S_c|²·‖Mv‖²/2, promoted 2026-05-16), `simulations/_f89_path3_at_locked_amplitude_symbolic.py`, `simulations/f89_pathk_symbolic_derivation.py` (sympy prototype, retained as cross-check probe), `experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md` § "Unified closed form", `docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md`.
 
 #### F89 D_k closed form per path k (Tier-1-Derived 2026-05-15)
 
@@ -4047,11 +4047,13 @@ The (1/2)·4^N coefficient decomposes structurally as
   per spectator site.
 - factor 1/2: single-site N=1 inner product `⟨(L_H,1)_{+i}, (L_T1,1)_{+i}⟩ = −ωγ/2`,
   derived from explicit 4×4 sympy matrices.
-The proof's Lemma C step 5 has one specific Frobenius equality that is
-bit-exact verified at N = 1, 2, 3, 4, 5 but not yet closed from the
-support-pattern algebra alone; this is documented as a structural
-exercise and does not block the universal-N Tier1Derived status given
-the bit-exact anchor.
+The proof's Lemma C is now closed algebraically (PROOF_F113 § "Closure",
+two-step: Step C.1 a pure operator-algebra identity
+`Tr(A_{+i}B_{-i}) + Tr(A_{-i}B_{+i}) = Tr(A_odd·B_odd)` for any A, B and
+unitary Π, then Step C.2 the Lindblad-input vanishing reduced to the single
+fact `L_H[I,Z]=0 ↔ [Z,σ_Z]=0`); the general-N Tier1Derived status requires
+no numerical anchor (the N=1..5 bit-exact run is now a cross-check, not the
+basis).
 
 **Hardware fingerprinting application:** asymmetry measurement directly
 extracts Σ_l ω_l · (γ_pump,l − γ_T1,l) when drive parameters are known;

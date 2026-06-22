@@ -25,7 +25,7 @@ public class F5DepolarizingErrorPi2InheritanceTests
     [Fact]
     public void DCoefficient_IsExactlyTwo_FromLadderTermZero()
     {
-        // The "2" in F5's 2·(N−2)/3 is a_0 = d (qubit dimension).
+        // The "2" in F5's 2N/3 is a_0 = d (qubit dimension).
         var f = Build();
         Assert.Equal(2.0, f.DCoefficient, precision: 14);
     }
@@ -48,26 +48,26 @@ public class F5DepolarizingErrorPi2InheritanceTests
     }
 
     [Theory]
-    [InlineData(2, 0)]    // N=2: (N−2) = 0; F5 error vanishes (degenerate chain)
-    [InlineData(3, 1)]
-    [InlineData(4, 2)]
-    [InlineData(5, 3)]
-    [InlineData(8, 6)]
-    public void NShiftFactor_EqualsNMinusTwo(int N, int expected)
+    [InlineData(2, 2)]    // N=2: linear factor = N = 2; F5 error = (2/3)·2·γ ≠ 0 (palindrome breaks at ALL N)
+    [InlineData(3, 3)]
+    [InlineData(4, 4)]
+    [InlineData(5, 5)]
+    [InlineData(8, 8)]
+    public void NLinearFactor_EqualsN(int N, int expected)
     {
-        Assert.Equal(expected, Build().NShiftFactor(N));
+        Assert.Equal(expected, Build().NLinearFactor(N));
     }
 
     [Theory]
-    [InlineData(2, 0.0)]              // N=2: 2·0/3 = 0
-    [InlineData(3, 2.0 / 3.0)]        // N=3: 2·1/3 = 2/3
-    [InlineData(4, 4.0 / 3.0)]        // N=4: 2·2/3 = 4/3
-    [InlineData(5, 6.0 / 3.0)]        // N=5: 2·3/3 = 2
-    [InlineData(6, 8.0 / 3.0)]        // N=6: 2·4/3 = 8/3
+    [InlineData(2, 4.0 / 3.0)]        // N=2: 2·2/3 = 4/3 (≠ 0 — depolarizing breaks the palindrome at every N)
+    [InlineData(3, 6.0 / 3.0)]        // N=3: 2·3/3 = 2
+    [InlineData(4, 8.0 / 3.0)]        // N=4: 2·4/3 = 8/3
+    [InlineData(5, 10.0 / 3.0)]       // N=5: 2·5/3 = 10/3
+    [InlineData(6, 12.0 / 3.0)]       // N=6: 2·6/3 = 4
     public void LiveCoefficient_EqualsClosedForm(int N, double expected)
     {
         // Cross-verification: live composition of the Pi2-anchored constants matches
-        // F5's closed form 2·(N−2)/3 bit-exact.
+        // F5's closed form 2N/3 = (2/3)·Σγ bit-exact.
         var f = Build();
         Assert.Equal(expected, f.LiveCoefficient(N), precision: 12);
     }
@@ -103,7 +103,7 @@ public class F5DepolarizingErrorPi2InheritanceTests
     {
         var f = Build();
         _out.WriteLine("");
-        _out.WriteLine("    F5 closed form: error = γ · 2·(N−2)/3 (Tier 1 proven)");
+        _out.WriteLine("    F5 closed form: error = γ · 2N/3 = (2/3)·Σγ (Tier 1 proven)");
         _out.WriteLine("");
         _out.WriteLine($"    \"2\" multiplier  = a_0 = d           = {f.DCoefficient}");
         _out.WriteLine($"    \"3\" denominator = a_(-1) - 1 = d²-1 = {f.DSquaredMinusOne}");
@@ -112,9 +112,9 @@ public class F5DepolarizingErrorPi2InheritanceTests
         _out.WriteLine("    interpretation: 2 = off-diag Paulis (X,Y); 3 = total non-identity Paulis (X,Y,Z)");
         _out.WriteLine("                    2/3 = off-diag fraction in depolarizing channel");
         _out.WriteLine("");
-        _out.WriteLine("     N | (N−2) | coefficient");
-        _out.WriteLine("    ---|-------|------------");
+        _out.WriteLine("     N | N | coefficient");
+        _out.WriteLine("    ---|---|------------");
         for (int N = 2; N <= 6; N++)
-            _out.WriteLine($"     {N} |   {f.NShiftFactor(N)}   | {f.LiveCoefficient(N):F4}");
+            _out.WriteLine($"     {N} | {f.NLinearFactor(N)} | {f.LiveCoefficient(N):F4}");
     }
 }

@@ -3,7 +3,7 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>F5 closed form for depolarizing noise: <c>error = γ · 2·(N−2)/3</c>
+/// <summary>F5 closed form for depolarizing noise: <c>error = γ · 2N/3 = (2/3)·Σγ</c>
 /// (Tier 1 proven). Linear in γ and N, Hamiltonian-independent. Each constant
 /// in this closed form sits on the Pi2-Foundation:
 ///
@@ -15,10 +15,12 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         operators in the per-site Pauli basis except the identity. Direct
 ///         consequence of <see cref="Pi2OperatorSpaceMirrorClaim"/> at N=1: total
 ///         operator-space d² = 4 minus the identity = 3.</item>
-///   <item><b>"(N−2)" linear factor</b>: same chain-derivation overhead shift as
-///         <see cref="F49Pi2Inheritance"/> uses ("(N−2) qubits" reading); the
-///         "−2 shift" is structural in the F1-residual scaling derivation, NOT a
-///         free parameter.</item>
+///   <item><b>"N" linear factor</b>: the full chain length (= Σγ/γ). The per-site
+///         1:3 immune:decaying split costs (2/3)γ at every site; summed over all N
+///         sites this gives (2/3)Nγ = (2/3)·Σγ. Per-site-additive over ALL N sites —
+///         this is NOT the F49 "(N−2)" derivation-overhead shift (a different formula;
+///         the earlier "(N−2)" reading here was a mis-import, corrected 2026-06-22 after
+///         the depolarizing-break gate showed nonzero error at N=2 scaling as N, not N−2).</item>
 /// </list>
 ///
 /// <para>The composite ratio <c>2/3 = d/(d²−1) = a_0/(a_{−1}−1)</c> is the
@@ -69,24 +71,25 @@ public sealed class F5DepolarizingErrorPi2Inheritance : Claim, IZ2AxisClaim
     /// The fraction of off-diagonal Pauli mass in the depolarizing channel.</summary>
     public double TwoOverThree => DCoefficient / DSquaredMinusOne;
 
-    /// <summary>The chain-derivation-overhead linear factor <c>(N − 2)</c> in F5's
-    /// closed form. Same shift as <see cref="F49Pi2Inheritance"/>'s "(N−2) qubits"
-    /// reading: structural F1-residual derivation, NOT a free parameter.</summary>
-    public int NShiftFactor(int N) => N - 2;
+    /// <summary>The linear factor <c>N</c> in F5's closed form: the full chain length
+    /// (= Σγ/γ). The per-site 1:3 immune:decaying split contributes (2/3)γ per site over
+    /// all N sites, giving (2/3)Nγ = (2/3)·Σγ. NOT the F49 "(N−2)" overhead (a different
+    /// formula; renamed from the earlier mis-imported NShiftFactor, 2026-06-22).</summary>
+    public int NLinearFactor(int N) => N;
 
     /// <summary>Live re-composition of F5's closed-form coefficient at γ=1:
-    /// <c>2·(N−2)/3 = DCoefficient · NShiftFactor(N) / DSquaredMinusOne</c>.
+    /// <c>2N/3 = DCoefficient · NLinearFactor(N) / DSquaredMinusOne</c>.
     /// Drift between the algebraic Pi2-derived value and the F5 closed form
     /// surfaces here.</summary>
     public double LiveCoefficient(int N)
     {
         if (N < 2)
             throw new ArgumentOutOfRangeException(nameof(N), N, "F5 closed form requires N ≥ 2.");
-        return DCoefficient * NShiftFactor(N) / DSquaredMinusOne;
+        return DCoefficient * NLinearFactor(N) / DSquaredMinusOne;
     }
 
     public F5DepolarizingErrorPi2Inheritance(Pi2DyadicLadderClaim ladder, Pi2OperatorSpaceMirrorClaim mirror)
-        : base("F5 depolarizing error coefficients (2 · (N−2) / 3) inherit from Pi2-Foundation",
+        : base("F5 depolarizing error coefficient (2N/3 = (2/3)·Σγ) inherits from Pi2-Foundation",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F5 + " +
                "experiments/DEPOLARIZING_PALINDROME.md + " +
@@ -102,27 +105,27 @@ public sealed class F5DepolarizingErrorPi2Inheritance : Claim, IZ2AxisClaim
         "F5 depolarizing error coefficients as Pi2-Foundation inheritance";
 
     public override string Summary =>
-        $"error = γ·2·(N−2)/3: 2 = a_0 = d; 3 = a_{{-1}} − 1 = d² − 1; (N−2) = derivation-overhead shift " +
-        $"(same as F49); 2/3 = d/(d²−1) = {TwoOverThree:F4} ({Tier.Label()})";
+        $"error = γ·2N/3 = (2/3)·Σγ: 2 = a_0 = d; 3 = a_{{-1}} − 1 = d² − 1; N = chain length (Σγ); " +
+        $"2/3 = d/(d²−1) = {TwoOverThree:F4} ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
             yield return new InspectableNode("F5 closed form",
-                summary: "error = γ · 2·(N−2)/3 (Tier 1 proven; linear in γ and N; Hamiltonian-independent)");
+                summary: "error = γ · 2N/3 = (2/3)·Σγ (Tier 1 proven; linear in γ and N; Hamiltonian-independent)");
             yield return InspectableNode.RealScalar("DCoefficient (= a_0 = d)", DCoefficient);
             yield return InspectableNode.RealScalar("DSquaredMinusOne (= a_{-1} − 1 = d² − 1 = 3)", DSquaredMinusOne);
             yield return InspectableNode.RealScalar("TwoOverThree (= d / (d² − 1))", TwoOverThree);
             yield return new InspectableNode("interpretation",
                 summary: "2 = number of off-diagonal Paulis (X, Y); 3 = total non-identity Paulis (X, Y, Z); 2/3 is the off-diagonal Pauli mass fraction in the depolarizing channel");
-            yield return new InspectableNode("(N−2) shift",
-                summary: "same chain-derivation-overhead as F49Pi2Inheritance; structural, not a free parameter");
+            yield return new InspectableNode("N linear factor",
+                summary: "per-site-additive (2/3)γ over all N sites (Σγ); NOT the F49 (N−2) overhead");
             for (int N = 2; N <= 6; N++)
             {
                 yield return new InspectableNode(
                     $"chain N={N}",
-                    summary: $"(N−2) = {NShiftFactor(N)}; coefficient 2·(N−2)/3 = {LiveCoefficient(N):F4}");
+                    summary: $"N = {NLinearFactor(N)}; coefficient 2N/3 = {LiveCoefficient(N):F4}");
             }
         }
     }

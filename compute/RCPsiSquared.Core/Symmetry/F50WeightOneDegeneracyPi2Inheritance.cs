@@ -153,7 +153,7 @@ public sealed class F50WeightOneDegeneracyPi2Inheritance : Claim, IZ2AxisClaim
     }
 
     public F50WeightOneDegeneracyPi2Inheritance(Pi2DyadicLadderClaim ladder)
-        : base("F50 weight-1 degeneracy: d_real(Re = −2γ) = 2N (SWAP-invariant T_c^{(a)} for a ∈ {X, Y}, c = 0..N−1); both 2's = a_0; topology-universal for isotropic Heisenberg",
+        : base("F50 weight-1 degeneracy: d_real(Re = −2γ) = 2N (SWAP-invariant T_c^{(a)} for a ∈ {X, Y}, c = 0..N−1); both 2's = a_0. Lower bound ≥2N rigorous (Tier1Derived); the =2N equality holds for the chain (all N) and connected graphs at N≥4 (upper bound Tier2-verified, Step-5 gap), with the documented K_3 N=3 exception (=2N+2). Isotropic Heisenberg only (breaks for XXZ Δ≠1)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F50 + " +
                "docs/proofs/PROOF_WEIGHT1_DEGENERACY.md + " +

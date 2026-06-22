@@ -398,7 +398,7 @@ The probe identifies a possible refinement direction: keeping the bilinear (n, n
 
 ### Typed amplitude-layer anchor: `F89AmplitudeLayerClaim` (2026-05-15)
 
-The Angle A structural identity `p_n = σ_n·N²·(N−1) = |S_c(n)|²·‖Mv(n)‖² / 2` is now typed in `compute/RCPsiSquared.Core/Symmetry/F89AmplitudeLayerClaim.cs` (Tier2Verified). The claim wraps:
+The Angle A structural identity `p_n = σ_n·N²·(N−1) = |S_c(n)|²·‖Mv(n)‖² / 2` is now typed in `compute/RCPsiSquared.Core/Symmetry/F89AmplitudeLayerClaim.cs` (Tier1Derived, promoted 2026-05-16). The claim wraps:
 
 - `ComputePn(sigma, chainN)` → p_n from σ_n
 - `ComputePnFromDecomposition(scSquared, mvSquared)` → p_n from Angle A right-hand side
