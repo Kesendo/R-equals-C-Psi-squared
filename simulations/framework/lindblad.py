@@ -273,11 +273,16 @@ def cpsi_bell_plus(gamma_x, gamma_y, gamma_z, t):
     Bell+ = (|00⟩ + |11⟩)/√2 evolves under c_x = √γ_x · X_l, c_y = √γ_y · Y_l,
     c_z = √γ_z · Z_l dissipators on each of the 2 qubits. Then
 
-        CΨ(t) = u · (1 + u² + v² + w²) / 12
+        CΨ(t) = max(u,v) · (1 + u² + v² + w²) / 12
 
         u = exp(−α·t),  α = 4·(γ_y + γ_z)
         v = exp(−β·t),  β = 4·(γ_x + γ_z)
         w = exp(−δ·t),  δ = 4·(γ_x + γ_y)
+
+    The l₁-coherence factor is L₁ = max(u,v) (the proof's WLOG α≤β re-applied),
+    NOT u: for pure Y (α=4γ, β=0) the |00⟩↔|11⟩ coherence is pinned (L₁=v=1), so
+    K_Y = K_X. (Direct Lindblad confirms the Bell+ l₁-coherence stays 1 under both
+    pure X and pure Y, and decays only under pure Z.)
 
     Tier-1 proven (PROOF_MONOTONICITY_CPSI.md). Replaces Lindblad master
     equation solver for multi-axis Pauli noise on Bell+ states.
@@ -300,22 +305,28 @@ def cpsi_bell_plus(gamma_x, gamma_y, gamma_z, t):
     u = math.exp(-alpha * t)
     v = math.exp(-beta * t)
     w = math.exp(-delta * t)
-    return u * (1 + u * u + v * v + w * w) / 12.0
+    # L1 = max(u, v) = e^{-min(alpha,beta)*t} (the proof's WLOG alpha<=beta, re-applied
+    # so the LEAST-damped coherence sets l1 -- NOT a hard-coded u). For pure Y (alpha=4g,
+    # beta=0) this gives L1 = v = 1 (the |00><11| coherence is pinned, verified by direct
+    # Lindblad), so K_Y = K_X = ln(2)/8 = 0.0867, NOT K_Z. Fixed 2026-06-22.
+    L1 = max(u, v)
+    return L1 * (1 + u * u + v * v + w * w) / 12.0
 
 
 # K values (γ·t_cusp) at which CΨ first crosses 1/4, per noise channel.
 # Computed directly from F26 cusp condition CΨ(t) = 1/4. K is γ-invariant.
 #
-# Note: F27 in ANALYTICAL_FORMULAS.md (and the table in
-# PROOF_MONOTONICITY_CPSI.md) lists K_Y = 0.0867. That contradicts F26:
-# pure Y gives α=4γ, β=0, δ=4γ → CΨ = u(1+u²)/6 (identical functional form
-# to pure Z), so K_Y = K_Z = 0.0374. Doc typo. The true Bell+-symmetric
-# pair is K_Y ↔ K_Z (both involve a non-zero α with one of {β, δ} = 0),
-# while K_X is the asymmetric case (α=0, both β and δ non-zero).
+# K_X = K_Y = ln(2)/8 = 0.0867; K_Z = 0.0374 is the odd one out. The
+# discriminator is the l₁-coherence L1 = max(u,v): under pure X (α=0) and pure Y
+# (β=0) one coherence channel is pinned (L1=1) so CΨ = (1+x²)/6 → K = ln(2)/8;
+# under pure Z both decay (L1=u) so CΨ = u(1+u²)/6 → K_Z = 0.0374. (A 2026-04-29
+# note had wrongly set K_Y = K_Z by hard-coding L1=u for pure Y, dropping the F26
+# WLOG α≤β; reverted 2026-06-22 after a direct Lindblad showed the Bell+ l₁-coherence
+# is pinned under pure Y, exactly as under pure X.)
 CPSI_CUSP_K_PER_CHANNEL = {
-    'Z':            0.0374,  # pure Z-dephasing
-    'X':            0.0867,  # pure X-noise
-    'Y':            0.0374,  # pure Y-noise (= K_Z by F26 functional symmetry)
+    'Z':            0.0374,  # pure Z-dephasing (l₁-coherence decays)
+    'X':            0.0867,  # pure X-noise (l₁-coherence pinned)
+    'Y':            0.0867,  # pure Y-noise (l₁-coherence pinned, = K_X = ln(2)/8)
     'depolarizing': 0.0440,  # γ/3 on each axis
 }
 

@@ -188,15 +188,19 @@ only if α = β = δ = 0 (no noise). For any nonzero noise:
 |---------|---|---|---|---------------------|
 | Pure Z (γ) | 4γ | 4γ | 0 | 0.0374 |
 | Pure X (γ) | 0 | 4γ | 4γ | 0.0867 |
-| Pure Y (γ) | 4γ | 0 | 4γ | 0.0374 |
+| Pure Y (γ) | 0 | 4γ | 4γ | 0.0867 |
 | Depolarizing (γ/3 each) | 8γ/3 | 8γ/3 | 8γ/3 | 0.0440 |
 
-**K_Y = K_Z = 0.0374** by Bell-pair symmetry (correction 2026-04-29; see
-[F27 note in ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md)). Y⊗Y·|Bell+⟩ = −|Bell+⟩
-while X⊗X and Z⊗Z fix |Bell+⟩, so F26 with γ_y only gives α = 4γ, β = 0,
-δ = 4γ, hence u = e^{-4γt}, v = 1, w = e^{-4γt}, and CΨ reduces to
-u·(1+u²)/6, identical functional form to pure Z. K_X = 0.0867 stands;
-the prior K_X = K_Y by-symmetry claim was the source of the typo.
+**K_X = K_Y = 0.0867 = ln(2)/8; K_Z = 0.0374 is the odd one out.** The
+discriminating fact is whether the *l₁-coherence* L₁ (the |00⟩↔|11⟩ off-diagonal,
+= (XX − YY)/2 on Bell+) is decoherence-free or decays. Under pure X the XX
+correlation is pinned; under pure Y the YY correlation is pinned — in **both**
+cases L₁ stays nonzero, so L₁ = max(u,v) = 1 and CΨ = (1+u²)/6, crossing ¼ at
+u² = ½ ⟹ K = ln(2)/8 = 0.0867. Under pure Z **both** XX and YY decay, so L₁ → 0,
+CΨ = u(1+u²)/6, and K_Z = 0.0374. (Note: F26 with γ_y only gives the physical rates
+(α,β,δ) = (4γ, 0, 4γ); since β = 0 < α this **violates the WLOG α ≤ β**, so it must
+be re-sorted to α = 0, giving L₁ = e^{−αt} = 1 — exactly pure X's form. This corrects
+the erroneous 2026-04-29 note that dropped the re-sort and wrongly set K_Y = K_Z.)
 All K values verified numerically (CV < 0.1%).
 
 ---
@@ -263,7 +267,7 @@ effect (Bell+ is eigenstate of H_Heisenberg).
 |---------------|--------------------:|---------|--------|
 | Pure Z-dephasing | **YES** | 0.0374 | Analytical (Part 1) |
 | Pure X-noise | **YES** | 0.0867 | Analytical (Part 2) |
-| Pure Y-noise | **YES** | 0.0374 | Analytical (Part 2; functional form identical to pure Z, see Part 2 K table) |
+| Pure Y-noise | **YES** | 0.0867 | Analytical (Part 2; functional form identical to pure X — the YY coherence is decoherence-free, see Part 2 K table) |
 | Depolarizing | **YES** | 0.0440 | Analytical (Part 2) |
 | Any (γ_x,γ_y,γ_z) | **YES** | varies | Analytical (Part 2) |
 | Amplitude damping | **YES** | 0.1029 | Analytical (Part 3) |

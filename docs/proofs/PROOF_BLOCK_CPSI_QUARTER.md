@@ -70,8 +70,12 @@ not just states with support in popcount-{n, n+1}, but all states.
 
 $$C_\text{block} \;=\; \sum_{(a,b) \in \text{block}} |\rho_{ab}|^2 \;\leq\; \frac{1}{4}$$
 
-with equality iff ρ is the pure state (|D_n⟩+|D_{n+1}⟩)/√2 (up to global
-phase). 1/4 is achieved only at the canonical Dicke symmetric superposition.
+with equality iff ρ is a **balanced two-sector pure state** (|φ_n⟩+|φ_{n+1}⟩)/√2,
+where |φ_k⟩ is ANY normalized state in popcount-k (the within-sector amplitudes are
+free — see the saturation analysis). The bare C_block bound is realised by this whole
+continuous family; the canonical Dicke superposition (|D_n⟩+|D_{n+1}⟩)/√2 is the
+member that additionally maximises the ℓ₁-factor Ψ_block, and is the **unique**
+maximiser of the full **CΨ_block** (see "On Ψ_block" below).
 
 **Proof.** Let p_k = Σ_{popcount(a)=k} ρ_{aa} be the weight on popcount-k
 states. Then Σ_k p_k = Tr(ρ) = 1 and each p_k ≥ 0.
@@ -94,23 +98,30 @@ for equality:
    (no other popcount weight).
 2. **p_n = p_{n+1} = 1/2**: balanced sector amplitudes.
 3. **|ρ_{ab}|² = ρ_{aa} · ρ_{bb} for all block (a, b)**: Cauchy-Schwarz
-   saturation, meaning ρ has rank 1 between the two sectors. This forces
-   ρ to be a pure state and the within-sector amplitudes to be **uniform**
-   (Dicke), since saturating the per-entry Cauchy-Schwarz everywhere
-   requires ρ_{ab} = √(ρ_{aa}·ρ_{bb}) up to phases that align consistently.
+   saturation, meaning ρ restricted to popcount-{n, n+1} has **rank 1** — i.e. it
+   is a pure two-sector state (|φ_n⟩+|φ_{n+1}⟩)/√2. This rank-1 condition saturates
+   the per-entry Cauchy-Schwarz for ANY normalized |φ_n⟩, |φ_{n+1}⟩; it does **not**
+   require uniform (Dicke) within-sector amplitudes. (Indeed `ρ_{ab} = ½·φ_n[a]·φ_{n+1}[b]*`
+   gives Σ_{ab}|ρ_{ab}|² = ¼·(Σ_a|φ_n[a]|²)(Σ_b|φ_{n+1}[b]|²) = ¼ regardless of the
+   within-sector shape — the proof's own "asymmetric Dicke" verification rows confirm this.)
 
-The three conditions together force ρ = (|D_n⟩+|D_{n+1}⟩)(⟨D_n|+⟨D_{n+1}|)/2,
-the canonical Dicke symmetric superposition. ∎
+The three conditions together force ρ to be a **balanced two-sector pure state**
+(|φ_n⟩+|φ_{n+1}⟩)/√2 (conditions 1+2 fix the sector weights at ½ each; condition 3
+fixes purity + rank-1 cross-block). The within-sector components remain free, so the
+C_block maximiser is a continuous family, not unique; the canonical Dicke state is one
+member (and the unique maximiser of the full CΨ_block). ∎
 
-**Remark on Theorem 1.** The state in Theorem 1 is precisely this unique
-maximiser. Theorem 1 is then the special case of Theorem 2 at the bound;
-Theorem 2 says no other state gets closer. The 1/4 boundary is
-**state-level uniquely realised** at the c-block.
+**Remark on Theorem 1.** The Dicke state of Theorem 1 is ONE C_block maximiser (one
+member of the balanced-two-sector-pure-state family) and the UNIQUE maximiser of the
+full CΨ_block. Theorem 1 is the special case of Theorem 2 at the bound; Theorem 2 says
+no state exceeds ¼. The 1/4 ceiling is **uniquely realised at the CΨ_block level** by
+the Dicke state; at the bare C_block level it is realised by the whole family.
 
 **Reading.** 1/4 is not "the value where this initial happens to land". It
 is the **tight upper bound** on the (popcount-n, popcount-(n+1)) block
 coherence content over ALL density matrices on the full N-qubit Hilbert
-space, achieved at a UNIQUE state (up to phase). The Mandelbrot-cardioid-cusp
+space, achieved at the Dicke state for the full CΨ_block (and by any balanced
+two-sector pure state for the bare C_block). The Mandelbrot-cardioid-cusp
 boundary is a hard ceiling at this reading, and the Dicke symmetric
 superposition is the canonical realiser, analogous to how Bell+ realises
 CΨ = 1/3 at the d=4 subsystem level. No clever choice of state (mixed,
@@ -119,9 +130,12 @@ pure, restricted, or fully general) can exceed 1/4.
 **On Ψ_block and the full CΨ_block.** Theorem 2 bounds C_block (the block-
 purity content). Multiplying by the Cauchy-Schwarz-saturating
 Ψ_block = ℓ₁/ℓ₁_max ≤ 1 gives CΨ_block ≤ C_block ≤ 1/4. The Ψ_block factor
-is also ≤ 1 with equality precisely at the canonical Dicke symmetric
-state (uniform per-entry amplitude saturates ℓ₁ at ℓ₁_max). Hence
-CΨ_block ≤ 1/4 with the same unique-realiser equality condition.
+is ≤ 1 with equality **precisely** at the canonical Dicke symmetric state
+(uniform per-entry amplitude saturates ℓ₁ at ℓ₁_max). This is exactly where the
+uniqueness lives: **CΨ_block = ¼ iff ρ is the canonical Dicke superposition** —
+C_block = ¼ pins the balanced two-sector pure state (a whole family), and Ψ_block = 1
+then pins the within-sector amplitudes uniform. So the unique-realiser statement is a
+property of the full CΨ_block, NOT of the bare C_block.
 
 ## Theorem 3: Closed-form trajectory under pure Z-dephasing
 

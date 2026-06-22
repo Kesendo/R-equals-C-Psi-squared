@@ -98,6 +98,14 @@ structure constants of su(2). Explicit enumeration of all 16 two-site
 Pauli pairs confirms that every nonzero transition has
 w_XY^{ij}(source) + w_XY^{ij}(target) = 2.
 
+(Throughout, "matrix element" and "transition" refer strictly to the **Pauli-string
+basis**, with `L_{ab} = Tr(σ_a · L_H(σ_b))/2^N`. This matters for the Z_iZ_j term in
+particular: in the *computational* vec(ρ) basis it has nonzero diagonal entries and a
+reader would see apparent violations of Lemma 2, but in the Pauli basis its diagonal
+is zero — `Tr(σ_a · [Z_iZ_j, σ_a]) = 0` for every a, a standard Lie-algebra fact — so
+Lemma 2 holds exactly. The off-diagonal, weight-preserving transitions are all the ZZ
+term contributes here.)
+
 This is the same property that makes the Pythagorean decomposition
 exact at N=2: when the bond IS the system, w_XY(a) + w_XY(b) = N = 2.
 

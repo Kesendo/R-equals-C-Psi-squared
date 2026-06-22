@@ -708,22 +708,24 @@ noise on Bell states. O(1) instead of matrix exponentiation.
 ### F27. K values per noise channel (Tier 1, from F26)
 
     K_Z     = 0.0374    (pure Z-dephasing)
-    K_X     = 0.0867    (pure X-noise)
-    K_Y     = 0.0374    (pure Y-noise)
+    K_X     = 0.0867    (pure X-noise)  = ln(2)/8
+    K_Y     = 0.0867    (pure Y-noise)  = ln(2)/8 = K_X
     K_depol = 0.0440    (depolarizing, gamma/3 each axis)
 
 Complements F14 (K per bridge metric). These are K per
 noise TYPE, all measured with CΨ on Bell+ state.
 
-**Note (correction 2026-04-29):** earlier versions of this table listed
-K_Y = 0.0867. That was a typo. F26 with γ_y = γ (others = 0) gives
-α = 4γ, β = 0, δ = 4γ, so u = e^{-4γt}, v = 1, w = e^{-4γt}, and CΨ
-reduces to u·(1+u²)/6, *identical functional form to pure Z*. Hence
-K_Y = K_Z = 0.0374. The K_Y ↔ K_X-symmetry claim was wrong; the actual
-pairing is K_Y ↔ K_Z (both have one of {β, δ} = 0 with α ≠ 0). This
-is consistent with Bell+'s correlation structure: Y⊗Y·|Bell+⟩ = -|Bell+⟩,
-while X⊗X and Z⊗Z fix it. Verified in
-`framework.CPSI_CUSP_K_PER_CHANNEL` and the smoke tests.
+**Note (2026-06-22, reverting the wrong 2026-04-29 "correction"):** K_X = K_Y =
+ln(2)/8 = 0.0867; K_Z = 0.0374 is the odd one out. The discriminator is whether
+the l₁-coherence L₁ (the |00⟩↔|11⟩ off-diagonal = (XX − YY)/2 on Bell+) survives:
+under pure X the XX correlation is pinned, under pure Y the YY correlation is pinned,
+so in **both** cases L₁ stays nonzero ⟹ CΨ = (1+u²)/6 ⟹ K = ln(2)/8. Under pure Z
+both XX and YY decay ⟹ L₁ → 0 ⟹ CΨ = u(1+u²)/6 ⟹ K_Z = 0.0374. The 2026-04-29
+note set K_Y = K_Z by taking F26's physical rates (α,β,δ) = (4γ, 0, 4γ) and using
+L₁ = e^{−αt} = e^{−4γt} — but β = 0 < α **violates the F26 WLOG α ≤ β**, which must
+be re-sorted to α = 0 (giving L₁ = 1, pure X's form). The original K_X = K_Y by-symmetry
+claim was correct. From below: CΨ_Y = (1+u²)/6 reproduces to 8e-16 (vs the note's
+u(1+u²)/6, off by 0.167).
 
 **Valid for:** Bell+ state, single-axis or depolarizing noise.
 **Replaces:** per-channel crossing time derivation.

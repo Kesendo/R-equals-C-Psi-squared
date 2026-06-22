@@ -77,10 +77,11 @@ def test_gamma_probe_setup_x_channel():
     setup_x = fw.gamma_probe_setup(chain, gamma_assumed=0.05, channel='X')
     setup_y = fw.gamma_probe_setup(chain, gamma_assumed=0.05, channel='Y')
     setup_d = fw.gamma_probe_setup(chain, gamma_assumed=0.05, channel='depolarizing')
-    # K_cusp from F26 cusp condition (note: K_Y = K_Z, NOT K_X — doc has typo)
+    # K_cusp from F26 cusp condition: K_X = K_Y = ln(2)/8 = 0.0867 (l1-coherence pinned
+    # under both pure X and pure Y), K_Z = 0.0374 (l1-coherence decays under pure Z).
     assert abs(setup_z['K_cusp'] - 0.0374) < 0.001
     assert abs(setup_x['K_cusp'] - 0.0867) < 0.001
-    assert abs(setup_y['K_cusp'] - 0.0374) < 0.001  # K_Y = K_Z, not K_X
+    assert abs(setup_y['K_cusp'] - 0.0867) < 0.001  # K_Y = K_X (pinned coherence), not K_Z
     assert abs(setup_d['K_cusp'] - 0.0440) < 0.001
 
 
