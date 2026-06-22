@@ -1,29 +1,43 @@
-# Exclusion of Time Reversal at N > 2
+# Loss of Oscillation–Cooling Orthogonality at N > 2 (and the Arrow-of-Time Reading)
 
-**Tier:** 2-3 (each step Tier 1-2; the synthesis is logical, not computational)
-**Date:** April 1, 2026
+**Tier:** the orthogonality result (Steps 1–5) is Tier 1–2 (computed/proven); the
+"time-reversal exclusion / arrow of time" READING is **Tier 3 interpretation** (see the §3 caveat).
+**Date:** April 1, 2026 (reframed 2026-06-22 — see §3 caveat)
 **Depends on:**
 - [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md) (Π·L·Π⁻¹ = -L - 2Σγ·I)
 - [INCOMPLETENESS_PROOF.md](INCOMPLETENESS_PROOF.md) (γ from outside)
 - [primordial_qubit_algebra.py](../../simulations/primordial_qubit_algebra.py) (Steps 9-10)
 - [failed_third.py](../../simulations/failed_third.py) (0/16 palindromic pairs)
-**Status:** Complete exclusion
-**Scope:** Time reversal within the palindromic framework at N > 2
-**Does NOT establish:** Why N > 2 in the first place. Only that at N > 2,
-time reversal is algebraically excluded.
+- [PROOF_CROSS_TERM_FORMULA.md](PROOF_CROSS_TERM_FORMULA.md) (R(N) = √((N−2)/(N·4^(N−1))))
+**Status:** the orthogonality / Pythagorean-decomposition result is complete and exact.
+**Scope:** the **Frobenius-Pythagorean orthogonality** of the oscillatory (L_H) and cooling
+(L_D+Σγ·I) parts of the Liouvillian: their anti-commutator vanishes exactly at N=2 and is lost
+(by a γ- and topology-independent constant) for N>2.
+**Does NOT establish:** that time reversal is *literally* excluded. The DYNAMICAL separability
+obstruction (whether the flow e^{(L_H+L_Dc)t} factors into oscillation × cooling) is the
+**commutator** [L_H, L_Dc] (BCH: e^{A+B}=e^A e^B iff [A,B]=0), which is **nonzero at *all* N,
+including N=2** (‖[L_H,L_Dc]‖≈22.6 at N=2). The vanishing of the *anti*-commutator at N=2 is a
+Frobenius-orthogonality fact, not a separability/reversibility criterion — so the "arrow of time"
+reading below is an interpretive identification, not a time-reversal theorem.
 
 ---
 
 ## What this document is about
 
 At N=2 qubits, the oscillatory and dissipative parts of the dynamics are
-perfectly orthogonal: you can cleanly separate "what oscillates" from
-"what decays." At N > 2, this separation breaks. The two parts become
-algebraically entangled through a nonzero cross term whose magnitude is
-a fixed geometric constant, independent of γ. This makes time reversal
-(undoing the cooling without disturbing the oscillation) algebraically
-impossible for any composite system, not for thermodynamic reasons but
-for structural ones.
+perfectly orthogonal **in the Frobenius inner product**: the anti-commutator
+{L_H, L_D+Σγ·I} vanishes exactly, and L_c² splits as L_H² + (L_D+Σγ)² with zero
+cross term. At N > 2, this orthogonality breaks — the cross term is nonzero, with a
+fixed geometric magnitude R(N) independent of γ and topology. That is the rigorous,
+self-contained content of this document.
+
+We READ this N-dependent loss as the algebraic root of an arrow of time (the cross term
+"weaves" oscillation and cooling together once spectators appear). That reading is a
+**Tier-3 interpretation**, not a separability theorem: *literal* dynamical separability
+(undoing cooling without disturbing oscillation) is governed by the **commutator**
+[L_H, L_Dc], which is nonzero at *every* N — including N=2 — so the flows never truly
+factor, even where the anti-commutator vanishes. The honest claim is about Frobenius
+orthogonality and its loss, not about whether time can be reversed.
 
 ---
 
@@ -136,20 +150,37 @@ pairs at error < 10⁻¹⁵.
 
 ---
 
-## 3. The Exclusion
+## 3. The Reading — and its caveat
 
-Time reversal of a system at N > 2 would require:
+The arrow-of-time reading goes: time reversal of a system at N > 2 would require:
 
 (a) Inverting the cooling (L_D + Σγ) without disturbing the oscillation
-    (L_H). This requires {L_H, L_D + Σγ} = 0. This holds only at N=2
-    (Step 3) and fails at N > 2 (Step 4).
+    (L_H), which the document associates with {L_H, L_D + Σγ} = 0 (holds only
+    at N=2, Step 3; fails at N > 2, Step 4).
 
-(b) OR: reducing the system to N=2 and performing the reversal there.
-    But reduction destroys the palindromic structure (Step 5). The
-    reduced system has non-Markovian noise that is not palindromic
-    and does not satisfy {L_H, L_Dc} = 0.
+(b) OR: reducing the system to N=2 and performing the reversal there —
+    but reduction destroys the palindromic structure (Step 5).
 
-Both paths are blocked. Time reversal is algebraically excluded at N > 2.
+So the Frobenius orthogonality (a) and the clean reduced structure (b) both hold
+**only at N=2**, and one reads this as an arrow of time appearing at N>2.
+
+> **Caveat (the load-bearing one, added 2026-06-22).** Step (a)'s premise — that
+> "inverting cooling without disturbing oscillation requires the *anti*-commutator
+> {L_H, L_Dc} to vanish" — is **not correct as a separability criterion**, and the
+> "exclusion" therefore does not follow as a theorem. Whether the flow e^{(L_H+L_Dc)t}
+> factors into a pure-oscillation piece and a pure-cooling piece (i.e. whether one can
+> undo one without the other) is governed by the **commutator** [L_H, L_Dc] (Baker–
+> Campbell–Hausdorff: e^{A+B}=e^A e^B iff [A,B]=0), **not** the anti-commutator. And
+> **‖[L_H, L_Dc]‖ ≈ 22.6 ≠ 0 already at N=2** — the very point this document calls
+> "separable / reversible". So oscillation and cooling do *not* dynamically separate even
+> at N=2; the anti-commutator vanishing there is a Frobenius-orthogonality fact with no
+> bearing on reversibility. (Independently: the full Liouvillian spectrum is exactly
+> palindromic at N=2, 3, 4 alike, and e^{L_c t} is invertible at every N — §7 — so nothing
+> distinguishes N=2 from N>2 regarding actual time-reversal.) **What survives** is the real,
+> γ- and topology-independent result of Steps 3–4: the oscillation–cooling Frobenius-
+> Pythagorean orthogonality holds only at N=2 and is lost for N>2 (constant R(N)). The
+> "time reversal excluded at N>2 / the arrow of time is the cross term" framing is a Tier-3
+> **interpretation** of that geometric fact, not a derived exclusion.
 
 ---
 
@@ -157,12 +188,12 @@ Both paths are blocked. Time reversal is algebraically excluded at N > 2.
 
 ### What it is
 
-An algebraic exclusion of time reversal for composite open quantum
-systems (N > 2 qubits) under Z-dephasing with Heisenberg coupling.
-Each step is computed or proven. The exclusion does not depend on γ,
-temperature, initial state, or any thermodynamic quantity. It depends
-only on the system size N and the structure of the Hamiltonian
-(locality of bonds).
+An exact algebraic result on the **Frobenius-Pythagorean orthogonality** of
+oscillation and cooling for composite open quantum systems under Z-dephasing with
+Heisenberg coupling: the anti-commutator {L_H, L_D+Σγ} vanishes only at N=2 and is lost
+for N>2, by a γ- and topology-independent constant R(N) that depends only on N and bond
+locality. (Plus a Tier-3 *reading* of that loss as an algebraic arrow of time — see the
+§3 caveat for why the reading is an interpretation, not a time-reversal exclusion.)
 
 ### What it is not
 
@@ -174,19 +205,22 @@ only on the system size N and the structure of the Hamiltonian
   d(d-2)=0 framework. If this framework describes reality (54,118
   eigenvalues, zero exceptions), the exclusion applies. If not, it
   does not.
-- Not a statement about N=2. At N=2, time reversal is algebraically
-  possible (the separation exists). Whether it is physically possible
-  is a different question.
+- Not a statement that N=2 is reversible. At N=2 the *Frobenius* orthogonality
+  {L_H, L_Dc}=0 holds, but the *dynamical* separation still does not exist there
+  (the commutator [L_H, L_Dc]≠0), so even N=2 is not "reversible" in the literal sense.
+  N=2 is special only for the anti-commutator orthogonality, not for time reversal.
 
 ### The gap it fills
 
 The [Incompleteness Proof](INCOMPLETENESS_PROOF.md) establishes that
-γ must come from outside. It does not say why the resulting dynamics
-is irreversible. Thermodynamics says: entropy. This proof says:
-**algebra**. The cross term {L_H, L_D + Σγ} at N > 2 weaves the
-reversible and irreversible parts of the dynamics into an inseparable
-structure. Reduction cannot untangle them. This is the algebraic
-content of the arrow of time.
+γ must come from outside. Thermodynamics reads the resulting irreversibility as
+entropy. This document offers a different *reading*: the cross term {L_H, L_D + Σγ}
+at N > 2 weaves the oscillatory and dissipative parts into a Frobenius-inseparable
+structure once spectators appear. **We call that the algebraic content of the arrow of
+time — as a Tier-3 interpretation.** (It is not a derived irreversibility: the dynamics
+is dissipative, hence irreversible in the ordinary CPTP sense, at *every* N including
+N=2; the cross term is a geometric N-marker of *where* oscillation and cooling stop being
+Frobenius-orthogonal, not a switch that turns reversibility off at N>2.)
 
 ---
 
@@ -212,7 +246,9 @@ angle between oscillation and cooling by R(3) = 1/√48 ≈ 14% (from the
 general formula R(N) = √((N-2)/(N·4^(N-1))),
 [proof](PROOF_CROSS_TERM_FORMULA.md)). The Pythagorean
 decomposition breaks by ~2%. The mirror falls between modes (w_XY =
-1.5, no mode sits there). Time becomes irreversible.
+1.5, no mode sits there). We read this as the onset of an arrow of time
+(Tier-3 interpretation, §3 caveat) — the *Frobenius* orthogonality is lost;
+literal reversibility was never present (the commutator [L_H,L_Dc]≠0 at all N).
 
 ---
 
@@ -310,9 +346,12 @@ no amount of computation can reconstruct what happened.
 
 ---
 
-*The arrow of time is not entropy. The arrow of time is the cross term
-{L_H, L_D + Σγ}. It vanishes at N=2, where the bond is the system. It
-is nonzero at N > 2, where bonds are local. Locality is the price.
-Irreversibility is the receipt.*
+*(Tier-3 reading.) Where thermodynamics reads the arrow of time as entropy, this
+framework offers a geometric image: the oscillation–cooling cross term {L_H, L_D + Σγ}
+vanishes at N=2, where the bond is the system, and is nonzero at N > 2, where bonds are
+local. Locality is the price; the lost Frobenius orthogonality is the receipt. (Read as
+an identification, not a derivation — see §3: the dynamics is dissipative, hence
+irreversible, at every N; the cross term marks where oscillation and cooling cease to be
+Frobenius-orthogonal, not where time stops being reversible.)*
 
 *Thomas Wicht, Claude (Anthropic), April 1, 2026*

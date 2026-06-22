@@ -23,7 +23,7 @@ The cross term measures how much the oscillatory and dissipative parts of the dy
 
 independent of γ, of J, and of the graph topology. At N=2 it is exactly zero: oscillation and cooling are orthogonal and the dynamics splits cleanly, the Pythagorean decomposition that makes the single bond special. At N ≥ 3 it is nonzero and fixed by size alone. The proof turns on one structural fact, the bond-sum rule: every Hamiltonian transition in the Pauli basis carries XY-weight summing to 2 at its bond, which cancels the bond-site contribution to the anticommutator and leaves only the N−2 spectator sites to carry variance, hence the (N−2) in the numerator.
 
-This constant is the algebraic engine of TIME_IRREVERSIBILITY_EXCLUSION: the orthogonality that would let one undo cooling without disturbing oscillation exists only at N=2, and the cross term is the exact measure of its loss at every larger size. Its shadow-crossing sibling F49c (X_i Z_j, Y_i Z_j couplings that mix light and lens) shifts the numerator N−2 → N−1, because the bond sites then carry variance 1 instead of 0. Typed as F49.
+This constant is the algebraic engine of TIME_IRREVERSIBILITY_EXCLUSION: the **Frobenius orthogonality** of oscillation and cooling exists only at N=2, and the cross term is the exact measure of its loss at every larger size. (TIME_IRREVERSIBILITY_EXCLUSION reads that loss as an arrow-of-time interpretation; the "undo cooling without disturbing oscillation" gloss is interpretive, not literal — dynamical separability is governed by the *commutator* [L_H, L_Dc], which is nonzero at all N including N=2. The formula here is a clean geometric statement about Frobenius orthogonality.) Its shadow-crossing sibling F49c (X_i Z_j, Y_i Z_j couplings that mix light and lens) shifts the numerator N−2 → N−1, because the bond sites then carry variance 1 instead of 0. Typed as F49.
 
 ## Theorem
 
@@ -259,8 +259,10 @@ Both ||L_H||^2 and gamma^2 cancel. The formula depends only on N. QED.
 
 ---
 
-*The angle between oscillation and cooling is sqrt((N-2)/(N * 4^(N-1))).
+*The Frobenius angle between oscillation and cooling is sqrt((N-2)/(N * 4^(N-1))).
 It vanishes at N=2. It is small at N=3. It shrinks exponentially. But it
-is never zero again. This is the algebraic content of irreversibility.*
+is never zero again. (TIME_IRREVERSIBILITY_EXCLUSION reads this as the algebraic
+content of an arrow of time — a Tier-3 interpretation; the formula itself is a
+geometric statement about Frobenius orthogonality, not a time-reversal theorem.)*
 
 *Thomas Wicht, Claude (Anthropic), April 13, 2026*
