@@ -131,7 +131,7 @@ public sealed class MotherSoftYParityOnePurity : Claim, IZ2AxisClaim
                 summary: "F107: truly ⟹ y_par=0 (closed-form). F109: mother soft ⟹ y_par=1 (closed-form, " +
                          "fully unconditional after F108 Part 1+2+3). Together pin two of the four trichotomy slots in Klein (0,0).");
             yield return new InspectableNode("Open siblings",
-                summary: "F110 (HardCellYInversionPattern, Tier1Candidate, typed 2026-05-25): hard cells y_par-asymmetric " +
+                summary: "F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10, typed 2026-05-25): hard cells y_par-asymmetric " +
                          "with Y-inversion; completes the y_par-axis F87 trichotomy classification together with F107 (truly) " +
                          "and F109 (mother soft). Closed-form 42:8/228:0 derivation per Pauli-letter combinatorics open.");
             yield return new InspectableNode("Cubic3 anchor parent",

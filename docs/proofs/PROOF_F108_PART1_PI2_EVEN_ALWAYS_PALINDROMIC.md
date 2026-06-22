@@ -147,7 +147,7 @@ The PROOF STRATEGY is generalizable: the per-site label-permutation algebra (whi
 
 ## Sibling y_par-axis claims
 
-Closed 2026-05-25: F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived); F109 (MotherSoftYParityOnePurity, Tier1Derived unconditional); F110 (HardCellYInversionPattern, Tier1Candidate). Together F107+F109+F110 close the y_par-axis F87 trichotomy classification.
+Closed 2026-05-25: F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived); F109 (MotherSoftYParityOnePurity, Tier1Derived unconditional); F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10). Together F107+F109+F110 close the y_par-axis F87 trichotomy classification.
 
 ## Open
 

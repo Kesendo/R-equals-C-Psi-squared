@@ -109,7 +109,7 @@ public sealed class TrulyYParityZeroPurity : Claim, IZ2AxisClaim
                          "pair is F87-hard under any dephase letter D, via Π_5bilinear phase-variant operators. " +
                          "F109 (MotherSoftYParityOnePurity, Tier1Derived unconditional after F108 Part 1+2+3 closure): " +
                          "mother sector Klein (0,0) soft pairs have y_par=1 across all dephase letters. " +
-                         "F110 (HardCellYInversionPattern, Tier1Candidate, typed 2026-05-25): hard cells y_par-asymmetric " +
+                         "F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10, typed 2026-05-25): hard cells y_par-asymmetric " +
                          "with Y-inversion. Together F107+F109+F110 pin the y_par signature of all three F87 trichotomy classes.");
             yield return new InspectableNode("Cubic3 anchor parent",
                 summary: $"KleinEightCellClaim ({KleinEightParent.Tier.Label()}): the Z₂³ 8-cell decomposition (bit_a, bit_b, y_par) anchoring the y_par axis F107 lives on.");

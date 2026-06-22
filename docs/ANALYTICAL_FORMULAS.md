@@ -3631,7 +3631,7 @@ sequences × 3 dephase letters (`TrulyYParityZeroPurityTests.VerifyOnTerm_*`).
 
 **Sibling y_par-axis claims** (all closed 2026-05-25): F108 Part 1+2+3
 (Π²-even palindrome family, Tier1Derived); F109 (MotherSoftYParityOnePurity,
-Tier1Derived unconditional); F110 (HardCellYInversionPattern, Tier1Candidate).
+Tier1Derived unconditional); F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10).
 Together F107+F109+F110 pin the y_par signature of all three F87 trichotomy
 classes.
 
@@ -3725,10 +3725,10 @@ verification.
   action on Π_5b is only the {I, D} subgroup; X-deph enters via Hilbert-space
   Hadamard. The three typed Claims are KEPT SEPARATE to preserve independent
   integration edges but cross-reference the equivalence proof.
-- **F110 (HardCellYInversionPattern, Tier1Candidate, typed 2026-05-25):**
+- **F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10, typed 2026-05-25):**
   hard cells y_par-asymmetric with Y-inversion. Aspect A closed-form via
   F108 Part 1+2+3 + F107 + F109 + F87 dissipator-resonance; Aspect B+C
-  empirically anchored at F103/F105/F106.
+  derived via F103 §6/§7 (anchored at F103/F105/F106), the windowed converse closed 2026-06-10.
 - **F112 (LindbladBitBPiBalance, Tier1Derived for Hermitian H, typed 2026-05-26):**
   sibling derived theorem on the shared bit_b Z₂-grading. Where F108 Parts
   1/2/3 close palindromy for Π²-even *bilinears* (the bit_b = 0 sub-sector

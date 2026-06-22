@@ -152,7 +152,7 @@ public sealed class F108Part2Pi2XEvenAlwaysPalindromic : Claim, IZ2AxisClaim
                 summary: "F108 Part 1 (Pi2EvenAlwaysPalindromic, Z-dephasing) and F108 Part 3 (Y-dephasing). Together " +
                          "Parts 1+2+3 cover the F108 Π²-even palindrome family completely across {Z, X, Y} dephasing.");
             yield return new InspectableNode("Open siblings",
-                summary: "F110 (HardCellYInversionPattern, Tier1Candidate, typed 2026-05-25): hard cells y_par-asymmetric " +
+                summary: "F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10, typed 2026-05-25): hard cells y_par-asymmetric " +
                          "with Y-inversion; Aspect A closed-form via F108 Part 1+2+3, Aspect B+C empirically anchored " +
                          "(closed-form 42:8/228:0 derivation open).");
             yield return new InspectableNode("Klein-V₄ corollary mechanism (Welle 14, 2026-05-27)",

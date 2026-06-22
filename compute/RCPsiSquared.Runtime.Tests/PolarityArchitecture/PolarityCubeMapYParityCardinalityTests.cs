@@ -20,8 +20,8 @@ public class PolarityCubeMapYParityCardinalityTests
         // (TrulyYParityZeroPurity, first derived-not-empirical) + F109
         // (MotherSoftYParityOnePurity, second derived-not-empirical, fully
         // unconditional after F108 Part 1+2+3 closure 2026-05-25) + F110
-        // (HardCellYInversionPattern, Tier1Candidate Aspect A closed-form + B/C
-        // empirical) + F111 (HardCellPureDTemplate, Tier1Candidate per-pair Pure-D
+        // (HardCellYInversionPattern, Tier1Derived since 2026-06-10; Aspect A closed-form + B/C
+        // derived via F103 §6/§7) + F111 (HardCellPureDTemplate, Tier1Derived per-pair Pure-D
         // Template Rule sharpening F110 Aspect B at k=N=4) are the current
         // Z2Axis.YParity members. F108 Part 1+3 are BitB-axis; F108 Part 2 is
         // BitA-axis (none are YParity, so not counted here). When a new YParity

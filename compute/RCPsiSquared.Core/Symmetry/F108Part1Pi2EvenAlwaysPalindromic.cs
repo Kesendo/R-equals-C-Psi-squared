@@ -153,7 +153,7 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
                 summary: "F108 Part 2 (Π²_X-even under X-dephasing) typed and wired as ctor parent. " +
                          "BitATwinStatus defaults to Filled per IZ2AxisClaim.");
             yield return new InspectableNode("Open siblings",
-                summary: "F110 (HardCellYInversionPattern, Tier1Candidate, typed 2026-05-25): hard cells y_par-asymmetric " +
+                summary: "F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10, typed 2026-05-25): hard cells y_par-asymmetric " +
                          "with Y-inversion; Aspect A closed-form via F108 Part 1+2+3, Aspect B+C empirically anchored at F103/F105/F106 " +
                          "(closed-form 42:8/228:0 derivation open per F103 Section 5).");
             yield return new InspectableNode("Sibling on shared bit_b axis (F112)",

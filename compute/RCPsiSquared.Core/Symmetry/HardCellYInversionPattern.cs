@@ -16,7 +16,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         close Π²-D-even cells (never hard); F107 + F109 close Mother sector Klein
 ///         (0, 0); F87 dissipator-resonance law selects the single diagonal cell from
 ///         the two remaining Π²-D-odd non-mother cells (per dephase D).</item>
-///   <item><b>Aspect B (Y-inversion, empirical):</b> Dominant y_par equals
+///   <item><b>Aspect B (Y-inversion, derived):</b> Dominant y_par equals
 ///         y_par(dephase letter): Z/X-deph dominantly y_par=0; Y-deph dominantly
 ///         y_par=1. Structural reading: the dephase letter's own Y-content
 ///         determines which y_par value the F87-hard split favors.</item>
@@ -65,7 +65,7 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
         klein == DiagonalKleinCellForDephase(dephase);
 
     // ============================================================
-    // Aspect B: Y-inversion structural reading (empirical)
+    // Aspect B: Y-inversion structural reading (derived via F103 §6/§7; corollary of F111 at k=N=4)
     // ============================================================
 
     /// <summary>The dominant y_par value in the F87-hard diagonal cell for the given
