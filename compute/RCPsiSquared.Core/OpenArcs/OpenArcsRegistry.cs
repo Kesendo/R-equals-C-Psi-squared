@@ -1138,6 +1138,58 @@ public static class OpenArcsRegistry
                 "(motion in a plane, watched along the Z-diagonal = the light, surviving in felt time read off the " +
                 "shape). Nothing left to build; the star is kept as the honest boundary where the diffusion reading " +
                 "breaks."),
+
+        new OpenArc(
+            Name: "subsystem_crossing_general_cptp_overreach",
+            Opened: "2026-06-22",
+            Origin: "the deep (derivation-internal) review of PROOF_SUBSYSTEM_CROSSING.md (the 1/4-boundary " +
+                "trilogy, Layer 2). The theorem as STATED -- 'for ANY primitive CPTP map on 2 qubits, every state " +
+                "with CPsi(rho0) > 1/4 eventually has CPsi < 1/4; 1/4 is an eventual absorber for ALL primitive " +
+                "quantum channels' (lines 6, 39-46) -- is FALSE. Step 2 (the CPsi(rho*) <= 1/4 fixed-point bound) " +
+                "proves only Case A (unital, rho*=I/4, CPsi=0) and Case B (local product, CPsi=0) analytically; " +
+                "Case C (general primitive maps) is a 300-map NUMERICAL check whose 'analytical argument' " +
+                "(transfer-matrix slaving) is not a derivation. The proof FILE is honest (its Step-2 status line " +
+                "says 'the analytical bound for general primitive maps remains a conjecture'), but the conjecture " +
+                "is not merely open -- it is FALSE. Counterexample (gate-verified from below, " +
+                "simulations/_deepproof_subsystem_gate_mine.py): the depolarize-toward-sigma channel " +
+                "eps(rho) = (1-p)rho + p*Tr(rho)*sigma with sigma = 0.95|Phi+><Phi+| + 0.05*I/4 is a textbook CPTP " +
+                "map, manifestly PRIMITIVE for every p in (0,1] (unique fixed point sigma, superoperator eigenvalue " +
+                "1 simple with second-largest modulus 1-p < 1, sigma full-rank PSD), yet CPsi(rho*) = CPsi(sigma) = " +
+                "0.2935 > 1/4 in the proof's OWN CPsi = Tr(rho^2)*L1/(d-1) metric; iterating from Bell+ (CPsi=1/3) " +
+                "converges monotonically to 0.2935 and NEVER crosses 1/4. So the headline 'eventual crossing' is " +
+                "false for this primitive channel. The repo's '300 maps, 0 exceptions, max 0.138' is a SAMPLING " +
+                "ARTIFACT (Ginibre n_kraus=4 lives entirely in the strongly-mixing corner near I/4; Haar " +
+                "Stinespring env-dim-2 and near-identity ensembles give CPsi(rho*) up to 0.59-0.82, ~7-9% violating).",
+            ParkedAt: "DOCUMENTED, NOT YET CORRECTED, per Tom's 2026-06-22 decision (document the finding + a " +
+                "counterexample, leave the 1/4-trilogy proof FILES untouched until he reviews them himself). The " +
+                "physically-motivated content STANDS: for genuine local noise (unital / local / Pauli / amplitude- " +
+                "damping = Cases A and B) the fixed points really are I/4 or product/pure states with CPsi=0, so the " +
+                "crossing holds there. The over-reach is the leap from 'physical local noise channels' to 'ALL " +
+                "primitive CPTP maps'. Three documents carry the overclaim and DISAGREE with the proof's own " +
+                "'remains a conjecture' line: (1) PROOF_ROADMAP_QUARTER_BOUNDARY.md strikes Conjecture 2.1 as " +
+                "'PROVEN (March 22, 2026)'; (2) docs/ANALYTICAL_FORMULAS.md F28 is labeled 'Tier 1-2' and states the " +
+                "bound as the formula; (3) the SUBSYSTEM_CROSSING theorem statement itself says 'any primitive " +
+                "CPTP'. The companion UNIQUENESS_PROOF.md (same trilogy, Layer 1) has a SEPARATE, smaller gap " +
+                "documented in CAUGHT_ERRORS the same day (Step 5 'recursion inherits degree 2 from purity => QED' " +
+                "is a non-sequitur; the genuine forcing is the Renyi state-independence argument, threshold ~ " +
+                "Psi^(a-2) => a=2 => 1/4, which lives in the roadmap, gate-verified symbolically).",
+            NextStep: "Tom reviews the 1/4-trilogy, then decide the correction (the AskUserQuestion options were: " +
+                "scope-retraction [recommended] vs full retraction to recovered/ vs the document-only step taken " +
+                "here). The likely scope-retraction: (a) restrict the SUBSYSTEM_CROSSING theorem statement to the " +
+                "physical noise classes (unital/local/Pauli/AD = Cases A+B, provable) and state explicitly that the " +
+                "general primitive-CPTP version is FALSE, with the depolarize-toward-sigma counterexample; (b) " +
+                "reconcile PROOF_ROADMAP_QUARTER_BOUNDARY Conjecture 2.1 'PROVEN' down to 'true for physical noise " +
+                "classes; false for general primitive CPTP'; (c) re-scope ANALYTICAL_FORMULAS F28 and check whether " +
+                "F28 is typed (a Claim/witness) and needs the same scope; (d) decide whether the headline '1/4 " +
+                "eventual absorber' survives, restricted to the physical-noise scope. Also fix UNIQUENESS_PROOF " +
+                "Step 5 (re-scope to point at the Renyi state-independence forcing instead of the 'inherits degree " +
+                "2' non-sequitur; the 1/4 RESULT is correct, only the step's rigor is overstated). Anchors: " +
+                "docs/proofs/PROOF_SUBSYSTEM_CROSSING.md (Step 2, lines 72-146; theorem 6/39-46); " +
+                "docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md (Conjecture 2.1); docs/ANALYTICAL_FORMULAS.md F28; " +
+                "docs/proofs/UNIQUENESS_PROOF.md (Step 5); counterexample + Renyi gates " +
+                "simulations/_deepproof_subsystem_gate_mine.py + _deepproof_uniqueness_gate_mine.py; the worked " +
+                "cases in docs/CAUGHT_ERRORS.md (2026-06-22).",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;
