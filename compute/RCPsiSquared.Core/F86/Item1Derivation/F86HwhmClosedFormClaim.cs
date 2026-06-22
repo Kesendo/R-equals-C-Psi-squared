@@ -28,7 +28,7 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// PROOF_F90_F86C2_BRIDGE (Item 1', Direction (b'')) locates the lift above the 4-mode
 /// floor (0.6715) to 0.7506/0.7728 in the intra-channel dispersion of the rank-1-bridge
 /// + intra-dispersion model (two-dial scout, 2026-06-11; the earlier "octic residual of
-/// the inter coupling" lift suspicion is refuted — the inter tail only moves Q_peak/g_eff),
+/// the inter coupling" lift suspicion is refuted, the inter tail only moves Q_peak/g_eff),
 /// with the cyclotomic Phi_{N+1} pattern supplying the N-scaling. Deriving (alpha, beta)
 /// from that structure is the open analytical step that would close the Tier 1 derivation;
 /// the fit IS NOT that step.</para></summary>

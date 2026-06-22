@@ -115,11 +115,11 @@ With extended Q-grid ([0.10, 20.0] for F86; [0.05, 10.0] for F89-J probe), all o
 | b=5 (Interior, orbit-2 escape) | 0.8899 | 0.8899 | bit-exact |
 | b=6 (Endpoint) | 0.7734 | 0.7734 | bit-exact |
 
-The 2 within-noise bonds at N=8 b=2/b=4 differ in the third decimal because the F86 default grid (600 pts over [0.10, 20.0], dQ ≈ 0.033) and the F89 probe grid (300 pts over [0.05, 10.0], dQ_F89 ≈ 0.033 = dQ_F86 / 2 in F89-J = 0.067 in F86-J) sample slightly different points around Q_peak ≈ 1.51 (F86-J). At identical grids the two agree to machine precision — verified: on a shared 300-point grid the N=8 b=2/b=4 residual is 4.3·10⁻¹⁵ — as they must, since both pipelines read the one shared operator.
+The 2 within-noise bonds at N=8 b=2/b=4 differ in the third decimal because the F86 default grid (600 pts over [0.10, 20.0], dQ ≈ 0.033) and the F89 probe grid (300 pts over [0.05, 10.0], dQ_F89 ≈ 0.033 = dQ_F86 / 2 in F89-J = 0.067 in F86-J) sample slightly different points around Q_peak ≈ 1.51 (F86-J). At identical grids the two agree to machine precision, verified: on a shared 300-point grid the N=8 b=2/b=4 residual is 4.3·10⁻¹⁵, as they must, since both pipelines read the one shared operator.
 
 **Total: 20 of 22 bonds bit-exact, 2 of 22 within Q-grid resolution noise (≤ 0.0008). (Per-N: N=5: 4/4 bit-exact; N=6: 5/5 bit-exact; N=7: 6/6 bit-exact with extended Q-grid; N=8: 5/7 bit-exact + 2/7 within Q-grid noise at b=2, b=4 mid-flanking Interior.)**
 
-**The HWHM_left/Q_peak ratio is a grid-dependent readout of the one shared operator.** Since L_F86(J) = L_F89(J/2) bit-identically (above), the 20/22-vs-2/22 split is entirely a matter of Q-grid sampling, not two physical answers — at matched grids all 22 agree to machine precision. The table values are per-N focused-grid snapshots: the N=5/6 cells use F86's focused [0.20, 4.0] / 153-point grid (e.g. interior 0.7454 = the converged value), while the committed probe script `_f89_to_f86_kbond_via_eigendecomp.py` now runs a single *wide* grid (`q_grid = np.linspace(0.05, 10.0, 300)` in F89-J = [0.10, 20.0] in F86-J) set to capture the N≥7 high-Q escapes; that wide grid mislocates the N=5/6 interior Q_peak by up to one cell (≈0.002 drift) and is not the grid that regenerates the focused-grid table cells. To re-derive a specific table cell, use the per-N focused grid; the underlying identity (and hence any cell, at sufficient grid resolution) is exact.
+**The HWHM_left/Q_peak ratio is a grid-dependent readout of the one shared operator.** Since L_F86(J) = L_F89(J/2) bit-identically (above), the 20/22-vs-2/22 split is entirely a matter of Q-grid sampling, not two physical answers, at matched grids all 22 agree to machine precision. The table values are per-N focused-grid snapshots: the N=5/6 cells use F86's focused [0.20, 4.0] / 153-point grid (e.g. interior 0.7454 = the converged value), while the committed probe script `_f89_to_f86_kbond_via_eigendecomp.py` now runs a single *wide* grid (`q_grid = np.linspace(0.05, 10.0, 300)` in F89-J = [0.10, 20.0] in F86-J) set to capture the N≥7 high-Q escapes; that wide grid mislocates the N=5/6 interior Q_peak by up to one cell (≈0.002 drift) and is not the grid that regenerates the focused-grid table cells. To re-derive a specific table cell, use the per-N focused grid; the underlying identity (and hence any cell, at sufficient grid resolution) is exact.
 
 ---
 
@@ -150,7 +150,7 @@ The 2 within-noise bonds at N=8 b=2/b=4 differ in the third decimal because the 
    baseline ~2.0, no Lorentzian shape and no left half-max crossing. The lift mechanism is
    therefore NOT internal to a single cluster pair. (Phase D then guessed cross-cluster-pair
    inter-channel structure, e.g. H_B-mixed octic residual interference between pairs; the
-   two-dial scout in Direction (b'') below superseded that too — the lift is the intra-channel
+   two-dial scout in Direction (b'') below superseded that too, the lift is the intra-channel
    dispersion, the inter-channel coupling only renormalizes Q_peak / g_eff.)
 
 2. **Item 4' (c≥3 extension):** F89 path-k machinery generalises to chromaticity c ≥ 3 with HD ∈ {1, 3, ..., 2c−1} channels. The (SE, DE) 2-channel structure of c=2 generalises to (n, n+1) (c+1)-channel structure. F89 path-k for path-k ≥ 6 covers extended-N data already (N_block up to 7 verified).

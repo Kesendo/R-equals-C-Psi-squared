@@ -32,7 +32,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// operator: verified bit-exact via <c>simulations/_f89_to_f86_kbond_via_eigendecomp.py</c>
 /// at N=5..8 across every per-F71-orbit class including orbit-escape bonds (broad
 /// high-Q plateau): 20/22 bonds bit-exact, 2/22 within Q-grid resolution noise (0.0008,
-/// pure grid sampling — at matched grids all 22 agree to machine precision).
+/// pure grid sampling, at matched grids all 22 agree to machine precision).
 /// Escape examples reproduced: N=7 b=1/b=4 at Q_peak≈7.27 (F86-J), N=8 b=3 (central
 /// self-paired) at Q_peak≈16.79 (F86-J).</para>
 ///
@@ -102,7 +102,7 @@ public sealed class F90F86C2BridgeIdentity : Claim
     public const int TotalBondComparisonsVerified = 22;
 
     public F90F86C2BridgeIdentity(F89TopologyOrbitClosure f89, F89PathKAtLockMechanismClaim atLock)
-        : base("F90 F86 c=2 ↔ F89 bridge identity: F86 c=2 N qubit K_b(Q, t) IS F89 path-(N−1) (SE,DE) per-bond Hellmann-Feynman, modulo the J convention J_F89 = J_F86/2. Operator-exact (‖L_F86(J) − L_F89(J/2)‖ = 0 at N=5..8); verified bit-exact across N=5..8 (20/22 bonds bit-exact, 2/22 within Q-grid noise — the ratio is a grid-readout of the one operator) including orbit-escape bonds at Q_peak ≈ 16.79 (F86-J)",
+        : base("F90 F86 c=2 ↔ F89 bridge identity: F86 c=2 N qubit K_b(Q, t) IS F89 path-(N−1) (SE,DE) per-bond Hellmann-Feynman, modulo the J convention J_F89 = J_F86/2. Operator-exact (‖L_F86(J) − L_F89(J/2)‖ = 0 at N=5..8); verified bit-exact across N=5..8 (20/22 bonds bit-exact, 2/22 within Q-grid noise, the ratio is a grid-readout of the one operator) including orbit-escape bonds at Q_peak ≈ 16.79 (F86-J)",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_F90_F86C2_BRIDGE.md + " +
                "simulations/_f89_to_f86_kbond_via_eigendecomp.py + " +

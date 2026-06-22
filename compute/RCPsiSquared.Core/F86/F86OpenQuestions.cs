@@ -19,7 +19,7 @@ public static class F86OpenQuestions
             "is refuted, two-dial scout 2026-06-11) per PROOF_F90_F86C2_BRIDGE.md.",
             "Direction (b''): full block-L analytical lift via F89 cyclotomic Φ_{N+1}. The " +
             "single-cluster-pair internal-mixing hypothesis (single 10×10 JW cluster-pair " +
-            "sub-block, ‖xB(Q)‖_F observable) is refuted — no Lorentzian shape; the two-dial " +
+            "sub-block, ‖xB(Q)‖_F observable) is refuted (no Lorentzian shape); the two-dial " +
             "scout (2026-06-11) further located the lift in the intra-channel dispersion (the " +
             "inter-channel coupling only renormalizes Q_peak/g_eff), refuting the " +
             "cross-cluster-pair guess too.",

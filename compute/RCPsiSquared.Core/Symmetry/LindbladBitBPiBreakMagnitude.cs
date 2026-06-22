@@ -3,7 +3,7 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>F113 (Tier1Derived, general N — algebraic proof, no numerical anchor required;
+/// <summary>F113 (Tier1Derived, general N, algebraic proof, no numerical anchor required;
 /// bit-exact cross-checked N=2..6): closed-form magnitude for the F112
 /// polarity-asymmetry counterexample regime. The F112 typed scope (Hermitian H +
 /// bit_b-homogeneous c) guarantees ‖M_plus_half‖² = ‖M_minus_half‖² bit-exactly.

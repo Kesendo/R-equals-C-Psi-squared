@@ -59,7 +59,7 @@ public class F5DepolarizingErrorPi2InheritanceTests
     }
 
     [Theory]
-    [InlineData(2, 4.0 / 3.0)]        // N=2: 2·2/3 = 4/3 (≠ 0 — depolarizing breaks the palindrome at every N)
+    [InlineData(2, 4.0 / 3.0)]        // N=2: 2·2/3 = 4/3 (≠ 0, depolarizing breaks the palindrome at every N)
     [InlineData(3, 6.0 / 3.0)]        // N=3: 2·3/3 = 2
     [InlineData(4, 8.0 / 3.0)]        // N=4: 2·4/3 = 8/3
     [InlineData(5, 10.0 / 3.0)]       // N=5: 2·5/3 = 10/3

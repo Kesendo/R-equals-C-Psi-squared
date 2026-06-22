@@ -9,12 +9,12 @@ namespace RCPsiSquared.Core.Spectrum;
 /// uniform Z-dephasing it reduces to a single-magnon nearest-neighbour tight-binding problem
 /// with hopping 2J, giving N−1 oscillation modes plus the universal palindromic decay 2γ.
 /// (Δ = 1 is required: the ZZ term acts inside the w=1 operator sector via [Z·Z, X] ∝ Y·Z, so
-/// for anisotropic XXZ Δ ≠ 1 the clean ω_k = 4J(1 − cos(πk/N)) band does NOT survive — the
+/// for anisotropic XXZ Δ ≠ 1 the clean ω_k = 4J(1 − cos(πk/N)) band does NOT survive, the
 /// n_XY=1 spectrum is strongly Δ-dependent and the formula is Heisenberg-specific.)
 ///
 /// <list type="bullet">
 ///   <item><see cref="Frequencies"/>: ω_k = 4J·(1 − cos(πk/N)) for k = 1..N−1.</item>
-///   <item><see cref="UniformDecayRate"/>: 2γ — k-independent, the structural constant that
+///   <item><see cref="UniformDecayRate"/>: 2γ, k-independent, the structural constant that
 ///         anchors the JW track's Lorentzian-width Γ in <c>JwBondQPeakUnified</c>.</item>
 ///   <item><see cref="QFactors"/>: Q_k = ω_k / (2γ).</item>
 ///   <item><see cref="MaxQ"/>, <see cref="MinQ"/>, <see cref="MeanQ"/>, <see cref="QSpread"/>,

@@ -72,7 +72,7 @@ $$C_\text{block} \;=\; \sum_{(a,b) \in \text{block}} |\rho_{ab}|^2 \;\leq\; \fra
 
 with equality iff ρ is a **balanced two-sector pure state** (|φ_n⟩+|φ_{n+1}⟩)/√2,
 where |φ_k⟩ is ANY normalized state in popcount-k (the within-sector amplitudes are
-free — see the saturation analysis). The bare C_block bound is realised by this whole
+free, see the saturation analysis). The bare C_block bound is realised by this whole
 continuous family; the canonical Dicke superposition (|D_n⟩+|D_{n+1}⟩)/√2 is the
 member that additionally maximises the ℓ₁-factor Ψ_block, and is the **unique**
 maximiser of the full **CΨ_block** (see "On Ψ_block" below).
@@ -98,12 +98,12 @@ for equality:
    (no other popcount weight).
 2. **p_n = p_{n+1} = 1/2**: balanced sector amplitudes.
 3. **|ρ_{ab}|² = ρ_{aa} · ρ_{bb} for all block (a, b)**: Cauchy-Schwarz
-   saturation, meaning ρ restricted to popcount-{n, n+1} has **rank 1** — i.e. it
+   saturation, meaning ρ restricted to popcount-{n, n+1} has **rank 1**, i.e. it
    is a pure two-sector state (|φ_n⟩+|φ_{n+1}⟩)/√2. This rank-1 condition saturates
    the per-entry Cauchy-Schwarz for ANY normalized |φ_n⟩, |φ_{n+1}⟩; it does **not**
    require uniform (Dicke) within-sector amplitudes. (Indeed `ρ_{ab} = ½·φ_n[a]·φ_{n+1}[b]*`
    gives Σ_{ab}|ρ_{ab}|² = ¼·(Σ_a|φ_n[a]|²)(Σ_b|φ_{n+1}[b]|²) = ¼ regardless of the
-   within-sector shape — the proof's own "asymmetric Dicke" verification rows confirm this.)
+   within-sector shape, the proof's own "asymmetric Dicke" verification rows confirm this.)
 
 The three conditions together force ρ to be a **balanced two-sector pure state**
 (|φ_n⟩+|φ_{n+1}⟩)/√2 (conditions 1+2 fix the sector weights at ½ each; condition 3
@@ -132,7 +132,7 @@ purity content). Multiplying by the Cauchy-Schwarz-saturating
 Ψ_block = ℓ₁/ℓ₁_max ≤ 1 gives CΨ_block ≤ C_block ≤ 1/4. The Ψ_block factor
 is ≤ 1 with equality **precisely** at the canonical Dicke symmetric state
 (uniform per-entry amplitude saturates ℓ₁ at ℓ₁_max). This is exactly where the
-uniqueness lives: **CΨ_block = ¼ iff ρ is the canonical Dicke superposition** —
+uniqueness lives: **CΨ_block = ¼ iff ρ is the canonical Dicke superposition**,
 C_block = ¼ pins the balanced two-sector pure state (a whole family), and Ψ_block = 1
 then pins the within-sector amplitudes uniform. So the unique-realiser statement is a
 property of the full CΨ_block, NOT of the bare C_block.

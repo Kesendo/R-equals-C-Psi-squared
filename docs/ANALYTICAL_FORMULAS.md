@@ -722,7 +722,7 @@ under pure X the XX correlation is pinned, under pure Y the YY correlation is pi
 so in **both** cases L₁ stays nonzero ⟹ CΨ = (1+u²)/6 ⟹ K = ln(2)/8. Under pure Z
 both XX and YY decay ⟹ L₁ → 0 ⟹ CΨ = u(1+u²)/6 ⟹ K_Z = 0.0374. The 2026-04-29
 note set K_Y = K_Z by taking F26's physical rates (α,β,δ) = (4γ, 0, 4γ) and using
-L₁ = e^{−αt} = e^{−4γt} — but β = 0 < α **violates the F26 WLOG α ≤ β**, which must
+L₁ = e^{−αt} = e^{−4γt}, but β = 0 < α **violates the F26 WLOG α ≤ β**, which must
 be re-sorted to α = 0 (giving L₁ = 1, pure X's form). The original K_X = K_Y by-symmetry
 claim was correct. From below: CΨ_Y = (1+u²)/6 reproduces to 8e-16 (vs the note's
 u(1+u²)/6, off by 0.167).
@@ -2714,7 +2714,7 @@ where the sub-class (per `BondSubClass` enum: `Endpoint`, `Flanking`, `Mid`, `Ce
 
 Fit reproduces 22 anchors at N=5..8 within 0.005 residual, including Orbit-2 (N=7 b=1/b=4, Q_peak ≈ 7.27 F86-J) and Orbit-3 escape bonds (N=8 b=3, Q_peak ≈ 16.79 F86-J): fit-quality witness, not analytical derivation.
 
-**Open analytical step (to promote Tier 1 candidate → Tier 1 derived):** derive (α_subclass, β_subclass) from the rank-1-bridge + intra-dispersion structure — the F89 AT-locked F_a/F_b 4-mode floor (0.6715) plus the **intra-channel dispersion** lift (to 0.7506/0.7728), with the cyclotomic Φ_{N+1} N-scaling — per [`PROOF_F90_F86C2_BRIDGE.md`](proofs/PROOF_F90_F86C2_BRIDGE.md) Direction (b''). The two-dial scout (2026-06-11) refuted the inter-coupling "H_B-mixed octic residual" lift suspicion (the inter-channel tail only renormalizes Q_peak / g_eff, leaving the dimensionless ratio fixed); the lift lives in the intra-channel dispersion, to be treated exactly.
+**Open analytical step (to promote Tier 1 candidate → Tier 1 derived):** derive (α_subclass, β_subclass) from the rank-1-bridge + intra-dispersion structure: the F89 AT-locked F_a/F_b 4-mode floor (0.6715) plus the **intra-channel dispersion** lift (to 0.7506/0.7728), with the cyclotomic Φ_{N+1} N-scaling, per [`PROOF_F90_F86C2_BRIDGE.md`](proofs/PROOF_F90_F86C2_BRIDGE.md) Direction (b''). The two-dial scout (2026-06-11) refuted the inter-coupling "H_B-mixed octic residual" lift suspicion (the inter-channel tail only renormalizes Q_peak / g_eff, leaving the dimensionless ratio fixed); the lift lives in the intra-channel dispersion, to be treated exactly.
 
 **Source:** [`F86HwhmClosedFormClaim`](../compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmClosedFormClaim.cs), [`BondSubClass`](../compute/RCPsiSquared.Core/F86/Item1Derivation/BondSubClass.cs), F89 path-k bridge via F90 ([`PROOF_F90_F86C2_BRIDGE.md`](proofs/PROOF_F90_F86C2_BRIDGE.md)). Plan: [`docs/superpowers/plans/2026-05-13-f86-hwhm-closed-form-attack.md`](superpowers/plans/2026-05-13-f86-hwhm-closed-form-attack.md).
 

@@ -23,7 +23,7 @@ The cross term measures how much the oscillatory and dissipative parts of the dy
 
 independent of γ, of J, and of the graph topology. At N=2 it is exactly zero: oscillation and cooling are orthogonal and the dynamics splits cleanly, the Pythagorean decomposition that makes the single bond special. At N ≥ 3 it is nonzero and fixed by size alone. The proof turns on one structural fact, the bond-sum rule: every Hamiltonian transition in the Pauli basis carries XY-weight summing to 2 at its bond, which cancels the bond-site contribution to the anticommutator and leaves only the N−2 spectator sites to carry variance, hence the (N−2) in the numerator.
 
-This constant is the algebraic engine of TIME_IRREVERSIBILITY_EXCLUSION: the **Frobenius orthogonality** of oscillation and cooling exists only at N=2, and the cross term is the exact measure of its loss at every larger size. (TIME_IRREVERSIBILITY_EXCLUSION reads that loss as an arrow-of-time interpretation; the "undo cooling without disturbing oscillation" gloss is interpretive, not literal — dynamical separability is governed by the *commutator* [L_H, L_Dc], which is nonzero at all N including N=2. The formula here is a clean geometric statement about Frobenius orthogonality.) Its shadow-crossing sibling F49c (X_i Z_j, Y_i Z_j couplings that mix light and lens) shifts the numerator N−2 → N−1, because the bond sites then carry variance 1 instead of 0. Typed as F49.
+This constant is the algebraic engine of TIME_IRREVERSIBILITY_EXCLUSION: the **Frobenius orthogonality** of oscillation and cooling exists only at N=2, and the cross term is the exact measure of its loss at every larger size. (TIME_IRREVERSIBILITY_EXCLUSION reads that loss as an arrow-of-time interpretation; the "undo cooling without disturbing oscillation" gloss is interpretive, not literal, dynamical separability is governed by the *commutator* [L_H, L_Dc], which is nonzero at all N including N=2. The formula here is a clean geometric statement about Frobenius orthogonality.) Its shadow-crossing sibling F49c (X_i Z_j, Y_i Z_j couplings that mix light and lens) shifts the numerator N−2 → N−1, because the bond sites then carry variance 1 instead of 0. Typed as F49.
 
 ## Theorem
 
@@ -102,7 +102,7 @@ w_XY^{ij}(source) + w_XY^{ij}(target) = 2.
 basis**, with `L_{ab} = Tr(σ_a · L_H(σ_b))/2^N`. This matters for the Z_iZ_j term in
 particular: in the *computational* vec(ρ) basis it has nonzero diagonal entries and a
 reader would see apparent violations of Lemma 2, but in the Pauli basis its diagonal
-is zero — `Tr(σ_a · [Z_iZ_j, σ_a]) = 0` for every a, a standard Lie-algebra fact — so
+is zero, `Tr(σ_a · [Z_iZ_j, σ_a]) = 0` for every a, a standard Lie-algebra fact, so
 Lemma 2 holds exactly. The off-diagonal, weight-preserving transitions are all the ZZ
 term contributes here.)
 
@@ -262,7 +262,7 @@ Both ||L_H||^2 and gamma^2 cancel. The formula depends only on N. QED.
 *The Frobenius angle between oscillation and cooling is sqrt((N-2)/(N * 4^(N-1))).
 It vanishes at N=2. It is small at N=3. It shrinks exponentially. But it
 is never zero again. (TIME_IRREVERSIBILITY_EXCLUSION reads this as the algebraic
-content of an arrow of time — a Tier-3 interpretation; the formula itself is a
+content of an arrow of time, a Tier-3 interpretation; the formula itself is a
 geometric statement about Frobenius orthogonality, not a time-reversal theorem.)*
 
 *Thomas Wicht, Claude (Anthropic), April 13, 2026*

@@ -17,8 +17,8 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         operator-space d² = 4 minus the identity = 3.</item>
 ///   <item><b>"N" linear factor</b>: the full chain length (= Σγ/γ). The per-site
 ///         1:3 immune:decaying split costs (2/3)γ at every site; summed over all N
-///         sites this gives (2/3)Nγ = (2/3)·Σγ. Per-site-additive over ALL N sites —
-///         this is NOT the F49 "(N−2)" derivation-overhead shift (a different formula;
+///         sites this gives (2/3)Nγ = (2/3)·Σγ. Per-site-additive over ALL N sites; this
+///         is NOT the F49 "(N−2)" derivation-overhead shift (a different formula;
 ///         the earlier "(N−2)" reading here was a mis-import, corrected 2026-06-22 after
 ///         the depolarizing-break gate showed nonzero error at N=2 scaling as N, not N−2).</item>
 /// </list>

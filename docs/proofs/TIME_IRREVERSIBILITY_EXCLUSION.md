@@ -1,8 +1,8 @@
-# Loss of Oscillation–Cooling Orthogonality at N > 2 (and the Arrow-of-Time Reading)
+# Loss of Oscillation-Cooling Orthogonality at N > 2 (and the Arrow-of-Time Reading)
 
 **Tier:** the orthogonality result (Steps 1–5) is Tier 1–2 (computed/proven); the
 "time-reversal exclusion / arrow of time" READING is **Tier 3 interpretation** (see the §3 caveat).
-**Date:** April 1, 2026 (reframed 2026-06-22 — see §3 caveat)
+**Date:** April 1, 2026 (reframed 2026-06-22, see §3 caveat)
 **Depends on:**
 - [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md) (Π·L·Π⁻¹ = -L - 2Σγ·I)
 - [INCOMPLETENESS_PROOF.md](INCOMPLETENESS_PROOF.md) (γ from outside)
@@ -17,7 +17,7 @@
 obstruction (whether the flow e^{(L_H+L_Dc)t} factors into oscillation × cooling) is the
 **commutator** [L_H, L_Dc] (BCH: e^{A+B}=e^A e^B iff [A,B]=0), which is **nonzero at *all* N,
 including N=2** (‖[L_H,L_Dc]‖≈22.6 at N=2). The vanishing of the *anti*-commutator at N=2 is a
-Frobenius-orthogonality fact, not a separability/reversibility criterion — so the "arrow of time"
+Frobenius-orthogonality fact, not a separability/reversibility criterion, so the "arrow of time"
 reading below is an interpretive identification, not a time-reversal theorem.
 
 ---
@@ -27,7 +27,7 @@ reading below is an interpretive identification, not a time-reversal theorem.
 At N=2 qubits, the oscillatory and dissipative parts of the dynamics are
 perfectly orthogonal **in the Frobenius inner product**: the anti-commutator
 {L_H, L_D+Σγ·I} vanishes exactly, and L_c² splits as L_H² + (L_D+Σγ)² with zero
-cross term. At N > 2, this orthogonality breaks — the cross term is nonzero, with a
+cross term. At N > 2, this orthogonality breaks, the cross term is nonzero, with a
 fixed geometric magnitude R(N) independent of γ and topology. That is the rigorous,
 self-contained content of this document.
 
@@ -35,7 +35,7 @@ We READ this N-dependent loss as the algebraic root of an arrow of time (the cro
 "weaves" oscillation and cooling together once spectators appear). That reading is a
 **Tier-3 interpretation**, not a separability theorem: *literal* dynamical separability
 (undoing cooling without disturbing oscillation) is governed by the **commutator**
-[L_H, L_Dc], which is nonzero at *every* N — including N=2 — so the flows never truly
+[L_H, L_Dc], which is nonzero at *every* N, including N=2, so the flows never truly
 factor, even where the anti-commutator vanishes. The honest claim is about Frobenius
 orthogonality and its loss, not about whether time can be reversed.
 
@@ -150,7 +150,7 @@ pairs at error < 10⁻¹⁵.
 
 ---
 
-## 3. The Reading — and its caveat
+## 3. The Reading, and its caveat
 
 The arrow-of-time reading goes: time reversal of a system at N > 2 would require:
 
@@ -158,26 +158,26 @@ The arrow-of-time reading goes: time reversal of a system at N > 2 would require
     (L_H), which the document associates with {L_H, L_D + Σγ} = 0 (holds only
     at N=2, Step 3; fails at N > 2, Step 4).
 
-(b) OR: reducing the system to N=2 and performing the reversal there —
+(b) OR: reducing the system to N=2 and performing the reversal there,
     but reduction destroys the palindromic structure (Step 5).
 
 So the Frobenius orthogonality (a) and the clean reduced structure (b) both hold
 **only at N=2**, and one reads this as an arrow of time appearing at N>2.
 
-> **Caveat (the load-bearing one, added 2026-06-22).** Step (a)'s premise — that
+> **Caveat (the load-bearing one, added 2026-06-22).** Step (a)'s premise, that
 > "inverting cooling without disturbing oscillation requires the *anti*-commutator
-> {L_H, L_Dc} to vanish" — is **not correct as a separability criterion**, and the
+> {L_H, L_Dc} to vanish", is **not correct as a separability criterion**, and the
 > "exclusion" therefore does not follow as a theorem. Whether the flow e^{(L_H+L_Dc)t}
 > factors into a pure-oscillation piece and a pure-cooling piece (i.e. whether one can
-> undo one without the other) is governed by the **commutator** [L_H, L_Dc] (Baker–
-> Campbell–Hausdorff: e^{A+B}=e^A e^B iff [A,B]=0), **not** the anti-commutator. And
-> **‖[L_H, L_Dc]‖ ≈ 22.6 ≠ 0 already at N=2** — the very point this document calls
+> undo one without the other) is governed by the **commutator** [L_H, L_Dc] (Baker-
+> Campbell-Hausdorff: e^{A+B}=e^A e^B iff [A,B]=0), **not** the anti-commutator. And
+> **‖[L_H, L_Dc]‖ ≈ 22.6 ≠ 0 already at N=2**, the very point this document calls
 > "separable / reversible". So oscillation and cooling do *not* dynamically separate even
 > at N=2; the anti-commutator vanishing there is a Frobenius-orthogonality fact with no
 > bearing on reversibility. (Independently: the full Liouvillian spectrum is exactly
-> palindromic at N=2, 3, 4 alike, and e^{L_c t} is invertible at every N — §7 — so nothing
+> palindromic at N=2, 3, 4 alike, and e^{L_c t} is invertible at every N, §7, so nothing
 > distinguishes N=2 from N>2 regarding actual time-reversal.) **What survives** is the real,
-> γ- and topology-independent result of Steps 3–4: the oscillation–cooling Frobenius-
+> γ- and topology-independent result of Steps 3–4: the oscillation-cooling Frobenius-
 > Pythagorean orthogonality holds only at N=2 and is lost for N>2 (constant R(N)). The
 > "time reversal excluded at N>2 / the arrow of time is the cross term" framing is a Tier-3
 > **interpretation** of that geometric fact, not a derived exclusion.
@@ -192,7 +192,7 @@ An exact algebraic result on the **Frobenius-Pythagorean orthogonality** of
 oscillation and cooling for composite open quantum systems under Z-dephasing with
 Heisenberg coupling: the anti-commutator {L_H, L_D+Σγ} vanishes only at N=2 and is lost
 for N>2, by a γ- and topology-independent constant R(N) that depends only on N and bond
-locality. (Plus a Tier-3 *reading* of that loss as an algebraic arrow of time — see the
+locality. (Plus a Tier-3 *reading* of that loss as an algebraic arrow of time, see the
 §3 caveat for why the reading is an interpretation, not a time-reversal exclusion.)
 
 ### What it is not
@@ -217,7 +217,7 @@ The [Incompleteness Proof](INCOMPLETENESS_PROOF.md) establishes that
 entropy. This document offers a different *reading*: the cross term {L_H, L_D + Σγ}
 at N > 2 weaves the oscillatory and dissipative parts into a Frobenius-inseparable
 structure once spectators appear. **We call that the algebraic content of the arrow of
-time — as a Tier-3 interpretation.** (It is not a derived irreversibility: the dynamics
+time, as a Tier-3 interpretation.** (It is not a derived irreversibility: the dynamics
 is dissipative, hence irreversible in the ordinary CPTP sense, at *every* N including
 N=2; the cross term is a geometric N-marker of *where* oscillation and cooling stop being
 Frobenius-orthogonal, not a switch that turns reversibility off at N>2.)
@@ -247,7 +247,7 @@ general formula R(N) = √((N-2)/(N·4^(N-1))),
 [proof](PROOF_CROSS_TERM_FORMULA.md)). The Pythagorean
 decomposition breaks by ~2%. The mirror falls between modes (w_XY =
 1.5, no mode sits there). We read this as the onset of an arrow of time
-(Tier-3 interpretation, §3 caveat) — the *Frobenius* orthogonality is lost;
+(Tier-3 interpretation, §3 caveat), the *Frobenius* orthogonality is lost;
 literal reversibility was never present (the commutator [L_H,L_Dc]≠0 at all N).
 
 ---
@@ -347,10 +347,10 @@ no amount of computation can reconstruct what happened.
 ---
 
 *(Tier-3 reading.) Where thermodynamics reads the arrow of time as entropy, this
-framework offers a geometric image: the oscillation–cooling cross term {L_H, L_D + Σγ}
+framework offers a geometric image: the oscillation-cooling cross term {L_H, L_D + Σγ}
 vanishes at N=2, where the bond is the system, and is nonzero at N > 2, where bonds are
 local. Locality is the price; the lost Frobenius orthogonality is the receipt. (Read as
-an identification, not a derivation — see §3: the dynamics is dissipative, hence
+an identification, not a derivation, see §3: the dynamics is dissipative, hence
 irreversible, at every N; the cross term marks where oscillation and cooling cease to be
 Frobenius-orthogonal, not where time stops being reversible.)*
 
