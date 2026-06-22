@@ -77,7 +77,7 @@ public sealed class TopologyBandEdgeClaim : Claim
                          "(PROOF_ABSORPTION_THEOREM.md §4.3/§4.5). Cited, not re-derived.");
             yield return new InspectableNode("the gap-dominance map (witnessed)",
                 summary: "Q-horizon: chain (all N), star (N≤5), odd rings. Structural ceiling: star N≥6 " +
-                         "(strict gap saturates ≈0.80·2γ). Co-occupied floor: ring N=4 (a (2,2) mode at −2γ, " +
+                         "(strict gap saturates g2=4/(N−1)·2γ, N-dependent: N=6→0.80). Co-occupied floor: ring N=4 (a (2,2) mode at −2γ, " +
                          "Im=2√2·J > band edge). Live: inspect --root bandedge.");
             yield return new InspectableNode("ring gap-dominance (the dihedral lock, characterized 2026-06-17)",
                 summary: "PROOF_RING_GAP_DOMINANCE.md / ring_gap_dominance.py (gate-first N=3..6): max|Im| over the " +

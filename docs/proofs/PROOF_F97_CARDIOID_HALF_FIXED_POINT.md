@@ -63,11 +63,11 @@ The cardioid is traced by φ ∈ [0, 2π); on this curve, by construction:
 | φ | c(φ) | \|c\| | z*(φ) | reading |
 |---|---|---|---|---|
 | 0 | 1/4 | 1/4 = b² | 1/2 | real-axis cusp ([F95](PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md), [`BOUNDARY_NAVIGATION`](../../experiments/BOUNDARY_NAVIGATION.md)) |
-| π/3 | 3/8 + i·√3/4 | √(1/4 + 3/16) | (1 + i·√3)/4 | top of cardioid (60° above real axis) |
+| π/3 | 3/8 + i·√3/8 | √(9/64 + 3/64) = √3/4 ≈ 0.433 | (1 + i·√3)/4 | top of cardioid (60° above real axis) |
 | π/2 | 1/4 + i/2 | √(1/4 + 1/16) ≈ 0.559 | i/2 | imaginary-axis crossing of fixed point |
 | π | −3/4 | 3/4 | −1/2 | real-axis "tail" of cardioid (period-doubling boundary) |
-| 4π/3 | 3/8 − i·√3/4 | √(1/4 + 3/16) | (1 − i·√3)/4 | bottom symmetric image of φ = 2π/3 |
-| 5π/3 | 3/8 − i·√3/4 + i·... | ... | (1 + i·−√3)/4 | another low-symmetry cardioid point |
+| 4π/3 | −1/8 − i·3√3/8 | √(1/64 + 27/64) = √7/4 ≈ 0.661 | (−1 − i·√3)/4 | conjugate image of φ = 2π/3 (240°) |
+| 5π/3 | 3/8 − i·√3/8 | √(9/64 + 3/64) = √3/4 ≈ 0.433 | (1 − i·√3)/4 | conjugate image of φ = π/3 (300°) |
 
 The 1/4 = b² value plays a special role only at φ = 0: it is the *magnitude* of c at the real-axis cusp. Elsewhere on the cardioid |c| ≠ b². The b = 1/2 anchor plays the universal role: |z*| = b along the entire curve.
 

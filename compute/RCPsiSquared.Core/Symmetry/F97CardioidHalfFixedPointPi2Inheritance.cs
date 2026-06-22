@@ -64,7 +64,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <code>
 ///   φ = 0:    c = 1/4 = b²,            z* = 1/2 = b      (real-axis cusp = F95)
-///   φ = π/3:  c = 3/8 + i·√3/4,        z* = (1+i√3)/4    (60° around cardioid)
+///   φ = π/3:  c = 3/8 + i·√3/8,        z* = (1+i√3)/4    (60° around cardioid)
 ///   φ = π/2:  c = 1/4 + i/2,           z* = i/2          (z* on imaginary axis)
 ///   φ = π:    c = −3/4,                z* = −1/2         (period-doubling boundary)
 /// </code>
