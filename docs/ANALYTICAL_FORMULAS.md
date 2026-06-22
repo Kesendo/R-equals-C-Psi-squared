@@ -2548,7 +2548,7 @@ For any k-body Pauli term (P_1, ..., P_k) with letters from {I, X, Y, Z}, the Π
 | Theorem | k-body status |
 |---------|---------------|
 | F87 trichotomy | extends via _pauli_tuple_is_truly |
-| F80 Spec(M) = 2i·Spec(H) | extends verbatim; verified at k=3 (N=4,5,6) and k=4 (N=5,6) for 17 Π²-odd cases; spectral identity bit-exact |
+| F80 Spec(M) = 2i·Spec(H) | extends (same form; the Step-5 flip generalizes to (−1)^{n_Y+n_Z}); verified at k=3 (N=4,5,6) and k=4 (N=5,6) for 17 Π²-odd cases; spectral identity bit-exact |
 | F81 Π·M·Π⁻¹ = M − 2·L_{H_odd} | verbatim, verified at k=3 chain N=4 |
 | F82 T1 dissipator | dissipator-only, body-count-independent |
 | F83 anti-fraction 1/(2+4r) | verbatim with Π²-class grouping |
