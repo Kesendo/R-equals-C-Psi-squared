@@ -49,12 +49,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (asymmetry = 0); F113 closes the out-of-scope counterexample magnitude. Together
 /// they give a complete polarity-axis description across the family.</para>
 ///
-/// <para><b>Universal-N status</b>: bit-exact at N=2, 3, 4 via constructive parameter
-/// sweep. The (1/2)·4^N coefficient and per-site additivity are N-universal in
-/// structure (4^N matches operator-space dimension d²; per-site structure matches
-/// locality of [Z_l, σ⁻_m] = −2·σ⁻_m · δ_{lm}). Rigorous algebraic derivation of the
-/// (1/2)·4^N coefficient from Π-eigenspace structure is open (would promote to
-/// Tier1Derived for all N).</para>
+/// <para><b>Universal-N status</b>: Tier1Derived for general N (Welle 4 structural
+/// decomposition; see the constructor + PROOF_F113). 4^N is the operator-space dimension
+/// d² (spectator sites contribute ‖I_4‖²=4 each); per-site additivity matches the locality
+/// of [Z_l, σ⁻_m] = −2·σ⁻_m · δ_{lm}. The cross-term reduction closes via the Π²-odd /
+/// Lindblad-input-vanishing argument; the T1-self-term vanishes for general N by the same
+/// single-site shifted-support + tensor-factorization argument. Bit-exact N=2..6.</para>
 ///
 /// <para>Implements <see cref="IZ2AxisClaim"/> with <see cref="Z2Axis.BitB"/>: F113
 /// is intrinsically about Z-axis single-site drives, not symmetric under bit_a / bit_b

@@ -50,7 +50,7 @@ In the F113 regime where L = L_H + L_T1 with bit_b-mixed dissipator c = σ⁻, b
 
     ‖L_{full,+i}‖² − ‖L_{full,-i}‖²
         = (‖L_{H,+i}‖² − ‖L_{H,-i}‖²)            (= 0 by F112 typed for Hermitian H)
-        + (‖L_{T1,+i}‖² − ‖L_{T1,-i}‖²)          (= 0 by F112 non-Hermitian extension at N ≤ 4)
+        + (‖L_{T1,+i}‖² − ‖L_{T1,-i}‖²)          (= 0 for general N; see the T1-self-term note below)
         + 2·Re⟨L_{H,+i}, L_{T1,+i}⟩
         − 2·Re⟨L_{H,-i}, L_{T1,-i}⟩
 
@@ -63,6 +63,8 @@ so the asymmetry collapses to
     asymmetry = 4 · Re⟨L_{H,+i}, L_{T1,+i}⟩.
 
 **This is the cross-term reduction.** What remains is to compute the Frobenius cross term `Re⟨L_{H,+i}, L_{T1,+i}⟩` and show it equals `−(N/8)·4^N·ω·γ_T1` (uniform) or `−(1/8)·4^N·Σ_l ω_l·γ_T1,l` (non-uniform).
+
+**T1-self-term note (= 0 for general N, self-contained).** The dropped term `‖L_{T1,+i}‖² − ‖L_{T1,-i}‖²` vanishes for every N by the same per-site machinery this proof uses for the cross term (Steps 4-6), not by any external N-bounded input. Per site, the Π²-odd part of `L_{T1,1}` is the single real entry `(Z, I) = γ` (the population-pumping `D[σ⁻](I) = +Z`); its `+i` and `−i` projections have equal Frobenius norm because Π is unitary (`‖Π e Π⁻¹‖ = ‖e‖`) and the shifted-diagonal support makes `⟨e, Π e Π⁻¹⟩ = 0`, killing the only term that could split them. Cross-site self-terms vanish by the same `Tr((L_{T1,1})_{±i}) = 0` used in Step 6. Tensor factorization (`Π_N = Π_1^{⊗N}`, `‖I_4‖² = 4`) lifts both to all N. Verified bit-exact at N = 2..6. (An earlier draft cited the F112 non-Hermitian extension for this; that extension is now universal-N but concerns the commutator `−i[H,·]`, not this dissipator self-term, so the self-contained argument here is the correct support.)
 
 ## Main computation: the inner product cross term
 
@@ -388,6 +390,6 @@ No bit-exact numerical anchor is required for the general-N statement.
 ## Related
 
 - **F112 PROOF**: parent theorem (asymmetry = 0 for Hermitian H + bit_b-homogeneous c).
-- **F112 non-Hermitian extension**: closes ‖L_{H,+i}‖² = ‖L_{H,-i}‖² and ‖L_{T1,+i}‖² = ‖L_{T1,-i}‖² individually at N ≤ 4 (Tier1Derived) and N ≥ 5 (Tier1Candidate).
+- **F112 non-Hermitian extension** ([PROOF_F112_NONHERMITIAN_UNIVERSAL_N](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md), Tier1Derived universal-N via Welle 11): closes the commutator-superoperator balance ‖L_{H,+i}‖² = ‖L_{H,-i}‖² for any H. It concerns the commutator −i[H,·], **not** the dissipator self-term; the T1-self-term ‖L_{T1,+i}‖² = ‖L_{T1,-i}‖² is closed general-N by this proof's own single-site shifted-support + tensor-factorization argument (the T1-self-term note in the reduction chain).
 - **F113 empirical anchor**: `experiments/F113_BREAK_MAGNITUDE_FORMULA.md` (closed-form Tier1Derived at N = 2, 3, 4).
 - **F38, F63**: Π² = (-1)^{bit_b} on Pauli strings (foundational input for the tensor factorization of Π).
