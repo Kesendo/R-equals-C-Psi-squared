@@ -3421,7 +3421,7 @@ DickeAnchor.cs), companion bridge [F98](#f98) (long-time 3/8 → 1/4 via kernel 
 
 **Derivation (Tier 1):** R-equivariance of the PROOF_C1 apparatus gives Step 1, c₁(b; γ) = c₁(N−2−b; F71(γ)), since the dephasing dissipator D[ρ] = Σ_l γ_l (Z_l ρ Z_l − ρ) is linear in each γ_l and R_sup·L(γ)·R_sup = L(F71(γ)) relabels site l ↔ N−1−l. Step 2: D(b; γ) = c₁(b; γ) − c₁(b; F71(γ)), so D(b; F71(γ)) = −D(b; γ), which with F71(γ) = γ_sym − γ_anti is the oddness.
 
-**Connection to F91:** observable-side twin of F91. F91 (spectrum side) = the F71-refined diagonal-block eigenvalue multiset depends only on γ_sym (the pair-sums S_l = γ_l + γ_{N−1−l} = 2·γ_sym[l]; γ_anti invisible to the spectrum). F101 (observable side) = the c₁ bond-mirror deviation depends only on γ_anti, and oddly. Two faces of one γ_sym/γ_anti split. The J-side observable twin is F100.
+**Connection to F91:** observable-side twin of F91. F91 (spectrum side) = the F71-refined diagonal-block eigenvalue multiset depends only on γ_sym (the pair-sums S_l = γ_l + γ_{N−1−l} = 2·γ_sym[l]; γ_anti invisible to the spectrum). F101 (observable side) = the c₁ bond-mirror deviation vanishes for palindromic γ and is exactly odd in γ_anti; its parity and zero set are fixed by γ_anti alone, while its magnitude κ_γ also depends on γ_sym (above). Two faces of one γ_sym/γ_anti split. The J-side observable twin is F100.
 
 **Scope:** c₁ only. The F86c per-bond Q_peak observable is not covered: its Q-axis Q = J/γ₀ and EP time t_peak = 1/(4γ₀) are defined against a scalar γ₀, which a non-uniform per-site γ does not provide. The γ_avg-anchored Q_peak route and the h-detuning observable twin follow by the same parameter-agnostic argument and are noted in PROOF_F101 as separable extensions.
 
