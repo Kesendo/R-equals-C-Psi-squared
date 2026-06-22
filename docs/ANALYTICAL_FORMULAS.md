@@ -25,7 +25,7 @@ Every decay rate d pairs with 2Σγ - d.
 
 **Valid for:** Heisenberg, XY, Ising, XXZ, DM; Z-dephasing; any graph;
 any N; non-uniform γ per qubit. Two Π families (P1, P4).
-**See also:** [THE_THREE_DIAGONALS](THE_THREE_DIAGONALS.md) — the dissipator diagonal Q (whose levels carry the −2γ rate) is one of three, Q_X / Q_Y / Q_Z, one basis-S₃ orbit.
+**See also:** [THE_THREE_DIAGONALS](THE_THREE_DIAGONALS.md), the dissipator diagonal Q (whose levels carry the −2γ rate) is one of three, Q_X / Q_Y / Q_Z, one basis-S₃ orbit.
 **Breaks for:** depolarizing noise (error = (2/3)Σγ, linear in γ and N).
 **Replaces:** palindrome verification (54,118 eigenvalues at N=8).
 **Source:** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)
@@ -160,8 +160,8 @@ H-competitive regime, while the |vac⟩⟨ψ_k| sector at rate 2γ is the
 slowest mode; at strong dephasing (low Q) a slower real overdamped mode
 takes the gap and the band edge ceases to be the coherence hand, the
 higher rungs leaving first (live: `inspect --root clock --J 1 --gamma 0.5`
-shows N=5 gone at Q=2). The mechanism is derived, and gap-dominance — that
-the band edge is the fastest oscillation on the −2γ floor — is now PROVEN
+shows N=5 gone at Q=2). The mechanism is derived, and gap-dominance, that
+the band edge is the fastest oscillation on the −2γ floor, is now PROVEN
 via free fermions (max|Im| = E1 for all N; the floor modes are
 c_k^(†)·f(N_tot) at ±E_k, see
 [PROOF_CHAIN_GAP_DOMINANCE](proofs/PROOF_CHAIN_GAP_DOMINANCE.md)). Above the
@@ -216,9 +216,9 @@ and was an argmax-Re / Im-tracking artifact): the mode that COALESCES at Q*(N) i
 artifact-free** (gate-first on known defective + diabolic toys, with a diabolic control on the same object
 at γ=0): the coalescing pair's **departure-from-normality → ≈ 4** as the pair-split → 0, its **geometric
 multiplicity 1 < algebraic multiplicity 2**, the Schur off-diagonal equal to that departure (the literal
-Jordan coupling), and the two compression-eigenvectors **merge** (|cos| → 1) — the defective Jordan
+Jordan coupling), and the two compression-eigenvectors **merge** (|cos| → 1), the defective Jordan
 structure, read without eig eigenvectors. The older eig-phase-rigidity read (`r → 0`; `r` at
-Q* ≈ 0.0 / 0.015 / 0.026 at N = 3 / 4 / 5) is **grid-sensitive** — sitting on an unresolvable coalescence,
+Q* ≈ 0.0 / 0.015 / 0.026 at N = 3 / 4 / 5) is **grid-sensitive**, sitting on an unresolvable coalescence,
 the Petermann `Kmax` swings by orders of magnitude under a ΔQ = 1e-3 grid shift, so those small `r` values
 are artifacts of where the grid lands, not load-bearing; and `r` is eig-based, the F86a-misfire-prone family.
 It **corroborates** the EP here (it agrees with the artifact-free verdict, because this object genuinely is
@@ -240,7 +240,7 @@ identities; c=4 at N=2, c=2 at N=3), so **Q*(N) = 2/√c → 1, √2 exactly**. 
 form of the 2cos(π/(N+1)) low-N accident: not only the value, the whole clean-2×2 picture exists
 only at N=2,3. At N≥4 the pair is collectively dressed (its trace departs from −4γ by 1.017 / 1.043
 / 1.072 at N=4/5/6), so there is no clean 2×2 and the exact EP condition is transcendental (the SE
-slowest-mode double root) — a **diffusive long-wavelength critical damping**: Q*(N) grows linearly with
+slowest-mode double root), a **diffusive long-wavelength critical damping**: Q*(N) grows linearly with
 **asymptotic slope exactly 2/π** (derived 2026-06-15, `proofs/PROOF_COHERENCE_HORIZON_SLOPE.md`). The slow
 mode is a population coupled to the FULL ladder of coherence ranges r (geometric decay μ^r), not a two-field
 telegrapher; resumming the ladder gives the dispersion **λ² + 8γλ + 4J²q² = 0** (both coefficients doubled
@@ -256,19 +256,19 @@ decays at −2γ·⟨n_XY⟩ with fractional ⟨n_XY⟩ < 1 (the Absorption Theo
 edge until, as Q rises, its darkness reaches the F50-pinned off-diagonal floor ⟨n_XY⟩ = 1 (the (0,1)
 band edge / Uhr 1, Re = −2γ exactly). That meeting is the handover: a closed, F50-grounded condition
 (spectral, state-independent, depends only on Q = J/γ). Its solution is topology-specific.
-**Chain:** filling-degenerate (free-fermion/OBC — the (1,1)-only handover equals the all-(p,p)
+**Chain:** filling-degenerate (free-fermion/OBC, the (1,1)-only handover equals the all-(p,p)
 handover bit-for-bit), so the chain handover IS the single-excitation Q*(N), a coalescence/EP. It
 coincides with Q*(N) exactly only at the clean-2×2 N=2,3 (a tangency: ⟨n_XY⟩ touches 1 at the EP) and
 sits just below it by the trace dressing O((tr−1)²) at N≥4 (gap 0.0002/0.0015/0.0050 at N=4/5/6).
 **Ring:** the survivor is the 2-EXCITATION doublet (2,2)/(N−2,N−2) (particle-hole partners, isospectral;
-full-Liouvillian-verified at N=6 — NOT half-filling, correcting an earlier label), and the handover is a
+full-Liouvillian-verified at N=6, NOT half-filling, correcting an earlier label), and the handover is a
 frozen LEVEL CROSSING (|Im| ≈ 1e-15, a different sector than the SE-EP), growing linearly with
 **asymptotic slope √3/(2π) ≈ 0.276, DERIVED** (2026-06-20, [PROOF_RING_HANDOVER_SLOPE](proofs/PROOF_RING_HANDOVER_SLOPE.md),
 Tier1-standard, pending review): the (2,2) slow mode obeys the SE coherence-ladder dispersion
 λ² + 8γλ + 4J²q² (CV-confirmed), darkness = 2 − √(4 − (Qq)²), so the handover (darkness = 1) is at
-Qq = √3 — the **darkness-1 sibling** of the SE coherence horizon (the same dispersion's EP at Qq = 2 →
+Qq = √3, the **darkness-1 sibling** of the SE coherence horizon (the same dispersion's EP at Qq = 2 →
 Q* = N/π); Q_h/Q* = √3/2 asymptotically. (The earlier "c_eff ≈ 12 flat, ~0.29N" was the finite-N Q_h/N,
-refuted as a constant — c_eff climbs toward 4π²/3 = 13.16.) So the V-Effect seam is NOT "co-located at even N": the ring handover and the ring
+refuted as a constant, c_eff climbs toward 4π²/3 = 13.16.) So the V-Effect seam is NOT "co-located at even N": the ring handover and the ring
 SE-EP are mechanistically distinct and their values merely CROSS near N≈10 (benzene's 2.0-vs-1.609
 split is a small-N feature; N=6 ≈ exactly 2 is a hexagon coincidence).
 **Verified:** N=2..5 vs carbon (`simulations/_carbon_quantum_same_mountain.py`); the {0,2}-coherence
@@ -280,7 +280,7 @@ N=2..8).
 self-validating to N=14; experiment `XXZ_AXIS_BANDEDGE_TO_LEBENSADER`). The SAME band-edge-floor
 handover (darkness ⟨n_XY⟩ = 1) driven along the XXZ anisotropy Δ instead of the dephasing Q: Δ* is
 where the half-filling Lebensader rate crosses 2γ. In the γ→0 limit it is a property of the XXZ
-Hamiltonian alone — **Δ* ⟺ gap(R) = 2**, R the Z-coupled classical rate matrix among the half-filling
+Hamiltonian alone, **Δ* ⟺ gap(R) = 2**, R the Z-coupled classical rate matrix among the half-filling
 XXZ eigenstates (a Pauli / Fermi-golden-rule relaxation; γ·gap(R) reproduces the full-Liouvillian
 Lebensader rate as γ→0). **Verdict: Δ*(N) descends monotonically to Δ = 1** (the SU(2)/Heisenberg
 point, the closed-system critical point) from the Néel side, consistent with EXACTLY 1: free-exponent
@@ -288,7 +288,7 @@ fits give L just above 1 (≈ 1.02 / 1.05 even/odd), a fixed-1/N ansatz just bel
 two forms bracketing Δ = 1; no finite-N crossing (all Δ*(N ≤ 14) > 1). No clean closed form (φ is a
 1.6e-3 N=4-only accident in the γ→0 regime; the fitted exponent is non-universal, α ≈ 1.16–1.73,
 consistent with the SU(2)-point marginal/log corrections). The two handover axes mirror: **Q*(N) GROWS
-(~0.59N) while Δ*(N) DESCENDS to 1** — one band-edge floor (darkness = 1), two axes, opposite N-trends.
+(~0.59N) while Δ*(N) DESCENDS to 1**, one band-edge floor (darkness = 1), two axes, opposite N-trends.
 Open: a rigorous Bethe-ansatz derivation that the limit is exactly Δ = 1.
 
 ### AT. Absorption Theorem (Tier 1, proven)
@@ -315,7 +315,7 @@ The palindromic sum rule (α_fast + α_slow = 2Σγ) follows from combining
 this theorem with the palindromic weight swap (⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N).
 
 **Valid for:** any Hermitian Hamiltonian, real or complex (Heisenberg, XY,
-Ising, XXZ, DM, transverse/Y fields, magnetic flux — L_H is anti-Hermitian for
+Ising, XXZ, DM, transverse/Y fields, magnetic flux, L_H is anti-Hermitian for
 *every* Hermitian H, since Step 1 needs only H^T = H*); Z-dephasing; any graph;
 any N; non-uniform γ_k per site (replace 2γ with 2Σ_k γ_k × \[σ_k ∈ {X,Y}\]).
 **Breaks for:** non-dephasing dissipators (amplitude damping T1, depolarizing),
@@ -540,8 +540,8 @@ palindromic weight swap (⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N, proven in
 The "ratio 2" is the ratio of the full range (0 to 2Σγ) to the center
 (Σγ) of a symmetric interval; it is a definition, not a separate law.
 
-**Valid for:** any Hermitian Hamiltonian, real or complex (both parents — AT and
-the F1 palindrome, DM included — hold for complex H); Z-dephasing; any graph; any N.
+**Valid for:** any Hermitian Hamiltonian, real or complex (both parents, AT and
+the F1 palindrome, DM included, hold for complex H); Z-dephasing; any graph; any N.
 **Replaces:** unpaired mode rate computation; palindromic sum verification.
 **Source:** [Energy Partition](../hypotheses/ENERGY_PARTITION.md),
 [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md)
@@ -780,7 +780,7 @@ Envelope theorem for any 2-qubit state (N=2): 300 random CPTP maps, 0
 exceptions; CΨ is Pauli-invariant (DD cannot change it). The N≥3 FULL-state
 envelope is OPEN and genuinely RISES at N≥4 strong coupling (the internal
 J-coupling is the Part-6 coherence injector; live `EnvelopeTheoremWitness`,
-arc `envelope_n4_rise`) — the "N=3-5" checks were subsystem pairs, not the
+arc `envelope_n4_rise`), the "N=3-5" checks were subsystem pairs, not the
 full-state envelope. The boundary is charted
 (`experiments/ENVELOPE_RISE_BOUNDARY.md`, `EnvelopeBoundaryTests`): a pure
 (N, Q=J/γ) observable (the J- and γ-sweeps collapse, certified bit-identical),
@@ -1720,7 +1720,7 @@ values of cos(qπ) are {0, ±1/2, ±1}. Every k clears that bar exactly when N+1
 - N=4: α/γ₀ ∈ {0.276393, 0.723607, 0.723607, 0.276393} (algebraic irrationals from sin²(π/5), sin²(2π/5); golden-ratio family)
 - N=5: α/γ₀ ∈ {1/6, 1/2, 2/3, 1/2, 1/6}
 
-**Band-edge companion (the IM-face of the same Niven root).** The rate criterion above is the *real* (decay) face, on the angle 2π/(N+1). The *imaginary* (frequency) face is the band edge ω/J = 2cos(π/(N+1)) (F2b corollary / TopologyBandEdge), on the angle π/(N+1): it is rational only for N ≤ 2 (last N=2 = 1), a single quadratic surd a±√b for N ≤ 5 (√2, **φ**, √3 at N=3,4,5; φ = 2cos(π/5) the golden ratio), and algebraic degree ≥ 3 (first a cubic) from N=6, the exact degree being φ_euler(2(N+1))/2. So N=4 is the **first golden** on both single-excitation faces (the rates carry √5, the band edge *is* φ), while the V-Effect gain 1+cos(π/N) (a third face, angle π/N) has its golden shifted to N=5 — see `docs/carbon/OFF_NIVEN_AS_WAVE_BREAKING.md`. The two SE cutoffs differ ({1,2,3,4,6} for the rates vs N+1≤6 for the band edge) because of the double angle; this is exactly why N=3's rate is rational while its band edge is √2. Gate-first sympy-exact verifier: `simulations/niven_rationality_root.py`; collected with the small-N anomalies in the `n3_special_cases` open arc.
+**Band-edge companion (the IM-face of the same Niven root).** The rate criterion above is the *real* (decay) face, on the angle 2π/(N+1). The *imaginary* (frequency) face is the band edge ω/J = 2cos(π/(N+1)) (F2b corollary / TopologyBandEdge), on the angle π/(N+1): it is rational only for N ≤ 2 (last N=2 = 1), a single quadratic surd a±√b for N ≤ 5 (√2, **φ**, √3 at N=3,4,5; φ = 2cos(π/5) the golden ratio), and algebraic degree ≥ 3 (first a cubic) from N=6, the exact degree being φ_euler(2(N+1))/2. So N=4 is the **first golden** on both single-excitation faces (the rates carry √5, the band edge *is* φ), while the V-Effect gain 1+cos(π/N) (a third face, angle π/N) has its golden shifted to N=5, see `docs/carbon/OFF_NIVEN_AS_WAVE_BREAKING.md`. The two SE cutoffs differ ({1,2,3,4,6} for the rates vs N+1≤6 for the band edge) because of the double angle; this is exactly why N=3's rate is rational while its band edge is √2. Gate-first sympy-exact verifier: `simulations/niven_rationality_root.py`; collected with the small-N anomalies in the `n3_special_cases` open arc.
 
 **Verified:** Formula matches the tridiagonal N×N single-excitation eigendecomposition to machine precision (max error 1.2 · 10⁻¹⁵) for N=3..30. All single-excitation rates confirmed present (to within O((γ₀/J)²) perturbative corrections, see below) in the full 4^N Liouvillian spectrum for N=3..7. Dynamical check at γ₀ = 0.01, where second-order shifts are ~10⁻⁶: formula predicts the decay rate of coherence operators ρ_k = |ψ_k⟩⟨0| under full Liouvillian propagation to within 10⁻⁴ relative error for all k at N=5. Asymptotic 1/(N+1)³ scaling of α_min verified; ratio to 4π²/(N+1)³ rises monotonically from 0.81 at N=3 to 0.99 at N=15.
 
@@ -2685,7 +2685,7 @@ While Q_peak itself is chain-specific (no clean closed form), the SHAPE of the a
     HWHM_left / Q_peak  ≈  0.756     (Interior class-average; γ₀-invariant, residual c/N trends)
     HWHM_left / Q_peak  ≈  0.770     (Endpoint class-average; γ₀-invariant, residual c/N trends)
 
-Under the F71 bond-class average the HWHM_left/Q_peak ratio separates into two clusters (Endpoint b ∈ {0, N−2}, Interior b ∈ {1, …, N−3}) about 2 % apart, and the class-averaged relative-Q lineshapes collapse (pairwise residual ~20× smaller than under absolute-Q shift) — that collapse is the robust result. The ratios themselves are coarse: only γ₀ drops out (bit-exact); c and N leave residual trends (interior climbs ~+0.014 over N=5→8 at c=3, ~0.007 c-offset), and the inter-cluster gap (~0.006–0.007) is comparable to the within-class spread, not larger. Per bond the ratio is not two-valued — it resolves into the six `BondSubClass` F71 orbits, spanning 0.58–0.92 within a single chain.
+Under the F71 bond-class average the HWHM_left/Q_peak ratio separates into two clusters (Endpoint b ∈ {0, N−2}, Interior b ∈ {1, …, N−3}) about 2 % apart, and the class-averaged relative-Q lineshapes collapse (pairwise residual ~20× smaller than under absolute-Q shift), that collapse is the robust result. The ratios themselves are coarse: only γ₀ drops out (bit-exact); c and N leave residual trends (interior climbs ~+0.014 over N=5→8 at c=3, ~0.007 c-offset), and the inter-cluster gap (~0.006–0.007) is comparable to the within-class spread, not larger. Per bond the ratio is not two-valued, it resolves into the six `BondSubClass` F71 orbits, spanning 0.58–0.92 within a single chain.
 
 **γ₀ invariance** is bit-exact: at c=3 N=7, both Q_peak and HWHM_left/Q_peak are identical to numerical precision across γ₀ ∈ {0.025, 0.05, 0.10}, confirming Q's dimensionlessness. **c=2** is the structurally critical anchor: with only HD ∈ {1, 3} channels, the 2-level effective model is exact (no orthogonal complement), yet the two-class split persists (Interior 0.751, Endpoint 0.774). The bond-class distinction is therefore not a higher-c orthogonal-complement artefact but lives in the bond-position-dependent probe-overlap profile.
 
@@ -2952,19 +2952,19 @@ Originally fit empirically across k = 3..24 (22 data points, zero exceptions, 20
 
 Tier: Tier-1-Derived (closed 2026-05-15). Anchors: [`F89PathPolynomialPipeline`](../compute/RCPsiSquared.Core/Symmetry/F89PathPolynomialPipeline.cs) (native Chebyshev pipeline, exact BigInteger/BigRational arithmetic), [`F89UnifiedFaClosedFormClaim`](../compute/RCPsiSquared.Core/Symmetry/F89UnifiedFaClosedFormClaim.cs) (`PredictDenominator(int k)` int-safe to k=46, `PredictDenominatorBig(int k)` BigInteger for arbitrary k, `ComputePathPolynomialBig` runtime), [`PROOF_F89_PATH_D_CLOSED_FORM`](proofs/PROOF_F89_PATH_D_CLOSED_FORM.md) (full proof + 33-row verification tables), `simulations/f89_pathk_symbolic_derivation.py` (sympy prototype, retained as cross-check probe).
 
-#### F89 path-3 octic diabolic degeneracy — EP location + character (Tier 1 derived for the location + the diabolic character, 2026-06-21; the integrability-WHY is Tier 2)
+#### F89 path-3 octic diabolic degeneracy, EP location + character (Tier 1 derived for the location + the diabolic character, 2026-06-21; the integrability-WHY is Tier 2)
 
 The S₂-sym (SE, DE) sub-block's degree-8 factor F_8 (the H_B-mixed residual after the F_a/F_b AT-quadratics; [`F89Path3SeDeFactorisationClaim`](../compute/RCPsiSquared.Core/Symmetry/F89Path3SeDeFactorisationClaim.cs)) has a degeneracy at
 
     q_EP² = (−1 + √13)/6 ≈ 0.4343,   q_EP ≈ 0.658983,   λ_EP = −4γ + 2iJ
 
-located by the perfect-square factor (3q⁴+q²−1)² of disc(F_8) (the same factor whose non-squareness gives Gal(F_8) ⊄ A_8, F89 Galois claim). Re(λ_EP) = −4γ is the **AT-spectral midpoint** between the F_a rate 2γ (overlap) and the F_b rate 6γ (no-overlap) — the overlap-½ rate-midpoint (rate = −6γ + 4γ·p, p = overlap fraction; p = ½ ⟺ −4γ).
+located by the perfect-square factor (3q⁴+q²−1)² of disc(F_8) (the same factor whose non-squareness gives Gal(F_8) ⊄ A_8, F89 Galois claim). Re(λ_EP) = −4γ is the **AT-spectral midpoint** between the F_a rate 2γ (overlap) and the F_b rate 6γ (no-overlap), the overlap-½ rate-midpoint (rate = −6γ + 4γ·p, p = overlap fraction; p = ½ ⟺ −4γ).
 
-**Character: DIABOLIC (semisimple), NOT a defective EP (Tier 1 derived).** The two eigenvalues coalesce (a genuine double root) but the eigenvectors stay independent: g1 = g2 = 2, rank(L − λ_EP·I) = n−2, departure-from-normality dep = 0, the 2×2 restriction L|₂D = λ·I (scalar, no Jordan coupling), ‖P‖ ≈ 3.88 finite (obliquely embedded / non-normal, but NOT a Jordan block — ‖P‖ measures the oblique embedding, not the defective-vs-diabolic split). The discriminant's EP-condition (3q⁴+q²−1) appears to **even multiplicity 2** — a *double* zero in q ⟹ the eigenvalues cross linearly/analytically ⟹ semisimple; a defective √-branch EP forces a *simple* zero. Confirmed artifact-free via [`EpCharacter`](../compute/RCPsiSquared.Core/Numerics/EpCharacter.cs) (`inspect --root f89octic`). This is the **diabolic** member of the EP-character trilogy, in contrast to the **defective** coherence-horizon √-EP (the F2b corollary earlier in this file), which has a *simple* discriminant zero + a nonzero 2×2 coupling.
+**Character: DIABOLIC (semisimple), NOT a defective EP (Tier 1 derived).** The two eigenvalues coalesce (a genuine double root) but the eigenvectors stay independent: g1 = g2 = 2, rank(L − λ_EP·I) = n−2, departure-from-normality dep = 0, the 2×2 restriction L|₂D = λ·I (scalar, no Jordan coupling), ‖P‖ ≈ 3.88 finite (obliquely embedded / non-normal, but NOT a Jordan block, ‖P‖ measures the oblique embedding, not the defective-vs-diabolic split). The discriminant's EP-condition (3q⁴+q²−1) appears to **even multiplicity 2**, a *double* zero in q ⟹ the eigenvalues cross linearly/analytically ⟹ semisimple; a defective √-branch EP forces a *simple* zero. Confirmed artifact-free via [`EpCharacter`](../compute/RCPsiSquared.Core/Numerics/EpCharacter.cs) (`inspect --root f89octic`). This is the **diabolic** member of the EP-character trilogy, in contrast to the **defective** coherence-horizon √-EP (the F2b corollary earlier in this file), which has a *simple* discriminant zero + a nonzero 2×2 coupling.
 
 **g_eff is a location, not a coupling.** g_eff = 2/q_EP ≈ 3.034 is the EP-**location** relation Q_EP = 2/g_eff of the *separate* F86a 2-level rate-channel reduction (F86a entry); it fixes the eigenVALUE q_EP/λ_EP but is **not** a genuine coupling within the octic (the octic's own 2×2 restriction is scalar λ·I).
 
-**WHY diabolic (Tier 2 hypothesis).** The XY **free-fermion integrability** is the protection: at q_EP both constituents of L restrict to scalars on the 2D coalescing span — H_eff (= 2iJ·I, from a 4-fold free-fermion multiplet, since DE energies are sums of SE energies) and the dephasing (= −4γ·I at the overlap-½ midpoint) — so L|₂D = λ_EP·I, no off-diagonal Jordan coupling. Decisive gate: an XXZ anisotropy Δ (interacting magnons, breaking the additivity) flips it **diabolic → defective** the instant Δ ≠ 0 (g1: 2→1, |cos|→1, dep ∝ Δ); generic XXZ gives the ordinary defective EP, so the diabolic point is the integrable special case, and the discriminant double-zero is its algebraic shadow. No commuting-symmetry separation (site-reflection R, the overlap↔no-overlap involution, and the chiral Σ all fail to separate the two modes). See [hypotheses/DIABOLIC_BY_INTEGRABILITY.md](../hypotheses/DIABOLIC_BY_INTEGRABILITY.md).
+**WHY diabolic (Tier 2 hypothesis).** The XY **free-fermion integrability** is the protection: at q_EP both constituents of L restrict to scalars on the 2D coalescing span, H_eff (= 2iJ·I, from a 4-fold free-fermion multiplet, since DE energies are sums of SE energies) and the dephasing (= −4γ·I at the overlap-½ midpoint), so L|₂D = λ_EP·I, no off-diagonal Jordan coupling. Decisive gate: an XXZ anisotropy Δ (interacting magnons, breaking the additivity) flips it **diabolic → defective** the instant Δ ≠ 0 (g1: 2→1, |cos|→1, dep ∝ Δ); generic XXZ gives the ordinary defective EP, so the diabolic point is the integrable special case, and the discriminant double-zero is its algebraic shadow. No commuting-symmetry separation (site-reflection R, the overlap↔no-overlap involution, and the chiral Σ all fail to separate the two modes). See [hypotheses/DIABOLIC_BY_INTEGRABILITY.md](../hypotheses/DIABOLIC_BY_INTEGRABILITY.md).
 
 **Source:** [`F89Path3OcticEpClaim`](../compute/RCPsiSquared.Core/Symmetry/F89Path3OcticEpClaim.cs) (Tier 1 derived, the diabolic Correction block), [`F89Path3OcticGaloisClaim`](../compute/RCPsiSquared.Core/Symmetry/F89Path3OcticGaloisClaim.cs); live [`F89OcticCharacterWitness`](../compute/RCPsiSquared.Diagnostics/Foundation/F89OcticCharacterWitness.cs) (`inspect --root f89octic`) + the ported block [`F89Path3OcticBlock`](../compute/RCPsiSquared.Core/F89PathK/F89Path3OcticBlock.cs) (validated as a genuine sub-block of the full N=4 Liouvillian); [F89_TOPOLOGY_ORBIT_CLOSURE](../experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md) § "Path-3 octic diabolic-degeneracy location"; probes `simulations/_f89_jordan_definitive.py`, `_f89_zz_break_gate.py`, `_f89_why_diabolic_probe.py`.
 
@@ -2989,7 +2989,7 @@ with all other ingredients (probe, S_kernel, dephasing rates, Liouvillian constr
 
 ---
 
-### F91. F71-anti-palindromic γ spectral invariance (= 90° in γ-space, parameter-side Klein V₄ — shadow of the operator-side Pi2-Z₄) (Tier 1 derived, algebraic proof + bit-exact N=4,5,6; 2026-05-12)
+### F91. F71-anti-palindromic γ spectral invariance (= 90° in γ-space, parameter-side Klein V₄, shadow of the operator-side Pi2-Z₄) (Tier 1 derived, algebraic proof + bit-exact N=4,5,6; 2026-05-12)
 
 **For chain XY + Z-dephasing Liouvillian L on N qubits, the eigenvalue multiset of the F71-refined diagonal-block decomposition is invariant under any γ-distribution satisfying**
 
@@ -2999,7 +2999,7 @@ i.e. the γ-distribution is **F71-anti-palindromic around its mean** γ_avg. The
 
 **Sharpness:** strictly weaker than F71 symmetry (γ_l = γ_{N−1−l}, palindromic), strictly stronger than F1 (Σγ_l invariant alone). For odd N the middle site l = (N−1)/2 must equal γ_avg.
 
-**Structural reading (parameter-side Klein V₄, γ-parameter side):** on the γ-parameter vector the relevant group is the **Klein four-group V₄ = Z₂×Z₂**, generated by two commuting INVOLUTIONS — the palindromic mirror F71 (order 2) and the anti-palindromic reshuffle R₉₀ (order 2). This is the order-2 *shadow* of the genuine order-4 Z₄ from `NinetyDegreeMirrorMemory` (Pi2-foundation, operator-quaternion side, `i⁴=1`, `i²=−1`), which lives ONLY on the operator side (Spec(M) = ±2i·Spec(H)); the parameter side inherits it as an involution, not as a quarter-turn:
+**Structural reading (parameter-side Klein V₄, γ-parameter side):** on the γ-parameter vector the relevant group is the **Klein four-group V₄ = Z₂×Z₂**, generated by two commuting INVOLUTIONS, the palindromic mirror F71 (order 2) and the anti-palindromic reshuffle R₉₀ (order 2). This is the order-2 *shadow* of the genuine order-4 Z₄ from `NinetyDegreeMirrorMemory` (Pi2-foundation, operator-quaternion side, `i⁴=1`, `i²=−1`), which lives ONLY on the operator side (Spec(M) = ±2i·Spec(H)); the parameter side inherits it as an involution, not as a quarter-turn:
 - **e (identity):** γ unchanged
 - **F71 (palindromic mirror, order 2):** γ_l ↔ γ_{N−1−l}; preserves each pair-sum, flips each pair-difference → F71 holds as L-symmetry
 - **R₉₀ (anti-palindromic reshuffle, order 2):** γ_l ↦ 2γ_avg − γ_{N−1−l}; **preserves each pair-difference and reflects each pair-sum about 2γ_avg** (S ↦ 4γ_avg − S, fixing the orbit S = 2γ_avg) → F71 breaks but **F71-refined diagonal-block spectrum invariant**. R₉₀ is an involution: R₉₀² = identity (it returns to identity at order 2, NOT order 4; "R₉₀⁴ = identity" is trivially true but is not its closure)
@@ -4071,7 +4071,7 @@ extracts Σ_l ω_l · (γ_pump,l − γ_T1,l) when drive parameters are known;
 becomes a per-site amplitude-damping calibration tool when combined with
 ω_l knowledge. The Welle 2 hardware-fit value for f95 (ω=0.13, γ_T1≈0.001,
 γ_pump=0, N=2) gives F113-predicted (1/2)·4² · (2·0.13) · (0 − 0.001) = −2.08e−3
-(coefficient (1/2)·4² = 8 at N=2; drive on both q13, q14, so Σ_l ω_l = 2·0.13 — the
+(coefficient (1/2)·4² = 8 at N=2; drive on both q13, q14, so Σ_l ω_l = 2·0.13, the
 earlier-notation "16" folds the per-site coefficient 8 together with the two sites),
 matching the fitted value bit-exact (the rel asymmetry sign tracked
 correctly through both the Python derivation script and the C# pipeline
@@ -4748,11 +4748,11 @@ For the open chain, the **full single-excitation bond-transition matrix** `M[b,k
 
 with `‖M‖_F² = z − E` and `λ_min = E`, where `z = 2` is the chain's **coordination number** and `E = c₀² + c_{N-1}² = (4/(N+1))·sin²(π/(N+1))` is the carrier's weight on the two free ends; the `λ_min` eigenvector is the staggered bond wave `(−1)^b`.
 
-The non-trivial content is **`λ_min = E`**: a staggered (zone-boundary, `q=π`) bond modulation couples to the band-edge carrier **only through the Dirichlet ends** — the bulk cancels identically via the conserved discrete-energy envelope `Q = c_a²+c_{a+1}²−E₁ c_a c_{a+1} = c₀²` (`E₁ = 2cos(π/(N+1))`, the band edge / `ClockHandLadder`) — an **SSH/Peierls edge effect**; this same `E` is the deficit of the carrier's degree-weighted norm from `z`. One boundary quantity `c₀²` fixes both. The "2" itself is the coordination number (basis-independent degree-counting, riding on `‖V_b‖²=2`), **not** a conservation constant.
+The non-trivial content is **`λ_min = E`**: a staggered (zone-boundary, `q=π`) bond modulation couples to the band-edge carrier **only through the Dirichlet ends**, the bulk cancels identically via the conserved discrete-energy envelope `Q = c_a²+c_{a+1}²−E₁ c_a c_{a+1} = c₀²` (`E₁ = 2cos(π/(N+1))`, the band edge / `ClockHandLadder`), an **SSH/Peierls edge effect**; this same `E` is the deficit of the carrier's degree-weighted norm from `z`. One boundary quantity `c₀²` fixes both. The "2" itself is the coordination number (basis-independent degree-counting, riding on `‖V_b‖²=2`), **not** a conservation constant.
 
 **Frame reading** (grounding-in-the-quantum + borrowing-a-discipline converged): `{V_bψ_1}` is a **deficient, non-tight Riesz basis**, rank `N−1`, kernel = the K-partner `ψ_N` (the typed `KPartnerSelectionRuleClaim`); `λ_min` = the **lower frame bound** = the **Eckart-Young distance-to-singularity²** = the worst-case reconstruction floor; the end-leakage `E` is the **conditioner**, condition number `λ_max/E` (shorter chains better-conditioned).
 
-**Caveats / scope.** Band-edge carrier **only** (other carriers → sum `< 2`, selected by the positivity of the off-diagonals, not the carrier-independent envelope). The decoder's *location dictionary* `k=2..N` (strength channel excluded) does **not** satisfy this (sum ≠ 2, `λ_min = 0 =` the K-partner null column); the clean `2` needs the `k=1` strength column — so this is the **full transition matrix**, not the location reading. Topology: chain + even ring hold (the even ring degenerately, `E=0`); odd ring frustrates (`λ_min>0`); star breaks (hub, `‖M‖_F²=N/2`). `M` is distinct from the F1/F49 residual `M`.
+**Caveats / scope.** Band-edge carrier **only** (other carriers → sum `< 2`, selected by the positivity of the off-diagonals, not the carrier-independent envelope). The decoder's *location dictionary* `k=2..N` (strength channel excluded) does **not** satisfy this (sum ≠ 2, `λ_min = 0 =` the K-partner null column); the clean `2` needs the `k=1` strength column, so this is the **full transition matrix**, not the location reading. Topology: chain + even ring hold (the even ring degenerately, `E=0`); odd ring frustrates (`λ_min>0`); star breaks (hub, `‖M‖_F²=N/2`). `M` is distinct from the F1/F49 residual `M`.
 
 **Source:** [Proof](proofs/PROOF_HANDSHAKE_TRANSITION_INVARIANT.md); verifiers [`_handshake_M_checksum.py`](../simulations/_handshake_M_checksum.py), [`_handshake_M_topology.py`](../simulations/_handshake_M_topology.py), [`_handshake_F124_adversarial.py`](../simulations/_handshake_F124_adversarial.py); context [`hypotheses/HANDSHAKE_GEOMETRY.md`](../hypotheses/HANDSHAKE_GEOMETRY.md) (the `handshake_decoder` arc; the location dictionary is `k=2..N`). **Typed:** `BandEdgeTransitionInvariantClaim` (Tier1Derived, parents `KPartnerSelectionRuleClaim` + `ClockHandLadderClaim`) + live witness `inspect --root transition` (`compute/RCPsiSquared.Diagnostics/Foundation/BandEdgeTransitionInvariantWitness.cs`).
 
