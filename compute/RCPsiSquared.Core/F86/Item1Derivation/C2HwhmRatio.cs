@@ -483,8 +483,10 @@ public sealed class C2HwhmRatio : Claim
         return $"Per-bond HWHM_left/Q_peak prediction lives in `F86HwhmClosedFormClaim` " +
                $"(Tier 1 candidate: bare floor 0.671535 derived via `C2BareDoubledPtfClosedForm`, " +
                $"per-sub-class (alpha, beta) fitted via polyfit on N=5..8 anchors). " +
-               $"Open analytical step: derive (alpha, beta) from F89 AT-locked F_a/F_b + H_B-mixed " +
-               $"octic residual per `docs/proofs/PROOF_F90_F86C2_BRIDGE.md`.\n" +
+               $"Open analytical step: derive (alpha, beta) from the rank-1-bridge + intra-dispersion " +
+               $"structure (F89 AT-locked F_a/F_b floor + intra-channel dispersion lift; the inter-coupling " +
+               $"octic-residual lift suspicion is refuted, two-dial scout 2026-06-11) per " +
+               $"`docs/proofs/PROOF_F90_F86C2_BRIDGE.md`.\n" +
                $"\n" +
                $"N={N}, NumBonds={block.NumBonds}; {ResonanceScan.DefaultQGrid().Length}-point Q-grid at γ₀=0.05. " +
                $"Endpoint={endpointMean:F4}, Interior={interiorMean:F4}, gap={directionalGap:F4} " +

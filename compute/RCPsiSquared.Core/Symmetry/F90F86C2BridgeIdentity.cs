@@ -21,23 +21,32 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <list type="bullet">
 ///   <item>F86: <c>H_b = (J/2)·(X_b X_{b+1} + Y_b Y_{b+1})</c> (factor 1/2 inline)</item>
 ///   <item>F89: <c>H = J·(XX+YY)</c> (no factor 1/2)</item>
-///   <item>Consequence: F89's J = 2·F86's J. All Q = J/γ values scale by <see cref="JConventionFactor"/>=2.</item>
+///   <item>Consequence: F89's J is HALF F86's J (J_F89 = J_F86/2, i.e. F86's J = 2·F89's J,
+///         since F89 needs half the J for the same hopping). All Q = J/γ values divide by
+///         <see cref="JConventionFactor"/>=2 (Q_F89 = Q_F86/2).</item>
 /// </list>
 ///
-/// <para>Verified bit-exact via <c>simulations/_f89_to_f86_kbond_via_eigendecomp.py</c>
+/// <para>The identification is operator-exact: <c>‖L_F86(J) − L_F89(J/2)‖_F = 0</c>
+/// (bit-identical integer-coefficient matrices) on the shared (SE,DE) basis at N=5..8.
+/// The per-bond HWHM_left/Q_peak ratio is then a grid-dependent readout of that one
+/// operator: verified bit-exact via <c>simulations/_f89_to_f86_kbond_via_eigendecomp.py</c>
 /// at N=5..8 across every per-F71-orbit class including orbit-escape bonds (broad
-/// high-Q plateau): 20/22 bonds bit-exact, 2/22 within Q-grid resolution noise (0.0008).
+/// high-Q plateau): 20/22 bonds bit-exact, 2/22 within Q-grid resolution noise (0.0008,
+/// pure grid sampling — at matched grids all 22 agree to machine precision).
 /// Escape examples reproduced: N=7 b=1/b=4 at Q_peak≈7.27 (F86-J), N=8 b=3 (central
 /// self-paired) at Q_peak≈16.79 (F86-J).</para>
 ///
 /// <para>Implications for F86 open work (per <c>docs/proofs/PROOF_F86_QPEAK.md</c>):</para>
 ///
 /// <list type="bullet">
-///   <item>Item 1' (HWHM_left/Q_peak per bond class): closed-form path via F89's
-///         AT-locked F_a/F_b modes (4-mode floor 0.6715) + H_B-mixed octic-style residual
-///         (lift to 0.7506 Interior / 0.7728 Endpoint). The cyclotomic Φ_{N_block+1}
-///         pattern of F89's <c>F89UnifiedFaClosedFormClaim.PathPolynomial(k)</c> gives
-///         the N-scaling of the AT-locked contribution.</item>
+///   <item>Item 1' (HWHM_left/Q_peak per bond class, Tier 1 candidate; the (α,β) are
+///         fitted, not yet derived): the lift above the 4-mode floor (0.6715) to 0.7506
+///         Interior / 0.7728 Endpoint is the intra-channel dispersion of the rank-1-bridge
+///         + intra-dispersion model (two-dial scout, 2026-06-11); the earlier "H_B-mixed
+///         octic residual of the inter coupling" lift suspicion is refuted (the inter-channel
+///         tail only renormalizes Q_peak / g_eff). The cyclotomic Φ_{N_block+1} pattern of
+///         F89's <c>F89UnifiedFaClosedFormClaim.PathPolynomial(k)</c> still gives the
+///         N-scaling of the AT-locked / intra contribution.</item>
 ///   <item>Item 4' (c≥3 extension): F89 path-k Formalismus generalises; chromaticity
 ///         c bedeutet HD ∈ {1, 3, ..., 2c−1} channels statt nur {1, 3} bei c=2.</item>
 ///   <item>Direction (b'') (full block-L derivation, not 4-mode): numerical Tier-1
@@ -56,9 +65,11 @@ public sealed class F90F86C2BridgeIdentity : Claim
     public F89TopologyOrbitClosure F89 { get; }
     // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
     public F89PathKAtLockMechanismClaim AtLock { get; }
-    /// <summary>Convention scale factor: F89's J equals <see cref="JConventionFactor"/> × F86's J,
-    /// hence Q_F89 = Q_F86 / <see cref="JConventionFactor"/>. Equals 2 because F86 uses
-    /// H_b = (J/2)·(XX+YY) while F89 uses H = J·(XX+YY) (no 1/2).</summary>
+    /// <summary>Convention scale factor (F86's J / F89's J): F86's J equals
+    /// <see cref="JConventionFactor"/> × F89's J, hence F89's J = F86's J / <see cref="JConventionFactor"/>
+    /// and Q_F89 = Q_F86 / <see cref="JConventionFactor"/>. Equals 2 because F86 uses
+    /// H_b = (J/2)·(XX+YY) while F89 uses H = J·(XX+YY) (no 1/2), so F89 needs half the J
+    /// for the same hopping.</summary>
     public const double JConventionFactor = 2.0;
 
     /// <summary>Translate F86 J value to F89 J value (J_F89 = J_F86 / 2 since F86 has the
@@ -83,7 +94,7 @@ public sealed class F90F86C2BridgeIdentity : Claim
     public const int BitExactBondCountVerified = 20;
 
     /// <summary>Total per-bond comparisons across N=5..8: 4 + 5 + 6 + 7 = 22 unique bonds.
-    /// Of these, 20 are bit-exact match (modulo F89-J = 2·F86-J convention) and 2 (N=8
+    /// Of these, 20 are bit-exact match (modulo the J convention J_F89 = J_F86/2) and 2 (N=8
     /// b=2 and b=4 mid-flanking Interior) are within Q-grid resolution noise ≤ 0.0008
     /// because F86's default 600-pt grid over [0.10, 20.0] and the bridge probe's 300-pt
     /// grid over [0.05, 10.0] (in F89-J) sample slightly different points around
@@ -91,7 +102,7 @@ public sealed class F90F86C2BridgeIdentity : Claim
     public const int TotalBondComparisonsVerified = 22;
 
     public F90F86C2BridgeIdentity(F89TopologyOrbitClosure f89, F89PathKAtLockMechanismClaim atLock)
-        : base("F90 F86 c=2 ↔ F89 bridge identity: F86 c=2 N qubit K_b(Q, t) IS F89 path-(N−1) (SE,DE) per-bond Hellmann-Feynman, modulo F89-J = 2·F86-J convention. Verified bit-exact across N=5..8 (20/22 bonds bit-exact, 2/22 within Q-grid noise) including orbit-escape bonds at Q_peak ≈ 16.79 (F86-J)",
+        : base("F90 F86 c=2 ↔ F89 bridge identity: F86 c=2 N qubit K_b(Q, t) IS F89 path-(N−1) (SE,DE) per-bond Hellmann-Feynman, modulo the J convention J_F89 = J_F86/2. Operator-exact (‖L_F86(J) − L_F89(J/2)‖ = 0 at N=5..8); verified bit-exact across N=5..8 (20/22 bonds bit-exact, 2/22 within Q-grid noise — the ratio is a grid-readout of the one operator) including orbit-escape bonds at Q_peak ≈ 16.79 (F86-J)",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_F90_F86C2_BRIDGE.md + " +
                "simulations/_f89_to_f86_kbond_via_eigendecomp.py + " +

@@ -40,7 +40,7 @@ Pairwise residual within each class-averaged curve under relative-Q normalisatio
 
 Exposed as `BareDoubledPtfXPeak` / `BareDoubledPtfHwhmRatio` on [`C2HwhmRatio`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2HwhmRatio.cs) + full K_b(x) closed form on [`C2BareDoubledPtfClosedForm`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BareDoubledPtfClosedForm.cs). Empirical Interior (0.7506) and Endpoint (0.7728) sit ABOVE this floor by ~0.08-0.10.
 
-**Closed-form lift via `F86HwhmClosedFormClaim`** (Tier 1 candidate): `HWHM_ratio = 0.671535 + α_subclass · g_eff + β_subclass`, residual ≤ 0.005 across N=5..8 on all 22 bonds incl. orbit escapes. The 12 (α, β) values per `BondSubClass` are fitted via polyfit on the anchors; analytical derivation from F89 AT-locked F_a/F_b + H_B-mixed octic residual is the Tier 1 promotion path.
+**Closed-form lift via `F86HwhmClosedFormClaim`** (Tier 1 candidate): `HWHM_ratio = 0.671535 + α_subclass · g_eff + β_subclass`, residual ≤ 0.005 across N=5..8 on all 22 bonds incl. orbit escapes. The 12 (α, β) values per `BondSubClass` are fitted via polyfit on the anchors; analytical derivation from the rank-1-bridge + intra-dispersion structure (F89 AT-locked F_a/F_b floor + intra-channel dispersion lift; the inter-coupling "octic residual" lift suspicion is refuted, two-dial scout 2026-06-11) is the Tier 1 promotion path.
 
 **F86 ↔ PTF Locus 5 inheritance** (synthesis): the c=2 SVD-block 2-level EP rotation IS what Π's chirality reduces to in rate-channel basis; the doubled-PTF floor 0.6715 derives from PTF eigenvector mixing rather than pattern-matching. Shared clock `t_peak = 1/(4γ₀)` universal across c, N, n, bond. See `project_algebra_is_inheritance.md` Locus 5.
 

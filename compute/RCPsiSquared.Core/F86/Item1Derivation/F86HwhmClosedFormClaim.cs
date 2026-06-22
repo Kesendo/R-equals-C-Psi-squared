@@ -25,10 +25,13 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// <para><b>What is fitted (open analytical step):</b> the 12 (alpha, beta) values per
 /// sub-class. To promote this to Tier 1 derived, these values must derive from F89
 /// cyclotomic Phi_{N+1} structure via F90 bridge identity, NOT from polyfit. The
-/// PROOF_F90_F86C2_BRIDGE notes (Item 1'-followup) that "Closed-form via F89 AT-locked
-/// F_a/F_b (4-mode floor 0.6715) + H_B-mixed octic residual (lift to 0.7506/0.7728) is
-/// next analytical step" — this open analytical step is what would close the Tier 1
-/// derivation; the fit IS NOT that step.</para></summary>
+/// PROOF_F90_F86C2_BRIDGE (Item 1', Direction (b'')) locates the lift above the 4-mode
+/// floor (0.6715) to 0.7506/0.7728 in the intra-channel dispersion of the rank-1-bridge
+/// + intra-dispersion model (two-dial scout, 2026-06-11; the earlier "octic residual of
+/// the inter coupling" lift suspicion is refuted — the inter tail only moves Q_peak/g_eff),
+/// with the cyclotomic Phi_{N+1} pattern supplying the N-scaling. Deriving (alpha, beta)
+/// from that structure is the open analytical step that would close the Tier 1 derivation;
+/// the fit IS NOT that step.</para></summary>
 public sealed class F86HwhmClosedFormClaim : Claim
 {
     private const double BareFloorValue = 0.671535;

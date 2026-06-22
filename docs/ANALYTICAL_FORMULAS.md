@@ -2712,7 +2712,7 @@ where the sub-class (per `BondSubClass` enum: `Endpoint`, `Flanking`, `Mid`, `Ce
 
 Fit reproduces 22 anchors at N=5..8 within 0.005 residual, including Orbit-2 (N=7 b=1/b=4, Q_peak ≈ 7.27 F86-J) and Orbit-3 escape bonds (N=8 b=3, Q_peak ≈ 16.79 F86-J): fit-quality witness, not analytical derivation.
 
-**Open analytical step (to promote Tier 1 candidate → Tier 1 derived):** derive (α_subclass, β_subclass) from F89 AT-locked F_a/F_b structure (4-mode floor 0.6715) + H_B-mixed octic residual (lift to 0.7506/0.7728), per [`PROOF_F90_F86C2_BRIDGE.md`](proofs/PROOF_F90_F86C2_BRIDGE.md) notes. Phase D probe (2026-05-16) refuted the multi-mode-per-cluster-pair internal-mixing hypothesis; lift must come from cross-cluster-pair structure.
+**Open analytical step (to promote Tier 1 candidate → Tier 1 derived):** derive (α_subclass, β_subclass) from the rank-1-bridge + intra-dispersion structure — the F89 AT-locked F_a/F_b 4-mode floor (0.6715) plus the **intra-channel dispersion** lift (to 0.7506/0.7728), with the cyclotomic Φ_{N+1} N-scaling — per [`PROOF_F90_F86C2_BRIDGE.md`](proofs/PROOF_F90_F86C2_BRIDGE.md) Direction (b''). The two-dial scout (2026-06-11) refuted the inter-coupling "H_B-mixed octic residual" lift suspicion (the inter-channel tail only renormalizes Q_peak / g_eff, leaving the dimensionless ratio fixed); the lift lives in the intra-channel dispersion, to be treated exactly.
 
 **Source:** [`F86HwhmClosedFormClaim`](../compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmClosedFormClaim.cs), [`BondSubClass`](../compute/RCPsiSquared.Core/F86/Item1Derivation/BondSubClass.cs), F89 path-k bridge via F90 ([`PROOF_F90_F86C2_BRIDGE.md`](proofs/PROOF_F90_F86C2_BRIDGE.md)). Plan: [`docs/superpowers/plans/2026-05-13-f86-hwhm-closed-form-attack.md`](superpowers/plans/2026-05-13-f86-hwhm-closed-form-attack.md).
 
@@ -2965,13 +2965,13 @@ located by the perfect-square factor (3q⁴+q²−1)² of disc(F_8) (the same fa
 
     K_b^{F86 c=2}(Q_F86, t) = K_b^{F89 path-(N−1) (SE,DE)}(Q_F89 = Q_F86 / 2, t)
 
-with all other ingredients (probe, S_kernel, dephasing rates, Liouvillian construction) algebraically identical. The convention difference is one-time relabeling: F86 uses `H_b = (J/2)·(XX+YY)`, F89 uses `H = J·(XX+YY)`, hence F89-J = 2·F86-J.
+with all other ingredients (probe, S_kernel, dephasing rates, Liouvillian construction) algebraically identical. The convention difference is one-time relabeling: F86 uses `H_b = (J/2)·(XX+YY)`, F89 uses `H = J·(XX+YY)`, so F89's hopping per unit J is 2× F86's and F89 needs half the J for the same hopping: J_F89 = J_F86/2 (equivalently F86-J = 2·F89-J). The identification is operator-exact: ‖L_F86(J) − L_F89(J/2)‖ = 0 at N=5..8.
 
 **Verified bit-exact at 20 of 22 per-bond comparisons across N=5..8** (the 2 within-noise are at N=8 b=2/b=4 mid-flanking Interior bonds within Q-grid resolution Δ ≤ 0.0008). Per-N: N=5: 4/4 bit-exact; N=6: 5/5 bit-exact; N=7: 6/6 bit-exact (extended Q-grid); N=8: 5/7 bit-exact + 2/7 within Q-grid noise. Verification includes orbit-escape bonds: N=7 b=1/b=4 at Q_peak ≈ 7.27 (F86-J), N=8 b=3 central self-paired escape at Q_peak ≈ 16.79 (F86-J), all reproducing bit-exact ratios.
 
 **Implications:**
-- F86 c=2 universal HWHM_left/Q_peak constants (0.7728 Endpoint, 0.7506 Interior mean over N=5..8) are **not eigenständige Größen**; they are direct consequences of F89 path-(N−1) eigendecomposition + per-bond Hellmann-Feynman.
-- F86 Direction (b'') (full block-L derivation, NOT 4-mode) achieved numerically via F89; closed-form via F89 AT-locked F_a/F_b structure (4-mode floor 0.6715) + H_B-mixed octic-style residual (lift to 0.7506/0.7728) is the next analytical step.
+- F86 c=2's per-bond-class HWHM_left/Q_peak constants (Endpoint-class mean 0.7728, Interior-class mean 0.7506 over N=5..8; the per-bond ratio fans across the F71 sub-classes from ≈0.58 to ≈0.92, it is not a single universal value) are **not eigenständige Größen**; they are direct consequences of F89 path-(N−1) eigendecomposition + per-bond Hellmann-Feynman.
+- F86 Direction (b'') (full block-L derivation, NOT 4-mode) achieved numerically via F89; the closed-form route is the rank-1-bridge + intra-dispersion model (4-mode floor 0.6715 + intra-channel dispersion lift to 0.7506/0.7728; the inter-coupling "octic-style residual" lift suspicion is refuted, two-dial scout 2026-06-11), the next analytical step.
 - Per-F71-orbit substructure (see [PROOF_F86C_F71_MIRROR](proofs/PROOF_F86C_F71_MIRROR.md), "Per-F71-orbit substructure" section: central b=2 vs flanking b=1/b=3 at N=6 etc.) follows directly from F89's per-bond Bloch-mode profile.
 
 **Anchor:** [`PROOF_F90_F86C2_BRIDGE.md`](proofs/PROOF_F90_F86C2_BRIDGE.md), [`F90F86C2BridgeIdentity.cs`](../compute/RCPsiSquared.Core/Symmetry/F90F86C2BridgeIdentity.cs), [`_f89_to_f86_kbond_via_eigendecomp.py`](../simulations/_f89_to_f86_kbond_via_eigendecomp.py).

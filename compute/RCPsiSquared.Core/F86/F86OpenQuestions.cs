@@ -13,12 +13,16 @@ public static class F86OpenQuestions
             "F86HwhmClosedFormClaim (Tier1Candidate, c=2) reproduces 22 N=5..8 anchors within " +
             "0.005 via `0.671535 + α_subclass · g_eff + β_subclass`. Bare floor 0.671535 IS " +
             "derived (C2BareDoubledPtfClosedForm); the 12 (α, β) values per sub-class are " +
-            "fitted via polyfit. Tier 1 derivation requires analytical (α, β) from F89 " +
-            "AT-locked F_a/F_b + H_B-mixed octic residual per PROOF_F90_F86C2_BRIDGE.md.",
+            "fitted via polyfit. Tier 1 derivation requires analytical (α, β) from the " +
+            "rank-1-bridge + intra-dispersion structure (F89 AT-locked F_a/F_b floor + " +
+            "intra-channel dispersion lift; the inter-coupling octic-residual lift suspicion " +
+            "is refuted, two-dial scout 2026-06-11) per PROOF_F90_F86C2_BRIDGE.md.",
             "Direction (b''): full block-L analytical lift via F89 cyclotomic Φ_{N+1}. The " +
             "single-cluster-pair internal-mixing hypothesis (single 10×10 JW cluster-pair " +
-            "sub-block, ‖xB(Q)‖_F observable) is refuted — sub-block gives no Lorentzian " +
-            "shape, so lift must come from cross-cluster-pair structure.",
+            "sub-block, ‖xB(Q)‖_F observable) is refuted — no Lorentzian shape; the two-dial " +
+            "scout (2026-06-11) further located the lift in the intra-channel dispersion (the " +
+            "inter-channel coupling only renormalizes Q_peak/g_eff), refuting the " +
+            "cross-cluster-pair guess too.",
             "docs/proofs/PROOF_F86_QPEAK.md Item 1 (c=2); " +
             "docs/proofs/PROOF_F90_F86C2_BRIDGE.md (numerical Tier-1 via F90 bridge)"),
         new OpenQuestion(

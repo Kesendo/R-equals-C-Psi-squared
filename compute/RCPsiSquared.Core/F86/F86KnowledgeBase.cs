@@ -162,7 +162,8 @@ public sealed class F86KnowledgeBase : IInspectable
     private readonly Lazy<IbmBlockCpsiHardwareTable> _ibmBlockCpsiHardwareTable;
 
     /// <summary>F90 c=2 ↔ F89 bridge identity (Tier1Derived): F86 c=2 K_b(Q,t)
-    /// IS F89 path-(N−1) (SE,DE) per-bond Hellmann-Feynman, modulo F89-J = 2·F86-J convention.
+    /// IS F89 path-(N−1) (SE,DE) per-bond Hellmann-Feynman, modulo the J convention J_F89 = J_F86/2
+    /// (operator-exact: ‖L_F86(J) − L_F89(J/2)‖ = 0 at N=5..8).
     /// Bit-exact verified at 20/22 bonds across N=5..8 including orbit escapes. Resolves
     /// Direction (b'') (full block-L derivation, NOT 4-mode) numerically Tier-1; closed-form
     /// HWHM_left/Q_peak per bond class via F89's AT-locked F_a/F_b structure remains the
