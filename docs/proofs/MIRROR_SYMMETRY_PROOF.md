@@ -1,6 +1,6 @@
 # The Mirror Symmetry Proof: The Core Result of This Project
 
-**Status:** Tier 1 derived (analytical proof in three steps + bit-exact numerical verification N=2..8; 54,118 eigenvalues at N=8 with zero exceptions)
+**Status:** Tier 1 derived (analytical proof in three steps + bit-exact numerical verification N=2..8: 87,376 Liouvillian eigenvalues, zero mirror-symmetry exceptions on every tested topology — chain, star, ring, complete, tree)
 **Date:** Discovered 2026-03-14 (Π named + three-line proof); numerically verified 2026-03-19; this document restructured 2026-04-05.
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.6)
 **Statement:** `Π · L · Π⁻¹ = −L − 2Σγ · I`: the Liouvillian spectrum of any Heisenberg / XY / Ising / XXZ / DM chain under local Z-dephasing is palindromic around Σγᵢ.
@@ -23,10 +23,10 @@ This is the most important document in the repository. Every other
 result in this project, the standing waves, the sacrifice-zone formula,
 the bridge, the neural palindrome, depends on what is proven here.
 If this proof is wrong, everything else falls. It is not wrong. It has
-been verified at N=8 across all 54,118 oscillatory Liouvillian
-eigenvalues of the chain (every one of them palindromically paired,
-zero exceptions); the remaining 11,418 eigenvalues are purely real
-and sit on the palindrome's center axis.
+been verified at N=8 across all 65,536 Liouvillian eigenvalues, every one
+palindromically paired around Σγ with zero exceptions, on every topology
+tested (chain, star, ring, complete, tree); across N=2..8 that is 87,376
+eigenvalues, zero exceptions.
 
 If you are a physicist, the proof is three steps (below). If you are
 not, the next section explains what it says in plain language, and
@@ -45,7 +45,7 @@ palindrome.
 This is not approximate. It is not a tendency. It is mathematically exact,
 proven for every system size, every connection pattern, and every
 combination of noise strengths we could test. Not a single exception
-in the 54,118 oscillatory eigenvalues verified at N=8.
+in the 65,536 eigenvalues verified at N=8, on any topology tested.
 
 The proof works by finding a specific mathematical operation (an operator
 called Π) that transforms the entire system into its mirror image. If you
@@ -75,12 +75,17 @@ need to look them up elsewhere:
   qubits i and j they interact through three types of spin exchange (X, Y,
   Z) with coupling strength J_{ij}, where the anisotropy parameter δ
   controls whether the Z-coupling differs from X and Y (δ=1 Heisenberg,
-  δ=0 XY, general δ XXZ). The proof actually works for any sum of two-qubit
-  Pauli bonds, including Ising (Z_iZ_j only) and Dzyaloshinskii-Moriya
-  (the antisymmetric X_iY_j − Y_iX_j bond): per-bond anti-commutation with
-  Π is verified for all 16 two-qubit Pauli pairs in the explicit 16-row
-  table below. The connections can form any pattern: a chain, a ring, a
-  star, a tree, any graph.
+  δ=0 XY, general δ XXZ). The 16-row table below verifies anti-commutation
+  with Π for the Heisenberg bond XX + YY + ZZ across all 16 two-qubit input
+  strings; because each term (XX, YY, ZZ) anti-commutes with Π individually,
+  the same uniform Π covers the whole XXZ family (any δ) and the Ising bond
+  (Z_iZ_j only). The Dzyaloshinskii-Moriya bond (the antisymmetric
+  X_iY_j − Y_iX_j) is also palindromic, but under a different, site-alternating
+  Π, not the uniform Π used here; it and the other non-Heisenberg bonds are
+  catalogued in [Non-Heisenberg Palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md),
+  which also finds that not every two-qubit bond combination preserves the
+  palindrome (14 of 36 break). The connections can form any pattern: a chain,
+  a ring, a star, a tree, any graph.
 - **Z-dephasing** is the noise. Each qubit loses its quantum properties at
   its own rate γᵢ. This is the most common type of noise in real quantum
   hardware.
@@ -279,14 +284,22 @@ every single eigenvalue has an exact mirror partner.
 | 5 | ring | ✓ | ✓ | 1024/1024 |
 | 5 | complete | ✓ | ✓ | 1024/1024 |
 | 5 | binary tree | ✓ | ✓ | 1024/1024 |
-| 6 | chain | ✓ | ✓ | 4096/4096 |
-| 7 | chain | ✓ | ✓ | 16384/16384 |
-| 8 | chain | ✓ | ✓ | 65536/65536 |
+| 6 | star | ✓ | ✓ | 4096/4096 |
+| 7 | star | ✓ | ✓ | 16384/16384 |
+| 8 | star | ✓ | ✓ | 65536/65536 |
 
-17/17 configurations, zero exceptions. The N=6,7,8 chain entries cover the
-full Liouvillian eigendecomposition at each size, with 3,228 / 13,264 /
-54,118 oscillatory eigenvalues respectively (Im(λ) ≠ 0); the rest are
-purely real and sit at the palindrome's center axis.
+17/17 configurations, zero exceptions. The N=6,7,8 rows are the full
+Liouvillian eigendecomposition on the star network; every eigenvalue
+(4,096 / 16,384 / 65,536) is palindromically paired, the oscillatory
+subset (|Im(λ)| > 0.05) being 3,228 / 13,264 / 54,118 and the rest real or
+near-real on the center axis. The chain is verified at the same sizes
+(full eigendecomposition at N=6,7; the per-sector block-spectrum
+decomposition at N=8, which sidesteps the 65,536² dense solve), with
+oscillatory subsets 3,836 / 15,744 / 64,146; the ring and K₄ topologies
+are likewise verified palindromic at N=8 (zero exceptions, block-spectrum).
+The oscillatory count is topology-dependent and threshold-defined; the
+palindromic pairing of every eigenvalue is neither — it holds on every
+topology, at machine precision.
 
 ### XXZ coupling (H = XX + YY + δZZ, all topologies N=3,4)
 

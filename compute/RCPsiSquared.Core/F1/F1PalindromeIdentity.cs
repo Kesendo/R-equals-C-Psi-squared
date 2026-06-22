@@ -15,7 +15,8 @@ namespace RCPsiSquared.Core.F1;
 /// 2Σγ − d.
 ///
 /// <para>Verified analytically (<c>docs/proofs/MIRROR_SYMMETRY_PROOF.md</c>) and replaces
-/// the brute-force palindrome verification at N=8 (54,118 eigenvalues).</para>
+/// the brute-force palindrome verification at N=8 (all 65,536 eigenvalues paired, zero
+/// exceptions on every tested topology: chain, star, ring, complete, tree).</para>
 ///
 /// <para>Validity: Heisenberg, XY, Ising, XXZ, DM Hamiltonians on any graph; uniform or
 /// site-dependent Z-dephasing; any N. Two Π families exist (P1, P4). Breaks for
@@ -47,7 +48,7 @@ public sealed class F1PalindromeIdentity : Claim
             yield return new InspectableNode("breaks for",
                 summary: "depolarizing noise → residual error (2/3)Σγ, linear in γ and N");
             yield return new InspectableNode("verification",
-                summary: "replaces brute-force palindrome scan at N=8 (54,118 eigenvalues, zero exceptions)");
+                summary: "replaces brute-force palindrome scan at N=8 (all 65,536 eigenvalues paired, zero exceptions; every tested topology)");
         }
     }
 }
