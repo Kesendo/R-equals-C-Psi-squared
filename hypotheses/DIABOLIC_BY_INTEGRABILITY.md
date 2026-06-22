@@ -1,0 +1,68 @@
+# The Octic Crossing Is Diabolic Because the Magnons Don't Interact
+
+**Status:** Tier 2 — the diabolic→defective flip under an XXZ anisotropy is a **decisive gate-first computation** (N=4 path-3, machine precision); the "free-fermion integrability is the protection" reading is the (well-grounded) interpretation. The diabolic *fact* it explains is itself Tier-1-derived (`F89Path3OcticEpClaim`).
+**Date:** 2026-06-22
+**Authors:** Thomas Wicht, Claude (Opus 4.8)
+**Origin:** the generative ("why") pass after the F89-octic diabolic *character* correction landed (Plan A + Plan B, master). The typed layer proves *that* it is diabolic; this asks *why* it is diabolic rather than the generic defective. See `docs/CAUGHT_ERRORS.md` (the EP-character trilogy) and `compute/RCPsiSquared.Core/Symmetry/F89Path3OcticEpClaim.cs`.
+
+## The question
+
+The F89 path-3 octic degeneracy (the (SE,DE) coherence block of the 4-site XY chain under Z-dephasing, at q_EP = √((−1+√13)/6) ≈ 0.659, λ_EP = −4γ + 2iJ) is **diabolic**: the two eigenvalues coalesce but the eigenvectors stay independent (g1 = g2 = 2, departure-from-normality dep = 0, the 2×2 restriction L|₂D = λ·I, no Jordan block). This is settled and confirmed artifact-free (`F89Path3OcticEpClaim`, `inspect --root f89octic`).
+
+But a one-parameter coalescence of a **non-normal** operator is *generically defective* (a Jordan block, codimension 1); a diabolic point normally needs codimension ≥ 3. So a single knob `q` producing a diabolic point is non-generic — it needs a reason. The typed record says only "intrinsic to the double-zero of the discriminant," which *restates* semisimplicity (an even-multiplicity discriminant factor `(3q⁴+q²−1)²`) rather than explaining why an *irreducible* octic has one.
+
+## The answer: free-fermion integrability
+
+**The XY chain is free-fermion integrable, and that is the protection.** The moment the magnons are made to interact (an XXZ ZZ-anisotropy Δ ≠ 0), the degeneracy turns **defective** — at every Δ tested, instantly.
+
+### The mechanism (from below)
+
+`L` on the (SE,DE) block is built from two pieces: the hopping `H_eff` and the Z-dephasing `D`. At q_EP, **both restrict to scalars on the 2D coalescing eigenspace**, so their sum is scalar — no off-diagonal Jordan coupling:
+
+- `H_eff|₂D = 2iJ·I` (scalar). **Why:** the XY model is free-fermion, so the two-excitation (DE) energies are exact **sums** of one-excitation (SE) energies, E_(a,b) = ε_a + ε_b (verified: M_DE spectrum = the 6 pairwise sums of M_SE = 4J·cos(kπ/5), to 1.3e-15). The coalescing pair descends from one **4-fold-degenerate free-fermion multiplet**, on which the hopping is a multiple of the identity.
+- `D|₂D = −4γ·I` (scalar). **Why:** the dephasing rate is −2γ·n_diff = −6γ + 4γ·p (p = overlap fraction), so p = ½ ⟺ rate −4γ. q_EP sits exactly at this **overlap-balanced rate midpoint** — the AT-spectral midpoint between the rate-2γ (overlap) F_a modes and the rate-6γ (no-overlap) F_b modes (`F89PathKAtLockMechanismClaim`; the F_a/F_b pair is the overlap↔no-overlap mirror, fixed point at 4γ). At p = ½ the dephasing-projector is exactly ½·I on the pair, i.e. a uniform shift, not a coupling.
+
+So **L|₂D = (−4γ + 2iJ)·I = λ_EP·I**, semisimple. The discriminant double-zero is the *algebraic shadow* of this twin scalarity, not an independent cause.
+
+### The decisive gate (XXZ-Δ breaks free-fermion additivity)
+
+Probe `simulations/_f89_zz_break_gate.py` (gate-first; Stage 0 reproduces the Δ=0 diabolic point and confirms the Pauli build equals the committed reference + is a genuine sub-block of the full 256² Liouvillian, both to 0.0e+00). Turning on Δ (the ZZ term makes the two magnons interact, so E_(a,b) ≠ ε_a + ε_b):
+
+| Δ | q* | min pair-dist | g1 | g2 | dep | character |
+|---|---|---|---|---|---|---|
+| 0.00 | 0.658983 | 6.8e-15 | 2 | 2 | 0.000 | **DIABOLIC** |
+| 0.02 | 0.660249 | 3.4e-05 | 1 | 2 | 0.022 | DEFECTIVE (Jordan) |
+| 0.05 | 0.662459 | 7.5e-05 | 1 | 2 | 0.056 | DEFECTIVE |
+| 0.10 | 0.667060 | 8.6e-05 | 1 | 2 | 0.112 | DEFECTIVE |
+| 0.20 | 0.644962 | 1.0e-04 | 1 | 2 | 0.165 | DEFECTIVE |
+| 0.50 | 0.639578 | 4.1e-04 | 1 | 2 | 0.422 | DEFECTIVE |
+
+The instant Δ ≠ 0: g1 collapses 2 → 1 (g2 stays 2 = a Jordan block), the eigenvector-merge |cos| jumps 0.60 → 1.0000, and dep turns on and grows ~linearly with Δ. A complex-q locator confirms a **genuine** defective EP (split driven to ~1e-8) that stays **on the real-q axis** (pinned by the surviving pseudo-Hermiticity Σ L Σ = L†) but flips character diabolic → defective. The mechanism probe shows exactly the predicted cause: `H_eff|₂D` is scalar (2iJ·I) at Δ=0 and **non-scalar at every Δ > 0** (diagonal deviation grows 0 → 0.30), while the dephasing half stays scalar at the −4γ midpoint. Break free-fermion additivity → the H_eff-scalar half dies → L|₂D acquires the Jordan coupling.
+
+**Generic XXZ gives the ordinary defective EP; the diabolic point is the integrable special case.**
+
+## What it is NOT (candidates the gate refuted)
+
+The honest record — each was proposed and killed from below, which is why "integrability" survives by elimination:
+
+- **Not a commuting-symmetry separation.** No symmetry puts the two modes in different sectors so they cannot couple: the site-reflection R commutes but both modes are R = +1; the overlap↔no-overlap involution does not even commute ([S,L] ≈ 19.6); the chiral Σ gives Σ L Σ = L† and an antilinear PT, but relates λ_EP to its *conjugate* −4γ−2iJ, not to its degenerate partner.
+- **Not a bare free-fermion crossing "diabolic by construction."** The EP frequency Im(λ_EP)/J = 2 is *absent* from the bare γ=0 difference set; the pair is born inside a 4-fold free-fermion multiplet (at Im/J = −1+√5) and is split by dephasing, *re-coalescing* only at the tuned q_EP. Free-fermion supplies the degenerate origin, not a ready-made crossing.
+- **Not a factorisation/resultant.** The octic is irreducible over Q(i), so it is not two factors whose roots cross (`F89Path3OcticGaloisClaim`; refuted in `docs/CAUGHT_ERRORS.md`).
+- **Not Π / palindrome / Kramers.** Π pairs eigen*values* (the spectral palindrome), not eigen*vectors* at a crossing; no anti-unitary T² = −1 Kramers structure is present.
+
+## Where it sits in the framework
+
+This is a concrete, from-below-verified instance of the repo's recurring **integrability → no level repulsion → crossings allowed** theme (cf. `experiments/RANDOM_MATRIX_THEORY.md`; the EP-vs-level-crossing dichotomy in `docs/THE_TRICHOTOMY_SEEN.md` and `experiments/XXZ_AXIS_BANDEDGE_TO_LEBENSADER.md`). The novelty here is *making the diabolic↔defective boundary itself the observable*: tuning the single integrability-breaking knob Δ flips the EP character, and the from-below mechanism (twin scalar restriction, free-fermion multiplet + p=½ midpoint) says exactly why.
+
+It also sharpens the **EP-character trilogy** (`docs/CAUGHT_ERRORS.md`): F86a (near-EP, no coalescence) / coherence-horizon (defective √-EP) / F89-octic (diabolic). The trilogy's three different outcomes now have a unifying axis — the F89 octic is diabolic precisely because it is the *integrable* member; integrability-breaking would carry it to the coherence-horizon-style defective EP.
+
+## Open / next
+
+- **Generalize beyond N=4 path-3.** The gate is decisive at N=4; the "integrability protects the diabolic crossing" principle should be checked at path-5/6 and against the F90 (SE,DE) bridge — does every free-fermion (SE,DE) coalescence at the AT-midpoint come out diabolic, and does Δ always defect it?
+- **Codimension argument.** Make precise *why* free-fermion integrability collapses the (generically codim-3) diabolic point to codim 1 (reachable by the single q) — the degenerate-multiplet-plus-balanced-perturbation picture, stated as a theorem.
+- **Markdown sweep (a real gap).** The diabolic octic verdict lives only in the typed C# + `F_FORMULA_CROSSWALK.md`, *not* in `docs/ANALYTICAL_FORMULAS.md` (the defective coherence-horizon sibling *is* in the markdown). This hypothesis + a registry line would close that gap (per "C# is the base, Markdown swept to match").
+
+## Anchors
+- Typed *what*: `compute/RCPsiSquared.Core/Symmetry/F89Path3OcticEpClaim.cs` (Tier 1 derived, the Correction block); live `inspect --root f89octic` (`F89OcticCharacterWitness`); `compute/RCPsiSquared.Core/F89PathK/F89Path3OcticBlock.cs`.
+- The AT-lock / overlap-no-overlap mirror: `F89PathKAtLockMechanismClaim`, `F89Path3SeDeFactorisationClaim`; `experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md` (§ Path-3 octic diabolic-degeneracy location).
+- The *why* probes (gate-first, this hypothesis's evidence): `simulations/_f89_zz_break_gate.py` (the decisive Δ-break), `simulations/_f89_why_diabolic_probe.py` (the twin-scalar / free-fermion-additivity mechanism).
