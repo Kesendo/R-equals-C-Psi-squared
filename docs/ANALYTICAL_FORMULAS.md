@@ -731,23 +731,32 @@ u(1+u²)/6, off by 0.167).
 **Replaces:** per-channel crossing time derivation.
 **Source:** [CΨ Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
 
-### F28. Fixed-point absorber theorem (Tier 1-2)
+### F28. Fixed-point absorber theorem (Tier 1 for physical noise; general-CPTP version FALSE)
 
-    CPsi(rho*) < 1/4    for all primitive CPTP maps (completely positive trace-preserving: the most general physically allowed quantum operations)
+    CPsi(rho*) = 0    for physical noise channels (unital / local / Pauli / amplitude-damping)
 
 Proven analytically:
 - Case A: unital maps (rho* = I/d, CΨ = 0)
-- Case B: local channels (rho* = product state, CΨ < 1/4)
-Verified numerically:
-- Case C: 100 random primitive maps, max CΨ(rho*) = 0.138
+- Case B: local channels (rho* = product/pure state, CΨ = 0)
 
-Consequence: CΨ = 1/4 is an eventual absorber. Every initial
-state with CΨ > 1/4 must eventually cross below 1/4.
+Consequence: for physical noise, CΨ = 1/4 is an eventual absorber. Every
+initial state with CΨ > 1/4 eventually crosses below 1/4.
 
-**Valid for:** any primitive (unique fixed-point) quantum channel,
-2 qubits.
-**Replaces:** per-channel verification that the fixed point sits
-below 1/4.
+**SCOPE-RETRACTED 2026-06-22 (deep review).** The general "CPsi(rho*) < 1/4 for
+ALL primitive CPTP maps" is FALSE. Counterexample: ε(ρ) = (1−p)ρ + p·Tr(ρ)·σ with
+σ = 0.95·|Φ⁺⟩⟨Φ⁺| + 0.05·I/4 is primitive (unique fixed point, second eigenvalue
+1−p < 1) and full-rank, yet CΨ(σ) = 0.2935 > 1/4 in the proof's own metric
+CΨ = Tr(ρ²)·L₁/(d−1), and iterating from Bell+ never crosses below 1/4. The old
+"100 random maps, max 0.138" is a Ginibre n_kraus=4 sampling artifact (the same
+sweep at n_kraus=2 violates ~8.5%). The crossing is a property of physical noise
+(separable/classical fixed point), not of primitivity. Verifier:
+simulations/_review2_A5_subsystem.py.
+
+**Valid for:** physical noise channels (unital / local / Pauli / amplitude-damping),
+2 qubits. NOT valid for general primitive CPTP maps.
+**Replaces:** per-channel verification that a physical-noise fixed point sits at CΨ = 0.
+**Hardware:** the physical-noise 1/4 crossing is IBM-confirmed (cusp cluster:
+experiments/CRITICAL_SLOWING_AT_THE_CUSP.md, experiments/IBM_RUN3_PALINDROME.md).
 **Source:** [Subsystem Crossing Proof](proofs/PROOF_SUBSYSTEM_CROSSING.md)
 
 ---

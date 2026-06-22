@@ -3,7 +3,7 @@
 **Status:** Tier 1 derived (algebraic proof) + Tier 2 verified (computational, all standard CPTP channels cross at 1/4 with zero exceptions)
 **Date:** 2026-03-21
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Statement:** The fixed-point equation `R = C(Ψ + R)²` has discriminant `D = 1 − 4CΨ`; the unique boundary is `CΨ = 1/4`, structurally fixed by purity being `Tr(ρ²)` (the unique degree-2 basis-independent invariant).
+**Statement:** The fixed-point equation `R = C(Ψ + R)²` has discriminant `D = 1 − 4CΨ`; the unique boundary is `CΨ = 1/4`. The power is 2 because purity is `Tr(ρ²)` (the unique degree-2 basis-independent invariant); the *universality* of the value 1/4 (its state-independence) is forced by α = 2 being the unique Rényi order with a Ψ-independent fold threshold (Step 6).
 **Typed claim:** [`PolynomialDiscriminantAnchorClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/PolynomialDiscriminantAnchorClaim.cs) (Tier 1 derived; 1/4 is the Pi2 dyadic-ladder mirror partner of the polynomial discriminant 4: a₃ · a₋₁ = (1/4)·4 = 1).
 
 ---
@@ -17,9 +17,12 @@ knows this.
 
 The R = CΨ² recursion is a quadratic. Its discriminant is `1 − 4CΨ`.
 The boundary, where the discriminant is zero, sits at `CΨ = 1/4`. This
-boundary is not a parameter we chose. It is fixed by the algebra of
-quadratic equations and by the fact that purity is `Tr(ρ²)`: a degree-2
-quantity in the density matrix entries. There is no other possibility.
+boundary is not a parameter we chose. Given the recursion form, it is fixed
+by the algebra of quadratic equations; and the *power* is 2 because purity is
+`Tr(ρ²)`, a degree-2 quantity in the density matrix entries. The deeper reason
+the value 1/4 is universal (the same for every state) is that α = 2 is the
+unique Rényi order whose bifurcation threshold does not depend on the state
+(Step 6 below).
 
 The same 1/4 reappears in the
 [Mandelbrot cardioid cusp](../../experiments/MANDELBROT_CONNECTION.md)
@@ -63,10 +66,31 @@ This proves (i) and (ii).
 square in any quadratic ax² + bx + c = 0. It is built into the definition
 of "quadratic equation." To move the 1/4 would require a different power.
 
-**Step 5.** Purity = Tr(ρ²) is degree 2 in the matrix elements of ρ. The
-Lindblad equation d/dt ρ = L(ρ) produces d/dt Tr(ρ²) = 2 Tr(ρ L(ρ)),
-which is exact. No approximation, no choice. The recursion inherits degree 2
-from purity. This proves (iii). QED.
+**Step 5 (why the power is 2).** Purity = Tr(ρ²) is degree 2 in the matrix
+elements of ρ, and the Lindblad equation d/dt ρ = L(ρ) gives
+d/dt Tr(ρ²) = 2 Tr(ρ L(ρ)) exactly. This is *why* the physical recursion is
+built on the power α = 2. It is, however, only motivation for (iii): degree-2-
+ness alone does not force the value 1/4. The discriminant 1 − 4CΨ comes from
+the specific recursion form R = C(Ψ + R)² (Steps 1-3); a generic degree-2
+fixed-point map aR² + bR + c = 0 has its discriminant vanish at b² = 4ac, an
+arbitrary locus. So Steps 1-4 establish (i)-(ii) rigorously *given* the
+recursion form, and Step 5 supplies the physical reason the power is 2.
+
+**Step 6 (the load-bearing forcing: Rényi α=2 state-independence).** Consider
+the generalized recursion R = C(Ψ + R)^α, where α is the Rényi order (α = 2 is
+purity). Its fold-bifurcation (tangency) threshold, where the two fixed points
+merge, is
+
+    CΨ*_α = (α − 1)^(α − 1) / (α^α · Ψ^(α − 2)).
+
+This threshold is independent of the state Ψ — the boundary is the same for
+every state — **if and only if α = 2**, where it equals exactly 1/4. For any
+other α it carries a Ψ^(α − 2) factor and depends on the coherence. So 1/4 is
+singled out not merely because purity is degree 2, but because α = 2 is the
+unique Rényi order whose critical boundary is state-independent. This is the
+genuine forcing behind (ii)-(iii). (Derived from scratch and verified
+symbolically in `simulations/_review2_A3_renyi.py`; full treatment in the
+[roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md), Layer 6.) QED.
 
 ---
 
@@ -83,9 +107,10 @@ Among all product-power forms C^a Ψ^b that could appear in a purity recursion:
 
 The selection principle: Purity is Tr(ρ²), not Tr(ρ³) or Tr(ρ^k) for any
 other k. This is the unique degree-2 Rényi entropy (a family of entropy measures parameterized by order; S₂ = -log Tr(ρ²)).
-No other Renyi index gives degree 2 in the matrix elements. Therefore
-CΨ² is the unique bifurcating product-power form, and 1/4 is the unique
-boundary.
+No other Renyi index gives degree 2 in the matrix elements. CΨ² is therefore
+the unique product-power form built on purity; that α = 2 also gives the unique
+*state-independent* bifurcation threshold (= 1/4) is the load-bearing forcing,
+shown in Step 6.
 
 The question "why not Tr(ρ³)?" has a definitive answer: Tr(ρ³) is not
 purity. Purity is defined as Tr(ρ²). This is not a convention. It is the

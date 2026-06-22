@@ -32,14 +32,14 @@ The proof journey works upward:
 | Layer | Status | Key Result |
 |-------|--------|------------|
 | 1. Qubit (d=2) | PROVEN | Discriminant of R=C(Psi+R)^2 vanishes at CPsi=1/4. Crossing cubic. Mandelbrot identity. |
-| 2. Two qubits | PROVEN | Subsystem crossing confirmed. Non-Markov revival transient (max 0.3035). |
+| 2. Two qubits | PROVEN for physical noise; general CPTP FALSE | Crossing holds for unital/local/Pauli/AD (fixed point CΨ=0). FALSE for general primitive CPTP: counterexample with entangled fixed point CΨ=0.2935 (see [PROOF_SUBSYSTEM_CROSSING](PROOF_SUBSYSTEM_CROSSING.md), Case C). |
 | 3. N-qubit | PROVEN | Palindromic spectrum all graphs N=2..8 (87,376 eigenvalues). Analytic formula. |
-| 4. Dimension | PROVEN | d=2 only. Qutrits: 0/81 dissipators palindromic. Discriminant d-independent. |
-| 5. Channels | PROVEN | All Pauli channels + amplitude damping. Non-Markov: revivals always transient. |
-| 6. Uniqueness | PROVEN | alpha=2 unique Renyi order with state-independent threshold. Fold catastrophe. |
-| 7. Math connections | PROVEN | Mandelbrot identity exact. Feigenbaum cascade measured. |
+| 4. Dimension | ANSWERED: d=2 only | Qutrits: 0/81 dissipators palindromic. Discriminant d-independent. CV/hybrid extensions (Conj 4.1/4.2) open. |
+| 5. Channels | PROVEN for physical noise (envelope) | All Pauli + amplitude damping cross. Monotonicity is an ENVELOPE bound for Bell+/local-Markovian; CΨ can oscillate above 1/4 via non-Markovian backflow (not strictly absorbing). |
+| 6. Uniqueness | PROVEN | alpha=2 is the unique Renyi order with a state-independent threshold (=1/4) - the load-bearing forcing. "Degree-2 => 1/4" is motivation, not the forcing. Fold catastrophe. |
+| 7. Math connections | MIXED | Mandelbrot identity exact (PROVEN). Feigenbaum cascade numerically measured (resolution-limited). Info-geometry UNEXPLORED, holography SPECULATIVE. |
 
-All seven layers closed. The 1/4 boundary is proven from single qubit through arbitrary channels.
+Core closed: Layer 1 (algebraic 1/4), Layer 3 (palindrome, N=2..8), Layer 6 (Renyi alpha=2 forcing), Layer 7 Mandelbrot. Scoped/partial: Layer 2 (physical noise only; general CPTP false), Layer 4 (d=2 only), Layer 5 (envelope, Bell+/local-Markovian), Layer 7 (info-geometry/holography open). The physical-noise 1/4 boundary is IBM-confirmed (cusp cluster).
 
 ---
 
@@ -155,14 +155,16 @@ This has been verified across Heisenberg, XY, and Ising Hamiltonians, with both 
 
 ### What Is CONJECTURED
 
-~~**Conjecture 2.1 (Entanglement Crossing Theorem).**~~ **PROVEN (March 22, 2026).**
-For any primitive CPTP map ε (unique fixed point), any initial state with
-CΨ > 1/4 has CΨ(εⁿ(ρ)) < 1/4 for sufficiently large n. Proof via
-quantum Perron-Frobenius convergence (the quantum analog of the theorem that repeated application of a positive map drives any distribution toward a unique steady state) + fixed-point CΨ bound + Lipschitz
-continuity (the property that small input changes produce at most proportionally small output changes). Fixed-point bound proven analytically for unital and local
-channels, numerically verified for 300 random CPTP maps (max CΨ(ρ*) = 0.138).
-Only exception: non-primitive maps (e.g., projective measurements preserving
-Bell+), which are trivial. See [PROOF_SUBSYSTEM_CROSSING](PROOF_SUBSYSTEM_CROSSING.md).
+**Conjecture 2.1 (Entanglement Crossing Theorem) — SCOPE-RETRACTED 2026-06-22.**
+TRUE for physical noise (unital / local / Pauli / amplitude-damping), where the
+fixed point has CΨ = 0: any initial state with CΨ > 1/4 has CΨ(εⁿ(ρ)) < 1/4 for
+sufficiently large n. Proof via quantum Perron-Frobenius convergence + fixed-
+point CΨ = 0 (Cases A, B) + Lipschitz continuity. **FALSE for general primitive
+CPTP maps:** the primitive, full-rank channel ε(ρ) = (1−p)ρ + p·Tr(ρ)·σ with
+σ = 0.95·|Φ⁺⟩⟨Φ⁺| + 0.05·I/4 has an entangled fixed point with CΨ = 0.2935 > 1/4
+and never crosses. The old "300 random maps, max 0.138" is a Ginibre n_kraus=4
+sampling artifact (n_kraus=2 violates ~8.5%). See
+[PROOF_SUBSYSTEM_CROSSING](PROOF_SUBSYSTEM_CROSSING.md), Case C.
 
 **Conjecture 2.2 (No Upward Crossing for Entangled Pairs).** An initially entangled pair that has crossed below 1/4 cannot re-cross upward under any Markovian dynamics. ~~(Non-Markovian dynamics with memory effects may temporarily push $C\Psi$ back above 1/4, but this would be a transient revival, not a stable violation.)~~ **CONFIRMED (March 22, 2026).** Non-Markovian dynamics with a structured bath CAN push CΨ back above 1/4 (max revival: 0.3035, 21% above threshold). But revivals are always transient - CΨ eventually returns to 0. The 1/4 boundary is not absorbing but IS a long-term attractor. See [non_markovian_revival.py](../../simulations/non_markovian_revival.py).
 
@@ -231,10 +233,12 @@ This hierarchy is a direct consequence of monogamy of entanglement: correlations
 1. ~~**Analytic formula for δ(N) in the large-N limit.**~~ **DONE.**
    Closed-form: C(t) = 1/2^N + (1/2)·exp(-2Nγt), Ψ(t) = exp(-Nγt)/(2^N-1).
    Verified to Δ < 1e-17 for N=2..6. See [proof_roadmap_close.py](../../simulations/proof_roadmap_close.py).
-2. ~~**Subsystem crossing theorem for general N.**~~ **PROVEN (March 22, 2026).**
-   Three-step proof: Perron-Frobenius convergence + fixed-point CΨ < 1/4
-   + Lipschitz continuity. Verified for N=3,4,5 subsystem pairs and 300
-   random CPTP maps. See [PROOF_SUBSYSTEM_CROSSING](PROOF_SUBSYSTEM_CROSSING.md).
+2. **Subsystem crossing theorem — SCOPE-RETRACTED 2026-06-22.** PROVEN for
+   physical noise (unital/local/Pauli/AD: fixed point CΨ=0), via Perron-
+   Frobenius convergence + fixed-point CΨ=0 + Lipschitz continuity; N=3,4,5
+   physical subsystem pairs cross. FALSE for general primitive CPTP (entangled
+   fixed point CΨ=0.2935; the "300 maps" was a sampling artifact). See
+   [PROOF_SUBSYSTEM_CROSSING](PROOF_SUBSYSTEM_CROSSING.md), Case C.
 3. ~~**Characterize the palindromic structure.**~~ **PARTIALLY ANSWERED (March 14-21, 2026).**
    The palindromic structure is proven analytically for ALL Heisenberg/XXZ
    systems on ANY graph with local Z-dephasing
@@ -410,9 +414,16 @@ This is the crown jewel. Everything else establishes that 1/4 is *a* boundary. T
 
 ### The Argument Structure
 
-The uniqueness proof has three pillars:
+The uniqueness proof has three pillars. **Logical structure (clarified 2026-06-22):**
+Pillars 1-2 establish that 1/4 is *a* boundary *given* the recursion form
+$R = C(\Psi + R)^2$ - they are motivation, not the forcing, because degree-2-ness
+alone does not fix the value (a generic degree-2 fixed-point map $aR^2 + bR + c = 0$
+has its discriminant vanish at $b^2 = 4ac$, an arbitrary locus). The **load-bearing
+forcing** - that 1/4 is *the unique state-independent* boundary - is the Rényi α=2
+argument (Pillar 3 and the RESOLVED section below): α=2 is the only Rényi order
+whose fold threshold does not depend on the state.
 
-**Pillar 1: Algebraic necessity.** The recursion $R_{n+1} = C(\Psi + R_n)^2$ is quadratic in $R_n$. A quadratic $ax^2 + bx + c = 0$ has its discriminant vanish when $b^2 = 4ac$. For our specific quadratic, this gives $1 - 4C\Psi = 0$, i.e., $C\Psi = 1/4$. Any other boundary would require either:
+**Pillar 1: Algebraic necessity (motivation).** The recursion $R_{n+1} = C(\Psi + R_n)^2$ is quadratic in $R_n$. A quadratic $ax^2 + bx + c = 0$ has its discriminant vanish when $b^2 = 4ac$. For our specific quadratic, this gives $1 - 4C\Psi = 0$, i.e., $C\Psi = 1/4$. This fixes the boundary *given the recursion form*; any other boundary would require either:
 
 - A different power (cubic, quartic...), but these don't produce the Mandelbrot mapping
 - A different coefficient structure, but the self-referential form $R = C(\Psi + R)^2$ is determined by the physics (purity is a quadratic function of the density matrix)
@@ -534,12 +545,12 @@ In the holographic context, the Ryu-Takayanagi formula relates entanglement entr
 | Layer | Status | Key Gap |
 |-------|--------|---------|
 | 1. Qubit (d=2) | **PROVEN** | Product-power classification complete ([Uniqueness Proof](UNIQUENESS_PROOF.md)) |
-| 2. Two entangled qubits | **PROVEN** | Subsystem Crossing Theorem: convergence + fixed-point bound + continuity. 300 CPTP maps, 0 exceptions. See [PROOF_SUBSYSTEM_CROSSING](PROOF_SUBSYSTEM_CROSSING.md). |
+| 2. Two entangled qubits | **PROVEN for physical noise; general CPTP FALSE** | Crossing holds for unital/local/Pauli/AD (fixed point CΨ=0). FALSE for general primitive CPTP: primitive counterexample with entangled fixed point CΨ=0.2935 (the "300 maps, 0 exceptions" was a Ginibre n_kraus=4 sampling artifact). See [PROOF_SUBSYSTEM_CROSSING](PROOF_SUBSYSTEM_CROSSING.md), Case C. |
 | 3. N-qubit systems | **PROVEN + exact formula** | GHZ analytical formula exact (delta < 1e-17). Palindrome proven all graphs, verified to N=11. |
 | 4. Arbitrary dimension | **Answered: d=2 only** | Qutrits break palindrome (d²-2d=0). CΨ=1/4 discriminant is d-independent. |
-| 5. Channel independence | **PROVEN** | All Pauli + amplitude damping cross 1/4. Monotonicity proven analytically. Non-Markov: transient revival only. |
+| 5. Channel independence | **PROVEN for physical noise (envelope)** | All Pauli + amplitude damping cross 1/4. Monotonicity proven as an ENVELOPE bound for Bell+/local-Markovian (not pointwise; CΨ can oscillate above 1/4 via non-Markov backflow — not strictly absorbing). |
 | 6. Uniqueness theorem | **PROVEN** | α=2 unique Rényi order with state-independent threshold. Fold catastrophe = only structurally stable bifurcation. |
-| 7. Known math connections | **PROVEN** | R-recursion IS Mandelbrot (c=CΨ). Fold catastrophe verified. Feigenbaum cascade measured (7 bifurcations). |
+| 7. Known math connections | **MIXED** | Mandelbrot identity exact (PROVEN; R-recursion IS z²+c, c=CΨ). Feigenbaum cascade numerically measured (7 bifurcations, resolution-limited). Info-geometry UNEXPLORED, holography SPECULATIVE. |
 
 ### Critical Path
 
@@ -548,10 +559,11 @@ The fastest route to a publishable "1/4 is the only boundary" result:
 1. ~~**Formalize the uniqueness theorem**~~ (Layer 6). **DONE.** Rényi uniqueness (α=2 only) + fold catastrophe + discriminant.
 2. ~~**Prove channel independence for Markovian channels**~~ (Layer 5). **DONE.** Analytical proof + 124 configs + non-Markov threshold.
 3. ~~**Extend to qutrits computationally**~~ (Layer 4). **DONE.** Qutrits break palindrome (d²-2d≠0). CΨ=1/4 discriminant is d-independent.
-4. ~~**Prove the subsystem crossing theorem**~~ (Layer 2, Conjecture 2.1). **DONE (March 22, 2026).**
-   Three-step proof: Perron-Frobenius convergence + fixed-point CΨ < 1/4 + Lipschitz continuity.
-   Fixed-point bound proven for unital/local channels, verified for 300 random CPTP (max 0.138).
-   N=3,4,5 subsystem pairs all cross. See [PROOF_SUBSYSTEM_CROSSING](PROOF_SUBSYSTEM_CROSSING.md).
+4. **Subsystem crossing theorem (Layer 2, Conjecture 2.1) — SCOPE-RETRACTED 2026-06-22.**
+   PROVEN for physical noise (unital/local channels: fixed point CΨ=0) via Perron-Frobenius
+   convergence + fixed-point CΨ=0 + Lipschitz continuity; N=3,4,5 physical subsystem pairs cross.
+   FALSE for general primitive CPTP (entangled fixed point CΨ=0.2935; the "300 random CPTP, max
+   0.138" was a sampling artifact). See [PROOF_SUBSYSTEM_CROSSING](PROOF_SUBSYSTEM_CROSSING.md), Case C.
 
 ### The Philosophical Position, Restated
 

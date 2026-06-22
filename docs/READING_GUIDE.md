@@ -625,10 +625,13 @@ from: R = CΨ² is the recursion whose discriminant draws the boundary.
    oscillation without convergence.
 
 3. [Monotonicity](proofs/PROOF_MONOTONICITY_CPSI.md) +
-   [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md): The
-   boundary is absorbing: dCΨ/dt < 0 for all local Markovian channels,
-   proven. The roadmap walks all seven layers of the quarter, each one
-   closed.
+   [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md): For physical
+   noise the boundary is absorbing in envelope (the CΨ envelope is
+   non-increasing for Bell+/local-Markovian channels). The roadmap walks the
+   seven layers; its core is closed (algebraic 1/4, palindrome, Rényi forcing,
+   Mandelbrot), while Layer 2 holds for physical noise only (the general
+   primitive-CPTP version is false), Layer 4 is d=2-only, and Layer 7's
+   info-geometry/holography remain open.
 
 4. [K-Dosimetry](../experiments/K_DOSIMETRY.md) (shared with Story 6):
    Crossing the fold costs a fixed dose. K = γ·t is exact to machine

@@ -67,19 +67,36 @@ cleared, the perpetrator must be someone not in the room.
 **Test:** Bootstrap test, 4 independent tests on sectors, parity, and
 dissipator structure.
 
-**Result:** The parity sectors (Π eigenspaces) are exactly decoupled.
-The {I,Z} sector (populations, classical) and the {X,Y} sector
-(coherences, quantum) do not interact. No internal mechanism within
-the system generates cross-sector coupling. The dissipator cannot
-arise from the Hamiltonian structure.
+**Result (a structural constraint, not yet an elimination).** The parity
+sectors (Π eigenspaces) are exactly decoupled: [Π², L] = 0, the {I,Z} sector
+(populations, classical) and the {X,Y} sector (coherences, quantum) do not mix,
+and the dissipator is block-diagonal in the parity grading.
 
 - [Pi^2, L] = 0 (block-diagonal structure confirmed)
 - Sector populations do not influence sector coherences
-- Parity does not determine the dissipator
+- Parity does not *determine* the dissipator
 
-**Source:** [bootstrap_test.py](../../simulations/bootstrap_test.py), [bootstrap_test.txt](../../simulations/results/bootstrap_test.txt)
+**What this does and does not establish.** [Π², L] = 0 is a statement about the
+*form* of L (it respects the mirror parity), not about where the noise comes
+from. It is satisfied by the ordinary EXTERNAL Z-dephasing generator we always
+use, so it cannot, by itself, rule out an internal origin. It is also
+*axis-agnostic*: it holds equally for X-, Y-, and Z-dephasing — every dephasing
+dissipator is diagonal in the Pauli basis and Π² is a sign on each Pauli
+string, so the two commute trivially (verified from below in
+[_review2_A9_incompleteness.py](../../simulations/_review2_A9_incompleteness.py):
+‖[Π², L]‖ ≈ 1e-16 for all three axes). So the bootstrap result is
+*underdetermination*, not impossibility: parity constrains the dissipator's
+form to a multi-parameter family but does not forbid a self-generated source.
+The actual elimination of an internal origin is carried by Candidates 2 and 3
+below (a finite internal source produces non-Markovian backflow with γ_eff = 0;
+a qubit-bath leads to infinite regress).
 
-**Conclusion:** Eliminated. Noise cannot come from inside the system.
+**Source:** [bootstrap_test.py](../../simulations/bootstrap_test.py), [bootstrap_test.txt](../../simulations/results/bootstrap_test.txt); structural verifier [_review2_A9_incompleteness.py](../../simulations/_review2_A9_incompleteness.py)
+
+**Conclusion:** Candidate 1 establishes a structural *constraint* (any noise
+must respect the parity grading), not an elimination. The [Π², L] = 0 identity
+is origin- and axis-agnostic. Internal self-generated noise is eliminated by
+Candidates 2-3, not by parity.
 
 ### Candidate 2: Single qubit decay (the failed third)
 
@@ -124,11 +141,11 @@ a framework where everything is made of qubits, a bath is just a
 collection of qubits, and each one faces the same prohibition.
 
 **Argument:** A bath of N qubits is N instances of qubits, each subject
-to Candidate 1 (internal noise cannot arise from within a qubit system).
-If a single qubit cannot generate internal noise, a collection of qubits
-cannot either. Each member of the collection faces the same bootstrap
-prohibition. The bath would require its own noise source, creating
-infinite regress.
+to Candidate 2 (a finite qubit source produces only non-Markovian noise with
+γ_eff = 0, not the Markovian palindromic dephasing required). If a single
+finite qubit cannot generate the required noise, a collection of finite qubits
+cannot either. Each member faces the same finiteness/backflow obstruction. The
+bath would require its own noise source, creating infinite regress.
 
 **Note:** This does NOT eliminate a bath as a mathematical DESCRIPTION
 of noise (Lindblad theory works as a description). It eliminates a

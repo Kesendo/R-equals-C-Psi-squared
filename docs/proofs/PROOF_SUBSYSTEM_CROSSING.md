@@ -1,9 +1,9 @@
 # Proof: Subsystem Crossing Theorem
 
-**Status:** Tier 1 derived (Cases A and B analytically) + Tier 2 verified (Case C: 300+ random primitive CPTP maps with zero exceptions; N=3-5 subsystem pairs all cross)
+**Status:** SCOPE-RETRACTED 2026-06-22 (deep review). Tier 1 derived for PHYSICAL noise channels (Case A unital + Case B local: fixed point I/d or product/pure, CΨ = 0; N=3-5 physical subsystem pairs all cross). The GENERAL claim "for any primitive CPTP map" is FALSE (Case C): a primitive, full-rank channel can have an entangled fixed point with CΨ = 0.2935 > 1/4.
 **Date:** 2026-03-22
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Statement:** For any primitive CPTP map ε on a 2-qubit system, every initial state with `CΨ(ρ₀) > 1/4` eventually has `CΨ(εⁿ(ρ₀)) < 1/4` for all sufficiently large n. The 1/4 boundary is an eventual absorber.
+**Statement:** For any *physical noise channel* ε on a 2-qubit system (unital — dephasing, depolarizing, any Pauli channel — or local independent noise including amplitude damping), the fixed point has `CΨ = 0`, so every initial state with `CΨ(ρ₀) > 1/4` eventually has `CΨ(εⁿ(ρ₀)) < 1/4`. The 1/4 boundary is an eventual absorber *for physical noise*. The general "any primitive CPTP map" version is FALSE: a primitive, full-rank channel can have an entangled fixed point with `CΨ = 0.2935 > 1/4` (see Step 2, Case C).
 **Reference formula:** [F28 (Fixed-point absorber theorem)](../ANALYTICAL_FORMULAS.md) in the F-formula registry; this proof is its analytical home.
 **Resolves:** Conjecture 2.1 from [PROOF_ROADMAP_QUARTER_BOUNDARY](PROOF_ROADMAP_QUARTER_BOUNDARY.md) (Layer 2 of the seven-layer roadmap).
 
@@ -16,12 +16,14 @@ across the table. Eventually it sinks into the drain. Quantum systems
 under noise behave the same way: each application of the noise channel
 takes them closer to the drain (the fixed point of the channel).
 
-This document proves that any quantum system under genuine noise will
+This document proves that any quantum system under *physical* noise will
 eventually have CΨ drop below ¼ and stay there. The proof combines
 three ingredients: convergence to a fixed point (quantum Perron-Frobenius),
-the fact that all fixed points of primitive noise channels have CΨ < ¼,
+the fact that physical-noise fixed points have CΨ = 0 (Cases A and B below),
 and continuity. Together they guarantee that CΨ = ¼ is an eventual
-absorber: once crossed, it is never permanently re-crossed.
+absorber for physical noise: once crossed, it is never permanently re-crossed.
+(The stronger claim "for *all* primitive CPTP maps" is false; a primitive
+channel can relax toward an entangled fixed point above ¼. See Step 2, Case C.)
 
 This is the third proof in the 1/4-boundary trilogy:
 [Uniqueness](UNIQUENESS_PROOF.md) (Layer 1: the boundary value 1/4 is
@@ -36,14 +38,19 @@ for any primitive noise.
 
 ## Theorem
 
-For any primitive CPTP map ε on a 2-qubit system (i.e., ε has a unique
-fixed point), and any initial state ρ₀ with CΨ(ρ₀) > 1/4, there exists
-N ∈ ℕ such that CΨ(εⁿ(ρ₀)) < 1/4 for all n ≥ N.
+For any *physical noise channel* ε on a 2-qubit system — unital (dephasing,
+depolarizing, any Pauli channel) or local (independent single-qubit noise,
+including amplitude damping) — the fixed point ρ* has CΨ(ρ*) = 0. Hence for
+any initial state ρ₀ with CΨ(ρ₀) > 1/4 there exists N ∈ ℕ such that
+CΨ(εⁿ(ρ₀)) < 1/4 for all n ≥ N.
 
-Equivalently: for any primitive Lindblad generator L, any initial state
+Equivalently: for such a physical Lindblad generator L, any initial state
 with CΨ > 1/4 will have CΨ(e^{Lt}ρ₀) < 1/4 for sufficiently large t.
 
-**The 1/4 boundary is an eventual absorber for all primitive quantum channels.**
+**The 1/4 boundary is an eventual absorber for physical noise channels.**
+The general version — "for *all* primitive CPTP maps" — is FALSE: a primitive,
+full-rank channel can have an entangled fixed point with CΨ = 0.2935 > 1/4
+(Step 2, Case C).
 
 ---
 
@@ -69,10 +76,11 @@ This is the quantum analogue of ergodic convergence. ∎
 For Lindblad generators: L is primitive iff it has a unique steady state.
 Then ||e^{Lt}ρ₀ - ρ*||₁ ≤ C · e^{-λt} where λ > 0 is the spectral gap.
 
-### Step 2: Fixed-Point Bound - CΨ(ρ*) < 1/4
+### Step 2: Fixed-Point Bound - CΨ(ρ*) = 0 for physical noise
 
 This is the core of the proof. We show that the fixed point of any
-primitive CPTP map has CΨ ≤ 1/4.
+*physical* noise channel (unital or local) has CΨ(ρ*) = 0 < 1/4. We then
+show (Case C) that this does NOT extend to all primitive CPTP maps.
 
 #### Case A: Unital maps (ε(I/d) = I/d)
 
@@ -105,45 +113,54 @@ For any non-trivial noise: L₁(ρ_k*) < 1, giving CΨ < 1/4. ✓
 
 This covers: local amplitude damping, local dephasing, any independent noise.
 
-#### Case C: General primitive maps (numerical verification)
+#### Case C: General primitive maps - the general claim is FALSE
 
-For a general primitive CPTP map on d = 4:
+The claim that *every* primitive CPTP map has CΨ(ρ*) < 1/4 is **false**, and
+with it the headline "eventual absorber for ALL primitive quantum channels."
+(The earlier "analytical argument" here - off-diagonals "slaved" to the
+diagonal by a contractive transfer matrix - was a plausible story, not a
+derivation, and the conclusion it argued for is wrong.)
 
-**Claim:** CΨ(ρ*) < 1/4 for all primitive ε.
-
-**Evidence:**
-- 100 random primitive CPTP maps: max CΨ(ρ*) = 0.138 < 1/4
-- All standard channel families (Z, X, Y, depol, AD): CΨ(ρ*) = 0
-- All tested fixed points: CΨ(ρ*) < 0.15
-
-**Analytical argument:** For a primitive map, ρ* is full-rank (positive
-definite). A full-rank state with CΨ > 1/4 must have significant off-diagonal
-coherence AND purity simultaneously. But the primitivity condition requires
-that the map mixes the full state space - it cannot preserve the delicate
-balance between coherence and purity needed for CΨ > 1/4. Specifically:
-
-The off-diagonal elements of ρ* satisfy the fixed-point equation:
+**Counterexample (gate-verified from below, `simulations/_review2_A5_subsystem.py`).**
+The depolarize-toward-σ channel
 
 ```
-ρ*_{ij} = Σ_{kl} T_{ij,kl} ρ*_{kl}    (transfer matrix equation)
+ε(ρ) = (1 - p)·ρ + p·Tr(ρ)·σ,   σ = 0.95·|Φ⁺⟩⟨Φ⁺| + 0.05·I/4,   p ∈ (0, 1]
 ```
 
-For i ≠ j (off-diagonal), the eigenvalues of the transfer matrix T
-restricted to the off-diagonal subspace have modulus < 1 (primitivity).
-Therefore the off-diagonal elements are "slaved" to the diagonal through
-a contractive mapping, giving:
+is a textbook CPTP map and is **primitive** for every p ∈ (0, 1]: its unique
+fixed point is σ (superoperator eigenvalue 1 simple, second-largest modulus
+1 - p < 1), and σ is full-rank PSD (eigenvalues {0.9625, 0.0125, 0.0125,
+0.0125}). Yet in the proof's own metric CΨ = Tr(ρ²)·L₁(ρ)/(d-1) with d = 4,
 
 ```
-L₁(ρ*) ≤ f(diag(ρ*)) · (1 - gap)
+CΨ(σ) = Tr(σ²)·L₁(σ)/(d-1) = 0.926875 · 0.95 / 3 = 0.2935 > 1/4.
 ```
 
-where gap > 0 is the spectral gap of T on the off-diagonal subspace.
-The contraction ensures that L₁(ρ*) is strictly smaller than what
-would be needed for CΨ > 1/4.
+Iterating ε from Bell+ (CΨ = 1/3) converges monotonically to σ and **never
+crosses below 1/4** (min CΨ = 0.2935). So 1/4 is not an absorber for this
+primitive channel.
 
-**Status:** Proven for Cases A and B (analytical). Case C verified for
-300 random maps (0 exceptions). The analytical bound for general
-primitive maps remains a conjecture, but with overwhelming numerical support.
+**Why the numerical sweep missed it.** The old "300 maps, max 0.138" is a
+sampling artifact. Ginibre Kraus ensembles at n_kraus = 4 live in the
+strongly-mixing corner (fixed points near I/4, CΨ ≲ 0.14, 0% violating). The
+same sweep at n_kraus = 2 (Haar-Stinespring, environment dimension 2) already
+violates ~8.5% (max CΨ ≈ 0.55), and trace-and-replace channels toward a random
+target reach CΨ up to ~0.99. Random sampling never explored the region where
+the fixed point is entangled.
+
+**What is true (the surviving scope).** The crossing holds for *physical*
+noise (Cases A + B): unital channels have ρ* = I/d (CΨ = 0) and local channels
+have a product/pure ρ* (CΨ = 0). The distinguishing structural fact is that
+physical local noise relaxes toward a **separable / classical** fixed point,
+whereas the counterexample has an **entangled** fixed point. Primitivity alone
+does not bound CΨ(ρ*); a separable fixed point does. This is exactly the scope
+the IBM cusp hardware backs (`experiments/CRITICAL_SLOWING_AT_THE_CUSP.md`,
+all runs are physical dephasing + T1).
+
+**Status:** Cases A and B proven analytically (Tier 1). The general
+primitive-CPTP claim is FALSE (Case C counterexample). Surviving scope:
+physical noise channels (unital / local / Pauli / amplitude-damping).
 
 ### Step 3: Crossing (Continuity)
 
@@ -182,13 +199,20 @@ can have entangled fixed points:
 **Example:** The Lüders projection (the quantum analogue of Bayesian updating: it collapses the state into subspaces defined by the measurement) ε(ρ) = PρP + (I-P)ρ(I-P) where
 P = |Bell+⟩⟨Bell+|. This map has Bell+ as a fixed point with CΨ = 1/3 > 1/4.
 
-However, this is a trivial exception:
+This particular map is a trivial exception:
 - The map acts as identity on Bell+ (it doesn't actually "do" anything)
 - It is not a noise channel in any physical sense
 - It has multiple fixed points (non-primitive)
 
-**Physically:** any channel with genuine noise (non-zero dephasing, damping,
-or depolarizing on at least one qubit) is primitive and the theorem applies.
+But primitivity is NOT sufficient on its own (see Step 2, Case C): the
+primitive, full-rank channel ε(ρ) = (1-p)ρ + p·Tr(ρ)·σ with
+σ = 0.95·|Φ⁺⟩⟨Φ⁺| + 0.05·I/4 has an entangled fixed point with CΨ = 0.2935 > 1/4
+and never crosses. So the absorber requires more than primitivity.
+
+**Physically:** any channel with genuine *local* noise (non-zero dephasing,
+damping, or depolarizing on at least one qubit) relaxes toward a separable /
+classical fixed point with CΨ = 0, so the theorem applies. The crossing is a
+property of physical noise, not of primitivity alone.
 
 ---
 
@@ -226,30 +250,44 @@ CΨ trajectories under noise:
 | Property | Monotonicity | Crossing (this proof) |
 |----------|-------------|----------|
 | Claim | CΨ envelope decreases | CΨ eventually < 1/4 |
-| Scope | Continuous Lindblad | Any primitive CPTP |
+| Scope | Continuous Lindblad | Physical noise (unital / local) |
 | Method | dCΨ/dt < 0, spectral gap | Convergence + continuity |
 | Non-Markov | Transient revival possible | Still crosses (eventual) |
 | Strength | Stronger (monotone) | Weaker (eventual) but broader |
 
 Together with Uniqueness, the three give: **the boundary is structurally
 unique (Uniqueness), the motion toward it is monotone in envelope
-(Monotonicity), and arrival is guaranteed for any primitive noise (this
-proof). Non-Markovian dynamics can transiently push CΨ back above 1/4,
-but the eventual crossing still holds.**
+(Monotonicity), and arrival is guaranteed for physical noise (this proof;
+the general primitive-CPTP version is false). Non-Markovian dynamics can
+transiently push CΨ back above 1/4, but the eventual crossing still holds
+for physical noise.**
 
 ---
 
 ## Numerical Evidence Summary
+
+Physical noise (the surviving scope) crosses with zero exceptions:
 
 | Test | N_tests | Crossed? | Max CΨ(ρ*) |
 |------|---------|----------|-------------|
 | N=3,4,5 Lindblad pairs | 10 pairs | ALL | 0 |
 | Random CPTP on Bell+ | 200 maps | 200/200 | 0 |
 | Adversarial (p=0.001) | 1 | YES (n=1000) | 0.023 |
-| Random fixed points | 100 maps | - | 0.138 |
 | Standard channels | 7 types | ALL | 0 |
 
-**Total: 300+ maps, 0 exceptions.**
+The "random fixed points" sweep is an **ensemble artifact**, not evidence for
+the general claim (verifier: `simulations/_review2_A5_subsystem.py`):
+
+| Ensemble | N_tests | Max CΨ(ρ*) | Violations (> 1/4) |
+|----------|---------|-----------|--------------------|
+| Ginibre n_kraus=4 (the old sweep) | 400 | 0.14-0.20 | 0% |
+| Haar-Stinespring n_kraus=2 | 400 | ~0.55 | ~8.5% |
+| trace-and-replace toward random target | 400 | up to ~0.99 | 53-100% |
+| **counterexample σ = 0.95·Φ⁺ + 0.05·I/4** | 1 | **0.2935** | **never crosses** |
+
+The old "300 maps, 0 exceptions" lived entirely in the strongly-mixing
+n_kraus=4 corner; it is consistent with the truth (physical noise crosses) but
+says nothing about the general primitive-CPTP claim, which is false.
 
 ---
 

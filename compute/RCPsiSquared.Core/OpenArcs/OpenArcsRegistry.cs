@@ -1158,10 +1158,13 @@ public static class OpenArcsRegistry
                 "0.2935 > 1/4 in the proof's OWN CPsi = Tr(rho^2)*L1/(d-1) metric; iterating from Bell+ (CPsi=1/3) " +
                 "converges monotonically to 0.2935 and NEVER crosses 1/4. So the headline 'eventual crossing' is " +
                 "false for this primitive channel. The repo's '300 maps, 0 exceptions, max 0.138' is a SAMPLING " +
-                "ARTIFACT (Ginibre n_kraus=4 lives entirely in the strongly-mixing corner near I/4; Haar " +
-                "Stinespring env-dim-2 and near-identity ensembles give CPsi(rho*) up to 0.59-0.82, ~7-9% violating).",
-            ParkedAt: "DOCUMENTED, NOT YET CORRECTED, per Tom's 2026-06-22 decision (document the finding + a " +
-                "counterexample, leave the 1/4-trilogy proof FILES untouched until he reviews them himself). The " +
+                "ARTIFACT (Ginibre n_kraus=4 lives entirely in the strongly-mixing corner near I/4, 0% violating; " +
+                "the same sweep at n_kraus=2 / Haar-Stinespring env-dim-2 violates ~8.5% with max CPsi ~0.55, and " +
+                "trace-and-replace channels toward a random target reach CPsi up to ~0.99; independently reproduced " +
+                "in simulations/_review2_A5_subsystem.py).",
+            ParkedAt: "RESOLVED 2026-06-22 (Tom-led deep review chose scope-retraction over full retraction; see " +
+                "NextStep for the applied corrections). The original parked state was DOCUMENTED-NOT-CORRECTED " +
+                "pending his review of the 1/4-trilogy. The " +
                 "physically-motivated content STANDS: for genuine local noise (unital / local / Pauli / amplitude- " +
                 "damping = Cases A and B) the fixed points really are I/4 or product/pure states with CPsi=0, so the " +
                 "crossing holds there. The over-reach is the leap from 'physical local noise channels' to 'ALL " +
@@ -1173,23 +1176,22 @@ public static class OpenArcsRegistry
                 "documented in CAUGHT_ERRORS the same day (Step 5 'recursion inherits degree 2 from purity => QED' " +
                 "is a non-sequitur; the genuine forcing is the Renyi state-independence argument, threshold ~ " +
                 "Psi^(a-2) => a=2 => 1/4, which lives in the roadmap, gate-verified symbolically).",
-            NextStep: "Tom reviews the 1/4-trilogy, then decide the correction (the AskUserQuestion options were: " +
-                "scope-retraction [recommended] vs full retraction to recovered/ vs the document-only step taken " +
-                "here). The likely scope-retraction: (a) restrict the SUBSYSTEM_CROSSING theorem statement to the " +
-                "physical noise classes (unital/local/Pauli/AD = Cases A+B, provable) and state explicitly that the " +
-                "general primitive-CPTP version is FALSE, with the depolarize-toward-sigma counterexample; (b) " +
-                "reconcile PROOF_ROADMAP_QUARTER_BOUNDARY Conjecture 2.1 'PROVEN' down to 'true for physical noise " +
-                "classes; false for general primitive CPTP'; (c) re-scope ANALYTICAL_FORMULAS F28 and check whether " +
-                "F28 is typed (a Claim/witness) and needs the same scope; (d) decide whether the headline '1/4 " +
-                "eventual absorber' survives, restricted to the physical-noise scope. Also fix UNIQUENESS_PROOF " +
-                "Step 5 (re-scope to point at the Renyi state-independence forcing instead of the 'inherits degree " +
-                "2' non-sequitur; the 1/4 RESULT is correct, only the step's rigor is overstated). Anchors: " +
-                "docs/proofs/PROOF_SUBSYSTEM_CROSSING.md (Step 2, lines 72-146; theorem 6/39-46); " +
-                "docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md (Conjecture 2.1); docs/ANALYTICAL_FORMULAS.md F28; " +
-                "docs/proofs/UNIQUENESS_PROOF.md (Step 5); counterexample + Renyi gates " +
-                "simulations/_deepproof_subsystem_gate_mine.py + _deepproof_uniqueness_gate_mine.py; the worked " +
-                "cases in docs/CAUGHT_ERRORS.md (2026-06-22).",
-            Status: OpenArcStatus.Open),
+            NextStep: "RESOLVED 2026-06-22 (second deep review, Tom-led; counterexample + Renyi forcing " +
+                "independently re-verified from below in simulations/_review2_A5_subsystem.py and " +
+                "simulations/_review2_A3_renyi.py). Scope-retraction applied: (a) PROOF_SUBSYSTEM_CROSSING.md " +
+                "theorem + Status + Step-2 header + Case C restated to the physical-noise scope (Cases A+B), with the " +
+                "depolarize-toward-sigma counterexample and the separable-vs-entangled-fixed-point mechanism (the " +
+                "distinguishing structural fact: physical noise relaxes to a separable/classical fixed point); (b) " +
+                "ANALYTICAL_FORMULAS.md F28 re-scoped (relabel 'Tier 1 for physical noise; general-CPTP version " +
+                "FALSE'); (c) PROOF_ROADMAP_QUARTER_BOUNDARY.md Layer 2 reconciled from 'PROVEN' to 'physical noise " +
+                "only; general CPTP false' at all five sites (35/158/234/537/551). Companion fixes in the same " +
+                "review: UNIQUENESS_PROOF Step 5 (A3: degree-2 demoted to motivation, Renyi alpha=2 state- " +
+                "independence cited as the load-bearing forcing) and INCOMPLETENESS Candidate 1 (A9: [Pi^2,L]=0 " +
+                "reframed as a structural constraint, not an origin claim - it is origin- AND axis-agnostic). No " +
+                "typed Claim/witness for the dynamical absorber existed (confirmed: 'knowledge ancestors " +
+                "SubsystemCrossing' -> not registered), so no Claim retraction was needed; the algebraic 1/4 " +
+                "(QuarterAsBilinearMaxvalClaim, block-CPsi <= 1/4) was untouched.",
+            Status: OpenArcStatus.Retired),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;
