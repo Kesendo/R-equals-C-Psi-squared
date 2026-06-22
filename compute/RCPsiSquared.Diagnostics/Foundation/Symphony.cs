@@ -54,8 +54,9 @@ public sealed class Symphony : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
 
-    /// <summary>The largest N the dense d²×d² Liouvillian eigendecomposition will run (d²=1024 at N=5).</summary>
-    public const int MaxN = 5;
+    /// <summary>The largest N the dense d²×d² Liouvillian eigendecomposition will run (d²=4096 at N=6,
+    /// for the benzene C6 ring; the dense eig is heavier there but runs. N=5 is d²=1024).</summary>
+    public const int MaxN = 6;
 
     public int N { get; }
     public double J { get; }

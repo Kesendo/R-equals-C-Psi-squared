@@ -321,7 +321,7 @@ public static class InspectCommand
         var sym = new Symphony(N, j, gamma, htype, topo, initial, tMax, tPoints, defectBond, deltaJ,
             carrierPair: null, tempoRatio: tempoRatio, calibrate: calibrate, labUnit: labUnit);
         if (p.HasFlag("export"))
-            ExportSymphonyCsv(sym);
+            ExportSymphonyCsv(sym, p.OptionalString("export-name"));
         return sym;
     }
 
@@ -330,9 +330,10 @@ public static class InspectCommand
     /// local CΨ, light over the shared timeline). Lets simulations/reel_and_projector.py draw the
     /// "with t-axis" film and the "without t-axis" time-erased spectrum from the LIVE LAB, not the
     /// deprecated Python framework. I/O lives here in the Cli layer; the Symphony witness stays pure.</summary>
-    private static void ExportSymphonyCsv(Symphony s)
+    private static void ExportSymphonyCsv(Symphony s, string? exportName = null)
     {
-        string dir = Path.Combine(RepoRootLocator.Require(), "simulations", "results", "symphony_reel");
+        string baseDir = Path.Combine(RepoRootLocator.Require(), "simulations", "results", "symphony_reel");
+        string dir = exportName is { Length: > 0 } ? Path.Combine(baseDir, exportName) : baseDir;
         Directory.CreateDirectory(dir);
         var inv = CultureInfo.InvariantCulture;
         double sigma = s.N * s.Gamma;
