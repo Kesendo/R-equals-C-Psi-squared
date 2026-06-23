@@ -4,7 +4,7 @@ Reuses extract_path_polynomial from f89_pathk_symbolic_derivation.py. Runs for
 k = 25, 26, ... until either sympy timing or a manual cutoff. Emits coefficient
 arrays in the C# tabulation format ready to paste into F89UnifiedFaClosedFormClaim.
 
-Run: python simulations/_f89_pathk_extend_k25_plus.py
+Run: python simulations/f89_pathk_extend_k25_plus.py
 """
 import sys
 import time

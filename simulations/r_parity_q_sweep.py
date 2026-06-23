@@ -10,7 +10,7 @@ The R-even block contains F86's channel-uniform L_eff so its EP should
 correspond to the standard F86 prediction. The R-odd block is independent;
 if its slowest pair coalesces at a different Q, that is a new diagnostic.
 
-Run: python simulations/_r_parity_q_sweep.py [N]
+Run: python simulations/r_parity_q_sweep.py [N]
   N = chain length (default 4; practical 4, 5)
 """
 import sys

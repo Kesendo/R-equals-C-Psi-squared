@@ -11,7 +11,7 @@ matches the V⁺⁺ ≅ V⁻⁻ structure on c=2; Step 6's open formal step redu
 to extending the cluster-equivalence argument from W_c (D-matrix clusters)
 to V_inter (HD-block cross-section).
 
-Run: python simulations/_step6_c2_v_inter.py
+Run: python simulations/step6_c2_v_inter.py
 """
 import sys
 

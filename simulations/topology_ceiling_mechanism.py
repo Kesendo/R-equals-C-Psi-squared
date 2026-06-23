@@ -16,7 +16,7 @@ family of structural ceilings, onset at K_4 (K_3 = triangle = ring(3), protects)
   (anchors, validate the harness) star N=6 -> 0.80; ring N=4 -> band edge not the gap mode (a 2sqrt(2) mode
   co-occupies the floor); chain protects all N; K_3 = ring 3 protects.
 
-Full L, capped at N<=6 (4^6 dense). Run: python simulations/_topology_ceiling_mechanism.py
+Full L, capped at N<=6 (4^6 dense). Run: python simulations/topology_ceiling_mechanism.py
 """
 import sys
 from math import cos, pi, sqrt

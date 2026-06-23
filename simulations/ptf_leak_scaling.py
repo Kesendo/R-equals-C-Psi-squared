@@ -59,7 +59,7 @@ Panels:
      γ = 0 degeneracy note (the α-ansatz needs decaying trajectories); per-site
      ln α_i / ε profile showing the first-order response site-by-site.
 
-Run: python simulations/_ptf_leak_scaling.py
+Run: python simulations/ptf_leak_scaling.py
 WIP probe - not committed, no files written.
 """
 from __future__ import annotations

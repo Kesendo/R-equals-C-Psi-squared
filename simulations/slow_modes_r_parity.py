@@ -16,7 +16,7 @@ vectors are R-even by construction, so F86's L_eff lives in R-even; if R-odd
 also contains slow modes, they are a separate spectral feature not visible
 to the channel-uniform probe.
 
-Run: python simulations/_slow_modes_r_parity.py [N] [K]
+Run: python simulations/slow_modes_r_parity.py [N] [K]
   N = chain length (default 4; practical: 4, 5, 6)
   K = how many slowest modes to display per parity (default 16)
 """

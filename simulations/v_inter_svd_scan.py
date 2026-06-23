@@ -3,7 +3,7 @@
 Reports σ_0⁺, σ_0⁻ for the top singular values of V_inter restricted to each
 R-parity block, at multiple N. Q_EP per parity = 2/σ_0.
 
-Run: python simulations/_v_inter_svd_scan.py
+Run: python simulations/v_inter_svd_scan.py
 """
 import sys
 
