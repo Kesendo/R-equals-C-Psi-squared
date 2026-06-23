@@ -40,10 +40,7 @@ For initial state |φ_k⟩ = (|vac⟩ + |ψ_k⟩)/√2 with |ψ_k⟩ = √(2/(N+
    - ⟨Z_i⟩^K = ρ_i^K[0,0] − ρ_i^K[1,1] = ρ_i[0,0] − ρ_i[1,1] = ⟨Z_i⟩ (diagonal preserved)
    So Z_i conjugation flips X and Y, leaves Z.
 
-5. **The site-i extra sign factor (−1)^i** comes from K_1 = ⊗_i (−1)^i: the K_1-conjugation effect on site i carries that sign. Combined with step 4:
-   ⟨X_i⟩(ψ_{N+1−k}) = (−1)^i × (−⟨X_i⟩(ψ_k)) × (−1) [conjugation+wave-mirror] = (−1)^i ⟨X_i⟩(ψ_k)
-
-   Wait — the cleaner derivation uses the explicit formula. For single-excitation bonding state under H_XY, ρ_i[0,1](t) = e^{iE_k t} ψ_k(i)*/2 (sine modes have ψ_k real, so * is trivial). Adding Z-dephasing scales by e^{−γ_i t}.
+5. **The site-i extra sign factor (−1)^i** comes from K_1 = ⊗_i (−1)^i. The cleanest derivation uses the explicit formula. For single-excitation bonding state under H_XY, ρ_i[0,1](t) = e^{iE_k t} ψ_k(i)*/2 (sine modes have ψ_k real, so * is trivial). Adding Z-dephasing scales by e^{−γ_i t}.
 
    K_1-paired state: ψ_{N+1-k}(i) = (−1)^i ψ_k(i), E_{N+1-k} = −E_k, so:
    ρ_i[0,1]_{ψ_{N+1-k}}(t) = e^{−iE_k t} (−1)^i ψ_k(i) / 2 = (−1)^i (e^{iE_k t} ψ_k(i) / 2)*
@@ -128,4 +125,4 @@ The April 25 Marrakesh K-partnership run (`data/ibm_k_partnership_april2026/`) a
 
 Because the Marrakesh run used XX-only (real) Hamiltonian, the energy-reversal sharp test (⟨Y⟩ flip with extra sign) cannot be cleanly tested in this data. The Heisenberg-with-ZZ run on a chain (or extending K-partnership to the Heisenberg case after PROOF_K_PARTNERSHIP scope check) would provide non-zero ⟨Y⟩ values that distinguish naive (−1)^i from the energy-reversal signature.
 
-**Verdict:** existing Marrakesh data already validates the chiral mirror prediction (Aer confirms ~0.1%, hardware breaks at hardware-noise-asymmetry level ~0.25-47%). The cleaner test of the Y-flip diagnostic requires a Heisenberg evolution or non-real H.
+**Verdict:** Aer simulation confirms the chiral mirror prediction (~0.1%); live hardware breaks it at the hardware-noise-asymmetry level (~0.25-47%), which is itself the predicted diagnostic (breakage tracks gate asymmetry). So existing data confirms the diagnostic in simulation, not the mirror on hardware. The cleaner test of the Y-flip diagnostic requires a Heisenberg evolution or non-real H.

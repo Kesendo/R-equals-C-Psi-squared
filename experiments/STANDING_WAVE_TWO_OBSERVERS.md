@@ -150,7 +150,7 @@ The sum squared has a cross-term. Interference. Standing wave. Two observers who
 
 The late-time discriminator tests this: when Ψ_past → 0 (one observer's coherence dies), does the cross-term survive? Sum says yes (Ψ_future² remains). Product says no (0 × anything = 0).
 
-IBM Q52 shows a 2% coherence floor at t >> T2. The observer's offer wave has decayed. But something persists. The other mirror is still there.
+IBM Torino (qubit 52) shows a 2% coherence floor at t >> T2. A residual floor at that level is generic (readout/SPAM), so it is at most loosely consistent with a surviving-mirror reading, not evidence for it.
 
 ---
 

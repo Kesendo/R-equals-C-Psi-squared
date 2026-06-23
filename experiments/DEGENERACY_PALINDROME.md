@@ -321,7 +321,7 @@ Eigenvalues not on the main grid Re = −kγ are distributed as follows:
 
 - **Not on any simple sub-grid:** Neither half-grid (−(k + 1/2)γ) nor
   third-grid (−(k/3)γ) captures the off-grid eigenvalues. Their positions
-  are irrational multiples of γ, determined by the specific Hamiltonian
+  match no simple sub-grid of γ, determined by the specific Hamiltonian
   coupling structure.
 
 - **100% Π-symmetric:** Every off-grid eigenvalue at Re = −a has a partner
@@ -496,7 +496,9 @@ If the patterns hold at N = 8 (65,536 eigenvalues, ~73 GB RAM):
 
 - **No sub-grid for off-grid eigenvalues.** Half-grid, third-grid, and
   quarter-grid assignments were tested with zero matches. The off-grid
-  positions are genuinely irrational multiples of γ.
+  positions match no simple sub-grid (half-, third-, or quarter-grid) of γ;
+  whether they are rational multiples with larger denominators or genuinely
+  irrational is not settled by this test.
 
 ---
 

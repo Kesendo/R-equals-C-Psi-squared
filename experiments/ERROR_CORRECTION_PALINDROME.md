@@ -87,11 +87,13 @@ distinct pairs in the spectrum.
 
 ---
 
-## 2. An Optimal State Exists
+## 2. A High-Survival State from Constrained Search
 
-A constrained optimization (maximize slow-mode weight, require
-concurrence > 0 and oscillating content > 0) found a state that
-dramatically outperforms all known states for dephasing survival.
+A constrained optimization (objective: maximize slow-mode weight;
+constraints: concurrence > 0 and oscillating content > 0; optimizer and
+convergence not recorded in this run) returned a state that outperforms
+the known states tested here for dephasing survival. "Optimal" below means
+the best state this search returned, not a proven global optimum.
 Concurrence is a standard measure of entanglement: 0 means no
 entanglement, 1 means maximum entanglement. The optimizer looked for
 states that survive longest while still being genuinely quantum
