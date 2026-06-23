@@ -19,11 +19,15 @@ NV center photonic qubit comparison, R=CPsi2 universal lifetime -->
 ## What this document is about
 
 How long does a qubit stay "quantum" before noise makes it classical?
-This document derives an exact answer: 85.8% of the coherence lifetime
-T₂, regardless of hardware platform. The result comes from a cubic
-equation x³ + x = ½ that has a single real solution. It holds for
-superconducting qubits, trapped ions, diamond defects, and photonic
-qubits spanning 10 orders of magnitude in T₂. The 85.8% is the
+This document derives an exact answer for the pure-dephasing limit
+(T₁ ≫ T₂): 85.8% of the coherence lifetime T₂, independent of the
+absolute T₂ scale. The result comes from a cubic equation x³ + x = ½
+that has a single real solution. It holds across 10 orders of magnitude
+in T₂ for platforms in that regime (trapped ions, NV centers, photonic
+qubits, all T₁/T₂ > 3); superconducting qubits with T₁ ≈ T₂ deviate
+predictably (the table below ranges up to 1.35·T₂), described by the
+generalized equation. So the universality is in the T₂ *scale*, set by
+the ratio r = T₂/T₁, not across every platform's ratio. The 85.8% is the
 quantum operational window: the fraction of a qubit's life during
 which it is above the CΨ = ¼ boundary and still usefully quantum.
 For entangled Bell pairs, the window shrinks to just 8%, quantifying
@@ -35,9 +39,9 @@ the steep cost of entanglement in operational terms.
 
 For a single qubit starting in maximum superposition under pure dephasing,
 the CΨ = ¼ crossing time satisfies x³ + x = ½ where x = e^(−t/T₂),
-yielding a universal fraction t*/T₂ ≈ 0.858. This result is
-platform-independent, verified across superconducting qubits, trapped ions,
-NV centers (nitrogen-vacancy defects in diamond, used as solid-state qubits), and photonic systems spanning 10 orders of magnitude in T₂.
+yielding a universal fraction t*/T₂ ≈ 0.858 in the pure-dephasing limit.
+This value is scale-independent (it depends only on the ratio r = T₂/T₁,
+not the absolute T₂), verified across trapped ions, NV centers (nitrogen-vacancy defects in diamond, used as solid-state qubits), and photonic systems spanning 10 orders of magnitude in T₂.
 Systems with T₁/T₂ > 3 converge to the analytical value; systems with
 T₁ ≈ T₂ show extended quantum windows described by a generalized equation
 [1 − b^r + b^(2r)/2 + b²/2]·b = ¼ with a polynomial approximation
@@ -55,11 +59,14 @@ cross the critical threshold?
 
 ## Summary
 Analysis of published experimental decoherence data (T1, T2) across all major quantum
-hardware platforms reveals that the C·Ψ = ¼ boundary defines a **universal fraction
-of the coherence lifetime**: t*/T₂ ≈ 0.858, derived from the cubic equation x³ + x = ½.
+hardware platforms reveals that, in the pure-dephasing limit (T₁ ≫ T₂), the C·Ψ = ¼
+boundary defines a **universal fraction of the coherence lifetime**: t*/T₂ ≈ 0.858,
+derived from the cubic equation x³ + x = ½.
 
-This result is **platform-independent**, verified across superconducting qubits, trapped
-ions, NV centers, and photonic qubits spanning 10 orders of magnitude in T₂.
+This fraction is **scale-independent** (a function of the ratio r = T₂/T₁, not the
+absolute T₂): systems with T₁/T₂ > 3 converge to it across 10 orders of magnitude in T₂
+(trapped ions, NV centers, photonic), while superconducting qubits with T₁ ≈ T₂ deviate
+up to ~1.35 (table below), described by the generalized equation.
 
 ## The Cubic Equation
 
@@ -156,7 +163,7 @@ Entangled coherence decays with 1/T₂_eff = 1/T₂_A + 1/T₂_B.
 ## Physical Interpretation
 
 ### The 85.8% Rule
-A qubit in maximum superposition spends 85.8% of its coherence lifetime above C·Ψ = ¼.
+A qubit in maximum superposition under pure dephasing (T₁ ≫ T₂) spends 85.8% of its coherence lifetime above C·Ψ = ¼.
 This is the **quantum operational window**: the time during which the system has
 sufficient coherence density to be in the "quantum regime" as defined by the framework.
 

@@ -18,10 +18,15 @@ unpaired modes identified as sensory boundary, pharyngeal sub-cavity, asymmetric
 
 ## What this means
 
-The brain runs at 40 Hz. Not because 40 Hz is special. Because 40 Hz is
-the eigenfrequency of the cortical cavity: the standing wave that the
-geometry of excitatory-inhibitory circuits supports, given the synaptic
-coupling strengths and time constants that evolution selected.
+The hypothesis: a brain rhythm is a cavity eigenfrequency, a standing wave
+that the geometry of excitatory-inhibitory circuits supports, given the
+synaptic coupling strengths and time constants evolution selected, the same
+way the qubit chain's modes are set by its bonds. The structural side of
+this holds (the connectome is a palindromic cavity, below). The
+quantitative side does not, yet: the standard Wilson-Cowan parameters
+resonate at ~12 Hz (alpha band), not 40 Hz (gamma); reaching gamma needs
+biologically-plausible but non-default tuning (Result 1, Null results). So
+read the 40 Hz here as the open target, not a confirmed number.
 
 The C. elegans connectome (302 neurons, 7000 synapses) has eigenvalues
 that are 97.3% palindromically paired. Two hundred ninety-two of three
@@ -273,9 +278,11 @@ The naming coincidence is structural, not accidental. Gamma in physics
 and gamma in neuroscience describe the same thing: the frequency at
 which a cavity resonates when illuminated from outside. The E-I balance
 is the biological SWAP operator. Dale's law is the biological Π.
-Evolution built cavities with 97% palindromic mode structure, and the
-40 Hz oscillation is the fundamental mode of the cortical cavity, set
-by synaptic geometry, not by input strength.
+Evolution built cavities with 97% palindromic mode structure. Whether a
+specific cortical rhythm (40 Hz gamma) is the fundamental cavity mode, set
+by synaptic geometry rather than input strength, is the open quantitative
+claim: the standard Wilson-Cowan parameters give ~12 Hz, and reaching gamma
+needs the parameter tuning the Null results document.
 
 The identification of the 18 unpaired modes strengthens the analogy
 beyond statistics (97.3%) into mechanism: the cavity leaks at the

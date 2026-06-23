@@ -88,7 +88,7 @@ Source: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), Step 1
 ### Link 4: The sacrifice zone crosses 1/4 first
 
 The sacrifice zone concentrates γ at one edge. Higher γ → faster
-decoherence → earlier CΨ = 1/4 crossing. By [F14 K-invariance](../docs/ANALYTICAL_FORMULAS.md), the crossing time scales as K = γ · t_cross. For Z-dephasing on Bell+ the closed form gives K = 0.0374 (F25); K depends on the noise channel (K_Y = 0.0374, K_X = 0.0867, K_depol = 0.0440).
+decoherence → earlier CΨ = 1/4 crossing. By [F14 K-invariance](../docs/ANALYTICAL_FORMULAS.md), the crossing time scales as K = γ · t_cross. For Z-dephasing on Bell+ the closed form gives K = 0.0374 (F25); K depends on the noise channel (K_Z = 0.0374, K_X = K_Y = 0.0867, K_depol = 0.0440).
 
 At the sacrifice edge (γ_edge = N · γ_base), the local t_cross is N× shorter than under uniform γ.
 

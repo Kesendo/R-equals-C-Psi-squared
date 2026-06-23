@@ -1,7 +1,7 @@
 # Cross-Term Topology Dependence
 
 <!-- Keywords: cross-term topology dependence, anti-commutator L_H L_Dc,
-relative orthogonality 1/sqrt(N*2^(N+1)), topology universality,
+relative orthogonality sqrt((N-2)/(N*4^(N-1))), topology universality,
 Pythagorean breaking, Heisenberg chain ring star complete graph -->
 
 **Status:** Tier 2 (computed)
@@ -131,7 +131,7 @@ cross-term as the chain (1/sqrt(48)).
 
 The cross-term relative orthogonality is a **graph-invariant** for
 Heisenberg XXX coupling with uniform Z-dephasing. It depends on:
-- N (number of qubits): via the formula 1/sqrt(N * 2^(N+1))
+- N (number of qubits): via the formula sqrt((N-2)/(N * 4^(N-1)))
 - The coupling type: Heisenberg XXX (other couplings not tested here)
 - The noise type: Z-dephasing (other noise types explored in
   [pythagorean_breaking.py](../simulations/pythagorean_breaking.py))
@@ -179,7 +179,7 @@ generates transitions with the same w_XY statistics relative to L_Dc.
 | Cross-term is gamma-independent | **Confirmed** (all topologies, all N) |
 | N=3 value = 1/sqrt(48) | **Confirmed** (all topologies) |
 | N=4 value = 1/sqrt(128) | **Confirmed** (all topologies) |
-| N-scaling: 1/sqrt(N * 2^(N+1)) | **Conjecture** (verified N=3, N=4) |
+| N-scaling: sqrt((N-2)/(N * 4^(N-1))) | **Proven** (all topologies, N=2-6) |
 
 ---
 
@@ -195,9 +195,12 @@ generates transitions with the same w_XY statistics relative to L_Dc.
    Heisenberg topologies. The original question ("is 1/sqrt(48)
    chain-specific?") has a definitive negative answer.
 
-3. **A candidate formula exists.** The conjecture 1/sqrt(N * 2^(N+1))
-   matches all measured data. It predicts N=5: 1/sqrt(320) = 0.05590...
-   and N=6: 1/sqrt(768) = 0.03608..., both testable.
+3. **The N-scaling formula is proven.** rel_ortho = sqrt((N-2)/(N * 4^(N-1)))
+   (proof in [CROSS_TERM_FORMULA](CROSS_TERM_FORMULA.md)). It gives N=5:
+   sqrt(3/1280) = 0.04841... and N=6: sqrt(1/1536) = 0.02552..., both
+   confirmed. (The earlier conjecture 1/sqrt(N * 2^(N+1)) coincides at
+   N=3,4 but was refuted at N=5, where it predicts 0.05590; it is also
+   wrong at N=2, predicting 0.25 where the true value is exactly 0.)
 
 ---
 
