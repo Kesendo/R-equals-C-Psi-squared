@@ -117,7 +117,7 @@ public sealed class CoherenceHorizonClaim : Claim
                          "co-located SURVIVOR, the γ-protected |vac⟩⟨ψ_k| coherence hand (Uhr 1, r ≈ 1), sharing the gap " +
                          "Re = −2γ only because the Absorption Theorem pins both (both ⟨n_diff⟩=1). So Q*(N) is at once a " +
                          "{0,2}-coherence EP (the erasure point, climbs the ladder) and a band-edge crossing (Uhr 1 survives). " +
-                         "Probe: simulations/coherence_horizon_se_block.py + simulations/_review_coherence_horizon_ep.py. " +
+                         "Probe: simulations/coherence_horizon_se_block.py + simulations/review_coherence_horizon_ep.py. " +
                          "Live artifact-free witness (the non-eig sibling of PhaseRigidity, gate-first): " +
                          "inspect --root epcharacter (EpCharacterWitness), which recomputes the Riesz ‖P‖ / " +
                          "departure-from-normality / geo-vs-alg verdict at inspect time and reads DEFECTIVE at every N=2..5.");

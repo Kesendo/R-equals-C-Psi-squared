@@ -24,7 +24,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 if len(sys.argv) < 2:
-    print("Usage: python _plot_cusp_mandelbrot_hardware.py <cusp_precision_*.json>")
+    print("Usage: python plot_cusp_mandelbrot_hardware.py <cusp_precision_*.json>")
     sys.exit(1)
 
 json_path = Path(sys.argv[1])

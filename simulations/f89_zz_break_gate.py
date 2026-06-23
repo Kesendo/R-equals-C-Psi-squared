@@ -5,7 +5,7 @@ THE QUESTION
   At Delta=0 (pure XY) the (SE,DE) coherence block has a DIABOLIC degeneracy at
   q_EP = sqrt((-1+sqrt13)/6) ~ 0.658983, lam_EP = -4g + 2iJ (g=1, J=q_EP):
   g1=g2=2, dep=0, the 2x2 restriction L|2D = lam*I (scalar, no Jordan coupling).
-  The from-below mechanism (established in _f89_why_diabolic_probe.py): BOTH
+  The from-below mechanism (established in f89_why_diabolic_probe.py): BOTH
   constituents of L restrict to scalars on the 2D coalescing space --
   H_eff|2D = 2iJ*I (the pair is born in a 4-fold FREE-FERMION multiplet) AND
   dephasing|2D = -4g*I (q_EP sits at the overlap-1/2 / rate-midpoint).
@@ -122,7 +122,7 @@ def build_L_block(J, gamma, Delta):
 
 def build_L_reference(J, gamma):
     """Committed Delta=0 reference build (pure hops), copied verbatim from
-    _f89_jordan_definitive.py -- the construction must reduce to this at Delta=0."""
+    f89_jordan_definitive.py -- the construction must reduce to this at Delta=0."""
     M_SE = np.zeros((4, 4))
     for a in range(4):
         for b in range(4):
@@ -198,7 +198,7 @@ def build_L_sym(J, gamma, Delta):
 
 # --------------------------------------------------------------------------
 # Artifact-free EP-character machinery (Riesz / departure-from-normality /
-# geo-vs-alg / eigenvector-merge) -- reused from _review_coherence_horizon_ep.py.
+# geo-vs-alg / eigenvector-merge) -- reused from review_coherence_horizon_ep.py.
 # NONE of these reads a raw eig eigenvector pairing (no eig-Petermann).
 # --------------------------------------------------------------------------
 def riesz_projector(L, lam0, r, nq=600):

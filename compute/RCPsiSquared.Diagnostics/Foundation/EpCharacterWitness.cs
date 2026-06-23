@@ -40,7 +40,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// multiplicity 2, the two compression eigenvectors merging (|cos| → 1). This is the artifact-free
 /// confirmation of the √-EP, in the typed layer.</para>
 ///
-/// <para>Port of <c>simulations/_review_coherence_horizon_ep.py</c> (the algorithm) +
+/// <para>Port of <c>simulations/review_coherence_horizon_ep.py</c> (the algorithm) +
 /// <c>simulations/review_f86a_diabolic_vs_defective.py</c> (the Riesz machinery). Typed neighbour:
 /// <c>CoherenceHorizonClaim</c> (its EP-ness is now artifact-free-witnessed). Live:
 /// <c>inspect --root epcharacter</c>.</para></summary>

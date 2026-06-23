@@ -40,7 +40,7 @@ namespace RCPsiSquared.Core.Numerics;
 /// otherwise <see cref="EpKind.Normal"/>.</para>
 ///
 /// <para>Port of the artifact-free machinery in <c>simulations/review_f86a_diabolic_vs_defective.py</c>
-/// and <c>simulations/_review_coherence_horizon_ep.py</c>; the live lab is
+/// and <c>simulations/review_coherence_horizon_ep.py</c>; the live lab is
 /// <c>EpCharacterWitness</c> (<c>inspect --root epcharacter</c>).</para></summary>
 public static class EpCharacter
 {

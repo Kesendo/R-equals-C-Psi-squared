@@ -8,7 +8,7 @@ namespace RCPsiSquared.Core.Tests.Numerics;
 
 /// <summary>Gate-first validation of the artifact-free EP-character diagnostic on KNOWN answers:
 /// a defective toy Jordan 2×2 MUST read DEFECTIVE; a diabolic repeated eigenvalue MUST read
-/// DIABOLIC. Mirrors GATE 0 of <c>simulations/_review_coherence_horizon_ep.py</c> and the toy gate
+/// DIABOLIC. Mirrors GATE 0 of <c>simulations/review_coherence_horizon_ep.py</c> and the toy gate
 /// of <c>simulations/review_f86a_diabolic_vs_defective.py</c>. None of the three measures reads an
 /// <c>eig</c> eigenvector pairing, so a verdict here cannot be the F86a-misfire family.</summary>
 public class EpCharacterTests

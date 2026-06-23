@@ -13,7 +13,7 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// reads the KNOWN toys correctly (a defective Jordan → DEFECTIVE, a diabolic diag → DIABOLIC); the
 /// horizon tests assert the single-excitation {0,2} freezing pair reads DEFECTIVE at every N=2..5 with
 /// departure-from-normality ≈ 4 and geometric mult 1 &lt; algebraic mult 2 — reproducing
-/// <c>simulations/_review_coherence_horizon_ep.py</c> in C#, without an eig eigenvector pairing.</summary>
+/// <c>simulations/review_coherence_horizon_ep.py</c> in C#, without an eig eigenvector pairing.</summary>
 public class EpCharacterWitnessTests
 {
     private static System.Collections.Generic.List<IInspectable> Children(EpCharacterWitness w) =>
@@ -116,7 +116,7 @@ public class EpCharacterWitnessTests
     public void HorizonVerdict_DepartureMatchesThePythonReference(int n, double expectedDep)
     {
         // The departure-from-normality at the 1.002·Q* probe, bit-for-bit against
-        // simulations/_review_coherence_horizon_ep.py (4.0000 / 4.0000 / 3.8941 / 3.7589).
+        // simulations/review_coherence_horizon_ep.py (4.0000 / 4.0000 / 3.8941 / 3.7589).
         var w = new EpCharacterWitness();
         var reading = w.CharacterizeAtQ(n, w.Qstar(n) * EpCharacterWitness.ProbeDetuning)!.Value;
         Assert.Equal(expectedDep, reading.Departure, 2);

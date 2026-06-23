@@ -13,7 +13,7 @@
 [critical_slowing_mandelbrot_overlay.py](../simulations/critical_slowing_mandelbrot_overlay.py)
 
 *Hardware (April 16 + April 26):*
-`ibm_quantum_tomography/run_cusp_slowing.py` (April 16, two-pair γ-invariance test) and `ibm_quantum_tomography/run_cusp_precision.py` (April 26, single-pair dense sampling), both external to this repo, in the IBM tomography directory. Plot scripts that read those runs and live here: [_plot_cusp_precision.py](../simulations/_plot_cusp_precision.py), [_plot_cusp_mandelbrot_hardware.py](../simulations/_plot_cusp_mandelbrot_hardware.py).
+`ibm_quantum_tomography/run_cusp_slowing.py` (April 16, two-pair γ-invariance test) and `ibm_quantum_tomography/run_cusp_precision.py` (April 26, single-pair dense sampling), both external to this repo, in the IBM tomography directory. Plot scripts that read those runs and live here: [plot_cusp_precision.py](../simulations/plot_cusp_precision.py), [plot_cusp_mandelbrot_hardware.py](../simulations/plot_cusp_mandelbrot_hardware.py).
 
 ---
 
@@ -370,7 +370,7 @@ This refines the April-16 finding (then 1.2-1.5× T2-echo / T2* gap) by showing 
 - Confirms: γ extracted from the trajectory itself (in-situ) is the right input for the framework's predictions, not the T2-echo calibration value.
 - Does not confirm: that γ-invariance of K_dwell holds on a single pair (this run used one pair). The April-16 two-pair γ-invariance result remains the only direct test of that claim.
 
-Pipeline: `ibm_quantum_tomography/run_cusp_precision.py` (Kingston-anchored, accepts `--pair` and `--gamma-override`; lives in the external IBM tomography repo). Plot script in this repo: [`_plot_cusp_precision.py`](../simulations/_plot_cusp_precision.py). Hardware JSON: `cusp_precision_ibm_kingston_20260426_115939.json` in the IBM tomography `results/` folder. Job ID: `d7mu36lqrg3c738lnda0`.
+Pipeline: `ibm_quantum_tomography/run_cusp_precision.py` (Kingston-anchored, accepts `--pair` and `--gamma-override`; lives in the external IBM tomography repo). Plot script in this repo: [`plot_cusp_precision.py`](../simulations/plot_cusp_precision.py). Hardware JSON: `cusp_precision_ibm_kingston_20260426_115939.json` in the IBM tomography `results/` folder. Job ID: `d7mu36lqrg3c738lnda0`.
 
 ---
 
@@ -502,4 +502,4 @@ The two pictures below are the live hardware version of the Section 7 idealised 
 
 ![Hardware Bell+ trajectory on the Mandelbrot set (full view)](../visualizations/bellplus_trajectory_on_mandelbrot_hardware.png)
 
-The zoom shows the cusp crossing in detail; the full view places the same trajectory in the global Mandelbrot context. Companion line plot (CΨ vs t with F25 fit): [cusp_precision_trajectory.png](../visualizations/cusp_precision_trajectory.png). Pipeline that renders these plots: [`_plot_cusp_mandelbrot_hardware.py`](../simulations/_plot_cusp_mandelbrot_hardware.py) and [`_plot_cusp_precision.py`](../simulations/_plot_cusp_precision.py). Hardware data source: `cusp_precision_ibm_kingston_20260426_115939.json` in the external IBM tomography `results/` folder. Job ID: `d7mu36lqrg3c738lnda0`.
+The zoom shows the cusp crossing in detail; the full view places the same trajectory in the global Mandelbrot context. Companion line plot (CΨ vs t with F25 fit): [cusp_precision_trajectory.png](../visualizations/cusp_precision_trajectory.png). Pipeline that renders these plots: [`plot_cusp_mandelbrot_hardware.py`](../simulations/plot_cusp_mandelbrot_hardware.py) and [`plot_cusp_precision.py`](../simulations/plot_cusp_precision.py). Hardware data source: `cusp_precision_ibm_kingston_20260426_115939.json` in the external IBM tomography `results/` folder. Job ID: `d7mu36lqrg3c738lnda0`.

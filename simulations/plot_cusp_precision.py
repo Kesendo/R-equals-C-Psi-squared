@@ -20,7 +20,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 if len(sys.argv) < 2:
-    print("Usage: python _plot_cusp_precision.py <path_to_cusp_precision_*.json> [gamma_t2echo_per_us]")
+    print("Usage: python plot_cusp_precision.py <path_to_cusp_precision_*.json> [gamma_t2echo_per_us]")
     sys.exit(1)
 
 json_path = Path(sys.argv[1])

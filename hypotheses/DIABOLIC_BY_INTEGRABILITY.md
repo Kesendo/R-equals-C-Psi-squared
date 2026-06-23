@@ -26,7 +26,7 @@ So **L|₂D = (−4γ + 2iJ)·I = λ_EP·I**, semisimple. The discriminant doubl
 
 ### The decisive gate (XXZ-Δ breaks free-fermion additivity)
 
-Probe `simulations/_f89_zz_break_gate.py` (gate-first; Stage 0 reproduces the Δ=0 diabolic point and confirms the Pauli build equals the committed reference + is a genuine sub-block of the full 256² Liouvillian, both to 0.0e+00). Turning on Δ (the ZZ term makes the two magnons interact, so E_(a,b) ≠ ε_a + ε_b):
+Probe `simulations/f89_zz_break_gate.py` (gate-first; Stage 0 reproduces the Δ=0 diabolic point and confirms the Pauli build equals the committed reference + is a genuine sub-block of the full 256² Liouvillian, both to 0.0e+00). Turning on Δ (the ZZ term makes the two magnons interact, so E_(a,b) ≠ ε_a + ε_b):
 
 | Δ | q* | min pair-dist | g1 | g2 | dep | character |
 |---|---|---|---|---|---|---|
@@ -65,4 +65,4 @@ It also sharpens the **EP-character trilogy** (`docs/CAUGHT_ERRORS.md`): F86a (n
 ## Anchors
 - Typed *what*: `compute/RCPsiSquared.Core/Symmetry/F89Path3OcticEpClaim.cs` (Tier 1 derived, the Correction block); live `inspect --root f89octic` (`F89OcticCharacterWitness`); `compute/RCPsiSquared.Core/F89PathK/F89Path3OcticBlock.cs`.
 - The AT-lock / overlap-no-overlap mirror: `F89PathKAtLockMechanismClaim`, `F89Path3SeDeFactorisationClaim`; `experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md` (§ Path-3 octic diabolic-degeneracy location).
-- The *why* probes (gate-first, this hypothesis's evidence): `simulations/_f89_zz_break_gate.py` (the decisive Δ-break), `simulations/f89_why_diabolic_probe.py` (the twin-scalar / free-fermion-additivity mechanism).
+- The *why* probes (gate-first, this hypothesis's evidence): `simulations/f89_zz_break_gate.py` (the decisive Δ-break), `simulations/f89_why_diabolic_probe.py` (the twin-scalar / free-fermion-additivity mechanism).
