@@ -562,7 +562,7 @@ Each requirement is necessary; relaxing any one breaks orbit invariance:
 
 **Tier 1 derived** for the **path-2 (SE, DE) cubic-Cardano factorisation** char(λ) = −(λ+2γ)(λ+6γ)·[cubic in λ with J/γ-dependent coefficients]. Path-2 is fully analytically tractable in radicals.
 
-**Tier 1 derived** for the **path-3 (SE, DE) deg-2·deg-2·deg-8 factorisation**. Two quadratics give 4 eigenvalues in closed form (rates 2γ, 6γ; frequencies J·(−1±√5)); the residual deg-8 polynomial is irreducible over Q[i, √5] (8 of 12 S_2-sym eigenvalues numerical only). Tier 2 conjecture: F_8 admits no elementary radical closure (supported by Gal ⊄ A_8 + empirical absence of polynomial-fit closed forms).
+**Tier 1 derived** for the **path-3 (SE, DE) deg-2·deg-2·deg-8 factorisation**. Two quadratics give 4 eigenvalues in closed form (rates 2γ, 6γ; frequencies J·(−1±√5)); the residual deg-8 polynomial is irreducible over Q[i, √5] (8 of 12 S_2-sym eigenvalues numerical only). Tier 1 derived: Gal(F_8) = S_8 (non-solvable), so F_8 admits no radical closure in q (see the dedicated "Path-3 octic non-solvability" section below).
 
 **Tier 1 derived** for the **AT-lock mechanism**: F_a, F_b eigenvectors are entirely supported on overlap-only (resp no-overlap-only) basis pairs, with H_B-induced cross-coupling cancelling. F_a/F_b frequencies match SE-anti single-particle Bloch eigenvalues E_2 = J(√5−1), E_4 = −J(1+√5) at N_block=4. Octic eigenvectors are H_B-mixed with 4 Hamming-complement pairs at total rate 8γ (rate-bijective AND overlap-fraction-bijective).
 
