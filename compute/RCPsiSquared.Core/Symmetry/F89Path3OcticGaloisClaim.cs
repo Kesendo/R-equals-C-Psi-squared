@@ -45,7 +45,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// invariant sub-block (the AT-lock split is a genuine invariant-subspace
 /// decomposition, not a basis choice), so an equivalent block gives the same group.</para>
 ///
-/// <para>Anchors: <c>simulations/f89_path3_octic_galois.py</c> (gate-first:
+/// <para>Anchors: live witness <c>inspect --root f89galois</c>
+    /// (<c>F89OcticGaloisWitness</c>, in Diagnostics) recomputes the
+    /// Frobenius certificate at inspect time via
+    /// <see cref="RCPsiSquared.Core.Numerics.OcticGaloisCertificate"/> (distinct-degree
+    /// factorisation over F_p); <c>simulations/f89_path3_octic_galois.py</c> (gate-first:
 /// reproduce the octic from the 12×12 charpoly, known-answer engine validation,
 /// the q0=2 certificate, multi-q0 + base-field robustness), <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c>
 /// § "Path-3 octic non-solvability: Gal = S_8". References: K. Conrad,
@@ -91,6 +95,7 @@ public sealed class F89Path3OcticGaloisClaim : Claim
         : base("F89 path-3 octic Galois group: Gal(F_8 / Q(i)(q)) = S_8 (Tier 1 derived). disc(F_8) = const · q²⁴ · (3q⁴+q²−1)² · P_10(q²) is non-square ⇒ ⊄ A_8; a (5,2,1) Frobenius at 𝔭|5, q0=2, gives a 5-cycle (⇒ primitive ⇒ ⊇A_8 by Jordan) and an odd permutation (⇒ ⊄A_8) ⇒ S_8. Robust to base Q(i,√5). ⇒ the roots λ_k(q) admit no expression by radicals in q (non-radical special functions not excluded)",
                Tier.Tier1Derived,
                "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
+               "compute/RCPsiSquared.Diagnostics/Foundation/F89OcticGaloisWitness.cs (inspect --root f89galois) + " +
                "simulations/f89_path3_octic_galois.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs")
     {

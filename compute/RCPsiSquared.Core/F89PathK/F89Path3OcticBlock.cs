@@ -110,4 +110,15 @@ public static class F89Path3OcticBlock
         var pPlus = ComplexMatrix.Build.DenseOfColumnVectors(cols);  // 24×12
         return pPlus.ConjugateTranspose() * full * pPlus;            // 12×12
     }
+
+    /// <summary>The Gaussian-integer coefficients of F_8(λ, q=2) — the certifying
+    /// specialization for the Galois group. Index = λ-power (0..8); coefficient k is
+    /// re[k] + i·im[k]. Monic over Z[i]. This is the q=2 evaluation of the Gate-0-verified
+    /// octic literal (build_octic in simulations/f89_path3_octic_galois.py, reproduced
+    /// bit-exact from the 12×12 symbolic charpoly). Modulo the split prime 𝔭|5 (F_5, i↦2)
+    /// it factors to cycle type (5,2,1), which certifies Gal(F_8) = S_8
+    /// (see <see cref="RCPsiSquared.Core.Numerics.OcticGaloisCertificate"/>).</summary>
+    public static (long[] Re, long[] Im) OcticCoefficientsAtQ2() => (
+        Re: new long[] { 8407296, 7833600, 2976000, 671232, 99808, 10112, 720, 32, 1 },
+        Im: new long[] { -5275648, -2760704, -671744, -110592, -10240, -512, 0, 0, 0 });
 }
