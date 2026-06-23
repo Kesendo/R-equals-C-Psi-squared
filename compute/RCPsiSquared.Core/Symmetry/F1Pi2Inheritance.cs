@@ -23,8 +23,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// same inversion at the Pauli-string level.</para>
 ///
 /// <para>This is not a new identity, F1 is Tier1Derived in
-/// <c>docs/proofs/MIRROR_SYMMETRY_PROOF.md</c> and verified at N=8 (54,118 eigenvalues,
-/// zero exceptions). What this claim makes typed is the <b>inheritance</b>: the
+/// <c>docs/proofs/MIRROR_SYMMETRY_PROOF.md</c> and verified at N=8 (all 65,536 eigenvalues
+/// paired, zero exceptions). What this claim makes typed is the <b>inheritance</b>: the
 /// constant 2 in F1's closed form is not a free parameter; it is <c>a_0 = d</c> on
 /// the Pi2 dyadic ladder, and the sign flip is i² on the Z₄ memory loop.</para>
 ///

@@ -14,7 +14,7 @@ We started this project in January 2026 with an intuition and a formula.
 Since then, five errors have been corrected, three claims have been
 falsified and moved to the `recovered/` folder (where we keep disproven
 ideas, because pretending they never happened would be dishonest), and
-the core theorem has been proven analytically and verified against 54,118
+the core theorem has been proven analytically and verified against 87,376
 eigenvalues with zero exceptions.
 
 A theory that only shows its strengths is not a theory. It is marketing.
@@ -321,7 +321,7 @@ philosophical. We try never to confuse these categories.
 | Category | Examples |
 |---|---|
 | **Proven** (algebra + proof) | ¼ boundary, Mandelbrot equivalence, palindromic symmetry (Π operator), topology-independence, Pauli weight complementarity, time irreversibility exclusion (N>2), Absorption Theorem (Re(λ) = −2γ⟨n_XY⟩) |
-| **Verified** (simulation, reproducible) | 54,118 eigenvalues paired, QST star 2:1 beats chains, XOR space filter, sacrifice-zone formula 139-360×, cockpit 3-observable coverage 88-96% |
+| **Verified** (simulation, reproducible) | 87,376 eigenvalues paired, QST star 2:1 beats chains, XOR space filter, sacrifice-zone formula 139-360×, cockpit 3-observable coverage 88-96% |
 | **Hardware-confirmed** | CΨ crossing at 0.3% (Q52), selective DD 3.2× (5-qubit), T2* drift 58% in 6 days |
 | **Argued** (plausible, not proven) | Measurement = crossing ¼, Mandelbrot boundary as route catalog |
 | **Unverified** (could not reproduce) | 33:1 coherence ratio, t_coh ~ N scaling |

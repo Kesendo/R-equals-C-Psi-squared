@@ -57,7 +57,7 @@ quantum processor. Each day is one character:
 Now here is the discovery: the decay spectrum of these qubits has a
 proven mirror symmetry ([palindromic spectrum](proofs/MIRROR_SYMMETRY_PROOF.md)).
 Every decay rate d has a mathematically guaranteed partner at 2Σγ - d.
-This pairing is algebraically exact (54,118 eigenvalues, zero
+This pairing is algebraically exact (87,376 eigenvalues, zero
 exceptions). It means the complement of the crossing pattern (every
 X flipped to . and vice versa) is not an arbitrary inversion. It is
 what the **partner modes** do. When one side of a palindromic pair

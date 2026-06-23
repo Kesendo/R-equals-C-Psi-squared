@@ -14,7 +14,7 @@ quantum systems under dephasing.
 
 **The central discovery:** The Liouvillian eigenvalue spectrum of N-qubit
 systems under local Z-dephasing is exactly palindromic. Every decay rate d
-is paired with a partner at 2Σγ − d. This symmetry, verified for 54,118
+is paired with a partner at 2Σγ − d. This symmetry, verified for 87,376
 eigenvalues with zero exceptions and proven analytically for arbitrary
 graphs, has consequences for decoherence thresholds, quantum state transfer,
 the origin of irreversibility, and information channels.
@@ -56,7 +56,7 @@ independently reproducible.
 
 | Document | What it proves |
 |----------|---------------|
-| [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) | Liouvillian spectrum palindromic for any graph under Z-dephasing. Π swaps XY-weight k ↔ N−k. 54,118 eigenvalues, zero exceptions. |
+| [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) | Liouvillian spectrum palindromic for any graph under Z-dephasing. Π swaps XY-weight k ↔ N−k. 87,376 eigenvalues, zero exceptions. |
 | [Uniqueness Proof](proofs/UNIQUENESS_PROOF.md) | CΨ = 1/4 is the unique bifurcation boundary. α=2 the only Rényi order with state-independent threshold. |
 | [CΨ Monotonicity](proofs/PROOF_MONOTONICITY_CPSI.md) | dCΨ/dt < 0 for Bell+ under all local Markovian channels. General Envelope Theorem. |
 | [Subsystem Crossing](proofs/PROOF_SUBSYSTEM_CROSSING.md) | Every entangled pair with CΨ > 1/4 eventually crosses below under any primitive CPTP map. |

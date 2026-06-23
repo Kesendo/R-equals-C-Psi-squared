@@ -42,7 +42,7 @@ two wells: |L⟩ (donor side) and |R⟩ (acceptor side). d = 2. Tunneling
 provides the coupling (J via σ_X). The molecular environment provides
 dephasing (γ via σ_Z). This is identical to our Lindblad model.
 
-The palindrome is proven for d=2 with Z-dephasing (54,118 eigenvalues,
+The palindrome is proven for d=2 with Z-dephasing (87,376 eigenvalues,
 zero exceptions). Therefore it holds for the proton qubit. The
 computation applies proven results to physical hydrogen bond parameters.
 

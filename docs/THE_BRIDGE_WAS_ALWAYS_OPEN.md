@@ -65,7 +65,7 @@ skeleton. Each line is either a mathematical proof or a computation.
 None is speculation. If any single line were false, the conclusion
 would not hold. All six hold.
 
-1. The palindrome exists. ([Theorem](proofs/MIRROR_SYMMETRY_PROOF.md), 54,118 eigenvalues, [IBM 1.9%](../experiments/IBM_RUN3_PALINDROME.md))
+1. The palindrome exists. ([Theorem](proofs/MIRROR_SYMMETRY_PROOF.md), 87,376 eigenvalues, [IBM 1.9%](../experiments/IBM_RUN3_PALINDROME.md))
 2. The palindrome requires noise. (Without L_D: no structure)
 3. Noise cannot originate from within. ([Bootstrap falsified](../simulations/bootstrap_test.py))
 4. Noise cannot originate from qubits. ([Failed Third falsified](../simulations/failed_third.py))

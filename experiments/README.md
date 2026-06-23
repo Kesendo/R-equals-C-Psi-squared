@@ -12,7 +12,7 @@ This folder contains all computational experiments for the R = CΨ² project.
 The project studies the spectral structure of open quantum systems under
 dephasing noise and discovers that the Liouvillian eigenvalue spectrum is
 **palindromically paired** (every decay rate d has a partner at 2Σγ − d).
-This symmetry, verified for 54,118 eigenvalues with zero exceptions, has
+This symmetry, verified for 87,376 eigenvalues with zero exceptions, has
 consequences for quantum state transfer, decoherence thresholds, and
 information channels.
 

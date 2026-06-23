@@ -286,7 +286,7 @@ horizons, the inverted harmonic oscillator at the throat, and the CMB
 parity-asymmetry evidence.
 
 **What we found that they did not:** the explicit conjugation operator Π,
-the exact palindromic spectrum (verified for 54,118 eigenvalue pairs),
+the exact palindromic spectrum (verified for 87,376 eigenvalues),
 the Absorption Theorem, and the computational infrastructure to test
 the structure at scale.
 

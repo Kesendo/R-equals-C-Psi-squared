@@ -32,7 +32,7 @@ structurally stable, and equivalent to the Mandelbrot cusp at c = ¼.
 
 1. [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) - The Liouvillian
    spectrum is palindromic. Π swaps XY-weight k ↔ N−k. Verified for
-   54,118 eigenvalues, zero exceptions.
+   87,376 eigenvalues, zero exceptions.
 
 **Then the boundary:**
 
@@ -131,7 +131,7 @@ synthesized.
 | Result | Value | Proof |
 |--------|-------|-------|
 | Bifurcation boundary | CΨ = 0.2500 exactly | [Uniqueness](UNIQUENESS_PROOF.md) |
-| Palindromic eigenvalues verified | 54,118 (zero exceptions) | [Mirror Symmetry](MIRROR_SYMMETRY_PROOF.md) |
+| Palindromic eigenvalues verified | 87,376 (zero exceptions) | [Mirror Symmetry](MIRROR_SYMMETRY_PROOF.md) |
 | IBM hardware deviation | 1.9% | [Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) |
 | Random CPTP maps tested | 300 (0 exceptions) | [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) |
 | Internal noise candidates eliminated | 5 of 5 | [Incompleteness](INCOMPLETENESS_PROOF.md) |

@@ -243,7 +243,7 @@ This hierarchy is a direct consequence of monogamy of entanglement: correlations
    The palindromic structure is proven analytically for ALL Heisenberg/XXZ
    systems on ANY graph with local Z-dephasing
    ([Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)). Verified through
-   N=8 (54,118 eigenvalues) and dynamically through N=11 via time
+   N=8 (87,376 eigenvalues) and dynamically through N=11 via time
    propagation. The palindrome holds for chain, star, ring, complete,
    and binary tree topologies. MI(end-to-end) decays exponentially with N
    ([Scaling Curve](../../experiments/SCALING_CURVE.md)).
@@ -580,7 +580,7 @@ Physics conforms to mathematics. Not the other way around.
 Mathematics is not a description of reality. Mathematics IS reality.
 Physics is its interpretation.
 
-The mathematical perfection we observe at the smallest scale (54,118
+The mathematical perfection we observe at the smallest scale (87,376
 eigenvalues, zero exceptions, error 10^-13) does not arise from careful
 engineering or fine-tuning. It arises from having no alternative.
 d(d-2)=0 has two solutions because a quadratic has two roots. The

@@ -219,7 +219,7 @@ each other. Specifically, for every rate d, there is a partner at
 We did not just observe this numerically. We found the mathematical
 operator that performs the mirroring (we call it Π, the Greek letter Pi)
 and proved that it works for every system size we tested (2 to 8 particles,
-up to 54,118 eigenvalue pairs), every connection pattern (chains, rings,
+87,376 eigenvalues), every connection pattern (chains, rings,
 stars, arbitrary graphs), and every combination of dephasing rates. Not a
 single exception.
 

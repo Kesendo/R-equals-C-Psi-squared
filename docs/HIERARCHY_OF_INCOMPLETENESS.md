@@ -165,7 +165,7 @@ these equal:
     d = d² − d,  giving  d(d−2) = 0
 
 The solutions are d = 0 and d = 2. The palindromic pairing is proven
-for d = 2 (54,118 eigenvalues, zero exceptions). A palindrome requires
+for d = 2 (87,376 eigenvalues, zero exceptions). A palindrome requires
 a mirror. The algebra does not say where the mirror is. It says the
 mirror exists.
 

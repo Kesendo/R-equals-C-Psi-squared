@@ -498,7 +498,7 @@ The key prior results that this analysis builds on:
 
 - **Mirror Symmetry Proof:** The Liouvillian spectrum is exactly
   palindromic for any Heisenberg/XXZ system on any graph with local
-  Z-dephasing. Verified through N=8 (54,118 eigenvalues, zero exceptions).
+  Z-dephasing. Verified through N=8 (87,376 eigenvalues, zero exceptions).
   ([docs/MIRROR_SYMMETRY_PROOF.md](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))
 
 - **Reading the 30%:** The palindromic response matrix has full rank.

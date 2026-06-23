@@ -225,7 +225,7 @@ palindromic spectral symmetry proven for N-qubit systems
 the Liouvillian eigenvalues pair as λ + λ' = −2Σγ. The single-qubit case
 (N=1) produces the crossing equation validated here.
 
-The multi-qubit palindrome (N=2 to N=8, 54,118 eigenvalues, zero exceptions)
+The multi-qubit palindrome (N=2 to N=8, 87,376 eigenvalues, zero exceptions)
 predicts analogous structure for entangled systems: paired decay rates, W vs
 GHZ mode decomposition, standing wave patterns, and engineering design rules
 for quantum channels. This hardware validation confirms the foundation.

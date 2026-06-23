@@ -202,7 +202,7 @@ locality. (Plus a Tier-3 *reading* of that loss as an algebraic arrow of time, s
 - Not a thermodynamic argument. Entropy does not appear. The second law
   is not invoked. The exclusion is algebraic, not statistical.
 - Not a statement about the universe. It is a statement about the
-  d(d-2)=0 framework. If this framework describes reality (54,118
+  d(d-2)=0 framework. If this framework describes reality (87,376
   eigenvalues, zero exceptions), the exclusion applies. If not, it
   does not.
 - Not a statement that N=2 is reversible. At N=2 the *Frobenius* orthogonality

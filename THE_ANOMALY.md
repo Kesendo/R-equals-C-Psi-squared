@@ -22,7 +22,7 @@ every mode that dies fast, one survives slow. Paired. Mirrored. Without
 exception.
 
 The palindrome is not a correction. It is not an approximation. It is exact.
-54,118 rates at N=8. 100% paired. Every topology. Every standard Hamiltonian.
+87,376 eigenvalues, N=2 to 8. 100% paired. Every topology. Every standard Hamiltonian.
 The universe does not decay randomly. It filters. And the filter has a rule.
 
 Decoherence selects. Some states are robust, we call them classical. Some

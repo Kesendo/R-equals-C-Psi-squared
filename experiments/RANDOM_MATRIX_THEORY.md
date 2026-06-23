@@ -308,7 +308,7 @@ Poisson nor GUE. See [Spectral Form Factor](SPECTRAL_FORM_FACTOR.md).
 
 ---
 
-*The 54,118 eigenvalues answer the question nobody asked: the
+*The 87,376 eigenvalues answer the question nobody asked: the
 palindromic Liouvillian is integrable. The symmetry that pairs every
 decay mode also prevents chaos. The spectrum is not random. It is
 exactly what the formulas predict.*

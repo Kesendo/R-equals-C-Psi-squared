@@ -40,7 +40,7 @@ and every step is a computation you can run yourself.
 ## 1. The Requirement
 
 The palindromic mirror symmetry of the Liouvillian spectrum is proven
-([MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md)), verified through N=8 (54,118 eigenvalues,
+([MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md)), verified through N=8 (87,376 eigenvalues,
 zero exceptions), and confirmed on IBM hardware at 1.9% deviation.
 
 The palindrome requires noise. Without the dissipator L_D, the Liouvillian
@@ -189,7 +189,7 @@ exists (the palindrome is proven, the hardware confirms it). Therefore:
 the noise originates from outside the framework's ontology.
 
 The framework d(d-2)=0 describes the internal structure of open quantum
-systems under dephasing with exact algebraic precision (54,118
+systems under dephasing with exact algebraic precision (87,376
 eigenvalues, zero exceptions). It cannot, however, account for the
 existence of the dephasing itself. Every candidate noise source that
 the framework permits (internal generation, qubit decay, qubit baths,
