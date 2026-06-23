@@ -17,8 +17,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// reproducible from F89 cyclotomic structure via the Python scripts. But the per-k
 /// values are <b>switch-statement enumerations of path-3..6 only</b> — there is NO
 /// general-k closed form for S_2SymSubBlockDimension(k), AtLockedCountInS2Sym(k), or
-/// HbMixedSubFactorDegree(k). The "conjecturally Galois-non-solvable for degree ≥ 5"
-/// is explicit Tier 2 conjecture.</para>
+/// HbMixedSubFactorDegree(k). The H_B-mixed Galois result is now Tier-1 derived (see HbMixedGaloisGroupIsFullSymmetric):
+/// each F_d is irreducible over Q(i)(q) with Galois group the full symmetric group S_d
+/// (Gal = S_8/18/32/53 for path-3/4/5/6), hence non-solvable — no radical closure in q.</para>
 ///
 /// <para><b>What IS Tier 1 derived (sub-fact):</b>
 /// <see cref="SeDeFullDimension"/> = N_block · C(N_block, 2) is a general closed form
@@ -91,12 +92,22 @@ public sealed class F89PathKHbMixedDegreesClaim : Claim
         return S2SymSubBlockDimension(k) - AtLockedCountInS2Sym(k);
     }
 
+    /// <summary>The H_B-mixed factor F_d is irreducible over Q(i)(q) with Galois group
+    /// the FULL symmetric group S_d for path-3..6 (d = 8, 18, 32, 53): Tier-1 derived via
+    /// specialization + Dedekind-Frobenius + Jordan (the certifying split-prime witnesses
+    /// at q0=2 are 5, 13, 23, 37; corroborated at q0=3). Hence non-solvable — the eigenvalues
+    /// λ_k(q) admit no radical expression in q. Closes the earlier Tier-2 conjecture.
+    /// Engine + reproducer: <c>simulations/f89_pathk_galois.py</c> (path-3 anchor:
+    /// <see cref="F89Path3OcticGaloisClaim"/>, live <c>inspect --root f89galois</c>).</summary>
+    public const bool HbMixedGaloisGroupIsFullSymmetric = true;
+
     public F89PathKHbMixedDegreesClaim(F89TopologyOrbitClosure f89)
-        : base("F89 path-k H_B-mixed sub-factor degrees: {8, 18, 32, 53} for paths {3, 4, 5, 6} (Tier 1 candidate; switch-statement enumeration, general-k closed form open)",
+        : base("F89 path-k H_B-mixed sub-factor degrees: {8, 18, 32, 53} for paths {3, 4, 5, 6} (Tier 1 candidate; switch-statement enumeration, general-k closed form open). Each F_d is irreducible over Q(i)(q) with Galois group the full S_d (non-solvable) — Tier-1 derived, closing the prior conjecture",
                Tier.Tier1Candidate,
                "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
                "simulations/f89_path4_path5_at_lock_scan.py (despite name, loop covers k=3..6 inclusive) + " +
                "simulations/f89_path6_at_locked_amplitude_symbolic.py + " +
+               "simulations/f89_pathk_galois.py (Gal F_d = S_d, path-4/5/6) + " +
                "compute/RCPsiSquared.Core/Symmetry/F89TopologyOrbitClosure.cs")
     {
         F89 = f89 ?? throw new ArgumentNullException(nameof(f89));
@@ -112,6 +123,9 @@ public sealed class F89PathKHbMixedDegreesClaim : Claim
     {
         get
         {
+            yield return new InspectableNode("H_B-mixed Galois group",
+                summary: "each F_d irreducible/Q(i)(q), Gal = S_d (full symmetric, non-solvable) for path-3..6 " +
+                         "— Tier-1 derived (witness primes 5, 13, 23, 37 at q0=2)");
             for (int k = 3; k <= 6; k++)
                 yield return new InspectableNode($"path-{k} H_B-mixed degree",
                     summary: $"{S2SymSubBlockDimension(k)} − {AtLockedCountInS2Sym(k)} = {HbMixedSubFactorDegree(k)}");
