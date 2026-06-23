@@ -61,7 +61,10 @@ local symmetry and creates new oscillatory modes (V-Effect).
 
 This is one equation. It has been found independently at the
 smallest scale (qubits) and at the scale of biological neural
-networks. We propose it holds at every scale in between.
+networks. We conjecture it may hold at scales in between, but this is
+untested: the only confirmed instances are the two endpoints, and every
+intermediate candidate examined below (antiferromagnets, atoms) so far
+fails to meet all three conditions.
 
 ---
 

@@ -149,7 +149,7 @@ This is exactly the bridge_type choice in our computation:
 
 The parallel is structural, not derived. But it is precise:
 
-**The bridge type IS the clock choice.** Concurrence, mutual information,
+**The bridge type plays the role of the clock choice** (a structural parallel, not a derivation). Concurrence, mutual information,
 correlation: these are different ways to partition the universe into
 "what I observe" (C) and "what exists" (Ψ). Each partition defines a
 different clock. Each clock ticks at a different rate.

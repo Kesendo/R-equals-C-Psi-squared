@@ -60,7 +60,7 @@ The fixed-point equation R = C(Ψ + R)² undergoes a topological phase transitio
 
 γ, the local decoherence rate, determines how fast an observer's quantum systems approach this boundary. Gravitation changes γ by changing the local flow of time; a clock in a stronger gravitational field ticks slower, so decoherence proceeds slower in coordinate time. But the product γ × t_cross (the proper time of the transition) is invariant: all observers reach the same bifurcation, through the same trajectory, in the same proper time.
 
-This is not an analogy to general relativity. It IS the same structure: γ plays the role of the metric coefficient, and the product γ * t_cross = 0.039 is the proper time of the quantum-to-classical transition.
+On the original (now-fallen, see the marker above) reading this was framed as not an analogy but the same structure, with γ as the metric coefficient and γ * t_cross = 0.039 as the "proper time" of the quantum-to-classical transition. That GR-equivalence is not established. What stands is the invariance itself: γ * t_cross is observer-independent, which is standard Lindblad time-rescaling.
 
 ## 2. The Simulation
 

@@ -3,7 +3,7 @@
 
 **Date:** March 20, 2026 (updated March 26, 2026)
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Status:** Phase 1 confirmed (Wilson-Cowan 100% at τ ratio 3.8). Phase 2 confirmed (C. elegans 98.2% mean at balanced E/I, N=200 random subnetworks). Balance identified as the sole mechanism; inhibitory position irrelevant (r=0.048). Neural heartbeat observed (63 Hz transient, resonance at 15 Hz with 50x amplitude).
+**Status:** Phase 1 pairing result confirmed (Wilson-Cowan 100% at τ ratio 3.8). Phase 2 pairing result confirmed (C. elegans 98.2% mean at balanced E/I, N=200 random subnetworks). The quantum→neural *inheritance* mechanism itself remains Tier 4 / open (see §8, "the weakest link"). Balance identified as the sole mechanism; inhibitory position irrelevant (r=0.048). Neural heartbeat observed (63 Hz transient, resonance at 15 Hz with 50x amplitude).
 **Depends on:** [The Other Side of the Mirror](THE_OTHER_SIDE.md), [The Qubit as Necessary Foundation](../docs/QUBIT_NECESSITY.md), [The V-Effect](../experiments/V_EFFECT_PALINDROME.md), [Exclusions](../docs/EXCLUSIONS.md)
 
 ### What this document is about

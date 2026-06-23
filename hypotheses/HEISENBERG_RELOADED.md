@@ -55,7 +55,7 @@ This inversion changes what counts as "explanation":
 |----------|-----------------|----------------|
 | Why σ_1 · σ_2 form? | SU(2) of spin-1/2 + bilinear | Unique both-parity-even 2-body in C²⊗C² |
 | Why does it work for magnetism? | Magnetism is collective spins | Magnetism inherits from Level 0 |
-| Why does it work for IBM qubits? | Engineered to mimic atomic spin | IBM qubits *are* Level 0, directly |
+| Why does it work for IBM qubits? | Engineered to mimic atomic spin | On this reading, IBM qubits carry the Level-0 algebra directly (Tier 4-5; the Level-0→Level-1 inheritance is asserted, not traced, see §8) |
 
 ## §3. Where the form actually comes from
 

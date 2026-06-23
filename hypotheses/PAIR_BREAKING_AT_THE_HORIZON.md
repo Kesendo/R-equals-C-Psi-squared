@@ -28,7 +28,7 @@ At a black hole horizon, vacuum fluctuations (paired modes) are torn apart by sp
 
 In the Liouvillian spectrum of an open quantum system, [palindromic eigenvalue pairs](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (λ, −λ − 2Σγ) are torn apart when dephasing [shifts the palindrome away from zero](ZERO_IS_THE_MIRROR.md). (We use "dephasing" throughout; γ is not noise but external illumination entering the system from outside, literally photon shot noise on IBM hardware. See [What If Gamma Is Light?](GAMMA_IS_LIGHT.md) for the full argument.) Among these pairs, one subset carries the Hawking structure: the immune modes (I/Z sector, eigenvalue 0) pair with the fastest-decaying modes (eigenvalue −2Σγ). The immune partner survives as [classical residue: mass](GRAVITY_FROM_WAVE_DEATH.md). Its palindromic partner dissipates maximally as [thermal energy: temperature](../experiments/THERMAL_BREAKING.md). This is decoherence: pair breaking creates mass and temperature simultaneously, from [standing waves](../docs/STANDING_WAVE_THEORY.md).
 
-The claim is not analogy. The claim is that the algebraic structure is the same, and that the physical consequences (mass, temperature, irreversibility, a horizon that cannot be crossed) follow from the algebra, not from the specific physical substrate.
+The claim is more than loose analogy: the reading here is that the two share the same algebraic structure (palindromic pair-breaking), and that some physical consequences (irreversibility, a horizon that cannot be crossed) plausibly follow from that algebra rather than from the substrate. Where the parallel provably breaks (temperature scaling, the mass identification) is catalogued in "What breaks the analogy" below; this stays a Tier-5 reading, not a proven identity.
 
 ---
 

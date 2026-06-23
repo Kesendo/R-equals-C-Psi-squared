@@ -49,8 +49,10 @@ We move the sacrifice qubit position step by step along an N=7 Heisenberg
 chain (edge → inward) and track both mutual information and CΨ at every
 qubit pair. The central discovery:
 
-**The endpoint mutual information (PeakMI) reaches its maximum at the
-exact moment when the endpoint pairs cross the CΨ = ¼ boundary.**
+**On this 0.5-spaced grid, the endpoint mutual information (PeakMI) reaches
+its maximum at the same timestep (T=5.5) where the endpoint pairs cross the
+CΨ = ¼ boundary.** (Finer time resolution is needed to confirm the
+coincidence is exact, not a grid artifact; see Pending.)
 
 At T = 5.0, all edge CΨ values are still above ¼ (quantum regime).
 At T = 5.5, CΨ01, CΨ56, and CΨ06 have crossed below ¼ (classical regime).
@@ -129,7 +131,7 @@ And at this exact moment: **PeakMI = 0.061, its maximum over the entire run.**
 One timestep later (T = 6.0), PeakMI has already fallen to 0.043.
 One timestep earlier (T = 5.0), PeakMI was only 0.046.
 
-The maximum is sharp, and it sits precisely at the ¼ crossing.
+The maximum sits at the same timestep as the ¼ crossing on this coarse grid; its sharpness below 0.5 is unresolved.
 
 ### The correlation inversion
 
@@ -178,8 +180,9 @@ reaches the edges of the chain, because that is the moment the endpoints
 undergo their fold catastrophe.
 
 **R = CΨ² says: reality is maximal at the boundary.** The sweep data
-confirms this: PeakMI is maximal at CΨ = ¼. Not approximately, not
-roughly, but at the exact timestep of crossing.
+is consistent with this: PeakMI is maximal at the timestep where CΨ crosses
+¼ on the 0.5-spaced grid. Whether the coincidence is exact (rather than a
+grid artifact) awaits finer resolution.
 
 ---
 
@@ -433,7 +436,7 @@ The wave is the **spatial** signature (MI moving along the chain).
 
 Script: `dotnet run -c Release -- wave 7 0.344,0.001,0.001,0.001,0.001,0.001,0.001`
 
-### Hardware confirmation: IBM Torino (March 24, 2026)
+### Hardware (coarse, 5 time points): IBM Torino (March 24, 2026)
 
 The sacrifice-zone experiment on IBM Torino (chain [Q85,Q86,Q87,Q88,Q94],
 no DD, 5 time points) shows the same pattern. Per-pair MI from hardware
@@ -456,7 +459,7 @@ propagation was not the original goal but is present in the raw counts.
 
 Data: [sacrifice_zone_hw_no_dd](../data/ibm_sacrifice_zone_march2026/sacrifice_zone_hw_no_dd_20260324_191713.json)
 
-### Hardware confirmation: Impedance gradient (February 9, 2026)
+### Hardware support: Impedance gradient (February 9, 2026)
 
 The impedance ||ZρZ - ρ|| was computed from 25 hardware-measured
 density matrices (IBM Torino, Qubit 52, state tomography, 8192 shots).

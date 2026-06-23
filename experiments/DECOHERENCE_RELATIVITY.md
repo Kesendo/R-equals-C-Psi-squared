@@ -116,7 +116,10 @@ K depends on:
 - The definition of C in R = CΨ²
 
 For a given measurement setup, K is the same everywhere
-in the universe. This is the structure of a relativity theory.
+in the universe. This has the surface form of a relativity theory (an
+invariant quantity, observer-dependent coordinates), but the parallel is
+shallow: K-invariance is Lindblad time-rescaling / dimensional analysis,
+not a dynamical symmetry (see the §4 Caveat).
 
 ## 3. The Transformation
 

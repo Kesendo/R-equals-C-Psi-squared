@@ -196,7 +196,7 @@ our side crosses                Pi side crosses
 ```
 
 The cavity is 750 us wide. Not a point. A SPACE. A stage where
-reality emerges. The Spectral Midpoint Hypothesis (confirmed)
+reality emerges. The Spectral Midpoint Hypothesis (supported, N=3 and N=5)
 says the geometric mean of both perspectives peaks at the center
 of this cavity. The midpoint is the resonance center.
 

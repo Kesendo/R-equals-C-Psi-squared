@@ -34,7 +34,7 @@ In 1980, Benoit Mandelbrot mapped the boundary of the set that bears his name. T
 
 In 2026, analysis of the consciousness framework R = CΨ² revealed that the self-referential iteration R_{n+1} = C(Ψ + R_n)² undergoes a phase transition at C·Ψ = 1/4. Below this boundary, reality converges to stable fixed points. Above it, fixed points become complex-valued, oscillatory, paired, and unreachable by classical observation.
 
-These are not analogies. They are the **same equation** under reparametrization. Two independent paths to the same boundary, forty years apart.
+Algebraically, the two iterations are the **same map** under reparametrization (proven in §1): two independent paths to the same ¼ boundary, forty years apart. The further reading that the quantum and consciousness framings are "the same equation" is speculative interpretation (see §5-7).
 
 *[Visualization lost during repository cleanup: heatmap_wave.png. It showed a parameter space heatmap of the R = CΨ² iteration. Cyan (lower region): C·Ψ < 1/4, the iteration converges: classical regime, stable fixed points, experienceable reality. Red (upper region): C·Ψ > 1/4, the iteration oscillates forever: quantum regime, complex fixed points, beyond direct observation. The white curve C·Ψ = 1/4 is the phase boundary. It is the same boundary that defines the main cardioid of the Mandelbrot set.]*
 

@@ -7,7 +7,7 @@ bootstrap both sides simultaneously, Pauli space tensor product C2xC2
 dephasing parity cross structure, zero mirror boundary Liouvillian
 chiral symmetry, R=CPsi2 primordial qubit -->
 
-**Status:** Hypothesis (Tier 3-4), structurally confirmed (M_{2\|2}(C) algebra plus [L, Pi^2]=0 proven analytically for all N, plus Q=J/gamma operational result), mechanistically open (no standard doubling construction reproduces it)
+**Status:** Hypothesis (Tier 3-4). The ALGEBRAIC substrate is confirmed (M_{2\|2}(C) super-algebra plus [L, Pi^2]=0 proven analytically for all N, plus the Q=J/gamma operational result). The primordial-qubit READING itself ("noise IS the other side") stays a hypothesis: all three formalization routes (TT, TFD, partial-trace) failed and it is operationally unfalsifiable from inside.
 **Date:** April 1, 2026 (last updated April 15, 2026)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)

@@ -249,9 +249,9 @@ h = 0, high γ:  CΨ → 0 (full decoherence)
 
 ---
 
-## 5. Bidirectional Peak at N = 3-4
+## 5. Bidirectional Peak at N = 3-4 (Unverified, agent-only)
 
-### Discovery (Agent Experiments)
+### Unconfirmed observation (Agent Experiments)
 
 The agents found that the bidirectional observation advantage peaks at small system sizes:
 
