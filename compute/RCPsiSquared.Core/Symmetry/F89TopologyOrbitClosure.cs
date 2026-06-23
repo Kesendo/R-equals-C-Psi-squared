@@ -42,17 +42,20 @@ namespace RCPsiSquared.Core.Symmetry;
 /// with universal asymptotic rate 4γ₀ matching F73's vac-SE rate. Mixed-topology
 /// and pure-path closed forms remain Tier 2 empirical (derivation open).</para>
 ///
-/// <para>Pi2-Foundation inheritance (two roles, same a_{−1}): both the time-decay
-/// coefficient 4γ₀ and the time-oscillation coefficient 4J in the all-isolated
-/// closed form trace to <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = 4. The
-/// γ-axis inheritance is identical to F73's
-/// <see cref="F73SpatialSumPurityClosurePi2Inheritance.DecayRateCoefficient"/>
-/// (per-coherence rate 2γ₀ doubles to S-decay rate 4γ₀ on |·|²). The J-axis
-/// inheritance is the same a_{0}=2 → a_{−1}=4 doubling: H_B-eigenstate
-/// frequency 2J doubles to S-oscillation frequency 4J on |·|². The Pi2 ladder
-/// thus anchors the time coefficients on both energy axes; the (N−1)/N baseline
-/// and the 4m(N−2)/(N²(N−1)) correction prefactor are combinatorial (S_N-orbit
-/// and 2-qubit-block algebra), not Pi2-anchored.</para>
+/// <para>Pi2-Foundation inheritance (two roles, same anchor a_{−1}=4, two routes):
+/// both the time-decay coefficient 4γ₀ and the time-oscillation coefficient 4J in
+/// the all-isolated closed form land on <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = 4
+/// under the modulus-square |·|², but by two different mechanisms. The γ-axis is a
+/// diagonal self-square, identical to F73's
+/// <see cref="F73SpatialSumPurityClosurePi2Inheritance.DecayRateCoefficient"/>: one
+/// coherence's amplitude decays at 2γ₀ and |·|² multiplies it by its own conjugate
+/// (−2γ₀ + −2γ₀ = −4γ₀). The J-axis is an off-diagonal interference beat: the two
+/// populated coherences oscillate at +2J (vac-SE) and −2J (SE-DE), and their |·|²
+/// cross term sits at (+2J) − (−2J) = 4J; a single H_B-eigenstate coherence shows no
+/// 4J oscillation at all. The shared anchor a_{−1}=4 = 2·a_{0} is a bookkeeping
+/// identity, not a shared operation. The (N−1)/N baseline and the 4m(N−2)/(N²(N−1))
+/// correction prefactor are combinatorial (S_N-orbit and 2-qubit-block algebra),
+/// not Pi2-anchored.</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F89 (line 2436) +
 /// <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c> +
@@ -75,9 +78,12 @@ public sealed class F89TopologyOrbitClosure : Claim
     /// <summary>The "4" oscillation-frequency coefficient in <c>cos(4J t)</c>, the
     /// frequency of the m-correction in S(t) for all-isolated topology classes.
     /// Live from <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = a_{−1} = 4, the
-    /// J-axis mirror of the same Pi2 ladder anchor that gives F73's decay rate:
-    /// the H_B-eigenstate frequency 2J (= a_{0}·J) doubles to S-oscillation
-    /// frequency 4J (= a_{−1}·J) on |·|².</summary>
+    /// J-axis image of the same Pi2 ladder anchor that gives F73's decay rate, but
+    /// reached by a different route: the two populated coherences at +2J (vac-SE)
+    /// and −2J (SE-DE) interfere, and their |·|² cross term beats at
+    /// (+2J) − (−2J) = 4J (an off-diagonal interference beat, not the diagonal
+    /// self-square of the γ-axis; a single coherence shows no 4J oscillation). Both
+    /// still land on a_{−1}=4 = 2·a_{0}.</summary>
     public double OscillationFrequencyCoefficient => Ladder.Term(-1);
 
     /// <summary>Live drift check: both the γ-axis decay coefficient and the J-axis
@@ -217,8 +223,8 @@ public sealed class F89TopologyOrbitClosure : Claim
             yield return InspectableNode.RealScalar("S(0) at N=4 (= 3/4)", S0ClosedForm(4));
             yield return InspectableNode.RealScalar("DecayRateCoefficient (= a_{-1} = 4, γ-axis)", DecayRateCoefficient);
             yield return InspectableNode.RealScalar("OscillationFrequencyCoefficient (= a_{-1} = 4, J-axis mirror)", OscillationFrequencyCoefficient);
-            yield return new InspectableNode("Pi2 inheritance (a_{-1}=4 doubling on both energy axes)",
-                summary: "γ-side: per-coherence Z-deph rate 2γ₀ = a_{0}·γ₀ doubles to S-decay rate 4γ₀ = a_{-1}·γ₀ on |·|² (identical to F73). J-side: H_B-eigenstate frequency 2J = a_{0}·J doubles to S-oscillation frequency 4J = a_{-1}·J on |·|² (NEW to F89). Same Pi2 ladder anchor a_{-1}=4 governs both.");
+            yield return new InspectableNode("Pi2 inheritance (a_{-1}=4 anchor on both energy axes, two routes)",
+                summary: "γ-side (diagonal self-square): one coherence amplitude decays at 2γ₀ = a_{0}·γ₀, and |·|² squares it to S-decay rate 4γ₀ = a_{-1}·γ₀ (identical to F73). J-side (off-diagonal interference beat): two coherences at +2J (vac-SE) and −2J (SE-DE) interfere, their |·|² cross term beats at (+2J)−(−2J) = 4J = a_{-1}·J (NEW to F89; a single coherence shows no 4J oscillation). Same bookkeeping anchor a_{-1}=4 = 2·a_{0}, different operation.");
             yield return new InspectableNode("Verification anchors",
                 summary: "N=7 multi-bond: 28 runs covering all 14 topology classes for k=1..6; 10 classes with ≥2 reps all show 0.00e+00 within-class diff. N=4 single-pair: 6 NN+LR pairs within 5.55e−17 via direct expm. N=7 single-NN-bond: 30 ordered pairs at 0.00e+00.");
             yield return new InspectableNode("All-isolated subclass closed form (Tier 1 derived)",

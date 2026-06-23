@@ -57,10 +57,15 @@ public sealed class F89PathKAtLockMechanismClaim : Claim
     }
 
     /// <summary>SE single-particle Bloch eigenvalue y_n = 4·cos(πn/(N_block+1))
-    /// (in units where J=1). At J ≠ 1, multiply by J to get physical eigenvalue.
-    /// This is the OBC tight-binding dispersion (see also <see cref="F2bXyChainSpectrumPi2Inheritance"/>'s
-    /// E_k = 2J·cos(πk/(N+1)); the factor of 4 here vs 2 there is the Pi2 dyadic
-    /// ladder a_{−1}=4 / a_0=2 doubling the AT-locked frequency goes through).</summary>
+    /// (in units where J=1). At J ≠ 1, multiply by J to get the physical eigenvalue.
+    /// This is the OBC tight-binding dispersion of H_B = J·Σ(XX+YY) on the N_block-site
+    /// block (single-excitation hopping 2J, so the band spans [−4J, +4J]). The factor of
+    /// 4 here vs <see cref="F2bXyChainSpectrumPi2Inheritance"/>'s E_k = 2J·cos(πk/(N+1)) is a
+    /// Hamiltonian/sector convention difference (the H_B bandwidth vs a hopping-J
+    /// normalisation), NOT a Pi2 |·|² doubling: y_n is a linear-amplitude eigenvalue of
+    /// H_B, not the modulus-square of a 2J·cos dispersion. (The genuine Pi2 a_0=2 → a_{−1}=4
+    /// step on the J-axis is the off-diagonal interference beat in the per-site observable
+    /// S(t), per <see cref="F89TopologyOrbitClosure"/>, not this raw single-particle frequency.)</summary>
     public static double BlochEigenvalueY(int nBlock, int n)
     {
         if (nBlock < 2) throw new ArgumentOutOfRangeException(nameof(nBlock), nBlock, "N_block must be ≥ 2.");
