@@ -1174,7 +1174,7 @@ public static class OpenArcsRegistry
                 "(transfer-matrix slaving) is not a derivation. The proof FILE is honest (its Step-2 status line " +
                 "says 'the analytical bound for general primitive maps remains a conjecture'), but the conjecture " +
                 "is not merely open -- it is FALSE. Counterexample (gate-verified from below, " +
-                "simulations/_deepproof_subsystem_gate_mine.py): the depolarize-toward-sigma channel " +
+                "simulations/deepproof_subsystem_gate_mine.py): the depolarize-toward-sigma channel " +
                 "eps(rho) = (1-p)rho + p*Tr(rho)*sigma with sigma = 0.95|Phi+><Phi+| + 0.05*I/4 is a textbook CPTP " +
                 "map, manifestly PRIMITIVE for every p in (0,1] (unique fixed point sigma, superoperator eigenvalue " +
                 "1 simple with second-largest modulus 1-p < 1, sigma full-rank PSD), yet CPsi(rho*) = CPsi(sigma) = " +
