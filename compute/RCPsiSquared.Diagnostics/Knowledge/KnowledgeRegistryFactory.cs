@@ -113,7 +113,7 @@ public static class KnowledgeRegistryFactory
             // F114: closed-form sign functional ε(σ) = (−1)^{n_Y(σ) + 1} for D-conjugation
             // action on the H-commutator superoperator L_σ. Tier1Derived; ctor parent is
             // Pi2KleinV4DephaseSwapGroup (uses D from there). Closed 2026-05-27 via the F114
-            // ANALYTICAL_FORMULAS.md entry + simulations/_m_level_sign_functional_explore.py.
+            // ANALYTICAL_FORMULAS.md entry + simulations/m_level_sign_functional_explore.py.
             .RegisterCommutatorDConjugationSign()
             // Spectrum foundation
             .RegisterW1Dispersion(N: defaultChain.N, J: defaultChain.J, gammaZero: defaultChain.GammaZero)

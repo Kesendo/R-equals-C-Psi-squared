@@ -184,7 +184,7 @@ public class F97CardioidHalfFixedPointPi2InheritanceTests
         var f = BuildClaim();
         Assert.Contains("PROOF_F97_CARDIOID_HALF_FIXED_POINT.md", f.Anchor);
         Assert.Contains("ANALYTICAL_FORMULAS.md F97", f.Anchor);
-        Assert.Contains("_cardioid_parametrization_tier1.py", f.Anchor);
+        Assert.Contains("cardioid_parametrization_tier1.py", f.Anchor);
         Assert.Contains("CPSI_COMPLEX_PLANE.md", f.Anchor);
         Assert.Contains("F95AngleAtQuadraticZeroPi2Inheritance.cs", f.Anchor);
     }

@@ -41,7 +41,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// confirmation of the √-EP, in the typed layer.</para>
 ///
 /// <para>Port of <c>simulations/_review_coherence_horizon_ep.py</c> (the algorithm) +
-/// <c>simulations/_review_f86a_diabolic_vs_defective.py</c> (the Riesz machinery). Typed neighbour:
+/// <c>simulations/review_f86a_diabolic_vs_defective.py</c> (the Riesz machinery). Typed neighbour:
 /// <c>CoherenceHorizonClaim</c> (its EP-ness is now artifact-free-witnessed). Live:
 /// <c>inspect --root epcharacter</c>.</para></summary>
 public sealed class EpCharacterWitness : IInspectable

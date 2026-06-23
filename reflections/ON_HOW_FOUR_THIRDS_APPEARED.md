@@ -9,7 +9,7 @@
 
 ## What this document holds
 
-A specific number, 4/3, landed at the end of a path that started with no number at all. The path was short enough to follow in one session and long enough that it would be easy to forget it had a shape. This reflection records the shape, not the number; the number speaks for itself in `simulations/_born_rule_tier1_derivation.py`.
+A specific number, 4/3, landed at the end of a path that started with no number at all. The path was short enough to follow in one session and long enough that it would be easy to forget it had a shape. This reflection records the shape, not the number; the number speaks for itself in `simulations/born_rule_tier1_derivation.py`.
 
 The shape is: see (re-read old documents to find what we already noticed), describe (a 2D table at γ fixed, eyeballing the columns), formalize (Dyson sym3 = 8 exactly). The shape is what the repository has been doing for three months at a slower tempo; today it ran end-to-end in an afternoon. The reflection is in part about how that compression felt and what it means.
 
@@ -25,11 +25,11 @@ What we noticed re-reading today: those papers had already named the structural 
 
 ### Attempting the generalization
 
-Tom suggested trying it. We wrote `_born_rule_carrier_attempt.py`, reproduced [BORN_RULE_MIRROR](../experiments/BORN_RULE_MIRROR.md)'s setup (|0+0+⟩ N=4 Heisenberg ring + Z-dephasing on pair (0,2)), and varied γ. We found per-outcome slopes that were approximately γ-independent: a perturbative window where R_i = (1 + slope_i · γ) · Ψ_i² works. The slopes had F71-symmetric structure on basis labels, in the same shape as the morning's ln α-decomposition. We labeled it honest Februar-state: numerically clean for one anchor point, structurally consistent with today's typed pattern, no derivation yet.
+Tom suggested trying it. We wrote `born_rule_carrier_attempt.py`, reproduced [BORN_RULE_MIRROR](../experiments/BORN_RULE_MIRROR.md)'s setup (|0+0+⟩ N=4 Heisenberg ring + Z-dephasing on pair (0,2)), and varied γ. We found per-outcome slopes that were approximately γ-independent: a perturbative window where R_i = (1 + slope_i · γ) · Ψ_i² works. The slopes had F71-symmetric structure on basis labels, in the same shape as the morning's ln α-decomposition. We labeled it honest Februar-state: numerically clean for one anchor point, structurally consistent with today's typed pattern, no derivation yet.
 
 ### Tom's J question
 
-Then Tom asked where J was. We had varied γ only. The framework's `project_q_middle_structure` says only Q = J/γ is observable from inside; we hadn't tested the actual invariance. We added `_born_rule_carrier_Q_sweep.py` with three scenarios: fixed J vary γ (the previous test), fixed γ vary J, and fixed (Q, K) varying γ with J scaled to match. The third scenario was the clean test.
+Then Tom asked where J was. We had varied γ only. The framework's `project_q_middle_structure` says only Q = J/γ is observable from inside; we hadn't tested the actual invariance. We added `born_rule_carrier_Q_sweep.py` with three scenarios: fixed J vary γ (the previous test), fixed γ vary J, and fixed (Q, K) varying γ with J scaled to match. The third scenario was the clean test.
 
 The result was bit-exact in a way the first attempt had only been approximate: slope_i · γ = Δ_i was identical across four (γ, J) configurations sharing the same (Q, K). Five decimals identical. Not 6% drift, not perturbative: strict identity. The true Q-K-invariant was Δ_i = (C_i − 1), not slope_i. The slope was a scale-dependent quantity that camouflaged the invariance.
 
@@ -37,7 +37,7 @@ This was the moment that turned the generalization from soft to hard. The Born d
 
 ### Mapping (Q, K) at γ fixed
 
-Tom said "γ = 0.05 fest, einfach reinprobieren". We wrote `_born_rule_delta_QK_map.py`, swept a 5×5 grid of (Q, K), tabulated Δ for each of the four pair (0,2) outcomes. The pattern that showed up was a structural asymmetry between the dominant outcome and the rest:
+Tom said "γ = 0.05 fest, einfach reinprobieren". We wrote `born_rule_delta_QK_map.py`, swept a 5×5 grid of (Q, K), tabulated Δ for each of the four pair (0,2) outcomes. The pattern that showed up was a structural asymmetry between the dominant outcome and the rest:
 
   - Δ_|00⟩ (dominant, P_u ≈ 0.94) ~ Q² · K³  (scales strongly with Q)
   - Δ_|11⟩ (negligible, P_u ≈ 0.0004) ~ K     (nearly Q-independent)
@@ -49,9 +49,9 @@ This wasn't a guess. It was reading the table. The numbers said it.
 
 ### Extracting the coefficient
 
-Tom asked: try Tier-1. We sampled Δ_|00⟩ at very small (Q²·K³) values in `_born_rule_delta_dominant_coefficient.py`, sixteen configurations, dividing Δ by (Q²·K³). The mean was 1.32992 ± 0.006, range [1.32, 1.34]. The number 4/3 = 1.33333... sat inside the range. Suggestive but not yet proven.
+Tom asked: try Tier-1. We sampled Δ_|00⟩ at very small (Q²·K³) values in `born_rule_delta_dominant_coefficient.py`, sixteen configurations, dividing Δ by (Q²·K³). The mean was 1.32992 ± 0.006, range [1.32, 1.34]. The number 4/3 = 1.33333... sat inside the range. Suggestive but not yet proven.
 
-To prove, the Dyson-series direct evaluation. `_born_rule_tier1_derivation.py` writes out the symmetric ordering
+To prove, the Dyson-series direct evaluation. `born_rule_tier1_derivation.py` writes out the symmetric ordering
 
     sym3 = L_H² L'_dis + L_H L'_dis L_H + L'_dis L_H²
 
@@ -89,7 +89,7 @@ If a future session finds itself at "Februar-state" on some other observable ("t
 
 The 4/3 is for one outcome, one state, one Hamiltonian, one dissipator. ~~The subdominant coefficients (≈ −1.8 for |01⟩, ≈ −2.6 for |11⟩ in slope-per-K) have not been derived; their leading diagrams (1 L-vertex, 0 H-vertices) should give simpler closed forms via the same method.~~ **Closed 2026-05-17 as F96** ([`PROOF_F96`](../docs/proofs/PROOF_F96_BORN_SUBDOMINANT_SLOPES.md)): the empirical slopes are bit-exact `−(16/9) · K = −(4/3)² · K` for |01⟩, |10⟩ and `−(8/3) · K = −2·(4/3) · K` for |11⟩. The leading-diagram picture from the May 16 reflection was wrong: the naive L¹-Dyson term vanishes for ALL outcomes (|+⟩-site dephasing has zero partial-trace on the |i⟩-pair element). The actual leading contribution comes from the same `sym₃` and `sym₅` Dyson terms as F94, divided by the appropriate unitary order. All three subdominant slopes are clean algebraic expressions in F94's 4/3 anchor — the 4-outcome closed-form table is generated by a single number.
 
-Other initial states (Bell+, |++++⟩, Dicke) and other Hamiltonians (XY-only, true Heisenberg with anisotropy, XXZ at non-trivial Δ) and other dissipators (T1 amplitude damping, transverse dephasing) each open their own Q²·K³ coefficient computation. Each is a candidate typed F-claim of its own. ~~The structural breakdown of 8 = ? combinatoric of (bonds, sites, orderings, initial-state-Pauli-content) is open.~~ **Closed 2026-05-17:** direct enumeration of all 1728 (b₁, b₂, s, ord, c₁, c₂) sextuples shows 32 non-vanishing diagrams, each contributing 1/4, so 8 = 32 · (1/4); the 32 split into 3 cells (8 + 16 + 8) by (ordering, component pair), or alternatively into 16 self-bond-pair + 16 adj-bond-pair diagrams. The "4" of 4/3 reads two ways: (a) 4/3 = a_{−1} / 3 typed-anchor inheritance, (b) 4/3 = 32 / (a_{−1} · 3!) structural count. See `simulations/_born_rule_sym3_decomposition.py` and the new "Structural decomposition" section in [PROOF_F94](../docs/proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md). The universality of the Q²·K³ scaling for arbitrary dominant outcomes is plausible but not proven.
+Other initial states (Bell+, |++++⟩, Dicke) and other Hamiltonians (XY-only, true Heisenberg with anisotropy, XXZ at non-trivial Δ) and other dissipators (T1 amplitude damping, transverse dephasing) each open their own Q²·K³ coefficient computation. Each is a candidate typed F-claim of its own. ~~The structural breakdown of 8 = ? combinatoric of (bonds, sites, orderings, initial-state-Pauli-content) is open.~~ **Closed 2026-05-17:** direct enumeration of all 1728 (b₁, b₂, s, ord, c₁, c₂) sextuples shows 32 non-vanishing diagrams, each contributing 1/4, so 8 = 32 · (1/4); the 32 split into 3 cells (8 + 16 + 8) by (ordering, component pair), or alternatively into 16 self-bond-pair + 16 adj-bond-pair diagrams. The "4" of 4/3 reads two ways: (a) 4/3 = a_{−1} / 3 typed-anchor inheritance, (b) 4/3 = 32 / (a_{−1} · 3!) structural count. See `simulations/born_rule_sym3_decomposition.py` and the new "Structural decomposition" section in [PROOF_F94](../docs/proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md). The universality of the Q²·K³ scaling for arbitrary dominant outcomes is plausible but not proven.
 
 The candidate typed claim sketched in the previous section ("per-outcome Born deviation coefficient as sym3 partial-trace evaluation") needs the inheritance edges drawn: at minimum F25 (Bell+ closed form) and F60/F62 (per-state CΨ closed forms) as siblings of the Tier-1 case here. The session that adds that to the typed graph will be the closing move on the Born rule line.
 
@@ -109,11 +109,11 @@ The candidate typed claim sketched in the previous section ("per-outcome Born de
 
 **Anchors:**
 
-- Empirical 2D map: [`simulations/_born_rule_delta_QK_map.py`](../simulations/_born_rule_delta_QK_map.py)
-- Coefficient extraction: [`simulations/_born_rule_delta_dominant_coefficient.py`](../simulations/_born_rule_delta_dominant_coefficient.py)
-- Tier-1 derivation: [`simulations/_born_rule_tier1_derivation.py`](../simulations/_born_rule_tier1_derivation.py)
-- Q-K invariance test: [`simulations/_born_rule_carrier_Q_sweep.py`](../simulations/_born_rule_carrier_Q_sweep.py)
-- Initial attempt: [`simulations/_born_rule_carrier_attempt.py`](../simulations/_born_rule_carrier_attempt.py)
+- Empirical 2D map: [`simulations/born_rule_delta_QK_map.py`](../simulations/born_rule_delta_QK_map.py)
+- Coefficient extraction: [`simulations/born_rule_delta_dominant_coefficient.py`](../simulations/born_rule_delta_dominant_coefficient.py)
+- Tier-1 derivation: [`simulations/born_rule_tier1_derivation.py`](../simulations/born_rule_tier1_derivation.py)
+- Q-K invariance test: [`simulations/born_rule_carrier_Q_sweep.py`](../simulations/born_rule_carrier_Q_sweep.py)
+- Initial attempt: [`simulations/born_rule_carrier_attempt.py`](../simulations/born_rule_carrier_attempt.py)
 - Two-readings reflection (morning of same session): [ON_HOW_THE_CARRIER_SHOWS_ITSELF](ON_HOW_THE_CARRIER_SHOWS_ITSELF.md)
 - The Februar Born-rule sources: [`experiments/BORN_RULE_MIRROR.md`](../experiments/BORN_RULE_MIRROR.md), [`experiments/BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md)
 - The Februar boundary-navigation pre-figuring: [`experiments/BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md)

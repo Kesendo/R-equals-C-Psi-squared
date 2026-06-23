@@ -14,8 +14,8 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 /// primitives, applies the F94 sym3 expansion to ρ_0 = |0+0+⟩⟨0+0+|, partial-traces
 /// to pair (0, 2), and verifies the matrix elements against F94's asserted constants.
 ///
-/// <para>Mirrors the Python script <c>simulations/_born_rule_tier1_derivation.py</c>
-/// and its enumeration sibling <c>_born_rule_sym3_decomposition.py</c>, but as a
+/// <para>Mirrors the Python script <c>simulations/born_rule_tier1_derivation.py</c>
+/// and its enumeration sibling <c>born_rule_sym3_decomposition.py</c>, but as a
 /// self-contained C# test — no external Python dependency. If these tests pass,
 /// the F94 typed-claim constants are bit-exact from-scratch verified.</para>
 /// </summary>

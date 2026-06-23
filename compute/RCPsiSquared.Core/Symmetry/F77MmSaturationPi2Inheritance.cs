@@ -61,7 +61,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// anchoring is algebraic-trivial composition.</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F77 +
-/// <c>simulations/_mm_asymptotic.py</c> +
+/// <c>simulations/mm_asymptotic.py</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs</c>
 /// (HalfAsStructuralFixedPointClaim).</para></summary>
@@ -151,7 +151,7 @@ public sealed class F77MmSaturationPi2Inheritance : Claim, IZ2AxisClaim
         : base("F77 MM(0) → 1 bit saturation lands on Pi2 ladder self-mirror pivot a_1; mechanism = inversion identity a_0·a_2 = 1 (Half)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F77 + " +
-               "simulations/_mm_asymptotic.py + " +
+               "simulations/mm_asymptotic.py + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (HalfAsStructuralFixedPoint, typed)")
     {

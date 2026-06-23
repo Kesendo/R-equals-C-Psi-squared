@@ -61,9 +61,9 @@ Hardware-run script: `AIEvolution.UI/experiments/ibm_quantum_tomography/run_zn_m
 python run_zn_mirror.py --hardware --backend ibm_marrakesh --path 48,49,50
 ```
 
-Analysis: `simulations/_zn_mirror_hardware_analysis.py`
+Analysis: `simulations/zn_mirror_hardware_analysis.py`
 ```
-python simulations/_zn_mirror_hardware_analysis.py \
+python simulations/zn_mirror_hardware_analysis.py \
        data/ibm_zn_mirror_april2026/zn_mirror_ibm_marrakesh_20260429_102824.json
 ```
 

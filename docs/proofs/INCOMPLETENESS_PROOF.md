@@ -83,7 +83,7 @@ use, so it cannot, by itself, rule out an internal origin. It is also
 *axis-agnostic*: it holds equally for X-, Y-, and Z-dephasing; every dephasing
 dissipator is diagonal in the Pauli basis and Π² is a sign on each Pauli
 string, so the two commute trivially (verified from below in
-[_review2_A9_incompleteness.py](../../simulations/_review2_A9_incompleteness.py):
+[review2_A9_incompleteness.py](../../simulations/review2_A9_incompleteness.py):
 ‖[Π², L]‖ ≈ 1e-16 for all three axes). So the bootstrap result is
 *underdetermination*, not impossibility: parity constrains the dissipator's
 form to a multi-parameter family but does not forbid a self-generated source.
@@ -91,7 +91,7 @@ The actual elimination of an internal origin is carried by Candidates 2 and 3
 below (a finite internal source produces non-Markovian backflow with γ_eff = 0;
 a qubit-bath leads to infinite regress).
 
-**Source:** [bootstrap_test.py](../../simulations/bootstrap_test.py), [bootstrap_test.txt](../../simulations/results/bootstrap_test.txt); structural verifier [_review2_A9_incompleteness.py](../../simulations/_review2_A9_incompleteness.py)
+**Source:** [bootstrap_test.py](../../simulations/bootstrap_test.py), [bootstrap_test.txt](../../simulations/results/bootstrap_test.txt); structural verifier [review2_A9_incompleteness.py](../../simulations/review2_A9_incompleteness.py)
 
 **Conclusion:** Candidate 1 establishes a structural *constraint* (any noise
 must respect the parity grading), not an elimination. The [Π², L] = 0 identity

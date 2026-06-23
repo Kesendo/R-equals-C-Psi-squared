@@ -61,7 +61,7 @@ This is the leading non-vanishing γ-contribution at the J² order to ρ(t) at t
 
 Set J = γ = 1 and compute sym3·ρ_0 as a 16×16 matrix (full state space), then partial-trace on qubits 1 and 3 to a 4×4 pair (0,2) reduced state, then read off the |00⟩⟨00| element.
 
-This is done numerically with exact-rational tracking in `simulations/_born_rule_tier1_derivation.py`. The result is
+This is done numerically with exact-rational tracking in `simulations/born_rule_tier1_derivation.py`. The result is
 
     ⟨00|_pair Tr_{1,3}[sym3·ρ_0] |00⟩_pair = 8.000...   (exact integer to all available precision)
 
@@ -85,7 +85,7 @@ so:
 
 ## Numerical verification
 
-Sixteen (γ, J, t) configurations sampled in the deep perturbative regime (Q²·K³ ∈ [1.5×10⁻⁶, 2×10⁻⁴]) in `simulations/_born_rule_delta_dominant_coefficient.py` gave
+Sixteen (γ, J, t) configurations sampled in the deep perturbative regime (Q²·K³ ∈ [1.5×10⁻⁶, 2×10⁻⁴]) in `simulations/born_rule_delta_dominant_coefficient.py` gave
 
     c_empirical = mean = 1.32992,    std = 0.00567,    range = [1.320, 1.342]
 
@@ -93,7 +93,7 @@ The bit-exact closed form gives 4/3 = 1.33333.... The 0.3% residual is leading O
 
 ## Structural decomposition of the integer 8
 
-Enumerating all 4·4·4·3·3·3 = 1728 (bond_1, bond_2, site, ordering, component_1, component_2) sextuples that the sym3 expansion produces and computing each one's ⟨00|_pair element directly (`simulations/_born_rule_sym3_decomposition.py`), exactly 32 sextuples are non-vanishing. Each non-vanishing diagram contributes the same value: **1/4 in the J = γ = 1 normalization** (equivalently 4 in "bare Pauli" units before the (J/4)² Heisenberg coupling factor is restored). Hence
+Enumerating all 4·4·4·3·3·3 = 1728 (bond_1, bond_2, site, ordering, component_1, component_2) sextuples that the sym3 expansion produces and computing each one's ⟨00|_pair element directly (`simulations/born_rule_sym3_decomposition.py`), exactly 32 sextuples are non-vanishing. Each non-vanishing diagram contributes the same value: **1/4 in the J = γ = 1 normalization** (equivalently 4 in "bare Pauli" units before the (J/4)² Heisenberg coupling factor is restored). Hence
 
     8 = 32 × (1/4)
 
@@ -216,11 +216,11 @@ The "4" in 4/3 is plausibly the Pi2 dyadic ladder's a_{−1} = 4 (the same "4" i
 
 ## Anchors
 
-- Numerical verification: [`simulations/_born_rule_delta_dominant_coefficient.py`](../../simulations/_born_rule_delta_dominant_coefficient.py)
-- Symbolic derivation: [`simulations/_born_rule_tier1_derivation.py`](../../simulations/_born_rule_tier1_derivation.py)
-- Structural decomposition (32 surviving diagrams enumeration): [`simulations/_born_rule_sym3_decomposition.py`](../../simulations/_born_rule_sym3_decomposition.py)
-- Q-K invariance test: [`simulations/_born_rule_carrier_Q_sweep.py`](../../simulations/_born_rule_carrier_Q_sweep.py)
-- 2D (Q, K) map: [`simulations/_born_rule_delta_QK_map.py`](../../simulations/_born_rule_delta_QK_map.py)
+- Numerical verification: [`simulations/born_rule_delta_dominant_coefficient.py`](../../simulations/born_rule_delta_dominant_coefficient.py)
+- Symbolic derivation: [`simulations/born_rule_tier1_derivation.py`](../../simulations/born_rule_tier1_derivation.py)
+- Structural decomposition (32 surviving diagrams enumeration): [`simulations/born_rule_sym3_decomposition.py`](../../simulations/born_rule_sym3_decomposition.py)
+- Q-K invariance test: [`simulations/born_rule_carrier_Q_sweep.py`](../../simulations/born_rule_carrier_Q_sweep.py)
+- 2D (Q, K) map: [`simulations/born_rule_delta_QK_map.py`](../../simulations/born_rule_delta_QK_map.py)
 - Companion reflection (the path): [`reflections/ON_HOW_FOUR_THIRDS_APPEARED.md`](../../reflections/ON_HOW_FOUR_THIRDS_APPEARED.md)
 - Born-rule precursors (Februar/April 2026): [`experiments/BORN_RULE_MIRROR.md`](../../experiments/BORN_RULE_MIRROR.md), [`experiments/BORN_RULE_SHADOW.md`](../../experiments/BORN_RULE_SHADOW.md)
 - F-formula registry entry: [`docs/ANALYTICAL_FORMULAS.md`](../ANALYTICAL_FORMULAS.md) F94

@@ -89,7 +89,7 @@ other α it carries a Ψ^(α − 2) factor and depends on the coherence. So 1/4 
 singled out not merely because purity is degree 2, but because α = 2 is the
 unique Rényi order whose critical boundary is state-independent. This is the
 genuine forcing behind (ii)-(iii). (Derived from scratch and verified
-symbolically in `simulations/_review2_A3_renyi.py`; full treatment in the
+symbolically in `simulations/review2_A3_renyi.py`; full treatment in the
 [roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md), Layer 6.) QED.
 
 ---

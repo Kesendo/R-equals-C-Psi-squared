@@ -3,7 +3,7 @@
 **Status:** Computational + analytical (Tier 1-2). First framework-based calculation built on `simulations/framework.py` primitives. Numerical agreement to 0.2-0.8 % at α=0.025 across 7 asymmetry configurations.
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Pipeline:** `simulations/_asymmetric_v_effect.py` (uses `framework.py`)
+**Pipeline:** `simulations/asymmetric_v_effect.py` (uses `framework.py`)
 **See also:** [EXCHANGE_FROM_V_EFFECT](EXCHANGE_FROM_V_EFFECT.md), [V_EFFECT_BOUNDARY_LOCALIZATION](V_EFFECT_BOUNDARY_LOCALIZATION.md), [PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md)
 
 ---
@@ -58,7 +58,7 @@ Therefore ⟨(σ_1·σ_2)²⟩_{|ψ_0⟩} = 3 − 0 = 3.
 
 ## Numerical verification (N=4, exact diagonalization)
 
-Pipeline: `simulations/_asymmetric_v_effect.py`. Build H via `framework._build_bilinear`, exact eigendecomposition, extract δE_GS = E_0(α) − E_0(0), compare to prediction.
+Pipeline: `simulations/asymmetric_v_effect.py`. Build H via `framework._build_bilinear`, exact eigendecomposition, extract δE_GS = E_0(α) − E_0(0), compare to prediction.
 
 Selected results at α = 0.025 (smallest tested, deepest in PT regime):
 
@@ -102,4 +102,4 @@ The prediction holds across nearly two orders of magnitude in J_A/J_B asymmetry 
 - [PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md): the (w=0, w=N) palindrome immunity that grounds this whole construction.
 - [HEISENBERG_RELOADED](../hypotheses/HEISENBERG_RELOADED.md): the level-stack picture into which this fits.
 - `simulations/framework.py`: framework primitives.
-- `simulations/_asymmetric_v_effect.py`: this calculation's pipeline.
+- `simulations/asymmetric_v_effect.py`: this calculation's pipeline.

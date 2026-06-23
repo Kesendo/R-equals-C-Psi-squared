@@ -13,7 +13,7 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// popcount-coherence pair states |ψ⟩ = (|p⟩ + |q⟩)/√2 across all anchor
 /// categories (HD = N Π²-classical, popcount-mirror, intra-mirror,
 /// K-intermediate, generic). Python counterpart:
-/// <c>simulations/_pi2_odd_general_closed_form.py</c>.</summary>
+/// <c>simulations/pi2_odd_general_closed_form.py</c>.</summary>
 public class PopcountCoherencePi2OddCrossCheckTests
 {
     [Theory]

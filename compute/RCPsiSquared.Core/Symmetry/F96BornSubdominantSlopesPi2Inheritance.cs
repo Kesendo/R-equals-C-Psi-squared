@@ -100,7 +100,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F96_BORN_SUBDOMINANT_SLOPES.md</c> +
 /// <c>docs/ANALYTICAL_FORMULAS.md</c> F96 +
-/// <c>simulations/_born_rule_subdominant_dyson.py</c> (symbolic + Lindblad,
+/// <c>simulations/born_rule_subdominant_dyson.py</c> (symbolic + Lindblad,
 /// bit-exact) + <c>reflections/ON_HOW_FOUR_THIRDS_APPEARED.md</c> (the May 16
 /// reflection that named the empirical subdominant slopes as the next step).
 /// Sibling: <see cref="F94BornDeviationFourThirdsPi2Inheritance"/>
@@ -215,7 +215,7 @@ public sealed class F96BornSubdominantSlopesPi2Inheritance : Claim, IZ2AxisClaim
                Tier.Tier1Derived,
                "docs/proofs/PROOF_F96_BORN_SUBDOMINANT_SLOPES.md + " +
                "docs/ANALYTICAL_FORMULAS.md F96 + " +
-               "simulations/_born_rule_subdominant_dyson.py + " +
+               "simulations/born_rule_subdominant_dyson.py + " +
                "reflections/ON_HOW_FOUR_THIRDS_APPEARED.md (May 16 reflection that named the open empirical slopes) + " +
                "compute/RCPsiSquared.Core/Symmetry/F94BornDeviationFourThirdsPi2Inheritance.cs (the 4/3 unit F96 elaborates) + " +
                "compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs (Q-independence is the operational signature; informational, not typed parent)")

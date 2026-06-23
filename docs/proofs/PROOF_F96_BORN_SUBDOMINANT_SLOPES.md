@@ -20,7 +20,7 @@ Combined with F94 the full per-outcome table for this setup is:
 | \|10⟩ | Δ = −(16/9) · K = −(4/3)² · K | F96: same as \|01⟩ by site-permutation symmetry |
 | \|11⟩ | Δ = −(8/3) · K = −2·(4/3) · K | F96: M_5 / (5 · B) = −20 / (5 · 3/2) = −8/3 |
 
-**Status:** Tier 1 derived. Bit-exact symbolic via direct evaluation of the relevant Dyson matrix elements (M_3, M_5) and unitary matrix elements (A = ⟨i\|Tr[L_h² ρ_0]\|i⟩, B = ⟨i\|Tr[L_h⁴ ρ_0]\|i⟩) in `simulations/_born_rule_subdominant_dyson.py`. Numerical Lindblad verification matches all three subdominant slopes to within higher-order corrections.
+**Status:** Tier 1 derived. Bit-exact symbolic via direct evaluation of the relevant Dyson matrix elements (M_3, M_5) and unitary matrix elements (A = ⟨i\|Tr[L_h² ρ_0]\|i⟩, B = ⟨i\|Tr[L_h⁴ ρ_0]\|i⟩) in `simulations/born_rule_subdominant_dyson.py`. Numerical Lindblad verification matches all three subdominant slopes to within higher-order corrections.
 
 **Date:** 2026-05-17.
 
@@ -73,7 +73,7 @@ For |01⟩ (and |10⟩ by the 0 ↔ 2 site-permutation symmetry):
 - k = 1 (P_unitary(|01⟩, t) starts at t²)
 - Need M_3^{(01)} and U_2^{(01)}.
 
-Direct evaluation at J = γ = 1 (see `_born_rule_subdominant_dyson.py`):
+Direct evaluation at J = γ = 1 (see `born_rule_subdominant_dyson.py`):
 
     M_3^{(01)} = ⟨01|_pair Tr_{1,3}[sym_3^1 · ρ_0]|01⟩_pair = −4
     U_2^{(01)} = ⟨01|_pair Tr_{1,3}[L_h² · ρ_0]|01⟩_pair = 3/4
@@ -149,7 +149,7 @@ The algebraic connection to F94's 4/3 (Δ_|01⟩ = −(4/3)², Δ_|11⟩ = −2�
 
 ## Anchors
 
-- Symbolic + numerical derivation: [`simulations/_born_rule_subdominant_dyson.py`](../../simulations/_born_rule_subdominant_dyson.py)
+- Symbolic + numerical derivation: [`simulations/born_rule_subdominant_dyson.py`](../../simulations/born_rule_subdominant_dyson.py)
 - F94 (dominant outcome): [`PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md`](PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md), [`F94 ANALYTICAL_FORMULAS entry`](../ANALYTICAL_FORMULAS.md#f94)
 - Born-rule precursors (Februar 2026): [`experiments/BORN_RULE_MIRROR.md`](../../experiments/BORN_RULE_MIRROR.md), [`experiments/BORN_RULE_SHADOW.md`](../../experiments/BORN_RULE_SHADOW.md)
 - Companion magnitude-side closed form: [F94](../ANALYTICAL_FORMULAS.md#f94)

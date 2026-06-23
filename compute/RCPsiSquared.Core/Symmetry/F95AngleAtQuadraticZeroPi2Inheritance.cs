@@ -79,7 +79,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item><c>docs/proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md</c></item>
 ///   <item><c>docs/ANALYTICAL_FORMULAS.md</c> §F95</item>
 ///   <item><c>reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md</c></item>
-///   <item><c>simulations/_angle_at_zero_tier1_candidate.py</c> (numerical
+///   <item><c>simulations/angle_at_zero_tier1_candidate.py</c> (numerical
 ///         verification against BOUNDARY_NAVIGATION table)</item>
 ///   <item><c>experiments/BOUNDARY_NAVIGATION.md</c> (Februar 2026
 ///         state-specific precursor)</item>
@@ -173,7 +173,7 @@ public sealed class F95AngleAtQuadraticZeroPi2Inheritance : Claim, IZ2AxisClaim
                "docs/proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md + " +
                "docs/ANALYTICAL_FORMULAS.md F95 + " +
                "reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md + " +
-               "simulations/_angle_at_zero_tier1_candidate.py + " +
+               "simulations/angle_at_zero_tier1_candidate.py + " +
                "experiments/BOUNDARY_NAVIGATION.md (state-specific precursor) + " +
                "experiments/CPSI_COMPLEX_PLANE.md (complex extension) + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs " +

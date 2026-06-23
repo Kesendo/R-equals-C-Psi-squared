@@ -29,7 +29,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// moments (m=3, the cell-free face); (3) the per-rung decomposition (how each rung k contributes); (4)
 /// the rung is essential (remove Q → the moment projection is gone); (5) the general rung (m=5, not an
 /// m=3 accident). The illustrative H is a uniform-Z-field XY chain (c_l = 1 per site, so the deg-1 face
-/// fires). Verifier: <c>simulations/_three_ladders_bridge.py</c>. Convention: row-stacking vec,
+/// fires). Verifier: <c>simulations/three_ladders_bridge.py</c>. Convention: row-stacking vec,
 /// kron(A,B): ρ ↦ AρBᵀ. Guard: 4^N ≤ <see cref="MaxDim"/> (N ≤ 5).</para></summary>
 public sealed class LadderHingeWitness : IInspectable
 {

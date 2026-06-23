@@ -1,6 +1,6 @@
 # D · Π_Z · D = Π_Y: the Z↔Y Dephase-Letter Swap as an Operator-Space Conjugation
 
-**Status:** Reflection. Surfaced 2026-05-27 during the Welle 10d Task 1 spec-review audit of the F112 sparse-rep refactor. Verified bit-exact at N = 1, 2, 3, 4 via `simulations/_d_pi_z_swap_verify.py`.
+**Status:** Reflection. Surfaced 2026-05-27 during the Welle 10d Task 1 spec-review audit of the F112 sparse-rep refactor. Verified bit-exact at N = 1, 2, 3, 4 via `simulations/d_pi_z_swap_verify.py`.
 
 **Date:** 2026-05-27 (Welle 10d audit)
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
@@ -18,7 +18,7 @@ where:
 
 D is its own inverse (D² = I) and unitary (D† = D). The identity says that conjugating Π_Z by D produces Π_Y exactly.
 
-Verified bit-exact (max |D·Π_Z·D − Π_Y| = 0.000e+00 in numpy double precision) at N = 1, 2, 3, 4 via [`simulations/_d_pi_z_swap_verify.py`](../simulations/_d_pi_z_swap_verify.py).
+Verified bit-exact (max |D·Π_Z·D − Π_Y| = 0.000e+00 in numpy double precision) at N = 1, 2, 3, 4 via [`simulations/d_pi_z_swap_verify.py`](../simulations/d_pi_z_swap_verify.py).
 
 ## Why it surfaced
 
@@ -71,7 +71,7 @@ What this gives us: any F1 residual norm / inner product / spectrum computed via
 
    No pure diagonal works for Z↔X because Π_Z flips bit_a (I↔X, Z↔Y orbits) while Π_X flips bit_b (I↔Z, X↔Y orbits) — a permutation between the bit-axes is required. The X↔Z basis permutation is the structural bridge: it intertwines the Klein generator (1, 0) (representing X) with (0, 1) (representing Z).
 
-   The N-site operators are tensor powers: `D = ⊗_l d_l`, `Q_zx = ⊗_l (h · d_l) = H · D`, `Q_yx = ⊗_l h = H`. Verified bit-exact at N = 1, 2, 3, 4 via [`simulations/_klein_dephase_swap_explore.py`](../simulations/_klein_dephase_swap_explore.py) (numpy + sympy per-site symbolic).
+   The N-site operators are tensor powers: `D = ⊗_l d_l`, `Q_zx = ⊗_l (h · d_l) = H · D`, `Q_yx = ⊗_l h = H`. Verified bit-exact at N = 1, 2, 3, 4 via [`simulations/klein_dephase_swap_explore.py`](../simulations/klein_dephase_swap_explore.py) (numpy + sympy per-site symbolic).
 
    See [PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md](../docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md).
 

@@ -5,7 +5,7 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>The three-ladder hinge (inspect --root ladders): Q is the hinge. The bridge identity
 /// P_{m,1} = m·Tr(Q·A^{m−1}) = the girth moments is the gate (port fidelity to
-/// simulations/_three_ladders_bridge.py); the rung-essential check shows Q is not incidental.</summary>
+/// simulations/three_ladders_bridge.py); the rung-essential check shows Q is not incidental.</summary>
 public class LadderHingeWitnessTests
 {
     [Theory]

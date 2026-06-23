@@ -20,7 +20,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// label swap J ↔ |β|: the XY chain's coherence horizon IS the Frost-Hückel threshold of the same
 /// polyene. N=2 (Q*=1) is the exceptional point itself (γ=J), the base rung the carbon polyene
 /// layer (N≥3) cannot reach; the quantum side supplies it. This witness is the "C# witness first"
-/// port of the probe <c>simulations/_carbon_quantum_same_mountain.py</c>.</para>
+/// port of the probe <c>simulations/carbon_quantum_same_mountain.py</c>.</para>
 ///
 /// <para>It reuses <see cref="Symphony"/> as the spectrum engine: Q*(N) is found by bisecting γ at
 /// J=1 on whether <see cref="Symphony.Clock"/>.Omega (max|Im λ| among the modes at the slowest

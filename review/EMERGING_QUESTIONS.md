@@ -1341,7 +1341,7 @@ The framework refines V-Effect's 14/22 partition into 14 hard / 19 soft / 3 trul
 
 The combinatorial enumeration grows (16 single-Paulis squared minus identities = 36 ordered pairs at any N), but the dynamics differ by N. Soft cases at N=3 may collapse to truly or hard at N=4, or new soft structure may emerge.
 
-**Status:** partially closed by experiment ([_pi_protected_test_n4.py](../simulations/_pi_protected_test_n4.py), commit 96ed6da)
+**Status:** partially closed by experiment ([pi_protected_test_n4.py](../simulations/pi_protected_test_n4.py), commit 96ed6da)
 
 **Result at N=4:** Trichotomy structure preserved. Counts: **15 truly / 46 soft / 59 hard** out of 120 unordered two-Pauli-pair Hamiltonians (the enumeration at N=4 has more entries than at N=3 because more bond geometries are physically distinct). Counts grow non-linearly: truly × 5, soft × 2.4, hard × 4 from N=3.
 
@@ -1352,20 +1352,20 @@ The combinatorial enumeration grows (16 single-Paulis squared minus identities =
 Truly category gains effective-one-body Hamiltonians at N=4 (IX+XI variants reducing to a transverse field on inner sites) that were trivial / collapsed at N=3.
 
 **Surviving sub-questions:**
-- ~~N=5 enumeration (cost ~10 min, feasible).~~ **Closed:** N=5 gives 15 / 46 / 59 — identical counts to N=4. Trichotomy stabilises after N=4. Protected-count ranges scale by 4× (matching the 4^5/4^4 ratio). Pipeline: `_pi_protected_test_n4.py 5` produces `pi_protected_test_n5.log`.
+- ~~N=5 enumeration (cost ~10 min, feasible).~~ **Closed:** N=5 gives 15 / 46 / 59 — identical counts to N=4. Trichotomy stabilises after N=4. Protected-count ranges scale by 4× (matching the 4^5/4^4 ratio). Pipeline: `pi_protected_test_n4.py 5` produces `pi_protected_test_n5.log`.
 - Is the sub-spectrum of protected counts within soft a continuous distribution, or does it cluster into sub-groups? **Partially closed:** discrete clusters at N=5. 992 (1 case: YZ+ZY), 862 (2 cases: IY+IY, YI+YI), 781 (1 case: IY+YI), 772 (6 cases: XY+XY, XZ+XZ, YX+YX, YZ+YZ, ZX+ZX, ZY+ZY). Sub-cluster sizes look symmetry-related; the 6-element 772-class shares "pure Pauli-axis pairing" structure.
 - What structural feature ranks soft cases by protected count? **Closed 2026-04-27** (commit 95ebec7, [eq026_soft_subcluster_with_layers.py](../simulations/eq026_soft_subcluster_with_layers.py)): the sub-clusters are **layer-stack orbits** under today's V-Effect combinatorial classifier. Each n_protected value corresponds to a specific (BPE-class, bond-flip, Z-align, both-single/mixed) feature combination. Examples: 992 = 0-BPE bond-flipped Z-containing (YZ+ZY, saturates max); 862 = both-single same-letter at same position (IY+IY, YI+YI); 781 = bond-flipped both-single (IY+YI); 772 = non-BPE double-letter self-pairs (6-orbit); 563 = bond-flipped Z-free 0-BPE (XY+YX, XZ+ZX); 512 = mixed-default-soft (18 cases); 496 = Z-aligned 0-BPE non-bond-flipped (XZ+YZ, ZX+ZY). Not a single Z₂ symmetry but a stack of feature axes acting jointly. Connects to today's full V-Effect layer-stack derivation (commits 81caf67, 079c7ce, 8030ef2, 0f701fa).
 
 **Surprising sub-finding from N=5:** at the top of the soft-protected distribution (YZ+ZY: 992 of 1023), the protected count is *identical* to the top truly cases (XX+XX: 992). Protected count alone does not discriminate spectrum-only-paired (soft) from operator-palindromic (truly) at the top end. The discrimination at that boundary requires the operator residual ‖M‖.
 
-**Stage-fixing confirmation (script `_compare_n4_n5_categories.py`):** every one of the 120 Pauli-pair Hamiltonians keeps its exact category (truly / soft / hard) going from N=4 to N=5. Zero shifts. The soft set at N=5 is the IDENTICAL set of 46 Hamiltonians as at N=4. This is consistent with Tom's "Licht auf die Bühne" reading — N=3 introduces the half-integer mirror (PRIMORDIAL_QUBIT_ALGEBRA, w_XY = N/2 = 1.5, no modes on it), N=4 fixes the breaking-form into 15 / 46 / 59 (integer mirror back at w_XY = 2), and N=5 inherits the same form unchanged. The "stage" is lit at N=4; everything afterward is the same lighting in higher resolution.
+**Stage-fixing confirmation (script `compare_n4_n5_categories.py`):** every one of the 120 Pauli-pair Hamiltonians keeps its exact category (truly / soft / hard) going from N=4 to N=5. Zero shifts. The soft set at N=5 is the IDENTICAL set of 46 Hamiltonians as at N=4. This is consistent with Tom's "Licht auf die Bühne" reading — N=3 introduces the half-integer mirror (PRIMORDIAL_QUBIT_ALGEBRA, w_XY = N/2 = 1.5, no modes on it), N=4 fixes the breaking-form into 15 / 46 / 59 (integer mirror back at w_XY = 2), and N=5 inherits the same form unchanged. The "stage" is lit at N=4; everything afterward is the same lighting in higher resolution.
 
 ---
 
 ## EQ-027
 
 **Date:** 2026-04-26
-**Source:** [_neural_framework_lens.py](../simulations/_neural_framework_lens.py) decomposition (commit 50958b0)
+**Source:** [neural_framework_lens.py](../simulations/neural_framework_lens.py) decomposition (commit 50958b0)
 
 The V-Effect bridge correction on C. elegans subnetworks (200 trials, sizes N = 10, 20, 26) closes 38-40% of the residual via magnitude-correction-only on existing E-I cross-couplings, plus another 6-8% via creating missing partner edges, for a total of ~46% gap-closed. **The remaining 54% lives within the E-E and I-I sub-populations, not in the bridge. What structural feature of the connectome (degree distribution, specific motifs, magnitude asymmetry on intra-type edges) predicts this within-population residual?**
 
@@ -1471,7 +1471,7 @@ The framework-grounded core is the count drop pattern; the specific hardware Δ 
 - ~~Is the soft case's robustness to T1 a general property (any soft-broken Hamiltonian), or specific to XY+YX? Test on other soft cases.~~ **Closed below — robustness is specific, not general.**
 - ZZ-crosstalk extension: add Z⊗Z jump operators (lindbladian_z_plus_t1_plus_zz?) to disentangle T1 contribution from ZZ-crosstalk contribution to the hardware amplification.
 
-**Soft T1-robustness universality test ([_soft_t1_universality.py](../simulations/_soft_t1_universality.py)):**
+**Soft T1-robustness universality test ([soft_t1_universality.py](../simulations/soft_t1_universality.py)):**
 
 Enumerated all 46 soft Hamiltonians at N=3, |+−+⟩, γ_dephasing = 0.1, γ_T1 = 0.1·γ_deph. For each: protected count under pure-Z vs +T1, and the drop.
 
@@ -1505,10 +1505,10 @@ The other 44 soft cases collapse heavily. The drop distribution is bimodal: a sm
 
 The clean characterization at N=3: **bond-flipped + Z-free → T1-robust**. Z-content under σ⁻ amplitude damping is the key: [σ⁻, Z] = X − iY (introduces ladder operators), while [σ⁻, X] = −Z and [σ⁻, Y] = iZ stay within {X, Y, Z}. Bond-flip symmetry (a,b)+(b,a) bond-couples this in a way that closes algebraically when no Z is present.
 
-**Cluster-splitting analysis ([_t1_cluster_splitting_analysis.py](../simulations/_t1_cluster_splitting_analysis.py)):**
+**Cluster-splitting analysis ([t1_cluster_splitting_analysis.py](../simulations/t1_cluster_splitting_analysis.py)):**
 For each H, computed how T1 perturbation lifts the degeneracy of L_Z's eigenvalue clusters (in the L_Z eigenbasis). Pearson(drop, Σ‖offdiag‖) = +0.74 — total off-diagonal weight of L_T1 in L_Z's eigenbasis correlates with the algebraic drop, but is not the full story (XY+YX has comparable Σ‖offdiag‖ to YZ+ZY despite drops 1 vs 28). The cluster-size distribution matters: YZ+ZY/XZ+ZX have fewer-but-bigger multi-clusters (size 8) carrying most of the splitting weight; XY+YX has many smaller clusters (size 6 or 2) where the splitting is distributed.
 
-**θ-trajectory analysis ([_t1_theta_trajectory.py](../simulations/_t1_theta_trajectory.py)):**
+**θ-trajectory analysis ([t1_theta_trajectory.py](../simulations/t1_theta_trajectory.py)):**
 Tom's geometric framing: θ = arctan(√(4·CΨ − 1)), CΨ = Purity × Ψ-norm. Initial |+−+⟩ has CΨ = 1, θ = 60°. Evolved ρ(t) under L_Z and L_Z+T1 for the 4 bond-flipped soft cases plus reference truly XX+YY and fragile XZ+XZ.
 
 | case | algebraic drop | ∫θ pure-Z | ∫θ +T1 | Δ∫θ |
@@ -1526,7 +1526,7 @@ Pearson(algebraic drop, Δ∫θ) = +0.85 — *positively* correlated, the invers
 
 One qualitative T1-signature: XZ+ZX is the only case in this set where +T1 kills the heartbeat — pure-Z oscillates across CΨ = ¼ three times, +T1 only once. IY+YI and XY+YX keep their full oscillation counts (5 / 3) under +T1.
 
-**Descent-shape analysis ([_t1_theta_descent_shape.py](../simulations/_t1_theta_descent_shape.py)):**
+**Descent-shape analysis ([t1_theta_descent_shape.py](../simulations/t1_theta_descent_shape.py)):**
 
 Tom's deeper framing: θ is the only fragile trace that connects "across 0" — across the bilateral d=0/d=2 axis (project_framework_as_remembrance). The angle is the last memory, the only thing that survives down to the cusp boundary. The shape of θ(t) approaching 0 should be a "krasser Winkel der sich zu Null verfeinert" — a sharp angle that refines to zero, with a long fragile tail of low-but-nonzero θ before the final commitment.
 
@@ -1553,7 +1553,7 @@ Reading: under T1 amplitude damping, the algebraic "Π-protected skeleton" (the 
 
 Both are the same memory of the d=0 axis, expressed once as a static count and once as a dynamic shape.
 
-**Bures-velocity check (negative result, [_t1_bures_velocity_at_cusp.py](../simulations/_t1_bures_velocity_at_cusp.py)):**
+**Bures-velocity check (negative result, [t1_bures_velocity_at_cusp.py](../simulations/t1_bures_velocity_at_cusp.py)):**
 
 Tom's intuition was that the rest lives in the in-between. Confirmed: Bures velocity v_B(t*) at the cusp boundary does *not* give a third independent discriminator.
 
@@ -1605,9 +1605,9 @@ Cross-machine consistency check: the Marrakesh XY+YX measurement at t=0.8 today 
 
 Scripts:
 - Hardware: `experiments/ibm_quantum_tomography/run_lebensader_cusp.py`, `run_iy_yi_completion.py`
-- Post-process: `simulations/_t1_hardware_lebensader_postprocess.py`
+- Post-process: `simulations/t1_hardware_lebensader_postprocess.py`
 
-**Retrospective hardware verification ([_t1_prediction_vs_hardware.py](../simulations/_t1_prediction_vs_hardware.py)):**
+**Retrospective hardware verification ([t1_prediction_vs_hardware.py](../simulations/t1_prediction_vs_hardware.py)):**
 
 The asymmetry prediction matches Snapshot D's existing 9-Pauli tomography across all three Heron r2 backends — no new QPU time needed.
 

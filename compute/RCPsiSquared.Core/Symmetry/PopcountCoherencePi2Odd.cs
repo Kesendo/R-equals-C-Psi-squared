@@ -17,7 +17,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// at K-intermediate), and verified table: see
 /// <c>docs/proofs/PROOF_F86_QPEAK.md</c> §Structural inheritance from F88b.
 /// Python verifier (213 cases at N = 2..7, max deviation 8.88e−16):
-/// <c>simulations/_pi2_odd_general_closed_form.py</c>.</para>
+/// <c>simulations/pi2_odd_general_closed_form.py</c>.</para>
 ///
 /// <para><b>API as inheritance graph.</b> The methods below are not a flat
 /// utility set; each is a downstream node of one of four algebraic root

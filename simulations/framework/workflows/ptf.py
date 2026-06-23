@@ -260,7 +260,7 @@ def perspectives_panel(chain, rho_0, defect_bond, delta_J=0.02, guard_delta_J=0.
        (a) of sane magnitude and (b) stable across two small delta_J. Sites that fail
        either test (a featureless / plateaued trajectory, e.g. one far from the defect,
        fits a confident but meaningless huge alpha at low RMSE; see the (a)-lesson in
-       _the_dial_at_many_body and PTF) are flagged unreliable and excluded from the
+       the_dial_at_many_body and PTF) are flagged unreliable and excluded from the
        closure Sigma ln(alpha).
 
     HONEST SCOPE: alpha_i is per-(site, observable = purity, state, event); it is NOT an

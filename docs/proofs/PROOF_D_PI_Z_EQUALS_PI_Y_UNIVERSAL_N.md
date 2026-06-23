@@ -3,7 +3,7 @@
 **Status:** Tier1Derived universal N via per-site factorization. Welle 12 Task 1, 2026-05-27.
 **Date:** 2026-05-27 (Welle 12)
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Verifier:** [`simulations/_d_pi_z_swap_verify.py`](../../simulations/_d_pi_z_swap_verify.py) (numpy bit-exact at N = 1, 2, 3, 4; sympy-symbolic per-site identity for the 4×4 reduction).
+**Verifier:** [`simulations/d_pi_z_swap_verify.py`](../../simulations/d_pi_z_swap_verify.py) (numpy bit-exact at N = 1, 2, 3, 4; sympy-symbolic per-site identity for the 4×4 reduction).
 **Surfaced:** Welle 10d Task 1 audit (commits `7fc1ec0` + `025bb4e`); reflection [`D_PI_Z_EQUALS_PI_Y.md`](../../reflections/D_PI_Z_EQUALS_PI_Y.md).
 **Connects:** [PauliBasis.VecToPauliBasisTransform convention note](../../compute/RCPsiSquared.Core/Pauli/PauliBasis.cs), [PiOperator.ActOnLetter](../../compute/RCPsiSquared.Core/Symmetry/PiOperator.cs), [PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md), [PROOF_F112_NONHERMITIAN_UNIVERSAL_N](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md), [LindbladBitBPiBalance.cs](../../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs).
 
@@ -131,7 +131,7 @@ The identity is universal in N. ∎
 
 ## Verification
 
-**Numerical (numpy double precision):** [`simulations/_d_pi_z_swap_verify.py`](../../simulations/_d_pi_z_swap_verify.py) computes both sides at N = 1, 2, 3, 4 and reports `max|D · Π_Z · D − Π_Y| = 0.000e+00` at every N. The script also confirms D² = I and Π_*^4 = I as sanity checks.
+**Numerical (numpy double precision):** [`simulations/d_pi_z_swap_verify.py`](../../simulations/d_pi_z_swap_verify.py) computes both sides at N = 1, 2, 3, 4 and reports `max|D · Π_Z · D − Π_Y| = 0.000e+00` at every N. The script also confirms D² = I and Π_*^4 = I as sanity checks.
 
 **Symbolic (sympy exact rationals + I):** the same script's `verify_per_site_identity_symbolic` function builds the 4×4 matrices d_l, π_Z_local, π_Y_local with exact sympy entries and checks that d_l · π_Z_local · d_l − π_Y_local simplifies entry-wise to the zero matrix. PASS confirms the per-site reduction (*) exactly, no machine-epsilon residual possible. Combined with Step 2's algebraic tensor-product argument, this closes the universal-N case in finite symbolic computation.
 

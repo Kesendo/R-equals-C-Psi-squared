@@ -163,10 +163,10 @@ statement of why the carved subspace is d = 2.
 
 ## Anchor
 
-- Scripts: [`_genesis_q_threshold.py`](../simulations/_genesis_q_threshold.py)
-  and [`_genesis_real_gamma.py`](../simulations/_genesis_real_gamma.py) (the
-  Q-scan), [`_real_axis_liftoff.py`](../simulations/_real_axis_liftoff.py)
-  (bath-orthogonality), [`_qubit_children.py`](../simulations/_qubit_children.py)
+- Scripts: [`genesis_q_threshold.py`](../simulations/genesis_q_threshold.py)
+  and [`genesis_real_gamma.py`](../simulations/genesis_real_gamma.py) (the
+  Q-scan), [`real_axis_liftoff.py`](../simulations/real_axis_liftoff.py)
+  (bath-orthogonality), [`qubit_children.py`](../simulations/qubit_children.py)
   (the correction), [`ptf_genesis.py`](../simulations/ptf_genesis.py) (the
   PTF cross-check)
 - Figures: [genesis_real_gamma.png](../simulations/results/genesis_real_gamma/genesis_real_gamma.png),

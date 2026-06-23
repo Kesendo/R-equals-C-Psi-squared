@@ -3,7 +3,7 @@
 **Status:** Simulation only (Aer/numpy). Hardware sketch open. Sister-finding to K-partnership (single-excitation): different sector, different broken-by-rule.
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Pipeline:** `simulations/_neel_mirror_test.py`
+**Pipeline:** `simulations/neel_mirror_test.py`
 **See also:** [IBM_K_PARTNERSHIP_SKETCH](IBM_K_PARTNERSHIP_SKETCH.md), [`docs/proofs/PROOF_K_PARTNERSHIP.md`](../docs/proofs/PROOF_K_PARTNERSHIP.md), [GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md), [CMRR_BREAK_NONUNIFORM_GAMMA](CMRR_BREAK_NONUNIFORM_GAMMA.md)
 
 ---
@@ -130,4 +130,4 @@ A minimum hardware test on IBM Heron-class:
 - [IBM_K_PARTNERSHIP_SKETCH](IBM_K_PARTNERSHIP_SKETCH.md): hardware K-partnership on Marrakesh, 2026-04-25.
 - [GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md), [CMRR_BREAK_NONUNIFORM_GAMMA](CMRR_BREAK_NONUNIFORM_GAMMA.md): companion γ-profile readings via spatial-sum and (vac, S_1)-coherence kernels.
 - Buča, B. & Prosen, T. (2012), "A note on symmetry reductions of the Lindblad equation: transport in constrained open spin chains"; strong/weak symmetry classification used here.
-- Simulation script: `simulations/_neel_mirror_test.py`.
+- Simulation script: `simulations/neel_mirror_test.py`.

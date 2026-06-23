@@ -43,7 +43,7 @@ within 0.0014, not the continuous-Lindblad idealization. The earlier
 hardening explanation (T1 thermal relaxation amplifying the soft-break)
 is **incorrect**: T1 monotonically *attenuates* the soft signal (γ_T1=0.5
 gives Δ = -0.44 at γ_Z=0.1, further from hardware). Quantification in
-[`simulations/_marrakesh_t1_amplification_test.py`](../../simulations/_marrakesh_t1_amplification_test.py).
+[`simulations/marrakesh_t1_amplification_test.py`](../../simulations/marrakesh_t1_amplification_test.py).
 
 The actual mechanism is **Trotter discretization at δt = 0.267**: with
 ‖H‖ ~ J·N ~ 3, the small-step condition ‖H·δt‖ ≪ 1 fails. First-order
@@ -123,8 +123,8 @@ The run-time on Marrakesh queue + execution: ~3 minutes total.
 - [ON_THE_SOFT_BREAK](../../reflections/ON_THE_SOFT_BREAK.md): the super-operator framing.
 - [PROOF_ZERO_IMMUNITY](../../docs/proofs/PROOF_ZERO_IMMUNITY.md): analytical anchor for the (w=0, w=N) extreme-sector immunity that grounds the framework's strict test.
 - [framework/](../../simulations/framework/): the lean cockpit package; primitives used to build the Hamiltonians and predict observables.
-- [_soft_break_eigenvector_test.py](../../simulations/_soft_break_eigenvector_test.py): super-operator-level verification (eigenvector pairing).
-- [_soft_break_aer_test.py](../../simulations/_soft_break_aer_test.py): Aer with Marrakesh-like noise.
-- [_marrakesh_t1_amplification_test.py](../../simulations/_marrakesh_t1_amplification_test.py): refutation of the original T1 amplification interpretation; Trotter n=3 fully accounts for the hardening.
+- [soft_break_eigenvector_test.py](../../simulations/soft_break_eigenvector_test.py): super-operator-level verification (eigenvector pairing).
+- [soft_break_aer_test.py](../../simulations/soft_break_aer_test.py): Aer with Marrakesh-like noise.
+- [marrakesh_t1_amplification_test.py](../../simulations/marrakesh_t1_amplification_test.py): refutation of the original T1 amplification interpretation; Trotter n=3 fully accounts for the hardening.
 - [f80_ibm_soft_break_check.py](../../simulations/f80_ibm_soft_break_check.py): F80 structural-template verification on this dataset.
 - `D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography\run_soft_break.py`: the hardware-runnable pipeline.

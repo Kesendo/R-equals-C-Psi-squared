@@ -126,7 +126,7 @@ The ratio soft/hard = 1.52 in the strongest hardware observable; F80 predicts 2.
 
 The dataset's original README explained the hardening Δ_hw(soft − truly) = -0.722 vs Δ_idealized = -0.623 at γ_Z = 0.1 with: "T1 thermal relaxation and ZZ crosstalk compound the soft-break operator-level break." This was a placeholder. Quantification refutes it.
 
-[`simulations/_marrakesh_t1_amplification_test.py`](../simulations/_marrakesh_t1_amplification_test.py) tests three models against the hardware:
+[`simulations/marrakesh_t1_amplification_test.py`](../simulations/marrakesh_t1_amplification_test.py) tests three models against the hardware:
 
 **Test 1, γ_T1 sweep at γ_Z = 0.1, continuous Lindblad:**
 

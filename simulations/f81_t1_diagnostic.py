@@ -15,7 +15,7 @@ This script demonstrates:
   1. Z-only sweep over γ_z (violation stays at machine precision)
   2. T1 sweep at fixed γ_z (violation grows linearly)
   3. Application to Marrakesh: at the optimal (γ_z=0.1, γ_T1=0) fit from
-     _marrakesh_t1_amplification_test.py, the F81 violation is zero.
+     marrakesh_t1_amplification_test.py, the F81 violation is zero.
      Hypothetical γ_T1 = 0.1 would imply non-trivial violation.
 """
 from __future__ import annotations
@@ -88,7 +88,7 @@ def main():
     # Test 4: Application to Marrakesh
     print("Test 4: Application to Marrakesh fit results")
     print()
-    # The optimal fit from _marrakesh_t1_amplification_test.py was γ_z=0.143, γ_T1=0
+    # The optimal fit from marrakesh_t1_amplification_test.py was γ_z=0.143, γ_T1=0
     # (joint optimization across 45 hardware observable-Hamiltonian pairs)
     print("  At Marrakesh-optimal (γ_z=0.143, γ_T1=0):")
     for label, terms in [("truly XX+YY", [("X", "X"), ("Y", "Y")]),

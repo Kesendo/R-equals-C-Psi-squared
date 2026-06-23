@@ -4,7 +4,7 @@
 **Status:** Tier 1 (simulation, exact within numerical precision)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Scripts:**
-[_compare_n3_n4_categories.py](../simulations/_compare_n3_n4_categories.py),
+[compare_n3_n4_categories.py](../simulations/compare_n3_n4_categories.py),
 [eq031_within_categories.py](../simulations/eq031_within_categories.py),
 [eq031_absolute_scaling.py](../simulations/eq031_absolute_scaling.py),
 [eq031_topology_test.py](../simulations/eq031_topology_test.py)

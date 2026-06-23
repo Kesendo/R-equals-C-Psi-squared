@@ -44,7 +44,7 @@ public class F94BornDeviationFourThirdsPi2InheritanceTests
         // The Dyson sym3 = L_H²L'_dis + L_HL'_disL_H + L'_disL_H² acting on
         // ρ_0 = |0+0+⟩⟨0+0+| at N=4, partial-traced to pair (0, 2), |00⟩
         // diagonal element = 8 BIT-EXACT (computed in
-        // simulations/_born_rule_tier1_derivation.py).
+        // simulations/born_rule_tier1_derivation.py).
         Assert.Equal(8, F94BornDeviationFourThirdsPi2Inheritance.Sym3PartialTraceInteger);
     }
 
@@ -83,7 +83,7 @@ public class F94BornDeviationFourThirdsPi2InheritanceTests
     {
         // At a representative point well inside the perturbative regime, the
         // closed form should agree with the numerically extracted coefficient
-        // c_emp = 1.32992 ± 0.006 (per simulations/_born_rule_delta_dominant_coefficient.py
+        // c_emp = 1.32992 ± 0.006 (per simulations/born_rule_delta_dominant_coefficient.py
         // 16-sample mean) to <1%. Drift indicator.
         var f = BuildClaim();
         double Q = 10.0, K = 0.005;
@@ -169,8 +169,8 @@ public class F94BornDeviationFourThirdsPi2InheritanceTests
         var f = BuildClaim();
         Assert.Contains("PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md", f.Anchor);
         Assert.Contains("ANALYTICAL_FORMULAS.md F94", f.Anchor);
-        Assert.Contains("_born_rule_tier1_derivation.py", f.Anchor);
-        Assert.Contains("_born_rule_delta_dominant_coefficient.py", f.Anchor);
+        Assert.Contains("born_rule_tier1_derivation.py", f.Anchor);
+        Assert.Contains("born_rule_delta_dominant_coefficient.py", f.Anchor);
         Assert.Contains("ON_HOW_FOUR_THIRDS_APPEARED.md", f.Anchor);
         Assert.Contains("BORN_RULE_MIRROR.md", f.Anchor);
         Assert.Contains("Pi2DyadicLadderClaim.cs", f.Anchor);
@@ -179,7 +179,7 @@ public class F94BornDeviationFourThirdsPi2InheritanceTests
     [Fact]
     public void SurvivingDysonDiagrams_IsExactlyThirtyTwo()
     {
-        // Bit-exact via direct enumeration in simulations/_born_rule_sym3_decomposition.py
+        // Bit-exact via direct enumeration in simulations/born_rule_sym3_decomposition.py
         // (2026-05-17): 32 of the 4·4·4·3·3·3 = 1728 (b₁, b₂, s, ord, c₁, c₂) sextuples
         // contribute non-zero to ⟨00|_pair Tr_{1,3}[sym3·ρ_0]|00⟩_pair.
         Assert.Equal(32, F94BornDeviationFourThirdsPi2Inheritance.SurvivingDysonDiagrams);

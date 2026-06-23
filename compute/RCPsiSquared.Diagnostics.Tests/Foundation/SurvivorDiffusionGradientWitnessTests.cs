@@ -5,7 +5,7 @@ using Xunit;
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>(D) the felt_time closure functional, graduated to a live witness
-/// (<c>inspect --root gradient</c>): the C# landing of <c>simulations/_felt_time_amplitude_law.py</c>.
+/// (<c>inspect --root gradient</c>): the C# landing of <c>simulations/felt_time_amplitude_law.py</c>.
 ///
 /// <para>The survivor's first-order bond rate shift dRe(b) = (density-mode gradient at bond b)^2 -- the
 /// diffusion Rayleigh quotient ("amplitude^2"). The slow survivor is a DENSITY/diffusion mode; a delta-J

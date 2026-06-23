@@ -148,7 +148,7 @@ the one that would have lifted the degeneracy.
 Typed as `KPartnerSelectionRuleClaim` (Tier 1 derived, child of `ChiralMirrorTrajectoryClaim`,
 live at `inspect --claim KPartnerSelectionRuleClaim`); the decoder it explains is
 [`DefectDecoder.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/DefectDecoder.cs); the probe is
-[`_k_partner_selection_rule.py`](../simulations/_k_partner_selection_rule.py) (selection-rule max
+[`k_partner_selection_rule.py`](../simulations/k_partner_selection_rule.py) (selection-rule max
 ~1e-16, rank = N−2 exactly, N = 3..8).
 
 ---

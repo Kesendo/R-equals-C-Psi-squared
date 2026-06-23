@@ -15,7 +15,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// both registered earlier in the chain. The F87 girth/hardness primitive lives in
 /// RCPsiSquared.Diagnostics and is carried in prose. Anchor:
 /// <c>docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md</c> §1, §4 +
-/// <c>simulations/_three_ladders_bridge.py</c> +
+/// <c>simulations/three_ladders_bridge.py</c> +
 /// <c>compute/RCPsiSquared.Diagnostics/Foundation/LadderHingeWitness.cs</c> (inspect --root ladders).</para></summary>
 public static class ThreeLadderHingeClaimRegistration
 {

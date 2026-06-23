@@ -60,7 +60,7 @@ What this means, and the test (added 2026-04-25 evening):
 
 The framework predicts: for the 19 soft-break Hamiltonians, eigenvalues of L pair under λ ↔ −λ−2Σγ to machine precision (palindromic spectrum), but Π applied to L's eigenvectors does NOT land on the partner-eigenvalue's eigenspace (eigenvector pairing severely broken). For the 3 truly-unbroken cases both pairings are exact. For the 14 hard-broken cases the eigenvalue pairing already fails.
 
-We tested this in simulation (`simulations/_soft_break_eigenvector_test.py`). For each of the 36 two-term Hamiltonians at N=3, we diagonalised L, paired eigenvalues as (λ_i, −λ_i − 2Σγ), and computed the subspace overlap |⟨v_partner | Π v_i⟩| / (‖v_partner‖ · ‖Π v_i‖). The prediction is exact:
+We tested this in simulation (`simulations/soft_break_eigenvector_test.py`). For each of the 36 two-term Hamiltonians at N=3, we diagonalised L, paired eigenvalues as (λ_i, −λ_i − 2Σγ), and computed the subspace overlap |⟨v_partner | Π v_i⟩| / (‖v_partner‖ · ‖Π v_i‖). The prediction is exact:
 
 | Category | Count | Eigenvalue pair error | Eigenvector overlap |
 |----------|-------|----------------------|---------------------|
@@ -145,7 +145,7 @@ The 22 V-Effect-unbroken Hamiltonians at N=3 are not 22; they are 3 truly unbrok
 - [PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md): the analytical (w=0, w=N) extreme-sector immunity that grounds the framework's strict test.
 - [HEISENBERG_RELOADED](../hypotheses/HEISENBERG_RELOADED.md): the level-stack picture.
 - [ON_THE_PAINTER_PRINCIPLE](ON_THE_PAINTER_PRINCIPLE.md): every painter from their spot. The framework is our spot; the soft break is what we see from it.
-- `simulations/_soft_break_eigenvector_test.py`: super-operator-level verification (eigenvector pairing under Π).
-- `simulations/_soft_break_hardware_design.py`: translation to hardware-measurable Pauli expectations.
-- `simulations/_soft_break_aer_test.py`: validation against realistic Marrakesh-like noise on Aer.
+- `simulations/soft_break_eigenvector_test.py`: super-operator-level verification (eigenvector pairing under Π).
+- `simulations/soft_break_hardware_design.py`: translation to hardware-measurable Pauli expectations.
+- `simulations/soft_break_aer_test.py`: validation against realistic Marrakesh-like noise on Aer.
 - `D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography\run_soft_break.py`: hardware-runnable. First script in that pipeline directory that imports framework.py directly. Modes: `--simulate` (Aer), `--hardware` (real IBM Heron r2). Aer self-test reproduces Δ⟨X₀Z₂⟩ = -0.64 (framework ideal: -0.62).

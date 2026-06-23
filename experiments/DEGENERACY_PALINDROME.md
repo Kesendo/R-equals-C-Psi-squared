@@ -358,7 +358,7 @@ dynamics is overwhelmingly oscillatory.
 The C# `rmt` export uses the same isotropic Heisenberg coupling for every topology
 (`Topology.cs`: "isotropic Heisenberg (X+Y+Z)"), so the ring, star, and complete graphs are
 the *same model* on a different bond graph. Feeding their spectra (N = 3..6) through the same
-grid count ([`_degeneracy_palindrome_topology.py`](../simulations/_degeneracy_palindrome_topology.py),
+grid count ([`degeneracy_palindrome_topology.py`](../simulations/degeneracy_palindrome_topology.py),
 gate-first) separates what is universal from what is graph-specific.
 
 **Universal (all four topologies, every N):**

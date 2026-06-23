@@ -7,7 +7,7 @@
 - [PROOF_SVD_CLUSTER_STRUCTURE.md](PROOF_SVD_CLUSTER_STRUCTURE.md) (F78 single-body, F79 Π²-block, Master Lemma, Anti-Hermitian)
 - [`framework/symmetry.py`](../../simulations/framework/symmetry.py) (Π construction)
 - [`framework/lindblad.py`](../../simulations/framework/lindblad.py) (`palindrome_residual`)
-- Numerical verification: [`_pi2_odd_universality_data_sweep.py`](../../simulations/_pi2_odd_universality_data_sweep.py) (N=3-6, all topologies); [`results/n7_bloch_signwalk_verification.txt`](../../simulations/results/n7_bloch_signwalk_verification.txt) (N=7 full SVD); pytest `test_F80_bloch_signwalk_chain_pi2_odd`.
+- Numerical verification: [`pi2_odd_universality_data_sweep.py`](../../simulations/pi2_odd_universality_data_sweep.py) (N=3-6, all topologies); [`results/n7_bloch_signwalk_verification.txt`](../../simulations/results/n7_bloch_signwalk_verification.txt) (N=7 full SVD); pytest `test_F80_bloch_signwalk_chain_pi2_odd`.
 
 **Status:** Fully proven. The theorem is verified bit-exact through N=7, and the analytical proof is now complete for all N. Steps 1-4 (the JW reduction) and 6-7 (the sign-walk formula) were closed in April 2026; Step 5 (the Π-action) was closed 2026-05-22 by a direct per-site Pauli computation showing Π·[H,·]·Π⁻¹ = ±{H,·} (proof in Step 5 below, every step verified bit-exact at N=3,4,5 by [`f80_step5_recon.py`](../../simulations/f80_step5_recon.py)).
 
@@ -311,7 +311,7 @@ What enabled the discovery: comparing M's eigenvalues directly to H's many-body 
 
 | Test | Path | N range | Result |
 |------|------|---------|--------|
-| Bit-exact cluster prediction | `_pi2_odd_universality_data_sweep.py` | 3-6 | All match |
+| Bit-exact cluster prediction | `pi2_odd_universality_data_sweep.py` | 3-6 | All match |
 | Bit-exact cluster prediction (N=7 full SVD) | `n7_bloch_signwalk_verification.txt` | 7 | All 4 clusters at predicted values, mult 4096 each |
 | Independent eigsh check (N=7) | `n7_eigsh_check.txt` | 7 | Top eigenvalues of M·M† match SV² predictions |
 | Universality across (X,Y)/(X,Z)/(Y,X)/(Z,X) | sweep | 3-6 | 100% (all 4 give bit-identical clusters) |

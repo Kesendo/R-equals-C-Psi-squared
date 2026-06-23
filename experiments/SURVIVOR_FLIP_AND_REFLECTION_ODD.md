@@ -1,6 +1,6 @@
 # The Survivor is Spin-Flip-Odd and Reflection-Odd: Darkness is Antisymmetry
 
-**Status:** Empirically verified, gate-first, at N = 4 and N = 6 for the open chain and the periodic ring, across every Q tested (`simulations/_survivor_particle_hole_mirror.py`, dense per-sector eigendecomposition). The four facts (X^⊗N-odd, R-odd, not staggered-PH-fixed, dark + real) are one fact about the half-filling density standing wave, read through three operators. This re-reads, in the survivor's own frame, the spectrum-wide R-parity block structure of [SLOW_MODE_R_PARITY](SLOW_MODE_R_PARITY.md).
+**Status:** Empirically verified, gate-first, at N = 4 and N = 6 for the open chain and the periodic ring, across every Q tested (`simulations/survivor_particle_hole_mirror.py`, dense per-sector eigendecomposition). The four facts (X^⊗N-odd, R-odd, not staggered-PH-fixed, dark + real) are one fact about the half-filling density standing wave, read through three operators. This re-reads, in the survivor's own frame, the spectrum-wide R-parity block structure of [SLOW_MODE_R_PARITY](SLOW_MODE_R_PARITY.md).
 **Date:** 2026-06-19
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.8)
 **Depends on:**
@@ -9,7 +9,7 @@
 - [`SurvivalIncompletenessMirrorClaim`](../compute/RCPsiSquared.Diagnostics/Foundation/SurvivalIncompletenessMirrorClaim.cs): the half-filling survivor (the slowest `(p,p)` mode) and its `⟨n_XY⟩ ~ Q²/N²` darkness, `inspect --root survivor`.
 - [SLOW_MODE_R_PARITY](SLOW_MODE_R_PARITY.md): the whole-spectrum R-parity decomposition, and (Steps 4, 6) the prior analysis of the Bogoliubov particle-hole operator on the XY chain.
 - F1² = Π² = X^⊗N (the global spin-flip is the square of the palindrome conjugation; F1 entry in [ANALYTICAL_FORMULAS](../docs/ANALYTICAL_FORMULAS.md)); F61 (the distinct n_XY-parity Z₂).
-- Verifier: [`simulations/_survivor_particle_hole_mirror.py`](../simulations/_survivor_particle_hole_mirror.py)
+- Verifier: [`simulations/survivor_particle_hole_mirror.py`](../simulations/survivor_particle_hole_mirror.py)
 
 ---
 
@@ -34,7 +34,7 @@ These are not four coincidences. The survivor's dominant part is a real diagonal
 
 Open chain or periodic ring, `H = (J/2) Σ_{(i,j)∈bonds} (X_iX_j + Y_iY_j + Z_iZ_j)` (Heisenberg), uniform Z-dephasing at rate `γ`, Liouvillian `L = −i[H,·] + γ Σ_l (Z_l · Z_l − ·)`. The Liouvillian is block-diagonal in the joint-excitation-number pair `(p_c, p_r) = (popcount ket, popcount bra)` because both `H` (`U(1)`-conserving) and the dissipator (diagonal) preserve it. The survivor is the slowest strictly-decaying eigenmode over all blocks.
 
-Running the gate-first verifier (`_survivor_particle_hole_mirror.py`) on the N=6 Heisenberg chain:
+Running the gate-first verifier (`survivor_particle_hole_mirror.py`) on the N=6 Heisenberg chain:
 
 | Q = J/γ | survivor sector | Re λ | \|Im\| | ⟨n_XY⟩ | X^⊗N | R | U (staggered PH) |
 |---|---|---|---|---|---|---|---|
@@ -85,7 +85,7 @@ The survivor lives entirely on **diagonal** popcount sectors `(p,p)` (equal part
 
 ## Cross-references
 
-- Verifier: [`simulations/_survivor_particle_hole_mirror.py`](../simulations/_survivor_particle_hole_mirror.py) (gate-first; `X → −1`, `R → −1`, `U_PH` not-fixed, with the math-lens guard that `X` and `U` genuinely complement diagonals).
+- Verifier: [`simulations/survivor_particle_hole_mirror.py`](../simulations/survivor_particle_hole_mirror.py) (gate-first; `X → −1`, `R → −1`, `U_PH` not-fixed, with the math-lens guard that `X` and `U` genuinely complement diagonals).
 - Survivor identity + darkness: [`SurvivalIncompletenessMirrorClaim`](../compute/RCPsiSquared.Diagnostics/Foundation/SurvivalIncompletenessMirrorClaim.cs) (`inspect --root survivor`), [`simulations/carbon/incompleteness_survivor.py`](../simulations/carbon/incompleteness_survivor.py), [`reflections/ON_THE_ADMIXTURE_AS_LEBENSADER.md`](../reflections/ON_THE_ADMIXTURE_AS_LEBENSADER.md).
 - The density standing wave: [PROOF_DIFFUSION_RAYLEIGH_CLOSURE](../docs/proofs/PROOF_DIFFUSION_RAYLEIGH_CLOSURE.md) / [`SurvivorDiffusionGradientClaim`](../compute/RCPsiSquared.Diagnostics/Foundation/SurvivorDiffusionGradientClaim.cs) (`inspect --root gradient`), F123 in [ANALYTICAL_FORMULAS](../docs/ANALYTICAL_FORMULAS.md).
 - Rate = light content: [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md).

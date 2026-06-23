@@ -183,8 +183,8 @@ public sealed class Pi2KleinV4DephaseSwapGroup : Claim
                Tier.Tier1Derived,
                "docs/proofs/PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md + " +
                "docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md + " +
-               "simulations/_d_pi_z_swap_verify.py + " +
-               "simulations/_klein_dephase_swap_explore.py + " +
+               "simulations/d_pi_z_swap_verify.py + " +
+               "simulations/klein_dephase_swap_explore.py + " +
                "reflections/D_PI_Z_EQUALS_PI_Y.md + " +
                "compute/RCPsiSquared.Core/Symmetry/PiOperator.cs")
     {

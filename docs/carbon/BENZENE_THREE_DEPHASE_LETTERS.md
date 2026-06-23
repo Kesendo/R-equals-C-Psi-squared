@@ -247,14 +247,14 @@ magnitude is closed-form predictable from the drive amplitude and T1 rate.
 ### Algebra as the anchor
 
 Every claim above rests on the sweep result. The sweep is
-[`simulations/_carbon_realistic_sweep.py`](../../simulations/_carbon_realistic_sweep.py),
+[`simulations/carbon_realistic_sweep.py`](../../simulations/carbon_realistic_sweep.py),
 which iterates the fifty-six configurations and reports the relaxation-
 mirror asymmetry for each. The single-perturbation control tests sit in
-[`simulations/_benzene_b_field_f112_mixing_test.py`](../../simulations/_benzene_b_field_f112_mixing_test.py),
-[`simulations/_benzene_bit_b_mixed_bath_test.py`](../../simulations/_benzene_bit_b_mixed_bath_test.py),
-and [`simulations/_benzene_peierls_f112_polarity_test.py`](../../simulations/_benzene_peierls_f112_polarity_test.py).
+[`simulations/benzene_b_field_f112_mixing_test.py`](../../simulations/benzene_b_field_f112_mixing_test.py),
+[`simulations/benzene_bit_b_mixed_bath_test.py`](../../simulations/benzene_bit_b_mixed_bath_test.py),
+and [`simulations/benzene_peierls_f112_polarity_test.py`](../../simulations/benzene_peierls_f112_polarity_test.py).
 A complementary Hamiltonian-term classification inventory sits in
-[`simulations/_carbon_f114_hamiltonian_inventory.py`](../../simulations/_carbon_f114_hamiltonian_inventory.py).
+[`simulations/carbon_f114_hamiltonian_inventory.py`](../../simulations/carbon_f114_hamiltonian_inventory.py).
 
 ---
 
@@ -271,5 +271,5 @@ A complementary Hamiltonian-term classification inventory sits in
 - **Framework**: F112 [`LindbladBitBPiBalance`](../../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs), F112-X [`LindbladBitAPiBalance`](../../compute/RCPsiSquared.Core/Symmetry/LindbladBitAPiBalance.cs), F112-Y [`LindbladBitBPiYBalance`](../../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiYBalance.cs), Klein-V₄ [`Pi2KleinV4DephaseSwapGroup`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KleinV4DephaseSwapGroup.cs), F114 [`CommutatorDConjugationSign`](../../compute/RCPsiSquared.Core/Symmetry/CommutatorDConjugationSign.cs)
 - **Proofs**: [PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N](../proofs/PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md), [PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md), [PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4](../proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md)
 - **F-Registry**: [F112](../ANALYTICAL_FORMULAS.md#f112), [F114](../ANALYTICAL_FORMULAS.md#f114)
-- **Verifier scripts**: [`simulations/_m_level_sign_functional_explore.py`](../../simulations/_m_level_sign_functional_explore.py), [`simulations/f112_klein_v4_cross_dephase_verify.py`](../../simulations/f112_klein_v4_cross_dephase_verify.py)
+- **Verifier scripts**: [`simulations/m_level_sign_functional_explore.py`](../../simulations/m_level_sign_functional_explore.py), [`simulations/f112_klein_v4_cross_dephase_verify.py`](../../simulations/f112_klein_v4_cross_dephase_verify.py)
 - **Companion carbon docs**: [BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md), [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md), [README](README.md)

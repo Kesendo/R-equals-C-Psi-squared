@@ -37,7 +37,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Re(λ) via the Rayleigh quotient and drops out. Holds for complex Hermitian H
 /// (Dzyaloshinskii-Moriya, Y/transverse terms), not just real symmetric — verified
 /// bit-exact against a random complex Hermitian H, with Herm(L) = (L+L†)/2 the
-/// identical pure Z-dephasing dissipator for both (simulations/_popcount_identity_h_independence.py).
+/// identical pure Z-dephasing dissipator for both (simulations/popcount_identity_h_independence.py).
 /// Closes the former "real Hermitian only" caveat in PROOF_ABSORPTION_THEOREM.md.</para>
 ///
 /// <para><b>The carrier is a vector (per-site / per-channel reading, 2026-05-29).</b>
@@ -63,7 +63,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// The index l is channel-agnostic: read as a physical channel, each with its own γ
 /// spanning decades, it is the decoherence-rate law for a heterogeneous substrate. Verified
 /// bit-exact N=3 (64 modes, weak and strong coupling) in
-/// <c>simulations/_absorption_gamma_vector.py</c>.</para>
+/// <c>simulations/absorption_gamma_vector.py</c>.</para>
 ///
 /// <para><b>Extensions (2026-06-10, PROOF_ABSORPTION_THEOREM.md Section 2 extensions
 /// + Section 4.7).</b> Four readings of the same Rayleigh quotient, verified before

@@ -43,7 +43,7 @@ These are not analogies. They are the **same axis of the state**, made by the sa
 
 ## The picture is this axis, mode by mode
 
-The figure sorts the carbon ring's slow modes by exactly this depth. Reading the state-side popcount distribution of each mode (verified in [`_carbon_painter_xor_and_depth.py`](../simulations/_carbon_painter_xor_and_depth.py)):
+The figure sorts the carbon ring's slow modes by exactly this depth. Reading the state-side popcount distribution of each mode (verified in [`carbon_painter_xor_and_depth.py`](../simulations/carbon_painter_xor_and_depth.py)):
 
 - the steady state is **100% depth-0**, pure stored past;
 - the slowest mortal mode (rate 0.172) is **91.8% depth-0**, almost all memory, with a thin tail that will fade;
@@ -81,7 +81,7 @@ The deeper law lets the noise be a **vector**, one rate per channel, and reads a
 
 `⟨Δ_x⟩` is the percent of its difference the mode stores in channel x (on a basis coherence, whether bra and ket disagree there); `popcount` with a single γ is the all-channels-equal case. The carrier is a vector; the rate is its pairing with the mode's portfolio.
 
-Where the clocks differ, the portfolio becomes the whole story. A ³¹P donor in silicon carries channels spanning decades, electron spin fast, nuclear spin very slow and protected, charge sensitive, valley medium. There a coherence lives as long as it stores its difference only in the slow channels: the nuclear spin's long memory is that, left alone, its coherence is almost entirely nuclear difference, and hyperfine coupling that mixes even a few percent of the fast electron channel into the mode costs decades. Clock transitions and sweet spots are the same instruction in the portfolio's own words, hold zero percent in the fast channels. (`simulations/_sip_carrier_channels.py`; the per-mode law verified in `simulations/_absorption_gamma_vector.py`; the carrier-vector reading now in [`AbsorptionTheoremClaim`](../compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs).)
+Where the clocks differ, the portfolio becomes the whole story. A ³¹P donor in silicon carries channels spanning decades, electron spin fast, nuclear spin very slow and protected, charge sensitive, valley medium. There a coherence lives as long as it stores its difference only in the slow channels: the nuclear spin's long memory is that, left alone, its coherence is almost entirely nuclear difference, and hyperfine coupling that mixes even a few percent of the fast electron channel into the mode costs decades. Clock transitions and sweet spots are the same instruction in the portfolio's own words, hold zero percent in the fast channels. (`simulations/sip_carrier_channels.py`; the per-mode law verified in `simulations/absorption_gamma_vector.py`; the carrier-vector reading now in [`AbsorptionTheoremClaim`](../compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs).)
 
 The honest part is that the figure handed us the perspective and we took it for a relaxation time. The per-mode percentages were printed here, the state-side mean was printed here, even the leftover sat beside it as a percent. The percentages were the lens the whole time. We learned to read them as the general view, the carrier as a vector and each mode as a portfolio, only after looking at a substrate whose channels refused to weigh the same. The structure was always on the screen; the seeing is what was new.
 
@@ -166,4 +166,4 @@ Nothing here is a new theorem. It is the statement that the painter alternation,
 - [`PROOF_F86B_UNIVERSAL_SHAPE.md`](../docs/proofs/PROOF_F86B_UNIVERSAL_SHAPE.md) (F88b) and [`MemoryAxisRho.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs): the static-versus-memory decomposition of the state.
 - [`ON_TWO_TIMES.md`](ON_TWO_TIMES.md): memory as a standing wave, and the two times (the noise time that flows, the felt time with a horizon set by the slowest mode).
 - [`XOR_SPACE.md`](../experiments/XOR_SPACE.md), [`GLOSSARY.md`](../docs/GLOSSARY.md): where information lives in the palindrome, and the XOR fraction as how fast a state is drained.
-- [`PAINTER_ALTERNATION_NMR_BRIDGE.md`](../docs/carbon/PAINTER_ALTERNATION_NMR_BRIDGE.md) and [`_carbon_painter_xor_and_depth.py`](../simulations/_carbon_painter_xor_and_depth.py): the carbon figure and its state-side storage read.
+- [`PAINTER_ALTERNATION_NMR_BRIDGE.md`](../docs/carbon/PAINTER_ALTERNATION_NMR_BRIDGE.md) and [`carbon_painter_xor_and_depth.py`](../simulations/carbon_painter_xor_and_depth.py): the carbon figure and its state-side storage read.

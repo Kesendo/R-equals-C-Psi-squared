@@ -14,7 +14,7 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 /// |11⟩) on the same setup as F94. Reuses Core/Pauli + Core/ChainSystems +
 /// Core/States/PartialTrace primitives.
 ///
-/// <para>Mirrors <c>simulations/_born_rule_subdominant_dyson.py</c>. Where F94's
+/// <para>Mirrors <c>simulations/born_rule_subdominant_dyson.py</c>. Where F94's
 /// native test verifies the dominant outcome's sym3 element (= 8 on |00⟩), F96's
 /// verifies (a) the singly-subdominant sym3 element (= −4 on |01⟩) and U_h²
 /// element (= 3/4 on |01⟩), and (b) the doubly-subdominant sym5 element

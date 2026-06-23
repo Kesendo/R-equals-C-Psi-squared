@@ -3,7 +3,7 @@
 **Status:** Computational + analytical (Tier 1-2). Numerical fit at N=4 matches second-order perturbation theory to 1.4 % at α=0.05. Analytical prefactor 3/(8J) derived exactly from Pauli algebra.
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Pipeline:** `simulations/_level1_emergent_exchange.py`
+**Pipeline:** `simulations/level1_emergent_exchange.py`
 **See also:** [V_EFFECT_BOUNDARY_LOCALIZATION](V_EFFECT_BOUNDARY_LOCALIZATION.md), [PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md), [V_EFFECT_PALINDROME](V_EFFECT_PALINDROME.md), [HEISENBERG_RELOADED](../hypotheses/HEISENBERG_RELOADED.md), [SINGLET_FISSION_AND_THE_TWO_CLOCKS](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md) (the carotenoid singlet-fission reading: the both-pairs-triplet state here is the dark 2Ag, and J_eff=(3/8)α²/J is the singlet-fission coupling, 2026-05-30)
 
 ---
@@ -182,4 +182,4 @@ This is the lückenlose Brücke (gapless bridge) Level 0 → Level 1 that HEISEN
 - [HEISENBERG_RELOADED](../hypotheses/HEISENBERG_RELOADED.md): the full Level 0 → Level 1 inheritance picture.
 - [V_EFFECT_PALINDROME](V_EFFECT_PALINDROME.md): the original 14-of-36 V-Effect break finding.
 - Anderson, P. W. (1959), "New approach to the theory of superexchange interactions", Phys. Rev. 115, 2.
-- Simulation: `simulations/_level1_emergent_exchange.py`.
+- Simulation: `simulations/level1_emergent_exchange.py`.

@@ -32,7 +32,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// projection.</para>
 ///
 /// <para><b>Bit-explained structural decomposition of 8</b> (2026-05-17,
-/// <c>simulations/_born_rule_sym3_decomposition.py</c>): direct enumeration of all
+/// <c>simulations/born_rule_sym3_decomposition.py</c>): direct enumeration of all
 /// 1728 (b₁, b₂, s, ord, c₁, c₂) sextuples shows exactly 32 non-vanishing
 /// diagrams, each contributing 1/4 (raw Pauli value 4, normalized by the (J/4)² =
 /// 1/a_{−1}² Heisenberg coupling), so
@@ -107,9 +107,9 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md</c> +
 /// <c>docs/ANALYTICAL_FORMULAS.md</c> F94 +
-/// <c>simulations/_born_rule_tier1_derivation.py</c> (symbolic, bit-exact) +
-/// <c>simulations/_born_rule_delta_dominant_coefficient.py</c> (numerical, 16 samples) +
-/// <c>simulations/_born_rule_carrier_Q_sweep.py</c> (Q-K invariance test) +
+/// <c>simulations/born_rule_tier1_derivation.py</c> (symbolic, bit-exact) +
+/// <c>simulations/born_rule_delta_dominant_coefficient.py</c> (numerical, 16 samples) +
+/// <c>simulations/born_rule_carrier_Q_sweep.py</c> (Q-K invariance test) +
 /// <c>reflections/ON_HOW_FOUR_THIRDS_APPEARED.md</c> (the path) +
 /// <c>experiments/BORN_RULE_MIRROR.md</c> + <c>experiments/BORN_RULE_SHADOW.md</c>
 /// (Februar precursors).</para></summary>
@@ -146,7 +146,7 @@ public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim, IZ2AxisCla
 
     /// <summary>Total surviving (b₁, b₂, s, ordering, c₁, c₂) Dyson diagrams out of
     /// the 4·4·4·3·3·3 = 1728 a-priori sextuples in sym3. Bit-exact by direct
-    /// enumeration (`simulations/_born_rule_sym3_decomposition.py`); each
+    /// enumeration (`simulations/born_rule_sym3_decomposition.py`); each
     /// surviving diagram contributes 1/4 in J = γ = 1 normalization, so the
     /// total is 32 × (1/4) = 8 = <see cref="Sym3PartialTraceInteger"/>.</summary>
     public const int SurvivingDysonDiagrams = 32;
@@ -257,9 +257,9 @@ public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim, IZ2AxisCla
                Tier.Tier1Derived,
                "docs/proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md + " +
                "docs/ANALYTICAL_FORMULAS.md F94 + " +
-               "simulations/_born_rule_tier1_derivation.py + " +
-               "simulations/_born_rule_delta_dominant_coefficient.py + " +
-               "simulations/_born_rule_carrier_Q_sweep.py + " +
+               "simulations/born_rule_tier1_derivation.py + " +
+               "simulations/born_rule_delta_dominant_coefficient.py + " +
+               "simulations/born_rule_carrier_Q_sweep.py + " +
                "reflections/ON_HOW_FOUR_THIRDS_APPEARED.md + " +
                "experiments/BORN_RULE_MIRROR.md + " +
                "experiments/BORN_RULE_SHADOW.md + " +

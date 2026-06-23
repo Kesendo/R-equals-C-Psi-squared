@@ -29,7 +29,7 @@ public enum Regime
 /// class exposes it as a typed primitive instead of letting every analysis
 /// script re-derive 0.212755 by hand. See
 /// <c>docs/BOTH_SIDES_VISIBLE.md</c> for the original 6-month Torino crossing
-/// analysis; see <c>simulations/_qubit_biography.py</c> for the lifecycle
+/// analysis; see <c>simulations/qubit_biography.py</c> for the lifecycle
 /// archetype derived from <see cref="Classify"/> applied to a daily history.</para>
 /// </summary>
 public static class QubitRegime

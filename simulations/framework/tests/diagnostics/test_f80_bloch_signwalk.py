@@ -27,7 +27,7 @@ def test_F80_bloch_signwalk_chain_pi2_odd():
     spectrum written out using Bogoliubov mode energies E_k = 4|c|·cos(πk/(N+1)).
 
     Verified at N=4, 5 (small enough for fast pytest); N=6, 7 verified
-    in scripts (see _pi2_odd_universality_data_sweep.py and
+    in scripts (see pi2_odd_universality_data_sweep.py and
     _n7_bloch_signwalk_verification.txt).
     """
     from itertools import product as iproduct

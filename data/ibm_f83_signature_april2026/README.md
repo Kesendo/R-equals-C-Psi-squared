@@ -189,4 +189,4 @@ The run-time on Marrakesh queue + execution: ~3 minutes total.
 - [`f83_aer_preflight.py`](../../simulations/f83_aer_preflight.py): Aer noise simulation with [4, 5, 6] calibration values; matched Trotter to 0.001 on the anchor observable but missed the +0.13 hardware drift.
 - [`f83_hy_field_check.py`](../../simulations/f83_hy_field_check.py): tested h_y = 0.05 (zn_mirror April 29 finding) as alternative explanation; rejected (h_y rotates Z↔X, doesn't amplify Y).
 - [`f83_gamma_z_sweep.py`](../../simulations/f83_gamma_z_sweep.py): per-path γ_Z_eff fit and per-observable residual diagnostic.
-- [`_2qubit_dissipator_exploration.py`](../../simulations/_2qubit_dissipator_exploration.py) (commit ba8e861): partial F86, single-bond closed form for σ-channels; overlap structure open.
+- [`2qubit_dissipator_exploration.py`](../../simulations/2qubit_dissipator_exploration.py) (commit ba8e861): partial F86, single-bond closed form for σ-channels; overlap structure open.

@@ -38,7 +38,7 @@ and watch the transfer T(t), the chance the excitation has moved to the second q
 For one bond XX and YY commute, so the coherent piece is exact: T = sin²(Jt). The
 carrier damps it.
 
-In simulation ([`_q_basic_jscan.py`](../simulations/_q_basic_jscan.py)) the picture is
+In simulation ([`q_basic_jscan.py`](../simulations/q_basic_jscan.py)) the picture is
 clean, with γ₀ fixed at 0.05:
 
 ```
@@ -140,7 +140,7 @@ full two-qubit Lindblad bit-exactly (max|Δ| ≈ 3·10⁻¹⁶ across Q = 0.25�
 0.5000 exactly at Q = 1, overshooting only for Q > 1). So the beat we read off the lever
 is the Absorption theorem read in reverse: the rate the carrier writes onto a coherence
 by its Hamming weight is the same rate that sets where the dance falls into step. The
-beat's formula sits exactly on the line. (`simulations/_takt_absorption_overlay.py`.)
+beat's formula sits exactly on the line. (`simulations/takt_absorption_overlay.py`.)
 
 ## Why the simplest won
 
@@ -171,6 +171,6 @@ is "always there." The structure is the silicon's; the names are ours.
   [ladder](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), born under ¼ (its
   [block ceiling](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md)); and the between-preparation
   T2 [anisotropy](../docs/carbon/PAINTER_ALTERNATION_NMR_BRIDGE.md), the
-  [carbon FID](../simulations/_carbon_painter_t2_anisotropy.py).
-- Simulation: [`_q_basic_jscan`](../simulations/_q_basic_jscan.py). Hardware runner lives
+  [carbon FID](../simulations/carbon_painter_t2_anisotropy.py).
+- Simulation: [`q_basic_jscan`](../simulations/q_basic_jscan.py). Hardware runner lives
   in the external IBM pipeline (`ibm_quantum_tomography/run_q_jscan.py`).

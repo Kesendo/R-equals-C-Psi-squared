@@ -27,7 +27,7 @@ public class CarrierVectorPortfolioTests
     [Fact]
     public void DecayRate_SiPPortfolios_MatchWeightedSum()
     {
-        // −Re(λ) = 2·Σ_x γ_x·⟨Δ_x⟩, reproducing _sip_carrier_channels.py portfolio rows.
+        // −Re(λ) = 2·Σ_x γ_x·⟨Δ_x⟩, reproducing sip_carrier_channels.py portfolio rows.
         var g = SiPCarrier();
         Assert.Equal(2.002, Portfolio(("e", 1), ("n", 1), ("c", 0), ("v", 0)).DecayRate(g), precision: 9);
         Assert.Equal(0.200, Portfolio(("e", 0), ("n", 0), ("c", 0), ("v", 1)).DecayRate(g), precision: 9);

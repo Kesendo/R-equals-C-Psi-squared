@@ -31,7 +31,7 @@ public class CommutatorDConjugationSignTests
     {
         var claim = MakeClaim();
         Assert.Contains("F114", claim.Anchor);
-        Assert.Contains("_m_level_sign_functional_explore.py", claim.Anchor);
+        Assert.Contains("m_level_sign_functional_explore.py", claim.Anchor);
         Assert.Contains("Pi2KleinV4DephaseSwapGroup", claim.Anchor);
     }
 
@@ -233,7 +233,7 @@ public class CommutatorDConjugationSignTests
 
     /// <summary>Build L_σ = −i[σ, ·] in the 4^N Pauli basis directly via
     /// [L_σ]_(α,β) = Tr(σ_α · [σ, σ_β]) / 2^N, matching the script
-    /// simulations/_m_level_sign_functional_explore.py construction.</summary>
+    /// simulations/m_level_sign_functional_explore.py construction.</summary>
     private static ComplexMatrix BuildLsigmaInPauliBasis(PauliLetter[] sigmaLetters)
     {
         int N = sigmaLetters.Length;

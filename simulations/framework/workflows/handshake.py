@@ -8,7 +8,7 @@ exchange step. The algebra is the agreement; there is no send primitive.
 This workflow verifies the K-partnership branch of that algebra: bonding
 modes k and N+1-k yield identical mirror-pair |·|²-observables under
 bipartite NN-hopping with real H. Numerical check parallels
-`simulations/_pi_partner_identity.py` at cockpit-N (≤5).
+`simulations/pi_partner_identity.py` at cockpit-N (≤5).
 
 Public API:
   verify_k_partnership(chain, k, t_grid=None, atol=1e-12)

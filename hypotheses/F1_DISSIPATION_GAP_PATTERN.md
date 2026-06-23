@@ -151,7 +151,7 @@ Detail per question:
 
    **Sub-leading work needed (not blocking the resolution):**
    - **Closed-form derivation of the 0.55 magnon-mixing coefficient** via first-order perturbation theory on `H = J · (chain hopping)` acting on the kernel of `L_D`. Should match Bethe-ansatz amplitudes from MEP 2016 with an XXX-specific ZZ-correction factor.
-   - **Ring N=4..6 and star sector diagnostics** to confirm the universal "slow mode = near-stationary magnon-admixture in central diagonal popcount block" picture extends across topologies. Ring gap should also live in `(⌈N/2⌉, ⌈N/2⌉)`; star's 1/N scaling family should look qualitatively different (hub-localised eigenmode rather than central-block magnon admixture). Each is a single small Python run, mirroring [`simulations/_chain_gap_sector_diagnostic.py`](../simulations/_chain_gap_sector_diagnostic.py).
+   - **Ring N=4..6 and star sector diagnostics** to confirm the universal "slow mode = near-stationary magnon-admixture in central diagonal popcount block" picture extends across topologies. Ring gap should also live in `(⌈N/2⌉, ⌈N/2⌉)`; star's 1/N scaling family should look qualitatively different (hub-localised eigenmode rather than central-block magnon admixture). Each is a single small Python run, mirroring [`simulations/chain_gap_sector_diagnostic.py`](../simulations/chain_gap_sector_diagnostic.py).
 
 ## Promotion path
 

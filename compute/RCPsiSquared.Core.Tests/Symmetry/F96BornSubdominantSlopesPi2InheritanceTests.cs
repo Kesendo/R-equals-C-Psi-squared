@@ -149,7 +149,7 @@ public class F96BornSubdominantSlopesPi2InheritanceTests
         var f = BuildClaim();
         Assert.Contains("PROOF_F96_BORN_SUBDOMINANT_SLOPES.md", f.Anchor);
         Assert.Contains("ANALYTICAL_FORMULAS.md F96", f.Anchor);
-        Assert.Contains("_born_rule_subdominant_dyson.py", f.Anchor);
+        Assert.Contains("born_rule_subdominant_dyson.py", f.Anchor);
         Assert.Contains("ON_HOW_FOUR_THIRDS_APPEARED.md", f.Anchor);
         Assert.Contains("F94BornDeviationFourThirdsPi2Inheritance.cs", f.Anchor);
     }

@@ -3,7 +3,7 @@
 **Status:** Computational result (Tier 1-2). Verified at N=3 and N=4 to machine precision (residual 10⁻¹⁵). Analytical interpretation Tier 2.
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Pipeline:** `simulations/_veffect_weight_immunity.py`
+**Pipeline:** `simulations/veffect_weight_immunity.py`
 **See also:** [V_EFFECT_PALINDROME](V_EFFECT_PALINDROME.md), [PROOF_BIT_B_PARITY_SYMMETRY](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md), [PRIMORDIAL_QUBIT](../hypotheses/PRIMORDIAL_QUBIT.md)
 
 ---
@@ -26,7 +26,7 @@ The V-Effect "14 of 36 mode-pairs break, 22 remain palindromic" reading is now s
 
 ## Numerical results
 
-`simulations/_veffect_weight_immunity.py`, N ∈ {3, 4}, γ_l = 0.1 per site, Σγ = N · 0.1.
+`simulations/veffect_weight_immunity.py`, N ∈ {3, 4}, γ_l = 0.1 per site, Σγ = N · 0.1.
 
 Five test Hamiltonians on each chain (bonds (0,1), (1,2), and at N=4 also (2,3)):
 
@@ -116,4 +116,4 @@ The **break magnitude** (8.0 at N=3, 11.314 ≈ 8√2 and 16.0 = 8·2 at N=4) sc
 - [PROOF_BIT_B_PARITY_SYMMETRY](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md): the analytical proof [L, Π²] = 0 for any N. This finding strengthens it: not only does Π² commute, but the violation of Π conjugation is strictly localized to boundary sectors.
 - [PRIMORDIAL_QUBIT](../hypotheses/PRIMORDIAL_QUBIT.md): the C²⊗C² parity structure (bit_a, bit_b) that determines which Hamiltonian terms preserve which Z₂.
 - [HIERARCHY_OF_INCOMPLETENESS](../docs/HIERARCHY_OF_INCOMPLETENESS.md): the level-stack picture into which this finding embeds.
-- Simulation: `simulations/_veffect_weight_immunity.py`.
+- Simulation: `simulations/veffect_weight_immunity.py`.

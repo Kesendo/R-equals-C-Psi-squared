@@ -37,7 +37,7 @@ public class KPartnerSelectionRuleClaimTests
         var anchor = Build().Anchor;
         Assert.Contains("HANDSHAKE_GEOMETRY.md", anchor);
         Assert.Contains("DefectDecoder.cs", anchor);
-        Assert.Contains("_k_partner_selection_rule.py", anchor);
+        Assert.Contains("k_partner_selection_rule.py", anchor);
     }
 
     [Fact]

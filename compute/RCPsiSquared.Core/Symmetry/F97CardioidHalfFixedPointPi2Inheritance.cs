@@ -87,7 +87,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>Tier1Derived: pure algebraic identity, bit-exact, no approximations.
 /// Anchors: <c>docs/proofs/PROOF_F97_CARDIOID_HALF_FIXED_POINT.md</c> +
 /// <c>docs/ANALYTICAL_FORMULAS.md</c> F97 +
-/// <c>simulations/_cardioid_parametrization_tier1.py</c> (numerical
+/// <c>simulations/cardioid_parametrization_tier1.py</c> (numerical
 /// verification 1.24 × 10⁻¹⁶ max residual) +
 /// <c>experiments/CPSI_COMPLEX_PLANE.md</c> (Kingston 2026-04-16 hardware
 /// precursor that observed 2D c-plane spirals).</para>
@@ -235,7 +235,7 @@ public sealed class F97CardioidHalfFixedPointPi2Inheritance : Claim, IZ2AxisClai
                Tier.Tier1Derived,
                "docs/proofs/PROOF_F97_CARDIOID_HALF_FIXED_POINT.md + " +
                "docs/ANALYTICAL_FORMULAS.md F97 + " +
-               "simulations/_cardioid_parametrization_tier1.py + " +
+               "simulations/cardioid_parametrization_tier1.py + " +
                "experiments/CPSI_COMPLEX_PLANE.md (Kingston 2026-04-16 hardware precursor) + " +
                "experiments/BOUNDARY_NAVIGATION.md (real-c precursor, F95 origin) + " +
                "compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZeroPi2Inheritance.cs (real-c angle sibling) + " +

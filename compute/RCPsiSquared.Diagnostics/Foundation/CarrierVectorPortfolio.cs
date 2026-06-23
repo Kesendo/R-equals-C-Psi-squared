@@ -33,7 +33,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// donor, whose clocks span decades). Companion reading to <see cref="MemoryAxisRho"/>:
 /// MemoryAxisRho splits one state along the static / memory axis; this splits every mode
 /// along the per-channel difference axis. Verified bit-exact in
-/// <c>simulations/_absorption_gamma_vector.py</c> and <c>simulations/_sip_carrier_channels.py</c>.</para>
+/// <c>simulations/absorption_gamma_vector.py</c> and <c>simulations/sip_carrier_channels.py</c>.</para>
 /// </summary>
 public sealed record ChannelRate(string Channel, double Gamma);
 

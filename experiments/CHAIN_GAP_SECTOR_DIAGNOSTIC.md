@@ -5,7 +5,7 @@
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:** [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), [PROOF_WEIGHT1_DEGENERACY](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) (F50 w=1 floor at 2γ), [F1_DISSIPATION_GAP_PATTERN](../hypotheses/F1_DISSIPATION_GAP_PATTERN.md)
 
-**Verification:** [`simulations/_chain_gap_sector_diagnostic.py`](../simulations/_chain_gap_sector_diagnostic.py) (chain N=4, 5, 6 at γ=0.5, J=1, Q=2)
+**Verification:** [`simulations/chain_gap_sector_diagnostic.py`](../simulations/chain_gap_sector_diagnostic.py) (chain N=4, 5, 6 at γ=0.5, J=1, Q=2)
 
 ---
 
@@ -207,7 +207,7 @@ Still requires Bethe-ansatz / first-order PT on XXX chain. The empirical c(Q) li
 ## Reproduction
 
 ```
-python simulations/_chain_gap_sector_diagnostic.py
+python simulations/chain_gap_sector_diagnostic.py
 ```
 
 Runs N=4, 5, 6 chain at γ=0.5, J=1; outputs the slow-mode sector + light content + per-block slow eigenvalues + Pauli-basis weight distribution to stdout. Total wall time: ~5 seconds on a standard desktop.

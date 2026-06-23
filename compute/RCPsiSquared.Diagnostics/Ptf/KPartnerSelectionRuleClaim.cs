@@ -32,7 +32,7 @@ namespace RCPsiSquared.Diagnostics.Ptf;
 /// like the complementary interior bond, residual ratio ≈ 1.5 at N=5) IS this: the K-partner
 /// pairs are the dictionary's null direction.</para>
 ///
-/// <para>Anchor: <c>hypotheses/HANDSHAKE_GEOMETRY.md</c> + <c>simulations/_k_partner_selection_rule.py</c>
+/// <para>Anchor: <c>hypotheses/HANDSHAKE_GEOMETRY.md</c> + <c>simulations/k_partner_selection_rule.py</c>
 /// + <c>compute/RCPsiSquared.Diagnostics/Foundation/DefectDecoder.cs</c> +
 /// <c>compute/RCPsiSquared.Diagnostics/Ptf/ChiralMirrorTrajectoryClaim.cs</c> (the parent).</para></summary>
 public sealed class KPartnerSelectionRuleClaim : Claim
@@ -54,7 +54,7 @@ public sealed class KPartnerSelectionRuleClaim : Claim
                "the location dictionary has rank N−2 and the DefectDecoder's sign-location ambiguity IS this null direction",
                Tier.Tier1Derived,
                "hypotheses/HANDSHAKE_GEOMETRY.md + " +
-               "simulations/_k_partner_selection_rule.py (the selection-rule + rank N−2 probe, machine-exact N = 3..8) + " +
+               "simulations/k_partner_selection_rule.py (the selection-rule + rank N−2 probe, machine-exact N = 3..8) + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/DefectDecoder.cs (the decoder whose rank-(N−2) ambiguity this explains) + " +
                "compute/RCPsiSquared.Diagnostics/Ptf/ChiralMirrorTrajectoryClaim.cs (the parent: both ingredients)")
     {

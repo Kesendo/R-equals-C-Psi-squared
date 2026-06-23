@@ -3,7 +3,7 @@
 **Status:** Computational (Tier 1-2). Framework-based re-examination of the V-Effect's 14-of-36 result. Reproduces March 2026 finding via stricter operator-equation test, plus reveals a 19-case "soft break" intermediate category that the spectrum-pairing test missed.
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Pipeline:** `simulations/_veffect_36_combos_via_framework.py` (uses `framework.py`)
+**Pipeline:** `simulations/veffect_36_combos_via_framework.py` (uses `framework.py`)
 **See also:** [V_EFFECT_PALINDROME](V_EFFECT_PALINDROME.md), [V_EFFECT_BOUNDARY_LOCALIZATION](V_EFFECT_BOUNDARY_LOCALIZATION.md), [PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md)
 
 ---
@@ -27,7 +27,7 @@ The 14 hard-broken cases break both criteria simultaneously. These are the V-Eff
 
 ## Numerical results
 
-Pipeline: `_veffect_36_combos_via_framework.py`. N=3, γ_l = 0.1 per site, two bonds (0,1), (1,2), threshold 10⁻¹⁰ for OP, 10⁻⁶ for SPEC.
+Pipeline: `veffect_36_combos_via_framework.py`. N=3, γ_l = 0.1 per site, two bonds (0,1), (1,2), threshold 10⁻¹⁰ for OP, 10⁻⁶ for SPEC.
 
 **Truly unbroken (3):**
 
@@ -151,4 +151,4 @@ The hardware result is slightly STRONGER than the idealized framework predicts. 
 - [V_EFFECT_BOUNDARY_LOCALIZATION](V_EFFECT_BOUNDARY_LOCALIZATION.md): structural location of the break (w=1, 2 sectors at N=3).
 - [PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md): analytical proof of (w=0, w=N) extreme-sector immunity.
 - `simulations/framework.py`: framework primitives.
-- `simulations/_veffect_36_combos_via_framework.py`: this calculation's pipeline.
+- `simulations/veffect_36_combos_via_framework.py`: this calculation's pipeline.

@@ -217,7 +217,7 @@ is (½)² = ¼. See [Neural 1/4](neural/ALGEBRAIC_PALINDROME_NEURAL.md).
   sector populations, off-diagonal coherence, per-site Bloch
   components) cross the cusp smoothly. The cusp does not connect
   two worlds; it is the internal site where stability becomes
-  algebraically available. See [`simulations/_cusp_investigation.py`](../simulations/_cusp_investigation.py)
+  algebraically available. See [`simulations/cusp_investigation.py`](../simulations/cusp_investigation.py)
   for the full reading on Bell+ under Z-dephasing
 
 ---

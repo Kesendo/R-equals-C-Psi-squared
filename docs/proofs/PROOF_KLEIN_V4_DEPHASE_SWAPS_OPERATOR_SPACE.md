@@ -3,7 +3,7 @@
 **Status:** Tier1Derived universal N via per-site factorization. Welle 12 Task 2, 2026-05-27.
 **Date:** 2026-05-27 (Welle 12)
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Verifier:** [`simulations/_klein_dephase_swap_explore.py`](../../simulations/_klein_dephase_swap_explore.py) (numpy bit-exact + sympy-symbolic at N = 1, 2, 3, 4).
+**Verifier:** [`simulations/klein_dephase_swap_explore.py`](../../simulations/klein_dephase_swap_explore.py) (numpy bit-exact + sympy-symbolic at N = 1, 2, 3, 4).
 **Builds on:** [PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md](PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md) (Welle 12 Task 1, the Z↔Y diagonal involution).
 **Connects:** [PiOperator.ActOnLetter](../../compute/RCPsiSquared.Core/Symmetry/PiOperator.cs), [reflection D_PI_Z_EQUALS_PI_Y.md](../../reflections/D_PI_Z_EQUALS_PI_Y.md).
 
@@ -21,7 +21,7 @@ The diagnostic reading: any F1 diagnostic (Frobenius norms, spectra, eigenspace 
 
 **The motivating question.** Welle 12 Task 1 ([PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N](PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md)) established that D-conjugation maps Π_Z ↦ Π_Y on the 4^N Pauli basis. Two questions remained: does the X-axis swap lift to operator space the same way, and do the three swaps form a closed group? Pre-dispatch the Z↔X swap was conjectured to be order 4 rather than order 2 (Π_Z and Π_X live on different Klein axes, bit_b versus bit_a, so the controller expected the composite to need an extra rotation). Either outcome (order 2 or order 4) would be structurally informative.
 
-**The empirical anchor.** [simulations/_klein_dephase_swap_explore.py](../../simulations/_klein_dephase_swap_explore.py) did a brute-force per-site search over 256 sign-vector combinations `S_L · h · S_R` and found 64 valid Z↔X solutions plus 64 valid Y↔X solutions. The canonical order-2 involutions (q_zx = h · d_l and q_yx = h) emerged as the simplest representatives. Numerical verification at N = 1, 2, 3, 4 confirmed every Klein-V₄ identity (conjugation + group closure + commutativity) bit-exact. What was missing was the structural argument that lifts per-N verification to universal N.
+**The empirical anchor.** [simulations/klein_dephase_swap_explore.py](../../simulations/klein_dephase_swap_explore.py) did a brute-force per-site search over 256 sign-vector combinations `S_L · h · S_R` and found 64 valid Z↔X solutions plus 64 valid Y↔X solutions. The canonical order-2 involutions (q_zx = h · d_l and q_yx = h) emerged as the simplest representatives. Numerical verification at N = 1, 2, 3, 4 confirmed every Klein-V₄ identity (conjugation + group closure + commutativity) bit-exact. What was missing was the structural argument that lifts per-N verification to universal N.
 
 **What this proof closes.** Same skeleton as Welle 12 Task 1, expanded to three operators:
 
@@ -252,7 +252,7 @@ Hence {I, D, Q_zx, Q_yx} is a Klein-V₄ subgroup of U(4^N) for every N, and the
 
 ## Verification
 
-**Numerical (numpy double precision):** [`simulations/_klein_dephase_swap_explore.py`](../../simulations/_klein_dephase_swap_explore.py) computes both sides of every identity at N = 1, 2, 3, 4 and reports residual = 0.000e+00 in every case:
+**Numerical (numpy double precision):** [`simulations/klein_dephase_swap_explore.py`](../../simulations/klein_dephase_swap_explore.py) computes both sides of every identity at N = 1, 2, 3, 4 and reports residual = 0.000e+00 in every case:
 
 - per-site π matches `build_pi_full(N=1, ...)`: max diff = 0.000e+00
 - per-site `q_zx · π_Z · q_zx⁻¹ = π_X`: residual = 0

@@ -61,7 +61,7 @@ public enum DConjugationSign
 /// Tier1Derived universal N independent of F114.</para>
 ///
 /// <para><b>Verification:</b> bit-exact for all 4 + 16 + 64 = 84 Pauli strings at
-/// N = 1, 2, 3 (PART 1 of <c>simulations/_m_level_sign_functional_explore.py</c>),
+/// N = 1, 2, 3 (PART 1 of <c>simulations/m_level_sign_functional_explore.py</c>),
 /// for 12 bilinear bond Hamiltonians at N = 2 (PART 2), and for 6 multi-bond /
 /// multi-body cases at N = 3, 4 (PART 3). Residual = 0.00e+00 numpy double precision
 /// across all cases.</para>
@@ -75,7 +75,7 @@ public enum DConjugationSign
 /// <para>No <see cref="IZ2AxisClaim"/> implementation: like the parent Klein-V₄
 /// claim, F114 is a cross-axis structural identity not on a single Z₂ axis.</para>
 ///
-/// <para>Source: <c>simulations/_m_level_sign_functional_explore.py</c> +
+/// <para>Source: <c>simulations/m_level_sign_functional_explore.py</c> +
 /// <c>docs/ANALYTICAL_FORMULAS.md</c> F114 entry.</para></summary>
 public sealed class CommutatorDConjugationSign : Claim
 {
@@ -146,7 +146,7 @@ public sealed class CommutatorDConjugationSign : Claim
                "verification N = 1, 2, 3, 4 across 84 single Pauli strings + 18 multi-term cases).",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F114 + " +
-               "simulations/_m_level_sign_functional_explore.py + " +
+               "simulations/m_level_sign_functional_explore.py + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KleinV4DephaseSwapGroup.cs (parent)")
     {
         KleinV4 = kleinV4 ?? throw new ArgumentNullException(nameof(kleinV4));
@@ -173,7 +173,7 @@ public sealed class CommutatorDConjugationSign : Claim
                          "both parity classes, D · L_H · D yields a non-multiplicative response " +
                          "(Mixed). Bilinearity: ε(H) = ε of any single σ_k in the well-defined case.");
             yield return new InspectableNode("Empirical anchor",
-                summary: "simulations/_m_level_sign_functional_explore.py verifies bit-exact: " +
+                summary: "simulations/m_level_sign_functional_explore.py verifies bit-exact: " +
                          "PART 1: 84 Pauli strings at N = 1, 2, 3 (all 4 + 16 + 64). " +
                          "PART 2: 12 bilinear bond Hamiltonians at N = 2 (XZ+ZX, YZ+ZY, " +
                          "Heisenberg, XX/YY/ZZ/XY/YX/ZY/XZ singletons, mixed-letter combos). " +

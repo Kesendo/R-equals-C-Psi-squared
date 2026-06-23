@@ -4,7 +4,7 @@
 **Authors:** Thomas Wicht, Claude
 **Status:** Proven (algebraic, Tier 1) + numerically verified at N=9
 **Generated formula:** spectral mirror α_k = α_{N+1-k} (F65, "Properties"), receiver-menu folding (F67, [HANDSHAKE_ALGEBRA](../../hypotheses/HANDSHAKE_ALGEBRA.md))
-**Numerical verification:** [`simulations/_pi_partner_identity.py`](../../simulations/_pi_partner_identity.py) (2026-04-24)
+**Numerical verification:** [`simulations/pi_partner_identity.py`](../../simulations/pi_partner_identity.py) (2026-04-24)
 
 ---
 
@@ -177,7 +177,7 @@ For **complex** hopping (Peierls phase, t_ℓ ∈ ℂ\ℝ), TRS breaks and the s
 
 ## Numerical verification
 
-Verified at N=9 in `simulations/_pi_partner_identity.py` (2026-04-25, single-excitation manifold):
+Verified at N=9 in `simulations/pi_partner_identity.py` (2026-04-25, single-excitation manifold):
 
 | Case                                              | γ regime | Worst \|ΔMI(0, N-1)\|     | Worst \|ΔΣ_ℓ log π_ℓ\|   | Result |
 |---------------------------------------------------|----------|--------------------------|---------------------------|--------|
@@ -203,7 +203,7 @@ All four pair indices {1, 9}, {2, 8}, {3, 7}, {4, 6} verified at machine precisi
 
 Spectrum inversion E_k + E_{N+1-k} = 0 holds at machine precision **even with complex hopping** because Lemma 1 (KHK = −H) is independent of T-symmetry. But the trajectory identity (Lemma 4) fails because its proof relies on the complex-conjugation step ρ_{N+1-k}(t) = (K ρ_k(t) K)*, which requires H = H*. The Peierls test therefore numerically separates the two layers of the proof: the chiral structure (S = K, AIII) gives spectrum inversion alone; the full BDI structure (S + T) is needed for observable identity.
 
-**XXZ boundary scaling (Robustness Test 2).** Verified in `simulations/_k_partnership_xxz.py` (full 2ᴺ Lindblad propagation, no single-excitation reduction):
+**XXZ boundary scaling (Robustness Test 2).** Verified in `simulations/k_partnership_xxz.py` (full 2ᴺ Lindblad propagation, no single-excitation reduction):
 
 | Topology, N           | Δ = 0          | Δ = 0.5         | Δ = 1.0          | Result                |
 |-----------------------|----------------|------------------|-------------------|------------------------|

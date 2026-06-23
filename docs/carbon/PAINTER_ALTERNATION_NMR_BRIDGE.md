@@ -3,7 +3,7 @@
 **Date:** 2026-05-27 (later the same day)
 **Authors:** Tom + Claude
 **Status:** Tier 3 (translation bridge from a Liouvillian-eigenmode observation to a standard NMR measurement)
-**Continues:** [`_carbon_ptf_real_imag_per_painter.py`](../../simulations/_carbon_ptf_real_imag_per_painter.py) (this morning's Painter Re/Im read on the N = 4 ring), [BENZENE_THREE_DEPHASE_LETTERS](BENZENE_THREE_DEPHASE_LETTERS.md) (morning's three-letter vocabulary)
+**Continues:** [`carbon_ptf_real_imag_per_painter.py`](../../simulations/carbon_ptf_real_imag_per_painter.py) (this morning's Painter Re/Im read on the N = 4 ring), [BENZENE_THREE_DEPHASE_LETTERS](BENZENE_THREE_DEPHASE_LETTERS.md) (morning's three-letter vocabulary)
 
 ---
 
@@ -39,7 +39,7 @@ This doc ends the bridge.
 The Painter view sorts modes by eye into "Re-flavor" and "Im-flavor"
 panels. The operator-level question is whether the sort is sharp or
 approximate. The companion script
-[`_carbon_painter_t2_anisotropy.py`](../../simulations/_carbon_painter_t2_anisotropy.py)
+[`carbon_painter_t2_anisotropy.py`](../../simulations/carbon_painter_t2_anisotropy.py)
 runs the operator-level diagnostic: for each slow eigenmode, project per-site,
 decompose the resulting 2 × 2 into the four Pauli channels {I, X, Y, Z},
 and sum the squared coefficients across all sites.
@@ -265,8 +265,8 @@ y-field, anisotropy direction set by the field axis**.
 ## Anchor
 
 - **Companion scripts:**
-  - [`simulations/_carbon_ptf_real_imag_per_painter.py`](../../simulations/_carbon_ptf_real_imag_per_painter.py) (Painter Re/Im read on slow eigenmodes)
-  - [`simulations/_carbon_painter_t2_anisotropy.py`](../../simulations/_carbon_painter_t2_anisotropy.py) (Y/non-Y sectorization at bit-exact precision + anisotropic T2 from full propagation)
+  - [`simulations/carbon_ptf_real_imag_per_painter.py`](../../simulations/carbon_ptf_real_imag_per_painter.py) (Painter Re/Im read on slow eigenmodes)
+  - [`simulations/carbon_painter_t2_anisotropy.py`](../../simulations/carbon_painter_t2_anisotropy.py) (Y/non-Y sectorization at bit-exact precision + anisotropic T2 from full propagation)
 - **Reading-flow companion:** [BENZENE_THREE_DEPHASE_LETTERS](BENZENE_THREE_DEPHASE_LETTERS.md) (morning's three-letter Klein-V₄ vocabulary; supplies the F114 / `n_Y`-parity / Π language the Painter alternation sits inside)
 - **Cross-reference:** [BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md) (May 22 spectrum-palindrome result; the Painter alternation is a separate observation on the same Holstein system)
 
@@ -276,4 +276,4 @@ y-field, anisotropy direction set by the field axis**.
 
 - **Earlier today, [BENZENE_THREE_DEPHASE_LETTERS](BENZENE_THREE_DEPHASE_LETTERS.md)**: the morning explained the three-letter Klein-V₄ symmetry on dephasing and the F114 sign rule on n_Y parity. The afternoon's Painter alternation is one operational reading of how the Y-axis sectorization that the algebra carries becomes a measurable NMR observable. The two docs are companions: vocabulary in the morning, observable in the afternoon.
 - **2026-05-22 [BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md)**: the May result showed Holstein preserves the F1 spectrum palindrome while Peierls breaks it. The Painter alternation is a separate observation on the same Holstein system; it does not depend on the Peierls / Holstein switch. The two results sit on the same N = 4 ring, read different layers of the relaxation structure.
-- **2026-05-27 [`_carbon_realistic_sweep.py`](../../simulations/_carbon_realistic_sweep.py)**: the realistic sweep over fifty-six configurations confirmed the deep distribution-mirror is robust across the natural aromatic Hamiltonian + bath inventory. The Painter alternation is the per-Painter face of a piece of that mirror; the T2 anisotropy is its NMR-readable signature.
+- **2026-05-27 [`carbon_realistic_sweep.py`](../../simulations/carbon_realistic_sweep.py)**: the realistic sweep over fifty-six configurations confirmed the deep distribution-mirror is robust across the natural aromatic Hamiltonian + bath inventory. The Painter alternation is the per-Painter face of a piece of that mirror; the T2 anisotropy is its NMR-readable signature.

@@ -28,7 +28,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_K_PARTNERSHIP.md</c> (algebraic Tier 1, 2026-04-25,
 /// numerically verified at N=9) + <see cref="ChiralK"/> helper +
-/// <c>simulations/_pi_partner_identity.py</c>. The Claim wrapper itself was added
+/// <c>simulations/pi_partner_identity.py</c>. The Claim wrapper itself was added
 /// 2026-05-16 to close the prose-only edge identified in
 /// <c>docs/PI2KB_INHERITANCE_MAP.md</c>.</para>
 /// </summary>
@@ -39,7 +39,7 @@ public sealed class ChiralKClaim : Claim
                Tier.Tier1Derived,
                "docs/proofs/PROOF_K_PARTNERSHIP.md (algebraic Tier 1, 2026-04-25, numerically verified at N=9) + " +
                "compute/RCPsiSquared.Core/Symmetry/ChiralK.cs (operator + classification helper) + " +
-               "simulations/_pi_partner_identity.py (N=9 numerical witness)")
+               "simulations/pi_partner_identity.py (N=9 numerical witness)")
     { }
 
     public override string DisplayName =>

@@ -69,7 +69,7 @@ public sealed class ThreeLadderHingeClaim : Claim
                "graph, rung on the 4^N coherences) but one object in M. Tier1Derived (exact, gate-first)",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md §1, §4 + " +
-               "simulations/_three_ladders_bridge.py + " +
+               "simulations/three_ladders_bridge.py + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/LadderHingeWitness.cs (inspect --root ladders)")
     {
         Absorption = absorption ?? throw new ArgumentNullException(nameof(absorption));

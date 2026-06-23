@@ -6,8 +6,8 @@ figure and one tree so it is legible without running anything.
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.8)
 **Witness:** `inspect --root trichotomy` ([`TrichotomyWitness`](../compute/RCPsiSquared.Diagnostics/Foundation/TrichotomyWitness.cs))
 **Figures:** [`trichotomy_witness_figure.py`](../simulations/trichotomy_witness_figure.py) (darkness),
-[`_trichotomy_ep_figure.py`](../simulations/_trichotomy_ep_figure.py) (the rigidity EP),
-[`_trichotomy_petermann.py`](../simulations/_trichotomy_petermann.py) (the Petermann factor K=1/r²)
+[`trichotomy_ep_figure.py`](../simulations/trichotomy_ep_figure.py) (the rigidity EP),
+[`trichotomy_petermann.py`](../simulations/trichotomy_petermann.py) (the Petermann factor K=1/r²)
 
 ## What this is about
 
@@ -207,9 +207,9 @@ found this, and the split is the fix.
   [`proofs/PROOF_COHERENCE_HORIZON_SLOPE.md`](proofs/PROOF_COHERENCE_HORIZON_SLOPE.md).
 - Regenerate the figures: [`simulations/trichotomy_witness_figure.py`](../simulations/trichotomy_witness_figure.py)
   (darkness, data verbatim from `inspect --root trichotomy --N 6`) and
-  [`simulations/_trichotomy_ep_figure.py`](../simulations/_trichotomy_ep_figure.py) (the rigidity EP, from a
+  [`simulations/trichotomy_ep_figure.py`](../simulations/trichotomy_ep_figure.py) (the rigidity EP, from a
   half-filling-sector `Q`-sweep of the witness' public `CarbonImAndRigidity` / `CarbonSlowestRate`) and
-  [`simulations/_trichotomy_petermann.py`](../simulations/_trichotomy_petermann.py) (the Petermann factor
+  [`simulations/trichotomy_petermann.py`](../simulations/trichotomy_petermann.py) (the Petermann factor
   `K=1/r²` climbing toward a divergence at the horizon, from a log-spaced `δ`-sweep around `Q*(N)` — the
   curve is a grid-sensitive certificate of the EP, its height/exponent not load-bearing; the artifact-free
   result is the defective Jordan structure, see the Petermann section above).

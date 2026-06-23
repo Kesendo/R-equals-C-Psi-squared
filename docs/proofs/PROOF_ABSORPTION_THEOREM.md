@@ -238,7 +238,7 @@ which holds for *every* Hermitian H, so L_H is anti-Hermitian for complex
 Hermitian H too and the theorem stands. Verified bit-exact (max error
 1.4·10⁻¹⁴, identical to the Hückel result, with Herm(L) = (L+L†)/2 the *same*
 pure Z-dephasing dissipator for both H's) against a random complex Hermitian H in
-[`simulations/_popcount_identity_h_independence.py`](../../simulations/_popcount_identity_h_independence.py).
+[`simulations/popcount_identity_h_independence.py`](../../simulations/popcount_identity_h_independence.py).
 The genuine boundary is the dissipator, not the Hamiltonian: non-dephasing
 channels (amplitude damping, depolarizing) add a non-diagonal Hermitian part
 and shift the rate (F82/F84 above); no Hamiltonian, real or complex, breaks it.

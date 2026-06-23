@@ -271,7 +271,7 @@ Q* = N/π); Q_h/Q* = √3/2 asymptotically. (The earlier "c_eff ≈ 12 flat, ~0.
 refuted as a constant, c_eff climbs toward 4π²/3 = 13.16.) So the V-Effect seam is NOT "co-located at even N": the ring handover and the ring
 SE-EP are mechanistically distinct and their values merely CROSS near N≈10 (benzene's 2.0-vs-1.609
 split is a small-N feature; N=6 ≈ exactly 2 is a hexagon coincidence).
-**Verified:** N=2..5 vs carbon (`simulations/_carbon_quantum_same_mountain.py`); the {0,2}-coherence
+**Verified:** N=2..5 vs carbon (`simulations/carbon_quantum_same_mountain.py`); the {0,2}-coherence
 EP at all N via phase rigidity (2026-06-13); the single-excitation reduction, the N=2,3 closed forms
 and the N≥4 transcendental verdict (`simulations/coherence_horizon_se_block.py`, self-validating
 N=2..8).
@@ -750,7 +750,7 @@ CΨ = Tr(ρ²)·L₁/(d−1), and iterating from Bell+ never crosses below 1/4. 
 "100 random maps, max 0.138" is a Ginibre n_kraus=4 sampling artifact (the same
 sweep at n_kraus=2 violates ~8.5%). The crossing is a property of physical noise
 (separable/classical fixed point), not of primitivity. Verifier:
-simulations/_review2_A5_subsystem.py.
+simulations/review2_A5_subsystem.py.
 
 **Valid for:** physical noise channels (unital / local / Pauli / amplitude-damping),
 2 qubits. NOT valid for general primitive CPTP maps.
@@ -2115,7 +2115,7 @@ Under Heisenberg evolution on the uniform chain, bonding mode ψ_k mixes with it
 **Valid for:** any pure single-excitation state with c_{N−1−j} = ±c_j on a linear N-site chain. Extends to non-linear mirror-symmetric graphs (ring, Y-junction with mirror axis) with corresponding modification of the mirror-partner indexing.
 **Breaks for:** states with multi-excitation content (formula no longer applies because `ρ[|11⟩⟨11|]` ≠ 0 in general), or states without mirror amplitude symmetry (where p_ℓ ≠ p_{N−1−ℓ} gives an asymmetric 2-qubit reduced matrix).
 **Verified:** Algebraic derivation confirmed against direct C# brecher propagation at N = 5, 7, 9 for k = 1, 2, 3, at N = 11 for k = 1, 2, 3, 4, 6, and at N = 13 for k = 1, 2, 3, 4, 5, 7 (the latter via matrix-free propagator); MM(0) formula matches simulation PeakMM within 7% (full decay envelope explained by 4γ₀·t dephasing + mirror-partner oscillation at t = 0.1). The sim/analytic ratio sits at **0.925 to 0.931 across all (N ≥ 7, k) tested (~25 data points)**, i.e. PeakMM = 0.93 × MM(0) with tight consistency. F75 is therefore a reliable predictor of PeakMM without any propagation.
-**Scripts:** [`_check_brecher_n5_finegrid.py`](../simulations/_check_brecher_n5_finegrid.py), [`Program.cs brecher mode`](../compute/RCPsiSquared.Propagate/Program.cs), `_mm_zero_derivation.py` (table above).
+**Scripts:** [`check_brecher_n5_finegrid.py`](../simulations/check_brecher_n5_finegrid.py), [`Program.cs brecher mode`](../compute/RCPsiSquared.Propagate/Program.cs), `mm_zero_derivation.py` (table above).
 **Source:** F65 (bonding-mode amplitudes), F67 (bonding as optimal decay receiver), F71 (mirror symmetry that justifies c_{N−1−j} = ±c_j), [RECEIVER_VS_GAMMA_SACRIFICE](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md) (numerical context).
 
 ### F76. Pure-dephasing decay of the mirror-pair MI for bonding:k (Tier 1, proven algebraic + weak-mixing argument)
@@ -2162,7 +2162,7 @@ Agreement to within 0.5% across all tested (N, k). Difference between "pure-deph
 
 **Valid for:** bonding:k initial states on uniform-J open Heisenberg chains with uniform Z-dephasing, short γ₀·t such that V²t²/γ₀t is small. Breaks for ratios γ₀/J comparable to 1 (outside the weak-dephasing regime) or t such that γ₀·t ≳ 1 (full decoherence).
 **Verified:** Against the full Lindblad single-excitation-sector simulation for N = 5..13, k = 1..5. Sim/analytic ratio within 0.5%.
-**Scripts:** [`_envelope_study.py`](../simulations/_envelope_study.py) (commit `e1ee822`).
+**Scripts:** [`envelope_study.py`](../simulations/envelope_study.py) (commit `e1ee822`).
 **Source:** F75 (static MI formula), F65 (bonding mode amplitudes), F68 (palindromic-partner structure of mixing).
 
 ### F77. Multi-drop MM(0) saturates at 1 bit for large N (Tier 1, asymptotic proven)
@@ -2211,7 +2211,7 @@ The rescaled deviation (MM − 1)·(N + 1) converges to 3/(4 ln 2) = 1.0820 with
 **Valid for:** best-bonding-k* initial state, uniform-J Heisenberg or XY chain, uniform γ₀ dephasing, t = 0. At t > 0 the decay envelope F76 applies multiplicatively.
 **Breaks for:** multi-excitation states (F75's single-excitation structure required), non-mirror-symmetric receivers (closure Σ_pair p_ℓ = 1/2 depends on even-k reflection symmetry).
 **Verified:** N up to 10⁴ numerically, leading coefficient 3/(4 ln 2) confirmed to 4 decimals.
-**Scripts:** [`_mm_asymptotic.py`](../simulations/_mm_asymptotic.py) (asymptotic scan and coefficient check).
+**Scripts:** [`mm_asymptotic.py`](../simulations/mm_asymptotic.py) (asymptotic scan and coefficient check).
 **Source:** F75 (small-p Taylor expansion of the entropy), F65 (sin² amplitudes), standard Parseval-type identity for sin⁴ sums.
 
 ### F78. Single-body M decomposes additively over sites (Tier 1, verified N=3-5, 3 topologies, 3 Pauli letters)
@@ -2315,7 +2315,7 @@ So M is always ±2i times a Hamiltonian object: H⊗I for Π²-odd (single energ
 **Still open:** the explicit cluster-*value* formula at non-chain topologies (the dispersion ε(k) is chain-specific: ring → periodic, star → integers); the Π²-even cluster-value bookkeeping; mixed-letter chain bilinears; the complete graph K_N.
 **Replaces:** F79's "Π²-odd universality observation"; the universality is now an analytical theorem with explicit closed-form predictions.
 **Verified:** N = 3, 4, 5, 6, 7 chain via Python, full SVD and eigsh independent verification at N=7.
-**Scripts:** [`_pi2_odd_universality_data_sweep.py`](../simulations/_pi2_odd_universality_data_sweep.py), [`_n7_bloch_signwalk_verification.txt`](../simulations/results/n7_bloch_signwalk_verification.txt).
+**Scripts:** [`pi2_odd_universality_data_sweep.py`](../simulations/pi2_odd_universality_data_sweep.py), [`_n7_bloch_signwalk_verification.txt`](../simulations/results/n7_bloch_signwalk_verification.txt).
 **Source:** Discovered 2026-04-29 by data sweep (Tom + Claude). Analytical proof outline in [PROOF_F80_BLOCH_SIGNWALK.md](proofs/PROOF_F80_BLOCH_SIGNWALK.md): Steps 1-4, 7 closed (JW transformation to Majorana bilinear, single-particle dispersion 2cos(πk/(N+1)), Bogoliubov diagonalization, Pauli-letter universality, sign-walk eigenvalue formula); Step 5 (Π permutes H's (ε_ket,ε_bra)-sectors with sum∘π = diff) verified bit-exact and gauge-checked at N=3,4,5, general-N proof open ([`f80_step5_recon.py`](../simulations/f80_step5_recon.py)). Empirical verification bit-exact through N=7.
 **Lebensader connection:** F80 is the third manifestation of the broad-in → focused-out Π-palindrome funnel: state layer (cockpit_panel), real-space single-body operator layer (F78), and now momentum-space chain 2-body operator layer (F80). Same Π·L·Π⁻¹ + L + 2σ·I = 0 through-line, three different bases.
 
@@ -2856,7 +2856,7 @@ with **three α anchors** (all closed form, derived from a single Krawtchouk ide
 **Verified:** 213 configurations N = 2..7 bit-exact (max deviation 8.88e−16); multi-state Dicke extension bit-exact N = 3..8.
 **Source:** [`docs/proofs/PROOF_F86B_UNIVERSAL_SHAPE.md`](proofs/PROOF_F86B_UNIVERSAL_SHAPE.md) §"F88b: popcount-coherence Π²-odd / memory closed form" (full proof + Krawtchouk lemma + verified state-level table); `compute/RCPsiSquared.Core/Symmetry/PopcountCoherencePi2Odd.cs` (closed-form predictor `Pi2OddInMemory` + Krawtchouk verifier `AlphaKrawtchouk` + Dicke superposition extension); `compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs` (state-level d=0 axis ⊕ d=2-axis Π²-split, the diagnostic bridge primitive); `simulations/f88b_lens_ibm_framework_snapshots.py` (hardware lens script, after 2026-05-18 rename).
 
-**Companion (product-state class):** for tensor-product states |ψ⟩ = ⊗_i |basis_i⟩ where each |basis_i⟩ is an eigenstate of σ_X or σ_Y (i.e., one of |±⟩ or |±i⟩), let M be the number of Y-basis sites. The Pauli strings in supp(ρ = |ψ⟩⟨ψ|) split discretely: M=0 → 2^N Π²-even + 0 Π²-odd (Π²-classical class); M≥1 → exactly 2^(N−1) Π²-even + 2^(N−1) Π²-odd. Combinatorial proof + N=2..5 bit-exact verification: [`docs/proofs/PROOF_Y_PHASE_PI2_ODD_LENS.md`](proofs/PROOF_Y_PHASE_PI2_ODD_LENS.md), [`simulations/_y_phase_pi2_odd_verify.py`](../simulations/_y_phase_pi2_odd_verify.py). The pair-state companion (this entry's closed form) and the product-state companion together characterise the two main F88b-Lens probe classes; X-only product states are Π²-blind (cannot surface F80 / F81 dynamics). At N=3 with M≥1, the F88b-Lens reads Π²-odd/memory = 4/7 ≈ 0.571 exactly (3 Π²-even + 4 Π²-odd in memory, after subtracting III static).
+**Companion (product-state class):** for tensor-product states |ψ⟩ = ⊗_i |basis_i⟩ where each |basis_i⟩ is an eigenstate of σ_X or σ_Y (i.e., one of |±⟩ or |±i⟩), let M be the number of Y-basis sites. The Pauli strings in supp(ρ = |ψ⟩⟨ψ|) split discretely: M=0 → 2^N Π²-even + 0 Π²-odd (Π²-classical class); M≥1 → exactly 2^(N−1) Π²-even + 2^(N−1) Π²-odd. Combinatorial proof + N=2..5 bit-exact verification: [`docs/proofs/PROOF_Y_PHASE_PI2_ODD_LENS.md`](proofs/PROOF_Y_PHASE_PI2_ODD_LENS.md), [`simulations/y_phase_pi2_odd_verify.py`](../simulations/y_phase_pi2_odd_verify.py). The pair-state companion (this entry's closed form) and the product-state companion together characterise the two main F88b-Lens probe classes; X-only product states are Π²-blind (cannot surface F80 / F81 dynamics). At N=3 with M≥1, the F88b-Lens reads Π²-odd/memory = 4/7 ≈ 0.571 exactly (3 Π²-even + 4 Π²-odd in memory, after subtracting III static).
 
 ### F89. Topology orbit closure for spatial-sum coherence under uniform multi-bond XY (Tier 1 derived, verified 2026-05-11)
 
@@ -3075,9 +3075,9 @@ where L_H[ρ] = −i[H, ρ] and L'_dis[ρ] = Σ_l (Z_l ρ Z_l − ρ) is the γ-
 
 **Born-rule generalization context:** this is the first Tier-1 closed form for a per-outcome Born deviation under the framework's Q-K-invariant convention (Universal Carrier). Generalizes BORN_RULE_MIRROR's R_i = C_i · Ψ_i² (Tier 2/3, Feb 2026) to a specific case with explicit C_i closed form. The Δ_i values for other outcomes of the same setup scale linearly in K (1st-order diagrams) rather than as Q²·K³; their coefficients are separately Tier-1-derivable via the same Dyson method.
 
-**The "8" structurally (bit-explained 2026-05-17):** direct enumeration of all 4·4·4·3·3·3 = 1728 (b₁, b₂, s, ord, c₁, c₂) sextuples in sym3 shows exactly **32 non-vanishing diagrams**, each contributing **1/4** in the J = γ = 1 normalization (raw Pauli value 4 per diagram, divided by the (J/4)² = 1/a_{−1}² = 1/16 Heisenberg coupling), so **8 = 32 × (1/4)**. The 32 split into 3 disjoint cells: 8 diagrams in (ord=1, XX, adjacent bonds sharing a kept-pair site) + 16 in (ord=2, XX, self ∪ adj-kept) + 8 in (ord=2, YY, self only); equivalently topologically: 16 self-bond-pair diagrams + 16 adj-bond-pair diagrams. Three structural rules govern survival: (1) only (X,X) and (Y,Y) component pairs (no cross, no ZZ); (2) only orderings 1 and 2 (L'_dis last gives zero); (3) adjacent bond pairs must share a kept-pair site (vertex 0 or 2), not a |+⟩ site (1 or 3). The coefficient reads: **4/3 = 32 / (a_{−1} · 3!) = 32 / (4 · 6) = 32/24** (the structural-count reading), equivalent to **4/3 = a_{−1} / 3** (the typed-anchor inheritance reading). See [`PROOF_F94 § Structural decomposition`](proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md) for the cell table and [`simulations/_born_rule_sym3_decomposition.py`](../simulations/_born_rule_sym3_decomposition.py) for the enumeration script.
+**The "8" structurally (bit-explained 2026-05-17):** direct enumeration of all 4·4·4·3·3·3 = 1728 (b₁, b₂, s, ord, c₁, c₂) sextuples in sym3 shows exactly **32 non-vanishing diagrams**, each contributing **1/4** in the J = γ = 1 normalization (raw Pauli value 4 per diagram, divided by the (J/4)² = 1/a_{−1}² = 1/16 Heisenberg coupling), so **8 = 32 × (1/4)**. The 32 split into 3 disjoint cells: 8 diagrams in (ord=1, XX, adjacent bonds sharing a kept-pair site) + 16 in (ord=2, XX, self ∪ adj-kept) + 8 in (ord=2, YY, self only); equivalently topologically: 16 self-bond-pair diagrams + 16 adj-bond-pair diagrams. Three structural rules govern survival: (1) only (X,X) and (Y,Y) component pairs (no cross, no ZZ); (2) only orderings 1 and 2 (L'_dis last gives zero); (3) adjacent bond pairs must share a kept-pair site (vertex 0 or 2), not a |+⟩ site (1 or 3). The coefficient reads: **4/3 = 32 / (a_{−1} · 3!) = 32 / (4 · 6) = 32/24** (the structural-count reading), equivalent to **4/3 = a_{−1} / 3** (the typed-anchor inheritance reading). See [`PROOF_F94 § Structural decomposition`](proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md) for the cell table and [`simulations/born_rule_sym3_decomposition.py`](../simulations/born_rule_sym3_decomposition.py) for the enumeration script.
 
-**Anchor:** [`PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md`](proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md), [`simulations/_born_rule_tier1_derivation.py`](../simulations/_born_rule_tier1_derivation.py), [`simulations/_born_rule_delta_dominant_coefficient.py`](../simulations/_born_rule_delta_dominant_coefficient.py), [`simulations/_born_rule_sym3_decomposition.py`](../simulations/_born_rule_sym3_decomposition.py) (bit-explained 32-diagram enumeration, 2026-05-17), [reflection: `ON_HOW_FOUR_THIRDS_APPEARED.md`](../reflections/ON_HOW_FOUR_THIRDS_APPEARED.md). Born-rule precursors: [`experiments/BORN_RULE_MIRROR.md`](../experiments/BORN_RULE_MIRROR.md), [`experiments/BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md). Companion angle-side closed form (same cusp geometry, dual axis): [F95](#f95) θ(c) = arctan(√(4c − 1)).
+**Anchor:** [`PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md`](proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md), [`simulations/born_rule_tier1_derivation.py`](../simulations/born_rule_tier1_derivation.py), [`simulations/born_rule_delta_dominant_coefficient.py`](../simulations/born_rule_delta_dominant_coefficient.py), [`simulations/born_rule_sym3_decomposition.py`](../simulations/born_rule_sym3_decomposition.py) (bit-explained 32-diagram enumeration, 2026-05-17), [reflection: `ON_HOW_FOUR_THIRDS_APPEARED.md`](../reflections/ON_HOW_FOUR_THIRDS_APPEARED.md). Born-rule precursors: [`experiments/BORN_RULE_MIRROR.md`](../experiments/BORN_RULE_MIRROR.md), [`experiments/BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md). Companion angle-side closed form (same cusp geometry, dual axis): [F95](#f95) θ(c) = arctan(√(4c − 1)).
 
 ### F95. Angle emergence at quadratic discriminant zero: universal form of the θ-compass (Tier 1 derived, 4-line polynomial calculation; 2026-05-16)
 
@@ -3124,7 +3124,7 @@ arg(z₊) = arctan(Im/Re) = arctan(√(c − b²)/b) = arctan(√(c/b² − 1))
 
 **Born-rule connection:** standard QM's complex amplitudes α = r·e^{iθ}, β = ... are not postulated. They are forced by the same polynomial-foundation algebra: any state that has crossed the d=0 mirror needs a second coordinate beyond magnitude, and that coordinate is the F95 angle. The Born rule's |α|² is the geometric length squared of the angle-vector's basis-projection.
 
-**Anchor:** [`PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md`](proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md), [`simulations/_angle_at_zero_tier1_candidate.py`](../simulations/_angle_at_zero_tier1_candidate.py). Reflections (2026-05-16 chain): [`ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md`](../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md) (the angle's emergence above the discriminant zero), [`ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md) (Lindblad specialization θ = arctan(Q)), [`ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md`](../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md) (polarity-fold geometry of the b² = 1/4 threshold). Februar precursor (Mandelbrot-specific case): [`experiments/BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md). Hardware Confirmation: `Confirmations.lookup('f95_angle_steering_kingston_may2026')` (Kingston Heron r2 2026-05-16; complex-CΨ angle actively steerable via RZ injection at rate Ω; 3 of 4 conditions, residuals 6.81° to 15.69°). Companion magnitude-side closed form: [F94](#f94) Δ_|00⟩ = (4/3)·Q²·K³.
+**Anchor:** [`PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md`](proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md), [`simulations/angle_at_zero_tier1_candidate.py`](../simulations/angle_at_zero_tier1_candidate.py). Reflections (2026-05-16 chain): [`ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md`](../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md) (the angle's emergence above the discriminant zero), [`ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md) (Lindblad specialization θ = arctan(Q)), [`ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md`](../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md) (polarity-fold geometry of the b² = 1/4 threshold). Februar precursor (Mandelbrot-specific case): [`experiments/BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md). Hardware Confirmation: `Confirmations.lookup('f95_angle_steering_kingston_may2026')` (Kingston Heron r2 2026-05-16; complex-CΨ angle actively steerable via RZ injection at rate Ω; 3 of 4 conditions, residuals 6.81° to 15.69°). Companion magnitude-side closed form: [F94](#f94) Δ_|00⟩ = (4/3)·Q²·K³.
 
 ### F96. Born deviation subdominant-outcome slopes: |0+0+⟩ N=4 Heisenberg + Z-deph, pair (0,2) (Tier 1 derived, bit-exact Dyson + unitary matrix elements; 2026-05-17)
 
@@ -3178,7 +3178,7 @@ where M_n^{(i)} = ⟨i|_pair Tr_{1,3}[sym_n^1 · ρ_0]|i⟩_pair and U_{2k}^{(i)
 | Linear-K Q-independence | `UniversalCarrierClaim` (the Universal Carrier signature for subdominant outcomes) |
 | Site-permutation symmetry (|01⟩ ≡ |10⟩) | F1 / F71 spatial mirror |
 
-**Anchor:** [`PROOF_F96_BORN_SUBDOMINANT_SLOPES.md`](proofs/PROOF_F96_BORN_SUBDOMINANT_SLOPES.md), [`simulations/_born_rule_subdominant_dyson.py`](../simulations/_born_rule_subdominant_dyson.py). F94 companion (dominant outcome): [F94](#f94). Born-rule precursors: [`experiments/BORN_RULE_MIRROR.md`](../experiments/BORN_RULE_MIRROR.md), [`experiments/BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md). Reflection that named the empirical subdominant slopes as the next step: [`ON_HOW_FOUR_THIRDS_APPEARED.md`](../reflections/ON_HOW_FOUR_THIRDS_APPEARED.md).
+**Anchor:** [`PROOF_F96_BORN_SUBDOMINANT_SLOPES.md`](proofs/PROOF_F96_BORN_SUBDOMINANT_SLOPES.md), [`simulations/born_rule_subdominant_dyson.py`](../simulations/born_rule_subdominant_dyson.py). F94 companion (dominant outcome): [F94](#f94). Born-rule precursors: [`experiments/BORN_RULE_MIRROR.md`](../experiments/BORN_RULE_MIRROR.md), [`experiments/BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md). Reflection that named the empirical subdominant slopes as the next step: [`ON_HOW_FOUR_THIRDS_APPEARED.md`](../reflections/ON_HOW_FOUR_THIRDS_APPEARED.md).
 
 ### F97. Mandelbrot cardioid parametrization at framework b = 1/2 (Tier 1 derived, bit-exact algebraic identity; 2026-05-17)
 
@@ -3244,7 +3244,7 @@ By contrast, `|c(φ)|² = 5/16 − (1/4)·cos(φ)` is **not** invariant around t
 
 **Roadmap closure:** [`PROOF_ROADMAP_QUARTER_BOUNDARY`](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) Layer 7 explicitly named "promoting F95 to the full cardioid parametrization" as the next move (status PARTIALLY ANSWERED before F97). F97 closes that direction: the real-c angle (F95) plus the complex-c cardioid parametrization (F97) together cover both projections of the quadratic discriminant structure on the Mandelbrot c-plane.
 
-**Anchor:** [`PROOF_F97_CARDIOID_HALF_FIXED_POINT.md`](proofs/PROOF_F97_CARDIOID_HALF_FIXED_POINT.md), [`simulations/_cardioid_parametrization_tier1.py`](../simulations/_cardioid_parametrization_tier1.py). F95 companion (real-c angle): [F95](#f95). Hardware 2D-extension precursor: [`experiments/CPSI_COMPLEX_PLANE.md`](../experiments/CPSI_COMPLEX_PLANE.md) (Kingston 2026-04-16). Februar boundary precursor: [`experiments/BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md). Mandelbrot connection synthesis: [`experiments/MANDELBROT_CONNECTION.md`](../experiments/MANDELBROT_CONNECTION.md). Quarter-boundary roadmap (Layer 7 next-move slot): [`docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md`](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md).
+**Anchor:** [`PROOF_F97_CARDIOID_HALF_FIXED_POINT.md`](proofs/PROOF_F97_CARDIOID_HALF_FIXED_POINT.md), [`simulations/cardioid_parametrization_tier1.py`](../simulations/cardioid_parametrization_tier1.py). F95 companion (real-c angle): [F95](#f95). Hardware 2D-extension precursor: [`experiments/CPSI_COMPLEX_PLANE.md`](../experiments/CPSI_COMPLEX_PLANE.md) (Kingston 2026-04-16). Februar boundary precursor: [`experiments/BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md). Mandelbrot connection synthesis: [`experiments/MANDELBROT_CONNECTION.md`](../experiments/MANDELBROT_CONNECTION.md). Quarter-boundary roadmap (Layer 7 next-move slot): [`docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md`](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md).
 
 ### F98. KIntermediate Dicke long-time Π²-odd asymptote = (N+2)/[4(N+1)] → 1/4 (Tier 1 derived, bit-exact N=4..16; 2026-05-17)
 
@@ -4122,7 +4122,7 @@ observed bit-exact at N = 2 that for XZ + ZX bond (n_Y per term = 0)
 M_anti(L, Π_Y) = −D · M_anti(L, Π_Z) · D, while YZ + ZY (n_Y per term = 1)
 gives +D · M_anti(L, Π_Z) · D. The bond-specific sign motivated systematic
 enumeration; the n_Y-parity closed form was identified by
-`simulations/_m_level_sign_functional_explore.py` (2026-05-27) and verified
+`simulations/m_level_sign_functional_explore.py` (2026-05-27) and verified
 bit-exact for all 4^N Pauli strings at N = 1, 2, 3 (84 strings total) plus
 the Welle 15 bond bilinears at N = 2 (12 cases) and selected multi-bond /
 multi-body cases at N = 3, 4 (6 cases).
@@ -4155,7 +4155,7 @@ The F112 typed scope (norm-level ‖M_+1/2‖² = ‖M_−1/2‖²) remains sign
   grading; F114's ε(H) characterization gives the precise H-side condition
   under which the M_anti structure is signed-equivariant across {Z, Y}.
 
-**Empirical anchor:** `simulations/_m_level_sign_functional_explore.py`.
+**Empirical anchor:** `simulations/m_level_sign_functional_explore.py`.
 PART 1 enumerates ε(σ) for all 4 + 16 + 64 = 84 single Pauli strings at
 N = 1, 2, 3 and verifies the n_Y-parity closed form bit-exact. PART 2
 verifies ε(H) for 12 bilinear bond Hamiltonians at N = 2 (XZ+ZX, YZ+ZY,
@@ -4194,7 +4194,7 @@ F112 Lemma A/B structural proof: does F114 give an alternative derivation
 of the parent F112 Step 5 (Lemma B) via D-conjugation parity rather than
 dagger anti-Hermiticity?
 
-**Source:** `simulations/_m_level_sign_functional_explore.py`;
+**Source:** `simulations/m_level_sign_functional_explore.py`;
 parents: Welle 12 D · Π_Z · D = Π_Y identity
 (`compute/RCPsiSquared.Core/Symmetry/Pi2KleinV4DephaseSwapGroup.cs`;
 `docs/proofs/PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md`) + F112 typed scope
@@ -4736,9 +4736,9 @@ magnitude; the low-gradient bonds read as a redistribution): the eigenvalue law 
 trajectory closure (the stone) are one fact read twice.
 
 **Source:** [Proof](proofs/PROOF_DIFFUSION_RAYLEIGH_CLOSURE.md);
-[`simulations/_felt_time_amplitude_law.py`](../simulations/_felt_time_amplitude_law.py)
+[`simulations/felt_time_amplitude_law.py`](../simulations/felt_time_amplitude_law.py)
 (the block-level law, gate-first N=4..7) and
-[`simulations/_felt_time_closure_functional.py`](../simulations/_felt_time_closure_functional.py)
+[`simulations/felt_time_closure_functional.py`](../simulations/felt_time_closure_functional.py)
 (the trajectory ground truth); typed claim `SurvivorDiffusionGradientClaim` (parents
 `AbsorptionTheoremClaim` + `SurvivalIncompletenessMirrorClaim`,
 `compute/RCPsiSquared.Diagnostics/Foundation/`), live witness `inspect --root gradient`; the outward

@@ -174,6 +174,6 @@ discriminant (the 4n anti-aromatics C4 and C8 do not group, C4 being a small-rin
   `inspect --root clock` (Uhr 1 the band-edge survivor, Uhr 2 the erasure point Q*);
   [F1 palindrome](../ANALYTICAL_FORMULAS.md#f1);
   the many-body memory frequency ω_mem = 8J·cos²(π/2N) (Heisenberg) and 2J·cos(π/(N+1)) (XY),
-  [`simulations/_the_dial_at_many_body.py`](../../simulations/_the_dial_at_many_body.py)
+  [`simulations/the_dial_at_many_body.py`](../../simulations/the_dial_at_many_body.py)
 - Literature: Frost + Musulin (1953) "A mnemonic device for molecular orbital energies",
   J. Chem. Phys. 21, 572; Coulson + Rushbrooke (1940).

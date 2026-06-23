@@ -121,7 +121,7 @@ with it the headline "eventual absorber for ALL primitive quantum channels."
 diagonal by a contractive transfer matrix - was a plausible story, not a
 derivation, and the conclusion it argued for is wrong.)
 
-**Counterexample (gate-verified from below, `simulations/_review2_A5_subsystem.py`).**
+**Counterexample (gate-verified from below, `simulations/review2_A5_subsystem.py`).**
 The depolarize-toward-σ channel
 
 ```
@@ -276,7 +276,7 @@ Physical noise (the surviving scope) crosses with zero exceptions:
 | Standard channels | 7 types | ALL | 0 |
 
 The "random fixed points" sweep is an **ensemble artifact**, not evidence for
-the general claim (verifier: `simulations/_review2_A5_subsystem.py`):
+the general claim (verifier: `simulations/review2_A5_subsystem.py`):
 
 | Ensemble | N_tests | Max CΨ(ρ*) | Violations (> 1/4) |
 |----------|---------|-----------|--------------------|

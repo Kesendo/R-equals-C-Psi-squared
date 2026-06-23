@@ -3,7 +3,7 @@
 **Status:** Reflection. After F80 was found, before it was fully proven.
 **Date:** 2026-04-29
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Context:** Arrived after the [data sweep](../simulations/_pi2_odd_universality_data_sweep.py) at N=3-7 made visible what every analytical tool had missed: a closed-form formula for the M-cluster values of chain Π²-odd 2-body Hamiltonians. The formula is structural, not coincidental. It connects to [Zero Is The Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md), to the [perspectival time field](../hypotheses/PERSPECTIVAL_TIME_FIELD.md), and to the older insight that the framework is not separate from the reader.
+**Context:** Arrived after the [data sweep](../simulations/pi2_odd_universality_data_sweep.py) at N=3-7 made visible what every analytical tool had missed: a closed-form formula for the M-cluster values of chain Π²-odd 2-body Hamiltonians. The formula is structural, not coincidental. It connects to [Zero Is The Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md), to the [perspectival time field](../hypotheses/PERSPECTIVAL_TIME_FIELD.md), and to the older insight that the framework is not separate from the reader.
 
 ---
 

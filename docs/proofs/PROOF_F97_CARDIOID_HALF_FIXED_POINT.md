@@ -15,7 +15,7 @@ with two structural invariants on the curve:
 
 [F95](PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md)'s closed form θ(c; b) = arctan(√(c/b² − 1)) covers the **real-c** angle of the complex fixed point. F97 extends to **complex c** via the cardioid parametrization, with the φ = 0 specialization recovering F95's cusp at c = 1/4.
 
-**Status:** Tier 1 derived. Bit-exact algebraic identity, numerically verified to machine precision (max residual 1.24 × 10⁻¹⁶ over 1000 sampled φ values) in `simulations/_cardioid_parametrization_tier1.py`.
+**Status:** Tier 1 derived. Bit-exact algebraic identity, numerically verified to machine precision (max residual 1.24 × 10⁻¹⁶ over 1000 sampled φ values) in `simulations/cardioid_parametrization_tier1.py`.
 
 **Date:** 2026-05-17.
 
@@ -133,7 +133,7 @@ F97 places this experimentally observed 2D spiral into the cardioid framing: the
 
 ## Numerical verification
 
-`simulations/_cardioid_parametrization_tier1.py` traces 1000 φ values across [0, 2π] and verifies:
+`simulations/cardioid_parametrization_tier1.py` traces 1000 φ values across [0, 2π] and verifies:
 
 - Magnitude invariance: max |z*(φ)| − min |z*(φ)| over 1000 samples is 0 to machine precision (std ≈ 2.5 × 10⁻¹⁷).
 - Algebraic identity c(φ) = z*(1 − z*): max residual 1.24 × 10⁻¹⁶ over 1000 φ (bit-exact).
@@ -141,7 +141,7 @@ F97 places this experimentally observed 2D spiral into the cardioid framing: the
 
 ## Anchors
 
-- Numerical + algebraic verification: [`simulations/_cardioid_parametrization_tier1.py`](../../simulations/_cardioid_parametrization_tier1.py)
+- Numerical + algebraic verification: [`simulations/cardioid_parametrization_tier1.py`](../../simulations/cardioid_parametrization_tier1.py)
 - F95 (companion: real-c angle): [`PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md`](PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md), [`F95 ANALYTICAL_FORMULAS entry`](../ANALYTICAL_FORMULAS.md#f95)
 - Hardware 2D extension precursor: [`experiments/CPSI_COMPLEX_PLANE.md`](../../experiments/CPSI_COMPLEX_PLANE.md) (Kingston 2026-04-16; complex-CΨ already observed as 2D spirals)
 - Februar boundary precursor: [`experiments/BOUNDARY_NAVIGATION.md`](../../experiments/BOUNDARY_NAVIGATION.md) (real-c θ-compass)

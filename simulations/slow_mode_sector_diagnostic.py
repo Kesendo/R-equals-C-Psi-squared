@@ -1,6 +1,6 @@
 """Generalized slow-mode sector diagnostic: chain / ring / star × any N × any Q.
 
-Extends `_chain_gap_sector_diagnostic.py` (chain N=4,5,6, Q=2 only) to a
+Extends `chain_gap_sector_diagnostic.py` (chain N=4,5,6, Q=2 only) to a
 parameterised entry point. For a given (topology, N, J, γ) computes:
 
   - The slow mode's joint-popcount sector (p_col, p_row).
@@ -209,7 +209,7 @@ def run(topology: str, N: int, J: float, gamma: float,
 def main() -> None:
     print("Generalised slow-mode sector diagnostic")
     print("=" * 80)
-    print("Sanity check: chain N=4..6 at Q=2 (reproduces _chain_gap_sector_diagnostic.py)")
+    print("Sanity check: chain N=4..6 at Q=2 (reproduces chain_gap_sector_diagnostic.py)")
     print()
     for N in (4, 5, 6):
         run("chain", N=N, J=1.0, gamma=0.5)

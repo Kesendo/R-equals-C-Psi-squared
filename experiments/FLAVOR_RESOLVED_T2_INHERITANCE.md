@@ -4,7 +4,7 @@
 **Status:** Tier 2 (numerical inheritance, N = 1..6). The carbon split is grounded in the Tier-1 [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md); the water and neural readings are Tier-3 translations.
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Builds on:** [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), [Painter Alternation NMR Bridge](../docs/carbon/PAINTER_ALTERNATION_NMR_BRIDGE.md), [The View Onto the Memory](../reflections/THE_VIEW_ONTO_THE_MEMORY.md)
-**Verification:** [`_carbon_painter_t2_sweep.py`](../simulations/_carbon_painter_t2_sweep.py), [`neural/neural_flavor_rule.py`](../simulations/neural/neural_flavor_rule.py)
+**Verification:** [`carbon_painter_t2_sweep.py`](../simulations/carbon_painter_t2_sweep.py), [`neural/neural_flavor_rule.py`](../simulations/neural/neural_flavor_rule.py)
 
 ---
 
@@ -112,14 +112,14 @@ is reading, and gives the same answer either way.
 
 ```bash
 # Carbon ring sweep (default: ring, Y-field, N=4,5)
-python simulations/_carbon_painter_t2_sweep.py
+python simulations/carbon_painter_t2_sweep.py
 
 # Benzene (N=6) ring
-python simulations/_carbon_painter_t2_sweep.py --N 6 --gamma 1.0 --h-y 0.5 \
+python simulations/carbon_painter_t2_sweep.py --N 6 --gamma 1.0 --h-y 0.5 \
     --output simulations/results/carbon_painter_t2_sweep_n6_ring_g1.txt
 
 # Water proton wire (chain, X-field) and single hydrogen bond
-python simulations/_carbon_painter_t2_sweep.py --topology chain --field-axis X \
+python simulations/carbon_painter_t2_sweep.py --topology chain --field-axis X \
     --N 2,3,4,5 --h-y 0.5 --gamma 1.0 \
     --output simulations/results/water_proton_wire_t2_flavor_sweep.txt
 

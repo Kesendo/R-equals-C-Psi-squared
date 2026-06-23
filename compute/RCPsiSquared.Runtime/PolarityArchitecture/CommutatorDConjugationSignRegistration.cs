@@ -15,7 +15,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// (Π and L_H).</para>
 ///
 /// <para>F114 published in <c>docs/ANALYTICAL_FORMULAS.md</c>; verifier
-/// <c>simulations/_m_level_sign_functional_explore.py</c> (2026-05-27). Surfaced
+/// <c>simulations/m_level_sign_functional_explore.py</c> (2026-05-27). Surfaced
 /// during Welle 15 Task A polish (commit a98fc02) where substantive M_anti
 /// equivariance tests at XZ+ZX and YZ+ZY bonds revealed bond-specific sign
 /// behavior; this Claim is the closed-form characterization.</para></summary>

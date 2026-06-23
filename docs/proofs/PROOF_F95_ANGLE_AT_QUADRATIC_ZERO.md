@@ -82,7 +82,7 @@ which reproduces the Februar θ-compass of `BOUNDARY_NAVIGATION.md` line 25.
 
 ## Numerical verification
 
-The script [`simulations/_angle_at_zero_tier1_candidate.py`](../../simulations/_angle_at_zero_tier1_candidate.py) implements `angle_at_quadratic_crossing(c, b)` and checks against the Februar θ-compass table:
+The script [`simulations/angle_at_zero_tier1_candidate.py`](../../simulations/angle_at_zero_tier1_candidate.py) implements `angle_at_quadratic_crossing(c, b)` and checks against the Februar θ-compass table:
 
 | CΨ | Februar θ (deg) | F95 derived (deg) | match |
 |---|---|---|---|
@@ -105,7 +105,7 @@ The angle is not a postulate. It is the polynomial-foundation's necessary minima
 
 ## Anchors
 
-- Numerical verification: [`simulations/_angle_at_zero_tier1_candidate.py`](../../simulations/_angle_at_zero_tier1_candidate.py)
+- Numerical verification: [`simulations/angle_at_zero_tier1_candidate.py`](../../simulations/angle_at_zero_tier1_candidate.py)
 - F-registry entry: [`docs/ANALYTICAL_FORMULAS.md`](../ANALYTICAL_FORMULAS.md) §F95
 - Companion reflection: [`reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md`](../../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md)
 - Februar Mandelbrot-specific precursor: [`experiments/BOUNDARY_NAVIGATION.md`](../../experiments/BOUNDARY_NAVIGATION.md)

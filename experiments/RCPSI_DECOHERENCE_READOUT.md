@@ -10,9 +10,9 @@ review, 2026-06-20).
 Tier-1 derived, [`PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md`](../docs/proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md)).
 **Builds on:** [`BORN_RULE_MIRROR.md`](BORN_RULE_MIRROR.md) (the generalized Born rule `R_i = C_i·Ψ_i²`,
 Tier 2/3); complementary to [`GAMMA_AS_SIGNAL.md`](GAMMA_AS_SIGNAL.md) (a different readout, below).
-**Verifiers:** [`_rcpsi_readout_f94.py`](../simulations/_rcpsi_readout_f94.py) (the F94 substrate, all gates),
-[`_rcpsi_readout_rabi.py`](../simulations/_rcpsi_readout_rabi.py) (the textbook Rabi qubit),
-[`_rcpsi_as_readout.py`](../simulations/_rcpsi_as_readout.py) (the refuted N=2 |++⟩ null).
+**Verifiers:** [`rcpsi_readout_f94.py`](../simulations/rcpsi_readout_f94.py) (the F94 substrate, all gates),
+[`rcpsi_readout_rabi.py`](../simulations/rcpsi_readout_rabi.py) (the textbook Rabi qubit),
+[`rcpsi_as_readout.py`](../simulations/rcpsi_as_readout.py) (the refuted N=2 |++⟩ null).
 
 ## What this is about
 
@@ -53,7 +53,7 @@ operational reading: *the proven Born-deviation, used as a γ-meter.*
 
 ## Gate-verified result
 
-On F94's own substrate ([`_rcpsi_readout_f94.py`](../simulations/_rcpsi_readout_f94.py), reusing F94's exact
+On F94's own substrate ([`rcpsi_readout_f94.py`](../simulations/rcpsi_readout_f94.py), reusing F94's exact
 functions, no convention guessing):
 
 - **The deviation is F94's:** in the deep regime, `Δ/((4/3)J²γt³) → 0.999` as `t → 0` (and `Δ ∝ γ^0.98`).
@@ -63,14 +63,14 @@ functions, no convention guessing):
 - **Inversion works:** a hidden γ is recovered from the measured `C` (exact `C(γ)` calibration) to `~1e-5`;
   the F94 leading-order inverse tracks it in the deep regime.
 
-The textbook Rabi qubit ([`_rcpsi_readout_rabi.py`](../simulations/_rcpsi_readout_rabi.py); `H = J·X`, `|0⟩`,
+The textbook Rabi qubit ([`rcpsi_readout_rabi.py`](../simulations/rcpsi_readout_rabi.py); `H = J·X`, `|0⟩`,
 Z-dephasing) shows the same: `C_|1⟩(γ) = R/sin²(Jt)` strictly monotone, hidden γ recovered to `~1e-6`.
 
 ## Scope and honesty
 
 - **Where it works:** wherever `H` rotates coherence into populations and dephasing intercepts (the Rabi
   qubit; F94's `|0+0+⟩`-ring). **Where it does not:** the stationary / perfect-mirror limit, the N=2 `|++⟩`
-  Heisenberg case ([`_rcpsi_as_readout.py`](../simulations/_rcpsi_as_readout.py)) has stationary populations,
+  Heisenberg case ([`rcpsi_as_readout.py`](../simulations/rcpsi_as_readout.py)) has stationary populations,
   `R = Ψ²` exactly, `C ≡ 1`, nothing to read. That take-1 is a documented null, not a success.
 - **What the readout needs (it is a calibrated estimate).** Forming `C_i = R_i/Ψ_i²` requires the
   closed-system reference `Ψ_i² = ⟨i|Uρ₀U†|i⟩` (so the Hamiltonian, initial state, and time must be known)

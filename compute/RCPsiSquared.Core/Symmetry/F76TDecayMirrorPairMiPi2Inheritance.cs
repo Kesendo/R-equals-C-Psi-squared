@@ -66,7 +66,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// anchoring is algebraic-trivial composition.</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F76 (line 1785) +
-/// <c>simulations/_envelope_study.py</c> (commit e1ee822) +
+/// <c>simulations/envelope_study.py</c> (commit e1ee822) +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/F75MirrorPairMiPi2Inheritance.cs</c>
 /// (mother claim).</para></summary>
@@ -152,7 +152,7 @@ public sealed class F76TDecayMirrorPairMiPi2Inheritance : Claim, IZ2AxisClaim
         : base("F76 MI(p,t) = 2h(p) − S_ab(p, e^{−4γ₀t}) inherits from Pi2-Foundation: 4 = a_{-1} decay rate; F75 mother at t=0",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F76 + " +
-               "simulations/_envelope_study.py + " +
+               "simulations/envelope_study.py + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/F75MirrorPairMiPi2Inheritance.cs (mother claim at t=0)")
     {

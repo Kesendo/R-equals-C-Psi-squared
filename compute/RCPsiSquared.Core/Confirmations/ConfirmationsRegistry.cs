@@ -252,7 +252,7 @@ public static class ConfirmationsRegistry
             PredictedValue:
                 "Q = J/γ₀ with the typed carrier γ₀ = UniversalCarrierClaim.DefaultGammaZero = 0.05. " +
                 "Coherent swing (T overshoots ½, the H-clock wins) for Q > 1 (J > γ₀); overdamped creep (T → ½, the carrier wins) for Q ≤ 1; " +
-                "critical damping exactly at J = γ₀ = 0.05 (Q = 1, max T = ½). Sim _q_basic_jscan.py puts the swing-death at J = γ₀.",
+                "critical damping exactly at J = γ₀ = 0.05 (Q = 1, max T = ½). Sim q_basic_jscan.py puts the swing-death at J = γ₀.",
             MeasuredValue:
                 "q13-q14, J ∈ {0.05, 0.1, 0.2, 0.4} (Q ≈ {1, 2, 4, 8}): max T = {0.335, 0.563, 0.703, 0.779}. " +
                 "Coherent swing (overshoot past ½) present for J ≥ 0.1, absent for J = 0.05 (creeps to 0.335). " +

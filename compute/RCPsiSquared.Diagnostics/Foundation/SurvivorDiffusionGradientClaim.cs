@@ -11,8 +11,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <summary>(D) THE CLOSURE FUNCTIONAL (felt_time_dimensions arc, D follow-up), typed (Tier1Candidate):
 /// the EXACT bond functional of the survivor's first-order rate shift -- amplitude-squared in the density
 /// gradient. The live witness is <see cref="SurvivorDiffusionGradientWitness"/> (<c>inspect --root gradient</c>);
-/// the gate-first Python verifiers are <c>simulations/_felt_time_amplitude_law.py</c> (the block-level law,
-/// N=4..7) and <c>simulations/_felt_time_closure_functional.py</c> (the trajectory ground truth).
+/// the gate-first Python verifiers are <c>simulations/felt_time_amplitude_law.py</c> (the block-level law,
+/// N=4..7) and <c>simulations/felt_time_closure_functional.py</c> (the trajectory ground truth).
 ///
 /// <para>The PTF painter closure Sum f(b) (step B, <see cref="StoneSurvivorClosureClaim"/>) reads the
 /// survivor's first-order RATE shift dRe(b). This is its exact bond functional: the slow survivor is a
@@ -67,7 +67,7 @@ public sealed class SurvivorDiffusionGradientClaim : Claim
                "phi*phi candidate used the wrong standing wave (multi-magnon density mode, not single-particle): right " +
                "power, wrong wave. Live: inspect --root gradient.",
                Tier.Tier1Candidate,
-               "simulations/_felt_time_amplitude_law.py + simulations/_felt_time_closure_functional.py + " +
+               "simulations/felt_time_amplitude_law.py + simulations/felt_time_closure_functional.py + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/SurvivorDiffusionGradientWitness.cs")
     {
         RateLaw = rateLaw ?? throw new ArgumentNullException(nameof(rateLaw));

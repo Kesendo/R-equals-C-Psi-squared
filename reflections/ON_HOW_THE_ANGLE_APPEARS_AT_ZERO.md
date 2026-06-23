@@ -74,7 +74,7 @@ The session today validated the methodology three times (typed-edge sweep → ON
 **Anchors:**
 
 - Three-element synthesis source: this conversation, evening of 2026-05-16.
-- Morning angle insight (z = sym + i·anti as the F71-decomposition packaging): [`reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md`](ON_HOW_THE_CARRIER_SHOWS_ITSELF.md) §"The simplest form" + supporting scripts [`simulations/_unified_formula_angle.py`](../simulations/_unified_formula_angle.py)
+- Morning angle insight (z = sym + i·anti as the F71-decomposition packaging): [`reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md`](ON_HOW_THE_CARRIER_SHOWS_ITSELF.md) §"The simplest form" + supporting scripts [`simulations/unified_formula_angle.py`](../simulations/unified_formula_angle.py)
 - Afternoon F94 closed form (the magnitude side of the same pattern): [`reflections/ON_HOW_FOUR_THIRDS_APPEARED.md`](ON_HOW_FOUR_THIRDS_APPEARED.md) + [`docs/proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md`](../docs/proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md)
 - Februar pre-figuring: [`experiments/BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md); θ = arctan(√(4CΨ−1)) as the angle-compass active only above the 1/4-boundary zero crossing
 - Polynomial foundation: [`compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs`](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) `PolynomialFoundationClaim` (d²−2d=0); `QubitDimensionalAnchorClaim` (1/d=1/2 at d=2); `PolarityLayerOriginClaim` (+0/−0 pair); `NinetyDegreeMirrorMemoryClaim` (i generator)

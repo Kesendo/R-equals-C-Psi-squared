@@ -19,7 +19,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 public readonly record struct GradientBond(int SiteA, int SiteB, double RateShift, double GradSq, double Ratio);
 
 /// <summary>(D) THE CLOSURE FUNCTIONAL (felt_time_dimensions arc, D follow-up), graduated to a live
-/// witness (<c>inspect --root gradient</c>): the C# landing of <c>simulations/_felt_time_amplitude_law.py</c>.
+/// witness (<c>inspect --root gradient</c>): the C# landing of <c>simulations/felt_time_amplitude_law.py</c>.
 ///
 /// <para>The PTF painter closure Sum f(b) (step B / <see cref="StoneSurvivorClosureWitness"/>) reads the
 /// survivor's first-order RATE shift dRe(b). This witness gives that rate shift its EXACT bond functional:

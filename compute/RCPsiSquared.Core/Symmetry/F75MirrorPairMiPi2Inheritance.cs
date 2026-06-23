@@ -67,7 +67,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Pi2-Foundation anchoring is algebraic-trivial composition.</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F75 (line 1711) +
-/// <c>simulations/_mm_zero_derivation.py</c> +
+/// <c>simulations/mm_zero_derivation.py</c> +
 /// <c>experiments/RECEIVER_VS_GAMMA_SACRIFICE.md</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs</c>
@@ -167,7 +167,7 @@ public sealed class F75MirrorPairMiPi2Inheritance : Claim, IZ2AxisClaim
         : base("F75 MI(p) = 2·h(p) − h(2p) inherits from Pi2-Foundation: 2 = a_0 (sat); domain [0, 1/2] = BilinearApex; mirror = F71; spectrum = F65",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F75 + " +
-               "simulations/_mm_zero_derivation.py + " +
+               "simulations/mm_zero_derivation.py + " +
                "experiments/RECEIVER_VS_GAMMA_SACRIFICE.md + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (BilinearApexClaim) + " +

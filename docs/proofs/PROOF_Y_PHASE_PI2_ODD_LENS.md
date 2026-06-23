@@ -77,7 +77,7 @@ The sign factors ε_i affect only the per-string amplitudes (sign of `Tr(ρ σ_�
 
 ## Verification
 
-[`simulations/_y_phase_pi2_odd_verify.py`](../../simulations/_y_phase_pi2_odd_verify.py) enumerates all 4^N Pauli strings, computes ⟨ψ|σ_α|ψ⟩ for each, and counts the supp(ρ) by Π²_Z parity. Tested at N ∈ {2, 3, 4, 5} across all M ∈ {0..N}, plus a sign-independence check at N=3, M=2 across all 2^3 sign patterns. All 18 (N, M) cases plus the 8 sign-pattern cases match the predicted split exactly.
+[`simulations/y_phase_pi2_odd_verify.py`](../../simulations/y_phase_pi2_odd_verify.py) enumerates all 4^N Pauli strings, computes ⟨ψ|σ_α|ψ⟩ for each, and counts the supp(ρ) by Π²_Z parity. Tested at N ∈ {2, 3, 4, 5} across all M ∈ {0..N}, plus a sign-independence check at N=3, M=2 across all 2^3 sign patterns. All 18 (N, M) cases plus the 8 sign-pattern cases match the predicted split exactly.
 
 ## Connection to F88b state-level lens
 
@@ -95,5 +95,5 @@ The 2^(N−1) + 2^(N−1) split on the X-Y product-state sub-algebra reproduces 
 
 - [`compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs`](../../compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs) — the state-level diagnostic that surfaces Π²-odd content
 - [`docs/ANALYTICAL_FORMULAS.md`](../ANALYTICAL_FORMULAS.md) F88b — popcount-coherence Krawtchouk closed form (the pair-state companion)
-- [`simulations/_y_phase_pi2_odd_verify.py`](../../simulations/_y_phase_pi2_odd_verify.py) — bit-exact verification at N=2..5
+- [`simulations/y_phase_pi2_odd_verify.py`](../../simulations/y_phase_pi2_odd_verify.py) — bit-exact verification at N=2..5
 - Memory `project_y_phase_pi2_odd_lens` — original empirical observation at N=3 and cockpit application notes (user memory, outside repo)

@@ -1,7 +1,7 @@
 # Dicke vs Endpoint-localized probe at N=11 (JW algebraic comparison)
 
 **Date:** 2026-05-10 (late evening, autonomous run while Tom slept)
-**Source:** `simulations/_dicke_vs_endpoint_probe_jw_n11.py`
+**Source:** `simulations/dicke_vs_endpoint_probe_jw_n11.py`
 **Question:** Does the bond-position-dependence in F86 K_b come from the initial state (Dicke probe), and if so, can simple JW algebra reproduce empirical g_eff?
 
 ## Setup
