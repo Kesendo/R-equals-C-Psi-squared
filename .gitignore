@@ -46,6 +46,15 @@ simulations/results/csharp_compute_*.txt
 simulations/results/eq014_eigendecomp_n7.*
 *.bin
 
+# --- WIP exploration scripts: a leading _ means local-only, never committed ---
+# Promote a script by renaming it (drop the _), then commit it and link it from
+# a doc in the same change. Docs/claims cite only committed (no-_) scripts; a
+# load-bearing verifier's evidence is ported to a C# witness, not committed as a
+# script. Scoped to top-level: framework/ uses _ for legit private modules, and
+# results/ + subdirs are intentionally left untouched.
+simulations/_*.py
+!simulations/__*.py
+
 # --- Secrets / API keys (NEVER commit) ---
 .env
 .env.*
