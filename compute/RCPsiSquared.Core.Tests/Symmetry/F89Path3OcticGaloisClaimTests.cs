@@ -41,16 +41,32 @@ public class F89Path3OcticGaloisClaimTests
     [Fact]
     public void GalNotInA8_IsTier1True()
     {
-        // disc non-square → Gal(F_8) ⊄ A_8 (verified at q ∈ {½, 1, 3/2, 2, 3})
+        // disc non-square → Gal(F_8) ⊄ A_8 (verified at q ∈ {½, 1, 3/2, 2, 3};
+        // decisively, an odd Frobenius element at q0=2).
         Assert.True(F89Path3OcticGaloisClaim.GalNotInA8);
     }
 
     [Fact]
-    public void NonSolvableConjecture_IsTier2Conjectural()
+    public void GalIsS8_IsTier1True()
     {
-        // The conjecture that Gal(F_8) is non-solvable (likely S_8) is Tier 2;
-        // Gal ⊄ A_8 alone does not prove non-solvability (S_4 is solvable
-        // but ⊄ A_4). Formal Galois-group identification is open.
-        Assert.True(F89Path3OcticGaloisClaim.NonSolvableConjecture_IsOpen);
+        // Gal(F_8 / Q(i)(q)) = S_8, established by specialization + Dedekind + Jordan:
+        // a (5,2,1) Frobenius at 𝔭|5, q0=2, gives a 5-cycle (⇒ primitive ⇒ ⊇A_8 by
+        // Jordan) and an odd permutation (⇒ ⊄A_8) ⇒ S_8. Robust to base Q(i,√5).
+        Assert.True(F89Path3OcticGaloisClaim.GalIsS8);
+    }
+
+    [Fact]
+    public void NonSolvableConjecture_IsNowClosed()
+    {
+        // Superseded: non-solvability is no longer an open conjecture — S_8 is
+        // certified, so the octic is non-solvable (S_8 ⊇ A_8 simple for n ≥ 5).
+        Assert.False(F89Path3OcticGaloisClaim.NonSolvableConjecture_IsOpen);
+    }
+
+    [Fact]
+    public void CertifyingPrimeAtQ0Eq2_Is5()
+    {
+        // The split prime 𝔭|5 (Z[i]/𝔭 = F_5, i ↦ 2) factors F_8(·,2) to cycle type (5,2,1).
+        Assert.Equal(5, F89Path3OcticGaloisClaim.CertifyingPrimeAtQ0Eq2);
     }
 }
