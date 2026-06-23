@@ -1,0 +1,9 @@
+#!/bin/sh
+# Warn (non-blocking) if a staged file links a gitignored local-only WIP script
+# simulations/_*.py. Enable once with:  git config core.hooksPath .githooks
+root="$(git rev-parse --show-toplevel)" || exit 0
+if command -v python >/dev/null 2>&1; then PY=python
+elif command -v python3 >/dev/null 2>&1; then PY=python3
+else exit 0; fi
+"$PY" "$root/.githooks/check_wip_refs.py"
+exit 0
