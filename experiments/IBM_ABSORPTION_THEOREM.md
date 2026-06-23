@@ -2,7 +2,7 @@
 
 **Tier:** 2 (hardware analysis)
 **Date:** April 4, 2026
-**Status:** Absorption Theorem confirmed at 3% on IBM Q52. Detuning oscillations observed. 2.8% slow tail at resolution limit.
+**Status:** Absorption Theorem confirmed at 3% on IBM Torino (qubit 52). Detuning oscillations observed. 2.8% slow tail at resolution limit.
 
 ---
 
@@ -45,7 +45,7 @@ over time.
 
 ## Summary
 
-The Q52 tomography data (25 time points, 0−895 μs) was analyzed
+The IBM Torino qubit-52 tomography data (25 time points, 0−895 μs) was analyzed
 under two dephasing baselines: T2_echo = 298 μs (Hahn echo: a
 technique that filters out slow noise, from IBM calibration) and
 T2* = 111 μs (free evolution: all noise included, fitted from the
@@ -250,7 +250,7 @@ resonances.
 
 ## Methodology
 
-- Q52 tomography: 25 time points (0-895 μs), 2×2 density matrices
+- IBM Torino qubit-52 tomography: 25 time points (0-895 μs), 2×2 density matrices
 - Pauli decomposition: r_X, r_Y, r_Z from ρ(t) at each time point
 - Decay fits: exponential for coherence envelope, relaxation for r_Z
 - Bi-exponential for slow tail detection
