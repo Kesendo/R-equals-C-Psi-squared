@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""_eq022_b1_step_g_two_level_decomposition.py — derive f_class(x) from the
+"""eq022_b1_step_g_two_level_decomposition.py — derive f_class(x) from the
 2-level effective Liouvillian.
 
 Stage 2 of Item 1 (analytical f_class derivation): compute the per-bond

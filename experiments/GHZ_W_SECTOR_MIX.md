@@ -307,7 +307,7 @@ All scripts are pure Python (numpy, scipy, sympy), no external dependencies beyo
 | 5 | 20 | 16 | D_2+D_3+D_4 | 0.6492 |
 | 6 | 35 | 25 | D_2+D_3+D_4 | 0.6163 |
 
-**Verified saddles on full sphere:** every tested top triple has linear-order ascent in some unused Dicke direction, confirming saddle status (perturbation test in [`_eq016_verify_full_sphere.py`](../simulations/_eq016_verify_full_sphere.py)). The 2026-04-17 conclusion "no non-product local maxima on full sphere" still stands; the conclusion "GHZ+W is the widest fold-crossing family" was wrong.
+**Verified saddles on full sphere:** every tested top triple has linear-order ascent in some unused Dicke direction, confirming saddle status (perturbation test in [`eq016_verify_full_sphere.py`](../simulations/eq016_verify_full_sphere.py)). The 2026-04-17 conclusion "no non-product local maxima on full sphere" still stands; the conclusion "GHZ+W is the widest fold-crossing family" was wrong.
 
 **N→∞ asymptote.** Central-Dicke-triple |D_{k-1}⟩+|D_k⟩+|D_{k+1}⟩ at k = N/2 with symmetric coefficients (a, b, a) and 2a²+b²=1: cpsi(N) → 0.4312 + 1.05/N. The asymptote 0.4312 is the larger real root in (0, 1/2) of the **degree-6 polynomial**
 
@@ -326,4 +326,4 @@ All scripts are pure Python (numpy, scipy, sympy), no external dependencies beyo
 
 **What is structurally privileged at N=3:** the *closed form* (irreducible sextic) of the GHZ+W slice — but this same flavor of sextic-root structure recurs at the N→∞ central-triple slice. Sextic-asymptote is a generic feature of the slice-saddle landscape of pair-CΨ, not unique to N=3.
 
-**Scripts:** [`_eq016_n4_full_landscape.py`](../simulations/_eq016_n4_full_landscape.py), [`_eq016_verify_full_sphere.py`](../simulations/_eq016_verify_full_sphere.py), [`_eq016_central_triple_asymptotics.py`](../simulations/_eq016_central_triple_asymptotics.py), [`_eq016_central_triple_n_infinity.py`](../simulations/_eq016_central_triple_n_infinity.py).
+**Scripts:** [`eq016_n4_full_landscape.py`](../simulations/eq016_n4_full_landscape.py), [`eq016_verify_full_sphere.py`](../simulations/eq016_verify_full_sphere.py), [`eq016_central_triple_asymptotics.py`](../simulations/eq016_central_triple_asymptotics.py), [`eq016_central_triple_n_infinity.py`](../simulations/eq016_central_triple_n_infinity.py).

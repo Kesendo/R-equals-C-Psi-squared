@@ -48,7 +48,7 @@ At the EP, λ_±(k) = −4γ₀·k. The slowest mode (k = 1) gives the universal
 
 independent of c, N, n, and bond position.
 
-**Tier label.** The EP location Q_EP = 2/g_eff and t_peak = 1/(4γ₀) are bit-exact verified against full block-L numerics (universal across all tested c, N, n, bond position), Tier 1. The 2-level reduction itself is **heuristic**: in the channel-uniform basis M_H_eff is diagonal (off-diagonals exactly zero, established empirically across N=3..9 in `_eq022_b1_channel_projection.py`), so the EP physics lives in the orthogonal complement. The effective 2-level form reproduces the EP location and degenerate-eigenvalue structure, but the explicit basis change from full block-L to the reduced model is not derived here.
+**Tier label.** The EP location Q_EP = 2/g_eff and t_peak = 1/(4γ₀) are bit-exact verified against full block-L numerics (universal across all tested c, N, n, bond position), Tier 1. The 2-level reduction itself is **heuristic**: in the channel-uniform basis M_H_eff is diagonal (off-diagonals exactly zero, established empirically across N=3..9 in `eq022_b1_channel_projection.py`), so the EP physics lives in the orthogonal complement. The effective 2-level form reproduces the EP location and degenerate-eigenvalue structure, but the explicit basis change from full block-L to the reduced model is not derived here.
 
 ---
 

@@ -161,7 +161,7 @@ Plus two structural questions specific to this document:
 
 ## Update 2026-04-28: Sub-question 1 partial closure (F71-symmetric product states)
 
-Empirical test of three-class completeness within F71-symmetric product states at N=5 (Heisenberg, γ₀=0.05, J=1.0). Script: [_eq024_three_class_completeness.py](../simulations/_eq024_three_class_completeness.py). Results: [eq024_three_class_completeness.json](../simulations/results/eq024_three_class_completeness.json), [eq024_three_class_completeness.txt](../simulations/results/eq024_three_class_completeness.txt) (run log).
+Empirical test of three-class completeness within F71-symmetric product states at N=5 (Heisenberg, γ₀=0.05, J=1.0). Script: [eq024_three_class_completeness.py](../simulations/eq024_three_class_completeness.py). Results: [eq024_three_class_completeness.json](../simulations/results/eq024_three_class_completeness.json), [eq024_three_class_completeness.txt](../simulations/results/eq024_three_class_completeness.txt) (run log).
 
 **Method.** Random sample F71-symmetric product states ψ = |a⟩|b⟩|c⟩|b⟩|a⟩ via 6 random Bloch angles (θ ∈ [0, π], φ ∈ [0, 2π)). Run output: [eq024_three_class_completeness.txt](../simulations/results/eq024_three_class_completeness.txt). For each sample, classify in/out of Classes 1-3:
 
@@ -192,7 +192,7 @@ The minimum capacity 7.54 bits is well above the J-blind threshold (0.05 bits). 
 
 The product-state Update 2026-04-28 covered the 6-parameter Bloch family. The full F71-symmetric Hilbert subspace at N=5 is the +1 eigenspace of the chain-mirror operator R (|a₀a₁a₂a₃a₄⟩ → |a₄a₃a₂a₁a₀⟩), dimension 20 (8 self-mirror computational-basis states + 12 mirror-pair symmetric combinations). Non-product F71-symmetric pure states span this 20-dim subspace, 38 real parameters modulo norm and phase.
 
-**Empirical test.** Same pipeline as the product version but with Haar-uniform sampling on the 20-dim symmetric subspace: draw a random Gaussian vector in C^32, project via P_sym = (I + R)/2, normalise. Script: [_eq024_three_class_completeness_nonproduct.py](../simulations/_eq024_three_class_completeness_nonproduct.py). Results: [eq024_three_class_completeness_nonproduct.json](../simulations/results/eq024_three_class_completeness_nonproduct.json), [eq024_three_class_completeness_nonproduct.txt](../simulations/results/eq024_three_class_completeness_nonproduct.txt).
+**Empirical test.** Same pipeline as the product version but with Haar-uniform sampling on the 20-dim symmetric subspace: draw a random Gaussian vector in C^32, project via P_sym = (I + R)/2, normalise. Script: [eq024_three_class_completeness_nonproduct.py](../simulations/eq024_three_class_completeness_nonproduct.py). Results: [eq024_three_class_completeness_nonproduct.json](../simulations/results/eq024_three_class_completeness_nonproduct.json), [eq024_three_class_completeness_nonproduct.txt](../simulations/results/eq024_three_class_completeness_nonproduct.txt).
 
 **Result.** 100 Haar-random samples, seed 1, total runtime 38 minutes:
 
@@ -221,7 +221,7 @@ The non-product distribution is tighter and lower than the product-slice distrib
 
 For each sample, classify (Classes 1-3 are all F71-symmetric, so F71-breaking samples are automatically outside) and compute J-Jacobian + Shannon capacity.
 
-Script: [_eq024_f71_breaking_capacity.py](../simulations/_eq024_f71_breaking_capacity.py). Results: [eq024_f71_breaking_product.json](../simulations/results/eq024_f71_breaking_product.json) + [eq024_f71_breaking_product.txt](../simulations/results/eq024_f71_breaking_product.txt), [eq024_f71_breaking_nonproduct.json](../simulations/results/eq024_f71_breaking_nonproduct.json) + [eq024_f71_breaking_nonproduct.txt](../simulations/results/eq024_f71_breaking_nonproduct.txt).
+Script: [eq024_f71_breaking_capacity.py](../simulations/eq024_f71_breaking_capacity.py). Results: [eq024_f71_breaking_product.json](../simulations/results/eq024_f71_breaking_product.json) + [eq024_f71_breaking_product.txt](../simulations/results/eq024_f71_breaking_product.txt), [eq024_f71_breaking_nonproduct.json](../simulations/results/eq024_f71_breaking_nonproduct.json) + [eq024_f71_breaking_nonproduct.txt](../simulations/results/eq024_f71_breaking_nonproduct.txt).
 
 **Result.** 100 samples per mode, summary across all four sub-q-1+2 sweeps:
 
@@ -257,7 +257,7 @@ For F71-symmetric ψ, the Jacobian respects this block structure: rows split int
 
 For F71-breaking ψ, no block structure; all 4 singular values are generic and tend to a flatter distribution.
 
-**Empirical test** ([_eq024_f71_optimality_svd.py](../simulations/_eq024_f71_optimality_svd.py)). 30 random F71-symmetric product samples + 30 random F71-breaking product samples; for each, the full SV vector of the J-Jacobian is recorded. Run output [eq024_f71_optimality_svd.txt](../simulations/results/eq024_f71_optimality_svd.txt), data [eq024_f71_optimality_svd.json](../simulations/results/eq024_f71_optimality_svd.json).
+**Empirical test** ([eq024_f71_optimality_svd.py](../simulations/eq024_f71_optimality_svd.py)). 30 random F71-symmetric product samples + 30 random F71-breaking product samples; for each, the full SV vector of the J-Jacobian is recorded. Run output [eq024_f71_optimality_svd.txt](../simulations/results/eq024_f71_optimality_svd.txt), data [eq024_f71_optimality_svd.json](../simulations/results/eq024_f71_optimality_svd.json).
 
 **Result.**
 
@@ -282,7 +282,7 @@ This closes the "why" of F71-optimality: it follows from the algebra of mirror-s
 
 Empirical test of whether the F71-optimality mechanism scales to N=6 Heisenberg, where the bond-input dim is 5 and the mirror permutation R̄: J_b → J_{N-2-b} has bond 2 as a self-mirror fixed point. Block decomposition becomes 3+2 (R̄-symmetric: J_0+J_4, J_1+J_3, J_2 self; R̄-antisymmetric: J_0−J_4, J_1−J_3) instead of N=5's balanced 2+2.
 
-Script: [_eq024_f71_optimality_n6.py](../simulations/_eq024_f71_optimality_n6.py). Results: [eq024_f71_optimality_n6.json](../simulations/results/eq024_f71_optimality_n6.json), [eq024_f71_optimality_n6.txt](../simulations/results/eq024_f71_optimality_n6.txt). 10 samples per mode (smaller than N=5's 30 due to ~12 min per sample at d² = 4096); spectral propagation via eig(L) replaces direct expm.
+Script: [eq024_f71_optimality_n6.py](../simulations/eq024_f71_optimality_n6.py). Results: [eq024_f71_optimality_n6.json](../simulations/results/eq024_f71_optimality_n6.json), [eq024_f71_optimality_n6.txt](../simulations/results/eq024_f71_optimality_n6.txt). 10 samples per mode (smaller than N=5's 30 due to ~12 min per sample at d² = 4096); spectral propagation via eig(L) replaces direct expm.
 
 **Result.** Comparison N=5 ↔ N=6 (mean values):
 

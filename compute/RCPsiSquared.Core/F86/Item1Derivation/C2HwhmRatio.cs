@@ -249,7 +249,7 @@ public sealed class C2HwhmRatio : Claim
     /// max on the LEFT side of Q_peak).
     ///
     /// <para>Implementation: matches the canonical Python pipeline
-    /// <c>_eq022_b1_step_e_resonance_shape.py</c>:
+    /// <c>eq022_b1_step_e_resonance_shape.py</c>:
     /// 1) Run a full-block <see cref="ResonanceScan"/> on the canonical fine Q-grid (dQ = 0.025
     ///    over [0.20, 4.00], 153 points) — identical to Python's grid.
     /// 2) Read out the per-bond K_b(Q) = max_t |K(Q, t, b)| from the resulting K-curve.
@@ -338,7 +338,7 @@ public sealed class C2HwhmRatio : Claim
         }
 
         // Class-averaged ratios — average curves first, THEN find peak/HWHM. This matches
-        // the canonical Python pipeline (`_eq022_b1_step_e_resonance_shape.py`) which is the
+        // the canonical Python pipeline (`eq022_b1_step_e_resonance_shape.py`) which is the
         // anchor for PROOF_F86_QPEAK Statement 2's table.
         var classRatios = new Dictionary<BondClass, double>();
         foreach (BondClass cls in Enum.GetValues<BondClass>())

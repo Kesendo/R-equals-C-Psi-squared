@@ -5,7 +5,7 @@ namespace RCPsiSquared.Core.Tests.Fixtures;
 /// <summary>DTO matching one entry in the Python step_e/step_f summary.json output.
 ///
 /// <para>Read-only contract for validation tests. Mirrors `simulations/results/eq022_*/summary.json`
-/// produced by `_eq022_b1_step_e_resonance_shape.py` and `_eq022_b1_step_f_universality_extension.py`.</para>
+/// produced by `eq022_b1_step_e_resonance_shape.py` and `eq022_b1_step_f_universality_extension.py`.</para>
 /// </summary>
 public sealed record PythonStepSummaryEntry
 {

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """EQ-024 sub-question 1b: three-class completeness in NON-PRODUCT F71-sym states.
 
-Companion to _eq024_three_class_completeness.py. The product-state version
+Companion to eq024_three_class_completeness.py. The product-state version
 (2026-04-28, 100 samples, all C ≥ 7.54 bits, no fourth-class candidate)
 established empirical support for completeness within F71-symmetric *product*
 states (6-parameter Bloch family).
@@ -18,7 +18,7 @@ Sampling strategy: Haar-random pure state in C^32, project onto F71-symmetric
 random sample in the 20-dim symmetric subspace.
 
 Same class-membership tests and J-Jacobian pipeline as the product version.
-Reuses helper functions from _eq024_three_class_completeness.py.
+Reuses helper functions from eq024_three_class_completeness.py.
 """
 from __future__ import annotations
 
@@ -39,7 +39,7 @@ SCRIPT_DIR = Path(__file__).parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
 # Import shared infrastructure from the product-version script
-from _eq024_three_class_completeness import (
+from eq024_three_class_completeness import (
     N, d,
     classify, is_class_1_or_2, is_class_3,
     compute_jacobian_J, waterfilling_capacity,

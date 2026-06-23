@@ -49,7 +49,7 @@ if sys.platform == "win32":
 
 SCRIPT_DIR = Path(__file__).parent
 sys.path.insert(0, str(SCRIPT_DIR))
-from _eq014_chiral_mirror_multi_N import (
+from eq014_chiral_mirror_multi_N import (
     build_xy_chain_H, build_L, build_V_L_bond,
     sine_mode_state, rk4_step, fit_alpha,
 )

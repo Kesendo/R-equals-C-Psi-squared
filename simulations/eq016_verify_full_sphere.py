@@ -29,7 +29,7 @@ if sys.platform == "win32":
 
 SCRIPT_DIR = Path(__file__).parent
 sys.path.insert(0, str(SCRIPT_DIR))
-from _eq016_n4_full_landscape import (
+from eq016_n4_full_landscape import (
     dicke_state_vector, reduced_rho_AB, reduced_rho_A,
     pair_cpsi, single_qubit_purity, triple_dicke_optimum,
 )

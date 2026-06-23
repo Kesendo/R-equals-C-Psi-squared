@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""_eq022_b1_step_f_universality_extension.py — extend Statement 2 universality
+"""eq022_b1_step_f_universality_extension.py — extend Statement 2 universality
 of `K(Q)/|K|max = f(Q/Q_EP)` to (i) chromaticity c=2 and (ii) γ₀ ≠ 0.05.
 
 Step (e) established the universal pre-EP shape for c=3 (N=5..8) and c=4
@@ -45,7 +45,7 @@ import framework as fw  # noqa: E402
 
 # Import step_e's helpers; the underscore-prefixed module name is fine for
 # importlib but `import _eq022...` is unconventional — use spec_from_file_location.
-_step_e_path = Path(__file__).resolve().parent / "_eq022_b1_step_e_resonance_shape.py"
+_step_e_path = Path(__file__).resolve().parent / "eq022_b1_step_e_resonance_shape.py"
 _spec = importlib.util.spec_from_file_location("step_e", _step_e_path)
 _step_e = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_step_e)

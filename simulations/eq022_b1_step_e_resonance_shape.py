@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""_eq022_b1_step_e_resonance_shape.py — universality of the abs(K_CC_pr)(Q)
+"""eq022_b1_step_e_resonance_shape.py — universality of the abs(K_CC_pr)(Q)
 curve shape around Q_peak.
 
 Hypothesis (2026-05-02): the position Q_peak is chain-specific (refuted

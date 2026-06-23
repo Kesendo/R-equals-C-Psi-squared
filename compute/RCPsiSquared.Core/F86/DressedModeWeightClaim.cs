@@ -30,7 +30,7 @@ namespace RCPsiSquared.Core.F86;
 /// <para><b>To promote Tier 1 candidate → Tier 1 derived:</b> either (a) derive
 /// W(Q_peak) and W(Q_plateau) analytically from the EP 2-level eigenvector rotation, or
 /// (b) replace the hardcoded constants with a per-(c, N) witness collection backed by
-/// actual computation (`simulations/_eq022_b1_step_c_time_evolution.py` has the
+/// actual computation (`simulations/eq022_b1_step_c_time_evolution.py` has the
 /// `dressed_weight` calculator). Per-block tracking would also distinguish c-dependence
 /// from N-dependence.</para></summary>
 public sealed class DressedModeWeightClaim : Claim
@@ -54,7 +54,7 @@ public sealed class DressedModeWeightClaim : Claim
                Tier.Tier1Candidate,
                "docs/ANALYTICAL_FORMULAS.md F86 EP-based structural mechanism (qualitative); " +
                "experiments/Q_SCALE_THREE_BANDS.md (empirical W tables, NOT matching hardcoded 0.99/0.31); " +
-               "simulations/_eq022_b1_step_c_time_evolution.py (dressed_weight calculator)")
+               "simulations/eq022_b1_step_c_time_evolution.py (dressed_weight calculator)")
     { }
 
     public override string DisplayName =>

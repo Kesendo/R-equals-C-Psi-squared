@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""_eq022_b1_step_a_verify_blockL.py — EQ-022 (b1) Step (a).
+"""eq022_b1_step_a_verify_blockL.py — EQ-022 (b1) Step (a).
 
-Verify the Python block-L construction in `_eq022_b1_channel_projection.py`
+Verify the Python block-L construction in `eq022_b1_channel_projection.py`
 against the C#-precomputed full N=7 XY chain Liouvillian eigendecomposition
 saved in `eq014_*.bin` (J=1, γ=0.05, ChainXY).
 

@@ -12,7 +12,7 @@ namespace RCPsiSquared.Core.Decomposition;
 /// <para>|c_1⟩, |c_3⟩ are the channel-uniform vectors (where the Dicke probe lives).
 /// |u_0⟩, |v_0⟩ are the SVD-top inter-channel coupling vectors (the EP-partner modes).
 /// At c=2 these four vectors are mutually orthonormal (verified numerically across
-/// N=5..8 in `_eq022_b1_step_i_svd_inter_channel.py`).</para>
+/// N=5..8 in `eq022_b1_step_i_svd_inter_channel.py`).</para>
 ///
 /// <para>The 2-level reduction of the proof's Statement 1 lives in span{|u_0⟩, |v_0⟩};
 /// the probe lives in span{|c_1⟩, |c_3⟩}; the K observable couples them via

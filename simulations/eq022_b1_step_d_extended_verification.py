@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""_eq022_b1_step_d_extended_verification.py — verify F86 closed forms
+"""eq022_b1_step_d_extended_verification.py — verify F86 closed forms
 beyond the original N=7 anchor.
 
 Two scans:

@@ -6,7 +6,7 @@ using RCPsiSquared.Core.Tests.Fixtures;
 namespace RCPsiSquared.Core.Tests.Validation;
 
 /// <summary>Validation against `simulations/results/eq022_universality_extension/summary.json`
-/// (Python `_eq022_b1_step_f_universality_extension.py`).
+/// (Python `eq022_b1_step_f_universality_extension.py`).
 ///
 /// <para>Covers c=2 N=5..8 at γ₀=0.05 plus γ₀ ∈ {0.025, 0.10} at c=3 N=7. The C# scan
 /// must reproduce Q_peak and HWHM_left/Q_peak per bond class to within 1×10⁻³.</para>

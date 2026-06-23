@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""_eq022_b1_step_i_svd_inter_channel.py — heuristic 2-level basis via SVD
+"""eq022_b1_step_i_svd_inter_channel.py — heuristic 2-level basis via SVD
 of inter-channel coupling.
 
 Step (g): channel-uniform basis trivial V_b. Step (h): slowest-pair-at-Q=0.5

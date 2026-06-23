@@ -37,10 +37,10 @@ if sys.platform == "win32":
 SCRIPT_DIR = Path(__file__).parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _eq024_three_class_completeness import (
+from eq024_three_class_completeness import (
     N, d, compute_jacobian_J, waterfilling_capacity, bloch_state,
 )
-from _eq024_f71_breaking_capacity import (
+from eq024_f71_breaking_capacity import (
     random_product_asymmetric, f71_asymmetry,
 )
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""_eq022_b1_step_h_slowest_pair_basis.py — find the basis where the heuristic
+"""eq022_b1_step_h_slowest_pair_basis.py — find the basis where the heuristic
 same-sign-imaginary 2-level form actually lives.
 
 Step (g) showed: in the channel-uniform basis, V_b for c=2 chains are all

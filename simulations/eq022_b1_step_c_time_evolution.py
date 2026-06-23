@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""_eq022_b1_step_c_time_evolution.py — EQ-022 (b1) Step (c).
+"""eq022_b1_step_c_time_evolution.py — EQ-022 (b1) Step (c).
 
 Compute the actual Q_SCALE observable via time evolution on block-L:
 

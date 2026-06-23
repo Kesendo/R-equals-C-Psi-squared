@@ -43,14 +43,14 @@ if sys.platform == "win32":
 SCRIPT_DIR = Path(__file__).parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _eq024_three_class_completeness import (
+from eq024_three_class_completeness import (
     N, d,
     classify, compute_jacobian_J, waterfilling_capacity,
     CLASS_TOL, CAPACITY_BLIND,
     GAMMA_0, J_REF, DJ, T_POINTS, SPREAD, SIGMA_NOISE,
     bloch_state,
 )
-from _eq024_three_class_completeness_nonproduct import (
+from eq024_three_class_completeness_nonproduct import (
     R as R_mirror,
 )
 

@@ -3,7 +3,7 @@
 **Date:** 2026-04-27
 **Source:** EQ-014 (chiral mirror law, site-painter), EQ-020 (extension to all k-painter).
 **Tier:** 1 (kinematic prediction; follows from K_1 symmetry of H + Z-dephasing).
-**Scripts:** [`_eq020_chiral_mirror_hw_prediction.py`](../simulations/_eq020_chiral_mirror_hw_prediction.py)
+**Scripts:** [`eq020_chiral_mirror_hw_prediction.py`](../simulations/eq020_chiral_mirror_hw_prediction.py)
 **Framework primitives:** [`single_excitation_sine_mode`](../simulations/framework.py), [`k_local_reduced_density`](../simulations/framework.py).
 
 ---
@@ -109,7 +109,7 @@ Computationally verified to machine precision. Hardware test not yet run. Recomm
 
 ## Existing-data check (added 2026-04-27)
 
-The April 25 Marrakesh K-partnership run (`data/ibm_k_partnership_april2026/`) already prepared all five sine-mode bonding states (k=1..5) at N=5 and measured pair-tomography on (qubit 0, qubit 4). Re-analyzing that data for the per-site Bloch test ([_eq020_marrakesh_chiral_mirror_analysis.py](../simulations/_eq020_marrakesh_chiral_mirror_analysis.py)):
+The April 25 Marrakesh K-partnership run (`data/ibm_k_partnership_april2026/`) already prepared all five sine-mode bonding states (k=1..5) at N=5 and measured pair-tomography on (qubit 0, qubit 4). Re-analyzing that data for the per-site Bloch test ([eq020_marrakesh_chiral_mirror_analysis.py](../simulations/eq020_marrakesh_chiral_mirror_analysis.py)):
 
 **Aer simulation with Marrakesh noise model:**
 - ⟨Z_a⟩-mirror at K_1-paired states: **0.04-0.11% deviation** (machine-precision-level, confirms chiral mirror)

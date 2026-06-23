@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""_eq022_b1_channel_projection.py — EQ-022 (b1) analytical attempt.
+"""eq022_b1_channel_projection.py — EQ-022 (b1) analytical attempt.
 
 Goal: derive Q_peak(c) closed-form from the (n, n+1) block-L structure.
 
@@ -48,7 +48,7 @@ Q_SCALE_THREE_BANDS, EQ-022 (b1) in review/EMERGING_QUESTIONS.md.
 WIP per `_` prefix convention. Exploration tool, not a primitive.
 
 Usage:
-    python _eq022_b1_channel_projection.py
+    python eq022_b1_channel_projection.py
 """
 from __future__ import annotations
 

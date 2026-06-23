@@ -5,9 +5,9 @@
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Scripts:**
 [_compare_n3_n4_categories.py](../simulations/_compare_n3_n4_categories.py),
-[_eq031_within_categories.py](../simulations/_eq031_within_categories.py),
-[_eq031_absolute_scaling.py](../simulations/_eq031_absolute_scaling.py),
-[_eq031_topology_test.py](../simulations/_eq031_topology_test.py)
+[eq031_within_categories.py](../simulations/eq031_within_categories.py),
+[eq031_absolute_scaling.py](../simulations/eq031_absolute_scaling.py),
+[eq031_topology_test.py](../simulations/eq031_topology_test.py)
 **Results:**
 [eq031_n3_n4_categories.txt](../simulations/results/eq031_n3_n4_categories.txt),
 [eq031_within_categories.txt](../simulations/results/eq031_within_categories.txt),

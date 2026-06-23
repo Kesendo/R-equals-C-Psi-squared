@@ -11,8 +11,8 @@ N2 on the |+−+−...⟩ initial state. Tabulate per-category Spearman rank
 correlation and op_norm ratio statistics.
 
 Usage:
-    python _eq031_within_categories.py            # default N1=3, N2=4
-    python _eq031_within_categories.py 4 5        # custom pair
+    python eq031_within_categories.py            # default N1=3, N2=4
+    python eq031_within_categories.py 4 5        # custom pair
 """
 import math
 import sys

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""_eq022_b1_step_e_inspect.py — inspect the resonance-shape curves.
+"""eq022_b1_step_e_inspect.py — inspect the resonance-shape curves.
 
-Pulls the curves saved by `_eq022_b1_step_e_resonance_shape.py`, prints
+Pulls the curves saved by `eq022_b1_step_e_resonance_shape.py`, prints
 K at key Q points (peak ± fractions of Q_peak), and tests the relative-Q
 universal-shape hypothesis with explicit point-by-point comparisons.
 """

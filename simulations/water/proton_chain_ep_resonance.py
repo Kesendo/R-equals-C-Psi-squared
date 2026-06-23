@@ -136,7 +136,7 @@ def pi2_odd_fraction_in_memory(rho, N):
 def per_bond_K_curve(N, n, gamma_0, J_grid, t_grid):
     """Per-bond |∂S/∂J_b|_max(Q) via the Duhamel formula on the (n, n+1) block.
 
-    Mirrors `simulations/_eq022_b1_step_e_resonance_shape.py`; lift to a
+    Mirrors `simulations/eq022_b1_step_e_resonance_shape.py`; lift to a
     workflow if a third caller appears. Returns (K_max_over_t, t_at_max),
     each shape (n_bonds, len(J_grid)).
     """

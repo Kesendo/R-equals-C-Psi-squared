@@ -341,7 +341,7 @@ The Perspectival Time Field closure law Sigma_i ln(alpha_i) = 0 is empirically v
 
 Candidate derivation route: Sigma_i ln(alpha_i) is proportional to Tr[V_L * Pi_slow] where Pi_slow is the projector onto the slow subspace and V_L is the Liouvillian perturbation from the J-defect. If this trace is identically zero for Pi-invariant V_L (palindromic perturbations), the closure law follows from symmetry. The data (slow right and left eigenvectors, 80 modes, N=7) are on disk; the remaining step is a clean biorthogonal-basis computation.
 
-**Status:** closed. Theorem sub-question **closed** 2026-04-19 (not a first-order theorem; full biorthogonal decomposition of the 16384×16384 L_A plus direct first-order extraction at δJ→0 give state-dependent Σ f_i ≠ 0). Surviving state-dependence sub-question **closed** 2026-04-26 / 2026-04-27 (chiral mirror law for the closure-breaking coefficient: Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k}), driven by eigenvector mixing under K_1 chiral symmetry of the open XY chain; verified at machine precision at N=5, N=7, N=8). Detailed theorem-falsification findings in [`review/EQ014_FINDINGS.md`](EQ014_FINDINGS.md); chiral mirror cross-N confirmation in [`_eq014_chiral_mirror_multi_N.py`](../simulations/_eq014_chiral_mirror_multi_N.py).
+**Status:** closed. Theorem sub-question **closed** 2026-04-19 (not a first-order theorem; full biorthogonal decomposition of the 16384×16384 L_A plus direct first-order extraction at δJ→0 give state-dependent Σ f_i ≠ 0). Surviving state-dependence sub-question **closed** 2026-04-26 / 2026-04-27 (chiral mirror law for the closure-breaking coefficient: Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k}), driven by eigenvector mixing under K_1 chiral symmetry of the open XY chain; verified at machine precision at N=5, N=7, N=8). Detailed theorem-falsification findings in [`review/EQ014_FINDINGS.md`](EQ014_FINDINGS.md); chiral mirror cross-N confirmation in [`eq014_chiral_mirror_multi_N.py`](../simulations/eq014_chiral_mirror_multi_N.py).
 **Pointer:** biorthogonal eigenvector decomposition of 16384x16384 L_A; connection to F1 palindromic pairing and first-order eigenvalue protection (PTF Layer 3). If proven, promotes PTF from Tier 2 to Tier 1.
 
 ### EQ-014 Partial progress (2026-04-19)
@@ -414,7 +414,7 @@ For three of four states, Σ f_i is of order unity. For ψ_2 it is an order of m
 
 (c) **Excitation-sector weight.** ψ_k-bonding has 70% of |c|² in the slow subspace; \|+⟩⁷ has 6%. The large Σ f_i for \|+⟩⁷ might be entirely a fast-mode-against-slow-mode contribution that the slow-dominated states don't see. Testable by running the same calculation restricting the initial state to the slow subspace only.
 
-**Status:** sub-question answered 2026-04-26 by [_eq014_psi_k_full_scan.py](../simulations/_eq014_psi_k_full_scan.py). EQ-014 main question (closure as theorem) closed earlier.
+**Status:** sub-question answered 2026-04-26 by [eq014_psi_k_full_scan.py](../simulations/eq014_psi_k_full_scan.py). EQ-014 main question (closure as theorem) closed earlier.
 
 **Result.** Full scan k = 1..7 at N=7, bond (0,1), δJ = 0.01:
 
@@ -446,7 +446,7 @@ Three structural observations:
 
 ### EQ-014 sub-direction closed 2026-04-27: chiral mirror confirmed at N=5 and N=8
 
-**Source:** [_eq014_chiral_mirror_multi_N.py](../simulations/_eq014_chiral_mirror_multi_N.py).
+**Source:** [eq014_chiral_mirror_multi_N.py](../simulations/eq014_chiral_mirror_multi_N.py).
 
 Tested both odd-with-fixed-point (N=5, k=3 fixed) and even-without-fixed-point (N=8) cases. Mirror law Σ f_i(k) = Σ f_i(N+1−k) holds at machine precision in every case.
 
@@ -499,7 +499,7 @@ The formula is the operational anchor of the Primordial Gamma Constant hypothesi
 
 ### EQ-015 closure 2026-04-27
 
-**Source:** [_eq015_extend_topologies.py](../simulations/_eq015_extend_topologies.py); reads no prior data.
+**Source:** [eq015_extend_topologies.py](../simulations/eq015_extend_topologies.py); reads no prior data.
 
 **Reformulation.** F64 was previously stated and tested as gamma_eff = gamma_B · |a_B|² where a_B is the B-amplitude of an H_1 single-excitation eigenvector. The earlier verifications at N=3 (1.8 % rel err) and N=4 (1.0000 ± 0.0003) were *perturbative* in (gamma_B / J), which is why discrepancies appeared. The cleaner formulation:
 
@@ -561,7 +561,7 @@ Why is N=3 structurally privileged for sector mixing? Is it because dim(Dicke) =
 
 ### EQ-016 reframe 2026-04-27: N=3 is NOT privileged — saddles above 1/4 are abundant at every tested N
 
-**Source:** [_eq016_n4_full_landscape.py](../simulations/_eq016_n4_full_landscape.py); reads no prior data.
+**Source:** [eq016_n4_full_landscape.py](../simulations/eq016_n4_full_landscape.py); reads no prior data.
 
 The original framing assumed F69's pair-CΨ = 0.3204 was the ONLY non-product saddle above 1/4 at N=3, with no analog at N≥4. Today's binary- and triple-Dicke enumerations across N ∈ {3, 4, 5, 6} refute this:
 
@@ -589,7 +589,7 @@ Triple-Dicke families lift FAR above F69's 0.32 at every N. The best triple at e
 
 **Reframed verdict.** F69 (pair-CΨ = 0.3204) is one slice-saddle among many. F69 doc's claim "no non-product local maxima on full sphere" is correct (verified by perturbation: every triple-Dicke maximum has non-zero linear-order gradient in some unused Dicke direction → saddle on full sphere). What was incomplete was the doc's enumeration "only Dicke basis + GHZ+W optimum are stationary points" — many other 2-Dicke and 3-Dicke slices admit stationary points above 1/4 at every tested N. F69 doc updated 2026-04-27 to add paragraph (iv) listing these.
 
-**Saddles confirmed by perturbation test ([_eq016_verify_full_sphere.py](../simulations/_eq016_verify_full_sphere.py)):** for each top triple-Dicke maximum at N ∈ {3,4,5,6}, perturbation in any unused Dicke direction shifts pair-CΨ at linear order in ε (gradient ≠ 0), and ~50% of random Dicke perturbations ascend (200/300 random complex perturbations at N=3 best triple). All saddles, no local maxima on full sphere.
+**Saddles confirmed by perturbation test ([eq016_verify_full_sphere.py](../simulations/eq016_verify_full_sphere.py)):** for each top triple-Dicke maximum at N ∈ {3,4,5,6}, perturbation in any unused Dicke direction shifts pair-CΨ at linear order in ε (gradient ≠ 0), and ~50% of random Dicke perturbations ascend (200/300 random complex perturbations at N=3 best triple). All saddles, no local maxima on full sphere.
 
 **The structural pattern:** the abundance of slice-saddles above 1/4 grows polynomially with N (binary: O(N), triple: O(N²)). The MAX cpsi within slice-stationary points decreases slowly with N but stays well above 1/4. So pair-CΨ has a rich saddle landscape at every N, with central-Dicke saddles being the highest.
 
@@ -601,7 +601,7 @@ Triple-Dicke families lift FAR above F69's 0.32 at every N. The best triple at e
 
 ### EQ-016 sub-question closed 2026-04-27: central-triple cpsi(N) is sextic-asymptotic
 
-**Source:** [_eq016_central_triple_asymptotics.py](../simulations/_eq016_central_triple_asymptotics.py), [_eq016_central_triple_n_infinity.py](../simulations/_eq016_central_triple_n_infinity.py).
+**Source:** [eq016_central_triple_asymptotics.py](../simulations/eq016_central_triple_asymptotics.py), [eq016_central_triple_n_infinity.py](../simulations/eq016_central_triple_n_infinity.py).
 
 The central-Dicke-triple max pair-CΨ has the asymptotic form
 
@@ -765,7 +765,7 @@ Extended the N=5 c_1(bond, Dicke) matrix to N in {3, 4, 6} using the LSQ α-fit 
 
 ### EQ-019 Update 2026-04-27: chain-adjacency layer hypothesis falsified
 
-**Source:** [_eq019_chain_adjacency_analysis](../simulations/_eq019_chain_adjacency_analysis.py); reads existing bond_scan JSONs at N ∈ {3, 4, 5, 6}.
+**Source:** [eq019_chain_adjacency_analysis](../simulations/eq019_chain_adjacency_analysis.py); reads existing bond_scan JSONs at N ∈ {3, 4, 5, 6}.
 
 The V-Effect compatibility-layer derivation (project_v_effect_combinatorial, commits 81caf67 / 079c7ce / 8030ef2) introduces a "chain-adjacency" layer that activates at N=3 chain and depends on whether a bond is endpoint (1-sided chain-adjacent) or interior (2-sided). Natural hypothesis: bond-position dependence of c_1 is a manifestation of this layer.
 
@@ -801,7 +801,7 @@ Does the pair-local closure Σ_{(i,j)} ln(α_{ij}) have its own symmetry structu
 
 ### EQ-020 partial closure 2026-04-27: chiral mirror law extends to pair-painter
 
-**Source:** [_eq020_pair_painter_chiral_mirror.py](../simulations/_eq020_pair_painter_chiral_mirror.py), [_eq020_pair_painter_delta_n2.py](../simulations/_eq020_pair_painter_delta_n2.py).
+**Source:** [eq020_pair_painter_chiral_mirror.py](../simulations/eq020_pair_painter_chiral_mirror.py), [eq020_pair_painter_delta_n2.py](../simulations/eq020_pair_painter_delta_n2.py).
 
 **Structural finding.** The chiral mirror law Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k}) extends from site-painter (EQ-014) to pair-painter:
 
@@ -843,7 +843,7 @@ Does the pair-local closure Σ_{(i,j)} ln(α_{ij}) have its own symmetry structu
 
 ### EQ-020 update 2026-04-27: triple-painter (k=3) chiral mirror verified
 
-**Source:** [_eq020_triple_painter_chiral_mirror.py](../simulations/_eq020_triple_painter_chiral_mirror.py).
+**Source:** [eq020_triple_painter_chiral_mirror.py](../simulations/eq020_triple_painter_chiral_mirror.py).
 
 Triple-painter (k=3) verified at N=5 and N=7. Same K_1 mechanism extends:
 
@@ -1024,7 +1024,7 @@ The pure-rate ladder rates 2γ₀·HD with HD ∈ {1, 3, 5, ..., 2c−1} (F74) h
 
 ### EQ-022 (b1) closed-form claims retracted 2026-05-02 (extended-N data)
 
-**Source:** extended verification scan (`_eq022_b1_step_d_extended_verification.py`) at multiple (c, N) points beyond the original N=7 anchor.
+**Source:** extended verification scan (`eq022_b1_step_d_extended_verification.py`) at multiple (c, N) points beyond the original N=7 anchor.
 
 **Both earlier closed-form conjectures retracted:**
 
@@ -1058,7 +1058,7 @@ The Endpoint formula matches only at N=7. The c=3 Interior trajectory crosses cs
 
 ### EQ-022 (b1) Universal resonance shape 2026-05-02 evening (Tier 1 candidate)
 
-After the position-formula rollback, a fine-grid scan (`_eq022_b1_step_e_resonance_shape.py` at dQ = 0.025 over c=3 N=5..8 and c=4 N=7,8) reveals that the SHAPE of the abs(K_CC_pr)(Q) curve around Q_peak IS universal under relative-Q normalisation:
+After the position-formula rollback, a fine-grid scan (`eq022_b1_step_e_resonance_shape.py` at dQ = 0.025 over c=3 N=5..8 and c=4 N=7,8) reveals that the SHAPE of the abs(K_CC_pr)(Q) curve around Q_peak IS universal under relative-Q normalisation:
 
     x = (Q − Q_peak) / Q_peak,    y = K(Q) / |K|max
 
@@ -1310,9 +1310,9 @@ H-robustness table (Heisenberg / XY-only / generic): Class 1 blind / blind / bli
 
 ### EQ-024 surviving sub-questions
 
-- **Three-class decomposition completeness.** Are Classes 1-3 exhaustive over the J-blind set, or do other mechanisms exist? Direction 4 from the refinement TASK restructures here: necessity per class is distinct from necessity in the union. Empirical attack: random F71-symmetric-state sampling outside all three classes, checking for zero J-Jacobian to numerical precision. **Status 2026-04-28: closed for F71-symmetric receivers** (both product and non-product). Product slice: [_eq024_three_class_completeness.py](../simulations/_eq024_three_class_completeness.py), 100 samples, C ∈ [7.54, 12.41] bits, 0 candidates. Non-product (full 20-dim Hilbert subspace): [_eq024_three_class_completeness_nonproduct.py](../simulations/_eq024_three_class_completeness_nonproduct.py), 100 Haar-random samples, C ∈ [5.74, 10.26] bits, 0 candidates. Combined: 200 samples, capacity floor 5.74 bits, no observation anywhere near zero. F71-breaking receivers (sub-question 2) are the natural next scope.
-- **F71-breaking receiver capacity at N=5.** Direction 3 swept only F71-symmetric receivers. F71-breaking receivers might unlock additional gain spectrum but the rank ceiling for bond-inputs at N=5 stays at 4 regardless. Worth quantifying whether the gain change is meaningful. **Status 2026-04-28: closed** by [_eq024_f71_breaking_capacity.py](../simulations/_eq024_f71_breaking_capacity.py). 100 random product + 100 Haar-non-product F71-breaking samples; max C = 11.99 bits (product) and 8.80 bits (non-product), both BELOW the F71-symmetric maxima 12.41 and 10.26. F71-breaking distributions are tighter (lower std) but do not exceed F71-symmetric envelope. F71-symmetry is not a capacity-suboptimality constraint; it covers the optimal region.
-- **N-scaling of the 12-bit ceiling.** At N=6 the bond-input dimension is 5, matching γ-side rank. Does the dimensional-loss bit (~1) disappear? Compute cost: ~30 min per receiver at d² = 4096. **Status 2026-04-28: ceiling rises to ~14 bits, F71-optimality INVERTS** by [_eq024_f71_optimality_n6.py](../simulations/_eq024_f71_optimality_n6.py). At N=6 with 3+2 unbalanced block split (vs N=5's balanced 2+2), F71-breaking beats F71-symmetric in capacity (12.56 vs 11.91 mean, 14.02 vs 13.65 max). Mechanism: SV peakedness still higher for F71-sym (3.55 vs 2.11) but unbalanced block produces 1 big + 4 small SVs; F71-breaking's flatter 5-SV distribution wins via geometric-mean log-summation in waterfilling. Parity prediction: F71-optimality holds at odd N (balanced k+k blocks), fails at even N (unbalanced).
+- **Three-class decomposition completeness.** Are Classes 1-3 exhaustive over the J-blind set, or do other mechanisms exist? Direction 4 from the refinement TASK restructures here: necessity per class is distinct from necessity in the union. Empirical attack: random F71-symmetric-state sampling outside all three classes, checking for zero J-Jacobian to numerical precision. **Status 2026-04-28: closed for F71-symmetric receivers** (both product and non-product). Product slice: [eq024_three_class_completeness.py](../simulations/eq024_three_class_completeness.py), 100 samples, C ∈ [7.54, 12.41] bits, 0 candidates. Non-product (full 20-dim Hilbert subspace): [eq024_three_class_completeness_nonproduct.py](../simulations/eq024_three_class_completeness_nonproduct.py), 100 Haar-random samples, C ∈ [5.74, 10.26] bits, 0 candidates. Combined: 200 samples, capacity floor 5.74 bits, no observation anywhere near zero. F71-breaking receivers (sub-question 2) are the natural next scope.
+- **F71-breaking receiver capacity at N=5.** Direction 3 swept only F71-symmetric receivers. F71-breaking receivers might unlock additional gain spectrum but the rank ceiling for bond-inputs at N=5 stays at 4 regardless. Worth quantifying whether the gain change is meaningful. **Status 2026-04-28: closed** by [eq024_f71_breaking_capacity.py](../simulations/eq024_f71_breaking_capacity.py). 100 random product + 100 Haar-non-product F71-breaking samples; max C = 11.99 bits (product) and 8.80 bits (non-product), both BELOW the F71-symmetric maxima 12.41 and 10.26. F71-breaking distributions are tighter (lower std) but do not exceed F71-symmetric envelope. F71-symmetry is not a capacity-suboptimality constraint; it covers the optimal region.
+- **N-scaling of the 12-bit ceiling.** At N=6 the bond-input dimension is 5, matching γ-side rank. Does the dimensional-loss bit (~1) disappear? Compute cost: ~30 min per receiver at d² = 4096. **Status 2026-04-28: ceiling rises to ~14 bits, F71-optimality INVERTS** by [eq024_f71_optimality_n6.py](../simulations/eq024_f71_optimality_n6.py). At N=6 with 3+2 unbalanced block split (vs N=5's balanced 2+2), F71-breaking beats F71-symmetric in capacity (12.56 vs 11.91 mean, 14.02 vs 13.65 max). Mechanism: SV peakedness still higher for F71-sym (3.55 vs 2.11) but unbalanced block produces 1 big + 4 small SVs; F71-breaking's flatter 5-SV distribution wins via geometric-mean log-summation in waterfilling. Parity prediction: F71-optimality holds at odd N (balanced k+k blocks), fails at even N (unbalanced).
 - **Chromaticity of the Nelder-Mead optimum.** The best receiver θ ≈ (3.02, 1.14, 3.26), φ ≈ (5.30, 0.62, 1.72) (mod 2π): does it sit in a specific chromaticity sector or interpolate across them?
 - **Operational meaning of the 12-vs-15 gap.** The ~3-bit gain-gap (J sv_max ≈ 10 vs γ sv_max ≈ 21.4) is the non-dimensional part of the asymmetry. Is the J-to-γ ratio fixed (~46%) across N, or does it scale?
 
@@ -1354,7 +1354,7 @@ Truly category gains effective-one-body Hamiltonians at N=4 (IX+XI variants redu
 **Surviving sub-questions:**
 - ~~N=5 enumeration (cost ~10 min, feasible).~~ **Closed:** N=5 gives 15 / 46 / 59 — identical counts to N=4. Trichotomy stabilises after N=4. Protected-count ranges scale by 4× (matching the 4^5/4^4 ratio). Pipeline: `_pi_protected_test_n4.py 5` produces `pi_protected_test_n5.log`.
 - Is the sub-spectrum of protected counts within soft a continuous distribution, or does it cluster into sub-groups? **Partially closed:** discrete clusters at N=5. 992 (1 case: YZ+ZY), 862 (2 cases: IY+IY, YI+YI), 781 (1 case: IY+YI), 772 (6 cases: XY+XY, XZ+XZ, YX+YX, YZ+YZ, ZX+ZX, ZY+ZY). Sub-cluster sizes look symmetry-related; the 6-element 772-class shares "pure Pauli-axis pairing" structure.
-- What structural feature ranks soft cases by protected count? **Closed 2026-04-27** (commit 95ebec7, [_eq026_soft_subcluster_with_layers.py](../simulations/_eq026_soft_subcluster_with_layers.py)): the sub-clusters are **layer-stack orbits** under today's V-Effect combinatorial classifier. Each n_protected value corresponds to a specific (BPE-class, bond-flip, Z-align, both-single/mixed) feature combination. Examples: 992 = 0-BPE bond-flipped Z-containing (YZ+ZY, saturates max); 862 = both-single same-letter at same position (IY+IY, YI+YI); 781 = bond-flipped both-single (IY+YI); 772 = non-BPE double-letter self-pairs (6-orbit); 563 = bond-flipped Z-free 0-BPE (XY+YX, XZ+ZX); 512 = mixed-default-soft (18 cases); 496 = Z-aligned 0-BPE non-bond-flipped (XZ+YZ, ZX+ZY). Not a single Z₂ symmetry but a stack of feature axes acting jointly. Connects to today's full V-Effect layer-stack derivation (commits 81caf67, 079c7ce, 8030ef2, 0f701fa).
+- What structural feature ranks soft cases by protected count? **Closed 2026-04-27** (commit 95ebec7, [eq026_soft_subcluster_with_layers.py](../simulations/eq026_soft_subcluster_with_layers.py)): the sub-clusters are **layer-stack orbits** under today's V-Effect combinatorial classifier. Each n_protected value corresponds to a specific (BPE-class, bond-flip, Z-align, both-single/mixed) feature combination. Examples: 992 = 0-BPE bond-flipped Z-containing (YZ+ZY, saturates max); 862 = both-single same-letter at same position (IY+IY, YI+YI); 781 = bond-flipped both-single (IY+YI); 772 = non-BPE double-letter self-pairs (6-orbit); 563 = bond-flipped Z-free 0-BPE (XY+YX, XZ+ZX); 512 = mixed-default-soft (18 cases); 496 = Z-aligned 0-BPE non-bond-flipped (XZ+YZ, ZX+ZY). Not a single Z₂ symmetry but a stack of feature axes acting jointly. Connects to today's full V-Effect layer-stack derivation (commits 81caf67, 079c7ce, 8030ef2, 0f701fa).
 
 **Surprising sub-finding from N=5:** at the top of the soft-protected distribution (YZ+ZY: 992 of 1023), the protected count is *identical* to the top truly cases (XX+XX: 992). Protected count alone does not discriminate spectrum-only-paired (soft) from operator-palindromic (truly) at the top end. The discrimination at that boundary requires the operator residual ‖M‖.
 
@@ -1385,7 +1385,7 @@ The cusp at CΨ = 1/4 is a state-level event observed on the Bell+ trajectory ([
 
 framework.py grounds: palindrome_residual at all times for Bell+/Heisenberg/Z-dephasing remains zero. The state-level CΨ trajectory passes through 1/4. Two layers, no obvious bridge primitive yet.
 
-**Status:** closed 2026-04-26 (structured partial-null) by [_eq028_cusp_operator_signature.py](../simulations/_eq028_cusp_operator_signature.py).
+**Status:** closed 2026-04-26 (structured partial-null) by [eq028_cusp_operator_signature.py](../simulations/eq028_cusp_operator_signature.py).
 
 **Result.** No sharp operator-level event AT the cusp moment itself — no eigenvalue collision, no eigenvector reorientation, no non-analytic structure of M(t). The Liouvillian L is time-independent; only ρ(t) changes. The cusp at CΨ=1/4 is a state-level event.
 

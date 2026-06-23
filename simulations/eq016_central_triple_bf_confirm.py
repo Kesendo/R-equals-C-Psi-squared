@@ -17,7 +17,7 @@ if sys.platform == "win32":
 
 SCRIPT_DIR = Path(__file__).parent
 sys.path.insert(0, str(SCRIPT_DIR))
-from _eq016_n4_full_landscape import pair_cpsi, reduced_rho_AB, dicke_state_vector
+from eq016_n4_full_landscape import pair_cpsi, reduced_rho_AB, dicke_state_vector
 
 CPSI_INF = 0.431236324950
 

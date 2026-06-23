@@ -196,7 +196,7 @@ Interior y = K/|K|max evaluated at relative shift x = (Q−Q_peak)/Q_peak across
 
 ### HWHM_left/Q_peak across all tested cases (two bond classes)
 
-Combined data from `_eq022_b1_step_e_resonance_shape.py` (c=3, c=4 at γ₀=0.05) and `_eq022_b1_step_f_universality_extension.py` (c=2, plus γ₀ ∈ {0.025, 0.10} at c=3 N=7).
+Combined data from `eq022_b1_step_e_resonance_shape.py` (c=3, c=4 at γ₀=0.05) and `eq022_b1_step_f_universality_extension.py` (c=2, plus γ₀ ∈ {0.025, 0.10} at c=3 N=7).
 
 **Interior bonds:**
 
@@ -258,5 +258,5 @@ Endpoint mean: **0.770**. Range 0.7663–0.7781 (1.5 %).
 **State-level inheritance:** F88b ([ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md#f88b)) inheriting from F88a, `PopcountCoherencePi2Odd`, `MemoryAxisRho`.
 **HWHM closed form (F86b₂):** `F86HwhmClosedFormClaim`, `BondSubClass` in `compute/RCPsiSquared.Core/F86/Item1Derivation/`.
 **Chiral classification anchor:** [PT_SYMMETRY_ANALYSIS](../../experiments/PT_SYMMETRY_ANALYSIS.md).
-**Scripts:** [`_eq022_b1_step_e_resonance_shape.py`](../../simulations/_eq022_b1_step_e_resonance_shape.py) + [`_eq022_b1_step_e_inspect.py`](../../simulations/_eq022_b1_step_e_inspect.py) (universal-shape finding for c=3, c=4 at γ₀=0.05), [`_eq022_b1_step_f_universality_extension.py`](../../simulations/_eq022_b1_step_f_universality_extension.py) (c=2 sweep + γ₀ ∈ {0.025, 0.10} invariance check that established the two-bond-class refinement).
+**Scripts:** [`eq022_b1_step_e_resonance_shape.py`](../../simulations/eq022_b1_step_e_resonance_shape.py) + [`eq022_b1_step_e_inspect.py`](../../simulations/eq022_b1_step_e_inspect.py) (universal-shape finding for c=3, c=4 at γ₀=0.05), [`eq022_b1_step_f_universality_extension.py`](../../simulations/eq022_b1_step_f_universality_extension.py) (c=2 sweep + γ₀ ∈ {0.025, 0.10} invariance check that established the two-bond-class refinement).
 **C# OOP layer:** `compute/RCPsiSquared.Core/F86/` carries `UniversalShapePrediction` + `UniversalShapeWitness`, `ShapeFunctionWitnesses`, `C2UniversalShapeDerivation`. CLI: `rcpsi inspect --root f86 --with-measured`.
