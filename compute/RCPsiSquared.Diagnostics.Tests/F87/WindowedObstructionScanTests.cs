@@ -36,7 +36,7 @@ public class WindowedObstructionScanTests
         Assert.Equal(16, r.MinOddCycleSizes[3]);
     }
 
-    // Pair/hard counts cross-checked against the Python scout simulations/_f87_oddcycle_kscaling.py.
+    // Pair/hard counts cross-checked against the Python scout simulations/f87_oddcycle_kscaling.py.
     [Theory]
     [InlineData(3, 4, 42, 16)]
     [InlineData(4, 5, 828, 192)]

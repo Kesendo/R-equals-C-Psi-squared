@@ -11,8 +11,8 @@ coprime polynomial pairs in GF(2)[x]), not closed (Finding 6).
 **Builds on:** [F115 / ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md) (the windowed-hardness GF(2)[x]
 theory), [PROOF_F103 §7.7-§7.9](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md), and the lens of
 [ZERO_IS_THE_MIRROR.md](../hypotheses/ZERO_IS_THE_MIRROR.md) (x=1 = the mirror / DC / Perron point).
-**Scripts:** [`simulations/_f87_middle_distribution.py`](../simulations/_f87_middle_distribution.py),
-[`simulations/_f87_oddweight_filtration.py`](../simulations/_f87_oddweight_filtration.py),
+**Scripts:** [`simulations/f87_middle_distribution.py`](../simulations/f87_middle_distribution.py),
+[`simulations/f87_oddweight_filtration.py`](../simulations/f87_oddweight_filtration.py),
 [`simulations/f87_per_delta_saturated.py`](../simulations/f87_per_delta_saturated.py) (the bucket-count
 derivation + the per-size table),
 [`simulations/f87_size_cells.py`](../simulations/f87_size_cells.py) (the per-size kernel: floor, monomial
@@ -52,7 +52,7 @@ The whole per-size distribution factors through the d=0 layer:
 > **full-dist(k, W) = Σ_d 2^(d-1) · D₀(k−d, W)**,  where D₀(k′, W) is the d=0 distribution at body k′.
 
 Equivalently, the layer-d distribution equals `2^(d-1)` times the d=0 distribution at body `k−d`, at the
-same window count W. Verified bit-exact for k = 4..7, all layers (`_f87_middle_distribution.py` part 2). The
+same window count W. Verified bit-exact for k = 4..7, all layers (`f87_middle_distribution.py` part 2). The
 test compares at fixed W, so it holds in the cancellation regime too: the d-structure is fully understood,
 and only **D₀** remains.
 
@@ -71,7 +71,7 @@ obstruction is
 > any `s ≠ 1` that lowers the weight is the cancellation.
 
 Validated against the direct windowed minimal-odd-relation search: 0 mismatches, k = 4,5,6, W ∈ {k−1, k, 2k}
-(`_f87_oddweight_filtration.py` part A).
+(`f87_oddweight_filtration.py` part A).
 
 ---
 

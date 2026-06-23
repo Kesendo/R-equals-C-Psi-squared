@@ -2,7 +2,7 @@
 """F115 / "zero is the mirror" probe: the d=0 obstruction as an ODD-WEIGHT enumeration of the quasi-cyclic
 code <(a,b)>, read through the (1+x)-filtration (x=1 = the mirror / DC / Perron point). 2026-06-08.
 
-Per the d-reduction (verified in _f87_middle_distribution.py) the per-size distribution collapses to the
+Per the d-reduction (verified in f87_middle_distribution.py) the per-size distribution collapses to the
 d=0 layer. For a d=0 hard pair (p1,p2): g=gcd=(1+x)^m, the reduced generators a=p2/g, b=p1/g are COPRIME,
 and the windowed obstruction = the min ODD weight of {(a*s, b*s) : deg(s) <= W-1-max(deg a,deg b)}; the s=1
 term is the gcd-formula size popcount(a)+popcount(b), and s!=1 is the cancellation. Because a,b are coprime

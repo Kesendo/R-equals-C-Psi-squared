@@ -26,8 +26,8 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// XY+YX, the symmetric pair term, is soft on a triangle while XY and XY−YX there are hard). So off the
 /// chain the <see cref="Verdict.Hard"/> verdict is a reliable heuristic except for such symmetric
 /// combinations, which need a direct check. Anchor: PROOF_F103 §7.1, F87; cancellation caveat §7.10;
-/// frustration thread simulations/_f87_door2_lattice_frustration.py and
-/// simulations/_f87_door2a_frustration_vs_kbody.py.</para></summary>
+/// frustration thread simulations/f87_door2_lattice_frustration.py and
+/// simulations/f87_door2a_frustration_vs_kbody.py.</para></summary>
 public static class PalindromeMaskClassifier
 {
     /// <summary>Soft (palindrome restorable), Hard (palindrome broken), or OutOfScope (the flip-mask

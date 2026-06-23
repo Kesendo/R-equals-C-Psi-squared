@@ -274,7 +274,7 @@ public static class WindowedObstructionScan
     // flip pattern is a nonzero even-popcount k-bit mask; the counts below are over PAIRS of such
     // masks (the dressed full count multiplies by the 2^(2k-3) Klein / y-parity constant). Each is
     // verified bit-exact against direct enumeration in WindowedHardnessCountClosedFormTests; mirror
-    // of simulations/_f87_hardcount_closedform.py, _f87_dlayer_count.py, _f87_size_second_layer.py.
+    // of simulations/f87_hardcount_closedform.py, f87_dlayer_count.py, f87_size_second_layer.py.
 
     /// <summary>Nonzero even-popcount k-bit masks: the diagonal-cell X/Y flip-pattern space the
     /// hard-count closed forms live on. Count = 2^(k-1) - 1.</summary>

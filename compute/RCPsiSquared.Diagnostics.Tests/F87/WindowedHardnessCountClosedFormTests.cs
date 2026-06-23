@@ -8,7 +8,7 @@ namespace RCPsiSquared.Diagnostics.Tests.F87;
 /// against direct enumeration over the even-popcount k-bit mask space (the diagonal-cell X/Y flip
 /// patterns), using the same <see cref="WindowedObstructionScan"/> helpers the scan itself uses
 /// (ValuationAtOnePlusX, GRestDegree, MinOddCycle). The oracles are the C# mirror of the verified
-/// scouts simulations/_f87_hardcount_closedform.py, _f87_dlayer_count.py, _f87_size_second_layer.py:
+/// scouts simulations/f87_hardcount_closedform.py, f87_dlayer_count.py, f87_size_second_layer.py:
 /// the A203241 total, the d=0 base B(k), the d-layered count 2^(d-1)·B(k-d), the size-3 (triangle)
 /// sub-count, and the d-layered obstruction-size cap 2k-3-2d.</summary>
 public class WindowedHardnessCountClosedFormTests

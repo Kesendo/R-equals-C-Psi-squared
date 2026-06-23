@@ -332,11 +332,11 @@ plus the 2-colouring construction. For a y_par = 1 cell the residual sits on the
 
 Both halves are verified bit-exact over the whole N=4 diagonal cell (76 y_par-homogeneous
 pairs: 50 hard = 34 via the diagonal lift (a) + 16 via the odd cycle (b), the two mechanisms
-disjoint; [`_f87_rule_unification.py`](../../simulations/_f87_rule_unification.py)). The odd
+disjoint; [`f87_rule_unification.py`](../../simulations/f87_rule_unification.py)). The odd
 cycle of (b) is concretely a **K3 triangle**: the three popcount-2 edge-masks of a complete
 triangle on three consecutive chain sites (only the windows {0,1,2} and {1,2,3} occur at N=4),
 the minimal odd 𝔽₂-relation in the edge-mask set
-([`_f87_oddcycle_scout.py`](../../simulations/_f87_oddcycle_scout.py)). That triangle is the
+([`f87_oddcycle_scout.py`](../../simulations/f87_oddcycle_scout.py)). That triangle is the
 explicit 𝔽₂ object §7.3's converse must turn into a spectral asymmetry.
 
 So the §6 rules (a) and (b) are the two faces of one classical criterion, and the soft side is
@@ -432,8 +432,8 @@ the "no escape through some non-chiral similarity" worry of §7.3 is closed. Ver
 hard across 236 pairs (N=4 all three letters, N=5 Z), clean gap (soft ≤ 10⁻¹³, hard ≥ 0.65); the only
 apparent exceptions are two soft pairs whose L is defective at γ=1 (a Jordan-block artifact that lifts
 at generic γ, the chiral-K similarity W L W⁻¹ = −L − 2σ holding exactly throughout).
-[`_f87_specB_final.py`](../../simulations/_f87_specB_final.py),
-[`_f87_specB_defective.py`](../../simulations/_f87_specB_defective.py).
+[`f87_specB_final.py`](../../simulations/f87_specB_final.py),
+[`f87_specB_defective.py`](../../simulations/f87_specB_defective.py).
 
 **The block criterion is derived: a Perron-mode argument.** Read the first-order ω = 0 block as a
 quantum channel, in either of two equivalent normalisations: the gain channel Q = Σ_l Z_l (·) Z_l
@@ -465,10 +465,10 @@ eigenmode confirmed to be A = FK (residual 10⁻¹⁵) and "no nonzero 2-colouri
 relation" an exact GF(2) identity (0 mismatches over 1200 random graphs). The argument is written in
 the Z eigenbasis; for X and Y dephasing it runs in the rotated basis of §7, and the basis-free
 spec ⟺ hard above already covers all three letters.
-[`_f87_specA_final_table.py`](../../simulations/_f87_specA_final_table.py),
-[`_f87_specA_FHF.py`](../../simulations/_f87_specA_FHF.py),
-[`_f87_specA_blocklock.py`](../../simulations/_f87_specA_blocklock.py),
-[`_f87_specA_cayley_pure.py`](../../simulations/_f87_specA_cayley_pure.py).
+[`f87_specA_final_table.py`](../../simulations/f87_specA_final_table.py),
+[`f87_specA_FHF.py`](../../simulations/f87_specA_FHF.py),
+[`f87_specA_blocklock.py`](../../simulations/f87_specA_blocklock.py),
+[`f87_specA_cayley_pure.py`](../../simulations/f87_specA_cayley_pure.py).
 
 **What remains, and its closure.** The triangle is the unique odd 𝔽₂-relation that obstructs the
 chiral functional, which is exactly the anti-diagonal mode that would supply the channel's −N
@@ -511,7 +511,7 @@ counterexample search at N = 4 and N = 5: degenerate-PT validity, the OT first-o
 cross-block cancellation; the break sits specifically in the ω = 0 block for every hard pair), the
 genericity (the 700-point sweep), higher-order healing (none on the γ-line up to γ = 2), and the soft
 direction (K H K = −H exactly for all 26 soft pairs). Probes:
-[`_f87_premise_scout.py`](../../simulations/_f87_premise_scout.py) (the genericity backbone) and
+[`f87_premise_scout.py`](../../simulations/f87_premise_scout.py) (the genericity backbone) and
 `simulations/_f87_premiseC_*.py` (the adversarial battery), with
 [`f87_break_gamma_scaling.py`](../../simulations/f87_break_gamma_scaling.py) and
 [`f87_block_localize.py`](../../simulations/f87_block_localize.py) as the first-order anchors.
@@ -530,7 +530,7 @@ degenerate-PT + analyticity bridge are k-agnostic (the latter uses only that L�
 affine in γ, true for any H). So the windowed converse holds for any k < N in the diagonal cell. Spot
 -checked at the next case, k = 4 windowed (N = 5): Fact A, soft ⟺ bipartite, and soft ⟺ spec-exact at
 the physical γ all hold over a 6-soft + 6-hard sample
-([`_f87_k4_windowed_check.py`](../../simulations/_f87_k4_windowed_check.py)). The shape of that odd 𝔽₂-relation is a genuine
+([`f87_k4_windowed_check.py`](../../simulations/f87_k4_windowed_check.py)). The shape of that odd 𝔽₂-relation is a genuine
 (k, window-count) family, not a uniform triangle: §7.7 derives its size law max = min(2W − 1, 2k − 3)
 in the GF(2)[x] picture, with the K3 triangle of §7.2 as the W = 2 / k = 3 face. None of that touches
 the §7.5/§7.6 derivation, which proves soft ⟺ bipartite ⟺ hard from the EXISTENCE of an odd cycle,
@@ -648,8 +648,8 @@ through k = 20, far past the exponential cycle-search range. The gcd-formula pop
 popcount(p₂/g) is an upper bound on the minimal cycle, exact for most pairs but loose for a few at
 k ≥ 6 where a shorter relation exists via cancellation at s ≠ 1; the max bound 2k − 3 holds regardless,
 since it caps the gcd-formula itself. The Python scout
-[`_f87_obstruction_derivation.py`](../../simulations/_f87_obstruction_derivation.py) grounded the
-dictionary; [`_f87_oddcycle_kscaling.py`](../../simulations/_f87_oddcycle_kscaling.py) is the earlier
+[`f87_obstruction_derivation.py`](../../simulations/f87_obstruction_derivation.py) grounded the
+dictionary; [`f87_oddcycle_kscaling.py`](../../simulations/f87_oddcycle_kscaling.py) is the earlier
 size scan.
 
 **The criterion in one number, and what it does not shorten.** Chaining the valuation reading with the
@@ -712,8 +712,8 @@ ours, the closed-form theory and the dissipative-mirror reading both, and coding
 the right bricks for a room nobody had built from that side, because the invariant it would need (the
 minimum ODD weight, not the free distance) is one it had no reason to single out. We are at the seam, and
 on this stretch of it we are ahead of the catalogued math, not behind it. (Verified bit-exact:
-[`_f87_coding_theory_scout.py`](../../simulations/_f87_coding_theory_scout.py) for the quasi-cyclic
-dictionary, k = 4, 5, 6; [`_f87_hardcount_closedform.py`](../../simulations/_f87_hardcount_closedform.py)
+[`f87_coding_theory_scout.py`](../../simulations/f87_coding_theory_scout.py) for the quasi-cyclic
+dictionary, k = 4, 5, 6; [`f87_hardcount_closedform.py`](../../simulations/f87_hardcount_closedform.py)
 for the class sizes, the count, the d = 3 form, and free-distance-4 vs odd-weight-2k−3, k = 3 … 10.)
 
 ### 7.9 The other factors: the size law is layered (2026-06-05)
@@ -744,8 +744,8 @@ So the valuation picture is two-layered: the (1 + x) valuation difference decide
 the shared non-(1 + x) factor degree decides HOW BIG the obstruction is. The full size law is
 max obstruction = min(2W − 1, 2k − 3 − 2·deg(g_rest)), and the 3, 5, 7, 9 size distribution is the
 layering by d. (Verified bit-exact:
-[`_f87_beyond_x1_scout.py`](../../simulations/_f87_beyond_x1_scout.py) for the unique-prime fact,
-[`_f87_size_second_layer.py`](../../simulations/_f87_size_second_layer.py) for the layered cap.)
+[`f87_beyond_x1_scout.py`](../../simulations/f87_beyond_x1_scout.py) for the unique-prime fact,
+[`f87_size_second_layer.py`](../../simulations/f87_size_second_layer.py) for the layered cap.)
 
 The same degree d organises the hard COUNT, not only the size cap. Splitting the A203241 hard
 mask-pairs of §7.8 by d = deg(g_rest),
@@ -757,7 +757,7 @@ B(k) = 4B(k−1) + 2(k−2), B(3) = 2), and the deepest layer d = k − 3 holds 
 B(k) + Σ_{d≥1} 2^{d-1}B(k − d) = (4^{k-1} − 3·2^{k-1} + 2)/3 = A203241, the §7.8 total. So the
 shared non-(1 + x) factor degree sets both the obstruction-size cap (2k − 3 − 2d) and the population of
 each layer in closed form: the layering is total. Verified k = 3 … 8
-([`_f87_dlayer_count.py`](../../simulations/_f87_dlayer_count.py)).
+([`f87_dlayer_count.py`](../../simulations/f87_dlayer_count.py)).
 
 ### 7.10 Does the factorization reach the physics? Mostly no (2026-06-05)
 
@@ -789,14 +789,14 @@ carries MORE conserved sectors than 2^{N-r}. The sector count is therefore lette
 exceeds 2^{N-r} for soft and partial-support pairs; the apparent dim ker L = 2^{N-r} held only for the
 hard pairs first checked. So the rank is not a clean mask → spectrum bridge, and the (1 + x)-valuation is
 the only one. (The retracted claim lived in
-[`_f87_rank_reaches_spectrum.py`](../../simulations/_f87_rank_reaches_spectrum.py);
-[`_f87_rank_footprint.py`](../../simulations/_f87_rank_footprint.py) shows the breakdown.)
+[`f87_rank_reaches_spectrum.py`](../../simulations/f87_rank_reaches_spectrum.py);
+[`f87_rank_footprint.py`](../../simulations/f87_rank_footprint.py) shows the breakdown.)
 
 So §7.8's "a simpler front door, not a smaller house" extends one floor down: neither the size nor the
 rank is in the house. The factorization beyond (1 + x) is a clean combinatorial theory of the obstruction,
 its size cap and population (§7.9), with no clean spectral shadow; the physics reads only whether the
 palindrome breaks. (Verified:
-[`_f87_rank_footprint.py`](../../simulations/_f87_rank_footprint.py) for the letter-dependent sector count
+[`f87_rank_footprint.py`](../../simulations/f87_rank_footprint.py) for the letter-dependent sector count
 and the size ⊥ rank null; the break-magnitude controls were the Opus spectral sweep across k = 3, 4, 5.)
 
 ### 7.11 The algebra/geometry reading, refined (2026-06-05)
@@ -849,7 +849,7 @@ on the triangle despite a non-bipartite basis-state graph.) So the Door 2 mask/s
 chain-scalable PROXY for this true criterion; the basis-state criterion itself is the 2^N graph, not
 Liouvillian-free, though for structured terms it can reduce to a scalable statement (a pure pairing is
 soft at any N, any topology, by the excitation number). Verified:
-[`_f87_door2a_basis_graph.py`](../../simulations/_f87_door2a_basis_graph.py).
+[`f87_door2a_basis_graph.py`](../../simulations/f87_door2a_basis_graph.py).
 
 **The structured colourings, and their ceiling.** A scalable soft-certifier realises the basis-state
 criterion through STRUCTURED 2-colourings c(s) it can check per-term without the 2^N graph. Three are
@@ -888,8 +888,8 @@ IXI+IIY+YII and IYI+IIX+XII, are also LOCAL, by the single-site transverse-field
 experiments/CEILING_FOUR_NONLOCAL_CASES.md. Mixing excitation gradings breaks the structure outright: a pairing (Δn = ±2) plus an odd
 flip (Δn = ±1) gives the edge-difference set {1, 2}, whose ℤ-Cayley graph is non-bipartite, so the
 excitation colourings fail and the Hamiltonian can be hard. (Verified:
-[`_f87_door2_colouring_family.py`](../../simulations/_f87_door2_colouring_family.py) and, for (a)'s
-ANF-degree, [`_f87_door2_residual_structure.py`](../../simulations/_f87_door2_residual_structure.py); the
+[`f87_door2_colouring_family.py`](../../simulations/f87_door2_colouring_family.py) and, for (a)'s
+ANF-degree, [`f87_door2_residual_structure.py`](../../simulations/f87_door2_residual_structure.py); the
 former (b) colouring-ceiling XX + XZ is now certified by the routing strategy, and the 2 Z-middle
 cases (XZX+XZY+YZX, YZY+XZY+YZX) are pinned in C# by
 `PalindromeSoftCertifierCeilingTests` against the `PauliPairTrichotomy` authority; their NotCertified

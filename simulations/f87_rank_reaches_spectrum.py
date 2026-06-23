@@ -3,7 +3,7 @@
 for the HARD pairs tested here; for SOFT / partial-support pairs dim(ker L) exceeds 2^(N-r), and the
 actual conserved-sector count is letter-dependent (XX+YY cancels the |00>-|11> channel, so the real
 hopping graph is sparser than the mask). The mask-span rank is NOT a clean spectral fingerprint. See
-simulations/_f87_rank_footprint.py for the breakdown and PROOF_F103 §7.10 retraction. The size-perp-rank
+simulations/f87_rank_footprint.py for the breakdown and PROOF_F103 §7.10 retraction. The size-perp-rank
 NULL (part 3) still stands. Kept for the honest record.
 
 Door 3 deep: verify the agent's result -- the mask SPAN-RANK reaches the spectrum, the size does not.

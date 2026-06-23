@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Door 3 finding: the obstruction size has a SECOND valuation layer (2026-06-05).
 
-(1+x) is the unique hardness prime (verified in _f87_beyond_x1_scout.py: no other irreducible governs
+(1+x) is the unique hardness prime (verified in f87_beyond_x1_scout.py: no other irreducible governs
 hard/soft). But the OTHER shared factors are not inert. Writing g = gcd(p1,p2) = (1+x)^m · g_rest with
 g_rest coprime to (1+x) (the shared "other-frequency" content), the obstruction size obeys a refined
 body bound:

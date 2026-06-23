@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """F115: the Delta-bucket COUNT closed form (proven) + the saturated per-(Delta, size) distribution
-(the open MacWilliams kernel). Builds on _f87_oddweight_filtration.py (2026-06-08).
+(the open MacWilliams kernel). Builds on f87_oddweight_filtration.py (2026-06-08).
 
 A d=0 hard pair = {p1,p2} with gcd=(1+x)^m (pure power); reduced generators a=p2/g, b=p1/g are coprime
 with {v(a),v(b)}={0,Delta}, Delta=|v(p1)-v(p2)| the (1+x)-valuation gap (distance from the mirror x=1).
