@@ -10,7 +10,7 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 
 /// <summary>F108 Part 1 closure tests: Π_5bilinear · L · Π_5bilinear⁻¹ = −L − 2σI
 /// bit-exactly for every Π²-even non-truly Hamiltonian + Z-dephasing. Mirrors the
-/// numerical scan in <c>simulations/_f108_part1_pi_family_scan.py</c>.</summary>
+/// numerical scan in <c>simulations/f108_part1_pi_family_scan.py</c>.</summary>
 public class F108Part1Pi2EvenAlwaysPalindromicTests
 {
     private static F108Part1Pi2EvenAlwaysPalindromic Make() =>
@@ -209,7 +209,7 @@ public class F108Part1Pi2EvenAlwaysPalindromicTests
     public void AllNinePi2EvenNonTrulyPairs_ResidualIsZero_AtN(int N)
     {
         // Mirrors the 9-pair Phase 2 enumeration in
-        // simulations/_f108_part1_pi_family_scan.py. Each pair must have
+        // simulations/f108_part1_pi_family_scan.py. Each pair must have
         // operator-level residual = 0 under Π_5bilinear.
         var pairs = EnumeratePurePi2EvenNonTrulyPairs();
         Assert.Equal(9, pairs.Count); // Sanity: exactly 9 pairs per Phase 1 of the scan.

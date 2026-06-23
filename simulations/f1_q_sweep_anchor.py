@@ -1,6 +1,6 @@
 """Q-sweep over canonical anchors {0.5, 1.0, 1.5, √3, 2.0, 2.5} at γ₀=0.05.
 
-Extends `_f1_q_split_anchor.py` (which only ran Q ∈ {1.5, 2.0}) across the six
+Extends `f1_q_split_anchor.py` (which only ran Q ∈ {1.5, 2.0}) across the six
 table-anchored Q values from `docs/Q_REGIME_ANCHORS.md`:
 
   Q = 0.5  (sub-balance, J/γ < 1)
@@ -42,7 +42,7 @@ if sys.platform == "win32":
 
 sys.path.insert(0, "simulations")
 
-from _f1_topology_heisenberg_small_n_anchor import (  # noqa: E402
+from f1_topology_heisenberg_small_n_anchor import (  # noqa: E402
     chain_bonds,
     ring_bonds,
     run,

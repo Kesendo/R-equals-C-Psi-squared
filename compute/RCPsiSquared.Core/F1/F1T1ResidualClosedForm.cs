@@ -24,7 +24,7 @@ namespace RCPsiSquared.Core.F1;
 /// </list></para>
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md</c> (Steps 1-5).
-/// Verification: <c>simulations/_f1_t1_residual_verify.py</c> (six sections,
+/// Verification: <c>simulations/f1_t1_residual_verify.py</c> (six sections,
 /// bit-exact match to machine precision N = 2..5 across uniform and non-uniform γ_T1).</para>
 /// </summary>
 public sealed class F1T1ResidualClosedForm : Claim
@@ -95,7 +95,7 @@ public sealed class F1T1ResidualClosedForm : Claim
             yield return new InspectableNode("orthogonality",
                 summary: "T1 block Frobenius-orthogonal to H and Z blocks; cross-terms vanish identically");
             yield return new InspectableNode("verification",
-                summary: "bit-exact at N = 2..5, uniform and non-uniform γ_T1 (simulations/_f1_t1_residual_verify.py)");
+                summary: "bit-exact at N = 2..5, uniform and non-uniform γ_T1 (simulations/f1_t1_residual_verify.py)");
         }
     }
 }

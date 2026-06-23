@@ -44,7 +44,7 @@ public class BandEdgeResolutionLimitClaimTests
     public void Anchor_CitesVerifierAndWitness()
     {
         var anchor = Build().Anchor;
-        Assert.Contains("_f124_inverse_problem_gate.py", anchor);
+        Assert.Contains("f124_inverse_problem_gate.py", anchor);
         Assert.Contains("BandEdgeResolutionLimitWitness.cs", anchor);
     }
 

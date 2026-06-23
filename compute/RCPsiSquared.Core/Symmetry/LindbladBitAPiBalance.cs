@@ -186,7 +186,7 @@ public sealed class LindbladBitAPiBalance : Claim, IZ2AxisClaim
                "docs/proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md + " +
                "docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md + " +
                "compute/RCPsiSquared.Diagnostics/Polarity/PolarityCoordinates.cs + " +
-               "simulations/_f112_klein_v4_cross_dephase_verify.py")
+               "simulations/f112_klein_v4_cross_dephase_verify.py")
     {
         Part2 = part2 ?? throw new ArgumentNullException(nameof(part2));
     }
@@ -227,7 +227,7 @@ public sealed class LindbladBitAPiBalance : Claim, IZ2AxisClaim
                          "with bit_a-homogeneous c). The three Claims together close F112 across all dephase " +
                          "letters {Z, Y, X} and both Z₂-grading axes {bit_b, bit_a}.");
             yield return new InspectableNode("Empirical verification",
-                summary: "Welle 13 verifier simulations/_f112_klein_v4_cross_dephase_verify.py confirms F112-X " +
+                summary: "Welle 13 verifier simulations/f112_klein_v4_cross_dephase_verify.py confirms F112-X " +
                          "bit-exact at N = 2, 3: max|asymmetry| = 0.0 for Hermitian H + bit_a-homogeneous c " +
                          "and for non-Hermitian H + bit_a-homogeneous c (direct axis re-run); max|asymmetry| = " +
                          "3.6e-15 at N=2, 1.9e-30 at N=3 for the Hadamard-transport check (Z-config rotated → " +

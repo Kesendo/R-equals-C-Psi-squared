@@ -8,7 +8,7 @@ top-ranked path Q4-Q5-Q6:
   CZ err:  0.63% (4-5) / 0.29% (5-6)
 
 Compares Aer measured ⟨P_q0 ⊗ I_q1 ⊗ P_q2⟩ to closed-form Trotter prediction
-from _f83_signature_predictions.py. If Aer + calibration noise reproduces
+from f83_signature_predictions.py. If Aer + calibration noise reproduces
 Trotter within ~0.05 across discriminating observables, the F83 hardware
 test on [4,5,6] is green-light.
 """
@@ -175,7 +175,7 @@ def measure_pauli_q0_q2(N, prep, ham_op, t, n_trot, sim, n_shots):
 
 
 def trotter_prediction(N, terms, t, n_trot, gamma_z=0.1):
-    """Closed-form Trotter+Lindblad reference (from _f83_signature_predictions)."""
+    """Closed-form Trotter+Lindblad reference (from f83_signature_predictions)."""
     from scipy.linalg import expm
     from framework.lindblad import lindbladian_z_dephasing
     from framework.pauli import _build_bilinear, site_op

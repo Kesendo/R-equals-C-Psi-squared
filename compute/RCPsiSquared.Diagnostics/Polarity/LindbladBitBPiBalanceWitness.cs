@@ -25,7 +25,7 @@ namespace RCPsiSquared.Diagnostics.Polarity;
 /// idle / XY-bond / Heisenberg-style Hermitian H still balances bit-exact). Witnesses with
 /// <c>ExpectedVerdict = "BROKEN"</c> are structural counterexamples that fall outside both
 /// (witness 5: Z-drive Hermitian H combined with σ⁻ T1, the configuration discovered
-/// Welle 2 in <c>simulations/_f112_hardware_lens_multi.py</c>).</para>
+/// Welle 2 in <c>simulations/f112_hardware_lens_multi.py</c>).</para>
 ///
 /// <para>Anchor: <c>docs/ANALYTICAL_FORMULAS.md</c> F112 +
 /// <c>docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md</c> +
@@ -57,7 +57,7 @@ public sealed class LindbladBitBPiBalanceWitness : Claim
 
     /// <summary>Relative-asymmetry threshold below which the witness reads as
     /// <c>"BALANCED"</c>. Computed as |asymmetry| / max(‖M‖², 1e-15) per
-    /// <c>_f112_hardware_lens_multi.py</c>. Default 1e-10 matches the bit-exact balance
+    /// <c>f112_hardware_lens_multi.py</c>. Default 1e-10 matches the bit-exact balance
     /// scale of F112's typed scope.</summary>
     public double Tolerance { get; }
 
@@ -103,7 +103,7 @@ public sealed class LindbladBitBPiBalanceWitness : Claim
                "compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs + " +
                "compute/RCPsiSquared.Diagnostics/Polarity/PolarityCoordinates.cs + " +
                "experiments/F112_HARDWARE_LENS_KINGSTON.md + " +
-               "simulations/_f112_hardware_lens_multi.py")
+               "simulations/f112_hardware_lens_multi.py")
     {
         if (string.IsNullOrWhiteSpace(witnessName))
             throw new ArgumentException("witnessName must be non-empty", nameof(witnessName));
@@ -213,7 +213,7 @@ public sealed class LindbladBitBPiBalanceWitness : Claim
     ///   <item><b>Zdrive_with_T1_envelope_BROKEN</b>: H = ω·(Z₀+Z₁)/2 single-site Z-drive
     ///         (ω = 0.13) + σ⁻ T1 (γ_T1 = 0.001). The structural counterexample discovered
     ///         Welle 2, 2026-05-26, via the f95_angle_steering Tier-A dataset (Kingston,
-    ///         2026-05-16). Synthetic isolation in <c>_f112_hardware_lens_multi.py</c>
+    ///         2026-05-16). Synthetic isolation in <c>f112_hardware_lens_multi.py</c>
     ///         confirms rel asym ≈ 3.85e-3 bit-exact. Expected BROKEN.</item>
     /// </list>
     /// All five use <see cref="Tolerance"/> = 1e-10 to keep the BALANCED/BROKEN cut at

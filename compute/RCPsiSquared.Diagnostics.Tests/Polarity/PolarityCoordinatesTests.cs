@@ -157,7 +157,7 @@ public class PolarityCoordinatesTests
         // ω = 0.13, γ_T1 = 0.001 yields measurable F112 asymmetry. This is the witness
         // 5 of LindbladBitBPiBalanceWitness.StandardSet (synthetic isolation matching
         // the f95_angle_steering Tier-A dataset fits in
-        // simulations/_f112_hardware_lens_multi.py).
+        // simulations/f112_hardware_lens_multi.py).
         var chain = new ChainSystem(N: 2, J: 1.0, GammaZero: 0.005,
             HType: HamiltonianType.XY, Topology: TopologyKind.Chain);
         const double omega = 0.13;

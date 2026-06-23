@@ -28,7 +28,7 @@ namespace RCPsiSquared.Core.F1;
 /// 6144 at N = 5; each step multiplies by 4 (one additional spectator contributes <c>tr(I_4) = 4</c>
 /// to the Frobenius-norm tensor calculation). Intrinsic local 2-qubit norms are 96 / 32 / 64 / 64
 /// for Heisenberg / Ising / XY / XY+YX respectively. Matches <c>_bond_LH_norm_sq</c> in
-/// <c>simulations/_f49_nonuniform_gamma_crossterm_verify.py</c>; the Predict methods are linear in
+/// <c>simulations/f49_nonuniform_gamma_crossterm_verify.py</c>; the Predict methods are linear in
 /// <c>bondNormSquared</c>, so any consistent convention works as long as caller and theorem agree.</para>
 ///
 /// <para>Uniform γ_l ≡ γ recovers F49's <c>4γ²·(N−2)·‖L_H‖²_F</c>
@@ -37,7 +37,7 @@ namespace RCPsiSquared.Core.F1;
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F49_NONUNIFORM_GAMMA_EXTENSION.md</c> (Steps 1-6).
 /// Closes the "Open follow-ups" item of <c>docs/proofs/PROOF_F1_NONUNIFORM_GAMMA.md</c>.
-/// Verification: <c>simulations/_f49_nonuniform_gamma_crossterm_verify.py</c> (Phase 1
+/// Verification: <c>simulations/f49_nonuniform_gamma_crossterm_verify.py</c> (Phase 1
 /// exploratory at commit <c>1c6701c</c>, Phase 2 assertion block; bit-exact at N = 3, 4, 5
 /// across 4 H-classes).</para>
 /// </summary>
@@ -217,14 +217,14 @@ public sealed class F49NonUniformCrossTermClaim : Claim
                          "(spectator I-tensors included). For Heisenberg J=1: 384 at N=3, 1536 at N=4, 6144 at N=5; " +
                          "Ising J=1: 128 / 512 / 2048; XY J=1: 256 / 1024 / 4096; XY+YX J=1: 256 / 1024 / 4096. " +
                          "Predict methods are linear in bondNormSquared; matches the convention of " +
-                         "simulations/_f49_nonuniform_gamma_crossterm_verify.py (Phase 1 verification anchor)");
+                         "simulations/f49_nonuniform_gamma_crossterm_verify.py (Phase 1 verification anchor)");
             yield return new InspectableNode("uniform-γ recovery",
                 summary: "γ_l ≡ γ ⟹ bond-asymmetry vanishes (γ_i − γ_j = 0), spectator part collapses to " +
                          "4γ²·(N−2)·Σ_b ‖L_H^bond‖² = 4γ²·(N−2)·‖L_H‖² (disjoint-bond-supports lemma); " +
                          "this is the F49 uniform-γ identity PROOF_CROSS_TERM_FORMULA");
             yield return new InspectableNode("verification",
                 summary: "bit-exact at N = 3, 4, 5 across Heisenberg / Ising / XY / soft XY+YX " +
-                         "(simulations/_f49_nonuniform_gamma_crossterm_verify.py, Phase 1 commit 1c6701c + Phase 2 assertions)");
+                         "(simulations/f49_nonuniform_gamma_crossterm_verify.py, Phase 1 commit 1c6701c + Phase 2 assertions)");
             yield return new InspectableNode("closes follow-up",
                 summary: "the 'Open follow-ups' item in PROOF_F1_NONUNIFORM_GAMMA.md (the F49 non-uniform γ gap " +
                          "at N=3 Heisenberg γ=[0.1, 0.2, 0.3]) is closed by this proof + typed claim");

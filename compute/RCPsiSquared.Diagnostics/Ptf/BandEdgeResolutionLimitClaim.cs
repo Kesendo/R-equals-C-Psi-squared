@@ -27,7 +27,7 @@ namespace RCPsiSquared.Diagnostics.Ptf;
 /// channel), and optics (the modulation transfer function whose q=π detail transfers with vanishing contrast at
 /// the cutoff). The instant recognition by these distant disciplines is the confirmation that F124 is a real
 /// node of the one object. The borrowed signal/control tool handed us the detection-SNR method the native frame
-/// view never ran (verified: simulations/_f124_inverse_problem_gate.py, matched-filter Monte-Carlo to 4 digits).</para>
+/// view never ran (verified: simulations/f124_inverse_problem_gate.py, matched-filter Monte-Carlo to 4 digits).</para>
 ///
 /// <para><b>Scope guard.</b> This is the FINITE conditioning of the FULL transition matrix (the resolution
 /// limit). It is NOT the DefectDecoder's 1.5 sign-location ambiguity, which is a separate α-time-rescaling
@@ -37,7 +37,7 @@ namespace RCPsiSquared.Diagnostics.Ptf;
 ///
 /// <para>Tier1Derived; single typed parent <see cref="BandEdgeTransitionInvariantClaim"/> (F124, Tier1Derived):
 /// every quantity here is a direct corollary of F124's M (σ_min²=λ_min=E, σ_max²=λ_max, κ, the staggered λ_min
-/// eigenvector). Anchor: <c>simulations/_f124_inverse_problem_gate.py</c> (the gate-first Stage 0 verifier) +
+/// eigenvector). Anchor: <c>simulations/f124_inverse_problem_gate.py</c> (the gate-first Stage 0 verifier) +
 /// <c>docs/ANALYTICAL_FORMULAS.md</c> F124. Live witness: <c>inspect --root resolution</c>
 /// (<c>compute/RCPsiSquared.Diagnostics/Foundation/BandEdgeResolutionLimitWitness.cs</c>).</para></summary>
 public sealed class BandEdgeResolutionLimitClaim : Claim
@@ -69,7 +69,7 @@ public sealed class BandEdgeResolutionLimitClaim : Claim
                "(signal/control) and the MTF cutoff (optics). NOT the DefectDecoder's 1.5 α-parametrization " +
                "ambiguity (a separate, gate-refuted matter).",
                Tier.Tier1Derived,
-               "simulations/_f124_inverse_problem_gate.py (the gate-first Stage 0 verifier, matched-filter " +
+               "simulations/f124_inverse_problem_gate.py (the gate-first Stage 0 verifier, matched-filter " +
                "Monte-Carlo confirmed) + docs/ANALYTICAL_FORMULAS.md F124 + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/BandEdgeResolutionLimitWitness.cs (the live witness, inspect --root resolution)")
     {

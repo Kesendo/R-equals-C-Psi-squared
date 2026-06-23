@@ -37,7 +37,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// non-truly pairs (single-bilinear XY/YX plus 7 two-term combinations) at N=3, 4, 5,
 /// plus random non-uniform-J instances. Pure dissipator D[X]^⊗N also bit-exact at
 /// N=3, 4, 5. Reproduction:
-/// <c>simulations/_f108_part2_x_dephasing_scan.py</c>.</para>
+/// <c>simulations/f108_part2_x_dephasing_scan.py</c>.</para>
 ///
 /// <para>IZ2AxisClaim with <see cref="Z2Axis.BitA"/>; BitB twin is
 /// <see cref="F108Part1Pi2EvenAlwaysPalindromic"/>, which holds the typed BitATwin

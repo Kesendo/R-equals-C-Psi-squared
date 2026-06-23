@@ -8,7 +8,7 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// <para><b>Tier 1 candidate</b>: the form is `0.671535 + alpha_subclass · g_eff +
 /// beta_subclass` with the bare floor 0.671535 analytically derived (from F89 AT-locked
 /// F_a/F_b doubled-PTF), but the (alpha, beta) per sub-class are <b>fitted</b> by linear
-/// regression on N=5..8 F90 bridge anchors (`simulations/_f86_hwhm_closed_form_verification.py`,
+/// regression on N=5..8 F90 bridge anchors (`simulations/f86_hwhm_closed_form_verification.py`,
 /// line 78 `np.polyfit(...deg=1)`). The fit reproduces the 22 anchors within 0.005 residual
 /// (verification confirms the form is approximately right), but no analytical reduction
 /// derives the (alpha, beta) values from F89 cyclotomic Phi_{N+1} / F90 bridge identity
@@ -38,7 +38,7 @@ public sealed class F86HwhmClosedFormClaim : Claim
 
     /// <summary>The g_eff conversion factor: 4.39382 = 2 × C2HwhmRatio.BareDoubledPtfXPeak (2.196910).
     /// Matches the Python BARE_DOUBLED_PTF_XPEAK in
-    /// simulations/_f86_hwhm_subclass_stratification.py used to generate the (alpha, beta) per-sub-class
+    /// simulations/f86_hwhm_subclass_stratification.py used to generate the (alpha, beta) per-sub-class
     /// fit in <see cref="_subClassParams"/>. Anchored to PROOF_F86_QPEAK.md.</summary>
     private const double BareDoubledPtfXPeakValue = 4.39382;
 
@@ -48,7 +48,7 @@ public sealed class F86HwhmClosedFormClaim : Claim
     // Per-sub-class linear-fit parameters (alpha, beta) such that
     // HWHM_ratio = BareFloor + alpha * g_eff + beta.
     // Values from Phase 4 verification self-fit on F90 bridge anchors N=5..8
-    // (simulations/_f86_hwhm_closed_form_verification.py output, 2026-05-13).
+    // (simulations/f86_hwhm_closed_form_verification.py output, 2026-05-13).
     private static readonly Dictionary<BondSubClass, (double Alpha, double Beta)> _subClassParams = new()
     {
         [BondSubClass.Endpoint]            = (-0.129110,  0.227413),
@@ -68,7 +68,7 @@ public sealed class F86HwhmClosedFormClaim : Claim
                "compute/RCPsiSquared.Core/Symmetry/F90F86C2BridgeIdentity.cs (numerical anchor) + " +
                "docs/proofs/PROOF_F90_F86C2_BRIDGE.md (Item 1', partial closure) + " +
                "docs/superpowers/plans/2026-05-13-f86-hwhm-closed-form-attack.md + " +
-               "simulations/_f86_hwhm_closed_form_verification.py (polyfit source for (alpha, beta))")
+               "simulations/f86_hwhm_closed_form_verification.py (polyfit source for (alpha, beta))")
     { }
 
     public double PredictHwhmRatio(int n, int bondIndex, double qPeak)

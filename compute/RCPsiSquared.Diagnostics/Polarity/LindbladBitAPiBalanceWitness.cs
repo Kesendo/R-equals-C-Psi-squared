@@ -106,7 +106,7 @@ public sealed class LindbladBitAPiBalanceWitness : Claim
                "docs/proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md + " +
                "compute/RCPsiSquared.Core/Symmetry/LindbladBitAPiBalance.cs + " +
                "compute/RCPsiSquared.Diagnostics/Polarity/PolarityCoordinates.cs + " +
-               "simulations/_f112_klein_v4_cross_dephase_verify.py")
+               "simulations/f112_klein_v4_cross_dephase_verify.py")
     {
         if (string.IsNullOrWhiteSpace(witnessName))
             throw new ArgumentException("witnessName must be non-empty", nameof(witnessName));

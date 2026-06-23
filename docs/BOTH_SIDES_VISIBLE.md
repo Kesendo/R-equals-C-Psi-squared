@@ -606,7 +606,7 @@ framework is the same; the cockpit caught up; the hardware answered.
   [_marrakesh_kingston_fez_compare.py](../simulations/_marrakesh_kingston_fez_compare.py)
 - May 5 hardware run (Kingston [43, 56, 63] uniform-quantum F87 trichotomy):
   [soft_break_ibm_kingston_20260505_102806.json](../data/ibm_soft_break_april2026/soft_break_ibm_kingston_20260505_102806.json),
-  [_f88b_lens_ibm_kingston_uniform_quantum.py](../simulations/_f88b_lens_ibm_kingston_uniform_quantum.py)
+  [f88b_lens_ibm_kingston_uniform_quantum.py](../simulations/f88b_lens_ibm_kingston_uniform_quantum.py)
 - Path-biography review scripts:
   [_qubit_biography.py](../simulations/_qubit_biography.py),
   [_marrakesh_quarter_boundary_review.py](../simulations/_marrakesh_quarter_boundary_review.py),

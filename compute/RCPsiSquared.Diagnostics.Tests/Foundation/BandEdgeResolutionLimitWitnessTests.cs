@@ -5,7 +5,7 @@ using Xunit;
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
-/// <summary>Gate-first (the C# twin of simulations/_f124_inverse_problem_gate.py Stage 0): F124's bond-to-mode
+/// <summary>Gate-first (the C# twin of simulations/f124_inverse_problem_gate.py Stage 0): F124's bond-to-mode
 /// map M, read as a bond-recovery inverse problem, has a defect-localization resolution limit. σ_min²=E is the
 /// reconstruction floor; κ=λ_max/λ_min ~ N²; the contrast σ_max/σ_min=√κ ~ N; the worst-conditioned bond
 /// direction is the staggered q=π mode; the floor E·(N+1)³ → 4π².</summary>

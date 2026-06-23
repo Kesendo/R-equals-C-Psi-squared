@@ -3,7 +3,7 @@
 **Status:** Tier 1 derived for N=2, 3, 4 via constructive parameter sweep. Closed-form formula for the polarity-asymmetry break magnitude when F112's typed scope is violated by the canonical Z-drive × amplitude-damping interference.
 **Date:** 2026-05-26
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Script:** [`simulations/_f113_break_formula_derivation.py`](../simulations/_f113_break_formula_derivation.py)
+**Script:** [`simulations/f113_break_formula_derivation.py`](../simulations/f113_break_formula_derivation.py)
 **Builds on:** F112 ([PROOF_F112](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md), [LindbladBitBPiBalance](../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs)) + the structural counterexample discovered in Welle 2 ([F112_HARDWARE_LENS_KINGSTON.md](F112_HARDWARE_LENS_KINGSTON.md))
 
 ## Theorem (F113)
@@ -23,7 +23,7 @@ Bit-exactly. Verified at N=2, 3, 4 across multiple parameter samples (relative d
 
 ## Empirical anchor (constructive verification)
 
-`simulations/_f113_break_formula_derivation.py` runs three classes of test:
+`simulations/f113_break_formula_derivation.py` runs three classes of test:
 
 **1. Univariate scaling (each parameter independently):**
 
@@ -114,7 +114,7 @@ Verified numerically at N = 5 (524k+ Pauli-string pairs would be needed for full
 ## Reproduction
 
 ```
-python -X utf8 simulations/_f113_break_formula_derivation.py
+python -X utf8 simulations/f113_break_formula_derivation.py
 ```
 
 Runs in under 30 seconds; produces the multivariate fit + N-scaling + per-site / cross-site / variant tests inline.

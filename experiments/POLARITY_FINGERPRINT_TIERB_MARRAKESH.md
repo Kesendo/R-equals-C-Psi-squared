@@ -18,7 +18,7 @@ Tier-B Marrakesh/Kingston datasets are single-time-snapshot 2-qubit tomography (
 | f83_signature | 2026-04-30 / ibm_marrakesh | [4, 5, 6] | truly_unbroken, pi2_odd_pure, pi2_even_nontruly, mixed_anti_one_sixth |
 | soft_break Kingston | 2026-05-05 / ibm_kingston | [43, 56, 63] | (same 4 categories as f83) |
 
-Term mappings (from `simulations/framework/tests/workflows/test_diagnose_hardware.py` F83_TERMS_PER_CATEGORY and `simulations/_f80_ibm_soft_break_check.py` soft_break_marrakesh:80-82):
+Term mappings (from `simulations/framework/tests/workflows/test_diagnose_hardware.py` F83_TERMS_PER_CATEGORY and `simulations/f80_ibm_soft_break_check.py` soft_break_marrakesh:80-82):
 
 | Category | Terms | bit_b values |
 |---|---|---|

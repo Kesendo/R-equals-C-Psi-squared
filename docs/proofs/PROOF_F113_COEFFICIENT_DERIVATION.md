@@ -3,7 +3,7 @@
 **Status:** Tier 1 derived for general N (Hermitian H + single-site Z-drive + σ⁻/σ⁺ T1 family).
 **Date:** 2026-05-26
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Script:** [`simulations/_f113_coefficient_proof.py`](../../simulations/_f113_coefficient_proof.py)
+**Script:** [`simulations/f113_coefficient_proof.py`](../../simulations/f113_coefficient_proof.py)
 **Builds on:** F112 ([PROOF_F112](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md)), F113 empirical anchor ([F113_BREAK_MAGNITUDE_FORMULA.md](../../experiments/F113_BREAK_MAGNITUDE_FORMULA.md))
 
 ## Abstract
@@ -130,7 +130,7 @@ For λ = +i, this gives (sympy):
                        ⎢ γ/2  0  0  0 ⎥
                        ⎣ 0  γ/2  0  0 ⎦
 
-(see `simulations/_f113_coefficient_proof.py` for the sympy derivation).
+(see `simulations/f113_coefficient_proof.py` for the sympy derivation).
 
 ### Step 3: Inner product at N = 1
 
@@ -341,7 +341,7 @@ The cross-term reduction `asymmetry = 4·Re⟨L_H,+i, L_T1,+i⟩` is now establi
 - Per-site additivity and tensor structure from Steps 4-6 of the main computation;
 - The single algebraic fact L_H[I, Z] = 0 (i.e. [Z, σ_Z] = 0) at single site.
 
-Verified at N = 1, 2, 3, 4, 5 bit-exact via `simulations/_f113_lemma_c_step5_closure.py`.
+Verified at N = 1, 2, 3, 4, 5 bit-exact via `simulations/f113_lemma_c_step5_closure.py`.
 
 ## Status
 
@@ -380,7 +380,7 @@ No bit-exact numerical anchor is required for the general-N statement.
 
 ## Verification
 
-`simulations/_f113_coefficient_proof.py` performs:
+`simulations/f113_coefficient_proof.py` performs:
 
 1. Symbolic derivation at N = 1 via sympy (explicit L_H,1, L_T1,1 matrices in Pauli basis; explicit Π +i projection; explicit inner product = -ωγ/2).
 2. Numerical verification of the tensor factorization at N = 2, 3, 4 (single-site superoperators embed as I_4 ⊗ ... ⊗ A ⊗ ... ⊗ I_4; (L_X,l)_{+i} = I_4 ⊗ ... ⊗ (L_X,1)_{+i} ⊗ ... ⊗ I_4).

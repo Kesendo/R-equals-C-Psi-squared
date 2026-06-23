@@ -93,7 +93,7 @@ D is exactly odd in γ_anti at fixed γ_sym, to all orders. ∎
 
 ## Empirical witness
 
-Witness script: [`simulations/_f71_nonuniform_gamma_verification.py`](../../simulations/_f71_nonuniform_gamma_verification.py). c₁ is extracted via the α-rescaling pipeline on per-site purity: a single-bond probe δJ is applied (J held uniform), the per-site purity trajectories of perturbed and unperturbed chains are matched by P_B(i, t) ≈ P_A(i, α_i·t), and c₁ is the symmetric-difference first-order coefficient of Σ_i ln(α_i). Probe states are ψ_1+vac and ψ_2+vac, the PROOF_C1-validated reflection-symmetric states (ψ_1 nodeless, ψ_2 the first excited OBC sine mode).
+Witness script: [`simulations/f71_nonuniform_gamma_verification.py`](../../simulations/f71_nonuniform_gamma_verification.py). c₁ is extracted via the α-rescaling pipeline on per-site purity: a single-bond probe δJ is applied (J held uniform), the per-site purity trajectories of perturbed and unperturbed chains are matched by P_B(i, t) ≈ P_A(i, α_i·t), and c₁ is the symmetric-difference first-order coefficient of Σ_i ln(α_i). Probe states are ψ_1+vac and ψ_2+vac, the PROOF_C1-validated reflection-symmetric states (ψ_1 nodeless, ψ_2 the first excited OBC sine mode).
 
 The chain XY + Z-dephasing Liouvillian is exactly block-diagonal in the (bra-excitation, ket-excitation) bigrading, and the probe states ψ_k+vac live in the (popcount ≤ 1) × (popcount ≤ 1) operator block of dimension (N+1)². The witness propagates inside that exact (N+1)²-dim sector restriction. A Gate-1 self-test first verifies that the sector-restricted Liouvillian is **bit-identical** to the full 4^N per-site-γ Liouvillian sliced to the block: all four cases (N = 3, 4, uniform and non-uniform γ) returned max|L_sub − sliced full L| = 0.00e+00.
 
@@ -156,6 +156,6 @@ This is the γ-axis instance of the spectrum/observable twin pairing that F100 a
 - Source proof for the uniform-γ base case: [PROOF_C1_MIRROR_SYMMETRY](PROOF_C1_MIRROR_SYMMETRY.md).
 - Spectrum-side twin (γ-axis): [PROOF_F91_GAMMA_NINETY_DEGREES](PROOF_F91_GAMMA_NINETY_DEGREES.md).
 - J-side observable twin: [PROOF_F100_C1_QPEAK_MIRROR_J_PARITY](PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md).
-- Empirical witness: [`simulations/_f71_nonuniform_gamma_verification.py`](../../simulations/_f71_nonuniform_gamma_verification.py).
+- Empirical witness: [`simulations/f71_nonuniform_gamma_verification.py`](../../simulations/f71_nonuniform_gamma_verification.py).
 - F-entry: [F101 in ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md).
 - Inventory: [`docs/SYMMETRY_FAMILY_INVENTORY.md`](../SYMMETRY_FAMILY_INVENTORY.md).

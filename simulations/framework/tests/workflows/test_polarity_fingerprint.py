@@ -99,7 +99,7 @@ def test_polarity_fingerprint_f113_extraction_recovers_input_gamma_t1():
     #
     # Note: this test exercises the inverter independently. For a coupled
     # measurement of the inversion on a hardware-effective L, see
-    # simulations/_f113_t1_extraction_kingston.py.
+    # simulations/f113_t1_extraction_kingston.py.
     #
     # Here we mock-confirm F113 prediction matches inversion by computing
     # the predicted asymmetry from formula, then inverting:

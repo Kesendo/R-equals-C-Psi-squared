@@ -1,4 +1,4 @@
-"""_f108_bita_d_search.py - closing F108 open question (ii): the "bit_a-D" for Π_5b.
+"""f108_bita_d_search.py - closing F108 open question (ii): the "bit_a-D" for Π_5b.
 
 PROOF_F108_KLEIN_V4_EQUIVALENCE.md §(g) left open:
   "Part 2's BitA-twin status: ... Could the bit_a-axis version of D (a Z↔X swap analog)
@@ -28,7 +28,7 @@ Per-site maps from Pi5BilinearOperator.ActOnLetter, basis [I, X, Y, Z]:
 Klein-V₄ from Pi2KleinV4DephaseSwapGroup (basis [I, X, Y, Z]):
   D = diag(1,1,−1,1) (negate Y) ; H = swap(X,Z) fix(I,Y) ; Q_zx = H·D
 
-Run: python simulations/_f108_bita_d_search.py
+Run: python simulations/f108_bita_d_search.py
 """
 from __future__ import annotations
 

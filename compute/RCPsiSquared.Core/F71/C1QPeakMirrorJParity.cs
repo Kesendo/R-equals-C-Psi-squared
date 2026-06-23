@@ -40,8 +40,8 @@ namespace RCPsiSquared.Core.F71;
 ///
 /// <para>Scope: covers c₁ (closure-breaking coefficient, vac+SE) and Q_peak (F86c per-bond
 /// observable; the identical F71-conjugation argument). Both numerically witnessed with
-/// residuals ≤ 1e-9: c₁ at N=3,4,5 (<c>simulations/_f71_nonuniform_j_verification.py</c>),
-/// Q_peak at N=4,5,6 (<c>simulations/_f100_qpeak_nonuniform_j_verification.py</c>).</para>
+/// residuals ≤ 1e-9: c₁ at N=3,4,5 (<c>simulations/f71_nonuniform_j_verification.py</c>),
+/// Q_peak at N=4,5,6 (<c>simulations/f100_qpeak_nonuniform_j_verification.py</c>).</para>
 /// </summary>
 public sealed class C1QPeakMirrorJParity : Claim
 {
@@ -118,7 +118,7 @@ public sealed class C1QPeakMirrorJParity : Claim
             yield return new InspectableNode("twin of F92",
                 summary: "observable-side counterpart of F92 (diagonal-block spectrum depends only on J_sym); F92 and F100 are the two faces of the J_sym/J_anti split");
             yield return new InspectableNode("verified",
-                summary: "c₁ via the α-rescaling pipeline, ψ_1+vac / ψ_2+vac, N=3,4,5: oddness residual ≤ 1.0e-9, palindromic survival ≤ 4.0e-10 (simulations/_f71_nonuniform_j_verification.py)");
+                summary: "c₁ via the α-rescaling pipeline, ψ_1+vac / ψ_2+vac, N=3,4,5: oddness residual ≤ 1.0e-9, palindromic survival ≤ 4.0e-10 (simulations/f71_nonuniform_j_verification.py)");
         }
     }
 }

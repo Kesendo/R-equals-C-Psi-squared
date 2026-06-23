@@ -127,7 +127,7 @@ Bit-exact residual ‖Π_5bilinear · L · Π_5bilinear⁻¹ + L + 2σ · I‖_F
 | 9 asymmetric J_YZ ≠ J_ZY instances | N = 3, 4, 5 | 0 |
 | Pure D[Z]^⊗N dissipator (no Hamiltonian) | N = 3, 4, 5 | 0 |
 
-Reproduction: [`simulations/_f108_part1_pi_family_scan.py`](../../simulations/_f108_part1_pi_family_scan.py); algebraic anti-commutation check in [`simulations/_f108_part1_proof_algebra.py`](../../simulations/_f108_part1_proof_algebra.py); operator output log in `simulations/results/f108_part1_pi_family_scan.txt`.
+Reproduction: [`simulations/f108_part1_pi_family_scan.py`](../../simulations/f108_part1_pi_family_scan.py); algebraic anti-commutation check in [`simulations/f108_part1_proof_algebra.py`](../../simulations/f108_part1_proof_algebra.py); operator output log in `simulations/results/f108_part1_pi_family_scan.txt`.
 
 ## Resolution of the previously open ker(M) attempt
 

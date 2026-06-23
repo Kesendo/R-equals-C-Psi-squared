@@ -66,7 +66,7 @@ The ± shape of M's spectrum comes from H_non-truly's particle-hole pair structu
 
 Hard's |M|_max is *half* of soft's (2.83 vs 5.66) because H_hard_non-truly = 1 bilinear (XY) while H_soft_non-truly = 2 bilinears (XY+YX). The spectrum scales linearly with the number of Π²-odd bilinears.
 
-The numerical match is verified bit-exact in [`simulations/_f80_ibm_soft_break_check.py`](../simulations/_f80_ibm_soft_break_check.py) by computing M = Π·L·Π⁻¹ + L + 2Σγ·I directly from the dense Liouvillian and comparing eigenvalues. F80's prediction sees only H eigenvalues; it never builds the 4^N × 4^N matrix.
+The numerical match is verified bit-exact in [`simulations/f80_ibm_soft_break_check.py`](../simulations/f80_ibm_soft_break_check.py) by computing M = Π·L·Π⁻¹ + L + 2Σγ·I directly from the dense Liouvillian and comparing eigenvalues. F80's prediction sees only H eigenvalues; it never builds the 4^N × 4^N matrix.
 
 Layer 2 is the *strength dial*: F87 says *whether* the door is open, F80 says *how wide*.
 

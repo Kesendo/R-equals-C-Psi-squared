@@ -25,7 +25,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l)</para>
 ///
 /// <para>bit-exactly. Verified at N=2, 3, 4 via parameter sweep
-/// (<c>simulations/_f113_break_formula_derivation.py</c>); per-site decomposition,
+/// (<c>simulations/f113_break_formula_derivation.py</c>); per-site decomposition,
 /// cross-site zero, sign flip on ω → −ω and on σ⁻ ↔ σ⁺, detailed-balance
 /// cancellation (γ_T1 = γ_pump → 0), and non-uniform-rate sum-formula all confirmed
 /// bit-exact.</para>
@@ -190,9 +190,9 @@ public sealed class LindbladBitBPiBreakMagnitude : Claim, IZ2AxisClaim
                "docs/ANALYTICAL_FORMULAS.md F113 + " +
                "docs/proofs/PROOF_F113_COEFFICIENT_DERIVATION.md + " +
                "experiments/F113_BREAK_MAGNITUDE_FORMULA.md + " +
-               "simulations/_f113_break_formula_derivation.py + " +
-               "simulations/_f113_coefficient_proof.py + " +
-               "simulations/_f113_lemma_c_step5_closure.py + " +
+               "simulations/f113_break_formula_derivation.py + " +
+               "simulations/f113_coefficient_proof.py + " +
+               "simulations/f113_lemma_c_step5_closure.py + " +
                "compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs + " +
                "experiments/F112_HARDWARE_LENS_KINGSTON.md")
     {
@@ -253,7 +253,7 @@ public sealed class LindbladBitBPiBreakMagnitude : Claim, IZ2AxisClaim
                          "on tensor products; factor 1/2 from the explicit single-site N=1 " +
                          "inner product ⟨(L_H,1)_{+i}, (L_T1,1)_{+i}⟩ = −ωγ/2 (sympy derivation). " +
                          "Full proof in docs/proofs/PROOF_F113_COEFFICIENT_DERIVATION.md (8 steps + " +
-                         "3 lemmas; verification script simulations/_f113_coefficient_proof.py runs " +
+                         "3 lemmas; verification script simulations/f113_coefficient_proof.py runs " +
                          "in ~5 sec and passes all steps bit-exact at N = 1, 2, 3, 4, 5). The Lemma C " +
                          "cross-term sign relation cross_minus = −cross_plus is now fully closed " +
                          "algebraically via the two-step reduction: (C.1) the pure operator-algebra " +
@@ -262,7 +262,7 @@ public sealed class LindbladBitBPiBreakMagnitude : Claim, IZ2AxisClaim
                          "symmetric projection); (C.2) Lindblad-input vanishing Tr((L_H)_odd · " +
                          "(L_T1)_odd) = 0, reduced via per-site additivity + tensor structure to the " +
                          "single algebraic fact L_H[I, Z] = 0 ↔ [Z, σ_Z] = 0 at single site. " +
-                         "Verification script simulations/_f113_lemma_c_step5_closure.py confirms " +
+                         "Verification script simulations/f113_lemma_c_step5_closure.py confirms " +
                          "both steps bit-exact at N = 1, 2, 3, 4, 5.");
             yield return new InspectableNode("σ⁻ / σ⁺ sign convention",
                 summary: "Standard physics throughout: σ⁻ = |0⟩⟨1| = [[0, 1], [0, 0]] is the " +

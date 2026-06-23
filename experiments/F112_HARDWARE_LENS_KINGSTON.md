@@ -9,8 +9,8 @@
 - `data/ibm_chain_gamma0_april2026/...20260419_110200.json` (Kingston Q12-Q19 chain, 4 pair-runs × 9 t-points, XY+YX bond Hamiltonian via Trotter, J = 1.838 rad/μs)
 - `data/ibm_f95_angle_steering_may2026/...omega0.130_...json` and `...omega0.250_...json` (Kingston q82-q83 + q13-q14, 2 omega × 2 pairs × 6 t-points, with applied RZ Z-drive omega·Σ Z_l)
 **Scripts:**
-- [`simulations/_f112_block_cpsi_analysis.py`](../simulations/_f112_block_cpsi_analysis.py) (original single-dataset block_cpsi)
-- [`simulations/_f112_hardware_lens_multi.py`](../simulations/_f112_hardware_lens_multi.py) (multi-dataset extension, Welle 2)
+- [`simulations/f112_block_cpsi_analysis.py`](../simulations/f112_block_cpsi_analysis.py) (original single-dataset block_cpsi)
+- [`simulations/f112_hardware_lens_multi.py`](../simulations/f112_hardware_lens_multi.py) (multi-dataset extension, Welle 2)
 **Lens:** F112 polarity-asymmetry diagnostic on fitted effective Liouvillians
 
 ## Setup
@@ -107,7 +107,7 @@ Max observed relative asymmetry: 4.24e-03 (f95 B_high q13-q14 omega=0.13, Z_plus
 
 Every BROKEN fit is in the f95 angle_steering dataset, where the protocol applies a single-site Z-drive omega · Σ Z_l during evolution. With idle protocols (block_cpsi, cusp_slowing) and the XY-bond chain Hamiltonian (chain_gamma0), the σ⁻ T1 fits gave asymmetry = 0 bit-exact regardless of T1 magnitude. With the Z-drive H, σ⁻ T1 gives non-zero asymmetry.
 
-Synthetic isolation confirms it is structural, not optimization artifact (verified independently inline in `simulations/_f112_hardware_lens_multi.py`'s sanity loop):
+Synthetic isolation confirms it is structural, not optimization artifact (verified independently inline in `simulations/f112_hardware_lens_multi.py`'s sanity loop):
 
 ```
 Case A: Z-drive H + Z-deph             rel asym = 0.000        (in F112 scope: BALANCED)
@@ -147,7 +147,7 @@ The 7-of-11 dominance of `Z + h_y` is consistent across idle datasets and is the
 ## Reproduction
 
 ```
-python -X utf8 simulations/_f112_block_cpsi_analysis.py
+python -X utf8 simulations/f112_block_cpsi_analysis.py
 ```
 
 Runs in under 5 seconds on a desktop. No QPU access required.

@@ -10,7 +10,7 @@ namespace RCPsiSquared.Core.Tests.F71;
 ///
 /// <para>These tests cover the typed claim's Tier and its γ_sym / γ_anti decomposition
 /// helpers (site-mirror l ↔ N−1−l). The numerical verification lives in the witness
-/// script <c>simulations/_f71_nonuniform_gamma_verification.py</c> (oddness + palindromic
+/// script <c>simulations/f71_nonuniform_gamma_verification.py</c> (oddness + palindromic
 /// survival, N=3,4,5), recorded in
 /// <c>docs/proofs/PROOF_F101_C1_MIRROR_GAMMA_PARITY.md</c>.</para></summary>
 public sealed class C1MirrorGammaParityTests

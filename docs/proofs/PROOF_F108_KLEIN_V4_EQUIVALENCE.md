@@ -9,7 +9,7 @@
 - [PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md) (Y-dephasing, BitB sibling)
 - [PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md) (Welle 12: Klein-V₄ subgroup {I, D, H, Q_zx} of U(4^N))
 - [PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md](PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md) (Welle 13: Route 1 / Route 2 pattern for F112)
-- Verifier `simulations/_f108_klein_v4_equivalence_verify.py` + log `simulations/results/f108_klein_v4_equivalence_verify.txt` (Welle 14)
+- Verifier `simulations/f108_klein_v4_equivalence_verify.py` + log `simulations/results/f108_klein_v4_equivalence_verify.txt` (Welle 14)
 
 ## Abstract
 
@@ -27,7 +27,7 @@ The negative result is what makes this proof worth writing separately. Q_zx tran
 
 **The motivating question.** F108 Parts 1, 2, 3 gave three independent proofs of the Π_5bilinear palindrome identity, one per dephase letter. After Welle 12 Task 2 established the Klein-V₄ subgroup on operator space ([PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)) and Welle 13 used it to transport F112 across the three dephase letters ([PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4](PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md)), the natural follow-up was: does the same Klein-V₄ transport collapse F108 Parts 1/2/3 into one identity plus two corollaries, or do the Π_5b operators have their own structure that resists transport?
 
-**The empirical anchor.** [simulations/_f108_klein_v4_equivalence_verify.py](../../simulations/_f108_klein_v4_equivalence_verify.py) tested both directions at N = 1, 2, 3, 4:
+**The empirical anchor.** [simulations/f108_klein_v4_equivalence_verify.py](../../simulations/f108_klein_v4_equivalence_verify.py) tested both directions at N = 1, 2, 3, 4:
 - `D · Π_5b(Z) · D = Π_5b(Y)`: residual = 0 bit-exact at every N.
 - `Q_zx · Π_5b(Z) · Q_zx − Π_5b(X)`: Frobenius residual = 2.0 (NOT zero) at every N.
 - `U_op · L_Z · U_op^† = L_X(U · H_1 · U^†)`: residual = 0 bit-exact at every N, where U_op is the Hilbert-space Hadamard lifted to operator space.
@@ -218,7 +218,7 @@ This is the precise honesty distinction at the Lindbladian level: Q_zx is the on
 
 ## (e) Verification
 
-The numerical verifier [`simulations/_f108_klein_v4_equivalence_verify.py`](../../simulations/_f108_klein_v4_equivalence_verify.py) confirms all claims at N = 1, 2, 3 with output saved to [`simulations/results/f108_klein_v4_equivalence_verify.txt`](../../simulations/results/f108_klein_v4_equivalence_verify.txt):
+The numerical verifier [`simulations/f108_klein_v4_equivalence_verify.py`](../../simulations/f108_klein_v4_equivalence_verify.py) confirms all claims at N = 1, 2, 3 with output saved to [`simulations/results/f108_klein_v4_equivalence_verify.txt`](../../simulations/results/f108_klein_v4_equivalence_verify.txt):
 
 | Claim | N=1 | N=2 | N=3 |
 |---|---|---|---|
@@ -228,7 +228,7 @@ The numerical verifier [`simulations/_f108_klein_v4_equivalence_verify.py`](../.
 | D · Π_5b(Z) · D − Π_5b(Y) | 0 | 0 | 0 |
 | Q_zx · Π_5b(Z) · Q_zx − Π_5b(X) (NEGATIVE) | 2.0 | 2.0 | 2.0 |
 | H · Π_5b(Y) · H − Π_5b(X) (NEGATIVE) | 2.0 | 2.0 | 2.0 |
-| **H · Π_5b(Z) · H − Π_5b(X)** (POSITIVE, closed 2026-05-29, `_f108_bita_d_search.py`) | **0** | **0** | **0** |
+| **H · Π_5b(Z) · H − Π_5b(X)** (POSITIVE, closed 2026-05-29, `f108_bita_d_search.py`) | **0** | **0** | **0** |
 | U_op · L_Z · U_op^† − L_X(rotated H) | 1.6e-16 | 4.5e-15 | 2.2e-14 |
 | F108 palindrome of L_X via U_op·Π_5b(Z)·U_op^† | 1.9e-49 | 3.3e-16 | 5.2e-15 |
 | F108 palindrome of L_X via canonical Π_5b(X) | 0 | 3.3e-16 | 4.8e-15 |
@@ -256,7 +256,7 @@ The numerical verifier [`simulations/_f108_klein_v4_equivalence_verify.py`](../.
 
 - **Characterization of the full Π_5bilinear orbit under U_op for arbitrary unitary U** (not just Hadamard): which subgroup of U(2)^⊗N acting via U_op on the operator space transports valid F108 palindrome operators? The Hadamard case shows the unit-cell subgroup; whether a larger subgroup works is open.
 
-- **Part 2's BitA-twin status (CLOSED 2026-05-29):** the open question was whether a different operator-space involution intertwines Π_5b(Z) ↔ Π_5b(X) directly, analogous to D for Z↔Y, since the canonical Q_zx fails (§(d.4)). It does, and it was already in the Welle-12 group: **H itself**. H · Π_5b(Z) · H = Π_5b(X) bit-exact at universal N (`simulations/_f108_bita_d_search.py`, 18/18 checks; per-site identity plus N = 1, 2, 3). H is the pure X↔Z basis swap with I and Y fixed, exactly the "Y phase fixed, X/Z swapped" ansatz this bullet anticipated. The reason the original Welle-14 sweep missed it: it tested each Klein element on its *canonical-Π* pairing, Q_zx on Z↔X and H on Y↔X, and both fail for Π_5b; it never tested H on Z↔X. On Π_5b the roles of H and Q_zx are swapped. The mechanism: Π_5b carries the Y/Z 2-cycle phase (±i) that canonical Π_d lacks; Q_zx negates Y and so scrambles that phase into Π_5b(Y)'s convention (the overshoot of §(d.4)), while H fixes Y and lands cleanly on Π_5b(X). Like D, H is operator-space-only: an X↔Z swap fixing Y is not a Pauli automorphism, since Y = iXZ forces any Hilbert-space X↔Z swap to send Y → −Y (that is Q_zx, the Hadamard one). So H intertwines the palindrome *operators* but does not transport the Lindbladian L (the Hilbert-Hadamard route of §(d) remains the only L-transport, the same lift caveat that bounds D on the Z↔Y leg). This closes (ii) positively and corrects the "operator-space Klein-V₄ on Π_5b is only {I, D}" reading to **{I, D, H}** (D: Z↔Y, H: Z↔X), with Q_zx the element that leaves the canonical set.
+- **Part 2's BitA-twin status (CLOSED 2026-05-29):** the open question was whether a different operator-space involution intertwines Π_5b(Z) ↔ Π_5b(X) directly, analogous to D for Z↔Y, since the canonical Q_zx fails (§(d.4)). It does, and it was already in the Welle-12 group: **H itself**. H · Π_5b(Z) · H = Π_5b(X) bit-exact at universal N (`simulations/f108_bita_d_search.py`, 18/18 checks; per-site identity plus N = 1, 2, 3). H is the pure X↔Z basis swap with I and Y fixed, exactly the "Y phase fixed, X/Z swapped" ansatz this bullet anticipated. The reason the original Welle-14 sweep missed it: it tested each Klein element on its *canonical-Π* pairing, Q_zx on Z↔X and H on Y↔X, and both fail for Π_5b; it never tested H on Z↔X. On Π_5b the roles of H and Q_zx are swapped. The mechanism: Π_5b carries the Y/Z 2-cycle phase (±i) that canonical Π_d lacks; Q_zx negates Y and so scrambles that phase into Π_5b(Y)'s convention (the overshoot of §(d.4)), while H fixes Y and lands cleanly on Π_5b(X). Like D, H is operator-space-only: an X↔Z swap fixing Y is not a Pauli automorphism, since Y = iXZ forces any Hilbert-space X↔Z swap to send Y → −Y (that is Q_zx, the Hadamard one). So H intertwines the palindrome *operators* but does not transport the Lindbladian L (the Hilbert-Hadamard route of §(d) remains the only L-transport, the same lift caveat that bounds D on the Z↔Y leg). This closes (ii) positively and corrects the "operator-space Klein-V₄ on Π_5b is only {I, D}" reading to **{I, D, H}** (D: Z↔Y, H: Z↔X), with Q_zx the element that leaves the canonical set.
 
 - **F109's status after Welle 14:** F109's Step 5 closure across {Z, X, Y} is now DOUBLY anchored: each Part separately (independent proofs, 2026-05-25), and now via Klein-V₄ corollary from Part 1 (this proof). F109's full unconditional Tier1Derived status is reinforced; the cross-dephase coverage is now structurally redundant rather than three independent results.
 

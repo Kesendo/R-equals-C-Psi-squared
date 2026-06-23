@@ -1,6 +1,6 @@
 """F112 non-Hermitian extension: N=5 enumeration runner.
 
-Calls enumerate_F_on_basis(5) from _f112_open_identity_basis_enum.py.
+Calls enumerate_F_on_basis(5) from f112_open_identity_basis_enum.py.
 
 Estimated cost: ~16 GB working memory (1024 pre-computed L_alpha,-i matrices
 of size 1024x1024 complex = 16 MB each); ~30 min on multi-core OpenBLAS
@@ -18,7 +18,7 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _f112_open_identity_basis_enum import enumerate_F_on_basis
+from f112_open_identity_basis_enum import enumerate_F_on_basis
 
 print("F112 non-Hermitian extension: N=5 enumeration")
 print("=" * 80)

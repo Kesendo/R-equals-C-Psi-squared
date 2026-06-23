@@ -124,7 +124,7 @@ See [§ Scale frontier: N = 9 chain, LP64 ceiling crossed 2026-05-19 via MklDire
 
 Scripts and tests:
 
-- Python verification: [`simulations/_f1_general_topology_verify.py`](../../simulations/_f1_general_topology_verify.py)
+- Python verification: [`simulations/f1_general_topology_verify.py`](../../simulations/f1_general_topology_verify.py)
 - C# graph-aware + N=7 dogfood tests: [`compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs`](../../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs)
 - C# N=8 SLOW_N8 dogfood tests: [`compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs`](../../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs)
 - C# N=9 SLOW_N9 chain spot-check: [`compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN9BlockSpectrumChainTests.cs`](../../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN9BlockSpectrumChainTests.cs)

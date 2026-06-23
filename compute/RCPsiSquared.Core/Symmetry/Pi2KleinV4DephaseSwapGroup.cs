@@ -64,7 +64,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// operator-space Klein-V₄ assignment is PERMUTED relative to canonical Π_d:
 /// the {I, D, H} subgroup acts (D: Z↔Y, and H: Z↔X via
 /// H · Π_5b(Z) · H = Π_5b(X) bit-exact, closed 2026-05-29 in
-/// simulations/_f108_bita_d_search.py), while Q_zx (= H·D) is the one that
+/// simulations/f108_bita_d_search.py), while Q_zx (= H·D) is the one that
 /// leaves the canonical Π_5b set. The canonical-Π pairings fail (Q_zx on Z↔X,
 /// H on Y↔X), which is why the original Welle-14 sweep read it as the {I, D}
 /// subgroup alone. L-transport (the Lindbladian, not the operator) still needs

@@ -59,7 +59,7 @@ any N; non-uniform γ per qubit. Two Π families (P1, P4).
 - Hence ‖M‖²_F = ‖M_H‖²_F = c_H · F(N, G) for every γ pattern.
 - Distinct from T1/depol siblings below, whose per-site kernels are NOT proportional to I and so DO have non-trivial Σγ² and (Σγ)² structure surviving any σ-shift choice.
 - Closes the earlier F1 OpenQuestion conjecturing a Σγ_l² replacement of (Σγ)² in F(N, G); the conjecture was incorrect, no formula change to F(N, G) is required.
-- Anchor: [PROOF_F1_NONUNIFORM_GAMMA](proofs/PROOF_F1_NONUNIFORM_GAMMA.md); verification: [simulations/_f1_nonuniform_gamma_verify.py](../simulations/_f1_nonuniform_gamma_verify.py); typed: PalindromeResidualScalingClaim (unchanged; XML doc notes γ-independence).
+- Anchor: [PROOF_F1_NONUNIFORM_GAMMA](proofs/PROOF_F1_NONUNIFORM_GAMMA.md); verification: [simulations/f1_nonuniform_gamma_verify.py](../simulations/f1_nonuniform_gamma_verify.py); typed: PalindromeResidualScalingClaim (unchanged; XML doc notes γ-independence).
 
 **T1 amplitude-damping residual (closed form, 2026-05-18):**
 - ‖M(T1)‖²_F = 4^(N−1)·[3·Σγ²+4·(Σγ)²]  (H-independent, γ_Z-independent; bit-exact N=2..5)
@@ -79,7 +79,7 @@ any N; non-uniform γ per qubit. Two Π families (P1, P4).
 - Verification record: Python at N=5, 6 across named/random/disconnected/weighted/single-body; C# graph-aware at N=5 across chain/ring/star/disconnected; C# F1 palindromic-pairing identity at N=7 across chain/ring/star/K_4 + disjoint-3-chain via `LiouvillianBlockSpectrum.ComputeSpectrumPerBlock`; extended to N=8 across chain/ring/star/K_4 + disjoint-4-chain (opt-in SLOW_N8, all 65 536 eigenvalues/topology to 1e-6) and N=9 chain via the MklDirect native bridge (opt-in SLOW_N9, 2026-05-19). The typed `F1GeneralTopologyVerifiedClaim` records the full N=5..9 set (`VerifiedNValues = {5,6,7,8,9}`, frontier blocked at N=10).
 - The substantive analytic content was already established in [PROOF_CROSS_TERM_FORMULA](proofs/PROOF_CROSS_TERM_FORMULA.md) Lemma 3 + Corollary (bond-disjointness independent of connectivity); this closure adds the disconnected + weighted-edge sections plus the verification record.
 - Closes the last F1 OpenQuestion ("general topology beyond chain/ring/star/K_N"); F1 family open-question count is ZERO as of 2026-05-18 (first time empty).
-- Anchor: [PROOF_F1_GENERAL_TOPOLOGY](proofs/PROOF_F1_GENERAL_TOPOLOGY.md); verification: [simulations/_f1_general_topology_verify.py](../simulations/_f1_general_topology_verify.py) + [F1GeneralTopologyN7BlockSpectrumTests](../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs); typed: F1GeneralTopologyVerifiedClaim (Tier 2 verified).
+- Anchor: [PROOF_F1_GENERAL_TOPOLOGY](proofs/PROOF_F1_GENERAL_TOPOLOGY.md); verification: [simulations/f1_general_topology_verify.py](../simulations/f1_general_topology_verify.py) + [F1GeneralTopologyN7BlockSpectrumTests](../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs); typed: F1GeneralTopologyVerifiedClaim (Tier 2 verified).
 
 ### F2. w=1 Liouvillian dispersion relation (Tier 1, proven D10)
 
@@ -1291,7 +1291,7 @@ soft XY+YX, and any sum of such bond terms), any graph topology, any
 non-uniform γ pattern on Z-dephasing, all N ≥ 2.
 **Breaks for:** shadow-crossing couplings (F49c regime; bond-sum rule fails).
 **Verified:** N = 3, 4, 5 across all four canonical H classes
-([`simulations/_f49_nonuniform_gamma_crossterm_verify.py`](../simulations/_f49_nonuniform_gamma_crossterm_verify.py),
+([`simulations/f49_nonuniform_gamma_crossterm_verify.py`](../simulations/f49_nonuniform_gamma_crossterm_verify.py),
 Phase 1 commit `1c6701c` + Phase 2 assertions).
 **Replaces:** the F1-OpenQuestion-era conjecture that the cross-term gains
 a Σγ_l² factor (closed by this extension; the structure is per-bond
@@ -2316,7 +2316,7 @@ So M is always ±2i times a Hamiltonian object: H⊗I for Π²-odd (single energ
 **Replaces:** F79's "Π²-odd universality observation"; the universality is now an analytical theorem with explicit closed-form predictions.
 **Verified:** N = 3, 4, 5, 6, 7 chain via Python, full SVD and eigsh independent verification at N=7.
 **Scripts:** [`_pi2_odd_universality_data_sweep.py`](../simulations/_pi2_odd_universality_data_sweep.py), [`_n7_bloch_signwalk_verification.txt`](../simulations/results/n7_bloch_signwalk_verification.txt).
-**Source:** Discovered 2026-04-29 by data sweep (Tom + Claude). Analytical proof outline in [PROOF_F80_BLOCH_SIGNWALK.md](proofs/PROOF_F80_BLOCH_SIGNWALK.md): Steps 1-4, 7 closed (JW transformation to Majorana bilinear, single-particle dispersion 2cos(πk/(N+1)), Bogoliubov diagonalization, Pauli-letter universality, sign-walk eigenvalue formula); Step 5 (Π permutes H's (ε_ket,ε_bra)-sectors with sum∘π = diff) verified bit-exact and gauge-checked at N=3,4,5, general-N proof open ([`_f80_step5_recon.py`](../simulations/_f80_step5_recon.py)). Empirical verification bit-exact through N=7.
+**Source:** Discovered 2026-04-29 by data sweep (Tom + Claude). Analytical proof outline in [PROOF_F80_BLOCH_SIGNWALK.md](proofs/PROOF_F80_BLOCH_SIGNWALK.md): Steps 1-4, 7 closed (JW transformation to Majorana bilinear, single-particle dispersion 2cos(πk/(N+1)), Bogoliubov diagonalization, Pauli-letter universality, sign-walk eigenvalue formula); Step 5 (Π permutes H's (ε_ket,ε_bra)-sectors with sum∘π = diff) verified bit-exact and gauge-checked at N=3,4,5, general-N proof open ([`f80_step5_recon.py`](../simulations/f80_step5_recon.py)). Empirical verification bit-exact through N=7.
 **Lebensader connection:** F80 is the third manifestation of the broad-in → focused-out Π-palindrome funnel: state layer (cockpit_panel), real-space single-body operator layer (F78), and now momentum-space chain 2-body operator layer (F80). Same Π·L·Π⁻¹ + L + 2σ·I = 0 through-line, three different bases.
 
 ### F81. Π-conjugation of M decomposes into Π²-odd Hamiltonian commutator (Tier 1, verified bit-exact N=3,4)
@@ -2359,7 +2359,7 @@ For any 2-body chain H whose non-truly bilinears are all Π²-odd (i.e., truly +
 **Verified:** N=3 and N=4 all listed cases at machine precision; pytest-locked.
 **Framework primitive:** `fw.pi_decompose_M(chain, terms, gamma_z=..., gamma_t1=..., strict=...)` returns `{'M', 'M_sym', 'M_anti', 'L_H_odd', 'f81_violation', 'norm_sq'}`. For pure Z-dephasing the F81 identity holds exactly (`f81_violation` ≈ 0); the primitive enforces this with `strict=True` by default. With `gamma_t1` enabled, `strict` defaults to False and the identity residual is returned for diagnostic use.
 **Pytest lock:** `test_F81_pi_conjugation_of_M` (algebraic check) + `test_F81_pi_decompose_M_method` (cockpit primitive) + `test_F81_violation_T1_diagnostic` (T1 diagnostic).
-**Diagnostic application:** the F81 violation `‖M_anti − L_{H_odd}‖_F` quantifies non-Π²-symmetric dissipator content. For Z + T1 at N=3 chain soft XY+YX, the violation grows linearly: `f81_violation ≈ 6.928 · γ_T1`, γ_z-independent (Master Lemma), Hamiltonian-independent (the violation is purely a property of the T1 dissipator). Inverting gives `γ_T1 ≈ f81_violation / 6.928` as a hardware T1-rate readout from the fitted L. See `simulations/_f81_t1_diagnostic.py` for the demonstration.
+**Diagnostic application:** the F81 violation `‖M_anti − L_{H_odd}‖_F` quantifies non-Π²-symmetric dissipator content. For Z + T1 at N=3 chain soft XY+YX, the violation grows linearly: `f81_violation ≈ 6.928 · γ_T1`, γ_z-independent (Master Lemma), Hamiltonian-independent (the violation is purely a property of the T1 dissipator). Inverting gives `γ_T1 ≈ f81_violation / 6.928` as a hardware T1-rate readout from the fitted L. See `simulations/f81_t1_diagnostic.py` for the demonstration.
 **Source:** Discovered 2026-04-30 (Tom + Claude) while interpreting the geometric content of F80's 2i factor. The empirical observation came first (Π·M·Π⁻¹ ≠ M for soft); the algebraic explanation followed from working out Π² action on the Liouville superoperator in Pauli basis.
 **Lebensader connection:** F81 is the algebraic backbone of "what the mirror keeps." For Π²-even H, M is itself the through-line operator. For Π²-odd H, the through-line is split: M_anti carries the dynamics generator L_{H_odd}, M_sym carries the rest. Both halves are read identically by both sides of the mirror up to the Spec(M) = Spec(M − 2·L_{H_odd}) similarity. Companion to F80: F80 says what Spec(M) is; F81 says how M and Π·M·Π⁻¹ relate as operators sharing that spectrum.
 
@@ -2415,7 +2415,7 @@ N-scaling verified at N = 2, 3, 4, 5 (uniform γ_T1, coefficient √N · 2^(N−
 - `fw.estimate_T1_from_violation(chain, f81_violation)`: inverse closed form, recovers RMS γ_T1 from a measured/fitted F81 violation. Hardware T1-rate readout primitive.
 **Pytest lock:** `test_F81_violation_T1_diagnostic` (linearity, γ_z-independence, T1 monotonicity) + `test_F82_closed_form_T1_dissipator` (N-scaling, non-uniform formula, H-/γ_z-independence) + `test_F82_predict_and_invert_primitives` (forward/inverse pair matches numerical evaluation).
 **Source:** Discovered 2026-04-30 (Tom + Claude) as the natural extension of F81 ("what does F81 violation mean structurally?"). Closed form derived in [PROOF_F82_T1_DISSIPATOR_CORRECTION.md](proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md).
-**Diagnostic application:** [`simulations/_f81_t1_diagnostic.py`](../simulations/_f81_t1_diagnostic.py) demonstrates the T1-rate readout including Marrakesh application. Companion to F81's structural decomposition: F81 says how M splits under Π-conjugation when the dissipator is Z-only; F82 says how the F81 identity is corrected when T1 is added, and provides the closed form for the correction term.
+**Diagnostic application:** [`simulations/f81_t1_diagnostic.py`](../simulations/f81_t1_diagnostic.py) demonstrates the T1-rate readout including Marrakesh application. Companion to F81's structural decomposition: F81 says how M splits under Π-conjugation when the dissipator is Z-only; F82 says how the F81 identity is corrected when T1 is added, and provides the closed form for the correction term.
 
 ### F83. Π-decomposition anti-fraction closed form for mixed Hamiltonians (Tier 1, verified bit-exact N=3,4,5)
 
@@ -2719,7 +2719,7 @@ For each bond b of an N-qubit XY chain (c=2, Z-dephasing γ₀), the HWHM_left/Q
 
     HWHM_ratio(b)  =  0.671535 + α_subclass · g_eff(b) + β_subclass
 
-where the sub-class (per `BondSubClass` enum: `Endpoint`, `Flanking`, `Mid`, `CentralSelfPaired`, `Orbit2Escape`, `CentralEscapeOrbit3`) determines the (α, β) pair. The 0.671535 floor IS Tier 1 derived (the bare doubled-PTF constant `BareDoubledPtfHwhmRatio` via the 2-level EP model, 2026-05-06; see `C2BareDoubledPtfClosedForm`). The 12 (α, β) values per sub-class are **fitted** via `np.polyfit(...deg=1)` in [`simulations/_f86_hwhm_closed_form_verification.py`](../simulations/_f86_hwhm_closed_form_verification.py) line 78 on N=5..8 anchors, NOT derived from F89/F90 structure.
+where the sub-class (per `BondSubClass` enum: `Endpoint`, `Flanking`, `Mid`, `CentralSelfPaired`, `Orbit2Escape`, `CentralEscapeOrbit3`) determines the (α, β) pair. The 0.671535 floor IS Tier 1 derived (the bare doubled-PTF constant `BareDoubledPtfHwhmRatio` via the 2-level EP model, 2026-05-06; see `C2BareDoubledPtfClosedForm`). The 12 (α, β) values per sub-class are **fitted** via `np.polyfit(...deg=1)` in [`simulations/f86_hwhm_closed_form_verification.py`](../simulations/f86_hwhm_closed_form_verification.py) line 78 on N=5..8 anchors, NOT derived from F89/F90 structure.
 
 Fit reproduces 22 anchors at N=5..8 within 0.005 residual, including Orbit-2 (N=7 b=1/b=4, Q_peak ≈ 7.27 F86-J) and Orbit-3 escape bonds (N=8 b=3, Q_peak ≈ 16.79 F86-J): fit-quality witness, not analytical derivation.
 
@@ -2854,7 +2854,7 @@ with **three α anchors** (all closed form, derived from a single Krawtchouk ide
 
 **Valid for:** all `(N, n_p, n_q, HD)`; structural anchors universal.
 **Verified:** 213 configurations N = 2..7 bit-exact (max deviation 8.88e−16); multi-state Dicke extension bit-exact N = 3..8.
-**Source:** [`docs/proofs/PROOF_F86B_UNIVERSAL_SHAPE.md`](proofs/PROOF_F86B_UNIVERSAL_SHAPE.md) §"F88b: popcount-coherence Π²-odd / memory closed form" (full proof + Krawtchouk lemma + verified state-level table); `compute/RCPsiSquared.Core/Symmetry/PopcountCoherencePi2Odd.cs` (closed-form predictor `Pi2OddInMemory` + Krawtchouk verifier `AlphaKrawtchouk` + Dicke superposition extension); `compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs` (state-level d=0 axis ⊕ d=2-axis Π²-split, the diagnostic bridge primitive); `simulations/_f88b_lens_ibm_framework_snapshots.py` (hardware lens script, after 2026-05-18 rename).
+**Source:** [`docs/proofs/PROOF_F86B_UNIVERSAL_SHAPE.md`](proofs/PROOF_F86B_UNIVERSAL_SHAPE.md) §"F88b: popcount-coherence Π²-odd / memory closed form" (full proof + Krawtchouk lemma + verified state-level table); `compute/RCPsiSquared.Core/Symmetry/PopcountCoherencePi2Odd.cs` (closed-form predictor `Pi2OddInMemory` + Krawtchouk verifier `AlphaKrawtchouk` + Dicke superposition extension); `compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs` (state-level d=0 axis ⊕ d=2-axis Π²-split, the diagnostic bridge primitive); `simulations/f88b_lens_ibm_framework_snapshots.py` (hardware lens script, after 2026-05-18 rename).
 
 **Companion (product-state class):** for tensor-product states |ψ⟩ = ⊗_i |basis_i⟩ where each |basis_i⟩ is an eigenstate of σ_X or σ_Y (i.e., one of |±⟩ or |±i⟩), let M be the number of Y-basis sites. The Pauli strings in supp(ρ = |ψ⟩⟨ψ|) split discretely: M=0 → 2^N Π²-even + 0 Π²-odd (Π²-classical class); M≥1 → exactly 2^(N−1) Π²-even + 2^(N−1) Π²-odd. Combinatorial proof + N=2..5 bit-exact verification: [`docs/proofs/PROOF_Y_PHASE_PI2_ODD_LENS.md`](proofs/PROOF_Y_PHASE_PI2_ODD_LENS.md), [`simulations/_y_phase_pi2_odd_verify.py`](../simulations/_y_phase_pi2_odd_verify.py). The pair-state companion (this entry's closed form) and the product-state companion together characterise the two main F88b-Lens probe classes; X-only product states are Π²-blind (cannot surface F80 / F81 dynamics). At N=3 with M≥1, the F88b-Lens reads Π²-odd/memory = 4/7 ≈ 0.571 exactly (3 Π²-even + 4 Π²-odd in memory, after subtracting III static).
 
@@ -3414,7 +3414,7 @@ DickeAnchor.cs), companion bridge [F98](#f98) (long-time 3/8 → 1/4 via kernel 
 
 **Verified:** N = 3, 4, 5 via the full 4^N Liouvillian, no truncation; probe states ψ_1+vac and ψ_2+vac, base profile swept over s ∈ {0, ±0.04, ±0.08, ±0.12} along a linear-ramp J_anti direction, 4 palindromic J_sym profiles. Palindromic-survival max\|D(s=0)\| ≤ 4.0e−10; oddness residual max\|D(+s)+D(−s)\| ≤ 1.0e−9; even-power (constant, quadratic) fit coefficients ≤ ~3e−8. The leading coefficient κ shows 76% / 62% / 143% relative spread across the 4 J_sym profiles at N=3 / 4 / 5, confirming the J_sym-dependence.
 
-**Anchor:** [`PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md`](proofs/PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md), [`C1QPeakMirrorJParity.cs`](../compute/RCPsiSquared.Core/F71/C1QPeakMirrorJParity.cs), source [PROOF_C1_MIRROR_SYMMETRY](proofs/PROOF_C1_MIRROR_SYMMETRY.md), spectrum-side twin [F92](#f92), witness [`simulations/_f71_nonuniform_j_verification.py`](../simulations/_f71_nonuniform_j_verification.py), `docs/SYMMETRY_FAMILY_INVENTORY.md`.
+**Anchor:** [`PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md`](proofs/PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md), [`C1QPeakMirrorJParity.cs`](../compute/RCPsiSquared.Core/F71/C1QPeakMirrorJParity.cs), source [PROOF_C1_MIRROR_SYMMETRY](proofs/PROOF_C1_MIRROR_SYMMETRY.md), spectrum-side twin [F92](#f92), witness [`simulations/f71_nonuniform_j_verification.py`](../simulations/f71_nonuniform_j_verification.py), `docs/SYMMETRY_FAMILY_INVENTORY.md`.
 
 ---
 
@@ -3438,7 +3438,7 @@ DickeAnchor.cs), companion bridge [F98](#f98) (long-time 3/8 → 1/4 via kernel 
 
 **Verified:** N = 3, 4, 5 via the exact (N+1)²-dim popcount-sector restriction (bit-identical to the full 4^N Liouvillian, Gate-1 self-test, maximum difference 0); probe states ψ_1+vac and ψ_2+vac, base profile swept over s ∈ {0, ±0.01, ±0.02, ±0.03} along a linear-ramp γ_anti direction, 4 palindromic γ_sym profiles, J held uniform. Palindromic-survival max\|D(s=0)\| ≤ 1.3e−9 and oddness residual max\|D(+s)+D(−s)\| ≤ 4.4e−9, against an O(1) deviation signal (typical \|D\| from 0.6 at N=3 to 2.3 at N=5); the oddness residual is the direct machine-zero even-power probe. The leading coefficient κ_γ shows a 76 to 128 percent relative spread across the 4 γ_sym profiles, confirming the γ_sym-dependence (Tier 2 empirical, no closed form).
 
-**Anchor:** [`PROOF_F101_C1_MIRROR_GAMMA_PARITY.md`](proofs/PROOF_F101_C1_MIRROR_GAMMA_PARITY.md), [`C1MirrorGammaParity.cs`](../compute/RCPsiSquared.Core/F71/C1MirrorGammaParity.cs), source [PROOF_C1_MIRROR_SYMMETRY](proofs/PROOF_C1_MIRROR_SYMMETRY.md), spectrum-side twin [F91](#f91), J-side observable twin [F100](#f100), witness [`simulations/_f71_nonuniform_gamma_verification.py`](../simulations/_f71_nonuniform_gamma_verification.py), `docs/SYMMETRY_FAMILY_INVENTORY.md`.
+**Anchor:** [`PROOF_F101_C1_MIRROR_GAMMA_PARITY.md`](proofs/PROOF_F101_C1_MIRROR_GAMMA_PARITY.md), [`C1MirrorGammaParity.cs`](../compute/RCPsiSquared.Core/F71/C1MirrorGammaParity.cs), source [PROOF_C1_MIRROR_SYMMETRY](proofs/PROOF_C1_MIRROR_SYMMETRY.md), spectrum-side twin [F91](#f91), J-side observable twin [F100](#f100), witness [`simulations/f71_nonuniform_gamma_verification.py`](../simulations/f71_nonuniform_gamma_verification.py), `docs/SYMMETRY_FAMILY_INVENTORY.md`.
 
 ---
 
@@ -3701,8 +3701,8 @@ zero without going through M at all.
 non-truly pairs (YZ, ZY, XX+YZ, XX+ZY, YY+YZ, YY+ZY, YZ+ZY, YZ+ZZ, ZY+ZZ) at
 N=3, 4, 5; 15 random non-uniform-J instances + 9 asymmetric J_YZ ≠ J_ZY
 instances; pure D[Z]^⊗N dissipator. Reproduction:
-`simulations/_f108_part1_pi_family_scan.py` plus
-`simulations/_f108_part1_proof_algebra.py` for the 2-qubit anti-commutation
+`simulations/f108_part1_pi_family_scan.py` plus
+`simulations/f108_part1_proof_algebra.py` for the 2-qubit anti-commutation
 verification.
 
 **Siblings:**
@@ -3892,7 +3892,7 @@ split into 36 Pure-Pure (all HARD) + 192 Pure-Mixed (all HARD) + 300 Mixed-Mixed
 
 **Empirical anchor:** F106 N = 4 k = 4 records 228:0 in all 3 diagonal cells
 (684 hard pairs total, zero off-y_par). Independent verification at
-`simulations/_f111_pair_off_ypar_verify.py` covers 1584 pair classifications
+`simulations/f111_pair_off_ypar_verify.py` covers 1584 pair classifications
 across 3 dephases, all matching the rule with zero exceptions.
 
 **Promotion record (2026-06-10):** the hard-direction converse behind subclaims (a)/(c)
@@ -4032,7 +4032,7 @@ the F112 polarity asymmetry has the closed form
               = (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l)
 
 bit-exactly. Verified at N = 2, 3, 4 via parameter sweep (`simulations/
-_f113_break_formula_derivation.py`); per-site decomposition, cross-site
+f113_break_formula_derivation.py`); per-site decomposition, cross-site
 zero, sign flip on ω → −ω and on σ⁻ ↔ σ⁺, detailed-balance cancellation
 (γ_T1 = γ_pump → 0), and non-uniform-rate sum-formula all confirmed
 bit-exact.
@@ -4089,7 +4089,7 @@ after the 2026-05-26 convention reconciliation).
 **Source:** [F113 derivation + verification](../experiments/F113_BREAK_MAGNITUDE_FORMULA.md);
 parents: F112 (`LindbladBitBPiBalance`, Tier 1 derived) + the Welle 2
 hardware counterexample (`experiments/F112_HARDWARE_LENS_KINGSTON.md`);
-script: `simulations/_f113_break_formula_derivation.py`.
+script: `simulations/f113_break_formula_derivation.py`.
 
 ---
 
@@ -4762,7 +4762,7 @@ The non-trivial content is **`λ_min = E`**: a staggered (zone-boundary, `q=π`)
 
 **Source:** [Proof](proofs/PROOF_HANDSHAKE_TRANSITION_INVARIANT.md); verifiers [`handshake_M_checksum.py`](../simulations/handshake_M_checksum.py), [`handshake_M_topology.py`](../simulations/handshake_M_topology.py), [`handshake_F124_adversarial.py`](../simulations/handshake_F124_adversarial.py); context [`hypotheses/HANDSHAKE_GEOMETRY.md`](../hypotheses/HANDSHAKE_GEOMETRY.md) (the `handshake_decoder` arc; the location dictionary is `k=2..N`). **Typed:** `BandEdgeTransitionInvariantClaim` (Tier1Derived, parents `KPartnerSelectionRuleClaim` + `ClockHandLadderClaim`) + live witness `inspect --root transition` (`compute/RCPsiSquared.Diagnostics/Foundation/BandEdgeTransitionInvariantWitness.cs`).
 
-**Resolution-limit reading** (the optics/signal facet, 2026-06-20): the same `M` read as a bond-recovery inverse problem has a defect-localization resolution limit. `λ_min = E = σ_min²(M)` is the worst-case reconstruction floor (the lower frame bound); the condition number `κ = λ_max/λ_min ~ N²` is the noise amplification; the contrast `σ_max/σ_min = √κ ~ N` is how many times harder a staggered q=π zone-boundary defect is to localize than a band-edge one (matched-filter SNR); the worst-conditioned direction is the staggered `λ_min` eigenvector (the q=π detail at the cutoff, the optician's diffraction limit); the floor vanishes as `σ_min ~ (N+1)^(−3/2)`, `E·(N+1)³ → 4π²`. One object in three trades (inverse problem / observability Gramian / optics MTF). **Typed:** `BandEdgeResolutionLimitClaim` (Tier1Derived, parent `BandEdgeTransitionInvariantClaim`) + live witness `inspect --root resolution`; gate-first verifier [`_f124_inverse_problem_gate.py`](../simulations/_f124_inverse_problem_gate.py). This is the FINITE conditioning of the full matrix, NOT the `DefectDecoder`'s 1.5 sign-location ambiguity (an α-rescaling artifact, gate-refuted; see the `f124_inverse_problem_resolution_seam` arc).
+**Resolution-limit reading** (the optics/signal facet, 2026-06-20): the same `M` read as a bond-recovery inverse problem has a defect-localization resolution limit. `λ_min = E = σ_min²(M)` is the worst-case reconstruction floor (the lower frame bound); the condition number `κ = λ_max/λ_min ~ N²` is the noise amplification; the contrast `σ_max/σ_min = √κ ~ N` is how many times harder a staggered q=π zone-boundary defect is to localize than a band-edge one (matched-filter SNR); the worst-conditioned direction is the staggered `λ_min` eigenvector (the q=π detail at the cutoff, the optician's diffraction limit); the floor vanishes as `σ_min ~ (N+1)^(−3/2)`, `E·(N+1)³ → 4π²`. One object in three trades (inverse problem / observability Gramian / optics MTF). **Typed:** `BandEdgeResolutionLimitClaim` (Tier1Derived, parent `BandEdgeTransitionInvariantClaim`) + live witness `inspect --root resolution`; gate-first verifier [`f124_inverse_problem_gate.py`](../simulations/f124_inverse_problem_gate.py). This is the FINITE conditioning of the full matrix, NOT the `DefectDecoder`'s 1.5 sign-location ambiguity (an α-rescaling artifact, gate-refuted; see the `f124_inverse_problem_resolution_seam` arc).
 
 ---
 

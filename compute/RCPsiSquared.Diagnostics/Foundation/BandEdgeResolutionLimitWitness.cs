@@ -17,7 +17,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// so a staggered (−1)^b zone-boundary (q=π) bond defect produces a mode-response √κ ~ N times weaker than a
 /// band-edge defect of the same magnitude, i.e. it is √κ ~ N times harder to localize (matched-filter detection
-/// SNR, confirmed in simulations/_f124_inverse_problem_gate.py). The worst-conditioned bond direction is exactly
+/// SNR, confirmed in simulations/f124_inverse_problem_gate.py). The worst-conditioned bond direction is exactly
 /// the staggered mode (F124's λ_min eigenvector), the q=π detail at the resolution cutoff, the optician's
 /// diffraction limit. The reconstruction floor itself vanishes as σ_min = √E ~ (N+1)^(−3/2) (E·(N+1)³ → 4π²),
 /// so the long chain goes singular along the K-direction.

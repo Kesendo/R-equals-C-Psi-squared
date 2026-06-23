@@ -42,7 +42,7 @@ namespace RCPsiSquared.Core.F71;
 /// Q_peak observable is NOT covered: its Q-axis Q = J/γ₀ is defined against a scalar γ₀,
 /// which a non-uniform γ profile does not provide; the γ_avg-anchored Q_peak route is a
 /// separable extension noted in the proof. Numerically witnessed with residuals ≤ 5e-9 at
-/// N=3,4,5 (<c>simulations/_f71_nonuniform_gamma_verification.py</c>).</para>
+/// N=3,4,5 (<c>simulations/f71_nonuniform_gamma_verification.py</c>).</para>
 /// </summary>
 public sealed class C1MirrorGammaParity : Claim
 {
@@ -118,7 +118,7 @@ public sealed class C1MirrorGammaParity : Claim
             yield return new InspectableNode("twin of F91",
                 summary: "observable-side counterpart of F91 (diagonal-block spectrum depends only on γ_sym); J-side counterpart is F100");
             yield return new InspectableNode("verified",
-                summary: "c₁ via the α-rescaling pipeline, ψ_1+vac / ψ_2+vac, N=3,4,5: oddness residual ≤ 5e-9, palindromic survival ≤ 5e-9 (simulations/_f71_nonuniform_gamma_verification.py)");
+                summary: "c₁ via the α-rescaling pipeline, ψ_1+vac / ψ_2+vac, N=3,4,5: oddness residual ≤ 5e-9, palindromic survival ≤ 5e-9 (simulations/f71_nonuniform_gamma_verification.py)");
         }
     }
 }

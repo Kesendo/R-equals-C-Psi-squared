@@ -145,7 +145,7 @@ public sealed class F1T1ResidualPi2Decomposition : Claim
             double exampleSym = PredictSymmetricUniform(exampleN, exampleGamma);
             double exampleTotal = F1T1ResidualClosedForm.PredictUniform(exampleN, exampleGamma);
             yield return new InspectableNode("verification",
-                summary: $"section 6 of simulations/_f1_t1_residual_verify.py: N={exampleN} uniform γ_T1={exampleGamma} → " +
+                summary: $"section 6 of simulations/f1_t1_residual_verify.py: N={exampleN} uniform γ_T1={exampleGamma} → " +
                          $"‖M‖²={exampleTotal:F2}, ‖M_anti‖²={exampleAnti:F2}, ‖M_sym‖²={exampleSym:F2} (machine precision)");
         }
     }

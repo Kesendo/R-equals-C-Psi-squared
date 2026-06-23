@@ -41,7 +41,7 @@ F106 N = 4 k = 4 enumeration (per `compute/RCPsiSquared.Core/Symmetry/F87Z2Cubed
 | (1, 0)     | X         | (228, 0)                      | 228 hard; ✓ |
 | (1, 1)     | Y         | (0, 228)                      | 228 hard (Y-inversion); ✓ |
 
-Independent verification: `simulations/_f111_pair_off_ypar_verify.py` classifies all 528 pairs per on-y_par sub-cell of the diagonal cell × 3 dephases = 1584 pair classifications, all matching the Pure-D Template Rule with zero exceptions. (Each diagonal cell decomposes into an on-y_par sub-cell of 528 pairs and an off-y_par sub-cell of 528 pairs; the off-y_par sub-cell contains zero pure-D templates by Step 2 below, and the rule predicts zero hard pairs there, also empirically verified, so the rule covers the full diagonal cell.)
+Independent verification: `simulations/f111_pair_off_ypar_verify.py` classifies all 528 pairs per on-y_par sub-cell of the diagonal cell × 3 dephases = 1584 pair classifications, all matching the Pure-D Template Rule with zero exceptions. (Each diagonal cell decomposes into an on-y_par sub-cell of 528 pairs and an off-y_par sub-cell of 528 pairs; the off-y_par sub-cell contains zero pure-D templates by Step 2 below, and the rule predicts zero hard pairs there, also empirically verified, so the rule covers the full diagonal cell.)
 
 ## Structural decomposition (per on-y_par sub-cell of the diagonal cell at k = N = 4)
 
@@ -94,7 +94,7 @@ L_D for D-dephasing has spec {0, −2γ_l, ...}, NOT symmetric around −σ (it'
 
 Heuristic conclusion: the combined spectrum spec(L) of a pure-D H + D-dephasing is generically non-palindromic around −σ (the L_D contribution shifts pairs unevenly). Hence the F87 spectrum-pairing condition fails, and pure-D H is F87-hard.
 
-This is a HEURISTIC mechanism, not a fully rigorous derivation: a precise count of which pure-D templates yield palindromic vs non-palindromic L would require enumerating each case. Empirically verified at k = N = 4: all 8 pure-D templates per diagonal cell are F87-hard (verified by `simulations/_f111_spec_palindrome_single_term.py`).
+This is a HEURISTIC mechanism, not a fully rigorous derivation: a precise count of which pure-D templates yield palindromic vs non-palindromic L would require enumerating each case. Empirically verified at k = N = 4: all 8 pure-D templates per diagonal cell are F87-hard (verified by `simulations/f111_spec_palindrome_single_term.py`).
 
 ### Step 4: Subclaims (b), (c), (d): empirical only
 
@@ -129,7 +129,7 @@ The original Task 1 goal was to derive F111 as Tier1Derived via closed-form pali
 
 Conclusion: the operator-level palindromization of the off-y_par sub-sector requires a non-tensor-product, non-Pauli-permutation Π operator that we could not construct. Tier1Candidate shipped with the empirical anchor + Pure-D Template Rule + subclaim (d) as open work. (2026-05-30: (d) closed modulo M via the chiral route, PROOF_F103 §7.4; 2026-06-10: the converse closed, F111 Tier1Derived.)
 
-Verification scripts: `simulations/_f111_path1_operator_search.py`, `simulations/_f111_path2_pi5bilinear_test.py`, `simulations/_f111_combined_operator_search.py`. Logs: `simulations/results/f111_*.txt`.
+Verification scripts: `simulations/f111_path1_operator_search.py`, `simulations/f111_path2_pi5bilinear_test.py`, `simulations/f111_combined_operator_search.py`. Logs: `simulations/results/f111_*.txt`.
 
 ## Significance
 

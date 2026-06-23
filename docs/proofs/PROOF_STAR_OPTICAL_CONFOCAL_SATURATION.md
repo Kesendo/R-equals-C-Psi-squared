@@ -31,7 +31,7 @@ independently of γ and of the corresponding dimensionless ratio Q = J/γ. The e
 
 ## Empirical anchors
 
-**Q-sweep at γ₀ = 0.05 (24 anchors bit-exact, 2026-05-19, `simulations/_f1_q_sweep_anchor.py`):**
+**Q-sweep at γ₀ = 0.05 (24 anchors bit-exact, 2026-05-19, `simulations/f1_q_sweep_anchor.py`):**
 
 | N \ Q | 0.5 | 1.0 | 1.5 | √3 | 2.0 | 2.5 |
 |---|---:|---:|---:|---:|---:|---:|
@@ -146,7 +146,7 @@ Other bipartite-complete graphs (K_{2,3}, K_{3,3}, K_{2,N−2}, ...) would also 
 
 ## Verification
 
-- Python anchors at 24 (N, Q) anchors × γ₀=0.05: [`simulations/_f1_q_sweep_anchor.py`](../../simulations/_f1_q_sweep_anchor.py) → `simulations/results/q_sweep_anchor/star_N{3..6}_Q{0.5..2.5}.json`.
+- Python anchors at 24 (N, Q) anchors × γ₀=0.05: [`simulations/f1_q_sweep_anchor.py`](../../simulations/f1_q_sweep_anchor.py) → `simulations/results/q_sweep_anchor/star_N{3..6}_Q{0.5..2.5}.json`.
 - C# N=8 anchor (Marrakesh convention): [`compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs`](../../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs) → `star_N8.json` (Im/σ = 1.0 bit-exact under the SLOW_N8 trait).
 - Typed claim: [`compute/RCPsiSquared.Core/Symmetry/StarImMaxBoundClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/StarImMaxBoundClaim.cs) (Tier 1 derived) with `Predict(N, J)` returning J·N/2 and `PredictImOverSigma(Q)` returning Q/2.
 

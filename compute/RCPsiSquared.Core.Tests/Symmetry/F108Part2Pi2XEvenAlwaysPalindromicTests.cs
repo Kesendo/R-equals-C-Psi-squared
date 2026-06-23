@@ -11,7 +11,7 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 /// <summary>F108 Part 2 closure tests: Π_5bilinear (X-deph variant) · L · Π⁻¹ =
 /// −L − 2σI bit-exactly for every Π²_X-even non-truly Hamiltonian + X-dephasing.
 /// Mirrors the F108 Part 1 test structure and the Python scan in
-/// <c>simulations/_f108_part2_x_dephasing_scan.py</c>.</summary>
+/// <c>simulations/f108_part2_x_dephasing_scan.py</c>.</summary>
 public class F108Part2Pi2XEvenAlwaysPalindromicTests
 {
     // ============================================================
@@ -169,7 +169,7 @@ public class F108Part2Pi2XEvenAlwaysPalindromicTests
     public void AllNinePi2XEvenNonTrulyPairs_XDephResidualIsZero_AtN(int N)
     {
         // Mirrors the 9-pair Phase 2 enumeration in
-        // simulations/_f108_part2_x_dephasing_scan.py.
+        // simulations/f108_part2_x_dephasing_scan.py.
         var pairs = EnumeratePurePi2XEvenNonTrulyPairs();
         Assert.Equal(9, pairs.Count);
         foreach (var (label, terms) in pairs)

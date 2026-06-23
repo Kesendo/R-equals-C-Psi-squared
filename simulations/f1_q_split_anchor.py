@@ -38,7 +38,7 @@ if sys.platform == "win32":
 
 sys.path.insert(0, "simulations")
 
-from _f1_topology_heisenberg_small_n_anchor import (  # noqa: E402
+from f1_topology_heisenberg_small_n_anchor import (  # noqa: E402
     chain_bonds,
     ring_bonds,
     run,

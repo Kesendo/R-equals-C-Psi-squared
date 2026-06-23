@@ -249,7 +249,7 @@ All cases give F(σ_α, σ_β) = 0. **∎**
 
 ## Empirical anchor: numerical verification at N = 1, 2, 3
 
-The verifier `simulations/_f112_universal_n_proof_verify.py` checks each lemma step and the main theorem within 1e-12 numpy double-precision tolerance (max deviation < 1e-12, i.e. machine zero to numpy double precision) at N = 1, 2, 3:
+The verifier `simulations/f112_universal_n_proof_verify.py` checks each lemma step and the main theorem within 1e-12 numpy double-precision tolerance (max deviation < 1e-12, i.e. machine zero to numpy double precision) at N = 1, 2, 3:
 
 | N | BitB-odd strings | Off-diag BitB-odd pairs | All-pairs F = 0 check |
 |---|---|---|---|

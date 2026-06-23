@@ -14,7 +14,7 @@ namespace RCPsiSquared.Core.Tests.F1;
 /// <summary>F1 general-topology verification: C# half of the closure for the last F1
 /// OpenQuestion ("general topology beyond chain/ring/star/K_N").
 ///
-/// <para>The Python half lives in <c>simulations/_f1_general_topology_verify.py</c>
+/// <para>The Python half lives in <c>simulations/f1_general_topology_verify.py</c>
 /// and covers N=5, 6 across named graphs, random connected Erdős-Rényi graphs,
 /// disconnected components, weighted edges, and the single-body class. This C# class
 /// adds:</para>
@@ -56,7 +56,7 @@ public class F1GeneralTopologyN7BlockSpectrumTests
 {
     // ----------------------------------------------------------------------
     // c_H anchor for XX+YZ at N=2 (matches PalindromeResidualScalingClaim.Verify
-    // and simulations/_f1_general_topology_verify.py section 1). Static-cached so
+    // and simulations/f1_general_topology_verify.py section 1). Static-cached so
     // the ~14 s build cost is paid once across all N=5 graph-aware tests.
     // ----------------------------------------------------------------------
 

@@ -35,7 +35,7 @@ public class F112NonHermitianBasisEnumerationTests
         // YI = Y⊗I at N=2 is a Hermitian Pauli string with bit_b parity 1 (Y has bit_b=1);
         // its L_H,-i Π-projection lives in the -i eigenspace (non-trivial sanity check
         // that the projection machinery actually works). Cross-checked against the Python
-        // reference simulations/_f112_open_identity_basis_enum.py: ||proj L_YI,-i|| = 4.0.
+        // reference simulations/f112_open_identity_basis_enum.py: ||proj L_YI,-i|| = 4.0.
         // (Strings with bit_b parity 0, e.g. XI, project entirely to the +1 eigenspace
         // and yield zero here, which would fail this sanity test.)
         var letters = new[] { PauliLetter.Y, PauliLetter.I };
@@ -95,7 +95,7 @@ public class F112NonHermitianBasisEnumerationTests
     [InlineData(4, 32896)]  // 256 strings, 256 * 257 / 2 = 32896 unordered pairs
     public void Enumerate_MatchesPythonAnchorAtNFromTwoToFour(int N, int expectedTotalPairs)
     {
-        // Python anchor (simulations/_f112_open_identity_basis_enum.py output at N=2,3,4):
+        // Python anchor (simulations/f112_open_identity_basis_enum.py output at N=2,3,4):
         // all pairs give Im = 0 bit-exact. This Theory replicates that anchor in C#.
         var result = F112NonHermitianBasisEnumeration.Enumerate(N, tolerance: 1e-10);
 

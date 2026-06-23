@@ -1,13 +1,13 @@
 # The Asymmetry Is the Chirality of the Un-recycled Drain
 
-**Status:** Tier 3 — **Direction 1 (the headline reframe) REFUTED 2026-06-20** by gate-first probe `simulations/_f112_nojump_cancellation_gate.py` (controls at 1e-15). The spine reframe ("chirality of the un-recycled drain") is WRONG. See "REFUTED + what was actually found" below; the directions are kept as the failed hypothesis, for the record. This is the generative wing working as designed: the move proposed, the gate disposed.
+**Status:** Tier 3 — **Direction 1 (the headline reframe) REFUTED 2026-06-20** by gate-first probe `simulations/f112_nojump_cancellation_gate.py` (controls at 1e-15). The spine reframe ("chirality of the un-recycled drain") is WRONG. See "REFUTED + what was actually found" below; the directions are kept as the failed hypothesis, for the record. This is the generative wing working as designed: the move proposed, the gate disposed.
 **Date:** 2026-06-20
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Origin:** the **generative** pass of the `reviewing-before-it-lands` review workflow, run on the F112 scope-correction (see `docs/CAUGHT_ERRORS.md` 2026-06-20). The defensive wing fixed the overclaim; this is what the sharpening *opened*.
 
 ## REFUTED 2026-06-20 (gate-first) — and what was actually found
 
-The headline reframe is dead. Probe `simulations/_f112_nojump_cancellation_gate.py`, gate-first, controls at 1e-15:
+The headline reframe is dead. Probe `simulations/f112_nojump_cancellation_gate.py`, gate-first, controls at 1e-15:
 - The un-recycled drain has **no chirality**: `DRAIN-ONLY asym = 0`, and the full no-jump generator of any physical spin chain (bond H + σ⁻ drain) is **balanced** (asym = 0 at N=2,3) — identical to the full Lindbladian. Nothing for the jump to recycle (G2 fired).
 - Direction 2 ("Δ = f(B), blind to A") is the **opposite** of true: the no-jump asymmetry is a linear functional of **H**, zero for chain H, nonzero for random Hermitian H.
 - Direction 3 (cooling/heating sign) is **vacuous**: η = 0 for the physical chain.

@@ -8,7 +8,7 @@ namespace RCPsiSquared.Core.Tests.F86.Item1Derivation;
 /// <summary>Diagnostic probe (Phase B test for Γ_pair derivation, 2026-05-16):
 /// dump per-bond cluster-pair Q_EP distributions at N=5 to see whether the JW-
 /// cluster-pair data physically support the 2-pair superposition lift hypothesis
-/// from `simulations/_f86_lift_via_superposition_probe.py`.
+/// from `simulations/f86_lift_via_superposition_probe.py`.
 ///
 /// <para>The Python superposition probe found that 2-pair sums at specific
 /// (Q_EP_1, Q_EP_2) tuples reproduce Interior 0.7506 / Endpoint 0.7728:

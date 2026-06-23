@@ -32,7 +32,7 @@ public class F1T1ResidualClosedFormTests
     }
 
     [Theory]
-    // Uniform γ_T1 = 0.1, mirrors simulations/_f1_t1_residual_verify.py section 2 numerics
+    // Uniform γ_T1 = 0.1, mirrors simulations/f1_t1_residual_verify.py section 2 numerics
     // (bit-exact match against the Python framework's palindrome_residual at N=2..5).
     [InlineData(2, 0.1, 0.880000)]    // 4^1 · 0.01 · (3·2 + 4·4) = 4 · 0.01 · 22 = 0.88
     [InlineData(3, 0.1, 7.200000)]    // 4^2 · 0.01 · (3·3 + 4·9) = 16 · 0.01 · 45 = 7.2

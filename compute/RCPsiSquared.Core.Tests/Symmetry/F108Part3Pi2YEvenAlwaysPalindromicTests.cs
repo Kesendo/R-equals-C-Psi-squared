@@ -13,7 +13,7 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 /// Mirrors the Part 1 + Part 2 test pattern; reuses shared
 /// <see cref="F108TestSupport.ComputeOperatorResidual"/> with
 /// <see cref="PauliLetter.Y"/>. Reproduction:
-/// <c>simulations/_f108_part3_y_dephasing_scan.py</c>.</summary>
+/// <c>simulations/f108_part3_y_dephasing_scan.py</c>.</summary>
 public class F108Part3Pi2YEvenAlwaysPalindromicTests
 {
     // ============================================================

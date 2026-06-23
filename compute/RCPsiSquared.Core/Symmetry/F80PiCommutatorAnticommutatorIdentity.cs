@@ -26,7 +26,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Either sign gives Spec(M) = ±2i·Spec(H), the F80 structural identity.
 ///
 /// <para>The argument is per-site and per-bond, hence N-independent; every step is
-/// verified bit-exact at N=3,4,5 by <c>simulations/_f80_step5_recon.py</c>. This
+/// verified bit-exact at N=3,4,5 by <c>simulations/f80_step5_recon.py</c>. This
 /// closes the last open step of F80, which is now fully Tier 1.</para>
 ///
 /// <para>Tier1Derived. Typed parent:
@@ -111,7 +111,7 @@ public sealed class F80PiCommutatorAnticommutatorIdentity : Claim
                 summary: "both signs give Spec(M) = ±2i·Spec(H), the F80 structural identity");
             yield return new InspectableNode("verification",
                 summary: "per-site identities, bond lemma, relation-flip and the four-pair "
-                       + "sign table all bit-exact at N=3,4,5 (simulations/_f80_step5_recon.py)");
+                       + "sign table all bit-exact at N=3,4,5 (simulations/f80_step5_recon.py)");
         }
     }
 }

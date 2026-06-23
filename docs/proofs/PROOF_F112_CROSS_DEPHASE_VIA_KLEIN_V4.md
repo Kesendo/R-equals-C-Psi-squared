@@ -9,7 +9,7 @@
 - [PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) (parent: Hermitian-H 5-step proof for d = Z)
 - [PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) (Welle 11: non-Hermitian H closure for d = Z via two structural lemmas)
 - [PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md) (Welle 12: Klein-V₄ subgroup {I, D, Q_zx, Q_yx} of U(4^N), where Q_yx = ⊗h is the element this proof also writes **H**; with D · Π_Z · D = Π_Y, Q_zx · Π_Z · Q_zx = Π_X, Q_yx · Π_Y · Q_yx = Π_X)
-- Verifier `simulations/_f112_klein_v4_cross_dephase_verify.py` (Welle 13)
+- Verifier `simulations/f112_klein_v4_cross_dephase_verify.py` (Welle 13)
 
 ## Abstract
 
@@ -27,7 +27,7 @@ The diagnostic reading: F112 is one identity, not three. It holds for any of the
 
 **The motivating question.** [PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) closed the polarity-balance identity for d = Z, the canonical Z-dephasing convention used throughout the codebase. The natural follow-up: does the same identity hold for d = X and d = Y, or is there something Z-specific about the construction? Once the Klein-V₄ swap group on operator space landed in [Welle 12 Task 2](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md), the three identities looked closely related (the V₄ conjugates the palindrome operators into one another). The remaining job was to write down the two routes that establish this rigorously — and, as it turned out, to find that only one of the two swap directions (the Hadamard Q_zx, Z → X) actually transports an identity, while Y must be re-derived directly.
 
-**The empirical anchor.** [simulations/_f112_klein_v4_cross_dephase_verify.py](../../simulations/_f112_klein_v4_cross_dephase_verify.py) verified the F112-X and F112-Y identities at N = 2, 3 with the appropriate axis_d-homogeneous c construction; the asymmetry vanished to ≤ 4.3e-14 for every configuration tested (literally 0.0 for the F112-X-direct and structural-lemma checks; floating-point noise ~1e-14 for the F112-Y and Hadamard routes, which carry the −i Π-phase). The commutator identity additionally holds at N = 4 (Hermitian and non-Hermitian H, checked 2026-06-20). The structural argument lifts the per-N verification to universal N via either route.
+**The empirical anchor.** [simulations/f112_klein_v4_cross_dephase_verify.py](../../simulations/f112_klein_v4_cross_dephase_verify.py) verified the F112-X and F112-Y identities at N = 2, 3 with the appropriate axis_d-homogeneous c construction; the asymmetry vanished to ≤ 4.3e-14 for every configuration tested (literally 0.0 for the F112-X-direct and structural-lemma checks; floating-point noise ~1e-14 for the F112-Y and Hadamard routes, which carry the −i Π-phase). The commutator identity additionally holds at N = 4 (Hermitian and non-Hermitian H, checked 2026-06-20). The structural argument lifts the per-N verification to universal N via either route.
 
 **What this proof closes.** Two complementary closures:
 
@@ -182,7 +182,7 @@ In particular, **F112-Y does NOT follow from D-conjugation of L_Z** — but not 
 
 ## (e) Verification
 
-The verifier `simulations/_f112_klein_v4_cross_dephase_verify.py` (Welle 13) confirms all four claims numerically at N = 2 and N = 3:
+The verifier `simulations/f112_klein_v4_cross_dephase_verify.py` (Welle 13) confirms all four claims numerically at N = 2 and N = 3:
 
 | Claim | N=2 max|asymmetry| or |Im F| | N=3 max|asymmetry| or |Im F| |
 |---|---|---|

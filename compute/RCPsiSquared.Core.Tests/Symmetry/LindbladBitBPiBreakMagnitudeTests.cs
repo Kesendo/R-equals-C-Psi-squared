@@ -119,7 +119,7 @@ public class LindbladBitBPiBreakMagnitudeTests
     [Fact]
     public void PredictAsymmetry_NonUniformRates_MatchesSumFormula()
     {
-        // Reproduces _f113_break_formula_derivation.py "Non-uniform rates" anchor
+        // Reproduces f113_break_formula_derivation.py "Non-uniform rates" anchor
         // under standard physics convention (σ⁻ lowering): pure σ⁻ T1 cooling at
         // positive ω gives NEGATIVE asymmetry.
         // ω_l = (0.05, 0.1, 0.2), γ_T1,l = (0.001, 0.002, 0.003), γ_pump = 0, N=3.
@@ -251,7 +251,7 @@ public class LindbladBitBPiBreakMagnitudeTests
     [Fact]
     public void PredictAsymmetry_MatchesPolarityCoordinatesDecompose_AtN3_NonUniformRates()
     {
-        // Same _f113_break_formula_derivation.py "Non-uniform rates" anchor at N=3:
+        // Same f113_break_formula_derivation.py "Non-uniform rates" anchor at N=3:
         // ω_l = (0.05, 0.1, 0.2), γ_T1,l = (0.001, 0.002, 0.003), γ_Z = 0 (pure
         // Z-drive + σ⁻ T1 isolation). Standard physics convention: σ⁻ T1 cooling
         // at positive ω gives NEGATIVE asymmetry = −0.0272.

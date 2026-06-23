@@ -3,7 +3,7 @@
 Closes the open algebraic step of F113 by combining:
 
   1. Welle-4 reduction:  asymmetry = 4·Re⟨L_H,+i, L_T1,+i⟩
-     (verified bit-exact at N = 1, 2, 3, 4 in _f113_coefficient_derivation.py)
+     (verified bit-exact at N = 1, 2, 3, 4 in f113_coefficient_derivation.py)
 
   2. Single-site explicit calculation at N = 1 (sympy):
      ⟨(L_H,1)_+i, (L_T1,1)_+i⟩ = -ω·γ/2
@@ -24,7 +24,7 @@ Closes the open algebraic step of F113 by combining:
 This script performs each step concretely, providing the calculational backbone
 for PROOF_F113_COEFFICIENT_DERIVATION.md.
 
-Run: python -X utf8 simulations/_f113_coefficient_proof.py
+Run: python -X utf8 simulations/f113_coefficient_proof.py
 """
 from __future__ import annotations
 
@@ -555,7 +555,7 @@ def step8_lemma_c():
     print("Lemma C ALGEBRAIC CLOSURE (Π²-odd reduction):")
     print("  Step C.1 (algebra): Tr(A_+i · B_-i) + Tr(A_-i · B_+i) = Tr(A_odd · B_odd)")
     print("  Step C.2 (Lindblad): Tr((L_H)_odd · (L_T1)_odd) = 0")
-    print("  Full proof + verification: simulations/_f113_lemma_c_step5_closure.py")
+    print("  Full proof + verification: simulations/f113_lemma_c_step5_closure.py")
     print()
     for N in [1, 2, 3, 4, 5]:
         Pi_N = fw.symmetry.build_pi_full(N)

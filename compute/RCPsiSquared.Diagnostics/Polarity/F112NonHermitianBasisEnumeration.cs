@@ -16,7 +16,7 @@ namespace RCPsiSquared.Diagnostics.Polarity;
 /// pair. If all pairs vanish bit-exact (within tolerance), F112 non-Hermitian extension
 /// is Tier1Derived at this N by bilinearity + basis spanning.
 ///
-/// <para>C# port of <c>simulations/_f112_open_identity_basis_enum.py</c>. Existing Python
+/// <para>C# port of <c>simulations/f112_open_identity_basis_enum.py</c>. Existing Python
 /// anchor: N=2, 3, 4 bit-exact (35,112 distinct ordered pairs total). This primitive
 /// extends to N=5 (524,800 pairs, ~16 GB working memory).</para>
 ///

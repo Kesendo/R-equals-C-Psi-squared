@@ -26,7 +26,7 @@ public class F1DepolResidualClosedFormTests
     }
 
     [Theory]
-    // Uniform γ = 0.1, mirrors simulations/_f1_depol_residual_verify.py section 2 numerics
+    // Uniform γ = 0.1, mirrors simulations/f1_depol_residual_verify.py section 2 numerics
     // (bit-exact match against the Python framework's palindrome_residual at N=2..5).
     // 4^(N−1) · 0.01 · ((16/9)·N + 16·N²).
     [InlineData(2, 0.1, 2.7022222222)]    // 4^1 · 0.01 · ((16/9)·2 + 16·4) = 4 · 0.01 · (32/9 + 64) = 4 · 0.01 · 67.5555…

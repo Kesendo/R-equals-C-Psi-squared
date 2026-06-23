@@ -84,7 +84,7 @@ namespace RCPsiSquared.Core.F1;
 /// <list type="bullet">
 ///   <item>Synthesis proof: <c>docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md</c></item>
 ///   <item>Python verification script:
-///         <c>simulations/_f1_general_topology_verify.py</c></item>
+///         <c>simulations/f1_general_topology_verify.py</c></item>
 ///   <item>C# verification tests:
 ///         <c>compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs</c> (default-run)
 ///         + <c>compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs</c>
@@ -181,7 +181,7 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
     public bool SingleBodyClassVerified { get; } = true;
 
     /// <summary>Anchor script path (Python verification, sections 1-6).</summary>
-    public string AnchorScriptPath { get; } = "simulations/_f1_general_topology_verify.py";
+    public string AnchorScriptPath { get; } = "simulations/f1_general_topology_verify.py";
 
     /// <summary>Anchor test paths (C# verification): the default-run N=7 file with
     /// 9 [Fact] methods, plus the opt-in SLOW_N8 file with 4 [Fact] methods at N=8 and
@@ -231,7 +231,7 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
     public F1GeneralTopologyVerifiedClaim()
         : base("F1 general topology verification: (B, D2) closed form extends to disconnected + weighted + random graphs at N=5..9; N=9 chain reached 2026-05-19 via the MklDirect bridge; next frontier N=10 is memory-pressure rather than LP64 marshalling",
                Tier.Tier2Verified,
-               "docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md + simulations/_f1_general_topology_verify.py + compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN{7,8,9}BlockSpectrumTests.cs (SLOW_N{8,9} opt-in traits for the larger N) + MklDirect bridge for N=9")
+               "docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md + simulations/f1_general_topology_verify.py + compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN{7,8,9}BlockSpectrumTests.cs (SLOW_N{8,9} opt-in traits for the larger N) + MklDirect bridge for N=9")
     { }
 
     public override string DisplayName =>

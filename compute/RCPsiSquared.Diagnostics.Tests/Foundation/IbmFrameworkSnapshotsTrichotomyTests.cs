@@ -15,7 +15,7 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// differentiating the trichotomy by ~25× between truly and soft. Source data
 /// transcribed from
 /// <c>D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography\results\framework_snapshots_ibm_marrakesh_20260426_105948.json</c>;
-/// Python counterpart: <c>simulations/_f88b_lens_ibm_framework_snapshots.py</c>.
+/// Python counterpart: <c>simulations/f88b_lens_ibm_framework_snapshots.py</c>.
 /// </summary>
 public class IbmFrameworkSnapshotsTrichotomyTests
 {

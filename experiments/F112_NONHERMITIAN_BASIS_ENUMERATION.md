@@ -3,7 +3,7 @@
 **Status:** Tier1Derived for all N (Welle 11, 2026-05-27) via the two-lemma structural proof in [`PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md`](../docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md). The basis-enumeration result at N ≤ 6 below is preserved as the **empirical anchor** that motivated the search for the structural proof; it remains the historical numerical validation (8,950,568 pair F-values across N=2..6 all bit-exact 0 or < 1e-10).
 **Date:** 2026-05-26 (initial enumeration N≤4); 2026-05-26 Welle 10b (extended to N=5); 2026-05-27 Welle 11 (universal-N structural proof); 2026-05-27 Welle 10d (sparse-rep extension to N=6).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Scripts:** Structural proof verifier [`simulations/_f112_universal_n_proof_verify.py`](../simulations/_f112_universal_n_proof_verify.py) (Welle 11, N=1, 2, 3) + Python enumeration [`simulations/_f112_open_identity_basis_enum.py`](../simulations/_f112_open_identity_basis_enum.py) (Welle 10a, N=2..5) + C# dense enumeration [`compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs`](../compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs) (Welle 10b, N=2..5 via SLOW_F112-tagged test; Welle 10d sparse-rep path `SparseLSigma` + `BuildSparseLSigma` + `ProjectSparseOntoPiMinusI` + `FrobeniusInnerSparse` + `EnumerateSparse`, N=2..6 via SLOW_F112_SPARSE-tagged test, parallelized via Parallel.For/ForEach)
+**Scripts:** Structural proof verifier [`simulations/f112_universal_n_proof_verify.py`](../simulations/f112_universal_n_proof_verify.py) (Welle 11, N=1, 2, 3) + Python enumeration [`simulations/f112_open_identity_basis_enum.py`](../simulations/f112_open_identity_basis_enum.py) (Welle 10a, N=2..5) + C# dense enumeration [`compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs`](../compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs) (Welle 10b, N=2..5 via SLOW_F112-tagged test; Welle 10d sparse-rep path `SparseLSigma` + `BuildSparseLSigma` + `ProjectSparseOntoPiMinusI` + `FrobeniusInnerSparse` + `EnumerateSparse`, N=2..6 via SLOW_F112_SPARSE-tagged test, parallelized via Parallel.For/ForEach)
 **Connects:** [PROOF_F112_NONHERMITIAN_UNIVERSAL_N](../docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) (the structural proof, this writeup's parent), [PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) (Hermitian-H parent theorem), [F112 ANALYTICAL_FORMULAS entry](../docs/ANALYTICAL_FORMULAS.md), [LindbladBitBPiBalance](../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs)
 
 ## The open identity
@@ -26,7 +26,7 @@ Two algebraic observations:
 
 ## Numerical enumeration result
 
-The script `_f112_open_identity_basis_enum.py` enumerates F on all upper-triangular Pauli-string pairs at N=2, 3, 4. Welle 10b adds N=5 via two independent pipelines, and Welle 10d adds N=6 via the C# sparse-rep pipeline:
+The script `f112_open_identity_basis_enum.py` enumerates F on all upper-triangular Pauli-string pairs at N=2, 3, 4. Welle 10b adds N=5 via two independent pipelines, and Welle 10d adds N=6 via the C# sparse-rep pipeline:
 
 | N | distinct upper-triangular pairs | max \|Im F\| | pipeline | wall time |
 |---|---|---|---|---|
@@ -56,7 +56,7 @@ The universal-N closure rests on two lemmas (see [`PROOF_F112_NONHERMITIAN_UNIVE
 
 Both Welle 11 lemmas (N-A and N-B) reduce to per-position checks on the 4^N × 4^N matrix of L_σ that are uniform in N; the proof is N-independent.
 
-**Verifier:** [`simulations/_f112_universal_n_proof_verify.py`](../simulations/_f112_universal_n_proof_verify.py) confirms each step within 1e-12 numpy double-precision tolerance at N = 1, 2, 3 (42 BitB-odd strings, 1050 off-diagonal pairs, 4368 all-pair F-values, all max deviations < 1e-12, i.e. machine zero to numpy double precision). The Welle 10a Python enumeration above is genuinely bit-exact at N ≤ 4 (rational matrix entries); the Welle 11 verifier is numerical.
+**Verifier:** [`simulations/f112_universal_n_proof_verify.py`](../simulations/f112_universal_n_proof_verify.py) confirms each step within 1e-12 numpy double-precision tolerance at N = 1, 2, 3 (42 BitB-odd strings, 1050 off-diagonal pairs, 4368 all-pair F-values, all max deviations < 1e-12, i.e. machine zero to numpy double precision). The Welle 10a Python enumeration above is genuinely bit-exact at N ≤ 4 (rational matrix entries); the Welle 11 verifier is numerical.
 
 ## Implications
 
@@ -68,8 +68,8 @@ Both Welle 11 lemmas (N-A and N-B) reduce to per-position checks on the 4^N × 4
 
 **Python (N=2..5):**
 ```
-python -X utf8 simulations/_f112_open_identity_basis_enum.py        # N=2 + N=3 by default
-PYTHONIOENCODING=utf-8 python simulations/_f112_n5_run.py            # N=5 wrapper, ~16 GB, ~90 min
+python -X utf8 simulations/f112_open_identity_basis_enum.py        # N=2 + N=3 by default
+PYTHONIOENCODING=utf-8 python simulations/f112_n5_run.py            # N=5 wrapper, ~16 GB, ~90 min
 ```
 
 **C# (canonical typed-knowledge layer):**

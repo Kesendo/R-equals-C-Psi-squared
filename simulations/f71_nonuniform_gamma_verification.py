@@ -1,59 +1,47 @@
 #!/usr/bin/env python3
-"""_f71_nonuniform_j_verification.py
+"""f71_nonuniform_gamma_verification.py
 
-F71 open question #1 -- "non-uniform J_b: graceful breakdown vs hard violation".
+F71 open question #1 -- "non-uniform gamma_i: site-dependent dephasing".
 
-Verifies the analytic prediction (memory project_f71_nonuniform_j, 2026-05-20):
-the c_1 bond-mirror deviation
+Witnesses F101: the c_1 bond-mirror deviation
 
     D(b) := c_1(b) - c_1(N-2-b)
 
-is an exactly ODD function of the F71-anti-palindromic J-component
-J_anti = (J - F71(J))/2, at fixed F71-palindromic component J_sym.
+is an exactly ODD function of the F71-anti-palindromic component of the per-site
+Z-dephasing profile gamma, at fixed F71-palindromic component gamma_sym. F101 is
+the observable-side twin of F91 (gamma spectral invariance); the J-side twin is
+F100. Decompose gamma (N sites) at the site-mirror l <-> N-1-l:
 
-Write the base coupling profile as J_base(s) = J_sym + s * J_anti_dir, with
-J_sym palindromic (J_sym[b] = J_sym[N-2-b]) and J_anti_dir anti-palindromic
-(J_anti_dir[b] = -J_anti_dir[N-2-b]). The prediction has four parts:
+    gamma_sym  = (gamma + F71(gamma)) / 2     (F71-palindromic)
+    gamma_anti = (gamma - F71(gamma)) / 2     (F71-anti-palindromic)
+
+Write the base profile gamma_base(s) = gamma_sym + s * gamma_anti_dir. Prediction:
 
   (a) D(b; s=0) = 0                  -- F71 survives ALL palindromic non-
-                                        uniformity, incl. non-uniform J_sym.
+                                        uniformity, incl. non-uniform gamma_sym.
   (b) D(b; -s) = -D(b; +s)           -- exactly odd in s, all orders.
-  (c) D(b; s) = kappa_b * s + O(s^3) -- leading order linear, generically
-                                        kappa_b != 0; even powers vanish.
-  (d) kappa_b generically DEPENDS on J_sym. The memory prose "depends only on
-      J_anti" overshoots: the parity argument only forces oddness + vanishing
-      at s=0. This run maps the J_sym-dependence of kappa_b.
+  (c) D(b; s) = kappa_gamma * s + O(s^3) -- leading order linear; even powers
+                                        vanish.
+  (d) kappa_gamma generically DEPENDS on gamma_sym (Tier 2 empirical, no closed
+      form). This run maps the gamma_sym-dependence.
 
 c_1 is the EQ-018 closure-breaking coefficient (PROOF_C1_MIRROR_SYMMETRY): the
 first-order response of Sum_i ln(alpha_i) to a single-bond dJ probe, extracted
-by the alpha-rescaling fit on per-site purity.
+by the alpha-rescaling fit on per-site purity. The base swept here is gamma; the
+c_1-defining probe is still a dJ probe, with J held uniform.
 
 EXACT SECTOR RESTRICTION. The chain XY + Z-dephasing Liouvillian L is exactly
-block-diagonal in the (bra-excitation, ket-excitation) bigrading: XY-hopping
-and Z-dephasing both conserve excitation number. The probe states psi_k+vac
-live entirely in the operator sectors {0,1} x {0,1}, an invariant subspace of
-dimension 1 + 2N + N^2 = (N+1)^2 (vacuum + N single-excitation kets, on each
-of bra/ket). This script propagates inside that (N+1)^2-dim block instead of
-the full 4^N Liouville space -- an EXACT restriction (bit-identical answer, not
-a truncation): for N=6 a 49x49 eigendecomposition replaces a 4096x4096 one.
-This is the same popcount-sector block decomposition the C# engine uses
-(F71MirrorBlockRefinement, LiouvillianBlockSpectrum). build_L_sub is verified
-bit-identical to slicing the full Liouvillian by the Gate-1 self-test at N=3,4.
+block-diagonal in the (bra-excitation, ket-excitation) bigrading. The probe
+states psi_k+vac live in the (popcount<=1) x (popcount<=1) operator block of
+dimension (N+1)^2. build_L_sub_gamma propagates inside that block; it is
+verified bit-identical to the full per-site-gamma Liouvillian sliced to the
+block by the Gate-1 self-test.
 
-PROBE STATES: psi_1+vac and psi_2+vac (OBC sine modes psi_k superposed with the
-vacuum) -- the reflection-symmetric states with which PROOF_C1 verified the F71
-c_1 mirror to < 1e-9.
-
-FLAT-SITE GUARD: a site whose per-site purity is constant over the fit window
-(span < FLAT_TOL) carries no closure signal -> alpha := 1 (ln alpha = 0). For
-psi_k+vac it never triggers (n_guarded == 0); defense-in-depth + diagnostic.
-
-Two distinct small parameters:
-  s   -- amplitude of the anti-palindromic deformation of the BASE chain (swept)
-  dJ  -- the single-bond probe that DEFINES c_1 (fixed = DJ_EXTRACT)
+PROBE STATES: psi_1+vac and psi_2+vac (the PROOF_C1-validated reflection-
+symmetric states).
 
 Usage:
-  python -u _f71_nonuniform_j_verification.py --N 4,5,6
+  python -u f71_nonuniform_gamma_verification.py --N 3,4,5
 """
 from __future__ import annotations
 
@@ -71,17 +59,18 @@ if sys.platform == "win32":
 
 sys.path.insert(0, str(Path(__file__).parent))
 from pi_pair_closure_investigation import (  # noqa: E402
-    GAMMA_0, T_FINAL, N_STEPS, T_FIT_MAX, Z,
-    build_H_XY, build_liouvillian_matrix, site_op,
+    T_FINAL, N_STEPS, T_FIT_MAX, Z,
+    build_H_XY, site_op,
     vacuum_ket, single_excitation_mode,
     density_matrix, per_site_purity, fit_alpha,
 )
 
-RESULTS_DIR = Path(__file__).parent / "results" / "f71_nonuniform_j_verification"
+RESULTS_DIR = Path(__file__).parent / "results" / "f71_nonuniform_gamma_verification"
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
+J_UNIFORM_VAL = 1.0                     # fixed uniform coupling; c_1 probe perturbs it
 DJ_EXTRACT = 0.01                       # single-bond probe that defines c_1
-S_VALUES = (-0.12, -0.08, -0.04, 0.0, 0.04, 0.08, 0.12)  # J_anti sweep amplitudes
+S_VALUES = (-0.03, -0.02, -0.01, 0.0, 0.01, 0.02, 0.03)  # gamma_anti sweep amplitudes
 FLAT_TOL = 1e-9                         # per-site purity span below -> no signal
 C1_INFORMATIVE_FLOOR = 1e-3             # |c_1| above this -> record is informative
 
@@ -96,37 +85,50 @@ def kept_basis(N):
     return [a for a in range(d) if bin(a).count("1") <= 1]
 
 
-def build_L_sub(J_list, gamma_0, N, S):
-    """Liouvillian restricted to the (popcount<=1) x (popcount<=1) operator
-    block -- the exact (N+1)^2-dim invariant subspace for psi_k+vac.
+def build_L_sub_gamma(J_list, gamma_list, N, S):
+    """Liouvillian restricted to the (popcount<=1) x (popcount<=1) operator block,
+    with a PER-SITE dephasing profile gamma_list (length N) instead of a scalar.
 
-    Identical construction to build_liouvillian_matrix, with the Hilbert space
-    restricted to span(S): H_S = H|_S (H is S-invariant since XY conserves
-    excitation), Z_i|_S the dephasing operators on S. Verified bit-identical to
-    the full Liouvillian sliced to S x S (Gate-1 self-test)."""
+    D[rho] = sum_l gamma_list[l] (Z_l rho Z_l - rho). Verified bit-identical to
+    build_L_full_gamma sliced to S x S by the Gate-1 self-test."""
     H_S = build_H_XY(J_list, N)[np.ix_(S, S)]
     m = len(S)
     I_m = np.eye(m, dtype=complex)
     L = -1j * (np.kron(I_m, H_S) - np.kron(H_S.T, I_m))
-    for i in range(N):
-        Zi = site_op(Z, i, N)[np.ix_(S, S)]          # Z_i restricted to span(S)
-        L += gamma_0 * (np.kron(Zi.T, Zi) - np.kron(I_m, I_m))
+    for l in range(N):
+        Zl = site_op(Z, l, N)[np.ix_(S, S)]          # Z_l restricted to span(S)
+        L += gamma_list[l] * (np.kron(Zl.T, Zl) - np.kron(I_m, I_m))
+    return L
+
+
+def build_L_full_gamma(J_list, gamma_list, N):
+    """Full 4^N Liouvillian with a per-site dephasing profile gamma_list. The
+    Gate-1 reference for build_L_sub_gamma."""
+    d = 1 << N
+    H = build_H_XY(J_list, N)
+    I_d = np.eye(d, dtype=complex)
+    L = -1j * (np.kron(I_d, H) - np.kron(H.T, I_d))
+    for l in range(N):
+        Zl = site_op(Z, l, N)
+        L += gamma_list[l] * (np.kron(Zl.T, Zl) - np.kron(I_d, I_d))
     return L
 
 
 def selftest_sector_restriction():
-    """Gate 1: build_L_sub MUST equal the full 4^N Liouvillian sliced to the
-    (popcount<=1) operator block, bit-level. Hard-asserts at N=3,4."""
+    """Gate 1 -- exact sector restriction self-test: build_L_sub_gamma MUST equal
+    the full 4^N per-site-gamma Liouvillian sliced to the (popcount<=1) operator
+    block, bit-level. Hard-asserts at N=3,4."""
     print("Gate 1 -- exact sector restriction self-test:", flush=True)
     for N in (3, 4):
         d = 1 << N
         S = kept_basis(N)
         kept = [S[m] + d * S[n] for n in range(len(S)) for m in range(len(S))]
-        for label, J in (("uniform", [1.0] * (N - 1)),
-                          ("nonuniform", [0.7 + 0.3 * b for b in range(N - 1)])):
-            L_full = build_liouvillian_matrix(build_H_XY(J, N), GAMMA_0, N)
+        J = [J_UNIFORM_VAL] * (N - 1)
+        for label, gamma in (("uniform", [0.05] * N),
+                              ("nonuniform", [0.03 + 0.02 * l for l in range(N)])):
+            L_full = build_L_full_gamma(J, gamma, N)
             L_sliced = L_full[np.ix_(kept, kept)]
-            L_direct = build_L_sub(J, GAMMA_0, N, S)
+            L_direct = build_L_sub_gamma(J, gamma, N, S)
             diff = float(np.max(np.abs(L_sliced - L_direct)))
             assert diff < 1e-12, (f"Gate 1 FAIL N={N} {label}: "
                                   f"max|L_sub - L_full[kept]| = {diff:.2e}")
@@ -184,7 +186,7 @@ def measure_c1(rho_0, decA, decBp, decBm, N, times, S):
 
 
 # ---------------------------------------------------------------------------
-# Probe states / J_sym / J_anti construction
+# Probe states / gamma_sym / gamma_anti construction
 # ---------------------------------------------------------------------------
 def probe_states(N):
     """PROOF_C1-validated reflection-symmetric probe states psi_k + vacuum.
@@ -198,38 +200,43 @@ def probe_states(N):
 
 
 def f71_mirror(profile):
-    """F71 chain-mirror on a bond profile: bond b <-> bond N-2-b."""
+    """F71 chain-mirror: reverse a profile array. Maps a per-site profile under
+    site l <-> N-1-l (used here for gamma) or a per-bond profile under bond
+    b <-> N-2-b. The reversal [::-1] is the same operation for either."""
     return np.array(profile)[::-1]
 
 
-def j_anti_direction(N):
-    """The canonical anti-palindromic 'linear ramp' direction on N-1 bonds:
-    J_anti_dir[b] = 2b/(N-2) - 1. Anti-palindromic; F71-fixed central bond 0."""
-    return np.array([2.0 * b / (N - 2) - 1.0 for b in range(N - 1)])
+def gamma_anti_direction(N):
+    """The canonical anti-palindromic 'linear ramp' direction on N sites:
+    gamma_anti_dir[l] = 2l/(N-1) - 1. Anti-palindromic under the site-mirror
+    l <-> N-1-l; for odd N the central site l=(N-1)/2 is F71-fixed (value 0)."""
+    return np.array([2.0 * l / (N - 1) - 1.0 for l in range(N)])
 
 
-def j_sym_profiles(N):
-    """Four F71-palindromic base profiles: 3 uniform magnitudes (probe the
-    J_sym-magnitude dependence of kappa) + 1 non-uniform palindromic 'valley'
-    (test D=0 survival for non-uniform palindromic J; probe shape dependence)."""
-    nb = N - 1
+def gamma_sym_profiles(N):
+    """Four F71-palindromic per-site base profiles: 3 uniform magnitudes (probe
+    the gamma_sym-magnitude dependence of kappa_gamma) + 1 non-uniform palindromic
+    'valley' (test D=0 survival for non-uniform palindromic gamma; probe shape
+    dependence). With |s| <= 0.03 and |gamma_anti_dir| <= 1, gamma_base stays
+    strictly positive: min gamma = 0.05 - 0.03 = 0.02 > 0."""
     profiles = {
-        "uniform_0.8": np.full(nb, 0.8),
-        "uniform_1.0": np.full(nb, 1.0),
-        "uniform_1.2": np.full(nb, 1.2),
+        "uniform_0.05": np.full(N, 0.05),
+        "uniform_0.08": np.full(N, 0.08),
+        "uniform_0.11": np.full(N, 0.11),
     }
-    valley = np.array([1.2 - 0.4 * (1.0 - abs(2.0 * b / (nb - 1) - 1.0))
-                       for b in range(nb)])
+    valley = np.array([0.11 - 0.05 * (1.0 - abs(2.0 * l / (N - 1) - 1.0))
+                       for l in range(N)])
     profiles["valley_nonuniform"] = valley
     return profiles
 
 
 def assert_decomposition(N):
-    """Sanity: J_sym profiles palindromic, J_anti direction anti-palindromic."""
-    anti = j_anti_direction(N)
-    assert np.allclose(anti, -f71_mirror(anti)), "J_anti not anti-palindromic"
-    for name, sym in j_sym_profiles(N).items():
-        assert np.allclose(sym, f71_mirror(sym)), f"J_sym '{name}' not palindromic"
+    """Sanity: gamma_sym profiles palindromic, gamma_anti direction anti-
+    palindromic (site-mirror l <-> N-1-l)."""
+    anti = gamma_anti_direction(N)
+    assert np.allclose(anti, -f71_mirror(anti)), "gamma_anti not anti-palindromic"
+    for name, sym in gamma_sym_profiles(N).items():
+        assert np.allclose(sym, f71_mirror(sym)), f"gamma_sym '{name}' not palindromic"
 
 
 # ---------------------------------------------------------------------------
@@ -238,22 +245,23 @@ def assert_decomposition(N):
 def run_one_N(N, s_values):
     print(f"\n{'=' * 74}", flush=True)
     print(f"N = {N}   (full d^2 = {4**N}, sector dim = {(N+1)**2})   "
-          f"bonds 0..{N-2}", flush=True)
+          f"sites 0..{N-1}, bonds 0..{N-2}", flush=True)
     print(f"{'=' * 74}", flush=True)
     assert_decomposition(N)
     nb = N - 1
     S = kept_basis(N)
-    anti = j_anti_direction(N)
-    sym_profiles = j_sym_profiles(N)
+    anti = gamma_anti_direction(N)
+    sym_profiles = gamma_sym_profiles(N)
     probe = probe_states(N)
     state_names = list(probe.keys())
     times = np.linspace(0.0, T_FINAL, N_STEPS + 1)
     pairs = [(b, N - 2 - b) for b in range(nb) if b < N - 2 - b]
+    J_uniform = [J_UNIFORM_VAL] * nb
     for nm, r in probe.items():                         # support check
         leak = float(abs(np.sum(np.abs(r)) - np.sum(np.abs(r[np.ix_(S, S)]))))
         assert leak < 1e-12, f"{nm} leaks outside the (N+1)^2 subspace: {leak}"
     print(f"  probe states: {state_names}", flush=True)
-    print(f"  J_anti direction (linear ramp): "
+    print(f"  gamma_anti direction (linear ramp): "
           f"[{', '.join(f'{x:+.3f}' for x in anti)}]", flush=True)
     print(f"  F71 bond pairs for D: {pairs}"
           f"{'  central self-paired bond ' + str(nb // 2) if nb % 2 else ''}",
@@ -269,22 +277,24 @@ def run_one_N(N, s_values):
 
     for sym_name, sym in sym_profiles.items():
         for s in s_values:
-            J_base = sym + s * anti
+            gamma_base = list(sym + s * anti)
             done += 1
             t0 = time.time()
-            decA = eig_and_inv(build_L_sub(list(J_base), GAMMA_0, N, S))
+            assert min(gamma_base) > 0.0, (
+                f"gamma_base went non-positive: {sym_name} s={s}: {gamma_base}")
+            decA = eig_and_inv(build_L_sub_gamma(J_uniform, gamma_base, N, S))
             for b in range(nb):
-                J_bp = list(J_base); J_bp[b] += DJ_EXTRACT
-                J_bm = list(J_base); J_bm[b] -= DJ_EXTRACT
-                decBp = eig_and_inv(build_L_sub(J_bp, GAMMA_0, N, S))
-                decBm = eig_and_inv(build_L_sub(J_bm, GAMMA_0, N, S))
+                J_bp = list(J_uniform); J_bp[b] += DJ_EXTRACT
+                J_bm = list(J_uniform); J_bm[b] -= DJ_EXTRACT
+                decBp = eig_and_inv(build_L_sub_gamma(J_bp, gamma_base, N, S))
+                decBm = eig_and_inv(build_L_sub_gamma(J_bm, gamma_base, N, S))
                 for st_name, st_rho in probe.items():
                     val, rm, ng = measure_c1(st_rho, decA, decBp, decBm,
                                              N, times, S)
                     c1[sym_name][s][b][st_name] = val
                     rmse_max = max(rmse_max, rm)
                     guarded_total += ng
-            print(f"  [{done:2d}/{n_profiles}] J_sym={sym_name:18s} s={s:+.2f}  "
+            print(f"  [{done:2d}/{n_profiles}] gamma_sym={sym_name:18s} s={s:+.2f}  "
                   f"{time.time()-t0:5.1f} s", flush=True)
 
     print(f"  N={N} sweep done in {time.time()-t_run:.1f} s  "
@@ -293,11 +303,11 @@ def run_one_N(N, s_values):
 
     analysis = analyse_N(N, c1, s_values, pairs, state_names)
     return {
-        "N": N, "gamma_0": GAMMA_0, "dJ_extract": DJ_EXTRACT,
+        "N": N, "j_uniform": J_UNIFORM_VAL, "dJ_extract": DJ_EXTRACT,
         "sector_dim": (N + 1) ** 2, "full_dim": 4 ** N,
         "s_values": list(s_values), "probe_states": state_names,
-        "j_anti_direction": anti.tolist(),
-        "j_sym_profiles": {k: v.tolist() for k, v in sym_profiles.items()},
+        "gamma_anti_direction": anti.tolist(),
+        "gamma_sym_profiles": {k: v.tolist() for k, v in sym_profiles.items()},
         "c1": {name: {f"{s:+.2f}": {f"bond{b}": dict(c1[name][s][b])
                                     for b in range(nb)}
                       for s in s_values}
@@ -310,7 +320,7 @@ def run_one_N(N, s_values):
 
 def analyse_N(N, c1, s_values, pairs, state_names):
     """Per-N verdict: palindromic survival, oddness, leading coefficient,
-    even-power suppression, J_sym-dependence of kappa."""
+    even-power suppression, gamma_sym-dependence of kappa."""
     s_arr = np.array(s_values)
     pos_s = sorted(s for s in s_values if s > 0)
     sym_names = list(c1.keys())
@@ -352,7 +362,7 @@ def analyse_N(N, c1, s_values, pairs, state_names):
     kappa_max_inf = max(kappa_inf, default=0.0)
     D_typ_inf = max((r["D_typ_max"] for r in inf), default=0.0)
 
-    jsym_spread = []
+    gsym_spread = []
     for st in state_names:
         for pr in pairs:
             ks = [r["kappa"] for r in records
@@ -361,15 +371,15 @@ def analyse_N(N, c1, s_values, pairs, state_names):
                       and r["pair"] == pr and r["informative"]]
             if len(ks_inf) >= 2 and max(abs(k) for k in ks_inf) > 1e-4:
                 spread = max(ks) - min(ks)
-                jsym_spread.append({
+                gsym_spread.append({
                     "state": st, "pair": pr, "kappa_range": float(spread),
                     "kappa_rel_spread": float(spread / max(abs(k) for k in ks_inf)),
                 })
-    max_rel_spread = max((j["kappa_rel_spread"] for j in jsym_spread), default=0.0)
+    max_rel_spread = max((j["kappa_rel_spread"] for j in gsym_spread), default=0.0)
 
     print(f"\n  --- N={N} verdict ---", flush=True)
     print(f"  (a) palindromic survival   max|D(s=0)|        = {survival:.2e}"
-          f"   (expect ~0: F71 holds for non-uniform palindromic J)", flush=True)
+          f"   (expect ~0: F71 holds for non-uniform palindromic gamma)", flush=True)
     print(f"  (b) oddness                max|D(+s)+D(-s)|   = {oddness:.2e}"
           f"   (typ |D| at max s = {D_typ_inf:.2e})", flush=True)
     print(f"      even powers            max|const|={const_res:.1e}  "
@@ -377,8 +387,8 @@ def analyse_N(N, c1, s_values, pairs, state_names):
     print(f"  (c) leading coefficient    informative |kappa| in "
           f"[{kappa_min_inf:.4f}, {kappa_max_inf:.4f}]"
           f"   ({len(inf)} informative records)", flush=True)
-    print(f"  (d) J_sym-dependence       max relative kappa spread across "
-          f"the {len(sym_names)} J_sym profiles = {max_rel_spread*100:.1f}%",
+    print(f"  (d) gamma_sym-dependence   max relative kappa spread across "
+          f"the {len(sym_names)} gamma_sym profiles = {max_rel_spread*100:.1f}%",
           flush=True)
 
     print(f"\n  kappa_b table (leading coeff of D(b;s) = c_1(b) - c_1(N-2-b)):",
@@ -403,24 +413,24 @@ def analyse_N(N, c1, s_values, pairs, state_names):
         "criterion_d_max_rel_kappa_spread": max_rel_spread,
         "typ_D_informative": D_typ_inf,
         "records": records,
-        "jsym_spread": jsym_spread,
+        "gsym_spread": gsym_spread,
     }
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--N", type=str, default="4,5,6",
-                        help="Comma-separated N values (default 4,5,6)")
+    parser.add_argument("--N", type=str, default="3,4,5",
+                        help="Comma-separated N values (default 3,4,5)")
     args = parser.parse_args()
     N_list = [int(x) for x in args.N.split(",")]
 
     print("=" * 74, flush=True)
-    print("F71 non-uniform J -- numerical verification of the graceful-breakdown",
+    print("F101 -- numerical verification: D(b) = c_1(b) - c_1(N-2-b) is exactly",
           flush=True)
-    print("prediction: D(b) = c_1(b) - c_1(N-2-b) is exactly odd in J_anti.",
+    print("odd in the F71-anti-palindromic component of per-site gamma.",
           flush=True)
     print("=" * 74, flush=True)
-    print(f"  gamma_0 = {GAMMA_0}   dJ probe = {DJ_EXTRACT}", flush=True)
+    print(f"  J uniform = {J_UNIFORM_VAL}   dJ probe = {DJ_EXTRACT}", flush=True)
     print(f"  s sweep = {list(S_VALUES)}", flush=True)
     print(f"  N values = {N_list}   (exact (N+1)^2-dim sector restriction)\n",
           flush=True)
@@ -431,7 +441,7 @@ def main():
     all_N = {}
     for N in N_list:
         all_N[str(N)] = run_one_N(N, S_VALUES)
-        out_path = RESULTS_DIR / f"f71_nonuniform_j_N{N}.json"
+        out_path = RESULTS_DIR / f"f71_nonuniform_gamma_N{N}.json"
         with open(out_path, "w", encoding="utf-8") as f:
             json.dump(all_N[str(N)], f, indent=2)
         print(f"  saved {out_path}", flush=True)

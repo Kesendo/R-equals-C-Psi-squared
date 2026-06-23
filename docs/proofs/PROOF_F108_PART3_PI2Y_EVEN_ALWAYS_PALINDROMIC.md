@@ -110,7 +110,7 @@ Bit-exact residual ‖Π_5bilinear (Y-deph) · L · Π⁻¹ + L + 2σ · I‖_F 
 | 15 random non-uniform-J instances on Π²_Y-even bilinear family (5 trials × N ∈ {3, 4, 5}) | N = 3, 4, 5 | 0 |
 | Pure D[Y]^⊗N dissipator (no Hamiltonian) | N = 1, 3, 4, 5 | 0 |
 
-Reproduction: [`simulations/_f108_part3_y_dephasing_scan.py`](../../simulations/_f108_part3_y_dephasing_scan.py); C# tests in [`compute/RCPsiSquared.Core.Tests/Symmetry/F108Part3Pi2YEvenAlwaysPalindromicTests.cs`](../../compute/RCPsiSquared.Core.Tests/Symmetry/F108Part3Pi2YEvenAlwaysPalindromicTests.cs).
+Reproduction: [`simulations/f108_part3_y_dephasing_scan.py`](../../simulations/f108_part3_y_dephasing_scan.py); C# tests in [`compute/RCPsiSquared.Core.Tests/Symmetry/F108Part3Pi2YEvenAlwaysPalindromicTests.cs`](../../compute/RCPsiSquared.Core.Tests/Symmetry/F108Part3Pi2YEvenAlwaysPalindromicTests.cs).
 
 ## Significance
 

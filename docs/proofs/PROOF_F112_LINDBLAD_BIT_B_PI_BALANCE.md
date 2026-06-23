@@ -203,9 +203,9 @@ Bilinearity (L_H linear in H, Π-projection linear, Frobenius sesquilinear) plus
 
 Both Welle 11 lemmas (N-A and N-B) reduce to per-position checks on the 4^N × 4^N matrix of L_σ that are uniform in N. The proof is N-independent.
 
-**Welle 10 numerical anchor** (preserved as historical empirical validation): the per-pair identity F(σ_α, σ_β) = 0 was verified bit-exact across 559,912 distinct upper-triangular pairs at N = 2, 3, 4, 5 by `simulations/_f112_open_identity_basis_enum.py` (Python, Welle 10a) and `compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs` (C#, Welle 10b). All N = 2..4 bit-exact 0; N = 5 < 1e-10. See [F112_NONHERMITIAN_BASIS_ENUMERATION.md](../../experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md).
+**Welle 10 numerical anchor** (preserved as historical empirical validation): the per-pair identity F(σ_α, σ_β) = 0 was verified bit-exact across 559,912 distinct upper-triangular pairs at N = 2, 3, 4, 5 by `simulations/f112_open_identity_basis_enum.py` (Python, Welle 10a) and `compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs` (C#, Welle 10b). All N = 2..4 bit-exact 0; N = 5 < 1e-10. See [F112_NONHERMITIAN_BASIS_ENUMERATION.md](../../experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md).
 
-**Welle 11 structural verifier** `simulations/_f112_universal_n_proof_verify.py` confirms each step of Lemmas A and B bit-exact at N = 1, 2, 3 (42 BitB-odd strings, 1050 off-diagonal pairs, 4368 all-pair F-values, all 0.000e+00 in numpy double precision).
+**Welle 11 structural verifier** `simulations/f112_universal_n_proof_verify.py` confirms each step of Lemmas A and B bit-exact at N = 1, 2, 3 (42 BitB-odd strings, 1050 off-diagonal pairs, 4368 all-pair F-values, all 0.000e+00 in numpy double precision).
 
 ## The F87 orthogonality, derived (2026-06-10)
 

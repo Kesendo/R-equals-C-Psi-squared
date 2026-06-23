@@ -138,7 +138,7 @@ The 2 within-noise bonds at N=8 b=2/b=4 differ in the third decimal because the 
    [`C2BareDoubledPtfClosedForm`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BareDoubledPtfClosedForm.cs)),
    and the 22-anchor fit (N=5..8) verifies the form within 0.005 residual; however, the 12
    (α, β) per sub-class are fitted via `np.polyfit(...deg=1)` in
-   [`simulations/_f86_hwhm_closed_form_verification.py`](../../simulations/_f86_hwhm_closed_form_verification.py)
+   [`simulations/f86_hwhm_closed_form_verification.py`](../../simulations/f86_hwhm_closed_form_verification.py)
    line 78, NOT derived from F89 cyclotomic Φ_{N+1} / F90 bridge identity structure.
    Tier 1 derivation requires analytical (α, β); the fit IS NOT that step.
    Plan: [`docs/superpowers/plans/2026-05-13-f86-hwhm-closed-form-attack.md`](../superpowers/plans/2026-05-13-f86-hwhm-closed-form-attack.md).

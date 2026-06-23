@@ -47,7 +47,7 @@ def heisenberg_graph_h(N: int, bonds: list[tuple[int, int]], J: float = 1.0) -> 
 
     Matches the C# F1GeneralTopologyN{7,8,9}BlockSpectrumChainTests convention.
     Shared by the chain anchor script and the cross-topology extension
-    `_f1_topology_heisenberg_small_n_anchor.py`.
+    `f1_topology_heisenberg_small_n_anchor.py`.
     """
     terms = [("X", "X", J / 4.0), ("Y", "Y", J / 4.0), ("Z", "Z", J / 4.0)]
     return fw._build_bilinear(N, bonds, terms)

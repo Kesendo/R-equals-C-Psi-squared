@@ -63,7 +63,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F82 (line 2023) +
 /// <c>docs/proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md</c> +
-/// <c>simulations/_f81_t1_diagnostic.py</c> +
+/// <c>simulations/f81_t1_diagnostic.py</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/F81Pi2Inheritance.cs</c>
 /// (mother claim).</para></summary>
@@ -166,7 +166,7 @@ public sealed class F82T1AmplitudeDampingPi2Inheritance : Claim, IZ2AxisClaim
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F82 + " +
                "docs/proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md + " +
-               "simulations/_f81_t1_diagnostic.py + " +
+               "simulations/f81_t1_diagnostic.py + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/F81Pi2Inheritance.cs (mother claim, recovers at γ_T1=0)")
     {

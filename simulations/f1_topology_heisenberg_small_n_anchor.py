@@ -1,6 +1,6 @@
 """Python small-N anchor for chain/ring/star Heisenberg F1 spectrum metrics.
 
-Extends `_f1_chain_heisenberg_small_n_anchor.py` to 3 topologies at N=3..6,
+Extends `f1_chain_heisenberg_small_n_anchor.py` to 3 topologies at N=3..6,
 giving us cross-topology + cross-N data for:
   - The `gap × N² ≈ 2.20` chain-Heisenberg scaling discovered 2026-05-19
   - The "Im/σ = 1 for single-hub geometries" pattern (N=3 chain, all-N star)
@@ -26,7 +26,7 @@ sys.path.insert(0, "simulations")
 
 from framework.lindblad import lindbladian_z_dephasing  # noqa: E402
 
-from _f1_chain_heisenberg_small_n_anchor import (  # noqa: E402
+from f1_chain_heisenberg_small_n_anchor import (  # noqa: E402
     chain_bonds,
     compute_palindromic_pairing_distances,
     compute_spectrum_structure,

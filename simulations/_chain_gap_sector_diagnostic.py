@@ -41,7 +41,7 @@ sys.path.insert(0, "simulations")
 
 from framework.lindblad import lindbladian_z_dephasing  # noqa: E402
 
-from _f1_chain_heisenberg_small_n_anchor import (  # noqa: E402
+from f1_chain_heisenberg_small_n_anchor import (  # noqa: E402
     chain_bonds,
     heisenberg_graph_h,
 )

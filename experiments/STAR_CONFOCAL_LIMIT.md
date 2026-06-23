@@ -14,8 +14,8 @@ hub-spoke topology, 24 anchors Q-sweep, sigma equals N gamma, R=CPsi2 star -->
 [Q-Regime Anchor Map](../docs/Q_REGIME_ANCHORS.md) (the 9-anchor canonical Q-table the Q-sweep targets)
 
 **Verification:**
-[`simulations/_f1_topology_heisenberg_small_n_anchor.py`](../simulations/_f1_topology_heisenberg_small_n_anchor.py) (N=3..6 Python anchor at the Marrakesh convention J=1, γ=0.5),
-[`simulations/_f1_q_sweep_anchor.py`](../simulations/_f1_q_sweep_anchor.py) (24-anchor Q-sweep at γ₀=0.05, Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5}),
+[`simulations/f1_topology_heisenberg_small_n_anchor.py`](../simulations/f1_topology_heisenberg_small_n_anchor.py) (N=3..6 Python anchor at the Marrakesh convention J=1, γ=0.5),
+[`simulations/f1_q_sweep_anchor.py`](../simulations/f1_q_sweep_anchor.py) (24-anchor Q-sweep at γ₀=0.05, Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5}),
 [`compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs`](../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs) (N=8 C# block infrastructure),
 [`simulations/results/f1_n8_n9_metrics/star_N{3..6}_python.json`](../simulations/results/f1_n8_n9_metrics/) and `star_N8.json`,
 [`simulations/results/q_sweep_anchor/star_N{3..6}_Q*.json`](../simulations/results/q_sweep_anchor/) (the 24-point Q-sweep)
@@ -38,7 +38,7 @@ The interpretation is a sharpening of the April picture, not a new physics: star
 
 ## Empirical anchors
 
-Heisenberg J=1, uniform Z-dephasing γ=0.5, σ = N·γ. Computed via dense numpy eigvals at small N (`_f1_topology_heisenberg_small_n_anchor.py`) and `LiouvillianBlockSpectrum.ComputeSpectrumPerBlock` at N=8 (`F1GeneralTopologyN8BlockSpectrumTests.cs`).
+Heisenberg J=1, uniform Z-dephasing γ=0.5, σ = N·γ. Computed via dense numpy eigvals at small N (`f1_topology_heisenberg_small_n_anchor.py`) and `LiouvillianBlockSpectrum.ComputeSpectrumPerBlock` at N=8 (`F1GeneralTopologyN8BlockSpectrumTests.cs`).
 
 | N | σ = N·γ | max |Im(λ)| | Im/σ | Other topologies (Im/σ) |
 |---|---:|---:|---:|---|
@@ -56,7 +56,7 @@ At N=3 the star equals the chain by graph isomorphism (path on 3 sites = Y-shape
 
 ## Q-sweep verification: the universal statement (24 anchors, bit-exact)
 
-The 2026-05-19 Q-sweep (`_f1_q_sweep_anchor.py`) tests `Im/σ = Q/2` at γ₀ = 0.05 across six canonical Q-anchors from [`docs/Q_REGIME_ANCHORS.md`](../docs/Q_REGIME_ANCHORS.md). All 24 (N, Q) combinations match the prediction to machine precision:
+The 2026-05-19 Q-sweep (`f1_q_sweep_anchor.py`) tests `Im/σ = Q/2` at γ₀ = 0.05 across six canonical Q-anchors from [`docs/Q_REGIME_ANCHORS.md`](../docs/Q_REGIME_ANCHORS.md). All 24 (N, Q) combinations match the prediction to machine precision:
 
 | N \ Q | 0.5 | 1.0 | 1.5 | √3 ≈ 1.732 | 2.0 | 2.5 |
 |---|---:|---:|---:|---:|---:|---:|
@@ -194,7 +194,7 @@ The optical-cavity framework is robust across topologies; we now have the empiri
 
 ## Reproduction
 
-- Python anchor N=3..6 chain/ring/star: `python` [`simulations/_f1_topology_heisenberg_small_n_anchor.py`](../simulations/_f1_topology_heisenberg_small_n_anchor.py); outputs `star_N{3,4,5,6}_python.json`.
+- Python anchor N=3..6 chain/ring/star: `python` [`simulations/f1_topology_heisenberg_small_n_anchor.py`](../simulations/f1_topology_heisenberg_small_n_anchor.py); outputs `star_N{3,4,5,6}_python.json`.
 - C# N=8 star: `dotnet test --filter "FullyQualifiedName~F1GeneralTopologyN8BlockSpectrumTests.Star"` (SLOW_N8 trait, opt-in).
 - Data: [`simulations/results/f1_n8_n9_metrics/star_N{3..6}_python.json`](../simulations/results/f1_n8_n9_metrics/) and `star_N8.json` (post-bridge); `MaxImag` field = `σ` field for every star JSON.
 

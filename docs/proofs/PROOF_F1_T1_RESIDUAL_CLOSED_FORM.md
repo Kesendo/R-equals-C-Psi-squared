@@ -88,7 +88,7 @@ Conjugating D_{T1, local} (with γ = 1) by Π gives
                   ⎢  0     i    −1     0    ⎥
                   ⎣  0     0     0    −1/2  ⎦
 
-(The (Z, I) entry of D, value +1, maps to the (I, X) channel under Π but the X-column of the Y→iZ rule sends it back into the (X, ·) block; full computation in [`simulations/_f1_t1_residual_verify.py`](../../simulations/_f1_t1_residual_verify.py) Section 6.)
+(The (Z, I) entry of D, value +1, maps to the (I, X) channel under Π but the X-column of the Y→iZ rule sends it back into the (X, ·) block; full computation in [`simulations/f1_t1_residual_verify.py`](../../simulations/f1_t1_residual_verify.py) Section 6.)
 
 ### Step 3: Per-site M_l = Π · D · Π⁻¹ + D
 
@@ -172,7 +172,7 @@ At N = 3, uniform γ_T1 = 0.1: ‖M‖² = 7.2, ‖M_anti‖² = 0.48, ‖M_sym�
 
 ## Verification
 
-[`simulations/_f1_t1_residual_verify.py`](../../simulations/_f1_t1_residual_verify.py) verifies the closed form in six sections:
+[`simulations/f1_t1_residual_verify.py`](../../simulations/f1_t1_residual_verify.py) verifies the closed form in six sections:
 
 1. **F1 sanity.** ‖M‖² for pure Z-dephasing and for Heisenberg + Z-dephasing is at machine precision (∼ 6·10⁻³¹ at N = 3): confirms the framework's Π is the right one and that ‖M‖² is genuinely orthogonal in the F1 blocks.
 2. **Pure T1 numerical fit.** At N = 2, 3, 4, 5 (both uniform γ_T1 = 0.1 and non-uniform γ_T1 = [0.05, 0.10, ..., 0.05·N]) the fitted (a, b) = (3.000000, 4.000000) exactly; the predicted ‖M(T1)‖² matches the numerical value to within ~10⁻¹³ (the floating-point limit at these problem sizes).
@@ -217,7 +217,7 @@ The closed form makes the F1 T1-block residual a quantitative, **Hamiltonian-ind
 
 ### Scripts
 
-- [`simulations/_f1_t1_residual_verify.py`](../../simulations/_f1_t1_residual_verify.py): the verification script for this proof.
+- [`simulations/f1_t1_residual_verify.py`](../../simulations/f1_t1_residual_verify.py): the verification script for this proof.
 
 ### Memory
 

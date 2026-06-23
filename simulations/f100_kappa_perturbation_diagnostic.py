@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""_f100_kappa_perturbation_diagnostic.py
+"""f100_kappa_perturbation_diagnostic.py
 
 First-order Lindblad perturbation data for F100's κ -- a look, not a derivation.
 
@@ -35,7 +35,7 @@ first-order data does not capture κ's N=5 growth. Recorded in PROOF_F100's
 κ-section ("The perturbation route, tested"). Re-run prints the verdict live.
 
 Usage:
-  python -u _f100_kappa_perturbation_diagnostic.py
+  python -u f100_kappa_perturbation_diagnostic.py
 """
 from __future__ import annotations
 
@@ -49,7 +49,7 @@ if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import _f71_nonuniform_j_verification as f71w  # noqa: E402
+import f71_nonuniform_j_verification as f71w  # noqa: E402
 
 GAMMA_0 = f71w.GAMMA_0
 EXACT_DEGEN_TOL = 1e-9       # exact-degeneracy cutoff: smaller gap = kernel/symmetry pair,

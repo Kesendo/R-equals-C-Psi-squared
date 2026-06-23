@@ -31,7 +31,7 @@ namespace RCPsiSquared.Core.F1;
 /// M_H carries no γ dependence by construction. Closes the earlier F1 OpenQuestion that
 /// conjectured a Σγ_l² replacement of (Σγ)² in F(N, G); no formula change required.
 /// Anchor: <c>docs/proofs/PROOF_F1_NONUNIFORM_GAMMA.md</c>;
-/// verification: <c>simulations/_f1_nonuniform_gamma_verify.py</c>.</para>
+/// verification: <c>simulations/f1_nonuniform_gamma_verify.py</c>.</para>
 ///
 /// <para><b>General-topology universality (closed 2026-05-18).</b> The (B, D2)
 /// parameterisation extends bit-exactly to disconnected graphs (B and D2 sum across
@@ -43,7 +43,7 @@ namespace RCPsiSquared.Core.F1;
 /// Corollary (bond-disjointness independent of connectivity); the verification record
 /// lives in the Tier-2 <see cref="F1GeneralTopologyVerifiedClaim"/>. Synthesis proof:
 /// <c>docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md</c>; verification: Python script
-/// <c>simulations/_f1_general_topology_verify.py</c> + C# test class
+/// <c>simulations/f1_general_topology_verify.py</c> + C# test class
 /// <c>compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs</c>.</para>
 ///
 /// <para>Source: <c>experiments/OPERATOR_RIGIDITY_ACROSS_CUSP.md</c>. The scaling
@@ -139,7 +139,7 @@ public sealed class PalindromeResidualScalingClaim : Claim, IDriftCheckable
         // For graph-aware operational verification at N=5, see
         // compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs
         // (4 tests: chain, ring, star, triangle + disjoint bond), plus the Python
-        // simulations/_f1_general_topology_verify.py for N=5, 6 named/random/disconnected/
+        // simulations/f1_general_topology_verify.py for N=5, 6 named/random/disconnected/
         // weighted coverage. The F1 palindromic-pairing identity at N=7 is exercised in
         // the same test class via LiouvillianBlockSpectrum.ComputeSpectrumPerBlock.
         if (BondCount is not null || DegreeSquaredSum is not null)

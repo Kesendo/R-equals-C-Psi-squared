@@ -20,7 +20,7 @@ From the four `simulations/results/f1_n8_n9_metrics/<topology>_N8.json` files' `
 
 ## Cross-topology cross-N extension (2026-05-19 Python anchors)
 
-Python anchors via `simulations/_f1_topology_heisenberg_small_n_anchor.py` extended chain, ring, star to N=3..6 dense numpy eigvals. The same Heisenberg J=1, γ=0.5 convention. JSON files at `simulations/results/f1_n8_n9_metrics/{chain,ring,star}_N{3..6}_python.json`.
+Python anchors via `simulations/f1_topology_heisenberg_small_n_anchor.py` extended chain, ring, star to N=3..6 dense numpy eigvals. The same Heisenberg J=1, γ=0.5 convention. JSON files at `simulations/results/f1_n8_n9_metrics/{chain,ring,star}_N{3..6}_python.json`.
 
 | Topology | N | Dissipation gap | gap × N² | Notes |
 |---|---:|---:|---:|---|
@@ -124,7 +124,7 @@ Detail per question:
 
    What is closed: chain and ring share the diffusive `Q²·γ/N²` form with topology-specific k_min² prefactors; star is in a different scaling family. What remains open: exact closed forms for the three Q-dependent prefactors and the sub-leading corrections.
 
-3. **J ≠ 2γ regime.** **Status: RESOLVED 2026-05-19.** The Q-sweep (`_f1_q_sweep_anchor.py`) measured chain/ring/star × N=3..6 × Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5} at γ₀ = 0.05: 72 anchors covering six J/γ ratios from 0.5 to 2.5. The data confirms `gap·N²/γ ≈ c·Q²` (with c topology-specific) holds across the full range, ruling out the "chain prefactor decomposes as J·a + γ·b" linear conjecture in favour of the cleaner Q² form. The earlier "2.20" reading was the chain Q=2 plateau at γ=0.5.
+3. **J ≠ 2γ regime.** **Status: RESOLVED 2026-05-19.** The Q-sweep (`f1_q_sweep_anchor.py`) measured chain/ring/star × N=3..6 × Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5} at γ₀ = 0.05: 72 anchors covering six J/γ ratios from 0.5 to 2.5. The data confirms `gap·N²/γ ≈ c·Q²` (with c topology-specific) holds across the full range, ruling out the "chain prefactor decomposes as J·a + γ·b" linear conjecture in favour of the cleaner Q² form. The earlier "2.20" reading was the chain Q=2 plateau at γ=0.5.
 
 4. **K_4 + disjoint behaviour (rate-limiting component).** **Status: RESOLVED 2026-05-19** via tensor-sum factorisation (the same mechanism that closes F4 kernel-dim factorisation across components). For G = G_1 ⊔ G_2 with the per-component Heisenberg + Z-dephasing Liouvillian L(G_c), the bond-locality of both H and the dephasing dissipator gives
 
@@ -179,7 +179,7 @@ The chain and ring gap closed forms would naturally share a parent abstraction `
 ## Cross-references
 
 - Anchor data Q=2 (Marrakesh convention): `simulations/results/f1_n8_n9_metrics/{chain,ring,star,k4_plus_disjoint_4chain}_N8.json` + the `_N{3..6}_python.json` companions; `chain_N9.json` for the N=9 bridge run.
-- Anchor data Q-sweep (γ₀=0.05 substrate convention): `simulations/results/q_sweep_anchor/{chain,ring,star}_N{3..6}_Q{0.5..2.5}.json` (72 files, 24 per topology) and `_f1_q_sweep_anchor.py` plus `q_sweep_anchor_console.log`.
+- Anchor data Q-sweep (γ₀=0.05 substrate convention): `simulations/results/q_sweep_anchor/{chain,ring,star}_N{3..6}_Q{0.5..2.5}.json` (72 files, 24 per topology) and `f1_q_sweep_anchor.py` plus `q_sweep_anchor_console.log`.
 - Canonical Q-anchor map: [`docs/Q_REGIME_ANCHORS.md`](../docs/Q_REGIME_ANCHORS.md).
 - Companion typed claim from the same sweep (the closed-form discovery that did promote): [F4KernelDimensionByComponentsClaim](../compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs) (Tier 1 derived as of 2026-05-19; landed Tier 1 candidate 2026-05-18, promoted after DEGENERACY_PALINDROME Result 2 was identified as the connected-case upper-bound closure; kernel-dim factorisation across components).
 - Sister Tier 3 reading from the same sweep: [STAR_SPECTRUM_COMPACTNESS](STAR_SPECTRUM_COMPACTNESS.md) (whose Reading 1 was resolved by [STAR_CONFOCAL_LIMIT](../experiments/STAR_CONFOCAL_LIMIT.md), itself extended with the 24-anchor Q-sweep verifying `Im_max(star) = J·N/2 ∀ Q`).

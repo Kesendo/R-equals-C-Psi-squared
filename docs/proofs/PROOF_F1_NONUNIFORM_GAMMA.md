@@ -138,7 +138,7 @@ For Z-dephasing, the per-site kernel M_l = Π · D_l · Π⁻¹ + D_l = `diag(�
 
 ## Verification
 
-[`simulations/_f1_nonuniform_gamma_verify.py`](../../simulations/_f1_nonuniform_gamma_verify.py) verifies the closure in four sections:
+[`simulations/f1_nonuniform_gamma_verify.py`](../../simulations/f1_nonuniform_gamma_verify.py) verifies the closure in four sections:
 
 1. **H-block γ-independence.** At N = 3 with a fixed soft Hamiltonian H = XY+YX (Π²-odd, non-zero ‖M_H‖²), compute `‖M‖²` under three γ patterns: uniform [0.1, 0.1, 0.1], scaled [0.05, 0.10, 0.15], random [0.03, 0.17, 0.08]. All three give exactly ‖M‖² = 1024.0 to machine precision (zero deviation).
 2. **‖M_D‖² = 0 per-Pauli-string check.** At N = 3, 4, 5 with H = 0 (pure Z-dephasing) and arbitrary non-uniform γ, the Frobenius norm of the F1 residual is bit-exact zero (~10⁻³¹). Bypasses Frobenius averaging by asserting the dissipator residual vanishes operator-wise.
@@ -175,7 +175,7 @@ The Z-dephasing case is the only F1 dissipator where the σ-shift exactly cancel
 
 ### Scripts
 
-- [`simulations/_f1_nonuniform_gamma_verify.py`](../../simulations/_f1_nonuniform_gamma_verify.py): verification script for this proof.
+- [`simulations/f1_nonuniform_gamma_verify.py`](../../simulations/f1_nonuniform_gamma_verify.py): verification script for this proof.
 
 ### Memory
 
@@ -199,4 +199,4 @@ with G(bond_b, H) = 4·‖L_{ZZ-class part of H_b}^bond_b‖²_F. The candidate-
 | XY J·(XX+YY)            | 0               |
 | Soft Π²-odd J·(XY+YX)   | 0               |
 
-The N = 3 Heisenberg γ = [0.1, 0.2, 0.3] anchor decomposes as spectator 153.60 + asymmetry 10.24 = **163.84**, matching truth bit-exact. Verified at N = 3, 4, 5 across all four canonical H classes ([`simulations/_f49_nonuniform_gamma_crossterm_verify.py`](../../simulations/_f49_nonuniform_gamma_crossterm_verify.py), Phase 1 + Phase 2). Uniform γ recovers F49's `4γ²·(N−2)·‖L_H‖²_F` as a corollary.
+The N = 3 Heisenberg γ = [0.1, 0.2, 0.3] anchor decomposes as spectator 153.60 + asymmetry 10.24 = **163.84**, matching truth bit-exact. Verified at N = 3, 4, 5 across all four canonical H classes ([`simulations/f49_nonuniform_gamma_crossterm_verify.py`](../../simulations/f49_nonuniform_gamma_crossterm_verify.py), Phase 1 + Phase 2). Uniform γ recovers F49's `4γ²·(N−2)·‖L_H‖²_F` as a corollary.

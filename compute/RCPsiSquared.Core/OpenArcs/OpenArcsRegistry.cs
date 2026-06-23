@@ -150,7 +150,7 @@ public static class OpenArcsRegistry
                 "the K-partner null column the unobservable subspace. The lens FIRED (instant recognition by a " +
                 "distant discipline = a real node of the one object; it handed us the detection-SNR method the " +
                 "native frame view never ran).",
-            ParkedAt: "STAGE 0 CLEAN (simulations/_f124_inverse_problem_gate.py, gate-first, all gates pass " +
+            ParkedAt: "STAGE 0 CLEAN (simulations/f124_inverse_problem_gate.py, gate-first, all gates pass " +
                 "after one diagnosed firing): F124's conditioning IS the bond-recovery inverse problem. The " +
                 "worst-conditioned bond direction is the staggered (-1)^b q=pi zone-boundary mode (cos=1.0 to " +
                 "the smallest left-singular vector, N=4..12); kappa~N^2 (fit 1.975); a staggered defect's mode-" +
@@ -160,7 +160,7 @@ public static class OpenArcsRegistry
                 "'E~N^-3 in N' gate FIRED (fitted -2.5); diagnosed as a wrong-variable/pre-asymptotic artifact " +
                 "(E is exactly a function of N+1: E*(N+1)^3 -> 4*pi^2; the right-variable fit over N=4..60 gives " +
                 "-2.971); the robust law is the RATIO kappa~N^2 (the (N+1)-corrections cancel). STAGE 1 " +
-                "REDIRECTED (simulations/_f124_decoder_strength_fix_gate.py, 3 gates fired = the engine running): " +
+                "REDIRECTED (simulations/f124_decoder_strength_fix_gate.py, 3 gates fired = the engine running): " +
                 "the live DefectDecoder's known sign-location ambiguity (residual ratio ~1.5 at N=5, edge bond 3 " +
                 "weakened vs interior bond 1 strengthened) is NOT sqrt(kappa(5))=2.30 and is NOT reproduced by " +
                 "the exact linear M (which resolves single bonds cleanly, cos=+0.667 not anti-collinear) - so the " +
@@ -169,7 +169,7 @@ public static class OpenArcsRegistry
                 "localization. What SURVIVED: the strength channel M[b,1]=2 c_a c_{a+1} separates edge {0,3} " +
                 "(0.289) from interior {1,2} (0.577) by magnitude - the carrier's own response carries edge/" +
                 "interior info the location modes blur.",
-            NextStep: "STAGE B DONE, REDIRECTED AGAIN (simulations/_f124_decoder_strength_fix_dynamical.py, " +
+            NextStep: "STAGE B DONE, REDIRECTED AGAIN (simulations/f124_decoder_strength_fix_dynamical.py, " +
                 "exact (vac + 1-exc)-sector N=5 Lindblad, gate-first, 2 gates fired = the engine still running): " +
                 "the dynamical per-site purity-DEVIATION profile does NOT reproduce the decoder's 1.5 ambiguity " +
                 "either - it localizes bond 3 cleanly (residual ratio 20) AND reads the sign (weakened). So the " +
@@ -187,8 +187,8 @@ public static class OpenArcsRegistry
                 "discipline (12 xUnit + 5-case battery green, wiring audit 3/3). (C, minor, still open) the decoder " +
                 "could be DE-LOSSED: read the signed per-site deviation profile and/or add the carrier strength " +
                 "channel instead of the alpha-rescaling, removing the 1.5 ambiguity (an engineering improvement, " +
-                "not a new physics claim). Anchors: simulations/_f124_inverse_problem_gate.py (Stage 0, clean), " +
-                "simulations/_f124_decoder_strength_fix_gate.py (Stage 1, linear redirect), simulations/_f124_" +
+                "not a new physics claim). Anchors: simulations/f124_inverse_problem_gate.py (Stage 0, clean), " +
+                "simulations/f124_decoder_strength_fix_gate.py (Stage 1, linear redirect), simulations/_f124_" +
                 "decoder_strength_fix_dynamical.py (Stage B, dynamical redirect), BandEdgeTransitionInvariant" +
                 "Claim + Witness (F124), KPartnerSelectionRuleClaim (the null column), " +
                 "compute/RCPsiSquared.Diagnostics/Foundation/DefectDecoder.cs (the live decoder, the 1.5).",

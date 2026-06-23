@@ -31,7 +31,7 @@ namespace RCPsiSquared.Core.F1;
 /// </list></para>
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md</c> (Steps 1-7).
-/// Verification: <c>simulations/_f1_depol_residual_verify.py</c> (seven sections,
+/// Verification: <c>simulations/f1_depol_residual_verify.py</c> (seven sections,
 /// bit-exact match to machine precision N = 2..5 across uniform and non-uniform γ).</para>
 /// </summary>
 public sealed class F1DepolResidualClosedForm : Claim
@@ -114,7 +114,7 @@ public sealed class F1DepolResidualClosedForm : Claim
                          "Π·L·Π⁻¹ + L + 2Σγ·I. F5's scalar (2/3)Σγ is the complementary trace-projection diagnostic " +
                          "of the same broken palindrome.");
             yield return new InspectableNode("verification",
-                summary: "bit-exact at N = 2..5, uniform and non-uniform γ (simulations/_f1_depol_residual_verify.py)");
+                summary: "bit-exact at N = 2..5, uniform and non-uniform γ (simulations/f1_depol_residual_verify.py)");
         }
     }
 }

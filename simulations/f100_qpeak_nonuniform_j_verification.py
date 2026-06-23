@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""_f100_qpeak_nonuniform_j_verification.py
+"""f100_qpeak_nonuniform_j_verification.py
 
 F100 Q_peak half -- numerical witness for non-uniform J.
 
@@ -10,7 +10,7 @@ states that the per-bond Q_peak deviation
 
 is an exactly ODD function of the F71-anti-palindromic component of the bond-
 coupling profile J, and zero for every palindromic J. The c_1 half of F100 is
-witnessed by _f71_nonuniform_j_verification.py; PROOF_F100 carried the Q_peak
+witnessed by f71_nonuniform_j_verification.py; PROOF_F100 carried the Q_peak
 half only "by the identical R-conjugation argument". This script supplies the
 missing direct numerical witness for the Q_peak half.
 
@@ -74,7 +74,7 @@ same algorithm as the canonical C# ResonanceScan.ScanAtQ; here it is driven
 with a non-uniform L assembly and read at the fixed EP time.
 
 Usage:
-  python -u _f100_qpeak_nonuniform_j_verification.py --cases 4:1,5:1,6:1,5:2
+  python -u f100_qpeak_nonuniform_j_verification.py --cases 4:1,5:1,6:1,5:2
 """
 from __future__ import annotations
 

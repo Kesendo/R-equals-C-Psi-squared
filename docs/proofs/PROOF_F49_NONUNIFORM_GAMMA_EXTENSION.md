@@ -51,12 +51,12 @@ is recovered as the special case γ_l ≡ γ (the bond-asymmetry part vanishes b
 
 - **Pauli letters** (a, b) ∈ {(0,0), (1,0), (0,1), (1,1)} = (I, X, Z, Y) following the framework's Klein-Vierergruppe convention ([`framework/pauli.py`](../../simulations/framework/pauli.py)). `bit_a(α) = 1` iff α ∈ {X, Y}; `bit_b(α) = 1` iff α ∈ {Y, Z}.
 - **Pauli-string basis on N sites** is the 4^N orthonormal basis {σ_α} with Tr(σ_α^† σ_β) / 2^N = δ_{αβ}. The Frobenius norm of a 4^N × 4^N superoperator is computed in this orthonormal basis (Hilbert-Schmidt product).
-- **Hamiltonian superoperator** L_H = −i [H, ·] in the Pauli-string basis; per-bond L_H^bond_b = −i [H_b, ·] built on the full N-qubit Pauli-string operator space, including spectator I-tensors. Concretely, `‖L_H^bond_b‖²_F` for a single Heisenberg J = 1 bond equals 384 at N = 3, 1536 at N = 4, 6144 at N = 5 (each step multiplies by 4 because each additional spectator site contributes a factor `tr(I_4) = 4` in the Frobenius-norm tensor calculation; intrinsic local 2-qubit Heisenberg-bond superoperator norm is 96). The closed form here uses this convention throughout, matching `_bond_LH_norm_sq(N, bond, terms)` in [`simulations/_f49_nonuniform_gamma_crossterm_verify.py`](../../simulations/_f49_nonuniform_gamma_crossterm_verify.py).
+- **Hamiltonian superoperator** L_H = −i [H, ·] in the Pauli-string basis; per-bond L_H^bond_b = −i [H_b, ·] built on the full N-qubit Pauli-string operator space, including spectator I-tensors. Concretely, `‖L_H^bond_b‖²_F` for a single Heisenberg J = 1 bond equals 384 at N = 3, 1536 at N = 4, 6144 at N = 5 (each step multiplies by 4 because each additional spectator site contributes a factor `tr(I_4) = 4` in the Frobenius-norm tensor calculation; intrinsic local 2-qubit Heisenberg-bond superoperator norm is 96). The closed form here uses this convention throughout, matching `_bond_LH_norm_sq(N, bond, terms)` in [`simulations/f49_nonuniform_gamma_crossterm_verify.py`](../../simulations/f49_nonuniform_gamma_crossterm_verify.py).
 - **Z-dephasing dissipator** in the Pauli basis acts as a diagonal multiplier on each σ_α with eigenvalue `d_α = −2 Σ_l γ_l · bit_a(α_l)`, the per-site weighted variant of the F49 uniform `d_α = γ · (N − 2 · w_XY(α))` ([PROOF_CROSS_TERM_FORMULA Step 1](PROOF_CROSS_TERM_FORMULA.md)). The F1-centered dissipator L_Dc := L_D + σ · I is also diagonal, with eigenvalue `d_α^c := σ − 2 Σ_l γ_l · bit_a(α_l) = Σ_l γ_l · (1 − 2·bit_a(α_l)) = Σ_l γ_l · ε_l(α)` where ε_l(α) := 1 − 2·bit_a(α_l) ∈ {+1, −1}. (Equivalently, ε_l(α) = +1 if α_l ∈ {I, Z} and −1 if α_l ∈ {X, Y}; matches the F49-proof ε notation.)
 
 ## Empirical anchor
 
-Phase 1 verification at commit `1c6701c` ([`simulations/_f49_nonuniform_gamma_crossterm_verify.py`](../../simulations/_f49_nonuniform_gamma_crossterm_verify.py)) confirmed the formula bit-exact at N = 3, 4, 5 across all four canonical H-classes (Heisenberg, Ising, XY, soft XY+YX). The N-scan with γ_l = 0.05·(l+1) and the cross-class sanity at N = 4 with γ = [0.05, 0.10, 0.15, 0.20] both produced gap = candidate − truth = 0 to machine precision (~10⁻¹⁴). The verification ruled out the three failure hypotheses surfaced in the Phase 1 planning document:
+Phase 1 verification at commit `1c6701c` ([`simulations/f49_nonuniform_gamma_crossterm_verify.py`](../../simulations/f49_nonuniform_gamma_crossterm_verify.py)) confirmed the formula bit-exact at N = 3, 4, 5 across all four canonical H-classes (Heisenberg, Ising, XY, soft XY+YX). The N-scan with γ_l = 0.05·(l+1) and the cross-class sanity at N = 4 with γ = [0.05, 0.10, 0.15, 0.20] both produced gap = candidate − truth = 0 to machine precision (~10⁻¹⁴). The verification ruled out the three failure hypotheses surfaced in the Phase 1 planning document:
 - **(i) N=3-only artifact.** Refuted: formula is bit-exact at N = 3, 4, 5; no overlap-bond defect.
 - **(ii) general-formula gap at all N.** Refuted: gap is 0 to machine precision.
 - **(iii) centering mismatch.** Refuted: F1-centered L_Dc = L_D + σ · I matches the architect's assumed centering, and is the centering that gives the closed form below.
@@ -197,7 +197,7 @@ This is the theorem.    ∎
 
 ## Verification
 
-[`simulations/_f49_nonuniform_gamma_crossterm_verify.py`](../../simulations/_f49_nonuniform_gamma_crossterm_verify.py) verifies the closed form in four sections plus a final assertion block:
+[`simulations/f49_nonuniform_gamma_crossterm_verify.py`](../../simulations/f49_nonuniform_gamma_crossterm_verify.py) verifies the closed form in four sections plus a final assertion block:
 
 1. **Multi-centering at N = 3 Heisenberg γ = [0.1, 0.2, 0.3].** Four candidate L_Dc centerings; identifies F1-centered `L_D + σ·I` as the centering that gives the theorem's value 163.84.
 2. **Architect-candidate formula at the F1 centering.** Reports per-bond spectator + asymmetry breakdown; the closed form predicts 163.84 (bit-exact).
@@ -246,7 +246,7 @@ The closed form makes `‖{L_H, L_Dc}‖²_F` a quantitative two-piece diagnosti
 
 ### Scripts
 
-- [`simulations/_f49_nonuniform_gamma_crossterm_verify.py`](../../simulations/_f49_nonuniform_gamma_crossterm_verify.py): verification script; Phase 1 exploratory + Phase 2 assertion block.
+- [`simulations/f49_nonuniform_gamma_crossterm_verify.py`](../../simulations/f49_nonuniform_gamma_crossterm_verify.py): verification script; Phase 1 exploratory + Phase 2 assertion block.
 
 ### Memory
 

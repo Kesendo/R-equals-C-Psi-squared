@@ -32,7 +32,7 @@ independently of γ and of the corresponding dimensionless ratio Q = J/γ. The e
 
 ## Empirical anchors (bit-exact at 6 Q-values × γ₀=0.05)
 
-Q-sweep on 2026-05-19 (`simulations/_f1_q_sweep_anchor.py`, output under `simulations/results/q_sweep_anchor/ring_N4_Q*.json`):
+Q-sweep on 2026-05-19 (`simulations/f1_q_sweep_anchor.py`, output under `simulations/results/q_sweep_anchor/ring_N4_Q*.json`):
 
 | Q | predicted 3Q/4 | observed Im/σ | rel. error |
 |---:|---:|---:|---:|
@@ -166,7 +166,7 @@ The ratio between the two is `(3/4)·J·N / (J·N/2) = 3/2`: ring N=4 carries 50
 
 ## Verification
 
-- Python anchor at 6 Q-values × γ₀=0.05: [`simulations/_f1_q_sweep_anchor.py`](../../simulations/_f1_q_sweep_anchor.py) → `simulations/results/q_sweep_anchor/ring_N4_Q*.json`.
+- Python anchor at 6 Q-values × γ₀=0.05: [`simulations/f1_q_sweep_anchor.py`](../../simulations/f1_q_sweep_anchor.py) → `simulations/results/q_sweep_anchor/ring_N4_Q*.json`.
 - Typed claim: [`compute/RCPsiSquared.Core/Symmetry/RingN4DihedralLockClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/RingN4DihedralLockClaim.cs) (Tier 1 derived) with `Predict(J)` returning `(3/4) · J · N = 3J` at N=4.
 
 ## Cross-references

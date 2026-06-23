@@ -38,7 +38,7 @@ where each M_l is a 4×4 matrix on per-site Pauli space. Furthermore:
 
 1. Each M_l is **normal**.
 2. For P = X: M_l = 0.
-3. For P ∈ {Y, Z}: M_l has eigenvalues +2c_l·i and −2c_l·i, each with multiplicity 2 in the per-site basis (singular values all equal to 2|c_l|). Y and Z give algebraically distinct M_l matrices but spectrally identical. (The eigenvalues are γ-independent: the dephasing rate cancels by Lemma 1; verified numerically at γ≠1 in `simulations/_f78_gamma_check.py`.)
+3. For P ∈ {Y, Z}: M_l has eigenvalues +2c_l·i and −2c_l·i, each with multiplicity 2 in the per-site basis (singular values all equal to 2|c_l|). Y and Z give algebraically distinct M_l matrices but spectrally identical. (The eigenvalues are γ-independent: the dephasing rate cancels by Lemma 1; verified numerically at γ≠1 in `simulations/f78_gamma_check.py`.)
 
 The full M's eigenvalues are Σ_l ε_l·2c_l·i for ε_l ∈ {±1}, each sign-combination with multiplicity 2^N. Singular values are |Σ_l ε_l·2c_l|, with the same multiplicities. Cluster sizes are pure sign-combination statistics on the weight vector (c_l).
 

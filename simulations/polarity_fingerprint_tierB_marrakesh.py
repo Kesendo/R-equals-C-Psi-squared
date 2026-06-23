@@ -37,7 +37,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 import framework as fw  # noqa: E402
 
 # Term mappings sourced from simulations/framework/tests/workflows/test_diagnose_hardware.py
-# (F83_TERMS_PER_CATEGORY) and simulations/_f80_ibm_soft_break_check.py (soft_break_marrakesh).
+# (F83_TERMS_PER_CATEGORY) and simulations/f80_ibm_soft_break_check.py (soft_break_marrakesh).
 
 F83_TERMS = {
     'truly_unbroken':       [('X', 'X'), ('Y', 'Y')],

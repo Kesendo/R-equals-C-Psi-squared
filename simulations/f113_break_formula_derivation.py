@@ -20,7 +20,7 @@ This script:
 If a clean monomial scaling appears (asymmetry = c · ω^a · γ_T1^b · γ_Z^c),
 the closed form is the F113 candidate.
 
-Run: python -X utf8 simulations/_f113_break_formula_derivation.py
+Run: python -X utf8 simulations/f113_break_formula_derivation.py
 """
 from __future__ import annotations
 

@@ -1,6 +1,6 @@
 """F112 polarity-asymmetry lens across 4 IBM Kingston Tier-A datasets.
 
-Extends the single-dataset analysis (_f112_block_cpsi_analysis.py) to all four
+Extends the single-dataset analysis (f112_block_cpsi_analysis.py) to all four
 Tier-A datasets identified by the F112-hardware-inventory mapping (2026-05-26):
 
   1. block_cpsi_saturation     (2026-05-08, q13-q14, 5 t-points, idle/no-H)

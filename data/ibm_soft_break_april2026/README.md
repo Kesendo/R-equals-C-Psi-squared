@@ -126,5 +126,5 @@ The run-time on Marrakesh queue + execution: ~3 minutes total.
 - [_soft_break_eigenvector_test.py](../../simulations/_soft_break_eigenvector_test.py): super-operator-level verification (eigenvector pairing).
 - [_soft_break_aer_test.py](../../simulations/_soft_break_aer_test.py): Aer with Marrakesh-like noise.
 - [_marrakesh_t1_amplification_test.py](../../simulations/_marrakesh_t1_amplification_test.py): refutation of the original T1 amplification interpretation; Trotter n=3 fully accounts for the hardening.
-- [_f80_ibm_soft_break_check.py](../../simulations/_f80_ibm_soft_break_check.py): F80 structural-template verification on this dataset.
+- [f80_ibm_soft_break_check.py](../../simulations/f80_ibm_soft_break_check.py): F80 structural-template verification on this dataset.
 - `D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography\run_soft_break.py`: the hardware-runnable pipeline.

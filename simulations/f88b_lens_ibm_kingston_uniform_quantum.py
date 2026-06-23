@@ -23,7 +23,7 @@ if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _f88b_lens_ibm_framework_snapshots import reconstruct_2qubit_rho, f88b_lens_2qubit
+from f88b_lens_ibm_framework_snapshots import reconstruct_2qubit_rho, f88b_lens_2qubit
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]

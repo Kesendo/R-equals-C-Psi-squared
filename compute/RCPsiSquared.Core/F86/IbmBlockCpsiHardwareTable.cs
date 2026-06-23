@@ -147,7 +147,7 @@ public sealed class IbmBlockCpsiHardwareTable : Claim
         get
         {
             yield return new InspectableNode("source pipeline",
-                summary: "simulations/block_cpsi_lens_ibm_snapshots.py (one-shot exploration; reuses reconstruct_2qubit_rho from _f88b_lens_ibm_framework_snapshots)");
+                summary: "simulations/block_cpsi_lens_ibm_snapshots.py (one-shot exploration; reuses reconstruct_2qubit_rho from f88b_lens_ibm_framework_snapshots)");
             yield return new InspectableNode("run date",
                 summary: $"{RunDate}; initial = {InitialState}, t = {EvalTime}, J = {CouplingJ}, n_trotter = {TrotterSteps}");
             yield return new InspectableNode("Theorem 2 ceiling",

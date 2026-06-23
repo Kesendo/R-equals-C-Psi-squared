@@ -28,7 +28,7 @@ import numpy as np
 from scipy.linalg import expm
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _f88b_lens_ibm_framework_snapshots import (  # noqa: E402
+from f88b_lens_ibm_framework_snapshots import (  # noqa: E402
     I2, PAULIS, SY, SZ,
     f88b_lens_2qubit,
     lindbladian_plus_minus_plus_rho_q0q2,

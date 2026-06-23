@@ -152,7 +152,7 @@ public sealed class LindbladBitBPiYBalance : Claim, IZ2AxisClaim
                "docs/proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md + " +
                "docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md + " +
                "compute/RCPsiSquared.Diagnostics/Polarity/PolarityCoordinates.cs + " +
-               "simulations/_f112_klein_v4_cross_dephase_verify.py")
+               "simulations/f112_klein_v4_cross_dephase_verify.py")
     {
         Part3 = part3 ?? throw new ArgumentNullException(nameof(part3));
     }
@@ -193,7 +193,7 @@ public sealed class LindbladBitBPiYBalance : Claim, IZ2AxisClaim
                          "Lemma N-B^Y (Off-Diagonal-Orthogonality), both reducing to F38 + Pauli-basis matrix-" +
                          "support disjointness identical to the parent Welle-11 lemmas with d = Y substituted.");
             yield return new InspectableNode("Empirical verification (Welle 13)",
-                summary: "Verifier simulations/_f112_klein_v4_cross_dephase_verify.py confirms F112-Y direct " +
+                summary: "Verifier simulations/f112_klein_v4_cross_dephase_verify.py confirms F112-Y direct " +
                          "(bit_b-homogeneous c, Π_Y) bit-exact at N = 2, 3: max|asymmetry| = 3.6e-15 (Hermitian H), " +
                          "1.4e-14 / 1.3e-32 (non-Hermitian H). Lemma N-A^Y / N-B^Y stand at machine zero across " +
                          "the 32 bit_b-odd Pauli strings × 992 off-diagonal pairs at N = 3.");

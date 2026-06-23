@@ -168,7 +168,7 @@ Numerical confirmation at N = 3, uniform γ = 0.1: ‖M‖² with σ = 0 is 23.8
 
 ## Verification
 
-[`simulations/_f1_depol_residual_verify.py`](../../simulations/_f1_depol_residual_verify.py) verifies the closed form in seven sections:
+[`simulations/f1_depol_residual_verify.py`](../../simulations/f1_depol_residual_verify.py) verifies the closed form in seven sections:
 
 1. **F1 sanity.** ‖M‖² for pure Z-dephasing is at machine precision (confirms the framework's Π is the right one).
 2. **Pure depol numerical fit.** At N = 2, 3, 4, 5 (both uniform γ = 0.1 and non-uniform γ = [0.05, 0.10, ..., 0.05·N]) the fitted (a, b) = (16/9, 16) exactly; the predicted ‖M(depol)‖² matches the numerical value to within ~10⁻¹³.
@@ -217,7 +217,7 @@ The closed form makes the F1 depol-block residual a quantitative, **Hamiltonian-
 
 ### Scripts
 
-- [`simulations/_f1_depol_residual_verify.py`](../../simulations/_f1_depol_residual_verify.py): the verification script for this proof.
+- [`simulations/f1_depol_residual_verify.py`](../../simulations/f1_depol_residual_verify.py): the verification script for this proof.
 
 ### Memory
 

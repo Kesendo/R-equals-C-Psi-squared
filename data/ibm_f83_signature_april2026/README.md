@@ -137,7 +137,7 @@ the *operational signature* however does.
 ## Residual phenomenology: γ_Z_eff is path-dependent
 
 A post-hoc γ_Z sweep over the full 28-datapoint observable set
-(`simulations/_f83_gamma_z_sweep.py`) finds:
+(`simulations/f83_gamma_z_sweep.py`) finds:
 
 | Path | Date | Best γ_Z_eff | Anchor pi2_odd_pure ⟨X₀Z₂⟩ pred | HW | Δ |
 |------|------|---------------|-----------------------------------|-----|---|
@@ -185,8 +185,8 @@ The run-time on Marrakesh queue + execution: ~3 minutes total.
 - [PROOF_F84_AMPLITUDE_DAMPING](../../docs/proofs/PROOF_F84_AMPLITUDE_DAMPING.md): only σ⁻/σ⁺ break the Π palindrome among single-qubit dissipators.
 - [ON_THE_RESIDUAL](../../reflections/ON_THE_RESIDUAL.md): consolidating reflection on F80–F85.
 - [ibm_soft_break_april2026/](../ibm_soft_break_april2026/): the April 26 anchor run on path [48, 49, 50] that this test extends.
-- [`_f83_signature_predictions.py`](../../simulations/_f83_signature_predictions.py): closed-form Trotter+γ_Z=0.1 predictions per category.
-- [`_f83_aer_preflight.py`](../../simulations/_f83_aer_preflight.py): Aer noise simulation with [4, 5, 6] calibration values; matched Trotter to 0.001 on the anchor observable but missed the +0.13 hardware drift.
-- [`_f83_hy_field_check.py`](../../simulations/_f83_hy_field_check.py): tested h_y = 0.05 (zn_mirror April 29 finding) as alternative explanation; rejected (h_y rotates Z↔X, doesn't amplify Y).
-- [`_f83_gamma_z_sweep.py`](../../simulations/_f83_gamma_z_sweep.py): per-path γ_Z_eff fit and per-observable residual diagnostic.
+- [`f83_signature_predictions.py`](../../simulations/f83_signature_predictions.py): closed-form Trotter+γ_Z=0.1 predictions per category.
+- [`f83_aer_preflight.py`](../../simulations/f83_aer_preflight.py): Aer noise simulation with [4, 5, 6] calibration values; matched Trotter to 0.001 on the anchor observable but missed the +0.13 hardware drift.
+- [`f83_hy_field_check.py`](../../simulations/f83_hy_field_check.py): tested h_y = 0.05 (zn_mirror April 29 finding) as alternative explanation; rejected (h_y rotates Z↔X, doesn't amplify Y).
+- [`f83_gamma_z_sweep.py`](../../simulations/f83_gamma_z_sweep.py): per-path γ_Z_eff fit and per-observable residual diagnostic.
 - [`_2qubit_dissipator_exploration.py`](../../simulations/_2qubit_dissipator_exploration.py) (commit ba8e861): partial F86, single-bond closed form for σ-channels; overlap structure open.

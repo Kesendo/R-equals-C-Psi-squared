@@ -85,7 +85,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (Q_zx-conjugation, the operator-space lift of U_H^⊗N), giving a second
 /// independent route for the (Z, X) pair. See
 /// docs/proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md and
-/// simulations/_f112_klein_v4_cross_dephase_verify.py (Welle 13). Caveat: the
+/// simulations/f112_klein_v4_cross_dephase_verify.py (Welle 13). Caveat: the
 /// D-involution (Z↔Y swap in Pi2KleinV4DephaseSwapGroup) is operator-space-only
 /// and does NOT transport L_Z to a Lindblad-form L_Y; F112-Y requires the direct
 /// re-run, not D-conjugation.</para>
@@ -189,13 +189,13 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
         "non-Hermitian extension is therefore Tier1Derived for ALL N (proof in " +
         "docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md, Welle 11 2026-05-27). The " +
         "basis-enumeration anchor at N ≤ 5 (559,912 pairs all bit-exact 0; Welle 10a " +
-        "Python simulations/_f112_open_identity_basis_enum.py and Welle 10b C# SLOW_F112 " +
+        "Python simulations/f112_open_identity_basis_enum.py and Welle 10b C# SLOW_F112 " +
         "compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs) " +
         "and the sparse-rep extension at N = 6 (Welle 10d C# SLOW_F112_SPARSE, 8,390,656 " +
         "pairs in ~1.5 sec on 24 cores via SparseLSigma + FrobeniusInnerSparse, " +
         "MaxImaginary = 0.0 bit-exact) " +
         "are preserved as the empirical motivation for the structural proof. The two-lemma " +
-        "proof verifier simulations/_f112_universal_n_proof_verify.py confirms each step " +
+        "proof verifier simulations/f112_universal_n_proof_verify.py confirms each step " +
         "within 1e-12 numpy double-precision tolerance at N = 1, 2, 3 (42 BitB-odd strings, " +
         "1050 off-diagonal pairs, 4368 all-pair F-values, all max deviations < 1e-12, " +
         "i.e. machine zero to numpy double precision). The Welle 10a Python enumeration " +
@@ -283,7 +283,7 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
                "simulations/polarity_proof_verify.py + simulations/polarity_step5_stress.py + " +
                "simulations/polarity_probe_f87_connection.py + " +
                "simulations/f112_f87_orthogonality.py + " +
-               "simulations/_f112_universal_n_proof_verify.py")
+               "simulations/f112_universal_n_proof_verify.py")
     {
         Part1 = part1 ?? throw new ArgumentNullException(nameof(part1));
         BitATwinClaim = bitATwin ?? throw new ArgumentNullException(nameof(bitATwin));

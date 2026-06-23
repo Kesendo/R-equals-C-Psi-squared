@@ -3,7 +3,7 @@
 **Status:** First application of F113 closed form as a hardware diagnostic: invert the F113 formula to extract a γ_T1 reading from the polarity-asymmetry measurement and compare to device-calibrated 1/T1. Self-consistency confirmed bit-exact; the fit-vs-calibration discrepancy quantifies the magnitude of non-T1 noise channels operating during the experiment.
 **Date:** 2026-05-26
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Script:** [`simulations/_f113_t1_extraction_kingston.py`](../simulations/_f113_t1_extraction_kingston.py)
+**Script:** [`simulations/f113_t1_extraction_kingston.py`](../simulations/f113_t1_extraction_kingston.py)
 **Data:** [`data/ibm_f95_angle_steering_may2026/`](../data/ibm_f95_angle_steering_may2026/) (2 omega × 2 pair-runs × 6 t-points each, Kingston, 2026-05-16)
 **Builds on:** F113 ([`F113_BREAK_MAGNITUDE_FORMULA.md`](F113_BREAK_MAGNITUDE_FORMULA.md), [`PROOF_F113_COEFFICIENT_DERIVATION.md`](../docs/proofs/PROOF_F113_COEFFICIENT_DERIVATION.md))
 
@@ -79,7 +79,7 @@ F113 makes this conversion **structural**: any polarity-asymmetry measurement on
 ## Reproduction
 
 ```
-python -X utf8 simulations/_f113_t1_extraction_kingston.py
+python -X utf8 simulations/f113_t1_extraction_kingston.py
 ```
 
 Runs in ~15 seconds; produces the per-pair-run γ_T1 comparison table inline.
