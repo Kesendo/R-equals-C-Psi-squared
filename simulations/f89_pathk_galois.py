@@ -183,8 +183,56 @@ def run_gates():
     print(f"  GATE: {'PASS' if ok else 'FAIL'}\n")
 
 
+def emit_fd_literal(k: int, q0: int = 2):
+    """Emit the H_B-mixed factor F_d(λ, q0) as exact integer (re, im) coefficient lists,
+    lowest-first (the OcticCoefficientsAtQ2 convention) — the committed oracle the C# live
+    Option-D witness is validated against (assert: live F_d == this literal). Run:
+        python simulations/f89_pathk_galois.py emit 4
+    """
+    n_block = k + 1
+    M = build_pathk_sym_over_qi(q0, n_block)
+    cp = sp.expand(M.charpoly(LAM).as_expr())
+    _, hb = rate_bucket_factors(cp)
+    assert len(hb) == 1, f"path-{k}: expected one H_B-mixed factor, got {len(hb)}"
+    fd = sp.Poly(hb[0], LAM)
+    coeffs = list(reversed(fd.all_coeffs()))  # lowest-first
+    re, im = [], []
+    for c in coeffs:
+        cr, ci = sp.nsimplify(sp.re(c)), sp.nsimplify(sp.im(c))
+        assert cr.is_integer and ci.is_integer, f"non-integer F_d coefficient {c}"
+        re.append(int(cr))
+        im.append(int(ci))
+    print(f"// path-{k} F_d(lambda, q={q0}); degree {fd.degree()}; lowest-first; monic; over Z[i]")
+    print(f"re = {re}")
+    print(f"im = {im}")
+    return re, im
+
+
+def emit_at_factors(k: int, q0: int = 2):
+    """Print each AT-locked factor's degree and roots (Re, Im) — to study the F_a (rate 2γ,
+    Re=−2) single-particle Bloch modes and the F_b (rate 6γ, Re=−6) 2-particle DE-Slater modes,
+    the structure the live-D AT reconstruction must reproduce over Z[i]."""
+    n_block = k + 1
+    M = build_pathk_sym_over_qi(q0, n_block)
+    cp = sp.expand(M.charpoly(LAM).as_expr())
+    at, hb = rate_bucket_factors(cp)
+    print(f"path-{k} (n_block={n_block}, q0={q0}): {len(at)} AT factor(s), {len(hb)} H_B-mixed factor(s)")
+    for f in sorted(at, key=lambda x: sp.Poly(x, LAM).degree()):
+        poly = sp.Poly(f, LAM)
+        roots = np.roots([complex(c) for c in poly.all_coeffs()])
+        coeffs = list(reversed(poly.all_coeffs()))
+        intcoef = all(sp.nsimplify(sp.re(c)).is_integer and sp.nsimplify(sp.im(c)).is_integer for c in coeffs)
+        rs = ", ".join(f"({r.real:+.2f},{r.imag:+.2f})" for r in sorted(roots, key=lambda z: (round(z.real, 2), z.imag)))
+        print(f"  AT factor degree {poly.degree()} (integer coeffs: {intcoef}): {rs}")
+
+
 if __name__ == "__main__":
-    run_gates()
-    analyse_path(4, q0=2, prime_hi=1500)
-    analyse_path(5, q0=2, prime_hi=2500)
-    analyse_path(6, q0=2, prime_hi=4000)
+    if len(sys.argv) >= 3 and sys.argv[1] == "emit":
+        emit_fd_literal(int(sys.argv[2]), q0=int(sys.argv[3]) if len(sys.argv) >= 4 else 2)
+    elif len(sys.argv) >= 3 and sys.argv[1] == "emit_at":
+        emit_at_factors(int(sys.argv[2]))
+    else:
+        run_gates()
+        analyse_path(4, q0=2, prime_hi=1500)
+        analyse_path(5, q0=2, prime_hi=2500)
+        analyse_path(6, q0=2, prime_hi=4000)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 namespace RCPsiSquared.Core.Numerics;
 
@@ -34,9 +35,70 @@ public static class OcticGaloisCertificate
             f[k] = (int)ScalarMod(re[k] + im[k] * r, p);
         if (Degree(f) != topPower) return null;        // leading coefficient vanished: degree drop
 
-        var fp = Monic(f, p);
-        if (Degree(Gcd(fp, Derivative(fp, p), p)) > 0) return null;  // not squarefree ⟹ p | disc
+        return CycleTypeOfFpPoly(f, p);
+    }
 
+    /// <summary>The cycle type of a Gaussian-BigInteger polynomial Σ_k (re[k] + i·im[k])·x^k
+    /// reduced modulo a split prime 𝔭 | p. The path-5/6 regime, where F_d's coefficients
+    /// exceed Int64 (path-5 ≈ 4.9·10²⁹, path-6 ≈ 1.2·10⁵⁰). Same contract as the long[]
+    /// overload (null on a non-split prime, degree drop, or non-squarefree reduction).</summary>
+    public static int[]? CycleType(BigInteger[] re, BigInteger[] im, int p)
+    {
+        if (re.Length != im.Length) throw new ArgumentException("re and im must have equal length.");
+        if (p < 5 || p % 4 != 1) return null;          // need a prime that splits in Z[i]
+        int? root = SqrtMinusOne(p);
+        if (root is null) return null;
+        BigInteger r = root.Value;
+
+        int topPower = re.Length - 1;
+        var f = new int[re.Length];
+        for (int k = 0; k < re.Length; k++)            // a + b·i  ↦  a + b·r  (mod p)
+            f[k] = BigIntMod(re[k] + im[k] * r, p);
+        if (Degree(f) != topPower) return null;        // leading coefficient vanished: degree drop
+
+        return CycleTypeOfFpPoly(f, p);
+    }
+
+    private static int BigIntMod(BigInteger a, int p)
+    {
+        int m = (int)(a % p);
+        return m < 0 ? m + p : m;
+    }
+
+    /// <summary>The S_d certificate read from a collection of Frobenius cycle types of an
+    /// irreducible degree-d factor (transitivity assumed — a single d-cycle re-certifies it
+    /// live). A cycle type with a prime part p in (d/2, d−3] ⟹ primitive (p&gt;d/2) + Jordan
+    /// (p≤d−3) ⟹ ⊇A_d; a cycle type with (d − #parts) odd ⟹ ⊄A_d; both ⟹ G = S_d. Mirrors
+    /// simulations/f89_pathk_galois.py:jordan_verdict, generalised across the H_B-mixed
+    /// degrees (8/18/32/53).</summary>
+    public static GaloisGroupCertificate JordanVerdict(IEnumerable<int[]> cycleTypes, int degree)
+    {
+        var types = cycleTypes as IReadOnlyCollection<int[]> ?? cycleTypes.ToList();
+        bool transitive = types.Any(ct => ct.Length == 1 && ct[0] == degree);   // a d-cycle
+        int? jordanPrime = types
+            .SelectMany(ct => ct)
+            .Where(part => 2 * part > degree && part <= degree - 3 && IsPrime(part))
+            .Select(part => (int?)part)
+            .FirstOrDefault();                          // d/2 < p ≤ d−3, p prime ⟹ ⊇A_d
+        bool hasOdd = types.Any(ct => (degree - ct.Length) % 2 == 1);   // (d − #parts) odd ⟹ ⊄A_d
+        return new GaloisGroupCertificate(degree, transitive, jordanPrime, hasOdd);
+    }
+
+    private static bool IsPrime(int n)
+    {
+        if (n < 2) return false;
+        for (int d = 2; (long)d * d <= n; d++) if (n % d == 0) return false;
+        return true;
+    }
+
+    /// <summary>Cycle type (irreducible-factor degrees, sorted descending) of a polynomial
+    /// already reduced over F_p (coefficients in [0,p), lowest-first). Returns null when the
+    /// reduction is not squarefree (p | disc ⟹ Dedekind n/a). The split-prime and degree-drop
+    /// guards belong to the caller that performed the reduction.</summary>
+    public static int[]? CycleTypeOfFpPoly(int[] fpPoly, int p)
+    {
+        var fp = Monic(fpPoly, p);
+        if (Degree(Gcd(fp, Derivative(fp, p), p)) > 0) return null;  // not squarefree ⟹ p | disc
         return DistinctDegreeFactorisation(fp, p).OrderByDescending(d => d).ToArray();
     }
 
@@ -200,4 +262,20 @@ public static class OcticGaloisCertificate
         for (int r = 1; r < p; r++) if ((long)r * r % p == p - 1) return r;
         return null;
     }
+}
+
+/// <summary>Outcome of the generalised Jordan reading of an irreducible degree-d factor's
+/// Frobenius cycle types: whether the Galois group is transitive, contains A_d, is
+/// non-solvable, and is the full symmetric group S_d.</summary>
+public readonly record struct GaloisGroupCertificate(
+    int Degree, bool Transitive, int? JordanPrime, bool HasOddCycleType)
+{
+    /// <summary>A prime-p cycle with d/2 &lt; p ≤ d−3 ⟹ ⊇A_d (primitive + Jordan).</summary>
+    public bool ContainsAlternating => JordanPrime is not null;
+
+    /// <summary>⊇A_d with d ≥ 5 ⟹ non-solvable (A_d is simple non-abelian).</summary>
+    public bool IsNonSolvable => ContainsAlternating && Degree >= 5;
+
+    /// <summary>⊇A_d together with an odd permutation ⟹ ⊄A_d ⟹ G = S_d.</summary>
+    public bool IsFullSymmetric => ContainsAlternating && HasOddCycleType;
 }
