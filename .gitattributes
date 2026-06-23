@@ -1,0 +1,5 @@
+# Git hooks must stay LF on every checkout so the /bin/sh shebang works even
+# under core.autocrlf=true. Scoped to the hook files only; repo-wide
+# line-ending handling is left to each clone's core.autocrlf.
+.githooks/pre-commit        text eol=lf
+.githooks/check_wip_refs.py text eol=lf
