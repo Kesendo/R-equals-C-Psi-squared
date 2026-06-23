@@ -6,7 +6,7 @@ crosser dephasing signature, fold catastrophe one-way crossing,
 T2echo vs T2star caveat, 133 qubits 181 days calibration history,
 selective DD mutual information gradient, R=CPsi2 hardware proof -->
 
-**Status:** Hardware validated (synthesis of all IBM experiments)
+**Status:** Hardware-observed (synthesis of IBM Torino runs; predictions consistent with single, mostly un-replicated runs, see the per-finding table; r* is a self-consistency classification over 24,073 echo-based records)
 **Date:** March 28, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -23,12 +23,15 @@ selective DD mutual information gradient, R=CPsi2 hardware proof -->
 ## Abstract
 
 We applied every testable prediction from the R=CΨ² framework to
-IBM Torino quantum hardware data. Five predictions are confirmed,
+IBM Torino quantum hardware data. Five predictions are consistent with
+the data (each on a single, mostly un-replicated run, no error bars),
 three patterns are newly visible, and four predictions remain
 untestable with current data. The strongest result: the r parameter
-threshold r* = 0.2128 separates crossing from non-crossing qubits
-with a precision of 0.000014 across 24,073 calibration records.
-Zero false positives.
+threshold r* = 0.2128 cleanly separates crossing from non-crossing
+qubits across 24,073 calibration records with zero false positives
+(the 0.000014 "gap" is the resolution of classifying each record's CΨ
+against the crossing equation, not an independently fitted transition
+width).
 
 **Critical caveat:** The calibration history uses T2 from Hahn echo,
 not T2* from free induction decay. All r values in this document are
@@ -290,11 +293,11 @@ stale T2* from 6 days prior gave 61% error; same-day T2* gave 1.9%.
 
 | # | Finding | Source | Status |
 |---|---------|--------|--------|
-| 1 | 1/4 boundary crossing at 1.9% | Run 3, Q80 | **Confirmed** |
-| 2 | Sharp r* threshold (precision 0.000014) | 24,073 cal records | **Confirmed** |
-| 3 | Fold is one-way, irreversible | Run 3 tomography | **Confirmed** |
-| 4 | Sacrifice zone 2-3x improvement | 5-qubit chain | **Confirmed** |
-| 5 | Spatial MI gradient under selective DD | 5-qubit chain | **Confirmed** |
+| 1 | 1/4 boundary crossing at 1.9% | Run 3, Q80 | **Observed (1 run)** |
+| 2 | Sharp r* threshold (precision 0.000014) | 24,073 cal records | **Consistent (24k records, self-classified)** |
+| 3 | Fold is one-way, irreversible | Run 3 tomography | **Observed (1 run)** |
+| 4 | Sacrifice zone 2-3x improvement | 5-qubit chain | **Observed (1 run)** |
+| 5 | Spatial MI gradient under selective DD | 5-qubit chain | **Observed (1 run)** |
 | 6 | Permanent crossers: dephasing signature | 181-day history | **Visible** |
 | 7 | r is structural (CV ~ 0.20) | 181-day history | **Visible** |
 | 8 | 84% pure dephasing in crossers | 181-day history | **Visible** |
@@ -358,8 +361,10 @@ pairing. Paired modes decay at rate gamma, unpaired at 2*gamma. The
 - Hydrogen bond (2-proton): exact pairing, std 5.4e-3 (Tier 2)
 - Analytical proof: holds for all N, all topologies (Tier 1)
 
-**Revised status:** Indirectly supported on qubit hardware (2x law 1.97x),
-directly confirmed on neural and molecular levels, analytically proven.
+**Revised status:** Indirectly supported on qubit hardware (one 5-qubit run,
+2x law 1.97x), supported on neural and molecular levels (model/computed and
+biological), analytically proven for all N and topologies (the proof, not
+the hardware, is the all-N/all-topology result).
 
 ---
 

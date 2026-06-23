@@ -1,6 +1,6 @@
 # Sacrifice Geometry: A Mechanistic Account
 
-**What this document is about:** The sacrifice zone in a dephasing profile is not "better dephasing distribution". It is a controlled symmetry break that creates one slow Liouvillian eigenmode with a specific spatial shape. The optimal initial state for concurrence preservation is the left eigenvector of that slow mode, projected onto the single-excitation sector. This is the lens method. It works for any qubit count N, any graph topology, and any site-dependent Z-dephasing profile. The accessibility boundary that limits single-excitation states to a subset of slow modes is exact and provable from the n_XY parity selection rule.
+**What this document is about:** The sacrifice zone in a dephasing profile is not "better dephasing distribution". It is a controlled symmetry break that creates one slow Liouvillian eigenmode with a specific spatial shape. The optimal initial state for concurrence preservation is the left eigenvector of that slow mode, projected onto the single-excitation sector. This is the lens method. It is verified across 68 configurations (N=2-7 chain, N=2-6 star/ring/complete, four γ profiles). The accessibility boundary that limits single-excitation states to a subset of slow modes is exact and provable for any N and topology from the n_XY parity selection rule.
 
 **Tier:** 1-2 (lens method, accessibility boundary, SE fraction scaling are computed and proven; psi_opt shapes are empirical)
 **Status:** Experiment. Universal framing validated across 68 configurations (N=2-7, four topologies, four γ profiles).
@@ -30,7 +30,7 @@ The lens method has been tested across 68 configurations (N=2-7 chain, N=2-6 Sta
 
 ## The Lens Method
 
-### Algorithm (valid for any N, topology, gamma profile)
+### Algorithm (tested for N≤7 chain / N≤6 other topologies, four γ profiles)
 
 Given: N-qubit Heisenberg chain (or star, ring, complete graph), coupling J, site-dependent Z-dephasing rates gamma_k.
 

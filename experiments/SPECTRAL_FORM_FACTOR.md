@@ -25,9 +25,10 @@ it measures how eigenvalues are statistically distributed by looking at their
 Fourier transform in time. Chaotic systems show a characteristic "dip-ramp-plateau"
 pattern; integrable systems show flat noise. We compute the SFF for our palindromic
 Liouvillian across N=2 to N=7 and find something that matches neither: a unique
-palindromic modulation at the predicted frequencies, confirming the mirrored
-eigenvalue pairing in the time domain. The modulation fades as the system grows
-(~1/4^N) but never vanishes; it is exact at every N.
+palindromic modulation at the predicted frequency, cleanly identified by FFT at
+N=2-4 and N=6 (at N=5 and N=7 the ω_min peak is subdominant and not separable
+from higher harmonics). The pairing itself is exact at every N (analytically
+proven); its FFT signature fades as the system grows (~1/4^N) but never vanishes.
 
 ---
 

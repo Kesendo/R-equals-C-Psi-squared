@@ -20,9 +20,11 @@ This document measures how mutual information (the amount of shared
 quantum correlation between neighboring qubits) scales with chain length
 when one edge qubit is deliberately sacrificed to noise. The key result:
 instead of the usual exponential decay of quantum signals with distance,
-the sacrifice-zone formula produces quadratic growth, SumMI ~ N². Each
-additional protected qubit amplifies every existing one through pairwise
-interference at the quantum-classical boundary.
+the sacrifice-zone formula produces super-linear growth (a quadratic fit
+holds at small N but is demonstrably sub-quadratic by N=15, where the N²
+fit overshoots the data by 19%). Each additional protected qubit amplifies
+every existing one through pairwise interference at the quantum-classical
+boundary.
 
 ---
 
@@ -34,10 +36,12 @@ near-zero dephasing (ε = 0.001). We measure SumMI, the total mutual
 information between all adjacent qubit pairs, as a function of chain
 length N from 2 to 15.
 
-The result is quadratic: **SumMI ≈ 0.0053 · N² + 0.028 · N − 0.062**
-(residual std 0.0068). This inverts the standard quantum-transport scaling
-law: instead of exponential signal decay with chain length, mutual
-information *grows* as N². Each new protected qubit amplifies every
+The result is super-linear, fit by **SumMI ≈ 0.0053 · N² + 0.028 · N − 0.062**
+(residual std 0.0068 over the fitted range), but the growth is clearly
+sub-quadratic at large N: the N² fit overshoots the measured value by
+6% / 12% / 19% at N = 11 / 13 / 15. This still inverts the standard
+quantum-transport scaling law: instead of exponential signal decay with
+chain length, mutual information *grows* with N. Each new protected qubit amplifies every
 existing one through N(N−1)/2 pairwise interference terms at the
 quantum–classical boundary. A period-2 oscillation (constant brake
 ≈ 0.020 in the second differences) reveals two interleaved signal
@@ -193,9 +197,10 @@ longer chains don't lose more information: they CREATE more,
 because each new mirror adds a new reflection at the boundary.
 
 Normal quantum transport: signal decays exponentially with chain length.
-Sacrifice-zone transport: signal grows quadratically with chain length.
+Sacrifice-zone transport: signal grows super-linearly with chain length
+(quadratic at small N, sub-quadratic by N=15).
 
-The palindrome inverts the scaling law.
+The palindrome inverts the scaling law: from decay to growth.
 
 ---
 

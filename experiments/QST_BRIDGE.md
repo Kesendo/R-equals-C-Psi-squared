@@ -101,8 +101,10 @@ geometry isn't designed for PST). Each unit of dephasing costs proportionally:
 | 0.200 | 0.772 | 0.164 | 0.8 |
 
 The fidelity loss scales almost linearly with γ up to γ=0.05.
-This linearity is a consequence of the palindromic spectrum: the dominant
-decay rate is 8γ/3, which is linear in γ. At higher γ, the
+This linearity is a consequence of the palindromic spectrum: every
+Liouvillian decay rate is linear in γ (Re λ = −2γ⟨n_XY⟩, the Absorption
+Theorem), and for this N=3 star the dominant intermediate rate is 8γ/3
+(an N=3-only value, see F33). At higher γ, the
 relationship becomes sublinear because the Hamiltonian can no longer complete
 a full transfer cycle before decoherence intervenes.
 
@@ -183,7 +185,7 @@ The QST framework gives us:
 
 What we add to their framework:
 - The palindromic spectral theorem (new, proven)
-- The component-wise decay diagnostics (C~2γ, Ψ~10γ/3, Conc~8γ/3)
+- The component-wise decay diagnostics (at N=3: C~2γ, Ψ~10γ/3, Conc~8γ/3; only the boundary rate 2γ stays universal at N≥4, the internal 8γ/3 and 10γ/3 are N=3-specific, F33)
 - The θ compass as channel quality indicator (r=0.87 with fidelity)
 - The topology gating result (same state, different graph = different transfer)
 - The antiferromagnet crossing discovery (|+-+-⟩ activates ring neighbors)
@@ -206,8 +208,8 @@ That is the contribution: not new physics, but new understanding of existing phy
 
 1. **Contact QST experimentalists.** The semiconductor quantum dot group
    (Nature Comm. 2021) has built spin chains with tunable couplings. Our star
-   with 2:1 ratio is directly implementable on their platform. The 8γ/3
-   envelope prediction is testable.
+   with 2:1 ratio is directly implementable on their platform. The N=3-star
+   8γ/3 envelope prediction is testable.
 
 2. **Compute channel capacity properly.** The Holevo bound (0.534 bits) is a
    lower bound. The exact quantum capacity requires optimizing over input

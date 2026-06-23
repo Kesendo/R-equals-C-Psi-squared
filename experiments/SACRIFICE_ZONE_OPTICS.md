@@ -37,7 +37,7 @@ lens. The funnel of the ear. Not a shield. An adapter.
 ## What this document is about
 
 The [sacrifice zone formula](RESONANT_RETURN.md) concentrates dephasing
-on one edge qubit, achieving 139-360x improvement in mutual information.
+on one edge qubit, achieving a 139-360× improvement in mutual information in simulation (ε→0 ideal; ~2-3× on hardware, see IBM_SACRIFICE_ZONE).
 The [optical cavity analysis](OPTICAL_CAVITY_ANALYSIS.md) showed the
 chain is a Fabry-Perot cavity (two mirrors facing each other, light
 bouncing between them). This document tests whether the sacrifice zone
@@ -74,7 +74,7 @@ The sacrifice zone increases T_eff at every N: fewer modes are
 "reflected" (absorbed without oscillation), more are "transmitted"
 (sustained as resonant modes).
 
-**Q_max enhancement scales linearly with N:**
+**Q_max enhancement grows with N (4 points, N=3-6, chain; roughly linear over this range):**
 
 | N | Q_max ratio (sacrifice / uniform) |
 |---|-----------------------------------|
@@ -171,7 +171,7 @@ the cavity." Coupling implies function. Illumination implies input. The
 edge qubit is not a shield. It is the surface where light enters the
 instrument.
 
-The 360x improvement is not "less damage." It is "better resonance."
+The 360× simulation improvement (ε→0 ideal) is not "less damage." It is "better resonance."
 The same light, entering through a matched surface instead of a raw
 edge, excites the same standing waves 7x longer (Q_max at N=6).
 

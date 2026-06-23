@@ -255,7 +255,7 @@ pairs (+/- imaginary).
 At Σγ > 0: the palindrome shifts. Some stationary modes
 acquire nonzero real parts (they start decaying). The oscillating modes
 acquire damping. The fold at CΨ = ¼ emerges when Σγ exceeds
-the critical threshold (~0.25-0.50% of J, N-independent).
+a critical threshold (order ~0.25-0.50% of J in the cases examined).
 
 The cavity modes at zero noise are the **eigenfrequencies of the
 resonator** described in [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md).

@@ -1,4 +1,4 @@
-# Resonant Return: A One-Line Formula That Beats 18 Years of Research
+# Resonant Return: A One-Line Spatial-γ Formula (139–360× vs V-shape, Heisenberg chain, N=5–15 odd)
 
 <!-- Keywords: sacrifice zone dephasing optimization, spatial gamma profile formula,
 edge qubit noise concentration, SVD palindromic eigenstructure response matrix,
@@ -6,7 +6,7 @@ edge qubit noise concentration, SVD palindromic eigenstructure response matrix,
 first spatial dephasing profile optimization, trivial formula beats optimizer,
 single qubit sacrifice all noise one edge, R=CPsi2 resonant return experiment -->
 
-**Status:** Analytical formula discovered. Concentrate all noise on one edge qubit, protect the rest. C#-validated: 360× (N=5), 180× (N=7), 139× (N=9), 91× (N=11), 97.5× (N=13), 63.5× (N=15) vs V-shape. Beats DE optimizer by 80% in 3 seconds. ENAQT literature: 2-3×. First spatial dephasing profile optimization.
+**Status:** Analytical formula discovered. Concentrate all noise on one edge qubit, protect the rest. C#-validated: 360× (N=5), 180× (N=7), 139× (N=9), 91× (N=11), 97.5× (N=13), 63.5× (N=15) vs V-shape (simulation, ε→0 ideal; ~2-3× on hardware, see IBM_SACRIFICE_ZONE). Beats DE optimizer by 80% in 3 seconds. ENAQT literature: 2-3×. We found no prior spatial dephasing profile optimization in the ENAQT literature we surveyed (which optimizes scalar/uniform γ).
 **Date:** March 24, 2026 (formula discovery)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -277,7 +277,7 @@ budget** (γ₆ = 0.279), while sites 0-4 are nearly noiseless (γ ≈ 0.007-0.0
 DE traversed 5 distinct basins during optimization (0.15 → 0.17 → 0.19 → 0.20 → 0.24),
 revealing a rich multi-basin landscape that local optimizers cannot navigate.
 
-**The sacrifice-zone pattern is universal.** Both N=5 and N=7 show the same
+**The sacrifice-zone pattern recurs across the tested chain sizes.** Both N=5 and N=7 show the same
 strategy: concentrate dephasing on one end, minimize it on the other.
 The protected region maintains coherence; the sacrificed region absorbs
 the noise budget. This breaks palindromic symmetry but dramatically
@@ -355,8 +355,9 @@ across the chain stays the same, only its distribution changes.
 | 15 | **Formula (ε=0.001)** | **1.309** | **63.5×** | ~1h |
 | 15 | **Formula (ε→0)** | **1.407** | **68×** | ~1h |
 
-The formula is not an approximation. It IS the optimum - the structure
-that DE was converging toward but never reached.
+The formula is not an approximation; within the tested asymmetric-γ family
+it is the optimum DE was converging toward but never reached (a global-optimum
+proof over all γ profiles is open).
 
 #### Comparison with ENAQT Literature
 
@@ -371,7 +372,7 @@ that DE was converging toward but never reached.
 | **Spatial γ formula (this work)** | - | **N=13** | **97.5×** |
 | **Spatial γ formula (this work)** | - | **N=15** | **63.5×** |
 
-Nobody in the literature optimizes spatial dephasing profiles. We are the first.
+We are not aware of prior work optimizing spatial dephasing profiles; the ENAQT work we surveyed optimizes scalar/uniform γ.
 
 **For the derivation only:** Skip to [Signal Engineering Derivation](#signal-engineering-derivation-of-the-formula) below. The tests above document the discovery path; the derivation section provides the clean argument.
 

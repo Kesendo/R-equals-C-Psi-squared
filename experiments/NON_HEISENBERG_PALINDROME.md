@@ -1,4 +1,4 @@
-# Palindromic Symmetry Beyond Heisenberg: The Mirror Works on Every Instrument
+# Palindromic Symmetry Beyond Heisenberg: The Mirror Works on Every Standard Instrument (and Where It Breaks)
 
 <!-- Keywords: palindromic Liouvillian beyond Heisenberg, XY Ising XXZ DM palindrome,
 conjugation operator families P1 P4, continuous crossover local Pi operator, dephasing
@@ -42,10 +42,12 @@ genuinely entangled; the correction is in
 
 The palindromic spectral symmetry proven for Heisenberg coupling
 ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)) is not limited
-to Heisenberg. **Every standard condensed matter Hamiltonian** is palindromic
-under single-axis dephasing: XY, Ising, XXZ, Dzyaloshinskii-Moriya (DM; a
-spin-orbit interaction that twists the coupling between neighbors), and
-all combinations. Two families of conjugation operators exist (P1 and P4),
+to Heisenberg. **Every standard single-bond condensed matter Hamiltonian** is
+palindromic under single-axis dephasing: XY, Ising, XXZ, and Dzyaloshinskii-Moriya
+(DM; a spin-orbit interaction that twists the coupling between neighbors). Of the
+36 two-term Pauli-bond combinations, 22 are palindromic and 14 break structurally
+(Result 4; the break is the shadow-crossing case, e.g. XZ+XY). Two families of
+conjugation operators exist (P1 and P4),
 plus non-uniform alternating operators for XY/YX terms. All 36 possible
 two-term Pauli combinations are resolved: 22 are palindromic (17 via a
 uniform discrete map, 3 alternating, 2 via a uniform **continuous** per-site

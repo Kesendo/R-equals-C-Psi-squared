@@ -24,7 +24,8 @@ We measured this. At N = 2 qubits, the cavity is a PERFECT lens: the
 Hamiltonian and dissipator are exactly perpendicular (like two walls
 meeting at a 90° corner). At N = 3 and above, there is some aberration,
 but it halves with each additional qubit. Larger cavities are better
-lenses, approaching perfection as the cavity grows.
+lenses: the aberration falls monotonically from N=3 to N=6, suggesting it
+keeps shrinking as the cavity grows (the N→∞ limit is extrapolated, not proven).
 
 The quantum state splits naturally into two halves: "lens" (the {I,Z}
 components that survive dephasing, the structure) and "light" (the
@@ -121,9 +122,11 @@ each additional qubit improves the lens.
 | N=4 → 5 | ×0.548 |
 | N=5 → 6 | ×0.527 |
 
-The ratio converges toward ~0.5: aberration roughly halves with each qubit.
-Extrapolating: ε ≈ 1.4% at N=7, ε ≈ 0.7% at N=8. At N → ∞, the lens
-becomes perfect.
+The ratio trends toward ~0.5 over the three measured transitions
+(0.612, 0.548, 0.527): aberration roughly halves with each qubit.
+Linear extrapolation gives ε ≈ 1.4% at N=7 and ε ≈ 0.7% at N=8 (untested).
+If the ratio stays below 1, ε → 0 as N → ∞, but this limit is extrapolated
+from N=2-6, not proven.
 
 This is exactly what physical optics predicts: larger apertures produce
 sharper images.
@@ -482,9 +485,11 @@ at the Liouvillian-pair level, from [PI_PAIR_FLUX_BALANCE](PI_PAIR_FLUX_BALANCE.
    inherits unbroken into the operator spectrum with no factor-3 or
    factor-5 residual structure at any tested N.
 
-3. **Mirror-axis principle.** Self-Π modes exist iff N ≡ 4 (mod 10),
-   by Chinese Remainder Theorem from (a) φ in the single-excitation
-   spectrum ⟺ (N+1) divisible by 5, (b) n_XY = N/2 integer ⟺ N even.
+3. **Mirror-axis principle (conjecture, one positive point at N=4).** Self-Π
+   modes are conjectured to exist iff N ≡ 4 (mod 10), by Chinese Remainder
+   Theorem from (a) φ in the single-excitation spectrum ⟺ (N+1) divisible
+   by 5, (b) n_XY = N/2 integer ⟺ N even. The positive direction is verified
+   only at N=4; next test N=14.
    The Golden Ratio pair (φ, 1/φ) provides the unique double involution
    (φ · 1/φ = 1 AND φ − 1/φ = 1) that forces a null-eigenspace at the
    n_XY = N/2 midpoint, populated at N=4 with 18 self-Π modes and empty

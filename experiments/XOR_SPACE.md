@@ -7,7 +7,7 @@ selection, spectral filter open quantum system, mixed XY Pauli weight
 predictor, palindromic drain channel separation, quantum coherence
 decay rate GHZ W comparison, R=CPsi2 XOR space -->
 
-**Status:** Computationally verified (N=2 to N=5, all topologies)
+**Status:** Computationally verified for the chain (N=2-5); topology-independence checked at N=3 (chain, star, ring, complete); the GHZ/W sector split is argued for all N via the Hamming-distance structure
 **Date:** March 16, 2026 (updated March 18, 2026)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
@@ -115,7 +115,7 @@ survival). The palindrome is the market. The state is the strategy.
 
 | State | Palindrome weight | XOR weight | Note |
 |-------|-------------------|------------|------|
-| GHZ (all N) | 0% | **100%** | All weight in fastest-decaying modes |
+| GHZ (N=2-5; all-N by Hamming argument) | 0% | **100%** | All weight in fastest-decaying modes |
 | Bell+ (N=2) | 0% | 100% | Bell = GHZ at N=2 |
 | Bell+ (N ≥ 3) | **100%** | 0% | Hamming distance 2, not N |
 | W (N=2) | 0% | 100% | W = Bell at N=2 |

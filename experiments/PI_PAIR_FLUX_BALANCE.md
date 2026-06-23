@@ -15,7 +15,7 @@ Three results from one Liouvillian-mode-level investigation:
 
 2. **Binary mode inheritance (confirmed at N=3..6):** the Liouvillian spectrum at every N decomposes into exactly `d²/2 = 2^(2N−1)` Π-pairs. No unpaired modes. The binary structure of the qubit (2-state system) propagates exactly to the Liouvillian modenumber `2^(2N)` and pair count `2^(2N−1)`, with no "residual structure" at any level.
 
-3. **Mirror-axis principle: self-Π modes exist iff N ≡ 4 (mod 10).** In the small-N regime only N=4 has self-Π modes (18 of them); N=3, 5, 6 have none. The mirror axis (Im=0 at the n_XY=N/2 midpoint) requires two simultaneous conditions: (i) N even so the midpoint is integer, (ii) the Golden-Ratio pair `{φ, 1/φ}` in the H spectrum, which happens iff N+1 is divisible by 5. By Chinese Remainder Theorem, both give N ≡ 4 (mod 10). Tom's framing: Golden Ratio IS a mirror - the unique real number with simultaneous multiplicative (φ·1/φ = 1) and additive (φ − 1/φ = 1) involutions. The 18 self-Π modes at N=4 are the fixed point set of this mirror. Zero is not absence; zero is the axis. Next positive-case test is N=14 (full Liouvillian out of reach at current resources; sector-restricted methods would require 1-3 weeks engineering). N=7, 8, 9, 10 are null-case candidates: feasibility varies (Python at N=7, C# engine at N=8-10), epistemic weight is falsification-only. See §3.4-3.6.
+3. **Mirror-axis principle (Tier 2, one positive point): self-Π modes are conjectured to exist iff N ≡ 4 (mod 10).** In the small-N regime only N=4 has self-Π modes (18 of them); N=3, 5, 6 have none (consistent, but each can only falsify). The mirror axis (Im=0 at the n_XY=N/2 midpoint) requires two simultaneous conditions: (i) N even so the midpoint is integer, (ii) the Golden-Ratio pair `{φ, 1/φ}` in the H spectrum, which happens iff N+1 is divisible by 5. By Chinese Remainder Theorem, both give N ≡ 4 (mod 10). Tom's framing: Golden Ratio IS a mirror - the unique real number with simultaneous multiplicative (φ·1/φ = 1) and additive (φ − 1/φ = 1) involutions. The 18 self-Π modes at N=4 are the fixed point set of this mirror. Zero is not absence; zero is the axis. Next positive-case test is N=14 (full Liouvillian out of reach at current resources; sector-restricted methods would require 1-3 weeks engineering). N=7, 8, 9, 10 are null-case candidates: feasibility varies (Python at N=7, C# engine at N=8-10), epistemic weight is falsification-only. See §3.4-3.6.
 
 ---
 
@@ -166,7 +166,7 @@ At N=6 with H-eigenvalues `{±2cos(π/7), ±2cos(2π/7), ±2cos(3π/7)}`, each v
 
 **Algebraic test** ([`eq018_double_involution_scan.py`](../simulations/eq018_double_involution_scan.py), 3 ms runtime) confirms the mirror-axis principle in closed form without any Liouvillian diagonalisation:
 
-**Self-Pi modes exist ⟺ N ≡ 4 (mod 10).**
+**Conjecture: self-Pi modes exist ⟺ N ≡ 4 (mod 10)** (the positive direction is verified only at N=4; next positive-case test is N=14).
 
 This follows from two independent requirements on the XY chain `E_k = 2·cos(πk/(N+1))`:
 

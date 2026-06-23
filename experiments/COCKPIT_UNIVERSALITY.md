@@ -9,8 +9,9 @@
 This document shows that monitoring decoherence does not require full
 quantum state tomography (which scales as 4^N measurements). Instead,
 3 observables (Purity, Concurrence, and coherence magnitude) capture
-88-96% of the trajectory variance across all tested system sizes,
-topologies, and noise types. PCA automatically selects which observable
+88-96% of the trajectory variance across the tested range (N=2-5, 9
+topologies, 2 noise types); the PC1 proxy (Concurrence) is not yet
+hardware-validated. PCA automatically selects which observable
 matters most. On IBM Torino hardware, the framework achieves sub-1%
 accuracy for crossing-time predictions on well-characterized qubits.
 
@@ -277,8 +278,8 @@ is not refuted; it is incompletely tested.
 
 ### 4.1 A 3-observable cockpit for quantum hardware
 
-Any Heisenberg spin chain under Markovian dephasing can be monitored
-with 3 observables capturing ~88% of the dynamics:
+Across the tested Heisenberg chains (N=2-5) under Markovian dephasing,
+3 observables capture ~88% of the dynamics:
 
 1. **Purity or Concurrence** (whichever PCA selects as PC1):
    the dominant decay direction.

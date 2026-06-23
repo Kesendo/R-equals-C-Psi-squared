@@ -28,9 +28,10 @@ frozen (nodes). And the pattern depends on two things: the Hamiltonian
 (the shape of the string) and the initial quantum state (how you pluck
 it).
 
-The most striking result: the classical backbone of the system (the
-ZZZ correlation, measuring whether all qubits point up or down) never
-oscillates. It is always a node. The quantum correlations (XX, YY type,
+The most striking result (at N=3, the size tested here): the classical
+backbone of the system (the all-Z ZZZ correlation, measuring whether all
+qubits point up or down) never oscillates. It is always a node, across all
+6 Hamiltonians and 8 initial states. The quantum correlations (XX, YY type,
 measuring entanglement between qubits) are the antinodes. The quantum
 world breathes. The classical world is the skeleton.
 
@@ -44,10 +45,12 @@ factored out), each pair has centered eigenvalues +μ and −μ, creating
 counter-propagating modes that interfere into **standing wave patterns**.
 Quantum correlations (XX, YY, XY-type Pauli strings) oscillate at
 Hamiltonian harmonics (2J, 4J, 6J for Heisenberg) while the classical
-Z-backbone (ZZZ) remains static. Three universal rules hold across all
-6 Hamiltonians and 8 initial states tested: **GHZ never oscillates** (0%
+Z-backbone (ZZZ) remains static. Three rules hold across all 6 Hamiltonians
+and 8 initial states tested, all at N=3: **GHZ never oscillates** (0%
 standing wave for all models), **Bell always oscillates** (40-65% for all
-models), and **ZZZ is always a node** (classical correlations are static).
+models), and **the all-Z string is always a node** (classical correlations
+are static). "Universal" here is across the Hamiltonian × state grid at N=3;
+extension to N≥4 is untested.
 The standing wave is a state × Hamiltonian property: neither the state
 nor the Hamiltonian alone determines which correlations oscillate.
 
@@ -159,7 +162,7 @@ It is a joint property: which correlations oscillate depends on both.
 
 (Percentage = fraction of state weight in oscillating palindromic pairs.)
 
-### Three universal rules
+### Three rules (universal across the Hamiltonian × state grid at N=3)
 
 1. **GHZ never oscillates.** 0% standing wave for ALL Hamiltonians.
    GHZ projects 100% onto XOR modes (maximum decay rate, no oscillation).

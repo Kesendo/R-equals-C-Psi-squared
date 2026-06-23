@@ -96,8 +96,8 @@ The `compute/RCPsiSquared.Propagate/brecher` mode (commit `dbf396a`) enables fin
 1. **Receiver-engineering Peak Sum-MI grows linearly with N** at ~1.0 per N-step for alt-z-bits uniform J (2.65, 3.68, 4.70 across N=5, 7, 9).
 2. **Best-J Peak Sum-MI grows faster** (~1.75 per N-step: 3.55, 5.32, 7.07). The earlier "Best-J plateau at ~3.3" claim was a Python coarse-grid artifact.
 3. **J-modulation boost ratio grows slightly**: 1.32× at N=5, 1.45× at N=7, 1.50× at N=9 (strong-weak J / uniform J). The earlier "boost shrinks with N" claim was also a coarse-grid artifact. Note: at N=5 the cut-center J profile narrowly beats strong-weak (3.55 vs 3.51), so the tabulated "Best J Receiver" column at N=5 is cut-center, not strong-weak; at N=7 and N=9 strong-weak wins.
-4. **Receiver advantage over γ-Sacrifice shrinks slowly**: 11.5× → 8.5× → 7.1× at uniform J. Linear extrapolation suggests they would meet at N ~ 25-30. With moderate J-modulation the lead holds larger: 15.4× → 12.3× → 10.7×.
-5. **Class 3 J-blindness is scale-invariant**: \|+⟩^N gives Peak Sum-MI = 0 exactly at all N, all J. Confirms the M_x-polynomial theorem at larger N.
+4. **Receiver advantage over γ-Sacrifice shrinks slowly**: 11.5× → 8.5× → 7.1× at uniform J. Linear extrapolation over these three odd-N points suggests they might meet near N ~ 25-30, but whether they meet or the ratio asymptotes above 1 is open (see Open questions), and even-N is untested and predicted to differ (Update 2026-04-28). With moderate J-modulation the lead holds larger: 15.4× → 12.3× → 10.7×.
+5. **Class 3 J-blindness holds at every tested N**: \|+⟩^N gives Peak Sum-MI = 0 exactly at all tested N and J (verified at odd N=5,7,9; the exact zero follows from the M_x-polynomial structure, but the receiver-advantage tables are odd-N only, see Update 2026-04-28).
 
 ## End-to-end transport: MI(site 0, site N-1)
 
