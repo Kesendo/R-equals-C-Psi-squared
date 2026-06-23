@@ -861,7 +861,7 @@ public static class OpenArcsRegistry
                 "anchors TWO-SIDED (break below Q*(N), one shared regime flag = BandEdgeIsTheGapMode). Four lenses " +
                 "(takt/coherence-hand/gate/chain-collapse); chain-collapse re-expresses dimensionful predictions in " +
                 "lab units (state-free tau/omega_mem + N=2 Bell+ t_peak/fold from closed forms). 13 unit + 1 CLI test; " +
-                "oracle simulations/_seam_movement_review.py agrees (Q*(N) transition exact). Witness breadcrumbs " +
+                "an independent Python review oracle agreed at the time on the Q*(N) transition, exact (the oracle script was not retained in the repo; the 13 unit + 1 CLI tests are the reproducible verification). Witness breadcrumbs " +
                 "UniversalCarrierClaim + CoherenceHorizonClaim",
             NextStep: "the remaining instruments (chiral K, Y-parity, Pi-protected observables) - each an additional " +
                 "calibration leaf / lens, after the now-landed seam movement",
