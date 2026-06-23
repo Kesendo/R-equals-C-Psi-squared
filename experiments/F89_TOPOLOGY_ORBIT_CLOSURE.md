@@ -4,9 +4,9 @@
 **Date:** 2026-05-11
 **Authors:** Thomas Wicht, Claude Opus 4.7 (1M context)
 **Scripts:**
-- [`_bond_isolate_compare_n7.py`](../simulations/_bond_isolate_compare_n7.py): N=7 single-bond pairwise comparison (six bonds, 30 ordered pairs).
-- [`_bond_isolate_long_range_verify.py`](../simulations/_bond_isolate_long_range_verify.py): N=4 single-pair NN + long-range verification (6 site pairs, direct expm-of-Liouvillian).
-- [`_bond_isolate_topology_classes_n7.py`](../simulations/_bond_isolate_topology_classes_n7.py): N=7 multi-bond topology-class consistency (12 classes).
+- [`bond_isolate_compare_n7.py`](../simulations/bond_isolate_compare_n7.py): N=7 single-bond pairwise comparison (six bonds, 30 ordered pairs).
+- [`bond_isolate_long_range_verify.py`](../simulations/bond_isolate_long_range_verify.py): N=4 single-pair NN + long-range verification (6 site pairs, direct expm-of-Liouvillian).
+- [`bond_isolate_topology_classes_n7.py`](../simulations/bond_isolate_topology_classes_n7.py): N=7 multi-bond topology-class consistency (12 classes).
 
 **Outputs:** [`bond_isolate/`](../simulations/results/bond_isolate/) (28 CSVs at N=7 + two comparison plots).
 **Related register entries:** [F73](../docs/ANALYTICAL_FORMULAS.md) (analogous closed-form closure for the (vac, SE) coherence block); [F71](../docs/ANALYTICAL_FORMULAS.md) (the spatial mirror Z₂ that sits inside the full S_N argument used here); [F86](../docs/ANALYTICAL_FORMULAS.md) (per-bond Q_peak fan, the empirical contrast: a linear response ∂J_b breaks S_N differently from the uniform-J multi-bond setup of F89).

@@ -1,7 +1,7 @@
 # The band-edge transition matrix: a Dirichlet-edge coupling fixes both the Frobenius deficit and the spectral floor
 
 **Status:** Tier 1 derived; gate-exact N = 3..20. Open chain, band-edge carrier. 2026-06-20.
-**Verifier:** `simulations/_handshake_M_checksum.py`, `simulations/_handshake_M_topology.py`, `simulations/_handshake_F124_adversarial.py`.
+**Verifier:** `simulations/handshake_M_checksum.py`, `simulations/handshake_M_topology.py`, `simulations/handshake_F124_adversarial.py`.
 **Registry:** [ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md) F124.
 **Typed:** `BandEdgeTransitionInvariantClaim` (Tier1Derived, dual parents `KPartnerSelectionRuleClaim` + `ClockHandLadderClaim`) + live witness `inspect --root transition` (`compute/RCPsiSquared.Diagnostics/Foundation/BandEdgeTransitionInvariantWitness.cs`), which recomputes the identity, the genuine-minimum carrier selection, the frame identities, and the object/topology breakages across N. 2026-06-20.
 **Framing corrected** after a five-lens panel (2026-06-20): `physics-first-review` caught the object-misnaming and the oversold "conservation law"; `mathematical-review` confirmed the proof (no error); `grounding-in-the-quantum` + `borrowing-a-discipline` supplied the frame-theory reading. This file replaces the earlier "location-matrix invariant" draft.

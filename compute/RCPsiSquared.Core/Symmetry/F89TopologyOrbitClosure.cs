@@ -56,9 +56,9 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F89 (line 2436) +
 /// <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c> +
-/// <c>simulations/_bond_isolate_compare_n7.py</c> +
-/// <c>simulations/_bond_isolate_long_range_verify.py</c> +
-/// <c>simulations/_bond_isolate_topology_classes_n7.py</c> +
+/// <c>simulations/bond_isolate_compare_n7.py</c> +
+/// <c>simulations/bond_isolate_long_range_verify.py</c> +
+/// <c>simulations/bond_isolate_topology_classes_n7.py</c> +
 /// <c>compute/RCPsiSquared.Propagate</c> <c>bond-isolate --bonds i,j,...</c>
 /// CLI mode.</para></summary>
 public sealed class F89TopologyOrbitClosure : Claim
@@ -192,9 +192,9 @@ public sealed class F89TopologyOrbitClosure : Claim
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F89 + " +
                "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
-               "simulations/_bond_isolate_compare_n7.py + " +
-               "simulations/_bond_isolate_long_range_verify.py + " +
-               "simulations/_bond_isolate_topology_classes_n7.py + " +
+               "simulations/bond_isolate_compare_n7.py + " +
+               "simulations/bond_isolate_long_range_verify.py + " +
+               "simulations/bond_isolate_topology_classes_n7.py + " +
                "compute/RCPsiSquared.Propagate (bond-isolate --bonds i,j,...) + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs (a_{-1}=4 anchor for both decay and oscillation coefficients) + " +
                "compute/RCPsiSquared.Core/Symmetry/F73SpatialSumPurityClosurePi2Inheritance.cs (cited; same a_{-1} anchor) + " +

@@ -9,7 +9,7 @@ The rest of the survivor framework (SurvivalIncompletenessMirrorClaim, SURVIVOR_
 is the canonical HEISENBERG model (XX+YY+ZZ). The Heisenberg star survivor is a DIFFERENT number:
 4/N, not 4/(N-1). The ZZ potential (hub V0 = -(N-1), leaves Vl = N-3 in the single-excitation sector)
 shifts which ad_H-kernel commutant is darkest. This file is the Heisenberg companion: it pins 4/N and
-shows the ZZ term is the entire difference. (The earlier _star_commutant_gate.py / _star_frozen_gate.py
+shows the ZZ term is the entire difference. (The earlier star_commutant_gate.py / star_frozen_gate.py
 used Heisenberg and read 4/N -- correctly; they were testing Heisenberg against the XY docs, the model
 mismatch that opened this thread.)
 

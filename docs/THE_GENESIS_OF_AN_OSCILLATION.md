@@ -167,7 +167,7 @@ statement of why the carved subspace is d = 2.
   and [`_genesis_real_gamma.py`](../simulations/_genesis_real_gamma.py) (the
   Q-scan), [`_real_axis_liftoff.py`](../simulations/_real_axis_liftoff.py)
   (bath-orthogonality), [`_qubit_children.py`](../simulations/_qubit_children.py)
-  (the correction), [`_ptf_genesis.py`](../simulations/_ptf_genesis.py) (the
+  (the correction), [`ptf_genesis.py`](../simulations/ptf_genesis.py) (the
   PTF cross-check)
 - Figures: [genesis_real_gamma.png](../simulations/results/genesis_real_gamma/genesis_real_gamma.png),
   [qubit_children.png](../simulations/results/qubit_children/qubit_children.png)

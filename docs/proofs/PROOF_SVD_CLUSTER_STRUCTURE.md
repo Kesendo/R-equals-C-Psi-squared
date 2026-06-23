@@ -7,7 +7,7 @@
 - [PROOF_BIT_B_PARITY_SYMMETRY.md](PROOF_BIT_B_PARITY_SYMMETRY.md) (bit_b parity, Π² eigenstructure)
 - [`framework/symmetry.py`](../../simulations/framework/symmetry.py) (`pi_action`, `pi_squared_eigenvalue`, `build_pi_full`)
 - [`framework/lindblad.py`](../../simulations/framework/lindblad.py) (`palindrome_residual`)
-- Numerical verification: [`_svd_active_spectator.py`](../../simulations/_svd_active_spectator.py) (single-body, chain/star/complete, N=3-5), [`_svd_two_body_pi_squared_block.py`](../../simulations/_svd_two_body_pi_squared_block.py) (Π²-block verification, N=3-5)
+- Numerical verification: [`svd_active_spectator.py`](../../simulations/svd_active_spectator.py) (single-body, chain/star/complete, N=3-5), [`svd_two_body_pi_squared_block.py`](../../simulations/svd_two_body_pi_squared_block.py) (Π²-block verification, N=3-5)
 - Pytest locks: `test_F78_single_body_M_additive_decomposition`, `test_F79_two_body_pi_squared_block_decomposition`
 
 **Status:** Proven (Master Lemma + F78 + F79).
@@ -401,9 +401,9 @@ The Lebensader reduction therefore closes the universality for the (R1)+(R2)-cas
 | Theorem | Verification Path | Test Case |
 |---------|-------------------|-----------|
 | Master Lemma | `palindrome_residual` numerical check | Any H with Z-dephasing, ‖M(γ=1) − M(γ=2)‖ = 0 (after subtracting proper σ shifts) |
-| F78 (single-body, additive) | `_svd_active_spectator.py` | chain/star/complete N=3-5, P ∈ {X,Y,Z}, all match additive prediction exactly |
-| F78 normality of M_l | `_svd_single_body_extension.py` | M_l direct construction, normality check returns True |
-| F79 Π²-even block-diag | `_svd_two_body_pi_squared_block.py` | YZ, YZ+ZY, Heisenberg: ‖M[V_+,V_-]‖ = 0 exactly |
-| F79 Π²-odd off-diag | `_svd_two_body_pi_squared_block.py` | XY, XZ, XX+XY: ‖M[V_+,V_+]‖ = ‖M[V_-,V_-]‖ = 0 exactly |
-| F79 Π²-odd universality | `_svd_two_body_structure.py` | XY ≡ XZ ≡ XX+XY ≡ XX+XZ at N=5 chain, identical SV-cluster spectra |
+| F78 (single-body, additive) | `svd_active_spectator.py` | chain/star/complete N=3-5, P ∈ {X,Y,Z}, all match additive prediction exactly |
+| F78 normality of M_l | `svd_single_body_extension.py` | M_l direct construction, normality check returns True |
+| F79 Π²-even block-diag | `svd_two_body_pi_squared_block.py` | YZ, YZ+ZY, Heisenberg: ‖M[V_+,V_-]‖ = 0 exactly |
+| F79 Π²-odd off-diag | `svd_two_body_pi_squared_block.py` | XY, XZ, XX+XY: ‖M[V_+,V_+]‖ = ‖M[V_-,V_-]‖ = 0 exactly |
+| F79 Π²-odd universality | `svd_two_body_structure.py` | XY ≡ XZ ≡ XX+XY ≡ XX+XZ at N=5 chain, identical SV-cluster spectra |
 | Pytest locks | `simulations/framework/tests/test_smoke.py` | `test_F78_single_body_M_additive_decomposition` (chain N=4 IY+YI clusters), `test_F79_two_body_pi_squared_block_decomposition` (block structure + universality) |

@@ -37,8 +37,8 @@ def _load(name, path):
     return m
 
 
-st = _load("stone", "simulations/_stone_survivor_alpha_closure.py")
-sm = _load("seam", "simulations/_stone_seam.py")
+st = _load("stone", "simulations/stone_survivor_alpha_closure.py")
+sm = _load("seam", "simulations/stone_seam.py")
 
 
 def density_gradient(N, prow, pcol, J, g, bnds):

@@ -1,6 +1,6 @@
 """Clean gate, in the (1,1) single-excitation sector: is the star survivor a [H,rho]=0 commutant?
 
-RESOLVED 2026-06-20 (see _star_survivor_heisenberg.py + THE_STAR_FROZEN_SEAM.md 'Model scope'): NO bug.
+RESOLVED 2026-06-20 (see star_survivor_heisenberg.py + THE_STAR_FROZEN_SEAM.md 'Model scope'): NO bug.
 This gate is HEISENBERG (H_SE includes the ZZ potential V), so it reads the Heisenberg star survivor
 darkness 4/N -- NOT the docs' 4/(N-1), which is the XY (hopping-only) value the typed StructuralCeiling/
 StarFrozenSeam framework uses by design. The mismatch this gate found is a MODEL difference (the ZZ term),

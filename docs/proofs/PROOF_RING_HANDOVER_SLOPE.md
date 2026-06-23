@@ -87,7 +87,7 @@ dispersion: `√3 = √(Qq)²|_{D=1}` against `2 = (Qq)|_{EP}`.
 
 1. **The endpoint, numerically (the analogue of the SE proof's `q_min·N → π`).** Q_h·2π/N → √3 from above,
    monotonically: 1.846 / 1.785 / 1.759 / 1.748 at N = 8 / 10 / 12 / 14, against √3 = 1.732, an O(1/N) tail
-   exactly as the q → 0 derivation predicts (`ring_handover_qh.py` + `_ring_handover_extend.py`).
+   exactly as the q → 0 derivation predicts (`ring_handover_qh.py` + `ring_handover_extend.py`).
 2. **The dispersion, directly (the discriminator).** The γ-constant-q CV test above: CV(8γ) = 0.012 / 0.019
    (N = 12 / 10) vs CV(4γ) = 0.16, the resummed 8γ dispersion is the fixed mode, the truncated telegrapher
    refuted, exactly as in the SE proof (`ring_handover_dispersion_cv.py`).
@@ -112,7 +112,7 @@ COM density wave); the chain handover is the co-located SE-EP (filling-degenerat
 Axis: the dephasing Q-axis (XY, free fermions) only. The XXZ anisotropy Δ-axis handover (`Δ*`, the same
 `darkness = 1` floor driven by the anisotropy instead of Q; ANALYTICAL_FORMULAS "the handover Δ",
 `Δ*(N) → 1`) is a **distinct, interacting mechanism**: turning on the ZZ term moves the handover off
-`Q·q = √3` (gate-checked, `simulations/_ring_handover_zz_extension.py`: at N = 6, 8 the (2,2) handover
+`Q·q = √3` (gate-checked, `simulations/ring_handover_zz_extension.py`: at N = 6, 8 the (2,2) handover
 `Q_h·q_min` shifts at Δ = 0.5 and the crossing leaves the range by Δ = 1), so √3 is XY/free-fermion-specific
 and the dispersion `λ² + 8γλ + 4J²q²` does not survive the ZZ coupling. The two handovers mirror only
 through the shared `darkness = 1` floor (Q_h grows ~N, Δ* descends to 1); the Δ* closed form stays the open
@@ -123,13 +123,13 @@ Bethe-ansatz problem.
 - Sibling proof: [PROOF_COHERENCE_HORIZON_SLOPE](PROOF_COHERENCE_HORIZON_SLOPE.md) (same dispersion, the EP
   condition `Q·q = 2 → N/π`; this proof is its `darkness = 1`, `Q·q = √3` sibling).
 - Parallel ceiling: the ring `g2 = 1` (no high-Q ceiling) and the `(1,1)/(2,2)/(N/2,N/2)` commutant
-  `2(N−2)/N → 2` (commit b191df3, `StructuralCeilingWitness` RingNode, `_ring_ceiling_commutant_sweep.py`):
+  `2(N−2)/N → 2` (commit b191df3, `StructuralCeilingWitness` RingNode, `ring_ceiling_commutant_sweep.py`):
   the EP-darkness limit of this proof's curve.
 - Typed homes (graduation-eligible once reviewed): `CoherenceHorizonClaim`, `SecondClockRegimeClaim`
   (the half-filling V-Effect ring seam was their Tier 1 candidate reason; this derivation addresses it),
   arc `clock_hand_ladder`.
 - Verifiers: `simulations/ring_handover_qh.py` (the sector discriminator + Q_h data, gate-first),
-  `simulations/_ring_handover_extend.py` (N = 14 + the `2(N−2)/N` cross-session convergence),
+  `simulations/ring_handover_extend.py` (N = 14 + the `2(N−2)/N` cross-session convergence),
   `simulations/ring_handover_dispersion_cv.py` (the decisive γ-constant-q dispersion discriminator),
   `simulations/ring_handover_derivation_gate.py` (the leading-order curve, with the finite-N caveat that the
   full-curve collapse is the leading-order limit, not a finite-N identity; the CV test is the robust read).

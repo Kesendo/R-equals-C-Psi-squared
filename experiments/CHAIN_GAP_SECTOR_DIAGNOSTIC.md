@@ -111,7 +111,7 @@ The four structural objects (F50 floor, F2 dispersion, F3 light content, F1 pali
 
 ## Extensions (resolved 2026-05-19) and remaining open work
 
-Items 2-5 from the original open list were closed in a sector-diagnostic sweep on 2026-05-19 (`simulations/_slow_mode_sector_sweep.py`). Item 1 (closed-form derivation of `c ≈ 0.55`) remains analytical work.
+Items 2-5 from the original open list were closed in a sector-diagnostic sweep on 2026-05-19 (`simulations/slow_mode_sector_sweep.py`). Item 1 (closed-form derivation of `c ≈ 0.55`) remains analytical work.
 
 ### Item 2 resolved: Ring N=4..6 sector
 

@@ -10,7 +10,7 @@ GATE (gate-first): the block sum must reproduce the full-CSV d_real(2) for every
 that exists on disk. A mismatch means the block model is wrong -> diagnose, do not loosen. Only after
 the gate passes are the N=8,9 numbers trustworthy.
 
-Run:  python simulations/_dreal_block_decomposed.py
+Run:  python simulations/dreal_block_decomposed.py
 """
 from pathlib import Path
 from collections import defaultdict
@@ -119,4 +119,4 @@ for N in (7, 8):
         line += f"{topo}={d2}  "
         print(line, flush=True) if False else None
     print(line, flush=True)
-print("\n(Feeds _dreal2_closed_form_hunt.py: even N now has 4,6,8(,10) and odd has 3,5,7,9.)")
+print("\n(Feeds dreal2_closed_form_hunt.py: even N now has 4,6,8(,10) and odd has 3,5,7,9.)")

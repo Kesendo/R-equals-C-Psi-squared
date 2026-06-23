@@ -37,7 +37,7 @@ def _load(name, path):
     return m
 
 
-blk = _load("blk", "simulations/_handshake_rk_block.py")
+blk = _load("blk", "simulations/handshake_rk_block.py")
 psi, hopping, L11, populations = blk.psi, blk.hopping, blk.L11, blk.populations
 
 

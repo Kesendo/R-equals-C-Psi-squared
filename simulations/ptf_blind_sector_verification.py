@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """PTF light/shadow verification: closure law Σ ln α vs n_XY across many observables.
 
-Hypothesis (from _ptf_per_observable_alpha.py + Tom's Licht/Schatten reading):
+Hypothesis (from ptf_per_observable_alpha.py + Tom's Licht/Schatten reading):
   PTF closure law Σ ln α ≈ 0 holds for observables touched by light
   (n_XY ≥ 1), fails for observables in the shadow (n_XY = 0).
 

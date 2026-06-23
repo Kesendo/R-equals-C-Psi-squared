@@ -1,4 +1,4 @@
-"""handshake M2c read-cost DIAGNOSTIC (2026-06-20): the gate in _handshake_read_cost.py FIRED
+"""handshake M2c read-cost DIAGNOSTIC (2026-06-20): the gate in handshake_read_cost.py FIRED
 (slope -0.67, non-monotone jump at Q=8, K_peak*Q drifts 1.65->3.57). Verdict flagged two
 suspects: the ~2/Q LAW is wrong, OR the operational definition of "cost of one read" is wrong.
 
@@ -20,7 +20,7 @@ so K_cost*Q ~ O(1) if the mechanism is right.
 
 A firing of THIS diagnostic (all three drift) => the ~2/Q law is genuinely refuted on the FI
 apparatus, report it as a negative result. A clean B or C (K_cost*Q ~ const) => the original
-operational definition was the bug; fix _handshake_read_cost.py to use it and re-run the real gate.
+operational definition was the bug; fix handshake_read_cost.py to use it and re-run the real gate.
 """
 import importlib.util
 import sys
@@ -40,7 +40,7 @@ def _load(name, path):
     return m
 
 
-blk = _load("blk", "simulations/_handshake_rk_block.py")
+blk = _load("blk", "simulations/handshake_rk_block.py")
 psi, hopping, L11, populations = blk.psi, blk.hopping, blk.L11, blk.populations
 
 

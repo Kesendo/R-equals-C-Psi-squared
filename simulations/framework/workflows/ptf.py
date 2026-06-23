@@ -47,7 +47,7 @@ def _alpha_fit_one_site(t_grid, P_A, P_B):
     A bare scipy bounded-Brent (parabolic) traps in a local basin on featureless or
     multimodal trajectories (a site far from the defect, where P_A ≈ P_B): it returned
     α ≈ 3.15 where the true global minimum is α ≈ 1.016 (MSE ~920× worse, the
-    severed-bond case, _ptf_symphony_crossval.py). A coarse grid-seed over the bounded
+    severed-bond case, ptf_symphony_crossval.py). A coarse grid-seed over the bounded
     interval locates the global basin first; bounded-Brent then refines within it. The
     fit stays deterministic, so the two-δJ reliability guard still detects featureless
     fits; the result matches the C# golden-section and the brute-grid argmin."""

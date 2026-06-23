@@ -12,7 +12,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <summary>THE STONE (felt_time_dimensions arc, step B), typed (Tier1Candidate): the TRAJECTORY-level
 /// dual of the eigenvalue-level value/vector split. The live witness is
 /// <see cref="StoneSurvivorClosureWitness"/> (<c>inspect --root stone</c>); the gate-first Python verifier
-/// is <c>simulations/_stone_survivor_alpha_closure.py</c> (two-lens reviewed 2026-06-19).
+/// is <c>simulations/stone_survivor_alpha_closure.py</c> (two-lens reviewed 2026-06-19).
 ///
 /// <para>For the near-stationary MODE-ISOLATING probe rho_0 = I/d + eps*Herm(mode), the PTF painter
 /// closure Sum_i ln(alpha_i) -- computed through the CANONICAL Symphony FitAlpha -- reads the chosen
@@ -61,7 +61,7 @@ public sealed class StoneSurvivorClosureClaim : Claim
                "law: probe-state-specific (a polarized survivor-dominated state holds), the rate shift certified by " +
                "sign-coherence (coh>0.8), the magnitude scaling+sign. Live: inspect --root stone.",
                Tier.Tier1Candidate,
-               "simulations/_stone_survivor_alpha_closure.py + " +
+               "simulations/stone_survivor_alpha_closure.py + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/StoneSurvivorClosureWitness.cs + " +
                "simulations/value_vector_felt_time.py")
     {

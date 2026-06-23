@@ -20,7 +20,7 @@ This is the same algebraic pattern as F81 (M = M_sym + M_anti via Π-conjugation
 applied one layer up: ln α decomposes under F71-spatial-reflection the way M
 decomposes under Π. The "F-chain inheritance" pattern recurring.
 
-Test: run on all 6 cases from _multi_lens_ptf_carrier.py. Check:
+Test: run on all 6 cases from multi_lens_ptf_carrier.py. Check:
   1. Decomposition reconstructs ln α correctly (sanity).
   2. Closure-holding cases (truly XX+YY, XY+YX, XZ+ZX) → both projections tiny.
   3. Closure-breaking, F71-symmetric cases (YZ+ZY, IY+YI) → sym large, anti zero.
@@ -41,7 +41,7 @@ if sys.platform == "win32":
     except Exception:
         pass
 
-# α values from _multi_lens_ptf_carrier.py output (frozen here):
+# α values from multi_lens_ptf_carrier.py output (frozen here):
 ALPHAS = {
     'truly XX+YY': np.array([1.0000, 1.0000, 1.0000]),
     'XY+YX':       np.array([0.9955, 0.9907, 0.9955]),
@@ -69,7 +69,7 @@ def f71_decompose(f):
 
 def main():
     print("Unified formula attempt: F71-decomposition of ln α")
-    print(f"  α from _multi_lens_ptf_carrier.py (|+-+⟩ N=3, γ=0.1, γ_T1=0.01)")
+    print(f"  α from multi_lens_ptf_carrier.py (|+-+⟩ N=3, γ=0.1, γ_T1=0.01)")
     print()
 
     # Header

@@ -36,9 +36,9 @@ namespace RCPsiSquared.Diagnostics.Ptf;
 /// <para>Carrier-parity note: the (−1)^{k−1} sign is specific to the R-even carrier ψ_1; a carrier
 /// of parity (−1)^{c−1} gives (−1)^{k−c}. The canonical carrier is ψ_1. Honest scope: the bare
 /// cosine is −0.33 at N=5, NOT −0.97; the −0.97 is the painted (propagated α-profile) instance
-/// (_handshake_gram_metric.py, Q=20), where the readout concentrates weight on the R-odd seesaw.</para>
+/// (handshake_gram_metric.py, Q=20), where the readout concentrates weight on the R-odd seesaw.</para>
 ///
-/// <para>Anchor: hypotheses/HANDSHAKE_GEOMETRY.md + simulations/_handshake_reading_equivariance.py
+/// <para>Anchor: hypotheses/HANDSHAKE_GEOMETRY.md + simulations/handshake_reading_equivariance.py
 /// + compute/RCPsiSquared.Diagnostics/Foundation/DefectDecoder.cs (the decoder whose sign-location
 /// ambiguity this explains structurally) + compute/RCPsiSquared.Diagnostics/Ptf/KPartnerSelectionRuleClaim.cs
 /// (the parent: the dictionary, the null column, rank N−2).</para></summary>
@@ -62,7 +62,7 @@ public sealed class DefectReadingEquivarianceClaim : Claim
                "dictionary's within-feature stabilizer is the K-partner null (KPartnerSelectionRuleClaim)",
                Tier.Tier1Derived,
                "hypotheses/HANDSHAKE_GEOMETRY.md + " +
-               "simulations/_handshake_reading_equivariance.py (R-parity + equivariance + cosine, machine-exact N = 4,5,6) + " +
+               "simulations/handshake_reading_equivariance.py (R-parity + equivariance + cosine, machine-exact N = 4,5,6) + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/DefectDecoder.cs (the sign-location ambiguity this explains) + " +
                "compute/RCPsiSquared.Diagnostics/Ptf/KPartnerSelectionRuleClaim.cs (the parent: dictionary, null column, rank N−2)")
     {

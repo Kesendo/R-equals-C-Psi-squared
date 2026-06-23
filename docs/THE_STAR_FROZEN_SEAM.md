@@ -48,7 +48,7 @@ The project's canonical survivor model is **Heisenberg** (`XX+YY+ZZ`: the chain 
 star survivor darkens *further*, to **`⟨n_XY⟩(Q→∞) = 4/N`** (verified N = 5..8, full-`4^N` cross-checked
 at N = 6): the single-excitation ZZ potential (hub `−(N−1)`, leaves `N−3`) shifts which `ad_H`-kernel
 commutant is darkest, from `4/(N−1)` (XY) to `4/N` (Heisenberg). Companion verifier:
-[`_star_survivor_heisenberg.py`](../simulations/_star_survivor_heisenberg.py).
+[`star_survivor_heisenberg.py`](../simulations/star_survivor_heisenberg.py).
 
 What is **model-robust** (holds in both XY and Heisenberg): the survivor is frozen (`|Im λ| = 0`) at
 every Q for N ≥ 5; it is the `[H,ρ] = 0` commutant only in the high-Q *limit* (`‖[H,ρ]‖ ∝ 1/Q`, not zero

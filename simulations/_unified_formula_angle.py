@@ -40,7 +40,7 @@ if sys.platform == "win32":
     except Exception:
         pass
 
-# α values (frozen from _multi_lens_ptf_carrier.py)
+# α values (frozen from multi_lens_ptf_carrier.py)
 ALPHAS = {
     'truly XX+YY': np.array([1.0000, 1.0000, 1.0000]),
     'XY+YX':       np.array([0.9955, 0.9907, 0.9955]),

@@ -13,7 +13,7 @@ SVs of M = sums of single-site SVs IF each M_l is normal.
 If this prediction matches direct computation → cluster structure is just
 the multiplicity-arithmetic of summing single-site spectra.
 
-Run from repo root: python simulations/_svd_active_spectator.py
+Run from repo root: python simulations/svd_active_spectator.py
 """
 from __future__ import annotations
 

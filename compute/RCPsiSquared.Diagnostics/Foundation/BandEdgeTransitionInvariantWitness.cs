@@ -26,8 +26,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// eigenvector but not the least, so the sum drops below 2), the frame reading (λ_min = σ_min²(M), the
 /// condition number κ = λ_max/λ_min, the K-partner null column ⟨ψ_N|V_b|ψ_1⟩ ≡ 0), and the object/topology
 /// scope (the decoder's location dictionary k=2..N gives λ_min=0, sum≠2; the odd ring frustrates, sum>2;
-/// the star breaks the trace half, ‖M‖_F²=N/2). The C# twin of simulations/_handshake_M_checksum.py and
-/// simulations/_handshake_F124_adversarial.py.</para></summary>
+/// the star breaks the trace half, ‖M‖_F²=N/2). The C# twin of simulations/handshake_M_checksum.py and
+/// simulations/handshake_F124_adversarial.py.</para></summary>
 public sealed class BandEdgeTransitionInvariantWitness : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;

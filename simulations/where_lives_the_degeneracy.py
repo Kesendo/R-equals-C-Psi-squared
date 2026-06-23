@@ -12,7 +12,7 @@ Tom recalls "97% past, 3% future". This script resolves it with data:
   2. WHERE the degeneracy actually lives: collapse% in the past-oscillating vs future-oscillating
      halves. If it is future-heavy, Tom's geometric hunch has real content; if even, it does not.
 
-Run:  python simulations/_where_lives_the_degeneracy.py
+Run:  python simulations/where_lives_the_degeneracy.py
 """
 from pathlib import Path
 import numpy as np

@@ -59,7 +59,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F78 (line 1881) +
 /// <c>docs/proofs/PROOF_SVD_CLUSTER_STRUCTURE.md</c> +
-/// <c>simulations/_svd_active_spectator.py</c> +
+/// <c>simulations/svd_active_spectator.py</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/F1Pi2Inheritance.cs</c> (M residual) +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs</c>.</para></summary>
@@ -130,7 +130,7 @@ public sealed class F78SingleBodyMAdditivePi2Inheritance : Claim, IZ2AxisClaim
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F78 + " +
                "docs/proofs/PROOF_SVD_CLUSTER_STRUCTURE.md + " +
-               "simulations/_svd_active_spectator.py + " +
+               "simulations/svd_active_spectator.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F1Pi2Inheritance.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs")

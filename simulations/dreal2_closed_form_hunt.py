@@ -9,7 +9,7 @@ d_real(2) = # purely-real Liouvillian eigenvalues at grid k=2 (Re = -2*gamma_q):
 [H,A]=0 commutant modes. Read straight from the rmt CSVs. Picks up ring/star/complete N=7 the moment
 the background export lands (4 points instead of 3 -> a fit can be VERIFIED, not just interpolated).
 
-Run:  python simulations/_dreal2_closed_form_hunt.py
+Run:  python simulations/dreal2_closed_form_hunt.py
 """
 from pathlib import Path
 from math import comb

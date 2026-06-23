@@ -290,7 +290,7 @@ public sealed class StructuralCeilingWitness : IInspectable
     /// g2 = 1 at every N (the band edge protects, exactly like the chain), UNLIKE complete (4/N) and star
     /// (4/(N−1)). (2) The value F122 flagged as "breaks 4/(m+1)" (ring-5 = 1.6) is the (1,1) commutant, which
     /// sits ABOVE the band edge and DOES have a closed form — 2(N−2)/N (even) / 2(N−1)/N (odd), both → 2 —
-    /// verified here as a gate (match/MISMATCH) and to N=11 in _ring_ceiling_commutant_sweep.py. For even N the
+    /// verified here as a gate (match/MISMATCH) and to N=11 in ring_ceiling_commutant_sweep.py. For even N the
     /// half-filling (N/2,N/2) commutant equals the (1,1) one (a ring sector degeneracy); ring-4 alone
     /// co-occupies the band edge (= 1), the lone N=4 anomaly.</summary>
     private static InspectableNode RingNode()

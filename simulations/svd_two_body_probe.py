@@ -1,7 +1,7 @@
 """Quick probe: does 2-body bond-bilinear M have analogous structure?
 
 Single-body H = Σ_l c_l·P_l now has a closed-form additive decomposition for
-M's SVD (see _svd_active_spectator.py). For 2-body bond-bilinears
+M's SVD (see svd_active_spectator.py). For 2-body bond-bilinears
 H = Σ_bonds (A_b·B_b' + ...), L doesn't trivially decompose per-site or
 per-bond (consecutive bonds share sites in a chain).
 

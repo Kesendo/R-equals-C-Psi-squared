@@ -114,7 +114,7 @@ W-state and every sine mode, not the unique bonding carrier); it is even-N-favor
 curve, `B(5) = 0.80`); and it is a *necessary* consistency condition, not a sufficient "iff the
 carrier". The complementary-light (`⟨n_XY⟩_s + ⟨n_XY⟩_f = N`) and Π-flux laws are Liouville-pair
 properties, not single-state checksums, so they sit outside this reading test. Verifier
-`simulations/_handshake_closure_paritycheck.py`; decider `simulations/_handshake_m4_second_law_decider.py`.
+`simulations/handshake_closure_paritycheck.py`; decider `simulations/handshake_m4_second_law_decider.py`.
 The parent spec's "zero-holonomy loop" is retired (it had no definition; this concrete checksum replaces it).
 
 ---
@@ -186,7 +186,7 @@ This anti-collinearity is **dynamical, not a readout artifact.** A natural conje
 borrowing-a-discipline lens, reading the phase-contrast and phase-problem trades) is that the confusability
 is a *phase-blindness*: the decoder reads per-site purity P_i = ½(1 + ⟨Z_i⟩²), and squaring is sign-blind,
 so a sign-carrying linear ⟨Z_i⟩ read ought to lift the +δJ ≈ −δJ-on-the-complement degeneracy. The gate
-refutes it ([`_handshake_phase_blindness.py`](../simulations/_handshake_phase_blindness.py)): the linear
+refutes it ([`handshake_phase_blindness.py`](../simulations/handshake_phase_blindness.py)): the linear
 ⟨Z_i⟩ read **and** the full temporal ⟨Z_i⟩(t) signal are just as anti-collinear as the squared purity
 (|cos| ≈ 0.9 across N = 4..7). The two mirror-paired bonds produce genuinely sign-flipped population
 responses; no choice of per-site weighting or time-window changes the angle. The confusability is the
@@ -201,7 +201,7 @@ null, and a direction that survives infinite signal-to-noise is a rank deficit, 
 The **values** of the letters (the per-site response R_k) are `IsDeadEnd`, only-computable, no closed form;
 but the **null structure** of the metric they build is derivable, the K-partner rule. The dead-end is in
 what the metric weights, not in its conditioning. Verifier:
-[`_handshake_gram_metric.py`](../simulations/_handshake_gram_metric.py).
+[`handshake_gram_metric.py`](../simulations/handshake_gram_metric.py).
 
 ## The reading's spatial-mirror equivariance (M3)
 
@@ -237,7 +237,7 @@ propagated α-profile concentrates location weight on the R-odd seesaw, driving 
 `w_k` change). The carrier-parity is load-bearing: the `(−1)^{k−1}` sign is for the R-even carrier ψ_1
 (a carrier of parity `(−1)^{c−1}` gives `(−1)^{k−c}`). Typed as `DefectReadingEquivarianceClaim`
 (Tier1Derived, parent `KPartnerSelectionRuleClaim`, `inspect --claim DefectReadingEquivarianceClaim`);
-verifier [`_handshake_reading_equivariance.py`](../simulations/_handshake_reading_equivariance.py).
+verifier [`handshake_reading_equivariance.py`](../simulations/handshake_reading_equivariance.py).
 
 ---
 
@@ -313,8 +313,8 @@ then read is how you recall what is written in the dark. γ₀ erases only the b
 > bright pays the light (~2γ), so the mechanism *estimates* the dose cost of one read at ~2/Q:
 > high-Q systems read their memory almost free; at the EP every read erases of order what it
 > reads. Measured on the FI apparatus (N = 5 chain, Z-population, the same curve as the
-> resolution law; [`_handshake_read_cost.py`](../simulations/_handshake_read_cost.py),
-> [`_handshake_read_cost_diag.py`](../simulations/_handshake_read_cost_diag.py)): the
+> resolution law; [`handshake_read_cost.py`](../simulations/handshake_read_cost.py),
+> [`handshake_read_cost_diag.py`](../simulations/handshake_read_cost_diag.py)): the
 > **qualitative** law holds. Cost-per-recall (the dose K_peak at which FI is maximal) falls
 > overall with Q, from 1.65 at the EP (Q = 1) to 0.10 at Q = 35, neither flat nor inverted, so
 > the stated falsification line is not crossed. But the **quantitative** ~2/Q does not survive a

@@ -11,7 +11,7 @@ and (3) reads the half-filling (N/2,N/2) seam for even N (the clock_hand_ladder 
 "why does the ring (2,2) double-excitation seam overtake the band edge at even half-filling?").
 
 Self-validating: STAGE A asserts the C# port-fidelity numbers.  Pure numpy, no framework import.
-Run:  python simulations/_ring_ceiling_commutant_sweep.py
+Run:  python simulations/ring_ceiling_commutant_sweep.py
 """
 import itertools
 from math import sqrt

@@ -1,10 +1,10 @@
 """N=9 d_real(2) via block decomposition: the 4th odd point (N=3,5,7,9).
 
 Verifies the sparse linear forms (chain 4N-6 -> 30, ring 7N-13 -> 50) and gives star/complete a 4th
-odd point. Block functions are a copy of _dreal_block_decomposed.py (already gate-validated against
+odd point. Block functions are a copy of dreal_block_decomposed.py (already gate-validated against
 the full CSVs through N=7). N=9's biggest blocks are C(9,4)=126 -> 15876^2 (feasible, ~minutes each).
 
-Run:  python simulations/_dreal_block_n9.py
+Run:  python simulations/dreal_block_n9.py
 """
 from collections import defaultdict
 import numpy as np

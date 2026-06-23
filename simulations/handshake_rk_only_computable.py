@@ -3,14 +3,14 @@
 Tom: a not-derivable result is itself valuable -- it joins the realm of BirthCanal / IsSteril, the
 "computable but not closed-form-derivable" category. This script makes the membership FALSIFIABLE for
 the bonding-mode defect response: paint the per-site f-profile on the cheap (1,1) block (reused from
-_handshake_rk_block), then throw a BATTERY of natural closed forms at the per-bond response and the
+handshake_rk_block), then throw a BATTERY of natural closed forms at the per-bond response and the
 per-site location. If they ALL miss (low R^2 / high residual), the response is "only computable" -- there
 is no simple closed form, only the exact (computable) painter / Liouville-mixing recipe.
 
 This is NOT a loosening: it is the positive statement. A closed form that FIT would refute the membership.
 Anchors: (i) the rate is rate-PROTECTED (re_shift(0,1)~0, U(1)+Pi, proven elsewhere) so f is eigenvector
 mixing not a rate functional; (ii) the painter computes f exactly + reproducibly (carrier-independent to
-0.999, shown in _handshake_carrier_compare). What remains untested is only whether a SIMPLE closed form
+0.999, shown in handshake_carrier_compare). What remains untested is only whether a SIMPLE closed form
 exists -- this gate answers that.
 """
 import importlib.util
@@ -32,7 +32,7 @@ def _load(name, path):
     return m
 
 
-blk = _load("blk", "simulations/_handshake_rk_block.py")
+blk = _load("blk", "simulations/handshake_rk_block.py")
 psi = blk.psi
 
 

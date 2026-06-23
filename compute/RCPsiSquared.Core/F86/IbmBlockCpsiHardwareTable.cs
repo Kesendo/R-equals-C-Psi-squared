@@ -22,8 +22,8 @@ public enum BlockCpsiScenario
 /// 2026-04-26 IBM framework_snapshots (Marrakesh / Kingston / Fez hardware plus the
 /// Aer Trotter-noiseless simulator baseline) through Theorem 2's universal 1/4 ceiling.
 ///
-/// <para>Source pipeline: <c>simulations/_block_cpsi_lens_ibm_snapshots.py</c>; pinned
-/// values from <c>simulations/results/_block_cpsi_lens_ibm_snapshots.txt</c>. The 2-qubit
+/// <para>Source pipeline: <c>simulations/block_cpsi_lens_ibm_snapshots.py</c>; pinned
+/// values from <c>simulations/results/block_cpsi_lens_ibm_snapshots.txt</c>. The 2-qubit
 /// reduced state ρ on (q0, q2) of the N=3 |+−+⟩ chain at t=0.8, J=1.0 is reconstructed from
 /// the 16-Pauli expectations in the snapshot JSON, and <see cref="BlockCoherenceContent.Compute"/>
 /// is applied to the (popcount-0, popcount-1) and (popcount-1, popcount-2) coherence
@@ -71,7 +71,7 @@ public sealed class IbmBlockCpsiHardwareTable : Claim
         : base(
             name: "IBM 2026-04-26 framework_snapshots through Theorem 2 C_block lens",
             tier: Tier.Tier2Verified,
-            anchor: "simulations/_block_cpsi_lens_ibm_snapshots.py + simulations/results/_block_cpsi_lens_ibm_snapshots.txt + docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md (Theorem 2) + compute/RCPsiSquared.Core/Symmetry/QuarterAsBilinearMaxvalClaim (typed parent, Theorem 2 ceiling)")
+            anchor: "simulations/block_cpsi_lens_ibm_snapshots.py + simulations/results/block_cpsi_lens_ibm_snapshots.txt + docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md (Theorem 2) + compute/RCPsiSquared.Core/Symmetry/QuarterAsBilinearMaxvalClaim (typed parent, Theorem 2 ceiling)")
     {
         Quarter = quarter ?? throw new ArgumentNullException(nameof(quarter));
     }
@@ -147,7 +147,7 @@ public sealed class IbmBlockCpsiHardwareTable : Claim
         get
         {
             yield return new InspectableNode("source pipeline",
-                summary: "simulations/_block_cpsi_lens_ibm_snapshots.py (one-shot exploration; reuses reconstruct_2qubit_rho from _f88b_lens_ibm_framework_snapshots)");
+                summary: "simulations/block_cpsi_lens_ibm_snapshots.py (one-shot exploration; reuses reconstruct_2qubit_rho from _f88b_lens_ibm_framework_snapshots)");
             yield return new InspectableNode("run date",
                 summary: $"{RunDate}; initial = {InitialState}, t = {EvalTime}, J = {CouplingJ}, n_trotter = {TrotterSteps}");
             yield return new InspectableNode("Theorem 2 ceiling",

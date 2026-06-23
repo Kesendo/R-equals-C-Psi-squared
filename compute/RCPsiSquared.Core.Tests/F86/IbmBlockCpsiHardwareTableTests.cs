@@ -22,7 +22,7 @@ public class IbmBlockCpsiHardwareTableTests
     {
         var t = Table();
         Assert.Contains("PROOF_BLOCK_CPSI_QUARTER.md", t.Anchor);
-        Assert.Contains("_block_cpsi_lens_ibm_snapshots.py", t.Anchor);
+        Assert.Contains("block_cpsi_lens_ibm_snapshots.py", t.Anchor);
     }
 
     [Fact]
@@ -95,7 +95,7 @@ public class IbmBlockCpsiHardwareTableTests
     [Fact]
     public void IdealAsymmetryRatios_PinnedValues_MatchTheRecordedRatios()
     {
-        // Pinned values from simulations/results/_block_cpsi_lens_ibm_snapshots.txt:
+        // Pinned values from simulations/results/block_cpsi_lens_ibm_snapshots.txt:
         // ideal Heisenberg block(0,1)=0.0642 / block(1,2)=0.0642 ≈ 1.000
         // ideal Truly      block(0,1)=0.1064 / block(1,2)=0.1064 ≈ 1.000
         // ideal Soft       block(0,1)=0.1838 / block(1,2)=0.0499 ≈ 3.683

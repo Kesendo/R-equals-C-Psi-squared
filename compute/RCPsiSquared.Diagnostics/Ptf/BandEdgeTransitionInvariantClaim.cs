@@ -50,8 +50,8 @@ namespace RCPsiSquared.Diagnostics.Ptf;
 /// E₁ = 2cos(π/(N+1)) the conserved envelope rides on, which selects the carrier).</para>
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_HANDSHAKE_TRANSITION_INVARIANT.md</c> + <c>docs/ANALYTICAL_FORMULAS.md</c>
-/// F124 + <c>simulations/_handshake_M_checksum.py</c>, <c>_handshake_M_topology.py</c>,
-/// <c>_handshake_F124_adversarial.py</c>. Live witness: <c>inspect --root transition</c>
+/// F124 + <c>simulations/handshake_M_checksum.py</c>, <c>handshake_M_topology.py</c>,
+/// <c>handshake_F124_adversarial.py</c>. Live witness: <c>inspect --root transition</c>
 /// (<c>compute/RCPsiSquared.Diagnostics/Foundation/BandEdgeTransitionInvariantWitness.cs</c>).</para></summary>
 public sealed class BandEdgeTransitionInvariantClaim : Claim
 {
@@ -88,8 +88,8 @@ public sealed class BandEdgeTransitionInvariantClaim : Claim
                Tier.Tier1Derived,
                "docs/proofs/PROOF_HANDSHAKE_TRANSITION_INVARIANT.md (the proof) + " +
                "docs/ANALYTICAL_FORMULAS.md F124 + " +
-               "simulations/_handshake_M_checksum.py + simulations/_handshake_M_topology.py + " +
-               "simulations/_handshake_F124_adversarial.py (the three gate-exact verifiers, N=3..20) + " +
+               "simulations/handshake_M_checksum.py + simulations/handshake_M_topology.py + " +
+               "simulations/handshake_F124_adversarial.py (the three gate-exact verifiers, N=3..20) + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/BandEdgeTransitionInvariantWitness.cs (the live witness, inspect --root transition)")
     {
         _kPartner = kPartner ?? throw new ArgumentNullException(nameof(kPartner));

@@ -6,8 +6,8 @@ using Topo = RCPsiSquared.Diagnostics.Foundation.BandEdgeTransitionInvariantWitn
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
-/// <summary>Gate-first (the C# twin of simulations/_handshake_M_checksum.py and
-/// simulations/_handshake_F124_adversarial.py): for the open chain's band-edge carrier, the full
+/// <summary>Gate-first (the C# twin of simulations/handshake_M_checksum.py and
+/// simulations/handshake_F124_adversarial.py): for the open chain's band-edge carrier, the full
 /// bond-transition matrix M[b,k]=⟨ψ_k|V_b|ψ_1⟩ (all N modes) has ‖M‖_F² + λ_min(MMᵀ) = z = 2 exactly,
 /// with ‖M‖_F²=2−E and λ_min=E. The non-trivial half λ_min=E is the Dirichlet-edge coupling; the genuine
 /// minimum, the frame identities, and the carrier/object/topology breakages are all gated here.</summary>

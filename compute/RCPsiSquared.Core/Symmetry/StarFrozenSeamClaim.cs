@@ -38,7 +38,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// the star's XY hopping H with no ZZ diagonal, so for the XY star it is exactly the survivor darkness.
 /// The project's canonical Heisenberg star (XX+YY+ZZ) survivor darkens further to ⟨n_XY⟩(Q→∞) = 4/N: the
 /// single-excitation ZZ potential (hub −(N−1), leaves N−3) shifts which ad_H-kernel commutant is darkest,
-/// from 4/(N−1) (XY) to 4/N (Heisenberg), verified N=5..8 + full-4^N at N=6 (simulations/_star_survivor_heisenberg.py).
+/// from 4/(N−1) (XY) to 4/N (Heisenberg), verified N=5..8 + full-4^N at N=6 (simulations/star_survivor_heisenberg.py).
 /// Model-robust (both XY and Heisenberg): frozen at every Q (N≥5), commutant only in the high-Q LIMIT
 /// (‖[H,ρ]‖ ∝ 1/Q, not zero at finite Q), the (1,1) boundary sector, no horizon. Only the darkness VALUE
 /// (and the XY g2≤1 threshold / N=4 outlier logic) is model-specific.</para>

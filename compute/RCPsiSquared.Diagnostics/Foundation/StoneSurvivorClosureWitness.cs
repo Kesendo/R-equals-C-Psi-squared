@@ -27,7 +27,7 @@ public readonly record struct ModeClosure(
 }
 
 /// <summary>THE STONE (felt_time_dimensions arc, step B), graduated to a live witness
-/// (<c>inspect --root stone</c>): the C# landing of <c>simulations/_stone_survivor_alpha_closure.py</c>.
+/// (<c>inspect --root stone</c>): the C# landing of <c>simulations/stone_survivor_alpha_closure.py</c>.
 ///
 /// <para>For the near-stationary MODE-ISOLATING probe rho_0 = I/d + eps*Herm(mode) (I/d is the stationary
 /// steady state L(I/d)=0, so the single-site purity is driven almost only by the chosen eigenmode), the

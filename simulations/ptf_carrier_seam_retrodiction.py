@@ -3,7 +3,7 @@
 
 QUESTION. reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md (2026-05-16) reports an
 empirical break/hold list for the PTF closure under six bilinear Hamiltonians
-(the multi-lens tour, simulations/_multi_lens_ptf_carrier.py):
+(the multi-lens tour, simulations/multi_lens_ptf_carrier.py):
     breaks: IY+YI (Σ ln α = −6.91), YZ+ZY (−5.58), XZ+XZ (−0.52, asymmetric)
     holds:  XY+YX (−0.018), XZ+ZX (+0.018)
 Is the whole list predicted by the perturbation's U(1)/Klein content alone, per
@@ -76,7 +76,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import framework as fw                              # noqa: E402
 import ptf_transverse_field_pi_break as ptf         # noqa: E402  committed PTF machinery
 import ptf_leak_scaling as pls                      # noqa: E402  committed Edge-2 protocol
-import _multi_lens_ptf_carrier as mlt               # noqa: E402  the reflection's source
+import multi_lens_ptf_carrier as mlt               # noqa: E402  the reflection's source
 
 if sys.platform == "win32":
     try:
@@ -89,8 +89,8 @@ GAMMA_C = 0.05      # canonical PTF γ
 N_C = 5             # canonical N (baseline stationary count = N+1 = 6)
 STAT_TOL = 1e-10
 
-# The tour's cases (verbatim from _multi_lens_ptf_carrier.py) and its captured
-# verdicts (simulations/results/_multi_lens_ptf_carrier.txt, 2026-05-16).
+# The tour's cases (verbatim from multi_lens_ptf_carrier.py) and its captured
+# verdicts (simulations/results/multi_lens_ptf_carrier.txt, 2026-05-16).
 CASES = [
     ('XY+YX', [('X', 'Y'), ('Y', 'X')]),
     ('IY+YI', [('I', 'Y'), ('Y', 'I')]),

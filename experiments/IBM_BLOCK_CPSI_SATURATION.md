@@ -64,6 +64,6 @@ This is the first hardware run that places a state *on* the 1/4 ceiling and watc
 - `compute/RCPsiSquared.Core/F86/IbmBlockCpsiHardwareTable.cs`: the existing table for the 2026-04-26 `|+−+⟩` runs (parallel data, different protocol).
 - `compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs`: entry `block_cpsi_saturation_kingston_may2026`.
 - `simulations/framework/confirmations.py`: Python registry mirror.
-- `simulations/_block_cpsi_run_planner_2026_05_08.py`: calibration-driven run planner.
+- `simulations/block_cpsi_run_planner_2026_05_08.py`: calibration-driven run planner.
 - `data/ibm_block_cpsi_saturation_may2026/block_cpsi_saturation_hardware_ibm_kingston_20260508T032749Z.json`: raw 16-Pauli expectations + reconstructed C_block per t.
 - The submission script that produced the JSON lives in an external IBM Quantum pipeline outside this repository (a separate Qiskit + qiskit-ibm-runtime workspace); the repo carries the data, the writeup, and the typed claim, not the API-bound submitter.

@@ -44,7 +44,7 @@ CALIB_FILES = {
     "ibm_fez":       CALIB_DIR / "ibm_fez_calibrations_2026-05-08T02_21_29Z.csv",
 }
 
-RESULTS_FILE = Path(__file__).resolve().parent / "results" / "_block_cpsi_run_planner_2026_05_08.txt"
+RESULTS_FILE = Path(__file__).resolve().parent / "results" / "block_cpsi_run_planner_2026_05_08.txt"
 
 
 def t_grid_for_t2(t2_min_us: float, n_points: int = 5) -> list[float]:

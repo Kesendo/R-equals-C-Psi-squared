@@ -3,7 +3,7 @@
 The decoder's BondingMode carrier |psi_1> is pure single excitation; <X_i>=<Y_i>=0, so the per-site purity
 P_a = 1/2(1+<Z_a>^2) is a function of the POPULATION n_a(t) ALONE. The dynamics is the N^2-dim (1,1)
 Liouvillian (single-particle Haken-Strobl): L = -i[H_1, .] + dephasing(-4g on single-exc off-diagonals).
-This reproduces the full-4^N painter for this carrier EXACTLY (cross-checked vs _handshake_carrier_compare
+This reproduces the full-4^N painter for this carrier EXACTLY (cross-checked vs handshake_carrier_compare
 N=4,5) but costs N^2, so it runs to N=20+. That kills the small-sample (2-distinct-bond) caveat on the
 strength channel and gives the location channel at high N.
 
@@ -32,7 +32,7 @@ def _load(name, path):
     return m
 
 
-st = _load("stone", "simulations/_stone_survivor_alpha_closure.py")
+st = _load("stone", "simulations/stone_survivor_alpha_closure.py")
 
 
 def psi(k, a, N):

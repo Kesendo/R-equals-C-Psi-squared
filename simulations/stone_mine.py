@@ -11,7 +11,7 @@ sys.path.insert(0, "simulations")
 sys.path.insert(0, "simulations/carbon")
 from incompleteness_survivor import bonds
 import value_vector_felt_time as vv
-_spec = importlib.util.spec_from_file_location("stone", "simulations/_stone_survivor_alpha_closure.py")
+_spec = importlib.util.spec_from_file_location("stone", "simulations/stone_survivor_alpha_closure.py")
 st = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(st)
 
 

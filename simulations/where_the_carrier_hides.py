@@ -1,4 +1,4 @@
-"""_where_the_carrier_hides.py - the Massstab cannot hide; it hides in the obvious numbers.
+"""where_the_carrier_hides.py - the Massstab cannot hide; it hides in the obvious numbers.
 
 Tests Tom's claim (2026-05-28): a scale (Massstab / carrier gamma0) cannot fully
 hide, else it would not be a scale. Only its VALUE (the absolute second) is gauge;
@@ -29,7 +29,7 @@ Three bit-exact computations, each able to fail:
           1/2; it does not FORCE it (the imaginary-part identification is natural,
           not derived). The remaining question is whether a deeper identity forces it.
 
-Tom + Claude, 2026-05-28. Run: python simulations/_where_the_carrier_hides.py
+Tom + Claude, 2026-05-28. Run: python simulations/where_the_carrier_hides.py
 """
 from __future__ import annotations
 

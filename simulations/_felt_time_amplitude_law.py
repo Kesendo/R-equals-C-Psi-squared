@@ -46,7 +46,7 @@ def _load(name, path):
     return m
 
 
-st = _load("stone", "simulations/_stone_survivor_alpha_closure.py")
+st = _load("stone", "simulations/stone_survivor_alpha_closure.py")
 
 
 def density_profile(N, prow, pcol, J, g, bnds):

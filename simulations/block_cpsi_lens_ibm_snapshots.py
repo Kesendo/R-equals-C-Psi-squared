@@ -47,7 +47,7 @@ SNAPSHOT_DIR = Path(
     r"\experiments\ibm_quantum_tomography\results"
 )
 SNAPSHOT_TIMESTAMP = "20260426_105948"
-RESULTS_FILE = Path(__file__).parent / "results" / "_block_cpsi_lens_ibm_snapshots.txt"
+RESULTS_FILE = Path(__file__).parent / "results" / "block_cpsi_lens_ibm_snapshots.txt"
 
 QUARTER = 0.25  # universal C_block ceiling per Theorem 2
 

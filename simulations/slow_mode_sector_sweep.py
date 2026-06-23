@@ -28,7 +28,7 @@ if sys.platform == "win32":
 
 sys.path.insert(0, "simulations")
 
-from _slow_mode_sector_diagnostic import run  # noqa: E402
+from slow_mode_sector_diagnostic import run  # noqa: E402
 
 
 def main() -> None:

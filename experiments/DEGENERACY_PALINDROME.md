@@ -399,8 +399,8 @@ The full Liouvillian is exactly block-diagonal in the `(popcount_a, popcount_b)`
 (Heisenberg conserves magnetization; dephasing is diagonal), so `d_real(k)` is the count of
 purely-real, on-grid eigenvalues summed over the small per-`(p,q)` blocks. This is gate-verified
 against the full CSVs through N=7 and reaches N=8,9 cheaply
-([`_dreal_block_decomposed.py`](../simulations/_dreal_block_decomposed.py),
-[`_dreal_block_n9.py`](../simulations/_dreal_block_n9.py)). The key the document's original
+([`dreal_block_decomposed.py`](../simulations/dreal_block_decomposed.py),
+[`dreal_block_n9.py`](../simulations/dreal_block_n9.py)). The key the document's original
 `[3,6,14,14,19,22]` hid is **parity**: it mixed even and odd N. Separated, the **sparse** topologies
 have clean linear inner closed forms:
 

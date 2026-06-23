@@ -31,7 +31,7 @@ Three readings on the same screen:
                              each perturbation: protected (J) vs shifted (h).
 
 Propagation is RK4 with the Hamming-mask Z-dephasing (the canonical N=7 PTF
-path, matching simulations/_ptf_per_observable_alpha.py). Reuses framework
+path, matching simulations/ptf_per_observable_alpha.py). Reuses framework
 primitives for ρ_0, site operators, the palindrome residual, bond_perturbation,
 and slow modes.
 
@@ -147,7 +147,7 @@ def purity_trajectory(N, H, rho_0, bloch_ops, hamming):
 
 
 # ---------------------------------------------------------------------------
-# α-fit: P_A(α·t) ≈ P_B(t)  (matches _ptf_per_observable_alpha.py)
+# α-fit: P_A(α·t) ≈ P_B(t)  (matches ptf_per_observable_alpha.py)
 # ---------------------------------------------------------------------------
 def alpha_fit_one_site(t_grid, P_A, P_B):
     interp = interp1d(t_grid, P_A, bounds_error=False,

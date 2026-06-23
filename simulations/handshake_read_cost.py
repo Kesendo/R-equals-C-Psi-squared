@@ -3,7 +3,7 @@
 RESULT 2026-06-20: this strict gate FIRES (slope -0.67 not -1; K_peak*Q drifts 1.3->3.6 with a
 regime break near Q~8). Qualitatively the cost DOES fall with Q (the doc's flat-or-inverted
 falsification line is not crossed), but the quantitative ~2/Q does not hold. The operational
-definition was ruled out as the culprit by _handshake_read_cost_diag.py (argmax-FI == first
+definition was ruled out as the culprit by handshake_read_cost_diag.py (argmax-FI == first
 local max). See HANDSHAKE_GEOMETRY.md 'Read-cost'. The verdict strings below are conditional.
 
 
@@ -44,7 +44,7 @@ def _load(name, path):
     return m
 
 
-blk = _load("blk", "simulations/_handshake_rk_block.py")
+blk = _load("blk", "simulations/handshake_rk_block.py")
 psi, hopping, L11, populations = blk.psi, blk.hopping, blk.L11, blk.populations
 
 

@@ -17,8 +17,8 @@
 - [n7_perspectival_extended_states.py](../simulations/n7_perspectival_extended_states.py): ψ_3, ψ_4, |+⟩^7 stress-test
 - [n7_central_defect_check.py](../simulations/n7_central_defect_check.py): sparse L eigendecomp + central-vs-boundary symmetry verification
 - [observer_time_rescale.py](../simulations/observer_time_rescale.py): α_i fits and Σ ln α diagnostics
-- [_ptf_per_observable_alpha.py](../simulations/_ptf_per_observable_alpha.py) (2026-04-27): cross-observable α scan refuting "one painter one clock"
-- [_ptf_blind_sector_verification.py](../simulations/_ptf_blind_sector_verification.py) (2026-04-27): broader sweep linking closure failure to Zero-Sector Immunity
+- [ptf_per_observable_alpha.py](../simulations/ptf_per_observable_alpha.py) (2026-04-27): cross-observable α scan refuting "one painter one clock"
+- [ptf_blind_sector_verification.py](../simulations/ptf_blind_sector_verification.py) (2026-04-27): broader sweep linking closure failure to Zero-Sector Immunity
 
 *This document was updated on 2026-04-20 after [EQ-014](../review/EMERGING_QUESTIONS.md#eq-014) ([findings](../review/EQ014_FINDINGS.md)) closed the "closure law as first-order theorem" route. The body below documents the April 18 understanding; refinements are collected in a [**Update 2026-04-20**](#update-2026-04-20-post-eq-014) section after "Scope and limits" and before "Open questions".*
 
@@ -300,7 +300,7 @@ The April 18 PTF tested the closure law Σ_i ln(α_i) ≈ 0 on a single observab
 
 Same N=7 setup (uniform XY chain, γ₀=0.05, J_mod=1.1 on bond (0,1), φ = (|vac⟩+|ψ_1⟩)/√2). For each of three single-Pauli letter classes (X_i, Y_i, Z_i) and nine two-Pauli letter combinations (a_i b_j for a, b ∈ {X, Y, Z}, i < j), the same one-parameter time-rescale fit P_B(O, t) ≈ P_A(O, α^O · t) was performed and Σ ln α^O computed.
 
-Scripts: [_ptf_per_observable_alpha.py](../simulations/_ptf_per_observable_alpha.py), [_ptf_blind_sector_verification.py](../simulations/_ptf_blind_sector_verification.py).
+Scripts: [ptf_per_observable_alpha.py](../simulations/ptf_per_observable_alpha.py), [ptf_blind_sector_verification.py](../simulations/ptf_blind_sector_verification.py).
 Results: [ptf_observable_scope/](../simulations/results/ptf_observable_scope/).
 
 ### What was found

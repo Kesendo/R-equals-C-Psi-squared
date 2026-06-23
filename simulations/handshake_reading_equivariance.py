@@ -11,7 +11,7 @@ confusability is then a closed-form parity-weighted mode sum:
     cos(b, N-2-b) = sum_k (-1)^(k-1) w_k,  w_k = M[b,k]^2 / ||M[b,.]||^2
 
 NOTE (honest scope): this is the BARE matrix-element dictionary; the bare cosine is -0.33 at N=5,
-NOT -0.97. The -0.97 is the PAINTED (propagated alpha-profile) instance (_handshake_gram_metric.py,
+NOT -0.97. The -0.97 is the PAINTED (propagated alpha-profile) instance (handshake_gram_metric.py,
 Q=20), where the readout concentrates location weight on the R-odd seesaw k=2. R-equivariance is
 preserved by the painting (R commutes with the Liouvillian for reflection-symmetric couplings);
 only the weights w_k change. This is the cross-language ECHO of the C# witness

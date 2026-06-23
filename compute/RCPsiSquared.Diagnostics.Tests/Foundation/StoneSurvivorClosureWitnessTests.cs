@@ -7,7 +7,7 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// painter closure Sum_i ln(alpha_i), run on the mode-isolating probe rho_0 = I/d + eps*Herm(mode)
 /// through the CANONICAL Symphony FitAlpha, reads the chosen mode's first-order RATE shift: it BREAKS
 /// (out of the +-0.05 window) AND is sign-coherent for the soft survivor (Re moves), and HOLDS (in
-/// window) for the rigid band edge (Re frozen). Mirrors simulations/_stone_survivor_alpha_closure.py
+/// window) for the rigid band edge (Re frozen). Mirrors simulations/stone_survivor_alpha_closure.py
 /// (two-lens reviewed 2026-06-19); the review-pinned scope is the probe-state-specific, sign-coherence-
 /// certified claim, not a universal trajectory law.</summary>
 public class StoneSurvivorClosureWitnessTests

@@ -38,7 +38,7 @@ Already-typed claims that this reading binds together:
 
 Today's added contribution:
 
-- **The F71-decomposition complex z_i = sym_i + i·anti_i** (built morning): the operational instance of "angle appears off zero" applied to ln α. At z = 0, arg(z) is undefined; at any z ≠ 0, the angle is the structural carrier. Of the six [multi-lens-tour cases](../simulations/results/_multi_lens_ptf_carrier.txt), only the F71-asymmetric break XZ+XZ had anti ≠ 0, lifting z off the real axis into a non-trivial arg(z); the four F71-symmetric breaks (XY+YX, IY+YI, YZ+ZY, XZ+ZX) had anti = 0, their z confined to the real axis; the XX+YY baseline sat at z = 0, where arg(z) is undefined.
+- **The F71-decomposition complex z_i = sym_i + i·anti_i** (built morning): the operational instance of "angle appears off zero" applied to ln α. At z = 0, arg(z) is undefined; at any z ≠ 0, the angle is the structural carrier. Of the six [multi-lens-tour cases](../simulations/results/multi_lens_ptf_carrier.txt), only the F71-asymmetric break XZ+XZ had anti ≠ 0, lifting z off the real axis into a non-trivial arg(z); the four F71-symmetric breaks (XY+YX, IY+YI, YZ+ZY, XZ+ZX) had anti = 0, their z confined to the real axis; the XX+YY baseline sat at z = 0, where arg(z) is undefined.
 
 - **F94 = (4/3) Q²·K³** (built afternoon): the deviation Δ_|00⟩ exists ONLY off the (Q=0, K=0, t=0) point. At Q=0 (no Hamiltonian) or K=0 (no time / no dephasing), Δ = 0: no break, no deviation, no Carrier-extraction signal. The break MAGNITUDE grows as Q²·K³ off zero; the structural identity for the *angle* of that break across multiple outcomes is the next thing (per the F71-decomposition pattern, the break's sym/anti split is the angle-coordinate structure).
 

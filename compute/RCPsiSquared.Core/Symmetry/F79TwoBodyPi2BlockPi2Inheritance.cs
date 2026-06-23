@@ -60,7 +60,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F79 (line 1907) +
 /// <c>docs/proofs/PROOF_SVD_CLUSTER_STRUCTURE.md</c> +
-/// <c>simulations/_svd_two_body_pi_squared_block.py</c> +
+/// <c>simulations/svd_two_body_pi_squared_block.py</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/F1Pi2Inheritance.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/KleinFourCellClaim.cs</c>
 /// (F88a 4-cell, refines F79's binary parity) +
@@ -155,7 +155,7 @@ public sealed class F79TwoBodyPi2BlockPi2Inheritance : Claim, IZ2AxisClaim
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F79 + " +
                "docs/proofs/PROOF_SVD_CLUSTER_STRUCTURE.md + " +
-               "simulations/_svd_two_body_pi_squared_block.py + " +
+               "simulations/svd_two_body_pi_squared_block.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F1Pi2Inheritance.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (KleinFourCellClaim) + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs")
