@@ -1,7 +1,7 @@
 """F89 path-3: derive closed-form N-scaling for the populated mode amplitudes.
 
 Path-3 has 10 distinct populated mode-groups at q = J/γ = 1.5 (per
-`_f89_path3_multi_exp_derive.py`). Goal: for each mode-group, find a
+`f89_path3_multi_exp_derive.py`). Goal: for each mode-group, find a
 closed-form rational A(N) = polynomial(N) / [N²(N−1)] using numerical
 amplitudes at multiple N values, analog of path-2's
 A_Bloch(N) = 3·(N−3)²/(2·N²(N−1)).
@@ -26,7 +26,7 @@ from pathlib import Path
 import numpy as np
 import sympy as sp
 
-from _f89_pathk_lib import (
+from f89_pathk_lib import (
     build_block_L,
     compute_rho_block_0,
     per_site_reduction_matrix,

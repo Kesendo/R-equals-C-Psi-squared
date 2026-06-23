@@ -24,8 +24,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// and 6γ (no-overlap) with frequencies J·(−1±√5). The octic is irreducible
 /// over Q[i, √5] and conjecturally Galois-non-solvable (separate Claim).</para>
 ///
-/// <para>Anchors: <c>simulations/_f89_path3_se_de_symbolic.py</c> (sympy
-/// charpoly + factor), <c>simulations/_f89_path3_octic_factor_test.py</c>
+/// <para>Anchors: <c>simulations/f89_path3_se_de_symbolic.py</c> (sympy
+/// charpoly + factor), <c>simulations/f89_path3_octic_factor_test.py</c>
 /// (irreducibility), <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c>
 /// § "Path-3 (SE, DE) S_2-symmetric sub-block: deg-2·deg-2·deg-8 factorisation".</para></summary>
 public sealed class F89Path3SeDeFactorisationClaim : Claim
@@ -71,15 +71,15 @@ public sealed class F89Path3SeDeFactorisationClaim : Claim
     public static Complex[] FbRoots(double gamma, double j) => QuadraticRoots(6.0, gamma, j);
 
     /// <summary>F_8 octic factor irreducibility over Q[i, √5]: true (sympy
-    /// verified per <c>_f89_path3_octic_factor_test.py</c>).</summary>
+    /// verified per <c>f89_path3_octic_factor_test.py</c>).</summary>
     public const bool OcticIsIrreducibleOverQiSqrt5 = true;
 
     public F89Path3SeDeFactorisationClaim(F89TopologyOrbitClosure f89, F89PathKAtLockMechanismClaim atLock)
         : base("F89 path-3 (SE,DE) S_2-sym sub-block char(λ) = F_a · F_b · F_8 (deg 2·2·8); F_a, F_b roots in closed form λ = −{2,6}γ + iJ(−1±√5); F_8 octic irreducible over Q[i, √5]",
                Tier.Tier1Derived,
                "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
-               "simulations/_f89_path3_se_de_symbolic.py + " +
-               "simulations/_f89_path3_octic_factor_test.py + " +
+               "simulations/f89_path3_se_de_symbolic.py + " +
+               "simulations/f89_path3_octic_factor_test.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs")
     {
         F89 = f89 ?? throw new ArgumentNullException(nameof(f89));

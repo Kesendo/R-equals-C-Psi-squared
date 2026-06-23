@@ -2,12 +2,12 @@
 
 Generic n_block-parametric building blocks for the per-block Lindbladian
 super-operator + ρ_cc partial-trace machinery used by:
-  - _f89_path2_multi_exp_derive.py
-  - _f89_path3_multi_exp_derive.py
-  - _f89_pathk_survey.py
-  - _f89_mixed_topology_additive.py
-  - _f89_vac_se_parseval_closed.py
-  - _f89_path6_full_chain.py
+  - f89_path2_multi_exp_derive.py
+  - f89_path3_multi_exp_derive.py
+  - f89_pathk_survey.py
+  - f89_mixed_topology_additive.py
+  - f89_vac_se_parseval_closed.py
+  - f89_path6_full_chain.py
 
 See `experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md` for derivation context.
 """

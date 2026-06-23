@@ -33,8 +33,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// AT-locked count = ⌊N_block/2⌋ for F_a per F89PathKAtLockMechanismClaim, plus
 /// matching F_b structure to be derived.</para>
 ///
-/// <para>Anchors: <c>simulations/_f89_path4_path5_at_lock_scan.py</c> (despite name,
-/// loop covers k = 3..6 inclusive) + <c>simulations/_f89_path6_at_locked_amplitude_symbolic.py</c>,
+/// <para>Anchors: <c>simulations/f89_path4_path5_at_lock_scan.py</c> (despite name,
+/// loop covers k = 3..6 inclusive) + <c>simulations/f89_path6_at_locked_amplitude_symbolic.py</c>,
 /// <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c> § Tier-assessment table.</para></summary>
 public sealed class F89PathKHbMixedDegreesClaim : Claim
 {
@@ -95,8 +95,8 @@ public sealed class F89PathKHbMixedDegreesClaim : Claim
         : base("F89 path-k H_B-mixed sub-factor degrees: {8, 18, 32, 53} for paths {3, 4, 5, 6} (Tier 1 candidate; switch-statement enumeration, general-k closed form open)",
                Tier.Tier1Candidate,
                "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
-               "simulations/_f89_path4_path5_at_lock_scan.py (despite name, loop covers k=3..6 inclusive) + " +
-               "simulations/_f89_path6_at_locked_amplitude_symbolic.py + " +
+               "simulations/f89_path4_path5_at_lock_scan.py (despite name, loop covers k=3..6 inclusive) + " +
+               "simulations/f89_path6_at_locked_amplitude_symbolic.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F89TopologyOrbitClosure.cs")
     {
         F89 = f89 ?? throw new ArgumentNullException(nameof(f89));

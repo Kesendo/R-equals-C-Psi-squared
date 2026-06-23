@@ -165,7 +165,7 @@ public sealed class F89TopologyOrbitClosure : Claim
     /// channel requires a SE site outside the doubly-excited pair, impossible on a
     /// 2-qubit block alone. H_B-eigenstate phase tracking yields the cos(4Jt)
     /// interference. Verified bit-exact against bond-isolate CSVs N=7 m=1,2,3 in
-    /// <c>simulations/_f89_all_isolated_closed_form_verify.py</c>.</para></summary>
+    /// <c>simulations/f89_all_isolated_closed_form_verify.py</c>.</para></summary>
     public static double AllIsolatedClosedForm(int n, int m, double j, double gammaZero, double t)
     {
         if (n < 2)

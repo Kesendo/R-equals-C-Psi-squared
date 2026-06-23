@@ -3,7 +3,7 @@
 **Status:** Tier 1 derived (algebraic identity by construction + numerical bit-exact verification at N=5..8)
 **Date:** 2026-05-11
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Probe:** [`simulations/_f89_to_f86_kbond_via_eigendecomp.py`](../../simulations/_f89_to_f86_kbond_via_eigendecomp.py)
+**Probe:** [`simulations/f89_to_f86_kbond_via_eigendecomp.py`](../../simulations/f89_to_f86_kbond_via_eigendecomp.py)
 **Typed claim:** [`compute/RCPsiSquared.Core/Symmetry/F90F86C2BridgeIdentity.cs`](../../compute/RCPsiSquared.Core/Symmetry/F90F86C2BridgeIdentity.cs)
 
 ---
@@ -35,7 +35,7 @@ with all other ingredients (probe, S_kernel, dephasing rates, Liouvillian constr
 | Framework | Hamiltonian | Single-particle SE Bloch | Q_peak typical |
 |---|---|---|---|
 | **F86** (per `BlockLDecomposition.cs:13-14`, C# typed) | `H_b = (J/2)·(X_b X_{b+1} + Y_b Y_{b+1})` | `ε_k = J·cos(πk/(N+1))` | Endpoint ≈ 2.5 |
-| **F89** (per `simulations/_f89_pathk_lib.py` `build_block_H` (Python) + [`compute/RCPsiSquared.Core/F89PathK/F89BlockHamiltonian.cs`](../../compute/RCPsiSquared.Core/F89PathK/F89BlockHamiltonian.cs) (C#, ported 2026-05-12)) | `H = J·(XX + YY)` | `ε_k = 2J·cos(πk/(N+1))` (= `4J·cos(πk/(N+1))/2` from L_super) | Endpoint ≈ 1.27 |
+| **F89** (per `simulations/f89_pathk_lib.py` `build_block_H` (Python) + [`compute/RCPsiSquared.Core/F89PathK/F89BlockHamiltonian.cs`](../../compute/RCPsiSquared.Core/F89PathK/F89BlockHamiltonian.cs) (C#, ported 2026-05-12)) | `H = J·(XX + YY)` | `ε_k = 2J·cos(πk/(N+1))` (= `4J·cos(πk/(N+1))/2` from L_super) | Endpoint ≈ 1.27 |
 
 The conversion factor itself is typed in C# as `F90F86C2BridgeIdentity.JConventionFactor = 2.0` with helpers `F86JToF89J(double)` and `F89JToF86J(double)`. The F89-convention Hamiltonian/Liouvillian *builder* now has a C# counterpart in [`compute/RCPsiSquared.Core/F89PathK/`](../../compute/RCPsiSquared.Core/F89PathK/) (commit `b9e5fe9`, simplified in `298f51c`): `F89BlockHamiltonian.BuildBlockH(nBlock, J)` returns `2·PauliHamiltonian.XYChain(nBlock, J)` (the factor-of-2 reflecting `JConventionFactor`); `F89BlockLiouvillian.BuildBlockL(nBlock, J, γ)` returns the column-major super-operator. F86's `BlockLDecomposition` and F89PathK's `BuildBlockL` produce convention-equivalent operators under the bridge identity.
 
@@ -57,7 +57,7 @@ F86's `BlockLDecomposition.Build` constructs a Liouvillian on the (n=1, n+1=2) c
 
 5. **Probe ρ_0 (`DickeBlockProbe`)** = `1/(2·√(N·C(N,2)))` per basis pair, identical to F89's `compute_rho_block_0` (SE, DE) Term-1 which has uniform `pre/2 = 1/(2·√(N²(N-1)/2)) = 1/√(2N²(N-1))` per basis pair (algebraically identical: `1/(2·√(N·C(N,2))) = 1/(2·√(N·N(N-1)/2)) = 1/√(2N²(N-1)) = pre/2`).
 
-6. **S_kernel (`SpatialSumKernel`)** = `Σ_site 2·|w_site⟩⟨w_site|` where w_site picks basis pairs (p, q) differing at exactly one site (the site index) with p_site = 0, q_site = 1. For (SE, DE) basis pairs (i, jk), this means w_site picks pairs where site ∈ jk AND i = the OTHER element of {j, k}: exactly F89's `per_site_reduction_within_block_se_de` matrix (per `simulations/_f89_path3_at_locked_amplitude_symbolic.py:per_site_reduction_within_block_se_de`; C# port available in [`F89PathK/F89BlockSiteReduction.cs`](../../compute/RCPsiSquared.Core/F89PathK/F89BlockSiteReduction.cs)).
+6. **S_kernel (`SpatialSumKernel`)** = `Σ_site 2·|w_site⟩⟨w_site|` where w_site picks basis pairs (p, q) differing at exactly one site (the site index) with p_site = 0, q_site = 1. For (SE, DE) basis pairs (i, jk), this means w_site picks pairs where site ∈ jk AND i = the OTHER element of {j, k}: exactly F89's `per_site_reduction_within_block_se_de` matrix (per `simulations/f89_path3_at_locked_amplitude_symbolic.py:per_site_reduction_within_block_se_de`; C# port available in [`F89PathK/F89BlockSiteReduction.cs`](../../compute/RCPsiSquared.Core/F89PathK/F89BlockSiteReduction.cs)).
 
 All ingredients identical. The only difference is the J convention factor, hence Q_F89 = Q_F86 / 2.
 
@@ -67,7 +67,7 @@ This is not merely an argument: the two constructions are **bit-identical as ope
 
 ## Numerical verification (bit-exact across N=5..8)
 
-`simulations/_f89_to_f86_kbond_via_eigendecomp.py` computes F89's full (SE, DE) eigendecomposition and reproduces F86's K_b(Q, t) per-bond via the per-bond Hellmann-Feynman + Duhamel integral. Comparing per-bond ratios (HWHM_left / Q_peak) to F86's `C2HwhmRatio.Witnesses` extracted via `inspect --root c2hwhm`:
+`simulations/f89_to_f86_kbond_via_eigendecomp.py` computes F89's full (SE, DE) eigendecomposition and reproduces F86's K_b(Q, t) per-bond via the per-bond Hellmann-Feynman + Duhamel integral. Comparing per-bond ratios (HWHM_left / Q_peak) to F86's `C2HwhmRatio.Witnesses` extracted via `inspect --root c2hwhm`:
 
 ### N=5 (4 bonds, 4 bit-exact)
 
@@ -119,7 +119,7 @@ The 2 within-noise bonds at N=8 b=2/b=4 differ in the third decimal because the 
 
 **Total: 20 of 22 bonds bit-exact, 2 of 22 within Q-grid resolution noise (≤ 0.0008). (Per-N: N=5: 4/4 bit-exact; N=6: 5/5 bit-exact; N=7: 6/6 bit-exact with extended Q-grid; N=8: 5/7 bit-exact + 2/7 within Q-grid noise at b=2, b=4 mid-flanking Interior.)**
 
-**The HWHM_left/Q_peak ratio is a grid-dependent readout of the one shared operator.** Since L_F86(J) = L_F89(J/2) bit-identically (above), the 20/22-vs-2/22 split is entirely a matter of Q-grid sampling, not two physical answers, at matched grids all 22 agree to machine precision. The table values are per-N focused-grid snapshots: the N=5/6 cells use F86's focused [0.20, 4.0] / 153-point grid (e.g. interior 0.7454 = the converged value), while the committed probe script `_f89_to_f86_kbond_via_eigendecomp.py` now runs a single *wide* grid (`q_grid = np.linspace(0.05, 10.0, 300)` in F89-J = [0.10, 20.0] in F86-J) set to capture the N≥7 high-Q escapes; that wide grid mislocates the N=5/6 interior Q_peak by up to one cell (≈0.002 drift) and is not the grid that regenerates the focused-grid table cells. To re-derive a specific table cell, use the per-N focused grid; the underlying identity (and hence any cell, at sufficient grid resolution) is exact.
+**The HWHM_left/Q_peak ratio is a grid-dependent readout of the one shared operator.** Since L_F86(J) = L_F89(J/2) bit-identically (above), the 20/22-vs-2/22 split is entirely a matter of Q-grid sampling, not two physical answers, at matched grids all 22 agree to machine precision. The table values are per-N focused-grid snapshots: the N=5/6 cells use F86's focused [0.20, 4.0] / 153-point grid (e.g. interior 0.7454 = the converged value), while the committed probe script `f89_to_f86_kbond_via_eigendecomp.py` now runs a single *wide* grid (`q_grid = np.linspace(0.05, 10.0, 300)` in F89-J = [0.10, 20.0] in F86-J) set to capture the N≥7 high-Q escapes; that wide grid mislocates the N=5/6 interior Q_peak by up to one cell (≈0.002 drift) and is not the grid that regenerates the focused-grid table cells. To re-derive a specific table cell, use the per-N focused grid; the underlying identity (and hence any cell, at sufficient grid resolution) is exact.
 
 ---
 
@@ -180,7 +180,7 @@ The bridge is structural: it explains WHY F86 c=2's per-bond-class HWHM constant
 
 ## Anchors
 
-- Probe: [`simulations/_f89_to_f86_kbond_via_eigendecomp.py`](../../simulations/_f89_to_f86_kbond_via_eigendecomp.py)
+- Probe: [`simulations/f89_to_f86_kbond_via_eigendecomp.py`](../../simulations/f89_to_f86_kbond_via_eigendecomp.py)
 - Typed claim: [`F90F86C2BridgeIdentity.cs`](../../compute/RCPsiSquared.Core/Symmetry/F90F86C2BridgeIdentity.cs)
 - F89 parents: [`F89TopologyOrbitClosure.cs`](../../compute/RCPsiSquared.Core/Symmetry/F89TopologyOrbitClosure.cs), [`F89PathKAtLockMechanismClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs)
 - F86 anchor (bridged target): [`C2HwhmRatio.cs`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2HwhmRatio.cs), [`ResonanceScan.cs`](../../compute/RCPsiSquared.Core/Resonance/ResonanceScan.cs), [`PROOF_F86_QPEAK.md`](PROOF_F86_QPEAK.md)

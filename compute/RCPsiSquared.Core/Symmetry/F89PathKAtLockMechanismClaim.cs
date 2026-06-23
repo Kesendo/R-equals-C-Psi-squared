@@ -26,8 +26,8 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   Bloch modes that contribute non-trivial amplitudes).</item>
 /// </list>
 ///
-/// <para>Anchors: <c>simulations/_f89_path3_at_lock_mechanism.py</c> +
-/// <c>_f89_path4_path5_at_lock_scan.py</c> + <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c>
+/// <para>Anchors: <c>simulations/f89_path3_at_lock_mechanism.py</c> +
+/// <c>f89_path4_path5_at_lock_scan.py</c> + <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c>
 /// § "AT-lock mechanism".</para></summary>
 public sealed class F89PathKAtLockMechanismClaim : Claim
 {
@@ -72,8 +72,8 @@ public sealed class F89PathKAtLockMechanismClaim : Claim
         : base("F89 universal AT-lock mechanism for path-k (SE, DE) sub-blocks: F_a (rate 2γ) eigvecs supported entirely on overlap basis pairs at SE-anti single-particle Bloch frequencies y_n = 4cos(πn/(N_block+1)) for n ∈ {2, 4, ..., 2·floor(N_block/2)}; F_b (rate 6γ) eigvecs supported entirely on no-overlap, universally invisible to S(t) per-site reduction; F_a count = floor(N_block/2)",
                Tier.Tier1Derived,
                "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
-               "simulations/_f89_path3_at_lock_mechanism.py + " +
-               "simulations/_f89_path4_path5_at_lock_scan.py + " +
+               "simulations/f89_path3_at_lock_mechanism.py + " +
+               "simulations/f89_path4_path5_at_lock_scan.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F89TopologyOrbitClosure.cs")
     {
         F89 = f89 ?? throw new ArgumentNullException(nameof(f89));

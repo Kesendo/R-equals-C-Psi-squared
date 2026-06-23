@@ -16,7 +16,7 @@ from pathlib import Path
 
 import numpy as np
 
-from _f89_pathk_lib import (
+from f89_pathk_lib import (
     block_bit_pos,
     build_block_L,
     reduce_block_to_site_01,

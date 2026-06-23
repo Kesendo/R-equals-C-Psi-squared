@@ -23,8 +23,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (≤ degree 5 in q) for the per-mode amplitudes, we CONJECTURE (Tier 2)
 /// that Gal(F_8) is non-solvable (likely the full S_8).</para>
 ///
-/// <para>Anchors: <c>simulations/_f89_path3_octic_galois.py</c> (disc
-/// factorisation + numerical square-root tests), <c>simulations/_f89_path3_octic_amplitude_q_scan.py</c>
+/// <para>Anchors: <c>simulations/f89_path3_octic_galois.py</c> (disc
+/// factorisation + numerical square-root tests), <c>simulations/f89_path3_octic_amplitude_q_scan.py</c>
 /// (no polynomial-q fit), <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c>
 /// § "Path-3 octic non-solvability".</para></summary>
 public sealed class F89Path3OcticGaloisClaim : Claim
@@ -57,8 +57,8 @@ public sealed class F89Path3OcticGaloisClaim : Claim
         : base("F89 path-3 octic Galois group: disc(F_8) = const · q²⁴ · (3q⁴+q²−1)² · P_10(q²) is NOT a perfect square in Q[q]; therefore Gal(F_8) ⊄ A_8 (Tier 1). Conjecture (Tier 2 open): Gal is non-solvable (likely S_8)",
                Tier.Tier1Derived,
                "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
-               "simulations/_f89_path3_octic_galois.py + " +
-               "simulations/_f89_path3_octic_amplitude_q_scan.py + " +
+               "simulations/f89_path3_octic_galois.py + " +
+               "simulations/f89_path3_octic_amplitude_q_scan.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs")
     {
         F89 = f89 ?? throw new ArgumentNullException(nameof(f89));

@@ -29,7 +29,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// odd-part-squaring rule. The 2-adic exponent v₂(D_path) is captured by the
 /// <c>E(k)</c> closed form below; derived from the Chebyshev pipeline (closed
 /// 2026-05-15, see <c>docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md</c> § "Tier-1-Derived
-/// closure"). Probe history: <c>simulations/_f89_path_d_structure_probe.py</c>.</para>
+/// closure"). Probe history: <c>simulations/f89_path_d_structure_probe.py</c>.</para>
 ///
 /// <para>Polynomial degree = F_a count − 1 = floor(N_block/2) − 1 (interpolation
 /// through F_a count distinct y_n values); path-7: cubic via cyclotomic Φ_9 = y⁶+y³+1.
@@ -71,11 +71,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Hamming-complement pair-sum 2γ₀·N (<see cref="AbsorptionTheoremClaim.HammingComplementPairSum"/>).
 /// Two-layer section: <c>docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md</c>.</para>
 ///
-/// <para>Anchors: <c>simulations/_f89_path3_at_locked_amplitude_symbolic.py</c>,
-/// <c>_f89_path4_at_locked_amplitude_symbolic.py</c>,
-/// <c>_f89_path5_at_locked_amplitude_symbolic.py</c>,
-/// <c>_f89_path6_at_locked_amplitude_symbolic.py</c>,
-/// <c>_f89_path5_cardano_cubic_individuals.py</c>,
+/// <para>Anchors: <c>simulations/f89_path3_at_locked_amplitude_symbolic.py</c>,
+/// <c>f89_path4_at_locked_amplitude_symbolic.py</c>,
+/// <c>f89_path5_at_locked_amplitude_symbolic.py</c>,
+/// <c>f89_path6_at_locked_amplitude_symbolic.py</c>,
+/// <c>f89_path5_cardano_cubic_individuals.py</c>,
 /// <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c> § "Unified closed form".</para></summary>
 public sealed class F89UnifiedFaClosedFormClaim : Claim
 {
@@ -229,9 +229,9 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
     ///
     /// <para>Anchors: <c>docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md</c> §
     /// "Tier-1-Derived closure achieved via Chebyshev pipeline" +
-    /// <c>simulations/_f89_path_d_structure_probe.py</c> +
-    /// <c>simulations/_f89_path_d_verify_k16_k17.py</c> +
-    /// <c>simulations/_f89_path_d_extend_k18_k24.py</c>.</para></summary>
+    /// <c>simulations/f89_path_d_structure_probe.py</c> +
+    /// <c>simulations/f89_path_d_verify_k16_k17.py</c> +
+    /// <c>simulations/f89_path_d_extend_k18_k24.py</c>.</para></summary>
     public static int PredictDenominator(int k)
     {
         var (oddPart, e) = DenominatorExponent(k);
@@ -345,14 +345,14 @@ public sealed class F89UnifiedFaClosedFormClaim : Claim
         : base("F89 unified F_a AT-locked amplitude closed form across path-3..9: sigs[F_a:n](N) = P_path(y_n)/[D_path·N²(N-1)] with y_n = 4cos(πn/(N_block+1)) on the SE-anti Bloch orbit; (P_path, D_path) tabulated per path; sum F_a is rational across all paths via Newton's identities on the cyclotomic minimal polynomial",
                Tier.Tier1Derived,
                "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
-               "simulations/_f89_path3_at_locked_amplitude_symbolic.py + " +
-               "simulations/_f89_path4_at_locked_amplitude_symbolic.py + " +
-               "simulations/_f89_path5_at_locked_amplitude_symbolic.py + " +
-               "simulations/_f89_path6_at_locked_amplitude_symbolic.py + " +
-               "simulations/_f89_path5_cardano_cubic_individuals.py + " +
+               "simulations/f89_path3_at_locked_amplitude_symbolic.py + " +
+               "simulations/f89_path4_at_locked_amplitude_symbolic.py + " +
+               "simulations/f89_path5_at_locked_amplitude_symbolic.py + " +
+               "simulations/f89_path6_at_locked_amplitude_symbolic.py + " +
+               "simulations/f89_path5_cardano_cubic_individuals.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs + " +
-               "simulations/_f89_to_f86_kbond_via_eigendecomp.py + compute/RCPsiSquared.Core/F86/Item1Derivation/C2FullBlockSigmaAnatomy.cs (path-7 extraction) + " +
-               "simulations/_f89_path_d_structure_probe.py (path-8/9 extraction + odd-part rule)")
+               "simulations/f89_to_f86_kbond_via_eigendecomp.py + compute/RCPsiSquared.Core/F86/Item1Derivation/C2FullBlockSigmaAnatomy.cs (path-7 extraction) + " +
+               "simulations/f89_path_d_structure_probe.py (path-8/9 extraction + odd-part rule)")
     {
         F89 = f89 ?? throw new ArgumentNullException(nameof(f89));
         AtLock = atLock ?? throw new ArgumentNullException(nameof(atLock));

@@ -18,7 +18,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>Derivation, Cardano closure detail, generalisation note, and
 /// numerical verification at q=1.5: see
 /// <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c> § "Path-2 (SE, DE) S_2-sym
-/// sub-block" and <c>simulations/_f89_path2_se_de_symbolic.py</c>.</para></summary>
+/// sub-block" and <c>simulations/f89_path2_se_de_symbolic.py</c>.</para></summary>
 public sealed class F89Path2CardanoClaim : Claim
 {
     public F89TopologyOrbitClosure F89 { get; }
@@ -110,7 +110,7 @@ public sealed class F89Path2CardanoClaim : Claim
         : base("F89 path-2 (SE,DE) S_2-sym closed-form factorisation: char(λ) = −(λ+2γ)(λ+6γ)·[λ³ + 10γλ² + (28γ²+32J²)λ + (24γ³+96γJ²)]; cubic solvable in radicals via Cardano; path-2 fully analytically tractable",
                Tier.Tier1Derived,
                "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
-               "simulations/_f89_path2_se_de_symbolic.py + " +
+               "simulations/f89_path2_se_de_symbolic.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F89TopologyOrbitClosure.cs")
     {
         F89 = f89 ?? throw new ArgumentNullException(nameof(f89));

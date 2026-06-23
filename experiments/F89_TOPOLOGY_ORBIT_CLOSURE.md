@@ -183,7 +183,7 @@ Factoring out the m-independent S(0) = (N − 1)/N:
 
     S(t) = [S(0) + 4m(N − 2)(cos(4Jt) − 1)/(N²(N − 1))] · exp(−4γ₀ t)  ∎
 
-**Verification (N = 7, J = 0.075, γ = 0.05):** the script [`_f89_all_isolated_closed_form_verify.py`](../simulations/_f89_all_isolated_closed_form_verify.py) loads the (1), (1,1), (1,1,1) CSVs and overlays the closed form; max absolute deviation 5.0e−7 (CSV write precision is 1e−6, so this is at floor). Spot-checks:
+**Verification (N = 7, J = 0.075, γ = 0.05):** the script [`f89_all_isolated_closed_form_verify.py`](../simulations/f89_all_isolated_closed_form_verify.py) loads the (1), (1,1), (1,1,1) CSVs and overlays the closed form; max absolute deviation 5.0e−7 (CSV write precision is 1e−6, so this is at floor). Spot-checks:
 - t = 0: all m give S(0) = 6/7 = 0.857143 (cos(4Jt) = 1).
 - t = 21 ≈ π/(2J): cos(4Jt) ≈ 1 again; closed form predicts S = 0.012853 for all m (verified bit-identical in three CSVs).
 - t = 10 (cos(4Jt) ≈ −0.99, max-spread phase): closed form predicts S = 0.0977, 0.0794, 0.0610 for m = 1, 2, 3, matching CSV data exactly.
@@ -219,7 +219,7 @@ The all-isolated closed form above applies only to (1)^m. For mixed topologies (
 
 #### Path-2 (topology (2)) numerical multi-exponential closed form (script-derived)
 
-For topology (2) (one path-2 block of 3 connected sites + N−3 bare sites) the F89c+AT lens reduces the 64-dim block L_super to a **handful of populated modes** because ρ_block(0) inherits S_3 symmetry from ρ_cc's S_N-symmetry. The script [`_f89_path2_multi_exp_derive.py`](../simulations/_f89_path2_multi_exp_derive.py) performs the eigenvector decomposition + initial-state projection that F89c left open.
+For topology (2) (one path-2 block of 3 connected sites + N−3 bare sites) the F89c+AT lens reduces the 64-dim block L_super to a **handful of populated modes** because ρ_block(0) inherits S_3 symmetry from ρ_cc's S_N-symmetry. The script [`f89_path2_multi_exp_derive.py`](../simulations/f89_path2_multi_exp_derive.py) performs the eigenvector decomposition + initial-state projection that F89c left open.
 
 **Result**: only 4 distinct (rate, |freq|) mode-groups from the 64-dim block L_super are populated (verified at N = 5, 7, 11):
 
@@ -242,7 +242,7 @@ For topology (2) (one path-2 block of 3 connected sites + N−3 bare sites) the 
 
 #### Path-3 (topology (3)) numerical multi-exponential closed form (script-derived)
 
-Same approach extended to the 4-qubit block (256-dim L_super) via [`_f89_path3_multi_exp_derive.py`](../simulations/_f89_path3_multi_exp_derive.py). Path-3 = 4 connected sites (bonds {0-1, 1-2, 2-3}) + N-4 bare sites.
+Same approach extended to the 4-qubit block (256-dim L_super) via [`f89_path3_multi_exp_derive.py`](../simulations/f89_path3_multi_exp_derive.py). Path-3 = 4 connected sites (bonds {0-1, 1-2, 2-3}) + N-4 bare sites.
 
 **Result**: 10 distinct populated mode-groups (more than path-2's 4 because the larger block opens more S_4-symmetric eigenvectors). At J/γ=1.5:
 
@@ -275,11 +275,11 @@ The Bloch-group amplitude for path-2 at any (N, q) — i.e. the population of L_
 
     A_Bloch(N) = 3·(N−3)² / (2·N²·(N−1))
 
-Pure rational function of N, **q-independent** (Parseval orthogonality eliminates the J/γ-dependence of the Bloch self-overlap). Verified numerically across q ∈ {0.5, 0.75, 1, 1.25, 1.5, 2, 3} at N=11: amplitude × N²(N−1)/(N−3)² ≈ 1.498 ≈ 3/2 stable across all q (≤ 0.5% scatter from numerical eigenvector orthogonalization noise). Verification script: [`_f89_path2_amplitude_nscaling.py`](../simulations/_f89_path2_amplitude_nscaling.py).
+Pure rational function of N, **q-independent** (Parseval orthogonality eliminates the J/γ-dependence of the Bloch self-overlap). Verified numerically across q ∈ {0.5, 0.75, 1, 1.25, 1.5, 2, 3} at N=11: amplitude × N²(N−1)/(N−3)² ≈ 1.498 ≈ 3/2 stable across all q (≤ 0.5% scatter from numerical eigenvector orthogonalization noise). Verification script: [`f89_path2_amplitude_nscaling.py`](../simulations/f89_path2_amplitude_nscaling.py).
 
 The other 3 path-2 mode-groups (rate 2γ freq 0, rate 3.04γ freq 0 at q=1.5, rate 3.48γ freq ±5.45J at q=1.5) are q-DEPENDENT in both rate and amplitude, because they originate from the cubic-Cardano factor of the (SE, DE) sub-block characteristic polynomial. At q→0 the cubic roots merge with the linear-factor roots (eigenvalue degeneracy), preventing a clean (N, q)-parametric closed form via simple polynomial fitting. Their q-dependence inherits from the cubic-Cardano formula.
 
-#### Path-k survey across k ∈ {2, 3, 4, 5} ([`_f89_pathk_survey.py`](../simulations/_f89_pathk_survey.py))
+#### Path-k survey across k ∈ {2, 3, 4, 5} ([`f89_pathk_survey.py`](../simulations/f89_pathk_survey.py))
 
 Same script generalised, all four verified against bond-isolate at N=7 with max |diff| ≈ 5·10⁻⁷ (CSV write precision floor).
 
@@ -307,7 +307,7 @@ with the bare-site closed form
 
 **Derivation (one paragraph)**: Lindbladian factorises across disjoint blocks plus bare sites: L = Σ_blocks L_block + Σ_bare L_l. Per-site reduction commutes with this factorisation: ρ_l(t) = exp(L_block(l)·t)[ρ_block(l)(0)] depends only on the block containing l, and ρ_block(0) = Tr_E(ρ_cc) is the same N-dependent partial trace regardless of which OTHER blocks are present (only the count |E| = N − N_block enters via the N_E factor in term 2 of the partial-trace formula). Hence S_T(t) = Σ_l 2|(ρ_l)_{0,1}|² is a sum of per-block contributions. The additive identity then bookkeeps the bare-site overcounting: each per-block S_(k_i)(t) bundles its own "phantom bare share" of (N − k_i − 1) bare-site terms; summing m blocks counts bare contributions m times; subtracting (m − 1)·N·S_bare cancels the over-count.
 
-**Verification at N=7 across all 13 topology classes that don't require path-6** (script [`_f89_mixed_topology_additive.py`](../simulations/_f89_mixed_topology_additive.py)): max |diff| = 5.013·10⁻⁷ across all 27 bond-isolate CSVs, equal to CSV write precision floor. Verified topology classes:
+**Verification at N=7 across all 13 topology classes that don't require path-6** (script [`f89_mixed_topology_additive.py`](../simulations/f89_mixed_topology_additive.py)): max |diff| = 5.013·10⁻⁷ across all 27 bond-isolate CSVs, equal to CSV write precision floor. Verified topology classes:
 
 | Class | m | CSVs tested | max |diff| |
 |---|---|---|---|
@@ -345,7 +345,7 @@ Pure exp(−4γ₀ t) decay, **no oscillation**. The Parseval cancellation Σ_l 
 3. Time evolve each |0⟩⟨ψ_k| → exp(+iE_k t − 2γt) |0⟩⟨ψ_k|
 4. Σ_l 2|(ρ_l(t))^{(vac,SE)}_{0,1}|² = N_block·(N_E·pre)²/2 · Σ_k|⟨ψ_k|α⟩|² · exp(−4γt) = N_block·(N_E·pre)²/2·1·exp(−4γt) (Parseval = 1)
 
-**Verification**: bit-exact at machine precision (4·10⁻¹⁷ to 6·10⁻¹⁶) across all (k, N) ∈ {(1,3..7), (2,4..8), (3,5..9), (4,6..10), (5,7..11)} via [`_f89_vac_se_parseval_closed.py`](../simulations/_f89_vac_se_parseval_closed.py).
+**Verification**: bit-exact at machine precision (4·10⁻¹⁷ to 6·10⁻¹⁶) across all (k, N) ∈ {(1,3..7), (2,4..8), (3,5..9), (4,6..10), (5,7..11)} via [`f89_vac_se_parseval_closed.py`](../simulations/f89_vac_se_parseval_closed.py).
 
 **What this gives us**: a clean analytical "skeleton" of S_(k)(t) for any pure path-k:
 
@@ -366,7 +366,7 @@ with the topology-class oscillatory residual coming entirely from per-block (SE,
 
 Path-2 has only S_2 chain-mirror symmetry of H_B (sites 0 ↔ 2 exchange, site 1 fixed). The 9-dim (SE, DE) sub-block of L_super splits into S_2-sym (5-dim) + S_2-anti (4-dim). ρ_block(0)'s S_3-symmetric component lies entirely in the S_2-sym 5-dim subspace.
 
-The characteristic polynomial of the 5×5 S_2-sym L_super sub-block factors **explicitly** ([`_f89_path2_se_de_symbolic.py`](../simulations/_f89_path2_se_de_symbolic.py)):
+The characteristic polynomial of the 5×5 S_2-sym L_super sub-block factors **explicitly** ([`f89_path2_se_de_symbolic.py`](../simulations/f89_path2_se_de_symbolic.py)):
 
     char(λ) = −(λ + 2γ)·(λ + 6γ)·[λ³ + 10γ·λ² + (28γ² + 32J²)·λ + (24γ³ + 96γJ²)]
 
@@ -394,7 +394,7 @@ This cubic is solvable in radicals (Cardano). At q = 1.5 (our J/γ): roots μ = 
 
 Path-3 (4-qubit block, 4 sites with bonds {0-1, 1-2, 2-3}) has S_2 chain-mirror symmetry (sites 0 ↔ 3, 1 ↔ 2). The (SE, DE) sub-block of L_super is dim 4 SE × 6 DE = **24**, splitting into 12-dim S_2-sym + 12-dim S_2-anti (no fixed-point basis pairs at path-3 since R fixes no SE state).
 
-Building the 12×12 S_2-sym L_super sub-block symbolically and computing the characteristic polynomial via Faddeev-Leverrier ([`_f89_path3_se_de_symbolic.py`](../simulations/_f89_path3_se_de_symbolic.py)):
+Building the 12×12 S_2-sym L_super sub-block symbolically and computing the characteristic polynomial via Faddeev-Leverrier ([`f89_path3_se_de_symbolic.py`](../simulations/f89_path3_se_de_symbolic.py)):
 
     char_{S_2-sym}(λ) = F_a(λ) · F_b(λ) · F_8(λ)
 
@@ -415,7 +415,7 @@ The remaining 8 eigenvalues live in:
     F_8(λ) = λ⁸ + 32·λ⁷ + (72q² + 432)·λ⁶ + (−64iq³ + 1728q² + 3200)·λ⁵
               + (1200q⁴ − 1280iq³ + 16608q² + 14176)·λ⁴ + (… higher q-powers)
 
-`F_8` is **irreducible** over Q, Q[i], Q[√5], and Q[i, √5] (verified via [`_f89_path3_octic_factor_test.py`](../simulations/_f89_path3_octic_factor_test.py)). Combined with the discriminant analysis below (Gal(F_8) ⊄ A_8, conjecturally non-solvable), its eight roots are not expected to admit an elementary radical closure as functions of q. For q = 1.5 they cluster around λ_avg = −4γ (consistent with the centred form μ = λ + 4γ killing the λ⁷ term — trace(F_8) = −32 spreads 8 eigenvalues at average rate 4γ, between the AT-quantized 2γ and 6γ).
+`F_8` is **irreducible** over Q, Q[i], Q[√5], and Q[i, √5] (verified via [`f89_path3_octic_factor_test.py`](../simulations/f89_path3_octic_factor_test.py)). Combined with the discriminant analysis below (Gal(F_8) ⊄ A_8, conjecturally non-solvable), its eight roots are not expected to admit an elementary radical closure as functions of q. For q = 1.5 they cluster around λ_avg = −4γ (consistent with the centred form μ = λ + 4γ killing the λ⁷ term — trace(F_8) = −32 spreads 8 eigenvalues at average rate 4γ, between the AT-quantized 2γ and 6γ).
 
 | Eigenvalue source | Count | Closed form |
 |---|---|---|
@@ -436,7 +436,7 @@ The pattern: the AT-locked count grows as 2·N_block_orbits_at_rate_r with r ∈
 
 #### Path-3 mode amplitudes: N-scaling structure (Tier 1 partial)
 
-For each of the 10 path-3 populated mode-groups at q=1.5, fit the per-mode amplitude `A(N)` against rational functions of N ([`_f89_path3_amplitude_nscaling.py`](../simulations/_f89_path3_amplitude_nscaling.py)):
+For each of the 10 path-3 populated mode-groups at q=1.5, fit the per-mode amplitude `A(N)` against rational functions of N ([`f89_path3_amplitude_nscaling.py`](../simulations/f89_path3_amplitude_nscaling.py)):
 
 | Mode (Γ/γ, ω/J) | Origin | A(N) closed form (q=1.5) |
 |---|---|---|
@@ -450,7 +450,7 @@ For each of the 10 path-3 populated mode-groups at q=1.5, fit the per-mode ampli
 
 #### AT-lock mechanism: F_a, F_b eigenvectors live in overlap-only / no-overlap-only subspaces (Tier 1 derived)
 
-Why are F_a, F_b eigenvalues exactly at AT rates 2γ and 6γ, given that H_B generally mixes overlap (2γ) and no-overlap (6γ) basis pairs? Numerical verification ([`_f89_path3_at_lock_mechanism.py`](../simulations/_f89_path3_at_lock_mechanism.py)) of the 12 S_2-sym eigenvectors shows the AT-locking arises from **eigenvector support confinement**:
+Why are F_a, F_b eigenvalues exactly at AT rates 2γ and 6γ, given that H_B generally mixes overlap (2γ) and no-overlap (6γ) basis pairs? Numerical verification ([`f89_path3_at_lock_mechanism.py`](../simulations/f89_path3_at_lock_mechanism.py)) of the 12 S_2-sym eigenvectors shows the AT-locking arises from **eigenvector support confinement**:
 
 | Eigenvalue | Overlap-support | No-overlap-support |
 |---|---|---|
@@ -466,7 +466,7 @@ The 4 F_a/F_b eigenvectors are entirely supported on the 12-dim overlap (resp 12
 
 #### Path-3 F_a AT-locked amplitude: closed form in (N) with √5 algebraic (Tier 1 derived)
 
-The (SE, DE) F_a contribution to the path-3 multi-exponential decomposition has **q-independent closed form** in N with √5 algebraic ([`_f89_path3_at_locked_amplitude_symbolic.py`](../simulations/_f89_path3_at_locked_amplitude_symbolic.py)):
+The (SE, DE) F_a contribution to the path-3 multi-exponential decomposition has **q-independent closed form** in N with √5 algebraic ([`f89_path3_at_locked_amplitude_symbolic.py`](../simulations/f89_path3_at_locked_amplitude_symbolic.py)):
 
     sigs[F_a:E_2](N) = (33 + 14√5) / [9·N²(N−1)]    (mode (rate 2γ, ω = +J(√5−1)))
     sigs[F_a:E_4](N) = (33 − 14√5) / [9·N²(N−1)]    (mode (rate 2γ, ω = −J(1+√5)))
@@ -498,7 +498,7 @@ The Liouvillian L_super of any per-block dynamics decomposes over computational-
 - For 2-qubit block (k = 1): the only DE state is |11⟩ which contains both sites; **every** SE state overlaps with it. No no-overlap pairs exist. → uniform rate 2γ₀ on (SE, DE) sub-block, just like (vac, SE).
 - For (k+1)-qubit blocks with k ≥ 2: no-overlap SE-DE pairs DO exist (e.g. SE at site 0, DE at sites {1, 2} on 3 qubits). → mixed dephasing rates {2γ₀, 6γ₀} on the sub-block diagonal, coupled by H_B's off-diagonal mixing → eigenvalues land in \[2γ₀, 6γ₀\] continuum.
 
-**Numerical verification** (script `_f89c_liouvillian_eigenstructure.py`):
+**Numerical verification** (script `f89c_liouvillian_eigenstructure.py`):
 
 | Topology | Distinct decay rates Γ/γ |
 |---|---|
@@ -506,7 +506,7 @@ The Liouvillian L_super of any per-block dynamics decomposes over computational-
 | 3-qubit block (k=2) | {0, 2, 2.556, 2.889, 3.112, 3.444, 4, 6} (eight rates, including fractional) |
 | 4-qubit block (k=3) | 25 distinct rates including many fractional |
 
-For path-2 (3 qubits) the fractional rates 2.556 and 3.444 sum to 6γ₀ (likewise 2.889 + 3.112 = 6γ₀). Per-sector decomposition of L_super (verified by direct sub-block diagonalization in [`_f89c_cross_sector_pair_structure.py`](../simulations/_f89c_cross_sector_pair_structure.py)): the (SE, DE)_B sub-block alone yields rates {2.0, 3.112, 3.444, 4.0, 6.0}γ₀; the rates 2.556 and 2.889 originate in the (SE, SE)_B sub-block (single-excitation populations coupled to SE-SE off-diagonal coherences via H_B mixing).
+For path-2 (3 qubits) the fractional rates 2.556 and 3.444 sum to 6γ₀ (likewise 2.889 + 3.112 = 6γ₀). Per-sector decomposition of L_super (verified by direct sub-block diagonalization in [`f89c_cross_sector_pair_structure.py`](../simulations/f89c_cross_sector_pair_structure.py)): the (SE, DE)_B sub-block alone yields rates {2.0, 3.112, 3.444, 4.0, 6.0}γ₀; the rates 2.556 and 2.889 originate in the (SE, SE)_B sub-block (single-excitation populations coupled to SE-SE off-diagonal coherences via H_B mixing).
 
 **The pair-sum-to-6γ₀ is the Absorption Theorem's quantization combined with column-bit-flip.** Per [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), every Pauli-string eigenvalue of the dephasing super-operator is Re(λ) = −2γ₀·n_XY, where n_XY counts Pauli sites in {X, Y}. A computational-basis coherence |A⟩⟨B| decomposes per-site into pure {I, Z} (diagonal-on-site, A_l = B_l) or pure {X, Y} (off-diagonal-on-site, A_l ≠ B_l). Thus n_XY(|A⟩⟨B|) = n_diff(A, B), and the per-coherence rate is 2γ₀·n_diff: a direct application of the Absorption Theorem to the computational basis. The 2γ₀ overlap (SE, DE) rate corresponds to n_XY = 1; the 6γ₀ no-overlap rate corresponds to n_XY = 3 = N, the spectral maximum per Absorption Theorem section 4.1 for N=3.
 
@@ -516,7 +516,7 @@ For path-2 (3 qubits) the fractional rates 2.556 and 3.444 sum to 6γ₀ (likewi
 2. **Hamming complement identity**: for any N-bit strings a, b, n_diff(a, b) + n_diff(a, bar(b)) = N exactly, hence per-coherence rates transform as 2γ₀·k ↔ 2γ₀·(N−k) under the column bit-flip `ρ[a, b] → ρ[a, bar(b)]`. For N=3, that's 2γ₀·k ↔ 2γ₀·(3−k); rate-pairs sum to 2γ₀·N = 6γ₀ exactly.
 3. The column bit-flip operation maps the (SE, SE) sub-block to the (SE, DE) sub-block (via DE = bar(SE) at N=3). Combining the H_SS = H_DD invariance with the Hamming complement of dephasing rates, the (SE, DE) eigenvalues are exactly {6γ₀ − λ : λ ∈ (SE, SE) eigenvalues}.
 
-**Empirical verification** (in [`_f89c_cross_sector_pair_structure.py`](../simulations/_f89c_cross_sector_pair_structure.py)):
+**Empirical verification** (in [`f89c_cross_sector_pair_structure.py`](../simulations/f89c_cross_sector_pair_structure.py)):
 
 - (SE, SE) eigenvalues: {0, 2, 2.556, 2.889, 4}γ₀ (with multiplicities 1, 2, 2, 1, 3 → 9 modes total)
 - (DE, DE) eigenvalues: bit-exact identical to (SE, SE) (X⊗N maps (SE, SE) to (DE, DE) at N=3 directly, since X⊗N maps SE↔DE elementwise; verified H1 = True)
@@ -568,9 +568,9 @@ Each requirement is necessary; relaxing any one breaks orbit invariance:
 
 **Tier 1 derived** for the **path-3 F_a AT-locked amplitude closed form**: sigs[F_a:E_2](N) = (33 + 14√5)/[9·N²(N−1)] and sigs[F_a:E_4](N) = (33 − 14√5)/[9·N²(N−1)], q-independent, verified bit-exact (10⁻¹⁷ diff) across N=5..20 and q=0.5..3. Sum = 22/[3·N²(N−1)] is rational. F_b modes have zero per-site reduced contribution (eigenvector lives in no-overlap, w[l] requires overlap).
 
-**Tier 1 derived** for the **AT-lock mechanism generalisation to path-4, path-5**: numerical scan ([`_f89_path4_path5_at_lock_scan.py`](../simulations/_f89_path4_path5_at_lock_scan.py)) confirms 100% overlap (F_a) / 100% no-overlap (F_b) eigvec support at all AT-locked rates 2γ, 6γ. AT-locked counts grow {4, 8, 13} for path {3, 4, 5}; H_B-mixed degrees {8, 18, 32}. F_a ω matches SE-anti single-particle Bloch eigenvalues; F_b ω matches DE 2-particle Slater eigenvalues E_(j,k) = E_j + E_k (path-3 was the special case where DE=0 multiplicity 2 absorbed F_b into single-particle freqs).
+**Tier 1 derived** for the **AT-lock mechanism generalisation to path-4, path-5**: numerical scan ([`f89_path4_path5_at_lock_scan.py`](../simulations/f89_path4_path5_at_lock_scan.py)) confirms 100% overlap (F_a) / 100% no-overlap (F_b) eigvec support at all AT-locked rates 2γ, 6γ. AT-locked counts grow {4, 8, 13} for path {3, 4, 5}; H_B-mixed degrees {8, 18, 32}. F_a ω matches SE-anti single-particle Bloch eigenvalues; F_b ω matches DE 2-particle Slater eigenvalues E_(j,k) = E_j + E_k (path-3 was the special case where DE=0 multiplicity 2 absorbed F_b into single-particle freqs).
 
-**Tier 1 derived** for the **path-4 F_a AT-locked amplitude closed form** ([`_f89_path4_at_locked_amplitude_symbolic.py`](../simulations/_f89_path4_at_locked_amplitude_symbolic.py)): two F_a modes at λ = −2γ ± 2iJ (ω = ±2J = ±E_2/E_4 single-particle SE-anti Bloch at N_block=5) have rational amplitudes:
+**Tier 1 derived** for the **path-4 F_a AT-locked amplitude closed form** ([`f89_path4_at_locked_amplitude_symbolic.py`](../simulations/f89_path4_at_locked_amplitude_symbolic.py)): two F_a modes at λ = −2γ ± 2iJ (ω = ±2J = ±E_2/E_4 single-particle SE-anti Bloch at N_block=5) have rational amplitudes:
 
     sigs[F_a:E_2](N) = 45 / [4·N²(N−1)]    (mode at ω = +2J)
     sigs[F_a:E_4](N) = 5 / [4·N²(N−1)]     (mode at ω = −2J)
@@ -578,7 +578,7 @@ Each requirement is necessary; relaxing any one breaks orbit invariance:
 
 Asymmetry ratio E_high/E_low = 9 = 3² (compare path-3 where the analogous ratio was (33+14√5)/(33−14√5) ≈ 17.94, irrational). Path-4's clean rational arises because N_block+1=6 gives Bloch eigenvalues at ±2J (cos(π/3) = 1/2 exactly).
 
-**Tier 1 derived** for the **path-5 F_a AT-locked amplitude sum closed form** (Tier 2 for individual modes — Cardano-cubic radicals): path-5 (N_block=6) has 3 F_a modes corresponding to SE-anti Bloch n=2, 4, 6 with frequencies ω/J = {+2.494, −0.890, −3.604} = {4cos(2π/7), 4cos(4π/7), 4cos(6π/7)} which are roots of the irreducible cubic y³ + 2y² − 8y − 8 = 0. Numerically ([`_f89_path5_at_locked_amplitude_symbolic.py`](../simulations/_f89_path5_at_locked_amplitude_symbolic.py)):
+**Tier 1 derived** for the **path-5 F_a AT-locked amplitude sum closed form** (Tier 2 for individual modes — Cardano-cubic radicals): path-5 (N_block=6) has 3 F_a modes corresponding to SE-anti Bloch n=2, 4, 6 with frequencies ω/J = {+2.494, −0.890, −3.604} = {4cos(2π/7), 4cos(4π/7), 4cos(6π/7)} which are roots of the irreducible cubic y³ + 2y² − 8y − 8 = 0. Numerically ([`f89_path5_at_locked_amplitude_symbolic.py`](../simulations/f89_path5_at_locked_amplitude_symbolic.py)):
 
     sigs[F_a:E_2](N) ≈ 16.5745 / [N²(N−1)]    (Cardano-cubic algebraic)
     sigs[F_a:E_4](N) ≈ 2.6525  / [N²(N−1)]    (Cardano-cubic algebraic)
@@ -587,7 +587,7 @@ Asymmetry ratio E_high/E_low = 9 = 3² (compare path-3 where the analogous ratio
 
 The **sum** is rational across all three paths (path-3: 22/3; path-4: 25/2; path-5: 483/25) — Galois-conjugate radicals always cancel in symmetric polynomials of the roots. **Individual amplitudes** track the algebraic complexity of N_block+1: prime 5 (golden √5), composite 6 (rational only), prime 7 (Cardano-cubic).
 
-**Tier 1 derived** for the **path-6 F_a AT-locked amplitude closed form** ([`_f89_path6_at_locked_amplitude_symbolic.py`](../simulations/_f89_path6_at_locked_amplitude_symbolic.py)): three F_a modes at λ = −2γ + iJ·{+2√2, 0, −2√2} (= SE-anti Bloch E_2, E_4, E_6 at N_block=7 with cos(π/4) = √2/2 and cos(π/2) = 0). Closed forms in Q[√2]:
+**Tier 1 derived** for the **path-6 F_a AT-locked amplitude closed form** ([`f89_path6_at_locked_amplitude_symbolic.py`](../simulations/f89_path6_at_locked_amplitude_symbolic.py)): three F_a modes at λ = −2γ + iJ·{+2√2, 0, −2√2} (= SE-anti Bloch E_2, E_4, E_6 at N_block=7 with cos(π/4) = √2/2 and cos(π/2) = 0). Closed forms in Q[√2]:
 
     sigs[F_a:E_2](N) = 4·(3 + 2√2) / [N²(N−1)]    (mode at ω = +2√2·J)
     sigs[F_a:E_4](N) = 40 / [9·N²(N−1)]            (mode at ω = 0, rational)
@@ -628,7 +628,7 @@ All four paths (3, 4, 5, 6) admit a single template for the F_a AT-locked amplit
 
 The polynomial degree equals (F_a count − 1) = floor(N_block/2) − 1: the polynomial is determined by interpolation through the empirical values at the F_a count distinct y_n. The coefficients `(P_path, D_path)` are path-specific (no universal closed form in N_block was found from data fitting; the path-by-path coefficients reflect the cyclotomic structure of Φ_{N_block+1} but do not collapse to a simpler N_block-parametric formula).
 
-**Verification** ([`_f89_path5_cardano_cubic_individuals.py`](../simulations/_f89_path5_cardano_cubic_individuals.py) for path-5; analog scripts for path-3/4/6):
+**Verification** ([`f89_path5_cardano_cubic_individuals.py`](../simulations/f89_path5_cardano_cubic_individuals.py) for path-5; analog scripts for path-3/4/6):
 - Path-3 (F_a count 2, P degree 1): 14·y + 47 evaluated at y = √5−1 gives 33+14√5 (= 9·sigs·N²(N−1)); at y = −(1+√5) gives 33−14√5 ✓
 - Path-4 (F_a count 2, P degree 1): 10·y + 25 evaluated at y = ±2 gives 45 (E_2) and 5 (E_4) ✓
 - Path-5 (F_a count 3, P degree 2): solves linear system in y, y², y³ with three Cardano-cubic roots y_n = 4cos(2πk/7) ✓
@@ -640,7 +640,7 @@ The polynomial degree equals (F_a count − 1) = floor(N_block/2) − 1: the pol
 
 **F_b sigs ≈ 0 for all paths**: all F_b modes (rate 6γ, no-overlap) have per-site reduced amplitudes at machine zero (10⁻³⁰ to 10⁻⁶³ scale across paths 3, 4, 6 verified). The eigenvector lives entirely on no-overlap basis pairs, but the per-site reduction matrix `w[l]` requires l ∈ jk AND the OTHER element of jk to equal i (overlap condition) — which no-overlap eigenvectors fail. So F_b is universally invisible to S(t).
 
-**Tier 1 derived** for **Gal(F_8) ⊄ A_8** (Tier 2 for the conjectural non-solvability + no-radical-closure conclusion that follows): disc(F_8) in λ is a polynomial in q of degree 52 ([`_f89_path3_octic_galois.py`](../simulations/_f89_path3_octic_galois.py)):
+**Tier 1 derived** for **Gal(F_8) ⊄ A_8** (Tier 2 for the conjectural non-solvability + no-radical-closure conclusion that follows): disc(F_8) in λ is a polynomial in q of degree 52 ([`f89_path3_octic_galois.py`](../simulations/f89_path3_octic_galois.py)):
 
     disc(F_8) = 1.21·10²⁴ · q²⁴ · (3q⁴ + q² − 1)² · P_10(q²)
 
@@ -648,7 +648,7 @@ where P_10(q²) is a degree-10 polynomial in q² (degree 20 in q, even powers on
 
 #### Path-3 octic-mode amplitude q-dependence: no closed-form fit (Tier 2)
 
-For each of the 8 octic-derived modes, sigs(N) follows const(q)/[N²(N−1)] (degree-0 polynomial in N). The constant **does NOT admit a polynomial fit ≤ degree 5 in q** ([`_f89_path3_octic_amplitude_q_scan.py`](../simulations/_f89_path3_octic_amplitude_q_scan.py)):
+For each of the 8 octic-derived modes, sigs(N) follows const(q)/[N²(N−1)] (degree-0 polynomial in N). The constant **does NOT admit a polynomial fit ≤ degree 5 in q** ([`f89_path3_octic_amplitude_q_scan.py`](../simulations/f89_path3_octic_amplitude_q_scan.py)):
 
 | q | Σ_8 octic sigs · N²(N−1) | Dominant mode (largest sigs · N²(N−1)) |
 |---|---|---|
@@ -666,7 +666,7 @@ The Σ has no monotone behavior — it rises from 1.68 (q=0.5) to ≈3.0 (q=2.5�
 
 #### Path-3 octic diabolic-degeneracy location (Tier 1 derived)
 
-The (3q⁴+q²−1)² perfect-square factor of disc(F_8) locates a **diabolic degeneracy at q = √((−1+√13)/6) ≈ 0.658983** (verified bit-exact: 3q⁴+q²−1 = O(10⁻¹⁶) at this q in [`_f89_path3_ep_locator.py`](../simulations/_f89_path3_ep_locator.py)). The factor is a *perfect square* — the EP-condition (3q⁴+q²−1) appears to even multiplicity 2, a *double* zero of the discriminant in q — so the two eigenvalues cross linearly/analytically (a defective √-branch EP would force a *simple* zero); the crossing is semisimple (diabolic), confirmed artifact-free (g1=2, dep=0, ‖P‖≈3.88 finite; `_f89_jordan_definitive.py`, `inspect --root epcharacter`). Numerical sweep around q_EP identifies the merging pair: two octic eigenvalues with rates approaching 4γ and 4γ (from above and below the spectral midpoint of rate 2γ and rate 6γ) and frequencies converging to 2J. Together:
+The (3q⁴+q²−1)² perfect-square factor of disc(F_8) locates a **diabolic degeneracy at q = √((−1+√13)/6) ≈ 0.658983** (verified bit-exact: 3q⁴+q²−1 = O(10⁻¹⁶) at this q in [`f89_path3_ep_locator.py`](../simulations/f89_path3_ep_locator.py)). The factor is a *perfect square* — the EP-condition (3q⁴+q²−1) appears to even multiplicity 2, a *double* zero of the discriminant in q — so the two eigenvalues cross linearly/analytically (a defective √-branch EP would force a *simple* zero); the crossing is semisimple (diabolic), confirmed artifact-free (g1=2, dep=0, ‖P‖≈3.88 finite; `f89_jordan_definitive.py`, `inspect --root epcharacter`). Numerical sweep around q_EP identifies the merging pair: two octic eigenvalues with rates approaching 4γ and 4γ (from above and below the spectral midpoint of rate 2γ and rate 6γ) and frequencies converging to 2J. Together:
 
     λ_EP ≈ −4γ + 2iJ
 
@@ -680,7 +680,7 @@ The merged-eigenvalue rate Re(λ_EP) = −4γ sits exactly at the AT-spectral mi
 
 **Open / Tier 2 empirical work**:
 - F_a AT-locked amplitude closed forms unified across path-3..6: sigs[F_a:n](N) = P_path(y_n) / [D_path · N²(N−1)] with y_n = 4cos(πn/(N_block+1)). Path-3..6 path-specific coefficients tabulated in §"Unified closed form" above. Path-7+ extension (e.g. N_block=8, cyclotomic Φ_9) open. Path-3 octic-mode amplitude closed forms in q are conjecturally obstructed by Galois non-solvability (Tier 2 empirical: no rational/√5-extension fit ≤ degree 5 in q; formal Galois group identification beyond Gal ⊄ A_8 still open). No N_block-parametric closed form for the (P_path, D_path) coefficients was found from 4-point data fitting.
-- Path-4 and path-5 (SE, DE) symbolic characteristic-polynomial factorisations. Numerical AT-lock scan ([`_f89_path4_path5_at_lock_scan.py`](../simulations/_f89_path4_path5_at_lock_scan.py)) shows the AT-lock mechanism (eigvec overlap-only / no-overlap-only support) GENERALISES to both path-4 (N_block=5) and path-5 (N_block=6), but the F_a/F_b count asymmetry emerges:
+- Path-4 and path-5 (SE, DE) symbolic characteristic-polynomial factorisations. Numerical AT-lock scan ([`f89_path4_path5_at_lock_scan.py`](../simulations/f89_path4_path5_at_lock_scan.py)) shows the AT-lock mechanism (eigvec overlap-only / no-overlap-only support) GENERALISES to both path-4 (N_block=5) and path-5 (N_block=6), but the F_a/F_b count asymmetry emerges:
   - **Path-4** (S_2-sym dim 26): 8 AT-locked = 2 F_a + 6 F_b. F_a ω = ±3J = ±E^SE_anti (single-particle Bloch); F_b ω in {±2J(√3+1), ±2J, ±2J(√3-1)} = 2-particle DE Slater E_(j,k) = E_j + E_k. H_B-mixed sub-factor degree 18.
   - **Path-5** (S_2-sym dim 45): 13 AT-locked = 3 F_a + 10 F_b. F_a ω = ±E^SE_anti = {±E_4, ±E_2, ±E_6} = ±4J·cos(π·n/7) for n=2,4,6 (Cardano-cubic roots). F_b ω include exact-degeneracies (2 modes at -3.604, 2 at +2.494, 2 at -0.890), suggesting symmetry-protected multiplicities. H_B-mixed sub-factor degree 32.
   - The path-3 coincidence (F_a freq = F_b freq = SE-anti Bloch) was N_block=4-specific: at N_block=4, DE=0 multiplicity-2 absorbed all F_b modes into single-particle freq matching. For N_block ≥ 5, F_b modes spread across DE Slater multi-particle frequencies.

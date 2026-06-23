@@ -120,7 +120,7 @@ def d_sigma_n_d_J_uniform(k: int, n: int, N: int, J: float = 1.0) -> float:
 
 # ---------------------------------------------------------------------------
 # F86 K_b via F90 bridge: full eigendecomp + per-bond HF
-# (Lightweight reuse of _f89_to_f86_kbond_via_eigendecomp.py logic)
+# (Lightweight reuse of f89_to_f86_kbond_via_eigendecomp.py logic)
 # ---------------------------------------------------------------------------
 
 def build_se_de_full(J: float, gamma: float, n_block: int):

@@ -16,7 +16,7 @@ from pathlib import Path
 
 import numpy as np
 
-from _f89_pathk_lib import (
+from f89_pathk_lib import (
     bare_site_initial_01,
     build_block_L,
     compute_rho_block_0,
@@ -62,7 +62,7 @@ def evolve_S_total(N: int, J: float, gamma: float, t_array: np.ndarray) -> np.nd
 def closed_form_terms(N: int, J: float, gamma: float):
     """Return (eigvals, a) where a[l, k] = M_l(k)·c_k decomposes per-site
     coherence amplitudes onto L_super eigenmodes. See `closed_form_terms` in
-    `_f89_path3_multi_exp_derive.py` for the same pattern at path-3."""
+    `f89_path3_multi_exp_derive.py` for the same pattern at path-3."""
     L = build_block_L(J, gamma, N_BLOCK)
     rho_block_0 = compute_rho_block_0(N_BLOCK, N)
     vec_rho_0 = rho_block_0.flatten(order="F")

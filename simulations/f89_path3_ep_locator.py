@@ -13,8 +13,8 @@ Goals:
      means only "lam is an eigenvalue" -- it is NOT evidence of defectiveness.
      The path-3 octic degeneracy is DIABOLIC (semisimple), proven grid-free by
      the discriminant double-zero and confirmed by the nullity test
-     g1 = dim null(L - lam*I) = 2 (see _f89_jordan_definitive.py /
-     _f89_jordan_corroborate.py). The sigma_min computation below is kept only
+     g1 = dim null(L - lam*I) = 2 (see f89_jordan_definitive.py /
+     f89_jordan_corroborate.py). The sigma_min computation below is kept only
      as the eigenVALUE-coalescence locator (correct for that); it does NOT
      diagnose Jordan structure.
   5. Compare to F86's c=2 Q_EP = 1/sqrt2 ~ 0.7071: are they the same EP or different?

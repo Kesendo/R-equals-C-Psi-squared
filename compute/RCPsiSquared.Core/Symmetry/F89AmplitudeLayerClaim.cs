@@ -37,7 +37,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// p_n = P_k(y_n) / D_k bit-exactly at every (k, n) sampled in
 /// <c>F89AmplitudeLayerClaimTests</c>. The k=3 algebraic anchor
 /// <c>(33±14√5)/9</c> is the path-3 instance of the same formula
-/// (<c>simulations/_f89_path3_at_locked_amplitude_symbolic.py</c>); promotion
+/// (<c>simulations/f89_path3_at_locked_amplitude_symbolic.py</c>); promotion
 /// rests on the same Chebyshev-expansion + orbit-polynomial-reduction pipeline
 /// that closed <see cref="F89UnifiedFaClosedFormClaim"/> on 2026-05-15
 /// (<see cref="F89PathPolynomialPipeline"/>).</para>

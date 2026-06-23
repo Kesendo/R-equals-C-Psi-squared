@@ -165,7 +165,7 @@ public class F89UnifiedFaClosedFormClaimTests
         // collapses the k-self and bonus terms into one cap, giving the bonus-free form
         //   D_k = 2^max(0, ⌊(k−5)/2⌋) · k² / 2^min(v₂(k), 2).
         // See PROOF_F89_PATH_D_CLOSED_FORM.md § "The bonus-free form" (Python guard
-        // simulations/_f89_dk_clean_form.py covers k=3..300 and the equivalence to k=3..600).
+        // simulations/f89_dk_clean_form.py covers k=3..300 and the equivalence to k=3..600).
         // This drift-guards the identity in the canonical layer over the int-safe range k=3..46.
         for (int k = 3; k <= 46; k++)
         {

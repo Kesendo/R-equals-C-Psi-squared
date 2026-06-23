@@ -1,36 +1,19 @@
-"""F89 path-D closed-form belt-and-suspenders: k=18..24 (2026-05-13).
+"""F89 path-D closed-form verification at k=16 and k=17 (critical test, 2026-05-13).
 
-Tests the candidate formula on six additional sequential data points (k=18..23)
-and a CRITICAL second v2=3 test at k=24.
-
-Candidate formula (verified k=3..17, 15 data points):
+Tests the candidate formula extracted from k=3..15 data:
   D_k = (odd(k))^2 * 2^E(k)
   E(k) = max(0, floor((k-5)/2)) + v2(k) + max(0, v2(k)-2)
 
-Equivalently: E(k) = max(0, floor((k-5)/2)) + max(v2(k), 2*v2(k) - 2).
-
 Predictions:
-  k=18: v2=1, odd=9,  E = 6+1+0 = 7,  D = 81  * 128   = 10368
-  k=19: v2=0, odd=19, E = 7+0+0 = 7,  D = 361 * 128   = 46208
-  k=20: v2=2, odd=5,  E = 7+2+0 = 9,  D = 25  * 512   = 12800
-  k=21: v2=0, odd=21, E = 8+0+0 = 8,  D = 441 * 256   = 112896
-  k=22: v2=1, odd=11, E = 8+1+0 = 9,  D = 121 * 512   = 61952
-  k=23: v2=0, odd=23, E = 9+0+0 = 9,  D = 529 * 512   = 270848
-  k=24: v2=3, odd=3,  E = 9+3+1 = 13, D = 9   * 8192  = 73728   (CRITICAL: v2=3 bonus again)
-
-k=24 is the second v2=3 data point (first: k=8). If actual D_24=73728, the
-max(0, v2(k)-2) bonus is confirmed at TWO independent v2=3 points.
+  k=16: v2=4, odd=1, E=5+4+2=11, D = 1^2 * 2^11 = 2048
+         (critical test for max(0, v2(k)-2) bonus at v2(k)=4)
+  k=17: v2=0, odd=17, E=6+0+0=6, D = 17^2 * 2^6 = 18496
 
 Block dimensions for (SE,DE) sub-block:
-  k=18: nBlock=19, dim = 19 * C(19,2) = 19*171 = 3249
-  k=19: nBlock=20, dim = 20 * C(20,2) = 20*190 = 3800
-  k=20: nBlock=21, dim = 21 * C(21,2) = 21*210 = 4410
-  k=21: nBlock=22, dim = 22 * C(22,2) = 22*231 = 5082
-  k=22: nBlock=23, dim = 23 * C(23,2) = 23*253 = 5819
-  k=23: nBlock=24, dim = 24 * C(24,2) = 24*276 = 6624
-  k=24: nBlock=25, dim = 25 * C(25,2) = 25*300 = 7500
+  k=16: nBlock=17, dim = 17 * C(17,2) = 17*136 = 2312
+  k=17: nBlock=18, dim = 18 * C(18,2) = 18*153 = 2754
 
-Method (identical to _f89_path_d_verify_k16_k17.py which validated k=16,17):
+Method (identical to f89_path_d_structure_probe.py which validated k=3..15):
   1. Build (SE,DE) sub-block L via build_se_de_L.
   2. Eigendecompose, filter F_a modes by Re(eig) near -2*gamma.
   3. Match modes to SE-anti Bloch orbit (even n, n=2..nBlock step 2).
@@ -38,7 +21,7 @@ Method (identical to _f89_path_d_verify_k16_k17.py which validated k=16,17):
   5. Vandermonde-fit polynomial P(y); find smallest D making all coefs integral.
   6. Compare actual D vs predicted D from candidate formula.
 
-Output saved to simulations/results/_f89_path_d_extend_k18_k24.txt.
+k=16 runs FIRST (early-exit on failure to guide refinement if formula is broken).
 """
 from __future__ import annotations
 
@@ -50,8 +33,12 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).parent))
+
+# Ensure UTF-8 output on Windows (checkmarks, etc.)
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
+# Re-use the build_se_de_L + per_site_reduction_se_de from the probe script
+# (inline them here to keep this script fully self-contained and avoid import ambiguity)
 
 # ---------------------------------------------------------------------------
 # 2-adic helpers
@@ -61,11 +48,11 @@ def v2(n: int) -> int:
     """2-adic valuation of n."""
     if n <= 0:
         return 0
-    count = 0
+    v = 0
     while n % 2 == 0:
         n //= 2
-        count += 1
-    return count
+        v += 1
+    return v
 
 
 def odd_part(n: int) -> int:
@@ -93,7 +80,7 @@ def factorize(n: int) -> dict[int, int]:
 
 
 def factor_str(n: int) -> str:
-    """Compact factorization: '2^7*3^4'."""
+    """Compact factorization: '2^5*3^2'."""
     if n == 0:
         return "0"
     if n == 1:
@@ -119,7 +106,7 @@ def predicted_d(k: int) -> tuple[int, int]:
 
 
 # ---------------------------------------------------------------------------
-# (SE,DE) sub-block Liouvillian (verbatim from _f89_path_d_verify_k16_k17.py)
+# (SE,DE) sub-block Liouvillian (copied verbatim from f89_path_d_structure_probe.py)
 # ---------------------------------------------------------------------------
 
 def build_se_de_L(n_block: int, J_val: float, gamma_val: float):
@@ -127,7 +114,7 @@ def build_se_de_L(n_block: int, J_val: float, gamma_val: float):
 
     Returns (L, basis, de_pairs).
     """
-    de_pairs = [(j, kk) for j in range(n_block) for kk in range(j + 1, n_block)]
+    de_pairs = [(j, k) for j in range(n_block) for k in range(j + 1, n_block)]
     basis = [(i, jk) for i in range(n_block) for jk in de_pairs]
     n_basis = len(basis)
 
@@ -181,20 +168,20 @@ def per_site_reduction_se_de(basis: list, de_pairs: list, n_block: int) -> np.nd
 
 
 # ---------------------------------------------------------------------------
-# Parameters (match prior scripts exactly)
+# Parameters (match f89_path_d_structure_probe.py exactly)
 # ---------------------------------------------------------------------------
 J = 1.0
 GAMMA = 0.05
-N_FIXED = 9       # base N; raised to n_block + 2 if n_block + 2 > N_FIXED
+N_FIXED = 9          # base N; raised to n_block + 2 if n_block + 2 > N_FIXED
 
-FA_TOL_REL = 0.01
-BLOCH_TOL = 1e-3
+FA_TOL_REL = 0.01    # |Re(eig)/gamma + 2| < FA_TOL_REL
+BLOCH_TOL = 1e-3     # |Im(eig)/J - y_n| < BLOCH_TOL
 D_MAX = 5_000_000
 RATIONAL_TOL = 1e-3
 
 
 # ---------------------------------------------------------------------------
-# Sigma extraction (SE-anti orbit)
+# Sigma extraction (SE-anti orbit, same method as probe)
 # ---------------------------------------------------------------------------
 
 def se_anti_orbit(n_block: int) -> list[int]:
@@ -211,8 +198,8 @@ def extract_sigma_scaled(n_block: int) -> dict[int, float]:
     orbit = se_anti_orbit(n_block)
     y_targets = {n: bloch_y(n, n_block) for n in orbit}
 
-    dim = n_block * (n_block * (n_block - 1) // 2)
-    print(f"    building (SE,DE) sub-block (dim={dim})...", flush=True)
+    print(f"    building (SE,DE) sub-block (dim={n_block * n_block * (n_block - 1) // 2})...",
+          flush=True)
     L, basis, de_pairs = build_se_de_L(n_block, J, GAMMA)
 
     print(f"    eigendecomposing {L.shape[0]}x{L.shape[0]} matrix...", flush=True)
@@ -286,38 +273,31 @@ def rationalize_polynomial_D(
 
 
 # ---------------------------------------------------------------------------
-# Per-path run function
+# Main
 # ---------------------------------------------------------------------------
 
-def run_path(k: int) -> tuple[str, int | None, int, int, list[int], float]:
+def run_path(k: int) -> tuple[str, int | None, int, list[int]]:
     """Run extraction for a single path k.
 
-    Returns (verdict_symbol, actual_d, pred_d, E, coefs, wall_time_s).
-    verdict_symbol: '+' = confirmed, 'X' = broken, 'ERROR' / 'NOFOUND' = failure.
+    Returns (verdict_symbol, actual_d, pred_d, coefs).
     """
     n_block = k + 1
     orbit = se_anti_orbit(n_block)
     pred_d_val, e_val = predicted_d(k)
-    vk = v2(k)
 
-    print(f"\n  --- path k={k} (nBlock={n_block}, orbit size={len(orbit)}) ---", flush=True)
-    print(
-        f"  Predicted: E = max(0,{(k-5)//2}) + {vk} + max(0,{vk}-2)"
-        f" = {max(0,(k-5)//2)} + {vk} + {max(0,vk-2)} = {e_val}",
-        flush=True,
-    )
-    print(
-        f"  Predicted D = (odd({k}))^2 * 2^{e_val}"
-        f" = {odd_part(k)}^2 * {2**e_val} = {pred_d_val} = {factor_str(pred_d_val)}",
-        flush=True,
-    )
+    print(f"\n  --- path k={k} (nBlock={n_block}, orbit={orbit}) ---", flush=True)
+    vk = v2(k)
+    print(f"  Predicted: E={e_val} = max(0,{(k-5)//2}) + {vk} + max(0,{vk}-2) = "
+          f"{max(0,(k-5)//2)} + {vk} + {max(0,vk-2)}", flush=True)
+    print(f"  Predicted D = (odd({k}))^2 * 2^{e_val} = {odd_part(k)}^2 * 2^{e_val} = {pred_d_val}",
+          flush=True)
 
     t_start = time.perf_counter()
     sigma_scaled = extract_sigma_scaled(n_block)
     nan_ns = [n for n, vv in sigma_scaled.items() if math.isnan(vv)]
     if nan_ns:
         print(f"  ERROR: NaN sigma at orbit indices {nan_ns}", flush=True)
-        return "ERROR", None, pred_d_val, e_val, [], time.perf_counter() - t_start
+        return "ERROR", None, pred_d_val, []
 
     p_vals = [sigma_scaled[n] for n in orbit]
     y_vals = [bloch_y(n, n_block) for n in orbit]
@@ -325,216 +305,140 @@ def run_path(k: int) -> tuple[str, int | None, int, int, list[int], float]:
 
     print(f"  Rationalizing polynomial (D_max={D_MAX})...", flush=True)
     actual_d, coefs = rationalize_polynomial_D(p_vals, y_vals, D_MAX)
-    wall_time = time.perf_counter() - t_start
+    t_elapsed = time.perf_counter() - t_start
 
     if actual_d < 0:
         print(f"  ERROR: No D <= {D_MAX} found.", flush=True)
-        return "NOFOUND", None, pred_d_val, e_val, [], wall_time
+        return "NOFOUND", None, pred_d_val, []
 
     match = (actual_d == pred_d_val)
+    verdict = "CONFIRMED" if match else "BROKEN"
     symbol = "+" if match else "X"
 
     print(f"  Extracted D = {actual_d} = {factor_str(actual_d)}", flush=True)
     print(f"  Polynomial coefs (low->high): {coefs}", flush=True)
-    print(f"  Wall time: {wall_time:.1f}s", flush=True)
+    print(f"  Wall time: {t_elapsed:.1f}s", flush=True)
     if match:
-        print(
-            f"  Result: + FORMULA CONFIRMED (predicted {pred_d_val} [{factor_str(pred_d_val)}],"
-            f" actual {actual_d})",
-            flush=True,
-        )
+        print(f"  Result: {symbol} FORMULA {verdict} (predicted {pred_d_val}, actual {actual_d})",
+              flush=True)
     else:
-        print(
-            f"  Result: X FORMULA BROKEN"
-            f" -- predicted {pred_d_val} [{factor_str(pred_d_val)}],"
-            f" actual {actual_d} [{factor_str(actual_d)}]",
-            flush=True,
-        )
+        print(f"  Result: {symbol} FORMULA {verdict} -- predicted {pred_d_val} [{factor_str(pred_d_val)}],"
+              f" actual {actual_d} [{factor_str(actual_d)}]", flush=True)
         print(f"  Deviation: actual/predicted = {actual_d}/{pred_d_val}", flush=True)
         print(f"  v2(actual)={v2(actual_d)}, v2(predicted)={v2(pred_d_val)}", flush=True)
-        print(
-            f"  odd(actual)={odd_part(actual_d)}, odd(predicted)={odd_part(pred_d_val)}",
-            flush=True,
-        )
+        print(f"  odd(actual)={odd_part(actual_d)}, odd(predicted)={odd_part(pred_d_val)}", flush=True)
 
-    return symbol, actual_d, pred_d_val, e_val, coefs, wall_time
+    return symbol, actual_d, pred_d_val, coefs
 
-
-# ---------------------------------------------------------------------------
-# Target k values and pre-computed predictions table
-# ---------------------------------------------------------------------------
-
-TARGETS = [18, 19, 20, 21, 22, 23, 24]
-
-# Pre-computed expected values (for documentation; verified by predicted_d() at runtime)
-_EXPECTED = {
-    18: (7,  10368,  "v2=1, max(0,1-2)=0"),
-    19: (7,  46208,  "v2=0, bonus=0"),
-    20: (9,  12800,  "v2=2, max(0,2-2)=0"),
-    21: (8,  112896, "v2=0, bonus=0"),
-    22: (9,  61952,  "v2=1, bonus=0"),
-    23: (9,  270848, "v2=0, bonus=0"),
-    24: (13, 73728,  "v2=3, max(0,3-2)=1 CRITICAL"),
-}
-
-
-# ---------------------------------------------------------------------------
-# Main
-# ---------------------------------------------------------------------------
 
 def main() -> None:
-    header = "F89 path-D closed-form belt-and-suspenders: k=18..24"
-    print("=" * 80)
-    print(header)
-    print("=" * 80)
+    print("=" * 72)
+    print("F89 path-D closed-form verification: k=16 and k=17")
+    print("=" * 72)
     print()
-    print("Candidate formula (verified k=3..17, 15 data points):")
+    print("Candidate formula (extracted from k=3..15 data, 13 points):")
     print("  D_k = (odd(k))^2 * 2^E(k)")
     print("  E(k) = max(0, floor((k-5)/2)) + v2(k) + max(0, v2(k)-2)")
     print()
-    print("Predictions:")
-    print(f"  {'k':>4}  {'v2(k)':>5}  {'odd(k)':>6}  {'E(k)':>5}  {'Predicted D':>12}  note")
-    print("  " + "-" * 65)
-    for k in TARGETS:
-        d_pred, e = predicted_d(k)
-        vk = v2(k)
-        note = _EXPECTED[k][2]
-        print(f"  {k:>4}  {vk:>5}  {odd_part(k):>6}  {e:>5}  {d_pred:>12}  {note}")
+    print("Critical test: k=16 has v2(k)=4, bonus=max(0,4-2)=2.")
+    print("  This bonus is currently supported by only ONE data point (k=8, v2=3, bonus=1).")
+    print("  k=16 is the first v2=4 case -- if actual v2(D) != 11, the bonus formula is wrong.")
     print()
-    print("k=24 is the CRITICAL test: second v2=3 data point (first was k=8).")
-    print("  If actual D_24 = 73728 = 2^13*9, the max(0,v2-2) bonus is confirmed")
-    print("  at TWO independent v2=3 data points.")
-    print()
-    print(f"Parameters: J={J}, gamma={GAMMA}, N_fixed={N_FIXED} (raised if needed)")
+    print("Parameters:")
+    print(f"  J={J}, gamma={GAMMA}, N_fixed={N_FIXED} (raised if n_block+2 > N_fixed)")
     print(f"  D_max={D_MAX}, rationalization tol={RATIONAL_TOL}, Bloch tol={BLOCH_TOL}")
     print()
 
-    results: dict[int, tuple[str, int | None, int, int, list[int], float]] = {}
+    # Pre-print predictions
+    print("Predictions:")
+    for k in [16, 17]:
+        d_pred, e = predicted_d(k)
+        vk = v2(k)
+        print(f"  k={k}: E = max(0,{(k-5)//2}) + {vk} + max(0,{vk}-2)"
+              f" = {max(0,(k-5)//2)} + {vk} + {max(0,vk-2)} = {e}")
+        print(f"         D = {odd_part(k)}^2 * 2^{e} = {odd_part(k)**2} * {2**e} = {d_pred}")
+    print()
 
-    for k in TARGETS:
-        print("=" * 80)
-        label = "(CRITICAL: v2=3 bonus second data point)" if k == 24 else ""
-        print(f"Running k={k} {label}")
-        print("=" * 80)
-        results[k] = run_path(k)
-        sym = results[k][0]
-        wt = results[k][5]
-        print(f"\nk={k} DONE ({wt:.1f}s). Verdict: {sym}", flush=True)
-        print()
+    results: dict[int, tuple[str, int | None, int, list[int]]] = {}
+
+    # Run k=16 FIRST (critical test)
+    print("=" * 72)
+    print("Running k=16 (CRITICAL TEST for v2(k)=4 bonus) ...")
+    print("=" * 72)
+    t_wall_k16 = time.perf_counter()
+    results[16] = run_path(16)
+    t_wall_k16 = time.perf_counter() - t_wall_k16
+
+    symbol16, actual16, pred16, coefs16 = results[16]
+
+    print()
+    print(f"k=16 DONE ({t_wall_k16:.1f}s). Verdict: {symbol16}")
+    if symbol16 not in ("CONFIRMED", "+"):
+        print("  k=16 formula BROKEN. Proceeding to k=17 for additional data.")
+
+    # Run k=17
+    print()
+    print("=" * 72)
+    print("Running k=17 ...")
+    print("=" * 72)
+    t_wall_k17 = time.perf_counter()
+    results[17] = run_path(17)
+    t_wall_k17 = time.perf_counter() - t_wall_k17
+
+    symbol17, actual17, pred17, coefs17 = results[17]
+
+    print()
+    print(f"k=17 DONE ({t_wall_k17:.1f}s). Verdict: {symbol17}")
 
     # ---------------------------------------------------------------------------
     # Summary table
     # ---------------------------------------------------------------------------
     print()
-    print("=" * 80)
-    print("SUMMARY: F89 path-D closed-form verification k=18..24")
-    print("=" * 80)
+    print("=" * 72)
+    print("SUMMARY: F89 path-D closed-form verification k=16, k=17")
+    print("=" * 72)
     print()
-    col_fmt = f"  {'k':>4}  {'nBlock':>6}  {'E':>4}  {'Predicted D':>12}  {'Pred factored':>16}  {'Actual D':>12}  {'Actual factored':>16}  {'Wall(s)':>7}  verdict"
-    print(col_fmt)
-    print("  " + "-" * 105)
-
-    all_confirmed = True
-    broken_at: list[tuple[int, int, int]] = []
-
-    for k in TARGETS:
-        sym, actual_d, pred_d_val, e_val, _coefs, wt = results[k]
+    print(f"{'k':>4}  {'nBlock':>6}  {'pred D':>10}  {'pred-factored':>18}  {'actual D':>10}  {'actual-factored':>18}  verdict")
+    print("-" * 95)
+    for k, (sym, actual_d, pred_d_val, _) in results.items():
         n_block = k + 1
         pred_f = factor_str(pred_d_val)
-        actual_s = str(actual_d) if actual_d is not None else "N/A"
         actual_f = factor_str(actual_d) if actual_d is not None else "N/A"
-        if sym == "+":
-            verdict = "+ confirmed"
-        elif sym == "X":
-            verdict = "X BROKEN"
-            all_confirmed = False
-            broken_at.append((k, pred_d_val, actual_d or 0))
-        else:
-            verdict = f"  {sym}"
-            all_confirmed = False
-        print(
-            f"  {k:>4}  {n_block:>6}  {e_val:>4}  {pred_d_val:>12}  {pred_f:>16}"
-            f"  {actual_s:>12}  {actual_f:>16}  {wt:>7.1f}  {verdict}"
-        )
+        actual_s = str(actual_d) if actual_d is not None else "N/A"
+        v = f"{sym} formula confirmed" if sym == "+" else (
+            f"X formula BROKEN" if sym == "X" else f"  {sym}")
+        print(f"{k:>4}  {n_block:>6}  {pred_d_val:>10}  {pred_f:>18}  {actual_s:>10}  {actual_f:>18}  {v}")
+
+    # Overall verdict
+    both_confirmed = (symbol16 == "+") and (symbol17 == "+")
+    any_broken = (symbol16 == "X") or (symbol17 == "X")
 
     print()
-
-    # Special highlight for k=24 v2=3 bonus
-    sym24, actual24, pred24, _, _, _ = results[24]
-    v2_bonus_confirmed = (sym24 == "+")
-    print("Critical k=24 (v2=3 bonus) result:")
-    if v2_bonus_confirmed:
-        print(f"  + CONFIRMED: actual D={actual24} = {factor_str(actual24 or 0)}")
-        print("  The max(0, v2(k)-2) bonus is now confirmed at TWO v2=3 data points:")
-        print("    k=8  (v2=3, bonus=1, D=32=2^5)")
-        print("    k=24 (v2=3, bonus=1, D=73728=2^13*9)")
+    if both_confirmed:
+        print("OVERALL: + FORMULA CONFIRMED at k=16 and k=17")
+        print("  Candidate D_k = (odd(k))^2 * 2^E(k) now validated on 15 data points (k=3..17).")
+        print("  The v2(k)=4 bonus (max(0,v2(k)-2)=2) is confirmed by k=16.")
+    elif any_broken:
+        print("OVERALL: X FORMULA BROKEN at one or both test points.")
+        print("  See per-path output above for deviation analysis.")
+        # Suggest a refined formula if odd-part rule holds but v2 is off
+        if actual16 is not None and odd_part(actual16) == odd_part(pred16):
+            actual_v2_16 = v2(actual16)
+            pred_v2_16 = v2(pred16)
+            print(f"  k=16: odd-part rule holds (odd(D)={odd_part(actual16)}=1^2=1), "
+                  f"but v2(D)={actual_v2_16} vs predicted {pred_v2_16}.")
+            print(f"  Refined bonus for v2(k)=4: max(0,v2(k)-2) should be {actual_v2_16 - (max(0,(16-5)//2) + v2(16))}?")
+        if actual17 is not None and odd_part(actual17) == odd_part(pred17):
+            actual_v2_17 = v2(actual17)
+            pred_v2_17 = v2(pred17)
+            print(f"  k=17: odd-part rule holds (odd(D)={odd_part(actual17)}=17^2={17**2}), "
+                  f"but v2(D)={actual_v2_17} vs predicted {pred_v2_17}.")
     else:
-        print(f"  X NOT CONFIRMED: predicted={pred24}, actual={actual24}")
-        if actual24 is not None:
-            print(f"  v2(actual)={v2(actual24)}, odd(actual)={odd_part(actual24)}")
-            if odd_part(actual24 or 0) == odd_part(pred24):
-                delta_v2 = v2(actual24 or 0) - (v2(24) + max(0, (24-5)//2))
-                print(f"  Odd-part rule holds; v2(D)={v2(actual24)}, need bonus={delta_v2} at v2(k)=3")
+        print("OVERALL: INCONCLUSIVE (extraction errors).")
 
     print()
-
-    # Overall verdict line
-    n_data_points = 17 + 7  # k=3..17 prior + k=18..24 new
-    if all_confirmed:
-        print(
-            f"Candidate formula confirmed at all {len(TARGETS)} additional data points"
-            f" (k=18..24)."
-        )
-        print(
-            f"Formula now validated on {n_data_points} data points total (k=3..24)."
-        )
-    else:
-        fail_strs = [f"k={k} (predicted {p}, actual {a})" for k, p, a in broken_at]
-        print(f"Formula broken at: {'; '.join(fail_strs)}")
-
-    # Wall-time summary
-    total_wt = sum(results[k][5] for k in TARGETS)
-    print()
-    print("Wall-time per path:")
-    for k in TARGETS:
-        wt = results[k][5]
-        print(f"  k={k}: {wt:.1f}s")
-    print(f"  Total: {total_wt:.1f}s")
+    print(f"Wall times: k=16: {t_wall_k16:.1f}s, k=17: {t_wall_k17:.1f}s")
 
 
 if __name__ == "__main__":
-    # Tee output to file
-    out_dir = Path(__file__).parent / "results"
-    out_dir.mkdir(exist_ok=True)
-    out_file = out_dir / "_f89_path_d_extend_k18_k24.txt"
-
-    class Tee:
-        def __init__(self, *streams):
-            self._streams = streams
-
-        def write(self, data: str) -> int:
-            for s in self._streams:
-                s.write(data)
-            return len(data)
-
-        def flush(self) -> None:
-            for s in self._streams:
-                s.flush()
-
-        @property
-        def encoding(self):
-            return self._streams[0].encoding
-
-        @property
-        def errors(self):
-            return self._streams[0].errors
-
-    with open(out_file, "w", encoding="utf-8") as fh:
-        tee = Tee(sys.stdout, fh)
-        sys.stdout = tee  # type: ignore[assignment]
-        try:
-            main()
-        finally:
-            sys.stdout = tee._streams[0]  # type: ignore[assignment]
-
-    print(f"\nOutput written to: {out_file}", flush=True)
+    main()

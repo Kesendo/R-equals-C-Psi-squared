@@ -30,7 +30,7 @@ from pathlib import Path
 import numpy as np
 import sympy as sp
 
-from _f89_pathk_lib import (
+from f89_pathk_lib import (
     build_block_L,
     compute_rho_block_0,
     per_site_reduction_matrix,

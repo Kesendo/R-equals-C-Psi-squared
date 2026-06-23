@@ -31,7 +31,7 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// <para>Tier outcome: Tier2Verified. Pure numerical anatomy at a fixed Q value;
 /// the witnesses ARE the data, no derivation. Q defaults to 1.5 (away from Q_EP
 /// to avoid Jordan-block degeneracy, matches the Python convention in
-/// <c>simulations/_f89_pathk_survey.py</c>).</para>
+/// <c>simulations/f89_pathk_survey.py</c>).</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1 (c=2) +
 /// <see cref="F89UnifiedFaClosedFormClaim"/> +
@@ -164,7 +164,7 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
 
             // SpatialSumKernel.Build returns Σ_l 2·|w_l⟩⟨w_l| (factor 2 baked in;
             // see compute/RCPsiSquared.Core/Probes/SpatialSumKernel.cs:51). The F89
-            // σ convention omits this factor: per simulations/_f89_pathk_survey.py:87
+            // σ convention omits this factor: per simulations/f89_pathk_survey.py:87
             // (sig = sum |a|²) the per-site reduction stores the bare amplitude.
             // Half of (R†·S·R)[i,i] gives the correct match against F89UnifiedFaClosedForm.
             double sigma = 0.5 * overlapSq * sDiag;
@@ -257,7 +257,7 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
 
             // SpatialSumKernel.Build returns Σ_l 2·|w_l⟩⟨w_l| (factor 2 baked in;
             // see compute/RCPsiSquared.Core/Probes/SpatialSumKernel.cs:51). The F89
-            // σ convention omits this factor: per simulations/_f89_pathk_survey.py:87
+            // σ convention omits this factor: per simulations/f89_pathk_survey.py:87
             // (sig = sum |a|²) the per-site reduction stores the bare amplitude.
             // Half of (R†·S·R)[i,i] gives the correct match against F89UnifiedFaClosedForm.
             witnesses.Add(new SigmaModeWitness(
@@ -539,7 +539,7 @@ public sealed class C2FullBlockSigmaAnatomy : Claim
 /// <c>Sigma = 0.5 · ProbeOverlapSquared · SKernelDiagonal</c>.</param>
 /// <param name="Sigma">The composite F89 σ value: <c>0.5 · ProbeOverlapSquared · SKernelDiagonal</c>.
 /// The 0.5 undoes the factor-2 that <see cref="Probes.SpatialSumKernel.Build"/> bakes into
-/// the spatial-sum kernel; the F89 σ convention (per <c>simulations/_f89_pathk_survey.py</c>)
+/// the spatial-sum kernel; the F89 σ convention (per <c>simulations/f89_pathk_survey.py</c>)
 /// omits that factor.</param>
 /// <param name="BlochIndexN">Assigned S_2-anti Bloch index n if this is an F_a mode
 /// (Re(λ) ≈ −2γ₀ and Im(λ)/J matches y_n); <c>null</c> otherwise.</param>

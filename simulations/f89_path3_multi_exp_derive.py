@@ -20,7 +20,7 @@ from pathlib import Path
 
 import numpy as np
 
-from _f89_pathk_lib import (
+from f89_pathk_lib import (
     bare_site_initial_01,
     build_block_L,
     compute_rho_block_0,

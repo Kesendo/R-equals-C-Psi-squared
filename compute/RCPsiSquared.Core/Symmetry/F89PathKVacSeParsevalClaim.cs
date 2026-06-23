@@ -18,7 +18,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>Derivation, smooth-backbone formula for arbitrary topology, and
 /// per-(k,N) verification: see <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c>
 /// § "Path-k (vac, SE) self-contribution" and
-/// <c>simulations/_f89_vac_se_parseval_closed.py</c>.</para></summary>
+/// <c>simulations/f89_vac_se_parseval_closed.py</c>.</para></summary>
 public sealed class F89PathKVacSeParsevalClaim : Claim
 {
     public F89TopologyOrbitClosure F89 { get; }
@@ -49,7 +49,7 @@ public sealed class F89PathKVacSeParsevalClaim : Claim
         : base("F89 path-k (vac, SE) self-contribution: S^(vac,SE)_block(t; k, N) = (k+1)(N−k−1)²/(N²(N−1))·exp(−4γ₀t); pure exp(−4γ₀t), no oscillation, via Parseval orthogonality of H_B^SE Bloch eigenstates",
                Tier.Tier1Derived,
                "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
-               "simulations/_f89_vac_se_parseval_closed.py + " +
+               "simulations/f89_vac_se_parseval_closed.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F89TopologyOrbitClosure.cs")
     {
         F89 = f89 ?? throw new ArgumentNullException(nameof(f89));

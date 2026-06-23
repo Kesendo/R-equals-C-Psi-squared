@@ -15,7 +15,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>The discriminant of F_8 in λ has a perfect-square factor
 /// (3q⁴+q²−1)² which locates the degeneracy. Numerically verified via
-/// <c>simulations/_f89_path3_ep_locator.py</c>: at q = q_EP, two octic
+/// <c>simulations/f89_path3_ep_locator.py</c>: at q = q_EP, two octic
 /// eigenvalues coalesce to machine precision (pair distance ≈ 6.79·10⁻¹⁵)
 /// at λ_EP = −4γ + 2iJ.</para>
 ///
@@ -46,11 +46,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// a Jordan block); NOT "normal". The eigenVALUE double root and
 /// λ_EP = −4γ + 2iJ stand; only the eigenVECTOR-coalescence (defective)
 /// reading failed. See <c>inspect --root epcharacter</c> (EpCharacter) and
-/// <c>simulations/_f89_jordan_definitive.py</c>.</para>
-/// <para>Anchors: <c>simulations/_f89_path3_octic_galois.py</c> (disc
-/// factorisation), <c>simulations/_f89_path3_ep_locator.py</c> (numerical
-/// degeneracy location), <c>simulations/_f89_jordan_definitive.py</c> +
-/// <c>_f89_jordan_corroborate.py</c> (the diabolic-character verdict),
+/// <c>simulations/f89_jordan_definitive.py</c>.</para>
+/// <para>Anchors: <c>simulations/f89_path3_octic_galois.py</c> (disc
+/// factorisation), <c>simulations/f89_path3_ep_locator.py</c> (numerical
+/// degeneracy location), <c>simulations/f89_jordan_definitive.py</c> +
+/// <c>f89_jordan_corroborate.py</c> (the diabolic-character verdict),
 /// <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c>
 /// § "Path-3 octic diabolic-degeneracy location".</para></summary>
 public sealed class F89Path3OcticEpClaim : Claim
@@ -80,8 +80,8 @@ public sealed class F89Path3OcticEpClaim : Claim
         : base("F89 path-3 octic diabolic degeneracy (semisimple) at q² = (−1+√13)/6, q ≈ 0.658983, with merged eigenvalue λ_EP = −4γ + 2iJ; Re(λ_EP) = −4γ sits at the AT-spectral midpoint of rate 2γ (overlap) and rate 6γ (no-overlap)",
                Tier.Tier1Derived,
                "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
-               "simulations/_f89_path3_octic_galois.py + " +
-               "simulations/_f89_path3_ep_locator.py + " +
+               "simulations/f89_path3_octic_galois.py + " +
+               "simulations/f89_path3_ep_locator.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs")
     {
         F89 = f89 ?? throw new ArgumentNullException(nameof(f89));

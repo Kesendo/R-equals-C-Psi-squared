@@ -13,7 +13,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Derivation, empirical anchor, and reduction-of-open-work argument:
 /// see <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c> § "Mixed-topology
-/// additive identity" and <c>simulations/_f89_mixed_topology_additive.py</c>.</para></summary>
+/// additive identity" and <c>simulations/f89_mixed_topology_additive.py</c>.</para></summary>
 public sealed class F89AdditiveIdentityClaim : Claim
 {
     public F89TopologyOrbitClosure F89 { get; }
@@ -78,7 +78,7 @@ public sealed class F89AdditiveIdentityClaim : Claim
         : base("F89 mixed-topology additive identity: S_T(t) = Σ_i S_(k_i)(t) − (m−1)·N·S_bare(t; N), with S_bare = (N−1)/N²·exp(−4γ₀t); reduces 14 per-class closed forms to 6 pure-path-k forms + 1 rule",
                Tier.Tier1Derived,
                "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
-               "simulations/_f89_mixed_topology_additive.py + " +
+               "simulations/f89_mixed_topology_additive.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F89TopologyOrbitClosure.cs")
     {
         F89 = f89 ?? throw new ArgumentNullException(nameof(f89));

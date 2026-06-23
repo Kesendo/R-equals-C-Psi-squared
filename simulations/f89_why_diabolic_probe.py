@@ -15,7 +15,7 @@ THE HYPOTHESIS under test (free-fermion structure):
   scalar lam*I (no coupling) at gamma=1. WHAT prevents the dephasing from coupling
   these two specific modes?
 
-Model (reference: simulations/_f89_jordan_definitive.py):
+Model (reference: simulations/f89_jordan_definitive.py):
   24-dim (SE site i in 0..3 ; DE pair jk among the 6 unordered pairs) block.
   L = -i*M_SE(ket) + i*M_DE(bra) + D, D = -2g*Hamming = -6g*I + 4g*P_overlap.
   gamma = 1, J = q.   q_EP = sqrt((-1+sqrt13)/6),  lam_EP = -4g + 2iJ.
@@ -87,7 +87,7 @@ def build_L(J, gamma):
 
 
 def build_L_reference(J, gamma):
-    """Per-element build copied from _f89_jordan_definitive.py (sign/convention
+    """Per-element build copied from f89_jordan_definitive.py (sign/convention
     cross-check so the tensor build is not trusted blindly)."""
     MSE, MDE = m_se(J), m_de(J)
     L = np.zeros((24, 24), dtype=complex)

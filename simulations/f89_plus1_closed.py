@@ -6,7 +6,7 @@ The cap proof (PROOF_F89_PATH_D_CLOSED_FORM.md, two-route chain) reduced everyth
 underived input: val2(L~), where L~ is the leading coefficient of (numerator mod Phi_c), and
 the '+1' is the claim that the leading reduction step adds exactly one factor of 2.
 
-This file closes that val2(L~) part. Via the node identities of _f89_plus1_scout.py
+This file closes that val2(L~) part. Via the node identities of f89_plus1_scout.py
 (G(c_j) = S1^2 S2; S1 = m cot for odd k, (m/2) cot for even k after the pull-out;
 L~ = sum_j G(c_j)/Phi'(c_j), the codifferent trace), L~ has a closed form:
 

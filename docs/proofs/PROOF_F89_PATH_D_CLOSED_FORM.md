@@ -3,7 +3,7 @@
 **Status:** Tier-1-Derived (2026-05-15). Closed-form `(P_k, D_k)` derived algebraically via Chebyshev-expansion + orbit-polynomial-reduction pipeline, now available as a native C# runtime (`compute/RCPsiSquared.Core/Symmetry/F89PathPolynomialPipeline.cs`, exposed via `F89UnifiedFaClosedFormClaim.ComputePathPolynomialBig`). Verified bit-exact k=3..46 (44/44 match against the cached `PathPolynomial` tabulation and `PredictDenominator` formula); extends past the int.MaxValue boundary at k=47 (D_47 = 4,632,608,768 > 2^31−1). The three open Gaps (poly-degree term, k-self 2-adic, deep-2-power bonus) are all closed by the structural derivation.
 **Date:** 2026-05-13 (Tier-1-Candidate); 2026-05-14 (two-layer framing); 2026-05-15 (Tier-1-Derived closure + native C# pipeline)
 **Native runtime:** `compute/RCPsiSquared.Core/Symmetry/F89PathPolynomialPipeline.cs` (exact BigInteger / BigRational arithmetic; no floating-point approximation). Original prototype: `simulations/f89_pathk_symbolic_derivation.py` (sympy-based, retained as cross-check probe).
-**Probe scripts:** `simulations/_f89_path_d_theory_probe.py`, `simulations/_f89_path_d_structure_probe.py`, `simulations/_f89_path_d_verify_k16_k17.py`, `simulations/_f89_path_d_extend_k18_k24.py`, `simulations/f89_pathk_symbolic_derivation.py` (Tier-1-Derived closure prototype)
+**Probe scripts:** `simulations/f89_path_d_theory_probe.py`, `simulations/f89_path_d_structure_probe.py`, `simulations/f89_path_d_verify_k16_k17.py`, `simulations/f89_path_d_extend_k18_k24.py`, `simulations/f89_pathk_symbolic_derivation.py` (Tier-1-Derived closure prototype)
 
 ---
 
@@ -156,33 +156,33 @@ D_k = 2^{max(0, ⌊(k−5)/2⌋)} · k² / 2^{min(v2(k), 2)}.
 
 In this form the "deep-2-power bonus" does not appear at all. There are not three contributions, there are two: the Chebyshev degree-growth 2-power 2^{⌊(k−5)/2⌋} (untouched), and a single k² from the eigenvector 1/√k normalisation squared (p_n = |S_c|²·‖Mv‖²/2 carries 1/k from S_c and 1/k from Mv), of which at most a factor of 4 cancels. The cancellation caps at 2^{min(v2,2)}: odd k cancels nothing (k²), k ≡ 2 (mod 4) cancels one factor (k²/2), and 4 | k cancels two (k²/4 = (k/2)²) no matter how many further factors of 2 the chain length carries. The "2-adic over-divisibility chain" was the shadow this single cap casts when forced through the odd(k)² base.
 
-Verified bit-exact against the full table k=3..300 and proved algebraically equivalent to the three-term E(k) for k=3..600 by `simulations/_f89_dk_clean_form.py`. The structural question this leaves, why the k² eigenvector-norm loses exactly 2^{min(v2,2)}, is answered down to one isolated integer-valuation lemma in the next subsection.
+Verified bit-exact against the full table k=3..300 and proved algebraically equivalent to the three-term E(k) for k=3..600 by `simulations/f89_dk_clean_form.py`. The structural question this leaves, why the k² eigenvector-norm loses exactly 2^{min(v2,2)}, is answered down to one isolated integer-valuation lemma in the next subsection.
 
 ### Why the cap is 2^{min(v2,2)}: a rigorous reduction chain modulo one integer-valuation lemma (2026-06-04)
 
 The cap was attacked from two independent directions: a c = y/4 Newton-polygon / residue-equality route, and a u = y/2 Washington / codifferent-trace route. They converge on the same reduced statement and the same single residual lemma, strong evidence the account is correct. Both reduce v2(D_k) to the 2-adic valuation of ONE integer: the leading coefficient of the reduced integer numerator (L̃, the leading coefficient of G̃ mod Φ_c in the c-variable; equivalently Rm_top of Nint mod Φ_u in the u-variable). Each step below is separately verified bit-exact for v2(k) = 0..6.
 
-1. **Residue equality (rigorous).** The reduced amplitude is the unique degree-(FA−1) interpolant of p_n through the FA orbit points; written in y or in c = y/4 it is one polynomial rescaled, so v2(D_k) = max_d (2d − val₂[c^d]P_c), with val₂ the signed 2-adic valuation. [`simulations/_f89_capA_residue.py`]
+1. **Residue equality (rigorous).** The reduced amplitude is the unique degree-(FA−1) interpolant of p_n through the FA orbit points; written in y or in c = y/4 it is one polynomial rescaled, so v2(D_k) = max_d (2d − val₂[c^d]P_c), with val₂ the signed 2-adic valuation. [`simulations/f89_capA_residue.py`]
 
-2. **The κ² survives untouched (rigorous).** For even k the pull-out gives p_n = 2/((κ+1)²·κ²)·G̃(c) with G̃ ∈ ℤ[c], κ = k/2, m = 2(κ+1). Because κ is coprime to m and the orbit / Chebyshev structure lives entirely in the m-world, the reduction cannot touch the 1/κ²; the c-reduced denominator is exactly κ². [`simulations/_f89_capA_kappa_survives.py`]
+2. **The κ² survives untouched (rigorous).** For even k the pull-out gives p_n = 2/((κ+1)²·κ²)·G̃(c) with G̃ ∈ ℤ[c], κ = k/2, m = 2(κ+1). Because κ is coprime to m and the orbit / Chebyshev structure lives entirely in the m-world, the reduction cannot touch the 1/κ²; the c-reduced denominator is exactly κ². [`simulations/f89_capA_kappa_survives.py`]
 
-3. **The cap mechanism (rigorous identity).** Linearity of the reduction gives s_top = 1 − 2·v2(κ) − 2·v2(κ+1) + val₂(L̃) (c-route), equivalently the master valuation identity v2(D_k) = (2·v2(m) + 2·v2(k) − 1) + s2 + (FA−1) − v2(Rm_top) (u-route, s2 the Chebyshev clearing power). The entire v2(k)-dependence sits in the explicit prefactor 1/((κ+1)²·κ²); the reduction of the integer numerator contributes only a v2-independent constant. This is why the cancellation saturates at 2: 4|k removes the full κ²-content once, and no higher power of 2 in the chain length can buy more. [`simulations/_f89_capA_stop_derive.py`, `simulations/_f89_capB_chain.py`]
+3. **The cap mechanism (rigorous identity).** Linearity of the reduction gives s_top = 1 − 2·v2(κ) − 2·v2(κ+1) + val₂(L̃) (c-route), equivalently the master valuation identity v2(D_k) = (2·v2(m) + 2·v2(k) − 1) + s2 + (FA−1) − v2(Rm_top) (u-route, s2 the Chebyshev clearing power). The entire v2(k)-dependence sits in the explicit prefactor 1/((κ+1)²·κ²); the reduction of the integer numerator contributes only a v2-independent constant. This is why the cancellation saturates at 2: 4|k removes the full κ²-content once, and no higher power of 2 in the chain length can buy more. [`simulations/f89_capA_stop_derive.py`, `simulations/f89_capB_chain.py`]
 
-4. **Per-class collapse (rigorous algebra).** Substituting v2(m) = 0 (odd k), v2(m) ≥ 2 (k ≡ 2 mod 4), v2(m) = 1 (4|k), all three classes collapse to v2(D_k) = polydeg + 2·v2(k) − min(v2(k),2). [`simulations/_f89_capB_crosscheck.py`]
+4. **Per-class collapse (rigorous algebra).** Substituting v2(m) = 0 (odd k), v2(m) ≥ 2 (k ≡ 2 mod 4), v2(m) = 1 (4|k), all three classes collapse to v2(D_k) = polydeg + 2·v2(k) − min(v2(k),2). [`simulations/f89_capB_crosscheck.py`]
 
 Two rigorous sub-results fall out on the way. A(0) = m exactly for k ≡ 2 (mod 4): the alternating arithmetic series A(0) = Σ_i (−1)^i (k − 4i) collapses to m (and A(0) = 0 for 4|k), which is what injects the chain-length 2-content 2·v2(m). And v2(Rm_top) is not the orbit different's valuation (odd k has v2(disc Φ) = 0 yet v2(Rm_top) = 5), confirming the cap is a numerator-specific cancellation, not a Galois invariant, consistent with Angle B above.
 
-**The two remaining inputs, both resolved below.** Verified bit-exact (v2 = 0..6): (i) for k ≥ 5 the maximal coefficient-denominator sits at the top degree FA−1 (top-degree dominance; k = 3, 4 are genuine exceptions where the constant term carries it, handled as base cases), and (ii) the leading reduction step contributes exactly one extra factor of 2: val₂(L̃) = (FA−1) + 1 for odd k and 4|k (and (FA−1) + 2·v2(κ+1) for k ≡ 2 mod 4), equivalently v2(Rm_top) = 5, which is 4 from clearing (4 − u²)²/16 plus this single "+1". The "+1" being exactly one is what caps the cancellation at min(v2,2). Part (ii), val₂(L̃), is closed two subsections below (an explicit closed form for L̃ reduces it to an elementary congruence); part (i), top-degree dominance, is proven for odd k and 4|k and reduced to a single 2-adic sub-case for k ≡ 2 mod 4 in the subsection after that. Chain probes: `simulations/_f89_capA_mastertable.py` (c-route), `simulations/_f89_capB_chain.py` + `simulations/_f89_capB_crosscheck.py` (u-route); per-lemma verifications in the other `_f89_capA_*` / `_f89_capB_*` files.
+**The two remaining inputs, both resolved below.** Verified bit-exact (v2 = 0..6): (i) for k ≥ 5 the maximal coefficient-denominator sits at the top degree FA−1 (top-degree dominance; k = 3, 4 are genuine exceptions where the constant term carries it, handled as base cases), and (ii) the leading reduction step contributes exactly one extra factor of 2: val₂(L̃) = (FA−1) + 1 for odd k and 4|k (and (FA−1) + 2·v2(κ+1) for k ≡ 2 mod 4), equivalently v2(Rm_top) = 5, which is 4 from clearing (4 − u²)²/16 plus this single "+1". The "+1" being exactly one is what caps the cancellation at min(v2,2). Part (ii), val₂(L̃), is closed two subsections below (an explicit closed form for L̃ reduces it to an elementary congruence); part (i), top-degree dominance, is proven for odd k and 4|k and reduced to a single 2-adic sub-case for k ≡ 2 mod 4 in the subsection after that. Chain probes: `simulations/f89_capA_mastertable.py` (c-route), `simulations/f89_capB_chain.py` + `simulations/f89_capB_crosscheck.py` (u-route); per-lemma verifications in the other `_f89_capA_*` / `_f89_capB_*` files.
 
 ### The leading coefficient L̃ in closed form: the "+1" made elementary (2026-06-04)
 
-Part (ii), val₂(L̃), closes. L̃ is the leading coefficient of the reduced integer numerator, equal to the codifferent trace L̃ = Σ_j G(c_j)/Φ'(c_j) over the orbit nodes c_j = cos(2πj/m), j = 1..FA. Three node identities (verified to ~1e-55 in `simulations/_f89_plus1_scout.py`) make it explicit:
+Part (ii), val₂(L̃), closes. L̃ is the leading coefficient of the reduced integer numerator, equal to the codifferent trace L̃ = Σ_j G(c_j)/Φ'(c_j) over the orbit nodes c_j = cos(2πj/m), j = 1..FA. Three node identities (verified to ~1e-55 in `simulations/f89_plus1_scout.py`) make it explicit:
 
 - At a node θ = 2πj/m the sin-denominators of U_j(cos θ) = sin((j+1)θ)/sin θ cancel against (1−c²)² = sin⁴θ, so G(c_j) = S₁(θ)²·S₂(θ), with S₁ = Σ_i (m−2i) sin(iθ) (odd k), the pulled-out Σ_i (m/2 − i) sin(iθ) (even k), and S₂ the matching squared sum.
 - The first sum closes: S₁(θ_j) = m·cot(πj/m) (odd k), (m/2)·cot(πj/m) (even k), from Σ_i i·sin(iθ_j) = −(m/2)·cot(πj/m).
 - For odd m, T_m(c) − 1 = 2^{m−1}(c−1)·Φ(c)², so Φ'(c_j)² = −m²/(2^m (c_j−1)(1−c_j²)): the 2^m is the codifferent's 2-adic carrier.
 
-Summing the trace gives a closed form for L̃ (bit-exact k = 3..51, `simulations/_f89_plus1_closed.py`):
+Summing the trace gives a closed form for L̃ (bit-exact k = 3..51, `simulations/f89_plus1_closed.py`):
 
 ```
 odd  k:  L̃ = 2^{FA−2} · m²     · (m² + 3),          m = k + 2
@@ -210,7 +210,7 @@ Two node-identity collapses, sharing the trigonometric core of the L̃ lemma, re
 
 **Residual for k ≡ 2 mod 4.** Now Φ_u(0) = 0, u is a zero-divisor (Φ_u = u·Ψ), and the argument yields only u²·W ≡ 0 (mod (4, Φ_u)); deducing W ≡ 0 needs one more 2-adic step. The CRT splitting ℤ₂[u]/Φ_u ≅ ℤ₂ × ℤ₂[u]/Ψ handles the unit part, leaving the kernel sub-case m = 2^a (k = 6, 14, 30, 62, …) as the single open point, verified bit-exact k = 6..42.
 
-So top-degree dominance is rigorous for odd k and 4|k, and reduced to one 2-adic cancellation in the m = 2^a sub-case for k ≡ 2 mod 4. The entire 2-adic valuation v2(D_k) is then proven except (a) the two L̃ closed forms (bit-exact k=3..51, with elementary v2) and (b) this single m = 2^a sub-case. Two independent routes reach the same residual: `simulations/_f89_edgeA_*` (the Lemma 1 / Lemma 2 / unit closure above) and `simulations/_f89_edgeB_*` (a Newton-polygon / integer-divisibility route: F1 v2(R_0)=3, F2 16|R_d for d≥1), with the cost profile in `simulations/_f89_edge_scout.py`.
+So top-degree dominance is rigorous for odd k and 4|k, and reduced to one 2-adic cancellation in the m = 2^a sub-case for k ≡ 2 mod 4. The entire 2-adic valuation v2(D_k) is then proven except (a) the two L̃ closed forms (bit-exact k=3..51, with elementary v2) and (b) this single m = 2^a sub-case. Two independent routes reach the same residual: `simulations/_f89_edgeA_*` (the Lemma 1 / Lemma 2 / unit closure above) and `simulations/_f89_edgeB_*` (a Newton-polygon / integer-divisibility route: F1 v2(R_0)=3, F2 16|R_d for d≥1), with the cost profile in `simulations/f89_edge_scout.py`.
 
 ---
 
@@ -235,7 +235,7 @@ p_n = |S_c(n)|^2 * ||Mv(n)||^2 / 2
 
 **Path-3 exact derivation** (k=3, n_block=4, m=5):
 
-From `F89_TOPOLOGY_ORBIT_CLOSURE.md` and `simulations/_f89_path3_at_locked_amplitude_symbolic.py`:
+From `F89_TOPOLOGY_ORBIT_CLOSURE.md` and `simulations/f89_path3_at_locked_amplitude_symbolic.py`:
 
 - F_a eigenvector entries: A = sqrt((5+√5)/60), B = sqrt((5−√5)/60) on 12 overlap pairs (6 of each amplitude).
 - For n=2 (y_2 = √5−1 = 1.2361):
@@ -311,12 +311,12 @@ Structural observation: disc(p_α) primes ⊆ primes(m) (cyclotomic ramification
 ## Cross-References
 
 - **F89 orbit-closure experiments:** `experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md`
-- **Path-3 symbolic amplitude verification:** `simulations/_f89_path3_at_locked_amplitude_symbolic.py`
-- **Structure probe (k=3..15 extraction):** `simulations/_f89_path_d_structure_probe.py`
-- **Theory probe (angles A-D):** `simulations/_f89_path_d_theory_probe.py`
-- **Extension k=18..24:** `simulations/_f89_path_d_extend_k18_k24.py`
-- **Verification k=16,17 (deep-2-power bonus):** `simulations/_f89_path_d_verify_k16_k17.py`
-- **F89 polynomial extraction attempt:** `simulations/_f89_path7_polynomial_extraction.py` (negative result: eigenvector-max proxy too crude; blocked on correct probe-overlap matrix elements)
+- **Path-3 symbolic amplitude verification:** `simulations/f89_path3_at_locked_amplitude_symbolic.py`
+- **Structure probe (k=3..15 extraction):** `simulations/f89_path_d_structure_probe.py`
+- **Theory probe (angles A-D):** `simulations/f89_path_d_theory_probe.py`
+- **Extension k=18..24:** `simulations/f89_path_d_extend_k18_k24.py`
+- **Verification k=16,17 (deep-2-power bonus):** `simulations/f89_path_d_verify_k16_k17.py`
+- **F89 polynomial extraction attempt:** `simulations/f89_path7_polynomial_extraction.py` (negative result: eigenvector-max proxy too crude; blocked on correct probe-overlap matrix elements)
 
 ---
 

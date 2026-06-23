@@ -70,7 +70,7 @@ public class F89Path3SeDeFactorisationClaimTests
     public void OcticIsIrreducibleOverQiSqrt5_AsDocumentedFact()
     {
         // The octic F_8 is irreducible over Q[i, √5] per
-        // simulations/_f89_path3_octic_factor_test.py (sympy verification).
+        // simulations/f89_path3_octic_factor_test.py (sympy verification).
         // Documented external fact (Tier 1 derived).
         Assert.True(F89Path3SeDeFactorisationClaim.OcticIsIrreducibleOverQiSqrt5);
     }
