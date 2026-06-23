@@ -35,7 +35,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para><b>F87 orthogonality (derived 2026-06-10)</b>: F87 (dissipator-resonance
 /// trichotomy) and F112 are orthogonal axes on the shared bit_b Z₂-grading of the
 /// Pauli group, derived in three parts (previously empirical at N=3 via
-/// `simulations/_polarity_probe_f87_connection.py`): (a) scope inclusion: every F87
+/// `simulations/polarity_probe_f87_connection.py`): (a) scope inclusion: every F87
 /// input (Hermitian Pauli H + pure Z-dephasing, single-Pauli c = Z_l hence trivially
 /// bit_b-homogeneous) satisfies this Claim's hypotheses, so the F112 asymmetry is
 /// identically zero on F87's entire domain, all three trichotomy classes; (b) mechanism
@@ -280,8 +280,8 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
                "docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md + " +
                "docs/proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md + " +
                "simulations/framework/diagnostics/polarity_coordinates.py + " +
-               "simulations/_polarity_proof_verify.py + simulations/_polarity_step5_stress.py + " +
-               "simulations/_polarity_probe_f87_connection.py + " +
+               "simulations/polarity_proof_verify.py + simulations/polarity_step5_stress.py + " +
+               "simulations/polarity_probe_f87_connection.py + " +
                "simulations/f112_f87_orthogonality.py + " +
                "simulations/_f112_universal_n_proof_verify.py")
     {
@@ -312,8 +312,8 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
                          "maps Π +i ↔ Π −i bijectively while preserving Frobenius (Lemma A); combining gives " +
                          "‖L_{H,+i}‖² = ‖L_{H,-i}‖². ∎");
             yield return new InspectableNode("Empirical anchor",
-                summary: "14 probes in simulations/_polarity_probe_*.py, _polarity_proof_verify.py, " +
-                         "_polarity_step5_stress.py: candidate-breakers (1-5), hand-engineered non-Lindblad " +
+                summary: "14 probes in simulations/_polarity_probe_*.py, polarity_proof_verify.py, " +
+                         "polarity_step5_stress.py: candidate-breakers (1-5), hand-engineered non-Lindblad " +
                          "L (6), random c with full Pauli rank (7-8), k_max boundary (9), exhaustive 136-pair " +
                          "N=2 enumeration (10), coefficient sweep (11), Z₂³-cell N=3, 4 scaling (12, 171 / 171 " +
                          "balanced within-cell), Π²-content verification (13, 100.00% Π²=+1 for bit_b-homogeneous " +

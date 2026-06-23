@@ -8,7 +8,7 @@
 - F63 ([L, Π²] = 0 for Z-dephasing; `docs/ANALYTICAL_FORMULAS.md` F63 entry)
 - F108 Part 1 ([PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md)); shared bit_b Z₂ grading
 - `polarity_coordinates_from_L` primitive (`simulations/framework/diagnostics/polarity_coordinates.py`, added 2026-05-25)
-- F87 dissipator-resonance law (orthogonal axis; first observed via `simulations/_polarity_probe_f87_connection.py`, derived 2026-06-10 in the dated section below)
+- F87 dissipator-resonance law (orthogonal axis; first observed via `simulations/polarity_probe_f87_connection.py`, derived 2026-06-10 in the dated section below)
 
 ## Abstract
 
@@ -51,15 +51,15 @@ bit-exactly (machine precision), for any choice of complex coefficients in each 
 ## Empirical anchors
 
 - Probes 1-5 (2026-05-25): five candidate-breakers across various standard Lindblad L (single-Pauli or low-Pauli-rank c), all preserve balance bit-exact.
-- Probe 6 (2026-05-26, `_polarity_probe_pi_eigenmode.py`): hand-engineered L outside Lindblad form, balance broken with asymmetry = ‖M‖²/2 exact.
-- Probes 7-8 (`_polarity_probe_random_lindblad.py`, `_polarity_probe_real_or_imag.py`): random c (full Pauli rank, NOT bit_b-homogeneous) break balance across 240 random configurations.
-- Probe 9 (`_polarity_probe_pauli_rank.py`): k_max boundary search; k_pauli = 1 always preserves, k_pauli ≥ 2 selection-dependent.
-- Probe 10 (`_polarity_probe_pair_enumeration.py`): at N=2, exhaustive 136 Pauli-pair enumeration with fixed coefficients (1, i) preserves balance for every pair; with random coefficients (probe 11), the structural axis emerges.
-- Probe 11 (`_polarity_probe_coefficients.py`): coefficient sweep at N=2 reveals two pair classes: same Z₂³ cell preserves for all coefficients; cross-cell conditional.
-- Probe 12 (`_polarity_probe_z2cubed_scaling.py`): pattern scales to N=3, N=4. Sweep A (within Z₂³ cell, random complex coefs) gives 27/27, 72/72, 72/72 BALANCED. Sweep B (cross-cell) splits exactly by bit_b parity match: same-bit_b cells preserve, cross-bit_b cells break. The Z₂³-cell structure reduces to the single Z₂ axis of bit_b.
-- Probe 13 (`_polarity_proof_verify.py`, the Step 2 numerical check): bit_b-homogeneous c gives `np.kron(c, c.conj())` entirely in Π²-conj +1 eigenspace (100.00% at N=2, 3; mixed-bit_b c splits ~50/50 between Π² eigenspaces).
-- Probe 14 (`_polarity_step5_stress.py`): direct Π-eigenspace projection of L_H for 30 random H configurations (10 Hermitian Pauli + 10 non-Hermitian Pauli + 10 random complex matrix) at N=2, 3. All 30 give ‖L_H,+i‖² = ‖L_H,-i‖² bit-exact.
-- Probe (F87 connection, `_polarity_probe_f87_connection.py`): all three F87 trichotomy classes (truly, soft, hard) at N=3 under standard Z-deph give asymmetry = 0 bit-exact. F112 polarity balance is insensitive to F87 trichotomy; the two are orthogonal axes on the bit_b Z₂-grading.
+- Probe 6 (2026-05-26, `polarity_probe_pi_eigenmode.py`): hand-engineered L outside Lindblad form, balance broken with asymmetry = ‖M‖²/2 exact.
+- Probes 7-8 (`polarity_probe_random_lindblad.py`, `polarity_probe_real_or_imag.py`): random c (full Pauli rank, NOT bit_b-homogeneous) break balance across 240 random configurations.
+- Probe 9 (`polarity_probe_pauli_rank.py`): k_max boundary search; k_pauli = 1 always preserves, k_pauli ≥ 2 selection-dependent.
+- Probe 10 (`polarity_probe_pair_enumeration.py`): at N=2, exhaustive 136 Pauli-pair enumeration with fixed coefficients (1, i) preserves balance for every pair; with random coefficients (probe 11), the structural axis emerges.
+- Probe 11 (`polarity_probe_coefficients.py`): coefficient sweep at N=2 reveals two pair classes: same Z₂³ cell preserves for all coefficients; cross-cell conditional.
+- Probe 12 (`polarity_probe_z2cubed_scaling.py`): pattern scales to N=3, N=4. Sweep A (within Z₂³ cell, random complex coefs) gives 27/27, 72/72, 72/72 BALANCED. Sweep B (cross-cell) splits exactly by bit_b parity match: same-bit_b cells preserve, cross-bit_b cells break. The Z₂³-cell structure reduces to the single Z₂ axis of bit_b.
+- Probe 13 (`polarity_proof_verify.py`, the Step 2 numerical check): bit_b-homogeneous c gives `np.kron(c, c.conj())` entirely in Π²-conj +1 eigenspace (100.00% at N=2, 3; mixed-bit_b c splits ~50/50 between Π² eigenspaces).
+- Probe 14 (`polarity_step5_stress.py`): direct Π-eigenspace projection of L_H for 30 random H configurations (10 Hermitian Pauli + 10 non-Hermitian Pauli + 10 random complex matrix) at N=2, 3. All 30 give ‖L_H,+i‖² = ‖L_H,-i‖² bit-exact.
+- Probe (F87 connection, `polarity_probe_f87_connection.py`): all three F87 trichotomy classes (truly, soft, hard) at N=3 under standard Z-deph give asymmetry = 0 bit-exact. F112 polarity balance is insensitive to F87 trichotomy; the two are orthogonal axes on the bit_b Z₂-grading.
 
 ## Proof (Hermitian H case, rigorous)
 
@@ -112,7 +112,7 @@ For the dissipator term `np.kron(c, c.conj())` (numpy kron / Liouville-superoper
 
 So `np.kron(c, c^*)` lies entirely in the Π²-conjugation +1 eigenspace.
 
-**Numerical verification** (`simulations/_polarity_proof_verify.py`):
+**Numerical verification** (`simulations/polarity_proof_verify.py`):
 
 | c structure (N=2, 3) | Π²=+1 content | Π²=−1 content |
 |---|---|---|
@@ -186,7 +186,7 @@ So **‖L_{H,+i}‖² = ‖L_{H,-i}‖² for any Hermitian H**, completing Step 
 
 Combining Steps 1-5: the balance condition ‖M_plus_half‖² = ‖M_minus_half‖² holds for any Lindblad-form L with Hermitian H and bit_b-homogeneous c_k. ∎
 
-**Empirical verification of Step 5** (probe 14, `_polarity_step5_stress.py`): direct Π-eigenspace projection at N=2, 3 across 10 random Hermitian H gives ‖L_{H,+i}‖² = ‖L_{H,-i}‖² bit-exact (relative difference < 1e-15) in all 10 cases.
+**Empirical verification of Step 5** (probe 14, `polarity_step5_stress.py`): direct Π-eigenspace projection at N=2, 3 across 10 random Hermitian H gives ‖L_{H,+i}‖² = ‖L_{H,-i}‖² bit-exact (relative difference < 1e-15) in all 10 cases.
 
 ## Non-Hermitian H extension: Tier1Derived universal N (2026-05-27, Welle 11)
 
@@ -262,7 +262,7 @@ Connections:
 - **F38**: Π² = (-1)^{bit_b} on Pauli strings (foundational input).
 - **F63**: [L, Π²] = 0 for Z-deph (foundational input via Π²-eigenvalue commutation).
 - **F108 Part 1/2/3**: the bilinear set {XX, YY, YZ, ZY, ZZ} that F108 palindromizes is exactly the bit_b=0 (Π²-Z-even) family. F108's closure mechanism and F112's balance mechanism are both consequences of the bit_b Z₂ grading on the Pauli group.
-- **F87 dissipator-resonance law**: orthogonal axis, **derived 2026-06-10** (previously empirical via `_polarity_probe_f87_connection.py`). F87 lives in M's spectrum-palindrome structure; F112 lives in M_anti's Π +i/-i split. The derivation (scope inclusion + mechanism separation + the scoped F113 one-way bridge) is in [The F87 orthogonality, derived](#the-f87-orthogonality-derived-2026-06-10); committed verifier `simulations/f112_f87_orthogonality.py`.
+- **F87 dissipator-resonance law**: orthogonal axis, **derived 2026-06-10** (previously empirical via `polarity_probe_f87_connection.py`). F87 lives in M's spectrum-palindrome structure; F112 lives in M_anti's Π +i/-i split. The derivation (scope inclusion + mechanism separation + the scoped F113 one-way bridge) is in [The F87 orthogonality, derived](#the-f87-orthogonality-derived-2026-06-10); committed verifier `simulations/f112_f87_orthogonality.py`.
 - **`polarity_coordinates_from_L`**: F112 makes the primitive's diagnostic value precise. Asymmetry ≠ 0 detects c with cross-bit_b Pauli support, which is OUTSIDE the F108-closure regime.
 
 ## Open

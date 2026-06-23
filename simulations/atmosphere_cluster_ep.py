@@ -1,6 +1,6 @@
 """EP confirmation: is the cluster's near-coalescence a true exceptional point?
 
-The fine eps-scan (_atmosphere_cluster_fine.py) showed the degenerate cluster's
+The fine eps-scan (atmosphere_cluster_fine.py) showed the degenerate cluster's
 |Im| swept to the real axis: N=5 coalesces fully (|Im| < 1e-13 near eps=-0.33),
 N=6 dips to 7e-5 near eps=-0.83. A conjugate pair meeting the real axis is
 generically an exceptional point. This confirms it directly.

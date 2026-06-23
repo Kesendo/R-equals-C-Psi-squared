@@ -1,6 +1,6 @@
 """Mode identification: which Pauli sector do the cluster modes live in?
 
-The EP confirmation (_atmosphere_cluster_ep.py) showed the cluster is NOT an
+The EP confirmation (atmosphere_cluster_ep.py) showed the cluster is NOT an
 exceptional point: the 32 cluster eigenvectors stay rank-32/32 at every eps,
 including at the |Im| dip. It is a symmetry-protected degenerate near-
 coalescence (N=5 reaches full coalescence; N=6 stops at |Im|~7e-5 in our grid).

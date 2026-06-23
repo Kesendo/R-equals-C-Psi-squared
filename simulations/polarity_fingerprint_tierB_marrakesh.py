@@ -25,7 +25,7 @@ Expected finding (per project_f112_welle2 + F87↔F112 orthogonality probe):
 F112 asymmetry = 0 BALANCED bit-exact across all 11 Hamiltonians (because
 chain.L is standard Z-dephasing, bit_b-homogeneous), regardless of F87
 class. This extends the orthogonality empirical anchor from synthetic
-(_polarity_probe_f87_connection.py) to 11 real-hardware-Hamiltonian
+(polarity_probe_f87_connection.py) to 11 real-hardware-Hamiltonian
 instances, all tested on Marrakesh/Kingston in April-May 2026.
 """
 from __future__ import annotations
@@ -129,7 +129,7 @@ def main():
     print("  typed Tier1Derived predicts asymmetry = 0).")
     print()
     print("  This extends the F87↔F112 orthogonality empirical anchor from synthetic")
-    print("  (simulations/_polarity_probe_f87_connection.py, 3 F87 classes × 1 instance each)")
+    print("  (simulations/polarity_probe_f87_connection.py, 3 F87 classes × 1 instance each)")
     print("  to 11 real-hardware-tested Hamiltonian instances across 3 datasets / 3 backends.")
     print("  F87 trichotomy classification varies across instances; F112 polarity verdict")
     print("  stays BALANCED bit-exact regardless. The two axes are independent on the bit_b")

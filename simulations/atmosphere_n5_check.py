@@ -1,4 +1,4 @@
-"""N=5 follow-up for _atmosphere_mirror_test.py: is the oscillating-mode-count
+"""N=5 follow-up for atmosphere_mirror_test.py: is the oscillating-mode-count
 movement at N=5 real, or tolerance-boundary flicker?
 
 The main test found n_osc flat at N=3,4 but ranging [880,904] at N=5. This

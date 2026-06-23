@@ -3,7 +3,7 @@
 **Status:** Welle 6 application of the typed `fw.polarity_fingerprint` workflow to 11 real-hardware-tested Hamiltonians across 3 Tier-B datasets. Extends the F87↔F112 orthogonality empirical anchor from 1 synthetic instance to 11 hardware-instances; surfaces 3 bit_b-inhomogeneous-H cases that are still F112 BALANCED bit-exact, confirming the "F112 typed scope is sufficient but not necessary" reading.
 **Date:** 2026-05-26
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Script:** [`simulations/_polarity_fingerprint_tierB_marrakesh.py`](../simulations/_polarity_fingerprint_tierB_marrakesh.py)
+**Script:** [`simulations/polarity_fingerprint_tierB_marrakesh.py`](../simulations/polarity_fingerprint_tierB_marrakesh.py)
 **Workflow:** [`fw.polarity_fingerprint`](../simulations/framework/workflows/polarity_fingerprint.py) (added Welle 5.B)
 
 ## Setup
@@ -64,7 +64,7 @@ F112 reading per F87 class:
 
 ### (1) F87↔F112 orthogonality empirically extended to real hardware
 
-The `_polarity_probe_f87_connection.py` script (Welle 1) established F87↔F112 orthogonality on synthetic Hamiltonians (3 F87 classes × 1 instance each at N=3, asymmetry = 0 bit-exact). Welle 6 extends this anchor to 11 hardware-tested Hamiltonians across 3 datasets / 2 IBM backends: F87 classification varies (3 truly, 5 soft, 3 hard); F112 polarity verdict stays BALANCED bit-exact regardless. The two axes are independent on the bit_b Z₂-grading of the Pauli group, as the typed structural argument predicted, and this independence holds for every Hamiltonian we have actually measured on hardware.
+The `polarity_probe_f87_connection.py` script (Welle 1) established F87↔F112 orthogonality on synthetic Hamiltonians (3 F87 classes × 1 instance each at N=3, asymmetry = 0 bit-exact). Welle 6 extends this anchor to 11 hardware-tested Hamiltonians across 3 datasets / 2 IBM backends: F87 classification varies (3 truly, 5 soft, 3 hard); F112 polarity verdict stays BALANCED bit-exact regardless. The two axes are independent on the bit_b Z₂-grading of the Pauli group, as the typed structural argument predicted, and this independence holds for every Hamiltonian we have actually measured on hardware.
 
 ### (2) "F112 typed scope sufficient but not necessary": confirmed on 3 hardware instances
 
@@ -89,7 +89,7 @@ In principle, time-sweep variants of these 4 F83 categories on Marrakesh + Kings
 
 ## Connection to existing readings
 
-- **F87↔F112 orthogonality** (`_polarity_probe_f87_connection.py`, Welle 1): synthetic 3-instance anchor; Welle 6 extends to 11 hardware-instances.
+- **F87↔F112 orthogonality** (`polarity_probe_f87_connection.py`, Welle 1): synthetic 3-instance anchor; Welle 6 extends to 11 hardware-instances.
 - **F112 typed Tier1Derived** (`LindbladBitBPiBalance.cs`): Hermitian H + bit_b-homog c → asymmetry = 0; this experiment confirms predicted reading on real hardware Hamiltonians.
 - **F113 break formula** (`LindbladBitBPiBreakMagnitude.cs`, `PROOF_F113_COEFFICIENT_DERIVATION.md`): tells us why bit_b-mixed H without σ⁻/σ⁺ c still gives balance (F113 break requires both ingredients).
 - **F87 classification origin** (`project_v_effect_combinatorial`): V-Effect 14/19/3 split at N=3 fully derived from Pauli-pair combinatorics; the hardware datasets exercise canonical representatives of each class.
@@ -98,7 +98,7 @@ In principle, time-sweep variants of these 4 F83 categories on Marrakesh + Kings
 ## Reproduction
 
 ```
-python -X utf8 simulations/_polarity_fingerprint_tierB_marrakesh.py
+python -X utf8 simulations/polarity_fingerprint_tierB_marrakesh.py
 ```
 
 Runs in ~2 seconds (framework predictions only, no hardware data parsing needed for the framework reading).

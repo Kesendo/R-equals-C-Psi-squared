@@ -38,7 +38,7 @@ For the palindromic γ-profile `γ_i = γ₀ (1 + ε u_sym(i))` (`u_sym` mean-ze
 | 5 | 1024 | drops by up to 16 |
 | 6 | 4096 | drops by up to 56 (coarse grid); up to 70 in finer scan |
 
-Tom's instinct was even/odd: N=3 is the framework's special minimal case, N=5 the first "normal odd." N=6 falsified that cleanly: even N=6 moves, more than odd N=5. The effect is a **size/density threshold** — appears for N ≥ 5 and grows with the mode count 4^N, not parity. `_atmosphere_evenodd.py`.
+Tom's instinct was even/odd: N=3 is the framework's special minimal case, N=5 the first "normal odd." N=6 falsified that cleanly: even N=6 moves, more than odd N=5. The effect is a **size/density threshold** — appears for N ≥ 5 and grows with the mode count 4^N, not parity. `atmosphere_evenodd.py`.
 
 ---
 
@@ -46,7 +46,7 @@ Tom's instinct was even/odd: N=3 is the framework's special minimal case, N=5 th
 
 Tom asked the sharp next question: when n_osc drops, are the missing modes *really* on the real axis (a clean jump), or hiding just below the |Im λ| counting threshold (a flicker)?
 
-For most ε in the middle-peaked direction the gap is clean — the smallest non-real |Im| sits at ~10⁻² and nothing lives between 10⁻¹⁰ and 10⁻³ (`_atmosphere_n6_gap.py`). The N=5 check (`_atmosphere_n5_check.py`) had already shown this for N=5: the count is tolerance-robust.
+For most ε in the middle-peaked direction the gap is clean — the smallest non-real |Im| sits at ~10⁻² and nothing lives between 10⁻¹⁰ and 10⁻³ (`atmosphere_n6_gap.py`). The N=5 check (`atmosphere_n5_check.py`) had already shown this for N=5: the count is tolerance-robust.
 
 At the extreme middle-peaked end, ε=−0.8 for N=6, the picture changes. 32 modes (16 conjugate pairs) sit at |Im|≈5.6×10⁻⁴ — a sharply degenerate cluster, neither genuinely real nor a genuine oscillation. So the answer is "both," ε-dependent: clean jump at moderate ε, near-hiding at the extreme. The latter is the cluster the rest of this note is about.
 
@@ -54,12 +54,12 @@ At the extreme middle-peaked end, ε=−0.8 for N=6, the picture changes. 32 mod
 
 ## Step 3 — the cluster across ε
 
-A coarse cluster scan (Δε=0.05, ε ∈ [−1, −0.3], `_atmosphere_cluster_scan.py`) showed something more careful than "the γ creates the cluster":
+A coarse cluster scan (Δε=0.05, ε ∈ [−1, −0.3], `atmosphere_cluster_scan.py`) showed something more careful than "the γ creates the cluster":
 
 - The cluster is **persistent**. At every ε in the scan, 16 conjugate pairs (N=6) — or 12 pairs (N=5) — sit at a common, sharply degenerate |Im|, with the six smallest non-real |Im| values identical to three significant figures.
 - The middle-peaked γ does not *create* the cluster — it *sweeps* its |Im|. For N=6 the sweep traces a curve with a sharp minimum at ε ≈ −0.83 (|Im| ≈ 2.4×10⁻⁴ at Δε=0.05). For N=5 a similar dip at ε ≈ −0.34.
 
-A finer scan (Δε=0.01) around each dip (`_atmosphere_cluster_fine.py`) refined the picture:
+A finer scan (Δε=0.01) around each dip (`atmosphere_cluster_fine.py`) refined the picture:
 
 - **N=5:** the cluster |Im| descends smoothly from 3.5×10⁻³ to 1.62×10⁻⁴ at ε=−0.3357. At the next grid point ε=−0.3214 the 24 cluster modes have crossed: n_real jumps by 24 and the smallest non-real |Im| leaps to ~3×10⁻² (the genuine-oscillator background). The cluster has reached the real axis: the 12 conjugate pairs have coalesced and become 24 distinct real (over-damped) modes.
 - **N=6:** the cluster |Im| descends to **7.07×10⁻⁵** at ε=−0.83 and rises again. The Δε=0.01 grid did not reach zero exactly, but with N=5 having clearly coalesced at finer resolution the natural reading is that N=6 has its coalescence somewhere in (ε=−0.84, ε=−0.82) and the grid just missed ε* by ~2×10⁻³.
@@ -70,7 +70,7 @@ A conjugate pair meeting the real axis is, generically, an exceptional point. So
 
 ## Step 4 — EP refuted
 
-Full eigendecomposition of L at N=6 for ε ∈ {−0.60, −0.75, −0.83, −0.85} (`_atmosphere_cluster_ep.py`) tested the EP signature directly. At a true EP, the right-eigenvector matrix V becomes singular: cond(V) diverges, and the cluster's own eigenvectors lose rank (become parallel).
+Full eigendecomposition of L at N=6 for ε ∈ {−0.60, −0.75, −0.83, −0.85} (`atmosphere_cluster_ep.py`) tested the EP signature directly. At a true EP, the right-eigenvector matrix V becomes singular: cond(V) diverges, and the cluster's own eigenvectors lose rank (become parallel).
 
 | ε | cluster |Im| | cond(V) | cluster-V rank | smallest σ |
 |---|---|---|---|---|
@@ -89,7 +89,7 @@ This was the first major correction to my running picture during the investigati
 
 ## Step 5 — mode-ID: F1-mirror, complementary XY-weights
 
-Projecting the cluster eigenvectors onto the Pauli basis at the dip ε for each N (`_atmosphere_cluster_modes.py`) revealed the cluster's structure.
+Projecting the cluster eigenvectors onto the Pauli basis at the dip ε for each N (`atmosphere_cluster_modes.py`) revealed the cluster's structure.
 
 **N=6, ε=−0.83.** The 32 cluster modes split into two equal sub-clusters by Re:
 - Re = −0.3906, 16 modes (8 pairs), dominant Pauli strings of XY-weight 5 (five X/Y letters, one I/Z letter).
@@ -107,7 +107,7 @@ The mode amplitudes are highly mixed (top single Pauli ~1–2% per mode) — the
 
 ## Step 6 — the staircase: one event among several
 
-A coarse n_osc trace across ε ∈ [−1, 0] for N=5 and N=6 (`_atmosphere_staircase.py`) revealed that the characterized cluster is one event in a richer pattern.
+A coarse n_osc trace across ε ∈ [−1, 0] for N=5 and N=6 (`atmosphere_staircase.py`) revealed that the characterized cluster is one event in a richer pattern.
 
 **N=6 dip events** (ε-window → extra real modes vs the ε=0 baseline of 180):
 
@@ -156,16 +156,16 @@ The characterized 16-pair cluster sits in the deepest window (ε ≤ −0.85). T
 
 In dependency order, all under `simulations/`:
 
-- `_atmosphere_mirror_test.py` — F71-twin run: spatial mirror under palindromic vs anti-palindromic γ, N=3,4,5. Plot at `simulations/results/atmosphere_mirror_test/`.
-- `_atmosphere_evenodd.py` — n_osc sweep, palindromic γ, N=3,4,5,6 (the size-vs-parity test).
-- `_atmosphere_n5_check.py` — N=5 gap check (modes jump cleanly, not flicker).
-- `_atmosphere_n6_gap.py` — N=6 gap check (clean at moderate ε, 32-mode flicker at ε=−0.8).
-- `_atmosphere_cluster_scan.py` — coarse ε-scan of the cluster, N=5 and N=6 (Δε=0.05). Plot.
-- `_atmosphere_cluster_fine.py` — fine ε-scan around each dip (Δε=0.01). Plot.
-- `_atmosphere_cluster_ep.py` — EP confirmation via cond(V) and cluster-eigenvector rank at N=6.
-- `_atmosphere_cluster_modes.py` — Pauli-basis projection of the cluster eigenvectors, N=5 and N=6.
-- `_atmosphere_staircase.py` — n_osc staircase across ε ∈ [−1, 0], N=5 and N=6. (smin column has a sorting bug; n_osc/n_real are correct.) Plot.
-- `_atmosphere_cluster2_scan.py` — second-cluster fine scan, N=6 around ε ≈ −0.22 (the 28-pair dip). Running at the time of this writeup.
+- `atmosphere_mirror_test.py` — F71-twin run: spatial mirror under palindromic vs anti-palindromic γ, N=3,4,5. Plot at `simulations/results/atmosphere_mirror_test/`.
+- `atmosphere_evenodd.py` — n_osc sweep, palindromic γ, N=3,4,5,6 (the size-vs-parity test).
+- `atmosphere_n5_check.py` — N=5 gap check (modes jump cleanly, not flicker).
+- `atmosphere_n6_gap.py` — N=6 gap check (clean at moderate ε, 32-mode flicker at ε=−0.8).
+- `atmosphere_cluster_scan.py` — coarse ε-scan of the cluster, N=5 and N=6 (Δε=0.05). Plot.
+- `atmosphere_cluster_fine.py` — fine ε-scan around each dip (Δε=0.01). Plot.
+- `atmosphere_cluster_ep.py` — EP confirmation via cond(V) and cluster-eigenvector rank at N=6.
+- `atmosphere_cluster_modes.py` — Pauli-basis projection of the cluster eigenvectors, N=5 and N=6.
+- `atmosphere_staircase.py` — n_osc staircase across ε ∈ [−1, 0], N=5 and N=6. (smin column has a sorting bug; n_osc/n_real are correct.) Plot.
+- `atmosphere_cluster2_scan.py` — second-cluster fine scan, N=6 around ε ≈ −0.22 (the 28-pair dip). Running at the time of this writeup.
 
 All scripts are WIP (`_`-prefix); none have been committed.
 

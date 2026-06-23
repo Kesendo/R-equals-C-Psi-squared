@@ -1,7 +1,7 @@
 """N=6 gap check: when n_osc drops, do the modes jump cleanly to Im=0, or hide
 just below the oscillation threshold?
 
-Tom's question on _atmosphere_evenodd.py. For the palindromic gamma-profile at
+Tom's question on atmosphere_evenodd.py. For the palindromic gamma-profile at
 N=6, several eps: sort |Im lambda|, count modes in the suspicious window
 [1e-11, 1e-3], and show the 8 |Im| values bracketing the real/oscillating
 boundary. An empty window with a wide bracket gap means the modes genuinely

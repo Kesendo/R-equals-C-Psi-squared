@@ -2777,7 +2777,7 @@ The Marrakesh hardware confirmation (2026-04-26, ibm_marrakesh job `d7mjnjjaq2pc
 
 **Π² classifier dependence on dephase letter** (commit 435c4b2). Per `PiOperator.SquaredEigenvalue`, the Π²-class index is bit_b for Z- and Y-dephasing and bit_a for X-dephasing (Π_Y shares Π_Z's bit_a-flip convention; Π_X flips bit_b instead). The (bit_a, bit_b) parity pairs are Z = (0, 1), X = (1, 0), Y = (1, 1) in the PauliLetter convention. **F87 hardness is defined combinatorially via Pauli-pair compatibility (commit 81caf67), not via any 4-cell label.** As a post-hoc structural reading, however, F87 hardness empirically corresponds to the (bit_a, bit_b) parity cell matching the dissipator letter: anywhere else produces a Π-violation that the spectrum-pairing test detects. The (Π²_Z, Π²_X) two-axis decomposition is treated separately as F88a below; F87 itself uses only one axis (Π²_Z under Z-dephasing). Verified at N=4, k=3 across 294 Z₂³-homogeneous pairs.
 
-**Orthogonal axis on shared bit_b Z₂-grading (F112).** F87's trichotomy lives in ‖M‖_F magnitude + spec(L) palindromy; F112 (Lindblad Π-eigenvalue balance under bit_b-homogeneous c) lives in M_anti's Π +i / −i Frobenius split. Both projections of the same Π² = (−1)^{bit_b} grading on the Pauli group. Empirically orthogonal: all three F87 classes (truly, soft, hard) at N=3 under standard single-Pauli Z-deph give F112 balance asymmetry = 0 bit-exact (`simulations/_polarity_probe_f87_connection.py`), since single-Pauli c is trivially bit_b-homogeneous.
+**Orthogonal axis on shared bit_b Z₂-grading (F112).** F87's trichotomy lives in ‖M‖_F magnitude + spec(L) palindromy; F112 (Lindblad Π-eigenvalue balance under bit_b-homogeneous c) lives in M_anti's Π +i / −i Frobenius split. Both projections of the same Π² = (−1)^{bit_b} grading on the Pauli group. Empirically orthogonal: all three F87 classes (truly, soft, hard) at N=3 under standard single-Pauli Z-deph give F112 balance asymmetry = 0 bit-exact (`simulations/polarity_probe_f87_connection.py`), since single-Pauli c is trivially bit_b-homogeneous.
 
 **Valid for:** uniform single-letter dephasing on any graph; arbitrary k-body Pauli terms (k ≥ 2; F85 lifts the criterion to higher body); dephase letter ∈ {X, Y, Z} (SU(2)-rotation-equivalent under (bit_a, bit_b) cell permutation).
 **Breaks for:** depolarizing noise (F1 itself breaks with linear-in-γ residual, see F5); non-uniform γ_i or graph asymmetries that already break F1.
@@ -3964,7 +3964,7 @@ remains the historical numerical validation.
 - F108 Part 1/2/3: the bilinear set {XX, YY, YZ, ZY, ZZ} F108 palindromizes
   is exactly the bit_b = 0 (Π²-Z-even) family.
 - F87 dissipator-resonance trichotomy: orthogonal axis, derived 2026-06-10
-  (previously empirical via `_polarity_probe_f87_connection.py`). F87 lives
+  (previously empirical via `polarity_probe_f87_connection.py`). F87 lives
   in M's spectrum-palindrome structure; F112 lives in M_anti's Π +i/−i
   split. Three-part derivation: (a) scope inclusion (every F87 input,
   Hermitian Pauli H + pure Z-deph with single-Pauli c = Z_l, satisfies
@@ -3985,7 +3985,7 @@ remains the historical numerical validation.
   `simulations/f112_f87_orthogonality.py`.
 
 **Empirical anchor:** 14 probes (`simulations/_polarity_probe_*.py`,
-`_polarity_proof_verify.py`, `_polarity_step5_stress.py`) cover
+`polarity_proof_verify.py`, `polarity_step5_stress.py`) cover
 candidate-breakers (1-5), hand-engineered non-Lindblad L (6), random c with
 full Pauli rank (7-8), k_max boundary (9), exhaustive 136-pair N=2 enumeration
 (10), coefficient sweep (11), Z₂³-cell N=3, 4 scaling (12, 171 / 171

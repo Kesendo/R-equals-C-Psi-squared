@@ -1,6 +1,6 @@
 """Second-cluster fine scan: N=6 around the eps ~ -0.22 dip (28 pairs).
 
-The staircase (_atmosphere_staircase.py) showed N=6 has multiple n_osc dip
+The staircase (atmosphere_staircase.py) showed N=6 has multiple n_osc dip
 events along eps in [-1, 0]. The deepest at eps <= -0.85 is the 16-pair
 cluster we characterized. The second-deepest is the 28-pair dip at
 eps in [-0.25, -0.20]. This is its fine-scan companion to _atmosphere_

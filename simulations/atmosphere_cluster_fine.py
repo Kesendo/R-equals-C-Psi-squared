@@ -1,6 +1,6 @@
 """Resolving the cluster |Im| minimum: a true EP or an avoided coalescence?
 
-Follows _atmosphere_cluster_scan.py. That found a persistent, sharply degenerate
+Follows atmosphere_cluster_scan.py. That found a persistent, sharply degenerate
 cluster (N=6: 16 mode-pairs; N=5: 12 pairs) whose |Im| the middle-peaked
 palindromic gamma-profile sweeps, dipping to a sharp minimum: N=6 near eps=-0.85
 (|Im| ~ 2.35e-4), N=5 near eps=-0.35 (|Im| ~ 1e-3). At Delta-eps=0.05 it did not

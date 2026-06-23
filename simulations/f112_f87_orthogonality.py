@@ -2,7 +2,7 @@
 r"""F112/F87 orthogonality derived: scope inclusion + mechanism separation + the F113 bridge (committed verifier).
 
 The orthogonality between F112 (polarity balance) and F87 (dissipator-resonance trichotomy)
-was an empirical line since 2026-05-26 (`_polarity_probe_f87_connection.py`: all three classes
+was an empirical line since 2026-05-26 (`polarity_probe_f87_connection.py`: all three classes
 give asymmetry = 0 at N=3). This verifier upgrades it to a derived statement in three parts:
 
   (a) SCOPE INCLUSION. Every F87 input (Hermitian Pauli H-commutator + pure Z-dephasing) is an

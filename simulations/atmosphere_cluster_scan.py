@@ -1,6 +1,6 @@
 """Following the cluster thread: the degenerate near-EP cluster.
 
-_atmosphere_n6_gap.py found, at the extreme middle-peaked palindromic gamma
+atmosphere_n6_gap.py found, at the extreme middle-peaked palindromic gamma
 (eps=-0.8, N=6), 32 modes (16 conjugate pairs) at |Im lambda| ~ 5.6e-4, a sharp
 degenerate cluster, neither genuinely real nor a genuine oscillation. It was
 absent at eps=-0.6. This traces the cluster: a fine eps-scan for N=5 and N=6,

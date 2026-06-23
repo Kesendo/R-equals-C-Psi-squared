@@ -1,7 +1,7 @@
 """Open question #2: which symmetry protects the 16-fold (N=6) / 12-fold (N=5)
 degeneracy of each sub-cluster?
 
-From _atmosphere_cluster_modes.py we know:
+From atmosphere_cluster_modes.py we know:
 - N=6, eps=-0.83: 32 cluster modes split into two 16-mode sub-clusters by Re:
   Re=-0.3906 (XY-wt 5) and Re=-0.2094 (XY-wt 1), F1-mirror partners summing to -2sigma.
 - N=5, eps=-0.3357: 24 cluster modes, two 12-mode sub-clusters at Re=-0.2697 / -0.2303.

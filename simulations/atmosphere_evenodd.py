@@ -1,6 +1,6 @@
 """Why does the n_osc movement appear at N=5? Even/odd, or spectrum density?
 
-Follow-up to _atmosphere_mirror_test.py / _atmosphere_n5_check.py: a middle-
+Follow-up to atmosphere_mirror_test.py / atmosphere_n5_check.py: a middle-
 peaked palindromic gamma-profile left the oscillating-mode count n_osc flat at
 N=3 (odd) and N=4 (even), and moved it at N=5 (odd). Tom's hypothesis: even/odd,
 with N=3 the framework's special minimal case, so N=5 is the first "normal" odd
