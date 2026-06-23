@@ -61,7 +61,7 @@ Blocks (self-validating):
 Honest caveats: t_peak = 1/(4*gamma_0) is the F86a carrier law for the Dicke probe;
 mode-resolved probes may peak elsewhere in (or at the edge of) the t-window, so the
 peak-K numbers carry the window convention. The mirror itself is pointwise in t and
-does not depend on it. Run: python simulations/_f86_kb_chiral_mirror_probe.py (~1 min).
+does not depend on it. Run: python simulations/f86_kb_chiral_mirror.py (~1 min).
 2026-06-10.
 """
 import sys

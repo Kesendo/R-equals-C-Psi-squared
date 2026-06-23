@@ -75,7 +75,7 @@ Block ledger
                                         weight Δγ_l IS F84's net vacuum rate (cross-tied against
                                         predict_amplitude_damping_violation)
 
-Provenance: 2026-06-11, hunt #2 of the connection-hunt. Scout: simulations/_pump_slope_scout.py.
+Provenance: 2026-06-11, hunt #2 of the connection-hunt (originating scout _pump_slope_scout.py, a WIP not retained in the repo).
 Framework diagnostic: simulations/framework/diagnostics/f120_moment_tower.py (F120).
 Run: python simulations/moment_tower_pump_channel.py (< 1 min).
 """

@@ -4182,13 +4182,13 @@ girth-ladder reversal kill
 ([PROOF_F87_WINDOWED_MONOMIAL_CONVERSE](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §4:
 word reversal = transpose × (−1)^{n_Y(word)}) is the same antiautomorphism
 at word length j; F113 Lemma C is its Hermitian-conjugacy sibling.
-Bit-exact anchor: `simulations/_mirror_inventory_bridge_check.py`
+Bit-exact anchor: `simulations/mirror_inventory_d4.py`
 (blocks D/E: 63/63 strings at N = 3 plus an N = 5 case, dev 0.00e+00).
 
 **Open:** N = 5, 6 verification at scale (estimated O(4^N) per N for the
 single-string sweep, tractable but not run). *Superseded 2026-06-10:* the
 transpose reading above derives ε(σ) structurally for every σ and every N,
-and the `_mirror_inventory_bridge_check.py` anchor includes an N = 5 case
+and the `mirror_inventory_d4.py` anchor includes an N = 5 case
 bit-exact; the per-N sweep is closed. Connection to the Welle 11
 F112 Lemma A/B structural proof: does F114 give an alternative derivation
 of the parent F112 Step 5 (Lemma B) via D-conjugation parity rather than

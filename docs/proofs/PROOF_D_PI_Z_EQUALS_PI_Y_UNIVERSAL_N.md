@@ -152,7 +152,7 @@ The reading closes the F114 sign law ([ANALYTICAL_FORMULAS.md](../ANALYTICAL_FOR
 
 using σᵀ = (−1)^{n_Y(σ)}·σ and the antiautomorphism property (AB)ᵀ = BᵀAᵀ. The same antiautomorphism at word length j is the girth-ladder reversal kill ([PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §4: word reversal = transpose × (−1)^{n_Y(word)}); F113's Lemma C is its Hermitian-conjugacy sibling. It also names why no Hilbert-space unitary implements D (the Implications note above): θ is an antiautomorphism of the matrix algebra, not conjugation by any unitary.
 
-Verified bit-exact by [`simulations/_mirror_inventory_bridge_check.py`](../../simulations/_mirror_inventory_bridge_check.py) (blocks D/E: θ-in-Pauli-basis equals D, 63/63 strings at N = 3 plus an N = 5 case, dev 0.00e+00).
+Verified bit-exact by [`simulations/mirror_inventory_d4.py`](../../simulations/mirror_inventory_d4.py) (blocks D/E: θ-in-Pauli-basis equals D, 63/63 strings at N = 3 plus an N = 5 case, dev 0.00e+00).
 
 ## Open
 

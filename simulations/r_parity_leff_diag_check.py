@@ -11,7 +11,7 @@ The R-antisymmetric basis vectors at HD=k are constructed as the slowest
 R-odd L-eigenmode within the HD=k subspace at γ=0 perturbed to small Q
 (i.e., the analogue of channel-uniform but R-antisymmetric).
 
-Run: python simulations/_r_parity_q_sweep_leff.py
+Run: python simulations/r_parity_leff_diag_check.py
 """
 import sys
 
