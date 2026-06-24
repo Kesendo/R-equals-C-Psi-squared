@@ -1,6 +1,6 @@
 # Topology Controls the Radical-Writability of Open-Chain Relaxation
 
-**Status:** Tier 1 derived for the complete graph: K_N is radically writable for all N, via the S_N-irrep multiplicity cap (max multiplicity 4 in SE⊗DE, N-independent; verified at N=5,6,7,8). Tier 2 numerical for the star / ring / chain comparison (N=4-6).
+**Status:** Tier 1 derived for the complete graph (cap 4, radically writable for all N) and the star (cap 9, a bounded S_9 scramble for all N ≥ 5), both via N-independent S_N / S_{N−1} multiplicity caps (verified N=5-9). Tier 2 numerical for the ring/chain growing-scramble comparison.
 **Date:** 2026-06-24
 **Authors:** Thomas Wicht, Claude Opus 4.8 (1M context)
 **Scripts:**
@@ -21,7 +21,7 @@ The answer is that **the shape decides.** At one extreme, the **complete graph**
 
 ## Abstract
 
-For an N-site graph G under uniform-J XY coupling H = J·Σ_{(p,q)∈E(G)}(X_pX_q + Y_pY_q) and uniform Z-dephasing √γ₀·Z_l, the (SE,DE) coherence sector of the Liouvillian factors over Q(i) into an AT-locked half (every root at the Absorption-Theorem rates Re(λ)/γ₀ ∈ {−2,−6}, frequencies given by the free-fermion single-particle modes, radical-closed) and an H_B-mixed residue. For the **chain**, the H_B-mixed factors are irreducible with Galois group the full symmetric group S_n (no radical closure in q=J/γ; [F89_TOPOLOGY_ORBIT_CLOSURE.md](F89_TOPOLOGY_ORBIT_CLOSURE.md), live-witnessed S_8/S_18/S_32 at N=4/5/6). We computed the H_B-mixed Galois groups for the **star**, **ring**, and **complete** graphs at N=4,5,6 (full (SE,DE) block, no symmetry projection, Berkowitz/sympy factorisation over Q(i), gate-validated by reproducing the chain S_8/S_18/S_32 exactly). The result is that **topology controls radical-writability**: the complete graph K_N is the writable extreme, with every H_B-mixed factor of degree ≤ 4 (definitively solvable in radicals) at all of N=4,5,6, where the chain (S_8/S_18/S_32), the star (S_9 from N=5), and the ring (S_15 by N=6) all scramble to the full symmetric group. The mechanism is derived (Tier 1): the complete graph's Liouvillian commutes with the full S_N, so by Schur it block-diagonalises along S_N-irreps, and every factor degree is bounded by an irrep multiplicity in V = SE⊗DE = M^{(N−2,1,1)} ⊕ M^{(N−3,2,1)}; those multiplicities are N-independent and capped at 4 (Kostka), so K_N is radically writable for all N, with the predicted H_B-mixed degree histogram {4:N−1, 3:N(N−3)/2, 2:(N−1)(N−2)/2} matching the direct factorisation exactly at N=5,6,7,8. The symmetry-size ordering across topologies is not perfectly monotone (the ring scrambles later than the star despite a smaller symmetry group, because the star's S_{N−1} fixes the hub as a distinguished point), so the clean statement is "complete is the writable extreme". A degree-16 ring factor at N=5 stays Galois-undetermined even under a 20000-prime scan (provably not S_16, exact group unpinned).
+For an N-site graph G under uniform-J XY coupling H = J·Σ_{(p,q)∈E(G)}(X_pX_q + Y_pY_q) and uniform Z-dephasing √γ₀·Z_l, the (SE,DE) coherence sector of the Liouvillian factors over Q(i) into an AT-locked half (every root at the Absorption-Theorem rates Re(λ)/γ₀ ∈ {−2,−6}, frequencies given by the free-fermion single-particle modes, radical-closed) and an H_B-mixed residue. For the **chain**, the H_B-mixed factors are irreducible with Galois group the full symmetric group S_n (no radical closure in q=J/γ; [F89_TOPOLOGY_ORBIT_CLOSURE.md](F89_TOPOLOGY_ORBIT_CLOSURE.md), live-witnessed S_8/S_18/S_32 at N=4/5/6). We computed the H_B-mixed Galois groups for the **star**, **ring**, and **complete** graphs at N=4,5,6 (full (SE,DE) block, no symmetry projection, Berkowitz/sympy factorisation over Q(i), gate-validated by reproducing the chain S_8/S_18/S_32 exactly). The result is that **topology controls radical-writability**: the complete graph K_N is the writable extreme, with every H_B-mixed factor of degree ≤ 4 (definitively solvable in radicals) at all of N=4,5,6, where the chain (S_8/S_18/S_32), the star (S_9 from N=5), and the ring (S_15 by N=6) all scramble to the full symmetric group. The mechanism is derived (Tier 1): the complete graph's Liouvillian commutes with the full S_N, so by Schur it block-diagonalises along S_N-irreps, and every factor degree is bounded by an irrep multiplicity in V = SE⊗DE = M^{(N−2,1,1)} ⊕ M^{(N−3,2,1)}; those multiplicities are N-independent and capped at 4 (Kostka), so K_N is radically writable for all N, with the predicted H_B-mixed degree histogram {4:N−1, 3:N(N−3)/2, 2:(N−1)(N−2)/2} matching the direct factorisation exactly at N=5,6,7,8. The same Schur reduction covers the star: its S_{N−1} symmetry gives an N-independent cap of 9 (the multiplicity of the standard rep in V), so the star scrambles to a fixed S_9 for all N ≥ 5 (bounded, but degree 9 > 4, so not writable), while the ring (D_N) and chain (S_2) have small symmetry and growing caps. The result is a three-way classification: a large automorphism group (S_N, S_{N−1}) caps the Galois complexity N-independently, a small one (D_N, S_2) lets it grow; radical-writability needs the cap ≤ 4, achieved only by the complete graph. (A degree-16 ring factor at N=5 stays Galois-undetermined even under a 20000-prime scan, provably not S_16, exact group unpinned.)
 
 ---
 
@@ -72,7 +72,30 @@ The maximal multiplicity is 4, at the standard representation, and it does **not
 
 Verified exactly against the direct factorisation at N = 5, 6, 7, 8 (`topology_galois_writability.py verify`): {4:4, 3:5, 2:6}, {4:5, 3:9, 2:10}, {4:6, 3:14, 2:15}, {4:7, 3:20, 2:21}, all MATCH.
 
-The contrast with the chain is now exact: the chain carries only the S_2 mirror symmetry, so its (SE,DE) multiplicities are unbounded (one large irreducible H_B-mixed factor of degree growing with N, with the maximal Galois group S_n). **Radical-writability is set by the symmetry: the larger and more uniform the automorphism group, the smaller the irrep multiplicities, the lower the factor degrees. The full S_N of the complete graph caps them at 4; the S_2 of the chain caps nothing.** (This also resolves the earlier non-monotonicity: the star's S_{N−1} fixes the hub as a distinguished point, which inflates multiplicities, so the star scrambles despite a large symmetry group. Computing the star and ring multiplicity bounds is the natural next step.)
+The contrast with the chain is now exact: the chain carries only the S_2 mirror symmetry, so its (SE,DE) multiplicities are unbounded (one large irreducible H_B-mixed factor of degree growing with N, with the maximal Galois group S_n). **Radical-writability is set by the symmetry: the larger and more uniform the automorphism group, the smaller the irrep multiplicities, the lower the factor degrees. The full S_N of the complete graph caps them at 4; the S_2 of the chain caps nothing.** (This also resolves the earlier non-monotonicity, derived in the next section: the star's S_{N−1} fixes the hub, inflating its multiplicities to a fixed cap of 9, so it scrambles to a bounded S_9 despite a large symmetry group.)
+
+## The star and the ring: a three-way classification (the star Tier 1 derived)
+
+The same Schur machinery covers the other topologies, and turns the writability table into one principle: the automorphism group Aut(G) sets a cap on the (SE,DE) factor degrees, equal to the maximal multiplicity of an Aut(G)-irrep in V = SE ⊗ DE; whether that cap is N-independent or grows is what classifies the topology.
+
+**The star (cap 9, N-independent).** The star K_{1,N−1} has Aut = S_{N−1} (the leaves permute, the hub is fixed). Under S_{N−1}, SE = 2·triv ⊕ std (the hub is a fixed point; the N−1 leaves give triv ⊕ std) and DE = 2·triv ⊕ 2·std ⊕ [N−3,2] (the hub-leaf pairs give triv ⊕ std, the leaf-leaf pairs give triv ⊕ std ⊕ [N−3,2]). The multiplicity of the standard rep in V = SE ⊗ DE is then
+
+    mult(std_{N−1}) = 4 (from 2·triv ⊗ 2·std) + 2 (std ⊗ 2·triv) + 2 (std ⊗ std) + 1 (std ⊗ [N−3,2]) = 9,
+
+N-independent. So the star's maximal H_B-mixed factor degree is 9, with dim(std_{N−1}) = N−2 copies of it. The star scrambles to a FIXED S_9 for every N ≥ 5: bounded (the block size never grows), but 9 > 4, so not radically writable. Verified exactly at N = 5, 6, 7, 8, 9 (`topology_galois_writability.py verify-star`): max degree 9 with N−2 degree-9 factors at every N.
+
+**The ring and the chain (growing).** The ring C_N (Aut = D_N, order 2N) and the chain P_N (Aut = S_2) have small symmetry groups, so their multiplicities grow with N and the factor degrees climb: the chain gives S_8/S_18/S_32/S_53 at N = 4/5/6/7, and the ring's maximal H_B-mixed degree climbs 6, 16, 15, 48 at N = 4, 5, 6, 7. They scramble increasingly with size.
+
+**The classification.** One rule: a large, uniform automorphism group caps the Galois complexity N-independently; a small one lets it grow. Radical-writability needs the cap ≤ 4, which only the complete graph achieves.
+
+| Topology | Aut(G) | factor-degree cap | relaxation |
+|---|---|---|---|
+| Complete K_N | S_N | 4 (N-independent) | radically writable, all N |
+| Star K_{1,N−1} | S_{N−1} | 9 (N-independent) | bounded S_9 scramble, all N ≥ 5 |
+| Ring C_N | D_N | grows with N | growing scramble |
+| Chain P_N | S_2 | grows with N | growing scramble (S_8/18/32/53) |
+
+The complete graph and the star are the two bounded cases (caps 4 and 9), both from large-symmetry Schur reduction; the complete's cap alone falls below the quintic threshold, so it alone is writable.
 
 ## Honest caveats and open work
 
@@ -83,9 +106,9 @@ The contrast with the chain is now exact: the chain carries only the S_2 mirror 
 
 ## Tier assessment
 
-**Tier 1 derived for the complete graph:** K_N is radically writable for all N. The Liouvillian commutes with the full S_N; the (SE,DE) coherence module V = SE⊗DE = M^{(N−2,1,1)} ⊕ M^{(N−3,2,1)} has S_N-irrep multiplicities that are N-independent and capped at 4 (Kostka), so by Schur every factor of the (SE,DE) characteristic polynomial is a quartic-or-less. The closed-form H_B-mixed degree histogram {4:N−1, 3:N(N−3)/2, 2:(N−1)(N−2)/2} is verified exactly by the direct factorisation at N=5,6,7,8.
+**Tier 1 derived for the complete graph and the star:** both have N-independent factor-degree caps from large-symmetry Schur reduction. The complete graph (Aut = S_N) caps at 4, so K_N is radically writable for all N, with the histogram {4:N−1, 3:N(N−3)/2, 2:(N−1)(N−2)/2} verified at N=5,6,7,8. The star (Aut = S_{N−1}) caps at 9 (the std_{N−1} multiplicity), so it is a bounded S_9 scramble for all N ≥ 5, with N−2 degree-9 factors, verified at N=5,6,7,8,9.
 
-**Tier 2 numerical** for the star / ring / chain comparison at N=4,5,6: the chain gate reproduces the Tier-1 landed S_8/S_18/S_32, the star scrambles to S_9 by N=5, the ring to S_15 by N=6, and the ring N=5 degree-16 factor stays Galois-undetermined (provably not S_16). This closes door A of the open arc `f89_galois_open_doors` (does a non-chain topology give a fully-writable relaxation? Yes, the complete graph, proven for all N), and opens the follow-on: the star/ring multiplicity bounds, and a C# live witness for the K_N histogram.
+**Tier 2 numerical** for the ring and chain: small symmetry (D_N, S_2), growing caps. The chain gate reproduces the Tier-1 landed S_8/S_18/S_32/S_53; the ring's maximal degree climbs 6/16/15/48 at N=4/5/6/7 (the N=5 degree-16 factor stays Galois-undetermined, provably not S_16). This closes door A of the open arc `f89_galois_open_doors` (does a non-chain topology give a fully-writable relaxation? Yes, the complete graph, proven for all N) and gives the full three-way classification: cap ≤ 4 writable, cap fixed but > 4 a bounded scramble, cap growing an unbounded scramble. Remaining: the ring's growth law, and a C# live witness.
 
 ---
 

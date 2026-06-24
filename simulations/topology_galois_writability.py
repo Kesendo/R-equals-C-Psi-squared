@@ -152,7 +152,30 @@ def verify_complete(N):
     return ok
 
 
+def verify_star(N):
+    """Gate the star derivation: the star Liouvillian commutes with S_{N-1} (leaf permutations, hub
+    fixed); the multiplicity of the standard irrep std_{N-1} in V is 9 (N-independent), so the max
+    H_B-mixed factor degree is 9 and the number of degree-9 factors is dim(std_{N-1}) = N-2. The star
+    scrambles to a FIXED S_9 for all N >= 5 (bounded, but > 4, so not writable)."""
+    L = build_se_de_block(2, N, adj_star(N))
+    cp = sp.expand(L.charpoly(LAM).as_expr())
+    _, hb = rate_bucket_factors(cp)
+    degs = sorted((sp.Poly(f, LAM).degree() for f in hb), reverse=True)
+    maxd = degs[0] if degs else 0
+    n9 = sum(1 for d in degs if d == 9)
+    ok = maxd == 9 and n9 == N - 2
+    print(f"  star N={N}: max H_B degree {maxd}, {n9} factor(s) of degree 9   "
+          f"vs predicted max 9, {N-2} of degree 9   [{'MATCH' if ok else 'MISMATCH'}]")
+    return ok
+
+
 if __name__ == "__main__":
+    if len(sys.argv) >= 2 and sys.argv[1] == "verify-star":
+        print("Gate: star max H_B degree == 9 (mult of std_{N-1}), with N-2 degree-9 factors\n")
+        targets = [int(a) for a in sys.argv[2:]] or [5, 6, 7, 8, 9]
+        allok = all(verify_star(N) for N in targets)
+        print(f"\nVERIFY-STAR {'PASS — star caps at S_9 (bounded, N-independent), all N' if allok else 'FAIL'}")
+        sys.exit(0 if allok else 1)
     if len(sys.argv) >= 2 and sys.argv[1] == "verify":
         print("Gate: K_N H_B-mixed factor degrees == rep-theory prediction {4:N-1, 3:N(N-3)/2, 2:(N-1)(N-2)/2}\n")
         targets = [int(a) for a in sys.argv[2:]] or [5, 6, 7, 8]

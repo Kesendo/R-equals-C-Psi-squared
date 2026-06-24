@@ -49,11 +49,15 @@ public static class OpenArcsRegistry
                 "so by Schur every (SE,DE) factor is a quartic-or-less => K_N radically writable for ALL N. The " +
                 "H_B-mixed degree histogram {4:N-1, 3:N(N-3)/2, 2:(N-1)(N-2)/2} is verified exactly at N=5,6,7,8 " +
                 "(experiments/TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md, now Tier-1 derived for the complete graph). " +
-                "REMAINING: the STAR/RING multiplicity bounds (the star's S_{N-1} fixes the hub, inflating " +
-                "multiplicities, so the star scrambles despite a large group; quantify when each first exceeds degree " +
-                "4 -- this also explains the non-monotonicity); the ring N=5 deg-16 Galois-UNDETERMINED edge (provably " +
-                "not S_16, exact group unpinned, needs a direct group computation); a C# live witness for the K_N " +
-                "histogram (witness-first). " +
+                "STAR ALSO DERIVED (Tier 1, 2026-06-24): Aut(star) = S_{N-1}; the multiplicity of the standard rep " +
+                "std_{N-1} in V is 9 (N-independent: 4+2+2+1 over the SE/DE tensor components), so the star caps at " +
+                "degree 9 with N-2 degree-9 factors => a FIXED S_9 scramble for all N>=5 (bounded, but >4 so " +
+                "unwritable); verified N=5..9. THREE-WAY CLASSIFICATION: a large automorphism group caps the Galois " +
+                "complexity N-independently (complete S_N => cap 4 writable; star S_{N-1} => cap 9 bounded scramble), " +
+                "a small one lets it grow (ring D_N, chain S_2 => growing; chain S_8/18/32/53; ring max-degree " +
+                "6/16/15/48 at N=4/5/6/7). REMAINING: the RING growth law (D_N, the erratic 6/16/15/48); the ring N=5 " +
+                "deg-16 Galois-UNDETERMINED edge (provably not S_16, exact group unpinned); a C# live witness for the " +
+                "K_N cap-4 and star cap-9 results (witness-first). " +
                 "(B) gamma-DEPENDENCE of the writable/unwritable line. At gamma->0 the block is pure free-fermion " +
                 "(integrable, pure imaginary). Is the AT-locked/H_B-mixed split present at all gamma>0, or does the " +
                 "writable fraction move with how hard you watch? Map deg(F_d)/deg(AT) or the discriminant loci across " +
