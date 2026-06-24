@@ -35,14 +35,20 @@ public static class OpenArcsRegistry
                 "galois_of_spectral_polynomial recipe (isolate-before-DDF + invariant-subspace). The RESULT is " +
                 "closed; the doors are the next research, none started.",
             NextStep: "Four downstream directions, ranked by sharpness of the yes/no. " +
-                "(A) [HARDEST YES/NO, most actionable] NON-CHAIN TOPOLOGY Galois groups. The chain gives S_n. Run the " +
-                "same engine on STAR / RING / COMPLETE (SE,DE) sub-blocks: does any non-chain topology give a " +
-                "SOLVABLE group (a topology whose relaxation is FULLY writable)? The doc's last open bullet " +
-                "('per-class closed forms for non-chain topologies') becomes decidable now. First move: build the " +
-                "star/ring (SE,DE) sym block, isolate its H_B-mixed factor via the same triple, read its Galois " +
-                "group. GATE-FIRST: the symmetry group differs by topology (star ~ S_{N-1} leaf perm, ring ~ D_N), so " +
-                "the AT-lock invariant-subspace structure may differ; reconstruct AT from the rate-confined subspaces " +
-                "PER topology, do not assume the chain's. " +
+                "(A) [FIRST EXEMPLAR LANDED 2026-06-24] NON-CHAIN TOPOLOGY Galois groups: YES, topology controls " +
+                "radical-writability. Computed star/ring/complete (SE,DE) H_B-mixed Galois groups at N=4,5,6 " +
+                "(simulations/topology_galois_writability.py, gate-validated by reproducing the chain S_8/S_18/S_32; " +
+                "experiments/TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md). RESULT: the COMPLETE graph K_N is the WRITABLE " +
+                "EXTREME (every H_B-mixed factor degree <= 4, definitively radical-solvable, at N=4,5,6), while the " +
+                "chain (S_8/18/32), the star (S_9 from N=5), and the ring (S_15 by N=6) all scramble to the full " +
+                "symmetric group S_n. Conjectured mechanism: K_N's degenerate single-particle spectrum {N-1, -1 with " +
+                "multiplicity N-1} shatters the (SE,DE) block into small factors. REMAINING (door A NOT closed): " +
+                "(a) the WHY as a theorem (graph spectral degeneracy => degree-<=4 cap; why exactly 4); (b) the ring " +
+                "N=5 deg-16 factor is Galois-UNDETERMINED even at a 20000-prime scan (provably not S_16, but the exact " +
+                "smaller group is unpinned by cycle types, needs a direct group computation); (c) N>=7 to firm up " +
+                "'complete writable for all N'; (d) a C# live witness (witness-first) once the why is settled. NOTE: " +
+                "NOT a monotone symmetry law (the ring scrambles LATER than the star despite less symmetry), so the " +
+                "clean claim is 'complete is THE writable extreme', not a symmetry-size ordering. " +
                 "(B) gamma-DEPENDENCE of the writable/unwritable line. At gamma->0 the block is pure free-fermion " +
                 "(integrable, pure imaginary). Is the AT-locked/H_B-mixed split present at all gamma>0, or does the " +
                 "writable fraction move with how hard you watch? Map deg(F_d)/deg(AT) or the discriminant loci across " +
