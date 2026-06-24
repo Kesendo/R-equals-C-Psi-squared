@@ -9,7 +9,7 @@ public class OpenArcsInspectableNodeTests
     [Fact]
     public void Registry_HasTwentySevenEntries()
     {
-        Assert.Equal(27, OpenArcsRegistry.All.Count);
+        Assert.Equal(28, OpenArcsRegistry.All.Count);
     }
 
     [Fact]

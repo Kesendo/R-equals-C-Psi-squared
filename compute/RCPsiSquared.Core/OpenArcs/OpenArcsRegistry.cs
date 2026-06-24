@@ -11,6 +11,61 @@ public static class OpenArcsRegistry
     private static readonly IReadOnlyList<OpenArc> _all = new[]
     {
         new OpenArc(
+            Name: "f89_galois_open_doors",
+            Opened: "2026-06-24",
+            Origin: "the F89 path-3..6 H_B-mixed Galois witness landing fully live (commit 6299aae; reviewed GREEN " +
+                "2026-06-24 by 3 refute-first lenses + own tests). Gal(F_d/Q(i)(q)) = S_8/18/32/53, non-solvable: the " +
+                "open XY chain's relaxation spectrum splits into an AT-locked half (radical-closed, the free-fermion " +
+                "Bloch frequencies at the Absorption-Theorem rates 2gamma/6gamma) and an H_B-mixed half (S_d, NO " +
+                "radical closure in q=J/gamma), the boundary being EXACTLY the Absorption Theorem. The " +
+                "philosophical-zoom-out reading (Tom asked 'what doors does it open'): gamma (the observation) draws " +
+                "the line between what closes into a formula ('no one', the integrable skeleton, same for every chain) " +
+                "and what only solves here-and-now ('someone', this chain turning). The witness + the " +
+                "galois_of_spectral_polynomial recipe + the C# engine (Berkowitz/Z[i], the exact triple, " +
+                "JordanVerdict, the rate-confined invariant-subspace AT isolation) are now a REUSABLE engine, not a " +
+                "one-off. Four downstream doors surfaced and were not yet pursued.",
+            ParkedAt: "WITNESS LANDED + REVIEWED + DOCUMENTED; the doors not opened. What EXISTS: the live witness " +
+                "(inspect --root f89galois, all four paths recompute F_d from the block, ~8s); the engine " +
+                "(GaussianMatrixCharpoly = Berkowitz over Z[i], GaussianPolynomial = exact division + Sylvester gcd, " +
+                "OcticGaloisCertificate.JordanVerdict, F89AtFactorReconstruction.ForPathK = the rate-confined " +
+                "invariant-subspace isolation, F89HbMixedIsolation.Isolate = the triple R=0/deg=d/gcd=1); the Python " +
+                "engine of record (f89_pathk_galois.py full-d); the typed claim F89PathKHbMixedDegreesClaim " +
+                "(degree-table Tier1Candidate / Galois-verdict Tier1Derived); the doc section 'Computing the " +
+                "path-3..6 Galois groups live' (experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md) + the " +
+                "galois_of_spectral_polynomial recipe (isolate-before-DDF + invariant-subspace). The RESULT is " +
+                "closed; the doors are the next research, none started.",
+            NextStep: "Four downstream directions, ranked by sharpness of the yes/no. " +
+                "(A) [HARDEST YES/NO, most actionable] NON-CHAIN TOPOLOGY Galois groups. The chain gives S_n. Run the " +
+                "same engine on STAR / RING / COMPLETE (SE,DE) sub-blocks: does any non-chain topology give a " +
+                "SOLVABLE group (a topology whose relaxation is FULLY writable)? The doc's last open bullet " +
+                "('per-class closed forms for non-chain topologies') becomes decidable now. First move: build the " +
+                "star/ring (SE,DE) sym block, isolate its H_B-mixed factor via the same triple, read its Galois " +
+                "group. GATE-FIRST: the symmetry group differs by topology (star ~ S_{N-1} leaf perm, ring ~ D_N), so " +
+                "the AT-lock invariant-subspace structure may differ; reconstruct AT from the rate-confined subspaces " +
+                "PER topology, do not assume the chain's. " +
+                "(B) gamma-DEPENDENCE of the writable/unwritable line. At gamma->0 the block is pure free-fermion " +
+                "(integrable, pure imaginary). Is the AT-locked/H_B-mixed split present at all gamma>0, or does the " +
+                "writable fraction move with how hard you watch? Map deg(F_d)/deg(AT) or the discriminant loci across " +
+                "q. Speculative, Tier-3. " +
+                "(C) GALOIS <-> SPECTRAL CHAOS (RMT). Is S_d the algebraic face of Liouvillian level-repulsion? Does " +
+                "the H_B-mixed F_d sector carry Ginibre/GOE statistics while the AT-locked half is picket-fence, in " +
+                "the SAME sub-block? Repo has the RMT tools (rmt_eigenvalues, spectral form factor). First move: " +
+                "extract F_d-sector eigenvalues across q, run the existing SFF / NN-spacing analysis vs the AT-locked " +
+                "sector. " +
+                "(D) GALOIS ATLAS of physical spectra. F89 chains = S_n; SIC-POVM spectral polynomials (Appleby 2012) " +
+                "= solvable, opposite polarity at the same physics/number-theory seam. Collect which physical " +
+                "spectral polynomials are solvable vs S_n via the reusable engine (we_are_ahead_at_the_seam). Lowest " +
+                "urgency, highest breadth. " +
+                "Anchors: compute/RCPsiSquared.Diagnostics/Foundation/{F89OcticGaloisWitness, " +
+                "F89PathKLiveGaloisWitness}.cs (inspect --root f89galois); compute/RCPsiSquared.Core/F89PathK/" +
+                "{F89PathKSeDeBlock, F89AtFactorReconstruction, F89HbMixedIsolation}.cs + Numerics/" +
+                "{GaussianMatrixCharpoly, GaussianPolynomial, OcticGaloisCertificate}.cs; " +
+                "simulations/f89_pathk_galois.py (full-d); experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md (the live-Galois " +
+                "section); the galois_of_spectral_polynomial recipe; reflections/ON_WHAT_CANNOT_CLOSE.md (the " +
+                "will-not/cannot frame the seeing sharpens).",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
             Name: "f116_golden_router_typed_claim",
             Opened: "2026-06-22",
             Origin: "the F116 golden-router proof review (docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md, reviewed " +
