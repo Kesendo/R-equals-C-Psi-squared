@@ -255,8 +255,59 @@ def gen_csharp_literals():
     print(f"wrote {out}")
 
 
+def reconstruct_at_invariant_subspace(k: int, q0: int = 2):
+    """Full-D AT reconstruction (no F_d import): the AT-locked factor = product over rate sectors of
+    charpoly(M | W), where W is the largest M-invariant subspace inside the sector (Re(λ) = −2 or −6).
+    M = D + iK (D real diagonal rates, K real-symmetric hopping); W = nullspace of [P_Uc K^m]. This
+    is the rate-confined-invariant-subspace construction the C# witness ports."""
+    M = build_pathk_sym_over_qi(q0, k + 1)
+    n = M.shape[0]
+    rate = [sp.re(M[i, i]) for i in range(n)]
+    K = M.applyfunc(sp.im)
+    at = sp.Integer(1)
+    for r0 in (-2, -6):
+        mask = [rate[i] == r0 for i in range(n)]
+        if not any(mask):
+            continue
+        p_u = sp.diag(*[0 if mask[i] else 1 for i in range(n)])
+        blocks, mm = [], p_u
+        for _ in range(n):
+            blocks.append(mm)
+            mm = mm * K
+        ns = sp.Matrix.vstack(*blocks).nullspace()       # largest M-invariant subspace in the sector
+        if not ns:
+            continue
+        W = sp.Matrix.hstack(*ns)
+        B = (W.T * W).inv() * (W.T * (M * W))            # M | W
+        at *= B.charpoly(LAM).as_expr()
+    return sp.Poly(sp.expand(at), LAM).monic()
+
+
+def gate_full_d():
+    """Gate: the invariant-subspace AT reconstruction divides the full charpoly with quotient F_d,
+    for path-4/5/6 (full Option D, F_d never imported). Run: f89_pathk_galois.py full-d."""
+    print("=" * 78)
+    print("GATE full-D: AT (rate-confined invariant subspace) divides C with quotient F_d, path-4/5/6")
+    print("=" * 78)
+    ok = True
+    for k in (4, 5, 6):
+        M = build_pathk_sym_over_qi(2, k + 1)
+        cp = sp.expand(M.charpoly(LAM).as_expr())
+        _, hb = rate_bucket_factors(cp)
+        fd = sp.Poly(hb[0], LAM).monic()
+        at = reconstruct_at_invariant_subspace(k)
+        quotient, rem = sp.div(sp.Poly(cp, LAM).monic().as_expr(), at.as_expr(), LAM)
+        match = sp.expand(rem) == 0 and \
+            sp.expand(sp.Poly(quotient, LAM).monic().as_expr() - fd.as_expr()) == 0
+        ok = ok and match
+        print(f"  path-{k}: AT deg {at.degree()}, C / AT == F_{fd.degree()}: {match}")
+    print(f"  GATE full-D: {'PASS' if ok else 'FAIL'}")
+
+
 if __name__ == "__main__":
-    if len(sys.argv) >= 2 and sys.argv[1] == "gen-cs":
+    if len(sys.argv) >= 2 and sys.argv[1] == "full-d":
+        gate_full_d()
+    elif len(sys.argv) >= 2 and sys.argv[1] == "gen-cs":
         gen_csharp_literals()
     elif len(sys.argv) >= 3 and sys.argv[1] == "emit":
         emit_fd_literal(int(sys.argv[2]), q0=int(sys.argv[3]) if len(sys.argv) >= 4 else 2)
