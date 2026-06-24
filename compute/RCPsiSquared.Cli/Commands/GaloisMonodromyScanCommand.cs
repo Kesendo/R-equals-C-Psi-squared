@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Numerics;
+using System.Text;
 using RCPsiSquared.Diagnostics.Foundation;
 
 namespace RCPsiSquared.Cli.Commands;
@@ -25,6 +26,8 @@ public static class GaloisMonodromyScanCommand
         Console.WriteLine($"# gmscan: q0={q0re.ToString("0.##", Inv)}{Sign(q0im)}i, " +
                           $"region re[{reLo.ToString("0.##", Inv)},{reHi.ToString("0.##", Inv)}] " +
                           $"im[{imLo.ToString("0.##", Inv)},{imHi.ToString("0.##", Inv)}], cell={cell.ToString("0.###", Inv)}");
+
+        if (p.HasFlag("map")) PrintHeatmap(reLo, reHi, imLo, imHi);
 
         var r = GaloisMonodromyWitness.Assemble(reLo, reHi, imLo, imHi, cell, new Complex(q0re, q0im));
 
@@ -54,6 +57,36 @@ public static class GaloisMonodromyScanCommand
         Console.WriteLine($"\nVERDICT: {(r.Components == 1 ? "CONNECTED -> the transpositions generate S_8 = Gal(F_8), monodromy = Galois from below"
             : $"{r.Components} components, {r.Largest}/8 strands connected. Not yet S_8: widen/retarget the EP search.")}");
         return 0;
+    }
+
+    // the flashlight: an ASCII heatmap of the octic min-gap field. Dark (@) = near a branch point (gap -> 0),
+    // space = far. One cheap parallel sweep illuminates the whole EP landscape at a glance.
+    private static void PrintHeatmap(double reLo, double reHi, double imLo, double imHi)
+    {
+        const int cols = 100;
+        double step = (reHi - reLo) / cols;
+        int rows = Math.Max(2, (int)((imHi - imLo) / step));
+        var gap = GaloisMonodromyWitness.OcticGapField(reLo, imLo, step, cols, rows);
+
+        double max = 0;
+        for (int ir = 0; ir < cols; ir++)
+            for (int ii = 0; ii < rows; ii++)
+                if (!double.IsNaN(gap[ir, ii])) max = Math.Max(max, gap[ir, ii]);
+
+        const string ramp = "@%#*+=:-. ";                     // index 0 = smallest gap (a branch point)
+        Console.WriteLine($"\noctic min-gap heatmap (@ = at a branch point, space = far); re in [{reLo.ToString("0.##", Inv)},{reHi.ToString("0.##", Inv)}], im top->bottom [{imHi.ToString("0.##", Inv)} .. {imLo.ToString("0.##", Inv)}]:");
+        for (int ii = rows - 1; ii >= 0; ii--)
+        {
+            var sb = new StringBuilder("  ");
+            for (int ir = 0; ir < cols; ir++)
+            {
+                double g = gap[ir, ii];
+                if (double.IsNaN(g)) { sb.Append(' '); continue; }
+                int idx = max > 0 ? (int)(Math.Sqrt(g / max) * (ramp.Length - 1)) : ramp.Length - 1;
+                sb.Append(ramp[Math.Clamp(idx, 0, ramp.Length - 1)]);
+            }
+            Console.WriteLine(sb.ToString());
+        }
     }
 
     private static (double, double) Pair(string s)

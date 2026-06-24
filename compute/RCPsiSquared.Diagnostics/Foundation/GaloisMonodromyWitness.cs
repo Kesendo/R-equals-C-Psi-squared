@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
+using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.F89PathK;
 using RCPsiSquared.Core.Inspection;
@@ -157,28 +158,59 @@ public sealed class GaloisMonodromyWitness : IInspectable
         return len == moved.Count;
     }
 
-    /// <summary>Find the genuine branch points (defective EPs) TOPOLOGICALLY: an EP is a √-branch (the
-    /// gap ~ √|q−q*| is a cusp the gap-scan jumps over), but a small loop around any cell containing it
-    /// returns a non-identity monodromy regardless of cusp sharpness. The diabolic point is INVISIBLE here
-    /// (its loop is the identity), which is correct: it is not a branch point in the monodromy sense. Tiles
-    /// a box, loops each cell, refines the firing cells by quartering. Returns the EPs with their local
-    /// transposition (moved strands). Restricted to a box around q_EP for speed; EPs come in conjugate pairs
-    /// (the box spans both halves) plus the spatial structure of P_10(q²).</summary>
-    public static List<BranchPoint> FindBranchPoints(
-        double reLo = 0.45, double reHi = 0.85, double imLo = -0.18, double imHi = 0.18, double cell = 0.02)
+    /// <summary>The octic min-gap field over a grid, computed in PARALLEL (one 12×12 EVD per point, ~0.1 ms,
+    /// embarrassingly parallel). The gap dips toward every branch point (a √-cusp at an EP, a linear notch at
+    /// the diabolic), so its local minima ARE the branch locus. The q=0 super-branch disk is masked NaN.
+    /// nRe×nIm grid with q[ir,ii] = (reLo+ir·step) + i(imLo+ii·step). This is the flashlight: one cheap sweep
+    /// illuminates the whole landscape, instead of a monodromy loop per cell.</summary>
+    public static double[,] OcticGapField(double reLo, double imLo, double step, int nRe, int nIm)
     {
-        var found = new List<BranchPoint>();
-        for (double re = reLo; re < reHi; re += cell)
-            for (double im = imLo; im < imHi; im += cell)
+        var gap = new double[nRe, nIm];
+        Parallel.For(0, nRe, ir =>
+        {
+            double re = reLo + ir * step;
+            for (int ii = 0; ii < nIm; ii++)
             {
-                var c = new Complex(re + cell / 2, im + cell / 2);
-                if (c.Magnitude < 0.20) continue;                 // skip the q=0 super-branch (q²⁴ factor)
-                int moved = Moved(Monodromy.Permutation(AllRootsAt, c, cell * 0.62, 80));
-                if (moved == 0) continue;
-                if (found.Any(b => (b.Q - c).Magnitude < 1.5 * cell)) continue;   // one cell per EP cluster
-                var refined = QuarterRefine(c, cell);
-                found.Add(new BranchPoint(refined, OcticGap(refined),
-                    Moved(Monodromy.Permutation(AllRootsAt, refined, 0.6 * cell, 200))));
+                var q = new Complex(re, imLo + ii * step);
+                gap[ir, ii] = q.Magnitude < 0.18 ? double.NaN : OcticGap(q);   // mask the q=0 super-branch
+            }
+        });
+        return gap;
+    }
+
+    /// <summary>Find the genuine branch points (defective EPs) TOPOLOGICALLY: an EP is a √-branch (the gap
+    /// is a sharp √-cusp the field jumps over), but a small loop around any cell containing it returns a
+    /// non-identity monodromy regardless of cusp sharpness. The diabolic is INVISIBLE here (its loop is the
+    /// identity), correctly not a branch point. The expensive cell-loop scan is run in PARALLEL (each cell is
+    /// independent; ~24× on this machine), then the few firing cells are refined and classified serially.
+    /// Topological robustness, parallel speed.</summary>
+    public static List<BranchPoint> FindBranchPoints(
+        double reLo = -1.8, double reHi = 1.8, double imLo = -0.22, double imHi = 0.22, double cell = 0.05)
+    {
+        int nRe = (int)((reHi - reLo) / cell), nIm = (int)((imHi - imLo) / cell);
+        var fires = new bool[nRe, nIm];
+        Parallel.For(0, nRe, ir =>
+        {
+            double re = reLo + ir * cell + cell / 2;
+            for (int ii = 0; ii < nIm; ii++)
+            {
+                var c = new Complex(re, imLo + ii * cell + cell / 2);
+                if (c.Magnitude >= 0.20 && Moved(Monodromy.Permutation(AllRootsAt, c, cell * 0.62, 80)) > 0)
+                    fires[ir, ii] = true;                            // each iteration writes its own slot
+            }
+        });
+
+        var found = new List<BranchPoint>();
+        for (int ir = 0; ir < nRe; ir++)
+            for (int ii = 0; ii < nIm; ii++)
+            {
+                if (!fires[ir, ii]) continue;
+                var c0 = new Complex(reLo + ir * cell + cell / 2, imLo + ii * cell + cell / 2);
+                if (found.Any(b => (b.Q - c0).Magnitude < 1.5 * cell)) continue;
+                var c = QuarterRefine(c0, cell);
+                if (found.Any(b => (b.Q - c).Magnitude < 0.02)) continue;
+                int moved = Moved(Monodromy.Permutation(AllRootsAt, c, 0.6 * cell, 200));
+                if (moved > 0) found.Add(new BranchPoint(c, OcticGap(c), moved));
             }
         return found;
     }
@@ -276,9 +308,14 @@ public sealed class GaloisMonodromyWitness : IInspectable
         var uf = Enumerable.Range(0, 8).ToArray();
         int Find(int x) { while (uf[x] != x) { uf[x] = uf[uf[x]]; x = uf[x]; } return x; }
 
-        foreach (var ep in found)
+        var perms = new int[found.Count][];                          // the lassos are independent: track in parallel
+        Parallel.For(0, found.Count, k =>
+            perms[k] = Monodromy.PermutationAlongPath(AllRootsAt, DetourLasso(q0, found[k].Q, radius: 0.02)));
+
+        for (int k = 0; k < found.Count; k++)
         {
-            var perm = Monodromy.PermutationAlongPath(AllRootsAt, DetourLasso(q0, ep.Q, radius: 0.02));
+            var ep = found[k];
+            var perm = perms[k];
             var moved = Enumerable.Range(0, perm.Length).Where(i => perm[i] != i).ToList();
             var movedOctic = moved.Where(pos.ContainsKey).Select(i => pos[i]).OrderBy(x => x).ToArray();
             // accept a lasso whose net braid touches ONLY octic strands and is a SINGLE cycle: a transposition
@@ -288,10 +325,10 @@ public sealed class GaloisMonodromyWitness : IInspectable
             // or any AT-strand motion means the lasso crossed unrelated branches; reject (counted elsewhere).
             if (moved.Count >= 2 && moved.All(pos.ContainsKey) && IsSingleCycle(perm, moved))
             {
-                for (int k = 1; k < movedOctic.Length; k++)
+                for (int m = 1; m < movedOctic.Length; m++)
                 {
-                    edges.Add((movedOctic[0], movedOctic[k]));
-                    uf[Find(movedOctic[0])] = Find(movedOctic[k]);
+                    edges.Add((movedOctic[0], movedOctic[m]));
+                    uf[Find(movedOctic[0])] = Find(movedOctic[m]);
                 }
                 epInfo.Add((ep.Q, movedOctic[0], movedOctic[^1], moved.Count, movedOctic));
             }
