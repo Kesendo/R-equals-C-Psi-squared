@@ -127,6 +127,120 @@ public sealed class GaloisMonodromyWitness : IInspectable
         return (bestQ, bestMid, bestGap);
     }
 
+    // ---- G3 exploration: map the octic branch points (where two octic roots collide in complex q) ----
+
+    public readonly record struct BranchPoint(Complex Q, double Gap, int Moved);
+
+    private static double OcticGap(Complex q)
+    {
+        var r = OcticRootsAt(q);
+        double m = double.PositiveInfinity;
+        for (int i = 0; i < r.Length; i++)
+            for (int j = i + 1; j < r.Length; j++)
+                m = Math.Min(m, (r[i] - r[j]).Magnitude);
+        return m;
+    }
+
+    private static int Moved(int[] perm) => Enumerable.Range(0, perm.Length).Count(i => perm[i] != i);
+
+    /// <summary>Find the genuine branch points (defective EPs) TOPOLOGICALLY: an EP is a √-branch (the
+    /// gap ~ √|q−q*| is a cusp the gap-scan jumps over), but a small loop around any cell containing it
+    /// returns a non-identity monodromy regardless of cusp sharpness. The diabolic point is INVISIBLE here
+    /// (its loop is the identity), which is correct: it is not a branch point in the monodromy sense. Tiles
+    /// a box, loops each cell, refines the firing cells by quartering. Returns the EPs with their local
+    /// transposition (moved strands). Restricted to a box around q_EP for speed; EPs come in conjugate pairs
+    /// (the box spans both halves) plus the spatial structure of P_10(q²).</summary>
+    public static List<BranchPoint> FindBranchPoints(
+        double reLo = 0.45, double reHi = 0.85, double imLo = -0.18, double imHi = 0.18, double cell = 0.02)
+    {
+        var found = new List<BranchPoint>();
+        for (double re = reLo; re < reHi; re += cell)
+            for (double im = imLo; im < imHi; im += cell)
+            {
+                var c = new Complex(re + cell / 2, im + cell / 2);
+                int moved = Moved(Monodromy.Permutation(AllRootsAt, c, cell * 0.62, 80));
+                if (moved == 0) continue;
+                if (found.Any(b => (b.Q - c).Magnitude < 1.5 * cell)) continue;   // one cell per EP cluster
+                var refined = QuarterRefine(c, cell);
+                found.Add(new BranchPoint(refined, OcticGap(refined),
+                    Moved(Monodromy.Permutation(AllRootsAt, refined, 0.6 * cell, 200))));
+            }
+        return found;
+    }
+
+    // box bisection: keep halving toward the quadrant whose enclosing loop still braids, until the box is
+    // small. Converges geometrically to the EP so a tight lasso circle reliably encloses it.
+    private static Complex QuarterRefine(Complex c, double cell)
+    {
+        double half = cell / 2;
+        for (int it = 0; it < 9 && half > 3e-4; it++)
+        {
+            double q = half / 2;                                  // quadrant-centre offset
+            Complex pick = c; bool found = false;
+            foreach (var off in new[] { new Complex(q, q), new Complex(-q, q), new Complex(q, -q), new Complex(-q, -q) })
+            {
+                if (Moved(Monodromy.Permutation(AllRootsAt, c + off, half * 0.95, 100)) > 0) { pick = c + off; found = true; break; }
+            }
+            c = pick; half = q;
+            if (!found) { /* EP sits near the centre, keep shrinking around c */ }
+        }
+        return c;
+    }
+
+    // ---- G3 gate: assemble the EPs' transpositions into the monodromy = Galois group ----
+
+    // the 8 octic strand indices among the 12 roots at base point q0 (the other 4 are the AT-locked roots).
+    private static int[] OcticIndices(Complex q0, Complex[] r0)
+    {
+        var at = new[]
+        {
+            new Complex(-2, 0) + Complex.ImaginaryOne * q0 * Alpha, new Complex(-2, 0) + Complex.ImaginaryOne * q0 * Beta,
+            new Complex(-6, 0) + Complex.ImaginaryOne * q0 * Alpha, new Complex(-6, 0) + Complex.ImaginaryOne * q0 * Beta,
+        };
+        var atIdx = new HashSet<int>();
+        foreach (var t in at)
+        {
+            int best = -1; double bd = double.PositiveInfinity;
+            for (int i = 0; i < r0.Length; i++)
+                if (!atIdx.Contains(i)) { double dd = (r0[i] - t).Magnitude; if (dd < bd) { bd = dd; best = i; } }
+            atIdx.Add(best);
+        }
+        return Enumerable.Range(0, r0.Length).Where(i => !atIdx.Contains(i)).ToArray();
+    }
+
+    /// <summary>The G3 gate: lasso every EP from a common base point, read its transposition on the 8 octic
+    /// strands in one consistent labelling, and assemble. Transpositions generate S_8 ⟺ their graph on the
+    /// 8 strands is connected (one component). That is Gal(F_8) = S_8 reconstructed from below, purely by
+    /// tracking eigenvalue braids: monodromy = Galois, made live.</summary>
+    public static (bool connected, int components, int nEps, int nClean, List<(int a, int b)> edges) GeneratesS8()
+    {
+        var q0 = new Complex(2.0, 0);                             // REAL base: AT roots sit at Re −2/−6 exactly,
+        var r0 = AllRootsAt(q0);                                  // octic roots strictly between ⟹ clean labelling
+        var octic = OcticIndices(q0, r0);
+        var pos = new Dictionary<int, int>();
+        for (int p = 0; p < octic.Length; p++) pos[octic[p]] = p;  // strand index → 0..7
+
+        var eps = FindBranchPoints(reLo: 0.10, reHi: 1.70, imLo: -0.55, imHi: 0.55, cell: 0.04);
+        var edges = new List<(int, int)>();
+        var uf = Enumerable.Range(0, 8).ToArray();
+        int Find(int x) { while (uf[x] != x) { uf[x] = uf[uf[x]]; x = uf[x]; } return x; }
+
+        int clean = 0;
+        foreach (var ep in eps)
+        {
+            var lasso = Monodromy.Lasso(q0, ep.Q, radius: 0.02);
+            var perm = Monodromy.PermutationAlongPath(AllRootsAt, lasso);
+            var moved = Enumerable.Range(0, perm.Length).Where(i => perm[i] != i).ToList();
+            if (moved.Count != 2 || !moved.All(pos.ContainsKey)) continue;   // accept only clean octic transpositions
+            clean++;
+            int a = pos[moved[0]], b = pos[moved[1]];
+            edges.Add((a, b));
+            uf[Find(a)] = Find(b);
+        }
+        int comps = Enumerable.Range(0, 8).Select(Find).Distinct().Count();
+        return (comps == 1, comps, eps.Count, clean, edges);
+    }
+
     private static string Cycles(int[] perm)
     {
         var seen = new bool[perm.Length];
@@ -177,11 +291,18 @@ public sealed class GaloisMonodromyWitness : IInspectable
                          "genuine simple branch points (P_10 zeros = defective EPs) flanking q_EP, each a transposition: " +
                          "the silent diabolic vs the braiding EPs, side by side, and the seed of the S_8 gate.");
 
-            yield return new InspectableNode("the sequel: the S_8-generation gate",
-                summary: "the genuine branch points are the simple zeros of P_10(q²) in disc(F_8) = const·q²⁴·" +
-                         "(3q⁴+q²−1)²·P_10(q²); each carries a transposition, and they generate Gal(F_8) = S_8 from " +
-                         "below. That is the monodromy = Galois gate (G3), the q-direction realisation of the writability " +
-                         "result, and the complete-graph contrast (solvable ⟹ disconnected small braids) is G4.");
+            var g3 = GeneratesS8();
+            string edgeList = string.Join(" ", g3.edges.Select(e => $"({e.a} {e.b})"));
+            yield return new InspectableNode(
+                $"G3: monodromy = Galois, S_8 from below ({(g3.connected ? "CONNECTED ✓" : $"{g3.components} components")})",
+                summary: $"every EP lassoed from a common base, its transposition read on the 8 octic strands in one " +
+                         $"labelling: {g3.nEps} branch points found, {g3.nClean} clean octic transpositions {edgeList}. " +
+                         $"The transposition graph on the 8 strands has {g3.components} component" +
+                         $"{(g3.components == 1 ? "" : "s")} ⟹ {(g3.connected ? "CONNECTED, so the transpositions generate the " +
+                         "FULL symmetric group: Gal(F_8) = S_8, reconstructed purely from eigenvalue braids (monodromy = " +
+                         "Galois, from below, the independent route to the algebraic Frobenius certificate)" : "not yet connected " +
+                         "(widen the EP search). Transpositions generate S_8 iff their graph is connected.")}. " +
+                         "The diabolic q_EP contributes nothing (silent). Complete-graph contrast (solvable ⟹ small disconnected braids) is G4.");
         }
     }
 

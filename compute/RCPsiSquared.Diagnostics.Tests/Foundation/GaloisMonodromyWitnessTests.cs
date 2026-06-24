@@ -48,6 +48,17 @@ public class GaloisMonodromyWitnessTests
     }
 
     [Fact]
+    public void TheMonodromyAssemblesTranspositions_ConnectingMostOcticStrands()
+    {
+        // the lasso assembly works live: each accessible EP is lassoed from a common base and its
+        // transposition read on the 8 octic strands in one labelling. The local cluster's EPs connect a
+        // majority of the strands (6/8 here); full S_8 awaits the remaining EPs past the q=0 super-branch.
+        var g3 = GaloisMonodromyWitness.GeneratesS8();
+        Assert.True(g3.nClean >= 4, $"the EPs yield clean octic transpositions (got {g3.nClean})");
+        Assert.True(g3.components <= 3, $"they connect ≥6 of 8 strands in one labelling (got {g3.components} components)");
+    }
+
+    [Fact]
     public void Witness_Renders_TheMonodromyIdentityVerdict()
     {
         var children = ((IInspectable)new GaloisMonodromyWitness()).Children.ToList();

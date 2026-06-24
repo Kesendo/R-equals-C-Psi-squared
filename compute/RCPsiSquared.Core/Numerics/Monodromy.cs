@@ -11,27 +11,26 @@ namespace RCPsiSquared.Core.Numerics;
 /// structure lives spectrally: NOT in the fixed-q geometry, but in how the eigenvalue strands braid as
 /// q moves. A loop around a √-branch point (simple discriminant zero, a defective EP) swaps two roots;
 /// a loop around a transversal crossing of analytic sheets (double discriminant zero, a diabolic point)
-/// returns the identity. The tracker follows each root by nearest-neighbour continuity along a fine
-/// discretisation of the loop, robust to the principal-branch jumps of the per-root closed forms (it
-/// samples the root SET, which is continuous, not any single branch).</summary>
+/// returns the identity. A LASSO (a path from a common base point out around a branch point and back)
+/// expresses that branch point's transposition in the base point's labelling, so the transpositions of
+/// all branch points live in ONE labelling and can be assembled into the monodromy = Galois group. The
+/// tracker follows each root by nearest-neighbour continuity along a fine discretisation, robust to the
+/// principal-branch jumps of the per-root closed forms (it samples the continuous root SET).</summary>
 public static class Monodromy
 {
-    /// <summary>The permutation induced by one counter-clockwise loop of radius <paramref name="radius"/>
-    /// about <paramref name="center"/>, discretised into <paramref name="steps"/> arcs. Returns perm where
-    /// perm[i] = the final position (in the start ordering) of the root that started at index i. Identity
-    /// ⟺ no braiding enclosed; a transposition ⟺ one √-branch point; a k-cycle ⟺ a k-fold branch.</summary>
-    public static int[] Permutation(Func<Complex, Complex[]> rootsAt, Complex center, double radius, int steps)
+    /// <summary>The permutation induced by following the roots along an arbitrary CLOSED path (path[0]
+    /// ≈ path[^1]). Returns perm where perm[i] = the final position (in the start ordering) of the root
+    /// that started at index i.</summary>
+    public static int[] PermutationAlongPath(Func<Complex, Complex[]> rootsAt, IReadOnlyList<Complex> path)
     {
-        Complex Q(double theta) => center + radius * new Complex(Math.Cos(theta), Math.Sin(theta));
-
-        var r0 = rootsAt(Q(0));
+        var r0 = rootsAt(path[0]);
         int d = r0.Length;
         var current = (Complex[])r0.Clone();
         var labels = Enumerable.Range(0, d).ToArray();      // labels[j] = start index of the root now at current[j]
 
-        for (int s = 1; s <= steps; s++)
+        for (int k = 1; k < path.Count; k++)
         {
-            var next = rootsAt(Q(2.0 * Math.PI * s / steps));
+            var next = rootsAt(path[k]);
             int[] assign = NearestBijection(current, next);  // assign[j] = index in current matched to next[j]
             var newLabels = new int[d];
             for (int j = 0; j < d; j++) newLabels[j] = labels[assign[j]];
@@ -39,11 +38,52 @@ public static class Monodromy
             labels = newLabels;
         }
 
-        // current ≈ r0 as a set; read off start-index → end-position-in-r0-ordering.
         var perm = new int[d];
         for (int j = 0; j < d; j++)
             perm[labels[j]] = NearestIndex(r0, current[j]);
         return perm;
+    }
+
+    /// <summary>The permutation induced by one counter-clockwise circular loop of radius
+    /// <paramref name="radius"/> about <paramref name="center"/>, discretised into
+    /// <paramref name="steps"/> arcs. Identity ⟺ no braiding enclosed; a transposition ⟺ one √-branch
+    /// point; a k-cycle ⟺ a k-fold branch.</summary>
+    public static int[] Permutation(Func<Complex, Complex[]> rootsAt, Complex center, double radius, int steps)
+    {
+        var path = new Complex[steps + 1];
+        for (int s = 0; s <= steps; s++)
+        {
+            double theta = 2.0 * Math.PI * s / steps;
+            path[s] = center + radius * new Complex(Math.Cos(theta), Math.Sin(theta));
+        }
+        return PermutationAlongPath(rootsAt, path);
+    }
+
+    /// <summary>A lasso: the closed path baseQ → (straight in) → a full circle of radius
+    /// <paramref name="radius"/> around <paramref name="branchPoint"/> → (straight back) → baseQ. Tracking
+    /// the roots along it yields that branch point's monodromy expressed in baseQ's labelling, so lassos to
+    /// different branch points share one labelling and their transpositions can be assembled.</summary>
+    public static Complex[] Lasso(Complex baseQ, Complex branchPoint, double radius, int density = 240)
+    {
+        var dir = branchPoint - baseQ;
+        double dist = dir.Magnitude;
+        Complex u = dir / dist;                               // baseQ → branchPoint
+        Complex enter = branchPoint - radius * u;             // point on the circle nearest baseQ
+        var pts = new List<Complex>();
+
+        int nLine = Math.Max(20, (int)(density * Math.Max(0.0, dist - radius)));
+        for (int k = 0; k <= nLine; k++) pts.Add(baseQ + (enter - baseQ) * ((double)k / nLine));
+
+        double th0 = Math.Atan2(enter.Imaginary - branchPoint.Imaginary, enter.Real - branchPoint.Real);
+        int nCirc = Math.Max(120, density);
+        for (int k = 1; k <= nCirc; k++)
+        {
+            double th = th0 + 2.0 * Math.PI * k / nCirc;
+            pts.Add(branchPoint + radius * new Complex(Math.Cos(th), Math.Sin(th)));
+        }
+
+        for (int k = 1; k <= nLine; k++) pts.Add(enter + (baseQ - enter) * ((double)k / nLine));
+        return pts.ToArray();
     }
 
     // greedy global-nearest bijection: match each next root to a distinct current root, closest pairs first.

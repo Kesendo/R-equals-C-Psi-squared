@@ -42,6 +42,28 @@ public class MonodromyTests
     }
 
     [Fact]
+    public void LassoFromADistantBase_AroundTheBranchPoint_SwapsInTheBaseLabelling()
+    {
+        // λ²=q: from a base q0=1 (roots ±1), lasso out to a small circle around the branch point q=0
+        // and back. The net braiding, expressed in the q0 labelling, is the transposition (the basis of
+        // assembling many branch points' transpositions into one monodromy = Galois group).
+        Func<Complex, Complex[]> roots = q => { var s = Complex.Sqrt(q); return new[] { s, -s }; };
+        var lasso = Monodromy.Lasso(new Complex(1, 0), Complex.Zero, radius: 0.05);
+        var perm = Monodromy.PermutationAlongPath(roots, lasso);
+        Assert.Equal(new[] { 1, 0 }, perm);
+    }
+
+    [Fact]
+    public void LassoToAPointWithNoBranch_IsIdentity()
+    {
+        // a lasso around a regular point (no branch enclosed) leaves the labelling unchanged.
+        Func<Complex, Complex[]> roots = q => { var s = Complex.Sqrt(q); return new[] { s, -s }; };
+        var lasso = Monodromy.Lasso(new Complex(1, 0), new Complex(2, 0), radius: 0.05);
+        var perm = Monodromy.PermutationAlongPath(roots, lasso);
+        Assert.Equal(new[] { 0, 1 }, perm);
+    }
+
+    [Fact]
     public void CubeRootBranchPoint_GivesAThreeCycle()
     {
         // λ³ = q: the three cube roots; encircling q=0 once cycles them (a 3-cycle, not a transposition).
