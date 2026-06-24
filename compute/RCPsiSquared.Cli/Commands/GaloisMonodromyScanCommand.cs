@@ -31,6 +31,7 @@ public static class GaloisMonodromyScanCommand
                           $"region re[{reLo.ToString("0.##", Inv)},{reHi.ToString("0.##", Inv)}] " +
                           $"im[{imLo.ToString("0.##", Inv)},{imHi.ToString("0.##", Inv)}], cell={cell.ToString("0.###", Inv)}");
 
+        if (p.HasFlag("mirror")) PrintMirror(reLo, reHi, imLo, imHi, cell);
         if (p.HasFlag("map")) PrintHeatmap(reLo, reHi, imLo, imHi);
 
         var r = GaloisMonodromyWitness.Assemble(reLo, reHi, imLo, imHi, cell, new Complex(q0re, q0im));
@@ -143,6 +144,44 @@ public static class GaloisMonodromyScanCommand
                 sb.Append(ramp[Math.Clamp(idx, 0, ramp.Length - 1)]);
             }
             Console.WriteLine(sb.ToString());
+        }
+    }
+
+    // The gate for "EPs are a mirror pair swapping": map each branch point's collision lambda_EP and test
+    // the palindrome. The (SE,DE) spectrum is mirror-symmetric about Re lambda = -4 (the centre between the
+    // -2/-6 rungs). If the diabolic sits ON the axis (its own mirror, silent) and the EPs come in mirror
+    // pairs about it, the branch locus IS a palindrome: the map of where observer and observed swap.
+    private static void PrintMirror(double reLo, double reHi, double imLo, double imHi, double cell)
+    {
+        (Complex lam, double gap) Collision(Complex q)
+        {
+            var r = GaloisMonodromyWitness.OcticRootsAt(q);
+            int bi = 0, bj = 1; double bg = double.PositiveInfinity;
+            for (int i = 0; i < r.Length; i++)
+                for (int j = i + 1; j < r.Length; j++)
+                {
+                    double g = (r[i] - r[j]).Magnitude;
+                    if (g < bg) { bg = g; bi = i; bj = j; }
+                }
+            return ((r[bi] + r[bj]) / 2, bg);
+        }
+        string F(Complex z) => $"{z.Real.ToString("0.00", Inv)}{Sign(z.Imaginary)}i";
+
+        Console.WriteLine("\n# the palindrome gate: collision lambda_EP per branch point (centre = Re lambda -4):");
+        double q2a = (-1 + Math.Sqrt(13)) / 6, q2b = (-1 - Math.Sqrt(13)) / 6;
+        var diab = new List<Complex>();
+        if (q2a > 0) { double q = Math.Sqrt(q2a); diab.Add(new Complex(q, 0)); diab.Add(new Complex(-q, 0)); }
+        if (q2b < 0) { double q = Math.Sqrt(-q2b); diab.Add(new Complex(0, q)); diab.Add(new Complex(0, -q)); }
+        foreach (var d in diab)
+        {
+            var (lam, _) = Collision(d);
+            Console.WriteLine($"  diabolic  q={F(d),-14} lambda_EP={F(lam),-14} |Re+4|={Math.Abs(lam.Real + 4).ToString("0.000", Inv)}");
+        }
+        var eps = GaloisMonodromyWitness.FindBranchPoints(reLo, reHi, imLo, imHi, cell);
+        foreach (var ep in eps.OrderBy(e => e.Q.Real).ThenBy(e => e.Q.Imaginary))
+        {
+            var (lam, _) = Collision(ep.Q);
+            Console.WriteLine($"  EP        q={F(ep.Q),-14} lambda_EP={F(lam),-14} |Re+4|={Math.Abs(lam.Real + 4).ToString("0.000", Inv)}");
         }
     }
 
