@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using RCPsiSquared.Core.F89PathK;
 using RCPsiSquared.Core.Inspection;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
@@ -16,52 +17,14 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// live at --root f89galois). The classification sibling of the F89 octic Galois witness.</summary>
 public sealed class TopologyGaloisWritabilityWitness : IInspectable
 {
-    // (SE,DE) basis: a marked point i and a 2-subset {j,k}, j < k, over N sites.
-    private static List<(int i, int j, int k)> Basis(int n)
-    {
-        var b = new List<(int, int, int)>();
-        for (int i = 0; i < n; i++)
-            for (int j = 0; j < n; j++)
-                for (int k = j + 1; k < n; k++)
-                    b.Add((i, j, k));
-        return b;
-    }
-
+    // the (SE,DE) basis and block now come from the shared Core primitive SeDeBlockBuilder
+    // (extracted so the block is built once, not re-implemented per witness).
     private static (int, int) Sort(int x, int y) => x < y ? (x, y) : (y, x);
-
-    private static bool[,] Adjacency(int n, string topo)
-    {
-        var a = new bool[n, n];
-        if (topo == "complete") { for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) a[i, j] = i != j; }
-        else if (topo == "star") { for (int l = 1; l < n; l++) { a[0, l] = true; a[l, 0] = true; } }
-        else { for (int i = 0; i + 1 < n; i++) { a[i, i + 1] = true; a[i + 1, i] = true; } }   // chain
-        return a;
-    }
-
-    // L = Re (diagonal AT rates) + i·Im (hopping), exact integers at J=γ=1.
-    private static (int[,] re, int[,] im) Block(int n, bool[,] adj)
-    {
-        var basis = Basis(n);
-        int d = basis.Count;
-        var idx = new Dictionary<(int, int, int), int>();
-        for (int t = 0; t < d; t++) idx[basis[t]] = t;
-        var re = new int[d, d];
-        var im = new int[d, d];
-        for (int col = 0; col < d; col++)
-        {
-            var (i, j, k) = basis[col];
-            re[col, col] = (i == j || i == k) ? -2 : -6;                  // overlap 2γ / no-overlap 6γ
-            for (int i2 = 0; i2 < n; i2++) if (adj[i, i2]) im[idx[(i2, j, k)], col] += -2;   // SE hop (ket)
-            for (int nj = 0; nj < n; nj++) if (adj[j, nj] && nj != k) { var (a, b) = Sort(nj, k); im[idx[(i, a, b)], col] += 2; }
-            for (int nk = 0; nk < n; nk++) if (adj[k, nk] && nk != j) { var (a, b) = Sort(j, nk); im[idx[(i, a, b)], col] += 2; }
-        }
-        return (re, im);
-    }
 
     // basis index permutation induced by a site permutation g.
     private static int[] BasisPerm(int n, int[] g)
     {
-        var basis = Basis(n);
+        var basis = SeDeBlockBuilder.Basis(n);
         var idx = new Dictionary<(int, int, int), int>();
         for (int t = 0; t < basis.Count; t++) idx[basis[t]] = t;
         var p = new int[basis.Count];
@@ -86,7 +49,7 @@ public sealed class TopologyGaloisWritabilityWitness : IInspectable
 
     private static bool SymmetryVerified(int n, string topo, bool star)
     {
-        var (re, im) = Block(n, Adjacency(n, topo));
+        var (re, im) = SeDeBlockBuilder.Build(n, topo);
         int lo = star ? 1 : 0;                                            // star fixes the hub (site 0)
         for (int s = lo; s + 1 < n; s++)                                  // adjacent-transposition generators
         {

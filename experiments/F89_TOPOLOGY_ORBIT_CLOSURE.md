@@ -2,7 +2,7 @@
 
 **Status:** Tier 1 derived (S_N-orbit symmetry proven; numerically verified bit-identical at N=7 across all 14 topology classes and N=4 across all C(4,2)=6 site pairs)
 **Date:** 2026-05-11
-**Last updated:** 2026-06-24 (added §"Computing the path-3..6 Galois groups live" documenting the live `inspect --root f89galois` witness, the isolate-before-DDF/degree-pollution principle, and the rate-confined invariant-subspace AT reconstruction that replaced the failed naive Slater rule). Earlier, 2026-06-23: plain-words preface + Abstract + Notation added; table-escaping, em-dash cleanup, and precision fixes to the path-1 residual, the path-6 F_a line, and the Pi2 dual-anchor framing.
+**Last updated:** 2026-06-24 (added §"Computing the path-3..6 Galois groups live" documenting the live `inspect --root f89galois` witness, the isolate-before-DDF/degree-pollution principle, and the rate-confined invariant-subspace AT reconstruction that replaced the failed naive Slater rule; plus the forward cross-link to the four-topology sequel TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md). Earlier, 2026-06-23: plain-words preface + Abstract + Notation added; table-escaping, em-dash cleanup, and precision fixes to the path-1 residual, the path-6 F_a line, and the Pi2 dual-anchor framing.
 **Authors:** Thomas Wicht, Claude Opus 4.7 (1M context)
 **Scripts:**
 - [`bond_isolate_compare_n7.py`](../simulations/bond_isolate_compare_n7.py): N=7 single-bond pairwise comparison (six bonds, 30 ordered pairs).
@@ -11,6 +11,7 @@
 
 **Outputs:** [`bond_isolate/`](../simulations/results/bond_isolate/) (28 CSVs at N=7 + two comparison plots).
 **Related register entries:** [F73](../docs/ANALYTICAL_FORMULAS.md) (analogous closed-form closure for the (vac, SE) coherence block); [F71](../docs/ANALYTICAL_FORMULAS.md) (the spatial mirror Z₂ that sits inside the full S_N argument used here); [F86](../docs/ANALYTICAL_FORMULAS.md) (per-bond Q_peak fan, the empirical contrast: a linear response ∂J_b breaks S_N differently from the uniform-J multi-bond setup of F89).
+**Related experiments:** [TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md](TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md), the sequel that generalises this chain result: on every wiring the graph automorphism group caps the (SE,DE) Galois writability (complete K_N → 4, radically writable for all N; star → 9; ring and chain grow into S_n), live at `inspect --root topowritability`.
 
 ---
 
@@ -698,6 +699,8 @@ where P_10(q²) is degree 10 in q² (degree 20 in q, even powers only) and is NO
 **Consequence (radical-non-solvability).** S_8 is non-solvable, so the eight roots λ_k(q) admit **no expression by radicals** over Q(i)(q) (Abel-Ruffini). This does NOT exclude non-radical special-function expressions (Bring radicals / theta / hypergeometric), which exist for any algebraic function.
 
 **What this means (the content is negative).** S_8 is the *generic* Galois group of an irreducible degree-8 polynomial (van der Waerden 1936; Bhargava, *Annals* 201, 2025), it is not exotic. The point is that free-fermion integrability **spends itself entirely on the factorisation**: the AT-locked F_a/F_b quadratics carry the single-particle frequencies −1±√5 in radicals, and the diabolic point sits on the *solvable* quartic factor (3q⁴+q²−1); the residual octic carries no further algebraic structure. The closed-form program for path-3 terminates exactly at the AT-protected half. (Contrast: the SIC-POVM spectral polynomials, Appleby-Yadsan-Appleby-Zauner 2012, gave a *solvable* Galois group, opposite polarity at the same seam.) Scope: this is the group of the path-3 (SE,DE) S_2-sym octic *factor*, not of "the Liouvillian spectrum"; it is a similarity-invariant of that invariant sub-block. Method reference: K. Conrad, "Recognizing Galois groups S_n and A_n". (Not to be confused with differential Galois theory / "Liouvillian solutions", a different object.)
+
+This S_8 is the small-symmetry (chain) row of a wider four-topology law: on a more symmetric wiring the graph automorphism group caps the (SE,DE) factor degrees, so the relaxation is radically writable exactly when that cap is ≤ 4 (only the complete graph, every N) and grows into S_n only where the symmetry is small (chain, ring). See [TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md](TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md).
 
 #### Path-3 octic-mode amplitude q-dependence: no closed-form fit (Tier 2)
 
