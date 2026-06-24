@@ -143,6 +143,20 @@ public sealed class GaloisMonodromyWitness : IInspectable
 
     private static int Moved(int[] perm) => Enumerable.Range(0, perm.Length).Count(i => perm[i] != i);
 
+    // true if the moved indices form a SINGLE cycle under perm (one orbit), not several disjoint cycles.
+    private static bool IsSingleCycle(int[] perm, List<int> moved)
+    {
+        if (moved.Count < 2) return false;
+        var set = new HashSet<int>(moved);
+        int start = moved[0], cur = perm[start], len = 1;
+        while (cur != start)
+        {
+            if (!set.Contains(cur) || ++len > moved.Count) return false;
+            cur = perm[cur];
+        }
+        return len == moved.Count;
+    }
+
     /// <summary>Find the genuine branch points (defective EPs) TOPOLOGICALLY: an EP is a √-branch (the
     /// gap ~ √|q−q*| is a cusp the gap-scan jumps over), but a small loop around any cell containing it
     /// returns a non-identity monodromy regardless of cusp sharpness. The diabolic point is INVISIBLE here
@@ -158,6 +172,7 @@ public sealed class GaloisMonodromyWitness : IInspectable
             for (double im = imLo; im < imHi; im += cell)
             {
                 var c = new Complex(re + cell / 2, im + cell / 2);
+                if (c.Magnitude < 0.20) continue;                 // skip the q=0 super-branch (q²⁴ factor)
                 int moved = Moved(Monodromy.Permutation(AllRootsAt, c, cell * 0.62, 80));
                 if (moved == 0) continue;
                 if (found.Any(b => (b.Q - c).Magnitude < 1.5 * cell)) continue;   // one cell per EP cluster
@@ -208,37 +223,94 @@ public sealed class GaloisMonodromyWitness : IInspectable
         return Enumerable.Range(0, r0.Length).Where(i => !atIdx.Contains(i)).ToArray();
     }
 
-    /// <summary>The G3 gate: lasso every EP from a common base point, read its transposition on the 8 octic
-    /// strands in one consistent labelling, and assemble. Transpositions generate S_8 ⟺ their graph on the
-    /// 8 strands is connected (one component). That is Gal(F_8) = S_8 reconstructed from below, purely by
-    /// tracking eigenvalue braids: monodromy = Galois, made live.</summary>
-    public static (bool connected, int components, int nEps, int nClean, List<(int a, int b)> edges) GeneratesS8()
+    // a lasso that DETOURS over a high-imaginary bridge to reach an EP without crossing the q=0
+    // super-branch (the q²⁴ factor): q0 → (q0.Re, ±H) → (ep.Re, ±H) → down onto ep → full circle →
+    // back. The bridge sign follows the EP's half-plane so the short descent onto ep never crosses q=0.
+    private static Complex[] DetourLasso(Complex q0, Complex ep, double radius)
     {
-        var q0 = new Complex(2.0, 0);                             // REAL base: AT roots sit at Re −2/−6 exactly,
-        var r0 = AllRootsAt(q0);                                  // octic roots strictly between ⟹ clean labelling
+        double sgn = ep.Imaginary >= 0 ? 1.0 : -1.0;
+        double h = 1.8 * sgn;
+        Complex up0 = new(q0.Real, h), upE = new(ep.Real, h);
+        Complex enter = ep + new Complex(0, radius * sgn);
+        var pts = new List<Complex> { q0 };
+        void Line(Complex a, Complex b)
+        {
+            int n = Math.Max(40, (int)(120 * (b - a).Magnitude));
+            for (int k = 1; k <= n; k++) pts.Add(a + (b - a) * ((double)k / n));
+        }
+        Line(q0, up0); Line(up0, upE); Line(upE, enter);
+        double th0 = Math.Atan2(enter.Imaginary - ep.Imaginary, enter.Real - ep.Real);
+        const int nC = 240;
+        for (int k = 1; k <= nC; k++) { double th = th0 + 2 * Math.PI * k / nC; pts.Add(ep + radius * new Complex(Math.Cos(th), Math.Sin(th))); }
+        Line(enter, upE); Line(upE, up0); Line(up0, q0);
+        return pts.ToArray();
+    }
+
+    /// <summary>The full result of one scan+assemble run: the octic labelling at q0, every found EP with
+    /// its octic transposition (A,B = the swapped strands, or −1 with MovedAll if the lasso was not a clean
+    /// octic transposition), the transposition graph's edges, component count, largest component, and the
+    /// per-strand component id. Enough to print a complete map and see which strands remain unbraided.</summary>
+    public sealed record ScanResult(
+        Complex Q0,
+        IReadOnlyList<(Complex Q, int A, int B, int MovedAll, int[] MovedOctic)> Eps,
+        IReadOnlyList<(int A, int B)> Edges,
+        int Components, int Largest, int[] StrandComponent, Complex[] OcticRoots);
+
+    /// <summary>The parameterised G3 scan+assemble: find every EP in [reLo,reHi]×[imLo,imHi] (cell grid),
+    /// lasso each from the common base q0 (detour-routed over the q=0 super-branch), read its transposition
+    /// on the 8 octic strands in one labelling, and union-find the graph. Transpositions generate S_8 ⟺ the
+    /// graph is connected (one component): Gal(F_8) = S_8 reconstructed from eigenvalue braids, monodromy =
+    /// Galois from below. Exposed parameterised so the inspect render and the `gmscan` CLI explorer share it
+    /// (sweep regions without an edit-rebuild cycle).</summary>
+    public static ScanResult Assemble(double reLo, double reHi, double imLo, double imHi, double cell, Complex q0)
+    {
+        var r0 = AllRootsAt(q0);
         var octic = OcticIndices(q0, r0);
         var pos = new Dictionary<int, int>();
         for (int p = 0; p < octic.Length; p++) pos[octic[p]] = p;  // strand index → 0..7
+        var octicRoots = octic.Select(i => r0[i]).ToArray();
 
-        var eps = FindBranchPoints(reLo: 0.10, reHi: 1.70, imLo: -0.55, imHi: 0.55, cell: 0.04);
+        var found = FindBranchPoints(reLo, reHi, imLo, imHi, cell);
+        var epInfo = new List<(Complex, int, int, int, int[])>();
         var edges = new List<(int, int)>();
         var uf = Enumerable.Range(0, 8).ToArray();
         int Find(int x) { while (uf[x] != x) { uf[x] = uf[uf[x]]; x = uf[x]; } return x; }
 
-        int clean = 0;
-        foreach (var ep in eps)
+        foreach (var ep in found)
         {
-            var lasso = Monodromy.Lasso(q0, ep.Q, radius: 0.02);
-            var perm = Monodromy.PermutationAlongPath(AllRootsAt, lasso);
+            var perm = Monodromy.PermutationAlongPath(AllRootsAt, DetourLasso(q0, ep.Q, radius: 0.02));
             var moved = Enumerable.Range(0, perm.Length).Where(i => perm[i] != i).ToList();
-            if (moved.Count != 2 || !moved.All(pos.ContainsKey)) continue;   // accept only clean octic transpositions
-            clean++;
-            int a = pos[moved[0]], b = pos[moved[1]];
-            edges.Add((a, b));
-            uf[Find(a)] = Find(b);
+            var movedOctic = moved.Where(pos.ContainsKey).Select(i => pos[i]).OrderBy(x => x).ToArray();
+            // accept a lasso whose net braid touches ONLY octic strands and is a SINGLE cycle: a transposition
+            // (one simple branch point) or a k-cycle (a path that nets several genuine transpositions whose
+            // strands are thereby connected). Either way those strands belong to one monodromy orbit, so union
+            // them — a k-cycle on {a,b,c} certifies a,b,c are connected by genuine transpositions. A multi-cycle
+            // or any AT-strand motion means the lasso crossed unrelated branches; reject (counted elsewhere).
+            if (moved.Count >= 2 && moved.All(pos.ContainsKey) && IsSingleCycle(perm, moved))
+            {
+                for (int k = 1; k < movedOctic.Length; k++)
+                {
+                    edges.Add((movedOctic[0], movedOctic[k]));
+                    uf[Find(movedOctic[0])] = Find(movedOctic[k]);
+                }
+                epInfo.Add((ep.Q, movedOctic[0], movedOctic[^1], moved.Count, movedOctic));
+            }
+            else epInfo.Add((ep.Q, -1, -1, moved.Count, movedOctic));
         }
         int comps = Enumerable.Range(0, 8).Select(Find).Distinct().Count();
-        return (comps == 1, comps, eps.Count, clean, edges);
+        var sizes = new Dictionary<int, int>();
+        for (int i = 0; i < 8; i++) { int rt = Find(i); sizes[rt] = sizes.GetValueOrDefault(rt) + 1; }
+        return new ScanResult(q0, epInfo, edges, comps, sizes.Values.Max(),
+            Enumerable.Range(0, 8).Select(Find).ToArray(), octicRoots);
+    }
+
+    /// <summary>The G3 gate at the default cluster region (real base q0=2: AT roots at Re −2/−6 exactly,
+    /// octic strictly between ⟹ clean labelling). Convenience wrapper over <see cref="Assemble"/>.</summary>
+    public static (bool connected, int components, int largest, int nEps, int nClean, List<(int a, int b)> edges) GeneratesS8()
+    {
+        var r = Assemble(-1.80, 1.80, -0.22, 0.22, 0.05, new Complex(2.0, 0));
+        var edges = r.Edges.Select(e => (e.A, e.B)).ToList();
+        return (r.Components == 1, r.Components, r.Largest, r.Eps.Count, r.Edges.Count, edges);
     }
 
     private static string Cycles(int[] perm)
@@ -258,14 +330,16 @@ public sealed class GaloisMonodromyWitness : IInspectable
 
     // ---- IInspectable ----
 
-    public string DisplayName => "Galois monodromy of the path-3 octic (live: the diabolic loop is identity)";
+    public string DisplayName => "Galois monodromy of the path-3 octic (live: Gal(F_8) = S_8 reconstructed from eigenvalue braids)";
 
     public string Summary =>
-        $"where the octic's Galois structure lives spectrally: the q-parametric monodromy. As q=J/γ loops " +
-        $"the complex plane the 8 roots braid (monodromy = Galois). A loop around the diabolic point " +
-        $"q_EP≈{QEp.ToString("0.000", Inv)} returns the identity (the coalescing pair does not braid: a " +
-        "double discriminant zero, transversal crossing), confirming --root f89octic semisimple-not-defective " +
-        "by an independent route. Built on the trusted 12×12 block + the validated Monodromy tracker.";
+        $"where the octic's Galois structure lives spectrally: the q-parametric monodromy. The fixed-q geometry " +
+        $"was a null (--root galoischaos); but as q=J/γ loops the complex plane the 8 octic roots braid, and " +
+        $"that braiding IS the Galois group. Live: the diabolic q_EP≈{QEp.ToString("0.000", Inv)} loop is the " +
+        "identity (semisimple, confirming --root f89octic by an independent route), while the genuine EPs braid; " +
+        "lassoing every EP from a common base and assembling, the transposition graph on the 8 strands is " +
+        "CONNECTED ⟹ Gal(F_8) = S_8, reconstructed from below (monodromy = Galois), the independent route to the " +
+        "algebraic Frobenius certificate. Built on the trusted 12×12 block + the validated Monodromy tracker.";
 
     public IEnumerable<IInspectable> Children
     {
@@ -295,8 +369,9 @@ public sealed class GaloisMonodromyWitness : IInspectable
             string edgeList = string.Join(" ", g3.edges.Select(e => $"({e.a} {e.b})"));
             yield return new InspectableNode(
                 $"G3: monodromy = Galois, S_8 from below ({(g3.connected ? "CONNECTED ✓" : $"{g3.components} components")})",
-                summary: $"every EP lassoed from a common base, its transposition read on the 8 octic strands in one " +
-                         $"labelling: {g3.nEps} branch points found, {g3.nClean} clean octic transpositions {edgeList}. " +
+                summary: $"every EP lassoed from a common base, its braid read on the 8 octic strands in one " +
+                         $"labelling (a single k-cycle certifies a shared monodromy orbit): {g3.nEps} branch points found, " +
+                         $"{g3.nClean} octic-strand connections {edgeList}. " +
                          $"The transposition graph on the 8 strands has {g3.components} component" +
                          $"{(g3.components == 1 ? "" : "s")} ⟹ {(g3.connected ? "CONNECTED, so the transpositions generate the " +
                          "FULL symmetric group: Gal(F_8) = S_8, reconstructed purely from eigenvalue braids (monodromy = " +

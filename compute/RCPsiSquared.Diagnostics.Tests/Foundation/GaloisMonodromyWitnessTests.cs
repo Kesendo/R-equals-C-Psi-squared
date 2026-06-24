@@ -48,14 +48,17 @@ public class GaloisMonodromyWitnessTests
     }
 
     [Fact]
-    public void TheMonodromyAssemblesTranspositions_ConnectingMostOcticStrands()
+    public void TheMonodromyReconstructsS8FromBelow_TheTranspositionGraphIsConnected()
     {
-        // the lasso assembly works live: each accessible EP is lassoed from a common base and its
-        // transposition read on the 8 octic strands in one labelling. The local cluster's EPs connect a
-        // majority of the strands (6/8 here); full S_8 awaits the remaining EPs past the q=0 super-branch.
+        // every EP lassoed from a common base (detour-routed over the q=0 super-branch), its braid read on
+        // the 8 octic strands in one labelling; a lasso that nets a single k-cycle certifies those strands
+        // are one monodromy orbit. The graph is CONNECTED on all 8 strands ⟹ the transpositions generate the
+        // FULL symmetric group: Gal(F_8) = S_8, reconstructed purely from eigenvalue braids (monodromy =
+        // Galois), an independent route to the algebraic Frobenius certificate.
         var g3 = GaloisMonodromyWitness.GeneratesS8();
-        Assert.True(g3.nClean >= 4, $"the EPs yield clean octic transpositions (got {g3.nClean})");
-        Assert.True(g3.components <= 3, $"they connect ≥6 of 8 strands in one labelling (got {g3.components} components)");
+        Assert.Equal(8, g3.largest);            // all 8 octic strands in one component
+        Assert.Equal(1, g3.components);
+        Assert.True(g3.connected, "the transposition graph is connected ⟹ Gal(F_8) = S_8 from below");
     }
 
     [Fact]
