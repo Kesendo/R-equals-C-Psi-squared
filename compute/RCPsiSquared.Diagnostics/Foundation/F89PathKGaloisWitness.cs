@@ -16,7 +16,7 @@ public sealed class F89PathKGaloisWitness : IInspectable
 
     public string Summary =>
         "Gal(F_d/Q(i)(q)) = S_d for d = 8,18,32,53 (the path-3..6 H_B-mixed Liouvillian factors) — non-solvable, " +
-        "so the decay rates λ_k(q) admit no radical closure in q = J/γ. path-3 fully live; path-4 semi-live (oracle verified against the live block).";
+        "so the decay rates λ_k(q) admit no radical closure in q = J/γ. path-3 fully live; path-4/5/6 semi-live (the committed F_d verified against the live block charpoly).";
 
     public IEnumerable<IInspectable> Children
     {
@@ -24,7 +24,8 @@ public sealed class F89PathKGaloisWitness : IInspectable
         {
             yield return new F89OcticGaloisWitness();            // path-3, fully live (octic isolated from the block)
             yield return new F89PathSemiLiveGaloisWitness(4);    // path-4, semi-live (oracle verified live)
-            // path-5/6 follow once their oracle literals (which exceed Int64) are wired.
+            yield return new F89PathSemiLiveGaloisWitness(5);    // path-5, semi-live
+            yield return new F89PathSemiLiveGaloisWitness(6);    // path-6, semi-live (heavy: degree-53 / 75×75 Berkowitz)
         }
     }
 
