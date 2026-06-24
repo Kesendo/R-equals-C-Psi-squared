@@ -9,8 +9,12 @@ namespace RCPsiSquared.Core.F89PathK;
 /// (SE,DE) spectrum) as an exact Z[i] polynomial, ×2-scaled to match the cleared block from
 /// <see cref="F89PathKSeDeBlock"/> (roots 2·λ_AT). Dividing it out of the live full characteristic
 /// polynomial isolates the H_B-mixed factor F_d. For path-3 the AT factor is the product of the two
-/// explicit F_a/F_b quadratics; the general path-k≥4 reconstruction (single-particle F_a +
-/// 2-particle DE-Slater F_b multiset) is built separately.</summary>
+/// explicit F_a/F_b quadratics (<see cref="ForPath3"/>). For path-k≥4 (<see cref="ForPathK"/>) the
+/// naive "single-particle F_a + 2-particle DE-Slater F_b" multiset rule FAILS (the F_b modes are not
+/// simple Slater sums from path-5 on); the AT factor is instead reconstructed from the rate-confined
+/// invariant subspace: with M = D + iK, AT = ∏ over the rate sectors of charpoly(M|W), where W is the
+/// largest M-invariant subspace inside that sector (found by the iterative shrink W ← {v : Kv ∈ span W}
+/// to avoid the Kᵐ coefficient blow-up), mapped back to Z[i] by the iᵈ·p(−i(λ−r0)) substitution.</summary>
 public static class F89AtFactorReconstruction
 {
     /// <summary>The ×2-scaled path-3 AT factor AT = F_a·F_b at integer q0 (degree 4, monic, Z[i]).</summary>

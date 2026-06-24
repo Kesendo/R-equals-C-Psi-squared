@@ -6,11 +6,12 @@ using Xunit;
 
 namespace RCPsiSquared.Core.Tests.F89PathK;
 
-/// <summary>Semi-live D for the higher paths (k = 4,5,6): the committed F_d(λ,2) oracle literal
+/// <summary>Oracle cross-check for the higher paths (k = 4,5,6): the committed F_d(λ,2) oracle literal
 /// (reproducible: python simulations/f89_pathk_galois.py gen-cs) is verified to be the LIVE block's
-/// H_B-mixed factor — it divides the live characteristic polynomial with a coprime degree-AT
-/// complement (the triple) — and its Frobenius cycle types certify S_d. (path-3 is the fully-live
-/// anchor, tested via the block builder + isolation.)</summary>
+/// H_B-mixed factor (it divides the live characteristic polynomial with a coprime degree-AT complement,
+/// the triple) and its Frobenius cycle types certify S_d. The companion F89FullDReconstructionTests
+/// asserts the live invariant-subspace reconstruction reproduces this oracle, so together they pin the
+/// fully-live pipeline. (path-3 is the fully-live anchor, tested via the block builder + isolation.)</summary>
 public class F89PathKOracleTests
 {
     [Theory]

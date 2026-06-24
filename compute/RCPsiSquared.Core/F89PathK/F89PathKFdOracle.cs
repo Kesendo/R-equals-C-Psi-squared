@@ -7,10 +7,12 @@ namespace RCPsiSquared.Core.F89PathK;
 
 /// <summary>Committed F_d(λ,2) oracle literals for path-4/5/6 (lowest-first, monic, over Z[i]),
 /// generated reproducibly by `python simulations/f89_pathk_galois.py gen-cs` into
-/// <see cref="F89PathKFdLiterals"/>. These are NOT trusted blindly: the semi-live path-k witnesses
-/// verify each one divides the LIVE block characteristic polynomial with a coprime degree-AtDegree(k)
-/// complement (the validation triple), proving it IS the block's H_B-mixed factor before reading its
-/// Galois group. path-3's octic is recomputed fully live (F89Path3OcticBlock), so it is not here.</summary>
+/// <see cref="F89PathKFdLiterals"/>. Role: a TEST-ONLY cross-check. The live witnesses
+/// (<see cref="F89PathKLiveGaloisWitness"/>) reconstruct F_d from the block by dividing out the
+/// rate-confined invariant-subspace AT factor and never read these literals; the full-D tests assert
+/// that the live-reconstructed F_d equals this oracle (and that it divides the live block charpoly
+/// with a coprime degree-AtDegree(k) complement, the validation triple). path-3's octic is recomputed
+/// fully live (F89Path3OcticBlock), so it is not here.</summary>
 public static class F89PathKFdOracle
 {
     /// <summary>Whether an F_d(λ,2) literal is wired for path-k (k = 4,5,6).</summary>
