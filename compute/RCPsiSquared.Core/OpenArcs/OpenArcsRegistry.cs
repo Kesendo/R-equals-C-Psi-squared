@@ -42,13 +42,18 @@ public static class OpenArcsRegistry
                 "EXTREME (every H_B-mixed factor degree <= 4, definitively radical-solvable, at N=4,5,6), while the " +
                 "chain (S_8/18/32), the star (S_9 from N=5), and the ring (S_15 by N=6) all scramble to the full " +
                 "symmetric group S_n. Conjectured mechanism: K_N's degenerate single-particle spectrum {N-1, -1 with " +
-                "multiplicity N-1} shatters the (SE,DE) block into small factors. REMAINING (door A NOT closed): " +
-                "(a) the WHY as a theorem (graph spectral degeneracy => degree-<=4 cap; why exactly 4); (b) the ring " +
-                "N=5 deg-16 factor is Galois-UNDETERMINED even at a 20000-prime scan (provably not S_16, but the exact " +
-                "smaller group is unpinned by cycle types, needs a direct group computation); (c) N>=7 to firm up " +
-                "'complete writable for all N'; (d) a C# live witness (witness-first) once the why is settled. NOTE: " +
-                "NOT a monotone symmetry law (the ring scrambles LATER than the star despite less symmetry), so the " +
-                "clean claim is 'complete is THE writable extreme', not a symmetry-size ordering. " +
+                "multiplicity N-1} shatters the (SE,DE) block into small factors. WHY DERIVED (Tier 1, 2026-06-24): " +
+                "the K_N Liouvillian commutes with the full S_N; V = SE(x)DE = M^(N-2,1,1) (+) M^(N-3,2,1) (the " +
+                "permutation module on (point, 2-subset) pairs) has S_N-irrep multiplicities that are N-INDEPENDENT " +
+                "and capped at 4 (Kostka K_{lambda,(N-2,1,1)}+K_{lambda,(N-3,2,1)}, max 4 at the standard rep [N-1,1]); " +
+                "so by Schur every (SE,DE) factor is a quartic-or-less => K_N radically writable for ALL N. The " +
+                "H_B-mixed degree histogram {4:N-1, 3:N(N-3)/2, 2:(N-1)(N-2)/2} is verified exactly at N=5,6,7,8 " +
+                "(experiments/TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md, now Tier-1 derived for the complete graph). " +
+                "REMAINING: the STAR/RING multiplicity bounds (the star's S_{N-1} fixes the hub, inflating " +
+                "multiplicities, so the star scrambles despite a large group; quantify when each first exceeds degree " +
+                "4 -- this also explains the non-monotonicity); the ring N=5 deg-16 Galois-UNDETERMINED edge (provably " +
+                "not S_16, exact group unpinned, needs a direct group computation); a C# live witness for the K_N " +
+                "histogram (witness-first). " +
                 "(B) gamma-DEPENDENCE of the writable/unwritable line. At gamma->0 the block is pure free-fermion " +
                 "(integrable, pure imaginary). Is the AT-locked/H_B-mixed split present at all gamma>0, or does the " +
                 "writable fraction move with how hard you watch? Map deg(F_d)/deg(AT) or the discriminant loci across " +

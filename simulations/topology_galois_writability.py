@@ -127,7 +127,38 @@ def analyse(name, N, adj, prime_hi=3000):
     return ret
 
 
+def predicted_complete_hb_histogram(N):
+    """The DERIVED H_B-mixed factor-degree histogram for K_N (N>=5): the S_N-irrep multiplicities in
+    V = SE(x)DE = M^(N-2,1,1) (+) M^(N-3,2,1) cap at 4 (Kostka), so the H_B-mixed factors are exactly
+    (N-1) quartics [standard rep [N-1,1], mult 4], N(N-3)/2 cubics [[N-2,2], mult 3], and
+    (N-1)(N-2)/2 quadratics [[N-2,1,1], mult 2]. All degree <= 4 => radical-solvable, for all N."""
+    return {4: N - 1, 3: N * (N - 3) // 2, 2: (N - 1) * (N - 2) // 2}
+
+
+def verify_complete(N):
+    """Gate the derivation: the actual K_N H_B-mixed factor-degree histogram must equal the
+    rep-theory prediction (and so max degree = 4)."""
+    L = build_se_de_block(2, N, adj_complete(N))
+    cp = sp.expand(L.charpoly(LAM).as_expr())
+    _, hb = rate_bucket_factors(cp)
+    hist = {}
+    for f in hb:
+        d = sp.Poly(f, LAM).degree()
+        hist[d] = hist.get(d, 0) + 1
+    pred = predicted_complete_hb_histogram(N)
+    ok = hist == pred
+    print(f"  K_{N}: H_B-mixed degrees {dict(sorted(hist.items(), reverse=True))}  "
+          f"vs rep-theory {dict(sorted(pred.items(), reverse=True))}   [{'MATCH' if ok else 'MISMATCH'}]")
+    return ok
+
+
 if __name__ == "__main__":
+    if len(sys.argv) >= 2 and sys.argv[1] == "verify":
+        print("Gate: K_N H_B-mixed factor degrees == rep-theory prediction {4:N-1, 3:N(N-3)/2, 2:(N-1)(N-2)/2}\n")
+        targets = [int(a) for a in sys.argv[2:]] or [5, 6, 7, 8]
+        allok = all(verify_complete(N) for N in targets)
+        print(f"\nVERIFY {'PASS — derivation confirmed (max degree 4, all N)' if allok else 'FAIL'}")
+        sys.exit(0 if allok else 1)
     Ns = [int(a) for a in sys.argv[1:]] or [4, 5, 6]
     PRIME_HI = 4000    # enough for every clean S_n detection; raise (e.g. 20000) to probe a stubborn
     #                    'undetermined' factor (the ring N=5 deg-16 stays undetermined even at 20000)
