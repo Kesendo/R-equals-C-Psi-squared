@@ -98,10 +98,10 @@ public sealed class F89PathKHbMixedDegreesClaim : Claim
     /// at q0=2 are 5, 13, 23, 37; corroborated at q0=3). Hence non-solvable — the eigenvalues
     /// λ_k(q) admit no radical expression in q. Closes the earlier Tier-2 conjecture.
     /// Engine + reproducer: <c>simulations/f89_pathk_galois.py</c>. Live witness (witness-first):
-    /// <c>inspect --root f89galois</c> recomputes all of path-3..6 at inspect time — path-3 fully
-    /// live (block → Berkowitz → isolate F_d by dividing out the AT factor), path-4/5/6 semi-live
-    /// (the committed F_d verified to divide the live block charpoly with a coprime AT complement,
-    /// then Frobenius ⟹ S_d). path-3 anchor: <see cref="F89Path3OcticGaloisClaim"/>.</summary>
+    /// <c>inspect --root f89galois</c> recomputes all of path-3..6 at inspect time, full Option D —
+    /// the block is built live, the AT-locked factor is reconstructed (path-3 from its F_a/F_b
+    /// quadratics; path-4/5/6 from the rate-confined invariant subspace) and divided out to isolate
+    /// F_d (never imported), then Frobenius ⟹ S_d. path-3 anchor: <see cref="F89Path3OcticGaloisClaim"/>.</summary>
     public const bool HbMixedGaloisGroupIsFullSymmetric = true;
 
     public F89PathKHbMixedDegreesClaim(F89TopologyOrbitClosure f89)

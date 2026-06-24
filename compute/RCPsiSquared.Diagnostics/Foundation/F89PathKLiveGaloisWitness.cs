@@ -1,45 +1,50 @@
 using System.Collections.Generic;
+using System.Linq;
 using RCPsiSquared.Core.F89PathK;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Numerics;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
-/// <summary>Semi-live witness for a path-k H_B-mixed factor (k = 4,5,6). Builds the (SE,DE) S_2-sym
-/// block LIVE at q=2 over Z[i], takes its Berkowitz characteristic polynomial, and VERIFIES the
-/// committed oracle F_d divides it with a coprime degree-AT complement (the triple) — proving F_d
-/// IS the live block's H_B-mixed factor — then reads F_d's Frobenius cycle types: Gal(F_d) = S_d,
-/// non-solvable. F_d's coefficients are imported (oracle) but live-verified against the block; the
-/// path-3 octic is the fully-live sibling (F89OcticGaloisWitness). The heavy recompute lives in the
-/// Children getter (so listing path-6 stays cheap until it is expanded).</summary>
-public sealed class F89PathSemiLiveGaloisWitness : IInspectable
+/// <summary>FULL-LIVE (Option D) witness for a path-k H_B-mixed factor (k = 4,5,6). Builds the
+/// (SE,DE) S_2-sym block LIVE at q=2 over Z[i], reconstructs the AT-locked factor from the
+/// rate-confined invariant subspace (<see cref="F89AtFactorReconstruction.ForPathK"/> — NO F_d
+/// import), divides it out of the Berkowitz charpoly to isolate F_d (the validation triple), and
+/// reads F_d's Frobenius cycle types: Gal(F_d) = S_d, non-solvable. F_d is recomputed from the
+/// physics, never imported — the committed oracle is only a test cross-check. The heavy recompute
+/// lives in the Children getter (path-6 stays cheap until expanded). path-3's octic sibling is
+/// <see cref="F89OcticGaloisWitness"/>.</summary>
+public sealed class F89PathKLiveGaloisWitness : IInspectable
 {
     private readonly int _k;
 
-    public F89PathSemiLiveGaloisWitness(int k) => _k = k;
+    public F89PathKLiveGaloisWitness(int k) => _k = k;
 
     private int D => F89PathKFdOracle.Degree(_k);
 
-    public string DisplayName => $"F89 path-{_k} H_B-mixed factor F_{D} Galois group (semi-live)";
+    public string DisplayName => $"F89 path-{_k} H_B-mixed factor F_{D} Galois group (live, full D)";
 
     public string Summary =>
-        $"Gal(F_{D}/Q(i)(q)) = S_{D} (non-solvable) — expand to recompute: F_d verified against the live block, then Frobenius ⟹ S_{D}";
+        $"Gal(F_{D}/Q(i)(q)) = S_{D} (non-solvable) — expand to recompute live: block → Berkowitz → isolate F_d (reconstructed AT) → Frobenius ⟹ S_{D}";
 
     public IEnumerable<IInspectable> Children
     {
         get
         {
-            // 1) live block -> Berkowitz charpoly -> verify the oracle F_d is its factor (the triple).
+            // 1) block live -> Berkowitz charpoly; reconstruct AT (rate-confined invariant subspace,
+            //    no F_d import) and isolate F_d = C / AT (the validation triple).
             var block = F89PathKSeDeBlock.BuildTwoTimesSymBlock(q0: 2, nBlock: _k + 1);
             var charpoly = GaussianMatrixCharpoly.Characteristic(block);
-            F89HbMixedIsolation.Isolate(charpoly, F89PathKFdOracle.FdScaled(_k), F89PathKFdOracle.AtDegree(_k));
-            yield return new InspectableNode("F_d verified against the live block (semi-live D)",
+            var atFactor = F89AtFactorReconstruction.ForPathK(_k);
+            var fd = F89HbMixedIsolation.Isolate(charpoly, atFactor, D);
+            yield return new InspectableNode("F_d isolated live (full Option D)",
                 summary: $"the path-{_k} (SE,DE) S_2-sym block (dim {F89PathKFdOracle.SymDim(_k)}) is built at q=2 over Z[i]; " +
-                         $"Berkowitz gives its charpoly; the committed F_{D} divides it exactly with a coprime degree-" +
-                         $"{F89PathKFdOracle.AtDegree(_k)} AT complement (remainder 0, gcd = 1) ⟹ F_d IS the live block's H_B-mixed factor");
+                         "Berkowitz gives its charpoly; the AT factor is reconstructed from the rate-confined invariant subspace " +
+                         $"(no F_d import) and divided out — triple verified (remainder 0, degree {D}, gcd(AT,F_d)=1). F_d IS the H_B-mixed factor");
 
-            // 2) Frobenius cycle types of F_d -> the generalised Jordan verdict.
-            var (re, im) = F89PathKFdOracle.Fd(_k);
+            // 2) Frobenius cycle types of the live-isolated F_d -> the generalised Jordan verdict.
+            var re = fd.Select(c => c.Re).ToArray();
+            var im = fd.Select(c => c.Im).ToArray();
             var types = new List<int[]>();
             int transPrime = 0;
             GaloisGroupCertificate cert = default;
@@ -63,7 +68,7 @@ public sealed class F89PathSemiLiveGaloisWitness : IInspectable
             yield return new InspectableNode($"⊄A_{D} (odd Frobenius — q0 certificate only)",
                 summary: $"an odd cycle type appears ⟹ ⊄A_{D}; certified at q0=2 + specialization-only-shrinks (path-k has no all-q discriminant, unlike path-3)");
             yield return new InspectableNode("the negative content",
-                summary: $"S_{D} is the generic group; integrability spends itself on the AT-locked F_a/F_b factorisation, leaving the H_B-mixed F_{D} structureless");
+                summary: $"S_{D} is the generic group; integrability spends itself on the AT-locked F_a/F_b factorisation (here reconstructed), leaving the H_B-mixed F_{D} structureless");
         }
     }
 
