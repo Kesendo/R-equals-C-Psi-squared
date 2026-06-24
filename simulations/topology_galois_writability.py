@@ -152,6 +152,28 @@ def verify_complete(N):
     return ok
 
 
+def ring_niven_split(N, ext, ext_label):
+    """The ring's growth law is a GALOIS inflation by φ(N)/2 = [Q(cos(2π/N)):Q]. The dihedral D_N has
+    an irrational character table (cos(2π/N)), so over Q(i) its Galois-conjugate 2-dim irreps merge and
+    inflate the H_B-mixed factor degree by φ(N)/2 (> 1 except at the Niven-rational sizes N ∈ {1,2,3,4,6}
+    where cos(2π/N) is rational). Gate: the max Q(i)-factor splits over Q(i, cos(2π/N)) into φ(N)/2 pieces."""
+    from sympy import totient
+    L = build_se_de_block(2, N, adj_ring(N))
+    cp = sp.expand(L.charpoly(LAM).as_expr())
+    _, hb = rate_bucket_factors(cp)
+    f = max(hb, key=lambda p: sp.Poly(p, LAM).degree())
+    dQi = sp.Poly(f, LAM).degree()
+    fac = sp.factor(f, LAM, extension=ext)
+    args = fac.args if fac.func == sp.Mul else [fac]
+    degs = sorted((sp.Poly(a.base if a.func == sp.Pow else a, LAM).degree()
+                   for a in args if (a.base if a.func == sp.Pow else a).has(LAM)), reverse=True)
+    galois = totient(N) // 2 if N >= 3 else 1
+    ok = degs == [dQi // galois] * galois
+    print(f"  ring N={N}: max H_B factor deg over Q(i) = {dQi}; over {ext_label} -> {degs}; "
+          f"φ(N)/2 = {galois}   [{'MATCH' if ok else 'see'}]")
+    return ok
+
+
 def verify_star(N):
     """Gate the star derivation: the star Liouvillian commutes with S_{N-1} (leaf permutations, hub
     fixed); the multiplicity of the standard irrep std_{N-1} in V is 9 (N-independent), so the max
@@ -170,17 +192,23 @@ def verify_star(N):
 
 
 if __name__ == "__main__":
+    if len(sys.argv) >= 2 and sys.argv[1] == "niven":
+        print("Ring growth law = Galois inflation by φ(N)/2 (Niven: cos(2π/N) rational iff N in {1,2,3,4,6}).\n")
+        ok6 = ring_niven_split(6, [sp.I], "Q(i) [cos(2π/6)=1/2 rational, no inflation]")
+        ok5 = ring_niven_split(5, [sp.I, sp.sqrt(5)], "Q(i,√5) [cos(2π/5), φ/2=2]")
+        print(f"\nNIVEN {'PASS:ring deg-16 (N=5) splits 8+8 over Q(i,√5); deg-15 (N=6) stays (rational)' if (ok5 and ok6) else 'FAIL'}")
+        sys.exit(0 if (ok5 and ok6) else 1)
     if len(sys.argv) >= 2 and sys.argv[1] == "verify-star":
         print("Gate: star max H_B degree == 9 (mult of std_{N-1}), with N-2 degree-9 factors\n")
         targets = [int(a) for a in sys.argv[2:]] or [5, 6, 7, 8, 9]
         allok = all(verify_star(N) for N in targets)
-        print(f"\nVERIFY-STAR {'PASS — star caps at S_9 (bounded, N-independent), all N' if allok else 'FAIL'}")
+        print(f"\nVERIFY-STAR {'PASS:star caps at S_9 (bounded, N-independent), all N' if allok else 'FAIL'}")
         sys.exit(0 if allok else 1)
     if len(sys.argv) >= 2 and sys.argv[1] == "verify":
         print("Gate: K_N H_B-mixed factor degrees == rep-theory prediction {4:N-1, 3:N(N-3)/2, 2:(N-1)(N-2)/2}\n")
         targets = [int(a) for a in sys.argv[2:]] or [5, 6, 7, 8]
         allok = all(verify_complete(N) for N in targets)
-        print(f"\nVERIFY {'PASS — derivation confirmed (max degree 4, all N)' if allok else 'FAIL'}")
+        print(f"\nVERIFY {'PASS:derivation confirmed (max degree 4, all N)' if allok else 'FAIL'}")
         sys.exit(0 if allok else 1)
     Ns = [int(a) for a in sys.argv[1:]] or [4, 5, 6]
     PRIME_HI = 4000    # enough for every clean S_n detection; raise (e.g. 20000) to probe a stubborn

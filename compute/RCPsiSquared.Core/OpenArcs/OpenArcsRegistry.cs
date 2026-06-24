@@ -57,9 +57,16 @@ public static class OpenArcsRegistry
                 "a small one lets it grow (ring D_N, chain S_2 => growing; chain S_8/18/32/53; ring max-degree " +
                 "6/16/15/48 at N=4/5/6/7). C# LIVE WITNESS DONE (inspect --root topowritability, " +
                 "TopologyGaloisWritabilityWitness): recomputes the caps (complete 4 / star 9) from the (SE,DE) block + " +
-                "[L,rho(g)]=0 + the standard-rep multiplicity character sum (11 tests green). REMAINING: the RING " +
-                "growth law (D_N, the erratic 6/16/15/48); the ring N=5 deg-16 Galois-UNDETERMINED edge (provably not " +
-                "S_16, exact group unpinned). " +
+                "[L,rho(g)]=0 + the standard-rep multiplicity character sum (11 tests green). RING GROWTH LAW DERIVED " +
+                "(Tier 1, 2026-06-24): D_N has an IRRATIONAL character table (cos 2π/N), so over Q(i) its " +
+                "Galois-conjugate dihedral irreps merge and inflate the factor degree by φ(N)/2 = [Q(cos 2π/N):Q] " +
+                "(>1 except at the Niven-rational sizes N in {1,2,3,4,6}). So factor degree = (multiplicity) × φ(N)/2; " +
+                "the dips at N=4,6 are exactly Niven. Confirmed from below: the N=5 deg-16 factor splits 8+8 over " +
+                "Q(i,√5), the N=6 deg-15 stays (rational); topology_galois_writability.py niven. This also explains " +
+                "the deg-16 'undetermined' edge (a 2-fold Galois inflation, not a primitive group). The FOUR-TOPOLOGY " +
+                "LAW: rational character table (S_n complete/star) => no inflation; irrational (D_N ring, cos 2π/N) => " +
+                "Niven inflation. REMAINING: the exact multiplicity-growth closed form (the per-irrep H_B multiplicity " +
+                "6/8/15/16... vs N). " +
                 "(B) gamma-DEPENDENCE of the writable/unwritable line. At gamma->0 the block is pure free-fermion " +
                 "(integrable, pure imaginary). Is the AT-locked/H_B-mixed split present at all gamma>0, or does the " +
                 "writable fraction move with how hard you watch? Map deg(F_d)/deg(AT) or the discriminant loci across " +
