@@ -1,7 +1,11 @@
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Numerics;
 using System.Text;
 using RCPsiSquared.Diagnostics.Foundation;
+using RCPsiSquared.Visualization.Plotters;
 
 namespace RCPsiSquared.Cli.Commands;
 
@@ -56,7 +60,60 @@ public static class GaloisMonodromyScanCommand
 
         Console.WriteLine($"\nVERDICT: {(r.Components == 1 ? "CONNECTED -> the transpositions generate S_8 = Gal(F_8), monodromy = Galois from below"
             : $"{r.Components} components, {r.Largest}/8 strands connected. Not yet S_8: widen/retarget the EP search.")}");
+
+        if (p.OptionalString("png") is { } png) SavePng(reLo, reHi, imLo, imHi, r, png);
+        if (p.OptionalString("lambda-png") is { } lpng) SaveLambdaPng(p.OptionalDouble("lq") ?? 1.5, lpng);
         return 0;
+    }
+
+    // the dual image: the octic spectrum in the λ-plane at a fixed q (time-killed, each mode one λ), in the
+    // symphony reel palette so it lays beside the molecule spectra of THE_SHARED_SKELETON. The AT-locked roots
+    // sit on the absorption rungs Re λ = −2γ, −6γ (cyan); the H_B-mixed octic (pink) spreads between them.
+    private static void SaveLambdaPng(double lq, string lpng)
+    {
+        var all = GaloisMonodromyWitness.AllRootsAt(new Complex(lq, 0));   // 12 λ at γ = 1, J = lq
+        bool IsAt(Complex z) => Math.Abs(z.Real + 2) < 1e-3 || Math.Abs(z.Real + 6) < 1e-3;
+        var at = all.Where(IsAt).Select(z => (z.Real, z.Imaginary)).ToArray();
+        var oct = all.Where(z => !IsAt(z)).Select(z => (z.Real, z.Imaginary)).ToArray();
+        OcticSpectrumPlot.Save(oct, at, -4.0, lq,
+            $"F89 path-3 octic spectrum in the lambda-plane at q = J/gamma = {lq.ToString("0.##", Inv)}   (time-killed: each mode = one lambda)",
+            lpng);
+        Console.WriteLine($"saved {lpng}");
+    }
+
+    // render the gap field as a cyberpunk + Matrix PNG (EPs magenta, diabolic cyan) for embedding in docs.
+    private static void SavePng(double reLo, double reHi, double imLo, double imHi,
+        GaloisMonodromyWitness.ScanResult r, string png)
+    {
+        int cols = 360;
+        double step = (reHi - reLo) / cols;
+        int rows = Math.Max(2, (int)((imHi - imLo) / step));
+        // sample the gap at CELL CENTRES (reLo + (col+½)·step) so the heatmap aligns pixel-exactly with the
+        // EP markers (which sit at the true q); the Extent below is set to exactly the sampled grid, so no
+        // half-cell shift and no vertical stretch.
+        var gap = GaloisMonodromyWitness.OcticGapField(reLo + step / 2, imLo + step / 2, step, cols, rows);
+
+        var intensity = new double[rows, cols];                 // ScottPlot row 0 = top = max imag
+        for (int row = 0; row < rows; row++)
+            for (int col = 0; col < cols; col++)
+            {
+                double g = gap[col, rows - 1 - row];
+                intensity[row, col] = double.IsNaN(g) ? 1.0 : Math.Exp(-g / 0.5);   // q=0 super-branch -> bright core
+            }
+        double reHiGrid = reLo + cols * step, imHiGrid = imLo + rows * step;
+
+        // mark EVERY found branch point (the locus is symmetric); A>=0 vs A<0 is a Galois-assembly
+        // distinction, not a property of the EP, so it must not gate the visual (it caused a missing mirror).
+        var eps = r.Eps.Select(e => (e.Q.Real, e.Q.Imaginary)).ToArray();
+        var diab = new List<(double, double)>();                // the roots of 3q^4 + q^2 - 1 = 0
+        double q2a = (-1 + Math.Sqrt(13)) / 6, q2b = (-1 - Math.Sqrt(13)) / 6;
+        if (q2a > 0) { double q = Math.Sqrt(q2a); diab.Add((q, 0)); diab.Add((-q, 0)); }
+        if (q2b < 0) { double q = Math.Sqrt(-q2b); diab.Add((0, q)); diab.Add((0, -q)); }
+        var diabIn = diab.Where(d => d.Item1 >= reLo && d.Item1 <= reHi && d.Item2 >= imLo && d.Item2 <= imHi).ToArray();
+
+        GapFieldPlot.Save(intensity, reLo, reHiGrid, imLo, imHiGrid, eps, diabIn,
+            "F89 path-3 octic: branch locus in q = J/gamma   (EP = magenta, diabolic = cyan)", png);
+        Console.WriteLine($"saved {png}");
     }
 
     // the flashlight: an ASCII heatmap of the octic min-gap field. Dark (@) = near a branch point (gap -> 0),

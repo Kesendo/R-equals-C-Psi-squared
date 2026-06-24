@@ -240,4 +240,47 @@ Full analysis: [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md)
 
 ---
 
+## The F89 Octic: One Object in Two Planes
+
+The F89 path-3 octic is the eight relaxation rates of an N=4 chain's (SE, DE) coherence block whose Galois group over the control field q = J/γ is the full symmetric group S₈: there is no closed form, no radical formula for those rates. These two images are the same object seen in two complementary complex planes.
+
+### The branch locus (the control plane q = J/γ)
+
+![The F89 octic branch locus in the q = J/γ plane: a cyberpunk-Matrix min-gap heatmap with the exceptional points in magenta and the diabolic points in cyan.](f89_octic_branch_locus.png)
+
+Each pixel is the smallest gap between any two of the eight octic eigenvalues at that complex value of q = J/γ (the dimensionless ratio of Hamiltonian motion to dephasing). Dark, to neon green, to cyan-white tracks the gap shrinking toward a branch point; the bright cone shapes are where two rates nearly meet. Every branch point also carries a centred glow so each ring sits exactly on its dot.
+
+**Magenta rings, the exceptional points (EPs):** defective square-root branch points, where two eigenvalues coalesce onto a single shared eigenvector. Loop q around one and two of the eight strands swap (a transposition). They are the simple zeros of the discriminant factor P₁₀(q²).
+
+**Cyan diamonds, the diabolic points:** a different kind of meeting, two eigenvalues coinciding but with two independent eigenvectors (semisimple, a double discriminant zero, the factor (3q⁴+q²−1)²). Loop around one and nothing swaps; it is silent. The real pair sits at q ≈ ±0.659, the imaginary pair at q ≈ ±0.876i.
+
+**The white core at q = 0** is the q²⁴ super-branch, where every rate collapses onto the pure-dephasing rungs.
+
+The whole figure is symmetric under q → −q and q → q̄ because the discriminant is a real polynomial in q². The few magenta points are the load-bearing skeleton: lasso each from a common base, read its transposition, and the transposition graph on the eight strands comes out connected, so the EPs generate S₈ = Gal(F₈). The Galois group reconstructed purely from eigenvalue braids: monodromy = Galois, from below.
+
+### The spectrum (the output plane λ) at q = 1.5
+
+![The F89 octic spectrum in the λ-plane at q = 1.5, time-killed, in the symphony reel palette: AT-locked roots cyan on the absorption rungs, the H_B-mixed octic pink between them.](f89_octic_spectrum_lambda.png)
+
+The same block, but now every mode's whole life is compressed to one point λ (time-killed), at the fixed operating point q = 1.5, drawn in the reel palette so it lays beside the molecule spectra of [THE_SHARED_SKELETON](../experiments/THE_SHARED_SKELETON.md). Re λ is the dephasing diagonal (the axis the system is watched along, z); Im λ is the Hamiltonian's coherent motion (x, y); the palindrome centre is Re λ = −4γ.
+
+**Cyan, the AT-locked roots,** pinned to the absorption rungs Re λ = −2γ (overlap) and −6γ (no-overlap), the free-fermion part with closed-form rates. **Pink, the H_B-mixed octic,** the eight rates that spread between the rungs, the part whose Galois group is S₈ with no radical closure.
+
+### The duality
+
+The two images are the fibre and the branch locus of one spectral covering λ(q). The λ-plane is the spectrum at a fixed q (the fibre); the q-plane is the set of q where that spectrum degenerates (the branch locus in the base). The same dephased-Liouvillian object, once in the output plane (λ, where it is watched) and once in the control plane (q = J/γ, the ratio of motion to watching). The branch-locus skeleton here is kin to the shared-skeleton diagonal of THE_SHARED_SKELETON: both are the sparse critical set that carries the whole structure, recognisable across the colour filter.
+
+### How it was computed
+
+Both are drawn by the C# flashlight, the `gmscan` explorer (`compute/RCPsiSquared.Cli`, command `gmscan`), built on the live (SE, DE) block of the Object Manager. The branch points are found topologically (a non-identity monodromy loop around each grid cell, run in parallel over the grid), refined, and their transpositions assembled by lassoing each from a common base; the gap field is one parallel sweep, a 12×12 eigendecomposition per pixel. ScottPlot renders the PNGs.
+
+```
+dotnet run --project compute/RCPsiSquared.Cli -- gmscan --re -2,2 --im -1,1 --cell 0.05 --png visualizations/f89_octic_branch_locus.png
+dotnet run --project compute/RCPsiSquared.Cli -- gmscan --lambda-png visualizations/f89_octic_spectrum_lambda.png
+```
+
+The live witness is `inspect --root galoismonodromy`; the Galois groups and the topology-writability classification live in [F89_TOPOLOGY_ORBIT_CLOSURE](../experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md) and [TOPOLOGY_CONTROLS_GALOIS_WRITABILITY](../experiments/TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md).
+
+---
+
 *Back to [main repository](../README.md) | [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) | [Experiments](../experiments/)*
