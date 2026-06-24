@@ -1,6 +1,6 @@
 # Topology Controls the Radical-Writability of Open-Chain Relaxation
 
-**Status:** Tier 1 derived for the complete graph (cap 4, radically writable for all N) and the star (cap 9, a bounded S_9 scramble for all N ≥ 5), both via N-independent S_N / S_{N−1} multiplicity caps (verified N=5-9). Tier 2 numerical for the ring/chain growing-scramble comparison.
+**Status:** Tier 1 derived for the complete graph (cap 4, radically writable for all N) and the star (cap 9, a bounded S_9 scramble for all N ≥ 5), both via N-independent S_N / S_{N−1} multiplicity caps (complete verified N=5-8, star N=5-9). Tier 2 numerical for the ring/chain growing-scramble comparison.
 **Date:** 2026-06-24
 **Authors:** Thomas Wicht, Claude Opus 4.8 (1M context)
 **Scripts:**
@@ -27,18 +27,18 @@ For an N-site graph G under uniform-J XY coupling H = J·Σ_{(p,q)∈E(G)}(X_pX_
 
 ## Result
 
-H_B-mixed Galois group per topology, N=4,5,6 (γ=1, q0=2; S_n = full symmetric = non-solvable = no radical closure):
+Maximal H_B-mixed Galois group per topology, N=4-7 (γ=1, q0=2). Bold **S_n** / **S_9** = full symmetric / a fixed S_9 = non-solvable = unwritable; only the complete row is writable:
 
-| Topology | Symmetry | N=4 | N=5 | N=6 |
-|---|---|---|---|---|
-| **Complete** K_N | S_N | all factors ≤ deg 4 (**writable**) | all ≤ deg 4 (**writable**) | all ≤ deg 4 (**writable**) |
-| **Star** K_{1,N−1} | S_{N−1} | all ≤ deg 4 (writable) | 3×**S_9** + deg-6 non-solv (**unwritable**) | 4×**S_9** + deg-6 + 5×A_5/S_5 (**unwritable**) |
-| **Ring** C_N | D_N | deg-6 solvable (writable) | deg-16 *undetermined* | 4×**S_15** + 4×deg-6 non-solv (**unwritable**) |
-| **Chain** P_N | S_2 | **S_8** (unwritable) | **S_18** (unwritable) | **S_32** (unwritable) |
+| Topology | Symmetry | N=4 | N=5 | N=6 | N=7 |
+|---|---|---|---|---|---|
+| **Complete** K_N | S_N | ≤ deg 4 (**writable**) | ≤ deg 4 (**writable**) | ≤ deg 4 (**writable**) | ≤ deg 4 (**writable**) |
+| **Star** K_{1,N−1} | S_{N−1} | ≤ deg 4 (writable) | 3×**S_9** | 4×**S_9** | 5×**S_9** |
+| **Ring** C_N | D_N | deg-6 (solvable) | deg-16 *undet.* | 4×**S_15** | deg-48 |
+| **Chain** P_N | S_2 | **S_8** | **S_18** | **S_32** | **S_53** |
 
-The chain row reproduces the landed result ([F89_TOPOLOGY_ORBIT_CLOSURE.md](F89_TOPOLOGY_ORBIT_CLOSURE.md): path-3/4/5 = S_8/S_18/S_32), which validates the generalised builder.
+The star always caps at S_9 (with N−2 copies); the ring and chain grow. The chain row reproduces the landed result ([F89_TOPOLOGY_ORBIT_CLOSURE.md](F89_TOPOLOGY_ORBIT_CLOSURE.md): path-3/4/5/6 = S_8/S_18/S_32/S_53); the full (SE,DE) block actually gives the S_2-symmetric and antisymmetric factors (S_8 ⊕ S_8 at N=4, S_18 ⊕ S_17 at N=5, etc.), both S_n, which validates the generalised builder.
 
-**Headline.** Topology controls the radical-writability of the relaxation spectrum. The complete graph K_N is the clean writable extreme: its H_B-mixed factors are all quartic-or-less (so each has a closed radical formula) at N=4,5,6, while the chain, star, and ring all reach the maximal-scramble S_n. The complete graph's relaxation is, in this exact sense, the most "writable" of the four.
+**Headline.** Topology controls the radical-writability of the relaxation spectrum. The complete graph K_N is the clean writable extreme: its H_B-mixed factors are all quartic-or-less (so each has a closed radical formula) at every N, while the others all eventually scramble: the chain and ring to the maximal S_n, the star to a fixed bounded S_9. The complete graph's relaxation is, in this exact sense, the most "writable" of the four.
 
 ## Method
 
@@ -54,7 +54,7 @@ Each H_B-mixed factor's solvability over Q(i) is read from its Frobenius cycle t
 
 ## Mechanism (Tier 1 derived): the S_N-multiplicity cap
 
-The real reason is sharper than "degeneracy", and it is a theorem. For the complete graph every site is equivalent, so the Liouvillian commutes with the **full symmetric group S_N**. By Schur's lemma it block-diagonalises along the irreducible representations of S_N in the (SE,DE) coherence space V = SE ⊗ DE, acting within each isotypic component only on the **multiplicity** space. Hence **every irreducible factor of the (SE,DE) characteristic polynomial has degree at most the multiplicity of some S_N-irrep in V.**
+The reason is a clean theorem about symmetry. For the complete graph every site is equivalent, so the Liouvillian commutes with the **full symmetric group S_N**. Schur's lemma, in plain words: an operator that commutes with a symmetry cannot mix different symmetry types, so it splits into independent blocks, one per type, and each block's size is that type's **multiplicity**, the number of copies of it the space contains. Applied here, the (SE,DE) coherence space V = SE ⊗ DE splits along the irreducible representations of S_N, and **every irreducible factor of the (SE,DE) characteristic polynomial has degree at most the multiplicity of some S_N-irrep in V.**
 
 V is exactly the permutation module on pairs (point, 2-subset): the overlap orbit (i ∈ {j,k}) is the Young module M^{(N−2,1,1)} (an ordered pair of points), the no-overlap orbit (i ∉ {j,k}) is M^{(N−3,2,1)} (a point plus a disjoint 2-subset). So V = M^{(N−2,1,1)} ⊕ M^{(N−3,2,1)}, and the multiplicity of an irrep [λ] is the Kostka sum K_{λ,(N−2,1,1)} + K_{λ,(N−3,2,1)}. These are **N-independent** and capped at 4:
 
@@ -72,13 +72,13 @@ The maximal multiplicity is 4, at the standard representation, and it does **not
 
 Verified exactly against the direct factorisation at N = 5, 6, 7, 8 (`topology_galois_writability.py verify`): {4:4, 3:5, 2:6}, {4:5, 3:9, 2:10}, {4:6, 3:14, 2:15}, {4:7, 3:20, 2:21}, all MATCH.
 
-The contrast with the chain is now exact: the chain carries only the S_2 mirror symmetry, so its (SE,DE) multiplicities are unbounded (one large irreducible H_B-mixed factor of degree growing with N, with the maximal Galois group S_n). **Radical-writability is set by the symmetry: the larger and more uniform the automorphism group, the smaller the irrep multiplicities, the lower the factor degrees. The full S_N of the complete graph caps them at 4; the S_2 of the chain caps nothing.** (This also resolves the earlier non-monotonicity, derived in the next section: the star's S_{N−1} fixes the hub, inflating its multiplicities to a fixed cap of 9, so it scrambles to a bounded S_9 despite a large symmetry group.)
+The contrast with the chain is now exact: the chain carries only the S_2 mirror symmetry, so its (SE,DE) multiplicities are unbounded (one large irreducible H_B-mixed factor of degree growing with N, with the maximal Galois group S_n). **Radical-writability is set by the symmetry: the larger and more uniform the automorphism group, the smaller the irrep multiplicities, the lower the factor degrees. The full S_N of the complete graph caps them at 4; the S_2 of the chain caps nothing.** (The star, by contrast, has the smaller symmetry S_{N−1}: its hub is a fixed point, which inflates its multiplicities to a fixed cap of 9, so it scrambles to a bounded S_9 despite a large symmetry group, derived next.)
 
 ## The star and the ring: a three-way classification (the star Tier 1 derived)
 
 The same Schur machinery covers the other topologies, and turns the writability table into one principle: the automorphism group Aut(G) sets a cap on the (SE,DE) factor degrees, equal to the maximal multiplicity of an Aut(G)-irrep in V = SE ⊗ DE; whether that cap is N-independent or grows is what classifies the topology.
 
-**The star (cap 9, N-independent).** The star K_{1,N−1} has Aut = S_{N−1} (the leaves permute, the hub is fixed). Under S_{N−1}, SE = 2·triv ⊕ std (the hub is a fixed point; the N−1 leaves give triv ⊕ std) and DE = 2·triv ⊕ 2·std ⊕ [N−3,2] (the hub-leaf pairs give triv ⊕ std, the leaf-leaf pairs give triv ⊕ std ⊕ [N−3,2]). The multiplicity of the standard rep in V = SE ⊗ DE is then
+**The star (cap 9, N-independent).** The star K_{1,N−1} has Aut = S_{N−1} (the leaves permute, the hub is fixed). Here triv and std are the trivial and standard (N−2-dimensional) irreducible representations of that leaf-permutation group, and a multiplicity counts how many copies of a representation V contains. Under S_{N−1}, SE = 2·triv ⊕ std (the hub is a fixed point; the N−1 leaves give triv ⊕ std) and DE = 2·triv ⊕ 2·std ⊕ [N−3,2] (the hub-leaf pairs give triv ⊕ std, the leaf-leaf pairs give triv ⊕ std ⊕ [N−3,2]). The multiplicity of the standard rep in V = SE ⊗ DE is then
 
     mult(std_{N−1}) = 4 (from 2·triv ⊗ 2·std) + 2 (std ⊗ 2·triv) + 2 (std ⊗ std) + 1 (std ⊗ [N−3,2]) = 9,
 
@@ -99,8 +99,8 @@ The complete graph and the star are the two bounded cases (caps 4 and 9), both f
 
 ## Honest caveats and open work
 
-- **"Writable for all N" is a conjecture** for the complete graph; solid through N=6 (degree ≤ 4 is a hard fact, no Galois ambiguity). N=7+ would strengthen it; the mechanism above would settle it.
-- **Not a monotone symmetry law.** The ring (D_N, order 2N) scrambles later than the star (S_{N−1}, order (N−1)!) despite a smaller symmetry group, so writability is not a clean function of |symmetry group|. The honest claim is "complete is the writable extreme", and the chain the scrambled extreme; the star and ring are intermediate and eventually scramble.
+- **The complete-graph writability is derived for all N, not conjectured.** The Kostka multiplicity bound in the Mechanism section is N-independent by construction, so it is the all-N proof; the closed-form histogram is additionally verified by direct factorisation at N=5,6,7,8. It holds for N ≥ 5; N=4 is a small-N edge where some of the partitions above coincide (the data there is {4:3, 2:5}, still all ≤ 4 and writable).
+- **It is the multiplicity structure, not the group size, that sets the cap.** The star (S_{N−1}, large) has a bounded cap (9) while the ring (D_N, small) grows; by N-value the star's scramble appears at N=5, the ring's clear scramble at N=6. The clean axis is bounded (large, uniform automorphism group) vs growing (small), not a single ordering by |symmetry group|.
 - **The ring N=5 degree-16 factor is Galois-undetermined.** A 20000-prime scan finds no Jordan-window cycle, so it is provably not S_16/A_16, but its exact (smaller) group is unpinned by the cycle-type method and would need a direct group computation. (At N=6 the ring is unambiguously S_15.)
 - **The deg-5/deg-6 solvability tests** are exact cycle-type criteria (sound); the deg ≥7 test detects non-solvability (Jordan ⊇A_n) but reports "undetermined" rather than "solvable" when silent.
 
