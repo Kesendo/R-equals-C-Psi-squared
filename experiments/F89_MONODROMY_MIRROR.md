@@ -108,6 +108,10 @@ centreless), and σ_T ≠ id. So **σ_T does not commute with the monodromy**: t
 not loop-independent. Go around a seam and which strand is whose reflection is scrambled. This is sharp, a
 single exceptional point whose transposition σ_T fails to fix already shows σ_T is non-central.
 
+![F89 path-3 transposition-graph witness: strand 6 on the Re λ=−4 fold, strands 3 and 4 as mirror twins; a real braid edge 3-6 solid, its σ_T-image 4-6 dotted and not a braid.](../visualizations/f89_monodromy_mirror_graph.png)
+
+*The minimal witness. Strand 6 (gold) sits on the Re λ = −4 fold; strands 3 and 4 (cyan) are mirror twins, σ_T swaps them across the fold. The solid green edge (3, 6) is a real braid (an EP transposition); its σ_T-image, the dotted (4, 6), is not a braid. A real connection reflects to a non-connection, so σ_T does not commute with the braiding. Rendered by `gmscan --graph-png` (the full connected braid graph, the S_8-generation result, is the separate `inspect --root galoismonodromy`).*
+
 Two honest qualifications, so the obstruction is not overstated. First, conjugation by σ_T is still a
 nontrivial **inner automorphism** of S_8 (Aut(S_8) = Inn(S_8) ≅ S_8): the mirror does act on the tangle. The
 point is not that it induces no automorphism, but that it is **non-central**, so it cannot be a single-valued,

@@ -270,6 +270,12 @@ The same block, but now every mode's whole life is compressed to one point λ (t
 
 The two images are the fibre and the branch locus of one spectral covering λ(q). The λ-plane is the spectrum at a fixed q (the fibre); the q-plane is the set of q where that spectrum degenerates (the branch locus in the base). The same dephased-Liouvillian object, once in the output plane (λ, where it is watched) and once in the control plane (q = J/γ, the ratio of motion to watching). The branch-locus skeleton here is kin to the shared-skeleton diagonal of THE_SHARED_SKELETON: both are the sparse critical set that carries the whole structure, recognisable across the colour filter.
 
+### The mirror and the braiding (the C-T witness)
+
+![F89 path-3 transposition-graph witness: strand 6 (gold) on the Re λ=−4 fold axis, strands 3 and 4 (cyan) as mirror twins; a real braid edge (3, 6) in solid green and its σ_T-image (4, 6) dotted, which is NOT a braid edge.](f89_monodromy_mirror_graph.png)
+
+The branch locus above is a palindrome, and the q → −q̄ reflection even carries the braids (mirror-image control values share the same swap). But the spectral fold itself, the mirror about Re λ = −4, does NOT pass into the braiding. It permutes the eight strands by an involution σ_T (strands on the fold are fixed, the rest come in mirror-twin pairs). This is the minimal witness that σ_T is not a symmetry of the braiding: strand 6 sits on the fold (gold), strands 3 and 4 are mirror twins (cyan, σ_T swaps them). The solid green edge (3, 6) is a real braid (an EP transposition); its σ_T-image, the dotted edge (4, 6), is NOT a braid. A real connection reflects to a non-connection, so σ_T does not commute with the monodromy: it is non-central (a permutation commuting with all of S₈ would be the identity, Z(S₈)=1). The mirror that folds the spectrum's positions is, inside the unwritable half, only one of the moves, not a rule above them. The result is [F89_MONODROMY_MIRROR](../experiments/F89_MONODROMY_MIRROR.md); the story in words is [ON_WHO_WATCHES_WHOM](../reflections/ON_WHO_WATCHES_WHOM.md).
+
 ### How it was computed
 
 Both are drawn by the C# flashlight, the `gmscan` explorer (`compute/RCPsiSquared.Cli`, command `gmscan`), built on the live (SE, DE) block of the Object Manager. The branch points are found topologically (a non-identity monodromy loop around each grid cell, run in parallel over the grid), refined, and their transpositions assembled by lassoing each from a common base; the gap field is one parallel sweep, a 12×12 eigendecomposition per pixel. ScottPlot renders the PNGs.
@@ -277,9 +283,10 @@ Both are drawn by the C# flashlight, the `gmscan` explorer (`compute/RCPsiSquare
 ```
 dotnet run --project compute/RCPsiSquared.Cli -- gmscan --re -2.6,2.6 --im -1.5,1.5 --cell 0.05 --png visualizations/f89_octic_branch_locus.png
 dotnet run --project compute/RCPsiSquared.Cli -- gmscan --lambda-png visualizations/f89_octic_spectrum_lambda.png
+dotnet run --project compute/RCPsiSquared.Cli -- gmscan --graph-png visualizations/f89_monodromy_mirror_graph.png
 ```
 
-The live witness is `inspect --root galoismonodromy`; the Galois groups and the topology-writability classification live in [F89_TOPOLOGY_ORBIT_CLOSURE](../experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md) and [F89_TOPOLOGY_CONTROLS_GALOIS_WRITABILITY](../experiments/F89_TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md).
+The live witnesses are `inspect --root galoismonodromy` (the S₈ generation) and `inspect --root monodromymirror` (the mirror split: q → −q̄ intertwines the braiding, the Re λ = −4 fold σ_T does not); the Galois groups and the topology-writability classification live in [F89_TOPOLOGY_ORBIT_CLOSURE](../experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md) and [F89_TOPOLOGY_CONTROLS_GALOIS_WRITABILITY](../experiments/F89_TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md).
 
 ---
 

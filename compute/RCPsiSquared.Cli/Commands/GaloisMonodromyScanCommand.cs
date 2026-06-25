@@ -64,7 +64,59 @@ public static class GaloisMonodromyScanCommand
 
         if (p.OptionalString("png") is { } png) SavePng(reLo, reHi, imLo, imHi, r, png);
         if (p.OptionalString("lambda-png") is { } lpng) SaveLambdaPng(p.OptionalDouble("lq") ?? 1.5, lpng);
+        if (p.OptionalString("graph-png") is { } gpng) SaveGraphPng(gpng);
         return 0;
+    }
+
+    // the transposition graph with the σ_T fold-mirror: lay the 8 strands so σ_T is the left-right reflection
+    // (fold-fixed on the axis x=0, mirror-twins at ±x, height = Im λ, which twins share), draw the braid edges,
+    // and witness the non-invariance with one braid edge + its σ_T-image ghost (NOT a braid edge). The C-T
+    // obstruction (σ_T non-central) made visible. Canonical base q0=2 (matches PalindromeStrandPairing's σ_T).
+    private static void SaveGraphPng(string gpng)
+    {
+        var r = GaloisMonodromyWitness.Assemble(-1.80, 1.80, -0.22, 0.22, 0.05, new Complex(2, 0));
+        var (sigmaT, _, _, _, _) = GaloisMonodromyWitness.PalindromeStrandPairing();
+        int Mn(int x, int y) => System.Math.Min(x, y);
+        int Mx(int x, int y) => System.Math.Max(x, y);
+
+        // the witness: the first braid edge whose σ_T-image is NOT a braid edge (σ_T breaks the braiding).
+        var edgeSet = new HashSet<(int, int)>(r.Edges.Select(e => (Mn(e.A, e.B), Mx(e.A, e.B))));
+        (int a, int b)? witness = null;
+        foreach (var (a, b) in r.Edges)
+            if (!edgeSet.Contains((Mn(sigmaT[a], sigmaT[b]), Mx(sigmaT[a], sigmaT[b])))) { witness = (a, b); break; }
+        if (witness is not { } w) { Console.WriteLine("no σ_T-broken braid edge found (unexpected)"); return; }
+
+        // only the strands of this one witness: the braid (a,c) and its σ_T-image (σa, σc).
+        int a0 = w.a, c0 = w.b, a1 = sigmaT[a0], c1 = sigmaT[c0];
+        var involved = new List<int> { a0, c0, a1, c1 }.Distinct().ToList();
+
+        // y rows: σ_T-fixed strands on top (apex), twin pairs below; a twin pair shares one row (same Im λ).
+        var groups = involved.GroupBy(s => Mn(s, sigmaT[s]))
+            .OrderBy(g => g.Any(s => sigmaT[s] == s) ? 0 : 1).ToList();
+        var posY = new Dictionary<int, double>();
+        double yy = groups.Count;
+        foreach (var g in groups) { foreach (var s in g) posY[s] = yy; yy -= 1.0; }
+
+        int n = involved.Count;
+        var local = new Dictionary<int, int>();
+        var xs = new double[n]; var ys = new double[n]; var labels = new int[n]; var onFold = new bool[n];
+        for (int i = 0; i < n; i++)
+        {
+            int s = involved[i];
+            local[s] = i;
+            onFold[i] = sigmaT[s] == s;
+            xs[i] = onFold[i] ? 0.0 : (s < sigmaT[s] ? -1.0 : 1.0);   // twin goes left if lower-indexed
+            ys[i] = posY[s];
+            labels[i] = s;
+        }
+
+        TranspositionGraphPlot.SaveWitness(
+            xs, ys, labels, onFold,
+            (local[a0], local[c0]), (local[a1], local[c1]),
+            "F89 path-3: the Re λ = −4 fold (σ_T) is not a symmetry of the braiding\n" +
+            "a real braid edge reflects across the fold to a non-braid  ⟹  σ_T is non-central",
+            gpng);
+        Console.WriteLine($"saved {gpng}");
     }
 
     // the dual image: the octic spectrum in the λ-plane at a fixed q (time-killed, each mode one λ), in the
