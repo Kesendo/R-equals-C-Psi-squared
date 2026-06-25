@@ -357,7 +357,7 @@ public sealed class GaloisMonodromyWitness : IInspectable
     /// octic-strand bijection base+2→base−2 induced by conjugation λ↦λ̄), and whether they satisfy the
     /// q-reflection intertwining τ(−q̄*) = σ_K · τ(q*) · σ_K⁻¹.</summary>
     public readonly record struct MirrorReport(
-        Complex Q, Complex QMirror, int[] TauPlus, int[] TauMinus, int[] SigmaK, bool Intertwines);
+        Complex Q, Complex QMirror, double LambdaMidRe, int[] TauPlus, int[] TauMinus, int[] SigmaK, bool Intertwines);
 
     /// <summary>EXPLORATORY GATE. Measures how the palindrome relates to the octic monodromy. Returns:
     /// (specKResidual) ‖nearest(conj(spec@+2)) − spec@−2‖∞, the L(q)*=L(−q̄) family-symmetry sanity;
@@ -406,8 +406,8 @@ public sealed class GaloisMonodromyWitness : IInspectable
             int[] tp = TranspositionAt(bp, ep.Q, posP);                  // moved octic strands @ +2
             int[] tm = TranspositionAt(bm, mirror, posM);                // moved octic strands @ −2
             var sk = tp.Select(s => sigmaK[s]).OrderBy(x => x).ToArray();// σ_K-image of tp (strands @ −2)
-            bool ok = tp.Length == 2 && tm.Length == 2 && sk.SequenceEqual(tm);
-            reports.Add(new MirrorReport(ep.Q, mirror, tp, tm, sigmaK, ok));
+            bool ok = tp.Length >= 2 && sk.SequenceEqual(tm);            // any cycle length (a k-cycle lasso too)
+            reports.Add(new MirrorReport(ep.Q, mirror, MergedLambdaRe(ep.Q), tp, tm, sigmaK, ok));
         }
         bool all = reports.Count > 0 && reports.All(r => r.Intertwines);
         return (specK, specT, reports, all);
@@ -421,6 +421,57 @@ public sealed class GaloisMonodromyWitness : IInspectable
         var moved = Enumerable.Range(0, perm.Length).Where(i => perm[i] != i).ToList();
         if (moved.Count == 0 || !moved.All(pos.ContainsKey)) return Array.Empty<int>();
         return moved.Select(i => pos[i]).OrderBy(x => x).ToArray();
+    }
+
+    // the Re of the merged eigenvalue at an EP: midpoint Re of the two closest octic roots at q.
+    private static double MergedLambdaRe(Complex q)
+    {
+        var r = OcticRootsAt(q);
+        double best = double.PositiveInfinity; Complex mid = Complex.Zero;
+        for (int i = 0; i < r.Length; i++)
+            for (int j = i + 1; j < r.Length; j++)
+            {
+                double d = (r[i] - r[j]).Magnitude;
+                if (d < best) { best = d; mid = (r[i] + r[j]) / 2; }
+            }
+        return mid.Real;
+    }
+
+    /// <summary>C-T probe: the fixed-q palindrome's strand involution σ_T at base +2 (strand p ↦ the
+    /// strand whose octic root is −λ̄_p − 8, the λ↦−λ̄−8 mirror about Re λ = −4), and whether the full
+    /// EP-transposition set (over the whole cluster region, base q0=2) is invariant under conjugation by
+    /// σ_T. Fixed points of σ_T are strands with Re λ = −4 (on the line); 2-cycles are mirror pairs.
+    /// Returns (sigmaT, fixedPoints, twoCycles, braidSetInvariant, nBraids).</summary>
+    public static (int[] sigmaT, int fixedPoints, int twoCycles, bool braidSetInvariant, int nBraids)
+        PalindromeStrandPairing()
+    {
+        var bp = new Complex(2, 0);
+        var r0p = AllRootsAt(bp);
+        var octicP = OcticIndices(bp, r0p);
+        var lam = octicP.Select(i => r0p[i]).ToArray();                 // 8 octic roots @ +2, strand-ordered
+
+        var sigmaT = new int[8];
+        for (int p = 0; p < 8; p++)
+        {
+            Complex target = -Complex.Conjugate(lam[p]) - 8;
+            int best = 0; double bd = double.PositiveInfinity;
+            for (int m = 0; m < 8; m++) { double d = (lam[m] - target).Magnitude; if (d < bd) { bd = d; best = m; } }
+            sigmaT[p] = best;
+        }
+        int fixedPts = Enumerable.Range(0, 8).Count(p => sigmaT[p] == p);
+        int twoCyc = Enumerable.Range(0, 8).Count(p => sigmaT[p] != p && sigmaT[sigmaT[p]] == p) / 2;
+
+        // the full EP-transposition set over the whole region (both half-planes), in the q0=2 labelling.
+        var asm = Assemble(-1.80, 1.80, -0.22, 0.22, 0.05, bp);
+        var braids = asm.Eps.Where(e => e.A >= 0 && e.MovedOctic.Length == 2)
+                            .Select(e => (System.Math.Min(e.A, e.B), System.Math.Max(e.A, e.B))).ToList();
+        var braidSet = new HashSet<(int, int)>(braids);
+        bool inv = braids.All(t =>
+        {
+            int a = sigmaT[t.Item1], b = sigmaT[t.Item2];
+            return braidSet.Contains((System.Math.Min(a, b), System.Math.Max(a, b)));
+        });
+        return (sigmaT, fixedPts, twoCyc, inv, braids.Count);
     }
 
     private static string Cycles(int[] perm)
