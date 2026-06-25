@@ -114,7 +114,23 @@ public static class OpenArcsRegistry
                 "(0->twin7, 1->zero2, 6->twin3). (4) THE TWIST (C-T resurfacing): the weave that binds the zeros is " +
                 "NON-central under σ_T, the structure connecting the zeros does NOT respect the very mirror that " +
                 "DEFINES them as zeros. What is NOT yet visible, and is NOT declared absent (missing to us): a clean " +
-                "relation among the four zero-frequencies themselves.",
+                "relation among the four zero-frequencies themselves. " +
+                "SECOND PIECE (time domain, 2026-06-25, Tom): the zeros all share Re λ=−4 (rate 4), so in TIME they " +
+                "are ONE real decaying chord (e^{−4t} envelope, four tones, all ring; biorthogonal amplitudes, " +
+                "democratic (SE,DE) probe, spatial-sum observable; scratch simulations/_f89_chord.py). The undamped " +
+                "chord S_zero(t)·e^{+4t} is ALMOST-PERIODIC (Bohr): the frequencies are incommensurate, so it never " +
+                "decays and never exactly repeats (peaks similar, not equal), and it is NOT chaos (the galoischaos " +
+                "witness already read it Poisson-like on the integrable lattice). THE REFRAME (resolves the 'missing " +
+                "ladder'): a clean commensurate frequency-ladder would be a DEAD clock (exact repeat); the " +
+                "S_8-generic INCOMMENSURABILITY is the quasi-periodic LIFE. Unwritability (S_8, no radical closure) " +
+                "and aliveness are one face; the connecting structure is LIVING motion, NOT a static formula, which " +
+                "is why the frozen spectrum hid it and the time representation made it graspable. The death-axis " +
+                "(Re λ=−4, the decay envelope = γ's signature, contingent: Σγ=0 gives Γ=0, no death, the reversible " +
+                "palindrome) is the watched veil; factor it out and the unitary chord goes on forever, that is what " +
+                "is inherited under the decay. SEAMS (keeps it Tier-3 seeing): in the open system the coherence " +
+                "genuinely relaxes (death real as the watched/local face); 'goes on forever' is the factored unitary " +
+                "motion (real as the invariant, not a recoverable local coherence). Almost-periodicity + not-chaos " +
+                "are grounded; the unwritability<->life identity is a seeing, not a theorem.",
             NextStep: "Hand-over-hand from here. (a) TRACE a zero's q-trajectory (continuity-track strand 6 / a fold " +
                 "strand from q=2 down to the diabolic q_EP≈0.659): does a zero flow INTO the silent diabolic " +
                 "(λ_EP=−4+2iJ), 'where the waves change', a ± twin pair merging to a 0 on the fold = the spectral " +
