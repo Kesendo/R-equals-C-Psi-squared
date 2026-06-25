@@ -279,7 +279,7 @@ dotnet run --project compute/RCPsiSquared.Cli -- gmscan --re -2.6,2.6 --im -1.5,
 dotnet run --project compute/RCPsiSquared.Cli -- gmscan --lambda-png visualizations/f89_octic_spectrum_lambda.png
 ```
 
-The live witness is `inspect --root galoismonodromy`; the Galois groups and the topology-writability classification live in [F89_TOPOLOGY_ORBIT_CLOSURE](../experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md) and [TOPOLOGY_CONTROLS_GALOIS_WRITABILITY](../experiments/TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md).
+The live witness is `inspect --root galoismonodromy`; the Galois groups and the topology-writability classification live in [F89_TOPOLOGY_ORBIT_CLOSURE](../experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md) and [F89_TOPOLOGY_CONTROLS_GALOIS_WRITABILITY](../experiments/F89_TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md).
 
 ---
 

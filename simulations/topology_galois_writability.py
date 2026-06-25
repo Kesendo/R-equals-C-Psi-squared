@@ -19,7 +19,7 @@ C5/D5/F20); deg6 iff a 5-cycle appears (order divisible by 5); deg ≥7 via the 
 certificate (a prime cycle in (n/2,n−3] ⟹ ⊇A_n ⟹ non-solvable). The chain gate reproduces the landed
 S_8/S_18/S_32 exactly. Reuses the committed f89_pathk_galois engine.
 
-See experiments/TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md; open arc f89_galois_open_doors (door A).
+See experiments/F89_TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md; open arc f89_galois_open_doors (door A).
 """
 from __future__ import annotations
 

@@ -114,10 +114,11 @@ For hardware-confirmed predictions on top of these formulas, see
 | `F89Path3OcticEpClaim.QEpSquared` | (−1+√13)/6 |
 | `F89Path3OcticEpClaim.QEp` | √((−1+√13)/6) ≈ 0.658983 |
 | `F89Path3OcticEpClaim.MergedEigenvalue(γ, J)` | λ_EP = −4γ + 2iJ |
-| `F89Path3OcticGaloisClaim` (Symmetry/) | **F89 path-3 octic Galois group**: disc(F_8) = const · q²⁴ · (3q⁴+q²−1)² · P_10(q²) is NOT a perfect square in Q[q]; therefore Gal(F_8) ⊄ A_8 (Tier 1). Conjecture (Tier 2 open): Gal is non-solvable (likely S_8). |
+| `F89Path3OcticGaloisClaim` (Symmetry/) | **F89 path-3 octic Galois group**: disc(F_8) = const · q²⁴ · (3q⁴+q²−1)² · P_10(q²) is NOT a perfect square in Q[q] ⇒ Gal(F_8) ⊄ A_8; a (5,2,1) Frobenius at the split prime over 5 (q0=2: 5-cycle ⇒ primitive ⇒ ⊇A_8 by Jordan; odd ⇒ ⊄A_8) ⇒ **Gal(F_8) = S_8** (Tier 1 derived, non-solvable, no radical closure in q). |
 | `F89Path3OcticGaloisClaim.GalNotInA8` | true (Tier 1 derived) |
-| `F89Path3OcticGaloisClaim.NonSolvableConjecture_IsOpen` | true (Tier 2 open) |
-| `F89PathKHbMixedDegreesClaim` (Symmetry/) | **F89 path-k H_B-mixed sub-factor degrees**: {8, 18, 32, 53} for path-{3, 4, 5, 6}; conjecturally Galois-non-solvable for degree ≥ 5 (Tier 2 conjecture in docstring). Tier 1 candidate (switch-statement enumeration for k=3..6; general-k closed form open, only the `SeDeFullDimension` sub-fact is Tier 1 derived). |
+| `F89Path3OcticGaloisClaim.GalIsS8` | true (Tier 1 derived) |
+| `F89Path3OcticGaloisClaim.NonSolvableConjecture_IsOpen` | false (closed; superseded by the Tier-1 S_8 certificate) |
+| `F89PathKHbMixedDegreesClaim` (Symmetry/) | **F89 path-k H_B-mixed sub-factor degrees**: {8, 18, 32, 53} for path-{3, 4, 5, 6}; each F_d is irreducible over Q(i)(q) with Galois group the full **S_d** (S_8/18/32/53), non-solvable, no radical closure in q (Tier 1 derived, closing the prior conjecture; `HbMixedGaloisGroupIsFullSymmetric = true`). The degree TABLE is Tier 1 candidate (switch-statement enumeration for k=3..6; general-k closed form open, only the `SeDeFullDimension` sub-fact is Tier 1 derived). |
 | `F89PathKHbMixedDegreesClaim.HbMixedSubFactorDegree(k)` | S_2-sym dim minus AT-locked count per path |
 | `F90F86C2BridgeIdentity` (Symmetry/) | **F90 F86 c=2 ↔ F89 bridge identity**: F86 c=2 K_b(Q,t) IS F89 path-(N−1) (SE,DE) per-bond Hellmann-Feynman, modulo the J convention J_F89 = J_F86/2. Operator-exact (‖L_F86(J) − L_F89(J/2)‖ = 0 at N=5..8); verified bit-exact at 20/22 bonds across N=5..8 including orbit escapes (the ratio is a grid-readout of the one operator). Tier 1 derived |
 | `F90F86C2BridgeIdentity.JConventionFactor` | 2.0 (F89 J / F86 J) |

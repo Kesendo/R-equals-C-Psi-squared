@@ -2972,7 +2972,7 @@ located by the perfect-square factor (3q⁴+q²−1)² of disc(F_8) (the same fa
 
 The same degree-8 factor F_8 has Galois group the **full symmetric group S_8** over Q(i)(q) (robust to the base Q(i,√5)(q)). Foundation — the degree-52 discriminant:
 
-    disc(F_8) = 1.21·10²⁴ · q²⁴ · (3q⁴+q²−1)² · P_10(q²)
+    disc(F_8) = const · q²⁴ · (3q⁴+q²−1)² · P_10(q²)   (const a nonzero normalization-dependent rational; only the factor structure is load-bearing)
 
 with P_10(q²) degree 20 in q, NOT a perfect square ⇒ Gal ⊄ A_8. **Method:** specialization + Dedekind + Jordan. Certificate at q0 = 2 (F_8(·,2) monic over Z[i]): irreducible over Q(i) (transitive); the split prime 𝔭|5 (F_5, i↦2) factors it to cycle type **(5,2,1)** — square is a 5-cycle (⇒ primitive ⇒ ⊇A_8 by Jordan, 5 ≤ 8−3; no proper primitive degree-8 group has order divisible by 5) and odd (⇒ ⊄A_8) ⇒ S_8. Specialization can only shrink the group ⇒ generic = S_8. Confirmed at q0 ∈ {2,3,½,3/2} over Q(i) and q0 ∈ {2,3} over Q(i,√5).
 

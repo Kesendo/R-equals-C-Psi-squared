@@ -6,7 +6,7 @@ using RCPsiSquared.Core.Inspection;
 namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>Live witness for the topology-controls-Galois-writability result (Tier 1 derived,
-/// experiments/TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md). For a graph G under uniform-J XY + uniform
+/// experiments/F89_TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md). For a graph G under uniform-J XY + uniform
 /// Z-dephasing, the (SE,DE) Liouvillian commutes with the graph automorphism group Aut(G); by Schur
 /// every irreducible factor of its characteristic polynomial has degree ≤ the maximal Aut(G)-irrep
 /// multiplicity in V = SE⊗DE. This witness builds the (SE,DE) block FROM THE PHYSICS (overlap/no-overlap
@@ -155,7 +155,7 @@ public sealed class TopologyGaloisWritabilityWitness : IInspectable
             yield return new InspectableNode("the classification",
                 summary: "a large, uniform automorphism group caps the Galois complexity N-independently (complete S_N → " +
                          "4, star S_(N−1) → 9); a small one (ring D_N, chain S_2) lets it grow. Radical-writability needs " +
-                         "the cap ≤ 4, achieved only by the complete graph. See experiments/TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md.");
+                         "the cap ≤ 4, achieved only by the complete graph. See experiments/F89_TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md.");
         }
     }
 

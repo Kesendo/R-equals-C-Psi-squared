@@ -2,7 +2,7 @@
 
 **Status:** Tier 1 derived (S_N-orbit symmetry proven; numerically verified bit-identical at N=7 across all 14 topology classes and N=4 across all C(4,2)=6 site pairs)
 **Date:** 2026-05-11
-**Last updated:** 2026-06-24 (added §"Computing the path-3..6 Galois groups live" documenting the live `inspect --root f89galois` witness, the isolate-before-DDF/degree-pollution principle, and the rate-confined invariant-subspace AT reconstruction that replaced the failed naive Slater rule; plus the forward cross-link to the four-topology sequel TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md). Earlier, 2026-06-23: plain-words preface + Abstract + Notation added; table-escaping, em-dash cleanup, and precision fixes to the path-1 residual, the path-6 F_a line, and the Pi2 dual-anchor framing.
+**Last updated:** 2026-06-25 (renamed the sequel cross-link to the F89_ family prefix; corrected the stale disc prefactor 1.21·10²⁴ → const, normalization-dependent and carrying no physics; aligned the pre-proof "conjecturally non-solvable" phrasing to the proven Gal(F_8) = S_8). Earlier, 2026-06-24 (added §"Computing the path-3..6 Galois groups live" documenting the live `inspect --root f89galois` witness, the isolate-before-DDF/degree-pollution principle, and the rate-confined invariant-subspace AT reconstruction that replaced the failed naive Slater rule; plus the forward cross-link to the four-topology sequel F89_TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md). Earlier, 2026-06-23: plain-words preface + Abstract + Notation added; table-escaping, em-dash cleanup, and precision fixes to the path-1 residual, the path-6 F_a line, and the Pi2 dual-anchor framing.
 **Authors:** Thomas Wicht, Claude Opus 4.7 (1M context)
 **Scripts:**
 - [`bond_isolate_compare_n7.py`](../simulations/bond_isolate_compare_n7.py): N=7 single-bond pairwise comparison (six bonds, 30 ordered pairs).
@@ -11,7 +11,7 @@
 
 **Outputs:** [`bond_isolate/`](../simulations/results/bond_isolate/) (28 CSVs at N=7 + two comparison plots).
 **Related register entries:** [F73](../docs/ANALYTICAL_FORMULAS.md) (analogous closed-form closure for the (vac, SE) coherence block); [F71](../docs/ANALYTICAL_FORMULAS.md) (the spatial mirror Z₂ that sits inside the full S_N argument used here); [F86](../docs/ANALYTICAL_FORMULAS.md) (per-bond Q_peak fan, the empirical contrast: a linear response ∂J_b breaks S_N differently from the uniform-J multi-bond setup of F89).
-**Related experiments:** [TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md](TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md), the sequel that generalises this chain result: on every wiring the graph automorphism group caps the (SE,DE) Galois writability (complete K_N → 4, radically writable for all N; star → 9; ring and chain grow into S_n), live at `inspect --root topowritability`. And [F89_BRANCH_LOCUS_PALINDROME.md](F89_BRANCH_LOCUS_PALINDROME.md): the octic's EP/diabolic branch locus in the complex-q plane is mirror-symmetric about Re λ = −4, forced by the F1 palindrome carried antiunitarily on the block (the spectral face of the watcher/watched reading, `inspect --root galoismonodromy`, `gmscan --mirror`).
+**Related experiments:** [F89_TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md](F89_TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md), the sequel that generalises this chain result: on every wiring the graph automorphism group caps the (SE,DE) Galois writability (complete K_N → 4, radically writable for all N; star → 9; ring and chain grow into S_n), live at `inspect --root topowritability`. And [F89_BRANCH_LOCUS_PALINDROME.md](F89_BRANCH_LOCUS_PALINDROME.md): the octic's EP/diabolic branch locus in the complex-q plane is mirror-symmetric about Re λ = −4, forced by the F1 palindrome carried antiunitarily on the block (the spectral face of the watcher/watched reading, `inspect --root galoismonodromy`, `gmscan --mirror`).
 
 ---
 
@@ -461,7 +461,7 @@ The remaining 8 eigenvalues live in:
     F_8(λ) = λ⁸ + 32·λ⁷ + (72q² + 432)·λ⁶ + (−64iq³ + 1728q² + 3200)·λ⁵
               + (1200q⁴ − 1280iq³ + 16608q² + 14176)·λ⁴ + (… higher q-powers)
 
-`F_8` is **irreducible** over Q, Q[i], Q[√5], and Q[i, √5] (verified via [`f89_path3_octic_factor_test.py`](../simulations/f89_path3_octic_factor_test.py)). Combined with the discriminant analysis below (Gal(F_8) ⊄ A_8, conjecturally non-solvable), its eight roots are not expected to admit an elementary radical closure as functions of q. For q = 1.5 they cluster around λ_avg = −4γ (consistent with the centred form μ = λ + 4γ killing the λ⁷ term; trace(F_8) = −32 spreads 8 eigenvalues at average rate 4γ, between the AT-quantized 2γ and 6γ).
+`F_8` is **irreducible** over Q, Q[i], Q[√5], and Q[i, √5] (verified via [`f89_path3_octic_factor_test.py`](../simulations/f89_path3_octic_factor_test.py)). Combined with the Galois analysis below (Gal(F_8) = S_8, non-solvable), its eight roots admit no radical closure as functions of q. For q = 1.5 they cluster around λ_avg = −4γ (consistent with the centred form μ = λ + 4γ killing the λ⁷ term; trace(F_8) = −32 spreads 8 eigenvalues at average rate 4γ, between the AT-quantized 2γ and 6γ).
 
 | Eigenvalue source | Count | Closed form |
 |---|---|---|
@@ -690,7 +690,7 @@ The polynomial degree equals (F_a count − 1) = floor(N_block/2) − 1: the pol
 
 **The Galois group of the octic over Q(i)(q) is the full symmetric group S_8** ([`f89_path3_octic_galois.py`](../simulations/f89_path3_octic_galois.py), gate-first). The foundation is the degree-52 discriminant:
 
-    disc(F_8) = 1.21·10²⁴ · q²⁴ · (3q⁴ + q² − 1)² · P_10(q²)
+    disc(F_8) = const · q²⁴ · (3q⁴ + q² − 1)² · P_10(q²)   (const a nonzero normalization-dependent rational; only the factor structure is load-bearing)
 
 where P_10(q²) is degree 10 in q² (degree 20 in q, even powers only) and is NOT a perfect square in Q. The square factor (3q⁴+q²−1)² locates the **diabolic degeneracy** at q² = (−1+√13)/6 ≈ 0.434, q ≈ 0.659. The non-square disc gives **Gal(F_8) ⊄ A_8**, but that alone does not pin the group (S_4 is solvable yet ⊄ A_4).
 
@@ -700,7 +700,7 @@ where P_10(q²) is degree 10 in q² (degree 20 in q, even powers only) and is NO
 
 **What this means (the content is negative).** S_8 is the *generic* Galois group of an irreducible degree-8 polynomial (van der Waerden 1936; Bhargava, *Annals* 201, 2025), it is not exotic. The point is that free-fermion integrability **spends itself entirely on the factorisation**: the AT-locked F_a/F_b quadratics carry the single-particle frequencies −1±√5 in radicals, and the diabolic point sits on the *solvable* quartic factor (3q⁴+q²−1); the residual octic carries no further algebraic structure. The closed-form program for path-3 terminates exactly at the AT-protected half. (Contrast: the SIC-POVM spectral polynomials, Appleby-Yadsan-Appleby-Zauner 2012, gave a *solvable* Galois group, opposite polarity at the same seam.) Scope: this is the group of the path-3 (SE,DE) S_2-sym octic *factor*, not of "the Liouvillian spectrum"; it is a similarity-invariant of that invariant sub-block. Method reference: K. Conrad, "Recognizing Galois groups S_n and A_n". (Not to be confused with differential Galois theory / "Liouvillian solutions", a different object.)
 
-This S_8 is the small-symmetry (chain) row of a wider four-topology law: on a more symmetric wiring the graph automorphism group caps the (SE,DE) factor degrees, so the relaxation is radically writable exactly when that cap is ≤ 4 (only the complete graph, every N) and grows into S_n only where the symmetry is small (chain, ring). See [TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md](TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md).
+This S_8 is the small-symmetry (chain) row of a wider four-topology law: on a more symmetric wiring the graph automorphism group caps the (SE,DE) factor degrees, so the relaxation is radically writable exactly when that cap is ≤ 4 (only the complete graph, every N) and grows into S_n only where the symmetry is small (chain, ring). See [F89_TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md](F89_TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md).
 
 #### Path-3 octic-mode amplitude q-dependence: no closed-form fit (Tier 2)
 

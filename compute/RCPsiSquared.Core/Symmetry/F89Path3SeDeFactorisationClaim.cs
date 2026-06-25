@@ -22,7 +22,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>The 12-dim S_2-sym sub-block factors as deg-2 · deg-2 · deg-8.
 /// Both quadratics give 4 closed-form eigenvalues at AT rates 2γ (overlap)
 /// and 6γ (no-overlap) with frequencies J·(−1±√5). The octic is irreducible
-/// over Q[i, √5] and conjecturally Galois-non-solvable (separate Claim).</para>
+/// over Q[i, √5] and Galois-non-solvable, Gal(F_8) = S_8 (Tier 1 derived; see
+/// <see cref="F89Path3OcticGaloisClaim"/>).</para>
 ///
 /// <para>Anchors: <c>simulations/f89_path3_se_de_symbolic.py</c> (sympy
 /// charpoly + factor), <c>simulations/f89_path3_octic_factor_test.py</c>

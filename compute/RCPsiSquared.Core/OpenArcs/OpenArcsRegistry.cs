@@ -38,7 +38,7 @@ public static class OpenArcsRegistry
                 "(A) [FIRST EXEMPLAR LANDED 2026-06-24] NON-CHAIN TOPOLOGY Galois groups: YES, topology controls " +
                 "radical-writability. Computed star/ring/complete (SE,DE) H_B-mixed Galois groups at N=4,5,6 " +
                 "(simulations/topology_galois_writability.py, gate-validated by reproducing the chain S_8/S_18/S_32; " +
-                "experiments/TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md). RESULT: the COMPLETE graph K_N is the WRITABLE " +
+                "experiments/F89_TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md). RESULT: the COMPLETE graph K_N is the WRITABLE " +
                 "EXTREME (every H_B-mixed factor degree <= 4, definitively radical-solvable, at N=4,5,6), while the " +
                 "chain (S_8/18/32), the star (S_9 from N=5), and the ring (S_15 by N=6) all scramble to the full " +
                 "symmetric group S_n. Conjectured mechanism: K_N's degenerate single-particle spectrum {N-1, -1 with " +
@@ -48,7 +48,7 @@ public static class OpenArcsRegistry
                 "and capped at 4 (Kostka K_{lambda,(N-2,1,1)}+K_{lambda,(N-3,2,1)}, max 4 at the standard rep [N-1,1]); " +
                 "so by Schur every (SE,DE) factor is a quartic-or-less => K_N radically writable for ALL N. The " +
                 "H_B-mixed degree histogram {4:N-1, 3:N(N-3)/2, 2:(N-1)(N-2)/2} is verified exactly at N=5,6,7,8 " +
-                "(experiments/TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md, now Tier-1 derived for the complete graph). " +
+                "(experiments/F89_TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md, now Tier-1 derived for the complete graph). " +
                 "STAR ALSO DERIVED (Tier 1, 2026-06-24): Aut(star) = S_{N-1}; the multiplicity of the standard rep " +
                 "std_{N-1} in V is 9 (N-independent: 4+2+2+1 over the SE/DE tensor components), so the star caps at " +
                 "degree 9 with N-2 degree-9 factors => a FIXED S_9 scramble for all N>=5 (bounded, but >4 so " +
