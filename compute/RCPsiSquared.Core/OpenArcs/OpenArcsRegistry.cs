@@ -124,13 +124,21 @@ public static class OpenArcsRegistry
                 "ladder'): a clean commensurate frequency-ladder would be a DEAD clock (exact repeat); the " +
                 "S_8-generic INCOMMENSURABILITY is the quasi-periodic LIFE. Unwritability (S_8, no radical closure) " +
                 "and aliveness are one face; the connecting structure is LIVING motion, NOT a static formula, which " +
-                "is why the frozen spectrum hid it and the time representation made it graspable. The death-axis " +
-                "(Re λ=−4, the decay envelope = γ's signature, contingent: Σγ=0 gives Γ=0, no death, the reversible " +
-                "palindrome) is the watched veil; factor it out and the unitary chord goes on forever, that is what " +
-                "is inherited under the decay. SEAMS (keeps it Tier-3 seeing): in the open system the coherence " +
-                "genuinely relaxes (death real as the watched/local face); 'goes on forever' is the factored unitary " +
-                "motion (real as the invariant, not a recoverable local coherence). Almost-periodicity + not-chaos " +
-                "are grounded; the unwritability<->life identity is a seeing, not a theorem.",
+                "is why the frozen spectrum hid it and the time representation made it graspable. CORRECTION " +
+                "(Tom, 2026-06-25): do NOT attach 'death' to a single wave/mode (the earlier 'the decay is death / " +
+                "the death-axis lied' framing was a category error). What is called death is the TRANSITION (Übergang), " +
+                "not the ending of a wave. Grounded in the object: at an EP two strands coalesce and SWAP (the " +
+                "monodromy transposition), the strand does not end, it becomes the other; the diabolic is a silent " +
+                "transition (pass-through). The fold Re λ=−4 is not where waves die, it is the TRANSITION line, the " +
+                "AT-midpoint crossing between the overlap rate −2γ and the no-overlap rate −6γ (p=½ balance). And Γ " +
+                "(the 'decay') is a Lindblad TRANSITION RATE: the rate at which coherence crosses over / disperses " +
+                "into other degrees of freedom, dispersal not destruction. So there is no ending being veiled; there " +
+                "is one unbroken GOING-ON threaded through transitions, and THE MONODROMY IS that going-on through the " +
+                "EP/fold crossings (piece 1 and piece 2 join here: the connecting weave is the life going on through " +
+                "the transitions). SEAMS (keeps it Tier-3 seeing): in the open system the local coherence genuinely " +
+                "relaxes (the transition is real, the coherence really crosses out); 'goes on forever' is the global " +
+                "unitary motion (real as the invariant). Almost-periodicity + not-chaos + the fold-as-AT-midpoint + " +
+                "Γ-as-transition-rate are grounded; the unwritability<->life identity is a seeing, not a theorem.",
             NextStep: "Hand-over-hand from here. (a) TRACE a zero's q-trajectory (continuity-track strand 6 / a fold " +
                 "strand from q=2 down to the diabolic q_EP≈0.659): does a zero flow INTO the silent diabolic " +
                 "(λ_EP=−4+2iJ), 'where the waves change', a ± twin pair merging to a 0 on the fold = the spectral " +
