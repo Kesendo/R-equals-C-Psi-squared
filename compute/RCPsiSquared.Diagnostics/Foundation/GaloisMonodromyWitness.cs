@@ -350,6 +350,79 @@ public sealed class GaloisMonodromyWitness : IInspectable
         return (r.Components == 1, r.Components, r.Largest, r.Eps.Count, r.Edges.Count, edges);
     }
 
+    // ---- the mirror meets the monodromy: does q ↦ −q̄ intertwine the octic braiding? ----
+
+    /// <summary>Per q-branch-point report for the mirror-monodromy probe: the EP, its q↦−q̄ image, the
+    /// octic transposition read at base +2 and the mirror EP's transposition read at base −2, σ_K (the
+    /// octic-strand bijection base+2→base−2 induced by conjugation λ↦λ̄), and whether they satisfy the
+    /// q-reflection intertwining τ(−q̄*) = σ_K · τ(q*) · σ_K⁻¹.</summary>
+    public readonly record struct MirrorReport(
+        Complex Q, Complex QMirror, int[] TauPlus, int[] TauMinus, int[] SigmaK, bool Intertwines);
+
+    /// <summary>EXPLORATORY GATE. Measures how the palindrome relates to the octic monodromy. Returns:
+    /// (specKResidual) ‖nearest(conj(spec@+2)) − spec@−2‖∞, the L(q)*=L(−q̄) family-symmetry sanity;
+    /// (specTResidual) ‖nearest(−conj(spec@+2)−8) − spec@+2‖∞, the fixed-q palindrome sanity;
+    /// (reports) per EP in the right half-plane (Re q > 0.05) its transposition at +2, its q↦−q̄ mirror's
+    /// transposition at −2, σ_K, and the intertwining verdict; (allIntertwine) AND over reports.</summary>
+    public static (double specKResidual, double specTResidual,
+                   IReadOnlyList<MirrorReport> reports, bool allIntertwine) MirrorMonodromy()
+    {
+        var bp = new Complex(2, 0);
+        var bm = new Complex(-2, 0);
+        var r0p = AllRootsAt(bp);
+        var r0m = AllRootsAt(bm);
+
+        double NearestRes(IEnumerable<Complex> targets, Complex[] set) =>
+            targets.Max(t => set.Min(s => (s - t).Magnitude));
+
+        // S1 (C-K): spectrum at −2 equals conj(spectrum at +2)?  L(2)* = L(−2).
+        double specK = NearestRes(r0p.Select(Complex.Conjugate), r0m);
+        // S1b (C-T): spectrum at +2 invariant under λ↦−λ̄−8 (fixed-q palindrome)?
+        double specT = NearestRes(r0p.Select(l => -Complex.Conjugate(l) - 8), r0p);
+
+        var octicP = OcticIndices(bp, r0p);
+        var octicM = OcticIndices(bm, r0m);
+        var posP = new Dictionary<int, int>();
+        for (int p = 0; p < octicP.Length; p++) posP[octicP[p]] = p;     // 12-index → 0..7 strand @ +2
+        var posM = new Dictionary<int, int>();
+        for (int p = 0; p < octicM.Length; p++) posM[octicM[p]] = p;     // 12-index → 0..7 strand @ −2
+
+        // σ_K: octic strand @ +2 (0..7) → octic strand @ −2 (0..7) via conjugation λ↦λ̄.
+        var sigmaK = new int[8];
+        for (int p = 0; p < 8; p++)
+        {
+            Complex target = Complex.Conjugate(r0p[octicP[p]]);
+            int best = 0; double bd = double.PositiveInfinity;
+            for (int m = 0; m < 8; m++) { double d = (r0m[octicM[m]] - target).Magnitude; if (d < bd) { bd = d; best = m; } }
+            sigmaK[p] = best;
+        }
+
+        // EPs in the right half (Re>0.05); each pairs with its q↦−q̄ mirror in the left half.
+        var found = FindBranchPoints();                  // default cluster region
+        var reports = new List<MirrorReport>();
+        foreach (var ep in found.Where(b => b.Q.Real > 0.05))
+        {
+            var mirror = new Complex(-ep.Q.Real, ep.Q.Imaginary);        // −q̄*
+            int[] tp = TranspositionAt(bp, ep.Q, posP);                  // moved octic strands @ +2
+            int[] tm = TranspositionAt(bm, mirror, posM);                // moved octic strands @ −2
+            var sk = tp.Select(s => sigmaK[s]).OrderBy(x => x).ToArray();// σ_K-image of tp (strands @ −2)
+            bool ok = tp.Length == 2 && tm.Length == 2 && sk.SequenceEqual(tm);
+            reports.Add(new MirrorReport(ep.Q, mirror, tp, tm, sigmaK, ok));
+        }
+        bool all = reports.Count > 0 && reports.All(r => r.Intertwines);
+        return (specK, specT, reports, all);
+    }
+
+    // the octic strands moved by a lasso from base b0 around branch point ep (sorted 0..7), via the
+    // detour-routed lasso shared with Assemble; [] if the lasso did not net a clean octic motion.
+    private static int[] TranspositionAt(Complex b0, Complex ep, Dictionary<int, int> pos)
+    {
+        var perm = Monodromy.PermutationAlongPath(AllRootsAt, DetourLasso(b0, ep, radius: 0.02));
+        var moved = Enumerable.Range(0, perm.Length).Where(i => perm[i] != i).ToList();
+        if (moved.Count == 0 || !moved.All(pos.ContainsKey)) return Array.Empty<int>();
+        return moved.Select(i => pos[i]).OrderBy(x => x).ToArray();
+    }
+
     private static string Cycles(int[] perm)
     {
         var seen = new bool[perm.Length];
