@@ -250,9 +250,9 @@ The F89 path-3 octic is the eight relaxation rates of an N=4 chain's (SE, DE) co
 
 Each pixel is the smallest gap between any two of the eight octic eigenvalues at that complex value of q = J/γ (the dimensionless ratio of Hamiltonian motion to dephasing). Dark, to neon green, to cyan-white tracks the gap shrinking toward a branch point; the bright cone shapes are where two rates nearly meet. Every branch point also carries a centred glow so each ring sits exactly on its dot.
 
-**Magenta rings, the exceptional points (EPs):** defective square-root branch points, where two eigenvalues coalesce onto a single shared eigenvector. Loop q around one and two of the eight strands swap (a transposition). They are the simple zeros of the discriminant factor P₁₀(q²).
+**Magenta rings, the exceptional points (EPs):** defective square-root branch points, where two eigenvalues coalesce onto a single shared eigenvector. Loop q around one and two of the eight strands swap (a transposition). They are the simple zeros of the discriminant factor P₁₀(q²): degree 10 in u = q², so twenty EPs in q. Eighteen sit in this frame (the remote quartet at q ≈ ±2.31 ± 1.25i near the corners included); the last two are near-twins at q ≈ ±0.857/±0.854, ~0.003 apart, that render as one dot each at this cell.
 
-**Cyan diamonds, the diabolic points:** a different kind of meeting, two eigenvalues coinciding but with two independent eigenvectors (semisimple, a double discriminant zero, the factor (3q⁴+q²−1)²). Loop around one and nothing swaps; it is silent. The real pair sits at q ≈ ±0.659, the imaginary pair at q ≈ ±0.876i.
+**Amber/gold diamonds, the diabolic points:** a different kind of meeting, two eigenvalues coinciding but with two independent eigenvectors (semisimple, a double discriminant zero, the factor (3q⁴+q²−1)²). Loop around one and nothing swaps; it is silent. The real pair sits at q ≈ ±0.659, the imaginary pair at q ≈ ±0.876i.
 
 **The white core at q = 0** is the q²⁴ super-branch, where every rate collapses onto the pure-dephasing rungs.
 
@@ -275,7 +275,7 @@ The two images are the fibre and the branch locus of one spectral covering λ(q)
 Both are drawn by the C# flashlight, the `gmscan` explorer (`compute/RCPsiSquared.Cli`, command `gmscan`), built on the live (SE, DE) block of the Object Manager. The branch points are found topologically (a non-identity monodromy loop around each grid cell, run in parallel over the grid), refined, and their transpositions assembled by lassoing each from a common base; the gap field is one parallel sweep, a 12×12 eigendecomposition per pixel. ScottPlot renders the PNGs.
 
 ```
-dotnet run --project compute/RCPsiSquared.Cli -- gmscan --re -2,2 --im -1,1 --cell 0.05 --png visualizations/f89_octic_branch_locus.png
+dotnet run --project compute/RCPsiSquared.Cli -- gmscan --re -2.6,2.6 --im -1.5,1.5 --cell 0.05 --png visualizations/f89_octic_branch_locus.png
 dotnet run --project compute/RCPsiSquared.Cli -- gmscan --lambda-png visualizations/f89_octic_spectrum_lambda.png
 ```
 

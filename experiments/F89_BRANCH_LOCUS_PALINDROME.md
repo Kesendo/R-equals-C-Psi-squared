@@ -11,7 +11,7 @@ Take the eight relaxation rates of the [path-3 octic](F89_TOPOLOGY_ORBIT_CLOSURE
 
 ![The F89 octic branch locus in the q = J/γ plane.](../visualizations/f89_octic_branch_locus.png)
 
-*The branch locus in the q = J/γ plane: the octic min-gap as a cyberpunk-Matrix heatmap (dark to neon green to cyan-white as two rates approach), the 20 exceptional points in magenta and the 4 diabolic points in amber/gold (the real pair q ≈ ±0.659, the imaginary pair q ≈ ±0.876i). The locus is symmetric under q → −q and q → q̄; each collision's rate λ then sits on Re λ = −4 or in a mirror pair across it. Drawn by the `gmscan` flashlight (`--re -2,2 --im -1,1 --cell 0.05 --png`).*
+*The branch locus in the q = J/γ plane: the octic min-gap as a cyberpunk-Matrix heatmap (dark to neon green to cyan-white as two rates approach), the exceptional points in magenta and the 4 diabolic points in amber/gold (the real pair q ≈ ±0.659, the imaginary pair q ≈ ±0.876i). 18 of the 20 EPs are in frame, the remote quartet at q ≈ ±2.31 ± 1.25i near the corners included; the two remaining are near-twins at q ≈ ±0.857/±0.854, ~0.003 apart, that render as one dot each at this cell (the exact 20 live in the discriminant, below). The bright white core at q = 0 is the trivial J = 0 super-branch, not an EP. The locus is symmetric under q → −q and q → q̄; each collision's rate λ then sits on Re λ = −4 or in a mirror pair across it. Drawn by the `gmscan` flashlight (`--re -2.6,2.6 --im -1.5,1.5 --cell 0.05 --png`).*
 
 ## The mirror, carried on the block
 
