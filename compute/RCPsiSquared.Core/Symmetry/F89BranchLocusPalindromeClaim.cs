@@ -12,8 +12,9 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>It is FORCED by the F1 palindrome carried on the (SE,DE) block as an ANTIUNITARY symmetry
 /// T = P·K (P the weight-complement rung swap, commuting with the J-hopping; K complex conjugation):
-/// T L(q) T⁻¹ = −L(q) − 2σ as a polynomial identity in q, so it holds at every complex q where the EPs
-/// live, not merely under q → q̄. Equivalently the octic obeys F₈(λ, q) = F₈(−λ − 8, −q). The spectral
+/// T L(q) T⁻¹ = −L(q̄) − 2σ (note the conjugate q̄ on the right: a same-q identity on the real axis, the
+/// vertical fold, and a q → q̄ relation off it). The genuinely all-q holomorphic shadow is
+/// F₈(λ, q) = F₈(−λ − 8, −q) (a q → −q identity). The spectral
 /// action is antilinear, λ ↦ −λ̄ − 2σ (reflect Re about −σ, preserve Im), so the merged-eigenvalue locus
 /// is invariant under it: every EP lies on the line Re λ = −σ or in a mirror pair across it, no orphan.
 /// Verified on the committed octic literal to 4·10⁻¹³ (closes under λ↦−λ̄−2σ, fails the bare linear
@@ -42,7 +43,7 @@ public sealed class F89BranchLocusPalindromeClaim : Claim
     public static double PalindromeCentre(double gamma, int nBlock) => -nBlock * gamma;
 
     public F89BranchLocusPalindromeClaim(F1PalindromeIdentity palindrome, F89Path3OcticEpClaim diabolic)
-        : base("F89 path-3 octic branch locus is a palindrome: the EP/diabolic collisions are mirror-symmetric about Re λ = −σ = −4γ, FORCED by the F1 palindrome carried antiunitarily on the (SE,DE) block (T L(q) T⁻¹ = −L(q) − 2σ for all q; octic identity F8(λ,q) = F8(−λ−8, −q); spectral action λ ↦ −λ̄ − 2σ); every EP on the line or in a mirror pair, no orphan",
+        : base("F89 path-3 octic branch locus is a palindrome: the EP/diabolic collisions are mirror-symmetric about Re λ = −σ = −4γ, FORCED by the F1 palindrome carried antiunitarily on the (SE,DE) block (T L(q) T⁻¹ = −L(q̄) − 2σ, a same-q fold at real q; all-q holomorphic identity F8(λ,q) = F8(−λ−8, −q); spectral action λ ↦ −λ̄ − 2σ; EP partner at q̄*); every EP on the line or in a mirror pair, no orphan",
                Tier.Tier1Derived,
                "experiments/F89_BRANCH_LOCUS_PALINDROME.md + " +
                "docs/proofs/MIRROR_SYMMETRY_PROOF.md + " +
@@ -65,7 +66,7 @@ public sealed class F89BranchLocusPalindromeClaim : Claim
         {
             yield return InspectableNode.RealScalar("palindrome centre Re λ = −σ (γ=1, N_block=4)", PalindromeCentre(1.0, 4));
             yield return new InspectableNode("the inherited mirror (antiunitary)",
-                summary: "the (SE,DE) F1 palindrome is the antiunitary T = P·K: T L(q) T⁻¹ = −L(q) − 2σ for all q, so " +
+                summary: "the (SE,DE) F1 palindrome is the antiunitary T = P·K: T L(q) T⁻¹ = −L(q̄) − 2σ (same-q fold at real q), so " +
                          "the branch locus is invariant under λ ↦ −λ̄ − 2σ (Re reflects about −σ, Im preserved); every EP " +
                          "on the line or in a mirror pair. Line = the palindrome's gift; the diabolic's silence = " +
                          "free-fermion integrability's, separate. Live: inspect --root branchpalindrome.");

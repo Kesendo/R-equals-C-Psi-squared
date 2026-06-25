@@ -19,9 +19,9 @@ Take the eight relaxation rates of the [path-3 octic](F89_TOPOLOGY_ORBIT_CLOSURE
 
 The full Liouvillian's [palindrome](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) is Π L Π⁻¹ = −L − 2σ, σ = Σγ; eigenvalues pair as λ ↦ −λ − 2σ about the fixed centre −σ. On the (SE,DE) path-3 block, L(q) = re + i·q·im with re the real dephasing diagonal (entries −2γ on overlap, n_diff = 1, and −6γ on no-overlap, n_diff = 3) and im the real symmetric XY hopping. These two rungs are F1 weight-complement partners (the Hamming complement sends n_diff = 1 ↔ 3, sum N_block = 4; rates 2γ ↔ 6γ sum to 2σ = 8γ), so the block's palindrome centre is the rung midpoint **−σ = −N_block·γ = −4γ**. The centre is not a separate fact: it IS the palindrome, the −2/−6 rungs being a mirror pair and −4 their fixed point. (Independent check: the octic's eight roots sum to −32, average −4.)
 
-The operative symmetry on the block is **antiunitary**, T = P·K, with P the F1 weight-complement permutation (it swaps the rate-2γ and rate-6γ rungs and commutes with the J-hopping) and K complex conjugation. The exact statement, a polynomial identity in q that therefore holds at every complex q where the EPs live, not merely under q → q̄:
+The operative symmetry on the block is **antiunitary**, T = P·K, with P the F1 weight-complement permutation (it swaps the rate-2γ and rate-6γ rungs and commutes with the J-hopping) and K complex conjugation. The exact statement carries the conjugate q̄ on the right (so it is a same-q identity on the real axis, the vertical fold, and a q → q̄ relation off it):
 
-    T L(q) T⁻¹ = −L(q) − 2σ      for all q,   σ = 4γ
+    T L(q) T⁻¹ = −L(q̄) − 2σ      for all q,   σ = 4γ
 
 Equivalently, on the octic itself,
 
@@ -31,10 +31,10 @@ The spectral action of T is antilinear, **λ ↦ −λ̄ − 2σ**: it reflects 
 
 ## Why the EPs inherit it
 
-Because T L(q) T⁻¹ = −L(q) − 2σ holds for all q, it is a symmetry of the whole family, and every coalescence datum inherits it. If (q*, λ*) is an EP (a double root of det(λ − L(q*))), then (q*, −λ̄* − 2σ) is a double root at the **same** q*. So the set of merged eigenvalues at each branch point is invariant under λ ↦ −λ̄ − 2σ. Two cases, and only two:
+Because T L(q) T⁻¹ = −L(q̄) − 2σ holds for all q, it is a symmetry of the whole family, and every coalescence datum inherits it. If (q*, λ*) is an EP (a double root of det(λ − L(q*))), then (q̄*, −λ̄* − 2σ) is a double root, at the **same** q* when q* is real and at the conjugate q̄* in general. So the locus of (q, merged λ) is invariant under (q, λ) ↦ (q̄, −λ̄ − 2σ), and in the rate (Re λ) every collision folds about −4. Two cases, and only two:
 
 - **On the line.** λ* = −λ̄* − 2σ ⟹ Re λ* = −σ = −4: the collision is its own mirror, on the centre line.
-- **In a mirror pair.** otherwise the partner −λ̄* − 2σ is a second collision at equal frequency and rate the same distance on the far side of −4.
+- **In a mirror pair.** otherwise the partner −λ̄* − 2σ (sitting at q̄*) is a second collision at equal frequency and rate the same distance on the far side of −4.
 
 No third case. **No orphan is possible.** This is a consequence of the palindrome, not an observed coincidence.
 

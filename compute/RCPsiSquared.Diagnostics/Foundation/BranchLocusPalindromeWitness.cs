@@ -11,7 +11,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// as q = J/γ varies in the complex plane, are mirror-symmetric about Re λ = −σ = −4 (the midpoint of the
 /// absorption rungs −2γ, −6γ, the AT-midpoint). This is FORCED, not coincidental: the F1 palindrome is
 /// carried on the (SE,DE) block as an ANTIUNITARY symmetry T = P·K (P the weight-complement rung swap,
-/// K conjugation), T L(q) T⁻¹ = −L(q) − 2σ for all q, so the merged-eigenvalue locus is invariant under
+/// K conjugation), T L(q) T⁻¹ = −L(q̄) − 2σ (a same-q fold at real q), so the merged-eigenvalue locus is invariant under
 /// the antilinear mirror λ ↦ −λ̄ − 2σ (reflect Re about −σ, preserve Im). Every EP lies on the line or in
 /// a mirror pair across it, no orphan. The line is the palindrome's gift; the diabolic's silence
 /// (semisimple) is free-fermion integrability's, a separate gift (DIABOLIC_BY_INTEGRABILITY: XXZ Δ≠0
