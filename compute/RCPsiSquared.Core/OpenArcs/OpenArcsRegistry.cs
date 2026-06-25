@@ -117,7 +117,7 @@ public static class OpenArcsRegistry
                 "relation among the four zero-frequencies themselves. " +
                 "SECOND PIECE (time domain, 2026-06-25, Tom): the zeros all share Re λ=−4 (rate 4), so in TIME they " +
                 "are ONE real decaying chord (e^{−4t} envelope, four tones, all ring; biorthogonal amplitudes, " +
-                "democratic (SE,DE) probe, spatial-sum observable; scratch simulations/_f89_chord.py). The undamped " +
+                "democratic (SE,DE) probe, spatial-sum observable; simulations/f89_chord.py). The undamped " +
                 "chord S_zero(t)·e^{+4t} is ALMOST-PERIODIC (Bohr): the frequencies are incommensurate, so it never " +
                 "decays and never exactly repeats (peaks similar, not equal), and it is NOT chaos (the galoischaos " +
                 "witness already read it Poisson-like on the integrable lattice). THE REFRAME (resolves the 'missing " +
