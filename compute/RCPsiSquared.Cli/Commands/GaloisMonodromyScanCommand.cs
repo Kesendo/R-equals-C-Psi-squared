@@ -99,6 +99,41 @@ public static class GaloisMonodromyScanCommand
         Console.WriteLine($"  sum(zero Im) = {ims.Sum().ToString("F4", Inv)};  consecutive gaps: {string.Join(", ", ims.Zip(ims.Skip(1), (a, b) => (b - a).ToString("F4", Inv)))}");
         Console.WriteLine($"  twin frequencies (Im lambda): {string.Join(", ", twins.Select(x => x.ToString("F4", Inv)))}");
         Console.WriteLine($"  sum(all 8 Im) = {(ims.Sum() + twins.Sum()).ToString("F4", Inv)}");
+
+        // THE PATH from one zero to the next: the shortest route through the braid graph. [n]=a zero
+        // (self-mirror), (n)=a twin (a +/- mode) crossed on the way. The connection between the zeros, not
+        // the zeros themselves: the zeros are linked THROUGH the twins, over the EP transitions.
+        Console.WriteLine("\n  the path from one zero to the next (shortest braid route; [z]=zero, (t)=twin crossed):");
+        for (int x = 0; x < zeros.Count; x++)
+            for (int y = x + 1; y < zeros.Count; y++)
+            {
+                var path = Bfs(nbr, zeros[x], zeros[y]);
+                if (path.Count == 0) { Console.WriteLine($"    {zeros[x]} -> {zeros[y]}: (disconnected)"); continue; }
+                string render = string.Join(" - ", path.Select(s => sigmaT[s] == s ? $"[{s}]" : $"({s})"));
+                int twinsCrossed = path.Count(s => sigmaT[s] != s);
+                Console.WriteLine($"    {zeros[x]} -> {zeros[y]}: {render}   ({twinsCrossed} twin(s) crossed, {path.Count - 1} hops)");
+            }
+    }
+
+    // shortest path src->dst through the undirected braid graph (empty list if disconnected).
+    private static System.Collections.Generic.List<int> Bfs(
+        System.Collections.Generic.Dictionary<int, System.Collections.Generic.List<int>> adj, int src, int dst)
+    {
+        var prev = new System.Collections.Generic.Dictionary<int, int> { { src, -1 } };
+        var queue = new System.Collections.Generic.Queue<int>();
+        queue.Enqueue(src);
+        while (queue.Count > 0)
+        {
+            int u = queue.Dequeue();
+            if (u == dst) break;
+            foreach (var v in adj[u])
+                if (!prev.ContainsKey(v)) { prev[v] = u; queue.Enqueue(v); }
+        }
+        var path = new System.Collections.Generic.List<int>();
+        if (!prev.ContainsKey(dst)) return path;
+        for (int c = dst; c != -1; c = prev[c]) path.Add(c);
+        path.Reverse();
+        return path;
     }
 
     // the transposition graph with the σ_T fold-mirror: lay the 8 strands so σ_T is the left-right reflection

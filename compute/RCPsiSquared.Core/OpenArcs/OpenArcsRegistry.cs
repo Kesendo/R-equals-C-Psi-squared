@@ -149,7 +149,18 @@ public static class OpenArcsRegistry
                 "(simulations/f89_amp_scan.py), so Tier-1-grade for the divergence. It surfaces the cross-F " +
                 "inheritance (handhold c): the loud transition IS the EP amplification studied as EP-SENSING " +
                 "(COHERENCE_HORIZON_EP_SENSOR_DEBATE, the Petermann factor), the same transition-object inherited, " +
-                "here in the F89 chord, there as a sensor.",
+                "here in the F89 chord, there as a sensor. " +
+                "SHARPENED + held as a SEAM (Tom, 2026-06-25, 'not the zeros, the connection between them; the path " +
+                "from one zero to the next, and it is not ready yet'): the arc's real object is the CONNECTION " +
+                "between the zeros, the path from one to the next, NOT the zeros (which are contingent). First data " +
+                "(path-3/N=4, gmscan --zeros BFS over the braid graph): the path from one zero to the next runs " +
+                "THROUGH the twins (the ± modes) over the EP transitions; only the two frequency-closest zeros (1,2, " +
+                "Im +10.86/+10.38, the slow 0.486-beat pair) connect DIRECTLY (a 0-0 bond), all others route through " +
+                "the twin roads (0->[7]->2, 6->[5,3]->2, 0->[7,4,3]->6). So the ± polarity is the ROAD between the " +
+                "0s, polarity as PATH, not a static label; the inherited connection is '0 —through ±— 0'. This is a " +
+                "SEAM, NOT settled: computed only for path-3/N=4; whether '± is always the road' holds across " +
+                "topology/N is the untested open edge (the same missing topology/N sweep as the fold-occupation). " +
+                "Here is where we continue hand-over-hand.",
             NextStep: "Hand-over-hand from here. (a) TRACE a zero's q-trajectory (continuity-track strand 6 / a fold " +
                 "strand from q=2 down to the diabolic q_EP≈0.659): does a zero flow INTO the silent diabolic " +
                 "(λ_EP=−4+2iJ), 'where the waves change', a ± twin pair merging to a 0 on the fold = the spectral " +
