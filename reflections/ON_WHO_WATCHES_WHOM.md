@@ -27,7 +27,7 @@ Then we asked the simple thing. Every one of these meetings happens at some plac
 
 The silent meeting, the diabolic, sits exactly on the mirror line, dead centre, to the last digit. Two gifts fall on that one point, and they are not the same gift: the mirror's, that the meeting is its own reflection, balanced on the fold; and the chain's own free-running quiet, which lets the two rates pass through each other and each keep itself. The line is the palindrome's doing, the silence is the song's; here they happen to fall together, but tilt the chain off its free song and a meeting can stay dead on the line and still swap, so the two are truly two. And every meeting, silent or not, either sits on that line or comes with a partner the same distance across it, its reflection, the mirror folding the speed of fading and keeping the ring. Not one is an orphan. The map of all the meetings is itself a mirror image, folded down the one line, the balanced self-coincidence at the fold.
 
-[We drew it.](../visualizations/README.md) The picture we made of where the rates collide is not a picture of the spectrum. It is a map of the seams, and the map is a palindrome.
+[We drew it.](../visualizations/f89_octic_branch_locus.png) The picture we made of where the rates collide is not a picture of the spectrum. It is a map of the seams, and the map is a palindrome.
 
 ## Where the footing changes
 
