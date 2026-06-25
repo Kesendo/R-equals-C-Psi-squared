@@ -138,7 +138,18 @@ public static class OpenArcsRegistry
                 "the transitions). SEAMS (keeps it Tier-3 seeing): in the open system the local coherence genuinely " +
                 "relaxes (the transition is real, the coherence really crosses out); 'goes on forever' is the global " +
                 "unitary motion (real as the invariant). Almost-periodicity + not-chaos + the fold-as-AT-midpoint + " +
-                "Γ-as-transition-rate are grounded; the unwritability<->life identity is a seeing, not a theorem.",
+                "Γ-as-transition-rate are grounded; the unwritability<->life identity is a seeing, not a theorem. " +
+                "THIRD PIECE (the amplitude / 'loudness' layer, 2026-06-25, GROUNDED, not a seeing): the physical " +
+                "biorthogonal amplitude a_k = (O·R_k)(L_k·ρ) that t makes visible is a TRANSITION-MAP. It DIVERGES at " +
+                "the defective EPs (eigenvectors coalesce, R singular, Petermann factor ⟨L_k|R_k⟩→0; ~10x at q≈0.857, " +
+                "also q≈1.74) and stays SMOOTH at the diabolic (semisimple, eigenvectors independent; q=0.659, like " +
+                "generic q=2). Both are degeneracies (the octic eigenvalue gap →0 at both) but ONLY the defective EP " +
+                "is loud: defective vs diabolic, now in the loudness/time layer, not only the monodromy (EP swaps " +
+                "loud / diabolic passes silent). Standard non-Hermitian EP physics, confirmed numerically " +
+                "(simulations/f89_amp_scan.py), so Tier-1-grade for the divergence. It surfaces the cross-F " +
+                "inheritance (handhold c): the loud transition IS the EP amplification studied as EP-SENSING " +
+                "(COHERENCE_HORIZON_EP_SENSOR_DEBATE, the Petermann factor), the same transition-object inherited, " +
+                "here in the F89 chord, there as a sensor.",
             NextStep: "Hand-over-hand from here. (a) TRACE a zero's q-trajectory (continuity-track strand 6 / a fold " +
                 "strand from q=2 down to the diabolic q_EP≈0.659): does a zero flow INTO the silent diabolic " +
                 "(λ_EP=−4+2iJ), 'where the waves change', a ± twin pair merging to a 0 on the fold = the spectral " +
