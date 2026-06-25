@@ -113,7 +113,7 @@ public static class GaloisMonodromyScanCommand
         var diabIn = diab.Where(d => d.Item1 >= reLo && d.Item1 <= reHi && d.Item2 >= imLo && d.Item2 <= imHi).ToArray();
 
         GapFieldPlot.Save(intensity, reLo, reHiGrid, imLo, imHiGrid, eps, diabIn,
-            "F89 path-3 octic: branch locus in q = J/gamma   (EP = magenta, diabolic = cyan)", png);
+            "F89 path-3 octic: branch locus in q = J/gamma   (EP = magenta, diabolic = gold)", png);
         Console.WriteLine($"saved {png}");
     }
 

@@ -5,7 +5,7 @@ namespace RCPsiSquared.Visualization.Plotters;
 
 /// <summary>The F89 octic branch-locus visual: the octic min-gap intensity over the complex-q plane as
 /// a cyberpunk + Matrix heatmap (dark to neon green to cyan-white at the branch points), with the
-/// exceptional points (EPs) marked in magenta and the diabolic point in cyan. The data is the
+/// exceptional points (EPs) marked in magenta and the diabolic point in amber/gold. The data is the
 /// flashlight's gap field; this is its colour photograph.</summary>
 public static class GapFieldPlot
 {
@@ -45,12 +45,14 @@ public static class GapFieldPlot
         // (EP) / cyan (diabolic) dot, independent of how the gap field happened to sample that cusp.
         if (diabolic.Length > 0)
         {
-            Glow(plot, diabolic, Color.FromHex("#00fff7"), 7);
+            // warm amber/gold: the diabolic markers must pop against the cool green-to-cyan field, where a
+            // cyan marker drowned. Amber is far from both green and cyan in hue, and distinct from the magenta EPs.
+            Glow(plot, diabolic, Color.FromHex("#ffae00"), 8);
             var d = plot.Add.Markers(diabolic.Select(e => e.re).ToArray(), diabolic.Select(e => e.im).ToArray());
             d.MarkerStyle.Shape = MarkerShape.OpenDiamond;
-            d.MarkerStyle.Size = 16;
-            d.MarkerStyle.LineColor = Color.FromHex("#00fff7");
-            d.MarkerStyle.LineWidth = 2;
+            d.MarkerStyle.Size = 22;
+            d.MarkerStyle.LineColor = Color.FromHex("#fff1c0");
+            d.MarkerStyle.LineWidth = 3;
             d.LegendText = "diabolic point (silent)";
         }
 

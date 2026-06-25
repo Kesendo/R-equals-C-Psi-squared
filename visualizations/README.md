@@ -246,7 +246,7 @@ The F89 path-3 octic is the eight relaxation rates of an N=4 chain's (SE, DE) co
 
 ### The branch locus (the control plane q = J/γ)
 
-![The F89 octic branch locus in the q = J/γ plane: a cyberpunk-Matrix min-gap heatmap with the exceptional points in magenta and the diabolic points in cyan.](f89_octic_branch_locus.png)
+![The F89 octic branch locus in the q = J/γ plane: a cyberpunk-Matrix min-gap heatmap with the exceptional points in magenta and the diabolic points in amber/gold.](f89_octic_branch_locus.png)
 
 Each pixel is the smallest gap between any two of the eight octic eigenvalues at that complex value of q = J/γ (the dimensionless ratio of Hamiltonian motion to dephasing). Dark, to neon green, to cyan-white tracks the gap shrinking toward a branch point; the bright cone shapes are where two rates nearly meet. Every branch point also carries a centred glow so each ring sits exactly on its dot.
 
