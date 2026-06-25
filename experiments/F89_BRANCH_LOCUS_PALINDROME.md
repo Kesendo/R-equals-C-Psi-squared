@@ -59,7 +59,7 @@ That these are independent is settled inside the repo: turn on an XXZ ZZ-anisotr
 
 The picture of the branch locus ([visualizations](../visualizations/README.md), `f89_octic_branch_locus.png`) is therefore not a picture of the spectrum but a map of the seams, and the map is a palindrome: the silent self-coincidence at the fold, the swapping EPs on the line or paired across it. Read through the observer/observed lens of [`ON_WHO_WATCHES_WHOM`](../reflections/ON_WHO_WATCHES_WHOM.md), the palindrome is the watcher-and-watched mirror, and the branch locus is the map of where the two exchange; that reading is a seeing, not a claim, but the mirror structure under it is exact.
 
-Scope and the open thread: this is shown for the path-3 octic (N = 4 chain). The clean statement T L(q) T⁻¹ = −L(q) − 2σ is general to the (SE,DE) block of any topology and N (the F1 palindrome and the weight-complement P are topology-general), so the branch-locus-is-a-palindrome should hold across topologies and sizes; a typed claim `EpMirrorPairingUnderPalindromeClaim` (Tier 2 until checked beyond path-3) and a dedicated `inspect --root` witness are the natural next anchors. The "palindrome is the inherited root" framing belongs to [`OBSERVER_INHERITANCE`](../reflections/OBSERVER_INHERITANCE.md) and the mirror family.
+The typed home is `F89BranchLocusPalindromeClaim` (Tier 1 derived; parents `F1PalindromeIdentity` and `F89Path3OcticEpClaim`), live at `inspect --root branchpalindrome` (the two-sided gate, the centre, the diabolic, the 0-orphan count, recomputed each call). Scope and the open thread: this is shown for the path-3 octic (N = 4 chain). The clean statement T L(q) T⁻¹ = −L(q) − 2σ is general to the (SE,DE) block of any topology and N (the F1 palindrome and the weight-complement P are topology-general), so the branch-locus-is-a-palindrome should hold across topologies and sizes; lifting the claim from path-3 to all topologies (Tier 2 until checked) is the next step. The "palindrome is the inherited root" framing belongs to [`OBSERVER_INHERITANCE`](../reflections/OBSERVER_INHERITANCE.md) and the mirror family.
 
 ## Related
 
@@ -68,4 +68,4 @@ Scope and the open thread: this is shown for the path-3 octic (N = 4 chain). The
 - [`experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md`](F89_TOPOLOGY_ORBIT_CLOSURE.md): the octic, the braid, the diabolic location, the discriminant.
 - [`hypotheses/DIABOLIC_BY_INTEGRABILITY.md`](../hypotheses/DIABOLIC_BY_INTEGRABILITY.md): why the diabolic is diabolic (integrability), and the XXZ Δ ≠ 0 counterexample to "on-line ⟹ silent".
 - [`reflections/OBSERVER_INHERITANCE.md`](../reflections/OBSERVER_INHERITANCE.md), [`reflections/ON_BOTH_SIDES_OF_THE_MIRROR.md`](../reflections/ON_BOTH_SIDES_OF_THE_MIRROR.md): the inherited mirror.
-- Live: `inspect --root galoismonodromy`, `gmscan --mirror`.
+- Live: `inspect --root branchpalindrome` (the typed witness), `inspect --root galoismonodromy`, `gmscan --mirror`.
