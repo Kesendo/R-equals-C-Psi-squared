@@ -11,7 +11,7 @@
 
 **Outputs:** [`bond_isolate/`](../simulations/results/bond_isolate/) (28 CSVs at N=7 + two comparison plots).
 **Related register entries:** [F73](../docs/ANALYTICAL_FORMULAS.md) (analogous closed-form closure for the (vac, SE) coherence block); [F71](../docs/ANALYTICAL_FORMULAS.md) (the spatial mirror Z₂ that sits inside the full S_N argument used here); [F86](../docs/ANALYTICAL_FORMULAS.md) (per-bond Q_peak fan, the empirical contrast: a linear response ∂J_b breaks S_N differently from the uniform-J multi-bond setup of F89).
-**Related experiments:** [TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md](TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md), the sequel that generalises this chain result: on every wiring the graph automorphism group caps the (SE,DE) Galois writability (complete K_N → 4, radically writable for all N; star → 9; ring and chain grow into S_n), live at `inspect --root topowritability`.
+**Related experiments:** [TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md](TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md), the sequel that generalises this chain result: on every wiring the graph automorphism group caps the (SE,DE) Galois writability (complete K_N → 4, radically writable for all N; star → 9; ring and chain grow into S_n), live at `inspect --root topowritability`. And [F89_BRANCH_LOCUS_PALINDROME.md](F89_BRANCH_LOCUS_PALINDROME.md): the octic's EP/diabolic branch locus in the complex-q plane is mirror-symmetric about Re λ = −4, forced by the F1 palindrome carried antiunitarily on the block (the spectral face of the watcher/watched reading, `inspect --root galoismonodromy`, `gmscan --mirror`).
 
 ---
 
