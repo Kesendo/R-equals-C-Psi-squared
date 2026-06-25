@@ -7,7 +7,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// FULL symmetric group S_8, so the octic is non-solvable.
 ///
 /// <code>
-///   disc(F_8) = 1.21·10²⁴ · q²⁴ · (3q⁴+q²−1)² · P_10(q²)   (deg 52 in q)
+///   disc(F_8) = const · q²⁴ · (3q⁴+q²−1)² · P_10(q²)   (deg 52 in q; const a nonzero rational, normalization-dependent)
 ///
 ///   P_10(q²) is NOT a perfect square in Q  ⇒  Gal(F_8) ⊄ A_8.
 ///   Gal(F_8 / Q(i)(q)) = S_8   (robust to enlarging the base to Q(i,√5)(q)).
@@ -69,7 +69,7 @@ public sealed class F89Path3OcticGaloisClaim : Claim
     /// <summary>Structure of disc(F_8) factorisation:
     /// (constant prefactor) · q^24 · (3q⁴+q²-1)² · P_10(q²).
     /// Returns (q-power=24, square-factor-deg-in-q=8, P_10-deg-in-q=20).
-    /// The constant prefactor is always present once (≈ 1.21·10²⁴) and is omitted from
+    /// The constant prefactor is always present once (a nonzero rational, normalization-dependent) and is omitted from
     /// this structural tuple — the slots encode degree contributions only.</summary>
     public static (int QPower, int SquareFactorDegInQ, int P10DegInQ)
         DiscriminantFactorisationStructure => (24, 8, 20);
