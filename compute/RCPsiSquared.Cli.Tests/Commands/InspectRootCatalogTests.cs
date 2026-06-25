@@ -196,18 +196,19 @@ public class InspectRootCatalogTests
     {
         var entry = InspectCommand.Catalog.Single(e => e.Name == "f89galois");
         Assert.False(entry.RequiresN);
-        Assert.Contains("S_8", entry.Description);
+        Assert.Contains("S_d", entry.Description);
     }
 
     [Fact]
-    public void Catalog_F89GaloisFactory_BuildsTheLiveWitness_ReadsS8()
+    public void Catalog_F89GaloisFactory_BuildsThePathKWitness_ReadsSd()
     {
         var entry = InspectCommand.Catalog.Single(e => e.Name == "f89galois");
         var ctx = new InspectRootContext(new ArgParser(Array.Empty<string>()), N: 1,
             WithQSweep: false, WithMeasured: false, QGridPoints: null);
         var root = entry.Factory(ctx);
-        Assert.IsType<F89OcticGaloisWitness>(root);
-        Assert.Contains("S_8", root.Summary);
+        // f89galois is now the path-3..6 composite F89PathKGaloisWitness (F89OcticGaloisWitness is its path-3 child).
+        Assert.IsType<F89PathKGaloisWitness>(root);
+        Assert.Contains("S_d", root.Summary);
     }
 
     [Fact]
