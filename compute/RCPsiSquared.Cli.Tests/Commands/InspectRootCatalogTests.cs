@@ -211,6 +211,25 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void Catalog_HasMonodromyMirrorRoot_NFree()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "monodromymirror");
+        Assert.False(entry.RequiresN);
+        Assert.Contains("Z(S_8)=1", entry.Description);
+        Assert.Contains("galoismonodromy", entry.Description);
+    }
+
+    [Fact]
+    public void Catalog_MonodromyMirrorFactory_BuildsTheLiveWitness()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "monodromymirror");
+        var ctx = new InspectRootContext(new ArgParser(Array.Empty<string>()), N: 1,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var root = entry.Factory(ctx);
+        Assert.IsType<RCPsiSquared.Diagnostics.Foundation.MonodromyMirrorWitness>(root);
+    }
+
+    [Fact]
     public void Catalog_HasDecoderRoot_NFree()
     {
         var entry = InspectCommand.Catalog.Single(e => e.Name == "decoder");

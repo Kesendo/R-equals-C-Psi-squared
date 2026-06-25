@@ -347,6 +347,8 @@ public static class KnowledgeRegistryFactory
             .RegisterF89Path3OcticEpClaim()
             .RegisterF89Path3OcticGaloisClaim()
             .RegisterF89BranchLocusPalindromeClaim()
+            .RegisterF89OcticMonodromyClaim()
+            .RegisterF89MonodromyMirrorClaim()
             .RegisterF89PathKHbMixedDegreesClaim()
             .RegisterF90F86C2BridgeIdentity()
             .RegisterF82T1AmplitudeDampingPi2Inheritance()

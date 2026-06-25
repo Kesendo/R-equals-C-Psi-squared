@@ -189,6 +189,43 @@ public class F89DescendantClaimsRegistrationTests
     }
 
     [Fact]
+    public void RegisterF89OcticMonodromy_AddsClaim_WithGaloisAndEpAncestors()
+    {
+        var registry = BuildBaseRegistry()
+            .RegisterF89PathKAtLockMechanismClaim()
+            .RegisterF89Path3OcticEpClaim()
+            .RegisterF89Path3OcticGaloisClaim()
+            .RegisterF89OcticMonodromyClaim()
+            .Build();
+        Assert.True(registry.Contains<F89OcticMonodromyClaim>());
+        Assert.Equal(Tier.Tier1Derived, registry.Get<F89OcticMonodromyClaim>().Tier);
+        var ancestors = registry.AncestorsOf<F89OcticMonodromyClaim>()
+            .Select(c => c.GetType()).ToHashSet();
+        Assert.Contains(typeof(F89Path3OcticGaloisClaim), ancestors);
+        Assert.Contains(typeof(F89Path3OcticEpClaim), ancestors);
+    }
+
+    [Fact]
+    public void RegisterF89MonodromyMirror_AddsClaim_WithMonodromyAndBranchLocusAncestors()
+    {
+        var registry = BuildBaseRegistry()
+            .RegisterF1PalindromeIdentity()
+            .RegisterF89PathKAtLockMechanismClaim()
+            .RegisterF89Path3OcticEpClaim()
+            .RegisterF89Path3OcticGaloisClaim()
+            .RegisterF89BranchLocusPalindromeClaim()
+            .RegisterF89OcticMonodromyClaim()
+            .RegisterF89MonodromyMirrorClaim()
+            .Build();
+        Assert.True(registry.Contains<F89MonodromyMirrorClaim>());
+        Assert.Equal(Tier.Tier1Derived, registry.Get<F89MonodromyMirrorClaim>().Tier);
+        var ancestors = registry.AncestorsOf<F89MonodromyMirrorClaim>()
+            .Select(c => c.GetType()).ToHashSet();
+        Assert.Contains(typeof(F89OcticMonodromyClaim), ancestors);
+        Assert.Contains(typeof(F89BranchLocusPalindromeClaim), ancestors);
+    }
+
+    [Fact]
     public void RegisterF89PathKHbMixedDegrees_AddsClaim()
     {
         var registry = BuildBaseRegistry()
