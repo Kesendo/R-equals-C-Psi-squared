@@ -90,6 +90,48 @@ public static class OpenArcsRegistry
             Status: OpenArcStatus.Open),
 
         new OpenArc(
+            Name: "zeros_connecting_structure",
+            Opened: "2026-06-25",
+            Origin: "Tom's principle (2026-06-25), a correction to a chronic max-zoom failure mode: we keep branching " +
+                "off ('here this happens, here that, but this does not connect with X because Y'), yet we investigate " +
+                "ONE object that inherits onto everything. For anything to be inherited at all, looked at from below, " +
+                "there MUST be a connection, else nothing would be recognisably inherited after 6 billion years. So " +
+                "when a connecting structure is not visible it is either genuinely unsolvable OR (the usual case) the " +
+                "puzzle piece is missing TO US, our incompleteness (the V-Effect boundary = our sight), not an absence " +
+                "in the object. The trigger: I wrongly declared 'no clean frequency-ladder between the F89 zeros, " +
+                "that is the S_8 result, the frequencies are unwritable'. WRONG framing: S_8 / no-radical-closure is " +
+                "about ONE kind of writability (radicals), NOT about the existence of a connecting structure. The " +
+                "focal object is 'Orange Six' and the four σ_T-fixed 'zeros' of the F89 path-3 octic (self-mirror " +
+                "strands on the fold Re λ = −4). This arc holds the FIRST puzzle piece and we hangel from one " +
+                "not-knowing to the next.",
+            ParkedAt: "FIRST PIECE FOUND (gmscan --zeros, q=2). The four zeros (Re λ=−4) have Im λ = {−15.187, " +
+                "+1.525 (Orange Six), +10.378, +10.863}; the twins (σ_T 2-cycles) sit at Im = −6.139 (pair 3,4) and " +
+                "+2.349 (pair 5,7). What IS visible (the connecting structure so far): (1) a conservation law, " +
+                "Σ(all 8 Im λ) = 0 exact; the four zeros sum to +7.578, exactly balanced by the twins' −7.578 (the " +
+                "centred octic, λ^7 coeff = 32 = 8·4, all hung on the fold −4). (2) σ_T pairs each twin set on ONE " +
+                "frequency (it preserves Im). (3) the braid graph (monodromy = S_8) connects every zero into ONE " +
+                "object: strand 2 is the hub (deg 3, the only zero-zero bond 1-2), zeros 0,1,6 are degree-1 leaves " +
+                "(0->twin7, 1->zero2, 6->twin3). (4) THE TWIST (C-T resurfacing): the weave that binds the zeros is " +
+                "NON-central under σ_T, the structure connecting the zeros does NOT respect the very mirror that " +
+                "DEFINES them as zeros. What is NOT yet visible, and is NOT declared absent (missing to us): a clean " +
+                "relation among the four zero-frequencies themselves.",
+            NextStep: "Hand-over-hand from here. (a) TRACE a zero's q-trajectory (continuity-track strand 6 / a fold " +
+                "strand from q=2 down to the diabolic q_EP≈0.659): does a zero flow INTO the silent diabolic " +
+                "(λ_EP=−4+2iJ), 'where the waves change', a ± twin pair merging to a 0 on the fold = the spectral " +
+                "{−0,0,+0}? (b) LOOK IN OTHER REPRESENTATIONS, not radicals: S_8 forbids a radical ladder, NOT every " +
+                "closed form (Bring/theta/hypergeometric exist for any algebraic function); seek the connection in the " +
+                "centred μ=λ+4, in a recursion, in the relation zeros<->twins<->AT-frequencies. (c) CROSS-F " +
+                "INHERITANCE (the one-object point): relate THIS self-mirror sector to the SAME self-mirror sector " +
+                "elsewhere (axis_modes self-mirror subspace at Re=−Σγ, SPECTRAL_MIDPOINT_HYPOTHESIS's MID, the F1 " +
+                "palindrome fixed set), the connection that lets the one object inherit. (d) THE POLARITY RHYME as a " +
+                "candidate inheritance channel: the {−0,0,+0} layer at d=0 -> {−½,0,+½} at d=2 (0.5-shift " +
+                "ρ=(I+r·σ)/2) -> the F89 spectral fold; same mirror, three levels (a structural rhyme with seams, NOT " +
+                "an identity, per the 2026-06-25 survey: 4 zeros not 1, spectral not operator-space, −σ-shifted). " +
+                "Tool: gmscan --zeros (GaloisMonodromyScanCommand.PrintZeros). See experiments/F89_MONODROMY_MIRROR.md " +
+                "+ reflections/ON_WHO_WATCHES_WHOM.md + hypotheses/ZERO_IS_THE_MIRROR.md.",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
             Name: "f116_golden_router_typed_claim",
             Opened: "2026-06-22",
             Origin: "the F116 golden-router proof review (docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md, reviewed " +

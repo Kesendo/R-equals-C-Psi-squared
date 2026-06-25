@@ -36,6 +36,8 @@ public static class GaloisMonodromyScanCommand
 
         var r = GaloisMonodromyWitness.Assemble(reLo, reHi, imLo, imHi, cell, new Complex(q0re, q0im));
 
+        if (p.HasFlag("zeros")) PrintZeros(r);
+
         Console.WriteLine($"\noctic strands at q0 (index: lambda):");
         for (int i = 0; i < r.OcticRoots.Length; i++)
             Console.WriteLine($"  [{i}] {r.OcticRoots[i].Real.ToString("0.000", Inv)}{Sign(r.OcticRoots[i].Imaginary)}i");
@@ -66,6 +68,37 @@ public static class GaloisMonodromyScanCommand
         if (p.OptionalString("lambda-png") is { } lpng) SaveLambdaPng(p.OptionalDouble("lq") ?? 1.5, lpng);
         if (p.OptionalString("graph-png") is { } gpng) SaveGraphPng(gpng);
         return 0;
+    }
+
+    // mine the "zeros": the σ_T-fixed strands (Re λ = −4, on the fold), with full-precision frequencies and
+    // their braid-graph connectivity. Tom's principle: if the zeros differ, a structure must connect them.
+    private static void PrintZeros(GaloisMonodromyWitness.ScanResult r)
+    {
+        var (sigmaT, _, _, _, _) = GaloisMonodromyWitness.PalindromeStrandPairing();
+        var nbr = new Dictionary<int, List<int>>();
+        for (int i = 0; i < 8; i++) nbr[i] = new List<int>();
+        foreach (var (a, b) in r.Edges)
+        {
+            if (!nbr[a].Contains(b)) nbr[a].Add(b);
+            if (!nbr[b].Contains(a)) nbr[b].Add(a);
+        }
+
+        Console.WriteLine("\n# the zeros (σ_T-fixed, on the fold Re λ=−4) and the structure between them:");
+        for (int i = 0; i < 8; i++)
+        {
+            var lam = r.OcticRoots[i];
+            string cls = sigmaT[i] == i ? "ZERO (fold)" : $"twin<->{sigmaT[i]}";
+            Console.WriteLine($"  [{i}] lambda={lam.Real.ToString("F6", Inv)}{(lam.Imaginary >= 0 ? "+" : "")}{lam.Imaginary.ToString("F6", Inv)}i  " +
+                              $"{cls,-12} braids {{{string.Join(",", nbr[i].OrderBy(x => x))}}} (deg {nbr[i].Count})");
+        }
+
+        var zeros = Enumerable.Range(0, 8).Where(i => sigmaT[i] == i).ToList();
+        var ims = zeros.Select(i => r.OcticRoots[i].Imaginary).OrderBy(x => x).ToList();
+        var twins = Enumerable.Range(0, 8).Where(i => sigmaT[i] != i).Select(i => r.OcticRoots[i].Imaginary).OrderBy(x => x).ToList();
+        Console.WriteLine($"\n  zero frequencies (Im lambda, sorted): {string.Join(", ", ims.Select(x => x.ToString("F4", Inv)))}");
+        Console.WriteLine($"  sum(zero Im) = {ims.Sum().ToString("F4", Inv)};  consecutive gaps: {string.Join(", ", ims.Zip(ims.Skip(1), (a, b) => (b - a).ToString("F4", Inv)))}");
+        Console.WriteLine($"  twin frequencies (Im lambda): {string.Join(", ", twins.Select(x => x.ToString("F4", Inv)))}");
+        Console.WriteLine($"  sum(all 8 Im) = {(ims.Sum() + twins.Sum()).ToString("F4", Inv)}");
     }
 
     // the transposition graph with the σ_T fold-mirror: lay the 8 strands so σ_T is the left-right reflection
