@@ -196,9 +196,18 @@ public static class OpenArcsRegistry
                 "global-Π (lifts, cross-block) with the block-internal P (N=4-only). (ii) the count 2=N−2 is NOT the " +
                 "published eigenvector overlap-fraction p=½ of the diabolic (a different object). So 'where do the N=4 " +
                 "zeros go for N≥5?' is ANSWERED: the on-line self-mirror strands become CROSS-BLOCK mirror partners " +
-                "((SE,DE)↔(SE,w_{N-2})), not gone. STILL open (the separate monodromy layer): '± is the road' — the BFS " +
-                "route structure AMONG these cross-block partners — needs GaloisMonodromyWitness generalized off path-3. " +
-                "Here is where we continue hand-over-hand.",
+                "((SE,DE)↔(SE,w_{N-2})), not gone. THE MONODROMY ENGINE NOW GENERALIZED off path-3 (2026-06-26, the " +
+                "`pkmono` scout = PathKMonodromyScout): it builds the path-k (SE,DE) block, removes the AT factor via " +
+                "F89AtFactorReconstruction (the rate-confined invariant subspace, since the Slater rule fails from " +
+                "path-5), lassoes the residual F_d's EPs from a common base and union-finds the braid graph — reusing " +
+                "the generic Monodromy tracker, leaving the fragile path-3 GaloisMonodromyWitness as the validated N=4 " +
+                "case. Reproduces S_8 (path-3, 14 EPs, exact match to the path-3 witness) AND S_18 (path-4, 46 EPs, " +
+                "18/18 connected) GEOMETRICALLY, monodromy=Galois from below — the FIRST geometric confirmation for " +
+                "path-4 (previously only the algebraic q0 Frobenius/Jordan certificate existed; no path-4 EP locus had " +
+                "been computed). STILL open (the last layer for '± is the road'): σ_T is N=4-only, so at N≥5 the " +
+                "'zeros' and their routes live in the CROSS-block pairing (SE,DE)↔(SE,w_{N-2}) (foldcross), not within " +
+                "one block — wiring that cross-block fold into pkmono (the σ_T-replacement) is the next step. Here is " +
+                "where we continue hand-over-hand.",
             NextStep: "Hand-over-hand from here. (a) TRACE a zero's q-trajectory (continuity-track strand 6 / a fold " +
                 "strand from q=2 down to the diabolic q_EP≈0.659): does a zero flow INTO the silent diabolic " +
                 "(λ_EP=−4+2iJ), 'where the waves change', a ± twin pair merging to a 0 on the fold = the spectral " +
