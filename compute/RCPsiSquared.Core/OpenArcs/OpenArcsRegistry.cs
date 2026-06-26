@@ -226,11 +226,39 @@ public static class OpenArcsRegistry
                 "+ NinetyDegreeMirrorMemoryClaim) has nothing to distinguish — the both-sides collapse of " +
                 "reflections/ON_BOTH_SIDES_OF_THE_MIRROR.md (the symmetrised one-side block, foldlift, keeps the memory, " +
                 "linear≠0). So foldtopo re-entered a furnished room (the Z₄/both-sides memory) through the topology " +
-                "door: the apartment confirmed on itself. Here is where we continue hand-over-hand.",
-            NextStep: "Hand-over-hand from here. (a) TRACE a zero's q-trajectory (continuity-track strand 6 / a fold " +
-                "strand from q=2 down to the diabolic q_EP≈0.659): does a zero flow INTO the silent diabolic " +
-                "(λ_EP=−4+2iJ), 'where the waves change', a ± twin pair merging to a 0 on the fold = the spectral " +
-                "{−0,0,+0}? (b) LOOK IN OTHER REPRESENTATIONS, not radicals: S_8 forbids a radical ladder, NOT every " +
+                "door: the apartment confirmed on itself. " +
+                "NEXTSTEP (a) ANSWERED (2026-06-27, the `gmscan --trace` open-path q-continuation = " +
+                "Monodromy.TrajectoryAlongPath + GaloisMonodromyWitness.TraceToDiabolic, NO Python): does a fold " +
+                "strand flow INTO the silent diabolic? YES, and precisely. Continuity-tracking the 8 octic strands " +
+                "along the real-q sweep q=2 → q_EP=0.65898 (stable at 2000/4000/16000 steps) shows the two strands " +
+                "that coalesce at the diabolic are the +2.349 σ_T TWIN PAIR (strands 5,7), NOT two zeros and NOT " +
+                "cross-block. At q=2 they sit mirror-symmetric about the fold (Re = −4 ± 0.622, common Im = +2.349); " +
+                "as q descends their rates converge onto −4 and their frequency onto 2J, and at q_EP they merge at " +
+                "λ_EP = −4 + 2i·q_EP = −4.000 + 1.318i (final gap 9.4e-15). THE FROM-BELOW SIGNATURE: the pair's " +
+                "rate-midpoint Re sits EXACTLY on the fold (−4) at EVERY q (|Re(mid)+4| = 0.00000 across the whole " +
+                "sweep), the σ_T-mirror-pair invariant, so the tracked pair is genuinely the ± mirror pair (not a " +
+                "tracking accident) and the diabolic is literally a ± twin pair closing onto the fold. So '± twin " +
+                "pair merging to a 0 on the fold = {−0,0,+0}' is CONFIRMED, with the precise reading the docs held: " +
+                "the '0' is the half-filling rate line Re = −4 (the AT-midpoint between the −2 overlap and −6 " +
+                "no-overlap rates, p=½), NOT a zero eigenvalue (the merge sits at frequency +2J); '±' are the two " +
+                "coherence modes at mirror-rates about it; {−0,0,+0} is the RATE structure (−4−δ, −4, −4+δ → −4), " +
+                "not the frequency. WHY semisimple not defective: a genuine coalescence with eigenvectors " +
+                "independent (the existing G2 MonodromyAroundDiabolic loop = identity, independent route), " +
+                "free-fermion integrable (DIABOLIC_BY_INTEGRABILITY: H_eff and D both restrict to scalars on the " +
+                "coalescing 2D eigenspace). Only the +2.349 twin merges (frequency-reachable by continuity from " +
+                "λ_EP's +1.318); the −6.139 twin (strands 3,4) and the four self-mirror zeros stay O(1) apart at " +
+                "q_EP (the min-gap pair is unambiguously (5,7), stable across step counts). The missing reusable " +
+                "primitive is now built: Monodromy.TrajectoryAlongPath (open-path strand tracker; " +
+                "PermutationAlongPath only returned the net closed-loop permutation), " +
+                "GaloisMonodromyWitness.TraceToDiabolic, and gmscan --trace [--tq q] [--tsteps n] (gate-first: " +
+                "prints PASS / CONFIRMED). " +
+                "Here is where we continue hand-over-hand.",
+            NextStep: "Hand-over-hand from here. (a) DONE 2026-06-27 (see ParkedAt): the q=2→q_EP continuity trace " +
+                "answered it, the +2.349 σ_T twin pair (strands 5,7) merges onto the fold at λ_EP=−4+1.318i, " +
+                "'{−0,0,+0}' confirmed as a RATE structure (the half-filling line Re=−4, not a zero eigenvalue), " +
+                "via gmscan --trace. THE FORWARD EDGE off (a): do the path-k≥5 cross-block residual strands " +
+                "(foldcross / pkmono) have an analogous twin-pair-onto-fold merge at THEIR diabolics, or does " +
+                "cross-block change the picture? (b) LOOK IN OTHER REPRESENTATIONS, not radicals: S_8 forbids a radical ladder, NOT every " +
                 "closed form (Bring/theta/hypergeometric exist for any algebraic function); seek the connection in the " +
                 "centred μ=λ+4, in a recursion, in the relation zeros<->twins<->AT-frequencies. (c) CROSS-F " +
                 "INHERITANCE (the one-object point): relate THIS self-mirror sector to the SAME self-mirror sector " +

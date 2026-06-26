@@ -14,7 +14,12 @@ namespace RCPsiSquared.Cli.Commands;
 /// Parameterised so regions/cell/base can be swept WITHOUT an edit-rebuild cycle (same binary, new args).
 ///
 /// usage: rcpsi gmscan [--re lo,hi] [--im lo,hi] [--cell d] [--q0 re,im]
-/// example: rcpsi gmscan --re -1.8,1.8 --im -0.22,0.22 --cell 0.05 --q0 2,0</summary>
+/// example: rcpsi gmscan --re -1.8,1.8 --im -0.22,0.22 --cell 0.05 --q0 2,0
+///
+/// --trace [--tq 2] [--tsteps 4000]: the open-path q-continuation (NextStep a of the
+/// zeros_connecting_structure arc). Continuity-tracks the 8 octic strands along the real-q sweep
+/// q=tq down to the diabolic q_EP, identifies the coalescing pair, classifies it by σ_T at q=2, and
+/// gates the arc hypothesis (a ± twin pair merging onto the fold). Standalone (skips the EP assemble).</summary>
 public static class GaloisMonodromyScanCommand
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
@@ -30,6 +35,12 @@ public static class GaloisMonodromyScanCommand
         Console.WriteLine($"# gmscan: q0={q0re.ToString("0.##", Inv)}{Sign(q0im)}i, " +
                           $"region re[{reLo.ToString("0.##", Inv)},{reHi.ToString("0.##", Inv)}] " +
                           $"im[{imLo.ToString("0.##", Inv)},{imHi.ToString("0.##", Inv)}], cell={cell.ToString("0.###", Inv)}");
+
+        if (p.HasFlag("trace"))   // open-path q-trace; standalone (skips the full EP assemble)
+        {
+            PrintTrace(p.OptionalDouble("tq") ?? 2.0, (int)(p.OptionalDouble("tsteps") ?? 4000));
+            return 0;
+        }
 
         if (p.HasFlag("mirror")) PrintMirror(reLo, reHi, imLo, imHi, cell);
         if (p.HasFlag("map")) PrintHeatmap(reLo, reHi, imLo, imHi);
@@ -313,4 +324,40 @@ public static class GaloisMonodromyScanCommand
     }
 
     private static string Sign(double x) => x >= 0 ? $"+{x.ToString("0.000", Inv)}" : x.ToString("0.000", Inv);
+
+    private static string Fmt(Complex z) =>
+        $"{z.Real.ToString("0.000", Inv)}{(z.Imaginary >= 0 ? "+" : "")}{z.Imaginary.ToString("0.000", Inv)}i";
+
+    // NextStep (a) of the zeros_connecting_structure arc: continuity-track the octic strands along the real-q
+    // sweep q=2 → q_EP and ask whether the diabolic merge traces back to a ± twin pair migrating onto the fold
+    // (the spectral {−0,0,+0} reading), or to something else. Gate-first: the run prints PASS / CONFIRMED / REVISED.
+    private static void PrintTrace(double qStart, int steps)
+    {
+        var t = GaloisMonodromyWitness.TraceToDiabolic(qStart, steps);
+        Console.WriteLine($"\n# strand continuity trace: q={t.QStart.ToString("0.###", Inv)} -> q_EP={t.QEnd.ToString("0.######", Inv)} ({t.Steps} steps)");
+        Console.WriteLine($"# diabolic merge (theory): lambda_EP = {Fmt(t.LamEpTheory)}  (= -4 + 2iJ, J=q_EP)");
+        if (Math.Abs(qStart - 2.0) > 1e-9)
+            Console.WriteLine("# NOTE: sigma_T labels are anchored at q=2; classification valid only for qStart=2.");
+
+        Console.WriteLine($"\nthe two octic strands that COALESCE at q_EP: [{t.StrandA}] and [{t.StrandB}]");
+        Console.WriteLine($"  at q=2:  [{t.StrandA}] lambda={Fmt(t.LamA0)}  {t.ClassA,-12} |Re+4|={t.FoldDistA0.ToString("F4", Inv)}");
+        Console.WriteLine($"           [{t.StrandB}] lambda={Fmt(t.LamB0)}  {t.ClassB,-12} |Re+4|={t.FoldDistB0.ToString("F4", Inv)}");
+        Console.WriteLine($"  are they a sigma_T twin pair (a +/- 2-cycle)?  {(t.PairAreSigmaTPartners ? "YES" : "NO")}");
+
+        Console.WriteLine("\n  trajectory of the pair (q : A | B | gap | |Re(mid)+4|):");
+        foreach (var s in t.Samples)
+            Console.WriteLine($"    q={s.Q.ToString("0.0000", Inv)}  A={Fmt(s.A)}  B={Fmt(s.B)}  " +
+                              $"gap={s.Gap.ToString("F5", Inv)}  fold={s.FoldDistMid.ToString("F5", Inv)}");
+
+        Console.WriteLine($"\n  at q_EP: midpoint lambda={Fmt(t.LamMidEnd)}  final gap={t.FinalGap.ToString("E3", Inv)}  " +
+                          $"|Re(mid)+4|={t.FoldDistMidEnd.ToString("E3", Inv)}");
+        Console.WriteLine($"  this pair's min gap along the path: {t.MinGapAlong.ToString("E3", Inv)} at q={t.QAtMinGap.ToString("0.0000", Inv)}");
+
+        bool gMerge = t.FinalGap < 1e-3 && (t.LamMidEnd - t.LamEpTheory).Magnitude < 1e-2;
+        bool gFold = t.FoldDistMidEnd < 1e-2;
+        Console.WriteLine($"\n  GATE coalesce-at-diabolic (gap<1e-3 & midpoint==lambda_EP): {(gMerge ? "PASS" : "FAIL")}");
+        Console.WriteLine($"  GATE merge-on-fold (Re=-4): {(gFold ? "PASS" : "FAIL")}");
+        Console.WriteLine($"  GATE arc-hypothesis (coalescing pair is a sigma_T twin pair): " +
+                          $"{(t.PairAreSigmaTPartners ? "CONFIRMED" : "REVISED -- not a twin pair")}");
+    }
 }

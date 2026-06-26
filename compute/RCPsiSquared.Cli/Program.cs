@@ -97,6 +97,8 @@ public static class Program
         Console.WriteLine("  gmscan      G3 explorer: sweep complex-q for the F89 octic's EPs, lasso each, assemble the");
         Console.WriteLine("              monodromy = Galois group (transposition graph connected ⟺ S_8). Sweep without rebuild.");
         Console.WriteLine("              args: [--re lo,hi] [--im lo,hi] [--cell d] [--q0 re,im]");
+        Console.WriteLine("              --trace [--tq 2] [--tsteps 4000]: continuity-track the octic strands q=2 -> q_EP;");
+        Console.WriteLine("                    identify the diabolic-coalescing pair + its sigma_T class (gate-first PASS/CONFIRMED)");
         Console.WriteLine();
         Console.WriteLine("  foldlift    does the F89 branch-locus fold Re λ=−σ lift beyond path-3? Build the path-k (SE,DE)");
         Console.WriteLine("              block (F89PathKSeDeBlock), test the antiunitary fold λ↦−λ̄−2σ vs the linear one.");

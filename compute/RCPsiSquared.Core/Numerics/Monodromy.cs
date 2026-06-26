@@ -44,6 +44,37 @@ public static class Monodromy
         return perm;
     }
 
+    /// <summary>Follow the d roots along an OPEN path, keeping each strand's start-label by
+    /// nearest-neighbour continuity, and return the FULL per-step trajectory: traj[k][p] = the position
+    /// of the strand labelled p (its index at path[0]) when q = path[k]. Unlike
+    /// <see cref="PermutationAlongPath"/> (closed loop, returns only the net end-permutation), this
+    /// exposes every intermediate position, so a strand can be watched flowing toward a coalescence
+    /// (an EP / a diabolic point) along a real-q sweep. Same nearest-bijection matching, just emitting
+    /// the trajectory instead of discarding it.</summary>
+    public static Complex[][] TrajectoryAlongPath(Func<Complex, Complex[]> rootsAt, IReadOnlyList<Complex> path)
+    {
+        var r0 = rootsAt(path[0]);
+        int d = r0.Length;
+        var traj = new Complex[path.Count][];
+        traj[0] = (Complex[])r0.Clone();                    // strand p starts as r0[p]
+        var current = (Complex[])r0.Clone();
+        var labels = Enumerable.Range(0, d).ToArray();      // labels[j] = start-label of the root now at current[j]
+
+        for (int k = 1; k < path.Count; k++)
+        {
+            var next = rootsAt(path[k]);
+            int[] assign = NearestBijection(current, next); // assign[j] = index in current matched to next[j]
+            var newLabels = new int[d];
+            var slot = new Complex[d];
+            for (int j = 0; j < d; j++) newLabels[j] = labels[assign[j]];
+            for (int j = 0; j < d; j++) slot[newLabels[j]] = next[j];   // place each root in its start-label slot
+            traj[k] = slot;
+            current = next;
+            labels = newLabels;
+        }
+        return traj;
+    }
+
     /// <summary>The permutation induced by one counter-clockwise circular loop of radius
     /// <paramref name="radius"/> about <paramref name="center"/>, discretised into
     /// <paramref name="steps"/> arcs. Identity ⟺ no braiding enclosed; a transposition ⟺ one √-branch

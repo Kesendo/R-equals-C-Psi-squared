@@ -128,6 +128,78 @@ public sealed class GaloisMonodromyWitness : IInspectable
         return (bestQ, bestMid, bestGap);
     }
 
+    // ---- the open-path q-trace: does a fold strand flow INTO the diabolic as q descends to q_EP? ----
+
+    /// <summary>The result of continuity-tracking the 8 octic strands along the real-q sweep q=qStart → q_EP.
+    /// StrandA/StrandB are the two octic strands (labelled 0..7 in the q=2 σ_T order) that COALESCE at the
+    /// diabolic; ClassA/ClassB are their σ_T class at q=2 ("zero(fold)" = on the fold Re λ=−4, or
+    /// "twin&lt;-&gt;k" = a ± mirror 2-cycle straddling the fold); PairAreSigmaTPartners is the arc's
+    /// hypothesis (the coalescing pair is one σ_T twin pair); LamMidEnd is the merge point, to compare with
+    /// LamEpTheory = −4 + 2iJ. Samples is the sparse trajectory of the pair (q, A, B, gap, |Re(mid)+4|).</summary>
+    public sealed record DiabolicTraceResult(
+        double QStart, double QEnd, int Steps,
+        int StrandA, int StrandB, string ClassA, string ClassB, bool PairAreSigmaTPartners,
+        Complex LamA0, Complex LamB0, Complex LamMidEnd, Complex LamEpTheory,
+        double FoldDistA0, double FoldDistB0, double FoldDistMidEnd,
+        double FinalGap, double MinGapAlong, double QAtMinGap,
+        IReadOnlyList<(double Q, Complex A, Complex B, double Gap, double FoldDistMid)> Samples);
+
+    /// <summary>Continuity-track the 8 octic strands along the real-q path q=qStart down to the diabolic
+    /// q_EP, keeping each strand's q=2 label by nearest-neighbour matching (the open-path tracker), and
+    /// identify the pair that coalesces at q_EP. Built on <see cref="AllRootsAt"/> (all 12 roots, no AT
+    /// removal — the AT lines are single-valued and tracked harmlessly) + the q=2 σ_T classification, so we
+    /// can ask: does the diabolic merge trace back to a ± twin pair migrating onto the fold? qStart must be 2
+    /// for the σ_T labels to correspond.</summary>
+    public static DiabolicTraceResult TraceToDiabolic(double qStart = 2.0, int steps = 4000, int sampleCount = 24)
+    {
+        double qEnd = QEp;
+        var q0 = new Complex(qStart, 0);
+        var r0 = AllRootsAt(q0);
+        var octic = OcticIndices(q0, r0);                       // start-labels (indices into r0) of the 8 octic strands
+        var (sigmaT, _, _, _, _) = PalindromeStrandPairing();  // σ_T on strand labels 0..7 in the q=2 OcticIndices order
+
+        var path = new Complex[steps + 1];
+        for (int k = 0; k <= steps; k++)
+            path[k] = new Complex(qStart + (qEnd - qStart) * ((double)k / steps), 0);
+
+        var traj = Monodromy.TrajectoryAlongPath(AllRootsAt, path);   // traj[k][startLabel]
+        Complex Oc(int k, int p) => traj[k][octic[p]];               // octic strand p (0..7) at step k
+
+        // the coalescing (diabolic) pair = the closest octic pair at the final step (q = q_EP)
+        int aEnd = 0, bEnd = 1; double best = double.PositiveInfinity;
+        for (int p = 0; p < 8; p++)
+            for (int s = p + 1; s < 8; s++)
+            {
+                double g = (Oc(steps, p) - Oc(steps, s)).Magnitude;
+                if (g < best) { best = g; aEnd = p; bEnd = s; }
+            }
+
+        double minAlong = double.PositiveInfinity, qAtMin = qStart;
+        var samples = new List<(double, Complex, Complex, double, double)>();
+        int stride = Math.Max(1, steps / Math.Max(1, sampleCount));
+        for (int k = 0; k <= steps; k++)
+        {
+            var a = Oc(k, aEnd); var b = Oc(k, bEnd);
+            double g = (a - b).Magnitude;
+            if (g < minAlong) { minAlong = g; qAtMin = path[k].Real; }
+            if (k % stride == 0 || k == steps)
+            {
+                var mid = (a + b) / 2;
+                samples.Add((path[k].Real, a, b, g, Math.Abs(mid.Real + 4)));
+            }
+        }
+
+        Complex lamA0 = Oc(0, aEnd), lamB0 = Oc(0, bEnd), midEnd = (Oc(steps, aEnd) + Oc(steps, bEnd)) / 2;
+        string Cls(int p) => sigmaT[p] == p ? "zero(fold)" : $"twin<->{sigmaT[p]}";
+        bool partners = sigmaT[aEnd] == bEnd && sigmaT[bEnd] == aEnd;
+        var lamEp = new Complex(-4, 2 * QEp);                    // −4γ + 2iJ, J = q_EP·γ, γ=1
+
+        return new DiabolicTraceResult(qStart, qEnd, steps, aEnd, bEnd,
+            Cls(aEnd), Cls(bEnd), partners, lamA0, lamB0, midEnd, lamEp,
+            Math.Abs(lamA0.Real + 4), Math.Abs(lamB0.Real + 4), Math.Abs(midEnd.Real + 4),
+            best, minAlong, qAtMin, samples);
+    }
+
     // ---- G3 exploration: map the octic branch points (where two octic roots collide in complex q) ----
 
     public readonly record struct BranchPoint(Complex Q, double Gap, int Moved);
