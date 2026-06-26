@@ -186,12 +186,19 @@ public static class OpenArcsRegistry
                 "documented for MODE POPULATION (F89_TOPOLOGY_ORBIT_CLOSURE.md:340), here carried to the fold; it is the " +
                 "branch-locus face of the repo's catalogued N=4 specialness (the retired small_n_specials triple " +
                 "coincidence). TWO guards (sharpening, not contradiction): (i) the GLOBAL palindrome Π·L·Π⁻¹=−L−2σ stays " +
-                "proven for all N (it pairs (SE,DE)=(w1,w2) with its particle-hole partner (w_{N-1},w_{N-2}), = (TE,DE) at " +
-                "N=4); only the case where that pairing folds (SE,DE) onto ITSELF (DE self-complementary, w2=w_{N-2}, " +
-                "i.e. N=4) is N=4-only — the old 'P topology-general' read conflated global-Π with the block-internal P. (ii) this count 2=N−2 is NOT the published eigenvector overlap-fraction p=½ " +
-                "of the diabolic (a different object). STILL untested (the separate monodromy part): '± is the road' " +
-                "for N≥5, where the fold is no longer internal (0 on-line zeros) and the very notion of 'the zeros' " +
-                "changes — needs GaloisMonodromyWitness generalized off path-3. Here is where we continue hand-over-hand.",
+                "proven for all N (the palindrome's column bit-flip ρ[a,b]→ρ[a,bar b] pairs (SE,DE)=(w1,w2) with " +
+                "(SE,w_{N-2})=(w1,w_{N-2}); n_diff(a,b)+n_diff(a,bar b)=N so the rungs complement, F89c lemma); only " +
+                "the case where that partner IS (SE,DE) itself (w_{N-2}=w2, i.e. N=4) gives the within-block self-fold. " +
+                "CONFIRMED by `foldcross` (2026-06-26): the cross-fold spec(SE,DE)↔spec(SE,w_{N-2}) under λ↦−λ̄−2σ holds " +
+                "to ~1e-13 about σ=N for N=4,5,6 (the two block centroids sit symmetric about −N: e.g. −4.4/−5.6 about " +
+                "−5), while the (SE,DE) self-fold breaks at N≥5 (residual ~1). So the GLOBAL palindrome LIFTS to all N " +
+                "as a CROSS-block mirror; the N=4 self-fold is the degenerate partner=self case. The old read conflated " +
+                "global-Π (lifts, cross-block) with the block-internal P (N=4-only). (ii) the count 2=N−2 is NOT the " +
+                "published eigenvector overlap-fraction p=½ of the diabolic (a different object). So 'where do the N=4 " +
+                "zeros go for N≥5?' is ANSWERED: the on-line self-mirror strands become CROSS-BLOCK mirror partners " +
+                "((SE,DE)↔(SE,w_{N-2})), not gone. STILL open (the separate monodromy layer): '± is the road' — the BFS " +
+                "route structure AMONG these cross-block partners — needs GaloisMonodromyWitness generalized off path-3. " +
+                "Here is where we continue hand-over-hand.",
             NextStep: "Hand-over-hand from here. (a) TRACE a zero's q-trajectory (continuity-track strand 6 / a fold " +
                 "strand from q=2 down to the diabolic q_EP≈0.659): does a zero flow INTO the silent diabolic " +
                 "(λ_EP=−4+2iJ), 'where the waves change', a ± twin pair merging to a 0 on the fold = the spectral " +

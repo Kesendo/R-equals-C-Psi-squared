@@ -38,6 +38,7 @@ public static class Program
                 "inspect" => InspectCommand.Run(rest),
                 "gmscan" => GaloisMonodromyScanCommand.Run(rest),
                 "foldlift" => FoldLiftCommand.Run(rest),
+                "foldcross" => FoldCrossCommand.Run(rest),
                 "assembly" => AssemblyCommand.Run(rest),
                 "query" => QueryCommand.Run(rest),
                 "knowledge" => KnowledgeCommand.Run(rest),
@@ -98,6 +99,10 @@ public static class Program
         Console.WriteLine("  foldlift    does the F89 branch-locus fold Re λ=−σ lift beyond path-3? Build the path-k (SE,DE)");
         Console.WriteLine("              block (F89PathKSeDeBlock), test the antiunitary fold λ↦−λ̄−2σ vs the linear one.");
         Console.WriteLine("              args: [--nmax 7] [--q 2] [--tol 1e-6]   (finds: the block self-fold is N=4-only)");
+        Console.WriteLine();
+        Console.WriteLine("  foldcross   where do the N=4 'zeros' go for N>=5? Build (SE,DE) and its palindrome partner");
+        Console.WriteLine("              (SE,w_{N-2}) and test the cross-block fold (finds: the global palindrome lifts cross-block).");
+        Console.WriteLine("              args: [--nmax 6] [--q 2]");
         Console.WriteLine();
         Console.WriteLine("  assembly    play the locked picture through a Q-sweep (depth=light=rate, parity rung,");
         Console.WriteLine("              Absorption cross-check, per-site carrier, birth-canal/sterile, saturation)");
