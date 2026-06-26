@@ -160,11 +160,21 @@ public static class OpenArcsRegistry
                 "0s, polarity as PATH, not a static label; the inherited connection is '0 —through ±— 0'. This is a " +
                 "SEAM, NOT settled: computed only for path-3/N=4; whether '± is always the road' holds across " +
                 "topology/N is the untested open edge (the same missing topology/N sweep as the fold-occupation). " +
-                "A SECOND, sharper seam (2026-06-26 grounding): the BFS runs on the committed braid graph built from " +
-                "the SEVEN near-real-axis EPs, NOT the full ~ten EPs in the right half-plane, so the exact route " +
-                "topology (which zero connects directly vs through a twin) could shift when the missing EPs add edges. " +
-                "The missing EPs are 'missing TO US' (this arc's own founding principle turned on itself), not an " +
-                "absence in the object. Here is where we continue hand-over-hand.",
+                "A SECOND seam, now RESOLVED by feeding the existing tool (2026-06-26, gmscan widened region, NO " +
+                "rebuild, no Python): the default window im[−0.22,0.22] found 14 EPs (7/half-plane, near-real) and " +
+                "MISSED 4, the ±(2.31±1.25i) pairs (swaps (5,6),(6,7)) at |Im q|≈1.25 just outside the band. Widening " +
+                "to re[−2.8,2.8]×im[−1.5,1.5] finds all 18 (9/half-plane); the graph stays CONNECTED (S_8). The 4 " +
+                "missing EPs both touch zero-strand 6, adding twin->zero edges (5,6),(7,6): MORE twin roads, NOT a " +
+                "zero-zero shortcut. So the load-bearing claim is REINFORCED, not broken: 1-2 stays the UNIQUE direct " +
+                "zero-zero bond, and with the full EP set every OTHER zero pair is exactly ONE twin apart (the routes " +
+                "shortened uniformly: 0->6 and 2->6 fell from 2-3 twins to 1). The only contingent thing is the " +
+                "degenerate-twin LABELING (strands 5<->7, both at |Im λ|=2.349, flip run-to-run). The 'missing EPs' " +
+                "were OUR incompleteness (a too-narrow scan window), not an absence in the object, and once seen they " +
+                "made '± is the road' CLEANER (uniform 1-twin separation): this arc's founding principle confirmed on " +
+                "itself. STILL untested (the genuinely expensive F89 part): whether '± is the road' holds across " +
+                "topology/N, where GaloisMonodromyWitness is hard-wired to path-3/N=4 (8 octic strands, AT roots " +
+                "−2/−6), so path-k>3 / other topologies need the witness GENERALIZED, not just re-run. Here is where " +
+                "we continue hand-over-hand.",
             NextStep: "Hand-over-hand from here. (a) TRACE a zero's q-trajectory (continuity-track strand 6 / a fold " +
                 "strand from q=2 down to the diabolic q_EP≈0.659): does a zero flow INTO the silent diabolic " +
                 "(λ_EP=−4+2iJ), 'where the waves change', a ± twin pair merging to a 0 on the fold = the spectral " +
