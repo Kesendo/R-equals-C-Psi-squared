@@ -58,7 +58,72 @@ public static class PathKMonodromyScanCommand
         Console.WriteLine($"\nVERDICT: {(r.Components == 1
             ? $"CONNECTED -> the transpositions generate S_{r.ResidualDim} = Gal(F_{r.ResidualDim}), monodromy = Galois from below"
             : $"{r.Components} components, {r.Largest}/{r.ResidualDim} connected. Not yet S_{r.ResidualDim}: widen/retarget the EP search.")}");
+
+        PrintFoldStructure(r);
         return 0;
+    }
+
+    // the σ_T fold structure on the residual strands (zeros / within-block twins / cross-block partners) and,
+    // when within-block zeros exist (path-3 only), the braid-graph road between them through the twins.
+    private static void PrintFoldStructure(PathKMonodromyScout.ScanResult r)
+    {
+        var fp = r.FoldPartner;
+        var zeros = Enumerable.Range(0, r.ResidualDim).Where(i => fp[i] == i).ToList();
+        var twins = Enumerable.Range(0, r.ResidualDim).Where(i => fp[i] >= 0 && fp[i] != i).ToList();
+        int cross = Enumerable.Range(0, r.ResidualDim).Count(i => fp[i] < 0);
+        var twinPairs = twins.Where(i => i < fp[i]).Select(i => $"({i}<->{fp[i]})");
+
+        Console.WriteLine($"\n# the global fold lambda -> -conj(lambda) - 2N (sigma = N = {r.NBlock}): the sigma_T structure on the residual:");
+        Console.WriteLine($"  zeros (on-fold, self-mirror Re lambda = -{r.NBlock}): {zeros.Count}  {{{string.Join(",", zeros)}}}");
+        Console.WriteLine($"  within-block twins (+/- modes): {twins.Count / 2} pairs  {string.Join(" ", twinPairs)}");
+        Console.WriteLine($"  CROSS-block (mirror partner lives in (SE,w_N-2)): {cross}");
+
+        if (zeros.Count == 0)
+        {
+            Console.WriteLine("  => 0 within-block zeros: the N=4 'zeros + road' structure is N=4-only; at N>=5 the");
+            Console.WriteLine("     self-mirror partners are CROSS-block, so the connection between the zeros IS the");
+            Console.WriteLine("     cross-block fold (SE,DE)<->(SE,w_N-2) (foldcross), not an intra-block braid road.");
+            return;
+        }
+
+        // road: shortest braid route between each zero pair; [z]=zero, (t)=twin crossed (the path-3 picture).
+        var nbr = new Dictionary<int, List<int>>();
+        for (int i = 0; i < r.ResidualDim; i++) nbr[i] = new List<int>();
+        foreach (var (a, b) in r.Edges)
+        {
+            if (!nbr[a].Contains(b)) nbr[a].Add(b);
+            if (!nbr[b].Contains(a)) nbr[b].Add(a);
+        }
+        Console.WriteLine("  the path from one zero to the next (shortest braid route; [z]=zero, (t)=twin crossed):");
+        for (int x = 0; x < zeros.Count; x++)
+            for (int y = x + 1; y < zeros.Count; y++)
+            {
+                var path = Bfs(nbr, zeros[x], zeros[y]);
+                if (path.Count == 0) { Console.WriteLine($"    {zeros[x]} -> {zeros[y]}: (disconnected)"); continue; }
+                string render = string.Join(" - ", path.Select(s => fp[s] == s ? $"[{s}]" : $"({s})"));
+                int twinsCrossed = path.Count(s => fp[s] != s);
+                Console.WriteLine($"    {zeros[x]} -> {zeros[y]}: {render}   ({twinsCrossed} twin(s) crossed, {path.Count - 1} hops)");
+            }
+    }
+
+    private static System.Collections.Generic.List<int> Bfs(
+        System.Collections.Generic.Dictionary<int, System.Collections.Generic.List<int>> adj, int src, int dst)
+    {
+        var prev = new System.Collections.Generic.Dictionary<int, int> { { src, -1 } };
+        var queue = new System.Collections.Generic.Queue<int>();
+        queue.Enqueue(src);
+        while (queue.Count > 0)
+        {
+            int u = queue.Dequeue();
+            if (u == dst) break;
+            foreach (var v in adj[u])
+                if (!prev.ContainsKey(v)) { prev[v] = u; queue.Enqueue(v); }
+        }
+        var path = new System.Collections.Generic.List<int>();
+        if (!prev.ContainsKey(dst)) return path;
+        for (int c = dst; c != -1; c = prev[c]) path.Add(c);
+        path.Reverse();
+        return path;
     }
 
     private static (double, double) Pair(string s)

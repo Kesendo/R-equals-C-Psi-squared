@@ -88,6 +88,31 @@ public static class PathKMonodromyScout
         return (residual, atIdx.OrderBy(x => x).ToArray());
     }
 
+    /// <summary>The σ_T classification of the residual strands under the GLOBAL palindrome fold
+    /// λ ↦ −λ̄ − 2σ (σ = nBlock = −N centre). For each residual strand i, FoldPartner[i] = j if its
+    /// fold-image is residual strand j (within-block): i==j ⟹ an on-fold "zero" (self-mirror, Re λ ≈ −σ),
+    /// i≠j ⟹ a within-block "twin" (a ± mode). FoldPartner[i] = −1 ⟹ CROSS-block: the fold-image is not in
+    /// the (SE,DE) residual at all, so the strand's mirror partner lives in the (SE,w_{N−2}) block (foldcross).
+    /// At path-3 (partner=self, N=4) this reproduces the within-block σ_T: 4 zeros + 2 twin-pairs. At path-k≥4
+    /// every strand is cross-block (0 zeros), since the (SE,DE) block no longer self-folds.</summary>
+    public static int[] FoldPartners(Complex[] residualRoots, int nBlock, double tol = 1e-4)
+    {
+        double sigma = nBlock;
+        var part = new int[residualRoots.Length];
+        for (int i = 0; i < residualRoots.Length; i++)
+        {
+            var img = new Complex(-residualRoots[i].Real - 2 * sigma, residualRoots[i].Imaginary);
+            int best = -1; double bd = double.PositiveInfinity;
+            for (int j = 0; j < residualRoots.Length; j++)
+            {
+                double d = (residualRoots[j] - img).Magnitude;
+                if (d < bd) { bd = d; best = j; }
+            }
+            part[i] = bd < tol ? best : -1;            // −1 = cross-block (fold-image outside the residual)
+        }
+        return part;
+    }
+
     private static int Moved(int[] perm) => Enumerable.Range(0, perm.Length).Count(i => perm[i] != i);
 
     // the cycles (length ≥ 2) of perm restricted to the residual strands, as lists of residual positions
@@ -177,7 +202,8 @@ public static class PathKMonodromyScout
     public sealed record ScanResult(
         int K, int NBlock, int BlockDim, int ResidualDim, int AtDim, Complex Q0,
         Complex[] ResidualRoots, IReadOnlyList<(Complex Q, int A, int B, int[] MovedResidual)> Eps,
-        IReadOnlyList<(int A, int B)> Edges, int Components, int Largest, int[] StrandComponent);
+        IReadOnlyList<(int A, int B)> Edges, int Components, int Largest, int[] StrandComponent,
+        int[] FoldPartner);
 
     /// <summary>Scan the q-region for the path-k residual's branch points, lasso each from q0, and union-find
     /// the transposition graph on the residual strands. Connected ⟺ Gal(F_d) = S_d reconstructed from below.</summary>
@@ -234,6 +260,7 @@ public static class PathKMonodromyScout
         var sizes = new Dictionary<int, int>();
         for (int i = 0; i < rd; i++) { int rt = Find(i); sizes[rt] = sizes.GetValueOrDefault(rt) + 1; }
         return new ScanResult(k, nBlock, blockDim, rd, at.Length, q0, residualRoots, epInfo, edges,
-            comps, sizes.Count == 0 ? 0 : sizes.Values.Max(), Enumerable.Range(0, rd).Select(Find).ToArray());
+            comps, sizes.Count == 0 ? 0 : sizes.Values.Max(), Enumerable.Range(0, rd).Select(Find).ToArray(),
+            FoldPartners(residualRoots, nBlock));
     }
 }
