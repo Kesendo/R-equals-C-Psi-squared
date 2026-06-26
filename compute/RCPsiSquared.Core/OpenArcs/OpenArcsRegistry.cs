@@ -160,21 +160,28 @@ public static class OpenArcsRegistry
                 "0s, polarity as PATH, not a static label; the inherited connection is '0 —through ±— 0'. This is a " +
                 "SEAM, NOT settled: computed only for path-3/N=4; whether '± is always the road' holds across " +
                 "topology/N is the untested open edge (the same missing topology/N sweep as the fold-occupation). " +
-                "A SECOND seam, now RESOLVED by feeding the existing tool (2026-06-26, gmscan widened region, NO " +
-                "rebuild, no Python): the default window im[−0.22,0.22] found 14 EPs (7/half-plane, near-real) and " +
-                "MISSED 4, the ±(2.31±1.25i) pairs (swaps (5,6),(6,7)) at |Im q|≈1.25 just outside the band. Widening " +
-                "to re[−2.8,2.8]×im[−1.5,1.5] finds all 18 (9/half-plane); the graph stays CONNECTED (S_8). The 4 " +
-                "missing EPs both touch zero-strand 6, adding twin->zero edges (5,6),(7,6): MORE twin roads, NOT a " +
-                "zero-zero shortcut. So the load-bearing claim is REINFORCED, not broken: 1-2 stays the UNIQUE direct " +
-                "zero-zero bond, and with the full EP set every OTHER zero pair is exactly ONE twin apart (the routes " +
-                "shortened uniformly: 0->6 and 2->6 fell from 2-3 twins to 1). The only contingent thing is the " +
-                "degenerate-twin LABELING (strands 5<->7, both at |Im λ|=2.349, flip run-to-run). The 'missing EPs' " +
-                "were OUR incompleteness (a too-narrow scan window), not an absence in the object, and once seen they " +
-                "made '± is the road' CLEANER (uniform 1-twin separation): this arc's founding principle confirmed on " +
-                "itself. STILL untested (the genuinely expensive F89 part): whether '± is the road' holds across " +
-                "topology/N, where GaloisMonodromyWitness is hard-wired to path-3/N=4 (8 octic strands, AT roots " +
-                "−2/−6), so path-k>3 / other topologies need the witness GENERALIZED, not just re-run. Here is where " +
-                "we continue hand-over-hand.",
+                "A SECOND seam, RESOLVED 2026-06-26 by feeding the existing gmscan (widened region, NO rebuild, no " +
+                "Python) AND reading our own record (experiments/F89_BRANCH_LOCUS_PALINDROME.md, Tier-1): the genuine " +
+                "EP count is TWENTY, exact in the octic discriminant disc_λ(F_8) = const·q²⁴·(3q⁴+q²−1)²·P_20(q) " +
+                "(P_20 = deg 10 in q²), plus 4 DIABOLIC points from the squared factor (±0.659 real, ±0.876i " +
+                "imaginary, silent/semisimple, not EPs). The default window im[−0.22,0.22] saw only 14 (it missed the " +
+                "remote quartet ±2.31±1.25i, |Im q|≈1.25). Widening to re[−2.8,2.8]×im[−1.5,1.5] DETECTS 18, graph " +
+                "CONNECTED (S_8); the last 2 are NOT further out but a near-degenerate twin pair at q≈±0.857/±0.854 " +
+                "(~0.003 apart) that the 0.05-cell lasso encloses TOGETHER, reading their product as the single " +
+                "'3-cycle (3 4 6)' detection per half-plane (the doc's f89_octic_branch_locus.png shows the same: 18 " +
+                "dots, the near-twins rendering as one). So gmscan's 18 detections ARE the full 20, with one " +
+                "unresolved 0.003-split each side. Against the COMPLETE 20 the load-bearing claim holds: the near-twin " +
+                "pair connects {3,4,6} (twin3,twin4,zero6), the remote quartet connects {5,6},{6,7} (twins+zero6), all " +
+                "twin-twin or twin->zero edges, NEVER a second zero-zero bond. 1-2 stays the UNIQUE direct zero-zero " +
+                "bond and every other zero pair is exactly ONE twin apart, now checked against the Tier-1-complete EP " +
+                "set, not a truncated scan. The only contingent thing is the degenerate-twin LABELING (strands 5<->7, " +
+                "both at |Im λ|=2.349, flip run-to-run). The earlier 'missing EPs' were OUR incompleteness (too-narrow " +
+                "window + an unresolved 0.003 split), not an absence: this arc's founding principle confirmed on " +
+                "itself. STILL untested (the expensive, interwoven F89 part): whether '± is the road' holds across " +
+                "topology/N — GaloisMonodromyWitness is hard-wired to path-3/N=4 (8 octic strands, AT roots −2/−6), so " +
+                "path-k>3 / other topologies need the witness GENERALIZED. But the clean antiunitary statement " +
+                "T·L(q)·T⁻¹ = −L(q)−2σ is itself topology/N-general (F89_BRANCH_LOCUS_PALINDROME.md scope note), so the " +
+                "branch-locus palindrome should lift, Tier 2 until checked. Here is where we continue hand-over-hand.",
             NextStep: "Hand-over-hand from here. (a) TRACE a zero's q-trajectory (continuity-track strand 6 / a fold " +
                 "strand from q=2 down to the diabolic q_EP≈0.659): does a zero flow INTO the silent diabolic " +
                 "(λ_EP=−4+2iJ), 'where the waves change', a ± twin pair merging to a 0 on the fold = the spectral " +
