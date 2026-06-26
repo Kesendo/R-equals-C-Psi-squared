@@ -27,8 +27,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// NOT because it is self-mirror: on-the-line does not imply silent (XXZ Δ ≠ 0 stays on the line yet
 /// becomes defective; hypotheses/DIABOLIC_BY_INTEGRABILITY.md). The line is the palindrome's gift, the
 /// silence is integrability's. Live witness <c>inspect --root branchpalindrome</c>
-/// (<c>BranchLocusPalindromeWitness</c>); reading reflections/ON_WHO_WATCHES_WHOM.md; the general
-/// statement (all topologies, all N) is Tier 2 until checked beyond path-3.</para>
+/// (<c>BranchLocusPalindromeWitness</c>); reading reflections/ON_WHO_WATCHES_WHOM.md. Scope, now checked
+/// (foldlift probe, 2026-06-26): the block-internal self-fold is N_block=4 ONLY — the rung-swap P needs the
+/// overlap/no-overlap multiplicity balance 2 = N−2 (DE = bar(DE) half-filling), true only at N=4 (residual
+/// 3e-14 at N=4, ~1 with 0 on-line zeros at N=5,6,7). The GLOBAL palindrome Π L Π⁻¹ = −L − 2σ still lifts to
+/// all N (it pairs (SE,DE) with the (TE,DE) block); only the case where that pairing folds (SE,DE) onto
+/// itself is N=4-special. The count 2=N−2 is distinct from the diabolic's eigenvector overlap-fraction p=½.</para>
 ///
 /// <para>Anchors: <c>experiments/F89_BRANCH_LOCUS_PALINDROME.md</c> +
 /// <c>docs/proofs/MIRROR_SYMMETRY_PROOF.md</c> + <c>reflections/ON_WHO_WATCHES_WHOM.md</c>.</para></summary>

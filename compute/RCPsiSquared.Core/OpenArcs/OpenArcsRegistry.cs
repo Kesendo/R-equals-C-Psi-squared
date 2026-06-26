@@ -177,11 +177,21 @@ public static class OpenArcsRegistry
                 "set, not a truncated scan. The only contingent thing is the degenerate-twin LABELING (strands 5<->7, " +
                 "both at |Im λ|=2.349, flip run-to-run). The earlier 'missing EPs' were OUR incompleteness (too-narrow " +
                 "window + an unresolved 0.003 split), not an absence: this arc's founding principle confirmed on " +
-                "itself. STILL untested (the expensive, interwoven F89 part): whether '± is the road' holds across " +
-                "topology/N — GaloisMonodromyWitness is hard-wired to path-3/N=4 (8 octic strands, AT roots −2/−6), so " +
-                "path-k>3 / other topologies need the witness GENERALIZED. But the clean antiunitary statement " +
-                "T·L(q)·T⁻¹ = −L(q)−2σ is itself topology/N-general (F89_BRANCH_LOCUS_PALINDROME.md scope note), so the " +
-                "branch-locus palindrome should lift, Tier 2 until checked. Here is where we continue hand-over-hand.",
+                "itself. THE FOUNDATION CHECKED (2026-06-26, the new `foldlift` CLI feeding the exact F89PathKSeDeBlock " +
+                "builder, NO monodromy rebuild, no Python): does the branch-locus FOLD (Re λ=−σ) itself lift beyond " +
+                "path-3? NO — it is N=4-ONLY. The (SE,DE) block self-folds antiunitarily at N=4 (residual 3e-14, 4 " +
+                "on-line zeros) but NOT at N=5,6,7 (residual ~1, 0 zeros), because the rung-swap weight-complement P " +
+                "needs the overlap (−2γ, n_diff=1, 2 per DE pair) and no-overlap (−6γ, n_diff=3, N−2 per DE pair) basis " +
+                "states balanced, 2=N−2, true ONLY at N=4 — the same half-filling self-complement DE=bar(DE) already " +
+                "documented for MODE POPULATION (F89_TOPOLOGY_ORBIT_CLOSURE.md:340), here carried to the fold; it is the " +
+                "branch-locus face of the repo's catalogued N=4 specialness (the retired small_n_specials triple " +
+                "coincidence). TWO guards (sharpening, not contradiction): (i) the GLOBAL palindrome Π·L·Π⁻¹=−L−2σ stays " +
+                "proven for all N (it pairs (SE,DE) with the complementary (TE,DE) block); only the case where that " +
+                "pairing folds (SE,DE) onto ITSELF is N=4-only — the old 'P topology-general' read conflated global-Π " +
+                "with the block-internal P. (ii) this count 2=N−2 is NOT the published eigenvector overlap-fraction p=½ " +
+                "of the diabolic (a different object). STILL untested (the separate monodromy part): '± is the road' " +
+                "for N≥5, where the fold is no longer internal (0 on-line zeros) and the very notion of 'the zeros' " +
+                "changes — needs GaloisMonodromyWitness generalized off path-3. Here is where we continue hand-over-hand.",
             NextStep: "Hand-over-hand from here. (a) TRACE a zero's q-trajectory (continuity-track strand 6 / a fold " +
                 "strand from q=2 down to the diabolic q_EP≈0.659): does a zero flow INTO the silent diabolic " +
                 "(λ_EP=−4+2iJ), 'where the waves change', a ± twin pair merging to a 0 on the fold = the spectral " +

@@ -37,6 +37,7 @@ public static class Program
                 "plot" => PlotCommand.Run(rest),
                 "inspect" => InspectCommand.Run(rest),
                 "gmscan" => GaloisMonodromyScanCommand.Run(rest),
+                "foldlift" => FoldLiftCommand.Run(rest),
                 "assembly" => AssemblyCommand.Run(rest),
                 "query" => QueryCommand.Run(rest),
                 "knowledge" => KnowledgeCommand.Run(rest),
@@ -93,6 +94,10 @@ public static class Program
         Console.WriteLine("  gmscan      G3 explorer: sweep complex-q for the F89 octic's EPs, lasso each, assemble the");
         Console.WriteLine("              monodromy = Galois group (transposition graph connected ⟺ S_8). Sweep without rebuild.");
         Console.WriteLine("              args: [--re lo,hi] [--im lo,hi] [--cell d] [--q0 re,im]");
+        Console.WriteLine();
+        Console.WriteLine("  foldlift    does the F89 branch-locus fold Re λ=−σ lift beyond path-3? Build the path-k (SE,DE)");
+        Console.WriteLine("              block (F89PathKSeDeBlock), test the antiunitary fold λ↦−λ̄−2σ vs the linear one.");
+        Console.WriteLine("              args: [--nmax 7] [--q 2] [--tol 1e-6]   (finds: the block self-fold is N=4-only)");
         Console.WriteLine();
         Console.WriteLine("  assembly    play the locked picture through a Q-sweep (depth=light=rate, parity rung,");
         Console.WriteLine("              Absorption cross-check, per-site carrier, birth-canal/sterile, saturation)");
