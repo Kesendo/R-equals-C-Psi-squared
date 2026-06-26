@@ -186,9 +186,9 @@ public static class OpenArcsRegistry
                 "documented for MODE POPULATION (F89_TOPOLOGY_ORBIT_CLOSURE.md:340), here carried to the fold; it is the " +
                 "branch-locus face of the repo's catalogued N=4 specialness (the retired small_n_specials triple " +
                 "coincidence). TWO guards (sharpening, not contradiction): (i) the GLOBAL palindrome Π·L·Π⁻¹=−L−2σ stays " +
-                "proven for all N (it pairs (SE,DE) with the complementary (TE,DE) block); only the case where that " +
-                "pairing folds (SE,DE) onto ITSELF is N=4-only — the old 'P topology-general' read conflated global-Π " +
-                "with the block-internal P. (ii) this count 2=N−2 is NOT the published eigenvector overlap-fraction p=½ " +
+                "proven for all N (it pairs (SE,DE)=(w1,w2) with its particle-hole partner (w_{N-1},w_{N-2}), = (TE,DE) at " +
+                "N=4); only the case where that pairing folds (SE,DE) onto ITSELF (DE self-complementary, w2=w_{N-2}, " +
+                "i.e. N=4) is N=4-only — the old 'P topology-general' read conflated global-Π with the block-internal P. (ii) this count 2=N−2 is NOT the published eigenvector overlap-fraction p=½ " +
                 "of the diabolic (a different object). STILL untested (the separate monodromy part): '± is the road' " +
                 "for N≥5, where the fold is no longer internal (0 on-line zeros) and the very notion of 'the zeros' " +
                 "changes — needs GaloisMonodromyWitness generalized off path-3. Here is where we continue hand-over-hand.",
