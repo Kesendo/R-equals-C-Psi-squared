@@ -39,6 +39,7 @@ public static class Program
                 "gmscan" => GaloisMonodromyScanCommand.Run(rest),
                 "foldlift" => FoldLiftCommand.Run(rest),
                 "foldcross" => FoldCrossCommand.Run(rest),
+                "foldtopo" => FoldTopoCommand.Run(rest),
                 "pkmono" => PathKMonodromyScanCommand.Run(rest),
                 "assembly" => AssemblyCommand.Run(rest),
                 "query" => QueryCommand.Run(rest),
@@ -104,6 +105,10 @@ public static class Program
         Console.WriteLine("  foldcross   where do the N=4 'zeros' go for N>=5? Build (SE,DE) and its palindrome partner");
         Console.WriteLine("              (SE,w_{N-2}) and test the cross-block fold (finds: the global palindrome lifts cross-block).");
         Console.WriteLine("              args: [--nmax 6] [--q 2]");
+        Console.WriteLine();
+        Console.WriteLine("  foldtopo    does the fold spine hold across topology? (SE,DE) self-fold for chain/star/ring");
+        Console.WriteLine("              (finds: N=4-only is topology-independent; full-block antiU=linear=0 = both-sides memory).");
+        Console.WriteLine("              args: [--nmax 6] [--q 2] [--tol 1e-6]");
         Console.WriteLine();
         Console.WriteLine("  pkmono      path-k monodromy = Galois, generalised off path-3: build the path-k (SE,DE) block,");
         Console.WriteLine("              remove the AT factor, lasso the residual F_d's EPs, assemble (connected <=> S_d).");

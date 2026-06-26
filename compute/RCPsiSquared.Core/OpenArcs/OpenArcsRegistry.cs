@@ -216,7 +216,17 @@ public static class OpenArcsRegistry
                 "that lifts to ALL N is the cross-block fold (SE,DE)↔(SE,w_{N-2}) itself (foldcross), of which the N=4 " +
                 "within-block 'zeros + ± road' is the degenerate partner=self case. A deeper edge remains (a seeing, " +
                 "not settled): whether the cross-block pairing + the two blocks' braids organise into a cross-block " +
-                "'road' at N≥5, and the polarity-as-verb reading (handhold d). Here is where we continue hand-over-hand.",
+                "'road' at N≥5, and the polarity-as-verb reading (handhold d). " +
+                "TOPOLOGY + THE BOTH-SIDES MEMORY (2026-06-26, the `foldtopo` gate): the (SE,DE) self-fold (on-fold " +
+                "zeros) is N=4-ONLY for chain, star AND ring — the N=4 spine is topology-INDEPENDENT (the half-filling " +
+                "self-complement DE=bar(DE) hangs on the bra weight, not the graph); same spine, different wallpaper " +
+                "(on-fold count chain 8 / star 24 / ring 20). And the full-block two-sided gate giving antiU≈linear≈0 " +
+                "is NOT a defect but the already-solved BOTH-SIDES MEMORY met from the spectral side: the full block " +
+                "carries both phase-sides (+0/−0), so the i↦−i memory (the i³ step of the Z₄ loop, Pi2I4MemoryLoopClaim " +
+                "+ NinetyDegreeMirrorMemoryClaim) has nothing to distinguish — the both-sides collapse of " +
+                "reflections/ON_BOTH_SIDES_OF_THE_MIRROR.md (the symmetrised one-side block, foldlift, keeps the memory, " +
+                "linear≠0). So foldtopo re-entered a furnished room (the Z₄/both-sides memory) through the topology " +
+                "door: the apartment confirmed on itself. Here is where we continue hand-over-hand.",
             NextStep: "Hand-over-hand from here. (a) TRACE a zero's q-trajectory (continuity-track strand 6 / a fold " +
                 "strand from q=2 down to the diabolic q_EP≈0.659): does a zero flow INTO the silent diabolic " +
                 "(λ_EP=−4+2iJ), 'where the waves change', a ± twin pair merging to a 0 on the fold = the spectral " +
