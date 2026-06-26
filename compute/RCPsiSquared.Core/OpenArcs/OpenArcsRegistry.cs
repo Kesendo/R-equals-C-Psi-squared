@@ -160,7 +160,11 @@ public static class OpenArcsRegistry
                 "0s, polarity as PATH, not a static label; the inherited connection is '0 —through ±— 0'. This is a " +
                 "SEAM, NOT settled: computed only for path-3/N=4; whether '± is always the road' holds across " +
                 "topology/N is the untested open edge (the same missing topology/N sweep as the fold-occupation). " +
-                "Here is where we continue hand-over-hand.",
+                "A SECOND, sharper seam (2026-06-26 grounding): the BFS runs on the committed braid graph built from " +
+                "the SEVEN near-real-axis EPs, NOT the full ~ten EPs in the right half-plane, so the exact route " +
+                "topology (which zero connects directly vs through a twin) could shift when the missing EPs add edges. " +
+                "The missing EPs are 'missing TO US' (this arc's own founding principle turned on itself), not an " +
+                "absence in the object. Here is where we continue hand-over-hand.",
             NextStep: "Hand-over-hand from here. (a) TRACE a zero's q-trajectory (continuity-track strand 6 / a fold " +
                 "strand from q=2 down to the diabolic q_EP≈0.659): does a zero flow INTO the silent diabolic " +
                 "(λ_EP=−4+2iJ), 'where the waves change', a ± twin pair merging to a 0 on the fold = the spectral " +
@@ -169,12 +173,26 @@ public static class OpenArcsRegistry
                 "centred μ=λ+4, in a recursion, in the relation zeros<->twins<->AT-frequencies. (c) CROSS-F " +
                 "INHERITANCE (the one-object point): relate THIS self-mirror sector to the SAME self-mirror sector " +
                 "elsewhere (axis_modes self-mirror subspace at Re=−Σγ, SPECTRAL_MIDPOINT_HYPOTHESIS's MID, the F1 " +
-                "palindrome fixed set), the connection that lets the one object inherit. (d) THE POLARITY RHYME as a " +
-                "candidate inheritance channel: the {−0,0,+0} layer at d=0 -> {−½,0,+½} at d=2 (0.5-shift " +
-                "ρ=(I+r·σ)/2) -> the F89 spectral fold; same mirror, three levels (a structural rhyme with seams, NOT " +
-                "an identity, per the 2026-06-25 survey: 4 zeros not 1, spectral not operator-space, −σ-shifted). " +
-                "Tool: gmscan --zeros (GaloisMonodromyScanCommand.PrintZeros). See experiments/F89_MONODROMY_MIRROR.md " +
-                "+ reflections/ON_WHO_WATCHES_WHOM.md + hypotheses/ZERO_IS_THE_MIRROR.md.",
+                "palindrome fixed set), the connection that lets the one object inherit. (d) THE POLARITY RHYME, now " +
+                "split into a PARKED static axis and a LIVE dynamic axis. (d-static, PARKED): the structural match " +
+                "{−0,0,+0} layer at d=0 -> {−½,0,+½} at d=2 (0.5-shift ρ=(I+r·σ)/2) -> the F89 spectral fold (four " +
+                "σ_T-fixed strands + two twin 2-cycles) was already compared (2026-06-25 survey) and HELD at 'rhyme, " +
+                "NOT identity' by cardinality (4 zeros not 1) and provenance (spectral not operator-space; the " +
+                "polarity-0 ⟂ the Σγ-mirror-0, see experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md 'do not force a " +
+                "single three-point map'); do not re-tread this axis as if new. (d-dynamic, LIVE + unwritten): the " +
+                "connection is on the OTHER axis, polarity-as-a-VERB. THE_POLARITY_LAYER.md reading (b) already holds " +
+                "'the +0/−0 differentiation IS what constitutes a layer; layers are emergent from polarity, not " +
+                "scaffolds for it; the cavity maintains, does not store' (polarity = motion, not a static label); the " +
+                "F89 SEAM '± is the road between the zeros, polarity as PATH' is that SAME claim one layer deeper " +
+                "(spectral/time). And a typed Tier-1 MIDDLE RUNG nobody had connected: DissipatorAxisSelectsPolarityClaim " +
+                "(compute/RCPsiSquared.Diagnostics/F87/): 'γ does not merely decohere; it SELECTS which polarity axis " +
+                "the +0/−0 differentiation becomes operational on' (Z->bit_b, X->bit_a, Y->both). So one verb in three " +
+                "spaces, the one object inheriting: polarity CONSTITUTES (reading b, operator d=0) / is SELECTED " +
+                "(DissipatorAxis, dissipator) / is ROUTED (F89, spectral). The open seam: are these ONE motion seen in " +
+                "operator/dissipative/spectral space, or three rhyming motions? Tool: gmscan --zeros " +
+                "(GaloisMonodromyScanCommand.PrintZeros). See hypotheses/THE_POLARITY_LAYER.md (reading b) + " +
+                "experiments/F89_MONODROMY_MIRROR.md + reflections/ON_WHO_WATCHES_WHOM.md + " +
+                "hypotheses/ZERO_IS_THE_MIRROR.md.",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
