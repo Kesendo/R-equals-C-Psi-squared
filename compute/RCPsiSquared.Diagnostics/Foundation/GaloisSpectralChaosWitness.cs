@@ -22,7 +22,12 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// a monodromy statement over q) and spectral chaos (RMT at fixed q) are distinct here; the former does
 /// not imply the latter. Live on the trusted machine: the shared SeDeBlockBuilder, MathNet EVD, and the
 /// ComplexSpacingRatio diagnostic whose own GinUE reference confirms it CAN see chaos. The where-it-does-
-/// live sequel is the q-parametric monodromy (the discriminant/EP loci), not the fixed-q geometry.</para></summary>
+/// live sequel is the q-parametric monodromy (the discriminant/EP loci), not the fixed-q geometry.</para>
+///
+/// <para>Both sides of the door's comparison are rendered: the H_B-mixed half is the Poisson-like / sub-
+/// Poisson residue, and the AT-locked half (rates −2γ/−6γ, free-fermion Bloch frequencies) is the sparse
+/// picket-fence — a structured set with low ⟨|z|⟩ (clustering, below GinUE's 0.74), not a chaos cloud.
+/// Neither half is GinUE.</para></summary>
 public sealed class GaloisSpectralChaosWitness : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
@@ -109,6 +114,11 @@ public sealed class GaloisSpectralChaosWitness : IInspectable
             yield return ChainNode(7, qs, gAbs);
             yield return ChainNode(6, qs, gAbs);
 
+            // the other side of the door's comparison: the AT-locked half should be picket-fence
+            // (radically writable, rates pinned to the AT rungs), NOT a 2D chaos cloud.
+            yield return AtLockedNode(7, qs);
+            yield return AtLockedNode(6, qs);
+
             var (cAbs, _, cCnt) = HbMixedCsr(7, "complete", qs);
             yield return new InspectableNode("complete K_7 H_B-mixed: solvable ⟹ collapses",
                 summary: $"the complete graph's H_B factors are all ≤ quartic (radically writable) and " +
@@ -134,6 +144,28 @@ public sealed class GaloisSpectralChaosWitness : IInspectable
             summary: $"⟨|z|⟩={abs.ToString("0.000", Inv)} ⟨cos θ⟩={cos.ToString("+0.000;-0.000", Inv)} " +
                      $"over {cnt.ToString("0.#", Inv)} distinct points/q (GinUE would be ⟨|z|⟩≈{ginueAbs.ToString("0.000", Inv)}, " +
                      "⟨cos⟩≈−0.24). The half with no radical closure still reads integrable-lattice, not chaos.");
+    }
+
+    // The AT-locked half: the two rate-rungs (−2γ, −6γ) carrying free-fermion Bloch frequencies, a
+    // sparse STRUCTURED set (only ~10-16 distinct points/q), not a 2D cloud. The discriminator from
+    // GinUE is ⟨|z|⟩, not the angle: GinUE chaos needs HIGH ⟨|z|⟩≈0.74 (repulsion spreads NN and NNN
+    // apart); this half reads LOW ⟨|z|⟩ (below even 2D-Poisson's 0.66 — clustering). Its ⟨cos θ⟩ can run
+    // negative (lattice angular order, plus few-point noise), but that alone is not chaos: genuine GinUE
+    // would also demand the high ⟨|z|⟩ this half lacks. NaN-safe (a sparser sector can fall below the
+    // CSR's 10-point floor, itself the picket-fence verdict).
+    private static InspectableNode AtLockedNode(int n, double[] qs)
+    {
+        var (abs, cos, cnt) = AtLockedCsr(n, "chain", qs);
+        string verdict = double.IsNaN(abs)
+            ? "collapses — too few distinct points for a CSR (picket-fence, as expected)"
+            : abs < 0.70 ? "picket-fence / sparse structured set, NOT a GinUE chaos cloud" : "unexpectedly high ⟨|z|⟩ — investigate";
+        return new InspectableNode($"chain N={n} AT-locked (rates −2γ/−6γ, free-fermion Bloch): {verdict}",
+            summary: $"⟨|z|⟩={(double.IsNaN(abs) ? "n/a" : abs.ToString("0.000", Inv))} " +
+                     $"⟨cos θ⟩={(double.IsNaN(cos) ? "n/a" : cos.ToString("+0.000;-0.000", Inv))} " +
+                     $"over only {cnt.ToString("0.#", Inv)} distinct points/q (vs ~50 for the H_B half). The radically-" +
+                     "writable half is two AT rate-rungs carrying free-fermion Bloch frequencies — a structured set, not a " +
+                     "cloud: its low ⟨|z|⟩ is clustering (far below GinUE's 0.74), and the negative ⟨cos θ⟩ is lattice " +
+                     "angular order plus few-point noise, not the high-⟨|z|⟩ repulsion that genuine GinUE chaos requires.");
     }
 
     public InspectablePayload Payload => InspectablePayload.Empty;

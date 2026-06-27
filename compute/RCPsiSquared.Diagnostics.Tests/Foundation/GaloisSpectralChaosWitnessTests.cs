@@ -27,6 +27,22 @@ public class GaloisSpectralChaosWitnessTests
     }
 
     [Fact]
+    public void ChainAtLockedSector_IsPicketFence_NotGinibre()
+    {
+        // The other side of the door's comparison: the AT-locked half (rates −2γ/−6γ carrying free-fermion
+        // Bloch frequencies) is a sparse structured set, not a GinUE chaos cloud. The discriminator is ⟨|z|⟩
+        // (not the angle): it reads LOW (clustering, below GinUE's ~0.74) over far fewer distinct points
+        // than the H_B half. Its ⟨cos θ⟩ can run negative (lattice angular order + few-point noise), so the
+        // verdict rests on the magnitude, which a genuine GinUE spectrum would push high.
+        var qs = Qs();
+        var (atAbs, _, atCnt) = GaloisSpectralChaosWitness.AtLockedCsr(7, "chain", qs);
+        var (_, _, hbCnt) = GaloisSpectralChaosWitness.HbMixedCsr(7, "chain", qs);
+        Assert.False(double.IsNaN(atAbs), "AT-locked CSR should be defined at N=7");
+        Assert.True(atAbs < 0.70, $"AT-locked ⟨|z|⟩={atAbs:F3} is below GinUE (~0.74): clustering, not a chaos cloud");
+        Assert.True(atCnt < hbCnt, $"AT-locked is sparser ({atCnt:F0}/q) than the H_B half ({hbCnt:F0}/q): the picket-fence");
+    }
+
+    [Fact]
     public void TheMachineCanSeeGinibre_SoTheNullIsMeaningful()
     {
         // the null is only meaningful if the same diagnostic DOES flag a genuine Ginibre spectrum.
@@ -35,11 +51,15 @@ public class GaloisSpectralChaosWitnessTests
     }
 
     [Fact]
-    public void Witness_Renders_TheNullVerdict()
+    public void Witness_Renders_BothHalves_AsNonChaotic()
     {
         var children = ((IInspectable)new GaloisSpectralChaosWitness()).Children.ToList();
+        // the H_B-mixed null
         Assert.Contains(children, c =>
             c.Summary.Contains("not", System.StringComparison.OrdinalIgnoreCase) &&
             (c.Summary.Contains("Ginibre") || c.Summary.Contains("GinUE")));
+        // the AT-locked picket-fence (the other side of the door's comparison)
+        Assert.Contains(children, c =>
+            c.DisplayName.Contains("AT-locked") && c.DisplayName.Contains("picket-fence"));
     }
 }
