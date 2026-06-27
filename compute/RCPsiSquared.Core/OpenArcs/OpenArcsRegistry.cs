@@ -19,8 +19,10 @@ public static class OpenArcsRegistry
                 "11 character-verified diabolics, ALL at complex q (none at physical real q), Δ-VERIFIED " +
                 "integrability-protected (XxzCoherenceBlock + XxzDeltaFlipTests: they flip defective / lift under " +
                 "Δ≠0, a defective control stays put). The synthesis (integrability = existence of the diabolics, " +
-                "the N=4 self-fold = what put ONE on the real axis): now Tier-1 for the mechanism " +
-                "(experiments/F89_PATH_K_DIABOLIC.md). Tom's question, the arc: does the structure " +
+                "the N=4 self-fold [an antiunitary mirror the watched (SE,DE)=single-excitation/double-excitation " +
+                "coherence block has ONLY at N=4] = what put ONE diabolic on the real axis): now Tier-1 for the " +
+                "mechanism, full write-up + the term defined in experiments/F89_PATH_K_DIABOLIC.md. Tom's " +
+                "question, the arc: does the structure " +
                 "(complex-q-only, integrability-protected, and HOW MANY) generalize over N, and what would it " +
                 "take to pursue it at path-5 (N=6), path-6 (N=7), and beyond?",
             ParkedAt: "TWO N DONE; the generalization not run. WHAT GENERALIZES FOR FREE (the good news): compute " +
@@ -48,7 +50,8 @@ public static class OpenArcsRegistry
                 "(Jordan-Wigner) holds at every N, so the diabolics persist and stay Δ-killable; only the AT-" +
                 "bookkeeping is harder. The deferred Q4 cross-fold edge (do the complex-q diabolics pair across " +
                 "the cross-block fold (SE,DE)↔(SE,w_{N-2})?) also generalizes over N and is untried.",
-            NextStep: "Concrete moves, cheapest first. (1) LOCATE: run pkmono --diabolic --k 5 (N=6) and --k 6 " +
+            NextStep: "Concrete moves, cheapest first (binary: dotnet run --project compute/RCPsiSquared.Cli -- " +
+                "<cmd>). (1) LOCATE: run 'pkmono --diabolic --k 5' (N=6) and --k 6 " +
                 "(N=7) over a scaled q-region; confirm the path-4 pattern holds — diabolics exist, ALL at complex " +
                 "q, NONE at real q (the self-fold being N=4-only predicts no physical diabolic at any N≥5; the " +
                 "only real-q feature should be defective EPs). Record the in-region count. (2) Δ-TEST (already " +
