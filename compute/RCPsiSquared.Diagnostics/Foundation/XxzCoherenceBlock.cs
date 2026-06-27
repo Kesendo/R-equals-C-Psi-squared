@@ -90,6 +90,34 @@ public static class XxzCoherenceBlock
         return l;
     }
 
+    // fieldEnergy(config) = Σ_k w[k]·z_k, with z_k = −1 if site k is excited (bit set), +1 otherwise.
+    private static double FieldEnergy(int n, double[] w, int config)
+    {
+        double e = 0;
+        for (int k = 0; k < n; k++) e += w[k] * (((config >> k) & 1) == 1 ? -1.0 : 1.0);
+        return e;
+    }
+
+    /// <summary>The full (SE,DE) block at (q, Δ) plus a per-site Z-field Σ_k w_k Z_k. The field is diagonal
+    /// and Hermitian, so it leaves the absorption-theorem real rate untouched and only shifts the imaginary
+    /// frequency by −i·q·(fieldEnergy(ket) − fieldEnergy(bra)), with fieldEnergy(c) = Σ_k w_k·z_k (z_k = −1
+    /// if site k excited, +1 else). Field strength is dimensionless (scaled by q like the hopping). A random
+    /// w breaks integrability, the S₂ reflection, AND conjugation symmetry (Stage 2 uses OffReal + BuildFull).
+    /// w=null reproduces BuildFull(n,q,Δ).</summary>
+    public static Complex[,] BuildFullWithField(int n, Complex q, double delta, double[] w)
+    {
+        var l = BuildFull(n, q, delta);
+        if (w == null) return l;
+        var (basis, _) = Basis(n);
+        for (int col = 0; col < basis.Count; col++)
+        {
+            var (kc, bc) = basis[col];
+            double fe = FieldEnergy(n, w, kc) - FieldEnergy(n, w, bc);
+            l[col, col] += (-Complex.ImaginaryOne) * q * fe;
+        }
+        return l;
+    }
+
     /// <summary>The R=+1 (site reflection s→N−1−s) symmetric sector of the full block. Same construction as
     /// F89Path3OcticBlock.BuildSeDeSymBlock, generalized to any N (the reflection commutes with XX+YY, ZZ and
     /// uniform dephasing, so the sector is invariant including the Δ·ZZ term).</summary>

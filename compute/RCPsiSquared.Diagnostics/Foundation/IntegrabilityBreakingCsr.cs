@@ -38,13 +38,16 @@ public static class IntegrabilityBreakingCsr
     /// H_B-mixed = the spread residue (chain Galois S_n). The split is by real part, which Δ leaves
     /// untouched (Δ·ZZ shifts only the imaginary frequency).</summary>
     private static List<Complex> HalfEigs(int n, double q, double delta, Half half, Domain domain)
+        => Filter(Matrix<Complex>.Build.DenseOfArray(XxzCoherenceBlock.BuildFull(n, new Complex(q, 0), delta))
+            .Evd().EigenValues, half, domain);
+
+    /// <summary>Filter a spectrum to the chosen half (AT-locked Re∈{−2,−6} / H_B-mixed residue / full)
+    /// inside the CSR domain (UpperHalf or OffReal).</summary>
+    private static List<Complex> Filter(IEnumerable<Complex> vals, Half half, Domain domain)
     {
-        var full = XxzCoherenceBlock.BuildFull(n, new Complex(q, 0), delta);
-        var vals = Matrix<Complex>.Build.DenseOfArray(full).Evd().EigenValues;
         var res = new List<Complex>();
-        for (int t = 0; t < vals.Count; t++)
+        foreach (var lam in vals)
         {
-            var lam = vals[t];
             bool inDomain = domain == Domain.UpperHalf ? lam.Imaginary > ImTol : Math.Abs(lam.Imaginary) > ImTol;
             if (!inDomain) continue;
             bool locked = Math.Abs(lam.Real + 2) < RateTol || Math.Abs(lam.Real + 6) < RateTol;
@@ -82,6 +85,27 @@ public static class IntegrabilityBreakingCsr
     public static CsrReading Sweep(int n, double delta, double[] qs, Half half,
         Domain domain = Domain.UpperHalf, int bootSeed = 1234)
         => Reduce(PooledZ(n, delta, qs, half, domain), bootSeed);
+
+    /// <summary>Stage 2: the random-field disorder-ensemble pooled CSR. For each of <paramref name="realizations"/>
+    /// realizations draw a per-site field w_k ~ U[−w, w], build the (SE,DE) block at (q, Δ) + field, and pool
+    /// the chosen-half OffReal z-values across realizations. The random field breaks conjugation symmetry, so
+    /// OffReal is the valid domain; pooling z's across realizations is both the correct ensemble and the
+    /// large-sample source. Δ=0 is free fermion + disorder (1D Anderson, expected Poisson); Δ≠0 is interacting
+    /// + disorder (the genuine non-integrability / MBL-ergodic test).</summary>
+    public static CsrReading DisorderSweep(int n, double q, double delta, double w, int realizations, Half half, int seed)
+    {
+        var rng = new Random(seed);
+        var pool = new List<Complex>();
+        for (int r = 0; r < realizations; r++)
+        {
+            var field = new double[n];
+            for (int k = 0; k < n; k++) field[k] = (2 * rng.NextDouble() - 1) * w;        // U[−w, w]
+            var block = XxzCoherenceBlock.BuildFullWithField(n, new Complex(q, 0), delta, field);
+            var vals = Matrix<Complex>.Build.DenseOfArray(block).Evd().EigenValues;
+            pool.AddRange(ComplexSpacingRatio.ZValues(Filter(vals, half, Domain.OffReal)));
+        }
+        return Reduce(pool, seed + 7919);
+    }
 
     /// <summary>Per-q ⟨|z|⟩ of the chosen half (the stationarity check: confirm it is flat across q
     /// before trusting the pool; near an EP/discriminant locus the local statistics shift).</summary>

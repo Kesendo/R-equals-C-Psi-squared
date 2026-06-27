@@ -76,6 +76,53 @@ public class IntegrabilityBreakingCsrTests
         }
     }
 
+    /// <summary>Stage 2 anchor: at zero field the disorder ensemble is deterministic — all realizations
+    /// are the identical (q, Δ) block, so the pool size scales linearly with the realization count and the
+    /// ⟨|z|⟩ is unchanged. Catches RNG / pooling bugs before any disorder claim.</summary>
+    [Fact]
+    public void DisorderSweep_ZeroField_IsDeterministicAcrossRealizations()
+    {
+        var r1 = IntegrabilityBreakingCsr.DisorderSweep(7, q: 2.0, delta: 1.0, w: 0.0, realizations: 1,
+            IntegrabilityBreakingCsr.Half.HbMixed, seed: 1);
+        var r3 = IntegrabilityBreakingCsr.DisorderSweep(7, q: 2.0, delta: 1.0, w: 0.0, realizations: 3,
+            IntegrabilityBreakingCsr.Half.HbMixed, seed: 1);
+        Assert.True(r1.ZCount > 50, $"need a real per-realization pool, got {r1.ZCount}");
+        Assert.Equal(r1.ZCount * 3, r3.ZCount);              // identical copies pool linearly
+        Assert.Equal(r1.MeanAbs, r3.MeanAbs, 9);             // no disorder ⟹ identical statistic
+    }
+
+    /// <summary>Stage 2 reconnaissance — the genuine GinUE test. A per-site random field U[−W,W] breaks
+    /// integrability (and conjugation symmetry, so OffReal). Δ=0 (free fermion + disorder = 1D Anderson,
+    /// expected to STAY Poisson) is the control; Δ=1 (interacting + disorder = the MBL/ergodic model) is the
+    /// test: does ⟨cosθ⟩ go NEGATIVE (GinUE angular repulsion) at intermediate W? Caveat: the (SE,DE) block
+    /// is a dilute 2-excitation sector, which may be too sparse to thermalize.</summary>
+    [Fact]
+    public void Reconnaissance_DisorderFieldCsrVsW_N7()
+    {
+        int n = 7; double q = 2.0; int R = 120;
+        foreach (double delta in new[] { 0.0, 1.0 })
+        {
+            string label = delta == 0
+                ? "Δ=0 (free fermion + disorder = 1D Anderson; expect Poisson)"
+                : "Δ=1 (interacting + disorder = MBL/ergodic; the genuine non-integrability test)";
+            var probe = IntegrabilityBreakingCsr.DisorderSweep(n, q, delta, 1.0, 1, IntegrabilityBreakingCsr.Half.HbMixed, 9);
+            int perSpec = Math.Max(10, probe.ZCount);
+            var pRef = IntegrabilityBreakingCsr.PoissonReference(perSpec, 60, 777);
+            var gRef = IntegrabilityBreakingCsr.GinueReference(perSpec, 60, 778);
+
+            _out.WriteLine($"N={n}, q={q}, R={R} -- {label}");
+            _out.WriteLine($"   refs (~{perSpec} pts): Poisson ⟨|z|⟩={pRef.MeanAbs:F3} ⟨cos⟩={pRef.MeanCos:+0.000;-0.000} | " +
+                           $"GinUE ⟨|z|⟩={gRef.MeanAbs:F3} ⟨cos⟩={gRef.MeanCos:+0.000;-0.000}");
+            _out.WriteLine("    W    | ⟨|z|⟩  [95% CI]        | ⟨cosθ⟩ | Npool");
+            foreach (double W in new[] { 0.0, 0.5, 1.0, 2.0, 4.0 })
+            {
+                var r = IntegrabilityBreakingCsr.DisorderSweep(n, q, delta, W, R, IntegrabilityBreakingCsr.Half.HbMixed, 1000);
+                _out.WriteLine($"  {W,5:F2} | {r.MeanAbs:F3} [{r.CiLo:F3},{r.CiHi:F3}] | {r.MeanCos,+6:F3} | {r.ZCount}");
+            }
+            _out.WriteLine("");
+        }
+    }
+
     [Theory]
     [InlineData(5)]   // 5·C(5,2) = 50
     [InlineData(7)]   // 7·C(7,2) = 147
