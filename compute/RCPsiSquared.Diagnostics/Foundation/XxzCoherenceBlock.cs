@@ -160,4 +160,51 @@ public static class XxzCoherenceBlock
         var r = EpCharacter.Characterize(BuildSym(n, qd, delta), mid, radius);
         return new DeltaFlipReading(r.Kind, r.Algebraic, r.Geometric, r.Departure, r.ProjectorNorm, qd, mid, best);
     }
+
+    /// <summary>The verdict of a Δ-track step. DIABOLIC = the coalescence survives semisimply (geo=alg,
+    /// dep≈0); DEFECTIVE = it persists as a Jordan EP (geo&lt;alg); LIFTED = the degeneracy is gone (no
+    /// coalescence in the local q-box). For the integrability test, DEFECTIVE or LIFTED at Δ&gt;0 confirms
+    /// the diabolic was integrability-protected; DIABOLIC surviving at Δ&gt;0 would refute it.</summary>
+    public enum DeltaFlipVerdict { Diabolic, Defective, Lifted }
+
+    public sealed record DeltaTrackResult(
+        DeltaFlipVerdict Verdict, int Algebraic, int Geometric, double Departure,
+        Complex QStar, Complex LambdaStar, double Gap)
+    {
+        public bool Survived => Verdict == DeltaFlipVerdict.Diabolic;
+    }
+
+    /// <summary>Track the coalescence near qSeed at this Δ and classify it. R-4: a 2D q-BOX scan re-finds the
+    /// region (not GapRefine-from-previous, which assumes continuity), THEN GapRefine from the box-minimum to
+    /// resolve the cusp — this is essential because a DEFECTIVE EP is a √-branch (a SHARP cusp a coarse grid
+    /// overshoots, so the box-grid-min alone overestimates the gap and reads a false LIFT; the descent drives
+    /// a real coalescence's gap → 0, while a genuine LIFT stays at a shallow min above coalesceTol). Then read
+    /// geo vs alg (the load-bearing discriminant, R-3): refined gap &gt; coalesceTol ⟹ LIFTED (degeneracy
+    /// gone); else geo=alg ∧ dep≈0 ⟹ DIABOLIC (survives), geo&lt;alg ⟹ DEFECTIVE. Box ±boxHalf (the path-4
+    /// diabolics' nearest neighbour is ~0.1 away, so ±0.04 is safe).</summary>
+    public static DeltaTrackResult TrackDiabolicUnderDelta(int n, Complex qSeed, Complex lambdaSeed, double delta,
+        double boxHalf = 0.04, double boxCell = 0.008, double coalesceTol = 1e-3, double depTol = 1e-6)
+    {
+        Func<Complex, Complex[]> roots = qq => SeDeSymSpectrum(n, qq, delta);
+        double boxMin = double.PositiveInfinity; Complex boxArg = qSeed;
+        int steps = Math.Max(1, (int)Math.Round(2 * boxHalf / boxCell));
+        for (int ir = 0; ir <= steps; ir++)
+            for (int ii = 0; ii <= steps; ii++)
+            {
+                var q = new Complex(qSeed.Real - boxHalf + ir * boxCell, qSeed.Imaginary - boxHalf + ii * boxCell);
+                double g = PathKMonodromyScout.MinGap(roots(q));
+                if (g < boxMin) { boxMin = g; boxArg = q; }
+            }
+        // GapRefine from the box-minimum resolves the √-cusp; the refined gap (not the box-grid-min) decides LIFT.
+        var qd = PathKMonodromyScout.GapRefine(roots, boxArg, boxCell);
+        double refined = PathKMonodromyScout.MinGap(roots(qd));
+        if (refined > coalesceTol)
+            return new DeltaTrackResult(DeltaFlipVerdict.Lifted, 0, 0, double.NaN, qd, Complex.Zero, refined);
+
+        var r = CharacterAtDiabolicNear(n, delta, qd, lambdaSeed, boxCell);
+        var verdict = (r.Geometric == r.Algebraic && r.Departure < depTol)
+            ? DeltaFlipVerdict.Diabolic
+            : DeltaFlipVerdict.Defective;
+        return new DeltaTrackResult(verdict, r.Algebraic, r.Geometric, r.Departure, r.QStar, r.LambdaStar, r.Gap);
+    }
 }
