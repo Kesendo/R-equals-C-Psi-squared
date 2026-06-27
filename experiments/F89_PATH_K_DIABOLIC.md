@@ -39,6 +39,8 @@ Diabolics **exist** at path-4, and there are several. But the decisive observati
 | 0.7654 ± 0.024 i | −4.371 ∓ 2.056 i | identity loop, exp 0.98 (clean) |
 | 1.9447 ± 1.217 i | −2.455 ∓ 3.473 i | identity loop, exp 1.02 (clean) |
 
+(This table shows the clean complex-q families as representatives, NOT the full list. The Status line's census, **11 diabolics + 4 defective EPs = 15 coalescences**, is the authoritative count from the broad scan re[0.2,3] × im[−1.5,1.5], reproducible verbatim via the §Reproduce command; the table is a readable subset of it, plus the near-axis pairs discussed below.)
+
 A fine real-axis strip scan (`--re 0.3,2.5 --im -0.25,0.25 --cell 0.01`) finds **no diabolic at im(q) = 0**; the only real-q coalescence is a **defective** EP (q ≈ 1.0776, λ ≈ −3.792). The closest approach to the physical axis is a conjugate pair at q = 0.6118 ± 0.012i, and a tight zoom (`--cell 0.002`) confirms it stays **split** at ± 0.012i rather than merging onto the axis. So at every physical (real) q the N=5 chain has only loud defective EPs; the silent diabolics have retreated into complex q.
 
 ## The synthesis: two causes that coincided at N=4
