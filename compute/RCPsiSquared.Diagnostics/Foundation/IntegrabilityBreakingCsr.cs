@@ -37,7 +37,7 @@ public static class IntegrabilityBreakingCsr
     /// AT-locked = Re ∈ {−2, −6} (the absorption-theorem rungs, free-fermion Bloch frequencies);
     /// H_B-mixed = the spread residue (chain Galois S_n). The split is by real part, which Δ leaves
     /// untouched (Δ·ZZ shifts only the imaginary frequency).</summary>
-    private static List<Complex> HalfEigs(int n, double q, double delta, Half half)
+    private static List<Complex> HalfEigs(int n, double q, double delta, Half half, Domain domain)
     {
         var full = XxzCoherenceBlock.BuildFull(n, new Complex(q, 0), delta);
         var vals = Matrix<Complex>.Build.DenseOfArray(full).Evd().EigenValues;
@@ -45,7 +45,8 @@ public static class IntegrabilityBreakingCsr
         for (int t = 0; t < vals.Count; t++)
         {
             var lam = vals[t];
-            if (lam.Imaginary <= ImTol) continue;
+            bool inDomain = domain == Domain.UpperHalf ? lam.Imaginary > ImTol : Math.Abs(lam.Imaginary) > ImTol;
+            if (!inDomain) continue;
             bool locked = Math.Abs(lam.Real + 2) < RateTol || Math.Abs(lam.Real + 6) < RateTol;
             bool take = half == Half.Full || (half == Half.HbMixed ? !locked : locked);
             if (take) res.Add(lam);
@@ -53,24 +54,42 @@ public static class IntegrabilityBreakingCsr
         return res;
     }
 
+    /// <summary>The CSR fundamental domain. <see cref="UpperHalf"/> (Im &gt; tol) is correct ONLY when the
+    /// spectrum is conjugation-symmetric (λ → λ*) — true at Δ=0 (free fermion, 100% conjugate matches) but
+    /// NOT at Δ≠0 (the diagonal Δ·ZZ imaginary shift breaks it to 0%). <see cref="OffReal"/> (|Im| &gt;
+    /// tol) is the correct domain with no conjugation symmetry: at Δ≠0 there are no real eigenvalues, so
+    /// off-real is the full bulk. Using UpperHalf at Δ≠0 keeps an arbitrary non-fundamental ≈60-of-147
+    /// subset and biases the CSR.</summary>
+    public enum Domain { UpperHalf, OffReal }
+
+    /// <summary>The full (SE,DE) block spectrum at (q, Δ) — all N·C(N,2) eigenvalues, no half-plane
+    /// filter. For the symmetry-class diagnostic (is the spectrum conjugation-symmetric, validating the
+    /// upper-half-plane CSR restriction? does it carry a reflection about the AT midpoint?).</summary>
+    public static Complex[] FullSpectrum(int n, double q, double delta)
+        => Matrix<Complex>.Build.DenseOfArray(XxzCoherenceBlock.BuildFull(n, new Complex(q, 0), delta))
+            .Evd().EigenValues.ToArray();
+
     /// <summary>The pooled per-spectrum z-values of the chosen half over the q-grid.</summary>
-    private static List<Complex> PooledZ(int n, double delta, double[] qs, Half half)
+    private static List<Complex> PooledZ(int n, double delta, double[] qs, Half half, Domain domain)
     {
         var pool = new List<Complex>();
-        foreach (var q in qs) pool.AddRange(ComplexSpacingRatio.ZValues(HalfEigs(n, q, delta, half)));
+        foreach (var q in qs) pool.AddRange(ComplexSpacingRatio.ZValues(HalfEigs(n, q, delta, half, domain)));
         return pool;
     }
 
-    /// <summary>The pooled-z CSR of the chosen half at anisotropy Δ over the q-grid.</summary>
-    public static CsrReading Sweep(int n, double delta, double[] qs, Half half, int bootSeed = 1234)
-        => Reduce(PooledZ(n, delta, qs, half), bootSeed);
+    /// <summary>The pooled-z CSR of the chosen half at anisotropy Δ over the q-grid. Pass the CSR domain
+    /// valid for this Δ: UpperHalf at Δ=0 (conjugation-symmetric), OffReal at Δ≠0 (no symmetry).</summary>
+    public static CsrReading Sweep(int n, double delta, double[] qs, Half half,
+        Domain domain = Domain.UpperHalf, int bootSeed = 1234)
+        => Reduce(PooledZ(n, delta, qs, half, domain), bootSeed);
 
     /// <summary>Per-q ⟨|z|⟩ of the chosen half (the stationarity check: confirm it is flat across q
     /// before trusting the pool; near an EP/discriminant locus the local statistics shift).</summary>
-    public static double[] PerQMeanAbs(int n, double delta, double[] qs, Half half)
+    public static double[] PerQMeanAbs(int n, double delta, double[] qs, Half half,
+        Domain domain = Domain.UpperHalf)
         => qs.Select(q =>
         {
-            var z = ComplexSpacingRatio.ZValues(HalfEigs(n, q, delta, half));
+            var z = ComplexSpacingRatio.ZValues(HalfEigs(n, q, delta, half, domain));
             return z.Count == 0 ? double.NaN : z.Average(c => c.Magnitude);
         }).ToArray();
 

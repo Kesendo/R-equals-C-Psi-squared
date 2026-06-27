@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Numerics;
 using RCPsiSquared.Diagnostics.Foundation;
 using Xunit;
 using Xunit.Abstractions;
@@ -56,23 +57,57 @@ public class IntegrabilityBreakingCsrTests
         double[] deltas = { 0.0, 0.25, 0.5, 1.0, 2.0 };
         foreach (int n in new[] { 6, 7 })
         {
-            // size the finite-size references at this N's per-spectrum H_B point count.
-            var probe = IntegrabilityBreakingCsr.Sweep(n, 0.0, qs, IntegrabilityBreakingCsr.Half.HbMixed);
-            int perSpec = Math.Max(10, probe.ZCount / qs.Length);
-            var pRef = IntegrabilityBreakingCsr.PoissonReference(perSpec, draws: 80, seed: 100 + n);
-            var gRef = IntegrabilityBreakingCsr.GinueReference(perSpec, draws: 80, seed: 200 + n);
-
-            _out.WriteLine($"N={n}  (per-spectrum H_B ≈ {perSpec} pts;  finite-size refs: " +
-                           $"Poisson ⟨|z|⟩={pRef.MeanAbs:F3}, GinUE ⟨|z|⟩={gRef.MeanAbs:F3})");
-            _out.WriteLine("   Δ    | ⟨|z|⟩  [95% CI]          | ⟨cosθ⟩  | Npool");
-            _out.WriteLine("  ------|-------------------------|---------|------");
+            _out.WriteLine($"N={n}  (domain valid per Δ: UpperHalf at Δ=0 [conj-symmetric], " +
+                           "OffReal at Δ>0 [conj-symmetry broken]; refs size-matched per Δ)");
+            _out.WriteLine("   Δ    | dom   | ⟨|z|⟩  [95% CI]        | ⟨cosθ⟩ | Npool | refs P/G");
+            _out.WriteLine("  ------|-------|-----------------------|--------|-------|----------");
             foreach (double d in deltas)
             {
-                var r = IntegrabilityBreakingCsr.Sweep(n, d, qs, IntegrabilityBreakingCsr.Half.HbMixed);
-                _out.WriteLine($"  {d,5:F2} | {r.MeanAbs:F3} [{r.CiLo:F3}, {r.CiHi:F3}]      | " +
-                               $"{r.MeanCos,+7:F3} | {r.ZCount}");
+                var dom = d == 0.0 ? IntegrabilityBreakingCsr.Domain.UpperHalf : IntegrabilityBreakingCsr.Domain.OffReal;
+                var r = IntegrabilityBreakingCsr.Sweep(n, d, qs, IntegrabilityBreakingCsr.Half.HbMixed, dom);
+                int perSpec = Math.Max(10, r.ZCount / qs.Length);
+                var pRef = IntegrabilityBreakingCsr.PoissonReference(perSpec, draws: 60, seed: 100 + n);
+                var gRef = IntegrabilityBreakingCsr.GinueReference(perSpec, draws: 60, seed: 200 + n);
+                _out.WriteLine($"  {d,5:F2} | {(dom == IntegrabilityBreakingCsr.Domain.UpperHalf ? "upper" : "offRl")} | " +
+                               $"{r.MeanAbs:F3} [{r.CiLo:F3}, {r.CiHi:F3}] | {r.MeanCos,+6:F3} | {r.ZCount,5} | " +
+                               $"{pRef.MeanAbs:F3}/{gRef.MeanAbs:F3}");
             }
             _out.WriteLine("");
+        }
+    }
+
+    [Theory]
+    [InlineData(5)]   // 5·C(5,2) = 50
+    [InlineData(7)]   // 7·C(7,2) = 147
+    public void FullSpectrum_HasNTimesCN2Eigenvalues(int n)
+    {
+        int expected = n * (n * (n - 1) / 2);
+        Assert.Equal(expected, IntegrabilityBreakingCsr.FullSpectrum(n, q: 2.0, delta: 0.0).Length);
+    }
+
+    /// <summary>Symmetry-class check (review round 2 #5): the CSR upper-half-plane restriction is only
+    /// valid if the (SE,DE) spectrum is conjugation-symmetric (λ → λ*). The reviewer's heuristic says Π
+    /// maps (SE,DE) → the conjugate (DE,SE) block, so (SE,DE) alone may NOT be self-conjugate — which
+    /// would put us in class A (GinUE reference) and make the upper-half restriction questionable. We
+    /// measure it: the conjugation-match fraction, the real-axis fraction, and a reflection about the AT
+    /// midpoint Re=−4 (λ → −8−λ and λ → −8−λ*), at the Δ=0 baseline and the Δ=0.5 peak.</summary>
+    [Fact]
+    public void Reconnaissance_SpectrumSymmetry_N7()
+    {
+        const double tol = 1e-6;
+        foreach (var (q, d) in new[] { (2.0, 0.0), (2.0, 0.5), (0.5, 0.5) })
+        {
+            var spec = IntegrabilityBreakingCsr.FullSpectrum(7, q, d);
+            int nReal = spec.Count(z => Math.Abs(z.Imaginary) < tol);
+            int nUpper = spec.Count(z => z.Imaginary > tol);
+
+            bool InSpec(Complex w) => spec.Any(z => (z - w).Magnitude < tol);
+            double conjFrac = spec.Count(z => InSpec(Complex.Conjugate(z))) / (double)spec.Length;
+            double reflFrac = spec.Count(z => InSpec(new Complex(-8, 0) - z)) / (double)spec.Length;
+            double reflConjFrac = spec.Count(z => InSpec(new Complex(-8, 0) - Complex.Conjugate(z))) / (double)spec.Length;
+
+            _out.WriteLine($"q={q}, Δ={d}: total={spec.Length}, real={nReal}, upper={nUpper} | " +
+                           $"conj-sym(λ→λ*)={conjFrac:P0}, refl(−8−λ)={reflFrac:P0}, refl-conj(−8−λ*)={reflConjFrac:P0}");
         }
     }
 
@@ -86,7 +121,8 @@ public class IntegrabilityBreakingCsrTests
         var qs = Qs(24);
         foreach (double d in new[] { 0.0, 0.5, 2.0 })
         {
-            var perQ = IntegrabilityBreakingCsr.PerQMeanAbs(7, d, qs, IntegrabilityBreakingCsr.Half.HbMixed);
+            var dom = d == 0.0 ? IntegrabilityBreakingCsr.Domain.UpperHalf : IntegrabilityBreakingCsr.Domain.OffReal;
+            var perQ = IntegrabilityBreakingCsr.PerQMeanAbs(7, d, qs, IntegrabilityBreakingCsr.Half.HbMixed, dom);
             var valid = perQ.Where(x => !double.IsNaN(x)).ToArray();
             double mean = valid.Average();
             double sd = Math.Sqrt(valid.Select(x => (x - mean) * (x - mean)).Average());
