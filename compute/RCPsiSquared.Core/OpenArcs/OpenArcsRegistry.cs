@@ -137,14 +137,41 @@ public static class OpenArcsRegistry
                 "of Liouvillian level-repulsion? NO, not at fixed q. The galoischaos witness (inspect --root " +
                 "galoischaos, GaloisSpectralChaosWitness) splits the (SE,DE) block into AT-locked vs H_B-mixed and " +
                 "runs the complex spacing ratio (Sa-Ribeiro-Prosen) pooled over q: the H_B-mixed S_d half reads " +
-                "Poisson-like/sub-Poisson (NOT GinUE), and the AT-locked half is the sparse picket-fence (low <|z|>, " +
+                "Poisson-like/sub-Poisson (NOT GinUE -- the Ginibre unitary ensemble, the chaotic-spectrum RMT " +
+                "baseline with <|z|>~0.74 / <cos theta>~-0.24), and the AT-locked half is the sparse picket-fence (low <|z|>, " +
                 "structured) -- both halves non-GinUE. Integrability protects the fixed-q spectrum; the global Poisson " +
                 "reading (RANDOM_MATRIX_THEORY.md) and the within-sector GOE hint (now resolved as a small-sample " +
                 "artifact, simulations/rmt_goe_hint_verdict.py) agree. ALGEBRAIC chaos (Galois over q) and SPECTRAL " +
-                "chaos (RMT at fixed q) are DISTINCT here. The genuinely-open SEQUEL the witness itself names: where " +
-                "S_d DOES live spectrally is the q-PARAMETRIC monodromy/braid (the discriminant/EP loci, --root " +
-                "galoismonodromy); and the still-unposed question is whether BREAKING integrability (Delta, NNN, a " +
-                "field) merges the two by driving the fixed-q CSR Poisson->Ginibre as the diabolics turn defective. " +
+                "chaos (RMT at fixed q) are DISTINCT here. SEQUEL RESOLVED 2026-06-27 (a SECOND, deeper null): " +
+                "breaking integrability does NOT drive the fixed-q CSR Poisson->Ginibre. Stage 1 (Delta anisotropy) " +
+                "and Stage 2 (random Z-field U[-W,W], with AND without interactions) both keep the H_B-mixed CSR " +
+                "<cos theta> POSITIVE (never the GinUE angular repulsion -0.19) and <|z|> sub-GinUE at every Delta/W; " +
+                "Delta=0 + disorder is 1D Anderson (stays Poisson, the control). The null is STRUCTURAL/kinematic, NOT " +
+                "about the Galois algebra or Hamiltonian integrability: the (SE,DE) block is a DILUTE 2-excitation " +
+                "sector that cannot thermalize, so it is non-chaotic regardless of integrability-breaking (the " +
+                "finite-size GinUE reference at ~147 pts DOES read -0.19, so the diagnostic CAN see chaos at this " +
+                "size -- the block's absence of repulsion is real, not finite-size). Upstream fact en route: " +
+                "TwoMagnonAdditivity shows Delta breaks the free-fermion additivity E_DE=eps_j+eps_k LINEARLY " +
+                "(bit-exact 0 at Delta=0), so Delta is the Liouvillian-free-fermion-additivity breaker, NOT a null " +
+                "control (a 2-physics-review correction to the original framing). What EXISTS (committed 2026-06-27, " +
+                "8a87d3c..d9801bf, all TDD green): compute/RCPsiSquared.Core/Spectrum/TwoMagnonAdditivity.cs (the " +
+                "additivity probe); ComplexSpacingRatio.ZValues/PoissonDiskZValues/GinueZValues (per-spectrum z's -- " +
+                "pool z's, NEVER raw eigenvalues across spectra, the methodology guard); " +
+                "compute/RCPsiSquared.Diagnostics/Foundation/IntegrabilityBreakingCsr.cs (Sweep + DisorderSweep + the " +
+                "Domain selector: UpperHalf is valid ONLY at Delta=0 where the (SE,DE) spectrum is " +
+                "conjugation-symmetric, OffReal at Delta!=0 where it is NOT -- a self-caught domain bug that had " +
+                "inflated a since-RETRACTED 'reaches GinUE magnitude' claim); XxzCoherenceBlock.BuildFullWithField. " +
+                "DECISIVE OPEN TEST to PROVE the dilute-sector reading: show a DENSER (finite-filling / " +
+                "extensive-excitation) coherence sector of the SAME Liouvillian DOES reach GinUE under the same " +
+                "disorder -- i.e. chaos as a FILLING THRESHOLD, not an integrability one. FIRST MOVE: build a " +
+                "denser-sector block (analogue of XxzCoherenceBlock.BuildFull/.BuildFullWithField at higher " +
+                "excitation weight) and run IntegrabilityBreakingCsr.DisorderSweep on it; compare its <cos theta>(W) " +
+                "against the (SE,DE) null. THEN land the sharpening into the docs (full footprint in the local plan " +
+                "docs/superpowers/plans/2026-06-27-f89-door-c-csr-integrability-sweep.md): this OpenArcs door C, " +
+                "RANDOM_MATRIX_THEORY.md (as a 3rd open item beside Denisov-lemon + topology), and the " +
+                "GaloisSpectralChaosWitness as the Delta=0 baseline/control. SEPARATE still-open direction: where S_d " +
+                "DOES live spectrally is the q-PARAMETRIC monodromy/braid (the discriminant/EP loci, --root " +
+                "galoismonodromy), not the fixed-q geometry. " +
                 "(D) GALOIS ATLAS of physical spectra. F89 chains = S_n; SIC-POVM spectral polynomials (Appleby 2012) " +
                 "= solvable, opposite polarity at the same physics/number-theory seam. Collect which physical " +
                 "spectral polynomials are solvable vs S_n via the reusable engine (we_are_ahead_at_the_seam). Lowest " +
