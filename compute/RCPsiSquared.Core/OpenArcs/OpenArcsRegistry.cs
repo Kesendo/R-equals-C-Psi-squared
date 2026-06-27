@@ -11,6 +11,62 @@ public static class OpenArcsRegistry
     private static readonly IReadOnlyList<OpenArc> _all = new[]
     {
         new OpenArc(
+            Name: "diabolic_over_higher_n",
+            Opened: "2026-06-27",
+            Origin: "the path-k diabolic investigation, now solid at two N. Path-3 (N=4): the within-block " +
+                "twin-pair-onto-fold diabolic at a REAL q_EP=0.659, λ_EP=−4+2iJ, traced from below (gmscan " +
+                "--trace) and Δ-flipped defective by XXZ anisotropy (DIABOLIC_BY_INTEGRABILITY). Path-4 (N=5): " +
+                "11 character-verified diabolics, ALL at complex q (none at physical real q), Δ-VERIFIED " +
+                "integrability-protected (XxzCoherenceBlock + XxzDeltaFlipTests: they flip defective / lift under " +
+                "Δ≠0, a defective control stays put). The synthesis (integrability = existence of the diabolics, " +
+                "the N=4 self-fold = what put ONE on the real axis): now Tier-1 for the mechanism " +
+                "(experiments/F89_PATH_K_DIABOLIC.md). Tom's question, the arc: does the structure " +
+                "(complex-q-only, integrability-protected, and HOW MANY) generalize over N, and what would it " +
+                "take to pursue it at path-5 (N=6), path-6 (N=7), and beyond?",
+            ParkedAt: "TWO N DONE; the generalization not run. WHAT GENERALIZES FOR FREE (the good news): compute " +
+                "is NOT the obstacle. The (SE,DE) coherence block is POLYNOMIAL in N, dim = N·C(N,2) ~ N³/2 " +
+                "(24/50/90/147 for N=4..7; residual F_d = 8/18/32/53 for path-3..6), TINY beside the 4^N " +
+                "Liouvillian, so an EVD per q-point is sub-millisecond at every N reachable here; the (SE,DE) " +
+                "restriction is the enabler. And the Δ-test tooling is ALREADY N-general: XxzCoherenceBlock " +
+                "(BuildFull/BuildSym/SeDeSymSpectrum/CharacterAtDiabolicNear/TrackDiabolicUnderDelta all take n), " +
+                "plus gmscan --trace and pkmono --delta-flip. So path-5/6 need a RUN, not a rebuild, for the " +
+                "Δ-test. WHAT NEEDS EXTENSION: the diabolic LOCATOR (FindDiabolics / pkmono --diabolic) rides " +
+                "PathKMonodromyScout, valid for the k the F89PathKFdOracle covers (≤6); for k>6 extend the oracle " +
+                "+ F89AtFactorReconstruction.ForPathK. (Caveat: the AT-removal is needed only for the monodromy/" +
+                "Galois layer; the diabolic hunt itself is coalescences in the FULL symmetric block and does not " +
+                "require it, so XxzCoherenceBlock can locate-and-test at any N on its own.) THE REAL OBSTACLES " +
+                "(the genuinely hard part, get harder with N): (1) COMPLETENESS. The exact discriminant " +
+                "disc_λ(F_d) factorization (Route B, the only way to COUNT diabolics definitively, as " +
+                "(3q⁴+q²−1)² did at path-3) is already infeasible at F_18 (degree-52 disc) and hopeless at " +
+                "F_32/F_53; beyond path-3 the count is answerable only by bounded-region NUMERICAL scans with a " +
+                "stated coverage box, never provably complete. (2) The scan region/resolution must scale: more " +
+                "strands → more inter-sector crossings → more candidates, plus the dense-spectrum hazards already " +
+                "met (loop contamination needing the small intrinsic radius; the √-cusp needing GapRefine-from-" +
+                "box-min for LIFT-vs-defect). Engineering, not fundamental. (3) The naive Slater additivity " +
+                "(E_DE = pairwise SE sums) bookkeeping FAILS from path-5 (the F_b modes are not simple sums; the " +
+                "AT factor needs the rate-confined reconstruction), BUT free-fermion integrability itself " +
+                "(Jordan-Wigner) holds at every N, so the diabolics persist and stay Δ-killable; only the AT-" +
+                "bookkeeping is harder. The deferred Q4 cross-fold edge (do the complex-q diabolics pair across " +
+                "the cross-block fold (SE,DE)↔(SE,w_{N-2})?) also generalizes over N and is untried.",
+            NextStep: "Concrete moves, cheapest first. (1) LOCATE: run pkmono --diabolic --k 5 (N=6) and --k 6 " +
+                "(N=7) over a scaled q-region; confirm the path-4 pattern holds — diabolics exist, ALL at complex " +
+                "q, NONE at real q (the self-fold being N=4-only predicts no physical diabolic at any N≥5; the " +
+                "only real-q feature should be defective EPs). Record the in-region count. (2) Δ-TEST (already " +
+                "n-general): TrackDiabolicUnderDelta on a sample of the located path-5/6 diabolics + a defective " +
+                "control; confirm integrability-protection (defect/lift under Δ) holds at higher N (expected, " +
+                "since integrability is N-independent — a null here would be a real surprise). pkmono --delta-flip " +
+                "--k 5 --q .. --lam .. is the surface. (3) COUNT-vs-N: how does the in-region diabolic count grow " +
+                "with N (relate to F_d and the integrable level-crossing density)? State the coverage box; do NOT " +
+                "claim completeness (obstacle 1). (4) Q4 CROSS-FOLD: build the partner (SE,w_{N-2}) block (the " +
+                "FoldCrossCommand.BuildBlock route, made (q,Δ)-linear) and test whether each (SE,DE) diabolic has " +
+                "a cross-fold mirror diabolic at −λ̄_d−2N in the partner. (5) If a path-5 diabolic ever lands at " +
+                "REAL q, that refutes the self-fold=real-placement reading — investigate the new pinning. " +
+                "Tooling to extend only when k>6: F89PathKFdOracle + F89AtFactorReconstruction.ForPathK (locator " +
+                "only; the Δ-test block needs nothing). See experiments/F89_PATH_K_DIABOLIC.md, " +
+                "hypotheses/DIABOLIC_BY_INTEGRABILITY.md, and the zeros_connecting_structure arc.",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
             Name: "f89_galois_open_doors",
             Opened: "2026-06-24",
             Origin: "the F89 path-3..6 H_B-mixed Galois witness landing fully live (commit 6299aae; reviewed GREEN " +
