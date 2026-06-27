@@ -317,7 +317,7 @@ public static class PathKMonodromyScout
     /// masked per-k (default 0.20, NOT the octic's path-3 0.18). Returns ALL coalescences with refined gap
     /// below <paramref name="gapTol"/>; the caller filters IsSemisimple for genuine diabolics.</summary>
     public static List<DiabolicPoint> FindDiabolics(int k, double reLo, double reHi, double imLo, double imHi,
-        double cell, double mask = 0.20, double gapTol = 1e-3, double loopRadius = 0.02)
+        double cell, double mask = 0.20, double gapTol = 1e-3, double loopRadius = 0.004)
     {
         var (a, c) = BuildLinear(k + 1);
         Func<Complex, Complex[]> roots = qq => AllRootsAt(a, c, qq);
@@ -370,6 +370,11 @@ public static class PathKMonodromyScout
             if (g > gapTol) continue;                                                // an avoided crossing, not a coalescence
 
             var (pairResidual, mergeLambda, charRadius) = ClassifyPair(roots, q0, qd, residualSet);
+            // the candidate's INTRINSIC monodromy is the small-radius loop (the r->0 limit). A dense path-k
+            // neighbour (a defective EP next to a diabolic) only enters the loop at larger r, so a path-3-tuned
+            // fixed 0.02 reads transposition even at a true diabolic (the Item-1 radius-sweep: identity at
+            // r<=0.008 for the true diabolics, the EP entering at r>=0.012; the genuinely-defective control is
+            // transposition down to r=0.002). loopRadius defaults small (0.004) to read the candidate itself.
             bool loopId = Moved(Monodromy.Permutation(roots, qd, loopRadius, 240)) == 0;
             double expo = GapScalingExponent(roots, qd);
             var reading = EpCharacter.Characterize(BlockAt(a, c, qd), mergeLambda, charRadius);

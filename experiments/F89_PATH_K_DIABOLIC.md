@@ -1,6 +1,6 @@
 # The Path-k Diabolic at the N=4→N=5 Transition: integrability keeps the crossings, the self-fold placed them on the real axis
 
-**Status:** Tier 2 (computed, gate-validated at path-3; two honest open items below). The instrument reproduces the known path-3 diabolic structure exactly; the path-4 result (diabolics exist but sit at complex q, none at physical real q) is decisive on the clean cases and confirmed by a fine real-axis scan plus a tight zoom. Two near-axis pairs have a character-vs-loop disagreement still to be resolved, and the complex-q set is not claimed complete. The interpretive synthesis (integrability = existence, self-fold = real-axis placement) is a grounded reading, not yet a theorem.
+**Status:** Tier 2 (computed, gate-validated at path-3; one honest open item below). The instrument reproduces the known path-3 diabolic structure exactly; the path-4 result (diabolics exist but sit at complex q, none at physical real q) is decisive and confirmed by a fine real-axis scan plus a tight zoom. All 15 in-region coalescences classify consistently across three signals (monodromy loop, gap-scaling exponent, EpCharacter): 11 diabolics, 4 defective EPs. The earlier character-vs-loop disagreement on two near-axis pairs was resolved (loop contamination by a neighbour EP at the dense path-4 spectrum, fixed by reading the small intrinsic loop radius). The complex-q set is not claimed complete. The interpretive synthesis (integrability = existence, self-fold = real-axis placement) is a grounded reading, not yet a theorem.
 
 **Date:** 2026-06-27
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
@@ -43,9 +43,12 @@ So **integrability is the symmetry R-2 named**: it auto-satisfies the node condi
 
 This reconciles the surprise with the reviewed prior: **R-1/R-2 (codimension and the self-fold) govern real-axis placement, integrability governs existence.** Both were right about different things. The N=4 "diabolic on the rung-2 line −4 at physical q" was the coincidence of the two; at N=5 they separate, the diabolics scatter in λ and leave the physical axis, and a physicist tuning J/γ meets loud defective EPs where the four-site chain had a silent crossing.
 
-## Open items (do not over-read past these)
+## Resolved during the investigation
 
-- **The two near-axis pairs (q ≈ 0.5915 ± 0.091i, 0.6118 ± 0.012i) have a character-vs-loop disagreement:** EpCharacter and the gap-exponent (≈ 1) read diabolic, but the monodromy loop reads a transposition. The dense path-4 spectrum can contaminate the small q-loop (it may enclose a neighbouring EP) or the finite-gap nullity can misread; whether these are true diabolics near defective EPs or defective EPs misread is unresolved. It does not change the real-q conclusion, which the clean identity-loop diabolics already establish.
+- **The two near-axis pairs (q ≈ 0.5915 ± 0.091i, 0.6118 ± 0.012i) ARE true diabolics.** Their EpCharacter and gap-exponent (≈ 1) read diabolic, but the fixed 0.02 monodromy loop read a transposition. A loop-radius sweep settled it: the loop is the **identity at small radius** (r ≤ 0.008) and only becomes a transposition once a neighbouring defective EP enters the annulus (r ≥ 0.012), while a genuinely defective EP (the control at q ≈ 0.9938) is a transposition down to r = 0.002. So it was loop contamination by a dense-spectrum neighbour, not a true defect. The fix reads the candidate's **intrinsic** (small-radius) monodromy; all 11 diabolics now classify loop-identity, consistent with character and exponent. Locked by the `Path4_NearAxisDiabolic_IsLoopIdentity` regression test.
+
+## Open item (do not over-read past this)
+
 - **Completeness is not claimed.** The scanned region was bounded; the full count of complex-q diabolics (the analogue of path-3's four) is not established. An exact discriminant factorization of F_18 (Route B) would settle existence and count definitively but is likely infeasible at degree 18.
 
 ## Reproduce

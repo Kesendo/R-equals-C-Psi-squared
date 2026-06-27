@@ -268,8 +268,13 @@ public static class OpenArcsRegistry
                 "R-1/R-2: codim/self-fold govern real-axis PLACEMENT (no physical diabolic at N≥5), integrability " +
                 "governs EXISTENCE. Both right about different things; at N=4 they coincided. The tool (pkmono " +
                 "--diabolic, FindDiabolics, gate-validated at path-3 incl. the imaginary diabolics) is committed. " +
-                "Open: 2 near-axis pairs have a character-vs-loop disagreement; the complex-q set is not claimed " +
-                "complete. (b) LOOK IN OTHER REPRESENTATIONS, not radicals: S_8 forbids a radical ladder, NOT every " +
+                "RESOLVED (loop-radius sweep): the 2 near-axis pairs ARE true diabolics — the fixed 0.02 loop was " +
+                "contaminated by a neighbour EP at the dense path-4 spectrum (identity at r≤0.008, transposition " +
+                "only once the EP enters at r≥0.012; the defective control is transposition down to r=0.002), " +
+                "fixed by reading the small intrinsic loop radius, so all 11 diabolics now classify consistently " +
+                "across loop+character+exponent (regression-tested). Remaining open: the complex-q set is not " +
+                "claimed complete (Route B / exact F_18 discriminant likely infeasible). (b) LOOK IN OTHER " +
+                "REPRESENTATIONS, not radicals: S_8 forbids a radical ladder, NOT every " +
                 "closed form (Bring/theta/hypergeometric exist for any algebraic function); seek the connection in the " +
                 "centred μ=λ+4, in a recursion, in the relation zeros<->twins<->AT-frequencies. (c) CROSS-F " +
                 "INHERITANCE (the one-object point): relate THIS self-mirror sector to the SAME self-mirror sector " +

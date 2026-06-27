@@ -13,7 +13,6 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// trusted at path-4. See docs/superpowers/plans/2026-06-27-f89-path-k-diabolic.md.</summary>
 public class PathKDiabolicTests
 {
-
     // Task 1 — ResidualRootsAt(k,q) is the path-k analogue of GaloisMonodromyWitness.OcticRootsAt, valid at
     // q≈2 (R-7 scope). The trusted cross-check: at q=2 the path-3 residual MUST be the path-3 octic exactly.
     [Fact]
@@ -66,5 +65,23 @@ public class PathKDiabolicTests
         var generic = GaloisMonodromyWitness.OcticRootsAt(new Complex(2, 0))[0];
         Assert.NotEqual(EpCharacter.EpKind.Diabolic, PathKMonodromyScout.CharacterizeAt(3, new Complex(2, 0), generic, radius: 0.05).Kind);
         Assert.False(PathKMonodromyScout.IsSemisimpleAt(3, new Complex(2, 0), generic, radius: 0.05));
+    }
+
+    // Item-1 regression: the path-4 near-axis diabolic at q≈0.6118+0.012i sits close to a defective EP that a
+    // path-3-tuned fixed 0.02 loop would catch (reading a false transposition). The small intrinsic loop radius
+    // must classify it correctly: a TRUE diabolic, loop-identity. (The radius-sweep evidence: identity at
+    // r<=0.008, the neighbour EP entering only at r>=0.012.)
+    [Fact]
+    public void Path4_NearAxisDiabolic_IsLoopIdentity_NotContaminatedByNeighbourEp()
+    {
+        var found = PathKMonodromyScout.FindDiabolics(4, 0.60, 0.625, -0.05, 0.05, 0.005);
+        var near = found.Where(d => d.IsSemisimple && Math.Abs(d.QValue.Real - 0.6118) < 0.01).ToList();
+        Assert.NotEmpty(near);
+        Assert.All(near, d =>
+        {
+            Assert.True(d.LoopIsIdentity, $"q={d.QValue} should read loop-identity at the small intrinsic radius");
+            Assert.True(d.PairIsResidual);
+            Assert.True(Math.Abs(d.QValue.Imaginary) > 0.005, $"q={d.QValue} is off the real axis (complex-q diabolic)");
+        });
     }
 }
