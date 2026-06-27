@@ -228,7 +228,9 @@ public static class PathKMonodromyScout
         Complex QValue, Complex MergeLambda, bool IsSemisimple, bool LoopIsIdentity,
         double Gap, double GapScalingExponent, bool PairIsResidual);
 
-    private static double MinGap(Complex[] r)
+    /// <summary>The minimum pairwise gap among a set of roots (the coalescence indicator). Public so the
+    /// XXZ Δ-test (<c>XxzCoherenceBlock</c>) reuses the same locator (R-1).</summary>
+    public static double MinGap(Complex[] r)
     {
         double m = double.PositiveInfinity;
         for (int i = 0; i < r.Length; i++)
@@ -243,8 +245,9 @@ public static class PathKMonodromyScout
         return Matrix<Complex>.Build.Dense(d, d, (r, s) => (a[r, s] + q * c[r, s]) / 2);
     }
 
-    // gradient-free descent on the min-gap field toward a local coalescence q*.
-    private static Complex GapRefine(Func<Complex, Complex[]> roots, Complex c, double cell)
+    /// <summary>Gradient-free descent on the min-gap field toward a local coalescence q*. Public so the XXZ
+    /// Δ-test reuses it to re-locate a diabolic as Δ shifts it (R-1).</summary>
+    public static Complex GapRefine(Func<Complex, Complex[]> roots, Complex c, double cell)
     {
         double half = cell / 2, curGap = MinGap(roots(c));
         for (int it = 0; it < 40 && half > 1e-8; it++)
