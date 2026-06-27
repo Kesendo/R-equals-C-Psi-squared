@@ -75,4 +75,25 @@ public class IntegrabilityBreakingCsrTests
             _out.WriteLine("");
         }
     }
+
+    /// <summary>Stationarity insurance (review round 2 #4, physics-first #6): the pooled ⟨|z|⟩ is only
+    /// meaningful if ⟨|z|⟩(q) is roughly flat across the q-grid. A large spread means the pool averages a
+    /// q-varying population (e.g. near an EP/discriminant locus) and the pooled mean is suspect. We print
+    /// the per-q ⟨|z|⟩ spread at the Δ=0 baseline, the Δ=0.5 peak, and the Δ=2 sub-Poisson tail.</summary>
+    [Fact]
+    public void Reconnaissance_Stationarity_PerQ_N7()
+    {
+        var qs = Qs(24);
+        foreach (double d in new[] { 0.0, 0.5, 2.0 })
+        {
+            var perQ = IntegrabilityBreakingCsr.PerQMeanAbs(7, d, qs, IntegrabilityBreakingCsr.Half.HbMixed);
+            var valid = perQ.Where(x => !double.IsNaN(x)).ToArray();
+            double mean = valid.Average();
+            double sd = Math.Sqrt(valid.Select(x => (x - mean) * (x - mean)).Average());
+            _out.WriteLine($"Δ={d,4:F2}: per-q ⟨|z|⟩ mean={mean:F3} sd={sd:F3} " +
+                           $"min={valid.Min():F3} max={valid.Max():F3} (n_q valid={valid.Length}/{qs.Length})");
+            _out.WriteLine("   " + string.Join(" ", perQ.Select(x => double.IsNaN(x) ? " NaN" : $"{x:F2}")));
+            _out.WriteLine("");
+        }
+    }
 }
