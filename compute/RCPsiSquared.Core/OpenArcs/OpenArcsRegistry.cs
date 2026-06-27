@@ -13,7 +13,10 @@ public static class OpenArcsRegistry
         new OpenArc(
             Name: "diabolic_over_higher_n",
             Opened: "2026-06-27",
-            Origin: "the path-k diabolic investigation, now solid at two N. Path-3 (N=4): the within-block " +
+            Origin: "the path-k diabolic investigation, now solid at two N (a diabolic = a SEMISIMPLE eigenvalue " +
+                "coalescence, eigenvectors stay independent, silent/pass-through; as opposed to a DEFECTIVE EP, " +
+                "where the eigenvectors also coalesce and the amplitude diverges; the whole arc is about counting " +
+                "the diabolics and showing integrability creates them). Path-3 (N=4): the within-block " +
                 "twin-pair-onto-fold diabolic at a REAL q_EP=0.659, λ_EP=−4+2iJ, traced from below (gmscan " +
                 "--trace) and Δ-flipped defective by XXZ anisotropy (DIABOLIC_BY_INTEGRABILITY). Path-4 (N=5): " +
                 "11 character-verified diabolics, ALL at complex q (none at physical real q), Δ-VERIFIED " +
