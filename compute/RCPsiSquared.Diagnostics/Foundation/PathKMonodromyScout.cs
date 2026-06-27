@@ -317,7 +317,7 @@ public static class PathKMonodromyScout
     /// masked per-k (default 0.20, NOT the octic's path-3 0.18). Returns ALL coalescences with refined gap
     /// below <paramref name="gapTol"/>; the caller filters IsSemisimple for genuine diabolics.</summary>
     public static List<DiabolicPoint> FindDiabolics(int k, double reLo, double reHi, double imLo, double imHi,
-        double cell, double mask = 0.20, double gapTol = 0.1, double loopRadius = 0.02)
+        double cell, double mask = 0.20, double gapTol = 1e-3, double loopRadius = 0.02)
     {
         var (a, c) = BuildLinear(k + 1);
         Func<Complex, Complex[]> roots = qq => AllRootsAt(a, c, qq);
@@ -364,6 +364,7 @@ public static class PathKMonodromyScout
         foreach (var seed in seeds)
         {
             var qd = GapRefine(roots, seed, cell);
+            if (qd.Magnitude < mask) continue;                                       // refined INTO the q=0 super-branch (the q^big pile-up where the block goes diagonal, all rates collapse onto -2/-6) - not a real coalescence
             if (result.Any(d => (d.QValue - qd).Magnitude < 2 * cell)) continue;     // dedupe
             double g = MinGap(roots(qd));
             if (g > gapTol) continue;                                                // an avoided crossing, not a coalescence

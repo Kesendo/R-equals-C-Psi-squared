@@ -115,6 +115,8 @@ public static class Program
         Console.WriteLine("  pkmono      path-k monodromy = Galois, generalised off path-3: build the path-k (SE,DE) block,");
         Console.WriteLine("              remove the AT factor, lasso the residual F_d's EPs, assemble (connected <=> S_d).");
         Console.WriteLine("              args: [--k 3] [--re lo,hi] [--im lo,hi] [--cell d] [--q0 2,0]   (path-3 S_8, path-4 S_18)");
+        Console.WriteLine("              --diabolic: hunt the residual's DIABOLIC points (gap-minima with an identity loop) and");
+        Console.WriteLine("                    classify each (semisimple vs defective), Re vs -4 (AT rung-2) vs -N (palindrome centre)");
         Console.WriteLine();
         Console.WriteLine("  assembly    play the locked picture through a Q-sweep (depth=light=rate, parity rung,");
         Console.WriteLine("              Absorption cross-check, per-site carrier, birth-canal/sterile, saturation)");

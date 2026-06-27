@@ -30,6 +30,12 @@ public static class PathKMonodromyScanCommand
         Console.WriteLine($"# q0={q0re.ToString("0.##", Inv)}{Sign(q0im)}i, region re[{reLo.ToString("0.##", Inv)},{reHi.ToString("0.##", Inv)}] " +
                           $"im[{imLo.ToString("0.##", Inv)},{imHi.ToString("0.##", Inv)}], cell={cell.ToString("0.###", Inv)}");
 
+        if (p.HasFlag("diabolic"))   // the N=4->N=5 forward edge: hunt the residual's diabolic points
+        {
+            PrintDiabolics(k, reLo, reHi, imLo, imHi, cell);
+            return 0;
+        }
+
         var r = PathKMonodromyScout.Scan(k, reLo, reHi, imLo, imHi, cell, new Complex(q0re, q0im));
 
         Console.WriteLine($"# path-{r.K} (N_block={r.NBlock}): block dim {r.BlockDim} = AT {r.AtDim} + residual F_{r.ResidualDim}");
@@ -61,6 +67,54 @@ public static class PathKMonodromyScanCommand
 
         PrintFoldStructure(r);
         return 0;
+    }
+
+    // the diabolic hunt (Q1-Q3 of the forward-edge plan): find the residual's coalescences, classify each
+    // (diabolic vs defective), and read the merge Re against the AT rung-2 line (-4) vs the palindrome centre (-N).
+    private static void PrintDiabolics(int k, double reLo, double reHi, double imLo, double imHi, double cell)
+    {
+        int nBlock = k + 1;
+        Console.WriteLine($"\n# DIABOLIC HUNT path-{k} (N_block={nBlock}): scan q in re[{reLo.ToString("0.##", Inv)},{reHi.ToString("0.##", Inv)}] " +
+                          $"im[{imLo.ToString("0.##", Inv)},{imHi.ToString("0.##", Inv)}], cell={cell.ToString("0.###", Inv)}, q=0 mask 0.20");
+        // q<->lambda coverage sanity (R-6): the full-block Re(lambda) span at the region-centre q.
+        var (a, c) = PathKMonodromyScout.BuildLinear(nBlock);
+        var qc = new Complex((reLo + reHi) / 2, (imLo + imHi) / 2);
+        var spec = PathKMonodromyScout.AllRootsAt(a, c, qc);
+        Console.WriteLine($"# coverage: at region-centre q={qc.Real.ToString("0.##", Inv)}{Sign(qc.Imaginary)}i the block Re(lambda) spans " +
+                          $"[{spec.Min(z => z.Real).ToString("0.00", Inv)}, {spec.Max(z => z.Real).ToString("0.00", Inv)}] " +
+                          $"(AT rung-2 line = -4; palindrome centre = -N = -{nBlock})");
+
+        var found = PathKMonodromyScout.FindDiabolics(k, reLo, reHi, imLo, imHi, cell);
+        Console.WriteLine($"\n{found.Count} coalescence(s):");
+        foreach (var d in found.OrderBy(x => x.QValue.Real).ThenBy(x => x.QValue.Imaginary))
+            Console.WriteLine($"  q={d.QValue.Real.ToString("0.0000", Inv)}{Sign(d.QValue.Imaginary)}i  lambda={d.MergeLambda.Real.ToString("0.000", Inv)}{Sign(d.MergeLambda.Imaginary)}i  " +
+                              $"{(d.IsSemisimple ? "DIABOLIC (semisimple)" : "defective EP")}  gap={d.Gap.ToString("E2", Inv)} " +
+                              $"loopId={d.LoopIsIdentity} residual={d.PairIsResidual} gap-exponent={d.GapScalingExponent.ToString("0.00", Inv)}");
+
+        var diab = found.Where(d => d.IsSemisimple && d.PairIsResidual).ToList();
+        Console.WriteLine("\n# GATES (zeros_connecting_structure forward edge):");
+        if (diab.Count == 0)
+        {
+            Console.WriteLine("  Q1 EXISTENCE: FAIL-in-region - no semisimple residual diabolic in the scanned region.");
+            Console.WriteLine("     This is the R-1/R-2 generically-EXPECTED outcome at N>=5: a diabolic is codim-3-complex");
+            Console.WriteLine("     (overdetermined by 4 real conditions in a 2-DOF q-scan); the N=4 self-fold that auto-");
+            Console.WriteLine("     satisfied them is gone. NOT a non-existence proof beyond this region+resolution - re-scan");
+            Console.WriteLine($"     wider/finer or escalate to Route B. Defective EPs in region: {found.Count(d => !d.IsSemisimple)}.");
+            return;
+        }
+        Console.WriteLine($"  Q1 EXISTENCE: PASS - {diab.Count} semisimple residual diabolic(s).");
+        foreach (var d in diab)
+        {
+            double dist4 = Math.Abs(d.MergeLambda.Real + 4), distN = Math.Abs(d.MergeLambda.Real + nBlock);
+            string loc = (dist4 < 1e-2 && distN < 1e-2)
+                ? $"Re=-4 = -N: the N=4 TRIPLE COINCIDENCE (AT rung-2 = palindrome centre = self-fold). Expected at path-3."
+                : dist4 < 1e-2
+                ? "ON the AT rung-2 line Re=-4 but NOT the palindrome centre -N. SURPRISE at N>=5 (the self-fold is gone): a residual symmetry must force it - the AT alone does NOT pin a degeneracy to its midline. Next: find that symmetry."
+                : distN < 1e-2 ? $"ON the palindrome centre Re=-N=-{nBlock} (rides the fold, not the AT midline)"
+                : $"NEITHER -4 nor -{nBlock}: a new mechanism sets the location.";
+            Console.WriteLine($"  Q2 LOCATION: q={d.QValue.Real.ToString("0.0000", Inv)}, Re(lambda)={d.MergeLambda.Real.ToString("0.000", Inv)} -> {loc}");
+            Console.WriteLine($"  Q3 CHARACTER: semisimple confirmed (gap-exponent {d.GapScalingExponent.ToString("0.00", Inv)} ~1 linear; identity loop={d.LoopIsIdentity}).");
+        }
     }
 
     // the σ_T fold structure on the residual strands (zeros / within-block twins / cross-block partners) and,
