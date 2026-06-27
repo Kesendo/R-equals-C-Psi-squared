@@ -1,9 +1,12 @@
 #!/bin/sh
-# Warn (non-blocking) if a staged file links a gitignored local-only WIP script
-# simulations/_*.py. Enable once with:  git config core.hooksPath .githooks
+# Warn (non-blocking) about two things in staged files:
+#  1. links to a gitignored local-only WIP script simulations/_*.py
+#  2. an em dash (U+2014) in a repo doc (forbidden + a "quality round never done" tell)
+# Enable once with:  git config core.hooksPath .githooks
 root="$(git rev-parse --show-toplevel)" || exit 0
 if command -v python >/dev/null 2>&1; then PY=python
 elif command -v python3 >/dev/null 2>&1; then PY=python3
 else exit 0; fi
 "$PY" "$root/.githooks/check_wip_refs.py"
+"$PY" "$root/.githooks/check_em_dashes.py"
 exit 0

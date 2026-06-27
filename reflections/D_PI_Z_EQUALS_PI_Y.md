@@ -24,7 +24,7 @@ Verified bit-exact (max |D·Π_Z·D − Π_Y| = 0.000e+00 in numpy double precis
 
 Welle 10d Task 1 (commit `c38d9e5`) added a sparse Pauli-basis representation of L_σ to `F112NonHermitianBasisEnumeration`. The first cut produced sign-flipped results vs the existing dense `BuildLHInPauliBasis`. Root-cause investigation found that the standard codebase pattern combines:
 
-- `PauliBasis.VecToPauliBasisTransform(N)` — a d² × 4^N matrix T whose columns are vec_F(σ_k) (column-major flattening).
+- `PauliBasis.VecToPauliBasisTransform(N)`: a d² × 4^N matrix T whose columns are vec_F(σ_k) (column-major flattening).
 - A vec_R-style commutator superoperator `L_vec = -i · (H ⊗ I − I ⊗ H^T)` (e.g. `LindbladianBuilder.cs`, `PauliDephasingDissipator.cs`, `BondPerturbation.cs`, `PalindromeResidual.cs`, `PiDecomposition.cs`, `F112NonHermitianBasisEnumeration.cs`, used in 11+ places).
 
 Reading T columns as vec_R implicitly maps σ_k ↦ σ_k^T. Single-site σ_I^T = σ_I, σ_X^T = σ_X, σ_Z^T = σ_Z, but σ_Y^T = −σ_Y. Per-string, the implicit transposition multiplies each L_σ matrix entry by `(-1)^(n_Y(row) + n_Y(col))`. So the dense pipeline produces `D · L_natural · D` rather than `L_natural` itself.
@@ -46,7 +46,7 @@ The two differ only by the sign of the i^bit_b phase. Since only Z (bit_b = 1, n
 
 ### (b) Physical
 
-Z-dephasing and Y-dephasing are physically related by a global qubit rotation. On a single qubit, Z = exp(iπ/2 · X) · Y · exp(-iπ/2 · X) (Y is Z conjugated by a 90° X-rotation). At the operator-space level, this rotation lifts to a 4^N × 4^N transformation. The diagonal D = diag((-1)^n_Y(k)) is the simplest version of this lift, because n_Y(k) counts the sites where Z↔Y swap requires a sign correction (Y matrix is antisymmetric while Z is symmetric, so Y^T = −Y while Z^T = +Z).
+Z-dephasing and Y-dephasing are physically related by a global qubit rotation. On a single qubit, Z = exp(−iπ/4 · X) · Y · exp(+iπ/4 · X) (Z is Y conjugated by a 90° X-rotation; the exponent is π/4 because R_X(θ) = exp(−iθX/2), so a 90° rotation carries θ = π/2). At the operator-space level, this rotation lifts to a 4^N × 4^N transformation. The diagonal D = diag((-1)^n_Y(k)) is the simplest version of this lift, because n_Y(k) counts the sites where Z↔Y swap requires a sign correction (Y matrix is antisymmetric while Z is symmetric, so Y^T = −Y while Z^T = +Z).
 
 ### (c) Symmetric
 
@@ -69,13 +69,13 @@ What this gives us: any F1 residual norm / inner product / spectrum computed via
    ```
    (i.e. h fixes I and Y and swaps X ↔ Z in the per-site Pauli basis.)
 
-   No pure diagonal works for Z↔X because Π_Z flips bit_a (I↔X, Z↔Y orbits) while Π_X flips bit_b (I↔Z, X↔Y orbits) — a permutation between the bit-axes is required. The X↔Z basis permutation is the structural bridge: it intertwines the Klein generator (1, 0) (representing X) with (0, 1) (representing Z).
+   No pure diagonal works for Z↔X because Π_Z flips bit_a (I↔X, Z↔Y orbits) while Π_X flips bit_b (I↔Z, X↔Y orbits), so a permutation between the bit-axes is required. The X↔Z basis permutation is the structural bridge: it intertwines the Klein generator (1, 0) (representing X) with (0, 1) (representing Z).
 
    The N-site operators are tensor powers: `D = ⊗_l d_l`, `Q_zx = ⊗_l (h · d_l) = H · D`, `Q_yx = ⊗_l h = H`. Verified bit-exact at N = 1, 2, 3, 4 via [`simulations/klein_dephase_swap_explore.py`](../simulations/klein_dephase_swap_explore.py) (numpy + sympy per-site symbolic).
 
    See [PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md](../docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md).
 
-3. **Typed-claim promotion**: this identity is concrete and verifiable. If it gets cited in 2+ downstream proofs, promote to a typed `Pi2ZYDephaseSwapClaim` (Tier1Derived, parent of any future Z↔Y equivariance proof) in `compute/RCPsiSquared.Core/Symmetry/`. For now, the reflection + verifier script is sufficient repository memory.
+3. **Typed-claim promotion**: CLOSED. Promoted to the typed `Pi2KleinV4DephaseSwapGroup` (Tier1Derived) in `compute/RCPsiSquared.Core/Symmetry/`, which subsumes all three Klein-V₄ dephase swaps (Z↔Y, Z↔X, Y↔X) in one claim rather than a narrow Z↔Y-only claim, and cites this reflection as evidence. (The Y↔X swap the claim calls `H` is the same operator this reflection names `Q_yx`.)
 
 4. **Connection to Klein structure**: CLOSED 2026-05-27 (Welle 12 Task 2). The (Z, X, Y, I) labelling is the Klein four-group V₄. The three non-trivial Klein-V₄ swaps on dephase letters all lift to operator-space involutions, and they form a faithful Klein-V₄ subgroup of the unitary group on the 4^N Pauli basis:
 

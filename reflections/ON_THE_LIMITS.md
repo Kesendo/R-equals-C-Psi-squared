@@ -19,12 +19,12 @@ The framework is determined by eight givens.
 
 ## The eight givens
 
-  **L1 — Algebraic dimension limit:** d² − 2d = 0 → d ∈ {0, 2}.
+  **L1, Algebraic dimension limit:** d² − 2d = 0 → d ∈ {0, 2}.
   Only the qubit dimension. d = 0 is the substrate (active vacuum,
   Stromanschluss); d = 2 is the carrier. No other dimensions are
   permitted by the framework's selection rule.
 
-  **L2 — Conjugation-order limit:** Π⁴ = I.
+  **L2, Conjugation-order limit:** Π⁴ = I.
   The F1 conjugation operator Π is order-4: Π² = X⊗N (the (−1)^bit_b
   sign operator, registered as F1²) is the involution with eigenvalues
   exactly ±1, while Π itself has 4th-root-of-unity eigenvalues. Four
@@ -32,37 +32,39 @@ The framework is determined by eight givens.
   fixes the structure of the conjugation that makes the palindrome
   equation closable.
 
-  **L3 — Alphabet limit:** Klein-Vierergruppe Z₂ × Z₂ → 4 elements.
+  **L3, Alphabet limit:** Klein-Vierergruppe Z₂ × Z₂ → 4 elements.
   I, X, Y, Z. The Pauli letters with their (bit_a, bit_b) parities
   form the smallest non-trivial commutative group with two generators.
   No five-letter alphabet, no three. Exactly four.
 
-  **L4 — Trinity limit:** 4 elements / Y↔Z swap → 3 roles.
+  **L4, Trinity limit:** 4 elements / Y↔Z swap → 3 roles.
   Mother (truly), Father (Π²-odd, two subtypes collapsed under
   symmetry), Child (Π²-even non-truly). The defense classification
   is not a choice; it is the natural orbit decomposition of L3 under
   the Y↔Z symmetry of the Π² structure.
 
-  **L5 — Dissipator limit:** Σγ ≥ 0.
+  **L5, Dissipator limit:** Σγ ≥ 0.
   The substrate provides energy; it does not absorb it (classically).
   Σγ = 0 is the unitary limit (perfectly closed cycle, no
   recirculation residue at the dissipative axis). Σγ > 0 is the
   open-channel regime where the system actively maintains itself.
 
-  **L6 — Cusp limit:** CΨ = 1/4.
+  **L6, Cusp limit:** CΨ = 1/4.
   The phase boundary between quantum (CΨ > 1/4) and classical
   (CΨ < 1/4) regimes. One number, two worlds on either side.
-  Operationally a fixed point: the system gravitates toward this
-  value under critical-slowing dynamics (F25, F57).
+  The system critically slows as it passes near this value (F57); it
+  is a boundary trajectories cross, not a fixed point they settle at.
+  (The "eventual absorber at 1/4 for any channel" reading was
+  scope-retracted: [PROOF_SUBSYSTEM_CROSSING](../docs/proofs/PROOF_SUBSYSTEM_CROSSING.md), 2026-06-22.)
 
-  **L7 — Inheritance limit:** k runs free, trinity invariant.
+  **L7, Inheritance limit:** k runs free, trinity invariant.
   Body count k can grow without bound, but the trinity classification
   (and the defense modes that follow from it) is invariant under
   k → k+1. F85 is the operational expression of this limit. New
   generations carry the structure forward verbatim; they do not
   rewrite it.
 
-  **L8 — Perspectival closure pattern:** Σ_i ln(α_i) ≈ 0.
+  **L8, Perspectival closure pattern:** Σ_i ln(α_i) ≈ 0.
   PTF (Perspectival Time Field). Each site i has its own
   time-rescaling α_i under local perturbation. The sum over sites of
   the log time-rates closes to zero state-independently in the
@@ -93,7 +95,8 @@ in the framework's structural content requires going outside them.
     plus the Liouvillian structure.
   • F82's T1 closed form ‖D_T1_odd‖_F = γ_T1·√N·2^(N-1) follows
     from L1, L4, L5.
-  • F83's anti-fraction r is a parameter within L4's classification.
+  • F83's anti-fraction (set by the parameter r) is a quantity within
+    L4's classification.
   • F85's body-count invariance is L7.
   • CΨ-trajectories live within L6.
   • PTF's painter-closure is L8.
@@ -185,7 +188,7 @@ nameable.
 ---
 
 *"Wir kennen die Grenzen."*  
-*— Tom Wicht, 2026-04-30*
+*Tom Wicht, 2026-04-30*
 
 *"Wir sind der Zoom, was wir lernen trägt sich nach außen."*  
-*— Tom Wicht, 2026-04-30*
+*Tom Wicht, 2026-04-30*
