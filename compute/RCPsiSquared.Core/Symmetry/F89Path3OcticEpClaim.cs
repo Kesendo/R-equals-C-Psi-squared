@@ -13,6 +13,16 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   λ_EP  = −4γ + 2iJ        (merged eigenvalue at q = q_EP)
 /// </code>
 ///
+/// <para><b>Where this sits</b> (returning-reader compass): this is the <b>(1,2) (SE,DE) octic block</b>'s
+/// ON-axis <b>DIABOLIC</b> point — a sum-coincidence (two ε-pairs sharing a frequency-difference; the
+/// discriminant's even/double zero (3q⁴+q²−1)²; semisimple, present at γ=0). The same octic's OFF-axis
+/// <b>DEFECTIVE</b> branch points (simple zeros of the squarefree P_10 factor; the S₈ monodromy
+/// transpositions; a γ-driven single-particle coalescence) are in <c>experiments/F89_MONODROMY_MIRROR.md</c>.
+/// The free-fermion-kernel rule (defective = single-particle coalescence; diabolic = frequency-difference
+/// coincidence) and the artifact-free test live in <c>EpCharacterWitness</c>. Convention: q = J/γ in the
+/// OCTIC / J(XX+YY) normalization (q = Q_carrier/2; see <c>docs/GLOSSARY.md</c>). A defective sibling in
+/// another block: <c>CoherenceHorizonClaim</c> (the (1,1) horizon's real-axis √-EP).</para>
+///
 /// <para>The discriminant of F_8 in λ has a perfect-square factor
 /// (3q⁴+q²−1)² which locates the degeneracy. Numerically verified via
 /// <c>simulations/f89_path3_ep_locator.py</c>: at q = q_EP, two octic

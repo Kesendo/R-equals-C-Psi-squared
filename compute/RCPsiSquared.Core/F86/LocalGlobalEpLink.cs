@@ -51,7 +51,11 @@ namespace RCPsiSquared.Core.F86;
 /// finding here is consistent with that: those are the abundant free-fermion sum-coincidences
 /// (codim-1 by additivity, <c>reference_nonhermitian_diabolic_codimension</c>), not the rare
 /// S_d-generating defective branch points. The defective/diabolic split is read off the
-/// discriminant's squarefree/square factorization — the same object as the Galois parity split.</para>
+/// discriminant's squarefree/square factorization — the same object as the Galois parity split.
+/// This block's OWN real-axis point is NEITHER defective nor diabolic (a non-normal but SIMPLE
+/// eigenvalue, the shadow of an off-axis EP); the defective-vs-diabolic rule (single-particle
+/// coalescence vs frequency-difference coincidence) and the cross-block seam live in
+/// <c>EpCharacterWitness</c> (siblings: <c>CoherenceHorizonClaim</c>, <c>F89Path3OcticEpClaim</c>).</para>
 ///
 /// <para>Block-independent meta-claim: registered at the F86 KB root for any block, not
 /// just c=2 (similar to <see cref="ChiralAiiiClassification"/>). The witnesses pin the

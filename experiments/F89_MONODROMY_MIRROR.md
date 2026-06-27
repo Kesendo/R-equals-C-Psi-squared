@@ -12,6 +12,8 @@ does NOT commute with the monodromy: the Re = −4 fold is not a loop-independen
 **Date:** 2026-06-25
 **Authors:** Thomas Wicht, Claude Opus 4.8 (1M context)
 
+**Where this sits** (returning-reader compass, so the EP-character seam stops tripping us): this is the **(1,2) (SE,DE) octic block**'s **OFF-axis DEFECTIVE** branch points: simple zeros of the squarefree P_10 factor of the λ-discriminant, the S₈ monodromy transpositions, a γ-driven single-particle coalescence (Jordan, √-branch). The same octic's **ON-axis DIABOLIC** point (q≈0.659, the double zero (3q⁴+q²−1)², a sum-coincidence) is `F89Path3OcticEpClaim`. One free-fermion-kernel rule (defective = single-particle coalescence; diabolic = frequency-difference coincidence) and the artifact-free test live in `EpCharacterWitness`. Convention: q = J/γ in the octic / J(XX+YY) normalization (q = Q_carrier/2; see `docs/GLOSSARY.md`). A defective sibling in another block: `CoherenceHorizonClaim` (the (1,1) horizon).
+
 **Notation.** A strand permutation written with square brackets is in one-line (image) form: σ = [a_0 …
 a_7] means strand i ↦ a_i. Round brackets are cycles: (3 4)(5 7) swaps 3↔4 and 5↔7, fixing the rest. So
 [0 1 2 3 4 5 6 7] is the identity, not an 8-cycle. F_8 denotes the degree-8 ("octic") spectral polynomial

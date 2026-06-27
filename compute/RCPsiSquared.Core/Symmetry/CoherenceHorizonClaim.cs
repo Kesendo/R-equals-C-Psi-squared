@@ -3,7 +3,22 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>The coherence horizon Q*(N) (Tier 1 candidate). Q*(N) is the threshold where, sweeping
+/// <summary>The coherence horizon Q*(N) (Tier 1 candidate).
+///
+/// <para><b>Where this sits</b> (returning-reader compass, so the EP-character seams stop tripping us):
+/// this is the <b>(1,1) SE-SE coherence block</b>'s real-axis <b>DEFECTIVE</b> √-EP — a single-particle
+/// ε-pair driven together by γ (a Jordan block, at the rung midpoint Re = −2γ). It is a DIFFERENT pair
+/// from the same block's <b>−4γ DIABOLIC</b> point (a sum-coincidence ε_a−ε_b = ε_c−ε_d, semisimple,
+/// present already at γ=0). One free-fermion-kernel rule covers both: <i>defective</i> = a γ-driven
+/// single-particle coalescence (Jordan, √-branch, at a rung midpoint); <i>diabolic</i> = a
+/// frequency-difference coincidence (semisimple, number-theoretic, at γ=0). The artifact-free test is
+/// <c>EpCharacterWitness</c> / <c>inspect --root epcharacter</c>. Convention: Q = J/γ in the carrier /
+/// (J/2)(XX+YY) normalization (the F89 octic's q = Q/2; see <c>docs/GLOSSARY.md</c> "The coupling ratio
+/// q and Q"). Siblings on the same EP-character seam: <c>F89Path3OcticEpClaim</c> (the (1,2) octic's
+/// on-axis diabolic), <c>experiments/F89_MONODROMY_MIRROR.md</c> (the (1,2) octic's off-axis defective
+/// branch points), <c>F86/LocalGlobalEpLink</c> (the N≥5 (1,2) block, non-normal-simple on axis).</para>
+///
+/// Q*(N) is the threshold where, sweeping
 /// Q = J/γ downward, the slowest non-zero Liouvillian mode stops oscillating (the coherence hand
 /// freezes): Q*(2)=1, Q*(3)=√2, Q*(4)≈1.8787, Q*(5)≈2.3737. The witness verifies these match, bit
 /// for bit, the carbon Frost-Hückel coherent↔incoherent threshold (√2 / 1.879 / 2.372 at N=3/4/5)

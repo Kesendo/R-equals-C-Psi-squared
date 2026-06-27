@@ -17,6 +17,18 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// horizon Q*(N) is a GENUINE defective square-root exceptional point — not the eig-rigidity family
 /// that misfired in the F86a retraction.
 ///
+/// <para><b>The two EP-faces, physically</b> (the free-fermion-kernel rule every EP-character verdict in
+/// the repo shares, stated HERE so the seam stops tripping a returning reader). Both faces are what the
+/// ONE kernel does (single-particle modes ε_k = 2J·cos(πk/(N+1)) on the absorption diagonal −2γ·n_diff):
+/// <b>DEFECTIVE</b> = a single-particle ε-pair driven TOGETHER by γ (a Jordan block; the eigenvalues meet
+/// as √(Q−Q*); sits at a rung midpoint) — e.g. the coherence horizon (1,1) at Re=−2γ, the octic's off-axis
+/// branch points. <b>DIABOLIC</b> = two ε-pairs sharing a frequency-difference ε_a−ε_b = ε_c−ε_d
+/// (semisimple; a number-coincidence of the cosine spectrum; present already at γ=0) — e.g. the octic's
+/// q≈0.659 (<c>F89Path3OcticEpClaim</c>), the (1,1) block's −4γ point. The gate's two toys instantiate
+/// exactly these. Convention seam: q_octic = Q_carrier/2 (see <c>docs/GLOSSARY.md</c> "The coupling ratio
+/// q and Q"). Verdicts on this seam: <c>CoherenceHorizonClaim</c>, <c>F89Path3OcticEpClaim</c>,
+/// <c>experiments/F89_MONODROMY_MIRROR.md</c>, <c>F86/LocalGlobalEpLink</c>.</para>
+///
 /// <para><b>Why this exists.</b> The only EP-character instrument in C# was
 /// <see cref="PhaseRigidity"/>, which reads r = 1/√K off a single <c>Evd(L)</c> — a raw eigenvector
 /// pairing. That family read r → 0 / K huge on a merely near-degenerate, NON-defective spectrum in the
