@@ -272,7 +272,17 @@ public static class OpenArcsRegistry
                 "contaminated by a neighbour EP at the dense path-4 spectrum (identity at r≤0.008, transposition " +
                 "only once the EP enters at r≥0.012; the defective control is transposition down to r=0.002), " +
                 "fixed by reading the small intrinsic loop radius, so all 11 diabolics now classify consistently " +
-                "across loop+character+exponent (regression-tested). Remaining open: the complex-q set is not " +
+                "across loop+character+exponent (regression-tested). INTEGRABILITY CONFIRMED (2026-06-27, the " +
+                "Δ-test, XxzCoherenceBlock + XxzDeltaFlipTests): the synthesis's central claim is now Δ-VERIFIED, " +
+                "not just a grounded reading. An XXZ ZZ-anisotropy Δ≠0 (Hermitian, so the AT rate is untouched; " +
+                "it breaks the additivity E_DE=ε_j+ε_k) KILLS the path-4 diabolics: all 3 tracked (clean " +
+                "0.6407+0.180i, near-real 0.7654+0.024i, far 1.9447+1.217i) flip DEFECTIVE at Δ>0 (geo 2→1, " +
+                "departure ~linear, the N=4 Jordan signature) or LIFT, while a defective-EP control stays " +
+                "defective with ~constant departure (Δ perturbs everything but kills the diabolic CHARACTER " +
+                "specifically). The C# tool reproduces the committed N=4 Δ-flip table (f89_zz_break_gate.py) as " +
+                "its regression gate. So the path-4 diabolics ARE the integrable level-crossings, " +
+                "DIABOLIC_BY_INTEGRABILITY's gate generalized off N=4 (F89_PATH_K_DIABOLIC.md now Tier-1 for the " +
+                "mechanism). Remaining open: the complex-q set is not " +
                 "claimed complete (Route B / exact F_18 discriminant likely infeasible). (b) LOOK IN OTHER " +
                 "REPRESENTATIONS, not radicals: S_8 forbids a radical ladder, NOT every " +
                 "closed form (Bring/theta/hypergeometric exist for any algebraic function); seek the connection in the " +

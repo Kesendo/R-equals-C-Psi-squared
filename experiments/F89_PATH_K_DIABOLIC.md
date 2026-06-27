@@ -1,6 +1,6 @@
 # The Path-k Diabolic at the N=4→N=5 Transition: integrability keeps the crossings, the self-fold placed them on the real axis
 
-**Status:** Tier 2 (computed, gate-validated at path-3; one honest open item below). The instrument reproduces the known path-3 diabolic structure exactly; the path-4 result (diabolics exist but sit at complex q, none at physical real q) is decisive and confirmed by a fine real-axis scan plus a tight zoom. All 15 in-region coalescences classify consistently across three signals (monodromy loop, gap-scaling exponent, EpCharacter): 11 diabolics, 4 defective EPs. The earlier character-vs-loop disagreement on two near-axis pairs was resolved (loop contamination by a neighbour EP at the dense path-4 spectrum, fixed by reading the small intrinsic loop radius). The complex-q set is not claimed complete. The interpretive synthesis (integrability = existence, self-fold = real-axis placement) is a grounded reading, not yet a theorem.
+**Status:** Tier 1 for the integrability mechanism (now Δ-verified, see "The Δ-test" below); Tier 2 for completeness (the full complex-q diabolic count is not claimed). The instrument reproduces the known path-3 diabolic structure exactly; the path-4 result (diabolics exist but sit at complex q, none at physical real q) is decisive and confirmed by a fine real-axis scan plus a tight zoom. All 15 in-region coalescences classify consistently across three signals (monodromy loop, gap-scaling exponent, EpCharacter): 11 diabolics, 4 defective EPs. The earlier character-vs-loop disagreement on two near-axis pairs was resolved (loop contamination by a neighbour EP at the dense path-4 spectrum, fixed by reading the small intrinsic loop radius). The central claim of the synthesis (integrability = existence) is no longer a grounded reading but a Δ-verified result: breaking integrability with an XXZ ZZ-anisotropy Δ≠0 kills the path-4 diabolics (they flip defective or lift), exactly as it flips the N=4 diabolic, while leaving a defective control untouched.
 
 **Date:** 2026-06-27
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
@@ -43,6 +43,21 @@ So **integrability is the symmetry R-2 named**: it auto-satisfies the node condi
 
 This reconciles the surprise with the reviewed prior: **R-1/R-2 (codimension and the self-fold) govern real-axis placement, integrability governs existence.** Both were right about different things. The N=4 "diabolic on the rung-2 line −4 at physical q" was the coincidence of the two; at N=5 they separate, the diabolics scatter in λ and leave the physical axis, and a physicist tuning J/γ meets loud defective EPs where the four-site chain had a silent crossing.
 
+## The Δ-test: integrability confirmed (the diabolics die under XXZ anisotropy)
+
+The synthesis says the diabolics exist *because* the chain is free-fermion integrable. That is now verified, not just read. The decisive test (from [DIABOLIC_BY_INTEGRABILITY](../hypotheses/DIABOLIC_BY_INTEGRABILITY.md), proven at N=4): break integrability with an XXZ ZZ-anisotropy, H(Δ) = J·Σ(XX+YY) + J·Δ·Σ ZZ, and watch the crossing. The ZZ term is Hermitian, so the Absorption Theorem rate is untouched (it enters only the frequency, −i·qΔ·(zz_ket − zz_bra)); what it breaks is the additivity E_DE = ε_j + ε_k that made the inter-sector crossings semisimple.
+
+A new C# (q, Δ) coherence-block ([`XxzCoherenceBlock`](../compute/RCPsiSquared.Diagnostics/Foundation/XxzCoherenceBlock.cs), gate-validated at Δ=0 against the F89 block, and reproducing the committed N=4 Δ-flip table of [`f89_zz_break_gate.py`](../simulations/f89_zz_break_gate.py): Δ=0 diabolic → Δ>0 defective, geo 2→1, departure ~linear) tracks each path-4 diabolic as Δ turns on (`TrackDiabolicUnderDelta`: a 2D q-box re-finds the coalescence, GapRefine resolves the √-cusp, geo vs alg on the refined gap decides DIABOLIC / DEFECTIVE / LIFTED). The result, for three diabolics spanning the range plus a defective control:
+
+| Δ=0 object | Δ=0 | Δ>0 |
+|---|---|---|
+| clean q=0.6407+0.180i | DIABOLIC (geo=alg=2, dep≈0) | DEFECTIVE, dep 0.017 / 0.045 / 0.078 (Δ=0.02 / 0.05 / 0.10) |
+| near-real q=0.7654+0.024i | DIABOLIC | DEFECTIVE, dep 0.032 / 0.105 / 0.143 |
+| far q=1.9447+1.217i | DIABOLIC | DEFECTIVE (0.02, 0.05), LIFTED (0.10) |
+| control: defective EP q=0.9938+0.183i | DEFECTIVE (dep≈0.88) | stays DEFECTIVE, dep≈0.88-0.90 (≈ constant) |
+
+So the instant Δ≠0, every tracked diabolic dies: its geometric multiplicity collapses 2→1 (a Jordan block forms, the departure-from-normality turning on ~linearly in Δ, the N=4 signature), or at larger Δ the degeneracy lifts entirely. The defective control, already non-diabolic, stays defective with a roughly constant departure: Δ perturbs everything, but it kills the diabolic *character* specifically. This is the integrability mechanism confirmed off N=4: the path-4 diabolics are the integrable level-crossings, protected by exactly the free-fermion structure the synthesis named. (The discriminant is geo vs alg, not `EpCharacter.Kind`, which labels a small-departure Jordan block "Normal"; geo<alg is the defect.) Gate-tested in [`XxzDeltaFlipTests`](../compute/RCPsiSquared.Diagnostics.Tests/Foundation/XxzDeltaFlipTests.cs).
+
 ## Resolved during the investigation
 
 - **The two near-axis pairs (q ≈ 0.5915 ± 0.091i, 0.6118 ± 0.012i) ARE true diabolics.** Their EpCharacter and gap-exponent (≈ 1) read diabolic, but the fixed 0.02 monodromy loop read a transposition. A loop-radius sweep settled it: the loop is the **identity at small radius** (r ≤ 0.008) and only becomes a transposition once a neighbouring defective EP enters the annulus (r ≥ 0.012), while a genuinely defective EP (the control at q ≈ 0.9938) is a transposition down to r = 0.002. So it was loop contamination by a dense-spectrum neighbour, not a true defect. The fix reads the candidate's **intrinsic** (small-radius) monodromy; all 11 diabolics now classify loop-identity, consistent with character and exponent. Locked by the `Path4_NearAxisDiabolic_IsLoopIdentity` regression test.
@@ -63,7 +78,7 @@ dotnet run --project compute/RCPsiSquared.Cli -c Release -- pkmono --diabolic --
 dotnet run --project compute/RCPsiSquared.Cli -c Release -- pkmono --diabolic --k 4 --re 0.595,0.63 --im -0.05,0.05 --cell 0.002
 ```
 
-Gate tests: `dotnet test compute/RCPsiSquared.Diagnostics.Tests -c Release --filter "FullyQualifiedName~PathKDiabolicTests"`.
+Gate tests: `dotnet test compute/RCPsiSquared.Diagnostics.Tests -c Release --filter "FullyQualifiedName~PathKDiabolicTests"` (the diabolic finding) and `--filter "FullyQualifiedName~XxzDeltaFlipTests"` (the Δ-test: Δ=0 cross-check, the N=4 Δ-flip reproduction, and the path-4 die-under-Δ gate).
 
 ## See also
 
