@@ -10,14 +10,22 @@ namespace RCPsiSquared.Core.Numerics;
 /// where NN/NNN are its nearest and next-nearest neighbours. ⟨|z|⟩ and ⟨cos arg z⟩ classify the
 /// spectrum: a 2D-Poisson cloud (integrable / symmetry-fragmented) reads ⟨|z|⟩≈0.658, ⟨cos⟩≈0; a
 /// GinUE spectrum (dissipative quantum chaos) reads ⟨|z|⟩≈0.738, ⟨cos⟩≈−0.241 (level repulsion).
-/// The reference classes are produced by the same diagnostic (no hardcoded comparison values).</summary>
+/// The reference classes are produced by the same diagnostic (no hardcoded comparison values).
+///
+/// <para><see cref="ZValues"/> exposes the per-point z's so they can be POOLED across many spectra
+/// (the methodologically correct way to build a CSR statistic over a q-sweep or a disorder ensemble:
+/// compute z within each fixed-parameter spectrum, then pool the dimensionless z's — never concatenate
+/// raw eigenvalues across spectra, which superimposes independent point processes and fakes Poisson).
+/// <see cref="PoissonDiskZValues"/> / <see cref="GinueZValues"/> give the per-point z's of one
+/// finite-size reference draw, so a pool of small draws is a finite-size-matched reference rather than
+/// the asymptotic 0.658 / 0.738.</para></summary>
 public static class ComplexSpacingRatio
 {
-    /// <summary>⟨|z|⟩, ⟨cos arg z⟩, and the distinct-point count over a complex spectrum. Exact
-    /// degeneracies are collapsed first (round to 1e-9): the dephased Liouvillian is massively
-    /// degenerate, and a coincident NN would give a spurious z=0, so the CSR is meaningful only on
-    /// the distinct spectrum. Returns NaN if fewer than 10 distinct points remain.</summary>
-    public static (double meanAbs, double meanCos, int count) Of(IReadOnlyList<Complex> points)
+    /// <summary>Dedup (round to 1e-9) then the per-point z's: for each distinct point, z = (NN−λ)/(NNN−λ).
+    /// Returns the z list (one per point with a non-degenerate NNN denominator) and the distinct-point
+    /// count. The dephased Liouvillian is massively degenerate, and a coincident NN would give a spurious
+    /// z=0, so the CSR is meaningful only on the distinct spectrum.</summary>
+    private static (List<Complex> zs, int distinct) Compute(IReadOnlyList<Complex> points)
     {
         var seen = new HashSet<(long, long)>();
         var pts = new List<Complex>(points.Count);
@@ -26,10 +34,9 @@ public static class ComplexSpacingRatio
                 pts.Add(p);
 
         int n = pts.Count;
-        if (n < 10) return (double.NaN, double.NaN, n);
+        var zs = new List<Complex>(n);
+        if (n < 10) return (zs, n);
 
-        double sumAbs = 0, sumCos = 0;
-        int used = 0;
         for (int k = 0; k < n; k++)
         {
             double d1 = double.PositiveInfinity, d2 = double.PositiveInfinity;
@@ -44,19 +51,30 @@ public static class ComplexSpacingRatio
             if (i2 < 0) continue;
             var denom = pts[i2] - pts[k];
             if (denom.Magnitude > 1e-12)
-            {
-                var z = (pts[i1] - pts[k]) / denom;
-                sumAbs += z.Magnitude;
-                sumCos += Math.Cos(z.Phase);
-                used++;
-            }
+                zs.Add((pts[i1] - pts[k]) / denom);
         }
-        return used == 0 ? (double.NaN, double.NaN, n) : (sumAbs / used, sumCos / used, n);
+        return (zs, n);
     }
 
-    /// <summary>The integrable reference: ⟨|z|⟩, ⟨cos⟩ of a 2D-Poisson cloud (uniform points in the
-    /// unit disk), computed live with a seeded RNG so it is reproducible and never hardcoded.</summary>
-    public static (double meanAbs, double meanCos) PoissonDiskReference(int count, int seed)
+    /// <summary>⟨|z|⟩, ⟨cos arg z⟩, and the distinct-point count over a complex spectrum. Returns NaN if
+    /// fewer than 10 distinct points remain (or none has a valid neighbour ratio).</summary>
+    public static (double meanAbs, double meanCos, int count) Of(IReadOnlyList<Complex> points)
+    {
+        var (zs, distinct) = Compute(points);
+        if (distinct < 10 || zs.Count == 0) return (double.NaN, double.NaN, distinct);
+
+        double sumAbs = 0, sumCos = 0;
+        foreach (var z in zs) { sumAbs += z.Magnitude; sumCos += Math.Cos(z.Phase); }
+        return (sumAbs / zs.Count, sumCos / zs.Count, distinct);
+    }
+
+    /// <summary>The per-point complex spacing ratios z_k over one spectrum (dedup at 1e-9). Empty if
+    /// fewer than 10 distinct points. Pool these across spectra to build a CSR statistic over a q-sweep
+    /// or a disorder ensemble, then bootstrap the pooled list.</summary>
+    public static IReadOnlyList<Complex> ZValues(IReadOnlyList<Complex> points) => Compute(points).zs;
+
+    /// <summary>A 2D-Poisson cloud: uniform points in the unit disk, seeded RNG (reproducible).</summary>
+    private static List<Complex> PoissonDiskCloud(int count, int seed)
     {
         var r = new Random(seed);
         var pts = new List<Complex>(count);
@@ -65,23 +83,43 @@ public static class ComplexSpacingRatio
             double x = 2 * r.NextDouble() - 1, y = 2 * r.NextDouble() - 1;
             if (x * x + y * y <= 1.0) pts.Add(new Complex(x, y));
         }
-        var (a, c, _) = Of(pts);
-        return (a, c);
+        return pts;
     }
 
-    /// <summary>The dissipative-chaos reference: ⟨|z|⟩, ⟨cos⟩ of a GinUE spectrum (eigenvalues of an
-    /// n×n complex Gaussian matrix), via the managed MathNet EVD (no native dependency, as the
-    /// live witnesses use). CSR is scale-invariant, so the entries need no 1/√n normalisation.</summary>
-    public static (double meanAbs, double meanCos) GinueReference(int n, int seed)
+    /// <summary>A GinUE spectrum: eigenvalues of an n×n complex Gaussian matrix (managed MathNet EVD,
+    /// no native dependency). CSR is scale-invariant, so the entries need no 1/√n normalisation.</summary>
+    private static List<Complex> GinueCloud(int n, int seed)
     {
         var r = new Random(seed);
         var m = Matrix<Complex>.Build.Dense(n, n, (_, _) => new Complex(Gauss(r), Gauss(r)));
         var vals = m.Evd().EigenValues;
         var pts = new List<Complex>(n);
         for (int i = 0; i < n; i++) pts.Add(vals[i]);
-        var (a, c, _) = Of(pts);
+        return pts;
+    }
+
+    /// <summary>The integrable reference: ⟨|z|⟩, ⟨cos⟩ of a 2D-Poisson cloud, computed live (never
+    /// hardcoded).</summary>
+    public static (double meanAbs, double meanCos) PoissonDiskReference(int count, int seed)
+    {
+        var (a, c, _) = Of(PoissonDiskCloud(count, seed));
         return (a, c);
     }
+
+    /// <summary>The dissipative-chaos reference: ⟨|z|⟩, ⟨cos⟩ of a GinUE spectrum, computed live.</summary>
+    public static (double meanAbs, double meanCos) GinueReference(int n, int seed)
+    {
+        var (a, c, _) = Of(GinueCloud(n, seed));
+        return (a, c);
+    }
+
+    /// <summary>The per-point z's of one finite-size 2D-Poisson draw, for pooling a finite-size-matched
+    /// reference at the measurement's per-spectrum size.</summary>
+    public static IReadOnlyList<Complex> PoissonDiskZValues(int count, int seed) => ZValues(PoissonDiskCloud(count, seed));
+
+    /// <summary>The per-point z's of one finite-size GinUE draw, for pooling a finite-size-matched
+    /// reference at the measurement's per-spectrum size.</summary>
+    public static IReadOnlyList<Complex> GinueZValues(int n, int seed) => ZValues(GinueCloud(n, seed));
 
     private static double Gauss(Random r)
     {
