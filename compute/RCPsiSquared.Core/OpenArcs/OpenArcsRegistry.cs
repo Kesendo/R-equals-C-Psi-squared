@@ -133,11 +133,18 @@ public static class OpenArcsRegistry
                 "(integrable, pure imaginary). Is the AT-locked/H_B-mixed split present at all gamma>0, or does the " +
                 "writable fraction move with how hard you watch? Map deg(F_d)/deg(AT) or the discriminant loci across " +
                 "q. Speculative, Tier-3. " +
-                "(C) GALOIS <-> SPECTRAL CHAOS (RMT). Is S_d the algebraic face of Liouvillian level-repulsion? Does " +
-                "the H_B-mixed F_d sector carry Ginibre/GOE statistics while the AT-locked half is picket-fence, in " +
-                "the SAME sub-block? Repo has the RMT tools (rmt_eigenvalues, spectral form factor). First move: " +
-                "extract F_d-sector eigenvalues across q, run the existing SFF / NN-spacing analysis vs the AT-locked " +
-                "sector. " +
+                "(C) GALOIS <-> SPECTRAL CHAOS (RMT). [RESOLVED 2026-06-27, a clean NULL] Is S_d the algebraic face " +
+                "of Liouvillian level-repulsion? NO, not at fixed q. The galoischaos witness (inspect --root " +
+                "galoischaos, GaloisSpectralChaosWitness) splits the (SE,DE) block into AT-locked vs H_B-mixed and " +
+                "runs the complex spacing ratio (Sa-Ribeiro-Prosen) pooled over q: the H_B-mixed S_d half reads " +
+                "Poisson-like/sub-Poisson (NOT GinUE), and the AT-locked half is the sparse picket-fence (low <|z|>, " +
+                "structured) -- both halves non-GinUE. Integrability protects the fixed-q spectrum; the global Poisson " +
+                "reading (RANDOM_MATRIX_THEORY.md) and the within-sector GOE hint (now resolved as a small-sample " +
+                "artifact, simulations/rmt_goe_hint_verdict.py) agree. ALGEBRAIC chaos (Galois over q) and SPECTRAL " +
+                "chaos (RMT at fixed q) are DISTINCT here. The genuinely-open SEQUEL the witness itself names: where " +
+                "S_d DOES live spectrally is the q-PARAMETRIC monodromy/braid (the discriminant/EP loci, --root " +
+                "galoismonodromy); and the still-unposed question is whether BREAKING integrability (Delta, NNN, a " +
+                "field) merges the two by driving the fixed-q CSR Poisson->Ginibre as the diabolics turn defective. " +
                 "(D) GALOIS ATLAS of physical spectra. F89 chains = S_n; SIC-POVM spectral polynomials (Appleby 2012) " +
                 "= solvable, opposite polarity at the same physics/number-theory seam. Collect which physical " +
                 "spectral polynomials are solvable vs S_n via the reusable engine (we_are_ahead_at_the_seam). Lowest " +
