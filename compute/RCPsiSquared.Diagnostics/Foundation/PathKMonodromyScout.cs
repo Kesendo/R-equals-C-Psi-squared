@@ -378,6 +378,23 @@ public static class PathKMonodromyScout
         return result;
     }
 
+    /// <summary>The full EpCharacter reading of the path-k residual block at (q, λ): the load-bearing
+    /// discriminant (R-3) that separates a genuine DIABOLIC (semisimple, geo=alg, departure≈0) from a
+    /// DEFECTIVE EP (Jordan block, geo&lt;alg) and from an avoided crossing (an identity loop alone cannot).
+    /// Reuses the Riesz-projector classifier on the full block M=(A+qC)/2; <paramref name="radius"/> must
+    /// enclose only the cluster at λ. The standalone entry point behind FindDiabolics' IsSemisimple.</summary>
+    public static EpCharacter.Reading CharacterizeAt(int k, Complex q, Complex lambda, double radius = 0.1)
+    {
+        var (a, c) = BuildLinear(k + 1);
+        return EpCharacter.Characterize(BlockAt(a, c, q), lambda, radius);
+    }
+
+    /// <summary>True iff the path-k residual block has a SEMISIMPLE (diabolic) repeated eigenvalue at (q, λ):
+    /// EpCharacter reads Diabolic (eigenvectors stay independent). False for a defective EP or a simple
+    /// eigenvalue. See <see cref="CharacterizeAt"/>.</summary>
+    public static bool IsSemisimpleAt(int k, Complex q, Complex lambda, double radius = 0.1)
+        => CharacterizeAt(k, q, lambda, radius).Kind == EpCharacter.EpKind.Diabolic;
+
     public sealed record ScanResult(
         int K, int NBlock, int BlockDim, int ResidualDim, int AtDim, Complex Q0,
         Complex[] ResidualRoots, IReadOnlyList<(Complex Q, int A, int B, int[] MovedResidual)> Eps,

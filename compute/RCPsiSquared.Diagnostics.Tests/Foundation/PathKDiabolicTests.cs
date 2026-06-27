@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Numerics;
+using RCPsiSquared.Core.Numerics;
 using RCPsiSquared.Diagnostics.Foundation;
 using Xunit;
 
@@ -44,5 +45,26 @@ public class PathKDiabolicTests
         // gap closes LINEARLY at a diabolic (two sheets crossing) — exponent ≈ 1, not ½ (√-branch).
         Assert.True(d.GapScalingExponent > 0.7 && d.GapScalingExponent < 1.3,
             $"gap-scaling exponent {d.GapScalingExponent} should be ≈1 (linear) for a diabolic");
+    }
+
+    // Task 3 — the standalone character discriminant. At the path-3 diabolic (q_EP, λ_EP=−4+2iJ) the
+    // residual block is SEMISIMPLE (geo=alg=2, departure≈0, no Jordan block), reproducing F89Path3OcticEpClaim;
+    // a generic isolated eigenvalue is NOT a semisimple degeneracy. This is the R-3 load-bearing test.
+    [Fact]
+    public void CharacterizeAt_Path3_DiabolicAtQEp_NotAtGenericPoint()
+    {
+        double qEp = GaloisMonodromyWitness.QEp;
+        var lamEp = new Complex(-4, 2 * qEp);                       // −4 + 2iJ, J = q_EP·γ (γ=1)
+        var rd = PathKMonodromyScout.CharacterizeAt(3, new Complex(qEp, 0), lamEp, radius: 0.1);
+        Assert.Equal(EpCharacter.EpKind.Diabolic, rd.Kind);
+        Assert.Equal(2, rd.Algebraic);
+        Assert.Equal(2, rd.Geometric);
+        Assert.True(rd.Departure < 1e-6, $"departure {rd.Departure} should be ≈0 for a diabolic (no Jordan block)");
+        Assert.True(PathKMonodromyScout.IsSemisimpleAt(3, new Complex(qEp, 0), lamEp));
+
+        // negative control: a generic isolated octic eigenvalue at q=2 is not a semisimple degeneracy.
+        var generic = GaloisMonodromyWitness.OcticRootsAt(new Complex(2, 0))[0];
+        Assert.NotEqual(EpCharacter.EpKind.Diabolic, PathKMonodromyScout.CharacterizeAt(3, new Complex(2, 0), generic, radius: 0.05).Kind);
+        Assert.False(PathKMonodromyScout.IsSemisimpleAt(3, new Complex(2, 0), generic, radius: 0.05));
     }
 }
