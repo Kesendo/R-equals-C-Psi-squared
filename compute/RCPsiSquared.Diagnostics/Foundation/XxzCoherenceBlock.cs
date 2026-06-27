@@ -120,4 +120,44 @@ public static class XxzCoherenceBlock
     /// F89Path3OcticBlock.BuildSeDeSymBlock(q, 1)'s spectrum (the trusted XY anchor).</summary>
     public static Complex[] SeDeSymSpectrum(int n, Complex q, double delta)
         => BuildSym(n, q, delta).Evd().EigenValues.ToArray();
+
+    /// <summary>The character (diabolic / defective / …) of a coalescence in the symmetric (SE,DE) sector at
+    /// (q, Δ, λ): the load-bearing semisimplicity discriminant (EpCharacter Riesz projector). Geometric=
+    /// Algebraic ∧ Departure≈0 ⟹ Diabolic (semisimple); Geometric&lt;Algebraic ⟹ Defective (Jordan).</summary>
+    public static EpCharacter.Reading CharacterAt(int n, Complex q, double delta, Complex lambda, double radius)
+        => EpCharacter.Characterize(BuildSym(n, q, delta), lambda, radius);
+
+    /// <summary>One Δ-track datum: the character of the coalescence nearest qSeed at this Δ, with the
+    /// refined q*, the merge λ*, and the min gap. <paramref name="gap"/> &gt; liftTol ⟹ the degeneracy has
+    /// LIFTED (no EP nearby); otherwise Kind/Geometric/Departure read defective-vs-diabolic.</summary>
+    public readonly record struct DeltaFlipReading(
+        EpCharacter.EpKind Kind, int Algebraic, int Geometric, double Departure, double ProjectorNorm,
+        Complex QStar, Complex LambdaStar, double Gap);
+
+    /// <summary>Re-locate the coalescence nearest qSeed at this Δ (GapRefine on the symmetric-sector min-gap,
+    /// since Δ shifts the diabolic) and characterize it with an adaptive radius (enclosing only the pair).
+    /// The Δ&gt;0 datum of the flip test: at the N=4 q_EP this reads DIABOLIC at Δ=0 and DEFECTIVE at Δ&gt;0
+    /// (the committed f89_zz_break_gate.py table). <paramref name="lambdaSeed"/> is the expected merge λ
+    /// (advisory; the refiner finds the coalescence by gap).</summary>
+    public static DeltaFlipReading CharacterAtDiabolicNear(
+        int n, double delta, Complex qSeed, Complex lambdaSeed, double cell = 0.01)
+    {
+        Func<Complex, Complex[]> roots = qq => SeDeSymSpectrum(n, qq, delta);
+        var qd = PathKMonodromyScout.GapRefine(roots, qSeed, cell);
+        var spec = roots(qd);
+        int ai = 0, bi = 1; double best = double.PositiveInfinity;
+        for (int i = 0; i < spec.Length; i++)
+            for (int j = i + 1; j < spec.Length; j++)
+            {
+                double g = (spec[i] - spec[j]).Magnitude;
+                if (g < best) { best = g; ai = i; bi = j; }
+            }
+        var mid = (spec[ai] + spec[bi]) / 2;
+        double distOther = double.PositiveInfinity;
+        for (int i = 0; i < spec.Length; i++)
+            if (i != ai && i != bi) distOther = Math.Min(distOther, (spec[i] - mid).Magnitude);
+        double radius = Math.Clamp(0.4 * distOther, 0.05, 0.5);
+        var r = EpCharacter.Characterize(BuildSym(n, qd, delta), mid, radius);
+        return new DeltaFlipReading(r.Kind, r.Algebraic, r.Geometric, r.Departure, r.ProjectorNorm, qd, mid, best);
+    }
 }

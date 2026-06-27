@@ -36,4 +36,30 @@ public class XxzDeltaFlipTests
         var f89 = SpectrumOf(F89Path3OcticBlock.BuildSeDeSymBlock(2.0, 1.0));   // (j=2, γ=1)
         AssertSameSpectrum(xxz, f89, 1e-9);
     }
+
+    // ΔTask 2 / Gate A — the C# (q,Δ) tooling MUST reproduce the committed N=4 Δ-flip table
+    // (DIABOLIC_BY_INTEGRABILITY.md:32-39 / f89_zz_break_gate.py): Δ=0 diabolic (g1=2, dep≈0) → Δ>0 defective
+    // (g1=1, dep≈0.022 at Δ=0.02, ≈0.112 at Δ=0.10). The quantitative dep-bands are the only guard on the ZZ
+    // convention (R-3) — keep them (a 4× ZZ error still flips qualitatively but misses the dep calibration).
+    [Fact]
+    public void N4_DeltaFlip_ReproducesCommittedTable()
+    {
+        double qEp = GaloisMonodromyWitness.QEp;                 // = sqrt((-1+sqrt13)/6) ≈ 0.658983
+        var lamEp = new Complex(-4, 2 * qEp);                    // −4γ + 2iJ
+        // The load-bearing discriminant is geo vs alg (R-3), NOT EpCharacter.Kind: Kind labels a small-dep
+        // Jordan block (geo<alg but dep/‖A‖<1e-2) as "Normal", masking the defect. geo<alg IS defective.
+        var r0 = XxzCoherenceBlock.CharacterAtDiabolicNear(4, 0.0, new Complex(qEp, 0), lamEp);
+        Assert.Equal(2, r0.Algebraic);
+        Assert.Equal(2, r0.Geometric);                          // geo==alg ⟹ DIABOLIC (semisimple)
+        Assert.True(r0.Departure < 1e-6, $"Δ=0 departure {r0.Departure} should be ≈0");
+
+        var r2 = XxzCoherenceBlock.CharacterAtDiabolicNear(4, 0.02, new Complex(qEp, 0), lamEp);
+        Assert.Equal(2, r2.Algebraic);
+        Assert.Equal(1, r2.Geometric);                          // geo<alg ⟹ DEFECTIVE (Jordan)
+        Assert.InRange(r2.Departure, 0.012, 0.030);             // table: 0.022 (mine 0.018, locator-shifted q*)
+
+        var r10 = XxzCoherenceBlock.CharacterAtDiabolicNear(4, 0.10, new Complex(qEp, 0), lamEp);
+        Assert.Equal(1, r10.Geometric);
+        Assert.InRange(r10.Departure, 0.08, 0.15);              // table: 0.112
+    }
 }
