@@ -7,10 +7,11 @@ sector universality class, Heisenberg dephasing RMT analysis,
 R=CPsi2 random matrix theory -->
 
 **Status:** Computationally verified (N=2-7, 21,832 eigenvalues, Heisenberg chain)
-**Date:** April 1, 2026
+**Date:** April 1, 2026 (updated June 27, 2026: the within-sector GOE hint is resolved as a small-sample artifact, Result 3)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Scripts:** compute/RCPsiSquared.Compute (C# eigenvalue export),
-[`simulations/rmt_analysis.py`](../simulations/rmt_analysis.py) (Python spacing analysis)
+[`simulations/rmt_analysis.py`](../simulations/rmt_analysis.py) (Python spacing analysis),
+[`simulations/rmt_goe_hint_verdict.py`](../simulations/rmt_goe_hint_verdict.py) (sector GOE-hint verdict: bootstrap + larger-N)
 
 ---
 
@@ -21,10 +22,11 @@ chaotic or integrable, using the standard diagnostic from random matrix
 theory: the spacing ratio between consecutive eigenvalues. The answer:
 the spectrum is Poisson (integrable, eigenvalues cluster rather than
 repel), confirming that the palindromic symmetry provides enough
-conserved quantities to fully determine the spectrum. Within individual
-weight sectors there are preliminary hints of GOE-like level repulsion,
-suggesting a possible integrable-to-chaotic transition at finer
-resolution.
+conserved quantities to fully determine the spectrum. An early small-N
+read hinted at GOE-like repulsion within individual weight sectors, but
+driving it to a verdict (bootstrap + larger samples) shows it was
+small-sample noise: the sectors are integrable too, with no chaotic
+transition (Result 3).
 
 ---
 
@@ -41,10 +43,13 @@ converges to ⟨r⟩ = 0.36-0.39, consistent with the Poisson value
 constraint creates an exactly integrable spectral structure: the
 Liouvillian decomposes into non-interacting sectors that prevent
 eigenvalue repulsion. The chiral symmetry (centered spectrum has
-exact ± pairing) is confirmed to machine precision. Preliminary
-sector-resolved analysis at N=5 shows hints of GOE-like repulsion
-(⟨r⟩ = 0.513) within individual weight sectors, suggesting a possible
-integrable-to-chaotic transition parametrized by XY-weight.
+exact ± pairing) is confirmed to machine precision. An early
+sector-resolved read at N=5 showed an apparent GOE-like ⟨r⟩ = 0.513
+within individual weight sectors; driven to a verdict it is a
+small-sample artifact (the n=15 value is a 1.5σ Poisson fluctuation, and
+the same sectors read Poisson/sub-Poisson at N=6-7 with hundreds of
+frequencies). There is no integrable-to-chaotic transition: the spectrum
+is integrable at every sector and every tested N.
 
 ---
 
@@ -185,10 +190,10 @@ system.
 
 ---
 
-## Result 3: Hints of GOE Within Sectors (Preliminary)
+## Result 3: The Within-Sector GOE Hint, Resolved (Artifact)
 
-Within individual XY-weight sectors, frequencies (not rates) show
-different statistics:
+Within individual XY-weight sectors, frequencies (not rates) were measured
+with the spacing ratio ⟨r⟩. An early small-N read looked GOE-like:
 
 | N | Sector | Unique freq | ⟨r⟩ | Class |
 |---|--------|-------------|-----|-------|
@@ -196,19 +201,39 @@ different statistics:
 | 5 | w=2 | 15 | 0.513 | GOE |
 | 5 | w=3 | 15 | 0.513 | GOE |
 
-**Caveat:** sample sizes are small (15-41 frequencies). These results
-are preliminary and need confirmation at larger N.
+**This hint is an artifact of small sample size.** It was driven to a verdict
+in [`simulations/rmt_goe_hint_verdict.py`](../simulations/rmt_goe_hint_verdict.py)
+(reproduce + bootstrap + extend to N=6-7):
 
-If confirmed, this would be **Result C from the task prediction**: an
-integrable-to-chaotic transition parametrized by XY-weight. The global
-spectrum is Poisson (many non-interacting sectors), but within the
-larger sectors (w near N/2), the Hamiltonian mixing creates enough
-coupling to produce GOE-like repulsion.
+1. **The two "GOE" rows are one sample, not two.** At N=5, w=2 and w=N−2=3 are
+   palindromic partners with identical frequency content (the F43 sector pairing
+   K_freq(w,t) = K_freq(N−w,t)), so they read identically (0.513 on the same 15
+   frequencies). There was never an independent second sector.
 
-The w=1 sector has only N-1 frequencies (the dispersion relation from
-F2), which is too few for RMT statistics at any tested N. The
-w=1 sector IS integrable (exact tight-binding dispersion), so Poisson
-is expected there.
+2. **0.513 on 15 frequencies is a Poisson fluctuation.** The Poisson sampling
+   band for ⟨r⟩ at n=15 (Monte Carlo over a homogeneous Poisson process, same
+   spacing-ratio statistic) is 0.386 ± 0.087, with [5%, 95%] = [0.245, 0.533].
+   The observed 0.513 sits inside the band; the one-sided p(Poisson ≥ 0.513) =
+   0.076, a ~1.5σ upward fluctuation, not significant.
+
+3. **Larger samples read Poisson, not GOE.** The decay rate assigns the weight
+   exactly (rate = 2wγ, by the Absorption Theorem), so the sectors can be read
+   off the full Liouvillian spectrum at N=6-7 with no eigenvectors and no extra
+   memory (this is the obstacle the original write-up wrongly thought blocked the
+   check). The same sector then has hundreds of frequencies: N=6 w=3 (546 freq)
+   → ⟨r⟩ = 0.272, N=7 w=3,4 (414 freq) → 0.283. The reading does not approach
+   GOE (0.536); it converges to Poisson and below (sub-Poisson = level
+   clustering, the opposite of repulsion, the signature of a strongly degenerate
+   integrable additive spectrum, consistent with the N=4 w=2 row). The tiny
+   w=1 / w=N−1 sectors (5-6 frequencies) throw a spurious "GUE" ⟨r⟩ > 0.79,
+   plainly small-sample noise.
+
+**Verdict: no within-sector chaos.** The system is integrable at every sector
+and every tested N; the earlier GOE hint was small-sample noise. This matches
+the global Poisson result above and the sector-resolved non-Hermitian test (the
+`galoischaos` witness, `inspect --root galoischaos`), which independently reads
+the Galois-S_n half of the (SE,DE) block Poisson-like / sub-Poisson, not
+Ginibre.
 
 ---
 
@@ -226,23 +251,22 @@ the C# eigenvalue export is producing physically valid spectra.
 
 ## What This Does Not Answer
 
-1. **Sector-resolved statistics at large N.** The preliminary GOE
-   signal at N=5 (w=2,3) needs confirmation at N=6-7 where the
-   sectors are larger. This requires eigenvector analysis (to assign
-   weights), which is memory-intensive.
+The sector GOE question that earlier topped this list (does the
+within-sector ⟨r⟩ approach GOE/GUE as N grows?) is now resolved in
+Result 3: it does not, the sectors stay integrable. Two genuinely open
+items remain.
 
-2. **Comparison with Denisov lemon shape.** The complex-plane density
+1. **Comparison with Denisov lemon shape.** The complex-plane density
    of random Lindbladians (Denisov et al., PRL 2019) has a specific
    "lemon" shape (the characteristic boundary curve of eigenvalue density for structureless random Lindbladians). Our palindromic constraint modifies this. A
    quantitative comparison needs the 2D density, not just 1D rates.
 
-3. **Topological dependence.** All results use chain topology. Star,
-   ring, and complete topologies may show different statistics
-   (the C# engine supports all of these).
-
-4. **Finite-size scaling of sector ⟨r⟩.** Does the within-sector ⟨r⟩
-   approach GOE/GUE as N grows? Or does it stay Poisson? This is the
-   most important open question from this analysis.
+2. **Topological dependence.** All results above use chain topology. Star,
+   ring, and complete topologies were since surveyed with the complex
+   spacing ratio in `simulations/rmt_topology_csr.py` (chain reads clean
+   2D-Poisson; the symmetric topologies fragment into too few distinct
+   levels for non-Hermitian RMT). A full sector-resolved comparison across
+   topologies is still open.
 
 ---
 
