@@ -36,6 +36,12 @@ public static class PathKMonodromyScanCommand
             return 0;
         }
 
+        if (p.HasFlag("delta-flip"))   // the integrability test: does XXZ Delta kill the diabolic?
+        {
+            PrintDeltaFlip(k, p.OptionalString("q"), p.OptionalString("lam"), p.OptionalString("deltas"));
+            return 0;
+        }
+
         var r = PathKMonodromyScout.Scan(k, reLo, reHi, imLo, imHi, cell, new Complex(q0re, q0im));
 
         Console.WriteLine($"# path-{r.K} (N_block={r.NBlock}): block dim {r.BlockDim} = AT {r.AtDim} + residual F_{r.ResidualDim}");
@@ -67,6 +73,36 @@ public static class PathKMonodromyScanCommand
 
         PrintFoldStructure(r);
         return 0;
+    }
+
+    // the integrability test: track a path-k diabolic as XXZ anisotropy Δ turns on. H(Δ)=J(XX+YY)+JΔ·ZZ;
+    // the ZZ is Hermitian so the AT rate is untouched, but it breaks the additivity that makes the crossing
+    // semisimple. A true (integrable) diabolic flips DEFECTIVE (geo 2->1) or LIFTS at Δ>0; a defective EP
+    // (control) just drifts. Reproduces the committed N=4 table with --k 3 --q 0.658983,0 --lam -4,1.318.
+    private static void PrintDeltaFlip(int k, string? qStr, string? lamStr, string? deltasStr)
+    {
+        int n = k + 1;
+        var (qre, qim) = Pair(qStr ?? "0.6407,0.180");
+        var (lre, lim) = Pair(lamStr ?? "-4.077,-1.115");
+        var deltas = (deltasStr ?? "0,0.02,0.05,0.1,0.2,0.5").Split(',').Select(s => double.Parse(s, Inv)).ToArray();
+        var q0 = new Complex(qre, qim); var lam0 = new Complex(lre, lim);
+
+        Console.WriteLine($"\n# DELTA-FLIP path-{k} (N={n}): track the coalescence at q={qre.ToString("0.####", Inv)}{Sign(qim)}i, " +
+                          $"lambda={lre.ToString("0.###", Inv)}{Sign(lim)}i under XXZ anisotropy Delta");
+        Console.WriteLine("# H(D) = J(XX+YY) + J*D*ZZ; ZZ Hermitian => AT rate untouched; additivity broken => an integrable diabolic dies");
+        Console.WriteLine("  Delta   verdict     alg geo    dep       gap        q*");
+        bool diabolicAt0 = false, survivesAtPositive = false;
+        foreach (var d in deltas)
+        {
+            var t = XxzCoherenceBlock.TrackDiabolicUnderDelta(n, q0, lam0, d);
+            if (d == 0 && t.Verdict == XxzCoherenceBlock.DeltaFlipVerdict.Diabolic) diabolicAt0 = true;
+            if (d > 0 && t.Survived) survivesAtPositive = true;
+            Console.WriteLine($"  {d.ToString("0.###", Inv),5}  {t.Verdict,-9}  {t.Algebraic}   {t.Geometric}   " +
+                              $"{t.Departure.ToString("0.0000", Inv),8}  {t.Gap.ToString("E2", Inv)}  " +
+                              $"{t.QStar.Real.ToString("0.0000", Inv)}{Sign(t.QStar.Imaginary)}i");
+        }
+        Console.WriteLine($"\n# GATE: diabolic at Delta=0? {(diabolicAt0 ? "YES" : "NO")};  survives at Delta>0? " +
+                          $"{(survivesAtPositive ? "YES -> refutes integrability-protection" : "NO -> defects/lifts => integrability-protected (DIABOLIC_BY_INTEGRABILITY's gate, off N=4)")}");
     }
 
     // the diabolic hunt (Q1-Q3 of the forward-edge plan): find the residual's coalescences, classify each

@@ -117,6 +117,8 @@ public static class Program
         Console.WriteLine("              args: [--k 3] [--re lo,hi] [--im lo,hi] [--cell d] [--q0 2,0]   (path-3 S_8, path-4 S_18)");
         Console.WriteLine("              --diabolic: hunt the residual's DIABOLIC points (gap-minima with an identity loop) and");
         Console.WriteLine("                    classify each (semisimple vs defective), Re vs -4 (AT rung-2) vs -N (palindrome centre)");
+        Console.WriteLine("              --delta-flip [--q re,im] [--lam re,im] [--deltas 0,0.02,..]: track a diabolic under XXZ");
+        Console.WriteLine("                    anisotropy Delta; an integrable diabolic flips defective/lifts (--k 3 reproduces N=4)");
         Console.WriteLine();
         Console.WriteLine("  assembly    play the locked picture through a Q-sweep (depth=light=rate, parity rung,");
         Console.WriteLine("              Absorption cross-check, per-site carrier, birth-canal/sterile, saturation)");
