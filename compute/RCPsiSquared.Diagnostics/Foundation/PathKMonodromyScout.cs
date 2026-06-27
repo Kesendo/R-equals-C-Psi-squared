@@ -216,6 +216,168 @@ public static class PathKMonodromyScout
         return c;
     }
 
+    // ---- the diabolic hunt (the N=4→N=5 forward edge): gap-minima that DON'T braid (identity loop) ----
+
+    /// <summary>A coalescence found by <see cref="FindDiabolics"/>. QValue = q* where two strands meet,
+    /// MergeLambda = their midpoint λ_d; IsSemisimple = EpCharacter reads Diabolic (geo=alg, departure≈0,
+    /// NOT a Jordan block); LoopIsIdentity = a small q-loop about q* braids nothing (necessary-not-sufficient
+    /// for diabolic, R-3); Gap = refined min gap; GapScalingExponent = the gap's power-law in |q−q*|
+    /// (≈1 linear ⟹ two sheets crossing ⟹ diabolic; ≈½ ⟹ defective √-branch); PairIsResidual = both
+    /// coalescing strands are H_B-mixed residual (not AT-locked), tested by continuity from q=2.</summary>
+    public sealed record DiabolicPoint(
+        Complex QValue, Complex MergeLambda, bool IsSemisimple, bool LoopIsIdentity,
+        double Gap, double GapScalingExponent, bool PairIsResidual);
+
+    private static double MinGap(Complex[] r)
+    {
+        double m = double.PositiveInfinity;
+        for (int i = 0; i < r.Length; i++)
+            for (int j = i + 1; j < r.Length; j++)
+                m = Math.Min(m, (r[i] - r[j]).Magnitude);
+        return m;
+    }
+
+    private static Matrix<Complex> BlockAt(Complex[,] a, Complex[,] c, Complex q)
+    {
+        int d = a.GetLength(0);
+        return Matrix<Complex>.Build.Dense(d, d, (r, s) => (a[r, s] + q * c[r, s]) / 2);
+    }
+
+    // gradient-free descent on the min-gap field toward a local coalescence q*.
+    private static Complex GapRefine(Func<Complex, Complex[]> roots, Complex c, double cell)
+    {
+        double half = cell / 2, curGap = MinGap(roots(c));
+        for (int it = 0; it < 40 && half > 1e-8; it++)
+        {
+            Complex best = c; double bestGap = curGap; bool moved = false;
+            foreach (var off in new[]
+            {
+                new Complex(half, 0), new Complex(-half, 0), new Complex(0, half), new Complex(0, -half),
+                new Complex(half, half), new Complex(half, -half), new Complex(-half, half), new Complex(-half, -half),
+            })
+            {
+                double g = MinGap(roots(c + off));
+                if (g < bestGap) { bestGap = g; best = c + off; moved = true; }
+            }
+            if (moved) { c = best; curGap = bestGap; } else half /= 2;
+        }
+        return c;
+    }
+
+    // classify the coalescing pair at q* by tracking the FULL block from q0=2 by continuity (R-4b/R-7): the
+    // residual SET is monodromy-invariant (F_AT·F_residual are distinct factors, AT strands single-valued),
+    // so SET membership survives any label permutations on the path. Returns whether the pair is
+    // residual-residual, the merge λ (midpoint), and a λ-radius that encloses ONLY the pair.
+    private static (bool pairIsResidual, Complex mergeLambda, double charRadius) ClassifyPair(
+        Func<Complex, Complex[]> roots, Complex q0, Complex qd, HashSet<int> residualSet, int steps = 400)
+    {
+        var path = new Complex[steps + 1];
+        for (int s = 0; s <= steps; s++) path[s] = q0 + (qd - q0) * ((double)s / steps);
+        var traj = Monodromy.TrajectoryAlongPath(roots, path);
+        var final = traj[steps];                       // final[startLabel] = position at q*
+
+        int ai = 0, bi = 1; double best = double.PositiveInfinity;
+        for (int i = 0; i < final.Length; i++)
+            for (int j = i + 1; j < final.Length; j++)
+            {
+                double g = (final[i] - final[j]).Magnitude;
+                if (g < best) { best = g; ai = i; bi = j; }
+            }
+        bool pairResidual = residualSet.Contains(ai) && residualSet.Contains(bi);
+        var mid = (final[ai] + final[bi]) / 2;
+        double distOther = double.PositiveInfinity;     // nearest non-pair strand → enclosing radius
+        for (int i = 0; i < final.Length; i++)
+            if (i != ai && i != bi) distOther = Math.Min(distOther, (final[i] - mid).Magnitude);
+        double radius = Math.Clamp(0.4 * distOther, 0.01, 0.5);
+        return (pairResidual, mid, radius);
+    }
+
+    // the gap's power-law exponent approaching q* along +Re q: gap ∝ |t|^p, p≈1 diabolic / p≈½ defective.
+    private static double GapScalingExponent(Func<Complex, Complex[]> roots, Complex qd)
+    {
+        var ts = new[] { 0.02, 0.01, 0.005, 0.0025, 0.00125 };
+        var xs = new List<double>(); var ys = new List<double>();
+        foreach (var t in ts)
+        {
+            double g = MinGap(roots(qd + new Complex(t, 0)));
+            if (g > 1e-13) { xs.Add(Math.Log(t)); ys.Add(Math.Log(g)); }
+        }
+        if (xs.Count < 2) return double.NaN;
+        double mx = xs.Average(), my = ys.Average(), num = 0, den = 0;
+        for (int i = 0; i < xs.Count; i++) { num += (xs[i] - mx) * (ys[i] - my); den += (xs[i] - mx) * (xs[i] - mx); }
+        return den == 0 ? double.NaN : num / den;
+    }
+
+    /// <summary>Find the path-k residual's DIABOLIC points: the gap-minima that pkmono's EP finder discards
+    /// (their monodromy loop is the identity). Scans the q-region for full-block min-gap dips, refines each,
+    /// and classifies it from below — pair-is-residual (continuity from q=2), identity-loop, gap-scaling
+    /// exponent, and the EpCharacter verdict (Diabolic vs Defective). The N=4→N=5 forward-edge instrument:
+    /// at path-3 it must re-find q_EP at λ=−4+iJ·2; at path-k≥4 it answers whether a within-block diabolic
+    /// survives once the self-fold is gone (R-1/R-2 predict it generically does NOT). The q=0 super-branch is
+    /// masked per-k (default 0.20, NOT the octic's path-3 0.18). Returns ALL coalescences with refined gap
+    /// below <paramref name="gapTol"/>; the caller filters IsSemisimple for genuine diabolics.</summary>
+    public static List<DiabolicPoint> FindDiabolics(int k, double reLo, double reHi, double imLo, double imHi,
+        double cell, double mask = 0.20, double gapTol = 0.1, double loopRadius = 0.02)
+    {
+        var (a, c) = BuildLinear(k + 1);
+        Func<Complex, Complex[]> roots = qq => AllRootsAt(a, c, qq);
+        var q0 = new Complex(2, 0);
+        var (residual, _) = ResidualIndices(k, roots(q0));
+        var residualSet = new HashSet<int>(residual);
+
+        int nRe = Math.Max(1, (int)((reHi - reLo) / cell)), nIm = Math.Max(1, (int)((imHi - imLo) / cell));
+        var gap = new double[nRe, nIm];
+        Parallel.For(0, nRe, ir =>
+        {
+            double re = reLo + ir * cell + cell / 2;
+            for (int ii = 0; ii < nIm; ii++)
+            {
+                var q = new Complex(re, imLo + ii * cell + cell / 2);
+                gap[ir, ii] = q.Magnitude < mask ? double.NaN : MinGap(roots(q));
+            }
+        });
+
+        // candidate cells: a strict local minimum of the (smooth) gap field — a coalescence is a local min
+        // that GapRefine drives toward 0. NO absolute threshold (a steep-slope diabolic has gap ~0.07 even at
+        // the nearest cell, far above any cell-based cutoff; the q_EP nearest-cell gap is ~11.6·0.006); the
+        // gapTol filter after refine rejects the avoided crossings. A smooth field has few local minima, so
+        // this does not over-seed; the expensive classify runs only AFTER the gapTol filter.
+        var seeds = new List<Complex>();
+        for (int ir = 0; ir < nRe; ir++)
+            for (int ii = 0; ii < nIm; ii++)
+            {
+                double g = gap[ir, ii];
+                if (double.IsNaN(g)) continue;
+                bool isMin = true;
+                for (int dr = -1; dr <= 1 && isMin; dr++)
+                    for (int di = -1; di <= 1; di++)
+                    {
+                        if (dr == 0 && di == 0) continue;
+                        int jr = ir + dr, ji = ii + di;
+                        if (jr < 0 || jr >= nRe || ji < 0 || ji >= nIm) continue;
+                        if (!double.IsNaN(gap[jr, ji]) && gap[jr, ji] < g) { isMin = false; break; }
+                    }
+                if (isMin) seeds.Add(new Complex(reLo + ir * cell + cell / 2, imLo + ii * cell + cell / 2));
+            }
+
+        var result = new List<DiabolicPoint>();
+        foreach (var seed in seeds)
+        {
+            var qd = GapRefine(roots, seed, cell);
+            if (result.Any(d => (d.QValue - qd).Magnitude < 2 * cell)) continue;     // dedupe
+            double g = MinGap(roots(qd));
+            if (g > gapTol) continue;                                                // an avoided crossing, not a coalescence
+
+            var (pairResidual, mergeLambda, charRadius) = ClassifyPair(roots, q0, qd, residualSet);
+            bool loopId = Moved(Monodromy.Permutation(roots, qd, loopRadius, 240)) == 0;
+            double expo = GapScalingExponent(roots, qd);
+            var reading = EpCharacter.Characterize(BlockAt(a, c, qd), mergeLambda, charRadius);
+            bool semisimple = reading.Kind == EpCharacter.EpKind.Diabolic;
+            result.Add(new DiabolicPoint(qd, mergeLambda, semisimple, loopId, g, expo, pairResidual));
+        }
+        return result;
+    }
+
     public sealed record ScanResult(
         int K, int NBlock, int BlockDim, int ResidualDim, int AtDim, Complex Q0,
         Complex[] ResidualRoots, IReadOnlyList<(Complex Q, int A, int B, int[] MovedResidual)> Eps,
