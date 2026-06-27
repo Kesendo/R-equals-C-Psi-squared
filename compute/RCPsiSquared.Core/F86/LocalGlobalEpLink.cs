@@ -40,6 +40,19 @@ namespace RCPsiSquared.Core.F86;
 /// = 0), not defective — so even off the real axis the same-EP-structure connection to the
 /// toy 2×2 / FRAGILE_BRIDGE is not established.</para>
 ///
+/// <para><b>Scope (do not conflate with F89's octic — reconciled 2026-06-27):</b> this OPEN
+/// question concerns the FULL N≥5 (1,2)/c=2 block (dim 50–224, the c=2 sweep above ran N=5–8)
+/// and its FRAGILE_BRIDGE connection specifically. It is NOT F89's N=4 octic (1,2)-FACTOR
+/// (dim 8), whose off-axis defective branch points ARE established (Tier-1): the squarefree
+/// P₁₀ zeros of the λ-discriminant are defective √-branch transpositions generating S₈, while
+/// the real-axis q_EP≈0.659 is the diabolic (3q⁴+q²−1) double-zero (silent) — see
+/// <c>F89OcticMonodromyClaim</c> / <c>inspect --root galoismonodromy</c> (G2: "the silent
+/// diabolic vs the braiding EPs, side by side"). The "nearest coalescences are diabolic"
+/// finding here is consistent with that: those are the abundant free-fermion sum-coincidences
+/// (codim-1 by additivity, <c>reference_nonhermitian_diabolic_codimension</c>), not the rare
+/// S_d-generating defective branch points. The defective/diabolic split is read off the
+/// discriminant's squarefree/square factorization — the same object as the Galois parity split.</para>
+///
 /// <para>Block-independent meta-claim: registered at the F86 KB root for any block, not
 /// just c=2 (similar to <see cref="ChiralAiiiClassification"/>). The witnesses pin the
 /// concrete c=2 sweep that motivated the original connection; the open question itself is
@@ -123,7 +136,13 @@ public sealed class LocalGlobalEpLink : Claim
         "block are themselves DIABOLIC (‖P‖ = 1, departure-from-normality = 0), not " +
         "defective. The surviving shared algebraic substrate (AIII chiral classification, " +
         "linear Π with Π⁴=I and {Π, L_c}=0) is unchanged; what is unestablished is the " +
-        "defective-EP connection between the full block and the two genuine EPs.";
+        "defective-EP connection between the full block and the two genuine EPs. " +
+        "SCOPE (2026-06-27 reconciliation): this concerns the FULL N≥5 (1,2) block ↔ " +
+        "FRAGILE_BRIDGE specifically, NOT F89's N=4 octic (1,2)-factor, whose off-axis " +
+        "defective branch points ARE established (F89OcticMonodromyClaim, the squarefree-P₁₀ " +
+        "simple-zeros = transpositions generating S₈; its real-axis q_EP≈0.659 is the diabolic " +
+        "(3q⁴+q²−1) double-zero). The nearest-diabolic coalescences here are the abundant " +
+        "free-fermion sum-coincidences (codim-1 by additivity), not those rare S_d-generators.";
 
     private LocalGlobalEpLink()
         : base("local–global EP link (F86 ↔ FRAGILE_BRIDGE) — OPEN",
