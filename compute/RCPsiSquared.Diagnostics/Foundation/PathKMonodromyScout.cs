@@ -88,6 +88,23 @@ public static class PathKMonodromyScout
         return (residual, atIdx.OrderBy(x => x).ToArray());
     }
 
+    /// <summary>The F_d residual roots λ_k(q) at q for path-k: <see cref="AllRootsAt"/> with the AT-locked
+    /// strands removed. The path-k analogue of <see cref="GaloisMonodromyWitness.OcticRootsAt"/>; reproduces
+    /// the path-3 octic exactly at q=2 (the trusted cross-check).
+    /// <para><b>SCOPE (R-7): valid ONLY at q≈2.</b> <see cref="ResidualIndices"/> matches against
+    /// <c>AtRootsAt(k, 2)</c> — the AT factor reconstructed at a FIXED q0=2 (the naive Slater rule that would
+    /// give analytic q-scaling fails from path-5). The block's true AT eigenvalues move with q (Im ∝ J=qγ),
+    /// so away from q=2 the nearest-match mis-labels which strands are AT. Use this for the single-q
+    /// cross-check only; the diabolic gap-scan tracks the residual SET from q=2 by continuity instead (the
+    /// residual set is monodromy-invariant: F_AT·F_residual are distinct factors). See FindDiabolics.</para></summary>
+    public static Complex[] ResidualRootsAt(int k, Complex q)
+    {
+        var (a, c) = BuildLinear(k + 1);                 // nBlock = k+1
+        var all = AllRootsAt(a, c, q);
+        var (residual, _) = ResidualIndices(k, all);     // tuple (residual, at); AT-locked stripped via ForPathK
+        return residual.Select(i => all[i]).ToArray();
+    }
+
     /// <summary>The σ_T classification of the residual strands under the GLOBAL palindrome fold
     /// λ ↦ −λ̄ − 2σ (σ = nBlock = −N centre). For each residual strand i, FoldPartner[i] = j if its
     /// fold-image is residual strand j (within-block): i==j ⟹ an on-fold "zero" (self-mirror, Re λ ≈ −σ),
