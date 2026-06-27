@@ -256,9 +256,20 @@ public static class OpenArcsRegistry
             NextStep: "Hand-over-hand from here. (a) DONE 2026-06-27 (see ParkedAt): the q=2→q_EP continuity trace " +
                 "answered it, the +2.349 σ_T twin pair (strands 5,7) merges onto the fold at λ_EP=−4+1.318i, " +
                 "'{−0,0,+0}' confirmed as a RATE structure (the half-filling line Re=−4, not a zero eigenvalue), " +
-                "via gmscan --trace. THE FORWARD EDGE off (a): do the path-k≥5 cross-block residual strands " +
-                "(foldcross / pkmono) have an analogous twin-pair-onto-fold merge at THEIR diabolics, or does " +
-                "cross-block change the picture? (b) LOOK IN OTHER REPRESENTATIONS, not radicals: S_8 forbids a radical ladder, NOT every " +
+                "via gmscan --trace. THE FORWARD EDGE off (a) ANSWERED 2026-06-27 (pkmono --diabolic, see " +
+                "experiments/F89_PATH_K_DIABOLIC.md): NO analogous twin-pair-onto-fold merge at N≥5, because the " +
+                "within-block self-fold is gone. But path-4 DOES have diabolics (integrability creates inter-sector " +
+                "level crossings of the additive free-fermion spectrum E_DE=ε_j+ε_k, abundant at all N, semisimple " +
+                "because H and the diagonal dissipator do not mix occupation sectors), only they sit at COMPLEX q " +
+                "(conjugate pairs straddling the real axis, closest 0.6118±0.012i, confirmed SPLIT at cell 0.002), " +
+                "NONE at physical real q; at real q only LOUD defective EPs (e.g. q≈1.0776). So integrability = " +
+                "EXISTENCE of the diabolics (complex q), the self-fold = the N=4-ONLY bridge that makes one " +
+                "crossing-q self-conjugate (real, q_EP=0.659). This RECONCILES the surprise with the plan's " +
+                "R-1/R-2: codim/self-fold govern real-axis PLACEMENT (no physical diabolic at N≥5), integrability " +
+                "governs EXISTENCE. Both right about different things; at N=4 they coincided. The tool (pkmono " +
+                "--diabolic, FindDiabolics, gate-validated at path-3 incl. the imaginary diabolics) is committed. " +
+                "Open: 2 near-axis pairs have a character-vs-loop disagreement; the complex-q set is not claimed " +
+                "complete. (b) LOOK IN OTHER REPRESENTATIONS, not radicals: S_8 forbids a radical ladder, NOT every " +
                 "closed form (Bring/theta/hypergeometric exist for any algebraic function); seek the connection in the " +
                 "centred μ=λ+4, in a recursion, in the relation zeros<->twins<->AT-frequencies. (c) CROSS-F " +
                 "INHERITANCE (the one-object point): relate THIS self-mirror sector to the SAME self-mirror sector " +
