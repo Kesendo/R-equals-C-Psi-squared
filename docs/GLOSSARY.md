@@ -199,6 +199,23 @@ result. For the full discovery story, see
 - **J** is the connection strength between qubits. Stronger J means faster information exchange but also means noise on one qubit spreads faster to the others. The balance between J and γ determines everything.
 - **h** is an external magnetic field that pushes each qubit individually. Think of it as a background force acting on each particle.
 
+### The coupling ratio q and Q (and the factor-2 convention)
+
+The dimensionless ratio of coupling to dephasing, J/γ₀, is the central control parameter (the "balance between J and γ" above). It is written two ways, and they denote the **same physical ratio** in **two Hamiltonian normalizations that differ by a factor of 2**. Stating it once, here, because both of us have stumbled on it:
+
+| Symbol | Hamiltonian per bond | Written by |
+|--------|----------------------|------------|
+| **q** | H = J·(XX+YY), hop element 2J (the "doubled" book) | the F89 octic / branch-locus / monodromy / Galois work (`F89Path3OcticBlock`) |
+| **Q** | H = (J/2)·(XX+YY), hop element J | the carrier clock (θ = arctan(Q·cos(π/(N+1))), `ClockHandLadderClaim`), the coherence horizon Q*(N), the F86 c=2 block, the Stage-1a probe (`ChainSystem` / `Symphony`) |
+
+The relation is **q = Q/2** (equivalently J_F89 = J_F86/2; the F90 bridge relabeling in `F90F86C2BridgeIdentity`, where the two are operator-exactly one Liouvillian: ‖L_F86(J) − L_F89(J/2)‖ = 0 at N=5..8). The factor is pure relabeling, not physics. On the real axis, within one convention, the complex variable q is just the analytic continuation of the real Q (`experiments/F89_BRANCH_LOCUS_PALINDROME.md`, the line under the figure).
+
+**Worked example, so the trap is concrete:** the octic diabolic degeneracy sits at q_EP ≈ 0.659 in octic units (`F89Path3OcticEpClaim`). In carrier-clock units that is 2 × 0.659 = 1.318, i.e. between the coherence-horizon rungs Q*(2) = 1 and Q*(3) = √2, **not** below 1. Convert (halve a Q, or double a q) before putting an octic q and a horizon Q on one axis.
+
+**Two more uses of the same letter, not this ratio:** lowercase q is also the right-popcount index in a "(p,q)-block" (the coherences between popcount-p and popcount-q basis states, an integer sector label). And the literature's quality factor Q is a different quantity again ("different objects, same letter").
+
+**In plain language:** q and Q both ask "how strong is the coherent coupling compared to the watching?" One book (the F89 octic) counts the coupling at double strength, so its number is half. Halve a Q, or double a q, before you compare the two.
+
 ---
 
 ## Star topology (S + A + B)
