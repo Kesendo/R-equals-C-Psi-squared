@@ -154,6 +154,33 @@ if (args.Length > 0 && args[0] == "regime")
     return;
 }
 
+// ---- run mode "seeds": play with the seed (how many excitations) ----
+// The seed picks the joint-popcount block it lives in. Empty (p=0) and full (p=N) are frozen -- no
+// excitation can hop, no novelty. Half-filling is the richest: the biggest block, the most life. Block
+// size and peak novelty both peak at the middle and mirror p <-> N-p (the palindrome, in the seed).
+if (args.Length > 0 && args[0] == "seeds")
+{
+    int gn = args.Length > 1 ? int.Parse(args[1]) : 4;
+    const double gj = 1.0, gg = 0.5, dt = 0.05;
+    var sworld = new World();
+    Console.WriteLine($"playing with the seed (how many excitations): N={gn} chain, J={gj}, gamma={gg}");
+    Console.WriteLine("  the seed picks the block (p,p) it lives in. empty (p=0) and full (p=N) are frozen --");
+    Console.WriteLine("  no excitation can hop, no novelty. half-filling is the richest (biggest block, most life).");
+    Console.WriteLine($"  {"p (exc)",8} {"block C(N,p)^2",14} {"peak novelty",13}");
+    for (int p = 0; p <= gn; p++)
+    {
+        int seed = (1 << p) - 1;                     // |0...0 1^p>, p excitations at one end
+        var rest = new Restless(sworld, gn, gj, gg, Topology.Chain(gn));
+        rest.Seed(seed);
+        double peak = 0;
+        for (int tick = 0; tick <= 40; tick++) { peak = Math.Max(peak, rest.Novelty); rest.Step(dt); }
+        Console.WriteLine($"  {p,8} {rest.AliveCount,14} {peak,13:0.000}");
+    }
+    Console.WriteLine("  empty and full are frozen points (one cell, no life); the middle is where the world lives");
+    Console.WriteLine("  most. block size and peak novelty both mirror p <-> N-p -- the palindrome, now in the seed.");
+    return;
+}
+
 const double gamma = 0.5;
 var world = new World();
 Console.WriteLine($"empty world (Z-dephasing, no Hamiltonian), gamma={gamma}");
