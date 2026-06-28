@@ -92,4 +92,19 @@ public class RestlessTests
         Assert.True(r.Novelty > 0.0);                   // still born; the cut only skipped the forbidden cells
         Assert.Equal(1.0, r.Structure, 10);             // trace still held
     }
+
+    // the geometry shapes the dynamics but not the cut: every excitation-conserving handshake shares the
+    // joint-popcount blocks (F63), so AliveCount is the same across topologies for the same seed.
+    [Fact]
+    public void Topology_Changes_The_Dynamics_Not_The_Block_Cut()
+    {
+        const int n = 4;
+        var chain = new Restless(W, n, 1.0, G, Topology.Chain(n));
+        var star = new Restless(W, n, 1.0, G, Topology.Star(n));
+        chain.Seed(1); star.Seed(1);                    // |0001>, one excitation at site 0
+        Assert.Equal(chain.AliveCount, star.AliveCount);   // same cut, topology-invariant (F63)
+
+        chain.Step(0.1); star.Step(0.1);
+        Assert.NotEqual(chain.Novelty, star.Novelty, 6);   // site 0 is an endpoint vs the hub: different birth
+    }
 }

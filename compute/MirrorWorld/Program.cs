@@ -40,14 +40,15 @@ if (args.Length > 0 && args[0] == "grow")
 if (args.Length > 0 && args[0] == "live")
 {
     int gn = args.Length > 1 ? int.Parse(args[1]) : 2;
+    string gtopo = args.Length > 2 ? args[2] : "chain";
     const double gj = 1.0, gg = 0.5, dt = 0.05;
     const int ticks = 40;
     var lworld = new World();
-    var rest = new Restless(lworld, gn, gj, gg);
+    var rest = new Restless(lworld, gn, gj, gg, Topology.Named(gtopo, gn));
     rest.Seed(1);                                   // |0...01>, one excitation at one end (block (1,1))
 
     Console.WriteLine("the world lives (diagonal protocol, step 2 -- the inner restlessness)");
-    Console.WriteLine($"  source ClaudeTasks/DIAGONAL_PROTOCOL_GAME.md; N={gn}, J={gj}, gamma={gg}, dt={dt}");
+    Console.WriteLine($"  source ClaudeTasks/DIAGONAL_PROTOCOL_GAME.md; N={gn}, topology={gtopo}, J={gj}, gamma={gg}, dt={dt}");
     Console.WriteLine("  rule 4, the inner motion: H (the flip-flop bond) makes coherence out of population --");
     Console.WriteLine("  novelty BORN from structure, then culled by the watching. seed = |0...01>, one excitation.");
     Console.WriteLine($"  cut (c): the loop stays in joint-popcount block (1,1) -- {rest.AliveCount} of {rest.Dim * rest.Dim} cells run, {rest.ForbiddenCount} forbidden (F63). the k=1 coherences are among them, never computed.");
@@ -82,6 +83,37 @@ if (args.Length > 0 && args[0] == "scale")
     Console.WriteLine("  single-exc: N^2 -- a one-excitation state runs in a polynomial corner, tractable at any N.");
     Console.WriteLine("  half-fill: ~4^N/sqrt(N) -- the full spectrum needs it, so the spectrum stays exponential.");
     Console.WriteLine("  the wall was global (all 4^N, the spectrum); a single state's dynamics is block-local.");
+    return;
+}
+
+// ---- run mode "topo": play with the geometry (who can reach whom) ----
+// Same handshake and seed, different bonds. All excitation-conserving, so all share the block cut (F63);
+// only the dynamics -- how fast novelty is born and spreads -- differs.
+if (args.Length > 0 && args[0] == "topo")
+{
+    int gn = args.Length > 1 ? int.Parse(args[1]) : 4;
+    const double gj = 1.0, gg = 0.5, dt = 0.05;
+    var tworld = new World();
+    Console.WriteLine($"playing with the geometry (who can reach whom): N={gn}, seed |0...01>, J={gj}, gamma={gg}");
+    Console.WriteLine("  same handshake, different bonds. all excitation-conserving -> the same block cut (F63);");
+    Console.WriteLine("  only the dynamics differs. (seed site 0 is the chain's endpoint, but the star's hub.)");
+    Console.WriteLine($"  {"topology",9} {"bonds",6} {"alive",6} {"forbidden",10}   novelty at t = 0.25 / 0.50 / 1.00");
+    foreach (var name in new[] { "chain", "ring", "star", "complete" })
+    {
+        var rest = new Restless(tworld, gn, gj, gg, Topology.Named(name, gn));
+        rest.Seed(1);
+        var snap = new double[3];
+        int[] marks = { 5, 10, 20 };
+        int mi = 0;
+        for (int tick = 0; tick <= 20; tick++)
+        {
+            if (mi < marks.Length && tick == marks[mi]) snap[mi++] = rest.Novelty;
+            rest.Step(dt);
+        }
+        Console.WriteLine($"  {name,9} {Topology.Named(name, gn).Length,6} {rest.AliveCount,6} {rest.ForbiddenCount,10}   {snap[0],6:0.000} / {snap[1],6:0.000} / {snap[2],6:0.000}");
+    }
+    Console.WriteLine("  alive is identical across all four -- the cut is topology-invariant. the geometry only");
+    Console.WriteLine("  steers the dynamics: more bonds from the seed (star hub, complete) -> novelty born faster.");
     return;
 }
 

@@ -22,16 +22,18 @@ public sealed class Restless : GameObject
     readonly double[,] mask;        // the watching: D[rho]_ij = -2*gamma*k * rho_ij, read from Pair
     readonly int[,] dis;            // disagreement k per cell, read from Pair
     readonly double[,] h;           // the handshake H: flip-flop on the bonds (real, symmetric)
+    readonly (int a, int b)[] bonds; // the geometry the handshake rides (default: a chain)
     readonly int[] pc;              // popcount per basis index (the excitation number H conserves)
     readonly HashSet<(int p, int q)> occupied = new();   // the joint-popcount blocks the seed lives in
     (int i, int j)[]? alive;        // the cells inside the occupied blocks (F63); the rest is forbidden
 
-    public Restless(World world, int n, double j, double gamma) : base(world)
+    public Restless(World world, int n, double j, double gamma, (int a, int b)[]? bonds = null) : base(world)
     {
         N = n;
         J = j;
         Gamma = gamma;
         dim = 1 << n;
+        this.bonds = bonds ?? Topology.Chain(n);
         rho = new Complex[dim, dim];
         mask = new double[dim, dim];
         dis = new int[dim, dim];
@@ -74,14 +76,12 @@ public sealed class Restless : GameObject
     public int AliveCount => Alive.Length;
     public int ForbiddenCount => dim * dim - AliveCount;
 
-    // the handshake: H = J * sum over chain bonds (sigma+_a sigma-_b + h.c.), the flip-flop that hops one
-    // excitation between neighbours -- the smallest inner motion that turns a population into a coherence.
+    // the handshake: H = J * sum over the bonds (sigma+_a sigma-_b + h.c.), the flip-flop that hops one
+    // excitation between joined sites -- the smallest inner motion that turns a population into a coherence.
     double[,] BuildHandshake()
     {
         var H = new double[dim, dim];
-        for (int a = 0; a + 1 < N; a++)
-        {
-            int b = a + 1;
+        foreach (var (a, b) in bonds)
             for (int s = 0; s < dim; s++)
                 if (((s >> a) & 1) == 1 && ((s >> b) & 1) == 0)
                 {
@@ -89,7 +89,6 @@ public sealed class Restless : GameObject
                     H[s, s2] += J;
                     H[s2, s] += J;
                 }
-        }
         return H;
     }
 
