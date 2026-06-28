@@ -72,4 +72,24 @@ public static class Formulas
 
     // F12 (T2): single-qubit universal crossing fraction t*/T2 = 0.858367, the root of x^3 + x = 1/2.
     public const double F12_CrossingFraction = 0.858367;
+
+    // F16 (T1): the fold normal form R = C(Psi+R)^2 = Mandelbrot u->u^2+c, c=C*Psi; boundary at C*Psi=1/4.
+    public const double F16_FoldBoundary = 0.25;
+
+    // F25 (T1): CPsi(t) for Bell+ under Z-dephasing. CPsi = f(1+f^2)/6, f = e^{-4 gamma t}; crossing
+    // f* = 0.8612 (f(1+f^2)=3/2), K = gamma*t_cross = 0.0374.
+    public static double F25_CPsi(double f) => f * (1.0 + f * f) / 6.0;
+    public const double F25_CrossingF = 0.8612;
+    public const double F25_K = 0.0374;
+
+    // F26 (T1): CPsi for Bell+ under general Pauli noise. CPsi = u(1+u^2+v^2+w^2)/12.
+    public static double F26_CPsi(double u, double v, double w) => u * (1.0 + u * u + v * v + w * w) / 12.0;
+
+    // F27 (T1): K per noise channel. K_X=K_Y=ln(2)/8=0.0867, K_Z=0.0374, K_depol=0.0440.
+    public static readonly double F27_KX = Math.Log(2) / 8.0;
+    public const double F27_KZ = 0.0374;
+    public const double F27_KDepol = 0.0440;
+
+    // F15 (T2): theta compass, angular distance from CPsi=1/4. theta = arctan(sqrt(4 C Psi - 1)); 0 at crossing.
+    public static double F15_ThetaDeg(double cpsi) => Math.Atan(Math.Sqrt(4.0 * cpsi - 1.0)) * 180.0 / Math.PI;
 }

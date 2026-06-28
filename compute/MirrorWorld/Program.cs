@@ -132,6 +132,9 @@ foreach (int n in new[] { 3, 4, 5 })
 }
 Console.WriteLine($"  F8 2x law (N=4,g=0.5): unpaired={Formulas.F8_DecayLaw(4, 0.5).Unpaired:0.0}, paired-mean={Formulas.F8_DecayLaw(4, 0.5).PairedMean:0.0}, ratio=2");
 Console.WriteLine($"  F12 single-qubit crossing t*/T2 = {Formulas.F12_CrossingFraction} (root of x^3+x=1/2)");
+Console.WriteLine($"  F16 fold R=C(Psi+R)^2, boundary CPsi={Formulas.F16_FoldBoundary} (Mandelbrot u->u^2+c)");
+Console.WriteLine($"  F25 CPsi Bell+ Z-deph: crossing f*={Formulas.F25_CrossingF}, K_Z={Formulas.F25_K};  F27 K_X=K_Y=ln2/8={Formulas.F27_KX:0.0000}, K_depol={Formulas.F27_KDepol}");
+Console.WriteLine($"  F15 theta compass at CPsi=0.5: {Formulas.F15_ThetaDeg(0.5):0.0} deg (0 at the 1/4 crossing)");
 
 // all 4^N Pauli strings, site 0 the least-significant base-4 digit
 static IEnumerable<char[]> EnumeratePauli(int N)
