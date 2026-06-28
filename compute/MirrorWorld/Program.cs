@@ -181,6 +181,39 @@ if (args.Length > 0 && args[0] == "seeds")
     return;
 }
 
+// ---- run mode "cone": the light-cone of a single excitation (the memory cut pays off) ----
+// What was blocked before: large-N dynamics. The spectrum died at 4^N (N=8). Here the single excitation is
+// stored on its block (N x N, not 4^N), so we watch it at an N the spectrum could never hold -- and a
+// dynamical, spatial picture the static spectrum cannot show: the ballistic light-cone, decohered by the watching.
+if (args.Length > 0 && args[0] == "cone")
+{
+    int gn = args.Length > 1 ? int.Parse(args[1]) : 60;
+    const double gj = 1.0, gg = 0.05, dt = 0.1;        // canonical gamma=0.05: ballistic, then decohering
+    const int rows = 28, stepsPerRow = 4;
+    var cworld = new World();
+    var cone = new Cone(cworld, gn, gj, gg);
+    cone.Seed(gn / 2);                                  // one excitation in the middle
+    Console.WriteLine($"the light-cone of a single excitation (memory cut: N={gn} sites, rho is {gn}x{gn}, not 4^{gn})");
+    Console.WriteLine($"  seed in the middle, J={gj}, gamma={gg}. ballistic spreading (v~2J), the watching decoheres the front.");
+    Console.WriteLine("  each row a time, each column a site, density = excitation population (per-row scaled).");
+    const string ramp = " .:-=+o*#";
+    for (int row = 0; row < rows; row++)
+    {
+        double max = 1e-12;
+        for (int a = 0; a < gn; a++) max = Math.Max(max, cone.Population(a));
+        var sb = new System.Text.StringBuilder();
+        for (int a = 0; a < gn; a++)
+        {
+            int lvl = (int)Math.Round(cone.Population(a) / max * (ramp.Length - 1));
+            sb.Append(ramp[Math.Clamp(lvl, 0, ramp.Length - 1)]);
+        }
+        Console.WriteLine($"  t={cone.T,4:0.0} |{sb}|");
+        for (int s = 0; s < stepsPerRow; s++) cone.Step(dt);
+    }
+    Console.WriteLine($"  the cone opens at ~2J. blocked before (4^{gn} is astronomical); trivial now ({gn}x{gn} = {gn * gn} cells).");
+    return;
+}
+
 const double gamma = 0.5;
 var world = new World();
 Console.WriteLine($"empty world (Z-dephasing, no Hamiltonian), gamma={gamma}");
