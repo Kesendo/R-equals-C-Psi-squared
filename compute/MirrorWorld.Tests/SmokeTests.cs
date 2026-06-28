@@ -188,6 +188,17 @@ public class SmokeTests
         Assert.Equal(5, Formulas.F55_ImmortalModes(4));                                     // N+1 immortal
     }
 
+    [Fact]
+    public void Dwell_And_InitialCPsi_Family()
+    {
+        Assert.Equal(1.0 / 3, Formulas.F60_GhzCPsi0(2), 10);
+        Assert.Equal(1.0 / 7, Formulas.F60_GhzCPsi0(3), 10);
+        Assert.Equal(1.0 / 15, Formulas.F60_GhzCPsi0(4), 10);                               // GHZ_4 below 1/4
+        Assert.Equal(1.0 / 3, Formulas.F62_WstateCPsi0(2), 10);                             // W_2 = Bell+, 1/3
+        Assert.Equal(10.0 / 81, Formulas.F62_WstateCPsi0(3), 10);
+        Assert.Equal(1.080, Formulas.F59_DwellPrefactor(2, 0.5, 0.3709), 3);               // reduces to F57
+    }
+
     // --- the even/odd self-mirror: half-filling survivor exists only at even N ---
     [Theory]
     [InlineData(2, true)]

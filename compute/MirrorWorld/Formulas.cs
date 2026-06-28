@@ -155,4 +155,18 @@ public static class Formulas
     // K(eps,tol) = (1/2) ln(4 eps/tol) + alpha(tol) sqrt(eps), alpha(tol) = -4 + (1/2) ln(16 tol).
     public static double F56_CriticalSlowing(double eps, double tol) =>
         0.5 * Math.Log(4.0 * eps / tol) + (-4.0 + 0.5 * Math.Log(16.0 * tol)) * Math.Sqrt(eps);
+
+    // F57 (T1): trajectory dwell at CPsi=1/4, t_dwell = 2 delta/|dCPsi/dt|. Bell+ K_dwell/delta =
+    // 1.080088 = 2/1.851701 (gamma-independent to machine precision).
+    public const double F57_DwellPrefactorBell = 1.080088;
+
+    // F59 (T1): generalized dwell prefactor for a two-sector state (stationary W_0, coherent W_k at
+    // XY-weight k): (4/k)(W_0 + W_k)/(W_0 + 3 W_k). Independent of N, d. Reduces to F57 at W_0=1/2,k=2.
+    public static double F59_DwellPrefactor(int k, double w0, double wk) => (4.0 / k) * (w0 + wk) / (w0 + 3.0 * wk);
+
+    // F60 (T1): GHZ_N born below the fold. CPsi(0) = 1/(2^N - 1); < 1/4 for all N >= 3 (gamma-independent).
+    public static double F60_GhzCPsi0(int n) => 1.0 / ((1 << n) - 1);
+
+    // F62 (T1): W_N initial CPsi. CPsi(0) = 2(N^2 - 4N + 8)/(3 N^3).
+    public static double F62_WstateCPsi0(int n) => 2.0 * (n * n - 4.0 * n + 8.0) / (3.0 * n * n * n);
 }
