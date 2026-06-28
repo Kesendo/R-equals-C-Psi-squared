@@ -11,7 +11,7 @@ Console.WriteLine();
 
 foreach (int N in new[] { 2, 3, 4 })
 {
-    var modes = EnumeratePauli(N).Select(l => new PauliMode(world, l, gamma)).ToList();
+    var modes = PauliMode.Enumerate(world, N, gamma).ToList();
     Console.WriteLine($"==== N={N}  ({modes.Count} Pauli-string modes = {1 << N}*sum C(N,k); the superposition basis) ====");
 
     for (int k = 0; k <= N; k++)
@@ -143,16 +143,4 @@ Console.WriteLine($"  F18 fold threshold Sg_crit/J: Bell={Formulas.F18_FoldThres
 Console.WriteLine($"  F36/F37 neural (Wilson-Cowan): Q J Q + J + 2S = 0, pairing mu+mu'=-(1/tE+1/tI); C.elegans 0.013 vs 0.108 random");
 Console.WriteLine($"  F61 bit_a parity Pi^2_X=Z^N=(-1)^(nX+nY)=(-1)^k (the k-parity H conserves); F63 [L,Pi^2]=0 (conserved, all N)");
 
-// all 4^N Pauli strings, site 0 the least-significant base-4 digit
-static IEnumerable<char[]> EnumeratePauli(int N)
-{
-    char[] alphabet = { 'I', 'X', 'Y', 'Z' };
-    int total = 1 << (2 * N);
-    for (int idx = 0; idx < total; idx++)
-    {
-        var l = new char[N];
-        int x = idx;
-        for (int s = 0; s < N; s++) { l[s] = alphabet[x & 3]; x >>= 2; }
-        yield return l;
-    }
-}
+// (the 4^N Pauli-string enumeration now lives in PauliMode.Enumerate, shared with the tests)
