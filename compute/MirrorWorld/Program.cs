@@ -96,6 +96,18 @@ foreach (int n in new[] { 2, 3, 4, 5 })
     Console.WriteLine($"  N={n}: {lo};  hands over at Q*={s.Qstar:0.00} to the (0,1) band edge (<n_XY>=1, rate -2g)");
 }
 
+// R-parity and mod-4 (T1): the even/odd EP behaviour and the N=3-mod-4 amplification.
+Console.WriteLine();
+Console.WriteLine("==== R-parity & mod-4 (T1) ====");
+foreach (int n in new[] { 3, 4, 5, 6 })
+{
+    bool epSplits = n % 2 == 1;     // odd N: EP splits by R-parity; even N: isospectral
+    bool amplifies = n % 4 == 3;    // self-Pi SE mode R-odd at N=3 mod 4 -> amplifies
+    Console.WriteLine($"  N={n}: {(epSplits ? "EP SPLITS by R-parity (sigma+ != sigma-)" : "EP isospectral (sigma+ = sigma-, no split)")};  " +
+                      $"mod-4: {(amplifies ? "self-Pi SE mode R-odd, amplifies (~2.2x)" : "non-amplifying")}");
+}
+Console.WriteLine("  even N: PH partners (k,N+1-k) carry opposite R-parity -> isospectral; odd N: same R-parity + a lone R-fixed zero mode -> split");
+
 // all 4^N Pauli strings, site 0 the least-significant base-4 digit
 static IEnumerable<char[]> EnumeratePauli(int N)
 {
