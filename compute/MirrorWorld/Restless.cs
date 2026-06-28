@@ -22,6 +22,9 @@ public sealed class Restless : GameObject
     readonly double[,] mask;        // the watching: D[rho]_ij = -2*gamma*k * rho_ij, read from Pair
     readonly int[,] dis;            // disagreement k per cell, read from Pair
     readonly double[,] h;           // the handshake H: flip-flop on the bonds (real, symmetric)
+    readonly int[] pc;              // popcount per basis index (the excitation number H conserves)
+    readonly HashSet<(int p, int q)> occupied = new();   // the joint-popcount blocks the seed lives in
+    (int i, int j)[]? alive;        // the cells inside the occupied blocks (F63); the rest is forbidden
 
     public Restless(World world, int n, double j, double gamma) : base(world)
     {
@@ -39,6 +42,8 @@ public sealed class Restless : GameObject
                 mask[i, jj] = p.Rate;
                 dis[i, jj] = p.Disagreement;
             }
+        pc = new int[dim];
+        for (int i = 0; i < dim; i++) pc[i] = BitOperations.PopCount((uint)i);
         h = BuildHandshake();
     }
 
@@ -46,10 +51,28 @@ public sealed class Restless : GameObject
     public Complex this[int i, int j] => rho[i, j];
 
     // seed a pure population |s><s| (structure: one possibility held, no novelty).
-    public void Seed(int s) => rho[s, s] = Complex.One;
+    public void Seed(int s) { rho[s, s] = Complex.One; occupied.Add((pc[s], pc[s])); alive = null; }
 
     // seed one coherence |i><j| (+ its Hermitian twin), real amplitude.
-    public void SeedCoherence(int i, int j, double amp) { rho[i, j] = amp; rho[j, i] = amp; }
+    public void SeedCoherence(int i, int j, double amp)
+    {
+        rho[i, j] = amp; rho[j, i] = amp;
+        occupied.Add((pc[i], pc[j])); occupied.Add((pc[j], pc[i])); alive = null;
+    }
+
+    // cut (c): the loop stays in the seed's joint-popcount blocks (F63, [L,Pi^2]=0); the rest is forbidden,
+    // never run. Alive = the cells whose (popcount row, popcount col) block the seed occupies.
+    (int i, int j)[] Alive => alive ??= BuildAlive();
+    (int i, int j)[] BuildAlive()
+    {
+        var list = new List<(int, int)>();
+        for (int i = 0; i < dim; i++)
+            for (int j = 0; j < dim; j++)
+                if (occupied.Contains((pc[i], pc[j]))) list.Add((i, j));
+        return list.ToArray();
+    }
+    public int AliveCount => Alive.Length;
+    public int ForbiddenCount => dim * dim - AliveCount;
 
     // the handshake: H = J * sum over chain bonds (sigma+_a sigma-_b + h.c.), the flip-flop that hops one
     // excitation between neighbours -- the smallest inner motion that turns a population into a coherence.
@@ -74,17 +97,16 @@ public sealed class Restless : GameObject
     Complex[,] Rhs(Complex[,] x)
     {
         var r = new Complex[dim, dim];
-        for (int i = 0; i < dim; i++)
-            for (int j = 0; j < dim; j++)
+        foreach (var (i, j) in Alive)               // cut (c): only the occupied blocks, the rest forbidden
+        {
+            Complex hx = Complex.Zero, xh = Complex.Zero;
+            for (int m = 0; m < dim; m++)
             {
-                Complex hx = Complex.Zero, xh = Complex.Zero;
-                for (int m = 0; m < dim; m++)
-                {
-                    hx += h[i, m] * x[m, j];
-                    xh += x[i, m] * h[m, j];
-                }
-                r[i, j] = -Complex.ImaginaryOne * (hx - xh) + mask[i, j] * x[i, j];
+                hx += h[i, m] * x[m, j];
+                xh += x[i, m] * h[m, j];
             }
+            r[i, j] = -Complex.ImaginaryOne * (hx - xh) + mask[i, j] * x[i, j];
+        }
         return r;
     }
 
@@ -95,19 +117,15 @@ public sealed class Restless : GameObject
         var k2 = Rhs(Axpy(rho, k1, dt / 2));
         var k3 = Rhs(Axpy(rho, k2, dt / 2));
         var k4 = Rhs(Axpy(rho, k3, dt));
-        for (int i = 0; i < dim; i++)
-            for (int j = 0; j < dim; j++)
-                rho[i, j] += (dt / 6) * (k1[i, j] + 2 * k2[i, j] + 2 * k3[i, j] + k4[i, j]);
+        foreach (var (i, j) in Alive)
+            rho[i, j] += (dt / 6) * (k1[i, j] + 2 * k2[i, j] + 2 * k3[i, j] + k4[i, j]);
         T += dt;
     }
 
-    static Complex[,] Axpy(Complex[,] a, Complex[,] b, double s)
+    Complex[,] Axpy(Complex[,] a, Complex[,] b, double s)
     {
-        int d = a.GetLength(0);
-        var r = new Complex[d, d];
-        for (int i = 0; i < d; i++)
-            for (int j = 0; j < d; j++)
-                r[i, j] = a[i, j] + s * b[i, j];
+        var r = new Complex[dim, dim];
+        foreach (var (i, j) in Alive) r[i, j] = a[i, j] + s * b[i, j];
         return r;
     }
 

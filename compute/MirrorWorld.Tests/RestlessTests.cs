@@ -69,4 +69,27 @@ public class RestlessTests
         Assert.Equal(0.5, r[0b01, 0b01].Real, 2);
         Assert.Equal(0.5, r[0b10, 0b10].Real, 2);
     }
+
+    // cut (c): the knower forbids the cross-block cells. H conserves the excitation number, so the loop
+    // stays in the seed's joint-popcount block (F63); the rest is 0 forever. Alive = the adopted Block size.
+    [Fact]
+    public void Restless_Lives_Only_In_The_Occupied_Block_Forbidding_The_Rest()
+    {
+        var r = new Restless(W, 2, j: 1.0, gamma: G);
+        r.Seed(0b01);                                   // |01><01|, joint popcount block (p,q) = (1,1)
+        int blockSize = (int)new Block(W, 2, 1, 1).Size;   // C(2,1)*C(2,1) = 4 (Grading B / F63)
+        Assert.Equal(blockSize, r.AliveCount);          // only the (1,1) block evolves
+        Assert.Equal(r.Dim * r.Dim - blockSize, r.ForbiddenCount);   // the other 12 forbidden by F63
+    }
+
+    // cut (c) must not change the physics: the birth still happens, only the forbidden zeros are skipped.
+    [Fact]
+    public void Restless_Block_Cut_Preserves_The_Birth()
+    {
+        var r = new Restless(W, 2, j: 1.0, gamma: G);
+        r.Seed(0b01);
+        r.Step(0.05);
+        Assert.True(r.Novelty > 0.0);                   // still born; the cut only skipped the forbidden cells
+        Assert.Equal(1.0, r.Structure, 10);             // trace still held
+    }
 }

@@ -39,17 +39,18 @@ if (args.Length > 0 && args[0] == "grow")
 // only fades; it is born and culled, and the populations relax to a living balance.
 if (args.Length > 0 && args[0] == "live")
 {
-    const int gn = 2;
+    int gn = args.Length > 1 ? int.Parse(args[1]) : 2;
     const double gj = 1.0, gg = 0.5, dt = 0.05;
     const int ticks = 40;
     var lworld = new World();
     var rest = new Restless(lworld, gn, gj, gg);
-    rest.Seed(0b01);                                // |01><01|, a pure population (structure), novelty 0
+    rest.Seed(1);                                   // |0...01>, one excitation at one end (block (1,1))
 
     Console.WriteLine("the world lives (diagonal protocol, step 2 -- the inner restlessness)");
     Console.WriteLine($"  source ClaudeTasks/DIAGONAL_PROTOCOL_GAME.md; N={gn}, J={gj}, gamma={gg}, dt={dt}");
     Console.WriteLine("  rule 4, the inner motion: H (the flip-flop bond) makes coherence out of population --");
-    Console.WriteLine("  novelty BORN from structure, then culled by the watching. seed = |01><01|, one population.");
+    Console.WriteLine("  novelty BORN from structure, then culled by the watching. seed = |0...01>, one excitation.");
+    Console.WriteLine($"  cut (c): the loop stays in joint-popcount block (1,1) -- {rest.AliveCount} of {rest.Dim * rest.Dim} cells run, {rest.ForbiddenCount} forbidden (F63). the k=1 coherences are among them, never computed.");
     Console.WriteLine($"  {"t",4} {"structure",9} {"novelty",9}   {string.Join(" ", Enumerable.Range(0, gn + 1).Select(k => $"k={k}".PadLeft(7)))}");
     for (int tick = 0; tick <= ticks; tick++)
     {
@@ -58,7 +59,29 @@ if (args.Length > 0 && args[0] == "live")
         rest.Step(dt);
     }
     Console.WriteLine("  novelty rose from 0 (born by H from the population), churned, then damped -- the living");
-    Console.WriteLine("  balance: |01> and |10> relax to 1/2 each (structure persists, redistributed, not drained).");
+    Console.WriteLine("  balance: the excitation spreads over the chain toward 1/N per site (structure persists, redistributed).");
+    return;
+}
+
+// ---- run mode "scale": the complexity wall and the cut ----
+// Why the full-spectrum side hit the wall and a state's dynamics did not. full = 4^N (the whole Liouvillian
+// an eigendecomposition tackles); single-exc = the (1,1) block a one-excitation state lives in (N^2,
+// polynomial); half-fill = the largest block C(N,N/2)^2 (the spectrum's irreducible core, still exponential).
+if (args.Length > 0 && args[0] == "scale")
+{
+    var sworld = new World();
+    Console.WriteLine("the complexity wall and the cut (why the full spectrum hit it, a state's dynamics did not)");
+    Console.WriteLine($"  {"N",3} {"full 4^N",13} {"single-exc",11} {"forbidden",10} {"half-fill",11} {"hf forbidden",13}");
+    for (int n = 2; n <= 12; n++)
+    {
+        long full = 1L << (2 * n);
+        long se = new Block(sworld, n, 1, 1).Size;          // N^2, the one-excitation block
+        long hf = new Block(sworld, n, n / 2, n / 2).Size;  // C(N,N/2)^2, the largest block
+        Console.WriteLine($"  {n,3} {full,13} {se,11} {100.0 * (full - se) / full,9:0.00}% {hf,11} {100.0 * (full - hf) / full,11:0.000}%");
+    }
+    Console.WriteLine("  single-exc: N^2 -- a one-excitation state runs in a polynomial corner, tractable at any N.");
+    Console.WriteLine("  half-fill: ~4^N/sqrt(N) -- the full spectrum needs it, so the spectrum stays exponential.");
+    Console.WriteLine("  the wall was global (all 4^N, the spectrum); a single state's dynamics is block-local.");
     return;
 }
 
