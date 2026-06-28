@@ -139,6 +139,8 @@ Console.WriteLine($"  F34 qubit necessity: d^2-2d=0 -> d in {{{string.Join(", ",
 Console.WriteLine($"  D1 BW=8J cos(pi/N) (N=4,J=1) = {Formulas.D1_Bandwidth(4, 1.0):0.000} -> 8J at large N");
 Console.WriteLine($"  D4 crossing rhs (d-1)/2: d=2 -> {Formulas.D4_CrossingRhs(2):0.0}, d=4 -> {Formulas.D4_CrossingRhs(4):0.0}");
 Console.WriteLine($"  D6 gap=2g={Formulas.D6_Gap(0.5):0.0}, mixing time (N=4) <= {Formulas.D6_MixingTime(4, 0.5):0.00};  F38 Pi^2=(-1)^(nY+nZ)=X^N (order 4)");
+Console.WriteLine($"  F18 fold threshold Sg_crit/J: Bell={Formulas.F18_FoldThresholdBell}, product={Formulas.F18_FoldThresholdProduct}");
+Console.WriteLine($"  F36/F37 neural (Wilson-Cowan): Q J Q + J + 2S = 0, pairing mu+mu'=-(1/tE+1/tI); C.elegans 0.013 vs 0.108 random");
 
 // all 4^N Pauli strings, site 0 the least-significant base-4 digit
 static IEnumerable<char[]> EnumeratePauli(int N)

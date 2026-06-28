@@ -109,4 +109,14 @@ public static class Formulas
 
     // F38 (T1): Pi^2 = (-1)^{w_YZ} = (-1)^{n_Y+n_Z} on a Pauli string (order 4, Pi^4=I); = conjugation by X^N.
     public static int F38_PiSquared(int nY, int nZ) => (nY + nZ) % 2 == 0 ? +1 : -1;
+
+    // F18 (T2, N-independent): fold threshold Sg_crit/J. Below: CPsi oscillates forever; above: crosses
+    // 1/4 irreversibly. Bell 0.00249, product 0.00497 (max/min across N=2-5: 1.5%).
+    public const double F18_FoldThresholdBell = 0.00249;
+    public const double F18_FoldThresholdProduct = 0.00497;
+
+    // F36/F37 (T1, neural): the Wilson-Cowan palindrome Q*J*Q + J + 2S = 0 (structural analog of
+    // Pi*L*Pi^-1 = -L - 2 Sg), eigenvalue pairing mu_k + mu_k' = -(1/tau_E + 1/tau_I). C.elegans
+    // connectome residual 0.013 vs random 0.108 (8x more palindromic than chance).
+    public static double F37_NeuralPairSum(double tauE, double tauI) => -(1.0 / tauE + 1.0 / tauI);
 }
