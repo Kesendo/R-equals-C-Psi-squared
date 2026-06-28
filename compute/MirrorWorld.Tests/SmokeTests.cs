@@ -171,6 +171,20 @@ public class SmokeTests
         Assert.Equal(1.0, Formulas.D6_Gap(0.5), 10);                       // gap = 2g
     }
 
+    [Fact]
+    public void CrossTerm_Determinant_PalindromicTime_Family()
+    {
+        Assert.Equal(-1, Formulas.F39_DetPi(1));
+        Assert.Equal(+1, Formulas.F39_DetPi(4));
+        Assert.Equal(0.0, Formulas.F49_CrossTerm(2), 10);                  // exact Pythagorean at N=2
+        Assert.Equal(1.0 / Math.Sqrt(48), Formulas.F49_CrossTerm(3), 10);
+        Assert.Equal(1.0 / Math.Sqrt(128), Formulas.F49_CrossTerm(4), 10);
+        Assert.Equal(0.25 * 256 * 4, Formulas.F49b_CenteredDissipatorNormSq(4, 0.5), 6);   // g^2 4^N N = 256
+        Assert.Equal(Math.PI / (4 * Math.Pow(Math.Sin(Math.PI / 8), 2)), Formulas.F41_PalindromicTime(4, 1.0), 9);
+        // F44: a palindromic pair d_fast + d_slow = 2 Sg; here Sg=1, d_fast=1.5, d_slow=0.5
+        Assert.Equal(Math.Log(1.5 / 0.5), Formulas.F44_LogRatio(1.5, 0.5, 1.0), 10);
+    }
+
     // --- the even/odd self-mirror: half-filling survivor exists only at even N ---
     [Theory]
     [InlineData(2, true)]

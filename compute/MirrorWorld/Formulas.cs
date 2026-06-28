@@ -124,4 +124,21 @@ public static class Formulas
     // On a Pauli string it is (-1)^{n_X+n_Y} = (-1)^k, the disagreement-count parity the Hamiltonian
     // conserves in its even-step mixing. F63: [L, Pi^2] = 0 (Pi^2 a conserved quantum number, all N).
     public static int F61_PiSquaredX(int nX, int nY) => (nX + nY) % 2 == 0 ? +1 : -1;
+
+    // F39 (T1): det(Pi) = (-1)^{N 4^{N-1}}. N=1: -1; N>=2: +1 (4^{N-1} is even).
+    public static int F39_DetPi(int n) => n == 1 ? -1 : +1;
+
+    // F41 (T1, D10): palindromic time t_Pi = 2pi/omega_min = pi/(4J sin^2(pi/(2N))) ~ N^2/(pi J).
+    public static double F41_PalindromicTime(int n, double j) => Math.PI / (4.0 * j * Math.Pow(Math.Sin(Math.PI / (2.0 * n)), 2));
+
+    // F44 (T1, D08): Crooks-like rate identity ln(d_fast/d_slow) = 2 artanh(Delta_d/(2 Sg)) for a
+    // palindromic pair d_fast + d_slow = 2 Sg (algebraic, NOT a thermodynamic Crooks theorem).
+    public static double F44_LogRatio(double dFast, double dSlow, double sg) => 2.0 * Math.Atanh((dFast - dSlow) / (2.0 * sg));
+
+    // F49 (T1, proven): cross-term ratio R(N) = sqrt((N-2)/(N 4^{N-1})). N=2: 0 (exact Pythagorean);
+    // N=3: 1/sqrt48; N=4: 1/sqrt128. gamma/J/topology-independent, depends only on N.
+    public static double F49_CrossTerm(int n) => Math.Sqrt((n - 2.0) / (n * Math.Pow(4, n - 1)));
+
+    // F49b (T1, proven): centered dissipator norm ||L_Dc||^2 = gamma^2 4^N N (uniform Z-dephasing).
+    public static double F49b_CenteredDissipatorNormSq(int n, double gamma) => gamma * gamma * Math.Pow(4, n) * n;
 }
