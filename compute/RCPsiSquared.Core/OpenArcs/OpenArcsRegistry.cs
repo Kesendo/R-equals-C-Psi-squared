@@ -946,7 +946,14 @@ public static class OpenArcsRegistry
                 "witness-first program continues opportunistically: a typed claim whose evidence is still only a " +
                 "Python verifier is the next candidate (no specific target pinned). Retire this tracker when the " +
                 "remaining proven claims either have live witnesses or are judged out of scope",
-            Status: OpenArcStatus.Open),
+            RetiredReason: "RESOLVED 2026-06-28: retired as a tracker superseded by the standing " +
+                "witness-first discipline (cockpit rule 5, 'C# witness first': verification logic that " +
+                "becomes a claim's evidence lands as a live IInspectable wired into InspectRootCatalog). " +
+                "With no specific target pinned, the opportunistic 'next claim to witness' is handled " +
+                "per-claim by that discipline at claim-authoring time, not by a standalone tracker arc. " +
+                "The coverage it watched is healthy (F121/F116/Envelope/two-clocks/horizon/birth-canal/" +
+                "F117 all live, plus the ~40-root inspect catalog).",
+            Status: OpenArcStatus.Retired),
 
         new OpenArc(
             Name: "cockpit_workflows_csharp",
