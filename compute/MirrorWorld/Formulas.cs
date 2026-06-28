@@ -96,4 +96,17 @@ public static class Formulas
     // F34 (T1, proven): qubit necessity. d^2 - 2d = 0 -> d = 0 (nothing) or d = 2 (the qubit). Palindromic
     // dephasing needs exactly 2 immune (I,Z) and 2 decaying (X,Y) per site, fixing d=2. The polarity root.
     public static int[] F34_QubitNecessity() => new[] { 0, 2 };
+
+    // D1 (T1, from F2): w=1 bandwidth = omega_{N-1} - omega_1 = 8J cos(pi/N) -> 8J at large N.
+    public static double D1_Bandwidth(int n, double j) => 8.0 * j * Math.Cos(Math.PI / n);
+
+    // D4 (T1): the crossing condition scales with Hilbert dimension as (d-1)/2. d=2: f*(1+f*^2)=1/2; d=4: =3/2.
+    public static double D4_CrossingRhs(int d) => (d - 1) / 2.0;
+
+    // D6 (T1, AT): spectral gap = 2γ (min nonzero rate); mixing time <= N ln(4)/(2γ).
+    public static double D6_Gap(double gamma) => 2.0 * gamma;
+    public static double D6_MixingTime(int n, double gamma) => n * Math.Log(4.0) / (2.0 * gamma);
+
+    // F38 (T1): Pi^2 = (-1)^{w_YZ} = (-1)^{n_Y+n_Z} on a Pauli string (order 4, Pi^4=I); = conjugation by X^N.
+    public static int F38_PiSquared(int nY, int nZ) => (nY + nZ) % 2 == 0 ? +1 : -1;
 }
