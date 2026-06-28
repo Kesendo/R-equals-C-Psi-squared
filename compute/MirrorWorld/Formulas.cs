@@ -209,4 +209,29 @@ public static class Formulas
     // has ceil((N-1)/2) = floor(N/2) independent components; the SE reflection R|psi_k> = (-1)^(k+1)|psi_k>.
     public static int F71_C1IndependentComponents(int n) => n / 2;
     public static int F71_ReflectionParity(int k) => k % 2 == 1 ? +1 : -1;
+
+    // F98 (T1): K-intermediate Dicke long-time Pi^2-odd asymptote (even N): (N+2)/(4(N+1)) -> 1/4.
+    public static double F98_DickeAsymptote(int n) => (n + 2.0) / (4.0 * (n + 1.0));
+
+    // F121 (T1, combinatorial): the qudit partial palindrome. Under full-Cartan dephasing |i><j| decays at
+    // -2gamma*Hamming(i,j) (same ladder as the qubit); multiplicity c_k = d^N C(N,k) (d-1)^k, Sum=d^(2N).
+    // The dissipator pairs rung k <-> N-k; paired(d,N) = Sum_k d^N C(N,k) (d-1)^(min(k,N-k)), = d^(2N)
+    // iff d=2 (the d^2-2d=0 necessity re-seen). d=3,N=2: c=[9,36,36], paired=54/81.
+    public static long F121_CoherenceCount(int d, int n, int k) => IntPow(d, n) * Block.Binomial(n, k) * IntPow(d - 1, k);
+    public static long F121_PairedCeiling(int d, int n)
+    {
+        long s = 0;
+        for (int k = 0; k <= n; k++) s += IntPow(d, n) * Block.Binomial(n, k) * IntPow(d - 1, Math.Min(k, n - k));
+        return s;
+    }
+
+    // F122 (T1): the structural ceiling g2 = <n_XY> of the slowest mode. Chain g2=1 (band edge); more
+    // connected graphs grow a darker [H,A]=0 coherence: g2(K_N)=4/N (N>=5), g2(star_N)=4/(N-1) (N>=6),
+    // g2(K_4)=2-2/sqrt3. The ring has no ceiling (g2=1); its (1,1) commutant = 2(N-2)/N (even), 2(N-1)/N (odd).
+    public static double F122_CompleteCeiling(int n) => 4.0 / n;
+    public static double F122_StarCeiling(int n) => 4.0 / (n - 1);
+    public static double F122_K4Ceiling() => 2.0 - 2.0 / Math.Sqrt(3.0);
+    public static double F122_RingCommutant(int n) => n % 2 == 0 ? 2.0 * (n - 2) / n : 2.0 * (n - 1) / n;
+
+    private static long IntPow(int b, int e) { long r = 1; for (int i = 0; i < e; i++) r *= b; return r; }
 }

@@ -154,5 +154,8 @@ Console.WriteLine($"  F65 SE spectrum (4/(N+1))sin^2(k pi/(N+1)): N=3 = [{string
 Console.WriteLine($"  F65 Niven: rational iff N in {{0,1,2,3,5}} (N=4 golden-irrational); F66 pole multiplicity N+1 = {Formulas.F66_PoleMultiplicity(4)} (N=4)");
 Console.WriteLine($"  F68 partner rate alpha_p=2g0-alpha_b (g0=0.05, alpha_b=0.0138) = {Formulas.F68_PartnerRate(0.0138, 0.05):0.0000};  F69 GHZ3+W3 optimum pair-CPsi(0) = {Formulas.F69_N3Optimum:0.000} (ratio {Formulas.F69_RatioToQuarter} to 1/4, irreducible sextic)");
 Console.WriteLine($"  F70 k-local sees |dN|<=k (single-site<=1, pair<=2); F71 c1 components=floor(N/2)={Formulas.F71_C1IndependentComponents(5)} (N=5), R|psi_k>=(-1)^(k+1) [k=1->{Formulas.F71_ReflectionParity(1)}, k=2->{Formulas.F71_ReflectionParity(2)}]");
+Console.WriteLine($"  F98 Dicke asymptote (N+2)/(4(N+1)): N=4,6,8 = {Formulas.F98_DickeAsymptote(4):0.000}, {Formulas.F98_DickeAsymptote(6):0.000}, {Formulas.F98_DickeAsymptote(8):0.000} (-> 1/4)");
+Console.WriteLine($"  F121 qudit palindrome paired(d,N)/d^2N: d=2,N=2 = {Formulas.F121_PairedCeiling(2, 2)}/16 (full); d=3,N=2 = {Formulas.F121_PairedCeiling(3, 2)}/81 (partial, d^2-2d=0 re-seen)");
+Console.WriteLine($"  F122 ceiling g2: K_5=4/N={Formulas.F122_CompleteCeiling(5):0.000}, star_6=4/(N-1)={Formulas.F122_StarCeiling(6):0.000}, K_4=2-2/sqrt3={Formulas.F122_K4Ceiling():0.000}, ring(1,1) N=5={Formulas.F122_RingCommutant(5):0.000}");
 
 // (the 4^N Pauli-string enumeration now lives in PauliMode.Enumerate, shared with the tests)

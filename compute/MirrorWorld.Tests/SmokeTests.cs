@@ -227,6 +227,22 @@ public class SmokeTests
         Assert.Equal(-1, Formulas.F71_ReflectionParity(2));
     }
 
+    [Fact]
+    public void Dicke_Qudit_StructuralCeiling_Family()
+    {
+        Assert.Equal(0.3, Formulas.F98_DickeAsymptote(4), 10);                              // (N+2)/(4(N+1))
+        Assert.Equal(8.0 / 28, Formulas.F98_DickeAsymptote(6), 10);
+        Assert.Equal(16, Formulas.F121_PairedCeiling(2, 2));                                // d=2: fully paired = 2^(2N)
+        Assert.Equal(54, Formulas.F121_PairedCeiling(3, 2));                                // d=3: 54/81 partial
+        Assert.Equal(9, Formulas.F121_CoherenceCount(3, 2, 0));
+        Assert.Equal(36, Formulas.F121_CoherenceCount(3, 2, 1));
+        Assert.Equal(0.8, Formulas.F122_CompleteCeiling(5), 10);                            // K_5 = 4/5
+        Assert.Equal(2.0 / 3, Formulas.F122_StarCeiling(7), 10);                            // star_7 = 4/6
+        Assert.Equal(2 - 2 / Math.Sqrt(3), Formulas.F122_K4Ceiling(), 10);
+        Assert.Equal(1.6, Formulas.F122_RingCommutant(5), 10);                              // ring-5 (1,1)
+        Assert.Equal(1.0, Formulas.F122_RingCommutant(4), 10);                              // ring-4 co-occupies the band edge
+    }
+
     // --- the even/odd self-mirror: half-filling survivor exists only at even N ---
     [Theory]
     [InlineData(2, true)]
