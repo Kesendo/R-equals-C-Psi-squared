@@ -119,4 +119,9 @@ public static class Formulas
     // Pi*L*Pi^-1 = -L - 2 Sg), eigenvalue pairing mu_k + mu_k' = -(1/tau_E + 1/tau_I). C.elegans
     // connectome residual 0.013 vs random 0.108 (8x more palindromic than chance).
     public static double F37_NeuralPairSum(double tauE, double tauI) => -(1.0 / tauE + 1.0 / tauI);
+
+    // F61 (T1): the bit_a parity Pi^2_X = Z^{tensor N} (the global Z-string), companion to F38's X^N.
+    // On a Pauli string it is (-1)^{n_X+n_Y} = (-1)^k, the disagreement-count parity the Hamiltonian
+    // conserves in its even-step mixing. F63: [L, Pi^2] = 0 (Pi^2 a conserved quantum number, all N).
+    public static int F61_PiSquaredX(int nX, int nY) => (nX + nY) % 2 == 0 ? +1 : -1;
 }
