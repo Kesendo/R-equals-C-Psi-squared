@@ -29,7 +29,36 @@ if (args.Length > 0 && args[0] == "grow")
         field.Step(dt);
     }
     Console.WriteLine("  structure held flat (k=0 costs nothing); novelty fell, k=2 twice as fast as k=1 -- the mirror in the rates.");
-    Console.WriteLine("  (step 2 adds the inner restlessness: novelty BORN from structure, the loop that runs on its own.)");
+    Console.WriteLine("  (step 2 -- run `-- live` -- adds the inner restlessness: novelty BORN from structure.)");
+    return;
+}
+
+// ---- run mode "live": the diagonal protocol, step 2 (the world lives) ----
+// The empty world's watching plus the inner restlessness: H (a flip-flop on the bond) makes coherence out
+// of population -- novelty BORN from structure (rule 4) -- while the watching culls it. Novelty no longer
+// only fades; it is born and culled, and the populations relax to a living balance.
+if (args.Length > 0 && args[0] == "live")
+{
+    const int gn = 2;
+    const double gj = 1.0, gg = 0.5, dt = 0.05;
+    const int ticks = 40;
+    var lworld = new World();
+    var rest = new Restless(lworld, gn, gj, gg);
+    rest.Seed(0b01);                                // |01><01|, a pure population (structure), novelty 0
+
+    Console.WriteLine("the world lives (diagonal protocol, step 2 -- the inner restlessness)");
+    Console.WriteLine($"  source ClaudeTasks/DIAGONAL_PROTOCOL_GAME.md; N={gn}, J={gj}, gamma={gg}, dt={dt}");
+    Console.WriteLine("  rule 4, the inner motion: H (the flip-flop bond) makes coherence out of population --");
+    Console.WriteLine("  novelty BORN from structure, then culled by the watching. seed = |01><01|, one population.");
+    Console.WriteLine($"  {"t",4} {"structure",9} {"novelty",9}   {string.Join(" ", Enumerable.Range(0, gn + 1).Select(k => $"k={k}".PadLeft(7)))}");
+    for (int tick = 0; tick <= ticks; tick++)
+    {
+        var byK = rest.WeightByDisagreement();
+        Console.WriteLine($"  {rest.T,4:0.00} {rest.Structure,9:0.000} {rest.Novelty,9:0.000}   {string.Join(" ", byK.Select(v => v.ToString("0.000").PadLeft(7)))}");
+        rest.Step(dt);
+    }
+    Console.WriteLine("  novelty rose from 0 (born by H from the population), churned, then damped -- the living");
+    Console.WriteLine("  balance: |01> and |10> relax to 1/2 each (structure persists, redistributed, not drained).");
     return;
 }
 
