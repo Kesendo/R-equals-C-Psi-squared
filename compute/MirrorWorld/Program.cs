@@ -214,6 +214,45 @@ if (args.Length > 0 && args[0] == "cone")
     return;
 }
 
+// ---- run mode "spread": the ballistic-to-diffusive crossover (mining the unblocked vista) ----
+// The front spread sigma(t) = sqrt(sum_a (a-a0)^2 P(a)). Ballistic (sigma ~ v t, v~2J) until the coherence
+// that carries it dies (~1/4gamma), then diffusive (sigma ~ sqrt(t)). The crossover length is L ~ J/2gamma =
+// Q/2. Known transport physics (ENAQT); here it is a validation of the cut, measured at N the spectrum cannot reach.
+if (args.Length > 0 && args[0] == "spread")
+{
+    int gn = args.Length > 1 ? int.Parse(args[1]) : 80;
+    const double gj = 1.0, dt = 0.05;
+    int[] marks = { 20, 40, 80, 160, 320 };            // t = 1, 2, 4, 8, 16
+    var sworld = new World();
+    Console.WriteLine($"the front spread sigma(t): ballistic (~t) until the coherence dies (~1/4gamma), then diffusive (~sqrt t)");
+    Console.WriteLine($"  N={gn} chain, seed middle, J={gj}. doubling t: sigma x2 is ballistic, sigma x1.41 is diffusive.");
+    Console.WriteLine($"  {"gamma",6} {"Q",5} {"L=Q/2",6}   sigma at t = 1 / 2 / 4 / 8 / 16");
+    foreach (double g in new[] { 0.0, 0.05, 0.2 })
+    {
+        var cone = new Cone(sworld, gn, gj, g);
+        int a0 = gn / 2;
+        cone.Seed(a0);
+        var sig = new List<double>();
+        for (int s = 0; s <= marks[^1]; s++)
+        {
+            if (marks.Contains(s))
+            {
+                double m2 = 0;
+                for (int a = 0; a < gn; a++) m2 += (a - a0) * (a - a0) * cone.Population(a);
+                sig.Add(Math.Sqrt(m2));
+            }
+            cone.Step(dt);
+        }
+        string q = g > 0 ? (gj / g).ToString("0.0") : "inf";
+        string l = g > 0 ? (gj / (2 * g)).ToString("0.0") : "inf";
+        Console.WriteLine($"  {g,6:0.00} {q,5} {l,6}   {string.Join(" / ", sig.Select(x => x.ToString("00.0")))}");
+    }
+    Console.WriteLine("  gamma=0 (Q=inf): pure ballistic -- sigma keeps doubling as t doubles.");
+    Console.WriteLine("  gamma>0: ballistic until sigma ~ L=Q/2, then the doubling collapses to ~1.41 -- diffusive. The");
+    Console.WriteLine("  cut reproduces the known crossover, at N the spectrum could never hold. The wall is broken.");
+    return;
+}
+
 const double gamma = 0.5;
 var world = new World();
 Console.WriteLine($"empty world (Z-dephasing, no Hamiltonian), gamma={gamma}");
