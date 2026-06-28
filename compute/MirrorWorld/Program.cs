@@ -117,6 +117,43 @@ if (args.Length > 0 && args[0] == "topo")
     return;
 }
 
+// ---- run mode "regime": how alive at each Q = J/gamma (the clock) ----
+// The same world at different ratios of restlessness to watching. Low Q: the watching wins (overdamped,
+// novelty barely born and quickly drained -- near death). High Q: the restlessness wins (underdamped,
+// novelty churns on and on). The clock angle theta = arctan(Q) reads the regime (reused from Clock).
+if (args.Length > 0 && args[0] == "regime")
+{
+    int gn = args.Length > 1 ? int.Parse(args[1]) : 4;
+    const double gg = 0.5, dt = 0.05;
+    const int ticks = 80;                            // to t = 4
+    var rworld = new World();
+    Console.WriteLine($"how alive at each regime Q = J/gamma (N={gn} chain, seed |0...01>, gamma={gg})");
+    Console.WriteLine("  the clock: theta = arctan(Q). low Q = the watching wins (overdamped, ~death);");
+    Console.WriteLine("  high Q = the restlessness wins (underdamped, novelty churns on and on).");
+    Console.WriteLine($"  {"Q",5} {"theta",7} {"peak nov",9} {"t@peak",7} {"late churn (t3-4)",17}");
+    foreach (double q in new[] { 0.2, 0.5, 1.0, 2.0, 5.0, 20.0 })
+    {
+        double j = q * gg;
+        var clk = new Clock(rworld, j, gg);          // theta = arctan(Q), Q = J/gamma (the adopted clock)
+        var rest = new Restless(rworld, gn, j, gg, Topology.Chain(gn));
+        rest.Seed(1);
+        double peak = 0, tpeak = 0, lateMin = double.MaxValue, lateMax = 0;
+        for (int tick = 0; tick <= ticks; tick++)
+        {
+            double nov = rest.Novelty;
+            if (nov > peak) { peak = nov; tpeak = rest.T; }
+            if (tick >= ticks - 20) { lateMin = Math.Min(lateMin, nov); lateMax = Math.Max(lateMax, nov); }
+            rest.Step(dt);
+        }
+        Console.WriteLine($"  {clk.Q,5:0.0} {clk.ThetaDeg,6:0.0} {peak,9:0.000} {tpeak,7:0.00} {lateMax - lateMin,17:0.000}");
+    }
+    Console.WriteLine("  peak rises and t@peak falls, both monotonic -- more restlessness births more novelty, sooner.");
+    Console.WriteLine("  late churn is ~0 below Q=1 (overdamped: a slow bump that just decays) and switches on above it");
+    Console.WriteLine("  (underdamped: novelty oscillates). It is not monotonic at high Q -- the chain is multi-mode, so");
+    Console.WriteLine("  the underdamped churn beats; a single scalar cannot hold it. The clean turn is Q=1, theta=45deg.");
+    return;
+}
+
 const double gamma = 0.5;
 var world = new World();
 Console.WriteLine($"empty world (Z-dephasing, no Hamiltonian), gamma={gamma}");
