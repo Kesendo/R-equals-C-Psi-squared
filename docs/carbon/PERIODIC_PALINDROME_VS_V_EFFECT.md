@@ -11,6 +11,7 @@ that the Level-0 V-Effect's quantitative boundary-sector mechanism transfers to
 the periodic-palindrome deviations.
 **Script:** [`simulations/periodic_palindrome_veffect.py`](../../simulations/periodic_palindrome_veffect.py)
 **Answers:** [README](README.md) open question 6.
+**See also:** [PERIODIC_PALINDROME_HARDENED](PERIODIC_PALINDROME_HARDENED.md): a hardened sign-flip-null gate shows the palindrome's *presence* (not just its deviations) is mostly smoothness; what survives the ramp leans anti-F1 at the light elements and significantly-but-ambiguously F1-respecting at the heavy ones.
 
 ---
 

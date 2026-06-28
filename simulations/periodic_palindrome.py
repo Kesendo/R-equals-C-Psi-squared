@@ -26,6 +26,12 @@ For each property the test is the same:
 Pauling EN doesn't include noble gases, so EN periods are 7 (period 2)
 or 17 (period 4 with d-block) elements wide. Odd-length periods have
 a center element which is excluded from pair sums.
+
+CAVEAT (2026-06-28): pair-sum-constant is satisfied exactly by any linear ramp,
+and the shuffle null only rejects "unordered", so the p<1e-4 here is largely a
+monotonic-smoothness artifact. A hardened gate (sign-flip null on the post-ramp
+residual) is in periodic_palindrome_gate.py; the honest mixed verdict is written
+up in docs/carbon/PERIODIC_PALINDROME_HARDENED.md.
 """
 from __future__ import annotations
 
