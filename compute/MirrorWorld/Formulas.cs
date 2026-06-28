@@ -92,4 +92,8 @@ public static class Formulas
 
     // F15 (T2): theta compass, angular distance from CPsi=1/4. theta = arctan(sqrt(4 C Psi - 1)); 0 at crossing.
     public static double F15_ThetaDeg(double cpsi) => Math.Atan(Math.Sqrt(4.0 * cpsi - 1.0)) * 180.0 / Math.PI;
+
+    // F34 (T1, proven): qubit necessity. d^2 - 2d = 0 -> d = 0 (nothing) or d = 2 (the qubit). Palindromic
+    // dephasing needs exactly 2 immune (I,Z) and 2 decaying (X,Y) per site, fixing d=2. The polarity root.
+    public static int[] F34_QubitNecessity() => new[] { 0, 2 };
 }
