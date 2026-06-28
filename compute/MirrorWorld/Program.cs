@@ -60,6 +60,42 @@ Console.WriteLine($"  N=3: minimal EP, Q_EP = 2/g_eff (the whole rate ladder is 
 Console.WriteLine($"  N=4: self-fold diabolic q_EP = sqrt((-1+sqrt13)/6) = {Math.Sqrt((-1.0 + Math.Sqrt(13.0)) / 6.0):0.0000}  (real q, N=4 only); (2,2) ceiling K_4 = 2-2/sqrt3 = {2.0 - 2.0 / Math.Sqrt(3.0):0.0000}");
 Console.WriteLine($"  N=5: diabolics leave the real axis into complex-conjugate pairs (only loud defective EPs remain real)");
 
+// H on: the superposition leaves the integer grid (the on-grid d_total folds are T1, adopted).
+Console.WriteLine();
+Console.WriteLine("==== H on: the superposition leaves the grid (T1 d_total folds, adopted) ====");
+foreach (int n in new[] { 2, 3, 4 })
+{
+    var bare = Redistribution.Bare(n);
+    var grid = Redistribution.OnGrid(n)!;
+    var diff = Enumerable.Range(0, n + 1).Select(k => grid[k] - bare[k]).ToArray();
+    int off = (1 << (2 * n)) - grid.Sum();
+    Console.WriteLine($"  N={n}: bare [{string.Join(",", bare)}]  ->  on-grid [{string.Join(",", grid)}]   diff [{string.Join(",", diff)}]   off-grid {off}");
+}
+Console.WriteLine("  edges stay N+1 (kernel + drain); even N spikes the center k=N/2; the rest bleeds off-grid (fractional <n_XY>)");
+
+// The clock: theta = arctan(Q), Q = J/gamma (T1, F95). The two hands of one winding mode.
+Console.WriteLine();
+Console.WriteLine("==== the clock: theta = arctan(Q), Q = J/gamma (T1) ====");
+foreach (double q in new[] { 0.0, 0.5, 1.0, 2.0, 5.0, 100.0 })
+{
+    var clk = new Clock(world, j: q, gamma: 1.0);   // J=q, gamma=1 => Q=q
+    string mark = q == 0.0 ? "  [J=0: pure decay]" : Math.Abs(q - 1.0) < 1e-9 ? "  [theta=45deg <-> 1/4]" : q >= 100.0 ? "  [carbon, deep quantum]" : "";
+    Console.WriteLine($"  Q={clk.Q,5:0.0}: theta = {clk.ThetaDeg,5:0.0} deg{mark}");
+}
+Console.WriteLine("  gamma=0 -> theta=90deg (pure circle, turning forever); 90deg <-> 1/2; the two hands are gamma (radial) and J (angular)");
+
+// The survivor: the slowest non-stationary mode (T1), regime-dependent.
+Console.WriteLine();
+Console.WriteLine("==== the survivor: the slowest non-stationary mode (T1) ====");
+foreach (int n in new[] { 2, 3, 4, 5 })
+{
+    var s = new Survivor(world, n);
+    string lo = s.HasHalfFillingSurvivor
+        ? $"low-Q: half-filling k={n / 2}, R-odd/X-odd, dark"
+        : "low-Q: no (N/2,N/2) sector (odd N), no half-filling survivor";
+    Console.WriteLine($"  N={n}: {lo};  hands over at Q*={s.Qstar:0.00} to the (0,1) band edge (<n_XY>=1, rate -2g)");
+}
+
 // all 4^N Pauli strings, site 0 the least-significant base-4 digit
 static IEnumerable<char[]> EnumeratePauli(int N)
 {
