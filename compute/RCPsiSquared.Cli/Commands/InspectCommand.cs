@@ -140,6 +140,31 @@ public static class InspectCommand
         return new MirrorSystem(N, hamiltonian, channels);
     }
 
+    /// <summary>The self-mirror fixed point AS AN OBJECT: build the system (the x/y/z frame) exactly as
+    /// --root mirror does, then return the <see cref="SelfMirrorObject"/> that INHERITS it. The jump:
+    /// System (bears x/y/z) → Object (inherits the frame, is the F1 fixed point Re λ = −σ).</summary>
+    private static IInspectable BuildSelfMirrorRoot(ArgParser p, int N)
+    {
+        if (N < 1 || N > 7)
+            throw new ArgumentException($"--root selfmirror needs N in 1..7 (joint-popcount blocked spectrum); got {N}");
+        double j = p.OptionalDouble("J") ?? 1.0;
+        double gamma = p.OptionalDouble("gamma") ?? 0.1;
+        var htype = (p.OptionalString("htype") ?? "XY").ToLowerInvariant() switch
+        {
+            "heisenberg" or "heis" => HamiltonianType.Heisenberg,
+            _ => HamiltonianType.XY,
+        };
+        var topo = (p.OptionalString("topology") ?? "chain").ToLowerInvariant() switch
+        {
+            "star" => TopologyKind.Star,
+            "ring" => TopologyKind.Ring,
+            _ => TopologyKind.Chain,
+        };
+        var hamiltonian = new ChainSystem(N, j, gamma, htype, topo).BuildHamiltonian();
+        var channels = Enumerable.Range(0, N).Select(l => new ChannelRate($"q{l}", gamma)).ToList();
+        return new SelfMirrorObject(new MirrorSystem(N, hamiltonian, channels));   // the object inherits the system
+    }
+
     /// <summary>The post-EP flow GameObject: a single excitation evolved across a Q-grid, with
     /// per-site occupation ⟨n_site⟩(τ) relaxing to 1/N. Args: <c>--N 1..6</c>,
     /// <c>--q-list 0.5,1.0,1.5,2.5</c>, <c>--t-max 6.0</c>, <c>--t-points 60</c> (Python defaults).
@@ -686,6 +711,8 @@ public static class InspectCommand
             c => new ZeroSectorImmunityWitness(c.Parser.HasFlag("N") ? c.N : 3,
                                                c.Parser.OptionalDouble("gamma") ?? 0.05),
             RequiresN: false, HonorsOptionalN: true),
+        new("selfmirror", "the self-mirror fixed point AS AN OBJECT (the jump: the System bears x/y/z, the Object inherits it). It does NOT own x/y/z (z=watched Re λ, x-y=motion Im λ, σ=center, all the system's); its only delta is BEING the F1 fixed point Re λ = −σ, the k=N/2 self-mirror rung (even-N populated, odd-N empty)",
+            c => BuildSelfMirrorRoot(c.Parser, c.Parser.HasFlag("N") ? c.N : 4), RequiresN: false, HonorsOptionalN: true),
         new("world", "the whole Object Manager: every root, the typed claims, the hardware confirmations, the open-arcs ledger, and the glossary (try --root glossary first if the language is new)",
             BuildWorldRoot, DefaultDepth: 2, RequiresN: false),
     };
