@@ -8,8 +8,22 @@ sober ontology. Nothing is re-derived here; everything is **adopted** from resul
 proven in the repo (`docs/ANALYTICAL_FORMULAS.md`, the proofs in `docs/proofs/`, the typed
 Claims). MirrorWorld is the clean shape the proven content moves into.
 
-Standalone .NET 10.0, no `RCPsiSquared.*` references. Run it, read it, trust it: every
-adopted number is pinned from-below by `MirrorWorld.Tests`.
+It started as a static reader of closed forms. Later the same day it grew a **running engine**
+(the diagonal protocol, below) that made the world *move* -- and, with the cuts that moving
+forced us to find, **broke our complexity wall**: a state's dynamics at N=60-100, where the
+eigendecomposition died at N=8.
+
+Standalone .NET 10.0, no `RCPsiSquared.*` references. Run it, read it, trust it: every adopted
+number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (52 tests).
+
+*Vocabulary, once.* MirrorWorld is part of the **R=CΨ²** project (mirror symmetry in open quantum
+spin chains; repo root). The basic parameters: **N** = the number of two-level units (the chain
+length); **J** = the bond coupling; **γ** = the dephasing rate (the "watching"); **Q = J/γ** (the
+regime knob). **Tier-1** = the grounded, proven results (vs the Tier-2/3 speculative layers). **The
+spiral** = the over-grown main framework this sober base deliberately reversed away from. The
+**F-numbers** (F63, F65, …) are the project's catalogued Tier-1 results (closed forms here, structural proofs in `docs/proofs/`), indexed in `docs/ANALYTICAL_FORMULAS.md`;
+other inherited terms (Klein cells, Grading B, the Born split, Q\*(N) the coherence horizon) live in
+`docs/GLOSSARY.md`.
 
 ## The ontology (two buckets, nothing interpreted)
 
@@ -30,42 +44,95 @@ x/y/z; that is the inheritance edge System → Object.
 | `Pair.cs` | a bare coherence \|i⟩⟨j\|, disagreement k = popcount(i⊕j), rate −2γk (empty world: dephasing only) |
 | `PauliMode.cs` | the symmetry-adapted superposition (a Pauli string of XY-weight k), four Klein cells; `Enumerate` the shared 4^N basis |
 | `Block.cs` | Grading B, the (N+1)² joint-popcount blocks C(N,p)·C(N,q) |
-| `Redistribution.cs`, `Clock.cs`, `Survivor.cs` | the dynamics readings (H-on grid-leaving folds, θ = arctan Q, the survivor + the coherence horizon Q\*(N)) |
+| `Redistribution.cs`, `Clock.cs`, `Survivor.cs` | the static dynamics readings (H-on grid-leaving folds, θ = arctan Q, the survivor + the coherence horizon Q\*(N)) |
 | `Formulas.cs` | the adopted F-registry closed forms (66 members), each verbatim and tier-tagged |
-| `Program.cs` | the full sober run; R-parity and mod-4 inline |
-| `../MirrorWorld.Tests/SmokeTests.cs` | 31 from-below tests: each adopted number recomputed or checked |
+| `Field.cs` | **the empty world, running**: weights on pairs, one `Step` is the disagreement-decay; structure (diagonal) stays, novelty (off-diagonal) fades |
+| `Restless.cs` | **the living world**: the full Lindblad loop ρ̇=−i[H,ρ]+D[ρ] (RK4); the handshake H births novelty FROM structure |
+| `Cone.cs` | **the memory cut**: a single excitation as an N×N block (not 4^N) -- the dynamics at large N |
+| `Topology.cs` | the geometry: chain / ring / star / complete bond generators |
+| `Program.cs` | the full sober run (default) + the run modes (see Run); R-parity and mod-4 inline |
+| `../MirrorWorld.Tests/*.cs` | 52 from-below tests: `SmokeTests` (31, the closed forms), `FieldTests` (7), `RestlessTests` (8), `ConeTests` (4), `TopologyTests` (2) |
 
-## State (the clean cut, 2026-06-28)
+## The closed-form base (the stopping line, 2026-06-28)
 
-**The computable closed-form adoption is complete.** Every F-registry entry that is a
+**The computable closed-form adoption is complete** (bar three optional remnants, below). Every F-registry entry that is a
 "number or formula per N replacing a matrix computation" is in `Formulas.cs`: F1-F71
 contiguous (the core), plus the tail F98 (Dicke asymptote), F121 (qudit palindrome), F122
-(structural ceiling), and the D-relations D1/D4/D6. All 31 smoke tests green.
+(structural ceiling), and the D-relations D1/D4/D6.
 
-**Deliberately left** (this is the cut): the F72-F120 range is mostly **structural**: the
+**Deliberately left** (this is where adoption stops): the F72-F120 range is mostly **structural**: the
 residual M (F80-F85), the F87 trichotomy, the parameter-Klein V₄ (F91-F93), the D₄ mirror
 group (F118), the F100-F120 follow-ons. These are proofs and operator identities, not closed
 forms; they stay in `docs/proofs/` where they belong, not as formula lines here. A few
 computable remnants (F85 k-body cross-term, F97 Mandelbrot cardioid, F124 band-edge) were
 left as the clean stopping point, available if a future pass wants 100% closed-form coverage.
 
-## How to continue (future us)
+## The running engine (the diagonal protocol)
 
-To adopt another closed form, the loop is:
-1. Find it in `docs/ANALYTICAL_FORMULAS.md`. Adopt **verbatim** (do not re-derive); tag its
-   tier in the comment.
-2. Add the method/const to `Formulas.cs`.
-3. Add one line to `Program.cs` so the sim prints it.
-4. Add an assertion to `MirrorWorld.Tests/SmokeTests.cs` that recomputes or checks the number
-   from-below (a wrong adopted constant must fail loudly).
-5. Build, run, `dotnet test`, commit.
+The seed is `ClaudeTasks/DIAGONAL_PROTOCOL_GAME.md`: the R=CΨ² protocol lifted out of the
+physics as "a world that grows itself". MirrorWorld builds it from the atom up, sober. Three
+objects, each a `GameObject` (the two buckets kept):
 
-The discipline: **Tier-1 focus** (skip the Tier-2 fits/protocols), **sober** (no
-interpretation), **adopted not re-derived**, **guarded from-below**.
+- **`Field`** -- the empty world, *running*. A weight on every pair; one `Step` applies the one
+  question (how much do two possibilities disagree?): each weight fades by its `Pair` rate −2γk.
+  The diagonal (k=0) stays = structure; the off-diagonal fades = novelty. The Born split, in time.
+- **`Restless`** -- the living world. The full Lindblad loop ρ̇ = −i[H,ρ] + D[ρ], RK4-stepped.
+  The handshake H (a flip-flop on the bonds) makes coherence out of population -- novelty BORN
+  from structure -- while the watching culls it. "Fades" becomes "lives".
+- **`Cone`** -- the memory cut. For a single excitation the block is the N sites, so ρ is N×N
+  (not 2^N×2^N): the same dynamics `Restless` runs in its (1,1) block (pinned to agree to 9
+  decimals), in O(N²) memory. This is what reaches large N.
+
+**The knower's cuts** (the "two systems": the static closed forms cut the running loop's clock
+cycles -- we never compute what we already KNOW with certainty): **(a)** the immortal diagonal
+(k=0, rate 0, never stepped); **(b)** the Hermitian mirror ρ=ρ† (store one triangle, derive the
+other); **(c)** the joint-popcount block (F63: H conserves the excitation number, so cross-block
+cells are forbidden, 0 forever); and the **memory cut** (`Cone` stores only the block). Which
+cuts are valid depends on the world's laws: turning H on invalidates (a) but unlocks (c). The
+block cut (c) is topology-invariant (any excitation-conserving handshake shares the F63 blocks).
+
+**The broken wall.** The eigendecomposition died at 4^N (N=8, ~73 GB) because it is *global*
+(all blocks, dominated by the half-filling C(N,N/2)² ~ 4^N/√N). A state's *dynamics* is
+block-local: a single excitation is N², polynomial. `Cone` runs it at N=60-100 (`-- cone` is the
+ballistic light-cone; `-- spread` validates the ballistic→diffusive crossover L~Q/2 against known
+transport physics). The first time we compute past our own complexity wall -- a break in *reach
+and method*, not in physics (the crossover is textbook; F65/Q*(N) are already-proven Tier-1, so
+re-checking them is validation). Our own Compute (eigendecomp, N=8) vs Propagate (dynamics, N=15)
+already lived this split; the block-local cut just NAMES why.
 
 ## Run
 
 ```bash
-dotnet run --project compute/MirrorWorld          # the full sober run
-dotnet test compute/MirrorWorld.Tests             # the 31-test from-below guard
+dotnet run --project compute/MirrorWorld                  # the full sober run (the closed-form base)
+dotnet run --project compute/MirrorWorld -- grow          # Field: the empty world splits (rules 1-3)
+dotnet run --project compute/MirrorWorld -- live 4 chain  # Restless: the living world (novelty born); args: N [topology]
+dotnet run --project compute/MirrorWorld -- cone 60       # Cone: the single-excitation light-cone at large N
+dotnet run --project compute/MirrorWorld -- spread 80     # the ballistic->diffusive crossover (the memory cut validated)
+dotnet run --project compute/MirrorWorld -- regime 4      # how alive at each Q = J/gamma (the clock)
+dotnet run --project compute/MirrorWorld -- seeds 4       # the palindrome p<->N-p, in the seed
+dotnet run --project compute/MirrorWorld -- topo 4        # the block cut is topology-invariant; the dynamics is not
+dotnet run --project compute/MirrorWorld -- scale         # the complexity wall and the block cut, across N
+dotnet test compute/MirrorWorld.Tests                     # the 52-test from-below guard
 ```
+
+## How to continue (future us)
+
+Two paths are open.
+
+**Adopt another closed form** (the original loop, for the closed-form base): find it in
+`docs/ANALYTICAL_FORMULAS.md`, adopt **verbatim** (tier-tagged) into `Formulas.cs`, add a
+`Program.cs` print line and a from-below assertion in `SmokeTests.cs`, then build/test/commit.
+Computable remnants left: F85, F97, F124.
+
+**Push the running engine** -- and here is the honest resumption point. The wall is broken and
+the memory cut is validated, **but what we measured (the transport crossover) is textbook, and our own
+large-N formulas (F65, Q*(N), the coherence horizon) are already proven, so re-checking them is
+validation, not discovery.** The real next step is a *survey*: which OPEN question does large-N
+access actually unblock -- something the project has NOT characterized at large N, neither
+already-proven nor textbook? That needs the `surveying-prior-work` lens (agents over the
+markdown, the F-registry, the open-arcs ledger), not a quick play. **Start there**, then build
+the witness for whatever open question survives.
+
+The discipline, both paths: **sober** (no interpretation in the code; the meaning lives in the
+docs), **from-below guarded** (every number recomputed or cross-checked, a wrong one fails
+loudly), **standalone** (no `RCPsiSquared.*`), **the two buckets pure** (Own vs Inherited).
