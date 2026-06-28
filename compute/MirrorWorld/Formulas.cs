@@ -39,4 +39,23 @@ public static class Formulas
         5 => 2.3737,
         _ => 2.0 * n / Math.PI,
     };
+
+    // F3 (T1, AT corollary): decay rate bounds. min=2γ (w=1), max=2(N-1)γ (w=N-1), bw=2(N-2)γ.
+    public static (double Min, double Max, double Bw) F3_RateBounds(int n, double gamma) =>
+        (2.0 * gamma, 2.0 * (n - 1) * gamma, 2.0 * (n - 2) * gamma);
+
+    // F4 (T1): kernel dim = N+1 for one connected component (identity + N magnetization projectors).
+    public static int F4_KernelDim(int n) => n + 1;
+
+    // F5 (T1): depolarizing palindrome error = (2/3)Σγ = γ·2N/3.
+    public static double F5_DepolError(int n, double gamma) => gamma * 2.0 * n / 3.0;
+
+    // F23 (T1): XOR-drain fraction = (N+1)/4^N (GHZ fragility vanishes at large N).
+    public static double F23_XorFraction(int n) => (n + 1.0) / Math.Pow(4, n);
+
+    // F33 (T1): N=3 exact decay rates {2γ, 8γ/3, 10γ/3} (<n_XY> = 1, 4/3, 5/3).
+    public static double[] F33_N3Rates(double gamma) => new[] { 2.0 * gamma, 8.0 * gamma / 3.0, 10.0 * gamma / 3.0 };
+
+    // F50 (T1 lower bound): weight-1 degeneracy d_real(-2γ) = 2N (chain); 8 for the K_3 triangle (N=3).
+    public static int F50_Weight1Degeneracy(int n, bool triangleK3 = false) => triangleK3 && n == 3 ? 8 : 2 * n;
 }
