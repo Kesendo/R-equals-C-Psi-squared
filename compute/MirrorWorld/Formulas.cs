@@ -192,4 +192,21 @@ public static class Formulas
     // F66 (T1): the dissipation interval [0, 2 gamma0] has poles at both endpoints, multiplicity N+1 each
     // (the N+1 elementary symmetric polynomials e_d(Z) at alpha=0, their Pi-partners at alpha=2 gamma0).
     public static int F66_PoleMultiplicity(int n) => n + 1;
+
+    // F68 (T1): palindromic partner rate of the bonding mode, alpha_p = 2 gamma0 - alpha_b (from F1).
+    public static double F68_PartnerRate(double alphaB, double gamma0) => 2.0 * gamma0 - alphaB;
+
+    // F69 (T1): GHZ_3 + W_3 sector mix lifts pair-CPsi(0) above the fold; the optimum is a degree-6
+    // algebraic number (irreducible sextic), pair-CPsi = 0.320412, ratio 1.281646 to 1/4. N>=4: stays below.
+    public const double F69_N3Optimum = 0.320411541127025;
+    public const double F69_RatioToQuarter = 1.281646;
+
+    // F70 (T1, kinematic): a k-local partial trace annihilates coherence blocks with |Delta N| >= k+1, so a
+    // k-local observable sees only |Delta N| <= k content (single-site <= 1, pair <= 2).
+    public static int F70_MaxVisibleDeltaN(int kLocal) => kLocal;
+
+    // F71 (T1, kinematic): the closure-breaking c1 bond profile is mirror-symmetric c1(b)=c1(N-2-b), so it
+    // has ceil((N-1)/2) = floor(N/2) independent components; the SE reflection R|psi_k> = (-1)^(k+1)|psi_k>.
+    public static int F71_C1IndependentComponents(int n) => n / 2;
+    public static int F71_ReflectionParity(int k) => k % 2 == 1 ? +1 : -1;
 }

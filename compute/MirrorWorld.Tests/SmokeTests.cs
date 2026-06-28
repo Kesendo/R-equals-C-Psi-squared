@@ -214,6 +214,19 @@ public class SmokeTests
         Assert.Equal(5, Formulas.F66_PoleMultiplicity(4));
     }
 
+    [Fact]
+    public void Partner_Optimum_Kinematic_Family()
+    {
+        Assert.Equal(2 * 0.05 - 0.0138, Formulas.F68_PartnerRate(0.0138, 0.05), 10);        // alpha_p = 2 g0 - alpha_b
+        Assert.True(Formulas.F69_N3Optimum > 0.25);                                          // above the fold
+        Assert.Equal(1, Formulas.F70_MaxVisibleDeltaN(1));
+        Assert.Equal(2, Formulas.F70_MaxVisibleDeltaN(2));
+        Assert.Equal(2, Formulas.F71_C1IndependentComponents(5));
+        Assert.Equal(1, Formulas.F71_C1IndependentComponents(2));
+        Assert.Equal(+1, Formulas.F71_ReflectionParity(1));
+        Assert.Equal(-1, Formulas.F71_ReflectionParity(2));
+    }
+
     // --- the even/odd self-mirror: half-filling survivor exists only at even N ---
     [Theory]
     [InlineData(2, true)]
