@@ -13,7 +13,7 @@ public sealed class Survivor : GameObject
     public Survivor(World world, int n) : base(world) => N = n;
 
     public bool HasHalfFillingSurvivor => N % 2 == 0;    // k=N/2 integer only at even N
-    public double Qstar => 2.0 * N / Math.PI;            // the coherence horizon (T1)
+    public double Qstar => Formulas.Qstar(N);            // exact T1 values (2N/pi only asymptotically)
 
     public override IReadOnlyList<string> Own => new[] { "regime", "parity", "Qstar" };
 }
