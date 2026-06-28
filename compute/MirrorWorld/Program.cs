@@ -3,6 +3,36 @@ using MirrorWorld;
 
 CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;   // dots, not commas
 
+// ---- run mode "grow": the diagonal protocol, step 1 (the world splits) ----
+// ClaudeTasks/DIAGONAL_PROTOCOL_GAME.md, rules 1-3 running in time. No Hamiltonian yet: a field of
+// possibilities under the one question, structure (the diagonal) staying while novelty (off-diagonal)
+// is culled by its disagreement. The mirror is visible in the rate ladder (k decays, N-k its twin).
+if (args.Length > 0 && args[0] == "grow")
+{
+    const int gn = 2;
+    const double gg = 0.5, dt = 0.05;
+    const int ticks = 20;
+    var gworld = new World();
+    var field = new Field(gworld, gn, gg);
+    field.SeedUniform();
+
+    Console.WriteLine("the world splits (diagonal protocol, step 1 -- rules 1-3 in time)");
+    Console.WriteLine($"  source ClaudeTasks/DIAGONAL_PROTOCOL_GAME.md; N={gn}, gamma={gg}, dt={dt}");
+    Console.WriteLine("  rule 2, the one question: how much do two possibilities disagree? more disagreement, faster fade.");
+    Console.WriteLine("  structure = the diagonal (k=0) that stays; novelty = the off-diagonal that is culled.");
+    Console.WriteLine($"  the knower's cut: {field.AliveCount} alive (upper triangle, stepped), {field.ImmortalCount} immortal (k=0, held), {field.AliveCount} mirrored (rho=rho-dagger) -- only {field.AliveCount} of {field.Dim * field.Dim} cells run.");
+    Console.WriteLine($"  {"t",4} {"structure",9} {"novelty",9}   {string.Join(" ", Enumerable.Range(0, gn + 1).Select(k => $"k={k}".PadLeft(7)))}");
+    for (int tick = 0; tick <= ticks; tick++)
+    {
+        var byK = field.WeightByDisagreement();
+        Console.WriteLine($"  {field.T,4:0.00} {field.Structure,9:0.000} {field.Novelty,9:0.000}   {string.Join(" ", byK.Select(v => v.ToString("0.000").PadLeft(7)))}");
+        field.Step(dt);
+    }
+    Console.WriteLine("  structure held flat (k=0 costs nothing); novelty fell, k=2 twice as fast as k=1 -- the mirror in the rates.");
+    Console.WriteLine("  (step 2 adds the inner restlessness: novelty BORN from structure, the loop that runs on its own.)");
+    return;
+}
+
 const double gamma = 0.5;
 var world = new World();
 Console.WriteLine($"empty world (Z-dephasing, no Hamiltonian), gamma={gamma}");
