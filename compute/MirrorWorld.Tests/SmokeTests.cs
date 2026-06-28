@@ -183,6 +183,9 @@ public class SmokeTests
         Assert.Equal(Math.PI / (4 * Math.Pow(Math.Sin(Math.PI / 8), 2)), Formulas.F41_PalindromicTime(4, 1.0), 9);
         // F44: a palindromic pair d_fast + d_slow = 2 Sg; here Sg=1, d_fast=1.5, d_slow=0.5
         Assert.Equal(Math.Log(1.5 / 0.5), Formulas.F44_LogRatio(1.5, 0.5, 1.0), 10);
+        Assert.Equal(Math.Sqrt(2.0 / 48), Formulas.F49c_CrossTermCrossing(3), 10);          // shadow-crossing
+        Assert.Equal(Math.Log(10), Formulas.F55_KDeath, 9);                                 // K_death
+        Assert.Equal(5, Formulas.F55_ImmortalModes(4));                                     // N+1 immortal
     }
 
     // --- the even/odd self-mirror: half-filling survivor exists only at even N ---

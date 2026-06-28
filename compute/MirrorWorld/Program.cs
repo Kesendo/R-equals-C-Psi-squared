@@ -144,5 +144,7 @@ Console.WriteLine($"  F36/F37 neural (Wilson-Cowan): Q J Q + J + 2S = 0, pairing
 Console.WriteLine($"  F61 bit_a parity Pi^2_X=Z^N=(-1)^(nX+nY)=(-1)^k (the k-parity H conserves); F63 [L,Pi^2]=0 (conserved, all N)");
 Console.WriteLine($"  F39 det(Pi)=(-1)^(N 4^(N-1)): N=1->{Formulas.F39_DetPi(1)}, N>=2->{Formulas.F39_DetPi(4)};  F41 t_Pi=pi/(4J sin^2(pi/2N)) (N=4) = {Formulas.F41_PalindromicTime(4, 1.0):0.000}");
 Console.WriteLine($"  F49 cross-term R(N)=sqrt((N-2)/(N 4^(N-1))): N=2,3,4 = {Formulas.F49_CrossTerm(2):0.000}, {Formulas.F49_CrossTerm(3):0.0000}, {Formulas.F49_CrossTerm(4):0.0000} (0, 1/sqrt48, 1/sqrt128);  F49b ||L_Dc||^2=g^2 4^N N (N=4,g=0.5) = {Formulas.F49b_CenteredDissipatorNormSq(4, 0.5):0.0}");
+Console.WriteLine($"  F49c shadow-crossing R(N)=sqrt((N-1)/(N 4^(N-1))): N=3,4 = {Formulas.F49c_CrossTermCrossing(3):0.0000}, {Formulas.F49c_CrossTermCrossing(4):0.0000}");
+Console.WriteLine($"  F55 K_death=ln10={Formulas.F55_KDeath:0.000} (99% absorption); immortal modes=N+1={Formulas.F55_ImmortalModes(4)} (N=4);  F56 cusp K(eps=1e-4,tol=1e-12) = {Formulas.F56_CriticalSlowing(1e-4, 1e-12):0.000}");
 
 // (the 4^N Pauli-string enumeration now lives in PauliMode.Enumerate, shared with the tests)

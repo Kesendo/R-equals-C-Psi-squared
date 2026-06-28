@@ -141,4 +141,18 @@ public static class Formulas
 
     // F49b (T1, proven): centered dissipator norm ||L_Dc||^2 = gamma^2 4^N N (uniform Z-dephasing).
     public static double F49b_CenteredDissipatorNormSq(int n, double gamma) => gamma * gamma * Math.Pow(4, n) * n;
+
+    // F49c (T1, proven): cross-term for shadow-crossing couplings (one bond Pauli in {X,Y}, the other in
+    // {I,Z}): R(N) = sqrt((N-1)/(N 4^(N-1))). Companion to F49 (bond-site variance 1 not 0, so N-2 -> N-1).
+    public static double F49c_CrossTermCrossing(int n) => Math.Sqrt((n - 1.0) / (n * Math.Pow(4, n - 1)));
+
+    // F55 (T1, from D6): universal absorption dose K_death = ln(10) = 2.303 (99% absorption of the slowest
+    // mortal mode, rate 2gamma). Immortal modes = N+1 (pure {I,Z}, zero absorption, invisible to the light).
+    public const double F55_KDeath = 2.302585092994046;   // ln(10)
+    public static int F55_ImmortalModes(int n) => n + 1;
+
+    // F56 (T1, closed form): critical-slowing iteration count near the cardioid cusp c = 1/4 - eps.
+    // K(eps,tol) = (1/2) ln(4 eps/tol) + alpha(tol) sqrt(eps), alpha(tol) = -4 + (1/2) ln(16 tol).
+    public static double F56_CriticalSlowing(double eps, double tol) =>
+        0.5 * Math.Log(4.0 * eps / tol) + (-4.0 + 0.5 * Math.Log(16.0 * tol)) * Math.Sqrt(eps);
 }
