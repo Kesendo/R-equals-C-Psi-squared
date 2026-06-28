@@ -58,4 +58,18 @@ public static class Formulas
 
     // F50 (T1 lower bound): weight-1 degeneracy d_real(-2γ) = 2N (chain); 8 for the K_3 triangle (N=3).
     public static int F50_Weight1Degeneracy(int n, bool triangleK3 = false) => triangleK3 && n == 3 ? 8 : 2 * n;
+
+    // F7 (T1): w=1 Q-factor spectrum. Q_max=2J/g(1+cos pi/N), Q_min=2J/g(1-cos pi/N), Q_mean=2J/g,
+    // Q_spread = Q_max/Q_min = cot^2(pi/(2N)).
+    public static (double Max, double Min, double Mean, double Spread) F7_QSpectrum(int n, double j, double gamma)
+    {
+        double s = 2.0 * j / gamma, c = Math.Cos(Math.PI / n), cot = 1.0 / Math.Tan(Math.PI / (2.0 * n));
+        return (s * (1 + c), s * (1 - c), s, cot * cot);
+    }
+
+    // F8 (T1): 2x universal decay law. unpaired = 2Ng (<n_XY>=N), paired mean = Ng, ratio = 2 exactly.
+    public static (double Unpaired, double PairedMean) F8_DecayLaw(int n, double gamma) => (2.0 * n * gamma, n * gamma);
+
+    // F12 (T2): single-qubit universal crossing fraction t*/T2 = 0.858367, the root of x^3 + x = 1/2.
+    public const double F12_CrossingFraction = 0.858367;
 }
