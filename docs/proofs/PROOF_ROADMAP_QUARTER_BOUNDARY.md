@@ -375,11 +375,13 @@ Results: [generalized_pauli_channels.txt](../../simulations/results/generalized_
 
 **Conjecture 5.1 (Channel Independence).** For any completely positive trace-preserving map $\mathcal{E}$ that is not unitary, and any initial state with $C\Psi > 1/4$, repeated application $\mathcal{E}^n$ will eventually produce a state with $C\Psi < 1/4$.
 
+> **RESOLVED (2026-06-22 scope-retraction, 2026-06-28 mechanism).** FALSE as stated for general non-unitary CPTP maps: the primitive, full-rank channel with fixed point $\sigma = 0.95\,|\Phi^+\rangle\langle\Phi^+| + 0.05\,I/4$ has $C\Psi(\sigma) = 0.2935 > 1/4$ and never crosses. TRUE for physical, computational-basis-aligned noise (T1/T2/depolarizing), whose fixed point is diagonal in the computational basis ($L_1 = 0$, $C\Psi = 0$). See [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) Case C.
+
 *Proof strategy:* The key insight is that the discriminant condition $D = 1 - 4C\Psi$ depends only on the *values* of $C$ and $\Psi$, not on how they got there. Any CPTP map that reduces purity (i.e., is not unitary) must, by contractivity of the trace distance, move the state toward the fixed point of the channel. The question reduces to: does *every* non-unitary CPTP channel have a fixed point with $C\Psi \leq 1/4$?
 
 For unital channels (depolarizing, dephasing, Pauli), the fixed point is the maximally mixed state, which has $C = 0$, $\Psi = 0$, so $C\Psi = 0 < 1/4$. ✓
 
-For non-unital channels (amplitude damping), the fixed point is a pure state ($|0\rangle\langle 0|$), which has $C = 0$ (no correlations in a product state), so $C\Psi = 0 < 1/4$. ✓
+For non-unital channels (amplitude damping toward $|0\rangle$), the fixed point is computational-basis-diagonal ($|0\rangle\langle 0|$), so $L_1 = 0$ and $C\Psi = 0 < 1/4$. ✓ (Note: "product state" alone does NOT give $C\Psi = 0$; the separable product $|+\rangle \otimes |+\rangle$ has $C\Psi = 1$. The operative property is computational-basis-diagonality.)
 
 The challenge is the *trajectory*: does $C\Psi(t)$ decrease monotonically, or can it increase temporarily before eventually decreasing?
 

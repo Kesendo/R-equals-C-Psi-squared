@@ -1645,7 +1645,24 @@ public static class OpenArcsRegistry
                 "dynamical absorber is currently UNTYPED (only the algebraic 1/4 QuarterAsBilinearMaxvalClaim is). " +
                 "Anchors: docs/proofs/PROOF_SUBSYSTEM_CROSSING.md (Case C, the separable-vs-entangled mechanism); " +
                 "simulations/review2_A5_subsystem.py.",
-            Status: OpenArcStatus.Open),
+            RetiredReason: "RESOLVED 2026-06-28 (gate-verified from below). The gate is a decisive " +
+                "NO: separability does NOT bound CPsi. A separable product state |+><+| (x) |+><+| has " +
+                "CPsi = 1 in the proof's own metric CPsi = Tr(rho^2)*L1/(d-1); zero-discord and " +
+                "classical-classical states (diagonal in a rotated product basis) likewise reach " +
+                "CPsi ~ 1. The ONLY fixed-point class that forces CPsi <= 1/4 is computational-basis- " +
+                "diagonal (L1 = 0 => CPsi = 0). So no clean separability/discord iff exists; per the " +
+                "arc's own branch logic (type a Claim only if a clean iff emerges) NO new Claim was " +
+                "typed. The operative axis is computational-basis L1-coherence, the very quantity CPsi " +
+                "measures; the physical channels win the crossing by DIAGONALIZING the fixed point " +
+                "(amplitude damping -> |0>, Z-dephasing, depolarizing -> I/d), not by becoming " +
+                "separable. Bonus finding (gate-verified): the proof's Case B lemma '|rho_01*| <= 1/2, " +
+                "equality only for the identity channel' is also FALSE -- amplitude damping conjugated " +
+                "to the |+> axis is non-identity, primitive, with |rho_01*| = 1/2 and product CPsi = 1, " +
+                "so the bound needs computational-basis-ALIGNED noise, not mere locality. Banked: " +
+                "PROOF_SUBSYSTEM_CROSSING.md (Case B + the distinguishing-structural-fact passage + " +
+                "the non-primitive physical note re-scoped from separable/classical to computational- " +
+                "basis-diagonal) and ANALYTICAL_FORMULAS.md F28 (same precision-fix).",
+            Status: OpenArcStatus.Retired),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;

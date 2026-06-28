@@ -737,7 +737,7 @@ u(1+u²)/6, off by 0.167).
 
 Proven analytically:
 - Case A: unital maps (rho* = I/d, CΨ = 0)
-- Case B: local channels (rho* = product/pure state, CΨ = 0)
+- Case B: local channels (rho* computational-basis-diagonal, CΨ = 0)
 
 Consequence: for physical noise, CΨ = 1/4 is an eventual absorber. Every
 initial state with CΨ > 1/4 eventually crosses below 1/4.
@@ -748,9 +748,11 @@ ALL primitive CPTP maps" is FALSE. Counterexample: ε(ρ) = (1−p)ρ + p·Tr(ρ
 1−p < 1) and full-rank, yet CΨ(σ) = 0.2935 > 1/4 in the proof's own metric
 CΨ = Tr(ρ²)·L₁/(d−1), and iterating from Bell+ never crosses below 1/4. The old
 "100 random maps, max 0.138" is a Ginibre n_kraus=4 sampling artifact (the same
-sweep at n_kraus=2 violates ~8.5%). The crossing is a property of physical noise
-(separable/classical fixed point), not of primitivity. Verifier:
-simulations/review2_A5_subsystem.py.
+sweep at n_kraus=2 violates ~8.5%). The crossing is a property of computational-
+basis-aligned physical noise (fixed point diagonal in the computational basis,
+L₁ = 0, so CΨ = 0), not of separability, locality, or primitivity. A separable
+product state |+⟩ ⊗ |+⟩ has CΨ = 1; the operative axis is computational-basis
+coherence, which CΨ measures. Verifier: simulations/review2_A5_subsystem.py.
 
 **Valid for:** physical noise channels (unital / local / Pauli / amplitude-damping),
 2 qubits. NOT valid for general primitive CPTP maps.

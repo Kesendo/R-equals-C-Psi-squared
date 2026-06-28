@@ -59,8 +59,8 @@ independently reproducible.
 | [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) | Liouvillian spectrum palindromic for any graph under Z-dephasing. Π swaps XY-weight k ↔ N−k. 87,376 eigenvalues, zero exceptions. |
 | [Uniqueness Proof](proofs/UNIQUENESS_PROOF.md) | CΨ = 1/4 is the unique bifurcation boundary. α=2 the only Rényi order with state-independent threshold. |
 | [CΨ Monotonicity](proofs/PROOF_MONOTONICITY_CPSI.md) | dCΨ/dt < 0 for Bell+ under all local Markovian channels. General Envelope Theorem. |
-| [Subsystem Crossing](proofs/PROOF_SUBSYSTEM_CROSSING.md) | Every entangled pair with CΨ > 1/4 eventually crosses below under any primitive CPTP map. |
-| [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) | Seven-layer proof architecture from single qubit to arbitrary dimension. All layers closed. |
+| [Subsystem Crossing](proofs/PROOF_SUBSYSTEM_CROSSING.md) | Every pair with CΨ > 1/4 eventually crosses below under physical, computational-basis-aligned noise (T1/T2/depolarizing). The general primitive-CPTP version is false. |
+| [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) | Seven-layer proof architecture from single qubit to arbitrary dimension. Layer 2 holds for physical noise (general-CPTP version false); other layers closed. |
 | [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md) | Dephasing noise cannot originate from within d(d−2)=0. Five candidates eliminated. Noise must come from outside. |
 | [Complete Math Doc](proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) | Master index: algebra, palindrome, boundary, incompleteness, γ channel, engineering, constants. |
 

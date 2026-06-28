@@ -138,12 +138,18 @@ For any CPTP (completely positive trace-preserving; the most general physically 
    under any such map.
 
 2. Purity is non-increasing under unital CPTP maps (channels that map the maximally mixed state to itself): Tr(E(ρ)²) ≤ Tr(ρ²).
-   For non-unital maps (amplitude damping), purity may temporarily increase
-   but the fixed point has CΨ = 0 (no correlations in product states).
+   For non-unital maps (amplitude damping toward |0⟩), purity may temporarily
+   increase but the fixed point is diagonal in the computational basis
+   (e.g. |0…0⟩), so L₁ = 0 and CΨ = 0.
 
-3. Every non-unitary CPTP channel has a fixed point with CΨ ≤ 1/4:
-   unital channels fix I/d (CΨ = 0), non-unital channels fix a product
-   state (CΨ = 0).
+3. Physical, computational-basis-aligned noise fixes a state with CΨ = 0:
+   unital channels fix I/d (CΨ = 0), amplitude damping fixes a computational-
+   basis-diagonal state such as |0…0⟩ (CΨ = 0). This does NOT extend to all
+   primitive CPTP maps: a primitive channel can fix an off-diagonal state with
+   CΨ > 1/4 (e.g. σ = 0.95·|Φ⁺⟩⟨Φ⁺| + 0.05·I/4 has CΨ = 0.2935), and
+   "product/separable" alone does not bound CΨ (|+⟩ ⊗ |+⟩ is separable with
+   CΨ = 1). The operative property is computational-basis-diagonality, L₁ = 0.
+   See [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) Case C.
 
 4. Computational verification: all seven standard channels tested cross
    CΨ = 1/4 and stay below. No unitary revival pulse (0 to π) can push
@@ -154,12 +160,14 @@ The formal proof of CΨ monotonicity has since been established for
 Pauli + amplitude damping); see
 [CΨ Monotonicity Proof](PROOF_MONOTONICITY_CPSI.md) (March 22, 2026,
 one day after this document). The eventual-crossing complement, that
-every entangled pair with CΨ > 1/4 must cross below in finite time
-under any primitive CPTP channel, is in
-[Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md). Extension to
-arbitrary CPTP maps on arbitrary states remains open as a pure
-analytic problem, but the computational evidence covers all standard
-Markovian channels without exception.
+every pair with CΨ > 1/4 crosses below in finite time under physical,
+computational-basis-aligned noise, is in
+[Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md). The general
+primitive-CPTP version is FALSE, not merely open (counterexample σ above;
+scope-retracted 2026-06-22, mechanism corrected 2026-06-28): a primitive
+channel can fix an off-diagonal state with CΨ > 1/4. The crossing is a
+property of computational-basis-aligned physical noise, which the standard
+Markovian channels (T1, T2, depolarizing) satisfy.
 
 ---
 
