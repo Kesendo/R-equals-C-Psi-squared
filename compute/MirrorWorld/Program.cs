@@ -108,6 +108,16 @@ foreach (int n in new[] { 3, 4, 5, 6 })
 }
 Console.WriteLine("  even N: PH partners (k,N+1-k) carry opposite R-parity -> isospectral; odd N: same R-parity + a lone R-fixed zero mode -> split");
 
+// F-registry closed forms, adopted verbatim (J=1).
+Console.WriteLine();
+Console.WriteLine("==== F-registry closed forms (adopted verbatim, J=1) ====");
+foreach (int n in new[] { 3, 4, 5 })
+{
+    Console.WriteLine($"  N={n}: F2  omega_k=4J(1-cos(pi k/N))   = [{string.Join(", ", Formulas.F2_Dispersion(n, 1.0).Select(x => x.ToString("0.00")))}]");
+    Console.WriteLine($"        F2b E_k=2J cos(pi k/(N+1))       = [{string.Join(", ", Formulas.F2b_SingleExcitation(n, 1.0).Select(x => x.ToString("0.00")))}]");
+}
+Console.WriteLine($"  F1 residuals (N=4, gamma=0.5: sg=2, sg2=1): ||M(T1)||^2 = {Formulas.F1_T1Residual(4, 2.0, 1.0):0.0}, ||M(depol)||^2 = {Formulas.F1_DepolResidual(4, 2.0, 1.0):0.0}");
+
 // all 4^N Pauli strings, site 0 the least-significant base-4 digit
 static IEnumerable<char[]> EnumeratePauli(int N)
 {
