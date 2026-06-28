@@ -149,5 +149,8 @@ Console.WriteLine($"  F55 K_death=ln10={Formulas.F55_KDeath:0.000} (99% absorpti
 Console.WriteLine($"  F57 Bell+ dwell prefactor K_dwell/delta = {Formulas.F57_DwellPrefactorBell} (gamma-independent)");
 Console.WriteLine($"  F60 GHZ_N CPsi(0)=1/(2^N-1): N=2,3,4,5 = {Formulas.F60_GhzCPsi0(2):0.000}, {Formulas.F60_GhzCPsi0(3):0.000}, {Formulas.F60_GhzCPsi0(4):0.000}, {Formulas.F60_GhzCPsi0(5):0.000} (<1/4 for N>=3)");
 Console.WriteLine($"  F62 W_N CPsi(0)=2(N^2-4N+8)/(3N^3): N=2,3,4 = {Formulas.F62_WstateCPsi0(2):0.000}, {Formulas.F62_WstateCPsi0(3):0.000}, {Formulas.F62_WstateCPsi0(4):0.000};  F59 prefactor(W0=1/2,k=2,W2=0.371) = {Formulas.F59_DwellPrefactor(2, 0.5, 0.3709):0.000}");
+Console.WriteLine($"  F63 [L,Pi^2]=0, 4 blocks dim 4^(N-1)={Formulas.F63_BlockDim(4)} (N=4); conserved/sector (even,odd) N=4 = {Formulas.F63_ConservedPerSector(4)}");
+Console.WriteLine($"  F65 SE spectrum (4/(N+1))sin^2(k pi/(N+1)): N=3 = [{string.Join(", ", Formulas.F65_SingleExcitationRates(3).Select(x => x.ToString("0.000")))}], N=5 = [{string.Join(", ", Formulas.F65_SingleExcitationRates(5).Select(x => x.ToString("0.000")))}]");
+Console.WriteLine($"  F65 Niven: rational iff N in {{0,1,2,3,5}} (N=4 golden-irrational); F66 pole multiplicity N+1 = {Formulas.F66_PoleMultiplicity(4)} (N=4)");
 
 // (the 4^N Pauli-string enumeration now lives in PauliMode.Enumerate, shared with the tests)

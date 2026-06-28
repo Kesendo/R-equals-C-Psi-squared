@@ -199,6 +199,21 @@ public class SmokeTests
         Assert.Equal(1.080, Formulas.F59_DwellPrefactor(2, 0.5, 0.3709), 3);               // reduces to F57
     }
 
+    [Fact]
+    public void SingleExcitation_And_BlockStructure()
+    {
+        Assert.Equal(64L, Formulas.F63_BlockDim(4));                                        // 4^(N-1)
+        Assert.Equal((3, 2), Formulas.F63_ConservedPerSector(4));
+        Assert.Equal((2, 1), Formulas.F63_ConservedPerSector(2));
+        var a3 = Formulas.F65_SingleExcitationRates(3);
+        Assert.Equal(0.5, a3[0], 10); Assert.Equal(1.0, a3[1], 10); Assert.Equal(0.5, a3[2], 10);
+        var a5 = Formulas.F65_SingleExcitationRates(5);
+        Assert.Equal(1.0 / 6, a5[0], 10); Assert.Equal(0.5, a5[1], 10); Assert.Equal(2.0 / 3, a5[2], 10);
+        Assert.True(Formulas.F65_RatesRational(3));
+        Assert.False(Formulas.F65_RatesRational(4));                                        // golden-irrational
+        Assert.Equal(5, Formulas.F66_PoleMultiplicity(4));
+    }
+
     // --- the even/odd self-mirror: half-filling survivor exists only at even N ---
     [Theory]
     [InlineData(2, true)]

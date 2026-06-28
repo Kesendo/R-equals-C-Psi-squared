@@ -169,4 +169,27 @@ public static class Formulas
 
     // F62 (T1): W_N initial CPsi. CPsi(0) = 2(N^2 - 4N + 8)/(3 N^3).
     public static double F62_WstateCPsi0(int n) => 2.0 * (n * n - 4.0 * n + 8.0) / (3.0 * n * n * n);
+
+    // F63 (T1, proven): [L, Pi^2] = 0. With F61 (n_XY parity), L has two independent Z2 symmetries; the
+    // d=2 Pauli algebra splits the operator space into 4 blocks of dim 4^(N-1). Per Pi^2-sector conserved
+    // mode count (boundary Z-dephasing): even = floor(N/2)+1, odd = ceil(N/2) (the e_d(Z) by parity).
+    public static long F63_BlockDim(int n) => 1L << (2 * (n - 1));   // 4^(N-1)
+    public static (int Even, int Odd) F63_ConservedPerSector(int n) => (n / 2 + 1, (n + 1) / 2);
+
+    // F65 (T1, proven): single-excitation dissipation spectrum, uniform open XY chain, endpoint Z-dephasing.
+    // alpha_k/gamma0 = (4/(N+1)) sin^2(k pi/(N+1)), k=1..N. All in [0, 2]; alpha_k = alpha_{N+1-k}.
+    public static double[] F65_SingleExcitationRates(int n)
+    {
+        var a = new double[n];
+        for (int k = 1; k <= n; k++) a[k - 1] = 4.0 / (n + 1) * Math.Pow(Math.Sin(k * Math.PI / (n + 1)), 2);
+        return a;
+    }
+
+    // F65 Niven rationality: all alpha_k/gamma0 rational iff N+1 in {1,2,3,4,6}, i.e. N in {0,1,2,3,5}
+    // (N=4 is the first golden-irrational, sin^2(pi/5)). Niven's theorem on cos(2k pi/(N+1)).
+    public static bool F65_RatesRational(int n) => n is 0 or 1 or 2 or 3 or 5;
+
+    // F66 (T1): the dissipation interval [0, 2 gamma0] has poles at both endpoints, multiplicity N+1 each
+    // (the N+1 elementary symmetric polynomials e_d(Z) at alpha=0, their Pi-partners at alpha=2 gamma0).
+    public static int F66_PoleMultiplicity(int n) => n + 1;
 }
