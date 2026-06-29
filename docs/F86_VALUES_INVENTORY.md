@@ -134,20 +134,20 @@ These are observation-of-multi-mode-plateau values, NOT structural Q-anchors. Th
 
 **Caveat**: Tier1Candidate. The floor 0.671535 IS derived (Tier1Derived, bare-doubled-PTF closed form). The lifts +0.08 to +0.10 are empirical observations; the analytical derivation is **open** (PROOF_F90_F86C2_BRIDGE.md Item 1'-followup, F89 AT-locked F_a/F_b structure). The specific empirical mean values (0.7728, 0.7506) may shift under refined Q-grid resolution or under closed-form derivation.
 
-### B4. Per-sub-class fitted (α, β): polyfit, not derived
+### B4. Per-sub-class (α, β): honest reshape (f86b2_robust_extraction, 2026-06-29)
 
-`F86HwhmClosedFormClaim.cs:51-56`. Form: HWHM_ratio = 0.671535 + α·g_eff + β, all 6 (α, β) pairs **polyfit on N=5..8**, not analytically derived:
+`F86HwhmAlphaExtraction.cs` (the live recompute; `F86HwhmClosedFormClaim` reads it, no hand-transcription). Form: HWHM_ratio = 0.671535 + α·g_eff + β. The robust-extraction arc found only **two** of the six slopes defensible; the rest collapse to a per-class constant lift (α = 0) or a flagged grid-edge fit:
 
-| BondSubClass         | α          | β          |
-|----------------------|------------|------------|
-| Endpoint             | −0.129110  | +0.227413  |
-| Flanking             | −0.094978  | +0.193098  |
-| Mid                  | +0.056559  | +0.005165  |
-| CentralSelfPaired    | +0.057439  |  0.000000  |
-| Orbit2Escape         | +0.698446  | −0.086386  |
-| CentralEscapeOrbit3  | −0.400854  |  0.000000  |
+| BondSubClass         | α (used)   | β (used)   | status |
+|----------------------|------------|------------|--------|
+| Endpoint             | −0.129110  | +0.227413  | resolved slope (jackknife-tight; marginal at the 0.005 grid floor) |
+| Flanking             | −0.094978  | +0.193098  | resolved slope |
+| Mid                  |  0         | +0.075665  | constant lift (slope was noise: g_span ≈ 0.011, σ_α ≈ 0.47) |
+| CentralSelfPaired    |  0         | +0.073365  | constant lift (single anchor) |
+| Orbit2Escape         | +0.698446  | −0.086386  | grid-edge artefact, flagged non-physical (kept only for fidelity) |
+| CentralEscapeOrbit3  |  0         | −0.093735  | constant lift (single anchor + escape) |
 
-**Caveat**: All 12 numbers are polyfit on a small N-range. Analytical derivation is open. The specific values are explicitly NOT anchors and should not be treated as structural constants.
+**Caveat**: the two resolved slopes are jackknife-tight but still marginal at the documented 0.005 Q-grid floor; promoting them to structural constants awaits a grid-convergence study. The α extraction is recomputed live (no hand-transcription); the separate analytical derivation of (α, β) from F89/F90 structure remains open. The values still reproduce all 22 anchors within 0.005. (The pre-reshape table listed all 6 as free polyfit slopes; Mid +0.056559, CentralSelfPaired +0.057439, CentralEscapeOrbit3 −0.400854 were the noise/single-point artefacts now zeroed.)
 
 ---
 

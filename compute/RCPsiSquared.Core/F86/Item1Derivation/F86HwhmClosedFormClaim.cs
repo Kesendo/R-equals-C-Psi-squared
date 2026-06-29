@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
 
@@ -13,6 +15,14 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// (verification confirms the form is approximately right), but no analytical reduction
 /// derives the (alpha, beta) values from F89 cyclotomic Phi_{N+1} / F90 bridge identity
 /// structure.</para>
+///
+/// <para><b>Honest reshape (f86b2_robust_extraction arc, 2026-06-29):</b> the (alpha, beta) are
+/// read live from <see cref="F86HwhmAlphaExtraction"/>, and only Endpoint and Flanking carry a
+/// resolved slope (jackknife-tight, though marginal at the 0.005 grid floor). Mid is a flat lift
+/// over a microscopic g_eff lever (slope = noise), two classes have a single anchor, and
+/// Orbit2Escape sits on grid-edge anchors flagged non-physical; these four collapse to a
+/// per-class constant lift (alpha = 0) or a flagged fit, all still reproducing their anchors
+/// within 0.005.</para>
 ///
 /// <para><b>What IS derived (Tier 1 sub-results inside this candidate class):</b>
 /// <list type="bullet">
@@ -45,19 +55,13 @@ public sealed class F86HwhmClosedFormClaim : Claim
     public double BareFloor => BareFloorValue;
     public double BareDoubledPtfXPeak => BareDoubledPtfXPeakValue;
 
-    // Per-sub-class linear-fit parameters (alpha, beta) such that
-    // HWHM_ratio = BareFloor + alpha * g_eff + beta.
-    // Values from Phase 4 verification self-fit on F90 bridge anchors N=5..8
-    // (simulations/f86_hwhm_closed_form_verification.py output, 2026-05-13).
-    private static readonly Dictionary<BondSubClass, (double Alpha, double Beta)> _subClassParams = new()
-    {
-        [BondSubClass.Endpoint]            = (-0.129110,  0.227413),
-        [BondSubClass.Flanking]            = (-0.094978,  0.193098),
-        [BondSubClass.Mid]                 = ( 0.056559,  0.005165),
-        [BondSubClass.CentralSelfPaired]   = ( 0.057439,  0.000000),
-        [BondSubClass.Orbit2Escape]        = ( 0.698446, -0.086386),
-        [BondSubClass.CentralEscapeOrbit3] = (-0.400854,  0.000000),
-    };
+    // Per-sub-class (alpha, beta) such that HWHM_ratio = BareFloor + alpha * g_eff + beta, read
+    // LIVE from F86HwhmAlphaExtraction (no hand-transcription, so they cannot drift from their
+    // source). The honest reshape (f86b2_robust_extraction arc, 2026-06-29): only Endpoint and
+    // Flanking keep a resolved slope; Mid (noise), the two single-point classes, and the
+    // grid-edge Orbit2Escape collapse to a per-class constant lift / flagged fit.
+    private static readonly Dictionary<BondSubClass, (double Alpha, double Beta)> _subClassParams =
+        Enum.GetValues<BondSubClass>().ToDictionary(s => s, F86HwhmAlphaExtraction.ReshapedParams);
 
     public F86HwhmClosedFormClaim()
         : base("F86 c=2 HWHM_left/Q_peak per BondSubClass (Tier 1 candidate; form derived, (alpha, beta) fitted via polyfit, analytical lift open)",
@@ -68,7 +72,8 @@ public sealed class F86HwhmClosedFormClaim : Claim
                "compute/RCPsiSquared.Core/Symmetry/F90F86C2BridgeIdentity.cs (numerical anchor) + " +
                "docs/proofs/PROOF_F90_F86C2_BRIDGE.md (Item 1', partial closure) + " +
                "docs/superpowers/plans/2026-05-13-f86-hwhm-closed-form-attack.md + " +
-               "simulations/f86_hwhm_closed_form_verification.py (polyfit source for (alpha, beta))")
+               "simulations/f86_hwhm_closed_form_verification.py (polyfit source for (alpha, beta)) + " +
+               "compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmAlphaExtraction.cs (the live recompute + honest reshape)")
     { }
 
     public double PredictHwhmRatio(int n, int bondIndex, double qPeak)
@@ -83,9 +88,11 @@ public sealed class F86HwhmClosedFormClaim : Claim
         "F86 c=2 HWHM per BondSubClass (Tier 1 candidate; (alpha, beta) fitted, analytical lift open)";
 
     public override string Summary =>
-        $"HWHM_ratio = {BareFloorValue} + alpha_subclass * g_eff + beta_subclass; " +
-        $"{_subClassParams.Count} sub-classes; (alpha, beta) fitted via polyfit on N=5..8 anchors; " +
-        $"reproduces 22 anchors within 0.005 residual; analytical derivation of (alpha, beta) from F89/F90 structure open ({Tier.Label()})";
+        $"HWHM_ratio = {BareFloorValue} + alpha_subclass * g_eff + beta_subclass, read live from " +
+        $"F86HwhmAlphaExtraction; {_subClassParams.Count} sub-classes, but only Endpoint/Flanking carry a " +
+        $"resolved slope (jackknife-tight, marginal at the 0.005 grid floor) -- Mid (noise), two single-point " +
+        $"classes, and the grid-edge Orbit2Escape are not defensible slopes (f86b2_robust_extraction, 2026-06-29); " +
+        $"reproduces 22 anchors within 0.005; analytical (alpha, beta) derivation from F89/F90 still open ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -93,9 +100,17 @@ public sealed class F86HwhmClosedFormClaim : Claim
         {
             yield return InspectableNode.RealScalar("BareFloor (4-mode F_a/F_b doubled-PTF)", BareFloorValue);
             yield return InspectableNode.RealScalar("BareDoubledPtfXPeak (g_eff conversion factor)", BareDoubledPtfXPeakValue);
-            foreach (var (sub, (alpha, beta)) in _subClassParams)
-                yield return new InspectableNode($"{sub} fit",
-                    summary: $"alpha = {alpha:G6}, beta = {beta:G6}");
+            // The live witness: each sub-class's slope recomputed from the anchors with its
+            // grid-noise sigma and the honest verdict (resolved / noise / single-point / escape).
+            foreach (var ex in F86HwhmAlphaExtraction.Extract().Values)
+            {
+                var (alpha, beta) = F86HwhmAlphaExtraction.ReshapedParams(ex.SubClass);
+                yield return new InspectableNode($"{ex.SubClass} [{ex.Verdict}]",
+                    summary: $"used (alpha={alpha:G6}, beta={beta:G6}); fitted slope {ex.FittedAlpha:G4} " +
+                             $"+- {ex.SigmaAlpha:G3} (grid sigma_y=0.005), n={ex.N}" +
+                             $"{(ex.NEscape > 0 ? $", {ex.NEscape} grid-edge" : "")}, g-lever {ex.GSpan:G3}",
+                    provenance: NodeProvenance.Live);
+            }
         }
     }
 }

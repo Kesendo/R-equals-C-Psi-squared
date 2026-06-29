@@ -1416,7 +1416,23 @@ public static class OpenArcsRegistry
             Origin: "simulations/f86b2_shape_invariance_dial.py",
             ParkedAt: "(N,b)-family traces alpha=-0.133 vs fitted -0.129, extraction-noise-limited; g_eff convention gotcha pinned (4.394/(Qp+2))",
             NextStep: "robust extraction, then close the shape-invariance claim",
-            Status: OpenArcStatus.Open),
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "RETIRED 2026-06-29 (honest & phased robust extraction). The per-sub-class slope " +
+                "alpha is now recomputed LIVE from the 22 F90-bridge anchors in F86HwhmAlphaExtraction.cs " +
+                "(F86HwhmClosedFormClaim reads it, no hand-transcription -> no drift), with its grid-noise sigma " +
+                "and an honest per-class verdict. The data verdict: only Endpoint and Flanking carry a resolved " +
+                "slope (jackknife-tight, though still marginal at the documented 0.005 grid floor -- promotion to " +
+                "Tier1Derived awaits a grid-convergence study). The other four are not defensible slopes: Mid is a " +
+                "flat lift over a microscopic g_eff lever (g_span ~0.011, sigma_alpha ~0.47, ~8x the slope), " +
+                "CentralSelfPaired and CentralEscapeOrbit3 have a single anchor each, and Orbit2Escape sits " +
+                "entirely on grid-edge anchors (Q_peak > 4) that C2HwhmRatio flags non-physical (the +0.698 " +
+                "outlier). These four collapse to a per-class constant lift (alpha = 0) or a flagged fit; all still " +
+                "reproduce their anchors within 0.005, so PredictHwhmRatio stays <= 0.005 on every test anchor. The " +
+                "original puzzle (alpha=-0.133 vs -0.129 between extraction paths) is a 0.004 difference well inside " +
+                "the slope's own uncertainty -- the extraction was never the problem; the model was " +
+                "over-parameterized (6 slopes where only 2 rest on a real lever). The separate ANALYTICAL derivation " +
+                "of (alpha, beta) from F89/F90 structure stays open (F86b2 remains Tier1Candidate); this arc closed " +
+                "only the empirical-fit-robustness front it named."),
 
         new OpenArc(
             Name: "felt_time_dimensions",

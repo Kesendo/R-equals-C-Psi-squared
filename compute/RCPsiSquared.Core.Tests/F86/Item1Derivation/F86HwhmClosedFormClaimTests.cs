@@ -41,4 +41,16 @@ public class F86HwhmClosedFormClaimTests
         var claim = new F86HwhmClosedFormClaim();
         Assert.Equal(0.671535, claim.BareFloor, precision: 6);
     }
+
+    [Fact]
+    public void PredictHwhmRatio_UsesReshapedConstantLift_ForMid()
+    {
+        // The honest reshape (f86b2_robust_extraction arc, 2026-06-29): Mid's slope was noise,
+        // so it collapsed to a per-class constant lift (alpha = 0). The claim reads this live
+        // from F86HwhmAlphaExtraction, so its Mid prediction is BareFloor + beta (g_eff drops out).
+        var (alpha, beta) = F86HwhmAlphaExtraction.ReshapedParams(BondSubClass.Mid);
+        Assert.Equal(0.0, alpha);
+        var claim = new F86HwhmClosedFormClaim();
+        Assert.Equal(F86HwhmAlphaExtraction.BareFloor + beta, claim.PredictHwhmRatio(7, 2, 1.54), precision: 6);
+    }
 }
