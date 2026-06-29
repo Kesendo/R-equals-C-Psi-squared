@@ -258,11 +258,13 @@ public sealed class ReadingPowerWitness : IInspectable
             summary: $"given only the per-site reading, the decoder returns where the defect sits and how " +
                      $"strong it is; the residual is its confidence (it grows toward the edge of the linear " +
                      $"window). Calibrated at N = {N}, γ = {DemoGamma.ToString(Inv)}, δJ_cal = {DemoDeltaJCal.ToString(Inv)} " +
-                     $"({decoder.CalibrationBuildCount} calibration performances); three planted defects decoded below. " +
+                     $"({decoder.CalibrationBuildCount} calibration performances); three planted defects decoded below, " +
+                     $"plus the de-loss before/after. " +
                      $"Honest scope: at N = 5 the alphabet contains a near-anti-collinear letter pair " +
                      $"(weakening an edge bond ≈ strengthening the complementary interior bond), so sign+location " +
                      $"are not always separable by a single α-profile; the decoder reports the ambiguity rather than " +
-                     $"guessing, and a second feature axis is the planned tie-breaker.",
+                     $"guessing, and the signed per-site deviation profile is that second feature axis, " +
+                     $"demonstrated live in the de-loss node below.",
             children: cases);
     }
 
@@ -292,7 +294,7 @@ public sealed class ReadingPowerWitness : IInspectable
             $"({(rDev.DeltaJ < 0 ? "weakened, sign read" : "WRONG SIGN")}), " +
             $"{(rDev.IsAmbiguous ? "still ambiguous" : "RESOLVED")} (residual ratio {ratioDev.ToString("0.#", Inv)}, " +
             $"squared convention). The de-loss: ratio {ratioAlpha.ToString("0.##", Inv)} → {ratioDev.ToString("0.#", Inv)} " +
-            $"and the sign recovered — despite the deviation dictionary staying just as anti-collinear " +
+            $"and the sign recovered, despite the deviation dictionary staying just as anti-collinear " +
             $"(it resolves by preserving the sign the α-rescaling clips, not by escaping the angle).";
 
         return new InspectableNode(
@@ -301,7 +303,7 @@ public sealed class ReadingPowerWitness : IInspectable
     }
 
     /// <summary>The per-site α-profile AND signed purity-deviation profile a defect (n, bond, δJ) produces,
-    /// read through the SAME painters pipeline the decoder calibrated against — one Symphony, both observed
+    /// read through the SAME painters pipeline the decoder calibrated against; one Symphony, both observed
     /// readings. Parallel to <see cref="PlantedAlphaProfile"/>, parameterised by N for the de-loss node.</summary>
     (double[] Alpha, double[] Deviation) PlantedProfiles(int n, int bond, double deltaJ)
     {
