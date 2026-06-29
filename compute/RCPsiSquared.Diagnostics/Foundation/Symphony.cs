@@ -878,6 +878,44 @@ public sealed class PaintersMovement : IInspectable
     public IReadOnlyList<double> F { get { Ensure(); return _f ?? Array.Empty<double>(); } }
     public IReadOnlyList<bool> Reliable { get { Ensure(); return _reliable ?? Array.Empty<bool>(); } }
 
+    /// <summary>The per-site signed purity-deviation profile g_i = mean_t [P_B(i,t) − P_A(i,t)] over the
+    /// painters' grid (a uniform mean; the grid is a uniform linspace [0, 1/γ]). The de-lossed observable:
+    /// unlike the α time-rescaling, the signed difference preserves the SIGN and MAGNITUDE of a purity that
+    /// departs the "wrong way", so <see cref="DefectDecoder.DecodeDeviation"/> reads the defect sign. It is
+    /// a pure reduction of the already-stored trajectories (no α golden-section fit, so no per-site fit can
+    /// clamp/degrade). Empty when the movement is silent. (Design + review:
+    /// docs/superpowers/specs/2026-06-29-defect-decoder-de-loss-design.md §11.)</summary>
+    public IReadOnlyList<double> DeviationProfile
+    {
+        get
+        {
+            Ensure();
+            if (!_hasLenses || _pA is null || _pB is null || _tGrid is null) return Array.Empty<double>();
+            var g = new double[_n];
+            for (int i = 0; i < _n; i++)
+            {
+                double sum = 0.0;
+                for (int s = 0; s < _tGrid.Length; s++) sum += _pB[i][s] - _pA[i][s];
+                g[i] = sum / _tGrid.Length;
+            }
+            return g;
+        }
+    }
+
+    /// <summary>The per-δJ deviation response g_i / δJ — the de-lossed dictionary entry, parallel to
+    /// <see cref="F"/> (which is (α_i − 1)/δJ). Empty when the movement is silent.</summary>
+    public IReadOnlyList<double> DeviationResponse
+    {
+        get
+        {
+            var g = DeviationProfile;   // already Ensure()d; empty when silent
+            if (g.Count == 0) return Array.Empty<double>();
+            var r = new double[g.Count];
+            for (int i = 0; i < g.Count; i++) r[i] = g[i] / DeltaJ;
+            return r;
+        }
+    }
+
     public PaintersMovement(Symphony parent, int bond, double deltaJ)
     {
         Parent = parent;

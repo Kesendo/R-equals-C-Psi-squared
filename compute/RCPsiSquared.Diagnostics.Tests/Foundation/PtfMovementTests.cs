@@ -234,4 +234,32 @@ public class PtfMovementTests
         Assert.Equal(a[1], a[2], 6);
         Assert.All(a, x => Assert.InRange(x, 0.9, 1.1));
     }
+
+    [Fact]
+    public void DeviationProfile_SignedFiniteRightLength_AndResponseIsProfileOverDeltaJ()
+    {
+        var m = Movement(Canonical(5));
+        Assert.True(m.HasLenses);
+
+        var g = m.DeviationProfile;
+        Assert.Equal(5, g.Count);
+        Assert.All(g, x => Assert.True(double.IsFinite(x), $"deviation entry {x} must be finite"));
+        Assert.Contains(g, x => x != 0.0);   // signed, non-trivial
+
+        var resp = m.DeviationResponse;
+        Assert.Equal(5, resp.Count);
+        for (int i = 0; i < 5; i++)
+            Assert.Equal(g[i] / m.DeltaJ, resp[i], 12);   // response == profile / δJ, site-wise
+    }
+
+    [Fact]
+    public void DeviationProfile_EmptyWhenMovementSilent()
+    {
+        // A non-XY chain declines (no lenses); the deviation accessors mirror F/Alphas and return empty.
+        var s = new Symphony(n: 4, hType: HamiltonianType.Heisenberg, defectBond: 1);
+        var m = Movement(s);
+        Assert.False(m.HasLenses);
+        Assert.Empty(m.DeviationProfile);
+        Assert.Empty(m.DeviationResponse);
+    }
 }
