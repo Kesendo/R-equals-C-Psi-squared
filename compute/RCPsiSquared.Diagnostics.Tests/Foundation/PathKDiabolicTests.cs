@@ -67,6 +67,74 @@ public class PathKDiabolicTests
         Assert.False(PathKMonodromyScout.IsSemisimpleAt(3, new Complex(2, 0), generic, radius: 0.05));
     }
 
+    // Residual-only tracking (the N>=6 AT-flood fix): ResidualRootsTracked follows the residual SET by
+    // continuity from q0=2, so it returns the F_d residual strands at ANY q (the q-general analogue of
+    // ResidualRootsAt, which is q≈2-only). AT-free by construction: the AT-locked strands are excluded, so
+    // the AT-AT exact degeneracies that flood the full-block scan at N>=6 never enter this root set.
+    [Fact]
+    public void ResidualRootsTracked_Path3_MatchesDirectResidual_AtBase()
+    {
+        var tracked = PathKMonodromyScout.ResidualRootsTracked(3, new Complex(2, 0))
+            .OrderBy(z => z.Real).ThenBy(z => z.Imaginary).ToArray();
+        var direct = PathKMonodromyScout.ResidualRootsAt(3, new Complex(2, 0))
+            .OrderBy(z => z.Real).ThenBy(z => z.Imaginary).ToArray();
+        Assert.Equal(8, tracked.Length);
+        for (int i = 0; i < 8; i++)
+            Assert.True((tracked[i] - direct[i]).Magnitude < 1e-9, $"strand {i}: {tracked[i]} vs {direct[i]}");
+    }
+
+    // The whole point of the fix: at a generic q away from the base, tracking returns EXACTLY the residual
+    // strands (F_d degree 32 for path-5), not the full S₂-sym block (45 = 32 residual + 13 AT-locked). The 13
+    // AT strands — whose same-⟨n_XY⟩ exact crossings flood the full-block scan at N=6 — are excluded.
+    [Fact]
+    public void ResidualRootsTracked_Path5_ReturnsResidualStrandsOnly_AwayFromBase()
+    {
+        var resid = PathKMonodromyScout.ResidualRootsTracked(5, new Complex(1.3, -0.4));
+        Assert.Equal(32, resid.Length);
+    }
+
+    // Local residual GapRefine (the second perf fix): descend the residual min-gap field from a seed WITHOUT
+    // re-tracking from q0=2 at every probe (the nested cost that made the broad N=7 scan ~1h). Track q0→seed
+    // once, then identify the residual subset at each probe by local nearest-neighbour continuity. Must still
+    // converge a seed to the residual coalescence (gap → ~0), same as the global GapRefine.
+    [Fact]
+    public void GapRefineResidualLocal_Path5_DrivesResidualGapToZeroAtDiabolic()
+    {
+        // seed near the known path-5 residual diabolic q≈0.7581+0.260i (broad scan, gap 1.1e-8).
+        var qd = PathKMonodromyScout.GapRefineResidualLocalAt(5, new Complex(0.76, 0.27), cell: 0.02);
+        double gapAtQd = PathKMonodromyScout.MinGap(PathKMonodromyScout.ResidualRootsTracked(5, qd));
+        Assert.True(gapAtQd < 1e-5, $"residual gap at refined q*={qd} is {gapAtQd:E2}, expected ~0 (converged to the diabolic)");
+    }
+
+    // The local residual monodromy loop (the perf fix): instead of re-tracking from q0=2 at every one of the
+    // 240 loop points (nested O(loopSteps × trackSteps), ~1h at N=7), track q0→loop-start ONCE then walk the
+    // tiny circle by LOCAL continuity over the full roots, following only the residual strands. Must read the
+    // SAME verdict as the slow global loop: identity at a diabolic (no braid), transposition at a defective EP.
+    [Fact]
+    public void ResidualLoopIsIdentity_Path5_TrueAtDiabolic_FalseAtDefectiveEp()
+    {
+        // from the broad k=5 scan: q≈0.709−0.219i is a clean residual diabolic (gap-exp 0.98, loop identity);
+        // q≈1.416−0.217i is a residual defective EP (gap-exp 0.50, loop transposition).
+        Assert.True(PathKMonodromyScout.ResidualLoopIsIdentityAt(5, new Complex(0.7090, -0.219)),
+            "the small residual loop around a diabolic must be the identity (no braid)");
+        Assert.False(PathKMonodromyScout.ResidualLoopIsIdentityAt(5, new Complex(1.4159, -0.217)),
+            "the small residual loop around a defective EP must braid (a transposition)");
+    }
+
+    // The N=6 fix at scan level: the full-block scan FLOODS at path-5 (the DE sector's same-⟨n_XY⟩ AT strands
+    // coincide exactly on dense curves, ~800 residual=False gap=0 coalescences, ZERO residual isolated).
+    // residualOnly tracks the residual SET from q0=2, so the AT crossings never enter the gap field and every
+    // reported coalescence is a genuine residual (H_B-mixed) one.
+    [Fact]
+    public void FindDiabolics_Path5_ResidualOnly_ReportsOnlyResidualCoalescences()
+    {
+        var found = PathKMonodromyScout.FindDiabolics(
+            k: 5, reLo: 0.5, reHi: 1.0, imLo: 0.05, imHi: 0.45, cell: 0.02, residualOnly: true);
+        Assert.NotEmpty(found);
+        Assert.All(found, d => Assert.True(d.PairIsResidual,
+            $"residualOnly must report only residual coalescences; got an AT-locked one at q={d.QValue}, gap={d.Gap:E2}"));
+    }
+
     // Item-1 regression: the path-4 near-axis diabolic at q≈0.6118+0.012i sits close to a defective EP that a
     // path-3-tuned fixed 0.02 loop would catch (reading a false transposition). The small intrinsic loop radius
     // must classify it correctly: a TRUE diabolic, loop-identity. (The radius-sweep evidence: identity at

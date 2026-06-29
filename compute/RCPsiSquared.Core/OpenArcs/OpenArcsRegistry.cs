@@ -69,7 +69,40 @@ public static class OpenArcsRegistry
                 "REAL q, that refutes the self-fold=real-placement reading — investigate the new pinning. " +
                 "Tooling to extend only when k>6: F89PathKFdOracle + F89AtFactorReconstruction.ForPathK (locator " +
                 "only; the Δ-test block needs nothing). See experiments/F89_PATH_K_DIABOLIC.md, " +
-                "hypotheses/DIABOLIC_BY_INTEGRABILITY.md, and the zeros_connecting_structure arc.",
+                "hypotheses/DIABOLIC_BY_INTEGRABILITY.md, and the zeros_connecting_structure arc. " +
+                "RUN 2026-06-29 (move 1, path-5/N=6): the cheap full-block scan does NOT extend to N=6 - it FLOODS. " +
+                "pkmono --diabolic --k 4 reproduces the doc's 15 (11 residual diabolics) EXACTLY (instrument validated " +
+                "on this machine); but --k 5 over re[0.2,5] cell .05 gives 528 coalescences, and over re[0.45,3] cell .03 " +
+                "gives 793, EVERY ONE gap=0 exactly / exponent=NaN / residual=False, Q1 EXISTENCE FAIL-in-region - i.e. " +
+                "ALL AT-locked exact degeneracies, ZERO residual diabolics isolated. Mechanism (this REFUTES the ParkedAt " +
+                "optimism 'the diabolic hunt itself is coalescences in the FULL symmetric block and does not require " +
+                "[AT-removal]', and downgrades obstacle-2 from 'Engineering not fundamental'): at N=6 the DE sector (15 " +
+                "states) has same-<n_XY> multiplicity, so AT-locked strands share Re lambda=-2g<n_XY> EXACTLY and coincide " +
+                "(gap=0) wherever their frequencies Im lambda=E_SE-E_DE cross - dense gap=0 curves throughout complex-q; " +
+                "the refiner captures onto them and the finite-gap (~1e-9) residual diabolics are never local minima of a " +
+                "field that is 0 around them. N=5 had ZERO such AT degeneracies (clean 15); the jump to ~800 at N=6 is the " +
+                "real wall. CONSEQUENCE: AT-removal IS required for the diabolic hunt at N>=6; the locator must scan the " +
+                "min-gap of the RESIDUAL strands ONLY (continuity-tracked from q=2, or - cleaner, AT-free by construction - " +
+                "the roots of F89PathKFdOracle.Fd(k), the residual factor the oracle already holds for k=5,6) - a real TDD " +
+                "change to FindDiabolics, gated on reproducing path-4's 11. " +
+                "LOCATOR BUILT + LANDED 2026-06-29 (residual-only, TDD 9/9 green): ResidualRootsTracked (the residual SET by " +
+                "continuity from q0=2, AT strands excluded by construction), plus local-tracking GapRefine and monodromy loop " +
+                "(GapRefineResidualLocal / ResidualLoopIsIdentity - the per-eval from-q0 nesting that made the loop+refine " +
+                "O(loopSteps x trackSteps) is gone; the path-k diabolic test suite dropped 11min -> 15s); wired as " +
+                "'pkmono --diabolic --residual --k N' (FindDiabolics residualOnly). MOVE 1 DONE for N=6: the SAME box " +
+                "re[0.2,3] x im[-1.5,1.5] cell .05 that flooded (528/793 all residual=False) now gives 21 CLEAN coalescences = " +
+                "16 semisimple residual DIABOLICS + 5 defective EPs (vs path-4's 11+4). COUNT-vs-N (move 3) GROWS: " +
+                "N=5 -> 11, N=6 -> 16. COMPLEX-q-ONLY HOLDS (move 1/5): the re=0 diabolics sit on the IMAGINARY axis (analytic " +
+                "continuation, like path-3's +-0.876i), the rest at complex q; the near-real ones (im ~ 0.01-0.05) are GHOSTS " +
+                "like path-4's q=0.6118+-0.012i - NONE at physical real q, so the self-fold = N=4-only reading survives to N=6. " +
+                "Caveat: 16 is the EpCharacter count in this box at cell .05 (completeness NOT claimed); a few have gap-exponent " +
+                "disagreements (e.g. q=0.6508+0.052i: EpChar + loop = diabolic but exp 0.49) that need the path-4-style " +
+                "per-point reconciliation. STILL OPEN: N=7 (k=6) broad scan - per-EVAL cost is now optimal, but the broad N=7 " +
+                "wall-clock is dominated by SEED COUNT (the 53-strand residual gap field has many local minima; each spurious " +
+                "seed pays the full local pipeline before the gapTol filter rejects it), so it ran ~20min+ and was killed. Needs " +
+                "a cheap seeding pre-filter (or a smaller box for a qualitative-only N=7 point). Moves 2 (Delta-test) and 4 " +
+                "(cross-fold) are now UNBLOCKED for N=6 (located diabolics in hand). See experiments/F89_PATH_K_DIABOLIC.md " +
+                "(path-5 result section).",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
@@ -1186,7 +1219,16 @@ public static class OpenArcsRegistry
                 "plateau -- this DISFAVORS 'settles above 1' (a plateau would shrink the steps) and is consistent with a slow " +
                 "approach to Delta=1, further refuting the Round-2 plateau-trap one N deeper. STILL OPEN (formally): the N->inf " +
                 "limit -- at N=15 Delta*=1.274 is still far from 1, and resolving 1-vs-settles needs N>>16 (infeasible: dense eigh " +
-                "past C(N,p)~25000) or a closed-form account of the hump; a power-law fit degenerates even on the descending tail.",
+                "past C(N,p)~25000) or a closed-form account of the hump; a power-law fit degenerates even on the descending tail. " +
+                "MIRRORWORLD CONE RULED OUT 2026-06-29 (gate-first, no run needed): the single-excitation memory cut " +
+                "(compute/MirrorWorld/Cone.cs, rho N x N, reaching N=60-100) CANNOT unblock this -- SECTOR MISMATCH. Delta* lives " +
+                "in the half-filling (p,p) block p=ceil(N/2) (simulations/xxz_delta_star.py L46-55; the Lebensader is the n_XY=0 " +
+                "half-filling population mode), the LARGEST sector C(N,p)~2^N/sqrt(N) - which IS the wall. The Cone is strictly " +
+                "single-excitation (Cone.cs L47 hardcodes deph=-4*gamma because 'all distinct single-excitation states disagree in " +
+                "exactly 2 bits'; no Delta parameter; RK4 time-evolution only, no eigensolve) - the SMALLEST sector. The 4^N->N^2 " +
+                "break is a single-excitation break; a 'half-filling Cone' would just be Method B's existing sector reduction, " +
+                "already at N<=15. The real levers stay analytic: Bethe-ansatz for the chain (->Delta=1 exactly), a closed-form " +
+                "account of the ring hump.",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

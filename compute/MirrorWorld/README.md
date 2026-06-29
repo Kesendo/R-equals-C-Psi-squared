@@ -133,6 +133,15 @@ already-proven nor textbook? That needs the `surveying-prior-work` lens (agents 
 markdown, the F-registry, the open-arcs ledger), not a quick play. **Start there**, then build
 the witness for whatever open question survives.
 
+**First survey done (2026-06-29): Δ*(N) checked, ruled out.** The most natural candidate -- the
+open `xxz_axis_handover` N→∞ limit of Δ*(N), parked precisely because it "needs N≫16 (infeasible:
+dense eigh past C(N,p)~25000)" -- does NOT survive the gate. Δ* lives in the half-filling (p,p)
+block (the *largest* sector, C(N,p)~2^N/√N), which IS that wall; the Cone's memory cut is
+single-excitation (the *smallest* sector, N²). The 4^N→N² break is a single-excitation break,
+disjoint from the half-filling frontier (Δ*, and the Galois/monodromy work). The lesson is sharp:
+large-N *single-excitation* access unblocks single-excitation questions; the open frontier is
+mostly multi-excitation, where the Cone gives no leverage. The survey continues.
+
 The discipline, both paths: **sober** (no interpretation in the code; the meaning lives in the
 docs), **from-below guarded** (every number recomputed or cross-checked, a wrong one fails
 loudly), **standalone** (no `RCPsiSquared.*`), **the two buckets pure** (Own vs Inherited).

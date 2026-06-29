@@ -105,6 +105,145 @@ public static class PathKMonodromyScout
         return residual.Select(i => all[i]).ToArray();
     }
 
+    /// <summary>The residual (H_B-mixed) roots at an ARBITRARY q, tracked by nearest-neighbour continuity
+    /// from the base q0=2 (where the residual SET is identified exactly by <see cref="ResidualIndices"/>).
+    /// The q-general companion to <see cref="ResidualRootsAt"/> (which is q≈2-only, R-7): the residual SET is
+    /// monodromy-invariant (F_AT·F_residual are distinct factors, the AT strands single-valued), so SET
+    /// membership survives any label permutations on the path. AT-free by construction — the AT-locked strands
+    /// are not returned, so the same-⟨n_XY⟩ AT exact degeneracies that flood the full-block gap field at N≥6
+    /// never enter this root set. <paramref name="steps"/> discretises the q0→q segment.</summary>
+    public static Complex[] ResidualRootsTracked(int k, Complex q, int steps = 160)
+    {
+        var (a, c) = BuildLinear(k + 1);
+        var (residual, _) = ResidualIndices(k, AllRootsAt(a, c, new Complex(2, 0)));
+        return ResidualRootsTrackedCore(a, c, residual, q, steps);
+    }
+
+    // Track the full block from q0=2 to q by nearest-neighbour continuity, then keep only the strands whose
+    // START-LABEL (index at q0) is in the residual SET. traj[step][startLabel] = that strand's position.
+    private static Complex[] ResidualRootsTrackedCore(Complex[,] a, Complex[,] c, int[] residualStart, Complex q, int steps)
+    {
+        var q0 = new Complex(2, 0);
+        if ((q - q0).Magnitude < 1e-12)                          // at the base, tracking is the identity
+        {
+            var r0 = AllRootsAt(a, c, q0);
+            return residualStart.Select(i => r0[i]).ToArray();
+        }
+        var path = new Complex[steps + 1];
+        for (int s = 0; s <= steps; s++) path[s] = q0 + (q - q0) * ((double)s / steps);
+        var traj = Monodromy.TrajectoryAlongPath(qq => AllRootsAt(a, c, qq), path);
+        var last = traj[steps];                                  // last[startLabel] = position at q
+        return residualStart.Select(i => last[i]).ToArray();
+    }
+
+    /// <summary>Gradient-free descent on the RESIDUAL min-gap field toward a coalescence q*, by LOCAL
+    /// continuity (no per-probe re-tracking from q0). The residual roots at the seed are tracked from q0=2
+    /// once; each probe then computes the full roots (one EVD) and reads the residual subset by local
+    /// nearest-neighbour continuity from the current point. The fast replacement for GapRefine on a residual
+    /// roots closure (which re-tracks O(trackSteps) per probe — the bottleneck of the broad N≥7 scan).</summary>
+    public static Complex GapRefineResidualLocalAt(int k, Complex seed, double cell, int trackSteps = 160)
+    {
+        var (a, c) = BuildLinear(k + 1);
+        var (residual, _) = ResidualIndices(k, AllRootsAt(a, c, new Complex(2, 0)));
+        return GapRefineResidualLocal(a, c, residual, seed, cell, trackSteps);
+    }
+
+    private static Complex GapRefineResidualLocal(Complex[,] a, Complex[,] c, int[] residual, Complex seed, double cell, int trackSteps)
+    {
+        // residual roots at qTo, by local nearest-neighbour continuity from `from` (the residual roots at
+        // qFrom), sub-stepped so no hop exceeds ~0.01 — keeps an AT strand from being mis-adopted where a
+        // residual strand's Re passes near an AT rung (-2/-4/-6).
+        Complex[] Local(Complex[] from, Complex qFrom, Complex qTo)
+        {
+            int sub = Math.Max(1, (int)Math.Ceiling((qTo - qFrom).Magnitude / 0.01));
+            var pos = from;
+            for (int s = 1; s <= sub; s++)
+            {
+                var full = AllRootsAt(a, c, qFrom + (qTo - qFrom) * ((double)s / sub));
+                var used = new bool[full.Length];
+                var next = new Complex[pos.Length];
+                for (int i = 0; i < pos.Length; i++)
+                {
+                    int best = -1; double bd = double.PositiveInfinity;
+                    for (int j = 0; j < full.Length; j++)
+                        if (!used[j]) { double d = (full[j] - pos[i]).Magnitude; if (d < bd) { bd = d; best = j; } }
+                    used[best] = true; next[i] = full[best];
+                }
+                pos = next;
+            }
+            return pos;
+        }
+
+        var cur = ResidualRootsTrackedCore(a, c, residual, seed, trackSteps);   // residual roots at seed (global track once)
+        Complex center = seed;
+        double half = cell / 2, curGap = MinGap(cur);
+        for (int it = 0; it < 40 && half > 1e-8; it++)
+        {
+            Complex best = center; double bestGap = curGap; Complex[] bestRoots = cur; bool moved = false;
+            foreach (var off in new[]
+            {
+                new Complex(half, 0), new Complex(-half, 0), new Complex(0, half), new Complex(0, -half),
+                new Complex(half, half), new Complex(half, -half), new Complex(-half, half), new Complex(-half, -half),
+            })
+            {
+                var probe = Local(cur, center, center + off);
+                double g = MinGap(probe);
+                if (g < bestGap) { bestGap = g; best = center + off; bestRoots = probe; moved = true; }
+            }
+            if (moved) { center = best; curGap = bestGap; cur = bestRoots; } else half /= 2;
+        }
+        return center;
+    }
+
+    /// <summary>Whether the small monodromy loop of the RESIDUAL strands about <paramref name="q"/> is the
+    /// identity (no braid ⟹ diabolic candidate) vs a transposition (a √-branch ⟹ defective EP). The fast,
+    /// AT-clean replacement for a full-block loop at N≥6: a full-block loop is contaminated by the dense AT
+    /// near-degeneracies (false transpositions), and a residual-roots loop that re-tracks from q0 at every loop
+    /// point is nested O(loopSteps × trackSteps). See <see cref="ResidualLoopIsIdentity"/>.</summary>
+    public static bool ResidualLoopIsIdentityAt(int k, Complex q, double radius = 0.004, int steps = 240, int trackSteps = 160)
+    {
+        var (a, c) = BuildLinear(k + 1);
+        var (residual, _) = ResidualIndices(k, AllRootsAt(a, c, new Complex(2, 0)));
+        return ResidualLoopIsIdentity(a, c, residual, q, radius, steps, trackSteps);
+    }
+
+    // Walk the circle center + radius·e^{iθ} (θ: 0→2π), following ONLY the residual strands by local
+    // nearest-neighbour continuity over the FULL roots at each loop point. The residual positions at the loop
+    // start (θ=0) are obtained ONCE by global tracking from q0=2; thereafter each step is a single EVD, so the
+    // cost is trackSteps + steps (not steps × trackSteps). AT strands are present in the full roots but never
+    // adopted (a residual strand's continuation is its own nearest root, never a far AT strand), so AT
+    // near-degeneracies cannot contaminate the count. Identity ⟺ every residual strand returns to its own
+    // start position; a strand landing on another's start is a braid (a √-branch defective EP).
+    private static bool ResidualLoopIsIdentity(Complex[,] a, Complex[,] c, int[] residual, Complex center,
+        double radius, int steps, int trackSteps)
+    {
+        Complex Pt(int s) => center + radius * new Complex(Math.Cos(2 * Math.PI * s / steps), Math.Sin(2 * Math.PI * s / steps));
+        var start = ResidualRootsTrackedCore(a, c, residual, Pt(0), trackSteps);  // residual positions at θ=0
+        int rd = start.Length;
+        var cur = (Complex[])start.Clone();
+        for (int s = 1; s <= steps; s++)
+        {
+            var full = AllRootsAt(a, c, Pt(s));
+            var used = new bool[full.Length];
+            var next = new Complex[rd];
+            for (int i = 0; i < rd; i++)                          // each residual strand -> its nearest unused full root
+            {
+                int best = -1; double bd = double.PositiveInfinity;
+                for (int j = 0; j < full.Length; j++)
+                    if (!used[j]) { double d = (full[j] - cur[i]).Magnitude; if (d < bd) { bd = d; best = j; } }
+                used[best] = true; next[i] = full[best];
+            }
+            cur = next;
+        }
+        for (int i = 0; i < rd; i++)                              // identity iff strand i returned to start i
+        {
+            int best = -1; double bd = double.PositiveInfinity;
+            for (int j = 0; j < rd; j++) { double d = (cur[i] - start[j]).Magnitude; if (d < bd) { bd = d; best = j; } }
+            if (best != i) return false;
+        }
+        return true;
+    }
+
     /// <summary>The σ_T classification of the residual strands under the GLOBAL palindrome fold
     /// λ ↦ −λ̄ − 2σ (σ = nBlock = −N centre). For each residual strand i, FoldPartner[i] = j if its
     /// fold-image is residual strand j (within-block): i==j ⟹ an on-fold "zero" (self-mirror, Re λ ≈ −σ),
@@ -272,20 +411,30 @@ public static class PathKMonodromyScout
     // so SET membership survives any label permutations on the path. Returns whether the pair is
     // residual-residual, the merge λ (midpoint), and a λ-radius that encloses ONLY the pair.
     private static (bool pairIsResidual, Complex mergeLambda, double charRadius) ClassifyPair(
-        Func<Complex, Complex[]> roots, Complex q0, Complex qd, HashSet<int> residualSet, int steps = 400)
+        Func<Complex, Complex[]> roots, Complex q0, Complex qd, HashSet<int> residualSet,
+        bool restrictToResidual = false, int steps = 400)
     {
         var path = new Complex[steps + 1];
         for (int s = 0; s <= steps; s++) path[s] = q0 + (qd - q0) * ((double)s / steps);
         var traj = Monodromy.TrajectoryAlongPath(roots, path);
         var final = traj[steps];                       // final[startLabel] = position at q*
 
-        int ai = 0, bi = 1; double best = double.PositiveInfinity;
+        // the coalescing pair = the two closest strands. restrictToResidual (N>=6): only residual start-labels
+        // are eligible — at N>=6 the AT strands cross on dense curves, so the GLOBAL-closest pair would be an
+        // AT pair even at a genuine residual coalescence, mis-flagging it AT-locked. The enclosing radius below
+        // still measures distance to the nearest OTHER strand over ALL strands (so EpCharacter's Riesz window
+        // excludes a near AT eigenvalue too).
+        int ai = -1, bi = -1; double best = double.PositiveInfinity;
         for (int i = 0; i < final.Length; i++)
+        {
+            if (restrictToResidual && !residualSet.Contains(i)) continue;
             for (int j = i + 1; j < final.Length; j++)
             {
+                if (restrictToResidual && !residualSet.Contains(j)) continue;
                 double g = (final[i] - final[j]).Magnitude;
                 if (g < best) { best = g; ai = i; bi = j; }
             }
+        }
         bool pairResidual = residualSet.Contains(ai) && residualSet.Contains(bi);
         var mid = (final[ai] + final[bi]) / 2;
         double distOther = double.PositiveInfinity;     // nearest non-pair strand → enclosing radius
@@ -320,13 +469,25 @@ public static class PathKMonodromyScout
     /// masked per-k (default 0.20, NOT the octic's path-3 0.18). Returns ALL coalescences with refined gap
     /// below <paramref name="gapTol"/>; the caller filters IsSemisimple for genuine diabolics.</summary>
     public static List<DiabolicPoint> FindDiabolics(int k, double reLo, double reHi, double imLo, double imHi,
-        double cell, double mask = 0.20, double gapTol = 1e-3, double loopRadius = 0.004)
+        double cell, double mask = 0.20, double gapTol = 1e-3, double loopRadius = 0.004,
+        bool residualOnly = false, int trackSteps = 160)
     {
         var (a, c) = BuildLinear(k + 1);
-        Func<Complex, Complex[]> roots = qq => AllRootsAt(a, c, qq);
         var q0 = new Complex(2, 0);
-        var (residual, _) = ResidualIndices(k, roots(q0));
+        var (residual, _) = ResidualIndices(k, AllRootsAt(a, c, q0));
         var residualSet = new HashSet<int>(residual);
+        // residualOnly (N>=6): rootsScan = the residual strands ONLY, tracked by continuity from q0=2, so the
+        // AT-locked exact degeneracies (same-⟨n_XY⟩ strands coinciding on dense curves) never enter it. ALL the
+        // local geometric reads near a candidate use it — the gap field, GapRefine, the gap-scaling exponent,
+        // AND the monodromy loop (a full-block loop's nearest-neighbour tracking gets contaminated by the dense
+        // AT near-degeneracies at N>=6, reading false transpositions even at a diabolic). rootsFull (the full
+        // block) is used only by ClassifyPair, which self-tracks from q0 (so no nested re-tracking) and needs
+        // the full spectrum for the AT-aware enclosing radius; it restricts the coalescing PAIR to residual
+        // labels. For residualOnly=false rootsScan==rootsFull, so the original behaviour is unchanged.
+        Func<Complex, Complex[]> rootsFull = qq => AllRootsAt(a, c, qq);
+        Func<Complex, Complex[]> rootsScan = residualOnly
+            ? (qq => ResidualRootsTrackedCore(a, c, residual, qq, trackSteps))
+            : rootsFull;
 
         int nRe = Math.Max(1, (int)((reHi - reLo) / cell)), nIm = Math.Max(1, (int)((imHi - imLo) / cell));
         var gap = new double[nRe, nIm];
@@ -336,7 +497,7 @@ public static class PathKMonodromyScout
             for (int ii = 0; ii < nIm; ii++)
             {
                 var q = new Complex(re, imLo + ii * cell + cell / 2);
-                gap[ir, ii] = q.Magnitude < mask ? double.NaN : MinGap(roots(q));
+                gap[ir, ii] = q.Magnitude < mask ? double.NaN : MinGap(rootsScan(q));
             }
         });
 
@@ -366,20 +527,24 @@ public static class PathKMonodromyScout
         var result = new List<DiabolicPoint>();
         foreach (var seed in seeds)
         {
-            var qd = GapRefine(roots, seed, cell);
+            var qd = residualOnly
+                ? GapRefineResidualLocal(a, c, residual, seed, cell, trackSteps)   // local descent: no per-probe re-track from q0
+                : GapRefine(rootsScan, seed, cell);
             if (qd.Magnitude < mask) continue;                                       // refined INTO the q=0 super-branch (the q^big pile-up where the block goes diagonal, all rates collapse onto -2/-6) - not a real coalescence
             if (result.Any(d => (d.QValue - qd).Magnitude < 2 * cell)) continue;     // dedupe
-            double g = MinGap(roots(qd));
+            double g = MinGap(rootsScan(qd));
             if (g > gapTol) continue;                                                // an avoided crossing, not a coalescence
 
-            var (pairResidual, mergeLambda, charRadius) = ClassifyPair(roots, q0, qd, residualSet);
+            var (pairResidual, mergeLambda, charRadius) = ClassifyPair(rootsFull, q0, qd, residualSet, restrictToResidual: residualOnly);
             // the candidate's INTRINSIC monodromy is the small-radius loop (the r->0 limit). A dense path-k
             // neighbour (a defective EP next to a diabolic) only enters the loop at larger r, so a path-3-tuned
             // fixed 0.02 reads transposition even at a true diabolic (the Item-1 radius-sweep: identity at
             // r<=0.008 for the true diabolics, the EP entering at r>=0.012; the genuinely-defective control is
             // transposition down to r=0.002). loopRadius defaults small (0.004) to read the candidate itself.
-            bool loopId = Moved(Monodromy.Permutation(roots, qd, loopRadius, 240)) == 0;
-            double expo = GapScalingExponent(roots, qd);
+            bool loopId = residualOnly
+                ? ResidualLoopIsIdentity(a, c, residual, qd, loopRadius, 240, trackSteps)
+                : Moved(Monodromy.Permutation(rootsScan, qd, loopRadius, 240)) == 0;
+            double expo = GapScalingExponent(rootsScan, qd);
             var reading = EpCharacter.Characterize(BlockAt(a, c, qd), mergeLambda, charRadius);
             bool semisimple = reading.Kind == EpCharacter.EpKind.Diabolic;
             result.Add(new DiabolicPoint(qd, mergeLambda, semisimple, loopId, g, expo, pairResidual));

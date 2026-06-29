@@ -32,7 +32,10 @@ public static class PathKMonodromyScanCommand
 
         if (p.HasFlag("diabolic"))   // the N=4->N=5 forward edge: hunt the residual's diabolic points
         {
-            PrintDiabolics(k, reLo, reHi, imLo, imHi, cell);
+            // --residual (REQUIRED from path-5/N=6): scan the residual strands only, tracked from q0=2, so the
+            // AT-locked exact degeneracies (dense same-⟨n_XY⟩ crossings) do not flood the gap field. Without it
+            // the full-block scan at N>=6 returns hundreds of residual=False gap=0 AT crossings and isolates none.
+            PrintDiabolics(k, reLo, reHi, imLo, imHi, cell, p.HasFlag("residual"));
             return 0;
         }
 
@@ -107,10 +110,10 @@ public static class PathKMonodromyScanCommand
 
     // the diabolic hunt (Q1-Q3 of the forward-edge plan): find the residual's coalescences, classify each
     // (diabolic vs defective), and read the merge Re against the AT rung-2 line (-4) vs the palindrome centre (-N).
-    private static void PrintDiabolics(int k, double reLo, double reHi, double imLo, double imHi, double cell)
+    private static void PrintDiabolics(int k, double reLo, double reHi, double imLo, double imHi, double cell, bool residualOnly)
     {
         int nBlock = k + 1;
-        Console.WriteLine($"\n# DIABOLIC HUNT path-{k} (N_block={nBlock}): scan q in re[{reLo.ToString("0.##", Inv)},{reHi.ToString("0.##", Inv)}] " +
+        Console.WriteLine($"\n# DIABOLIC HUNT path-{k} (N_block={nBlock}){(residualOnly ? " [residual-only: AT-flood excluded, tracked from q0=2]" : "")}: scan q in re[{reLo.ToString("0.##", Inv)},{reHi.ToString("0.##", Inv)}] " +
                           $"im[{imLo.ToString("0.##", Inv)},{imHi.ToString("0.##", Inv)}], cell={cell.ToString("0.###", Inv)}, q=0 mask 0.20");
         // q<->lambda coverage sanity (R-6): the full-block Re(lambda) span at the region-centre q.
         var (a, c) = PathKMonodromyScout.BuildLinear(nBlock);
@@ -120,7 +123,7 @@ public static class PathKMonodromyScanCommand
                           $"[{spec.Min(z => z.Real).ToString("0.00", Inv)}, {spec.Max(z => z.Real).ToString("0.00", Inv)}] " +
                           $"(AT rung-2 line = -4; palindrome centre = -N = -{nBlock})");
 
-        var found = PathKMonodromyScout.FindDiabolics(k, reLo, reHi, imLo, imHi, cell);
+        var found = PathKMonodromyScout.FindDiabolics(k, reLo, reHi, imLo, imHi, cell, residualOnly: residualOnly);
         Console.WriteLine($"\n{found.Count} coalescence(s):");
         foreach (var d in found.OrderBy(x => x.QValue.Real).ThenBy(x => x.QValue.Imaginary))
             Console.WriteLine($"  q={d.QValue.Real.ToString("0.0000", Inv)}{Sign(d.QValue.Imaginary)}i  lambda={d.MergeLambda.Real.ToString("0.000", Inv)}{Sign(d.MergeLambda.Imaginary)}i  " +
