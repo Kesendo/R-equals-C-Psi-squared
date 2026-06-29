@@ -1394,7 +1394,21 @@ public static class OpenArcsRegistry
             Origin: "third-party review: 'a coherent instrument panel wearing a poet's coat' - the house dialect has no doormat",
             ParkedAt: "four of five doors hung (inspect --root glossary with 11 house terms in stranger language; qudit witness boundary text honest: census live, rate law from the proof; explicit --N to an N-free root warns on stderr; README first command is now world --max-depth 2)",
             NextStep: "[live]/[stored] provenance badge per node, then retire this arc",
-            Status: OpenArcStatus.Open),
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "RETIRED 2026-06-29: the fifth and last door hung -- a per-node [live]/[stored] " +
+                "provenance badge. NodeProvenance {Live, Stored} (Core/Inspection); IInspectable carries it as a " +
+                "default-interface-member defaulting Live (a computational unit recomputes), InspectableNode (the " +
+                "frozen carrier) defaults Stored with an opt-in ctor param; ConsoleTreeRenderer prints it as its own " +
+                "bracketed token (never folded into Summary) and InspectionNodeDto exports an additive 'provenance' " +
+                "field. The rule is value-origin honesty: the badge marks where the NUMBER comes from, at its point " +
+                "of computation -- not the code path (a live getter reading a banked file is Stored) and not " +
+                "inherited down a derived chain. The cited template QuditPartialPalindromeWitness is exemplary (all " +
+                "five children Live, reading the recomputed spectrum); BlockSpectrumWitness tags its three " +
+                "live-reconstructed children Live while the static sector-map prose and the chain_N9.json banked " +
+                "headline stay Stored. The default direction is conservative (an untagged carrier reports Stored), so " +
+                "it can only under-claim liveness, never falsely claim it; tagging the remaining witnesses' " +
+                "live-computed children Live is safe progressive work, not a correctness gap. Tested: NodeProvenance " +
+                "defaults, the renderer token, the additive JSON field, and the two witnesses' per-child provenance."),
 
         new OpenArc(
             Name: "f86b2_robust_extraction",

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Diagnostics.Foundation;
 using Xunit;
 
@@ -12,6 +13,23 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// pins the witness's banked-headline read to the committed chain_N9.json so it cannot drift.</summary>
 public class BlockSpectrumWitnessTests
 {
+    [Fact]
+    public void Children_Provenance_LiveReconstructionVsBankedHeadline()
+    {
+        var w = new BlockSpectrumWitness(n: 5);   // small N -> live reconstruction is cheap
+        var kids = ((IInspectable)w).Children.ToList();
+        IInspectable Find(string namePart) => kids.Single(c => c.DisplayName.Contains(namePart));
+
+        // Live-computed children (the badge must not contradict their "reconstructed live" prose).
+        Assert.Equal(NodeProvenance.Live, Find("decomposition").Provenance);
+        Assert.Equal(NodeProvenance.Live, Find("palindrome").Provenance);
+        Assert.Equal(NodeProvenance.Live, Find("Absorption floor").Provenance);
+
+        // Stored children: the static sector-map prose, and the banked N=9 headline (chain_N9.json).
+        Assert.Equal(NodeProvenance.Stored, Find("sector map").Provenance);
+        Assert.Equal(NodeProvenance.Stored, Find("banked").Provenance);
+    }
+
     // Gate 1: the joint-popcount decomposition counts (the 100 -> 50 -> 25 story at N=9), pure
     // combinatorial. X(x)N order-2 pairing = the JSON PrimarySectorCount; the F1 Pi order-4 orbit
     // = the eig-calls the compute path actually does (Pi^2 = X(x)N).

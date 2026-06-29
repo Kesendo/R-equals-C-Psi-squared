@@ -37,6 +37,15 @@ public class OpenArcsInspectableNodeTests
     }
 
     [Fact]
+    public void StrangerDoor_IsRetired_FifthDoorHung()
+    {
+        var entry = OpenArcsRegistry.Lookup("stranger_door");
+        Assert.NotNull(entry);
+        Assert.Equal(OpenArcStatus.Retired, entry!.Status);
+        Assert.Contains("provenance badge", entry.RetiredReason!);
+    }
+
+    [Fact]
     public void Lookup_RoundtripsByName()
     {
         var entry = OpenArcsRegistry.Lookup("witness_coverage");

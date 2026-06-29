@@ -45,6 +45,7 @@ public static class InspectionJsonExporter
     {
         DisplayName = node.DisplayName,
         Summary = node.Summary,
+        Provenance = node.Provenance == NodeProvenance.Live ? "live" : "stored",
         Payload = SerializePayload(node.Payload),
         Children = node.Children.Select(ToDto).ToArray(),
     };
@@ -117,6 +118,7 @@ public sealed record InspectionNodeDto
 {
     [JsonPropertyName("displayName")] public string DisplayName { get; init; } = "";
     [JsonPropertyName("summary")] public string Summary { get; init; } = "";
+    [JsonPropertyName("provenance")] public string Provenance { get; init; } = "stored";
     [JsonPropertyName("payload")] public PayloadDto Payload { get; init; } = new() { Kind = "none" };
     [JsonPropertyName("children")] public InspectionNodeDto[] Children { get; init; } = Array.Empty<InspectionNodeDto>();
 }

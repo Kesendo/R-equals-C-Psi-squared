@@ -144,4 +144,25 @@ public class InspectionJsonExporterTests
             if (File.Exists(tempPath)) File.Delete(tempPath);
         }
     }
+
+    [Fact]
+    public void ToJson_StoredNode_CarriesProvenanceStored()
+    {
+        var node = new InspectableNode("n", "s");   // bare frozen carrier -> Stored
+        var json = InspectionJsonExporter.ToJson(node);
+        using var doc = JsonDocument.Parse(json);
+        Assert.True(doc.RootElement.TryGetProperty("provenance", out var prov),
+            "the exported node should carry an additive provenance field");
+        Assert.Equal("stored", prov.GetString());
+    }
+
+    [Fact]
+    public void ToJson_LiveNode_CarriesProvenanceLive()
+    {
+        var node = new InspectableNode("n", "s", provenance: NodeProvenance.Live);
+        var json = InspectionJsonExporter.ToJson(node);
+        using var doc = JsonDocument.Parse(json);
+        Assert.True(doc.RootElement.TryGetProperty("provenance", out var prov));
+        Assert.Equal("live", prov.GetString());
+    }
 }

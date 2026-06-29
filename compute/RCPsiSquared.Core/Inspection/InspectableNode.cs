@@ -14,16 +14,23 @@ public sealed class InspectableNode : IInspectable
     public IEnumerable<IInspectable> Children { get; }
     public InspectablePayload Payload { get; }
 
+    /// <summary>A bare carrier holds a string frozen at construction, so it defaults to
+    /// <see cref="NodeProvenance.Stored"/>. A live producer minting a child for a value it just
+    /// computed passes <c>provenance: NodeProvenance.Live</c>.</summary>
+    public NodeProvenance Provenance { get; }
+
     public InspectableNode(
         string displayName,
         string summary = "",
         IEnumerable<IInspectable>? children = null,
-        InspectablePayload? payload = null)
+        InspectablePayload? payload = null,
+        NodeProvenance provenance = NodeProvenance.Stored)
     {
         DisplayName = displayName;
         Summary = summary;
         Children = children ?? Array.Empty<IInspectable>();
         Payload = payload ?? InspectablePayload.Empty;
+        Provenance = provenance;
     }
 
     /// <summary>Group header: a container with no payload and a fixed list of children.</summary>

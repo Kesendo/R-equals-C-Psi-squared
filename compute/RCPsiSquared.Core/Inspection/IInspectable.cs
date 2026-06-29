@@ -25,4 +25,11 @@ public interface IInspectable
     /// <summary>Leaf payload for the renderer (scalar, vector, matrix, curve, or none for pure
     /// containers).</summary>
     InspectablePayload Payload { get; }
+
+    /// <summary>Where this node's displayed value comes from (the [live]/[stored] badge). Defaults
+    /// to <see cref="NodeProvenance.Live"/>: the interface contract is a computational unit whose
+    /// Summary/Children are recomputed at inspect time. A frozen carrier (<see cref="InspectableNode"/>)
+    /// reports Stored; a witness that surfaces a banked value (read from a committed artifact, not
+    /// re-derived) overrides to Stored.</summary>
+    NodeProvenance Provenance => NodeProvenance.Live;
 }

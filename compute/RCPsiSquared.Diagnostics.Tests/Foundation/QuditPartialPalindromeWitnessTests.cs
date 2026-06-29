@@ -15,6 +15,16 @@ public class QuditPartialPalindromeWitnessTests
         ((IInspectable)w).Children.ToList();
 
     [Fact]
+    public void Children_AreAllLive_TheTemplateRecomputesEveryRead()
+    {
+        var w = new QuditPartialPalindromeWitness(d: 2, n: 2);
+        // The cited honesty template: every child reads the recomputed spectrum/census (the rate
+        // law it checks against is referenced in prose, not surfaced as a banked node), so each
+        // child is value-origin Live, not a frozen carrier's default Stored.
+        Assert.All(Children(w), c => Assert.Equal(NodeProvenance.Live, c.Provenance));
+    }
+
+    [Fact]
     public void Constructor_RejectsBadArgs()
     {
         Assert.Throws<ArgumentOutOfRangeException>(() => new QuditPartialPalindromeWitness(d: 1));

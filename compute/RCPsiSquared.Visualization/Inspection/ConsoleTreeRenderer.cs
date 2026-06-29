@@ -5,7 +5,7 @@ namespace RCPsiSquared.Visualization.Inspection;
 
 /// <summary>Walks an <see cref="IInspectable"/> tree and emits an indented text view —
 /// the simplest possible Object Manager. Each line is "<c>display name — summary</c>",
-/// with payload type appended for leaves.
+/// with the [live]/[stored] provenance badge and payload type appended.
 ///
 /// <para>Use <see cref="Render"/> for a string, or <see cref="WriteTo"/> to stream to a
 /// <see cref="TextWriter"/> (Console, file, xUnit's <c>ITestOutputHelper</c>).</para>
@@ -39,6 +39,10 @@ public static class ConsoleTreeRenderer
         sb.Append(connector);
         sb.Append(label);
         sb.Append(summary);
+        // The provenance badge: its own bracketed token, never folded into Summary, on every node.
+        sb.Append("  [");
+        sb.Append(ProvenanceTag(node.Provenance));
+        sb.Append(']');
         if (!string.IsNullOrEmpty(payloadTag))
         {
             sb.Append("  [");
@@ -85,4 +89,7 @@ public static class ConsoleTreeRenderer
         InspectablePayload.Curve c => $"curve[{c.X.Count}]",
         _ => "",
     };
+
+    private static string ProvenanceTag(NodeProvenance provenance) =>
+        provenance == NodeProvenance.Live ? "live" : "stored";
 }

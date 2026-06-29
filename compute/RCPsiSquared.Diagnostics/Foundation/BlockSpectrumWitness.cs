@@ -266,7 +266,8 @@ public sealed class BlockSpectrumWitness : IInspectable
                      $"classes (Π² = X⊗N, a genuine symmetry → verbatim copy), quartered by the F1 Π " +
                      $"order-4 orbit to {d.PiOrbitClasses} eig-calls; max block C({N},{N / 2})² = {d.MaxBlock}; " +
                      $"{d.CubicSpeedup.ToString("0.0", Inv)}× cubic-cost speedup over the dense (4^N)³.",
-            children: kids);
+            children: kids,
+            provenance: NodeProvenance.Live);
     }
 
     /// <summary>The navigation hub: each load-bearing joint-popcount sector points to the
@@ -329,7 +330,8 @@ public sealed class BlockSpectrumWitness : IInspectable
             summary: $"{scope}; F1 holds: max pairing distance {pairing.ToString("E3", Inv)}, " +
                      $"MinReal {minRe.ToString("0.0000", Inv)}" + (full ? $" = −2σ = {(-2 * sigma).ToString("0.###", Inv)}" : "") +
                      $", kernel {kernel}{(full ? $" = N+1 = {N + 1}" : "")}.",
-            children: kids);
+            children: kids,
+            provenance: NodeProvenance.Live);
     }
 
     private InspectableNode TheAbsorptionFloorNode(ComplexMatrix h)
@@ -340,7 +342,8 @@ public sealed class BlockSpectrumWitness : IInspectable
                      $"Re ∈ [{minRe.ToString("0.0000", Inv)}, {maxRe.ToString("0.0000", Inv)}] = −2γ = " +
                      $"{(-2 * Gamma).ToString("0.###", Inv)} (every coherence disagrees in one bit, so L_D = −2γ·I " +
                      "is scalar there; the F50 weight-1 floor / Absorption Theorem). The decay GAP lives instead " +
-                     "in the diagonal (k,k) sectors.");
+                     "in the diagonal (k,k) sectors.",
+            provenance: NodeProvenance.Live);
     }
 
     private InspectableNode TheBankedN9Node()

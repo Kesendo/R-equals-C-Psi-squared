@@ -206,7 +206,8 @@ public sealed class QuditPartialPalindromeWitness : IInspectable
                          $"λ ↦ −2(Nγ)−λ about the center −Nγ={Center.ToString("0.###", Inv)} are counted to " +
                          $"paired = {paired}; this independent count is checked against the closed-form ceiling " +
                          $"Σ_k d^N·C(N,k)·(d−1)^min(k,N−k) = {ceil}. " +
-                         (paired == ceil ? "MATCH (two independent computations meet)." : "MISMATCH."));
+                         (paired == ceil ? "MATCH (two independent computations meet)." : "MISMATCH."),
+                provenance: NodeProvenance.Live);
 
             // 2. One node per Hamming/disagreement rung k.
             for (int k = 0; k <= N; k++)
@@ -224,7 +225,8 @@ public sealed class QuditPartialPalindromeWitness : IInspectable
                     displayName: $"rung k={k} (rate −2γ·{k}={(-2.0 * Gamma * k).ToString("0.###", Inv)})",
                     summary: $"multiplicity c_{k} = {ck} (live) = {formCk} (formula d^N·C(N,k)·(d−1)^{k}); " +
                              $"mirror rung N−k = {m}; tilt (d−1)^min(k,N−k) = {tilt}; " +
-                             $"paired here = {rungPaired}; {note}.");
+                             $"paired here = {rungPaired}; {note}.",
+                    provenance: NodeProvenance.Live);
             }
 
             // 3. The cap node: product-attained (2d)^N vs non-product remainder of the live count.
@@ -233,14 +235,16 @@ public sealed class QuditPartialPalindromeWitness : IInspectable
                 summary: $"the live paired {paired} splits as product-mirror cap (2d)^N = {cap} " +
                          $"(reached by Π_d(ρ)=ρᵀ·Shift^⊗N) + non-product remainder ceiling−(2d)^N = {nonProduct} " +
                          $"(needs a global non-product isometry / translation-invariant mirror). " +
-                         (D == 2 ? "At d=2 the cap is full, non-product is 0: the qubit magic." : "Non-product > 0: d>2."));
+                         (D == 2 ? "At d=2 the cap is full, non-product is 0: the qubit magic." : "Non-product > 0: d>2."),
+                provenance: NodeProvenance.Live);
 
             // 4. The d=2 anchor: full iff d=2 (the d²−2d=0 column).
             yield return new InspectableNode(
                 displayName: "full iff d=2 (the d²−2d=0 column)",
                 summary: $"the live paired count equals the total dim {Dim} ⟺ d=2 " +
                          $"(here paired {paired}, total {Dim}: {(paired == Dim ? "FULL" : "partial")}); " +
-                         "d=2 is the unique fully-paired column, the (d−1)^k tilt base = 1 only there.");
+                         "d=2 is the unique fully-paired column, the (d−1)^k tilt base = 1 only there.",
+                provenance: NodeProvenance.Live);
 
             // 5. The spectrum as a payload curve (sorted real parts), for --draw.
             var sorted = (double[])_spectrum.Clone();
@@ -251,7 +255,8 @@ public sealed class QuditPartialPalindromeWitness : IInspectable
                 displayName: "the live spectrum (sorted Re λ)",
                 summary: $"the {Dim} eigenvalues of L_D, all real (rungs at 0, −2γ, …, −2Nγ); " +
                          "palindromic overlap about −Nγ is the paired count.",
-                payload: new InspectablePayload.Curve("sorted Re λ", idxAxis, sorted, "index", "Re λ"));
+                payload: new InspectablePayload.Curve("sorted Re λ", idxAxis, sorted, "index", "Re λ"),
+                provenance: NodeProvenance.Live);
         }
     }
 
