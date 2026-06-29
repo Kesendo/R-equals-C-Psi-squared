@@ -809,7 +809,18 @@ public static class OpenArcsRegistry
                 "FlowTopology.Ring); the N>=6 higher-dim surface (currently N=5-only, since the node anchors " +
                 "and s* lines are N=5-specific - generalizing them is the extension). Retire when those are " +
                 "judged out of scope",
-            Status: OpenArcStatus.Open),
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "RETIRED 2026-06-29: the ring/aromatic gamma-profile slice + the N>=6 higher-dim " +
+                "surface judged OUT OF SCOPE (this arc's own exit condition). (1) Their physics is already " +
+                "assembled live as inspect --root trichotomy (chain/ring/star x N=4..8); extending the N=5 " +
+                "2D-slice DISPLAY to ring/N>=6 would duplicate it with a 4096^2-EVD-per-point window, no new " +
+                "physics. (2) The aromatic angle was independently refuted in the carbon session (no Hueckel " +
+                "4n+2 discriminant; FROST_CIRCLE Q*=1.609). (3) s*=0.709 is resolved as a path-dependent " +
+                "coordinate (0.11..0.77), a 1/sqrt(2) near-miss in ANALYTICAL_FORMULAS.md, not a constant. " +
+                "Nothing deleted: BirthCanalSurfaceWitness (inspect --root surface), the Tier1Derived " +
+                "VacuumBlockReductionClaim (inspect --root reduction), docs/STERILE_BIRTHCANAL_AND_THE_JUNCTION.md, " +
+                "and the committed simulations/birth_canal_*.py all stay. Sibling birth_canal_horizon_junction " +
+                "(Retired 2026-06-18) had delegated this residual here; now closed."),
 
         new OpenArc(
             Name: "birth_canal_horizon_junction",

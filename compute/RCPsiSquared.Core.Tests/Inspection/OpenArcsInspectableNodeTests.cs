@@ -62,7 +62,9 @@ public class OpenArcsInspectableNodeTests
     public void Build_ChildSummaryCarriesParkedAndNextStep()
     {
         var node = OpenArcsInspectableNode.Build();
-        var entry = OpenArcsRegistry.Lookup("birth_canal_surface")!;
+        // Decoupled from any specific arc name: the exemplar is whichever arc is still Open,
+        // so retiring an arc (e.g. birth_canal_surface, 2026-06-29) cannot re-break this test.
+        var entry = OpenArcsRegistry.All.First(a => a.Status == OpenArcStatus.Open);
         var child = node.Children.Single(c => c.DisplayName == entry.Name);
         Assert.Equal($"{entry.Opened} parked: {entry.ParkedAt} -> next: {entry.NextStep}", child.Summary);
     }
