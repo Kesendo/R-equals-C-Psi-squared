@@ -122,22 +122,32 @@ public sealed class DefectDecoder
 
         var delta = new double[N];
         for (int i = 0; i < N; i++) delta[i] = alphaObserved[i] - 1.0;
+        return ProjectAndScore(delta, _dictionary);
+    }
 
+    /// <summary>The shared least-squares scoring core. Project the observed per-site vector onto each
+    /// dictionary column (δĴ = obs·d / d·d), score the SQUARED residual ‖obs − δĴ·d‖², and return the
+    /// minimum-residual bond with its δĴ, the runner-up, and the ambiguity flag (runner-up residual within
+    /// <see cref="AmbiguityFactor"/>× the winner's). Both decode paths call this; the ONLY path-specific
+    /// step is forming `obs` (the α path subtracts 1; the deviation path does not). The residual is squared,
+    /// so the reported ratio is the SQUARE of the residual-norm ratio (review §11).</summary>
+    private DecodeResult ProjectAndScore(double[] obs, double[][] dict)
+    {
         int bestBond = -1, secondBond = -1;
         double bestDeltaJ = 0.0, secondDeltaJ = 0.0;
         double bestResidual = double.PositiveInfinity, secondResidual = double.PositiveInfinity;
 
-        for (int b = 0; b < _dictionary.Length; b++)
+        for (int b = 0; b < dict.Length; b++)
         {
-            var f = _dictionary[b];
+            var f = dict[b];
             double dotFD = 0.0, dotFF = 0.0;
-            for (int i = 0; i < N; i++) { dotFD += f[i] * delta[i]; dotFF += f[i] * f[i]; }
+            for (int i = 0; i < N; i++) { dotFD += f[i] * obs[i]; dotFF += f[i] * f[i]; }
             double deltaJ = dotFF > 0.0 ? dotFD / dotFF : 0.0;
 
             double residual = 0.0;
             for (int i = 0; i < N; i++)
             {
-                double e = delta[i] - deltaJ * f[i];
+                double e = obs[i] - deltaJ * f[i];
                 residual += e * e;
             }
 
