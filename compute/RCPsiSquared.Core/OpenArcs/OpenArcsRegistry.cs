@@ -633,15 +633,27 @@ public static class OpenArcsRegistry
                 "confirmed' is now TYPED as BandEdgeResolutionLimitClaim (Tier1Derived, parent " +
                 "BandEdgeTransitionInvariantClaim) + live witness BandEdgeResolutionLimitWitness (inspect --root " +
                 "resolution), the optics/signal reading of the frame conditioning, per the C#-witness-first " +
-                "discipline (12 xUnit + 5-case battery green, wiring audit 3/3). (C, minor, still open) the decoder " +
-                "could be DE-LOSSED: read the signed per-site deviation profile and/or add the carrier strength " +
-                "channel instead of the alpha-rescaling, removing the 1.5 ambiguity (an engineering improvement, " +
-                "not a new physics claim). Anchors: simulations/f124_inverse_problem_gate.py (Stage 0, clean), " +
-                "simulations/f124_decoder_strength_fix_gate.py (Stage 1, linear redirect), simulations/_f124_" +
+                "discipline (12 xUnit + 5-case battery green, wiring audit 3/3). (C) DONE 2026-06-29: the decoder " +
+                "IS DE-LOSSED. PaintersMovement.DeviationProfile/DeviationResponse + DefectDecoder.DecodeDeviation " +
+                "read the signed per-site deviation profile and resolve the N=5 mirror pair (bond 3, weakened " +
+                "sign, squared residual ratio ~516 vs the alpha path's ~1.5, ambiguous->resolved); the witness " +
+                "(inspect --root decoder) shows the before/after live. An engineering de-loss, not a new physics " +
+                "claim. Anchors: simulations/f124_inverse_problem_gate.py (Stage 0, clean), " +
+                "simulations/f124_decoder_strength_fix_gate.py (Stage 1, linear redirect), simulations/f124_" +
                 "decoder_strength_fix_dynamical.py (Stage B, dynamical redirect), BandEdgeTransitionInvariant" +
                 "Claim + Witness (F124), KPartnerSelectionRuleClaim (the null column), " +
                 "compute/RCPsiSquared.Diagnostics/Foundation/DefectDecoder.cs (the live decoder, the 1.5).",
-            Status: OpenArcStatus.Open),
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "RESOLVED 2026-06-29. The decoder is DE-LOSSED in C# (door C): " +
+                "PaintersMovement.DeviationProfile/DeviationResponse (the signed per-site purity-deviation " +
+                "profile, a pure reduction of the stored _pA/_pB trajectories) + DefectDecoder.DecodeDeviation " +
+                "(a second decode path sharing the LS core via ProjectAndScore). It resolves the N=5 mirror " +
+                "pair the alpha time-rescaling could not: bond 3, weakened SIGN read, squared residual ratio " +
+                "~516 vs the alpha path's ~1.5 (ambiguous->resolved), by preserving the sign the alpha-rescaling " +
+                "clips (the deviation dictionary is just as anti-collinear, |cos|~0.95; it does NOT escape the " +
+                "angle). Live before/after in ReadingPowerWitness (inspect --root decoder). Doors A (the " +
+                "BandEdgeResolutionLimitClaim resolution limit) + C now both closed; an engineering de-loss, " +
+                "not a new physics claim. See docs/superpowers/specs/2026-06-29-defect-decoder-de-loss-design.md."),
 
         new OpenArc(
             Name: "ptf_bonding_class_guard",
