@@ -97,7 +97,7 @@ public sealed class BandEdgeResolutionLimitClaim : Claim
         "the exact M nor the dynamical per-site purity profile (both localize a single bond cleanly); it is an " +
         "α-time-rescaling parametrization artifact of the decoder, a separate matter. That separate " +
         "α-artifact is now engineering-resolved: DefectDecoder.DecodeDeviation reads the signed " +
-        "purity-deviation profile and recovers the bond and sign (squared ratio ≈525), while this " +
+        "purity-deviation profile and recovers the bond and sign (squared ratio ≈516), while this " +
         "resolution limit, the κ~N² conditioning, is untouched.";
 
     public override string DisplayName =>

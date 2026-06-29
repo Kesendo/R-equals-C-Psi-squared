@@ -148,9 +148,9 @@ public class DefectDecoderTests
     {
         // The headline de-loss (spec §11 row [D]). The α path FLAGS the N=5 (bond 3 weakened) mirror pair
         // ambiguous (residual ratio ≈ 1.5); the SIGNED deviation path RESOLVES it (bond 3, δĴ < 0, ratio
-        // ≫ AmbiguityFactor AND ≫ the α ratio). Bind QUALITATIVELY: the C# squared-residual ratio is ≈ 525
-        // (= 23²), do NOT pin the exact number. A ratio wildly off ≈ 525 is a dense-vs-sector handshake
-        // break to investigate, not a number to loosen.
+        // ≫ AmbiguityFactor AND ≫ the α ratio). Bind QUALITATIVELY: the C# squared-residual ratio is ≈ 516
+        // (the square of the ≈ 22.7 residual-norm ratio), do NOT pin the exact number. A ratio wildly off
+        // ≈ 516 is a dense-vs-sector handshake break to investigate, not a number to loosen.
         var dec = Calib(5);
 
         var rAlpha = dec.Decode(AlphaProfile(5, 3, -0.02));
@@ -182,6 +182,24 @@ public class DefectDecoderTests
         var r = dec.DecodeDeviation(DeviationProfileObs(n, bond, deltaJ));
         Assert.Equal(bond, r.Bond);
         Assert.Equal(Math.Sign(deltaJ), Math.Sign(r.DeltaJ));
+    }
+
+    [Theory]
+    [InlineData(0, 0.010)]
+    [InlineData(1, 0.015)]
+    [InlineData(2, 0.025)]
+    [InlineData(2, -0.020)]
+    public void N4_DeviationPath_StrengthWithin10Percent(int bond, double deltaJ)
+    {
+        // Parity with N4_SpecTable_ExactBond_StrengthWithin10Percent (the α path): the deviation path's
+        // signed δĴ recovers the strength MAGNITUDE too, not just bond + sign. This pins the
+        // DeviationResponse = g/δJ normalization (a wrong divisor would leave bond + sign correct but δĴ
+        // off by a factor of δJ_cal). Same deep-window N=4 cases and 10% tolerance as the α analogue.
+        var dec = Calib(4);
+        var r = dec.DecodeDeviation(DeviationProfileObs(4, bond, deltaJ));
+        Assert.Equal(bond, r.Bond);
+        double relErr = Math.Abs(r.DeltaJ - deltaJ) / Math.Abs(deltaJ);
+        Assert.True(relErr <= 0.10, $"deviation strength rel error {relErr:P2} should be ≤ 10% (δĴ={r.DeltaJ}, truth {deltaJ})");
     }
 
     [Theory]

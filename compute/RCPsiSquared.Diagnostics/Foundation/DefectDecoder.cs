@@ -180,7 +180,7 @@ public sealed class DefectDecoder
     /// profile IS already a deviation, so there is NO −1 offset; the projection coefficient δĴ is signed,
     /// recovering +δJ vs −δJ. This resolves the N=5 sign-location ambiguity the α path flags. It resolves
     /// NOT by escaping the dictionary's anti-collinearity (it is just as anti-collinear, |cos| ≈ 0.95) but by
-    /// preserving the sign the α time-rescaling clips. Residual is squared, so the ratio is ≈ 525 at the
+    /// preserving the sign the α time-rescaling clips. Residual is squared, so the ratio is ≈ 516 at the
     /// canonical N=5 mirror pair vs the α path's ≈ 1.5 (review §11).</summary>
     public DecodeResult DecodeDeviation(IReadOnlyList<double> deviationObserved)
     {

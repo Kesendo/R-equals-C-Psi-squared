@@ -149,7 +149,7 @@ the one that would have lifted the degeneracy.
 time-rescaling's sign-clip, not the K-partner null itself. The signed per-site purity-deviation profile
 ([`DefectDecoder.DecodeDeviation`](../compute/RCPsiSquared.Diagnostics/Foundation/DefectDecoder.cs)) reads
 the same painters trajectories without the rescaling, recovers the defect sign, and resolves the N=5
-mirror pair (squared residual ratio ≈525). What it does NOT touch: the rank null (the forbidden k=N
+mirror pair (squared residual ratio ≈516). What it does NOT touch: the rank null (the forbidden k=N
 channel) and the worst-pair anti-collinearity (cos ≈ −0.96) both persist; the deviation dictionary is
 just as anti-collinear, and it resolves the *noiseless signed decode* while the structural confusability
 still bites under finite-shot noise (`BandEdgeResolutionLimitClaim`).
