@@ -53,7 +53,18 @@ public static class OpenArcsRegistry
                 "(Jordan-Wigner) holds at every N, so the diabolics persist and stay Δ-killable; only the AT-" +
                 "bookkeeping is harder. The deferred Q4 cross-fold edge (do the complex-q diabolics pair across " +
                 "the cross-block fold (SE,DE)↔(SE,w_{N-2})?) also generalizes over N and is untried.",
-            NextStep: "Concrete moves, cheapest first (binary: dotnet run --project compute/RCPsiSquared.Cli -- " +
+            NextStep: "CURRENT STATE (2026-06-29, read this first; the dated layers below are the journal): the " +
+                "residual-only LOCATOR and the residual-aware Delta-TEST are both BUILT (TDD green) and N=6 is DONE. " +
+                "Move 1 (count + complex-q-only: 16 diabolics, growth 11->16, none at physical real q) and Move 2 " +
+                "(integrability-protection: each N=6 diabolic flips DEFECTIVE under Delta) are both CONFIRMED - see the " +
+                "'RUN 2026-06-29' and 'MOVE 2 ... DONE' layers below + experiments/F89_PATH_K_DIABOLIC.md (path-5 section). " +
+                "NEXT MOVE: the N=7 (k=6) broad scan - per-eval cost is now optimal, but the broad scan's wall-clock is " +
+                "dominated by SEED COUNT (the 53-strand residual gap field has many local minima), so it ran ~20min+ and was " +
+                "killed; resume with a SMALLER q-box (a qualitative N=7 point) or a cheap seeding pre-filter, via " +
+                "'dotnet run --project compute/RCPsiSquared.Cli -c Release -- pkmono --diabolic --residual --k 6 --re <small> " +
+                "--im <small> --cell 0.05'. Then Move 4 (cross-fold, still unblocked-not-run). " +
+                "--- THE JOURNAL (how we got here) --- " +
+                "Concrete moves, cheapest first (binary: dotnet run --project compute/RCPsiSquared.Cli -- " +
                 "<cmd>). (1) LOCATE: run 'pkmono --diabolic --k 5' (N=6) and --k 6 " +
                 "(N=7) over a scaled q-region; confirm the path-4 pattern holds — diabolics exist, ALL at complex " +
                 "q, NONE at real q (the self-fold being N=4-only predicts no physical diabolic at any N≥5; the " +
