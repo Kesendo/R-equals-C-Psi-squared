@@ -33,7 +33,8 @@ namespace RCPsiSquared.Diagnostics.Ptf;
 /// limit). It is NOT the DefectDecoder's 1.5 sign-location ambiguity, which is a separate α-time-rescaling
 /// parametrization artifact (Stage 1 + Stage B of the f124_inverse_problem_resolution_seam arc gate-first
 /// refuted that identification: the 1.5 is not √κ(5)=2.30 and is reproduced by neither the exact M nor the
-/// dynamical per-site profile).</para>
+/// dynamical per-site profile). The 1.5 ambiguity it sets aside is now de-lossed by
+/// <see cref="RCPsiSquared.Diagnostics.Foundation.DefectDecoder.DecodeDeviation"/>.</para>
 ///
 /// <para>Tier1Derived; single typed parent <see cref="BandEdgeTransitionInvariantClaim"/> (F124, Tier1Derived):
 /// every quantity here is a direct corollary of F124's M (σ_min²=λ_min=E, σ_max²=λ_max, κ, the staggered λ_min
@@ -94,7 +95,10 @@ public sealed class BandEdgeResolutionLimitClaim : Claim
         "DefectDecoder's 1.5 sign-location ambiguity. Stage 1 + Stage B of the f124_inverse_problem_resolution_" +
         "seam arc gate-first REFUTED that identification: the 1.5 is not √κ(5)=2.30, and is reproduced by neither " +
         "the exact M nor the dynamical per-site purity profile (both localize a single bond cleanly); it is an " +
-        "α-time-rescaling parametrization artifact of the decoder, a separate matter.";
+        "α-time-rescaling parametrization artifact of the decoder, a separate matter. That separate " +
+        "α-artifact is now engineering-resolved: DefectDecoder.DecodeDeviation reads the signed " +
+        "purity-deviation profile and recovers the bond and sign (squared ratio ≈525), while this " +
+        "resolution limit, the κ~N² conditioning, is untouched.";
 
     public override string DisplayName =>
         "F124's resolution limit (κ ~ N², contrast √κ ~ N, the staggered q=π the diffraction limit, Tier1Derived)";

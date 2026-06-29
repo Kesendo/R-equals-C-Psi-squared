@@ -145,6 +145,15 @@ at N=5, the `AmbiguityFactor` flag), and the reason it cannot cleanly separate s
 is exactly that the K-partner pairs are the dictionary's null direction. The forbidden channel is
 the one that would have lifted the degeneracy.
 
+**Update (2026-06-29, the de-loss).** The ≈1.5 *decode ratio* above is reducible: it is the α
+time-rescaling's sign-clip, not the K-partner null itself. The signed per-site purity-deviation profile
+([`DefectDecoder.DecodeDeviation`](../compute/RCPsiSquared.Diagnostics/Foundation/DefectDecoder.cs)) reads
+the same painters trajectories without the rescaling, recovers the defect sign, and resolves the N=5
+mirror pair (squared residual ratio ≈525). What it does NOT touch: the rank null (the forbidden k=N
+channel) and the worst-pair anti-collinearity (cos ≈ −0.96) both persist; the deviation dictionary is
+just as anti-collinear, and it resolves the *noiseless signed decode* while the structural confusability
+still bites under finite-shot noise (`BandEdgeResolutionLimitClaim`).
+
 Typed as `KPartnerSelectionRuleClaim` (Tier 1 derived, child of `ChiralMirrorTrajectoryClaim`,
 live at `inspect --claim KPartnerSelectionRuleClaim`); the decoder it explains is
 [`DefectDecoder.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/DefectDecoder.cs); the probe is

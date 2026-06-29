@@ -41,7 +41,12 @@ namespace RCPsiSquared.Diagnostics.Ptf;
 /// <para>Anchor: hypotheses/HANDSHAKE_GEOMETRY.md + simulations/handshake_reading_equivariance.py
 /// + compute/RCPsiSquared.Diagnostics/Foundation/DefectDecoder.cs (the decoder whose sign-location
 /// ambiguity this explains structurally) + compute/RCPsiSquared.Diagnostics/Ptf/KPartnerSelectionRuleClaim.cs
-/// (the parent: the dictionary, the null column, rank N−2).</para></summary>
+/// (the parent: the dictionary, the null column, rank N−2).</para>
+///
+/// <para>The α profiles' anti-collinearity is real and persists; the de-lossed
+/// <see cref="RCPsiSquared.Diagnostics.Foundation.DefectDecoder.DecodeDeviation"/> resolves the decode by
+/// preserving the defect SIGN (it does not remove the anti-collinearity). See
+/// docs/superpowers/specs/2026-06-29-defect-decoder-de-loss-design.md.</para></summary>
 public sealed class DefectReadingEquivarianceClaim : Claim
 {
     public readonly record struct BatteryCase(string Name, string Detail, string Expected, string Actual)
