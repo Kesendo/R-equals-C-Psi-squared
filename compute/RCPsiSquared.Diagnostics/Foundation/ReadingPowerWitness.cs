@@ -251,6 +251,8 @@ public sealed class ReadingPowerWitness : IInspectable
                 summary: summary));
         }
 
+        cases.Add(DeLossNode());
+
         return new InspectableNode(
             displayName: "the decoder (read a planted defect)",
             summary: $"given only the per-site reading, the decoder returns where the defect sits and how " +
@@ -262,6 +264,51 @@ public sealed class ReadingPowerWitness : IInspectable
                      $"are not always separable by a single α-profile; the decoder reports the ambiguity rather than " +
                      $"guessing, and a second feature axis is the planned tie-breaker.",
             children: cases);
+    }
+
+    /// <summary>The de-loss before/after, always at the canonical N=5 mirror pair (bond 3 weakened): the
+    /// single case a per-site α-profile cannot read. Calibrate an N=5 decoder, read the planted defect's
+    /// α-profile AND its signed purity-deviation profile through the SAME painters pipeline, decode each,
+    /// and table the contrast: the α path flags AMBIGUOUS (ratio ≈ 1.5), the signed deviation path RESOLVES
+    /// (bond 3, weakened, ratio ≫ threshold). Numbers are computed live, never transcribed
+    /// (docs/superpowers/specs/2026-06-29-defect-decoder-de-loss-design.md §11).</summary>
+    InspectableNode DeLossNode()
+    {
+        const int n5 = 5;
+        var dec = DefectDecoder.Calibrate(n5, J, DemoGamma, DemoDeltaJCal);
+        var (alpha, deviation) = PlantedProfiles(n5, bond: 3, deltaJ: -0.02);
+
+        var rAlpha = dec.Decode(alpha);
+        var rDev = dec.DecodeDeviation(deviation);
+        double ratioAlpha = rAlpha.Residual > 0 ? rAlpha.RunnerUpResidual / rAlpha.Residual : double.PositiveInfinity;
+        double ratioDev = rDev.Residual > 0 ? rDev.RunnerUpResidual / rDev.Residual : double.PositiveInfinity;
+
+        string summary =
+            $"the N=5 mirror pair (bond 3 weakened, δJ=−0.02), the one case a single α-profile cannot read. " +
+            $"α path: winner bond {rAlpha.Bond}, " +
+            $"{(rAlpha.IsAmbiguous ? "AMBIGUOUS" : "clean")} (residual ratio {ratioAlpha.ToString("0.##", Inv)}, " +
+            $"the {DefectDecoder.AmbiguityFactor.ToString(Inv)}× flag). " +
+            $"signed deviation path: winner bond {rDev.Bond} at δĴ={rDev.DeltaJ.ToString("0.#####", Inv)} " +
+            $"({(rDev.DeltaJ < 0 ? "weakened, sign read" : "WRONG SIGN")}), " +
+            $"{(rDev.IsAmbiguous ? "still ambiguous" : "RESOLVED")} (residual ratio {ratioDev.ToString("0.#", Inv)}, " +
+            $"squared convention). The de-loss: ratio {ratioAlpha.ToString("0.##", Inv)} → {ratioDev.ToString("0.#", Inv)} " +
+            $"and the sign recovered — despite the deviation dictionary staying just as anti-collinear " +
+            $"(it resolves by preserving the sign the α-rescaling clips, not by escaping the angle).";
+
+        return new InspectableNode(
+            displayName: "the de-loss (N=5 mirror pair: α ambiguous → signed deviation resolved)",
+            summary: summary);
+    }
+
+    /// <summary>The per-site α-profile AND signed purity-deviation profile a defect (n, bond, δJ) produces,
+    /// read through the SAME painters pipeline the decoder calibrated against — one Symphony, both observed
+    /// readings. Parallel to <see cref="PlantedAlphaProfile"/>, parameterised by N for the de-loss node.</summary>
+    (double[] Alpha, double[] Deviation) PlantedProfiles(int n, int bond, double deltaJ)
+    {
+        var s = new Symphony(n: n, j: J, gamma: DemoGamma, hType: HamiltonianType.XY,
+                             initialState: InitialStateKind.BondingMode, defectBond: bond, deltaJ: deltaJ);
+        var pm = ((IInspectable)s).Children.OfType<PaintersMovement>().Single();
+        return (pm.Alphas.ToArray(), pm.DeviationProfile.ToArray());
     }
 
     /// <summary>The per-site α-profile a real defect (bond, δJ) produces, read through the SAME painters

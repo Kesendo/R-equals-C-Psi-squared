@@ -43,14 +43,24 @@ public class ReadingPowerWitnessTests
     [Fact]
     public void Children_CarryTheDecodeDemo_ThreePlantedDefects_AllExactBond()
     {
-        // The decode demonstration: calibrate at the witness's N, plant three defects (bond 0/+0.01,
-        // middle/+0.025, last/−0.02), decode each. The demo node carries a per-case table child; each
-        // case's truth bond must be recovered exactly (the closing of the loop, surfaced live).
         var demo = ((IInspectable)W()).Children.Single(c => c.DisplayName.Contains("decoder (read a planted defect)"));
-        var cases = ((IInspectable)demo).Children.ToList();
-        Assert.Equal(3, cases.Count);
-        foreach (var c in cases)
+        var plantCases = ((IInspectable)demo).Children.Where(c => c.DisplayName.StartsWith("planted:")).ToList();
+        Assert.Equal(3, plantCases.Count);
+        foreach (var c in plantCases)
             Assert.Contains("match", c.Summary);   // each planted case decodes to its true bond
+    }
+
+    [Fact]
+    public void DecodeDemo_CarriesTheDeLossNode_AlphaAmbiguous_DeviationResolvesWithSign()
+    {
+        // The de-loss before/after (spec §4.3): at the N=5 mirror pair the α path is AMBIGUOUS and the
+        // signed deviation path RESOLVES it with the correct (weakened) sign. The node reports the actual
+        // computed numbers live.
+        var demo = ((IInspectable)W()).Children.Single(c => c.DisplayName.Contains("decoder (read a planted defect)"));
+        var deloss = ((IInspectable)demo).Children.Single(c => c.DisplayName.Contains("de-loss"));
+        Assert.Contains("AMBIGUOUS", deloss.Summary);          // the α path flags it
+        Assert.Contains("RESOLVED", deloss.Summary);           // the deviation path resolves it
+        Assert.Contains("weakened, sign read", deloss.Summary); // the sign is recovered
     }
 
     [Fact]
