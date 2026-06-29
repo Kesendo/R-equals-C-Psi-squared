@@ -41,7 +41,9 @@ public static class PathKMonodromyScanCommand
 
         if (p.HasFlag("delta-flip"))   // the integrability test: does XXZ Delta kill the diabolic?
         {
-            PrintDeltaFlip(k, p.OptionalString("q"), p.OptionalString("lam"), p.OptionalString("deltas"));
+            // --residual (REQUIRED from path-5/N=6): track the residual strands only, so the box scan is not
+            // captured by the AT-locked exact degeneracies (which make q* jump and the verdict unreliable at N>=6).
+            PrintDeltaFlip(k, p.OptionalString("q"), p.OptionalString("lam"), p.OptionalString("deltas"), p.HasFlag("residual"));
             return 0;
         }
 
@@ -82,7 +84,7 @@ public static class PathKMonodromyScanCommand
     // the ZZ is Hermitian so the AT rate is untouched, but it breaks the additivity that makes the crossing
     // semisimple. A true (integrable) diabolic flips DEFECTIVE (geo 2->1) or LIFTS at Δ>0; a defective EP
     // (control) just drifts. Reproduces the committed N=4 table with --k 3 --q 0.658983,0 --lam -4,1.318.
-    private static void PrintDeltaFlip(int k, string? qStr, string? lamStr, string? deltasStr)
+    private static void PrintDeltaFlip(int k, string? qStr, string? lamStr, string? deltasStr, bool residualOnly)
     {
         int n = k + 1;
         var (qre, qim) = Pair(qStr ?? "0.6407,0.180");
@@ -90,14 +92,14 @@ public static class PathKMonodromyScanCommand
         var deltas = (deltasStr ?? "0,0.02,0.05,0.1,0.2,0.5").Split(',').Select(s => double.Parse(s, Inv)).ToArray();
         var q0 = new Complex(qre, qim); var lam0 = new Complex(lre, lim);
 
-        Console.WriteLine($"\n# DELTA-FLIP path-{k} (N={n}): track the coalescence at q={qre.ToString("0.####", Inv)}{Sign(qim)}i, " +
+        Console.WriteLine($"\n# DELTA-FLIP path-{k} (N={n}){(residualOnly ? " [residual-only: AT-flood excluded]" : "")}: track the coalescence at q={qre.ToString("0.####", Inv)}{Sign(qim)}i, " +
                           $"lambda={lre.ToString("0.###", Inv)}{Sign(lim)}i under XXZ anisotropy Delta");
         Console.WriteLine("# H(D) = J(XX+YY) + J*D*ZZ; ZZ Hermitian => AT rate untouched; additivity broken => an integrable diabolic dies");
         Console.WriteLine("  Delta   verdict     alg geo    dep       gap        q*");
         bool diabolicAt0 = false, survivesAtPositive = false;
         foreach (var d in deltas)
         {
-            var t = XxzCoherenceBlock.TrackDiabolicUnderDelta(n, q0, lam0, d);
+            var t = XxzCoherenceBlock.TrackDiabolicUnderDelta(n, q0, lam0, d, residualOnly: residualOnly);
             if (d == 0 && t.Verdict == XxzCoherenceBlock.DeltaFlipVerdict.Diabolic) diabolicAt0 = true;
             if (d > 0 && t.Survived) survivesAtPositive = true;
             Console.WriteLine($"  {d.ToString("0.###", Inv),5}  {t.Verdict,-9}  {t.Algebraic}   {t.Geometric}   " +

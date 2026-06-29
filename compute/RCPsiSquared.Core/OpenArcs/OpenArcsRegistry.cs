@@ -100,9 +100,17 @@ public static class OpenArcsRegistry
                 "per-point reconciliation. STILL OPEN: N=7 (k=6) broad scan - per-EVAL cost is now optimal, but the broad N=7 " +
                 "wall-clock is dominated by SEED COUNT (the 53-strand residual gap field has many local minima; each spurious " +
                 "seed pays the full local pipeline before the gapTol filter rejects it), so it ran ~20min+ and was killed. Needs " +
-                "a cheap seeding pre-filter (or a smaller box for a qualitative-only N=7 point). Moves 2 (Delta-test) and 4 " +
-                "(cross-fold) are now UNBLOCKED for N=6 (located diabolics in hand). See experiments/F89_PATH_K_DIABOLIC.md " +
-                "(path-5 result section).",
+                "a cheap seeding pre-filter (or a smaller box for a qualitative-only N=7 point). " +
+                "MOVE 2 (Delta-test) DONE for N=6 2026-06-29: it ALSO needed the residual treatment (the full-block box scan " +
+                "captures the AT crossings - q* jumps to an exact-0 AT degeneracy, the verdict reads 'protected' for the wrong " +
+                "reason). Built residual-aware: XxzCoherenceBlock.ResidualRootsTrackedXxz (the residual SET is Delta-STABLE - ZZ " +
+                "Hermitian => AT rate Delta-independent - so it tracks from the (q0=2,Delta=0) base) + a local-tracking " +
+                "TrackDiabolicUnderDelta residualOnly path (8m32s -> 6s), wired as 'pkmono --delta-flip --residual'. RESULT: each " +
+                "path-5 diabolic reads DIABOLIC (geo=alg=2) at Delta=0 with q* PINNED at the seed + finite gap, then DEFECTIVE " +
+                "(geo 2->1) the instant Delta!=0 with departure growing (the rung-near q=0.709-0.219i, which the full-block test " +
+                "captured entirely, now flips clean: dep 0.028/0.073/0.160 at Delta=0.02/0.05/0.10, q* never leaving the seed). " +
+                "Integrability-protection holds at N=6 exactly as at N=4 (XxzDeltaFlipTests.Path5_Diabolics_DieUnderDelta_" +
+                "ResidualOnly). Move 4 (cross-fold) still UNBLOCKED-not-run. See experiments/F89_PATH_K_DIABOLIC.md (path-5 section).",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

@@ -149,6 +149,38 @@ public static class XxzCoherenceBlock
     public static Complex[] SeDeSymSpectrum(int n, Complex q, double delta)
         => BuildSym(n, q, delta).Evd().EigenValues.ToArray();
 
+    /// <summary>The residual (H_B-mixed, non-AT) strands of the XXZ (q,Δ) coherence block at (q, Δ), tracked by
+    /// nearest-neighbour continuity from the base (q0=2, Δ=0). There the residual SET is identified exactly via
+    /// <see cref="PathKMonodromyScout.ResidualIndices"/> (the XXZ block equals the F89 block at Δ=0). The split
+    /// is Δ-stable: the ZZ term is Hermitian, so the AT rate Re λ = −2γ⟨n_XY⟩ is Δ-independent and the AT-locked
+    /// half never changes membership. AT-free by construction — the AT-locked exact degeneracies that flood the
+    /// full-block Δ-test box scan at N≥6 are simply not in this set.</summary>
+    public static Complex[] ResidualRootsTrackedXxz(int k, Complex q, double delta, int trackSteps = 160)
+    {
+        int n = k + 1;
+        var q0 = new Complex(2, 0);
+        var r0 = SeDeSymSpectrum(n, q0, 0.0);
+        var (residual, _) = PathKMonodromyScout.ResidualIndices(k, r0);
+        // track the full spectrum along (q0,0) -> (q,Δ); cur[i] = position of the strand that started at index i.
+        var cur = (Complex[])r0.Clone();
+        for (int s = 1; s <= trackSteps; s++)
+        {
+            double t = (double)s / trackSteps;
+            var next = SeDeSymSpectrum(n, q0 + (q - q0) * t, delta * t);
+            var used = new bool[next.Length];
+            var moved = new Complex[cur.Length];
+            for (int i = 0; i < cur.Length; i++)                 // each strand -> its nearest unused next eigenvalue
+            {
+                int best = -1; double bd = double.PositiveInfinity;
+                for (int j = 0; j < next.Length; j++)
+                    if (!used[j]) { double dd = (next[j] - cur[i]).Magnitude; if (dd < bd) { bd = dd; best = j; } }
+                used[best] = true; moved[i] = next[best];
+            }
+            cur = moved;
+        }
+        return residual.Select(i => cur[i]).ToArray();
+    }
+
     /// <summary>The character (diabolic / defective / …) of a coalescence in the symmetric (SE,DE) sector at
     /// (q, Δ, λ): the load-bearing semisimplicity discriminant (EpCharacter Riesz projector). Geometric=
     /// Algebraic ∧ Departure≈0 ⟹ Diabolic (semisimple); Geometric&lt;Algebraic ⟹ Defective (Jordan).</summary>
@@ -189,6 +221,78 @@ public static class XxzCoherenceBlock
         return new DeltaFlipReading(r.Kind, r.Algebraic, r.Geometric, r.Departure, r.ProjectorNorm, qd, mid, best);
     }
 
+    // The residualOnly Δ-track (N>=6) with LOCAL continuity, so the box scan + descent never re-track from the
+    // base per probe (the nested O(boxScan x trackSteps) cost). Anchor the residual roots at qSeed once (one
+    // global track), then identify the residual subset at each probe by sub-stepped nearest continuity from the
+    // running point. AT strands are in the full spectrum but never adopted (a residual strand's continuation is
+    // its own nearest root), so no AT capture. geo/alg via EpCharacter on the full block at the residual pair's
+    // midpoint with an AT-aware radius (nearest non-pair eigenvalue over the FULL block).
+    private static DeltaTrackResult TrackDiabolicUnderDeltaResidual(
+        int n, Complex qSeed, double delta, double boxHalf, double boxCell, double coalesceTol, double depTol, int trackSteps)
+    {
+        int k = n - 1;
+        var anchor = ResidualRootsTrackedXxz(k, qSeed, delta, trackSteps);
+        Complex[] Local(Complex[] from, Complex qFrom, Complex qTo)
+        {
+            int sub = Math.Max(1, (int)Math.Ceiling((qTo - qFrom).Magnitude / 0.01));
+            var pos = from;
+            for (int s = 1; s <= sub; s++)
+            {
+                var full = SeDeSymSpectrum(n, qFrom + (qTo - qFrom) * ((double)s / sub), delta);
+                var used = new bool[full.Length]; var next = new Complex[pos.Length];
+                for (int i = 0; i < pos.Length; i++)
+                {
+                    int best = -1; double bd = double.PositiveInfinity;
+                    for (int j = 0; j < full.Length; j++)
+                        if (!used[j]) { double dd = (full[j] - pos[i]).Magnitude; if (dd < bd) { bd = dd; best = j; } }
+                    used[best] = true; next[i] = full[best];
+                }
+                pos = next;
+            }
+            return pos;
+        }
+        // box scan (local from the anchor) re-finds the coalescence region under the Δ-shift.
+        double boxMin = double.PositiveInfinity; Complex boxArg = qSeed; var boxRoots = anchor;
+        int steps = Math.Max(1, (int)Math.Round(2 * boxHalf / boxCell));
+        for (int ir = 0; ir <= steps; ir++)
+            for (int ii = 0; ii <= steps; ii++)
+            {
+                var q = new Complex(qSeed.Real - boxHalf + ir * boxCell, qSeed.Imaginary - boxHalf + ii * boxCell);
+                var rr = Local(anchor, qSeed, q);
+                double g = PathKMonodromyScout.MinGap(rr);
+                if (g < boxMin) { boxMin = g; boxArg = q; boxRoots = rr; }
+            }
+        // local descent on the residual min-gap from the box-min.
+        Complex center = boxArg; var cur = boxRoots; double half = boxCell / 2, curGap = PathKMonodromyScout.MinGap(cur);
+        for (int it = 0; it < 40 && half > 1e-8; it++)
+        {
+            Complex best = center; double bestGap = curGap; var bestRoots = cur; bool moved = false;
+            foreach (var off in new[] { new Complex(half, 0), new Complex(-half, 0), new Complex(0, half), new Complex(0, -half),
+                                        new Complex(half, half), new Complex(half, -half), new Complex(-half, half), new Complex(-half, -half) })
+            {
+                var probe = Local(cur, center, center + off);
+                double g = PathKMonodromyScout.MinGap(probe);
+                if (g < bestGap) { bestGap = g; best = center + off; bestRoots = probe; moved = true; }
+            }
+            if (moved) { center = best; curGap = bestGap; cur = bestRoots; } else half /= 2;
+        }
+        double refined = PathKMonodromyScout.MinGap(cur);
+        if (refined > coalesceTol)
+            return new DeltaTrackResult(DeltaFlipVerdict.Lifted, 0, 0, double.NaN, center, Complex.Zero, refined);
+        // character: closest residual pair -> midpoint; AT-aware radius over the FULL block; EpCharacter (geo/alg).
+        int ai = 0, bi = 1; double bb = double.PositiveInfinity;
+        for (int i = 0; i < cur.Length; i++)
+            for (int j = i + 1; j < cur.Length; j++)
+            { double g = (cur[i] - cur[j]).Magnitude; if (g < bb) { bb = g; ai = i; bi = j; } }
+        var mid = (cur[ai] + cur[bi]) / 2;
+        var ds = SeDeSymSpectrum(n, center, delta).Select(z => (z - mid).Magnitude).OrderBy(x => x).ToArray();
+        double radius = ds.Length > 2 ? Math.Clamp(0.4 * ds[2], 0.05, 0.5) : 0.1;
+        var rr2 = EpCharacter.Characterize(BuildSym(n, center, delta), mid, radius);
+        var verdict = (rr2.Geometric == rr2.Algebraic && rr2.Departure < depTol)
+            ? DeltaFlipVerdict.Diabolic : DeltaFlipVerdict.Defective;
+        return new DeltaTrackResult(verdict, rr2.Algebraic, rr2.Geometric, rr2.Departure, center, mid, bb);
+    }
+
     /// <summary>The verdict of a Δ-track step. DIABOLIC = the coalescence survives semisimply (geo=alg,
     /// dep≈0); DEFECTIVE = it persists as a Jordan EP (geo&lt;alg); LIFTED = the degeneracy is gone (no
     /// coalescence in the local q-box). For the integrability test, DEFECTIVE or LIFTED at Δ&gt;0 confirms
@@ -211,8 +315,14 @@ public static class XxzCoherenceBlock
     /// gone); else geo=alg ∧ dep≈0 ⟹ DIABOLIC (survives), geo&lt;alg ⟹ DEFECTIVE. Box ±boxHalf (the path-4
     /// diabolics' nearest neighbour is ~0.1 away, so ±0.04 is safe).</summary>
     public static DeltaTrackResult TrackDiabolicUnderDelta(int n, Complex qSeed, Complex lambdaSeed, double delta,
-        double boxHalf = 0.04, double boxCell = 0.008, double coalesceTol = 1e-3, double depTol = 1e-6)
+        double boxHalf = 0.04, double boxCell = 0.008, double coalesceTol = 1e-3, double depTol = 1e-6,
+        bool residualOnly = false, int trackSteps = 160)
     {
+        // residualOnly (N>=6): scan the residual strands only, so the box scan + refine cannot be captured by the
+        // AT-locked exact degeneracies that crowd the full sym block at N>=6 (the local-tracking variant below).
+        if (residualOnly)
+            return TrackDiabolicUnderDeltaResidual(n, qSeed, delta, boxHalf, boxCell, coalesceTol, depTol, trackSteps);
+
         Func<Complex, Complex[]> roots = qq => SeDeSymSpectrum(n, qq, delta);
         double boxMin = double.PositiveInfinity; Complex boxArg = qSeed;
         int steps = Math.Max(1, (int)Math.Round(2 * boxHalf / boxCell));

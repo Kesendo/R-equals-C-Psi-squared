@@ -63,6 +63,54 @@ public class XxzDeltaFlipTests
         Assert.InRange(r10.Departure, 0.08, 0.15);              // table 0.112
     }
 
+    // Residual-only Δ-test (the N>=6 fix): the full sym spectrum floods on AT-locked degeneracies, so the box
+    // scan in TrackDiabolicUnderDelta captures AT crossings at N=6 (q* jumps, false LIFTs). ResidualRootsTrackedXxz
+    // tracks the residual SET from the base (q0=2, Δ=0) - where it equals the locator's F89 residual - and the SET
+    // is Δ-stable (ZZ Hermitian => AT rate Re λ = −2γ⟨n_XY⟩ is Δ-independent). At the base it must reproduce the
+    // locator's residual exactly (this also pins the XxzCoherenceBlock-vs-F89 spectrum convention at path-5).
+    [Fact]
+    public void ResidualRootsTrackedXxz_Path5_MatchesLocatorResidual_AtBase()
+    {
+        var xxz = XxzCoherenceBlock.ResidualRootsTrackedXxz(5, new Complex(2, 0), 0.0)
+            .OrderBy(z => z.Real).ThenBy(z => z.Imaginary).ToArray();
+        var loc = PathKMonodromyScout.ResidualRootsAt(5, new Complex(2, 0))
+            .OrderBy(z => z.Real).ThenBy(z => z.Imaginary).ToArray();
+        Assert.Equal(32, xxz.Length);                            // F_d degree for path-5 (not 45 = full sym block)
+        Assert.Equal(loc.Length, xxz.Length);
+        for (int i = 0; i < xxz.Length; i++)
+            Assert.True((xxz[i] - loc[i]).Magnitude < 1e-7, $"strand {i}: xxz {xxz[i]} vs locator {loc[i]}");
+    }
+
+    // Gate B at N=6 (the residual-only Δ-test): the full-block box scan captures AT crossings at N=6 (q* jumps,
+    // gap exactly 0, false LIFTs); residualOnly tracks the residual SET, so each path-5 diabolic reads cleanly
+    // DIABOLIC at Δ=0 (q* at the seed, finite gap) and flips DEFECTIVE / LIFTS at Δ>0 - integrability-protection
+    // confirmed off N=4 at N=6.
+    [Fact]
+    public void Path5_Diabolics_DieUnderDelta_ResidualOnly()
+    {
+        var diabolics = new[]
+        {
+            (q: new Complex(0.7090, -0.219), lam: new Complex(-4.151, 1.615)),   // rung-near (the full-block Δ-test captured AT here)
+            (q: new Complex(0.7581, 0.260), lam: new Complex(-5.392, 1.653)),    // rung-far
+            (q: new Complex(1.0561, 0.238), lam: new Complex(-5.187, 1.441)),    // rung-far
+        };
+        foreach (var (q, lam) in diabolics)
+        {
+            var d0 = XxzCoherenceBlock.TrackDiabolicUnderDelta(6, q, lam, 0.0, residualOnly: true);
+            Assert.Equal(XxzCoherenceBlock.DeltaFlipVerdict.Diabolic, d0.Verdict);              // Gate 0
+            Assert.True((d0.QStar - q).Magnitude < 0.03, $"Δ=0 q*={d0.QStar} must stay at the residual diabolic {q}, not jump to an AT crossing");
+            Assert.True(d0.Gap > 1e-13, $"the residual diabolic has a finite gap (got {d0.Gap:E2}); an AT capture is exactly 0");
+            var d = XxzCoherenceBlock.TrackDiabolicUnderDelta(6, q, lam, 0.1, residualOnly: true);
+            Assert.False(d.Survived, $"diabolic {q} must defect or lift at Δ=0.1 (got {d.Verdict}, dep={d.Departure})");
+        }
+
+        // the clean rung-far diabolic's Jordan flip is explicit: geo 2->1, departure on (the integrability signature).
+        var clean = XxzCoherenceBlock.TrackDiabolicUnderDelta(6, new Complex(0.7581, 0.260), new Complex(-5.392, 1.653), 0.1, residualOnly: true);
+        Assert.Equal(XxzCoherenceBlock.DeltaFlipVerdict.Defective, clean.Verdict);
+        Assert.Equal(1, clean.Geometric);
+        Assert.True(clean.Departure > 0.001, $"the Jordan departure should turn on under Δ (got {clean.Departure})");
+    }
+
     // ΔTask 3 / Gate B: the experiment. Each path-4 diabolic (complex-q) IS a diabolic at Δ=0 (Gate 0) and
     // DOES NOT SURVIVE at Δ>0 (defects to a Jordan EP, or lifts entirely) - the falsifiable synthesis claim.
     // A path-4 DEFECTIVE EP (control) is non-diabolic at Δ=0 and Δ does not make it diabolic: Δ perturbs
