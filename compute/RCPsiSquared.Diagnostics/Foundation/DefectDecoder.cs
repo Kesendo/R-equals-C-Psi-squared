@@ -52,16 +52,23 @@ public sealed class DefectDecoder
     public IReadOnlyList<double[]> Dictionary => _dictionary;
     private readonly double[][] _dictionary;
 
+    /// <summary>The de-lossed dictionary: one signed deviation-response profile (g_i/δJ_cal) per bond,
+    /// read off the same calibration painters runs as <see cref="Dictionary"/>. Parallel to it.</summary>
+    public IReadOnlyList<double[]> DeviationDictionary => _dictionaryDev;
+    private readonly double[][] _dictionaryDev;
+
     /// <summary>How many calibration performances were built (N−1 painters movements, one per bond).
     /// The decoder owns this counter; it does NOT add to any host movement's BuildCount. A host that
     /// calibrates a decoder for its own read-back pays this many extra movements — counted here, openly,
     /// so the existing movement-level BuildCount accounting (4 trajectories per movement) stays exact.</summary>
     public int CalibrationBuildCount { get; }
 
-    private DefectDecoder(int n, double j, double gamma, double deltaJCal, double[][] dictionary, int calibrationBuildCount)
+    private DefectDecoder(int n, double j, double gamma, double deltaJCal,
+                          double[][] dictionary, double[][] dictionaryDev, int calibrationBuildCount)
     {
         N = n; J = j; Gamma = gamma; DeltaJCal = deltaJCal;
         _dictionary = dictionary;
+        _dictionaryDev = dictionaryDev;
         CalibrationBuildCount = calibrationBuildCount;
     }
 
@@ -79,6 +86,7 @@ public sealed class DefectDecoder
 
         int bonds = n - 1;
         var dictionary = new double[bonds][];
+        var dictionaryDev = new double[bonds][];
         int buildCount = 0;
         for (int b = 0; b < bonds; b++)
         {
@@ -90,10 +98,11 @@ public sealed class DefectDecoder
                 throw new InvalidOperationException(
                     $"calibration bond {b} declined: {pm.DeclineReason} (the canonical PTF protocol must apply)");
             dictionary[b] = pm.F.ToArray();
+            dictionaryDev[b] = pm.DeviationResponse.ToArray();   // de-lossed dictionary, zero extra cost (same pm)
             buildCount += pm.BuildCount;
         }
 
-        return new DefectDecoder(n, j, gamma, deltaJCal, dictionary, buildCount);
+        return new DefectDecoder(n, j, gamma, deltaJCal, dictionary, dictionaryDev, buildCount);
     }
 
     /// <summary>The decode result: the identified (winning) bond, the recovered strength δĴ, and the
@@ -165,5 +174,24 @@ public sealed class DefectDecoder
         bool ambiguous = secondBond >= 0 && secondResidual < AmbiguityFactor * bestResidual;
         return new DecodeResult(bestBond, bestDeltaJ, bestResidual,
                                 secondBond, secondDeltaJ, secondResidual, ambiguous);
+    }
+
+    /// <summary>Decode an observed per-site purity-DEVIATION profile (the de-lossed path). The observed
+    /// profile IS already a deviation, so there is NO −1 offset; the projection coefficient δĴ is signed,
+    /// recovering +δJ vs −δJ. This resolves the N=5 sign-location ambiguity the α path flags — NOT by
+    /// escaping the dictionary's anti-collinearity (it is just as anti-collinear, |cos| ≈ 0.95) but by
+    /// preserving the sign the α time-rescaling clips. Residual is squared, so the ratio is ≈ 525 at the
+    /// canonical N=5 mirror pair vs the α path's ≈ 1.5 (review §11).</summary>
+    public DecodeResult DecodeDeviation(IReadOnlyList<double> deviationObserved)
+    {
+        if (deviationObserved is null) throw new ArgumentNullException(nameof(deviationObserved));
+        if (deviationObserved.Count != N)
+            throw new ArgumentException(
+                $"the observed deviation profile has {deviationObserved.Count} sites; the decoder expects {N}",
+                nameof(deviationObserved));
+
+        var obs = new double[N];
+        for (int i = 0; i < N; i++) obs[i] = deviationObserved[i];
+        return ProjectAndScore(obs, _dictionaryDev);
     }
 }

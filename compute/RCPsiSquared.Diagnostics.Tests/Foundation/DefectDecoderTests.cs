@@ -35,6 +35,17 @@ public class DefectDecoderTests
         return pm.Alphas.ToArray();
     }
 
+    /// <summary>Build the per-site purity-DEVIATION profile a defect (bond b, δJ) shows, through the same
+    /// painters pipeline — the de-lossed "observed reading" DecodeDeviation must invert.</summary>
+    static double[] DeviationProfileObs(int n, int bond, double deltaJ)
+    {
+        var s = new Symphony(n: n, j: J, gamma: Gamma, hType: HamiltonianType.XY,
+                             initialState: InitialStateKind.BondingMode, defectBond: bond, deltaJ: deltaJ);
+        var pm = ((IInspectable)s).Children.OfType<PaintersMovement>().Single();
+        Assert.True(pm.HasLenses);
+        return pm.DeviationProfile.ToArray();
+    }
+
     [Theory]
     [InlineData(0, 0.010)]
     [InlineData(1, 0.015)]
@@ -130,6 +141,47 @@ public class DefectDecoderTests
         Assert.False(r.IsAmbiguous,
             $"N=4 ({bond}, {deltaJ}) should be unambiguous; winner bond {r.Bond} res {r.Residual:E3}, " +
             $"runner-up bond {r.RunnerUpBond} res {r.RunnerUpResidual:E3} (ratio {r.RunnerUpResidual / r.Residual:F2})");
+    }
+
+    [Fact]
+    public void N5_DeLoss_DeviationPath_ResolvesMirrorPair_WithSign()
+    {
+        // The headline de-loss (spec §11 row [D]). The α path FLAGS the N=5 (bond 3 weakened) mirror pair
+        // ambiguous (residual ratio ≈ 1.5); the SIGNED deviation path RESOLVES it (bond 3, δĴ < 0, ratio
+        // ≫ AmbiguityFactor AND ≫ the α ratio). Bind QUALITATIVELY: the C# squared-residual ratio is ≈ 525
+        // (= 23²), do NOT pin the exact number. A ratio wildly off ≈ 525 is a dense-vs-sector handshake
+        // break to investigate, not a number to loosen.
+        var dec = Calib(5);
+
+        var rAlpha = dec.Decode(AlphaProfile(5, 3, -0.02));
+        Assert.True(rAlpha.IsAmbiguous, "the α path must still flag the N=5 mirror pair ambiguous");
+        double ratioAlpha = rAlpha.RunnerUpResidual / rAlpha.Residual;
+
+        var rDev = dec.DecodeDeviation(DeviationProfileObs(5, 3, -0.02));
+        Assert.False(rDev.IsAmbiguous, "the signed deviation path must resolve the mirror pair (not ambiguous)");
+        Assert.Equal(3, rDev.Bond);
+        Assert.True(rDev.DeltaJ < 0, $"the deviation path must read the sign (weakened, δĴ < 0); got {rDev.DeltaJ}");
+        double ratioDev = rDev.RunnerUpResidual / rDev.Residual;
+        Assert.True(ratioDev > DefectDecoder.AmbiguityFactor,
+            $"deviation ratio {ratioDev:F1} must clear the {DefectDecoder.AmbiguityFactor} threshold");
+        Assert.True(ratioDev > ratioAlpha,
+            $"the de-loss must beat the α path: deviation ratio {ratioDev:F1} > α ratio {ratioAlpha:F1}");
+    }
+
+    [Theory]
+    [InlineData(4, 0, 0.010)]
+    [InlineData(4, 1, 0.015)]
+    [InlineData(4, 2, 0.025)]
+    [InlineData(4, 2, -0.020)]
+    [InlineData(5, 3, 0.020)]
+    public void DeviationPath_RecoversBondAndSign_OnEasyCases(int n, int bond, double deltaJ)
+    {
+        // Parity: on the unambiguous cases the α path already handles, the deviation path recovers the
+        // bond AND the sign.
+        var dec = Calib(n);
+        var r = dec.DecodeDeviation(DeviationProfileObs(n, bond, deltaJ));
+        Assert.Equal(bond, r.Bond);
+        Assert.Equal(Math.Sign(deltaJ), Math.Sign(r.DeltaJ));
     }
 
     [Theory]
