@@ -82,15 +82,18 @@ public static class OpenArcsRegistry
                 "STRONG; a different mechanism returns diabolics to the real axis by N=7. Full write-up: experiments/" +
                 "F89_PATH_K_DIABOLIC.md (the path-6 section). NEXT MOVES (the move-set: Move 1 = count, Move 2 = Delta-test/" +
                 "integrability, Move 3 = count-vs-N growth, Move 4 = cross-fold (SE,DE)<->(SE,w_N-2); detailed in the journal " +
-                "below). RECOMMENDED FIRST = unblock Move 2 by PORTING the exact-residual treatment to the XXZ block: add a " +
-                "ResidualRootsExactXxz mirroring XxzCoherenceBlock.ResidualRootsTrackedXxz but compressing M(q,Delta) onto the " +
-                "SAME AT complement via F89AtFactorReconstruction.AtInvariantSubspaceBasis (the AT subspace is Delta-STABLE - the " +
-                "ZZ term is Hermitian, so the AT rate is Delta-independent), then wire 'pkmono --delta-flip --exact' and re-pass " +
-                "the N=6 Delta-flip gate before trusting N=7. THEN Move 2 proper: Delta-test the N=7 diabolics, ESPECIALLY the " +
-                "real-q ones (q=1.1264, lam=-4.942 etc.) - do they flip DEFECTIVE under Delta like the complex-q ones " +
-                "(integrability-protected), or do the real-q ones behave differently? (b) the real-q ONSET MECHANISM (even/odd? " +
-                "a residual symmetry distinct from the N=4 self-fold?) - the new research edge, no command yet. (c) Move 4 " +
-                "cross-fold: still unblocked-not-run; start from FoldCrossCommand.BuildBlock (the (SE,w_N-2) partner block) made " +
+                "below). MOVE 2 IS NOW DONE (2026-06-30): the exact-residual treatment was PORTED to the XXZ block - " +
+                "PathKMonodromyScout.AllRootsXxz / ResidualRootsExactXxz carry the XXZ ZZ-frequency as a diagonal generator " +
+                "G = -2i*zzDiag in F89's mirror basis (2M_xxz = A + qC + qD*G), compressed onto the SAME Delta-independent AT " +
+                "complement (the AT subspace is Delta-STABLE because the ZZ term is Hermitian, so the AT rate is Delta-" +
+                "independent); wired as 'pkmono --delta-flip --exact', RE-GATED against the tracked path at N=6 " +
+                "(XxzDeltaFlipTests, all green). THE VERDICT: all four N=7 real-q diabolics (q=1.1264/1.3038/2.6280/0.6788) read " +
+                "DIABOLIC at Delta=0 and DIE under Delta (three flip DEFECTIVE geo 2->1, q=2.6280 LIFTS), the SAME " +
+                "integrability-protected death as the complex-q ones. So the real-q diabolics are NOT a new species; the N=7 " +
+                "onset is a PLACEMENT mechanism, not a new protection. Full write-up: experiments/F89_PATH_K_DIABOLIC.md (the " +
+                "Delta-test section). REMAINING EDGES: (b) the real-q ONSET MECHANISM (even/odd? a residual symmetry distinct " +
+                "from the N=4 self-fold? - now the sharpest open question, no command yet) and (c) Move 4 cross-fold: still " +
+                "unblocked-not-run; start from FoldCrossCommand.BuildBlock (the (SE,w_N-2) partner block) made " +
                 "(q,Delta)-linear, per the journal. " +
                 "--- THE JOURNAL (how we got here) --- " +
                 "Concrete moves, cheapest first (binary: dotnet run --project compute/RCPsiSquared.Cli -- " +

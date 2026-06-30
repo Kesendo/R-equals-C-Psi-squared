@@ -147,4 +147,126 @@ public class XxzDeltaFlipTests
         Assert.NotEqual(XxzCoherenceBlock.DeltaFlipVerdict.Diabolic,
             XxzCoherenceBlock.TrackDiabolicUnderDelta(5, ctrlQ, ctrlLam, 0.05).Verdict);
     }
+
+    // ---- The EXACT-residual XXZ port (the path-6/N=7 fix) ----
+    // The tracked residual path (ResidualRootsTrackedXxz) breaks at k=6 (the F_53 AT-degeneracy flood: leaked
+    // AT strands wearing residual labels, min-gap zero across the box), exactly as the XY tracker did before
+    // the exact-residual instrument. So the N=7 real-q diabolics' Δ-test needs the same exact complement-
+    // compression ported to the XXZ block: M_xxz(q,Δ) = (A + qC + qΔ·G)/2 in F89's mirror basis (G the ZZ-
+    // frequency generator, diagonal −2i·zzDiag), compressed onto the q-independent AT complement U_res. These
+    // gates validate the port from below BEFORE trusting it on N=7.
+
+    // Foundation: the XXZ block built in F89's mirror basis (A + qC + qΔ·G) has the SAME spectrum as the
+    // independently-constructed XxzCoherenceBlock.BuildSym at Δ≠0. Pins the ZZ generator (the −2i·zzDiag
+    // diagonal and its ×2-cleared scaling: a reflection-invariant diagonal contributes 2·value to 2M for both
+    // orbit lengths) against the trusted block, with NO compression involved.
+    [Theory]
+    [InlineData(5)]   // N=6
+    [InlineData(6)]   // N=7
+    public void AllRootsXxz_F89Basis_MatchesXxzBlockSpectrum_AtDelta(int k)
+    {
+        var q = new Complex(2.0, 0.3);
+        const double delta = 0.1;
+        var f89 = PathKMonodromyScout.AllRootsXxz(k, q, delta);
+        var xxz = XxzCoherenceBlock.SeDeSymSpectrum(k + 1, q, delta);
+        AssertSameSpectrum(f89, xxz, 1e-7);
+    }
+
+    // At Δ=0 the exact XXZ residual roots ARE the XY exact residual roots (G drops out): a wiring guard that
+    // the port does not perturb the established Δ=0 science.
+    [Theory]
+    [InlineData(5)]
+    [InlineData(6)]
+    public void ResidualRootsExactXxz_Delta0_EqualsXyExactResidual(int k)
+    {
+        var q = new Complex(1.7, 0.0);
+        var xxz = PathKMonodromyScout.ResidualRootsExactXxz(k, q, 0.0);
+        var xy = PathKMonodromyScout.ResidualRootsExact(k, q);
+        AssertSameSpectrum(xxz, xy, 1e-9);
+    }
+
+    // The anti-flood property (the k=6 win over the tracked path): the exact compression returns exactly F_d
+    // residual roots (32 at N=6, 53 at N=7) that are all DISTINCT at a generic q with Δ≠0 - no AT-degeneracy
+    // flood, no leaked duplicates. (At Δ≠0 the compression onto the q-independent Δ=0 AT-complement is no longer
+    // block-triangular - G couples residual↔AT - so these are NOT an exact subset of the full spectrum; the
+    // diabolic-relevant bulk roots are only O((qΔ)²)-perturbed, which is what the N=6 re-gate below validates.)
+    [Theory]
+    [InlineData(5, 32)]
+    [InlineData(6, 53)]
+    public void ResidualRootsExactXxz_IsCleanDistinctResidual_AtDelta(int k, int fdDegree)
+    {
+        var q = new Complex(2.0, 0.3);
+        const double delta = 0.1;
+        var res = PathKMonodromyScout.ResidualRootsExactXxz(k, q, delta);
+        Assert.Equal(fdDegree, res.Length);
+        Assert.True(PathKMonodromyScout.MinGap(res) > 1e-6,
+            $"the F_d residual roots must be distinct (no AT flood); got min gap {PathKMonodromyScout.MinGap(res):E2}");
+    }
+
+    // THE RE-GATE (the load-bearing validation): the EXACT-residual Δ-track reproduces the established N=6
+    // verdicts (Path5_Diabolics_DieUnderDelta_ResidualOnly, the tracked path): DIABOLIC at Δ=0 (q* at the seed,
+    // finite gap), NOT-surviving at Δ=0.1. Where the tracked path works (N=6) the exact path must agree; only
+    // then is it trusted at N=7 (where the tracked path floods). Same seeds as the tracked-path gate.
+    [Fact]
+    public void Path5_Diabolics_DieUnderDelta_ExactResidual_MatchesTrackedVerdicts()
+    {
+        var diabolics = new[]
+        {
+            (q: new Complex(0.7090, -0.219), lam: new Complex(-4.151, 1.615)),
+            (q: new Complex(0.7581, 0.260), lam: new Complex(-5.392, 1.653)),
+            (q: new Complex(1.0561, 0.238), lam: new Complex(-5.187, 1.441)),
+        };
+        foreach (var (q, lam) in diabolics)
+        {
+            var d0 = XxzCoherenceBlock.TrackDiabolicUnderDelta(6, q, lam, 0.0, exact: true);
+            Assert.Equal(XxzCoherenceBlock.DeltaFlipVerdict.Diabolic, d0.Verdict);
+            Assert.True((d0.QStar - q).Magnitude < 0.03, $"Δ=0 q*={d0.QStar} must stay at the diabolic {q}, not jump");
+            Assert.True(d0.Gap > 1e-13, $"the residual diabolic has a finite gap (got {d0.Gap:E2}); an AT capture is exactly 0");
+            var d = XxzCoherenceBlock.TrackDiabolicUnderDelta(6, q, lam, 0.1, exact: true);
+            Assert.False(d.Survived, $"diabolic {q} must defect or lift at Δ=0.1 (got {d.Verdict}, dep={d.Departure})");
+        }
+
+        // the clean rung-far diabolic's Jordan flip is explicit: geo 2->1, departure on (the integrability signature).
+        var clean = XxzCoherenceBlock.TrackDiabolicUnderDelta(6, new Complex(0.7581, 0.260), new Complex(-5.392, 1.653), 0.1, exact: true);
+        Assert.Equal(XxzCoherenceBlock.DeltaFlipVerdict.Defective, clean.Verdict);
+        Assert.Equal(1, clean.Geometric);
+        Assert.True(clean.Departure > 0.001, $"the Jordan departure should turn on under Δ (got {clean.Departure})");
+    }
+
+    // Gate B at N=7 (the experiment, the new science): the path-6 REAL-q diabolics - the ones that returned to
+    // the physical axis at N=7, the analogue of the N=4 self-fold point - are ALSO integrability-protected. Each
+    // reads DIABOLIC at Δ=0 (geo=alg=2, a finite tiny gap, q* ON the real axis at the seed) and DOES NOT survive
+    // at Δ=0.10 (flips DEFECTIVE geo 2→1, or LIFTS), the same death the complex-q diabolics suffer at N=4/5/6.
+    // So the N=7 real-q onset is a PLACEMENT mechanism, not a new protection: these are the same integrable
+    // level-crossings, not a new species. (Verdicts from the exact-residual instrument, validated against the
+    // tracked path at N=6 by the re-gate above; the tracked path itself floods at N=7 / F_53.)
+    [Fact]
+    public void Path6_RealQDiabolics_DieUnderDelta_ExactResidual()
+    {
+        var diabolics = new[]
+        {
+            (q: new Complex(1.1264, 0), lam: new Complex(-4.942, 0)),
+            (q: new Complex(1.3038, 0), lam: new Complex(-5.171, 0)),
+            (q: new Complex(2.6280, 0), lam: new Complex(-4.343, 0)),
+            (q: new Complex(0.6788, 0), lam: new Complex(-4.557, 0)),
+        };
+        foreach (var (q, lam) in diabolics)
+        {
+            var d0 = XxzCoherenceBlock.TrackDiabolicUnderDelta(7, q, lam, 0.0, exact: true);
+            Assert.Equal(XxzCoherenceBlock.DeltaFlipVerdict.Diabolic, d0.Verdict);              // Gate 0: it IS a diabolic
+            Assert.True((d0.QStar - q).Magnitude < 0.03, $"Δ=0 q*={d0.QStar} must stay at the real-q diabolic {q}");
+            Assert.True(Math.Abs(d0.QStar.Imaginary) < 1e-3, $"the diabolic sits on the REAL axis (Im q*={d0.QStar.Imaginary:E2})");
+            Assert.True(d0.Gap is > 1e-13 and < 1e-6, $"a genuine residual diabolic: a finite but tiny gap (got {d0.Gap:E2})");
+            var d = XxzCoherenceBlock.TrackDiabolicUnderDelta(7, q, lam, 0.10, exact: true);
+            Assert.False(d.Survived, $"real-q diabolic {q} must defect or lift at Δ=0.10 (got {d.Verdict}, dep={d.Departure})");
+        }
+
+        // the cleanest real-q diabolic's Jordan flip is explicit: geo 2->1, departure turning on and growing with Δ.
+        var dlo = XxzCoherenceBlock.TrackDiabolicUnderDelta(7, new Complex(0.6788, 0), new Complex(-4.557, 0), 0.02, exact: true);
+        var dhi = XxzCoherenceBlock.TrackDiabolicUnderDelta(7, new Complex(0.6788, 0), new Complex(-4.557, 0), 0.10, exact: true);
+        Assert.Equal(XxzCoherenceBlock.DeltaFlipVerdict.Defective, dhi.Verdict);
+        Assert.Equal(1, dhi.Geometric);
+        Assert.True(dhi.Departure > dlo.Departure && dlo.Departure > 0.001,
+            $"the Jordan departure grows with Δ (Δ=0.02: {dlo.Departure}, Δ=0.10: {dhi.Departure})");
+    }
 }

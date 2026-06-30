@@ -99,4 +99,55 @@ public static class F89PathKSeDeBlock
         }
         return twoM;
     }
+
+    // zz(c) = Σ_{bond (b,b+1)} ⟨c|Z_bZ_{b+1}|c⟩ = Σ_b (+1 if bits b,b+1 equal, −1 if differ).
+    private static int Zz(int n, int c)
+    {
+        int s = 0;
+        for (int b = 0; b < n - 1; b++)
+            s += (((c >> b) & 1) == ((c >> (b + 1)) & 1)) ? 1 : -1;
+        return s;
+    }
+
+    /// <summary>The per-orbit ZZ-frequency weights zzDiag = Σ_b⟨ket|Z_bZ_{b+1}|ket⟩ − Σ_b⟨bra|Z_bZ_{b+1}|bra⟩
+    /// of the S_2-sym (SE,DE) block, in the SAME orbit ordering as <see cref="BuildTwoTimesSymBlock"/> (the basis
+    /// + orbit construction is replicated verbatim so index r here is index r there). The XXZ anisotropy adds the
+    /// diagonal frequency −i·qΔ·zzDiag (the ZZ term is Hermitian, so the absorption-theorem real rate is
+    /// untouched). The generator is reflection-invariant (a chain's bond set is reversal-symmetric), so zzDiag is
+    /// constant on each reflection orbit and any representative gives it. Real-integer valued. Consumed by
+    /// PathKMonodromyScout's exact-residual XXZ port (the ×2-cleared generator is −2i·zzDiag, matching 2M).</summary>
+    public static int[] BuildZzFrequencyDiag(int nBlock)
+    {
+        var dePairs = new List<(int J, int K)>();
+        for (int a = 0; a < nBlock; a++)
+            for (int b = a + 1; b < nBlock; b++)
+                dePairs.Add((a, b));
+        var pairIndex = new Dictionary<(int, int), int>();
+        for (int pj = 0; pj < dePairs.Count; pj++) pairIndex[dePairs[pj]] = pj;
+
+        var basis = new List<(int I, int Pair)>();
+        for (int i = 0; i < nBlock; i++)
+            for (int pj = 0; pj < dePairs.Count; pj++)
+                basis.Add((i, pj));
+        int nb = basis.Count;
+        var idxOf = new Dictionary<(int, int), int>();
+        for (int t = 0; t < nb; t++) idxOf[basis[t]] = t;
+
+        var zz = new List<int>();
+        var handled = new bool[nb];
+        for (int t = 0; t < nb; t++)
+        {
+            if (handled[t]) continue;
+            var (i, pj) = basis[t];
+            var (j, k) = dePairs[pj];
+            int mj = nBlock - 1 - j, mk = nBlock - 1 - k;
+            var mp = mj < mk ? (mj, mk) : (mk, mj);
+            int t2 = idxOf[(nBlock - 1 - i, pairIndex[mp])];
+            handled[t] = true;
+            if (t2 != t) handled[t2] = true;
+            // ket = SE at site i (mask 1<<i); bra = DE at sites j,k (mask (1<<j)|(1<<k)).
+            zz.Add(Zz(nBlock, 1 << i) - Zz(nBlock, (1 << j) | (1 << k)));
+        }
+        return zz.ToArray();
+    }
 }

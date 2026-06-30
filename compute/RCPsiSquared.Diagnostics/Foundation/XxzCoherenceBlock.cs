@@ -293,6 +293,52 @@ public static class XxzCoherenceBlock
         return new DeltaTrackResult(verdict, rr2.Algebraic, rr2.Geometric, rr2.Departure, center, mid, bb);
     }
 
+    // The exact-residual Δ-track (the N=7/path-6 fix): the residual roots are the EXACT complement-compression
+    // (PathKMonodromyScout.ResidualRootsExactXxz), a direct function of q - no anchor, no continuity tracking, so
+    // the F_53 AT-degeneracy flood that breaks ResidualRootsTrackedXxz at k=6 cannot manufacture spurious gap-0
+    // coalescences. Box scan + local descent on the exact residual min-gap locate q*(Δ); the character (geo/alg)
+    // is read on the FULL block (BuildSym) with an AT-aware radius, identically to the tracked residual path.
+    private static DeltaTrackResult TrackDiabolicUnderDeltaExact(
+        int n, Complex qSeed, double delta, double boxHalf, double boxCell, double coalesceTol, double depTol)
+    {
+        int k = n - 1;
+        Func<Complex, Complex[]> resRoots = q => PathKMonodromyScout.ResidualRootsExactXxz(k, q, delta);
+
+        // box scan re-finds the coalescence region under the Δ-shift on the EXACT residual min-gap (AT-free, a
+        // pure function of q - no anchor, no continuity tracking, so the F_53 AT flood cannot corrupt it).
+        double boxMin = double.PositiveInfinity; Complex boxArg = qSeed;
+        int steps = Math.Max(1, (int)Math.Round(2 * boxHalf / boxCell));
+        for (int ir = 0; ir <= steps; ir++)
+            for (int ii = 0; ii <= steps; ii++)
+            {
+                var q = new Complex(qSeed.Real - boxHalf + ir * boxCell, qSeed.Imaginary - boxHalf + ii * boxCell);
+                double g = PathKMonodromyScout.MinGap(resRoots(q));
+                if (g < boxMin) { boxMin = g; boxArg = q; }
+            }
+        // GapRefine on the exact residual min-gap from the box-min resolves the √-cusp; the refined gap (not the
+        // grid-min) decides LIFT, identically to the non-residual path.
+        var qd = PathKMonodromyScout.GapRefine(resRoots, boxArg, boxCell);
+        var cur = resRoots(qd);
+        double refined = PathKMonodromyScout.MinGap(cur);
+        if (refined > coalesceTol)
+            return new DeltaTrackResult(DeltaFlipVerdict.Lifted, 0, 0, double.NaN, qd, Complex.Zero, refined);
+
+        // character: the coalescing pair is read from the RESIDUAL roots (the full spectrum is AT-flooded at N>=6,
+        // so its closest pair is an AT crossing, not the diabolic); the EpCharacter radius and the geo/alg reading
+        // are on the FULL block (BuildSym) with an AT-aware radius, exactly as the tracked residual path.
+        int ai = 0, bi = 1; double bb = double.PositiveInfinity;
+        for (int i = 0; i < cur.Length; i++)
+            for (int j = i + 1; j < cur.Length; j++)
+            { double g = (cur[i] - cur[j]).Magnitude; if (g < bb) { bb = g; ai = i; bi = j; } }
+        var mid = (cur[ai] + cur[bi]) / 2;
+        var ds = SeDeSymSpectrum(n, qd, delta).Select(z => (z - mid).Magnitude).OrderBy(x => x).ToArray();
+        double radius = ds.Length > 2 ? Math.Clamp(0.4 * ds[2], 0.05, 0.5) : 0.1;
+        var rr = EpCharacter.Characterize(BuildSym(n, qd, delta), mid, radius);
+        var verdict = (rr.Geometric == rr.Algebraic && rr.Departure < depTol)
+            ? DeltaFlipVerdict.Diabolic : DeltaFlipVerdict.Defective;
+        return new DeltaTrackResult(verdict, rr.Algebraic, rr.Geometric, rr.Departure, qd, mid, bb);
+    }
+
     /// <summary>The verdict of a Δ-track step. DIABOLIC = the coalescence survives semisimply (geo=alg,
     /// dep≈0); DEFECTIVE = it persists as a Jordan EP (geo&lt;alg); LIFTED = the degeneracy is gone (no
     /// coalescence in the local q-box). For the integrability test, DEFECTIVE or LIFTED at Δ&gt;0 confirms
@@ -316,8 +362,14 @@ public static class XxzCoherenceBlock
     /// diabolics' nearest neighbour is ~0.1 away, so ±0.04 is safe).</summary>
     public static DeltaTrackResult TrackDiabolicUnderDelta(int n, Complex qSeed, Complex lambdaSeed, double delta,
         double boxHalf = 0.04, double boxCell = 0.008, double coalesceTol = 1e-3, double depTol = 1e-6,
-        bool residualOnly = false, int trackSteps = 160)
+        bool residualOnly = false, int trackSteps = 160, bool exact = false)
     {
+        // exact (the N=7/path-6 fix): locate the residual coalescence on the EXACT complement-compression residual
+        // roots (PathKMonodromyScout.ResidualRootsExactXxz), a pure function of q with no continuity tracking, so the
+        // F_53 AT-degeneracy flood that breaks the tracked residual path at k=6 cannot corrupt the gap field.
+        if (exact)
+            return TrackDiabolicUnderDeltaExact(n, qSeed, delta, boxHalf, boxCell, coalesceTol, depTol);
+
         // residualOnly (N>=6): scan the residual strands only, so the box scan + refine cannot be captured by the
         // AT-locked exact degeneracies that crowd the full sym block at N>=6 (the local-tracking variant below).
         if (residualOnly)

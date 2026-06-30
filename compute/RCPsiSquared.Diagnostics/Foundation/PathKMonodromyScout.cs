@@ -557,6 +557,34 @@ public static class PathKMonodromyScout
 
     private static readonly object _exactLock = new();
     private static readonly Dictionary<int, (Complex[,] A, Complex[,] C, Matrix<Complex> URes, Matrix<Complex> UAt)> _exactCache = new();
+    private static readonly Dictionary<int, Complex[,]> _zzGenCache = new();
+
+    /// <summary>The ×2-cleared ZZ-frequency generator G for path-k: a diagonal SymDim × SymDim matrix with
+    /// G[r,r] = −2i·zzDiag_r (the per-orbit ZZ weight from <see cref="F89PathKSeDeBlock.BuildZzFrequencyDiag"/>).
+    /// In the ×2-cleared 2M = A + qC convention a reflection-invariant diagonal of physical value v contributes
+    /// 2v to 2M (true for both orbit lengths d_r ∈ {1,2}), so the physical XXZ frequency −i·qΔ·zzDiag is carried
+    /// by adding qΔ·G to A + qC. Cached per k.</summary>
+    private static Complex[,] ZzGenerator(int k)
+    {
+        lock (_exactLock)
+        {
+            if (_zzGenCache.TryGetValue(k, out var g)) return g;
+            var zz = F89PathKSeDeBlock.BuildZzFrequencyDiag(k + 1);
+            int d = zz.Length;
+            var gen = new Complex[d, d];
+            for (int r = 0; r < d; r++) gen[r, r] = new Complex(0, -2.0 * zz[r]);
+            _zzGenCache[k] = gen;
+            return gen;
+        }
+    }
+
+    // M_xxz(q,Δ) = (A + qC + qΔ·G)/2 in F89's mirror basis: the XY linear form A + qC plus the XXZ ZZ-frequency
+    // term qΔ·G (G diagonal). At Δ=0 this is (A + qC)/2 = M(q).
+    private static Matrix<Complex> XxzLinearAt(Complex[,] a, Complex[,] c, Complex[,] g, Complex q, double delta)
+    {
+        int d = a.GetLength(0);
+        return Matrix<Complex>.Build.Dense(d, d, (r, s) => (a[r, s] + q * c[r, s] + q * delta * g[r, s]) / 2);
+    }
 
     /// <summary>Per-k orthonormal split of the (SE,DE) S₂-block into the AT-locked invariant subspace U_AT
     /// (SymDim × AtDegree) and its orthogonal complement U_res (SymDim × F_d), via a full QR of the exact
@@ -611,6 +639,30 @@ public static class PathKMonodromyScout
     {
         var (a, c, _, uAt) = ExactSetup(k);
         return CompressionAt(a, c, uAt, q).Evd().EigenValues.ToArray();
+    }
+
+    /// <summary>The full XXZ (q, Δ) block spectrum in F89's mirror basis: eig of (A + qC + qΔ·G)/2, with G the
+    /// ZZ-frequency generator (diagonal, −2i·zzDiag per orbit; the ×2-cleared image of the physical −i·qΔ·zzDiag
+    /// frequency). No compression: this is the all-roots cross-check against the independently-built
+    /// <see cref="XxzCoherenceBlock.SeDeSymSpectrum"/>, which pins the generator. At Δ=0 it is <see cref="AllRootsAt"/>.</summary>
+    public static Complex[] AllRootsXxz(int k, Complex q, double delta)
+    {
+        var (a, c, _, _) = ExactSetup(k);
+        return XxzLinearAt(a, c, ZzGenerator(k), q, delta).Evd().EigenValues.ToArray();
+    }
+
+    /// <summary>The F_d residual roots of the XXZ (q, Δ) block, computed EXACTLY as the eigenvalues of
+    /// M_xxz(q,Δ) = (A + qC + qΔ·G)/2 compressed onto the orthogonal complement of the q-independent AT
+    /// invariant subspace (<see cref="ExactSetup"/>'s U_res). The path-6/N=7 replacement for
+    /// <see cref="XxzCoherenceBlock.ResidualRootsTrackedXxz"/>, whose nearest-match partition + continuity
+    /// tracking flood at the F_53 strand density. AT-free for locating the Δ-shifted coalescence q*(Δ); the
+    /// diabolic CHARACTER (geo vs alg) is still read on the full block. At Δ=0, G drops out and this equals
+    /// <see cref="ResidualRootsExact"/>.</summary>
+    public static Complex[] ResidualRootsExactXxz(int k, Complex q, double delta)
+    {
+        var (a, c, uRes, _) = ExactSetup(k);
+        var m = XxzLinearAt(a, c, ZzGenerator(k), q, delta);
+        return (uRes.ConjugateTranspose() * m * uRes).Evd().EigenValues.ToArray();
     }
 
     /// <summary>The path-k diabolic hunt on the EXACT residual roots (<see cref="ResidualRootsExact"/>): the
