@@ -57,7 +57,14 @@ public static class OpenArcsRegistry
                 "(Jordan-Wigner) holds at every N, so the diabolics persist and stay Δ-killable; only the AT-" +
                 "bookkeeping is harder. The deferred Q4 cross-fold edge (do the complex-q diabolics pair across " +
                 "the cross-block fold (SE,DE)↔(SE,w_{N-2})?) also generalizes over N and is untried.",
-            NextStep: "CURRENT STATE (2026-06-30, read this first; the dated layers below are the journal): N=7 (path-6) " +
+            NextStep: "CURRENT STATE (2026-06-30, read this first; the dated layers below are the journal). ARC TERMS (all glossed " +
+                "in experiments/F89_PATH_K_DIABOLIC.md, its 'What this is about' + 'Terms used here' sections): path-k = the " +
+                "(k+1)-site chain, so path-6 = N=7; (SE,DE) = the single-excitation/double-excitation coherence block; AT = the " +
+                "Absorption-Theorem decay rate 2*gamma*n_diff (n_diff = bra/ket disagreement count); F_d = the degree-d H_B-mixed " +
+                "RESIDUAL polynomial (H_B = the XY bond Hamiltonian; F_18/F_53/F_116 are DEGREES 18/53/116, NOT F-registry " +
+                "numbers like F89d); R = the site-reflection i->N-1-i (the order-2 symmetry 'S2') the block is built on; Sigma " +
+                "(capital) = the antiunitary realness operator, Sigma*L*Sigma = L-dagger (the adjoint, the 'L+' below) - NOT " +
+                "lowercase sigma_even/sigma_odd, which are the SPECTRA of the R-even/R-odd sectors. NOW: N=7 (path-6) " +
                 "is DONE, AND its Δ-test (Move 2) is now DONE too - so the diabolic-CHARACTER question is CLOSED at N=7 " +
                 "(all four real-q diabolics are integrability-protected, a PLACEMENT mechanism not a new species; details " +
                 "in the 'MOVE 2 IS NOW DONE' block below). The real-q ONSET has since been pinned to a LAW by the " +
@@ -90,8 +97,24 @@ public static class OpenArcsRegistry
                 "Verified: the N=7 real-q diabolic (q=1.1264, lam=-4.942, gap 4.19e-5) pairs with (1,5) at -9.058, same gap. LANDED: a " +
                 "shared Core builder WeightCoherenceBlock (general (wKet,wBra) block + BraComplementPermutation, promoted from " +
                 "FoldCrossCommand.BuildBlock which now delegates to it), the live witness CrossFoldSimilarityWitness " +
-                "('inspect --root crossfold', TDD-gated CrossFoldSimilarityWitnessTests). So the ONLY remaining unblocked edge is the " +
-                "(likely-none) within-odd closed form. The N=7 work " +
+                "('inspect --root crossfold', TDD-gated CrossFoldSimilarityWitnessTests), and REGISTERED as F89d " +
+                "(docs/ANALYTICAL_FORMULAS.md, right after the F89c lemma it extends) + typed as F89CrossFoldSimilarityClaim " +
+                "(parents F1PalindromeIdentity + F89BranchLocusPalindromeClaim, Tier1Derived, wiring-audited; verify via " +
+                "'knowledge ancestors F89CrossFoldSimilarityClaim'). SO: ALL FOUR MOVES ARE DONE (Move 1 count / Move 2 Delta-test / " +
+                "Move 3 count-vs-N / Move 4 cross-fold) and this arc is essentially COMPLETE. TWO edges remain, neither blocking. " +
+                "(a) The within-odd EXACT threshold N has no closed form (residual-density driven: F_18 too sparse, F_53 the first to " +
+                "host a real-q coalescence; likely none exists). (b) THE NEW FOLLOW-ON the cross-fold opened, and the concrete FIRST " +
+                "MOVE if resuming: DOES THE F89d ANTIUNITARY SIMILARITY SURVIVE XXZ ANISOTROPY? At Delta!=0 the ZZ-bond sum is INVARIANT " +
+                "under bra-complementation (global bit-flip leaves Z_b*Z_{b+1} fixed) while the AT rate FLIPS (n_diff -> N-n_diff), so " +
+                "the fold may NOT carry the Delta frequency term cleanly - meaning the diabolic pairing could BREAK the instant " +
+                "Delta!=0 (a sharp, testable prediction). FIRST MOVE concretely: add a (q,Delta) overload to " +
+                "WeightCoherenceBlock.Build (the -i*q*Delta*zzDiag frequency diagonal, zzDiag = ket ZZ-bond-sum minus bra ZZ-bond-sum, " +
+                "the same generator XxzCoherenceBlock / PathKMonodromyScout.ResidualRootsExactXxz already use for the (SE,DE) block), " +
+                "then re-run CrossFoldSimilarityWitness.Read's residual at Delta!=0: if it stays ~0 the fold survives (the pairing is " +
+                "Delta-robust), if it blows up the fold is XY-only (locate a known diabolic's partner under Delta and check whether " +
+                "both still pair, or both die, together). The current Delta=0 residual is already live: " +
+                "'dotnet run --project compute/RCPsiSquared.Cli -c Release -- inspect --root crossfold' (the Delta!=0 check needs " +
+                "the new (q,Delta) overload first). The N=7 work " +
                 "needed a NEW instrument and turned up a NEW phenomenon. (1) THE TRACKER BROKE AT N=7, " +
                 "REFUTING the 2026-06-29 'NEXT MOVE' premise that N=7 was merely SLOW: the residual-only TRACKER floods at " +
                 "the F_53 strand density. The nearest-match AT (the Absorption-Theorem decay-rate strands, Re lambda = " +
