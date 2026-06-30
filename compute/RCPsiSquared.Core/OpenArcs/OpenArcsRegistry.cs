@@ -391,15 +391,25 @@ public static class OpenArcsRegistry
                 "Domain selector: UpperHalf is valid ONLY at Delta=0 where the (SE,DE) spectrum is " +
                 "conjugation-symmetric, OffReal at Delta!=0 where it is NOT -- a self-caught domain bug that had " +
                 "inflated a since-RETRACTED 'reaches GinUE magnitude' claim); XxzCoherenceBlock.BuildFullWithField. " +
-                "DECISIVE OPEN TEST to PROVE the dilute-sector reading: show a DENSER (finite-filling / " +
-                "extensive-excitation) coherence sector of the SAME Liouvillian DOES reach GinUE under the same " +
-                "disorder -- i.e. chaos as a FILLING THRESHOLD, not an integrability one. FIRST MOVE: build a " +
-                "denser-sector block (analogue of XxzCoherenceBlock.BuildFull/.BuildFullWithField at higher " +
-                "excitation weight) and run IntegrabilityBreakingCsr.DisorderSweep on it; compare its <cos theta>(W) " +
-                "against the (SE,DE) null. THEN land the sharpening into the docs (full footprint in the local plan " +
-                "docs/superpowers/plans/2026-06-27-f89-door-c-csr-integrability-sweep.md): this OpenArcs door C, " +
-                "RANDOM_MATRIX_THEORY.md (as a 3rd open item beside Denisov-lemon + topology), and the " +
-                "GaloisSpectralChaosWitness as the Delta=0 baseline/control. SEPARATE still-open direction: where S_d " +
+                "DECISIVE TEST RESOLVED 2026-06-30 (chaos is a FILLING THRESHOLD, not an integrability one; live " +
+                "inspect --root fillcsr, experiments/FILLING_THRESHOLD_CHAOS.md, TDD-green): a DENSER coherence " +
+                "sector of the SAME Liouvillian DOES reach toward GinUE under the same disorder, PROVING the dilute-" +
+                "sector reading. Built the general (wKet,wBra) block + a per-site Z-field overload on " +
+                "WeightCoherenceBlock.Build (Core, promoted from the test-only helper) and FillingThresholdCsr " +
+                "(Diagnostics, the disorder-ensemble pooled-z CSR on it, reusing IntegrabilityBreakingCsr.Reduce + the " +
+                "finite-size references). RESULT (gamma=1, q=1, interacting Delta=1, ergodic W=0.75, UNEQUAL weight " +
+                "(p,p+1) so class A is licensed -- Pi maps (p,p+1) to the CONJUGATE (p+1,p) block not itself, " +
+                "conjugation-match ~0 under disorder): the DILUTE (1,2)=(SE,DE) block stays Poisson (<cos theta> ~ " +
+                "-0.04, ~23% of the size-matched GinUE angle) at every N; the DENSE (p,p+1) block near half-filling " +
+                "has <|z|> AT the GinUE value and <cos theta> NEGATIVE, CLIMBING toward GinUE with the block size " +
+                "(-0.089/-0.129/-0.162 at N=6/7/8 = 43/56/67% of GinUE, N=8 CI'd). <|z|> saturates at GinUE first, <cos theta> " +
+                "(the finer correlation) trails and catches up with size = the genuine class-A finite-size signature; " +
+                "W=2 relaxes back (MBL), Delta=1 deepens the repulsion over Delta=0. So Galois-chaos (over q) and " +
+                "spectral-chaos (at fixed q) merge ONLY at extensive filling; the dilute (SE,DE) sector that carries " +
+                "S_d is too dilute to thermalize, and its persistent Poisson is the kinematic shadow. LANDED: the " +
+                "FillingThresholdWitness (inspect --root fillcsr) is the persistent evidence; RANDOM_MATRIX_THEORY.md " +
+                "Result 5; the door-C plan Progress; experiments/FILLING_THRESHOLD_CHAOS.md. The galoischaos witness " +
+                "stays the Delta=0 / dilute control. SEPARATE still-open direction: where S_d " +
                 "DOES live spectrally is the q-PARAMETRIC monodromy/braid (the discriminant/EP loci, --root " +
                 "galoismonodromy), not the fixed-q geometry. " +
                 "(D) GALOIS ATLAS of physical spectra. F89 chains = S_n; SIC-POVM spectral polynomials (Appleby 2012) " +

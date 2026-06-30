@@ -69,6 +69,39 @@ public static class WeightCoherenceBlock
         return l;
     }
 
+    /// <summary>The (wKet, wBra) XXZ-chain coherence block at (q, Δ) plus a per-site longitudinal Z-field
+    /// Σ_k w_k Z_k (field[k] = w_k, the integrability-/symmetry-breaking disorder knob). The field is DIAGONAL and
+    /// Hermitian, so like the Δ·ZZ term it leaves the Absorption-Theorem rate Re λ = −2·n_diff untouched and adds
+    /// only the frequency −i·q·(fe(ket) − fe(bra)), with fe(c) = Σ_k w_k·z_k (z_k = −1 if site k excited, +1 else,
+    /// <see cref="FieldEnergy"/>). UNLIKE the Δ·ZZ term, the field is bit-flip-ODD (fe(c̄) = −fe(c)), so it BREAKS
+    /// the cross-fold antiunitary similarity (the negative control in <see cref="WeightCoherenceBlockTests"/>) and
+    /// breaks the S₂ reflection + conjugation symmetry — exactly the disorder needed to drive a dense coherence
+    /// sector toward GinUE (the F89 Door-C filling-threshold test). field=null reproduces Build(n,wKet,wBra,q,Δ).</summary>
+    public static Complex[,] Build(int n, int wKet, int wBra, Complex q, double delta, double[]? field)
+    {
+        var l = Build(n, wKet, wBra, q, delta);
+        if (field == null) return l;
+        var kets = Configs(n, wKet);
+        var bras = Configs(n, wBra);
+        int col = 0;
+        foreach (var kc in kets)
+            foreach (var bc in bras)
+            {
+                l[col, col] += (-Complex.ImaginaryOne) * q * (FieldEnergy(n, field, kc) - FieldEnergy(n, field, bc));
+                col++;
+            }
+        return l;
+    }
+
+    /// <summary>fe(c) = Σ_k w_k·z_k, z_k = −1 if site k is excited (bit set), +1 otherwise — the longitudinal-field
+    /// energy of a computational-basis config. Bit-flip-ODD: fe(c̄) = −fe(c) (each z_k flips sign).</summary>
+    public static double FieldEnergy(int n, double[] w, int c)
+    {
+        double e = 0;
+        for (int k = 0; k < n; k++) e += w[k] * (((c >> k) & 1) == 1 ? -1.0 : 1.0);
+        return e;
+    }
+
     /// <summary>zz(c) = Σ_{bond (b,b+1)} ⟨c|Z_bZ_{b+1}|c⟩ = Σ_b (+1 if bits b, b+1 are equal, −1 if they differ),
     /// the open-chain ZZ-bond sum of the computational-basis config c. Even under the global bit-flip, so
     /// zz(c̄) = zz(c) (each Z flips sign, the product is unchanged).</summary>

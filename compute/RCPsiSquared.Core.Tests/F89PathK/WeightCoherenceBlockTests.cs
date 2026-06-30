@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Numerics;
 using RCPsiSquared.Core.F89PathK;
 using RCPsiSquared.Core.SymmetryFamily;
@@ -227,6 +228,56 @@ public class WeightCoherenceBlockTests
             double res = SimilarityResidual(src, partner, full, conjugate: false, shift: 0.0);
             Assert.True(res < 1e-9, $"full-flip (spin-flip) broke at N={n}, (wKet,wBra)=({wk},{wb}), Δ={delta}: residual {res:E2}");
         }
+    }
+
+    [Theory]
+    [InlineData(5, 1, 2, 0.0)]
+    [InlineData(6, 2, 3, 0.6)]
+    [InlineData(6, 3, 4, 1.0)]
+    public void Field_Overload_MatchesTheLongitudinalFieldHelper(int n, int wKet, int wBra, double delta)
+    {
+        // The promoted field overload Build(n,wKet,wBra,q,Δ,w) must equal the trusted test helper that adds the
+        // longitudinal Z-field Σ_k w_k Z_k onto the (q,Δ) block — the same diagonal frequency −i·q·(fe(ket)−fe(bra)).
+        // (The helper is what the filling-threshold Diagnostics harness needs in the production builder.)
+        var q = new Complex(1.3, -0.4);
+        double[] w = Enumerable.Range(0, n).Select(k => 0.2 * k - 0.5).ToArray();
+        var expected = WithLongitudinalField(WeightCoherenceBlock.Build(n, wKet, wBra, q, delta), n, wKet, wBra, q, w);
+        var actual = WeightCoherenceBlock.Build(n, wKet, wBra, q, delta, w);
+        int d = expected.GetLength(0);
+        for (int i = 0; i < d; i++)
+            for (int j = 0; j < d; j++)
+                Assert.True((expected[i, j] - actual[i, j]).Magnitude < 1e-12,
+                    $"field overload differs from the helper at [{i},{j}] for N={n} ({wKet},{wBra}) Δ={delta}");
+    }
+
+    [Theory]
+    [InlineData(5, 1, 2, 0.5)]
+    [InlineData(6, 3, 4, 0.0)]
+    public void Field_Null_ReproducesTheNoFieldBuild(int n, int wKet, int wBra, double delta)
+    {
+        // w=null must be a no-op (the field overload reduces to the plain (q,Δ) block).
+        var q = new Complex(0.9, 0.3);
+        var plain = WeightCoherenceBlock.Build(n, wKet, wBra, q, delta);
+        var nulled = WeightCoherenceBlock.Build(n, wKet, wBra, q, delta, null);
+        int d = plain.GetLength(0);
+        for (int i = 0; i < d; i++)
+            for (int j = 0; j < d; j++)
+                Assert.Equal(plain[i, j], nulled[i, j]);
+    }
+
+    [Fact]
+    public void Field_LeavesTheRealAtRateUntouched()
+    {
+        // The field is diagonal and Hermitian ⟹ a pure IMAGINARY frequency shift; the real Absorption-Theorem
+        // rate Re λ_diag = −2·n_diff must be unchanged (the field never touches the real part on the diagonal).
+        int n = 6;
+        var q = new Complex(1.1, 0);
+        double[] w = { 0.4, -0.3, 0.6, 0.2, -0.5, 0.1 };
+        var bare = WeightCoherenceBlock.Build(n, 2, 3, q, 0.0);
+        var fielded = WeightCoherenceBlock.Build(n, 2, 3, q, 0.0, w);
+        int d = bare.GetLength(0);
+        for (int i = 0; i < d; i++)
+            Assert.Equal(bare[i, i].Real, fielded[i, i].Real, 12);   // real diagonal (AT rate) untouched
     }
 
     [Fact]

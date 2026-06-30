@@ -7,7 +7,7 @@ sector universality class, Heisenberg dephasing RMT analysis,
 R=CPsi2 random matrix theory -->
 
 **Status:** Computationally verified (N=2-7, 21,832 eigenvalues, Heisenberg chain)
-**Date:** April 1, 2026 (updated June 27, 2026: the within-sector GOE hint is resolved as a small-sample artifact, Result 3)
+**Date:** April 1, 2026 (updated June 30, 2026: dissipative chaos located as a FILLING threshold, Result 5; the within-sector GOE hint resolved as a small-sample artifact June 27, Result 3)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Scripts:** compute/RCPsiSquared.Compute (C# eigenvalue export),
 [`simulations/rmt_analysis.py`](../simulations/rmt_analysis.py) (Python spacing analysis),
@@ -249,12 +249,43 @@ the C# eigenvalue export is producing physically valid spectra.
 
 ---
 
+## Result 5: Dissipative Chaos is a Filling Threshold (June 2026)
+
+The deeper "does any sector reach dissipative quantum chaos?" question is now
+answered, and the answer is about **filling**, not integrability. Working with
+the complex spacing ratio (CSR, Sá-Ribeiro-Prosen) on coherence blocks
+(wKet, wBra) of the Z-dephased XXZ Liouvillian:
+
+- The **dilute** (SE,DE) = (1,2) block — the Door-C block, where the non-solvable
+  Galois group S_d lives — stays Poisson-like / non-GinUE under **every**
+  integrability-breaking knob (XXZ Δ, a random Z-field, with or without
+  interactions). That null is robust (`inspect --root galoischaos`, the Δ=0
+  control; the two Door-C sweep stages).
+- A **dense** block (p, p+1) near half-filling of the **same** Liouvillian, under
+  the **same** disorder + interactions, **is chaotic**: its radial CSR ⟨|z|⟩ sits
+  at the GinUE value and its angular repulsion ⟨cos θ⟩ goes negative and climbs
+  toward GinUE with the block size (≈ −0.09 → −0.13 → −0.16 at N = 6/7/8 = 43% →
+  56% → 67% of the size-matched GinUE angle), while the dilute block stays flat at
+  ⟨cos θ⟩ ≈ 0 (~14–23%).
+
+So fixed-q dissipative chaos switches on with **extensive excitation content**,
+not with breaking the Galois/Hamiltonian integrability. Galois chaos (over the
+coupling q) and spectral chaos (GinUE at fixed q) merge only at extensive filling;
+the dilute (SE,DE) sector that carries S_d is too dilute to thermalize, and its
+persistent Poisson statistics are the kinematic shadow of that. Class A is licensed
+by the unequal weight (p,p+1) (Π maps it to the conjugate (p+1,p) block, not itself;
+the disordered conjugation-match fraction is ≈ 0). Live:
+`inspect --root fillcsr` (`FillingThresholdWitness`); full writeup in
+[FILLING_THRESHOLD_CHAOS.md](FILLING_THRESHOLD_CHAOS.md).
+
 ## What This Does Not Answer
 
 The sector GOE question that earlier topped this list (does the
-within-sector ⟨r⟩ approach GOE/GUE as N grows?) is now resolved in
-Result 3: it does not, the sectors stay integrable. Two genuinely open
-items remain.
+within-sector ⟨r⟩ approach GOE/GUE as N grows?) is resolved in
+Result 3: it does not, the dilute sectors stay integrable. The dissipative-chaos
+question is resolved in Result 5: a dense (extensive-filling) coherence sector of
+the same Liouvillian does reach toward GinUE — chaos is a filling threshold. Two
+genuinely open items remain.
 
 1. **Comparison with Denisov lemon shape.** The complex-plane density
    of random Lindbladians (Denisov et al., PRL 2019) has a specific

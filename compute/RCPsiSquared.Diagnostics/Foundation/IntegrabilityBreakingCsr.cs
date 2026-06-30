@@ -136,8 +136,9 @@ public static class IntegrabilityBreakingCsr
         return Reduce(pool, seed + 9973);
     }
 
-    /// <summary>⟨|z|⟩, ⟨cos θ⟩ + a 95% bootstrap CI on ⟨|z|⟩ from a pooled z-list.</summary>
-    private static CsrReading Reduce(IReadOnlyList<Complex> zs, int bootSeed, int bootstraps = 400)
+    /// <summary>⟨|z|⟩, ⟨cos θ⟩ + a 95% bootstrap CI on ⟨|z|⟩ from a pooled z-list. Shared with
+    /// <see cref="FillingThresholdCsr"/> (the Door-C filling-threshold follow-up), the sibling CSR harness.</summary>
+    internal static CsrReading Reduce(IReadOnlyList<Complex> zs, int bootSeed, int bootstraps = 400)
     {
         int nz = zs.Count;
         if (nz == 0) return new CsrReading(0, double.NaN, double.NaN, double.NaN, double.NaN);
