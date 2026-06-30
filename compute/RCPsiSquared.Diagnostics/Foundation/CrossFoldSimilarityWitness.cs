@@ -9,10 +9,10 @@ using RCPsiSquared.Core.Inspection;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
-/// <summary>One N's reading of the (SE,DE)↔(SE,w_{N−2}) cross-fold: the partner bra-weight, the block dimension,
-/// and the residual of the exact antiunitary similarity that carries the branch-locus palindrome across the two
-/// blocks.</summary>
-public sealed record CrossFoldReading(int N, int PartnerWBra, int Dim, double SimilarityResidual);
+/// <summary>One N's reading of the (SE,DE)↔(SE,w_{N−2}) cross-fold at anisotropy Δ: the partner bra-weight, the
+/// block dimension, and the residual of the exact antiunitary similarity that carries the branch-locus palindrome
+/// across the two blocks. The residual is machine-zero at EVERY Δ (the fold is integrability-independent).</summary>
+public sealed record CrossFoldReading(int N, int PartnerWBra, int Dim, double SimilarityResidual, double Delta);
 
 /// <summary>Move 4, answered: the (SE,DE) diabolics PAIR across the cross-block fold, because that fold is an
 /// EXACT antiunitary similarity.
@@ -27,6 +27,15 @@ public sealed record CrossFoldReading(int N, int PartnerWBra, int Dim, double Si
 /// SEMISIMPLE coalescence (a diabolic) in (SE,DE) at (q, λ) maps to a semisimple coalescence in (SE,w_{N−2}) at
 /// (q̄, −λ̄−2N) with the IDENTICAL coalescence gap and character. Hence every (SE,DE) diabolic has a cross-fold
 /// partner diabolic, for all N and all q at once, no enumeration needed.</para>
+///
+/// <para>The fold is integrability-INDEPENDENT: the identity holds for the FULL interacting XXZ block at EVERY
+/// anisotropy Δ (<see cref="WeightCoherenceBlock.Build(int,int,int,System.Numerics.Complex,double)"/>), because the
+/// Δ·ZZ term is EVEN under the global bit-flip (zz(b̄) = zz(b)), so the bra-complement carries it cleanly. The
+/// diabolics themselves DIE under Δ (integrability-protected, the arc's Move 2), but the pairing structure does
+/// not: a diabolic and its cross-fold partner turn defective in lockstep. The discriminant is bit-flip PARITY: a
+/// bit-flip-ODD perturbation breaks the fold; a longitudinal Z-field Σ_k w_k Z_k has fe(b̄) = −fe(b), so its
+/// residual is O(1), not machine zero (<see cref="ReadFieldControlResidual"/>, the complementary control). The fold
+/// is therefore a structural/algebraic property of the Liouvillian, not a free-fermion artifact.</para>
 ///
 /// <para>At N=4 the partner w_{N−2} = w2 = DE, so the partner IS the (SE,DE) block (the N=4-only within-block
 /// self-fold, the degenerate partner=self case that put one diabolic on the real axis); for N ≥ 5 the partner is
@@ -43,12 +52,18 @@ public sealed class CrossFoldSimilarityWitness : IInspectable
     private static readonly int[] SweepN = { 4, 5, 6, 7, 8, 9 };
     private const double GenericQ = 1.0;
 
-    /// <summary>The cross-fold antiunitary-similarity residual at coupling q:
-    /// max over (t,u) of |L(1,N−2)(q̄)[Pt,Pu] − (−conj(L(1,2)(q)[t,u]) − 2N·δ)|. Zero ⟹ exact similarity.</summary>
-    public CrossFoldReading Read(int n, Complex q)
+    /// <summary>The cross-fold antiunitary-similarity residual of the pure-XY (Δ=0) block at coupling q.</summary>
+    public CrossFoldReading Read(int n, Complex q) => Read(n, q, 0.0);
+
+    /// <summary>The cross-fold antiunitary-similarity residual of the XXZ block at coupling q and anisotropy Δ:
+    /// max over (t,u) of |L(1,N−2)(q̄,Δ)[Pt,Pu] − (−conj(L(1,2)(q,Δ)[t,u]) − 2N·δ)|. Zero ⟹ exact similarity.
+    /// Machine-zero at EVERY Δ: the Δ·ZZ term is even under the global bit-flip (zz(b̄) = zz(b)), so the bra-
+    /// complement carries it cleanly; the fold is integrability-independent (it survives the anisotropy that
+    /// kills the diabolics themselves).</summary>
+    public CrossFoldReading Read(int n, Complex q, double delta)
     {
-        var l1 = WeightCoherenceBlock.Build(n, 1, 2, q);
-        var l2 = WeightCoherenceBlock.Build(n, 1, n - 2, Complex.Conjugate(q));     // partner at q̄ (the F1 form)
+        var l1 = WeightCoherenceBlock.Build(n, 1, 2, q, delta);
+        var l2 = WeightCoherenceBlock.Build(n, 1, n - 2, Complex.Conjugate(q), delta);   // partner at q̄ (the F1 form)
         var perm = WeightCoherenceBlock.BraComplementPermutation(n, 1, 2);
         int d = perm.Length;
         double res = 0;
@@ -58,7 +73,50 @@ public sealed class CrossFoldSimilarityWitness : IInspectable
                 Complex expected = -Complex.Conjugate(l1[t, u]) - (t == u ? new Complex(2.0 * n, 0) : Complex.Zero);
                 res = Math.Max(res, (l2[perm[t], perm[u]] - expected).Magnitude);
             }
-        return new CrossFoldReading(n, n - 2, d, res);
+        return new CrossFoldReading(n, n - 2, d, res, delta);
+    }
+
+    /// <summary>The cross-fold residual with a longitudinal Z-field Σ_k w_k Z_k added to BOTH blocks (the diagonal
+    /// frequency −i·q·(fe(ket) − fe(bra)), fe(c) = Σ_k w_k·z_k, z_k = −1 if site k excited else +1). The
+    /// COMPLEMENTARY control: a field is ODD under the global bit-flip (fe(b̄) = −fe(b)), so the bra-complement
+    /// flips its sign and the residual is O(1), NOT machine zero, pinning the discriminant as bit-flip parity
+    /// (even ZZ survives, odd field breaks).</summary>
+    public double ReadFieldControlResidual(int n, Complex q, double[] field)
+    {
+        var l1 = WithLongitudinalField(WeightCoherenceBlock.Build(n, 1, 2, q), n, 1, 2, q, field);
+        var l2 = WithLongitudinalField(WeightCoherenceBlock.Build(n, 1, n - 2, Complex.Conjugate(q)), n, 1, n - 2, Complex.Conjugate(q), field);
+        var perm = WeightCoherenceBlock.BraComplementPermutation(n, 1, 2);
+        int d = perm.Length;
+        double res = 0;
+        for (int t = 0; t < d; t++)
+            for (int u = 0; u < d; u++)
+            {
+                Complex expected = -Complex.Conjugate(l1[t, u]) - (t == u ? new Complex(2.0 * n, 0) : Complex.Zero);
+                res = Math.Max(res, (l2[perm[t], perm[u]] - expected).Magnitude);
+            }
+        return res;
+    }
+
+    private static Complex[,] WithLongitudinalField(Complex[,] block, int n, int wKet, int wBra, Complex q, double[] w)
+    {
+        var kets = WeightCoherenceBlock.Configs(n, wKet);
+        var bras = WeightCoherenceBlock.Configs(n, wBra);
+        int col = 0;
+        foreach (var kc in kets)
+            foreach (var bc in bras)
+            {
+                double fe = FieldEnergy(n, w, kc) - FieldEnergy(n, w, bc);
+                block[col, col] += (-Complex.ImaginaryOne) * q * fe;     // same (ket-outer, bra-inner) order as Build
+                col++;
+            }
+        return block;
+    }
+
+    private static double FieldEnergy(int n, double[] w, int c)
+    {
+        double e = 0;
+        for (int k = 0; k < n; k++) e += w[k] * (((c >> k) & 1) == 1 ? -1.0 : 1.0);
+        return e;
     }
 
     /// <summary>The fold-image of a real-q diabolic: the (SE,DE) coalescence gap near (qRe, λ) and the partner
@@ -89,12 +147,16 @@ public sealed class CrossFoldSimilarityWitness : IInspectable
         get
         {
             var r5 = Read(5, new Complex(GenericQ, 0));
+            var r5d = Read(5, new Complex(GenericQ, 0), 0.7);
             return "the branch-locus palindrome's bra bit-flip is an EXACT antiunitary similarity " +
-                   $"L(1,N−2)(q̄) = −P·conj(L(1,2)(q))·Pᵀ − 2N·I (residual {r5.SimilarityResidual.ToString("E1", Inv)} at N=5, " +
-                   "exact arithmetic), so every (SE,DE) diabolic at (q, λ) has a partner diabolic at (q̄, −λ̄−2N) in the " +
-                   "(SE,w_{N−2}) block with identical character (an antiunitary similarity preserves Jordan structure) and " +
-                   "identical coalescence gap. The N=4 self-fold is the degenerate partner=self case. Move 4, answered: the " +
-                   "diabolics pair across the cross-fold, for all N and all q at once.";
+                   $"L(1,N−2)(q̄,Δ) = −P·conj(L(1,2)(q,Δ))·Pᵀ − 2N·I (residual {r5.SimilarityResidual.ToString("E1", Inv)} at N=5 Δ=0, " +
+                   $"{r5d.SimilarityResidual.ToString("E1", Inv)} at N=5 Δ=0.7, exact arithmetic), so every (SE,DE) diabolic at " +
+                   "(q, λ) has a partner diabolic at (q̄, −λ̄−2N) in the (SE,w_{N−2}) block with identical character (an " +
+                   "antiunitary similarity preserves Jordan structure) and identical coalescence gap. The N=4 self-fold is the " +
+                   "degenerate partner=self case. The fold is integrability-INDEPENDENT: it survives at EVERY Δ (the Δ·ZZ term " +
+                   "is even under the global bit-flip, zz(b̄)=zz(b)), so it holds for the full interacting XXZ block even though " +
+                   "the diabolics themselves die under Δ; the discriminant is bit-flip parity (a longitudinal Z-field, odd, " +
+                   "breaks it). Move 4, answered: the diabolics pair across the cross-fold, for all N, all q, all Δ at once.";
         }
     }
 
@@ -105,15 +167,28 @@ public sealed class CrossFoldSimilarityWitness : IInspectable
             foreach (int n in SweepN)
             {
                 var r = Read(n, new Complex(GenericQ, 0));
+                var rd = Read(n, new Complex(GenericQ, 0), 0.7);                 // the XXZ (Δ≠0) reading
                 string partner = n == 4 ? "(1,2) = SELF" : $"(1,{r.PartnerWBra})";
                 yield return new InspectableNode(
                     displayName: $"N={n}: (SE,DE)=(1,2) ↔ (SE,w_{{N−2}})={partner}, dim {r.Dim}",
-                    summary: $"antiunitary-similarity residual {r.SimilarityResidual.ToString("E2", Inv)} (machine zero) at q={GenericQ.ToString("0.#", Inv)} " +
+                    summary: $"antiunitary-similarity residual {r.SimilarityResidual.ToString("E2", Inv)} at Δ=0 and " +
+                             $"{rd.SimilarityResidual.ToString("E2", Inv)} at Δ=0.7 (both machine zero) at q={GenericQ.ToString("0.#", Inv)} " +
                              (n == 4
                                  ? "⟹ N=4: the partner IS the (SE,DE) block, the within-block self-fold (partner=self)."
-                                 : "⟹ an exact cross-fold similarity: the (SE,DE) spectrum folds onto the partner's, the whole Jordan structure preserved."),
+                                 : "⟹ an exact cross-fold similarity at every Δ: the (SE,DE) spectrum folds onto the partner's, the whole Jordan structure preserved."),
                     provenance: NodeProvenance.Live);
             }
+
+            // The bit-flip-parity discriminant: ZZ anisotropy (even) survives, a longitudinal Z-field (odd) breaks.
+            double[] zField = { 0.4, -0.3, 0.6, 0.2, -0.5, 0.1 };              // N=6 random per-site field
+            double fieldRes = ReadFieldControlResidual(6, new Complex(1.3, 0), zField);
+            yield return new InspectableNode(
+                displayName: "the discriminant is bit-flip parity (even ZZ survives, odd Z-field breaks)",
+                summary: "the cross-fold survives any bit-flip-EVEN bond term (the Δ·ZZ anisotropy, so the FULL interacting XXZ " +
+                         "chain, not just the integrable XY one: zz(b̄)=zz(b)), but BREAKS under a bit-flip-ODD term: a " +
+                         $"longitudinal Z-field Σ_k w_k Z_k gives residual {fieldRes.ToString("E2", Inv)} (O(1), not machine zero) at N=6 " +
+                         "because fe(b̄)=−fe(b). So the fold is structural/algebraic, NOT a free-fermion (integrability) artifact.",
+                provenance: NodeProvenance.Live);
 
             foreach (var (n, q, lam) in new[] { (7, 1.1264, -4.942) })
             {

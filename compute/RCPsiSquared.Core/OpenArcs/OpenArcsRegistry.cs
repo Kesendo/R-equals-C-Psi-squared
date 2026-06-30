@@ -101,20 +101,26 @@ public static class OpenArcsRegistry
                 "(docs/ANALYTICAL_FORMULAS.md, right after the F89c lemma it extends) + typed as F89CrossFoldSimilarityClaim " +
                 "(parents F1PalindromeIdentity + F89BranchLocusPalindromeClaim, Tier1Derived, wiring-audited; verify via " +
                 "'knowledge ancestors F89CrossFoldSimilarityClaim'). SO: ALL FOUR MOVES ARE DONE (Move 1 count / Move 2 Delta-test / " +
-                "Move 3 count-vs-N / Move 4 cross-fold) and this arc is essentially COMPLETE. TWO edges remain, neither blocking. " +
-                "(a) The within-odd EXACT threshold N has no closed form (residual-density driven: F_18 too sparse, F_53 the first to " +
-                "host a real-q coalescence; likely none exists). (b) THE NEW FOLLOW-ON the cross-fold opened, and the concrete FIRST " +
-                "MOVE if resuming: DOES THE F89d ANTIUNITARY SIMILARITY SURVIVE XXZ ANISOTROPY? At Delta!=0 the ZZ-bond sum is INVARIANT " +
-                "under bra-complementation (global bit-flip leaves Z_b*Z_{b+1} fixed) while the AT rate FLIPS (n_diff -> N-n_diff), so " +
-                "the fold may NOT carry the Delta frequency term cleanly - meaning the diabolic pairing could BREAK the instant " +
-                "Delta!=0 (a sharp, testable prediction). FIRST MOVE concretely: add a (q,Delta) overload to " +
-                "WeightCoherenceBlock.Build (the -i*q*Delta*zzDiag frequency diagonal, zzDiag = ket ZZ-bond-sum minus bra ZZ-bond-sum, " +
-                "the same generator XxzCoherenceBlock / PathKMonodromyScout.ResidualRootsExactXxz already use for the (SE,DE) block), " +
-                "then re-run CrossFoldSimilarityWitness.Read's residual at Delta!=0: if it stays ~0 the fold survives (the pairing is " +
-                "Delta-robust), if it blows up the fold is XY-only (locate a known diabolic's partner under Delta and check whether " +
-                "both still pair, or both die, together). The current Delta=0 residual is already live: " +
-                "'dotnet run --project compute/RCPsiSquared.Cli -c Release -- inspect --root crossfold' (the Delta!=0 check needs " +
-                "the new (q,Delta) overload first). The N=7 work " +
+                "Move 3 count-vs-N / Move 4 cross-fold), MOVE 4's FOLLOW-ON IS NOW ANSWERED TOO, and this arc is COMPLETE but for " +
+                "ONE minor non-blocking edge: (a) the within-odd EXACT threshold N has no closed form (residual-density driven: F_18 " +
+                "too sparse, F_53 the first to host a real-q coalescence; likely none exists; the concrete probe is spelled out under " +
+                "REMAINING EDGES (a) below). MOVE-4 FOLLOW-ON ANSWERED (2026-06-30): DOES THE F89d ANTIUNITARY SIMILARITY SURVIVE XXZ " +
+                "ANISOTROPY? YES - it is INTEGRABILITY-INDEPENDENT. The (q,Delta) overload landed on WeightCoherenceBlock.Build (the " +
+                "diagonal -i*q*Delta*(zz(ket)-zz(bra)) frequency, zz the open-chain ZZ-bond sum) and the cross-fold residual " +
+                "L(1,N-2)(qbar,Delta) = -P conj(L(1,2)(q,Delta)) P^T - 2N I is MACHINE ZERO at EVERY Delta (N=4..9, all q real and " +
+                "complex). The handover's tentative 'could break' guess was WRONG, and instructively so: the very fact it flagged as a " +
+                "worry - the ZZ-bond sum being INVARIANT under bra-complementation (zz(bbar)=zz(b), because Z_b*Z_{b+1} is EVEN under " +
+                "the global bit-flip) - is EXACTLY what makes the fold SURVIVE (the bra-complement carries the even ZZ term unchanged, " +
+                "as it carries the XY hopping). So the diabolics DIE under Delta (Move 2, integrability-protected) but their cross-fold " +
+                "PAIRING does not: a diabolic and its partner turn defective in lockstep, the two blocks staying antiunitary-similar at " +
+                "every Delta. The discriminant is BIT-FLIP PARITY: a bit-flip-ODD perturbation breaks the fold - a longitudinal Z-field " +
+                "Sigma_k w_k Z_k has fe(bbar)=-fe(b), residual O(1) (~5.46 at N=6), the verified negative control - proving the fold a " +
+                "STRUCTURAL/algebraic property of the Liouvillian, not a free-fermion (integrability) artifact (it survives any " +
+                "bit-flip-even bond coupling, breaks only under a bit-flip-odd one). LANDED (TDD green): the WeightCoherenceBlock.Build " +
+                "(q,Delta) overload + Zz helper (Core) gated by WeightCoherenceBlockTests; the CrossFoldSimilarityWitness Read(n,q,Delta) " +
+                "overload + Delta children + the bit-flip-parity field control (Diagnostics, 'inspect --root crossfold'); F89d amended in " +
+                "docs/ANALYTICAL_FORMULAS.md + F89CrossFoldSimilarityClaim (the integrability-independent paragraph + child); the " +
+                "experiment doc's 'survives XXZ anisotropy' section. The N=7 work " +
                 "needed a NEW instrument and turned up a NEW phenomenon. (1) THE TRACKER BROKE AT N=7, " +
                 "REFUTING the 2026-06-29 'NEXT MOVE' premise that N=7 was merely SLOW: the residual-only TRACKER floods at " +
                 "the F_53 strand density. The nearest-match AT (the Absorption-Theorem decay-rate strands, Re lambda = " +
@@ -193,9 +199,12 @@ public static class OpenArcsRegistry
                 "DiabolicReflectionParityWitnessTests + the catalog guard), the gitignored python scout retired. (c) Move 4 cross-fold: DONE 2026-06-30 " +
                 "(see the CURRENT STATE block above) - the cross-fold is an EXACT antiunitary similarity, every diabolic pairs across " +
                 "it; landed as WeightCoherenceBlock (Core) + CrossFoldSimilarityWitness ('inspect --root crossfold', TDD-gated). " +
-                "(d) the (q,Delta) extension of the cross-fold (does the similarity survive XXZ anisotropy? the ZZ-bond sum is " +
-                "complement-invariant while the AT rate flips, so the fold may NOT carry the Delta term cleanly - a sharp untried " +
-                "question) is the natural follow-on. " +
+                "(d) DONE 2026-06-30 - the (q,Delta) extension of the cross-fold: the similarity SURVIVES XXZ anisotropy at every " +
+                "Delta (integrability-independent, machine-zero residual N=4..9 all q). The 'could break' worry resolved the other way: " +
+                "the ZZ-bond sum being complement-INVARIANT (zz(bbar)=zz(b), Z_bZ_{b+1} bit-flip-even) is what makes the fold survive, " +
+                "not break; the discriminant is bit-flip parity (a longitudinal Z-field, odd, breaks it, residual ~5.46 at N=6). Landed " +
+                "as the WeightCoherenceBlock.Build (q,Delta) overload + the witness's Delta children + field control (see the CURRENT " +
+                "STATE block above for the full footprint). " +
                 "--- THE JOURNAL (how we got here) --- " +
                 "Concrete moves, cheapest first (binary: dotnet run --project compute/RCPsiSquared.Cli -- " +
                 "<cmd>). (1) LOCATE: run 'pkmono --diabolic --k 5' (N=6) and --k 6 " +

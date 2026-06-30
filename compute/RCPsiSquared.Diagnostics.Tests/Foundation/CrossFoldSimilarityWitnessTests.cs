@@ -50,12 +50,59 @@ public class CrossFoldSimilarityWitnessTests
         Assert.True(System.Math.Abs(g12 - gp) < 1e-9, $"the paired gaps differ: {g12:E2} vs {gp:E2}");
     }
 
+    [Theory]
+    [InlineData(5, 0.5)]
+    [InlineData(6, 0.7)]
+    [InlineData(7, 1.0)]
+    [InlineData(9, -0.5)]
+    public void CrossFold_SurvivesXxzAnisotropy_RealQ(int nBlock, double delta)
+    {
+        // The (q,Δ) extension: the antiunitary similarity holds for the FULL interacting XXZ block at Δ≠0, NOT
+        // just the integrable XY one (the Δ·ZZ term is even under the global bit-flip). The fold is therefore
+        // integrability-independent: it survives the very anisotropy that makes the diabolics defective.
+        var r = new CrossFoldSimilarityWitness().Read(nBlock, new Complex(1.0, 0), delta);
+        Assert.Equal(delta, r.Delta);
+        Assert.True(r.SimilarityResidual < 1e-9,
+            $"cross-fold broke under XXZ at N={nBlock}, Δ={delta}: residual {r.SimilarityResidual:E2}");
+    }
+
+    [Theory]
+    [InlineData(6, 0.7)]
+    [InlineData(8, 0.4)]
+    public void CrossFold_SurvivesXxzAnisotropy_ComplexQ(int nBlock, double delta)
+    {
+        var r = new CrossFoldSimilarityWitness().Read(nBlock, new Complex(0.6407, 0.180), delta);
+        Assert.True(r.SimilarityResidual < 1e-9,
+            $"cross-fold broke under XXZ at complex q, N={nBlock}, Δ={delta}: residual {r.SimilarityResidual:E2}");
+    }
+
+    [Fact]
+    public void DeltaZero_Reading_MatchesTheLegacyReadOverload()
+    {
+        // The Δ=0 reading of the new overload must equal the original Read(n,q) (the delegation contract).
+        var w = new CrossFoldSimilarityWitness();
+        var q = new Complex(0.9, -0.2);
+        Assert.Equal(w.Read(7, q).SimilarityResidual, w.Read(7, q, 0.0).SimilarityResidual, 12);
+    }
+
+    [Fact]
+    public void LongitudinalZField_BreaksTheFold_TheBitFlipParityDiscriminant()
+    {
+        // The complementary control: a bit-flip-ODD perturbation (a longitudinal Z-field) breaks the fold, so the
+        // survival result above is not vacuous. The discriminant is bit-flip parity: even (ZZ) survives, odd
+        // (field) breaks. Residual is O(1), not machine zero.
+        double[] field = { 0.4, -0.3, 0.6, 0.2, -0.5, 0.1 };
+        double res = new CrossFoldSimilarityWitness().ReadFieldControlResidual(6, new Complex(1.3, 0), field);
+        Assert.True(res > 1.0, $"a longitudinal Z-field should break the cross-fold, but residual was only {res:E2}");
+    }
+
     [Fact]
     public void Summary_StatesMove4Answered()
     {
         var s = new CrossFoldSimilarityWitness().Summary;
         Assert.Contains("similarity", s, System.StringComparison.OrdinalIgnoreCase);
         Assert.Contains("pair", s, System.StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("Δ", s);                                              // the Δ-robustness is now stated
         Assert.False(string.IsNullOrWhiteSpace(s));
     }
 }

@@ -15,6 +15,15 @@ namespace RCPsiSquared.Core.Symmetry;
 /// n_diff(a,b)). Verified to MACHINE ZERO for N = 4..9 at every q, real and complex (the partner block evaluated
 /// at the conjugate coupling q̄, the F1 antiunitary form T L(q) T⁻¹ = −L(q̄) − 2σ).
 ///
+/// <para>INTEGRABILITY-INDEPENDENT (the (q,Δ) extension, 2026-06-30): the identity holds for the FULL interacting
+/// XXZ block L(q,Δ) at every anisotropy Δ, not just the integrable XY one (machine zero, N=4..9, all q, all Δ).
+/// The reason is that the Δ·ZZ term is EVEN under the global bit-flip (Z_bZ_{b+1} ↦ (−Z_b)(−Z_{b+1}) = Z_bZ_{b+1},
+/// so zz(b̄) = zz(b)), so the bra-complement carries it cleanly. The diabolics themselves DIE under Δ
+/// (integrability-protected, the arc's Move 2), but the pairing STRUCTURE does not: a diabolic and its partner
+/// turn defective in lockstep. The discriminant is bit-flip PARITY: a bit-flip-ODD perturbation breaks the fold (a
+/// longitudinal Z-field Σ_k w_k Z_k has fe(b̄) = −fe(b), residual O(1)). So the cross-fold is a structural/
+/// algebraic property of the Liouvillian, NOT a free-fermion artifact.</para>
+///
 /// <para>This is the matrix-level UPGRADE of <see cref="F89BranchLocusPalindromeClaim"/>'s spectrum-level cross-
 /// fold (which states only spec(SE,DE) ↔ spec(SE,w_{N−2}) about σ = N). An antiunitary similarity preserves the
 /// whole Jordan structure: complex conjugation, the permutation similarity P·Pᵀ, and the affine −(·) − 2N each
@@ -62,9 +71,10 @@ public sealed class F89CrossFoldSimilarityClaim : Claim
         "F89d: (SE,DE) <-> (SE,w_{N-2}) cross-fold is an exact antiunitary similarity (the diabolics pair)";
 
     public override string Summary =>
-        "L(1,N-2)(qbar) = -P conj(L(1,2)(q)) P^T - 2N I exactly (N=4..9, all q): a Jordan-preserving antiunitary " +
-        "similarity, so every (SE,DE) diabolic at (q,lambda) pairs with a (SE,w_{N-2}) diabolic at " +
-        $"(qbar, -lambdabar-2N), character and gap preserved ({Tier.Label()})";
+        "L(1,N-2)(qbar,Delta) = -P conj(L(1,2)(q,Delta)) P^T - 2N I exactly (N=4..9, all q, all Delta): a Jordan-" +
+        "preserving antiunitary similarity, so every (SE,DE) diabolic at (q,lambda) pairs with a (SE,w_{N-2}) " +
+        "diabolic at (qbar, -lambdabar-2N), character and gap preserved; integrability-independent (holds for the " +
+        $"full interacting XXZ block, the discriminant is bit-flip parity) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -78,6 +88,12 @@ public sealed class F89CrossFoldSimilarityClaim : Claim
                          "carrier is an EXACT antiunitary similarity L(1,N-2)(qbar) = -P conj(L(1,2)(q)) P^T - 2N I (P the bra-" +
                          "complement permutation), which preserves the whole Jordan structure, so the diabolics pair with identical " +
                          "character and gap. N=7: (q=1.1264, λ=-4.942) <-> (1,5) at -9.058, gap 4.19e-5 both. Live: inspect --root crossfold.");
+            yield return new InspectableNode("integrability-independent: survives XXZ anisotropy (the (q,Δ) extension)",
+                summary: "the identity holds for the FULL interacting XXZ block L(q,Δ) at every Δ (machine zero, N=4..9, all q): " +
+                         "the Δ·ZZ term is EVEN under the global bit-flip (zz(b̄)=zz(b)), so the bra-complement carries it cleanly. " +
+                         "The diabolics die under Δ (Move 2, integrability-protected), but the pairing structure does not: a " +
+                         "diabolic and its partner turn defective in lockstep. Discriminant = bit-flip parity: a longitudinal " +
+                         "Z-field (odd, fe(b̄)=−fe(b)) breaks the fold (residual O(1)). So the fold is structural, not free-fermion.");
         }
     }
 }

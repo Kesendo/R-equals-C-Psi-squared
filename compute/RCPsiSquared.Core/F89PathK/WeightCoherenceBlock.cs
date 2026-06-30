@@ -27,8 +27,20 @@ public static class WeightCoherenceBlock
     }
 
     /// <summary>The (wKet, wBra) chain coherence block at complex coupling q (γ = 1), dim C(n,wKet)·C(n,wBra).
-    /// Diagonal −2·n_diff; ket excitations hop −2iq, bra excitations +2iq (nearest-neighbour, Pauli-excluded).</summary>
-    public static Complex[,] Build(int n, int wKet, int wBra, Complex q)
+    /// Diagonal −2·n_diff; ket excitations hop −2iq, bra excitations +2iq (nearest-neighbour, Pauli-excluded).
+    /// The pure-XY (Δ=0) case; delegates to the (q,Δ) overload.</summary>
+    public static Complex[,] Build(int n, int wKet, int wBra, Complex q) => Build(n, wKet, wBra, q, 0.0);
+
+    /// <summary>The (wKet, wBra) XXZ-chain coherence block at complex coupling q (γ = 1) and real ZZ-anisotropy Δ,
+    /// dim C(n,wKet)·C(n,wBra). The bond Hamiltonian is H = J·Σ(X_bX_{b+1}+Y_bY_{b+1}) + J·Δ·Σ Z_bZ_{b+1}, q = J.
+    /// On top of the XY block (diagonal −2·n_diff; ket excitations hop −2iq, bra excitations +2iq, NN, Pauli-
+    /// excluded), the Δ·ZZ term is a DIAGONAL Hermitian contribution, so it leaves the Absorption-Theorem rate
+    /// Re λ = −2·n_diff untouched and adds only the frequency −i·q·Δ·(zz(ket) − zz(bra)), with
+    /// zz(c) = Σ_bond ⟨c|Z_bZ_{b+1}|c⟩ (<see cref="Zz"/>). Matches XxzCoherenceBlock.BuildFull's convention; at
+    /// Δ=0 it reproduces the pure-XY block exactly. The Δ·ZZ term is EVEN under the global bit-flip
+    /// (Z_bZ_{b+1} ↦ (−Z_b)(−Z_{b+1}) = Z_bZ_{b+1}, so zz(b̄) = zz(b)), which is exactly why the cross-fold
+    /// antiunitary similarity (<see cref="BraComplementPermutation"/>, F89d) survives at every Δ.</summary>
+    public static Complex[,] Build(int n, int wKet, int wBra, Complex q, double delta)
     {
         var kets = Configs(n, wKet);
         var bras = Configs(n, wBra);
@@ -41,7 +53,8 @@ public static class WeightCoherenceBlock
         for (int col = 0; col < d; col++)
         {
             var (kc, bc) = basis[col];
-            l[col, col] += new Complex(-2.0 * BitOperations.PopCount((uint)(kc ^ bc)), 0);
+            l[col, col] += new Complex(-2.0 * BitOperations.PopCount((uint)(kc ^ bc)), 0)
+                         + (-Complex.ImaginaryOne) * q * (delta * (Zz(n, kc) - Zz(n, bc)));   // Δ·ZZ frequency
             for (int s = 0; s < n; s++)
                 if ((kc & (1 << s)) != 0)                                   // ket excitation hops (−2iq)
                     foreach (int s2 in new[] { s - 1, s + 1 })
@@ -54,6 +67,17 @@ public static class WeightCoherenceBlock
                             l[index[(kc, (bc & ~(1 << s)) | (1 << s2))], col] += Complex.ImaginaryOne * 2.0 * q;
         }
         return l;
+    }
+
+    /// <summary>zz(c) = Σ_{bond (b,b+1)} ⟨c|Z_bZ_{b+1}|c⟩ = Σ_b (+1 if bits b, b+1 are equal, −1 if they differ),
+    /// the open-chain ZZ-bond sum of the computational-basis config c. Even under the global bit-flip, so
+    /// zz(c̄) = zz(c) (each Z flips sign, the product is unchanged).</summary>
+    public static int Zz(int n, int c)
+    {
+        int s = 0;
+        for (int b = 0; b < n - 1; b++)
+            s += (((c >> b) & 1) == ((c >> (b + 1)) & 1)) ? 1 : -1;
+        return s;
     }
 
     /// <summary>The bra-complement permutation P: the basis index of |a⟩⟨b| in the (wKet, wBra) block ↦ the
