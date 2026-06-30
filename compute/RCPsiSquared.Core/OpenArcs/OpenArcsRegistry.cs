@@ -53,16 +53,36 @@ public static class OpenArcsRegistry
                 "(Jordan-Wigner) holds at every N, so the diabolics persist and stay Δ-killable; only the AT-" +
                 "bookkeeping is harder. The deferred Q4 cross-fold edge (do the complex-q diabolics pair across " +
                 "the cross-block fold (SE,DE)↔(SE,w_{N-2})?) also generalizes over N and is untried.",
-            NextStep: "CURRENT STATE (2026-06-29, read this first; the dated layers below are the journal): the " +
-                "residual-only LOCATOR and the residual-aware Delta-TEST are both BUILT (TDD green) and N=6 is DONE. " +
-                "Move 1 (count + complex-q-only: 16 diabolics, growth 11->16, none at physical real q) and Move 2 " +
-                "(integrability-protection: each N=6 diabolic flips DEFECTIVE under Delta) are both CONFIRMED - see the " +
-                "'RUN 2026-06-29' and 'MOVE 2 ... DONE' layers below + experiments/F89_PATH_K_DIABOLIC.md (path-5 section). " +
-                "NEXT MOVE: the N=7 (k=6) broad scan - per-eval cost is now optimal, but the broad scan's wall-clock is " +
-                "dominated by SEED COUNT (the 53-strand residual gap field has many local minima), so it ran ~20min+ and was " +
-                "killed; resume with a SMALLER q-box (a qualitative N=7 point) or a cheap seeding pre-filter, via " +
-                "'dotnet run --project compute/RCPsiSquared.Cli -c Release -- pkmono --diabolic --residual --k 6 --re <small> " +
-                "--im <small> --cell 0.05'. Then Move 4 (cross-fold, still unblocked-not-run). " +
+            NextStep: "CURRENT STATE (2026-06-30, read this first; the dated layers below are the journal): N=7 (path-6) " +
+                "is DONE - it needed a NEW instrument and turned up a NEW phenomenon. (1) THE TRACKER BROKE AT N=7, " +
+                "REFUTING the 2026-06-29 'NEXT MOVE' premise that N=7 was merely SLOW: the residual-only TRACKER floods at " +
+                "the F_53 strand density. The nearest-match AT/residual partition cannot split the block's exact " +
+                "rate-degeneracies (many strands at exactly Re lambda=-6, the no-overlap AT rate; the residual SET at q0=2 " +
+                "already carries AT strands + exact duplicates, e.g. three at -6.000+0i, which a separable degree-53 Galois " +
+                "factor cannot have), so MinGap=0 across the box and the broad scan returns 293 spurious gap-0/exponent-NaN " +
+                "'diabolics', isolating none. The per-eval RESULT is corrupt, not just slow; a smaller box or a seed " +
+                "pre-filter would have given the same artifact. (2) THE FIX (BUILT, TDD green; the 'proper' route Tom chose): " +
+                "read the residual roots EXACTLY as eig(U_res^H M(q) U_res) - the block compressed onto the orthogonal " +
+                "complement of the q-INDEPENDENT AT invariant subspace (built from the rate sectors D + the scale-invariant " +
+                "K-invariance; block-triangular because W_AT is M(q)-invariant, so the compression's eigenvalues = full " +
+                "spectrum minus AT = the F_d residual roots). No partition, no tracking, one F_d x F_d EVD per q, ~6x faster. " +
+                "F89AtFactorReconstruction.AtInvariantSubspaceBasis(k) (Core, reuses the validated ForPathK subspace) + " +
+                "PathKMonodromyScout.ResidualRootsExact/AtRootsExact/FindDiabolicsExact (Diagnostics) + CLI " +
+                "'pkmono --diabolic --exact'. RE-GATED: reproduces N=5->11 and N=6->16 EXACTLY (the tracked counts), residual " +
+                "roots DISTINCT where the tracker flooded (Core F89AtInvariantSubspaceTests + Diagnostics PathKDiabolicTests, " +
+                "all green). (3) MOVE 1/3 (count + complex-q): N=7 gives 37 in-region diabolics, growth 11->16->37 (F_d " +
+                "18->32->53), all finite-gap / exp~1 / identity-loop. (4) THE NEW PHENOMENON (VERIFIED): diabolics appear at " +
+                "PHYSICAL REAL q at N=7 (q=0.6788, 1.1264, 1.3038, 2.6280, with real lambda) - the FIRST since N=4. Tight-zoom " +
+                "(cell 0.002) confirmed: each a single on-axis point, gap~1e-9, does NOT split into a conjugate pair (unlike " +
+                "the path-4 ghost at 0.6118+-0.012i, which the same fine scan resolves as off-axis); and it is a genuine " +
+                "N=7-ONSET, not a tracked-method miss - the exact instrument finds NONE on the N=5/N=6 real-axis strips (N=5 " +
+                "keeps only its known defective EP at q~1.0776). So 'self-fold is N=4-only => complex-q-only for N>=5' is TOO " +
+                "STRONG; a different mechanism returns diabolics to the real axis by N=7. Full write-up: experiments/" +
+                "F89_PATH_K_DIABOLIC.md (the path-6 section). NEXT MOVES: (a) MOVE 2 Delta-test of the N=7 diabolics (esp. the " +
+                "real-q ones - are they integrability-protected like the complex-q ones?), BLOCKED on porting the " +
+                "exact-residual treatment to XxzCoherenceBlock (its tracked residual Delta-test breaks at k=6 the same way the " +
+                "scout did). (b) the real-q ONSET MECHANISM (even/odd? a residual symmetry distinct from the N=4 self-fold?) - " +
+                "open, the new research edge. (c) Move 4 (cross-fold) still unblocked-not-run. " +
                 "--- THE JOURNAL (how we got here) --- " +
                 "Concrete moves, cheapest first (binary: dotnet run --project compute/RCPsiSquared.Cli -- " +
                 "<cmd>). (1) LOCATE: run 'pkmono --diabolic --k 5' (N=6) and --k 6 " +

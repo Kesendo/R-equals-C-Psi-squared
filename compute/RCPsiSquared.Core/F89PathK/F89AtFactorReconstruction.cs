@@ -51,15 +51,7 @@ public static class F89AtFactorReconstruction
     /// Proven against the oracle (= C/AT) for path-4/5/6; reference: f89_pathk_galois.py full-d.</summary>
     public static GaussianInteger[] ForPathK(int k)
     {
-        var block = F89PathKSeDeBlock.BuildTwoTimesSymBlock(q0: 2, nBlock: k + 1);
-        int n = block.GetLength(0);
-        var rate = new BigInteger[n];
-        var ksym = new BigRational[n, n];                       // K = Im(2M), real symmetric
-        for (int i = 0; i < n; i++)
-        {
-            rate[i] = block[i, i].Re;
-            for (int j = 0; j < n; j++) ksym[i, j] = new BigRational(block[i, j].Im);
-        }
+        var (rate, ksym, n) = RateAndK(k);
 
         GaussianInteger[] at = { GaussianInteger.One };
         foreach (var r0 in new BigInteger[] { -4, -12 })        // the ×2-cleared sector rates
@@ -75,6 +67,56 @@ public static class F89AtFactorReconstruction
             at = GaussianPolynomial.Multiply(at, ISubstitute(p, r0, dim));
         }
         return at;
+    }
+
+    /// <summary>The AT-locked invariant subspace ITSELF (the union over rate sectors of the largest
+    /// K-invariant subspace), as a real basis of column vectors (SymDim × AtDegree, not orthonormal).
+    /// This is the SAME subspace whose characteristic polynomial <see cref="ForPathK"/> returns as the AT
+    /// factor (validated against the oracle by <c>F89FullDReconstructionTests</c>); exposing the basis lets
+    /// the diabolic scout read the F_d residual roots at ANY q EXACTLY, as the eigenvalues of M(q)
+    /// compressed onto the orthogonal complement of this subspace (the block-triangular split: the AT
+    /// subspace is M(q)-invariant for every q because the rate diagonal D and the hopping K each preserve
+    /// it and K-invariance is scale-invariant in q, so the compression's eigenvalues are exactly the full
+    /// spectrum minus the AT part). AT-free by construction, with no nearest-match strand partition (which
+    /// floods at the F_53 strand density of path-6/N=7) and no continuity tracking.</summary>
+    public static double[,] AtInvariantSubspaceBasis(int k)
+    {
+        var (rate, ksym, n) = RateAndK(k);
+        var cols = new List<BigRational[]>();
+        foreach (var r0 in new BigInteger[] { -4, -12 })
+        {
+            var W = SectorBasis(rate, r0, n);
+            if (W.GetLength(1) == 0) continue;
+            W = LargestInvariantSubspace(ksym, W);
+            for (int c = 0; c < W.GetLength(1); c++)
+            {
+                var col = new BigRational[n];
+                for (int i = 0; i < n; i++) col[i] = W[i, c];
+                cols.Add(col);
+            }
+        }
+        var basis = new double[n, cols.Count];
+        for (int c = 0; c < cols.Count; c++)
+            for (int i = 0; i < n; i++)
+                basis[i, c] = (double)cols[c][i].Numerator / (double)cols[c][i].Denominator;
+        return basis;
+    }
+
+    /// <summary>The ×2-cleared (SE,DE) block at q0=2 reduced to its integer rate diagonal D (the AT rates
+    /// ∈ {−4,−12}) and its real-symmetric hopping K = Im(2M). Shared by <see cref="ForPathK"/> and
+    /// <see cref="AtInvariantSubspaceBasis"/> so both read the IDENTICAL invariant subspace.</summary>
+    private static (BigInteger[] rate, BigRational[,] ksym, int n) RateAndK(int k)
+    {
+        var block = F89PathKSeDeBlock.BuildTwoTimesSymBlock(q0: 2, nBlock: k + 1);
+        int n = block.GetLength(0);
+        var rate = new BigInteger[n];
+        var ksym = new BigRational[n, n];                       // K = Im(2M), real symmetric
+        for (int i = 0; i < n; i++)
+        {
+            rate[i] = block[i, i].Re;
+            for (int j = 0; j < n; j++) ksym[i, j] = new BigRational(block[i, j].Im);
+        }
+        return (rate, ksym, n);
     }
 
     /// <summary>The standard basis of the rate sector { i : rate[i] = r0 } (n × |sector|).</summary>

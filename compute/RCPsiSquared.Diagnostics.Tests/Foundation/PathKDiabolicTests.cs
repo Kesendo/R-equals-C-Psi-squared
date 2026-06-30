@@ -152,4 +152,84 @@ public class PathKDiabolicTests
             Assert.True(Math.Abs(d.QValue.Imaginary) > 0.005, $"q={d.QValue} is off the real axis (complex-q diabolic)");
         });
     }
+
+    // ---- the EXACT residual roots (the path-6/N=7 fix) ----
+
+    // The core regression that PROVES the fix. ResidualRootsExact reads the F_d residual roots as the
+    // eigenvalues of M(q) compressed onto the orthogonal complement of the AT invariant subspace — AT-free by
+    // construction, no nearest-match partition. It returns EXACTLY the F_d count (18/32/53) and the roots are
+    // DISTINCT at the base q0=2, where the tracked path at k=6 instead returned a set riddled with exact
+    // duplicates and AT-rate (Re=-6) strands (the 293-false-diabolic flood). path-3 (k≤... ) uses the octic
+    // witness; the exact split is wired for k=4,5,6.
+    [Theory]
+    [InlineData(4, 18)]
+    [InlineData(5, 32)]
+    [InlineData(6, 53)]
+    public void ResidualRootsExact_ReturnsFdCount_AndDistinct_AtBase(int k, int fdDegree)
+    {
+        var res = PathKMonodromyScout.ResidualRootsExact(k, new Complex(2, 0));
+        Assert.Equal(fdDegree, res.Length);
+        Assert.True(PathKMonodromyScout.MinGap(res) > 1e-6,
+            $"path-{k} residual roots must be DISTINCT (the broken tracked path floods with gap-0 duplicates); min gap = {PathKMonodromyScout.MinGap(res):E2}");
+    }
+
+    // q-direct correctness away from the base: at a generic complex q the exact reading still returns exactly
+    // the 32 residual strands (path-5), distinct — no tracking, so no continuity collision.
+    [Fact]
+    public void ResidualRootsExact_Path5_AwayFromBase_Returns32Distinct()
+    {
+        var res = PathKMonodromyScout.ResidualRootsExact(5, new Complex(1.3, -0.4));
+        Assert.Equal(32, res.Length);
+        Assert.True(PathKMonodromyScout.MinGap(res) > 1e-6, $"min gap = {PathKMonodromyScout.MinGap(res):E2}");
+    }
+
+    // The split is sound: AT ⊎ residual reproduces the FULL block spectrum (the block-triangular decomposition),
+    // the AT part sits exactly on the rate lines Re λ ∈ {−2,−6}, and the residual part is everything else.
+    // This is what ties eig(M22) to the oracle F_d: AT = ForPathK's validated subspace (full-D test), so the
+    // complement eigenvalues are the genuine residual roots.
+    [Fact]
+    public void ExactSplit_Path6_AtPlusResidual_ReproducesFullSpectrum()
+    {
+        var q = new Complex(2, 0);
+        var (a, c) = PathKMonodromyScout.BuildLinear(7);                 // nBlock = k+1 = 7
+        var full = PathKMonodromyScout.AllRootsAt(a, c, q);
+        var at = PathKMonodromyScout.AtRootsExact(6, q);
+        var res = PathKMonodromyScout.ResidualRootsExact(6, q);
+
+        Assert.Equal(75, full.Length);
+        Assert.Equal(22, at.Length);
+        Assert.Equal(53, res.Length);
+        Assert.All(at, z => Assert.True(Math.Abs(z.Real + 2) < 1e-6 || Math.Abs(z.Real + 6) < 1e-6,
+            $"AT root {z} must sit on a rate line Re∈{{-2,-6}}"));
+
+        // multiset equality up to tolerance (greedy match; the spectrum has near-degenerate Re=-6 strands
+        // whose float-noise Real parts make a sort-and-pair comparison flip pairings — match by distance).
+        var remaining = at.Concat(res).ToList();
+        foreach (var f in full)
+        {
+            int idx = remaining.FindIndex(z => (z - f).Magnitude < 1e-6);
+            Assert.True(idx >= 0, $"full spectrum root {f} has no match in AT⊎residual");
+            remaining.RemoveAt(idx);
+        }
+        Assert.Empty(remaining);
+    }
+
+    // The exact pipeline reproduces the science: on the path-4 near-axis box it finds the same complex-q
+    // diabolic (q≈0.6118±0.012i) the tracked path does, semisimple and off-axis — so the new path is gated on
+    // a known result before it is trusted to count path-6 (N=7). The full N=5→11 / N=6→16 counts are the CLI
+    // re-gate (documented in experiments/F89_PATH_K_DIABOLIC.md, too slow for a unit test).
+    [Fact]
+    public void FindDiabolicsExact_Path4_FindsNearAxisDiabolic_Semisimple()
+    {
+        var found = PathKMonodromyScout.FindDiabolicsExact(4, 0.60, 0.625, -0.05, 0.05, 0.005);
+        var near = found.Where(d => d.IsSemisimple && Math.Abs(d.QValue.Real - 0.6118) < 0.01).ToList();
+        Assert.NotEmpty(near);
+        Assert.All(near, d =>
+        {
+            Assert.True(d.PairIsResidual);
+            Assert.True(Math.Abs(d.QValue.Imaginary) > 0.005, $"q={d.QValue} is off the real axis (complex-q diabolic)");
+            Assert.True(d.GapScalingExponent > 0.7 && d.GapScalingExponent < 1.3,
+                $"gap-scaling exponent {d.GapScalingExponent} should be ≈1 (linear) for a diabolic");
+        });
+    }
 }

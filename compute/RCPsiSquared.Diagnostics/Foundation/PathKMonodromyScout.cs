@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Factorization;
 using RCPsiSquared.Core.F89PathK;
 using RCPsiSquared.Core.Numerics;
 
@@ -548,6 +549,144 @@ public static class PathKMonodromyScout
             var reading = EpCharacter.Characterize(BlockAt(a, c, qd), mergeLambda, charRadius);
             bool semisimple = reading.Kind == EpCharacter.EpKind.Diabolic;
             result.Add(new DiabolicPoint(qd, mergeLambda, semisimple, loopId, g, expo, pairResidual));
+        }
+        return result;
+    }
+
+    // ---- the EXACT residual roots (the path-6/N=7 fix): no nearest-match partition, no continuity tracking ----
+
+    private static readonly object _exactLock = new();
+    private static readonly Dictionary<int, (Complex[,] A, Complex[,] C, Matrix<Complex> URes, Matrix<Complex> UAt)> _exactCache = new();
+
+    /// <summary>Per-k orthonormal split of the (SE,DE) S₂-block into the AT-locked invariant subspace U_AT
+    /// (SymDim × AtDegree) and its orthogonal complement U_res (SymDim × F_d), via a full QR of the exact
+    /// AT invariant-subspace basis (<see cref="F89AtFactorReconstruction.AtInvariantSubspaceBasis"/>).
+    /// Because the AT subspace is M(q)-invariant for every q, the compression Uᴴ M(q) U is block-triangular
+    /// (U_resᴴ M U_AT = 0), so eig(U_resᴴ M U_res) = the F_d residual roots and eig(U_ATᴴ M U_AT) = the AT
+    /// roots, EXACTLY (only float-EVD limited). Cached; built once per k (the BigRational subspace solve is
+    /// the cost). The hot scan path captures the tuple locally and never re-enters the cache (no Parallel race).</summary>
+    private static (Complex[,] A, Complex[,] C, Matrix<Complex> URes, Matrix<Complex> UAt) ExactSetup(int k)
+    {
+        lock (_exactLock)
+        {
+            if (_exactCache.TryGetValue(k, out var cached)) return cached;
+            var (a, c) = BuildLinear(k + 1);
+            int n = a.GetLength(0);
+            var raw = F89AtFactorReconstruction.AtInvariantSubspaceBasis(k);     // n × AtDegree, real
+            int atDim = raw.GetLength(1);
+            var qFull = Matrix<double>.Build.DenseOfArray(raw).QR(QRMethod.Full).Q;   // n × n orthonormal
+            var uAtR = qFull.SubMatrix(0, n, 0, atDim);                          // first atDim cols span W_AT
+            var uResR = qFull.SubMatrix(0, n, atDim, n - atDim);                 // the rest = complement (F_d)
+            var uAt = Matrix<Complex>.Build.Dense(n, atDim, (r, s) => new Complex(uAtR[r, s], 0));
+            var uRes = Matrix<Complex>.Build.Dense(n, n - atDim, (r, s) => new Complex(uResR[r, s], 0));
+            var result = (a, c, uRes, uAt);
+            _exactCache[k] = result;
+            return result;
+        }
+    }
+
+    // M(q) = (A + qC)/2 compressed onto the orthonormal columns of u: uᴴ M(q) u.
+    private static Matrix<Complex> CompressionAt(Complex[,] a, Complex[,] c, Matrix<Complex> u, Complex q)
+    {
+        int n = a.GetLength(0);
+        var m = Matrix<Complex>.Build.Dense(n, n, (r, s) => (a[r, s] + q * c[r, s]) / 2);
+        return u.ConjugateTranspose() * m * u;
+    }
+
+    /// <summary>The F_d residual roots at q, computed EXACTLY as the eigenvalues of M(q) compressed onto the
+    /// orthogonal complement of the AT-locked invariant subspace. AT-free by construction and tracking-free
+    /// (a single F_d×F_d EVD per q). The robust replacement for <see cref="ResidualRootsTracked"/>, whose
+    /// nearest-match partition and continuity tracking both break at the F_53 strand density of path-6 (N=7),
+    /// manufacturing spurious gap-0 coalescences. Reproduces the F_d count 18/32/53 for k=4/5/6.</summary>
+    public static Complex[] ResidualRootsExact(int k, Complex q)
+    {
+        var (a, c, uRes, _) = ExactSetup(k);
+        return CompressionAt(a, c, uRes, q).Evd().EigenValues.ToArray();
+    }
+
+    /// <summary>The AT-locked roots at q (the complement reading of <see cref="ResidualRootsExact"/>): the
+    /// eigenvalues of M(q) compressed onto the AT invariant subspace. All sit on the AT rate lines
+    /// Re λ ∈ {−2, −6} (the ×2-cleared −4/−12). Used to validate the split AT ⊎ residual = full spectrum.</summary>
+    public static Complex[] AtRootsExact(int k, Complex q)
+    {
+        var (a, c, _, uAt) = ExactSetup(k);
+        return CompressionAt(a, c, uAt, q).Evd().EigenValues.ToArray();
+    }
+
+    /// <summary>The path-k diabolic hunt on the EXACT residual roots (<see cref="ResidualRootsExact"/>): the
+    /// path-6/N=7 replacement for <see cref="FindDiabolics"/> with residualOnly. Same gap-field → seed →
+    /// refine → classify pipeline, but the roots function is the exact complement compression, so every
+    /// reported coalescence is a genuine F_d (H_B-mixed) one (PairIsResidual = true by construction), with no
+    /// AT-flood and no tracking-collision artifacts. The enclosing radius for the EpCharacter reading is
+    /// measured against the FULL block (so the Riesz window still excludes a near AT eigenvalue).</summary>
+    public static List<DiabolicPoint> FindDiabolicsExact(int k, double reLo, double reHi, double imLo, double imHi,
+        double cell, double mask = 0.20, double gapTol = 1e-3, double loopRadius = 0.004)
+    {
+        var (a, c, uRes, _) = ExactSetup(k);                                 // primes the cache; captured locally
+        Func<Complex, Complex[]> roots = q => CompressionAt(a, c, uRes, q).Evd().EigenValues.ToArray();
+        Func<Complex, Complex[]> rootsFull = qq => AllRootsAt(a, c, qq);     // for the AT-aware enclosing radius
+
+        int nRe = Math.Max(1, (int)((reHi - reLo) / cell)), nIm = Math.Max(1, (int)((imHi - imLo) / cell));
+        var gap = new double[nRe, nIm];
+        Parallel.For(0, nRe, ir =>
+        {
+            double re = reLo + ir * cell + cell / 2;
+            for (int ii = 0; ii < nIm; ii++)
+            {
+                var q = new Complex(re, imLo + ii * cell + cell / 2);
+                gap[ir, ii] = q.Magnitude < mask ? double.NaN : MinGap(roots(q));
+            }
+        });
+
+        var seeds = new List<Complex>();                                     // strict local minima of the gap field
+        for (int ir = 0; ir < nRe; ir++)
+            for (int ii = 0; ii < nIm; ii++)
+            {
+                double g = gap[ir, ii];
+                if (double.IsNaN(g)) continue;
+                bool isMin = true;
+                for (int dr = -1; dr <= 1 && isMin; dr++)
+                    for (int di = -1; di <= 1; di++)
+                    {
+                        if (dr == 0 && di == 0) continue;
+                        int jr = ir + dr, ji = ii + di;
+                        if (jr < 0 || jr >= nRe || ji < 0 || ji >= nIm) continue;
+                        if (!double.IsNaN(gap[jr, ji]) && gap[jr, ji] < g) { isMin = false; break; }
+                    }
+                if (isMin) seeds.Add(new Complex(reLo + ir * cell + cell / 2, imLo + ii * cell + cell / 2));
+            }
+
+        var result = new List<DiabolicPoint>();
+        foreach (var seed in seeds)
+        {
+            var qd = GapRefine(roots, seed, cell);
+            if (qd.Magnitude < mask) continue;
+            if (result.Any(d => (d.QValue - qd).Magnitude < 2 * cell)) continue;       // dedupe
+            var rr = roots(qd);
+            double g = MinGap(rr);
+            if (g > gapTol) continue;                                                  // an avoided crossing, not a coalescence
+
+            int ai = -1, bi = -1; double best = double.PositiveInfinity;               // the coalescing pair
+            for (int i = 0; i < rr.Length; i++)
+                for (int j = i + 1; j < rr.Length; j++)
+                {
+                    double gg = (rr[i] - rr[j]).Magnitude;
+                    if (gg < best) { best = gg; ai = i; bi = j; }
+                }
+            var mergeLambda = (rr[ai] + rr[bi]) / 2;
+            double distOther = double.PositiveInfinity;                                // nearest non-pair strand (full block)
+            foreach (var z in rootsFull(qd))
+            {
+                double dd = (z - mergeLambda).Magnitude;
+                if (dd > best * 1.5) distOther = Math.Min(distOther, dd);
+            }
+            double charRadius = Math.Clamp(0.4 * distOther, 0.01, 0.5);
+
+            bool loopId = Moved(Monodromy.Permutation(roots, qd, loopRadius, 240)) == 0;
+            double expo = GapScalingExponent(roots, qd);
+            var reading = EpCharacter.Characterize(BlockAt(a, c, qd), mergeLambda, charRadius);
+            bool semisimple = reading.Kind == EpCharacter.EpKind.Diabolic;
+            result.Add(new DiabolicPoint(qd, mergeLambda, semisimple, loopId, g, expo, PairIsResidual: true));
         }
         return result;
     }
