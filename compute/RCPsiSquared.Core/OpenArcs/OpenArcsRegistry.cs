@@ -28,7 +28,10 @@ public static class OpenArcsRegistry
                 "question, the arc: does the structure " +
                 "(complex-q-only, integrability-protected, and HOW MANY) generalize over N, and what would it " +
                 "take to pursue it at path-5 (N=6), path-6 (N=7), and beyond?",
-            ParkedAt: "TWO N DONE; the generalization not run. WHAT GENERALIZES FOR FREE (the good news): compute " +
+            ParkedAt: "[SUPERSEDED 2026-06-30 - this ParkedAt is the ORIGINAL two-N snapshot; the arc has since run " +
+                "N=4 through N=9, the onset is grounded (parity-gated odd N>=7, dimension-mismatch/sector-swap), and the C# " +
+                "witness is built. Read NextStep's 'CURRENT STATE' first; this field is kept as the historical why-it-looked-hard.] " +
+                "TWO N DONE; the generalization not run. WHAT GENERALIZES FOR FREE (the good news): compute " +
                 "is NOT the obstacle. The (SE,DE) coherence block is POLYNOMIAL in N, dim = N·C(N,2) ~ N³/2 " +
                 "(24/50/90/147 for N=4..7; residual F_d = 8/18/32/53 for path-3..6), TINY beside the 4^N " +
                 "Liouvillian, so an EVD per q-point is sub-millisecond at every N reachable here; the (SE,DE) " +
@@ -136,7 +139,12 @@ public static class OpenArcsRegistry
                 "reflection-fixed JW band-centre zero mode k=(N+1)/2 (an integer mode only at odd N), distinct from the N=4 self-fold " +
                 "(antiunitary T=P*K, N=4-only, fixes Re lambda=-4; the odd-N diabolics are real but NOT at -4/-N). REMAINING EDGES: " +
                 "(a) the within-odd THRESHOLD (why odd N=5 is empty though R-even is self-conjugate there too: two crossing real " +
-                "RESIDUAL strands are first available at N=7; nature clear, no closed form). (b) DONE - the C# WITNESS is built: " +
+                "RESIDUAL strands are first available at N=7; nature clear, no closed form). FIRST PROBE (the concrete entry point): " +
+                "extend DiabolicReflectionParityWitness to count the REAL residual eigenvalues of the R-even sector vs N at fixed real " +
+                "q (split the AT-locked roots off via F89AtFactorReconstruction.AtInvariantSubspaceBasis, as the scout's exact path " +
+                "does, then count |Im lambda|<tol among the residual), and find at which N two real residual strands first approach to " +
+                "cross in the physical q-window - expect N=5 to carry too few / non-crossing real residual roots and N=7 the first " +
+                "crossing pair. (b) DONE - the C# WITNESS is built: " +
                 "DiabolicReflectionParityWitness ('inspect --root diabolicparity', the persistent evidence per cockpit rule 5) recomputes " +
                 "the self/cross-conjugacy structure across N=5..9 and reproduces the N=7/N=9 diabolics in R-even at inspect time, on " +
                 "F89PathKSeDeBlock.BuildFullBlock/ReflectionPermutation (Core); TDD-gated (F89PathKFullBlockReflectionTests + " +
