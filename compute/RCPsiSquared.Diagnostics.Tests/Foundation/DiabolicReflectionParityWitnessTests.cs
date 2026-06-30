@@ -63,4 +63,55 @@ public class DiabolicReflectionParityWitnessTests
         Assert.Contains("odd", s, StringComparison.OrdinalIgnoreCase);
         Assert.False(string.IsNullOrWhiteSpace(s));
     }
+
+    // The within-odd grounding: the REAL R-even residual population over the physical real-q window.
+
+    [Theory]
+    [InlineData(5, 18)]     // the residual degree F_d (deterministic): path-4..8 → 18/32/53/80/116
+    [InlineData(6, 32)]
+    [InlineData(7, 53)]
+    [InlineData(8, 80)]
+    [InlineData(9, 116)]
+    public void RealResidual_DegreeIsTheKnownFd(int nBlock, int expectedFd)
+    {
+        Assert.Equal(expectedFd, new DiabolicReflectionParityWitness().ReadRealResidual(nBlock).ResidualDegree);
+    }
+
+    [Theory]
+    [InlineData(6)]         // even N: R-even conjugate-paired with R-odd ⟹ the residual carries NO real eigenvalue
+    [InlineData(8)]         // anywhere in the window ⟹ no real strands to host a real-q diabolic.
+    public void EvenN_ResidualHasNoRealEigenvalues(int nBlock)
+    {
+        Assert.Equal(0, new DiabolicReflectionParityWitness().ReadRealResidual(nBlock).MaxRealCount);
+    }
+
+    [Theory]
+    [InlineData(5)]         // odd N: R-even self-conjugate ⟹ the residual DOES carry real eigenvalues.
+    [InlineData(7)]
+    [InlineData(9)]
+    public void OddN_ResidualCarriesRealEigenvalues(int nBlock)
+    {
+        Assert.True(new DiabolicReflectionParityWitness().ReadRealResidual(nBlock).MaxRealCount > 0,
+            $"odd N={nBlock} unexpectedly has no real residual eigenvalue");
+    }
+
+    [Fact]
+    public void OddN_RealResidualPopulationGrowsWithN()
+    {
+        var w = new DiabolicReflectionParityWitness();
+        Assert.True(w.ReadRealResidual(9).MaxRealCount > w.ReadRealResidual(5).MaxRealCount,
+            "the odd-N real residual population should grow from N=5 to N=9");
+    }
+
+    [Fact]
+    public void RealRealCrossing_OnsetIsN7_NotN5()
+    {
+        // Geometry A (two real strands crossing): the first odd N where two real residual strands meet in the
+        // window is N=7 (q≈2.628, GlobalApproach → 0); at N=5 the real strands stay apart (no real-real crossing).
+        var w = new DiabolicReflectionParityWitness();
+        Assert.True(w.ReadRealResidual(5).GlobalApproach > 0.01,
+            "N=5 should have no real-real crossing (closest real strands bounded away from 0)");
+        Assert.True(w.ReadRealResidual(7).GlobalApproach < 1e-3,
+            "N=7 should have a real-real crossing (two real strands coalesce)");
+    }
 }

@@ -16,6 +16,17 @@ public sealed record ReflectionSectorReading(
     int N, int FullDim, int EvenDim, int OddDim, int FixedSingletons,
     double SelfConjEven, double SelfConjOdd, double CrossConj);
 
+/// <summary>One N's reading of the REAL R-even residual population over the physical real-q window: the residual
+/// degree F_d, how many of the AT-stripped residual strands are real at a generic q and at most over the window,
+/// and the closest two real strands ever get (the real-real approach). The within-odd grounding: even N carries
+/// NO real residual strands at all (MaxRealCount = 0, the realness is entirely cross-sector), so it cannot host
+/// a real-q diabolic in R-even; odd N does (population growing with N), and the real-q diabolics live among these
+/// real coalescences. A small GlobalApproach (≈ 0) flags a real-real CROSSING (the geometry where two real
+/// strands meet, e.g. N=7); odd N can also host a real-q diabolic as a conjugate pair tangent to the axis (e.g.
+/// N=9), which leaves GlobalApproach bounded — so GlobalApproach detects one geometry, not the diabolic count.</summary>
+public sealed record RealResidualReading(
+    int N, int ResidualDegree, int RealCountGenericQ, int MaxRealCount, double GlobalApproach);
+
 /// <summary>The from-below grounding of the odd-N real-q diabolic onset: the dimension-mismatch / sector-swap.
 ///
 /// <para>The site reflection R: i ↦ nBlock−1−i commutes with the full (SE,DE) block
@@ -72,6 +83,53 @@ public sealed class DiabolicReflectionParityWitness : IInspectable
         var se = SectorEigenvalues(L, even);
         var nearest = se.OrderBy(z => Math.Abs(z.Real - target)).Take(2).ToArray();
         return (nearest[0].Real, nearest[1].Real, (nearest[0] - nearest[1]).Magnitude);
+    }
+
+    private const double QLo = 0.2, QHi = 3.0, QStep = 0.01;   // the physical real-q window (matched to the diabolic scan)
+    private const double RealTol = 1e-6;                       // |Im λ| < RealTol ⟹ the residual root is real
+
+    /// <summary>The sorted real parts of the R-even residual roots that are REAL (|Im λ| &lt; <see cref="RealTol"/>)
+    /// at real coupling q, read off the exact AT-complement compression
+    /// (<see cref="PathKMonodromyScout.ResidualRootsExact"/>, the same AT-free F_d strands the diabolic scout
+    /// uses; <c>ResidualRootsExact</c> compresses onto the complement of the q-independent AT invariant subspace,
+    /// and that subspace lives in the S₂-symmetric block = the R-even sector). At odd N the R-even sector is
+    /// self-conjugate, so it carries genuine real eigenvalues; at even N it is conjugate-paired with R-odd, so
+    /// this is empty (a real residual root would need a real partner in R-odd, which the cross-pairing forbids).</summary>
+    private static double[] RealResidualParts(int k, double q)
+    {
+        var roots = PathKMonodromyScout.ResidualRootsExact(k, new Complex(q, 0));
+        var reals = new List<double>();
+        foreach (var z in roots) if (Math.Abs(z.Imaginary) < RealTol) reals.Add(z.Real);
+        reals.Sort();
+        return reals.ToArray();
+    }
+
+    /// <summary>The within-odd grounding: scan the physical real-q window and measure the REAL R-even residual
+    /// population. The parity mechanism makes R-even self-conjugate (so it carries real eigenvalues) only at ODD
+    /// N; at even N R-even is conjugate-paired with R-odd, so the AT-stripped residual carries NO real eigenvalues
+    /// anywhere (MaxRealCount = 0) and cannot host a real-q diabolic. Odd N carries a real residual population
+    /// that grows with N, and the scout's real-q diabolics are real-λ coalescences among these. Also reports the
+    /// closest two real strands ever get (GlobalApproach): ≈ 0 flags a real-real CROSSING (e.g. N=7 at q≈2.628);
+    /// bounded away does NOT mean no diabolic, since an odd-N real-q diabolic can also be a conjugate pair tangent
+    /// to the axis (e.g. N=9 at q≈0.4755, where the pair's Im → 0 only at q*) — that geometry is the scout's to
+    /// count, not this population reading's.</summary>
+    public RealResidualReading ReadRealResidual(int nBlock)
+    {
+        int k = nBlock - 1;
+        int degree = PathKMonodromyScout.ResidualRootsExact(k, new Complex(QLo, 0)).Length;
+        int realGeneric = RealResidualParts(k, GenericQ).Length;
+
+        int steps = (int)Math.Round((QHi - QLo) / QStep);
+        int maxReal = 0;
+        double globalApproach = double.PositiveInfinity;
+        for (int t = 0; t <= steps; t++)
+        {
+            var r = RealResidualParts(k, QLo + t * QStep);
+            maxReal = Math.Max(maxReal, r.Length);
+            for (int i = 0; i + 1 < r.Length; i++)
+                globalApproach = Math.Min(globalApproach, r[i + 1] - r[i]);
+        }
+        return new RealResidualReading(nBlock, degree, realGeneric, maxReal, globalApproach);
     }
 
     /// <summary>Orthonormal R-even / R-odd basis columns of the reflection permutation, as sparse
@@ -181,6 +239,25 @@ public sealed class DiabolicReflectionParityWitness : IInspectable
                     summary: $"at q={q.ToString("0.####", Inv)} the two R-even eigenvalues nearest the scout's λ={lam.ToString("0.###", Inv)} " +
                              $"are {l1.ToString("0.####", Inv)} and {l2.ToString("0.####", Inv)}, gap {gap.ToString("E2", Inv)} " +
                              "(a real-q semisimple coalescence, the C# scout's value recovered from below).",
+                    provenance: NodeProvenance.Live);
+            }
+
+            // The within-odd grounding: the REAL R-even residual population vs N (even N: none; odd N: present, growing).
+            foreach (int n in SweepN)
+            {
+                var rr = ReadRealResidual(n);
+                bool oddN = n % 2 == 1;
+                string verdict = rr.MaxRealCount == 0
+                    ? $"R-even residual (degree F_{rr.ResidualDegree}) carries NO real eigenvalues anywhere in q∈[{QLo.ToString("0.#", Inv)},{QHi.ToString("0.#", Inv)}] " +
+                      "(even N: the realness lives across the sectors) ⟹ no real strands ⟹ cannot host a real-q diabolic in R-even."
+                    : $"R-even residual (degree F_{rr.ResidualDegree}) carries real eigenvalues (up to {rr.MaxRealCount} over the window, " +
+                      $"{rr.RealCountGenericQ} at q={GenericQ.ToString("0.#", Inv)}); the scout's real-q diabolics are real-λ coalescences among these. " +
+                      (rr.GlobalApproach < 1e-3
+                          ? $"Two real strands CROSS in the window (closest approach {rr.GlobalApproach.ToString("E1", Inv)}, a geometry-A real-real crossing)."
+                          : $"The closest two real strands approach to {rr.GlobalApproach.ToString("0.###", Inv)} (no real-real crossing here; an odd-N real-q diabolic can still be a conjugate-pair tangency).");
+                yield return new InspectableNode(
+                    displayName: $"within-odd grounding: N={n} ({(oddN ? "odd" : "even")}) real R-even residual population",
+                    summary: verdict,
                     provenance: NodeProvenance.Live);
             }
         }

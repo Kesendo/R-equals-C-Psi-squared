@@ -70,9 +70,18 @@ public static class OpenArcsRegistry
                 "and a real-axis collision is the generic pseudo-Hermitian DEFECTIVE EP; but the odd-N reflection-fixed central " +
                 "site makes dim(even)-dim(odd)=(N-1)/2 != 0, forbidding the cross-pairing, so each sector is SELF-conjugate and two " +
                 "REAL R-even eigenvalues can cross semisimply = the real-q diabolic. The C# witness for the mechanism is now BUILT " +
-                "(DiabolicReflectionParityWitness, 'inspect --root diabolicparity', TDD-gated), so the single sharpest OPEN edge is now " +
-                "just the within-odd THRESHOLD (why odd N=5 is empty but N=7 is not: the mechanism permits it at every odd N, but two " +
-                "crossing real RESIDUAL strands are first available at N=7; no closed form). The N=7 work " +
+                "(DiabolicReflectionParityWitness, 'inspect --root diabolicparity', TDD-gated). The within-odd THRESHOLD has since been " +
+                "GROUNDED ON THE RESIDUAL (2026-06-30): reading the parity directly on the AT-stripped residual (ResidualRootsExact at " +
+                "real q, the F_d strands the diabolics live in) shows even N carries ZERO real residual eigenvalues anywhere in q in [0.2,3] " +
+                "(no real strands to host a real-q diabolic), while odd N carries a real population that GROWS with N (up to 4/5/8 at " +
+                "N=5/7/9, degrees F_18/F_53/F_116); the onset tracks this residual density (F_18 too sparse, F_53 the first to host a " +
+                "real-q coalescence in the window). The recorded 'two crossing real residual strands' picture was REFINED: the onset " +
+                "coalescences come in TWO geometries - a real-real CROSSING (two real strands meet, first at N=7, q~2.628) and a " +
+                "CONJUGATE-PAIR TANGENCY (a (lambda,conj) pair whose Im->0 only at q*, e.g. N=9 at q~0.4755) - so counting real-real " +
+                "crossings is NOT a proxy for the real-q diabolic count (that stays FindDiabolicsExact's job), and N=9 has real-q diabolics " +
+                "yet NO real-real crossing. Both readings are in the witness (TDD-gated). The exact within-odd threshold N still has no " +
+                "closed form (residual-density driven); the remaining unblocked edges are that (likely-none) closed form and Move 4 (the " +
+                "cross-fold (SE,DE)<->(SE,w_{N-2}) partner block, still unrun). The N=7 work " +
                 "needed a NEW instrument and turned up a NEW phenomenon. (1) THE TRACKER BROKE AT N=7, " +
                 "REFUTING the 2026-06-29 'NEXT MOVE' premise that N=7 was merely SLOW: the residual-only TRACKER floods at " +
                 "the F_53 strand density. The nearest-match AT (the Absorption-Theorem decay-rate strands, Re lambda = " +
