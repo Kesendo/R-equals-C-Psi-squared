@@ -353,6 +353,14 @@ public static class KnowledgeRegistryFactory
             .RegisterF89Path3OcticEpClaim()
             .RegisterF89Path3OcticGaloisClaim()
             .RegisterF89BranchLocusPalindromeClaim()
+            // F89d cross-fold similarity (Move 4 of the diabolic_over_higher_n arc, 2026-06-30): the
+            // (SE,DE)=(w1,w2) <-> (SE,w_{N-2})=(w1,N-2) fold is an EXACT antiunitary similarity at the matrix
+            // level, L(1,N-2)(qbar) = -P conj(L(1,2)(q)) P^T - 2N I (machine zero, N=4..9, all q), upgrading the
+            // branch-locus palindrome's spectrum match to a Jordan-preserving similarity, so every diabolic
+            // pairs across the fold with identical character + gap. Two Tier1Derived parents, both registered
+            // above: F1PalindromeIdentity (the mirror, via RegisterF1Family) + F89BranchLocusPalindromeClaim
+            // (the spectrum-level fold, directly above). Live: inspect --root crossfold.
+            .RegisterF89CrossFoldSimilarityClaim()
             .RegisterF89OcticMonodromyClaim()
             .RegisterF89MonodromyMirrorClaim()
             .RegisterF89PathKHbMixedDegreesClaim()

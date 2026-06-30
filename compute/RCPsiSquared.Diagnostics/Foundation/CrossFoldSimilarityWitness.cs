@@ -32,7 +32,9 @@ public sealed record CrossFoldReading(int N, int PartnerWBra, int Dim, double Si
 /// self-fold, the degenerate partner=self case that put one diabolic on the real axis); for N ≥ 5 the partner is
 /// a different block ((SE,TE) at N=5, (SE,QE) at N=6, …), and the N=4 on-line "zeros" become cross-block mirror
 /// partners. The witness also reproduces the pairing on the N=7 real-q diabolic (λ=−4.942 ↔ partner −9.058, equal
-/// gaps). Anchor: <c>experiments/F89_PATH_K_DIABOLIC.md</c> (the cross-fold section) and
+/// gaps). Registered as F89d in <c>docs/ANALYTICAL_FORMULAS.md</c> and typed as
+/// <c>F89CrossFoldSimilarityClaim</c> (parents F1 + the branch-locus palindrome). Anchor:
+/// <c>experiments/F89_PATH_K_DIABOLIC.md</c> (the cross-fold section) and
 /// <c>experiments/F89_BRANCH_LOCUS_PALINDROME.md</c>; the persistent evidence for the
 /// <c>diabolic_over_higher_n</c> arc's Move 4.</para></summary>
 public sealed class CrossFoldSimilarityWitness : IInspectable

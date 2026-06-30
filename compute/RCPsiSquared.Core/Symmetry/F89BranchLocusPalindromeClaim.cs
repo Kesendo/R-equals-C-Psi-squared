@@ -36,7 +36,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// i.e. N=4) gives the within-block self-fold. The `foldcross` probe confirms the cross-fold spec(SE,DE) ↔
 /// spec(SE,w_{N-2}) holds to ~1e-13 about σ=N for N=4,5,6 (self-fold breaks at N≥5): the global mirror lifts as a
 /// cross-block fold, the N=4 self-fold is the degenerate partner=self case. So the N=4 on-line zeros become
-/// cross-block mirror partners for N≥5. The count 2=N−2 is distinct from the diabolic's overlap-fraction p=½.</para>
+/// cross-block mirror partners for N≥5. The count 2=N−2 is distinct from the diabolic's overlap-fraction p=½.
+/// The matrix-level upgrade of this cross-fold (the EXACT antiunitary BLOCK similarity
+/// L(1,N−2)(q̄) = −P·conj(L(1,2)(q))·Pᵀ − 2N·I to machine zero, N=4..9, all q, which preserves the Jordan
+/// structure so every diabolic pairs across it with identical character and gap) is typed as
+/// <see cref="F89CrossFoldSimilarityClaim"/> (F89d).</para>
 ///
 /// <para>Anchors: <c>experiments/F89_BRANCH_LOCUS_PALINDROME.md</c> +
 /// <c>docs/proofs/MIRROR_SYMMETRY_PROOF.md</c> + <c>reflections/ON_WHO_WATCHES_WHOM.md</c>.</para></summary>
