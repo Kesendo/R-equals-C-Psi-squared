@@ -103,4 +103,38 @@ public static class WeightCoherenceBlock
             }
         return perm;
     }
+
+    /// <summary>The ket-complement permutation Q: the basis index of |a⟩⟨b| in the (wKet, wBra) block ↦ the basis
+    /// index of |ā⟩⟨b| in the (n−wKet, wBra) block (ā = the n-site bitwise complement of a). The KET-leg mirror of
+    /// <see cref="BraComplementPermutation"/>: flipping the ket index is left-multiplication F·ρ (F = X^⊗N), so it
+    /// maps (wKet, wBra) → (n−wKet, wBra) and, like the bra leg, flips the AT rate n_diff(ā,b) = n − n_diff(a,b),
+    /// giving the SAME −2n affine reflection. Conjugating L(wKet,wBra) by Q and reflecting maps it onto
+    /// L(n−wKet, wBra) (the ket-leg cross-fold). A bijection because C(n,wKet) = C(n,n−wKet) and the bra weight is
+    /// unchanged. Returns perm where perm[t] = the (n−wKet, wBra)-basis index that the (wKet, wBra)-basis index t
+    /// maps to.
+    ///
+    /// <para>Convention bridge: the D₄ proof docs (PROOF_PI_FACTORS_AS_R_TIMES_D, F118 / MirrorGroupD4Claim) name
+    /// the spine V₄ = {I, F⊗F, I⊗F, F⊗I} ⊂ D₄ by multiplication side, calling left-mult F·ρ the "bra reflection";
+    /// F89 names by the flipped INDEX, so this ket-complement Q (flips the ket) = left-mult F·ρ = the spine element
+    /// 𝓕R = Π²·R. Its bra-leg partner P (<see cref="BraComplementPermutation"/>, flips the bra) = right-mult ρ·F =
+    /// the spine element R, a factor of the F1 palindrome Π = R·D. Stating both by the flipped index keeps F89d's
+    /// existing name; the spine docs' word for ρ·F is the opposite ("ket reflection").</para></summary>
+    public static int[] KetComplementPermutation(int n, int wKet, int wBra)
+    {
+        var kets = Configs(n, wKet);
+        var bras = Configs(n, wBra);
+        var ketsC = Configs(n, n - wKet);
+        var indexC = new Dictionary<int, int>();
+        for (int j = 0; j < ketsC.Count; j++) indexC[ketsC[j]] = j;
+        int full = (1 << n) - 1;
+        var perm = new int[kets.Count * bras.Count];
+        int t = 0;
+        for (int ki = 0; ki < kets.Count; ki++)
+            for (int bi = 0; bi < bras.Count; bi++)
+            {
+                int kBar = full ^ kets[ki];
+                perm[t++] = indexC[kBar] * bras.Count + bi;      // complemented ket index, same bra block
+            }
+        return perm;
+    }
 }

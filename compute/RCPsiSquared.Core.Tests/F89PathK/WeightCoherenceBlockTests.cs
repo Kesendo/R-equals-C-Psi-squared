@@ -1,6 +1,7 @@
 using System;
 using System.Numerics;
 using RCPsiSquared.Core.F89PathK;
+using RCPsiSquared.Core.SymmetryFamily;
 using Xunit;
 
 namespace RCPsiSquared.Core.Tests.F89PathK;
@@ -123,6 +124,109 @@ public class WeightCoherenceBlockTests
                 Assert.True(res < 1e-9,
                     $"cross-fold broke at N={n}, q={q}, Δ={delta}: residual {res:E2}");
             }
+    }
+
+    // The shared similarity-residual probe: max over (t,u) of
+    // |partner[P t, P u] − (s(source[t,u]) − shift·δ)|, with s = −conj(·) for the antiunitary legs, identity for
+    // the unitary full flip. Zero ⟹ exact similarity.
+    private static double SimilarityResidual(Complex[,] source, Complex[,] partner, int[] perm, bool conjugate, double shift)
+    {
+        int d = perm.Length;
+        double res = 0;
+        for (int t = 0; t < d; t++)
+            for (int u = 0; u < d; u++)
+            {
+                Complex s = conjugate ? -Complex.Conjugate(source[t, u]) : source[t, u];
+                Complex expected = s - (t == u ? new Complex(shift, 0) : Complex.Zero);
+                res = Math.Max(res, (partner[perm[t], perm[u]] - expected).Magnitude);
+            }
+        return res;
+    }
+
+    // Every (wKet, wBra) with both legs present and source dim ≤ cap, at the given N (a representative sweep).
+    private static System.Collections.Generic.IEnumerable<(int wKet, int wBra)> Weights(int n, int dimCap = 600)
+    {
+        for (int wk = 1; wk < n; wk++)
+            for (int wb = 1; wb < n; wb++)
+                if (Binom(n, wk) * Binom(n, wb) <= dimCap)
+                    yield return (wk, wb);
+    }
+
+    private static int Binom(int n, int k)
+    {
+        long r = 1;
+        for (int i = 1; i <= k; i++) r = r * (n - k + i) / i;
+        return (int)r;
+    }
+
+    [Theory]
+    [InlineData(5, 0.0)]
+    [InlineData(6, 0.6)]
+    [InlineData(7, 1.0)]
+    public void BraLeg_IsExactAntiunitarySimilarity_AtAllKetWeights(int n, double delta)
+    {
+        // F89d GENERALIZED past wKet=1: the bra-complement leg P (flips the bra index, right-mult ρ·F = the spine
+        // V₄ element R, a factor of the F1 palindrome Π = R·D) is the EXACT antiunitary similarity
+        // L(wKet,N−wBra)(q̄,Δ) = −P·conj(L(wKet,wBra)(q,Δ))·Pᵀ − 2N·I at EVERY ket weight, not just wKet=1.
+        var q = new Complex(1.3, -0.2);
+        foreach (var (wk, wb) in Weights(n))
+        {
+            var src = WeightCoherenceBlock.Build(n, wk, wb, q, delta);
+            var partner = WeightCoherenceBlock.Build(n, wk, n - wb, Complex.Conjugate(q), delta);
+            var perm = WeightCoherenceBlock.BraComplementPermutation(n, wk, wb);
+            double res = SimilarityResidual(src, partner, perm, conjugate: true, shift: 2.0 * n);
+            Assert.True(res < 1e-9, $"bra-leg broke at N={n}, (wKet,wBra)=({wk},{wb}), Δ={delta}: residual {res:E2}");
+        }
+    }
+
+    [Theory]
+    [InlineData(5, 0.0)]
+    [InlineData(6, 0.6)]
+    [InlineData(7, 1.0)]
+    public void KetLeg_IsExactAntiunitarySimilarity_AtAllBraWeights(int n, double delta)
+    {
+        // The NEW ket-leg (the mirror of F89d on the ket index): Q (flips the ket, left-mult F·ρ = the spine V₄
+        // element 𝓕R = Π²·R) gives L(N−wKet,wBra)(q̄,Δ) = −Q·conj(L(wKet,wBra)(q,Δ))·Qᵀ − 2N·I, the same
+        // antiunitary form and the same −2N reflection (n_diff(ā,b) = N − n_diff(a,b) flips for the ket leg too).
+        var q = new Complex(1.3, -0.2);
+        foreach (var (wk, wb) in Weights(n))
+        {
+            var src = WeightCoherenceBlock.Build(n, wk, wb, q, delta);
+            var partner = WeightCoherenceBlock.Build(n, n - wk, wb, Complex.Conjugate(q), delta);
+            var perm = WeightCoherenceBlock.KetComplementPermutation(n, wk, wb);
+            double res = SimilarityResidual(src, partner, perm, conjugate: true, shift: 2.0 * n);
+            Assert.True(res < 1e-9, $"ket-leg broke at N={n}, (wKet,wBra)=({wk},{wb}), Δ={delta}: residual {res:E2}");
+        }
+    }
+
+    [Theory]
+    [InlineData(5, 0.0)]
+    [InlineData(6, 0.6)]
+    [InlineData(7, 1.0)]
+    public void FullFlip_IsUnitarySpinFlipSimilarity_SameQ(int n, double delta)
+    {
+        // The full complement QP = Q∘P (the global spin-flip X^⊗N = the spine V₄ element 𝓕 = Π²): a UNITARY plain
+        // similarity at the SAME q with NO conjugation and NO shift, because complementing BOTH indices leaves the
+        // XOR (hence n_diff and zz) fixed: L(N−wKet,N−wBra)(q,Δ) = (QP)·L(wKet,wBra)(q,Δ)·(QP)ᵀ. This is the
+        // block-resolved face of the already-typed XGlobalChargeConjugationPairing (Π²); cross-checked below.
+        var q = new Complex(1.3, -0.2);
+        foreach (var (wk, wb) in Weights(n))
+        {
+            // QP via composition: flip ket first (→ (N−wk, wb)), then flip bra (→ (N−wk, N−wb)).
+            var qPerm = WeightCoherenceBlock.KetComplementPermutation(n, wk, wb);
+            var pPerm = WeightCoherenceBlock.BraComplementPermutation(n, n - wk, wb);
+            var full = new int[qPerm.Length];
+            for (int t = 0; t < full.Length; t++) full[t] = pPerm[qPerm[t]];
+
+            // the full-flip partner weights match the typed XGlobalChargeConjugationPairing.PairSector.
+            var (pairKet, pairBra) = XGlobalChargeConjugationPairing.PairSector(n, wk, wb);
+            Assert.Equal((n - wk, n - wb), (pairKet, pairBra));
+
+            var src = WeightCoherenceBlock.Build(n, wk, wb, q, delta);
+            var partner = WeightCoherenceBlock.Build(n, pairKet, pairBra, q, delta);   // SAME q, no conjugation
+            double res = SimilarityResidual(src, partner, full, conjugate: false, shift: 0.0);
+            Assert.True(res < 1e-9, $"full-flip (spin-flip) broke at N={n}, (wKet,wBra)=({wk},{wb}), Δ={delta}: residual {res:E2}");
+        }
     }
 
     [Fact]

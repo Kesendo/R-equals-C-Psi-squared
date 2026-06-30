@@ -41,7 +41,21 @@ public sealed record CrossFoldReading(int N, int PartnerWBra, int Dim, double Si
 /// self-fold, the degenerate partner=self case that put one diabolic on the real axis); for N ≥ 5 the partner is
 /// a different block ((SE,TE) at N=5, (SE,QE) at N=6, …), and the N=4 on-line "zeros" become cross-block mirror
 /// partners. The witness also reproduces the pairing on the N=7 real-q diabolic (λ=−4.942 ↔ partner −9.058, equal
-/// gaps). Registered as F89d in <c>docs/ANALYTICAL_FORMULAS.md</c> and typed as
+/// gaps).</para>
+///
+/// <para>The cross-fold is one leg of a Klein four-group of bit-flip similarities on the coherence-block lattice,
+/// general in BOTH weights (not just wKet=1): the bra-complement P (flip the bra, <see cref="BraLegResidual"/>)
+/// and the ket-complement Q (flip the ket, <see cref="KetLegResidual"/>) are the two exact ANTIUNITARY legs (each
+/// with the −2N reflection), and their product is the UNITARY global spin-flip QP = X^⊗N
+/// (<see cref="FullFlipResidual"/>, same q, no shift). This is not a new group: it is the existing spine
+/// V₄ = {I, F⊗F, I⊗F, F⊗I} ⊂ D₄ (PROOF_PI_FACTORS_AS_R_TIMES_D / F118 MirrorGroupD4Claim), here block-resolved and
+/// q-parameterized. The dock onto the F1 palindrome trunk is exact: the bra leg P = right-mult ρ·F = the spine R
+/// is a FACTOR of Π (Π = R·D, D = transpose), the full flip QP = Π² = the typed
+/// <c>XGlobalChargeConjugationPairing</c>, and the −2N shift is the block image of R·L_diss·R = −L_diss − 2σ.
+/// Naming bridge: F89 names the legs by the flipped index (bra/ket); the D₄ proof docs name them by the
+/// multiplication side, calling ρ·F the "ket reflection" (the opposite word for the same operator).</para>
+///
+/// <para>Registered as F89d in <c>docs/ANALYTICAL_FORMULAS.md</c> and typed as
 /// <c>F89CrossFoldSimilarityClaim</c> (parents F1 + the branch-locus palindrome). Anchor:
 /// <c>experiments/F89_PATH_K_DIABOLIC.md</c> (the cross-fold section) and
 /// <c>experiments/F89_BRANCH_LOCUS_PALINDROME.md</c>; the persistent evidence for the
@@ -93,6 +107,49 @@ public sealed class CrossFoldSimilarityWitness : IInspectable
             {
                 Complex expected = -Complex.Conjugate(l1[t, u]) - (t == u ? new Complex(2.0 * n, 0) : Complex.Zero);
                 res = Math.Max(res, (l2[perm[t], perm[u]] - expected).Magnitude);
+            }
+        return res;
+    }
+
+    /// <summary>The bra-leg residual at GENERAL (wKet, wBra): |L(wKet,N−wBra)(q̄,Δ)[Pt,Pu] − (−conj(L(wKet,wBra)
+    /// (q,Δ)[t,u]) − 2N·δ)|. F89d generalized past wKet=1; P = the bra-complement (right-mult ρ·F = the spine V₄
+    /// element R, a factor of Π = R·D). Machine zero at every ket weight.</summary>
+    public double BraLegResidual(int n, int wKet, int wBra, Complex q, double delta)
+        => LegResidual(WeightCoherenceBlock.Build(n, wKet, wBra, q, delta),
+                       WeightCoherenceBlock.Build(n, wKet, n - wBra, Complex.Conjugate(q), delta),
+                       WeightCoherenceBlock.BraComplementPermutation(n, wKet, wBra), conjugate: true, shift: 2.0 * n);
+
+    /// <summary>The KET-leg residual (the mirror of F89d on the ket index): |L(N−wKet,wBra)(q̄,Δ)[Qt,Qu] −
+    /// (−conj(L(wKet,wBra)(q,Δ)[t,u]) − 2N·δ)|. Q = the ket-complement (left-mult F·ρ = the spine V₄ element
+    /// 𝓕R = Π²·R). Same antiunitary form, same −2N reflection. Machine zero at every bra weight.</summary>
+    public double KetLegResidual(int n, int wKet, int wBra, Complex q, double delta)
+        => LegResidual(WeightCoherenceBlock.Build(n, wKet, wBra, q, delta),
+                       WeightCoherenceBlock.Build(n, n - wKet, wBra, Complex.Conjugate(q), delta),
+                       WeightCoherenceBlock.KetComplementPermutation(n, wKet, wBra), conjugate: true, shift: 2.0 * n);
+
+    /// <summary>The full-flip residual (the global spin-flip QP = X^⊗N = Π²): |L(N−wKet,N−wBra)(q,Δ)[QPt,QPu] −
+    /// L(wKet,wBra)(q,Δ)[t,u]|. A UNITARY plain similarity at the SAME q, no conjugation, no shift (complementing
+    /// both indices leaves n_diff and zz fixed). The block-resolved face of XGlobalChargeConjugationPairing.</summary>
+    public double FullFlipResidual(int n, int wKet, int wBra, Complex q, double delta)
+    {
+        var qPerm = WeightCoherenceBlock.KetComplementPermutation(n, wKet, wBra);
+        var pPerm = WeightCoherenceBlock.BraComplementPermutation(n, n - wKet, wBra);
+        var full = new int[qPerm.Length];
+        for (int t = 0; t < full.Length; t++) full[t] = pPerm[qPerm[t]];        // QP = P∘Q
+        return LegResidual(WeightCoherenceBlock.Build(n, wKet, wBra, q, delta),
+                           WeightCoherenceBlock.Build(n, n - wKet, n - wBra, q, delta), full, conjugate: false, shift: 0.0);
+    }
+
+    private static double LegResidual(Complex[,] source, Complex[,] partner, int[] perm, bool conjugate, double shift)
+    {
+        int d = perm.Length;
+        double res = 0;
+        for (int t = 0; t < d; t++)
+            for (int u = 0; u < d; u++)
+            {
+                Complex s = conjugate ? -Complex.Conjugate(source[t, u]) : source[t, u];
+                Complex expected = s - (t == u ? new Complex(shift, 0) : Complex.Zero);
+                res = Math.Max(res, (partner[perm[t], perm[u]] - expected).Magnitude);
             }
         return res;
     }
@@ -156,7 +213,11 @@ public sealed class CrossFoldSimilarityWitness : IInspectable
                    "degenerate partner=self case. The fold is integrability-INDEPENDENT: it survives at EVERY Δ (the Δ·ZZ term " +
                    "is even under the global bit-flip, zz(b̄)=zz(b)), so it holds for the full interacting XXZ block even though " +
                    "the diabolics themselves die under Δ; the discriminant is bit-flip parity (a longitudinal Z-field, odd, " +
-                   "breaks it). Move 4, answered: the diabolics pair across the cross-fold, for all N, all q, all Δ at once.";
+                   "breaks it). Move 4, answered: the diabolics pair across the cross-fold, for all N, all q, all Δ at once. " +
+                   "The fold holds at EVERY ket weight (not just wKet=1), and has a mirror KET leg (flip the ket index): both " +
+                   "legs are exact antiunitary similarities (−2N), their product the unitary global spin-flip. These are the " +
+                   "existing spine V₄ ⊂ D₄ block-resolved: the bra leg P = ρ·F is a factor of the F1 palindrome Π = R·D, " +
+                   "QP = Π² = XGlobalChargeConjugationPairing. So F89d docks onto F1.";
         }
     }
 
@@ -178,6 +239,31 @@ public sealed class CrossFoldSimilarityWitness : IInspectable
                                  : "⟹ an exact cross-fold similarity at every Δ: the (SE,DE) spectrum folds onto the partner's, the whole Jordan structure preserved."),
                     provenance: NodeProvenance.Live);
             }
+
+            // The Klein four-group of bit-flip similarities (general weight): F89d (the bra leg) is one of two
+            // antiunitary legs; the other is the ket leg; their product is the unitary global spin-flip.
+            var qg = new Complex(1.3, -0.2);
+            double braGen = BraLegResidual(6, 2, 3, qg, 0.6);                  // bra leg at wKet=2 (past wKet=1)
+            double ketGen = KetLegResidual(6, 2, 3, qg, 0.6);                  // the NEW ket leg
+            double fullGen = FullFlipResidual(6, 2, 3, qg, 0.6);              // the unitary spin-flip
+            yield return new InspectableNode(
+                displayName: "the Klein four-group of bit-flip similarities (N=6, (wKet,wBra)=(2,3), q=1.3−0.2i, Δ=0.6)",
+                summary: $"bra-leg P (flips bra, ρ·F): (2,3)→(2,3) residual {braGen.ToString("E2", Inv)}; ket-leg Q (flips ket, F·ρ): " +
+                         $"(2,3)→(4,3) residual {ketGen.ToString("E2", Inv)}; full QP (spin-flip X^⊗N): (2,3)→(4,3) residual {fullGen.ToString("E2", Inv)}. " +
+                         "Both legs are exact antiunitary similarities (−2N reflection); F89d is the wKet=1 corner of the bra leg, " +
+                         "the ket leg is its mirror, and QP=P∘Q is the unitary global spin-flip (same q, no shift, n_diff preserved).",
+                provenance: NodeProvenance.Live);
+
+            // The dock onto the F1 palindrome trunk: the legs are block-restrictions of the spine V₄ ⊂ D₄.
+            yield return new InspectableNode(
+                displayName: "dock: the legs are block-restrictions of the spine V₄ ⊂ D₄, factoring the F1 palindrome Π",
+                summary: "the three operators ARE the existing spine V₄ = {I, F⊗F, I⊗F, F⊗I} (F=X^⊗N), block-resolved and " +
+                         "q-parameterized: the bra leg P = right-mult ρ·F = the spine R, a FACTOR of Π (Π = R·D, D = transpose); " +
+                         "the full flip QP = F⊗F = Π² = the typed XGlobalChargeConjugationPairing; the ket leg Q = left-mult F·ρ = " +
+                         "𝓕R = Π²·R. So F89d is not a one-off: it is the F1 palindrome's bra leg, its −2N shift the block image of " +
+                         "R·L_diss·R = −L_diss − 2σ (PROOF_PI_FACTORS_AS_R_TIMES_D / F118). Naming bridge: F89 names by the flipped " +
+                         "index (bra/ket); the D₄ docs name by the multiplication side, calling ρ·F the 'ket reflection' (opposite word).",
+                provenance: NodeProvenance.Stored);
 
             // The bit-flip-parity discriminant: ZZ anisotropy (even) survives, a longitudinal Z-field (odd) breaks.
             double[] zField = { 0.4, -0.3, 0.6, 0.2, -0.5, 0.1 };              // N=6 random per-site field

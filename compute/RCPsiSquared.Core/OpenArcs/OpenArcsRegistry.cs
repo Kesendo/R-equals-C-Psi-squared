@@ -120,7 +120,24 @@ public static class OpenArcsRegistry
                 "(q,Delta) overload + Zz helper (Core) gated by WeightCoherenceBlockTests; the CrossFoldSimilarityWitness Read(n,q,Delta) " +
                 "overload + Delta children + the bit-flip-parity field control (Diagnostics, 'inspect --root crossfold'); F89d amended in " +
                 "docs/ANALYTICAL_FORMULAS.md + F89CrossFoldSimilarityClaim (the integrability-independent paragraph + child); the " +
-                "experiment doc's 'survives XXZ anisotropy' section. The N=7 work " +
+                "experiment doc's 'survives XXZ anisotropy' section. " +
+                "AND DOCKED ONTO THE F1 TRUNK (2026-06-30, the 'was dockt an' question): the cross-fold is not a one-off. " +
+                "It generalizes to ALL (wKet,wBra) (not just wKet=1, verified machine-zero), and is one of TWO antiunitary legs of " +
+                "a Klein four-group of bit-flip similarities on the coherence-block lattice - the bra leg P (flip bra, right-mult " +
+                "rho*F) and the NEW ket leg Q (flip ket, left-mult F*rho), each with the same -2N reflection, their product the " +
+                "UNITARY global spin-flip QP = X^(x)N (same q, no shift). A PRIOR-ART SURVEY (Explore agent) showed this is NOT a new " +
+                "group: it is the existing windowed-converse spine V4 = {I, F(x)F, I(x)F, F(x)I} subset D4 " +
+                "(PROOF_PI_FACTORS_AS_R_TIMES_D / F118 MirrorGroupD4Claim), here block-resolved + q-parameterized; only the ket-leg " +
+                "block identity was untyped (now added). The dock is EXACT: P = rho*F is the spine R, a FACTOR of the palindrome " +
+                "Pi = R*D; QP = Pi^2 = the typed XGlobalChargeConjugationPairing; Q = Pi^2*R; the -2N shift is the block image of " +
+                "R*L_diss*R = -L_diss - 2sigma. So F89d IS the F1 palindrome's bra leg restricted to one block - the 'one object' the " +
+                "whole project is built on. Naming caveat (recorded so it does not bite): F89 names legs by the flipped INDEX " +
+                "(bra/ket), the D4 proof docs by the multiplication SIDE (calling rho*F the 'ket reflection'); opposite words, same " +
+                "operator. LANDED (TDD green): WeightCoherenceBlock.KetComplementPermutation (Core); the 3-leg general-weight gate in " +
+                "WeightCoherenceBlockTests (bra/ket/full, the full cross-checked vs XGlobalChargeConjugationPairing.PairSector); the " +
+                "CrossFoldSimilarityWitness BraLeg/KetLeg/FullFlipResidual + the Klein + dock inspect children; F89d amended in " +
+                "ANALYTICAL_FORMULAS.md + F89CrossFoldSimilarityClaim (the general-weight + two-leg + Pi-factorization paragraph/child); " +
+                "the experiment doc's 'What it docks onto' section. The N=7 work " +
                 "needed a NEW instrument and turned up a NEW phenomenon. (1) THE TRACKER BROKE AT N=7, " +
                 "REFUTING the 2026-06-29 'NEXT MOVE' premise that N=7 was merely SLOW: the residual-only TRACKER floods at " +
                 "the F_53 strand density. The nearest-match AT (the Absorption-Theorem decay-rate strands, Re lambda = " +

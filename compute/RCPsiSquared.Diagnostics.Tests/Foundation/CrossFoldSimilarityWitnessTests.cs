@@ -96,13 +96,43 @@ public class CrossFoldSimilarityWitnessTests
         Assert.True(res > 1.0, $"a longitudinal Z-field should break the cross-fold, but residual was only {res:E2}");
     }
 
+    [Theory]
+    [InlineData(6, 2, 3, 0.6)]    // bra leg at wKet=2 (F89d generalized past wKet=1)
+    [InlineData(7, 2, 2, 0.0)]
+    [InlineData(7, 3, 2, 1.0)]
+    public void BraLeg_IsExact_AtGeneralKetWeight(int n, int wKet, int wBra, double delta)
+    {
+        double res = new CrossFoldSimilarityWitness().BraLegResidual(n, wKet, wBra, new Complex(1.3, -0.2), delta);
+        Assert.True(res < 1e-9, $"bra-leg broke at N={n}, ({wKet},{wBra}), Δ={delta}: residual {res:E2}");
+    }
+
+    [Theory]
+    [InlineData(6, 2, 3, 0.6)]    // the NEW ket leg (mirror of F89d on the ket index)
+    [InlineData(7, 2, 2, 0.0)]
+    [InlineData(7, 1, 3, 1.0)]
+    public void KetLeg_IsExactAntiunitarySimilarity(int n, int wKet, int wBra, double delta)
+    {
+        double res = new CrossFoldSimilarityWitness().KetLegResidual(n, wKet, wBra, new Complex(1.3, -0.2), delta);
+        Assert.True(res < 1e-9, $"ket-leg broke at N={n}, ({wKet},{wBra}), Δ={delta}: residual {res:E2}");
+    }
+
+    [Theory]
+    [InlineData(6, 2, 3, 0.6)]    // the unitary global spin-flip QP = X^⊗N = Π²
+    [InlineData(7, 2, 2, 0.5)]
+    public void FullFlip_IsUnitarySpinFlipSimilarity(int n, int wKet, int wBra, double delta)
+    {
+        double res = new CrossFoldSimilarityWitness().FullFlipResidual(n, wKet, wBra, new Complex(1.3, -0.2), delta);
+        Assert.True(res < 1e-9, $"full-flip (spin-flip) broke at N={n}, ({wKet},{wBra}), Δ={delta}: residual {res:E2}");
+    }
+
     [Fact]
     public void Summary_StatesMove4Answered()
     {
         var s = new CrossFoldSimilarityWitness().Summary;
         Assert.Contains("similarity", s, System.StringComparison.OrdinalIgnoreCase);
         Assert.Contains("pair", s, System.StringComparison.OrdinalIgnoreCase);
-        Assert.Contains("Δ", s);                                              // the Δ-robustness is now stated
+        Assert.Contains("Δ", s);                                              // the Δ-robustness is stated
+        Assert.Contains("leg", s, System.StringComparison.OrdinalIgnoreCase); // the two-leg Klein structure is stated
         Assert.False(string.IsNullOrWhiteSpace(s));
     }
 }

@@ -24,6 +24,21 @@ namespace RCPsiSquared.Core.Symmetry;
 /// longitudinal Z-field Σ_k w_k Z_k has fe(b̄) = −fe(b), residual O(1)). So the cross-fold is a structural/
 /// algebraic property of the Liouvillian, NOT a free-fermion artifact.</para>
 ///
+/// <para>GENERAL WEIGHT and the KET-leg mirror (2026-06-30): the similarity holds at EVERY ket weight, not just
+/// wKet=1 (F89d as first stated). It is one of TWO antiunitary legs of a Klein four-group of bit-flip similarities
+/// on the (wKet, wBra) coherence-block lattice: the bra-complement P (flip the bra, right-mult ρ·F) maps
+/// (wKet, wBra) → (wKet, N−wBra), and the mirror ket-complement Q (flip the ket, left-mult F·ρ) maps
+/// (wKet, wBra) → (N−wKet, wBra) with the SAME antiunitary form and the same −2N reflection. Their product is the
+/// UNITARY global spin-flip QP = X^⊗N (same q, no conjugation, no shift; n_diff and zz are preserved when both
+/// indices are complemented). This is NOT a new group: it is the existing spine V₄ = {I, F⊗F, I⊗F, F⊗I} ⊂ D₄
+/// (<c>PROOF_PI_FACTORS_AS_R_TIMES_D</c> / F118 <c>MirrorGroupD4Claim</c>), here block-resolved and
+/// q-parameterized. The dock onto the F1 trunk is exact: the bra leg P = ρ·F is the spine R, a FACTOR of the
+/// palindrome Π = R·D (D = transpose); the full flip QP = Π² = the typed <c>XGlobalChargeConjugationPairing</c>;
+/// the ket leg Q = F·ρ = Π²·R; and the −2N shift is the block image of R·L_diss·R = −L_diss − 2σ. So F89d is the
+/// F1 palindrome's bra leg restricted to a single (wKet, wBra) block. (Naming bridge: F89 names the legs by the
+/// flipped INDEX, bra/ket; the D₄ proof docs name by the multiplication SIDE, calling ρ·F the "ket reflection",
+/// the opposite word for the same operator.)</para>
+///
 /// <para>This is the matrix-level UPGRADE of <see cref="F89BranchLocusPalindromeClaim"/>'s spectrum-level cross-
 /// fold (which states only spec(SE,DE) ↔ spec(SE,w_{N−2}) about σ = N). An antiunitary similarity preserves the
 /// whole Jordan structure: complex conjugation, the permutation similarity P·Pᵀ, and the affine −(·) − 2N each
@@ -74,7 +89,9 @@ public sealed class F89CrossFoldSimilarityClaim : Claim
         "L(1,N-2)(qbar,Delta) = -P conj(L(1,2)(q,Delta)) P^T - 2N I exactly (N=4..9, all q, all Delta): a Jordan-" +
         "preserving antiunitary similarity, so every (SE,DE) diabolic at (q,lambda) pairs with a (SE,w_{N-2}) " +
         "diabolic at (qbar, -lambdabar-2N), character and gap preserved; integrability-independent (holds for the " +
-        $"full interacting XXZ block, the discriminant is bit-flip parity) ({Tier.Label()})";
+        "full interacting XXZ block, the discriminant is bit-flip parity); general in BOTH weights, one of two " +
+        "antiunitary legs (bra P, ket Q) of the spine V4 ⊂ D4 block-resolved, P a factor of the F1 palindrome Pi = " +
+        $"R·D (so F89d docks onto F1) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -88,6 +105,12 @@ public sealed class F89CrossFoldSimilarityClaim : Claim
                          "carrier is an EXACT antiunitary similarity L(1,N-2)(qbar) = -P conj(L(1,2)(q)) P^T - 2N I (P the bra-" +
                          "complement permutation), which preserves the whole Jordan structure, so the diabolics pair with identical " +
                          "character and gap. N=7: (q=1.1264, λ=-4.942) <-> (1,5) at -9.058, gap 4.19e-5 both. Live: inspect --root crossfold.");
+            yield return new InspectableNode("the two legs + the dock onto Π (the spine V₄ ⊂ D₄, block-resolved)",
+                summary: "the fold holds at EVERY ket weight, and has a mirror KET leg (flip the ket index, Q = F·ρ): both legs are " +
+                         "exact antiunitary similarities (−2N), their product the UNITARY global spin-flip QP = X^⊗N (same q, no shift). " +
+                         "These ARE the existing spine V₄ = {I, F⊗F, I⊗F, F⊗I} ⊂ D₄, block-resolved: the bra leg P = ρ·F is a FACTOR of " +
+                         "Π = R·D, QP = Π² = XGlobalChargeConjugationPairing, Q = Π²·R. So F89d docks onto F1 (it is Π's bra leg per " +
+                         "block); the −2N shift is the block image of R·L_diss·R = −L_diss − 2σ. Live: the Klein + dock nodes of inspect --root crossfold.");
             yield return new InspectableNode("integrability-independent: survives XXZ anisotropy (the (q,Δ) extension)",
                 summary: "the identity holds for the FULL interacting XXZ block L(q,Δ) at every Δ (machine zero, N=4..9, all q): " +
                          "the Δ·ZZ term is EVEN under the global bit-flip (zz(b̄)=zz(b)), so the bra-complement carries it cleanly. " +
