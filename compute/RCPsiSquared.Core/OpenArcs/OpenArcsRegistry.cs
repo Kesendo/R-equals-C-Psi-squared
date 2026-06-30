@@ -70,19 +70,28 @@ public static class OpenArcsRegistry
                 "PathKMonodromyScout.ResidualRootsExact/AtRootsExact/FindDiabolicsExact (Diagnostics) + CLI " +
                 "'pkmono --diabolic --exact'. RE-GATED: reproduces N=5->11 and N=6->16 EXACTLY (the tracked counts), residual " +
                 "roots DISTINCT where the tracker flooded (Core F89AtInvariantSubspaceTests + Diagnostics PathKDiabolicTests, " +
-                "all green). (3) MOVE 1/3 (count + complex-q): N=7 gives 37 in-region diabolics, growth 11->16->37 (F_d " +
-                "18->32->53), all finite-gap / exp~1 / identity-loop. (4) THE NEW PHENOMENON (VERIFIED): diabolics appear at " +
-                "PHYSICAL REAL q at N=7 (q=0.6788, 1.1264, 1.3038, 2.6280, with real lambda) - the FIRST since N=4. Tight-zoom " +
-                "(cell 0.002) confirmed: each a single on-axis point, gap~1e-9, does NOT split into a conjugate pair (unlike " +
-                "the path-4 ghost at 0.6118+-0.012i, which the same fine scan resolves as off-axis); and it is a genuine " +
+                "all green). (3) MOVES 1 and 3 (the in-region count and its N-growth): N=7 gives 37 in-region diabolics, growth " +
+                "11->16->37 (F_d 18->32->53), all finite-gap / exp~1 / identity-loop (most at complex q; the real-q ones are " +
+                "point (4)). (4) THE NEW PHENOMENON (VERIFIED): diabolics appear at " +
+                "PHYSICAL REAL q at N=7 (q=1.1264, 1.3038, 2.6280 in the cell-0.05 box + q=0.6788 in a finer cell-0.01 strip, " +
+                "real lambda) - the FIRST since N=4. Tight-zoom (cell 0.002) on TWO of them (q=1.1264, 2.6280) confirmed each a " +
+                "single on-axis point, gap~1e-9, that does NOT split into a conjugate pair (unlike the path-4 ghost at " +
+                "0.6118+-0.012i); the other two read on-axis only at the cell-0.01 strip, not separately zoomed. It is a genuine " +
                 "N=7-ONSET, not a tracked-method miss - the exact instrument finds NONE on the N=5/N=6 real-axis strips (N=5 " +
                 "keeps only its known defective EP at q~1.0776). So 'self-fold is N=4-only => complex-q-only for N>=5' is TOO " +
                 "STRONG; a different mechanism returns diabolics to the real axis by N=7. Full write-up: experiments/" +
-                "F89_PATH_K_DIABOLIC.md (the path-6 section). NEXT MOVES: (a) MOVE 2 Delta-test of the N=7 diabolics (esp. the " +
-                "real-q ones - are they integrability-protected like the complex-q ones?), BLOCKED on porting the " +
-                "exact-residual treatment to XxzCoherenceBlock (its tracked residual Delta-test breaks at k=6 the same way the " +
-                "scout did). (b) the real-q ONSET MECHANISM (even/odd? a residual symmetry distinct from the N=4 self-fold?) - " +
-                "open, the new research edge. (c) Move 4 (cross-fold) still unblocked-not-run. " +
+                "F89_PATH_K_DIABOLIC.md (the path-6 section). NEXT MOVES (the move-set: Move 1 = count, Move 2 = Delta-test/" +
+                "integrability, Move 3 = count-vs-N growth, Move 4 = cross-fold (SE,DE)<->(SE,w_N-2); detailed in the journal " +
+                "below). RECOMMENDED FIRST = unblock Move 2 by PORTING the exact-residual treatment to the XXZ block: add a " +
+                "ResidualRootsExactXxz mirroring XxzCoherenceBlock.ResidualRootsTrackedXxz but compressing M(q,Delta) onto the " +
+                "SAME AT complement via F89AtFactorReconstruction.AtInvariantSubspaceBasis (the AT subspace is Delta-STABLE - the " +
+                "ZZ term is Hermitian, so the AT rate is Delta-independent), then wire 'pkmono --delta-flip --exact' and re-pass " +
+                "the N=6 Delta-flip gate before trusting N=7. THEN Move 2 proper: Delta-test the N=7 diabolics, ESPECIALLY the " +
+                "real-q ones (q=1.1264, lam=-4.942 etc.) - do they flip DEFECTIVE under Delta like the complex-q ones " +
+                "(integrability-protected), or do the real-q ones behave differently? (b) the real-q ONSET MECHANISM (even/odd? " +
+                "a residual symmetry distinct from the N=4 self-fold?) - the new research edge, no command yet. (c) Move 4 " +
+                "cross-fold: still unblocked-not-run; start from FoldCrossCommand.BuildBlock (the (SE,w_N-2) partner block) made " +
+                "(q,Delta)-linear, per the journal. " +
                 "--- THE JOURNAL (how we got here) --- " +
                 "Concrete moves, cheapest first (binary: dotnet run --project compute/RCPsiSquared.Cli -- " +
                 "<cmd>). (1) LOCATE: run 'pkmono --diabolic --k 5' (N=6) and --k 6 " +
