@@ -209,8 +209,10 @@ public sealed class ReadingPowerWitness : IInspectable
     /// parity. The decoder projects onto the α-dictionary {F_b}; its worst ANTI-collinear pair (min signed
     /// cos) is what trips the sign+location read. Measured live at this N (γ=0.05, Q=20), with the pinned
     /// cross-N pattern: STRONG at odd N (N=3 −0.976, N=5 −0.965), WEAK at even N (N=4 −0.541, N=6 −0.378).
-    /// This is a Q=20 PAINTING effect: the bare single-excitation dictionary is flat (≈ −0.6, no parity,
-    /// N=3..9 verified); propagation concentrates weight on the R-odd seesaw at odd N. The realizing pair is
+    /// This is a Q=20 PAINTING effect: the bare single-excitation dictionary is flat for N≥4 (≈ −0.6, no
+    /// parity; N=3 is −1.0, the single-pair degenerate case; verified N=3..9); propagation AMPLIFIES the
+    /// anti-collinearity (the parent attributes the amplification, not the parity, to the R-odd seesaw), but WHY it is parity-selective
+    /// (odd N) is OPEN. The realizing pair is
     /// the distance-2 bond pair (i, i+2), e.g. (1,3) at N=5, NOT the mirror pair the structural cousin
     /// <see cref="RCPsiSquared.Diagnostics.Ptf.DefectReadingEquivarianceClaim"/> computes. Verifier:
     /// DictionaryParityInvestigationTests.</summary>
@@ -224,8 +226,8 @@ public sealed class ReadingPowerWitness : IInspectable
                 $"live at N={N}, Q=20: worst α-letter anti-collinearity = {dec.DictionaryWorstAntiCos.ToString("F4", Inv)} " +
                 $"on the distance-2 bond pair ({i},{j}) (the sign-location confuser; min SIGNED cos, not |cos|). " +
                 $"Cross-N parity (pinned): N=3 −0.976, N=4 −0.541, N=5 −0.965, N=6 −0.378; STRONG at odd N, WEAK at even N. " +
-                $"A Q=20 PAINTING effect: the bare single-excitation dictionary is flat (≈ −0.6, no parity, N=3..9 verified); " +
-                $"propagation amplifies the R-odd seesaw at odd N. Structural cousin (mirror-pair R-equivariance, NOT this " +
+                $"A Q=20 PAINTING effect: the bare single-excitation dictionary is flat for N≥4 (≈ −0.6; N=3 is −1.0, single pair; verified N=3..9); " +
+                $"propagation amplifies the anti-collinearity (parent: R-odd seesaw), but why it is parity-selective (odd N) is OPEN. Structural cousin (mirror-pair R-equivariance, NOT this " +
                 $"distance-2 confuser): DefectReadingEquivarianceClaim. Verifier: DictionaryParityInvestigationTests.",
             payload: new InspectablePayload.Real("worst α anti-collinear cos (signed)", dec.DictionaryWorstAntiCos));
     }

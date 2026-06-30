@@ -69,7 +69,8 @@ public static class KnowledgeRegistryFactory
             // The empirical Q-instance refinement (play session 2026-06-30): the decoder's PAINTED α-dictionary
             // worst anti-collinearity follows odd-N parity (−0.976/−0.541/−0.965/−0.378 at N=3..6, Q=20), the
             // confuser is the distance-2 bond pair (not the mirror pair), and it is a painting effect (the bare
-            // dictionary is flat, N=3..9). Tier2Empirical. Parent: DefectReadingEquivarianceClaim (directly above).
+            // dictionary is flat for N≥4, N=3 = −1.0 single pair; the parity mechanism is OPEN). Tier2Empirical.
+            // Parent: DefectReadingEquivarianceClaim (directly above).
             .RegisterDecoderAntiCollinearityParityClaim()
             // F124, the band-edge transition invariant (the reading-grammar arc's frame-theoretic capstone,
             // 2026-06-20): for the open chain's band-edge carrier the full bond-transition matrix
