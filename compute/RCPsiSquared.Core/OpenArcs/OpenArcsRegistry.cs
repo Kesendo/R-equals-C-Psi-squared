@@ -57,10 +57,13 @@ public static class OpenArcsRegistry
             NextStep: "CURRENT STATE (2026-06-30, read this first; the dated layers below are the journal): N=7 (path-6) " +
                 "is DONE, AND its Δ-test (Move 2) is now DONE too - so the diabolic-CHARACTER question is CLOSED at N=7 " +
                 "(all four real-q diabolics are integrability-protected, a PLACEMENT mechanism not a new species; details " +
-                "in the 'MOVE 2 IS NOW DONE' block below), and the single sharpest OPEN edge is now the real-q ONSET " +
-                "MECHANISM - why N=7 returns diabolics to the real axis at all (point (a) under REMAINING EDGES below; " +
-                "even/odd? a residual " +
-                "symmetry distinct from the N=4 self-fold? no tool yet, this is the new research edge). The N=7 work " +
+                "in the 'MOVE 2 IS NOW DONE' block below). The real-q ONSET has since been pinned to a LAW by the " +
+                "N=8/N=9 discriminator (2026-06-30, the 'ONSET RESOLVED' block below): it is PARITY-GATED, odd N >= 7 " +
+                "(N=8 even has NO on-axis real-lambda diabolic; N=9 odd has >=3, each a clean isolated on-axis point) - " +
+                "refuting both the threshold (N>=7) and the one-off readings. So the single sharpest OPEN edge is now the " +
+                "CAUSE of that parity: a candidate REFLECTION-FIXED-SITE (the site reflection i->N-1-i, the very S2 the block " +
+                "is built on, has a fixed central site only at odd N; at even N the centre is a bond) - to be grounded " +
+                "from below, plus the within-odd threshold (why odd N=5 is still empty but N=7 is not). The N=7 work " +
                 "needed a NEW instrument and turned up a NEW phenomenon. (1) THE TRACKER BROKE AT N=7, " +
                 "REFUTING the 2026-06-29 'NEXT MOVE' premise that N=7 was merely SLOW: the residual-only TRACKER floods at " +
                 "the F_53 strand density. The nearest-match AT (the Absorption-Theorem decay-rate strands, Re lambda = " +
@@ -99,14 +102,30 @@ public static class OpenArcsRegistry
                 "DIABOLIC at Delta=0 and DIE under Delta (three flip DEFECTIVE geo 2->1, q=2.6280 LIFTS), the SAME " +
                 "integrability-protected death as the complex-q ones. So the real-q diabolics are NOT a new species; the N=7 " +
                 "onset is a PLACEMENT mechanism, not a new protection. Full write-up: experiments/F89_PATH_K_DIABOLIC.md (the " +
-                "Delta-test section). REMAINING EDGES (the character question, formerly (a), is now CLOSED): (a) the real-q " +
-                "ONSET MECHANISM (even/odd? a residual symmetry distinct " +
-                "from the N=4 self-fold? - now the sharpest open question). FIRST PROBE (the entry point, since there is no " +
-                "command yet): extend the exact real-axis strip past N=7 - needs F89PathKFdOracle + " +
-                "F89AtFactorReconstruction.ForPathK extended past k=6 - and read the real-q diabolic COUNT vs N: does it " +
-                "follow even/odd, a threshold (N>=7), or is N=7 a one-off? That count-vs-parity is the first discriminator " +
-                "among the candidate mechanisms; in parallel, inspect what reflection/residual symmetry the N=7 (SE,DE) block " +
-                "carries that N=5/6 lack. (b) Move 4 cross-fold: still " +
+                "Delta-test section). ONSET RESOLVED (2026-06-30): the placement question - threshold, parity, or one-off? - is " +
+                "now answered by running the (rebuild-free) exact instrument at N=8 and N=9. KEY GROUNDING that made it a run not " +
+                "a build (it CORRECTS this arc's own earlier 'needs F89PathKFdOracle + ForPathK extended past k=6'): the locator " +
+                "pipeline is ALREADY k-general - F89PathKSeDeBlock.BuildTwoTimesSymBlock/BuildZzFrequencyDiag, " +
+                "F89AtFactorReconstruction.AtInvariantSubspaceBasis/ForPathK (rate-confined invariant-subspace construction, no " +
+                "literal), PathKMonodromyScout.BuildLinear/ExactSetup/FindDiabolicsExact, and CLI 'pkmono --diabolic --exact --k N' " +
+                "all build at nBlock=k+1 with NO k<=6 guard; only F89PathKFdOracle (the TEST cross-check literals) stops at k=6, and " +
+                "the scan never reads it. RESULT (matched real-axis strip re[0.2,3], thin im band, cell 0.05 then 0.01, then the " +
+                "tight-zoom cell-0.002 split-test, exactly the N=7 protocol; the N=7 q=1.1264 zoom reproduced in-build as the " +
+                "calibration control): N=8 (even) has NONE - the closest real-lambda candidate q=0.6904 refines OFF-axis (im=-0.004) " +
+                "in a dense cluster, exp 0.48, no isolated on-axis real-lambda survivor; N=9 (odd) has >=3 - q=0.4755 (lam=-5.424, " +
+                "exp 1.06, gap 6.3e-9), q=1.1144 (lam=-4.611), q=1.4994 (lam=-4.381), each a single on-axis im(q)=im(lam)=0 point " +
+                "that does NOT split, off-axis conjugate-pair ghosts beside it. SHARP DISCRIMINATOR: both N=8 and N=9 carry on-axis " +
+                "points with COMPLEX lambda (analytic-continuation crossings); only N=9 carries on-axis REAL-lambda ones. VERDICT: " +
+                "real-q diabolics are PARITY-GATED, odd N>=7 (count vs N: N=5:0, N=6:0, N=7:4, N=8:0, N=9:>=3; N=4's single one is the " +
+                "separate self-fold). Completeness not claimed; the verdict rests on the qualitative odd/even contrast, robust to the " +
+                "box. Written up in the experiment doc's 'odd-N effect' section. REMAINING EDGES (both the character AND the " +
+                "placement/parity questions are now CLOSED): (a) the CAUSE of the parity - the REFLECTION-FIXED-SITE conjecture " +
+                "(the S2 reflection i->N-1-i the block is built on has a fixed central site only at odd N; even N centre is a bond). " +
+                "ENTRY POINT (the next move, Probe B): inspect the reflection eigenspace structure of the (SE,DE) block - decompose " +
+                "the symmetric block into the +/- reflection-parity sectors and find WHICH sector carries the on-axis real-q diabolic " +
+                "at odd N=7/9, what the odd-N fixed central site adds that even N=6/8 lack, and why the protection switches on only " +
+                "at N=7 not the odd N=5 (the within-odd threshold - a 'enough DE states' counting effect?). This is structural, runs " +
+                "on the existing F89PathKSeDeBlock orbit construction, needs no new scan. (b) Move 4 cross-fold: still " +
                 "unblocked-not-run; start from FoldCrossCommand.BuildBlock (the (SE,w_N-2) partner block) made " +
                 "(q,Delta)-linear, per the journal. " +
                 "--- THE JOURNAL (how we got here) --- " +
