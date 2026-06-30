@@ -66,10 +66,10 @@ public static class OpenArcsRegistry
                 "maps even<->odd at EVEN N (equal dims, sigma_even = conj(sigma_odd) EXACTLY) so neither sector is self-conjugate " +
                 "and a real-axis collision is the generic pseudo-Hermitian DEFECTIVE EP; but the odd-N reflection-fixed central " +
                 "site makes dim(even)-dim(odd)=(N-1)/2 != 0, forbidding the cross-pairing, so each sector is SELF-conjugate and two " +
-                "REAL R-even eigenvalues can cross semisimply = the real-q diabolic. So the single sharpest OPEN edge is now (i) the " +
-                "within-odd THRESHOLD (why odd N=5 is empty but N=7 is not: the mechanism permits it at every odd N, but two crossing " +
-                "real RESIDUAL strands are first available at N=7; no closed form) and (ii) BUILDING THE C# WITNESS for the grounded " +
-                "mechanism (the persistent evidence; the from-below verifier is currently a gitignored python scout). The N=7 work " +
+                "REAL R-even eigenvalues can cross semisimply = the real-q diabolic. The C# witness for the mechanism is now BUILT " +
+                "(DiabolicReflectionParityWitness, 'inspect --root diabolicparity', TDD-gated), so the single sharpest OPEN edge is now " +
+                "just the within-odd THRESHOLD (why odd N=5 is empty but N=7 is not: the mechanism permits it at every odd N, but two " +
+                "crossing real RESIDUAL strands are first available at N=7; no closed form). The N=7 work " +
                 "needed a NEW instrument and turned up a NEW phenomenon. (1) THE TRACKER BROKE AT N=7, " +
                 "REFUTING the 2026-06-29 'NEXT MOVE' premise that N=7 was merely SLOW: the residual-only TRACKER floods at " +
                 "the F_53 strand density. The nearest-match AT (the Absorption-Theorem decay-rate strands, Re lambda = " +
@@ -136,9 +136,11 @@ public static class OpenArcsRegistry
                 "reflection-fixed JW band-centre zero mode k=(N+1)/2 (an integer mode only at odd N), distinct from the N=4 self-fold " +
                 "(antiunitary T=P*K, N=4-only, fixes Re lambda=-4; the odd-N diabolics are real but NOT at -4/-N). REMAINING EDGES: " +
                 "(a) the within-odd THRESHOLD (why odd N=5 is empty though R-even is self-conjugate there too: two crossing real " +
-                "RESIDUAL strands are first available at N=7; nature clear, no closed form). (b) BUILD THE C# WITNESS (the persistent " +
-                "evidence per cockpit rule 5: an IInspectable recomputing the self/cross-conjugacy structure on the built block at " +
-                "inspect time, replacing the gitignored scout - the NEXT build step). (c) Move 4 cross-fold: still " +
+                "RESIDUAL strands are first available at N=7; nature clear, no closed form). (b) DONE - the C# WITNESS is built: " +
+                "DiabolicReflectionParityWitness ('inspect --root diabolicparity', the persistent evidence per cockpit rule 5) recomputes " +
+                "the self/cross-conjugacy structure across N=5..9 and reproduces the N=7/N=9 diabolics in R-even at inspect time, on " +
+                "F89PathKSeDeBlock.BuildFullBlock/ReflectionPermutation (Core); TDD-gated (F89PathKFullBlockReflectionTests + " +
+                "DiabolicReflectionParityWitnessTests + the catalog guard), the gitignored python scout retired. (c) Move 4 cross-fold: still " +
                 "unblocked-not-run; start from FoldCrossCommand.BuildBlock (the (SE,w_N-2) partner block) made " +
                 "(q,Delta)-linear, per the journal. " +
                 "--- THE JOURNAL (how we got here) --- " +

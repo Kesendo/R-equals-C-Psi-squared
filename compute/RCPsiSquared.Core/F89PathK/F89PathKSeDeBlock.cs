@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using RCPsiSquared.Core.Numerics;
@@ -149,5 +150,95 @@ public static class F89PathKSeDeBlock
             zz.Add(Zz(nBlock, 1 << i) - Zz(nBlock, (1 << j) | (1 << k)));
         }
         return zz.ToArray();
+    }
+
+    /// <summary>The FULL (SE,DE) block M(q) (R-even AND R-odd, not the symmetrized sector), dim =
+    /// nBlock·C(nBlock,2), in the (SE site i, DE pair (j,k)) basis (i outer, pair inner; same ordering as
+    /// the raw L of <see cref="BuildTwoTimesSymBlock"/>): diagonal −2 (overlap, i ∈ {j,k}) / −6 (no overlap),
+    /// SE/ket hop −i·2q, DE/bra hop +i·2q. The eigenvalues of this block's R-even orthonormal projection are
+    /// the scout's λ (<see cref="BuildTwoTimesSymBlock"/> is the ×2-cleared R-even sector of this). The
+    /// substrate for the reflection-parity / odd-N real-q diabolic mechanism: pair it with
+    /// <see cref="ReflectionPermutation"/> to split the block into R-even and R-odd sectors.</summary>
+    public static Complex[,] BuildFullBlock(int nBlock, Complex q)
+    {
+        var dePairs = new List<(int J, int K)>();
+        for (int a = 0; a < nBlock; a++)
+            for (int b = a + 1; b < nBlock; b++)
+                dePairs.Add((a, b));
+        var pairIndex = new Dictionary<(int, int), int>();
+        for (int pj = 0; pj < dePairs.Count; pj++) pairIndex[dePairs[pj]] = pj;
+
+        var basis = new List<(int I, int Pair)>();
+        for (int i = 0; i < nBlock; i++)
+            for (int pj = 0; pj < dePairs.Count; pj++)
+                basis.Add((i, pj));
+        int nb = basis.Count;
+        var idxOf = new Dictionary<(int, int), int>();
+        for (int t = 0; t < nb; t++) idxOf[basis[t]] = t;
+
+        Complex hop = Complex.ImaginaryOne * 2.0 * q;       // +i·2q  (DE/bra hop)
+        Complex neg = -hop;                                  // −i·2q  (SE/ket hop)
+
+        var L = new Complex[nb, nb];
+        for (int col = 0; col < nb; col++)
+        {
+            var (i, pj) = basis[col];
+            var (j, k) = dePairs[pj];
+
+            foreach (int i2 in new[] { i - 1, i + 1 })          // SE hop (ket)
+                if (i2 >= 0 && i2 < nBlock)
+                    L[idxOf[(i2, pj)], col] += neg;
+
+            foreach (int nj in new[] { j - 1, j + 1 })          // DE hop on j (bra)
+                if (nj >= 0 && nj < nBlock && nj != k)
+                {
+                    var np = nj < k ? (nj, k) : (k, nj);
+                    L[idxOf[(i, pairIndex[np])], col] += hop;
+                }
+            foreach (int nk in new[] { k - 1, k + 1 })          // DE hop on k (bra)
+                if (nk >= 0 && nk < nBlock && nk != j)
+                {
+                    var np = j < nk ? (j, nk) : (nk, j);
+                    L[idxOf[(i, pairIndex[np])], col] += hop;
+                }
+
+            L[col, col] += (i == j || i == k)                   // γ = 1 diagonal: −2 (overlap) / −6
+                ? new Complex(-2, 0)
+                : new Complex(-6, 0);
+        }
+        return L;
+    }
+
+    /// <summary>The site-reflection R: (SE i, DE pair (j,k)) ↦ (nBlock−1−i, sorted(nBlock−1−k, nBlock−1−j)),
+    /// as a permutation of the full-block basis index (same ordering as <see cref="BuildFullBlock"/>). An
+    /// involution that commutes with the block; its fixed points (perm[t] == t) are the reflection-fixed
+    /// singletons, present only at odd nBlock (center SE site × self-mirror DE pair), count (nBlock−1)/2.</summary>
+    public static int[] ReflectionPermutation(int nBlock)
+    {
+        var dePairs = new List<(int J, int K)>();
+        for (int a = 0; a < nBlock; a++)
+            for (int b = a + 1; b < nBlock; b++)
+                dePairs.Add((a, b));
+        var pairIndex = new Dictionary<(int, int), int>();
+        for (int pj = 0; pj < dePairs.Count; pj++) pairIndex[dePairs[pj]] = pj;
+
+        var basis = new List<(int I, int Pair)>();
+        for (int i = 0; i < nBlock; i++)
+            for (int pj = 0; pj < dePairs.Count; pj++)
+                basis.Add((i, pj));
+        int nb = basis.Count;
+        var idxOf = new Dictionary<(int, int), int>();
+        for (int t = 0; t < nb; t++) idxOf[basis[t]] = t;
+
+        var perm = new int[nb];
+        for (int t = 0; t < nb; t++)
+        {
+            var (i, pj) = basis[t];
+            var (j, k) = dePairs[pj];
+            int mi = nBlock - 1 - i, mj = nBlock - 1 - j, mk = nBlock - 1 - k;
+            var mp = mj < mk ? (mj, mk) : (mk, mj);
+            perm[t] = idxOf[(mi, pairIndex[mp])];
+        }
+        return perm;
     }
 }

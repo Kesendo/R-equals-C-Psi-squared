@@ -231,6 +231,26 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void Catalog_HasDiabolicParityRoot_NFree()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "diabolicparity");
+        Assert.False(entry.RequiresN);
+        Assert.Contains("dimension-mismatch", entry.Description);
+        Assert.Contains("sector-swap", entry.Description);
+    }
+
+    [Fact]
+    public void Catalog_DiabolicParityFactory_BuildsTheLiveWitness_StatesParityVerdict()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "diabolicparity");
+        var ctx = new InspectRootContext(new ArgParser(Array.Empty<string>()), N: 1,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var root = entry.Factory(ctx);
+        Assert.IsType<DiabolicReflectionParityWitness>(root);
+        Assert.Contains("odd", root.Summary, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
     public void Catalog_HasDecoderRoot_NFree()
     {
         var entry = InspectCommand.Catalog.Single(e => e.Name == "decoder");
