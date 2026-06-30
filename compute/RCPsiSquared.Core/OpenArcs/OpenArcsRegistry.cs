@@ -57,10 +57,20 @@ public static class OpenArcsRegistry
                 "(Jordan-Wigner) holds at every N, so the diabolics persist and stay Δ-killable; only the AT-" +
                 "bookkeeping is harder. The deferred Q4 cross-fold edge (do the complex-q diabolics pair across " +
                 "the cross-block fold (SE,DE)↔(SE,w_{N-2})?) also generalizes over N and is untried.",
-            NextStep: "CURRENT STATE (2026-06-30, read this first; the dated layers below are the journal). ARC TERMS (all glossed " +
+            NextStep: "CURRENT STATE (2026-06-30, read this first; the dated layers below are the journal). " +
+                "RESUMING IN ONE LINE: this arc is DONE except one minor edge - all four Moves AND the Move-4 follow-on (the " +
+                "cross-fold is integrability-independent and docks onto F1 as Pi's bra leg) are closed; the one OPEN edge is the " +
+                "within-odd EXACT threshold's CLOSED FORM (the threshold is empirically N=7, grounded on residual density; a closed " +
+                "form is residual-density driven and likely does NOT exist), so the arc is effectively complete; the residual " +
+                "grounding is already DONE (in DiabolicReflectionParityWitness), and the one bounded probe IF you still want to push " +
+                "it is under 'REMAINING EDGES (a)' below. ARC TERMS (all glossed " +
                 "in experiments/F89_PATH_K_DIABOLIC.md, its 'What this is about' + 'Terms used here' sections): path-k = the " +
                 "(k+1)-site chain, so path-6 = N=7; (SE,DE) = the single-excitation/double-excitation coherence block; AT = the " +
-                "Absorption-Theorem decay rate 2*gamma*n_diff (n_diff = bra/ket disagreement count); F_d = the degree-d H_B-mixed " +
+                "Absorption-Theorem decay rate, a POSITIVE rate 2*gamma*n_diff, so the eigenvalue sits at Re lambda = " +
+                "-2*gamma*n_diff = -2<n_XY> (gamma=1), with <n_XY> = n_diff the per-coherence XY-disagreement count (same quantity; " +
+                "the sign is just rate-vs-eigenvalue); the exponent = the gap-scaling " +
+                "exponent that classifies a coalescence (~1 for a diabolic / semisimple, ~0.5 for a defective EP / sqrt-branch); " +
+                "EP = exceptional point (a non-Hermitian spectral degeneracy); F_d = the degree-d H_B-mixed " +
                 "RESIDUAL polynomial (H_B = the XY bond Hamiltonian; F_18/F_53/F_116 are DEGREES 18/53/116, NOT F-registry " +
                 "numbers like F89d); R = the site-reflection i->N-1-i (the order-2 symmetry 'S2') the block is built on; Sigma " +
                 "(capital) = the antiunitary realness operator, Sigma*L*Sigma = L-dagger (the adjoint, the 'L+' below) - NOT " +
@@ -203,13 +213,22 @@ public static class OpenArcsRegistry
                 "diabolic eigenvectors carry ~0.18-0.20 weight on center-SE states. The fixed-site object is SLOW_MODE_R_PARITY's " +
                 "reflection-fixed JW band-centre zero mode k=(N+1)/2 (an integer mode only at odd N), distinct from the N=4 self-fold " +
                 "(antiunitary T=P*K, N=4-only, fixes Re lambda=-4; the odd-N diabolics are real but NOT at -4/-N). REMAINING EDGES: " +
-                "(a) the within-odd THRESHOLD (why odd N=5 is empty though R-even is self-conjugate there too: two crossing real " +
-                "RESIDUAL strands are first available at N=7; nature clear, no closed form). FIRST PROBE (the concrete entry point): " +
-                "extend DiabolicReflectionParityWitness to count the REAL residual eigenvalues of the R-even sector vs N at fixed real " +
-                "q (split the AT-locked roots off via F89AtFactorReconstruction.AtInvariantSubspaceBasis, as the scout's exact path " +
-                "does, then count |Im lambda|<tol among the residual), and find at which N two real residual strands first approach to " +
-                "cross in the physical q-window - expect N=5 to carry too few / non-crossing real residual roots and N=7 the first " +
-                "crossing pair. (b) DONE - the C# WITNESS is built: " +
+                "(a) the within-odd THRESHOLD - the ONE edge in 'RESUMING IN ONE LINE' above. NOTE (corrected by a 2026-06-30 cold-" +
+                "read): this is mostly DONE, not an unstarted probe; the dated JOURNAL layers below describe these moves as if still " +
+                "to-do (they have since been executed) - trust THIS top block over them. 'Empty at N=5' means empty of real-q " +
+                "DIABOLICS (N=5 DOES carry real " +
+                "residual roots, they just never coalesce on-axis). The residual-population count vs N is already executed and lives in " +
+                "DiabolicReflectionParityWitness ('inspect --root diabolicparity'): even N carries ZERO real residual eigenvalues in " +
+                "q in [0.2,3], odd N a real population GROWING with N (4/5/8 at N=5/7/9), and the onset has TWO geometries (a real-real " +
+                "CROSSING, first at N=7, and a conjugate-pair TANGENCY, e.g. N=9). Counting real-real crossings is NOT a proxy for the " +
+                "real-q diabolic count (that is FindDiabolicsExact's job: N=9 has real-q diabolics yet NO real-real crossing). So the " +
+                "threshold is EMPIRICALLY N=7, grounded on residual density; what remains is ONLY a closed form for the threshold N, " +
+                "residual-density driven and likely nonexistent - i.e. this edge is effectively CLOSED, no live mechanical next move. " +
+                "IF a returning session still wants to push it, the one bounded UNDONE probe is to PROVE the N=5 absence directly: run " +
+                "'dotnet run --project compute/RCPsiSquared.Cli -c Release -- pkmono --diabolic --exact --k 4 --re 0.2,3 --im " +
+                "-0.025,0.025 --cell 0.01' (N=5 = path-4, the real-axis strip) and show its real residual strands stay on-axis-gapped " +
+                "(no coalescence), vs N=7 (--k 6) where two meet - confirming the onset is residual-density, not a missed diabolic. " +
+                "(b) DONE - the C# WITNESS is built: " +
                 "DiabolicReflectionParityWitness ('inspect --root diabolicparity', the persistent evidence per cockpit rule 5) recomputes " +
                 "the self/cross-conjugacy structure across N=5..9 and reproduces the N=7/N=9 diabolics in R-even at inspect time, on " +
                 "F89PathKSeDeBlock.BuildFullBlock/ReflectionPermutation (Core); TDD-gated (F89PathKFullBlockReflectionTests + " +
