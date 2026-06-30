@@ -74,6 +74,23 @@ public sealed class DefectDecoder
     public double DeviationDictionaryWorstCos => _deviationWorstCos;
     private readonly double _deviationWorstCos;
 
+    /// <summary>The most ANTI-collinear pair of the α-dictionary: the minimum SIGNED cos(F_i, F_j) (→ −1
+    /// is the sign-location confusion the de-loss addresses, NOT worst |cos|, which also catches collinear
+    /// same-sign pairs). Computed live at calibration. Measured at the canonical γ=0.05 (Q=20): N=3 −0.976,
+    /// N=4 −0.541, N=5 −0.965 (N=6 −0.378 past the decoder's cap). It is STRONG at ODD N, WEAK at even N —
+    /// a Q=20 PAINTING effect: the bare single-excitation dictionary is flat (≈ −0.6, no parity), and
+    /// propagation concentrates weight on the R-odd seesaw at odd N (structural cousin:
+    /// <see cref="RCPsiSquared.Diagnostics.Ptf.DefectReadingEquivarianceClaim"/>; the worst confuser is the
+    /// distance-2 bond pair (i, i+2), e.g. (1,3) at N=5, NOT the mirror pair). Verifier:
+    /// DictionaryParityInvestigationTests.</summary>
+    public double DictionaryWorstAntiCos => _dictionaryWorstAntiCos;
+    private readonly double _dictionaryWorstAntiCos;
+
+    /// <summary>The (i, j) bond pair realizing <see cref="DictionaryWorstAntiCos"/> (the worst α-letter
+    /// confuser): the distance-2 pair at the odd-N near-degeneracies.</summary>
+    public (int I, int J) DictionaryWorstAntiPair => _dictionaryWorstAntiPair;
+    private readonly (int I, int J) _dictionaryWorstAntiPair;
+
     /// <summary>How many calibration performances were built (N−1 painters movements, one per bond).
     /// The decoder owns this counter; it does NOT add to any host movement's BuildCount. A host that
     /// calibrates a decoder for its own read-back pays this many extra movements — counted here, openly,
@@ -82,12 +99,15 @@ public sealed class DefectDecoder
 
     private DefectDecoder(int n, double j, double gamma, double deltaJCal,
                           double[][] dictionary, double[][] dictionaryDev, double deviationWorstCos,
+                          double dictionaryWorstAntiCos, (int, int) dictionaryWorstAntiPair,
                           int calibrationBuildCount)
     {
         N = n; J = j; Gamma = gamma; DeltaJCal = deltaJCal;
         _dictionary = dictionary;
         _dictionaryDev = dictionaryDev;
         _deviationWorstCos = deviationWorstCos;
+        _dictionaryWorstAntiCos = dictionaryWorstAntiCos;
+        _dictionaryWorstAntiPair = dictionaryWorstAntiPair;
         CalibrationBuildCount = calibrationBuildCount;
     }
 
@@ -99,6 +119,17 @@ public sealed class DefectDecoder
         for (int i = 0; i < a.Length; i++) { dot += a[i] * b[i]; na += a[i] * a[i]; nb += b[i] * b[i]; }
         double denom = Math.Sqrt(na * nb);
         return denom > 0.0 ? Math.Abs(dot / denom) : 0.0;
+    }
+
+    /// <summary>SIGNED cos between two per-site profiles (0 if either is degenerate). The minimum over the
+    /// α-dictionary's pairs is the sign-location confusion (→ −1), distinct from worst |cos| which also
+    /// catches collinear same-sign pairs (<see cref="DictionaryWorstAntiCos"/>).</summary>
+    private static double SignedCosine(double[] a, double[] b)
+    {
+        double dot = 0.0, na = 0.0, nb = 0.0;
+        for (int i = 0; i < a.Length; i++) { dot += a[i] * b[i]; na += a[i] * a[i]; nb += b[i] * b[i]; }
+        double denom = Math.Sqrt(na * nb);
+        return denom > 0.0 ? dot / denom : 0.0;
     }
 
     /// <summary>Calibrate a decoder for an (N, J, γ) system: for each bond b in 0..N−2, build a
@@ -139,7 +170,20 @@ public sealed class DefectDecoder
             for (int k = i + 1; k < bonds; k++)
                 worstCos = Math.Max(worstCos, AbsCosine(dictionaryDev[i], dictionaryDev[k]));
 
-        return new DefectDecoder(n, j, gamma, deltaJCal, dictionary, dictionaryDev, worstCos, buildCount);
+        // The α-dictionary's worst ANTI-collinear pair (min signed cos): the sign-location confuser the
+        // decoder trips on. Strong at odd N (a Q-painting effect); the realizing pair is the distance-2
+        // bond pair, not the mirror pair (see DictionaryWorstAntiCos / DefectReadingEquivarianceClaim).
+        double worstAnti = 0.0;
+        (int, int) worstAntiPair = (-1, -1);
+        for (int i = 0; i < bonds; i++)
+            for (int k = i + 1; k < bonds; k++)
+            {
+                double c = SignedCosine(dictionary[i], dictionary[k]);
+                if (c < worstAnti) { worstAnti = c; worstAntiPair = (i, k); }
+            }
+
+        return new DefectDecoder(n, j, gamma, deltaJCal, dictionary, dictionaryDev, worstCos,
+                                 worstAnti, worstAntiPair, buildCount);
     }
 
     /// <summary>The decode result: the identified (winning) bond, the recovered strength δĴ, and the

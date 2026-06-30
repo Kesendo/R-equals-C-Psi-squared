@@ -66,6 +66,11 @@ public static class KnowledgeRegistryFactory
             // Tier1Derived. Single typed parent: KPartnerSelectionRuleClaim (registered directly above:
             // it defines M[b,k], the null column, rank N−2). Wired 2026-06-20.
             .RegisterDefectReadingEquivarianceClaim()
+            // The empirical Q-instance refinement (play session 2026-06-30): the decoder's PAINTED α-dictionary
+            // worst anti-collinearity follows odd-N parity (−0.976/−0.541/−0.965/−0.378 at N=3..6, Q=20), the
+            // confuser is the distance-2 bond pair (not the mirror pair), and it is a painting effect (the bare
+            // dictionary is flat, N=3..9). Tier2Empirical. Parent: DefectReadingEquivarianceClaim (directly above).
+            .RegisterDecoderAntiCollinearityParityClaim()
             // F124, the band-edge transition invariant (the reading-grammar arc's frame-theoretic capstone,
             // 2026-06-20): for the open chain's band-edge carrier the full bond-transition matrix
             // M[b,k]=⟨ψ_k|V_b|ψ_1⟩ (all N modes) has ‖M‖_F² + λ_min(MMᵀ) = z = 2 exactly, with ‖M‖_F²=2−E and
