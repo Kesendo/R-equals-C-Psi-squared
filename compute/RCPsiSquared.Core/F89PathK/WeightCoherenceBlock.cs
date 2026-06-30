@@ -1,0 +1,82 @@
+using System.Collections.Generic;
+using System.Numerics;
+
+namespace RCPsiSquared.Core.F89PathK;
+
+/// <summary>The general (w_ket, w_bra) computational-basis coherence sub-block of the Z-dephasing Liouvillian
+/// L = −i[H, ρ] + D[ρ] on an N-site chain (γ = 1, the XY hopping H = J·Σ(XX+YY) at J = q). Basis = |a⟩⟨b| with
+/// popcount(a) = wKet, popcount(b) = wBra (ket configs outer, bra configs inner, both in ascending-mask order);
+/// the diagonal is −2·n_diff(a,b) (the Absorption-Theorem rate 2γ·n_diff, n_diff = popcount(a⊕b)), ket
+/// excitations hop −2iq (the −iHρ term) and bra excitations +2iq (the +iρH term), nearest-neighbour with Pauli
+/// exclusion. q-linear: L(q) = A + q·C with A the real AT diagonal and C the pure-imaginary hopping.
+///
+/// <para>Promoted (verbatim physics) from the CLI's FoldCrossCommand.BuildBlock so the cross-fold partner block
+/// (SE, w_{N−2}) and the (SE,DE) block are built by ONE shared builder. The partner-pairing carrier is
+/// <see cref="BraComplementPermutation"/>: the branch-locus palindrome's bra bit-flip ρ[a,b] → ρ[a,b̄] maps the
+/// (wKet, wBra) block to the (wKet, N−wBra) block, with n_diff(a,b̄) = N − n_diff(a,b) reflecting the AT rate
+/// about −N. See experiments/F89_BRANCH_LOCUS_PALINDROME.md and the diabolic cross-fold (Move 4).</para></summary>
+public static class WeightCoherenceBlock
+{
+    /// <summary>All n-bit masks with exactly w set bits, in ascending order.</summary>
+    public static List<int> Configs(int n, int w)
+    {
+        var res = new List<int>();
+        for (int m = 0; m < (1 << n); m++)
+            if (BitOperations.PopCount((uint)m) == w) res.Add(m);
+        return res;
+    }
+
+    /// <summary>The (wKet, wBra) chain coherence block at complex coupling q (γ = 1), dim C(n,wKet)·C(n,wBra).
+    /// Diagonal −2·n_diff; ket excitations hop −2iq, bra excitations +2iq (nearest-neighbour, Pauli-excluded).</summary>
+    public static Complex[,] Build(int n, int wKet, int wBra, Complex q)
+    {
+        var kets = Configs(n, wKet);
+        var bras = Configs(n, wBra);
+        var index = new Dictionary<(int, int), int>();
+        var basis = new List<(int Ket, int Bra)>();
+        foreach (var k in kets)
+            foreach (var b in bras) { index[(k, b)] = basis.Count; basis.Add((k, b)); }
+        int d = basis.Count;
+        var l = new Complex[d, d];
+        for (int col = 0; col < d; col++)
+        {
+            var (kc, bc) = basis[col];
+            l[col, col] += new Complex(-2.0 * BitOperations.PopCount((uint)(kc ^ bc)), 0);
+            for (int s = 0; s < n; s++)
+                if ((kc & (1 << s)) != 0)                                   // ket excitation hops (−2iq)
+                    foreach (int s2 in new[] { s - 1, s + 1 })
+                        if (s2 >= 0 && s2 < n && (kc & (1 << s2)) == 0)
+                            l[index[((kc & ~(1 << s)) | (1 << s2), bc)], col] += Complex.ImaginaryOne * -2.0 * q;
+            for (int s = 0; s < n; s++)
+                if ((bc & (1 << s)) != 0)                                   // bra excitation hops (+2iq)
+                    foreach (int s2 in new[] { s - 1, s + 1 })
+                        if (s2 >= 0 && s2 < n && (bc & (1 << s2)) == 0)
+                            l[index[(kc, (bc & ~(1 << s)) | (1 << s2))], col] += Complex.ImaginaryOne * 2.0 * q;
+        }
+        return l;
+    }
+
+    /// <summary>The bra-complement permutation P: the basis index of |a⟩⟨b| in the (wKet, wBra) block ↦ the
+    /// basis index of |a⟩⟨b̄| in the (wKet, n−wBra) block (b̄ = the n-site bitwise complement of b). The carrier
+    /// of the cross-fold: since n_diff(a,b̄) = n − n_diff(a,b), conjugating L(wKet,wBra) by P and reflecting maps
+    /// it onto L(wKet, n−wBra). A bijection because C(n,wBra) = C(n,n−wBra) and the ket weight is unchanged.
+    /// Returns perm where perm[t] = the (wKet, n−wBra)-basis index that the (wKet, wBra)-basis index t maps to.</summary>
+    public static int[] BraComplementPermutation(int n, int wKet, int wBra)
+    {
+        var kets = Configs(n, wKet);
+        var bras = Configs(n, wBra);
+        var brasC = Configs(n, n - wBra);
+        var indexC = new Dictionary<int, int>();
+        for (int j = 0; j < brasC.Count; j++) indexC[brasC[j]] = j;
+        int full = (1 << n) - 1;
+        var perm = new int[kets.Count * bras.Count];
+        int t = 0;
+        for (int ki = 0; ki < kets.Count; ki++)
+            for (int bi = 0; bi < bras.Count; bi++)
+            {
+                int bBar = full ^ bras[bi];
+                perm[t++] = ki * brasC.Count + indexC[bBar];     // same ket block, complemented bra index
+            }
+        return perm;
+    }
+}

@@ -1,9 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
+using RCPsiSquared.Core.F89PathK;
 
 namespace RCPsiSquared.Cli.Commands;
 
@@ -28,45 +28,10 @@ public static class FoldCrossCommand
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
 
-    // all bitmasks on N sites with exactly w set bits.
-    private static List<int> Configs(int n, int w)
-    {
-        var res = new List<int>();
-        for (int m = 0; m < (1 << n); m++)
-            if (System.Numerics.BitOperations.PopCount((uint)m) == w) res.Add(m);
-        return res;
-    }
-
-    // the (wKet, wBra) computational-basis coherence block of L = −i[H,ρ] + Z-dephasing on an N-site chain at
-    // real q (γ=1). Diagonal −2·n_diff (Absorption Theorem 2γ·n_diff); ket excitations hop −2qi, bra +2qi
-    // (the L = −iHρ + iρH split), nearest-neighbour, Pauli exclusion respected.
+    // the (wKet, wBra) computational-basis coherence block, via the shared Core builder (one builder for the
+    // (SE,DE) block and its (SE,w_{N−2}) cross-fold partner; see RCPsiSquared.Core.F89PathK.WeightCoherenceBlock).
     private static Complex[,] BuildBlock(int n, int wKet, int wBra, double q)
-    {
-        var kets = Configs(n, wKet);
-        var bras = Configs(n, wBra);
-        var index = new Dictionary<(int, int), int>();
-        var basis = new List<(int, int)>();
-        foreach (var k in kets)
-            foreach (var b in bras) { index[(k, b)] = basis.Count; basis.Add((k, b)); }
-        int d = basis.Count;
-        var l = new Complex[d, d];
-        for (int col = 0; col < d; col++)
-        {
-            var (kc, bc) = basis[col];
-            l[col, col] += new Complex(-2.0 * System.Numerics.BitOperations.PopCount((uint)(kc ^ bc)), 0);
-            for (int s = 0; s < n; s++)
-                if ((kc & (1 << s)) != 0)                                   // ket excitation hops (−2qi)
-                    foreach (int s2 in new[] { s - 1, s + 1 })
-                        if (s2 >= 0 && s2 < n && (kc & (1 << s2)) == 0)
-                            l[index[((kc & ~(1 << s)) | (1 << s2), bc)], col] += new Complex(0, -2 * q);
-            for (int s = 0; s < n; s++)
-                if ((bc & (1 << s)) != 0)                                   // bra excitation hops (+2qi)
-                    foreach (int s2 in new[] { s - 1, s + 1 })
-                        if (s2 >= 0 && s2 < n && (bc & (1 << s2)) == 0)
-                            l[index[(kc, (bc & ~(1 << s)) | (1 << s2))], col] += new Complex(0, 2 * q);
-        }
-        return l;
-    }
+        => WeightCoherenceBlock.Build(n, wKet, wBra, new Complex(q, 0));
 
     private static Complex[] Spectrum(Complex[,] l)
         => Matrix<Complex>.Build.DenseOfArray(l).Evd().EigenValues.ToArray();

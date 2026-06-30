@@ -80,8 +80,18 @@ public static class OpenArcsRegistry
                 "CONJUGATE-PAIR TANGENCY (a (lambda,conj) pair whose Im->0 only at q*, e.g. N=9 at q~0.4755) - so counting real-real " +
                 "crossings is NOT a proxy for the real-q diabolic count (that stays FindDiabolicsExact's job), and N=9 has real-q diabolics " +
                 "yet NO real-real crossing. Both readings are in the witness (TDD-gated). The exact within-odd threshold N still has no " +
-                "closed form (residual-density driven); the remaining unblocked edges are that (likely-none) closed form and Move 4 (the " +
-                "cross-fold (SE,DE)<->(SE,w_{N-2}) partner block, still unrun). The N=7 work " +
+                "closed form (residual-density driven). MOVE 4 (the cross-fold) is now DONE (2026-06-30): the (SE,DE)=(w1,w2) <-> " +
+                "(SE,w_{N-2})=(w1,N-2) fold (the F89c bra bit-flip rho[a,b]->rho[a,bbar]) is an EXACT antiunitary similarity at the " +
+                "MATRIX level - L(1,N-2)(qbar) = -P conj(L(1,2)(q)) P^T - 2N*I to MACHINE ZERO (exact arithmetic), N=4..9, all q real " +
+                "AND complex (P = bra-complement permutation). This is STRONGER than foldcross's spectrum match: an antiunitary " +
+                "similarity preserves Jordan structure, so every (SE,DE) diabolic at (q,lambda) pairs with a (SE,w_{N-2}) diabolic at " +
+                "(qbar, -lambdabar-2N) with IDENTICAL character and gap, for all N and all q at once - no enumeration. N=4 is the " +
+                "degenerate partner=self within-block self-fold; for N>=5 the N=4 on-line 'zeros' become cross-block mirror partners. " +
+                "Verified: the N=7 real-q diabolic (q=1.1264, lam=-4.942, gap 4.19e-5) pairs with (1,5) at -9.058, same gap. LANDED: a " +
+                "shared Core builder WeightCoherenceBlock (general (wKet,wBra) block + BraComplementPermutation, promoted from " +
+                "FoldCrossCommand.BuildBlock which now delegates to it), the live witness CrossFoldSimilarityWitness " +
+                "('inspect --root crossfold', TDD-gated CrossFoldSimilarityWitnessTests). So the ONLY remaining unblocked edge is the " +
+                "(likely-none) within-odd closed form. The N=7 work " +
                 "needed a NEW instrument and turned up a NEW phenomenon. (1) THE TRACKER BROKE AT N=7, " +
                 "REFUTING the 2026-06-29 'NEXT MOVE' premise that N=7 was merely SLOW: the residual-only TRACKER floods at " +
                 "the F_53 strand density. The nearest-match AT (the Absorption-Theorem decay-rate strands, Re lambda = " +
@@ -157,9 +167,12 @@ public static class OpenArcsRegistry
                 "DiabolicReflectionParityWitness ('inspect --root diabolicparity', the persistent evidence per cockpit rule 5) recomputes " +
                 "the self/cross-conjugacy structure across N=5..9 and reproduces the N=7/N=9 diabolics in R-even at inspect time, on " +
                 "F89PathKSeDeBlock.BuildFullBlock/ReflectionPermutation (Core); TDD-gated (F89PathKFullBlockReflectionTests + " +
-                "DiabolicReflectionParityWitnessTests + the catalog guard), the gitignored python scout retired. (c) Move 4 cross-fold: still " +
-                "unblocked-not-run; start from FoldCrossCommand.BuildBlock (the (SE,w_N-2) partner block) made " +
-                "(q,Delta)-linear, per the journal. " +
+                "DiabolicReflectionParityWitnessTests + the catalog guard), the gitignored python scout retired. (c) Move 4 cross-fold: DONE 2026-06-30 " +
+                "(see the CURRENT STATE block above) - the cross-fold is an EXACT antiunitary similarity, every diabolic pairs across " +
+                "it; landed as WeightCoherenceBlock (Core) + CrossFoldSimilarityWitness ('inspect --root crossfold', TDD-gated). " +
+                "(d) the (q,Delta) extension of the cross-fold (does the similarity survive XXZ anisotropy? the ZZ-bond sum is " +
+                "complement-invariant while the AT rate flips, so the fold may NOT carry the Delta term cleanly - a sharp untried " +
+                "question) is the natural follow-on. " +
                 "--- THE JOURNAL (how we got here) --- " +
                 "Concrete moves, cheapest first (binary: dotnet run --project compute/RCPsiSquared.Cli -- " +
                 "<cmd>). (1) LOCATE: run 'pkmono --diabolic --k 5' (N=6) and --k 6 " +
