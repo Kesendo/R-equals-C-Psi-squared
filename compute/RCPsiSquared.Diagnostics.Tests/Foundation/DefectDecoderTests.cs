@@ -202,6 +202,32 @@ public class DefectDecoderTests
         Assert.True(relErr <= 0.10, $"deviation strength rel error {relErr:P2} should be ≤ 10% (δĴ={r.DeltaJ}, truth {deltaJ})");
     }
 
+    [Fact]
+    public void N3_DeviationPath_FlaggedAmbiguous_DegenerateDictionary()
+    {
+        // Grounded finding (feed_the_tools: the full N=3..5 sweep + the cos computation). At N=3 the two
+        // all-edge bonds have NO interior bond to break the site-mirror, so the deviation dictionary is
+        // near-degenerate (worst |cos| = 0.9997): a weakened bond produces the SAME signed profile as its
+        // mirror bond strengthened. Without a guard DecodeDeviation reports the WRONG branch CLEANLY
+        // (ratio ~88, no flag), losing the α path's honest hedge. The degeneracy guard must flag N=3
+        // ambiguous; N=4..5 keep an interior bond (worst |cos| <= 0.95) and must NOT be flagged.
+        var dec3 = Calib(3);
+        Assert.True(dec3.DeviationDictionaryWorstCos > DefectDecoder.DeviationDegeneracyCos,
+            $"N=3 deviation dictionary should be degenerate (worst |cos| = {dec3.DeviationDictionaryWorstCos:F4} > {DefectDecoder.DeviationDegeneracyCos})");
+        var r3 = dec3.DecodeDeviation(DeviationProfileObs(3, 0, -0.02));
+        Assert.True(r3.IsAmbiguous,
+            "N=3 deviation decode must be flagged ambiguous (degenerate dictionary), not confident-wrong");
+
+        // The guard does NOT over-fire: N=4 and N=5 have an interior bond, sit below the threshold, stay clean.
+        Assert.True(Calib(4).DeviationDictionaryWorstCos < DefectDecoder.DeviationDegeneracyCos,
+            "N=4 deviation dictionary must be below the degeneracy threshold (interior bond breaks the mirror)");
+        var dec5 = Calib(5);
+        Assert.True(dec5.DeviationDictionaryWorstCos < DefectDecoder.DeviationDegeneracyCos,
+            $"N=5 deviation dictionary worst |cos| = {dec5.DeviationDictionaryWorstCos:F4} must be below {DefectDecoder.DeviationDegeneracyCos}");
+        Assert.False(dec5.DecodeDeviation(DeviationProfileObs(5, 3, -0.02)).IsAmbiguous,
+            "the N=5 mirror pair must still resolve clean (the guard does not over-fire)");
+    }
+
     [Theory]
     [InlineData(2)]
     [InlineData(6)]

@@ -42,6 +42,16 @@ public sealed class DefectDecoder
     /// and clears the latter.</summary>
     public const double AmbiguityFactor = 3.0;
 
+    /// <summary>The de-lossed location dictionary is DEGENERATE (location unresolvable) when its worst-pair
+    /// |cos| exceeds this: a weakened bond then produces the same SIGNED deviation profile as its mirror
+    /// bond strengthened, so the signed projection cannot tell them apart and a "clean" residual ratio is a
+    /// confident WRONG branch. Grounded by feeding the tool across N=3..5 (the mining map + the cos
+    /// computation): at N=3, the all-edge case with NO interior bond, worst |cos| = 0.9997 (a true mirror
+    /// degeneracy); at N=4..5 an interior bond breaks the mirror and worst |cos| ≤ 0.95. Above this,
+    /// <see cref="DecodeDeviation"/> forces <see cref="DecodeResult.IsAmbiguous"/> rather than reporting the
+    /// confident wrong branch (matching the α path's honest hedge at N=3).</summary>
+    public const double DeviationDegeneracyCos = 0.99;
+
     public int N { get; }
     public double J { get; }
     public double Gamma { get; }
@@ -57,6 +67,13 @@ public sealed class DefectDecoder
     public IReadOnlyList<double[]> DeviationDictionary => _dictionaryDev;
     private readonly double[][] _dictionaryDev;
 
+    /// <summary>The worst-pair |cos(devDict[i], devDict[j])| of the de-lossed location dictionary: how
+    /// near-degenerate its bond letters are. ≈ 0.95 at N=4..5; 0.9997 at N=3 (no interior bond). Above
+    /// <see cref="DeviationDegeneracyCos"/> the deviation decode cannot resolve location (see
+    /// <see cref="DecodeDeviation"/>).</summary>
+    public double DeviationDictionaryWorstCos => _deviationWorstCos;
+    private readonly double _deviationWorstCos;
+
     /// <summary>How many calibration performances were built (N−1 painters movements, one per bond).
     /// The decoder owns this counter; it does NOT add to any host movement's BuildCount. A host that
     /// calibrates a decoder for its own read-back pays this many extra movements — counted here, openly,
@@ -64,12 +81,24 @@ public sealed class DefectDecoder
     public int CalibrationBuildCount { get; }
 
     private DefectDecoder(int n, double j, double gamma, double deltaJCal,
-                          double[][] dictionary, double[][] dictionaryDev, int calibrationBuildCount)
+                          double[][] dictionary, double[][] dictionaryDev, double deviationWorstCos,
+                          int calibrationBuildCount)
     {
         N = n; J = j; Gamma = gamma; DeltaJCal = deltaJCal;
         _dictionary = dictionary;
         _dictionaryDev = dictionaryDev;
+        _deviationWorstCos = deviationWorstCos;
         CalibrationBuildCount = calibrationBuildCount;
+    }
+
+    /// <summary>|cos| between two per-site profiles (0 if either is degenerate). Used at calibration to
+    /// score the de-lossed dictionary's worst-pair near-degeneracy (<see cref="DeviationDictionaryWorstCos"/>).</summary>
+    private static double AbsCosine(double[] a, double[] b)
+    {
+        double dot = 0.0, na = 0.0, nb = 0.0;
+        for (int i = 0; i < a.Length; i++) { dot += a[i] * b[i]; na += a[i] * a[i]; nb += b[i] * b[i]; }
+        double denom = Math.Sqrt(na * nb);
+        return denom > 0.0 ? Math.Abs(dot / denom) : 0.0;
     }
 
     /// <summary>Calibrate a decoder for an (N, J, γ) system: for each bond b in 0..N−2, build a
@@ -102,7 +131,15 @@ public sealed class DefectDecoder
             buildCount += pm.BuildCount;
         }
 
-        return new DefectDecoder(n, j, gamma, deltaJCal, dictionary, dictionaryDev, buildCount);
+        // The de-lossed dictionary's worst-pair near-degeneracy: at N=3 (no interior bond) the two edge
+        // letters are a near-perfect mirror (|cos| ≈ 0.9997) and the deviation decode cannot resolve
+        // location; an interior bond at N≥4 keeps it ≤ 0.95. DecodeDeviation reads this to flag N=3.
+        double worstCos = 0.0;
+        for (int i = 0; i < bonds; i++)
+            for (int k = i + 1; k < bonds; k++)
+                worstCos = Math.Max(worstCos, AbsCosine(dictionaryDev[i], dictionaryDev[k]));
+
+        return new DefectDecoder(n, j, gamma, deltaJCal, dictionary, dictionaryDev, worstCos, buildCount);
     }
 
     /// <summary>The decode result: the identified (winning) bond, the recovered strength δĴ, and the
@@ -181,7 +218,16 @@ public sealed class DefectDecoder
     /// recovering +δJ vs −δJ. This resolves the N=5 sign-location ambiguity the α path flags. It resolves
     /// NOT by escaping the dictionary's anti-collinearity (it is just as anti-collinear, |cos| ≈ 0.95) but by
     /// preserving the sign the α time-rescaling clips. Residual is squared, so the ratio is ≈ 516 at the
-    /// canonical N=5 mirror pair vs the α path's ≈ 1.5 (review §11).</summary>
+    /// canonical N=5 mirror pair vs the α path's ≈ 1.5 (review §11).
+    ///
+    /// <para><b>N=3 degeneracy guard.</b> The sign-preservation only resolves location while the dictionary
+    /// is not too anti-collinear (the confuser's perpendicular residual must exceed the linearity residual).
+    /// At N=3 (no interior bond) the two edge letters are a near-perfect mirror
+    /// (<see cref="DeviationDictionaryWorstCos"/> = 0.9997), so a weakened bond produces the same signed
+    /// profile as its mirror bond strengthened: the decode would otherwise pick the wrong branch CLEANLY
+    /// (ratio ≈ 88, no flag). When the dictionary's worst |cos| exceeds <see cref="DeviationDegeneracyCos"/>
+    /// this method forces <see cref="DecodeResult.IsAmbiguous"/>, keeping the α path's honest hedge rather
+    /// than reporting a confident wrong location. Grounded by feeding the tool across N=3..5.</para></summary>
     public DecodeResult DecodeDeviation(IReadOnlyList<double> deviationObserved)
     {
         if (deviationObserved is null) throw new ArgumentNullException(nameof(deviationObserved));
@@ -192,6 +238,11 @@ public sealed class DefectDecoder
 
         var obs = new double[N];
         for (int i = 0; i < N; i++) obs[i] = deviationObserved[i];
-        return ProjectAndScore(obs, _dictionaryDev);
+        var result = ProjectAndScore(obs, _dictionaryDev);
+
+        // Degenerate location dictionary (N=3, no interior bond): a weakened bond is indistinguishable from
+        // its mirror strengthened, so even a "clean" residual ratio is a confident WRONG branch. Force the
+        // honest ambiguity flag (the candidates Bond/RunnerUpBond are the two indistinguishable readings).
+        return _deviationWorstCos > DeviationDegeneracyCos ? result with { IsAmbiguous = true } : result;
     }
 }
