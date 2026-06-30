@@ -37,7 +37,8 @@ public static class OpenArcsRegistry
                 "plus gmscan --trace and pkmono --delta-flip. So path-5/6 need a RUN, not a rebuild, for the " +
                 "Δ-test. WHAT NEEDS EXTENSION: the diabolic LOCATOR (FindDiabolics / pkmono --diabolic) rides " +
                 "PathKMonodromyScout, valid for the k the F89PathKFdOracle covers (≤6); for k>6 extend the oracle " +
-                "+ F89AtFactorReconstruction.ForPathK. (Caveat: the AT-removal is needed only for the monodromy/" +
+                "+ F89AtFactorReconstruction.ForPathK. (Caveat: the AT-removal [AT = the Absorption Theorem, the " +
+                "closed-form decay-rate strands at Re lambda = -2<n_XY> in gamma units] is needed only for the monodromy/" +
                 "Galois layer; the diabolic hunt itself is coalescences in the FULL symmetric block and does not " +
                 "require it, so XxzCoherenceBlock can locate-and-test at any N on its own.) THE REAL OBSTACLES " +
                 "(the genuinely hard part, get harder with N): (1) COMPLETENESS. The exact discriminant " +
@@ -54,9 +55,16 @@ public static class OpenArcsRegistry
                 "bookkeeping is harder. The deferred Q4 cross-fold edge (do the complex-q diabolics pair across " +
                 "the cross-block fold (SE,DE)↔(SE,w_{N-2})?) also generalizes over N and is untried.",
             NextStep: "CURRENT STATE (2026-06-30, read this first; the dated layers below are the journal): N=7 (path-6) " +
-                "is DONE - it needed a NEW instrument and turned up a NEW phenomenon. (1) THE TRACKER BROKE AT N=7, " +
+                "is DONE, AND its Δ-test (Move 2) is now DONE too - so the diabolic-CHARACTER question is CLOSED at N=7 " +
+                "(all four real-q diabolics are integrability-protected, a PLACEMENT mechanism not a new species; details " +
+                "in the 'MOVE 2 IS NOW DONE' block below), and the single sharpest OPEN edge is now the real-q ONSET " +
+                "MECHANISM - why N=7 returns diabolics to the real axis at all (point (a) under REMAINING EDGES below; " +
+                "even/odd? a residual " +
+                "symmetry distinct from the N=4 self-fold? no tool yet, this is the new research edge). The N=7 work " +
+                "needed a NEW instrument and turned up a NEW phenomenon. (1) THE TRACKER BROKE AT N=7, " +
                 "REFUTING the 2026-06-29 'NEXT MOVE' premise that N=7 was merely SLOW: the residual-only TRACKER floods at " +
-                "the F_53 strand density. The nearest-match AT/residual partition cannot split the block's exact " +
+                "the F_53 strand density. The nearest-match AT (the Absorption-Theorem decay-rate strands, Re lambda = " +
+                "-2<n_XY>) / residual partition cannot split the block's exact " +
                 "rate-degeneracies (many strands at exactly Re lambda=-6, the no-overlap AT rate; the residual SET at q0=2 " +
                 "already carries AT strands + exact duplicates, e.g. three at -6.000+0i, which a separable degree-53 Galois " +
                 "factor cannot have), so MinGap=0 across the box and the broad scan returns 293 spurious gap-0/exponent-NaN " +
@@ -91,8 +99,14 @@ public static class OpenArcsRegistry
                 "DIABOLIC at Delta=0 and DIE under Delta (three flip DEFECTIVE geo 2->1, q=2.6280 LIFTS), the SAME " +
                 "integrability-protected death as the complex-q ones. So the real-q diabolics are NOT a new species; the N=7 " +
                 "onset is a PLACEMENT mechanism, not a new protection. Full write-up: experiments/F89_PATH_K_DIABOLIC.md (the " +
-                "Delta-test section). REMAINING EDGES: (b) the real-q ONSET MECHANISM (even/odd? a residual symmetry distinct " +
-                "from the N=4 self-fold? - now the sharpest open question, no command yet) and (c) Move 4 cross-fold: still " +
+                "Delta-test section). REMAINING EDGES (the character question, formerly (a), is now CLOSED): (a) the real-q " +
+                "ONSET MECHANISM (even/odd? a residual symmetry distinct " +
+                "from the N=4 self-fold? - now the sharpest open question). FIRST PROBE (the entry point, since there is no " +
+                "command yet): extend the exact real-axis strip past N=7 - needs F89PathKFdOracle + " +
+                "F89AtFactorReconstruction.ForPathK extended past k=6 - and read the real-q diabolic COUNT vs N: does it " +
+                "follow even/odd, a threshold (N>=7), or is N=7 a one-off? That count-vs-parity is the first discriminator " +
+                "among the candidate mechanisms; in parallel, inspect what reflection/residual symmetry the N=7 (SE,DE) block " +
+                "carries that N=5/6 lack. (b) Move 4 cross-fold: still " +
                 "unblocked-not-run; start from FoldCrossCommand.BuildBlock (the (SE,w_N-2) partner block) made " +
                 "(q,Delta)-linear, per the journal. " +
                 "--- THE JOURNAL (how we got here) --- " +
