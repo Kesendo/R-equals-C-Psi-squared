@@ -60,10 +60,16 @@ public static class OpenArcsRegistry
                 "in the 'MOVE 2 IS NOW DONE' block below). The real-q ONSET has since been pinned to a LAW by the " +
                 "N=8/N=9 discriminator (2026-06-30, the 'ONSET RESOLVED' block below): it is PARITY-GATED, odd N >= 7 " +
                 "(N=8 even has NO on-axis real-lambda diabolic; N=9 odd has >=3, each a clean isolated on-axis point) - " +
-                "refuting both the threshold (N>=7) and the one-off readings. So the single sharpest OPEN edge is now the " +
-                "CAUSE of that parity: a candidate REFLECTION-FIXED-SITE (the site reflection i->N-1-i, the very S2 the block " +
-                "is built on, has a fixed central site only at odd N; at even N the centre is a bond) - to be grounded " +
-                "from below, plus the within-odd threshold (why odd N=5 is still empty but N=7 is not). The N=7 work " +
+                "refuting both the threshold (N>=7) and the one-off readings. The CAUSE of that parity is now GROUNDED from " +
+                "below (2026-06-30, the 'MECHANISM GROUNDED' block): the DIMENSION-MISMATCH / SECTOR-SWAP. R (i->N-1-i, the S2 " +
+                "the block is built on) splits the (SE,DE) block into R-even/R-odd; the realness antiunitarity Sigma*L*Sigma=L+ " +
+                "maps even<->odd at EVEN N (equal dims, sigma_even = conj(sigma_odd) EXACTLY) so neither sector is self-conjugate " +
+                "and a real-axis collision is the generic pseudo-Hermitian DEFECTIVE EP; but the odd-N reflection-fixed central " +
+                "site makes dim(even)-dim(odd)=(N-1)/2 != 0, forbidding the cross-pairing, so each sector is SELF-conjugate and two " +
+                "REAL R-even eigenvalues can cross semisimply = the real-q diabolic. So the single sharpest OPEN edge is now (i) the " +
+                "within-odd THRESHOLD (why odd N=5 is empty but N=7 is not: the mechanism permits it at every odd N, but two crossing " +
+                "real RESIDUAL strands are first available at N=7; no closed form) and (ii) BUILDING THE C# WITNESS for the grounded " +
+                "mechanism (the persistent evidence; the from-below verifier is currently a gitignored python scout). The N=7 work " +
                 "needed a NEW instrument and turned up a NEW phenomenon. (1) THE TRACKER BROKE AT N=7, " +
                 "REFUTING the 2026-06-29 'NEXT MOVE' premise that N=7 was merely SLOW: the residual-only TRACKER floods at " +
                 "the F_53 strand density. The nearest-match AT (the Absorption-Theorem decay-rate strands, Re lambda = " +
@@ -118,14 +124,21 @@ public static class OpenArcsRegistry
                 "points with COMPLEX lambda (analytic-continuation crossings); only N=9 carries on-axis REAL-lambda ones. VERDICT: " +
                 "real-q diabolics are PARITY-GATED, odd N>=7 (count vs N: N=5:0, N=6:0, N=7:4, N=8:0, N=9:>=3; N=4's single one is the " +
                 "separate self-fold). Completeness not claimed; the verdict rests on the qualitative odd/even contrast, robust to the " +
-                "box. Written up in the experiment doc's 'odd-N effect' section. REMAINING EDGES (both the character AND the " +
-                "placement/parity questions are now CLOSED): (a) the CAUSE of the parity - the REFLECTION-FIXED-SITE conjecture " +
-                "(the S2 reflection i->N-1-i the block is built on has a fixed central site only at odd N; even N centre is a bond). " +
-                "ENTRY POINT (the next move, Probe B): inspect the reflection eigenspace structure of the (SE,DE) block - decompose " +
-                "the symmetric block into the +/- reflection-parity sectors and find WHICH sector carries the on-axis real-q diabolic " +
-                "at odd N=7/9, what the odd-N fixed central site adds that even N=6/8 lack, and why the protection switches on only " +
-                "at N=7 not the odd N=5 (the within-odd threshold - a 'enough DE states' counting effect?). This is structural, runs " +
-                "on the existing F89PathKSeDeBlock orbit construction, needs no new scan. (b) Move 4 cross-fold: still " +
+                "box. Written up in the experiment doc's 'odd-N effect' section. MECHANISM GROUNDED (2026-06-30, Probe B done): " +
+                "from-below confirmation of the dimension-mismatch / sector-swap, by building the FULL (SE,DE) block, splitting by R, " +
+                "and measuring self- vs cross-sector conjugacy (gitignored python scout, gate-validated: it reproduces the N=7 " +
+                "lambda=-4.942 and N=9 lambda=-5.424 diabolics in the R-even sector). The numbers: dim(R-even)-dim(R-odd) = (N-1)/2 at " +
+                "odd N (3 at N=7, 4 at N=9), 0 at even N=6/8 (the reflection-fixed-singleton count = center-SE x self-mirror-DE pairs). " +
+                "At EVEN N cross-conj(even~odd) ~ 1e-13 (sigma_even = conj sigma_odd EXACTLY) with self-conj defect O(20) (neither " +
+                "sector self-conjugate) -> real-axis collisions DEFECTIVE; at ODD N self-conj defect ~ 1e-14 in BOTH sectors (each " +
+                "self-conjugate), cross-conj undefined (dims differ) -> R-even carries real eigenvalues that cross semisimply. The " +
+                "diabolic eigenvectors carry ~0.18-0.20 weight on center-SE states. The fixed-site object is SLOW_MODE_R_PARITY's " +
+                "reflection-fixed JW band-centre zero mode k=(N+1)/2 (an integer mode only at odd N), distinct from the N=4 self-fold " +
+                "(antiunitary T=P*K, N=4-only, fixes Re lambda=-4; the odd-N diabolics are real but NOT at -4/-N). REMAINING EDGES: " +
+                "(a) the within-odd THRESHOLD (why odd N=5 is empty though R-even is self-conjugate there too: two crossing real " +
+                "RESIDUAL strands are first available at N=7; nature clear, no closed form). (b) BUILD THE C# WITNESS (the persistent " +
+                "evidence per cockpit rule 5: an IInspectable recomputing the self/cross-conjugacy structure on the built block at " +
+                "inspect time, replacing the gitignored scout - the NEXT build step). (c) Move 4 cross-fold: still " +
                 "unblocked-not-run; start from FoldCrossCommand.BuildBlock (the (SE,w_N-2) partner block) made " +
                 "(q,Delta)-linear, per the journal. " +
                 "--- THE JOURNAL (how we got here) --- " +
