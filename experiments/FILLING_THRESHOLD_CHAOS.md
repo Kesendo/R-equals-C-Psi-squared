@@ -16,30 +16,30 @@ spectral chaos at fixed q are different things here (`inspect --root galoischaos
 [RANDOM_MATRIX_THEORY.md](RANDOM_MATRIX_THEORY.md) Result 3).
 
 The two follow-up stages then showed the null is **robust**: breaking the Liouvillian's free-fermion
-additivity (XXZ anisotropy Δ) or the Hamiltonian's integrability (a random Z-field) — with or without
-interactions — never drove the (SE,DE) CSR to GinUE (the `IntegrabilityBreakingCsr` Door-C sweep). The
+additivity (XXZ anisotropy Δ) or the Hamiltonian's integrability (a random Z-field), with or without
+interactions, never drove the (SE,DE) CSR to GinUE (the `IntegrabilityBreakingCsr` Door-C sweep). The
 reading that survived: the null is **structural / kinematic**. The (SE,DE) block is a *dilute*
 2-excitation sector (one excitation in the ket, two in the bra); a dilute sector cannot thermalize,
 so it stays non-chaotic however hard you break integrability.
 
 This experiment is the decisive test of that reading. If the dilute block is non-chaotic *because*
-it is dilute, then a **dense** coherence sector of the **same** Liouvillian — one with extensive
-excitation content — should reach GinUE under the same knobs. That is exactly what we find. Chaos
+it is dilute, then a **dense** coherence sector of the **same** Liouvillian, one with extensive
+excitation content, should reach GinUE under the same knobs. That is exactly what we find. Chaos
 here is a **filling threshold**, not an integrability one.
 
 ## Terms used here
 
-- **Coherence block (wKet, wBra)** — the Liouville-space sector spanned by |a⟩⟨b| with popcount(a)=wKet,
+- **Coherence block (wKet, wBra)**: the Liouville-space sector spanned by |a⟩⟨b| with popcount(a)=wKet,
   popcount(b)=wBra. The Z-dephasing XXZ Liouvillian L = −i[H,·] + D is closed on it (the XX+YY hopping
   conserves each leg's weight; the Δ·ZZ, the dephasing, and a Z-field are diagonal). (SE,DE) = (1,2) is
   the Door-C block; **dilute** = small total weight, **dense** = wKet, wBra near N/2 (extensive filling).
-- **CSR** — for each eigenvalue λ, z = (NN − λ)/(NNN − λ) with NN/NNN its nearest / next-nearest
+- **CSR**: for each eigenvalue λ, z = (NN − λ)/(NNN − λ) with NN/NNN its nearest / next-nearest
   neighbour. ⟨|z|⟩ is radial rigidity, ⟨cos θ⟩ angular repulsion. 2D-Poisson: ⟨|z|⟩≈0.66, ⟨cos θ⟩≈0.
   GinUE (dissipative quantum chaos, class A): ⟨|z|⟩≈0.74, ⟨cos θ⟩≈−0.24 (finite-size references are
   computed live, never hardcoded).
-- **Class A** — the symmetry class whose reference is GinUE. We use **unequal** weight (p, p+1): the F1
+- **Class A**: the symmetry class whose reference is GinUE. We use **unequal** weight (p, p+1): the F1
   palindrome Π maps the (p,p+1) block to the *conjugate* (p+1,p) block, not to itself, so no residual
-  antiunitary survives — the GinUE target is the right one (not AI⁺/AII⁺). Confirmed live: under a
+  antiunitary survives; the GinUE target is the right one (not AI⁺/AII⁺). Confirmed live: under a
   random field the block spectrum's conjugation-match fraction is ≈ 0.
 
 ## The setup
@@ -75,7 +75,7 @@ to the per-spectrum z-count):
 
 Read across the two filling regimes:
 
-- **The dilute (1,2)=(SE,DE) block stays Poisson.** ⟨cos θ⟩ ≈ −0.04 at every N, ⟨|z|⟩ ≈ 0.67 — no
+- **The dilute (1,2)=(SE,DE) block stays Poisson.** ⟨cos θ⟩ ≈ −0.04 at every N, ⟨|z|⟩ ≈ 0.67: no
   angular repulsion, no N-trend. The Door-C null, reproduced through the general builder. A 2-excitation
   sector does not thermalize, however hard the disorder + interactions break integrability.
 - **The dense (p,p+1) block near half-filling is chaotic.** Its radial statistic ⟨|z|⟩ ≈ 0.71–0.72
@@ -88,22 +88,22 @@ expected finite-size signature of genuine class-A (GinUE) statistics: ⟨|z|⟩ 
 (a finer correlation) trails and catches up with size. The dense block is on the GinUE side and walking
 in; the dilute block is parked on the Poisson side.
 
-(The isospectral pairs (2,3) ≅ (3,4) at N=6 read identically, as they must — particle-hole / the global
+(The isospectral pairs (2,3) ≅ (3,4) at N=6 read identically, as they must: particle-hole / the global
 spin-flip QP relate them; see [F89d cross-fold](F89_PATH_K_DIABOLIC.md).)
 
 ## Why it lands: extensive filling is the missing ingredient
 
 Door-C established that breaking the Galois (over q) or Hamiltonian (Bethe) integrability does not move
 the dilute CSR. This experiment isolates what does: **filling**. The same Liouvillian, the same disorder,
-the same interactions — only the excitation content changes — and the CSR crosses from Poisson to GinUE.
+the same interactions, only the excitation content changes, and the CSR crosses from Poisson to GinUE.
 So:
 
 - Galois chaos (the non-solvable S_d over the coupling field) and spectral chaos (GinUE at fixed q) are
   **distinct objects** and merge **only at extensive filling**. The dilute (SE,DE) block where the S_d
-  lives is the wrong place to look for GinUE — not because the algebra is too simple, but because the
+  lives is the wrong place to look for GinUE, not because the algebra is too simple, but because the
   sector is too dilute to thermalize.
 - The MBL caveat holds: the strong-disorder corner (W = 2) relaxes the dense block back toward Poisson
-  (localization), so the GinUE window is the intermediate-W ergodic band — exactly where many-body
+  (localization), so the GinUE window is the intermediate-W ergodic band, exactly where many-body
   dissipative chaos is expected. Interactions (Δ = 1) deepen the repulsion over the free-fermion case
   (Δ = 0), as a non-integrable many-body sector should.
 
@@ -127,8 +127,8 @@ tagged `[Trait("Category", "SLOW_FILLCSR")]` (the N=8 EVDs run minutes); run the
 
 ## See also
 
-- [RANDOM_MATRIX_THEORY.md](RANDOM_MATRIX_THEORY.md) — Result 3 (the galoischaos null, the dilute control)
+- [RANDOM_MATRIX_THEORY.md](RANDOM_MATRIX_THEORY.md): Result 3 (the galoischaos null, the dilute control)
   and Result 5 (this finding).
-- [F89_TOPOLOGY_ORBIT_CLOSURE.md](F89_TOPOLOGY_ORBIT_CLOSURE.md) — the live-Galois section (S_d over q).
+- [F89_TOPOLOGY_ORBIT_CLOSURE.md](F89_TOPOLOGY_ORBIT_CLOSURE.md): the live-Galois section (S_d over q).
 - `inspect --root galoischaos` (the Δ=0 / dilute control) and `inspect --root fillcsr` (this result);
   the Door-C staged sweep + methodology live in the `IntegrabilityBreakingCsr` harness.
