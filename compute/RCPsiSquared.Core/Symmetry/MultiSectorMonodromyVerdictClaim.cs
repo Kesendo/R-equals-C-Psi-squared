@@ -34,12 +34,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// symmetry broader than the naive Klein-four, the sector-resolved face of the free-fermion-additivity codim-1
 /// collapse.</para>
 ///
-/// <para><b>What is open (why this is Tier 1 CANDIDATE, not derived).</b> The additivity EMBEDDING (which sectors,
-/// and that they share λ) is confirmed, but the λ VALUE is a genuine <b>γ-driven</b> Liouvillian EP: at the real-q
-/// reference loci Re λ ≈ −4.62 is NOT AT-quantized (not −2·integer), so the defective EP sits OFF the
-/// Absorption-Theorem rate lines. The reduced single-particle-level object whose defective coalescence GIVES that
-/// λ (and the codim-1-by-additivity theorem stated formally) is the remaining from-below build, and the verdict is
-/// verified only at N=4, 5 (general N is conjectured from the membership rule).</para>
+/// <para><b>The λ value, from below.</b> The (1,2) block is the linear pencil L(q) = A + q·C, A = −2·diag(n_diff)
+/// real (the AT rates, n_diff ∈ {1,3}) and C the ANTI-HERMITIAN free-fermion hopping. Since C is anti-Hermitian, at
+/// real q the coherent term feeds only Im λ, so <b>Re λ = −2·⟨n_diff⟩_v exactly</b> (machine zero) for the
+/// coalescing eigenvector: the λ VALUE is the AT Theorem-2 rate of a q-tuned MIXTURE of the rate-2 (overlap) and
+/// rate-6 (no-overlap) eigenmodes (⟨n_diff⟩ = 2.31 at q=0.6209, 1.90 at q=1.078; the N=4 EP sits at the −4 midpoint,
+/// ⟨n_diff⟩ = 2). Not off the AT theorem, only off the integer-quantized lines; the defectiveness is the
+/// eigenvector coalescence (Jordan), separate from the rate.</para>
+///
+/// <para><b>What stays open (why this is Tier 1 CANDIDATE, not derived).</b> A CLOSED FORM for the mixture
+/// ⟨n_diff⟩(q) (predicting it from the free-fermion mode geometry without diagonalizing the block) and the
+/// codim-1-by-additivity theorem, plus general N: the verdict is verified only at N=4, 5, and the octic is S₈
+/// (non-solvable in radicals), so no global radical form for the P₁₀ EP loci is expected.</para>
 ///
 /// <para><b>Typed parents.</b> <see cref="F89OcticMonodromyClaim"/> (the S₈ braid this census spreads across
 /// sectors) and <see cref="F89CrossFoldSimilarityClaim"/> (F89d, the exact antiunitary similarity λ ↦ −λ̄ − 2N
@@ -61,8 +67,10 @@ public sealed class MultiSectorMonodromyVerdictClaim : Claim
                "{|bra−ket|=1, popcounts ∈ [1,N−1]} ∪ q̃↦N−q̃ cross-fold; the N-dependence is the N=4 self-fold " +
                "(the cross-fold is a self-map on the |Δ|=1 orbit only at N=4). Mechanism = free-fermion/AT " +
                "additivity (a diagonal mode-spectator leaves the EP invariant, so (1,2)≡(2,3)≡(3,4) byte-identical; " +
-               "Family B = the F89d image λ↦−λ̄−2N). The λ VALUE is a γ-driven EP off the AT rate lines; its " +
-               "single-particle-level construction (and general N) is open.",
+               "Family B = the F89d image λ↦−λ̄−2N). The λ VALUE is the AT Theorem-2 rate of the mixed defective " +
+               "eigenvector: L(q)=A+qC with A=−2·diag(n_diff) real and C anti-Hermitian, so Re λ = −2·⟨n_diff⟩_v " +
+               "exactly at real loci (a q-tuned mixture of the rate-2/rate-6 eigenmodes). A closed form for the " +
+               "mixture ⟨n_diff⟩(q) and general N stay open.",
                Tier.Tier1Candidate,
                "experiments/F89_MULTI_SECTOR_MONODROMY.md + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/MultiSectorMonodromyCensus.cs + " +
@@ -98,9 +106,16 @@ public sealed class MultiSectorMonodromyVerdictClaim : Claim
             yield return new InspectableNode("mechanism (free-fermion / AT additivity)",
                 summary: "a diagonal mode-spectator (one excitation added to both bra & ket) leaves the EP invariant " +
                          "((1,2)≡(2,3)≡(3,4) to ~1e-14); Family B is the F89d cross-fold image λ↦−λ̄−2N.");
+            yield return new InspectableNode("the λ value (from below)",
+                summary: "L(q)=A+qC with A=−2·diag(n_diff) real and C anti-Hermitian, so at real q Re λ = −2·⟨n_diff⟩_v " +
+                         "exactly (machine zero): the AT Theorem-2 rate of the coalescing eigenvector, a q-tuned mixture " +
+                         "of the rate-2/rate-6 eigenmodes (⟨n_diff⟩ = 2.31 at q=0.6209; the N=4 EP at the −4 midpoint). " +
+                         "Not off the AT theorem, only off the integer-quantized lines; defectiveness = the Jordan " +
+                         "coalescence, separate from the rate.");
             yield return new InspectableNode("open",
-                summary: "the λ VALUE is a γ-driven EP off the AT rate lines (Re λ ≈ −4.62 at real loci, not " +
-                         "−2·integer); the single-particle-level construction of that λ, and general N, are open.");
+                summary: "a CLOSED FORM for the mixture ⟨n_diff⟩(q) (from the free-fermion mode geometry, without " +
+                         "diagonalizing) and the codim-1-by-additivity theorem; plus general N (verified at N=4, 5; " +
+                         "the octic is S₈, so no global radical form for the P₁₀ loci).");
         }
     }
 }

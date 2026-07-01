@@ -1,6 +1,6 @@
 # The Multi-Sector Monodromy Census: the S₈ braid is confined at N=4 but spreads to a 12-sector diamond at N=5
 
-**Status:** Tier 1 Candidate. The N=4 confinement (braid on the D₄ orbit, dense core braid-free) and the N=5 spread (a 12-sector joint-popcount diamond, two cross-fold-conjugate families sharing a byte-identical eigenvalue λ) are EXACT and gate-tested (the exact 12-set is pinned as a regression test). The mechanism, free-fermion / AT additivity, is CONFIRMED for the embedding (the diagonal-spectator byte-identity and the F89d cross-fold, both to machine precision) and for the membership rule; the reduced single-particle-level object whose defective coalescence gives the λ VALUE (and the codim-1-by-additivity theorem) is the remaining from-below build.
+**Status:** Tier 1 Candidate. The N=4 confinement (braid on the D₄ orbit, dense core braid-free) and the N=5 spread (a 12-sector joint-popcount diamond, two cross-fold-conjugate families sharing a byte-identical eigenvalue λ) are EXACT and gate-tested (the exact 12-set is pinned as a regression test). The mechanism, free-fermion / AT additivity, is CONFIRMED for the embedding (the diagonal-spectator byte-identity and the F89d cross-fold, both to machine precision) and for the membership rule; the λ VALUE is grounded as the AT Theorem-2 rate of the mixed defective eigenvector (Re λ = −2·⟨n_diff⟩ at the real loci, machine-exact). The closed-form mixture ⟨n_diff⟩(q) and the codim-1-by-additivity theorem stay open.
 
 **Date:** 2026-07-01.
 
@@ -74,9 +74,17 @@ Two operations, both verified live to machine precision, generate the whole diam
 
 This is the free-fermion-kernel rule (**defective = single-particle coalescence; diabolic = frequency-difference coincidence**) operating across sectors: the branch point is a property of the |Δ| = 1 coherence rung, made popcount-translation-invariant by diagonal spectators and cross-fold-invariant by F89d, so the same defective eigenvalue lives in every diamond sector. This is the sector-resolved face of the [nonhermitian_diabolic_codimension](../compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs) result (free-fermion additivity collapses the generically codim-3 coincidence to codim-1).
 
+## The λ value, from below: the AT rate of the mixed eigenvector
+
+The (1,2) block is the linear pencil **L(q) = A + q·C**, with **A = −2·diag(n_diff)** the REAL Absorption-Theorem rates (n_diff = popcount(a⊕b), so n_diff ∈ {1,3} for (1,2): overlap rate 2, no-overlap rate 6) and **C the ANTI-HERMITIAN free-fermion hopping** (the −i[H,·] part). Because C is anti-Hermitian, v^H·C·v is purely imaginary, so at real q the coherent term q·v^H·C·v contributes only to Im λ, and for any right-eigenvector v:
+
+> **Re λ = v^H·A·v = −2·⟨n_diff⟩_v** (exact).
+
+At the real defective loci this is machine-exact for the coalescing eigenvector: q = 0.620878 gives Re λ = −4.6189 = −2·⟨n_diff⟩ with ⟨n_diff⟩ = 2.3094 (residual 7e-15); q = 1.077615 gives −3.7917 with ⟨n_diff⟩ = 1.8958 (residual 1e-15). So the λ VALUE is NOT off the Absorption Theorem: it is the AT Theorem-2 rate of the coalescing eigenvector, which is a q-tuned MIXTURE of the overlap (rate 2) and no-overlap (rate 6) eigenmodes. ⟨n_diff⟩ is a weighted average between 1 and 3, so the rate lies between the pure −2 and −6 lines (off the integer-quantized lines when the mixture is not 50/50; at N=4 the defective EP sits at the −4 midpoint, ⟨n_diff⟩ = 2, yet is still Jordan). The defectiveness is the eigenvector coalescence (geo < alg, a genuine Jordan block), SEPARATE from the rate. At complex q the coherent term also feeds Re λ (Im q mixes it in), so the clean identity is a real-locus, physical-coupling statement. Live at `inspect --root sectorbraid` (the "λ VALUE from below" node).
+
 ## What is open
 
-The additivity EMBEDDING is confirmed: which sectors carry the braid, and that they share the eigenvalue. But the λ VALUE itself is **not** a bare single-particle sum. At the real-q reference loci the merged eigenvalue is real with `Re λ ≈ −4.62` (q = 0.620878) and `−3.79` (q = 1.077615), NOT the −2·integer the Absorption Theorem quantizes eigenmode rates to. The defective EP sits OFF the AT rate lines (where the permanent semisimple degeneracies live): it is a **γ-driven** coalescence, so the dephasing is essential to the λ value, not just the free-fermion frequencies. The remaining from-below build is the reduced single-particle-level object whose defective coalescence gives that λ, and the codim-1-by-additivity theorem stated formally.
+The λ value is grounded (the AT rate of the mixed eigenvector) and the embedding is confirmed. What remains: a CLOSED FORM for the overlap mixture ⟨n_diff⟩(q), predicting it from the free-fermion mode geometry without diagonalizing the block, and the general-N membership beyond N = 4, 5. The defective loci are the P₁₀ roots and the octic is S₈ (non-solvable in radicals), so no global radical form is expected; the per-EP mixture stays numerically determined. The codim-1-by-additivity theorem (why free-fermion additivity collapses the generically codim-3 coincidence to codim-1) is also not yet stated as a Tier-1 theorem.
 
 ## Reproduce
 

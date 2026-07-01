@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
+using MathNet.Numerics.LinearAlgebra;
+using RCPsiSquared.Core.F89PathK;
 using RCPsiSquared.Core.Inspection;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
@@ -28,11 +30,14 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// and ket, the same single-particle mode) leaves E_bra − E_ket, and the whole EP (λ, character, gap), invariant —
 /// so (1,2) ≡ (2,3) ≡ (3,4) byte-identically (gate-verified over all reference loci). Family B is the F89d
 /// cross-fold image: λ_(p, N−q̃)(q̄) = −conj(λ_(p,q̃)(q)) − 2N exactly (<see cref="CrossFoldSimilarityWitness"/>), no
-/// separate phenomenon. The λ VALUE itself is a genuine <b>γ-driven</b> Liouvillian EP: at the real-q reference loci
-/// its real part is NOT AT-quantized (Re λ ≈ −4.62, not −2·integer) — the defective EP sits OFF the Absorption-
-/// Theorem rate lines, where the permanent semisimple degeneracies live. The single-particle-level object whose
-/// coalescence gives that λ value (the F89 kernel rule "defective = γ-driven single-particle coalescence" made
-/// explicit) is the remaining from-below build.
+/// separate phenomenon. The λ VALUE is grounded in the Absorption Theorem: L(q) = A + qC with A = −2·diag(n_diff)
+/// real and C the ANTI-HERMITIAN free-fermion hopping, so at the real reference loci Re λ = −2·⟨n_diff⟩_v EXACTLY
+/// (machine zero), the AT Theorem-2 rate of the coalescing eigenvector. That eigenvector is a q-tuned MIXTURE of
+/// the overlap (rate 2) and no-overlap (rate 6) eigenmodes, so ⟨n_diff⟩ is a weighted average between 1 and 3 and
+/// the rate lies between the pure −2 and −6 lines (N=5: −4.62; N=4: the −4 midpoint); the defectiveness is the
+/// eigenvector coalescence (a Jordan block), SEPARATE from the rate (at N=4 the defective EP sits at ⟨n_diff⟩=2,
+/// the midpoint, yet is Jordan). What stays open is a closed form for the mixture ⟨n_diff⟩(q) and general N (the
+/// octic is S₈, so no global radical form is expected).
 ///
 /// <para><b>What is live here.</b> The census node runs <see cref="MultiSectorMonodromyCensus.Run"/> at inspect
 /// time (via the AT-aware <see cref="SectorEpProbe.ProbeDefectiveAnywhere"/>), so the braid/node maps are recomputed
@@ -65,9 +70,9 @@ public sealed class SectorBraidWitness : IInspectable
         "two cross-fold-conjugate families of 6 sharing a BYTE-IDENTICAL eigenvalue λ (same branch point). The " +
         "N-dependence is the finding. Mechanism: free-fermion / AT additivity — the |bra−ket|=1 SE-DE rung's EP is " +
         "invariant under a diagonal mode-spectator (so (1,2)≡(2,3)≡(3,4) byte-identically), Family B is the F89d " +
-        "cross-fold image λ↦−λ̄−2N; membership = {|bra−ket|=1, popcounts∈[1,N−1]} ∪ cross-fold. The λ value is a " +
-        "γ-driven EP OFF the AT rate lines (Re λ not −2·integer at real loci); its single-particle-level " +
-        "construction is the open from-below piece.";
+        "cross-fold image λ↦−λ̄−2N; membership = {|bra−ket|=1, popcounts∈[1,N−1]} ∪ cross-fold. The λ VALUE is the " +
+        "AT Theorem-2 rate of the mixed defective eigenvector: Re λ = −2·⟨n_diff⟩_v exactly at real loci (off the " +
+        "INTEGER-quantized AT lines only because ⟨n_diff⟩ is a q-tuned mixture); a closed form for the mixture is open.";
 
     public IEnumerable<IInspectable> Children
     {
@@ -141,17 +146,67 @@ public sealed class SectorBraidWitness : IInspectable
                          "broader than the naive Klein-four.",
                 provenance: NodeProvenance.Stored);
 
-            // Node 4 — what remains open (stored: the honest edge).
+            // Node 4 — the λ VALUE from below (live at a real locus): it IS the Absorption-Theorem rate of the
+            // (mixed) coalescing eigenvector. L(q) = A + qC with A = −2·diag(n_diff) real and C the ANTI-HERMITIAN
+            // free-fermion hopping (the −i[H,·] part), so v^H C v is purely imaginary; at real q the coherent term
+            // contributes only to Im λ, and Re λ = v^H A v = −2·⟨n_diff⟩_v EXACTLY.
+            if (Math.Abs(qStar.Imaginary) < 1e-9)
+            {
+                var (nd, atRes) = AtRateOfDefectiveEigenvector(_n, qStar, r12.DefectiveCenter);
+                yield return new InspectableNode(
+                    displayName: "the λ VALUE from below: Re λ = −2·⟨n_diff⟩, the AT rate of the mixed defective eigenvector",
+                    summary: $"at the real locus q={FmtC(qStar)} the (1,2) defective λ={FmtC(r12.DefectiveCenter)} has " +
+                             $"Re λ = −2·⟨n_diff⟩_v with ⟨n_diff⟩_v={nd.ToString("F4", Inv)} (residual {atRes.ToString("E2", Inv)}, " +
+                             "machine zero). So the λ VALUE is NOT off the AT structure: it is the AT Theorem-2 rate of a " +
+                             "q-tuned MIXTURE of the overlap (rate 2) and no-overlap (rate 6) eigenmodes, so ⟨n_diff⟩ is a " +
+                             "weighted average between 1 and 3 and the rate lies between the pure −2 and −6 lines (N=5: " +
+                             "−4.62; N=4: the −4 midpoint), exactly on the AT theorem for the mixed eigenvector. The " +
+                             "defectiveness is the eigenvector coalescence (a genuine Jordan block), SEPARATE from the rate: " +
+                             "at N=4 the defective EP even sits at ⟨n_diff⟩=2 (the midpoint, like the diabolic), yet is Jordan.",
+                    provenance: NodeProvenance.Live);
+            }
+
+            // Node 5 — what remains open (stored: the honest edge, now narrowed).
             yield return new InspectableNode(
-                displayName: "what is open: the λ VALUE is a γ-driven EP, its single-particle construction pending",
-                summary: "the additivity EMBEDDING (which sectors, and that they share λ) is confirmed; the λ VALUE is " +
-                         "not a bare single-particle sum. At the real-q reference loci Re λ is NOT AT-quantized (≈ −4.62, " +
-                         "not −2·integer): the defective EP sits OFF the Absorption-Theorem rate lines (where the " +
-                         "permanent semisimple degeneracies live), consistent with the F89 kernel rule 'defective = " +
-                         "γ-driven single-particle coalescence'. The reduced single-particle-level object whose defective " +
-                         "coalescence GIVES that λ (and the codim-1-by-additivity theorem) is the remaining from-below build.",
+                displayName: "what is open: the closed-form mixture (the S₈ wall) and general N",
+                summary: "the λ VALUE is grounded (the AT rate of the mixed eigenvector, above) and the additivity " +
+                         "embedding is confirmed. What remains: a CLOSED FORM for the overlap mixture ⟨n_diff⟩(q) — " +
+                         "predicting it from the free-fermion mode geometry WITHOUT diagonalizing the block — and general " +
+                         "N. The defective loci are the P₁₀ roots and the octic is S₈ (non-solvable in radicals), so no " +
+                         "global radical form is expected; the per-EP mixture stays numerically determined.",
                 provenance: NodeProvenance.Stored);
         }
+    }
+
+    /// <summary>The Absorption-Theorem rate of the (1,2) defective coalescing eigenvector at (real) coupling
+    /// <paramref name="q"/>: builds the clean L(q) = A + qC (<see cref="WeightCoherenceBlock"/>, A = −2·diag(n_diff)),
+    /// takes the right-eigenvector nearest <paramref name="lambdaNear"/>, and returns its ⟨n_diff⟩_v (the overlap
+    /// mixture) and the residual |−2·⟨n_diff⟩_v − Re λ| (machine zero at real q, since C is anti-Hermitian).</summary>
+    private static (double NDiff, double AtResidual) AtRateOfDefectiveEigenvector(int n, Complex q, Complex lambdaNear)
+    {
+        var raw = WeightCoherenceBlock.Build(n, 1, 2, q);        // L = A + qC, A = −2·diag(n_diff)
+        int d = raw.GetLength(0);
+        var m = Matrix<Complex>.Build.DenseOfArray(raw);
+        var evd = m.Evd();
+        var eigs = evd.EigenValues;
+        var vecs = evd.EigenVectors;
+
+        var kets = WeightCoherenceBlock.Configs(n, 1);
+        var bras = WeightCoherenceBlock.Configs(n, 2);
+        var ndiff = new double[d];
+        int idx = 0;
+        foreach (var k in kets) foreach (var b in bras) ndiff[idx++] = System.Numerics.BitOperations.PopCount((uint)(k ^ b));
+
+        int col = Enumerable.Range(0, d).OrderBy(i => (eigs[i] - lambdaNear).Magnitude).First();
+        double num = 0, den = 0;
+        for (int r = 0; r < d; r++)
+        {
+            var c = vecs[r, col];
+            double w = c.Real * c.Real + c.Imaginary * c.Imaginary;
+            num += w * ndiff[r]; den += w;
+        }
+        double nd = num / den;
+        return (nd, Math.Abs(-2.0 * nd - eigs[col].Real));
     }
 
     private static string FmtC(Complex z) =>
