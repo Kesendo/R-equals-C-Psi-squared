@@ -1,4 +1,5 @@
 using System.Numerics;
+using RCPsiSquared.Core.Numerics;
 using RCPsiSquared.Diagnostics.Foundation;
 using Xunit;
 
@@ -30,9 +31,20 @@ public class SectorEpProbeTests
         // refined q is computed here from our own minimization, never hardcoded.
         double qProbe = kind == "Defective" ? RefineToEpRealAxis(qre - 0.005, qre + 0.005) : qre;
 
-        var r = SectorEpProbe.Probe(N: 4, p: 1, qTilde: 2, q0: new System.Numerics.Complex(qProbe, qim));
+        var r = SectorEpProbe.Probe(N: 4, p: 1, qTilde: 2, q0: new Complex(qProbe, qim));
         Assert.True(r.MinGap < 1e-3, $"expected a coalescence, gap={r.MinGap} at q={qProbe}");
         Assert.Equal(kind, r.Kind.ToString());
+    }
+
+    // A size-1 sector (the corners C(N,0)² = 1 at every N) has no eigenvalue pair. The census sweep will
+    // hit these, so the probe must NOT index a second eigenvalue: it reports MinGap = +∞ / Normal (no
+    // coalescence) instead of throwing. This pins that guard.
+    [Fact]
+    public void Probe_Size1Sector_ReportsNoCoalescence_WithoutThrowing()
+    {
+        var r = SectorEpProbe.Probe(N: 4, p: 0, qTilde: 0, q0: new Complex(2.0, 0.0));
+        Assert.Equal(double.PositiveInfinity, r.MinGap);
+        Assert.Equal(EpCharacter.EpKind.Normal, r.Kind);
     }
 
     /// <summary>Golden-section minimize the RAW block's min-eigenvalue-gap over real q in [lo, hi],
@@ -44,7 +56,7 @@ public class SectorEpProbeTests
     private static double RefineToEpRealAxis(double lo, double hi)
     {
         const double invPhi = 0.6180339887498949;   // 1/φ = (√5 − 1)/2
-        static double Gap(double q) => SectorEpProbe.Probe(4, 1, 2, new System.Numerics.Complex(q, 0.0)).MinGap;
+        static double Gap(double q) => SectorEpProbe.Probe(4, 1, 2, new Complex(q, 0.0)).MinGap;
 
         double a = lo, b = hi;
         double c = b - invPhi * (b - a), d = a + invPhi * (b - a);

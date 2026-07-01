@@ -4,7 +4,6 @@ using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.BlockSpectrum;
 using RCPsiSquared.Core.Numerics;
-using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
@@ -81,6 +80,16 @@ public static class SectorEpProbe
 
         // Eigenvalues only, via the same MathNet dense EVD path used across the block-spectrum layer.
         var spectrum = m.Evd().EigenValues.ToArray();
+
+        // A size-1 sector has no pair to coalesce: the corners (0,0), (0,N), (N,0), (N,N) are C(N,0)² = 1
+        // at every N, so a full census sweep hits them. Report "no coalescence here" (MinGap = +∞, Normal,
+        // center = the sole eigenvalue) so the sweep skips it, rather than indexing a second eigenvalue
+        // that does not exist (or drawing a Riesz contour around a whole 1×1 block).
+        if (spectrum.Length < 2)
+        {
+            Complex sole = spectrum.Length == 1 ? spectrum[0] : default;
+            return new ProbeReading(EpCharacter.EpKind.Normal, double.PositiveInfinity, q0, sole, 0.0);
+        }
 
         var (iBest, jBest, minGap) = ClosestPair(spectrum);
         Complex center = 0.5 * (spectrum[iBest] + spectrum[jBest]);
