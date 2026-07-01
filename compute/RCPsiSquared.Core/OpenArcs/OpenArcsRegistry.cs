@@ -326,7 +326,18 @@ public static class OpenArcsRegistry
                 "path-3..6 Galois groups live' (experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md) + the " +
                 "galois_of_spectral_polynomial recipe (isolate-before-DDF + invariant-subspace). The RESULT is " +
                 "closed; the doors are the next research, none started.",
-            NextStep: "Four downstream directions, ranked by sharpness of the yes/no. " +
+            NextStep: "RESUMING IN ONE LINE (2026-06-30): door C is CLOSED (chaos = a FILLING threshold [term defined in " +
+                "the door-C block below + experiments/FILLING_THRESHOLD_CHAOS.md], the decisive test done, live inspect " +
+                "--root fillcsr); of the four doors, A is DONE EXCEPT one OPEN edge (a closed form for the ring's per-irrep " +
+                "multiplicity growth), B (gamma-dependence of the writable/unwritable line) is UNSTARTED Tier-3, D (Galois " +
+                "atlas of physical spectra) is UNSTARTED lowest-urgency. So the arc's live edges are A's remaining closed " +
+                "form, plus B and D; nothing is blocking, all are new research. TERMS the door-C prose leans on (glossed for " +
+                "a cold resume): q = J/gamma, the dimensionless coupling (Hamiltonian strength over dephasing rate); (SE,DE) " +
+                "= the single-excitation/double-excitation coherence block (the sector |a><b| with popcount(a)=1, " +
+                "popcount(b)=2); AT-locked = eigenvalues pinned to the Absorption-Theorem decay rungs (free-fermion, " +
+                "radically writable), H_B-mixed = the residual non-AT half that carries the Galois S_d; class A = the " +
+                "non-Hermitian symmetry class whose CSR reference is GinUE (the Ginibre random-matrix ensemble, the " +
+                "dissipative-quantum-chaos baseline, <|z|>~0.74 / <cos>~-0.24). The four doors in full (C now closed), ranked by sharpness of the yes/no. " +
                 "(A) [FIRST EXEMPLAR LANDED 2026-06-24] NON-CHAIN TOPOLOGY Galois groups: YES, topology controls " +
                 "radical-writability. Computed star/ring/complete (SE,DE) H_B-mixed Galois groups at N=4,5,6 " +
                 "(simulations/topology_galois_writability.py, gate-validated by reproducing the chain S_8/S_18/S_32; " +
@@ -363,7 +374,9 @@ public static class OpenArcsRegistry
                 "(integrable, pure imaginary). Is the AT-locked/H_B-mixed split present at all gamma>0, or does the " +
                 "writable fraction move with how hard you watch? Map deg(F_d)/deg(AT) or the discriminant loci across " +
                 "q. Speculative, Tier-3. " +
-                "(C) GALOIS <-> SPECTRAL CHAOS (RMT). [RESOLVED 2026-06-27, a clean NULL] Is S_d the algebraic face " +
+                "(C) GALOIS <-> SPECTRAL CHAOS (RMT). [FULLY RESOLVED: a clean NULL 2026-06-27, then EXPLAINED " +
+                "2026-06-30 -- chaos is a FILLING threshold; door C is CLOSED, see the 'DECISIVE TEST RESOLVED " +
+                "2026-06-30' block below and experiments/FILLING_THRESHOLD_CHAOS.md] Is S_d the algebraic face " +
                 "of Liouvillian level-repulsion? NO, not at fixed q. The galoischaos witness (inspect --root " +
                 "galoischaos, GaloisSpectralChaosWitness) splits the (SE,DE) block into AT-locked vs H_B-mixed and " +
                 "runs the complex spacing ratio (Sa-Ribeiro-Prosen) pooled over q: the H_B-mixed S_d half reads " +

@@ -6,6 +6,38 @@
 **Witness:** `inspect --root fillcsr` (`FillingThresholdWitness`)
 **Engine:** `FillingThresholdCsr` (Diagnostics) on `WeightCoherenceBlock.Build(n, wKet, wBra, q, Δ, field)` (Core)
 
+## In plain words (the ground truth first)
+
+The physical object is a **chain of N spins** (qubits) with nearest-neighbour XXZ interactions (the standard
+anisotropic spin-exchange model), each spin also continuously **watched by its environment** (local
+Z-dephasing, the decoherence a real device feels).
+An open quantum system like this is generated not by a Hamiltonian alone but by a **Liouvillian** L, the
+superoperator that plays the Hamiltonian's role once dissipation is present: L = −i[H,·] + D, where H is
+the spin Hamiltonian and D is the dephasing. Its eigenvalues live in the complex plane (real part = a
+relaxation rate, imaginary part = an oscillation frequency), and that cloud of eigenvalues is the
+**spectrum** we study.
+
+"**Dissipative quantum chaos**" is a statement about the *local spacing statistics* of that complex cloud.
+Two reference fingerprints bracket it: a structureless **2D-Poisson** cloud (the signature of an integrable
+/ non-chaotic system, eigenvalues don't "feel" each other) and **GinUE** (the Ginibre Unitary Ensemble, the
+random-matrix reference for a fully chaotic dissipative system, whose eigenvalues repel). The diagnostic
+that tells them apart is the complex spacing ratio (**CSR**), summarised below. The question of this
+experiment is which fingerprint a given piece of the spectrum wears, and what controls it.
+
+The usual suspect for what turns chaos on is **integrability**. An *integrable* system has enough
+conservation laws to be solvable in closed form, and it wears the structureless Poisson fingerprint;
+*breaking* integrability (adding interactions or disorder that spoil those conservation laws) is the
+textbook route to chaos. The surprise of this experiment is that breaking integrability is **not** what
+flips this spectrum to chaos.
+
+"**Filling**" is how many excitations (flipped spins) the piece of the spectrum under study carries,
+relative to N: a **dilute** sector holds a handful of excitations, a **dense** sector holds ~N/2
+(extensive, i.e. growing with the system size).
+The result, in one line: dissipative chaos turns on with **filling**, not with breaking integrability.
+
+The rest of this document is the precise version. (Acronyms expanded on first use; EVD = eigenvalue
+decomposition, the numerical step that produces the spectrum.)
+
 ## What this is about
 
 Door C of the F89 Galois arc asked a sharp question and got a clean **null**: the part of the
