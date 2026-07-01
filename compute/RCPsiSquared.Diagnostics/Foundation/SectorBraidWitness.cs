@@ -40,7 +40,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// reference locus and shows the byte-identity + cross-fold live. Cost: <c>Run(N)</c> dominates (~15 s at N=4, ~2
 /// min at N=5). Default N=4; <c>inspect --root sectorbraid --N 5</c> runs the (slow) generic verdict. The exact
 /// 12-set is pinned as the regression test <c>Census_N5_BraidSpreadsBeyondOrbit_ReachesDenseCore</c>. Reading:
-/// <c>experiments/MULTI_SECTOR_MONODROMY.md</c>; typed home: the multi-sector monodromy verdict claim. Siblings:
+/// <c>experiments/F89_MULTI_SECTOR_MONODROMY.md</c>; typed home: the multi-sector monodromy verdict claim. Siblings:
 /// <see cref="CrossFoldSimilarityWitness"/> (F89d, <c>--root crossfold</c>) and <c>--root galoismonodromy</c>.</para>
 /// </summary>
 public sealed class SectorBraidWitness : IInspectable
