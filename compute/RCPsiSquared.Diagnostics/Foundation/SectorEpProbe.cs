@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
@@ -48,6 +49,22 @@ public static class SectorEpProbe
         Complex Center,
         double ProjectorNorm);
 
+    /// <summary>The AT-aware "defective-anywhere" reading (<see cref="ProbeDefectiveAnywhere"/>): does ANY
+    /// near-coalescing eigenvalue cluster of the (p, q̃) block carry a genuine √-EP (a Jordan block,
+    /// <see cref="EpCharacter.EpKind.Defective"/>), even when a PERMANENT semisimple (AT) degeneracy is the
+    /// globally-closest pair and hides it from <see cref="Probe"/>. <paramref name="HasDefective"/> is true iff at
+    /// least one multi-member cluster reads Defective; <paramref name="MinDefectiveGap"/> is that cluster's intra
+    /// gap |λ_i − λ_j| (the smallest over all defective clusters; +∞ if none); <paramref name="DefectiveCenter"/>
+    /// is its midpoint λ, the Riesz-contour center (default if none); <paramref name="DefectiveProjectorNorm"/>
+    /// the supplementary ‖P‖₂ there; <paramref name="MultiMemberClusterCount"/> the number of near-coalescing
+    /// (size ≥ 2) clusters examined.</summary>
+    public readonly record struct DefectiveAnywhereReading(
+        bool HasDefective,
+        double MinDefectiveGap,
+        Complex DefectiveCenter,
+        double DefectiveProjectorNorm,
+        int MultiMemberClusterCount);
+
     /// <summary>Fraction of the midpoint-to-third-eigenvalue distance used as the nominal contour radius
     /// (the <c>EpCharacterWitness</c> convention: enclose the pair, stay well inside the third).</summary>
     private const double NominalRadiusFraction = 0.40;
@@ -62,6 +79,13 @@ public static class SectorEpProbe
     /// <summary>Fallback third-eigenvalue distance for a block with fewer than three eigenvalues (a closed
     /// tiny block where the contour trivially encloses everything). Large so the radius is unconstrained.</summary>
     private const double LoneClusterFallback = 10.0;
+
+    /// <summary>Single-linkage gap threshold for the <see cref="ProbeDefectiveAnywhere"/> cluster search: two
+    /// eigenvalues join a cluster when |λ_i − λ_j| is below this. Chosen (from the N=4 census review) well ABOVE
+    /// the permanent semisimple AT pair (gap ~1e-15) AND the residual √-EP split (gap ~5e-4), and well BELOW the
+    /// generic eigenvalue spacing (~0.1–0.6), so the permanent AT pair and the residual EP land in SEPARATE
+    /// clusters and each is characterized on its own contour.</summary>
+    private const double ClusterLinkThreshold = 1e-3;
 
     /// <summary>Probe the (p, q̃) sector of the N-site XY (Δ=0) + Z-dephasing Liouvillian at coupling
     /// <paramref name="q0"/>: build the RAW block via <see cref="SectorBlock.Build"/>, find the closest
@@ -99,6 +123,94 @@ public static class SectorEpProbe
         return new ProbeReading(reading.Kind, minGap, q0, center, reading.ProjectorNorm);
     }
 
+    /// <summary>The AT-aware "defective-anywhere" probe: build the RAW (p, q̃) block via
+    /// <see cref="SectorBlock.Build"/>, take its full spectrum, single-linkage-cluster ALL near-coalescences
+    /// below <see cref="ClusterLinkThreshold"/>, and run <see cref="EpCharacter.Characterize"/> on EACH
+    /// multi-member cluster (each on a Riesz contour that encloses only that cluster). Reports whether ANY
+    /// cluster is <see cref="EpCharacter.EpKind.Defective"/> (a genuine √-EP / Jordan block).
+    ///
+    /// <para><b>Why it exists (the mask <see cref="Probe"/> cannot see through).</b> <see cref="Probe"/> keys on
+    /// the GLOBAL closest pair only. At N ≥ 5 many RAW joint-popcount blocks carry a PERMANENT semisimple (AT)
+    /// degeneracy (a gap ~1e-15 eigenvalue pair at EVERY q, on the dissipative AT rate lines); that permanent pair
+    /// IS the global-closest pair, so <see cref="Probe"/> reads <see cref="EpCharacter.EpKind.Diabolic"/> and the
+    /// residual braid-carrying √-EP (gap ~5e-4, at a DIFFERENT λ) is masked. This probe examines every
+    /// near-coalescence, so it reaches the residual EP: the permanent semisimple clusters read Diabolic and are
+    /// skipped for the verdict; a Defective cluster sets <paramref name="HasDefective"/>. This re-enables the
+    /// census's N ≥ 5 cross-fold gate ((1, N−2) shares the (1,2) braid at the conjugate locus, F89d), which the
+    /// global-closest probe under-reports as all-Diabolic.</para>
+    ///
+    /// <para><b>Strict improvement over <see cref="Probe"/>.</b> Where a block has NO permanent pair (the N=4
+    /// (1,2) Klein orbit: the residual EP IS the global-closest pair), both agree — this returns
+    /// <paramref name="HasDefective"/> = true exactly where <see cref="Probe"/> returns Defective. Where the only
+    /// coalescence is a permanent semisimple pair (the N=4 node sectors), both agree it is not a braid
+    /// (<paramref name="HasDefective"/> = false). It differs ONLY by ALSO seeing a defective cluster that is not
+    /// the global-closest pair: the masked residual √-EP.</para>
+    ///
+    /// <para>The cluster contour discipline mirrors <see cref="Probe"/> / <c>EpCharacterWitness</c>, generalized
+    /// from a pair to a cluster: interpolate the radius <see cref="NominalRadiusFraction"/> of the way from the
+    /// cluster's outer edge to the nearest OUTSIDE eigenvalue, floored to comfortably enclose the split cluster
+    /// (<see cref="GapEnclosureFactor"/>·edge) and capped at <see cref="MaxRadiusFraction"/> of the
+    /// nearest-outsider distance so it never reaches it.</para></summary>
+    /// <param name="N">Number of sites (N ≥ 1).</param>
+    /// <param name="p">Column popcount (0 ≤ p ≤ N).</param>
+    /// <param name="qTilde">Row popcount (0 ≤ q̃ ≤ N).</param>
+    /// <param name="q0">The complex coupling q = J/γ the sector is probed at.</param>
+    /// <returns>The <see cref="DefectiveAnywhereReading"/> for <paramref name="q0"/>.</returns>
+    public static DefectiveAnywhereReading ProbeDefectiveAnywhere(int N, int p, int qTilde, Complex q0)
+    {
+        var raw = SectorBlock.Build(N, p, qTilde, q0);
+        var m = Matrix<Complex>.Build.DenseOfArray(raw);
+        var spectrum = m.Evd().EigenValues.ToArray();
+        int d = spectrum.Length;
+
+        // Fewer than two eigenvalues (the size-1 corners C(N,0)² = 1 at every N): no pair can coalesce.
+        if (d < 2)
+        {
+            Complex sole = d == 1 ? spectrum[0] : default;
+            return new DefectiveAnywhereReading(false, double.PositiveInfinity, sole, 0.0, 0);
+        }
+
+        bool anyDefective = false;
+        double minDefectiveGap = double.PositiveInfinity;
+        Complex defectiveCenter = default;
+        double defectiveProjectorNorm = 0.0;
+        int multiMemberClusters = 0;
+
+        foreach (var cluster in ClusterByLinkage(spectrum, ClusterLinkThreshold))
+        {
+            if (cluster.Count < 2) continue;   // a lone eigenvalue cannot be a coalescence
+            multiMemberClusters++;
+
+            var members = new HashSet<int>(cluster);
+            Complex center = new(cluster.Average(k => spectrum[k].Real), cluster.Average(k => spectrum[k].Imaginary));
+            double maxIntra = cluster.Max(k => (spectrum[k] - center).Magnitude);
+            double minInter = Enumerable.Range(0, d).Where(k => !members.Contains(k))
+                                        .Select(k => (spectrum[k] - center).Magnitude)
+                                        .DefaultIfEmpty(LoneClusterFallback).Min();
+
+            // Enclose the whole cluster, stay well inside the nearest outsider (the pair discipline, generalized).
+            double radius = maxIntra + NominalRadiusFraction * (minInter - maxIntra);
+            radius = Math.Max(radius, GapEnclosureFactor * Math.Max(maxIntra, 1e-13));
+            radius = Math.Min(radius, MaxRadiusFraction * minInter);
+
+            var reading = EpCharacter.Characterize(m, center, radius);
+            if (reading.Kind == EpCharacter.EpKind.Defective)
+            {
+                anyDefective = true;
+                double intraGap = ClusterMinGap(spectrum, cluster);
+                if (intraGap < minDefectiveGap)
+                {
+                    minDefectiveGap = intraGap;
+                    defectiveCenter = center;
+                    defectiveProjectorNorm = reading.ProjectorNorm;
+                }
+            }
+        }
+
+        return new DefectiveAnywhereReading(anyDefective, minDefectiveGap, defectiveCenter,
+            defectiveProjectorNorm, multiMemberClusters);
+    }
+
     /// <summary>The closest eigenvalue pair (indices and gap): the (i, j) minimising |λ_i − λ_j|. At a
     /// genuine coalescence the coalescing pair has gap → 0, so it IS the global-min-gap pair.</summary>
     private static (int I, int J, double Gap) ClosestPair(Complex[] spectrum)
@@ -128,5 +240,45 @@ public static class SectorEpProbe
         r = Math.Max(r, GapEnclosureFactor * gap);   // enclose the (split) pair comfortably
         r = Math.Min(r, MaxRadiusFraction * third);  // ...but never reach the third eigenvalue
         return r;
+    }
+
+    /// <summary>Single-linkage clustering of the spectrum by the gap <paramref name="threshold"/>: two
+    /// eigenvalues share a cluster iff a chain of pairwise gaps all below <paramref name="threshold"/> connects
+    /// them (union-find). Returns every cluster (including singletons); the caller keeps the size ≥ 2 ones. This
+    /// is what lets a permanent semisimple pair (gap ~1e-15) and a residual √-EP (gap ~5e-4) at a DIFFERENT λ sit
+    /// in SEPARATE clusters, so each is characterized on its own contour.</summary>
+    private static List<List<int>> ClusterByLinkage(Complex[] spectrum, double threshold)
+    {
+        int d = spectrum.Length;
+        var parent = new int[d];
+        for (int i = 0; i < d; i++) parent[i] = i;
+
+        int Find(int x) { while (parent[x] != x) { parent[x] = parent[parent[x]]; x = parent[x]; } return x; }
+        void Union(int a, int b) { parent[Find(a)] = Find(b); }
+
+        for (int i = 0; i < d; i++)
+            for (int j = i + 1; j < d; j++)
+                if ((spectrum[i] - spectrum[j]).Magnitude < threshold) Union(i, j);
+
+        var groups = new Dictionary<int, List<int>>();
+        for (int i = 0; i < d; i++)
+        {
+            int root = Find(i);
+            if (!groups.TryGetValue(root, out var list)) { list = new List<int>(); groups[root] = list; }
+            list.Add(i);
+        }
+        return groups.Values.ToList();
+    }
+
+    /// <summary>The smallest pairwise gap within a cluster: min over (a, b) ∈ cluster of |λ_a − λ_b| (→ 0 at a
+    /// genuine coalescence). Reported as the defective cluster's
+    /// <see cref="DefectiveAnywhereReading.MinDefectiveGap"/>.</summary>
+    private static double ClusterMinGap(Complex[] spectrum, List<int> cluster)
+    {
+        double gap = double.PositiveInfinity;
+        for (int a = 0; a < cluster.Count; a++)
+            for (int b = a + 1; b < cluster.Count; b++)
+                gap = Math.Min(gap, (spectrum[cluster[a]] - spectrum[cluster[b]]).Magnitude);
+        return gap;
     }
 }
