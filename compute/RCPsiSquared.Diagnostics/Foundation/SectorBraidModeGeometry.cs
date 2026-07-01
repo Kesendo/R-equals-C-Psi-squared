@@ -34,6 +34,80 @@ public static class SectorBraidModeGeometry
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
 
+    /// <summary>Build the (1,2) block L(q) (native CoherenceBlock/JwBlockBasis basis) at real q and the
+    /// per-basis-index n_diff (γ=1, H=XYChain(N,2q) to match WeightCoherenceBlock).</summary>
+    public static (Matrix<Complex> L, double[] Ndiff) BuildBlock(int N, double q)
+    {
+        var block = new CoherenceBlock(N, 1, 1.0);
+        BlockBasis basis = block.Basis;
+        int d = 1 << N;
+        var H = PauliHamiltonian.XYChain(N, 2.0 * q).ToMatrix();
+        var gammaPerSite = Enumerable.Repeat(1.0, N).ToList();
+        var flatIndices = new int[basis.MTotal];
+        for (int pIdx = 0; pIdx < basis.Mp; pIdx++)
+            for (int qIdx = 0; qIdx < basis.Mq; qIdx++)
+            {
+                long p = basis.StatesP[pIdx], b = basis.StatesQ[qIdx];
+                flatIndices[basis.FlatIndex(p, b)] = (int)(p * d + b);
+            }
+        var L = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaPerSite, flatIndices);
+        var ndiff = new double[basis.MTotal];
+        for (int i = 0; i < basis.MTotal; i++)
+            ndiff[i] = System.Numerics.BitOperations.PopCount((uint)((flatIndices[i] / d) ^ (flatIndices[i] % d)));
+        return (L, ndiff);
+    }
+
+    /// <summary>One sample of the defective branch: coupling, the tracked eigenvalue, ⟨Ô⟩ from the AT identity
+    /// (3/2 + Re λ/4) and ⟨Ô⟩ from the eigenvector contraction (v†Ôv/v†v), and ⟨n_diff⟩ = −Re λ/2.</summary>
+    public readonly record struct BranchSample(double Q, Complex Lambda, double OhatFromLambda, double OhatFromVec, double NDiff);
+
+    /// <summary>Track the defective eigenvalue branch (the one that coalesces at the EP) as a smooth function of
+    /// REAL q by continuity: seed at (qStart, lambdaStart), step outward to [qMin,qMax] picking the eigenvalue
+    /// nearest the running value. Records ⟨Ô⟩(q) = 3/2 + Re λ/4 (AT identity) and, as a gate, ⟨Ô⟩ from the
+    /// eigenvector. This is the "function thread": does ⟨Ô⟩(q) along the branch have a nicer form than the
+    /// non-radical per-locus values?</summary>
+    public static List<BranchSample> SweepDefectiveBranch(int N, double qStart, Complex lambdaStart,
+        double qMin, double qMax, int steps)
+    {
+        double dq = (qMax - qMin) / steps;
+        int startIdx = (int)Math.Round((qStart - qMin) / dq);
+        startIdx = Math.Clamp(startIdx, 0, steps);
+        var samples = new BranchSample?[steps + 1];
+
+        void Walk(int from, int dir, Complex seed)
+        {
+            Complex prev = seed;
+            for (int i = from; i >= 0 && i <= steps; i += dir)
+            {
+                double q = qMin + i * dq;
+                var (L, ndiff) = BuildBlock(N, q);
+                var evd = L.Evd();
+                var eigs = evd.EigenValues;
+                int best = 0; double bd = double.MaxValue;
+                for (int j = 0; j < eigs.Count; j++)
+                {
+                    double d = (eigs[j] - prev).Magnitude;
+                    if (d < bd) { bd = d; best = j; }
+                }
+                var lam = eigs[best];
+                var v = evd.EigenVectors.Column(best);
+                double num = 0, den = 0;
+                for (int r = 0; r < v.Count; r++)
+                {
+                    double w = v[r].Real * v[r].Real + v[r].Imaginary * v[r].Imaginary;
+                    num += w * ndiff[r]; den += w;
+                }
+                double ndv = num / den;
+                samples[i] = new BranchSample(q, lam, 1.5 + lam.Real / 4.0, (3.0 - ndv) / 2.0, ndv);
+                prev = lam;
+            }
+        }
+
+        Walk(startIdx, -1, lambdaStart);
+        Walk(Math.Min(startIdx + 1, steps), +1, samples[startIdx]?.Lambda ?? lambdaStart);
+        return samples.Where(s => s.HasValue).Select(s => s!.Value).OrderBy(s => s.Q).ToList();
+    }
+
     /// <summary>I(a,b) = Σ_l ψ_a(l)²·ψ_b(l)² (a,b ∈ [1,N]); the closed-form ket/bra mode-density overlap.</summary>
     public static double ModeOverlap(XyJordanWignerModes modes, int a, int b)
     {
