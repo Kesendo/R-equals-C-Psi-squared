@@ -166,6 +166,33 @@ public sealed class SectorBraidWitness : IInspectable
                     provenance: NodeProvenance.Live);
             }
 
+            // Node 4b — the ⟨n_diff⟩(q*) mixture table across ALL real defective loci (Head-1 data, mined
+            // from the trusted tools only: the memoized ReferenceDefectiveLoci, ProbeDefectiveAnywhere for the
+            // defective cluster λ, and the AT-rate helper — no fresh scan, no reimplementation). This is the
+            // per-locus evidence for the closed-form question: at N=4 the self-fold pins EVERY value to N/2 (Re λ
+            // = −N is the antiunitary fixed axis of the F89d map λ↦−λ̄−2N); at N≥5 the values are the non-radical
+            // P₁₀ mixtures (the octic is S₈, so no per-locus radical form — the numbers do not simplify).
+            var realLoci = loci.Where(q => Math.Abs(q.Imaginary) < 1e-9).OrderBy(q => q.Real).ToList();
+            var mixtureRows = new List<string>();
+            foreach (var q in realLoci)
+            {
+                var probe = SectorEpProbe.ProbeDefectiveAnywhere(_n, 1, 2, q);
+                if (!probe.HasDefective) continue;
+                var (nd, res) = AtRateOfDefectiveEigenvector(_n, q, probe.DefectiveCenter);
+                mixtureRows.Add($"q*={q.Real.ToString("0.######", Inv)}: λ={FmtC(probe.DefectiveCenter)}, " +
+                                $"⟨n_diff⟩={nd.ToString("F6", Inv)} (AT res {res.ToString("E1", Inv)})");
+            }
+            yield return new InspectableNode(
+                displayName: $"the ⟨n_diff⟩ mixture across all {mixtureRows.Count} real defective loci (Head-1 data, N={_n})",
+                summary: (mixtureRows.Count == 0 ? "no real defective loci at this N. " : string.Join("  |  ", mixtureRows) + ". ") +
+                         (_n == 4
+                             ? "At N=4 the self-fold pins every value to ⟨n_diff⟩ = N/2 = 2: the F89d map λ↦−λ̄−2N is an "
+                               + "antiunitary symmetry of the block itself, and Re λ = −N is its real-part fixed axis."
+                             : "At N≥5 there is no self-fold, so the values are free P₁₀ mixtures; they are non-radical "
+                               + "(the octic is S₈), so the OPEN target is the FUNCTION ⟨n_diff⟩(q) from the free-fermion "
+                               + "mode geometry, not a per-locus closed form."),
+                provenance: NodeProvenance.Live);
+
             // Node 5 — what remains open (stored: the honest edge, now narrowed).
             yield return new InspectableNode(
                 displayName: "what is open: the closed-form mixture (the S₈ wall) and general N",
