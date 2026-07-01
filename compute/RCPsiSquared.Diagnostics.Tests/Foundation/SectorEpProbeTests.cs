@@ -19,19 +19,41 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 public class SectorEpProbeTests
 {
     [Theory]
-    [InlineData(0.658983, 0.0, "Diabolic")]   // (3q^4+q^2-1) root: semisimple node, silent
-    [InlineData(0.460212, 0.0, "Defective")]  // P_10 real root: braid-carrying EP
+    [InlineData(0.658983, 0.0, "Diabolic")]   // (3q^4+q^2-1) root: semisimple node, silent (linear split)
+    [InlineData(0.460212, 0.0, "Defective")]  // P_10 real root: braid-carrying EP (√-split; refined below)
     public void Probe_ClassifiesOcticCoalescence(double qre, double qim, string kind)
     {
-        var r = SectorEpProbe.Probe(N: 4, p: 1, qTilde: 2, q0: new System.Numerics.Complex(qre, qim));
-        // A coalescence guard, NOT the load-bearing assertion (that is the Kind below). The threshold is
-        // 1e-2, not 1e-3, because the two EP types respond DIFFERENTLY to the 6-digit rounding of these
-        // reference q-values: the diabolic node splits LINEARLY (gap ≈ 4e-7 at q≈0.658983), but the
-        // defective EP splits as √(q−q*), so a ~6e-7 offset of q from the exact P₁₀ root is amplified to a
-        // gap ≈ 3e-3 at q≈0.460212 (the √-law itself, confirmed from-below by the census scout). Both are
-        // still far below the next eigenvalue (diabolic third-eigenvalue distance ≈ 2.4e-2), so 1e-2
-        // cleanly certifies "a coalescing pair, well inside the next eigenvalue" for both types.
-        Assert.True(r.MinGap < 1e-2, $"expected a coalescence, gap={r.MinGap}");
+        // The DEFECTIVE EP splits as gap ∝ √(q−q*), so the 6-digit reference seed sits ~3e-3 off the true
+        // gap floor. Refine that seed to the actual EP on the REAL q-axis before probing (the EP has its
+        // λ on the Re=−4 line, so a 1D real-axis refine reaches it): the gap drops to ~2e-6. The DIABOLIC
+        // node splits LINEARLY and is already at gap ≈ 4e-7 from its seed, so it needs no refine. The
+        // refined q is computed here from our own minimization, never hardcoded.
+        double qProbe = kind == "Defective" ? RefineToEpRealAxis(qre - 0.005, qre + 0.005) : qre;
+
+        var r = SectorEpProbe.Probe(N: 4, p: 1, qTilde: 2, q0: new System.Numerics.Complex(qProbe, qim));
+        Assert.True(r.MinGap < 1e-3, $"expected a coalescence, gap={r.MinGap} at q={qProbe}");
         Assert.Equal(kind, r.Kind.ToString());
+    }
+
+    /// <summary>Golden-section minimize the RAW block's min-eigenvalue-gap over real q in [lo, hi],
+    /// returning the minimizing q (the actual EP). About a defective EP the coalescence gap is
+    /// gap(q) ∝ √|q−q*|, a unimodal V with its cusp at q*, so golden-section converges to it; 50 iters
+    /// shrink the 1e-2 bracket to ~4e-13, well past the point where the √-law puts the gap below 1e-3.
+    /// The objective is the probe's own <see cref="SectorEpProbe.ProbeReading.MinGap"/> (reuse of the
+    /// primitive, not a re-derivation).</summary>
+    private static double RefineToEpRealAxis(double lo, double hi)
+    {
+        const double invPhi = 0.6180339887498949;   // 1/φ = (√5 − 1)/2
+        static double Gap(double q) => SectorEpProbe.Probe(4, 1, 2, new System.Numerics.Complex(q, 0.0)).MinGap;
+
+        double a = lo, b = hi;
+        double c = b - invPhi * (b - a), d = a + invPhi * (b - a);
+        double fc = Gap(c), fd = Gap(d);
+        for (int it = 0; it < 50; it++)
+        {
+            if (fc < fd) { b = d; d = c; fd = fc; c = b - invPhi * (b - a); fc = Gap(c); }
+            else         { a = c; c = d; fc = fd; d = a + invPhi * (b - a); fd = Gap(d); }
+        }
+        return 0.5 * (a + b);
     }
 }
