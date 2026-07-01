@@ -295,6 +295,29 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void Catalog_HasSectorBraidRoot_NFree_HonorsOptionalN()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "sectorbraid");
+        Assert.False(entry.RequiresN);
+        Assert.True(entry.HonorsOptionalN);
+        Assert.Contains("Multi-Sector Monodromy", entry.Description);
+        Assert.Contains("N-DEPENDENT", entry.Description);
+    }
+
+    [Fact]
+    public void Catalog_SectorBraidFactory_BuildsTheLiveWitness_DefaultN4()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "sectorbraid");
+        var ctx = new InspectRootContext(new ArgParser(Array.Empty<string>()), N: 1,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var root = entry.Factory(ctx);   // no --N flag ⟹ the witness defaults to N=4 (the fast anchor)
+        Assert.IsType<SectorBraidWitness>(root);
+        Assert.Contains("N=4", root.DisplayName);
+        Assert.Contains("CONFINED", root.Summary);   // the Summary states the full N-dependent verdict (static, no census run)
+        Assert.Contains("SPREAD", root.Summary);
+    }
+
+    [Fact]
     public void SymphonyFactory_TempoRatio_GrowsTheClockMovement()
     {
         var symphony = InspectCommand.Catalog.Single(e => e.Name == "symphony");
