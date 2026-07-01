@@ -209,8 +209,9 @@ public sealed class SectorBraidWitness : IInspectable
                 displayName: $"free-fermion mode geometry of the defective EP eigenvector (N={_n})",
                 summary: (modeRows.Count == 0 ? "no real defective loci. " : string.Join("  ||  ", modeRows) + " ") +
                          "The overlap I(a,b) is quantized (1/(N+1) generic, 3/(2(N+1)) for a=b or chiral " +
-                         "a+b=N+1); ⟨Ô⟩ is the biorthogonal contraction over the δ-degenerate multiplet the " +
-                         "defective eigenvector lives in. Reduce that small multiplet to close ⟨n_diff⟩(q).",
+                         "a+b=N+1); ⟨Ô⟩ = v†Ôv/v†v (right eigenvector, Hermitian) is the amplitude-weighted " +
+                         "contraction over the δ-degenerate multiplet the defective eigenvector lives in. Reduce " +
+                         "that small multiplet to close ⟨n_diff⟩(q).",
                 provenance: NodeProvenance.Live);
 
             // Node 5 — what remains open (stored: the honest edge, now narrowed).
