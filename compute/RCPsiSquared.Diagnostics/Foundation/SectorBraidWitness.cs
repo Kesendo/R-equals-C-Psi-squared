@@ -193,6 +193,26 @@ public sealed class SectorBraidWitness : IInspectable
                                + "mode geometry, not a per-locus closed form."),
                 provenance: NodeProvenance.Live);
 
+            // Node 4c — the FREE-FERMION MODE GEOMETRY of the defective EP eigenvector (Head-1 derivation
+            // engine): decompose v into the |k⟩⟨k₁,k₂| mode-product basis (JwBlockBasis) and read ⟨Ô⟩ from the
+            // mode geometry. The diagonal approximation Σ|c_α|²·⟨Ô⟩_diag(α) uses the quantized overlap
+            // I(a,b) ∈ {1/(N+1), 3/(2(N+1))}; the off-diag remainder is the mode mixing within the δ-multiplet
+            // (δ = ε_k − ε_{k₁} − ε_{k₂}). This is the instrument for the closed-form ⟨n_diff⟩(q) reduction.
+            var modeRows = new List<string>();
+            foreach (var q in realLoci)
+            {
+                var probe = SectorEpProbe.ProbeDefectiveAnywhere(_n, 1, 2, q);
+                if (!probe.HasDefective) continue;
+                modeRows.Add(SectorBraidModeGeometry.Analyze(_n, q.Real, probe.DefectiveCenter));
+            }
+            yield return new InspectableNode(
+                displayName: $"free-fermion mode geometry of the defective EP eigenvector (N={_n})",
+                summary: (modeRows.Count == 0 ? "no real defective loci. " : string.Join("  ||  ", modeRows) + " ") +
+                         "The overlap I(a,b) is quantized (1/(N+1) generic, 3/(2(N+1)) for a=b or chiral " +
+                         "a+b=N+1); ⟨Ô⟩ is the biorthogonal contraction over the δ-degenerate multiplet the " +
+                         "defective eigenvector lives in. Reduce that small multiplet to close ⟨n_diff⟩(q).",
+                provenance: NodeProvenance.Live);
+
             // Node 5 — what remains open (stored: the honest edge, now narrowed).
             yield return new InspectableNode(
                 displayName: "what is open: the closed-form mixture (the S₈ wall) and general N",
