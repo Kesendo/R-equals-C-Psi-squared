@@ -4,7 +4,8 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>The Multi-Sector Monodromy verdict (Tier 1 candidate; computationally exact and gate-tested, the
-/// free-fermion-additivity mechanism confirmed for the embedding, the λ-value construction open):
+/// free-fermion-additivity mechanism confirmed for the embedding, the λ-value grounded and its closed-form
+/// mixture resolved via the mode geometry, general N and the codim-1 theorem open):
 ///
 /// <para><b>Is the S₈ Galois braid the F89 (1,2) octic carries LOCALIZED to the (1,2) coherence sector, or SHARED
 /// across the joint-popcount sectors of L(q)? The answer is N-DEPENDENT.</b></para>
@@ -42,10 +43,26 @@ namespace RCPsiSquared.Core.Symmetry;
 /// ⟨n_diff⟩ = 2). Not off the AT theorem, only off the integer-quantized lines; the defectiveness is the
 /// eigenvector coalescence (Jordan), separate from the rate.</para>
 ///
-/// <para><b>What stays open (why this is Tier 1 CANDIDATE, not derived).</b> A CLOSED FORM for the mixture
-/// ⟨n_diff⟩(q) (predicting it from the free-fermion mode geometry without diagonalizing the block) and the
-/// codim-1-by-additivity theorem, plus general N: the verdict is verified only at N=4, 5, and the octic is S₈
-/// (non-solvable in radicals), so no global radical form for the P₁₀ EP loci is expected.</para>
+/// <para><b>The closed-form mixture, from the mode geometry.</b> Rewrite the pencil as L(q) = −6·I + 4·Ô + q·Ĥ:
+/// a 1-ket + 2-bra free-fermion CONTACT problem, ⟨n_diff⟩ = 3 − 2·⟨Ô⟩ with Ô the ket-bra coincidence. In the
+/// mode-product basis |k⟩⟨k₁,k₂| (<see cref="RCPsiSquared.Core.F86.JordanWigner.JwBlockBasis"/>) the diagonal
+/// coincidence is ⟨Ô⟩_diag = I(k,k₁)+I(k,k₂), the mode-density overlap I(a,b) = Σ_l ψ_a(l)²ψ_b(l)², which is
+/// EXACTLY QUANTIZED (Dirichlet sum): I = 1/(N+1) generic, 3/(2(N+1)) for a=b or chiral a+b=N+1. So
+/// ⟨Ô⟩ = Σ|c_α|²·⟨Ô⟩_diag(α) + off-diagonal δ-multiplet mixing (δ = ε_k − ε_{k₁} − ε_{k₂}). The off-diagonal
+/// mixing is the closed-form boundary: at N=4 it is EXACTLY ZERO (the self-fold cancels the chiral I-pairs), so
+/// ⟨n_diff⟩ = N/2 = 2 (a second proof beside the Re λ=−N axis); at N≥5 it is nonzero, and the function ⟨n_diff⟩(q)
+/// along the defective branch carries a √-branch point AT each EP (smooth+algebraic, quantized ⟨n_diff⟩=3 at q=0,
+/// low-q 3−c·q²) so the per-locus value is the non-radical Re-part of an S₈ octic root. The S₈ "wall" is the
+/// branch-point structure of ⟨n_diff⟩(q) itself. Instruments:
+/// <see cref="RCPsiSquared.Core.F86.JordanWigner.JwBlockBasis"/>,
+/// <see cref="RCPsiSquared.Core.F86.JordanWigner.XyJordanWignerModes"/> (Core);
+/// SectorBraidModeGeometry (Diagnostics, the decomposition + branch sweep).</para>
+///
+/// <para><b>What stays open (why this is Tier 1 CANDIDATE, not derived).</b> The general-N membership (the verdict
+/// is verified only at N=4, 5) and the codim-1-by-additivity theorem as a stated Tier-1 theorem. The closed-form
+/// mixture is now resolved (the quantized-overlap contraction above); the octic is S₈ (non-solvable in radicals),
+/// so no global radical form for the P₁₀ EP loci exists, and this is now derived (the √-branch-point structure of
+/// the function), not merely expected.</para>
 ///
 /// <para><b>Typed parents.</b> <see cref="F89OcticMonodromyClaim"/> (the S₈ braid this census spreads across
 /// sectors) and <see cref="F89CrossFoldSimilarityClaim"/> (F89d, the exact antiunitary similarity λ ↦ −λ̄ − 2N
@@ -69,8 +86,12 @@ public sealed class MultiSectorMonodromyVerdictClaim : Claim
                "additivity (a diagonal mode-spectator leaves the EP invariant, so (1,2)≡(2,3)≡(3,4) byte-identical; " +
                "Family B = the F89d image λ↦−λ̄−2N). The λ VALUE is the AT Theorem-2 rate of the mixed defective " +
                "eigenvector: L(q)=A+qC with A=−2·diag(n_diff) real and C anti-Hermitian, so Re λ = −2·⟨n_diff⟩_v " +
-               "exactly at real loci (a q-tuned mixture of the rate-2/rate-6 eigenmodes). A closed form for the " +
-               "mixture ⟨n_diff⟩(q) and general N stay open.",
+               "exactly at real loci (a q-tuned mixture of the rate-2/rate-6 eigenmodes). The mixture is RESOLVED via " +
+               "the free-fermion mode geometry: ⟨n_diff⟩=3−2⟨Ô⟩ with the mode-density overlap I(a,b) exactly " +
+               "quantized (1/(N+1) or 3/(2(N+1))); N=4 pins ⟨n_diff⟩=N/2 by a vanishing off-diagonal δ-multiplet " +
+               "mixing (a 2nd proof beside the Re λ=−N self-fold axis), and ⟨n_diff⟩(q) has √-branch points at the " +
+               "S₈ EPs so N≥5 is non-radical (the S₈ wall IS the function's branch-point structure). General N and " +
+               "the codim-1-by-additivity theorem stay open.",
                Tier.Tier1Candidate,
                "experiments/F89_MULTI_SECTOR_MONODROMY.md + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/MultiSectorMonodromyCensus.cs + " +
@@ -86,7 +107,8 @@ public sealed class MultiSectorMonodromyVerdictClaim : Claim
     public override string Summary =>
         $"N-dependent: N=4 CONFINED to the D₄ orbit (dense core braid-free), N=5 SPREADS to a 12-sector diamond " +
         $"(two cross-fold families sharing a byte-identical λ, incl. the dense core (2,2)); the N-dependence is the " +
-        $"N=4 self-fold, the mechanism free-fermion/AT additivity, the λ-value construction open ({Tier.Label()})";
+        $"N=4 self-fold, the mechanism free-fermion/AT additivity, the mixture ⟨n_diff⟩(q) resolved via the mode " +
+        $"geometry (quantized overlap; N=4 ⟹ N/2, N≥5 √-branch/non-radical), general N open ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -112,10 +134,15 @@ public sealed class MultiSectorMonodromyVerdictClaim : Claim
                          "of the rate-2/rate-6 eigenmodes (⟨n_diff⟩ = 2.31 at q=0.6209; the N=4 EP at the −4 midpoint). " +
                          "Not off the AT theorem, only off the integer-quantized lines; defectiveness = the Jordan " +
                          "coalescence, separate from the rate.");
+            yield return new InspectableNode("the closed-form mixture (mode geometry)",
+                summary: "⟨n_diff⟩ = 3 − 2⟨Ô⟩ (a 1-ket+2-bra free-fermion contact problem). The mode-density overlap " +
+                         "I(a,b) = Σ_l ψ_a(l)²ψ_b(l)² is exactly quantized (1/(N+1) or 3/(2(N+1))); ⟨Ô⟩ = " +
+                         "Σ|c_α|²·⟨Ô⟩_diag(α) + off-diagonal δ-multiplet mixing. N=4: mixing = 0 (self-fold) ⟹ " +
+                         "⟨n_diff⟩ = N/2. N≥5: mixing ≠ 0, and ⟨n_diff⟩(q) has √-branch points at the S₈ EPs ⟹ " +
+                         "non-radical. The S₈ wall IS the branch-point structure of the function.");
             yield return new InspectableNode("open",
-                summary: "a CLOSED FORM for the mixture ⟨n_diff⟩(q) (from the free-fermion mode geometry, without " +
-                         "diagonalizing) and the codim-1-by-additivity theorem; plus general N (verified at N=4, 5; " +
-                         "the octic is S₈, so no global radical form for the P₁₀ loci).");
+                summary: "general N (the verdict is verified at N=4, 5) and the codim-1-by-additivity theorem as a " +
+                         "stated Tier-1 theorem. The closed-form mixture is resolved (the quantized-overlap contraction).");
         }
     }
 }
