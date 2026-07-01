@@ -362,6 +362,13 @@ public static class KnowledgeRegistryFactory
             // (the spectrum-level fold, directly above). Live: inspect --root crossfold.
             .RegisterF89CrossFoldSimilarityClaim()
             .RegisterF89OcticMonodromyClaim()
+            // Multi-sector monodromy verdict (the sectorbraid arc, 2026-07-01): is the S_8 braid the (1,2) octic
+            // carries LOCALIZED to (1,2) or SHARED across the joint-popcount sectors? N-dependent -- CONFINED to
+            // the D_4 orbit at N=4 (dense core braid-free), SPREADS to a 12-sector diamond at N=5 (two cross-fold
+            // families sharing a byte-identical lambda, incl. the dense core (2,2)). Parents: F89OcticMonodromyClaim
+            // (the braid) + F89CrossFoldSimilarityClaim (F89d, whose N=4 self-fold is the confinement), both above.
+            // Live: inspect --root sectorbraid.
+            .RegisterMultiSectorMonodromyVerdictClaim()
             .RegisterF89MonodromyMirrorClaim()
             .RegisterF89PathKHbMixedDegreesClaim()
             .RegisterF90F86C2BridgeIdentity()

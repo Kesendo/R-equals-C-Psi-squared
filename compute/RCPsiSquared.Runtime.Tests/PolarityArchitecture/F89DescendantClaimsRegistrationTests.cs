@@ -206,6 +206,29 @@ public class F89DescendantClaimsRegistrationTests
     }
 
     [Fact]
+    public void RegisterMultiSectorMonodromyVerdict_AddsClaim_WithOcticAndCrossFoldAncestors()
+    {
+        var registry = BuildBaseRegistry()
+            .RegisterF1PalindromeIdentity()
+            .RegisterF89PathKAtLockMechanismClaim()
+            .RegisterF89Path3OcticEpClaim()
+            .RegisterF89Path3OcticGaloisClaim()
+            .RegisterF89BranchLocusPalindromeClaim()
+            .RegisterF89OcticMonodromyClaim()
+            .RegisterF89CrossFoldSimilarityClaim()
+            .RegisterMultiSectorMonodromyVerdictClaim()
+            .Build();
+        Assert.True(registry.Contains<MultiSectorMonodromyVerdictClaim>());
+        // Tier 1 CANDIDATE: the verdict is computationally exact + gate-tested, but the lambda-value construction
+        // (and general N) is open, so it is not yet Tier 1 derived.
+        Assert.Equal(Tier.Tier1Candidate, registry.Get<MultiSectorMonodromyVerdictClaim>().Tier);
+        var ancestors = registry.AncestorsOf<MultiSectorMonodromyVerdictClaim>()
+            .Select(c => c.GetType()).ToHashSet();
+        Assert.Contains(typeof(F89OcticMonodromyClaim), ancestors);          // the braid this census spreads
+        Assert.Contains(typeof(F89CrossFoldSimilarityClaim), ancestors);     // F89d, the family pairing / N=4 self-fold
+    }
+
+    [Fact]
     public void RegisterF89MonodromyMirror_AddsClaim_WithMonodromyAndBranchLocusAncestors()
     {
         var registry = BuildBaseRegistry()
