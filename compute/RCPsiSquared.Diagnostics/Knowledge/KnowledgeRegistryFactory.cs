@@ -361,6 +361,14 @@ public static class KnowledgeRegistryFactory
             // above: F1PalindromeIdentity (the mirror, via RegisterF1Family) + F89BranchLocusPalindromeClaim
             // (the spectrum-level fold, directly above). Live: inspect --root crossfold.
             .RegisterF89CrossFoldSimilarityClaim()
+            // Spectator intertwiner (Theorem B of PROOF_CODIM1_BY_ADDITIVITY, 2026-07-02): the site-summed
+            // spectator W(rho) = Sum_l c_l†·rho·c_l (JW strings included) is an EXACT part-by-part intertwiner of
+            // the XY + Z-dephasing Liouvillian for any quadratic particle-conserving H and any site-dependent
+            // gamma_j, block-shifting (p,q̃)→(p+1,q̃+1) and transporting Jordan chains whenever Wx₁ ≠ 0 (injective
+            // on the climbing rung, sigma_min = √2 at N=5, gate machine zero). Parents: F89CrossFoldSimilarityClaim
+            // (directly above) + AbsorptionTheoremClaim (registered earlier), both Tier1Derived. The theorem behind
+            // the multi-sector verdict's byte-identical shared lambda; gate SpectatorIntertwinerGateTests (SLOW_MSM).
+            .RegisterSpectatorIntertwinerClaim()
             .RegisterF89OcticMonodromyClaim()
             // Multi-sector monodromy verdict (the sectorbraid arc, 2026-07-01): is the S_8 braid the (1,2) octic
             // carries LOCALIZED to (1,2) or SHARED across the joint-popcount sectors? N-dependent -- CONFINED to
