@@ -633,6 +633,24 @@ See: [The Anomaly](../THE_ANOMALY.md)
    / dephasing-axis content), with the bit-exact soft-vs-hard split given
    by the cell-pair rule in Q7 below. Primitive: `fw.classify_two_term_palindrome`.
 
+   **Group-view hindsight, 2026-07-01 (Loop 2 of the spine-map spiral).** In
+   the now-proven mirror-group picture ([Π factors as R·D](../docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md),
+   F118 `MirrorGroupD4Claim`) this document's two objects have names. "The other
+   side" Π² = X^N is **𝓕, the center of the dihedral mirror group D₄ = ⟨R, D⟩** —
+   the element every mirror passes through (typed as the sector-pairing
+   `XGlobalChargeConjugationPairing`, (p,q̃)↔(N−p,N−q̃)). And the hidden-Q routing
+   above is that group's palindromizer inventory: the **uniform** per-site routers
+   are the dephase-letter palindromizers (P1 = the canonical Π_Z; the non-P1
+   uniform ones its Π_X/Π_Y siblings in the letter-Klein-V₄,
+   [dephase swaps](../docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)),
+   while the **alternating** (odd/even) and **continuous** per-site routers cannot
+   be D₄ elements at all: every palindromizing element of D₄ is a *uniform* per-site
+   map (§4f/§5 of the factorization proof), so a non-uniform or continuous router
+   lives deliberately OUTSIDE the finite group (the continuous one is exactly the
+   crossover mirror M = √90°, that proof's §5). So Q is not one hidden symmetry: it
+   is the D₄ core plus its documented outside-mirrors — this diary feeling out the
+   group before it was named.
+
 7. **Why is parity-breaking necessary but not sufficient?** The strict
    containment (all 14 palindrome-breakers are parity-breakers, but
    not vice versa) implies a two-step mechanism: first the Hamiltonian
