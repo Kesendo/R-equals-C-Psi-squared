@@ -23,8 +23,8 @@ public static class F89PathKSeDeBlock
     /// non-unitary diagonal similarity S = diag(√orbit-size). SIMILARITY-INVARIANT quantities are UNAFFECTED:
     /// eigenvalues, the Galois/monodromy group, the residual-vs-AT split, and the diabolic-vs-defective
     /// character (M₂ = λI is basis-free) are all correct on this block. But any INNER-PRODUCT-SENSITIVE
-    /// diagnostic — "is operator X scalar on a sub-plane" (the Theorem-A twin-scalar / D-half test), a
-    /// departure-from-normality restricted to a coalescing plane, a Petermann/phase-rigidity factor — MUST be
+    /// diagnostic (e.g. "is operator X scalar on a sub-plane", the Theorem-A twin-scalar / D-half test; a
+    /// departure-from-normality restricted to a coalescing plane; a Petermann/phase-rigidity factor) MUST be
     /// computed in an HS-orthonormal basis (use the raw coherence block <see cref="WeightCoherenceBlock.Build"/>,
     /// or apply the congruence S before restricting), or it reports a spurious non-scalarity at ODD nBlock
     /// (N=5, N=7; even nBlock has a uniform metric and is unaffected). This cost one false twin-scalar reading
