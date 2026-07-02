@@ -620,7 +620,18 @@ public static class OpenArcsRegistry
                 "F_corner is coprime to F_18 under the fold λ→−λ−2N at the complex q* (p_c=(N+1)/2 at odd N, so the corner " +
                 "is the ((N+1)/2+1)-diagonal block; a resultant / Galois-independence fact " +
                 "against the (1,2) residual F_18) via PathKMonodromyScout / GaloisMonodromyScanCommand; the Resultant primitive " +
-                "EXISTS (GaussianPolynomial.AreCoprime, Sylvester over Z[i]). Locus tool: rcpsi pkmono --k <N−1> " +
+                "EXISTS (GaussianPolynomial.AreCoprime, Sylvester over Z[i]); Derivative/Resultant/Discriminant/ComposeLinear " +
+                "added a9a57bb. REVISED ROUTE (3-lens design review e064471): (i) RADICAL TRICK: don't extract " +
+                "D_defective (it exists nowhere) — certify gcd(R, disc_lambda F_18)=1 against the FULL discriminant's " +
+                "radical (sufficient; build the defective/diabolic split only if a diabolic locus trips it, near-certain " +
+                "not, per census). (ii) ALL-MOD-p UNIVARIATE: reduce A,C mod a split prime p=1 mod 4 (p~1500+), " +
+                "sample-interpolate R(q) and disc(q) in F_p[q], gcd_{F_p[q]}=1 (the F_p[q] gcd EXISTS in " +
+                "OcticGaloisCertificate); ONE lucky prime with the two-sided degree-preservation guards (G1 lambda-deg, " +
+                "G2 q-deg; the null-return idiom OcticGaloisCertificate:36,57,101) is a COMPLETE proof. (iii) " +
+                "Berkowitz-over-Z[i][q] (GaussianMatrixCharpoly is ring-generic; +GaussianPolynomial.Add/Negate) as the " +
+                "fully-exact cross-check, finishing via the existing AreCoprime. TWO OPEN PREMISES upstream of the build: " +
+                "the EXACT holomorphic-fold identity (mu=-lambda_A-2N exactly, not the 1e-2 numeric) + the R-PARITY of the " +
+                "deep loci (F_18 = R-even (+) R-odd; dispose the R-odd EPs, e.g. real q~2.805). Locus tool: rcpsi pkmono --k <N−1> " +
                 "--diabolic --exact. NUMBERING TRAP: the proof's remainders are R1-R4 above; the '(a)/(b)/(c) next " +
                 "candidates' near the bottom are the Era-2 to-do (a=complex-q PARTIAL: near-axis CLOSED by the moved window, deep loci → resultant; b=window-edge CLOSED, c=D-half CLOSED)," +
                 "and are NOT the Era-1 '(a)-(d)' connection-directions at the top of the journal. TERMS: SE/DE = " +
