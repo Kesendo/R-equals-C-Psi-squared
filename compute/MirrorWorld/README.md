@@ -150,7 +150,8 @@ the block-local complexity class this project's cuts name, one floor above the C
 (the proof itself declares it a census input), not textbook, and reachable. The answer (gate
 `RealSeedCensusTests` in RCPsiSquared.Diagnostics.Tests, the PT-break count-change instrument,
 immune to the closest-pair masking that defeats gap-field scans at F_53/F_116 density): **seeds
-exist at 4/6/7 loci for N=5/7/9 across both R-parities -- the corollary's input extends to N=9.**
+exist at 4/6/7/9 loci for N=5/7/9/11 across both R-parities -- the corollary's input extends
+through N=11.**
 Honest attribution: the unlocking tool was the existing scout's exact-residual machinery on the
 polynomial block, NOT the Cone; MirrorWorld's contribution was the FRAME (this survey question and
 the block-local complexity insight that made "N³ is not a wall" obvious). The survey continues for
