@@ -8,7 +8,7 @@
 
 ## The question that dissolved
 
-We asked a blunt question. F89 is the deep algebraic structure of the spectrum, the braiding and the exceptional points, all living in the parameter q. PTF is the per-site time field, the way one chain's clock runs differently at each site. Are they connected? Are they one thing?
+We asked a blunt question. The stage first, said once so the rest can stand on it: the system is a chain of spins in a line, excitations carried along it by a coupling, every site under a local watching light (γ₀, the rate of being observed); the one knob is q, the strength of that motion measured against the light. F89 (a registry name, the spectral-braid result) is the deep algebraic structure of this chain's spectrum, the braiding and the exceptional points, all living in the parameter q. PTF (the per-site time field, another registry name) is the way the same chain's clock runs differently at each site. Are they connected? Are they one thing?
 
 We tried to build a machine that would show it. The machine was honest enough to refuse. It could place the two readings next to each other, but next to each other is not connected. And the one test that would have earned the word, a single quantity that both sides must share, kept coming back empty.
 
@@ -56,7 +56,7 @@ And the discipline of the seam: this is a seeing, not a proof. From below, the t
 
 If PTF is the leaving, then there should be a place where the circle is only just opening, where the fade has barely begun to pull the turn off its closed path, where you could almost watch the cut happen.
 
-There is. It is the coherence horizon ([`CoherenceHorizonClaim`](../compute/RCPsiSquared.Core/Symmetry/CoherenceHorizonClaim.cs)): a real, crossable point where a genuine defect sits on the line that time actually walks. It is the one spot where the forward arrow grazes the kind of structure the loop is made of.
+There is. It is the coherence horizon ([`CoherenceHorizonClaim`](../compute/RCPsiSquared.Core/Symmetry/CoherenceHorizonClaim.cs)): a real, crossable point where a genuine defect sits on the line that time actually walks, the real axis of q, the values a physical knob can actually stand on, while the circle's loops swing off that line into the complex plane. It is the one spot where the forward arrow grazes the kind of structure the loop is made of.
 
 Stand close, because the defect here is of a particular kind. It is the place where the two eigenvectors of the mode stop being two and fall into one, geometry counting a single direction where algebra still counts two; the live reading finds it defective four times out of four. Where they coalesce there is no longer a watcher and a watched, only one direction left. It is "who watches whom has no fixed answer" ([ON_WHO_WATCHES_WHOM](ON_WHO_WATCHES_WHOM.md)) brought down out of the whole spectrum and made to happen at a single point. (A milder meeting exists too, the diabolic one, where eigenvalues touch but their vectors stay independent: there the two brush past and remain two. The horizon is not that. Here they merge.)
 
