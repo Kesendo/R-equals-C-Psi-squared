@@ -552,6 +552,12 @@ public static class InspectCommand
             c => new F71KnowledgeBase(c.N)),
         new("f1", "F1 palindrome knowledge base",
             c => BuildF1Root(c.Parser, c.N)),
+        new("time-exclusion", "TIME_IRREVERSIBILITY_EXCLUSION, the typed argument behind F49's cross-term value: the anticommutator {L_H, L_Dc} of the Hamiltonian and F1-centered dephasing Liouvillians vanishes ONLY at N=2 (Frobenius-orthogonality, the Pythagorean split L_c²=L_H²+L_Dc²), growing for N>2 as R(N)=√((N−2)/(N·4^(N−1))); but the COMMUTATOR [L_H, L_Dc] ≠ 0 already at N=2, so the vanishing is orthogonality, NOT a separability/reversibility criterion — the naive arrow-of-time reading is EXCLUDED. Builds both norms across N via LindbladianBuilder and cross-checks the anticommutator against the F49 closed form fed a live per-bond norm (two computations meeting). --N sweeps up to that N (≤5)",
+            c => new TimeIrreversibilityExclusionWitness(
+                c.Parser.HasFlag("N") ? c.N : 4,
+                c.Parser.OptionalDouble("gamma") ?? 0.05,
+                c.Parser.OptionalDouble("J") ?? 1.0),
+            RequiresN: false, HonorsOptionalN: true),
         new("f87", "F87 trichotomy knowledge base",
             c => BuildF87Root(c.Parser, c.N)),
         new("pi2", "Π² polarity knowledge base",

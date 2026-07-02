@@ -685,6 +685,11 @@ public static class KnowledgeRegistryFactory
             // + Z-dephasing. Parents F1PalindromeIdentity + F61 + F63 + AbsorptionTheoremClaim, all
             // registered above. Live: inspect --root zeroimmune.
             .RegisterZeroSectorImmunityClaim()
+            // Time-irreversibility exclusion (Tier1Derived, TIME_IRREVERSIBILITY_EXCLUSION): the typed
+            // ARGUMENT behind F49's cross-term value — {L_H, L_Dc} vanishes only at N=2 (orthogonality),
+            // the commutator does not (so NOT reversibility). Parent F49NonUniformCrossTermClaim
+            // (registered above via RegisterF1Family). Live: inspect --root time-exclusion.
+            .RegisterTimeIrreversibilityExclusionClaim()
             // Polarity cube map (cubic Z₂³ architecture inventory; aggregates every IZ2AxisClaim)
             // Must come AFTER every Pi²-Inheritance Claim registration above so its b.Get<T>()
             // dependencies resolve. Currently snapshot-only; rebuild registry to refresh.
