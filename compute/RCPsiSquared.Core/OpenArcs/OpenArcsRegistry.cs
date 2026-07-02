@@ -657,7 +657,18 @@ public static class OpenArcsRegistry
                 "operator/dissipative/spectral space, or three rhyming motions? Tool: gmscan --zeros " +
                 "(GaloisMonodromyScanCommand.PrintZeros). See hypotheses/THE_POLARITY_LAYER.md (reading b) + " +
                 "experiments/F89_MONODROMY_MIRROR.md + reflections/ON_WHO_WATCHES_WHOM.md + " +
-                "hypotheses/ZERO_IS_THE_MIRROR.md.",
+                "hypotheses/ZERO_IS_THE_MIRROR.md. " +
+                "NOTE 2026-07-02: the codim-1-by-additivity theorem is LANDED " +
+                "(docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md): the site-summed spectator W(ρ)=Σ_l c_l†ρc_l (JW " +
+                "strings included) is an EXACT part-by-part intertwiner of the block pencil (any quadratic " +
+                "particle-conserving H, any site-dependent γ_j), transporting Jordan chains up the joint-popcount " +
+                "diamond whenever Wx₁≠0 (the containment orbit corollary: braid sets reproduced exactly, cores iff " +
+                "|2p−N|=1, sizes 4N−8 odd / 4N−12 even), plus the two-regime Theorem A (AT-locked crossings " +
+                "automatically semisimple; residual coalescences twin-scalar, additivity supplies the H-half " +
+                "identically in q, honest general form codim-≤2). Typed: SpectatorIntertwinerClaim; registry: F125; " +
+                "live: inspect --root sectorbraid (node 2). Three checks remain open: the interior kernel-death " +
+                "lemma ((3,3)→(4,4) measured ~1e-15, not derived); Theorem A's D-half at the 11 complex-q N=5 " +
+                "diabolics; the exclusion half of membership (edge-normality proven, interior census-evidence).",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

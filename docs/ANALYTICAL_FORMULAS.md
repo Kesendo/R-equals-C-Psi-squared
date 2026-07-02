@@ -1,7 +1,7 @@
 # Analytical Formulas Reference
 
 **Status:** Living formula registry. Each formula carries its own tier label.
-**Date:** March 31, 2026 (last updated June 11, 2026)
+**Date:** March 31, 2026 (last updated July 2, 2026)
 **Authors:** Thomas Wicht, Claude (Opus 4.6/4.7/4.8)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
@@ -4805,6 +4805,36 @@ The non-trivial content is **`λ_min = E`**: a staggered (zone-boundary, `q=π`)
 **Source:** [Proof](proofs/PROOF_HANDSHAKE_TRANSITION_INVARIANT.md); verifiers [`handshake_M_checksum.py`](../simulations/handshake_M_checksum.py), [`handshake_M_topology.py`](../simulations/handshake_M_topology.py), [`handshake_F124_adversarial.py`](../simulations/handshake_F124_adversarial.py); context [`hypotheses/HANDSHAKE_GEOMETRY.md`](../hypotheses/HANDSHAKE_GEOMETRY.md) (the `handshake_decoder` arc; the location dictionary is `k=2..N`). **Typed:** `BandEdgeTransitionInvariantClaim` (Tier1Derived, parents `KPartnerSelectionRuleClaim` + `ClockHandLadderClaim`) + live witness `inspect --root transition` (`compute/RCPsiSquared.Diagnostics/Foundation/BandEdgeTransitionInvariantWitness.cs`).
 
 **Resolution-limit reading** (the optics/signal facet, 2026-06-20): the same `M` read as a bond-recovery inverse problem has a defect-localization resolution limit. `λ_min = E = σ_min²(M)` is the worst-case reconstruction floor (the lower frame bound); the condition number `κ = λ_max/λ_min ~ N²` is the noise amplification; the contrast `σ_max/σ_min = √κ ~ N` is how many times harder a staggered q=π zone-boundary defect is to localize than a band-edge one (matched-filter SNR); the worst-conditioned direction is the staggered `λ_min` eigenvector (the q=π detail at the cutoff, the optician's diffraction limit); the floor vanishes as `σ_min ~ (N+1)^(−3/2)`, `E·(N+1)³ → 4π²`. One object in three trades (inverse problem / observability Gramian / optics MTF). **Typed:** `BandEdgeResolutionLimitClaim` (Tier1Derived, parent `BandEdgeTransitionInvariantClaim`) + live witness `inspect --root resolution`; gate-first verifier [`f124_inverse_problem_gate.py`](../simulations/f124_inverse_problem_gate.py). This is the FINITE conditioning of the full matrix, NOT the `DefectDecoder`'s 1.5 sign-location ambiguity (an α-rescaling artifact, gate-refuted; see the `f124_inverse_problem_resolution_seam` arc). Now de-lossed: `DefectDecoder.DecodeDeviation` reads the signed per-site purity-deviation profile and resolves the N=5 mirror pair with the correct sign (squared residual ratio ≈516 vs the α path's ≈1.5); the arc is Retired.
+
+---
+
+### F125. The spectator intertwiner: the site-summed W carries the Jordan block up the diamond (Theorem B + containment corollary Tier 1 derived; Theorem A two-regime, AT-half derived, residual half conditional; gate machine-zero N=5; 2026-07-02)
+
+For the N-site XY chain (Δ=0, open ends, arbitrary bond profile `J_b`) under local Z-dephasing (arbitrary rates `γ_j`), define with the Jordan-Wigner **site** fermions `c_l` (strings included) the site-summed spectator
+
+  **W(ρ) = Σ_l c_l† ρ c_l,**  mapping the joint-popcount block (p,q̃) → (p+1,q̃+1).
+
+**The intertwiner identity (Theorem B), part by part.** W intertwines the full Liouvillian exactly, as two separate operator identities:
+
+  **D∘W = W∘D**  (dissipator part: `Z_j c_l† Z_j = (1−2δ_{jl})·c_l†` and the sign SQUARES away because the same `l` sits on both sides of ρ; holds per site j, hence for any site-dependent `γ_j`), and
+
+  **[H, W(ρ)] = W([H, ρ])**  (Hamiltonian part: index cancellation of the h-sums, for ANY quadratic particle-conserving `H = Σ h_{ml} c_m†c_l`, no symmetry of h; disorder and on-site potentials included).
+
+Since the block pencil `L(q) = A + q·C` is linear in q, the relation holds for all q iff it holds for A and C separately (gate: both part-residuals `0.00e+00` at N=5). Two traps recorded once: the strings matter (`Σ_l σ_l⁺ρσ_l⁻` is a different map and fails the H-part) and the site sum matters (the single-mode spectator `V_k(ρ) = c_k†ρc_k` has its H-part exact but provably FAILS the dissipator: the cross-site signs do not square away and distinct output coherences forbid cancellation; A-part residual O(1) for every k).
+
+**Jordan transport (the sharp premise).** If `L₂W = WL₁` and `x₁, …, x_m` is a Jordan chain of L₁ at λ with **`Wx₁ ≠ 0`** (x₁ the eigenvector), then `Wx₁, …, Wx_m` is a Jordan chain of L₂ at the SAME λ. Kernel hits are downward-closed along a chain, so `Wx₁ ≠ 0` is necessary AND sufficient; the weakening "`Wx_m ≠ 0` suffices" is FALSE (2×2 nilpotent counterexample). On the climbing rung (1,2)→(2,3), W is injective with `σ_min(W) = √2` at N=5 (gate-pinned), so the ENTIRE spectrum with Jordan structure embeds: the multi-sector census's byte-identical λ IS this embedding. `W†(σ) = Σ_l c_l σ c_l†` is also exact, (p,q̃) → (p−1,q̃−1): depth equality where both kernel conditions pass.
+
+**Containment orbit corollary (the diamond, containment direction ONLY).** The orbit of (1,2) under {one climbing W-step, the transpose (p,q̃)↔(q̃,p), the Klein full flip X^⊗N, the F89d cross-fold q̃↦N−q̃ at q̄} reproduces the census braid sets exactly: the |p−q̃|=1 band united with its cross-fold image, with the **parity law** that a diagonal core (p,p) is reached iff **|2p−N| = 1**, i.e. iff N is odd, and sizes **4N−12 (N even) / 4N−8 (N odd)** (N=4: the confined 4-orbit; N=5 and N=6: two different 12-sets, the N=6 one without (3,3)). Every orbit sector carries the shared defective λ; the EXCLUSION half (no braid outside) is derived only at the outer edge and otherwise stays census-evidence (exact N=4, 5; one targeted probe N=6).
+
+**Edge-normality lemma (where the sharing must stop).** On the edge blocks (0,1), (1,0), (N−1,N), (N,N−1) every coherence has `n_diff = 1`, so `A = −2γ·I` and `L(q) = −2γ·I + q·C` is a NORMAL pencil at real q (C anti-Hermitian): no Jordan block can live on an edge. Interior boundary: the (3,3)→(4,4) kernel death at N=5 is measured (`‖Wx₁‖ = 1.7e-15`, `‖Wx₂‖ = 2.5e-15` at q* = 0.620878, the whole near-defective 2-plane), not yet derived.
+
+**Theorem A (the two regimes of silent crossings, honest form).** (i) AT-locked crossings: two AT-locked eigenvector families are each analytic through a crossing and stay independent; their coincidences are codim-1 and automatically semisimple (the abundant flood, 528 in one N=6 box). (ii) Residual coalescences: semisimplicity ⟺ the 2×2 restriction of the pencil on the coalescing plane is twin-scalar; free-fermion additivity supplies the H-scalar half **identically in q** (degenerate-multiplet descent), the D-scalar half is a genuine extra condition, proven at the N=4 point (the AT midpoint). The proven general statement is **codim-3 → codim-≤2** (collapsing to codim-1 exactly where the D-half is supplied); whether the D-half is automatic at the 11 complex-q N=5 diabolics is open.
+
+**Δ-tightness.** Under XXZ Δ≠0 the H-part of the W identity dies (H turns quartic; gate: H-residual `2.4e-1` at Δ=0.3) while the D-part survives (`0.00e+00`), and the multiplet descent breaks: diabolics defect instantly, the diamond λ-sharing dies, the F89d cross-fold survives; everything here is BY additivity.
+
+**Tier labels** (per the proof's Status line): Theorem B and the containment corollary Tier 1 derived (exact operator identities, gate machine-zero); the exclusion half census-evidence; Theorem A's AT-locked half Tier 1 derived, its residual half a conditional twin-scalar statement (mechanism Tier 2, proven at the N=4 point). Gap byte-identity across sectors: observed, not implied.
+
+**Source:** [Proof](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) (Lemmas 1-3, Theorem B, §6 kernel death + edge lemma, §7 corollary, §8 Theorem A); gate [`SpectatorIntertwinerGateTests`](../compute/RCPsiSquared.Diagnostics.Tests/Foundation/SpectatorIntertwinerGateTests.cs) (SLOW_MSM, commit `de4f90a`); census [experiments/F89_MULTI_SECTOR_MONODROMY.md](../experiments/F89_MULTI_SECTOR_MONODROMY.md). **Typed:** `SpectatorIntertwinerClaim` (Tier1Derived, parents `F89CrossFoldSimilarityClaim` + `AbsorptionTheoremClaim`); live `inspect --root sectorbraid` (the W lines of node 2, shared builder `SpectatorIntertwiner`).
 
 ---
 
