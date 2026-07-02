@@ -34,5 +34,18 @@ public class SectorBraidWitnessTests
         var gate = nodes.First(n => n.DisplayName.Contains("cross-fold gate"));
         Assert.Contains("HasDefective=False", gate.Summary);
         Assert.Contains("N≥5 phenomenon", gate.Summary);
+
+        // Node 2 now also carries the LIVE W-intertwiner lines (Theorem B): the part-residuals and σ_min are
+        // recomputed at inspect time from the shared SpectatorIntertwiner builder; the boundary kernel-death
+        // numbers are the N=5 reading, so at N=4 the node points there instead.
+        Assert.Contains("A-part residual", gate.Summary);
+        Assert.Contains("σ_min", gate.Summary);
+        Assert.Contains("N=5", gate.Summary);
+
+        // Node 5 — rewritten from the proof's What-remains-open ledger after the theorem landed.
+        var open = nodes.First(n => n.DisplayName.Contains("what is open"));
+        Assert.Contains("PROOF_CODIM1_BY_ADDITIVITY", open.Summary);
+        Assert.Contains("kernel death", open.Summary);
+        Assert.Contains("EXCLUSION half", open.Summary);
     }
 }

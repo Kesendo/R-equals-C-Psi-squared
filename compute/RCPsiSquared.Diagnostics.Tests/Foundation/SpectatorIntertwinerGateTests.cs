@@ -9,6 +9,7 @@ using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.F86.JordanWigner;
 using RCPsiSquared.Core.Numerics;
 using RCPsiSquared.Core.Pauli;
+using RCPsiSquared.Diagnostics.Foundation;
 using Xunit;
 using Xunit.Abstractions;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
@@ -48,17 +49,18 @@ public class SpectatorIntertwinerGateTests
     public SpectatorIntertwinerGateTests(ITestOutputHelper o) => _out = o;
 
     // ---------------------------------------------------------------- shared construction helpers
+    // The W construction and its bit/JW-sign conventions live in the shared Diagnostics helper
+    // SpectatorIntertwiner (one construction for the gate AND the live SectorBraidWitness node 2);
+    // the thin wrappers below just fix N.
 
     /// <summary>Site l occupied in computational-basis state (big-endian: site 0 = MSB = bit N−1).</summary>
-    private static bool Occupied(long state, int site) => ((state >> (N - 1 - site)) & 1) != 0;
+    private static bool Occupied(long state, int site) => SpectatorIntertwiner.Occupied(N, state, site);
 
-    private static long SiteMask(int site) => 1L << (N - 1 - site);
+    private static long SiteMask(int site) => SpectatorIntertwiner.SiteMask(N, site);
 
-    /// <summary>JW string sign s_l(a) = (−1)^(# occupied sites strictly before site l), sites ordered
-    /// 0..N−1 with site 0 = MSB: the sites m &lt; l occupy the bits strictly above bit N−1−l, i.e.
-    /// a >> (N − l).</summary>
-    private static int JwSign(long state, int site)
-        => (BitOperations.PopCount((ulong)(state >> (N - site))) & 1) == 0 ? 1 : -1;
+    /// <summary>JW string sign s_l(a) = (−1)^(# occupied sites strictly before site l); see
+    /// <see cref="SpectatorIntertwiner.JwSign"/> for the bit-order convention.</summary>
+    private static int JwSign(long state, int site) => SpectatorIntertwiner.JwSign(N, state, site);
 
     /// <summary>Build the (p,q̃) joint-popcount block of L at real q, exactly as
     /// <c>SectorBraidModeGeometry.BuildBlock</c> does for (1,2): H = XYChain(N, 2q) (or an explicit
@@ -77,35 +79,10 @@ public class SpectatorIntertwinerGateTests
         return PerBlockLiouvillianBuilder.BuildBlockZ(H, gamma, flat);
     }
 
-    /// <summary>The site-summed spectator W: block(p,q̃) → block(p+1,q̃+1). For each input coherence
-    /// |a⟩⟨b| and each site l with l∉a AND l∉b: coefficient s_l(a)·s_l(b) into |a+e_l⟩⟨b+e_l|
-    /// (W(ρ) = Σ_l c_l†ρc_l restricted to the block; the bra-side JW sign is real).</summary>
-    private static ComplexMatrix BuildW(int p, int qt)
-    {
-        var inP = BlockBasis.PopcountStates(N, p);
-        var inQ = BlockBasis.PopcountStates(N, qt);
-        var outP = BlockBasis.PopcountStates(N, p + 1);
-        var outQ = BlockBasis.PopcountStates(N, qt + 1);
-        var outPIdx = new Dictionary<long, int>();
-        for (int i = 0; i < outP.Count; i++) outPIdx[outP[i]] = i;
-        var outQIdx = new Dictionary<long, int>();
-        for (int i = 0; i < outQ.Count; i++) outQIdx[outQ[i]] = i;
-
-        var w = Matrix<Complex>.Build.Dense(outP.Count * outQ.Count, inP.Count * inQ.Count);
-        for (int i = 0; i < inP.Count; i++)
-            for (int j = 0; j < inQ.Count; j++)
-            {
-                long a = inP[i], b = inQ[j];
-                int col = i * inQ.Count + j;
-                for (int l = 0; l < N; l++)
-                {
-                    if (Occupied(a, l) || Occupied(b, l)) continue;
-                    int row = outPIdx[a | SiteMask(l)] * outQ.Count + outQIdx[b | SiteMask(l)];
-                    w[row, col] += JwSign(a, l) * JwSign(b, l);
-                }
-            }
-        return w;
-    }
+    /// <summary>The site-summed spectator W: block(p,q̃) → block(p+1,q̃+1). Delegates to the shared
+    /// <see cref="SpectatorIntertwiner.BuildW"/> (W(ρ) = Σ_l c_l†ρc_l restricted to the block; the
+    /// bra-side JW sign is real).</summary>
+    private static ComplexMatrix BuildW(int p, int qt) => SpectatorIntertwiner.BuildW(N, p, qt);
 
     /// <summary>The single-mode spectator V_k(ρ) = η_k†ρη_k with η_k† = Σ_l ψ_k(l)c_l†:
     /// V_k(|a⟩⟨b|) = Σ_{l∉a, m∉b} ψ_k(l)ψ_k(m)·s_l(a)s_m(b)·|a+e_l⟩⟨b+e_m| (independent ket/bra sites;

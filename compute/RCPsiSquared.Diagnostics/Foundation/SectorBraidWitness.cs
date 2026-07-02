@@ -4,8 +4,13 @@ using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
+using RCPsiSquared.Core.BlockSpectrum;
+using RCPsiSquared.Core.CoherenceBlocks;
 using RCPsiSquared.Core.F89PathK;
 using RCPsiSquared.Core.Inspection;
+using RCPsiSquared.Core.Numerics;
+using RCPsiSquared.Core.Pauli;
+using ComplexVector = MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
@@ -24,10 +29,13 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///   branch point, not merely the same gap).</item>
 /// </list>
 ///
-/// <para><b>The mechanism: free-fermion / AT additivity.</b> The membership is the clean rule
+/// <para><b>The mechanism: free-fermion / AT additivity, now Theorem B.</b> The membership is the clean rule
 /// <c>diamond = {|bra−ket| = 1, both popcounts ∈ [1, N−1]} ∪ its q̃ ↦ N−q̃ cross-fold</c>. The elementary EP lives
-/// in the |bra−ket| = 1 SE-DE coherence "rung"; adding a DIAGONAL mode-spectator (one more excitation on BOTH bra
-/// and ket, the same single-particle mode) leaves E_bra − E_ket, and the whole EP (λ, character, gap), invariant —
+/// in the |bra−ket| = 1 SE-DE coherence "rung"; the SITE-SUMMED spectator W(ρ) = Σ_l c_l†ρc_l (one excitation
+/// added to BOTH bra and ket at the same site, summed over sites, JW strings included) is an EXACT part-by-part
+/// intertwiner of the full Liouvillian (<c>docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md</c> Theorem B, typed
+/// <c>SpectatorIntertwinerClaim</c>; the single-MODE spectator c_k†ρc_k is the refuted reading, it provably fails
+/// the dissipator part), transporting the whole EP (λ, character, chain),
 /// so (1,2) ≡ (2,3) ≡ (3,4) byte-identically (gate-verified over all reference loci). Family B is the F89d
 /// cross-fold image: λ_(p, N−q̃)(q̄) = −conj(λ_(p,q̃)(q)) − 2N exactly (<see cref="CrossFoldSimilarityWitness"/>), no
 /// separate phenomenon. The λ VALUE is grounded in the Absorption Theorem: L(q) = A + qC with A = −2·diag(n_diff)
@@ -36,8 +44,11 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// the overlap (rate 2) and no-overlap (rate 6) eigenmodes, so ⟨n_diff⟩ is a weighted average between 1 and 3 and
 /// the rate lies between the pure −2 and −6 lines (N=5: −4.62; N=4: the −4 midpoint); the defectiveness is the
 /// eigenvector coalescence (a Jordan block), SEPARATE from the rate (at N=4 the defective EP sits at ⟨n_diff⟩=2,
-/// the midpoint, yet is Jordan). What stays open is a closed form for the mixture ⟨n_diff⟩(q) and general N (the
-/// octic is S₈, so no global radical form is expected).
+/// the midpoint, yet is Jordan). The mixture is resolved via the mode geometry (node 4c) and the
+/// codim-1-by-additivity theorem is landed with general-N membership derived in the CONTAINMENT direction; what
+/// stays open is the proof's ledger (node 5): the interior kernel-death lemma, Theorem A's D-half at the 11, the
+/// exclusion half of membership, and the gap byte-identity (the octic is S₈, so no global radical form for the
+/// loci is expected).
 ///
 /// <para><b>What is live here.</b> The census node runs <see cref="MultiSectorMonodromyCensus.Run"/> at inspect
 /// time (via the AT-aware <see cref="SectorEpProbe.ProbeDefectiveAnywhere"/>), so the braid/node maps are recomputed
@@ -68,11 +79,13 @@ public sealed class SectorBraidWitness : IInspectable
         "the S₈ braid is CONFINED to the D₄ orbit {(1,2),(2,1),(2,3),(3,2)} at N=4 (the dense core (2,2) is " +
         "braid-free) but SPREADS at N=5 to a symmetric 12-sector diamond INCLUDING the dense core (2,2), split into " +
         "two cross-fold-conjugate families of 6 sharing a BYTE-IDENTICAL eigenvalue λ (same branch point). The " +
-        "N-dependence is the finding. Mechanism: free-fermion / AT additivity — the |bra−ket|=1 SE-DE rung's EP is " +
-        "invariant under a diagonal mode-spectator (so (1,2)≡(2,3)≡(3,4) byte-identically), Family B is the F89d " +
-        "cross-fold image λ↦−λ̄−2N; membership = {|bra−ket|=1, popcounts∈[1,N−1]} ∪ cross-fold. The λ VALUE is the " +
+        "N-dependence is the finding. Mechanism, now Theorem B (PROOF_CODIM1_BY_ADDITIVITY): the site-summed " +
+        "spectator W=Σ_l c_l†ρc_l exactly intertwines the Liouvillian and transports the |bra−ket|=1 SE-DE rung's " +
+        "EP (so (1,2)≡(2,3)≡(3,4) byte-identically), Family B is the F89d " +
+        "cross-fold image λ↦−λ̄−2N; membership = {|bra−ket|=1, popcounts∈[1,N−1]} ∪ cross-fold, derived in the " +
+        "CONTAINMENT direction (the W-orbit corollary). The λ VALUE is the " +
         "AT Theorem-2 rate of the mixed defective eigenvector: Re λ = −2·⟨n_diff⟩_v exactly at real loci (off the " +
-        "INTEGER-quantized AT lines only because ⟨n_diff⟩ is a q-tuned mixture); a closed form for the mixture is open.";
+        "INTEGER-quantized AT lines only because ⟨n_diff⟩ is a q-tuned mixture); open = the proof's ledger (node 5).";
 
     public IEnumerable<IInspectable> Children
     {
@@ -126,12 +139,60 @@ public sealed class SectorBraidWitness : IInspectable
                            "degenerate self-fold — same coalescence gap but cross-fold/conjugate-related λ, not byte-identical); ";
             }
 
+            // The LIVE W-intertwiner lines (Theorem B of PROOF_CODIM1_BY_ADDITIVITY, typed
+            // SpectatorIntertwinerClaim): the shared SpectatorIntertwiner builder, the SAME construction the
+            // SLOW_MSM gate (SpectatorIntertwinerGateTests) pins at machine zero. Residuals are scale-honest,
+            // ‖X₂W − WX₁‖_F / (‖X₁‖₂·‖W‖_F) with ‖·‖₂ the spectral norm; blocks built exactly as the gate does
+            // (PerBlockLiouvillianBuilder.BuildBlockZ on BlockBasis.PopcountStates, H = XYChain(N, 2q), γ=1).
+            var wUp = SpectatorIntertwiner.BuildW(_n, 1, 2);
+            var aIn = BuildBlockZ(1, 2, 0.0);                                 // A = L(0) = −2·diag(n_diff)
+            var aOut = BuildBlockZ(2, 3, 0.0);
+            double qLin = Math.Abs(qStar.Imaginary) < 1e-9 ? qStar.Real : 0.37;   // C = (L(q) − L(0))/q, any real q
+            var cIn = (BuildBlockZ(1, 2, qLin) - aIn).Divide(new Complex(qLin, 0));
+            var cOut = (BuildBlockZ(2, 3, qLin) - aOut).Divide(new Complex(qLin, 0));
+            double wResA = IntertwinerResidual(aOut, wUp, aIn);
+            double wResC = IntertwinerResidual(cOut, wUp, cIn);
+            var wSv = wUp.Svd().S;
+            double wSigmaMin = wSv[wSv.Count - 1].Real;
+            string wPart = $"LIVE W intertwiner (Theorem B): A-part residual {wResA.ToString("E2", Inv)}, C-part " +
+                           $"residual {wResC.ToString("E2", Inv)} at q={qLin.ToString("0.######", Inv)} (both " +
+                           $"expected 0.0), σ_min(W:(1,2)→(2,3)) = {wSigmaMin.ToString("0.############", Inv)} " +
+                           $"(√2 at N=5). ";
+
+            string kernelPart;
+            if (_n == 5 && Math.Abs(qStar.Imaginary) < 1e-9)
+            {
+                // Boundary kernel death (3,3)→(4,4): the census reads (4,4) braid-free, and the identity is
+                // exact everywhere, so the transported near-defective 2-plane of (3,3) MUST lie in ker W.
+                // λ_B = −conj(λ_A) − 2N (the F89d shift), the gate's seeding.
+                var l33 = BuildBlockZ(3, 3, qStar.Real);
+                Complex lambdaBPred = -Complex.Conjugate(r12.DefectiveCenter) - new Complex(2.0 * _n, 0);
+                var eig33 = l33.Evd().EigenValues;
+                var pairIdx = Enumerable.Range(0, eig33.Count)
+                    .OrderBy(i => (eig33[i] - lambdaBPred).Magnitude).Take(2).ToArray();
+                Complex lambdaB = (eig33[pairIdx[0]] + eig33[pairIdx[1]]) / 2.0;
+                var x1B = DefectiveEigenvector(l33, lambdaB);
+                var x2B = GeneralizedVector(l33, lambdaB, x1B);
+                var w33 = SpectatorIntertwiner.BuildW(_n, 3, 3);
+                double wx1 = (w33 * x1B).L2Norm();
+                double wx2 = (w33 * x2B).L2Norm();
+                kernelPart = $"Boundary kernel death (3,3)→(4,4) at q*: ‖Wx₁‖={wx1.ToString("E2", Inv)}, " +
+                             $"‖Wx₂‖={wx2.ToString("E2", Inv)} (expected ~1e-15: the diamond boundary is a kernel " +
+                             "phenomenon, not a failure of the identity). ";
+            }
+            else
+            {
+                kernelPart = "(The boundary kernel-death numbers ‖Wx₁‖, ‖Wx₂‖ on (3,3)→(4,4) are the N=5 " +
+                             "reading: inspect --root sectorbraid --N 5.) ";
+            }
+
             yield return new InspectableNode(
                 displayName: $"additivity + cross-fold gate at the real locus q={FmtC(qStar)} (N={_n})",
                 summary: $"(1,2) defective λ={FmtC(r12.DefectiveCenter)}; {diagPart}" +
                          $"F89d cross-fold (1,{_n - 2}){(_n == 4 ? "=SELF" : "")} at q̄ λ={FmtC(rFold.DefectiveCenter)} vs predicted " +
                          $"−conj(λ)−2N={FmtC(foldPredicted)} (residual {foldResidual.ToString("E2", Inv)}); dilute control (1,1) " +
-                         $"HasDefective={rNode.HasDefective} (a node, not a braid). Free-fermion additivity in action.",
+                         $"HasDefective={rNode.HasDefective} (a node, not a braid). Free-fermion additivity in action. " +
+                         wPart + kernelPart + "Proof: docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md (typed: SpectatorIntertwinerClaim).",
                 provenance: NodeProvenance.Live);
 
             // Node 3 — the membership rule + the mechanism verdict (stored: the structural characterization).
@@ -140,8 +201,9 @@ public sealed class SectorBraidWitness : IInspectable
                 summary: "the braid set = {|bra−ket| = 1, both popcounts ∈ [1, N−1]} ∪ its q̃↦N−q̃ cross-fold image. " +
                          "The |bra−ket|=1 edge sectors that touch popcount 0 or N (empty/full a side) carry no " +
                          "coalescence (the 'neither' set). The elementary EP is a property of the SE-DE coherence rung, " +
-                         "made popcount-translation-invariant by diagonal mode-spectators (the same single-particle " +
-                         "mode added to both sides, E_bra−E_ket unchanged) and cross-fold-invariant by F89d. So the " +
+                         "made popcount-translation-invariant by the site-summed spectator W = Σ_l c_l†ρc_l (the exact " +
+                         "intertwiner of Theorem B; the single-mode version provably fails the dissipator) and " +
+                         "cross-fold-invariant by F89d. So the " +
                          "SAME defective eigenvalue lives in every diamond sector: shared spectral content, a symmetry " +
                          "broader than the naive Klein-four.",
                 provenance: NodeProvenance.Stored);
@@ -214,14 +276,22 @@ public sealed class SectorBraidWitness : IInspectable
                          "that small multiplet to close ⟨n_diff⟩(q).",
                 provenance: NodeProvenance.Live);
 
-            // Node 5 — what remains open (stored: the honest edge, now narrowed).
+            // Node 5 — what remains open (stored: the proof's What-remains-open ledger, rewritten after the
+            // codim-1-by-additivity theorem landed 2026-07-02).
             yield return new InspectableNode(
-                displayName: "what is open: the closed-form mixture (the S₈ wall) and general N",
-                summary: "the λ VALUE is grounded (the AT rate of the mixed eigenvector, above) and the additivity " +
-                         "embedding is confirmed. What remains: a CLOSED FORM for the overlap mixture ⟨n_diff⟩(q) — " +
-                         "predicting it from the free-fermion mode geometry WITHOUT diagonalizing the block — and general " +
-                         "N. The defective loci are the P₁₀ roots and the octic is S₈ (non-solvable in radicals), so no " +
-                         "global radical form is expected; the per-EP mixture stays numerically determined.",
+                displayName: "what is open: the proof's remaining checks (the theorem itself is landed)",
+                summary: "the codim-1-by-additivity theorem is LANDED (docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md: " +
+                         "the W intertwiner Theorem B, the containment orbit corollary, the two-regime Theorem A; " +
+                         "typed: SpectatorIntertwinerClaim), so the sharing, the byte-identity, and the N=6 spread " +
+                         "are derived, not open. What remains, from the proof's ledger: (1) the INTERIOR-boundary " +
+                         "kernel death ((3,3)→(4,4) and images) is measured (~1e-15, node 2 above), not derived: " +
+                         "WHY the diagonal core's defective eigenvector lies exactly in ker W is not yet a lemma; " +
+                         "(2) Theorem A's D-half at the 11 complex-q N=5 diabolics (one targeted eigenvector-descent " +
+                         "check; until then codim-≤2 is the proven general statement); (3) the EXCLUSION half of " +
+                         "membership (no braid outside the orbit) is proven only at the outer edge (normal pencil) " +
+                         "and otherwise stays census-evidence; (4) the GAP byte-identity across sectors is observed, " +
+                         "not implied by the intertwiner (which transports eigenvalue and depth, not the " +
+                         "near-defective metric geometry).",
                 provenance: NodeProvenance.Stored);
         }
     }
@@ -255,6 +325,61 @@ public sealed class SectorBraidWitness : IInspectable
         }
         double nd = num / den;
         return (nd, Math.Abs(-2.0 * nd - eigs[col].Real));
+    }
+
+    /// <summary>The (p,q̃) joint-popcount block of L at real q, built exactly as the SLOW_MSM gate
+    /// (<c>SpectatorIntertwinerGateTests</c>) and <c>SectorBraidModeGeometry.BuildBlock</c> do: H = XYChain(N, 2q),
+    /// γ = 1 per site, basis <see cref="BlockBasis.PopcountStates"/> ascending, flat = pIdx·Mq + qIdx, Liouville
+    /// flat = ket·2^N + bra. The SAME basis ordering <see cref="SpectatorIntertwiner.BuildW"/> uses, so the
+    /// intertwining residuals are basis-consistent.</summary>
+    private Matrix<Complex> BuildBlockZ(int p, int qt, double q)
+    {
+        int d = 1 << _n;
+        var statesP = BlockBasis.PopcountStates(_n, p);
+        var statesQ = BlockBasis.PopcountStates(_n, qt);
+        var h = PauliHamiltonian.XYChain(_n, 2.0 * q).ToMatrix();
+        var gamma = Enumerable.Repeat(1.0, _n).ToList();
+        var flat = new int[statesP.Count * statesQ.Count];
+        for (int i = 0; i < statesP.Count; i++)
+            for (int j = 0; j < statesQ.Count; j++)
+                flat[i * statesQ.Count + j] = (int)(statesP[i] * d + statesQ[j]);
+        return PerBlockLiouvillianBuilder.BuildBlockZ(h, gamma, flat);
+    }
+
+    /// <summary>Scale-honest intertwining residual ‖X₂W − WX₁‖_F / (‖X₁‖₂·‖W‖_F), ‖·‖₂ = spectral norm
+    /// (the gate's normalization).</summary>
+    private static double IntertwinerResidual(Matrix<Complex> x2, Matrix<Complex> w, Matrix<Complex> x1)
+        => (x2 * w - w * x1).FrobeniusNorm() / (EpCharacter.SpectralNorm(x1) * w.FrobeniusNorm());
+
+    /// <summary>The unit-norm smallest right singular vector of (L − λI): the numerical eigenvector at a
+    /// defective (near-)coalescence (the gate's construction).</summary>
+    private static ComplexVector DefectiveEigenvector(Matrix<Complex> l, Complex lambda)
+    {
+        var shifted = l - lambda * Matrix<Complex>.Build.DenseIdentity(l.RowCount);
+        var svd = shifted.Svd(true);
+        var x1 = svd.VT.Row(svd.S.Count - 1).Conjugate();
+        return x1.Multiply(new Complex(1.0 / x1.L2Norm(), 0));
+    }
+
+    /// <summary>Least-squares generalized vector: minimal-norm x₂ with (L − λ)x₂ ≈ x₁, by SVD pseudo-inverse
+    /// dropping the near-kernel direction and anything below 1e-12·σ_max, projected orthogonal to x₁ and
+    /// unit-normalized (the gate's construction).</summary>
+    private static ComplexVector GeneralizedVector(Matrix<Complex> l, Complex lambda, ComplexVector x1)
+    {
+        var shifted = l - lambda * Matrix<Complex>.Build.DenseIdentity(l.RowCount);
+        var svd = shifted.Svd(true);
+        int n = svd.S.Count;
+        double sMax = svd.S[0].Real;
+        var y = svd.U.ConjugateTranspose() * x1;
+        var z = ComplexVector.Build.Dense(n);
+        for (int i = 0; i < n - 1; i++)                       // drop index n−1 = the near-kernel
+            if (svd.S[i].Real > 1e-12 * sMax)
+                z[i] = y[i] / svd.S[i];
+        var x2 = svd.VT.ConjugateTranspose() * z;
+        Complex ip = Complex.Zero;                            // ⟨x₁|x₂⟩ with x₁ unit-norm
+        for (int i = 0; i < x2.Count; i++) ip += Complex.Conjugate(x1[i]) * x2[i];
+        x2 -= x1.Multiply(ip);
+        return x2.Multiply(new Complex(1.0 / x2.L2Norm(), 0));
     }
 
     private static string FmtC(Complex z) =>
