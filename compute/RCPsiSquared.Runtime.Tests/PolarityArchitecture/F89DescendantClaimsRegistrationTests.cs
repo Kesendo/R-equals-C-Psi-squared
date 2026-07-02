@@ -206,7 +206,7 @@ public class F89DescendantClaimsRegistrationTests
     }
 
     [Fact]
-    public void RegisterMultiSectorMonodromyVerdict_AddsClaim_WithOcticAndCrossFoldAncestors()
+    public void RegisterMultiSectorMonodromyVerdict_AddsClaim_WithOcticCrossFoldAndIntertwinerAncestors()
     {
         var registry = BuildBaseRegistry()
             .RegisterF1PalindromeIdentity()
@@ -216,16 +216,19 @@ public class F89DescendantClaimsRegistrationTests
             .RegisterF89BranchLocusPalindromeClaim()
             .RegisterF89OcticMonodromyClaim()
             .RegisterF89CrossFoldSimilarityClaim()
+            .RegisterSpectatorIntertwinerClaim()
             .RegisterMultiSectorMonodromyVerdictClaim()
             .Build();
         Assert.True(registry.Contains<MultiSectorMonodromyVerdictClaim>());
-        // Tier 1 CANDIDATE: the verdict is computationally exact + gate-tested, but the lambda-value construction
-        // (and general N) is open, so it is not yet Tier 1 derived.
+        // Tier 1 CANDIDATE: the verdict is computationally exact + gate-tested, and the codim-1-by-additivity
+        // theorem is landed (containment half derived via the W-orbit corollary), but the EXCLUSION half of
+        // membership stays census-evidence and the gap byte-identity is observed not proven, so not yet derived.
         Assert.Equal(Tier.Tier1Candidate, registry.Get<MultiSectorMonodromyVerdictClaim>().Tier);
         var ancestors = registry.AncestorsOf<MultiSectorMonodromyVerdictClaim>()
             .Select(c => c.GetType()).ToHashSet();
         Assert.Contains(typeof(F89OcticMonodromyClaim), ancestors);          // the braid this census spreads
         Assert.Contains(typeof(F89CrossFoldSimilarityClaim), ancestors);     // F89d, the family pairing / N=4 self-fold
+        Assert.Contains(typeof(SpectatorIntertwinerClaim), ancestors);       // Theorem B, the W intertwiner (2026-07-02)
     }
 
     [Fact]
