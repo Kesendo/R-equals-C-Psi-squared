@@ -98,6 +98,79 @@ public static class GaussianPolynomial
         int n = matrix.GetLength(0);
         var charpoly = GaussianMatrixCharpoly.Characteristic(matrix);
         var c0 = charpoly.Length > 0 ? charpoly[0] : GaussianInteger.Zero;
-        return (n % 2 == 0) ? c0 : new GaussianInteger(-c0.Re, -c0.Im);
+        return (n % 2 == 0) ? c0 : -c0;
+    }
+
+    /// <summary>The formal derivative dp/dx = Σ k·p_k x^{k−1} (trimmed; empty for a constant).</summary>
+    public static GaussianInteger[] Derivative(GaussianInteger[] p)
+    {
+        int d = Degree(p);
+        if (d <= 0) return Array.Empty<GaussianInteger>();
+        var r = new GaussianInteger[d];
+        for (int k = 1; k <= d; k++) r[k - 1] = (GaussianInteger)k * p[k];
+        return Trim(r);
+    }
+
+    /// <summary>p evaluated at x (Horner), exact over Z[i].</summary>
+    public static GaussianInteger Evaluate(GaussianInteger[] p, GaussianInteger x)
+    {
+        int d = Degree(p);
+        if (d < 0) return GaussianInteger.Zero;
+        var acc = p[d];
+        for (int k = d - 1; k >= 0; k--) acc = acc * x + p[k];
+        return acc;
+    }
+
+    /// <summary>The resultant Res(a, b) over Z[i] = det of the Sylvester matrix: zero iff a and b
+    /// share a root. Zero if either is the zero polynomial; a nonzero constant c against b of degree
+    /// n gives c^n. <see cref="AreCoprime"/> is exactly Res ≠ 0; this exposes the value, which the
+    /// fold-resultant absence check (Res_λ(F_octic, F_corner(−λ−2N)) as a function of q) samples.</summary>
+    public static GaussianInteger Resultant(GaussianInteger[] a, GaussianInteger[] b)
+    {
+        int m = Degree(a), n = Degree(b);
+        if (m < 0 || n < 0) return GaussianInteger.Zero;    // the zero polynomial shares every root
+        if (m == 0) return Power(a[0], n);                  // Res(c, b) = c^deg(b)
+        if (n == 0) return Power(b[0], m);
+        return Determinant(BuildSylvester(a, b, m, n));
+    }
+
+    private static GaussianInteger Power(GaussianInteger baseVal, int exp)
+    {
+        var acc = GaussianInteger.One;
+        for (int i = 0; i < exp; i++) acc *= baseVal;
+        return acc;
+    }
+
+    /// <summary>The discriminant of a MONIC polynomial p: (−1)^{n(n−1)/2}·Res(p, p′) (the leading-
+    /// coefficient division of the general formula is trivial for monic p, the regime of the char
+    /// polys this serves). Zero iff p has a repeated root; the branch loci of F_octic are its zeros
+    /// in q. Throws if p is not monic.</summary>
+    public static GaussianInteger Discriminant(GaussianInteger[] p)
+    {
+        int n = Degree(p);
+        if (n < 1) return GaussianInteger.Zero;
+        if (!p[n].Equals(GaussianInteger.One))
+            throw new ArgumentException("Discriminant is implemented for monic polynomials only.");
+        var res = Resultant(p, Derivative(p));
+        return ((n * (n - 1) / 2) % 2 == 0) ? res : -res;
+    }
+
+    /// <summary>Composition p(α·x + β) over Z[i] (Horner in the linear argument). The fold-resultant
+    /// needs F_corner(−λ − 2N) = ComposeLinear(F_corner, −1, −2N): its roots are −(corner spectrum)
+    /// − 2N, so it shares a root with F_octic exactly when some octic root's fold μ = −λ_A − 2N is a
+    /// corner eigenvalue.</summary>
+    public static GaussianInteger[] ComposeLinear(GaussianInteger[] p, GaussianInteger alpha, GaussianInteger beta)
+    {
+        int d = Degree(p);
+        if (d < 0) return Array.Empty<GaussianInteger>();
+        var arg = new[] { beta, alpha };                    // α·x + β (lowest-first)
+        var acc = new[] { p[d] };                           // Horner from the leading coefficient
+        for (int k = d - 1; k >= 0; k--)
+        {
+            acc = Multiply(acc, arg);
+            if (acc.Length == 0) acc = new[] { GaussianInteger.Zero };
+            acc[0] = acc[0] + p[k];
+        }
+        return Trim(acc);
     }
 }
