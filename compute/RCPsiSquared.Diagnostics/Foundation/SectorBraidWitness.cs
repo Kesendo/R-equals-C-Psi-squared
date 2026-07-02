@@ -127,11 +127,13 @@ public sealed class SectorBraidWitness : IInspectable
             {
                 // Byte-identity across a diagonal-spectator ladder ((1,2)→(2,3)→…) is an N≥5 phenomenon: at N=4 the
                 // diamond IS the degenerate self-fold (N−2 = 2), so its 4 members are cross-fold/conjugate-related,
-                // not byte-identical. Here (2,3) = (1,2) + one excitation on BOTH bra & ket (the same mode).
+                // not byte-identical. Here (2,3) = W(1,2): one excitation on BOTH bra & ket at the same SITE, summed
+                // over sites (the exact intertwiner of Theorem B; the single-MODE spectator provably fails the dissipator).
                 var rDiag = SectorEpProbe.ProbeDefectiveAnywhere(_n, 2, 3, qStar);
                 double diagResidual = (r12.DefectiveCenter - rDiag.DefectiveCenter).Magnitude;
                 diagPart = $"diagonal spectator (2,3) λ={FmtC(rDiag.DefectiveCenter)} (byte-identity residual " +
-                           $"{diagResidual.ToString("E2", Inv)} ⟹ adding one excitation to BOTH bra & ket, same mode, leaves the EP); ";
+                           $"{diagResidual.ToString("E2", Inv)} ⟹ the site-summed spectator W = Σ_l c_l†ρc_l leaves the EP; " +
+                           "the single-MODE version provably fails the dissipator, PROOF_CODIM1_BY_ADDITIVITY §3); ";
             }
             else
             {
