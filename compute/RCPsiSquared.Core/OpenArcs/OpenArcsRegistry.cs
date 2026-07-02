@@ -602,7 +602,32 @@ public static class OpenArcsRegistry
                 "GaloisMonodromyWitness.TraceToDiabolic, and gmscan --trace [--tq q] [--tsteps n] (gate-first: " +
                 "prints PASS / CONFIRMED). " +
                 "Here is where we continue hand-over-hand.",
-            NextStep: "Hand-over-hand from here. (a) DONE 2026-06-27 (see ParkedAt): the q=2→q_EP continuity trace " +
+            NextStep: "RESUMING IN ONE LINE (2026-07-02). This arc has TWO eras; read this header for the live front, " +
+                "the dated layers below are the journal. ERA 1 (2026-06, from 'Hand-over-hand' onward) = the original " +
+                "'connection between the F89 zeros / the ± road' exploration; its directions (trace DONE; the " +
+                "other-representations / cross-F-inheritance / polarity-rhyme threads) are PARKED — the arc pivoted into " +
+                "a theorem. ERA 2 (2026-07-02) = the codim-1-by-additivity PROGRAM, the live front. STATE of Era 2: the " +
+                "theorem is LANDED (SpectatorIntertwinerClaim / registry F125 / docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md; " +
+                "the W=Σc_l†ρc_l intertwiner + containment corollary + two-regime Theorem A). The proof's four remainders: " +
+                "(R1) interior-core kernel death — CLOSED at real loci (rate-window lemma), and its N-uniform strictness " +
+                "Re λ_A>−6 CLOSED (window-edge lemma, f5d4709); (R2) Theorem A's D-half — CLOSED at N=5 (twin-scalar check, " +
+                "gate TwinScalarDHalfTests: the D-half is SUPPLIED at every genuinely-complex-q diabolic, the " +
+                "pure-imaginary-q ones semisimple by Hermiticity); (R3) gap byte-identity — observed at N=5 AND N=7, NOT " +
+                "implied by the intertwiner, OFF the critical path (nice-to-derive, not blocking); (R4) exclusion half — " +
+                "derived at the N=5 seed locus, else census-evidence. THE ONE OPEN ITEM: the COMPLEX-q absence of R1+R4 " +
+                "(Bendixson needs real q; window violated by 0.27 at Im q=0.05). FIRST MOVE: build the corner block " +
+                "(p_c+1,p_c+1) via SectorBraidModeGeometry.BuildBlock + PerBlockLiouvillianBuilder.BuildBlockZ and show " +
+                "λ_B is NOT a defective root of its char poly at the complex q* (p_c=(N+1)/2 at odd N, so the corner " +
+                "is the ((N+1)/2+1)-diagonal block; a resultant / Galois-independence fact " +
+                "against the (1,2) octic) via PathKMonodromyScout / GaloisMonodromyScanCommand; the Resultant primitive " +
+                "EXISTS (GaussianPolynomial.AreCoprime, Sylvester over Z[i]). Locus tool: rcpsi pkmono --k <N−1> " +
+                "--diabolic --exact. NUMBERING TRAP: the proof's remainders are R1-R4 above; the '(a)/(b)/(c) next " +
+                "candidates' near the bottom are the Era-2 to-do (a=complex-q OPEN, b=window-edge CLOSED, c=D-half CLOSED), " +
+                "and are NOT the Era-1 '(a)-(d)' connection-directions at the top of the journal. TERMS: SE/DE = " +
+                "single/double-excitation weights, so the (1,2) 'octic' = the residual factor of the bra-1 ket-2 block; " +
+                "λ_A = the (1,2) defective eigenvalue, λ_B = −conj(λ_A)−2N its cross-fold partner; live root inspect " +
+                "--root sectorbraid. ===== JOURNAL (dated layers) BELOW ===== " +
+                "Hand-over-hand from here. (a) DONE 2026-06-27 (see ParkedAt): the q=2→q_EP continuity trace " +
                 "answered it, the +2.349 σ_T twin pair (strands 5,7) merges onto the fold at λ_EP=−4+1.318i, " +
                 "'{−0,0,+0}' confirmed as a RATE structure (the half-filling line Re=−4, not a zero eigenvalue), " +
                 "via gmscan --trace. THE FORWARD EDGE off (a) ANSWERED 2026-06-27 (pkmono --diabolic, see " +

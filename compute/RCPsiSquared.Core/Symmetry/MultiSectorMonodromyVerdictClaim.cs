@@ -174,11 +174,11 @@ public sealed class MultiSectorMonodromyVerdictClaim : Claim
                          "DERIVED in the CONTAINMENT direction (cores iff |2p−N|=1, sizes 4N−8 odd / 4N−12 even; the " +
                          "N=6 spread is a corollary, no census needed). OPEN: the exclusion half of membership " +
                          "(census-evidence except the normal edge), the gap byte-identity (observed, not implied by " +
-                         "the intertwiner), the interior-core kernel-death lemma (REDUCED by §6's sl(2): W is a raising " +
-                         "operator with Cartan N̂_bra+N̂_ket−N that L commutes with, so kernel death is highest-weight " +
-                         "annihilation, the band deaths follow from the edge lemma and the injectivity is derived; the core " +
-                         "alone stays open, reduced to 'λ has no defective Jordan block in the cone (4,4)≅(1,1)'), and " +
-                         "Theorem A's D-half at the 11. The closed-form mixture is resolved (the quantized-overlap contraction).");
+                         "the intertwiner), the interior-core kernel death (CLOSED at real loci by §6's " +
+                         "rate-window lemma, its strictness N-uniform via the window-edge lemma; only the complex-q loci " +
+                         "remain, the arc's ONE open item). Theorem A's D-half is CLOSED at N=5 (gate TwinScalarDHalfTests): " +
+                         "twin-scalar at every genuinely-complex-q diabolic (additivity's codim-1 route extends to complex q), " +
+                         "the pure-imaginary-q ones semisimple by Hermiticity. The closed-form mixture is resolved (the quantized-overlap contraction).");
         }
     }
 }

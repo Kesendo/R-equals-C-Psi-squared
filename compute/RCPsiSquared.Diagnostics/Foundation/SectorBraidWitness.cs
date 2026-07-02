@@ -293,8 +293,10 @@ public sealed class SectorBraidWitness : IInspectable
                          "N-uniform strictness Re λ_A > −6 now DERIVED by the window-edge lemma (a defective EP cannot " +
                          "sit at either edge of its block's rate window, so Re λ_A ∈ (−6,−2) for all N); open there: " +
                          "only the complex-q loci; " +
-                         "(2) Theorem A's D-half at the 11 complex-q N=5 diabolics (one targeted eigenvector-descent " +
-                         "check; until then codim-≤2 is the proven general statement); (3) the EXCLUSION half of " +
+                         "(2) Theorem A's D-half is RESOLVED at N=5 (gate TwinScalarDHalfTests): the D-half is " +
+                         "SUPPLIED (twin-scalar) at every genuinely-complex-q (Re q≠0) N=5 residual diabolic, so " +
+                         "additivity's codim-1 route extends to complex q, and the pure-imaginary-q (Re q=0, λ real) " +
+                         "diabolics are semisimple by Hermiticity instead; (3) the EXCLUSION half of " +
                          "membership (no braid outside the orbit) is proven at the outer edge (normal pencil) and, " +
                          "at the N=5 seed locus q*=0.620878, derived in full by the rate window (condition " +
                          "Re λ_A ∈ (−6,−4)); otherwise census-evidence; (4) the GAP byte-identity across sectors is " +
