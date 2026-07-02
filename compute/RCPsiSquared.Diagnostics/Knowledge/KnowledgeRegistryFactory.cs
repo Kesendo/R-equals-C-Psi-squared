@@ -690,6 +690,11 @@ public static class KnowledgeRegistryFactory
             // the commutator does not (so NOT reversibility). Parent F49NonUniformCrossTermClaim
             // (registered above via RegisterF1Family). Live: inspect --root time-exclusion.
             .RegisterTimeIrreversibilityExclusionClaim()
+            // Quarter-boundary uniqueness (Tier1Derived, UNIQUENESS_PROOF): the typed ARGUMENT behind
+            // the ¼ value — α=2 is the unique Rényi order with a state-independent fold threshold, and
+            // D=1−4CΨ has its single zero at ¼. Parent QuarterAsBilinearMaxvalClaim (Pi2 family, above).
+            // Live: inspect --root quarter-uniqueness.
+            .RegisterQuarterBoundaryUniquenessClaim()
             // Polarity cube map (cubic Z₂³ architecture inventory; aggregates every IZ2AxisClaim)
             // Must come AFTER every Pi²-Inheritance Claim registration above so its b.Get<T>()
             // dependencies resolve. Currently snapshot-only; rebuild registry to refresh.

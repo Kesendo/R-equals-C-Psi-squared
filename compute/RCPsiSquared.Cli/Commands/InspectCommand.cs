@@ -558,6 +558,11 @@ public static class InspectCommand
                 c.Parser.OptionalDouble("gamma") ?? 0.05,
                 c.Parser.OptionalDouble("J") ?? 1.0),
             RequiresN: false, HonorsOptionalN: true),
+        new("quarter-uniqueness", "UNIQUENESS_PROOF, the typed argument behind the ¼ value: α=2 is the UNIQUE Rényi order whose fold threshold CΨ*_α=(α−1)^(α−1)/(α^α·Ψ^(α−2)) is state-independent (the Ψ^(α−2) factor vanishes only there), where it equals ¼; and the α=2 fixed-point discriminant D=1−4CΨ has its single zero at ¼, the unique bifurcation boundary. Sweeps α at two probe states (spread=0 only at α=2) + the discriminant across CΨ; elementary arithmetic, exact. --psi-low / --psi-high set the probe states",
+            c => new QuarterBoundaryUniquenessWitness(
+                c.Parser.OptionalDouble("psi-low") ?? 0.3,
+                c.Parser.OptionalDouble("psi-high") ?? 0.7),
+            RequiresN: false),
         new("f87", "F87 trichotomy knowledge base",
             c => BuildF87Root(c.Parser, c.N)),
         new("pi2", "Π² polarity knowledge base",
