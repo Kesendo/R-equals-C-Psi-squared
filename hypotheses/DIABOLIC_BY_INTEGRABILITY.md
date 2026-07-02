@@ -62,7 +62,7 @@ It also sharpens the **EP-character trilogy** (`docs/CAUGHT_ERRORS.md`): F86a (n
 ## Open / next
 
 - **Generalize beyond N=4 path-3.** The gate is decisive at N=4; the "integrability protects the diabolic crossing" principle should be checked at path-5/6 and against the F90 (SE,DE) bridge: does every free-fermion (SE,DE) coalescence at the AT-midpoint come out diabolic, and does Δ always defect it?
-- **Codimension argument.** Make precise *why* free-fermion integrability collapses the (generically codim-3) diabolic point to codim 1 (reachable by the single q), the degenerate-multiplet-plus-balanced-perturbation picture, stated as a theorem.
+- **Codimension argument: LANDED 2026-07-02.** Stated as a theorem in [PROOF_CODIM1_BY_ADDITIVITY](../docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md) §8 (Theorem A): two regimes, the automatic AT-locked crossings and the conditional twin-scalar residual regime, where additivity supplies the H-scalar half identically in q (this doc's degenerate-multiplet picture, now the "twin-scalar lemma") and the D-scalar half remains the genuine extra condition, proven here at the N=4 point. The honest general form is "codim-3 → codim-≤2, and codim-1 exactly where the D-half is supplied"; whether the D-half is automatic at the 11 complex-q N=5 diabolics is the one remaining check.
 - **Markdown sweep: done.** The diabolic octic verdict and this WHY now live in `docs/ANALYTICAL_FORMULAS.md` (§ "F89 path-3 octic diabolic degeneracy", the "WHY diabolic" paragraph) and `compute/RCPsiSquared.Core/F_FORMULA_CROSSWALK.md`, not only the typed C#. Gap closed.
 
 ## Anchors
