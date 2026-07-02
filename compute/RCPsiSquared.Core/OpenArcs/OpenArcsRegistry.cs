@@ -668,7 +668,39 @@ public static class OpenArcsRegistry
                 "identically in q, honest general form codim-≤2). Typed: SpectatorIntertwinerClaim; registry: F125; " +
                 "live: inspect --root sectorbraid (node 2). Three checks remain open: the interior kernel-death " +
                 "lemma ((3,3)→(4,4) measured ~1e-15, not derived); Theorem A's D-half at the 11 complex-q N=5 " +
-                "diabolics; the exclusion half of membership (edge-normality proven, interior census-evidence).",
+                "diabolics; the exclusion half of membership (edge-normality proven, interior census-evidence). " +
+                "UPDATE 2026-07-02 (sl(2) + N=7 + attack on remainder 1, commits db3ea57 / a556edc / c4b28ef; " +
+                "remainder numbers = the proof doc's 'What remains open' items 1-4): (a) THE sl(2) LANDED — W is " +
+                "the raising operator of an sl(2) {W, W†, H₀ = N̂_bra+N̂_ket−N}, [W,W†]=H₀, L commutes with all " +
+                "three (machine zero N=3..7, gate item 6 W_ClosesSl2_Cartan_And_Lefschetz). Kernel death = " +
+                "highest-weight annihilation; this DERIVES the climbing-rung injectivity (block weight " +
+                "m = p+q̃−N (q̃ = ket popcount) < 0 ⟹ raising op injective, strengthens Theorem B) and the BAND " +
+                "deaths (via the Edge " +
+                "lemma). (b) N=7 VERIFIED (gate item 7, CoreKernelDeath_ScalesWithN): the m=+1 diagonal core " +
+                "(p_c,p_c), p_c=(N+1)/2 [N=5 (3,3), N=7 (4,4)], carries λ_B = −conj(λ_A)−2N [λ_A = the real " +
+                "DEFECTIVE eigenvalue of the (1,2) octic (the degree-8 residual factor of block (1,2)'s " +
+                "characteristic polynomial, same block builder) at the locus q*; N=7: q*=1.5148, λ_A=−4.885, " +
+                "λ_B=−9.115] and " +
+                "dies under W into the CORNER BLOCK (p_c+1,p_c+1) [the block the core climbs into; N=5 (4,4), " +
+                "N=7 (5,5)] at ‖Wx₁‖=3.2e-15 (N=5 reproduces the committed 1.7e-15); spin-½ core + gap " +
+                "byte-identity now N-robust across N=5,7. Locus tool: `rcpsi pkmono --k <N-1> --diabolic --exact`, " +
+                "then filter 'defective EP' with gap-exponent≈0.5 (the scanner floods at N≥7; the clean real " +
+                "defective sits at higher q≈1.5). (c) ATTACK on the N-uniform lemma: eigenvector-structure routes " +
+                "RULED OUT — the death is a genuine CANCELLATION among the W-images (in the mode basis W kills " +
+                "|A⟩⟨B| iff A∪B = all modes; the core eigenvector x_core lives mostly on A∪B≠all coherences), not " +
+                "a support nor single-multiplet fact. So remainder 1 (interior-core death) is a FACET of " +
+                "remainder 4 (exclusion): x_core∈ker W ⟺ λ_B is defectively ABSENT from the corner block " +
+                "(p_c+1,p_c+1), and the intertwiner proves presence not absence (that block is NOT normal, so no " +
+                "Edge lemma). RESUMPTION / FIRST MOVE: do NOT re-attack remainder 1 with intertwiner/sl(2)/" +
+                "isotypic tools (proven incapable of supplying an absence). The one open tool for remainders 1 " +
+                "AND 4 is an independent ABSENCE argument for the corner block — concretely: build the corner " +
+                "block (p_c+1,p_c+1) [SectorBraidModeGeometry.BuildBlock + PerBlockLiouvillianBuilder.BuildBlockZ] " +
+                "and show λ_B is NOT a defective root of its characteristic polynomial at q* (a resultant / " +
+                "Galois-independence fact against the (1,2) octic), via the F89 Galois tooling (PathKMonodromyScout " +
+                "/ GaloisMonodromyScanCommand) of the f89_galois_open_doors arc. Full statement + derivation: " +
+                "docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md (§6 'the interior core' + 'What remains open' items 1 " +
+                "& 4). Remainder 2 (Theorem A's D-half at the 11 complex-q N=5 diabolics) is the other open " +
+                "check; remainder 3 (gap byte-identity) also now holds at N=7.",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
