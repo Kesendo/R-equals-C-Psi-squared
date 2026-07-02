@@ -914,6 +914,61 @@ public static class PathKMonodromyScout
         return result;
     }
 
+    /// <summary>One real-axis PT-breaking point of a path-k residual: the real coupling <paramref name="QStar"/>
+    /// where the sector's REAL eigenvalue count jumps (two real strands merging into a conjugate pair, or a
+    /// conjugate pair touching down), the merged eigenvalue read from the AT-aware defective-anywhere probe,
+    /// its verdict, and the raw counts either side of the jump.</summary>
+    public sealed record PtBreakPoint(
+        double QStar, Complex Lambda, bool IsDefective, double MinDefectiveGap,
+        int RealCountBelow, int RealCountAbove);
+
+    /// <summary>The real-axis SEED CENSUS instrument: find real defective EPs of the (1,2) block by the
+    /// PT-breaking COUNT CHANGE, not by a gap field. At odd N the reflection sectors are self-conjugate
+    /// (the dimension-mismatch mechanism, F89_PATH_K_DIABOLIC), so at real q the residual spectrum is
+    /// real-or-conjugate-paired and a real defective EP is a PT-breaking point: two REAL eigenvalues merge
+    /// and leave the axis as a conjugate pair, so the REAL-root count of the residual jumps by 2. Counting
+    /// is global and therefore IMMUNE to the closest-pair masking that hides √-EPs from the gap-field scans
+    /// at F_53/F_116 strand density (the at_masking trap; the R-even N=7 gap scan misses the known seed
+    /// q* = 1.5148, which this instrument must find — the validation gate). Sweep the real axis, bisect each
+    /// count change to ~1e-7, then classify the locus AT-aware on the RAW (1,2) block via
+    /// <see cref="SectorEpProbe.ProbeDefectiveAnywhere"/> (parity-blind confirmation; the parity label comes
+    /// from which residual's count jumped). TWO BLIND SPOTS, both harmless for the seed census: a diabolic
+    /// TANGENCY (a conjugate pair grazing the axis and leaving again, e.g. the N=9 onset at q ≈ 0.4755)
+    /// changes the count only AT the point, not net across it, so it is invisible on a grid; and real-real
+    /// semisimple CROSSINGS leave the count unchanged. Both are diabolic (silent), not seeds. What the scan
+    /// DOES see is every net real↔complex transition, and at those the merge is the pseudo-Hermitian
+    /// PT-breaking point, generically defective — exactly the seed species.</summary>
+    public static List<PtBreakPoint> FindRealDefectiveByCountChange(int k, bool rOdd,
+        double qLo, double qHi, double step, double imTol = 1e-6)
+    {
+        Func<double, Complex[]> roots = rOdd
+            ? q => ResidualRootsExactROdd(k, new Complex(q, 0))
+            : q => ResidualRootsExact(k, new Complex(q, 0));
+        int Count(double q) => roots(q).Count(z => Math.Abs(z.Imaginary) < imTol);
+
+        var result = new List<PtBreakPoint>();
+        int prev = Count(qLo);
+        for (double q = qLo + step; q <= qHi + 1e-12; q += step)
+        {
+            int cur = Count(q);
+            if (cur != prev)
+            {
+                double lo = q - step, hi = q;
+                for (int it = 0; it < 45 && hi - lo > 1e-7; it++)
+                {
+                    double mid = 0.5 * (lo + hi);
+                    if (Count(mid) == prev) lo = mid; else hi = mid;
+                }
+                double qStar = 0.5 * (lo + hi);
+                var reading = SectorEpProbe.ProbeDefectiveAnywhere(k + 1, 1, 2, new Complex(qStar, 0));
+                result.Add(new PtBreakPoint(qStar, reading.DefectiveCenter, reading.HasDefective,
+                    reading.MinDefectiveGap, prev, cur));
+            }
+            prev = cur;
+        }
+        return result;
+    }
+
     /// <summary>The full EpCharacter reading of the path-k residual block at (q, λ): the load-bearing
     /// discriminant (R-3) that separates a genuine DIABOLIC (semisimple, geo=alg, departure≈0) from a
     /// DEFECTIVE EP (Jordan block, geo&lt;alg) and from an avoided crossing (an identity loop alone cannot).

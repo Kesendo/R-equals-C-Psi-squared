@@ -142,6 +142,20 @@ disjoint from the half-filling frontier (Δ*, and the Galois/monodromy work). Th
 large-N *single-excitation* access unblocks single-excitation questions; the open frontier is
 mostly multi-excitation, where the Cone gives no leverage. The survey continues.
 
+**Second survey done (2026-07-02): the seed census -- candidate SURVIVED and was answered the
+same day.** The question: does the codim-1 containment corollary's one per-N census input (a real
+defective EP on the (1,2) block at each odd N, proven only at N=5, 7) extend upward? Vetting per
+the Δ* lesson: the (1,2) block is a LOW-WEIGHT sector, dim N·C(N,2) ~ N³ -- polynomial, exactly
+the block-local complexity class this project's cuts name, one floor above the Cone's N². Open
+(the proof itself declares it a census input), not textbook, and reachable. The answer (gate
+`RealSeedCensusTests` in RCPsiSquared.Diagnostics.Tests, the PT-break count-change instrument,
+immune to the closest-pair masking that defeats gap-field scans at F_53/F_116 density): **seeds
+exist at 4/6/7 loci for N=5/7/9 across both R-parities -- the corollary's input extends to N=9.**
+Honest attribution: the unlocking tool was the existing scout's exact-residual machinery on the
+polynomial block, NOT the Cone; MirrorWorld's contribution was the FRAME (this survey question and
+the block-local complexity insight that made "N³ is not a wall" obvious). The survey continues for
+a question the Cone itself unblocks.
+
 The discipline, both paths: **sober** (no interpretation in the code; the meaning lives in the
 docs), **from-below guarded** (every number recomputed or cross-checked, a wrong one fails
 loudly), **standalone** (no `RCPsiSquared.*`), **the two buckets pure** (Own vs Inherited).

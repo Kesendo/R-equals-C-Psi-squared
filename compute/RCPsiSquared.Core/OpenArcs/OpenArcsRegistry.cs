@@ -677,6 +677,15 @@ public static class OpenArcsRegistry
                 "(1.13); CAVEAT: N=7 defective enumeration is masked-limited (the known R-even real defective q*=1.5148 " +
                 "is ABSENT from the F_53-density scan, the at_masking closest-pair trap), so N=7 lists are lower bounds; " +
                 "N=5 (the deciding case) is unaffected (sparse residuals, all anchors reproduced). " +
+                "SEED CENSUS (2026-07-02, same day, the masking trap DEFEATED for the real axis): the containment " +
+                "corollary's one per-N input (a real defective EP on (1,2) at odd N) now EXTENDS TO N=9 via the " +
+                "PT-break COUNT-CHANGE instrument (FindRealDefectiveByCountChange: real-root count of the " +
+                "self-conjugate residuals jumps by 2 where two real strands merge and leave the axis; counting is " +
+                "global, no density masks it; classify AT-aware via SectorEpProbe.ProbeDefectiveAnywhere; gate " +
+                "RealSeedCensusTests, Category SEEDCENSUS). Seeds in q in [0.2,3]: N=5: 4 (2 R-even + 2 R-odd, the " +
+                "R-odd q*=0.6430 lambda=-3.8196 previously UNKNOWN, confirmed by a tight local gap scan), N=7: 6 " +
+                "(3+3, incl. the masked 1.5148), N=9: 7 (4+3). Blind spots (harmless for seeds): grazes and " +
+                "real-real crossings make no net count change. N=11 = Category SLOW_SEEDCENSUS. " +
                 "NUMBERING TRAP: the proof's remainders are R1-R4 above; the '(a)/(b)/(c) next " +
                 "candidates' near the bottom are the Era-2 to-do (a=complex-q PARTIAL: near-axis CLOSED by the moved window, deep loci → resultant; b=window-edge CLOSED, c=D-half CLOSED)," +
                 "and are NOT the Era-1 '(a)-(d)' connection-directions at the top of the journal. TERMS: R = the site reflection i↦N−1−i, the involution " +
