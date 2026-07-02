@@ -409,10 +409,12 @@ public class SpectatorIntertwinerGateTests
 
     // The interior-core kernel death is remainder 1 of PROOF_CODIM1_BY_ADDITIVITY, sharpened by the sl(2) to
     // "the d=0 λ-component is spin ½": the m=+1 core (p_c,p_c)=((N+1)/2,(N+1)/2) is highest-weight, so W kills
-    // it going up to (p_c+1,p_c+1). N=5 REPRODUCES the committed gate (‖Wx₁‖≈1.7e-15). N=7 is the OPEN probe:
-    // does the core stay spin ½ (die), or does the diamond spread to (5,5) at larger N? Loci from `rcpsi pkmono
-    // --exact` (real defective EP, gap-exponent≈½): N=5 q*=0.620878 λ_A≈−4.6189; N=7 q*=1.5148 λ_A≈−4.885.
-    [Theory(DisplayName = "B1 item 7: interior-core kernel death across N (N=5 reproduces gate; N=7 is the open probe)")]
+    // it going up to (p_c+1,p_c+1). N=5 locus 1 REPRODUCES the committed gate (‖Wx₁‖≈1.7e-15); N=7 confirmed
+    // the N-robustness; the death is now DERIVED at real loci by item 8's rate window (this test is its
+    // measured face; locus 2 was the out-of-sample prediction). Loci from `rcpsi pkmono --exact` (real
+    // defective EP, gap-exponent≈½): N=5 q*=0.620878 λ_A≈−4.6189 (locus 1), q=1.077615 λ_A≈−3.7917 (locus 2);
+    // N=7 q*=1.5148 λ_A≈−4.885.
+    [Theory(DisplayName = "B1 item 7: interior-core kernel death across N and loci (measured face of item 8's rate window)")]
     [Trait("Category", "SLOW_MSM")]
     [InlineData(5, 0.620878, -4.6189)]
     [InlineData(5, 1.077615, -3.7917)]   // locus 2: the death item 8's rate window PREDICTS (out-of-sample)

@@ -666,9 +666,10 @@ public static class OpenArcsRegistry
                 "|2p−N|=1, sizes 4N−8 odd / 4N−12 even), plus the two-regime Theorem A (AT-locked crossings " +
                 "automatically semisimple; residual coalescences twin-scalar, additivity supplies the H-half " +
                 "identically in q, honest general form codim-≤2). Typed: SpectatorIntertwinerClaim; registry: F125; " +
-                "live: inspect --root sectorbraid (node 2). Three checks remain open: the interior kernel-death " +
-                "lemma ((3,3)→(4,4) measured ~1e-15, not derived); Theorem A's D-half at the 11 complex-q N=5 " +
-                "diabolics; the exclusion half of membership (edge-normality proven, interior census-evidence). " +
+                "live: inspect --root sectorbraid (node 2). Open checks then, of the proof's FOUR-item ledger: the " +
+                "interior kernel-death lemma ((3,3)→(4,4) measured ~1e-15, not derived); Theorem A's D-half at " +
+                "the 11 complex-q N=5 diabolics; the exclusion half of membership (edge-normality proven, " +
+                "interior census-evidence); the gap byte-identity (observed, not implied). " +
                 "UPDATE 2026-07-02 (sl(2) + N=7 + attack on remainder 1, commits db3ea57 / a556edc / c4b28ef; " +
                 "remainder numbers = the proof doc's 'What remains open' items 1-4): (a) THE sl(2) LANDED — W is " +
                 "the raising operator of an sl(2) {W, W†, H₀ = N̂_bra+N̂_ket−N}, [W,W†]=H₀, L commutes with all " +
@@ -689,9 +690,12 @@ public static class OpenArcsRegistry
                 "RULED OUT — the death is a genuine CANCELLATION among the W-images (in the mode basis W kills " +
                 "|A⟩⟨B| iff A∪B = all modes; the core eigenvector x_core lives mostly on A∪B≠all coherences), not " +
                 "a support nor single-multiplet fact. So remainder 1 (interior-core death) is a FACET of " +
-                "remainder 4 (exclusion): x_core∈ker W ⟺ λ_B is defectively ABSENT from the corner block " +
-                "(p_c+1,p_c+1), and the intertwiner proves presence not absence (that block is NOT normal, so no " +
-                "Edge lemma). RESUMPTION / FIRST MOVE: do NOT re-attack remainder 1 with intertwiner/sl(2)/" +
+                "remainder 4 (exclusion): x_core∈ker W FOLLOWS FROM λ_B being defectively absent from the corner " +
+                "block (p_c+1,p_c+1) (Lemma-3 contraposition; the resolution below in fact proves the stronger " +
+                "full absence), and the intertwiner proves presence not absence (that block is NOT normal, so no " +
+                "Edge lemma). RESUMPTION / FIRST MOVE [SUPERSEDED the same day for real loci — read the RESOLVED " +
+                "paragraph below FIRST; this route stays live only for the complex-q face]: do NOT re-attack " +
+                "remainder 1 with intertwiner/sl(2)/" +
                 "isotypic tools (proven incapable of supplying an absence). The one open tool for remainders 1 " +
                 "AND 4 is an independent ABSENCE argument for the corner block — concretely: build the corner " +
                 "block (p_c+1,p_c+1) [SectorBraidModeGeometry.BuildBlock + PerBlockLiouvillianBuilder.BuildBlockZ] " +
@@ -704,17 +708,20 @@ public static class OpenArcsRegistry
                 "RESOLVED AT REAL LOCI (2026-07-02, same day, the assemble-first survey found the cheaper tool " +
                 "BEFORE any resultant machinery was built): remainder 1 is CLOSED per real locus by the " +
                 "RATE-WINDOW LEMMA (proof §6, gate item 8) — at real q every block eigenvalue obeys " +
-                "Re λ = v†Av/v†v ∈ [−2·n_max, −2·n_min] (Bendixson: A real diagonal, C anti-Hermitian; the Edge " +
-                "lemma is the zero-width case, the census's 'λ from below' identity read as an interval). The " +
+                "Re λ = v†Av/v†v ∈ [−2·n_max, −2·n_min] (n = the block's n_diff values; Bendixson: A real " +
+                "diagonal, C anti-Hermitian; the Edge lemma is the zero-width case, the census's 'λ from below' " +
+                "identity read as an interval). The " +
                 "corner block (p_c+1,p_c+1) has window [−2(N−3), 0] while Re λ_B = −Re λ_A − 2N sits BELOW it " +
-                "whenever Re λ_A > −6 (measured margins 1.381 / 2.208 / 1.115 at N=5 loci q*=0.620878, 1.077615 " +
-                "and N=7 q*=1.5148), so λ_B is not in the corner spectrum AT ALL and W kills the core's whole " +
+                "whenever Re λ_A > −6 (measured margins 1.381 / 2.208 / 1.115 at N=5 locus 1 = the seed " +
+                "q*=0.620878, locus 2 = 1.077615, and N=7 q*=1.5148), so λ_B is not in the corner spectrum AT " +
+                "ALL and W kills the core's whole " +
                 "generalized eigenspace ((L_corner−λ)^m invertible; explains ‖Wx₁‖ AND ‖Wx₂‖ ~1e-15 at once, " +
                 "robust to the 4-decimal loci). Out-of-sample: the lemma PREDICTED the death at the never-measured " +
                 "N=5 locus 2, gate now reads 9.6e-16, with the negative control that λ_A (inside the window there) " +
                 "transports at 1.7. Bonus at the seed locus: the FULL N=5 exclusion of {λ_A, λ_B} is derived " +
                 "(interior four (1,1),(4,4),(1,4),(4,1) window-excluded; boundary blocks constant-n_diff ⟹ normal " +
-                "⟹ rung-pinned), condition Re λ_A ∈ (−6,−4), locus-1-only (locus 2's λ_A=−3.7917 sits inside " +
+                "⟹ rung-pinned), condition Re λ_A ∈ (−6,−4) (> −6 for the corner/λ_B exclusion, < −4 so λ_A " +
+                "itself falls outside the [−4,0] windows), locus-1-only (locus 2's λ_A=−3.7917 sits inside " +
                 "[−4,0] and defeats the interior-four window there). Two reviews (physics-first + mathematical, " +
                 "both with independent numpy rebuilds) attacked and confirmed; the one BREAK found (the locus-2 " +
                 "overclaim) is scoped into the statement. STILL OPEN of remainders 1+4: the COMPLEX-q loci (the " +
