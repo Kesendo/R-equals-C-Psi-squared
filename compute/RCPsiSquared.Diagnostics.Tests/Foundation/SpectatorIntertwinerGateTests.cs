@@ -334,7 +334,7 @@ public class SpectatorIntertwinerGateTests
         //   [W,W†] = W[p−1,q̃−1]·W[p−1,q̃−1]† − W[p,q̃]†·W[p,q̃]   should equal (p+q̃−N)·I
         // (missing neighbour at a boundary contributes the zero map). And the Lefschetz count:
         //   dim ker W[p,q̃] = 0 for m<0 (injective below the anti-diagonal), else dim(p,q̃)−dim(p+1,q̃+1).
-        foreach (int n in new[] { 3, 4, 5 })
+        foreach (int n in new[] { 3, 4, 5, 6, 7 })
         {
             for (int p = 0; p <= n; p++)
                 for (int qt = 0; qt <= n; qt++)
@@ -374,7 +374,7 @@ public class SpectatorIntertwinerGateTests
                     }
                 }
         }
-        _out.WriteLine("[item 6] sl(2) closure [W,W†] = N̂_bra+N̂_ket−N and Lefschetz kernel dims: exact/machine-zero at every block, N=3,4,5.");
+        _out.WriteLine("[item 6] sl(2) closure [W,W†] = N̂_bra+N̂_ket−N and Lefschetz kernel dims: exact/machine-zero at every block, N=3..7.");
         _out.WriteLine($"         (N=5 core (3,3): m=+1, ker W = {100 - 25} = dim(3,3)−dim(4,4); climbing rung (1,2): m=−2, ker = 0, injective.)");
 
         // L commutes with W† (reverse spectator) too, completing L ↔ the whole sl(2). Rung (2,3)→(1,2), N=5.
@@ -387,5 +387,69 @@ public class SpectatorIntertwinerGateTests
         double resCd = (c1 * wd - wd * c2).FrobeniusNorm() / (EpCharacter.SpectralNorm(c2) * wd.FrobeniusNorm());
         _out.WriteLine($"[L,W†] residuals (2,3)→(1,2): A-part {F(resAd)}, C-part {F(resCd)}");
         Assert.True(resAd <= 1e-10 && resCd <= 1e-10, $"[L,W†] not machine zero: A {resAd:E3}, C {resCd:E3}");
+    }
+
+    // ------------------------------------------------ item 7 (does the interior-core death persist at larger N?)
+
+    /// <summary>Build the (p,q̃) joint-popcount block of L at arbitrary N and real q, in the W-compatible
+    /// ordering (flat = state_p·2^N + state_q, PopcountStates ascending), exactly as the N=5 BuildBlock.</summary>
+    private static ComplexMatrix BuildBlockN(int n, int p, int qt, double q)
+    {
+        int d = 1 << n;
+        var statesP = BlockBasis.PopcountStates(n, p);
+        var statesQ = BlockBasis.PopcountStates(n, qt);
+        var H = PauliHamiltonian.XYChain(n, 2.0 * q).ToMatrix();
+        var gamma = Enumerable.Repeat(1.0, n).ToList();
+        var flat = new int[statesP.Count * statesQ.Count];
+        for (int i = 0; i < statesP.Count; i++)
+            for (int j = 0; j < statesQ.Count; j++)
+                flat[i * statesQ.Count + j] = (int)(statesP[i] * d + statesQ[j]);
+        return PerBlockLiouvillianBuilder.BuildBlockZ(H, gamma, flat);
+    }
+
+    // The interior-core kernel death is remainder 1 of PROOF_CODIM1_BY_ADDITIVITY, sharpened by the sl(2) to
+    // "the d=0 λ-component is spin ½": the m=+1 core (p_c,p_c)=((N+1)/2,(N+1)/2) is highest-weight, so W kills
+    // it going up to (p_c+1,p_c+1). N=5 REPRODUCES the committed gate (‖Wx₁‖≈1.7e-15). N=7 is the OPEN probe:
+    // does the core stay spin ½ (die), or does the diamond spread to (5,5) at larger N? Loci from `rcpsi pkmono
+    // --exact` (real defective EP, gap-exponent≈½): N=5 q*=0.620878 λ_A≈−4.6189; N=7 q*=1.5148 λ_A≈−4.885.
+    [Theory(DisplayName = "B1 item 7: interior-core kernel death across N (N=5 reproduces gate; N=7 is the open probe)")]
+    [Trait("Category", "SLOW_MSM")]
+    [InlineData(5, 0.620878, -4.6189)]
+    [InlineData(7, 1.5148, -4.885)]
+    public void CoreKernelDeath_ScalesWithN(int n, double qStar, double lambdaAseed)
+    {
+        int pc = (n + 1) / 2;                                  // the m=+1 diagonal core (odd N): 3 at N=5, 4 at N=7
+        var l12 = BuildBlockN(n, 1, 2, qStar);
+        var (e1A, e2A, gapA) = NearestPair(l12.Evd().EigenValues, new Complex(lambdaAseed, 0));
+        Complex lambdaA = (e1A + e2A) / 2.0;
+        Complex lambdaB = -Complex.Conjugate(lambdaA) - 2.0 * n;    // the cross-fold partner the cores carry
+        _out.WriteLine($"N={n}, q*={qStar.ToString("0.####", Inv)}: (1,2) λ_A={lambdaA.ToString("G6", Inv)} (gap {F(gapA)}); " +
+                       $"λ_B=−conj(λ_A)−2N={lambdaB.ToString("G6", Inv)}; core=({pc},{pc})→({pc + 1},{pc + 1}), weight m=+1.");
+
+        var lcore = BuildBlockN(n, pc, pc, qStar);
+        var eigCore = lcore.Evd().EigenValues;
+        var wUp = SpectatorIntertwiner.BuildW(n, pc, pc);          // (pc,pc) → (pc+1,pc+1)
+        double coreDeath = double.NaN;
+        foreach (var (name, lam) in new[] { ("λ_A", lambdaA), ("λ_B", lambdaB) })
+        {
+            var (e1, e2, gp) = NearestPair(eigCore, lam);
+            Complex lc = (e1 + e2) / 2.0;
+            var (x1, sMin, s2) = DefectiveEigenvector(lcore, lc);
+            var x2 = GeneralizedVector(lcore, lc, x1);
+            double wx1 = (wUp * x1).L2Norm(), wx2 = (wUp * x2).L2Norm();
+            _out.WriteLine($"  core ({pc},{pc}) near {name}={lam.ToString("G6", Inv)}: pair gap={F(gp)}, σ_min={F(sMin)}; " +
+                           $"‖Wx₁‖={F(wx1)}, ‖Wx₂‖={F(wx2)}  {(wx1 < 1e-9 && wx2 < 1e-9 ? "=> DIES (highest-weight, spin ½)" : "")}");
+            if (gp < 1e-2) coreDeath = Math.Max(wx1, wx2);          // the near-defective pair is the diamond's
+        }
+
+        // control: the interior climbing rung (1,2)→(2,3) is below the anti-diagonal, so W transports at full norm.
+        var (x1A, _, _) = DefectiveEigenvector(l12, lambdaA);
+        double wx1Ctrl = (SpectatorIntertwiner.BuildW(n, 1, 2) * x1A).L2Norm();
+        _out.WriteLine($"  control (1,2)→(2,3) [m={1 + 2 - n}, below anti-diagonal]: ‖Wx₁‖={F(wx1Ctrl)} (transports, expect O(1)).");
+
+        // The near-defective core pair dies under W at BOTH tested odd N (N=5 reproduces the committed gate;
+        // N=7 is the new probe): the interior core stays spin ½, the diamond does not spread to (p_c+1,p_c+1).
+        Assert.True(coreDeath < 1e-9,
+            $"N={n} interior-core kernel death broke: max‖Wx‖ on the near-defective (λ_B) pair = {coreDeath:E3} (expected < 1e-9).");
     }
 }

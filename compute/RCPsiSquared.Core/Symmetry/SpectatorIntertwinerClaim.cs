@@ -116,7 +116,9 @@ public sealed class SpectatorIntertwinerClaim : Claim
                          "structural: (0,1)/(N−1,N) have n_diff ≡ 1 ⟹ A = −2γ·I ⟹ normal pencil ⟹ no Jordan block. Kernel " +
                          "death is now highest-weight annihilation (see the sl(2) node): the band deaths follow from the " +
                          "edge lemma; the interior core alone stays open, reduced to 'λ carries no defective Jordan block " +
-                         "in the cone (4,4) ≅ (1,1)' (the proof's open ledger, item 1).");
+                         "in the cone (4,4) ≅ (1,1)' (the proof's open ledger, item 1). Measured at N=5 AND N=7 (gate " +
+                         "item 7): the m=+1 core dies into the next block at ~1e-15 at both odd N (N=7: (4,4)→(5,5), " +
+                         "‖Wx₁‖ = 3.2e-15), an N-uniform spin-½ pattern, still measured not derived.");
             yield return new InspectableNode("the sl(2) behind the kernel (§6): W is a raising operator",
                 summary: "W, W† and H₀ = N̂_bra+N̂_ket−N close an sl(2) ([W,W†] = H₀, machine zero N=3,4,5, gate item 6) " +
                          "that L commutes with (both spectators intertwine, H₀ block-diagonal); block (p,q̃) carries weight " +
