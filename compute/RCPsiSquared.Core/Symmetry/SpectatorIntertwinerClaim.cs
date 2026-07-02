@@ -113,8 +113,17 @@ public sealed class SpectatorIntertwinerClaim : Claim
             yield return new InspectableNode("kernel death + the normal edge (where the sharing stops)",
                 summary: "boundary (3,3)→(4,4) at the N=5 real locus: the whole near-defective 2-plane dies in ker W " +
                          "(‖Wx₁‖ = 1.7e-15, ‖Wx₂‖ = 2.5e-15) while the interior rung transports at norm √2. Outer edge " +
-                         "structural: (0,1)/(N−1,N) have n_diff ≡ 1 ⟹ A = −2γ·I ⟹ normal pencil ⟹ no Jordan block. The " +
-                         "interior kernel death is measured, not yet derived (the proof's open ledger, item 1).");
+                         "structural: (0,1)/(N−1,N) have n_diff ≡ 1 ⟹ A = −2γ·I ⟹ normal pencil ⟹ no Jordan block. Kernel " +
+                         "death is now highest-weight annihilation (see the sl(2) node): the band deaths follow from the " +
+                         "edge lemma; the interior core alone stays open, reduced to 'λ carries no defective Jordan block " +
+                         "in the cone (4,4) ≅ (1,1)' (the proof's open ledger, item 1).");
+            yield return new InspectableNode("the sl(2) behind the kernel (§6): W is a raising operator",
+                summary: "W, W† and H₀ = N̂_bra+N̂_ket−N close an sl(2) ([W,W†] = H₀, machine zero N=3,4,5, gate item 6) " +
+                         "that L commutes with (both spectators intertwine, H₀ block-diagonal); block (p,q̃) carries weight " +
+                         "m = p+q̃−N. Kernel death = W annihilating a highest-weight vector: W is injective for m<0 (which " +
+                         "DERIVES the climbing-rung injectivity for all N, strengthening Theorem B), and the Lefschetz kernel " +
+                         "dim is dim(p,q̃)−dim(p+1,q̃+1) for m≥0 (75 at (3,3)). The band chains cap at the normal edge; the " +
+                         "interior core reduces to a single spectral absence, still open.");
             yield return new InspectableNode("the containment orbit corollary (what this claim feeds)",
                 summary: "one climbing W-step + transpose + Klein full flip + F89d cross-fold reproduce the census braid " +
                          "sets exactly: N=4 the 4-orbit, N=5 the 12-set with cores (2,2),(3,3), N=6 the 12-set without " +

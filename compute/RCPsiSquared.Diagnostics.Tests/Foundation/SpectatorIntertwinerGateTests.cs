@@ -312,4 +312,80 @@ public class SpectatorIntertwinerGateTests
         _out.WriteLine($"  D-part residual = {F(resD)}   (predicted machine zero: Lemma 2 never sees H)");
         // Printed measurement per plan; no hard assert on the O(1) side (first run).
     }
+
+    // --------------------------------------------------------- item 6 (§6 sl(2) structure of the kernel)
+
+    /// <summary>C(n,k), the block dimension factor.</summary>
+    private static int Binom(int n, int k)
+    {
+        if (k < 0 || k > n) return 0;
+        long r = 1;
+        for (int i = 1; i <= k; i++) r = r * (n - k + i) / i;
+        return (int)r;
+    }
+
+    [Fact(DisplayName = "B1 item 6 (§6): [W,W†] = N̂_bra+N̂_ket−N closes an sl(2); Lefschetz kernel dims (N=3,4,5); [L,W†]=0")]
+    [Trait("Category", "SLOW_MSM")]
+    public void W_ClosesSl2_Cartan_And_Lefschetz()
+    {
+        // The kernel death of PROOF_CODIM1_BY_ADDITIVITY §6 is highest-weight annihilation: W is the raising
+        // operator of an sl(2) with Cartan H₀ = N̂_bra+N̂_ket−N (weight m = p+q̃−N per block). Verified here
+        // block-by-block from the trusted BuildW: on block (p,q̃),
+        //   [W,W†] = W[p−1,q̃−1]·W[p−1,q̃−1]† − W[p,q̃]†·W[p,q̃]   should equal (p+q̃−N)·I
+        // (missing neighbour at a boundary contributes the zero map). And the Lefschetz count:
+        //   dim ker W[p,q̃] = 0 for m<0 (injective below the anti-diagonal), else dim(p,q̃)−dim(p+1,q̃+1).
+        foreach (int n in new[] { 3, 4, 5 })
+        {
+            for (int p = 0; p <= n; p++)
+                for (int qt = 0; qt <= n; qt++)
+                {
+                    int dpq = Binom(n, p) * Binom(n, qt);
+                    if (dpq == 0) continue;
+
+                    var comm = Matrix<Complex>.Build.Dense(dpq, dpq);
+                    if (p >= 1 && qt >= 1)
+                    {
+                        var wBelow = SpectatorIntertwiner.BuildW(n, p - 1, qt - 1);   // (p−1,q̃−1)→(p,q̃)
+                        comm += wBelow * wBelow.ConjugateTranspose();
+                    }
+                    ComplexMatrix? wHere = null;
+                    if (p <= n - 1 && qt <= n - 1)
+                    {
+                        wHere = SpectatorIntertwiner.BuildW(n, p, qt);                // (p,q̃)→(p+1,q̃+1)
+                        comm -= wHere.ConjugateTranspose() * wHere;
+                    }
+                    double cartan = p + qt - n;
+                    double dev = 0.0;
+                    for (int i = 0; i < dpq; i++)
+                        for (int j = 0; j < dpq; j++)
+                            dev = Math.Max(dev, (comm[i, j] - (i == j ? new Complex(cartan, 0) : Complex.Zero)).Magnitude);
+                    Assert.True(dev <= 1e-10, $"N={n} block ({p},{qt}): [W,W†] − (p+q̃−N)I max dev {dev:E3}");
+
+                    if (wHere is not null)
+                    {
+                        int m = p + qt - n;
+                        int kerPred = m < 0 ? 0 : dpq - Binom(n, p + 1) * Binom(n, qt + 1);
+                        var s = wHere.Svd().S;
+                        double sMax = s[0].Real;
+                        int rank = s.Count(sv => sv.Real > 1e-9 * sMax);
+                        int kerAct = dpq - rank;
+                        Assert.True(kerAct == kerPred,
+                            $"N={n} block ({p},{qt}) m={m}: ker dim {kerAct} != Lefschetz pred {kerPred}");
+                    }
+                }
+        }
+        _out.WriteLine("[item 6] sl(2) closure [W,W†] = N̂_bra+N̂_ket−N and Lefschetz kernel dims: exact/machine-zero at every block, N=3,4,5.");
+        _out.WriteLine($"         (N=5 core (3,3): m=+1, ker W = {100 - 25} = dim(3,3)−dim(4,4); climbing rung (1,2): m=−2, ker = 0, injective.)");
+
+        // L commutes with W† (reverse spectator) too, completing L ↔ the whole sl(2). Rung (2,3)→(1,2), N=5.
+        var a1 = BuildBlock(1, 2, 0.0);
+        var a2 = BuildBlock(2, 3, 0.0);
+        var wd = BuildW(1, 2).ConjugateTranspose();                     // (2,3)→(1,2) = W†
+        double resAd = (a1 * wd - wd * a2).FrobeniusNorm() / (EpCharacter.SpectralNorm(a2) * wd.FrobeniusNorm());
+        var c1 = (BuildBlock(1, 2, QDefective) - a1).Divide(new Complex(QDefective, 0));
+        var c2 = (BuildBlock(2, 3, QDefective) - a2).Divide(new Complex(QDefective, 0));
+        double resCd = (c1 * wd - wd * c2).FrobeniusNorm() / (EpCharacter.SpectralNorm(c2) * wd.FrobeniusNorm());
+        _out.WriteLine($"[L,W†] residuals (2,3)→(1,2): A-part {F(resAd)}, C-part {F(resCd)}");
+        Assert.True(resAd <= 1e-10 && resCd <= 1e-10, $"[L,W†] not machine zero: A {resAd:E3}, C {resCd:E3}");
+    }
 }
