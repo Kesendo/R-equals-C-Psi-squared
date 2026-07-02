@@ -725,16 +725,20 @@ public static class OpenArcsRegistry
                 "[−4,0] and defeats the interior-four window there). Two reviews (physics-first + mathematical, " +
                 "both with independent numpy rebuilds) attacked and confirmed; the one BREAK found (the locus-2 " +
                 "overclaim) is scoped into the statement. STILL OPEN of remainders 1+4: the COMPLEX-q loci (the " +
-                "Bendixson bound needs real q; window violated by 0.27 already at Im q=0.05) — there the " +
-                "resultant/Galois-independence route above remains the open candidate — and an N-uniform bound " +
-                "Re λ_A(N) > −6 (margins SHRINK 1.381→1.115 across N=5→7; the window bottom equals the worst-case " +
-                "Re λ_B at every odd N, so the strictness input is irreducible). NEW ARC DATUM (physics review, " +
+                "Bendixson bound needs real q; window violated by 0.27 already at Im q=0.05), where the " +
+                "resultant/Galois-independence route above remains the open candidate. The N-uniform bound " +
+                "Re λ_A(N) > −6 is now CLOSED (2026-07-02, same day) by the WINDOW-EDGE LEMMA (proof §6): a " +
+                "defective EP cannot sit at either edge of its block's rate window (edge ⟺ joint A,C eigenvector " +
+                "⟺ semisimple, the classical numerical-range boundary fact), so Re λ_A ∈ (−6,−2) strictly at " +
+                "every N and the shrinking margins 1.381→1.115 never reach zero (a strict real-part inequality " +
+                "needs no uniform floor); two adversarial reviews (math + physics, numpy counterexample hunt " +
+                "0/460k) confirmed. NEW ARC DATUM (physics review, " +
                 "from-below probe): a THIRD real defective EP of the raw N=5 (1,2) block at q≈2.80489, λ≈−4.4882, " +
                 "clean √-law, R-parity −1 — it lives in the R-ODD residual, outside the symmetric-octic reference " +
                 "loci and outside the diamond story; any 'at every real defective locus' phrasing must scope to " +
-                "the octic (R-even) seeds. Next candidates: (a) the complex-q absence (resultant route), (b) the " +
-                "N-uniform Re λ_A(N) bound (equivalently: a defective residual eigenvector cannot be fully " +
-                "supported on the n_diff=3 rung), (c) remainder 2 (Theorem A's D-half at the 11).",
+                "the octic (R-even) seeds. Next candidates: (a) the complex-q absence (resultant route) and " +
+                "(c) remainder 2 (Theorem A's D-half at the 11); candidate (b), the N-uniform Re λ_A(N) bound, " +
+                "is now CLOSED by the window-edge lemma (above).",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

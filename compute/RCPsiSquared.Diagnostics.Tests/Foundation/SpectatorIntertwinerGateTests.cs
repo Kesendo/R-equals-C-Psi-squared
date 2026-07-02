@@ -486,8 +486,10 @@ public class SpectatorIntertwinerGateTests
     // size (N−3)/2 per side can differ in at most N−3 bits), window [−2(N−3), 0]; the diamond
     // partner λ_B = −conj(λ_A)−2N has Re λ_B = −Re λ_A − 2N < −2(N−3) exactly when Re λ_A > −6
     // (measured per locus: −4.6189 / −3.7917 at the two N=5 real loci, −4.885 at N=7; margin
-    // = Re λ_A + 6 > 1 at all three, trend 1.381 → 1.115 across N=5→7, so no N-uniform claim —
-    // the strictness input stays a per-locus measurement). So λ_B is NOT in the corner block's
+    // = Re λ_A + 6 > 1 at all three, trend 1.381 → 1.115 across N=5→7). The strictness Re λ_A > −6 is
+    // now DERIVED N-uniformly by the window-edge lemma (§6: a defective EP cannot sit at either edge of
+    // its block's rate window, so Re λ_A ∈ (−6,−2) for all N); the shrinking margin never reaches zero,
+    // and the exclusion needs only the strict inequality. So λ_B is NOT in the corner block's
     // spectrum at all at the real locus — the independent spectral absence §6 asked for; the kernel
     // death of item 7 follows because (L_corner−λ)^m is invertible for λ ∉ spec(corner), so
     // (L_core−λ)^m x = 0 forces Wx = 0: the ENTIRE generalized eigenspace dies, and at the

@@ -289,8 +289,10 @@ public sealed class SectorBraidWitness : IInspectable
                          "kernel death ((3,3)→(4,4) and images) is DERIVED at real loci by the rate-window lemma " +
                          "(proof §6, gate item 8: at real q the corner block's Re-spectrum is confined to its rate " +
                          "window [−2(N−3), 0], Bendixson bound, while Re λ_B sits below it whenever Re λ_A > −6; " +
-                         "verified at both N=5 real loci, one an out-of-sample prediction, and at N=7); open there: " +
-                         "the complex-q loci and an N-uniform bound on Re λ_A(N); " +
+                         "verified at both N=5 real loci, one an out-of-sample prediction, and at N=7), with the " +
+                         "N-uniform strictness Re λ_A > −6 now DERIVED by the window-edge lemma (a defective EP cannot " +
+                         "sit at either edge of its block's rate window, so Re λ_A ∈ (−6,−2) for all N); open there: " +
+                         "only the complex-q loci; " +
                          "(2) Theorem A's D-half at the 11 complex-q N=5 diabolics (one targeted eigenvector-descent " +
                          "check; until then codim-≤2 is the proven general statement); (3) the EXCLUSION half of " +
                          "membership (no braid outside the orbit) is proven at the outer edge (normal pencil) and, " +
