@@ -760,6 +760,37 @@ public static class PathKMonodromyScout
     public static bool IsSemisimpleAt(int k, Complex q, Complex lambda, double radius = 0.1)
         => CharacterizeAt(k, q, lambda, radius).Kind == EpCharacter.EpKind.Diabolic;
 
+    /// <summary>The Theorem-A twin-scalar (D-half) reading at a coalescence (q, λ) of the (wKet, wBra) chain
+    /// coherence block, in the RAW HS-ORTHONORMAL |a⟩⟨b| basis (<see cref="WeightCoherenceBlock.Build"/>), where
+    /// the dephasing is manifestly the diagonal −2·n_diff. The pencil L(q) = A + q·C is split into its DEPHASE
+    /// part A = L(0) (the q-independent diagonal) and HOP part q·C = L(q) − L(0); the coalescing 2-plane is
+    /// taken by the Riesz projector at λ and the scalar-departures of the two restrictions measured. A diabolic
+    /// is "twin-scalar" iff the DEPHASE restriction is scalar (the two coalescing directions carry equal
+    /// dephasing rates).
+    ///
+    /// <para>IMPORTANT (metric): "is D scalar on the coalescing plane" is an INNER-PRODUCT-dependent question, so
+    /// it MUST be computed in an HS-orthonormal basis. The ×2-cleared S₂-symmetric block
+    /// (<see cref="F89PathKSeDeBlock.BuildTwoTimesSymBlock"/>, used for the eigenvalue/Galois/monodromy work) is
+    /// a NON-orthonormal orbit-sum basis (reflection orbits of size 1 or 2 give metric diag(1,2)); restricting D
+    /// there reports a spurious non-scalarity at odd nBlock. This raw-coherence path avoids that. Eigenvalues are
+    /// similarity-invariant, so <see cref="ResidualRootsExact"/> / the diabolic loci are unaffected; only this
+    /// metric-sensitive D-half diagnostic requires the orthonormal basis. <paramref name="radius"/> must enclose
+    /// only the coalescing pair (confirm the reading's Algebraic = 2).</para></summary>
+    public static EpCharacter.PencilReading CharacterizeCoherencePencilAt(int n, int wKet, int wBra,
+        Complex q, Complex lambda, double radius = 0.0)
+    {
+        var dephase = Matrix<Complex>.Build.DenseOfArray(WeightCoherenceBlock.Build(n, wKet, wBra, Complex.Zero));
+        var full = Matrix<Complex>.Build.DenseOfArray(WeightCoherenceBlock.Build(n, wKet, wBra, q));
+        var hop = full - dephase;                            // q·C, the coherent part at this q
+        if (radius <= 0)                                     // auto-size to enclose ONLY the coalescing pair
+        {
+            var dists = full.Evd().EigenValues.Select(z => (z - lambda).Magnitude).OrderBy(x => x).ToArray();
+            double third = dists.Length > 2 ? dists[2] : 1.0;    // distance to the nearest non-pair eigenvalue
+            radius = Math.Clamp(0.4 * third, 0.005, 0.5);
+        }
+        return EpCharacter.CharacterizePencil(dephase, hop, lambda, radius);
+    }
+
     public sealed record ScanResult(
         int K, int NBlock, int BlockDim, int ResidualDim, int AtDim, Complex Q0,
         Complex[] ResidualRoots, IReadOnlyList<(Complex Q, int A, int B, int[] MovedResidual)> Eps,

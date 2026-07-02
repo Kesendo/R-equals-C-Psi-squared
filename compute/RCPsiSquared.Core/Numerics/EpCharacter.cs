@@ -223,4 +223,57 @@ public static class EpCharacter
         if (alg >= 2 && relDep > DepartureRelTolerance) return EpKind.NearEp;
         return EpKind.Normal;
     }
+
+    /// <summary>The Theorem-A twin-scalar reading: the <see cref="Reading"/> verdict on the pencil
+    /// L = <paramref name="dephase"/> + <paramref name="hop"/> at <paramref name="center"/>, PLUS the two
+    /// separate restrictions of the pencil parts onto the coalescing generalized eigenspace V (the
+    /// orthonormal range of the Riesz projector). A₂ = VᴴAV is the DEPHASE (D-half) restriction, (qC)₂ =
+    /// Vᴴ(qC)V the HOP (H-half) restriction; a coalescence is "twin-scalar" iff BOTH are scalar multiples
+    /// of I. Given the H-half (qC₂ scalar) and a coalescence (M₂ = A₂ + qC₂ has a double eigenvalue), the
+    /// D-half follows since A₂ = M₂ − qC₂ is Hermitian with a repeated eigenvalue; so at real q a diabolic
+    /// is automatically twin-scalar, and a nonzero <paramref name="DephaseScalarDeparture"/> at a diabolic
+    /// can only occur at complex q (a coincidence not from free-fermion additivity).</summary>
+    public readonly record struct PencilReading(
+        Reading Character,
+        Complex[] DephaseEigenvalues,
+        Complex[] HopEigenvalues,
+        double DephaseScalarDeparture,
+        double HopScalarDeparture,
+        double DephaseAntiHermiticity);
+
+    /// <summary>Characterise the pencil L = dephase + hop at a coalescence and return the D-half / H-half
+    /// scalar-departures on the coalescing 2-plane V = range(Riesz projector). See <see cref="PencilReading"/>.
+    /// <paramref name="hop"/> is the FULL coherent part at the working q (i.e. already q·C).</summary>
+    public static PencilReading CharacterizePencil(ComplexMatrix dephase, ComplexMatrix hop,
+        Complex center, double radius, int quadPoints = DefaultQuadraturePoints)
+    {
+        var l = dephase + hop;
+        var reading = Characterize(l, center, radius, quadPoints);
+        var p = RieszProjector(l, center, radius, quadPoints);
+        var v = RangeBasis(p, reading.Algebraic);
+        var vh = v.ConjugateTranspose();
+        var aRes = vh * dephase * v;                       // A₂ = VᴴAV, the D-half restriction
+        var hRes = vh * hop * v;                           // (qC)₂ = Vᴴ(qC)V, the H-half restriction
+        double aFro = aRes.FrobeniusNorm();
+        double antiH = aFro > 1e-300
+            ? (aRes - aRes.ConjugateTranspose()).FrobeniusNorm() / aFro
+            : 0.0;
+        return new PencilReading(reading,
+            aRes.Evd().EigenValues.ToArray(),
+            hRes.Evd().EigenValues.ToArray(),
+            ScalarDeparture(aRes),
+            ScalarDeparture(hRes),
+            antiH);
+    }
+
+    /// <summary>Relative departure of a square matrix from a scalar multiple of the identity:
+    /// ‖M − (tr M / n)·I‖_F / ‖M‖_F (exactly 0 iff M = c·I). The twin-scalar diagnostic.</summary>
+    public static double ScalarDeparture(ComplexMatrix m)
+    {
+        int n = m.RowCount;
+        Complex mean = m.Trace() / n;
+        var dev = m - Matrix<Complex>.Build.DenseIdentity(n).Multiply(mean);
+        double fro = m.FrobeniusNorm();
+        return fro < 1e-300 ? 0.0 : dev.FrobeniusNorm() / fro;
+    }
 }

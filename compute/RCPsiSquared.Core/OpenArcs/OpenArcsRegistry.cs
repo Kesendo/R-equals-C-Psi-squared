@@ -736,9 +736,16 @@ public static class OpenArcsRegistry
                 "from-below probe): a THIRD real defective EP of the raw N=5 (1,2) block at q≈2.80489, λ≈−4.4882, " +
                 "clean √-law, R-parity −1 — it lives in the R-ODD residual, outside the symmetric-octic reference " +
                 "loci and outside the diamond story; any 'at every real defective locus' phrasing must scope to " +
-                "the octic (R-even) seeds. Next candidates: (a) the complex-q absence (resultant route) and " +
-                "(c) remainder 2 (Theorem A's D-half at the 11); candidate (b), the N-uniform Re λ_A(N) bound, " +
-                "is now CLOSED by the window-edge lemma (above).",
+                "the octic (R-even) seeds. Next candidates: (a) the complex-q absence (resultant route) is the " +
+                "ONE still open. Candidate (b), the N-uniform Re λ_A(N) bound, is CLOSED by the window-edge lemma " +
+                "(above). Candidate (c) / remainder 2 (Theorem A's D-half at the 11) is CLOSED at N=5 by the " +
+                "TWIN-SCALAR CHECK (gate TwinScalarDHalfTests): the D-half is SUPPLIED (twin-scalar to the gap, " +
+                "D-half 5e-10…4e-9) at every genuinely-complex-q (Re q≠0) N=5 residual diabolic, so additivity's " +
+                "codim-1 route extends from real q to complex q; the pure-imaginary-q (Re q=0, λ real) diabolics " +
+                "are semisimple by Hermiticity (real-symmetric block, ‖L−Lᴴ‖<1e-14) instead. A METRIC TRAP cost a " +
+                "false first reading (the ×2-sym orbit basis is non-orthonormal at odd nBlock → spurious " +
+                "non-scalar; the raw HS-orthonormal coherence block CharacterizeCoherencePencilAt is the fix; the " +
+                "inversion was caught by an independent adversarial 60-digit rebuild).",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

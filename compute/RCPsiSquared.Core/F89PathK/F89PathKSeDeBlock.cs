@@ -15,7 +15,20 @@ namespace RCPsiSquared.Core.F89PathK;
 public static class F89PathKSeDeBlock
 {
     /// <summary>The ×2-cleared Gaussian-integer S_2-sym (SE,DE) block at integer q0 (γ = 1),
-    /// dim_sym × dim_sym. Eigenvalues are 2·λ_k.</summary>
+    /// dim_sym × dim_sym. Eigenvalues are 2·λ_k.
+    ///
+    /// <para><b>METRIC WARNING (non-orthonormal basis).</b> The S₂-symmetric basis is a reflection-orbit-sum
+    /// basis; orbits have size 1 (reflection-fixed) or 2, so the Hilbert-Schmidt metric on it is diag(1,2),
+    /// NOT the identity. The block is therefore related to the physically HS-orthonormal representation by a
+    /// non-unitary diagonal similarity S = diag(√orbit-size). SIMILARITY-INVARIANT quantities are UNAFFECTED:
+    /// eigenvalues, the Galois/monodromy group, the residual-vs-AT split, and the diabolic-vs-defective
+    /// character (M₂ = λI is basis-free) are all correct on this block. But any INNER-PRODUCT-SENSITIVE
+    /// diagnostic — "is operator X scalar on a sub-plane" (the Theorem-A twin-scalar / D-half test), a
+    /// departure-from-normality restricted to a coalescing plane, a Petermann/phase-rigidity factor — MUST be
+    /// computed in an HS-orthonormal basis (use the raw coherence block <see cref="WeightCoherenceBlock.Build"/>,
+    /// or apply the congruence S before restricting), or it reports a spurious non-scalarity at ODD nBlock
+    /// (N=5, N=7; even nBlock has a uniform metric and is unaffected). This cost one false twin-scalar reading
+    /// before it was caught, 2026-07-02.</para></summary>
     public static GaussianInteger[,] BuildTwoTimesSymBlock(int q0, int nBlock)
     {
         // DE pairs (j < k) in lexicographic order, and their index lookup.
