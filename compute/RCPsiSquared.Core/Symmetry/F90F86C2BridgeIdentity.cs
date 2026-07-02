@@ -124,7 +124,7 @@ public sealed class F90F86C2BridgeIdentity : Claim
     {
         get
         {
-            yield return InspectableNode.RealScalar("J convention factor (F89 J / F86 J)", JConventionFactor);
+            yield return InspectableNode.RealScalar("J convention factor (F86 J / F89 J)", JConventionFactor);
             yield return new InspectableNode("Bit-exact bonds verified",
                 summary: $"{BitExactBondCountVerified} of {TotalBondComparisonsVerified} (N=5..8 inkl. orbit escapes)");
             yield return new InspectableNode("Sample F86→F89 Q translation",
