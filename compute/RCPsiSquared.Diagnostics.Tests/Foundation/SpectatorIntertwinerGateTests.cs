@@ -415,6 +415,7 @@ public class SpectatorIntertwinerGateTests
     [Theory(DisplayName = "B1 item 7: interior-core kernel death across N (N=5 reproduces gate; N=7 is the open probe)")]
     [Trait("Category", "SLOW_MSM")]
     [InlineData(5, 0.620878, -4.6189)]
+    [InlineData(5, 1.077615, -3.7917)]   // locus 2: the death item 8's rate window PREDICTS (out-of-sample)
     [InlineData(7, 1.5148, -4.885)]
     public void CoreKernelDeath_ScalesWithN(int n, double qStar, double lambdaAseed)
     {
@@ -451,5 +452,148 @@ public class SpectatorIntertwinerGateTests
         // N=7 is the new probe): the interior core stays spin ½, the diamond does not spread to (p_c+1,p_c+1).
         Assert.True(coreDeath < 1e-9,
             $"N={n} interior-core kernel death broke: max‖Wx‖ on the near-defective (λ_B) pair = {coreDeath:E3} (expected < 1e-9).");
+    }
+
+    // ------------------------------- item 8 (the rate-window absence: remainder 1 closed at real loci)
+
+    /// <summary>Distance from a point to a closed real interval [lo, hi] (0 inside).</summary>
+    private static double DistanceToWindow(double x, double lo, double hi)
+        => x < lo ? lo - x : x > hi ? x - hi : 0.0;
+
+    /// <summary>The exact rate window of a (p,q̃) block: Re-spectrum bounds [−2·n_max, −2·n_min] from the
+    /// n_diff values the block's coherences can take (γ=1). Read from the A-diagonal (L at q=0), so the
+    /// window is taken from the same trusted builder as the spectra it bounds.</summary>
+    private static (double Lo, double Hi) RateWindow(int n, int p, int qt)
+    {
+        var a = BuildBlockN(n, p, qt, 0.0);
+        double lo = 0.0, hi = double.NegativeInfinity;
+        for (int i = 0; i < a.RowCount; i++)
+        {
+            lo = Math.Min(lo, a[i, i].Real);
+            hi = Math.Max(hi, a[i, i].Real);
+        }
+        return (lo, hi);
+    }
+
+    // Item 8 verifies from below the RATE-WINDOW LEMMA (Bendixson bound: Re spec lies in the numerical
+    // range of the Hermitian part, which at REAL q is exactly A) that closes remainder 1 of
+    // PROOF_CODIM1_BY_ADDITIVITY per real locus: for ANY eigenvector v of the block pencil
+    // L(q) = A + qC at REAL q, λ = v†Lv/v†v, A is real diagonal and v†(qC)v is purely imaginary
+    // (C anti-Hermitian), so Re λ = v†Av/v†v ∈ [−2·n_max, −2·n_min] — the block's rate window,
+    // exact, defective or not. The corner block (p_c+1,p_c+1) has n_diff ≤ N−3 (two hole sets of
+    // size (N−3)/2 per side can differ in at most N−3 bits), window [−2(N−3), 0]; the diamond
+    // partner λ_B = −conj(λ_A)−2N has Re λ_B = −Re λ_A − 2N < −2(N−3) exactly when Re λ_A > −6
+    // (measured per locus: −4.6189 / −3.7917 at the two N=5 real loci, −4.885 at N=7; margin
+    // = Re λ_A + 6 > 1 at all three, trend 1.381 → 1.115 across N=5→7, so no N-uniform claim —
+    // the strictness input stays a per-locus measurement). So λ_B is NOT in the corner block's
+    // spectrum at all at the real locus — the independent spectral absence §6 asked for; the kernel
+    // death of item 7 follows because (L_corner−λ)^m is invertible for λ ∉ spec(corner), so
+    // (L_core−λ)^m x = 0 forces Wx = 0: the ENTIRE generalized eigenspace dies, and at the
+    // 4-decimal-truncated q* the split pair (two simple eigenvalues, each window-excluded) dies
+    // eigenvalue by eigenvalue. SCOPE: real q only (at complex q the Bendixson bound is silent);
+    // the interior-four exclusion sweep below additionally needs Re λ_A ∈ (−6,−4), true at N=5
+    // locus 1 only (locus 2 has λ_A = −3.7917 inside [−4,0] — there the interior four revert to
+    // census evidence, while the corner corollary itself survives with margin 2.208).
+    [Theory(DisplayName = "B1 item 8: rate window [−2n_max, −2n_min] excludes λ_B from the corner block at the real locus")]
+    [Trait("Category", "SLOW_MSM")]
+    [InlineData(5, 0.620878, -4.6189, true)]
+    [InlineData(5, 1.077615, -3.7917, false)]
+    [InlineData(7, 1.5148, -4.885, false)]
+    public void RateWindow_ExcludesLambdaB_FromCornerBlock(int n, double qStar, double lambdaAseed, bool interiorSweep)
+    {
+        int pc = (n + 1) / 2;
+        var l12 = BuildBlockN(n, 1, 2, qStar);
+        var (e1A, e2A, _) = NearestPair(l12.Evd().EigenValues, new Complex(lambdaAseed, 0));
+        Complex lambdaA = (e1A + e2A) / 2.0;
+        Complex lambdaB = -Complex.Conjugate(lambdaA) - 2.0 * n;
+        _out.WriteLine($"[item 8] N={n}, q*={qStar.ToString("0.####", Inv)}: λ_A={lambdaA.ToString("G6", Inv)}, λ_B={lambdaB.ToString("G6", Inv)}.");
+
+        // The (1,2) window [−6,−2] pins Re λ_A (the strictness input Re λ_A > −6 is measured, margin > 1).
+        var (lo12, hi12) = RateWindow(n, 1, 2);
+        Assert.True(Math.Abs(lo12 + 6.0) <= 1e-12 && Math.Abs(hi12 + 2.0) <= 1e-12,
+            $"(1,2) rate window is [{lo12},{hi12}], expected [−6,−2]");
+        Assert.InRange(lambdaA.Real, lo12 + 1e-9, hi12 - 1e-9);
+
+        // The corner block (p_c+1,p_c+1): window [−2(N−3), 0], and the whole spectrum obeys it (Rayleigh).
+        var (loC, hiC) = RateWindow(n, pc + 1, pc + 1);
+        Assert.True(Math.Abs(loC + 2.0 * (n - 3)) <= 1e-12 && Math.Abs(hiC) <= 1e-12,
+            $"corner ({pc + 1},{pc + 1}) rate window is [{loC},{hiC}], expected [−2(N−3), 0] = [{-2.0 * (n - 3)}, 0]");
+
+        // Hardening (review): the lemma's two premises, asserted from the same builder — A = L(0) is
+        // DIAGONAL (else the window read off the diagonal would be fiction), and C = (L(q*)−A)/q* is
+        // anti-Hermitian on the corner block.
+        var aCorner = BuildBlockN(n, pc + 1, pc + 1, 0.0);
+        double offDiag = 0.0;
+        for (int i = 0; i < aCorner.RowCount; i++)
+            for (int j = 0; j < aCorner.ColumnCount; j++)
+                if (i != j) offDiag = Math.Max(offDiag, aCorner[i, j].Magnitude);
+        Assert.True(offDiag <= 1e-14, $"corner A = L(0) has off-diagonal content {offDiag:E3}");
+        var lCorner = BuildBlockN(n, pc + 1, pc + 1, qStar);
+        var cCorner = (lCorner - aCorner).Divide(new Complex(qStar, 0));
+        double antiHerm = (cCorner + cCorner.ConjugateTranspose()).FrobeniusNorm()
+                          / Math.Max(cCorner.FrobeniusNorm(), 1e-300);
+        Assert.True(antiHerm <= 1e-12, $"corner C not anti-Hermitian: ‖C+C†‖/‖C‖ = {antiHerm:E3}");
+        var eigCorner = lCorner.Evd().EigenValues;
+        double worst = eigCorner.Max(ev => DistanceToWindow(ev.Real, loC, hiC));
+        _out.WriteLine($"  corner ({pc + 1},{pc + 1}) dim {eigCorner.Count}: window [{loC.ToString("0.##", Inv)}, {hiC.ToString("0.##", Inv)}], " +
+                       $"worst Re-window violation = {F(worst)} (Rayleigh: must be ~0)");
+        Assert.True(worst <= 1e-9, $"corner spectrum leaves its rate window by {worst:E3}");
+
+        // The absence: λ_B sits below the window bottom by margin = Re λ_A + 6 > 0, so it is not an
+        // eigenvalue of the corner block at all; min spectral distance must respect that margin.
+        double margin = DistanceToWindow(lambdaB.Real, loC, hiC);
+        double marginPred = lambdaA.Real + 6.0;               // = −2(N−3) − Re λ_B, the strictness margin
+        double minDist = eigCorner.Min(ev => (ev - lambdaB).Magnitude);
+        _out.WriteLine($"  λ_B vs corner window: Re λ_B = {lambdaB.Real.ToString("0.####", Inv)} < {loC.ToString("0.##", Inv)}, " +
+                       $"margin = {margin.ToString("0.####", Inv)} (= Re λ_A + 6 = {marginPred.ToString("0.####", Inv)}); " +
+                       $"min |spec(corner) − λ_B| = {minDist.ToString("0.####", Inv)}  => λ_B ABSENT, kernel death derived at this real locus");
+        Assert.True(Math.Abs(margin - marginPred) <= 1e-9, $"margin {margin} != Re λ_A + 6 = {marginPred}");
+        Assert.True(margin > 0.5, $"strictness margin {margin:E3} unexpectedly small (needs Re λ_A > −6)");
+        Assert.True(minDist >= margin - 1e-9, $"min |spec − λ_B| = {minDist:E3} beats the Rayleigh margin {margin:E3}");
+
+        // The full-flip image of the corner, (N−p_c−1, N−p_c−1): same window by the unitary flip.
+        int pf = n - pc - 1;
+        var (loF, hiF) = RateWindow(n, pf, pf);
+        var eigFlip = BuildBlockN(n, pf, pf, qStar).Evd().EigenValues;
+        double minDistF = eigFlip.Min(ev => (ev - lambdaB).Magnitude);
+        _out.WriteLine($"  flip image ({pf},{pf}): window [{loF.ToString("0.##", Inv)}, {hiF.ToString("0.##", Inv)}], " +
+                       $"min |spec − λ_B| = {minDistF.ToString("0.####", Inv)}");
+        Assert.True(minDistF >= DistanceToWindow(lambdaB.Real, loF, hiF) - 1e-9,
+            "flip-image spectrum beats its Rayleigh margin");
+
+        if (!interiorSweep) return;
+
+        // N=5 completion at LOCUS 1 ONLY (Re λ_A ∈ (−6,−4) required; locus 2's λ_A = −3.7917 sits
+        // inside [−4,0] and defeats the window there): the four interior non-members of the 12-set are
+        // ALL rate-window-excluded from carrying λ_A or λ_B; the boundary blocks (p or q̃ ∈ {0,N}) have
+        // constant n_diff, hence A scalar, hence a NORMAL pencil whose Re-spectrum sits exactly on the
+        // even rung −2·n_diff, which neither λ_A nor λ_B occupies (both have non-even Re here).
+        _out.WriteLine("  [N=5 locus-1 exclusion sweep] interior non-members of the 12-set:");
+        foreach (var (p, qt) in new[] { (1, 1), (4, 4), (1, 4), (4, 1) })
+        {
+            var (lo, hi) = RateWindow(n, p, qt);
+            var eig = BuildBlockN(n, p, qt, qStar).Evd().EigenValues;
+            foreach (var (name, lam) in new[] { ("λ_A", lambdaA), ("λ_B", lambdaB) })
+            {
+                double mg = DistanceToWindow(lam.Real, lo, hi);
+                double md = eig.Min(ev => (ev - lam).Magnitude);
+                _out.WriteLine($"    ({p},{qt}) window [{lo.ToString("0.##", Inv)}, {hi.ToString("0.##", Inv)}]: " +
+                               $"{name} margin {mg.ToString("0.####", Inv)}, min dist {md.ToString("0.####", Inv)}");
+                Assert.True(mg > 0.5, $"({p},{qt}) window does not exclude {name} (margin {mg:E3})");
+                Assert.True(md >= mg - 1e-9, $"({p},{qt}) spectrum beats the Rayleigh margin for {name}");
+            }
+        }
+        foreach (var (p, qt) in new[] { (0, 2), (0, 3) })     // constant-n_diff representatives: normal pencil
+        {
+            var (lo, hi) = RateWindow(n, p, qt);
+            Assert.True(Math.Abs(hi - lo) <= 1e-12, $"({p},{qt}) n_diff not constant: window [{lo},{hi}]");
+            var eig = BuildBlockN(n, p, qt, qStar).Evd().EigenValues;
+            double offRung = eig.Max(ev => Math.Abs(ev.Real - lo));
+            _out.WriteLine($"    ({p},{qt}) constant n_diff: Re-spectrum pinned to rung {lo.ToString("0.##", Inv)}, " +
+                           $"max deviation {F(offRung)}; |Re λ_A − rung| = {Math.Abs(lambdaA.Real - lo).ToString("0.####", Inv)}");
+            Assert.True(offRung <= 1e-9, $"({p},{qt}) normal-pencil rung broken by {offRung:E3}");
+            Assert.True(Math.Abs(lambdaA.Real - lo) > 0.3 && Math.Abs(lambdaB.Real - lo) > 0.3,
+                $"({p},{qt}) rung unexpectedly close to λ_A/λ_B");
+        }
     }
 }

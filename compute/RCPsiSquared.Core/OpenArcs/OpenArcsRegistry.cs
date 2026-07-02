@@ -700,7 +700,34 @@ public static class OpenArcsRegistry
                 "/ GaloisMonodromyScanCommand) of the f89_galois_open_doors arc. Full statement + derivation: " +
                 "docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md (§6 'the interior core' + 'What remains open' items 1 " +
                 "& 4). Remainder 2 (Theorem A's D-half at the 11 complex-q N=5 diabolics) is the other open " +
-                "check; remainder 3 (gap byte-identity) also now holds at N=7.",
+                "check; remainder 3 (gap byte-identity) also now holds at N=7. " +
+                "RESOLVED AT REAL LOCI (2026-07-02, same day, the assemble-first survey found the cheaper tool " +
+                "BEFORE any resultant machinery was built): remainder 1 is CLOSED per real locus by the " +
+                "RATE-WINDOW LEMMA (proof §6, gate item 8) — at real q every block eigenvalue obeys " +
+                "Re λ = v†Av/v†v ∈ [−2·n_max, −2·n_min] (Bendixson: A real diagonal, C anti-Hermitian; the Edge " +
+                "lemma is the zero-width case, the census's 'λ from below' identity read as an interval). The " +
+                "corner block (p_c+1,p_c+1) has window [−2(N−3), 0] while Re λ_B = −Re λ_A − 2N sits BELOW it " +
+                "whenever Re λ_A > −6 (measured margins 1.381 / 2.208 / 1.115 at N=5 loci q*=0.620878, 1.077615 " +
+                "and N=7 q*=1.5148), so λ_B is not in the corner spectrum AT ALL and W kills the core's whole " +
+                "generalized eigenspace ((L_corner−λ)^m invertible; explains ‖Wx₁‖ AND ‖Wx₂‖ ~1e-15 at once, " +
+                "robust to the 4-decimal loci). Out-of-sample: the lemma PREDICTED the death at the never-measured " +
+                "N=5 locus 2, gate now reads 9.6e-16, with the negative control that λ_A (inside the window there) " +
+                "transports at 1.7. Bonus at the seed locus: the FULL N=5 exclusion of {λ_A, λ_B} is derived " +
+                "(interior four (1,1),(4,4),(1,4),(4,1) window-excluded; boundary blocks constant-n_diff ⟹ normal " +
+                "⟹ rung-pinned), condition Re λ_A ∈ (−6,−4), locus-1-only (locus 2's λ_A=−3.7917 sits inside " +
+                "[−4,0] and defeats the interior-four window there). Two reviews (physics-first + mathematical, " +
+                "both with independent numpy rebuilds) attacked and confirmed; the one BREAK found (the locus-2 " +
+                "overclaim) is scoped into the statement. STILL OPEN of remainders 1+4: the COMPLEX-q loci (the " +
+                "Bendixson bound needs real q; window violated by 0.27 already at Im q=0.05) — there the " +
+                "resultant/Galois-independence route above remains the open candidate — and an N-uniform bound " +
+                "Re λ_A(N) > −6 (margins SHRINK 1.381→1.115 across N=5→7; the window bottom equals the worst-case " +
+                "Re λ_B at every odd N, so the strictness input is irreducible). NEW ARC DATUM (physics review, " +
+                "from-below probe): a THIRD real defective EP of the raw N=5 (1,2) block at q≈2.80489, λ≈−4.4882, " +
+                "clean √-law, R-parity −1 — it lives in the R-ODD residual, outside the symmetric-octic reference " +
+                "loci and outside the diamond story; any 'at every real defective locus' phrasing must scope to " +
+                "the octic (R-even) seeds. Next candidates: (a) the complex-q absence (resultant route), (b) the " +
+                "N-uniform Re λ_A(N) bound (equivalently: a defective residual eigenvector cannot be fully " +
+                "supported on the n_diff=3 rung), (c) remainder 2 (Theorem A's D-half at the 11).",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

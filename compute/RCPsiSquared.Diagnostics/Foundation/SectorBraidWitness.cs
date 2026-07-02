@@ -45,10 +45,10 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// the rate lies between the pure −2 and −6 lines (N=5: −4.62; N=4: the −4 midpoint); the defectiveness is the
 /// eigenvector coalescence (a Jordan block), SEPARATE from the rate (at N=4 the defective EP sits at ⟨n_diff⟩=2,
 /// the midpoint, yet is Jordan). The mixture is resolved via the mode geometry (node 4c) and the
-/// codim-1-by-additivity theorem is landed with general-N membership derived in the CONTAINMENT direction; what
-/// stays open is the proof's ledger (node 5): the interior kernel-death lemma, Theorem A's D-half at the 11, the
-/// exclusion half of membership, and the gap byte-identity (the octic is S₈, so no global radical form for the
-/// loci is expected).
+/// codim-1-by-additivity theorem is landed with general-N membership derived in the CONTAINMENT direction; the
+/// interior kernel death is derived at real loci by the rate-window lemma (proof §6, gate item 8); what stays
+/// open is the proof's ledger (node 5): the complex-q face of the kernel death and exclusion, Theorem A's D-half
+/// at the 11, and the gap byte-identity (the octic is S₈, so no global radical form for the loci is expected).
 ///
 /// <para><b>What is live here.</b> The census node runs <see cref="MultiSectorMonodromyCensus.Run"/> at inspect
 /// time (via the AT-aware <see cref="SectorEpProbe.ProbeDefectiveAnywhere"/>), so the braid/node maps are recomputed
@@ -286,13 +286,17 @@ public sealed class SectorBraidWitness : IInspectable
                          "the W intertwiner Theorem B, the containment orbit corollary, the two-regime Theorem A; " +
                          "typed: SpectatorIntertwinerClaim), so the sharing, the byte-identity, and the N=6 spread " +
                          "are derived, not open. What remains, from the proof's ledger: (1) the INTERIOR-boundary " +
-                         "kernel death ((3,3)→(4,4) and images) is measured (~1e-15, node 2 above), not derived: " +
-                         "WHY the diagonal core's defective eigenvector lies exactly in ker W is not yet a lemma; " +
+                         "kernel death ((3,3)→(4,4) and images) is DERIVED at real loci by the rate-window lemma " +
+                         "(proof §6, gate item 8: at real q the corner block's Re-spectrum is confined to its rate " +
+                         "window [−2(N−3), 0], Bendixson bound, while Re λ_B sits below it whenever Re λ_A > −6; " +
+                         "verified at both N=5 real loci, one an out-of-sample prediction, and at N=7); open there: " +
+                         "the complex-q loci and an N-uniform bound on Re λ_A(N); " +
                          "(2) Theorem A's D-half at the 11 complex-q N=5 diabolics (one targeted eigenvector-descent " +
                          "check; until then codim-≤2 is the proven general statement); (3) the EXCLUSION half of " +
-                         "membership (no braid outside the orbit) is proven only at the outer edge (normal pencil) " +
-                         "and otherwise stays census-evidence; (4) the GAP byte-identity across sectors is observed, " +
-                         "not implied by the intertwiner (which transports eigenvalue and depth, not the " +
+                         "membership (no braid outside the orbit) is proven at the outer edge (normal pencil) and, " +
+                         "at the N=5 seed locus q*=0.620878, derived in full by the rate window (condition " +
+                         "Re λ_A ∈ (−6,−4)); otherwise census-evidence; (4) the GAP byte-identity across sectors is " +
+                         "observed, not implied by the intertwiner (which transports eigenvalue and depth, not the " +
                          "near-defective metric geometry).",
                 provenance: NodeProvenance.Stored);
         }
