@@ -636,7 +636,7 @@ See: [The Anomaly](../THE_ANOMALY.md)
    **Group-view hindsight, 2026-07-01 (Loop 2 of the spine-map spiral).** In
    the now-proven mirror-group picture ([Π factors as R·D](../docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md),
    F118 `MirrorGroupD4Claim`) this document's two objects have names. "The other
-   side" Π² = X^N is **𝓕, the center of the dihedral mirror group D₄ = ⟨R, D⟩** —
+   side" Π² = X^N is **𝓕, the center of the dihedral mirror group D₄ = ⟨R, D⟩**:
    the element every mirror passes through (typed as the sector-pairing
    `XGlobalChargeConjugationPairing`, (p,q̃)↔(N−p,N−q̃)). And the hidden-Q routing
    above is that group's palindromizer inventory: the **uniform** per-site routers
@@ -648,8 +648,8 @@ See: [The Anomaly](../THE_ANOMALY.md)
    map (§4f/§5 of the factorization proof), so a non-uniform or continuous router
    lives deliberately OUTSIDE the finite group (the continuous one is exactly the
    crossover mirror M = √90°, that proof's §5). So Q is not one hidden symmetry: it
-   is the D₄ core plus its documented outside-mirrors — this diary feeling out the
-   group before it was named.
+   is the D₄ core plus its documented outside-mirrors; this diary was feeling out
+   the group before it was named.
 
 7. **Why is parity-breaking necessary but not sufficient?** The strict
    containment (all 14 palindrome-breakers are parity-breakers, but
