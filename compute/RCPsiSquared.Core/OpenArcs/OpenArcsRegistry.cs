@@ -614,8 +614,8 @@ public static class OpenArcsRegistry
                 "gate TwinScalarDHalfTests: the D-half is SUPPLIED at every genuinely-complex-q diabolic, the " +
                 "pure-imaginary-q ones semisimple by Hermiticity); (R3) gap byte-identity, observed at N=5 AND N=7, NOT " +
                 "implied by the intertwiner, OFF the critical path (nice-to-derive, not blocking); (R4) exclusion half, " +
-                "derived at the N=5 seed locus, else census-evidence. THE ONE OPEN ITEM (SPLIT + SHARPENED 2026-07-02, moved-rate-window landing): only the DEEP complex loci remain. The near-axis complex defective loci are CLOSED by the moved rate window (gate ComplexQRateWindowTests); and the CONJ WAS A RED HERRING: the core carries (numerically, to locus precision; the exact identity not yet derived) the HOLOMORPHIC fold mu=-lambda_A-2N (gate 3-6e-5), not -conj(lambda_A)-2N (0.57-1.09 away), so R1 at complex q is holomorphic/conjugation-free." +
-                " THE RESULTANT (the eventual deliverable, precisely pinned; RUN IT AFTER premise 2's R-odd scan below completes the deep-loci set): show mu=-lambda_A-2N is not a corner eigenvalue, i.e. Res_lambda(F_18(lambda,q), F_corner(-lambda-2N,q)) != 0 at F_18's branch loci (ONE-WAY certificate: gcd=1 proves absence, gcd!=1 is refine-not-refute; F_18 = the (1,2) residual, deg 18 at N=5, NOT the N=4 octic). Build the corner block " +
+                "derived at the N=5 seed locus, else census-evidence. THE ONE OPEN ITEM (SPLIT + SHARPENED 2026-07-02, moved-rate-window landing; RE-SHARPENED by the R-odd probe 45b0ac1): only the MOVED-WINDOW-ESCAPING complex loci remain, and the probe showed that set = the R-even DEEP pair PLUS the R-odd large-Im-q pair (deep is one failure mode of the window, not the only one; see PREMISE 2). The near-axis complex defective loci are CLOSED by the moved rate window (gate ComplexQRateWindowTests); and the CONJ WAS A RED HERRING: the core carries (numerically, to locus precision; the exact identity not yet derived) the HOLOMORPHIC fold mu=-lambda_A-2N (gate 3-6e-5), not -conj(lambda_A)-2N (0.57-1.09 away), so R1 at complex q is holomorphic/conjugation-free." +
+                " THE RESULTANT (now THE IMMEDIATE NEXT ACTION; premise 2's R-odd scan is DONE, see PREMISE 2 below, and it added a SECOND target set): show mu=-lambda_A-2N is not a corner eigenvalue, i.e. Res_lambda(F_18(lambda,q), F_corner(-lambda-2N,q)) != 0 at F_18's branch loci (ONE-WAY certificate: gcd=1 proves absence, gcd!=1 is refine-not-refute; F_18 = the (1,2) residual, deg 18 at N=5, NOT the N=4 octic). Build the corner block " +
                 "(p_c+1,p_c+1)=(4,4 at N=5) via WeightCoherenceBlock.Build(N, p_c+1, p_c+1, q) [the exact builder the working gates " +
                 "ComplexQRateWindowTests / HolomorphicFoldIdentityTests use; NOT SectorBraidModeGeometry.BuildBlock, which takes no block index] and show " +
                 "F_corner is coprime to F_18 under the fold λ→−λ−2N at the complex q* (p_c=(N+1)/2 at odd N, so the corner " +
@@ -633,20 +633,33 @@ public static class OpenArcsRegistry
                 "fully-exact cross-check, finishing via the existing AreCoprime. PREMISE 1 (exact fold identity) DONE " +
                 "b62c46a: the core (3,3) carries mu=-lambda-2N for every F_18 residual root to ~1e-13 at integer q (gate " +
                 "HolomorphicFoldIdentityTests); RESIDUAL-SPECIFIC (the full-spectrum identity is FALSE), so R3-family " +
-                "status (observed exactly, from-first-principles derivation still pending). PREMISE 2 (R-parity) HALF-DONE: " +
-                "F_18 = the R-EVEN sector ONLY (BuildTwoTimesSymBlock is the x2-cleared R-even; F89Path3OcticBlock = the " +
-                "R=+1 octic), so the resultant on F_18 covers R-even EPs only; the found deep loci q*=1.814+-0.367i ARE " +
-                "R-even (FindDiabolicsExact scans the R-even residual), hence covered. THE R-ODD PROBE = THE IMMEDIATE NEXT ACTION (before the resultant; it completes the deep-loci set and decides whether ONE resultant on F_18 suffices or a SECOND on the R-odd factor is needed): " +
-                "build the R-ODD sector (F89PathKSeDeBlock.BuildFullBlock + ReflectionPermutation, project onto " +
-                "the R-odd eigenspace), scan it for COMPLEX defective EPs with Re lambda_A < -6, and check whether any seed " +
-                "a corner-leaking diamond; if yes they need a SEPARATE resultant on the R-odd residual factor (the real " +
-                "q~2.805 EP is the known R-odd one, real, already covered at real q by the window-edge lemma). Locus tool: rcpsi pkmono --k <N−1> " +
-                "--diabolic --exact. NUMBERING TRAP: the proof's remainders are R1-R4 above; the '(a)/(b)/(c) next " +
+                "status (observed exactly, from-first-principles derivation still pending). PREMISE 2 (R-parity) DONE 45b0ac1 (the R-odd probe, " +
+                "gate ROddDeepLociProbeTests, Category RODDPROBE; locus tool rcpsi pkmono --k <N-1> --diabolic --rodd): " +
+                "F_18 = the R-EVEN sector ONLY (BuildTwoTimesSymBlock is the x2-cleared R-even), the found deep loci " +
+                "q*=1.814+-0.367i ARE R-even, hence covered; the R-ODD sector was built exactly " +
+                "(F89PathKSeDeBlock.ROddBasis + F89AtFactorReconstruction.ROddAtInvariantSubspaceBasis, at N=5 " +
+                "R-odd 24 = AT 7 [rate-locked, q-LINEAR lambda=r0+q*2is, machine zero] + residual DEGREE 17) and scanned " +
+                "over the census window (0.2,3.0)x(-1.5,1.5) cell 0.05 via FindDiabolicsExactROdd: 14 coalescences = " +
+                "7 diabolics (incl. the pure-imaginary-q real-lambda family, semisimple by Hermiticity, the R-even " +
+                "mechanism repeating; one sits at lambda=-7.25 < -6, silent because semisimple) + 7 defective (the known " +
+                "real q=2.8049, lambda=-4.4882 reproduced, gap exponent 0.499). VERDICT of the 6 COMPLEX defective: " +
+                "0 DEEP (none with Re lambda_A < -6), 4 closed by the full-corner moved window (two with thin slack " +
+                "0.05/0.12), BUT the pair q*=1.7701+-1.2189i (lambda_A=-3.7562-+0.5065i, Re mu=-6.2438) escapes BOTH the " +
+                "full-corner AND the R-parity-refined moved window (W commutes with R, so an R-odd chain needs absence " +
+                "only from the R-ODD corner sector, 25 = 13 even + 12 odd; its bottom -10.66 still sits below Re mu): " +
+                "the handover's deep/near-axis dichotomy was implicitly near-axis, the decision variable is the MOVED " +
+                "WINDOW, and these 2 R-odd loci escape it (|Im q|*||K||=8.4 swamps the margin 2.24; corner absence there " +
+                "census-only, min|spec-mu|=2.14). CONSEQUENCE: the resultant deliverable has TWO target sets: (i) F_18 " +
+                "(R-even) at its 2 deep branch loci q*=1.8141+-0.3666i, (ii) the degree-17 R-odd residual factor at " +
+                "q*=1.7701+-1.2189i (equivalently, by the W-R commutation, against the R-odd corner factor, deg 12, the " +
+                "cheaper certificate); the route stays radical-trick + all-mod-p + Berkowitz cross-check as recorded. " +
+                "NUMBERING TRAP: the proof's remainders are R1-R4 above; the '(a)/(b)/(c) next " +
                 "candidates' near the bottom are the Era-2 to-do (a=complex-q PARTIAL: near-axis CLOSED by the moved window, deep loci → resultant; b=window-edge CLOSED, c=D-half CLOSED)," +
                 "and are NOT the Era-1 '(a)-(d)' connection-directions at the top of the journal. TERMS: A/C/K = the block pencil " +
                 "L(q)=A+qC (A=-2*diag(n_diff) real diagonal, C anti-Hermitian hop, K=iC Hermitian); the -6 floor = the (1,2) " +
                 "block's Bendixson bottom (its n_diff in {1,3} ⟹ rate window [-6,-2]); the DEEP loci = the complex defective " +
-                "EPs where Re λ_A dives below -6; F_corner = the (4,4) corner block's characteristic polynomial; the core " +
+                "EPs where Re λ_A dives below -6 (the WINDOW-ESCAPING set = the deep loci plus the large-Im-q escapers " +
+                "the R-odd probe found; both go to the resultant); F_corner = the (4,4) corner block's characteristic polynomial; the core " +
                 "(3,3) = the (p_c,p_c) diagonal block the intertwiner W maps into the corner; SE/DE = " +
                 "single/double-excitation weights, so the (1,2) 'octic' = the residual factor of the bra-1 ket-2 block; " +
                 "λ_A = the (1,2) defective eigenvalue, λ_B = −conj(λ_A)−2N its cross-fold partner (the value the cores carry at REAL q; off the real axis the cores carry the HOLOMORPHIC μ=−λ_A−2N, equal to λ_B on the real axis); live root inspect" +
