@@ -102,6 +102,80 @@ public static class F89AtFactorReconstruction
         return basis;
     }
 
+    /// <summary>The R-ODD analog of <see cref="AtInvariantSubspaceBasis"/>: the largest rate-confined
+    /// K-invariant subspace of the R-odd sector of the FULL (SE,DE) block (physical scale, rates ∈ {−2,−6};
+    /// the R-even story lives in the ×2-cleared S₂-symmetric block, this one in its reflection-antisymmetric
+    /// complement). Returned as a real basis of column vectors in the R-ODD 2-CYCLE COORDINATES of
+    /// <see cref="F89PathKSeDeBlock.ROddBasis"/> (column c there = coordinate c here; the shared convention),
+    /// oddDim × atOddDegree, not orthonormal; atOddDegree may be 0 (then the whole R-odd sector is residual).
+    /// Same exact construction as the R-even case (<see cref="AtInvariantSubspaceBasis"/>): per rate sector
+    /// the iterative shrink W ← {v ∈ W : Kv ∈ span W}, all in BigRational, so the compression onto the
+    /// orthogonal complement reads the R-odd RESIDUAL roots at any q exactly (the sectorbraid arc's R-odd
+    /// deep-loci probe; the subspace is L(q)-invariant for every q because D preserves each rate sector and
+    /// K-invariance is q-scale-invariant).</summary>
+    public static double[,] ROddAtInvariantSubspaceBasis(int k)
+    {
+        var (rate, ksym, n) = ROddRateAndK(k);
+        var cols = new List<BigRational[]>();
+        foreach (var r0 in new BigInteger[] { -2, -6 })         // the full-block (physical) sector rates
+        {
+            var W = SectorBasis(rate, r0, n);
+            if (W.GetLength(1) == 0) continue;
+            W = LargestInvariantSubspace(ksym, W);
+            for (int c = 0; c < W.GetLength(1); c++)
+            {
+                var col = new BigRational[n];
+                for (int i = 0; i < n; i++) col[i] = W[i, c];
+                cols.Add(col);
+            }
+        }
+        var basis = new double[n, cols.Count];
+        for (int c = 0; c < cols.Count; c++)
+            for (int i = 0; i < n; i++)
+                basis[i, c] = (double)cols[c][i].Numerator / (double)cols[c][i].Denominator;
+        return basis;
+    }
+
+    /// <summary>The FULL (SE,DE) block at q0=2 projected onto the R-odd 2-cycle basis (columns e_t − e_perm[t],
+    /// increasing t, the un-normalized integer form of <see cref="F89PathKSeDeBlock.ROddBasis"/>): the rate
+    /// diagonal (each 2-cycle carries one rate ∈ {−2,−6}, R commutes with the dephasing) and the projected
+    /// real-symmetric hopping K_odd = (WᵀW)⁻¹Wᵀ·Im(L)·W = ½Wᵀ·Im(L)·W (WᵀW = 2I), which equals UᵀIm(L)U for
+    /// the orthonormal U = W/√2, so the coordinates match <see cref="F89PathKSeDeBlock.ROddBasis"/> exactly.
+    /// All entries are exact integers at q0=2; a guard throws if a non-integer sneaks in.</summary>
+    private static (BigInteger[] rate, BigRational[,] ksym, int n) ROddRateAndK(int k)
+    {
+        int nBlock = k + 1;
+        var L = F89PathKSeDeBlock.BuildFullBlock(nBlock, new Complex(2, 0));
+        var perm = F89PathKSeDeBlock.ReflectionPermutation(nBlock);
+        var pairs = new List<(int T, int T2)>();
+        for (int t = 0; t < perm.Length; t++)
+            if (perm[t] > t) pairs.Add((t, perm[t]));
+
+        int n = pairs.Count;
+        var rate = new BigInteger[n];
+        var ksym = new BigRational[n, n];
+        for (int r = 0; r < n; r++)
+        {
+            rate[r] = ExactInteger(L[pairs[r].T, pairs[r].T].Real);
+            for (int c = 0; c < n; c++)
+            {
+                double v = (L[pairs[r].T, pairs[c].T].Imaginary - L[pairs[r].T, pairs[c].T2].Imaginary
+                          - L[pairs[r].T2, pairs[c].T].Imaginary + L[pairs[r].T2, pairs[c].T2].Imaginary) / 2.0;
+                ksym[r, c] = new BigRational(ExactInteger(v));
+            }
+        }
+        return (rate, ksym, n);
+    }
+
+    /// <summary>Checked double → BigInteger for the exactly-integer entries of the q0=2 full block.</summary>
+    private static BigInteger ExactInteger(double v)
+    {
+        double r = Math.Round(v);
+        if (Math.Abs(v - r) > 1e-9)
+            throw new InvalidOperationException($"expected an exact integer entry, got {v}");
+        return new BigInteger(r);
+    }
+
     /// <summary>The ×2-cleared (SE,DE) block at q0=2 reduced to its integer rate diagonal D (the AT rates
     /// ∈ {−4,−12}) and its real-symmetric hopping K = Im(2M). Shared by <see cref="ForPathK"/> and
     /// <see cref="AtInvariantSubspaceBasis"/> so both read the IDENTICAL invariant subspace.</summary>

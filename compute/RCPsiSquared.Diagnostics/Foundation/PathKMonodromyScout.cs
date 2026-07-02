@@ -743,6 +743,177 @@ public static class PathKMonodromyScout
         return result;
     }
 
+    // ================= The R-ODD sector (the sectorbraid arc's deep-loci probe) =================
+
+    private static readonly object _exactOddLock = new();
+    private static readonly Dictionary<int, (Complex[,] A, Complex[,] C, Matrix<Complex> URes, Matrix<Complex> UAt)> _exactOddCache = new();
+
+    /// <summary>Per-k orthonormal machinery of the R-ODD sector of the FULL (SE,DE) block, PHYSICAL scale
+    /// (the R-even story is <see cref="ExactSetup"/> on the ×2-cleared S₂-sym block, whose eigenvalues need
+    /// the /2; here eig(A + qC) IS the physical R-odd spectrum). A, C are the R-odd compression of the full
+    /// pencil L(q) = A + qC in the HS-orthonormal 2-cycle coordinates of
+    /// <see cref="F89PathKSeDeBlock.ROddBasis"/> (metric-safe, unlike the orbit-sum basis); U_res / U_AT
+    /// split the sector into the exact q-independent AT-locked invariant subspace
+    /// (<see cref="F89AtFactorReconstruction.ROddAtInvariantSubspaceBasis"/>, may be empty) and its
+    /// orthogonal complement, the R-odd RESIDUAL. Cached per k; the hot scan path captures the tuple
+    /// locally (no Parallel race).</summary>
+    private static (Complex[,] A, Complex[,] C, Matrix<Complex> URes, Matrix<Complex> UAt) ExactSetupROdd(int k)
+    {
+        lock (_exactOddLock)
+        {
+            if (_exactOddCache.TryGetValue(k, out var cached)) return cached;
+            int nBlock = k + 1;
+            var uCols = F89PathKSeDeBlock.ROddBasis(nBlock);                      // fullDim × d, real orthonormal
+            var aFull = F89PathKSeDeBlock.BuildFullBlock(nBlock, Complex.Zero);   // A = L(0), the dephasing diagonal
+            var oneFull = F89PathKSeDeBlock.BuildFullBlock(nBlock, Complex.One);  // L(1) = A + C
+            int nb = aFull.GetLength(0), d = uCols.GetLength(1);
+
+            var u = Matrix<Complex>.Build.Dense(nb, d, (r, s) => new Complex(uCols[r, s], 0));
+            var aM = Matrix<Complex>.Build.Dense(nb, nb, (r, s) => aFull[r, s]);
+            var cM = Matrix<Complex>.Build.Dense(nb, nb, (r, s) => oneFull[r, s] - aFull[r, s]);
+            var aOdd = (u.ConjugateTranspose() * aM * u).ToArray();
+            var cOdd = (u.ConjugateTranspose() * cM * u).ToArray();
+
+            var raw = F89AtFactorReconstruction.ROddAtInvariantSubspaceBasis(k);  // d × atOddDim (may be 0)
+            int atDim = raw.GetLength(1);
+            Matrix<Complex> uRes, uAt;
+            if (atDim == 0)
+            {
+                uAt = Matrix<Complex>.Build.Dense(d, 0);
+                uRes = Matrix<Complex>.Build.DenseIdentity(d);
+            }
+            else
+            {
+                var qFull = Matrix<double>.Build.DenseOfArray(raw).QR(QRMethod.Full).Q;   // d × d orthonormal
+                var uAtR = qFull.SubMatrix(0, d, 0, atDim);
+                var uResR = qFull.SubMatrix(0, d, atDim, d - atDim);
+                uAt = Matrix<Complex>.Build.Dense(d, atDim, (r, s) => new Complex(uAtR[r, s], 0));
+                uRes = Matrix<Complex>.Build.Dense(d, d - atDim, (r, s) => new Complex(uResR[r, s], 0));
+            }
+            var result = (aOdd, cOdd, uRes, uAt);
+            _exactOddCache[k] = result;
+            return result;
+        }
+    }
+
+    // The R-odd sector block at q, PHYSICAL scale (no /2; contrast BlockAt for the ×2-cleared sym block).
+    private static Matrix<Complex> BlockAtOdd(Complex[,] a, Complex[,] c, Complex q)
+    {
+        int d = a.GetLength(0);
+        return Matrix<Complex>.Build.Dense(d, d, (r, s) => a[r, s] + q * c[r, s]);
+    }
+
+    /// <summary>The R-ODD residual roots at q: the eigenvalues of the R-odd sector block compressed onto the
+    /// orthogonal complement of the exact q-independent R-odd AT-locked invariant subspace. The R-odd
+    /// counterpart of <see cref="ResidualRootsExact"/> (which reads the R-even residual, F_18 at N=5);
+    /// AT-free by construction and tracking-free.</summary>
+    public static Complex[] ResidualRootsExactROdd(int k, Complex q)
+    {
+        var (a, c, uRes, _) = ExactSetupROdd(k);
+        return (uRes.ConjugateTranspose() * BlockAtOdd(a, c, q) * uRes).Evd().EigenValues.ToArray();
+    }
+
+    /// <summary>The R-ODD AT-locked roots at q (the complement reading of
+    /// <see cref="ResidualRootsExactROdd"/>). The invariant SUBSPACE is q-independent; the roots on it are
+    /// q-LINEAR, λ(q) = r0 + q·(2i·s) with the rate rung r0 ∈ {−2, −6} pinned and s a real eigenvalue of
+    /// the restricted hopping (at real q the rate is locked, the frequency scales with q; off the real axis
+    /// Re λ = r0 − 2·Im(q)·s leaves the rung, exactly the R-7 scope note's drift). Empty if the R-odd
+    /// sector carries no AT-locked invariant subspace.</summary>
+    public static Complex[] AtRootsExactROdd(int k, Complex q)
+    {
+        var (a, c, _, uAt) = ExactSetupROdd(k);
+        if (uAt.ColumnCount == 0) return Array.Empty<Complex>();
+        return (uAt.ConjugateTranspose() * BlockAtOdd(a, c, q) * uAt).Evd().EigenValues.ToArray();
+    }
+
+    /// <summary>All R-ODD sector roots at q (AT ⊎ residual; the full-block spectrum is these united with the
+    /// R-even <see cref="AllRootsAt"/>).</summary>
+    public static Complex[] AllRootsROdd(int k, Complex q)
+    {
+        var (a, c, _, _) = ExactSetupROdd(k);
+        return BlockAtOdd(a, c, q).Evd().EigenValues.ToArray();
+    }
+
+    /// <summary>The R-ODD diabolic/defective hunt on the exact R-odd residual roots: the same gap-field →
+    /// seed → refine → classify pipeline as <see cref="FindDiabolicsExact"/> (which scans the R-EVEN
+    /// residual), with the EpCharacter reading and the enclosing radius measured against the R-odd sector
+    /// block (HS-orthonormal 2-cycle coordinates, so the Riesz character reading is metric-safe). The
+    /// sectorbraid arc's R-ODD DEEP-LOCI PROBE: it completes the deep-loci enumeration across both R
+    /// parities and decides whether the fold-resultant certificate on F_18 (R-even) suffices or the R-odd
+    /// residual factor needs its own.</summary>
+    public static List<DiabolicPoint> FindDiabolicsExactROdd(int k, double reLo, double reHi, double imLo, double imHi,
+        double cell, double mask = 0.20, double gapTol = 1e-3, double loopRadius = 0.004)
+    {
+        var (a, c, uRes, _) = ExactSetupROdd(k);                              // primes the cache; captured locally
+        Func<Complex, Complex[]> roots = q =>
+            (uRes.ConjugateTranspose() * BlockAtOdd(a, c, q) * uRes).Evd().EigenValues.ToArray();
+        Func<Complex, Complex[]> rootsFull = qq => BlockAtOdd(a, c, qq).Evd().EigenValues.ToArray();
+
+        int nRe = Math.Max(1, (int)((reHi - reLo) / cell)), nIm = Math.Max(1, (int)((imHi - imLo) / cell));
+        var gap = new double[nRe, nIm];
+        Parallel.For(0, nRe, ir =>
+        {
+            double re = reLo + ir * cell + cell / 2;
+            for (int ii = 0; ii < nIm; ii++)
+            {
+                var q = new Complex(re, imLo + ii * cell + cell / 2);
+                gap[ir, ii] = q.Magnitude < mask ? double.NaN : MinGap(roots(q));
+            }
+        });
+
+        var seeds = new List<Complex>();                                     // strict local minima of the gap field
+        for (int ir = 0; ir < nRe; ir++)
+            for (int ii = 0; ii < nIm; ii++)
+            {
+                double g = gap[ir, ii];
+                if (double.IsNaN(g)) continue;
+                bool isMin = true;
+                for (int dr = -1; dr <= 1 && isMin; dr++)
+                    for (int di = -1; di <= 1; di++)
+                    {
+                        if (dr == 0 && di == 0) continue;
+                        int jr = ir + dr, ji = ii + di;
+                        if (jr < 0 || jr >= nRe || ji < 0 || ji >= nIm) continue;
+                        if (!double.IsNaN(gap[jr, ji]) && gap[jr, ji] < g) { isMin = false; break; }
+                    }
+                if (isMin) seeds.Add(new Complex(reLo + ir * cell + cell / 2, imLo + ii * cell + cell / 2));
+            }
+
+        var result = new List<DiabolicPoint>();
+        foreach (var seed in seeds)
+        {
+            var qd = GapRefine(roots, seed, cell);
+            if (qd.Magnitude < mask) continue;
+            if (result.Any(d => (d.QValue - qd).Magnitude < 2 * cell)) continue;       // dedupe
+            var rr = roots(qd);
+            double g = MinGap(rr);
+            if (g > gapTol) continue;                                                  // an avoided crossing, not a coalescence
+
+            int ai = -1, bi = -1; double best = double.PositiveInfinity;               // the coalescing pair
+            for (int i = 0; i < rr.Length; i++)
+                for (int j = i + 1; j < rr.Length; j++)
+                {
+                    double gg = (rr[i] - rr[j]).Magnitude;
+                    if (gg < best) { best = gg; ai = i; bi = j; }
+                }
+            var mergeLambda = (rr[ai] + rr[bi]) / 2;
+            double distOther = double.PositiveInfinity;                                // nearest non-pair strand (R-odd sector)
+            foreach (var z in rootsFull(qd))
+            {
+                double dd = (z - mergeLambda).Magnitude;
+                if (dd > best * 1.5) distOther = Math.Min(distOther, dd);
+            }
+            double charRadius = Math.Clamp(0.4 * distOther, 0.01, 0.5);
+
+            bool loopId = Moved(Monodromy.Permutation(roots, qd, loopRadius, 240)) == 0;
+            double expo = GapScalingExponent(roots, qd);
+            var reading = EpCharacter.Characterize(BlockAtOdd(a, c, qd), mergeLambda, charRadius);
+            bool semisimple = reading.Kind == EpCharacter.EpKind.Diabolic;
+            result.Add(new DiabolicPoint(qd, mergeLambda, semisimple, loopId, g, expo, PairIsResidual: true));
+        }
+        return result;
+    }
+
     /// <summary>The full EpCharacter reading of the path-k residual block at (q, λ): the load-bearing
     /// discriminant (R-3) that separates a genuine DIABOLIC (semisimple, geo=alg, departure≈0) from a
     /// DEFECTIVE EP (Jordan block, geo&lt;alg) and from an avoided crossing (an identity loop alone cannot).

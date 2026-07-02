@@ -38,7 +38,9 @@ public static class PathKMonodromyScanCommand
             // --exact (REQUIRED from path-6/N=7): read the residual roots as the EXACT complement compression of
             // the AT invariant subspace, not by nearest-match partition + tracking (which collide at F_53 density
             // and manufacture spurious gap-0 coalescences). Supersedes --residual; the only trustworthy path at N>=7.
-            PrintDiabolics(k, reLo, reHi, imLo, imHi, cell, p.HasFlag("residual"), p.HasFlag("exact"));
+            // --rodd: scan the R-ODD sector's exact residual instead (FindDiabolicsExactROdd; the R-even story
+            // is the default --exact). The sectorbraid deep-loci probe's locus tool; implies --exact.
+            PrintDiabolics(k, reLo, reHi, imLo, imHi, cell, p.HasFlag("residual"), p.HasFlag("exact"), p.HasFlag("rodd"));
             return 0;
         }
 
@@ -119,10 +121,11 @@ public static class PathKMonodromyScanCommand
 
     // the diabolic hunt (Q1-Q3 of the forward-edge plan): find the residual's coalescences, classify each
     // (diabolic vs defective), and read the merge Re against the AT rung-2 line (-4) vs the palindrome centre (-N).
-    private static void PrintDiabolics(int k, double reLo, double reHi, double imLo, double imHi, double cell, bool residualOnly, bool exact = false)
+    private static void PrintDiabolics(int k, double reLo, double reHi, double imLo, double imHi, double cell, bool residualOnly, bool exact = false, bool rOdd = false)
     {
         int nBlock = k + 1;
-        string mode = exact ? " [EXACT: residual = complement of the AT invariant subspace, no tracking]"
+        string mode = rOdd ? " [R-ODD sector, EXACT: residual = complement of the R-odd AT invariant subspace]"
+                            : exact ? " [EXACT: residual = complement of the AT invariant subspace, no tracking]"
                             : residualOnly ? " [residual-only: AT-flood excluded, tracked from q0=2]" : "";
         Console.WriteLine($"\n# DIABOLIC HUNT path-{k} (N_block={nBlock}){mode}: scan q in re[{reLo.ToString("0.##", Inv)},{reHi.ToString("0.##", Inv)}] " +
                           $"im[{imLo.ToString("0.##", Inv)},{imHi.ToString("0.##", Inv)}], cell={cell.ToString("0.###", Inv)}, q=0 mask 0.20");
@@ -134,7 +137,9 @@ public static class PathKMonodromyScanCommand
                           $"[{spec.Min(z => z.Real).ToString("0.00", Inv)}, {spec.Max(z => z.Real).ToString("0.00", Inv)}] " +
                           $"(AT rung-2 line = -4; palindrome centre = -N = -{nBlock})");
 
-        var found = exact
+        var found = rOdd
+            ? PathKMonodromyScout.FindDiabolicsExactROdd(k, reLo, reHi, imLo, imHi, cell)
+            : exact
             ? PathKMonodromyScout.FindDiabolicsExact(k, reLo, reHi, imLo, imHi, cell)
             : PathKMonodromyScout.FindDiabolics(k, reLo, reHi, imLo, imHi, cell, residualOnly: residualOnly);
         Console.WriteLine($"\n{found.Count} coalescence(s):");

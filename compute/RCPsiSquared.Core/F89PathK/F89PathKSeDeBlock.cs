@@ -254,4 +254,31 @@ public static class F89PathKSeDeBlock
         }
         return perm;
     }
+
+    /// <summary>The orthonormal basis of the R-ODD eigenspace of <see cref="ReflectionPermutation"/>, as a
+    /// real full-block-dim × oddDim column matrix: one column (e_t − e_perm[t])/√2 per reflection 2-cycle
+    /// {t &lt; perm[t]}, enumerated in increasing t (the reflection-fixed singletons are R-even and contribute
+    /// nothing). This is the COORDINATE CONVENTION the R-odd work shares: column c here is coordinate c of
+    /// <see cref="F89AtFactorReconstruction.ROddRateAndK"/> and of PathKMonodromyScout's R-odd compression.
+    /// The columns are HS-orthonormal (the underlying (SE site, DE pair) coherence basis is), so
+    /// inner-product-sensitive diagnostics are safe in this basis, unlike the orbit-SUM basis of
+    /// <see cref="BuildTwoTimesSymBlock"/> (see its metric warning). oddDim = (dim − (nBlock−1)/2)/2 at odd
+    /// nBlock (24 at nBlock=5), dim/2 at even nBlock.</summary>
+    public static double[,] ROddBasis(int nBlock)
+    {
+        var perm = ReflectionPermutation(nBlock);
+        int nb = perm.Length;
+        var pairs = new List<(int T, int T2)>();
+        for (int t = 0; t < nb; t++)
+            if (perm[t] > t) pairs.Add((t, perm[t]));
+
+        double inv2 = 1.0 / Math.Sqrt(2.0);
+        var u = new double[nb, pairs.Count];
+        for (int c = 0; c < pairs.Count; c++)
+        {
+            u[pairs[c].T, c] = inv2;
+            u[pairs[c].T2, c] = -inv2;
+        }
+        return u;
+    }
 }
