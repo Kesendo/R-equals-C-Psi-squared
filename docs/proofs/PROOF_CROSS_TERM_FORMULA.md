@@ -1,7 +1,7 @@
 # Proof of the Cross-Term Formula
 
 **Tier:** 1 (fully analytical)
-**Date:** April 13, 2026
+**Date:** April 13, 2026 (two open questions stamped answered 2026-07-02: non-uniform γ → F49-nonuniform-ext, shadow-crossing → F49c)
 **Depends on:**
 - [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md) (Π operator, palindromic structure)
 - [PRIMORDIAL_QUBIT_ALGEBRA](../../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) (Pythagorean decomposition at N=2, bond-sum rule)
@@ -238,12 +238,14 @@ Both ||L_H||^2 and gamma^2 cancel. The formula depends only on N. QED.
 - **Non-uniform gamma:** when gamma_k varies by site, L_Dc is still
   diagonal in the Pauli basis but with site-dependent eigenvalues.
   The spectator variance calculation changes.
+  **ANSWERED (2026-05-18):** closed by [PROOF_F49_NONUNIFORM_GAMMA_EXTENSION.md](PROOF_F49_NONUNIFORM_GAMMA_EXTENSION.md) (F49, Tier 1). The closed form splits into a spectator part `4·Σ_b‖L_H^bond‖²·Σ_{m∉bond}γ_m²` plus a bond-asymmetry part `Σ_b G(bond,H)·(γ_i−γ_j)²`, with `G = 4·‖ZZ-part of the bond‖²` (Heisenberg 4/3, Ising 4, XY and soft XY+YX 0); bit-exact at N=3,4,5.
 - **Non-Pauli noise (amplitude damping, depolarizing):** L_D is no
   longer diagonal in the Pauli basis. The pointwise product structure
   of Step 5 breaks.
 - **Shadow-crossing couplings:** is there a modified formula for
   couplings like X_i Z_j? If so, it would involve additional bond-site
   variance beyond N-2.
+  **ANSWERED (2026-04-14):** closed by [PROOF_CROSS_TERM_CROSSING.md](PROOF_CROSS_TERM_CROSSING.md) (F49c, Tier 1): the ratio is `√((N−1)/(N·4^(N−1)))`, i.e. `N−2 → N−1`, the crossing bond carrying one unit of variance itself.
 
 ---
 

@@ -8,8 +8,8 @@ splits by support: **at full support (k=N) it closes** , a Mixed+Mixed pair has 
 generators, so it is always bipartite, hence soft (modulo M), which settles F111's blocked
 "Mixed+Mixed = soft" , while the **windowed regime (k<N)** is reduced to a validated first-order statement (the degenerate
 D̂-block set-asymmetry, c=0 ⟺ bipartite, bit-exact; moment route ruled out), the set-level proof
-still open.
-**Date:** 2026-05-30
+still open. **[UPDATE: since closed 2026-06-10]** the windowed converse non-bipartite ⟹ hard is now a theorem with no residual, typed `WindowedConverseAllGammaClaim` (Tier1Derived) via the Phase-B two-reflection / Pascal-Gram positivity (F117); see the 2026-06-08 typed split in the body below and [PROOF_F103 §7.3](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md).
+**Date:** 2026-05-30 (top-Status windowed-converse line updated 2026-07-02: since closed, no residual)
 **Regenerate:**
 - [`simulations/f87_42_8_bipartite_fullcell.py`](../simulations/f87_42_8_bipartite_fullcell.py) `[N] [letters]` , k=3 criterion over the whole diagonal cell (default N=4, all letters; pass `5 Z` for the N=5 Z check)
 - [`simulations/f87_k4_bipartite_bridge.py`](../simulations/f87_k4_bipartite_bridge.py) , k=4 criterion + the F111 template cross-check (N=4)

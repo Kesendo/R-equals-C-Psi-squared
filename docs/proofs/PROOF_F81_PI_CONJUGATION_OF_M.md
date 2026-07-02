@@ -1,7 +1,7 @@
 # Proof of F81: Π-Conjugation of M Decomposes into the Π²-Odd Hamiltonian Commutator
 
 **Tier:** 1 (closed-form algebraic proof + numerical verification at machine precision).
-**Date:** 2026-04-30
+**Date:** 2026-04-30 (two open items stamped answered 2026-07-02: 5/6:1/6 split → F83, non-Z dissipators → F82/F84)
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
 - [PROOF_SVD_CLUSTER_STRUCTURE.md](PROOF_SVD_CLUSTER_STRUCTURE.md) (Master Lemma: M is γ-independent for pure Z-dephasing; Π² acts on Pauli string σ_α as (-1)^{bit_b(α)})
@@ -146,7 +146,7 @@ Substituting: 2·‖L_{H_odd}‖² / ‖M‖² = (2 · 2 · 2^N · ‖H_odd‖²
   - Pure Π²-even non-truly (YZ alone, YZ+ZY): 100/0 (M_anti = 0 trivially since H_odd = 0).
   - Mixed Π²-odd + Π²-even non-truly (XY+YZ, XX+XY+YZ): 5/6 sym + 1/6 anti at N=3 and N=4 (the 1/6 reflects the smaller fraction of Π²-odd content within H_non-truly).
 
-The 5/6:1/6 split for mixed odd+even cases is empirical at N=3,4; an analytical derivation analogous to the 50/50 case would require a generalized Frobenius-residual scaling for mixed H_non-truly. Open.
+The 5/6:1/6 split for mixed odd+even cases is empirical at N=3,4; an analytical derivation analogous to the 50/50 case would require a generalized Frobenius-residual scaling for mixed H_non-truly. ~~Open.~~ **ANSWERED (2026-04-30):** [PROOF_F83_PI_DECOMPOSITION_RATIO.md](PROOF_F83_PI_DECOMPOSITION_RATIO.md) derives exactly that generalized scaling: anti-fraction = `1/(2+4r)` with `r = ‖H_even_nontruly‖²/‖H_odd‖²`; the mixed odd+even case with equal weights (r=1) gives `1/6` anti (5/6 sym), bit-exact N=3,4,5.
 
 **Scope of 50/50**: this analytical result covers truly H (trivial: M=0), pure Π²-odd 2-body chain H, and mixed truly + Π²-odd 2-body chain H. It does not cover Hamiltonians with Π²-even non-truly content.
 
@@ -166,5 +166,5 @@ Companion to F80: F80 states what Spec(M) is (= ±2i · Spec(H_non-truly)). F81 
 **Hardware confirmation.** F81's operational upshot, the [F83](../ANALYTICAL_FORMULAS.md) anti-fraction ‖M_anti‖²/‖M‖² that this decomposition makes readable, was confirmed on IBM Heron r2. The four-Hamiltonian Π²-class discriminator (XX+YY truly; XY+YX pure Π²-odd, anti = 1/2; YZ+ZY Π²-even non-truly, anti = 0; XY+YZ mixed, anti = 1/6) separates all four classes at >>10σ through unique-fingerprint Pauli observables, on Marrakesh (2026-04-30, job d7pol1e7g7gs73cf7j90, path [4,5,6]) and reproduced on Kingston (2026-05-05, path [43,56,63]). M itself is a 4ᴺ superoperator and is not directly measurable; the hardware reads the per-class operator-level fingerprints that the M_sym / M_anti split predicts. Data in [`data/ibm_f83_signature_april2026/`](../../data/ibm_f83_signature_april2026/) and [`data/ibm_soft_break_april2026/`](../../data/ibm_soft_break_april2026/); registry entry `fw.Confirmations.lookup('f83_pi2_class_signature_marrakesh')`; experiment `run_soft_break.py` (external AIEvolution pipeline).
 
 **Open generalizations:**
-- Non-Z dissipators (T1 amplitude damping, X/Y dephasing): Π² no longer commutes with L_diss. F81 should generalize with an additional dissipator-correction term; analytical form not yet worked out.
+- Non-Z dissipators (T1 amplitude damping, X/Y dephasing): Π² no longer commutes with L_diss. F81 should generalize with an additional dissipator-correction term; analytical form not yet worked out. **ANSWERED (2026-04-30):** [PROOF_F82_T1_DISSIPATOR_CORRECTION.md](PROOF_F82_T1_DISSIPATOR_CORRECTION.md) + [PROOF_F84_AMPLITUDE_DAMPING.md](PROOF_F84_AMPLITUDE_DAMPING.md): `Π·M·Π⁻¹ = M − 2·L_{H_odd} − 2·D_{AmplDamp,odd}`, with `f81_violation = ‖D_{AmplDamp,odd}‖ = |Δγ|_RMS·√N·2^(N−1)`. Pure X/Y (and Z) dephasing are Π²-symmetric and contribute exactly zero; only σ⁻/σ⁺ (T1 / thermal) channels correct F81.
 - Higher-body Hamiltonians (3-body, 4-body): the Π²-parity classification carries over; the proof structure should generalize verbatim.

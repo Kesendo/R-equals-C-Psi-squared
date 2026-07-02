@@ -135,7 +135,7 @@ The hardware result is slightly STRONGER than the idealized framework predicts. 
 
 **Does not establish:**
 
-- An analytical predictor for which combos are soft vs hard. The structural patterns (matched parities, one-good-term, etc.) are descriptive but not yet derived.
+- An analytical predictor for which combos are soft vs hard. The structural patterns (matched parities, one-good-term, etc.) are descriptive but not yet derived. **[ANSWERED (2026-06-10): the predictor is the bipartite criterion: *soft ⟺ H's hopping graph is bipartite in the dephasing basis*; bipartite ⟹ soft derived, non-bipartite ⟹ hard is the theorem `WindowedConverseAllGammaClaim` (Tier1Derived, no residual); see [PROOF_F103 §7](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) and [BIPARTITE_CHIRALITY_DIAGONAL_CELL.md](BIPARTITE_CHIRALITY_DIAGONAL_CELL.md).]**
 - Generalization to N > 3. Framework supports it; not tested here.
 - The full 19 soft-broken cases on hardware. We tested 1 representative each from {3 truly, 19 soft, 14 hard}.
 
