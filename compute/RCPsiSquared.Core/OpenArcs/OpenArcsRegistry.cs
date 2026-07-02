@@ -605,36 +605,49 @@ public static class OpenArcsRegistry
             NextStep: "RESUMING IN ONE LINE (2026-07-02). This arc has TWO eras; read this header for the live front, " +
                 "the dated layers below are the journal. ERA 1 (2026-06, from 'Hand-over-hand' onward) = the original " +
                 "'connection between the F89 zeros / the ± road' exploration; its directions (trace DONE; the " +
-                "other-representations / cross-F-inheritance / polarity-rhyme threads) are PARKED — the arc pivoted into " +
+                "other-representations / cross-F-inheritance / polarity-rhyme threads) are PARKED; the arc pivoted into " +
                 "a theorem. ERA 2 (2026-07-02) = the codim-1-by-additivity PROGRAM, the live front. STATE of Era 2: the " +
                 "theorem is LANDED (SpectatorIntertwinerClaim / registry F125 / docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md; " +
                 "the W=Σc_l†ρc_l intertwiner + containment corollary + two-regime Theorem A). The proof's four remainders: " +
-                "(R1) interior-core kernel death — CLOSED at real loci (rate-window lemma), and its N-uniform strictness " +
-                "Re λ_A>−6 CLOSED (window-edge lemma, f5d4709), and its COMPLEX-q loci PARTIALLY CLOSED (moved-rate-window lemma, gate ComplexQRateWindowTests: Bendixson at complex q reads the moved Hermitian part H(q)=A+Im(q)K, closing the near-axis loci Re λ_A>−6, only the deep loci left to the resultant); (R2) Theorem A's D-half — CLOSED at N=5 (twin-scalar check, " +
+                "(R1) interior-core kernel death, CLOSED at real loci (rate-window lemma), and its N-uniform strictness " +
+                "Re λ_A>−6 CLOSED (window-edge lemma, f5d4709), and its COMPLEX-q loci PARTIALLY CLOSED (moved-rate-window lemma, gate ComplexQRateWindowTests: Bendixson at complex q reads the moved Hermitian part H(q)=A+Im(q)K, closing the near-axis loci Re λ_A>−6, only the deep loci left to the resultant); (R2) Theorem A's D-half, CLOSED at N=5 (twin-scalar check, " +
                 "gate TwinScalarDHalfTests: the D-half is SUPPLIED at every genuinely-complex-q diabolic, the " +
-                "pure-imaginary-q ones semisimple by Hermiticity); (R3) gap byte-identity — observed at N=5 AND N=7, NOT " +
-                "implied by the intertwiner, OFF the critical path (nice-to-derive, not blocking); (R4) exclusion half — " +
+                "pure-imaginary-q ones semisimple by Hermiticity); (R3) gap byte-identity, observed at N=5 AND N=7, NOT " +
+                "implied by the intertwiner, OFF the critical path (nice-to-derive, not blocking); (R4) exclusion half, " +
                 "derived at the N=5 seed locus, else census-evidence. THE ONE OPEN ITEM (SPLIT + SHARPENED 2026-07-02, moved-rate-window landing): only the DEEP complex loci remain. The near-axis complex defective loci are CLOSED by the moved rate window (gate ComplexQRateWindowTests); and the CONJ WAS A RED HERRING: the core carries (numerically, to locus precision; the exact identity not yet derived) the HOLOMORPHIC fold mu=-lambda_A-2N (gate 3-6e-5), not -conj(lambda_A)-2N (0.57-1.09 away), so R1 at complex q is holomorphic/conjugation-free." +
-                " FIRST MOVE (the resultant, precisely pinned): show mu=-lambda_A-2N is not a corner eigenvalue, i.e. Res_lambda(F_18(lambda,q), F_corner(-lambda-2N,q)) != 0 at F_18's branch loci (ONE-WAY certificate: gcd=1 proves absence, gcd!=1 is refine-not-refute; F_18 = the (1,2) residual, deg 18 at N=5, NOT the N=4 octic). Build the corner block " +
-                "(p_c+1,p_c+1) via SectorBraidModeGeometry.BuildBlock + PerBlockLiouvillianBuilder.BuildBlockZ and show " +
+                " THE RESULTANT (the eventual deliverable, precisely pinned; RUN IT AFTER premise 2's R-odd scan below completes the deep-loci set): show mu=-lambda_A-2N is not a corner eigenvalue, i.e. Res_lambda(F_18(lambda,q), F_corner(-lambda-2N,q)) != 0 at F_18's branch loci (ONE-WAY certificate: gcd=1 proves absence, gcd!=1 is refine-not-refute; F_18 = the (1,2) residual, deg 18 at N=5, NOT the N=4 octic). Build the corner block " +
+                "(p_c+1,p_c+1)=(4,4 at N=5) via WeightCoherenceBlock.Build(N, p_c+1, p_c+1, q) [the exact builder the working gates " +
+                "ComplexQRateWindowTests / HolomorphicFoldIdentityTests use; NOT SectorBraidModeGeometry.BuildBlock, which takes no block index] and show " +
                 "F_corner is coprime to F_18 under the fold λ→−λ−2N at the complex q* (p_c=(N+1)/2 at odd N, so the corner " +
                 "is the ((N+1)/2+1)-diagonal block; a resultant / Galois-independence fact " +
                 "against the (1,2) residual F_18) via PathKMonodromyScout / GaloisMonodromyScanCommand; the Resultant primitive " +
                 "EXISTS (GaussianPolynomial.AreCoprime, Sylvester over Z[i]); Derivative/Resultant/Discriminant/ComposeLinear " +
-                "added a9a57bb. REVISED ROUTE (3-lens design review e064471): (i) RADICAL TRICK: don't extract " +
-                "D_defective (it exists nowhere) — certify gcd(R, disc_lambda F_18)=1 against the FULL discriminant's " +
+                "added a9a57bb. REVISED ROUTE (from the 3-lens review; route text recorded 2d58ead): (i) RADICAL TRICK: don't extract " +
+                "D_defective (it exists nowhere); certify gcd(R, disc_lambda F_18)=1 against the FULL discriminant's " +
                 "radical (sufficient; build the defective/diabolic split only if a diabolic locus trips it, near-certain " +
                 "not, per census). (ii) ALL-MOD-p UNIVARIATE: reduce A,C mod a split prime p=1 mod 4 (p~1500+), " +
-                "sample-interpolate R(q) and disc(q) in F_p[q], gcd_{F_p[q]}=1 (the F_p[q] gcd EXISTS in " +
+                "sample-interpolate R(q) and disc(q) in F_p[q], gcd_{F_p[q]}=1 (reuse the univariate F_p gcd + null-return idiom of " +
                 "OcticGaloisCertificate); ONE lucky prime with the two-sided degree-preservation guards (G1 lambda-deg, " +
                 "G2 q-deg; the null-return idiom OcticGaloisCertificate:36,57,101) is a COMPLETE proof. (iii) " +
-                "Berkowitz-over-Z[i][q] (GaussianMatrixCharpoly is ring-generic; +GaussianPolynomial.Add/Negate) as the " +
-                "fully-exact cross-check, finishing via the existing AreCoprime. TWO OPEN PREMISES upstream of the build: " +
-                "the EXACT holomorphic-fold identity (mu=-lambda_A-2N exactly, not the 1e-2 numeric) + the R-PARITY of the " +
-                "deep loci (F_18 = R-even (+) R-odd; dispose the R-odd EPs, e.g. real q~2.805). Locus tool: rcpsi pkmono --k <N−1> " +
+                "Berkowitz-over-Z[i][q] (GaussianMatrixCharpoly is ring-generic; needs GaussianPolynomial.Add/Negate, TO BUILD, not yet present) as the " +
+                "fully-exact cross-check, finishing via the existing AreCoprime. PREMISE 1 (exact fold identity) DONE " +
+                "b62c46a: the core (3,3) carries mu=-lambda-2N for every F_18 residual root to ~1e-13 at integer q (gate " +
+                "HolomorphicFoldIdentityTests); RESIDUAL-SPECIFIC (the full-spectrum identity is FALSE), so R3-family " +
+                "status (observed exactly, from-first-principles derivation still pending). PREMISE 2 (R-parity) HALF-DONE: " +
+                "F_18 = the R-EVEN sector ONLY (BuildTwoTimesSymBlock is the x2-cleared R-even; F89Path3OcticBlock = the " +
+                "R=+1 octic), so the resultant on F_18 covers R-even EPs only; the found deep loci q*=1.814+-0.367i ARE " +
+                "R-even (FindDiabolicsExact scans the R-even residual), hence covered. THE R-ODD PROBE = THE IMMEDIATE NEXT ACTION (before the resultant; it completes the deep-loci set and decides whether ONE resultant on F_18 suffices or a SECOND on the R-odd factor is needed): " +
+                "build the R-ODD sector (F89PathKSeDeBlock.BuildFullBlock + ReflectionPermutation, project onto " +
+                "the R-odd eigenspace), scan it for COMPLEX defective EPs with Re lambda_A < -6, and check whether any seed " +
+                "a corner-leaking diamond; if yes they need a SEPARATE resultant on the R-odd residual factor (the real " +
+                "q~2.805 EP is the known R-odd one, real, already covered at real q by the window-edge lemma). Locus tool: rcpsi pkmono --k <N−1> " +
                 "--diabolic --exact. NUMBERING TRAP: the proof's remainders are R1-R4 above; the '(a)/(b)/(c) next " +
                 "candidates' near the bottom are the Era-2 to-do (a=complex-q PARTIAL: near-axis CLOSED by the moved window, deep loci → resultant; b=window-edge CLOSED, c=D-half CLOSED)," +
-                "and are NOT the Era-1 '(a)-(d)' connection-directions at the top of the journal. TERMS: SE/DE = " +
+                "and are NOT the Era-1 '(a)-(d)' connection-directions at the top of the journal. TERMS: A/C/K = the block pencil " +
+                "L(q)=A+qC (A=-2*diag(n_diff) real diagonal, C anti-Hermitian hop, K=iC Hermitian); the -6 floor = the (1,2) " +
+                "block's Bendixson bottom (its n_diff in {1,3} ⟹ rate window [-6,-2]); the DEEP loci = the complex defective " +
+                "EPs where Re λ_A dives below -6; F_corner = the (4,4) corner block's characteristic polynomial; the core " +
+                "(3,3) = the (p_c,p_c) diagonal block the intertwiner W maps into the corner; SE/DE = " +
                 "single/double-excitation weights, so the (1,2) 'octic' = the residual factor of the bra-1 ket-2 block; " +
                 "λ_A = the (1,2) defective eigenvalue, λ_B = −conj(λ_A)−2N its cross-fold partner (the value the cores carry at REAL q; off the real axis the cores carry the HOLOMORPHIC μ=−λ_A−2N, equal to λ_B on the real axis); live root inspect" +
                 "--root sectorbraid. ===== JOURNAL (dated layers) BELOW ===== " +
