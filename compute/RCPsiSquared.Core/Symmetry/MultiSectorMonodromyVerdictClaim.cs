@@ -175,8 +175,9 @@ public sealed class MultiSectorMonodromyVerdictClaim : Claim
                          "N=6 spread is a corollary, no census needed). OPEN: the exclusion half of membership " +
                          "(census-evidence except the normal edge), the gap byte-identity (observed, not implied by " +
                          "the intertwiner), the interior-core kernel death (CLOSED at real loci by §6's " +
-                         "rate-window lemma, its strictness N-uniform via the window-edge lemma; only the complex-q loci " +
-                         "remain, the arc's ONE open item). Theorem A's D-half is CLOSED at N=5 (gate TwinScalarDHalfTests): " +
+                         "rate-window lemma, its strictness N-uniform via the window-edge lemma; the complex-q loci are " +
+                         "split by the moved rate window: near-axis CLOSED, only the DEEP loci remain, reduced to the " +
+                         "holomorphic resultant (gate ComplexQRateWindowTests)). Theorem A's D-half is CLOSED at N=5 (gate TwinScalarDHalfTests): " +
                          "twin-scalar at every genuinely-complex-q diabolic (additivity's codim-1 route extends to complex q), " +
                          "the pure-imaginary-q ones semisimple by Hermiticity. The closed-form mixture is resolved (the quantized-overlap contraction).");
         }

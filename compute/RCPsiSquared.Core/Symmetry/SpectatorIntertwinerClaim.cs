@@ -122,8 +122,10 @@ public sealed class SpectatorIntertwinerClaim : Claim
                          "N=7), so λ_B is absent from the corner and W kills the core's whole generalized eigenspace " +
                          "((L_corner−λ)^m invertible). Verified at both N=5 real loci and N=7 (gate items 7+8; locus 2 " +
                          "was an out-of-sample prediction, ‖Wx₁‖ = 9.6e-16). The N-uniform strictness Re λ_A > −6 " +
-                         "is now DERIVED at real loci by the window-edge lemma (next node). Open: the complex-q loci " +
-                         "(the window needs real q).");
+                         "is now DERIVED at real loci by the window-edge lemma (next node). The complex-q loci are " +
+                         "now split by the moved rate window (§6, gate ComplexQRateWindowTests): the near-axis loci CLOSED " +
+                         "by the same Bendixson bound at the moved Hermitian part H(q)=A+Im(q)K, only the deep loci " +
+                         "(Re λ_A<−6) reduced to the holomorphic resultant Res_λ(F_octic, F_corner(−λ−2N)).");
             yield return new InspectableNode("the window-edge lemma: the strict floor is structural, N-uniform (§6)",
                 summary: "the corner exclusion's one measured input, Re λ_A > −6, is itself a theorem. The (1,2) block " +
                          "has n_diff ∈ {1,3} for all N ≥ 3 (a 1-site bra, a 2-site ket: Hamming 3−2|a∩b|), so " +
@@ -147,7 +149,8 @@ public sealed class SpectatorIntertwinerClaim : Claim
                          "DERIVES the climbing-rung injectivity for all N, strengthening Theorem B), and the Lefschetz kernel " +
                          "dim is dim(p,q̃)−dim(p+1,q̃+1) for m≥0 (75 at (3,3)). The band chains cap at the normal edge; the " +
                          "interior core reduces to a single spectral absence, supplied at real loci by the rate window " +
-                         "(kernel-death node above); complex loci stay open.");
+                         "(kernel-death node above); at complex q the window MOVES (H(q)=A+Im(q)K) and closes the " +
+                         "near-axis loci, only the deep loci stay open (holomorphic resultant, §6, gate ComplexQRateWindowTests).");
             yield return new InspectableNode("the containment orbit corollary (what this claim feeds)",
                 summary: "one climbing W-step + transpose + Klein full flip + F89d cross-fold reproduce the census braid " +
                          "sets exactly: N=4 the 4-orbit, N=5 the 12-set with cores (2,2),(3,3), N=6 the 12-set without " +

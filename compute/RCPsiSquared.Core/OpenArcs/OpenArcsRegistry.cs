@@ -610,22 +610,22 @@ public static class OpenArcsRegistry
                 "theorem is LANDED (SpectatorIntertwinerClaim / registry F125 / docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md; " +
                 "the W=Σc_l†ρc_l intertwiner + containment corollary + two-regime Theorem A). The proof's four remainders: " +
                 "(R1) interior-core kernel death — CLOSED at real loci (rate-window lemma), and its N-uniform strictness " +
-                "Re λ_A>−6 CLOSED (window-edge lemma, f5d4709); (R2) Theorem A's D-half — CLOSED at N=5 (twin-scalar check, " +
+                "Re λ_A>−6 CLOSED (window-edge lemma, f5d4709), and its COMPLEX-q loci PARTIALLY CLOSED (moved-rate-window lemma, gate ComplexQRateWindowTests: Bendixson at complex q reads the moved Hermitian part H(q)=A+Im(q)K, closing the near-axis loci Re λ_A>−6, only the deep loci left to the resultant); (R2) Theorem A's D-half — CLOSED at N=5 (twin-scalar check, " +
                 "gate TwinScalarDHalfTests: the D-half is SUPPLIED at every genuinely-complex-q diabolic, the " +
                 "pure-imaginary-q ones semisimple by Hermiticity); (R3) gap byte-identity — observed at N=5 AND N=7, NOT " +
                 "implied by the intertwiner, OFF the critical path (nice-to-derive, not blocking); (R4) exclusion half — " +
-                "derived at the N=5 seed locus, else census-evidence. THE ONE OPEN ITEM: the COMPLEX-q absence of R1+R4 " +
-                "(Bendixson needs real q; window violated by 0.27 at Im q=0.05). FIRST MOVE: build the corner block " +
+                "derived at the N=5 seed locus, else census-evidence. THE ONE OPEN ITEM (SPLIT + SHARPENED 2026-07-02, moved-rate-window landing): only the DEEP complex loci remain. The near-axis complex defective loci are CLOSED by the moved rate window (gate ComplexQRateWindowTests); and the CONJ WAS A RED HERRING: the core carries the HOLOMORPHIC fold mu=-lambda_A-2N (gate 3-6e-5), not -conj(lambda_A)-2N (0.57-1.09 away), so R1 at complex q is conjugation-free." +
+                " FIRST MOVE (the resultant, precisely pinned): show mu=-lambda_A-2N is not a corner eigenvalue, i.e. Res_lambda(F_octic(lambda,q), F_corner(-lambda-2N,q)) != 0 at F_octic's branch loci. Build the corner block " +
                 "(p_c+1,p_c+1) via SectorBraidModeGeometry.BuildBlock + PerBlockLiouvillianBuilder.BuildBlockZ and show " +
-                "λ_B is NOT a defective root of its char poly at the complex q* (p_c=(N+1)/2 at odd N, so the corner " +
+                "F_corner is coprime to F_octic under the fold λ→−λ−2N at the complex q* (p_c=(N+1)/2 at odd N, so the corner " +
                 "is the ((N+1)/2+1)-diagonal block; a resultant / Galois-independence fact " +
                 "against the (1,2) octic) via PathKMonodromyScout / GaloisMonodromyScanCommand; the Resultant primitive " +
                 "EXISTS (GaussianPolynomial.AreCoprime, Sylvester over Z[i]). Locus tool: rcpsi pkmono --k <N−1> " +
                 "--diabolic --exact. NUMBERING TRAP: the proof's remainders are R1-R4 above; the '(a)/(b)/(c) next " +
-                "candidates' near the bottom are the Era-2 to-do (a=complex-q OPEN, b=window-edge CLOSED, c=D-half CLOSED), " +
+                "candidates' near the bottom are the Era-2 to-do (a=complex-q PARTIAL: near-axis CLOSED by the moved window, deep loci → resultant; b=window-edge CLOSED, c=D-half CLOSED)," +
                 "and are NOT the Era-1 '(a)-(d)' connection-directions at the top of the journal. TERMS: SE/DE = " +
                 "single/double-excitation weights, so the (1,2) 'octic' = the residual factor of the bra-1 ket-2 block; " +
-                "λ_A = the (1,2) defective eigenvalue, λ_B = −conj(λ_A)−2N its cross-fold partner; live root inspect " +
+                "λ_A = the (1,2) defective eigenvalue, λ_B = −conj(λ_A)−2N its cross-fold partner (the value the cores carry at REAL q; off the real axis the cores carry the HOLOMORPHIC μ=−λ_A−2N, equal to λ_B on the real axis); live root inspect" +
                 "--root sectorbraid. ===== JOURNAL (dated layers) BELOW ===== " +
                 "Hand-over-hand from here. (a) DONE 2026-06-27 (see ParkedAt): the q=2→q_EP continuity trace " +
                 "answered it, the +2.349 σ_T twin pair (strands 5,7) merges onto the fold at λ_EP=−4+1.318i, " +
