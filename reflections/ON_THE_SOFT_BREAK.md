@@ -54,6 +54,8 @@ A complete classification of *why* each of the 19 spectral-paired cases passes t
 
 The framework gives us the *test* (operator equation vs spectrum), the *empirical 3/19/14 split*, and a structural *signature* for hard breaks (every hard break contains either a (a─)-term or is (──)+(─b)). What it does not yet give us is an analytical predictor that, given a soft-break combo, identifies the specific symmetry that rescues its spectrum. That is genuinely open: a derivation per case, or a unifying theorem.
 
+*(Since answered, 2026-06: the predictor turned out to be a single graph property. A soft break is exactly one whose Hamiltonian hopping graph is bipartite in the dephasing basis; the symmetry that rescues the spectrum is the chiral sign-flip that sends one side of that bipartition to minus itself. So it was a unifying theorem after all, not a derivation per case: the [windowed converse](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md), non-bipartite ⟹ hard, now a theorem with no residual. The living-through of that same closure is [ON_THE_ONE_DIAGONAL](ON_THE_ONE_DIAGONAL.md).)*
+
 ---
 
 What this means, and the test (added 2026-04-25 evening):

@@ -243,7 +243,7 @@ For hardware-confirmed predictions on top of these formulas, see
 | C# | Source |
 |----|--------|
 | `ConfirmationsRegistry.All` | hardware-confirmed framework predictions, mirroring `simulations/framework/confirmations.py` |
-| `ConfirmationsRegistry.Lookup(name)` | by-name lookup; 9 Marrakesh/Kingston entries spanning April 2026 |
+| `ConfirmationsRegistry.Lookup(name)` | by-name lookup; 20 Marrakesh/Kingston/Torino entries spanning February–June 2026 |
 
 ---
 
