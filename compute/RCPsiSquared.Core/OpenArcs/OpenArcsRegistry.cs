@@ -602,7 +602,21 @@ public static class OpenArcsRegistry
                 "GaloisMonodromyWitness.TraceToDiabolic, and gmscan --trace [--tq q] [--tsteps n] (gate-first: " +
                 "prints PASS / CONFIRMED). " +
                 "Here is where we continue hand-over-hand.",
-            NextStep: "RESUMING IN ONE LINE (2026-07-02). This arc has TWO eras; read this header for the live front, " +
+            NextStep: "RESUMING IN ONE LINE (2026-07-02, post R-odd probe): both premises are DONE (defined at PREMISE " +
+                "1/2 below; premise 1 exact-OBSERVED to 1e-13 at INTEGER q, to 3-6e-5 at the complex loci themselves, " +
+                "its derivation still pending); build the ONE-WAY " +
+                "fold-resultant certificate (the all-mod-p route, spelled out at THE RESULTANT below), gate-first (a new " +
+                "test class, suggested Category FOLDRESULTANT), for the TWO window-escaping target sets: (i) F_18 " +
+                "(the R-even (1,2) residual, deg 18) at q*=1.8141+-0.3666i, (ii) the deg-17 R-odd residual factor at " +
+                "q*=1.7701+-1.2189i. Everything needed exists except GaussianPolynomial.Add/Negate (only for the " +
+                "optional Berkowitz cross-check). ONE TRAP for target (ii): the R-odd orthonormal basis has 1/sqrt(2) " +
+                "entries, NOT mod-p representable; use the UN-normalized 2-cycle basis B (columns e_t - e_perm[t], " +
+                "integer; BtB = 2I; called B here so it never collides with the intertwiner W below), where the sector " +
+                "operator is (1/2)BtLB with half-integer entries, so either " +
+                "multiply by the inverse of 2 mod p (p odd) or work with the x2-cleared sector block 2M (integer, " +
+                "eigenvalues 2*lambda; the fold lambda->-lambda-2N becomes 2lambda->-2lambda-4N, ComposeLinear handles " +
+                "it) - the same x2-clearing BuildTwoTimesSymBlock already does for R-even. === CONTEXT LAYERS BELOW === " +
+                "This arc has TWO eras; read this header for the live front, " +
                 "the dated layers below are the journal. ERA 1 (2026-06, from 'Hand-over-hand' onward) = the original " +
                 "'connection between the F89 zeros / the ± road' exploration; its directions (trace DONE; the " +
                 "other-representations / cross-F-inheritance / polarity-rhyme threads) are PARKED; the arc pivoted into " +
@@ -629,7 +643,8 @@ public static class OpenArcsRegistry
                 "sample-interpolate R(q) and disc(q) in F_p[q], gcd_{F_p[q]}=1 (reuse the univariate F_p gcd + null-return idiom of " +
                 "OcticGaloisCertificate); ONE lucky prime with the two-sided degree-preservation guards (G1 lambda-deg, " +
                 "G2 q-deg; the null-return idiom OcticGaloisCertificate:36,57,101) is a COMPLETE proof. (iii) " +
-                "Berkowitz-over-Z[i][q] (GaussianMatrixCharpoly is ring-generic; needs GaussianPolynomial.Add/Negate, TO BUILD, not yet present) as the " +
+                "Berkowitz-over-Z[i][q] (GaussianMatrixCharpoly's Berkowitz is ring-generic in PRINCIPLE but coded over " +
+                "GaussianInteger; instantiating it over Z[i][q] needs GaussianPolynomial.Add/Negate, TO BUILD, not yet present) as the " +
                 "fully-exact cross-check, finishing via the existing AreCoprime. PREMISE 1 (exact fold identity) DONE " +
                 "b62c46a: the core (3,3) carries mu=-lambda-2N for every F_18 residual root to ~1e-13 at integer q (gate " +
                 "HolomorphicFoldIdentityTests); RESIDUAL-SPECIFIC (the full-spectrum identity is FALSE), so R3-family " +
@@ -645,7 +660,8 @@ public static class OpenArcsRegistry
                 "real q=2.8049, lambda=-4.4882 reproduced, gap exponent 0.499). VERDICT of the 6 COMPLEX defective: " +
                 "0 DEEP (none with Re lambda_A < -6), 4 closed by the full-corner moved window (two with thin slack " +
                 "0.05/0.12), BUT the pair q*=1.7701+-1.2189i (lambda_A=-3.7562-+0.5065i, Re mu=-6.2438) escapes BOTH the " +
-                "full-corner AND the R-parity-refined moved window (W commutes with R, so an R-odd chain needs absence " +
+                "full-corner AND the R-parity-refined moved window (the intertwiner W=Σc_l†ρc_l commutes with R, so an " +
+                "R-odd chain needs absence " +
                 "only from the R-ODD corner sector, 25 = 13 even + 12 odd; its bottom -10.66 still sits below Re mu): " +
                 "the handover's deep/near-axis dichotomy was implicitly near-axis, the decision variable is the MOVED " +
                 "WINDOW, and these 2 R-odd loci escape it (|Im q|*||K||=8.4 swamps the margin 2.24; corner absence there " +
@@ -663,13 +679,16 @@ public static class OpenArcsRegistry
                 "N=5 (the deciding case) is unaffected (sparse residuals, all anchors reproduced). " +
                 "NUMBERING TRAP: the proof's remainders are R1-R4 above; the '(a)/(b)/(c) next " +
                 "candidates' near the bottom are the Era-2 to-do (a=complex-q PARTIAL: near-axis CLOSED by the moved window, deep loci → resultant; b=window-edge CLOSED, c=D-half CLOSED)," +
-                "and are NOT the Era-1 '(a)-(d)' connection-directions at the top of the journal. TERMS: A/C/K = the block pencil " +
+                "and are NOT the Era-1 '(a)-(d)' connection-directions at the top of the journal. TERMS: R = the site reflection i↦N−1−i, the involution " +
+                "commuting with every chain block; R-even/R-odd = its ±1 eigenspaces (F89PathKSeDeBlock.ReflectionPermutation); " +
+                "W = the intertwiner Σc_l†ρc_l THROUGHOUT this entry (the mod-p 2-cycle basis is B, never W); A/C/K = the block pencil " +
                 "L(q)=A+qC (A=-2*diag(n_diff) real diagonal, C anti-Hermitian hop, K=iC Hermitian); the -6 floor = the (1,2) " +
                 "block's Bendixson bottom (its n_diff in {1,3} ⟹ rate window [-6,-2]); the DEEP loci = the complex defective " +
                 "EPs where Re λ_A dives below -6 (the WINDOW-ESCAPING set = the deep loci plus the large-Im-q escapers " +
                 "the R-odd probe found; both go to the resultant); F_corner = the (4,4) corner block's characteristic polynomial; the core " +
                 "(3,3) = the (p_c,p_c) diagonal block the intertwiner W maps into the corner; SE/DE = " +
-                "single/double-excitation weights, so the (1,2) 'octic' = the residual factor of the bra-1 ket-2 block; " +
+                "single/double-excitation weights, so the (1,2) 'octic' = the residual factor of the bra-1 ket-2 block (the HISTORICAL arc name: literally " +
+                "deg 8 only at N=4; at N=5 that same object is F_18);" +
                 "λ_A = the (1,2) defective eigenvalue, λ_B = −conj(λ_A)−2N its cross-fold partner (the value the cores carry at REAL q; off the real axis the cores carry the HOLOMORPHIC μ=−λ_A−2N, equal to λ_B on the real axis); live root inspect" +
                 "--root sectorbraid. ===== JOURNAL (dated layers) BELOW ===== " +
                 "Hand-over-hand from here. (a) DONE 2026-06-27 (see ParkedAt): the q=2→q_EP continuity trace " +
