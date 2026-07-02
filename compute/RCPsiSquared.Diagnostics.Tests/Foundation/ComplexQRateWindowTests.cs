@@ -23,9 +23,10 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// <code>Re λ_A(q*) + 6  &gt;  |Im q*|·‖K‖₂    (N-uniform, 2N − 2(N−3) = 6),</code>
 /// equivalently Re μ &lt; λ_min(H(q*)). This closes the complex defective loci where λ_A stays inside the (1,2)
 /// block's real-q Bendixson floor (Re λ_A &gt; −6); the DEEP loci where λ_A dives below −6 at complex q push μ
-/// up into the corner window and are left to the holomorphic resultant Res_λ(F_octic, F_corner(−λ−2N)).</para>
+/// up into the corner window and are left to the holomorphic resultant Res_λ(F_18, F_corner(−λ−2N)).</para>
 ///
-/// <para>Asserts (N=5): the holomorphic-fold identity (core carries μ), the absence (corner excludes μ,
+/// <para>Asserts (N=5): the holomorphic-fold READING (core carries μ, numerically to locus precision; the
+/// exact identity is a from-first-principles step still open), the absence (corner excludes μ,
 /// numerical census), and that the moved window closes ≥1 complex locus. Run:
 /// <c>dotnet test "compute/RCPsiSquared.Diagnostics.Tests" --filter "Category=COMPLEXQWINDOW"
 /// --logger "console;verbosity=detailed"</c>.</para></summary>
@@ -99,7 +100,7 @@ public sealed class ComplexQRateWindowTests
         _out.WriteLine("");
         _out.WriteLine($"SUMMARY N={N}: {movedClosed}/{defective.Count} complex defective loci CLOSED by the moved rate window " +
                        $"(Re λ_A > −6); {defective.Count - movedClosed} deep loci (Re λ_A < −6) reduced to the holomorphic " +
-                       $"resultant Res_λ(F_octic, F_corner(−λ−2N)). Absence (core carries μ, corner excludes it) holds at all {defective.Count}.");
+                       $"resultant Res_λ(F_18, F_corner(−λ−2N)). Absence (core carries μ, corner excludes it) holds at all {defective.Count}.");
 
         Assert.NotEmpty(defective);
         Assert.True(movedClosed >= 1,

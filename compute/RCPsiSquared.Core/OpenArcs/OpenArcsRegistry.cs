@@ -614,12 +614,12 @@ public static class OpenArcsRegistry
                 "gate TwinScalarDHalfTests: the D-half is SUPPLIED at every genuinely-complex-q diabolic, the " +
                 "pure-imaginary-q ones semisimple by Hermiticity); (R3) gap byte-identity — observed at N=5 AND N=7, NOT " +
                 "implied by the intertwiner, OFF the critical path (nice-to-derive, not blocking); (R4) exclusion half — " +
-                "derived at the N=5 seed locus, else census-evidence. THE ONE OPEN ITEM (SPLIT + SHARPENED 2026-07-02, moved-rate-window landing): only the DEEP complex loci remain. The near-axis complex defective loci are CLOSED by the moved rate window (gate ComplexQRateWindowTests); and the CONJ WAS A RED HERRING: the core carries the HOLOMORPHIC fold mu=-lambda_A-2N (gate 3-6e-5), not -conj(lambda_A)-2N (0.57-1.09 away), so R1 at complex q is conjugation-free." +
-                " FIRST MOVE (the resultant, precisely pinned): show mu=-lambda_A-2N is not a corner eigenvalue, i.e. Res_lambda(F_octic(lambda,q), F_corner(-lambda-2N,q)) != 0 at F_octic's branch loci. Build the corner block " +
+                "derived at the N=5 seed locus, else census-evidence. THE ONE OPEN ITEM (SPLIT + SHARPENED 2026-07-02, moved-rate-window landing): only the DEEP complex loci remain. The near-axis complex defective loci are CLOSED by the moved rate window (gate ComplexQRateWindowTests); and the CONJ WAS A RED HERRING: the core carries (numerically, to locus precision; the exact identity not yet derived) the HOLOMORPHIC fold mu=-lambda_A-2N (gate 3-6e-5), not -conj(lambda_A)-2N (0.57-1.09 away), so R1 at complex q is holomorphic/conjugation-free." +
+                " FIRST MOVE (the resultant, precisely pinned): show mu=-lambda_A-2N is not a corner eigenvalue, i.e. Res_lambda(F_18(lambda,q), F_corner(-lambda-2N,q)) != 0 at F_18's branch loci (ONE-WAY certificate: gcd=1 proves absence, gcd!=1 is refine-not-refute; F_18 = the (1,2) residual, deg 18 at N=5, NOT the N=4 octic). Build the corner block " +
                 "(p_c+1,p_c+1) via SectorBraidModeGeometry.BuildBlock + PerBlockLiouvillianBuilder.BuildBlockZ and show " +
-                "F_corner is coprime to F_octic under the fold λ→−λ−2N at the complex q* (p_c=(N+1)/2 at odd N, so the corner " +
+                "F_corner is coprime to F_18 under the fold λ→−λ−2N at the complex q* (p_c=(N+1)/2 at odd N, so the corner " +
                 "is the ((N+1)/2+1)-diagonal block; a resultant / Galois-independence fact " +
-                "against the (1,2) octic) via PathKMonodromyScout / GaloisMonodromyScanCommand; the Resultant primitive " +
+                "against the (1,2) residual F_18) via PathKMonodromyScout / GaloisMonodromyScanCommand; the Resultant primitive " +
                 "EXISTS (GaussianPolynomial.AreCoprime, Sylvester over Z[i]). Locus tool: rcpsi pkmono --k <N−1> " +
                 "--diabolic --exact. NUMBERING TRAP: the proof's remainders are R1-R4 above; the '(a)/(b)/(c) next " +
                 "candidates' near the bottom are the Era-2 to-do (a=complex-q PARTIAL: near-axis CLOSED by the moved window, deep loci → resultant; b=window-edge CLOSED, c=D-half CLOSED)," +

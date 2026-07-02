@@ -124,7 +124,7 @@ public static class GaussianPolynomial
     /// <summary>The resultant Res(a, b) over Z[i] = det of the Sylvester matrix: zero iff a and b
     /// share a root. Zero if either is the zero polynomial; a nonzero constant c against b of degree
     /// n gives c^n. <see cref="AreCoprime"/> is exactly Res ≠ 0; this exposes the value, which the
-    /// fold-resultant absence check (Res_λ(F_octic, F_corner(−λ−2N)) as a function of q) samples.</summary>
+    /// fold-resultant absence check (Res_λ(F_res, F_corner(−λ−2N)) as a function of q) samples.</summary>
     public static GaussianInteger Resultant(GaussianInteger[] a, GaussianInteger[] b)
     {
         int m = Degree(a), n = Degree(b);
@@ -143,7 +143,7 @@ public static class GaussianPolynomial
 
     /// <summary>The discriminant of a MONIC polynomial p: (−1)^{n(n−1)/2}·Res(p, p′) (the leading-
     /// coefficient division of the general formula is trivial for monic p, the regime of the char
-    /// polys this serves). Zero iff p has a repeated root; the branch loci of F_octic are its zeros
+    /// polys this serves). Zero iff p has a repeated root; the branch loci of F_res are its zeros
     /// in q. Throws if p is not monic.</summary>
     public static GaussianInteger Discriminant(GaussianInteger[] p)
     {
@@ -157,8 +157,8 @@ public static class GaussianPolynomial
 
     /// <summary>Composition p(α·x + β) over Z[i] (Horner in the linear argument). The fold-resultant
     /// needs F_corner(−λ − 2N) = ComposeLinear(F_corner, −1, −2N): its roots are −(corner spectrum)
-    /// − 2N, so it shares a root with F_octic exactly when some octic root's fold μ = −λ_A − 2N is a
-    /// corner eigenvalue.</summary>
+    /// − 2N, so it shares a root with F_res (the (1,2) residual) exactly when some residual root's fold
+    /// μ = −λ_A − 2N is a corner eigenvalue.</summary>
     public static GaussianInteger[] ComposeLinear(GaussianInteger[] p, GaussianInteger alpha, GaussianInteger beta)
     {
         int d = Degree(p);

@@ -125,7 +125,8 @@ public sealed class SpectatorIntertwinerClaim : Claim
                          "is now DERIVED at real loci by the window-edge lemma (next node). The complex-q loci are " +
                          "now split by the moved rate window (§6, gate ComplexQRateWindowTests): the near-axis loci CLOSED " +
                          "by the same Bendixson bound at the moved Hermitian part H(q)=A+Im(q)K, only the deep loci " +
-                         "(Re λ_A<−6) reduced to the holomorphic resultant Res_λ(F_octic, F_corner(−λ−2N)).");
+                         "(Re λ_A<−6) reduced to the holomorphic resultant Res_λ(F_18, F_corner(−λ−2N)) at F_18's branch loci " +
+                         "(F_18 = the (1,2) residual at N=5, a one-way certificate).");
             yield return new InspectableNode("the window-edge lemma: the strict floor is structural, N-uniform (§6)",
                 summary: "the corner exclusion's one measured input, Re λ_A > −6, is itself a theorem. The (1,2) block " +
                          "has n_diff ∈ {1,3} for all N ≥ 3 (a 1-site bra, a 2-site ket: Hamming 3−2|a∩b|), so " +
