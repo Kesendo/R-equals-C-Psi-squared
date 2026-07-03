@@ -66,46 +66,62 @@ public static class FoldResultantCertificate
         int ProofBoundDigits, int PrimeProductDigits,
         bool SharedIsQPowerAtEveryPrime, bool Complete);
 
-    /// <summary>Runs the complete multi-prime fold-resultant proof for the (1,2)-family residual of the
-    /// N-site chain (R-even sym / R-odd 2-cycle sector) against the corner (p_c+1, p_c+1). Accumulates
-    /// split primes p ≥ 2³⁰ until their product exceeds the Mignotte/Hadamard proof bound; every used
-    /// prime must see gcd(R mod p, D mod p) = c·q^e (else the report returns early with
-    /// SharedIsQPowerAtEveryPrime = false: refine, not refute). Throws on structural violations (AT
-    /// division remainder, interpolant mismatch, bivariate/per-point cross-check failure), because no
-    /// prime can repair those.</summary>
+    /// <summary>Runs the complete multi-prime fold-resultant proof for R1: the (1,2)-family residual of the
+    /// N-site chain (R-even sym / R-odd 2-cycle sector) against the corner (p_c+1, p_c+1), fold-composed
+    /// (μ = −λ_A − 2N ∉ spec(corner)). A thin corner-fold wrapper over <see cref="CertifyCore"/>.</summary>
     public static CompleteReport CertifyComplete(int n, bool rOdd, int maxPrimes = 5000, Action<string>? log = null)
+        => CertifyCore(n, rOdd, (n + 1) / 2 + 1, (n + 1) / 2 + 1,
+                       new GaussianInteger(-1, 0), new GaussianInteger(-4L * n, 0), maxPrimes, log);
+
+    /// <summary>Runs the complete multi-prime exclusion proof for a general TARGET block (tWKet, tWBra) and
+    /// Λ-composition (composeA·Λ + composeB): gcd(Res_Λ(F_res, F2_target(composeA·Λ + composeB)), disc_Λ(F_res))
+    /// over Q(i) is a pure q-power, so no (1,2) residual root's composed image is a target eigenvalue at any
+    /// branch locus q ≠ 0. Remainder R1 is the corner-fold case (w, w, −1, −4N); remainder R4's interior-core
+    /// exclusion is the identity case, e.g. (1,1) with (1, 1, +1, 0): the braid eigenvalue λ_A itself (an
+    /// F_res root) is not carried by the non-member (1,1) block.</summary>
+    public static CompleteReport CertifyBlockExclusion(int n, bool rOdd, int tWKet, int tWBra,
+        GaussianInteger composeA, GaussianInteger composeB, int maxPrimes = 5000, Action<string>? log = null)
+        => CertifyCore(n, rOdd, tWKet, tWBra, composeA, composeB, maxPrimes, log);
+
+    /// <summary>The parameterised multi-prime proof engine. Accumulates split primes p ≥ 2³⁰ until their
+    /// product exceeds the Mignotte/Hadamard proof bound; every used prime must see gcd(R mod p, D mod p) =
+    /// c·q^e (else the report returns early with SharedIsQPowerAtEveryPrime = false: refine, not refute).
+    /// Throws on structural violations (AT division remainder, interpolant mismatch, bivariate/per-point
+    /// cross-check failure), because no prime can repair those.</summary>
+    private static CompleteReport CertifyCore(int n, bool rOdd, int tWKet, int tWBra,
+        GaussianInteger composeA, GaussianInteger composeB, int maxPrimes, Action<string>? log)
     {
         if (n < 5 || n % 2 == 0)
             throw new ArgumentException("odd n ≥ 5 (the corner (p_c+1, p_c+1) needs odd N).", nameof(n));
 
         // ---- the exact integer pencils and the O(1)-branch premise ----
         var (aBlk, cBlk) = BlockPencil(n, rOdd);
-        var (aCor, cCor) = CornerPencil(n);
+        var (aTgt, cTgt) = TargetPencil(n, tWKet, tWBra);
         AssertHoppingSymmetry(cBlk, rOdd ? null : F89PathKSeDeBlock.SymOrbitSizes(n));
-        AssertHoppingSymmetry(cCor, null);
+        AssertHoppingSymmetry(cTgt, null);
 
         var sectors = F89AtFactorReconstruction.ClearedAtSectors(n - 1, rOdd);
         int atDeg = 0;
         foreach (var s in sectors) atDeg += s.KCharpoly.Length - 1;
         int blockDim = aBlk.GetLength(0);
         int resDeg = blockDim - atDeg;
-        int corDeg = aCor.GetLength(0);
+        int corDeg = aTgt.GetLength(0);
 
-        // ---- the exact bivariate layer: F_res(Λ, q) and G(Λ, q) = F2_corner(−Λ − 4N, q) ----
-        var (fRes, g) = BuildBivariate(n, aBlk, cBlk, aCor, cCor, sectors);
+        // ---- the exact bivariate layer: F_res(Λ, q) and G(Λ, q) = F2_target(composeA·Λ + composeB, q) ----
+        var (fRes, g) = BuildBivariate(aBlk, cBlk, aTgt, cTgt, sectors, composeA, composeB);
         if (fRes.Length - 1 != resDeg)
             throw new InvalidOperationException($"bivariate residual degree {fRes.Length - 1} ≠ {resDeg}.");
 
         // cross-check the bivariate layer against the independent per-point path at q0 = 2, 3
         foreach (int q0 in new[] { 2, 3 })
         {
-            var (resPt, gPt, _, _) = ExactSample(n, rOdd, q0);
+            var (resPt, gPt, _, _) = ExactSampleCore(n, rOdd, q0, tWKet, tWBra, composeA, composeB);
             AssertPolyEqual(EvalBivariateAtQ(fRes, q0), resPt, $"bivariate F_res at q0={q0}");
             AssertPolyEqual(EvalBivariateAtQ(g, q0), gPt, $"bivariate G at q0={q0}");
         }
 
         // ---- G2: the q → ∞ leading forms and the proven degree bounds ----
-        var (fResLead, gLead, lcR, lcD) = LeadingForms(n, rOdd);
+        var (fResLead, gLead, lcR, lcD) = LeadingFormsCore(n, rOdd, tWKet, tWBra, composeA);
         var (fLayers, fChainSum) = SquarefreeLayers(FromZi(fResLead));
         var (gLayers, _) = SquarefreeLayers(FromZi(gLead));
         int mD = fChainSum;                                 // Σ_c C(mult_{f_res}(c), 2)
@@ -228,15 +244,48 @@ public static class FoldResultantCertificate
             sharedIsQPower, complete);
     }
 
+    /// <summary>Diagnostic: the true deg_q(R) vs the analytic upper bound rBound for a given target block and
+    /// Λ-composition, at one split prime (interpolating extra nodes so the true degree shows). The corner-fold
+    /// bound is TIGHT (true = bound); the (1,1) identity-composition bound is LOOSE (true 10 below bound), because
+    /// the identity leading forms share a common factor beyond the isolated-root collisions the mR count sees.
+    /// This is why CertifyCore's tightness assumption (guard DegP == rBound) must become the empirical trueDegR
+    /// for the interior-exclusion (identity) certificates. Reports resDeg, targetDeg, mR, rBound, lcR, trueDegR.</summary>
+    public static string DebugDegreeReport(int n, bool rOdd, int tWKet, int tWBra, GaussianInteger cA, GaussianInteger cB)
+    {
+        var (aBlk, cBlk) = BlockPencil(n, rOdd);
+        var (aTgt, cTgt) = TargetPencil(n, tWKet, tWBra);
+        var sectors = F89AtFactorReconstruction.ClearedAtSectors(n - 1, rOdd);
+        var (fRes, g) = BuildBivariate(aBlk, cBlk, aTgt, cTgt, sectors, cA, cB);
+        var (fResLead, gLead, lcR, lcD) = LeadingFormsCore(n, rOdd, tWKet, tWBra, cA);
+        int resDeg = fRes.Length - 1, targetDeg = aTgt.GetLength(0);
+        var (fLayers, _) = SquarefreeLayers(FromZi(fResLead));
+        var (gLayers, _) = SquarefreeLayers(FromZi(gLead));
+        int mR = 0;
+        foreach (var e in fLayers) foreach (var h in gLayers) mR += QcDeg(QcGcd(e, h));
+        int rBound = resDeg * targetDeg - mR;
+        long cand = (1L << 30) + 1; while (cand % 4 != 1) cand += 2;
+        while (!(IsPrime(cand) && SqrtMinusOneFast((int)cand) is not null)) cand += 4;
+        int p = (int)cand, root = SqrtMinusOneFast(p)!.Value;
+        var fResP = ReduceBivariate(fRes, p, root); var gP = ReduceBivariate(g, p, root);
+        int samples = rBound + 40;
+        var rSamp = new int[samples];
+        for (int q0 = 0; q0 < samples; q0++)
+            rSamp[q0] = ResultantModP(EvalBivariateModP(fResP, q0, p), EvalBivariateModP(gP, q0, p), p);
+        var rp = InterpolateAtIntegerNodes(rSamp, p);
+        return $"resDeg={resDeg} targetDeg={targetDeg} mR={mR} rBound={rBound} " +
+               $"lcR={(lcR.Equals(GaussianInteger.Zero) ? "ZERO" : "nonzero")} trueDegR={DegP(rp)} (p={p})";
+    }
+
     private static (GaussianInteger[][] FRes, GaussianInteger[][] G) BuildBivariate(
-        int n, GaussianInteger[,] aBlk, GaussianInteger[,] cBlk,
-        GaussianInteger[,] aCor, GaussianInteger[,] cCor, IReadOnlyList<AtSector> sectors)
+        GaussianInteger[,] aBlk, GaussianInteger[,] cBlk,
+        GaussianInteger[,] aTarget, GaussianInteger[,] cTarget, IReadOnlyList<AtSector> sectors,
+        GaussianInteger composeA, GaussianInteger composeB)
     {
         var fFull = PencilCharpolyBivariate(aBlk, cBlk);
         var at = BivariateAtFactor(sectors);
         var fRes = BivariateDivideExact(fFull, at);
-        var fCor = PencilCharpolyBivariate(aCor, cCor);
-        var g = BivariateComposeLinearLambda(fCor, new GaussianInteger(-1, 0), new GaussianInteger(-4L * n, 0));
+        var fTarget = PencilCharpolyBivariate(aTarget, cTarget);
+        var g = BivariateComposeLinearLambda(fTarget, composeA, composeB);   // fold (−Λ−4N) OR identity (Λ)
         return (fRes, g);
     }
 
@@ -246,7 +295,8 @@ public static class FoldResultantCertificate
         var (aBlk, cBlk) = BlockPencil(n, rOdd);
         var (aCor, cCor) = CornerPencil(n);
         var sectors = F89AtFactorReconstruction.ClearedAtSectors(n - 1, rOdd);
-        var (fRes, g) = BuildBivariate(n, aBlk, cBlk, aCor, cCor, sectors);
+        var (fRes, g) = BuildBivariate(aBlk, cBlk, aCor, cCor, sectors,
+            new GaussianInteger(-1, 0), new GaussianInteger(-4L * n, 0));
         return (EvalBivariateAtQ(fRes, q0), EvalBivariateAtQ(g, q0));
     }
 
@@ -258,7 +308,8 @@ public static class FoldResultantCertificate
         var (aBlk, cBlk) = BlockPencil(n, rOdd);
         var (aCor, cCor) = CornerPencil(n);
         var sectors = F89AtFactorReconstruction.ClearedAtSectors(n - 1, rOdd);
-        var (fRes, g) = BuildBivariate(n, aBlk, cBlk, aCor, cCor, sectors);
+        var (fRes, g) = BuildBivariate(aBlk, cBlk, aCor, cCor, sectors,
+            new GaussianInteger(-1, 0), new GaussianInteger(-4L * n, 0));
         int r = SqrtMinusOneFast(p) ?? throw new ArgumentException("prime does not split", nameof(p));
 
         var fL = EvalBivariateModP(ReduceBivariate(fRes, p, r), q0, p);
@@ -281,6 +332,17 @@ public static class FoldResultantCertificate
     public static (GaussianInteger[] Residual, GaussianInteger[] FoldedCorner,
         GaussianInteger ResultantValue, GaussianInteger DiscriminantValue)
         ExactSample(int n, bool rOdd, int q0)
+        => ExactSampleCore(n, rOdd, q0, (n + 1) / 2 + 1, (n + 1) / 2 + 1,
+                           new GaussianInteger(-1, 0), new GaussianInteger(-4L * n, 0));
+
+    /// <summary>The fully exact per-point Z[i] pipeline at ONE integer q0, generalised over the target block
+    /// (tWKet, tWBra) and the Λ-composition (composeA·Λ + composeB): F_res(Λ, q0) = block charpoly / AT factor,
+    /// G(Λ) = F2_target(composeA·Λ + composeB), and Res_Λ(F_res, G), disc_Λ(F_res). The corner-fold path is
+    /// (w, w, −1, −4N); the interior-(1,1) identity path is (1, 1, +1, 0).</summary>
+    private static (GaussianInteger[] Residual, GaussianInteger[] Composed,
+        GaussianInteger ResultantValue, GaussianInteger DiscriminantValue)
+        ExactSampleCore(int n, bool rOdd, int q0, int tWKet, int tWBra,
+            GaussianInteger composeA, GaussianInteger composeB)
     {
         var blk = rOdd
             ? F89PathKSeDeBlock.BuildTwoTimesROddBlock(q0, n)
@@ -291,15 +353,14 @@ public static class FoldResultantCertificate
         if (rem.Length != 0)
             throw new InvalidOperationException($"AT factor does not divide the block charpoly at q0={q0}.");
 
-        var (aCor, cCor) = CornerPencil(n);
-        int dim = aCor.GetLength(0);
-        var cor = new GaussianInteger[dim, dim];
+        var (aTgt, cTgt) = TargetPencil(n, tWKet, tWBra);
+        int dim = aTgt.GetLength(0);
+        var tgt = new GaussianInteger[dim, dim];
         for (int i = 0; i < dim; i++)
             for (int j = 0; j < dim; j++)
-                cor[i, j] = aCor[i, j] + new GaussianInteger(q0, 0) * cCor[i, j];
-        var f2cor = GaussianMatrixCharpoly.Characteristic(cor);
-        var g = GaussianPolynomial.ComposeLinear(
-            f2cor, new GaussianInteger(-1, 0), new GaussianInteger(-4L * n, 0));
+                tgt[i, j] = aTgt[i, j] + new GaussianInteger(q0, 0) * cTgt[i, j];
+        var f2tgt = GaussianMatrixCharpoly.Characteristic(tgt);
+        var g = GaussianPolynomial.ComposeLinear(f2tgt, composeA, composeB);
 
         return (res, g, GaussianPolynomial.Resultant(res, g), GaussianPolynomial.Discriminant(res));
     }
@@ -338,6 +399,13 @@ public static class FoldResultantCertificate
     public static (GaussianInteger[] ResidualLeadingForm, GaussianInteger[] FoldedCornerLeadingForm,
         GaussianInteger ResultantLeadingCoeff, GaussianInteger DiscriminantLeadingCoeff)
         LeadingForms(int n, bool rOdd)
+        => LeadingFormsCore(n, rOdd, (n + 1) / 2 + 1, (n + 1) / 2 + 1, new GaussianInteger(-1, 0));
+
+    /// <summary>Leading forms generalised over the target block and the composeA sign (composeB drops in the
+    /// q→∞ leading form): g(x) = charpoly(C_target)(composeA·x). Corner-fold composeA=−1; interior identity +1.</summary>
+    private static (GaussianInteger[] ResidualLeadingForm, GaussianInteger[] ComposedLeadingForm,
+        GaussianInteger ResultantLeadingCoeff, GaussianInteger DiscriminantLeadingCoeff)
+        LeadingFormsCore(int n, bool rOdd, int tWKet, int tWBra, GaussianInteger composeA)
     {
         var (_, cBlk) = BlockPencil(n, rOdd);
         var fFull = GaussianMatrixCharpoly.Characteristic(cBlk);
@@ -360,9 +428,9 @@ public static class FoldResultantCertificate
         if (rem.Length != 0)
             throw new InvalidOperationException("the AT leading form does not divide charpoly(C_block).");
 
-        var (_, cCor) = CornerPencil(n);
-        var fCor = GaussianMatrixCharpoly.Characteristic(cCor);
-        var g = GaussianPolynomial.ComposeLinear(fCor, new GaussianInteger(-1, 0), GaussianInteger.Zero);
+        var (_, cTgt) = TargetPencil(n, tWKet, tWBra);
+        var fTgt = GaussianMatrixCharpoly.Characteristic(cTgt);
+        var g = GaussianPolynomial.ComposeLinear(fTgt, composeA, GaussianInteger.Zero);
 
         return (fRes, g,
             GaussianPolynomial.Resultant(fRes, g),
@@ -390,14 +458,19 @@ public static class FoldResultantCertificate
         return (b0, c);
     }
 
-    /// <summary>The ×2-cleared corner block (p_c+1, p_c+1) as an exact integer pencil (A, C): twice the
-    /// <see cref="WeightCoherenceBlock"/> at q = 0 and the q-slope, entries checked to be exact Gaussian
-    /// integers (they are: diagonal −4·n_diff, hops ±4i).</summary>
+    /// <summary>The ×2-cleared corner block (p_c+1, p_c+1) as an exact integer pencil (A, C).</summary>
     private static (GaussianInteger[,] A, GaussianInteger[,] C) CornerPencil(int n)
+        => TargetPencil(n, (n + 1) / 2 + 1, (n + 1) / 2 + 1);
+
+    /// <summary>The ×2-cleared (wKet, wBra) TARGET block as an exact integer pencil (A, C): twice the
+    /// <see cref="WeightCoherenceBlock"/> at q = 0 and the q-slope, entries checked to be exact Gaussian
+    /// integers (they are: diagonal −4·n_diff, hops ±4i). Serves the corner (p_c+1, p_c+1) for remainder R1's
+    /// fold certificate AND the interior cores (e.g. (1,1)) for remainder R4's identity-composition exclusion
+    /// certificate (the braid eigenvalue λ_A, an F_res root, is not carried by the non-member block).</summary>
+    private static (GaussianInteger[,] A, GaussianInteger[,] C) TargetPencil(int n, int wKet, int wBra)
     {
-        int w = (n + 1) / 2 + 1;
-        var l0 = WeightCoherenceBlock.Build(n, w, w, Complex.Zero);
-        var l1 = WeightCoherenceBlock.Build(n, w, w, Complex.One);
+        var l0 = WeightCoherenceBlock.Build(n, wKet, wBra, Complex.Zero);
+        var l1 = WeightCoherenceBlock.Build(n, wKet, wBra, Complex.One);
         int dim = l0.GetLength(0);
         var a = new GaussianInteger[dim, dim];
         var c = new GaussianInteger[dim, dim];
