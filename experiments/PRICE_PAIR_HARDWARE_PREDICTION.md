@@ -1,6 +1,6 @@
 # The Price Pair: the F89d fold as a hardware invariant (pre-registered prediction)
 
-**Status:** PREDICTION, written and committed BEFORE any hardware shot (the pre-registration discipline; the fresh-context review round is recorded below before submission). No hardware data exists for this protocol yet (pipeline inventory 2026-07-03: the pattern-pair coherence-decay measurement is absent from all 96 result files).
+**Status:** PREDICTION, written and committed BEFORE any hardware shot (the pre-registration discipline; the fresh-context review round is recorded below before submission). No hardware data exists for this protocol yet (pipeline inventory 2026-07-03: the pattern-pair coherence-decay measurement is absent from all 96 result files). See [`FOLD_SHADOW_IN_EXISTING_HARDWARE.md`](FOLD_SHADOW_IN_EXISTING_HARDWARE.md) for the detailed existing-data check that confirms this: the fold peeks through only as a degraded shadow (the orphan `block_cpsi_ladder` run, fold ratio 1.36 vs the ideal 3.0; and `zn_mirror`'s mirror-odd ⟨I,X⟩), which is why this clean run is genuinely needed.
 
 **Date:** 2026-07-03
 
