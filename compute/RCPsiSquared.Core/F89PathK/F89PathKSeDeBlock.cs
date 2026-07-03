@@ -114,6 +114,46 @@ public static class F89PathKSeDeBlock
         return twoM;
     }
 
+    /// <summary>The reflection-orbit sizes (1 or 2) of the S₂-sym basis, in the SAME orbit ordering as
+    /// <see cref="BuildTwoTimesSymBlock"/> (the basis + orbit construction is replicated verbatim, the
+    /// file's convention). The Hilbert-Schmidt metric on the orbit-sum basis is the diagonal of these
+    /// sizes; the fold-resultant certificate uses them to verify EXACTLY that the sym block's hopping
+    /// direction is diagonal-similar to a real symmetric matrix (K[r,c]·d_r = K[c,r]·d_c), the premise
+    /// of its O(1) eigenvalue-branch bound at q → ∞ (Bauer-Fike on a diagonalizable direction).</summary>
+    public static int[] SymOrbitSizes(int nBlock)
+    {
+        var dePairs = new List<(int J, int K)>();
+        for (int a = 0; a < nBlock; a++)
+            for (int b = a + 1; b < nBlock; b++)
+                dePairs.Add((a, b));
+        var pairIndex = new Dictionary<(int, int), int>();
+        for (int pj = 0; pj < dePairs.Count; pj++) pairIndex[dePairs[pj]] = pj;
+
+        var basis = new List<(int I, int Pair)>();
+        for (int i = 0; i < nBlock; i++)
+            for (int pj = 0; pj < dePairs.Count; pj++)
+                basis.Add((i, pj));
+        int nb = basis.Count;
+        var idxOf = new Dictionary<(int, int), int>();
+        for (int t = 0; t < nb; t++) idxOf[basis[t]] = t;
+
+        var sizes = new List<int>();
+        var handled = new bool[nb];
+        for (int t = 0; t < nb; t++)
+        {
+            if (handled[t]) continue;
+            var (i, pj) = basis[t];
+            var (j, k) = dePairs[pj];
+            int mj = nBlock - 1 - j, mk = nBlock - 1 - k;
+            var mp = mj < mk ? (mj, mk) : (mk, mj);
+            int t2 = idxOf[(nBlock - 1 - i, pairIndex[mp])];
+            handled[t] = true;
+            if (t2 != t) { handled[t2] = true; sizes.Add(2); }
+            else sizes.Add(1);
+        }
+        return sizes.ToArray();
+    }
+
     // zz(c) = Σ_{bond (b,b+1)} ⟨c|Z_bZ_{b+1}|c⟩ = Σ_b (+1 if bits b,b+1 equal, −1 if differ).
     private static int Zz(int n, int c)
     {
@@ -253,6 +293,81 @@ public static class F89PathKSeDeBlock
             perm[t] = idxOf[(mi, pairIndex[mp])];
         }
         return perm;
+    }
+
+    /// <summary>The ×2-cleared Gaussian-integer R-ODD (SE,DE) block at integer q0 (γ = 1): the full block
+    /// (<see cref="BuildFullBlock"/>, here rebuilt exactly over Z[i]) compressed onto the UN-normalized
+    /// reflection 2-cycle basis B with one column e_t − e_perm[t] per 2-cycle {t &lt; perm[t]} of
+    /// <see cref="ReflectionPermutation"/>, in increasing t (the integer form of <see cref="ROddBasis"/>;
+    /// B = √2·U, BᵀB = 2I). Returns BᵀLB = 2·(UᵀLU): eigenvalues are 2·λ (the R-odd twin of
+    /// <see cref="BuildTwoTimesSymBlock"/>'s ×2-clearing; the orthonormal sector operator ½BᵀLB has
+    /// half-integer entries, not representable mod p). Unlike the orbit-SUM sym basis there is NO metric
+    /// skew: B's columns are mutually HS-orthogonal with the uniform norm √2, so this block is a true
+    /// similarity image of the R-odd sector (coordinates = <see cref="ROddBasis"/> columns). Built for the
+    /// fold-resultant certificate's exact mod-p pipeline (sectorbraid arc, remainder R1).</summary>
+    public static GaussianInteger[,] BuildTwoTimesROddBlock(int q0, int nBlock)
+    {
+        // Raw (SE,DE) L over Z[i]: the same basis construction as BuildFullBlock, replicated verbatim
+        // (the file's convention: index t here is index t there).
+        var dePairs = new List<(int J, int K)>();
+        for (int a = 0; a < nBlock; a++)
+            for (int b = a + 1; b < nBlock; b++)
+                dePairs.Add((a, b));
+        var pairIndex = new Dictionary<(int, int), int>();
+        for (int pj = 0; pj < dePairs.Count; pj++) pairIndex[dePairs[pj]] = pj;
+
+        var basis = new List<(int I, int Pair)>();
+        for (int i = 0; i < nBlock; i++)
+            for (int pj = 0; pj < dePairs.Count; pj++)
+                basis.Add((i, pj));
+        int nb = basis.Count;
+        var idxOf = new Dictionary<(int, int), int>();
+        for (int t = 0; t < nb; t++) idxOf[basis[t]] = t;
+
+        GaussianInteger hop = new(0, 2 * q0);          // +i·2q (DE/bra hop)
+        GaussianInteger negHop = new(0, -2 * q0);      // −i·2q (SE/ket hop)
+
+        var L = new GaussianInteger[nb, nb];
+        for (int col = 0; col < nb; col++)
+        {
+            var (i, pj) = basis[col];
+            var (j, k) = dePairs[pj];
+
+            foreach (int i2 in new[] { i - 1, i + 1 })          // SE hop (ket): −i·2q
+                if (i2 >= 0 && i2 < nBlock)
+                    L[idxOf[(i2, pj)], col] += negHop;
+
+            foreach (int nj in new[] { j - 1, j + 1 })          // DE hop on j (bra): +i·2q
+                if (nj >= 0 && nj < nBlock && nj != k)
+                {
+                    var np = nj < k ? (nj, k) : (k, nj);
+                    L[idxOf[(i, pairIndex[np])], col] += hop;
+                }
+            foreach (int nk in new[] { k - 1, k + 1 })          // DE hop on k (bra): +i·2q
+                if (nk >= 0 && nk < nBlock && nk != j)
+                {
+                    var np = j < nk ? (j, nk) : (nk, j);
+                    L[idxOf[(i, pairIndex[np])], col] += hop;
+                }
+
+            L[col, col] += (i == j || i == k)                   // γ = 1 diagonal: −2 (overlap) / −6
+                ? new GaussianInteger(-2, 0)
+                : new GaussianInteger(-6, 0);
+        }
+
+        // BᵀLB on the 2-cycle columns b_r = e_{t_r} − e_{u_r} (t_r < u_r = perm[t_r], increasing t_r).
+        var perm = ReflectionPermutation(nBlock);
+        var cycles = new List<(int T, int U)>();
+        for (int t = 0; t < nb; t++)
+            if (perm[t] > t) cycles.Add((t, perm[t]));
+
+        int dim = cycles.Count;
+        var m = new GaussianInteger[dim, dim];
+        for (int r = 0; r < dim; r++)
+            for (int c = 0; c < dim; c++)
+                m[r, c] = L[cycles[r].T, cycles[c].T] - L[cycles[r].T, cycles[c].U]
+                        - L[cycles[r].U, cycles[c].T] + L[cycles[r].U, cycles[c].U];
+        return m;
     }
 
     /// <summary>The orthonormal basis of the R-ODD eigenspace of <see cref="ReflectionPermutation"/>, as a

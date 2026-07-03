@@ -136,6 +136,70 @@ public static class F89AtFactorReconstruction
         return basis;
     }
 
+    /// <summary>The exact per-sector data of the AT factor of the ×2-cleared (SE,DE) sector block, in the
+    /// block's OWN pencil units 2M(q) = A + q·C with C = i·K: for each cleared rate sector r0 ∈ {−4, −12}
+    /// (the diagonal of A), the INTEGER characteristic polynomial of K|W on the largest K-invariant subspace
+    /// W inside the sector. Because W is q-independent (K-invariance is q-scale-invariant) and
+    /// 2M(q)|W = r0·I + i·q·(K|W), the AT strands are exactly q-linear and the bivariate AT factor is
+    /// ∏_sectors Σ_m p_m·i^{d−m}·(Λ−r0)^m·q^{d−m} ∈ Z[i][Λ, q]. Integrality of p = charpoly(K|W) is
+    /// guaranteed by Gauss's lemma (the AT factor is a monic-in-Λ factor of the block's monic integer
+    /// charpoly over the integrally closed Z[i][q]); a guard throws if it fails numerically. rOdd selects
+    /// the reflection-antisymmetric block (<see cref="F89PathKSeDeBlock.BuildTwoTimesROddBlock"/>) instead
+    /// of the S₂-symmetric one (<see cref="F89PathKSeDeBlock.BuildTwoTimesSymBlock"/>); at q0=2 the sector
+    /// product reproduces <see cref="ForPathK"/> exactly (pinned by the FOLDRESULTANT gate). Consumed
+    /// per-sample mod p by the fold-resultant certificate (sectorbraid arc, remainder R1).</summary>
+    public static IReadOnlyList<AtSector> ClearedAtSectors(int k, bool rOdd)
+    {
+        int nBlock = k + 1;
+        var b0 = rOdd
+            ? F89PathKSeDeBlock.BuildTwoTimesROddBlock(0, nBlock)
+            : F89PathKSeDeBlock.BuildTwoTimesSymBlock(0, nBlock);
+        var b1 = rOdd
+            ? F89PathKSeDeBlock.BuildTwoTimesROddBlock(1, nBlock)
+            : F89PathKSeDeBlock.BuildTwoTimesSymBlock(1, nBlock);
+        int n = b0.GetLength(0);
+
+        var rate = new BigInteger[n];
+        var ksym = new BigRational[n, n];                       // K = −i·C = Im(C), real
+        for (int i = 0; i < n; i++)
+        {
+            if (!b0[i, i].Im.IsZero)
+                throw new InvalidOperationException("the cleared block's q=0 diagonal must be real.");
+            rate[i] = b0[i, i].Re;
+            for (int j = 0; j < n; j++)
+            {
+                if (i != j && !b0[i, j].Equals(GaussianInteger.Zero))
+                    throw new InvalidOperationException("the cleared block at q=0 must be diagonal.");
+                var c = b1[i, j] - b0[i, j];                    // C = blk(1) − blk(0), pure imaginary
+                if (!c.Re.IsZero)
+                    throw new InvalidOperationException("the hopping direction C must be pure imaginary.");
+                ksym[i, j] = new BigRational(c.Im);
+            }
+        }
+
+        var sectors = new List<AtSector>();
+        foreach (var r0 in new BigInteger[] { -4, -12 })        // the ×2-cleared sector rates
+        {
+            var w = SectorBasis(rate, r0, n);
+            if (w.GetLength(1) == 0) continue;
+            w = LargestInvariantSubspace(ksym, w);
+            int dim = w.GetLength(1);
+            if (dim == 0) continue;
+
+            var p = BigRationalMatrixCharpoly.Characteristic(Restrict(ksym, w));
+            var coeffs = new BigInteger[p.Length];
+            for (int m = 0; m < p.Length; m++)
+            {
+                if (!p[m].IsInteger)
+                    throw new InvalidOperationException(
+                        $"charpoly(K|W) coefficient {m} of sector r0={r0} is not an integer (Gauss's lemma violated?).");
+                coeffs[m] = p[m].Numerator;
+            }
+            sectors.Add(new AtSector(r0, coeffs));
+        }
+        return sectors;
+    }
+
     /// <summary>The FULL (SE,DE) block at q0=2 projected onto the R-odd 2-cycle basis (columns e_t − e_perm[t],
     /// increasing t, the un-normalized integer form of <see cref="F89PathKSeDeBlock.ROddBasis"/>): the rate
     /// diagonal (each 2-cycle carries one rate ∈ {−2,−6}, R commutes with the dephasing) and the projected
@@ -284,3 +348,10 @@ public static class F89AtFactorReconstruction
         return r;
     }
 }
+
+/// <summary>One rate sector of the ×2-cleared (SE,DE) block's AT factor: the cleared rate r0 (∈ {−4, −12})
+/// and the monic INTEGER characteristic polynomial (lowest-first) of K|W on the sector's largest K-invariant
+/// subspace W. The sector's exact bivariate AT contribution is Σ_m KCharpoly[m]·i^{d−m}·(Λ−r0)^m·q^{d−m}
+/// (d = degree); its strands are the q-linear Λ = r0 + i·q·κ_j, κ_j the eigenvalues of K|W. Produced by
+/// <see cref="F89AtFactorReconstruction.ClearedAtSectors"/>, consumed by the fold-resultant certificate.</summary>
+public sealed record AtSector(BigInteger Rate, BigInteger[] KCharpoly);

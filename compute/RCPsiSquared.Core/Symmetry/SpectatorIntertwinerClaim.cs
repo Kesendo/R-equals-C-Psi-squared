@@ -123,10 +123,13 @@ public sealed class SpectatorIntertwinerClaim : Claim
                          "((L_corner−λ)^m invertible). Verified at both N=5 real loci and N=7 (gate items 7+8; locus 2 " +
                          "was an out-of-sample prediction, ‖Wx₁‖ = 9.6e-16). The N-uniform strictness Re λ_A > −6 " +
                          "is now DERIVED at real loci by the window-edge lemma (next node). The complex-q loci are " +
-                         "now split by the moved rate window (§6, gate ComplexQRateWindowTests): the near-axis loci CLOSED " +
-                         "by the same Bendixson bound at the moved Hermitian part H(q)=A+Im(q)K, only the deep loci " +
-                         "(Re λ_A<−6) reduced to the holomorphic resultant Res_λ(F_18, F_corner(−λ−2N)) at F_18's branch loci " +
-                         "(F_18 = the (1,2) residual at N=5, a one-way certificate).");
+                         "split by the moved rate window (§6, gate ComplexQRateWindowTests): the near-axis loci CLOSED " +
+                         "by the same Bendixson bound at the moved Hermitian part H(q)=A+Im(q)K, and the remaining " +
+                         "window-escaping loci (both parities) CLOSED 2026-07-03 by the fold-resultant certificate " +
+                         "(gate FoldResultantCertificateTests, Category FOLDRESULTANT): gcd(Res_Λ(F_res, F2_corner(−Λ−4N)), " +
+                         "disc_Λ(F_res)) over Q(i)[q] is exactly a q-power, so at EVERY branch locus q≠0, defective or " +
+                         "diabolic, either parity, the fold μ=−λ_A−2N is not a corner eigenvalue (q=0 is the diagonal, " +
+                         "semisimple block); a complete multi-prime proof (Mignotte-bounded, 256+242 split primes).");
             yield return new InspectableNode("the window-edge lemma: the strict floor is structural, N-uniform (§6)",
                 summary: "the corner exclusion's one measured input, Re λ_A > −6, is itself a theorem. The (1,2) block " +
                          "has n_diff ∈ {1,3} for all N ≥ 3 (a 1-site bra, a 2-site ket: Hamming 3−2|a∩b|), so " +
@@ -151,7 +154,8 @@ public sealed class SpectatorIntertwinerClaim : Claim
                          "dim is dim(p,q̃)−dim(p+1,q̃+1) for m≥0 (75 at (3,3)). The band chains cap at the normal edge; the " +
                          "interior core reduces to a single spectral absence, supplied at real loci by the rate window " +
                          "(kernel-death node above); at complex q the window MOVES (H(q)=A+Im(q)K) and closes the " +
-                         "near-axis loci, only the deep loci stay open (holomorphic resultant, §6, gate ComplexQRateWindowTests).");
+                         "near-axis loci, and the fold-resultant certificate (2026-07-03, gate FoldResultantCertificateTests) " +
+                         "supplies the absence at EVERY remaining branch locus q≠0 of both parities, closing R1 at N=5.");
             yield return new InspectableNode("the containment orbit corollary (what this claim feeds)",
                 summary: "one climbing W-step + transpose + Klein full flip + F89d cross-fold reproduce the census braid " +
                          "sets exactly: N=4 the 4-orbit, N=5 the 12-set with cores (2,2),(3,3), N=6 the 12-set without " +

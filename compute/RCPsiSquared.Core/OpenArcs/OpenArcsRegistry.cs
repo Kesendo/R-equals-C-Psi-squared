@@ -602,20 +602,32 @@ public static class OpenArcsRegistry
                 "GaloisMonodromyWitness.TraceToDiabolic, and gmscan --trace [--tq q] [--tsteps n] (gate-first: " +
                 "prints PASS / CONFIRMED). " +
                 "Here is where we continue hand-over-hand.",
-            NextStep: "RESUMING IN ONE LINE (2026-07-02, post R-odd probe): both premises are DONE (defined at PREMISE " +
-                "1/2 below; premise 1 exact-OBSERVED to 1e-13 at INTEGER q, to 3-6e-5 at the complex loci themselves, " +
-                "its derivation still pending); build the ONE-WAY " +
-                "fold-resultant certificate (the all-mod-p route, spelled out at THE RESULTANT below), gate-first (a new " +
-                "test class, suggested Category FOLDRESULTANT), for the TWO window-escaping target sets: (i) F_18 " +
-                "(the R-even (1,2) residual, deg 18) at q*=1.8141+-0.3666i, (ii) the deg-17 R-odd residual factor at " +
-                "q*=1.7701+-1.2189i. Everything needed exists except GaussianPolynomial.Add/Negate (only for the " +
-                "optional Berkowitz cross-check). ONE TRAP for target (ii): the R-odd orthonormal basis has 1/sqrt(2) " +
-                "entries, NOT mod-p representable; use the UN-normalized 2-cycle basis B (columns e_t - e_perm[t], " +
-                "integer; BtB = 2I; called B here so it never collides with the intertwiner W below), where the sector " +
-                "operator is (1/2)BtLB with half-integer entries, so either " +
-                "multiply by the inverse of 2 mod p (p odd) or work with the x2-cleared sector block 2M (integer, " +
-                "eigenvalues 2*lambda; the fold lambda->-lambda-2N becomes 2lambda->-2lambda-4N, ComposeLinear handles " +
-                "it) - the same x2-clearing BuildTwoTimesSymBlock already does for R-even. === CONTEXT LAYERS BELOW === " +
+            NextStep: "RESUMING IN ONE LINE (2026-07-03, post fold-resultant): THE RESULTANT IS DONE, and stronger than " +
+                "planned: FoldResultantCertificate.CertifyComplete (Core/F89PathK) + gate FoldResultantCertificateTests " +
+                "(Category FOLDRESULTANT, 7 facts, ~30 s) prove gcd(Res_L(F_res, F2corner(-L-4N)), disc_L(F_res)) over " +
+                "Q(i)[q] = a pure q-power, BOTH parities, so at EVERY branch locus q!=0 (defective or diabolic, closed " +
+                "or unfound) the fold mu=-lambda_A-2N is NOT a corner eigenvalue; q=0 is the diagonal semisimple block. " +
+                "The two target pairs (F_18 deep 1.8141+-0.3666i, R-odd escaper 1.7701+-1.2189i) fall a fortiori, " +
+                "against the FULL corner (deg 25). Method: exact bivariate F_res over Z[i][q] (Berkowitz on the pencil, " +
+                "the exactly-q-linear AT strands divided out), multi-prime all-mod-p with PROVEN degree bounds " +
+                "(no-Puiseux via both hopping directions anti-self-adjoint in a positive metric, asserted per run; " +
+                "leading-form multiplicity collisions m_R/m_D by exact Q(i) gcd chains; deg R = 422/394 attained per " +
+                "used prime => p does not divide lc_q(R)), Mignotte/Hadamard height bound + Gauss lift (256/242 split " +
+                "primes ~2^30, ~3 s per parity). Adversarial review 2026-07-03: no break; 2 gaps closed (normality " +
+                "premise needs the purely-imaginary check; dead degree guard). Disc layer profile [56,32]/[56,26] = " +
+                "the N=5 image of the N=4 disc q^24*(3q^4+q^2-1)^2*P_20. LESSON (cost a day): InvModP computed " +
+                "(a%p+p) in INT arithmetic, overflowing for p~2^30 on the top ~2600 residues; symptom = rare " +
+                "prime-dependent corrupt samples, then an infinite Euclid loop (hours of grind); found by stack-dump + " +
+                "Lagrange-ratio corrupt-node localization + Python replay. R1 IS NOW CLOSED AT N=5 (real: rate window; " +
+                "near-axis: moved window; everything else: the resultant), MODULO the one analytic entry point: the " +
+                "holomorphic fold identity mu=-lambda_A-2N on the core (observed 1e-13, NOT derived). NEXT: (a) derive " +
+                "the fold identity from first principles (R3-family; it must track the residual sub-structure, the " +
+                "naive two-conj chain is refuted; likely cracks R3's gap byte-identity too, same family), OR (b) the " +
+                "N=7 certificate run (engine takes odd n; corner (5,5) dim 441 makes the bivariate layer and bounds " +
+                "much heavier, feasibility unchecked), OR (c) remainder R4's broad exclusion (non-corner blocks at " +
+                "complex q, census-only). Promotion blockers for SpectatorIntertwinerClaim remain R3+R4. " +
+                "=== CONTEXT LAYERS BELOW (the dated journal; the fold-resultant plan text below is HISTORICAL, " +
+                "executed 2026-07-03) === " +
                 "This arc has TWO eras; read this header for the live front, " +
                 "the dated layers below are the journal. ERA 1 (2026-06, from 'Hand-over-hand' onward) = the original " +
                 "'connection between the F89 zeros / the ± road' exploration; its directions (trace DONE; the " +
@@ -623,8 +635,8 @@ public static class OpenArcsRegistry
                 "a theorem. ERA 2 (2026-07-02) = the codim-1-by-additivity PROGRAM, the live front. STATE of Era 2: the " +
                 "theorem is LANDED (SpectatorIntertwinerClaim / registry F125 / docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md; " +
                 "the W=Σc_l†ρc_l intertwiner + containment corollary + two-regime Theorem A). The proof's four remainders: " +
-                "(R1) interior-core kernel death, CLOSED at real loci (rate-window lemma), and its N-uniform strictness " +
-                "Re λ_A>−6 CLOSED (window-edge lemma, f5d4709), and its COMPLEX-q loci PARTIALLY CLOSED (moved-rate-window lemma, gate ComplexQRateWindowTests: Bendixson at complex q reads the moved Hermitian part H(q)=A+Im(q)K, closing the near-axis loci Re λ_A>−6, only the deep loci left to the resultant); (R2) Theorem A's D-half, CLOSED at N=5 (twin-scalar check, " +
+                "(R1) interior-core kernel death, CLOSED AT N=5 2026-07-03: real loci (rate-window lemma), N-uniform strictness " +
+                "Re λ_A>−6 (window-edge lemma, f5d4709), near-axis complex loci (moved-rate-window lemma, gate ComplexQRateWindowTests), and ALL remaining branch loci q≠0 of both parities (the fold-resultant certificate, see the header); the one analytic entry point still underived is the holomorphic fold identity (observed 1e-13); (R2) Theorem A's D-half, CLOSED at N=5 (twin-scalar check, " +
                 "gate TwinScalarDHalfTests: the D-half is SUPPLIED at every genuinely-complex-q diabolic, the " +
                 "pure-imaginary-q ones semisimple by Hermiticity); (R3) gap byte-identity, observed at N=5 AND N=7, NOT " +
                 "implied by the intertwiner, OFF the critical path (nice-to-derive, not blocking); (R4) exclusion half, " +
