@@ -11,8 +11,8 @@ ThreeDephasingDiagonalsOrbitClaim, inspect root diagonal, R=CPsi2 -->
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Builds on:**
 - [PROOF_ABSORPTION_THEOREM.md](proofs/PROOF_ABSORPTION_THEOREM.md) §4.7: the Z diagonal Q_Z and L_D = γ·(Q_Z − N·I).
-- [reflections/ON_THE_ONE_DIAGONAL.md](../reflections/ON_THE_ONE_DIAGONAL.md): one diagonal, read three ways (rate / mirror / judge) — the D₄ side.
-- [reflections/D_PI_Z_EQUALS_PI_Y.md](../reflections/D_PI_Z_EQUALS_PI_Y.md): D·Π_Z·D = Π_Y — the three-fold at the palindromizer level.
+- [reflections/ON_THE_ONE_DIAGONAL.md](../reflections/ON_THE_ONE_DIAGONAL.md): one diagonal, read three ways (rate / mirror / judge), the D₄ side.
+- [reflections/D_PI_Z_EQUALS_PI_Y.md](../reflections/D_PI_Z_EQUALS_PI_Y.md): D·Π_Z·D = Π_Y, the three-fold at the palindromizer level.
 - [PROOF_PI_FACTORS_AS_R_TIMES_D.md](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md) §5: the S₃ ⋉ D₄ completion, named open.
 
 ---
@@ -41,7 +41,7 @@ Dephasing in light P (for P = Z: the environment repeatedly asking each qubit "a
 
 For Z this is the canonical §4.7 object (of the Absorption Theorem), Q_Z = Σ_l Z_l ⊗ Z_l, diagonal with
 
-  Q_Z(x) = N − 2·popcount(i ⊕ j) = N − 2k,   L_D = γ·(Q_Z − N·I),   Re λ = −2γk,
+  Q_Z(|i⟩⟨j|) = N − 2·popcount(i ⊕ j) = N − 2k,   L_D = γ·(Q_Z − N·I),   Re λ = −2γk,
 
 the disagreement-count rung ladder. Here k = popcount(i ⊕ j) is the **disagreement count**: for a coherence |i⟩⟨j| (row i, column j of the density matrix), it is the number of qubit positions where the bit-strings i and j differ. X, Y, Z are the standard single-qubit Pauli matrices. The X diagonal is built the same way (Xᵀ = X); the Y diagonal is the meeting point of the transpose, because alone among the three Y is antisymmetric, **Yᵀ = −Y**, so
 
@@ -93,6 +93,6 @@ The D₄ core ⟨R, D⟩ is typed (`MirrorGroupD4Claim`); the full mirror group 
 
 ## Where it lives
 
-- **Typed:** `ThreeDephasingDiagonalsOrbitClaim` (`compute/RCPsiSquared.Core/Symmetry/`, Tier 1 derived, dual parents `MirrorGroupD4Claim` + `AbsorptionTheoremClaim` — the physics edge that welds the mirror-group and absorption clusters).
+- **Typed:** `ThreeDephasingDiagonalsOrbitClaim` (`compute/RCPsiSquared.Core/Symmetry/`, Tier 1 derived, dual parents `MirrorGroupD4Claim` + `AbsorptionTheoremClaim`, the physics edge that welds the mirror-group and absorption clusters).
 - **Live:** the project's C# layer recomputes Q_X, Q_Y, Q_Z and the orbit on demand (`DiagonalWitness`, the "orbit" node; for codebase users, the CLI command `inspect --root diagonal`).
 - **Verifier:** `simulations/one_diagonal_mirror_group.py` (self-validating: the Y-transpose gate, the basis-S₃ orbit, the semidirect structure).

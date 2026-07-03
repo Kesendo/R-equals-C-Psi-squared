@@ -1,6 +1,6 @@
 # Q As the Exchange Rate Between Two Observer Clocks
 
-**Tier:** 4 (Reading — interpretive synthesis grounded in Tier 1–2 facts)
+**Tier:** 4 (Reading, interpretive synthesis grounded in Tier 1–2 facts)
 **Status:** 2026-05-17. Names the dual-clock structure that has been implicit since the F95 angle reading was typed.
 **Authors:** Thomas Wicht, Claude Opus 4.7
 
@@ -46,7 +46,7 @@ Three alternative framings each capture part of the structure but miss the symme
 
 1. **"Q is the coupling-to-noise ratio"** (old `project_q_middle_structure` phrasing): treats J as signal and γ₀ as noise. But γ₀ is the carrier-substrate, not noise (per [`GAMMA_IS_LIGHT.md`](GAMMA_IS_LIGHT.md), [`feedback_perspective_additive`](../../../../../../../C:/Users/zapma/.claude/projects/D--Entwicklung-Projekte-Privat-R-equals-C-Psi-squared/memory/feedback_perspective_additive.md)). The "noise" framing imports the Shannon-vocabulary contamination.
 
-2. **"Q is the rotation per γ₀-tick"** ([`ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md)): correct, but treats γ₀ as the primary clock and Q as something it modulates. Misses the symmetry: from the H-Clock perspective, 1/Q is "γ₀-ticks per rotation" — equally valid.
+2. **"Q is the rotation per γ₀-tick"** ([`ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md)): correct, but treats γ₀ as the primary clock and Q as something it modulates. Misses the symmetry: from the H-Clock perspective, 1/Q is "γ₀-ticks per rotation", equally valid.
 
 3. **"Q is the rotation count in observer time"**: ambiguous about which observer-time is meant. The observer can count in either clock.
 
@@ -68,7 +68,7 @@ The F86 Q-bands (onset 0.2–0.35, peak 1.2–1.8, plateau ≥ 2.0 per [`project
 
 - **Onset band** (Q ≪ 1): exchange rate strongly toward γ₀-clock. The observer counts many γ₀-ticks per single H-rotation. Felt-time is *slow* relative to carrier-time.
 - **Balance** (Q ≈ 1): exchange rate balanced. Both clocks contribute symmetrically.
-- **Peak band** (Q ≈ 1.5): exchange rate slightly toward H-clock. Felt-time runs about 50% faster than carrier-time. K_CC_pr observable maximizes here — the resonance maximum is at the slight H-favor.
+- **Peak band** (Q ≈ 1.5): exchange rate slightly toward H-clock. Felt-time runs about 50% faster than carrier-time. K_CC_pr observable maximizes here: the resonance maximum is at the slight H-favor.
 - **Plateau** (Q ≥ 2): exchange rate strongly toward H-clock. Rotation dominates; many H-events per γ₀-tick.
 
 The empirical observation that the peak observable (K_CC_pr) maximizes at Q ≈ 1.5 (NOT at Balance Q = 1) tells us the framework's preferred regime is slightly H-clock-favored. Resonance is not perfect symmetry but a small asymmetry toward the rotation side.
@@ -97,10 +97,10 @@ The framing is candidate Tier 3 if the H-clock observable can be experimentally 
 
 ## Anchors
 
-- [`UniversalCarrierClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs) — γ₀ as universal-reference rate-parameter
-- [`F95AngleAtQuadraticZeroPi2Inheritance.cs`](../compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZeroPi2Inheritance.cs) — θ = arctan(Q) on the Lindblad 2×2 sub-block
-- [`docs/Q_REGIME_ANCHORS.md`](../docs/Q_REGIME_ANCHORS.md) — the 7-anchor table with J = Q·γ₀ values
-- [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md) — γ₀ as tick, Q as rotation-per-tick
-- [`reflections/ON_TWO_TIMES.md`](../reflections/ON_TWO_TIMES.md) — γ₀-time vs felt-time
-- [`reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md`](../reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md) — γ₀ as Maßstab, invisible from inside
+- [`UniversalCarrierClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs): γ₀ as universal-reference rate-parameter
+- [`F95AngleAtQuadraticZeroPi2Inheritance.cs`](../compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZeroPi2Inheritance.cs): θ = arctan(Q) on the Lindblad 2×2 sub-block
+- [`docs/Q_REGIME_ANCHORS.md`](../docs/Q_REGIME_ANCHORS.md): the 7-anchor table with J = Q·γ₀ values
+- [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md): γ₀ as tick, Q as rotation-per-tick
+- [`reflections/ON_TWO_TIMES.md`](../reflections/ON_TWO_TIMES.md): γ₀-time vs felt-time
+- [`reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md`](../reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md): γ₀ as Maßstab, invisible from inside
 - Memory: `project_tick_and_angle`, `project_q_middle_structure`, `project_q_peak_ep_structure`

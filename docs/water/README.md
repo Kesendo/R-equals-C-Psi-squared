@@ -24,6 +24,9 @@ In [`simulations/water/`](../../simulations/water/):
   (Frobenius static/memory partition + Π²-odd-fraction + per-proton Bloch
   reading) on Heisenberg + Z-dephasing chain. Counterpart to the IBM Torino
   single-qubit analysis in `simulations/memory_reading_ibm_torino.py`.
+- `proton_chain_dicke_anchor.py` (2026-05-17): F86b 3/8 Dicke-K-intermediate
+  anchor inheritance at t = 0 plus the (N+2)/[4·(N+1)] long-time α(∞) decay
+  (see Findings below). Bit-exact N = 4..16.
 - `proton_chain_ep_resonance.py` (2026-05-04 evening): F86 K_CC_pr per-bond
   Q-scan on the popcount-(2, 3) block (c = 3) at N = 5, plus the popcount-
   coherence-state state-level reading at the interior Q_peak. Confirms
@@ -67,7 +70,7 @@ states: the Dicke superposition `ψ = (|D_{N/2−1}⟩ + |D_{N/2}⟩) / √2` on
 
 Testing the inheritance to the proton water chain (Heisenberg + Z-dephasing,
 `simulations/water/proton_chain_dicke_anchor.py`) finds the closed-form bit-
-exactly at t = 0 — F86b inheritance to the chemistry-grounded substrate
+exactly at t = 0; F86b inheritance to the chemistry-grounded substrate
 confirmed, as expected from the four embedding conditions.
 
 The new finding is the *long-time* behaviour under L evolution:
@@ -79,10 +82,10 @@ The new finding is the *long-time* behaviour under L evolution:
 Bit-exact verified N = 4..16 via the script. Two ingredient closed forms enter the
 derivation:
 
-1. `‖P_{N/2−1}_odd‖² = C(N, N/2−1) / 2` — Π²-odd Frobenius² of the sub-mid sector
+1. `‖P_{N/2−1}_odd‖² = C(N, N/2−1) / 2`: Π²-odd Frobenius² of the sub-mid sector
    projector is **exactly half its rank**. Verified N = 4..16 via direct Krawtchouk
    enumeration over Pauli-string supports.
-2. `‖P_{N/2}_odd‖² = 0` — mid-popcount Krawtchouk parity vanishing (odd-k
+2. `‖P_{N/2}_odd‖² = 0`: mid-popcount Krawtchouk parity vanishing (odd-k
    `K_k(N/2; N) = 0`). Standard.
 
 Combined via the kernel projection `ρ_∞ = (1/2)/C(N, m)·P_m + (1/2)/C(N, m+1)·P_{m+1}`:
@@ -91,10 +94,10 @@ Combined via the kernel projection `ρ_∞ = (1/2)/C(N, m)·P_m + (1/2)/C(N, m+1
 α(∞) = C(N, N/2) / [2·C(N+1, N/2)] = (N+2) / (4(N+1))
 ```
 
-The asymptote at N → ∞ is exactly **1/4** — the `HalfAsStructuralFixedPoint²` =
+The asymptote at N → ∞ is exactly **1/4**: the `HalfAsStructuralFixedPoint²` =
 Mandelbrot cardioid maxval = Theorem 2 ceiling = CΨ fold boundary documented in
-`compute/RCPsiSquared.Core/Symmetry/QuarterAsBilinearMaxval.cs` and tied to
-`compute/RCPsiSquared.Core/Symmetry/HalfAsStructuralFixedPoint.cs`. The morning's
+`QuarterAsBilinearMaxvalClaim` and tied to `HalfAsStructuralFixedPointClaim`, both in
+`compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs`. The morning's
 *static* 3/8 anchor and the framework's *universal* 1/4 are connected by an
 explicit N-dependent decay curve traversed by KIntermediate states under Heisenberg-
 XY + Z-dephasing dynamics:
@@ -111,7 +114,7 @@ abstract framework hadn't asked: not "what is α_total at t = 0" (the F86b
 question, closed in static form) but "what is α_total at t = ∞ under truly-class
 evolution". The four embedding conditions guarantee the inheritance the other way
 too: the closed form is universal across any truly-class Hamiltonian + Z-dephasing
-on N qubits, not specific to chain XY — the bond topology drops out because the
+on N qubits, not specific to chain XY; the bond topology drops out because the
 long-time limit projects onto `ker L = span(P_0, …, P_N)` for any connected graph
 (per `F4`).
 

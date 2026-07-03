@@ -32,7 +32,7 @@ mode) only when it undercuts the `−2γ` Absorption floor, i.e. exactly when th
 `g2 = 4/(N−1) ≤ 1`, which holds for `N ≥ 5`. `N = 4` (`g2 = 4/3 > 1`) is the outlier: the commutant mode
 is not dark enough, an oscillating band-edge mode wins, and the star un-freezes (max `|Im| = √3·J ≈ 1.73`,
 the `(0,1)` band edge oscillating at the star's single-excitation top `√(N−1)·J`). So the star's frozen seam *is* the structural ceiling read
-dynamically, and it is the third member of the trichotomy chain (un-freezing SE-EP) / ring (level
+dynamically, and it is the third member of the trichotomy chain (un-freezing square-root exceptional point, SE-EP) / ring (level
 crossing) / star (commutant). Gate-verified `N = 4..8`; Tier 1 candidate.
 
 ## Model scope: the XY ceiling vs the Heisenberg survivor
@@ -53,8 +53,8 @@ commutant is darkest, from `4/(N−1)` (XY) to `4/N` (Heisenberg). Companion ver
 What is **model-robust** (holds in both XY and Heisenberg): the survivor is frozen (`|Im λ| = 0`) at
 every Q for N ≥ 5; it is the `[H,ρ] = 0` commutant only in the high-Q *limit* (`‖[H,ρ]‖ ∝ 1/Q`, not zero
 at finite Q); it sits at the `(1,1)/(N−1,N−1)` popcount boundary; the star has no coherence horizon. Only
-the darkness *value* is model-specific. (The XY threshold logic — frozen iff `g2 = 4/(N−1) ≤ 1`, the N=4
-outlier — is likewise XY-specific; the Heisenberg `4/N` analog is not characterized below N = 5 here.)
+the darkness *value* is model-specific. (The XY threshold logic, frozen iff `g2 = 4/(N−1) ≤ 1` with the N=4
+outlier, is likewise XY-specific; the Heisenberg `4/N` analog is not characterized below N = 5 here.)
 
 ## The finding
 
@@ -86,7 +86,7 @@ is frozen by construction. But it is only the *survivor* (the slowest mode) when
 **So the star's frozen seam IS the structural ceiling `g2 = 4/(N−1) ≤ 1`, read dynamically.** The high-Q
 ceiling and the all-Q frozenness of the survivor are the same fact: the commutant coherence sits below the
 floor. This is the survivor-level reading of `PROOF_STRUCTURAL_CEILING.md` §7's "the star has no coherence
-horizon" — the global slowest mode never acquires a frequency.
+horizon": the global slowest mode never acquires a frequency.
 
 ## What this closes
 
@@ -110,6 +110,6 @@ star by a **commutant** (the mode commutes with `H`). Both are frozen; the chain
 - The seam picture this extends: `docs/STERILE_BIRTHCANAL_AND_THE_JUNCTION.md` (chain/ring frozen vs
   oscillating); the sibling negative result `experiments/THE_HUB_KILLS_THE_HORIZON.md` (a hub removes the
   horizon however dispersive the leaves).
-- The unified view: [`docs/THE_TRICHOTOMY_SEEN.md`](THE_TRICHOTOMY_SEEN.md) — the chain/ring/star trichotomy
+- The unified view: [`docs/THE_TRICHOTOMY_SEEN.md`](THE_TRICHOTOMY_SEEN.md), the chain/ring/star trichotomy
   rendered as one figure + the live `inspect --root trichotomy` tree; this star frozen seam sits there
   alongside the chain's un-freeze and the ring's level crossing.
