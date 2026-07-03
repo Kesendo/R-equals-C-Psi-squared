@@ -40,7 +40,7 @@ Pairwise residual within each class-averaged curve under relative-Q normalisatio
 - `x_peak = Q_peak/Q_EP = 2.196910` (post-EP location)
 - `HWHM_left/Q_peak = 0.671535` (SVD-block floor)
 
-Exposed as `BareDoubledPtfXPeak` / `BareDoubledPtfHwhmRatio` on [`C2HwhmRatio`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2HwhmRatio.cs) + full K_b(x) closed form on [`C2BareDoubledPtfClosedForm`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BareDoubledPtfClosedForm.cs). Empirical Interior (0.7506) and Endpoint (0.7728) sit ABOVE this floor by ~0.08-0.10.
+Exposed as `BareDoubledPtfXPeak` / `BareDoubledPtfHwhmRatio` on [`C2HwhmRatio`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2HwhmRatio.cs) + full K_b(x) closed form on [`C2BareDoubledPtfClosedForm`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BareDoubledPtfClosedForm.cs). Empirical c=2 Interior (0.7506) and Endpoint (0.7728), the N=5..8 class-means of the c=2 rows in the HWHM table below, sit ABOVE this floor by ~0.08-0.10. (These are the c=2-specific means; the all-c summary averages 0.756 / 0.770 quoted elsewhere exclude the N=5 finite-size outliers and fold in c=3, 4.)
 
 **Closed-form lift via `F86HwhmClosedFormClaim`** (Tier 1 candidate): `HWHM_ratio = 0.671535 + α_subclass · g_eff + β_subclass`, residual ≤ 0.005 across N=5..8 on all 22 bonds incl. orbit escapes. The 12 (α, β) values per `BondSubClass` are fitted via polyfit on the anchors; analytical derivation from the rank-1-bridge + intra-dispersion structure (F89 AT-locked F_a/F_b floor + intra-channel dispersion lift; the inter-coupling "octic residual" lift suspicion is refuted, two-dial scout 2026-06-11) is the Tier 1 promotion path.
 

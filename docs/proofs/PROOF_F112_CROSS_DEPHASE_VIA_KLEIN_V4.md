@@ -43,7 +43,7 @@ For each dephase letter d ∈ {X, Y, Z}, write
 - Π_d for the per-d palindrome conjugation operator on operator space (linear, unitary, order 4; see `PiOperator.cs` / `framework.symmetry.build_pi_full`), and
 - L_d = -i[H, ·] + Σ_k γ_k · (np.kron(c_k, c_k^*) − ½·{c_k^† c_k, ·}) for a standard Lindblad-form (GKSL) Liouvillian. The anticommutator term is Π²-even and contributes only to M_zero (the Π²-even part of M_d, orthogonal to the M_d_anti sector that carries the asymmetry), so it does not affect the asymmetry (it is present in the verifier; omitting it changes nothing).
 
-Define the per-d polarity asymmetry of M_d := Π_d · L_d · Π_d⁻¹ + L_d + 2σ · I as
+Define the per-d polarity asymmetry of M_d := Π_d · L_d · Π_d⁻¹ + L_d + 2σ_c · I (where σ_c := Σ_k γ_k is the total dephasing rate, which recenters the F1 palindrome about the origin; this constant is distinct from the Pauli-string σ used below, and matches the `sigma` argument of `polarity_coordinates_from_L`) as
 
 ```
 asymmetry_d(L_d) := ‖M_d_plus_half‖² − ‖M_d_minus_half‖²,
@@ -79,7 +79,7 @@ In the Welle-11 proof's Step (b) (BitB-parity restriction), the "bit_?-odd" sect
 
 ## (c) Proof Route 1: Direct re-run of Welle-11 lemmas for d ∈ {X, Y}
 
-The Welle-11 proof of F112 non-Hermitian extension closes the per-pair identity F(σ_α, σ_β) := Im⟨L_{σ_α,−i_d}, L_{σ_β,−i_d}⟩ = 0 via two lemmas (Lemma N-A: ‖L_{σ,−i_d}‖² = 4^N for σ axis_d-odd; Lemma N-B: ⟨L_{σ_α,−i_d}, L_{σ_β,−i_d}⟩ = 0 for σ_α ≠ σ_β both axis_d-odd). The proof of each lemma reduces to per-position checks on the 4^N × 4^N matrix of L_σ in the Pauli basis, using two structural inputs:
+Here `L_{σ,±i_d}` denotes the Π_d-eigenvalue ±i spectral components of the single-Pauli Lindbladian generator L_σ (the σ subscript is a Pauli string; notation inherited from [`PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md`](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md)). The Welle-11 proof of F112 non-Hermitian extension closes the per-pair identity F(σ_α, σ_β) := Im⟨L_{σ_α,−i_d}, L_{σ_β,−i_d}⟩ = 0 via two lemmas (Lemma N-A: ‖L_{σ,−i_d}‖² = 4^N for σ axis_d-odd; Lemma N-B: ⟨L_{σ_α,−i_d}, L_{σ_β,−i_d}⟩ = 0 for σ_α ≠ σ_β both axis_d-odd). The proof of each lemma reduces to per-position checks on the 4^N × 4^N matrix of L_σ in the Pauli basis, using two structural inputs:
 
 1. **F38 Π_d² eigenvalue formula on Pauli strings** (axis = bit_b for d ∈ {Y, Z}, axis = bit_a for d = X).
 2. **Pauli-basis matrix-support disjointness** of L_σ and Π^m L_σ Π^{−m} for m ∈ {0, 1, 2, 3}.
