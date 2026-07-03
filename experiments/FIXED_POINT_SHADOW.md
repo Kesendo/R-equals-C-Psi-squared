@@ -337,7 +337,7 @@ close to the intrinsic T₂.
 
 ### Prediction accuracy
 
-| Model | Mean |error| on ρ₀₁ | Improvement |
+| Model | Mean \|error\| on ρ₀₁ | Improvement |
 |-------|----------------------|-------------|
 | Standard Lindblad (no detuning) | 0.056 | baseline |
 | Shadow model (T_eff + δω) | 0.014 | **4.0x** |

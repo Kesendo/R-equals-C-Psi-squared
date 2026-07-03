@@ -56,7 +56,7 @@ The Z-basis Néel order M_AB = (1/N) Σ_l (−1)^l ⟨Z_l⟩ is **identically ze
 
 ## Simulation results (N=5, t=3.0, γ_z=0.1, J=1, Δ=1)
 
-| Test | Hamiltonian / Lindblad | max|ΔMI| | max|M_X(a)+M_X(b)| | Z⊗N? |
+| Test | Hamiltonian / Lindblad | max\|ΔMI\| | max\|M_X(a)+M_X(b)\| | Z⊗N? |
 |------|------------------------|----------|--------------------|------|
 | 1 | XXZ + Z-dephasing | 0.000e+00 | 0.000e+00 | preserved |
 | 2a | + T1 (γ_T1/γ_z = 0.5) | 0.000e+00 | 0.000e+00 | preserved |

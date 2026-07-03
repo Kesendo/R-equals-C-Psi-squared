@@ -91,7 +91,7 @@ This protocol combines three results from the project:
 | Coupling | J = 1.0 (uniform) or 2:1 asymmetric |
 | Baseline dephasing | γ = 0.05 per qubit |
 | Quiet-phase dephasing | γ_quiet = 0.005 (10× reduction) |
-| Initial state | Bell pair on qubits 0-1, rest in |0⟩ |
+| Initial state | Bell pair on qubits 0-1, rest in \|0⟩ |
 | Integration | RK4 (Runge-Kutta 4th order, a standard numerical method for evolving differential equations step by step), dt = 0.05 |
 
 The chain is divided into relay segments:

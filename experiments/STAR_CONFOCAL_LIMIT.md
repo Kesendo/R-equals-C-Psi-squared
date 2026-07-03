@@ -40,7 +40,7 @@ The interpretation is a sharpening of the April picture, not a new physics: star
 
 Heisenberg J=1, uniform Z-dephasing γ=0.5, σ = N·γ. Computed via dense numpy eigvals at small N (`f1_topology_heisenberg_small_n_anchor.py`) and `LiouvillianBlockSpectrum.ComputeSpectrumPerBlock` at N=8 (`F1GeneralTopologyN8BlockSpectrumTests.cs`).
 
-| N | σ = N·γ | max |Im(λ)| | Im/σ | Other topologies (Im/σ) |
+| N | σ = N·γ | max \|Im(λ)\| | Im/σ | Other topologies (Im/σ) |
 |---|---:|---:|---:|---|
 | 3 | 1.5 | 1.5000 | **1.0000** | chain=1.000 (= star, isomorphic at N=3); ring=1.000 (triangle) |
 | 4 | 2.0 | 2.0000 | **1.0000** | chain=1.183, ring=1.500 |

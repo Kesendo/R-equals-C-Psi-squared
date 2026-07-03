@@ -578,7 +578,7 @@ whether the Pythagorean decomposition holds.
 
 #### The N-scaling table
 
-| N | 4^N | ||{L_H, L_Dc}|| | Cross/||L_c²|| | Relative | [Π, L_c²] |
+| N | 4^N | \|\|{L_H, L_Dc}\|\| | Cross/\|\|L_c²\|\| | Relative | [Π, L_c²] |
 |---|-----|-----------------|----------------|----------|-----------|
 | 2 | 16 | **0.00e+00** | **0.00%** | **0.00%** | 0.00e+00 |
 | 3 | 64 | 2.77e+00 | **1.83%** | 14.4% | 5.5e-15 |
@@ -656,7 +656,7 @@ zero at the boundary; it is merely small.
 
 The cross term {L_H, L_Dc} decomposes by w_XY sector pairs:
 
-| w_a → w_b | ||block|| | Correction factor |
+| w_a → w_b | \|\|block\|\| | Correction factor |
 |-----------|----------|-------------------|
 | 0 → 2 | 0.80 | +γ (sum=2 < N=3) |
 | 1 → 1 | 1.60 | +γ (sum=2 < N=3) |

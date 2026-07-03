@@ -158,7 +158,7 @@ It is a joint property: which correlations oscillate depends on both.
 | GHZ | 0% | 0% | 0% | 0% | 0% | 0% |
 | W | 0% | 5.6% | 44.4% | 50% | 1.3% | 10.4% |
 | Bell | 48.6% | 40.6% | 50% | 40.6% | 65.5% | 65.3% |
-| |+++⟩ | 0% | 40.6% | 62.5% | 40.6% | 38.3% | 43.4% |
+| \|+++⟩ | 0% | 40.6% | 62.5% | 40.6% | 38.3% | 43.4% |
 
 (Percentage = fraction of state weight in oscillating palindromic pairs.)
 
@@ -189,10 +189,10 @@ It is a joint property: which correlations oscillate depends on both.
 
 | State | osc% | Top Pauli oscillator | Antinodes |
 |-------|------|---------------------|-----------|
-| |010⟩ | 44.4% | ZIZ | 26 |
-| |+-+⟩ | 44.5% | IXI | 26 |
+| \|010⟩ | 44.4% | ZIZ | 26 |
+| \|+-+⟩ | 44.5% | IXI | 26 |
 | Bell(0,1) | 48.6% | XXZ | 26 |
-| Bell+|+++⟩ | 20.2% | YYI | 48 |
+| Bell+\|+++⟩ | 20.2% | YYI | 48 |
 | Bell+W | 28.8% | YYX | 50 |
 | GHZ | 0% | (none) | 0 |
 | W | 0% | (none) | 0 |

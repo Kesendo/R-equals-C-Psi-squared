@@ -310,7 +310,7 @@ Parallels to the primordial qubit:
 |------------|-------------------|
 | H (system) | Our side (decaying modes) |
 | H̃ (purification) | Their side (Π-conjugate modes) |
-| |Ω⟩ (entangled vacuum) | Zero (Σγ = 0, both sides unified) |
+| \|Ω⟩ (entangled vacuum) | Zero (Σγ = 0, both sides unified) |
 | β (inverse temperature) | 1/Σγ (inverse total dephasing)? |
 | J (CPT conjugation) | Π (palindromic conjugation) |
 | Backward time in H̃ | Frequency mirroring ω → −ω |

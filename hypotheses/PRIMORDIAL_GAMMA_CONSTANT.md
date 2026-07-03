@@ -168,7 +168,7 @@ The hypothesis γ₀ = const was proposed as logically consistent and internally
 | Result | Observation |
 |--------|-------------|
 | F67 receiver menu identified | Single-excitation eigenmodes of uniform-J chain form Alice's complete choice set |
-| Receiver beats γ-Sacrifice | Best-bonding Peak Sum-MI beats V-shape+|+⟩^N baseline by 4000-5500× over ENAQT at N=5 uniform γ₀, no γ-modulation |
+| Receiver beats γ-Sacrifice | Best-bonding Peak Sum-MI beats V-shape+\|+⟩^N baseline by 4000-5500× over ENAQT at N=5 uniform γ₀, no γ-modulation |
 | Receiver engineering vs sacrifice-zone γ-modulation | 11-15× advantage at N=5 (sim) |
 | F75 closed-form MI at t=0 | Exact prediction from bonding-mode amplitudes; no γ-profile tuning enters |
 | F76 0.93 decay envelope | Pure dephasing at uniform 4γ₀ explains the universal envelope across 25+ (N, k) points |

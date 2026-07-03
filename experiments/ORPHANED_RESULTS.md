@@ -41,7 +41,7 @@ palindromic rate 8γ/3, weakening as ~1/(N−1) with system size.
 | Does Π connect to CΨ=1/4 via simple formula? | No. Different mathematical objects. | Honest negative |
 | Is the 0.247 near-miss real? | Yes, at γ=0.02 specifically | Verified |
 | Does topology determine crossing? | Yes. Same state: chain crosses, ring doesn't | **New discovery** |
-| Does |+-+-⟩ cross on ring? | Yes, CΨ=0.284, zero initial entanglement | **New discovery** |
+| Does \|+-+-⟩ cross on ring? | Yes, CΨ=0.284, zero initial entanglement | **New discovery** |
 | What drives the echo? | Bohr frequencies, damped at 8γ/3 | Characterized |
 | Does echo survive at N=4,5? | Yes, weakens as ~1/(N-1) | Verified |
 

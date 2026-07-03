@@ -119,7 +119,7 @@ CΨ depends on BOTH f and θ_Eve. This gives complementary roles:
 |------|--------|------------|
 | 1 | Concurrence | f (interception fraction) |
 | 2 | CΨ | θ_Eve (measurement basis, up to 2-fold degeneracy) |
-| 3 | |ρ₀₁|/|ρ₀₃| = cot(θ_Eve) | θ_Eve (unique, breaks degeneracy) |
+| 3 | \|ρ₀₁\|/\|ρ₀₃\| = cot(θ_Eve) | θ_Eve (unique, breaks degeneracy) |
 
 ### 3.5 Sensitivity: CΨ Detects Attack Basis
 

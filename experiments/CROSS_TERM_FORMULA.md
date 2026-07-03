@@ -148,9 +148,9 @@ faster than the cross-term).
 | Old conjecture 1/sqrt(N*2^(N+1)) | **Refuted** at N=5 (deviation 7.5e-3) |
 | Correct formula sqrt((N-2)/(N*4^(N-1))) | **Confirmed** at N=2-6 (machine precision) |
 | Topology independence | **Confirmed** at N=5 (chain = complete) |
-| Key identity ||{L_H,L_Dc}||^2 = 4gamma^2(N-2)||L_H||^2 | **Proven** (non-overlapping); **verified** (overlapping) |
+| Key identity \|\|{L_H,L_Dc}\|\|^2 = 4gamma^2(N-2)\|\|L_H\|\|^2 | **Proven** (non-overlapping); **verified** (overlapping) |
 | Bond-sum rule (w_ij(a)+w_ij(b)=2) | **Verified** at N=3,4,5 (0 violations) |
-| ||L_Dc||^2 = gamma^2 * 4^N * N | **Proven** and **verified** |
+| \|\|L_Dc\|\|^2 = gamma^2 * 4^N * N | **Proven** and **verified** |
 
 ---
 

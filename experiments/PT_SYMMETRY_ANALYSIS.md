@@ -197,7 +197,7 @@ by J_bridge = 1.0. Total 4 qubits, 256x256 Liouvillian.
 Below γ_crit, ALL nonzero eigenvalues lie exactly on the imaginary
 axis (max|Re(lambda)| < 2 * 10^{-14}, machine zero):
 
-| gamma | gamma/gamma_c | max|Re| | On Im axis? |
+| gamma | gamma/gamma_c | max\|Re\| | On Im axis? |
 |-------|--------------|---------|------------|
 | 0.01 | 0.053 | 1.8e-14 | YES |
 | 0.05 | 0.267 | 2.3e-14 | YES |
@@ -328,7 +328,7 @@ by ANY epsilon > 0: eigenvalues immediately develop nonzero Re parts.
 But they develop NEGATIVE Re (the damping side), keeping the system
 stable:
 
-| ε | max|Re(lambda)| | max Re(lambda) | Stable? |
+| ε | max\|Re(lambda)\| | max Re(lambda) | Stable? |
 |---------|----------------|---------------|---------|
 | 0.000 | 2.1e-14 | < 10^{-14} | YES (on axis) |
 | 0.010 | 5.4e-02 | < 10^{-6} | YES (off axis, Re < 0) |

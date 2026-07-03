@@ -325,7 +325,7 @@ Known Q-factors:
 
 | Configuration | Q | Notes |
 |--------------|---|-------|
-| N=2, uniform gamma, |+>^2 | 1 | Markovian, monotonic |
+| N=2, uniform gamma, \|+>^2 | 1 | Markovian, monotonic |
 | N=3, Bell+bath, J=2 | 47 | Coherent bath qubit |
 | N=3, Bell+bath, J=5 | 81 | Higher J = higher Q |
 | N=7, Bell+sacrifice, J=1 | 1 | J too weak for chain length |

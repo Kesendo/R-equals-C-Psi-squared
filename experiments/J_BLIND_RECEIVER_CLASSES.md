@@ -93,7 +93,7 @@ The overlap matters for the H-bifurcation. Under Heisenberg, all four states are
 
 | Class | Heisenberg (SU(2)) | XY-only (U(1)) | Mechanism survives H change? |
 |-------|--------------------|----------------|------------------------------|
-| Class 1 (DFS + per-bond eigen) | blind | blind | yes for states whose per-bond eigenvalue property holds under both H; the DFS part (i) is H-independent, the per-bond eigen part (ii) depends on H but |0⟩⁵ satisfies it under both Heisenberg and XY |
+| Class 1 (DFS + per-bond eigen) | blind | blind | yes for states whose per-bond eigenvalue property holds under both H; the DFS part (i) is H-independent, the per-bond eigen part (ii) depends on H but \|0⟩⁵ satisfies it under both Heisenberg and XY |
 | Class 2 (H-degenerate block, L_D-closed) | blind | blind | structural condition is H-independent (block exists), specific eigenvalue is not |
 | Class 3 (M_α-polynomial, SU(2)) | blind | **sensitive** | no, requires [H, M_α] = 0 |
 

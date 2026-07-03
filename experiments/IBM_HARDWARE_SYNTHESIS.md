@@ -386,7 +386,7 @@ gamma_z = 0.008-0.014/us):
 | Metric | GHZ | W | Ratio |
 |--------|-----|---|-------|
 | Coherence 1/e time | 15 us | 30 us | **W survives 2.00x longer** |
-| Purity at t=50 us | 0.33 | 0.17 | GHZ higher (collapses to |000>) |
+| Purity at t=50 us | 0.33 | 0.17 | GHZ higher (collapses to \|000>) |
 | Fidelity at t=50 us | 0.44 | 0.34 | GHZ higher (same reason) |
 
 The purity comparison is misleading: GHZ retains purity by collapsing
