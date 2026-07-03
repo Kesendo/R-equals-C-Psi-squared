@@ -37,9 +37,7 @@ The observable is the diagonal element ⟨00|ρ_pair(0,2)|00⟩ = P_|00⟩(t) (B
 
 At t = 0:
 
-    ρ_pair(0, 2)(0) = |0⟩⟨0| ⊗ (|+⟩⟨+|)_{q1?} ... 
-
-Actually directly: |ψ_0⟩ has q0 = 0 and q2 = 0 deterministically; q1 and q3 are in |+⟩. So all four (q1, q3) ∈ {0, 1}² occur with amplitude 1/2 each. Tracing out q1, q3 leaves q0 = 0 and q2 = 0 with probability 1. Hence
+Directly: |ψ_0⟩ has q0 = 0 and q2 = 0 deterministically; q1 and q3 are in |+⟩. So all four (q1, q3) ∈ {0, 1}² occur with amplitude 1/2 each. Tracing out q1, q3 leaves q0 = 0 and q2 = 0 with probability 1. Hence
 
     P_|00⟩(t = 0) = 1
 
@@ -112,9 +110,9 @@ Three structural rules govern the survival:
 
 2. **Ordering rule.** Only ord = 1 (L'_dis acts first on ρ_0, total 2) and ord = 2 (L'_dis acts in the middle, total 6) contribute. Ord = 3 (L'_dis last, i.e., L'_dis on [H, [H, ρ_0]]) gives zero in every cell by direct enumeration. The ratio is 2 : 6 = 1 : 3, mirroring the XX : YY ratio (also 1 : 3, but with the roles reversed).
 
-3. **Bond-pair rule.** For ord = 1, only **adjacent bond pairs sharing a kept-pair site** (vertex 0 or 2) survive: there are exactly 4 such ordered pairs out of the 8 adjacent pairs. For ord = 2, both **self pairs** (all 4) and the same 4 **kept-side adjacent pairs** survive — 8 bond pairs total for ord = 2 + XX. For ord = 2 + YY, only the 4 self pairs survive (the kept-side adjacent contribution that exists for XX vanishes for YY due to the absence of Y content in ρ_0 = |0+0+⟩⟨0+0+|).
+3. **Bond-pair rule.** For ord = 1, only **adjacent bond pairs sharing a kept-pair site** (vertex 0 or 2) survive: there are exactly 4 such ordered pairs out of the 8 adjacent pairs. For ord = 2, both **self pairs** (all 4) and the same 4 **kept-side adjacent pairs** survive: 8 bond pairs total for ord = 2 + XX. For ord = 2 + YY, only the 4 self pairs survive (the kept-side adjacent contribution that exists for XX vanishes for YY due to the absence of Y content in ρ_0 = |0+0+⟩⟨0+0+|).
 
-   The adjacent bond pairs that share a |+⟩ site (vertex 1 or 3) — 4 ordered pairs — contribute zero in every cell: the propagation must enter or exit through the measured pair (0, 2), not through traced-out sites.
+   The adjacent bond pairs that share a |+⟩ site (vertex 1 or 3), 4 ordered pairs, contribute zero in every cell: the propagation must enter or exit through the measured pair (0, 2), not through traced-out sites.
 
 ### Uniformity remark
 
@@ -148,7 +146,7 @@ with:
 
 Equivalent reading via the typed-claim sibling: 4/3 = a_{−1} / 3, with a_{−1} appearing in the numerator after the (1/a_{−1}) factor cancels into the per-diagram contribution. Both readings hold; the structural decomposition above is the bit-explained derivation, the a_{−1}/3 reading is the typed-anchor inheritance.
 
-> **Caution (the a_{−1}/3 reading is a d=2 coincidence; qutrit-refuted 2026-06-17).** The "4/3 = a_{−1}/3" reading suggests the 4 is the squared-dimension discriminant a_{−1} = d² (which would give c → d²/3 = 3 at the qutrit). It is **not**: the qutrit generalization (see "Qudit generalization" below) gives c(d) = 4(d+2)(d−1)/(3d²), with c(2) = 4/3 but c(3) = 40/27, **not** 3. The (J/4) per-bond factor is the spin S = σ/2 normalization (1/2)² — equal to 1/d² **only at d=2** — and the dynamics is the d-independent (J/2)·SWAP. So a_{−1} = d² and the (J/4) coupling coincide only at the qubit; F94's 4 is the setup-specific diagram count, not the discriminant. Verifier: [`simulations/f94_qutrit_born_mirror.py`](../../simulations/f94_qutrit_born_mirror.py).
+> **Caution (the a_{−1}/3 reading is a d=2 coincidence; qutrit-refuted 2026-06-17).** The "4/3 = a_{−1}/3" reading suggests the 4 is the squared-dimension discriminant a_{−1} = d² (which would give c → d²/3 = 3 at the qutrit). It is **not**: the qutrit generalization (see "Qudit generalization" below) gives c(d) = 4(d+2)(d−1)/(3d²), with c(2) = 4/3 but c(3) = 40/27, **not** 3. The (J/4) per-bond factor is the spin S = σ/2 normalization (1/2)², equal to 1/d² **only at d=2**, and the dynamics is the d-independent (J/2)·SWAP. So a_{−1} = d² and the (J/4) coupling coincide only at the qubit; F94's 4 is the setup-specific diagram count, not the discriminant. Verifier: [`simulations/f94_qutrit_born_mirror.py`](../../simulations/f94_qutrit_born_mirror.py).
 
 ## Universality remarks
 
@@ -173,7 +171,7 @@ This **refutes the family-A / "4 = d²" reading**: family A would require c → 
 
 ## Diagnostic application: F94 as a (state, pair)-symmetry signature
 
-F94's canonical lens — |0+0+⟩ N=4 Heisenberg ring + Z-dephasing, pair (0, 2) — gives bit-exact integer matrix elements per outcome:
+F94's canonical lens (|0+0+⟩ N=4 Heisenberg ring + Z-dephasing, pair (0, 2)) gives bit-exact integer matrix elements per outcome:
 
     ⟨00|_pair Tr_{1,3}[sym3 · ρ_0] |00⟩_pair = +8
     ⟨01|_pair Tr_{1,3}[sym3 · ρ_0] |01⟩_pair = −4
@@ -182,8 +180,8 @@ F94's canonical lens — |0+0+⟩ N=4 Heisenberg ring + Z-dephasing, pair (0, 2)
 
 This (+8, −4, −4, 0) signature characterizes the "canonical symmetric" configuration. Empirically ([`simulations/f94_topology_visibility_probe.py`](../../simulations/f94_topology_visibility_probe.py), 2026-05-17):
 
-- **K_4 (full graph at N=4) gives the same signature**: F94 is blind to the diagonal bonds (0,2) and (1,3) because they fall in the "symmetric blind spots" of the lens — bond (0,2) connects the two kept-pair sites (both prepared as |0⟩, Z-eigenstates → bond commutator vanishes), bond (1,3) connects the two traced-out sites (both prepared as |+⟩, X-eigenstates → contribution traces out to zero). This blindness is the diagnostic's robustness: F94 reads (+8, −4, −4, 0) for ring or K_4 equivalently.
-- **Chain gives (+5, −4, −1, 0)**: the chain breaks the 0 ↔ 2 reflection that ring and K_4 share, and the |10⟩ outcome drops from −4 to −1. The K_4 vs chain difference is +3 at |00⟩, 0 at |01⟩, −3 at |10⟩, 0 at |11⟩ — a topology-asymmetry signature.
+- **K_4 (full graph at N=4) gives the same signature**: F94 is blind to the diagonal bonds (0,2) and (1,3) because they fall in the "symmetric blind spots" of the lens: bond (0,2) connects the two kept-pair sites (both prepared as |0⟩, Z-eigenstates → bond commutator vanishes), bond (1,3) connects the two traced-out sites (both prepared as |+⟩, X-eigenstates → contribution traces out to zero). This blindness is the diagnostic's robustness: F94 reads (+8, −4, −4, 0) for ring or K_4 equivalently.
+- **Chain gives (+5, −4, −1, 0)**: the chain breaks the 0 ↔ 2 reflection that ring and K_4 share, and the |10⟩ outcome drops from −4 to −1. The K_4 vs chain difference is +3 at |00⟩, 0 at |01⟩, −3 at |10⟩, 0 at |11⟩, a topology-asymmetry signature.
 - **Asymmetric initial states** (|++00⟩, |10+0⟩): F94 shifts in antisymmetric patterns between bit-flip-paired outcomes. The K_4 vs ring shift becomes visible: |++00⟩ pair (0,2) gives (0, −3, +3, 0) K_4 − Ring difference, |10+0⟩ pair (0,1) gives (−1, 0, +1, 0).
 
 This makes F94 a **(state, pair)-symmetry signature tool**:

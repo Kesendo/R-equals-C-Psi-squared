@@ -31,7 +31,7 @@ Open boundaries are no-flux (Neumann): the lowest diffusion harmonic `n(j) ∝ c
 
 ## 1. The survivor: a predominantly-diagonal mode whose rate is carried by its coherence dressing
 
-Take the open XY chain `H = (J/2) Σ_{(i,i+1)} (X_iX_{i+1} + Y_iY_{i+1})` under uniform Z-dephasing at rate `γ`, Liouvillian `L = L_H + L_D`, `L_H = −i[H,·]`, `L_D(·) = γ Σ_l (Z_l · Z_l − ·)`. The Absorption Theorem gives `Re λ = −2γ⟨n_XY⟩`; the global slowest non-steady mode in the strong-dephasing regime lives in a half-filling diagonal sector `(p,p)`, with fractional `⟨n_XY⟩ < 1`. The diagonal `(p,p)` sectors are exactly **filling-degenerate** in the slowest `Re` (the verifiers' own sweep warns the `(p,p)` label "hops"); all of them, including `(1,1)`, share the same single-site profile *shape* `n(j)` and the same *scaling* law, so "the survivor" names that whole tied family, not a unique block. (The absolute normalization of `n(j)` and the bond-independent prefactor *are* sector-dependent: at `N=5` the witness tie-breaks to `(1,1)` and the Python verifier to `(3,3)`, giving the same slope and CV but a rescaled `dRe/grad²` magnitude — §4.)
+Take the open XY chain `H = (J/2) Σ_{(i,i+1)} (X_iX_{i+1} + Y_iY_{i+1})` under uniform Z-dephasing at rate `γ`, Liouvillian `L = L_H + L_D`, `L_H = −i[H,·]`, `L_D(·) = γ Σ_l (Z_l · Z_l − ·)`. The Absorption Theorem gives `Re λ = −2γ⟨n_XY⟩`; the global slowest non-steady mode in the strong-dephasing regime lives in a half-filling diagonal sector `(p,p)`, with fractional `⟨n_XY⟩ < 1`. The diagonal `(p,p)` sectors are exactly **filling-degenerate** in the slowest `Re` (the verifiers' own sweep warns the `(p,p)` label "hops"); all of them, including `(1,1)`, share the same single-site profile *shape* `n(j)` and the same *scaling* law, so "the survivor" names that whole tied family, not a unique block. (The absolute normalization of `n(j)` and the bond-independent prefactor *are* sector-dependent: at `N=5` the witness tie-breaks to `(1,1)` and the Python verifier to `(3,3)`, giving the same slope and CV but a rescaled `dRe/grad²` magnitude; §4.)
 
 Its embedded coherence operator `M` satisfies, for every bond,
 
@@ -58,7 +58,7 @@ Since `D_b ∝ J_b²/γ`, the chain-rule factor `∂D_b/∂J_b = 2J_b/γ` is bon
 
     **∂(Re λ)/∂J_b = −(2J/γ) (Δn_b)² / ‖n‖²  ∝  (Δn_b)²,**
 
-the squared density gradient, with one bond-independent constant `2J/(γ‖n‖²)`. This is the statement. Two scope caveats, both honest: (i) the Hellmann-Feynman step is on the *reduced, Hermitian* Laplacian `W`; the full Liouvillian is non-Hermitian and its biorthogonal first-order shift (the `dRe` the witness actually computes, via the left-right eigenvectors `dRe = Re[(R⁻¹ row)·V_b·(R col)]`) agrees with this Hermitian-Rayleigh derivative in *shape* but not in the prefactor (the constant is off by the biorthogonality factor, the normalized left-right overlap `|⟨l|r⟩|/(‖l‖‖r‖)` running `0.60 → 0.88` across N=4..7 as the mode becomes more normal — measured in `value_vector_felt_time.py`; the witness normalizes `⟨l|r⟩ = 1` and so folds it into `dRe` rather than emitting it). (ii) The verified content is the *scaling* `∝ (Δn_b)²` and the bond-independence, not the exact constant.
+the squared density gradient, with one bond-independent constant `2J/(γ‖n‖²)`. This is the statement. Two scope caveats, both honest: (i) the Hellmann-Feynman step is on the *reduced, Hermitian* Laplacian `W`; the full Liouvillian is non-Hermitian and its biorthogonal first-order shift (the `dRe` the witness actually computes, via the left-right eigenvectors `dRe = Re[(R⁻¹ row)·V_b·(R col)]`) agrees with this Hermitian-Rayleigh derivative in *shape* but not in the prefactor (the constant is off by the biorthogonality factor, the normalized left-right overlap `|⟨l|r⟩|/(‖l‖‖r‖)` running `0.60 → 0.88` across N=4..7 as the mode becomes more normal, measured in `value_vector_felt_time.py`; the witness normalizes `⟨l|r⟩ = 1` and so folds it into `dRe` rather than emitting it). (ii) The verified content is the *scaling* `∝ (Δn_b)²` and the bond-independence, not the exact constant.
 
 ## 3. Boundary and Q-invariance
 
@@ -87,7 +87,7 @@ The reduction of §2 is leading-order in `γ/J`-secular perturbation theory, exa
 
 So **as `Q → 0` the slope is exactly 2.00, the CV vanishes and the mode becomes a pure density mode (off → 0), for every N**: the diffusion-limit derivation is confirmed. The drift above 2 at finite `Q` is the **off-diagonal coherence dressing** growing with `Q` (a finite-Q, non-secular correction, *not* a boundary effect), and the witness's own `LawHolds` gate flips to "not clean" by `Q = 2.0`. At the handover `Q* ≈ 2.5` (N-dependent, the F122 `2.39–2.61` range) the survivor stops being the soft `(p,p)` mode and becomes the rigid `(0,1)` band edge (`off = 1`, `⟨n_XY⟩ = 1`, the F122 / band-edge regime), where this law does not apply. The table's `Q = 2.5` row is `N = 5` just *entering* that handover (still a `(p,p)` block, `off = 0.72`, the log-log slope already nonsense and the gate not clean), not the fully-developed `(0,1)` edge with `off = 1`.
 
-At a fixed moderate `Q = 1.5` the law still holds across N (the original landing). Note the slope here **drifts away from 2 as N grows** (2.00, 2.12, 2.16, 2.17 for N=4..7); this is the residual finite-Q correction (Q=1.5 is fixed), **not** convergence: it is the *shape-miss* metric that converges with N. The two must not be conflated (and the `N=4` slope `2.00` is the weakest datum — mirror symmetry leaves only two distinct bonds, so a log-log fit through two points of equal `dRe/grad²` is *forced* to exactly 2 independent of the physics; the genuine drift evidence is `N=5,6,7`, with ≥3 distinct bonds):
+At a fixed moderate `Q = 1.5` the law still holds across N (the original landing). Note the slope here **drifts away from 2 as N grows** (2.00, 2.12, 2.16, 2.17 for N=4..7); this is the residual finite-Q correction (Q=1.5 is fixed), **not** convergence: it is the *shape-miss* metric that converges with N. The two must not be conflated (and the `N=4` slope `2.00` is the weakest datum: mirror symmetry leaves only two distinct bonds, so a log-log fit through two points of equal `dRe/grad²` is *forced* to exactly 2 independent of the physics; the genuine drift evidence is `N=5,6,7`, with ≥3 distinct bonds):
 
 | N | `dRe/grad²` (interior → end) | CV | slope (Q-correction, away from 2) | `sin²` shape-miss (converges with N) |
 |---|---|---|---|---|
@@ -95,10 +95,10 @@ At a fixed moderate `Q = 1.5` the law still holds across N (the original landing
 | 5 | 0.73, 0.67 | 0.040 | 2.12 | 0.12 |
 | 6 | 0.32, 0.31, 0.28 | 0.060 | 2.16 | 0.08 |
 | 7 | 0.18, 0.17, 0.15 | 0.070 | 2.17 | 0.06 |
-| 8 | — | — | — | 0.043 |
-| 9 | — | — | — | 0.035 |
+| 8 | n/a | n/a | n/a | 0.043 |
+| 9 | n/a | n/a | n/a | 0.035 |
 
-(The N=8, 9 rows recompute only the `sin²` shape-miss — `felt_time_highn_shapemiss.py`, the half-filling `(p,p)` block reaching `15876²` at N=9, the dense ceiling on 128 GB; the Q-correction columns are the N≤7 landing. The monotone descent `0.17 → 0.035` confirms the continuum harmonic as the large-N limit.)
+(The N=8, 9 rows recompute only the `sin²` shape-miss, `felt_time_highn_shapemiss.py`, the half-filling `(p,p)` block reaching `15876²` at N=9, the dense ceiling on 128 GB; the Q-correction columns are the N≤7 landing. The monotone descent `0.17 → 0.035` confirms the continuum harmonic as the large-N limit.)
 
 **Provenance.** The live witness `inspect --root gradient` covers `N = 4, 5` only (it throws above N=5); the `N = 6, 7` rows of both tables, and the `N = 7` `n(j)` profile of §1, come from the Python verifier `felt_time_amplitude_law.py`. The slope and CV are sector-independent and agree between the two engines; the absolute `dRe/grad²` column is the verifier's sector (e.g. `(3,3)` at `N=5`), while the witness's own tie-break (`(1,1)` at `N=5`) reproduces the same slope/CV at a rescaled magnitude (§1). Both engines confirm the *law*; only the bond-independent prefactor is sector-labelled.
 

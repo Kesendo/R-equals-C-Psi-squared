@@ -1,6 +1,6 @@
 # The Absorption Theorem
 
-**Status:** Tier 1 derived (analytical proof + bit-exact numerical verification at N=2..5, 1,342 modes, CV=0). Extended 2026-06-10 (Section 2 extensions: the vector form as Theorem 2, the two-sided reading, the projector form for degenerate clusters, the dephase-letter rotation; Section 4.7: the recentred face, one diagonal shared with the F87 palindrome machinery; C# test-gating of the per-mode identity).
+**Status:** Tier 1 derived (analytical proof + bit-exact numerical verification at N=2..5, 1,342 modes, CV=0). Extended 2026-06-10 (Section 2 extensions: the vector form as Theorem 2, the two-sided reading, the projector form for degenerate clusters, the dephase-letter rotation; Section 4.7: the recentred face, one diagonal shared with the F87 palindrome machinery; C# test-gating of the per-mode identity). Extended 2026-06-17 (the qutrit-prism reading of the recurring 4, in the Section 2 block near the end of the document).
 **Date:** 2026-04-04 (discovery + proof same day)
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.6)
 **Statement:** `Re(λ) = −2γ ⟨n_XY⟩` for any Lindblad eigenmode under uniform Z-dephasing
@@ -17,7 +17,7 @@ The Absorption Theorem reads the decay rate of any Lindblad eigenmode straight o
 
 where ⟨n_XY⟩ is the average number of X or Y factors (the "light content") in the eigenmode's Pauli decomposition. The dissipator is built from Z, so it sorts every Pauli letter into two classes: the lens {I, Z}, opaque to the dephasing light and costing nothing, and the light {X, Y}, transparent and absorbed at exactly 2γ per factor. A mode's lifetime is therefore fixed by one number, how much of its own structure it exposes to the light: pure {I, Z}^⊗N modes are immortal (rate 0), pure {X, Y}^⊗N modes die fastest (rate 2Nγ).
 
-This is the rate-side companion of the F1 palindrome. Π swaps light and lens, so paired eigenvalues satisfy ⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N and sit symmetrically about the center, which is the F8 factor-of-two decay law in one line. The recentered face L_D = γ(Q − N·I), with Q = Σ_l Z_l⊗Z_l, shifts the absorption ladder's midpoint to zero and is literally the same diagonal that the F87 girth-moment machinery and the palindrome share: one diagonal, three readings (absorption rates, palindromic pairing, power-sum expansion). The formula replaces numerical eigendecomposition for the real part, exact and verified bit-exact at N=2..5.
+This is the rate-side companion of the F1 palindrome. Π swaps light and lens, so paired eigenvalues satisfy ⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N and sit symmetrically about the center, which is the F8 factor-of-two decay law in one line. The recentred face L_D = γ(Q − N·I), with Q = Σ_l Z_l⊗Z_l, shifts the absorption ladder's midpoint to zero and is literally the same diagonal that the F87 girth-moment machinery and the palindrome share: one diagonal, three readings (absorption rates, palindromic pairing, power-sum expansion). The formula replaces numerical eigendecomposition for the real part, exact and verified bit-exact at N=2..5.
 
 ## Preface
 
@@ -149,8 +149,8 @@ I ⊗ H* = I ⊗ H^T and
     L_H† = +i(H ⊗ I - I ⊗ H^T) = -L_H  ∎
 
 No reality assumption is used: H^T = H* holds for *every* Hermitian H (real
-symmetric H is the special case H* = H). Complex Hermitian Hamiltonians —
-Dzyaloshinskii-Moriya, transverse/Y terms, magnetic flux — are fully covered.
+symmetric H is the special case H* = H). Complex Hermitian Hamiltonians,
+Dzyaloshinskii-Moriya, transverse/Y terms, magnetic flux, are fully covered.
 
 **Consequence of Step 1.** For any vector v:
 
@@ -207,12 +207,12 @@ Dividing by ‖v‖² = Σ_α |c_α|²:
 ### Remark on generality
 
 The proof uses only:
-1. H is Hermitian (so L_H is anti-Hermitian — Step 1; no reality assumption)
+1. H is Hermitian (so L_H is anti-Hermitian, Step 1; no reality assumption)
 2. The jump operators are Z_k (so L_D is diagonal in the Pauli basis)
 
 It does **not** use:
 - The specific form of H (Heisenberg, Ising, XY, any Hamiltonian works)
-- Reality of H (any Hermitian H works — real symmetric or complex)
+- Reality of H (any Hermitian H works: real symmetric or complex)
 - The chain topology (any graph works)
 - Uniform dephasing (site-dependent γ_k works: replace 2γ n_XY with
   Σ_k 2γ_k × [σ_k ∈ {X,Y}])
@@ -340,12 +340,12 @@ dyadic ladder = the half-gap-squared discriminant four, `PolynomialDiscriminantA
 and the **2d term** → 6 (the F121 qudit product-mirror cap base (2d)^N, `QuditProductMirrorCap`:
 each per-site mirror is a strict swap between the d dark and the d²−d lit letters, so its
 rank is min(d, d²−d) + min(d²−d, d) = 2d; F121 measures cap(3,2) = 36 = 6², not 81 = 9²).
-These two coincide at 4 only at the root d=2 — d² − 2d = 0 ⟺ d = 2, the qubit magic — and
+These two coincide at 4 only at the root d=2, where d² − 2d = 0 ⟺ d = 2, the qubit magic, and
 the qutrit splits them to 9 and 6.
 
 *The Hamming-2 fours (they STAY).* The **rung-2 four** 2γ·2 = 4γ (the HD=(1,3) palindrome
 centre above) is the second rung of the §6 ladder, and the ladder rungs are 2γ·(Hamming),
-d-INDEPENDENT — Hamming distance 2 is two differing sites at any d — so the dynamical 4γ
+d-INDEPENDENT, Hamming distance 2 is two differing sites at any d, so the dynamical 4γ
 stays 4γ at the qutrit. The **structural-ceiling four** in g2(K_N) = 4/N (F122 /
 `StructuralCeilingClaim`) is 2·(2/N) = (the Hamming distance between two single-excitation
 strings, = 2 at any d) × (the S_N standard-rep angle 1 − λ₂ = 2/N, pure graph theory): both
@@ -353,7 +353,7 @@ factors carry no d, so g2 = 4/N holds unchanged at d=3 (verified including the g
 at N=5 and the d-independent N=4 outlier 2 − 2/√3). Both land on the 4-ray.
 
 So the red-herring discipline sharpens: the cap four (2d, F121) is NOT the rung-2 four (4γ,
-dynamical) even though both read 4 at d=2 — the cap rides 2d → 6, the rung-2 four rides
+dynamical) even though both read 4 at d=2: the cap rides 2d → 6, the rung-2 four rides
 Hamming-2 → stays 4γ. Cite the trunk-term fours (d², 2d) for operator-space dimensions and
 the F121 cap, the Hamming-2 fours (rung-2 centre, g2 ceiling) for rates and the structural
 ceiling; never interchange across families.
