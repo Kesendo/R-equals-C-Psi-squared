@@ -207,11 +207,12 @@ public sealed class FoldResultantCertificateTests
         _out.WriteLine($"N={r.N} {(r.ROdd ? "R-odd" : "R-even")}: block dim {r.BlockDimension} = AT {r.AtDegree} ⊎ " +
                        $"residual {r.ResidualDegree}, corner {r.CornerDegree}");
         _out.WriteLine($"  q → ∞ degeneracy: m_R = {r.InfinityCollisionsR} (f_res/g collisions), m_D = {r.InfinityRepeatedD} (repeated-root pairs of f_res)");
-        _out.WriteLine($"  deg R = {r.ResultantDegree} (proven bound {r.ResultantDegreeBound}, attained per used prime), " +
+        _out.WriteLine($"  deg R = {r.ResultantDegree} (CERTIFIED true degree; analytic bound {r.ResultantDegreeBound}), " +
                        $"deg D = {r.DiscriminantDegree} (proven bound {r.DiscriminantDegreeBound})");
         _out.WriteLine($"  q-valuations: v_q(R) = {r.QValuationR}, v_q(D) = {r.QValuationD}");
         _out.WriteLine($"  disc layers (mult 1, 2, …): [{string.Join(", ", r.DiscLayerDegrees)}], layer-gcds with R: [{string.Join(", ", r.LayerGcdDegrees)}]");
-        _out.WriteLine($"  primes: {r.PrimesUsed} used ({r.PrimesSkipped} skipped), {r.FirstPrime}…{r.LastPrime}; " +
+        _out.WriteLine($"  primes: {r.PrimesUsed} used ({r.PrimesSkipped} skipped), sampled {r.PrimesSampled} > lc-divisor bound {r.LcDivisorBound} " +
+                       $"(the degree certificate), {r.FirstPrime}…{r.LastPrime}; " +
                        $"prime product {r.PrimeProductDigits} digits vs proof bound {r.ProofBoundDigits} digits");
         _out.WriteLine($"  ⟹ {(r.Complete ? "COMPLETE: gcd(R, D) = c·q^e over Q(i), absence proven at EVERY branch locus q ≠ 0 (q = 0 is the diagonal, semisimple block)" : r.SharedIsQPowerAtEveryPrime ? "prime product below bound (incomplete)" : "a shared factor beyond q^e appeared: refine, not refute")}");
     }

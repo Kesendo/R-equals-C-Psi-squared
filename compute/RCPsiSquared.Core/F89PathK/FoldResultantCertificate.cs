@@ -32,11 +32,19 @@ namespace RCPsiSquared.Core.F89PathK;
 /// m_D count the multiplicity collisions of the exact q → ∞ leading forms (each branch obeys
 /// Λ_i(q) = c_i·q + O(1) by Bauer-Fike, both hopping directions being diagonal-similar to i×(real
 /// symmetric), verified exactly per run; coincident-c pairs contribute O(1) to the root-difference
-/// products). A prime is USED only if deg(R mod p) attains the proven bound (⟹ p ∤ lc_q(R), guard G2;
-/// G1 is automatic, everything is monic in Λ). At every used prime the certificate demands
-/// gcd(R mod p, D mod p) = c·q^e. THE LIFT: the primitive H = gcd(R, D) ∈ Z[i][q] has lc_q(H) | lc_q(R)
-/// (Gauss), so H mod p keeps its degree and divides the q-power gcd, i.e. EVERY sub-leading coefficient
-/// of H is divisible by every used prime π. Since H | R, Mignotte/Landau bounds H's coefficient heights
+/// products). These bounds size the interpolation; they need NOT be tight (the corner-fold bound is
+/// tight, the identity-composition bound is loose: the identity leading forms share a common factor
+/// beyond the isolated-root collisions m_R counts). THE DEGREE CERTIFICATE (guard G2, landed
+/// 2026-07-03): deg(R mod p) &lt; deg_q R exactly when the CHOSEN prime ideal π_p = (p, i − r) divides
+/// lc_q(R) ∈ Z[i] (the reduction map's kernel); distinct sampled primes choose ideals over distinct p,
+/// pairwise coprime, so ∏ N(π_p) = ∏ p ≤ N(lc_q R) ≤ ‖R‖² (Hadamard), and with every p ≥ 2³⁰ at most
+/// 2·log₂‖R‖/30 sampled primes can lose the degree. Sampling MORE distinct split primes than that
+/// bound forces trueDeg = max_p deg(R mod p) = deg_q R EXACTLY, so a prime is USED only if
+/// deg(R mod p) attains the certified trueDeg (⟹ π_p ∤ lc_q(R); G1 is automatic, everything is monic
+/// in Λ). At every used prime the certificate demands gcd(R mod p, D mod p) = c·q^e. THE LIFT: the
+/// primitive H = gcd(R, D) ∈ Z[i][q] has lc_q(H) | lc_q(R) (Gauss), so at every used prime (π_p ∤
+/// lc_q(R) ⟹ π_p ∤ lc_q(H)) H mod p keeps its degree and divides the q-power gcd, i.e. EVERY
+/// sub-leading coefficient of H is divisible by every used prime π. Since H | R, Mignotte/Landau bounds H's coefficient heights
 /// by B_H = 2^{deg R}·‖R‖ with ‖R‖ ≤ the Hadamard row-norm product of the exact Sylvester matrix
 /// (computed from the exact bivariate coefficients); once ∏ p exceeds the Gaussian-norm bound 4·B_H²,
 /// the sub-leading coefficients vanish identically and H = lc·q^e EXACTLY. This is a COMPLETE proof, not
@@ -53,7 +61,10 @@ public static class FoldResultantCertificate
 {
     /// <summary>The multi-prime certificate's verdict and guard trail. Complete = true is the finished
     /// one-way proof (gcd(R, D) is exactly a q-power over Q(i)); SharedIsQPowerAtEveryPrime = false
-    /// means some prime saw a shared factor beyond q^e: refine, not refute.</summary>
+    /// means some certified-good prime saw a shared factor beyond q^e: refine, not refute.
+    /// ResultantDegree is the CERTIFIED true deg_q R (= max_p deg(R mod p), exact once PrimesSampled &gt;
+    /// LcDivisorBound, the max count of sampled prime ideals that can divide lc_q(R)); it equals
+    /// ResultantDegreeBound for the corner-fold and sits below it for the identity composition.</summary>
     public sealed record CompleteReport(
         int N, bool ROdd,
         int BlockDimension, int AtDegree, int ResidualDegree, int CornerDegree,
@@ -62,7 +73,8 @@ public static class FoldResultantCertificate
         int ResultantDegree, int DiscriminantDegree,
         int QValuationR, int QValuationD,
         int[] DiscLayerDegrees, int[] LayerGcdDegrees,
-        int PrimesUsed, int PrimesSkipped, long FirstPrime, long LastPrime,
+        int PrimesUsed, int PrimesSkipped, int PrimesSampled, int LcDivisorBound,
+        long FirstPrime, long LastPrime,
         int ProofBoundDigits, int PrimeProductDigits,
         bool SharedIsQPowerAtEveryPrime, bool Complete);
 
@@ -146,18 +158,29 @@ public static class FoldResultantCertificate
 
         // ---- the multi-prime loop ----
         const int extra = 24;
-        int samples = rBound + 1 + extra;
+        int samples = Math.Max(rBound, dBound) + 1 + extra;     // dBound can exceed rBound for small targets
+
+        // THE DEGREE CERTIFICATE. deg(R mod p) < deg_q R exactly when the chosen prime ideal
+        // π_p = (p, i − r) divides lc_q(R) ∈ Z[i] (the kernel of the reduction i ↦ r). The sampled
+        // ideals lie over distinct rational primes, pairwise coprime, so ∏ N(π_p) = ∏ p ≤ N(lc_q R)
+        // ≤ normR² (every coefficient of R has 1-norm ≤ the Hadamard product normR); with every
+        // p ≥ 2³⁰, at most 2·log₂(normR)/30 sampled primes can lose the degree. Sampling MORE
+        // distinct split primes than lcDivisorBound therefore forces trueDegR = max_p deg(R mod p)
+        // = deg_q R EXACTLY: the empirical degree is itself certified, and rBound serves only as
+        // the (possibly loose) interpolation length. Loose happens: the identity composition has
+        // true 412 < 422 (R-even) / 384 < 394 (R-odd) at N=5, where the corner-fold bound is tight.
+        int lcDivisorBound = (int)(2 * normR.GetBitLength() / 30) + 1;
+
         BigInteger primeProduct = BigInteger.One;
-        int used = 0, skipped = 0;
-        long firstPrime = 0, lastPrime = 0;
-        int degRp = -1, degDp = -1, vR = -1, vD = -1;
-        int[] layerDegrees = Array.Empty<int>(), layerGcdDegrees = Array.Empty<int>();
+        int sampled = 0, skipped = 0;
+        int trueDegR = -1;
         bool sharedIsQPower = true;
+        var perPrime = new List<(int P, int DegR, int DegD, int VR, int VD, bool SharedOk, int[] RStrip, int[] DStrip)>();
 
         var clock = System.Diagnostics.Stopwatch.StartNew();
         long candidate = (1L << 30) + 1;
         while (candidate % 4 != 1) candidate += 2;
-        for (int tried = 0; tried < maxPrimes && primeProduct <= proofBound; candidate += 4)
+        for (int tried = 0; tried < maxPrimes && !(primeProduct > proofBound && sampled > lcDivisorBound); candidate += 4)
         {
             if (!IsPrime(candidate)) continue;
             tried++;
@@ -194,52 +217,72 @@ public static class FoldResultantCertificate
                 if (q0 > dBound && EvalModP(dp, q0, p) != dSamp[q0])
                     throw new InvalidOperationException($"D interpolant fails verification at q0={q0} (p={p}).");
             }
-            // deg(rp) ≤ rBound and deg(dp) ≤ dBound hold BY CONSTRUCTION (bound+1 nodes); the real
-            // degree check is the extras loop above (a violated analytic bound cannot pass it, and the
-            // bound itself is exact given the no-Puiseux premise certified by AssertHoppingSymmetry).
-            if (DegP(rp) != rBound) { skipped++; continue; }        // p | lc_q(R): unusable, retry
-
+            // deg(rp) ≤ rBound and deg(dp) ≤ dBound hold BY CONSTRUCTION (bound+1 nodes); the
+            // interpolant's correctness is the extras loop above. Whether THIS prime kept the true
+            // degree is decided against trueDegR = max over all sampled primes, certified once
+            // sampled > lcDivisorBound; a prime below the max divided lc_q(R) and is demoted.
+            sampled++;
+            int degRp = DegP(rp);
             int vRp = QValuation(rp), vDp = QValuation(dp);
             var rStrip = StripQ(rp, vRp);
             var dStrip = StripQ(dp, vDp);
-            var shared = GcdModP(rStrip, dStrip, p);
-            if (DegP(shared) != 0)
-            {
-                sharedIsQPower = false;                             // refine, not refute
-                degRp = DegP(rp); degDp = DegP(dp); vR = vRp; vD = vDp;
-                lastPrime = p;
-                if (firstPrime == 0) firstPrime = p;
-                break;
-            }
+            bool sharedOk = DegP(GcdModP(rStrip, dStrip, p)) == 0;
+            perPrime.Add((p, degRp, DegP(dp), vRp, vDp, sharedOk, rStrip, dStrip));
 
-            if (used == 0)
+            if (degRp > trueDegR)
             {
-                firstPrime = p;
-                degRp = DegP(rp); degDp = DegP(dp); vR = vRp; vD = vDp;
-                var layers = FpSquarefreeLayers(dStrip, p);         // diagnostics: the disc's layer structure
+                trueDegR = degRp;                                   // demotes every earlier lower-degree prime
+                primeProduct = BigInteger.One;
+                foreach (var s in perPrime)
+                    if (s.DegR == trueDegR && s.SharedOk) primeProduct *= s.P;
+            }
+            else if (degRp == trueDegR && sharedOk)
+                primeProduct *= p;
+
+            if (!sharedOk && degRp == trueDegR && sampled > lcDivisorBound)
+                break;                                              // a certified-good prime saw a shared factor: refine, not refute
+
+            if (log is not null && sampled % 50 == 0)
+                log($"sampled={sampled} (bound {lcDivisorBound}), skipped={skipped}, p={p}, trueDegR={trueDegR}, product digits={primeProduct.ToString().Length}/{proofBound.ToString().Length}, {clock.ElapsedMilliseconds} ms");
+        }
+
+        // ---- the verdict over the certified-good primes (those attaining trueDegR) ----
+        int used = 0;
+        long firstPrime = 0, lastPrime = 0;
+        int degRpFirst = -1, degDpFirst = -1, vR = -1, vD = -1;
+        int[] layerDegrees = Array.Empty<int>(), layerGcdDegrees = Array.Empty<int>();
+        foreach (var s in perPrime)
+        {
+            if (s.DegR != trueDegR) { skipped++; continue; }        // divided lc_q(R): demoted
+            if (firstPrime == 0)
+            {
+                firstPrime = s.P;
+                degRpFirst = s.DegR; degDpFirst = s.DegD; vR = s.VR; vD = s.VD;
+                var layers = FpSquarefreeLayers(s.DStrip, s.P);     // diagnostics: the disc's layer structure
                 layerDegrees = new int[layers.Count];
                 layerGcdDegrees = new int[layers.Count];
                 for (int k = 0; k < layers.Count; k++)
                 {
                     layerDegrees[k] = DegP(layers[k]);
-                    layerGcdDegrees[k] = DegP(GcdModP(rStrip, layers[k], p));
+                    layerGcdDegrees[k] = DegP(GcdModP(s.RStrip, layers[k], s.P));
                 }
             }
+            if (!s.SharedOk) { sharedIsQPower = false; lastPrime = s.P; continue; }
             used++;
-            lastPrime = p;
-            primeProduct *= p;
-            if (log is not null && used % 50 == 0)
-                log($"used={used}, skipped={skipped}, p={p}, product digits={primeProduct.ToString().Length}/{proofBound.ToString().Length}, {clock.ElapsedMilliseconds} ms");
+            lastPrime = s.P;
         }
 
-        bool complete = sharedIsQPower && primeProduct > proofBound;
+        // trueDegR ≥ 0 is load-bearing (2026-07-03 adversarial review): R ≡ 0 (all rp zero, trueDegR = −1)
+        // voids both the lc-divisor count (lc undefined) and the Mignotte lift (H ~ D, unbounded by R's
+        // heights), so the degenerate path must never report Complete.
+        bool complete = sharedIsQPower && primeProduct > proofBound && sampled > lcDivisorBound && trueDegR >= 0;
         return new CompleteReport(
             n, rOdd,
             blockDim, atDeg, resDeg, corDeg,
             mR, mD,
-            rBound, dBound, degRp, degDp,
+            rBound, dBound, degRpFirst, degDpFirst,
             vR, vD, layerDegrees, layerGcdDegrees,
-            used, skipped, firstPrime, lastPrime,
+            used, skipped, sampled, lcDivisorBound, firstPrime, lastPrime,
             proofBound.ToString().Length, primeProduct.ToString().Length,
             sharedIsQPower, complete);
     }
@@ -248,8 +291,9 @@ public static class FoldResultantCertificate
     /// Λ-composition, at one split prime (interpolating extra nodes so the true degree shows). The corner-fold
     /// bound is TIGHT (true = bound); the (1,1) identity-composition bound is LOOSE (true 10 below bound), because
     /// the identity leading forms share a common factor beyond the isolated-root collisions the mR count sees.
-    /// This is why CertifyCore's tightness assumption (guard DegP == rBound) must become the empirical trueDegR
-    /// for the interior-exclusion (identity) certificates. Reports resDeg, targetDeg, mR, rBound, lcR, trueDegR.</summary>
+    /// This diagnosis is why CertifyCore's guard is the CERTIFIED empirical trueDegR (max over more sampled
+    /// primes than can divide lc_q(R); landed 2026-07-03) rather than a tightness assumption on rBound.
+    /// Reports resDeg, targetDeg, mR, rBound, lcR, trueDegR.</summary>
     public static string DebugDegreeReport(int n, bool rOdd, int tWKet, int tWBra, GaussianInteger cA, GaussianInteger cB)
     {
         var (aBlk, cBlk) = BlockPencil(n, rOdd);
