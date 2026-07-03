@@ -5,8 +5,9 @@ degeneracy proof, SWAP invariance Pauli strings, Z-count conserved operators,
 palindromic degeneracy analytical derivation, d(-gamma) = 2N proof, open quantum
 system spectral structure, SU(2) symmetry weight-1, R=CPsi2 commutator kernel -->
 
-**Status:** Tier 1 derived (SWAP-invariance + triangle-inequality proof for all N on any connected graph) + Tier 2 verified (bit-exact numerical match N = 2 through 7)
+**Status:** Lower bound `dim(ker) ≥ 2N` Tier 1 derived for any connected graph (SWAP-invariant construction, Steps 1-4). Upper bound `dim(ker) ≤ 2N` holds for the chain and every tested connected graph EXCEPT K_3 at N=3 (where it is 2N+2); the original triangle-inequality upper-bound argument (Step 5) has a matrix-commutator vs conjugation-action gap, fully characterized in the Appendix. Tier 2 verified bit-exact for chain N = 2 through 7.
 **Date:** 2026-04-03
+**Reviewed:** 2026-07-03 (readability + numbers + em-dash pass: Δ-decomposition formula corrected, header / Step 5 / beyond-chain claims reconciled with the K_3 N=3 Appendix finding)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Statement:** `d_real(Re = −2γ) = 2N` for the isotropic Heisenberg coupling on any connected graph under uniform Z-dephasing. The 2N kernel operators are the symmetric sums `T_c^{(a)} = Σⱼ σ_a^{(j)} ⊗ Z_S(c) ⊗ I_rest` grouped by active type a ∈ {X, Y} and Z-count c ∈ {0, ..., N−1}.
 **Typed claim:** [`F50WeightOneDegeneracyPi2Inheritance.cs`](../../compute/RCPsiSquared.Core/Symmetry/F50WeightOneDegeneracyPi2Inheritance.cs) (Tier 1 derived; both 2s in 2N and 2γ inherit from the Pi2 dyadic ladder's a₀ anchor; F50 entry in [ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md)).
@@ -78,9 +79,14 @@ involve disjoint sets of Pauli strings. This gives dim(ker) ≥ 2N.
 The reverse inequality dim(ker) ≤ 2N follows from a triangle inequality
 argument: any kernel element must be fixed by every individual SWAP (not just
 their sum), reducing the invariant space to exactly one vector per transitive
-orbit. This establishes:
+orbit. This establishes, for the chain:
 
 **dim(ker([H, ·]|_{w=1})) = 2N.**
+
+(Caveat: the triangle-inequality step as originally written has a
+matrix-commutator vs conjugation-action gap. It gives the correct answer for
+the chain at every tested N but fails for K_3 at N=3, where the kernel is 2N+2.
+See Step 5 and the Appendix.)
 
 **Corollary.** The Liouvillian of the Heisenberg chain with uniform Z-dephasing
 γ has exactly 2N purely-real eigenvalues at Re = −2γ for all N.
@@ -149,10 +155,19 @@ Since [H, T_c^{(a)}] = 0 follows from SWAP-invariance, and there is exactly
 one invariant vector per (type, Z-count) pair, we get exactly
 2 × N = 2N kernel vectors.
 
-### Step 5: The upper bound -- no additional kernel elements (triangle inequality)
+### Step 5: The upper bound, no additional kernel elements (triangle inequality)
 
 Steps 1–4 prove dim(ker) ≥ 2N by constructing 2N independent kernel vectors.
 We now prove dim(ker) ≤ 2N, completing the proof.
+
+> **Caveat (added 2026-05-17).** The argument below identifies `[H, v] = 0` with
+> the conjugation-action fixed-point equation `Σ_b (SWAP_b(v) − v) = 0`. This
+> identification is not correct in general: `[H, v] = 0` reduces to the
+> matrix-commutator sum `Σ_b [SWAP_b, v] = 0`, and the two coincide for the chain
+> at every tested N but diverge for K_3 at N=3, where the true kernel is 2N+2.
+> The conclusion `dim(ker) = 2N` is correct for the chain; the derivation is
+> retained here as originally written, with the gap and its resolution documented
+> in the Appendix (§ "Where Step 5 of the original proof breaks down").
 
 Let v ∈ ker([H, ·]|_{w=1}). The Hamiltonian for the open chain is:
 
@@ -213,14 +228,14 @@ Independent numerical verification confirms every step of the proof for
 N = 2, ..., 7. Five tests were run ([`simulations/verify_triangle_inequality.py`](../../simulations/verify_triangle_inequality.py),
 results in [`simulations/results/verify_proof_weight1.txt`](../../simulations/results/verify_proof_weight1.txt)):
 
-**V1 -- Each individual SWAP fixes each kernel vector (Step 5 core claim):**
+**V1, each individual SWAP fixes each kernel vector (Step 5 core claim):**
 2N × (N−1) checks per N. Max deviation: 3.84 × 10⁻¹⁵. All PASS.
 
-**V2 -- Triangle inequality saturation:**
+**V2, triangle inequality saturation:**
 Kernel vectors saturate the inequality (lhs = rhs). Non-kernel vectors show
 strict inequality (gap grows with N: 0.74 at N=3 to 2.98 at N=7). PASS.
 
-**V3 -- No additional SWAP-invariant vectors (independent upper bound check):**
+**V3, no additional SWAP-invariant vectors (independent upper bound check):**
 The stacked (I − SWAP) matrix over all bonds has invariant subspace dimension
 exactly 2N at every N. This confirms the upper bound without the triangle
 inequality argument. PASS.
@@ -234,10 +249,10 @@ inequality argument. PASS.
 | 6 | 384 | 372 | 12 | 12 | 12 | ✓ |
 | 7 | 896 | 882 | 14 | 14 | 14 | ✓ |
 
-**V4 -- Orbit transitivity:** All (type, Z-count) orbits are transitive under
+**V4, orbit transitivity:** All (type, Z-count) orbits are transitive under
 nearest-neighbor SWAPs for N = 2, ..., 7. PASS.
 
-**V5 -- Analytical basis matches numerical eigenvectors:**
+**V5, analytical basis matches numerical eigenvectors:**
 The analytically constructed T_c^{(a)} operators span the same subspace as the
 numerically computed Liouvillian eigenvectors from `dotnet run -- eigvec`.
 rank(T_c ∪ eigvecs) = 2N for all N = 2, ..., 6. PASS.
@@ -293,10 +308,14 @@ if and only if the graph is connected).
 
 **Corollary.** For any connected graph with N sites and isotropic Heisenberg
 coupling, the Liouvillian with uniform Z-dephasing has exactly 2N purely-real
-eigenvalues at Re = −2γ.
+eigenvalues at Re = −2γ, with the single tested exception of K_3 at N=3 (the
+triangle = ring = complete graph on 3 vertices), which has 2N+2. The Appendix
+shows K_3 N=3 to be the small-N face of a general central-weight excess in
+high-symmetry topologies; the "exactly" here inherits the Step 5 gap, while the
+lower bound "≥ 2N" is unconditional.
 
 This extends the d(−γ) = 2N result from the chain to star, ring, complete,
-binary tree, and any other connected topology.
+binary tree, and any other connected topology (K_3 N=3 excepted).
 
 ---
 
@@ -306,7 +325,7 @@ The proof relies critically on isotropy (Δ = 1 in XXZ notation). For the
 anisotropic Heisenberg model H = Σ (X_i X_j + Y_i Y_j + Δ Z_i Z_j) with
 Δ ≠ 1, the ZZ term does not have the SWAP structure:
 
-X_i X_j + Y_i Y_j + Δ Z_i Z_j = (2 − Δ) SWAP_{ij} + (Δ − 1) Z_i Z_j + const
+X_i X_j + Y_i Y_j + Δ Z_i Z_j = 2 · SWAP_{ij} + (Δ − 1) Z_i Z_j − I
 
 The residual Z_i Z_j term does not preserve the Pauli type (X ↔ Y mixing via
 [Z_i, X_i] = 2iY_i), so T_c^{(X)} and T_c^{(Y)} are no longer individually
@@ -445,7 +464,7 @@ K_3's full centralizer is 8 dimensions larger than chain's. Of these 8 extra cen
 
 2. **Multi-weight tail.** The remaining 4 extra centralizer dimensions live in multi-weight operators (operators with components in multiple weight sectors simultaneously). Chain's centralizer is dominated by pure-weight operators (20 of 24 = 83%); K_3's centralizer has 4 multi-weight operators that chain lacks (24 of 32 = 75% pure-weight). The multi-weight mechanism observed in [`WEIGHT2_KERNEL.md`](../../experiments/WEIGHT2_KERNEL.md) for Chain N=4 weight-2 (`d_real(2) = 14 > ker(w=2) = 13`) is the same kind of phenomenon: H's spin symmetry allows operators whose dephasing decay rates average to a specific target via cross-weight cancellation.
 
-The matrix-commutator picture also clarifies why `Aut(G)`-irrep arguments (Schur class-sum scalar = 0) don't directly predict ker contributions: those arguments use the group-algebra LEFT-multiplication structure, while `[H, A] = 0` is matrix commutation. The centralizer `Centr(H)` decomposes as `⊕_λ M(d_λ)` (matrix algebras on each H-eigenspace), and the weight-w intersection with this depends on how Pauli weight aligns with the eigenspace projectors — a graph-and-N specific algebraic question.
+The matrix-commutator picture also clarifies why `Aut(G)`-irrep arguments (Schur class-sum scalar = 0) don't directly predict ker contributions: those arguments use the group-algebra LEFT-multiplication structure, while `[H, A] = 0` is matrix commutation. The centralizer `Centr(H)` decomposes as `⊕_λ M(d_λ)` (matrix algebras on each H-eigenspace), and the weight-w intersection with this depends on how Pauli weight aligns with the eigenspace projectors, a graph-and-N specific algebraic question.
 
 ### Cross-link to WEIGHT2_KERNEL.md (April 3, 2026)
 
@@ -495,13 +514,13 @@ Extending the per-weight breakdown to chain/ring/star/K_4-e/K_4 at N=4 and chain
 | ring N=5 | (6, 10, 22, 22, 10, 6) | +8 at w=2, +8 at w=3 | pair around N/2 = 2.5 |
 | **K_5 N=5** | (6, 10, 54, 54, 10, 6) | **+40 at w=2, +40 at w=3** | pair around N/2 = 2.5 |
 
-**The pattern:** every connected graph with non-trivial automorphism beyond chain shows centralizer excess at the **central weights** `w ∈ {floor(N/2), ceil(N/2)}` — palindromic pair when N is odd, self-palindromic single value when N is even. The excess magnitude is topology-dependent (K_N largest among K_N / ring / star / K_N − e). At edge weights w ∈ {0, 1, N-1, N} the count is topology-independent (matches chain = 2N at w=1 and 2 at w=0 etc.).
+**The pattern:** every connected graph with non-trivial automorphism beyond chain shows centralizer excess at the **central weights** `w ∈ {floor(N/2), ceil(N/2)}`, palindromic pair when N is odd, self-palindromic single value when N is even. The excess magnitude is topology-dependent (K_N largest among K_N / ring / star / K_N − e). At edge weights w ∈ {0, 1, N-1, N} the count is topology-independent (matches chain = 2N at w=1 and 2 at w=0 etc.).
 
 **Why K_3 N=3 surfaces as a "weight-1 anomaly":** at N=3, floor(N/2) = 1, so the central palindromic pair is (w=1, w=2). F50 specifically tracks weight-1, so the K_3 excess shows up there. For N ≥ 4 the central weight is ≥ 2 and F50's weight-1 count remains 2N for all topologies tested. **K_3 N=3 is not a special algebraic phenomenon; it is the small-N manifestation of the universal "central-weight excess in high-symmetry topologies" pattern.**
 
 **Why the excess is palindromic:** the F1 Π-conjugation palindrome `d_real(w) = d_real(N − w)` (proven for the full Liouvillian spectrum) forces the per-weight excess to be palindromic too. The conjugation pairing weight-w ↔ weight-(N−w) commutes with H's action on operators (via the standard Π = Z⊗N involution), so any centralizer dimension at weight w has a partner at weight N−w.
 
-**Connection to the WEIGHT2_KERNEL.md observations:** the +23 at K_4 weight-2 and similar topology-dependent counts at weight-2 across N=4..6 (their original table) are the SAME phenomenon as today's K_3 N=3 weight-1 finding — different value of N, same "central weight excess + F1 palindrome". WEIGHT2_KERNEL had documented the topology dependence at weight-2 ≥ 4 weeks ago; we now understand the K_3 N=3 case as the same pattern with N=3's central weight happening to land at w=1.
+**Connection to the WEIGHT2_KERNEL.md observations:** the +23 at K_4 weight-2 and similar topology-dependent counts at weight-2 across N=4..6 (their original table) are the SAME phenomenon as today's K_3 N=3 weight-1 finding, different value of N, same "central weight excess + F1 palindrome". WEIGHT2_KERNEL had documented the topology dependence at weight-2 ≥ 4 weeks ago; we now understand the K_3 N=3 case as the same pattern with N=3's central weight happening to land at w=1.
 
 **What remains genuinely open:**
 - A closed-form formula for the excess as a function of (graph G, N, weight w). The values 2, 3, 9, 10, 23 (N=4 w=2 across topologies) and 8, 40 (N=5 K_n w=2) don't fit an obvious combinatorial family.
@@ -523,7 +542,7 @@ Test ([`simulations/f94_topology_visibility_probe.py`](../../simulations/f94_top
 
 K_4 and Ring give bit-identical Dyson matrix elements across all 4 outcomes. F96's slopes are also identical (chain, ring, K_4 all give -16/9 and -8/3 for the |01⟩ and |11⟩ subdominant slopes). F94/F96 are **blind to the K_4 vs Ring topology distinction** at this canonical lens.
 
-**Why the blindness:** the two extra K_4 bonds vs Ring are (0,2) and (1,3) — the "diagonal" bonds. For |0+0+⟩ initial state and pair (0,2) measurement:
+**Why the blindness:** the two extra K_4 bonds vs Ring are (0,2) and (1,3), the "diagonal" bonds. For |0+0+⟩ initial state and pair (0,2) measurement:
 - Bond (0,2) connects the two kept-pair sites (both prepared as |0⟩, Z eigenstates), so [Z_0 Z_2, |0,·,0,·⟩] = 0 and the (0,2) bond's contributions vanish.
 - Bond (1,3) connects the two traced-out sites (both prepared as |+⟩, X eigenstates), so its contributions trace out to zero on the pair (0,2) observable.
 
@@ -561,22 +580,22 @@ For K_N, the spin sectors are indexed by total spin S ∈ {N/2, N/2 − 1, ...},
 
 | Setup | (m_S, 2S+1, dim_S) | (w=0, w=1, ..., w=N) single-block pattern |
 |-------|--------------------|-------------------------------------------|
-| K_3 S=3/2 max | (1, 4, 4) | (2, 4, 4, 2) — sum 12 = 4N |
-| K_3 S=1/2 | (2, 2, 4) | (0, 2, 2, 0) — central only |
-| K_4 S=2 max | (1, 5, 5) | (2, 4, 4, 4, 2) — sum 16 = 4N |
-| K_4 S=1 | (3, 3, 9) | (0, 0, 26, 0, 0) — central only |
-| K_4 S=0 | (2, 1, 2) | (0, 0, 1, 0, 0) — central only |
-| K_5 S=5/2 max | (1, 6, 6) | (2, 4, 4, 4, 4, 2) — sum 20 = 4N |
-| K_5 S=3/2 | (4, 4, 16) | (0, 0, 22, 22, 0, 0) — central pair |
-| K_5 S=1/2 | (5, 2, 10) | (0, 0, 8, 8, 0, 0) — central pair |
-| K_6 S=3 max | (1, 7, 7) | (2, 4, 4, 4, 4, 4, 2) — sum 24 = 4N |
-| K_6 S=2 | (5, 5, 25) | (0, 0, 38, **0**, 38, 0, 0) — even-w only (parity!) |
-| K_6 S=1 | (9, 3, 27) | (0, 0, 30, 124, 30, 0, 0) — central triple |
-| K_6 S=0 | (5, 1, 5) | (0, 0, 0, 0, 0, 0, 0) — **vanishes** |
+| K_3 S=3/2 max | (1, 4, 4) | (2, 4, 4, 2), sum 12 = 4N |
+| K_3 S=1/2 | (2, 2, 4) | (0, 2, 2, 0), central only |
+| K_4 S=2 max | (1, 5, 5) | (2, 4, 4, 4, 2), sum 16 = 4N |
+| K_4 S=1 | (3, 3, 9) | (0, 0, 26, 0, 0), central only |
+| K_4 S=0 | (2, 1, 2) | (0, 0, 1, 0, 0), central only |
+| K_5 S=5/2 max | (1, 6, 6) | (2, 4, 4, 4, 4, 2), sum 20 = 4N |
+| K_5 S=3/2 | (4, 4, 16) | (0, 0, 22, 22, 0, 0), central pair |
+| K_5 S=1/2 | (5, 2, 10) | (0, 0, 8, 8, 0, 0), central pair |
+| K_6 S=3 max | (1, 7, 7) | (2, 4, 4, 4, 4, 4, 2), sum 24 = 4N |
+| K_6 S=2 | (5, 5, 25) | (0, 0, 38, **0**, 38, 0, 0), even-w only (parity!) |
+| K_6 S=1 | (9, 3, 27) | (0, 0, 30, 124, 30, 0, 0), central triple |
+| K_6 S=0 | (5, 1, 5) | (0, 0, 0, 0, 0, 0, 0), **vanishes** |
 
 **Two universal structural facts:**
 
-1. **Max-spin block (S = N/2, m_S = 1, dim = N+1) gives the universal palindromic pattern (2, 4, 4, ..., 4, 2)** with `(N − 1)` interior 4s and edge 2s, total sum `4N` for all N ≥ 3. This is the SWAP-invariant `T_c^{(a)}` contribution from the original F50 proof — those 2N operators live entirely in the max-spin (fully symmetric) eigenspace.
+1. **Max-spin block (S = N/2, m_S = 1, dim = N+1) gives the universal palindromic pattern (2, 4, 4, ..., 4, 2)** with `(N − 1)` interior 4s and edge 2s, total sum `4N` for all N ≥ 3. This is the SWAP-invariant `T_c^{(a)}` contribution from the original F50 proof, those 2N operators live entirely in the max-spin (fully symmetric) eigenspace.
 
 2. **Sub-max spin blocks (S < N/2) contribute pure-weight operators ONLY at central weights**, with zero contribution at edge weights. The "central window" width and parity depend on (m_S, 2S+1) in a non-trivial way: at K_5 sub-max contributes at w ∈ {2, 3}; at K_6 S=2 contributes at w ∈ {2, 4} (skipping the true center w=3 due to a parity selection rule); at K_6 S=0 the contribution vanishes entirely.
 
@@ -584,7 +603,7 @@ For K_N, the spin sectors are indexed by total spin S ∈ {N/2, N/2 − 1, ...},
 
     central-weight-excess(K_N) = Σ_{S < N/2} single_block(S, central w) + multi-block contributions
 
-The max-spin pattern is **N-uniform and palindromic in w**, so it contributes equally to central and neighbor weights — max-spin alone does NOT create central-weight excess. The excess comes entirely from sub-max spin sectors concentrating their pure-weight mass at central weights.
+The max-spin pattern is **N-uniform and palindromic in w**, so it contributes equally to central and neighbor weights, max-spin alone does NOT create central-weight excess. The excess comes entirely from sub-max spin sectors concentrating their pure-weight mass at central weights.
 
 For K_3 N=3 weight-1: single-block excess vs chain = 6 − 4 = 2 (from S=1/2 block contributing 2 at w=1). Multi-block contribution is **identical for K_3 and chain** (both = 2 at w=1). The K_3 N=3 "anomaly" is **entirely** a single-block phenomenon: the K_3 spin-1/2 block has 2 pure-weight-1 operators absent from chain's denser eigenspace structure.
 
@@ -620,7 +639,7 @@ where e_k is the k-th elementary symmetric polynomial in Z-operators (verified b
 
 **Consequence for F50:** the max-spin contribution to ker(K_N, w) is weight-uniform (always 2 or 4 per weight, never different at central vs edge weights). Therefore the **central-weight excess of K_N over chain is entirely a sub-max-spin phenomenon**, confirming the empirical observation that the K_N anomaly comes from the lower-spin sectors concentrating their mass at central weights.
 
-**Forward link.** The same X⊗N-eigenbasis / Dicke-endpoint mechanism powers the closed-form proof of the 3/8 K-intermediate anchor for the Dicke superposition (|D_n⟩ + |D_{n+1}⟩)/√2 in F86b — see [`PROOF_F86B_UNIVERSAL_SHAPE.md`](PROOF_F86B_UNIVERSAL_SHAPE.md) §Statement 2 closed-form proof block. Both are instances of the orthogonal-symmetry-decomposition pattern: under the involution X⊗N (or equivalently the popcount-mirror structure), Pauli operators split into ±1 eigenspaces whose pure-weight content has clean algebraic descriptions.
+**Forward link.** The same X⊗N-eigenbasis / Dicke-endpoint mechanism powers the closed-form proof of the 3/8 K-intermediate anchor for the Dicke superposition (|D_n⟩ + |D_{n+1}⟩)/√2 in F86b, see [`PROOF_F86B_UNIVERSAL_SHAPE.md`](PROOF_F86B_UNIVERSAL_SHAPE.md) §Statement 2 closed-form proof block. Both are instances of the orthogonal-symmetry-decomposition pattern: under the involution X⊗N (or equivalently the popcount-mirror structure), Pauli operators split into ±1 eigenspaces whose pure-weight content has clean algebraic descriptions.
 
 **Partial closed-form for sub-max via antisymmetric Pauli orbits (Tier 1 for small cases):**
 
@@ -681,19 +700,20 @@ A complete closed-form formula `f(N, S, w)` exists in principle via Schur-Weyl +
 
 ### Open questions (refined post-resolution; resolved Q1/Q2/Q4 retired 2026-05-17 evening)
 
-> **Q1 (matrix-commutator vs left-action gap) — RESOLVED 2026-05-17 morning.** The gap
-> is fully characterized in the appendix above (§ "The Schur class-sum gap and its
-> resolution") and in `docs/ANALYTICAL_FORMULAS.md` F50 section. Briefly: `[H, A] = 0`
+> **Q1 (matrix-commutator vs left-action gap), RESOLVED 2026-05-17 morning.** The gap
+> is fully characterized in the appendix above (§ "Where Step 5 of the original
+> proof breaks down" and § "Matrix-commutator framework: the right structural
+> angle") and in `docs/ANALYTICAL_FORMULAS.md` F50 section. Briefly: `[H, A] = 0`
 > reduces to `Σ_b [SWAP_b, A] = 0` (matrix-commutator sum), not to
 > `Σ_b (SWAP_b(A) − A) = 0` (conjugation-action sum); the centralizer of H decomposes
 > as `⊕_λ M(d_λ)` on each H-eigenspace, and the weight-w intersection is a graph-and-N
 > specific algebraic question. Explicit falsification of the naive class-sum conjecture
 > at K_4 N=4: `simulations/f50_irrep_decomposition_probe.py`.
 
-> **Q2 (why K_3 N=3 specifically) — RESOLVED 2026-05-17 evening.** K_3 N=3 is NOT
+> **Q2 (why K_3 N=3 specifically), RESOLVED 2026-05-17 evening.** K_3 N=3 is NOT
 > algebraically special. It is the small-N manifestation of the universal
 > "central-weight excess in high-symmetry topologies" pattern (this proof §
-> "Resolution: K_3 is the small-N face of a central-weight excess pattern"). The
+> "Resolution of the open question (full topology sweep)"). The
 > structural cause: sub-max-spin sectors concentrate pure-weight mass at central
 > weights only, while max-spin baseline is weight-uniform. N=3's central weight = 1
 > coincides with F50's tracked weight, so the excess shows there; N ≥ 4 has central
@@ -705,9 +725,9 @@ A complete closed-form formula `f(N, S, w)` exists in principle via Schur-Weyl +
    ladder-rungs pattern (Tier 1 derived; this proof § "Max-spin closed-form via Dicke
    endpoint ladder rungs"). For sub-max spin `S < N/2`, the corresponding `f(N, S, w)`
    in closed form is open. Empirical patterns:
-   - K_3 S=1/2: (0, 2, 2, 0) — the antisym piece, now closed-form via Q3' below.
-   - K_4 S=0: (0, 0, 1, 0, 0); K_4 S=1: (0, 26, 1, 22, 8, 38, 124, 0, 30) at K_6.
-   - K_6 S=0 = (0, 0, 0, 0, 0, 0, 0) — predicted to vanish from antisym; confirmed.
+   - K_3 S=1/2: (0, 2, 2, 0), the antisym piece, now closed-form via Q3' below.
+   - K_4 S=0: (0, 0, 1, 0, 0); K_4 S=1: (0, 0, 26, 0, 0); K_6 S=1: (0, 0, 30, 124, 30, 0, 0).
+   - K_6 S=0 = (0, 0, 0, 0, 0, 0, 0), predicted to vanish from antisym; confirmed.
 
 2. **Q3' Sub-max non-sign-rep contributions** (partial). The sign-rep [1^N]
    contribution to `single_block(S, w)` is closed-form via distinct-letter Pauli
@@ -717,7 +737,7 @@ A complete closed-form formula `f(N, S, w)` exists in principle via Schur-Weyl +
    S=2). The Schur-Weyl per-S_N-irrep decomposition of the 22 piece is open and would
    complete the closed-form via Frobenius reciprocity character calculations.
 
-> **Q4 (does any other high-Aut graph beyond K_3 N=3 anomalize) — RESOLVED 2026-05-17
+> **Q4 (does any other high-Aut graph beyond K_3 N=3 anomalize), RESOLVED 2026-05-17
 > evening.** The n_XY=1 commutant sweep via efficient rank-of-`[H, ·]`-on-n_XY=1
 > subspace (`simulations/f50_weight1_commutant_efficient.py`, bypasses the
 > 4^N × 4^N dense Liouvillian via the observation that L A = -2γ A forces
