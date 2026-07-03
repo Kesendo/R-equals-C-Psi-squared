@@ -651,7 +651,23 @@ public static class OpenArcsRegistry
                 "blocks at N=5, 52 at N=7, worst slack 0.000 (TIGHT, the bottom-rung chiral strands sit on the " +
                 "window edge block-wide). The lemma is SILENT inside the shells (locus 2's (1,1): Re lambda_A " +
                 "= -3.7917 inside [-4,0], the negative control) -- that in-shell residue at real loci + ALL " +
-                "complex loci is what remains for the program. NEXT = STEP 3, the MirrorWorld braid census at N = 9..15 (adopt the Block/braid " +
+                "complex loci is what remains for the program. STEP-3 FEASIBILITY SCOUTED (2026-07-03, scratchpad " +
+                "play run, sparse-LU + inverse-iteration sigma_min probe per block, NO full spectrum): builder " +
+                "validated byte-exact (N=5 gap 4.771e-04 at -4.618886); NEW N=9 seed q*=1.4994, lambda_A=-4.3807 " +
+                "(gap 4.6e-5); FIRST in-shell exclusion datum beyond N=5/6: N=9 (3,3), a window-silent non-member, " +
+                "reads sigma_min(L - lambda_A) = 2.1e-2 > 0; positive control (4,5) member 8.8e-6 ~ 0; the member " +
+                "core (4,4) reads the SAME 2.1e-2 as (3,3) (it carries mu, not lambda_A, and spec(3,3) subset " +
+                "spec(4,4) by the W-step -- the containment visible live in probe data); outside-shell control " +
+                "(1,6): sigma_min 5.620 vs combinatorial margin 5.619 (the shell lemma sharp to 3 digits). " +
+                "TIMINGS (the design answer): LU dominates and scales ~cubically -- N=9 dim 7056: 27 s, dim " +
+                "15876: ~4.5 min; N=11 dim 9075: 40 s, dim 54450: 2.1 HOURS; iterations are cheap (1-16 s, and " +
+                "my fixed-200 count was wasteful, converges in ~10). VERDICT: N=9 full shell census feasible " +
+                "(~30-45 min), N=11 feasible except the biggest cores ((4,4) dim 108900, (5,5) dim 213444), " +
+                "N>=13 needs matrix-free; two owned levers cut cost first: the fundamental domain (1/8, step 1) " +
+                "and the R-PARITY SPLIT (halves the block dim => ~1/8 LU cost; ROddBasis exists). Instrument " +
+                "notes: probe BOTH lambda_A and mu per block (two shifts = two LUs), filter exact semisimple " +
+                "degeneracies (gap<1e-8) when seed-scanning (the at_masking trap bit the first scout draft), " +
+                "adaptive iteration count. NEXT = STEP 3 PROPER, the braid census at N = 9..15 (adopt the Block/braid " +
                 "reading, masking-immune PT-break count instruments, small blocks not 4^N) to map where the braid " +
                 "lives at large N; Step 4 = the N=7 certificate only as a spot-check of the surviving shell " +
                 "(probe the bivariate build cost FIRST). The program's remaining open surface after steps 1+2: " +
