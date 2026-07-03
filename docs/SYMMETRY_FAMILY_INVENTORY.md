@@ -21,7 +21,7 @@
 | 6 | **Z⊗N** Pauli-letter parity (Z₂) = Π²_X (F61) | operator | trivially redundant with joint-popcount-parity (typed for inventory completeness) | Tier1Derived | `ZGlobalMirrorRefinement` |
 | 7 | **X⊗N** charge-conjugation (Z₂) = Π² (F1²) | operator | sector-pairing (p_c, p_r) ↔ (N−p_c, N−p_r); halves number of eig-calls | Tier1Derived | `XGlobalChargeConjugationPairing` |
 
-## Architecture aggregators (do not split or pair; report inventory state)
+## Architecture aggregators and refinement Claims (inventory state; the finer YParity / BitA / BitB / Cubic3 refinement axes beyond the top-level five)
 
 | # | Symmetry | Axis | Effect | Status | Anchor |
 |---|---|---|---|---|---|
@@ -31,8 +31,8 @@
 | 12 | F87Z2CubedRefinementN5K3 | YParity (term-level Z₂) | refines F87 trichotomy at N=5 k=3 with the same five sub-statements as F103; same 294-pair enumeration as F103 (N4K3); F85 N-stability lift test on the y_par axis | empirical anchor at N=5 (294 pairs; Tier1Derived; F105). F85 N-stability lift to y_par axis CONFIRMED bit-exactly: all 5 sub-statement counts at N=5 k=3 match F103's at N=4 k=3 identically. Second derived class of `F87Z2CubedRefinementBase` | `F87Z2CubedRefinementN5K3` (added 2026-05-24) |
 | 13 | F87Z2CubedRefinementN4K4 | YParity (term-level Z₂) | refines F87 trichotomy at N=4 k=4; new 4248-pair enumeration; tests k-stability where F105 confirmed N-stability | empirical anchor at N=4 k=4 (4248 pairs; Tier1Derived; F106). Mixed k-stability: two purity statements HELD (truly y_par=0-pure 3924/0; mother soft y_par=1-pure (0, 300) ×3), Y-inversion HELD qualitatively; the k=3 42:8 hard ratio sharpened to 100% pure (228, 0), the 13:13 diagonal soft symmetry broke to asymmetric (300, 528). Off-diagonal: 3 cells stay Pattern C analog (0, 528), 3 cells became fully symmetric (528, 528). Third derived class of `F87Z2CubedRefinementBase` | `F87Z2CubedRefinementN4K4` (added 2026-05-24) |
 | 14 | TrulyYParityZeroPurity | YParity (term-level Z₂) | truly classification forces y_par = 0 on every Pauli term under any single-letter dephase channel; closed-form corollary of F85's k-body truly criterion extended to X and Y dephase via per-dephase Π² eigenvalue + dissipator commutativity | Tier1Derived; F107. First DERIVED-not-EMPIRICAL Claim in the F87 Z₂³ refinement family; explains the y_par=1 truly count of zero observed empirically across F103/F105/F106 (4524 truly classifications total) | `TrulyYParityZeroPurity` (added 2026-05-24) |
-| 16 | MotherSoftYParityOnePurity | YParity (term-level Z₂) | mother sector Klein (0,0) soft pairs under any single-letter dephase channel are y_par=1 pure; all three dephase branches closed-form via the F108 Part 1+2+3 Π_5bilinear family | Tier1Derived (fully unconditional after F108 Part 1+2+3 closure 2026-05-25); F109. Sister to F107 on the y_par axis; together they pin the y_par signature of truly + mother-soft cells. Explains the y_par=0 mother-soft count of zero observed empirically across F103/F105/F106 (1026 mother-soft classifications) | `MotherSoftYParityOnePurity` (added 2026-05-24, fully unconditional 2026-05-25 after F108 Part 1+2+3 closure) |
 | 15 | KleinEightCellClaim | Cubic3 (full Z₂³) | F88a + F102 8-cell Z₂³ decomposition (bit_a, bit_b, y_par); structural anchor for F87 Z₂³ refinement work | Tier1Derived; Stage 2b. First Cubic3-axis Claim. At fixed even k_body collapses to F88a's Klein 4-cell (y_par = bit_a XOR bit_b); at fixed odd k_body collapses to the opposite 4. Mixed-k_body enumerations populate all 8 | `KleinEightCellClaim` (added 2026-05-24) |
+| 16 | MotherSoftYParityOnePurity | YParity (term-level Z₂) | mother sector Klein (0,0) soft pairs under any single-letter dephase channel are y_par=1 pure; all three dephase branches closed-form via the F108 Part 1+2+3 Π_5bilinear family | Tier1Derived (fully unconditional after F108 Part 1+2+3 closure 2026-05-25); F109. Sister to F107 on the y_par axis; together they pin the y_par signature of truly + mother-soft cells. Explains the y_par=0 mother-soft count of zero observed empirically across F103/F105/F106 (1026 mother-soft classifications) | `MotherSoftYParityOnePurity` (added 2026-05-24, fully unconditional 2026-05-25 after F108 Part 1+2+3 closure) |
 | 17 | F108Part1Pi2EvenAlwaysPalindromic | BitB (Π²_Z = X⊗N) | every Π²_Z-even Hamiltonian H built from bilinears {XX, YY, YZ, ZY, ZZ} + Z-dephasing admits EXACT operator-level palindrome via the Π_5bilinear phase-variant operator (I→+X, X→−I, Y→+iZ, Z→−iY). Closes the F87-hardness question for the Π²-even half of Klein cells under Z-dephasing | Tier1Derived; F108 Part 1, closed 2026-05-25. First BitB-axis Claim of the post-F107 wave. BitATwin = Filled (typed ctor parent = F108 Part 2); Y-dephasing analog (F108 Part 3) has no covering Claim yet. Retroactively closes F109's Step 5 for Z-dephasing | `F108Part1Pi2EvenAlwaysPalindromic` + `Pi5BilinearOperator` (added 2026-05-25) |
 | 18 | F108Part2Pi2XEvenAlwaysPalindromic | BitA (Π²_X = Z⊗N) | every Π²_X-even Hamiltonian H built from bilinears {ZZ, XX, XY, YX, YY} + X-dephasing admits EXACT operator-level palindrome via the X-dephasing variant of Π_5bilinear (I→+Z, Z→−I, X→−iY, Y→+iX). Closes the F87-hardness question for the Π²_X-even half of Klein cells under X-dephasing | Tier1Derived; F108 Part 2, closed 2026-05-25. BitA twin of F108 Part 1; second BitA-axis Claim (after F61). Pi5BilinearOperator extended with dephase parameter (Z, X, Y all supported). Closes F109's Step 5 X-dephasing branch closed-form | `F108Part2Pi2XEvenAlwaysPalindromic` + `Pi5BilinearOperator` (X-deph branch, added 2026-05-25) |
 | 19 | F108Part3Pi2YEvenAlwaysPalindromic | BitB (Π²_Y = bit_b parity, same axis as Π²_Z) | every Π²_Y-even Hamiltonian H built from bilinears {XX, YY, YZ, ZY, ZZ} (same set as Π²_Z-even) + Y-dephasing admits EXACT operator-level palindrome via the Y-dephasing variant of Π_5bilinear (I→+X, X→−I, Y→−iZ, Z→+iY; only Y/Z 2-cycle phase differs from Part 1's +i to Y-deph's −i). Closes the F87-hardness question for Π²_Y-even cells under Y-dephasing | Tier1Derived; F108 Part 3, closed 2026-05-25. Y-dephasing sibling of F108 Part 1 (same BitB axis, same bilinear set, different dephase letter); BitBSpecific BitATwin slot (Y-deph has no meaningful bit_a analog). Reuses F108 Part 1's bilinear predicates. Closes F109's Step 5 Y-dephasing branch closed-form; F109 now fully unconditional across {Z, X, Y} | `F108Part3Pi2YEvenAlwaysPalindromic` + `Pi5BilinearOperator` (Y-deph branch, added 2026-05-25) |
@@ -55,7 +55,7 @@
 
 - **K** (chiral / sublattice / AZ class BDI, KHK = −H): Hamilton-symmetry only; NOT a full L-symmetry under Z-dephasing → not a BlockSpectrum refinement. Typed as `ChiralK.cs` in `Symmetry/`.
 - **Π** (palindrome master, F1): non-diagonal master operator; F1 spectrum mirror around −Σγ. Typed as `PiOperator.cs` in `Symmetry/` and as `F1` in `ANALYTICAL_FORMULAS.md`. Its square Π² is the X⊗N charge-conjugation (#7 above, registered as F1²).
-- **Pi2-Z₄** (operator-quaternion, NinetyDegreeMirrorMemory): the genuine order-4 Z₄ (`i⁴=1`, `i²=−1`) on the operator side. F91/F92/F93 inhabit its order-2 *shadow* on the parameter side — a Klein V₄ = Z₂×Z₂ (palindromic mirror F71 × anti-palindromic involution R₉₀), not the order-4 Z₄ itself. Typed in `Pi2KnowledgeBaseClaims.cs`.
+- **Pi2-Z₄** (operator-quaternion, NinetyDegreeMirrorMemory): the genuine order-4 Z₄ (`i⁴=1`, `i²=−1`) on the operator side. F91/F92/F93 inhabit its order-2 *shadow* on the parameter side, a Klein V₄ = Z₂×Z₂ (palindromic mirror F71 × anti-palindromic involution R₉₀), not the order-4 Z₄ itself. Typed in `Pi2KnowledgeBaseClaims.cs`.
 
 ## Combinatorial reach
 
@@ -64,7 +64,7 @@ For chain XY + uniform Z-dephasing, the simultaneous use of:
 - F71 split: factor ~2
 - X⊗N pairing: halves number of distinct eig-calls (paired sectors share spectrum)
 
-gives at N=10 a max-block of `C(10,5)² / 2 / 2 ≈ 16k`, still beyond commodity hardware. F92/F93 do NOT add block-reduction (they describe spectral-invariance under parameter rotation, not sector splitting). Therefore N=10 push requires a **new** symmetry not yet found, or a different attack (matrix-free per-block eig, etc.) — the latter now realised, see the next section.
+gives at N=10 a max-block of `C(10,5)² / 2 / 2 ≈ 16k`, still beyond commodity hardware. F92/F93 do NOT add block-reduction (they describe spectral-invariance under parameter rotation, not sector splitting). Therefore N=10 push requires a **new** symmetry not yet found, or a different attack (matrix-free per-block eig, etc.); the latter now realised, see the next section.
 
 ## N=10 push: the realised "different attack" (2026-05-16 / 2026-05-17)
 
@@ -74,14 +74,14 @@ Phase 2 of the N=10 push landed six primitives under `compute/RCPsiSquared.Core/
 |---|---|
 | `JwSlaterPairBasis` | Basis transform U: maps the (p_c, p_r) computational-basis sector to the JW Slater-pair basis; L_H diagonal with eigenvalues `−i·(Σε(L) − Σε(K))`. |
 | `JwSlaterPairLProjection` | Dense `U^†·L·U` + Slater-swap sparsity witness `nnz_off/row ≤ (1 + p_r·(N−p_r))·(1 + p_c·(N−p_c)) − 1`; density falls from ~37 % at N=4 to ~10 % at N=7, extrapolated ~1 % at N=10. Verifies the bound where dense `U^†LU` still fits. |
-| `JwSlaterPairSparseLBuilder` | Direct sparse CSR construction of L_JW element-by-element from the analytic `Z_l ⊗ Z_l` action on Slater pairs — no dense `U^†LU` detour. At N=10 (p_c=5, p_r=5, sectorDim 63 504): ~14 M nnz, ~280 MB, ~3 s build. **This is the N=10 enabler.** |
+| `JwSlaterPairSparseLBuilder` | Direct sparse CSR construction of L_JW element-by-element from the analytic `Z_l ⊗ Z_l` action on Slater pairs, no dense `U^†LU` detour. At N=10 (p_c=5, p_r=5, sectorDim 63 504): ~14 M nnz, ~280 MB, ~3 s build. **This is the N=10 enabler.** |
 | `JwSlaterPairArnoldiEig` | Managed non-symmetric Arnoldi with Modified Gram-Schmidt on the CSR matvec; returns top-k largest-magnitude Ritz values. Matvec parallelised via `Parallel.For` over rows. |
-| `JwSlaterPairShiftInvertArnoldi` | Same outer Arnoldi on `(L − σI)^(−1)`; inner solver is a Jacobi-preconditioned in-house BiCGStab on the same CSR matvec — no MathNet sparse conversion. Recovers eigenvalues nearest σ, including the steady state at λ = 0 (machine precision at N=10). |
+| `JwSlaterPairShiftInvertArnoldi` | Same outer Arnoldi on `(L − σI)^(−1)`; inner solver is a Jacobi-preconditioned in-house BiCGStab on the same CSR matvec, no MathNet sparse conversion. Recovers eigenvalues nearest σ, including the steady state at λ = 0 (machine precision at N=10). |
 | `JwSlaterPairF1PalindromeProbe` | Two-shift F1 probe: runs ShiftInvertArnoldi at σ_slow ≈ 0 AND σ_fast = F1(σ_slow) = −σ_slow − 2·Σγ, reports per-pair residual on the F1 mirror map λ → −λ − 2·Σγ with the L-conjugation degree of freedom absorbed. At N=10 (5,5) the steady-state pair matches at machine precision (~3.6e-14), the two slowest decay-mode pairs at ~3e-7 / ~3e-6; deeper Ritz values may not pair (Arnoldi-depth limit). Informational, not a strict F1 prover. |
 
 Shared low-level complex-vector kernels (`NormSquared`, `ConjugateDot`, `AxpyInPlace`, `RandomNormalized`) live in `KrylovOps.cs` to keep the Arnoldi sites lean.
 
-The combinatorial table above is unchanged — joint-popcount + F71 + X⊗N still do not shrink the max block enough for dense LAPACK at N=10 — but the matrix-free Krylov path renders that limit moot for top-k / near-σ work.
+The combinatorial table above is unchanged; joint-popcount + F71 + X⊗N still do not shrink the max block enough for dense LAPACK at N=10, but the matrix-free Krylov path renders that limit moot for top-k / near-σ work.
 
 **What this path does NOT yet give:**
 - **Full N=10 spectrum** (all ~63 k eigenvalues per max-block, ~1 M total). For F1 palindrome verification at N=10 as a structural theorem-check the cleaner route is Prosen third quantization (Phase 3 of the N=10 plan): under uniform γ, the chain XY + Z-dephasing Liouvillian reduces to a 2N × 2N Nambu spectral problem (Medvedyeva, Essler, Prosen 2016). Phase 3 has not yet been implemented.
@@ -94,7 +94,7 @@ The combinatorial table above is unchanged — joint-popcount + F71 + X⊗N stil
 
 The X⊗N global charge-conjugation primitive `XGlobalChargeConjugationPairing` halves the
 number of distinct sector eig-calls by pairing (p_c, p_r) ↔ (N−p_c, N−p_r). At even N
-the sector (N/2, N/2) is X⊗N-self-paired — its pair *is itself* — so the inter-sector
+the sector (N/2, N/2) is X⊗N-self-paired, its pair *is itself*, so the inter-sector
 halving cannot apply. But X⊗N is still a Z₂ symmetry of that sector's Liouville-space
 basis, and combined with the F71 chain spatial mirror (also Z₂, commutes with X⊗N) it
 generates the Klein four-group K = {1, F71, X⊗N, F71·X⊗N} acting *internally* on the
@@ -110,13 +110,13 @@ F71 alone. The Klein refinement primitive
 | Sub-block dim at N=10 (5, 5) | 16132 | 15620 | 15620 | 16132 | 63504 ✓ |
 
 Per sub-block element-wise construction (no full sector L materialised): ~19 s per sub-block
-at N=10 (5, 5), mean nnz per row 10.7 — **sparse**, 0.07 % density, ~170 k nnz vs 260 M
+at N=10 (5, 5), mean nnz per row 10.7, **sparse**, 0.07 % density, ~170 k nnz vs 260 M
 dense entries. Cross-validated at N=4 (2, 2), N=6 (3, 3), N=8 (4, 4): union of the 4
 sub-block dense Evds matches the direct `PerBlockLiouvillianBuilder` sector Evd as a
 multiset within 1e-9.
 
 **Where the literature does not go.** Medvedyeva-Essler-Prosen (2016) reach N=10 via
-the imaginary-U Bethe ansatz — analytic, doesn't need K splitting. For our
+the imaginary-U Bethe ansatz, analytic, doesn't need K splitting. For our
 computational path, K on self-paired sectors is repo-specific (F71 spatial Z₂ ×
 X⊗N charge Z₂ both typed primitives, combination unique to this codebase).
 
@@ -140,8 +140,8 @@ specific modes inaccessible to Phase 2 (e.g. (−0.336) in +-, (−0.313) in -+)
 
 **Phase 3d (closed): correct preconditioner choice → strict eigenvalues.** The initial
 Phase 3c run used Jacobi preconditioning by default and observed BiCGStab saturating
-at the iteration cap (~1000 iter, vs Phase 2 JW's ~22 mean) — Ritz values were
-APPROXIMATE (not strict eigenvalues), a "Falle" per Tom's principle that nothing is
+at the iteration cap (~1000 iter, vs Phase 2 JW's ~22 mean), Ritz values were
+APPROXIMATE (not strict eigenvalues), a "trap" per Tom's principle that nothing is
 imprecise in the quantum domain. Root cause diagnosed: Klein computational-basis
 sub-blocks have diagonal = only −2γ·hamming (max magnitude 1.0; many rows exactly 0
 for diagonal-projector orbits) and off-diagonal = ±iJ (magnitude 1.0). The matrix is
@@ -180,7 +180,7 @@ removes the unitary contribution from the bra side, so `L_(0,m) = −iH_m − 2�
 
 where `β_k = −2γ − i·ε_k` are the **N Prosen rapidities** of the model and
 `ε_k = 2J·cos(πk/(N+1))` is the OBC sine-mode dispersion. This is the simplest leaf of
-Medvedyeva-Essler-Prosen's (2016) imaginary-Hubbard programme — the (m, m̃) sectors with
+Medvedyeva-Essler-Prosen's (2016) imaginary-Hubbard programme; the (m, m̃) sectors with
 m, m̃ ≥ 1 require the imaginary-U Bethe ansatz (not yet implemented in the repo).
 
 `compute/RCPsiSquared.Core/BlockSpectrum/Prosen/OneSidedSectorClosedForm.cs` returns the
@@ -202,7 +202,7 @@ state at λ=0) to fast (m=N=10, λ=−2Σγ = −1.0 at γ=0.05) range uniformly
 ## Cross-references
 
 - `JointPopcountSectors`, `F71MirrorBlockRefinement`, `F71BilateralBlockRefinement`, `F71AntiPalindromicGammaSpectralInvariance`: see `compute/RCPsiSquared.Core/BlockSpectrum/`.
-- `F1`, `F71`, `F91`, F92, F93, F100, F101: see `docs/ANALYTICAL_FORMULAS.md`.
+- `F1`, `F71`, `F91`, `F92`, `F93`, `F100`, `F101`: see `docs/ANALYTICAL_FORMULAS.md`.
 - F91/F92/F93 algebraic proofs: `docs/proofs/PROOF_F91_GAMMA_NINETY_DEGREES.md`, `docs/proofs/PROOF_F92_BOND_ANTI_PALINDROMIC_J.md`, `docs/proofs/PROOF_F93_DETUNING_ANTI_PALINDROMIC.md`.
 - F100 (observable-side twin of F92): `docs/proofs/PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md`. The c₁/Q_peak bond-mirror deviation is exactly odd in the F71-anti-palindromic J component; where F92 keeps J_anti out of the diagonal-block spectrum, F100 localises the entire bond-mirror deviation in J_anti. Typed as `C1QPeakMirrorJParity` in `compute/RCPsiSquared.Core/F71/`.
 - F101 (observable-side twin of F91): `docs/proofs/PROOF_F101_C1_MIRROR_GAMMA_PARITY.md`. The c₁ bond-mirror deviation is exactly odd in the F71-anti-palindromic component of the per-site γ profile; where F91 keeps γ_anti out of the diagonal-block spectrum, F101 localises the entire bond-mirror deviation in γ_anti. c₁ only (the F86c Q_peak observable needs a scalar γ₀). Typed as `C1MirrorGammaParity` in `compute/RCPsiSquared.Core/F71/`.

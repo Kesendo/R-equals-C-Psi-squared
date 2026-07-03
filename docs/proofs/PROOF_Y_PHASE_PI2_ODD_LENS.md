@@ -93,7 +93,7 @@ The 2^(N−1) + 2^(N−1) split on the X-Y product-state sub-algebra reproduces 
 
 ## Cross-references
 
-- [`compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs`](../../compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs) — the state-level diagnostic that surfaces Π²-odd content
-- [`docs/ANALYTICAL_FORMULAS.md`](../ANALYTICAL_FORMULAS.md) F88b — popcount-coherence Krawtchouk closed form (the pair-state companion)
-- [`simulations/y_phase_pi2_odd_verify.py`](../../simulations/y_phase_pi2_odd_verify.py) — bit-exact verification at N=2..5
-- Memory `project_y_phase_pi2_odd_lens` — original empirical observation at N=3 and cockpit application notes (user memory, outside repo)
+- [`compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs`](../../compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs): the state-level diagnostic that surfaces Π²-odd content
+- [`docs/ANALYTICAL_FORMULAS.md`](../ANALYTICAL_FORMULAS.md) F88b: popcount-coherence Krawtchouk closed form (the pair-state companion)
+- [`simulations/y_phase_pi2_odd_verify.py`](../../simulations/y_phase_pi2_odd_verify.py): bit-exact verification at N=2..5
+- Memory `project_y_phase_pi2_odd_lens`: original empirical observation at N=3 and cockpit application notes (user memory, outside repo)

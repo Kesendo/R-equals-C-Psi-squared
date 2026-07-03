@@ -21,11 +21,11 @@ Standard resonance-scan grid (`ResonanceScan.DefaultQGrid()`): `LinearQGrid(0.20
 
 **The peak-band 1.2-1.8 is c-mediated**: Q_peak saturates with chromaticity (1.5 c=2, 1.6 c=3, 1.8 c=4,5). The earlier linear-extrapolation hypothesis Q_peak(c=5)=2.0 was refuted by the 40h N=9 Phase-2 run (2026-04-24). The peak-band width reflects c-variation, NOT finite-size scatter.
 
-Per-orbit Q_EP values, HWHM ratios, fitted (α, β) sub-class parameters, and off-grid escape Q values (Q≈7-17 at high-N orbit plateaus) are empirical observations rather than anchors. See [`F86_VALUES_INVENTORY.md`](F86_VALUES_INVENTORY.md) for the full inventory with caveats — they should not be promoted to anchor status without further structural derivation.
+Per-orbit Q_EP values, HWHM ratios, fitted (α, β) sub-class parameters, and off-grid escape Q values (Q≈7-17 at high-N orbit plateaus) are empirical observations rather than anchors. See [`F86_VALUES_INVENTORY.md`](F86_VALUES_INVENTORY.md) for the full inventory with caveats; they should not be promoted to anchor status without further structural derivation.
 
 ## Per-anchor viewpoints
 
-Each Q-anchor is reached from multiple framework lenses (parallel to the multi-viewpoint edges in `FractionReferenceGraph`). The viewpoints listed below are sources that independently land on the same Q-value — Painter-Principle pluralism applied to Q.
+Each Q-anchor is reached from multiple framework lenses (parallel to the multi-viewpoint edges in `FractionReferenceGraph`). The viewpoints listed below are sources that independently land on the same Q-value: Painter-Principle pluralism applied to Q.
 
 ### Q = 0.2 (onset start)
 - **Q-band edge**: lower bound of onset band (per `project_q_middle_structure`: bands {onset 0.2-0.35, peak 1.2-1.8, plateau block-specific})
@@ -42,11 +42,11 @@ Each Q-anchor is reached from multiple framework lenses (parallel to the multi-v
 - **J at γ₀=0.05**: J = 0.0175
 
 ### Q = 1.0 (Balance, J = γ₀)
-- **Identity**: J = γ₀ exactly — the only point where the two clocks have identical numerical rates
-- **F95 angle**: θ = arctan(1.0) = 45° — diagonal in the Re/Im plane of Liouvillian eigenvalues
+- **Identity**: J = γ₀ exactly, the only point where the two clocks have identical numerical rates
+- **F95 angle**: θ = arctan(1.0) = 45°, diagonal in the Re/Im plane of Liouvillian eigenvalues
 - **H-clock synchron**: 1 H-rotation per 1 γ₀-decay (perfectly synchronized)
-- **Wave-breaking-scan label**: "Balance (J=γ₀)" (`wave_breaking_q_anchor_scan.py:14`)
-- **F99-anker hits at Q=1**: N=2 → 3/8 (KIntermediate), N=3 → 1/2 (Generic), N=5 → 1/4 (Silver-Dicke) — three independent N's land on F99 ankers, structurally privileged
+- **Wave-breaking-scan label**: "Balance (J=γ₀)" (`wave_breaking_q_anchor_scan.py:52`)
+- **F99-anker hits at Q=1**: N=2 → 3/8 (KIntermediate), N=3 → 1/2 (Generic), N=5 → 1/4 (Silver-Dicke): three independent N's land on F99 ankers, structurally privileged
 - **C# typed**: `FractionReferenceGraph.QBasisAnkers[0]`
 - **J at γ₀=0.05**: J = 0.050
 
@@ -57,33 +57,33 @@ Each Q-anchor is reached from multiple framework lenses (parallel to the multi-v
 - **J at γ₀=0.05**: J = 0.060
 
 ### Q = 1.5 (F86 Q_peak c=2)
-- **F86 identification**: `PerBlockQPeakClaim` c=2 saturated value (wobble 1.4-1.6 across N=4..9) — Tier1Candidate, finite-size sensitive
+- **F86 identification**: `PerBlockQPeakClaim` c=2 saturated value (wobble 1.4-1.6 across N=4..9); Tier1Candidate, finite-size sensitive
 - **K observable**: K_CC_pr (J-derivative of S over t) maximizes here at c=2
 - **F95 angle**: θ = arctan(1.5) ≈ 56.3°
-- **H-clock**: 1.5 H-rotations per γ₀-tick — the slight H-favor that defines the resonance maximum
-- **Wave-breaking-scan label**: "F86 Q_peak" (`wave_breaking_q_anchor_scan.py:15`)
+- **H-clock**: 1.5 H-rotations per γ₀-tick, the slight H-favor that defines the resonance maximum
+- **Wave-breaking-scan label**: "F86 Q_peak" (`wave_breaking_q_anchor_scan.py:53`)
 - **C# typed**: `FractionReferenceGraph.QBasisAnkers[1]`, `PerBlockQPeakClaim.Standard[0]`
 - **J at γ₀=0.05**: J = 0.075
 - **Birth Canal mouth (flow-EP reading)**: [`THE_FLOW_BETWEEN_TWO_SINGULARITIES`](../experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md) places the **single-excitation flow exceptional point** at Q_EP = 1.5 (J_EP = Q_EP·γ₀ = 0.075, the "EP-family coupling" named in `ClockHandLadderWitness`), the **Birth Canal's birth singularity** where the slowly-decaying oscillating memory is born (the canal is bracketed by this EP and the λ=0 / equipartition kernel). So Q=1.5 being the project-wide default operating point is not incidental: J=0.075 was chosen to sit on the flow EP. **Three caveats, do not conflate**: (i) this single-excitation flow-EP at 1.5 is a *different mode* from the F86/idealized **Q_EP = 2.0** anchor below (= 2/g_eff at g_eff=1); in that convention Q=1.5 = Q_EP − ½ = the Q_peak (= the "marginal regime near the EP", `ClockHandLadderWitness`). Two EP readings near one Q. (ii) the canal's *boundary* (sterile↔birth-canal) is a separate, **Q-independent** γ-profile surface (coordinate s*≈0.709, a rejected 1/√2 lookalike), not this point. (iii) operating-point-on-the-flow-EP does **not** imply the hardware chip sits on the EP: the chip's natural Q ≈ 30 (deep memory), reached down to the EP only by injected noise; the toy γ₀=1 units make the chip's coupling falsely read 1.5.
 
 ### Q = 1.6 (F86 Q_peak c=3)
-- **F86 identification**: `PerBlockQPeakClaim.Standard[1]` c=3 saturated value (N=5..9, N-invariant) — Tier2Empirical
+- **F86 identification**: `PerBlockQPeakClaim.Standard[1]` c=3 saturated value (N=5..9, N-invariant); Tier2Empirical
 - **F95 angle**: θ = arctan(1.6) ≈ 58.0°
 - **H-clock**: 1.6 H-rotations per γ₀-tick
 - **J at γ₀=0.05**: J = 0.080
 
 ### Q = 1.8 (F86 Q_peak c=4, c=5 + peak end)
-- **F86 identification**: `PerBlockQPeakClaim.Standard[2,3]` c=4 and c=5 saturated value — Tier2Empirical plateau ("saturates at 1.8 for c ≥ 4" per `project_q_middle_structure`)
+- **F86 identification**: `PerBlockQPeakClaim.Standard[2,3]` c=4 and c=5 saturated value; Tier2Empirical plateau ("saturates at 1.8 for c ≥ 4" per `project_q_middle_structure`)
 - **Q-band edge**: upper bound of peak band
 - **F95 angle**: θ = arctan(1.8) ≈ 60.9°
 - **H-clock**: 1.8 H-rotations per γ₀-tick
 - **J at γ₀=0.05**: J = 0.090
 
 ### Q = 2.0 (Q_EP idealized)
-- **F86 identification**: Q_EP = 2/g_eff at g_eff=1 (`QEpLaw.cs:14-27`) — Tier1Derived idealized
+- **F86 identification**: Q_EP = 2/g_eff at g_eff=1 (`QEpLaw.cs:14-27`), Tier1Derived idealized
 - **F95 angle**: θ = arctan(2.0) ≈ 63.4°
 - **H-clock**: 2 H-rotations per γ₀-tick
-- **Wave-breaking-scan label**: "Q_EP (g_eff=1)" (`wave_breaking_q_anchor_scan.py:16`)
+- **Wave-breaking-scan label**: "Q_EP (g_eff=1)" (`wave_breaking_q_anchor_scan.py:54`)
 - **C# typed**: `FractionReferenceGraph.QBasisAnkers[2]`, `QEpLaw`
 - **J at γ₀=0.05**: J = 0.100
 
@@ -110,23 +110,23 @@ The **structurally-invariant** content lives in Q = J/γ₀:
 - At F86 peak (Q=1.5): 1/γ₀ = 1.5 H-rotations
 - At Q_EP/g_eff=1 (Q=2): 1/γ₀ = 2 H-rotations
 
-**Caveat on the Propagate cockpit default**: `compute/RCPsiSquared.Propagate/Program.cs:1118` sets `J = 1.0`, which gives Q = J/γ₀ = 20 — this is the *original deep-quantum baseline from before the framework Q-band structure was identified*, NOT a framework anchor. The `wave_breaking_q_anchor_scan.py` script explicitly labels Q=20 as "Deep-quantum (J=1, original default)". When this default is used, the system rotates 20 times per γ₀-tick, far outside the [0.2, 2.0] framework-anchor range. Any analysis at J=1 should explicitly note it's outside the framework's Q-band structure.
+**Caveat on the Propagate cockpit default**: `compute/RCPsiSquared.Propagate/Program.cs:1254` sets `J = 1.0`, which gives Q = J/γ₀ = 20; this is the *original deep-quantum baseline from before the framework Q-band structure was identified*, NOT a framework anchor. The `wave_breaking_q_anchor_scan.py` script explicitly labels Q=20 as "Deep-quantum (J=1, original default)". When this default is used, the system rotates 20 times per γ₀-tick, far outside the [0.2, 2.0] framework-anchor range. Any analysis at J=1 should explicitly note it's outside the framework's Q-band structure.
 
-The "20" in the C# headers (`t=20` in F73, `tMax=20` in cockpit, `tMax = 1/γ₀` in InspectCommand) refers to **one γ₀-period in absolute sim-units** — that's invariant under J choice. What is NOT invariant: the H-rotation count packed into that γ₀-period, which is Q.
+The "20" in the C# headers (`t=20` in F73, `tMax=20` in cockpit, `tMax = 1/γ₀` in InspectCommand) refers to **one γ₀-period in absolute sim-units**; that's invariant under J choice. What is NOT invariant: the H-rotation count packed into that γ₀-period, which is Q.
 
 The "20" shows up explicitly in three canonical C# sites:
 
-1. **F73 verified value** ([`F73SpatialSumPurityClosurePi2Inheritance.cs:123-126`](../compute/RCPsiSquared.Core/Symmetry/F73SpatialSumPurityClosurePi2Inheritance.cs)):
+1. **F73 verified value** ([`F73SpatialSumPurityClosurePi2Inheritance.cs:134`](../compute/RCPsiSquared.Core/Symmetry/F73SpatialSumPurityClosurePi2Inheritance.cs)):
    > N=5, γ₀=0.05, **t=20**: closure = (1/2)·exp(−4·0.05·20) = 9.157819·10⁻³
    The verification anchors at exactly 4 dyadic-ladder dimensionless units (a_{−1} = 4 × γ₀·t = 4×1 = 4).
 
-2. **Propagate cockpit default** ([`compute/RCPsiSquared.Propagate/Program.cs:1118`](../compute/RCPsiSquared.Propagate/Program.cs)):
+2. **Propagate cockpit default** ([`compute/RCPsiSquared.Propagate/Program.cs:1254`](../compute/RCPsiSquared.Propagate/Program.cs)):
    ```csharp
    double gamma = 0.05, J = 1.0, tMax = 20.0, dt = 0.05, sample = 0.1;
    ```
    Default simulation runs for exactly one γ₀-tick.
 
-3. **InspectCommand t-max** ([`compute/RCPsiSquared.Cli/Commands/InspectCommand.cs:134`](../compute/RCPsiSquared.Cli/Commands/InspectCommand.cs)):
+3. **InspectCommand t-max** ([`compute/RCPsiSquared.Cli/Commands/InspectCommand.cs:441`](../compute/RCPsiSquared.Cli/Commands/InspectCommand.cs)):
    ```csharp
    // t_max = 4·t_peak = 1/γ₀, t-points = 41
    double tMax = p.OptionalDouble("t-max") ?? (1.0 / block.GammaZero);
@@ -145,12 +145,12 @@ At Q=1 (Balance), the chain Liouvillian Im=0 fraction lands directly on F99 anke
 | 3 | 32/64              | **1/2**  | Generic            |
 | 5 | 256/1024           | **1/4**  | Silver-Dicke       |
 
-N=4 and N=6 at Q=1 land on **off-Anker** fractions (3/16 and 3/32). At higher Q (1.5, 2, 20), all small-N values collapse to the combinatorial baseline (3/8)^⌊N/2⌋. This is why Q=1 is structurally privileged in `FractionReferenceGraph` — three F99-anker-hitting edges from it.
+N=4 and N=6 at Q=1 land on **off-Anker** fractions (3/16 and 3/32). At higher Q (1.5, 2, 20), all small-N values collapse to the combinatorial baseline (3/8)^⌊N/2⌋. This is why Q=1 is structurally privileged in `FractionReferenceGraph`: three F99-anker-hitting edges from it.
 
 ## Anchors and cross-refs
 
-- **Detailed F86 inventory**: [`F86_VALUES_INVENTORY.md`](F86_VALUES_INVENTORY.md) — per-c, per-orbit, per-bond-class typed values + open derivations.
-- C# Q-anchor representation: `FractionReferenceGraph.QBasisAnkers = { 1.0, 1.5, 2.0 }` ([`compute/RCPsiSquared.Core/Symmetry/FractionReferenceGraph.cs`](../compute/RCPsiSquared.Core/Symmetry/FractionReferenceGraph.cs)). Currently captures 3 of the 10 anchors above; absent: onset-band (0.2, 0.35), peak-band start (1.2), F86 Q_peak c=3 (1.6), peak-band end / F86 Q_peak c=4,5 (1.8), Endpoint candidate (2.5).
+- **Detailed F86 inventory**: [`F86_VALUES_INVENTORY.md`](F86_VALUES_INVENTORY.md): per-c, per-orbit, per-bond-class typed values + open derivations.
+- C# Q-anchor representation: `FractionReferenceGraph.QBasisAnkers = { 1.0, 1.5, 2.0 }` ([`compute/RCPsiSquared.Core/Symmetry/FractionReferenceGraph.cs`](../compute/RCPsiSquared.Core/Symmetry/FractionReferenceGraph.cs)). Currently captures 3 of the 10 anchors above; absent: onset-band (0.2, 0.35), peak-band start (1.2), F86 Q_peak c=3 (1.6), canonical θ=60° (√3 ≈ 1.732), peak-band end / F86 Q_peak c=4,5 (1.8), Endpoint candidate (2.5).
 - Q-band reading: memory `project_q_middle_structure`.
 - Per-orbit Q_EP structure: memory `project_q_peak_ep_structure` + [`F86/C2BlockCpsiQScan.cs`](../compute/RCPsiSquared.Core/F86/C2BlockCpsiQScan.cs).
 - γ₀ tick reading: memory `project_tick_and_angle` + [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md).

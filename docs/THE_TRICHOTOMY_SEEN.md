@@ -13,7 +13,8 @@ figure and one tree so it is legible without running anything.
 
 The chain / ring / star **trichotomy** of the longest-lived (slowest non-kernel) coherence used to live
 scattered across five verifiers and four docs. The witness `inspect --root trichotomy` assembles it into
-one browsable object. This note shows what that object looks like, in one figure and one rendered tree,
+one browsable object. This note shows what that object looks like, in one figure and one rendered tree
+(with two further figures below opening the rigidity axis and its Petermann reading),
 so the picture is legible without running anything.
 
 The survivor's **darkness** is `⟨n_XY⟩ = Re(λ) / (−2γ)`: how slowly the longest-lived coherence decays,
@@ -35,7 +36,7 @@ The question the trichotomy answers: **does the longest-lived survivor reach the
   the survivor switches from the frozen `(p,p)` interior (●) to the oscillating `(0,1)` band edge (□).
   The chain crosses at its coherence horizon `Q*(6) ≈ 2.88`; the ring at its handover `Q_h = 2`.
 - **star** (red) saturates *below* the floor, on the structural ceiling `g₂ = 4/(N−1) = 0.8`, and stays
-  frozen at **every** `Q` — its survivor is the `[H,A] = 0` commutant coherence, dark by construction.
+  frozen at **every** `Q`; its survivor is the `[H,A] = 0` commutant coherence, dark by construction.
 
 That saturation at 0.8 is the structural ceiling (F122) read **dynamically**: the proof's high-Q closed
 form `g₂ = 4/(N−1)` is exactly the value the darkness lands on.
@@ -67,8 +68,8 @@ TrichotomyWitness (N=6, Q=1.5)  —  the chain/ring/star survivor trichotomy as 
 ├── the threshold ladder over N
 │   ├── N=4   chain Q*=1.879 | ring Q_h=n/a | star g₂=1.333 → UN-FREEZES (g₂>1; the star outlier)
 │   ├── N=5   chain Q*=2.372 | ring Q_h=1.491 | star g₂=1.0   → UN-FREEZES (marginal)
-│   ├── N=6   chain Q*=2.884 | ring Q_h=2.0   | star g₂=0.8   → frozen (g₂≤1)
-│   └── N=8   chain Q*=3.940 | ring Q_h=2.35  | star g₂=0.571 → frozen (g₂≤1)
+│   ├── N=6   chain Q*=2.884 | ring Q_h=2.0   | star g₂=0.8   → frozen (g₂<1)
+│   └── N=8   chain Q*=3.940 | ring Q_h=2.35  | star g₂=0.571 → frozen (g₂<1)
 ├── the Δn seam (absolute): sterile / odd-drift / junction
 │   ├── uniform N=5     Sterile  | Deviation=−0.000 | Δn 1→1
 │   ├── canal N=5       OddDrift | Deviation=0.085  | Δn 1→1
@@ -81,22 +82,22 @@ TrichotomyWitness (N=6, Q=1.5)  —  the chain/ring/star survivor trichotomy as 
 ## The third axis: rigidity
 
 The route row carries a third number besides `⟨n_XY⟩` (the rate) and `|Im|` (does it oscillate):
-`r`, the **Petermann phase rigidity** of the survivor's slowest mode — the same `r = 1/(‖R⁻¹_row‖·‖R_col‖)`
+`r`, the **Petermann phase rigidity** of the survivor's slowest mode, the same `r = 1/(‖R⁻¹_row‖·‖R_col‖)`
 the horizon witness uses to locate the chain EP. The witness computed it all along; the row now shows it.
 `r ∈ (0,1]`: `r = 1` is a clean, isolated, normal mode; `r → 0` is an **exceptional point** (left and
-right eigenvectors coalesce, the Petermann factor `1/r²` diverges) — not the same thing as a mere
+right eigenvectors coalesce, the Petermann factor `1/r²` diverges), not the same thing as a mere
 eigenvalue degeneracy, where `r` stays bounded. So `r` reads the **mechanism**, not just the outcome.
 
 A caveat on this instrument, and what the EP-ness actually rests on. `r` here is **eig-based** (it reads
 `r = 1/√K` from a single eigendecomposition); that is the same family that *misfired* for F86a (it read
-`r → 0` on a non-defective near-degeneracy). For the chain coherence horizon it is **vindicated** — it
+`r → 0` on a non-defective near-degeneracy). For the chain coherence horizon it is **vindicated**: it
 agrees with an artifact-free re-verification (gate-first on known defective + diabolic toys, and a diabolic
-control on the same object at γ=0) — but only because this object genuinely *is* defective; eig-rigidity
+control on the same object at γ=0), but only because this object genuinely *is* defective; eig-rigidity
 alone cannot tell a defective EP from a near-degenerate simple pair. So the EP-ness here rests on the
 **artifact-free measure**: the coalescing `(m,m)` pair has **departure-from-normality ≈ 4** as the
 pair-split → 0, **geometric multiplicity 1 < algebraic multiplicity 2**, the Schur off-diagonal equal to
 that departure value (the literal Jordan coupling), and the two compression-eigenvectors **merge**
-(`|cos| → 1`). That is the defective Jordan structure, established without eig eigenvectors. The eig-`r`
+(`|cos| → 1`). That is the defective Jordan structure, established without eig-based eigenvectors. The eig-`r`
 below is a (here-corroborated) *corroboration* of it, not the load-bearing certificate.
 
 Pin the half-filling `(m,m)` coherence sector and sweep `Q` through the transition (the route row only
@@ -106,20 +107,20 @@ sees `r` while that sector is the survivor; pinning shows the whole curve):
 
 | sector `(m,m)` | chain | ring | star |
 |----------------|-------|------|------|
-| N=4 `(2,2)` | `r → 0` at **Q=1.88**, coincident with the `|Im|` birth — an **EP** at `Q*(4)=1.879` | `r` stays bounded (bottoms `~0.4`), `|Im|` **never born**: the ring's lone frozen case, its `(2,2)` sector sitting on the same commutant ceiling as the complete graph `K₄` (no handover; the ladder's `Q_h=n/a`) | `r` dips but stays bounded, `|Im|` **never born** — frozen |
-| N=6 `(3,3)` | `r → 0` at **Q=2.89**, coincident with the `|Im|` birth — an **EP** at `Q*(6)=2.884` | `r` stays bounded (bottoms `~0.3`), dip and onset at different `Q` — a **level crossing** | `r` dips but stays bounded, no `|Im|` onset — frozen |
+| N=4 `(2,2)` | `r → 0` at **Q=1.88**, coincident with the `|Im|` birth, an **EP** at `Q*(4)=1.879` | `r` stays bounded (bottoms `~0.4`), `|Im|` **never born**: the ring's lone frozen case, its `(2,2)` sector sitting on the same commutant ceiling as the complete graph `K₄` (no handover; the ladder's `Q_h=n/a`) | `r` dips but stays bounded, `|Im|` **never born**, frozen |
+| N=6 `(3,3)` | `r → 0` at **Q=2.89**, coincident with the `|Im|` birth, an **EP** at `Q*(6)=2.884` | `r` stays bounded (bottoms `~0.3`), dip and onset at different `Q`, a **level crossing** | `r` dips but stays bounded, no `|Im|` onset, frozen |
 
 (The chain's `r`-at-the-bottom is *not* a fixed number: it is the value of an unbounded `1/√K` evaluated
 wherever the finite `Q`-grid happens to land relative to the singularity, so it swings by orders of
-magnitude under a `ΔQ = 1e-3` shift. The robust fact in the chain column is the *coalescence* — `r → 0`
-as the grid refines toward `Q*` — not any particular small value. The ring/star columns are robust the
+magnitude under a `ΔQ = 1e-3` shift. The robust fact in the chain column is the *coalescence*: `r → 0`
+as the grid refines toward `Q*`, not any particular small value. The ring/star columns are robust the
 other way: `r` stays **bounded** there, the qualitative contrast that does the work.)
 
-The three route *labels* — `UnfreezingSeEp` / `FrozenLevelCrossing` / `FrozenCommutant` — are assigned in
+The three route *labels*, `UnfreezingSeEp` / `FrozenLevelCrossing` / `FrozenCommutant`, are assigned in
 the witness by topology. The rigidity **measures** them, from a different observable: only the chain
 collapses (`r → 0`) coincident with the oscillation birth, and it lands exactly on the closed-form `Q*(N)`.
 The ring's `r` stays bounded with its dip and its onset at different `Q` (a crossing); the star's `r` dips
-but stays bounded and no oscillation is ever born (frozen). Three names become one measured axis — with the
+but stays bounded and no oscillation is ever born (frozen). Three names become one measured axis, with the
 chain-vs-ring **EP/crossing distinction now resting on the artifact-free defective-Jordan measure above**
 (departure-from-normality, geometric < algebraic multiplicity, eigenvector merge); the eig-`r` here
 corroborates it but is the F86a-misfire-prone family, so it is the corroboration, not the proof.
@@ -128,7 +129,7 @@ corroborates it but is the F86a-misfire-prone family, so it is the corroboration
 
 The rigidity has a name from another corner of physics. `K = 1/r²` is the **Petermann factor**: the
 excess-noise / linewidth-enhancement factor Petermann (1979) found for the non-orthogonal modes of a
-gain-guided laser — the amount by which mode non-orthogonality inflates the quantum fluctuations. At an
+gain-guided laser, the amount by which mode non-orthogonality inflates the quantum fluctuations. At an
 exceptional point the modes coalesce, `r → 0`, and `K` diverges; that the Petermann factor diverges at an EP
 is the non-Hermitian community's reading (Berry 2004; Rotter's phase rigidity; Heiss; and the EP-sensing
 line, Wiersig).
@@ -139,20 +140,20 @@ shape of a second-order-EP `K ~ 1/|Q − Q*|`:
 ![the Petermann factor K=1/r² diverges at the coherence horizon Q*(N)](figures/petermann_factor_diverges_at_horizon.png)
 
 The shape is a **certificate of the EP, not a load-bearing measurement of it.** The specific numbers a
-finite `Q`-grid reads off this curve — the fitted exponent (≈ 0.49 / 0.49 / 0.58 at N = 4 / 5 / 6, near ½
+finite `Q`-grid reads off this curve, the fitted exponent (≈ 0.49 / 0.49 / 0.58 at N = 4 / 5 / 6, near ½
 but scattered by the fit window and finite size), the peak height (e.g. an N=6 spike of order `K ~ 10⁴`–`10⁵`
-at the smallest resolved `r`), and the apparent `K ~ 1/|Q − Q*|` law itself — are **grid-sensitive
+at the smallest resolved `r`), and the apparent `K ~ 1/|Q − Q*|` law itself, are **grid-sensitive
 artifacts**. Sitting on an essentially unresolvable coalescence, `Kmax` swings by `~5·10¹⁰`–`6·10¹¹`× under a
 `ΔQ = 1e-3` shift of where the grid lands relative to the singularity (the same lesson the F86a magnitude
 re-verification taught: at a true coalescence the *height* and the *fitted exponent* are where the grid
 lands, not physics). So none of those magnitudes is load-bearing.
 
-What **is** robust — the load-bearing fact, established artifact-free (gate-first on known defective +
-diabolic toys, with a diabolic control on the same object at γ=0) — is the **defective Jordan structure** of
+What **is** robust, the load-bearing fact, established artifact-free (gate-first on known defective +
+diabolic toys, with a diabolic control on the same object at γ=0), is the **defective Jordan structure** of
 the coalescing `(m,m)` pair: as the pair-split → 0 its **departure-from-normality → ≈ 4**, its **geometric
 multiplicity (1) is strictly below its algebraic multiplicity (2)**, the Schur off-diagonal equals that
 departure value (the literal Jordan coupling), and the two compression-eigenvectors **merge** (`|cos| → 1`).
-That is a genuine second-order **defective** exceptional point, read without eig eigenvectors. The ring stays
+That is a genuine second-order **defective** exceptional point, read without eig-based eigenvectors. The ring stays
 bounded (a level crossing is not an EP); the star's smaller, off-`Q*` spikes are separate real coalescences
 in this non-survivor sector, not the horizon. The chain-vs-ring EP/crossing distinction therefore rests on
 this artifact-free measure; the eig-`K`/`r` curve above corroborates it but is the F86a-misfire-prone family.
@@ -174,11 +175,11 @@ artifact-free result.)
 1. **Three topologies, three freeze-routes, one object.** The chain un-freezes through a square-root
    exceptional point (the dispersive band), the ring through a level crossing yielding to its band edge,
    the star never (its commutant survivor is frozen by construction). The map they were narrated across
-   is now one read — and the rigidity `r` (above) **measures** the three mechanisms, rather than asserting
+   is now one read, and the rigidity `r` (above) **measures** the three mechanisms, rather than asserting
    them: `r → 0` at the chain EP, bounded for the ring crossing, no oscillation onset for the star.
 2. **The structural ceiling is a dynamical fact, floor-capped.** The star's darkness saturates on
    `min(g₂, 1)` with `g₂ = 4/(N−1)`: for `N ≥ 6` (`g₂ < 1`) it lands on `g₂` and stays frozen *below* the
-   floor (0.800 at N=6, 0.667 at N=7 — the F122 high-Q closed form, proven by a principal-angle argument,
+   floor (0.800 at N=6, 0.667 at N=7, the F122 high-Q closed form, proven by a principal-angle argument,
    is the value the slowest mode's decay actually approaches); for `N ≤ 5` (`g₂ ≥ 1`) the ceiling is above
    the `−2γ` floor, so the darkness hits `1` and the star **un-freezes** like the chain and ring (the N=4
    outlier, N=5 marginal). The single statement `⟨n_XY⟩(Q→∞) = min(g₂, 1)` is exactly the threshold
@@ -194,7 +195,7 @@ artifact-free result.)
 
 The witness reads on **two** conventions because the trichotomy and the seam are two different physical
 sweeps. The un-freeze view is **carbon** (`Q = J/γ`, uniform γ, vary the dephasing); the Δn-seam view is
-**absolute** (fixed γ, vary the profile). A single convention mislabels the chain — the gate-first build
+**absolute** (fixed γ, vary the profile). A single convention mislabels the chain: the gate-first build
 found this, and the split is the fix.
 
 ## See also
@@ -210,6 +211,6 @@ found this, and the split is the fix.
   [`simulations/trichotomy_ep_figure.py`](../simulations/trichotomy_ep_figure.py) (the rigidity EP, from a
   half-filling-sector `Q`-sweep of the witness' public `CarbonImAndRigidity` / `CarbonSlowestRate`) and
   [`simulations/trichotomy_petermann.py`](../simulations/trichotomy_petermann.py) (the Petermann factor
-  `K=1/r²` climbing toward a divergence at the horizon, from a log-spaced `δ`-sweep around `Q*(N)` — the
+  `K=1/r²` climbing toward a divergence at the horizon, from a log-spaced `δ`-sweep around `Q*(N)`, the
   curve is a grid-sensitive certificate of the EP, its height/exponent not load-bearing; the artifact-free
   result is the defective Jordan structure, see the Petermann section above).

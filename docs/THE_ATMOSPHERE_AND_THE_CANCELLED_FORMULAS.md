@@ -45,7 +45,7 @@ For pure Z-dephasing, γ₀ is not divided out, it is *algebraically expelled*. 
 
     M = Π·L·Π⁻¹ + L + 2σ·I = Π·L_H·Π⁻¹ + L_H     (M depends only on H)
 
-- **The F78–F85 M-family.** F78, F79, F80 (Bloch sign-walk), F81, F82, F83, F85 all live downstream of this lemma. *Consequence:* everything in the family closes, because "M depends only on H." γ₀'s entire footprint collapses to the single additive scalar `2σ·I = 2N·γ₀·I`. The *dynamics* of M carry no γ₀ at all; γ₀ survives only as a uniform spectral-centre offset, which F86's `LocalGlobalEpLink` reads at two residuals (σ = N·γ₀ versus σ = 0).
+- **The F78–F85 M-family.** F78, F79, F80 (Bloch sign-walk), F81, F82, F83, F84, F85 all live downstream of this lemma. *Consequence:* everything in the family closes, because "M depends only on H." γ₀'s entire footprint collapses to the single additive scalar `2σ·I = 2N·γ₀·I`. The *dynamics* of M carry no γ₀ at all; γ₀ survives only as a uniform spectral-centre offset, which F86's `LocalGlobalEpLink` reads at two residuals (σ = N·γ₀ versus σ = 0).
 
 ### Mechanism C: structurally absent, or cancels in a ratio
 
@@ -96,15 +96,15 @@ One caution this investigation does **not** dissolve, and should not be read as 
 
 ## References
 
-- [`PROOF_F86B_OBSTRUCTION.md`](proofs/PROOF_F86B_OBSTRUCTION.md) — the Obstruction Proof and the irreducible residue g_eff; [`PROOF_F86A_EP_MECHANISM.md`](proofs/PROOF_F86A_EP_MECHANISM.md) — the EP mechanism, t_peak; [`PROOF_F86_QPEAK.md`](proofs/PROOF_F86_QPEAK.md) — the F86 hub.
-- [`PROOF_F89_PATH_D_CLOSED_FORM.md`](proofs/PROOF_F89_PATH_D_CLOSED_FORM.md) — D_k, the AT-lock, the open 2-power terms.
-- [`PROOF_F90_F86C2_BRIDGE.md`](proofs/PROOF_F90_F86C2_BRIDGE.md) — F86 c=2 ↔ F89: the same wall from two sides.
-- [`PROOF_SVD_CLUSTER_STRUCTURE.md`](proofs/PROOF_SVD_CLUSTER_STRUCTURE.md) — the Master Lemma (M depends only on H).
-- [`MIRROR_SYMMETRY_PROOF.md`](proofs/MIRROR_SYMMETRY_PROOF.md) — F1, σ = Σγ as the spectral mirror axis.
-- [`PROOF_BLOCK_CPSI_QUARTER.md`](proofs/PROOF_BLOCK_CPSI_QUARTER.md) — Theorem 3, the inverse case (J cancels, γ₀ kept).
-- [`D02_VEFFECT_QMAX_QMEAN.md`](proofs/derivations/D02_VEFFECT_QMAX_QMEAN.md), [`D10_W1_DISPERSION.md`](proofs/derivations/D10_W1_DISPERSION.md) — V-Effect and Q-factor derivations.
-- [`ANALYTICAL_FORMULAS.md`](ANALYTICAL_FORMULAS.md) — the F-registry; F74 chromaticity, the F76 "0.93 envelope is the γ₀ signature" note.
-- [`PERSPECTIVAL_TIME_FIELD.md`](../hypotheses/PERSPECTIVAL_TIME_FIELD.md) — the "atmospheric constant", K_i = γ·α_i·t.
-- [`PRIMORDIAL_GAMMA_CONSTANT.md`](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [`PRIMORDIAL_QUBIT.md`](../hypotheses/PRIMORDIAL_QUBIT.md) — γ₀ as framework constant; the inside-observability theorem.
-- [`OPEN_THREAD_GAMMA0_INFORMATION.md`](../review/OPEN_THREAD_GAMMA0_INFORMATION.md), [`EQ014_FINDINGS.md`](../review/EQ014_FINDINGS.md) — the "Carrier" role-label; the EQ-014 retraction.
-- [`ON_THE_PAINTER_PRINCIPLE.md`](../reflections/ON_THE_PAINTER_PRINCIPLE.md) — the discipline: mark the spot, be careful with inherited words, add do not replace.
+- [`PROOF_F86B_OBSTRUCTION.md`](proofs/PROOF_F86B_OBSTRUCTION.md): the Obstruction Proof and the irreducible residue g_eff; [`PROOF_F86A_EP_MECHANISM.md`](proofs/PROOF_F86A_EP_MECHANISM.md): the EP mechanism, t_peak; [`PROOF_F86_QPEAK.md`](proofs/PROOF_F86_QPEAK.md): the F86 hub.
+- [`PROOF_F89_PATH_D_CLOSED_FORM.md`](proofs/PROOF_F89_PATH_D_CLOSED_FORM.md): D_k, the AT-lock, the open 2-power terms.
+- [`PROOF_F90_F86C2_BRIDGE.md`](proofs/PROOF_F90_F86C2_BRIDGE.md): F86 c=2 ↔ F89: the same wall from two sides.
+- [`PROOF_SVD_CLUSTER_STRUCTURE.md`](proofs/PROOF_SVD_CLUSTER_STRUCTURE.md): the Master Lemma (M depends only on H).
+- [`MIRROR_SYMMETRY_PROOF.md`](proofs/MIRROR_SYMMETRY_PROOF.md): F1, σ = Σγ as the spectral mirror axis.
+- [`PROOF_BLOCK_CPSI_QUARTER.md`](proofs/PROOF_BLOCK_CPSI_QUARTER.md): Theorem 3, the inverse case (J cancels, γ₀ kept).
+- [`D02_VEFFECT_QMAX_QMEAN.md`](proofs/derivations/D02_VEFFECT_QMAX_QMEAN.md), [`D10_W1_DISPERSION.md`](proofs/derivations/D10_W1_DISPERSION.md): V-Effect and Q-factor derivations.
+- [`ANALYTICAL_FORMULAS.md`](ANALYTICAL_FORMULAS.md): the F-registry; F74 chromaticity, the F76 "0.93 envelope is the γ₀ signature" note.
+- [`PERSPECTIVAL_TIME_FIELD.md`](../hypotheses/PERSPECTIVAL_TIME_FIELD.md): the "atmospheric constant", K_i = γ·α_i·t.
+- [`PRIMORDIAL_GAMMA_CONSTANT.md`](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [`PRIMORDIAL_QUBIT.md`](../hypotheses/PRIMORDIAL_QUBIT.md): γ₀ as framework constant; the inside-observability theorem.
+- [`OPEN_THREAD_GAMMA0_INFORMATION.md`](../review/OPEN_THREAD_GAMMA0_INFORMATION.md), [`EQ014_FINDINGS.md`](../review/EQ014_FINDINGS.md): the "Carrier" role-label; the EQ-014 retraction.
+- [`ON_THE_PAINTER_PRINCIPLE.md`](../reflections/ON_THE_PAINTER_PRINCIPLE.md): the discipline: mark the spot, be careful with inherited words, add do not replace.
