@@ -38,18 +38,18 @@ The structural point that the debate's gain/loss PT sensors do not have: in thei
 | N | Q\*(N) | γ\*(N) = J/Q\* | EP character |
 |---|--------|----------------|--------------|
 | 2 | 1 | 1.000 J | genuine 2nd-order defective EP |
-| 3 | √2 = 1.41422 | 0.707 J | genuine 2nd-order defective EP |
-| 4 | 1.87855 | 0.532 J | genuine 2nd-order defective EP |
-| 5 | 2.37216 | 0.422 J | genuine 2nd-order defective EP |
+| 3 | √2 = 1.41421 | 0.707 J | genuine 2nd-order defective EP |
+| 4 | 1.87874 | 0.532 J | genuine 2nd-order defective EP |
+| 5 | 2.37367 | 0.421 J | genuine 2nd-order defective EP |
 
 (γ at J = 1; Q\*(N) → 2N/π asymptotically.)
 
 - **Defective, by four independent artifact-free routes** (the load-bearing verification, gate-first, N=2..5): departure-from-normality ≈ 4 as the pair-split → 0 (a *diabolic* degeneracy would send it → 0); geometric multiplicity 1 < algebraic 2; the Schur off-diagonal is the Jordan coupling; the two eigenvectors merge (|cos| → 1). The test is not rigged to cry "defective": a diabolic toy returns DIABOLIC, and the *same* coherence-horizon object at γ = 0 returns DIABOLIC (dep ≈ 2·10⁻¹⁷). The √-scaling Im²/(Q − Q\*) ≈ 1.14 (constant at N=4) fixes the order at 2.
 - **Phase rigidity r → 0 corroborates but is not load-bearing.** r = |⟨L|R⟩| / (‖L‖‖R‖), with K = 1/r² the Petermann factor, drops toward 0 at Q\*(N). This is exactly the eig-instrument that misfired at F86a; here it is vindicated (it is right *because* the object is genuinely defective), but it cannot by itself separate defective from near-degenerate. So the dep / geo-vs-alg / eigenvector-merge above is load-bearing; r → 0 is the corroborating shadow.
-- **The Petermann factor peaks AT the EP — in kind, not in a quotable number.** K = 1/r² → ∞ at Q\*(N). The magnitude is grid-bound: the grid-sampled peak is K ~ 232 / 501 at N = 4 / 5 (finest Δ ≈ 0.004) and grows without bound under refinement; the rigidity bottoms grid-sampled at ~0.06 (zero is the limit, not a sampled value). The EP and the divergence-in-kind are robust; the peak height is a grid artifact and must never be quoted as a sensor figure of merit without grid refinement (the F86a lesson, confirmed here).
+- **The Petermann factor peaks AT the EP: in kind, not in a quotable number.** K = 1/r² → ∞ at Q\*(N). The magnitude is grid-bound: the grid-sampled peak is K ~ 232 / 501 at N = 4 / 5 (finest Δ ≈ 0.004) and grows without bound under refinement; the rigidity bottoms grid-sampled at ~0.06 (zero is the limit, not a sampled value). The EP and the divergence-in-kind are robust; the peak height is a grid artifact and must never be quoted as a sensor figure of merit without grid refinement (the F86a lesson, confirmed here).
 - **The survivor is not the EP.** The co-located band-edge mode 2cos(π/(N+1)) is the γ-protected survivor (r ≈ 1), sharing the gap Re = −2γ only because the Absorption Theorem pins both (both ⟨n_diff⟩ = 1). The divergence is the coalescer's, not the survivor's.
 - **γ\*(N) drops with N.** The noise level that places an N-chain exactly on its EP is γ\*(N) = J/Q\*(N), decreasing monotonically (→ πJ/(2N)). In our regime, "operating at the EP" *is* "turning the noise up to γ\*"; the two are not independent.
-- **Topology** (prior internal result, `simulations/results/trichotomy_cube/petermann_divergence.csv`): the qualitative trichotomy holds — chain → EP (r → 0 at Q\*), ring → level crossing (r bounded ~0.6, still oscillating at the chain's Q\*), star → frozen commutant (r mostly bounded). The EP, and hence the Petermann divergence, is a chain phenomenon. Only the quantitative K-peak is grid-fragile.
+- **Topology** (prior internal result, `simulations/results/trichotomy_cube/petermann_divergence.csv`): the qualitative trichotomy holds: chain → EP (r → 0 at Q\*), ring → level crossing (r bounded ~0.6, still oscillating at the chain's Q\*), star → frozen commutant (r mostly bounded). The EP, and hence the Petermann divergence, is a chain phenomenon. Only the quantitative K-peak is grid-fragile.
 
 ---
 
@@ -58,7 +58,7 @@ The structural point that the debate's gain/loss PT sensors do not have: in thei
 - It **confirms the geometric fact the debate assumes**, exactly, in a >2×2 many-body system without the coupled-mode approximation photonics relies on: the eigenvector non-orthogonality peaks at the EP.
 - It **adds a regime the debate does not occupy**: a single-axis EP where the noise *is* the EP-locator. The "operate beside the EP to escape the noise" move (Wiersig-Rotter's off-EP optimum) is structurally unavailable here, because *beside the EP is a different noise level*. The cancellation argument (Loughlin-Sudhir), which already depends on the noise being EP-coupled, becomes inseparable rather than merely coupled.
 - It does **not adjudicate the SNR/QFI verdict**. That needs an input-output measurement model (a probe field, a detected quadrature, a Fisher observable) the toolkit does not carry. We state the geometry the debate argues over; we do not enter the metrology it argues about.
-- **A structural echo, offered honestly (interpretive, Tier 2).** The debate, at bottom, is "the EP effect is real *in kind*, its practical magnitude is fragile and contested." Our result rhymes with that exactly: the EP and its Petermann divergence are robustly real (four artifact-free routes), while the magnitude K is fragile — to the computational grid rather than to physical noise. Same shape, different cause: the effect is solid, the number is the soft part. A rhyme, not an identity.
+- **A structural echo, offered honestly (interpretive, Tier 2).** The debate, at bottom, is "the EP effect is real *in kind*, its practical magnitude is fragile and contested." Our result rhymes with that exactly: the EP and its Petermann divergence are robustly real (four artifact-free routes), while the magnitude K is fragile, to the computational grid rather than to physical noise. Same shape, different cause: the effect is solid, the number is the soft part. A rhyme, not an identity.
 
 ---
 
@@ -66,7 +66,7 @@ The structural point that the debate's gain/loss PT sensors do not have: in thei
 
 - The geometry (Petermann / phase-rigidity vs Q, the EP order, Q\*(N), γ\*(N)) is computed and Tier-1. The "distinct regime that contributes to the debate" reading is interpretive (Tier 2): we are not claiming to resolve or defeat either side.
 - This is the coherence-horizon single-excitation EP, whose defectiveness was verified gate-first by four independent artifact-free routes (departure-from-normality ≈ 4, geo 1 < alg 2, Schur-Jordan coupling, eigenvector merge), with diabolic controls (the same object at γ = 0 returns DIABOLIC). It is **not** the F86a c=2 real-axis EP, which was retracted on 2026-06-21 as a grid artifact. Any reading must cite the SE-EP, never the retracted one. (Verification: the parallel EP-character work, 2026-06-21; to be wired to the live C# witness `EpCharacter` once it lands.)
-- The Petermann *magnitude* (K = 1/r²) is grid-fragile: the grid-sampled peak K ~ 232 / 501 at N = 4 / 5 grows without bound under refinement, and the rigidity bottoms grid-sampled at ~0.06 (zero is the limit). It must never be reported as a hard number or a sensor figure of merit. The *structure* — a genuine 2nd-order defective EP with a real Petermann divergence — is robust.
+- The Petermann *magnitude* (K = 1/r²) is grid-fragile: the grid-sampled peak K ~ 232 / 501 at N = 4 / 5 grows without bound under refinement, and the rigidity bottoms grid-sampled at ~0.06 (zero is the limit). It must never be reported as a hard number or a sensor figure of merit. The *structure*, a genuine 2nd-order defective EP with a real Petermann divergence, is robust.
 
 ---
 
@@ -87,6 +87,6 @@ The witness flags that the closed form of Q\*(N) (the {0,2}-block discriminant c
 - `compute/RCPsiSquared.Core/Symmetry/CoherenceHorizonClaim.cs` (Q\*(N), typed)
 - `compute/RCPsiSquared.Diagnostics/Foundation/CoherenceHorizonWitness.cs` (`inspect --root horizon`)
 - `docs/proofs/PROOF_COHERENCE_HORIZON_SLOPE.md` (the dispersion, the 2/π slope)
-- `compute/RCPsiSquared.Core/Numerics/PhaseRigidity.cs` (K = 1/r², the Petermann factor — corroborating, not load-bearing)
+- `compute/RCPsiSquared.Core/Numerics/PhaseRigidity.cs` (K = 1/r², the Petermann factor; corroborating, not load-bearing)
 - The gate-first defective-vs-diabolic verification (parallel EP-character work, 2026-06-21): four artifact-free routes (departure-from-normality, geo-vs-alg multiplicity, Schur-Jordan coupling, eigenvector merge) + diabolic controls (a diabolic toy and the same object at γ=0 both return DIABOLIC). The load-bearing anchor for the EP character above. C# home `compute/RCPsiSquared.Core/Numerics/EpCharacter.cs` (to be wired on commit).
 - `simulations/results/trichotomy_cube/petermann_divergence.csv` (the chain/ring/star trichotomy; qualitative, K-peak grid-fragile)

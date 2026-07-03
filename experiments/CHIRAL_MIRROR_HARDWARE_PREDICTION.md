@@ -4,7 +4,7 @@
 **Source:** EQ-014 (chiral mirror law, site-painter), EQ-020 (extension to all k-painter).
 **Tier:** 1 (kinematic prediction; follows from K_1 symmetry of H + Z-dephasing).
 **Scripts:** [`eq020_chiral_mirror_hw_prediction.py`](../simulations/eq020_chiral_mirror_hw_prediction.py)
-**Framework primitives:** [`single_excitation_sine_mode`](../simulations/framework.py), [`k_local_reduced_density`](../simulations/framework.py).
+**Framework primitives:** [`single_excitation_sine_mode`](../simulations/framework_archive.py), [`k_local_reduced_density`](../simulations/framework_archive.py) (historical location; both predate the framework.py → framework/ package split).
 
 ---
 
@@ -21,7 +21,7 @@ For initial state |φ_k⟩ = (|vac⟩ + |ψ_k⟩)/√2 with |ψ_k⟩ = √(2/(N+
 | ⟨Z_i⟩(t) | **+1** · ⟨Z_i⟩(t)\|_{ψ_k} (identical) |
 | P_i(t) (single-site purity) | identical |
 
-**The Y has an extra sign relative to X** — this is the sharpest discriminator and directly tests the energy-reversal mechanism (E_{N+1-k} = −E_k under K_1).
+**The Y has an extra sign relative to X**: this is the sharpest discriminator and directly tests the energy-reversal mechanism (E_{N+1-k} = −E_k under K_1).
 
 ---
 
@@ -84,12 +84,12 @@ The prediction is verified at machine precision (10⁻¹⁶) at every tested tim
 
 | Null | Predicts | Distinguishable? |
 |------|----------|------------------|
-| Random noise | random Bloch components, no relation | YES — A, B, C all fail |
-| Naive Z₂ sublattice symmetry without conjugation | ⟨X⟩, ⟨Y⟩ both flip by (−1)^i (same sign on Y) | YES — C distinguishes |
+| Random noise | random Bloch components, no relation | YES: A, B, C all fail |
+| Naive Z₂ sublattice symmetry without conjugation | ⟨X⟩, ⟨Y⟩ both flip by (−1)^i (same sign on Y) | YES: C distinguishes |
 | K_1-symmetric noise (DD-like) | preserves all three relations to within DD efficacy | not distinguishable from prediction (the prediction *survives* DD) |
-| Coherent K_1-breaking error (fab inhomogeneity) | breaks all three relations equally | YES — all three deviate together |
+| Coherent K_1-breaking error (fab inhomogeneity) | breaks all three relations equally | YES: all three deviate together |
 
-The simultaneous validity of (A) AND (B) AND (C) is the strongest signature: it requires the Hamiltonian to be K_1-symmetric AND the dynamical phases to obey energy-reversal (chiral pairing). The Y-flip alone (C) is the most diagnostic — it cannot be faked by simple sublattice symmetry.
+The simultaneous validity of (A) AND (B) AND (C) is the strongest signature: it requires the Hamiltonian to be K_1-symmetric AND the dynamical phases to obey energy-reversal (chiral pairing). The Y-flip alone (C) is the most diagnostic; it cannot be faked by simple sublattice symmetry.
 
 ---
 
@@ -118,7 +118,7 @@ The April 25 Marrakesh K-partnership run (`data/ibm_k_partnership_april2026/`) a
 
 **Live Marrakesh hardware:**
 - Site 0 (Q48): ⟨Z_0⟩-mirror at K_1-paired states **0.25%** (preserved despite hardware noise)
-- Site 4 (Q58): ⟨Z_4⟩-mirror **47%** at (k=1, k=5) — chiral mirror broken
+- Site 4 (Q58): ⟨Z_4⟩-mirror **47%** at (k=1, k=5); chiral mirror broken
 - P-mirror: 3-19% deviations across pairs
 
 **The hardware-mirror-breakage diagnoses gate asymmetry exactly as predicted.** Q48 readout error 5.85%, Q58 readout 3.06%; CZ error bond (0,1) 0.876% vs bond (3,4) 0.149%. The K_1-paired states (k=1, k=5) and (k=2, k=4) have different state-prep circuits with different gate-application order; the hardware-asymmetric gate errors leak into the trajectory and break K_1-equivalence.

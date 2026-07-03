@@ -6,7 +6,7 @@ spectral statistics, chiral symmetry Liouvillian eigenvalues, XY-weight
 sector universality class, Heisenberg dephasing RMT analysis,
 R=CPsi2 random matrix theory -->
 
-**Status:** Computationally verified (N=2-7, 21,832 eigenvalues, Heisenberg chain)
+**Status:** Computationally verified (N=2-7, 21,840 eigenvalues, Heisenberg chain)
 **Date:** April 1, 2026 (updated June 30, 2026: dissipative chaos located as a FILLING threshold, Result 5; the within-sector GOE hint resolved as a small-sample artifact June 27, Result 3)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Scripts:** compute/RCPsiSquared.Compute (C# eigenvalue export),
@@ -256,8 +256,8 @@ answered, and the answer is about **filling**, not integrability. Working with
 the complex spacing ratio (CSR, Sá-Ribeiro-Prosen) on coherence blocks
 (wKet, wBra) of the Z-dephased XXZ Liouvillian:
 
-- The **dilute** (SE,DE) = (1,2) block — the Door-C block, where the non-solvable
-  Galois group S_d lives — stays Poisson-like / non-GinUE under **every**
+- The **dilute** (SE,DE) = (1,2) block, the Door-C block, where the non-solvable
+  Galois group S_d lives, stays Poisson-like / non-GinUE under **every**
   integrability-breaking knob (XXZ Δ, a random Z-field, with or without
   interactions). That null is robust (`inspect --root galoischaos`, the Δ=0
   control; the two Door-C sweep stages).
@@ -284,7 +284,7 @@ The sector GOE question that earlier topped this list (does the
 within-sector ⟨r⟩ approach GOE/GUE as N grows?) is resolved in
 Result 3: it does not, the dilute sectors stay integrable. The dissipative-chaos
 question is resolved in Result 5: a dense (extensive-filling) coherence sector of
-the same Liouvillian does reach toward GinUE — chaos is a filling threshold. Two
+the same Liouvillian does reach toward GinUE; chaos is a filling threshold. Two
 genuinely open items remain.
 
 1. **Comparison with Denisov lemon shape.** The complex-plane density
@@ -363,7 +363,7 @@ Poisson nor GUE. See [Spectral Form Factor](SPECTRAL_FORM_FACTOR.md).
 
 ---
 
-*The 87,376 eigenvalues answer the question nobody asked: the
+*The 21,840 eigenvalues answer the question nobody asked: the
 palindromic Liouvillian is integrable. The symmetry that pairs every
 decay mode also prevents chaos. The spectrum is not random. It is
 exactly what the formulas predict.*

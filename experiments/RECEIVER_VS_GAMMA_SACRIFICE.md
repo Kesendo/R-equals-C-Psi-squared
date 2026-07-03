@@ -212,7 +212,7 @@ Each pair has lower bandwidth than a dedicated single-end link, but the aggregat
 
 ## F67 bonding-mode receivers: beating alt-z-bits at end-to-end and multi-end transport
 
-[F67](../docs/ANALYTICAL_FORMULAS.md) identifies the single-excitation eigenmodes of a uniform-J open Heisenberg chain:
+[F65](../docs/ANALYTICAL_FORMULAS.md) identifies the single-excitation eigenmodes of a uniform-J open Heisenberg chain (F67 is the optimality result built on these modes):
 
 |ψ_k⟩ = √(2/(N+1)) Σ_{j=0..N-1} sin(πk(j+1)/(N+1)) |1_j⟩   for k ∈ {1, ..., N}
 
@@ -339,16 +339,16 @@ Under γ₀ = const, with the F67 menu:
 - `simulations/check_brecher_n5_finegrid.py`: Python fine-grid verification at N=5 (commit `dbf396a`)
 ## Update 2026-04-28: parity prediction (untested, framework primitive added)
 
-The N=5, 7, 9 sweep covers **odd N only**, where the bond-mirror permutation R̄: J_b → J_{N-2-b} on the (N-1)-dim bond-input space splits into balanced k+k blocks. The block-decomposition mechanism (EQ-024 follow-up, [J_BLIND_RECEIVER_CLASSES Update 2026-04-28 N-scaling](J_BLIND_RECEIVER_CLASSES.md)) predicts that **at even N the split becomes unbalanced (k+1, k) due to a self-mirror bond, and the F71-eigenstate capacity advantage inverts** — F71-breaking receivers should win.
+The N=5, 7, 9 sweep covers **odd N only**, where the bond-mirror permutation R̄: J_b → J_{N-2-b} on the (N-1)-dim bond-input space splits into balanced k+k blocks. The block-decomposition mechanism (EQ-024 follow-up, [J_BLIND_RECEIVER_CLASSES Update 2026-04-28 N-scaling](J_BLIND_RECEIVER_CLASSES.md)) predicts that **at even N the split becomes unbalanced (k+1, k) due to a self-mirror bond, and the F71-eigenstate capacity advantage inverts**; F71-breaking receivers should win.
 
 Predicted scaling:
 
 | N | bond count | bond-block split | F71-eigenstate prediction |
 |---|---|---|---|
-| 5 | 4 | 2+2 (balanced) | optimal — confirmed (alt-z-bits 0.843 here, 2.80× hardware) |
-| 6 | 5 | 3+2 (unbalanced) | **suboptimal — untested** |
+| 5 | 4 | 2+2 (balanced) | optimal, confirmed (alt-z-bits 0.843 here, 2.80× hardware) |
+| 6 | 5 | 3+2 (unbalanced) | **suboptimal, untested** |
 | 7 | 6 | 3+3 (balanced) | optimal (existing data 0.490 confirms among odd-N) |
-| 8 | 7 | 4+3 (unbalanced) | **suboptimal — untested** |
+| 8 | 7 | 4+3 (unbalanced) | **suboptimal, untested** |
 | 9 | 8 | 4+4 (balanced) | optimal (existing data 0.274) |
 
 To check the prediction, the existing brecher receiver-engineering protocol (alt-z-bits |010010⟩ vs |+−+−+−⟩ at N=6) needs new C# runs. If the existing 11-15× advantage shrinks or inverts at N=6, the parity-tied mechanism is confirmed for the receiver-engineering metric (MI(0, N-1)) and not just the J-Jacobian Shannon capacity.
@@ -369,7 +369,7 @@ For any candidate receiver state at any N, the framework now returns the parity 
 - `simulations/results/eq024_refinement/brecher_scan_with_mm.txt`: C# scan with Sum-MI, MI(0, N-1), and Mirror-Pair MM tracking (commit `963f2ed`)
 - `simulations/results/eq024_refinement/brecher_bonding_scan.txt`: C# scan of F67 bonding:k receivers (k=1,2,3) at N=5, 7, 9 (commit `0917038`)
 - `simulations/mm_zero_derivation.py`: F75 analytic MM(0) verification script
-- [ANALYTICAL_FORMULAS F67](../docs/ANALYTICAL_FORMULAS.md): the explicit single-excitation eigenmode formula underlying bonding:k
+- [ANALYTICAL_FORMULAS F65](../docs/ANALYTICAL_FORMULAS.md): the explicit single-excitation eigenmode formula underlying bonding:k (F67 = the optimal-receiver result on those modes)
 - [ANALYTICAL_FORMULAS F75](../docs/ANALYTICAL_FORMULAS.md): mirror-pair MI closed form for single-excitation mirror-symmetric states
 - [IBM_SACRIFICE_ZONE](IBM_SACRIFICE_ZONE.md): hardware realization via selective DD, compatible with γ₀ = const
 - [Inside and Outside the Sacrifice Zone](../docs/INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md): the inside/outside observer reading of the γ-sacrifice mechanism

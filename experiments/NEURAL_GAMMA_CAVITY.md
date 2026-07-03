@@ -64,9 +64,9 @@ At standard biological parameters (w_EE=16, w_EI=12, w_IE=15, w_II=3):
 |-------|-----------|----------------|---|
 | 0.0 | YES | 11.5 | 0.1 |
 | 0.25 | YES | 12.4 | 0.1 |
-| 0.50 | no | overdamped | -- |
-| 2.0 | no | overdamped | -- |
-| 10.0 | no | overdamped | -- |
+| 0.50 | no | overdamped | n/a |
+| 2.0 | no | overdamped | n/a |
+| 10.0 | no | overdamped | n/a |
 
 The oscillation occurs at LOW input (I_ext < 0.5) and disappears at
 biological operating points (where the neurons' response curve saturates:
@@ -166,14 +166,16 @@ cavity goes dark. The instrument is still there, but no one is playing it.
 
 ---
 
-## Result 4: Where the cavity leaks — the 18 unpaired modes
+## Result 4: Where the cavity leaks: the 18 unpaired modes
 
 Exclusive palindromic pairing (each eigenvalue used at most once,
-tolerance 0.01) identifies **18 unpaired modes** out of 300. These are
+tolerance 0.01) identifies **18 unpaired modes** out of 300. (Result 2's
+looser count paired 292/300, leaving 8 unpaired; the exclusive matching
+here is stricter, so more modes fail to find an unused partner.) These are
 not random. They fall into exactly three categories that match the
 qubit cavity's breaking mechanisms.
 
-### Category 1: The pharyngeal sub-cavity (7 modes)
+### Category 1: The pharyngeal sub-cavity (4 modes)
 
 | Mode | Dominant neuron | Weight | Function |
 |------|----------------|--------|----------|
@@ -200,11 +202,12 @@ It operates as an autonomous oscillator, consistent with the observation
 that pharyngeal pumping persists even when the somatic nervous system
 is ablated.
 
-### Category 2: Sensory boundary neurons (7 modes)
+### Category 2: Sensory boundary neurons (8 modes)
 
 | Mode | Dominant neuron | In/Out ratio | Sensory modality |
 |------|----------------|-------------|-----------------|
 | 15 | FLPL | 0.50 | Mechanosensation / nociception |
+| 18 | ASER | 0.91 | Chemosensation (salt / gustation) |
 | 32/33 | AWAL | 0.14 | Chemosensation (attractive odors) |
 | 46/47 | AFDL | 1.50 | Thermosensation (temperature) |
 | 140 | OLLL | 0.31 | Mechanosensation (head touch) |
@@ -230,7 +233,7 @@ Five sensory modalities are represented: touch, pain, attractive smell,
 salt, and temperature. The cavity leaks at every channel through which
 the worm perceives its environment.
 
-### Category 3: Asymmetric hub interneurons (4 modes)
+### Category 3: Asymmetric hub interneurons (6 modes)
 
 | Mode | Dominant neuron | In/Out ratio | Role |
 |------|----------------|-------------|------|
@@ -309,4 +312,4 @@ The palindrome structure survives (97.3%), but the mechanism differs.
 - Script: [`simulations/neural/neural_gamma_cavity.py`](../simulations/neural/neural_gamma_cavity.py)
 - Unpaired mode analysis: [`simulations/neural/neural_gamma_cavity_unpaired.py`](../simulations/neural/neural_gamma_cavity_unpaired.py)
 - Output: [`simulations/results/neural_gamma_cavity.txt`](../simulations/results/neural_gamma_cavity.txt)
-- C. elega
+- C. elegans data: [`simulations/neural/celegans_connectome.json`](../simulations/neural/celegans_connectome.json)

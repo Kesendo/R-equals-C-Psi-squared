@@ -4,7 +4,7 @@
 1/(2gamma), inverse spectral gap clock, palindromic Liouvillian 2gamma floor, decay rate
 J-independent, gamma=0 clock stops, R=CPsi2 gamma time, auto-extracted formula consistency test -->
 
-**Status:** Rejected — the formula is wrong; the clock is τ = 1/(2γ)
+**Status:** Rejected: the formula is wrong; the clock is τ = 1/(2γ)
 **Date:** May 28, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Scripts:** [tau_max_spectral_gap.py](../simulations/tau_max_spectral_gap.py),
@@ -15,18 +15,18 @@ J-independent, gamma=0 clock stops, R=CPsi2 gamma time, auto-extracted formula c
 
 ## Abstract
 
-An auto-extracted, fragmentary formula —
+An auto-extracted, fragmentary formula,
 
     τ_max = ħ / √(λ₂(L) · J²)
 
-— surfaced from `D:\new_formulas.txt`, framed as a "universal clock ticked by topology" with
+surfaced from `D:\new_formulas.txt`, framed as a "universal clock ticked by topology" with
 claimed NMR / ion-trap validation that **appears nowhere in this repo**. Tested against the
 repo's proven facts about the palindromic Liouvillian (Heisenberg chain + local Z-dephasing),
 it is **rejected**. The relaxation timescale is the **inverse spectral gap**,
 
     τ = 1 / λ₂ = 1 / (2γ),
 
-set by **γ alone — γ is the timekeeper**. At γ = 0 the gap is exactly 0 and the clock stops
+set by **γ alone; γ is the timekeeper**. At γ = 0 the gap is exactly 0 and the clock stops
 (τ → ∞: no dephasing, only Hamiltonian oscillation). The coupling J sets oscillation
 *frequencies*, never decay *rates*. The formula is wrong twice over: it puts the gap under a
 square root (1/√λ₂ where the timescale is 1/λ₂ → γ-power −½ instead of −1), and it injects a
@@ -43,11 +43,11 @@ and J the Heisenberg coupling. Since √(λ₂·J²) = √λ₂·J, the formula 
 
 ---
 
-## Dimensional pre-check — the square root is the tell
+## Dimensional pre-check: the square root is the tell
 
 In natural units (ħ = 1), J and λ₂ are both rates [1/t]:
 
-    √(λ₂·J²) = √( [1/t]·[1/t²] ) = t^(−3/2)   ⟹   τ_max ~ t^(+3/2)   — not a time.
+    √(λ₂·J²) = √( [1/t]·[1/t²] ) = t^(−3/2)   ⟹   τ_max ~ t^(+3/2), not a time.
 
 A relaxation time is **1 / rate**, i.e. **1/λ₂**, not 1/√λ₂. The square root in the formula is
 already dimensionally wrong; the experiment below confirms the consequence quantitatively.
@@ -80,7 +80,7 @@ closes the Absorption Theorem's former complex-Hamiltonian caveat.
 The relaxation clock is the inverse gap, τ = 1/λ₂ = 1/(2γ). Three facts pin it down:
 
 1. **At γ = 0 the clock stops.** With no dephasing the Liouvillian is anti-Hermitian; every
-   eigenvalue is purely imaginary, the gap is exactly 0, and τ = ∞. There is no decay clock —
+   eigenvalue is purely imaginary, the gap is exactly 0, and τ = ∞. There is no decay clock:
    only Hamiltonian oscillation at frequencies set by J. γ is what makes time *tick*.
    (This is the repo's own thesis: [γ = source of experienced time](../docs/GAMMA_TIME_DISTINCTION.md).)
 2. **J is frequency, not rate.** The decay spectrum is J-independent (proven). So no relaxation
@@ -127,14 +127,14 @@ and γ-power −1 to match the clock; it has −1 and −½.
 ## Verdict
 
 τ_max = ħ/√(λ₂·J²) is **rejected as a law**. The relaxation timescale is the inverse spectral
-gap, **τ = 1/λ₂ = 1/(2γ)** — set by γ alone, N-independent, J-independent, and divergent at
+gap, **τ = 1/λ₂ = 1/(2γ)**, set by γ alone, N-independent, J-independent, and divergent at
 γ = 0 (the clock stops without dephasing). The formula's two errors are quantitative and clean:
 
 - **Wrong functional form:** 1/√λ₂ gives a γ-power of −½; the true timescale 1/λ₂ has γ-power −1.
 - **Spurious coupling dependence:** a J-power of −1, where the true clock is J-independent
   (J sets oscillation frequency, never the decay rate).
 
-The only correct kernel one might salvage — "the gap matters" — is true but trivial here, since
+The only correct kernel one might salvage, "the gap matters", is true but trivial here, since
 λ₂ = 2γ; stripped of the square root and the J, the statement is simply **the clock is γ**.
 
 ---
