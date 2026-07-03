@@ -640,18 +640,24 @@ public static class OpenArcsRegistry
                 "{lambda_A, mu} is s-invariant => membership/exclusion constant on G-orbits => the broad-exclusion " +
                 "problem lives on the fundamental domain p<=w, p+w<=N (one eighth; N=5: 36 blocks = 6 orbits); " +
                 "fold-fixed blocks (even N, w=N/2 or p=N/2) have s-symmetric spectra (the even-N fine print " +
-                "derived); at Delta!=0 legs connect q<->-q, evenness survives exactly on p=w and p+w=N. NEXT = " +
-                "STEP 2, the N-GENERAL WINDOW-COMBINATORICS LEMMA (real loci): block (p,w) has n_diff range " +
-                "[|p-w|, min(p+w, 2N-p-w)] (parity-matched), so at real q the Bendixson window confines " +
-                "Re spec(p,w) to [-2 min(p+w, 2N-p-w), -2|p-w|]; lambda_A (Re in (-6,-2), window-edge lemma) can " +
-                "live only where |p-w| <= 2, mu (Re in (-2N+2,-2N+6)) only where min(p+w, 2N-p-w) >= N-3, i.e. " +
-                "p+w in [N-3, N+3]: at real loci EVERY block outside the |p-w|<=2 band-shell resp. the " +
-                "half-filling shell is excluded FOR ALL N by pure combinatorics, no certificate; combine with the " +
-                "fold quotient (Step 1) and characterize the surviving shell N-uniformly, gate it, land in proof " +
-                "section 6/7. THEN Step 3 = the MirrorWorld braid census at N = 9..15 (adopt the Block/braid " +
+                "derived); at Delta!=0 legs connect q<->-q, evenness survives exactly on p=w and p+w=N. " +
+                "Step 2 DONE = the WINDOW-COMBINATORICS SHELL LEMMA (proof section-6 closing paragraph, gate " +
+                "WindowShellLemmaTests, Category WINDOWSHELL, 4 facts): n_diff on block (p,w) ranges over " +
+                "[|p-w|, min(p+w, 2N-p-w)] in steps of 2 (enumerated exactly N=5..8), so at real q Bendixson " +
+                "confines Re spec(p,w) to [-2 min(p+w, 2N-p-w), -2|p-w|] (all 36 N=5 blocks, <= 5e-14); with " +
+                "the window-edge lemma's N-uniform Re lambda_A in (-6,-2): lambda_A lives only in the band " +
+                "shell |p-w| <= 2, mu only in the half-filling shell |p+w-N| <= 2 (the shells are fold images " +
+                "of each other), every block outside excluded FOR ALL N with margin Re lambda_A + 6 -- 24 " +
+                "blocks at N=5, 52 at N=7, worst slack 0.000 (TIGHT, the bottom-rung chiral strands sit on the " +
+                "window edge block-wide). The lemma is SILENT inside the shells (locus 2's (1,1): Re lambda_A " +
+                "= -3.7917 inside [-4,0], the negative control) -- that in-shell residue at real loci + ALL " +
+                "complex loci is what remains for the program. NEXT = STEP 3, the MirrorWorld braid census at N = 9..15 (adopt the Block/braid " +
                 "reading, masking-immune PT-break count instruments, small blocks not 4^N) to map where the braid " +
                 "lives at large N; Step 4 = the N=7 certificate only as a spot-check of the surviving shell " +
-                "(probe the bivariate build cost FIRST). PRIOR OPTIONS (superseded by the program): (b) the N=7 " +
+                "(probe the bivariate build cost FIRST). The program's remaining open surface after steps 1+2: " +
+                "the IN-SHELL blocks at real loci (window-silent, certificate territory) and the complex loci " +
+                "(moved-window + certificate territory), both on the fundamental-domain shell strip only. " +
+                "PRIOR OPTIONS (superseded by the program): (b) the N=7 " +
                 "certificate run standalone; (c) broad census-only exclusion. --- PRIOR (post R4-start, the diagnosis layer this " +
                 "close executed): engine parameterized 6f01da5 [CertifyBlockExclusion(n, rOdd, tWKet, tWBra, " +
                 "composeA, composeB); CertifyComplete = the corner-fold wrapper (w,w,-1,-4N); (1,1)xlambda_A = " +
