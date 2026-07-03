@@ -160,5 +160,33 @@ public sealed class Restless : GameObject
         }
     }
 
+    // the double turn is home (2026-07-03): the rho-level Klein twin of the anti-turn. the anti-turn (k->N-k)
+    // LEFT home -- it is the living world seen through the bra complement, anti(t) = normal(t) * X^N. this
+    // second turn STAYS: X^N conjugation is an EXACT symmetry of the living world, because [H, X^N] = 0 (the
+    // handshake s+s- + s-s+ is invariant when every spin flips, X s+ X = s-) and D commutes with it
+    // (k(~i,~j) = k(i,j), the watching cannot tell a state from its bit-complement). so seed |s><s| in one
+    // normal world and its bit-complement |~s><~s| in a second, run both, and rho_{~s}[i,j](t) = rho_s[~i,~j](t)
+    // for all t. nothing is lost in the turn; the content is only carried to the mirror block (a p-excitation
+    // seed to its N-p complement), and the carrying is its own inverse. returns the worst read-through.
+    public double ConjugationReadThrough(int seed, double dt, int ticks)
+    {
+        var w = (World)Parent!;                 // the frame both worlds inherit (never null: the ctor took a World)
+        var baseW = new Restless(w, N, J, Gamma, bonds);
+        var mirrorW = new Restless(w, N, J, Gamma, bonds);
+        baseW.Seed(seed);
+        mirrorW.Seed(dim - 1 - seed);           // |~s><~s|, the bit-complement population (X^N |s>)
+        double worst = 0;
+        for (int tick = 0; tick <= ticks; tick++)
+        {
+            for (int i = 0; i < dim; i++)
+                for (int j = 0; j < dim; j++)
+                    worst = Math.Max(worst, (mirrorW[i, j] - baseW[dim - 1 - i, dim - 1 - j]).Magnitude);
+            if (tick == ticks) break;
+            baseW.Step(dt);
+            mirrorW.Step(dt);
+        }
+        return worst;
+    }
+
     public override IReadOnlyList<string> Own => new[] { "structure", "novelty", "antistructure" };
 }

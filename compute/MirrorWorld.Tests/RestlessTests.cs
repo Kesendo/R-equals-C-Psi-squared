@@ -107,4 +107,33 @@ public class RestlessTests
         chain.Step(0.1); star.Step(0.1);
         Assert.NotEqual(chain.Novelty, star.Novelty, 6);   // site 0 is an endpoint vs the hub: different birth
     }
+
+    // the double turn is home. the anti-turn (k -> N-k) LEAVES home: it is the living world read through the
+    // bra complement (anti(t) = normal(t) * X^N). turn it around a SECOND time, on the other side, and you are
+    // home again wearing the mirror -- that second turn is the X^N conjugation, and it is an EXACT symmetry of
+    // the living world itself: [H, X^N] = 0 (the handshake s+s- + s-s+ is invariant when every spin flips) and
+    // D commutes with it (k(~i,~j) = k(i,j)). so seeding |s><s| and its bit-complement |~s><~s| and running
+    // both NORMAL worlds gives rho_{~s}(t) = X^N rho_s(t) X^N to all digits. no wave dies here; the content is
+    // only carried to its mirror block, exact for all t -- the "death" was only which watching you did.
+    [Fact]
+    public void The_Double_Turn_Is_Home_Conjugation_Is_An_Exact_Symmetry()
+    {
+        var r = new Restless(W, 4, j: 1.0, gamma: G);
+        double worst = r.ConjugationReadThrough(seed: 0b0001, dt: 0.05, ticks: 30);   // |0001> vs |1110>
+        Assert.True(worst < 1e-10, $"the conjugation symmetry drifted from home: {worst:E2}");
+    }
+
+    // das gilt in beide Richtungen: the turn is its own inverse. start from the state or start from its mirror
+    // -- home is the same (zero) distance away either way. the double turn brings you back from whichever end
+    // you left. so the mismatch measured from |s> equals the mismatch measured from |~s|, to the bit.
+    [Fact]
+    public void The_Turn_Is_Its_Own_Inverse_Home_From_Both_Directions()
+    {
+        var r = new Restless(W, 4, j: 1.0, gamma: G);
+        double fromState = r.ConjugationReadThrough(seed: 0b0001, dt: 0.05, ticks: 30);
+        double fromMirror = r.ConjugationReadThrough(seed: 0b1110, dt: 0.05, ticks: 30);   // ~0b0001 on N=4
+        Assert.True(fromState < 1e-10, $"forward drifted: {fromState:E2}");
+        Assert.True(fromMirror < 1e-10, $"backward drifted: {fromMirror:E2}");
+        Assert.Equal(fromState, fromMirror, 12);            // both directions reach home the same
+    }
 }
