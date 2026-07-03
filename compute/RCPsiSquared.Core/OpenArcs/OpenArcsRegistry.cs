@@ -619,13 +619,19 @@ public static class OpenArcsRegistry
                 "(a%p+p) in INT arithmetic, overflowing for p~2^30 on the top ~2600 residues; symptom = rare " +
                 "prime-dependent corrupt samples, then an infinite Euclid loop (hours of grind); found by stack-dump + " +
                 "Lagrange-ratio corrupt-node localization + Python replay. R1 IS NOW CLOSED AT N=5 (real: rate window; " +
-                "near-axis: moved window; everything else: the resultant), MODULO the one analytic entry point: the " +
-                "holomorphic fold identity mu=-lambda_A-2N on the core (observed 1e-13, NOT derived). NEXT: (a) derive " +
-                "the fold identity from first principles (R3-family; it must track the residual sub-structure, the " +
-                "naive two-conj chain is refuted; likely cracks R3's gap byte-identity too, same family), OR (b) the " +
-                "N=7 certificate run (engine takes odd n; corner (5,5) dim 441 makes the bivariate layer and bounds " +
-                "much heavier, feasibility unchecked), OR (c) remainder R4's broad exclusion (non-corner blocks at " +
-                "complex q, census-only). Promotion blockers for SpectatorIntertwinerClaim remain R3+R4. " +
+                "near-axis: moved window; everything else: the resultant). The one former analytic entry point, the " +
+                "holomorphic fold identity mu=-lambda_A-2N on the core, is NOW DERIVED (2026-07-03): a FULL-SPECTRUM " +
+                "corollary spec(3,3)(q)=-spec(2,3)(q)-2N of the diamond maps W+transpose+F89d (PROOF_CODIM1 §7), the " +
+                "two conjugations cancelling holomorphically at every q. The 'residual-specific / naive-chain-refuted' " +
+                "reading was a SORTED-ZIP ARTIFACT (the fold negates Im across self-conjugate real-part rungs of mult " +
+                "up to 10, so sort-then-zip pairs +Im vs -Im => spurious ~44); a multiset metric gives 1e-13 at every " +
+                "q, real and complex (gate HolomorphicFoldIdentityTests, 5 facts, incl. an artifact guard; verified " +
+                "independently in numpy 40-digit + the real C# builder). It ALSO closes R3 (the fold preserves the " +
+                "seed pair's eigenvalue gap |.|). So R1 is CLOSED at N=5 outright. NEXT: (b) the N=7 certificate run " +
+                "(engine takes odd n; corner (5,5) dim 441 makes the bivariate layer and bounds much heavier, " +
+                "feasibility unchecked; the fold maps are N-general, only the certificate is per-N), OR (c) remainder " +
+                "R4's broad exclusion (non-corner blocks at complex q, census-only). Promotion blockers for " +
+                "SpectatorIntertwinerClaim: R3 now DERIVED, so only R4 (+ the N>=7 certificate) remain. " +
                 "=== CONTEXT LAYERS BELOW (the dated journal; the fold-resultant plan text below is HISTORICAL, " +
                 "executed 2026-07-03) === " +
                 "This arc has TWO eras; read this header for the live front, " +
@@ -636,11 +642,11 @@ public static class OpenArcsRegistry
                 "theorem is LANDED (SpectatorIntertwinerClaim / registry F125 / docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md; " +
                 "the W=Σc_l†ρc_l intertwiner + containment corollary + two-regime Theorem A). The proof's four remainders: " +
                 "(R1) interior-core kernel death, CLOSED AT N=5 2026-07-03: real loci (rate-window lemma), N-uniform strictness " +
-                "Re λ_A>−6 (window-edge lemma, f5d4709), near-axis complex loci (moved-rate-window lemma, gate ComplexQRateWindowTests), and ALL remaining branch loci q≠0 of both parities (the fold-resultant certificate, see the header); the one analytic entry point still underived is the holomorphic fold identity (observed 1e-13); (R2) Theorem A's D-half, CLOSED at N=5 (twin-scalar check, " +
+                "Re λ_A>−6 (window-edge lemma, f5d4709), near-axis complex loci (moved-rate-window lemma, gate ComplexQRateWindowTests), and ALL remaining branch loci q≠0 of both parities (the fold-resultant certificate, see the header); the holomorphic fold identity through which the chain enters is now DERIVED 2026-07-03 (a full-spectrum corollary spec(3,3)=-spec(2,3)-2N of the §7 diamond maps, gate HolomorphicFoldIdentityTests), so R1 is closed outright; (R2) Theorem A's D-half, CLOSED at N=5 (twin-scalar check," +
                 "gate TwinScalarDHalfTests: the D-half is SUPPLIED at every genuinely-complex-q diabolic, the " +
-                "pure-imaginary-q ones semisimple by Hermiticity); (R3) gap byte-identity, observed at N=5 AND N=7, NOT " +
-                "implied by the intertwiner, OFF the critical path (nice-to-derive, not blocking); (R4) exclusion half, " +
-                "derived at the N=5 seed locus, else census-evidence. THE ONE OPEN ITEM (SPLIT + SHARPENED 2026-07-02, moved-rate-window landing; RE-SHARPENED by the R-odd probe 45b0ac1): only the MOVED-WINDOW-ESCAPING complex loci remain, and the probe showed that set = the R-even DEEP pair PLUS the R-odd large-Im-q pair (deep is one failure mode of the window, not the only one; see PREMISE 2). The near-axis complex defective loci are CLOSED by the moved rate window (gate ComplexQRateWindowTests); and the CONJ WAS A RED HERRING: the core carries (numerically, to locus precision; the exact identity not yet derived) the HOLOMORPHIC fold mu=-lambda_A-2N (gate 3-6e-5), not -conj(lambda_A)-2N (0.57-1.09 away), so R1 at complex q is holomorphic/conjugation-free." +
+                "pure-imaginary-q ones semisimple by Hermiticity); (R3) gap byte-identity, now IMPLIED by the derived " +
+                "full-spectrum fold (it preserves the near-defective pair's eigenvalue gap |.|), CLOSED at N=5; (R4) exclusion half, " +
+                "derived at the N=5 seed locus, else census-evidence. THE ONE OPEN ITEM (SPLIT + SHARPENED 2026-07-02, moved-rate-window landing; RE-SHARPENED by the R-odd probe 45b0ac1): only the MOVED-WINDOW-ESCAPING complex loci remain, and the probe showed that set = the R-even DEEP pair PLUS the R-odd large-Im-q pair (deep is one failure mode of the window, not the only one; see PREMISE 2). The near-axis complex defective loci are CLOSED by the moved rate window (gate ComplexQRateWindowTests); and the CONJ WAS A RED HERRING: the core carries the HOLOMORPHIC fold mu=-lambda_A-2N (now DERIVED exactly, a full-spectrum §7 corollary), not -conj(lambda_A)-2N (0.57-1.09 away at complex q; they coincide only on the real axis), so R1 at complex q is holomorphic/conjugation-free." +
                 " THE RESULTANT (now THE IMMEDIATE NEXT ACTION; premise 2's R-odd scan is DONE, see PREMISE 2 below, and it added a SECOND target set): show mu=-lambda_A-2N is not a corner eigenvalue, i.e. Res_lambda(F_18(lambda,q), F_corner(-lambda-2N,q)) != 0 at F_18's branch loci (ONE-WAY certificate: gcd=1 proves absence, gcd!=1 is refine-not-refute; F_18 = the (1,2) residual, deg 18 at N=5, NOT the N=4 octic). Build the corner block " +
                 "(p_c+1,p_c+1)=(4,4 at N=5) via WeightCoherenceBlock.Build(N, p_c+1, p_c+1, q) [the exact builder the working gates " +
                 "ComplexQRateWindowTests / HolomorphicFoldIdentityTests use; NOT SectorBraidModeGeometry.BuildBlock, which takes no block index] and show " +
@@ -659,8 +665,10 @@ public static class OpenArcsRegistry
                 "GaussianInteger; instantiating it over Z[i][q] needs GaussianPolynomial.Add/Negate, TO BUILD, not yet present) as the " +
                 "fully-exact cross-check, finishing via the existing AreCoprime. PREMISE 1 (exact fold identity) DONE " +
                 "b62c46a: the core (3,3) carries mu=-lambda-2N for every F_18 residual root to ~1e-13 at integer q (gate " +
-                "HolomorphicFoldIdentityTests); RESIDUAL-SPECIFIC (the full-spectrum identity is FALSE), so R3-family " +
-                "status (observed exactly, from-first-principles derivation still pending). PREMISE 2 (R-parity) DONE 45b0ac1 (the R-odd probe, " +
+                "HolomorphicFoldIdentityTests). [SUPERSEDED 2026-07-03: the fold is FULL-SPECTRUM and DERIVED, " +
+                "spec(3,3)(q)=-spec(2,3)(q)-2N at every q; the earlier 'residual-specific / full-spectrum FALSE' was " +
+                "a sorted-zip artifact (multiset metric gives 1e-13), and R3 closes with it. See the live header.] " +
+                "PREMISE 2 (R-parity) DONE 45b0ac1 (the R-odd probe, " +
                 "gate ROddDeepLociProbeTests, Category RODDPROBE; locus tool rcpsi pkmono --k <N-1> --diabolic --rodd): " +
                 "F_18 = the R-EVEN sector ONLY (BuildTwoTimesSymBlock is the x2-cleared R-even), the found deep loci " +
                 "q*=1.814+-0.367i ARE R-even, hence covered; the R-ODD sector was built exactly " +

@@ -26,7 +26,7 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// up into the corner window and are left to the holomorphic resultant Res_λ(F_18, F_corner(−λ−2N)).</para>
 ///
 /// <para>Asserts (N=5): the holomorphic-fold READING (core carries μ, numerically to locus precision; the
-/// exact identity is a from-first-principles step still open), the absence (corner excludes μ,
+/// exact identity is now DERIVED, a full-spectrum §7 corollary, gate HolomorphicFoldIdentityTests), the absence (corner excludes μ,
 /// numerical census), and that the moved window closes ≥1 complex locus. Run:
 /// <c>dotnet test "compute/RCPsiSquared.Diagnostics.Tests" --filter "Category=COMPLEXQWINDOW"
 /// --logger "console;verbosity=detailed"</c>.</para></summary>

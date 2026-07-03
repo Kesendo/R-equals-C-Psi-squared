@@ -46,9 +46,11 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// eigenvector coalescence (a Jordan block), SEPARATE from the rate (at N=4 the defective EP sits at ⟨n_diff⟩=2,
 /// the midpoint, yet is Jordan). The mixture is resolved via the mode geometry (node 4c) and the
 /// codim-1-by-additivity theorem is landed with general-N membership derived in the CONTAINMENT direction; the
-/// interior kernel death is derived at real loci by the rate-window lemma (proof §6, gate item 8); what stays
-/// open is the proof's ledger (node 5): the complex-q face of the kernel death and exclusion, Theorem A's D-half
-/// at the 11, and the gap byte-identity (the octic is S₈, so no global radical form for the loci is expected).
+/// interior kernel death is derived at real loci by the rate-window lemma (proof §6, gate item 8) and at complex
+/// loci by the moved rate window + the fold-resultant certificate; what stays open (node 5) is only the EXCLUSION
+/// half of membership beyond the seed locus (R4). The gap byte-identity is now DERIVED (the full-spectrum
+/// holomorphic fold, §7); Theorem A's D-half is CLOSED (twin-scalar). The octic is S₈, so no global radical form
+/// for the loci exists.
 ///
 /// <para><b>What is live here.</b> The census node runs <see cref="MultiSectorMonodromyCensus.Run"/> at inspect
 /// time (via the AT-aware <see cref="SectorEpProbe.ProbeDefectiveAnywhere"/>), so the braid/node maps are recomputed
@@ -299,9 +301,9 @@ public sealed class SectorBraidWitness : IInspectable
                          "diabolics are semisimple by Hermiticity instead; (3) the EXCLUSION half of " +
                          "membership (no braid outside the orbit) is proven at the outer edge (normal pencil) and, " +
                          "at the N=5 seed locus q*=0.620878, derived in full by the rate window (condition " +
-                         "Re λ_A ∈ (−6,−4)); otherwise census-evidence; (4) the GAP byte-identity across sectors is " +
-                         "observed, not implied by the intertwiner (which transports eigenvalue and depth, not the " +
-                         "near-defective metric geometry).",
+                         "Re λ_A ∈ (−6,−4)); otherwise census-evidence. (4) the GAP byte-identity across sectors is " +
+                         "now DERIVED (implied by the full-spectrum holomorphic fold spec(3,3)=−spec(2,3)−2N, an " +
+                         "isometry on eigenvalue gaps; §7, gate HolomorphicFoldIdentityTests).",
                 provenance: NodeProvenance.Stored);
         }
     }

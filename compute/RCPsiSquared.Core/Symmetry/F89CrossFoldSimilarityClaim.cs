@@ -117,6 +117,18 @@ public sealed class F89CrossFoldSimilarityClaim : Claim
                          "The diabolics die under Δ (Move 2, integrability-protected), but the pairing structure does not: a " +
                          "diabolic and its partner turn defective in lockstep. Discriminant = bit-flip parity: a longitudinal " +
                          "Z-field (odd, fe(b̄)=−fe(b)) breaks the fold (residual O(1)). So the fold is structural, not free-fermion.");
+            yield return new InspectableNode("the diamond-core HOLOMORPHIC fold, derived (R1's last entry, 2026-07-03)",
+                summary: "composed with the transpose (the D leg) and the climbing W-step, F89d DERIVES the holomorphic " +
+                         "diamond fold: spec(3,3)(q) = −spec(2,3)(q) − 2N as multisets at EVERY q, real AND complex, the two " +
+                         "conjugations of transpose+F89d cancelling holomorphically (substitute q→q̄ in spec(3,2)(q)=conj " +
+                         "spec(2,3)(q̄), feed F89d spec(3,3)(q)=−conj spec(3,2)(q̄)−2N). With W's spec(1,2)⊆spec(2,3), every " +
+                         "(1,2) eigenvalue folds; the F_18 residual roots the complex-q resultant composes against are a " +
+                         "special case. This is the premise PROOF_CODIM1_BY_ADDITIVITY §7's fold-resultant certificate needs, " +
+                         "formerly logged 'observed not derived, residual-specific' — that was a SORTED-ZIP ARTIFACT (the fold " +
+                         "negates Im across self-conjugate real-part rungs of mult up to 10; multiset metric gives 1e-13). Now " +
+                         "a full-spectrum Tier-1 corollary, closing remainder R1's last analytic entry AND R3 (the fold " +
+                         "preserves the near-defective pair's eigenvalue gap). Gate: HolomorphicFoldIdentityTests (FOLDIDENTITY, " +
+                         "5 facts); verified independently (numpy 40-digit + the real C# builder).");
         }
     }
 }

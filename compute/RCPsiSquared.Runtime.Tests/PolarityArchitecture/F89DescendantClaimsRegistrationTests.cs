@@ -222,7 +222,7 @@ public class F89DescendantClaimsRegistrationTests
         Assert.True(registry.Contains<MultiSectorMonodromyVerdictClaim>());
         // Tier 1 CANDIDATE: the verdict is computationally exact + gate-tested, and the codim-1-by-additivity
         // theorem is landed (containment half derived via the W-orbit corollary), but the EXCLUSION half of
-        // membership stays census-evidence and the gap byte-identity is observed not proven, so not yet derived.
+        // membership stays census-evidence (R4), so the verdict is not yet fully derived (the gap byte-identity is now derived, §7).
         Assert.Equal(Tier.Tier1Candidate, registry.Get<MultiSectorMonodromyVerdictClaim>().Tier);
         var ancestors = registry.AncestorsOf<MultiSectorMonodromyVerdictClaim>()
             .Select(c => c.GetType()).ToHashSet();

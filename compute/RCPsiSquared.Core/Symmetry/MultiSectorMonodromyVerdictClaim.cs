@@ -70,8 +70,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// |2p−N| = 1, i.e. iff N odd; sizes 4N−8 odd / 4N−12 even), so the N=6 spread is a corollary, no census needed.
 /// What keeps the claim at candidate: the EXCLUSION half of membership (no braid outside the orbit) is proven
 /// only at the outer edge (n_diff ≡ 1 ⟹ normal pencil) and is otherwise census-evidence (exact N=4, 5; one
-/// targeted probe N=6); and the GAP byte-identity across sectors is observed, not implied by the intertwiner
-/// (which transports eigenvalue and Jordan depth, not the near-defective metric geometry). The closed-form
+/// targeted probe N=6). (The GAP byte-identity across sectors, formerly open, is now DERIVED: the full-spectrum
+/// holomorphic fold spec(3,3) = −spec(2,3) − 2N is an isometry on eigenvalue separations, so the (3,3) core gap
+/// equals the (1,2) seed gap; PROOF_CODIM1 §7 / gate HolomorphicFoldIdentityTests.) The closed-form
 /// mixture is resolved (the quantized-overlap contraction above); the octic is S₈ (non-solvable in radicals),
 /// so no global radical form for the P₁₀ EP loci exists, and this is derived (the √-branch-point structure of
 /// the function), not merely expected.</para>
@@ -113,7 +114,7 @@ public sealed class MultiSectorMonodromyVerdictClaim : Claim
                "codim-1-by-additivity theorem is LANDED (docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md) and general-N " +
                "membership is DERIVED in the CONTAINMENT direction only (the W-orbit corollary: cores iff |2p−N|=1, " +
                "sizes 4N−8 odd / 4N−12 even); the EXCLUSION half stays census-evidence (edge blocks excepted: " +
-               "normal pencil) and the gap byte-identity is observed, not proven.",
+               "normal pencil); the gap byte-identity is now DERIVED (the full-spectrum fold, §7).",
                Tier.Tier1Candidate,
                "experiments/F89_MULTI_SECTOR_MONODROMY.md + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/MultiSectorMonodromyCensus.cs + " +
@@ -133,7 +134,7 @@ public sealed class MultiSectorMonodromyVerdictClaim : Claim
         $"N=4 self-fold, the mechanism the W intertwiner theorem (PROOF_CODIM1_BY_ADDITIVITY), the mixture " +
         $"⟨n_diff⟩(q) resolved via the mode geometry (quantized overlap; N=4 ⟹ N/2, N≥5 √-branch/non-radical); " +
         $"general-N membership derived in the CONTAINMENT direction (W-orbit corollary), the exclusion half " +
-        $"census-evidence, the gap byte-identity observed not proven ({Tier.Label()})";
+        $"census-evidence, the gap byte-identity now derived via the full-spectrum fold ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -172,9 +173,10 @@ public sealed class MultiSectorMonodromyVerdictClaim : Claim
                 summary: "LANDED: the codim-1-by-additivity theorem (docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md: W " +
                          "intertwiner + containment orbit corollary + two-regime Theorem A); general-N membership is " +
                          "DERIVED in the CONTAINMENT direction (cores iff |2p−N|=1, sizes 4N−8 odd / 4N−12 even; the " +
-                         "N=6 spread is a corollary, no census needed). OPEN: the exclusion half of membership " +
-                         "(census-evidence except the normal edge), the gap byte-identity (observed, not implied by " +
-                         "the intertwiner), the interior-core kernel death (CLOSED at real loci by §6's " +
+                         "N=6 spread is a corollary, no census needed). OPEN: only the exclusion half of membership " +
+                         "(census-evidence except the normal edge; R4). NOW DERIVED: the gap byte-identity (the full-" +
+                         "spectrum holomorphic fold spec(3,3)=−spec(2,3)−2N is an isometry on eigenvalue gaps, §7); " +
+                         "and the interior-core kernel death (CLOSED at real loci by §6's " +
                          "rate-window lemma, its strictness N-uniform via the window-edge lemma; the complex-q loci are " +
                          "split by the moved rate window: near-axis CLOSED, only the DEEP loci remain, reduced to the " +
                          "holomorphic resultant (gate ComplexQRateWindowTests)). Theorem A's D-half is CLOSED at N=5 (gate TwinScalarDHalfTests): " +
