@@ -14,7 +14,7 @@ forced us to find, **broke our complexity wall**: a state's dynamics at N=60-100
 eigendecomposition died at N=8.
 
 Standalone .NET 10.0, no `RCPsiSquared.*` references. Run it, read it, trust it: every adopted
-number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (52 tests).
+number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (58 tests).
 
 *Vocabulary, once.* MirrorWorld is part of the **R=CΨ²** project (mirror symmetry in open quantum
 spin chains; repo root). The basic parameters: **N** = the number of two-level units (the chain
@@ -49,9 +49,10 @@ x/y/z; that is the inheritance edge System → Object.
 | `Field.cs` | **the empty world, running**: weights on pairs, one `Step` is the disagreement-decay; structure (diagonal) stays, novelty (off-diagonal) fades |
 | `Restless.cs` | **the living world**: the full Lindblad loop ρ̇=−i[H,ρ]+D[ρ] (RK4); the handshake H births novelty FROM structure |
 | `Cone.cs` | **the memory cut**: a single excitation as an N×N block (not 4^N) -- the dynamics at large N |
+| `Mirror.cs` | **the first mirror in the world of mirrors** (adopted 2026-07-03, the fold-lattice lemma): the block-lattice group of eight (t / f_P / f_Q / Klein), every leg an EXACT entry-wise rearrangement at the same coupling, no eigensolver; the folds pay λ → −λ − 2Nγ; orbits (~⅛ fundamental domain), the self-folded trace law, the trajectory fold (the partner block running backward at the price) |
 | `Topology.cs` | the geometry: chain / ring / star / complete bond generators |
 | `Program.cs` | the full sober run (default) + the run modes (see Run); R-parity and mod-4 inline |
-| `../MirrorWorld.Tests/*.cs` | 52 from-below tests: `SmokeTests` (31, the closed forms), `FieldTests` (7), `RestlessTests` (8), `ConeTests` (4), `TopologyTests` (2) |
+| `../MirrorWorld.Tests/*.cs` | 58 from-below tests: `SmokeTests` (31, the closed forms), `FieldTests` (7), `RestlessTests` (8), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (6) |
 
 ## The closed-form base (the stopping line, 2026-06-28)
 
@@ -66,6 +67,17 @@ group (F118), the F100-F120 follow-ons. These are proofs and operator identities
 forms; they stay in `docs/proofs/` where they belong, not as formula lines here. A few
 computable remnants (F85 k-body cross-term, F97 Mandelbrot cardioid, F124 band-edge) were
 left as the clean stopping point, available if a future pass wants 100% closed-form coverage.
+
+**One deliberate exception (2026-07-03): `Mirror.cs`, the first OPERATOR adoption.** An inventory
+pass (turning this world around and looking at what is missing) found that the world of mirrors
+held only mirror *signatures* (the Π² parity signs, the Klein cells) and not a single mirror as an
+object -- and nothing non-normal anywhere: no Jordan, no defective, no braid. The fold-lattice
+lemma (PROOF_CODIM1_BY_ADDITIVITY §7) is the one structural piece that fits this world's own
+genre, because it is not an eigen-story but an exact REARRANGEMENT: checkable cell by cell,
+machine zero, no eigensolver. So the mirror came home. The boundary it draws is now principled
+instead of accidental: **states and their mirrors live here; the paths (the braid, the monodromy,
+the exceptional points) stay in the main repo** -- they are properties of ways, not of objects,
+and a catalog cannot hold a way, only what the way leaves behind.
 
 ## The running engine (the diagonal protocol)
 
@@ -112,7 +124,8 @@ dotnet run --project compute/MirrorWorld -- regime 4      # how alive at each Q 
 dotnet run --project compute/MirrorWorld -- seeds 4       # the palindrome p<->N-p, in the seed
 dotnet run --project compute/MirrorWorld -- topo 4        # the block cut is topology-invariant; the dynamics is not
 dotnet run --project compute/MirrorWorld -- scale         # the complexity wall and the block cut, across N
-dotnet test compute/MirrorWorld.Tests                     # the 52-test from-below guard
+dotnet run --project compute/MirrorWorld -- mirror 5      # Mirror: the fold lattice (legs exact, orbits, the price); even N adds the self-folded trace law
+dotnet test compute/MirrorWorld.Tests                     # the 58-test from-below guard
 ```
 
 ## How to continue (future us)

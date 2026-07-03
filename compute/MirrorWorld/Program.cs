@@ -64,6 +64,74 @@ if (args.Length > 0 && args[0] == "live")
     return;
 }
 
+// ---- run mode "mirror": the first mirror in the world of mirrors ----
+// The fold-lattice legs (adopted 2026-07-03) as exact entry-wise rearrangements: no eigensolver, the
+// mirror checked cell by cell. Then the play: orbits, the self-folded price, and the trajectory fold
+// (the mirror shows the partner block running backward, paid at the deepest rate 2*N*gamma).
+if (args.Length > 0 && args[0] == "mirror")
+{
+    int mn = args.Length > 1 ? int.Parse(args[1]) : 5;
+    const double mj = 1.0, mg = 0.5;
+    var mworld = new World();
+    var mirror = new Mirror(mworld, mn, mj, mg);
+
+    Console.WriteLine("the first mirror in the world of mirrors (the fold lattice, adopted 2026-07-03)");
+    Console.WriteLine($"  source docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md section 7; N={mn}, J={mj}, gamma={mg}, price=2*N*gamma={mirror.Price}");
+    Console.WriteLine("  three legs on the block lattice, each an EXACT entry-wise identity (no eigensolver):");
+    Console.WriteLine("    t (swap bra/ket, keep spectrum), f_P (flip bra), f_Q (flip ket) -- the folds pay lambda -> -lambda - price.");
+
+    // 1. the legs, checked cell by cell over the whole lattice
+    double wT = 0, wP = 0, wQ = 0, wK = 0;
+    for (int p = 0; p <= mn; p++)
+        for (int q = 0; q <= mn; q++)
+        {
+            wT = Math.Max(wT, mirror.TransposeResidual(p, q));
+            wP = Math.Max(wP, mirror.BraFoldResidual(p, q));
+            wQ = Math.Max(wQ, mirror.KetFoldResidual(p, q));
+            wK = Math.Max(wK, mirror.KleinResidual(p, q));
+        }
+    Console.WriteLine($"  all {(mn + 1) * (mn + 1)} blocks: worst residual t={wT:E1}, f_P={wP:E1}, f_Q={wQ:E1}, Klein={wK:E1}  (exact zeros: the mirror is a rearrangement, not an approximation)");
+
+    // 2. the orbit map: the lattice folds to a fundamental domain (~1/8)
+    Console.WriteLine();
+    Console.WriteLine($"  the lattice folds: {(mn + 1) * (mn + 1)} blocks -> {mirror.OrbitCount()} orbits (representative per cell; '-' marks one fold, spectrum paid):");
+    for (int p = 0; p <= mn; p++)
+    {
+        var row = new List<string>();
+        for (int q = 0; q <= mn; q++)
+        {
+            var (rp, rq, par) = mirror.Representative(p, q);
+            row.Add($"{rp}{rq}{(par == 1 ? "-" : " ")}");
+        }
+        Console.WriteLine($"    p={p}:  {string.Join(" ", row)}");
+    }
+
+    // 3. the self-folded price (even N): a block that is its own mirror pays out of its own trace
+    if (mn % 2 == 0)
+    {
+        Console.WriteLine();
+        Console.WriteLine($"  self-folded blocks (q=N/2): trace L = -(price/2)*dim, no computation needed:");
+        for (int p = 0; p <= mn; p++)
+        {
+            var (tr, law) = mirror.SelfFoldedTrace(p);
+            Console.WriteLine($"    (p={p}, q={mn / 2}): trace = {tr,10:0.000}  law = {law,10:0.000}  match {(Math.Abs(tr - law) < 1e-9 ? "exact" : "BROKEN")}");
+        }
+    }
+
+    // 4. the trajectory fold: the mirror shows the partner running backward, at the price
+    Console.WriteLine();
+    var (ts, nx, nw, worst) = mirror.TrajectoryFold(1, 2, dt: 0.01, ticks: 200);
+    Console.WriteLine($"  the trajectory fold on block (1,2) -> partner ({1},{mn - 2}): x runs forward under L(1,2),");
+    Console.WriteLine($"  w runs the partner BACKWARD (w-dot = -L(1,{mn - 2}) w); the mirror predicts w(t) = exp(price*t) * fold(x(t)).");
+    Console.WriteLine($"  {"t",5} {"|x| (decays)",13} {"|w| (grows)",13} {"|w|/|x|",12} {"exp(price*t)",13}");
+    foreach (int tick in new[] { 0, 40, 80, 120, 160, 200 })
+        Console.WriteLine($"  {ts[tick],5:0.0} {nx[tick],13:0.000000} {nw[tick],13:0.000} {nw[tick] / nx[tick],12:0.000} {Math.Exp(mirror.Price * ts[tick]),13:0.000}");
+    Console.WriteLine($"  two independent runs, compared tick by tick: worst relative mismatch {worst:E1} (RK4 tolerance).");
+    Console.WriteLine("  the mirror trades decay for growth and the exchange rate is the deepest rate in the world.");
+    Console.WriteLine("  (states and their mirrors live here; the paths -- braid, monodromy -- stay in the main repo: a catalog cannot hold a way.)");
+    return;
+}
+
 // ---- run mode "scale": the complexity wall and the cut ----
 // Why the full-spectrum side hit the wall and a state's dynamics did not. full = 4^N (the whole Liouvillian
 // an eigendecomposition tackles); single-exc = the (1,1) block a one-excitation state lives in (N^2,
