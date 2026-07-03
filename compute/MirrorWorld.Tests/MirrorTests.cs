@@ -113,6 +113,28 @@ public class MirrorTests
         Assert.True(anti.Structure < 0.2, $"the anti-world's trace must die; got {anti.Structure:0.000}");
     }
 
+    // past the wall: the fold partner of the memory cut is again a memory cut (block (1,N-1), one hole
+    // against one excitation, N^2 in site labels), and the fold leg holds cell by cell at N=60 --
+    // where the full spectrum died at N=8. The wall was a property of the spectrum, not of the mirror.
+    [Fact]
+    public void The_Mirror_Walks_Past_The_Wall()
+    {
+        var mirror = new Mirror(W, 60, J, G);
+        var (res, dim) = mirror.PastTheWallResidual();
+        Assert.Equal(3600, dim);                                   // N^2, not 4^N
+        Assert.True(res < 1e-12, $"the fold leg broke past the wall: {res:E2}");
+    }
+
+    // the trajectory fold past the wall: two independent RK4 runs at N=40, related by exp(price*t).
+    [Fact]
+    public void The_Trajectory_Fold_Holds_Past_The_Wall()
+    {
+        var mirror = new Mirror(W, 40, J, G);
+        var (_, nx, nw, worst) = mirror.PastTheWallTrajectory(dt: 0.002, ticks: 50);
+        Assert.True(worst < 1e-6, $"the past-the-wall trajectory fold drifted: {worst:E2}");
+        Assert.Equal(Math.Exp(mirror.Price * 50 * 0.002), nw[50] / nx[50], 3);
+    }
+
     // the two worlds' disagreement histograms are each other read backward (k <-> N-k).
     [Fact]
     public void The_Histograms_Mirror_Each_Other()

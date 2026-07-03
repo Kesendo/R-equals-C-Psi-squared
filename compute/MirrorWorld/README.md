@@ -14,7 +14,7 @@ forced us to find, **broke our complexity wall**: a state's dynamics at N=60-100
 eigendecomposition died at N=8.
 
 Standalone .NET 10.0, no `RCPsiSquared.*` references. Run it, read it, trust it: every adopted
-number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (61 tests).
+number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (63 tests).
 
 *Vocabulary, once.* MirrorWorld is part of the **R=CΨ²** project (mirror symmetry in open quantum
 spin chains; repo root). The basic parameters: **N** = the number of two-level units (the chain
@@ -52,7 +52,7 @@ x/y/z; that is the inheritance edge System → Object.
 | `Mirror.cs` | **the first mirror in the world of mirrors** (adopted 2026-07-03, the fold-lattice lemma): the block-lattice group of eight (t / f_P / f_Q / Klein), every leg an EXACT entry-wise rearrangement at the same coupling, no eigensolver; the folds pay λ → −λ − 2Nγ; orbits (~⅛ fundamental domain), the self-folded trace law, the trajectory fold (the partner block running backward at the price) |
 | `Topology.cs` | the geometry: chain / ring / star / complete bond generators |
 | `Program.cs` | the full sober run (default) + the run modes (see Run); R-parity and mod-4 inline |
-| `../MirrorWorld.Tests/*.cs` | 61 from-below tests: `SmokeTests` (31, the closed forms), `FieldTests` (7), `RestlessTests` (8), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (9, incl. the anti-watched world) |
+| `../MirrorWorld.Tests/*.cs` | 63 from-below tests: `SmokeTests` (31, the closed forms), `FieldTests` (7), `RestlessTests` (8), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (11, incl. the anti-watched world + past-the-wall) |
 
 ## The closed-form base (the stopping line, 2026-06-28)
 
@@ -125,8 +125,9 @@ dotnet run --project compute/MirrorWorld -- seeds 4       # the palindrome p<->N
 dotnet run --project compute/MirrorWorld -- topo 4        # the block cut is topology-invariant; the dynamics is not
 dotnet run --project compute/MirrorWorld -- scale         # the complexity wall and the block cut, across N
 dotnet run --project compute/MirrorWorld -- mirror 5      # Mirror: the fold lattice (legs exact, orbits, the price); even N adds the self-folded trace law
+dotnet run --project compute/MirrorWorld -- mirror 100    # N > 8 goes PAST THE WALL: the memory-cut pair (1,1)/(1,N-1) is N^2 both, the fold leg exact at N=100
 dotnet run --project compute/MirrorWorld -- anti 3        # the rules turned around: the anti-watched world (agreement watched) = the world read through X^N; the conserved law moves to the anti-trace
-dotnet test compute/MirrorWorld.Tests                     # the 61-test from-below guard
+dotnet test compute/MirrorWorld.Tests                     # the 63-test from-below guard
 ```
 
 ## How to continue (future us)

@@ -80,6 +80,28 @@ if (args.Length > 0 && args[0] == "mirror")
     Console.WriteLine("  three legs on the block lattice, each an EXACT entry-wise identity (no eigensolver):");
     Console.WriteLine("    t (swap bra/ket, keep spectrum), f_P (flip bra), f_Q (flip ket) -- the folds pay lambda -> -lambda - price.");
 
+    if (mn > 8)
+    {
+        // past the wall: the full lattice is out of reach (half-filling is exponential), but the
+        // memory-cut pair is not: block (1,1) is N^2 and its fold partner (1,N-1) -- one hole against
+        // one excitation -- is N^2 too. The mirror walks where the spectrum died at N=8.
+        Console.WriteLine();
+        Console.WriteLine($"  N={mn} is past the wall (the spectrum died at N=8). The memory-cut pair stays small:");
+        var (res, dim) = mirror.PastTheWallResidual();
+        Console.WriteLine($"  block (1,1) and its fold partner (1,{mn - 1}) -- one hole against one excitation -- are BOTH {dim} = N^2,");
+        Console.WriteLine($"  and the fold leg holds cell by cell: worst residual {res:E1}  (the mirror does not care about the wall).");
+        var (wts, wnx, wnw, wworst) = mirror.PastTheWallTrajectory(dt: 0.002, ticks: 100);
+        Console.WriteLine();
+        Console.WriteLine($"  the trajectory fold past the wall: x forward in (1,1), w BACKWARD in (1,{mn - 1}); |w|/|x| = exp(price*t):");
+        Console.WriteLine($"  {"t",6} {"|x|",12} {"|w|",14} {"|w|/|x|",14} {"exp(price*t)",14}");
+        foreach (int tick in new[] { 0, 25, 50, 75, 100 })
+            Console.WriteLine($"  {wts[tick],6:0.000} {wnx[tick],12:0.000000} {wnw[tick],14:0.000E+0} {wnw[tick] / wnx[tick],14:0.000E+0} {Math.Exp(mirror.Price * wts[tick]),14:0.000E+0}");
+        Console.WriteLine($"  two independent runs, worst relative mismatch {wworst:E1}.");
+        Console.WriteLine("  the fold partner of the memory cut is again a memory cut: the mirror maps small blocks to small");
+        Console.WriteLine("  blocks, so it runs at any N the cone runs at -- the wall was a property of the spectrum, not of the mirror.");
+        return;
+    }
+
     // 1. the legs, checked cell by cell over the whole lattice
     double wT = 0, wP = 0, wQ = 0, wK = 0;
     for (int p = 0; p <= mn; p++)

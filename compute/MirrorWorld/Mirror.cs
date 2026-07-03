@@ -272,6 +272,108 @@ public sealed class Mirror : GameObject
         return Math.Sqrt(s);
     }
 
+    // ---- past the wall: the mirror on the memory-cut pair at large N ----
+    // The Cone's insight was that a single excitation lives in an N^2 block, not 4^N. The mirror adds
+    // its own: the fold partner of the memory cut is AGAIN a memory cut -- block (1, N-1), one hole
+    // against one excitation, also N^2, labeled by (excited site u, hole site v), no bitmasks, no 2^N.
+    // The two blocks share the SAME hop structure (a hole hops like an excitation); only the watching
+    // differs (k = 0/2 against N - 0/2), and the fold leg connects them exactly as everywhere else:
+    // L(1,N-1)[i,j] = -e_i e_j L(1,1)[i,j] - price*delta. So the mirror walks past the wall the
+    // spectrum died at (N=8): every leg stays an exact rearrangement at N = 60..100.
+    public (double WorstResidual, int Dim) PastTheWallResidual()
+    {
+        int dim = N * N;
+        var l11 = BuildSiteBlock(holeBra: false);
+        var l1h = BuildSiteBlock(holeBra: true);
+        double worst = 0;
+        for (int i = 0; i < dim; i++)
+            for (int j = 0; j < dim; j++)
+            {
+                var expected = -(double)(SiteGauge(i) * SiteGauge(j)) * l11[i, j] - (i == j ? Price : 0.0);
+                worst = Math.Max(worst, (l1h[i, j] - expected).Magnitude);
+            }
+        return (worst, dim);
+    }
+
+    // the trajectory fold past the wall: x forward in the memory cut (1,1), w backward in the partner
+    // (1,N-1); the mirror predicts w(t) = exp(price*t) * gauge(x(t)) (the relabeling is the identity:
+    // the bra complement turns "excitation at v" into "hole at v", same site label).
+    public (double[] T, double[] NormX, double[] NormW, double WorstResidual) PastTheWallTrajectory(
+        double dt, int ticks)
+    {
+        int dim = N * N;
+        var l11 = BuildSiteBlock(holeBra: false);
+        var l1h = BuildSiteBlock(holeBra: true);
+        var x = new Complex[dim];
+        for (int i = 0; i < dim; i++) x[i] = 1.0 / Math.Sqrt(dim);
+        var w = new Complex[dim];
+        for (int i = 0; i < dim; i++) w[i] = SiteGauge(i) * x[i];
+
+        var ts = new double[ticks + 1];
+        var nx = new double[ticks + 1];
+        var nw = new double[ticks + 1];
+        double worst = 0;
+        for (int tick = 0; tick <= ticks; tick++)
+        {
+            double t = tick * dt;
+            ts[tick] = t; nx[tick] = Norm(x); nw[tick] = Norm(w);
+            double scale = Math.Exp(Price * t);
+            double res = 0;
+            for (int i = 0; i < dim; i++)
+                res = Math.Max(res, (w[i] - scale * SiteGauge(i) * x[i]).Magnitude);
+            worst = Math.Max(worst, res / Math.Max(nw[tick], 1e-300));
+            if (tick == ticks) break;
+            x = Rk4(l11, x, dt, dim);
+            w = Rk4Negated(l1h, w, dt, dim);
+        }
+        return (ts, nx, nw, worst);
+    }
+
+    // the (1,1) or (1,N-1) block in site labels (u = the excited ket site; v = the excited bra site,
+    // or the HOLE site when holeBra): diagonal from the Pair rule (k = 0/2, complemented when holeBra),
+    // ket hops -iJ, bra hops +iJ on the chain -- a hole hops like an excitation.
+    Complex[,] BuildSiteBlock(bool holeBra)
+    {
+        int dim = N * N;
+        var l = new Complex[dim, dim];
+        for (int u = 0; u < N; u++)
+            for (int v = 0; v < N; v++)
+            {
+                int col = u * N + v;
+                int k = u == v ? 0 : 2;
+                l[col, col] = -2.0 * Gamma * (holeBra ? N - k : k);
+                if (u > 0) l[(u - 1) * N + v, col] += -Complex.ImaginaryOne * J;
+                if (u < N - 1) l[(u + 1) * N + v, col] += -Complex.ImaginaryOne * J;
+                if (v > 0) l[u * N + (v - 1), col] += Complex.ImaginaryOne * J;
+                if (v < N - 1) l[u * N + (v + 1), col] += Complex.ImaginaryOne * J;
+            }
+        return l;
+    }
+
+    int SiteGauge(int idx)
+    {
+        int u = idx / N, v = idx % N;
+        return ((u & 1) == 1 ? -1 : 1) * ((v & 1) == 1 ? -1 : 1);
+    }
+
+    static Complex[] Rk4Negated(Complex[,] m, Complex[] x, double dt, int dim)
+    {
+        var k1 = Neg(Mul(m, x, dim), dim);
+        var k2 = Neg(Mul(m, Axpy(x, k1, dt / 2, dim), dim), dim);
+        var k3 = Neg(Mul(m, Axpy(x, k2, dt / 2, dim), dim), dim);
+        var k4 = Neg(Mul(m, Axpy(x, k3, dt, dim), dim), dim);
+        var r = new Complex[dim];
+        for (int i = 0; i < dim; i++) r[i] = x[i] + (dt / 6) * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]);
+        return r;
+    }
+
+    static Complex[] Neg(Complex[] a, int dim)
+    {
+        var r = new Complex[dim];
+        for (int i = 0; i < dim; i++) r[i] = -a[i];
+        return r;
+    }
+
     // ---- small shared pieces ----
     int Complement(int c) => ((1 << N) - 1) ^ c;
 
