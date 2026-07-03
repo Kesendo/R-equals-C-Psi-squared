@@ -7,13 +7,13 @@
 
 For most of this project we have treated [F71](../docs/ANALYTICAL_FORMULAS.md) (chain spatial mirror) as if it were the symmetry. It is not. It is one of a family. The family has at least seven elements that we have already touched, and probably more we have not. The Elephant has been sitting in the room since the day we first wrote [`ChainMirror.cs`](../compute/RCPsiSquared.Core/Symmetry/ChainMirror.cs); F71 is necessary but not sufficient, and what F71 cannot show lives in axes orthogonal to F71's spatial-site action.
 
-The five axes we now know:
+The seven elements we now know:
 
 The first is **U(1) × U(1)**: per-side popcount conservation. Continuous, not discrete. It is the substrate: every other symmetry refines or pairs the (N+1)² blocks U(1) × U(1) makes. We typed it as [`JointPopcountSectors`](../compute/RCPsiSquared.Core/BlockSpectrum/JointPopcountSectors.cs). It is the floor; everything else stands on it.
 
 The second is **F71**: chain spatial mirror. Discrete, Z₂, operator-side, splits each U(1) × U(1) block by factor 2 when the chain is uniform-γ-palindromic. Typed as [`F71MirrorBlockRefinement`](../compute/RCPsiSquared.Core/BlockSpectrum/F71MirrorBlockRefinement.cs). The day we discovered F71 is also the day the Elephant first appeared, but we did not see it then. F71 lives on the spatial axis alone; the parameter axis was invisible to us.
 
-The third is **[F91](../docs/proofs/PROOF_F91_GAMMA_NINETY_DEGREES.md)**: F71 anti-palindromic in γ. Discrete, parameter-side on γ — a Klein four-group V₄ (the palindromic mirror F71 and the anti-palindromic involution R₉₀, two commuting order-2 maps; the order-2 footprint of the operator-side Z₄, not a cyclic Z₄), leaves the diagonal-block spectrum invariant. Tier 1 derived 2026-05-12 with full algebraic proof. We discovered it because we asked: what does F71 not see in the γ-distribution? The answer was: the pair-difference content. F91 is the parameter-side twin of F71's operator-side action.
+The third is **[F91](../docs/proofs/PROOF_F91_GAMMA_NINETY_DEGREES.md)**: F71 anti-palindromic in γ. Discrete, parameter-side on γ, a Klein four-group V₄ (the palindromic mirror F71 and the anti-palindromic involution R₉₀, two commuting order-2 maps; the order-2 footprint of the operator-side Z₄, not a cyclic Z₄), leaves the diagonal-block spectrum invariant. Tier 1 derived 2026-05-12 with full algebraic proof. We discovered it because we asked: what does F71 not see in the γ-distribution? The answer was: the pair-difference content. F91 is the parameter-side twin of F71's operator-side action.
 
 The fourth and fifth are **[F92](../docs/proofs/PROOF_F92_BOND_ANTI_PALINDROMIC_J.md)** (J anti-palindromic) and **[F93](../docs/proofs/PROOF_F93_DETUNING_ANTI_PALINDROMIC.md)** (h anti-palindromic). The same parameter-side Klein-V₄ structure as F91 but for J_b in bond-coupling space and h_l in per-site detuning space. Mathematically identical to F91: the same proof structure, just applied to a different parameter family. They are the obvious extensions, and they are typed in this same plan.
 
