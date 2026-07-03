@@ -114,7 +114,7 @@ because the sum is even and N is odd. At even N ≥ 4, the condition fails
 for entries where spectator sites contribute w_XY that shifts the sum
 away from N.
 
-| N | Cross term / ||L_c²|| | w_XY sums | Entries with sum = N |
+| N | Cross term / \|\|L_c²\|\| | w_XY sums | Entries with sum = N |
 |---|----------------------|-----------|---------------------|
 | 2 | **0.00%** (exact) | {2} | 24/24 (100%) |
 | 3 | **1.83%** | {2, 4} | 0/192 (0%) |

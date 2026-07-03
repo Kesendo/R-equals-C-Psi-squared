@@ -238,7 +238,7 @@ Residual = 0.00 (machine precision, 10^{-16})
 
 Balanced subnetworks (5E + 5I), 200 samples:
 
-| Network | ||R|| / ||J|| |
+| Network | \|\|R\|\| / \|\|J\|\| |
 |---------|--------------|
 | C. elegans | 0.013 |
 | Erdos-Renyi | 0.108 |

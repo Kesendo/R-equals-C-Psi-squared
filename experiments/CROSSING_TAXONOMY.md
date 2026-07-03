@@ -84,7 +84,7 @@ applied to Bell+ under Heisenberg coupling, not a universal constant.
 
 | Parameter | Value |
 |-----------|-------|
-| State | Bell+ (maximally entangled, (|00⟩+|11⟩)/√2) |
+| State | Bell+ (maximally entangled, (\|00⟩+\|11⟩)/√2) |
 | Hamiltonian | Heisenberg (J = 1, h = 0) |
 | Noise | Local Z-dephasing (σ_z per qubit) |
 | Time step | dt = 0.01 |

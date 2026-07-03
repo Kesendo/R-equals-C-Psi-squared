@@ -184,7 +184,7 @@ one exists but the other does not.
 
 We constructed three types of networks (N = 10, 5E + 5I):
 
-| Network type | Palindrome residual ||R|| / ||J|| |
+| Network type | Palindrome residual \|\|R\|\| / \|\|J\|\| |
 |-------------|-----------------------------------|
 | Dale + exact magnitude condition | **0.00** (machine precision) |
 | Dale signs, random magnitudes | 0.72 |

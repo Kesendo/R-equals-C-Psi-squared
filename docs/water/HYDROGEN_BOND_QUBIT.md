@@ -215,7 +215,7 @@ quantum system with physical parameters:
 
 | Framework concept | H-bond realization |
 |-------------------|-------------------|
-| d = 2 | |L⟩ (donor) and |R⟩ (acceptor) |
+| d = 2 | \|L⟩ (donor) and \|R⟩ (acceptor) |
 | σ_X coupling (J) | Proton tunneling |
 | σ_Z dephasing (γ) | Thermal fluctuations from environment |
 | CΨ = 1/4 crossing | Proton achieves half-transfer coherence |

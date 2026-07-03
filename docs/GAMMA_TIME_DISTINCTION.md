@@ -172,7 +172,7 @@ source of experienced time, not identical to it.
 | γ is the source of experienced time | Correct (Level 3, Parts 1+2; but τ≠full trajectory, Part 3) |
 | The formal parameter t exists without γ | Correct (Level 1, trivial) |
 | The Hamiltonian provides a frequency | Correct (but frequency is not a clock) |
-| Without γ, nothing is ever decided | Confirmed (Bell+ frozen, |01⟩ recurs) |
+| Without γ, nothing is ever decided | Confirmed (Bell+ frozen, \|01⟩ recurs) |
 | The 1/4 boundary is absorbing | Only with γ. Without γ: 127 crossings both ways. |
 
 ---
@@ -192,7 +192,7 @@ Data: [gamma_is_time_proof.txt](../simulations/results/gamma_is_time_proof.txt).
 
 ### Part 1: Completeness - γ produces every property of experienced time
 
-| Property | |01⟩ γ=0 | |01⟩ γ=0.05 | Bell+ γ=0 | Bell+ γ=0.05 |
+| Property | \|01⟩ γ=0 | \|01⟩ γ=0.05 | Bell+ γ=0 | Bell+ γ=0.05 |
 |----------|---------|------------|-----------|-------------|
 | S monoton steigend | Nein | Nein | Ja (trivial: S=1 konstant) | Ja |
 | D kehrt nicht zurück | Nein (Rekurrenz) | Ja | Nein (immer 0) | Ja |

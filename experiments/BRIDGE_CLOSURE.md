@@ -102,7 +102,7 @@ channel. Regardless of what B does, has done, or will do.
 Bell+ evolved to t = 2 under independent dephasing (γ = 0.05, J = 0).
 Three scenarios: B does nothing, B measures Z, B measures X.
 
-| t_after | ρ_A(nothing) | ρ_A(B→Z) | ρ_A(B→X) | max ||Δ|| |
+| t_after | ρ_A(nothing) | ρ_A(B→Z) | ρ_A(B→X) | max \|\|Δ\|\| |
 |---------|-------------|----------|----------|------------|
 | 0.0 | 0.500 | 0.500 | 0.500 | 0.00 |
 | 0.5 | 0.500 | 0.500 | 0.500 | 0.00 |

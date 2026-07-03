@@ -99,7 +99,7 @@ The 32 surviving diagrams split into 3 disjoint cells by (ordering, c_1, c_2):
 
 | Cell | (ord, c_1, c_2) | bond-pair rule | site rule | # diagrams | value |
 |------|-----------------|----------------|-----------|------------|-------|
-| A | (ord = 1, X, X) | adjacent, share a kept-pair site (0 or 2) | s ∈ |+⟩ sites = {1, 3} | 4 × 2 = 8 | 2 |
+| A | (ord = 1, X, X) | adjacent, share a kept-pair site (0 or 2) | s ∈ \|+⟩ sites = {1, 3} | 4 × 2 = 8 | 2 |
 | B | (ord = 2, X, X) | self ∪ (adjacent, share a kept-pair site) | s ∈ b_1 endpoints | 8 × 2 = 16 | 4 |
 | C | (ord = 2, Y, Y) | self only | s ∈ b_1 endpoints | 4 × 2 = 8 | 2 |
 | **total** | | | | **32** | **8** |
@@ -191,7 +191,7 @@ This makes F94 a **(state, pair)-symmetry signature tool**:
 | (+8, −4, −4, 0) | Canonical symmetric: \|0+0+⟩ + ring/K_4 (or equivalent) |
 | (+5, −4, −1, 0) | Chain-like asymmetry: missing one bond breaks 0 ↔ 2 reflection |
 | (·, −3, +3, ·) antisymmetric shift | Initial state asymmetric across the (0, 2) pair |
-| Slope_|01⟩ ≠ −16/9 in the per-K linear regime | Hardware noise or calibration drift breaking the symmetry |
+| Slope_\|01⟩ ≠ −16/9 in the per-K linear regime | Hardware noise or calibration drift breaking the symmetry |
 | Sym3 \|11⟩ ≠ 0 | Crosstalk or asymmetric γ_l producing subdominant-outcome leakage |
 
 The robustness against K_4 vs ring (bond-graph detail invisible) is exactly the right diagnostic property: we want a tool that flags actual (state, pair) symmetry breaks, not every irrelevant connectivity variation. F94's specific integer ratios are the canonical "this is the expected algebra" signature; any deviation localizes the kind of break.

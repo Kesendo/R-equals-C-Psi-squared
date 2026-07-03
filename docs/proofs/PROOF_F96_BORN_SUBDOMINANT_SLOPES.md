@@ -113,7 +113,7 @@ Two non-trivial structural observations:
 
 For |01⟩ at Q = 50, γ = 0.01, J = 0.5 (deep perturbative regime):
 
-| K | P_lindblad(|01⟩) | P_unitary(|01⟩) | Δ_|01⟩ | slope/K |
+| K | P_lindblad(\|01⟩) | P_unitary(\|01⟩) | Δ_\|01⟩ | slope/K |
 |---|---|---|---|---|
 | 0.005 | 2.256 × 10⁻² | 2.276 × 10⁻² | −8.74 × 10⁻³ | −1.748 |
 | 0.010 | 8.187 × 10⁻² | 8.328 × 10⁻² | −1.68 × 10⁻² | −1.682 |
@@ -122,7 +122,7 @@ Theoretical slope = −16/9 = −1.7778. The K → 0 extrapolation converges; de
 
 For |11⟩ at Q = 50, γ = 0.01:
 
-| K | P_unitary(|11⟩) | Δ_|11⟩ | slope/K |
+| K | P_unitary(\|11⟩) | Δ_\|11⟩ | slope/K |
 |---|---|---|---|
 | 0.001 | 3.90 × 10⁻⁷ | −2.66 × 10⁻³ | −2.6621 |
 | 0.002 | 6.23 × 10⁻⁶ | −5.31 × 10⁻³ | −2.6571 |

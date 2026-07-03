@@ -86,7 +86,7 @@ A navigation system needs three quantities:
 
 | Parameter | Value |
 |-----------|-------|
-| State | Bell+ (maximally entangled, (|00⟩+|11⟩)/√2) |
+| State | Bell+ (maximally entangled, (\|00⟩+\|11⟩)/√2) |
 | Hamiltonian | Heisenberg (J = 1.0, h = 0) |
 | Bridge metric | Concurrence |
 | Decoherence | Local Z-dephasing, γ = 0.05 |

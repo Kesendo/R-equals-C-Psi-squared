@@ -449,7 +449,7 @@ For the Heisenberg ring on small N, K_n is fully `S_N`-permutation-symmetric, so
 
 K_3's full centralizer is 8 dimensions larger than chain's. Of these 8 extra centralizer dimensions, how are they distributed across pure-weight sectors? Empirical per-weight breakdown at N=3:
 
-| weight w | chain dim(ker[H, ·]|_w) | K_3 dim(ker[H, ·]|_w) | excess |
+| weight w | chain dim(ker[H, ·]\|_w) | K_3 dim(ker[H, ·]\|_w) | excess |
 |---|---|---|---|
 | 0 | 4 | 4 | 0 |
 | 1 | 6 | 8 | **+2** |
@@ -561,7 +561,7 @@ The K_4 − Ring difference is an **antisymmetric integer shift between outcomes
 
 | Lens | What it tracks | K_4 vs Ring sensitivity |
 |------|----------------|------------------------|
-| F94 sym3 (|0+0+⟩, pair (0,2)) | Specific observable on specific state | Blind (symmetric blind spots) |
+| F94 sym3 (\|0+0+⟩, pair (0,2)) | Specific observable on specific state | Blind (symmetric blind spots) |
 | F94 sym3 (\|++00⟩ etc.) | Same observable on asymmetric state | Visible: integer shifts (1-3) |
 | F50 weight-1 ker | Full operator algebra, state-independent | Invisible at w=1 for N ≥ 4 (= 2N) |
 | F50 weight-w ker (w = central) | Full operator algebra, state-independent | Visible: large excess (+23 at K_4 N=4 w=2) |

@@ -26,7 +26,7 @@ The product runs over connected components c of G. For a single connected compon
 
 Captured by the F1 SLOW_N8 sweep on 2026-05-18 (commit 89f725e, four `simulations/results/f1_n8_n9_metrics/<topology>_N8.json` files; observed kernel dimension surfaced in the `KernelDimension` field of each JSON).
 
-| Topology | Components | Component sizes | Predicted Π(|c|+1) | Observed |
+| Topology | Components | Component sizes | Predicted Π(\|c\|+1) | Observed |
 |---|---|---|---|---|
 | chain N=8       | 1 | {8}    | 9    | 9 |
 | ring N=8        | 1 | {8}    | 9    | 9 |

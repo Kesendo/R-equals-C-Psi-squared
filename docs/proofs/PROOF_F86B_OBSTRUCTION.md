@@ -160,14 +160,14 @@ Following the EQ-022 (b1) Item 1' c=2 derivation plan, we built a typed pipeline
 | Stage | Primitive | Tier outcome |
 |-------|-----------|--------------|
 | A1 | [`C2BlockShape`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BlockShape.cs) | Tier1Derived (block-structure constants) |
-| A2 | [`C2ChannelUniformAnalytical`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2ChannelUniformAnalytical.cs) | Tier1Derived (closed-form |c_1⟩, |c_3⟩) |
+| A2 | [`C2ChannelUniformAnalytical`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2ChannelUniformAnalytical.cs) | Tier1Derived (closed-form \|c_1⟩, \|c_3⟩) |
 | A3 | [`C2InterChannelAnalytical`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2InterChannelAnalytical.cs) | **Tier2Verified: discovered σ_0 degeneracy obstruction** at even N: chain-mirror R splits the 2D top eigenspace into R-even/R-odd, library-dependent SVD-tiebreaker. Single-vector closed form not derivable; lift-to-projector-overlap is the next direction. |
 | B1 | [`C2BondCoupling`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BondCoupling.cs) probe-block | Tier1Derived (channel-uniform projection) |
 | B2 | [`C2BondCoupling`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BondCoupling.cs) cross-block | Tier2Verified (inherits A3); **discovered cross-block Frobenius Endpoint < Interior at c=2 N=5..8**, opposite sign to the HWHM_left/Q_peak directional split, hinting that the inversion happens in 4×4 mixing |
 | B3 | [`C2BondCoupling`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BondCoupling.cs) SVD-block + AsMatrix + anti-Hermiticity guard | Tier2Verified (inherits A3) |
 | C1 | [`C2BondCoupling`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BondCoupling.cs) D_eff | Tier1Derived structural sub-fact (diag(−2γ₀, −6γ₀, −2γ₀, −6γ₀) at c=2) |
 | C2 | [`C2EffectiveSpectrum`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2EffectiveSpectrum.cs) | **Tier2Verified: rigorously ruled out closed-form factorisation** via cubic-c_3 char-poly evidence. No (λ²−aλ+b)(λ²−cλ+d) split with rational coefficients exists. |
-| C3 | [`C2EffectiveSpectrum`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2EffectiveSpectrum.cs) K-driving pair | Tier1Derived structural sub-fact (probe ⊥ {|u_0⟩, |v_0⟩} at machine precision) + Tier2Verified per-(Q, b) numerical readout |
+| C3 | [`C2EffectiveSpectrum`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2EffectiveSpectrum.cs) K-driving pair | Tier1Derived structural sub-fact (probe ⊥ {\|u_0⟩, \|v_0⟩} at machine precision) + Tier2Verified per-(Q, b) numerical readout |
 | D1 | [`C2KShape`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2KShape.cs) | Tier1Derived (Duhamel formula closed-form in numerical inputs) |
 | D2 | [`C2HwhmRatio`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2HwhmRatio.cs) | **Tier1Candidate**: empirical anchor reproduced at typical residual ≤ 0.001; directional Endpoint > Interior split derived empirically; closed-form constant NOT pinned |
 | E1 | [`C2UniversalShapeDerivation`](../../compute/RCPsiSquared.Core/F86/C2UniversalShapeDerivation.cs) | Tier1Candidate (auto-promotes via D2's `IsAnalyticallyDerived` flag) |
