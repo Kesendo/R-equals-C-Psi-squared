@@ -602,8 +602,12 @@ public static class OpenArcsRegistry
                 "GaloisMonodromyWitness.TraceToDiabolic, and gmscan --trace [--tq q] [--tsteps n] (gate-first: " +
                 "prints PASS / CONFIRMED). " +
                 "Here is where we continue hand-over-hand.",
-            NextStep: "RESUMING IN ONE LINE (2026-07-03, post R4-start): R1+R3 CLOSED (the holomorphic fold DERIVED, " +
-                "87df3f8). R4 (the exclusion half, the SOLE remaining promotion blocker for the codim-1 verdict) is " +
+            NextStep: "RESUMING IN ONE LINE (2026-07-03, post R4-start): R1 (interior-core kernel death) + R2 " +
+                "(Theorem A's D-half) + R3 (the gap byte-identity) CLOSED, and the holomorphic diamond fold " +
+                "mu=-lambda_A-2N (spec(3,3)(q)=-spec(2,3)" +
+                "(q)-2N, the (3,3) core carrying the fold of every (1,2) braid eigenvalue) DERIVED (87df3f8). R4 (the " +
+                "exclusion half of diamond membership: no non-orbit joint-popcount block carries the braid; the SOLE " +
+                "remaining promotion blocker for the codim-1-by-additivity verdict) is " +
                 "STARTED and reduces to ONE new certificate: the interior-four non-member cores (1,1),(4,4),(1,4),(4,1) " +
                 "collapse by the Klein full flip (spec(4,4)=spec(1,1)) + the F89d bra/ket fold (spec(1,4)(qbar)=-conj " +
                 "spec(1,1)(q)-2N) to (1,1) and its two shared values {lambda_A, mu}; (1,1)xmu IS R1's corner cert " +
