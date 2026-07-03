@@ -669,15 +669,20 @@ public static class OpenArcsRegistry
                 "(R-even) at its 2 deep branch loci q*=1.8141+-0.3666i, (ii) the degree-17 R-odd residual factor at " +
                 "q*=1.7701+-1.2189i (equivalently, by the W-R commutation, against the R-odd corner factor, deg 12, the " +
                 "cheaper certificate); the route stays radical-trick + all-mod-p + Berkowitz cross-check as recorded. " +
-                "FIRST N-SCALING DATA (play runs, 2026-07-02, pkmono --rodd): at EVEN N the R-odd census is FREE, " +
-                "sigma_odd = conj(sigma_even at q-bar) confirmed point-by-point at N=6 (all 21 coalescences mirror " +
+                "FIRST N-SCALING DATA (play runs, 2026-07-02, pkmono --rodd; CONTEXT ONLY, does NOT expand the N=5 " +
+                "deliverable above - it foreshadows the later N-uniform step): at EVEN N the R-odd census is FREE, " +
+                "sigma_odd = conj(sigma_even at q-bar) confirmed point-by-point at N=6 (sigma = a sector's coalescence " +
+                "census; all 21 coalescences mirror " +
                 "(q,lambda)->(q-bar,lambda-bar), same gaps/exponents); at N=7 the R-odd sector has its own complex " +
                 "defective pair q*=1.9309+-0.438i (lambda_A=-4.198+-2.950i, Re mu=-9.80) which ALSO escapes both moved " +
                 "windows (corner (5,5) ||K||=13.05 vs 6.93 at N=5: the window WEAKENS with N), absence census-only " +
                 "(1.13); CAVEAT: N=7 defective enumeration is masked-limited (the known R-even real defective q*=1.5148 " +
-                "is ABSENT from the F_53-density scan, the at_masking closest-pair trap), so N=7 lists are lower bounds; " +
+                "is ABSENT from the gap scan at the N=7 residual's density (deg F_53), the closest-pair masking trap " +
+                "(memory: at_masking)), so N=7 lists are lower bounds; " +
                 "N=5 (the deciding case) is unaffected (sparse residuals, all anchors reproduced). " +
-                "SEED CENSUS (2026-07-02, same day, the masking trap DEFEATED for the real axis): the containment " +
+                "SEED CENSUS (2026-07-02, same day, the masking trap DEFEATED for the real axis; REAL-q seeds feeding " +
+                "the containment corollary's input - these are NOT resultant targets, the resultant's loci are the " +
+                "COMPLEX window-escapers above): the containment " +
                 "corollary's one per-N input (a real defective EP on (1,2) at odd N) now EXTENDS THROUGH N=11 via the " +
                 "PT-break COUNT-CHANGE instrument (FindRealDefectiveByCountChange: real-root count of the " +
                 "self-conjugate residuals jumps by 2 where two real strands merge and leave the axis; counting is " +
