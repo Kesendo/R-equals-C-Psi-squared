@@ -3218,7 +3218,7 @@ where M_n^{(i)} = ⟨i|_pair Tr_{1,3}[sym_n^1 · ρ_0]|i⟩_pair and U_{2k}^{(i)
 |---|---|
 | 4/3 building block | F94's `FourFactor / ThreeDenominator` (a_{−1} = 4 dyadic ladder, 3 from Taylor reduction) |
 | Linear-K Q-independence | `UniversalCarrierClaim` (the Universal Carrier signature for subdominant outcomes) |
-| Site-permutation symmetry (|01⟩ ≡ |10⟩) | F1 / F71 spatial mirror |
+| Site-permutation symmetry (\|01⟩ ≡ \|10⟩) | F1 / F71 spatial mirror |
 
 **Anchor:** [`PROOF_F96_BORN_SUBDOMINANT_SLOPES.md`](proofs/PROOF_F96_BORN_SUBDOMINANT_SLOPES.md), [`simulations/born_rule_subdominant_dyson.py`](../simulations/born_rule_subdominant_dyson.py). F94 companion (dominant outcome): [F94](#f94). Born-rule precursors: [`experiments/BORN_RULE_MIRROR.md`](../experiments/BORN_RULE_MIRROR.md), [`experiments/BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md). Reflection that named the empirical subdominant slopes as the next step: [`ON_HOW_FOUR_THIRDS_APPEARED.md`](../reflections/ON_HOW_FOUR_THIRDS_APPEARED.md).
 

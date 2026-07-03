@@ -184,7 +184,7 @@ In particular, **F112-Y does NOT follow from D-conjugation of L_Z**, but not for
 
 The verifier `simulations/f112_klein_v4_cross_dephase_verify.py` (Welle 13) confirms all four claims numerically at N = 2 and N = 3:
 
-| Claim | N=2 max|asymmetry| or |Im F| | N=3 max|asymmetry| or |Im F| |
+| Claim | N=2 max\|asymmetry\| or \|Im F\| | N=3 max\|asymmetry\| or \|Im F\| |
 |---|---|---|
 | F112-Y direct (Hermitian H + bit_b-homo c, Π_Y) | 3.6e-15 | 4.3e-14 |
 | F112-Y direct (non-Hermitian H + bit_b-homo c, Π_Y) | 1.4e-14 | 1.3e-32 |
@@ -194,10 +194,10 @@ The verifier `simulations/f112_klein_v4_cross_dephase_verify.py` (Welle 13) conf
 | Lemma N-A^Z (axis=bit_b, n_odd=8/32, n_off=56/992): max deviation | 0.0 | 0.0 |
 | Lemma N-A^Y (axis=bit_b, n_odd=8/32, n_off=56/992): max deviation | 0.0 | 0.0 |
 | Lemma N-A^X (axis=bit_a, n_odd=8/32, n_off=56/992): max deviation | 0.0 | 0.0 |
-| Lemma N-B^Z (axis=bit_b): max |<L_{α,-i}, L_{β,-i}>| | 0.0 | 0.0 |
-| Lemma N-B^Y (axis=bit_b): max |<L_{α,-i}, L_{β,-i}>| | 0.0 | 0.0 |
-| Lemma N-B^X (axis=bit_a): max |<L_{α,-i}, L_{β,-i}>| | 0.0 | 0.0 |
-| Main theorem F_d for d ∈ {Z, Y, X}: max |Im F| over 256/4096 pairs | 0.0 | 0.0 |
+| Lemma N-B^Z (axis=bit_b): max \|<L_{α,-i}, L_{β,-i}>\| | 0.0 | 0.0 |
+| Lemma N-B^Y (axis=bit_b): max \|<L_{α,-i}, L_{β,-i}>\| | 0.0 | 0.0 |
+| Lemma N-B^X (axis=bit_a): max \|<L_{α,-i}, L_{β,-i}>\| | 0.0 | 0.0 |
+| Main theorem F_d for d ∈ {Z, Y, X}: max \|Im F\| over 256/4096 pairs | 0.0 | 0.0 |
 
 Additionally, the edge-case table at N = 2, 3 exhibits the structural axis breakage:
 

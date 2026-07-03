@@ -66,7 +66,7 @@ fast to slow palindromic pairs at the hardware level.
 
 For the N=3 star (J_SA=1.0, J_SB=2.0, gamma=0.05):
 
-| Property | |100> encoding |
+| Property | \|100> encoding |
 |---|---|
 | Slow-mode weight | 61% |
 | XOR weight | 0% |
@@ -85,12 +85,12 @@ Sweeping over all single-qubit preparations for Alice:
 
 | Alice state | F_avg |
 |---|---|
-| |0> | 0.886 |
-| |1> | 0.886 |
-| |+> | 0.880 |
-| |-> | 0.880 |
-| |+i> | 0.880 |
-| |-i> | 0.880 |
+| \|0> | 0.886 |
+| \|1> | 0.886 |
+| \|+> | 0.880 |
+| \|-> | 0.880 |
+| \|+i> | 0.880 |
+| \|-i> | 0.880 |
 
 The computational basis states (|0> and |1>) are equally good and
 marginally better than superposition states. The fidelity spread across

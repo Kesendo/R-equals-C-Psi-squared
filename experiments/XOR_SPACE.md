@@ -120,9 +120,9 @@ survival). The palindrome is the market. The state is the strategy.
 | Bell+ (N ≥ 3) | **100%** | 0% | Hamming distance 2, not N |
 | W (N=2) | 0% | 100% | W = Bell at N=2 |
 | W (N ≥ 3) | **100%** | 0% | Distributed across paired rates |
-| |010⟩ | 100% | 0% | Single excitation, palindromic |
-| |+-+⟩ | 86.5% | 13.5% | Mixed |
-| |+++⟩ | 85.8% | 14.2% | Mixed |
+| \|010⟩ | 100% | 0% | Single excitation, palindromic |
+| \|+-+⟩ | 86.5% | 13.5% | Mixed |
+| \|+++⟩ | 85.8% | 14.2% | Mixed |
 
 **GHZ lives entirely in the XOR drain.** Its coherences span all N qubits
 simultaneously (Hamming distance N, meaning every single bit differs
@@ -161,8 +161,8 @@ off-diagonal terms at once?
 |-------|----------------|-------------|
 | GHZ | 37.5% | 100% |
 | W (N ≥ 3) | 0% | 0% |
-| |+-+⟩ | 14.2% | 13.5% |
-| |+++⟩ | 14.8% | 14.2% |
+| \|+-+⟩ | 14.2% | 13.5% |
+| \|+++⟩ | 14.8% | 14.2% |
 
 Mixed XY Pauli weight measures genuine multi-qubit quantum correlations.
 GHZ has 37.5% and projects entirely onto XOR. W has 0% and stays entirely

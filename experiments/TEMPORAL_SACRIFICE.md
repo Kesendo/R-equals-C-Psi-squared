@@ -334,12 +334,12 @@ No dedicated bath. The 5 protected qubits ARE the reservoir.
 
 | Setup | J | CΨ(0,1) crossings |
 |-------|---|-------------------|
-| |+>^7, sacrifice, J=1 | 1.0 | 1 (monotonic) |
-| |+>^7, sacrifice, J=2 | 2.0 | 1 (monotonic) |
-| Bell(0,1)+|+>^5, sacrifice, J=1 | 1.0 | 1 (monotonic) |
-| **Bell(0,1)+|+>^5, sacrifice, J=2** | **2.0** | **7 (4 down + 3 up)** |
-| Bell(0,1)+|+>^5, low noise, J=2 | 2.0 | **0 (stays ABOVE 1/4!)** |
-| Bell(0,1)+|+>^5, uniform, J=1 | 1.0 | 3+ (still running) |
+| \|+>^7, sacrifice, J=1 | 1.0 | 1 (monotonic) |
+| \|+>^7, sacrifice, J=2 | 2.0 | 1 (monotonic) |
+| Bell(0,1)+\|+>^5, sacrifice, J=1 | 1.0 | 1 (monotonic) |
+| **Bell(0,1)+\|+>^5, sacrifice, J=2** | **2.0** | **7 (4 down + 3 up)** |
+| Bell(0,1)+\|+>^5, low noise, J=2 | 2.0 | **0 (stays ABOVE 1/4!)** |
+| Bell(0,1)+\|+>^5, uniform, J=1 | 1.0 | 3+ (still running) |
 
 **Key findings:**
 

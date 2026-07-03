@@ -79,19 +79,19 @@ falsification criterion, and a link to its source experiment.
 | ξ = ln(Ψ) linear under Markovian dephasing | Slope variation < 0.01% across all tested configs | Variation exceeds 1% for any Markovian channel | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) |
 | ξ linearity breaks under non-Markovian noise | ξ curves under memory-kernel feedback (the specific "24.5%, κ=0.5, τ=1.0" figure is not in the cited source, flagged for recheck) | ξ stays linear under memory kernel feedback | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) |
 | Coherence-purity bound holds throughout Lindblad trajectory | 0 violations for Bell+ (d=4) and W (d=8) | Trajectory violates C ≥ Ψ²(d-1)/d + 1/d | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) |
-| CΨ after Eve intercept-resend depends on Eve's measurement basis | R(θ_Eve) = [sin²θ + |sin2θ|]²/18, closed form | R independent of θ_Eve | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
+| CΨ after Eve intercept-resend depends on Eve's measurement basis | R(θ_Eve) = [sin²θ + \|sin2θ\|]²/18, closed form | R independent of θ_Eve | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | Concurrence is basis-blind under intercept-resend | Conc = 1−f for all θ_Eve (exact) | Concurrence varies with θ_Eve at fixed f | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | CΨ distinguishes Eve from channel noise at equal Concurrence | 4 causes at Conc=0.80 give CΨ ∈ {0.058, 0.068, 0.115} | CΨ identical for Eve and noise at same Conc | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
-| Off-diagonal ratio breaks θ_Eve degeneracy | |ρ₀₁|/|ρ₀₃| = cot(θ_Eve), monotonic | Ratio non-monotonic or θ_Eve-independent | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
+| Off-diagonal ratio breaks θ_Eve degeneracy | \|ρ₀₁\|/\|ρ₀₃\| = cot(θ_Eve), monotonic | Ratio non-monotonic or θ_Eve-independent | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | All four Bell states give identical CΨ under Eve attack | CΨ(Φ+)=CΨ(Φ−)=CΨ(Ψ+)=CΨ(Ψ−) for all θ_Eve | Any Bell state differs | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | R(θ_Eve) has azimuthal symmetry | R depends on θ_Eve only, not φ | R varies with φ | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | R(θ_Eve) maximum at ~60°, not σ_x | R_max = 0.145 at θ_Eve ≈ 60° | Maximum at 90° (σ_x) | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | MI and Correlation are θ_Eve-independent | ΔMI, ΔCorr identical at all θ_Eve for fixed f | MI or Corr varies with θ_Eve | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | Bridge framework detects Eve at stealth angle | Conc/MI/Corr show 17-24% delta at CΨ stealth | Eve invisible to all metrics at stealth | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | ξ-curvature identical for Eve and noise | d²ξ/dp² difference = 0.0% under added depolarization | Curvature discriminates Eve from noise | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
-| Off-diagonal ratio invertible under noise | |ρ₀₁|/|ρ₀₃| is a unique function of θ_Eve at fixed (p,f), not cot(θ) but still invertible | Ratio degenerate or constant | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
+| Off-diagonal ratio invertible under noise | \|ρ₀₁\|/\|ρ₀₃\| is a unique function of θ_Eve at fixed (p,f), not cot(θ) but still invertible | Ratio degenerate or constant | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | θ_stealth deterministic function of (p,f) | θ_stealth(0.10, 0.20) = 72.2°, computable from calibration | θ_stealth unpredictable | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
-| No-signalling: rho_A unchanged by remote measurement | ||Δρ_A|| = 0 for Bell+ under B Z-measurement (averaged) | rho_A changes (no-signalling violated) | [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md) |
+| No-signalling: rho_A unchanged by remote measurement | \|\|Δρ_A\|\| = 0 for Bell+ under B Z-measurement (averaged) | rho_A changes (no-signalling violated) | [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md) |
 | CΨ drops to ¼ under remote measurement | CΨ: 0.500 → 0.250 (C drops 1.0→0.5, Ψ unchanged at 0.5) | CΨ unchanged, or drops to value ≠ ¼ | [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md) |
 | CΨ regime change invisible to local subsystem | A cannot detect the quantum→boundary transition | A detects the regime change (no-signalling violated) | [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md) |
 | Critical slowing at the cusp: closed-form K(ε, tol) | (1/2)·ln(4ε/tol) + [−4 + (1/2)·ln(16·tol)]·√ε, zero fit parameters, matches 0.5-2% across 10 ε-decades × 5 tol-decades | Formula fails at any tested scale | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
@@ -110,7 +110,7 @@ Detected in IBM Torino tomography data (2026-02-09). The anomaly is statisticall
 | Late-time excess coherence | p < 0.0001 (10,000-run Monte Carlo null) | [Residual Analysis](../experiments/RESIDUAL_ANALYSIS.md) |
 | Directional consistency Re⁺/Im⁻ | 17/17 measurements (P = 6 × 10⁻¹¹) | [Residual Analysis](../experiments/RESIDUAL_ANALYSIS.md) |
 | Rising coherence trend in classical regime | +0.008/T₂ slope | [Residual Analysis](../experiments/RESIDUAL_ANALYSIS.md) |
-| Boundary correlation | r = −0.9955 (|ρ₀₁| vs distance from ¼) | [Fixed Point Shadow](../experiments/FIXED_POINT_SHADOW.md) |
+| Boundary correlation | r = −0.9955 (\|ρ₀₁\| vs distance from ¼) | [Fixed Point Shadow](../experiments/FIXED_POINT_SHADOW.md) |
 | Shadow direction matches FP⁻ | FP⁻ phase = −12°, residual phase = −48° (same quadrant) | [Fixed Point Shadow](../experiments/FIXED_POINT_SHADOW.md) |
 
 **Three competing hypotheses:**
@@ -160,12 +160,12 @@ detuning, not a fixed SPAM offset). The anomaly is real; its cause is no longer 
 | Bridge fingerprints: initial state determines crossing trajectory | State-specific C(t), Ψ(t) curves | Prepare different initial states, run tomography through ¼ | All states show identical crossing | [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md) |
 | Decoherence scales with gravitational time dilation **(RETIRED)** | γ₀/√(1−2GM/rc²) was a relabeling of γ-variation, not gravity | no gravity test exists | n/a | [Gravitational Invariance](../experiments/GRAVITATIONAL_INVARIANCE.md), which now marks its **Gravity Interpretation Fallen** (the experiment varied γ, not gravity; γ is the local decoherence rate) |
 | ξ curvature detects non-Markovian noise | ξ = ln(Ψ) linear iff Markovian; curves iff memory effects present | Measure Ψ(t) via tomography, compute ξ(t), fit linearity | ξ is linear on hardware known to have non-Markovian signatures | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) |
-| QKD eavesdropping forensics | R(θ_E) = [sin²θ+|sin2θ|]²/18, ~500 pairs for 3.8σ (noiseless, naive Eve) | Prepare Bell+, intercept-resend on Bob, joint tomography | CΨ carries no θ_E information | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
+| QKD eavesdropping forensics | R(θ_E) = [sin²θ+\|sin2θ\|]²/18, ~500 pairs for 3.8σ (noiseless, naive Eve) | Prepare Bell+, intercept-resend on Bob, joint tomography | CΨ carries no θ_E information | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | Multi-metric forensics detects Eve at stealth | MI/Conc/Corr > 17% delta even at CΨ stealth angle | Simultaneous tomography with multiple bridge metrics | All metrics fooled at stealth angle | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
-| CΨ identifies Eve's measurement basis | R(θ_E) = [sin²θ_E + |sin 2θ_E|]²/18 | Joint tomography of Bell+ after intercept-resend | CΨ constant across all θ_E | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
+| CΨ identifies Eve's measurement basis | R(θ_E) = [sin²θ_E + \|sin 2θ_E\|]²/18 | Joint tomography of Bell+ after intercept-resend | CΨ constant across all θ_E | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | Concurrence = 1−f (basis-independent) | Linear, θ_E-independent | Concurrence measurement on partially intercepted pairs | Concurrence depends on θ_E | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | CΨ azimuthally symmetric under Eve attack | R depends only on θ_E, not φ | Vary φ at fixed θ_E, compute CΨ | CΨ varies with φ | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
-| Off-diagonal ratio (noiseless = cot(θ_E)) | |ρ₀₁|/|ρ₀₃| monotonic, breaks degeneracy; noiseless it equals cot(θ_E), under channel noise it deviates but stays invertible (see §2) | Tomographic element extraction | Ratio not monotonic in θ_E | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
+| Off-diagonal ratio (noiseless = cot(θ_E)) | \|ρ₀₁\|/\|ρ₀₃\| monotonic, breaks degeneracy; noiseless it equals cot(θ_E), under channel noise it deviates but stays invertible (see §2) | Tomographic element extraction | Ratio not monotonic in θ_E | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | Eve σ_z ≈ dephasing in CΨ | CΨ = 0.058 for both at Conc = 0.80 (noiseless) | Compare Eve σ_z with pure dephasing | Distinguishable CΨ values | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | All four Bell states identical under Eve | R(θ_E) same for Φ+, Φ−, Ψ+, Ψ− | Repeat with all Bell states | CΨ depends on initial Bell state | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | Strategic Eve has stealth angle | θ_stealth ≈ 42-74° makes CΨ(Eve+noise) ≈ CΨ(noise) | Optimize θ_E against CΨ detection | No stealth angle exists | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
@@ -190,12 +190,12 @@ detuning, not a fixed SPAM offset). The anomaly is real; its cause is no longer 
 
 **Tier: 5, No current path to testing; included for completeness**
 
-| Prediction | Implication | Would require | Source |
-|------------|------------|---------------|--------|
-| CMB = universal CΨ = ¼ crossing | Big Bang as phase transition from complex to classical | Cosmological extension of framework | [Black/White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) |
-| Black hole evaporation ends with coherent burst | Final state not thermal but shows coherence | Observation of BH end-states | [Black/White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) |
-| Page time = re-crossing ¼ from below | Information recovery begins at re-entry to complex regime | Quantitative Page curve model | [Black/White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) |
-| Black/white holes = opposite directions on universal curve | τ → 0 from both sides | Resolution of information paradox | [Black/White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) |
+| Prediction | Implication | Would require | Falsified if | Source |
+|------------|------------|---------------|--------------|--------|
+| CMB = universal CΨ = ¼ crossing | Big Bang as phase transition from complex to classical | Cosmological extension of framework |  | [Black/White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) |
+| Black hole evaporation ends with coherent burst | Final state not thermal but shows coherence | Observation of BH end-states |  | [Black/White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) |
+| Page time = re-crossing ¼ from below | Information recovery begins at re-entry to complex regime | Quantitative Page curve model |  | [Black/White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) |
+| Black/white holes = opposite directions on universal curve | τ → 0 from both sides | Resolution of information paradox |  | [Black/White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) |
 | Experienced time = rate of ¼ crossings | High C → more crossings/sec → denser time | Subjective time measurement against coupling strength | Time perception independent of coupling | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
 | Anesthesia = C → 0 for environmental coupling | Zero crossings → zero experienced time | Neural coupling measurement during anesthesia | Time perception persists with C = 0 | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
 

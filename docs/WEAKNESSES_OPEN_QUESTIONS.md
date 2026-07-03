@@ -210,8 +210,8 @@ See [Resonant Return](../experiments/RESONANT_RETURN.md),
 
 These were once on the active list. They have since been answered.
 
-| # | Weakness | Resolution |
-|---|---|---|
+| Weakness | Resolution |
+|---|---|
 | Born Rule Gap | Substantially resolved: R_i = C_i · (Ψ_past + Ψ_future)² gives Born as perfect-mirror limit. See [Born Rule Mirror](../experiments/BORN_RULE_MIRROR.md) |
 | N-Scaling Barrier | Resolved: crossing is local to entangled pairs. See [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) |
 | Gravitational invariance | Demoted: true but trivial (dimensionless ratios). Gravity interpretation moved to `recovered/` |

@@ -97,7 +97,7 @@ lens.
 
 ### Results (N=2-6)
 
-| N | dim | Σγ | ||A||_F | ε (relative) | Interpretation |
+| N | dim | Σγ | \|\|A\|\|_F | ε (relative) | Interpretation |
 |---|-----|-----|---------|---------------|----------------|
 | 2 | 16 | 0.10 | 2.72 × 10⁻¹⁶ | < 10⁻¹² | **Exact** |
 | 3 | 64 | 0.15 | 2.77 | 14.43% | Aberration onset |
@@ -185,7 +185,7 @@ Sector k>0 contains coherences: the light sector.
 
 ### Global correlation
 
-| N | active modes | corr(|Re(λ)|, light fraction) |
+| N | active modes | corr(\|Re(λ)\|, light fraction) |
 |---|-------------|-------------------------------|
 | 2 | 13 | +0.234 (weak) |
 | 3 | 60 | +0.215 (weak) |
@@ -291,7 +291,7 @@ At N=2, A = 0 (exact Pythagorean). No aberration to decompose.
 
 **N=3 (dim = 64):**
 
-| k | dim_k | ||A_{kk}|| | fraction |
+| k | dim_k | \|\|A_{kk}\|\| | fraction |
 |---|-------|-----------|----------|
 | 0 | 8 | 0 | 0 |
 | 1 | 24 | 1.600 | 0.5774 |
@@ -302,7 +302,7 @@ Cross-sector: k=0 ↔ k=2 (0.289), k=1 ↔ k=3 (0.289)
 
 **N=4 (dim = 256):**
 
-| k | dim_k | ||A_{kk}|| | fraction |
+| k | dim_k | \|\|A_{kk}\|\| | fraction |
 |---|-------|-----------|----------|
 | 0 | 16 | 0 | 0 |
 | 1 | 64 | 5.543 | 0.5774 |
@@ -314,7 +314,7 @@ Cross-sector: k=0 ↔ k=2 (0.289), k=2 ↔ k=4 (0.289)
 
 **N=5 (dim = 1024):**
 
-| k | dim_k | ||A_{kk}|| | fraction |
+| k | dim_k | \|\|A_{kk}\|\| | fraction |
 |---|-------|-----------|----------|
 | 0 | 32 | 0 | 0 |
 | 1 | 160 | 13.576 | 0.5000 |

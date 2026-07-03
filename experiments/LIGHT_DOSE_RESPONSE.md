@@ -30,11 +30,11 @@ The sacrifice profile concentrates light on site 0 (γ₀ = 2.34, quiet sites γ
 
 | Sector type | Example | Slowest rate | Interpretation |
 |-------------|---------|-------------|----------------|
-| SE diagonal (1,1) | 0.318 | Lens mode: slowest in the system |
-| Interior diagonal (2,2) | 0.375 | Slightly faster than SE |
-| Adjacent coherence (0,1) | 0.167 | Cross-sector coherence, slowest off-diagonal |
-| Distant coherence (0,5) | 5.216 = 2Σγ | Maximum rate: full dephasing on all N sites |
-| Extremal diagonal (0,0) | 0.000 | Stationary (vacuum, nothing to decay) |
+| SE diagonal | (1,1) | 0.318 | Lens mode: slowest in the system |
+| Interior diagonal | (2,2) | 0.375 | Slightly faster than SE |
+| Adjacent coherence | (0,1) | 0.167 | Cross-sector coherence, slowest off-diagonal |
+| Distant coherence | (0,5) | 5.216 = 2Σγ | Maximum rate: full dephasing on all N sites |
+| Extremal diagonal | (0,0) | 0.000 | Stationary (vacuum, nothing to decay) |
 
 The [sacrifice geometry](SACRIFICE_GEOMETRY.md) protects the SE sector (rate 0.318) by concentrating light away from the cavity's slow standing-wave mode. This is the lens effect quantified per sector.
 
