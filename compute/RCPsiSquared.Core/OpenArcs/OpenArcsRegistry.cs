@@ -602,7 +602,25 @@ public static class OpenArcsRegistry
                 "GaloisMonodromyWitness.TraceToDiabolic, and gmscan --trace [--tq q] [--tsteps n] (gate-first: " +
                 "prints PASS / CONFIRMED). " +
                 "Here is where we continue hand-over-hand.",
-            NextStep: "RESUMING IN ONE LINE (2026-07-03, post fold-resultant): THE RESULTANT IS DONE, and stronger than " +
+            NextStep: "RESUMING IN ONE LINE (2026-07-03, post R4-start): R1+R3 CLOSED (the holomorphic fold DERIVED, " +
+                "87df3f8). R4 (the exclusion half, the SOLE remaining promotion blocker for the codim-1 verdict) is " +
+                "STARTED and reduces to ONE new certificate: the interior-four non-member cores (1,1),(4,4),(1,4),(4,1) " +
+                "collapse by the Klein full flip (spec(4,4)=spec(1,1)) + the F89d bra/ket fold (spec(1,4)(qbar)=-conj " +
+                "spec(1,1)(q)-2N) to (1,1) and its two shared values {lambda_A, mu}; (1,1)xmu IS R1's corner cert " +
+                "(the corner (4,4)=(1,1) by Klein), the ONE new cell is (1,1)xlambda_A (the braid lambda_A, an F_res " +
+                "root, not a (1,1) eigenvalue). Engine PARAMETERIZED (6f01da5): CertifyBlockExclusion(n, rOdd, tWKet, " +
+                "tWBra, composeA, composeB) [CertifyComplete = the corner-fold wrapper (w,w,-1,-4N); (1,1)xlambda_A = " +
+                "(1,1,+1,0)], gate RemainderR4InteriorExclusionTests (Category R4INTERIOR: the Klein+F89d symmetry " +
+                "reduction + the numerical grounding PASS, the 2 certificate facts SKIPPED). THE RESUMPTION POINT = " +
+                "the degree-bound rigor fix: rBound=resDeg*targetDeg-mR is TIGHT for the corner-fold (deg_q R=422=422) " +
+                "but LOOSE for the identity composition (true 412<422; R-odd 384<394 -- the identity leading forms " +
+                "share a common factor the isolated-root count mR misses), so CertifyCore's guard (DegP==rBound) " +
+                "misfires and skips every prime (primesUsed=0). FIX (proof-critical, ADVERSARIALLY REVIEW it like the " +
+                "corner cert): use the empirical trueDegR=max_p DegP(rp) (<= the proven rBound) in place of the " +
+                "tightness assumption; FoldResultantCertificate.DebugDegreeReport pins the numbers. Then un-skip the " +
+                "2 facts, add the propagation gate (interior-four exclusion follows from (1,1)xlambda_A + R1's corner " +
+                "+ Klein/F89d), and promote MultiSectorMonodromyVerdictClaim to Tier1Derived (N=5). --- PRIOR " +
+                "(post fold-resultant): THE RESULTANT IS DONE, and stronger than " +
                 "planned: FoldResultantCertificate.CertifyComplete (Core/F89PathK) + gate FoldResultantCertificateTests " +
                 "(Category FOLDRESULTANT, 7 facts, ~30 s) prove gcd(Res_L(F_res, F2corner(-L-4N)), disc_L(F_res)) over " +
                 "Q(i)[q] = a pure q-power, BOTH parities, so at EVERY branch locus q!=0 (defective or diabolic, closed " +
