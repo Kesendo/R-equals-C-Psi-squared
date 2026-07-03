@@ -47,10 +47,13 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// the midpoint, yet is Jordan). The mixture is resolved via the mode geometry (node 4c) and the
 /// codim-1-by-additivity theorem is landed with general-N membership derived in the CONTAINMENT direction; the
 /// interior kernel death is derived at real loci by the rate-window lemma (proof §6, gate item 8) and at complex
-/// loci by the moved rate window + the fold-resultant certificate; what stays open (node 5) is only the EXCLUSION
-/// half of membership beyond the seed locus (R4). The gap byte-identity is now DERIVED (the full-spectrum
-/// holomorphic fold, §7); Theorem A's D-half is CLOSED (twin-scalar). The octic is S₈, so no global radical form
-/// for the loci exists.
+/// loci by the moved rate window + the fold-resultant certificate. The EXCLUSION half (R4) is DERIVED at N=5
+/// (2026-07-03): boundary blocks by normality, the interior four cores by the fold-resultant certificate pair
+/// ((1,1)×λ_A identity composition + R1's corner fold) propagated by Klein + the composed holomorphic (1,4)-fold
+/// spec(1,4)(q) = −spec(1,1)(q) − 2N (gate <c>RemainderR4InteriorExclusionTests</c>, Category R4INTERIOR); beyond
+/// N=5 the broad exclusion stays census (the intertwiner claim's N≥7 blocker). The gap byte-identity is DERIVED
+/// (the full-spectrum holomorphic fold, §7); Theorem A's D-half is CLOSED (twin-scalar). The octic is S₈, so no
+/// global radical form for the loci exists.
 ///
 /// <para><b>What is live here.</b> The census node runs <see cref="MultiSectorMonodromyCensus.Run"/> at inspect
 /// time (via the AT-aware <see cref="SectorEpProbe.ProbeDefectiveAnywhere"/>), so the braid/node maps are recomputed
@@ -293,15 +296,19 @@ public sealed class SectorBraidWitness : IInspectable
                          "window [−2(N−3), 0], Bendixson bound, while Re λ_B sits below it whenever Re λ_A > −6; " +
                          "verified at both N=5 real loci, one an out-of-sample prediction, and at N=7), with the " +
                          "N-uniform strictness Re λ_A > −6 now DERIVED by the window-edge lemma (a defective EP cannot " +
-                         "sit at either edge of its block's rate window, so Re λ_A ∈ (−6,−2) for all N); open there: " +
-                         "only the complex-q loci; " +
+                         "sit at either edge of its block's rate window, so Re λ_A ∈ (−6,−2) for all N), and the " +
+                         "complex-q loci CLOSED at N=5 (the moved rate window near-axis + the fold-resultant " +
+                         "certificate at every remaining branch locus q≠0, both parities: R1 closed outright); " +
                          "(2) Theorem A's D-half is RESOLVED at N=5 (gate TwinScalarDHalfTests): the D-half is " +
                          "SUPPLIED (twin-scalar) at every genuinely-complex-q (Re q≠0) N=5 residual diabolic, so " +
                          "additivity's codim-1 route extends to complex q, and the pure-imaginary-q (Re q=0, λ real) " +
-                         "diabolics are semisimple by Hermiticity instead; (3) the EXCLUSION half of " +
-                         "membership (no braid outside the orbit) is proven at the outer edge (normal pencil) and, " +
-                         "at the N=5 seed locus q*=0.620878, derived in full by the rate window (condition " +
-                         "Re λ_A ∈ (−6,−4)); otherwise census-evidence. (4) the GAP byte-identity across sectors is " +
+                         "diabolics are semisimple by Hermiticity instead; (3) the EXCLUSION half of membership " +
+                         "(no braid outside the orbit) is DERIVED at N=5 (2026-07-03): the boundary blocks by " +
+                         "normality, the interior four cores by the fold-resultant certificate pair ((1,1)×λ_A " +
+                         "identity composition + R1's corner fold) at every branch locus q≠0 of both parities, " +
+                         "propagated by Klein + the composed holomorphic (1,4)-fold spec(1,4)(q)=−spec(1,1)(q)−2N " +
+                         "(gate RemainderR4InteriorExclusionTests); beyond N=5 census-evidence (the N≥7 certificate " +
+                         "is the intertwiner claim's blocker). (4) the GAP byte-identity across sectors is " +
                          "now DERIVED (implied by the full-spectrum holomorphic fold spec(3,3)=−spec(2,3)−2N, an " +
                          "isometry on eigenvalue gaps; §7, gate HolomorphicFoldIdentityTests).",
                 provenance: NodeProvenance.Stored);

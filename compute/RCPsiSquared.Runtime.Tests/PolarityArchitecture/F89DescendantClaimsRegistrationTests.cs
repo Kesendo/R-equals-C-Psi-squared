@@ -220,10 +220,12 @@ public class F89DescendantClaimsRegistrationTests
             .RegisterMultiSectorMonodromyVerdictClaim()
             .Build();
         Assert.True(registry.Contains<MultiSectorMonodromyVerdictClaim>());
-        // Tier 1 CANDIDATE: the verdict is computationally exact + gate-tested, and the codim-1-by-additivity
-        // theorem is landed (containment half derived via the W-orbit corollary), but the EXCLUSION half of
-        // membership stays census-evidence (R4), so the verdict is not yet fully derived (the gap byte-identity is now derived, §7).
-        Assert.Equal(Tier.Tier1Candidate, registry.Get<MultiSectorMonodromyVerdictClaim>().Tier);
+        // Tier 1 DERIVED (2026-07-03): the codim-1-by-additivity theorem is landed (containment via the
+        // W-orbit corollary, the gap byte-identity via the full-spectrum fold §7), and the EXCLUSION half (R4)
+        // is now derived at N=5: boundary blocks by normality, the interior four cores by the fold-resultant
+        // certificate pair ((1,1)×λ_A + R1's corner fold) propagated by Klein + the composed holomorphic
+        // (1,4)-fold (gate RemainderR4InteriorExclusionTests, Category R4INTERIOR).
+        Assert.Equal(Tier.Tier1Derived, registry.Get<MultiSectorMonodromyVerdictClaim>().Tier);
         var ancestors = registry.AncestorsOf<MultiSectorMonodromyVerdictClaim>()
             .Select(c => c.GetType()).ToHashSet();
         Assert.Contains(typeof(F89OcticMonodromyClaim), ancestors);          // the braid this census spreads

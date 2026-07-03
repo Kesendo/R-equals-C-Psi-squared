@@ -3,11 +3,14 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>The Multi-Sector Monodromy verdict (Tier 1 candidate; computationally exact and gate-tested, the
-/// free-fermion-additivity mechanism confirmed for the embedding, the λ-value grounded and its closed-form
-/// mixture resolved via the mode geometry, the codim-1-by-additivity theorem LANDED in
-/// <c>docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md</c> and general-N membership DERIVED in the CONTAINMENT
-/// direction; the exclusion half stays census-evidence):
+/// <summary>The Multi-Sector Monodromy verdict (Tier 1 DERIVED 2026-07-03; computationally exact and
+/// gate-tested, the free-fermion-additivity mechanism confirmed for the embedding, the λ-value grounded and
+/// its closed-form mixture resolved via the mode geometry, the codim-1-by-additivity theorem LANDED in
+/// <c>docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md</c>, general-N membership DERIVED in the CONTAINMENT
+/// direction, and the EXCLUSION half now DERIVED at N=5: the boundary blocks by normality, the four interior
+/// non-member cores by the fold-resultant certificate pair, the identity-composition (1,1)×λ_A certificate +
+/// remainder R1's corner-fold certificate, propagated by the Klein full flip and the composed holomorphic
+/// (1,4)-fold; gate <c>RemainderR4InteriorExclusionTests</c>, Category R4INTERIOR):
 ///
 /// <para><b>Is the S₈ Galois braid the F89 (1,2) octic carries LOCALIZED to the (1,2) coherence sector, or SHARED
 /// across the joint-popcount sectors of L(q)? The answer is N-DEPENDENT.</b></para>
@@ -62,15 +65,24 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <see cref="RCPsiSquared.Core.F86.JordanWigner.XyJordanWignerModes"/> (Core);
 /// SectorBraidModeGeometry (Diagnostics, the decomposition + branch sweep).</para>
 ///
-/// <para><b>The theorem landed; what stays open (why this is still Tier 1 CANDIDATE).</b> The
+/// <para><b>The theorem landed; the exclusion half derived at N=5 (why this is now Tier 1 DERIVED).</b> The
 /// codim-1-by-additivity theorem is LANDED (<c>docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md</c>: the W intertwiner
-/// Theorem B + the containment orbit corollary + the two-regime Theorem A), and general-N membership is now
-/// DERIVED in the CONTAINMENT direction only: the orbit of (1,2) under {one climbing W-step, transpose, Klein
+/// Theorem B + the containment orbit corollary + the two-regime Theorem A), and general-N membership is
+/// DERIVED in the CONTAINMENT direction: the orbit of (1,2) under {one climbing W-step, transpose, Klein
 /// full flip, F89d cross-fold} reproduces the census braid sets exactly (parity law: diagonal core (p,p) iff
 /// |2p−N| = 1, i.e. iff N odd; sizes 4N−8 odd / 4N−12 even), so the N=6 spread is a corollary, no census needed.
-/// What keeps the claim at candidate: the EXCLUSION half of membership (no braid outside the orbit) is proven
-/// only at the outer edge (n_diff ≡ 1 ⟹ normal pencil) and is otherwise census-evidence (exact N=4, 5; one
-/// targeted probe N=6). (The GAP byte-identity across sectors, formerly open, is now DERIVED: the full-spectrum
+/// The EXCLUSION half (no braid outside the orbit), formerly the census-only remainder R4, is now DERIVED at
+/// N=5 (2026-07-03): the 20 boundary blocks by normality (n_diff ≡ 1 ⟹ normal pencil, rung-pinned), and the
+/// four interior non-member cores (1,1),(4,4),(1,4),(4,1) by TWO complete fold-resultant certificates at every
+/// branch locus q ≠ 0 of both parities, the identity-composition certificate (1,1)×λ_A (no residual root is a
+/// (1,1) eigenvalue) + remainder R1's corner-fold certificate (no fold image −λ−2N is a (4,4) eigenvalue),
+/// propagated to all four cores by the Klein full flip spec(4,4) = spec(1,1) and the composed HOLOMORPHIC
+/// (1,4)-fold spec(1,4)(q) = −spec(1,1)(q) − 2N (F89d × pencil reality × bipartite q-evenness, the (1,4)
+/// sibling of the §7 diamond fold); gate <c>RemainderR4InteriorExclusionTests</c> (Category R4INTERIOR, incl.
+/// the propagation fact). The N=4 confinement rests on the exact N=4 census + the derived self-fold. Beyond
+/// N=5 the broad exclusion stays census-evidence (one targeted probe N=6) and lives with
+/// <see cref="SpectatorIntertwinerClaim"/>'s remaining blockers (the N ≥ 7 certificate compute). (The GAP
+/// byte-identity across sectors, formerly open, is likewise DERIVED: the full-spectrum
 /// holomorphic fold spec(3,3) = −spec(2,3) − 2N is an isometry on eigenvalue separations, so the (3,3) core gap
 /// equals the (1,2) seed gap; PROOF_CODIM1 §7 / gate HolomorphicFoldIdentityTests.) The closed-form
 /// mixture is resolved (the quantized-overlap contraction above); the octic is S₈ (non-solvable in radicals),
@@ -111,14 +123,20 @@ public sealed class MultiSectorMonodromyVerdictClaim : Claim
                "quantized (1/(N+1) or 3/(2(N+1))); N=4 pins ⟨n_diff⟩=N/2 by a vanishing off-diagonal δ-multiplet " +
                "mixing (a 2nd proof beside the Re λ=−N self-fold axis), and ⟨n_diff⟩(q) has √-branch points at the " +
                "S₈ EPs so N≥5 is non-radical (the S₈ wall IS the function's branch-point structure). The " +
-               "codim-1-by-additivity theorem is LANDED (docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md) and general-N " +
-               "membership is DERIVED in the CONTAINMENT direction only (the W-orbit corollary: cores iff |2p−N|=1, " +
-               "sizes 4N−8 odd / 4N−12 even); the EXCLUSION half stays census-evidence (edge blocks excepted: " +
-               "normal pencil); the gap byte-identity is now DERIVED (the full-spectrum fold, §7).",
-               Tier.Tier1Candidate,
+               "codim-1-by-additivity theorem is LANDED (docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md), general-N " +
+               "membership is DERIVED in the CONTAINMENT direction (the W-orbit corollary: cores iff |2p−N|=1, " +
+               "sizes 4N−8 odd / 4N−12 even), and the EXCLUSION half is DERIVED at N=5 (2026-07-03): boundary " +
+               "blocks by the normal pencil, the interior four cores by the fold-resultant certificate pair " +
+               "((1,1)×λ_A identity composition + R1's corner fold) at every branch locus q≠0 of both parities, " +
+               "propagated by Klein + the composed holomorphic (1,4)-fold spec(1,4)(q)=−spec(1,1)(q)−2N (gate " +
+               "RemainderR4InteriorExclusionTests); N≥6 broad exclusion stays census (with the intertwiner's N≥7 " +
+               "blockers); the gap byte-identity is likewise DERIVED (the full-spectrum fold, §7).",
+               Tier.Tier1Derived,
                "experiments/F89_MULTI_SECTOR_MONODROMY.md + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/MultiSectorMonodromyCensus.cs + " +
-               "compute/RCPsiSquared.Diagnostics/Foundation/SectorBraidWitness.cs (inspect --root sectorbraid)")
+               "compute/RCPsiSquared.Diagnostics/Foundation/SectorBraidWitness.cs (inspect --root sectorbraid) + " +
+               "compute/RCPsiSquared.Core/F89PathK/FoldResultantCertificate.cs (gates FoldResultantCertificateTests " +
+               "+ RemainderR4InteriorExclusionTests)")
     {
         Octic = octic ?? throw new ArgumentNullException(nameof(octic));
         CrossFold = crossFold ?? throw new ArgumentNullException(nameof(crossFold));
@@ -134,7 +152,9 @@ public sealed class MultiSectorMonodromyVerdictClaim : Claim
         $"N=4 self-fold, the mechanism the W intertwiner theorem (PROOF_CODIM1_BY_ADDITIVITY), the mixture " +
         $"⟨n_diff⟩(q) resolved via the mode geometry (quantized overlap; N=4 ⟹ N/2, N≥5 √-branch/non-radical); " +
         $"general-N membership derived in the CONTAINMENT direction (W-orbit corollary), the exclusion half " +
-        $"census-evidence, the gap byte-identity now derived via the full-spectrum fold ({Tier.Label()})";
+        $"DERIVED at N=5 (boundary normality + the fold-resultant certificate pair on the interior four, " +
+        $"propagated by Klein/the holomorphic (1,4)-fold; N≥6 census), the gap byte-identity derived via the " +
+        $"full-spectrum fold ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -173,15 +193,18 @@ public sealed class MultiSectorMonodromyVerdictClaim : Claim
                 summary: "LANDED: the codim-1-by-additivity theorem (docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md: W " +
                          "intertwiner + containment orbit corollary + two-regime Theorem A); general-N membership is " +
                          "DERIVED in the CONTAINMENT direction (cores iff |2p−N|=1, sizes 4N−8 odd / 4N−12 even; the " +
-                         "N=6 spread is a corollary, no census needed). OPEN: only the exclusion half of membership " +
-                         "(census-evidence except the normal edge; R4). NOW DERIVED: the gap byte-identity (the full-" +
-                         "spectrum holomorphic fold spec(3,3)=−spec(2,3)−2N is an isometry on eigenvalue gaps, §7); " +
-                         "and the interior-core kernel death (CLOSED at real loci by §6's " +
-                         "rate-window lemma, its strictness N-uniform via the window-edge lemma; the complex-q loci are " +
-                         "split by the moved rate window: near-axis CLOSED, only the DEEP loci remain, reduced to the " +
-                         "holomorphic resultant (gate ComplexQRateWindowTests)). Theorem A's D-half is CLOSED at N=5 (gate TwinScalarDHalfTests): " +
-                         "twin-scalar at every genuinely-complex-q diabolic (additivity's codim-1 route extends to complex q), " +
-                         "the pure-imaginary-q ones semisimple by Hermiticity. The closed-form mixture is resolved (the quantized-overlap contraction).");
+                         "N=6 spread is a corollary, no census needed). THE EXCLUSION HALF (R4) IS DERIVED AT N=5 " +
+                         "(2026-07-03): boundary blocks by normality; the interior four cores by the certificate pair " +
+                         "(1,1)×λ_A + R1's corner fold at every branch locus q≠0, both parities, propagated by Klein + " +
+                         "the composed holomorphic (1,4)-fold (gate RemainderR4InteriorExclusionTests, Category " +
+                         "R4INTERIOR). R1 is CLOSED at N=5 (rate window real, moved window near-axis, fold-resultant " +
+                         "certificate everywhere else; strictness N-uniform via the window-edge lemma); the gap " +
+                         "byte-identity is DERIVED (the full-spectrum holomorphic fold spec(3,3)=−spec(2,3)−2N, an " +
+                         "isometry on eigenvalue gaps, §7); Theorem A's D-half is CLOSED at N=5 (gate " +
+                         "TwinScalarDHalfTests): twin-scalar at every genuinely-complex-q diabolic, the " +
+                         "pure-imaginary-q ones semisimple by Hermiticity. The closed-form mixture is resolved (the " +
+                         "quantized-overlap contraction). STILL OPEN (lives with SpectatorIntertwinerClaim): the N≥7 " +
+                         "certificate compute and the broad N≥6 exclusion (census; one targeted probe N=6).");
         }
     }
 }

@@ -602,28 +602,45 @@ public static class OpenArcsRegistry
                 "GaloisMonodromyWitness.TraceToDiabolic, and gmscan --trace [--tq q] [--tsteps n] (gate-first: " +
                 "prints PASS / CONFIRMED). " +
                 "Here is where we continue hand-over-hand.",
-            NextStep: "RESUMING IN ONE LINE (2026-07-03, post R4-start): R1 (interior-core kernel death) + R2 " +
-                "(Theorem A's D-half) + R3 (the gap byte-identity) CLOSED, and the holomorphic diamond fold " +
-                "mu=-lambda_A-2N (spec(3,3)(q)=-spec(2,3)" +
-                "(q)-2N, the (3,3) core carrying the fold of every (1,2) braid eigenvalue) DERIVED (87df3f8). R4 (the " +
-                "exclusion half of diamond membership: no non-orbit joint-popcount block carries the braid; the SOLE " +
-                "remaining promotion blocker for the codim-1-by-additivity verdict) is " +
-                "STARTED and reduces to ONE new certificate: the interior-four non-member cores (1,1),(4,4),(1,4),(4,1) " +
-                "collapse by the Klein full flip (spec(4,4)=spec(1,1)) + the F89d bra/ket fold (spec(1,4)(qbar)=-conj " +
-                "spec(1,1)(q)-2N) to (1,1) and its two shared values {lambda_A, mu}; (1,1)xmu IS R1's corner cert " +
-                "(the corner (4,4)=(1,1) by Klein), the ONE new cell is (1,1)xlambda_A (the braid lambda_A, an F_res " +
-                "root, not a (1,1) eigenvalue). Engine PARAMETERIZED (6f01da5): CertifyBlockExclusion(n, rOdd, tWKet, " +
-                "tWBra, composeA, composeB) [CertifyComplete = the corner-fold wrapper (w,w,-1,-4N); (1,1)xlambda_A = " +
-                "(1,1,+1,0)], gate RemainderR4InteriorExclusionTests (Category R4INTERIOR: the Klein+F89d symmetry " +
-                "reduction + the numerical grounding PASS, the 2 certificate facts SKIPPED). THE RESUMPTION POINT = " +
-                "the degree-bound rigor fix: rBound=resDeg*targetDeg-mR is TIGHT for the corner-fold (deg_q R=422=422) " +
-                "but LOOSE for the identity composition (true 412<422; R-odd 384<394 -- the identity leading forms " +
-                "share a common factor the isolated-root count mR misses), so CertifyCore's guard (DegP==rBound) " +
-                "misfires and skips every prime (primesUsed=0). FIX (proof-critical, ADVERSARIALLY REVIEW it like the " +
-                "corner cert): use the empirical trueDegR=max_p DegP(rp) (<= the proven rBound) in place of the " +
-                "tightness assumption; FoldResultantCertificate.DebugDegreeReport pins the numbers. Then un-skip the " +
-                "2 facts, add the propagation gate (interior-four exclusion follows from (1,1)xlambda_A + R1's corner " +
-                "+ Klein/F89d), and promote MultiSectorMonodromyVerdictClaim to Tier1Derived (N=5). --- PRIOR " +
+            NextStep: "RESUMING IN ONE LINE (2026-07-03, post R4-interior close): ALL FOUR remainders of the " +
+                "codim-1-by-additivity proof are CLOSED AT N=5 [R1 = interior-core kernel death: rate window (real) " +
+                "+ moved window (near-axis) + fold-resultant certificate (every other branch locus); R2 = Theorem " +
+                "A's D-half: twin-scalar; R3 = gap byte-identity: the full-spectrum holomorphic fold; R4 = the " +
+                "exclusion half of diamond membership at N=5: THIS close], and MultiSectorMonodromyVerdictClaim is " +
+                "PROMOTED to Tier1Derived. THE R4 CLOSE, in three parts. (1) THE DEGREE-CERTIFICATE FIX (proof-" +
+                "critical, in CertifyCore): the old guard assumed the analytic bound rBound=resDeg*targetDeg-mR is " +
+                "attained (TRUE for the corner-fold 422/394, FALSE for the identity composition, true deg 412/384: " +
+                "the identity leading forms share a factor beyond the isolated-root collisions mR counts); now the " +
+                "guard is the CERTIFIED empirical degree: deg(R mod p) < deg_q R iff the chosen prime ideal " +
+                "pi_p=(p, i-r) divides lc_q(R), and prod N(pi_p) = prod p <= N(lc) <= normR^2 (Hadamard), so at " +
+                "most lcDivisorBound = 2*bitlen(normR)/30 + 1 of the p >= 2^30 samples can lose the degree; " +
+                "sampling MORE distinct split primes than that forces trueDegR = max_p DegP(R mod p) = deg_q R " +
+                "EXACTLY, used primes attain it (=> pi_p coprime to lc, Gauss lift unchanged), Complete additionally " +
+                "requires sampled > lcDivisorBound and trueDegR >= 0. TWO adversarial reviews HELD it (independent " +
+                "number-theory re-derivation TRUE/TRUE/CONSISTENT, incl. synthetic-pencil engineered degree-drops at " +
+                "chosen ideals and two exact run-number hits); the two findings applied: the R-identically-0 " +
+                "degenerate path must not report Complete (guard trueDegR >= 0), samples = max(rBound, dBound)+1+24. " +
+                "(2) THE TWO (1,1)xlambda_A FACTS un-skipped and COMPLETE [R-even trueDegR 412 (bound 422), 230 " +
+                "primes > lc-bound 201; R-odd 384 (394), 217 > 190]. (3) THE PROPAGATION GATE " +
+                "(InteriorFourExclusion_Propagates_...): q-evenness of spec(1,1) (bipartite gauge) + the composed " +
+                "HOLOMORPHIC (1,4)-fold spec(1,4)(q) = -spec(1,1)(q) - 2N (F89d x pencil reality conj L(q)=L(-qbar) " +
+                "x q-evenness; the (1,4) sibling of the section-7 diamond fold) pinned at all three locus classes, " +
+                "plus all four certificates re-run: lambda_A in spec(1,4) <=> mu in spec(1,1) (corner cert + Klein), " +
+                "mu in spec(1,4) <=> lambda_A in spec(1,1) (identity cert), (4,4)/(4,1) by Klein. Gate: " +
+                "RemainderR4InteriorExclusionTests (5 facts, Category R4INTERIOR, ~20 s); FOLDRESULTANT regression " +
+                "green (corner certs unchanged). Docs: PROOF_CODIM1 status header + section-7 scoping + open-item 4; " +
+                "claim + SectorBraidWitness + registration-test tier pin updated. NEXT (the two remaining " +
+                "SpectatorIntertwinerClaim blockers, pick one): (b) the N=7 certificate run [CertifyComplete(7,...) " +
+                "and the (1,1)x lambda_A sibling: corner (5,5) dim 441 makes the bivariate Berkowitz layer and the " +
+                "height bounds much heavier, feasibility UNCHECKED -- probe the bivariate build cost first]; OR (c) " +
+                "the broad N>=6 exclusion (non-corner blocks at complex q, census-only today; the fold maps are " +
+                "N-general, only the certificate is per-N). --- PRIOR (post R4-start, the diagnosis layer this " +
+                "close executed): engine parameterized 6f01da5 [CertifyBlockExclusion(n, rOdd, tWKet, tWBra, " +
+                "composeA, composeB); CertifyComplete = the corner-fold wrapper (w,w,-1,-4N); (1,1)xlambda_A = " +
+                "(1,1,+1,0)]; the interior-four non-member cores (1,1),(4,4),(1,4),(4,1) collapse by Klein " +
+                "(spec(4,4)=spec(1,1)) + the F89d bra/ket fold to (1,1) and its two shared values {lambda_A, mu}; " +
+                "(1,1)xmu IS R1's corner cert; the ONE new cell was (1,1)xlambda_A; the degree-bound looseness was " +
+                "pinned by FoldResultantCertificate.DebugDegreeReport (primesUsed=0 under the old guard). --- PRIOR " +
                 "(post fold-resultant): THE RESULTANT IS DONE, and stronger than " +
                 "planned: FoldResultantCertificate.CertifyComplete (Core/F89PathK) + gate FoldResultantCertificateTests " +
                 "(Category FOLDRESULTANT, 7 facts, ~30 s) prove gcd(Res_L(F_res, F2corner(-L-4N)), disc_L(F_res)) over " +
