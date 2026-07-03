@@ -195,8 +195,8 @@ only if α = β = δ = 0 (no noise). For any nonzero noise:
 discriminating fact is whether the *l₁-coherence* L₁ (the |00⟩↔|11⟩ off-diagonal,
 = (XX − YY)/2 on Bell+) is decoherence-free or decays. Under pure X the XX
 correlation is pinned; under pure Y the YY correlation is pinned; in **both**
-cases L₁ stays nonzero, so L₁ = max(u,v) = 1 and CΨ = (1+u²)/6, crossing ¼ at
-u² = ½ ⟹ K = ln(2)/8 = 0.0867. Under pure Z **both** XX and YY decay, so L₁ → 0,
+cases L₁ stays nonzero, so L₁ = max(u,v) = 1 and CΨ = (1+v²)/6, crossing ¼ at
+v² = ½ ⟹ K = ln(2)/8 = 0.0867. Under pure Z **both** XX and YY decay, so L₁ → 0,
 CΨ = u(1+u²)/6, and K_Z = 0.0374. (Note: F26 with γ_y only gives the physical rates
 (α,β,δ) = (4γ, 0, 4γ); since β = 0 < α this **violates the WLOG α ≤ β**, so it must
 be re-sorted to α = 0, giving L₁ = e^{−αt} = 1, exactly pure X's form. This corrects
@@ -458,15 +458,16 @@ L₁ = Σ|ρ_{ij}| is bounded across the 4×4 density. At N ≥ 3 the full-state
 (≥ 2kγ), and how the Hamiltonian couples different k-values is H- and topology-dependent,
 not universal. So the proof does **not** extend to the full-state envelope at N ≥ 3.
 
-The "N=3-5" checks elsewhere are NOT a full-state envelope test: Test C (Part 3) verifies
+The "N=3-5" checks elsewhere are NOT a full-state envelope test: Test C verifies
 GHZ/W **subsystem pairs** (2-qubit reduced densities, which obey the N=2 proof and stay
-below ¼), and F17's 300 CPTP maps are N=2 channel-robustness.
+below ¼), and F17's 300 CPTP maps are N=2 channel-robustness. (Test C lives in the "General
+States, Collective Noise, N>2" Extension section above, not in Part 3.)
 
 Indeed the full-state envelope **genuinely rises at N ≥ 4 under strong coupling** (J ≫ γ):
 verified live by `EnvelopeTheoremWitness` (N=4, Bell+, J=5, γ=0.01: 36 refinement-stable
 predecessor-rises; N=3 holds with 0 rises in the same regime). This is Part 6's coherence
 injection, **internalized**: the extra sites form a coherent internal bath, and the internal
-J-coupling pushes CΨ back up (Part 6, Corollary 3 — coupled resonators bypass the one-way
+J-coupling pushes CΨ back up (Part 6, Corollary 3: coupled resonators bypass the one-way
 door). The N=2 theorem stands; the N≥3 full-state envelope is an open question.
 
 Its boundary is now **charted** (arc `envelope_n4_rise`, `experiments/ENVELOPE_RISE_BOUNDARY.md`,
@@ -597,7 +598,7 @@ unitaries (Ry, Rx, Hadamard, CNOT, random U(4)) change CΨ by up to
 
 DD sequences use Pauli gates (X, Y, Z pulses). Since CΨ is Pauli-
 invariant, DD cannot change CΨ at any point in time, under any
-protocol, for any state. This is not a practical limitation -- it is
+protocol, for any state. This is not a practical limitation: it is
 algebraically impossible.
 
 Consequence: DD cannot push CΨ back above 1/4. DD cannot sustain a

@@ -34,7 +34,7 @@ F96 completes the per-outcome Born-deviation table that F94 opened. Same setup (
 
 Every slope is a simple algebraic expression in the single F94 anchor 4/3: the singly-flipped pair squares it, the doubly-flipped outcome doubles and negates it. The Q-independence is the Universal-Carrier signature: from inside the pair only the product K = γt is visible at this order, the dissipator acting at first order while the dominant outcome's drift waits for the third.
 
-The closed forms are bit-exact from direct evaluation of the Dyson sym₃ and sym₅ matrix elements against the unitary normalizations A and B, and they close the books on this setup: the single number 4/3 sets every subdominant magnitude (its square and its double), while the signs come from the Dyson elements themselves — the dominant deviation positive (running above its unitary baseline), the three subdominant deviations negative (below it). F96 is the subdominant twin of F94; F95 and F97 carry the same geometry on the angle and cardioid sides.
+The closed forms are bit-exact from direct evaluation of the Dyson sym₃ and sym₅ matrix elements against the unitary normalizations A and B, and they close the books on this setup: the single number 4/3 sets every subdominant magnitude (its square and its double), while the signs come from the Dyson elements themselves, the dominant deviation positive (running above its unitary baseline), the three subdominant deviations negative (below it). F96 is the subdominant twin of F94; F95 and F97 carry the same geometry on the angle and cardioid sides.
 
 ## Setup
 
@@ -139,7 +139,7 @@ Putting F94 + F96 together, the full per-outcome Born-deviation closed form for 
     Δ_|10⟩(K)   = −(4/3)² · K + O(higher)        (Q-independent)
     Δ_|11⟩(K)   = −2 · (4/3) · K + O(higher)    (Q-independent)
 
-The 4/3 anchor of F94 is the structural unit: the dominant gets exactly one copy at order Q²K³; the singly-subdominant degenerate pair gets minus its square at order K; the doubly-subdominant gets minus twice it at order K. Every coefficient in this 4-outcome closed-form table is generated from the single 4/3 = a_{−1} / 3 number.
+The 4/3 anchor of F94 is the structural unit: the dominant gets exactly one copy at order Q²K³; the singly-subdominant degenerate pair gets minus its square at order K; the doubly-subdominant gets minus twice it at order K. Every coefficient in this 4-outcome closed-form table is generated from the single 4/3 number (F94's dominant residue a_{−1} = 4, divided by 3).
 
 ## Universality remarks
 

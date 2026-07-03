@@ -24,12 +24,12 @@ The proof has seven steps. Steps 1-4 carry the JW reduction and the dispersion i
 The diagnostic upshot is that F80 is the momentum-space lens on the F78 single-body Frobenius result and the F79 Π²-block structure. F78 / F79 say what the clusters do in position space; F80 says what they do in momentum space, and the two views are unified by the Bloch dispersion. Current scope is the chain topology and four specific Π²-odd bilinear pairs; extensions to other topologies (where the dispersion changes) and other letter pairs (where the sign-walk presumably reshapes) are flagged as future work.
 
 **Does NOT establish (yet):**
-- The cluster-*value* formula for general **k-body** terms (the body-count-dependent dispersion). All three 2-body graph families are now closed: chain (path, 2cos(πk/(N+1))), star (2|m−2j|), and ring (the two-sector cyclic free-fermion, see below). The structural identity itself extends to all topologies because the Step-5 lemma is per-bond — verified below for ring and star, and spot-checked at K₄ for the complete graph (though K_N is not in the cluster-value table below, and its ordered (P, Q) bonds need an orientation convention on non-path edges, since H(i→j) ≠ H(j→i) there).
+- The cluster-*value* formula for general **k-body** terms (the body-count-dependent dispersion). All three 2-body graph families are now closed: chain (path, 2cos(πk/(N+1))), star (2|m−2j|), and ring (the two-sector cyclic free-fermion, see below). The structural identity itself extends to all topologies because the Step-5 lemma is per-bond, verified below for ring and star, and spot-checked at K₄ for the complete graph (though K_N is not in the cluster-value table below, and its ordered (P, Q) bonds need an orientation convention on non-path edges, since H(i→j) ≠ H(j→i) there).
 
 **Reach beyond the chain-2-body scope (verified 2026-05-29, `F80ExtensionExplorationTests`).** The Step-5 lemma Π·[bond,·]·Π⁻¹ = s·{bond,·} is *per-bond*, so the structural identity does not depend on topology or body-count, only on the Π²-parity of the bond. Computing M directly (via `PalindromeResidual`) and reading its spectrum confirms a clean dichotomy:
 
-- **Π²-odd bonds**, any topology, any body-count: the per-bond lemma gives one shared sign s, so M = ±2i·(H⊗I) and Spec(M) = ±2i·Spec(H) , the *single* eigenvalues, exactly as proven above for the chain. Confirmed bit-exact for ring, star, 3-body (X,X,Y) and 4-body (X,X,X,Y) at N=4,5. Only the cluster *values* differ (the structure's dispersion: chain = the OBC ladder 2cos(πk/(N+1)), ring = periodic, star = integers).
-- **Π²-even bonds** (Y,Z), (Z,Y): the lemma's "a Π²-odd bond carries exactly one X" fails, the commutator is *preserved* rather than anti-commuted, and the residual is M = 2·L_H = −2i·[H,·]. So Spec(M) = ±2i·{λ_a − λ_b} , the eigenvalue *differences* (Bohr frequencies), not the single eigenvalues. This is the "more clusters" anticipated for the Π²-even case, now identified: the extra clusters are the differences. Confirmed bit-exact (Y,Z), (Z,Y) at N=4.
+- **Π²-odd bonds**, any topology, any body-count (all of a single Π²-odd bond type, so every bond carries the same sign s; mixing types of different s is the exception noted below): the per-bond lemma gives one shared sign s, so M = ±2i·(H⊗I) and Spec(M) = ±2i·Spec(H), the *single* eigenvalues, exactly as proven above for the chain. Confirmed bit-exact for ring, star, 3-body (X,X,Y) and 4-body (X,X,X,Y) at N=4,5. Only the cluster *values* differ (the structure's dispersion: chain = the OBC ladder 2cos(πk/(N+1)), ring = periodic, star = integers).
+- **Π²-even bonds** (Y,Z), (Z,Y): the lemma's "a Π²-odd bond carries exactly one X" fails, the commutator is *preserved* rather than anti-commuted, and the residual is M = 2·L_H = −2i·[H,·]. So Spec(M) = ±2i·{λ_a − λ_b}, the eigenvalue *differences* (Bohr frequencies), not the single eigenvalues. This is the "more clusters" anticipated for the Π²-even case, now identified: the extra clusters are the differences. Confirmed bit-exact (Y,Z), (Z,Y) at N=4.
 
 So the mirror-defect is always ±2i times a Hamiltonian object: **H⊗I for Π²-odd** (one-sided, the single energies) and **[H,·] for Π²-even** (two-sided, the energy gaps). The Π²-parity of the bond is the switch between the two.
 
@@ -50,6 +50,8 @@ for sign-vectors (σ_1, ..., σ_{⌊N/2⌋}) ∈ {±1}^{⌊N/2⌋}, where
     ε(k) = 2 · cos(π·k / (N+1))
 
 is the open-chain free-fermion single-particle dispersion. Each distinct cluster value has multiplicity 4^N divided by the number of distinct sign-walk values.
+
+Since M = ∓2i·(H⊗I) is normal (H Hermitian), its singular values are the moduli of its purely-imaginary eigenvalues, so "cluster value" = |Spec(M) entry| = 2·|Spec(H) entry|; this is why the Theorem's singular-value clusters and the Step-5 statement Spec(M) = ±2i·Spec(H) are the same fact.
 
 ---
 
@@ -144,7 +146,7 @@ After Step 4, we have established that all 4 Π²-odd Pauli pairs give the same 
 
 with multiplicity mult_M(2i·λ) = mult_H(λ) · 2^N. M's distinct eigenvalues equal 2i times H's distinct many-body eigenvalues, no kernel. The 2^N factor comes from the bra-side dimension of operator space. H is taken as the chain Hamiltonian with bond coupling c and no dissipator (γ-independent by Master Lemma). Hence:
 
-    cluster value of M = 2|c| · |H many-body eigenvalue|
+    cluster value of M = 2 · |H many-body eigenvalue|
 
 This direct identity replaces the more intricate Bogoliubov-mode factorization route. The Bloch sign-walk formula written above is simply H's many-body eigenvalue formula:
 
@@ -199,7 +201,7 @@ By the structural identity in Step 5, M's nontrivial eigenvalues are 2i·{H many
 
     Spec(H) = { Σ_k (n_k − 1/2) · E_k : n_k ∈ {0, 1} }
 
-The corresponding cluster values for M are 2|c|·|H eigenvalue| = |Σ_k (2n_k − 1)·E_k| / 2 ·2 = |Σ_k σ_k·E_k| with σ_k = 2n_k−1 ∈ {±1}.
+The corresponding cluster values for M are 2·|H eigenvalue| = |Σ_k (2n_k − 1)·E_k| / 2 ·2 = |Σ_k σ_k·E_k| with σ_k = 2n_k−1 ∈ {±1}.
 
 In terms of ε(k) = E_k / 2 = 2cos(πk/(N+1)):
 
@@ -321,4 +323,4 @@ What enabled the discovery: comparing M's eigenvalues directly to H's many-body 
 
 ## Status: closed
 
-As of 2026-05-22 F80 is fully proven, all seven steps analytical. The last open step, Step 5 (the Π-action), is closed by the per-site Pauli proof above: Π·[H,·]·Π⁻¹ = s·{H,·} with s = −ε_P·ε_Q, an N-independent computation verified bit-exact at N=3,4,5 ([`f80_step5_recon.py`](../../simulations/f80_step5_recon.py)). Because Step 5 is per-bond, the structural identity is topology- and body-count-agnostic: it now extends to ring, star, 3-body and 4-body for Π²-odd bonds, and the Π²-even case is characterized as M = 2·L_H (eigenvalue differences) , see "Reach beyond the chain-2-body scope" above (verified 2026-05-29). Mixed-letter Hamiltonians are also covered, by linearity of M in H (see above), and all three 2-body graph-family cluster-value formulas are now closed: chain (path cosine 2cos(πk/(N+1))), star (integer spoke-ladder 2|m−2j|, by factorization), and ring (the two-sector cyclic free-fermion, periodic a=0 plus anti-periodic a=½, verified at N=4,6). What remains genuinely open is narrower still: only the explicit cluster-*value* formula for general k-body terms.
+As of 2026-05-22 F80 is fully proven, all seven steps analytical. The last open step, Step 5 (the Π-action), is closed by the per-site Pauli proof above: Π·[H,·]·Π⁻¹ = s·{H,·} with s = −ε_P·ε_Q, an N-independent computation verified bit-exact at N=3,4,5 ([`f80_step5_recon.py`](../../simulations/f80_step5_recon.py)). Because Step 5 is per-bond, the structural identity is topology- and body-count-agnostic: it now extends to ring, star, 3-body and 4-body for Π²-odd bonds, and the Π²-even case is characterized as M = 2·L_H (eigenvalue differences), see "Reach beyond the chain-2-body scope" above (verified 2026-05-29). Mixed-letter Hamiltonians are also covered, by linearity of M in H (see above), and all three 2-body graph-family cluster-value formulas are now closed: chain (path cosine 2cos(πk/(N+1))), star (integer spoke-ladder 2|m−2j|, by factorization), and ring (the two-sector cyclic free-fermion, periodic a=0 plus anti-periodic a=½, verified at N=4,6). What remains genuinely open is narrower still: only the explicit cluster-*value* formula for general k-body terms.

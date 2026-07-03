@@ -39,7 +39,7 @@ with arbitrary real hopping amplitudes t_ℓ ∈ ℝ (uniform J or non-uniform).
 
    Any observable that is a function of {(ρ)_{ℓℓ}} ∪ {|(ρ)_{ℓm}|²} is identical for the two trajectories. Mirror-pair MI(a, N-1-a)(t) and the PTF-analog Σ_ℓ log π_ℓ(t) are such observables.
 
-The robustness pattern across H-extensions (entries 1-2 numerically verified, entries 3-6 predicted from L1-L2):
+The robustness pattern across H-extensions (all seven entries numerically verified: entries 1-5 in the N=9 table below, entries 6-7 in the XXZ robustness test):
 
 | H structure                                       | KHK = −H | Real H | Partner identity |
 |---------------------------------------------------|----------|--------|------------------|
@@ -211,7 +211,7 @@ Spectrum inversion E_k + E_{N+1-k} = 0 holds at machine precision **even with co
 | Open chain, N = 7     | ≤ 2.3 · 10⁻¹⁵  | up to 5.3 · 10⁻¹ | up to 9.2 · 10⁻¹  | breaks at boundary     |
 | Periodic chain, N = 6 | ≤ 2.1 · 10⁻¹⁵  | ≤ 2.0 · 10⁻¹⁵    | ≤ 1.9 · 10⁻¹⁵     | **holds for all Δ**    |
 
-Confirms the "Scope" caveat above: on the open chain, the deg-discontinuity at the boundaries (deg(0) = deg(N-1) = 1 vs deg(interior) = 2) generates a non-uniform V_eff(ℓ) = (#bonds) − 2·deg(ℓ) in the single-excitation sector, breaking K. On the **even-N periodic chain** (uniform deg = 2), V_eff is a constant shift in the Hamiltonian and K-partnership is restored at all Δ. (Odd-N periodic is non-bipartite — the wrap-around bond connects same-sublattice sites — so K breaks there independently of Δ; this is a pure topology effect.)
+Confirms the "Scope" caveat above: on the open chain, the deg-discontinuity at the boundaries (deg(0) = deg(N-1) = 1 vs deg(interior) = 2) generates a non-uniform V_eff(ℓ) = (#bonds) − 2·deg(ℓ) in the single-excitation sector, breaking K. On the **even-N periodic chain** (uniform deg = 2), V_eff is a constant shift in the Hamiltonian and K-partnership is restored at all Δ. (Odd-N periodic is non-bipartite: the wrap-around bond connects same-sublattice sites, so K breaks there independently of Δ; this is a pure topology effect.)
 
 **Multi-excitation sector (Robustness Test 3).** Same script extended with two-excitation Slater-determinant initial states |Ψ_{k₁, k₂}⟩, K-partner mapping (k₁, k₂) ↔ (N+1-k₁, N+1-k₂):
 

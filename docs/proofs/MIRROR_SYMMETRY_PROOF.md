@@ -1,9 +1,9 @@
 # The Mirror Symmetry Proof: The Core Result of This Project
 
-**Status:** Tier 1 derived (analytical proof in three steps + bit-exact numerical verification N=2..8: 87,376 Liouvillian eigenvalues, zero mirror-symmetry exceptions on every tested topology — chain, star, ring, complete, tree)
+**Status:** Tier 1 derived (analytical proof in three steps + bit-exact numerical verification N=2..8: 87,376 Liouvillian eigenvalues, zero mirror-symmetry exceptions on every tested topology: chain, star, ring, complete, tree)
 **Date:** Discovered 2026-03-14 (Π named + three-line proof); numerically verified 2026-03-19; this document restructured 2026-04-05.
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.6)
-**Statement:** `Π · L · Π⁻¹ = −L − 2Σγ · I`: the Liouvillian spectrum of any Heisenberg / XY / Ising / XXZ / DM chain under local Z-dephasing is palindromic around Σγᵢ.
+**Statement:** `Π · L · Π⁻¹ = −L − 2Σγ · I`: the Liouvillian spectrum of any Heisenberg / XY / Ising / XXZ chain under local Z-dephasing is palindromic around Σγᵢ. (The DM chain is palindromic too, but under a distinct site-alternating Π, not the uniform Π this identity uses; see the body.)
 **Typed claim:** [`F1PalindromeIdentity.cs`](../../compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs) (Tier 1 derived; analytic identity replaces the brute-force palindrome scan).
 
 **Origin:** A literature search found that nobody had proven the
@@ -298,7 +298,7 @@ decomposition at N=8, which sidesteps the 65,536² dense solve), with
 oscillatory subsets 3,836 / 15,744 / 64,146; the ring and K₄ topologies
 are likewise verified palindromic at N=8 (zero exceptions, block-spectrum).
 The oscillatory count is topology-dependent and threshold-defined; the
-palindromic pairing of every eigenvalue is neither — it holds on every
+palindromic pairing of every eigenvalue is neither: it holds on every
 topology, at machine precision.
 
 ### XXZ coupling (H = XX + YY + δZZ, all topologies N=3,4)
