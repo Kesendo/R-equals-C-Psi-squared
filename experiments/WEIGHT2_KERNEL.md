@@ -54,10 +54,10 @@ it is a structural discovery about where the symmetry protection ends.
 
 | N | Chain | Star | Complete | w=2 sector dim |
 |---|-------|------|----------|----------------|
-| 3 | 6 | - | **8 (= K_3, +2)** | 24 |
+| 3 | 6 | n/a | **8 (= K_3, +2)** | 24 |
 | 4 | 13* | 16 | 36 | 96 |
 | 5 | 14 | 30 | 54 | 320 |
-| 6 | 19 | - | - | 960 |
+| 6 | 19 | n/a | n/a | 960 |
 
 *Chain N=4: d_real(2) = 14, but ker([H,·]|_{w=2}) = 13. One eigenvalue
 at Re = −0.2 comes from multi-weight mixing (not a pure w=2 mode).
@@ -167,7 +167,7 @@ all other weight sectors exactly zero). The K_3 N=3 anomaly is NOT
 multi-weight mixing; the extras live entirely inside the weight-1
 sector. The correct attribution is the **2-dim standard irreducible
 representation of S_3 = Aut(K_3)** acting on the weight-1 c=1 Pauli
-strings — see [`PROOF_WEIGHT1_DEGENERACY § Appendix (2026-05-17)`](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md)
+strings; see [`PROOF_WEIGHT1_DEGENERACY § Appendix (2026-05-17)`](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md)
 for the proof's Step-5 gap analysis (matrix-commutator vs conjugation-
 action) and the structural identification.
 
@@ -211,7 +211,7 @@ exemplifies the latter.
    small-graph case: the K_3 (= triangle, ring at N=3, complete on 3
    vertices) gives `d_real(1) = 8` instead of `2N = 6`. The 2 extras
    are weight-1 operators in the S_3 standard 2-dim irrep, not multi-
-   weight mixing — see [`PROOF_WEIGHT1_DEGENERACY § Appendix (2026-05-17)`](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md).
+   weight mixing; see [`PROOF_WEIGHT1_DEGENERACY § Appendix (2026-05-17)`](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md).
    So even weight 1 has irrep structure beyond the trivial; it just
    needs one specific graph (K_3) to surface. Weight 2 and beyond are
    governed by more complex representation theory across many graphs.

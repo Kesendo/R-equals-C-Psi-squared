@@ -92,7 +92,7 @@ The op_norm rank is exactly preserved across both N transitions in soft,
 and gets exactly preserved at N=4→N=5 in hard as well. The truly
 category's n_protected ordering at N=3→N=4 is exactly preserved (+1.0000)
 and remains essentially exact at N=4→N=5 (+0.9964). The spec_err rank in
-hard wobbles around ρ ≈ 0.89 at both transitions — this is the noisiest
+hard wobbles around ρ ≈ 0.89 at both transitions, this is the noisiest
 indicator, hovering close to the soft/hard classification threshold.
 
 ---
@@ -194,7 +194,7 @@ Verified to machine precision (m/p = 1.000000) on:
 
 Anchor c_H is **graph-independent** (a one-bond Hamiltonian on N=2 fixes
 it for every Hamiltonian, on every topology). Only the graph invariants
-B and D2 enter — both linear in graph structure. No higher-order graph
+B and D2 enter, both linear in graph structure. No higher-order graph
 invariants (cycle count, triangle count, hub presence) appear, even for
 graphs that have them (rings have cycles, stars have hubs, K_N has
 triangles).
@@ -219,7 +219,7 @@ This contrasts structurally with the F69 / EQ-016 sextic-root asymptotes
 governing the **state-level** pair-CΨ landscape, which are irreducible
 algebraic numbers of degree 6 over ℚ. The operator skeleton is flat
 algebraic; the state trace is curved. The two layers have different
-mathematical character — bond-counting × Liouvillian-extension on one
+mathematical character: bond-counting × Liouvillian-extension on one
 side, slice-stationarity polynomials on the other.
 
 ---
@@ -234,8 +234,8 @@ The cusp is **invisible at the operator level**. The 15/46/59 trichotomy
 is not a coincidence of counts: each Hamiltonian's individual fingerprint
 (op_norm, n_protected) maintains its rank under both the N=3 → N=4 and
 the N=4 → N=5 transition. The op_norm itself follows an exact rational
-scaling law in N — 4k/(k − 1) for the main class, 4(2k − 1)/(2k − 3) for
-the single-body class — converging to a uniform factor of 2 per qubit as
+scaling law in N: 4k/(k − 1) for the main class, 4(2k − 1)/(2k − 3) for
+the single-body class, converging to a uniform factor of 2 per qubit as
 N → ∞.
 
 This is the strongest version of the skeleton/trace decoupling already

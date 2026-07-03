@@ -151,7 +151,7 @@ Five surviving sub-questions, lifted to EQ-024 in `review/EMERGING_QUESTIONS.md`
 1. **Three-class completeness.** Are Classes 1-3 exhaustive over the J-blind set, or do other mechanisms exist? Direction 4 from the refinement TASK restructures here: necessity per class is distinct from necessity in the union. Empirical attack: random F71-symmetric-state sampling outside all three classes, checking for zero J-Jacobian to numerical precision at N=5. **Status 2026-04-28: partially closed for F71-symmetric *product* states (100 random samples, all out-of-class C in [7.54, 12.41] bits, no fourth-class candidate); see Update 2026-04-28 below. Non-product F71-symmetric extension remains open as its own sub-question.**
 2. **F71-breaking receiver capacity.** The afternoon sweep was F71-symmetric only. F71-breaking receivers do not unlock additional rank (max rank for bond inputs at N=5 is 4 regardless of receiver), but they may change the gain spectrum. Worth quantifying. **Status 2026-04-28: closed**. F71-breaking receivers tested via 100 random product (10 indep Bloch angles) + 100 Haar-random non-product (full C^32) samples; max C = 11.99 bits (product) and 8.80 bits (non-product), both below the F71-symmetric maxima 12.41 and 10.26. F71-symmetry is not a capacity-suboptimality constraint; it covers the optimal region. See Update 2026-04-28 (continued).
 3. **N-scaling of the 12-bit ceiling.** At N=6 the bond-input dimension is 5, matching γ-side rank. Does the dimensional-loss bit (~1) disappear? Compute cost: ~30 min per receiver at d² = 4096. **Status 2026-04-28: ceiling rises to ~14 bits at N=6 (F71-breaking max 14.02; F71-symmetric max 13.65). Dimensional-loss bit is partially recovered. F71-optimality inverts: at N=6, F71-breaking beats F71-symmetric. See Update 2026-04-28 (N-scaling).**
-4. **Chromaticity of the Nelder-Mead optimum.** The best receiver θ ≈ (3.02, 1.14, 3.26), φ ≈ (5.3, 0.6, 8.0): does it sit in a specific chromaticity sector or interpolate?
+4. **Chromaticity of the Nelder-Mead optimum.** The best receiver θ ≈ (3.02, 1.14, 3.26), φ ≈ (5.30, 0.62, 1.72) (reduced mod 2π; raw φ_c = 8.01): does it sit in a specific chromaticity sector or interpolate?
 5. **Operational meaning of the J-vs-γ gain gap.** J sv_max ≈ 10 vs γ sv_max ≈ 21.4 at N=5. Fixed ratio (~46%) across N, or N-dependent?
 
 Plus two structural questions specific to this document:
@@ -207,7 +207,7 @@ The product-state Update 2026-04-28 covered the 6-parameter Bloch family. The fu
 | std | 0.87 | 0.99 |
 | samples with C < 0.05 bits | **0** | **0** |
 
-The non-product distribution is tighter and lower than the product-slice distribution. Haar-uniform superpositions tend to be J-sensitive at a typical level around 7.5 bits, with min 5.74 bits — well above the J-blind threshold. Product states cover a wider, more-skewed-high distribution because the 6-dim product surface includes high-purity points (rather than typical mixed-purity superpositions).
+The non-product distribution is tighter and lower than the product-slice distribution. Haar-uniform superpositions tend to be J-sensitive at a typical level around 7.5 bits, with min 5.74 bits, well above the J-blind threshold. Product states cover a wider, more-skewed-high distribution because the 6-dim product surface includes high-purity points (rather than typical mixed-purity superpositions).
 
 **Verdict.** Strong empirical support for three-class completeness within the **full** F71-symmetric pure-state subspace at N=5. Both the 6-dim product slice and the full 20-dim symmetric subspace yield zero fourth-class candidates over 200 total Haar-uniform samples (capacity floor 5.74 bits across both, with no observation anywhere near zero). Sub-question 1 is now closed for F71-symmetric receivers; F71-breaking is the natural next question (sub-question 2).
 
@@ -236,7 +236,7 @@ F71-asymmetry ‖ψ − Rψ‖ confirmed for the F71-breaking samples: mean ~1.2
 
 **Three observations:**
 
-1. **F71-breaking max ≤ F71-symmetric max.** Product: 11.99 vs 12.41 bits (F71-sym higher). Non-product: 8.80 vs 10.26 (F71-sym substantially higher). F71-symmetry is *not* a suboptimality constraint — it covers the capacity-optimal region.
+1. **F71-breaking max ≤ F71-symmetric max.** Product: 11.99 vs 12.41 bits (F71-sym higher). Non-product: 8.80 vs 10.26 (F71-sym substantially higher). F71-symmetry is *not* a suboptimality constraint; it covers the capacity-optimal region.
 2. **F71-breaking distributions are tighter** (lower std). F71-symmetric receivers have more spread in their capacity distribution, including both higher maxima and slightly lower minima. F71-breaking concentrates around the typical mean.
 3. **Means are comparable.** 10.19 (breaking) vs 10.48 (sym) for product; 7.78 vs 7.46 for non-product. F71-symmetry doesn't shift the typical capacity, only widens the distribution.
 
@@ -246,7 +246,7 @@ Combined sub-q 1 + 2 result: **400 random samples across F71-symmetric (product 
 
 ## Update 2026-04-28 (structural follow-up): mechanism of F71-optimality
 
-Sub-question 2 closure showed F71-symmetric receivers have higher max capacity than F71-breaking ones (12.41 vs 11.99 product; 10.26 vs 8.80 non-product). This raises a structural question: why does F71-symmetry — a constraint, not a freedom — produce systematically higher capacity?
+Sub-question 2 closure showed F71-symmetric receivers have higher max capacity than F71-breaking ones (12.41 vs 11.99 product; 10.26 vs 8.80 non-product). This raises a structural question: why does F71-symmetry (a constraint, not a freedom) produce systematically higher capacity?
 
 **Hypothesis.** F71-symmetry constrains the J-Jacobian into a 2+2 block decomposition of the J-input space. The 4-dim bond-input space (J_0, J_1, J_2, J_3) splits under the chain-mirror permutation R̄ : J_b → J_{N-2-b} into:
 
@@ -274,7 +274,7 @@ Three observations:
 
 Capacities tracked the SVD pattern: F71-sym mean C = 10.73, F71-breaking 9.92.
 
-**Reading.** The 2+2 block decomposition forced by F71-symmetry concentrates the J-response into one or two large singular values per block, while F71-breaking spreads response evenly across 4 SVs. Waterfilling over the 4-dim input then favors F71-symmetric receivers: a single large SV contributes more bits via 0.5·log(1 + SNR) than several medium SVs splitting the same total power. F71-symmetry is structurally — not accidentally — capacity-optimal at N=5 Heisenberg.
+**Reading.** The 2+2 block decomposition forced by F71-symmetry concentrates the J-response into one or two large singular values per block, while F71-breaking spreads response evenly across 4 SVs. Waterfilling over the 4-dim input then favors F71-symmetric receivers: a single large SV contributes more bits via 0.5·log(1 + SNR) than several medium SVs splitting the same total power. F71-symmetry is structurally, not accidentally, capacity-optimal at N=5 Heisenberg.
 
 This closes the "why" of F71-optimality: it follows from the algebra of mirror-symmetry on the bond-input space, not from any specific dynamical accident. Whether the same mechanism scales to N=6 (where the bond-input dim is 5 and the mirror permutation has a different fixed-point structure) is an open generalisation.
 
@@ -301,7 +301,7 @@ Two structural observations:
 
 2. **The capacity ranking inverts.** At N=6, F71-breaking *beats* F71-symmetric in mean capacity (12.56 vs 11.91 bits) and max capacity (14.02 vs 13.65). The N=5 advantage of F71-symmetric is gone at N=6.
 
-**Reading.** Waterfilling capacity scales (at high SNR) with the geometric mean of singular values, not just the top SV. The 3+2 block decomposition at N=6 produces F71-symmetric SV spectra with one large peak (in the symmetric block) but four smaller trailing values — geometric mean ≈ 2.63. F71-breaking SVs at N=6 are more uniform (mean ≈ 2.92 in geometric sense), giving higher total log-summation. F71-symmetric concentration buys peak singular value but loses the bulk-channel contribution.
+**Reading.** Waterfilling capacity scales (at high SNR) with the geometric mean of singular values, not just the top SV. The 3+2 block decomposition at N=6 produces F71-symmetric SV spectra with one large peak (in the symmetric block) but four smaller trailing values, geometric mean ≈ 2.63. F71-breaking SVs at N=6 are more uniform (mean ≈ 2.92 in geometric sense), giving higher total log-summation. F71-symmetric concentration buys peak singular value but loses the bulk-channel contribution.
 
 At N=5 with balanced 2+2 blocks, F71-symmetric concentrated TWO SVs (one per block), keeping the top-2 contribution high while still using the trailing-2 channels productively. At N=6 with unbalanced 3+2, only one SV dominates while the other two symmetric-block SVs and two antisymmetric-block SVs are smaller; the "concentration trick" loses ground to the F71-breaking distribution.
 
@@ -312,7 +312,7 @@ At N=5 with balanced 2+2 blocks, F71-symmetric concentrated TWO SVs (one per blo
 
 The mechanism is parity-tied: whether the number of bonds is even (paired) or odd (one self-mirror) determines whether the block decomposition is balanced. The capacity-optimal receiver class follows this parity.
 
-Open: confirm at N=7 (6 bonds, 3+3 balanced split — should restore F71-optimality) and N=8 (7 bonds, 4+3 unbalanced — should keep F71-suboptimal). Both N=7 (d²=16384) and N=8 (d²=65536) require substantially more compute per sample than N=6 (d²=4096), so this prediction stands as a candidate next test rather than a near-term goal.
+Open: confirm at N=7 (6 bonds, 3+3 balanced split, should restore F71-optimality) and N=8 (7 bonds, 4+3 unbalanced, should keep F71-suboptimal). Both N=7 (d²=16384) and N=8 (d²=65536) require substantially more compute per sample than N=6 (d²=4096), so this prediction stands as a candidate next test rather than a near-term goal.
 
 ---
 

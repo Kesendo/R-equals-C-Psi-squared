@@ -128,7 +128,7 @@ carotenoid dark / triplet-pair side lives on the Lebensader end, and the V-Effec
     *same event* as the dephasing-axis Q-handover
     ([`handover_q.py`](../simulations/carbon/handover_q.py), the typed `HandoverFloorClaim`): the
     interior/Lebensader darkness ⟨n_XY⟩ crossing 1 = the Absorption-Theorem band-edge floor 2γ.
-    Verified [`simulations/xxz_handover_unification.py`](../simulations/xxz_handover_unification.py) —
+    Verified [`simulations/xxz_handover_unification.py`](../simulations/xxz_handover_unification.py):
     the band edge sits at *exactly* 2γ for all Δ (|vac⟩⟨magnon| is an eigenoperator of [H,·]; the ZZ
     shifts only Im, so F50's 2N *count* breaks for Δ≠1 but the *floor* persists).
   - **The N=6+ walk:** done via dead-centre sector reduction
@@ -136,7 +136,7 @@ carotenoid dark / triplet-pair side lives on the Lebensader end, and the V-Effec
     full L): Δ*(6)=1.381, Δ*(7)=1.325.
   - **A closed form for Δ*(N)? No clean elementary form, and the limit is the critical point**
     (resolved to N=14, 2026-06-14). Pushed via the γ→0 reduction (Δ* ⟺ gap(R) = 2, where R is the
-    Z-coupled classical rate matrix among the half-filling XXZ eigenstates — a Pauli / Fermi-golden-rule
+    Z-coupled classical rate matrix among the half-filling XXZ eigenstates, a Pauli / Fermi-golden-rule
     relaxation), in the new self-validating verifier
     [`simulations/xxz_delta_star_descent.py`](../simulations/xxz_delta_star_descent.py) (γ·gap(R)
     reproduces the full-Liouvillian Lebensader rate as γ→0, ratio→1). The **γ→0** sequence (the
@@ -153,7 +153,7 @@ carotenoid dark / triplet-pair side lives on the Lebensader end, and the V-Effec
       to ±0.003, are statistical-only; the true uncertainty is the fit-window/fit-form spread above.)
     - **Even/odd:** the γ→0 sequence is monotone (no raw zigzag); the even and odd subsequences are
       two smooth approaches that *both* land on Δ = 1. The fitted exponent is **non-universal**
-      (α ≈ 1.16–1.73, even vs odd, window-dependent) — consistent with the **marginal/logarithmic
+      (α ≈ 1.16–1.73, even vs odd, window-dependent), consistent with the **marginal/logarithmic
       corrections** characteristic of the Δ = 1 SU(2) point, which is *why* no clean power law fits and
       the limit is best read as "exactly 1 with a log-corrected approach" rather than a clean exponent.
       (A rigorous Bethe-ansatz derivation of the limit and the log structure is the remaining open item.)
@@ -173,13 +173,13 @@ carotenoid dark / triplet-pair side lives on the Lebensader end, and the V-Effec
   (odd 1.331 at N=9, even 1.308 at N=10) then **descend** through N=14 (odd → 1.295 at N=13, even →
   1.278 at N=14). The ring **crosses above the chain** near N=7–8 (the chain keeps descending toward
   Δ=1, the ring humps up). **N=4 has no handover**: the full half-filling block is *tangent* to the
-  floor at the XY point Δ=0 (peak 0.99998·2γ) and a survivor elsewhere — the K₂,₂ special case (the
+  floor at the XY point Δ=0 (peak 0.99998·2γ) and a survivor elsewhere, the K₂,₂ special case (the
   reduction is ~1.5% off there, so N=4 is read off the full block). The **N→∞ limit is open at N ≤ 14**
   (a power-law fit to the hump degenerates, α ≈ 33). This **refutes** the chain's premise that the
   dissipative handover tracks the closed-system Δ=1 critical point: on the ring it is a dynamical,
   topology-sensitive scale. The frame ([`ON_THE_ONE_DIAGONAL`](../reflections/ON_THE_ONE_DIAGONAL.md)):
-  the floor 2γ is the first rung of the one diagonal popcount(i⊕j) the light touches — universal,
-  topology-free; Δ\*(N) is the Hamiltonian's argument about that fixed floor — topology-dependent.
+  the floor 2γ is the first rung of the one diagonal popcount(i⊕j) the light touches, universal,
+  topology-free; Δ\*(N) is the Hamiltonian's argument about that fixed floor, topology-dependent.
   *The diagonal is one; the climb is many.*
 - **Still open:** a rigorous (Bethe-ansatz) derivation that the *chain* N→∞ limit is *exactly* Δ = 1
   and the log-correction structure of its approach; and, for the *ring*, whether the hump returns

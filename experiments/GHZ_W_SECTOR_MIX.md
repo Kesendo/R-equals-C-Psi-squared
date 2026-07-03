@@ -58,7 +58,7 @@ Numerical values at the exact sextic root (α²_opt from sympy nroots at 25-digi
 
 scipy's bounded minimizer reaches these same values to within 3.7 × 10⁻¹⁰ in α²_opt; the values are shown at the sympy precision for internal consistency (scipy's α_opt and β_opt would each differ from the above in the 10th digit).
 
-The same family at N ≥ 4 stays below the fold: best min pair-CΨ(0) is 0.167 (N = 4), 0.146 (N = 5), 0.134 (N = 6). F69's 0.3204 value is GHZ+W-slice-specific to N = 3. Note: this is not the same as "N = 3 is privileged for above-fold saddles" — see [post-2026-04-27 update](#post-2026-04-27-update-other-slice-stationary-saddles-above-the-fold) at the bottom; central-Dicke-triple slices give above-fold saddles at every tested N.
+The same family at N ≥ 4 stays below the fold: best min pair-CΨ(0) is 0.167 (N = 4), 0.146 (N = 5), 0.134 (N = 6). F69's 0.3204 value is GHZ+W-slice-specific to N = 3. Note: this is not the same as "N = 3 is privileged for above-fold saddles"; see [post-2026-04-27 update](#post-2026-04-27-update-other-slice-stationary-saddles-above-the-fold) at the bottom; central-Dicke-triple slices give above-fold saddles at every tested N.
 
 ---
 
@@ -168,7 +168,7 @@ F69 is not a protection result. It does not claim the optimum state lives longer
 
 CΨ = C · Ψ is a product. F60 starves the L1 side, F62 starves the purity side. Neither parent has both factors strong simultaneously. F69 arranges both through cross-sector interference in the preparation step.
 
-## Scope: the GHZ+W slice is N = 3 specific (other slices are N-generic — see post-2026-04-27 update)
+## Scope: the GHZ+W slice is N = 3 specific (other slices are N-generic, see post-2026-04-27 update)
 
 Running the same optimization inside α|GHZ_N⟩ + β|W_N⟩ at larger N gives no crossing of 1/4:
 
@@ -179,7 +179,7 @@ Running the same optimization inside α|GHZ_N⟩ + β|W_N⟩ at larger N gives n
 | 5 | 0.5800 | 0.146381 | 0.586× | no |
 | 6 | 0.5650 | 0.134104 | 0.536× | no |
 
-(201-point grid sweep, run_ghz_w_optimum_n3.py `family_fails_for_larger_N`.)
+(201-point grid sweep, `ghz_w_optimum_n3.py` function `family_fails_for_larger_N`.)
 
 Why does N = 3 work and N ≥ 4 fail? The purity contribution from |GHZ_N⟩'s pair reduction scales as 1/(2^N - 1) (F60), vanishing exponentially. The L1 contribution from |W_N⟩'s pair reduction scales as 2/N (F62). At N = 3 both are close enough to 1/4 that their product lifts the pair above the fold; at N ≥ 4 the GHZ side has collapsed too far.
 
@@ -195,7 +195,7 @@ Scanned the full permutation-symmetric Dicke subspace at N ∈ {3..8} to map all
 
 **Scan.** Real unit vectors c ∈ S^N per N. Structured seeds (Dicke basis states, GHZ_N, GHZ+W α-sweep with α ∈ {0.2, 0.4, 0.5, 0.6127, 0.7, 0.85}, all Dicke pair superpositions, uniform Dicke mix) plus 20,000 random uniform samples on S^N per N. L-BFGS-B on an inner-normalized objective with mild quadratic pull to the unit sphere (swapped in for SLSQP after SLSQP hit LAPACK matmul overflow on this objective). Stationary-point classification via 4 random 1% perturbations plus re-optimization; escape Δpair-CΨ > 10⁻⁴ flags a saddle. Product-state filter: single-qubit purity Tr(ρ_A²) > 1 − 10⁻³ excludes from the candidate list.
 
-**Result.** At every tested N ∈ {3..8}, no non-product local maxima exist on the Dicke sphere — verdict still holds. The original 2026-04-17 conclusion that "the only non-product stationary points are Dicke basis elements and the GHZ+W family optimum" was UNDERCOUNTED, see [post-2026-04-27 update](#post-2026-04-27-update-other-slice-stationary-saddles-above-the-fold) below: many other 2-Dicke and 3-Dicke slices admit stationary saddles above 1/4 at every tested N. All are saddles on the full sphere, consistent with "no local maxima".
+**Result.** At every tested N ∈ {3..8}, no non-product local maxima exist on the Dicke sphere, verdict still holds. The original 2026-04-17 conclusion that "the only non-product stationary points are Dicke basis elements and the GHZ+W family optimum" was UNDERCOUNTED, see [post-2026-04-27 update](#post-2026-04-27-update-other-slice-stationary-saddles-above-the-fold) below: many other 2-Dicke and 3-Dicke slices admit stationary saddles above 1/4 at every tested N. All are saddles on the full sphere, consistent with "no local maxima".
 
 | family | N = 3 | 4 | 5 | 6 | 7 | 8 |
 |--------|-------|---|---|---|---|---|
@@ -313,7 +313,7 @@ All scripts are pure Python (numpy, scipy, sympy), no external dependencies beyo
 
     (x − 2x²)(19 − 30x − 93x²)² = (12 + 144x − 1132x² + 1488x³)²
 
-(parallel to F69's own irreducible sextic). At a²/b² ≈ 9/16, a/b ≈ 3/4 to 5 decimals — quasi-rational but not exact.
+(parallel to F69's own irreducible sextic). At a²/b² ≈ 9/16, a/b ≈ 3/4 to 5 decimals, quasi-rational but not exact.
 
 **What stays correct from the original analysis:**
 - F69's pair-CΨ = 0.3204 is N=3-specific (GHZ+W slice peaks below 1/4 at N≥4).
@@ -321,9 +321,9 @@ All scripts are pure Python (numpy, scipy, sympy), no external dependencies beyo
 - Hardware test of F69 vs GHZ_3 vs W_3 at N=3 still distinguishable (three separable points: 0, 0.123, 0.320).
 
 **What was overstated:**
-- "F69 is a strictly N=3 statement" — true for the value 0.3204, false for the *phenomenon* of above-fold saddles. Central-Dicke-triple slices have saddles up to 0.80 at N=3, 0.71 at N=4, ..., asymptoting to 0.4312 at large N.
-- "GHZ+W is the widest fold-crossing family" — wrong. Central-Dicke triples lift much higher.
+- "F69 is a strictly N=3 statement": true for the value 0.3204, false for the *phenomenon* of above-fold saddles. Central-Dicke-triple slices have saddles up to 0.80 at N=3, 0.71 at N=4, ..., asymptoting to 0.4312 at large N.
+- "GHZ+W is the widest fold-crossing family": wrong. Central-Dicke triples lift much higher.
 
-**What is structurally privileged at N=3:** the *closed form* (irreducible sextic) of the GHZ+W slice — but this same flavor of sextic-root structure recurs at the N→∞ central-triple slice. Sextic-asymptote is a generic feature of the slice-saddle landscape of pair-CΨ, not unique to N=3.
+**What is structurally privileged at N=3:** the *closed form* (irreducible sextic) of the GHZ+W slice; but this same flavor of sextic-root structure recurs at the N→∞ central-triple slice. Sextic-asymptote is a generic feature of the slice-saddle landscape of pair-CΨ, not unique to N=3.
 
 **Scripts:** [`eq016_n4_full_landscape.py`](../simulations/eq016_n4_full_landscape.py), [`eq016_verify_full_sphere.py`](../simulations/eq016_verify_full_sphere.py), [`eq016_central_triple_asymptotics.py`](../simulations/eq016_central_triple_asymptotics.py), [`eq016_central_triple_n_infinity.py`](../simulations/eq016_central_triple_n_infinity.py).
