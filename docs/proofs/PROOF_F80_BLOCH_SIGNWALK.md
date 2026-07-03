@@ -13,6 +13,16 @@
 
 **Scope:** chain bond-summed Π²-odd 2-body Hamiltonian H = c · Σ_{l=0}^{N-2} (P_l ⊗ Q_{l+1}) on N-site open chain, with (P, Q) ∈ {(X,Y), (X,Z), (Y,X), (Z,X)}, under uniform Z-dephasing γ.
 
+## What this means
+
+Some chains sit squarely in front of the mirror: the list of their decay rates reads the same from either end, every mode paired with a partner across the centre. That pairing is the mirror (the framework's palindrome symmetry, written Π·L·Π⁻¹). Those are the "truly" Hamiltonians (Heisenberg, XXZ), and with no dephasing their mirror is exact. Other chains miss it before any noise is even added: a bond that puts X on one site and Y on the next already breaks the pairing. The question this proof answers is, for a chain that misses the mirror this way, by how much, and is the miss a shape or just an accident?
+
+The miss is not an accident. It is the Hamiltonian itself. Write down the mirror-defect M, the operator that records exactly how far the chain falls short of a perfect mirror, and its spectrum turns out to be the chain's own energy spectrum, doubled and turned onto the imaginary axis: Spec(M) = ±2i·Spec(H). The defect is literally the Hamiltonian, copied unchanged into the larger operator space and scaled by 2i; the extra room in that space is a passive echo that only multiplies how often each value appears. The chain carries its own ruler: the Hamiltonian is the distance to the mirror. (There is a second way to miss, a Y-Z bond in place of the X-Y one, where the defect comes out as the energy gaps rather than the energies themselves; the proof covers that case too. The clean headline is the first.)
+
+Why it comes out this clean has a short reason. Turn the chain into free fermions (the Jordan-Wigner trick) and its energies become the familiar cosine ladder 2cos(πk/(N+1)), the same standing-wave rungs as a string held at both ends. The defect's sizes are then sign-weighted sums over those rungs, and a per-site computation on the Pauli strings shows what the mirror flip does to the algebra: it turns the commutator [H, ·] into the anticommutator {H, ·}. That one swap is what forces the defect to be exactly ±2i·H and nothing messier.
+
+And the whole thing is an old idea in new clothes. In 1937 Ettore Majorana wrote down a fermion that is its own antiparticle. Here the mirror Π plays the part of that self-conjugation, and the chains that miss the mirror are precisely the ones whose leftover still carries the Hamiltonian's own structure. Majorana had the shape; this proof finds it living in the operator space of an open quantum chain.
+
 ## Abstract
 
 The M-residual clusters of chain Π²-odd 2-body Hamiltonians under Z-dephasing carry a specific magnitude pattern. Observed empirically: the cluster norm is the absolute value of a sign-weighted sum over the open-chain Bloch-mode dispersion, with signs ±1 on each mode. The question is whether this sign-walk has a closed-form structural origin or whether the signs are coincidental at the tested N values.
