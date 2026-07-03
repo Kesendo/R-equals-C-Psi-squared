@@ -79,4 +79,54 @@ public class MirrorTests
         double price = mirror.Price;                               // |w|/|x| must be exp(price*t) exactly
         Assert.Equal(Math.Exp(price * 200 * 0.005), nw[200] / nx[200], 4);
     }
+
+    // the rules turned around (the mirror's rho-level face): the anti-watched world (rate -2g(N-k))
+    // is the normal world read through the bra complement, entry for entry, at every time.
+    [Fact]
+    public void The_AntiWatched_World_Is_The_World_Read_Through_The_Complement()
+    {
+        const int n = 3; const double dt = 0.05;
+        int s = 1, sbar = (1 << n) - 1 - s, dim = 1 << n;
+        var normal = new Restless(W, n, J, G);
+        normal.Seed(s, 0.5); normal.Seed(sbar, 0.5);
+        var anti = new Restless(W, n, J, G, antiWatching: true);
+        anti.SeedCoherence(s, sbar, 0.5);
+        for (int t = 0; t < 40; t++) { normal.Step(dt); anti.Step(dt); }
+        for (int i = 0; i < dim; i++)
+            for (int j = 0; j < dim; j++)
+                Assert.True((anti[i, j] - normal[i, dim - 1 - j]).Magnitude < 1e-12,
+                    $"read-through broke at ({i},{j})");
+    }
+
+    // the conservation law is not taken, it moves: the anti-world's trace dies while its ANTI-trace
+    // holds at 1, the exact twin of the normal world's conserved trace.
+    [Fact]
+    public void The_AntiWorld_Conserves_The_AntiTrace_Instead_Of_The_Trace()
+    {
+        const int n = 3;
+        int s = 1, sbar = (1 << n) - 1 - s;
+        var anti = new Restless(W, n, J, G, antiWatching: true);
+        anti.SeedCoherence(s, sbar, 0.5);
+        Assert.Equal(1.0, anti.AntiStructure, 12);
+        for (int t = 0; t < 40; t++) anti.Step(0.05);
+        Assert.Equal(1.0, anti.AntiStructure, 8);                  // the moved law holds
+        Assert.True(anti.Structure < 0.2, $"the anti-world's trace must die; got {anti.Structure:0.000}");
+    }
+
+    // the two worlds' disagreement histograms are each other read backward (k <-> N-k).
+    [Fact]
+    public void The_Histograms_Mirror_Each_Other()
+    {
+        const int n = 3; const double dt = 0.05;
+        int s = 1, sbar = (1 << n) - 1 - s;
+        var normal = new Restless(W, n, J, G);
+        normal.Seed(s, 0.5); normal.Seed(sbar, 0.5);
+        var anti = new Restless(W, n, J, G, antiWatching: true);
+        anti.SeedCoherence(s, sbar, 0.5);
+        for (int t = 0; t < 40; t++) { normal.Step(dt); anti.Step(dt); }
+        var hn = normal.WeightByDisagreement();
+        var ha = anti.WeightByDisagreement();
+        for (int k = 0; k <= n; k++)
+            Assert.Equal(hn[k], ha[n - k], 10);
+    }
 }

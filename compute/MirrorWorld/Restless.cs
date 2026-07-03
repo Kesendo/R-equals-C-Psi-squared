@@ -27,7 +27,13 @@ public sealed class Restless : GameObject
     readonly HashSet<(int p, int q)> occupied = new();   // the joint-popcount blocks the seed lives in
     (int i, int j)[]? alive;        // the cells inside the occupied blocks (F63); the rest is forbidden
 
-    public Restless(World world, int n, double j, double gamma, (int a, int b)[]? bonds = null) : base(world)
+    // antiWatching = the rules turned around (2026-07-03, the mirror's rho-level face): the watching
+    // reads AGREEMENT instead of disagreement, rate -2*gamma*(N-k). The mirror guarantees this is the
+    // SAME world read through the bra complement: anti-rho(t) = rho(t) * X^N exactly (H commutes with
+    // X^N, and k(i, complement j) = N - k(i,j)), so nothing was taken -- the conservation law just
+    // moves from the trace (the diagonal dies fastest here) to the ANTI-trace, sum of rho(i, ~i).
+    public Restless(World world, int n, double j, double gamma, (int a, int b)[]? bonds = null,
+        bool antiWatching = false) : base(world)
     {
         N = n;
         J = j;
@@ -41,7 +47,7 @@ public sealed class Restless : GameObject
             for (int jj = 0; jj < dim; jj++)
             {
                 var p = new Pair(world, i, jj, gamma);   // the atom: its own disagreement and its own rate
-                mask[i, jj] = p.Rate;
+                mask[i, jj] = antiWatching ? -2.0 * gamma * (n - p.Disagreement) : p.Rate;
                 dis[i, jj] = p.Disagreement;
             }
         pc = new int[dim];
@@ -52,8 +58,8 @@ public sealed class Restless : GameObject
     public int Dim => dim;
     public Complex this[int i, int j] => rho[i, j];
 
-    // seed a pure population |s><s| (structure: one possibility held, no novelty).
-    public void Seed(int s) { rho[s, s] = Complex.One; occupied.Add((pc[s], pc[s])); alive = null; }
+    // seed a population |s><s| with weight amp (structure: one possibility held, no novelty).
+    public void Seed(int s, double amp = 1.0) { rho[s, s] = amp; occupied.Add((pc[s], pc[s])); alive = null; }
 
     // seed one coherence |i><j| (+ its Hermitian twin), real amplitude.
     public void SeedCoherence(int i, int j, double amp)
@@ -142,5 +148,17 @@ public sealed class Restless : GameObject
     public double Structure { get { double s = 0; for (int i = 0; i < dim; i++) s += rho[i, i].Real; return s; } }
     public double Novelty => WeightByDisagreement().Skip(1).Sum();
 
-    public override IReadOnlyList<string> Own => new[] { "structure", "novelty" };
+    // the anti-trace: the anti-diagonal sum rho(i, ~i), k = N everywhere. In the normal world it is the
+    // fastest-dying content; in the anti-watched world it is the conserved one (the trace's mirror twin).
+    public double AntiStructure
+    {
+        get
+        {
+            double s = 0;
+            for (int i = 0; i < dim; i++) s += rho[i, dim - 1 - i].Real;
+            return s;
+        }
+    }
+
+    public override IReadOnlyList<string> Own => new[] { "structure", "novelty", "antistructure" };
 }

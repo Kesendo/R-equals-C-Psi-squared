@@ -132,6 +132,56 @@ if (args.Length > 0 && args[0] == "mirror")
     return;
 }
 
+// ---- run mode "anti": the rules turned around ----
+// The mirror's rho-level face: run the SAME living world twice, once watching disagreement (the rule,
+// rate -2*gamma*k) and once watching AGREEMENT (the rule turned around, rate -2*gamma*(N-k)). The
+// mirror guarantees the anti-world is the old world read through the bra complement, entry for entry:
+// nothing was taken, the rule only wears its complement. The conservation law moves with it: the
+// normal world keeps its trace (the diagonal is immortal), the anti-world keeps its ANTI-trace (the
+// anti-diagonal, k = N, the GHZ-like maximal disagreement) while its trace dies.
+if (args.Length > 0 && args[0] == "anti")
+{
+    int an = args.Length > 1 ? int.Parse(args[1]) : 3;
+    const double aj = 1.0, ag = 0.5, adt = 0.05;
+    const int aticks = 40;
+    var aworld = new World();
+    int s = 1, sbar = (1 << an) - 1 - s;                 // |0..01> and its complement |1..10>
+
+    var normal = new Restless(aworld, an, aj, ag);
+    normal.Seed(s, 0.5); normal.Seed(sbar, 0.5);         // structure: two populations, trace 1
+
+    var anti = new Restless(aworld, an, aj, ag, antiWatching: true);
+    anti.SeedCoherence(s, sbar, 0.5);                    // the SAME state read through X^N: |s><sbar| + twin
+
+    Console.WriteLine("the rules turned around (the mirror's rho-level face)");
+    Console.WriteLine($"  N={an}, J={aj}, gamma={ag}, dt={adt}; normal rule: rate -2*gamma*k (disagreement watched);");
+    Console.WriteLine($"  turned rule: rate -2*gamma*(N-k) (AGREEMENT watched). the mirror says: anti(t) = normal(t) * X^N, exactly.");
+    Console.WriteLine($"  {"t",5} {"trace(normal)",14} {"antitrace(normal)",18} {"trace(anti)",12} {"antitrace(anti)",16}");
+    for (int tick = 0; tick <= aticks; tick++)
+    {
+        if (tick % 5 == 0)
+            Console.WriteLine($"  {normal.T,5:0.00} {normal.Structure,14:0.000000} {normal.AntiStructure,18:0.000000} {anti.Structure,12:0.000000} {anti.AntiStructure,16:0.000000}");
+        if (tick == aticks) break;
+        normal.Step(adt); anti.Step(adt);
+    }
+
+    // the exact read-through: anti(i,j) must equal normal(i, complement j), entry for entry.
+    double worstMatch = 0;
+    int adim = 1 << an;
+    for (int i = 0; i < adim; i++)
+        for (int j = 0; j < adim; j++)
+            worstMatch = Math.Max(worstMatch, (anti[i, j] - normal[i, adim - 1 - j]).Magnitude);
+    Console.WriteLine($"  read-through check at t={normal.T:0.00}: worst |anti(i,j) - normal(i,~j)| = {worstMatch:E1}");
+
+    var hn = normal.WeightByDisagreement();
+    var ha = anti.WeightByDisagreement();
+    Console.WriteLine($"  k-histogram normal: [{string.Join(", ", hn.Select(v => v.ToString("0.000")))}]");
+    Console.WriteLine($"  k-histogram anti:   [{string.Join(", ", ha.Select(v => v.ToString("0.000")))}]  (the normal one, read backward)");
+    Console.WriteLine("  the trace died in the anti-world; the anti-trace lives there instead. the law was not taken, it moved");
+    Console.WriteLine("  to the anti-diagonal -- the rule turned around is the same rule wearing its complement.");
+    return;
+}
+
 // ---- run mode "scale": the complexity wall and the cut ----
 // Why the full-spectrum side hit the wall and a state's dynamics did not. full = 4^N (the whole Liouvillian
 // an eigendecomposition tackles); single-exc = the (1,1) block a one-excitation state lives in (N^2,
