@@ -129,6 +129,19 @@ public sealed class F89CrossFoldSimilarityClaim : Claim
                          "a full-spectrum Tier-1 corollary, closing remainder R1's last analytic entry AND R3 (the fold " +
                          "preserves the near-defective pair's eigenvalue gap). Gate: HolomorphicFoldIdentityTests (FOLDIDENTITY, " +
                          "5 facts); verified independently (numpy 40-digit + the real C# builder).");
+            yield return new InspectableNode("the FOLD LATTICE: the block group of order 8, holomorphic (2026-07-03)",
+                summary: "the two F89d legs P/Q, composed with the pencil reality conj L(q)=L(−q̄) and the bipartite " +
+                         "gauge 𝒟L(q)𝒟=L(−q) (Δ=0), become HOLOMORPHIC matrix-level similarities at the SAME q: " +
+                         "L(p,N−q̃)(q) = −P𝒟·L(p,q̃)(q)·𝒟Pᵀ − 2N·I (and the ket mirror), and with the transpose leg " +
+                         "they generate G ≅ D₄ (order 8) on the block lattice with the spectral cocycle χ: G→{id, s}, " +
+                         "s(λ)=−λ−2N (parity of fold legs), every leg Jordan-preserving. Consequences: {λ_A, μ} is " +
+                         "s-invariant so braid membership/exclusion are constant on G-orbits (the broad-exclusion " +
+                         "problem lives on the fundamental domain p≤q̃, p+q̃≤N, one eighth of the lattice; N=5: 36 " +
+                         "blocks = 6 orbits); fold-fixed blocks (q̃=N/2 or p=N/2, even N) carry s-symmetric spectra " +
+                         "(the §7 even-N fine print derived); at Δ≠0 the legs connect q↔−q, evenness surviving " +
+                         "exactly on p=q̃ and p+q̃=N. The first step of the large-N exclusion program. Proof: " +
+                         "PROOF_CODIM1_BY_ADDITIVITY §7 (the fold-lattice paragraph); gate BlockLatticeFoldGroupTests " +
+                         "(FOLDLATTICE, 6 facts).");
         }
     }
 }

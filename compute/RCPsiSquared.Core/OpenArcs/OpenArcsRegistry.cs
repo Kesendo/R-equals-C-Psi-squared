@@ -629,12 +629,30 @@ public static class OpenArcsRegistry
                 "mu in spec(1,4) <=> lambda_A in spec(1,1) (identity cert), (4,4)/(4,1) by Klein. Gate: " +
                 "RemainderR4InteriorExclusionTests (5 facts, Category R4INTERIOR, ~20 s); FOLDRESULTANT regression " +
                 "green (corner certs unchanged). Docs: PROOF_CODIM1 status header + section-7 scoping + open-item 4; " +
-                "claim + SectorBraidWitness + registration-test tier pin updated. NEXT (the two remaining " +
-                "SpectatorIntertwinerClaim blockers, pick one): (b) the N=7 certificate run [CertifyComplete(7,...) " +
-                "and the (1,1)x lambda_A sibling: corner (5,5) dim 441 makes the bivariate Berkowitz layer and the " +
-                "height bounds much heavier, feasibility UNCHECKED -- probe the bivariate build cost first]; OR (c) " +
-                "the broad N>=6 exclusion (non-corner blocks at complex q, census-only today; the fold maps are " +
-                "N-general, only the certificate is per-N). --- PRIOR (post R4-start, the diagnosis layer this " +
+                "claim + SectorBraidWitness + registration-test tier pin updated. THE LARGE-N EXCLUSION PROGRAM " +
+                "(agreed 2026-07-03, replaces per-N certificates as the road to big N; the moved-window margin " +
+                "WEAKENS with N and interior non-members grow O(N^2), so certificates are spot-checks only): " +
+                "Step 1 DONE = the FOLD-LATTICE LEMMA (proof section-7 'fold lattice' paragraph, gate " +
+                "BlockLatticeFoldGroupTests, Category FOLDLATTICE, 6 facts, machine zero): G = <t, f_P, f_Q> ~ D4 " +
+                "(order 8) acts on the block lattice with HOLOMORPHIC Jordan-preserving legs at the same q " +
+                "[L(p,N-w)(q) = -P D_gauge L(p,w)(q) D_gauge P^T - 2N I from F89d x reality x bipartite gauge; " +
+                "transpose leg via gauge], spectral cocycle chi = parity of fold legs with s(lambda)=-lambda-2N; " +
+                "{lambda_A, mu} is s-invariant => membership/exclusion constant on G-orbits => the broad-exclusion " +
+                "problem lives on the fundamental domain p<=w, p+w<=N (one eighth; N=5: 36 blocks = 6 orbits); " +
+                "fold-fixed blocks (even N, w=N/2 or p=N/2) have s-symmetric spectra (the even-N fine print " +
+                "derived); at Delta!=0 legs connect q<->-q, evenness survives exactly on p=w and p+w=N. NEXT = " +
+                "STEP 2, the N-GENERAL WINDOW-COMBINATORICS LEMMA (real loci): block (p,w) has n_diff range " +
+                "[|p-w|, min(p+w, 2N-p-w)] (parity-matched), so at real q the Bendixson window confines " +
+                "Re spec(p,w) to [-2 min(p+w, 2N-p-w), -2|p-w|]; lambda_A (Re in (-6,-2), window-edge lemma) can " +
+                "live only where |p-w| <= 2, mu (Re in (-2N+2,-2N+6)) only where min(p+w, 2N-p-w) >= N-3, i.e. " +
+                "p+w in [N-3, N+3]: at real loci EVERY block outside the |p-w|<=2 band-shell resp. the " +
+                "half-filling shell is excluded FOR ALL N by pure combinatorics, no certificate; combine with the " +
+                "fold quotient (Step 1) and characterize the surviving shell N-uniformly, gate it, land in proof " +
+                "section 6/7. THEN Step 3 = the MirrorWorld braid census at N = 9..15 (adopt the Block/braid " +
+                "reading, masking-immune PT-break count instruments, small blocks not 4^N) to map where the braid " +
+                "lives at large N; Step 4 = the N=7 certificate only as a spot-check of the surviving shell " +
+                "(probe the bivariate build cost FIRST). PRIOR OPTIONS (superseded by the program): (b) the N=7 " +
+                "certificate run standalone; (c) broad census-only exclusion. --- PRIOR (post R4-start, the diagnosis layer this " +
                 "close executed): engine parameterized 6f01da5 [CertifyBlockExclusion(n, rOdd, tWKet, tWBra, " +
                 "composeA, composeB); CertifyComplete = the corner-fold wrapper (w,w,-1,-4N); (1,1)xlambda_A = " +
                 "(1,1,+1,0)]; the interior-four non-member cores (1,1),(4,4),(1,4),(4,1) collapse by Klein " +
