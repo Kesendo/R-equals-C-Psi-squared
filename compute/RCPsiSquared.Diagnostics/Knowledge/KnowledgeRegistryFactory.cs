@@ -695,6 +695,11 @@ public static class KnowledgeRegistryFactory
             // D=1−4CΨ has its single zero at ¼. Parent QuarterAsBilinearMaxvalClaim (Pi2 family, above).
             // Live: inspect --root quarter-uniqueness.
             .RegisterQuarterBoundaryUniquenessClaim()
+            // Noise-origin exclusion (Tier1Derived, INCOMPLETENESS_PROOF): the typed ARGUMENT that the
+            // dephasing noise cannot originate within d(d−2)=0 (the 5-candidate elimination) so it is
+            // external. Parents PolynomialFoundationClaim + QubitDimensionalAnchorClaim (Pi2 family, above).
+            // Live: inspect --root noise-origin.
+            .RegisterNoiseOriginExclusionClaim()
             // Polarity cube map (cubic Z₂³ architecture inventory; aggregates every IZ2AxisClaim)
             // Must come AFTER every Pi²-Inheritance Claim registration above so its b.Get<T>()
             // dependencies resolve. Currently snapshot-only; rebuild registry to refresh.

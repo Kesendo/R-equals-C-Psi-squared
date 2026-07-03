@@ -563,6 +563,10 @@ public static class InspectCommand
                 c.Parser.OptionalDouble("psi-low") ?? 0.3,
                 c.Parser.OptionalDouble("psi-high") ?? 0.7),
             RequiresN: false),
+        new("noise-origin", "INCOMPLETENESS_PROOF, the noise-origin 5-candidate elimination: dephasing noise cannot originate WITHIN the d(d−2)=0 ontology, so it comes from OUTSIDE (the incompleteness, the V-Effect one dimension up). Candidate 5 (the dimension algebra d²−2d=0 ⟹ d∈{0,2}, d=1 and d≥3 excluded) is recomputed live; candidate 1 is the typed F63 [Π²,L]=0 constraint; candidates 2-4 (single-qubit decay γ_eff=0, the bath's infinite regress, d=0's property-lessness) are surfaced from the proof, the heavier process-tomography compute deferred. --max-d sets the dimension sweep",
+            c => new NoiseOriginExclusionWitness(
+                c.Parser.OptionalDouble("max-d") is { } m ? (int)m : NoiseOriginExclusionWitness.DefaultMaxD),
+            RequiresN: false),
         new("f87", "F87 trichotomy knowledge base",
             c => BuildF87Root(c.Parser, c.N)),
         new("pi2", "Π² polarity knowledge base",
