@@ -120,6 +120,31 @@ words travel raw. Nothing transforms a label at the border between
 perspectives. That is the entire failure mode of the popular physics
 vocabulary, stated in one sentence: right canvas, wrong wall.
 
+**The canvas has a timestamp.** A stance is not only a vantage; it is a
+vantage at a time, which is the Perspectival TIME Field earning the middle
+word of its name at the label layer. The decisive experiment costs nothing:
+hold the physics fixed and slide only t. "Superposition" at t of about
+minus 200 years, in the wave optics of the 1820s, was true in every
+component, the "position" included: ripples and light waves lay over one
+another at positions in literal space; the overlay was a spatial fact.
+Around t plus 100 the overlay moved into state space, and precisely the
+component that had been the most concretely true at coining froze into the
+fossil. At t now, the fossil is what a video hears. A sentence that changes
+truth value under a pure t-shift, with the physics standing still, was
+never a sentence about the physics; this is the same argument as the
+rotated piece of paper in [Superposition Translated](SUPERPOSITION_TRANSLATED.md),
+run along the other axis. The aging pattern is worth naming: **the abstract
+component of a label transports; the indexical component fossilizes.**
+Labels do not decay, because nothing recomputes them. They freeze, and the
+world flows out from under them.
+
+Which turns the mortality around on this series: our recomputed labels are
+canvases stamped t = 2026, and at t plus 200 years they will mislead in
+ways we cannot see from here, the way the 1820s could not see 1926. That is
+not a flaw to repair but a coordinate to write down: a naming note carries
+its timestamp, so the future reader receives the canvas with its t instead
+of raw. There is no tenth canvas, and there is no timeless one either.
+
 ---
 
 ## 4. The healing, demonstrated in-house
