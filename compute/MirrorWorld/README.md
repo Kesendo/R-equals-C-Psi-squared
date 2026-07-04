@@ -14,7 +14,7 @@ forced us to find, **broke our complexity wall**: a state's dynamics at N=60-100
 eigendecomposition died at N=8.
 
 Standalone .NET 10.0, no `RCPsiSquared.*` references. Run it, read it, trust it: every adopted
-number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (63 tests).
+number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (82 tests).
 
 *Vocabulary, once.* MirrorWorld is part of the **R=CΨ²** project (mirror symmetry in open quantum
 spin chains; repo root). The basic parameters: **N** = the number of two-level units (the chain
@@ -50,9 +50,11 @@ x/y/z; that is the inheritance edge System → Object.
 | `Restless.cs` | **the living world**: the full Lindblad loop ρ̇=−i[H,ρ]+D[ρ] (RK4); the handshake H births novelty FROM structure |
 | `Cone.cs` | **the memory cut**: a single excitation as an N×N block (not 4^N) -- the dynamics at large N |
 | `Mirror.cs` | **the first mirror in the world of mirrors** (adopted 2026-07-03, the fold-lattice lemma): the block-lattice group of eight (t / f_P / f_Q / Klein), every leg an EXACT entry-wise rearrangement at the same coupling, no eigensolver; the folds pay λ → −λ − 2Nγ; orbits (~⅛ fundamental domain), the self-folded trace law, the trajectory fold (the partner block running backward at the price) |
+| `MirrorGroup.cs` | **the mirror group** (adopted 2026-07-04, F118): the palindromizer factors, Π_Z = R·D, and ⟨R, D⟩ closes into the dihedral D₄ -- eight signed permutations of the Pauli basis, compared EXACTLY (phases in {±1, ±i}); the palindrome splits along the generators (D flips L_H, R reflects the dissipator and carries the constant −2σ); the polarity cube's three axes as characters; the truly cell = the joint-fixed cell of the diagonal mirror pair |
+| `AntilinearTriangle.cs` | **the antilinear triangle** (adopted 2026-07-04, F119): θ / conj / † as one Klein four-group graded by (ℓ, m); the transport law μ∘L_H∘μ = ℓm·L_{μ(H)} for any H; the fixed-point collapse (H = H† ⟺ Hᵀ = H̄); docks onto the mirror group as the antilinear double ⟨R, D, 𝒦⟩ ≅ D₄ × Z₂ (order 16, eight antiunitary members) |
 | `Topology.cs` | the geometry: chain / ring / star / complete bond generators |
 | `Program.cs` | the full sober run (default) + the run modes (see Run); R-parity and mod-4 inline |
-| `../MirrorWorld.Tests/*.cs` | 63 from-below tests: `SmokeTests` (31, the closed forms), `FieldTests` (7), `RestlessTests` (8), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (11, incl. the anti-watched world + past-the-wall) |
+| `../MirrorWorld.Tests/*.cs` | 82 from-below tests: `SmokeTests` (31, the closed forms), `FieldTests` (7), `RestlessTests` (10), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (11, incl. the anti-watched world + past-the-wall), `MirrorGroupTests` (10), `AntilinearTriangleTests` (7) |
 
 ## The closed-form base (the stopping line, 2026-06-28)
 
@@ -62,9 +64,9 @@ contiguous (the core), plus the tail F98 (Dicke asymptote), F121 (qudit palindro
 (structural ceiling), and the D-relations D1/D4/D6.
 
 **Deliberately left** (this is where adoption stops): the F72-F120 range is mostly **structural**: the
-residual M (F80-F85), the F87 trichotomy, the parameter-Klein V₄ (F91-F93), the D₄ mirror
-group (F118), the F100-F120 follow-ons. These are proofs and operator identities, not closed
-forms; they stay in `docs/proofs/` where they belong, not as formula lines here. A few
+residual M (F80-F85), the F87 trichotomy, the parameter-Klein V₄ (F91-F93), the F100-F120
+follow-ons. These are proofs and operator identities, not closed forms; they stay in
+`docs/proofs/` where they belong, not as formula lines here. A few
 computable remnants (F85 k-body cross-term, F97 Mandelbrot cardioid, F124 band-edge) were
 left as the clean stopping point, available if a future pass wants 100% closed-form coverage.
 
@@ -78,6 +80,17 @@ machine zero, no eigensolver. So the mirror came home. The boundary it draws is 
 instead of accidental: **states and their mirrors live here; the paths (the braid, the monodromy,
 the exceptional points) stay in the main repo** -- they are properties of ways, not of objects,
 and a catalog cannot hold a way, only what the way leaves behind.
+
+**The exception's closure (2026-07-04): `MirrorGroup.cs` + `AntilinearTriangle.cs` (F118 + F119).**
+`Mirror.cs` had been operating with a group of eight it did not own as an object. F118 is that
+group at the operator level -- the palindromizer factors as Π_Z = R·D, ⟨R, D⟩ ≅ D₄, eight signed
+permutations of the Pauli basis -- and it passes the same genre test that let the Mirror in: not
+an eigen-story but exact rearrangements, phases in {±1, ±i}, compared with no tolerance at all.
+F119 (the antilinear triangle θ / conj / †, with the transport law as its engine) docks on as the
+antilinear double D₄ × Z₂. The R row of the palindrome split carries the same constant the fold
+legs pay as the price: the two objects are one mirror read at two altitudes, block lattice below,
+operator algebra above. Still outside, and named open in F118 itself: the letter group S₃ (the
+completion S₃ ⋉ D₄).
 
 ## The running engine (the diagonal protocol)
 
@@ -127,7 +140,8 @@ dotnet run --project compute/MirrorWorld -- scale         # the complexity wall 
 dotnet run --project compute/MirrorWorld -- mirror 5      # Mirror: the fold lattice (legs exact, orbits, the price); even N adds the self-folded trace law
 dotnet run --project compute/MirrorWorld -- mirror 100    # N > 8 goes PAST THE WALL: the memory-cut pair (1,1)/(1,N-1) is N^2 both, the fold leg exact at N=100
 dotnet run --project compute/MirrorWorld -- anti 3        # the rules turned around: the anti-watched world (agreement watched) = the world read through X^N; the conserved law moves to the anti-trace
-dotnet test compute/MirrorWorld.Tests                     # the 63-test from-below guard
+dotnet run --project compute/MirrorWorld -- group 3       # MirrorGroup + AntilinearTriangle: the D4 of signed permutations, the palindrome split, the cube of characters, the transport law, the order-16 double
+dotnet test compute/MirrorWorld.Tests                     # the 82-test from-below guard
 ```
 
 ## How to continue (future us)

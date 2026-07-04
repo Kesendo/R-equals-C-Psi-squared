@@ -154,6 +154,73 @@ if (args.Length > 0 && args[0] == "mirror")
     return;
 }
 
+// ---- run mode "group": the mirror group and its antilinear double ----
+// F118 + F119 (adopted 2026-07-04): the palindromizer factors, Pi_Z = R o D, and the two generators
+// close into the dihedral D4 -- eight signed permutations of the Pauli basis, compared exactly. The
+// palindrome splits along the generators (D carries the Hamiltonian sign, R carries the constant),
+// the polarity cube's three axes are characters, and the antilinear triangle (theta, conj, dagger)
+// docks on as the double D4 x Z2 with the transport law as its engine.
+if (args.Length > 0 && args[0] == "group")
+{
+    int gn = args.Length > 1 ? int.Parse(args[1]) : 3;
+    var gworld = new World();
+    var group = new MirrorGroup(gworld, gn);
+    var gammas = Enumerable.Range(0, gn).Select(l => 0.3 + 0.2 * l).ToArray();
+
+    static string Ph(System.Numerics.Complex p)
+        => p == System.Numerics.Complex.One ? "" : p == -System.Numerics.Complex.One ? "-"
+         : p == System.Numerics.Complex.ImaginaryOne ? "i" : "-i";
+    static string Rule(MirrorGroup.Member m)
+        => string.Join("  ", "IXYZ".Select(c => { var (l, p) = m.ApplySite(c); return $"{c}->{Ph(p)}{l}"; }));
+
+    Console.WriteLine("the mirror group and its antilinear double (F118 + F119, adopted 2026-07-04)");
+    Console.WriteLine($"  sources docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md + PROOF_ANTILINEAR_TRIANGLE.md; N={gn}");
+    Console.WriteLine("  the palindromizer factors: Pi_Z = R o D (D the transpose, R the reflection rho -> rho*F).");
+    Console.WriteLine("  eight signed permutations of the Pauli basis -- the dihedral D4, phases in {1,-1,i,-i}:");
+    var eight = new (MirrorGroup.Member M, string Form)[]
+    {
+        (MirrorGroup.Identity, "rho"), (MirrorGroup.PiZ, "rho^T * F"), (MirrorGroup.F, "F rho F"),
+        (MirrorGroup.PiY, "F * rho^T"), (MirrorGroup.D, "rho^T"), (MirrorGroup.FD, "F rho^T F"),
+        (MirrorGroup.R, "rho * F"), (MirrorGroup.FR, "F rho"),
+    };
+    foreach (var (m, form) in eight)
+        Console.WriteLine($"    {m.Name,-4} {form,-10}  {Rule(m)}");
+
+    Console.WriteLine($"  closure |<R,D>| = {MirrorGroup.Closure(MirrorGroup.R, MirrorGroup.D).Count}; " +
+        $"Pi_Z = R o D: {MirrorGroup.Compose(MirrorGroup.R, MirrorGroup.D).Equals(MirrorGroup.PiZ)}; " +
+        $"D Pi_Z D = Pi_Y (s r s = r^-1): {MirrorGroup.Compose(MirrorGroup.D, MirrorGroup.Compose(MirrorGroup.PiZ, MirrorGroup.D)).Equals(MirrorGroup.PiY)}");
+    Console.WriteLine($"  all eight forms vs their operators, every string at N={gn}: worst residual {group.EightFormsWorstResidual():E1}");
+    var (right, wrong) = group.PiZOnRho();
+    Console.WriteLine($"  Pi_Z on a full rho: rho^T * F holds at {right:E1}; the wrong-sided F * rho^T is rejected at {wrong:0.0}");
+
+    var (dH, dDiss, rH, rDiss) = group.PalindromeSplitResiduals(j: 1.0, delta: 0.7, gammas: gammas);
+    Console.WriteLine();
+    Console.WriteLine("  the palindrome splits along the generators (XXZ delta=0.7, site-dependent gamma, full basis):");
+    Console.WriteLine($"    D  flips L_H (D L_H D = -L_H):              {dH:E1}      D  fixes the dissipator: {dDiss:E1}");
+    Console.WriteLine($"    R  fixes L_H:                               {rH:E1}      R  reflects it, carrying the constant");
+    Console.WriteLine($"       (R L_diss R = -L_diss - 2*sigma):        {rDiss:E1}   -- the same constant Mirror pays as its price.");
+
+    Console.WriteLine();
+    Console.WriteLine("  the cube of characters: bit_a = char(Ad_Z^N), bit_b = char(Ad_X^N = F), y_par = char(D);");
+    int truly = PauliMode.Enumerate(gworld, gn, 0.5).Count(m =>
+        MirrorGroup.D.Apply(m.Letters).Phase == System.Numerics.Complex.One
+        && MirrorGroup.FD.Apply(m.Letters).Phase == System.Numerics.Complex.One);
+    Console.WriteLine($"  the truly cell = the joint-fixed cell of the diagonal mirror pair (D, FD): {truly} of {1 << (2 * gn)} strings at N={gn}.");
+
+    var triangle = new AntilinearTriangle(gworld, gn);
+    Console.WriteLine();
+    Console.WriteLine("  the antilinear triangle (theta transpose, conj bar, dagger adjoint; dagger = theta o conj):");
+    Console.WriteLine("    graded by ell (linearity) and m (multiplicativity): theta (+,-), conj (-,+), dagger (-,-);");
+    Console.WriteLine($"    the transport law mu o L_H o mu = ell*m * L_(mu H), non-Hermitian H: worst {triangle.TransportWorstResidual():E1}");
+    Console.WriteLine($"    the dephasing dissipator is fixed by all three: worst {triangle.DissipatorFixedWorstResidual(gammas):E1}");
+    var (herm, nonHerm) = triangle.FixedPointCollapse();
+    Console.WriteLine($"    fixed-point collapse H^T = H-bar iff H = H-dagger: Hermitian {herm:E1}, non-Hermitian split {nonHerm:0.0}");
+    var doubled = MirrorGroup.Closure(MirrorGroup.R, MirrorGroup.D, MirrorGroup.K);
+    Console.WriteLine($"    the double <R, D, K>: order {doubled.Count}, antilinear members {doubled.Count(m => m.Antilinear)} -- D4 x Z2.");
+    Console.WriteLine("  (deliberately outside, named open in F118: the letter group S3; adjoining it would assemble S3 x| D4.)");
+    return;
+}
+
 // ---- run mode "anti": the rules turned around ----
 // The mirror's rho-level face: run the SAME living world twice, once watching disagreement (the rule,
 // rate -2*gamma*k) and once watching AGREEMENT (the rule turned around, rate -2*gamma*(N-k)). The
