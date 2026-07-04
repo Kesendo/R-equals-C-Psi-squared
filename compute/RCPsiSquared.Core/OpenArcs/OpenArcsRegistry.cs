@@ -794,7 +794,11 @@ public static class OpenArcsRegistry
                 "(harmless for seeds): grazes and real-real crossings make no net count change. " +
                 "NUMBERING TRAP: the proof's remainders are R1-R4 above; the '(a)/(b)/(c) next " +
                 "candidates' near the bottom are the Era-2 to-do (a=complex-q PARTIAL: near-axis CLOSED by the moved window, deep loci → resultant; b=window-edge CLOSED, c=D-half CLOSED)," +
-                "and are NOT the Era-1 '(a)-(d)' connection-directions at the top of the journal. TERMS: R = the site reflection i↦N−1−i, the involution " +
+                "and are NOT the Era-1 '(a)-(d)' connection-directions at the top of the journal. TERMS: Klein = the " +
+                "full flip X^tensor-N, the unitary block map (p,w)->(N-p,N-w) at the SAME q (spec-preserving); corner " +
+                "cert = the fold-resultant certificate against the corner block (CertifyComplete: mu not in " +
+                "spec(corner)); identity cert = its identity-composition sibling against (1,1) (CertifyBlockExclusion " +
+                "with composeA=+1: lambda_A not in spec(1,1)); R = the site reflection i↦N−1−i, the involution " +
                 "commuting with every chain block; R-even/R-odd = its ±1 eigenspaces (F89PathKSeDeBlock.ReflectionPermutation); " +
                 "W = the intertwiner Σc_l†ρc_l THROUGHOUT this entry (the mod-p 2-cycle basis is B, never W); A/C/K = the block pencil " +
                 "L(q)=A+qC (A=-2*diag(n_diff) real diagonal, C anti-Hermitian hop, K=iC Hermitian); the -6 floor = the (1,2) " +
