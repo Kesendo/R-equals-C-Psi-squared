@@ -145,16 +145,26 @@ public static class SectorWitnessTransport
         if (v1 is null || v2 is null) throw new ArgumentNullException(v1 is null ? nameof(v1) : nameof(v2));
         if (v1.Length != d || v2.Length != d) throw new ArgumentException("plane vectors must have length block.Dim");
 
-        // 2-column orthonormalization of {v1,v2} (well-conditioned invariant subspace; [N3])
+        // 2-column orthonormalization of {v1,v2} (well-conditioned invariant subspace; [N3]).
+        // Degenerate-plane fallbacks: a 0.0 return would assert σ_min ≤ 0, fabricating a PERFECT member
+        // signal on a numerically collapsed plane (the dangerous silent direction); the 1-plane residual
+        // ‖(L−s)q‖ of the surviving vector stays a legitimate from-above certificate, and if both
+        // vectors collapse the honest non-answer is +∞, which can never classify as a member.
         var q1 = (Complex[])v1.Clone();
         var q2 = (Complex[])v2.Clone();
         double n1 = Norm(q1);
-        if (n1 == 0) return 0.0;
+        if (n1 == 0)
+        {
+            double n2Alone = Norm(q2);
+            if (n2Alone == 0) return double.PositiveInfinity;               // both collapsed: honest non-answer
+            Scale(q2, 1.0 / n2Alone);
+            return OnePlaneResidual(block, shift, q2);                      // v1 collapsed: 1-plane bound on v2
+        }
         Scale(q1, 1.0 / n1);
         Complex proj = Inner(q1, q2);                                       // <q1,q2>
         for (int i = 0; i < d; i++) q2[i] -= proj * q1[i];
         double n2 = Norm(q2);
-        if (n2 == 0) return 0.0;                                            // degenerate plane
+        if (n2 == 0) return OnePlaneResidual(block, shift, q1);             // plane degenerated to a line
         Scale(q2, 1.0 / n2);
 
         // two sparse shifted matvecs: M = [w1 w2] = (L - s) Q
@@ -170,6 +180,16 @@ public static class SectorWitnessTransport
         Complex r11 = HouseholderColumn(w2, 1, d, out _, out _);
 
         return SigmaMin2x2(r00, r01, r11);
+    }
+
+    /// <summary>The 1-plane from-above residual ‖(L−shift)·q‖ of a UNIT vector q: the degenerate-plane
+    /// fallback of <see cref="TwoPlaneResidual"/> (min over the line instead of the plane, still an
+    /// upper bound on σ_min since ‖(L−s)q‖ ≥ σ_min for any unit q).</summary>
+    private static double OnePlaneResidual(WeightCoherenceSectorCsr.Csr block, Complex shift, Complex[] q)
+    {
+        var y = new Complex[block.Dim];
+        CsrOps.MultiplyShifted(block, shift, q, y);
+        return Norm(y);
     }
 
     /// <summary>Stable smallest singular value of the 2×2 upper-triangular R = [[a,b],[0,c]]. det R = a·c,

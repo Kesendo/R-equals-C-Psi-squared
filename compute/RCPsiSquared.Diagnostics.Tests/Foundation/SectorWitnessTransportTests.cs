@@ -129,14 +129,18 @@ public sealed class SectorWitnessTransportTests
     }
 
     // ---------------------------------------------------------------------------------------------
-    // Test (iii): end-to-end at the N=5 seed q*=0.620878. MemberUpperBounds returns exactly the
-    // ExpectedMembers(5) keys; each bound is a deep FROM-ABOVE reading (< memberTol/100) and stays
-    // within a factor 2 of the dense reference (>= 0.5·dense). Ratios recorded, never gating.
+    // Test (iii): end-to-end at BOTH N=5 seed parities (R-even q*=0.620878, R-odd q*=0.643037; the
+    // R-odd run cross-checks that carriedOdd feeds the correct sector into the dense reference).
+    // MemberUpperBounds returns exactly the ExpectedMembers(5) keys; each bound is a deep FROM-ABOVE
+    // reading (< memberTol/100) and stays within a factor 2 of the dense reference (>= 0.5·dense).
+    // Ratios recorded, never gating.
     // ---------------------------------------------------------------------------------------------
-    [Fact]
-    public void MemberUpperBounds_N5_EndToEnd()
+    [Theory]
+    [InlineData(0.620878, +1)]   // the R-even seed
+    [InlineData(0.643037, -1)]   // the R-odd seed
+    public void MemberUpperBounds_N5_EndToEnd(double qStar, int rParity)
     {
-        var seed = RealDefectiveSeeds.ForN(5).Single(s => Math.Abs(s.QStar - 0.620878) < 1e-6);
+        var seed = RealDefectiveSeeds.ForN(5).Single(s => Math.Abs(s.QStar - qStar) < 1e-6 && s.RParity == rParity);
         var (qRefined, lambda, pairGap) = SectorShellCensus.RefineSeed(seed);
         var q = new Complex(qRefined, 0);
         var mu = -lambda - 2.0 * 5;
