@@ -160,9 +160,14 @@ public sealed class SpectatorIntertwinerClaim : Claim
                 summary: "one climbing W-step + transpose + Klein full flip + F89d cross-fold reproduce the census braid " +
                          "sets exactly: N=4 the 4-orbit, N=5 the 12-set with cores (2,2),(3,3), N=6 the 12-set without " +
                          "(3,3); diagonal core (p,p) iff |2p−N| = 1 (iff N odd); size 4N−8 (odd) / 4N−12 (even). " +
-                         "CONTAINMENT direction only: the exclusion half stays census-evidence except at the normal edge " +
-                         "and at the N=5 seed locus q*=0.620878, where the rate window derives it in full (proof §6, " +
-                         "gate item 8; condition Re λ_A ∈ (−6,−4), so the second real locus is not covered).");
+                         "CONTAINMENT direction only: the exclusion half is DERIVED at N=5 (the R4 close: boundary " +
+                         "normality + the certificate pair on the interior four, proof §7 scoping) and census-evidence " +
+                         "beyond — since 2026-07-04 through N=9 IN FULL (the step-3 σ_min shell census: all 7 real " +
+                         "seeds PASS, membership = this corollary's diamond, shared-λ separation ≥ ×4.8e8) and N=11 " +
+                         "in part (2 seeds PARTIAL-clean; four members + two cores deferred behind the LP64 wall). " +
+                         "The census's first light also derived the R-parity grading of the W-step: R·W = " +
+                         "(−1)^{p+w}·W·R (JW-string reflection), the carried parity ALTERNATING along the band chain " +
+                         "(proof §7; gate SectorShellCensusTests).");
         }
     }
 }

@@ -602,9 +602,38 @@ public static class OpenArcsRegistry
                 "GaloisMonodromyWitness.TraceToDiabolic, and gmscan --trace [--tq q] [--tsteps n] (gate-first: " +
                 "prints PASS / CONFIRMED). " +
                 "Here is where we continue hand-over-hand.",
-            NextStep: "RESUMING IN ONE LINE (2026-07-03, post R4-interior close) [symbols lambda_A, mu, corner/" +
-                "identity cert, Klein, R-parity: see the TERMS block at the END of this header -- cold-read fix " +
-                "2026-07-04]: ALL FOUR remainders of the " +
+            NextStep: "RESUMING IN ONE LINE (2026-07-04, post step-3 shell census) [symbols: see the TERMS block at " +
+                "the END of this header]: STEP 3 OF THE LARGE-N EXCLUSION PROGRAM IS RUN AND LANDED. The instrument " +
+                "(SectorShellCensus + ShiftedSigmaMin + BlockLattice + RealDefectiveSeeds + the general (p,w) R-parity " +
+                "sectors on WeightCoherenceBlock; CLI 'shellcensus'; gates SHELLCENSUS / SLOW_SHELLCENSUS / " +
+                "SHELLCENSUS_ADJUDICATE) probes sigma_min(L(p,w)(q*) - s) for s in {lambda_A, mu} on the " +
+                "fundamental-domain strip, window-gated, R-parity split (~1/4 LU cost), seed refined in-parity to " +
+                "pairGap ~1e-6, member cut adaptive at 10*pairGap. VERDICT: N=9 PASS at ALL 7 seeds (membership = the " +
+                "containment diamond; members read the Jordan pseudospectrum depth ~(gap/2)^2 = 3e-14..5.5e-13; " +
+                "nearest non-member 2.5e-4..2.6e-2; separation x4.8e8..x4.6e11); N=11 PARTIAL-clean at 2 seeds (one " +
+                "per parity; 6/10 members probeable, all ~e-13; DEFERRED by name behind the managed-LP64 wall " +
+                "(dim<=46340): members (4,5),(5,6)xlambda_A + (4,6),(5,5)xmu and cores (4,4),(4,7)). " +
+                "THREE new derived/measured structures: (1) the R-PARITY ALTERNATION LAW R*W = (-1)^{p+w}*W*R (the " +
+                "JW string reflects from the other end, R c_l R = P_Z c_{N-1-l}; P_Z rho P_Z = (-1)^{p+w}) -- every " +
+                "band step flips the carried parity, fold/transpose preserve it, diagonal climbs commute strictly " +
+                "(the corner-sector argument below is untouched); measured at first light, then derived; in proof " +
+                "section-7 + the census doc. (2) The DENSITY-NEIGHBOR reading: the nearest non-member sigma_min is " +
+                "itself a W-nested background eigenvalue (identical value along (2,2)<=(3,3)<=(4,4) + folds), " +
+                "reported per seed as 'spectrally near', excluded in the sharing sense. (3) The 2026-07-03 scout's " +
+                "'NEW N=9 seed q*=1.4994' is ADJUDICATED OUT: semisimple real-real crossing (linear gap exponent " +
+                "2.0, not sqrt 1.41; ProbeDefectiveAnywhere reads no defective cluster) = the count-change census's " +
+                "declared blind-spot class, so the 7-entry N=9 seed list was right; gate ScoutSeedAdjudicationProbe. " +
+                "Results: experiments/F89_MULTI_SECTOR_MONODROMY.md (the shell-census section) + " +
+                "simulations/results/sector_shell_census/*.csv; proof open-item 4 updated; F125 updated. " +
+                "NEXT (the program's remaining surface): (a) the MATRIX-FREE sigma_min path (SparseShiftInvertArnoldi " +
+                "exists, CSR emission of the sector blocks to build) for the six deferred N=11 blocks + the remaining " +
+                "7 N=11 seeds (one CLI command each, ~19 min/seed) + N=13/15; (b) the seed census past N=11 " +
+                "(FindRealDefectiveByCountChange, SLOW at N=13); (c) step 4 = the N=7 certificate as spot-check of " +
+                "the surviving shell (bivariate cost probe FIRST) and the complex loci (certificate territory). " +
+                "HONESTY SCOPE (keep in every restatement): the sigma_min census is SHARED-LAMBDA evidence (estimate " +
+                "converges from above; not the EpCharacter Jordan-character reading, not a certificate). " +
+                "=== JOURNAL 2026-07-03 (post R4-interior close; symbols lambda_A, mu, corner/identity cert, Klein, " +
+                "R-parity: the TERMS block at the END) BELOW === ALL FOUR remainders of the " +
                 "codim-1-by-additivity proof are CLOSED AT N=5 [R1 = interior-core kernel death: rate window (real) " +
                 "+ moved window (near-axis) + fold-resultant certificate (every other branch locus); R2 = Theorem " +
                 "A's D-half: twin-scalar; R3 = gap byte-identity: the full-spectrum holomorphic fold; R4 = the " +
