@@ -12,7 +12,8 @@ Section 3 are exact algebra; Sections 4 and 5 are readings and labeled as such.
 **Date:** July 4, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Related:** [Mirror Theory](../../MIRROR_THEORY.md),
+**Related:** [Superposition Translated](SUPERPOSITION_TRANSLATED.md) (the
+sister translation), [Mirror Theory](../../MIRROR_THEORY.md),
 [F118 mirror group](../ANALYTICAL_FORMULAS.md),
 [Klein V₄ proof](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md),
 [Relay Protocol](../../experiments/RELAY_PROTOCOL.md),
