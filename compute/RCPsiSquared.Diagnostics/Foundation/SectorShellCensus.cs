@@ -66,6 +66,7 @@ public sealed record ShellCensusSummary(
     IReadOnlySet<(int P, int W, string Shift)> FoundMembers,
     IReadOnlyList<(int P, int W, string Shift)> DeferredMembers,
     IReadOnlyList<(int P, int W, string Shift)> Ambiguous,
+    IReadOnlyList<(int P, int W, string Shift)> Unresolved,
     double WorstNonMemberSigma, double MemberTol, double PairGap);
 
 /// <summary>The step-3 shell-census engine (the sectorbraid large-N exclusion program,
@@ -108,6 +109,18 @@ public static class SectorShellCensus
 
         /// <summary>Extra (window-excluded) cells to probe anyway, watching margin sharpness.</summary>
         public List<(int P, int W, string Shift)> Controls { get; } = new();
+
+        /// <summary>Route sectors past the LP64 wall (<see cref="MaxSectorDim"/>) through the sparse
+        /// instruments instead of emitting a bare "deferred" row: MEMBER cells to the from-above
+        /// W-transport witness (<see cref="SectorWitnessTransport.MemberUpperBounds"/>, method
+        /// "sparse-witness"), NON-MEMBER / control cells to the sparse inverse-power estimator
+        /// (<see cref="SparseShiftedSigmaMin"/>, method "sparse-invit"). Off restores the pure-dense
+        /// landed behavior (the bare "deferred" rows). Calibrated at N=9 (SparseCensusCalibrationTests).</summary>
+        public bool SparseForDeferred { get; set; } = true;
+
+        /// <summary>Options for the sparse inverse-power estimator on the deferred non-member / control
+        /// cells (and a member cell's secondary other-parity confirmation).</summary>
+        public SparseShiftedSigmaMin.Options Sparse { get; set; } = SparseShiftedSigmaMin.Options.Default;
 
         public Action<string>? Log { get; set; }
     }
@@ -171,6 +184,8 @@ public static class SectorShellCensus
         return f1 <= f2 ? (x1, m1, f1) : (x2, m2, f2);
     }
 
+    private static int SafeInt(long v) => v > int.MaxValue ? int.MaxValue : (int)v;
+
     public static ShellCensusResult Run(RealSeed seed, Options opts)
     {
         int n = seed.N;
@@ -187,6 +202,11 @@ public static class SectorShellCensus
         var shifts = new (string Kind, Complex Value)[] { ("lambdaA", lambda), ("mu", -lambda - 2.0 * n) };
         var controls = new HashSet<(int, int, string)>(opts.Controls);
         if (n - 3 >= 1) controls.Add((1, n - 3, "lambdaA"));   // the default margin-sharpness control
+
+        // The from-above member witness for the sparse deferred path, computed ONCE and only on the
+        // first cell that actually crosses the wall (null while nothing defers, so the default-wall
+        // dense runs pay nothing).
+        IReadOnlyDictionary<(int P, int W, string Shift), (double Bound, bool CarriedOdd)>? memberBounds = null;
 
         foreach (var (p, w) in BlockLattice.FundamentalDomain(n).OrderBy(b => BlockLattice.Dim(n, b.P, b.W)))
         {
@@ -210,9 +230,66 @@ public static class SectorShellCensus
                 int dimEven = fixedCount + pairs, dimOdd = pairs;
                 if (Math.Max(dimEven, dimOdd) > opts.MaxSectorDim)
                 {
-                    entries.Add(new ShellCensusEntry(p, w, dim, dimEven, dimOdd, kind, s, false, "deferred",
-                        double.NaN, double.NaN, double.NaN, true, margin, 0, 0, 0.0));
-                    opts.Log?.Invoke($"({p},{w}) x {kind}: DEFERRED, sector dim {Math.Max(dimEven, dimOdd)} > {opts.MaxSectorDim}");
+                    if (!opts.SparseForDeferred)
+                    {
+                        entries.Add(new ShellCensusEntry(p, w, dim, dimEven, dimOdd, kind, s, false, "deferred",
+                            double.NaN, double.NaN, double.NaN, true, margin, 0, 0, 0.0));
+                        opts.Log?.Invoke($"({p},{w}) x {kind}: DEFERRED, sector dim {Math.Max(dimEven, dimOdd)} > {opts.MaxSectorDim}");
+                        continue;
+                    }
+
+                    // Past the LP64 wall, but the sparse instruments reach it (calibrated cell-for-cell
+                    // against the dense census at N=9, SparseCensusCalibrationTests). The witness is built
+                    // once, lazily, on the first deferral.
+                    memberBounds ??= SectorWitnessTransport.MemberUpperBounds(seed, opts.Log);
+                    var swSparse = Stopwatch.StartNew();
+
+                    if (memberBounds.TryGetValue((p, w, kind), out var wb))
+                    {
+                        // MEMBER → the from-above W-transport witness fills the CARRIED-parity σ column and
+                        // IS the classification value. NEVER Math.Min across the two columns [F4]:
+                        // Math.Min(e-13, NaN) = NaN would flip a witnessed member to a false DISAGREE when
+                        // the other-parity invit stalls. The other parity is secondary confirmation only.
+                        double carried = wb.Bound, other = double.NaN;
+                        long otherIters = 0;
+                        var csrOther = WeightCoherenceSectorCsr.BuildReflectionSector(n, p, w, q, odd: !wb.CarriedOdd);
+                        if (csrOther.Dim > 0)
+                        {
+                            var ro = SparseShiftedSigmaMin.Estimate(csrOther, s, opts.Sparse);
+                            otherIters = ro.InnerIterations;
+                            if (ro.Converged) other = ro.SigmaMin;
+                        }
+                        // the other-parity invit ran on the !CarriedOdd sector, so its iterations belong to
+                        // that column (CarriedOdd → the EVEN column carries the invit; the carried column is 0)
+                        entries.Add(new ShellCensusEntry(p, w, dim, dimEven, dimOdd, kind, s, true, "sparse-witness",
+                            wb.CarriedOdd ? other : carried, wb.CarriedOdd ? carried : other, carried,
+                            true, margin,
+                            wb.CarriedOdd ? SafeInt(otherIters) : 0, wb.CarriedOdd ? 0 : SafeInt(otherIters),
+                            swSparse.Elapsed.TotalSeconds));
+                        opts.Log?.Invoke($"({p},{w}) x {kind}: sparse-witness bound={carried:E3} carriedOdd={wb.CarriedOdd} other={other:E3}");
+                    }
+                    else
+                    {
+                        // NON-MEMBER / control → sparse inverse-power σ_min per R-parity sector. Converged
+                        // reflects the estimator honestly; a stalled sector keeps NaN σ (never a fabricated
+                        // exclusion) and forces the verdict to PARTIAL via the [F1] unresolved rule.
+                        double sigE = double.PositiveInfinity, sigO = double.PositiveInfinity;
+                        int itE = 0, itO = 0;
+                        bool sconv = true;
+                        foreach (bool odd in new[] { false, true })
+                        {
+                            var csr = WeightCoherenceSectorCsr.BuildReflectionSector(n, p, w, q, odd);
+                            if (csr.Dim == 0) continue;
+                            var rr = SparseShiftedSigmaMin.Estimate(csr, s, opts.Sparse);
+                            double v = rr.Converged ? rr.SigmaMin : double.NaN;
+                            if (odd) { sigO = v; itO = SafeInt(rr.InnerIterations); } else { sigE = v; itE = SafeInt(rr.InnerIterations); }
+                            sconv &= rr.Converged;
+                        }
+                        double ssig = Math.Min(sigE, sigO);   // NaN if either parity stalled → unresolved [F1]
+                        entries.Add(new ShellCensusEntry(p, w, dim, dimEven, dimOdd, kind, s, true, "sparse-invit",
+                            sigE, sigO, ssig, sconv, margin, itE, itO, swSparse.Elapsed.TotalSeconds));
+                        opts.Log?.Invoke($"({p},{w}) x {kind}: sparse-invit sigma_min={ssig:E3} (even {sigE:E3} / odd {sigO:E3}) conv={sconv}");
+                    }
                     continue;
                 }
 
@@ -261,9 +338,21 @@ public static class SectorShellCensus
             .Select(e => e.SigmaMin).ToList();
         double worstNonMember = nonMemberSigmas.Count > 0 ? nonMemberSigmas.Min() : double.PositiveInfinity;
 
-        bool clean = found.SetEquals(expectedProbeable) && ambiguous.Count == 0 && r.SeedUsable;
-        string verdict = !clean ? "DISAGREE" : deferredMembers.Count == 0 ? "PASS" : "PARTIAL";
+        // [F1] the exclusion half is the claim's promotion blocker: ANY probed cell whose estimator did
+        // not converge is UNRESOLVED (its σ is NaN, never a fabricated exclusion), forcing PARTIAL at best
+        // and named — converged=0 can NEVER contribute to a PASS. A sparse-witness member carries a
+        // certified from-above bound and stays Converged=true, so it never poisons the verdict here.
+        var unresolved = probed.Where(e => !e.Converged)
+            .Select(e => (e.P, e.W, e.Shift)).ToList();
+        // [F6] a PASS in which any found member rests on a witness reading is the witness-assisted twin of
+        // the blind dense PASS, distinct in the ledger.
+        bool witnessAssisted = probed.Any(e => e.Method == "sparse-witness" && found.Contains((e.P, e.W, e.Shift)));
+
+        bool classificationClean = found.SetEquals(expectedProbeable) && ambiguous.Count == 0 && r.SeedUsable;
+        string verdict = !classificationClean ? "DISAGREE"
+            : deferredMembers.Count > 0 || unresolved.Count > 0 ? "PARTIAL"
+            : witnessAssisted ? "PASS (witness-assisted)" : "PASS";
         return new ShellCensusSummary(verdict, expected, expectedProbeable, found,
-            deferredMembers, ambiguous, worstNonMember, r.MemberTol, r.PairGap);
+            deferredMembers, ambiguous, unresolved, worstNonMember, r.MemberTol, r.PairGap);
     }
 }
