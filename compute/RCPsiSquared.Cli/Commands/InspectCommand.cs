@@ -736,6 +736,14 @@ public static class InspectCommand
             RequiresN: false, HonorsOptionalN: true),
         new("selfmirror", "the self-mirror fixed point AS AN OBJECT (the jump: the System bears x/y/z, the Object inherits it). It does NOT own x/y/z (z=watched Re λ, x-y=motion Im λ, σ=center, all the system's); its only delta is BEING the F1 fixed point Re λ = −σ, the k=N/2 self-mirror rung (even-N populated, odd-N empty)",
             c => BuildSelfMirrorRoot(c.Parser, c.Parser.HasFlag("N") ? c.N : 4), RequiresN: false, HonorsOptionalN: true),
+        new("seedcount", "the seed-existence counting theorem live: r(0⁺) − r(∞) = N − 1 (odd N) on the (1,2) " +
+            "block via the three counting lemmas: (N2) the −2 rung = N−1 paths of N vertices, (FF) nullity(C) " +
+            "= the fusion-resonance count, (N1′) the ordering-sector theorem (K₆ = three no-passing sectors " +
+            "gauged to −H₃, spec(K₆) = 3×{−(λa+λb+λc)}). SVD nullities + combinatorial counts + the exact-zero " +
+            "cross-sector/gauge gates + two-sided nonzero controls, recomputed at inspect time; odd N ≤ 9 " +
+            "(typed: SeedExistenceCountingClaim)",
+            c => new SeedExistenceCountingWitness(c.Parser.HasFlag("N") ? c.N : 5),
+            RequiresN: false, HonorsOptionalN: true),
         new("world", "the whole Object Manager: every root, the typed claims, the hardware confirmations, the open-arcs ledger, and the glossary (try --root glossary first if the language is new)",
             BuildWorldRoot, DefaultDepth: 2, RequiresN: false),
     };

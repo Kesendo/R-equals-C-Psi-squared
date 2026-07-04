@@ -369,6 +369,15 @@ public static class KnowledgeRegistryFactory
             // (directly above) + AbsorptionTheoremClaim (registered earlier), both Tier1Derived. The theorem behind
             // the multi-sector verdict's byte-identical shared lambda; gate SpectatorIntertwinerGateTests (SLOW_MSM).
             .RegisterSpectatorIntertwinerClaim()
+            // Seed-existence counting theorem (the sectorbraid arc's existence side, 2026-07-04): the census
+            // input of the containment corollary as a theorem, r(0+) - r(inf) = N - 1 for every odd N on the
+            // (1,2) block, via (N2) the -2 rung = N-1 paths of N vertices, (FF) nullity(C) = the fusion-resonance
+            // count, and (N1') the ordering-sector theorem (K6 = three no-passing sectors, each gauged to -H3;
+            // spec(K6) = 3 x {-(la+lb+lc)}; D = 0 by cyclotomic integrality). Parents: AbsorptionTheoremClaim
+            // (the -2/-6 rung diagonal) + ChiralKClaim (the pairing behind the 3-to-1 bijection), both
+            // Tier1Derived. The seed-existence CONCLUSION stays open at the codim-2 beta-exotic genericity.
+            // Live: inspect --root seedcount; verifier simulations/seed_existence_nullity_check.py.
+            .RegisterSeedExistenceCountingClaim()
             .RegisterF89OcticMonodromyClaim()
             // Multi-sector monodromy verdict (the sectorbraid arc, 2026-07-01): is the S_8 braid the (1,2) octic
             // carries LOCALIZED to (1,2) or SHARED across the joint-popcount sectors? N-dependent -- CONFINED to

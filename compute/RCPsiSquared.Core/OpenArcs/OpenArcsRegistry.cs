@@ -647,8 +647,11 @@ public static class OpenArcsRegistry
                 "adversarial reviews held it (exact arithmetic in Z[t]/Phi_2m + counterexample hunt to N=200; " +
                 "full-2^N spin rebuild with explicit JW strings). r(0+)-r(inf)=N-1 is now a THEOREM for every odd N. " +
                 "REMAINING OPEN on existence: the codim-2 beta-exotic genericity ONLY (a count-drop is defective " +
-                "unless the non-generic order-3 nilpotent-linear-term point); then: promote N2/FF/N1' to typed " +
-                "Claims + a live witness (DiabolicReflectionParityWitness template). Numerical honesty carried in " +
+                "unless the non-generic order-3 nilpotent-linear-term point). TYPED 2026-07-04: " +
+                "SeedExistenceCountingClaim (Tier1Derived, parents AbsorptionTheorem + ChiralK) + live " +
+                "SeedExistenceCountingWitness, inspect --root seedcount (SVD nullities + combinatorial rho/Z3 + " +
+                "the exact-zero cross-sector/gauge gates + two-sided nonzero controls, odd N <= 9). " +
+                "Numerical honesty carried in " +
                 "the doc: the near-miss law min|2*l_x+l_y| ~ 2*pi^3/(N+1)^3 caps the resonance tol 1e-7 at N~850 " +
                 "and the SVD floor 1e-9 at N~3959; (c) step 4 = the N=7 certificate as spot-check of " +
                 "the surviving shell (bivariate cost probe FIRST) and the complex loci (certificate territory). " +
