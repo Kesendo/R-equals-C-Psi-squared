@@ -627,7 +627,9 @@ public static class OpenArcsRegistry
                 "simulations/results/sector_shell_census/*.csv; proof open-item 4 updated; F125 updated. " +
                 "NEXT (the program's remaining surface): (a) the MATRIX-FREE sigma_min path (SparseShiftInvertArnoldi " +
                 "exists, CSR emission of the sector blocks to build) for the six deferred N=11 blocks + the remaining " +
-                "7 N=11 seeds (one CLI command each, ~19 min/seed) + N=13/15; (b) the seed census past N=11 " +
+                "7 N=11 seeds (one CLI command each, ~19 min/seed: dotnet run --project compute/RCPsiSquared.Cli -c " +
+                "Release -- shellcensus --n 11 --seed <qStar>; --all-seeds for a full N; seeds listed in " +
+                "RealDefectiveSeeds) + N=13/15; (b) the seed census past N=11 " +
                 "(FindRealDefectiveByCountChange, SLOW at N=13); (c) step 4 = the N=7 certificate as spot-check of " +
                 "the surviving shell (bivariate cost probe FIRST) and the complex loci (certificate territory). " +
                 "HONESTY SCOPE (keep in every restatement): the sigma_min census is SHARED-LAMBDA evidence (estimate " +
@@ -837,7 +839,22 @@ public static class OpenArcsRegistry
                 "(3,3) = the (p_c,p_c) diagonal block the intertwiner W maps into the corner; SE/DE = " +
                 "single/double-excitation weights, so the (1,2) 'octic' = the residual factor of the bra-1 ket-2 block (the HISTORICAL arc name: literally " +
                 "deg 8 only at N=4; at N=5 that same object is F_18);" +
-                "λ_A = the (1,2) defective eigenvalue, λ_B = −conj(λ_A)−2N its cross-fold partner (the value the cores carry at REAL q; off the real axis the cores carry the HOLOMORPHIC μ=−λ_A−2N, equal to λ_B on the real axis); live root inspect" +
+                "λ_A = the (1,2) defective eigenvalue, λ_B = −conj(λ_A)−2N its cross-fold partner (the value the cores carry at REAL q; off the real axis the cores carry the HOLOMORPHIC μ=−λ_A−2N, equal to λ_B on the real axis). " +
+                "TERMS ADDENDUM (2026-07-04, closing the step-3 cold read): the LARGE-N EXCLUSION PROGRAM = replace " +
+                "per-N certificates by structure for big N; step 1 = the FOLD-LATTICE LEMMA (proof section 7: D4 on " +
+                "the block lattice, membership/exclusion constant on orbits), step 2 = the WINDOW-SHELL LEMMA (proof " +
+                "section 6: Bendixson windows exclude everything outside two width-5 shells), step 3 = this census; " +
+                "the CONTAINMENT DIAMOND = the corollary member set, the band (p,p+1) with popcounts in [1,N-1] " +
+                "UNION its fold image (full size 4N-8 odd / 4N-12 even; the census counts FD representatives, 8 at " +
+                "N=9, 10 at N=11); FUNDAMENTAL DOMAIN (FD) = the quotient region p<=w, p+w<=N of that D4 action (an " +
+                "over-covering transversal); WINDOW-GATED = LU-probe a (block, shift) cell only where the block's " +
+                "Bendixson window contains Re s, elsewhere the shell lemma excludes analytically; BAND STEP / " +
+                "DIAGONAL CLIMB = the W-step along (p,p+1)->(p+1,p+2) resp. (p,p)->(p+1,p+1); W-NESTING = the " +
+                "containment embedding spec(p,w) subset spec(p+1,w+1) (Theorem B); c_l / P_Z = the Jordan-Wigner " +
+                "fermion (with string) at site l / the total Z-parity prod_j Z_j; pairGap = the refined (1,2) " +
+                "near-defective pair's eigenvalue gap (the member-noise floor); the LP64 WALL = managed Complex[] " +
+                "caps at 2^31 elements so dense flat matrices cap at dim 46340; EpCharacter = the Riesz-contour " +
+                "Jordan-character reader (defective vs semisimple) the N<=6 census used. Live root inspect " +
                 "--root sectorbraid. ===== JOURNAL (dated layers) BELOW ===== " +
                 "Hand-over-hand from here. (a) DONE 2026-06-27 (see ParkedAt): the q=2→q_EP continuity trace " +
                 "answered it, the +2.349 σ_T twin pair (strands 5,7) merges onto the fold at λ_EP=−4+1.318i, " +
