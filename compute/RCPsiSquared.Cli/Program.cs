@@ -41,6 +41,7 @@ public static class Program
                 "foldcross" => FoldCrossCommand.Run(rest),
                 "foldtopo" => FoldTopoCommand.Run(rest),
                 "pkmono" => PathKMonodromyScanCommand.Run(rest),
+                "shellcensus" => ShellCensusCommand.Run(rest),
                 "assembly" => AssemblyCommand.Run(rest),
                 "query" => QueryCommand.Run(rest),
                 "knowledge" => KnowledgeCommand.Run(rest),
@@ -119,6 +120,11 @@ public static class Program
         Console.WriteLine("                    classify each (semisimple vs defective), Re vs -4 (AT rung-2) vs -N (palindrome centre)");
         Console.WriteLine("              --delta-flip [--q re,im] [--lam re,im] [--deltas 0,0.02,..]: track a diabolic under XXZ");
         Console.WriteLine("                    anisotropy Delta; an integrable diabolic flips defective/lifts (--k 3 reproduces N=4)");
+        Console.WriteLine();
+        Console.WriteLine("  shellcensus the step-3 sectorbraid census: per-block sigma_min of {lambda_A, mu} on the");
+        Console.WriteLine("              fundamental-domain shell strip at the real defective seed loci (R-parity split,");
+        Console.WriteLine("              window-gated, LP64-deferred blocks named). Verdict PASS/PARTIAL/DISAGREE + CSV.");
+        Console.WriteLine("              args: --n <5|7|9|11> [--seed <qStar> | --all-seeds] [--max-sector-dim 46000] [--out dir]");
         Console.WriteLine();
         Console.WriteLine("  assembly    play the locked picture through a Q-sweep (depth=light=rate, parity rung,");
         Console.WriteLine("              Absorption cross-check, per-site carrier, birth-canal/sterile, saturation)");
