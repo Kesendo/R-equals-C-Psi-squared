@@ -276,6 +276,49 @@ if (args.Length > 0 && args[0] == "klein")
     return;
 }
 
+// ---- run mode "hardness": the hardness of the palindrome ----
+// The F87 bloc (adopted 2026-07-04): the spectral trichotomy truly/soft/hard, read WITHOUT a
+// spectrum -- the GF(2)[x] valuation (F115), the letter-parity purity rules (F107/F109), the cell
+// rules (F110/F111), and the trace face of the all-gamma converse (F117). Two independent
+// eigensolver-free certificates, shown agreeing on the K3 trio.
+if (args.Length > 0 && args[0] == "hardness")
+{
+    var hworld = new World();
+    var hardness = new Hardness(hworld);
+
+    Console.WriteLine("the hardness of the palindrome (the F87 bloc, adopted 2026-07-04)");
+    Console.WriteLine("  sources PROOF_F103_F87_Z2_CUBED_REFINEMENT.md sections 6-7 (+ 7.7 = F115), PROOF_F87_WINDOWED_");
+    Console.WriteLine("  MONOMIAL_CONVERSE.md section 5 (F117), PROOF_F107/F109; the spectral classifier itself stays outside.");
+    Console.WriteLine();
+    Console.WriteLine("  the valuation face (F115): a diagonal-cell pair is hard iff its X/Y window masks have");
+    Console.WriteLine("  DIFFERENT (1+x)-adic valuations -- the whole verdict in one subtraction. the K3 trio:");
+    var trio = new (string Name, ulong Mask)[] { ("XXZ", 0b011), ("XZX", 0b101), ("ZXX", 0b110) };
+    foreach (var (name, mask) in trio)
+        Console.WriteLine($"    {name}: mask {Convert.ToString((long)mask, 2).PadLeft(3, '0')} -> v = {Hardness.Valuation(mask)}");
+    foreach (var (i, j2) in new[] { (0, 2), (0, 1), (1, 2) })
+        Console.WriteLine($"    ({trio[i].Name}, {trio[j2].Name}): {(Hardness.IsHardPair(trio[i].Mask, trio[j2].Mask) ? "HARD" : "soft")}");
+    Console.WriteLine($"  hard mask-pairs (A203241) k=4,5,6: {Hardness.HardMaskPairCount(4)}, {Hardness.HardMaskPairCount(5)}, {Hardness.HardMaskPairCount(6)}; dressed: {Hardness.DressedHardCount(4)}, {Hardness.DressedHardCount(5)}, {Hardness.DressedHardCount(6)}");
+    Console.WriteLine($"  obstruction ceiling min(2W-1, 2k-3): k=3,W=2 -> {Hardness.ObstructionCeiling(3, 2)} (the always-triangle)");
+    Console.WriteLine();
+    Console.WriteLine("  the cube face: truly forces y_par=0 under every dephase letter (F107); the mother sector's");
+    Console.WriteLine("  non-truly side is all-odd, y_par=1 (F109); hard lives ONLY in the dephase letter's own Klein");
+    Console.WriteLine($"  cell -- Z->{Hardness.DiagonalCell('Z')}, X->{Hardness.DiagonalCell('X')}, Y->{Hardness.DiagonalCell('Y')} -- with the Y-inversion (F110):");
+    Console.WriteLine($"  k=3 split {Hardness.HardSplitK3} (N-stable, F103 = F105 bit-exact); k=N=4 fully pure 228:0 by the");
+    Console.WriteLine($"  pure-D template rule (F111): 528 pairs = {Hardness.TemplateDecompositionK4} (pure-pure + pure-mixed hard, mixed-mixed soft).");
+    Console.WriteLine();
+    Console.WriteLine("  the trace face (F117): odd power-sums of M = A + gamma*Q -- traces, never eigenvalues.");
+    double p3 = hardness.OddPowerSums(new[] { "ZII".ToCharArray() }, n: 3, j: 1.0, gamma: 0.5, upToOdd: 3)[1];
+    Console.WriteLine($"    the cell-free m=3 face, H = Z_0 at N=3: p_3 = {p3:0.0} = 6*4^N*gamma = {6.0 * 64 * 0.5:0.0} (any single-site Z breaks the palindrome at every gamma)");
+    var soft = hardness.OddPowerSums(new[] { "XXZ".ToCharArray(), "ZXX".ToCharArray() }, n: 4, j: 1.0, gamma: 0.5, upToOdd: 9);
+    var hard = hardness.OddPowerSums(new[] { "XXZ".ToCharArray(), "XZX".ToCharArray() }, n: 4, j: 1.0, gamma: 0.5, upToOdd: 9);
+    Console.WriteLine($"    soft (XXZ,ZXX) at N=4: p_1..p_9 = [{string.Join(", ", soft.Select(v => v.ToString("0.0###")))}] -- all vanish (spec symmetric)");
+    Console.WriteLine($"    hard (XXZ,XZX) at N=4: p_1..p_9 = [{string.Join(", ", hard.Select(v => v.ToString("0.0###")))}]");
+    Console.WriteLine($"    the deg-1 ladder is SILENT (p_7 = 0: silence is not softness); m* = 2*girth+3 = 9 fires through the");
+    Console.WriteLine($"    d=3 class: p_9 = {hard[4]:0} = 2064384 * gamma^3 (the F117 CRT integer, a single positive monomial:");
+    Console.WriteLine("    hard at EVERY gamma). the two certificates -- GF(2) valuation and integer traces -- agree pair for pair.");
+    return;
+}
+
 // ---- run mode "anti": the rules turned around ----
 // The mirror's rho-level face: run the SAME living world twice, once watching disagreement (the rule,
 // rate -2*gamma*k) and once watching AGREEMENT (the rule turned around, rate -2*gamma*(N-k)). The
