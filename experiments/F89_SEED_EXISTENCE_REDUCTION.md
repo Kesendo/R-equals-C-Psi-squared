@@ -71,8 +71,8 @@ them now proved.
 
 Parametrize the −2 states by ordered pairs (p, q), p ≠ q: |p,q⟫ = |{p,q}⟩⟨{p}|, with p the shared
 ket-and-bra site and q the ket-only site. The only XY hops that stay on the −2 rung give
-P₋₂ C P₋₂ = i·K_red with two edge types: a **q-hop** (the ket-only site moves, |p,q⟫ — |p,q±1⟫, weight
-−1) that cannot cross the shared site p, and a **swap** (|p,q⟫ — |q,p⟫, weight +1) only when |p − q| = 1.
+P₋₂ C P₋₂ = i·K_red with two edge types: a **q-hop** (the ket-only site moves, |p,q⟫ ↔ |p,q±1⟫, weight
+−1) that cannot cross the shared site p, and a **swap** (|p,q⟫ ↔ |q,p⟫, weight +1) only when |p − q| = 1.
 Because the q-hop cannot cross p, each fixed-p fiber splits into two segments, and the N − 1 swaps glue
 them into
 
