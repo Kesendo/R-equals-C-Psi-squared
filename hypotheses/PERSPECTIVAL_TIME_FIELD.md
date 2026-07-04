@@ -365,6 +365,22 @@ The fresh-eyes pass after the windowed-converse closure (the girth ladder and Pa
 
 ---
 
+## Update 2026-07-04: the canvases reach the label layer
+
+The painter picture acquired a second life outside the chain. The translation
+series in docs/quantum/ adopts this document as its theory chapter's
+foundation ([Labels Translated](../docs/quantum/LABELS_TRANSLATED.md)): a
+physics label ("teleportation", "superposition", "noise") is read as a
+canvas, perspective-true at the stance that painted it, and the failure mode
+of the popular vocabulary is stance-forgetting, a canvas inherited raw into a
+stance it was not painted from. This document is also the series' in-house
+precedent: "Site-Local Time" was a falsified label over surviving numbers,
+and the Naming note below is a label-recomputation protocol written before
+the series knew it needed one. This adds no claim and changes no tier; it
+records where the picture traveled.
+
+---
+
 ## Acceptance summary
 
 ### Positive core (survives)
