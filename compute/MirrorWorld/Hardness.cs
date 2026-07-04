@@ -23,8 +23,12 @@ namespace MirrorWorld;
 //                  min(2W-1, 2k-3). Pure bit arithmetic, checked in the main repo to k = 20.
 //   the traces  -- the all-gamma converse (F117) reads hardness from odd power-sums of the
 //                  recentered M = A + gamma Q: soft means every odd Tr(M^m) vanishes; hard fires
-//                  at m* = 2*girth + 1 with a Pascal-Gram sum of squares, so positive at EVERY
-//                  gamma. Traces, never eigenvalues -- Newton's identities stand in for spectra.
+//                  at m* = the FIRST odd m with Tr(M^m) != 0, a Pascal-Gram sum of squares, so
+//                  positive at EVERY gamma. The deg-1 girth face fires at 2*girth+1 only when
+//                  its moment t_girth != 0; when it is silent (silence is not softness) a higher
+//                  class fires, m* = 2*girth + deg with deg odd -- the K3 pair fires at
+//                  m* = 2*3 + 3 = 9. Traces, never eigenvalues -- Newton's identities stand in
+//                  for spectra.
 //
 // The one thing deliberately NOT adopted: the spectral classifier itself (F87's definition, the
 // F104 engine). It is the thing the certificates replaced; it stays in the main repo.
@@ -117,8 +121,9 @@ public sealed class Hardness : GameObject
 
     // ---- the trace face (F117): odd power-sums of the recentered M = A + gamma Q ----
     // A = -i[H,.] as a d^2 x d^2 matrix, Q = the dephasing frequency diagonal N - 2 popcount(i^j);
-    // spec(M) symmetric about 0 (soft) iff every odd Tr(M^m) vanishes; a hard pair fires at
-    // m* = 2*girth + 1, positive at every gamma (the Pascal-Gram sum of squares). Traces only.
+    // spec(M) symmetric about 0 (soft) iff every odd Tr(M^m) vanishes; a hard pair fires at the
+    // FIRST odd m with Tr(M^m) != 0 (m* = 2*girth + deg, deg odd; the deg-1 face only when its
+    // girth moment is nonzero), positive at every gamma (the Pascal-Gram sum of squares). Traces only.
     public double[] OddPowerSums(char[][] templates, int n, double j, double gamma, int upToOdd)
     {
         int d = 1 << n;

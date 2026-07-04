@@ -285,8 +285,8 @@ public static class Formulas
     // (lambda = e^{-4 gamma0 t}) while the populations stay, so the pair eigenvalues become
     // {1-2p, p(1+lambda), p(1-lambda), 0} and MI(p, t) = 2 h(p) - S_ab(p, lambda). lambda = 1
     // recovers F75 (S_ab = h(2p)); lambda = 0 gives S_ab = h(1-2p) + 2p. The 0.93 envelope at
-    // gamma0 = 0.05, t = 0.1 is the gamma0 signature, not a hidden constant (0.965 at gamma0 =
-    // 0.025, 0.868 at 0.10); Heisenberg mixing is second-order small (< 0.5%).
+    // gamma0 = 0.05, t = 0.1 is the gamma0 signature, not a hidden constant (0.964 at gamma0 =
+    // 0.025, 0.888 at 0.10, both at (5,2)); Heisenberg mixing is second-order small (< 0.5%).
     public static double F76_PairEntropy(double p, double lambda)
         => -XLog2(1.0 - 2.0 * p) - XLog2(p * (1.0 + lambda)) - XLog2(p * (1.0 - lambda));
     public static double F76_MirrorPairMI(double p, double lambda) => 2.0 * H2(p) - F76_PairEntropy(p, lambda);

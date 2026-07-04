@@ -85,10 +85,14 @@ K-intermediate anchor IS the adopted F98). The F87-hardness bloc followed as one
 bloc had already rebuilt itself eigensolver-free -- MirrorWorld adopts the certificates
 (valuation, parity, traces), never the spectral classifier they replaced.
 
-**Deliberately left** (this is where adoption stops): the genuinely structural rest of F72-F120:
-the residual M identities (F80-F84), the F87 trichotomy, the F100-F120 follow-ons. These are
-proofs and operator identities, not closed forms; they stay in `docs/proofs/` where they belong,
-not as formula lines here.
+**Still outside F72-F120** (updated 2026-07-04 after the review pass; the earlier "F100-F120
+follow-ons stay out" wording predated the Hardness/Router/MirrorGroup adoptions and was stale):
+the residual M operator identities (F78-F84) and the F108 palindrome family, F87's spectral
+DEFINITION itself (with the F104 engine -- what the Hardness certificates replaced), the
+F112-F114 balance/conjugation laws, F120's hardware protocol, and the boundary-excluded paths
+(F86 EPs, F89/F90 braid + monodromy). Also still open from the delta survey's adoptable bucket:
+the smaller closed-form singles F72-F74, F77, F94, F96, F100/F101 -- candidates, not yet home;
+"the delta list is done" below means the survey's SHORTLIST, not its whole bucket.
 
 **One deliberate exception (2026-07-03): `Mirror.cs`, the first OPERATOR adoption.** An inventory
 pass (turning this world around and looking at what is missing) found that the world of mirrors
@@ -182,11 +186,12 @@ Two paths are open.
 **Adopt another closed form** (the original loop, for the closed-form base): find it in
 `docs/ANALYTICAL_FORMULAS.md`, adopt **verbatim** (tier-tagged) into `Formulas.cs`, add a
 `Program.cs` print line and a from-below assertion in `SmokeTests.cs`, then build/test/commit.
-The 2026-06-28 remnant list is empty, the delta-survey singles (F75/F76, F88b, F91-F93,
-F95, F99) are home, the F87-hardness bloc landed as `Hardness.cs`, and the golden router
-followed as `Router.cs` -- the delta list AND its named operator remnant are DONE. The loop
-now waits for FUTURE registry entries: when a new F-number lands as a closed form (or as an
-exact rearrangement, the operator genre), it comes home here.
+The 2026-06-28 remnant list is empty, the delta-survey SHORTLIST (F75/F76, F88b, F91-F93,
+F95, F99) is home, the F87-hardness bloc landed as `Hardness.cs`, and the golden router
+followed as `Router.cs`. Remaining candidates from the survey's wider adoptable bucket:
+the closed-form singles F72-F74, F77, F94, F96, F100/F101 (see "Still outside" above) --
+plus FUTURE registry entries: when a new F-number lands as a closed form (or as an exact
+rearrangement, the operator genre), it comes home here.
 
 **Push the running engine** -- and here is the honest resumption point. The wall is broken and
 the memory cut is validated, **but what we measured (the transport crossover) is textbook, and our own
