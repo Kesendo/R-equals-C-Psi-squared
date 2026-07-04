@@ -170,4 +170,112 @@ public static class WeightCoherenceBlock
             }
         return perm;
     }
+
+    /// <summary>The site-reflection permutation R: the basis index of |a⟩⟨b| ↦ the index of |rev(a)⟩⟨rev(b)|
+    /// (rev = the n-site bit-order reversal). An involution; commutes ENTRY-WISE with the uniform chain block
+    /// at every q and Δ (the bond set is reflection-symmetric, each entry a single hop contribution). The
+    /// general-(wKet,wBra) sibling of <see cref="F89PathKSeDeBlock.ReflectionPermutation"/>; carrier of the
+    /// R-parity split the step-3 shell census uses as its LU-cost lever.</summary>
+    public static int[] ReflectionPermutation(int n, int wKet, int wBra)
+    {
+        var kets = Configs(n, wKet);
+        var bras = Configs(n, wBra);
+        var ketIndex = new Dictionary<int, int>();
+        var braIndex = new Dictionary<int, int>();
+        for (int i = 0; i < kets.Count; i++) ketIndex[kets[i]] = i;
+        for (int i = 0; i < bras.Count; i++) braIndex[bras[i]] = i;
+        var perm = new int[kets.Count * bras.Count];
+        int t = 0;
+        foreach (var k in kets)
+            foreach (var b in bras)
+                perm[t++] = ketIndex[ReverseBits(n, k)] * bras.Count + braIndex[ReverseBits(n, b)];
+        return perm;
+    }
+
+    static int ReverseBits(int n, int c)
+    {
+        int r = 0;
+        for (int s = 0; s < n; s++)
+            if (((c >> s) & 1) == 1) r |= 1 << (n - 1 - s);
+        return r;
+    }
+
+    /// <summary>One R-parity sector of the (wKet,wBra) chain block at complex q (γ = 1, Δ = 0), assembled
+    /// DIRECTLY in sector coordinates — the full block is never materialized, which is what fits the N=11
+    /// census blocks under the managed-array LP64 wall (flat dim ≤ 46340). Returns (column-major flat
+    /// matrix, sector dim). Sector basis: reflection fixed points e_f (even sector only, weight 1), then
+    /// 2-cycle combinations (e_t ± e_{Rt})/√2 for orbit reps t &lt; Rt, in increasing t — the same convention
+    /// as <see cref="F89PathKSeDeBlock.ROddBasis"/>. The basis is REAL orthonormal, so
+    /// spec(full) = spec(even) ⊎ spec(odd) exactly and σ_min(full − s) = min over the two sectors.</summary>
+    public static (Complex[] A, int Dim) BuildReflectionSectorColumnMajor(int n, int wKet, int wBra, Complex q, bool odd)
+    {
+        var kets = Configs(n, wKet);
+        var bras = Configs(n, wBra);
+        int nb = bras.Count;
+        var ketIndex = new Dictionary<int, int>();
+        var braIndex = new Dictionary<int, int>();
+        for (int i = 0; i < kets.Count; i++) ketIndex[kets[i]] = i;
+        for (int i = 0; i < bras.Count; i++) braIndex[bras[i]] = i;
+        var perm = ReflectionPermutation(n, wKet, wBra);
+
+        // orbit reps: fixed points (even only), then 2-cycle reps t < perm[t]; orbitOf = sector row or −1
+        var reps = new List<int>();
+        var orbitOf = new int[perm.Length];
+        Array.Fill(orbitOf, -1);
+        for (int i = 0; i < perm.Length; i++)
+        {
+            if (perm[i] == i) { if (!odd) { orbitOf[i] = reps.Count; reps.Add(i); } }
+            else if (i < perm[i]) { orbitOf[i] = orbitOf[perm[i]] = reps.Count; reps.Add(i); }
+        }
+        int d = reps.Count;
+        var a = new Complex[(long)d * d];
+        double sSign = odd ? -1.0 : 1.0;
+        double inv2 = 1.0 / Math.Sqrt(2.0);
+
+        // the exact column action of L on full-basis index fullCol, scaled by weight (the same hop rule
+        // as Build: diagonal −2·n_diff, ket hops −2iq, bra hops +2iq, nearest-neighbour, Pauli-excluded)
+        void ApplyColumn(int fullCol, Complex weight, Dictionary<int, Complex> acc)
+        {
+            int kc = kets[fullCol / nb], bc = bras[fullCol % nb];
+            AddTo(acc, fullCol, weight * new Complex(-2.0 * BitOperations.PopCount((uint)(kc ^ bc)), 0));
+            for (int site = 0; site < n; site++)
+                if ((kc & (1 << site)) != 0)
+                    foreach (int s2 in new[] { site - 1, site + 1 })
+                        if (s2 >= 0 && s2 < n && (kc & (1 << s2)) == 0)
+                            AddTo(acc, ketIndex[(kc & ~(1 << site)) | (1 << s2)] * nb + braIndex[bc],
+                                weight * Complex.ImaginaryOne * -2.0 * q);
+            for (int site = 0; site < n; site++)
+                if ((bc & (1 << site)) != 0)
+                    foreach (int s2 in new[] { site - 1, site + 1 })
+                        if (s2 >= 0 && s2 < n && (bc & (1 << s2)) == 0)
+                            AddTo(acc, ketIndex[kc] * nb + braIndex[(bc & ~(1 << site)) | (1 << s2)],
+                                weight * Complex.ImaginaryOne * 2.0 * q);
+        }
+
+        var acc = new Dictionary<int, Complex>();
+        for (int col = 0; col < d; col++)
+        {
+            acc.Clear();
+            int t = reps[col];
+            bool fixedPt = perm[t] == t;
+            double wNorm = fixedPt ? 1.0 : inv2;
+            ApplyColumn(t, wNorm, acc);
+            if (!fixedPt) ApplyColumn(perm[t], sSign * wNorm, acc);
+
+            foreach (var (fullRow, val) in acc)
+            {
+                int row = orbitOf[fullRow];
+                if (row < 0) continue;                            // row absent from this sector (odd ∌ fixed)
+                int rep = reps[row];
+                // coefficient of e_fullRow inside the row's REAL sector basis vector (no conjugation)
+                double coeff = perm[rep] == rep ? 1.0
+                             : (fullRow == rep ? inv2 : sSign * inv2);
+                a[(long)col * d + row] += coeff * val;
+            }
+        }
+        return (a, d);
+    }
+
+    static void AddTo(Dictionary<int, Complex> acc, int key, Complex v) =>
+        acc[key] = acc.TryGetValue(key, out var cur) ? cur + v : v;
 }
