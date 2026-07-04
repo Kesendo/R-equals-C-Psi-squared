@@ -13,14 +13,26 @@ levels with a real, i.e. zero, first-order shift), and at large q it is r_inf = 
 (the asymptotically-real modes). A finite-q>0 real<->complex transition (hence, by the
 discriminant-simple-zero lemma, a real defective seed) is forced whenever r0 > r_inf.
 
-This script proves-by-computation the four load-bearing facts:
-  (F1)  r0 - r_inf = N - 1   exactly, for every odd N  (the seed-forcing surplus).
-  (N2)  nullity(P2 C P2) = N - 1 (odd N)  via a decomposition into N-1 disjoint paths of N vertices.
+This script proves-by-computation the load-bearing facts (N = 3..13, BOTH parities):
+  (F1)  r0 - r_inf = (N - 1) * [N odd]   exactly  (the seed-forcing surplus; zero at even N).
+  (N2)  nullity(P2 C P2) = (N - 1) * [N odd]  via a decomposition into N-1 disjoint paths of N vertices.
   (FF)  nullity(C) = #{ (a<b, c) : lambda_a + lambda_b = lambda_c }, the free-fermion FUSION
         resonance count (lambda_k = 2 cos(k pi/(N+1)) the single-magnon energies; the two-magnon
         energies are the Slater sums lambda_a + lambda_b, cf. E_DE = eps_j + eps_k in
         F89_PATH_K_DIABOLIC.md), and n6 = nullity(P6 C P6) equals the SAME count.
-  (SI)  spectral inheritance: spec(P2 C P2) and spec(P6 C P6) are exact sub-multisets of spec(C).
+  (N1P) the (N1') THEOREM (the -6 rung by ordering sectors; F89_SEED_EXISTENCE_REDUCTION.md Piece 3):
+        K6 = -i*(P6 C P6) splits into three no-passing bra-rank sectors (bra left/middle/right of the
+        ket pair), each gauge-equivalent via diag((-1)^{z_bra}) to MINUS the 3-magnon hopping H3, so
+        spec(C6) = 3 copies of -i*(lambda_a+lambda_b+lambda_c) and n6 = 3*Z3 = the resonance count
+        (Z3 = #zero-sum triples; the 3-to-1 chiral bijection has no degenerate D-cases, a theorem).
+  (SI)  spectral inheritance as a per-block multiset THEOREM: spec(C2) = (N-1) x {i*lambda_k} and
+        spec(C6) = 3 x {-i*(la+lb+lc)}, each an exact WITH-MULTIPLICITY sub-multiset of spec(C).
+        (The joint union is NOT a partition of spec(C); the images overlap.)
+
+Tolerance scope: the near-miss law min_{x!=y} |2*lambda_x + lambda_y| ~ 2*pi^3/(N+1)^3 (odd N;
+itself a valid fusion near-resonance via c = N+1-x) makes the resonance tol 1e-7 safe only to
+N ~ 850 and the SVD nullity floor 1e-9 safe only to N ~ 3959; at this script's N <= 13 the
+margin is >= 7 orders.
 
 Run:  python simulations/seed_existence_nullity_check.py     (asserts everything; prints a table)
 """
@@ -126,6 +138,63 @@ def _spec(M):
     return np.sort(np.linalg.eigvalsh((K + K.conj().T) / 2).real)
 
 
+def _is_submultiset(sub, sup, tol=1e-9):
+    """Exact with-multiplicity containment of two sorted real arrays (two-pointer greedy match)."""
+    j = 0
+    for x in sub:
+        while j < len(sup) and sup[j] < x - tol:
+            j += 1
+        if j >= len(sup) or abs(sup[j] - x) > tol:
+            return False
+        j += 1
+    return True
+
+
+# ---------------------------------------------------------------- (N1P) ordering sectors on the -6 rung
+def _check_n1prime(N, C, i6, basis, tol=1e-9):
+    """The (N1') theorem, gate by gate. Returns Z3 (the zero-sum triple count)."""
+    K6 = (C[np.ix_(i6, i6)] / 1j).real                      # C = i*K, so K6 = -i*C6, real symmetric
+    b6 = [basis[i] for i in i6]
+
+    def bra_rank(pair, c):                                  # bra left / middle / right of the ket pair
+        lo, hi = min(pair), max(pair)
+        return 0 if c < lo else (1 if c < hi else 2)
+
+    sec = np.array([bra_rank(a, b[0]) for (a, b) in b6])
+    for s in range(3):                                      # no-passing: cross-sector elements exactly 0
+        for t in range(3):
+            if s != t and K6[np.ix_(sec == s, sec == t)].size:
+                assert np.abs(K6[np.ix_(sec == s, sec == t)]).max() == 0.0, \
+                    f"(N1P) cross-sector element at N={N}"
+
+    H3 = _hop(N, 3)
+    b3 = _exc(N, 3)
+    cfg = {b: i for i, b in enumerate(b3)}
+    lam = np.array([2 * np.cos(k * np.pi / (N + 1)) for k in range(1, N + 1)])
+    triple_sums = np.array([lam[a] + lam[b] + lam[c] for (a, b, c) in combinations(range(N), 3)])
+    for s in range(3):                                      # gauge: U K_sec U = -H3 exactly
+        ids = np.where(sec == s)[0]
+        entries = [b6[i] for i in ids]
+        perm = [cfg[tuple(sorted(set(e[0]) | {e[1][0]}))] for e in entries]
+        assert len(set(perm)) == len(perm), f"(N1P) config map not injective at N={N}"
+        P = np.zeros((len(b3), len(ids)))
+        for col, row in enumerate(perm):
+            P[row, col] = 1.0
+        gauge = np.diag([(-1.0) ** e[1][0] for e in entries])
+        assert np.abs(P @ (gauge @ K6[np.ix_(ids, ids)] @ gauge) @ P.T + H3).max() == 0.0, \
+            f"(N1P) gauge identity U K_sec U != -H3 at N={N} sector {s}"
+
+    spec6 = _spec(C[np.ix_(i6, i6)])                        # spec(C6) = 3 copies of -(la+lb+lc)
+    assert np.abs(spec6 - np.sort(np.concatenate([-triple_sums] * 3))).max() < 1e-10, \
+        f"(N1P) spec(C6) != 3 x (-triple sums) at N={N}"
+
+    Z3 = int(np.sum(np.abs(triple_sums) < tol))             # D = 0: no 2*l_x + l_y = 0 with x != y
+    D = sum(1 for x in range(N) for y in range(N)
+            if x != y and abs(2 * lam[x] + lam[y]) < tol)
+    assert D == 0, f"(N1P) degenerate resonance D={D} at N={N} (theorem says impossible)"
+    return Z3
+
+
 # ---------------------------------------------------------------- driver
 def check(N):
     A, C = build(N)
@@ -137,29 +206,39 @@ def check(N):
     res = _resonance_count(N)
 
     # (F1) the surplus
-    assert r0 - r_inf == N - 1, f"(F1) r0-r_inf = {r0 - r_inf} != N-1 at N={N}"
+    expected = (N - 1) * (N % 2)
+    assert r0 - r_inf == expected, f"(F1) r0-r_inf = {r0 - r_inf} != {expected} at N={N}"
     # (N2) reduced operator matches, and the path decomposition
     Kred, st = _K_red(N)
     assert _nullity(Kred) == n2, f"(N2) reduced nullity mismatch at N={N}"
-    assert _nullity(Kred) == N - 1, f"(N2) nullity(P2 C P2) = {_nullity(Kred)} != N-1 at N={N}"
+    assert _nullity(Kred) == expected, f"(N2) nullity(P2 C P2) = {_nullity(Kred)} != {expected} at N={N}"
     comps = _path_components(N)
     assert len(comps) == N - 1 and all(sz == N and pth for sz, pth in comps), \
         f"(N2) not (N-1) paths of N vertices at N={N}: {comps}"
     # (FF) fusion-resonance count = nullity(C) = n6
     assert nC == res == n6, f"(FF) nullity(C)={nC}, n6={n6}, resonances={res} disagree at N={N}"
-    # (SI) spectral inheritance
+    # (N1P) the ordering-sector theorem on the -6 rung
+    basis = [(a, b) for a in _exc(N, 2) for b in _exc(N, 1)]
+    Z3 = _check_n1prime(N, C, i6, basis)
+    assert n6 == 3 * Z3, f"(N1P) n6={n6} != 3*Z3={3 * Z3} at N={N}"
+    # (SI) spectral inheritance, per block, exact multisets (a theorem now; Piece 3 corollary)
+    lam = np.array([2 * np.cos(k * np.pi / (N + 1)) for k in range(1, N + 1)])
     spC, spC2, spC6 = _spec(C), _spec(C2), _spec(C6)
-    inC = lambda sp: all(any(abs(x - y) < 1e-9 for y in spC) for x in sp)
-    assert inC(spC2) and inC(spC6), f"(SI) spectral inheritance fails at N={N}"
-    return dict(dim=len(A), n2=n2, n6=n6, nC=nC, r0=r0, r_inf=r_inf, surplus=r0 - r_inf, res=res)
+    assert np.abs(spC2 - np.sort(np.tile(lam, N - 1))).max() < 1e-10, \
+        f"(SI) spec(C2) != (N-1) x {{lambda_k}} at N={N}"
+    assert _is_submultiset(spC2, spC) and _is_submultiset(spC6, spC), \
+        f"(SI) per-block multiset inheritance fails at N={N}"
+    return dict(dim=len(A), n2=n2, n6=n6, nC=nC, r0=r0, r_inf=r_inf, surplus=r0 - r_inf,
+                res=res, Z3=Z3)
 
 
 if __name__ == "__main__":
-    print(f"{'N':>3} {'dim':>5} {'n2=N-1':>7} {'n6=res':>7} {'nullC':>6} "
-          f"{'r0':>4} {'r_inf':>6} {'surplus=N-1':>12}")
-    for N in (3, 5, 7, 9, 11, 13):
+    print(f"{'N':>3} {'dim':>5} {'n2':>4} {'n6=3*Z3=res':>12} {'nullC':>6} "
+          f"{'r0':>4} {'r_inf':>6} {'surplus':>8}")
+    for N in range(3, 14):
         r = check(N)
-        print(f"{N:>3} {r['dim']:>5} {r['n2']:>7} {r['n6']:>7} {r['nC']:>6} "
-              f"{r['r0']:>4} {r['r_inf']:>6} {r['surplus']:>12}")
-    print("\nAll assertions passed: (F1) surplus = N-1, (N2) path decomposition, "
-          "(FF) fusion-resonance count, (SI) spectral inheritance.")
+        print(f"{N:>3} {r['dim']:>5} {r['n2']:>4} {r['n6']:>12} {r['nC']:>6} "
+              f"{r['r0']:>4} {r['r_inf']:>6} {r['surplus']:>8}")
+    print("\nAll assertions passed: (F1) surplus = (N-1)*[N odd], (N2) path decomposition, "
+          "(FF) fusion-resonance count, (N1P) ordering-sector theorem, "
+          "(SI) per-block multiset inheritance.")

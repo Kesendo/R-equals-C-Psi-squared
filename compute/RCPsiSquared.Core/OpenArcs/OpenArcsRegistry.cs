@@ -636,10 +636,21 @@ public static class OpenArcsRegistry
                 "simulations/seed_existence_nullity_check.py prove r(0+)-r(inf)=N-1 (r(inf)=nullity(C)=the " +
                 "free-fermion FUSION-RESONANCE count #{lambda_a+lambda_b=lambda_c}; the surplus n2=N-1 = the odd-N " +
                 "-2-rung PATH kernel, N-1 disjoint paths of N vertices, zero mode iff N odd = the unmirrorable-seat " +
-                "face; LBL': a real-to-complex transition at a simple discriminant zero is a defective EP, Kato) -- " +
-                "OPEN: (N1') n6=nullity(P-6 C P-6)=the same resonance count [reduced to mult0(C6)=mult0(C) under the " +
-                "verified SPECTRAL INHERITANCE spec(C2),spec(C6) subset spec(C); third-quantization is the tool] + " +
-                "the codim-2 beta-exotic genericity; (c) step 4 = the N=7 certificate as spot-check of " +
+                "face; LBL': a real-to-complex transition at a simple discriminant zero is a defective EP, Kato). " +
+                "(N1') CLOSED 2026-07-04 same day (doc Piece 3): n6 = 3*Z3 = the resonance count, by the " +
+                "ORDERING-SECTOR theorem: K6 splits into three no-passing bra-rank sectors (open chain, hard-core " +
+                "mutual exclusion), each gauge-equivalent via diag((-1)^{z_bra}) to MINUS the 3-magnon block H3, so " +
+                "spec(K6) = 3 copies of -(la+lb+lc) (a registry-grade closed form); the chiral 3-to-1 " +
+                "triple<->resonance bijection plus D=0 (no 2*l_x+l_y=0, a cyclotomic-integrality norm bound) closes " +
+                "it, both parities; the spectral inheritance is now a per-block MULTISET theorem (the joint union is " +
+                "NOT a partition of spec(C), images overlap); third-quantization turned out unnecessary. TWO " +
+                "adversarial reviews held it (exact arithmetic in Z[t]/Phi_2m + counterexample hunt to N=200; " +
+                "full-2^N spin rebuild with explicit JW strings). r(0+)-r(inf)=N-1 is now a THEOREM for every odd N. " +
+                "REMAINING OPEN on existence: the codim-2 beta-exotic genericity ONLY (a count-drop is defective " +
+                "unless the non-generic order-3 nilpotent-linear-term point); then: promote N2/FF/N1' to typed " +
+                "Claims + a live witness (DiabolicReflectionParityWitness template). Numerical honesty carried in " +
+                "the doc: the near-miss law min|2*l_x+l_y| ~ 2*pi^3/(N+1)^3 caps the resonance tol 1e-7 at N~850 " +
+                "and the SVD floor 1e-9 at N~3959; (c) step 4 = the N=7 certificate as spot-check of " +
                 "the surviving shell (bivariate cost probe FIRST) and the complex loci (certificate territory). " +
                 "HONESTY SCOPE (keep in every restatement): the sigma_min census is SHARED-LAMBDA evidence (estimate " +
                 "converges from above; not the EpCharacter Jordan-character reading, not a certificate). " +
