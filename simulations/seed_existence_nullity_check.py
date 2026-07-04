@@ -8,6 +8,12 @@ The (1,2) block pencil is L(q) = A + q*C on coherences |a><b| (a a 2-excitation 
 1-excitation bra) of the XY chain under uniform Z-dephasing:
     A = -2 * hamming(a,b)          the dephasing diagonal, rungs -2 (n_diff=1) and -6 (n_diff=3)
     q*C = -i q (H2 (x) I - I (x) H1)   the coherent XY hop; C is anti-Hermitian, C = i*K.
+Normalization pin (q vs Q, the factor 2): H1/H2 are UNIT-hop hopping blocks (spec H1 =
+{2 cos(k pi/(N+1))}), so this q coincides numerically with the carrier-clock Q and is TWICE the
+octic-book q of the arc's census/seed loci (WeightCoherenceBlock hops -2iq per unit octic q):
+L here at knob q = the census builder's block at coupling q/2. Every check below is a nullity or
+multiset identity, invariant under jointly rescaling C and q, so no result depends on the choice.
+Canonical statement: docs/GLOSSARY.md, "The coupling ratio q and Q".
 The number of real eigenvalues at small q>0 is r0 = nullity(P2 C P2) + nullity(P6 C P6) (the
 levels with a real, i.e. zero, first-order shift), and at large q it is r_inf = nullity(C)
 (the asymptotically-real modes). A finite-q>0 real<->complex transition (hence, by the

@@ -8,7 +8,7 @@
 
 ## Setup (plain words, for a first-time reader)
 
-The system is an **N-site spin chain**: N qubits in a row, neighbours coupled by the XY interaction (strength J, no ZZ term, so anisotropy Δ = 0), and each qubit independently **dephased** by local Z-noise (rate γ). This is an OPEN quantum system, so its density matrix ρ evolves by a Lindblad master equation whose generator is the **Liouvillian L**: a matrix acting on the space of operators (on ρ itself, dimension 4^N). The single dimensionless knob is **q = J/γ**, and the analysis continues q into the complex plane.
+The system is an **N-site spin chain**: N qubits in a row, neighbours coupled by the XY interaction (strength J, no ZZ term, so anisotropy Δ = 0), and each qubit independently **dephased** by local Z-noise (rate γ). This is an OPEN quantum system, so its density matrix ρ evolves by a Lindblad master equation whose generator is the **Liouvillian L**: a matrix acting on the space of operators (on ρ itself, dimension 4^N). The single dimensionless knob is **q = J/γ** (the octic-normalization book H = J·(XX+YY); the factor-2 q/Q convention pin is [GLOSSARY.md, "The coupling ratio q and Q"](../docs/GLOSSARY.md)), and the analysis continues q into the complex plane.
 
 Because both the XY coupling and Z-dephasing conserve the number of up-spins, L splits into blocks labelled by two excitation counts. A **joint-popcount sector (p, q̃)** is the block of coherences |a⟩⟨b| whose bra index a has p up-spins (popcount p) and whose ket index b has q̃ up-spins. The **(1,2) = (SE, DE) coherence block** is thus single-excitation-bra against double-excitation-ket. (Notation warning: q̃, a popcount label, is NOT the coupling q.)
 

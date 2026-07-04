@@ -206,7 +206,7 @@ The dimensionless ratio of coupling to dephasing, J/γ₀, is the central contro
 | Symbol | Hamiltonian per bond | Written by |
 |--------|----------------------|------------|
 | **q** | H = J·(XX+YY), hop element 2J (the "doubled" book) | the F89 octic / branch-locus / monodromy / Galois work (`F89Path3OcticBlock`) |
-| **Q** | H = (J/2)·(XX+YY), hop element J | the carrier clock (θ = arctan(Q·cos(π/(N+1))), `ClockHandLadderClaim`), the coherence horizon Q*(N), the F86 c=2 block, the Stage-1a probe (`ChainSystem` / `Symphony`) |
+| **Q** | H = (J/2)·(XX+YY), hop element J | the carrier clock (θ = arctan(Q·cos(π/(N+1))), `ClockHandLadderClaim`), the coherence horizon Q*(N), the F86 c=2 block, the Stage-1a probe (`ChainSystem` / `Symphony`); also, by value, the unit-hop pencil of the seed-existence nullity note (its knob is *named* q there; the pin in `experiments/F89_SEED_EXISTENCE_REDUCTION.md` converts) |
 
 The relation is **q = Q/2** (equivalently J_F89 = J_F86/2; the F90 bridge relabeling in `F90F86C2BridgeIdentity`, where the two are operator-exactly one Liouvillian: ‖L_F86(J) − L_F89(J/2)‖ = 0 at N=5..8). The factor is pure relabeling, not physics. On the real axis, within one convention, the complex variable q is just the analytic continuation of the real Q (`experiments/F89_BRANCH_LOCUS_PALINDROME.md`, the line under the figure).
 
