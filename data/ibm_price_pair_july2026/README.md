@@ -22,4 +22,4 @@ with `--analyze FILE`).
 the one systematic non-locality is coherent nearest-neighbour ZZ ≈ −3.9/−3.6 kHz (null
 next-nearest), first seen as a Gaussian-masked pseudo-anti-correlation, fingerprinted by the W
 run, then measured by conditioning; hardware noise model for the F-formulas = local Z-dephasing
-(quasi-static + Markovian) + local T1 + coherent NN ZZ ≈ 4 kHz, no correlated bath.
+(quasi-static + Markovian) + local T1 + coherent NN ZZ ≈ 4 kHz, no persistent correlated bath (one non-recurring 5.2σ covariance in run 2 stays unexplained).

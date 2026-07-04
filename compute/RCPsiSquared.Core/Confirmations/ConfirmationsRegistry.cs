@@ -472,26 +472,27 @@ public static class ConfirmationsRegistry
             Date: "2026-07-04",
             Machine: "ibm_marrakesh",
             JobId: "d949n1tgc6cc73fer8sg + d949tgevtlqs73fu1v30 + d94abhvu62ks7395p4ig + d94ajjtgc6cc73fes7bg (four-run pre-registered campaign)",
-            Observable: "coherence-pattern decay rates Î(D) for all 7 subsets of a 3-qubit line (quadrature envelopes, readout-mitigated), the pair-sum price Î(D)+Î(DÌ), per-bond covariances c_ij (branch splitting), the pointwise shape-free law, and the conditional-Ramsey Î¶_ij",
+            Observable: "coherence-pattern decay rates Γ(D) for all 7 subsets of a 3-qubit line (quadrature envelopes, readout-mitigated), the pair-sum price Γ(D)+Γ(D̄), per-bond covariances c_ij (branch splitting), the pointwise shape-free law, and the conditional-Ramsey ζ_ij",
             PredictedValue:
-                "F89d fold at the Ï level: Î(D)+Î(DÌ) = Î£Î³_j pattern-independent under LOCAL dephasing (all c_ij = 0); " +
+                "F89d fold at the ρ level: Γ(D)+Γ(D̄) = Σγ_j pattern-independent under LOCAL dephasing (all c_ij = 0); " +
                 "deviations decode by the pre-registered table (common-mode / single-bond / ZZ boundary rule / shape misfit)",
             MeasuredValue:
-                "dephasing covariances LOCAL (all c_ij = 0 within 2Ï in clean sessions; one non-recurring 5.2Ï outlier " +
-                "downgraded); the one systematic deviation decoded as coherent NN ZZ, confirmed deterministically: " +
-                "Î¶01 = â3.92Â±0.14 kHz, Î¶12 = â3.64Â±0.10 kHz, Î¶02 = +0.02Â±0.12 kHz (null next-nearest), consistent across " +
-                "three independent instruments (tÂ² mask, 3:2:3 W fingerprint, conditional shift)",
+                "dephasing covariances LOCAL (all c_ij = 0 within 2σ in clean sessions; one non-recurring 5.2σ outlier " +
+                "downgraded, unexplained); the one systematic deviation decoded as coherent NN ZZ, confirmed deterministically: " +
+                "ζ01 = −3.92±0.14 kHz, ζ12 = −3.64±0.10 kHz, ζ02 = +0.02±0.12 kHz (null next-nearest), consistent across " +
+                "three independent instruments (t² mask, 3:2:3 W fingerprint, conditional shift)",
             HardwareData: "data/ibm_price_pair_july2026/ (four hardware JSONs + null calibration + Aer parity + ZZ sim validation)",
             ExperimentDoc: "experiments/PRICE_PAIR_HARDWARE_PREDICTION.md",
-            FrameworkPrimitive: "F89d cross-fold (dissipator half) + F1 palindrome center Î£Î³ + F70 pattern-not-carrier + F82-F84 T1 accounting; run_price_pair.py (external pipeline)",
+            FrameworkPrimitive: "F89d cross-fold (dissipator half) + F1 palindrome center Σγ + F70 pattern-not-carrier + F82-F84 T1 accounting; run_price_pair.py (external pipeline)",
             Description:
                 "The locality premise under the F-formulas, measured: a four-run pre-registered campaign (runs 1-2 the price " +
                 "protocol on two independent lines, run 3 the W discriminator refuting the intermediate anti-correlated-bath " +
-                "reading via the 3:2:3 boundary-rule fingerprint, run 4 conditional Ramsey confirming coherent NN ZZ â " +
-                "â3.9/â3.6 kHz deterministically). Hardware noise model validated: local Z-dephasing (quasi-static + " +
-                "Markovian) + local T1 + coherent NN ZZ â 4 kHz, no correlated bath. Every wrong intermediate reading was " +
-                "falsified by its own pre-registered discriminator; the GHZ pattern-not-carrier immunity (XXX commutes with " +
-                "every Z_iZ_j) was derived before the first shot and carried the decoding.",
+                "reading via the 3:2:3 boundary-rule fingerprint, run 4 conditional Ramsey confirming coherent NN ZZ ≈ " +
+                "−3.9/−3.6 kHz deterministically). Hardware noise model validated: local Z-dephasing (quasi-static + " +
+                "Markovian) + local T1 + coherent NN ZZ ≈ 4 kHz, no persistent correlated bath (one non-recurring 5.2σ " +
+                "covariance stays unexplained). Every wrong intermediate reading was falsified by its own pre-registered " +
+                "discriminator; the GHZ pattern-not-carrier immunity (XXX commutes with every Z_iZ_j) was derived before " +
+                "the first shot and carried the decoding.",
             QubitPath: new[] { 93, 94, 95 }),
     };
 
