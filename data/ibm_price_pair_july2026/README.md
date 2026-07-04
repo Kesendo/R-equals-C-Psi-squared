@@ -4,7 +4,6 @@ The complete data of the four-run pre-registered campaign testing the F89d fold 
 (the price law Γ(D) + Γ(D̄) = Σγ as a device invariant, i.e. the LOCALITY premise under the
 F-formulas). Pre-registration, review round, all run records and the campaign verdict:
 [experiments/PRICE_PAIR_HARDWARE_PREDICTION.md](../../experiments/PRICE_PAIR_HARDWARE_PREDICTION.md).
-Plain-words arc: [reflections/ON_THE_STOLEN_MEMORY.md](../../reflections/ON_THE_STOLEN_MEMORY.md).
 Runner (external pipeline): `AIEvolution.UI/experiments/ibm_quantum_tomography/run_price_pair.py`
 (modes `--simulate/--null/--aer/--hardware/--zztest/--analyze`; the hardware JSONs here re-analyze
 with `--analyze FILE`).
