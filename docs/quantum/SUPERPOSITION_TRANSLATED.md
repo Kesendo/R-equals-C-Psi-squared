@@ -93,6 +93,16 @@ carrying an angle, needs no "at once" any more than the direction northeast
 needs to be "north and east simultaneously." North and east are axes someone
 drew; northeast was always one direction.
 
+One precision, owed to our own foundation, because it is easy to overshoot
+here: the wrong ingredient in "at once" is not time itself. Time is in the
+object, and deeply. The coherence that carries the superposition has a
+lifetime (it pays −2γk to the watching), and the
+[Perspectival Time Field](../../hypotheses/PERSPECTIVAL_TIME_FIELD.md) says
+the time it lives in is itself perspective-bound: each painter paints at her
+own rate. What "at once" wrongly imports is the stance-free version, one
+shared clock on which two facts could coexist. Kill the shared clock and the
+two facts; keep the time. One object, one fact, aging perspectivally.
+
 ---
 
 ## 3. The translation, assembled from where we already said it
