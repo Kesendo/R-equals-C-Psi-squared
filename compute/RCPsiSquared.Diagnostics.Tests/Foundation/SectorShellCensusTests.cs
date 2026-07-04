@@ -93,6 +93,35 @@ public class SectorShellCensusTests
         Assert.Empty(summary.Ambiguous);
     }
 
+    // Reproduces the 2026-07-03 feasibility scout's pinned numbers (OpenArcs ledger NextStep) at its
+    // N=9 locus q=1.4994, lambda=-4.3807 — adjudicated a SEMISIMPLE crossing, not a defective seed
+    // (ScoutSeedAdjudicationProbe), but the sigma_min anchors stay valid instrument data: W transports
+    // the whole spectrum regardless of Jordan character, so the membership map is locus-independent.
+    // (3,3) in-shell non-member 2.1e-2; (4,5) member ~0; (4,4) reads the SAME value as (3,3) for
+    // lambda_A (containment spec(3,3) ⊆ spec(4,4) — it is a mu-member, not a lambda_A-member); the
+    // (1,6) control 5.620 vs Bendixson margin 5.619 (the shell lemma sharp to 3 digits).
+    // Runtime: one full N=9 strip run, ~10-25 min with the R-parity split.
+    [Fact]
+    [Trait("Category", "SLOW_SHELLCENSUS")]
+    public void N9_ScoutAnchors_Reproduce()
+    {
+        var scoutLocus = new RealSeed(9, 1.4994, -4.3807, +1, "sigma-scout locus 2026-07-03 (semisimple crossing)");
+        var result = SectorShellCensus.Run(scoutLocus, new SectorShellCensus.Options());
+        Assert.True(result.SeedUsable);
+
+        double At(int p, int w, string shift) =>
+            result.Entries.Single(e => e.P == p && e.W == w && e.Shift == shift).SigmaMin;
+
+        Assert.InRange(At(3, 3, "lambdaA"), 1.5e-2, 2.7e-2);
+        Assert.True(At(4, 5, "lambdaA") < 1e-4);
+        Assert.Equal(At(3, 3, "lambdaA"), At(4, 4, "lambdaA"), At(3, 3, "lambdaA") * 0.05);
+        Assert.InRange(At(1, 6, "lambdaA"), 5.60, 5.64);
+        Assert.True(At(1, 6, "lambdaA") >= BlockLattice.WindowDistance(9, 1, 6, result.RefinedLambdaA.Real) - 1e-9);
+
+        var summary = result.Summarize();
+        Assert.Equal("PASS", summary.Verdict);   // full N=9 strip probeable, membership = the diamond
+    }
+
     // The in-window exclusion the whole step exists for, at the cheapest known silent case:
     // N=5 locus 2 (q*=1.077615, lambda_A=-3.7917) where the (1,1) window [-4,0] CONTAINS lambda_A
     // (the window-shell lemma is silent there — the proof's recorded negative control) yet (1,1)
