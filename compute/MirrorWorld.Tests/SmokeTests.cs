@@ -253,4 +253,78 @@ public class SmokeTests
     {
         Assert.Equal(expected, new Survivor(W, n).HasHalfFillingSurvivor);
     }
+
+    // --- F85: the k-body residual trichotomy. c(truly)=0, c(Pi^2-odd)=1, c(Pi^2-even non-truly)=2;
+    // truly iff #Y even AND #Z even; ||M||^2 per term = 4 c ||H_k||^2 2^N. For k>=3 only the
+    // Pi^2-class matters (YYY has n_YZ=3 but c=1, the registry's own flag example). ---
+    [Fact]
+    public void F85_KBody_Trichotomy_Counts_And_Residual()
+    {
+        Assert.Equal(0, Formulas.F85_FrobeniusFactor("YY"));                    // truly: both parities even
+        Assert.Equal(1, Formulas.F85_FrobeniusFactor("XY"));                    // Pi^2-odd
+        Assert.Equal(2, Formulas.F85_FrobeniusFactor("YZ"));                    // Pi^2-even, not truly
+        Assert.Equal(1, Formulas.F85_FrobeniusFactor("YYY"));                   // n_YZ=3 yet c=1
+
+        // the trichotomy enumeration over {X,Y,Z}^k, pinned to the registry table
+        var expected = new Dictionary<int, (int Truly, int Odd, int Even)>
+        {
+            [2] = (3, 4, 2), [3] = (7, 14, 6), [4] = (21, 40, 20),
+        };
+        foreach (var (k, (truly, odd, even)) in expected)
+        {
+            int cTruly = 0, cOdd = 0, cEven = 0;
+            foreach (var tuple in Tuples("XYZ", k))
+                switch (Formulas.F85_FrobeniusFactor(tuple))
+                {
+                    case 0: cTruly++; break;
+                    case 1: cOdd++; break;
+                    default: cEven++; break;
+                }
+            Assert.Equal((truly, odd, even), (cTruly, cOdd, cEven));
+            Assert.Equal(odd, Formulas.F85_Pi2OddCount(k));                     // (3^k - (-1)^k)/2
+        }
+
+        Assert.Equal(4.0 * 32, Formulas.F85_ResidualNormSqPerTerm(5, 1.0, 1), 10);   // 4 c ||H||^2 2^N
+        Assert.Equal(8.0 * 32, Formulas.F85_ResidualNormSqPerTerm(5, 1.0, 2), 10);
+        Assert.Equal(0.0, Formulas.F85_ResidualNormSqPerTerm(5, 3.7, 0), 12);
+    }
+
+    static IEnumerable<string> Tuples(string alphabet, int k)
+        => k == 0 ? new[] { "" } : Tuples(alphabet, k - 1).SelectMany(t => alphabet.Select(c => t + c));
+
+    // --- F97: the Mandelbrot main cardioid at b = 1/2. c(phi) = z*(1-z*) with z* = (1/2) e^{i phi};
+    // cusp c(0) = 1/4 (the fold boundary F16 re-seen), tail c(pi) = -3/4, top c(pi/2) = 1/4 + i/2. ---
+    [Fact]
+    public void F97_Cardioid_Anchors_And_Identity()
+    {
+        Assert.Equal(0.25, Formulas.F97_Cardioid(0.0).Real, 12);
+        Assert.Equal(0.0, Formulas.F97_Cardioid(0.0).Imaginary, 12);
+        Assert.Equal(-0.75, Formulas.F97_Cardioid(Math.PI).Real, 12);
+        Assert.Equal(0.25, Formulas.F97_Cardioid(Math.PI / 2).Real, 12);
+        Assert.Equal(0.5, Formulas.F97_Cardioid(Math.PI / 2).Imaginary, 12);
+        for (int s = 0; s < 1000; s++)
+        {
+            double phi = 2.0 * Math.PI * s / 1000.0;
+            var z = Formulas.F97_FixedPoint(phi);
+            Assert.Equal(0.5, z.Magnitude, 12);                                 // pinned to b = 1/2
+            Assert.True((Formulas.F97_Cardioid(phi) - z * (System.Numerics.Complex.One - z)).Magnitude < 1e-15,
+                $"the algebraic identity c = z*(1-z*) broke at phi={phi}");
+        }
+    }
+
+    // --- F124: the band-edge transition invariant ||M||_F^2 + lambda_min = 2 (the coordination
+    // number), split as (2 - E) + E with E = (4/(N+1)) sin^2(pi/(N+1)) -- exactly the k=1 rung of
+    // the already-adopted F65 ladder (the carrier's weight on the two free ends). ---
+    [Fact]
+    public void F124_BandEdge_Invariant_Splits_On_The_F65_Rung()
+    {
+        Assert.Equal(0.5, Formulas.F124_EndWeight(3), 12);                      // sin^2(pi/4) = 1/2 exactly
+        foreach (int n in new[] { 3, 4, 5, 8, 20 })
+        {
+            Assert.Equal(Formulas.F65_SingleExcitationRates(n)[0], Formulas.F124_EndWeight(n), 12);
+            Assert.Equal(2.0, Formulas.F124_FrobeniusNormSq(n) + Formulas.F124_SpectralFloor(n), 12);
+        }
+        // the floor vanishes as (N+1)^-3: E (N+1)^3 -> 4 pi^2
+        Assert.Equal(4.0 * Math.PI * Math.PI, Formulas.F124_EndWeight(2000) * Math.Pow(2001, 3), 3);
+    }
 }

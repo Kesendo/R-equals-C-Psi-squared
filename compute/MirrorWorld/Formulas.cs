@@ -233,5 +233,38 @@ public static class Formulas
     public static double F122_K4Ceiling() => 2.0 - 2.0 / Math.Sqrt(3.0);
     public static double F122_RingCommutant(int n) => n % 2 == 0 ? 2.0 * (n - 2) / n : 2.0 * (n - 1) / n;
 
+    // F85 (T1): the k-body generalization of the F49 Frobenius scaling. Per k-body Pauli term:
+    // truly iff #Y even AND #Z even (contributes M = 0); else the Pi^2-class decides the factor,
+    // c(Pi^2-odd) = 1, c(Pi^2-even non-truly) = 2, and ||M||^2_F per term = 4 c ||H_k||^2_F 2^N.
+    // For k >= 3, n_YZ is NOT the determining quantity (YYY has n_YZ=3 but c=1); only the class is.
+    // Pi^2-odd count over {X,Y,Z}^k: (3^k - (-1)^k)/2.
+    public static int F85_FrobeniusFactor(string letters)
+    {
+        int nY = letters.Count(c => c == 'Y'), nZ = letters.Count(c => c == 'Z');
+        if (nY % 2 == 0 && nZ % 2 == 0) return 0;                   // truly
+        return (nY + nZ) % 2 == 1 ? 1 : 2;                          // Pi^2-odd : Pi^2-even non-truly
+    }
+    public static long F85_Pi2OddCount(int k) => (IntPow(3, k) - (k % 2 == 0 ? 1 : -1)) / 2;
+    public static double F85_ResidualNormSqPerTerm(int n, double hNormSq, int c) => 4.0 * c * hNormSq * (1L << n);
+
+    // F97 (T1): the Mandelbrot main cardioid at the framework anchor b = 1/2. The period-1 fixed
+    // point of z^2 + c sits at magnitude exactly b on the marginally-stable boundary:
+    // z*(phi) = b e^{i phi}, c(phi) = b e^{i phi} - b^2 e^{2i phi} = z*(1 - z*). Cusp c(0) = 1/4
+    // (the F16 fold boundary re-seen), tail c(pi) = -3/4, top c(pi/2) = 1/4 + i/2.
+    public static System.Numerics.Complex F97_FixedPoint(double phi)
+        => 0.5 * System.Numerics.Complex.Exp(System.Numerics.Complex.ImaginaryOne * phi);
+    public static System.Numerics.Complex F97_Cardioid(double phi)
+        => 0.5 * System.Numerics.Complex.Exp(System.Numerics.Complex.ImaginaryOne * phi)
+         - 0.25 * System.Numerics.Complex.Exp(System.Numerics.Complex.ImaginaryOne * (2.0 * phi));
+
+    // F124 (T1): the band-edge transition invariant. For the open chain's full single-excitation
+    // bond-transition matrix M (band-edge carrier), ||M||_F^2 + lambda_min(M M^T) = 2 (the
+    // coordination number), split as (2 - E) + E where E = (4/(N+1)) sin^2(pi/(N+1)) is the
+    // carrier's weight on the two free ends -- exactly the k=1 rung of the F65 ladder. The floor
+    // vanishes as E (N+1)^3 -> 4 pi^2 (the resolution limit reading).
+    public static double F124_EndWeight(int n) => 4.0 / (n + 1) * Math.Pow(Math.Sin(Math.PI / (n + 1)), 2);
+    public static double F124_FrobeniusNormSq(int n) => 2.0 - F124_EndWeight(n);
+    public static double F124_SpectralFloor(int n) => F124_EndWeight(n);
+
     private static long IntPow(int b, int e) { long r = 1; for (int i = 0; i < e; i++) r *= b; return r; }
 }

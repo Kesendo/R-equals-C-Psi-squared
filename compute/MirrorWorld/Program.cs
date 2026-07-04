@@ -614,5 +614,8 @@ Console.WriteLine($"  F70 k-local sees |dN|<=k (single-site<=1, pair<=2); F71 c1
 Console.WriteLine($"  F98 Dicke asymptote (N+2)/(4(N+1)): N=4,6,8 = {Formulas.F98_DickeAsymptote(4):0.000}, {Formulas.F98_DickeAsymptote(6):0.000}, {Formulas.F98_DickeAsymptote(8):0.000} (-> 1/4)");
 Console.WriteLine($"  F121 qudit palindrome paired(d,N)/d^2N: d=2,N=2 = {Formulas.F121_PairedCeiling(2, 2)}/16 (full); d=3,N=2 = {Formulas.F121_PairedCeiling(3, 2)}/81 (partial, d^2-2d=0 re-seen)");
 Console.WriteLine($"  F122 ceiling g2: K_5=4/N={Formulas.F122_CompleteCeiling(5):0.000}, star_6=4/(N-1)={Formulas.F122_StarCeiling(6):0.000}, K_4=2-2/sqrt3={Formulas.F122_K4Ceiling():0.000}, ring(1,1) N=5={Formulas.F122_RingCommutant(5):0.000}");
+Console.WriteLine($"  F85 k-body trichotomy c(term) in {{0,1,2}}: YY->{Formulas.F85_FrobeniusFactor("YY")}, XY->{Formulas.F85_FrobeniusFactor("XY")}, YZ->{Formulas.F85_FrobeniusFactor("YZ")}, YYY->{Formulas.F85_FrobeniusFactor("YYY")} (n_YZ=3 yet c=1); Pi^2-odd count k=2,3,4 = {Formulas.F85_Pi2OddCount(2)}, {Formulas.F85_Pi2OddCount(3)}, {Formulas.F85_Pi2OddCount(4)}; ||M||^2/term = 4c ||H||^2 2^N");
+Console.WriteLine($"  F97 cardioid c(phi)=z*(1-z*), |z*|=1/2: cusp c(0)={Formulas.F97_Cardioid(0).Real:0.00} (the F16 boundary), tail c(pi)={Formulas.F97_Cardioid(Math.PI).Real:0.00}, top c(pi/2)={Formulas.F97_Cardioid(Math.PI / 2).Real:0.00}+{Formulas.F97_Cardioid(Math.PI / 2).Imaginary:0.00}i");
+Console.WriteLine($"  F124 band-edge invariant ||M||_F^2 + lambda_min = 2: N=4 -> {Formulas.F124_FrobeniusNormSq(4):0.0000} + {Formulas.F124_SpectralFloor(4):0.0000}; E = the F65 k=1 rung; E(N+1)^3 -> 4pi^2 = {4 * Math.PI * Math.PI:0.00}");
 
 // (the 4^N Pauli-string enumeration now lives in PauliMode.Enumerate, shared with the tests)
