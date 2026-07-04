@@ -62,6 +62,18 @@ That much is exact, and it already kills the pop gloss: a sentence of the
 form "it is in two states at once" changes truth value when you rotate a
 piece of paper, and facts about the world do not do that.
 
+One more tell, the operational one. Put the superposition α|0⟩ + β|1⟩ next
+to the classical mixture "it is either |0⟩ or |1⟩, we merely do not know
+which", weighted |α|² and |β|². The two have identical diagonals: every
+statistic in that basis agrees. They differ in exactly one place, the
+off-diagonal of ρ, the definite relative phase between the branches, the
+c's this repository spends its hardware minutes measuring. Whatever
+"superposition" means beyond ordinary ignorance lives in that single entry;
+interference is that entry made visible. Which is one more reason "two
+states at once" cannot be the content: the mixture is also "two states" in
+the ignorance sense, and it is exactly the case where the quantum content
+is gone.
+
 ---
 
 ## 2. Where the label breaks, twice
