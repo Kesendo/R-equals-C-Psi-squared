@@ -1,0 +1,19 @@
+{
+  "mode": "hardware-zz",
+  "backend": "ibm_marrakesh",
+  "path": [
+    93,
+    94,
+    95
+  ],
+  "job_id": "d94ajjtgc6cc73fes7bg",
+  "shots": 8192,
+  "zz": {
+    "zeta01_khz": -3.9182647341495893,
+    "zeta01_err": 0.14173132845244585,
+    "zeta12_khz": -3.636778786349687,
+    "zeta12_err": 0.10140162868515219,
+    "zeta02_khz": 0.016348127877902074,
+    "zeta02_err": 0.11981306183811406
+  }
+}

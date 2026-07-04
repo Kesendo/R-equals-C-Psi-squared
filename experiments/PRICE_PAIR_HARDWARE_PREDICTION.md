@@ -8,6 +8,8 @@
 
 **Runner:** `AIEvolution.UI/experiments/ibm_quantum_tomography/run_price_pair.py` (external pipeline repo, the `--simulate/--hardware/--analyze` convention; two simulate JSONs stored 2026-07-03: clean model and `--corr 0.004` detection demo).
 
+**Data in this repo:** all four hardware JSONs plus the null-calibration, Aer-parity and ZZ-sim records live in [`data/ibm_price_pair_july2026/`](../data/ibm_price_pair_july2026/README.md) (copied 2026-07-04 from the pipeline's `results/`).
+
 ## The claim, in one line
 
 Under **local** Z-dephasing with arbitrary per-qubit rates γ_j, the decay rate of a coherence with disagreement pattern D obeys Γ(D) = Σ_{j∈D} γ_j, and therefore the bra-complement fold (F89d, dissipator half) makes
