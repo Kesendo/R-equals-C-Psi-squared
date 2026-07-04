@@ -84,13 +84,27 @@ public static class SectorShellCensus
         /// <summary>The managed-array LP64 wall: flat Complex[] caps at 46340² elements.</summary>
         public int MaxSectorDim { get; set; } = 46000;
 
-        /// <summary>Floor of the adaptive member threshold MemberTol = max(floor, 5·pairGap).</summary>
-        public double MemberTolFloor { get; set; } = 1e-3;
+        /// <summary>The member cut in units of the refined pair gap: MemberTol = max(1e-9,
+        /// MemberCutFactor · pairGap). FIRST-LIGHT CALIBRATION (N=9, 2026-07-04): a member's σ_min is
+        /// bounded by the SHIFT UNCERTAINTY (≤ ~1.5·pairGap; at a defective locus it reads
+        /// quadratically deep, ~(gap/2)², the Jordan pseudospectrum signature — measured 5.5e-13),
+        /// while the nearest DENSITY NEIGHBOR (a distinct eigenvalue, itself W-nested along the
+        /// diagonal chain) sat at 2.7e-4 at the densest low-q seed — so a single adaptive cut at
+        /// 10·pairGap separates by orders of magnitude. An absolute floor (the earlier 1e-3) is the
+        /// calibration bug this replaces: it swallowed density neighbors as members.</summary>
+        public double MemberCutFactor { get; set; } = 10.0;
 
-        /// <summary>Exclusion threshold; σ_min values in [MemberTol, ExcludeTol] are AMBIGUOUS (flagged,
-        /// never silently classified). The sharpest known in-shell non-member (N=9 (3,3), 2.1e-2) sits
-        /// only ~2× above this — the summary quotes the observed headroom.</summary>
-        public double ExcludeTol { get; set; } = 1e-2;
+        /// <summary>The gray band around the member cut: σ_min ∈ [MemberTol/3, 3·MemberTol] is
+        /// AMBIGUOUS (flagged, never silently classified).</summary>
+        public double AmbiguousBandFactor { get; set; } = 3.0;
+
+        /// <summary>Pure REPORTING threshold: probed non-members with σ_min below this are listed as
+        /// spectrally NEAR (local density information). NOT verdict-blocking — exclusion in the census
+        /// is the byte-identical-sharing sense, decided by the member cut.</summary>
+        public double NearTol { get; set; } = 1e-2;
+
+        /// <summary>A seed whose refined pair gap exceeds this is UNUSABLE (refinement failed).</summary>
+        public double MaxUsablePairGap { get; set; } = 1e-3;
 
         /// <summary>Extra (window-excluded) cells to probe anyway, watching margin sharpness.</summary>
         public List<(int P, int W, string Shift)> Controls { get; } = new();
@@ -117,13 +131,21 @@ public static class SectorShellCensus
     /// <summary>Two-stage seed refinement: (a) golden-section minimization of the (1,2) block's
     /// near-defective pair gap over q ∈ [q*−5e-4, q*+5e-4] (the EP's √|q−q*| law makes the recorded
     /// few-decimal q* a ~1e-3 member-noise floor; this pushes it to ~1e-5); (b) at the refined q*, the
-    /// minimal-gap pair within |λ − recorded λ_A| &lt; 0.05, midpoint = the probe shift. Exact semisimple
-    /// degeneracies (gap &lt; 1e-12) are ignored — the at_masking trap.</summary>
+    /// minimal-gap pair within |λ − recorded λ_A| &lt; 0.05, midpoint = the probe shift. The pair search
+    /// runs in the SEED'S R-PARITY SECTOR of (1,2) (the recorded parity — the full-block search can lock
+    /// onto a wrong-parity density pair at low q and slide the bracket; the N=9 R-odd seed 0.511958 was
+    /// the case that forced this). Exact semisimple degeneracies (gap &lt; 1e-12) are ignored — the
+    /// at_masking trap.</summary>
     public static (double QRefined, Complex Lambda, double PairGap) RefineSeed(RealSeed seed)
     {
         double Gap(double q, out Complex mid)
         {
-            var m = Matrix<Complex>.Build.DenseOfArray(WeightCoherenceBlock.Build(seed.N, 1, 2, new Complex(q, 0)));
+            var (a, d) = WeightCoherenceBlock.BuildReflectionSectorColumnMajor(
+                seed.N, 1, 2, new Complex(q, 0), odd: seed.RParity < 0);
+            var m = Matrix<Complex>.Build.Dense(d, d);
+            for (int c = 0; c < d; c++)
+                for (int r = 0; r < d; r++)
+                    m[r, c] = a[(long)c * d + r];
             var ev = m.Evd().EigenValues.Enumerate()
                 .Where(z => Math.Abs(z.Real - seed.LambdaA) < 0.05).ToList();
             double best = double.PositiveInfinity;
@@ -154,8 +176,8 @@ public static class SectorShellCensus
         int n = seed.N;
         var sw = Stopwatch.StartNew();
         var (qR, lambda, pairGap) = RefineSeed(seed);
-        double memberTol = Math.Max(opts.MemberTolFloor, 5.0 * pairGap);
-        bool usable = 5.0 * pairGap < opts.ExcludeTol;
+        double memberTol = Math.Max(1e-9, opts.MemberCutFactor * pairGap);
+        bool usable = pairGap < opts.MaxUsablePairGap;
         var entries = new List<ShellCensusEntry>();
         opts.Log?.Invoke($"seed N={n} q*={qR:F9} lambda_A={lambda.Real:F9} pairGap={pairGap:E3} memberTol={memberTol:E3} usable={usable}");
         if (!usable)
@@ -229,16 +251,17 @@ public static class SectorShellCensus
             .Where(e => e.Method == "deferred" && expected.Contains((e.P, e.W, e.Shift)))
             .Select(e => (e.P, e.W, e.Shift)).ToList();
         var expectedProbeable = expected.Where(m => !deferredMembers.Contains(m)).ToHashSet();
+        // the gray band around the member cut — anything here is flagged, never silently classified
         var ambiguous = probed
-            .Where(e => e.SigmaMin >= r.MemberTol && e.SigmaMin <= r.Opts.ExcludeTol)
+            .Where(e => e.SigmaMin >= r.MemberTol / r.Opts.AmbiguousBandFactor
+                     && e.SigmaMin <= r.MemberTol * r.Opts.AmbiguousBandFactor)
             .Select(e => (e.P, e.W, e.Shift)).ToList();
         var nonMemberSigmas = probed
             .Where(e => !expected.Contains((e.P, e.W, e.Shift)))
             .Select(e => e.SigmaMin).ToList();
         double worstNonMember = nonMemberSigmas.Count > 0 ? nonMemberSigmas.Min() : double.PositiveInfinity;
 
-        bool clean = found.SetEquals(expectedProbeable) && ambiguous.Count == 0
-                     && worstNonMember > r.Opts.ExcludeTol && r.SeedUsable;
+        bool clean = found.SetEquals(expectedProbeable) && ambiguous.Count == 0 && r.SeedUsable;
         string verdict = !clean ? "DISAGREE" : deferredMembers.Count == 0 ? "PASS" : "PARTIAL";
         return new ShellCensusSummary(verdict, expected, expectedProbeable, found,
             deferredMembers, ambiguous, worstNonMember, r.MemberTol, r.PairGap);

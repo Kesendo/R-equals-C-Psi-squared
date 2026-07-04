@@ -66,9 +66,17 @@ public static class ShellCensusCommand
             if (sum.DeferredMembers.Count > 0)
                 Console.WriteLine($"  DEFERRED members: {Fmt(sum.DeferredMembers)} (LP64 wall; the matrix-free follow-up's work list)");
             if (sum.Ambiguous.Count > 0)
-                Console.WriteLine($"  AMBIGUOUS:        {Fmt(sum.Ambiguous)} (sigma_min in [memberTol, excludeTol])");
-            Console.WriteLine($"  worst non-member sigma_min = {sum.WorstNonMemberSigma.ToString("E3", Inv)} " +
-                              $"(exclude headroom x{(sum.WorstNonMemberSigma / opts.ExcludeTol).ToString("F1", Inv)})");
+                Console.WriteLine($"  AMBIGUOUS:        {Fmt(sum.Ambiguous)} (sigma_min within x{opts.AmbiguousBandFactor.ToString(Inv)} of the member cut)");
+            var near = result.Entries.Where(e => e.Probed && e.SigmaMin >= sum.MemberTol && e.SigmaMin < opts.NearTol)
+                .OrderBy(e => e.SigmaMin).ToList();
+            if (near.Count > 0)
+                Console.WriteLine($"  spectrally near (density, excluded in the sharing sense): " +
+                    string.Join(" ", near.Select(e => $"({e.P},{e.W})x{e.Shift}@{e.SigmaMin.ToString("E1", Inv)}")));
+            double maxMember = result.Entries.Where(e => e.Probed && sum.FoundMembers.Contains((e.P, e.W, e.Shift)))
+                .Select(e => e.SigmaMin).DefaultIfEmpty(double.NaN).Max();
+            Console.WriteLine($"  worst non-member sigma_min = {sum.WorstNonMemberSigma.ToString("E3", Inv)}, " +
+                              $"max member = {maxMember.ToString("E3", Inv)} " +
+                              $"(separation x{(sum.WorstNonMemberSigma / Math.Max(maxMember, 1e-300)).ToString("E1", Inv)})");
             Console.WriteLine($"  {sum.Verdict}  ({result.Elapsed.TotalMinutes.ToString("F1", Inv)} min, csv: {csv})");
             anyDisagree |= sum.Verdict == "DISAGREE";
         }
