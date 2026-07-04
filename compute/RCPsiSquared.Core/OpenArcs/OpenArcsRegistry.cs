@@ -602,7 +602,9 @@ public static class OpenArcsRegistry
                 "GaloisMonodromyWitness.TraceToDiabolic, and gmscan --trace [--tq q] [--tsteps n] (gate-first: " +
                 "prints PASS / CONFIRMED). " +
                 "Here is where we continue hand-over-hand.",
-            NextStep: "RESUMING IN ONE LINE (2026-07-03, post R4-interior close): ALL FOUR remainders of the " +
+            NextStep: "RESUMING IN ONE LINE (2026-07-03, post R4-interior close) [symbols lambda_A, mu, corner/" +
+                "identity cert, Klein, R-parity: see the TERMS block at the END of this header -- cold-read fix " +
+                "2026-07-04]: ALL FOUR remainders of the " +
                 "codim-1-by-additivity proof are CLOSED AT N=5 [R1 = interior-core kernel death: rate window (real) " +
                 "+ moved window (near-axis) + fold-resultant certificate (every other branch locus); R2 = Theorem " +
                 "A's D-half: twin-scalar; R3 = gap byte-identity: the full-spectrum holomorphic fold; R4 = the " +
