@@ -2152,9 +2152,14 @@ At t → ∞: λ = 0, eigenvalues {1-2p, p, p, 0}, S_{ab} = h(1-2p) + 2p (max-en
 |---|---|------------------------|--------------------------------------------|-----------------------|
 | 5 | 2 | 0.936 | 0.936 | 0.937 (grid peak at t=0.6 → 1.002) |
 | 7 | 2 | 0.932 | 0.928 | 0.928 |
-| 9 | 4 | 0.934 | 0.932 | 0.932 |
-| 11 | 4 | 0.933 | 0.928 | 0.928 |
-| 13 | 4 | 0.928 | 0.926 | 0.926 |
+| 9 | 4 | 0.929 | 0.932 | 0.932 |
+| 11 | 4 | 0.927 | 0.928 | 0.928 |
+| 13 | 4 | 0.926 | 0.926 | 0.926 |
+
+*(Pure-dephasing column for the N = 9, 11, 13 rows corrected 2026-07-04 against a rerun of
+[`envelope_study.py`](../simulations/envelope_study.py) (0.9292, 0.9274, 0.9264); the exact-Lindblad
+and brecher columns were always right. The correction surfaced when the closed form was adopted
+into `compute/MirrorWorld/Formulas.cs` and pinned from below.)*
 
 Agreement to within 0.5% across all tested (N, k). Difference between "pure-dephasing" and "exact single-excitation Lindblad" columns measures the Heisenberg-mixing correction, which is always < 0.5%.
 

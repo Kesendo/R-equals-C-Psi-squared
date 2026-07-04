@@ -266,5 +266,45 @@ public static class Formulas
     public static double F124_FrobeniusNormSq(int n) => 2.0 - F124_EndWeight(n);
     public static double F124_SpectralFloor(int n) => F124_EndWeight(n);
 
+    // F75 (T1): mirror-pair mutual information for a single-excitation mirror-symmetric state
+    // |psi> = sum c_j |1_j> with c_{N-1-j} = +-c_j: MI(l, N-1-l) = 2 h(p) - h(2p), p = |c_l|^2,
+    // h the binary entropy. Sign-independent; saturates at 2 bits (a Bell pair) at p = 1/2.
+    // Bonding:k populations are the F65 amplitudes squared, p_l = (2/(N+1)) sin^2(pi k (l+1)/(N+1));
+    // the mirror-pair sum MM(0) over pairs l = 0..floor(N/2)-1 is O(N), no propagation.
+    public static double F75_MirrorPairMI(double p) => 2.0 * H2(p) - H2(2.0 * p);
+    public static double F75_BondingSitePopulation(int n, int k, int l)
+        => 2.0 / (n + 1) * Math.Pow(Math.Sin(Math.PI * k * (l + 1) / (n + 1)), 2);
+    public static double F75_MirrorPairSum(int n, int k)
+    {
+        double mm = 0;
+        for (int l = 0; l < n / 2; l++) mm += F75_MirrorPairMI(F75_BondingSitePopulation(n, k, l));
+        return mm;
+    }
+
+    // F76 (T1): pure-dephasing decay of the mirror-pair MI. The pair coherence decays at 4 gamma0
+    // (lambda = e^{-4 gamma0 t}) while the populations stay, so the pair eigenvalues become
+    // {1-2p, p(1+lambda), p(1-lambda), 0} and MI(p, t) = 2 h(p) - S_ab(p, lambda). lambda = 1
+    // recovers F75 (S_ab = h(2p)); lambda = 0 gives S_ab = h(1-2p) + 2p. The 0.93 envelope at
+    // gamma0 = 0.05, t = 0.1 is the gamma0 signature, not a hidden constant (0.965 at gamma0 =
+    // 0.025, 0.868 at 0.10); Heisenberg mixing is second-order small (< 0.5%).
+    public static double F76_PairEntropy(double p, double lambda)
+        => -XLog2(1.0 - 2.0 * p) - XLog2(p * (1.0 + lambda)) - XLog2(p * (1.0 - lambda));
+    public static double F76_MirrorPairMI(double p, double lambda) => 2.0 * H2(p) - F76_PairEntropy(p, lambda);
+    public static double F76_Envelope(int n, int k, double gamma0, double t)
+    {
+        double lambda = Math.Exp(-4.0 * gamma0 * t);
+        double now = 0, start = 0;
+        for (int l = 0; l < n / 2; l++)
+        {
+            double p = F75_BondingSitePopulation(n, k, l);
+            now += F76_MirrorPairMI(p, lambda);
+            start += F75_MirrorPairMI(p);
+        }
+        return now / start;
+    }
+
+    private static double H2(double x) => -XLog2(x) - XLog2(1.0 - x);
+    private static double XLog2(double x) => x <= 0.0 ? 0.0 : x * Math.Log2(x);
+
     private static long IntPow(int b, int e) { long r = 1; for (int i = 0; i < e; i++) r *= b; return r; }
 }

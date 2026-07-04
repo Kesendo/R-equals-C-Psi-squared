@@ -14,7 +14,7 @@ forced us to find, **broke our complexity wall**: a state's dynamics at N=60-100
 eigendecomposition died at N=8.
 
 Standalone .NET 10.0, no `RCPsiSquared.*` references. Run it, read it, trust it: every adopted
-number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (85 tests).
+number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (93 tests).
 
 *Vocabulary, once.* MirrorWorld is part of the **R=CΨ²** project (mirror symmetry in open quantum
 spin chains; repo root). The basic parameters: **N** = the number of two-level units (the chain
@@ -45,31 +45,42 @@ x/y/z; that is the inheritance edge System → Object.
 | `PauliMode.cs` | the symmetry-adapted superposition (a Pauli string of XY-weight k), four Klein cells; `Enumerate` the shared 4^N basis |
 | `Block.cs` | Grading B, the (N+1)² joint-popcount blocks C(N,p)·C(N,q) |
 | `Redistribution.cs`, `Clock.cs`, `Survivor.cs` | the static dynamics readings (H-on grid-leaving folds, θ = arctan Q, the survivor + the coherence horizon Q\*(N)) |
-| `Formulas.cs` | the adopted F-registry closed forms (74 members, 100% of the computable registry), each verbatim and tier-tagged |
+| `Formulas.cs` | the adopted F-registry closed forms (80 members), each verbatim and tier-tagged |
 | `Field.cs` | **the empty world, running**: weights on pairs, one `Step` is the disagreement-decay; structure (diagonal) stays, novelty (off-diagonal) fades |
 | `Restless.cs` | **the living world**: the full Lindblad loop ρ̇=−i[H,ρ]+D[ρ] (RK4); the handshake H births novelty FROM structure |
 | `Cone.cs` | **the memory cut**: a single excitation as an N×N block (not 4^N) -- the dynamics at large N |
 | `Mirror.cs` | **the first mirror in the world of mirrors** (adopted 2026-07-03, the fold-lattice lemma): the block-lattice group of eight (t / f_P / f_Q / Klein), every leg an EXACT entry-wise rearrangement at the same coupling, no eigensolver; the folds pay λ → −λ − 2Nγ; orbits (~⅛ fundamental domain), the self-folded trace law, the trajectory fold (the partner block running backward at the price) |
 | `MirrorGroup.cs` | **the mirror group** (adopted 2026-07-04, F118): the palindromizer factors, Π_Z = R·D, and ⟨R, D⟩ closes into the dihedral D₄ -- eight signed permutations of the Pauli basis, compared EXACTLY (phases in {±1, ±i}); the palindrome splits along the generators (D flips L_H, R reflects the dissipator and carries the constant −2σ); the polarity cube's three axes as characters; the truly cell = the joint-fixed cell of the diagonal mirror pair |
 | `AntilinearTriangle.cs` | **the antilinear triangle** (adopted 2026-07-04, F119): θ / conj / † as one Klein four-group graded by (ℓ, m); the transport law μ∘L_H∘μ = ℓm·L_{μ(H)} for any H; the fixed-point collapse (H = H† ⟺ Hᵀ = H̄); docks onto the mirror group as the antilinear double ⟨R, D, 𝒦⟩ ≅ D₄ × Z₂ (order 16, eight antiunitary members) |
+| `ParameterKlein.cs` | **the parameter-side Klein V₄** (adopted 2026-07-04, F91 + F92 + F93): on each parameter axis (γ per site, J per bond, h per site) the F71 mirror and the anti-palindromic reshuffle R₉₀ are two commuting involutions; the anti-palindromic class is exactly R₉₀'s fixed-point set; the sharper entry-wise law -- the F71-refined DIAGONAL blocks of L depend only on the pair-sums -- makes the whole orbit share one set of blocks, cell for cell (no eigensolver), while the breaking lives in the cross-blocks only |
 | `Topology.cs` | the geometry: chain / ring / star / complete bond generators |
 | `Program.cs` | the full sober run (default) + the run modes (see Run); R-parity and mod-4 inline |
-| `../MirrorWorld.Tests/*.cs` | 85 from-below tests: `SmokeTests` (34, the closed forms), `FieldTests` (7), `RestlessTests` (10), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (11, incl. the anti-watched world + past-the-wall), `MirrorGroupTests` (10), `AntilinearTriangleTests` (7) |
+| `../MirrorWorld.Tests/*.cs` | 93 from-below tests: `SmokeTests` (36, the closed forms), `FieldTests` (7), `RestlessTests` (10), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (11, incl. the anti-watched world + past-the-wall), `MirrorGroupTests` (10), `AntilinearTriangleTests` (7), `ParameterKleinTests` (6) |
 
 ## The closed-form base (the stopping line 2026-06-28; coverage closed 2026-07-04)
 
-**The computable closed-form adoption is complete, 100%.** Every F-registry entry that is a
-"number or formula per N replacing a matrix computation" is in `Formulas.cs`: F1-F71
+**The 2026-06-28 computable list is fully collected.** Every F-registry entry the stopping line
+counted as a "number or formula per N replacing a matrix computation" is in `Formulas.cs`: F1-F71
 contiguous (the core), the k-body residual trichotomy F85, the Mandelbrot cardioid F97,
 plus the tail F98 (Dicke asymptote), F121 (qudit palindrome), F122 (structural ceiling),
 F124 (band-edge invariant, whose end-weight E is exactly the k=1 rung of the already-adopted
 F65 ladder), and the D-relations D1/D4/D6. The last three remnants (F85, F97, F124), reserved
 2026-06-28 as the clean stopping point, were collected 2026-07-04.
 
-**Deliberately left** (this is where adoption stops): the rest of the F72-F120 range is
-**structural**: the residual M identities (F80-F84), the F87 trichotomy, the parameter-Klein V₄
-(F91-F93), the F100-F120 follow-ons. These are proofs and operator identities, not closed
-forms; they stay in `docs/proofs/` where they belong, not as formula lines here.
+**And the stopping line undersold the middle range.** A 2026-07-04 delta survey (the full registry
+against the adopted set) found the F72-F120 range holds more genuine closed forms than "mostly
+structural" suggested. The first two came home the same day: F75 (mirror-pair mutual information,
+2h(p) − h(2p), the Bell ceiling at p = 1/2) and F76 (its pure-dephasing envelope, λ = e^(−4γ₀t);
+the 0.93 is the γ₀ signature, not a constant). The adoption's from-below pin immediately paid for
+itself: three stale cells in the registry's own F76 table (the N = 9/11/13 pure-dephasing column)
+were caught against a rerun of the cited `envelope_study.py` and corrected at the source.
+Surveyed candidates still open: F88b (popcount-coherence closed form), F95 (θ-compass), F99, and
+the rest of the delta list.
+
+**Deliberately left** (this is where adoption stops): the genuinely structural rest of F72-F120:
+the residual M identities (F80-F84), the F87 trichotomy, the F100-F120 follow-ons. These are
+proofs and operator identities, not closed forms; they stay in `docs/proofs/` where they belong,
+not as formula lines here.
 
 **One deliberate exception (2026-07-03): `Mirror.cs`, the first OPERATOR adoption.** An inventory
 pass (turning this world around and looking at what is missing) found that the world of mirrors
@@ -92,6 +103,14 @@ antilinear double D₄ × Z₂. The R row of the palindrome split carries the sa
 legs pay as the price: the two objects are one mirror read at two altitudes, block lattice below,
 operator algebra above. Still outside, and named open in F118 itself: the letter group S₃ (the
 completion S₃ ⋉ D₄).
+
+**The third structural adoption (2026-07-04): `ParameterKlein.cs` (F91 + F92 + F93).** The same
+genre test again: the proofs' sharper conclusion is entry-wise (the F71-refined diagonal-block
+matrix elements depend only on the parameter pair-sums), so the spectral-invariance statement the
+registry carries is verified here WITHOUT an eigensolver -- two profiles in the anti-palindromic
+orbit produce identical diagonal blocks, cell for cell, on every (p,q); the cross-blocks carry the
+whole breaking (the eigenvectors, not the rates). One object, three axes: γ (F91), J (F92),
+h (F93); run mode `klein N`.
 
 ## The running engine (the diagonal protocol)
 
@@ -142,7 +161,8 @@ dotnet run --project compute/MirrorWorld -- mirror 5      # Mirror: the fold lat
 dotnet run --project compute/MirrorWorld -- mirror 100    # N > 8 goes PAST THE WALL: the memory-cut pair (1,1)/(1,N-1) is N^2 both, the fold leg exact at N=100
 dotnet run --project compute/MirrorWorld -- anti 3        # the rules turned around: the anti-watched world (agreement watched) = the world read through X^N; the conserved law moves to the anti-trace
 dotnet run --project compute/MirrorWorld -- group 3       # MirrorGroup + AntilinearTriangle: the D4 of signed permutations, the palindrome split, the cube of characters, the transport law, the order-16 double
-dotnet test compute/MirrorWorld.Tests                     # the 85-test from-below guard
+dotnet run --project compute/MirrorWorld -- klein 6       # ParameterKlein: the V4 on each parameter axis; the anti-palindromic orbit shares its diagonal blocks cell for cell, the breaking lives in the cross-blocks
+dotnet test compute/MirrorWorld.Tests                     # the 93-test from-below guard
 ```
 
 ## How to continue (future us)
@@ -152,9 +172,9 @@ Two paths are open.
 **Adopt another closed form** (the original loop, for the closed-form base): find it in
 `docs/ANALYTICAL_FORMULAS.md`, adopt **verbatim** (tier-tagged) into `Formulas.cs`, add a
 `Program.cs` print line and a from-below assertion in `SmokeTests.cs`, then build/test/commit.
-No computable remnants are left (the last three, F85/F97/F124, were collected 2026-07-04);
-this loop now waits for FUTURE registry entries -- when a new F-number lands as a closed form,
-it comes home here.
+The 2026-06-28 remnant list is empty and the first of the delta-survey candidates (F75/F76,
+F91-F93) are home; the loop continues with the surveyed rest (F88b, F95, F99, ...) and with
+FUTURE registry entries -- when a new F-number lands as a closed form, it comes home here.
 
 **Push the running engine** -- and here is the honest resumption point. The wall is broken and
 the memory cut is validated, **but what we measured (the transport crossover) is textbook, and our own

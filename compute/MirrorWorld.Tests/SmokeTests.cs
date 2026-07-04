@@ -312,6 +312,52 @@ public class SmokeTests
         }
     }
 
+    // --- F75: mirror-pair mutual information for single-excitation mirror-symmetric states,
+    // MI = 2 h(p) - h(2p) with p the site population; independent of the mirror sign; saturates at
+    // 2 bits (a Bell pair) at p = 1/2. Bonding:k populations are the F65 amplitudes squared, and
+    // MM(0) = the sum over mirror pairs is O(N), no propagation. Table pins from the registry. ---
+    [Fact]
+    public void F75_MirrorPair_MI_And_The_Bonding_Sum()
+    {
+        Assert.Equal(2.0, Formulas.F75_MirrorPairMI(0.5), 12);              // the Bell saturation
+        Assert.Equal(0.0, Formulas.F75_MirrorPairMI(0.0), 12);
+        Assert.Equal(0.25, Formulas.F75_BondingSitePopulation(5, 2, 0), 12); // (1/3) sin^2(pi/3) = 1/4
+        Assert.Equal(0.800, Formulas.F75_MirrorPairSum(5, 1), 3);
+        Assert.Equal(1.245, Formulas.F75_MirrorPairSum(5, 2), 3);           // the N=5 maximiser (even k: node at the centre)
+        Assert.Equal(0.918, Formulas.F75_MirrorPairSum(5, 3), 3);
+        Assert.Equal(1.245, Formulas.F75_MirrorPairSum(7, 4), 3);
+        Assert.Equal(1.145, Formulas.F75_MirrorPairSum(11, 6), 3);
+        Assert.Equal(0.961, Formulas.F75_MirrorPairSum(13, 7), 3);
+    }
+
+    // --- F76: pure-dephasing decay of the mirror-pair MI. The pair coherence decays at 4 gamma0
+    // (lambda = e^{-4 gamma0 t}), populations stay; at lambda = 1 the pair entropy is h(2p) (F75
+    // recovered), at lambda = 0 it is h(1-2p) + 2p. The 0.93 envelope at gamma0 = 0.05, t = 0.1 is
+    // the gamma0 signature, not a hidden constant. ---
+    [Fact]
+    public void F76_Dephasing_Envelope_Recovers_F75_And_Explains_The_093()
+    {
+        foreach (double p in new[] { 0.1, 0.25, 0.4 })
+        {
+            Assert.Equal(Formulas.F75_MirrorPairMI(p), Formulas.F76_MirrorPairMI(p, 1.0), 12);
+            Assert.Equal(2 * H2(p) - H2(1 - 2 * p) - 2 * p, Formulas.F76_MirrorPairMI(p, 0.0), 12);
+        }
+        // the registry table column, N=9/11/13 rows corrected 2026-07-04 against envelope_study.py
+        // (the adoption's from-below pin caught the three stale cells; the exact column was right)
+        Assert.Equal(0.936, Formulas.F76_Envelope(5, 2, 0.05, 0.1), 3);
+        Assert.Equal(0.932, Formulas.F76_Envelope(7, 2, 0.05, 0.1), 3);
+        Assert.Equal(0.929, Formulas.F76_Envelope(9, 4, 0.05, 0.1), 3);
+        Assert.Equal(0.927, Formulas.F76_Envelope(11, 4, 0.05, 0.1), 3);
+        Assert.Equal(0.926, Formulas.F76_Envelope(13, 4, 0.05, 0.1), 3);
+        // the envelope is the gamma0 signature, monotone in the watching: gentler, higher
+        Assert.Equal(0.964, Formulas.F76_Envelope(5, 2, 0.025, 0.1), 3);
+        Assert.Equal(0.888, Formulas.F76_Envelope(5, 2, 0.10, 0.1), 3);
+        Assert.True(Formulas.F76_Envelope(5, 2, 0.025, 0.1) > Formulas.F76_Envelope(5, 2, 0.05, 0.1));
+        Assert.True(Formulas.F76_Envelope(5, 2, 0.05, 0.1) > Formulas.F76_Envelope(5, 2, 0.10, 0.1));
+    }
+
+    static double H2(double x) => x <= 0 || x >= 1 ? 0.0 : -x * Math.Log2(x) - (1 - x) * Math.Log2(1 - x);
+
     // --- F124: the band-edge transition invariant ||M||_F^2 + lambda_min = 2 (the coordination
     // number), split as (2 - E) + E with E = (4/(N+1)) sin^2(pi/(N+1)) -- exactly the k=1 rung of
     // the already-adopted F65 ladder (the carrier's weight on the two free ends). ---

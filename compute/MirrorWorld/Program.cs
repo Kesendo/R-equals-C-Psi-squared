@@ -221,6 +221,61 @@ if (args.Length > 0 && args[0] == "group")
     return;
 }
 
+// ---- run mode "klein": the parameter-side Klein V4 ----
+// F91 + F92 + F93 (adopted 2026-07-04): on each parameter axis (gamma per site, J per bond, h per
+// site) the palindromic mirror F71 and the anti-palindromic reshuffle R90 generate a Klein V4, and
+// the proofs' sharper law is entry-wise: the F71-refined DIAGONAL blocks of L depend only on the
+// pair-sums, so the whole anti-palindromic orbit shares one set of diagonal blocks, cell for cell;
+// the breaking lives in the cross-blocks (the eigenvectors) only. No eigensolver anywhere.
+if (args.Length > 0 && args[0] == "klein")
+{
+    int kn = args.Length > 1 ? int.Parse(args[1]) : 6;
+    var kworld = new World();
+    var klein = new ParameterKlein(kworld, kn);
+
+    static double[] Flat(int len, double v) => Enumerable.Repeat(v, len).ToArray();
+    static double[] AntiProfile(int len, double avg, double amp)      // pair-sums 2*avg by construction
+    {
+        var x = Flat(len, avg);
+        for (int l = 0; l < len / 2; l++)
+        {
+            double d = amp * (l % 2 == 0 ? 1.0 : -0.6) * (l + 1);
+            x[l] = avg - d;
+            x[len - 1 - l] = avg + d;
+        }
+        return x;
+    }
+
+    Console.WriteLine("the parameter-side Klein V4 (F91 + F92 + F93, adopted 2026-07-04)");
+    Console.WriteLine($"  sources docs/proofs/PROOF_F91_GAMMA_NINETY_DEGREES.md + the J/h twins; N={kn}");
+    Console.WriteLine("  two commuting involutions on a parameter axis: F71 (reverse) and R90 (x -> 2 avg - reverse);");
+    Console.WriteLine("  the anti-palindromic class (every pair-sum = 2 avg) is exactly the FIXED-POINT set of R90.");
+    var gLadder = AntiProfile(kn, 0.45, 0.05);
+    Console.WriteLine($"  witness gamma profile: [{string.Join(", ", gLadder.Select(v => v.ToString("0.000")))}]  (pair-sums all 0.900)");
+    Console.WriteLine($"  R90 fixes it pointwise: {gLadder.Zip(ParameterKlein.Reshuffle(gLadder)).All(p => Math.Abs(p.First - p.Second) < 1e-12)}; the mirror does not: {gLadder.SequenceEqual(ParameterKlein.Mirror(gLadder))}");
+
+    var jFlat = Flat(kn - 1, 1.0);
+    var hZero = Flat(kn, 0.0);
+    var gFlat = Flat(kn, 0.45);
+    Console.WriteLine();
+    Console.WriteLine("  the entry-wise law (worst refined-diagonal-block cell difference, ALL (p,q) blocks):");
+    Console.WriteLine($"    F91 gamma: uniform vs anti-palindromic  {klein.DiagonalBlocksResidual(gFlat, jFlat, hZero, gLadder, jFlat, hZero):E1}   (identical, cell for cell)");
+    var gBroken = (double[])gLadder.Clone();
+    (gBroken[0], gBroken[1]) = (gBroken[1], gBroken[0]);               // same sum, wrong pair-sums
+    Console.WriteLine($"    F91 gamma: uniform vs pair-sum-broken   {klein.DiagonalBlocksResidual(gFlat, jFlat, hZero, gBroken, jFlat, hZero):0.000}   (rejected: same total, wrong pair-sums)");
+    var jAnti = AntiProfile(kn - 1, 1.0, 0.08);
+    Console.WriteLine($"    F92 J:     uniform vs anti-palindromic  {klein.DiagonalBlocksResidual(gFlat, jFlat, hZero, gFlat, jAnti, hZero):E1}");
+    var hAnti = AntiProfile(kn, 0.3, 0.07);
+    Console.WriteLine($"    F93 h:     uniform vs anti-palindromic  {klein.DiagonalBlocksResidual(gFlat, jFlat, Flat(kn, 0.3), gFlat, jFlat, hAnti):E1}");
+    Console.WriteLine();
+    Console.WriteLine("  where the breaking went (the worst F71 cross-block cell):");
+    Console.WriteLine($"    uniform gamma:          {klein.CrossBlockNorm(gFlat, jFlat, hZero):E1}   (F71 exact: no cross-block at all)");
+    Console.WriteLine($"    anti-palindromic gamma: {klein.CrossBlockNorm(gLadder, jFlat, hZero):0.000}   (F71 broken -- but only the eigenvectors carry it)");
+    Console.WriteLine("  the spectral invariance (the registry's F91-F93 statement) is the corollary: identical blocks,");
+    Console.WriteLine("  identical spectra. the whole orbit shares the uniform world's decay rates; the asymmetry is a way of seeing.");
+    return;
+}
+
 // ---- run mode "anti": the rules turned around ----
 // The mirror's rho-level face: run the SAME living world twice, once watching disagreement (the rule,
 // rate -2*gamma*k) and once watching AGREEMENT (the rule turned around, rate -2*gamma*(N-k)). The
@@ -617,5 +672,7 @@ Console.WriteLine($"  F122 ceiling g2: K_5=4/N={Formulas.F122_CompleteCeiling(5)
 Console.WriteLine($"  F85 k-body trichotomy c(term) in {{0,1,2}}: YY->{Formulas.F85_FrobeniusFactor("YY")}, XY->{Formulas.F85_FrobeniusFactor("XY")}, YZ->{Formulas.F85_FrobeniusFactor("YZ")}, YYY->{Formulas.F85_FrobeniusFactor("YYY")} (n_YZ=3 yet c=1); Pi^2-odd count k=2,3,4 = {Formulas.F85_Pi2OddCount(2)}, {Formulas.F85_Pi2OddCount(3)}, {Formulas.F85_Pi2OddCount(4)}; ||M||^2/term = 4c ||H||^2 2^N");
 Console.WriteLine($"  F97 cardioid c(phi)=z*(1-z*), |z*|=1/2: cusp c(0)={Formulas.F97_Cardioid(0).Real:0.00} (the F16 boundary), tail c(pi)={Formulas.F97_Cardioid(Math.PI).Real:0.00}, top c(pi/2)={Formulas.F97_Cardioid(Math.PI / 2).Real:0.00}+{Formulas.F97_Cardioid(Math.PI / 2).Imaginary:0.00}i");
 Console.WriteLine($"  F124 band-edge invariant ||M||_F^2 + lambda_min = 2: N=4 -> {Formulas.F124_FrobeniusNormSq(4):0.0000} + {Formulas.F124_SpectralFloor(4):0.0000}; E = the F65 k=1 rung; E(N+1)^3 -> 4pi^2 = {4 * Math.PI * Math.PI:0.00}");
+Console.WriteLine($"  F75 mirror-pair MI = 2h(p)-h(2p) (Bell ceiling 2 bits at p=1/2); MM(0) bonding: (5,2)={Formulas.F75_MirrorPairSum(5, 2):0.000}, (7,4)={Formulas.F75_MirrorPairSum(7, 4):0.000}, (11,6)={Formulas.F75_MirrorPairSum(11, 6):0.000} (even k, noded centre, wins)");
+Console.WriteLine($"  F76 dephasing envelope lambda=e^(-4g0t): MM(t)/MM(0) at g0=0.05, t=0.1: (5,2)={Formulas.F76_Envelope(5, 2, 0.05, 0.1):0.000}, (13,4)={Formulas.F76_Envelope(13, 4, 0.05, 0.1):0.000}; the 0.93 is the g0 signature ({Formulas.F76_Envelope(5, 2, 0.025, 0.1):0.000} at g0=0.025, {Formulas.F76_Envelope(5, 2, 0.10, 0.1):0.000} at 0.10)");
 
 // (the 4^N Pauli-string enumeration now lives in PauliMode.Enumerate, shared with the tests)
