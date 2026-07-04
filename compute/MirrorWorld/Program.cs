@@ -319,6 +319,43 @@ if (args.Length > 0 && args[0] == "hardness")
     return;
 }
 
+// ---- run mode "router": the golden ceiling router ----
+// F116 (adopted 2026-07-04): the two Z-middle ceiling cases are palindromized LOCALLY by the
+// period-4 [a,a,b,b] router on the golden locus; the whole family is metallic, r(c) = the metallic
+// mean. Shown here: the window lemma at all four offsets, the locus gating the frame, and the
+// dense two-sided end-to-end (previously Python-only) at N=5 with site-dependent rates.
+if (args.Length > 0 && args[0] == "router")
+{
+    var rworld = new World();
+    var router = new Router(rworld);
+    var phi = Formulas.F116_MetallicMean(1.0);
+
+    Console.WriteLine("the golden ceiling router (F116, adopted 2026-07-04)");
+    Console.WriteLine("  source docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md sections 1-3 + 8; the ceiling cases");
+    Console.WriteLine("  XZX+XZY+YZX (and the X<->Y sibling) are soft, and LOCALLY so: W = (x)_l q_{l mod 4},");
+    Console.WriteLine($"  frame [a,a,b,b] with a = phi X + Y, b = X - phi Y on the golden locus; q^2 = -(2+phi) I = {-(2 + phi):0.000} I.");
+    Console.WriteLine();
+    Console.WriteLine("  the window lemma ({Q_k, S} = 0 at all four offsets, the 64-dim window space):");
+    Console.WriteLine($"    golden (c=1):  worst offset norm = {Router.WindowAnticommutatorNorm(1.0, phi, sibling: false):E1}");
+    Console.WriteLine($"    the sibling:   worst offset norm = {Router.WindowAnticommutatorNorm(1.0, phi, sibling: true):E1}");
+    Console.WriteLine("  the metallic family on the soft line t2 = t3, r(c) = (c + sqrt(c^2+4))/2 (F116_MetallicMean):");
+    foreach (double c in new[] { 0.0, 1.0, 2.0, 3.0 })
+    {
+        double rc = Formulas.F116_MetallicMean(c);
+        string name = c == 1.0 ? "golden phi" : c == 2.0 ? "silver 1+sqrt2" : c == 3.0 ? "bronze" : "the 45-degree frame";
+        Console.WriteLine($"    c={c:0.0}: r = {rc:0.000000} ({name}); on the locus {Router.WindowAnticommutatorNorm(c, rc, false):E1}, off it (r+0.25) {Router.WindowAnticommutatorNorm(c, rc + 0.25, false):0.00}");
+    }
+    Console.WriteLine();
+    Console.WriteLine("  the two-sided dense end-to-end (the proof's section 2; previously Python-only):");
+    var gammas = Enumerable.Range(0, 5).Select(l => 0.3 + 0.15 * l).ToArray();
+    var (chiralP, chiralQ, conjugation) = router.DenseResiduals(n: 5, c: 1.0, gammas);
+    Console.WriteLine($"    N=5, site-dependent gammas: P H P^-1 = -H at {chiralP:E1}, Q H Q^-1 = -H at {chiralQ:E1},");
+    Console.WriteLine($"    W L W^-1 = -L - 2 sigma on the full Pauli basis at {conjugation:E1}.");
+    Console.WriteLine("  the palindrome is realized by a LOCAL period-4 product -- no non-local mirror needed: the");
+    Console.WriteLine("  ceiling arc's 6 -> 4 -> 2 -> 0 closes, and the soft line's whole frame family is metallic.");
+    return;
+}
+
 // ---- run mode "anti": the rules turned around ----
 // The mirror's rho-level face: run the SAME living world twice, once watching disagreement (the rule,
 // rate -2*gamma*k) and once watching AGREEMENT (the rule turned around, rate -2*gamma*(N-k)). The

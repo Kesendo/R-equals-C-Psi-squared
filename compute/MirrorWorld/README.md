@@ -14,7 +14,7 @@ forced us to find, **broke our complexity wall**: a state's dynamics at N=60-100
 eigendecomposition died at N=8.
 
 Standalone .NET 10.0, no `RCPsiSquared.*` references. Run it, read it, trust it: every adopted
-number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (104 tests).
+number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (109 tests).
 
 *Vocabulary, once.* MirrorWorld is part of the **R=CΨ²** project (mirror symmetry in open quantum
 spin chains; repo root). The basic parameters: **N** = the number of two-level units (the chain
@@ -45,7 +45,7 @@ x/y/z; that is the inheritance edge System → Object.
 | `PauliMode.cs` | the symmetry-adapted superposition (a Pauli string of XY-weight k), four Klein cells; `Enumerate` the shared 4^N basis |
 | `Block.cs` | Grading B, the (N+1)² joint-popcount blocks C(N,p)·C(N,q) |
 | `Redistribution.cs`, `Clock.cs`, `Survivor.cs` | the static dynamics readings (H-on grid-leaving folds, θ = arctan Q, the survivor + the coherence horizon Q\*(N)) |
-| `Formulas.cs` | the adopted F-registry closed forms (88 members), each verbatim and tier-tagged |
+| `Formulas.cs` | the adopted F-registry closed forms (89 members), each verbatim and tier-tagged |
 | `Field.cs` | **the empty world, running**: weights on pairs, one `Step` is the disagreement-decay; structure (diagonal) stays, novelty (off-diagonal) fades |
 | `Restless.cs` | **the living world**: the full Lindblad loop ρ̇=−i[H,ρ]+D[ρ] (RK4); the handshake H births novelty FROM structure |
 | `Cone.cs` | **the memory cut**: a single excitation as an N×N block (not 4^N) -- the dynamics at large N |
@@ -53,10 +53,11 @@ x/y/z; that is the inheritance edge System → Object.
 | `MirrorGroup.cs` | **the mirror group** (adopted 2026-07-04, F118): the palindromizer factors, Π_Z = R·D, and ⟨R, D⟩ closes into the dihedral D₄ -- eight signed permutations of the Pauli basis, compared EXACTLY (phases in {±1, ±i}); the palindrome splits along the generators (D flips L_H, R reflects the dissipator and carries the constant −2σ); the polarity cube's three axes as characters; the truly cell = the joint-fixed cell of the diagonal mirror pair |
 | `AntilinearTriangle.cs` | **the antilinear triangle** (adopted 2026-07-04, F119): θ / conj / † as one Klein four-group graded by (ℓ, m); the transport law μ∘L_H∘μ = ℓm·L_{μ(H)} for any H; the fixed-point collapse (H = H† ⟺ Hᵀ = H̄); docks onto the mirror group as the antilinear double ⟨R, D, 𝒦⟩ ≅ D₄ × Z₂ (order 16, eight antiunitary members) |
 | `ParameterKlein.cs` | **the parameter-side Klein V₄** (adopted 2026-07-04, F91 + F92 + F93): on each parameter axis (γ per site, J per bond, h per site) the F71 mirror and the anti-palindromic reshuffle R₉₀ are two commuting involutions; the anti-palindromic class is exactly R₉₀'s fixed-point set; the sharper entry-wise law -- the F71-refined DIAGONAL blocks of L depend only on the pair-sums -- makes the whole orbit share one set of blocks, cell for cell (no eigensolver), while the breaking lives in the cross-blocks only |
+| `Router.cs` | **the golden ceiling router** (adopted 2026-07-04, F116): the two Z-middle ceiling cases palindromized LOCALLY by the period-4 [a,a,b,b] router on the golden locus (a = φX+Y, b = X−φY; q² = −(2+φ)·I), the whole family metallic on the soft line t₂ = t₃ with r(c) = (c+√(c²+4))/2; verified by the window lemma ({Q_k, S} = 0 at all four offsets, exact) AND the two-sided dense end-to-end W L W⁻¹ = −L − 2σ on the full Pauli basis (P = ⊗(âZ\|Z), Q = ⊗(Z\|Zâ), previously Python-only) -- the constructive soft side the hardness certificates leave open |
 | `Hardness.cs` | **the hardness of the palindrome** (adopted 2026-07-04, the F87 bloc: F102/F103 + F105/F106 stability + F107/F109 purity + F110/F111 cell rules + F115 + F117): the spectral trichotomy truly/soft/hard read WITHOUT a spectrum -- hardness as a GF(2)[x] (1+x)-valuation difference (one subtraction; A203241 counts, the min(2W−1, 2k−3) ceiling), purity as letter parity (truly ⟹ y_par=0; mother-soft ⟹ y_par=1), the diagonal-cell + Y-inversion rules with the adopted splits (42:8 N-stable, 228:0 via pure-D templates), and the trace face of the all-γ converse (odd power-sums of M = A + γQ; the K3 pair fires at m* = 9 with p₉ = 2064384·γ³, the exact F117 CRT integer). The spectral classifier itself (F87's definition, the F104 engine) deliberately stays outside |
 | `Topology.cs` | the geometry: chain / ring / star / complete bond generators |
 | `Program.cs` | the full sober run (default) + the run modes (see Run); R-parity and mod-4 inline |
-| `../MirrorWorld.Tests/*.cs` | 104 from-below tests: `SmokeTests` (39, the closed forms), `FieldTests` (7), `RestlessTests` (10), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (11, incl. the anti-watched world + past-the-wall), `MirrorGroupTests` (10), `AntilinearTriangleTests` (7), `ParameterKleinTests` (6), `HardnessTests` (8, incl. the valuation-vs-traces crown agreement) |
+| `../MirrorWorld.Tests/*.cs` | 109 from-below tests: `SmokeTests` (39, the closed forms), `FieldTests` (7), `RestlessTests` (10), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (11, incl. the anti-watched world + past-the-wall), `MirrorGroupTests` (10), `AntilinearTriangleTests` (7), `ParameterKleinTests` (6), `HardnessTests` (8, incl. the valuation-vs-traces crown agreement), `RouterTests` (5, incl. the dense end-to-end) |
 
 ## The closed-form base (the stopping line 2026-06-28; coverage closed 2026-07-04)
 
@@ -170,7 +171,8 @@ dotnet run --project compute/MirrorWorld -- anti 3        # the rules turned aro
 dotnet run --project compute/MirrorWorld -- group 3       # MirrorGroup + AntilinearTriangle: the D4 of signed permutations, the palindrome split, the cube of characters, the transport law, the order-16 double
 dotnet run --project compute/MirrorWorld -- klein 6       # ParameterKlein: the V4 on each parameter axis; the anti-palindromic orbit shares its diagonal blocks cell for cell, the breaking lives in the cross-blocks
 dotnet run --project compute/MirrorWorld -- hardness      # Hardness: the F87 bloc without a spectrum -- the K3 trio by valuation, the purity and cell rules, the trace face firing at m*=9 on the exact F117 integer
-dotnet test compute/MirrorWorld.Tests                     # the 104-test from-below guard
+dotnet run --project compute/MirrorWorld -- router        # Router: the golden/metallic ceiling router -- the window lemma at all four offsets, the locus gating the frame, the dense W L W^-1 = -L - 2 sigma at N=5
+dotnet test compute/MirrorWorld.Tests                     # the 109-test from-below guard
 ```
 
 ## How to continue (future us)
@@ -181,11 +183,10 @@ Two paths are open.
 `docs/ANALYTICAL_FORMULAS.md`, adopt **verbatim** (tier-tagged) into `Formulas.cs`, add a
 `Program.cs` print line and a from-below assertion in `SmokeTests.cs`, then build/test/commit.
 The 2026-06-28 remnant list is empty, the delta-survey singles (F75/F76, F88b, F91-F93,
-F95, F99) are home, and the F87-hardness bloc landed as `Hardness.cs` -- the delta list is
-DONE. The loop now waits for FUTURE registry entries (when a new F-number lands as a closed
-form, it comes home here); the named remaining operator candidate is F116's golden router W
-itself (the metallic-mean closed form and the exact ℤ[φ] conjugation, the constructive soft
-side the hardness certificates leave open).
+F95, F99) are home, the F87-hardness bloc landed as `Hardness.cs`, and the golden router
+followed as `Router.cs` -- the delta list AND its named operator remnant are DONE. The loop
+now waits for FUTURE registry entries: when a new F-number lands as a closed form (or as an
+exact rearrangement, the operator genre), it comes home here.
 
 **Push the running engine** -- and here is the honest resumption point. The wall is broken and
 the memory cut is validated, **but what we measured (the transport crossover) is textbook, and our own

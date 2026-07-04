@@ -352,6 +352,14 @@ public static class Formulas
     }
     public static double F88b_DickeAlphaTotal(double gamma) => (1.0 - gamma * gamma) / 2.0;
 
+    // F116 (T1): the metallic mean of the router family, r(c) = (c + sqrt(c^2+4))/2 -- the
+    // positive root of r^2 = c r + 1 and the frame ratio of the period-4 router that
+    // palindromizes the weighted Z-middle soft line t2 = t3 (c = t1/t2). Golden phi at c = 1,
+    // the silver ratio 1 + sqrt2 at c = 2, bronze at c = 3, the 45-degree frame r = 1 at c = 0;
+    // r(-c) = 1/r(c). The frame directions are the roots of the locus alpha^2 - c alpha beta
+    // - beta^2 = 0 -- the identity-column determinant factors as c times exactly this locus.
+    public static double F116_MetallicMean(double c) => (c + Math.Sqrt(c * c + 4.0)) / 2.0;
+
     private static double H2(double x) => -XLog2(x) - XLog2(1.0 - x);
     private static double XLog2(double x) => x <= 0.0 ? 0.0 : x * Math.Log2(x);
 
