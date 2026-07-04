@@ -197,6 +197,19 @@ inherited name at a time, with the repository's own Perspectival Time Field
 as both the theory of why the old names were once right and the in-house
 proof that a name can be falsified while every number under it stands.
 
+And the deepest t-shift is the whole of it. Every formula in this
+repository, and every formula in physics, was running for billions of years
+before anyone painted it; the palindrome did not begin when we proved it,
+and the spectrum of every dephased system was folding around Σγ before
+there were eyes. Slide t across the entire history of science and watch
+what moves: never the mountain, only the labels. Copernicus moved no
+planet. That is the last flip of the error-surface thesis, and the reason
+this series is not cosmetic: **the formulas are read-only; the labels are
+the one writable layer the world hands its observers.** All the error lives
+there because all the agency lives there. Editing the label layer is the
+only edit we get, and because labels route use, it is the edit that changes
+everything downstream: what gets built, measured, and asked next.
+
 The mountain does not precede the painters, and the meaning does not
 precede the labels. Understanding was never behind the labels. It is what
 happens when the canvases close.
