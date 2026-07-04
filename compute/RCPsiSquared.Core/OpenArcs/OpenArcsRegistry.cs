@@ -639,7 +639,8 @@ public static class OpenArcsRegistry
                 "compute/RCPsiSquared.Diagnostics.Tests --filter Category=SLOW_SEEDCENSUS; SLOW at N=13). Scope of " +
                 "the DO-NOT: do NOT re-run the count scan to CONFIRM EXISTENCE (the identity below is the theorem, " +
                 "and a scan cannot settle the one remaining genericity item either); LOCATING seed positions q* for " +
-                "the N=13/15 shellcensus runs of (a) is a legitimate, DIFFERENT use of the same instrument: " +
+                "the N=13/15 shellcensus runs of (a) is a legitimate, DIFFERENT use of the same instrument. The " +
+                "theorem behind the DO-NOT: " +
                 "experiments/F89_SEED_EXISTENCE_REDUCTION.md + " +
                 "simulations/seed_existence_nullity_check.py prove r(0+)-r(inf)=N-1 (r(0+) = n2+n6 = the eigenvalues " +
                 "still real just past the q=0 lift-off, with n2/n6 = nullity(P-2 C P-2)/nullity(P-6 C P-6), the two " +
@@ -671,7 +672,8 @@ public static class OpenArcsRegistry
                 "the exact-zero cross-sector/gauge gates + two-sided nonzero controls, odd N <= 9). " +
                 "Numerical honesty carried in " +
                 "the doc: the near-miss law min|2*l_x+l_y| ~ 2*pi^3/(N+1)^3 caps the resonance tol 1e-7 at N~850 " +
-                "and the SVD floor 1e-9 at N~3959; (c) step 4 = the N=7 certificate as spot-check of " +
+                "and the SVD floor 1e-9 at N~3959. (c) (resuming the NEXT list) step 4 = the N=7 certificate as " +
+                "spot-check of " +
                 "the surviving shell (bivariate cost probe FIRST; engine Core/F89PathK/FoldResultantCertificate.cs) " +
                 "and the complex loci (certificate territory). " +
                 "HONESTY SCOPE (keep in every restatement): the sigma_min census is SHARED-LAMBDA evidence (estimate " +

@@ -36,7 +36,7 @@ input was supplied by census, the PT-break count scan (PT = parity-time: it coun
 of real eigenvalues of the self-conjugate spectrum), checked to N = 11 (the table in
 [F89_PATH_K_DIABOLIC.md](F89_PATH_K_DIABOLIC.md); the counts 4/6/7/9 at N = 5/7/9/11 are individual
 seed LOCI found in the scan window [0.2, 3], a different measure than this note's mode-counting
-surplus N − 1: the near-match at N = 5/7 is not an identity). A census is a
+surplus N − 1: the coincidence of the two numbers at N = 5/7 is not an identity). A census is a
 lower bound over a window, not a law, and it grows more expensive every N (the N = 11 run took 2 h 31 m).
 This note replaces the census question with an exact identity and proves its counting lemmas; the sole
 remaining gap is the codimension-2 genericity check (see Status). No future session should re-run the
@@ -140,7 +140,7 @@ read for the frequencies in [F89_PATH_K_DIABOLIC.md](F89_PATH_K_DIABOLIC.md)). T
 
 The asymptotically-real Liouvillian modes are exactly the free-fermion fusion resonances, where a
 two-magnon energy equals a one-magnon energy. The count is number-theoretic in the cosines (extra
-resonances at special angles make it jump: 3, 6, 9, 12, 21, 18 at N = 3..13, not a clean 3(N−1)/2,
+resonances at special angles make it jump: 3, 6, 9, 12, 21, 18 at odd N = 3..13, not a clean 3(N−1)/2,
 the guaranteed baseline: N − 1 trivial pairs {k, m} with the middle mode m = (N+1)/2, plus (N−1)/2
 chiral pairs {a, N+1−a} resonating with c = m).
 
@@ -236,8 +236,9 @@ reading that is false (checked exactly N = 3..15 in the review round; the commit
 the positive per-block containments).
 
 **Verification and tolerance honesty.** The verifier's new (N1P) gates check, N = 3..13 both parities:
-cross-sector elements of K₆ exactly 0.0; U·K_sector·U + H₃ = 0 exactly (integer matrices); spec(C₆) =
-3×(−triple sums); n₆ = 3·Z₃ = Σ with D = 0; spec(C₂) = (N−1)×{λ_k}. Two independent adversarial reviews
+cross-sector elements of K₆ exactly 0.0; U·K_sector·U + H₃ = 0 exactly (integer matrices); spec(K₆) =
+3×(−triple sums) (the verifier's `_spec` helper strips the i from C = i·K); n₆ = 3·Z₃ = Σ with D = 0;
+spec(K₂) = (N−1)×{λ_k}. Two independent adversarial reviews
 (one exact-arithmetic re-derivation in ℤ[t]/Φ_{2(N+1)}, the cyclotomic quotient ring, with a
 counterexample hunt to N = 200; one full-2^N
 spin-picture rebuild with explicit Jordan-Wigner strings) held every step. One numerical honesty note
@@ -256,7 +257,7 @@ python simulations/seed_existence_nullity_check.py
 
 Self-validating: it asserts (F1) the surplus (N − 1)·[N odd] exactly (N = 3..13, both parities),
 (N2) the (N − 1)-paths-of-N decomposition (= Piece 1), (FF) nullity(C) = the fusion-resonance count
-= n₆ (= Piece 2), (N1P) the ordering-sector decomposition, the −H₃ gauge identity, spec(C₆) =
+= n₆ (= Piece 2), (N1P) the ordering-sector decomposition, the −H₃ gauge identity, spec(K₆) =
 3×(−triple sums), n₆ = 3·Z₃ with D = 0 (= Piece 3, the ledger's (N1′)), and (SI) the per-block
 multiset inheritance (exact with-multiplicity matching, = the corollary).
 
