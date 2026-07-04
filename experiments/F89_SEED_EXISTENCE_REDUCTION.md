@@ -22,18 +22,21 @@ calls the **containment "diamond"** inherits that seed for free. That proof has 
 be *handed* per chain length: that a seed exists on the (1,2) block at all, at each odd N.
 
 This note is about that one input. Until now it was supplied by a brute-force numerical scan (the
-**census**), checked to N = 11. Here it becomes an exact counting identity, and both of its counting
-lemmas are proved (the second, Piece 3, landed the same day after two adversarial reviews). The short
-answer: **a seed is forced for every odd N precisely because N is odd** (a path graph carries a zero
-mode iff its length is odd), modulo one genericity check.
+**census**), checked to N = 11. Here it becomes an exact counting identity, and all three of its
+counting pieces are proved (the last, Piece 3, landed the same day after two adversarial reviews). The
+short answer: **a seed is forced for every odd N precisely because N is odd** (a path graph on an odd
+number of vertices carries a zero mode; on an even number it does not), modulo one genericity check.
 
 ## The one input the corollary cannot derive
 
 The containment corollary of [PROOF_CODIM1_BY_ADDITIVITY](../docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md)
 transports and folds a seed across the whole diamond, but it takes the seed's *existence* as given:
 **a real defective exceptional point must exist on the (1,2) block at each odd N.** Until now that
-input was supplied by census, the PT-break count scan, checked to N = 11 (the table in
-[F89_PATH_K_DIABOLIC.md](F89_PATH_K_DIABOLIC.md); the counts 4/6/7/9 at N = 5/7/9/11). A census is a
+input was supplied by census, the PT-break count scan (PT = parity-time: it counts jumps in the number
+of real eigenvalues of the self-conjugate spectrum), checked to N = 11 (the table in
+[F89_PATH_K_DIABOLIC.md](F89_PATH_K_DIABOLIC.md); the counts 4/6/7/9 at N = 5/7/9/11 are individual
+seed LOCI found in the scan window [0.2, 3], a different measure than this note's mode-counting
+surplus N − 1: the near-match at N = 5/7 is not an identity). A census is a
 lower bound over a window, not a law, and it grows more expensive every N (the N = 11 run took 2 h 31 m).
 This note replaces the census question with an exact identity and proves its counting lemmas; the sole
 remaining gap is the codimension-2 genericity check (see Status). No future session should re-run the
@@ -44,31 +47,38 @@ scan to "confirm".
 The (1,2) block is the affine pencil L(q) = A + q·C on coherences |a⟩⟨b| (a a two-excitation ket, b a
 one-excitation bra) of the XY chain under uniform Z-dephasing:
 
-- **A** = −2·n_diff, the dephasing diagonal, with only two values: rung −2 (n_diff = 1, the bra site
-  sits on a ket site) and rung −6 (n_diff = 3, the three sites all distinct).
+- **A** = −2·n_diff, the dephasing diagonal, where n_diff counts the sites on which ket and bra differ
+  (the Hamming distance of their occupation patterns). On this block it takes only two values, the two
+  "rungs" (project usage: a rung = one degenerate dephasing level of A): rung −2 (n_diff = 1, the bra
+  site sits on a ket site) and rung −6 (n_diff = 3, the three sites all distinct).
 - **C** = −i(H₂ ⊗ I − I ⊗ H₁), the coherent XY hop (H₁, H₂ the one- and two-excitation hopping matrices);
-  C is anti-Hermitian, C = i·K with K self-adjoint in a fixed positive diagonal weighting (the orbit
-  metric), so K has real spectrum.
+  C is anti-Hermitian, C = i·K with K = −(H₂ ⊗ I − I ⊗ H₁) plainly real symmetric in this basis, so K
+  has real spectrum.
 - At odd N the spectrum of L(q) is self-conjugate for every real q (the unmirrorable central site;
-  `DiabolicReflectionParityWitness`), so the characteristic polynomial is real in Λ and the eigenvalues
-  are real or in complex-conjugate pairs.
+  `DiabolicReflectionParityWitness`), so the characteristic polynomial χ(Λ, q) is real in the spectral
+  variable Λ and the eigenvalues are real or in complex-conjugate pairs.
 
 Count the real eigenvalues at the two ends of the q-axis (exact SVD nullities, not eigenvalue thresholds,
 which mis-read the tail at large q):
 
 - **r(∞) = nullity(C)**, the asymptotically-real modes: at large q, λ ∼ q·(i·κ), κ ∈ spec K, so a mode
   stays real iff κ = 0, iff it lies in ker C.
-- **r(0⁺) = nullity(P₋₂ C P₋₂) + nullity(P₋₆ C P₋₆)**, the modes with a real (that is, zero) first-order
-  shift on each degenerate dephasing level. This is measured just above q = 0, past the immediate
-  imaginary lift-off of the levels whose first-order shift is nonzero. (The reading "r(0⁺) equals the
-  actual real count on (0, ε)" was probed directly during the adversarial review round: at N = 5/7/9,
+- **r(0⁺) = nullity(P₋₂ C P₋₂) + nullity(P₋₆ C P₋₆)** (P₋₂, P₋₆ the orthogonal projectors onto the two
+  rungs), the modes with a real (that is, zero) first-order shift on each degenerate dephasing level:
+  the first-order shifts on a rung are the eigenvalues of the compression of qC = iq·K, purely
+  imaginary unless zero, so "stays real" ⟺ "zero shift" ⟺ "in the compression's kernel". This is
+  measured just above q = 0, past the immediate imaginary lift-off of the levels whose first-order
+  shift is nonzero. (Strictly, r(0⁺) is DEFINED by this nullity sum, and the identity below is a
+  theorem about these nullities; its reading as the literal real count on (0, ε) is the standard
+  first-order statement, probed directly during the adversarial review round: at N = 5/7/9,
   q = 10⁻³..10⁻¹, the real count equals n₂ + n₆ exactly, with a clean |Im| split between the surviving
   and the lifted modes.)
 
 ## The identity, and why it forces the seed
 
 The verifier `simulations/seed_existence_nullity_check.py` computes both endpoints exactly, N = 3..13
-(odd rows shown; the verifier also runs even N, where n₂ = 0 and the surplus is 0):
+(odd rows shown; the verifier also runs even N, where n₂ = 0 and the surplus is 0; dim = N²(N−1)/2 =
+N(N−1) + N(N−1)(N−2)/2, the −2 + −6 split):
 
 | N | dim | n₂ = nullity(P₋₂CP₋₂) | n₆ = nullity(P₋₆CP₋₆) | r(∞) = nullity(C) | r(0⁺) − r(∞) |
 |---|-----|-----|-----|-----|-----|
@@ -82,7 +92,8 @@ The verifier `simulations/seed_existence_nullity_check.py` computes both endpoin
 **r(0⁺) − r(∞) = N − 1, exactly, for every odd N.** Since N − 1 > 0, the real-eigenvalue count strictly
 drops between small and large q, and the drop happens entirely at finite q > 0 (r(0⁺) is read past the
 q = 0 lift-off). A drop in the real count is a real-to-complex transition; the following lemma turns it
-into a seed.
+into a seed at a simple discriminant zero (the non-simple case is exactly the genericity item that
+stays open, Status item 2).
 
 **Lemma (defective at a simple zero; Tier 1 derived).** At a simple real zero q\* of the discriminant
 disc_Λ χ, exactly two eigenvalue branches meet in a square-root branch point, so L(q\*) carries a 2×2
@@ -90,7 +101,8 @@ Jordan block (geometric 1 < algebraic 2): a defective, order-2 exceptional point
 eigenvalue. This is the classical Kato fact (a single order-k defective Puiseux cycle makes the
 discriminant vanish to order k − 1; a semisimple or real-real crossing gives an *even* order, hence no
 sign change); it makes "a real-to-complex transition is defective" a theorem at simple zeros, and pins
-the "defective, not semisimple" character the census could only read numerically per locus.
+the "defective, not semisimple" character the census could only read numerically at each individual EP
+it found.
 
 So the existence question reduces to the surplus N − 1, and the surplus splits into three pieces, all
 three now proved.
@@ -98,21 +110,22 @@ three now proved.
 ## Piece 1: n₂ = N − 1 is a path count (Tier 1 derived)
 
 Parametrize the −2 states by ordered pairs (p, q), p ≠ q: |p,q⟫ = |{p,q}⟩⟨{p}|, with p the shared
-ket-and-bra site and q the ket-only site. The only XY hops that stay on the −2 rung give
+ket-and-bra site and q the ket-only site (this q is a Piece-1-local SITE index, not the knob q = J/γ).
+The only XY hops that stay on the −2 rung give
 P₋₂ C P₋₂ = i·K_red with two edge types: a **q-hop** (the ket-only site moves, |p,q⟫ ↔ |p,q±1⟫, weight
 −1) that cannot cross the shared site p, and a **swap** (|p,q⟫ ↔ |q,p⟫, weight +1) only when |p − q| = 1.
-Because the q-hop cannot cross p, each fixed-p fiber splits into two segments, and the N − 1 swaps glue
-them into
+Because the q-hop cannot cross p, each fixed-p fiber splits into two segments (R_p = the states with
+q > p, L_p = those with q < p), and the N − 1 swaps glue them into
 
   **Path_k = R_k ∪ L_{k+1},   k = 0, …, N − 2,   a simple path on (N − 1 − k) + (k + 1) = N vertices.**
 
 The graph of K_red is therefore a disjoint union of **N − 1 simple paths, each on N vertices**. Every
-path is a tree, so its signed adjacency gauges to the unsigned path P_N, whose nullity is 1 iff N is odd.
-Hence nullity(P₋₂ C P₋₂) = (N − 1)·[N odd] = N − 1 for odd N (and 0 for even N). Each fiber-path has
-exactly N vertices, and a path carries a zero mode iff its length is odd: **the seed-forcing kernel is
-nonempty precisely because N is odd**, the combinatorial face of the same unmirrorable central site that
-gives the odd-N self-conjugacy. (For even N the kernel is empty, consistent with the even-N absence of
-real diabolics.)
+path is a tree, so its signed adjacency gauges to the unsigned path P_N (a diagonal ±1 similarity),
+whose nullity is 1 iff N is odd. Hence nullity(P₋₂ C P₋₂) = (N − 1)·[N odd] = N − 1 for odd N (and 0
+for even N). Each fiber-path has exactly N vertices, and a path carries a zero mode iff its VERTEX
+count is odd: **the seed-forcing kernel is nonempty precisely because N is odd**, the combinatorial
+face of the same unmirrorable central site that gives the odd-N self-conjugacy. (For even N the kernel
+is empty, consistent with the census's even-N null result: no real seeds.)
 
 ## Piece 2: r(∞) is the free-fermion fusion-resonance count (Tier 1 derived)
 
@@ -127,7 +140,9 @@ read for the frequencies in [F89_PATH_K_DIABOLIC.md](F89_PATH_K_DIABOLIC.md)). T
 
 The asymptotically-real Liouvillian modes are exactly the free-fermion fusion resonances, where a
 two-magnon energy equals a one-magnon energy. The count is number-theoretic in the cosines (extra
-resonances at special angles make it jump: 3, 6, 9, 12, 21, 18 at N = 3..13, not a clean 3(N−1)/2).
+resonances at special angles make it jump: 3, 6, 9, 12, 21, 18 at N = 3..13, not a clean 3(N−1)/2,
+the guaranteed baseline: N − 1 trivial pairs {k, m} with the middle mode m = (N+1)/2, plus (N−1)/2
+chiral pairs {a, N+1−a} resonating with c = m).
 
 ## The narrative: the wild resonances cancel, the odd-N kernel survives
 
@@ -141,16 +156,19 @@ and force nothing; the seed is forced by the odd-N structure of the −2 rung al
 
 ## Piece 3: n₆ = the same count, by ordering sectors (Tier 1 derived; closed 2026-07-04, same day)
 
-**(N1′) Theorem.** For every N, both parities:
-**nullity(P₋₆ C P₋₆) = 3·Z₃ = Σ**, where Z₃ = #{a < b < c : λ_a + λ_b + λ_c = 0} and Σ is the
-fusion-resonance count of Piece 2. Combined with Piece 2, n₆ = Σ = nullity(C), which is what the
+**(N1′) Theorem.** ((N1′) is the arc ledger's label for this piece; the verifier's gate for it is
+named (N1P).) For every N, both parities:
+**nullity(P₋₆ C P₋₆) = 3·Z₃ = Σ**, where Z₃ = #{a < b < c : λ_a + λ_b + λ_c = 0} (mode indices) and Σ
+is the fusion-resonance count of Piece 2. Combined with Piece 2, n₆ = Σ = nullity(C), which is what the
 cancellation narrative needs.
 
 Write P₋₆ C P₋₆ = i·K₆, where C = i·K with K = −(H₂ ⊗ I − I ⊗ H₁) real symmetric (ket hops carry weight
 −1, bra hops +1; the bra factor could be written H₁ᵀ, moot since H₁ is symmetric). Four steps:
 
 **Step 1 (no passing).** A −6 state places three mutually distinct sites: two ket particles {a,b} and
-one bra particle c. Every K-matrix element is a single nearest-neighbour hop of one particle, and within
+one bra particle c (a, b, c are SITE coordinates in Steps 1-2; the theorem statement's a < b < c were
+mode indices, and Steps 2-4 hand the letters back to modes through the spectra). Every K-matrix element
+is a single nearest-neighbour hop of one particle, and within
 the −6 rung the target must be empty of all three: a ket hopping onto the other ket is Pauli-forbidden
 (no such H₂ element), and a ket hopping onto the bra site, or the bra onto a ket site, produces a −2
 state, i.e. lands in the coupling block, not in K₆. On the **open** chain (load-bearing: a ring would
@@ -166,16 +184,20 @@ z_i → z_i ± 1 preserving strict order: exactly the edge set of the 3-excitati
 to an occupied site is forbidden in both pictures, by exclusion here and by Pauli there). The diagonal
 gauge U = diag((−1)^{z_bra}) (z_bra the bra site coordinate) flips every bra hop to −1 and leaves ket
 hops untouched, so **U·K_sector·U = −H₃** as matrices. Free-fermion additivity gives
-spec(H₃) = {λ_a + λ_b + λ_c : a < b < c} (the Slater determinant of the sine modes diagonalizes every
-H_k, boundary and Pauli corrections cancelling as repeated-column determinants; the k = 2 case is the
-bit-exact additivity already pinned in [F89_PATH_K_DIABOLIC.md](F89_PATH_K_DIABOLIC.md)). Hence
+spec(H₃) = {λ_a + λ_b + λ_c : a < b < c}: concretely, for modes {a,b,c} the Slater determinant
+ψ(z₁ < z₂ < z₃) = det[φ_{a_i}(z_j)] of the sine modes φ_a(z) = sin(aπz/(N+1)) satisfies
+H₃ψ = (λ_a + λ_b + λ_c)ψ (the forbidden-hop and boundary corrections vanish as repeated-column or
+zero-column determinants), and these C(N,3) eigenvectors are complete because the third compound of the
+orthogonal sine matrix is orthogonal (Cauchy-Binet); the k = 2 case is the bit-exact additivity already
+pinned in [F89_PATH_K_DIABOLIC.md](F89_PATH_K_DIABOLIC.md). Hence
 
   **spec(K₆) = 3 copies of {−(λ_a + λ_b + λ_c) : a < b < c},  nullity(K₆) = 3·Z₃.**
 
 **Step 3 (triples ↔ resonances, 3-to-1).** Map a resonance ({a,b}, c) to the multiset {a, b, c\*},
 c\* = N+1−c; by the chiral pairing λ_{c\*} = −λ_c it is zero-sum. A zero-sum triple with distinct
 entries {u < v < w} pulls back to exactly the three resonances ({v,w}, N+1−u), ({u,w}, N+1−v),
-({u,v}, N+1−w), and the multiset is a complete invariant (no double counting either way). The
+({u,v}, N+1−w): the map is 3-to-1 with these three as the EXACT fiber (the multiset determines the
+triple, and distinct triples have disjoint fibers, so nothing is counted twice). The
 degenerate multisets {x,x,y} correspond one-to-one to ordered relations 2λ_x + λ_y = 0 with x ≠ y
 (the pair {x,x} is invalid, so no second resonance), and {x,x,x} yields nothing. So
 
@@ -183,8 +205,9 @@ degenerate multisets {x,x,y} correspond one-to-one to ordered relations 2λ_x + 
 
 **Step 4 (D = 0, cyclotomic integrality).** Suppose 2λ_x + λ_y = 0 with x ≠ y. λ_x = 0 would force
 λ_y = 0, i.e. x = y = the middle mode; so λ_x ≠ 0. Now λ_x = ζ^x + ζ^{−x} with ζ = e^{iπ/(N+1)} a
-primitive 2(N+1)-th root of unity is an algebraic integer of ℚ(ζ), and every Galois automorphism σ
-gives σ(λ_y) = −2σ(λ_x) with σ(λ_y) = 2cos(yjπ/(N+1)) ∈ [−2,2], hence |σ(λ_x)| ≤ 1 for **all** σ. The
+primitive 2(N+1)-th root of unity is an algebraic integer of ℚ(ζ), and every Galois automorphism
+σ_j: ζ ↦ ζ^j (j coprime to 2(N+1)) gives σ(λ_y) = −2σ(λ_x) with σ(λ_y) = 2cos(yjπ/(N+1)) ∈ [−2,2],
+hence |σ(λ_x)| ≤ 1 for **all** σ. The
 field norm over ℚ(ζ) is a nonzero rational integer (a power of the subfield norm when ℚ(λ_x) is a
 proper subfield), so 1 ≤ ∏_σ |σ(λ_x)| ≤ 1: every |σ(λ_x)| = 1, in particular |λ_x| = 1, so |λ_y| = 2,
 impossible since yπ/(N+1) ∈ (0,π) strictly. Hence **D = 0** and
@@ -195,23 +218,28 @@ At even N this reads n₆ = Σ with n₂ = 0, consistent with the landed odd-N t
 even N (verified N = 4..12; N = 8 has genuine resonances, Z₃ = 2, from the 2cos(π/9) family, yet forces
 no seed because the −2 kernel is empty).
 
-**Corollary (the spectral inheritance, now a per-block multiset theorem).** One convention pin first:
+**Corollary (the spectral inheritance, now a per-block multiset theorem).** Notation: K₂ = −i·P₋₂CP₋₂
+(Piece 1's K_red) and K₆ = −i·P₋₆CP₋₆ as above; an "eigenmode monomial" is a basis coherence in the
+mode picture, c†_d c†_e c_f. One convention pin first:
 the K-eigenvalue on the eigenmode monomial with ket pair {d,e} and bra f is λ_f − λ_d − λ_e; as a
 multiset over all monomials this equals the {λ_d + λ_e − λ_f} form used here, by the chiral relabeling
 d,e,f → N+1−d, N+1−e, N+1−f. In that form: spec(K₆) = 3×{−(λ_a+λ_b+λ_c)} embeds in spec(K) multiset-wise
 via (a<b<c) ↦ the three monomials ({N+1−a, N+1−b}, c), ({N+1−a, N+1−c}, b), ({N+1−b, N+1−c}, a)
-(injective), and spec(K₂) = (N−1)×{λ_k} (each of the N2 paths gauges to the unsigned P_N) embeds via the
-spectator monomials ({k,B}, B), B ≠ k. The verified-only "SUSY-like spectral inheritance" of the first
-landing is thereby *explained*: it is the chiral (particle-hole) mirror plus spectator pairs, and it
-holds with multiplicities, **per block separately**. The two image monomial sets overlap (every
-{u, m, N+1−u} triple lands on a spectator index), so the joint union spec(K₂) ⊎ spec(K₆) is **not** a
+(injective), and spec(K₂) = (N−1)×{λ_k} (each of Piece 1's N−1 paths gauges to the unsigned P_N) embeds
+via the spectator monomials ({k,B}, B), B ≠ k. The "SUSY-like spectral inheritance" that this note's
+first landing (the 2026-07-04 morning version) could only report as verified is thereby *explained*: it
+is the chiral (particle-hole) mirror plus spectator pairs, and it holds with multiplicities, **per
+block separately**. The two image monomial sets overlap (every {u, m, N+1−u} triple, m = (N+1)/2 the
+middle mode, lands on a spectator index), so the joint union spec(K₂) ⊎ spec(K₆) is **not** a
 sub-multiset of spec(K), despite dim₂ + dim₆ = dim: the matching cardinalities invite a partition
-reading that is false (verified N = 3..15).
+reading that is false (checked exactly N = 3..15 in the review round; the committed verifier asserts
+the positive per-block containments).
 
 **Verification and tolerance honesty.** The verifier's new (N1P) gates check, N = 3..13 both parities:
 cross-sector elements of K₆ exactly 0.0; U·K_sector·U + H₃ = 0 exactly (integer matrices); spec(C₆) =
 3×(−triple sums); n₆ = 3·Z₃ = Σ with D = 0; spec(C₂) = (N−1)×{λ_k}. Two independent adversarial reviews
-(one exact-arithmetic re-derivation in ℤ[t]/Φ₂ₘ with a counterexample hunt to N = 200, one full-2^N
+(one exact-arithmetic re-derivation in ℤ[t]/Φ_{2(N+1)}, the cyclotomic quotient ring, with a
+counterexample hunt to N = 200; one full-2^N
 spin-picture rebuild with explicit Jordan-Wigner strings) held every step. One numerical honesty note
 that outlives this proof: min_{x≠y} |2λ_x + λ_y| is not bounded below by a constant; at odd N the pair
 x = m+1, y = m−2 (m the middle mode) gives 2λ_x + λ_y = −4 sin θ (1 − cos θ) ≈ −2π³/(N+1)³ (θ =
@@ -227,10 +255,10 @@ python simulations/seed_existence_nullity_check.py
 ```
 
 Self-validating: it asserts (F1) the surplus (N − 1)·[N odd] exactly (N = 3..13, both parities),
-(N2) the (N − 1)-paths-of-N decomposition, (FF) nullity(C) = the fusion-resonance count = n₆,
-(N1P) the ordering-sector decomposition, the −H₃ gauge identity, spec(C₆) = 3×(−triple sums),
-n₆ = 3·Z₃ with D = 0, and spec(C₂) = (N−1)×{λ_k}, and (SI) the per-block multiset inheritance
-(exact with-multiplicity matching).
+(N2) the (N − 1)-paths-of-N decomposition (= Piece 1), (FF) nullity(C) = the fusion-resonance count
+= n₆ (= Piece 2), (N1P) the ordering-sector decomposition, the −H₃ gauge identity, spec(C₆) =
+3×(−triple sums), n₆ = 3·Z₃ with D = 0 (= Piece 3, the ledger's (N1′)), and (SI) the per-block
+multiset inheritance (exact with-multiplicity matching, = the corollary).
 
 ## Status
 
@@ -240,15 +268,17 @@ modulo exactly one remaining item; this note must not be read as closing the red
 
 1. ~~**(N1′)**~~ **CLOSED 2026-07-04 (Piece 3):** n₆ = 3·Z₃ = the fusion-resonance count, by the
    ordering-sector decomposition; the spectral inheritance is now a per-block multiset theorem, and the
-   third-quantization route the first landing named turned out unnecessary (the proof is graph
-   combinatorics + one cyclotomic norm bound). Two adversarial reviews (exact arithmetic; full-2^N
-   spin rebuild) held it.
+   third-quantization route (which this note's first landing had named as the natural tool for the
+   then-open Piece 3) turned out unnecessary: the proof is graph combinatorics + one cyclotomic norm
+   bound. Two adversarial reviews (exact arithmetic; full-2^N spin rebuild) held it.
 2. **The codim-2 β-exotic (OPEN):** a count-dropping transition is defective unless it is the
-   non-generic order-3 point where the local 2×2 has a nilpotent linear term; ruling this out for all
-   odd N is a codimension-2 genericity statement (the fixed gap 4 and the structurally nonzero
-   inter-rung hop argue against it, but it is unproven).
+   non-generic order-3 point where the local 2×2 has a nilpotent linear term (β after the normal form
+   β(s) = [[0, s], [s², 0]], eigenvalues ±s^{3/2}: a real-to-complex transition through a formally
+   semisimple point). Ruling this out for all odd N is a codimension-2 genericity statement (the fixed
+   gap 4 and the structurally nonzero inter-rung hop argue against it, but it is unproven); whether
+   this normal form exhausts the non-simple-zero transitions is part of the same open item.
 
 When the β-exotic closes, the census input becomes a law for all odd N, and the containment diamond
-membership follows at every N with no further scan. The three proved lemmas (N2, FF, N1′) are natural
-candidates to promote to typed Claims with live witnesses (the `DiabolicReflectionParityWitness`
-template); spec(K₆) = 3 × (−spec(H₃)) is a registry-grade closed form.
+membership follows at every odd N with no further scan. The counting theorem is typed as
+`SeedExistenceCountingClaim` (Tier1Derived) with the live witness `inspect --root seedcount`;
+spec(K₆) = 3 × (−spec(H₃)) is a registry-grade closed form.

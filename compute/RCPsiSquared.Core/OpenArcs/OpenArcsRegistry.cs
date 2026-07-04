@@ -612,7 +612,9 @@ public static class OpenArcsRegistry
                 "containment diamond; members read the Jordan pseudospectrum depth ~(gap/2)^2 = 3e-14..5.5e-13; " +
                 "nearest non-member 2.5e-4..2.6e-2; separation x4.8e8..x4.6e11); N=11 PARTIAL-clean at 2 seeds (one " +
                 "per parity; 6/10 members probeable, all ~e-13; DEFERRED by name behind the managed-LP64 wall " +
-                "(dim<=46340): members (4,5),(5,6)xlambda_A + (4,6),(5,5)xmu and cores (4,4),(4,7)). " +
+                "(dim<=46340): members (4,5),(5,6)xlambda_A + (4,6),(5,5)xmu and cores (4,4),(4,7) -- 'cores' " +
+                "here = the diagonal core and its f_Q fold image (4,N-4); the 07-03 journal layer's 'biggest " +
+                "cores' phrase spoke of DIMENSION, a different sense). " +
                 "THREE new derived/measured structures: (1) the R-PARITY ALTERNATION LAW R*W = (-1)^{p+w}*W*R (the " +
                 "JW string reflects from the other end, R c_l R = P_Z c_{N-1-l}; P_Z rho P_Z = (-1)^{p+w}) -- every " +
                 "band step flips the carried parity, fold/transpose preserve it, diagonal climbs commute strictly " +
@@ -625,36 +627,53 @@ public static class OpenArcsRegistry
                 "declared blind-spot class, so the 7-entry N=9 seed list was right; gate ScoutSeedAdjudicationProbe. " +
                 "Results: experiments/F89_MULTI_SECTOR_MONODROMY.md (the shell-census section) + " +
                 "simulations/results/sector_shell_census/*.csv; proof open-item 4 updated; F125 updated. " +
-                "NEXT (the program's remaining surface): (a) the MATRIX-FREE sigma_min path (SparseShiftInvertArnoldi " +
-                "exists, CSR emission of the sector blocks to build) for the six deferred N=11 blocks + the remaining " +
+                "NEXT (the program's remaining surface; THIS (a)/(b)/(c) list supersedes every earlier (a)/(b)/(c) " +
+                "numbering in the journal layers below): (a) the MATRIX-FREE sigma_min path (SparseShiftInvertArnoldi " +
+                "exists at Core/BlockSpectrum/SparseShiftInvertArnoldi.cs; the CSR emission of the sector blocks is " +
+                "the piece TO BUILD, docking into Diagnostics/Foundation/SectorShellCensus.cs) for the six deferred " +
+                "N=11 blocks + the remaining " +
                 "7 N=11 seeds (one CLI command each, ~19 min/seed: dotnet run --project compute/RCPsiSquared.Cli -c " +
                 "Release -- shellcensus --n 11 --seed <qStar>; --all-seeds for a full N; seeds listed in " +
                 "RealDefectiveSeeds) + N=13/15; (b) the seed census past N=11 " +
-                "(FindRealDefectiveByCountChange, SLOW at N=13) -- BUT the seed EXISTENCE at each odd N (what the " +
-                "corollary needs, above the count) is now REDUCED from census to an exact nullity identity, so DO " +
-                "NOT grow the count scan past N=11 to 'confirm': experiments/F89_SEED_EXISTENCE_REDUCTION.md + " +
-                "simulations/seed_existence_nullity_check.py prove r(0+)-r(inf)=N-1 (r(inf)=nullity(C)=the " +
+                "(FindRealDefectiveByCountChange; gate RealSeedCensusTests, run: dotnet test " +
+                "compute/RCPsiSquared.Diagnostics.Tests --filter Category=SLOW_SEEDCENSUS; SLOW at N=13). Scope of " +
+                "the DO-NOT: do NOT re-run the count scan to CONFIRM EXISTENCE (the identity below is the theorem, " +
+                "and a scan cannot settle the one remaining genericity item either); LOCATING seed positions q* for " +
+                "the N=13/15 shellcensus runs of (a) is a legitimate, DIFFERENT use of the same instrument: " +
+                "experiments/F89_SEED_EXISTENCE_REDUCTION.md + " +
+                "simulations/seed_existence_nullity_check.py prove r(0+)-r(inf)=N-1 (r(0+) = n2+n6 = the eigenvalues " +
+                "still real just past the q=0 lift-off, with n2/n6 = nullity(P-2 C P-2)/nullity(P-6 C P-6), the two " +
+                "dephasing-rung compressions; r(inf)=nullity(C)=the " +
                 "free-fermion FUSION-RESONANCE count #{lambda_a+lambda_b=lambda_c}; the surplus n2=N-1 = the odd-N " +
                 "-2-rung PATH kernel, N-1 disjoint paths of N vertices, zero mode iff N odd = the unmirrorable-seat " +
                 "face; LBL': a real-to-complex transition at a simple discriminant zero is a defective EP, Kato). " +
-                "(N1') CLOSED 2026-07-04 same day (doc Piece 3): n6 = 3*Z3 = the resonance count, by the " +
-                "ORDERING-SECTOR theorem: K6 splits into three no-passing bra-rank sectors (open chain, hard-core " +
-                "mutual exclusion), each gauge-equivalent via diag((-1)^{z_bra}) to MINUS the 3-magnon block H3, so " +
+                "(N1') (the ledger label for the doc's Piece 3; the verifier's gate is (N1P)) CLOSED 2026-07-04 " +
+                "same day: n6 = 3*Z3 = rho (Z3 = #{mode triples a<b<c: lambda_a+lambda_b+lambda_c=0}, rho = the " +
+                "resonance count above), by the " +
+                "ORDERING-SECTOR theorem: K6 = -i*(P-6 C P-6) splits into three no-passing bra-rank sectors (open " +
+                "chain, hard-core " +
+                "mutual exclusion), each gauge-equivalent via diag((-1)^{z_bra}) (z_bra = the bra site coordinate) " +
+                "to MINUS the 3-magnon block H3, so " +
                 "spec(K6) = 3 copies of -(la+lb+lc) (a registry-grade closed form); the chiral 3-to-1 " +
                 "triple<->resonance bijection plus D=0 (no 2*l_x+l_y=0, a cyclotomic-integrality norm bound) closes " +
                 "it, both parities; the spectral inheritance is now a per-block MULTISET theorem (the joint union is " +
                 "NOT a partition of spec(C), images overlap); third-quantization turned out unnecessary. TWO " +
-                "adversarial reviews held it (exact arithmetic in Z[t]/Phi_2m + counterexample hunt to N=200; " +
+                "adversarial reviews held it (exact arithmetic in Z[t]/Phi_{2(N+1)} + counterexample hunt to N=200; " +
                 "full-2^N spin rebuild with explicit JW strings). r(0+)-r(inf)=N-1 is now a THEOREM for every odd N. " +
                 "REMAINING OPEN on existence: the codim-2 beta-exotic genericity ONLY (a count-drop is defective " +
-                "unless the non-generic order-3 nilpotent-linear-term point). TYPED 2026-07-04: " +
+                "unless the non-generic order-3 nilpotent-linear-term point; 'beta' after the normal form " +
+                "beta(s)=[[0,s],[s^2,0]], eigenvalues +-s^{3/2}, a real-to-complex transition through a formally " +
+                "semisimple point). ATTACK ANCHOR for it (no tool exists yet): the Krein reading -- a transition " +
+                "point cannot be semisimple with DEFINITE sign characteristic, so the open case is exactly " +
+                "semisimple-INDEFINITE = the beta shape; start at the doc's Status item 2. TYPED 2026-07-04: " +
                 "SeedExistenceCountingClaim (Tier1Derived, parents AbsorptionTheorem + ChiralK) + live " +
                 "SeedExistenceCountingWitness, inspect --root seedcount (SVD nullities + combinatorial rho/Z3 + " +
                 "the exact-zero cross-sector/gauge gates + two-sided nonzero controls, odd N <= 9). " +
                 "Numerical honesty carried in " +
                 "the doc: the near-miss law min|2*l_x+l_y| ~ 2*pi^3/(N+1)^3 caps the resonance tol 1e-7 at N~850 " +
                 "and the SVD floor 1e-9 at N~3959; (c) step 4 = the N=7 certificate as spot-check of " +
-                "the surviving shell (bivariate cost probe FIRST) and the complex loci (certificate territory). " +
+                "the surviving shell (bivariate cost probe FIRST; engine Core/F89PathK/FoldResultantCertificate.cs) " +
+                "and the complex loci (certificate territory). " +
                 "HONESTY SCOPE (keep in every restatement): the sigma_min census is SHARED-LAMBDA evidence (estimate " +
                 "converges from above; not the EpCharacter Jordan-character reading, not a certificate). " +
                 "=== JOURNAL 2026-07-03 (post R4-interior close; symbols lambda_A, mu, corner/identity cert, Klein, " +
