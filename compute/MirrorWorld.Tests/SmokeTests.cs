@@ -358,6 +358,72 @@ public class SmokeTests
 
     static double H2(double x) => x <= 0 || x >= 1 ? 0.0 : -x * Math.Log2(x) - (1 - x) * Math.Log2(1 - x);
 
+    // --- F95: the theta-compass at the quadratic discriminant zero. For z^2 - 2bz + c = 0 the
+    // complex-root angle is theta = arctan(sqrt(c/b^2 - 1)) above c = b^2; at b = 1/2 the threshold
+    // is 1/4 and the Februar compass arctan(sqrt(4c-1)) is recovered (= the adopted F15); the
+    // Lindblad specialization is theta = arctan(Q), the adopted Clock's angle. ---
+    [Fact]
+    public void F95_Theta_Compass_Docks_Onto_F15_And_The_Clock()
+    {
+        Assert.Equal(0.0, Formulas.F95_Theta(0.25, 0.5), 12);                       // the degenerate double root
+        Assert.True(double.IsNaN(Formulas.F95_Theta(0.2, 0.5)));                    // below threshold: no angle
+        foreach (double c in new[] { 1.0 / 3, 0.308, 0.5, 1.0 })
+        {
+            Assert.Equal(Formulas.F95_ThetaHalf(c), Formulas.F95_Theta(c, 0.5), 12);
+            Assert.Equal(Formulas.F15_ThetaDeg(c), Formulas.F95_ThetaHalf(c) * 180.0 / Math.PI, 10);
+        }
+        foreach (var (j, g) in new[] { (1.0, 0.5), (2.0, 0.5), (0.3, 0.6) })        // theta = arctan(Q)
+            Assert.Equal(new Clock(W, j, g).ThetaDeg, Formulas.F95_Theta(g * g + j * j, g) * 180.0 / Math.PI, 10);
+    }
+
+    // --- F99: the five canonical trig anchors. alpha(theta) = sin^2(theta)/2 at {0,30,45,60,90}
+    // degrees gives the five Pi2 dyadic anchors {0, 1/8, 1/4, 3/8, 1/2}; the non-uniform Dicke
+    // weight is c^2 = cos(theta)/(2 sin^2(theta/2)) with the silver ratio 1+sqrt2 at 45 degrees,
+    // 2 sqrt3 + 3 at 30, and the uniform Dicke c = 1 at 60. ---
+    [Fact]
+    public void F99_Five_Canonical_Angles_Give_The_Dyadic_Anchors()
+    {
+        var anchors = new[] { (0.0, 0.0), (30.0, 0.125), (45.0, 0.25), (60.0, 0.375), (90.0, 0.5) };
+        foreach (var (deg, alpha) in anchors)
+            Assert.Equal(alpha, Formulas.F99_Alpha(deg * Math.PI / 180.0), 12);
+        Assert.Equal(2.0 * Math.Sqrt(3.0) + 3.0, Formulas.F99_DickeWeightSq(30.0 * Math.PI / 180.0), 10);
+        Assert.Equal(1.0 + Math.Sqrt(2.0), Formulas.F99_DickeWeightSq(45.0 * Math.PI / 180.0), 10);   // the silver ratio
+        Assert.Equal(1.0, Formulas.F99_DickeWeightSq(60.0 * Math.PI / 180.0), 10);                    // uniform Dicke
+        Assert.Equal(0.0, Formulas.F99_DickeWeightSq(90.0 * Math.PI / 180.0), 12);
+        foreach (double deg in new[] { 30.0, 45.0, 60.0, 90.0 })                    // gamma = c^2/(1+c^2) = cos(theta)
+        {
+            double c2 = Formulas.F99_DickeWeightSq(deg * Math.PI / 180.0);
+            Assert.Equal(Math.Cos(deg * Math.PI / 180.0), c2 / (1.0 + c2), 10);
+        }
+    }
+
+    // --- F88b: the popcount-coherence Pi^2-odd / memory closed form for (|p> + |q>)/sqrt2. Three
+    // alpha anchors from one Krawtchouk identity (0 at popcount-mirror, the K-intermediate ratio,
+    // 1/2 generic), the static fraction s from the sector sizes, and the HD = N anchor (GHZ:
+    // Pi^2-classical, zero odd content). The adjacent K-intermediate alpha IS the adopted F98. ---
+    [Fact]
+    public void F88b_Popcount_Coherence_Anchors_And_The_F98_Dock()
+    {
+        // the three alpha anchors
+        Assert.Equal(0.0, Formulas.F88b_Alpha(6, 2, 4), 12);                        // popcount-mirror n_p + n_q = N
+        Assert.Equal(0.0, Formulas.F88b_Alpha(6, 3, 3), 12);                        // intra-mirror at N/2 (even N)
+        Assert.Equal(0.5, Formulas.F88b_Alpha(7, 1, 3), 12);                        // generic
+        foreach (int n in new[] { 4, 6, 8 })                                        // adjacent K-intermediate = F98
+            Assert.Equal(Formulas.F98_DickeAsymptote(n), Formulas.F88b_Alpha(n, n / 2, n / 2 + 1), 12);
+        // the static fraction: inter- and intra-sector
+        Assert.Equal(1.0 / (4 * 15) + 1.0 / (4 * 20), Formulas.F88b_StaticFraction(6, 2, 3), 12);
+        Assert.Equal(1.0 / 20, Formulas.F88b_StaticFraction(6, 3, 3), 12);
+        // HD = N is Pi^2-classical (GHZ_N, Bell at N=2): zero odd content in memory
+        Assert.Equal(0.0, Formulas.F88b_Pi2OddInMemory(4, 0, 4, 4), 12);
+        // otherwise (1/2 - alpha s)/(1 - s); generic small case pinned by direct evaluation
+        double s = Formulas.F88b_StaticFraction(7, 1, 3);
+        Assert.Equal((0.5 - 0.5 * s) / (1.0 - s), Formulas.F88b_Pi2OddInMemory(7, 1, 3, 2), 12);
+        // the multi-state Dicke extension: alpha_total = (1 - gamma^2)/2, anchors {1/2, 3/8, 0}
+        Assert.Equal(0.5, Formulas.F88b_DickeAlphaTotal(0.0), 12);
+        Assert.Equal(0.375, Formulas.F88b_DickeAlphaTotal(0.5), 12);
+        Assert.Equal(0.0, Formulas.F88b_DickeAlphaTotal(1.0), 12);
+    }
+
     // --- F124: the band-edge transition invariant ||M||_F^2 + lambda_min = 2 (the coordination
     // number), split as (2 - E) + E with E = (4/(N+1)) sin^2(pi/(N+1)) -- exactly the k=1 rung of
     // the already-adopted F65 ladder (the carrier's weight on the two free ends). ---

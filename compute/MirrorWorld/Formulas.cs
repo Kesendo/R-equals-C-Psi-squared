@@ -303,6 +303,55 @@ public static class Formulas
         return now / start;
     }
 
+    // F95 (T1): the theta-compass at the quadratic discriminant zero. For z^2 - 2bz + c = 0 the
+    // complex-root angle above the threshold c = b^2 is theta = arctan(sqrt(c/b^2 - 1)); zero at
+    // the degenerate double root, undefined (NaN) below it. At b = 1/2 the threshold is 1/4 and
+    // the Februar compass arctan(sqrt(4c - 1)) (= F15) is recovered; the Lindblad specialization
+    // (lambda^2 + 2 gamma lambda + gamma^2 + J^2, b = -gamma, c = gamma^2 + J^2) gives
+    // theta = arctan(J/gamma) = arctan(Q), the Clock's angle: the compass and the clock are one.
+    public static double F95_Theta(double c, double b)
+        => c < b * b ? double.NaN : Math.Atan(Math.Sqrt(c / (b * b) - 1.0));
+    public static double F95_ThetaHalf(double c) => F95_Theta(c, 0.5);
+
+    // F99 (T1): the five canonical trigonometric anchors. The F86b alpha-formula
+    // alpha(theta) = sin^2(theta)/2 at {0, 30, 45, 60, 90} degrees produces the five Pi2 dyadic
+    // anchors {0, 1/8, 1/4, 3/8, 1/2}; the non-uniform Dicke weight realizing gamma = cos(theta)
+    // is c^2 = cos(theta)/(2 sin^2(theta/2)) (2 sqrt3 + 3 at 30, the silver ratio 1 + sqrt2 at 45,
+    // the uniform Dicke c = 1 at 60, 0 at 90). The standard trig triangles ARE the anchor triangles.
+    public static double F99_Alpha(double theta) => Math.Pow(Math.Sin(theta), 2) / 2.0;
+    public static double F99_DickeWeightSq(double theta)
+        => Math.Cos(theta) / (2.0 * Math.Pow(Math.Sin(theta / 2.0), 2));
+
+    // F88b (T1): the popcount-coherence Pi^2-odd / memory closed form for (|p> + |q>)/sqrt2 with
+    // popcounts n_p, n_q and Hamming distance HD: 0 at HD = N (Pi^2-classical, GHZ), otherwise
+    // (1/2 - alpha s)/(1 - s). Three alpha anchors from one Krawtchouk identity: 0 at the
+    // popcount-mirror n_p + n_q = N; C(N,N/2)/(2(C(N,n_other) + C(N,N/2))) at K-intermediate
+    // (even N, exactly one popcount at N/2; the adjacent case IS F98's (N+2)/(4(N+1)));
+    // 1/2 generic. Static fraction s: inter-sector 1/(4 C(N,n_p)) + 1/(4 C(N,n_q)), intra 1/C(N,n).
+    // Multi-state Dicke extension: alpha_total = (1 - gamma^2)/2, anchors {1/2, 3/8, 0}.
+    public static double F88b_Alpha(int n, int np, int nq)
+    {
+        if (np + nq == n) return 0.0;                                       // popcount-mirror
+        if (n % 2 == 0 && (np == n / 2) != (nq == n / 2))                   // K-intermediate
+        {
+            double half = Block.Binomial(n, n / 2);
+            double other = Block.Binomial(n, np == n / 2 ? nq : np);
+            return half / (2.0 * (other + half));
+        }
+        return 0.5;                                                         // generic
+    }
+    public static double F88b_StaticFraction(int n, int np, int nq)
+        => np == nq
+            ? 1.0 / Block.Binomial(n, np)
+            : 1.0 / (4.0 * Block.Binomial(n, np)) + 1.0 / (4.0 * Block.Binomial(n, nq));
+    public static double F88b_Pi2OddInMemory(int n, int np, int nq, int hd)
+    {
+        if (hd == n) return 0.0;                                            // Pi^2-classical
+        double s = F88b_StaticFraction(n, np, nq);
+        return (0.5 - F88b_Alpha(n, np, nq) * s) / (1.0 - s);
+    }
+    public static double F88b_DickeAlphaTotal(double gamma) => (1.0 - gamma * gamma) / 2.0;
+
     private static double H2(double x) => -XLog2(x) - XLog2(1.0 - x);
     private static double XLog2(double x) => x <= 0.0 ? 0.0 : x * Math.Log2(x);
 

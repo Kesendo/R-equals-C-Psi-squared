@@ -14,7 +14,7 @@ forced us to find, **broke our complexity wall**: a state's dynamics at N=60-100
 eigendecomposition died at N=8.
 
 Standalone .NET 10.0, no `RCPsiSquared.*` references. Run it, read it, trust it: every adopted
-number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (93 tests).
+number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (96 tests).
 
 *Vocabulary, once.* MirrorWorld is part of the **R=CΨ²** project (mirror symmetry in open quantum
 spin chains; repo root). The basic parameters: **N** = the number of two-level units (the chain
@@ -45,7 +45,7 @@ x/y/z; that is the inheritance edge System → Object.
 | `PauliMode.cs` | the symmetry-adapted superposition (a Pauli string of XY-weight k), four Klein cells; `Enumerate` the shared 4^N basis |
 | `Block.cs` | Grading B, the (N+1)² joint-popcount blocks C(N,p)·C(N,q) |
 | `Redistribution.cs`, `Clock.cs`, `Survivor.cs` | the static dynamics readings (H-on grid-leaving folds, θ = arctan Q, the survivor + the coherence horizon Q\*(N)) |
-| `Formulas.cs` | the adopted F-registry closed forms (80 members), each verbatim and tier-tagged |
+| `Formulas.cs` | the adopted F-registry closed forms (88 members), each verbatim and tier-tagged |
 | `Field.cs` | **the empty world, running**: weights on pairs, one `Step` is the disagreement-decay; structure (diagonal) stays, novelty (off-diagonal) fades |
 | `Restless.cs` | **the living world**: the full Lindblad loop ρ̇=−i[H,ρ]+D[ρ] (RK4); the handshake H births novelty FROM structure |
 | `Cone.cs` | **the memory cut**: a single excitation as an N×N block (not 4^N) -- the dynamics at large N |
@@ -55,7 +55,7 @@ x/y/z; that is the inheritance edge System → Object.
 | `ParameterKlein.cs` | **the parameter-side Klein V₄** (adopted 2026-07-04, F91 + F92 + F93): on each parameter axis (γ per site, J per bond, h per site) the F71 mirror and the anti-palindromic reshuffle R₉₀ are two commuting involutions; the anti-palindromic class is exactly R₉₀'s fixed-point set; the sharper entry-wise law -- the F71-refined DIAGONAL blocks of L depend only on the pair-sums -- makes the whole orbit share one set of blocks, cell for cell (no eigensolver), while the breaking lives in the cross-blocks only |
 | `Topology.cs` | the geometry: chain / ring / star / complete bond generators |
 | `Program.cs` | the full sober run (default) + the run modes (see Run); R-parity and mod-4 inline |
-| `../MirrorWorld.Tests/*.cs` | 93 from-below tests: `SmokeTests` (36, the closed forms), `FieldTests` (7), `RestlessTests` (10), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (11, incl. the anti-watched world + past-the-wall), `MirrorGroupTests` (10), `AntilinearTriangleTests` (7), `ParameterKleinTests` (6) |
+| `../MirrorWorld.Tests/*.cs` | 96 from-below tests: `SmokeTests` (39, the closed forms), `FieldTests` (7), `RestlessTests` (10), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (11, incl. the anti-watched world + past-the-wall), `MirrorGroupTests` (10), `AntilinearTriangleTests` (7), `ParameterKleinTests` (6) |
 
 ## The closed-form base (the stopping line 2026-06-28; coverage closed 2026-07-04)
 
@@ -74,8 +74,13 @@ structural" suggested. The first two came home the same day: F75 (mirror-pair mu
 the 0.93 is the γ₀ signature, not a constant). The adoption's from-below pin immediately paid for
 itself: three stale cells in the registry's own F76 table (the N = 9/11/13 pure-dephasing column)
 were caught against a rerun of the cited `envelope_study.py` and corrected at the source.
-Surveyed candidates still open: F88b (popcount-coherence closed form), F95 (θ-compass), F99, and
-the rest of the delta list.
+The next three followed the same day: F95 (the θ-compass at the quadratic discriminant zero,
+whose Lindblad face θ = arctan Q IS the adopted Clock: the compass and the clock are one), F99
+(the five canonical trig angles giving the Pi2 dyadic ladder {0, ⅛, ¼, ⅜, ½}, the silver-ratio
+Dicke weight at 45°), and F88b (the popcount-coherence Π²-odd/memory closed form, whose adjacent
+K-intermediate anchor IS the adopted F98). Surveyed candidates still open: the F87-hardness bloc
+(F103/F105-F107/F109-F111/F115/F117, adoptable only as a bloc) and the smaller singles of the
+delta list.
 
 **Deliberately left** (this is where adoption stops): the genuinely structural rest of F72-F120:
 the residual M identities (F80-F84), the F87 trichotomy, the F100-F120 follow-ons. These are
@@ -162,7 +167,7 @@ dotnet run --project compute/MirrorWorld -- mirror 100    # N > 8 goes PAST THE 
 dotnet run --project compute/MirrorWorld -- anti 3        # the rules turned around: the anti-watched world (agreement watched) = the world read through X^N; the conserved law moves to the anti-trace
 dotnet run --project compute/MirrorWorld -- group 3       # MirrorGroup + AntilinearTriangle: the D4 of signed permutations, the palindrome split, the cube of characters, the transport law, the order-16 double
 dotnet run --project compute/MirrorWorld -- klein 6       # ParameterKlein: the V4 on each parameter axis; the anti-palindromic orbit shares its diagonal blocks cell for cell, the breaking lives in the cross-blocks
-dotnet test compute/MirrorWorld.Tests                     # the 93-test from-below guard
+dotnet test compute/MirrorWorld.Tests                     # the 96-test from-below guard
 ```
 
 ## How to continue (future us)
@@ -172,8 +177,8 @@ Two paths are open.
 **Adopt another closed form** (the original loop, for the closed-form base): find it in
 `docs/ANALYTICAL_FORMULAS.md`, adopt **verbatim** (tier-tagged) into `Formulas.cs`, add a
 `Program.cs` print line and a from-below assertion in `SmokeTests.cs`, then build/test/commit.
-The 2026-06-28 remnant list is empty and the first of the delta-survey candidates (F75/F76,
-F91-F93) are home; the loop continues with the surveyed rest (F88b, F95, F99, ...) and with
+The 2026-06-28 remnant list is empty and the delta-survey singles (F75/F76, F88b, F91-F93,
+F95, F99) are home; the loop continues with the F87-hardness bloc (only as a bloc) and with
 FUTURE registry entries -- when a new F-number lands as a closed form, it comes home here.
 
 **Push the running engine** -- and here is the honest resumption point. The wall is broken and
