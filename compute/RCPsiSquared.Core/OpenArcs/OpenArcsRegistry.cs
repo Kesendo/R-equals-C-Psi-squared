@@ -630,7 +630,16 @@ public static class OpenArcsRegistry
                 "7 N=11 seeds (one CLI command each, ~19 min/seed: dotnet run --project compute/RCPsiSquared.Cli -c " +
                 "Release -- shellcensus --n 11 --seed <qStar>; --all-seeds for a full N; seeds listed in " +
                 "RealDefectiveSeeds) + N=13/15; (b) the seed census past N=11 " +
-                "(FindRealDefectiveByCountChange, SLOW at N=13); (c) step 4 = the N=7 certificate as spot-check of " +
+                "(FindRealDefectiveByCountChange, SLOW at N=13) -- BUT the seed EXISTENCE at each odd N (what the " +
+                "corollary needs, above the count) is now REDUCED from census to an exact nullity identity, so DO " +
+                "NOT grow the count scan past N=11 to 'confirm': experiments/F89_SEED_EXISTENCE_REDUCTION.md + " +
+                "simulations/seed_existence_nullity_check.py prove r(0+)-r(inf)=N-1 (r(inf)=nullity(C)=the " +
+                "free-fermion FUSION-RESONANCE count #{lambda_a+lambda_b=lambda_c}; the surplus n2=N-1 = the odd-N " +
+                "-2-rung PATH kernel, N-1 disjoint paths of N vertices, zero mode iff N odd = the unmirrorable-seat " +
+                "face; LBL': a real-to-complex transition at a simple discriminant zero is a defective EP, Kato) -- " +
+                "OPEN: (N1') n6=nullity(P-6 C P-6)=the same resonance count [reduced to mult0(C6)=mult0(C) under the " +
+                "verified SPECTRAL INHERITANCE spec(C2),spec(C6) subset spec(C); third-quantization is the tool] + " +
+                "the codim-2 beta-exotic genericity; (c) step 4 = the N=7 certificate as spot-check of " +
                 "the surviving shell (bivariate cost probe FIRST) and the complex loci (certificate territory). " +
                 "HONESTY SCOPE (keep in every restatement): the sigma_min census is SHARED-LAMBDA evidence (estimate " +
                 "converges from above; not the EpCharacter Jordan-character reading, not a certificate). " +
