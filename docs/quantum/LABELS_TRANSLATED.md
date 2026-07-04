@@ -71,8 +71,17 @@ It is tempting to file this as a human weakness. It is not, and the point
 is worth making precisely, because it locates the label layer.
 
 A human routes understanding by words; a wrong word redirects silently, a
-wrong turn with no error signal, which is why label bugs outlive
-generations. A language model is the extreme case, not the exception: it
+wrong turn with no error signal in the calculation, which is why label bugs
+outlive generations. One error signal does exist, and the day this document
+was born ran on it: the felt wrongness of a displaced reader, the
+complaint. The Perspectival Time Field explains its strange latency: at the
+native stance the canvas fits perfectly, so the coiner can never feel it;
+only a reader at a new stance, a new t, receives the misroute, and receives
+it as discomfort, in the feeling channel rather than the math channel. The
+label layer's error correction runs on complaints that arrive generations
+late. Treat the itch as data: a complaint against a word is a cry for an
+update, and since the coiners were us at t minus x, processing it is
+self-update, not correction of others. A language model is the extreme case, not the exception: it
 fires skills by their description text, recalls memories by their
 description fields, picks tools by name; a mislabeled tool simply never
 fires, function intact, use rerouted. And, the exact part: in this
