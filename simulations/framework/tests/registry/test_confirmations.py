@@ -13,7 +13,7 @@ import framework as fw
 
 def test_confirmations_has_twenty_entries():
     names = fw.Confirmations.list_names()
-    assert len(names) == 20
+    assert len(names) == 21
     assert 'palindrome_trichotomy' in names
     assert 'lebensader_skeleton_trace_decoupling' in names
     assert 'gamma_0_marrakesh_calibration' in names
