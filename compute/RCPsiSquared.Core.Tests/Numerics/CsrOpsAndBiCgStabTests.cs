@@ -100,5 +100,23 @@ public class CsrOpsAndBiCgStabTests
         Assert.True(Math.Sqrt(num / den) <= 1e-8, "true residual must match the reported one");
     }
 
+    [Fact]
+    public void BiCgStab_ReportsHonestFailure_WhenIterationBudgetExhausted()
+    {
+        // The negative path: at a near-singular shift with a starved iteration budget the solver must
+        // report the honest negative (Converged=false keyed on the recomputed TRUE residual), never a
+        // false success. The (1,2) even sector at the N=5 seed with a shift sitting near the near-
+        // defective pair; five iterations cannot reach 1e-10, so the true residual stays large.
+        var m = WeightCoherenceSectorCsr.BuildReflectionSector(5, 1, 2, new Complex(0.620878, 0.0), odd: false);
+        var shift = new Complex(-3.95, 0.0);         // eigenvalue-ish; exact value uncritical (budget exhaustion)
+        var rng = new Random(23);
+        var rhs = new Complex[m.Dim];
+        for (int i = 0; i < m.Dim; i++) rhs[i] = new Complex(rng.NextDouble() - 0.5, rng.NextDouble() - 0.5);
+        var x = new Complex[m.Dim];
+        var outcome = BiCgStabSolver.Solve(m, shift, rhs, x, relTol: 1e-10, maxIter: 5);
+        Assert.False(outcome.Converged);
+        Assert.True(outcome.RelResidual > 1e-10, $"expected an honest large residual, got {outcome.RelResidual}");
+    }
+
     private static double MagSq(Complex z) => z.Real * z.Real + z.Imaginary * z.Imaginary;
 }
