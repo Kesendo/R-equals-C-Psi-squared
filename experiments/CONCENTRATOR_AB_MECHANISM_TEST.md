@@ -99,11 +99,15 @@ split, split by time point, never by config). `backend.properties()` snapshotted
 before and after. Two readout-cal circuits recorded (not used by the primary March
 pipeline; for a later mitigated re-analysis).
 
-**Circuit/execution count:** 45 + 45 + 45 + 45×16 + 45×16 + 2 = 1577 executions,
-sink instances at 250 shots, the rest at 4000; QPU estimate at the March anchor
-(≈ 0.6 s overhead + shot time) ≈ 30-40 min. If the pre-flight estimate exceeds
-45 min, drop config 5's K to 8 (priority per review: a faithful sink on two
-configs beats a large-K sink on one).
+**Circuit/execution count:** 45 + 45 + 45 + 45×16 + 45×16 + 2 = 1577 executions
+in 227 PUBs (908k shots), sink instances at 250 shots, the rest at 4000. QPU
+estimate (printed by the runner pre-flight): Model B (per-PUB anchor) 13.2 min,
+the planning number; Model C (no parameter-set amortization) 92 min, the flagged
+worst case. Flight rule, pinned: fly on the Model-B planning number against the
+available budget; the Model-C tail risk is accepted explicitly at the go
+decision (recorded in the RECORD section). The earlier K = 8 fallback is struck:
+the runner's structured construction is K = 16 by design and no fallback is
+implemented.
 
 ## Pre-registered predictions and verdict logic (v2)
 
@@ -124,6 +128,13 @@ hardware junk and estimator bias enter both sides alike):**
   mechanism is live and engineerable on this hardware, and B is SUFFICIENT to
   explain March"; it does not retroactively prove March WAS B (Q85's gate-cost
   channel also existed). A-CONFIRMED corrects the outbound adapter §5 honestly.
+- **Exhaustiveness clause:** ANY outcome pattern not matching the B rule
+  (both Δ legs beyond band, ≥ 3 of the returned time points each) or the A rule
+  (both legs within bands at all returned time points) is INCONCLUSIVE, named
+  as such, with the follow-up stated; this includes significantly NEGATIVE Δ,
+  mixed legs (one fires, the other does not), and partial job returns (if a
+  time point drops for all configs, the "of 5" rescales to the returned count,
+  minimum 3 points for any verdict).
   A dephasing-only exact simulation already produces the boost in the ideal limit
   (review, Sum-MI 0.002 → 0.22 at t = 2), so the hardware question is whether the
   mechanism SURVIVES real junk at the predicted size, which is exactly the
@@ -149,29 +160,44 @@ the CIs; the null spread of Δ under a no-sink world sets the 2σ thresholds.
 The runner (external tomography pipeline, built to this spec the same day, smoke +
 full modes) records, counts-level with the LITERAL frozen sink construction:
 
-- **Predicted effect (uniform T1 = 250 / T2 = 180 µs line, seed 20260705):**
-  Δ_sel = +0.13 / +0.18 / +0.05 at t = 3/4/5 (bootstrap CIs excluding 0 at
-  t = 2-5), R_boost ≈ 3.4-6.7 at mid-t; the per-pair table shows the largest
-  sink-created MI at the pair FARTHEST from the sink (0.103 at pair (3,4) vs
-  0.012 at (0,1), t = 3), i.e. the created correlation propagates through the
-  chain, the concentrator transport signature.
+- **Predicted effect on the FLIGHT chain (see chain paragraph below; seed
+  20260705):** Δ_sel = +0.30 / +0.31 / +0.13 / +0.13 / +0.05 at t = 1..5, all
+  five bootstrap CIs excluding 0; Δ_u similar (+0.39 to +0.05); R_boost ≈
+  3.5-11.8. On the earlier synthetic-uniform gate run (T1 = 250 / T2 = 180 µs)
+  the per-pair table shows the largest sink-created MI at the pair FARTHEST
+  from the sink (0.103 at (3,4) vs 0.012 at (0,1), t = 3): the created
+  correlation propagates through the chain, the concentrator transport
+  signature.
 - **Null bands (no-sink world, through the same estimator), BINDING at N = 100
-  (recorded 2026-07-05, `ab_test_null_20260705_154857.json`):** Δ significant
-  outside **± 0.047**, Δ_u outside **± 0.053** (stable vs the N = 50 pass:
-  ± 0.049 / ± 0.045); the ratio nulls are huge (R_boost ± 5.6, R_sink ± 12.2,
-  R_nosink ± 8.3), the quantitative vindication of Δ as primary. The predicted
-  effect (+0.13 to +0.18 at mid-t) sits 2.4-3.8× above the Δ band. Measured
-  estimator bias floor 0.029, drawn on all plots.
+  on the flight chain [109, 108, 107, 106, 105] (recorded before the shot,
+  `ab_test_null_20260705_172115.json`; the pooled p99 of |Δ|, not a 2σ; the
+  pooled band is anti-conservative at early t and conservative at late t,
+  harmless under the ≥ 3-of-5 rule at 0/100 null false-fires):** Δ significant
+  outside **± 0.0486**, Δ_u outside **± 0.0462**; ratio nulls R_boost ± 4.2,
+  R_sink ± 8.6, R_nosink ± 12.9 (context only). Pre-shot check PASSED: the
+  predicted Δ on this chain clears the band at t = 1-4 (6.2× / 6.3× / 2.7× /
+  2.6×), marginal at t = 5 (1.1×), so B-CONFIRMED is reachable under the
+  ≥ 3-of-5 rule with margin. Measured MI bias floor on this chain: mean 0.034
+  (median 0.034), drawn on all plots. (An earlier N = 100 pass, ± 0.047 /
+  ± 0.053, was computed on the Q66-70 chain that later failed the day's rule;
+  superseded together with that chain.)
 - **Aer parity (the actual circuits, noiseless): PASS.** All four φ⃗ = 0-equivalent
   arms give Sum-MI exactly 0.0000 (the fixed-point theorem, visible in the real
   circuits); the bound sink deviates as it must (+0.14-0.50 bits noiseless).
-- **Chain selection (same-day API calibration, 2026-07-05):** ibm_marrakesh
-  FAILS the uniformity rule today (all 428 five-qubit chains rejected on
-  min-T2echo ≥ 150 µs; the runner refuses to relax, as designed).
-  **ibm_kingston passes with 13 chains**; best: T2echo = 172/168/170/196/165 µs,
-  uniformity 0.84 (max/min 1.19), readout ≤ 1.75%, sink edge Q66 (the
-  higher-T2* end, T2* ≈ 69 µs), residual natural contrast 2.40× recorded.
-  Device for the shot: ibm_kingston.
+- **Chain selection (same-day API calibration, 2026-07-05), with the
+  stale-calibration trap demonstrated LIVE:** ibm_marrakesh FAILS the
+  uniformity rule (all 428 five-qubit chains rejected on min-T2echo ≥ 150 µs;
+  the runner refuses to relax, as designed). ibm_kingston at the 12:58
+  calibration passed with 13 chains (best Q66-70, uniformity 0.84); by the
+  ~16:45 recalibration that chain READ T2echo 118/239/176/121/117 and FAILED
+  the rule (30% intraday drift within three hours), so it and its bands are
+  superseded. **The FLIGHT chain is the fresh 16:45 selection:**
+  [109, 108, 107, 106, 105], T2echo = 195/172/304/194/174 µs, uniformity 0.565
+  (max/min 1.77, inside the ≤ 2 rule), readout within rule, sink edge Q109
+  (the higher-T2* end, T2* ≈ 78 µs), residual natural contrast 2.21×
+  recorded; one alternative candidate passed. The runner now HARD-ABORTS at
+  submission if the loaded chain violates the rule on day-of calibration (no
+  override flag, by design). Device for the shot: ibm_kingston.
 - **QPU estimate (printed pre-flight by the runner, no submission without
   --yes):** 1577 executions in 227 PUBs, 908k shots. Model A (pure shots) 1.5
   min; Model B (per-PUB anchor) 13.2 min, the planning number; Model C (worst
