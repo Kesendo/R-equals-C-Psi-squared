@@ -155,11 +155,13 @@ full modes) records, counts-level with the LITERAL frozen sink construction:
   sink-created MI at the pair FARTHEST from the sink (0.103 at pair (3,4) vs
   0.012 at (0,1), t = 3), i.e. the created correlation propagates through the
   chain, the concentrator transport signature.
-- **Null bands (no-sink world, N = 50, through the same estimator):** Δ
-  significant outside ± 0.049, Δ_u outside ± 0.045; the ratio nulls are huge
-  (R_boost ± 4.0, R_sink ± 6.4, R_nosink ± 18.5), which is the quantitative
-  vindication of Δ as primary. Measured estimator bias floor 0.029, drawn on all
-  plots. A --null 100 refresh runs before any shot and its bands supersede these.
+- **Null bands (no-sink world, through the same estimator), BINDING at N = 100
+  (recorded 2026-07-05, `ab_test_null_20260705_154857.json`):** Δ significant
+  outside **± 0.047**, Δ_u outside **± 0.053** (stable vs the N = 50 pass:
+  ± 0.049 / ± 0.045); the ratio nulls are huge (R_boost ± 5.6, R_sink ± 12.2,
+  R_nosink ± 8.3), the quantitative vindication of Δ as primary. The predicted
+  effect (+0.13 to +0.18 at mid-t) sits 2.4-3.8× above the Δ band. Measured
+  estimator bias floor 0.029, drawn on all plots.
 - **Aer parity (the actual circuits, noiseless): PASS.** All four φ⃗ = 0-equivalent
   arms give Sum-MI exactly 0.0000 (the fixed-point theorem, visible in the real
   circuits); the bound sink deviates as it must (+0.14-0.50 bits noiseless).
