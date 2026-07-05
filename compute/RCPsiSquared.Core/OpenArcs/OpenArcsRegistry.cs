@@ -2491,10 +2491,21 @@ public static class OpenArcsRegistry
                 "up-leg-unresolved meetings should read N.A. (runner revision item). ARC STATE: all four " +
                 "adapters written + twice reviewed + S4 hardware-underpinned; REMAINING = outreach execution " +
                 "(Tom's call per standing rule: re-verify citations before contact; retirement of this arc is " +
-                "his call too), S2's A-vs-B uniform-T2 test (unrun; runner exists as run_sacrifice_zone.py in " +
-                "the external pipeline, the f95 phase-injection technique is the engineered-sink knob, design + " +
-                "pre-registration needed, ~5-10 QPU min), the down-leg non-exponentiality mechanism (TLS vs " +
-                "quasiparticles, out of scope).",
+                "his call too), S2's A-vs-B DOSE/DEPTH FOLLOW-UP (the test itself FLEW 2026-07-05 after a one-day " +
+                "design->physics-review(FIX-THEN-FLY, 2 blockers: K=4 pooled sink fabricates the B-signature; " +
+                "|+>^5 is an exact Heisenberg fixed point so Sum-MI is noise-SEEDED)->runner(run_ab_test.py, 5 " +
+                "configs, K=16 frozen negation-symmetric phase paths, paired Delta primary)->sim gate->pre-flight " +
+                "empty pass(DO-NOT-FLY caught: recalibration overwrote the chain file + the pre-registered chain " +
+                "FAILED the rule after 30% intraday T2 drift; re-banded on the flight chain)->flight " +
+                "(ibm_kingston [109,108,107,106,105], job d957dfcql68s73caa4q0): verdict INCONCLUSIVE by the " +
+                "pre-registered rules but STRUCTURED: the engineered sink CREATES interior correlations at early " +
+                "depth in both layouts (Delta +0.228/+0.091 at t=1/2, 4.7x/1.9x the null band, ~the simulated " +
+                "size; transport signature to the FAR pair reproduced on hardware) refuting noise-only-removes-" +
+                "signal universally, then INVERTS at depth (t=5 R_boost 0.52), a crossover the gate-error-free " +
+                "sim lacked; R_nosink ~ 1 everywhere (no selective advantage without a sink); named follow-up = " +
+                "the sigma=0.9 dose point + finer t around the crossover; experiments/CONCENTRATOR_AB_MECHANISM_" +
+                "TEST.md + data/ibm_ab_test_july2026/; the RECORD's empty pass = next session's first move), " +
+                "the down-leg non-exponentiality mechanism (TLS vs quasiparticles, out of scope).",
             Status: OpenArcStatus.Open),
     };
 
