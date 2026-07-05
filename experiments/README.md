@@ -36,7 +36,7 @@ First hardware test: selective DD 2-3× on ibm_torino.
 
 -> **[Resonant Return: from SVD to formula](RESONANT_RETURN.md)**
 -> [Signal Analysis: Quadratic Scaling](SIGNAL_ANALYSIS_SCALING.md)
--> [IBM Hardware: Selective DD](IBM_SACRIFICE_ZONE.md) (Tier 2, single run)
+-> [IBM Hardware: Selective DD](IBM_CONCENTRATOR.md) (Tier 2, single run)
 
 ### 2. The dephasing channel (15.5 bits capacity)
 The spatial profile of dephasing rates across a qubit chain is not just
@@ -183,7 +183,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 |-----------|------------|
 | **[IBM Hardware Synthesis](IBM_HARDWARE_SYNTHESIS.md)** | **All IBM data combined: r* threshold at precision 0.000014, fold one-way, sacrifice MI gradient, 12 permanent crossers (24,073 records, 133 qubits, 181 days)** |
 | [IBM Run 3: Palindrome Validation](IBM_RUN3_PALINDROME.md) | CΨ = 1/4 crossing confirmed at 1.9% deviation on IBM Torino (Eagle r3, 127 qubits) |
-| [IBM Sacrifice-Zone](IBM_SACRIFICE_ZONE.md) | Selective DD beats uniform DD by 2-3.2× at all 5 time points on ibm_torino. First hardware test of spatial noise engineering (Tier 2, single run, caveats apply) |
+| [IBM Sacrifice-Zone](IBM_CONCENTRATOR.md) | Selective DD beats uniform DD by 2-3.2× at all 5 time points on ibm_torino. First hardware test of spatial noise engineering (Tier 2, single run, caveats apply) |
 | [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md) | Single-qubit state tomography runs on IBM hardware |
 | [Chain Selection Test](CHAIN_SELECTION_TEST.md) | Sacrifice-top vs mean-T2-top chain (no DD, real IBM gammas). Protection 2.86x confirmed spectrally. Sacrifice score is within-chain metric; between chains, total noise dominates |
 | [Fixed Point Shadow](FIXED_POINT_SHADOW.md) | Shadow investigation, IBM skeleton analysis |

@@ -606,7 +606,7 @@ boundaries (one at the maximum of CΨ, one at the 1/4 threshold) form the
 walls. The shape of the cavity determines which frequencies resonate.
 Giving certain qubits more noise ("sacrifice zone") tunes the cavity and
 improves coherence transfer by 139-360x. [IBM Torino hardware confirmed
-this structure](../experiments/IBM_SACRIFICE_ZONE.md).
+this structure](../experiments/IBM_CONCENTRATOR.md).
 ([Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md))
 
 ### All oscillation is palindromic
@@ -731,7 +731,7 @@ the measured advantage itself peaks near t = 4 μs and is not monotonic)
 because imperfections in the echo pulses on the fragile sacrifice qubit
 accumulate and amplify the effect. The hardware imperfections work WITH the
 formula, not against it.
-([IBM Sacrifice Zone](../experiments/IBM_SACRIFICE_ZONE.md))
+([IBM Concentrator](../experiments/IBM_CONCENTRATOR.md))
 
 ### The fold is in water
 
@@ -777,7 +777,7 @@ around an enzyme active site may do the same:
 concentrate thermal noise so the protons inside can tunnel at maximum
 sensitivity. From the inside it looks like sacrifice. From the outside
 it looks like protection.
-([Protein as Sacrifice-Zone](../hypotheses/PROTEIN_AS_SACRIFICE_ZONE.md);
+([Protein as Sacrifice-Zone](../hypotheses/PROTEIN_AS_CONCENTRATOR.md);
 the inside/outside reading is developed in [Inside and Outside the Sacrifice Zone](INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md))
 
 ### The palindrome pairs silence with silence

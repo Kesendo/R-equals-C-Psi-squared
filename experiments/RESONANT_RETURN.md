@@ -6,7 +6,7 @@ edge qubit noise concentration, SVD palindromic eigenstructure response matrix,
 first spatial dephasing profile optimization, trivial formula beats optimizer,
 single qubit sacrifice all noise one edge, R=CPsi2 resonant return experiment -->
 
-**Status:** Analytical formula discovered. Concentrate all noise on one edge qubit, protect the rest. C#-validated: 360× (N=5), 180× (N=7), 139× (N=9), 91× (N=11), 97.5× (N=13), 63.5× (N=15) vs V-shape (simulation, ε→0 ideal; ~2-3× on hardware, see IBM_SACRIFICE_ZONE). Beats DE optimizer by 80% in 3 seconds. ENAQT literature: 2-3×. We found no prior spatial dephasing profile optimization in the ENAQT literature we surveyed (which optimizes scalar/uniform γ).
+**Status:** Analytical formula discovered. Concentrate all noise on one edge qubit, protect the rest. C#-validated: 360× (N=5), 180× (N=7), 139× (N=9), 91× (N=11), 97.5× (N=13), 63.5× (N=15) vs V-shape (simulation, ε→0 ideal; ~2-3× on hardware, see IBM_CONCENTRATOR). Beats DE optimizer by 80% in 3 seconds. ENAQT literature: 2-3×. We found no prior spatial dephasing profile optimization in the ENAQT literature we surveyed (which optimizes scalar/uniform γ).
 **Date:** March 24, 2026 (formula discovery)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -629,7 +629,7 @@ effect, not a small-signal perturbation.
 5. ~~N=9 optimization~~ **Done (Test 8).** Formula gives 139× vs V-shape. No optimizer needed.
 6. ~~Deep N=7 optimizer~~ **Done.** DE found 100×; formula found 180× in 3 seconds.
 7. ~~Sacrifice-zone theory~~ **Done (Test 8).** Trivial rule: all noise on one edge, protect the rest.
-8. ~~IBM hardware experiment~~ **Done.** Selective DD 2-3.2× on ibm_torino. See [IBM Sacrifice Zone](IBM_SACRIFICE_ZONE.md). A/B test on uniform-T2 chain planned for April 9.
+8. ~~IBM hardware experiment~~ **Done.** Selective DD 2-3.2× on ibm_torino. See [IBM Concentrator](IBM_CONCENTRATOR.md). A/B test on uniform-T2 chain planned for April 9.
 9. **Bell-state initial condition:** Formula verified with |+⟩⊗N. Needs validation with Bell(0,1).
 10. ~~Hamiltonian eigenmode projection~~ **Done (Signal Engineering Derivation).** Position sweep confirms edge is optimal. Mode 2 projection + neighbor argument.
 
@@ -641,7 +641,7 @@ effect, not a small-signal perturbation.
 - [γ as Signal](GAMMA_AS_SIGNAL.md): 15.5 bits baseline, SVD mode decomposition
 - [γ Control](GAMMA_CONTROL.md): V-shape 21.5× baseline
 - [Signal Analysis: Scaling](SIGNAL_ANALYSIS_SCALING.md): Formula scaling N=2 through N=15, quadratic growth
-- [IBM Sacrifice Zone](IBM_SACRIFICE_ZONE.md): First hardware test, selective DD 2-3.2×
+- [IBM Concentrator](IBM_CONCENTRATOR.md): First hardware test, selective DD 2-3.2×
 - [Relay Protocol](RELAY_PROTOCOL.md): Mediator bridge, staged gamma relay
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the eigenstructure
 - [C# Propagate Engine](../compute/RCPsiSquared.Propagate/README.md): profile evaluator used for all N >= 5 results

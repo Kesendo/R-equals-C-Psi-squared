@@ -24,10 +24,10 @@ It survives real hardware. On ibm_torino (2026-03-24), selectively decoupling on
 leaving the noisy edge qubit alone (no DD there, so it stays the noise concentrator), beats decoupling
 every qubit uniformly by up to 3.2×, peaking
 around t = 4 μs (roughly 2× on average across t = 1 to 5 μs; the advantage is not monotonic, it dips
-early and falls off after the peak). See [`experiments/IBM_SACRIFICE_ZONE.md`](../experiments/IBM_SACRIFICE_ZONE.md).
+early and falls off after the peak). See [`experiments/IBM_CONCENTRATOR.md`](../experiments/IBM_CONCENTRATOR.md).
 
 The name "sacrifice zone" is a misnomer, and the project resolved why (2026-03-28,
-[`hypotheses/PROTEIN_AS_SACRIFICE_ZONE.md`](../hypotheses/PROTEIN_AS_SACRIFICE_ZONE.md), [`docs/WHAT_WE_FOUND.md`](WHAT_WE_FOUND.md)). **The edge qubit sacrifices
+[`hypotheses/PROTEIN_AS_CONCENTRATOR.md`](../hypotheses/PROTEIN_AS_CONCENTRATOR.md), [`docs/WHAT_WE_FOUND.md`](WHAT_WE_FOUND.md)). **The edge qubit sacrifices
 nothing.** It does not pay a cost; it *concentrates* the environmental noise onto itself and turns it
 into structure for the interior. The mechanism is plain: separating the noise (one loud qubit) from the
 coherence (the quiet rest) is what buys the improvement. The same element then has two correct
@@ -75,7 +75,7 @@ proven. Reporting the refuted attempt is the point: it is why the surviving clai
 ## See also (repo-internal)
 
 - The mechanism and its evidence: [`experiments/RESONANT_RETURN.md`](../experiments/RESONANT_RETURN.md) (the analytic formula),
-  [`experiments/IBM_SACRIFICE_ZONE.md`](../experiments/IBM_SACRIFICE_ZONE.md) (the hardware run), [`hypotheses/PROTEIN_AS_SACRIFICE_ZONE.md`](../hypotheses/PROTEIN_AS_SACRIFICE_ZONE.md) and
+  [`experiments/IBM_CONCENTRATOR.md`](../experiments/IBM_CONCENTRATOR.md) (the hardware run), [`hypotheses/PROTEIN_AS_CONCENTRATOR.md`](../hypotheses/PROTEIN_AS_CONCENTRATOR.md) and
   [`docs/WHAT_WE_FOUND.md`](WHAT_WE_FOUND.md) (concentration, not loss), [`experiments/RECEIVER_VS_GAMMA_SACRIFICE.md`](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md).
 - The refuted probe: [`simulations/star_hub_decoupled_survivor.py`](../simulations/star_hub_decoupled_survivor.py), and the sibling refutation it later joined, [`experiments/THE_HUB_KILLS_THE_HORIZON.md`](../experiments/THE_HUB_KILLS_THE_HORIZON.md) (the hub has no coherence horizon).
 - Adjacent: [`docs/historical/INTERNAL_AND_EXTERNAL_OBSERVERS.md`](historical/INTERNAL_AND_EXTERNAL_OBSERVERS.md), and the substrate-side sibling [`reflections/ON_THE_INNER_AND_OUTER_OBSERVATION.md`](../reflections/ON_THE_INNER_AND_OUTER_OBSERVATION.md) (the same inside/outside wall, reached from the carrier vector; names the typed `TwoReadingsClaim`).

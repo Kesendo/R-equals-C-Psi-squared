@@ -161,5 +161,5 @@ Template for new script: copy `run_bonding_mode.py`, strip the R-qubit block (li
 - [RECEIVER_VS_GAMMA_SACRIFICE](RECEIVER_VS_GAMMA_SACRIFICE.md): the simulation findings that motivate this test.
 - [F75](../docs/ANALYTICAL_FORMULAS.md): the analytical MM(0) formula that predicts the MI peak values.
 - [IBM_QUANTUM_TOMOGRAPHY](IBM_QUANTUM_TOMOGRAPHY.md), [IBM_RUN3_PALINDROME](IBM_RUN3_PALINDROME.md): prior Kingston / Torino Heron hardware runs for methodology.
-- [IBM_SACRIFICE_ZONE](IBM_SACRIFICE_ZONE.md): hardware realization of γ-profile engineering via DD; compare against receiver-engineering.
+- [IBM_CONCENTRATOR](IBM_CONCENTRATOR.md): hardware realization of γ-profile engineering via DD; compare against receiver-engineering.
 - External pipeline: `D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography\` (Qiskit + Kingston calibration).

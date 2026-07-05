@@ -12,7 +12,7 @@ DNA as crystal, fitness as balance C=0.5, R=CPsi2 evolution -->
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Universal Palindrome Condition](UNIVERSAL_PALINDROME_CONDITION.md),
 [Complexity Threshold](COMPLEXITY_THRESHOLD.md),
-[Protein as Sacrifice-Zone](PROTEIN_AS_SACRIFICE_ZONE.md),
+[Protein as Sacrifice-Zone](PROTEIN_AS_CONCENTRATOR.md),
 [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md)
 
 ---
@@ -258,7 +258,7 @@ for investigation, not conclusions.
 
 - [Universal Palindrome Condition](UNIVERSAL_PALINDROME_CONDITION.md): the three conditions
 - [Complexity Threshold](COMPLEXITY_THRESHOLD.md): C ≈ 0.5, not exact
-- [Protein as Sacrifice-Zone](PROTEIN_AS_SACRIFICE_ZONE.md): concentration, not loss
+- [Protein as Sacrifice-Zone](PROTEIN_AS_CONCENTRATOR.md): concentration, not loss
 - [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md): 2+2=109
 - [V-Effect Neural](../docs/neural/V_EFFECT_NEURAL.md): 0+0=48
 - [Exclusions](../docs/EXCLUSIONS.md): information is converted, not stored

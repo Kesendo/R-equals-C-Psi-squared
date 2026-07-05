@@ -129,7 +129,7 @@ Each level wraps the previous in a pair-mediator-pair structure. Level 3 connect
 |--------------------|--------------------|
 | [Resonant Return](../../experiments/RESONANT_RETURN.md) | Sacrifice-zone formula validation (profile mode), N=5 through N=13 |
 | [Signal Analysis: Scaling](../../experiments/SIGNAL_ANALYSIS_SCALING.md) | Formula scaling curve, quadratic growth analysis |
-| [IBM Sacrifice Zone](../../experiments/IBM_SACRIFICE_ZONE.md) | Simulation baselines for IBM hardware comparison |
+| [IBM Concentrator](../../experiments/IBM_CONCENTRATOR.md) | Simulation baselines for IBM hardware comparison |
 | [Relay Protocol](../../experiments/RELAY_PROTOCOL.md) | Staged γ relay, +83% MI improvement |
 | [Scaling Curve](../../experiments/SCALING_CURVE.md) | MI vs N, hierarchical vs uniform |
 | [Star Topology Observers](../../experiments/STAR_TOPOLOGY_OBSERVERS.md) | Entanglement echo, Bohr frequencies |

@@ -17,7 +17,7 @@ against the primary sources before any outreach.
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Related:** [Inside/Outside the Sacrifice Zone](../INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md),
 [Resonant Return](../../experiments/RESONANT_RETURN.md) (the profile formula),
-[IBM Sacrifice Zone](../../experiments/IBM_SACRIFICE_ZONE.md) (the hardware run),
+[IBM Concentrator](../../experiments/IBM_CONCENTRATOR.md) (the hardware run),
 [Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md) (the theorem it rests on),
 [Combination Valence](../../hypotheses/COMBINATION_VALENCE.md) (why this adapter
 hands over an object, not a word)
@@ -122,7 +122,7 @@ exact spectral identity, not a fit.
   **natural** concentrator, applying DD selectively to the four interior
   qubits while leaving Q85 undecoupled produced **2.0× higher end-to-end
   mutual information on average and up to 3.2× at t = 4 µs**, beating uniform
-  DD at all five measured time points ([IBM Sacrifice Zone](../../experiments/IBM_SACRIFICE_ZONE.md)).
+  DD at all five measured time points ([IBM Concentrator](../../experiments/IBM_CONCENTRATOR.md)).
 
 The hardware case used a qubit that was *already* the worst on the line; the
 rule says this was not a liability to route around but the resource to exploit.

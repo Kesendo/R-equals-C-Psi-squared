@@ -9,7 +9,7 @@
 (24,073 records, 133 qubits, 181 days)
 **Depends on:** [Sacrifice-Zone Mapping](SACRIFICE_ZONE_MAPPING.md),
 [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md),
-[IBM Sacrifice Zone](IBM_SACRIFICE_ZONE.md)
+[IBM Concentrator](IBM_CONCENTRATOR.md)
 
 ---
 

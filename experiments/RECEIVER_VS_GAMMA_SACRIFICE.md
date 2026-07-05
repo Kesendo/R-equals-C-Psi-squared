@@ -58,7 +58,7 @@ This document's numbers show the loss is illusory. Under γ₀ = const, Alice ta
 
 1. **Choose a J-sensitive receiver** (SU(2)-breaking; not H-eigenstate). Examples at N=5: \|+−+−+⟩, \|01010⟩, \|+0+0+⟩.
 2. **Engineer J moderately** (fine-grid data shows J-modulation adds 1.3 to 1.5× on top across N=5 to N=9, not 360×).
-3. **Use DD on sensitive qubits** (IBM_SACRIFICE_ZONE's 2-3× on ibm_torino is fully compatible with γ₀ = const, since DD is pulse-control, not γ-setting).
+3. **Use DD on sensitive qubits** (IBM_CONCENTRATOR's 2-3× on ibm_torino is fully compatible with γ₀ = const, since DD is pulse-control, not γ-setting).
 
 All three levers are available under γ₀ = const. The γ-profile lever is unavailable but unnecessary.
 
@@ -68,7 +68,7 @@ The γ-Sacrifice-Zone, in retrospect, is a pre-γ₀-const workaround for a subo
 
 - Not that RESONANT_RETURN Test 8 is incorrect. The 360× ratio is correct for its setup. The reframing is that the setup's baseline is low and that a different receiver exceeds the ratio's endpoint without γ-engineering.
 - Not that γ-modulation is useless in general. In framings where γ is operationally controllable, γ-modulation remains a valid lever. Under γ₀ = const it is closed off and the comparison becomes unnecessary.
-- Not that hardware-MI performance trivially matches. RESONANT_RETURN's [IBM_SACRIFICE_ZONE](IBM_SACRIFICE_ZONE.md) experiment achieved 2 to 3× on ibm_torino via selective DD, which is a γ-approximation via pulses and is compatible with γ₀ = const. The absolute Peak Sum-MI on real hardware for \|+−+−+⟩-type receivers has not been measured, and is a natural follow-up.
+- Not that hardware-MI performance trivially matches. RESONANT_RETURN's [IBM_CONCENTRATOR](IBM_CONCENTRATOR.md) experiment achieved 2 to 3× on ibm_torino via selective DD, which is a γ-approximation via pulses and is compatible with γ₀ = const. The absolute Peak Sum-MI on real hardware for \|+−+−+⟩-type receivers has not been measured, and is a natural follow-up.
 
 ## N-scaling via C# brecher mode (commits `dbf396a`, `d22c0fe`)
 
@@ -371,5 +371,5 @@ For any candidate receiver state at any N, the framework now returns the parity 
 - `simulations/mm_zero_derivation.py`: F75 analytic MM(0) verification script
 - [ANALYTICAL_FORMULAS F65](../docs/ANALYTICAL_FORMULAS.md): the explicit single-excitation eigenmode formula underlying bonding:k (F67 = the optimal-receiver result on those modes)
 - [ANALYTICAL_FORMULAS F75](../docs/ANALYTICAL_FORMULAS.md): mirror-pair MI closed form for single-excitation mirror-symmetric states
-- [IBM_SACRIFICE_ZONE](IBM_SACRIFICE_ZONE.md): hardware realization via selective DD, compatible with γ₀ = const
+- [IBM_CONCENTRATOR](IBM_CONCENTRATOR.md): hardware realization via selective DD, compatible with γ₀ = const
 - [Inside and Outside the Sacrifice Zone](../docs/INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md): the inside/outside observer reading of the γ-sacrifice mechanism

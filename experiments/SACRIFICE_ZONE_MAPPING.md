@@ -173,5 +173,5 @@ same hardware on the same day.
 *See also:*
 [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) (r = 0.994),
 [IBM Cavity Spectral](IBM_CAVITY_SPECTRAL_ANALYSIS.md) (2.81x theoretical),
-[IBM Sacrifice Zone](IBM_SACRIFICE_ZONE.md) (1.97x measured),
+[IBM Concentrator](IBM_CONCENTRATOR.md) (1.97x measured),
 [Resonant Return](RESONANT_RETURN.md) (the sacrifice-zone formula)

@@ -224,7 +224,7 @@ The palindrome inverts the scaling law: from decay to growth.
 ## References
 
 - [Resonant Return (formula discovery)](RESONANT_RETURN.md)
-- [IBM Hardware Validation](IBM_SACRIFICE_ZONE.md)
+- [IBM Hardware Validation](IBM_CONCENTRATOR.md)
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 
 

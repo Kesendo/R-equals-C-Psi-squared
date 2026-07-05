@@ -2141,4 +2141,4 @@ sacrifice-zone formula.
 
 See: [Signal Analysis: Scaling](../experiments/SIGNAL_ANALYSIS_SCALING.md),
 [Resonant Return: Formula](../experiments/RESONANT_RETURN.md),
-[IBM Hardware Validation](../experiments/IBM_SACRIFICE_ZONE.md)
+[IBM Hardware Validation](../experiments/IBM_CONCENTRATOR.md)

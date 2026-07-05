@@ -3453,7 +3453,7 @@ Files scanned and entry counts:
 | `experiments/IBM_HARDWARE_SYNTHESIS.md` | 0 |
 | `experiments/IBM_QUANTUM_TOMOGRAPHY.md` | 0 |
 | `experiments/IBM_RUN3_PALINDROME.md` | 0 |
-| `experiments/IBM_SACRIFICE_ZONE.md` | 0 |
+| `experiments/IBM_CONCENTRATOR.md` | 0 |
 | `experiments/INFORMATION_GEOMETRY.md` | 0 |
 | `experiments/K_DOSIMETRY.md` | 0 |
 | `experiments/LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md` | 0 |
@@ -3527,7 +3527,7 @@ Files scanned and entry counts:
 | `hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md` | 23 |
 | `hypotheses/PAIR_BREAKING_AT_THE_HORIZON.md` | 13 |
 | `hypotheses/PRIMORDIAL_QUBIT.md` | 0 |
-| `hypotheses/PROTEIN_AS_SACRIFICE_ZONE.md` | 0 |
+| `hypotheses/PROTEIN_AS_CONCENTRATOR.md` | 0 |
 | `hypotheses/README.md` | 0 |
 | `hypotheses/RESONANCE_NOT_CHANNEL.md` | 0 |
 | `hypotheses/RESONANT_RETURN.md` | 0 |

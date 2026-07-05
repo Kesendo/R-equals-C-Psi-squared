@@ -163,7 +163,7 @@ the dose. It redirects it, creating a longer exposure but a better image.
 The edge qubit absorbs its dose quickly. The interior qubits barely
 absorb at all. The overall purity drops more slowly because only 1 of N
 qubits is decohering. But the mutual information is higher (139-360× in the
-ε→0 simulation ideal; ~2-3× on hardware, see [IBM Sacrifice Zone](IBM_SACRIFICE_ZONE.md))
+ε→0 simulation ideal; ~2-3× on hardware, see [IBM Concentrator](IBM_CONCENTRATOR.md))
 because the interior modes survive to carry the signal.
 
 **The sacrifice zone trades dose for quality.** More total light, but a

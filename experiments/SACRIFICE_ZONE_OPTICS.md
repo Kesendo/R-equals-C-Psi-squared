@@ -37,7 +37,7 @@ lens. The funnel of the ear. Not a shield. An adapter.
 ## What this document is about
 
 The [sacrifice zone formula](RESONANT_RETURN.md) concentrates dephasing
-on one edge qubit, achieving a 139-360× improvement in mutual information in simulation (ε→0 ideal; ~2-3× on hardware, see IBM_SACRIFICE_ZONE).
+on one edge qubit, achieving a 139-360× improvement in mutual information in simulation (ε→0 ideal; ~2-3× on hardware, see IBM_CONCENTRATOR).
 The [optical cavity analysis](OPTICAL_CAVITY_ANALYSIS.md) showed the
 chain is a Fabry-Perot cavity (two mirrors facing each other, light
 bouncing between them). This document tests whether the sacrifice zone

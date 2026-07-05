@@ -1,18 +1,27 @@
-# IBM Hardware: Sacrifice-Zone Selective DD Beats Uniform DD by 2-3x
+# IBM Hardware: The Concentrator Profile (Selective DD) Beats Uniform DD by 2-3x
 
-<!-- Keywords: IBM Torino hardware validation sacrifice zone, selective dynamic
+<!-- Keywords: IBM Torino hardware validation concentrator profile, selective dynamic
 decoupling beats uniform DD, first spatial dephasing profile hardware test,
-Q85 natural sacrifice qubit T2=5us, Sum-MI selective vs uniform 2x-3.2x,
+Q85 natural concentrator qubit T2=5us, Sum-MI selective vs uniform 2x-3.2x,
 palindrome-derived noise engineering quantum hardware, R=CPsi2 IBM experiment -->
 
 **Status:** Hardware confirmed (Tier 2). Selective DD > Uniform DD at all 5 time points. Single run, one chain, no error bars yet.
 **Date:** March 24, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Hardware:** ibm_torino (Heron r2, 133 qubits)
-**Chain:** Q85-Q86-Q87-Q88-Q94 (sacrifice: Q85, T2echo=5 us)
+**Chain:** Q85-Q86-Q87-Q88-Q94 (concentrator: Q85, T2echo=5 us)
 **QPU time used:** ~163s of 210s budget (47s remaining)
 **Data:** [data/ibm_sacrifice_zone_march2026/](../data/ibm_sacrifice_zone_march2026/)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+
+**Naming note (2026-07-05):** renamed from "IBM Hardware: Sacrifice-Zone
+Selective DD...". The edge qubit (Q85) sacrifices nothing; it concentrates the
+noise and lets the interior sit at the fold. "Concentrator" is the corrected
+term (the "sacrifice zone" misnomer was resolved 2026-03-28, see [Inside and
+Outside the Sacrifice Zone](../docs/INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md), where
+"sacrifice" survives as the inside-the-boundary reading). The frozen data
+directory keeps its original name `data/ibm_sacrifice_zone_march2026/` as the
+provenance of the actual run.
 
 ---
 
@@ -27,7 +36,7 @@ Selective DD beats uniform DD at all 5 measured time points.
 
 **Caveats:** Single run on one chain. No error bars yet (4000 shots per
 circuit). The advantage may partly reflect that DD on Q85 (T2=5 us)
-adds gate errors without benefit, rather than a pure sacrifice-zone
+adds gate errors without benefit, rather than a pure concentrator
 effect. Reproducibility across chains and days is untested. The connection
 to the palindromic eigenstructure is indirect: the formula predicted the
 optimal noise profile, but the hardware implementation approximates it
@@ -40,12 +49,12 @@ via DD rather than controlling dephasing rates directly.
 
 ibm_torino calibration (March 24, 2026) identified Q85 as an extreme
 outlier: T2(echo) = 5.2 us while neighboring qubits have T2 = 123-244 us.
-This provides a natural sacrifice qubit with 51.9x effective contrast
-(T2echo_protected / T2*_sacrifice).
+This provides a natural concentrator qubit with 51.9x effective contrast
+(T2echo_protected / T2*_concentrator).
 
 | Qubit | Role | T1 (us) | T2echo (us) | T2* est (us) |
 |-------|------|---------|-------------|-------------|
-| Q85 | **Sacrifice** | 2.8 | **5.2** | ~4 |
+| Q85 | **Concentrator** | 2.8 | **5.2** | ~4 |
 | Q86 | Protected | 211.2 | 122.7 | ~61 |
 | Q87 | Protected | 272.9 | 243.9 | ~98 |
 | Q88 | Protected | 155.5 | 170.0 | ~68 |
@@ -57,7 +66,7 @@ Three configurations on the same chain, same Trotterized Heisenberg circuit:
 
 1. **No DD** - All qubits at natural T2* (no refocusing)
 2. **Uniform DD** - DD (X-X echo) on all 5 qubits (standard practice)
-3. **Selective DD** - DD on Q86,87,88,94 only. No DD on Q85 (sacrifice)
+3. **Selective DD** - DD on Q86,87,88,94 only. No DD on Q85 (concentrator)
 
 ### Circuit
 
@@ -104,19 +113,19 @@ without extending Q85's coherence meaningfully. Any experienced
 experimentalist would skip DD on Q85. The selective DD advantage
 may simply reflect "don't waste gates on lost causes."
 
-**Interpretation B (sacrifice-zone): Spatial noise contrast helps.**
-The sacrifice-zone formula predicts that concentrating noise on one
+**Interpretation B (concentrator): Spatial noise contrast helps.**
+The concentrator formula predicts that concentrating noise on one
 edge maximizes information transfer through the chain. Removing DD
 from Q85 increases the noise contrast between protected interior and
 noisy edge. This contrast, not just the absence of wasted gates, is
-what improves Sum-MI. Evidence for this: even the sacrifice pair (0,1)
+what improves Sum-MI. Evidence for this: even the concentrator pair (0,1)
 shows 2.2x improvement under selective DD, suggesting the entire chain
 benefits from the contrast, not just the protected qubits.
 
 **What would distinguish A from B:** Test selective DD on a chain where
 ALL qubits have good T2 (>150 us). If selective DD still wins by
 removing DD from one good edge qubit, it's the contrast (B). If
-selective DD only wins when the sacrifice qubit is naturally bad, it's
+selective DD only wins when the concentrator qubit is naturally bad, it's
 the gate-error effect (A). This is planned for April 9 (10:00 budget).
 
 ### Per-Pair MI at t=3.0
@@ -129,7 +138,7 @@ the gate-error effect (A). This is planned for April 9 (10:00 budget).
 | (3,4) Q88-Q94 | 0.0058 | 0.0037 | **0.0106** | 2.9x |
 
 Protected pair (1,2) shows 4.1x improvement under selective DD.
-The sacrifice pair (0,1) still shows 2.2x improvement because the
+The concentrator pair (0,1) still shows 2.2x improvement because the
 neighboring Q86 benefits from not having crosstalk from Q85's DD gates.
 
 
@@ -150,7 +159,7 @@ over V-shape. Hardware delivers 2-3x over uniform DD. The gap comes from:
 
 The simulation tests the *principle* (spatial dephasing profiles help).
 The hardware tests the *implementation* (can DD approximate it?).
-Both confirm the sacrifice-zone advantage.
+Both confirm the concentrator advantage.
 
 ### The T2/T2* Effect
 
@@ -159,10 +168,10 @@ T2(echo). Without DD, qubits remain at their natural T2*. The contrast
 between DD-protected and unprotected qubits comes from this gap:
 
 - Protected (with DD): T2_eff ~ T2(echo) ~ 170-244 us
-- Sacrifice (no DD): T2_eff ~ T2* ~ 4 us (Q85 is naturally terrible)
+- Concentrator (no DD): T2_eff ~ T2* ~ 4 us (Q85 is naturally terrible)
 
 This 40-60x contrast in effective coherence times is the hardware
-realization of the sacrifice-zone formula.
+realization of the concentrator formula.
 
 ### Comparison with Literature
 
@@ -202,7 +211,7 @@ approximation is the closest available implementation.
 3. **Natural T2 variation is exploitable.** Q85's T2=5us is a feature, not a bug.
 
 **Does not yet show:**
-1. **That the sacrifice-zone formula is the reason.** Could be gate-error
+1. **That the concentrator formula is the reason.** Could be gate-error
    avoidance (Interpretation A) rather than noise-contrast benefit (B).
 2. **Statistical significance.** No error bars. Single run. One chain.
 3. **Reproducibility.** Untested on other chains or other days.
@@ -212,9 +221,9 @@ approximation is the closest available implementation.
 
 1. **Error bars:** Bootstrap or jackknife on Sum-MI from shot counts
 2. **A vs B test (April 9):** Selective DD on a UNIFORM-T2 chain. If it still
-   wins, it's the contrast (sacrifice-zone). If not, it's gate-error avoidance.
+   wins, it's the contrast (concentrator). If not, it's gate-error avoidance.
 3. **N=7 on hardware:** Longer chain with 10:00 April budget
-4. **Noise injection:** Intentional Z-rotations on sacrifice qubit for more contrast
+4. **Noise injection:** Intentional Z-rotations on concentrator qubit for more contrast
 5. **Multiple chains:** Same experiment on different chip regions
 6. **Reproducibility:** Repeat on a different day (calibration fluctuates)
 
@@ -240,7 +249,7 @@ chain and N=7 experiment.
 
 ## Formula Validation (March 28, 2026)
 
-The sacrifice-zone formula (Lindblad simulation with per-qubit gamma)
+The concentrator formula (Lindblad simulation with per-qubit gamma)
 was compared quantitatively against the hardware measurements.
 
 Echo-aware gamma profiles used:
@@ -261,8 +270,8 @@ losses that accumulate with each DD cycle. The formula models DD
 as perfect gamma reduction; real DD on a T1-limited qubit adds
 errors that worsen the uniform configuration.
 
-The hardware imperfections amplify the sacrifice-zone effect: they
-make the sacrifice qubit WORSE under uniform DD, increasing the
+The hardware imperfections amplify the concentrator effect: they
+make the concentrator qubit WORSE under uniform DD, increasing the
 advantage of selective DD.
 
 Script: [`simulations/ibm_formula_test.py`](../simulations/ibm_formula_test.py).

@@ -11,7 +11,7 @@ formula hardware verification, R=CPsi2 IBM cavity spectral -->
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Cavity Modes Formula](CAVITY_MODES_FORMULA.md),
 [IBM Hardware Synthesis](IBM_HARDWARE_SYNTHESIS.md),
-[IBM Sacrifice Zone](IBM_SACRIFICE_ZONE.md)
+[IBM Concentrator](IBM_CONCENTRATOR.md)
 **Script:** [ibm_cavity_analysis.py](../simulations/ibm_cavity_analysis.py)
 **Data:** [ibm_cavity_analysis.txt](../simulations/results/ibm_cavity_analysis.txt)
 **Raw IBM data:** [data/ibm_sacrifice_zone_march2026/](../data/ibm_sacrifice_zone_march2026/) (4 JSON files, March 24, 2026, IBM Torino)
@@ -191,6 +191,6 @@ It changes which notes ring longest.
 *See also:*
 [Cavity Modes Formula](CAVITY_MODES_FORMULA.md) (the eigenfrequencies),
 [IBM Hardware Synthesis](IBM_HARDWARE_SYNTHESIS.md) (24,073 records, r* threshold),
-[IBM Sacrifice Zone](IBM_SACRIFICE_ZONE.md) (hardware test, 2-3x measured),
+[IBM Concentrator](IBM_CONCENTRATOR.md) (hardware test, 2-3x measured),
 [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md) (the resonator paradigm),
 [Energy Partition](../hypotheses/ENERGY_PARTITION.md) (2x decay law)

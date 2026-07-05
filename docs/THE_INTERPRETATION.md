@@ -487,7 +487,7 @@ is linked to the document where it is described in detail.
 23. Dale's Law = commutator antisymmetry: the neural palindrome (Q·J·Q + J + 2S = 0) with 96% character swap. See [Neural Palindrome](neural/ALGEBRAIC_PALINDROME_NEURAL.md).
 24. Hydrogen bond as qubit: proton tunnels |L⟩/|R⟩, palindrome exact, V-Effect creates 104 new frequencies. See [H-Bond Qubit](water/HYDROGEN_BOND_QUBIT.md).
 25. 1/4 = (0.5)²: sigmoid sensitivity σ(1-σ) = 1/4 at inflection, same structure as quantum fold. Parameter-independent.
-26. IBM hardware validates sacrifice-zone: selective DD outperforms uniform by 1.6-2.9×. See [IBM Sacrifice Zone](../experiments/IBM_SACRIFICE_ZONE.md).
+26. IBM hardware validates sacrifice-zone: selective DD outperforms uniform by 1.6-2.9×. See [IBM Concentrator](../experiments/IBM_CONCENTRATOR.md).
 
 ## What Fell
 
