@@ -573,13 +573,13 @@ Under the concentrator formula. Quadratic, not exponential.
 
 ### F11. Mode localization profile, N=5 (Tier 2, geometric)
 
-    slowest modes (edge sacrifice): [0.52, 0.63, 0.70, 0.63, 0.52]
-    fastest modes (edge sacrifice): [0.98, 0.87, 0.80, 0.87, 0.98]
+    slowest modes (edge concentrator): [0.52, 0.63, 0.70, 0.63, 0.52]
+    fastest modes (edge concentrator): [0.98, 0.87, 0.80, 0.87, 0.98]
 
 Profile of each individual mode is identical under all noise profiles
 (geometric, from standing wave patterns sin(πkj/N)). But which modes
-are slowest depends on the noise profile: edge sacrifice selects
-center-heavy modes, center sacrifice selects edge-heavy modes. Not
+are slowest depends on the noise profile: edge concentrator selects
+center-heavy modes, center concentrator selects edge-heavy modes. Not
 topologically protected (winding number = 0, Berry phase not quantized).
 Correlation edge-weight vs rate: r = 0.994.
 

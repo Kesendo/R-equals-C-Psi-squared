@@ -2,11 +2,11 @@
 
 **Naming note (2026-07-05):** renamed from "Sacrifice Geometry: A Mechanistic
 Account". The edge qubit sacrifices nothing; it concentrates the noise (the
-misnomer was resolved 2026-03-28). The γ-profile LABELS "edge sacrifice" /
-"center sacrifice" and the frozen `*sacrifice*` scripts and results are
-deliberately kept until the compute-engine pass renames them in lockstep (they
-are a contract with the `edgeSacrifice` / `centerSacrifice` profile functions
-in `RCPsiSquared.Compute`).
+misnomer was resolved 2026-03-28). The γ-profile labels are now "edge
+concentrator" / "center concentrator", renamed in lockstep with the
+`edgeConcentrator` / `centerConcentrator` profile functions in
+`RCPsiSquared.Compute` (2026-07-05); the frozen `*sacrifice*` scripts and
+result files keep their original names as the provenance of the runs.
 
 **What this document is about:** The concentrator in a dephasing profile is not "better dephasing distribution". It is a controlled symmetry break that creates one slow Liouvillian eigenmode with a specific spatial shape. The optimal initial state for concurrence preservation is the left eigenvector of that slow mode, projected onto the single-excitation sector. This is the lens method. It is verified across 68 configurations (N=2-7 chain, N=2-6 star/ring/complete, four γ profiles). The accessibility boundary that limits single-excitation states to a subset of slow modes is exact and provable for any N and topology from the n_XY parity selection rule.
 
@@ -32,7 +32,7 @@ The lens method has been tested across 68 configurations (N=2-7 chain, N=2-6 Sta
 
 1. **SE fraction stays high.** The slow mode's SE content is >0.98 for N=3-6, independent of topology and gamma profile. The lens extraction is essentially exact.
 2. **The accessibility boundary is exact.** In every configuration tested (64/64), the second slow mode is SE-inaccessible (Frobenius ratio < 1e-3). This is proven analytically by the [n_XY Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md).
-3. **The psi_opt shape depends on the dephasing gradient.** Extreme single-qubit sacrifice produces symmetric shapes (non-sacrifice qubits are equivalent). A gradient of dephasing rates (as in real hardware) produces asymmetric, potentially monotonic shapes. The shape is always extractable from one matrix diagonalization.
+3. **The psi_opt shape depends on the dephasing gradient.** Extreme single-qubit concentration produces symmetric shapes (non-concentrator qubits are equivalent). A gradient of dephasing rates (as in real hardware) produces asymmetric, potentially monotonic shapes. The shape is always extractable from one matrix diagonalization.
 
 ---
 
@@ -60,9 +60,9 @@ Given: N-qubit Heisenberg chain (or star, ring, complete graph), coupling J, sit
 
 ## Universal results: Lens Pipeline survey
 
-Tested: 68 configurations across N=2-7 (chain) and N=2-6 (Star/Ring/Complete), four gamma profiles (uniform, edge sacrifice, center sacrifice, moderate asymmetry). N=7 uses direct LAPACK zgeev + zgesv (bypassing MathNet 2GB marshalling limit). Full data: `simulations/results/lens_survey/`.
+Tested: 68 configurations across N=2-7 (chain) and N=2-6 (Star/Ring/Complete), four gamma profiles (uniform, edge concentrator, center concentrator, moderate asymmetry). N=7 uses direct LAPACK zgeev + zgesv (bypassing MathNet 2GB marshalling limit). Full data: `simulations/results/lens_survey/`.
 
-### SE fraction scaling (chain, edge sacrifice)
+### SE fraction scaling (chain, edge concentrator)
 
 | N | SE fraction | Verdict |
 |---|-------------|---------|
@@ -73,7 +73,7 @@ Tested: 68 configurations across N=2-7 (chain) and N=2-6 (Star/Ring/Complete), f
 | 6 | 1.000 | exact |
 | 7 | 1.000 | exact |
 
-All four N=7 chain profiles (uniform, edge sacrifice, center sacrifice, moderate asymmetry) give SE = 1.000. The lens extraction is exact through N=7 (d^2 = 16384, 87376 eigenvalues).
+All four N=7 chain profiles (uniform, edge concentrator, center concentrator, moderate asymmetry) give SE = 1.000. The lens extraction is exact through N=7 (d^2 = 16384, 87376 eigenvalues).
 
 For non-chain topologies and other profiles (N=2-6): SE fraction > 0.98 in all cases where a lens mode exists. The lens extraction is robust across all tested configurations.
 
@@ -81,9 +81,9 @@ For non-chain topologies and other profiles (N=2-6): SE fraction > 0.98 in all c
 
 In every configuration tested, the second slow mode has SE Frobenius ratio < 1e-3. The boundary is not a coincidence of one gamma profile; it is a structural property of the Heisenberg + Z-dephasing Liouvillian, proven analytically by the [Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md).
 
-### psi_opt shape depends on symmetry, not just sacrifice
+### psi_opt shape depends on symmetry, not just concentration
 
-- **F9-style edge sacrifice** (one qubit gets all the dephasing, rest equal): psi_opt is symmetric around the chain center. Example N=7: [0.118, 0.332, 0.481, 0.535, 0.482, 0.334, 0.119].
+- **F9-style edge concentrator** (one qubit gets all the dephasing, rest equal): psi_opt is symmetric around the chain center. Example N=7: [0.118, 0.332, 0.481, 0.535, 0.482, 0.334, 0.119].
 - **Gradient profiles** (dephasing rates vary across qubits): psi_opt can be monotonic. Example IBM T2 N=5: [0.099, 0.239, 0.428, 0.572, 0.651].
 - **Star topology:** psi_opt concentrates on the hub (0.89-0.91 for the hub, 0.18-0.22 for leaves).
 - **Ring topology:** psi_opt shows pair structures reflecting the periodic boundary.
@@ -111,7 +111,7 @@ The inaccessible modes found numerically (rate -0.167 at N=5 IBM, etc.) are odd-
 
 Under uniform dephasing, the Heisenberg chain's Liouvillian has translational symmetry. This produces a degenerate eigenvalue cluster (for N=5 at Sg=2.608: 14 modes at rate -2.087 with integer <n_XY> = 2.000). The absorption theorem (AT) predicts the cluster rate: Re(lambda) = -2 <gamma * 1_XY>.
 
-A sacrifice profile breaks translational symmetry. The cluster splits: most modes accelerate, but one slows. This surviving slow mode concentrates its X/Y Pauli content on quiet sites and minimizes the absorption-weighted sum, making it the spectral minimum. This is spectral surgery, not dephasing budgeting. The [concentrator formula](../docs/ANALYTICAL_FORMULAS.md) (F9: γ_edge = N·γ_base − (N−1)·ε) describes the optimal dephasing allocation analytically.
+A concentrator profile breaks translational symmetry. The cluster splits: most modes accelerate, but one slows. This surviving slow mode concentrates its X/Y Pauli content on quiet sites and minimizes the absorption-weighted sum, making it the spectral minimum. This is spectral surgery, not dephasing budgeting. The [concentrator formula](../docs/ANALYTICAL_FORMULAS.md) (F9: γ_edge = N·γ_base − (N−1)·ε) describes the optimal dephasing allocation analytically.
 
 ### Level 2: Structured construction
 
@@ -139,7 +139,7 @@ uniform:   [0.522, 0.522, 0.522, 0.522, 0.522]   (matched Sum)
 
 Scripts: `simulations/ibm_april_predictions.py` (infrastructure), `simulations/slow_mode_lens_analysis.py` (lens extraction).
 
-### Champions table (sacrifice profile)
+### Champions table (concentrator profile)
 
 | Rank | State | C_init | AUC(T=10) | AUC(T=30) | vs W5 |
 |------|-------|--------|-----------|-----------|-------|
@@ -149,7 +149,7 @@ Scripts: `simulations/ibm_april_predictions.py` (infrastructure), `simulations/s
 | 4 | W2_sites_34 | 1.000 | 1.018 | 1.056 | +13.6% |
 | 5 | W5_full | 0.400 | 0.896 | 0.932 | reference |
 
-The lens state psi_opt = [0.099, 0.239, 0.428, 0.572, 0.651] is monotonically increasing from the concentrator end (site 0) to the quiet end (site 4). This monotonic gradient is specific to the IBM T2 dephasing gradient and does not appear under symmetric sacrifice profiles (see the survey results above).
+The lens state psi_opt = [0.099, 0.239, 0.428, 0.572, 0.651] is monotonically increasing from the concentrator end (site 0) to the quiet end (site 4). This monotonic gradient is specific to the IBM T2 dephasing gradient and does not appear under symmetric concentrator profiles (see the survey results above).
 
 ### Why slow-band weight is the wrong metric (IBM Torino chain)
 

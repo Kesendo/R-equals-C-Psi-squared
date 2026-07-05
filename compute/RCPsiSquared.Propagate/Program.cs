@@ -51,13 +51,13 @@ if (args.Length >= 1 && args[0] == "bond-isolate")
 }
 
 // ============================================================
-// SACRIFICE-TCROSS MODE: per-site CΨ_i(t) under spatially-varying γ + t_cross extraction
+// CONCENTRATOR-TCROSS MODE: per-site CΨ_i(t) under spatially-varying γ + t_cross extraction
 // ============================================================
-if (args.Length >= 1 && args[0] == "sacrifice-tcross")
+if (args.Length >= 1 && args[0] == "concentrator-tcross")
 {
     try { Control.UseNativeMKL(); } catch { }
     Control.MaxDegreeOfParallelism = Environment.ProcessorCount;
-    RunSacrificeTcrossEvaluation(args);
+    RunConcentratorTcrossEvaluation(args);
     return;
 }
 
@@ -73,13 +73,13 @@ if (args.Length >= 1 && args[0] == "verify-bond-isolate-helpers")
 }
 
 // ============================================================
-// VERIFY SACRIFICE-TCROSS HELPERS: smoke checks for PerSiteCPsi, BracketCrossingTime
+// VERIFY CONCENTRATOR-TCROSS HELPERS: smoke checks for PerSiteCPsi, BracketCrossingTime
 // ============================================================
-if (args.Length >= 1 && args[0] == "verify-sacrifice-tcross-helpers")
+if (args.Length >= 1 && args[0] == "verify-concentrator-tcross-helpers")
 {
     try { Control.UseNativeMKL(); } catch { }
     Control.MaxDegreeOfParallelism = Environment.ProcessorCount;
-    RunVerifySacrificeTcrossHelpers();
+    RunVerifyConcentratorTcrossHelpers();
     return;
 }
 
@@ -398,11 +398,11 @@ void RunVerifyBondIsolateHelpers()
 }
 
 // Smoke checks for PerSiteCPsi and BracketCrossingTime. Run via:
-//   dotnet run -c Release -- verify-sacrifice-tcross-helpers
-void RunVerifySacrificeTcrossHelpers()
+//   dotnet run -c Release -- verify-concentrator-tcross-helpers
+void RunVerifyConcentratorTcrossHelpers()
 {
     var inv = CultureInfo.InvariantCulture;
-    Console.WriteLine("=== sacrifice-tcross helpers smoke check ===");
+    Console.WriteLine("=== concentrator-tcross helpers smoke check ===");
     int failures = 0;
 
     // Test 1: PerSiteCPsi on |+⟩^3 returns 1.0 at every site.
@@ -476,7 +476,7 @@ void RunVerifySacrificeTcrossHelpers()
         if (!ok) failures++;
     }
 
-    Console.WriteLine($"=== sacrifice-tcross helpers: {(failures == 0 ? "ALL PASS" : $"{failures} FAILURES")} ===");
+    Console.WriteLine($"=== concentrator-tcross helpers: {(failures == 0 ? "ALL PASS" : $"{failures} FAILURES")} ===");
     if (failures > 0) Environment.ExitCode = 1;
 }
 
@@ -1766,21 +1766,21 @@ void RunBrecherEvaluation(string[] pArgs)
         $"RESULT N={n} J=[{jStr}] Initial={initialSpec} Gamma={gammaVal:F4} PeakSumMI={bestSumMI:F6} PeakT={bestT:F2} SumMI5={sumMI5:F6} PeakMI0N={bestMI0N:F6} PeakT_MI0N={bestT_MI0N:F2} MI0N5={mi0N_at_t5:F6} PeakMM={bestMM:F6} PeakT_MM={bestT_MM:F2} MM5={mm5:F6} ComputeTime={sw.Elapsed.TotalSeconds:F2}s"));
 }
 
-// sacrifice-tcross mode: spatially-varying γ profile, per-site CΨ_i(t),
+// concentrator-tcross mode: spatially-varying γ profile, per-site CΨ_i(t),
 // extract t_cross_i where each CΨ_i crosses the threshold.
 // Optional --J flag accepts a per-bond Heisenberg-XYZ coupling profile;
 // auto-dt mirrors brecher's stability rule (dtMax = 0.05 / max(1, max|J|)).
 // Spec: docs/superpowers/specs/2026-05-23-sacrifice-tcross-mode-design.md
-void RunSacrificeTcrossEvaluation(string[] pArgs)
+void RunConcentratorTcrossEvaluation(string[] pArgs)
 {
-    // Usage: sacrifice-tcross <N> --gamma <g0,g1,...,g(N-1)>
+    // Usage: concentrator-tcross <N> --gamma <g0,g1,...,g(N-1)>
     //                          [--J <j0,...,j(N-2)>]
     //                          [--state <plus|bits:...|xpattern:...|bonding:k|dickepair:k>]
     //                          [--tmax T] [--dt DT] [--threshold C]
     //                          [--out <path|stdout>]
     if (pArgs.Length < 2)
     {
-        Console.Error.WriteLine("Usage: sacrifice-tcross <N> --gamma <g0,...,g(N-1)> [--J <j0,...,j(N-2)>] [--state plus|bits:...|xpattern:...|bonding:k|dickepair:k] [--tmax 100] [--dt 0.05] [--threshold 0.25] [--out stdout|path]");
+        Console.Error.WriteLine("Usage: concentrator-tcross <N> --gamma <g0,...,g(N-1)> [--J <j0,...,j(N-2)>] [--state plus|bits:...|xpattern:...|bonding:k|dickepair:k] [--tmax 100] [--dt 0.05] [--threshold 0.25] [--out stdout|path]");
         Environment.Exit(1);
         return;
     }

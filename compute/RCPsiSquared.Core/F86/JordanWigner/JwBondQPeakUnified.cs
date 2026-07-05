@@ -26,7 +26,7 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 /// The simpler frob² ratio classifier breaks under F71-mirror-symmetry-induced ties between
 /// rank-1 and rank-2 pairs; bond-position is the structural distinguisher.</para>
 ///
-/// <para>Connection to RESONANT_RETURN.md SVD-mode-2 sacrifice-zone formula: Endpoint regime
+/// <para>Connection to RESONANT_RETURN.md SVD-mode-2 concentrator formula: Endpoint regime
 /// is the Q-axis analog of γ-axis "edge-hot, center-cold" SVD mode 2. Innermost regime is
 /// the orthogonal "center-cold" emergent NEW-NEW mode. The same Mode-Selection physics on
 /// two orthogonal axes.</para>

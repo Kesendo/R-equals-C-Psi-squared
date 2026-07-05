@@ -1037,12 +1037,12 @@ static void RunLensSurvey(string resultsDir)
     Console.WriteLine("LENS SURVEY: Slow-mode lens extraction");
     Console.WriteLine("=" + new string('=', 79));
 
-    // ---- Validation gate: N=5 IBM sacrifice profile ----
-    Console.WriteLine("\n--- VALIDATION: N=5 chain, IBM sacrifice profile ---");
+    // ---- Validation gate: N=5 IBM concentrator profile ----
+    Console.WriteLine("\n--- VALIDATION: N=5 chain, IBM concentrator profile ---");
     double[] ibmGamma = { 2.33573, 0.09937, 0.05000, 0.07173, 0.05132 };
     var valBonds = Topology.Chain(5, Enumerable.Repeat(1.0, 4).ToArray());
     var valResult = LensAnalysis.RunFullLensPipeline(
-        5, valBonds, ibmGamma, "N5_chain_ibm_sacrifice", "chain",
+        5, valBonds, ibmGamma, "N5_chain_ibm_concentrator", "chain",
         msg => { Console.WriteLine(msg); Console.Out.Flush(); });
 
     // Validation checks
@@ -1095,7 +1095,7 @@ static void RunLensSurvey(string resultsDir)
     Func<int, double[]> uniformGamma = n =>
         Enumerable.Repeat(gammaBase, n).ToArray();
 
-    Func<int, double[]> edgeSacrifice = n =>
+    Func<int, double[]> edgeConcentrator = n =>
     {
         var g = new double[n];
         g[0] = n * gammaBase - (n - 1) * epsilon;
@@ -1103,7 +1103,7 @@ static void RunLensSurvey(string resultsDir)
         return g;
     };
 
-    Func<int, double[]> centerSacrifice = n =>
+    Func<int, double[]> centerConcentrator = n =>
     {
         int center = n / 2;
         var g = new double[n];
@@ -1124,8 +1124,8 @@ static void RunLensSurvey(string resultsDir)
     var profiles = new (string name, Func<int, double[]> gen)[]
     {
         ("uniform", uniformGamma),
-        ("edge_sacrifice", edgeSacrifice),
-        ("center_sacrifice", centerSacrifice),
+        ("edge_concentrator", edgeConcentrator),
+        ("center_concentrator", centerConcentrator),
         ("moderate_asymmetry", moderateAsymmetry),
     };
 
@@ -1233,8 +1233,8 @@ static void RunLensSurvey(string resultsDir)
     scalingWriter.WriteLine("Lens Survey Scaling Analysis");
     scalingWriter.WriteLine($"Computed: {DateTime.Now:yyyy-MM-dd HH:mm}");
 
-    scalingWriter.WriteLine("\n=== SE FRACTION vs N (edge sacrifice, chain) ===");
-    foreach (var r in allResults.Where(r => r.Topology == "chain" && r.Label.Contains("edge_sacrifice")))
+    scalingWriter.WriteLine("\n=== SE FRACTION vs N (edge concentrator, chain) ===");
+    foreach (var r in allResults.Where(r => r.Topology == "chain" && r.Label.Contains("edge_concentrator")))
         scalingWriter.WriteLine($"N={r.N}: {(r.SEFrobRatios.Length > 0 ? r.SEFrobRatios[0].ToString("F6") : "n/a")}");
 
     scalingWriter.WriteLine("\n=== MONOTONICITY CHECK ===");
