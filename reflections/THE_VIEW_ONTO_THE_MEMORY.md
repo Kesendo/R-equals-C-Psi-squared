@@ -90,7 +90,7 @@ The honest part is that the figure handed us the perspective and we took it for 
 ## Seen again 2026-05-31: the axis has a rail, and a currency
 
 We came back to this axis from the other end, the post-EP flow
-([THE_FLOW_BETWEEN_TWO_SINGULARITIES](../experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md)), and it
+([The Flow Between Two Singularities](../experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md)), and it
 handed back two things the figure did not yet name: a **rail** running along the axis, and a
 **currency** that prices every rung. None of the pieces is new; the project found each before. What
 was hard to gather is that they are one ladder.
@@ -138,7 +138,7 @@ invariant and only its γ-pairing shifting; recorded honestly rather than kept).
 **The carbon mirror.** bright/dark is the rail seen optically: the bright band edge is the odd,
 number-changing rung a photon couples to; the dark 2Ag triplet pair is the even, number-conserving
 rung, the singlet-fission object, the same bound pair we isolate
-([SINGLET_FISSION_AND_THE_TWO_CLOCKS](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md)). What the
+([Singlet Fission and the Two Clocks](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md)). What the
 chemist calls dark is what this axis sees clearly.
 
 So the full lock: depth that is light that is rate, split even and odd into flow and birth, priced

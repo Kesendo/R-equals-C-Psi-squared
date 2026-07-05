@@ -4,7 +4,7 @@
 
 **Date:** 2026-05-27 (Welle 10d audit)
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Connects:** [PauliBasis.VecToPauliBasisTransform](../compute/RCPsiSquared.Core/Pauli/PauliBasis.cs) convention note, [F112NonHermitianBasisEnumeration.BuildSparseLSigma](../compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs), [PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md), [PROOF_F112_NONHERMITIAN_UNIVERSAL_N](../docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md), [PiOperator](../compute/RCPsiSquared.Core/Symmetry/PiOperator.cs)
+**Connects:** [PauliBasis.VecToPauliBasisTransform](../compute/RCPsiSquared.Core/Pauli/PauliBasis.cs) convention note, [F112NonHermitianBasisEnumeration.BuildSparseLSigma](../compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs), [the F112 Lindblad bit-B/Π-balance proof](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md), [the F112 non-Hermitian universal-N proof](../docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md), [PiOperator](../compute/RCPsiSquared.Core/Symmetry/PiOperator.cs)
 
 ## The identity
 
@@ -73,7 +73,7 @@ What this gives us: any F1 residual norm / inner product / spectrum computed via
 
    The N-site operators are tensor powers: `D = ⊗_l d_l`, `Q_zx = ⊗_l (h · d_l) = H · D`, `Q_yx = ⊗_l h = H`. Verified bit-exact at N = 1, 2, 3, 4 via [`simulations/klein_dephase_swap_explore.py`](../simulations/klein_dephase_swap_explore.py) (numpy + sympy per-site symbolic).
 
-   See [PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md](../docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md).
+   See [the Klein-V₄ dephase-swap proof](../docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md).
 
 3. **Typed-claim promotion**: CLOSED. Promoted to the typed `Pi2KleinV4DephaseSwapGroup` (Tier1Derived) in `compute/RCPsiSquared.Core/Symmetry/`, which subsumes all three Klein-V₄ dephase swaps (Z↔Y, Z↔X, Y↔X) in one claim rather than a narrow Z↔Y-only claim, and cites this reflection as evidence. (The Y↔X swap the claim calls `H` is the same operator this reflection names `Q_yx`.)
 
@@ -85,7 +85,7 @@ What this gives us: any F1 residual norm / inner product / spectrum computed via
                                      all pairwise commute.
    ```
 
-   Verified bit-exact at N = 1, 2, 3, 4 (closure + involution + commutativity). The lift is structurally clean: D is purely diagonal, Q_yx is purely a basis permutation, Q_zx is their product. See open question 2 (above) for the canonical per-site forms and [PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md](../docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md).
+   Verified bit-exact at N = 1, 2, 3, 4 (closure + involution + commutativity). The lift is structurally clean: D is purely diagonal, Q_yx is purely a basis permutation, Q_zx is their product. See open question 2 (above) for the canonical per-site forms and [the Klein-V₄ dephase-swap proof](../docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md).
 
    Practical consequence: the F1 palindrome family {Π_Z, Π_X, Π_Y} is fully Klein-V₄-equivariant, NOT asymmetric. Any F1-style result (residual norm, inner product, spectrum, Frobenius identities) for one dephase letter automatically transfers to the other two via the appropriate Klein-V₄ unitary conjugation. The Welle 11 F112 universal-N closure under Z-dephasing implies the same under X- and Y-dephasing.
 

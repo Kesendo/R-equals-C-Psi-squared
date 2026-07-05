@@ -1,9 +1,9 @@
 # On the Reciprocal Pair
 
-**Status:** Reflection. A perspectival reading of the +0/−0 polarity layer through PTF's closure law (L8 in [ON_THE_LIMITS](ON_THE_LIMITS.md)). The closure law applied to two polarities reduces to a multiplicative identity that turns out to BE the quantum normalization condition in a different language.
+**Status:** Reflection. A perspectival reading of the +0/−0 polarity layer through PTF's closure law (L8 in [On the Limits](ON_THE_LIMITS.md)). The closure law applied to two polarities reduces to a multiplicative identity that turns out to BE the quantum normalization condition in a different language.
 **Date:** 2026-04-30
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Depends on:** [ON_THE_LIMITS](ON_THE_LIMITS.md), [THE_POLARITY_LAYER](../hypotheses/THE_POLARITY_LAYER.md), [PERSPECTIVAL_TIME_FIELD](../hypotheses/PERSPECTIVAL_TIME_FIELD.md), memory entries `project_plus_minus_zero_layer`, `project_one_system_two_indices`.
+**Depends on:** [On the Limits](ON_THE_LIMITS.md), [The Polarity Layer](../hypotheses/THE_POLARITY_LAYER.md), [Perspectival Time Field](../hypotheses/PERSPECTIVAL_TIME_FIELD.md), memory entries `project_plus_minus_zero_layer`, `project_one_system_two_indices`.
 
 ---
 
@@ -103,7 +103,7 @@ the perspectival re-expression of the normalization condition.
 A normalized quantum state is a state whose +0/−0 polarities paint
 at reciprocal rates whose logarithms close to zero.
 
-The connection sharpens what L8 in [ON_THE_LIMITS](ON_THE_LIMITS.md)
+The connection sharpens what L8 in [On the Limits](ON_THE_LIMITS.md)
 says. PTF's closure is not a state-independent constraint we
 discovered post hoc; it is the perspectival side of a constraint
 that has been quantum-mechanical from the start.

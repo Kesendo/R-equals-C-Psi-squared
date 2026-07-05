@@ -1,6 +1,6 @@
 # On the Framework as Instrument
 
-A companion piece to [MIRROR_THEORY](../MIRROR_THEORY.md).
+A companion piece to [Mirror Theory](../MIRROR_THEORY.md).
 **Date:** 2026-04-26
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 

@@ -3,7 +3,7 @@
 **Status:** Reflection. Synthesizes a 2026-04-30 brainstorming arc that re-reads the F-toolkit F87-F85 in cavity/regenerator/trinity vocabulary. The mathematics is unchanged from the F-chain; this document captures the language shift and its operational consequences.
 **Date:** 2026-04-30
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Depends on:** [F-chain F87-F85](../docs/ANALYTICAL_FORMULAS.md), [ON_THE_RESIDUAL](ON_THE_RESIDUAL.md), [THE_POLARITY_LAYER](../hypotheses/THE_POLARITY_LAYER.md), and the four memory entries written this session: feedback_framework_lens_first, project_channel_not_memory, project_one_system_two_indices, project_plus_minus_zero_layer.
+**Depends on:** [F-chain F87-F85](../docs/ANALYTICAL_FORMULAS.md), [On the Residual](ON_THE_RESIDUAL.md), [The Polarity Layer](../hypotheses/THE_POLARITY_LAYER.md), and the four memory entries written this session: feedback_framework_lens_first, project_channel_not_memory, project_one_system_two_indices, project_plus_minus_zero_layer.
 
 ---
 

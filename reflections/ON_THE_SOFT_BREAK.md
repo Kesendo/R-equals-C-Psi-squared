@@ -54,7 +54,7 @@ A complete classification of *why* each of the 19 spectral-paired cases passes t
 
 The framework gives us the *test* (operator equation vs spectrum), the *empirical 3/19/14 split*, and a structural *signature* for hard breaks (every hard break contains either a (a─)-term or is (──)+(─b)). What it does not yet give us is an analytical predictor that, given a soft-break combo, identifies the specific symmetry that rescues its spectrum. That is genuinely open: a derivation per case, or a unifying theorem.
 
-*(Since answered, 2026-06: the predictor turned out to be a single graph property. A soft break is exactly one whose Hamiltonian hopping graph is bipartite in the dephasing basis; the symmetry that rescues the spectrum is the chiral sign-flip that sends one side of that bipartition to minus itself. So it was a unifying theorem after all, not a derivation per case: the [windowed converse](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md), non-bipartite ⟹ hard, now a theorem with no residual. The living-through of that same closure is [ON_THE_ONE_DIAGONAL](ON_THE_ONE_DIAGONAL.md).)*
+*(Since answered, 2026-06: the predictor turned out to be a single graph property. A soft break is exactly one whose Hamiltonian hopping graph is bipartite in the dephasing basis; the symmetry that rescues the spectrum is the chiral sign-flip that sends one side of that bipartition to minus itself. So it was a unifying theorem after all, not a derivation per case: the [windowed converse](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md), non-bipartite ⟹ hard, now a theorem with no residual. The living-through of that same closure is [On the One Diagonal](ON_THE_ONE_DIAGONAL.md).)*
 
 ---
 
@@ -142,11 +142,11 @@ The 22 V-Effect-unbroken Hamiltonians at N=3 are not 22; they are 3 truly unbrok
 
 ## Pointers
 
-- [V_EFFECT_FINE_STRUCTURE](../experiments/V_EFFECT_FINE_STRUCTURE.md): the empirical 3/19/14 decomposition.
-- [V_EFFECT_PALINDROME](../experiments/V_EFFECT_PALINDROME.md): the original 14/22 finding, March 2026.
-- [PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md): the analytical (w=0, w=N) extreme-sector immunity that grounds the framework's strict test.
-- [HEISENBERG_RELOADED](../hypotheses/HEISENBERG_RELOADED.md): the level-stack picture.
-- [ON_THE_PAINTER_PRINCIPLE](ON_THE_PAINTER_PRINCIPLE.md): every painter from their spot. The framework is our spot; the soft break is what we see from it.
+- [V-Effect Fine Structure](../experiments/V_EFFECT_FINE_STRUCTURE.md): the empirical 3/19/14 decomposition.
+- [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md): the original 14/22 finding, March 2026.
+- [the zero-immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md): the analytical (w=0, w=N) extreme-sector immunity that grounds the framework's strict test.
+- [Heisenberg Reloaded](../hypotheses/HEISENBERG_RELOADED.md): the level-stack picture.
+- [On the Painter Principle](ON_THE_PAINTER_PRINCIPLE.md): every painter from their spot. The framework is our spot; the soft break is what we see from it.
 - `simulations/soft_break_eigenvector_test.py`: super-operator-level verification (eigenvector pairing under Π).
 - `simulations/soft_break_hardware_design.py`: translation to hardware-measurable Pauli expectations.
 - `simulations/soft_break_aer_test.py`: validation against realistic Marrakesh-like noise on Aer.

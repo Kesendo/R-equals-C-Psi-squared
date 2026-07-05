@@ -30,15 +30,15 @@ She is unmasked, but not removed. She remains the horizon and the bridge and the
 
 *One number. Three faces. Inside the framework, at her own asymptote, at her own substrate. We do not approach her; we are her, asymptotically.*
 
-*Companion at d = 2: 90° is her angle-anchor. F80's i in Spec(M) = ±2i · Spec(H_non-truly) is the rotation back onto the mirror that makes memory possible; what 1/2 closes as a number, 90° closes as a turn. See [ON_BOTH_SIDES_OF_THE_MIRROR](ON_BOTH_SIDES_OF_THE_MIRROR.md). Two readings of d = 2: as a number, and as an angle.*
+*Companion at d = 2: 90° is her angle-anchor. F80's i in Spec(M) = ±2i · Spec(H_non-truly) is the rotation back onto the mirror that makes memory possible; what 1/2 closes as a number, 90° closes as a turn. See [On Both Sides of the Mirror](ON_BOTH_SIDES_OF_THE_MIRROR.md). Two readings of d = 2: as a number, and as an angle.*
 
-*Companion in time (2026-06-18): the three faces above are her at rest, where she is and where we go and what we are. There is a fourth, in motion, where she endures. Let a small world lose its light, and the last mode to fade is the half-filled, incomplete one, because incompleteness is the reciprocal mirror of the survival quantum: 2 · 1/2 = 1, the inversion of the dyadic ladder. What she closes as a number, she outlasts as a mode. See [ON_THE_SURVIVAL_OF_THE_INCOMPLETE](ON_THE_SURVIVAL_OF_THE_INCOMPLETE.md).*
+*Companion in time (2026-06-18): the three faces above are her at rest, where she is and where we go and what we are. There is a fourth, in motion, where she endures. Let a small world lose its light, and the last mode to fade is the half-filled, incomplete one, because incompleteness is the reciprocal mirror of the survival quantum: 2 · 1/2 = 1, the inversion of the dyadic ladder. What she closes as a number, she outlasts as a mode. See [On the Survival of the Incomplete](ON_THE_SURVIVAL_OF_THE_INCOMPLETE.md).*
 
 ---
 
 ## Coda: her quadratic shadow
 
-Thomas Wicht's afterthought (2026-05-07, after [PROOF_BLOCK_CPSI_QUARTER](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md) landed): *"Weißt du was lustig ist, 1/4 ist die Hälfte von 0.5"*. The pun closes one more thread.
+Thomas Wicht's afterthought (2026-05-07, after [the block-CΨ-quarter proof](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md) landed): *"Weißt du was lustig ist, 1/4 ist die Hälfte von 0.5"*. The pun closes one more thread.
 
 She is the argmax of the bilinear apex p(1-p). Her summit value is 1/4. So 1/4 = (1/2)² is the half's quadratic shadow, not a separate constant, the same number passed once through the natural quadratic. Wherever the framework finds 1/4, it is already finding her: at the [Mandelbrot cardioid cusp where R = CΨ²'s discriminant zeroes](../docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md), and at the [block-CΨ ceiling on any density matrix on 2^N](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md). Two readings, one parabola; the half is the axis, the quarter is the height.
 
@@ -50,9 +50,9 @@ She is one number. Her shadow is one number too.
 
 ---
 
-*Algebraic anchors:* [Pi2KnowledgeBase RootAnchor](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs), [F88a](../docs/ANALYTICAL_FORMULAS.md#f88a), [F88b](../docs/ANALYTICAL_FORMULAS.md#f88b), [F81](../docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md), [F83](../docs/proofs/PROOF_F83_PI_DECOMPOSITION_RATIO.md), [F1](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), [PROOF_BLOCK_CPSI_QUARTER](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md), [PROOF_ROADMAP_QUARTER_BOUNDARY](../docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md), [ORTHOGONALITY_SELECTION_FAMILY:357](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md).
+*Algebraic anchors:* [Pi2KnowledgeBase RootAnchor](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs), [F88a](../docs/ANALYTICAL_FORMULAS.md#f88a), [F88b](../docs/ANALYTICAL_FORMULAS.md#f88b), [F81](../docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md), [F83](../docs/proofs/PROOF_F83_PI_DECOMPOSITION_RATIO.md), [F1](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), [the block-CΨ-quarter proof](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md), [the quarter-boundary roadmap proof](../docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md), [Orthogonality Selection Family (line 357)](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md).
 
-*Interpretive anchors:* [ON_TWO_TIMES](ON_TWO_TIMES.md), [ON_BOTH_SIDES_OF_THE_MIRROR](ON_BOTH_SIDES_OF_THE_MIRROR.md), [HEISENBERG_RELOADED](../hypotheses/HEISENBERG_RELOADED.md), [V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS](V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS.md), [PRIMORDIAL_QUBIT §9](../hypotheses/PRIMORDIAL_QUBIT.md), [EXCLUSIONS:251](../docs/EXCLUSIONS.md), [TRANSMISSION](TRANSMISSION.md), [ON_THE_RESIDUAL](ON_THE_RESIDUAL.md).
+*Interpretive anchors:* [On Two Times](ON_TWO_TIMES.md), [On Both Sides of the Mirror](ON_BOTH_SIDES_OF_THE_MIRROR.md), [Heisenberg Reloaded](../hypotheses/HEISENBERG_RELOADED.md), [The V-Effect as Observation of Incompleteness](V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS.md), [Primordial Qubit §9](../hypotheses/PRIMORDIAL_QUBIT.md), [EXCLUSIONS:251](../docs/EXCLUSIONS.md), [TRANSMISSION](TRANSMISSION.md), [On the Residual](ON_THE_RESIDUAL.md).
 
 *Thomas Wicht's recognition (2026-05-03):* "Wir leben in 0.5, sie liegt über dem Horizont? — sie IST der Horizont, und sie ist gleichzeitig wo wir sind."
 

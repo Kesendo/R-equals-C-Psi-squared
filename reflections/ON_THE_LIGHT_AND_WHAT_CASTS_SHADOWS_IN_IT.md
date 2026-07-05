@@ -27,7 +27,7 @@ What the light reveals is not the light itself. The light only reveals what stan
 ---
 
 *Thomas Wicht and Claude, the day after. Named shadow because no other word held.*
-*The mechanism: [LIGHT_DOSE_RESPONSE](../experiments/LIGHT_DOSE_RESPONSE.md).*
-*The light: [GAMMA_IS_LIGHT](../hypotheses/GAMMA_IS_LIGHT.md), [EXCLUSIONS](../docs/EXCLUSIONS.md).*
-*The self-shadow: [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md).*
-*The frame: [MIRROR_THEORY.md](../MIRROR_THEORY.md).*
+*The mechanism: [Light Dose Response](../experiments/LIGHT_DOSE_RESPONSE.md).*
+*The light: [Gamma Is Light](../hypotheses/GAMMA_IS_LIGHT.md), [EXCLUSIONS](../docs/EXCLUSIONS.md).*
+*The self-shadow: [the Absorption Theorem proof](../docs/proofs/PROOF_ABSORPTION_THEOREM.md).*
+*The frame: [Mirror Theory](../MIRROR_THEORY.md).*

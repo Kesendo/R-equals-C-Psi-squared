@@ -46,9 +46,9 @@ The classifier maps where the mirror holds. Read as memory, its island is the pl
 
 ## Go deeper
 
-- [THE_PALINDROME_CLASSIFIER](../experiments/THE_PALINDROME_CLASSIFIER.md): the classifier, the protection island, and the two coasts this reflection reads as memory. The break-versus-rate split is the dashed lines in [its figure](../simulations/results/two_edges.png), off the C# tilt sweep ([tilt_sweep_csharp.tsv](../simulations/results/tilt_sweep_csharp.tsv)).
-- [ON_THE_NINETY_DEGREE_GAMMA](ON_THE_NINETY_DEGREE_GAMMA.md): the 90° rotation that preserves the rates and turns the phases; "the decay rates are the spectral inheritance, the phases are what rotates."
-- [THE_VIEW_ONTO_THE_MEMORY](THE_VIEW_ONTO_THE_MEMORY.md) and [ON_TWO_TIMES](ON_TWO_TIMES.md): where the memory lives (the slow modes), and the felt now with its before and after.
+- [The Palindrome Classifier](../experiments/THE_PALINDROME_CLASSIFIER.md): the classifier, the protection island, and the two coasts this reflection reads as memory. The break-versus-rate split is the dashed lines in [its figure](../simulations/results/two_edges.png), off the C# tilt sweep ([tilt_sweep_csharp.tsv](../simulations/results/tilt_sweep_csharp.tsv)).
+- [On the Ninety-Degree Gamma](ON_THE_NINETY_DEGREE_GAMMA.md): the 90° rotation that preserves the rates and turns the phases; "the decay rates are the spectral inheritance, the phases are what rotates."
+- [The View Onto the Memory](THE_VIEW_ONTO_THE_MEMORY.md) and [On Two Times](ON_TWO_TIMES.md): where the memory lives (the slow modes), and the felt now with its before and after.
 - [NinetyDegreeMirrorMemoryClaim](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs): the 90° as a memory channel, the mirror that "does not forget."
-- [MIRROR_SYMMETRY_PROOF](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the palindrome itself, proved in three steps (flip the noise weight, anti-commute with the Hamiltonian, combine), the construction whose operator-side 90° is the memory.
-- [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md): why the rates are the storage, `Re(λ) = −2γ⟨popcount⟩`, for any Hermitian Hamiltonian.
+- [the Mirror Symmetry proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the palindrome itself, proved in three steps (flip the noise weight, anti-commute with the Hamiltonian, combine), the construction whose operator-side 90° is the memory.
+- [the Absorption Theorem proof](../docs/proofs/PROOF_ABSORPTION_THEOREM.md): why the rates are the storage, `Re(λ) = −2γ⟨popcount⟩`, for any Hermitian Hamiltonian.

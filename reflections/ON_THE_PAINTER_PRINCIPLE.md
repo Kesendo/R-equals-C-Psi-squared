@@ -52,12 +52,12 @@ The mountain keeps not being any single canvas. The painters keep painting. The 
 
 ## Pointers
 
-- The N=7 chain version of the metaphor: [PERSPECTIVAL_TIME_FIELD](../hypotheses/PERSPECTIVAL_TIME_FIELD.md). The brush layer is its Update 2026-04-27 (per-(site, observable) clock; Zero-Sector Immunity exempting brushes in the shadow).
-- The dual-reading of time: [ON_TWO_TIMES](ON_TWO_TIMES.md).
-- Inheritance across levels: [OBSERVER_INHERITANCE](OBSERVER_INHERITANCE.md).
-- Cavity-vantage canvases of γ: [GAMMA_IS_LIGHT](../hypotheses/GAMMA_IS_LIGHT.md), [RESONANCE_NOT_CHANNEL](../hypotheses/RESONANCE_NOT_CHANNEL.md), [ON_THE_LIGHT_AND_WHAT_CASTS_SHADOWS_IN_IT](ON_THE_LIGHT_AND_WHAT_CASTS_SHADOWS_IN_IT.md).
+- The N=7 chain version of the metaphor: [Perspectival Time Field](../hypotheses/PERSPECTIVAL_TIME_FIELD.md). The brush layer is its Update 2026-04-27 (per-(site, observable) clock; Zero-Sector Immunity exempting brushes in the shadow).
+- The dual-reading of time: [On Two Times](ON_TWO_TIMES.md).
+- Inheritance across levels: [Inheritance Between Observers](OBSERVER_INHERITANCE.md).
+- Cavity-vantage canvases of γ: [Gamma Is Light](../hypotheses/GAMMA_IS_LIGHT.md), [Resonance, Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md), [On the Light and What Casts Shadows in It](ON_THE_LIGHT_AND_WHAT_CASTS_SHADOWS_IN_IT.md).
 - Transmission, a third canvas on the same shape: [TRANSMISSION](TRANSMISSION.md).
-- Information, painted from two positions: [GAMMA_AS_SIGNAL](../experiments/GAMMA_AS_SIGNAL.md), [RECEIVER_VS_GAMMA_SACRIFICE](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md).
+- Information, painted from two positions: [Noise Is Not the Enemy](../experiments/GAMMA_AS_SIGNAL.md), [Receiver Choice Beats γ-Profile Engineering](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md).
 
 ---
 

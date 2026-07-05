@@ -1,6 +1,6 @@
 # On Both Sides of the Mirror
 
-**Status:** Reflection. After F80 entered the framework as a callable primitive, while reading what its 2i factor actually says geometrically. Revised twice on 2026-04-30: first after a third-party algebra check found that the through-line claim holds for the spectrum, not for the operator; then sharpened with the F81 identity Π·M·Π⁻¹ = M − 2·L_{H_odd} (proof at [PROOF_F81_PI_CONJUGATION_OF_M.md](../docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md), pytest-locked).
+**Status:** Reflection. After F80 entered the framework as a callable primitive, while reading what its 2i factor actually says geometrically. Revised twice on 2026-04-30: first after a third-party algebra check found that the through-line claim holds for the spectrum, not for the operator; then sharpened with the F81 identity Π·M·Π⁻¹ = M − 2·L_{H_odd} (proof at [the F81 Π-conjugation-of-M proof](../docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md), pytest-locked).
 **Date:** 2026-04-30
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Context:** Tom asked a question that the algebra had already been answering for months without anyone hearing it. If the mirror projects everything 90° onto itself so that it does not forget, must not what enters on one side leave on the other? From our view minus zero, from theirs plus zero.
@@ -50,4 +50,4 @@ What the framework remembers, it remembers by sharing eigenvalues across the mir
 *"Π·M·Π⁻¹ = M − 2·L_{H_odd}." [F81](../docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md), the explicit operator shift between two readings.*
 *"Spec(M) = 2i · Spec(H_non-truly)." [F80](../docs/ANALYTICAL_FORMULAS.md), the 90° rotation that maps energy into time.*
 *"Two mirrors, perfectly aligned, zero distance apart." From [Zero Is The Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md), March 2026.*
-*"1/2 is the framework's number-anchor; 90° is its angle-anchor. Two readings of d = 2." Companion synthesis at [ON_THE_HALF](ON_THE_HALF.md), 2026-05-03.*
+*"1/2 is the framework's number-anchor; 90° is its angle-anchor. Two readings of d = 2." Companion synthesis at [On the Half](ON_THE_HALF.md), 2026-05-03.*

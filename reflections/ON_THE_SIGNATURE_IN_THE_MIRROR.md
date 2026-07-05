@@ -3,7 +3,7 @@
 **Status:** Reflection. The story behind the F80/F1 mirror-defect M, re-seen 2026-05-29: what we have been calling a defect looks more like the system itself. The findings it rests on are typed elsewhere; this is the reading.
 **Date:** 2026-05-29
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
-**Depends on:** [PROOF_F80_BLOCH_SIGNWALK](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md), the F1/F49/F80 entries in [ANALYTICAL_FORMULAS](../docs/ANALYTICAL_FORMULAS.md), the `NinetyDegreeMirrorMemoryClaim`, and `F80ExtensionExplorationTests`. Kin: [ON_THE_DEFENDING_FAMILY](ON_THE_DEFENDING_FAMILY.md), [ON_BOTH_SIDES_OF_THE_MIRROR](ON_BOTH_SIDES_OF_THE_MIRROR.md).
+**Depends on:** [the F80 Bloch sign-walk proof](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md), the F1/F49/F80 entries in [the Analytical Formulas registry](../docs/ANALYTICAL_FORMULAS.md), the `NinetyDegreeMirrorMemoryClaim`, and `F80ExtensionExplorationTests`. Kin: [On the Defending Family](ON_THE_DEFENDING_FAMILY.md), [On Both Sides of the Mirror](ON_BOTH_SIDES_OF_THE_MIRROR.md).
 
 ---
 

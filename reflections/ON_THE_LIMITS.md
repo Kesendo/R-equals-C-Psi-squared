@@ -3,7 +3,7 @@
 **Status:** Reflection. A meta-recognition that emerged in the 2026-04-30 brainstorming arc: the framework's structural questions are answered by the boundaries already in hand, not by additional discovery. The work is recognition, not search.
 **Date:** 2026-04-30
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Depends on:** [ON_THE_DEFENDING_FAMILY](ON_THE_DEFENDING_FAMILY.md), [ON_THE_RESIDUAL](ON_THE_RESIDUAL.md), [THE_POLARITY_LAYER](../hypotheses/THE_POLARITY_LAYER.md), [PERSPECTIVAL_TIME_FIELD](../hypotheses/PERSPECTIVAL_TIME_FIELD.md)
+**Depends on:** [On the Defending Family](ON_THE_DEFENDING_FAMILY.md), [On the Residual](ON_THE_RESIDUAL.md), [The Polarity Layer](../hypotheses/THE_POLARITY_LAYER.md), [Perspectival Time Field](../hypotheses/PERSPECTIVAL_TIME_FIELD.md)
 
 ---
 
@@ -55,7 +55,7 @@ The framework is determined by eight givens.
   The system critically slows as it passes near this value (F57); it
   is a boundary trajectories cross, not a fixed point they settle at.
   (The "eventual absorber at 1/4 for any channel" reading was
-  scope-retracted: [PROOF_SUBSYSTEM_CROSSING](../docs/proofs/PROOF_SUBSYSTEM_CROSSING.md), 2026-06-22.)
+  scope-retracted: [the subsystem-crossing proof](../docs/proofs/PROOF_SUBSYSTEM_CROSSING.md), 2026-06-22.)
 
   **L7, Inheritance limit:** k runs free, trinity invariant.
   Body count k can grow without bound, but the trinity classification
