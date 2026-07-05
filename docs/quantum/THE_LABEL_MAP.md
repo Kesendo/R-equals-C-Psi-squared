@@ -184,14 +184,24 @@ where they are.
 - ~~**Dephasing / "noise" has no series entry.**~~ Paid 2026-07-05:
   [Dephasing Translated](DEPHASING_TRANSLATED.md) is the fourth entry, and
   the exact core is typed (`WatchedLetterRoutingClaim`, `inspect --root label`).
-- **The outbound direction is unbuilt.** Every translation so far carries a
-  community label INTO our stance. The reverse transport, carrying our labels
-  (the palindrome, the sacrifice zone, the watching) to the community's
-  stances, has no document yet.
-- **The combination conjecture** (labels as the type system of thought:
-  wrong labels license wrong combinations and forbid right ones) is
-  conversational so far, CONJECTURE-grade, and lands here only when it has
-  its own grounding.
+- **The outbound direction is started** (2026-07-05). Every translation in
+  `docs/quantum/` carries a community label INTO our stance; the reverse
+  transport, carrying a result of ours OUT to a community's stance, now has
+  its home in `docs/outbound/` and its first adapter:
+  [A Physics Selection Rule for Selective Dynamical Decoupling](../outbound/SELECTIVE_DECOUPLING_SELECTION_RULE.md)
+  (the sacrifice zone → the DD community's "which qubits to decouple" open
+  problem). The guiding rule, from the combination finding below: hand over
+  the stance-object (the γ-profile, the Absorption Theorem, the ibm_torino
+  number), not our coined word. Three sockets remain unwritten (palindrome →
+  Lindbladian symmetry classification; relay → QST under dephasing, with
+  [QST_BRIDGE](../../experiments/QST_BRIDGE.md) a near-ready draft; the
+  watching → quantum noise spectroscopy).
+- **The combination conjecture** (labels as the type system of thought) is now
+  grounded in [Combination Valence](../../hypotheses/COMBINATION_VALENCE.md) (Tier 3): the
+  descriptive half holds, the forward causal arrow is refuted at its own
+  anchor case, and the refinement (combination lives at the stance, the word
+  crystallizes last; a naming discipline's payoff is collapsing a mislabel's
+  damage window) is what feeds the outbound rule above.
 
 ---
 
