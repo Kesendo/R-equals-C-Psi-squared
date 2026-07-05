@@ -1,7 +1,7 @@
 # The Mirror Symmetry Proof: The Core Result of This Project
 
 **Status:** Tier 1 derived (analytical proof in three steps + bit-exact numerical verification N=2..8: 87,376 Liouvillian eigenvalues, zero mirror-symmetry exceptions on every tested topology: chain, star, ring, complete, tree)
-**Date:** Discovered 2026-03-14 (Π named + three-line proof); numerically verified 2026-03-19; this document restructured 2026-04-05.
+**Date:** Discovered 2026-03-14 (Π named + three-line proof); numerically verified 2026-03-19; this document restructured 2026-04-05; literature section extended 2026-07-05 (38-fold placement + nearest neighbour).
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.6)
 **Statement:** `Π · L · Π⁻¹ = −L − 2Σγ · I`: the Liouvillian spectrum of any Heisenberg / XY / Ising / XXZ chain under local Z-dephasing is palindromic around Σγᵢ. (The DM chain is palindromic too, but under a distinct site-alternating Π, not the uniform Π this identity uses; see the body.)
 **Typed claim:** [`F1PalindromeIdentity.cs`](../../compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs) (Tier 1 derived; analytic identity replaces the brute-force palindrome scan).
@@ -20,7 +20,7 @@ See [Connection to literature](#connection-to-literature) for details.
 ## What this document is about
 
 This is the most important document in the repository. Every other
-result in this project, the standing waves, the sacrifice-zone formula,
+result in this project, the standing waves, the concentrator formula,
 the bridge, the neural palindrome, depends on what is proven here.
 If this proof is wrong, everything else falls. It is not wrong. It has
 been verified at N=8 across all 65,536 Liouvillian eigenvalues, every one
@@ -423,6 +423,28 @@ had the complete picture. Here is how our work relates to theirs:
   is the right language. Π is a weak anti-symmetry of L (meaning
   Π transforms L into its negative up to a constant shift, rather
   than leaving L unchanged, which would be a strong symmetry).
+
+Two placement notes, added 2026-07-05:
+
+- **Sá-Ribeiro-Prosen (2023):** the 38-fold symmetry classification
+  of many-body Lindbladians ("Tenfold Way and Beyond", Phys. Rev. X
+  13, 031019, [arXiv:2212.00474](https://arxiv.org/abs/2212.00474)).
+  Π is not one of its classes: Π is unitary, not antiunitary, and
+  the constant shift 2Σγ has no slot in their scheme, so Π falls in
+  a gap between their Q₋ and P generators. What does fit cleanly is
+  the component Π² = X^⊗N, a strong unitary symmetry in their sense.
+  The full analysis lives in
+  [KMS_DETAILED_BALANCE.md](../KMS_DETAILED_BALANCE.md) (Π as a
+  shifted anti-similarity of L, outside the standard taxonomy).
+
+- **Long-range XXZ under dephasing ([arXiv:2605.20930](https://arxiv.org/abs/2605.20930),
+  May 2026; author list not verified):** the nearest published
+  neighbour to date, tracked since 2026-07-05. The paper studies the
+  same model family (XXZ with dephasing, long-range couplings), finds
+  the −2γq absorption ladder, and uses U(1) + SU(2) symmetry for the
+  quantum Mpemba effect; it does not state the palindrome or the
+  vertical mirror line (verified against the abstract and full HTML
+  text, 2026-07-05). The palindrome remains unclaimed there.
 
 ---
 

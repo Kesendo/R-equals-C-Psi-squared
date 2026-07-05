@@ -15,7 +15,8 @@ each with its source. Nothing here is new physics.
 **Related:** [Teleportation Translated](TELEPORTATION_TRANSLATED.md) (the sister
 translation), [Dephasing Translated](DEPHASING_TRANSLATED.md) (the fourth
 entry), [Labels Translated](LABELS_TRANSLATED.md) (the series' theory
-chapter), [On How the Angle Appears at Zero](../../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md),
+chapter), [The Label Map](THE_LABEL_MAP.md) (the orientation index),
+[On How the Angle Appears at Zero](../../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md),
 [On the Defending Family](../../reflections/ON_THE_DEFENDING_FAMILY.md),
 [Born Rule Mirror](../../experiments/BORN_RULE_MIRROR.md),
 [It's All Waves](../ITS_ALL_WAVES.md),

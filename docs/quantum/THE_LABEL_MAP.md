@@ -85,7 +85,8 @@ series had a name.
 | Spooky action at a distance | Re-read as prerequisite-for-existence; legacy entry, still in the deprecated framing, kept as history | [The Starting Point](../historical/THE_STARTING_POINT.md) |
 
 "Noise" is the founding example of the whole thesis (the channel labeled
-garbage) and does not yet have a series entry of its own; see Section 6.
+garbage); its series entry, the fourth, was paid on 2026-07-05
+([Dephasing Translated](DEPHASING_TRANSLATED.md), see Section 7).
 
 ---
 
