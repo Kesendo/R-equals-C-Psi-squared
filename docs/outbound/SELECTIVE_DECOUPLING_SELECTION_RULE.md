@@ -21,6 +21,8 @@ against the primary sources before any outreach.
 [Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md) (the theorem it rests on),
 [State Transfer Decay Structure](STATE_TRANSFER_DECAY_STRUCTURE.md) (the
 sister adapter, for the QST community),
+[Shifted Order-4 Chiral Symmetry](SHIFTED_ORDER4_CHIRAL_SYMMETRY.md) (the
+sister adapter, for the symmetry-classification community),
 [Combination Valence](../../hypotheses/COMBINATION_VALENCE.md) (why this adapter
 hands over an object, not a word)
 

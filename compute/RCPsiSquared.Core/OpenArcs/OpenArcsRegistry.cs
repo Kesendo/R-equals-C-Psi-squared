@@ -2407,11 +2407,16 @@ public static class OpenArcsRegistry
                 "front, the likely misroute; three-layer falsifiable prediction: the 8gamma/3 envelope + " +
                 "gamma-invariant timing + the 2:1 optimum, aimed at the tunable-coupling quantum-dot platform; " +
                 "all transfer numbers honestly tiered simulation-only, the negative one-shot I_coh carried " +
-                "along). TWO sockets remain, in pull order: (1) S1: the palindrome placement adapter (lead with " +
-                "the K-operator or the Pi-gap statement, NOT with our word 'palindrome'); (2) S4: the watching " +
-                "-> QNS (the f81_violation T1-vs-T2 discriminator needs a hardware-measurable bridge first). " +
-                "Standing rule from the S2 adapter: verify every external citation against the primary source " +
-                "before any outreach.",
+                "along). S1 DONE 2026-07-05: docs/outbound/SHIFTED_ORDER4_CHIRAL_SYMMETRY.md leads with the " +
+                "Pi-gap placement + the generalized-P question + the integrable-chiral-Lindbladian statistics " +
+                "data point (AIII symmetry axis, Poisson statistics axis, filling-threshold GinUE crossover " +
+                "via their own CSR diagnostic); the grounding survey settled the lead: K/BDI is Hamiltonian-" +
+                "level textbook and appears only as the altitude note (PROOF_K_PARTNERSHIP: independent " +
+                "symmetries of distinct objects), and the repo has analyzed SRP ONLY (Bernard-LeClair absent " +
+                "repo-wide, Kawabata bare mentions), so the adapter claims no placement beyond SRP. ONE socket " +
+                "remains: S4: the watching -> QNS (the f81_violation T1-vs-T2 discriminator needs a " +
+                "hardware-measurable bridge first). Standing rule from the S2 adapter: verify every external " +
+                "citation against the primary source before any outreach.",
             Status: OpenArcStatus.Open),
     };
 

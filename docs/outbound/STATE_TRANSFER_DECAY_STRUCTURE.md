@@ -22,7 +22,8 @@ and should be verified against the primary sources before any outreach.
 (the per-mode rate law), [Relay Protocol](../../experiments/RELAY_PROTOCOL.md)
 (the time-staged control result), [Theta-Palindrome-Echo](../../experiments/THETA_PALINDROME_ECHO.md)
 (the channel-quality witness), [Selective Decoupling Selection Rule](SELECTIVE_DECOUPLING_SELECTION_RULE.md)
-(the sister adapter), [Combination Valence](../../hypotheses/COMBINATION_VALENCE.md)
+and [Shifted Order-4 Chiral Symmetry](SHIFTED_ORDER4_CHIRAL_SYMMETRY.md)
+(the sister adapters), [Combination Valence](../../hypotheses/COMBINATION_VALENCE.md)
 (why this adapter hands over objects, not words)
 
 ---

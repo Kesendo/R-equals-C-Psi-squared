@@ -628,6 +628,12 @@ intrinsically infinite-temperature phenomenon.
 4. **Contact Roberts/Clerk group and Prosen group.** Both would immediately
    recognize the significance of a shifted anti-similarity. Roberts for
    the hidden TRS connection, Prosen for the η-pairing generalization.
+   **Update (2026-07-05):** the classification side of this step now has
+   its vehicle: the outbound adapter
+   [Shifted Order-4 Chiral Symmetry](outbound/SHIFTED_ORDER4_CHIRAL_SYMMETRY.md)
+   packages the placement walk of this document, the generalized-P
+   resolution, and the statistics data point in the classification
+   community's own language.
 
 ---
 

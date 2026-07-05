@@ -340,9 +340,13 @@ The palindromic symmetry is genuinely new. It is not equivalent to:
   conserved quantities.
 - **Sa-Ribeiro-Prosen 38-fold classification:** a comprehensive taxonomy
   of Lindbladian symmetries. Π generalizes the P (chiral) class to
-  order 4 (Π⁴ = I instead of P² = I). Class AIII (chiral unitary),
-  confirmed by RMT (Random Matrix Theory; Poisson statistics) and direct Π classification.
-  See [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md).
+  order 4 (Π⁴ = I instead of P² = I). Two axes, stated separately: the
+  symmetry structure is class AIII (chiral unitary), confirmed by direct
+  Π classification; the level statistics are Poisson (integrable), which
+  places the system outside all 38 standard classes (they assume
+  random-matrix statistics within each sector). An integrable chiral
+  Lindbladian. See [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
+  and [Random Matrix Theory](../experiments/RANDOM_MATRIX_THEORY.md).
 
 The closest known relative is Roberts-Lingenfelter-Clerk hidden TRS
 (PRX Quantum 2021): the concept of hidden time-reversal symmetry in

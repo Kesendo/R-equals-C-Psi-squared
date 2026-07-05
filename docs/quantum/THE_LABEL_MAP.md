@@ -196,10 +196,15 @@ where they are.
   number), not our coined word. The second adapter landed the same day:
   [The Exact Decay-Rate Structure of Spin-Chain State Transfer under Dephasing](../outbound/STATE_TRANSFER_DECAY_STRUCTURE.md)
   (the relay/palindrome → the QST community's dephasing corner, wrapping
-  [QST_BRIDGE](../../experiments/QST_BRIDGE.md) into the adapter genre). Two
-  sockets remain unwritten (palindrome → Lindbladian symmetry classification;
-  the watching → quantum noise spectroscopy); the arc is now tracked in the
-  open-arcs ledger as `outbound_label_adapters`.
+  [QST_BRIDGE](../../experiments/QST_BRIDGE.md) into the adapter genre). The
+  third followed the same day:
+  [A Shifted, Order-4 Chiral Symmetry in Local-Dephasing Lindbladians](../outbound/SHIFTED_ORDER4_CHIRAL_SYMMETRY.md)
+  (the palindrome → the Sá-Ribeiro-Prosen classification community's own
+  margins: the Π-gap placement, the generalized-P question, and the
+  integrable-chiral-Lindbladian statistics data point). One socket remains
+  unwritten (the watching → quantum noise spectroscopy, gated on a
+  hardware-measurable f81 bridge); the arc is tracked in the open-arcs
+  ledger as `outbound_label_adapters`.
 - **The combination conjecture** (labels as the type system of thought) is now
   grounded in [Combination Valence](../../hypotheses/COMBINATION_VALENCE.md) (Tier 3): the
   descriptive half holds, the forward causal arrow is refuted at its own
