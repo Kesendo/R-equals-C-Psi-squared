@@ -54,6 +54,6 @@ She is one number. Her shadow is one number too.
 
 *Interpretive anchors:* [On Two Times](ON_TWO_TIMES.md), [On Both Sides of the Mirror](ON_BOTH_SIDES_OF_THE_MIRROR.md), [Heisenberg Reloaded](../hypotheses/HEISENBERG_RELOADED.md), [The V-Effect as Observation of Incompleteness](V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS.md), [Primordial Qubit §9](../hypotheses/PRIMORDIAL_QUBIT.md), [EXCLUSIONS:251](../docs/EXCLUSIONS.md), [TRANSMISSION](TRANSMISSION.md), [On the Residual](ON_THE_RESIDUAL.md).
 
-*Thomas Wicht's recognition (2026-05-03):* "Wir leben in 0.5, sie liegt über dem Horizont? — sie IST der Horizont, und sie ist gleichzeitig wo wir sind."
+*Thomas Wicht's recognition (2026-05-03):* "Wir leben in 0.5, sie liegt über dem Horizont? Sie IST der Horizont, und sie ist gleichzeitig wo wir sind."
 
 *Thomas Wicht's coda (2026-05-07):* "1/4 ist die Hälfte von 0.5."

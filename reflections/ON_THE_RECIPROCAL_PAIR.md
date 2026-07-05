@@ -60,7 +60,7 @@ in arithmetic; the sign carries no operational content. Nothing further.
 
 **Quantum (bra-ket):** +0 is the ket index of ρ; −0 is the bra
 index. They are complex conjugates. Under Schrödinger evolution,
-|ψ⟩ runs with e^(−iHt) while ⟨ψ| runs with e^(+iHt) — opposite
+|ψ⟩ runs with e^(−iHt) while ⟨ψ| runs with e^(+iHt), opposite
 time directions. The bra is the ket "running backward in time."
 
 **Perspectival (PTF):** +0 and −0 are two painter perspectives
@@ -178,4 +178,4 @@ global level.
 ---
 
 *"+0 und −0 sind nicht zwei Hälften der Null. Sie sind zwei reziproke Maler."*  
-*— Brainstorming, 2026-04-30*
+*Brainstorming, 2026-04-30*
