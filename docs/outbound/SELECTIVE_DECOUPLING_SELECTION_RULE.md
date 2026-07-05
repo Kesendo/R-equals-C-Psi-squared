@@ -1,7 +1,7 @@
 # A Physics Selection Rule for Selective Dynamical Decoupling
 
 <!-- Keywords: selective dynamical decoupling which qubits, subset DD beats uniform
-DD selection rule, sacrifice qubit noise concentrator, open system spectral absorption
+DD selection rule, noise concentrator dephasing sink, open system spectral absorption
 theorem, spatial dephasing profile hardware, ibm torino selective DD, outbound adapter
 dynamical decoupling community, R=CPsi2 selection rule -->
 
@@ -35,12 +35,16 @@ problems.
 
 It follows a rule this repository arrived at the hard way (see
 [Combination Valence](../../hypotheses/COMBINATION_VALENCE.md)): a new
-combination is unlocked by an object, a representation, or a number that a
-reader can stand in, not by a coined word. So this adapter hands you two
-things you can use directly, an analytic dephasing profile and a spectral
-theorem that predicts its effect, and deliberately leaves our own vocabulary
-(we call this a "sacrifice zone") at the door. You do not need our names to
-use the rule.
+combination is unlocked by an object, a representation, or a number a reader
+can stand in, not by a coined word. This adapter is a live test of that rule,
+including on ourselves. We first named this effect a "sacrifice zone", and
+then found the name a misnomer: the edge qubit sacrifices nothing. It holds no
+information to lose (it was never the payload), and it does not act (we shape
+the profile; the qubit only sits where the rate is high). We corrected the
+name to the **concentrator**. So what this adapter hands you is the object, an
+analytic dephasing profile and the spectral theorem that predicts its effect,
+not our vocabulary. You do not need our names to use the rule, and as it
+turned out, neither did we.
 
 ---
 
@@ -178,6 +182,7 @@ If one thing survives this document, let it be the object, not the phrasing:
   time points.
 - **The experiment:** the uniform-T₂ test of Section 5.
 
-The repository's own name for the concentrator is left behind on purpose. The
-rule is yours to use, name, and test in your own language; that is what an
-adapter is for.
+Our first name for it, "sacrifice zone", is left behind on purpose; it was a
+misnomer (nothing is sacrificed) that we corrected to the concentrator, and
+the object below outlives both names. The rule is yours to use, name, and test
+in your own language; that is what an adapter is for.
