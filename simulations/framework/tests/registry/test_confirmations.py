@@ -42,10 +42,12 @@ def test_confirmations_has_twenty_entries():
 def test_confirmations_lookup_f84_heating_leg():
     e = fw.Confirmations.lookup('f84_heating_leg_attribution_kingston_july2026')
     assert e['date'] == '2026-07-05'
-    assert e['machine'] == 'ibm_kingston'
-    assert e['job_id'] == 'd951mhkql68s73ca3u0g'
+    assert e['machine'] == 'ibm_kingston + ibm_marrakesh'
+    assert 'd951mhkql68s73ca3u0g' in e['job_id']       # run 1, Kingston [82,83,13]
+    assert 'd953ti5gc6cc73ffomig' in e['job_id']       # run 2, Marrakesh [93,94,95]
     assert 'SPLIT on all three qubits' in e['measured_value']
     assert 'the bath is COLD' in e['measured_value']
+    assert 'V_σ± = 0.02491' in e['measured_value']     # run 2's first valid corrected-recipe V
     assert 'run_heating_leg.py' in e['framework_primitive']
     assert e['experiment_doc'] == 'experiments/F81_VIOLATION_HARDWARE_BRIDGE.md'
 

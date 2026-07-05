@@ -8,8 +8,9 @@ recovery meeting test, outbound adapter noise spectroscopy community, R=CPsi2 --
 **Status:** Outbound adapter (draft), the fourth and last of the series. The
 closed form rests on Tier-1 theorems (machine-verified); the golden-rule
 identification in Section 3 is standard weak-coupling theory; the hardware
-record is one pre-registered run on one device (2026-07-05) plus a same-day
-simulator validation. External citations were verified against the primary
+record is two pre-registered runs on two devices (2026-07-05, one delivering
+the bias certificate, one the first valid V) plus a same-day simulator
+validation. External citations were verified against the primary
 sources (arXiv/publisher pages) on 2026-07-05; re-verify before outreach as
 a matter of course.
 **Date:** July 5, 2026
@@ -215,6 +216,21 @@ pre-registered with bands before the shot; full record in
   leakage contributions to the small fast components are not excluded; the
   certificate does not need the mechanism, since any of these breaks the
   single-exponential model and the meeting test flags it.
+- **The repeat (same day, ibm_marrakesh, job d953ti5gc6cc73ffomig):** no
+  SPLIT, no χ² flag (two of the three separate up-leg fits are
+  asymptote-degenerate because the legs are perfectly flat, so the cold
+  verdict rests on the joint fits and the pointwise-flat legs, ≥ 0.994 over
+  320 µs); Γ↑ ≤ 2.2·10⁻⁵ /µs, populations ≤ 0.5%. The previously
+  non-exponential qubit returned clean after its in-situ T1 rose from
+  129 µs to 316 µs overnight: the defect moved, the T1-fluctuation picture
+  end to end. With the protocol's own rules withholding nothing, this run
+  delivers the measured scalar: **V(σ± family) = 0.02491 ± 0.00015 /µs**
+  (statistical) on the three-qubit register, with the pre-registered
+  early-rate cross-check reading +6.9% (0.02663 ± 0.00074), i.e. a ≈ 7%
+  estimator spread from the residual mild convexity, both recorded.
+  In-situ rates scattered +7/−28/−22% against the same-day calibration
+  table, which is exactly why the in-situ two-leg reading, not the
+  calibration table, is the input.
 
 The general statement we take from this, and hand over: **any
 asymptote-based readout, including excited-state thermometry from
@@ -241,9 +257,11 @@ pinned-asymptote mixture mean, not the free-asymptote single exponential);
 the net flux is Γ↓ − Γ↑, and V follows from the closed form. Run both legs
 in one job and apply the meeting test; a SPLIT on a clean-χ² qubit means
 the down leg's shape is distorted and its free asymptote must not be
-trusted. In the flown run the SPLIT fired, so the packaged V was withheld
-by the pre-registered rules: that run delivers the bias certificate, not a
-V value. And since V is a norm, statistical noise in any fitted generator
+trusted. In the first flown run the SPLIT fired, so the packaged V was withheld
+by the pre-registered rules: that run delivers the bias certificate. The
+same-day repeat on the second device returned MEET / no-flag, and its
+V = 0.02491 ± 0.00015 /µs is the protocol's first valid measurement
+(Section 4). And since V is a norm, statistical noise in any fitted generator
 biases it strictly upward: quote it against a refit-noise null
 distribution, not against zero.
 
@@ -289,7 +307,7 @@ informative, and the test costs one extra prepared-ground relaxation curve.
   within that class, and after twirling by the **diagonal (Z-string)
   subgroup**, which removes non-Pauli-axis odd content while preserving the
   net flux. (A full Pauli twirl instead removes the flux itself: V = 0.)
-- The hardware record is **one device, one day, three qubits**, with a
+- The hardware record is **two devices, one day, three qubits each**, with a
   same-day simulator validation of the instrument; it demonstrates the
   protocol and the bias, not device statistics.
 - We are not offering a better thermometer; direct population methods beat
@@ -320,7 +338,9 @@ informative, and the test costs one extra prepared-ground relaxation curve.
   against a refit-noise null (a norm is biased upward).
 - **The numbers:** Kingston 2026-07-05, p_th = 0.2-0.8% (up-leg asymptotes,
   readout-mitigated), one-leg false "thermal population" of 13-20% exposed
-  at 5-14σ by the second leg, ≈ 1.6 QPU minutes total.
+  at 5-14σ by the second leg; the same-day Marrakesh repeat's first valid
+  scalar, V(σ± family) = 0.02491 ± 0.00015 /µs (statistical; +6.9%
+  early-rate estimator spread); ≈ 1.6 QPU minutes per run.
 
 The phenomenon's name in our repository stays home, as the arc's rule
 requires. What travels is the object: an exact symmetry scalar that isolates

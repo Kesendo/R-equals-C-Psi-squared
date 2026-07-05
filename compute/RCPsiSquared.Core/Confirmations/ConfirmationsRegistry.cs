@@ -498,16 +498,16 @@ public static class ConfirmationsRegistry
         new Confirmation(
             Name: "f84_heating_leg_attribution_kingston_july2026",
             Date: "2026-07-05",
-            Machine: "ibm_kingston",
-            JobId: "d951mhkql68s73ca3u0g",
-            Observable: "two-legged idle T1 protocol on qubits [82, 83, 13] (|111⟩ down-leg + |000⟩ up-leg, 10 delays 0-320 µs, readout-mitigated ⟨Z_l⟩(t)); per-qubit asymptote meeting test, γ↑ from the up leg, the F84 net-cooling attribution",
+            Machine: "ibm_kingston + ibm_marrakesh",
+            JobId: "d951mhkql68s73ca3u0g (Kingston [82,83,13]) + d953ti5gc6cc73ffomig (Marrakesh [93,94,95] repeat, same day)",
+            Observable: "two-legged idle T1 protocol (|111⟩ down-leg + |000⟩ up-leg, 10 delays 0-320 µs, readout-mitigated ⟨Z_l⟩(t)); per-qubit asymptote meeting test, γ↑ from the up leg, the F84 net-cooling attribution; run 2 adds the corrected-recipe V extraction",
             PredictedValue:
                 "pre-registered two-branch discrimination (committed pre-shot incl. the Kingston amendment): bath heating " +
                 "⟹ both legs meet at one z∞ < 1 with γ↑ resolved ≥ 5σ; leg systematic ⟹ SPLIT with a flat up-leg " +
                 "(γ↑ < 0.0002 /µs, up-leg within ≈ 3% of +1). Instrument validated the same day on the IBM simulator " +
                 "(meeting test, planted-parameter recovery within 2σ, TLS double-flag, conservative error bars).",
             MeasuredValue:
-                "SPLIT on all three qubits (13.7σ / 5.1σ / 6.6σ): up-legs flat at z∞ = 0.983/0.994/0.996 (pointwise never " +
+                "SPLIT on all three qubits (13.7σ / 5.1σ / 6.6σ): up-legs flat at z∞ = 0.983/0.994/0.995 (pointwise never " +
                 "below +0.978 over 320 µs) ⟹ p_th = (1−z∞_up)/2 = 0.83/0.31/0.23 % (the clean reading under a SPLIT; the " +
                 "joint-fit γ↑ = (6.8±2.1, 2.7±2.1, 2.1±2.0)·10⁻⁵ /µs is upper-bound-style, biased up by the shared-asymptote " +
                 "mis-specification), the bath is COLD; " +
@@ -515,8 +515,15 @@ public static class ConfirmationsRegistry
                 "asymptotes (0.59-0.74) are extrapolation artifacts. Post-hoc (labeled as such): pinning z∞ at the up-leg " +
                 "level rejects the single exponential (χ²/dof 19.7/6.0/11.5) and accepts a two-rate mixture " +
                 "(1.45/0.32/1.91); q82's mixture mean rate reproduces the fresh calibration T1 (206 vs 208 µs; components " +
-                "57% @ 136 µs + 43% @ 687 µs).",
-            HardwareData: "data/ibm_heating_leg_july2026/heating_leg_ibm_kingston_20260705_105648.json (+ same-day simulator-validation JSONs and README in that directory)",
+                "57% @ 136 µs + 43% @ 687 µs). RUN 2 (Marrakesh [93,94,95], same day, pre-registered 730ff94): no SPLIT, " +
+                "no χ² flag; γ↑ ≤ 2.2·10⁻⁵ /µs, populations ≤ 0.5% (up legs pointwise ≥ 0.994 over 320 µs; two of three " +
+                "separate up-leg fits asymptote-degenerate, the cold verdict rests on the joint fits + pointwise flatness); " +
+                "P3 resolved to the MOBILE-defect branch: q94 (χ²/dof 12.5 the day before; 12.1 matched-convention) " +
+                "returned clean (0.79) after its in-situ T1 rose 129 → 316 µs overnight (same-day calibration 228 µs); " +
+                "with nothing withheld, the first VALID measurement: V_σ± = 0.02491 ± 0.00015 /µs statistical (RMS " +
+                "velocity 0.00360 /µs), early-rate cross-check +6.9% (0.02663 ± 0.00074), a ≈7% estimator spread from " +
+                "residual mild convexity, both recorded; in-situ γ↓ vs same-day API calibration +7/−28/−22%.",
+            HardwareData: "data/ibm_heating_leg_july2026/heating_leg_ibm_kingston_20260705_105648.json + heating_leg_ibm_marrakesh_20260705_132609.json (+ same-day simulator-validation JSONs and README in that directory)",
             ExperimentDoc: "experiments/F81_VIOLATION_HARDWARE_BRIDGE.md",
             FrameworkPrimitive: "F84 Pauli-channel cancellation + net-cooling closed form √(Σ(γ↓−γ↑)²)·2^(N−1); the identity-escape-velocity grounding (d⟨Z_l⟩/dt at ρ = I/2^N); run_heating_leg.py (external pipeline)",
             Description:

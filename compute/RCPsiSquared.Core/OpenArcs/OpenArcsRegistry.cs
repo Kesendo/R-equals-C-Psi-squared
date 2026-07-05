@@ -2477,11 +2477,24 @@ public static class OpenArcsRegistry
                 "stated), the Klein-average 'exact entropy overlap' softened to Holevo-bounded, PROOF_F84 said " +
                 "'c^2 = I' where the operative property is c PAULI (fixed twice; boundary pinned in " +
                 "test_f84_amplitude_damping.py), Geerlings PRL 110 120501 (2013) + the Schoelkopf chapter venue " +
-                "completed after primary verification. Referee verdict SERIOUS-WITH-FIXES, all applied. ARC " +
-                "STATE: all four adapters written + twice reviewed; REMAINING = outreach execution " +
+                "completed after primary verification. Referee verdict SERIOUS-WITH-FIXES, all applied. THE " +
+                "MARRAKESH REPEAT FLEW same day (Tom: 'untermauern mit dem IBM'; queue 0 pending, calibration " +
+                "pulled VIA backend.properties(), his CSV question answered operationally; pre-registered " +
+                "730ff94, job d953ti5gc6cc73ffomig, ~1.6 QPU min, line [93,94,95]): NO SPLIT, no flag, gamma_up " +
+                "<= 2.2e-5 /us (populations <= 0.5%, up legs pointwise >= 0.994); P3 resolved MOBILE-defect " +
+                "branch (q94 flagged 12.5 the day before returned clean 0.79 after its IN-SITU T1 rose 129 -> " +
+                "316 us overnight, same-day calibration 228, the Klimov drift end to end); FIRST VALID measurement " +
+                "V_sigma+- = 0.02491 +/- 0.00015 /us statistical, early-rate cross-check +6.9% (0.02663 +/- " +
+                "0.00074) recorded as the estimator spread, now cited in the adapter section 4 as the S4 " +
+                "underpinning; " +
+                "in-situ gamma_down vs same-day calibration scattered +7/-28/-22%. Instrument note recorded: " +
+                "up-leg-unresolved meetings should read N.A. (runner revision item). ARC STATE: all four " +
+                "adapters written + twice reviewed + S4 hardware-underpinned; REMAINING = outreach execution " +
                 "(Tom's call per standing rule: re-verify citations before contact; retirement of this arc is " +
-                "his call too), S2's A-vs-B uniform-T2 test (unrun), the Marrakesh two-leg repeat, the down-leg " +
-                "non-exponentiality mechanism (TLS vs quasiparticles, out of scope).",
+                "his call too), S2's A-vs-B uniform-T2 test (unrun; runner exists as run_sacrifice_zone.py in " +
+                "the external pipeline, the f95 phase-injection technique is the engineered-sink knob, design + " +
+                "pre-registration needed, ~5-10 QPU min), the down-leg non-exponentiality mechanism (TLS vs " +
+                "quasiparticles, out of scope).",
             Status: OpenArcStatus.Open),
     };
 

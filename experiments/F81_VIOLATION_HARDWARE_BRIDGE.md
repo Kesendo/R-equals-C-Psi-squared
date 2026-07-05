@@ -78,7 +78,7 @@ Readings:
 
 - **The R2 recipe reads the local σ± family (the identity-velocity projection) only, and no bound in either direction holds outside it.** Correlated non-unital channels write into the SAME odd cells with either sign: σ⁻⊗σ⁻ adds, σ⁺⊗σ⁺ subtracts, and a σ⁺⊗σ⁺ admixture can cancel the identity velocities entirely at nonzero violation (verified from below 2026-07-05: local flux 0.01 per qubit + σ⁺⊗σ⁺ at 0.02 gives velocity exactly 0 at violation 0.0245; the earlier "lower bound" phrasing here was WRONG and is corrected by the empty-session review round). Non-σ± content needs the free-form route (R1: an unconstrained Lindblad fit on an idle tomography grid with tens of time points; the f95 6-point trajectories are too thin, the F113 lesson).
 - **The recipe needs a diagonal idle Hamiltonian** (detuning + ZZ are fine; an exchange term would mix site populations and break the per-site Bloch form). Superconducting idle lines satisfy this; other platforms must check.
-- **The z∞ attribution is open.** Genuine bath heating and a slow leg systematic both depress the asymptote; the discriminating experiment is the |0⟩ heating leg (below), not run.
+- **The z∞ attribution is open.** Genuine bath heating and a slow leg systematic both depress the asymptote; the discriminating experiment is the |0⟩ heating leg (below). (Closed same day on both devices: HARDWARE RECORD and RUN 2 RECORD, the systematic/cold branch.)
 - One session per line, asymptotes extrapolated from t_max ≈ 1·T1; this is a method demonstration with honest error bars, not a device characterization.
 
 ## The missing half: the heating leg (simulator-validated 2026-07-05, pre-registered, not yet flown)
@@ -110,7 +110,7 @@ Queue window 0 pending (after a morning of > 30k queues everywhere); fresh calib
 |---|---:|---:|---|---:|---|
 | q82 | +0.594 ± 0.028 | +0.983 ± 0.004 | **SPLIT** (13.7σ) | 6.8 ± 2.1 | χ²/dof joint 6.30 |
 | q83 | +0.738 ± 0.050 | +0.994 ± 0.005 | **SPLIT** (5.1σ) | 2.7 ± 2.1 | clean |
-| q13 | +0.666 ± 0.049 | +0.996 ± 0.012 | **SPLIT** (6.6σ) | 2.1 ± 2.0 | clean |
+| q13 | +0.666 ± 0.049 | +0.995 ± 0.012 | **SPLIT** (6.6σ) | 2.1 ± 2.0 | clean |
 
 **Verdicts, by the pre-registered rules:**
 
@@ -122,7 +122,7 @@ Queue window 0 pending (after a morning of > 30k queues everywhere); fresh calib
 
 **The corrected bridge recipe.** On a cold bath the F84 net flux is a ≈ γ↓ with z∞ = 1 − 2p_th ≈ 1. The honest measurement is two-legged: the up leg pins γ↑ directly (resolution ± 2·10⁻⁵ /µs at 8192 shots, clean even at 1% populations); γ↓ needs a fluctuation-robust estimate (the down leg's early-time rate or the pinned-asymptote mixture mean, NOT the free-asymptote single exponential, which this run showed extrapolates falsely under T1 fluctuation). Typed as Confirmation `f84_heating_leg_attribution_kingston_july2026` (both registries).
 
-**Open, named honestly:** the mechanism of the down-leg non-exponentiality (T1 telegraph / TLS switching vs quasiparticle bursts) is device physics beyond this experiment's scope; the small q83/q13 fast components could also carry preparation or leakage contributions, undistinguished here; and the same two-leg measurement on Marrakesh would close the attribution on the device where the phenomenon was first seen. Spectator neighbour qubits are excluded as the partner from below: residual exchange (tens of kHz) against ≈ 100 MHz detuning is suppressed by (J/Δ)² ≈ 10⁻⁸, so nothing moves in 320 µs; a near-resonant TLS remains the structured-partner candidate.
+**Open, named honestly:** the mechanism of the down-leg non-exponentiality (T1 telegraph / TLS switching vs quasiparticle bursts) is device physics beyond this experiment's scope; the small q83/q13 fast components could also carry preparation or leakage contributions, undistinguished here; and the same two-leg measurement on Marrakesh would close the attribution on the device where the phenomenon was first seen (done same day: RUN 2 RECORD below, the cold/mobile-defect outcome). Spectator neighbour qubits are excluded as the partner from below: residual exchange (tens of kHz) against ≈ 100 MHz detuning is suppressed by (J/Δ)² ≈ 10⁻⁸, so nothing moves in 320 µs; a near-resonant TLS remains the structured-partner candidate.
 
 **The reading, in the series' language (Tom's catch, 2026-07-05; labeled a reading):** the artifact this run caught is the shape [Teleportation Translated](../docs/quantum/TELEPORTATION_TRANSLATED.md) §3 names the Klein average: a state read WITHOUT its frame label is the mixture over frames, and the mixture always reads as extra mixedness. Here the shot ensemble mixes T1 frames (epochs), the averaged down-leg reads as warm relaxation, and the missing "classical bits" are the per-shot frame labels; the up leg reads the truth without them because every frame is cold and |0⟩ does not move. A rhyme, not an identity (V₄ twirl over unitary frames there, a classical rate mixture here); the quantitative statement available is that the extra mixedness is the Holevo information of the discarded label, bounded by (not equal to) its entropy, in both cases. The mechanism-class question above is §5's question ("no wave dies"): whether the excitation decays into a structureless bath or re-anchors in a structured partner (TLS) and partially returns.
 
@@ -138,6 +138,21 @@ A pre-shot observation that sharpens P3: **q94's calibration T1 moved from 129 �
 - **P3 (reinstated, two branches stated before the shot):** if q94's 2026-07-04 non-exponentiality is a STABLE device property, the χ² flag (> 4) and/or SPLIT recurs on q94. If its TLS has drifted away (as the calibration doubling suggests), q94 comes back clean, which CONFIRMS the transient/telegraph reading rather than refuting non-exponentiality; the two outcomes separate "stable defect" from "mobile defect", and either is a finding.
 - **P4 (the corrected-recipe V, a measurement, not a banded prediction):** γ↑ per qubit from the up leg; γ↓ from the fluctuation-robust down-leg reading (pinned-asymptote mixture mean, early-rate as cross-check); V_σ± = 2^(N−1)·√(Σ(γ↓−γ↑)²) quoted with propagated errors and the refit-noise caveat. The only banded piece: cold-bath transfer, p_th ≤ 1.5 % per qubit (up-leg asymptote reading). Expected qualitative shape from leg 3's own readings (z∞ = 0.70-0.75 free-fit): SPLITs on the down legs if those asymptotes were the same artifact class as Kingston's.
 - **Instrument conditions unchanged:** χ²/dof > 4 flags a qubit; unresolved decay = meeting test N.A.; ≈ 1.6 QPU min estimated.
+
+## RUN 2 RECORD (2026-07-05, ibm_marrakesh, job d953ti5gc6cc73ffomig)
+
+Queue 0 pending; ≈ 1.6 QPU min estimated; data [`data/ibm_heating_leg_july2026/heating_leg_ibm_marrakesh_20260705_132609.json`](../data/ibm_heating_leg_july2026/heating_leg_ibm_marrakesh_20260705_132609.json).
+
+| Qubit | down z∞ (free fit) | down χ²/dof | up leg pointwise min | joint γ↑ (10⁻⁵/µs) | joint γ↓ (/µs) |
+|---|---:|---:|---:|---:|---:|
+| q93 | +0.929 ± 0.038 | 2.13 | 0.994 | 2.1 ± 2.2 | 0.00451 |
+| q94 | +0.826 ± 0.063 | 0.79 | 0.995 | 1.0 ± 2.0 | 0.00316 |
+| q95 | +0.918 ± 0.084 | 0.17 | 0.998 | 0.2 ± 2.0 | 0.00295 |
+
+- **P1/P2: the cold branch, with margin.** No SPLIT, no χ² flag anywhere; γ↑ ≤ 2.2·10⁻⁵ /µs ≪ the 2·10⁻⁴ band, populations ≤ 0.5% per qubit (joint γ↑/b; up-leg pointwise reading ≤ 0.3%). Instrument note, honest: on q93/q94 the up legs are so flat that the separate-leg z∞ is unidentifiable (fit σ ~ 10³), so their formal MEET carries no weight on the up side; the cold verdict rests on the joint fit plus the pointwise-flat up legs (q95's separate meeting test is clean, dz = −0.08 ± 0.08). A future runner revision should mark up-leg-unresolved meetings N.A. as well.
+- **P3 resolved: the mobile-defect branch.** q94, the qubit whose 2026-07-04 down leg was overtly non-exponential (χ²/dof 12.5 under the unlevered convention; 12.1 matched to today's levered convention), came back CLEAN (down 0.79, joint 0.71). Its in-situ T1_eff rose from 129 µs (the flagged 2026-07-04 fit) to 316 µs today (×2.45; the same-day calibration table reads 228 µs, itself a near-doubling of nothing recorded yesterday since no 2026-07-04 Marrakesh calibration exists in the repo). The defect moved; the 2026-07-04 shape was transient. The Klimov drift picture is now seen end to end on one qubit: flagged → T1 jump → clean.
+- **P4, the first valid V.** With no SPLIT and no flags, the pre-registered P1 rule withholds nothing: **V_σ± = 0.02491 ± 0.00015 /µs** on [93, 94, 95] (RMS identity-escape velocity 0.00360 /µs), from the joint-fit rates; the error is statistical (fit covariance). The pre-registered early-rate cross-check reads the down legs' 0-45 µs window at +5.9/+14.0/+0.6% above the joint rates, packaging to **V(early) = 0.02663 ± 0.00074 (+6.9%)**: an estimator spread of ≈ 7% accompanies the statistical error, the residue of today's mild convexity, and both numbers are recorded. In-situ γ↓ vs the same-day API calibration: +7 / −28 / −22 % (T1_eff = 222/316/339 µs vs calibration 237/228/264 µs); the ± tens-of-percent in-situ-vs-calibration scatter is the Klimov reality the two-leg in-situ protocol exists for.
+- **Residual shape note:** today's down-leg free asymptotes (0.83-0.93) sit mildly below +1, much weaker than yesterday's leg-3 readings on this same line (0.70-0.75), consistent with weaker T1 fluctuation in this session; all below every flag threshold.
 
 ## Where this lands (the S4 socket)
 
