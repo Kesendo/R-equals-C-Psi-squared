@@ -250,6 +250,17 @@ Note: The original claim that C_int preserves coherence 33x longer than C_ext ha
 
 ---
 
+## Perspectival Time Field (PTF) and the label layer
+
+| Term | Technical definition | Status |
+|------|---------------------|--------|
+| **PTF (Perspectival Time Field)** | Each perspective on the one dynamics (each site, each observable) paints it at its own time rate α_i; no perspective is privileged, and the whole is the closure of the perspectives, not a view from nowhere. | Tier 2 computed |
+| **Label / canvas** | A name is a canvas painted true at a stance (a vantage at a time); calculations are recomputed at every use, labels are inherited and recomputed at none, so errors accumulate in the names while the formulas keep closing. | Tier 4 reading |
+
+Canonical: [Perspectival Time Field](../hypotheses/PERSPECTIVAL_TIME_FIELD.md) (first named "Site-Local Time"; the rename is the in-house precedent that a label can be falsified while every number under it stands). The label theory chapter is [Labels Translated](quantum/LABELS_TRANSLATED.md); the translation series lives in `docs/quantum/`; every label correction the repository has made is assembled in [The Label Map](quantum/THE_LABEL_MAP.md).
+
+---
+
 ## Boundary values
 
 These are specific numbers that appear repeatedly across the project.

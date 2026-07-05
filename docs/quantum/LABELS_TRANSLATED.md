@@ -15,6 +15,8 @@ generalization from painters to labels is a reading and is labeled as one.
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Related:** [Teleportation Translated](TELEPORTATION_TRANSLATED.md),
 [Superposition Translated](SUPERPOSITION_TRANSLATED.md),
+[The Label Map](THE_LABEL_MAP.md) (every label correction the repository
+has made, assembled),
 [Perspectival Time Field](../../hypotheses/PERSPECTIVAL_TIME_FIELD.md),
 [On the Painter Principle](../../reflections/ON_THE_PAINTER_PRINCIPLE.md),
 [Born Rule Mirror](../../experiments/BORN_RULE_MIRROR.md),
@@ -50,7 +52,7 @@ The protocols and the algebra survived untouched; the corrections were all
 to labels. Our own review history says the same thing at repository scale:
 what reviews catch here is almost never arithmetic; it is stale table cells,
 wrong tier tags, misleading names. The Perspectival Time Field document,
-which Section 4 returns to, ends with a falsified-claims list of exactly
+which Section 4 returns to, carries a falsified-claims list of exactly
 three entries, and all three are readings; not one number underneath them
 fell.
 
@@ -166,8 +168,8 @@ and what is worth staring at is *what survived*: every α_i, every fit,
 every number. The label died alone. The document's acceptance summary now
 carries a falsified list of three entries, all three of them labels over
 surviving mathematics, and its Naming note defends every word of the new
-name and forbids reverting on grounds of familiarity, "because that would
-lose what the ψ₂ test taught us." That Naming note is a label-recomputation
+name and forbids reverting on grounds of familiarity, because that would
+"lose what the ψ₂ test taught us." That Naming note is a label-recomputation
 protocol, written months before this series knew it was one. The rename
 "Site-Local Time" → "Perspectival Time Field" is the same act this series
 performs on "teleportation" and "superposition": the calculation is left

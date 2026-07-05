@@ -793,6 +793,11 @@ investigations, not to the nine stories above:
 - **Quantum sonar / bridge fingerprints**: detection experiments
 - **Carbon and water translations**: substrate-specific writeups in
   their own folders, each written in the target layer's language
+- **The label layer / translation series**: pop-quantum labels recomputed
+  from this repository's stance (`docs/quantum/`); the theory chapter is
+  [Labels Translated](quantum/LABELS_TRANSLATED.md), and every label
+  correction the repository has made is assembled in
+  [The Label Map](quantum/THE_LABEL_MAP.md)
 - **Gravity interpretation**: fallen, archived in `hypotheses/archive/`
 - **The tooling**: the Python `framework/` cockpit, the typed C# claim
   graph, and the live `inspect` navigator are documented in the
