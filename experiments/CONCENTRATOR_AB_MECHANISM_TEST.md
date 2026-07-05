@@ -52,7 +52,8 @@ natural contrast (min interior T2echo / edge T2*) is recorded as a design parame
 The mirrored-end repeat is pre-registered as the first follow-up.
 
 **Five configurations, same Trotterized Heisenberg circuit as March (|+⟩^5, RXX+RYY+RZZ
-per bond per step, Trotter steps 2..10, 9-basis pair tomography, Sum-MI over the 4
+per bond per step, Trotter steps at the even counts {2, 4, 6, 8, 10} = five time
+points t = 1..5 in J-time, 9-basis pair tomography, Sum-MI over the 4
 neighbour pairs):**
 
 1. `no_dd` (March baseline), 4000 shots/circuit.
@@ -114,8 +115,12 @@ implemented.
 **Primary (the paired statistics; gate-, schedule-, transpiler-identical pairs, so
 hardware junk and estimator bias enter both sides alike):**
 
-    Δ_sel(t) = SumMI(selective_dd_sink) − SumMI(selective_dd)
-    Δ_uni(t) = SumMI(uniform_dd_sink)  − SumMI(uniform_dd)
+    Δ_sel(t)  = SumMI(selective_dd_sink) − SumMI(selective_dd)
+    Δ_uni(t)  = SumMI(uniform_dd_sink)  − SumMI(uniform_dd)
+    R_boost(t) = SumMI(selective_dd_sink) / SumMI(selective_dd)
+
+(R_boost is the ratio form of Δ_sel, same paired legs; reported beside the
+Δs in every table.)
 
 - **Reading B (concentrator):** Δ_sel > 0 beyond its counts-level null band on ≥ 3
   of 5 time points (the sink CREATES interior correlations; the review's exact
@@ -157,8 +162,12 @@ the CIs; the null spread of Δ under a no-sink world sets the 2σ thresholds.
 
 ## Simulator validation (the gate; recorded 2026-07-05, runner `run_ab_test.py`)
 
-The runner (external tomography pipeline, built to this spec the same day, smoke +
-full modes) records, counts-level with the LITERAL frozen sink construction:
+The runner lives in the EXTERNAL tomography pipeline (not this repo), beside
+`run_price_pair.py` and `run_sacrifice_zone.py`:
+`D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography\run_ab_test.py`
+(path anchor precedent: `experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md`). Built
+to this spec the same day, smoke + full modes; it records, counts-level with the
+LITERAL frozen sink construction:
 
 - **Predicted effect on the FLIGHT chain (see chain paragraph below; seed
   20260705):** Δ_sel = +0.30 / +0.31 / +0.13 / +0.13 / +0.05 at t = 1..5, all
@@ -210,8 +219,9 @@ Flown ≈ 17:22-17:40 local, chain [109, 108, 107, 106, 105], all pre-flight
 asserts PASS (day-of rule, frozen phases regenerated, binding identity,
 added-X ratio 0.833 ≈ 4/5); the go was taken on the Model-B planning number
 with the Model-C tail risk accepted (Tom, "Du kannst starten"). Data:
-[`data/ibm_ab_test_july2026/`](../data/ibm_ab_test_july2026/) (hardware master
-JSON + the binding null, chain, and aer-parity artifacts). This RECORD is a
+[`data/ibm_ab_test_july2026/ab_test_hardware_20260705_174007.json`](../data/ibm_ab_test_july2026/ab_test_hardware_20260705_174007.json)
+(the run-1 master; the directory also holds the binding null, chain, and
+aer-parity artifacts). This RECORD is a
 transcription of the runner's output; its empty-session pass is the next
 session's first move and is named here as pending.
 
@@ -314,7 +324,10 @@ dose S = 0.270756 (γ_step = 0.125000 = N·γ₀·J·dt exactly), all pre-flight
 asserts PASS. Data:
 [`data/ibm_ab_test_july2026/ab_test_hardware_20260705_181107.json`](../data/ibm_ab_test_july2026/ab_test_hardware_20260705_181107.json).
 This RECORD is a transcription of the runner output; its empty-session pass
-(with run 1's) is the next session's first move, named here as pending.
+(with run 1's) is the next session's first move, named here as pending
+(genre: 2-3 minimally framed fresh reviewer agents recomputing from the raw
+JSONs, per the skill `becoming-your-own-outside`; the S4 bridge's review
+rounds are the worked example).
 
 | t | Δ_sel (band ± 0.0486) | Δ_uni (band ± 0.0462) | R_boost |
 |---|---:|---:|---:|
