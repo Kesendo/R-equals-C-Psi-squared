@@ -144,16 +144,37 @@ data identically only if the bands go through the pipeline). The simulated bias
 floor is drawn on every Sum-MI plot. Bootstrap (≥ 200 multinomial resamples) gives
 the CIs; the null spread of Δ under a no-sink world sets the 2σ thresholds.
 
-## Simulator validation (the gate; to be recorded here BEFORE the shot)
+## Simulator validation (the gate; recorded 2026-07-05, runner `run_ab_test.py`)
 
-Counts-level, the runner's noise model with realistic Heron gate durations (pulled
-from the scheduled circuits, not the ECR-era 0.50 µs default): (i) the four/five
-configs on a uniform-good line with the LITERAL frozen sink construction (paths,
-K, pooling, reconstruction): record predicted Δ_sel, Δ_uni and their sizes vs
-null; (ii) --null N: the no-sink world's Δ and R spreads through the same
-estimator (sets the bands); (iii) --aer parity: the actual circuits, noiseless;
-all configs must coincide up to shot noise and the φ⃗ = 0 binding must equal the
-unparameterized selective circuit exactly.
+The runner (external tomography pipeline, built to this spec the same day, smoke +
+full modes) records, counts-level with the LITERAL frozen sink construction:
+
+- **Predicted effect (uniform T1 = 250 / T2 = 180 µs line, seed 20260705):**
+  Δ_sel = +0.13 / +0.18 / +0.05 at t = 3/4/5 (bootstrap CIs excluding 0 at
+  t = 2-5), R_boost ≈ 3.4-6.7 at mid-t; the per-pair table shows the largest
+  sink-created MI at the pair FARTHEST from the sink (0.103 at pair (3,4) vs
+  0.012 at (0,1), t = 3), i.e. the created correlation propagates through the
+  chain, the concentrator transport signature.
+- **Null bands (no-sink world, N = 50, through the same estimator):** Δ
+  significant outside ± 0.049, Δ_u outside ± 0.045; the ratio nulls are huge
+  (R_boost ± 4.0, R_sink ± 6.4, R_nosink ± 18.5), which is the quantitative
+  vindication of Δ as primary. Measured estimator bias floor 0.029, drawn on all
+  plots. A --null 100 refresh runs before any shot and its bands supersede these.
+- **Aer parity (the actual circuits, noiseless): PASS.** All four φ⃗ = 0-equivalent
+  arms give Sum-MI exactly 0.0000 (the fixed-point theorem, visible in the real
+  circuits); the bound sink deviates as it must (+0.14-0.50 bits noiseless).
+- **Chain selection (same-day API calibration, 2026-07-05):** ibm_marrakesh
+  FAILS the uniformity rule today (all 428 five-qubit chains rejected on
+  min-T2echo ≥ 150 µs; the runner refuses to relax, as designed).
+  **ibm_kingston passes with 13 chains**; best: T2echo = 172/168/170/196/165 µs,
+  uniformity 0.84 (max/min 1.19), readout ≤ 1.75%, sink edge Q66 (the
+  higher-T2* end, T2* ≈ 69 µs), residual natural contrast 2.40× recorded.
+  Device for the shot: ibm_kingston.
+- **QPU estimate (printed pre-flight by the runner, no submission without
+  --yes):** 1577 executions in 227 PUBs, 908k shots. Model A (pure shots) 1.5
+  min; Model B (per-PUB anchor) 13.2 min, the planning number; Model C (worst
+  case, no parameter-set amortization) 92 min, flagged. The flight decision is
+  taken against the printed estimate and the remaining budget.
 
 ## Traps carried in (campaign ledger + this review)
 
