@@ -9,13 +9,17 @@ dynamical decoupling community, R=CPsi2 selection rule -->
 result into the dynamical-decoupling community's language and open problem.
 The selection rule and the analytic profile rest on a Tier-1 theorem
 (the Absorption Theorem); the improvement factors are Tier-2 (simulation +
-IBM hardware). The mechanism disambiguation (Section 5) was tested directly
-on 2026-07-05 (ibm_kingston, engineered sink): the concentrator mechanism is
-confirmed live and engineerable at the formula's own dose (edge rate N·γ_base,
-B-dose-CONFIRMED, both layouts), while whether the earlier ibm_torino
-advantage was this mechanism or a gate-cost effect stays open. Section 5's
-full rewrite around the two-run exposure curve is pending the experiment's
-final review pass. External citations are drawn from a literature scout and
+IBM hardware). The mechanism disambiguation (Section 5) was attempted directly
+on 2026-07-05 (ibm_kingston, engineered sink, three doses) and did NOT settle
+it: the injected sink produces a positive, device-surviving interior-MI
+increase (so "injected noise strictly removes signal" is refuted), but the
+post-flight audit found that created-MI observable dominated (56-96% at the
+two partial doses) by
+classical mixing of the frozen phase-path construction, and created MI is a
+transport quantity, not the protection reading the DD community would want
+(no lifetime figure exists in the source arc). The mechanism question stays OPEN,
+as does the attribution of the earlier ibm_torino advantage. External
+citations are drawn from a literature scout and
 should be verified against the primary sources before any outreach.
 **Date:** July 5, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
@@ -84,15 +88,24 @@ can run to test it.
 **Leave the noisiest qubit undecoupled, on purpose, as a sink.**
 
 The rule inverts the usual instinct. Instead of fighting the worst qubit
-hardest, designate it a **concentrator**: let it absorb the dephasing that
-would otherwise be shared across the register, and protect only the interior.
-In the repository's analytic form, the concentrator is loaded to
+hardest, designate it a **concentrator**: concentrate the register's noise
+budget there by design, and protect only the interior. In the repository's
+analytic form, the concentrator is loaded to
 
     γ_edge = N · γ_base − (N−1) · ε
 
 on an N-site chain (γ_base the mean rate, ε the small interior rate), which
 puts the interior at the spectral fold where its decay is slowest. The
-mechanism is not heuristic; it follows from a theorem.
+mode-level mechanism follows from a theorem; the specific profile's
+optimality on top of it is numerical (the best within the tested
+asymmetric-γ family; its source states the global-optimum proof open). One
+scope note,
+honestly: the profile is a design variable under a FIXED TOTAL BUDGET
+(Σγ conserved); nothing physically transports dephasing between qubits. On
+hardware the realization is a coherence-time contrast (DD-protected interior
+vs an unprotected edge), and whether that contrast, rather than gate
+economics, carries the measured advantage is exactly the open question of
+Section 5.
 
 ---
 
@@ -106,48 +119,74 @@ eigenmode decays at exactly
     Re(λ) = −2γ · ⟨n_XY⟩,
 
 where ⟨n_XY⟩ is the mode's "light content", the average number of Pauli
-factors that anticommute with the dephasing letter. Two consequences an
+factors that anticommute with the dephasing letter (the site-dependent form,
+Re(λ) = −2 Σ_l γ_l · light_l, is proven too and is the one the profile
+uses). Two consequences an
 engineer can use:
 
-- **The decay is linear in γ and Hamiltonian-independent in its real part.**
-  You cannot fight dephasing with a better Hamiltonian; the coupling
-  contributes exactly zero to the decay rate. You can only decide *where the
-  γ goes*.
-- **Concentrating γ on one site removes it from the modes the interior lives
-  in.** The interior's protected modes are precisely the ones with low
-  ⟨n_XY⟩ relative to the loaded edge; loading the edge is what places them at
-  the fold. This is the physics content of "which qubit to leave alone": the
-  one whose high rate you can spend to buy the interior's low rate.
+- **For a given eigenmode, the decay is linear in γ and the Hamiltonian
+  contributes exactly zero to its real part.** H still matters indirectly:
+  it shapes which mode contents ⟨n_XY⟩ exist at all (decoherence-free-
+  subspace engineering lives exactly there). What no Hamiltonian can do is
+  change the rate of a given light content; at fixed mode structure you can
+  only decide *where the γ goes*.
+- **Concentrating γ on one site (under the fixed budget) removes it from the
+  modes the interior lives in.** The interior's protected modes are precisely
+  the ones with low ⟨n_XY⟩ relative to the loaded edge; loading the edge is
+  what places them at the fold. This is the physics content of "which qubit
+  to leave alone": the one whose high rate you can spend to buy the
+  interior's low rate.
 
-This is why the rule is a rule and not a tuning: it is a corollary of an
-exact spectral identity, not a fit.
+This is why the rule is theorem-guided rather than blind tuning: the spectral
+identity behind it is exact, and the rule's direction is its corollary. The
+specific profile's optimality is numerical, established within the tested
+asymmetric-γ family, with the global-optimum proof open (its source says so
+explicitly).
 
 ---
 
 ## 4. The evidence
 
 - **Simulation.** Against a smoothly graded ("V-shaped") γ-profile, the
-  edge-loaded concentrator profile improves interior coherence lifetime by
+  edge-loaded concentrator profile increases **peak interior mutual
+  information** (a transport metric, the source's own figure of merit) by
   **139× (N=9) up to 360× (N=5)** ([Inside/Outside the Sacrifice Zone](../INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md)).
+  A protection/lifetime version of this figure has not been computed; the
+  lifetime reading of the fold is qualitative (label corrected 2026-07-05).
 - **Hardware.** On IBM ibm_torino (2026-03-24), a five-qubit line where one
   qubit (Q85, T₂-echo = 5.2 µs against neighbors at 123–244 µs) was a
   **natural** concentrator, applying DD selectively to the four interior
-  qubits while leaving Q85 undecoupled produced **2.0× higher end-to-end
-  mutual information on average and up to 3.2× at t = 4 µs**, beating uniform
+  qubits while leaving Q85 undecoupled produced **2.0× higher summed
+  nearest-neighbour mutual information (Sum-MI over the 4 adjacent pairs) on
+  average, up to 3.2× at t = 4.0 (J-time; 8 Trotter steps)**, beating uniform
   DD at all five measured time points ([IBM Concentrator](../../experiments/IBM_CONCENTRATOR.md)).
-- **Hardware (engineered sink, mechanism test).** On IBM ibm_kingston
-  (2026-07-05), a five-qubit line with *uniformly good* T₂ and no natural sink,
-  an engineered sink (injected per-step phase noise) at the formula's own dose
-  (γ_edge = N·γ_base, the hardware-anchored carrier rate) **created** interior
-  mutual information that grows monotonically and persists through the measured
-  window, on both the selective and the uniform layout (**B-dose-CONFIRMED**
-  against pre-registered counts-level bands). Without a sink, selective DD
-  showed **no** advantage on the uniform line; a companion run at the maximal
-  (scramble-ceiling) dose created correlations early and washed them out at
-  depth (overexposure, not destruction). This is the direct test of the
-  mechanism (Reading B) and hands over its engineerable knob
-  ([Concentrator A-vs-B Mechanism Test](../../experiments/CONCENTRATOR_AB_MECHANISM_TEST.md);
-  its final review pass is pending, and Section 5's full rewrite follows it).
+  Magnitude caveat (2026-07-05 review): the uniform-DD denominator
+  (Sum-MI 0.013-0.048) is comparable to the MI estimator's shot-noise bias
+  floor measured through the same pipeline (+0.014-0.028 at 4000 shots), so
+  the ratio's size is floor-contaminated; the 5-of-5 ordering is the robust
+  part.
+- **Hardware (engineered sink, mechanism test): attempted, not settled.** On
+  IBM ibm_kingston (2026-07-05), a five-qubit line with *uniformly good* T₂ and
+  no natural sink, an engineered sink (injected per-step phase noise) produced
+  a positive, device-surviving increase of interior mutual information on both
+  the selective and the uniform layout, at three doses (beyond pre-registered
+  counts-level bands; a hardware-native-null cross-check is on record for the
+  third run). That refutes "injected noise strictly removes signal", and
+  nothing more: the post-flight audit (a noiseless exact simulation of the
+  flown circuits) found the created MI at the two partial doses dominated,
+  56-96% across the window, by classical mixing of the frozen phase-path sink
+  construction (at the maximal, scramble-ceiling dose the construction is
+  channel-dominated; there the sink created MI early, at 4.7× the null band,
+  and the effect inverted at depth), and created MI
+  is in any case a transport quantity, the source simulation's own figure of
+  merit, not a protection metric
+  (a perfectly protecting concentrator keeps the interior a product state and
+  creates zero MI). Without a sink, selective DD showed **no detectable**
+  advantage on the uniform line (the selective/uniform ratio straddled 1,
+  0.73-1.32, inside a junk-plus-estimator floor). The mechanism (Reading B) is therefore NOT confirmed by
+  this test; what it hands over is the honest record and the instrument
+  ([Concentrator A-vs-B Mechanism Test](../../experiments/CONCENTRATOR_AB_MECHANISM_TEST.md),
+  the reckoning section).
 
 The natural-sink case used a qubit that was *already* the worst on the line; the
 rule says this was not a liability to route around but the resource to exploit.
@@ -174,19 +213,45 @@ Either outcome is informative: A bounds the mechanism, B confirms it and hands
 you an engineerable knob (place the sink where you want it, rather than
 waiting for hardware to hand you a bad qubit).
 
-**Status update (2026-07-05): we ran this experiment ourselves.** Two
-pre-registered runs on an ibm_kingston uniform-good-T2 line with an
-ENGINEERED sink (injected per-step phase noise), mapping the dose curve at
-both ends: at the formula's own dose (edge rate = N·γ_base, machine-free)
-the sink CREATES interior correlations that grow monotonically and persist
-(B-dose-CONFIRMED by pre-registered bands, both layouts); at maximal dose
-the image forms early and washes out at depth (overexposure, not
-destruction). Without a sink, selective DD shows NO advantage on the
-uniform line. Full pre-registration, verdict rules, and data:
+Calibration update from running it ourselves (2026-07-05): the no-sink leg of
+this readout is underpowered as boxed. Across three runs on uniform lines the
+measured selective/uniform ratio without a sink straddled 1 inside a
+junk-plus-estimator floor (0.73-1.32), as our own design analysis predicted,
+so "selective still beats uniform with no sink" is not a clean observable on
+created MI. The box's binary inference is also retired on direction: on any
+real "uniform" line the undecoupled edge sits at T2*, a weak natural sink,
+so Reading B too predicts a small no-sink advantage, and "selective still
+wins → gate-cost" does not follow. The discriminating instrument needs a
+protection metric; see the
+status update below.
+
+**Status update (2026-07-05): we ran this experiment ourselves, and it did
+not settle the question.** Three pre-registered runs on ibm_kingston
+uniform-good-T2 lines with an ENGINEERED sink (injected per-step frozen phase
+paths) at three doses: the scramble ceiling and two partial doses anchored to
+the repository's hardware-measured carrier rate γ₀ (injected edge rates
+N·γ₀/2 and N·γ₀, on top of the device's own rate; N·γ₀ is the profile's
+ε → 0 corner value used as a reference, since the additive setting conserves
+no budget and has no formula optimum). The sink
+produced a positive, device-surviving interior-MI increase beyond
+pre-registered bands on both layouts (hardware-native-null cross-check on
+record for the third run), so the strong form of Reading A
+("injected noise strictly removes signal") is refuted. But the post-flight
+audit (a noiseless exact simulation of the flown circuits) showed 56-96% of
+that created MI at the two partial doses is classical mixing of the frozen
+phase-path construction rather than a dephasing channel's effect (the
+ceiling construction is channel-dominated), and the created-MI observable is
+itself the source simulation's headline metric, peak created MI, a TRANSPORT
+figure: no protection/lifetime number has ever been computed in the arc, and
+a perfect protector creates zero interior MI, so transport and protection
+pull opposite ways at the extremes. Without a sink, selective DD shows no
+DETECTABLE advantage on the uniform
+line (ratio 0.73-1.32, straddling 1 inside the floor). So the A-vs-B
+disambiguation is still open, our prediction above still
+stands as a prediction, and the honest next instrument is a
+protection-metric test with a per-shot-randomized (channel-like) sink. Full
+pre-registration, verdict rules, data, and the post-flight reckoning:
 [The Concentrator A-vs-B Mechanism Test](../../experiments/CONCENTRATOR_AB_MECHANISM_TEST.md).
-This section will be rewritten around those results after their final
-review pass; until then the paragraph above stands as the original
-prediction, now measured.
 
 ---
 
@@ -196,17 +261,18 @@ Weak coupling, deliberately: this adapter adds a selection principle to your
 toolbox, it does not replace DD theory or the filter-function formalism. In
 particular:
 
-- The mechanism (Section 5, A vs B) was tested on a uniform-T₂ line with an
-  engineered sink (2026-07-05): the concentrator mechanism is confirmed **live
-  and engineerable** at the formula's own dose (Reading B is sufficient). What
-  stays open is the *attribution of the original ibm_torino advantage*: that
-  run's bad qubit also carried a gate-cost channel, so the mechanism test does
-  not retroactively prove the March win was Reading B rather than Reading A.
-  (The experiment's final review pass is pending; Section 5's full rewrite
-  follows it.)
+- The mechanism (Section 5, A vs B) is **not confirmed**. The 2026-07-05
+  engineered-sink test on a uniform-T₂ line produced a real, device-surviving
+  created-MI increase, but the observable turned out to be dominated by the
+  sink construction's classical mixing and does not measure protection, so it
+  neither confirms nor refutes Reading B. The attribution of the original
+  ibm_torino advantage (Reading B vs the gate-cost Reading A) is equally open.
 - The 139–360× figures are **simulation** against a specific baseline
-  (the V-profile); the hardware figure is **2–3.2×** against uniform DD. Do
-  not carry the simulation number to hardware.
+  (the V-profile), and they are **peak created interior MI**, a transport
+  metric, not a lifetime; the hardware figure is **2–3.2×** against uniform
+  DD on the same observable class. Do
+  not carry the simulation number to hardware, and do not read either as a
+  coherence-lifetime factor.
 - The theorem is proven for **Z-dephasing** (the unital, phase-only channel).
   Amplitude damping (T₁) is a different object and the rule is not claimed for
   it.
@@ -224,10 +290,13 @@ If one thing survives this document, let it be the object, not the phrasing:
   dephasing map).
 - **The theorem:** Re(λ) = −2γ⟨n_XY⟩ (the reason the profile works, exact).
 - **The number:** 2–3.2× on ibm_torino, selective vs uniform DD, all five
-  time points.
+  time points (the 5-of-5 ordering is the robust part; the ratio's size
+  shares its denominator with the MI estimator's bias floor, Section 4).
 - **The experiment:** the uniform-T₂ mechanism test of Section 5 (run
-  2026-07-05, Reading B confirmed live and engineerable at the formula's own
-  dose; the original March attribution stays open).
+  2026-07-05; it refuted "injected noise strictly removes signal" but did not
+  settle A vs B, because its created-MI observable proved to be largely a
+  construction artifact and is not the protection metric; the disambiguation
+  is still yours to run, ideally on a protection observable).
 
 Our first name for it, "sacrifice zone", is left behind on purpose; it was a
 misnomer (nothing is sacrificed) that we corrected to the concentrator, and

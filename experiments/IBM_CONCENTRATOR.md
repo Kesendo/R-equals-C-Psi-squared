@@ -1,11 +1,14 @@
-# IBM Hardware: The Concentrator Profile (Selective DD) Beats Uniform DD by 2-3x
+# IBM Hardware: The Concentrator Profile (Selective DD) Beats Uniform DD at All Five Time Points
 
 <!-- Keywords: IBM Torino hardware validation concentrator profile, selective dynamic
 decoupling beats uniform DD, first spatial dephasing profile hardware test,
 Q85 natural concentrator qubit T2=5us, Sum-MI selective vs uniform 2x-3.2x,
 palindrome-derived noise engineering quantum hardware, R=CPsi2 IBM experiment -->
 
-**Status:** Hardware confirmed (Tier 2). Selective DD > Uniform DD at all 5 time points. Single run, one chain, no error bars yet.
+**Status:** Hardware, Tier 2: the selective > uniform Sum-MI ORDERING holds at
+all 5 time points. Single run, one chain, no error bars. The ratio SIZE
+(2-3.2×) is floor-caveated and Sum-MI here is a noise-seeded transport proxy
+(2026-07-05 retro-note in Results); the A-vs-B attribution is open.
 **Date:** March 24, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Hardware:** ibm_torino (Heron r2, 133 qubits)
@@ -40,7 +43,9 @@ adds gate errors without benefit, rather than a pure concentrator
 effect. Reproducibility across chains and days is untested. The connection
 to the palindromic eigenstructure is indirect: the formula predicted the
 optimal noise profile, but the hardware implementation approximates it
-via DD rather than controlling dephasing rates directly.
+via DD rather than controlling dephasing rates directly. Added 2026-07-05
+(retro-note in Results): the ratio SIZE is floor-contaminated, and Sum-MI on
+|+⟩^5 is a noise-seeded transport proxy, not a protection metric.
 
 
 ## Setup
@@ -101,6 +106,19 @@ Gate count confirms selective DD works as intended:
 
 **Selective DD beats Uniform DD at ALL 5 time points.** Average: 2.0x. Peak: 3.2x at t=4.0.
 
+**Retro-insight (2026-07-05, from the A-vs-B campaign's review; the note this
+table was promised):** the MI estimator carries a shot-noise bias floor of
++0.014-0.028 at 4000 shots (measured through this experiment's own
+reconstruction pipeline), and the uniform-DD row above (0.013-0.048) is
+comparable to that floor. The ratios' SIZE is therefore floor-contaminated
+(at t=5 the denominator 0.0131 is at the floor); the robust part is the
+5-of-5 ORDERING. Also recorded there: |+⟩^5 is an exact fixed point of the
+Heisenberg gates, so Sum-MI in this design is a noise-seeded observable (only
+NON-uniform noise creates it), and created MI is a detectability proxy, not
+the concentrator's protection metric. See
+[Concentrator A-vs-B Mechanism Test](CONCENTRATOR_AB_MECHANISM_TEST.md), the
+structural-fact section and the reckoning.
+
 ### Surprise: No DD Also Beats Uniform DD - Two Interpretations
 
 Uniform DD performs worst of all three configurations. This is
@@ -118,15 +136,18 @@ The concentrator formula predicts that concentrating noise on one
 edge maximizes information transfer through the chain. Removing DD
 from Q85 increases the noise contrast between protected interior and
 noisy edge. This contrast, not just the absence of wasted gates, is
-what improves Sum-MI. Evidence for this: even the concentrator pair (0,1)
-shows 2.2x improvement under selective DD, suggesting the entire chain
-benefits from the contrast, not just the protected qubits.
+what improves Sum-MI. The per-pair table below shows even the concentrator
+pair (0,1) at 2.2x improvement under selective DD; note honestly that the
+same table's own explanation for that number (Q86 freed of crosstalk from
+Q85's DD gates) is an Interpretation-A mechanism, so the 2.2x does not
+discriminate between the readings.
 
 **What would distinguish A from B:** Test selective DD on a chain where
 ALL qubits have good T2 (>150 us). If selective DD still wins by
 removing DD from one good edge qubit, it's the contrast (B). If
 selective DD only wins when the concentrator qubit is naturally bad, it's
-the gate-error effect (A). This is planned for April 9 (10:00 budget).
+the gate-error effect (A). Originally planned for April 9; run 2026-07-05
+with an engineered sink and NOT settled there (see What Remains item 2).
 
 ### Per-Pair MI at t=3.0
 
@@ -151,15 +172,21 @@ over V-shape. Hardware delivers 2-3x over uniform DD. The gap comes from:
 
 1. **DD is not perfect protection.** Simulation assumes epsilon->0 (zero
    noise on protected qubits). Real DD reduces noise but doesn't eliminate it.
-2. **Gate errors dominate.** Each DD gate (X-gate) has ~0.1% error. 2700
-   X-gates contribute ~2.7 effective errors, comparable to the signal.
+2. **Gate errors dominate.** Each DD gate (X-gate) has ~0.1% error; at 60
+   DD gates per circuit that is a ~6% chance of a DD-gate error per executed
+   circuit (the earlier "2700 gates ≈ 2.7 errors" summed across 45
+   independent circuits, an aggregation that is not commensurable with a
+   per-circuit Sum-MI; corrected 2026-07-05).
 3. **Crosstalk.** Gates on one qubit affect neighbors. DD on Q86 affects Q85.
 4. **Trotter error.** The Trotterized Heisenberg circuit is an approximation.
 5. **Measurement error.** Readout fidelity ~98-99% adds noise to all configs.
 
 The simulation tests the *principle* (spatial dephasing profiles help).
 The hardware tests the *implementation* (can DD approximate it?).
-Both confirm the concentrator advantage.
+Both show the same direction on the same observable class (created Sum-MI);
+whether the hardware advantage is the concentrator mechanism or gate-cost
+avoidance is the open A-vs-B attribution (see "Does not yet show" and What
+Remains item 2).
 
 ### The T2/T2* Effect
 
@@ -182,8 +209,11 @@ realization of the concentrator formula.
 | **This work (simulation)** | **N=5 theory** | **360x** | **spatial gamma profile** |
 | **This work (hardware)** | **N=5 ibm_torino** | **2-3.2x** | **selective DD** |
 
-The hardware result (2-3x) exceeds the ENAQT theoretical optimum (~2x)
-and far exceeds IBM's own Bayesian coupling optimization (+8%).
+The rows are different quantities against different baselines (selective-vs-
+uniform DD here; optimal-γ-vs-no-γ in ENAQT; coupling tuning at IBM), so the
+table places this work in the landscape rather than ranking it; no direct
+"exceeds" comparison is claimed (wording corrected 2026-07-05; the ratio-size
+caveat in the Results section applies here too).
 
 ### Connection to the Palindromic Formula
 
@@ -206,7 +236,10 @@ approximation is the closest available implementation.
 ## What This Shows (and What It Doesn't)
 
 **Shows:**
-1. **Selective DD > Uniform DD on real hardware.** 5/5 time points, average 2.0x.
+1. **Selective DD > Uniform DD on real hardware.** 5/5 time points, average
+   2.0x (the ordering is the part the bias-floor caveat does not touch; with
+   no error bars and correlated time points, no formal significance is
+   claimed).
 2. **DD on bad qubits is harmful.** Gate errors on Q85 hurt more than DD helps.
 3. **Natural T2 variation is exploitable.** Q85's T2=5us is a feature, not a bug.
 
@@ -222,11 +255,19 @@ approximation is the closest available implementation.
 1. **Error bars:** Bootstrap or jackknife on Sum-MI from shot counts
 2. **A vs B test (April 9):** Selective DD on a UNIFORM-T2 chain. If it still
    wins, it's the contrast (concentrator). If not, it's gate-error avoidance.
-   **DONE 2026-07-05** (two pre-registered runs, engineered sink, dose curve
-   mapped at both ends, B-dose-CONFIRMED at the formula's dose):
-   [CONCENTRATOR_AB_MECHANISM_TEST](CONCENTRATOR_AB_MECHANISM_TEST.md).
+   **RUN 2026-07-05, still open** (three pre-registered runs, engineered sink;
+   the post-flight audit found the created-MI observable 56-96% construction
+   artifact at the two partial doses (channel-dominated at the ceiling) and
+   a transport quantity rather than a protection metric, so A vs B is not
+   settled; "injected noise strictly removes signal" is refuted, nothing more):
+   [Concentrator A-vs-B Mechanism Test](CONCENTRATOR_AB_MECHANISM_TEST.md),
+   the reckoning section.
 3. **N=7 on hardware:** Longer chain with 10:00 April budget
-4. **Noise injection:** Intentional Z-rotations on concentrator qubit for more contrast
+4. **Noise injection:** Intentional Z-rotations on concentrator qubit for more
+   contrast. **Done 2026-07-05** in the A-vs-B campaign (virtual-RZ engineered
+   sink); before re-proposing, read its instrument-level pitfall: a FROZEN
+   phase-path construction at partial dose is mostly shared classical
+   randomness, not a dephasing channel (the AB doc's reckoning, Downgrade 1).
 5. **Multiple chains:** Same experiment on different chip regions
 6. **Reproducibility:** Repeat on a different day (calibration fluctuates)
 
@@ -245,12 +286,30 @@ used the remaining 3:30 from the current cycle.
 | No DD | ~50s | 110s | ~47s |
 | **Total used** | **~163s** | | **~47s left** |
 
+(Row times are rounded estimates; the 163 s total and 47 s remainder are the
+billed figures, which the ~50 s rows do not exactly sum to.)
+
 Next allocation: 10:00 on April 9, 2026. Planned: A/B test on uniform-T2
 chain and N=7 experiment.
 
 ---
 
 ## Formula Validation (March 28, 2026)
+
+**Retro-note (2026-07-05, from the A-vs-B reckoning's review; read before the
+table):** this section's rates put COHERENCE rates in Lindblad slots: the
+script builds c = √γ·Z (coherence decays e^{−2γt}) and feeds it γ = 1/T2*,
+double the physical rate; the repo's canonical convention is γ = 1/(2·T₂),
+and the script's own comment concedes the simplification. It also subtracts
+no T1 contribution (for the T1-limited Q85 the pure-dephasing rate would be
+≈ 0.046, not 0.268 MHz) and contains no amplitude damping. Further, J was
+selected by fitting to the same hardware ratios the table reports agreement
+against (circular for at least the t = 1 row), and the "t (μs)" axis rests
+on an unstated 1 J-time = 1 µs identification. So read the 6-13% figures as
+the residual of a one-parameter fit of a doubled-rate dephasing-only model,
+not as an independent match of the formula. This is the same rate-convention
+twin the A-vs-B reckoning documents (its factor-2 finding), in an earlier
+costume.
 
 The concentrator formula (Lindblad simulation with per-qubit gamma)
 was compared quantitatively against the hardware measurements.
@@ -273,9 +332,11 @@ losses that accumulate with each DD cycle. The formula models DD
 as perfect gamma reduction; real DD on a T1-limited qubit adds
 errors that worsen the uniform configuration.
 
-The hardware imperfections amplify the concentrator effect: they
-make the concentrator qubit WORSE under uniform DD, increasing the
-advantage of selective DD.
+The hardware imperfections amplify the measured advantage of selective DD:
+they make the concentrator qubit WORSE under uniform DD. Note honestly that
+this amplification channel (DD-gate T1 losses on Q85) is itself a gate-cost
+(Interpretation-A) mechanism, so it is not evidence for the concentrator
+reading (clarified 2026-07-05).
 
 Script: [`simulations/ibm_formula_test.py`](../simulations/ibm_formula_test.py).
 

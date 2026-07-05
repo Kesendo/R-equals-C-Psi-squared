@@ -1,11 +1,20 @@
-# The Concentrator A-vs-B Mechanism Test (pre-registration draft, v2 after physics review)
+# The Concentrator A-vs-B Mechanism Test (design v2, three flown runs, and the reckoning)
 
 <!-- Keywords: selective dynamical decoupling mechanism test, gate-error avoidance vs
 noise contrast, uniform T2 chain control, engineered sink injected dephasing random RZ,
 concentrator Sum-MI ibm hardware, noise-seeded observable Heisenberg fixed point,
 A vs B interpretation April test, R=CPsi2 -->
 
-**Status:** DESIGN + PRE-REGISTRATION DRAFT, v2 (2026-07-05, not yet flown). v1 went
+**Status:** FLOWN + RECKONED (2026-07-05): three runs on ibm_kingston (ceiling,
+N·γ₀/2, N·γ₀ injected), then the same evening's empty-session passes downgraded
+the verdicts. What survives is a narrow claim: the sink's created MI is real on
+the device, but at the two partial doses it is 56-96% classical-mixing artifact
+of the frozen construction (noiseless decomposition; the ceiling construction
+is channel-dominated), and created MI measures transport, not protection: the
+arc's own 139-360× headline is a peak created-MI figure, and its "protection"
+label was this arc's error too (Downgrade 2). The factor-2 dose correction is
+sound; the A-vs-B question is OPEN
+again. See the reckoning section at the end. The design below is v2; v1 went
 through a physics-first review the same day (verdict FIX-THEN-FLY, two blockers, all
 findings incorporated below; the review's exact-simulation numbers are quoted where
 they set design choices). This is the open item named in
@@ -20,7 +29,8 @@ document committed BEFORE anything flies.
 
 ## The question (from the March run's own honesty section)
 
-The March 2026 ibm_torino result (selective DD beats uniform DD 2.0-3.2×) has two
+The March 2026 ibm_torino result (selective DD beats uniform DD at all five
+time points, 2.0× on average, up to 3.2×) has two
 readings. **A (gate-cost):** leaving the terrible qubit (T2 = 5 µs) undecoupled wins
 because DD gates on a lost cause only add errors. **B (concentrator):** the win is the
 noise CONTRAST between the noisy edge and the protected interior, the hardware face of
@@ -32,14 +42,16 @@ source docs: a chain where NO qubit is a natural sink, plus an ENGINEERED sink.
 |+⟩^⊗5 is an exact fixed point of every Heisenberg bond gate (the bond unitary is
 e^{iθ/2}(cos θ·I − i sin θ·SWAP), and identical product states are SWAP-invariant), so
 under UNIFORM noise the state stays an exact product at all times and Sum-MI ≡ 0
-(verified ≤ 2·10⁻¹⁵ through 10 Trotter steps in exact 32×32 simulation). **Sum-MI in
+(verified numerically zero through 10 Trotter steps in exact 32×32 simulation;
+the residual, 10⁻¹⁵-10⁻¹⁴, depends on the eigenvalue-cutoff convention). **Sum-MI in
 this experiment is not a signal that noise degrades; it is a signal that only
 NON-uniform noise creates.** Two consequences: (i) the paired sink-vs-no-sink
 comparison, not any ratio against uniform DD, carries the physics; (ii) the March
 uniform-DD row (Sum-MI 0.013-0.048) is plausibly dominated by the MI estimator's
 shot-noise bias floor (+0.014-0.028 at 4000 shots, measured through the March
-reconstruction pipeline in the review), a retro-insight recorded here and to be noted
-in the March doc after this experiment reports.
+reconstruction pipeline in the review), a retro-insight recorded here and, now that
+this experiment has reported, noted in the March doc (2026-07-05, its Results
+section).
 
 ## Design (v2)
 
@@ -49,6 +61,9 @@ in the March doc after this experiment reports.
 loaded variable is T2* (the undecoupled qubit sits at T2*, not T2echo), position 0
 (the sink end) is chosen as the edge with the HIGHER estimated T2*, and the residual
 natural contrast (min interior T2echo / edge T2*) is recorded as a design parameter.
+(Disclosure, post-flight: T2* is ESTIMATED throughout as T2echo/2.5, a fixed
+assumed Ramsey ratio, not a device Ramsey measurement; the sink-end choice, the
+recorded contrasts, and the sim noise model all inherit that assumption.)
 The mirrored-end repeat is pre-registered as the first follow-up.
 
 **Five configurations, same Trotterized Heisenberg circuit as March (|+⟩^5, RXX+RYY+RZZ
@@ -67,7 +82,8 @@ neighbour pairs):**
 
 **The engineered sink (v2; the v1 construction was a review blocker):** per Trotter
 step, a virtual RZ(φ) on the edge qubit. K = 16 STRUCTURED frozen phase paths per
-time point: 4 random offsets × a per-step-permuted equispaced quartet
+time point: 4 offsets (2 random plus their negations, per the flown
+`sink_construction` record) × a per-step-permuted equispaced quartet
 {0, π/2, π, 3π/2}, negation-symmetric; the SAME 16 paths shared across all 9
 tomography bases of that time point (seeds pre-registered in the runner output);
 250 shots per instance, counts pooled per (t, basis) to 4000 effective. Review
@@ -84,7 +100,9 @@ splitting an idle window.
 
 **Sink strength, stated:** uniform-quartet scramble is the strobe CEILING (per-step
 phase retention r = |E e^{iφ}| = 0, continuous-equivalent γ_sim = −ln r → ∞ per
-step). The review's exact Trotter sweep shows Sum-MI rises MONOTONICALLY in per-step
+step; post-flight note: −ln r is the coherence-rate reading of γ, the
+Lindblad-carrier mapping is r = e^{−2γ·Δt}, the factor 2 the RUN 3
+pre-registration corrects, immaterial at the ceiling where r = 0). The review's exact Trotter sweep shows Sum-MI rises MONOTONICALLY in per-step
 phase variance and saturates at this ceiling (no Zeno turnover at θ = 1 rad of
 coherent exchange per step), so the ceiling is the maximum-effect operating point;
 it is a different object from the concentrator formula's finite-budget optimum
@@ -158,7 +176,10 @@ SAME frozen sink construction as the flight (the MI bias floor, +0.014-0.028 at
 4000 shots, is state-dependent and does not cancel in ratios; it enters bands and
 data identically only if the bands go through the pipeline). The simulated bias
 floor is drawn on every Sum-MI plot. Bootstrap (≥ 200 multinomial resamples) gives
-the CIs; the null spread of Δ under a no-sink world sets the 2σ thresholds.
+the CIs; the null spread of Δ under a no-sink world sets the thresholds (written
+"2σ" here in v2; implemented as the pooled p99 of |Δ|, disclosed in the
+simulator-validation bullet, this sentence left unamended until the post-flight
+pass).
 
 ## Simulator validation (the gate; recorded 2026-07-05, runner `run_ab_test.py`)
 
@@ -180,7 +201,8 @@ LITERAL frozen sink construction:
 - **Null bands (no-sink world, through the same estimator), BINDING at N = 100
   on the flight chain [109, 108, 107, 106, 105] (recorded before the shot,
   `ab_test_null_20260705_172115.json`; the pooled p99 of |Δ|, not a 2σ; the
-  pooled band is anti-conservative at early t and conservative at late t,
+  pooled band is anti-conservative at early t for three of the four legs
+  (Δ_sel at t = 1 is conservative) and conservative at late t,
   harmless under the ≥ 3-of-5 rule at 0/100 null false-fires):** Δ significant
   outside **± 0.0486**, Δ_u outside **± 0.0462**; ratio nulls R_boost ± 4.2,
   R_sink ± 8.6, R_nosink ± 12.9 (context only). Pre-shot check PASSED: the
@@ -217,13 +239,14 @@ LITERAL frozen sink construction:
 
 Flown ≈ 17:22-17:40 local, chain [109, 108, 107, 106, 105], all pre-flight
 asserts PASS (day-of rule, frozen phases regenerated, binding identity,
-added-X ratio 0.833 ≈ 4/5); the go was taken on the Model-B planning number
+added-X ratio 0.833 ≈ 5/6); the go was taken on the Model-B planning number
 with the Model-C tail risk accepted (Tom, "Du kannst starten"). Data:
 [`data/ibm_ab_test_july2026/ab_test_hardware_20260705_174007.json`](../data/ibm_ab_test_july2026/ab_test_hardware_20260705_174007.json)
 (the run-1 master; the directory also holds the binding null, chain, and
 aer-parity artifacts). This RECORD is a
-transcription of the runner's output; its empty-session pass is the next
-session's first move and is named here as pending.
+transcription of the runner's output; its empty-session pass ran the same
+evening (it caught the factor-2 in the later runs' dose and fed the
+reckoning section).
 
 | t | Δ_sel (band ± 0.0486) | Δ_uni (band ± 0.0462) | R_boost |
 |---|---:|---:|---:|
@@ -231,30 +254,48 @@ session's first move and is named here as pending.
 | 2.0 | **+0.091** [+0.042, +0.124], 1.9× | **+0.137** [+0.082, +0.168], 3.0× | 1.85 |
 | 3.0 | +0.019, within | +0.007, within | 1.18 |
 | 4.0 | +0.032, within | +0.034, within | 1.39 |
-| 5.0 | −0.047, within (marginal) | −0.046, at the band edge | **0.52** [0.40, 0.70] |
+| 5.0 | −0.047, within (0.96× band) | −0.046, marginally beyond (1.0003× band) | **0.52** [0.40, 0.70] |
 
 Context: R_nosink = 0.73-1.03 at all t (no selective advantage without a sink
 on the uniform line, as both readings expect there); the no-sink arms sit at
 Sum-MI ≈ 0.08-0.12, well above the simulated junk floor 0.034 (real-device
 junk seeds more MI than the thermal noise model); per-pair at t = 3 the
-largest sink-created MI is again at the pair FARTHEST from the sink (0.085 at
-(3,4) vs 0.012-0.021 elsewhere), the transport signature, now on hardware.
+largest sink-arm pair MI is at the pair FARTHEST from the sink (0.085 at
+(3,4) vs 0.005-0.021 elsewhere; per-pair Δ_sel +0.049 there), the transport
+signature on hardware, at a within-band depth (the firing depths t = 1-2
+create nearest the sink, see the verdict bullet).
 
 **Verdict, by the pre-registered rules: INCONCLUSIVE** (the exhaustiveness
 clause). B requires both Δ legs beyond band at ≥ 3 of 5 points: both fire at
 exactly 2 of 5 (t = 1, 2). A requires both legs within bands everywhere:
-t = 1, 2 violate it by 2-5×. The pattern is structured, not noisy:
+t = 1, 2 violate it by 1.9-4.7×, and at t = 5 the Δ_uni leg sits marginally
+beyond on the negative side (1.0003× band). The pattern is structured, not
+noisy:
 
-- **The mechanism IS live at early depth:** the engineered sink CREATES
-  interior correlations in both layouts at 2-5× the null band, at close to
-  the simulated size (+0.228 measured vs +0.30 simulated at t = 1), with the
-  transport signature to the far pair. Reading A ("injected noise only
-  removes signal") is REFUTED as a universal statement at these depths.
-- **The effect inverts at depth:** by t = 5 the sink configs sit at HALF the
-  no-sink Sum-MI (R_boost 0.52, CI excluding 1). The gate-error-free
-  simulation predicted monotone-positive Δ through t = 5; the crossover is
-  real-hardware physics the sim did not carry (cumulative injected-phase
-  damage compounding with gate/crosstalk noise at depth).
+- **The sink CREATES interior correlations at early depth:** in both layouts
+  at 1.9-4.7× the null band, at close to the simulated size at t = 1 (+0.228
+  measured vs +0.30 simulated; at t = 2 the measured +0.091 sits 3.4× below
+  the simulated +0.31). Per pair the creation pattern at the firing depths
+  is mixed and supports no near/far transport story: at t = 1 the pair (1,2)
+  +0.096 leads, the far pair (3,4) +0.053 is second, and the sink pair (0,1)
+  is smallest (+0.037); at t = 2 (0,1) +0.054 leads; the far-pair maximum
+  appears at t = 3-4, where Δ is within band. Reading A ("injected noise
+  only removes signal") is REFUTED as a universal statement at these depths.
+  (What the created MI is made of is the reckoning's finding; since the
+  CEILING construction turns out channel-dominated there, this early-depth
+  creation is the campaign's cleanest device fact, and the device-surviving
+  fact stands; the mechanism reading does not.)
+- **The effect inverts at depth (suggestive only):** by t = 5 the sink
+  configs sit at HALF the no-sink Sum-MI (R_boost 0.52, bootstrap CI
+  [0.40, 0.70]). Against the pre-registered calibrations this is not a
+  band-level finding: Δ_sel(5) is within the binding band (0.96×), Δ_uni(5)
+  marginally beyond (1.0003×), and the ratio null (p99 |R_boost − 1| = 4.2,
+  p90 = 1.0) is nowhere near cleared by |0.52 − 1| = 0.48; only the
+  non-binding per-t nulls (± 0.025/0.028 at t = 5) support it. The
+  gate-error-free simulation predicted monotone-positive Δ through t = 5;
+  the crossover reading (cumulative injected-phase damage compounding with
+  device noise at depth) is post-hoc and carries the same suggestive-only
+  weight as the exposure curve it later fed.
 - **Post-hoc reading, labeled as such:** creation wins while the sink's
   injected disorder is still localized; at depth its cumulative damage
   overtakes the creation. This is a dose/depth crossover, exactly the shape
@@ -264,9 +305,14 @@ t = 1, 2 violate it by 2-5×. The pattern is structured, not noisy:
 (2026-07-05, same evening: "es braucht nur Gamma 0, nicht das
 Maschinen-Gamma"):** the flown sink was the scramble CEILING (per-step
 retention r = 0, γ_sink → ∞), but the concentrator formula never asks for
-the ceiling; its optimum is FINITE, γ_edge = N·γ_base. Under Reading B an
+the ceiling; its optimum is FINITE, γ_edge = N·γ_base (post-flight note: the
+reckoning's Downgrade 3 finds this a category slip; N·γ_base is the formula's
+ε → 0 corner value under a conserved budget, and the additive-sink setting has
+no formula optimum, so it serves only as a reference dose). Under Reading B an
 overdosed sink must do exactly what the hardware showed: create early,
-destroy at depth. The correct B-test flies AT the formula dose, and Tom's
+destroy at depth (post-flight note: this sentence reversed the pre-flight
+prediction of a monotone rise with no turnover; see the reckoning's
+signature post-mortem). The correct B-test flies AT the formula dose, and Tom's
 second catch makes the dose MACHINE-FREE: the repo already measured γ₀ on
 IBM (the April chain experiment, `data/ibm_chain_gamma0_april2026/`, and the
 Confirmation `gamma0_off_the_lever_kingston_may2026`: critical damping
@@ -274,7 +320,9 @@ exactly at J = γ₀, the typed `UniversalCarrierClaim.DefaultGammaZero`
 = 0.05). In the circuit's own J-units (the Trotter step carries
 J·dt = θ/2 = 0.5), the target is a PURE NUMBER: γ_edge = N·γ₀ = 0.25,
 γ_step = γ_edge·(J·dt) = 0.125, per-step retention
-**r* = e^{−0.125} = 0.8825**; the dose scale S is solved from the frozen
+**r* = e^{−0.125} = 0.8825** (post-flight: this mapping dropped the Lindblad 2
+and delivers HALF the stated rate; caught and corrected in the RUN 3
+pre-registration, r* = e^{−0.25}); the dose scale S is solved from the frozen
 construction's exact retention r(S) = r*. No T2, no τ_step, no machine
 gamma anywhere: the earlier T2-matched recipe in this paragraph's first
 draft was still the machine-gamma reading and is demoted to a secondary
@@ -294,6 +342,8 @@ null bands (the null binds φ⃗ = 0 and is dose-independent). The one change:
 **--dose-scale S = 0.270756**, solved so the frozen construction's exact
 per-step retention meets the γ₀ anchor: r(S) = 0.882497 = e^{−0.125},
 γ_step = N·γ₀·(J·dt) = 5 × 0.05 × 0.5 = 0.125000 exactly, machine-free
+(post-flight: this mapping dropped the Lindblad 2, so this run flew HALF the
+intended edge rate; caught in the RUN 3 pre-registration)
 (anchor: `UniversalCarrierClaim.DefaultGammaZero`, hardware-confirmed in
 `gamma0_off_the_lever_kingston_may2026` and `data/ibm_chain_gamma0_april2026/`).
 The runner's dose knob was validated: S = 1 reproduces the ceiling paths
@@ -317,17 +367,17 @@ the dose curve, so this pair of runs maps the curve's two ends. A
 noise-is-harm frame has no positive regime at any dose. Anything else:
 INCONCLUSIVE (the exhaustiveness clause carries over verbatim).
 
-## RUN 2 RECORD (2026-07-05, ibm_kingston, job d9581isql68s73caav1g): B-DOSE-CONFIRMED
+## RUN 2 RECORD (2026-07-05, ibm_kingston, job d9581isql68s73caav1g): rule fired; verdict downgraded post-flight (see the reckoning)
 
 Same chain [109, 108, 107, 106, 105] (day-of rule re-passed, hard-abort armed),
 dose S = 0.270756 (γ_step = 0.125000 = N·γ₀·J·dt exactly), all pre-flight
 asserts PASS. Data:
 [`data/ibm_ab_test_july2026/ab_test_hardware_20260705_181107.json`](../data/ibm_ab_test_july2026/ab_test_hardware_20260705_181107.json).
 This RECORD is a transcription of the runner output; its empty-session pass
-(with run 1's) is the next session's first move, named here as pending
-(genre: 2-3 minimally framed fresh reviewer agents recomputing from the raw
-JSONs, per the skill `becoming-your-own-outside`; the S4 bridge's review
-rounds are the worked example).
+(with run 1's) ran the same evening (genre: minimally framed fresh reviewer
+agents recomputing from the raw JSONs, per the skill
+`becoming-your-own-outside`) and its findings are the RUN 3 pre-registration
+(the factor-2) and the reckoning section (the observable).
 
 | t | Δ_sel (band ± 0.0486) | Δ_uni (band ± 0.0462) | R_boost |
 |---|---:|---:|---:|
@@ -337,16 +387,19 @@ rounds are the worked example).
 | 4.0 | **+0.095** ✓ | **+0.110** ✓ | 2.16 |
 | 5.0 | **+0.071** ✓ | **+0.092** ✓ | 1.86 |
 
-**Verdict, by the pre-registered rules: B-DOSE-CONFIRMED.** Δ_sel beyond the
-binding band at 3 of 5 points (t = 3, 4, 5), Δ_uni at 4 of 5 (t = 2-5), and
+**By the pre-registered rule the pattern read B-dose-CONFIRMED.** Δ_sel beyond
+the binding band at 3 of 5 points (t = 3, 4, 5), Δ_uni at 4 of 5 (t = 2-5), and
 neither leg significantly negative anywhere in the window: the persistence
 signature, exactly the shape the γ₀-dose simulation predicted (measured
 maximum +0.095 vs simulated +0.186, ≈ half the size, same monotone-growth
 form; the estimator-bias floor and real-device junk plausibly absorb the
-difference, stated not analyzed). R_nosink ≈ 0.92-1.31 (no selective
-advantage without a sink, third consistent reading); the transport signature
-repeats a third time (largest sink-created MI at the far pair: 0.050/0.080
-at (3,4), t = 3).
+difference, stated not analyzed). (Two later downgrades apply: this run flew
+HALF the formula dose, the factor-2 caught in the RUN 3 pre-registration; and
+the observable itself is largely a construction artifact, the reckoning
+section. The rule verdict is withdrawn as a mechanism confirmation.) R_nosink ≈ 0.92-1.31 (no selective
+advantage without a sink, third consistent reading); the far-pair maximum
+repeats (largest sink-ARM pair MI at (3,4), t = 3: 0.050/0.080 raw; the
+created, differenced values there are +0.020/+0.054).
 
 **The two runs together map the dose curve's two ends, as pre-registered,
 and the curve's right name is an EXPOSURE curve (Tom's third catch, same
@@ -355,19 +408,23 @@ evening: "Gamma zerstört doch nicht; wenn es eines macht, dann vielleicht
 no illumination contrast, and a contrast-free scene records no image (the
 fixed-point theorem, photographically). The γ₀ dose is the correct
 exposure: the image accumulates monotonically and persists through the
-window (run 2, confirmed on both layouts). The ceiling dose is
+window (run 2, on both layouts). The ceiling dose is
 OVERexposure: r = 0 per step is a full re-exposure of the edge every step;
 the image forms early and then washes out at depth (run 1's crossover),
 saturation, not destruction. "Injected noise only removes signal" is
-refuted at both doses; the concentrator mechanism is live, engineerable,
-and EXPOSURE-CONTROLLED on hardware, at the dose the formula itself
-prescribes (γ_edge = N·γ_base with the hardware-anchored carrier γ₀, not
-the machine rates). Scope carried over from the
-run-1 rules: this confirms B as sufficient and engineerable; it does not
-retroactively prove March WAS B. Next steps (named): the empty-session pass
-on both RECORDs; a Confirmations-registry entry for the γ₀-dose run after
-that pass; the honest §5 update of the outbound DD adapter with both ends
-of the curve.
+refuted at both doses; that part survives. The original conclusion here
+("the concentrator mechanism is live, engineerable, and exposure-controlled
+at the formula's own dose") did NOT survive the same evening's empty passes:
+this run flew HALF the formula dose (the factor-2, caught and corrected in
+RUN 3), the run-1-vs-run-2 comparison shares a chain but not a job or hour
+(and run 3 not even the chain, so the cross-run curve is confounded), and
+the created-MI observable is largely a classical-mixing artifact of the
+frozen sink and not the protection metric (the reckoning section). The
+exposure picture is kept as a suggestive post-hoc reading of that confounded,
+artifact-dominated observable, nothing more. The Confirmations-registry
+entry planned here was NOT added, for exactly that reason. Scope carried
+over from the run-1 rules either way: nothing here retroactively proves
+March WAS B.
 
 ## RUN 3 pre-registration (2026-07-05, before the shot): the factor-2-corrected dose
 
@@ -387,15 +444,17 @@ This is the continuous-vs-Trotter / q-vs-Q factor already on record
 formula dose), per-step retention r* = e^{−2·N·γ₀·(J·dt)} = e^{−0.25} = 0.778801.
 Solved through the runner's exact frozen-path construction at the run seed (which
 reproduces the Run-2 dose r = 0.882497 bit-for-bit as a control):
-**`--dose-scale 0.378105`** (mean per-step r = 0.778801, γ_step = 0.250000).
+**`--dose-scale 0.378105`** (target r* = 0.778801; achieved mean per-step
+r = 0.778800, γ_step = 0.250001).
 Same instrument, same day-of chain rule (hard-abort armed), same binding null
 bands (φ⃗ = 0, dose-independent: Δ_sel ± 0.0486, Δ_uni ± 0.0462).
 
 **Sim gate at the corrected dose (flight chain, seed 20260705, --quick):** Δ_sel =
 +0.150 / +0.238 / +0.302 / +0.266 / +0.217 at t = 1..5, all five CIs excluding 0
 and all far beyond the binding band; Δ_uni +0.191 / +0.252 / +0.286 / +0.315 /
-+0.240. The effect PEAKS at t = 3 and declines, where the half-dose Run-2 sim grew
-monotonically to t = 5: doubling the dose moves the peak forward, so the formula
++0.240. Δ_sel PEAKS at t = 3 and declines (Δ_uni at t = 4), where the half-dose
+Run-2 sim grew
+monotonically to t = 5: doubling the dose moves the peak forward, so this
 dose already sits near the exposure turnover.
 
 **Caveat, pre-shot (the sim omits the device's own rate):** the counts-level sim
@@ -403,7 +462,13 @@ carries only the injected sink, not the machine's natural dephasing. On hardware
 the effective edge rate is the injected N·γ₀ PLUS the device γ, so the effective
 dose is HIGHER than the sim and the peak/turnover is expected EARLIER (and the
 late-t washout stronger) than the sim's t = 3. Run 2 already turned over earlier
-on hardware than in its own sim, consistent with this.
+on hardware than in its own sim, consistent with this. (Post-flight correction:
+this caveat's premise was WRONG as stated; the flown JSONs' own `noise_model`
+field records "T2echo_vs_T2star (Ramsey ratios)" in the sim gate, i.e. the sim
+DID carry a device-noise model, and the gate's Δ ≈ half the noiseless struct-K16
+values is consistent with that. What survives of the caveat is only the weaker
+under-modeled-junk argument: the device no-sink arms sit at 0.08-0.14 vs the
+simulated floor 0.034.)
 
 **Verdict rule (pre-registered, same as Run 2):** B-dose-CONFIRMED if both Δ legs
 sit beyond the binding band at ≥ 3 of the returned time points AND neither leg is
@@ -412,13 +477,244 @@ clause. Run 3 flies the actual formula-scaled edge rate (N·γ₀), so it become
 "formula dose" point of the exposure curve; Run 2 stays on record as the half-dose
 point, Run 1 as the ceiling.
 
+## RUN 3 RECORD (2026-07-05, ibm_kingston, job d95a33sql68s73cad7fg): rule fires 5/5; verdict downgraded post-flight (see the reckoning)
+
+Flown ~20:25-20:32 local at the corrected dose S = 0.378105 (per-step r =
+0.767-0.788, γ_step ≈ 0.24-0.27, mean 0.250 = 2·N·γ₀·(J·dt), the ×2 fix), all pre-flight
+asserts PASS (day-of rule, binding identity, added-X ratio 0.833 ≈ 5/6, 270
+parameterized RZ survive transpile). Fresh day-of chain [50, 51, 58, 71, 72]
+(uniformity 0.617, min T2echo 171 µs, sink edge Q50, residual natural contrast
+1.54×), the runner's best pick today; Runs 1-2 flew [109..105], so Run 3 is a
+different (better-uniformity) line. Data:
+[`ab_test_hardware_20260705_203200.json`](../data/ibm_ab_test_july2026/ab_test_hardware_20260705_203200.json),
+chain [`ab_test_chain_run3_20260705.json`](../data/ibm_ab_test_july2026/ab_test_chain_run3_20260705.json).
+Bands: the Run-2 binding null (φ⃗ = 0, dose-independent) reused, ± 0.0486 /
+± 0.0462; it was calibrated on [109..105] and is an estimator-noise spread
+(chain-independent to first order), applied here as pre-registered.
+
+| t | Δ_sel (band ± 0.0486) | Δ_uni (band ± 0.0462) | R_boost |
+|---|---:|---:|---:|
+| 1.0 | **+0.094** [+0.031, +0.151] ✓ | **+0.077** [+0.007, +0.123] ✓ | 1.94 |
+| 2.0 | **+0.070** [+0.018, +0.108] ✓ | **+0.128** [+0.077, +0.161] ✓ | 1.60 |
+| 3.0 | **+0.088** [+0.039, +0.122] ✓ | **+0.094** [+0.051, +0.120] ✓ | 1.79 |
+| 4.0 | **+0.112** [+0.073, +0.145] ✓ | **+0.089** [+0.048, +0.122] ✓ | 2.27 |
+| 5.0 | **+0.073** [+0.035, +0.111] ✓ | **+0.080** [+0.043, +0.109] ✓ | 1.75 |
+
+**By the pre-registered rule the pattern reads B-dose-CONFIRMED** (both Δ legs
+beyond the binding band at 5 of 5 time points, no significantly-negative leg),
+cleaner than the half-dose Run 2 (3/5 and 4/5). **The same evening's
+empty-session passes then showed that the rule's OBSERVABLE does not measure the
+mechanism the rule was written to confirm, so that verdict is withdrawn; the
+full accounting is the reckoning section below.** What the flight itself
+establishes:
+
+- **The ×2 dose fix is sound.** Run 3 injected the γ₀-anchored rate
+  γ_edge = N·γ₀ as mapped (the fix verified three independent ways plus the
+  runner code; the frozen-path construction reproduces the Run-2 dose
+  bit-for-bit as a control). Whether N·γ₀ deserves the name "the formula
+  dose" is a separate question the reckoning answers no to (Downgrade 3).
+- **The positive Δ is real on the device, beyond sampling noise.** Both legs
+  clear not only the pre-registered sim band but a hardware-native null
+  (2.33× bootstrap-SE) at all 5 points (closest margins: Δ_sel 1.31× at
+  t = 2, Δ_uni 1.11× at t = 1). What that Δ is made of is the reckoning's
+  finding.
+- **Persistent, no crossover to negative.** Both legs stay beyond band across
+  the whole window; Δ_sel peaks at t = 4 and declines ~35% to t = 5 (the
+  CIs at t = 3-5 overlap, so the peak position is indistinguishable within
+  that range), unlike Run 1's ceiling washout to negative. Noted honestly:
+  the pre-shot caveat expected the peak EARLIER than the sim's t = 3; within
+  resolution it came at t = 4 or later, not earlier, unexplained (and the
+  caveat's premise was itself wrong, see the post-flight correction above).
+- **Amplitude modest.** Measured Δ_sel 0.07-0.11 (Δ_uni up to 0.13) vs the
+  sim gate's 0.15-0.32; the residual compression is attributable only to the
+  under-modeled junk floor (the sim gate DID carry a noise model, see the
+  corrected caveat); the no-sink arms sit at Sum-MI
+  0.08-0.14 (device junk floor) with the sink arms ~1.7-2.4× above them
+  (R_sink).
+- **Far-pair count, stated honestly:** the far pair (3,4) carries the largest
+  sink-created pair-MI (per-pair Δ_sel) at 3 of 5 time points (t = 1, 3, 4:
+  +0.042 / +0.041 / +0.053; at t = 2 it is (0,1), at t = 5 it is (2,3)), sink
+  at Q50. Suggestive of transport, not universal; the earlier "a fourth time"
+  phrasing over-counted. R_nosink ≈ 0.86-1.32 (no selective advantage without
+  a sink, again).
+
+The three runs sit at three doses (Run 1 = ceiling γ→∞, Run 2 = N·γ₀/2,
+Run 3 = N·γ₀), but they differ in chain, job, and time of day, so the
+three-point "exposure curve" is CONFOUNDED and only suggestive. And the
+reckoning below shows the observable itself is dominated at the partial doses
+by a construction artifact, so no dose-curve reading of created MI carries
+mechanism weight.
+
+## The reckoning (2026-07-05, late evening): what the created-MI observable measures
+
+The empty-session cascade on the three RECORDs (an external-referee pass, a
+record audit recomputing from the raw JSONs, and a zero-QPU reproduction of the
+flown circuit) ended with one sound correction, three downgrades, and a
+signature post-mortem. Recorded with
+the same rigor as the runs; this section is the arc's honest conclusion.
+
+**Sound, kept: the factor-2 dose correction.** The RUN 3 pre-registration's
+analysis stands in full: runs 1-2 put the Lindblad carrier γ₀ = 1/(2·T₂) in a
+coherence-rate slot, Run 2 flew half the formula dose, and Run 3 corrected it.
+The math was checked three independent ways plus the runner code; the runner's
+own `recommend_dose` was always correct. This is the documented q-vs-Q /
+continuous-vs-Trotter twin, now caught in a third costume.
+
+**Downgrade 1: at the flown partial doses the created MI is 56-96%
+classical-mixing artifact of the frozen sink construction; the artifact
+fraction is dose-dependent.** Zero-QPU check
+([`simulations/ab_classical_mixing_check.py`](../simulations/ab_classical_mixing_check.py),
+a noiseless exact density-matrix simulation of the flown circuit at all three
+doses; its φ⃗ = 0
+gate reproduces Sum-MI 0, the fixed-point theorem): at the Run-3 dose the flown
+struct-K16 sink gives Sum-MI 0.32-0.59 (t = 1..5), while a TRUE dephasing
+channel at the same per-step retention gives 0.02-0.12; the classical-mixing
+floor (struct-K16 minus channel) is 62% / 82% / 95% / 95% / 95% of the signal.
+At the Run-2 half dose the floor is 56-96%. At the Run-1 CEILING the same
+decomposition gives 3.5% / 27% / 20% / 24% / −9%: the ceiling construction is
+channel-DOMINATED (not channel-equivalent: only the per-step marginal is exact
+scramble at r = 0, the frozen multi-step correlation survives, hence the
+20-27% mid-t floor and the unexplained −9% at t = 5; the v2 design's ceiling
+validation checked a different, counts-level quantity, residual bias
++0.004-0.016 vs iid K ≈ 32), so Run 1's early-t creation is the
+campaign's cleanest device fact, and the artifact owns the partial doses only.
+"Floor = struct − channel" is an additive split of a nonlinear functional
+(MI), so the fractions are heuristic, which scope statement (i) below also
+concedes. One further consequence, recorded: X-X DD conjugation preserves the
+sink's per-step CHANNEL magnitude but reshuffles the frozen intra-path
+correlations, so at the partial doses the selective and uniform layouts share
+the channel but NOT the artifact, and cross-layout comparisons (Δ_sel vs
+Δ_uni) are artifact-confounded there.
+The iid control (independent-per-step phases at the same marginal
+retention) converges to the true channel as K grows, so the partial-dose
+artifact is the frozen intra-path correlation of the 16 shared
+phase paths, NOT finite K: more shots or more paths do not fix it. The design's
+own trap line ("the sink must be a channel, not shared classical randomness")
+fired after all, at the doses its validation never covered. Three scope
+statements, for honesty: (i) these fractions are noiseless decompositions of
+the flown ensemble; on the device the sink arms measure Sum-MI 0.16-0.23, well
+below the noiseless 0.32-0.59, so the split does not transfer linearly and the
+device-level fraction is not directly measured; (ii) the measured Δ is real on
+the device either way (Run 3 clears a hardware-native null at all 5 points);
+(iii) the noiseless channel-only signal clears the binding band only at
+t = 1-2 (0.122, 0.073 vs ± 0.0486) and sits below it at t = 3-5
+(0.024-0.030), so the late-t persistence that fired the Run-2/3 rule is not
+reachable by the intended channel at these doses: the rule-firing shape is
+the artifact's.
+
+**Downgrade 2: created interior MI measures transport, and "protection" was
+this arc's own label error on it.** Tom's question, verbatim: "how do we know
+large MI is better?" We do not, and the question reaches further than these
+runs. The 139-360× headline of [Resonant Return](RESONANT_RETURN.md) is a
+PEAK CREATED-MI ratio (its "Formula vs Optimizers" table's Peak SumMI column:
+0.230 vs 0.000639 at N = 5; |+⟩^⊗N initial state, where the uniform profile
+gives Sum-MI ≡ 0); the formula was derived by maximizing the Mode-2 TRANSPORT
+projection, and no interior-coherence-lifetime figure was ever computed
+anywhere in this arc (the "rings far longer" reading entered in
+[Inside/Outside the Sacrifice Zone](../docs/INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md)
+and propagated). So created MI is not a proxy for the concentrator's metric;
+it IS the concentrator's historical metric, and the "protection / lifetime"
+name this experiment (and the outbound adapter) attached to the 139-360× was
+a label error, corrected today. What protection content exists is mode-level
+and exact (the Absorption Theorem: interior modes with low ⟨n_XY⟩ decay
+slowly; the profile's ε-input "protects" by construction), but a perfectly
+protecting concentrator KEEPS the interior a product state and gives
+Sum-MI = 0, so the transport metric and the protection objective PULL
+OPPOSITE WAYS at the extremes, and no computed number connects them.
+Consequences: (i) these runs measured the right observable CLASS for the
+transport claim, and at the partial doses measured mostly Downgrade 1's
+construction artifact of it; (ii) they measured nothing about protection;
+(iii) whether channel-contrast-created transport MI is a resource (the ENAQT
+reading) or merely detectable structure is untested; (iv) a protection
+(lifetime) objective for the concentrator profile has never been computed,
+in simulation or on hardware, and is now the named open instrument.
+
+**Downgrade 3: "the formula dose" was a reference value, not the formula's
+optimum.** The concentrator formula γ_edge = N·γ_base − (N−1)·ε is the corner
+of a BUDGET-CONSTRAINED optimization ([Resonant Return](RESONANT_RETURN.md):
+"the total noise across the chain stays the same, only its distribution
+changes"), and it prescribes the TOTAL edge rate of a chain whose interior is
+protected at ε. The flown runs conserve no budget (the sink ADDS noise to an
+interior that stays at the device rate), and the injected N·γ₀ sits on top of
+the edge's own device rate, so the physical edge rate was ≈ (N+1)·γ₀; while
+the formula, at the natural hardware identification ε ≈ γ_base ≈ γ₀, would
+prescribe γ_edge = γ₀, i.e. no injection at all. The dropped −(N−1)·ε term
+(≈ 0.20 at N = 5, γ₀ = 0.05) is larger than the factor-2 that was caught and
+corrected. So N·γ₀ is the formula's ε → 0 corner value, used here as a
+machine-free REFERENCE dose on an axis the formula does not govern; "flew the
+formula's own dose" over-read it, and the run-1 follow-up's "its optimum is
+FINITE" over-read it first. The factor-2 correction itself is untouched by
+this: it fixes the mapping from a stated γ_edge to a per-step retention and
+is correct whatever the target.
+
+**The signature was never a discriminator (post-mortem).** Pre-flight, the
+design pinned Reading B to a monotone RISE of the paired effect with
+injection variance, and the review sweep found no Zeno turnover; after
+Run 1's measured crossover, the named follow-up asserted an overdosed sink
+"must do exactly" that, and Runs 2-3 were then scored against the revised
+persistence signature. A signature revised after the data it is scored on is
+not a discriminator; and nothing in the concentrator theory was shown to
+predict either the crossover or its absence, so persistence never separated
+Reading B from generic injected-dephasing-spreading-through-coupling
+dynamics. The A rule had the twin weakness: "both Δ ≤ 0" operationalizes a
+strawman (the gate-cost hypothesis is about DD pulse economics on a bad
+qubit, not injected virtual phases), and since the ideal sim already produces
+the boost, an A verdict could only ever have measured detectability. The v1
+review had in fact already named the outcome: "the pooled object at small K
+is shared classical randomness, which even Reading A boosts"; the
+partial-dose positive Δ confirms that warning, not physics beyond it. (Band
+methodology, moot post-withdrawal but recorded: the sim null's junk floor
+0.034 sat 3× below the device's 0.08-0.14; the pooled band is
+anti-conservative at exactly the early t where Run 1's headline firings sit,
+mitigated by the bootstrap CIs; Run 3 reused bands calibrated
+on [109..105], asserted chain-independent to first order, cross-checked there
+by the hardware-native null, which is itself shot-noise-only and blind to
+drift and config-level systematics. Provenance, also recorded: the pre-flight
+sim-gate numbers and same-day calibration narratives quoted in the RECORDs
+survive only as transcriptions in this document; the external pipeline
+archived no simulate artifact for the flight chains, so they are permanently
+unverifiable. Everything flown, the bands, and the dose constructions
+recompute bit-level from the committed JSONs.)
+
+**The narrow claim that survives:** an engineered per-step phase sink on one
+edge qubit produces a positive, device-surviving increase of interior
+pair-MI, on both DD layouts: beyond the pre-registered bands at early depth
+in Run 1 (1.9-4.7×, on the channel-dominated ceiling construction; its t = 5
+Δ_uni leg turns marginally beyond-band negative, Δ_sel stays within at
+0.96×) and at 3-5 of 5 points in Runs 2-3 (with the
+hardware-native-null cross-check on record for Run 3, both legs, in the
+committed audit script). That refutes "injected
+noise strictly removes signal" as a universal statement, and nothing more: at
+the partial doses the increase is largely the construction's classical
+mixing, and none of it is evidence that the concentrator mechanism protects
+anything.
+
+**What stands, restated with the corrected label:** the simulation result
+stands AS A TRANSPORT RESULT: under true Lindblad profiles at a fixed budget,
+the concentrated profile creates 139-360× more peak interior MI than the
+V-profile ([Resonant Return](RESONANT_RETURN.md)); Downgrade 1 does not touch
+it (the sim used true channels, not the frozen construction). The March
+natural-sink run's 5-of-5 Sum-MI ordering stands as recorded, with its
+bias-floor and attribution caveats ([IBM Concentrator](IBM_CONCENTRATOR.md)).
+The A-vs-B question this experiment was built to answer is OPEN again, and
+the arc now owes TWO instruments, named: (1) a protection-metric computation,
+interior coherence lifetime under the concentrator profile, first in
+simulation from below, then, only if it survives there, on hardware; this
+would test the protection reading for the first time anywhere in the arc;
+and (2) for any created-MI re-flight, an unfrozen, per-shot-randomized sink
+so the injected noise is a channel rather than a shared classical phase.
+Neither is pre-registered here.
+
 ## Traps carried in (campaign ledger + this review)
 
 Stale calibration (same-day `backend.properties()` selection); no error bars in
 March (bootstrap + counts-level bands mandatory here); MI bias floor ≈ the March
 uniform-DD row (state it, draw it); drift between configs (one interleaved job);
 the sink must be a channel, not shared classical randomness (K ≥ 16 structured,
-frozen, basis-shared); the transpiler cannot cancel a virtual RZ blocked by
+frozen, basis-shared; post-flight addition: this trap FIRED anyway at the
+partial doses, where the frozen construction departs from the channel by
+56-96%, see the
+reckoning); the transpiler cannot cancel a virtual RZ blocked by
 RXX/RYY (verified in review) but configs must share one transpilation to make the
 pair identity checkable; Trotter content is the OBJECT here (DD-during-circuits,
 not idle storage); single line, single day, fixed sink end (mirrored-end repeat

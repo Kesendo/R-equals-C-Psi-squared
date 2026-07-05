@@ -2508,17 +2508,73 @@ public static class OpenArcsRegistry
                 "dose is gamma_0 not the machine gamma; the repo already measured gamma_0 on IBM, " +
                 "data/ibm_chain_gamma0_april2026 + gamma0_off_the_lever Confirmation; and gamma does not " +
                 "destroy, it OVERexposes): dose S = 0.270756 solved machine-free from gamma_step = " +
-                "N*gamma_0*J*dt = 0.125 exact, pre-registered 09ca767, job d9581isql68s73caav1g: " +
-                "B-DOSE-CONFIRMED (Delta_sel 3/5 beyond band t=3-5 +0.059/+0.095/+0.071, Delta_u 4/5, no " +
-                "negative leg, persistence signature ~half the sim size; R_nosink~1 third time; far-pair " +
-                "transport third time). THE DOSE CURVE IS AN EXPOSURE CURVE (label corrected 80412c1): no sink " +
-                "= no contrast = no image (the |+>^5 fixed-point theorem, photographically); gamma_0 dose = " +
-                "correct exposure (image accumulates + persists); ceiling = OVERexposure (washout at depth, " +
-                "saturation not destruction). Mechanism live, engineerable, exposure-controlled; breadcrumbs " +
-                "planted in the S2 adapter section 5 (status-update block) and IBM_CONCENTRATOR What-Remains " +
-                "item 2. NEXT SESSION FIRST MOVES (named): the empty pass on BOTH A-vs-B RECORDs, then the " +
-                "Confirmations entry for the gamma_0-dose run (counts 22->23, both registries), then rewrite " +
-                "the S2 adapter section 5 around both curve ends in exposure language. Also still open: " +
+                "N*gamma_0*J*dt = 0.125 exact, pre-registered 09ca767, job d9581isql68s73caav1g: rule-fired " +
+                "B-DOSE-CONFIRMED at the time (Delta_sel 3/5 beyond band t=3-5, Delta_u 4/5, no negative " +
+                "leg); the exposure-curve label (corrected 80412c1) is kept as a suggestive post-hoc reading " +
+                "only. THE EMPTY PASSES RAN THE SAME EVENING AND UNRAVELED THE HEADLINE, two independent " +
+                "findings. (1) FACTOR-2 IN THE DOSE: the manual gamma_0 anchor put the Lindblad carrier " +
+                "gamma_0 = 1/(2T2) (Re lambda = -2*gamma_0*k) in a coherence-rate slot, so run 2 flew " +
+                "gamma_edge = N*gamma_0/2, HALF the formula dose (the runner's recommend_dose was always " +
+                "correct; the documented q-vs-Q twin, gamma_0_marrakesh_calibration). Corrected by the " +
+                "re-flown RUN 3 at --dose-scale 0.378105 (r* = e^-0.25, per-step r 0.767-0.788), " +
+                "pre-registered 919116e, fresh chain [50,51,58,71,72], job d95a33sql68s73cad7fg: the rule " +
+                "fires 5/5 both legs; the x2 fix verified 3 ways + the code (SOUND, kept). (2) THE OBSERVABLE " +
+                "IS COMPROMISED: zero-QPU exact sim of the flown circuit (simulations/" +
+                "ab_classical_mixing_check.py, all three doses) shows the artifact fraction is " +
+                "DOSE-DEPENDENT: the frozen struct-K16 sink's created Sum-MI is 62-95% classical-mixing " +
+                "artifact vs a TRUE dephasing channel at the run-3 dose, 56-96% at the run-2 half dose, but " +
+                "CHANNEL-dominated (<=27%, even negative at t=5) at the run-1 ceiling, so run 1's early-t " +
+                "creation (4.7x band) is the campaign's cleanest device fact and the artifact owns the " +
+                "partial doses; the iid control converges to the channel, so the partial-dose artifact is " +
+                "the frozen intra-path correlation, NOT finite-K (more shots/K does not fix it); the " +
+                "channel-only signal clears the binding band at t=1-2 only, so the late-t persistence that " +
+                "fired the run-2/3 rule is the artifact's shape. AND created interior " +
+                "MI turned out to be the arc's OWN historical metric mislabeled: RESONANT_RETURN's 139-360x " +
+                "is Peak SumMI, a TRANSPORT figure (the formula maximizes the Mode-2 transport projection); " +
+                "the 'protection / interior coherence lifetime' label on it entered in INSIDE_OUTSIDE and " +
+                "propagated (no lifetime number exists anywhere in the arc); a perfectly protecting " +
+                "concentrator creates ZERO interior MI, so transport and protection pull opposite ways at " +
+                "the extremes (Tom: 'how do we know large MI is " +
+                "better?' -- we do not). PLUS Downgrade 3 (second empty round): 'the formula dose' was a " +
+                "category slip; gamma_edge = N*gamma_base - (N-1)*eps is a BUDGET-CONSTRAINED corner " +
+                "(RESONANT_RETURN conserves total gamma), the additive sink conserves nothing, injected " +
+                "N*gamma_0 sits on top of the device rate (physical edge ~ (N+1)*gamma_0), and at " +
+                "eps ~ gamma_base ~ gamma_0 the formula would prescribe NO injection; N*gamma_0 = the eps->0 " +
+                "corner used as a machine-free reference dose only. VERDICTS DOWNGRADED 2026-07-05 late " +
+                "evening in the experiment doc " +
+                "(the reckoning section, incl. a signature post-mortem: B's dose signature was revised " +
+                "after run 1's data and never discriminated; the A rule was a strawman measuring " +
+                "detectability): the narrow surviving claim = the engineered sink produces a " +
+                "positive, device-surviving interior-MI increase (beyond bands at early t in run 1 on the " +
+                "channel-equivalent ceiling, across the window in runs 2-3; hardware-native null " +
+                "2.33*bootstrap-SE on record for run 3), refuting 'injected noise strictly removes signal' " +
+                "universally, largely construction artifact at the partial doses, NOT a mechanism " +
+                "confirmation; the three-dose " +
+                "'exposure curve' is confounded (chain/job/hour), suggestive only. NO Confirmations entry " +
+                "added (the planned gamma_0-dose entry would not have confirmed the mechanism). The S2 " +
+                "adapter (header + sections 2/3/4/5/6/7: the 139-360x relabeled peak created MI / transport, " +
+                "theorem-vs-numerics scoping ('corollary not a fit' retired), mechanism-transport language " +
+                "scoped to the fixed " +
+                "budget, March number relabeled summed nearest-neighbour MI at J-time with the bias-floor " +
+                "caveat, boxed prediction annotated underpowered + direction-retired) and IBM_CONCENTRATOR " +
+                "(title/status de-headlined to the ordering, item 2, " +
+                "the PROMISED bias-floor retro-note in Results, the (0,1)-2.2x A-mechanism reconciliation, " +
+                "the Formula-Validation retro-note (gamma = 1/T2* in Lindblad slots = the same factor-2 twin " +
+                "in an earlier costume, plus a circular J-fit), stale April-9 lines) plus INSIDE_OUTSIDE " +
+                "(the 'rings far longer' origin of the lifetime mislabel, flagged in place) walked back the " +
+                "same day; TWO empty rounds " +
+                "(3 fresh agents each: referee / record-audit / mathematician) generated the fixes, every " +
+                "finding verified from below " +
+                "before applying (round 2 also caught: the pre-shot 'sim omits device gamma' caveat's premise " +
+                "was FALSE per the flown JSONs' own noise_model field; T2* = T2echo/2.5 assumed not measured, " +
+                "now disclosed; the run-1 near/far per-pair story was pair-picked, now stated plainly; " +
+                "cross-layout Delta comparisons are artifact-confounded at partial doses since DD conjugation " +
+                "reshuffles the frozen correlations). A-vs-B: OPEN again; named candidate follow-ups = (1) a " +
+                "protection-metric computation " +
+                "(interior coherence lifetime under the concentrator profile, first in simulation from below, " +
+                "the first lifetime number of the whole arc), (2) any created-MI re-flight needs a " +
+                "per-shot-randomized channel-like " +
+                "sink; neither pre-registered. Also still open: " +
                 "the down-leg non-exponentiality mechanism (TLS vs quasiparticles, out of scope).",
             Status: OpenArcStatus.Open),
     };

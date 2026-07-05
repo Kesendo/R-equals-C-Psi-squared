@@ -15,15 +15,20 @@ is their ratio; the **fold regime** is Q ≈ 1, where the longest-lived coherenc
 ## What was measured (established; hardware-confirmed)
 
 Take a chain of qubits and dephase it *non-uniformly*: pile the noise onto one edge qubit (high γ
-there) and protect the interior (low γ everywhere else). The interior then sits at the fold and rings
-far longer than under uniform noise. The improvement is large and has an analytic form: from
+there) and protect the interior (low γ everywhere else). The interior then sits at the fold. The
+improvement is large and has an analytic form: from
 139× (N=9) up to 360× (N=5), measured against a smoothly graded "V-shaped" γ-profile
-([`experiments/RESONANT_RETURN.md`](../experiments/RESONANT_RETURN.md)).
+([`experiments/RESONANT_RETURN.md`](../experiments/RESONANT_RETURN.md)). Label note (2026-07-05):
+that figure is PEAK CREATED INTERIOR MI, a transport metric (the source maximizes Sum-MI); this
+paragraph's earlier "rings far longer than under uniform noise" was a lifetime reading the arc
+never computed, and that mislabel propagated until the A-vs-B reckoning caught it
+([`experiments/CONCENTRATOR_AB_MECHANISM_TEST.md`](../experiments/CONCENTRATOR_AB_MECHANISM_TEST.md),
+Downgrade 2).
 
 It survives real hardware. On ibm_torino (2026-03-24), selectively decoupling only the interior, and
 leaving the noisy edge qubit alone (no DD there, so it stays the noise concentrator), beats decoupling
 every qubit uniformly by up to 3.2×, peaking
-around t = 4 μs (roughly 2× on average across t = 1 to 5 μs; the advantage is not monotonic, it dips
+around t = 4.0 (J-time; roughly 2× on average across t = 1 to 5; the advantage is not monotonic, it dips
 early and falls off after the peak). See [`experiments/IBM_CONCENTRATOR.md`](../experiments/IBM_CONCENTRATOR.md).
 
 The name "sacrifice zone" is a misnomer, and the project resolved why (2026-03-28,
