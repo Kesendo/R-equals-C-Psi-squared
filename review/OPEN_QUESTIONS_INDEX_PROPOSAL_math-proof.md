@@ -258,7 +258,7 @@
 ### OQ-180
 
 **Question:** The odd-n_XY modes. The parity selection rule proves they are inaccessible to SE states, but not what they look like or whether multi-excitation ansatze can reach them.  
-**Source:** `experiments/SACRIFICE_GEOMETRY.md` (line 183)  
+**Source:** `experiments/CONCENTRATOR_GEOMETRY.md` (line 183)  
 **Proposed status:** partially-resolved  
 **Justification:** The inaccessibility from single-excitation states is proven (PROOF_PARITY_SELECTION_RULE.md). The spectral properties of odd-n_XY modes themselves and whether multi-excitation states can reach them remain open sub-questions.
 

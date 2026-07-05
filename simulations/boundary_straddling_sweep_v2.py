@@ -70,7 +70,7 @@ DERIVATION OF THE CORRECT OVERLAP OBSERVABLE
 
    We report c_slow_normalized = |c_slow(rho_0)| / |c_slow(psi_opt)|
    where psi_opt maximizes |c_slow| over pure SE states (the lens state
-   from SACRIFICE_GEOMETRY.md). This gives 1.0 for psi_opt by definition.
+   from CONCENTRATOR_GEOMETRY.md). This gives 1.0 for psi_opt by definition.
 
 SANITY CHECKS (run before sweep)
 =================================
@@ -78,7 +78,7 @@ Check 1: psi_opt should give normalized overlap = 1.0 (by construction).
 Check 2: bare Bell+(2,3) tensor |000> has zero SE content, so c_slow = 0
          exactly. If code returns nonzero, something is wrong.
 
-Addresses OQ-114 (CUSP_LENS_CONNECTION.md) and SACRIFICE_GEOMETRY.md OQ#2.
+Addresses OQ-114 (CUSP_LENS_CONNECTION.md) and CONCENTRATOR_GEOMETRY.md OQ#2.
 
 Authors: Thomas Wicht, Claude (Opus 4.6)
 Date: April 12, 2026

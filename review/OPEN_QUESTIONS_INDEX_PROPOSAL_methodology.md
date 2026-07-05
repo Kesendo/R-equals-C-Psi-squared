@@ -47,7 +47,7 @@
 **Proposed Status:** partially-resolved
 **Confidence:** medium
 **Resolving documents:**
-- `experiments/SACRIFICE_GEOMETRY.md` (line 112): two-excitation symmetric states fail completely (AUC < 0.09), coupling to a different mode cluster
+- `experiments/CONCENTRATOR_GEOMETRY.md` (line 112): two-excitation symmetric states fail completely (AUC < 0.09), coupling to a different mode cluster
 - `docs/proofs/PROOF_PARITY_SELECTION_RULE.md`: proves SE states cannot reach odd-n_XY modes (exact algebraic boundary)
 **Rationale:** The two-exit structure is proven and sector boundaries established. The only multi-excitation probe tested (symmetric two-excitation states) showed they couple to a different mode cluster entirely, suggesting straddling may be impossible, but this is not proven for all two-excitation states, only symmetric ones. The specific question about non-symmetric two-excitation states with one high-concurrence pair remains untested.
 **Search terms used:** "boundary states", "straddle", "two exits", "two-excitation", "sheet", "cusp lens"

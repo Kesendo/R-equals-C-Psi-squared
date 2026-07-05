@@ -9,7 +9,7 @@ multi-qubit dose scaling, sacrifice zone dose, R=CPsi2 K dosimetry -->
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Standing Waves](FACTOR_TWO_STANDING_WAVES.md),
-[Sacrifice Zone Optics](SACRIFICE_ZONE_OPTICS.md),
+[Concentrator Optics](CONCENTRATOR_OPTICS.md),
 [Decoherence Relativity](DECOHERENCE_RELATIVITY.md)
 **Verification:** [`simulations/k_dosimetry.py`](../simulations/k_dosimetry.py)
 

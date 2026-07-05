@@ -177,7 +177,7 @@
 ### OQ-183
 
 **Question:** Two decoherence exits. The lens and the Mandelbrot cusp protect different state classes and lead to different classical ensembles.  
-**Source:** `experiments/SACRIFICE_GEOMETRY.md` (line 189)  
+**Source:** `experiments/CONCENTRATOR_GEOMETRY.md` (line 189)  
 **Proposed status:** open  
 **Justification:** The non-unification of the two exits is documented (CUSP_LENS_CONNECTION.md) but the question of whether a deeper framework connects them remains open.
 

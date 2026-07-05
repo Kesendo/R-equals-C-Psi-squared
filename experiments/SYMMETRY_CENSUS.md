@@ -114,7 +114,7 @@ Off-diagonal sectors (w ≠ w') have zero steady states: all their modes decay. 
 
 **The system has exactly N+1 exits.** Each excitation sector w = 0, ..., N has one attractor (the maximally mixed state within that sector). No "hidden exits" were found.
 
-The [lens exit](SACRIFICE_GEOMETRY.md) is the approach to the w=1 attractor via the slow mode. The [cusp exit](CUSP_LENS_CONNECTION.md) is the simultaneous thermalization within multiple occupied sectors. These are not two exits of a system with two attractors; they are two dynamical paths through a system with N+1 attractors.
+The [lens exit](CONCENTRATOR_GEOMETRY.md) is the approach to the w=1 attractor via the slow mode. The [cusp exit](CUSP_LENS_CONNECTION.md) is the simultaneous thermalization within multiple occupied sectors. These are not two exits of a system with two attractors; they are two dynamical paths through a system with N+1 attractors.
 
 ---
 
@@ -185,7 +185,7 @@ The chain has the fewest degeneracies (488 distinct out of 1024) and the richest
 - [Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) (n_XY parity proof)
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (Pi conjugation)
 - [Cusp-Lens Connection](CUSP_LENS_CONNECTION.md) (two-exit framework)
-- [Sacrifice Geometry](SACRIFICE_GEOMETRY.md) (lens exit)
+- [Concentrator Geometry](CONCENTRATOR_GEOMETRY.md) (lens exit)
 
 ---
 

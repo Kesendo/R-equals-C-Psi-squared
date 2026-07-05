@@ -223,7 +223,7 @@ Re = −2γ are weight-1 Pauli operators (n_XY = 1, odd parity).
 They live in V_odd by this theorem, confirming they are inaccessible
 to SE states from a completely different direction.
 
-**Sacrifice Geometry Phase 3:** The inaccessible mode at rate −0.167
+**Concentrator Geometry Phase 3:** The inaccessible mode at rate −0.167
 was found to have 100% n_XY=1 content. This theorem explains why:
 n_XY=1 is odd, SE density matrices are even, overlap is zero.
 
@@ -249,4 +249,4 @@ n_XY=1 is odd, SE density matrices are even, overlap is zero.
 
 - Script: `simulations/slow_mode_lens_analysis.py`
 - Results: `simulations/results/slow_mode_lens/slow_mode_lens_results.txt`
-- Writeup: [Sacrifice Geometry](../../experiments/SACRIFICE_GEOMETRY.md) Phase 3
+- Writeup: [Concentrator Geometry](../../experiments/CONCENTRATOR_GEOMETRY.md) Phase 3

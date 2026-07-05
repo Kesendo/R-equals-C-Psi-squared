@@ -1,6 +1,14 @@
-# Sacrifice Geometry: A Mechanistic Account
+# Concentrator Geometry: A Mechanistic Account
 
-**What this document is about:** The sacrifice zone in a dephasing profile is not "better dephasing distribution". It is a controlled symmetry break that creates one slow Liouvillian eigenmode with a specific spatial shape. The optimal initial state for concurrence preservation is the left eigenvector of that slow mode, projected onto the single-excitation sector. This is the lens method. It is verified across 68 configurations (N=2-7 chain, N=2-6 star/ring/complete, four γ profiles). The accessibility boundary that limits single-excitation states to a subset of slow modes is exact and provable for any N and topology from the n_XY parity selection rule.
+**Naming note (2026-07-05):** renamed from "Sacrifice Geometry: A Mechanistic
+Account". The edge qubit sacrifices nothing; it concentrates the noise (the
+misnomer was resolved 2026-03-28). The γ-profile LABELS "edge sacrifice" /
+"center sacrifice" and the frozen `*sacrifice*` scripts and results are
+deliberately kept until the compute-engine pass renames them in lockstep (they
+are a contract with the `edgeSacrifice` / `centerSacrifice` profile functions
+in `RCPsiSquared.Compute`).
+
+**What this document is about:** The concentrator in a dephasing profile is not "better dephasing distribution". It is a controlled symmetry break that creates one slow Liouvillian eigenmode with a specific spatial shape. The optimal initial state for concurrence preservation is the left eigenvector of that slow mode, projected onto the single-excitation sector. This is the lens method. It is verified across 68 configurations (N=2-7 chain, N=2-6 star/ring/complete, four γ profiles). The accessibility boundary that limits single-excitation states to a subset of slow modes is exact and provable for any N and topology from the n_XY parity selection rule.
 
 **Tier:** 1-2 (lens method, accessibility boundary, SE fraction scaling are computed and proven; psi_opt shapes are empirical)
 **Status:** Experiment. Universal framing validated across 68 configurations (N=2-7, four topologies, four γ profiles).
@@ -9,8 +17,8 @@
 **Depends on:**
 - [Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) (accessibility boundary, Tier 1)
 - [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) (rate formula, Tier 1)
-- [Sacrifice Zone Optics](SACRIFICE_ZONE_OPTICS.md) (entrance pupil / lens reframing, Tier 2)
-- [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md) (F9 sacrifice zone formula, Tier 1)
+- [Concentrator Optics](CONCENTRATOR_OPTICS.md) (entrance pupil / lens reframing, Tier 2)
+- [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md) (F9 concentrator formula, Tier 1)
 - [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md) (cavity modes, Tier 2)
 - [Cusp-Lens Connection](CUSP_LENS_CONNECTION.md) (two decoherence exits, Tier 2)
 
@@ -18,7 +26,7 @@
 
 ## Executive summary
 
-When one qubit in a Heisenberg chain receives disproportionate dephasing (the "sacrifice"), the Liouvillian's translational symmetry breaks. A formerly degenerate eigenvalue cluster splits, and one mode slows dramatically. This mode lives almost entirely in the single-excitation (SE) coherence sector (>98% Frobenius norm ratio for N=3-6 across all tested topologies). Its left eigenvector, restricted to the SE sector, gives the optimal initial-state amplitudes directly, without optimization.
+When one qubit in a Heisenberg chain receives disproportionate dephasing (the concentrator), the Liouvillian's translational symmetry breaks. A formerly degenerate eigenvalue cluster splits, and one mode slows dramatically. This mode lives almost entirely in the single-excitation (SE) coherence sector (>98% Frobenius norm ratio for N=3-6 across all tested topologies). Its left eigenvector, restricted to the SE sector, gives the optimal initial-state amplitudes directly, without optimization.
 
 The lens method has been tested across 68 configurations (N=2-7 chain, N=2-6 Star/Ring/Complete, four γ profiles each). Three universal results emerge:
 
@@ -103,11 +111,11 @@ The inaccessible modes found numerically (rate -0.167 at N=5 IBM, etc.) are odd-
 
 Under uniform dephasing, the Heisenberg chain's Liouvillian has translational symmetry. This produces a degenerate eigenvalue cluster (for N=5 at Sg=2.608: 14 modes at rate -2.087 with integer <n_XY> = 2.000). The absorption theorem (AT) predicts the cluster rate: Re(lambda) = -2 <gamma * 1_XY>.
 
-A sacrifice profile breaks translational symmetry. The cluster splits: most modes accelerate, but one slows. This surviving slow mode concentrates its X/Y Pauli content on quiet sites and minimizes the absorption-weighted sum, making it the spectral minimum. This is spectral surgery, not dephasing budgeting. The [sacrifice zone formula](../docs/ANALYTICAL_FORMULAS.md) (F9: γ_edge = N·γ_base − (N−1)·ε) describes the optimal dephasing allocation analytically.
+A sacrifice profile breaks translational symmetry. The cluster splits: most modes accelerate, but one slows. This surviving slow mode concentrates its X/Y Pauli content on quiet sites and minimizes the absorption-weighted sum, making it the spectral minimum. This is spectral surgery, not dephasing budgeting. The [concentrator formula](../docs/ANALYTICAL_FORMULAS.md) (F9: γ_edge = N·γ_base − (N−1)·ε) describes the optimal dephasing allocation analytically.
 
 ### Level 2: Structured construction
 
-Before the lens method was found, a structured scan of 17 candidate states (W-subsets, shifted Bell pairs, multi-excitation states, sacrifice-aware variants) identified the principle: suppress amplitude on the sacrifice qubit, concentrate on quiet qubits. The heuristic sqrt(gamma_min/gamma_k) gives a 95.6% approximation to the lens state.
+Before the lens method was found, a structured scan of 17 candidate states (W-subsets, shifted Bell pairs, multi-excitation states, sacrifice-aware variants) identified the principle: suppress amplitude on the concentrator qubit, concentrate on quiet qubits. The heuristic sqrt(gamma_min/gamma_k) gives a 95.6% approximation to the lens state.
 
 Two-excitation symmetric states fail completely (AUC < 0.09). They couple to a different mode cluster that does not include the protected slow mode.
 
@@ -115,7 +123,7 @@ Two-excitation symmetric states fail completely (AUC < 0.09). They couple to a d
 
 Instead of guessing the optimal state, extract it from the slow mode's left eigenvector. The SE-sector restriction gives a N-dimensional eigenvalue problem. No optimizer needed. The answer is one matrix diagonalization away.
 
-This works because the sacrifice geometry is a lens: it bends the Liouvillian flow around the noisy qubit, producing a slow [standing-wave](../docs/STANDING_WAVE_THEORY.md)-like eigenmode. The optimal initial state is the mirror of that eigenmode's shape. The concept was motivated by the entrance-pupil/[Fabry-Perot](OPTICAL_CAVITY_ANALYSIS.md) framing in [Sacrifice Zone Optics](SACRIFICE_ZONE_OPTICS.md). The [dephasing entering from outside](../hypotheses/GAMMA_IS_LIGHT.md) is literally the light illuminating this optical system.
+This works because the concentrator geometry is a lens: it bends the Liouvillian flow around the noisy qubit, producing a slow [standing-wave](../docs/STANDING_WAVE_THEORY.md)-like eigenmode. The optimal initial state is the mirror of that eigenmode's shape. The concept was motivated by the entrance-pupil/[Fabry-Perot](OPTICAL_CAVITY_ANALYSIS.md) framing in [Concentrator Optics](CONCENTRATOR_OPTICS.md). The [dephasing entering from outside](../hypotheses/GAMMA_IS_LIGHT.md) is literally the light illuminating this optical system.
 
 ---
 
@@ -141,7 +149,7 @@ Scripts: `simulations/ibm_april_predictions.py` (infrastructure), `simulations/s
 | 4 | W2_sites_34 | 1.000 | 1.018 | 1.056 | +13.6% |
 | 5 | W5_full | 0.400 | 0.896 | 0.932 | reference |
 
-The lens state psi_opt = [0.099, 0.239, 0.428, 0.572, 0.651] is monotonically increasing from the sacrifice end (site 0) to the quiet end (site 4). This monotonic gradient is specific to the IBM T2 dephasing gradient and does not appear under symmetric sacrifice profiles (see the survey results above).
+The lens state psi_opt = [0.099, 0.239, 0.428, 0.572, 0.651] is monotonically increasing from the concentrator end (site 0) to the quiet end (site 4). This monotonic gradient is specific to the IBM T2 dephasing gradient and does not appear under symmetric sacrifice profiles (see the survey results above).
 
 ### Why slow-band weight is the wrong metric (IBM Torino chain)
 
@@ -213,7 +221,7 @@ The lens method emerged after three failed optimization approaches (slow-band we
 - [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) (rate formula)
 
 **Framework documents:**
-- [SACRIFICE_ZONE_OPTICS.md](SACRIFICE_ZONE_OPTICS.md) (entrance pupil / lens reframing)
+- [CONCENTRATOR_OPTICS.md](CONCENTRATOR_OPTICS.md) (entrance pupil / lens reframing)
 - [CAVITY_MODE_LOCALIZATION.md](CAVITY_MODE_LOCALIZATION.md) (Pauli decomposition, per-qubit weights)
 - [ABSORPTION_THEOREM_DISCOVERY.md](ABSORPTION_THEOREM_DISCOVERY.md) (Re(lambda) = -2 sum gamma_k <1_XY(k)>)
 - [Cusp-Lens Connection](CUSP_LENS_CONNECTION.md) (two decoherence exits)

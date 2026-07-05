@@ -9,7 +9,7 @@ phi, R=CPsi2 N5 golden ratio -->
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [V-Effect Cavity Modes](VEFFECT_CAVITY_MODES.md),
-[Sacrifice Zone Optics](SACRIFICE_ZONE_OPTICS.md)
+[Concentrator Optics](CONCENTRATOR_OPTICS.md)
 **Verification:** [`simulations/n5_optimal_cavity_size.py`](../simulations/n5_optimal_cavity_size.py)
 
 ---

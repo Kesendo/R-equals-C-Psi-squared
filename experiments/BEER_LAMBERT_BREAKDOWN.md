@@ -9,7 +9,7 @@ Hamiltonian correlation absorption, R=CPsi2 beer lambert -->
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [K-Dosimetry](K_DOSIMETRY.md),
-[Sacrifice Zone Optics](SACRIFICE_ZONE_OPTICS.md),
+[Concentrator Optics](CONCENTRATOR_OPTICS.md),
 [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)
 **Verification:** [`simulations/k_dosimetry_beer_lambert.py`](../simulations/k_dosimetry_beer_lambert.py)
 
@@ -190,7 +190,7 @@ mode structure, not the local γ.
 
 ## What this changes about the sacrifice zone
 
-The [sacrifice zone](SACRIFICE_ZONE_OPTICS.md) was described as an
+The [sacrifice zone](CONCENTRATOR_OPTICS.md) was described as an
 anti-reflection coating: the edge qubit absorbs the shock so the
 interior survives. This document shows a different mechanism. The edge
 qubit is the entrance window; the coupling J is the reflective coating.

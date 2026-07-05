@@ -101,7 +101,7 @@ End proof.
 
 3. **"Number of exits used" is the Hilbert-sector support size.** The number of attractors that ρ₀ contributes to is |{w : p_w > 0}|. A product state uses 1, a Bell+ state on two qubits uses 2, a GHZ state uses 2 (w=0 and w=N). The |+⟩⊗N state uses all N+1. Note: [SYMMETRY_CENSUS.md, "Which sectors are reachable"](../../experiments/SYMMETRY_CENSUS.md) counts these as Liouville blocks (w_bra, w_ket); a GHZ state populates 2 Hilbert sectors but 4 Liouville blocks (the two diagonal blocks plus the off-diagonal coherences that decay). Both counts are valid; they describe different objects.
 
-4. **The cusp exit and lens exit are both instances of this theorem.** The lens exit (thermalization within a single excitation sector, see [SACRIFICE_GEOMETRY.md](../../experiments/SACRIFICE_GEOMETRY.md)) corresponds to initial states with p_1 = 1 (single-excitation sector only). The cusp exit (simultaneous thermalization across multiple sectors, see [CUSP_LENS_CONNECTION.md](../../experiments/CUSP_LENS_CONNECTION.md)) corresponds to initial states with p_w > 0 for two or more w. The "two exits" framing of earlier documents is a special case of the general N+1-exit structure.
+4. **The cusp exit and lens exit are both instances of this theorem.** The lens exit (thermalization within a single excitation sector, see [CONCENTRATOR_GEOMETRY.md](../../experiments/CONCENTRATOR_GEOMETRY.md)) corresponds to initial states with p_1 = 1 (single-excitation sector only). The cusp exit (simultaneous thermalization across multiple sectors, see [CUSP_LENS_CONNECTION.md](../../experiments/CUSP_LENS_CONNECTION.md)) corresponds to initial states with p_w > 0 for two or more w. The "two exits" framing of earlier documents is a special case of the general N+1-exit structure.
 
 ---
 
@@ -117,7 +117,7 @@ End proof.
 
 - [SYMMETRY_CENSUS.md](../../experiments/SYMMETRY_CENSUS.md) ("Asymptotic attractors per sector" and "Topology comparison": numerical verification of Steps 2–3)
 - [CUSP_LENS_CONNECTION.md](../../experiments/CUSP_LENS_CONNECTION.md) (sector conservation theorem, precursor of Step 1)
-- [SACRIFICE_GEOMETRY.md](../../experiments/SACRIFICE_GEOMETRY.md) (lens exit as p_1 = 1 case)
+- [CONCENTRATOR_GEOMETRY.md](../../experiments/CONCENTRATOR_GEOMETRY.md) (lens exit as p_1 = 1 case)
 - [PROOF_PARITY_SELECTION_RULE.md](PROOF_PARITY_SELECTION_RULE.md) (formal proof of sector conservation, equivalent to Step 1)
 
 ---

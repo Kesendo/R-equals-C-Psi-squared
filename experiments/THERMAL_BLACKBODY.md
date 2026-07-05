@@ -10,7 +10,7 @@ n_bar mode count, coherent to thermal transition, R=CPsi2 thermal blackbody -->
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Standing Waves](FACTOR_TWO_STANDING_WAVES.md),
 [K-Dosimetry](K_DOSIMETRY.md),
-[Sacrifice Zone Optics](SACRIFICE_ZONE_OPTICS.md)
+[Concentrator Optics](CONCENTRATOR_OPTICS.md)
 **Verification:** [`simulations/thermal_blackbody.py`](../simulations/thermal_blackbody.py),
 [`simulations/thermal_ep_analysis.py`](../simulations/thermal_ep_analysis.py)
 

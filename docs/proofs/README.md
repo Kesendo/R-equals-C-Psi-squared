@@ -189,7 +189,7 @@ provide closed-form values for the ~2% N=3 cross term first reported in
 Time Irreversibility Exclusion; and the Absorption Theorem is the
 spectral backbone that several recent experiments ([V-Effect Cavity Modes](../../experiments/VEFFECT_CAVITY_MODES.md),
 [IBM Absorption Theorem](../../experiments/IBM_ABSORPTION_THEOREM.md),
-[Sacrifice Geometry](../../experiments/SACRIFICE_GEOMETRY.md)) rely on.
+[Concentrator Geometry](../../experiments/CONCENTRATOR_GEOMETRY.md)) rely on.
 
 The remaining five (ΔN Selection, c₁ Mirror, Asymptotic Sector
 Projection, Chromaticity, K-Partnership) are independent side theorems

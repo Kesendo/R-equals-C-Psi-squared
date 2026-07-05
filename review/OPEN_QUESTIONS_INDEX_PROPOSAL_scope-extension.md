@@ -172,7 +172,7 @@
 **Proposed Status:** partially-resolved
 **Confidence:** medium
 **Resolving documents:**
-- `experiments/SACRIFICE_GEOMETRY.md`: SE sector extraction verified across chain, star, ring, complete topologies at N=2-7
+- `experiments/CONCENTRATOR_GEOMETRY.md`: SE sector extraction verified across chain, star, ring, complete topologies at N=2-7
 - `experiments/RESONANT_RETURN.md`: single-edge sacrifice framework derived, tested across topologies
 - `experiments/TOPOLOGICAL_EDGE_MODES.md`: edge sacrifice mechanism verified under multiple gamma profiles
 **Rationale:** Edge sacrifice has been tested across multiple graph topologies (chain, star, ring, complete) but always with Heisenberg coupling and Z-dephasing. The question specifically asks about generalization beyond Heisenberg chains, meaning different Hamiltonian types. That has not been tested.
@@ -191,7 +191,7 @@
 **Proposed Status:** partially-resolved
 **Confidence:** medium
 **Resolving documents:**
-- `experiments/SACRIFICE_GEOMETRY.md`: SE sector extraction exact through N=7 (87,376 eigenvalues); SE = 1.000 for all four N=7 chain profiles
+- `experiments/CONCENTRATOR_GEOMETRY.md`: SE sector extraction exact through N=7 (87,376 eigenvalues); SE = 1.000 for all four N=7 chain profiles
 **Rationale:** Exact SE sector locking is verified through N=7, but the asymptotic question (does protection hold as N/2^N -> 0?) is explicitly left open. The empirical evidence covers finite N only.
 **Search terms used:** "sector locking", "SE sector", "exponentially shrinking", "lens protection", "N-scaling"
 

@@ -1,9 +1,14 @@
-# Sacrifice-Zone Qubit Mapping: Finding Optimal Chains on Real Hardware
+# Concentrator Qubit Mapping: Finding Optimal Chains on Real Hardware
 
-<!-- Keywords: sacrifice zone qubit selection IBM Torino, heavy-hex topology
+**Naming note (2026-07-05):** renamed from "Sacrifice-Zone Qubit Mapping". The
+noisy edge qubit sacrifices nothing; it concentrates the noise (the misnomer
+was resolved 2026-03-28). The frozen `sacrifice_zone_mapping.*` script and data
+keep their original names as the provenance of the run.
+
+<!-- Keywords: concentrator qubit selection IBM Torino, heavy-hex topology
 chain optimization mode protection, T2 calibration data cavity mode
 localization, spatial noise profile quantum advantage, palindromic
-mode survival dephasing chain, R=CPsi2 sacrifice zone mapping -->
+mode survival dephasing chain, R=CPsi2 concentrator mapping -->
 
 **Status:** Tier 2-3 (computed analysis of real calibration data, hardware
 test pending)
@@ -23,10 +28,10 @@ test pending)
 ## What this document is about
 
 This document shows how to find optimal qubit chains on real IBM hardware
-by exploiting naturally noisy qubits as sacrifice zones. Instead of
+by exploiting naturally noisy qubits as concentrators. Instead of
 picking the qubits with the best T2 times (the standard approach), we
 select chains where a noisy qubit sits at the edge, providing the
-sacrifice-zone benefit for free. On IBM Torino's 133-qubit chip, this
+concentrator benefit for free. On IBM Torino's 133-qubit chip, this
 mode-based selection outperforms naive T2 maximization by 2.15× in
 protection factor, despite using qubits with 2.4× lower average T2.
 
@@ -34,24 +39,24 @@ protection factor, despite using qubits with 2.4× lower average T2.
 
 ## Abstract
 
-If the sacrifice zone protects cavity modes localized on interior
+If the concentrator protects cavity modes localized on interior
 qubits (r = 0.994, see [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md)),
 then choosing qubit chains where a naturally noisy qubit sits at the
-edge should provide the sacrifice-zone benefit *for free*.
+edge should provide the concentrator benefit *for free*.
 
 We test this on IBM Torino's heavy-hex topology (133 qubits, 115 with
 T2 data on the latest calibration date, 132 edges) using real T2
 calibration data (181 days, 24,073 records). 330 five-qubit chains
 exist on the graph. We compare two chain selection strategies:
 
-1. **Sacrifice-zone ranking:** Maximize edge noise / interior noise ratio
+1. **Concentrator ranking:** Maximize edge noise / interior noise ratio
 2. **Mean-T2 ranking:** Maximize average T2 across all 5 qubits
 
-Result: **Zero overlap** in the top-10 lists. Sacrifice-zone chains
+Result: **Zero overlap** in the top-10 lists. Concentrator chains
 achieve **2.54x** mean protection factor vs **1.18x** for mean-T2
 chains. Mode-based selection outperforms naive T2 maximization by 2.15x.
 
-The best sacrifice chain has only 81 us mean T2 but 2.86x protection.
+The best concentrator chain has only 81 us mean T2 but 2.86x protection.
 The best T2 chain has 217 us mean T2 but only 1.06x protection.
 **Worse qubits, better modes.**
 
@@ -64,11 +69,11 @@ The best T2 chain has 217 us mean T2 but only 1.06x protection.
 On the heavy-hex graph, we enumerate all simple paths of length 5
 (5 qubits, 4 bonds). For each chain [q0, q1, q2, q3, q4]:
 
-**Sacrifice score** = max(γ_edge) / mean(γ_interior)
+**Concentrator score** = max(γ_edge) / mean(γ_interior)
 
 where γ_edge = max(γ[q0], γ[q4]) and γ_interior = mean(γ[q1], γ[q2], γ[q3]).
 Higher score means the edge qubit absorbs more noise relative to the
-interior, strengthening the sacrifice-zone effect.
+interior, strengthening the concentrator effect.
 
 ### Spectral verification
 
@@ -80,7 +85,7 @@ oscillating mode rate, and protection factor vs uniform noise.
 
 ## Results
 
-### Sacrifice-zone ranking (top 5)
+### Concentrator ranking (top 5)
 
 | Chain | Score | mean T2 | Protection |
 |-------|-------|---------|-----------|
@@ -91,7 +96,7 @@ oscillating mode rate, and protection factor vs uniform noise.
 | [85, 14, 57, 21, 91] | 10.6 | 82.8 us | 2.14x |
 
 All contain Q85 (T2 = 5.0 us), the noisiest qubit on the chip,
-as the sacrifice endpoint.
+as the concentrator endpoint.
 
 ### Mean-T2 ranking (top 5)
 
@@ -103,27 +108,27 @@ as the sacrifice endpoint.
 | [4, 76, 51, 82, 10] | 0.9 | 202.3 us | 1.16x |
 | [13, 56, 20, 90, 60] | 0.8 | 198.5 us | 1.22x |
 
-All have sacrifice scores near 1.0 (uniform noise). The quiet qubits
+All have concentrator scores near 1.0 (uniform noise). The quiet qubits
 provide long T2 but no differential protection.
 
 ### Head-to-head
 
-| Metric | Sacrifice top-5 | Mean-T2 top-5 |
+| Metric | Concentrator top-5 | Mean-T2 top-5 |
 |--------|----------------|---------------|
 | Mean protection factor | **2.54x** | 1.18x |
 | Mean T2 | 87.6 us | 205.8 us |
-| Mean sacrifice score | 14.8 | 0.9 |
+| Mean concentrator score | 14.8 | 0.9 |
 | Palindrome score | 98-100% | 88-92% |
 
-The sacrifice chains have 2.4x lower mean T2 but 2.15x higher
+The concentrator chains have 2.4x lower mean T2 but 2.15x higher
 protection. Choosing "worse" qubits with the right spatial pattern
 outperforms choosing the "best" qubits naively.
 
-**Note on palindrome scores:** Sacrifice chains show 98-100%, mean-T2
+**Note on palindrome scores:** Concentrator chains show 98-100%, mean-T2
 chains 88-92%. The palindromic theorem is exact for Z-dephasing at
 any noise level. The lower scores for mean-T2 chains arise from
 numerical precision limits at very low total noise (Σγ = 0.02-0.03
-vs 0.25 for sacrifice chains). At such small Σγ values, the
+vs 0.25 for concentrator chains). At such small Σγ values, the
 palindromic center is close to zero and eigenvalue pairing tolerances
 (1e-4) become significant relative to the eigenvalue spread. This is
 a numerical artifact, not a physical effect.
@@ -132,7 +137,7 @@ a numerical artifact, not a physical effect.
 
 ## Time stability
 
-The best sacrifice chain [85, 15, 86, 16, 87] tracked across 5 months:
+The best concentrator chain [85, 15, 86, 16, 87] tracked across 5 months:
 
 | Date | Score | mean T2 |
 |------|-------|---------|
@@ -153,7 +158,7 @@ highest T2 values and hope for the best. This ignores the spatial
 structure of the noise.
 
 Mode-based approach: select chains where a naturally noisy qubit
-sits at the edge, creating a built-in sacrifice zone. The noisy
+sits at the edge, creating a built-in concentrator. The noisy
 qubit absorbs disproportionate damping, and the cavity modes
 localized on the interior survive longer.
 
@@ -165,7 +170,7 @@ calibration data, both publicly available.
 
 The theory predicts which chains will perform best. The prediction
 is testable with a single set of Trotter evolution experiments
-comparing sacrifice-zone chains against mean-T2 chains on the
+comparing concentrator chains against mean-T2 chains on the
 same hardware on the same day.
 
 ---
@@ -174,4 +179,4 @@ same hardware on the same day.
 [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) (r = 0.994),
 [IBM Cavity Spectral](IBM_CAVITY_SPECTRAL_ANALYSIS.md) (2.81x theoretical),
 [IBM Concentrator](IBM_CONCENTRATOR.md) (1.97x measured),
-[Resonant Return](RESONANT_RETURN.md) (the sacrifice-zone formula)
+[Resonant Return](RESONANT_RETURN.md) (the concentrator formula)

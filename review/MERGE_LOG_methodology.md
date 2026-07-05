@@ -72,7 +72,7 @@ fold, specifically nominating "two-excitation states with one
 high-concurrence pair" (non-symmetric, with concentrated pairwise
 coherence) as candidates.
 
-Cowork's proposed resolver (SACRIFICE_GEOMETRY.md line 112) tests
+Cowork's proposed resolver (CONCENTRATOR_GEOMETRY.md line 112) tests
 *symmetric* two-excitation states and finds AUC < 0.09, coupling to
 a different mode cluster. Cowork's own rationale explicitly states
 "only symmetric ones. The specific question about non-symmetric

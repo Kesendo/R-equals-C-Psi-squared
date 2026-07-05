@@ -329,7 +329,7 @@
 ### OQ-179
 
 **Question:** No closed form for ψ_opt. H_eff = -J·adjacency - i·diag(γ) gives cosine similarity 0.925 (tested, falsified).  
-**Source:** `experiments/SACRIFICE_GEOMETRY.md` (line 181)  
+**Source:** `experiments/CONCENTRATOR_GEOMETRY.md` (line 181)  
 **Proposed status:** resolved  
 **Justification:** The H_eff ansatz was tested and explicitly marked "falsified" with script reference (heff_lens_closed_form.py). The ψ_opt gradient is a many-body effect not reducible to single-particle.
 
@@ -338,7 +338,7 @@
 ### OQ-181
 
 **Question:** N=8. The survey covers N=2-7 (chain) and N=2-6 (other topologies). N=8 would require the ILP64 eigenvector path.  
-**Source:** `experiments/SACRIFICE_GEOMETRY.md` (line 185)  
+**Source:** `experiments/CONCENTRATOR_GEOMETRY.md` (line 185)  
 **Proposed status:** open  
 **Justification:** Stated as future work. N=8 eigendecomposition is available (73 GB RAM) but the sacrifice geometry analysis has not been extended to it.
 
@@ -347,7 +347,7 @@
 ### OQ-182
 
 **Question:** Gate-level Trotterization. Whether ψ_opt keeps its advantage under realistic gate noise is untested.  
-**Source:** `experiments/SACRIFICE_GEOMETRY.md` (line 187)  
+**Source:** `experiments/CONCENTRATOR_GEOMETRY.md` (line 187)  
 **Proposed status:** open  
 **Justification:** Explicitly stated "untested." The pure Lindblad model is analyzed; realistic gate-noise effects are beyond current scope.
 

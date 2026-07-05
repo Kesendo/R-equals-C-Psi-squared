@@ -9,7 +9,7 @@
 
 ## Motivation
 
-N=5 appears repeatedly in this repo: IBM Torino had 5-qubit chains, SACRIFICE_GEOMETRY centers on N=5, the V-Effect analysis used N=5, the 14-fold degeneracy appears at N=5. Tom's observation: "N=5 hat sich schon oefters als perfekt gezeigt." Is this pattern recognition finding real structure, or selection bias from repeated use?
+N=5 appears repeatedly in this repo: IBM Torino had 5-qubit chains, CONCENTRATOR_GEOMETRY centers on N=5, the V-Effect analysis used N=5, the 14-fold degeneracy appears at N=5. Tom's observation: "N=5 hat sich schon oefters als perfekt gezeigt." Is this pattern recognition finding real structure, or selection bias from repeated use?
 
 ## The table (N=3-8, uniform chain, γ = 0.1)
 
@@ -40,7 +40,7 @@ N=8 max multiplicity and frac distinct are not available (would require full 655
 
 **N=5 is not structurally special.** None of the five tabulated metrics shows N=5 as an extremum or inflection point (the sixth, palindromic pairs, is constant at 100%). Every metric either increases or decreases monotonically with N, or oscillates without a consistent N=5 peak.
 
-The repeated appearance of N=5 in this repo is **selection bias**: the IBM Torino chain happened to have 5 qubits, so N=5 became the testbed. Once N=5 was the testbed, all subsequent experiments (SACRIFICE_GEOMETRY, CUSP_LENS_CONNECTION, boundary straddling) used N=5 as the reference. The physics at N=5 is representative of the general N trend, not an outlier.
+The repeated appearance of N=5 in this repo is **selection bias**: the IBM Torino chain happened to have 5 qubits, so N=5 became the testbed. Once N=5 was the testbed, all subsequent experiments (CONCENTRATOR_GEOMETRY, CUSP_LENS_CONNECTION, boundary straddling) used N=5 as the reference. The physics at N=5 is representative of the general N trend, not an outlier.
 
 This is a useful negative result: it means the repo's findings generalize to other N without needing special-case analysis.
 
@@ -50,7 +50,7 @@ This is a useful negative result: it means the repo's findings generalize to oth
 
 - `simulations/three_values.py` (Track C: N-scaling computation)
 - `simulations/results/values_investigations/three_values_results.json` (raw data)
-- [Sacrifice Geometry](SACRIFICE_GEOMETRY.md) (SE slow-mode rate data)
+- [Concentrator Geometry](CONCENTRATOR_GEOMETRY.md) (SE slow-mode rate data)
 - [Symmetry Census](SYMMETRY_CENSUS.md) (sector dimension formula)
 
 ---

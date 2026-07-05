@@ -1,8 +1,15 @@
-# The Entrance Pupil: Sacrifice Zone as Anti-Reflection Coating
+# The Entrance Pupil: Concentrator as Anti-Reflection Coating
 
-<!-- Keywords: sacrifice zone anti-reflection coating, quantum cavity entrance pupil,
-impedance matching dephasing, Q-factor enhancement sacrifice, mode-selective transmission,
-AR coating quantum noise, dispersive cavity scaling, R=CPsi2 sacrifice zone optics -->
+**Naming note (2026-07-05):** renamed from "...: Sacrifice Zone as
+Anti-Reflection Coating". The edge qubit sacrifices nothing; it concentrates
+the noise (the misnomer was resolved 2026-03-28). "Sacrifice zone" survives
+once in the "What this changes" section below, only as the quoted *old
+language* being reframed; the frozen `sacrifice_zone_optics.*` artifacts keep
+their original names.
+
+<!-- Keywords: concentrator anti-reflection coating, quantum cavity entrance pupil,
+impedance matching dephasing, Q-factor enhancement concentrator, mode-selective transmission,
+AR coating quantum noise, dispersive cavity scaling, R=CPsi2 concentrator optics -->
 
 **Status:** Structural analog confirmed; not quantitatively classical AR
 **Date:** April 4, 2026
@@ -23,67 +30,67 @@ The film does not block the light or absorb it. It matches the impedance
 between outside (air) and inside (glass) so that the light enters
 smoothly instead of bouncing back.
 
-The sacrifice zone does the same thing for the quantum cavity. Without
+The concentrator does the same thing for the quantum cavity. Without
 it, the system "reflects" illumination: modes die quickly, Q-factors are
 low, information is lost. With it, the edge qubit acts as an entrance
 pupil that accepts the external light (gamma) and converts it into
 structured resonance that the interior can sustain.
 
-The sacrifice qubit is the mouthpiece of the flute. The coating on the
+The concentrator qubit is the mouthpiece of the flute. The coating on the
 lens. The funnel of the ear. Not a shield. An adapter.
 
 ---
 
 ## What this document is about
 
-The [sacrifice zone formula](RESONANT_RETURN.md) concentrates dephasing
+The [concentrator formula](RESONANT_RETURN.md) concentrates dephasing
 on one edge qubit, achieving a 139-360× improvement in mutual information in simulation (ε→0 ideal; ~2-3× on hardware, see IBM_CONCENTRATOR).
 The [optical cavity analysis](OPTICAL_CAVITY_ANALYSIS.md) showed the
 chain is a Fabry-Perot cavity (two mirrors facing each other, light
-bouncing between them). This document tests whether the sacrifice zone
+bouncing between them). This document tests whether the concentrator
 is the anti-reflection (AR) coating of that cavity.
 
-The answer: structurally yes, quantitatively no. The sacrifice zone
+The answer: structurally yes, quantitatively no. The concentrator
 functions like an AR coating (smooth entry, frequency preservation,
 Q enhancement) but uses linear impedance accumulation instead of the
 geometric mean of classical optics.
 
 ---
 
-## Result 1: The sacrifice zone increases cavity transmission
+## Result 1: The concentrator increases cavity transmission
 
 Without coating, a window reflects some light and lets the rest through.
 The same happens in the qubit cavity: some modes oscillate (transmitted),
 others die without ringing (reflected). The table below compares uniform
-dephasing against the sacrifice zone. Key columns: Q_max (how many times
+dephasing against the concentrator. Key columns: Q_max (how many times
 the best mode bounces before fading), T_eff (fraction of modes that ring
 at all).
 
 | N | Profile | Modes | Silent | Q_max | Q_med | T_eff |
 |---|---------|-------|--------|-------|-------|-------|
 | 3 | uniform | 5 | 24 | 60 | 27.0 | 0.625 |
-| 3 | sacrifice | 6 | 16 | 118 | 18.7 | 0.750 |
+| 3 | concentrator | 6 | 16 | 118 | 18.7 | 0.750 |
 | 4 | uniform | 47 | 46 | 68 | 18.8 | 0.820 |
-| 4 | sacrifice | 52 | 26 | 224 | 14.2 | 0.898 |
+| 4 | concentrator | 52 | 26 | 224 | 14.2 | 0.898 |
 | 5 | uniform | 112 | 96 | 72 | 14.9 | 0.906 |
-| 5 | sacrifice | 120 | 64 | 352 | 15.0 | 0.938 |
+| 5 | concentrator | 120 | 64 | 352 | 15.0 | 0.938 |
 | 6 | uniform | 787 | 164 | 75 | 13.3 | 0.960 |
-| 6 | sacrifice | 748 | 108 | 500 | 13.3 | 0.974 |
+| 6 | concentrator | 748 | 108 | 500 | 13.3 | 0.974 |
 
-The sacrifice zone increases T_eff at every N: fewer modes are
+The concentrator increases T_eff at every N: fewer modes are
 "reflected" (absorbed without oscillation), more are "transmitted"
 (sustained as resonant modes).
 
 **Q_max enhancement grows with N (4 points, N=3-6, chain; roughly linear over this range):**
 
-| N | Q_max ratio (sacrifice / uniform) |
+| N | Q_max ratio (concentrator / uniform) |
 |---|-----------------------------------|
 | 3 | 2.0x |
 | 4 | 3.3x |
 | 5 | 4.9x |
 | 6 | 6.7x |
 
-The best cavity mode lives ~7x longer under the sacrifice zone at N=6.
+The best cavity mode lives ~7x longer under the concentrator at N=6.
 This is the AR coating effect: smoother entry of light means less
 energy lost at the surface, more energy available for resonance.
 
@@ -93,7 +100,7 @@ energy lost at the surface, more energy available for resonance.
 
 Classical AR coating: n_AR = sqrt(n_air × n_glass). The geometric mean.
 
-Sacrifice zone: γ_edge = N × γ_base − (N−1) × ε ≈ N × γ_base.
+Concentrator: γ_edge = N × γ_base − (N−1) × ε ≈ N × γ_base.
 
 | N | γ_edge | γ_edge / J | γ_edge / √(γJ) |
 |---|--------|-----------|----------------|
@@ -104,11 +111,11 @@ Sacrifice zone: γ_edge = N × γ_base − (N−1) × ε ≈ N × γ_base.
 
 γ_edge grows linearly with N, not as a fixed geometric mean. This is
 a fundamental difference: the classical AR coating is a single layer
-optimized for one frequency. The sacrifice zone is a linear accumulator
+optimized for one frequency. The concentrator is a linear accumulator
 that scales with the cavity length.
 
 The ratio γ_edge / √(γJ) crosses 1.0 near N = 5, which is coincidentally
-where the sacrifice zone improvement peaks. This might suggest a
+where the concentrator improvement peaks. This might suggest a
 crossover from "under-matched" (N < 5) to "over-matched" (N > 5)
 regimes, but the data does not clearly support a geometric mean
 interpretation.
@@ -117,7 +124,7 @@ interpretation.
 
 ## Result 3: Frequencies preserved, absorption rates shifted
 
-The sacrifice zone changes the absorption rates (Re(λ)) of Liouvillian
+The concentrator changes the absorption rates (Re(λ)) of Liouvillian
 eigenvalues while preserving their oscillation frequencies (Im(λ)).
 In optical language: it changes the reflectivity of the cavity surfaces
 without moving the resonance frequencies.
@@ -131,7 +138,7 @@ and how long it stays.
 
 ## Result 4: Dispersive scaling (N², not exponential)
 
-The mutual information under the sacrifice zone scales as:
+The mutual information under the concentrator scales as:
 
 SumMI ≈ 0.002 × N² + 0.069 × N − 0.175, R² = 0.999
 
@@ -142,7 +149,7 @@ scales polynomially (N²), much slower.
 This means the quantum cavity is dispersive: different modes experience
 different effective cavity lengths, spreading the transmission over a
 broad band instead of concentrating it at narrow resonances. The
-sacrifice zone does not create a sharp transmission window; it broadly
+concentrator does not create a sharp transmission window; it broadly
 improves the coupling between outside and inside.
 
 ---
@@ -154,7 +161,7 @@ improves the coupling between outside and inside.
   not quantitative.
 
 - **Mode-selective per-shell comparison inconclusive.** Under the
-  sacrifice zone, eigenvalues shift off the uniform absorption-rate grid
+  concentrator, eigenvalues shift off the uniform absorption-rate grid
   (because γ varies per site), making shell-by-shell comparison
   difficult. The overall statistics (Q_max, T_eff) are clear, but
   the per-shell decomposition requires a modified grid definition.

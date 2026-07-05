@@ -21,9 +21,9 @@ CUSP_LENS_CONNECTION.md).
 
 Slow mode extraction uses the SE-restricted Liouvillian (w=1,w=1 block,
 N^2 x N^2). The slow mode has SE fraction = 1.000 for N=3-7 chain
-(SACRIFICE_GEOMETRY.md), so this is exact.
+(CONCENTRATOR_GEOMETRY.md), so this is exact.
 
-Addresses OQ-114 (CUSP_LENS_CONNECTION.md) and SACRIFICE_GEOMETRY.md OQ#2.
+Addresses OQ-114 (CUSP_LENS_CONNECTION.md) and CONCENTRATOR_GEOMETRY.md OQ#2.
 
 Authors: Thomas Wicht, Claude (Opus 4.6)
 Date: April 12, 2026
@@ -520,7 +520,7 @@ def save_all(all_results, all_meta):
                 f"families reaches\n"
                 f"lens-accessibility above {LENS_THRESHOLD * 100:.0f}% "
                 f"overlap. Combined with the symmetric-case\n"
-                f"exclusion (SACRIFICE_GEOMETRY Level 2 line 112), this "
+                f"exclusion (CONCENTRATOR_GEOMETRY Level 2 line 112), this "
                 f"substantially\n"
                 f"resolves OQ-114 with negative evidence for the "
                 f"two-excitation candidate\n"
@@ -592,7 +592,7 @@ def save_all(all_results, all_meta):
 # ===================================================================
 if __name__ == "__main__":
     print("Boundary Straddling Sweep")
-    print("Addresses OQ-114 + SACRIFICE_GEOMETRY OQ#2")
+    print("Addresses OQ-114 + CONCENTRATOR_GEOMETRY OQ#2")
     print("Method: sector-restricted Liouvillian (exact)")
     print("=" * 70)
 

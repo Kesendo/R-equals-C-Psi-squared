@@ -4,7 +4,7 @@
 
 **Scripts:** `simulations/psi_opt_cusp_trajectory.py`
 
-**Related:** [Sacrifice Geometry](SACRIFICE_GEOMETRY.md) (lens exit), [Critical Slowing at the Cusp](CRITICAL_SLOWING_AT_THE_CUSP.md) (cusp exit), [n_XY Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) (formal proof)
+**Related:** [Concentrator Geometry](CONCENTRATOR_GEOMETRY.md) (lens exit), [Critical Slowing at the Cusp](CRITICAL_SLOWING_AT_THE_CUSP.md) (cusp exit), [n_XY Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) (formal proof)
 
 **Authors:** Thomas Wicht, Claude (Opus 4.6)
 
@@ -72,7 +72,7 @@ The sector conservation theorem guarantees that no continuous Lindblad trajector
 
 **The correct observable** is c_slow = Tr(L_slow^dag rho_0), where L_slow is the LEFT eigenoperator of the slow Liouvillian mode. This gives the biorthogonal decomposition coefficient: rho(t) = sum c_lambda R_lambda exp(lambda t), c_lambda = Tr(L_lambda^dag rho_0). See derivation in `simulations/boundary_straddling_sweep_v2.py`.
 
-**Why the Bell pair does not appear in c_slow.** The Liouvillian is block-diagonal by excitation-number sector pair (w_bra, w_ket). The slow mode lives entirely in the (w=1,w=1) block (SE fraction = 1.000 for N=3-7 chain, SACRIFICE_GEOMETRY.md). Both right AND left eigenoperators respect this block structure (PROOF_PARITY_SELECTION_RULE.md Part 4). For candidate state |psi> = cos(theta)|e_k> + sin(theta)|f_{c1,c2,k}>, the SE block of rho_0 is cos^2(theta)|e_k><e_k|, which depends only on theta and k. The Bell pair information lives in the cross-sector (w=1,w=3) coherences, which L_slow cannot see.
+**Why the Bell pair does not appear in c_slow.** The Liouvillian is block-diagonal by excitation-number sector pair (w_bra, w_ket). The slow mode lives entirely in the (w=1,w=1) block (SE fraction = 1.000 for N=3-7 chain, CONCENTRATOR_GEOMETRY.md). Both right AND left eigenoperators respect this block structure (PROOF_PARITY_SELECTION_RULE.md Part 4). For candidate state |psi> = cos(theta)|e_k> + sin(theta)|f_{c1,c2,k}>, the SE block of rho_0 is cos^2(theta)|e_k><e_k|, which depends only on theta and k. The Bell pair information lives in the cross-sector (w=1,w=3) coherences, which L_slow cannot see.
 
 **Sanity checks** (N=5 IBM chain):
 - psi_opt: normalized overlap = 1.001. PASSED (expected 1.0).
@@ -120,7 +120,7 @@ Script: `simulations/boundary_straddling_sweep_v2.py`. Data: `simulations/result
 
 ## Boundary test: non-symmetric two-excitation states
 
-**Motivation.** OQ-114 below asked whether a state with both high CΨ on one pair and slow-mode overlap could straddle the two exits. SACRIFICE_GEOMETRY.md Open Question #2 asked the same from the opposite direction: can a multi-excitation state reach the slow mode? This section answers both.
+**Motivation.** OQ-114 below asked whether a state with both high CΨ on one pair and slow-mode overlap could straddle the two exits. CONCENTRATOR_GEOMETRY.md Open Question #2 asked the same from the opposite direction: can a multi-excitation state reach the slow mode? This section answers both.
 
 **Candidates.** Three families of non-symmetric two-excitation states were tested: (A) Bell+ on the central pair plus a displaced excitation on each spectator site, (B) Bell+ on off-center pairs plus displaced excitation at the most asymmetric sites, and (C) tuned concurrence (cos θ |00> + sin θ |11>) plus displaced excitation (N >= 6, θ in {π/6, π/4, π/3}). Total: 53 candidates across N=5, 6, 7.
 
@@ -140,11 +140,11 @@ Script: `simulations/boundary_straddling_sweep_v2.py`. Data: `simulations/result
 
 All 53 candidates are cusp-active (the Bell pair ensures CΨ(0) > 1/4 on at least one pair). Five candidates straddle both exits, all with the displaced excitation on the quiet end of the sacrifice chain. No lens-only candidates exist.
 
-**Mechanism.** The slow mode concentrates on quiet qubits (the lens shape, see [Sacrifice Geometry](SACRIFICE_GEOMETRY.md)). When the displaced excitation is placed on a quiet site, the w=1 component of the density matrix has its excitation there, overlapping the slow mode's SE block. The overlap is modest (10-13%) because only the w=1 sector contributes; the w=3 sector has negligible projection onto the SE-dominated slow mode.
+**Mechanism.** The slow mode concentrates on quiet qubits (the lens shape, see [Concentrator Geometry](CONCENTRATOR_GEOMETRY.md)). When the displaced excitation is placed on a quiet site, the w=1 component of the density matrix has its excitation there, overlapping the slow mode's SE block. The overlap is modest (10-13%) because only the w=1 sector contributes; the w=3 sector has negligible projection onto the SE-dominated slow mode.
 
 **N-scaling.** The overlap decreases with N: 0.126 (N=5), 0.117 (N=6), 0.090 (N=7). At N=7, no candidate reaches the 10% threshold. This dilution occurs because the slow mode's per-site weight spreads across more qubits as N grows, reducing the single-site projection.
 
-**Conclusion.** Boundary states that straddle both decoherence exits exist at small N (5, 6) but the straddling is marginal (12.6% at best) and vanishes by N=7. The two-exit separation is not absolute for small chains but becomes robust as N grows. Combined with the symmetric-two-excitation exclusion (SACRIFICE_GEOMETRY Level 2, AUC < 0.09), the two-excitation candidate class is substantially exhausted.
+**Conclusion.** Boundary states that straddle both decoherence exits exist at small N (5, 6) but the straddling is marginal (12.6% at best) and vanishes by N=7. The two-exit separation is not absolute for small chains but becomes robust as N grows. Combined with the symmetric-two-excitation exclusion (CONCENTRATOR_GEOMETRY Level 2, AUC < 0.09), the two-excitation candidate class is substantially exhausted.
 
 Script: `simulations/boundary_straddling_sweep.py`. Data: `simulations/results/boundary_straddling/`.
 
@@ -248,6 +248,6 @@ This is the analytical closure of the two-exit picture. It does not depend on an
 - `simulations/results/psi_opt_cusp/trajectories.json` (raw data)
 - `simulations/results/psi_opt_cusp/trajectories.png` (plot)
 - `simulations/results/psi_opt_cusp/crossings.json` (crossing analysis)
-- [Sacrifice Geometry](SACRIFICE_GEOMETRY.md) (lens exit details)
+- [Concentrator Geometry](CONCENTRATOR_GEOMETRY.md) (lens exit details)
 - [Critical Slowing at the Cusp](CRITICAL_SLOWING_AT_THE_CUSP.md) (cusp exit details)
 - [n_XY Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) (formal proof of sector conservation)

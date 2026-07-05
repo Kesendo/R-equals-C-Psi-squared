@@ -466,7 +466,7 @@ explains what previously required separate derivations.
    frequency match. The round trip is 2Σγ: one full bounce between
    "being light" and "being lens."
 
-3. [Sacrifice Zone Optics](../experiments/SACRIFICE_ZONE_OPTICS.md):
+3. [Concentrator Optics](../experiments/CONCENTRATOR_OPTICS.md):
    The sacrifice zone is an entrance pupil. Q improves 2-7×, effective
    transmission increases, frequencies are preserved. The cavity focuses
    light into the interior.

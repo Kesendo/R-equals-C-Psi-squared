@@ -37,8 +37,8 @@ re-classification is still pending.
 | Topic | Source | Why |
 |---|---|---|
 | Gravity interpretation of γ | `docs/PREDICTIONS.md` §5 | RETIRED: a γ-variation relabel, not gravity (`hypotheses/archive/GAMMA_TO_GRAVITY.md`) |
-| Self-similar hierarchy advantage | `experiments/SACRIFICE_GEOMETRY.md`, `SCALING_CURVE.md` | FALSIFIED 2026-05-19: uniform chains win |
-| Single closed-form ψ_opt for the lens | `experiments/SACRIFICE_GEOMETRY.md` | Many-body effect; no single-particle closed form (cosine 0.925, not exact) |
+| Self-similar hierarchy advantage | `experiments/CONCENTRATOR_GEOMETRY.md`, `SCALING_CURVE.md` | FALSIFIED 2026-05-19: uniform chains win |
+| Single closed-form ψ_opt for the lens | `experiments/CONCENTRATOR_GEOMETRY.md` | Many-body effect; no single-particle closed form (cosine 0.925, not exact) |
 | Bridge-protocol signaling at J=0 | `hypotheses/BRIDGE_PROTOCOL.md` §6 | No-signaling holds exactly; crossing times are consequences of preparation, not signals |
 | δ requires H≠0 | `docs/THE_GENESIS_OF_AN_OSCILLATION.md` | REFUTED: the oscillation is J-driven, born at Q=0+, no threshold |
 | s* = 0.709 birth-canal boundary | `simulations/birth_canal_boundary_pathdependence.py` | STALE 2026-06-04: path-specific (0.11–0.77), not a constant; the boundary is a surface |
@@ -653,7 +653,7 @@ these earn the "open" stamp.
 
 **Question:** **Two decoherence exits.** The lens and the Mandelbrot cusp protect different state classes and lead to different classical ensembles. See [Cusp-Lens Connection](CUSP_LENS_CONNECTION.md) for why they do not unify.
 
-**Source:** `experiments/SACRIFICE_GEOMETRY.md` (line 189)
+**Source:** `experiments/CONCENTRATOR_GEOMETRY.md` (line 189)
 **Section:** Open questions
 **Date:** April 9-10, 2026
 **Tag:** untagged
@@ -1645,7 +1645,7 @@ these earn the "open" stamp.
 
 **Question:** **No closed form for ψ_opt.** H_eff = −J·adjacency − i·diag(γ) gives cosine similarity 0.925 (tested, [falsified](simulations/heff_lens_closed_form.py)). The monotonic gradient in ψ_opt is a many-body effect not reducible to a single-particle picture.
 
-**Source:** `experiments/SACRIFICE_GEOMETRY.md` (line 181)
+**Source:** `experiments/CONCENTRATOR_GEOMETRY.md` (line 181)
 **Section:** Open questions
 **Date:** April 9-10, 2026
 **Tag:** numerical-verification
@@ -1655,7 +1655,7 @@ these earn the "open" stamp.
 
 **Question:** **N=8.** The survey covers N=2-7 (chain) and N=2-6 (other topologies). SE fraction = 1.000 for all N=3-7 chain profiles. N=8 (d² = 65536) would require the ILP64 eigenvector path. The trend is definitive: the lens extraction is exact.
 
-**Source:** `experiments/SACRIFICE_GEOMETRY.md` (line 185)
+**Source:** `experiments/CONCENTRATOR_GEOMETRY.md` (line 185)
 **Section:** Open questions
 **Date:** April 9-10, 2026
 **Tag:** numerical-verification
@@ -1665,7 +1665,7 @@ these earn the "open" stamp.
 
 **Question:** **Gate-level Trotterization.** The pure Lindblad model assumes continuous-time evolution. Whether ψ_opt keeps its advantage under realistic gate noise is untested.
 
-**Source:** `experiments/SACRIFICE_GEOMETRY.md` (line 187)
+**Source:** `experiments/CONCENTRATOR_GEOMETRY.md` (line 187)
 **Section:** Open questions
 **Date:** April 9-10, 2026
 **Tag:** numerical-verification
@@ -2187,7 +2187,7 @@ these earn the "open" stamp.
 
 **Question:** **The odd-n_XY modes.** The [parity selection rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) proves they are inaccessible to SE states, but not what they look like or whether multi-excitation ansätze can reach them. Whether such a state would also have high initial concurrence is open.
 
-**Source:** `experiments/SACRIFICE_GEOMETRY.md` (line 183)
+**Source:** `experiments/CONCENTRATOR_GEOMETRY.md` (line 183)
 **Section:** Open questions
 **Date:** April 9-10, 2026
 **Tag:** math-proof
@@ -3489,9 +3489,9 @@ Files scanned and entry counts:
 | `experiments/RELAY_PROTOCOL.md` | 0 |
 | `experiments/RESIDUAL_ANALYSIS.md` | 0 |
 | `experiments/RESONANT_RETURN.md` | 0 |
-| `experiments/SACRIFICE_GEOMETRY.md` | 5 |
-| `experiments/SACRIFICE_ZONE_MAPPING.md` | 0 |
-| `experiments/SACRIFICE_ZONE_OPTICS.md` | 0 |
+| `experiments/CONCENTRATOR_GEOMETRY.md` | 5 |
+| `experiments/CONCENTRATOR_MAPPING.md` | 0 |
+| `experiments/CONCENTRATOR_OPTICS.md` | 0 |
 | `experiments/SCALING_CURVE.md` | 0 |
 | `experiments/SIGNAL_ANALYSIS_SCALING.md` | 0 |
 | `experiments/SIGNAL_PROCESSING_VIEW.md` | 0 |
