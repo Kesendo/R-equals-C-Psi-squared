@@ -335,14 +335,21 @@ advantage without a sink, third consistent reading); the transport signature
 repeats a third time (largest sink-created MI at the far pair: 0.050/0.080
 at (3,4), t = 3).
 
-**The two runs together map the dose curve's two ends, as pre-registered:**
-the ceiling dose creates early and destroys at depth (run 1, INCONCLUSIVE
-with structure); the γ₀ dose, the dose the concentrator formula itself
+**The two runs together map the dose curve's two ends, as pre-registered,
+and the curve's right name is an EXPOSURE curve (Tom's third catch, same
+evening: "Gamma zerstört doch nicht; wenn es eines macht, dann vielleicht
+überbelichten"):** γ is the light, and it destroys nothing. No sink means
+no illumination contrast, and a contrast-free scene records no image (the
+fixed-point theorem, photographically). The γ₀ dose is the correct
+exposure: the image accumulates monotonically and persists through the
+window (run 2, confirmed on both layouts). The ceiling dose is
+OVERexposure: r = 0 per step is a full re-exposure of the edge every step;
+the image forms early and then washes out at depth (run 1's crossover),
+saturation, not destruction. "Injected noise only removes signal" is
+refuted at both doses; the concentrator mechanism is live, engineerable,
+and EXPOSURE-CONTROLLED on hardware, at the dose the formula itself
 prescribes (γ_edge = N·γ_base with the hardware-anchored carrier γ₀, not
-the machine rates), creates monotonically and PERSISTS through the whole
-window (run 2, confirmed on both layouts). "Injected noise only removes
-signal" is refuted at both doses; the concentrator mechanism is live,
-engineerable, and DOSE-CONTROLLED on hardware. Scope carried over from the
+the machine rates). Scope carried over from the
 run-1 rules: this confirms B as sufficient and engineerable; it does not
 retroactively prove March WAS B. Next steps (named): the empty-session pass
 on both RECORDs; a Confirmations-registry entry for the γ₀-dose run after
