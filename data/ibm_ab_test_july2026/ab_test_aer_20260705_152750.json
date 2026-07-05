@@ -1,0 +1,134 @@
+{
+  "experiment": "concentrator_ab_test",
+  "mode": "aer_parity",
+  "date": "20260705_152750",
+  "seed": 20260705,
+  "n_boot": 200,
+  "rows": [
+    "no_dd",
+    "uniform_dd",
+    "selective_dd",
+    "sink_phi0",
+    "sink_real_phi"
+  ],
+  "parity_rows": [
+    "no_dd",
+    "uniform_dd",
+    "selective_dd",
+    "sink_phi0"
+  ],
+  "time_points": [
+    1.0,
+    2.0,
+    3.0,
+    4.0,
+    5.0
+  ],
+  "sum_mi": {
+    "no_dd": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "uniform_dd": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "selective_dd": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "sink_phi0": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "sink_real_phi": [
+      0.38927232415289936,
+      0.4964015998483502,
+      0.24618213142471235,
+      0.31589395321562175,
+      0.1407788125074032
+    ]
+  },
+  "boot_std": {
+    "no_dd": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "uniform_dd": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "selective_dd": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "sink_phi0": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "sink_real_phi": [
+      0.03980611143848858,
+      0.02889998809306842,
+      0.01579118343728264,
+      0.015608143700433407,
+      0.010469068575042558
+    ]
+  },
+  "spreads": [
+    {
+      "t": 1.0,
+      "spread": 0.0,
+      "threshold": 0.0,
+      "pass": true
+    },
+    {
+      "t": 2.0,
+      "spread": 0.0,
+      "threshold": 0.0,
+      "pass": true
+    },
+    {
+      "t": 3.0,
+      "spread": 0.0,
+      "threshold": 0.0,
+      "pass": true
+    },
+    {
+      "t": 4.0,
+      "spread": 0.0,
+      "threshold": 0.0,
+      "pass": true
+    },
+    {
+      "t": 5.0,
+      "spread": 0.0,
+      "threshold": 0.0,
+      "pass": true
+    }
+  ],
+  "parity_pass": true
+}

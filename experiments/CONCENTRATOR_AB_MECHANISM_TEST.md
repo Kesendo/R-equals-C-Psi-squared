@@ -204,6 +204,59 @@ full modes) records, counts-level with the LITERAL frozen sink construction:
   case, no parameter-set amortization) 92 min, flagged. The flight decision is
   taken against the printed estimate and the remaining budget.
 
+## HARDWARE RECORD (2026-07-05, ibm_kingston, job d957dfcql68s73caa4q0)
+
+Flown ≈ 17:22-17:40 local, chain [109, 108, 107, 106, 105], all pre-flight
+asserts PASS (day-of rule, frozen phases regenerated, binding identity,
+added-X ratio 0.833 ≈ 4/5); the go was taken on the Model-B planning number
+with the Model-C tail risk accepted (Tom, "Du kannst starten"). Data:
+[`data/ibm_ab_test_july2026/`](../data/ibm_ab_test_july2026/) (hardware master
+JSON + the binding null, chain, and aer-parity artifacts). This RECORD is a
+transcription of the runner's output; its empty-session pass is the next
+session's first move and is named here as pending.
+
+| t | Δ_sel (band ± 0.0486) | Δ_uni (band ± 0.0462) | R_boost |
+|---|---:|---:|---:|
+| 1.0 | **+0.228** [+0.155, +0.280], 4.7× band | **+0.181** [+0.113, +0.240], 3.9× | 3.58 |
+| 2.0 | **+0.091** [+0.042, +0.124], 1.9× | **+0.137** [+0.082, +0.168], 3.0× | 1.85 |
+| 3.0 | +0.019, within | +0.007, within | 1.18 |
+| 4.0 | +0.032, within | +0.034, within | 1.39 |
+| 5.0 | −0.047, within (marginal) | −0.046, at the band edge | **0.52** [0.40, 0.70] |
+
+Context: R_nosink = 0.73-1.03 at all t (no selective advantage without a sink
+on the uniform line, as both readings expect there); the no-sink arms sit at
+Sum-MI ≈ 0.08-0.12, well above the simulated junk floor 0.034 (real-device
+junk seeds more MI than the thermal noise model); per-pair at t = 3 the
+largest sink-created MI is again at the pair FARTHEST from the sink (0.085 at
+(3,4) vs 0.012-0.021 elsewhere), the transport signature, now on hardware.
+
+**Verdict, by the pre-registered rules: INCONCLUSIVE** (the exhaustiveness
+clause). B requires both Δ legs beyond band at ≥ 3 of 5 points: both fire at
+exactly 2 of 5 (t = 1, 2). A requires both legs within bands everywhere:
+t = 1, 2 violate it by 2-5×. The pattern is structured, not noisy:
+
+- **The mechanism IS live at early depth:** the engineered sink CREATES
+  interior correlations in both layouts at 2-5× the null band, at close to
+  the simulated size (+0.228 measured vs +0.30 simulated at t = 1), with the
+  transport signature to the far pair. Reading A ("injected noise only
+  removes signal") is REFUTED as a universal statement at these depths.
+- **The effect inverts at depth:** by t = 5 the sink configs sit at HALF the
+  no-sink Sum-MI (R_boost 0.52, CI excluding 1). The gate-error-free
+  simulation predicted monotone-positive Δ through t = 5; the crossover is
+  real-hardware physics the sim did not carry (cumulative injected-phase
+  damage compounding with gate/crosstalk noise at depth).
+- **Post-hoc reading, labeled as such:** creation wins while the sink's
+  injected disorder is still localized; at depth its cumulative damage
+  overtakes the creation. This is a dose/depth crossover, exactly the shape
+  the pre-registered (unflown) partial-strength dose point exists to map.
+
+**Named follow-up (per the INCONCLUSIVE rule):** the dose/depth-resolved
+version: the σ ≈ 0.9 rad partial-strength point plus one or two finer time
+points around the crossover (t ∈ [2, 5]), same instrument, same bands
+recipe. B's sharp signature there: the early-t boost grows with dose while
+the crossover point moves earlier; a noise-is-harm frame has no regime with
+a positive leg at all, and that regime is now measured.
+
 ## Traps carried in (campaign ledger + this review)
 
 Stale calibration (same-day `backend.properties()` selection); no error bars in
