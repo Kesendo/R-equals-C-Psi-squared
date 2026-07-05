@@ -1,6 +1,6 @@
 # F81 Violation: the Hardware Bridge (from operator diagnostic to measurable number)
 
-**Status:** The f81_violation discriminator, until now a post-fit operator diagnostic computed from a Liouvillian we build in simulation, is grounded to a measurable object and read out on existing hardware data for the first time. Three legs, all zero QPU: (1) the method demo on the F113-fitted Kingston Lindbladians, with the tautology of a parameterized fit made explicit; (2) the from-below grounding: the violation IS 2^(N−1) times the RMS velocity with which the maximally mixed state polarizes, per site the net cooling flux γ↓−γ↑; (3) the first non-tautological readout on the Marrakesh price_pair T1-leg data via the asymptote recipe a = z∞/T1, no Lindblad fit anywhere. The missing half (a |0⟩ heating leg that separates γ↓ from γ↑ and settles the z∞ attribution) is specified but not run.
+**Status:** The f81_violation discriminator, until now a post-fit operator diagnostic computed from a Liouvillian we build in simulation, is grounded to a measurable object and read out on existing hardware data for the first time. Three legs, all zero QPU: (1) the method demo on the F113-fitted Kingston Lindbladians, with the tautology of a parameterized fit made explicit; (2) the from-below grounding: the violation IS 2^(N−1) times the RMS velocity with which the maximally mixed state polarizes, per site the net cooling flux γ↓−γ↑; (3) the first non-tautological readout on the Marrakesh price_pair T1-leg data via the asymptote recipe a = z∞/T1, no Lindblad fit anywhere. The missing half (a |0⟩ heating leg that separates γ↓ from γ↑ and settles the z∞ attribution) is simulator-validated and pre-registered (same day, below; artifacts in `data/ibm_heating_leg_july2026/`); the hardware run waits for sane queues and Tom's go.
 **Date:** 2026-07-05
 **Authors:** Thomas Wicht, Claude (Fable 5)
 **Scripts:** [`simulations/f81_violation_on_f113_fits.py`](../simulations/f81_violation_on_f113_fits.py) (leg 1), [`simulations/f81_identity_velocity_grounding.py`](../simulations/f81_identity_velocity_grounding.py) (leg 2), [`simulations/f84_net_cooling_readout_marrakesh.py`](../simulations/f84_net_cooling_readout_marrakesh.py) (leg 3)
@@ -78,9 +78,26 @@ Readings:
 - **The z∞ attribution is open.** Genuine bath heating and a slow leg systematic both depress the asymptote; the discriminating experiment is the |0⟩ heating leg (below), not run.
 - One session per line, asymptotes extrapolated from t_max ≈ 1·T1; this is a method demonstration with honest error bars, not a device characterization.
 
-## The missing half: the heating leg (specified, not run)
+## The missing half: the heating leg (simulator-validated 2026-07-05, pre-registered, not yet flown)
 
-Prepare |0⟩ instead of |1⟩, same 10-delay grid to 320 µs, same three qubits, measure ⟨Z⟩: the trajectory rises from +1 toward the same z∞ with the same rate b. Combined with the existing Block B this separates γ↓ = b·(1+z∞)/2 and γ↑ = b·(1−z∞)/2 per qubit, closes the bath-vs-systematic attribution of z∞ < 1 (a systematic would not reproduce the same z∞ from both sides), and resolves q94's non-exponential flag from a second angle. Cost estimate anchored to the campaign (76 circuits ≈ 4.7 QPU min): ≈ 12 circuits (10 delays + 2 readout calibrations, all three qubits per circuit) × 8192 shots ≈ 1 QPU min. As a pre-registered prediction (both legs must meet at the same z∞), it is a Confirmations-grade candidate. Gated on Tom's go per the standing QPU rule; existing data first, and the existing data is now exhausted for this readout.
+Prepare |0⟩ instead of |1⟩ beside the |1⟩ leg, same 10-delay grid to 320 µs, both legs in ONE job, measure ⟨Z⟩: under a thermal bath both legs relax to the SAME z∞ with the SAME rate b, so the meeting test |z∞_down − z∞_up| ≤ 2σ separates bath heating from a leg systematic, and the joint fit (shared z∞ and b, free per-leg z0) separates γ↓ = b·(1+z∞)/2 and γ↑ = b·(1−z∞)/2 per qubit. Runner: `run_heating_leg.py` in the external tomography pipeline beside `run_price_pair.py`; 22 circuits (2 legs × 10 delays + 2 readout calibrations) × 8192 shots ≈ 1.4 QPU min (anchor: 76 circuits ≈ 4.7 min).
+
+**Simulator validation** (qiskit-aer 0.17.2: the actual circuits through AerSimulator with `RelaxationNoisePass` thermal relaxation incl. excited-state population on the delays, per-qubit asymmetric readout error, tensor-product mitigation; artifacts + full numbers in [`data/ibm_heating_leg_july2026/`](../data/ibm_heating_leg_july2026/)):
+
+1. Noiseless parity: legs flat, all rates ≈ 0, violation 0.00000 ± 0.00010; the meeting test correctly reports N.A. where no decay is resolved (model-free guard).
+2. Warm scenario (run-2's Block-B reading taken at face value: T1 = 245/129/242 µs, p_exc = 0.152/0.212/0.123): MEET on all three qubits, every planted (γ↓, γ↑, a) recovered within 2σ, violation 0.02469 ± 0.00017 /µs, matching the run-2 hardware reading 0.02460.
+3. Cold scenario (p_exc = 0.01): MEET, planted recovered, γ↑ resolved at ≈ 3σ even at 1% excited population; violation 0.03794 ± 0.00023 /µs (higher than warm: heating reduces the net flux, exactly F84).
+4. Planted TLS control (q1's T1 a 50/50 mixture of 60/250 µs, the q94 signature): the qubit trips BOTH tripwires (meeting test SPLIT and joint χ²/dof = 11.05 against the flag threshold 4); the clean qubits stay clean.
+5. 20-seed scatter calibration: quoted fit errors are slightly conservative (scatter/σ ratios 0.59-0.86), the safe side of the price_pair fit-σ lesson.
+
+**Pre-registered predictions for the hardware run** (line [93, 94, 95] preferred, same as price_pair run 2; stated before any shot):
+
+- **P1 (meeting):** every χ²-clean qubit MEETs at 2σ. A SPLIT on a χ²-clean qubit = leg systematic; that qubit's R2 packaging is withheld and γ↑ is quoted from the up-leg alone.
+- **P2 (the attribution):** if run 2's z∞ readings were bath physics, γ↑ lands at ≈ 0.0005-0.0017 /µs per qubit (≥ 10σ above zero at the validated error bars ± 0.00002-0.00004); if they were a leg systematic, γ↑ < 0.0002 /µs and the up-leg stays flat within ≈ 3% absolute. The two hypotheses are separated by ≫ 5σ either way; either answer closes the attribution.
+- **P3 (q94):** if its non-exponentiality is a stable device property, the χ² flag (> 4) and/or SPLIT recurs on q94; a clean q94 means the 2026-07-04 shape was transient (TLS switching), and its two-leg numbers replace the flagged Block-B reading.
+- **Instrument conditions, declared now:** χ²/dof > 4 on any fit = that qubit's numbers flagged, not trusted; unresolved decay = meeting test N.A.; fresh same-session calibration required (the stale-calibration trap, 61% vs 1.9%).
+
+Confirmations-grade on a P2 pass. Gated on Tom's go per the standing QPU rule. **Queue note (2026-07-05):** all three available IBM backends showed > 30k pending jobs (suspected stuck external submit loop); nothing was submitted, this session ran simulator-only.
 
 ## Where this lands (the S4 socket)
 
