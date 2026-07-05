@@ -256,18 +256,56 @@ Maschinen-Gamma"):** the flown sink was the scramble CEILING (per-step
 retention r = 0, γ_sink → ∞), but the concentrator formula never asks for
 the ceiling; its optimum is FINITE, γ_edge = N·γ_base. Under Reading B an
 overdosed sink must do exactly what the hardware showed: create early,
-destroy at depth. The correct B-test flies AT the formula dose: convert via
-the mapping already recorded here (Gaussian per-step phases, r = e^{−σ²/2},
-γ_step = −ln r = σ²/2), so σ² = 2·N·(τ_step/T2_eff,interior) with τ_step
-read from the scheduled circuits and T2_eff the interior's DD-protected
-rate; on this chain that lands at σ ≈ 0.2-0.5 rad, an order below the
-ceiling and below the earlier σ ≈ 0.9 sketch. The dosed run's pre-registered
+destroy at depth. The correct B-test flies AT the formula dose, and Tom's
+second catch makes the dose MACHINE-FREE: the repo already measured γ₀ on
+IBM (the April chain experiment, `data/ibm_chain_gamma0_april2026/`, and the
+Confirmation `gamma0_off_the_lever_kingston_may2026`: critical damping
+exactly at J = γ₀, the typed `UniversalCarrierClaim.DefaultGammaZero`
+= 0.05). In the circuit's own J-units (the Trotter step carries
+J·dt = θ/2 = 0.5), the target is a PURE NUMBER: γ_edge = N·γ₀ = 0.25,
+γ_step = γ_edge·(J·dt) = 0.125, per-step retention
+**r* = e^{−0.125} = 0.8825**; the dose scale S is solved from the frozen
+construction's exact retention r(S) = r*. No T2, no τ_step, no machine
+gamma anywhere: the earlier T2-matched recipe in this paragraph's first
+draft was still the machine-gamma reading and is demoted to a secondary
+candidate (useful as the device-relative cross-point on the dose curve). The dosed run's pre-registered
 B-signature: the early-t boost PERSISTS to larger t (no crossover inside the
 window, or the crossover moves out as the dose drops toward the optimum),
 while the ceiling point (now measured) anchors the overdose end of the
 curve. Runner change needed: a σ parameter for the phase paths (the
 structured-quartet construction generalizes: quartet × scale). Same
 instrument otherwise, same bands recipe, ~13 QPU min.
+
+## RUN 2 pre-registration (2026-07-05, before the shot): the γ₀ dose
+
+Flies the sharpened follow-up immediately (Tom: "es ist Dein Run"). Same
+instrument, same chain file (day-of rule hard-abort protects), same binding
+null bands (the null binds φ⃗ = 0 and is dose-independent). The one change:
+**--dose-scale S = 0.270756**, solved so the frozen construction's exact
+per-step retention meets the γ₀ anchor: r(S) = 0.882497 = e^{−0.125},
+γ_step = N·γ₀·(J·dt) = 5 × 0.05 × 0.5 = 0.125000 exactly, machine-free
+(anchor: `UniversalCarrierClaim.DefaultGammaZero`, hardware-confirmed in
+`gamma0_off_the_lever_kingston_may2026` and `data/ibm_chain_gamma0_april2026/`).
+The runner's dose knob was validated: S = 1 reproduces the ceiling paths
+bit-exactly; the scaled retention table is recorded per (t, step); the mild
+per-t retention variation and the S≠1 wrap-induced loss of exact negation
+closure are recorded as informational (the pooled damping magnitude stays
+X-parity-invariant, which is what DD conjugation acts on).
+
+**Sim gate at the γ₀ dose (flight chain, seed 20260705):** Δ_sel =
++0.055 / +0.121 / +0.161 / +0.186 / **+0.191** at t = 1..5, monotonically
+GROWING through the window (the ceiling run crushed early and died; the dose
+accumulates), CIs exclude 0 at all five, clearing the binding band at
+t = 2-5 by 2.5-3.9× (t = 1 marginal at 1.1×); Δ_u similar (+0.047 to
++0.243).
+
+**Verdict rule (pre-registered):** B-dose-CONFIRMED (the persistence
+signature) if both Δ legs sit beyond the binding band at ≥ 3 of the returned
+time points AND neither leg is significantly negative anywhere in the
+window; the ceiling run's measured crossover anchors the overdose end of
+the dose curve, so this pair of runs maps the curve's two ends. A
+noise-is-harm frame has no positive regime at any dose. Anything else:
+INCONCLUSIVE (the exhaustiveness clause carries over verbatim).
 
 ## Traps carried in (campaign ledger + this review)
 
