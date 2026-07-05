@@ -13,7 +13,7 @@ Purpose: the protocol is the "missing half" of the f81 hardware bridge. The pric
 | File | Mode | Result |
 |------|------|--------|
 | `heating_leg_aer_parity_*.json` | actual circuits, noiseless Aer | legs flat at ±1; all rates ≈ 0; meeting test correctly reports N.A. (decay unresolved); violation 0.00000 ± 0.00010 |
-| `heating_leg_aer_warm_*.json` | thermal noise, warm scenario (run-2-like: T1 = 245/129/242 µs, p_exc = 0.152/0.212/0.123) | MEET on all 3 qubits; all planted (γ↓, γ↑, a) recovered within 2σ; violation 0.02469 ± 0.00017 /µs (the run-2 hardware reading was 0.02460) |
+| `heating_leg_aer_warm_*.json` | thermal noise, warm scenario (price_pair-run-2-like: T1 = 245/129/242 µs, p_exc = 0.152/0.212/0.123) | MEET on all 3 qubits; all planted (γ↓, γ↑, a) recovered within 2σ; violation 0.02469 ± 0.00017 /µs (the price_pair run-2 one-leg reading was 0.02460; NOT the heating-leg run 2 below) |
 | `heating_leg_aer_cold_*.json` | thermal noise, cold scenario (same T1/T2, p_exc = 0.01) | MEET on all 3; planted recovered within 2σ; 1% excited population separates γ↑ from zero at 1.6-3.2σ per qubit; violation 0.03794 ± 0.00023 /µs (higher than warm: heating reduces the net flux, F84) |
 | `heating_leg_aer_tls_*.json` | q1's T1 planted as a 50/50 mixture of 60/250 µs (the q94 signature) | q1 trips BOTH tripwires: meeting test SPLIT (+ joint χ²/dof = 11.05, flag threshold 4); q0/q2 stay clean (MEET, no flag) |
 | `heating_leg_seeds_*.json` | 20-seed scatter calibration, warm | seed-to-seed scatter of a vs mean fit σ: ratios 0.59/0.86/0.80, i.e. the quoted errors are slightly conservative (the safe side of the price_pair fit-σ lesson) |

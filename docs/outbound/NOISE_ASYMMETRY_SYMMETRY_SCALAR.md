@@ -182,7 +182,7 @@ level, which is also the statement's limit of validity (Section 6).
 
 ---
 
-## 4. The measured record (one device, pre-registered, honest)
+## 4. The measured record (two devices, pre-registered, honest)
 
 The scalar's input is a fitted generator, and fitted generators inherit their
 data's pathologies. We flew the minimal protocol on IBM ibm_kingston
@@ -250,8 +250,8 @@ is the cheap in-situ check when all you have is relaxometry.)
 tomography; the leg protocol reads the identity-velocity projection, which
 is the whole of V within the Pauli + σ± class of Section 6): the up leg
 reads the absorption side (the slope of ⟨Z⟩ from the ground state is −2Γ↑;
-in the flown run the up-leg asymptotes pinned the populations at 0.2-0.8%
-and the joint fit bounded Γ↑ ≤ 7·10⁻⁵ /µs at 8192 shots); the down leg
+in the first, Kingston run the up-leg asymptotes pinned the populations at
+0.2-0.8% and the joint fit bounded Γ↑ ≤ 7·10⁻⁵ /µs at 8192 shots); the down leg
 gives the total rate, taken fluctuation-robustly (the early-time rate or a
 pinned-asymptote mixture mean, not the free-asymptote single exponential);
 the net flux is Γ↓ − Γ↑, and V follows from the closed form. Run both legs
