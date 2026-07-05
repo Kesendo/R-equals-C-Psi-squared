@@ -22,7 +22,7 @@ public class ConfirmationsRegistryTests
     }
 
     [Fact]
-    public void All_HasTwentyOneEntries()
+    public void All_HasTwentyTwoEntries()
     {
         // Union discipline with simulations/framework/confirmations.py: both registries
         // hold the same set. Reconciled to 15 on 2026-06-08; ibm_ep_onset_may2026
@@ -30,8 +30,10 @@ public class ConfirmationsRegistryTests
         // f120_moment_tower_kingston_june2026 added to both on 2026-06-11 makes 17;
         // the three Torino calibration-era runs (Feb-Mar 2026) registered 2026-06-18
         // (front_matter_truth arc) make 20; price_pair_locality_marrakesh_july2026
-        // (the four-run F89d-price campaign, 2026-07-04) makes 21.
-        Assert.Equal(21, ConfirmationsRegistry.All.Count);
+        // (the four-run F89d-price campaign, 2026-07-04) makes 21;
+        // f84_heating_leg_attribution_kingston_july2026 (the two-leg cold-bath
+        // attribution, 2026-07-05) makes 22.
+        Assert.Equal(22, ConfirmationsRegistry.All.Count);
     }
 
     [Fact]
@@ -208,9 +210,11 @@ public class ConfirmationsRegistryTests
         // The three Torino runs (2026-06-18) carry single-qubit paths: q52 (×2) and q80.
         // price_pair_locality_marrakesh_july2026 (2026-07-04) is on Marrakesh [93,94,95]
         // (runs 2-4; run 1's [2,3,4] shares the campaign entry), making seventeen with paths.
+        // f84_heating_leg_attribution_kingston_july2026 (2026-07-05) is on Kingston
+        // [82,83,13], making eighteen with paths.
         int withPath = ConfirmationsRegistry.All.Count(c => c.QubitPath != null);
         int withoutPath = ConfirmationsRegistry.All.Count(c => c.QubitPath == null);
-        Assert.Equal(17, withPath);
+        Assert.Equal(18, withPath);
         Assert.Equal(4, withoutPath);
     }
 }

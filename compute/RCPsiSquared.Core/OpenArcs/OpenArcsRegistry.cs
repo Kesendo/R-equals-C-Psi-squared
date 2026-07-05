@@ -2433,16 +2433,20 @@ public static class OpenArcsRegistry
                 "three sisters; hand over in QNS objects: the unital-vs-non-unital one-scalar split, the " +
                 "spontaneous-emission/net-cooling rate, the relaxometry-with-asymptote recipe, the Marrakesh " +
                 "demo number; R2 reads the local sigma+- family = a lower bound, the free-form-fit route R1 " +
-                "stated honestly); (ii) FLY the heating leg: SIMULATOR-VALIDATED + PRE-REGISTERED 2026-07-05 " +
-                "(run_heating_leg.py in the external tomography pipeline beside run_price_pair.py; both legs " +
-                "|111>/|000> in one job, meeting test + joint gamma_down/gamma_up fit; validation all green: " +
-                "noiseless parity N.A.-guarded, warm/cold scenarios MEET + planted recovered within 2 sigma, " +
-                "planted-TLS control trips SPLIT + chi2 flag, 20-seed error calibration conservative; artifacts " +
-                "data/ibm_heating_leg_july2026/; pre-registration P1 meeting / P2 attribution separated >= 5 " +
-                "sigma either way / P3 q94 recurrence, bands + instrument conditions in the bridge doc; 22 " +
-                "circuits ~1.4 QPU min, Confirmations-grade on a P2 pass; 2026-07-05 all three backends showed " +
-                ">30k pending jobs, suspected stuck external submitter, NOTHING submitted, session was " +
-                "simulator-only; hardware needs sane queues + fresh same-session calibration + Tom's go). " +
+                "stated honestly). THE HEATING LEG FLEW 2026-07-05 (after same-day simulator validation: parity " +
+                "N.A.-guarded, warm/cold MEET + planted recovered within 2 sigma, planted-TLS trips SPLIT + chi2 " +
+                "flag, 20-seed errors conservative): ibm_kingston [82, 83, 13] (the f95/F113 qubits, pre-shot " +
+                "amendment committed), job d951mhkql68s73ca3u0g, ~1.6 QPU min, when the >30k queue outage cleared " +
+                "to 0 pending + Tom loaded fresh 08:28Z calibration. VERDICT: SPLIT on all three qubits " +
+                "(13.7/5.1/6.6 sigma): up-legs flat at +0.98-1.00 => gamma_up = 2-7e-5 /us, p_th <= 1%, the bath " +
+                "is COLD; down-legs still rising at 320 us, non-exponential (pinned-asymptote two-rate mixture " +
+                "accepted vs single-exp rejected; q82's mixture mean reproduces fresh cal T1 206 vs 208 us). The " +
+                "sub-unity down-leg asymptote = a LEG SYSTEMATIC (fluctuating T1, convex ensemble average), NOT " +
+                "thermal population; leg 3's one-leg asymptote recipe corrected in the doc (its violations were " +
+                "biased low; cold-bath net flux a ~= gamma_down, z_inf ~= 1); the honest recipe is two-legged " +
+                "(up leg pins gamma_up; gamma_down needs a fluctuation-robust rate). Typed Confirmation " +
+                "f84_heating_leg_attribution_kingston_july2026 (BOTH registries, counts 21->22). Open: down-leg " +
+                "non-exponentiality mechanism (TLS vs quasiparticles, out of scope); a Marrakesh two-leg repeat. " +
                 "Standing rule from the S2 adapter: verify every external citation against the primary source " +
                 "before any outreach.",
             Status: OpenArcStatus.Open),

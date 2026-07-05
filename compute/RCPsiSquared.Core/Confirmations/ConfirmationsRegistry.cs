@@ -494,6 +494,40 @@ public static class ConfirmationsRegistry
                 "discriminator; the GHZ pattern-not-carrier immunity (XXX commutes with every Z_iZ_j) was derived before " +
                 "the first shot and carried the decoding.",
             QubitPath: new[] { 93, 94, 95 }),
+
+        new Confirmation(
+            Name: "f84_heating_leg_attribution_kingston_july2026",
+            Date: "2026-07-05",
+            Machine: "ibm_kingston",
+            JobId: "d951mhkql68s73ca3u0g",
+            Observable: "two-legged idle T1 protocol on qubits [82, 83, 13] (|111⟩ down-leg + |000⟩ up-leg, 10 delays 0-320 µs, readout-mitigated ⟨Z_l⟩(t)); per-qubit asymptote meeting test, γ↑ from the up leg, the F84 net-cooling attribution",
+            PredictedValue:
+                "pre-registered two-branch discrimination (committed pre-shot incl. the Kingston amendment): bath heating " +
+                "⟹ both legs meet at one z∞ < 1 with γ↑ resolved ≥ 5σ; leg systematic ⟹ SPLIT with a flat up-leg " +
+                "(γ↑ < 0.0002 /µs, up-leg within ≈ 3% of +1). Instrument validated the same day on the IBM simulator " +
+                "(meeting test, planted-parameter recovery within 2σ, TLS double-flag, conservative error bars).",
+            MeasuredValue:
+                "SPLIT on all three qubits (13.7σ / 5.1σ / 6.6σ): up-legs flat at z∞ = 0.983/0.994/0.996 (pointwise never " +
+                "below +0.978 over 320 µs), γ↑ = (6.8±2.1, 2.7±2.1, 2.1±2.0)·10⁻⁵ /µs ⟹ p_th ≲ 1%, the bath is COLD; " +
+                "down-legs still rising at 320 µs with stretched (non-exponential) shape, so the sub-unity down-leg " +
+                "asymptotes (0.59-0.74) are extrapolation artifacts. Post-hoc (labeled as such): pinning z∞ at the up-leg " +
+                "level rejects the single exponential (χ²/dof 19.7/6.0/11.5) and accepts a two-rate mixture " +
+                "(1.45/0.32/1.91); q82's mixture mean rate reproduces the fresh calibration T1 (206 vs 208 µs; components " +
+                "57% @ 136 µs + 43% @ 687 µs).",
+            HardwareData: "data/ibm_heating_leg_july2026/heating_leg_ibm_kingston_20260705_105648.json (+ same-day simulator-validation JSONs and README in that directory)",
+            ExperimentDoc: "experiments/F81_VIOLATION_HARDWARE_BRIDGE.md",
+            FrameworkPrimitive: "F84 Pauli-channel cancellation + net-cooling closed form √(Σ(γ↓−γ↑)²)·2^(N−1); the identity-escape-velocity grounding (d⟨Z_l⟩/dt at ρ = I/2^N); run_heating_leg.py (external pipeline)",
+            Description:
+                "The f81/F84 bridge's attribution question, answered by a pre-registered two-leg protocol in ≈ 1.6 QPU min " +
+                "on the f95/F113 qubits: the depressed T1-leg asymptotes seen on Marrakesh (price_pair Block B) and " +
+                "reproduced here are NOT thermal population (the up leg pins γ↑ ≈ 0) but a down-leg systematic: T1 " +
+                "fluctuates over the job, the ensemble average of exponentials is convex, and a free-asymptote " +
+                "single-exponential fit extrapolates a false z∞ < 1. Consequences recorded in the bridge doc: the one-leg " +
+                "asymptote recipe is biased on these devices; the corrected cold-bath net flux is a ≈ γ↓ with z∞ ≈ 1; the " +
+                "two-leg protocol (up leg for γ↑, fluctuation-robust rate estimate for γ↓) is the honest measurement of " +
+                "the F84 scalar. P1/P2 verdicts landed exactly by the pre-registered rules; the q82 χ² flag fired as " +
+                "designed. The 0-pending queue window and fresh 08:28Z calibration were Tom's catch.",
+            QubitPath: new[] { 82, 83, 13 }),
     };
 
     public static IReadOnlyList<Confirmation> All => _all;

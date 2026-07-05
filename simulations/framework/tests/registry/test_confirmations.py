@@ -13,7 +13,7 @@ import framework as fw
 
 def test_confirmations_has_twenty_entries():
     names = fw.Confirmations.list_names()
-    assert len(names) == 21
+    assert len(names) == 22
     assert 'palindrome_trichotomy' in names
     assert 'lebensader_skeleton_trace_decoupling' in names
     assert 'gamma_0_marrakesh_calibration' in names
@@ -35,6 +35,19 @@ def test_confirmations_has_twenty_entries():
     assert 'cpsi_quarter_crossing_torino_feb2026' in names
     assert 'absorption_theorem_ratio_torino' in names
     assert 'cpsi_quarter_crossing_torino_q80_mar2026' in names
+    # 2026-07-05: the two-leg cold-bath attribution on the f95/F113 qubits (union of 22).
+    assert 'f84_heating_leg_attribution_kingston_july2026' in names
+
+
+def test_confirmations_lookup_f84_heating_leg():
+    e = fw.Confirmations.lookup('f84_heating_leg_attribution_kingston_july2026')
+    assert e['date'] == '2026-07-05'
+    assert e['machine'] == 'ibm_kingston'
+    assert e['job_id'] == 'd951mhkql68s73ca3u0g'
+    assert 'SPLIT on all three qubits' in e['measured_value']
+    assert 'the bath is COLD' in e['measured_value']
+    assert 'run_heating_leg.py' in e['framework_primitive']
+    assert e['experiment_doc'] == 'experiments/F81_VIOLATION_HARDWARE_BRIDGE.md'
 
 
 def test_confirmations_lookup_f120_moment_tower():
