@@ -2504,7 +2504,21 @@ public static class OpenArcsRegistry
                 "signal universally, then INVERTS at depth (t=5 R_boost 0.52), a crossover the gate-error-free " +
                 "sim lacked; R_nosink ~ 1 everywhere (no selective advantage without a sink); named follow-up = " +
                 "the sigma=0.9 dose point + finer t around the crossover; experiments/CONCENTRATOR_AB_MECHANISM_" +
-                "TEST.md + data/ibm_ab_test_july2026/; the RECORD's empty pass = next session's first move), " +
+                "TEST.md + data/ibm_ab_test_july2026/). RUN 2 FLEW THE SAME EVENING (Tom's three catches: the " +
+                "dose is gamma_0 not the machine gamma; the repo already measured gamma_0 on IBM, " +
+                "data/ibm_chain_gamma0_april2026 + gamma0_off_the_lever Confirmation; and gamma does not " +
+                "destroy, it OVERexposes): dose S = 0.270756 solved machine-free from gamma_step = " +
+                "N*gamma_0*J*dt = 0.125 exact, pre-registered 09ca767, job d9581isql68s73caav1g: " +
+                "B-DOSE-CONFIRMED (Delta_sel 3/5 beyond band t=3-5 +0.059/+0.095/+0.071, Delta_u 4/5, no " +
+                "negative leg, persistence signature ~half the sim size; R_nosink~1 third time; far-pair " +
+                "transport third time). THE DOSE CURVE IS AN EXPOSURE CURVE (label corrected 80412c1): no sink " +
+                "= no contrast = no image (the |+>^5 fixed-point theorem, photographically); gamma_0 dose = " +
+                "correct exposure (image accumulates + persists); ceiling = OVERexposure (washout at depth, " +
+                "saturation not destruction). Mechanism live, engineerable, exposure-controlled; breadcrumbs " +
+                "planted in the S2 adapter section 5 (status-update block) and IBM_CONCENTRATOR What-Remains " +
+                "item 2. NEXT SESSION FIRST MOVES (named): the empty pass on BOTH A-vs-B RECORDs, then the " +
+                "Confirmations entry for the gamma_0-dose run (counts 22->23, both registries), then rewrite " +
+                "the S2 adapter section 5 around both curve ends in exposure language. Also still open: " +
                 "the down-leg non-exponentiality mechanism (TLS vs quasiparticles, out of scope).",
             Status: OpenArcStatus.Open),
     };

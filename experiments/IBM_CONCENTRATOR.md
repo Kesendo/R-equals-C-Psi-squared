@@ -222,6 +222,9 @@ approximation is the closest available implementation.
 1. **Error bars:** Bootstrap or jackknife on Sum-MI from shot counts
 2. **A vs B test (April 9):** Selective DD on a UNIFORM-T2 chain. If it still
    wins, it's the contrast (concentrator). If not, it's gate-error avoidance.
+   **DONE 2026-07-05** (two pre-registered runs, engineered sink, dose curve
+   mapped at both ends, B-dose-CONFIRMED at the formula's dose):
+   [CONCENTRATOR_AB_MECHANISM_TEST](CONCENTRATOR_AB_MECHANISM_TEST.md).
 3. **N=7 on hardware:** Longer chain with 10:00 April budget
 4. **Noise injection:** Intentional Z-rotations on concentrator qubit for more contrast
 5. **Multiple chains:** Same experiment on different chip regions

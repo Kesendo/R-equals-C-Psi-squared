@@ -155,6 +155,20 @@ Either outcome is informative: A bounds the mechanism, B confirms it and hands
 you an engineerable knob (place the sink where you want it, rather than
 waiting for hardware to hand you a bad qubit).
 
+**Status update (2026-07-05): we ran this experiment ourselves.** Two
+pre-registered runs on an ibm_kingston uniform-good-T2 line with an
+ENGINEERED sink (injected per-step phase noise), mapping the dose curve at
+both ends: at the formula's own dose (edge rate = N·γ_base, machine-free)
+the sink CREATES interior correlations that grow monotonically and persist
+(B-dose-CONFIRMED by pre-registered bands, both layouts); at maximal dose
+the image forms early and washes out at depth (overexposure, not
+destruction). Without a sink, selective DD shows NO advantage on the
+uniform line. Full pre-registration, verdict rules, and data:
+[The Concentrator A-vs-B Mechanism Test](../../experiments/CONCENTRATOR_AB_MECHANISM_TEST.md).
+This section will be rewritten around those results after their final
+review pass; until then the paragraph above stands as the original
+prediction, now measured.
+
 ---
 
 ## 6. What we are not claiming
