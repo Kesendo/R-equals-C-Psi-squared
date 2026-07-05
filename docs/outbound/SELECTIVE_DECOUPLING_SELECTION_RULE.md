@@ -19,6 +19,8 @@ against the primary sources before any outreach.
 [Resonant Return](../../experiments/RESONANT_RETURN.md) (the profile formula),
 [IBM Concentrator](../../experiments/IBM_CONCENTRATOR.md) (the hardware run),
 [Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md) (the theorem it rests on),
+[State Transfer Decay Structure](STATE_TRANSFER_DECAY_STRUCTURE.md) (the
+sister adapter, for the QST community),
 [Combination Valence](../../hypotheses/COMBINATION_VALENCE.md) (why this adapter
 hands over an object, not a word)
 

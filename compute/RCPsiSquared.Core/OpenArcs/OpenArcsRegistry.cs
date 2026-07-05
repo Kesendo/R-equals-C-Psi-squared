@@ -2402,13 +2402,16 @@ public static class OpenArcsRegistry
                 "quantum noise spectroscopy 3/5 (the f81_violation one-number T1-vs-T2 discriminator is novel as a " +
                 "method but needs a hardware-measurable bridge). Doc-side tracker: docs/quantum/THE_LABEL_MAP.md " +
                 "section 7; keep the two in sync.",
-            NextStep: "three sockets remain unwritten as docs/outbound/ adapters, in tractability order: " +
-                "(1) S3: wrap QST_BRIDGE.md into the adapter genre (follow the S2 template's seven sections: " +
-                "your-open-problem-in-your-words / the rule / the object we hand you / tiered evidence / the " +
-                "falsifiable prediction / what we are not claiming / the stance-objects); (2) S1: the palindrome " +
-                "placement adapter (lead with the K-operator or the Pi-gap statement, NOT with our word " +
-                "'palindrome'); (3) S4: the watching -> QNS. Standing rule from the S2 adapter: verify every " +
-                "external citation against the primary source before any outreach.",
+            NextStep: "S3 DONE 2026-07-05: docs/outbound/STATE_TRANSFER_DECAY_STRUCTURE.md wraps QST_BRIDGE " +
+                "into the adapter genre (the PST-mirror-coupling vs decay-reflection label COLLISION disarmed up " +
+                "front, the likely misroute; three-layer falsifiable prediction: the 8gamma/3 envelope + " +
+                "gamma-invariant timing + the 2:1 optimum, aimed at the tunable-coupling quantum-dot platform; " +
+                "all transfer numbers honestly tiered simulation-only, the negative one-shot I_coh carried " +
+                "along). TWO sockets remain, in pull order: (1) S1: the palindrome placement adapter (lead with " +
+                "the K-operator or the Pi-gap statement, NOT with our word 'palindrome'); (2) S4: the watching " +
+                "-> QNS (the f81_violation T1-vs-T2 discriminator needs a hardware-measurable bridge first). " +
+                "Standing rule from the S2 adapter: verify every external citation against the primary source " +
+                "before any outreach.",
             Status: OpenArcStatus.Open),
     };
 

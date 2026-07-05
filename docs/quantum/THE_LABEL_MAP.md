@@ -193,10 +193,13 @@ where they are.
   (the sacrifice zone → the DD community's "which qubits to decouple" open
   problem). The guiding rule, from the combination finding below: hand over
   the stance-object (the γ-profile, the Absorption Theorem, the ibm_torino
-  number), not our coined word. Three sockets remain unwritten (palindrome →
-  Lindbladian symmetry classification; relay → QST under dephasing, with
-  [QST_BRIDGE](../../experiments/QST_BRIDGE.md) a near-ready draft; the
-  watching → quantum noise spectroscopy).
+  number), not our coined word. The second adapter landed the same day:
+  [The Exact Decay-Rate Structure of Spin-Chain State Transfer under Dephasing](../outbound/STATE_TRANSFER_DECAY_STRUCTURE.md)
+  (the relay/palindrome → the QST community's dephasing corner, wrapping
+  [QST_BRIDGE](../../experiments/QST_BRIDGE.md) into the adapter genre). Two
+  sockets remain unwritten (palindrome → Lindbladian symmetry classification;
+  the watching → quantum noise spectroscopy); the arc is now tracked in the
+  open-arcs ledger as `outbound_label_adapters`.
 - **The combination conjecture** (labels as the type system of thought) is now
   grounded in [Combination Valence](../../hypotheses/COMBINATION_VALENCE.md) (Tier 3): the
   descriptive half holds, the forward causal arrow is refuted at its own

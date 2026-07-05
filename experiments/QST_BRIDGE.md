@@ -248,6 +248,12 @@ was later formalized as regulator separation in the
 noise sets decay, initial state selects visibility. Five independent roles,
 none of which can substitute for another.
 
+This document became the raw material for an **outbound adapter**
+(2026-07-05): [State Transfer Decay Structure](../docs/outbound/STATE_TRANSFER_DECAY_STRUCTURE.md)
+rewraps the findings here in the QST community's own language and open
+corner, per the adapter genre (hand over the objects, not our coinages).
+The "contact QST experimentalists" step below now has its vehicle.
+
 ---
 
 ## Reproducibility
