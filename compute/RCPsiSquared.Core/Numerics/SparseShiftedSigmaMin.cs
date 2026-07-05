@@ -37,12 +37,18 @@ public static class SparseShiftedSigmaMin
 {
     public sealed record Options(int MaxOuter, double RelTol, double InnerRelTol, int InnerMaxIter, int Seed)
     {
-        // InnerRelTol 1e-8, NOT 1e-10 [N5]: at the worst trusted (non-member) cells kappa(M−s) ~ 1e4-1e5,
-        // so the attainable iterative floor is ~kappa*eps_mach ~ 1e-12-1e-11; 1e-8 clears it with margin
-        // while the outer RelTol 1e-3 only needs the applied operator good to ~1e-3. InnerMaxIter 50_000:
-        // the measured worst trusted cell (N=9 (3,3) even at lambda_A, d=3536) takes 3329 LSQR iterations
-        // to 1e-6 from a random RHS; 50k covers the 1e-8 target with an order of magnitude of headroom.
-        public static Options Default { get; } = new(MaxOuter: 200, RelTol: 1e-3, InnerRelTol: 1e-8,
+        // InnerRelTol 1e-5 (was 1e-8 [N5], loosened after the 2026-07-05 N=11 tolerance experiment): the
+        // sigma_min estimate at the trusted (non-member) cells is set by the OUTER RelTol 1e-3, NOT the
+        // inner solve — measured IDENTICAL from 1e-8 down through 1e-4 (relDiff 0.0140 at (3,6) d=38140),
+        // while a looser inner tol cuts LSQR iterations ~1.8x (2528 -> 1427) at no accuracy cost, and the
+        // biggest N=11 cores (d~106772, ~30 min at 1e-8) are the dominant census cost. Safety is preserved
+        // at the near-defective member cells: kappa(M−s)^2 ~ 1e28 puts the inner floor at ~1e-2, so ANY
+        // tol < 1e-2 stays unreachable -> the step exhausts -> the invit honestly reports Converged=false
+        // (verified at the aggressive 1e-4 on the (4,5)xλ_A planted-small member: NaN, conv=false). 1e-5
+        // keeps two orders of margin above the 1e-3 requirement. InnerMaxIter 50_000: the worst trusted
+        // cell (N=9 (3,3) even at lambda_A, d=3536) took 3329 LSQR iterations to 1e-6; the looser target
+        // only grows the headroom.
+        public static Options Default { get; } = new(MaxOuter: 200, RelTol: 1e-3, InnerRelTol: 1e-5,
                                                      InnerMaxIter: 50_000, Seed: 12345);
     }
 
