@@ -110,3 +110,43 @@ def test_F84_pauli_channels_pi2_symmetric():
         violation = float(np.linalg.norm(M_anti - L_H_p))
         assert violation < 1e-10, \
             f"D[{letter}] should give zero F81 violation (Pauli-Channel Cancellation), got {violation}"
+
+
+def test_F84_pauli_string_boundary():
+    """The lemma's scope extension (2026-07-05): the cancellation boundary is
+    the Pauli AXIS, not unitality.
+
+    - Correlated Pauli STRINGS (Z⊗Z, X⊗Y) as Lindblad operators: violation 0.
+    - Correlated decay σ⁻⊗σ⁻: nonzero odd content (no local calibration).
+    - Tilted-axis dephasing (X+Z)/√2: unital (identity velocity exactly 0)
+      yet contributes √2·γ at N=1 — the counterexample that corrected the
+      'every unital channel' overclaim in the outbound adapter
+      (empty-session review round, 2026-07-05).
+    """
+    from framework.lindblad import lindbladian_general, palindrome_residual
+    from framework.symmetry import build_pi_full
+
+    X = np.array([[0, 1], [1, 0]], dtype=complex)
+    Y = np.array([[0, -1j], [1j, 0]], dtype=complex)
+    Z = np.array([[1, 0], [0, -1]], dtype=complex)
+    SM = np.array([[0, 1], [0, 0]], dtype=complex)
+
+    def violation(c_ops, N):
+        d = 2 ** N
+        H = np.zeros((d, d), dtype=complex)  # H = 0: L_H_odd = 0, violation = ||M_anti||
+        L = lindbladian_general(H, c_ops)
+        M = palindrome_residual(L, 0.0, N)
+        Pi = build_pi_full(N)
+        M_anti = (M - Pi @ M @ Pi.conj().T) / 2
+        return float(np.linalg.norm(M_anti))
+
+    g = 0.05
+    assert violation([np.sqrt(g) * np.kron(Z, Z)], 2) < 1e-12
+    assert violation([np.sqrt(g) * np.kron(X, Y)], 2) < 1e-12
+    assert violation([np.sqrt(g) * np.kron(SM, SM)], 2) > 1e-3
+    tilt = np.sqrt(g) * (X + Z) / np.sqrt(2)
+    assert abs(violation([tilt], 1) - np.sqrt(2) * g) < 1e-10
+    L = lindbladian_general(np.zeros((2, 2), dtype=complex), [tilt])
+    rho_id = np.eye(2, dtype=complex) / 2
+    rdot = (L @ rho_id.flatten('F')).reshape(2, 2, order='F')
+    assert abs(np.real(np.trace(Z @ rdot))) < 1e-14

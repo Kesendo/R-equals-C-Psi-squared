@@ -52,7 +52,7 @@ The violation is symmetric in γ_↓ ↔ γ_↑: only the net |γ_↓ − γ_↑
 
 **Lemma:** Each single-qubit Pauli-channel dissipator D[c] with c ∈ {Z, X, Y} is fully Π²-symmetric in the Pauli basis: Π² · D[c] · Π⁻² = D[c]. Hence ‖D[c]_odd‖_F = 0 for c ∈ {Z, X, Y}.
 
-**Proof.** For c Hermitian with c² = I (each of Z, X, Y satisfies this):
+**Proof.** For c a single-qubit Pauli operator (Hermitian with c² = I, and, the operative property, conjugation by c maps every Pauli to ± itself; a tilted axis like (X+Z)/√2 has the first two properties and fails the third):
 
     D[c](ρ) = γ · (c ρ c − ρ).
 
@@ -66,7 +66,7 @@ In each case the matrix is diagonal in Pauli basis. The Π² conjugation factor 
 
 This Lemma confirms empirically what was verified by direct computation: D_{Z}, D_{X}, D_{Y} all give ‖D_odd‖_F = 0 exactly.
 
-**Scope extension (2026-07-05, outbound-adapter review pass):** the same argument covers any Hermitian N-qubit Pauli STRING c = P (e.g. Z⊗Z, X⊗Y): P σ_β P = ±σ_β for every Pauli string σ_β, so D[P] is diagonal in the string basis, and the diagonal Π²-factor is again (+1) always. Hence every Pauli-string dissipator, and every mixture of them (Pauli-twirled noise), is fully Π²-symmetric and contributes zero to the violation. Verified numerically at N = 2 for Z⊗Z and X⊗Y (violation 0.0 exactly, `experiments/F81_VIOLATION_HARDWARE_BRIDGE.md` era checks). The boundary of the lemma is the Pauli AXIS, not unitality: a tilted-axis dephasing operator such as c = (X+Z)/√2 is unital but not diagonal in the string basis, and carries a nonzero Π²-odd part (√2·γ at N = 1, verified 2026-07-05); the partial closure of the first open-generalization bullet below is therefore exactly the Pauli-string class (correlated decay channels like σ⁻⊗σ⁻ remain open and DO contribute odd content, without the local closed form's calibration).
+**Scope extension (2026-07-05, outbound-adapter review pass):** the same argument covers any Hermitian N-qubit Pauli STRING c = P (e.g. Z⊗Z, X⊗Y): P σ_β P = ±σ_β for every Pauli string σ_β, so D[P] is diagonal in the string basis, and the diagonal Π²-factor is again (+1) always. Hence every Pauli-string dissipator, and every mixture of them (Pauli-twirled noise), is fully Π²-symmetric and contributes zero to the violation. Verified numerically at N = 2 for Z⊗Z and X⊗Y (violation 0.0 exactly; pinned in `simulations/framework/tests/diagnostics/test_f84_amplitude_damping.py`, the Pauli-string-boundary tests added 2026-07-05). The boundary of the lemma is the Pauli AXIS, not unitality: a tilted-axis dephasing operator such as c = (X+Z)/√2 is unital but not diagonal in the string basis, and carries a nonzero Π²-odd part (√2·γ at N = 1, verified 2026-07-05); the partial closure of the first open-generalization bullet below is therefore exactly the Pauli-string class (correlated decay channels like σ⁻⊗σ⁻ remain open and DO contribute odd content, without the local closed form's calibration).
 
 ---
 
@@ -164,7 +164,7 @@ F84 closes the dissipator side of the Π-decomposition picture:
 | T1 heating σ⁺ | anti-symmetric | −γ_↑_l per site |
 | Combined amplitude damping | anti-symmetric (net) | Δγ_l = γ_↓_l − γ_↑_l per site |
 
-**Why no Pauli channel breaks F81 (but σ⁻, σ⁺ do):** Pauli-channel dissipators D[c] with c² = I act diagonally in Pauli basis (each Pauli string is mapped to a scalar multiple of itself, with the multiplier being 0 or −2γ). Diagonal operators commute with Π² (which is also diagonal). Hence D_odd = 0. In contrast, σ⁻ and σ⁺ are *non-Hermitian* and *non-square* (σ⁺σ⁻ ≠ σ⁻σ⁺), producing off-diagonal entries that mix Pauli strings of different Π²-parity.
+**Why no Pauli channel breaks F81 (but σ⁻, σ⁺ do):** Pauli-channel dissipators D[c] with c a Pauli operator (c² = I alone does not suffice; the 2026-07-05 scope note above) act diagonally in Pauli basis (each Pauli string is mapped to a scalar multiple of itself, with the multiplier being 0 or −2γ). Diagonal operators commute with Π² (which is also diagonal). Hence D_odd = 0. In contrast, σ⁻ and σ⁺ are *non-Hermitian* and *non-square* (σ⁺σ⁻ ≠ σ⁻σ⁺), producing off-diagonal entries that mix Pauli strings of different Π²-parity.
 
 **Hardware implication:** F84 says hardware F81 violations are quantitatively constrained to the *vacuum amplitude damping* component. Phase noise, bit-flip noise, and thermal photon equilibrium all give zero violation. A measured nonzero f81_violation on hardware quantifies the spontaneous emission rate, which is the relevant rate for circuit decoherence at typical T ≪ ℏω/k_B (qubit transitions are typically several GHz, much larger than k_B T at mK temperatures).
 

@@ -508,7 +508,9 @@ public static class ConfirmationsRegistry
                 "(meeting test, planted-parameter recovery within 2σ, TLS double-flag, conservative error bars).",
             MeasuredValue:
                 "SPLIT on all three qubits (13.7σ / 5.1σ / 6.6σ): up-legs flat at z∞ = 0.983/0.994/0.996 (pointwise never " +
-                "below +0.978 over 320 µs), γ↑ = (6.8±2.1, 2.7±2.1, 2.1±2.0)·10⁻⁵ /µs ⟹ p_th ≲ 1%, the bath is COLD; " +
+                "below +0.978 over 320 µs) ⟹ p_th = (1−z∞_up)/2 = 0.83/0.31/0.23 % (the clean reading under a SPLIT; the " +
+                "joint-fit γ↑ = (6.8±2.1, 2.7±2.1, 2.1±2.0)·10⁻⁵ /µs is upper-bound-style, biased up by the shared-asymptote " +
+                "mis-specification), the bath is COLD; " +
                 "down-legs still rising at 320 µs with stretched (non-exponential) shape, so the sub-unity down-leg " +
                 "asymptotes (0.59-0.74) are extrapolation artifacts. Post-hoc (labeled as such): pinning z∞ at the up-leg " +
                 "level rejects the single exponential (χ²/dof 19.7/6.0/11.5) and accepts a two-rate mixture " +

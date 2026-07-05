@@ -125,8 +125,9 @@ the heating-leg run in
 [F81 Violation: the Hardware Bridge](../../experiments/F81_VIOLATION_HARDWARE_BRIDGE.md)
 caught a T1-leg ensemble whose per-shot frame labels (which-T1-epoch) were
 missing; the unlabeled mixture read as false temperature, exactly the
-unlabeled-frame-average-reads-as-mixedness lesson of this section, with the
-apparent extra temperature being the entropy of the missing label.*
+unlabeled-frame-average-reads-as-mixedness lesson of this section. The
+quantitative form, there as here: the extra mixedness is the Holevo
+information of the discarded label, bounded by (not equal to) its entropy.*
 
 ---
 

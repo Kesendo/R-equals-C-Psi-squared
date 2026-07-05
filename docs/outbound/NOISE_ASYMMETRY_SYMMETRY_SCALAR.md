@@ -52,12 +52,15 @@ S(ω) of a qubit's environment with mature machinery; the standard review
 core, noise that is non-Gaussian and noise that is **truly quantum**, as the
 places where the method needs care. The quantum part of the noise has a precise
 meaning in your canon (Clerk, Devoret, Girvin, Marquardt, Schoelkopf, *Rev.
-Mod. Phys.* **82**, 1155 (2010); Schoelkopf et al., "Qubits as spectrometers of
-quantum noise", 2003): it is the **antisymmetric-in-frequency part** of the
-bath spectrum, S(+ω₀) − S(−ω₀), the part a qubit reads as the imbalance
-between its emission and absorption rates, and the part that survives at zero
-temperature. (It is read on the relaxation axis at ±ω₀, complementary to the
-dephasing spectrum your DD protocols reconstruct.)
+Mod. Phys.* **82**, 1155 (2010); Schoelkopf et al., "Qubits as spectrometers
+of quantum noise", in *Quantum Noise in Mesoscopic Physics*, ed. Yu. V.
+Nazarov (Kluwer, 2003), cond-mat/0210247): it is the
+**antisymmetric-in-frequency part** of the bath spectrum, S(+ω₀) − S(−ω₀), the part a qubit reads as the imbalance
+between its emission and absorption rates, pinned by the dissipative response
+alone, independent of thermal occupation. (At T = 0 the symmetric part
+survives too, as zero-point fluctuations; what vanishes is S(−ω₀). It is read
+on the relaxation axis at ±ω₀, complementary to the dephasing spectrum your
+DD protocols reconstruct.)
 
 Meanwhile, on the characterization side, energy-relaxation times on
 superconducting qubits **fluctuate by up to an order of magnitude on
@@ -67,11 +70,14 @@ extracted from a relaxation trajectory averaged over such an ensemble
 inherits a bias, and a fitted noise model happily absorbs whatever the data
 offers into whatever channels the model contains.
 
-The gap between these two facts is the socket this document plugs into: there
-is, as far as we have found, no **symmetry-grade, model-independent scalar**
-that certifies how much emission-absorption asymmetry a fitted multi-qubit
-noise model actually contains, with an exact calibration constant, and a cheap
-protocol that diagnoses its own bias when T1 fluctuates under it.
+The gap between these two facts is the socket this document plugs into.
+Measuring Γ↑ and Γ↓ separately at ±ω₀ is of course your community's founding
+move (Schoelkopf et al. 2003 characterize a reservoir by exactly these two
+numbers). What we have not found is the register-level bookkeeping: a
+**symmetry-grade scalar on a fitted multi-qubit generator** that isolates the
+emission-absorption asymmetry from everything else a fit absorbs, with an
+exact calibration constant, together with a cheap protocol that diagnoses its
+own bias when T1 fluctuates under it.
 
 ---
 
@@ -84,19 +90,28 @@ order-4 unitary W acting on such generators (a signed permutation of the
 Pauli basis; the sister adapter
 [Shifted Order-4 Chiral Symmetry](SHIFTED_ORDER4_CHIRAL_SYMMETRY.md) introduces
 it, with proofs), and its square W² grades every generator into an even and an
-odd sector. Every **Pauli channel** (a Pauli-string dissipator, or any mixture
-of them, i.e. Pauli-twirled noise) lies entirely in the even sector and
-contributes nothing to the odd one. Define the violation scalar
+odd sector, L_odd = (L − W²·L·W⁻²)/2. Every **Pauli channel** (a Pauli-string
+dissipator, or any mixture of them) lies entirely in the even sector and
+contributes nothing to the odd one. Coherent terms do NOT all drop out: the
+odd sector also carries the commutator part of any Π²-odd Hamiltonian content
+(residual Z detunings, Y-quadrature drives), so the scalar is defined on the
+dissipative remainder:
 
-    V(L) = ‖ the odd-sector residue of L under W ‖_F
+    V(L) = ‖ L_odd − (its projection onto the span of Hamiltonian commutators) ‖_F
 
-(the concrete recipe, with a reference implementation, is in
-[`f81_pi_decomposition.py`](../../simulations/framework/diagnostics/f81_pi_decomposition.py);
-it is a conjugation, a subtraction, and a Frobenius norm. That module builds L
-from a model specification; for a raw fitted generator apply the same three
-steps directly, and note the constant shift in the symmetry identity is even,
-so it cancels out of the odd sector and a fitted L needs no rate bookkeeping).
-Then, exactly:
+The subtraction is model-free on a raw fitted generator: the commutator span
+is a fixed subspace (the −i[P, ·] of the Π²-odd Pauli strings), the
+least-squares residual is unique, and the σ± signal occupies matrix cells no
+commutator touches (the same support-orthogonality the F84 proof uses), so
+none of it is projected away. Verified end to end: a bare 0.1 /µs residual
+detuning beside a 0.005 /µs σ⁻ flux returns V = 0.005000 through the
+projection, while the unprojected odd residue reads 0.888, coherent-dominated.
+The reference implementation is
+[`f81_pi_decomposition.py`](../../simulations/framework/diagnostics/f81_pi_decomposition.py):
+`pi_decompose_M` for model-specified generators, and for a raw fitted one
+`recover_H_odd_from_M_anti`, whose `fit_residual` IS this V. The constant
+shift in the symmetry identity is even and drops out on its own. Then,
+exactly:
 
     V(L) = 2^(N−1) · √( Σ_l (Γ↓_l − Γ↑_l)² )
 
@@ -113,16 +128,17 @@ has five properties, each a theorem, not a fit
    and crosstalk Hamiltonians do not enter.
 3. **Dephasing-rate-independent:** T2 content, of any strength and spatial
    profile, does not enter.
-4. **Linear in the net flux:** V reads Γ↓ − Γ↑ per qubit, the net one-way
-   rate, not the total 1/T1 = Γ↓ + Γ↑.
+4. **Degree-one in the net fluxes:** V reads Γ↓ − Γ↑ per qubit (the net
+   one-way rate, not the total 1/T1 = Γ↓ + Γ↑), scaling linearly with a
+   common net flux; across qubits it is a root-sum-square.
 5. **Temperature-independent for a linear bath:** Γ↓ − Γ↑ = γ_vac(n̄+1) −
    γ_vac·n̄ = γ_vac; the thermal traffic cancels and the vacuum
    (spontaneous-emission) rate remains. (A saturable bath whose coupling
    itself drifts with temperature moves γ_vac; Section 3.)
 
 For the σ± family, at N = 1 the entire scalar lives in **one PTM generator
-element**, the (Z ← I) transfer entry: the affine displacement of the fixed
-point, i.e. d⟨Z⟩/dt evaluated at the maximally mixed state. Within the Pauli
+element**, the (Z ← I) transfer entry: the generator's affine drift term,
+i.e. d⟨Z⟩/dt evaluated at the maximally mixed state. Within the Pauli
 + σ± class (Section 6 for the boundary), that is the whole object: a
 register-level, closed-form packaging of the velocity with which the identity
 state polarizes.
@@ -135,13 +151,16 @@ state polarizes.
 absorption rates sample the bath spectrum at its transition frequency:
 Γ↓ ∝ S(+ω₀), Γ↑ ∝ S(−ω₀), with one common prefactor when both rates come
 from one transverse coupling operator to one bath (Schoelkopf et al. 2003;
-Clerk et al. 2010). So
+Clerk et al. 2010; Fourier convention S(ω) = ∫dt e^{iωt}⟨F(t)F(0)⟩, the one
+both sources use). So
 
     Γ↓ − Γ↑  ∝  S(+ω₀) − S(−ω₀),
 
 the antisymmetric part of the noise. The scalar V is therefore a
 **register-level root-sum-square of the quantum part of each qubit's noise at
-its own frequency**, with the calibration constant 2^(N−1) exact.
+its own frequency**, with the calibration constant 2^(N−1) exact in rate
+units (in spectral units each qubit's term carries its own coupling
+prefactor, so the sum is coupling-weighted).
 
 **Second identification.** In your canon the antisymmetric part of an
 equilibrium spectrum is free of the thermal-occupation factor: S(+ω) − S(−ω)
@@ -171,44 +190,62 @@ pre-registered with bands before the shot; full record in
 [F81 Violation: the Hardware Bridge](../../experiments/F81_VIOLATION_HARDWARE_BRIDGE.md)):
 
 - **Two legs in one job:** relax |111⟩ and |000⟩ over the same 0-320 µs delay
-  grid. Under any thermal bath both legs settle to the same asymptote with
-  the same rate; the pre-registered **meeting test** compares the two fitted
-  asymptotes at 2σ.
+  grid. Under a weakly coupled, time-stationary (Markovian) thermal bath both
+  legs settle to the same asymptote with the same rate; the pre-registered
+  **meeting test** compares the two fitted asymptotes at 2σ, and a SPLIT
+  certifies departure from that class.
 - **Result:** the |000⟩ legs stayed flat at ⟨Z⟩ = 0.98-1.00 for all 320 µs:
-  excited-state populations of 0.2-0.9% (asymptote reading), joint-fit
-  Γ↑ ≤ 7·10⁻⁵ /µs. The |1⟩ legs, however, produced free-fit "asymptotes" of
-  0.59-0.74: **SPLIT at 5-14σ.** The one-leg numbers would have read as
-  13-20% "thermal population"; the second leg shows they are an artifact.
-- **The artifact is your Klimov effect in a fit:** T1 fluctuates over the
-  minutes of the job; an ensemble average over decay rates is convex (slower
-  than exponential at late times); a free-asymptote single-exponential fit
-  reads that shape as a depressed asymptote, i.e. as false temperature.
-  Pinning the asymptote at the |000⟩-leg value, a two-rate mixture fits all
-  three qubits cleanly, and on one qubit the mixture's mean rate reproduces
-  the same-morning calibration T1 to 1% (206 vs 208 µs) while its components
-  differ by 5× (136 µs and 687 µs at 57%/43% weight).
+  excited-state populations of 0.83 ± 0.21 / 0.31 ± 0.27 / 0.23 ± 0.57 %
+  (readout-mitigated in-job; asymptote reading; the last consistent with
+  zero), joint-fit Γ↑ ≤ 7·10⁻⁵ /µs. The |1⟩ legs, however, produced free-fit
+  "asymptotes" of 0.59-0.74: **SPLIT at 5-14σ.** The one-leg numbers would
+  have read as 13-20% "thermal population"; the second leg shows they are an
+  artifact.
+- **The artifact is consistent with your Klimov effect, caught in a fit:** if
+  T1 fluctuates over the minutes of the job, the ensemble-averaged trajectory
+  is slower than the single exponential at its mean rate (Jensen), and a
+  free-asymptote single-exponential fit reads that shape as a depressed
+  asymptote, i.e. as false temperature. Pinning the asymptote at the
+  |000⟩-leg value, a two-rate mixture fits all three qubits, and on one qubit
+  the mixture's mean rate reproduces the same-morning calibration T1 to 1%
+  (206 vs 208 µs) while its components differ by 5× (136 µs and 687 µs at
+  57%/43% weight; window-limited, so the components are effective, not
+  resolved). A static bi-exponential (a near-resonant TLS hybridized within
+  every shot) fits the same curves as temporal switching, and preparation or
+  leakage contributions to the small fast components are not excluded; the
+  certificate does not need the mechanism, since any of these breaks the
+  single-exponential model and the meeting test flags it.
 
 The general statement we take from this, and hand over: **any
 asymptote-based readout, including excited-state thermometry from
 inversion-recovery tails, inherits a fluctuating-T1 bias, and the two-leg
 meeting test is a two-line certificate against it.** (For precision
 thermometry your community already prefers direct population methods, e.g.
-Jin et al., *Phys. Rev. Lett.* **114**, 240501 (2015), building on a protocol
-by Geerlings et al.; those are immune to this bias for independent reasons,
-and the meeting test is the cheap in-situ check when all you have is
-relaxometry.)
+Jin et al., *Phys. Rev. Lett.* **114**, 240501 (2015), building on the
+protocol of Geerlings et al., *Phys. Rev. Lett.* **110**, 120501 (2013);
+those are immune to this bias for independent reasons, and the meeting test
+is the cheap in-situ check when all you have is relaxometry.)
 
 ---
 
 ## 5. The usable protocol, and one methodological rule
 
-**To measure V on hardware** (per qubit, no tomography): the up leg gives Γ↑
-(its early ground-state slope is −2Γ↑; in the flown run Γ↑ was pinned from
-the up-leg asymptote, resolution ± 2·10⁻⁵ /µs at 8192 shots); the down leg
-gives the total rate; the net flux is Γ↓ − Γ↑, and V follows from the closed
-form. Run both legs in one job and
-apply the meeting test; a SPLIT on a clean-χ² qubit means the down leg's
-shape is fluctuation-distorted and the asymptote must not be trusted.
+**To measure V's σ±-family component on hardware** (per qubit, no
+tomography; the leg protocol reads the identity-velocity projection, which
+is the whole of V within the Pauli + σ± class of Section 6): the up leg
+reads the absorption side (the slope of ⟨Z⟩ from the ground state is −2Γ↑;
+in the flown run the up-leg asymptotes pinned the populations at 0.2-0.8%
+and the joint fit bounded Γ↑ ≤ 7·10⁻⁵ /µs at 8192 shots); the down leg
+gives the total rate, taken fluctuation-robustly (the early-time rate or a
+pinned-asymptote mixture mean, not the free-asymptote single exponential);
+the net flux is Γ↓ − Γ↑, and V follows from the closed form. Run both legs
+in one job and apply the meeting test; a SPLIT on a clean-χ² qubit means
+the down leg's shape is distorted and its free asymptote must not be
+trusted. In the flown run the SPLIT fired, so the packaged V was withheld
+by the pre-registered rules: that run delivers the bias certificate, not a
+V value. And since V is a norm, statistical noise in any fitted generator
+biases it strictly upward: quote it against a refit-noise null
+distribution, not against zero.
 
 **To compute V on your existing fitted models**, one rule matters, and it is
 easy to state because we paid for it: **if the fit's channel set is exactly
@@ -235,18 +272,23 @@ informative, and the test costs one extra prepared-ground relaxation curve.
   level (golden-rule rates). Strong-coupling or structured-bath corrections
   are outside the closed form's domain.
 - The closed form is exact for **independent local σ± channels**. Correlated
-  or non-local non-unital channels contribute to V (the symmetry still sees
-  them) but not with this calibration constant; the local closed form is then
-  a lower bound on V, and V read through the local formula **overstates** the
-  local σ± rates.
+  non-unital channels (σ⁻⊗σ⁻, σ⁺⊗σ⁺ and kin) write into the same odd cells
+  with either sign, so **no bound in either direction holds in general**: a
+  σ⁺⊗σ⁺ admixture can pull V below the local closed form and can cancel the
+  identity velocities entirely at nonzero V (verified: local flux 0.01 per
+  qubit plus σ⁺⊗σ⁺ at 0.02 gives exactly zero measured velocity at
+  V = 0.0245 /µs). Outside the independent-σ± class, V and the leg protocol
+  measure different objects.
 - **Pauli, not unital:** the zero-property covers Pauli channels and their
   mixtures, not every unital channel. Tilted-axis dephasing, a Lindblad
   operator along a non-Pauli axis such as (X+Z)/√2 (the shape flux noise
-  takes off a sweet spot), is unital yet contributes √2·γ to V at N = 1
-  (verified through the reference implementation), with zero identity-state
-  velocity. On a free-form fit, V therefore certifies departure from the
-  Pauli + σ± model class along the odd sector; it equals the net-flux closed
-  form within that class, and exactly after Pauli twirling.
+  takes off a sweet spot), is unital yet contributes √2·γ to V at N = 1,
+  with zero identity-state velocity (pinned in the repository's test suite).
+  On a free-form fit, V therefore certifies departure from the Pauli + σ±
+  model class along the odd sector; it equals the net-flux closed form
+  within that class, and after twirling by the **diagonal (Z-string)
+  subgroup**, which removes non-Pauli-axis odd content while preserving the
+  net flux. (A full Pauli twirl instead removes the flux itself: V = 0.)
 - The hardware record is **one device, one day, three qubits**, with a
   same-day simulator validation of the instrument; it demonstrates the
   protocol and the bias, not device statistics.
@@ -270,13 +312,15 @@ informative, and the test costs one extra prepared-ground relaxation curve.
   process-matrix level.
 - **The locality:** at N = 1 the σ±-family scalar is the (Z ← I) PTM
   generator element, the fixed-point displacement.
-- **The protocol:** two relaxation legs in one job; the meeting test; Γ↑
-  from the up-leg asymptote at ± 2·10⁻⁵ /µs per 8192 shots.
+- **The protocol:** two relaxation legs in one job; the meeting test;
+  populations from the up-leg asymptote, joint-fit Γ↑ bounded at
+  ≤ 7·10⁻⁵ /µs per 8192 shots.
 - **The rule:** V on a {dephasing + σ⁻}-parameterized fit is a tautology;
-  use a free-form fit or measure the legs.
-- **The numbers:** Kingston 2026-07-05, p_th = 0.2-0.9% (up-leg asymptotes,
-  joint-fit Γ↑ ≤ 7·10⁻⁵ /µs), one-leg false "thermal population" of 13-20%
-  exposed at 5-14σ by the second leg, ≈ 1.6 QPU minutes total.
+  use a free-form fit or measure the legs, and quote fitted-generator V
+  against a refit-noise null (a norm is biased upward).
+- **The numbers:** Kingston 2026-07-05, p_th = 0.2-0.8% (up-leg asymptotes,
+  readout-mitigated), one-leg false "thermal population" of 13-20% exposed
+  at 5-14σ by the second leg, ≈ 1.6 QPU minutes total.
 
 The phenomenon's name in our repository stays home, as the arc's rule
 requires. What travels is the object: an exact symmetry scalar that isolates

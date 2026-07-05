@@ -3,7 +3,8 @@
 Zero QPU, no Lindblad fit; companion of experiments/F81_VIOLATION_HARDWARE_BRIDGE.md.
 
 The grounded object (confirmed in f81_identity_velocity_grounding.py): the
-f81 discriminator is 2^(N-1) x the RMS identity-escape velocity; per site
+f81 discriminator is 2^(N-1) x the root-sum-square of the per-site
+identity-escape velocities (= 2^(N-1)*sqrt(N) x their RMS); per site
 that velocity is the net cooling flux a_l = gamma_down,l - gamma_up,l, and
 on a T1 leg a_l = z_inf,l * b_l with b_l the leg rate (1/T1_total,l) and
 z_inf,l the free asymptote.

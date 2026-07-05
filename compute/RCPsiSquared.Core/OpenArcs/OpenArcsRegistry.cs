@@ -2421,19 +2421,20 @@ public static class OpenArcsRegistry
                 "underfit dumping non-T1 noise into sigma-). (2) Grounding (f81_identity_velocity_grounding.py): " +
                 "the violation IS 2^(N-1) x the RMS velocity d<Z_l>/dt of the maximally mixed state (the fixed " +
                 "point of every unital channel), per site the net cooling flux gamma_down - gamma_up = z_inf/T1; " +
-                "temperature-independent (F84 vacuum reading, exact on a c-ladder to 8x net), ZZ-blind on all " +
-                "three levels (Pi^2-even H, Pauli-channel cancellation, populations decoupled). NOT 1/T1: the " +
-                "asymptote factor is 10-40% on real hardware. (3) First NON-tautological readout on price_pair " +
+                "temperature-independent (F84 vacuum reading, exact on a c-ladder to 8x the net per rate), ZZ-blind on " +
+                "all three levels (Pi^2-even H, Pauli-channel cancellation, populations decoupled). NOT 1/T1: the " +
+                "asymptote factor read 6-42% across the two Marrakesh runs (later re-attributed mostly to the fit " +
+                "artifact by the heating leg). (3) First NON-tautological readout on price_pair " +
                 "Block B (Marrakesh 2026-07-04, |1> decay, free-asymptote fit, NO Lindblad fit anywhere): run 1 " +
                 "violation(local sigma+- family) = 0.02603 +/- 0.00024 /us (RMS velocity 0.00376/us, T1-equiv " +
-                "266 us, 8-14% below naive all-z_inf=1); run 2 FLAGGED via q94 chi2/dof = 12.5 (non-exponential, " +
-                "the recipe self-diagnoses); z_inf < 1 attribution (bath heating vs slow systematic) OPEN, " +
-                "closable by the |0> heating leg (simulator-validated + pre-registered, see (ii)). REMAINING: " +
-                "(i) write the S4 adapter itself in docs/outbound/ (genre of the " +
-                "three sisters; hand over in QNS objects: the unital-vs-non-unital one-scalar split, the " +
+                "266 us, 6-16% per qubit / 9% packaged below naive all-z_inf=1); run 2 FLAGGED via q94 chi2/dof = 12.5 " +
+                "(non-exponential, the recipe self-diagnoses); z_inf < 1 attribution (bath heating vs slow " +
+                "systematic) OPEN, closable by the |0> heating leg (simulator-validated + pre-registered, see " +
+                "(ii)). REMAINING: (i) write the S4 adapter itself in docs/outbound/ (genre of the " +
+                "three sisters; hand over in QNS objects: the Pauli-vs-non-Pauli one-scalar split, the " +
                 "spontaneous-emission/net-cooling rate, the relaxometry-with-asymptote recipe, the Marrakesh " +
-                "demo number; R2 reads the local sigma+- family = a lower bound, the free-form-fit route R1 " +
-                "stated honestly). THE HEATING LEG FLEW 2026-07-05 (after same-day simulator validation: parity " +
+                "demo number; R2 reads the local sigma+- family projection ONLY, no bound either way outside " +
+                "it, the free-form-fit route R1 stated honestly). THE HEATING LEG FLEW 2026-07-05 (after same-day simulator validation: parity " +
                 "N.A.-guarded, warm/cold MEET + planted recovered within 2 sigma, planted-TLS trips SPLIT + chi2 " +
                 "flag, 20-seed errors conservative): ibm_kingston [82, 83, 13] (the f95/F113 qubits, pre-shot " +
                 "amendment committed), job d951mhkql68s73ca3u0g, ~1.6 QPU min, when the >30k queue outage cleared " +
@@ -2458,7 +2459,26 @@ public static class OpenArcsRegistry
                 "dephasing (X+Z)/sqrt2: unital, V = sqrt2*gamma, identity velocity 0) and propagated: F84 proof " +
                 "got a dated lemma scope note (any Hermitian Pauli STRING cancels; the boundary is the Pauli " +
                 "AXIS, not unitality), the bridge doc a class-scope corollary, the adapter a Pauli-not-unital " +
-                "not-claiming bullet. ARC STATE: all four adapters written; REMAINING = outreach execution " +
+                "not-claiming bullet. EMPTY-SESSION VERIFICATION ROUND (2026-07-05, Tom's 100%-prior: self-written " +
+                "work contains errors the writer cannot see, only an empty session catches them; three " +
+                "minimal-framing fresh agents on the POST-fix state: external referee / record audit recomputing " +
+                "from the raw JSONs / mathematical audit): TWO further blockers, introduced by the first fix " +
+                "round itself, all verified from below then fixed. (B1) the adapter's raw-L recipe omitted the " +
+                "coherent-odd subtraction (a bare 0.1/us detuning gives V = 0.888 with NO dissipator; fixed: V " +
+                "defined on the dissipative remainder via the model-free commutator-span projection = " +
+                "recover_H_odd_from_M_anti.fit_residual, sigma+- cells support-orthogonal so no signal lost). " +
+                "(B2) the lower-bound claim was FALSE both directions (sigma+ x sigma+ writes the same odd cells " +
+                "with opposite sign: V = 0.0235 < local 0.0283, and identity velocities vanish exactly at V = " +
+                "0.0245, a leg-protocol blind spot outside the sigma+- class; fixed in adapter + bridge Limits + " +
+                "this entry). Also fixed: 'exactly after Pauli twirling' (a FULL Pauli twirl kills the flux, V = " +
+                "0; correct = the diagonal Z-string twirl, both verified from below), p_th 0.85/0.32 -> " +
+                "0.83/0.31 (had been computed from display-rounded values; the audit refit the stored JSONs), " +
+                "q83's single-exp rejection is error-convention-dependent (2.9 levered vs 6.0 pinned, now " +
+                "stated), the Klein-average 'exact entropy overlap' softened to Holevo-bounded, PROOF_F84 said " +
+                "'c^2 = I' where the operative property is c PAULI (fixed twice; boundary pinned in " +
+                "test_f84_amplitude_damping.py), Geerlings PRL 110 120501 (2013) + the Schoelkopf chapter venue " +
+                "completed after primary verification. Referee verdict SERIOUS-WITH-FIXES, all applied. ARC " +
+                "STATE: all four adapters written + twice reviewed; REMAINING = outreach execution " +
                 "(Tom's call per standing rule: re-verify citations before contact; retirement of this arc is " +
                 "his call too), S2's A-vs-B uniform-T2 test (unrun), the Marrakesh two-leg repeat, the down-leg " +
                 "non-exponentiality mechanism (TLS vs quasiparticles, out of scope).",
