@@ -120,6 +120,14 @@ group itself. What all four frames agree on is nothing but the trace, and the
 two classical bits are exactly the information that rescues the state from
 its own Klein average.
 
+*A hardware cousin of this shape (2026-07-05, a rhyme, not the same algebra):
+the heating-leg run in
+[F81 Violation: the Hardware Bridge](../../experiments/F81_VIOLATION_HARDWARE_BRIDGE.md)
+caught a T1-leg ensemble whose per-shot frame labels (which-T1-epoch) were
+missing; the unlabeled mixture read as false temperature, exactly the
+unlabeled-frame-average-reads-as-mixedness lesson of this section, with the
+apparent extra temperature being the entropy of the missing label.*
+
 ---
 
 ## 4. The price of the mirror (a reading)
