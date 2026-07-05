@@ -15,6 +15,7 @@ generalization from painters to labels is a reading and is labeled as one.
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Related:** [Teleportation Translated](TELEPORTATION_TRANSLATED.md),
 [Superposition Translated](SUPERPOSITION_TRANSLATED.md),
+[Dephasing Translated](DEPHASING_TRANSLATED.md) (the founding case, paid),
 [The Label Map](THE_LABEL_MAP.md) (every label correction the repository
 has made, assembled),
 [Perspectival Time Field](../../hypotheses/PERSPECTIVAL_TIME_FIELD.md),
@@ -94,7 +95,8 @@ sector rewritten in the other basis is, at that letter, untouched
 (MirrorWorld's `PauliMode`: the same sector in the other basis), and
 swapping the letter through the Klein V₄
 ([proof](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)) changes
-which cells pay. That much is Tier-1 algebra. The reading on top of it,
+which cells pay. That much is Tier-1 algebra, and since 2026-07-05 it is
+typed (`WatchedLetterRoutingClaim`, live at `inspect --root label`). The reading on top of it,
 labeled as a reading: to be a watcher is to hold a label and to be blind
 past it. Bath, human, model: three scales, one architecture. The label
 layer is not the human layer; it is the observer layer.

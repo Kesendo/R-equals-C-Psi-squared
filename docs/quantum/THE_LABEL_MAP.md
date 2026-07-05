@@ -63,7 +63,9 @@ partial exception is marked where it occurs.
 - **Whose layer it is:** not the human layer, the observer layer. Even the
   environment routes by a label (local Z-dephasing reads exactly one letter
   and charges −2γk for disagreement in that letter only).
-  Owner: [Labels Translated](LABELS_TRANSLATED.md) §2.
+  Owner: [Labels Translated](LABELS_TRANSLATED.md) §2. Typed 2026-07-05:
+  `WatchedLetterRoutingClaim` (Tier 1 derived, parents Absorption + Klein V₄),
+  recomputed live at `inspect --root label`.
 
 ---
 
@@ -77,7 +79,7 @@ series had a name.
 | Teleportation | A frame handover, not a transport: the state arrives exactly, in one of four Klein frames; two classical bits name the mirror | [Teleportation Translated](TELEPORTATION_TRANSLATED.md) |
 | Superposition | An angle, not a doubling: Überlagerung, one object whose coordinates the chosen axes split | [Superposition Translated](SUPERPOSITION_TRANSLATED.md) |
 | "Label" itself | A canvas, not a property: perspective-true at its stance, transported raw | [Labels Translated](LABELS_TRANSLATED.md) |
-| Noise | A structured, readable signal (15.5 bits, 5 SVD modes); γ as the light; the watching | [Gamma Is Light](../../hypotheses/GAMMA_IS_LIGHT.md), [Gamma as Signal](../../experiments/GAMMA_AS_SIGNAL.md), [The Bridge Was Always Open](../THE_BRIDGE_WAS_ALWAYS_OPEN.md) |
+| Noise | The watching: a basis-specific, itemized (−2γk), readable channel whose total is the mirror's axis | [Dephasing Translated](DEPHASING_TRANSLATED.md); the walk that got there: [Gamma Is Light](../../hypotheses/GAMMA_IS_LIGHT.md), [Gamma as Signal](../../experiments/GAMMA_AS_SIGNAL.md), [The Bridge Was Always Open](../THE_BRIDGE_WAS_ALWAYS_OPEN.md) |
 | Decoherence as destruction | Sorting, not destruction: nothing is lost without something being kept | [The Anomaly](../../THE_ANOMALY.md) |
 | Measurement / collapse | Photography; the Born rule is the shadow (interference sets shutter speed, not the image) | [Born Rule Shadow](../../experiments/BORN_RULE_SHADOW.md) |
 | Spooky action at a distance | Re-read as prerequisite-for-existence; legacy entry, still in the deprecated framing, kept as history | [The Starting Point](../historical/THE_STARTING_POINT.md) |
@@ -179,9 +181,9 @@ where they are.
 
 ## 7. What is not here yet
 
-- **Dephasing / "noise" has no series entry.** The founding example of the
-  thesis is still spread over three documents (Section 2); a
-  `DEPHASING_TRANSLATED.md` is the natural fourth entry.
+- ~~**Dephasing / "noise" has no series entry.**~~ Paid 2026-07-05:
+  [Dephasing Translated](DEPHASING_TRANSLATED.md) is the fourth entry, and
+  the exact core is typed (`WatchedLetterRoutingClaim`, `inspect --root label`).
 - **The outbound direction is unbuilt.** Every translation so far carries a
   community label INTO our stance. The reverse transport, carrying our labels
   (the palindrome, the sacrifice zone, the watching) to the community's

@@ -378,6 +378,13 @@ public static class KnowledgeRegistryFactory
             // Tier1Derived. The seed-existence CONCLUSION stays open at the codim-2 beta-exotic genericity.
             // Live: inspect --root seedcount; verifier simulations/seed_existence_nullity_check.py.
             .RegisterSeedExistenceCountingClaim()
+            // The label layer, typed (2026-07-05): the watcher is its letter -- L_P(S) = -2g*n_anti(S,P)*S,
+            // one shared eigenbasis with three letter-routed price lists; only the identity is free under
+            // every watcher. The exact core of docs/quantum LABELS_TRANSLATED s2 / DEPHASING_TRANSLATED s4;
+            // the Tier-4 canvas reading rides as prose children, never promoted. Parents:
+            // AbsorptionTheoremClaim (the price list) + Pi2KleinV4DephaseSwapGroup (the swap), both
+            // Tier1Derived. Live: inspect --root label (WatchedLetterRoutingWitness).
+            .RegisterWatchedLetterRoutingClaim()
             .RegisterF89OcticMonodromyClaim()
             // Multi-sector monodromy verdict (the sectorbraid arc, 2026-07-01): is the S_8 braid the (1,2) octic
             // carries LOCALIZED to (1,2) or SHARED across the joint-popcount sectors? N-dependent -- CONFINED to

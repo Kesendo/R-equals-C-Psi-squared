@@ -13,7 +13,8 @@ each with its source. Nothing here is new physics.
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Related:** [Teleportation Translated](TELEPORTATION_TRANSLATED.md) (the sister
-translation), [Labels Translated](LABELS_TRANSLATED.md) (the series' theory
+translation), [Dephasing Translated](DEPHASING_TRANSLATED.md) (the fourth
+entry), [Labels Translated](LABELS_TRANSLATED.md) (the series' theory
 chapter), [On How the Angle Appears at Zero](../../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md),
 [On the Defending Family](../../reflections/ON_THE_DEFENDING_FAMILY.md),
 [Born Rule Mirror](../../experiments/BORN_RULE_MIRROR.md),
