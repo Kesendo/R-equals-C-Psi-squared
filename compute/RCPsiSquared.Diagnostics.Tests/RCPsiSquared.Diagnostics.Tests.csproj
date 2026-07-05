@@ -24,4 +24,11 @@
     <ProjectReference Include="..\RCPsiSquared.Runtime\RCPsiSquared.Runtime.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- The Task-7 Step-0 at-size control (SectorShellCensusN11ControlTests) allocates a 38140² complex
+         dense sector (~23 GB, a single >2GB object) to compute the dense σ_min ground truth; the test
+         host needs the large-object heap, exactly as RCPsiSquared.Core.Tests does. -->
+    <RuntimeHostConfigurationOption Include="System.GC.AllowVeryLargeObjects" Value="true" Trim="false" />
+  </ItemGroup>
+
 </Project>
