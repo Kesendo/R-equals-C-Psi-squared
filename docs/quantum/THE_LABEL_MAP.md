@@ -202,9 +202,12 @@ where they are.
   (the palindrome → the Sá-Ribeiro-Prosen classification community's own
   margins: the Π-gap placement, the generalized-P question, and the
   integrable-chiral-Lindbladian statistics data point). One socket remains
-  unwritten (the watching → quantum noise spectroscopy, gated on a
-  hardware-measurable f81 bridge); the arc is tracked in the open-arcs
-  ledger as `outbound_label_adapters`.
+  unwritten (the watching → quantum noise spectroscopy); its gate fell
+  2026-07-05: the hardware-measurable f81 bridge exists
+  ([F81 Violation: the Hardware Bridge](../../experiments/F81_VIOLATION_HARDWARE_BRIDGE.md),
+  the discriminator grounded to the net-cooling flux z∞/T1 and read out on
+  the Marrakesh price_pair data, zero QPU). The arc is tracked in the
+  open-arcs ledger as `outbound_label_adapters`.
 - **The combination conjecture** (labels as the type system of thought) is now
   grounded in [Combination Valence](../../hypotheses/COMBINATION_VALENCE.md) (Tier 3): the
   descriptive half holds, the forward causal arrow is refuted at its own

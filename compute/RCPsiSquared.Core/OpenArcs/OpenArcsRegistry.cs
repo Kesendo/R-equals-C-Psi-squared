@@ -2413,22 +2413,28 @@ public static class OpenArcsRegistry
                 "via their own CSR diagnostic); the grounding survey settled the lead: K/BDI is Hamiltonian-" +
                 "level textbook and appears only as the altitude note (PROOF_K_PARTNERSHIP: independent " +
                 "symmetries of distinct objects), and the repo has analyzed SRP ONLY (Bernard-LeClair absent " +
-                "repo-wide, Kawabata bare mentions), so the adapter claims no placement beyond SRP. ONE socket " +
-                "remains: S4: the watching -> QNS (the f81_violation T1-vs-T2 discriminator needs a " +
-                "hardware-measurable bridge first). THE S4 HANDOVER IS WRITTEN (2026-07-05, cold-read verified " +
-                "twice): ClaudeTasks/TASK_S4_QNS_BRIDGE.md (local-only) assembles the discriminator (F82/F84: " +
-                "zero for every Pauli channel, linear in net cooling, closed form sqrt(sum dgamma^2)*2^(N-1), " +
-                "H- and gamma_z-independent, typed F82T1AmplitudeDampingPi2Inheritance), the crux (input = a " +
-                "FITTED Lindbladian; pi_decompose_M takes chain+terms+RATES and builds L itself), the TAUTOLOGY " +
-                "TRAP (on a Z+T1-parameterized fit the violation IS the closed form of the fitted gamma_T1 by " +
-                "construction; non-tautological needs a free-form fit or the single-entry (Z,I)-element proxy " +
-                "of PROOF_F82 Step 3), the ranked hardware assets (zero-QPU first move: the f95/F113 Kingston " +
-                "fits; the price_pair runner RAN 2026-07-04 on ibm_marrakesh, both legs in-situ; minimal new " +
-                "run = ONE idle single-qubit full-tomography delay grid, F82 holds at N=1, removes the ZZ " +
-                "confound), and the paid-for traps (gate-dominated runs, stale calibration 61% vs 1.9%, " +
-                "readout floor 0.002, echo-vs-Ramsey T2 conventions). Resume by READING THAT FILE, then the " +
-                "zero-QPU scout. Standing rule from the S2 adapter: verify every external citation against " +
-                "the primary source before any outreach.",
+                "repo-wide, Kawabata bare mentions), so the adapter claims no placement beyond SRP. S4 BRIDGE " +
+                "DONE 2026-07-05 (zero QPU): experiments/F81_VIOLATION_HARDWARE_BRIDGE.md, three legs. " +
+                "(1) Method demo on the F113-fitted Kingston Lindbladians: violation/F82(gamma_T1_fit) = " +
+                "1.000000000000 on all four pair-runs (the TAUTOLOGY of a Z+T1-parameterized fit, made exact); " +
+                "the physics that survives is the overshoot vs INDEPENDENT calibration 1/T1 (1.13-1.42, the " +
+                "underfit dumping non-T1 noise into sigma-). (2) Grounding (f81_identity_velocity_grounding.py): " +
+                "the violation IS 2^(N-1) x the RMS velocity d<Z_l>/dt of the maximally mixed state (the fixed " +
+                "point of every unital channel), per site the net cooling flux gamma_down - gamma_up = z_inf/T1; " +
+                "temperature-independent (F84 vacuum reading, exact on a c-ladder to 8x net), ZZ-blind on all " +
+                "three levels (Pi^2-even H, Pauli-channel cancellation, populations decoupled). NOT 1/T1: the " +
+                "asymptote factor is 10-40% on real hardware. (3) First NON-tautological readout on price_pair " +
+                "Block B (Marrakesh 2026-07-04, |1> decay, free-asymptote fit, NO Lindblad fit anywhere): run 1 " +
+                "violation(local sigma+- family) = 0.02603 +/- 0.00024 /us (RMS velocity 0.00376/us, T1-equiv " +
+                "266 us, 8-14% below naive all-z_inf=1); run 2 FLAGGED via q94 chi2/dof = 12.5 (non-exponential, " +
+                "the recipe self-diagnoses); z_inf < 1 attribution (bath heating vs slow systematic) OPEN, " +
+                "closable by the |0> heating leg (~1 QPU min, specified in the doc, pre-registration candidate, " +
+                "Tom's go required). REMAINING: (i) write the S4 adapter itself in docs/outbound/ (genre of the " +
+                "three sisters; hand over in QNS objects: the unital-vs-non-unital one-scalar split, the " +
+                "spontaneous-emission/net-cooling rate, the relaxometry-with-asymptote recipe, the Marrakesh " +
+                "demo number; R2 reads the local sigma+- family = a lower bound, the free-form-fit route R1 " +
+                "stated honestly); (ii) optionally the heating leg. Standing rule from the S2 adapter: verify " +
+                "every external citation against the primary source before any outreach.",
             Status: OpenArcStatus.Open),
     };
 
