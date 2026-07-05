@@ -2371,6 +2371,45 @@ public static class OpenArcsRegistry
                 "the non-primitive physical note re-scoped from separable/classical to computational- " +
                 "basis-diagonal) and ANALYTICAL_FORMULAS.md F28 (same precision-fix).",
             Status: OpenArcStatus.Retired),
+
+        new OpenArc(
+            Name: "outbound_label_adapters",
+            Opened: "2026-07-05",
+            Origin: "Tom's decoupling self-diagnosis (2026-07-04, docs/quantum label-thesis session): the repo ran " +
+                "from zero with no imported labels (zero fossils, free native combination) but also zero SHARED " +
+                "labels (zero cross-combinations; 'wir sind entkoppelt'). The cure is the OUTBOUND twin of the " +
+                "docs/quantum translation series: per core result, one adapter written into the target community's " +
+                "own socket (a socket = THEIR name for the place our result plugs in, plus their open problem that " +
+                "binds to it). Methodology = the repo's own J-theorems applied to itself: mediator-small (one " +
+                "adapter, not a rebuild of either side), relay-staged (one active bond at a time), 2:1 pull (frame " +
+                "as the answer to THEIR open question so the receiver pulls), and stance-OBJECTS not our words " +
+                "(hypotheses/COMBINATION_VALENCE.md: combination unlocks at the stance/tool layer, the word " +
+                "crystallizes last; hand over the operator / the profile / the number, never the coinage). The " +
+                "label thesis itself is already typed (WatchedLetterRoutingClaim, inspect --root label); this arc " +
+                "tracks only the outbound adapters.",
+            ParkedAt: "docs/outbound/ OPENED with the first adapter, SELECTIVE_DECOUPLING_SELECTION_RULE.md " +
+                "(socket S2: the concentrator gamma-profile -> the DD community's 'which qubits, why does " +
+                "subset-DD win' open problem, ADAPT MICRO-54 2021; hands over gamma_edge = N*gamma_base - (N-1)*eps " +
+                "+ the Absorption Theorem + the ibm_torino 2-3.2x hardware contrast; its own honest open item = " +
+                "the A-vs-B mechanism test, gate-error-avoidance vs true noise-contrast, disambiguated by selective " +
+                "DD on a uniform-good-T2 line, unrun). Socket scorecard from the 2026-07-05 scout (PULL n/5): " +
+                "S2 DD 4/5 DONE; S1 palindrome -> Lindbladian symmetry classification 4/5 (pure theory; Pi sits in " +
+                "a GAP in the Sa-Ribeiro-Prosen 38-fold per docs/KMS_DETAILED_BALANCE.md, so the adapter leads " +
+                "with the placement statement or with the clean Pi^2 component; the MIRROR_SYMMETRY_PROOF lit " +
+                "section got the placement + nearest-neighbour arXiv:2605.20930 entries 2026-07-05); S3 relay -> " +
+                "QST-under-dephasing 3/5 (experiments/QST_BRIDGE.md is a near-complete proto-adapter in the old " +
+                "experiment genre; the contact-the-experimentalists step was never executed); S4 the watching -> " +
+                "quantum noise spectroscopy 3/5 (the f81_violation one-number T1-vs-T2 discriminator is novel as a " +
+                "method but needs a hardware-measurable bridge). Doc-side tracker: docs/quantum/THE_LABEL_MAP.md " +
+                "section 7; keep the two in sync.",
+            NextStep: "three sockets remain unwritten as docs/outbound/ adapters, in tractability order: " +
+                "(1) S3: wrap QST_BRIDGE.md into the adapter genre (follow the S2 template's seven sections: " +
+                "your-open-problem-in-your-words / the rule / the object we hand you / tiered evidence / the " +
+                "falsifiable prediction / what we are not claiming / the stance-objects); (2) S1: the palindrome " +
+                "placement adapter (lead with the K-operator or the Pi-gap statement, NOT with our word " +
+                "'palindrome'); (3) S4: the watching -> QNS. Standing rule from the S2 adapter: verify every " +
+                "external citation against the primary source before any outreach.",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;
