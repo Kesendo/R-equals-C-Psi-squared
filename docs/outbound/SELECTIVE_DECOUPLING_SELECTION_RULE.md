@@ -9,15 +9,21 @@ dynamical decoupling community, R=CPsi2 selection rule -->
 result into the dynamical-decoupling community's language and open problem.
 The selection rule and the analytic profile rest on a Tier-1 theorem
 (the Absorption Theorem); the improvement factors are Tier-2 (simulation +
-IBM hardware); the mechanism disambiguation (Section 5) is explicitly OPEN.
-External citations are drawn from a literature scout and should be verified
-against the primary sources before any outreach.
+IBM hardware). The mechanism disambiguation (Section 5) was tested directly
+on 2026-07-05 (ibm_kingston, engineered sink): the concentrator mechanism is
+confirmed live and engineerable at the formula's own dose (edge rate N·γ_base,
+B-dose-CONFIRMED, both layouts), while whether the earlier ibm_torino
+advantage was this mechanism or a gate-cost effect stays open. Section 5's
+full rewrite around the two-run exposure curve is pending the experiment's
+final review pass. External citations are drawn from a literature scout and
+should be verified against the primary sources before any outreach.
 **Date:** July 5, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Related:** [Inside/Outside the Sacrifice Zone](../INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md),
 [Resonant Return](../../experiments/RESONANT_RETURN.md) (the profile formula),
-[IBM Concentrator](../../experiments/IBM_CONCENTRATOR.md) (the hardware run),
+[IBM Concentrator](../../experiments/IBM_CONCENTRATOR.md) (the natural-sink hardware run),
+[Concentrator A-vs-B Mechanism Test](../../experiments/CONCENTRATOR_AB_MECHANISM_TEST.md) (the engineered-sink mechanism test, run 2026-07-05),
 [Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md) (the theorem it rests on),
 [State Transfer Decay Structure](STATE_TRANSFER_DECAY_STRUCTURE.md) (the
 sister adapter, for the QST community),
@@ -129,8 +135,21 @@ exact spectral identity, not a fit.
   qubits while leaving Q85 undecoupled produced **2.0× higher end-to-end
   mutual information on average and up to 3.2× at t = 4 µs**, beating uniform
   DD at all five measured time points ([IBM Concentrator](../../experiments/IBM_CONCENTRATOR.md)).
+- **Hardware (engineered sink, mechanism test).** On IBM ibm_kingston
+  (2026-07-05), a five-qubit line with *uniformly good* T₂ and no natural sink,
+  an engineered sink (injected per-step phase noise) at the formula's own dose
+  (γ_edge = N·γ_base, the hardware-anchored carrier rate) **created** interior
+  mutual information that grows monotonically and persists through the measured
+  window, on both the selective and the uniform layout (**B-dose-CONFIRMED**
+  against pre-registered counts-level bands). Without a sink, selective DD
+  showed **no** advantage on the uniform line; a companion run at the maximal
+  (scramble-ceiling) dose created correlations early and washed them out at
+  depth (overexposure, not destruction). This is the direct test of the
+  mechanism (Reading B) and hands over its engineerable knob
+  ([Concentrator A-vs-B Mechanism Test](../../experiments/CONCENTRATOR_AB_MECHANISM_TEST.md);
+  its final review pass is pending, and Section 5's full rewrite follows it).
 
-The hardware case used a qubit that was *already* the worst on the line; the
+The natural-sink case used a qubit that was *already* the worst on the line; the
 rule says this was not a liability to route around but the resource to exploit.
 
 ---
@@ -177,8 +196,14 @@ Weak coupling, deliberately: this adapter adds a selection principle to your
 toolbox, it does not replace DD theory or the filter-function formalism. In
 particular:
 
-- The mechanism (Section 5, A vs B) is **not yet disambiguated**; the rule is
-  a candidate, not an established result, until the uniform-T₂ experiment runs.
+- The mechanism (Section 5, A vs B) was tested on a uniform-T₂ line with an
+  engineered sink (2026-07-05): the concentrator mechanism is confirmed **live
+  and engineerable** at the formula's own dose (Reading B is sufficient). What
+  stays open is the *attribution of the original ibm_torino advantage*: that
+  run's bad qubit also carried a gate-cost channel, so the mechanism test does
+  not retroactively prove the March win was Reading B rather than Reading A.
+  (The experiment's final review pass is pending; Section 5's full rewrite
+  follows it.)
 - The 139–360× figures are **simulation** against a specific baseline
   (the V-profile); the hardware figure is **2–3.2×** against uniform DD. Do
   not carry the simulation number to hardware.
@@ -200,7 +225,9 @@ If one thing survives this document, let it be the object, not the phrasing:
 - **The theorem:** Re(λ) = −2γ⟨n_XY⟩ (the reason the profile works, exact).
 - **The number:** 2–3.2× on ibm_torino, selective vs uniform DD, all five
   time points.
-- **The experiment:** the uniform-T₂ test of Section 5.
+- **The experiment:** the uniform-T₂ mechanism test of Section 5 (run
+  2026-07-05, Reading B confirmed live and engineerable at the formula's own
+  dose; the original March attribution stays open).
 
 Our first name for it, "sacrifice zone", is left behind on purpose; it was a
 misnomer (nothing is sacrificed) that we corrected to the concentrator, and
