@@ -250,12 +250,24 @@ t = 1, 2 violate it by 2-5×. The pattern is structured, not noisy:
   overtakes the creation. This is a dose/depth crossover, exactly the shape
   the pre-registered (unflown) partial-strength dose point exists to map.
 
-**Named follow-up (per the INCONCLUSIVE rule):** the dose/depth-resolved
-version: the σ ≈ 0.9 rad partial-strength point plus one or two finer time
-points around the crossover (t ∈ [2, 5]), same instrument, same bands
-recipe. B's sharp signature there: the early-t boost grows with dose while
-the crossover point moves earlier; a noise-is-harm frame has no regime with
-a positive leg at all, and that regime is now measured.
+**Named follow-up (per the INCONCLUSIVE rule), SHARPENED by Tom's catch
+(2026-07-05, same evening: "es braucht nur Gamma 0, nicht das
+Maschinen-Gamma"):** the flown sink was the scramble CEILING (per-step
+retention r = 0, γ_sink → ∞), but the concentrator formula never asks for
+the ceiling; its optimum is FINITE, γ_edge = N·γ_base. Under Reading B an
+overdosed sink must do exactly what the hardware showed: create early,
+destroy at depth. The correct B-test flies AT the formula dose: convert via
+the mapping already recorded here (Gaussian per-step phases, r = e^{−σ²/2},
+γ_step = −ln r = σ²/2), so σ² = 2·N·(τ_step/T2_eff,interior) with τ_step
+read from the scheduled circuits and T2_eff the interior's DD-protected
+rate; on this chain that lands at σ ≈ 0.2-0.5 rad, an order below the
+ceiling and below the earlier σ ≈ 0.9 sketch. The dosed run's pre-registered
+B-signature: the early-t boost PERSISTS to larger t (no crossover inside the
+window, or the crossover moves out as the dose drops toward the optimum),
+while the ceiling point (now measured) anchors the overdose end of the
+curve. Runner change needed: a σ parameter for the phase paths (the
+structured-quartet construction generalizes: quartet × scale). Same
+instrument otherwise, same bands recipe, ~13 QPU min.
 
 ## Traps carried in (campaign ledger + this review)
 
