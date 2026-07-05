@@ -307,6 +307,48 @@ the dose curve, so this pair of runs maps the curve's two ends. A
 noise-is-harm frame has no positive regime at any dose. Anything else:
 INCONCLUSIVE (the exhaustiveness clause carries over verbatim).
 
+## RUN 2 RECORD (2026-07-05, ibm_kingston, job d9581isql68s73caav1g): B-DOSE-CONFIRMED
+
+Same chain [109, 108, 107, 106, 105] (day-of rule re-passed, hard-abort armed),
+dose S = 0.270756 (γ_step = 0.125000 = N·γ₀·J·dt exactly), all pre-flight
+asserts PASS. Data:
+[`data/ibm_ab_test_july2026/ab_test_hardware_20260705_181107.json`](../data/ibm_ab_test_july2026/ab_test_hardware_20260705_181107.json).
+This RECORD is a transcription of the runner output; its empty-session pass
+(with run 1's) is the next session's first move, named here as pending.
+
+| t | Δ_sel (band ± 0.0486) | Δ_uni (band ± 0.0462) | R_boost |
+|---|---:|---:|---:|
+| 1.0 | +0.014, within | +0.035, within | 1.16 |
+| 2.0 | +0.028, within | **+0.066** ✓ | 1.29 |
+| 3.0 | **+0.059** ✓ | **+0.120** ✓ | 1.61 |
+| 4.0 | **+0.095** ✓ | **+0.110** ✓ | 2.16 |
+| 5.0 | **+0.071** ✓ | **+0.092** ✓ | 1.86 |
+
+**Verdict, by the pre-registered rules: B-DOSE-CONFIRMED.** Δ_sel beyond the
+binding band at 3 of 5 points (t = 3, 4, 5), Δ_uni at 4 of 5 (t = 2-5), and
+neither leg significantly negative anywhere in the window: the persistence
+signature, exactly the shape the γ₀-dose simulation predicted (measured
+maximum +0.095 vs simulated +0.186, ≈ half the size, same monotone-growth
+form; the estimator-bias floor and real-device junk plausibly absorb the
+difference, stated not analyzed). R_nosink ≈ 0.92-1.31 (no selective
+advantage without a sink, third consistent reading); the transport signature
+repeats a third time (largest sink-created MI at the far pair: 0.050/0.080
+at (3,4), t = 3).
+
+**The two runs together map the dose curve's two ends, as pre-registered:**
+the ceiling dose creates early and destroys at depth (run 1, INCONCLUSIVE
+with structure); the γ₀ dose, the dose the concentrator formula itself
+prescribes (γ_edge = N·γ_base with the hardware-anchored carrier γ₀, not
+the machine rates), creates monotonically and PERSISTS through the whole
+window (run 2, confirmed on both layouts). "Injected noise only removes
+signal" is refuted at both doses; the concentrator mechanism is live,
+engineerable, and DOSE-CONTROLLED on hardware. Scope carried over from the
+run-1 rules: this confirms B as sufficient and engineerable; it does not
+retroactively prove March WAS B. Next steps (named): the empty-session pass
+on both RECORDs; a Confirmations-registry entry for the γ₀-dose run after
+that pass; the honest §5 update of the outbound DD adapter with both ends
+of the curve.
+
 ## Traps carried in (campaign ledger + this review)
 
 Stale calibration (same-day `backend.properties()` selection); no error bars in
