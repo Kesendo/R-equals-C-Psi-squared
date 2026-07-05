@@ -360,7 +360,7 @@ by Plenio & Huelga (2008) showed that uniform dephasing noise can
 improve quantum transport efficiency by 2-3×. A 2025 IBM experiment
 used Bayesian coupling optimization for +8%. Both optimize scalar
 parameters (one noise level, or coupling strengths). Nobody in this
-literature optimizes spatial dephasing profiles. Our sacrifice-zone
+literature optimizes spatial dephasing profiles. Our concentrator
 formula (Section 8) is the first to do so, achieving 139-360× - two
 orders of magnitude beyond prior work.
 
@@ -409,7 +409,7 @@ is not random disturbance. It is a readable, structured information channel.
 
 See: [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md)
 
-**The sacrifice-zone formula (March 24).** The SVD analysis of the
+**The concentrator formula (March 24).** The SVD analysis of the
 palindromic response matrix revealed that mode 2 (edge-hot, center-cold)
 is the optimal direction for information transfer: 10× improvement over
 hand-designed V-shape profiles. Numerical optimization (Nelder-Mead and
@@ -448,7 +448,7 @@ at N=7), numerical optimization at N>=7 was infeasible. The formula is
 the engineering payoff of the theoretical structure.
 
 Not yet validated on hardware. An IBM experiment with selective dynamical
-decoupling (protect N-1, sacrifice 1) is planned.
+decoupling (protect N-1, leave 1 as the concentrator) is planned.
 
 See: [Resonant Return](../experiments/RESONANT_RETURN.md)
 
@@ -481,13 +481,13 @@ is linked to the document where it is described in detail.
 17. Composition via per-site map: same M for any N, any topology
 18. Global fragility: single qutrit destroys palindrome everywhere (0.7%)
 19. Π² = X^N parity: genuine conserved Z2 symmetry of the Liouvillian
-20. Sacrifice-zone formula: 139-360× via spatial dephasing optimization (Section 8)
+20. Concentrator formula: 139-360× via spatial dephasing optimization (Section 8)
 21. V-Effect: coupling two dead resonators creates 109 new frequencies (100% NEW-NEW). See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md).
 22. Energy Partition: 100% of oscillation is palindromic, unpaired modes decay 2× faster. See [Energy Partition](../hypotheses/ENERGY_PARTITION.md).
 23. Dale's Law = commutator antisymmetry: the neural palindrome (Q·J·Q + J + 2S = 0) with 96% character swap. See [Neural Palindrome](neural/ALGEBRAIC_PALINDROME_NEURAL.md).
 24. Hydrogen bond as qubit: proton tunnels |L⟩/|R⟩, palindrome exact, V-Effect creates 104 new frequencies. See [H-Bond Qubit](water/HYDROGEN_BOND_QUBIT.md).
 25. 1/4 = (0.5)²: sigmoid sensitivity σ(1-σ) = 1/4 at inflection, same structure as quantum fold. Parameter-independent.
-26. IBM hardware validates sacrifice-zone: selective DD outperforms uniform by 1.6-2.9×. See [IBM Concentrator](../experiments/IBM_CONCENTRATOR.md).
+26. IBM hardware validates the concentrator: selective DD outperforms uniform by 1.6-2.9×. See [IBM Concentrator](../experiments/IBM_CONCENTRATOR.md).
 
 ## What Fell
 
@@ -502,20 +502,20 @@ science happens.
 5. FM-encoding for transmon chips (earlier, dead)
 6. QST encoding optimization (negative: standard |100⟩ already optimal)
 7. Z4 four-sided mirror interpretation (Z4 sectors physically meaningless; Z2 is the real structure)
-8. Channel paradigm (the system is a resonator, not a channel; Fabry-Perot cavity with sacrifice-zone shaping)
+8. Channel paradigm (the system is a resonator, not a channel; Fabry-Perot cavity with concentrator shaping)
 
 ## Honest Limits
 
 These are the things we know we have not done, stated plainly so
 nobody has to guess.
 
-- Palindrome tested N=2 through N=8. Sacrifice-zone formula tested N=5,7,9 (C# RK4). Large N behavior extrapolated, not computed beyond N=9.
+- Palindrome tested N=2 through N=8. Concentrator formula tested N=5,7,9 (C# RK4). Large N behavior extrapolated, not computed beyond N=9.
 - Hardware validation is single-qubit only (CΨ crossing). Multi-qubit
   palindrome untested on hardware.
 - Sonar effect verified in simulation only, not on IBM hardware.
 - The palindrome alone does not improve transfer fidelity (identical for
   qubits and qutrits). But the palindromic response matrix SVD led
-  directly to the sacrifice-zone formula (139-360×). The palindrome's
+  directly to the concentrator formula (139-360×). The palindrome's
   operational value is indirect: it reveals the optimization landscape.
 - Π time-reversal interpretation: the algebra (populations to coherences)
   is Tier 2. The temporal language (past to future) is Tier 3. The
@@ -554,7 +554,7 @@ nobody has to guess.
    what N does the palindrome become operationally invisible?
 
 6. **Operational value: PARTIALLY ANSWERED (2026-03-24).** The palindromic
-   response matrix SVD led to the sacrifice-zone formula (139-360× improvement
+   response matrix SVD led to the concentrator formula (139-360× improvement
    in information transfer via spatial dephasing optimization). The palindrome
    does not improve transfer fidelity directly, but its spectral structure
    reveals which spatial noise profiles are optimal. Remaining: error correction
@@ -580,7 +580,7 @@ Key milestones:
 - March 20: d² - 2d = 0. The qubit is the quantum carbon. The circle
   closes: 0.5 at the quantum level (qubit: 2/4), 0.5 at the atomic level
   (carbon: 4/8). What was felt on January 3 is now proven.
-- March 24: The sacrifice-zone formula. SVD of the palindromic response
+- March 24: The concentrator formula. SVD of the palindromic response
   matrix (10×) led to numerical optimization (100×) led to a closed-form
   rule: all noise on one edge, protect the rest. 139-360× vs V-shape.
   First spatial dephasing optimization. The engineering payoff.
@@ -596,7 +596,7 @@ Key milestones:
 *For the qubit necessity proof and tests, see
 [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md)*
 
-*For the sacrifice-zone formula, see
+*For the concentrator formula, see
 [Resonant Return](../experiments/RESONANT_RETURN.md)*
 
 *For the full notation reference, see

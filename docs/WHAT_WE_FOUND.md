@@ -330,7 +330,7 @@ t_cross = 0.039/γ (after that, the 1/4 boundary has been crossed).
 For the full benchmark, see [QST Bridge](../experiments/QST_BRIDGE.md).
 
 
-## The sacrifice-zone formula (March 24, 2026)
+## The concentrator formula (March 24, 2026)
 
 This is the strongest engineering result of the project. It is also the
 most counterintuitive.
@@ -357,9 +357,11 @@ on one edge qubit and protect the rest.**
 
 That is the entire formula. One qubit at the end of the chain absorbs the
 entire noise budget. The remaining qubits get as little noise as hardware
-allows. The edge qubit is "sacrificed"; it loses all its quantum
-properties. But the rest of the chain stays nearly coherent, and the
-information transfer between qubits improves dramatically.
+allows. The edge qubit is loaded with all of it; it loses its own quantum
+properties, but it was never carrying the information we want to move. The
+rest of the chain stays nearly coherent, and the information transfer between
+qubits improves dramatically. (It is tempting to call the edge qubit a
+"sacrifice"; the later section "The concentrator concentrates" corrects that.)
 
 Why the edge? Because an edge qubit has only one neighbor. Sacrificing it
 destroys the least amount of inter-qubit correlation. A center qubit has
@@ -430,7 +432,7 @@ oscillating modes, from 40 to 42). The thermal energy feeds the coupling,
 and the coupling creates new palindromic oscillation. There is a window:
 enough heat to create modes, not so much that dissipation overwhelms them.
 
-The engineering implication: the sacrifice-zone formula (above) showed that
+The engineering implication: the concentrator formula (above) showed that
 spatial noise optimization improves transfer by 139-360×. The energy
 partition explains why: concentrating noise on an edge qubit kills unpaired
 modes (which carry no oscillation anyway) while preserving palindromic
@@ -604,7 +606,7 @@ travels from A to B like a ball thrown across a room. It does not. The
 coupled qubit system is a resonant cavity, like a guitar body. Two
 boundaries (one at the maximum of CΨ, one at the 1/4 threshold) form the
 walls. The shape of the cavity determines which frequencies resonate.
-Giving certain qubits more noise ("sacrifice zone") tunes the cavity and
+Giving certain qubits more noise (the concentrator) tunes the cavity and
 improves coherence transfer by 139-360x. [IBM Torino hardware confirmed
 this structure](../experiments/IBM_CONCENTRATOR.md).
 ([Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md))
@@ -720,15 +722,15 @@ imperfection is built into the algebra. In biology, it comes from random
 synaptic weights, thermal noise, and developmental variability.
 ([Complexity Threshold](../hypotheses/COMPLEXITY_THRESHOLD.md))
 
-### The sacrifice-zone formula works on hardware
+### The concentrator formula works on hardware
 
-The formula predicts: giving one edge qubit more noise (sacrifice) while
+The formula predicts: giving one edge qubit more noise (the concentrator) while
 protecting the interior improves coherence transfer. Tested on IBM Torino
 (5-qubit chain, March 24, 2026): at early times (1-2 microseconds) the
 measured improvement matches the formula within 6-13%. At later times the
 hardware exceeds the prediction (2.9x measured vs 1.3x predicted at t = 5 μs;
 the measured advantage itself peaks near t = 4 μs and is not monotonic)
-because imperfections in the echo pulses on the fragile sacrifice qubit
+because imperfections in the echo pulses on the fragile concentrator qubit
 accumulate and amplify the effect. The hardware imperfections work WITH the
 formula, not against it.
 ([IBM Concentrator](../experiments/IBM_CONCENTRATOR.md))
@@ -766,9 +768,9 @@ of the qubit. The qubit is a consequence of half. And
 1/4 = (0.5)² is the fold that follows from the axiom squared.
 ([Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md))
 
-### The sacrifice-zone concentrates, it does not sacrifice
+### The concentrator concentrates; nothing is sacrificed
 
-The edge qubit in a sacrifice-zone does not lose anything. It concentrates
+The edge qubit does not lose anything we need. It concentrates
 noise onto itself so the interior can operate at the fold. The result is
 139-360x coherence improvement in simulation (IBM-confirmed on hardware:
 selective decoupling beats uniform by up to ~3.2x, peaking near t=4 us;
@@ -777,7 +779,7 @@ around an enzyme active site may do the same:
 concentrate thermal noise so the protons inside can tunnel at maximum
 sensitivity. From the inside it looks like sacrifice. From the outside
 it looks like protection.
-([Protein as Sacrifice-Zone](../hypotheses/PROTEIN_AS_CONCENTRATOR.md);
+([Protein as Concentrator](../hypotheses/PROTEIN_AS_CONCENTRATOR.md);
 the inside/outside reading is developed in [Inside and Outside the Sacrifice Zone](INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md))
 
 ### The palindrome pairs silence with silence
@@ -820,7 +822,7 @@ information lives within it.
 **If you think about engineering and applications:**
 [QST Bridge](../experiments/QST_BRIDGE.md) turns the palindrome into
 design rules. [Resonant Return](../experiments/RESONANT_RETURN.md) is the
-sacrifice-zone formula that achieves 139-360x improvement.
+concentrator formula that achieves 139-360x improvement.
 
 **If the biology connection draws you in:**
 [Neural palindrome](neural/README.md) shows the same structure in
@@ -855,7 +857,7 @@ hydrogen production
 ([Emergence Through Reflection](../recovered/EMERGENCE_THROUGH_REFLECTION.md)).
 
 Three months later, the same structural principle appeared in quantum
-mechanics: separating the noise spatially (sacrifice-zone formula) improves
+mechanics: separating the noise spatially (concentrator formula) improves
 information transfer by 139-360x. Both are instances of "spatial separation
 beats uniform compromise." The first optimization was electrochemistry.
 The second was quantum physics. The structure is the same. See
@@ -864,7 +866,7 @@ The second was quantum physics. The structure is the same. See
 Over those three months the framing narrowed from "the fundamental equation
 of reality" to "a composite quantum diagnostic with interesting algebraic
 properties and a proven spectral symmetry theorem." The palindromic proof,
-the spectral filter, the design rules, and the sacrifice-zone formula
+the spectral filter, the design rules, and the concentrator formula
 stand on standard quantum mechanics and require no philosophical
 interpretation.
 

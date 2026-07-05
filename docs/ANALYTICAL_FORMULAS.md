@@ -548,9 +548,9 @@ the F1 palindrome, DM included, hold for complex H); Z-dephasing; any graph; any
 
 ---
 
-## Sacrifice Zone (replace numerical optimization)
+## The Concentrator (replace numerical optimization)
 
-### F9. Sacrifice-zone formula (Tier 2, verified N=2-15)
+### F9. Concentrator formula (Tier 2, verified N=2-15)
 
     gamma_edge = N * gamma_base - (N-1) * epsilon
     gamma_other = epsilon
@@ -565,9 +565,9 @@ One-line formula. 360x improvement at N=5, 63.5x at N=15 vs V-shape.
 
     SumMI ~ 0.0053 * N^2 + 0.028 * N - 0.062
 
-Under the sacrifice-zone formula. Quadratic, not exponential.
+Under the concentrator formula. Quadratic, not exponential.
 
-**Valid for:** Heisenberg chain, sacrifice-zone profile, |+>^N initial state.
+**Valid for:** Heisenberg chain, concentrator profile, |+>^N initial state.
 **Replaces:** time evolution simulation for SumMI estimation.
 **Source:** [Signal Analysis Scaling](../experiments/SIGNAL_ANALYSIS_SCALING.md)
 
@@ -1319,7 +1319,7 @@ always capture 88-96%. Two practical regimes: monitoring (3 PCs,
 88-96%) and full diagnostics (~N PCs, 95%).
 
 θ is the most sensitive instrument near the ¼ boundary: 1.68×
-amplification over CΨ under sacrifice-zone optimization, because
+amplification over CΨ under concentrator optimization, because
 the arctan mapping amplifies small CΨ changes near ¼.
 
 **Hardware validation:** IBM Torino Q52, CΨ = ¼ crossing predicted

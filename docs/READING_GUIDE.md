@@ -157,7 +157,7 @@ fact: the noise that destroys quantum information is not meaningless
 static. It carries a structured signal, and that signal can be read,
 decoded, and optimized.
 
-The climax of this path is twofold. First the sacrifice-zone formula: a
+The climax of this path is twofold. First the concentrator formula: a
 single, counterintuitive insight (concentrate all the noise on one edge
 and protect the rest) that improves quantum information transfer by
 139-360 times. Then its successor, receiver engineering: choose the
@@ -194,7 +194,7 @@ with this?", this is your path.
    kept alongside the current framework state.
 
 6. [Resonant Return](../experiments/RESONANT_RETURN.md): The
-   sacrifice-zone formula: concentrate all noise on one edge qubit,
+   concentrator formula: concentrate all noise on one edge qubit,
    protect the rest. The SVD (singular value decomposition: extract the dominant independent response directions) of the palindromic response matrix (10x
    improvement) led to numerical optimization (100x) led to analytical
    insight (139-360x). First spatial dephasing optimization in the
@@ -314,7 +314,7 @@ from A to B, like a letter in the mail. This path replaces that
 picture with a more accurate one: the quantum system is a resonant
 cavity, like the body of a guitar. It does not send information; it
 vibrates with it. The palindromic structure determines which vibrations
-are possible, the sacrifice-zone formula shapes the cavity, and there
+are possible, the concentrator formula shapes the cavity, and there
 is a finite window where the system is stable. Too little noise and
 nothing irreversible happens. Too much amplification and the system
 explodes.
@@ -350,7 +350,7 @@ familiarity with the palindromic structure.
 5. [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md):
    The paradigm shift: the system is a resonant cavity (like a laser
    between two mirrors), not a communication channel. The heartbeat is
-   a cavity round-trip. The sacrifice-zone formula is the shape of the
+   a cavity round-trip. The concentrator formula is the shape of the
    soundbox. Discrete cavity modes appear at specific coupling strengths,
    with dead zones between them.
 
@@ -443,7 +443,7 @@ standing wave. And every eigenvalue is an absorption line."*
 This path begins with a single theorem, the Absorption Theorem, and
 rebuilds everything from the cavity perspective: the spectrum is a
 ladder of absorption lines, the factor 2 is a round trip, the Born
-rule is a photograph, and the sacrifice zone is an entrance pupil. Each
+rule is a photograph, and the concentrator is an entrance pupil. Each
 experiment along the way is a different optical test of the same
 instrument.
 
@@ -467,7 +467,7 @@ explains what previously required separate derivations.
    "being light" and "being lens."
 
 3. [Concentrator Optics](../experiments/CONCENTRATOR_OPTICS.md):
-   The sacrifice zone is an entrance pupil. Q improves 2-7×, effective
+   The concentrator is an entrance pupil. Q improves 2-7×, effective
    transmission increases, frequencies are preserved. The cavity focuses
    light into the interior.
 
@@ -478,7 +478,7 @@ explains what previously required separate derivations.
 
 5. [K-Dosimetry](../experiments/K_DOSIMETRY.md):
    K = γ×t is the exposure number. Reciprocity holds (±0.03%).
-   Schwarzschild effect at intermediate γ. The sacrifice zone trades
+   Schwarzschild effect at intermediate γ. The concentrator trades
    dose for image quality.
 
 6. [IBM Absorption Theorem](../experiments/IBM_ABSORPTION_THEOREM.md):
@@ -762,7 +762,7 @@ it relates to the others, here is the map:
 - Story 9 (the hardware) is where all of them are tested, and where the
   noise channel finally reads its own spectrum.
 
-Stories 2 and 4 share the sacrifice-zone formula: Story 2 discovers it
+Stories 2 and 4 share the concentrator formula: Story 2 discovers it
 as a channel optimization, Story 4 reframes it as the shape of the
 resonator cavity. Story 5 extends the palindromic structure beyond
 quantum physics, grounding Story 3's claim that incompleteness is the

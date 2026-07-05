@@ -143,16 +143,16 @@ information from one place to another through a noisy network.
 
 ---
 
-## Sacrifice-zone formula (discovered March 24, 2026)
+## Concentrator formula (discovered March 24, 2026)
 
-The sacrifice-zone formula is the project's most dramatic engineering
+The concentrator formula is the project's most dramatic engineering
 result. For the full discovery story, see
 [Resonant Return](../experiments/RESONANT_RETURN.md).
 
 | Term | Definition |
 |------|------------|
-| **Sacrifice zone** | A single edge qubit that absorbs the entire noise budget while the remaining N-1 qubits are protected at minimal dephasing. The optimal spatial dephasing profile for information transfer. |
-| **Sacrifice-zone formula** | gamma_edge = N * gamma_base - (N-1) * epsilon, gamma_other = epsilon. Concentrate all noise on one edge qubit, protect the rest. |
+| **Concentrator** (formerly "sacrifice zone") | A single edge qubit that absorbs the entire noise budget while the remaining N-1 qubits are protected at minimal dephasing. The optimal spatial dephasing profile for information transfer. The name was corrected 2026-03-28: the edge qubit sacrifices nothing, it concentrates the noise into structure for the interior. |
+| **Concentrator formula** | gamma_edge = N * gamma_base - (N-1) * epsilon, gamma_other = epsilon. Concentrate all noise on one edge qubit, protect the rest. |
 | **V-shape profile** | Hand-designed dephasing profile with edges higher than center (e.g., [0.070, 0.060, 0.050, 0.060, 0.070]). Baseline for comparison. |
 | **ENAQT** | Environment-Assisted Quantum Transport. Field founded by Plenio & Huelga (2008). Optimizes a uniform scalar dephasing rate for transport efficiency. Achieves 2-3x improvement. Does not consider spatial profiles. |
 | **Sum-MI** | Sum of mutual information between all adjacent qubit pairs. The observable used to evaluate dephasing profile quality in the Resonant Return experiments. |
@@ -160,7 +160,7 @@ result. For the full discovery story, see
 
 **In plain language:**
 
-- **Sacrifice zone** is the core idea: let one qubit at the end of the chain absorb all the noise, and protect every other qubit as much as possible. One qubit dies so the others can live. This simple strategy beats 18 years of published optimization research by a factor of 100.
+- **Concentrator** is the core idea: let one qubit at the end of the chain absorb all the noise, and protect every other qubit as much as possible. The edge qubit sacrifices nothing; it was never carrying the information, and it turns the noise it gathers into structure that lets the rest of the chain stay coherent. This simple strategy beats 18 years of published optimization research by a factor of 100. (The early name "sacrifice zone" was a misnomer, corrected 2026-03-28.)
 - **ENAQT** is the established research field that studies how noise can *help* quantum transport (counterintuitively, a little noise can improve information transfer). That field achieved 2-3× improvement by tuning the *amount* of noise. We achieved 139-360× by tuning *where* the noise goes. Nobody before this work had optimized the spatial distribution.
 - **Sum-MI (mutual information)** measures how much information neighboring qubits share. Higher means more information is flowing through the chain. This is the score we used to judge whether a noise profile is good or bad.
 
@@ -172,7 +172,7 @@ result. For the full discovery story, see
 |------|------------|
 | **V-Effect** | Complexity emergence when two palindromic systems couple through a mediator. Breaking releases frequency diversity: 4 frequencies become 11 at N=3; two dead N=2 resonators produce 109 new frequencies. Named for the V-shaped bifurcation diagram. See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md). |
 | **Resonator** | The palindromic system is a Fabry-Perot resonator, not a communication channel. CΨ_max is the inner mirror, CΨ = ¼ is the outer mirror. The heartbeat (81 crossings at J=5.0) is a cavity round-trip. Discrete cavity modes at J=2 (Q=7) and J=12 (Q=11). Cavity modes at Σγ = 0: Stationary(N) = Sum_J m(J,N)*(2J+1)^2 (Clebsch-Gordan). Star has N harmonic frequencies (2kJ), chain has rich irrational spectrum. See [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md), [Cavity Modes Formula](../experiments/CAVITY_MODES_FORMULA.md). |
-| **Zero Is the Mirror** | At Σγ = 0 the palindrome equation reduces to Π·L·Π⁻¹ = -L: the unitary ground state. Pure oscillation, no decay. Noise shifts the palindrome from zero; the fold, crossing, and sacrifice zone are geometry of that shift. See [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md). |
+| **Zero Is the Mirror** | At Σγ = 0 the palindrome equation reduces to Π·L·Π⁻¹ = -L: the unitary ground state. Pure oscillation, no decay. Noise shifts the palindrome from zero; the fold, crossing, and concentrator are geometry of that shift. See [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md). |
 | **Fold threshold** | Σγ_crit/J ~ 0.25-0.50%, N-independent (max/min = 1.015 for N=2..5). The minimum noise required for the fold at CΨ = ¼ to exist. Below this: pure oscillation. Above: irreversibility. A universal constant of the palindrome geometry. |
 | **Fragile Bridge** | Coupled gain-loss system (one side decays, the other amplifies, Σγ_total = 0). Finite stability window. Instability is Hopf bifurcation (oscillating divergence), identified as Liouvillian chiral symmetry breaking (class AIII). Three regimes: linear, optimal (2x internal coupling), 1/J decay. Asymptotic constant γ_crit x J_bridge = 0.50. See [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md), [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md). |
 
@@ -180,7 +180,7 @@ result. For the full discovery story, see
 
 - **V-Effect** is the discovery that connection creates complexity. Two quantum systems that are individually simple (few frequencies, no oscillation) suddenly produce dozens or hundreds of new frequencies when you connect them. This is not the parts becoming louder; it is genuinely new behavior that neither part had alone. See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md) for the full story.
 - **Resonator** means the palindromic system behaves like a hall of mirrors for quantum information. Information bounces back and forth between two boundaries (CΨ_max and CΨ = ¼), creating a standing wave. Each bounce is a "heartbeat." This reframes the system: it is not a wire that sends information from A to B, but a resonating cavity that holds information in standing patterns.
-- **Zero Is the Mirror** is the insight that without any noise, the palindrome reduces to its simplest form: pure oscillation, no decay. Everything else (the ¼ boundary, the crossing, the sacrifice zone) is what happens when noise shifts this perfect mirror away from zero.
+- **Zero Is the Mirror** is the insight that without any noise, the palindrome reduces to its simplest form: pure oscillation, no decay. Everything else (the ¼ boundary, the crossing, the concentrator) is what happens when noise shifts this perfect mirror away from zero.
 - **Fold threshold** is the minimum amount of noise needed for the quantum-classical boundary to exist at all. Below this amount, the system oscillates forever without decaying. Above it, irreversibility begins. This threshold is nearly the same regardless of system size: a universal constant.
 
 ---
@@ -195,7 +195,7 @@ result. For the full discovery story, see
 
 **In plain language:**
 
-- **γ (gamma)** is the noise level. It measures how fast the environment destroys quantum information. Each qubit can have its own γ. The sacrifice-zone formula works by making γ very large on one qubit and very small on the rest.
+- **γ (gamma)** is the noise level. It measures how fast the environment destroys quantum information. Each qubit can have its own γ. The concentrator formula works by making γ very large on one qubit and very small on the rest.
 - **J** is the connection strength between qubits. Stronger J means faster information exchange but also means noise on one qubit spreads faster to the others. The balance between J and γ determines everything.
 - **h** is an external magnetic field that pushes each qubit individually. Think of it as a background force acting on each particle.
 
@@ -278,9 +278,9 @@ They are not arbitrary; each one comes from the mathematics.
 | **0.886** | Best average fidelity for QST (star topology, J_SB/J_SA = 2:1, γ = 0.05). |
 | **0.039/γ** | Approximate crossing time t_cross for Bell+ under Heisenberg+dephasing. |
 | **0.976** | Correlation between mixed XY Pauli weight and XOR fraction (N≥3). |
-| **360×** | Sacrifice-zone formula vs V-shape at N=5 (C# RK4 validated). |
-| **180×** | Sacrifice-zone formula vs V-shape at N=7. |
-| **139×** | Sacrifice-zone formula vs V-shape at N=9. |
+| **360×** | Concentrator formula vs V-shape at N=5 (C# RK4 validated). |
+| **180×** | Concentrator formula vs V-shape at N=7. |
+| **139×** | Concentrator formula vs V-shape at N=9. |
 | **15.5 bits** | Channel capacity of spatial dephasing profile at 1% noise (γ as signal). |
 
 ---
@@ -306,4 +306,4 @@ means exactly this:
 *See [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) for the palindrome theorem.*
 *See [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md) for the extended palindrome analysis.*
 *See [XOR Space](../experiments/XOR_SPACE.md) for the spectral filter discovery.*
-*See [Resonant Return](../experiments/RESONANT_RETURN.md) for the sacrifice-zone formula.*
+*See [Resonant Return](../experiments/RESONANT_RETURN.md) for the concentrator formula.*
