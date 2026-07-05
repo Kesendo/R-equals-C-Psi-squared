@@ -2415,8 +2415,20 @@ public static class OpenArcsRegistry
                 "symmetries of distinct objects), and the repo has analyzed SRP ONLY (Bernard-LeClair absent " +
                 "repo-wide, Kawabata bare mentions), so the adapter claims no placement beyond SRP. ONE socket " +
                 "remains: S4: the watching -> QNS (the f81_violation T1-vs-T2 discriminator needs a " +
-                "hardware-measurable bridge first). Standing rule from the S2 adapter: verify every external " +
-                "citation against the primary source before any outreach.",
+                "hardware-measurable bridge first). THE S4 HANDOVER IS WRITTEN (2026-07-05, cold-read verified " +
+                "twice): ClaudeTasks/TASK_S4_QNS_BRIDGE.md (local-only) assembles the discriminator (F82/F84: " +
+                "zero for every Pauli channel, linear in net cooling, closed form sqrt(sum dgamma^2)*2^(N-1), " +
+                "H- and gamma_z-independent, typed F82T1AmplitudeDampingPi2Inheritance), the crux (input = a " +
+                "FITTED Lindbladian; pi_decompose_M takes chain+terms+RATES and builds L itself), the TAUTOLOGY " +
+                "TRAP (on a Z+T1-parameterized fit the violation IS the closed form of the fitted gamma_T1 by " +
+                "construction; non-tautological needs a free-form fit or the single-entry (Z,I)-element proxy " +
+                "of PROOF_F82 Step 3), the ranked hardware assets (zero-QPU first move: the f95/F113 Kingston " +
+                "fits; the price_pair runner RAN 2026-07-04 on ibm_marrakesh, both legs in-situ; minimal new " +
+                "run = ONE idle single-qubit full-tomography delay grid, F82 holds at N=1, removes the ZZ " +
+                "confound), and the paid-for traps (gate-dominated runs, stale calibration 61% vs 1.9%, " +
+                "readout floor 0.002, echo-vs-Ramsey T2 conventions). Resume by READING THAT FILE, then the " +
+                "zero-QPU scout. Standing rule from the S2 adapter: verify every external citation against " +
+                "the primary source before any outreach.",
             Status: OpenArcStatus.Open),
     };
 
