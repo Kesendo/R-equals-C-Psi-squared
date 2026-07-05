@@ -23,6 +23,8 @@ against the primary sources before any outreach.
 sister adapter, for the QST community),
 [Shifted Order-4 Chiral Symmetry](SHIFTED_ORDER4_CHIRAL_SYMMETRY.md) (the
 sister adapter, for the symmetry-classification community),
+[Noise Asymmetry Symmetry Scalar](NOISE_ASYMMETRY_SYMMETRY_SCALAR.md) (the
+sister adapter, for the noise-spectroscopy community),
 [Combination Valence](../../hypotheses/COMBINATION_VALENCE.md) (why this adapter
 hands over an object, not a word)
 

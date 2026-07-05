@@ -201,13 +201,17 @@ where they are.
   [A Shifted, Order-4 Chiral Symmetry in Local-Dephasing Lindbladians](../outbound/SHIFTED_ORDER4_CHIRAL_SYMMETRY.md)
   (the palindrome → the Sá-Ribeiro-Prosen classification community's own
   margins: the Π-gap placement, the generalized-P question, and the
-  integrable-chiral-Lindbladian statistics data point). One socket remains
-  unwritten (the watching → quantum noise spectroscopy); its gate fell
-  2026-07-05: the hardware-measurable f81 bridge exists
-  ([F81 Violation: the Hardware Bridge](../../experiments/F81_VIOLATION_HARDWARE_BRIDGE.md),
-  the discriminator grounded to the net-cooling flux z∞/T1 and read out on
-  the Marrakesh price_pair data, zero QPU). The arc is tracked in the
-  open-arcs ledger as `outbound_label_adapters`.
+  integrable-chiral-Lindbladian statistics data point). The fourth and last
+  adapter landed 2026-07-05, completing the outbound set:
+  [A Symmetry Scalar for the Emission-Absorption Asymmetry of Qubit Noise](../outbound/NOISE_ASYMMETRY_SYMMETRY_SCALAR.md)
+  (the watching → the quantum-noise-spectroscopy community's own
+  antisymmetric-spectrum object), built on the hardware bridge
+  ([F81 Violation: the Hardware Bridge](../../experiments/F81_VIOLATION_HARDWARE_BRIDGE.md):
+  the discriminator grounded to the net-cooling flux, flown on Kingston
+  the same day, the one-leg asymptote bias caught by its own pre-registered
+  discriminator). All four sockets are now served; outreach execution is
+  the remaining step. The arc is tracked in the open-arcs ledger as
+  `outbound_label_adapters`.
 - **The combination conjecture** (labels as the type system of thought) is now
   grounded in [Combination Valence](../../hypotheses/COMBINATION_VALENCE.md) (Tier 3): the
   descriptive half holds, the forward causal arrow is refuted at its own

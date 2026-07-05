@@ -21,8 +21,9 @@ and should be verified against the primary sources before any outreach.
 (the spectral theorem), [Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md)
 (the per-mode rate law), [Relay Protocol](../../experiments/RELAY_PROTOCOL.md)
 (the time-staged control result), [Theta-Palindrome-Echo](../../experiments/THETA_PALINDROME_ECHO.md)
-(the channel-quality witness), [Selective Decoupling Selection Rule](SELECTIVE_DECOUPLING_SELECTION_RULE.md)
-and [Shifted Order-4 Chiral Symmetry](SHIFTED_ORDER4_CHIRAL_SYMMETRY.md)
+(the channel-quality witness), [Selective Decoupling Selection Rule](SELECTIVE_DECOUPLING_SELECTION_RULE.md),
+[Shifted Order-4 Chiral Symmetry](SHIFTED_ORDER4_CHIRAL_SYMMETRY.md) and
+[Noise Asymmetry Symmetry Scalar](NOISE_ASYMMETRY_SYMMETRY_SCALAR.md)
 (the sister adapters), [Combination Valence](../../hypotheses/COMBINATION_VALENCE.md)
 (why this adapter hands over objects, not words)
 

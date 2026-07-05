@@ -2445,10 +2445,23 @@ public static class OpenArcsRegistry
                 "thermal population; leg 3's one-leg asymptote recipe corrected in the doc (its violations were " +
                 "biased low; cold-bath net flux a ~= gamma_down, z_inf ~= 1); the honest recipe is two-legged " +
                 "(up leg pins gamma_up; gamma_down needs a fluctuation-robust rate). Typed Confirmation " +
-                "f84_heating_leg_attribution_kingston_july2026 (BOTH registries, counts 21->22). Open: down-leg " +
-                "non-exponentiality mechanism (TLS vs quasiparticles, out of scope); a Marrakesh two-leg repeat. " +
-                "Standing rule from the S2 adapter: verify every external citation against the primary source " +
-                "before any outreach.",
+                "f84_heating_leg_attribution_kingston_july2026 (BOTH registries, counts 21->22). S4 ADAPTER " +
+                "WRITTEN 2026-07-05: docs/outbound/NOISE_ASYMMETRY_SYMMETRY_SCALAR.md, the fourth and last " +
+                "sister, ALL FOUR SOCKETS NOW SERVED. Leads with THEIR objects: V = the odd-sector residue of a " +
+                "fitted Lindbladian under the order-4 W, = 2^(N-1)*sqrt(sum (Gdown-Gup)^2) for local sigma+-, " +
+                "identified with the antisymmetric (quantum) part S(+w0)-S(-w0) per Clerk-RMP/Schoelkopf " +
+                "golden-rule reading; coth-free = F84's T-independence (linear bath), the two theorems meet. " +
+                "External anchors VERIFIED against primary sources 2026-07-05 (Szankowski JPCM 29 333001; Clerk " +
+                "RMP 82 1155 + Schoelkopf 2003; Jin PRL 114 240501; Klimov PRL 121 090502). Fresh-context review " +
+                "FIX-THEN-LAND, 12 findings ALL FIXED; the blocker: 'every unital channel' overclaimed, the true " +
+                "class is PAULI channels + mixtures; reviewer's counterexample verified from below (tilted-axis " +
+                "dephasing (X+Z)/sqrt2: unital, V = sqrt2*gamma, identity velocity 0) and propagated: F84 proof " +
+                "got a dated lemma scope note (any Hermitian Pauli STRING cancels; the boundary is the Pauli " +
+                "AXIS, not unitality), the bridge doc a class-scope corollary, the adapter a Pauli-not-unital " +
+                "not-claiming bullet. ARC STATE: all four adapters written; REMAINING = outreach execution " +
+                "(Tom's call per standing rule: re-verify citations before contact; retirement of this arc is " +
+                "his call too), S2's A-vs-B uniform-T2 test (unrun), the Marrakesh two-leg repeat, the down-leg " +
+                "non-exponentiality mechanism (TLS vs quasiparticles, out of scope).",
             Status: OpenArcStatus.Open),
     };
 

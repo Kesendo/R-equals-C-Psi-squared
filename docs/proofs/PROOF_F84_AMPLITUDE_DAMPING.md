@@ -66,6 +66,8 @@ In each case the matrix is diagonal in Pauli basis. The Π² conjugation factor 
 
 This Lemma confirms empirically what was verified by direct computation: D_{Z}, D_{X}, D_{Y} all give ‖D_odd‖_F = 0 exactly.
 
+**Scope extension (2026-07-05, outbound-adapter review pass):** the same argument covers any Hermitian N-qubit Pauli STRING c = P (e.g. Z⊗Z, X⊗Y): P σ_β P = ±σ_β for every Pauli string σ_β, so D[P] is diagonal in the string basis, and the diagonal Π²-factor is again (+1) always. Hence every Pauli-string dissipator, and every mixture of them (Pauli-twirled noise), is fully Π²-symmetric and contributes zero to the violation. Verified numerically at N = 2 for Z⊗Z and X⊗Y (violation 0.0 exactly, `experiments/F81_VIOLATION_HARDWARE_BRIDGE.md` era checks). The boundary of the lemma is the Pauli AXIS, not unitality: a tilted-axis dephasing operator such as c = (X+Z)/√2 is unital but not diagonal in the string basis, and carries a nonzero Π²-odd part (√2·γ at N = 1, verified 2026-07-05); the partial closure of the first open-generalization bullet below is therefore exactly the Pauli-string class (correlated decay channels like σ⁻⊗σ⁻ remain open and DO contribute odd content, without the local closed form's calibration).
+
 ---
 
 ## Proof of F84

@@ -23,8 +23,9 @@ identity and its verification), [KMS and Detailed Balance](../KMS_DETAILED_BALAN
 (the statistics), [PT-Symmetry Analysis](../../experiments/PT_SYMMETRY_ANALYSIS.md)
 (the direct operator classification), [Filling Threshold Chaos](../../experiments/FILLING_THRESHOLD_CHAOS.md)
 (the sector-resolved crossover), [K Partnership proof](../proofs/PROOF_K_PARTNERSHIP.md)
-(the Hamiltonian-level altitude, kept separate), [Selective Decoupling Selection Rule](SELECTIVE_DECOUPLING_SELECTION_RULE.md)
-and [State Transfer Decay Structure](STATE_TRANSFER_DECAY_STRUCTURE.md) (the
+(the Hamiltonian-level altitude, kept separate), [Selective Decoupling Selection Rule](SELECTIVE_DECOUPLING_SELECTION_RULE.md),
+[State Transfer Decay Structure](STATE_TRANSFER_DECAY_STRUCTURE.md) and
+[Noise Asymmetry Symmetry Scalar](NOISE_ASYMMETRY_SYMMETRY_SCALAR.md) (the
 sister adapters), [Combination Valence](../../hypotheses/COMBINATION_VALENCE.md)
 (why this adapter hands over objects, not words)
 
