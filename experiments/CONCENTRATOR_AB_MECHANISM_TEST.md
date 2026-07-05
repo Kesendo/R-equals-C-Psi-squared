@@ -369,6 +369,49 @@ on both RECORDs; a Confirmations-registry entry for the γ₀-dose run after
 that pass; the honest §5 update of the outbound DD adapter with both ends
 of the curve.
 
+## RUN 3 pre-registration (2026-07-05, before the shot): the factor-2-corrected dose
+
+An empty-session review of both RECORDs caught a factor of 2 in the γ₀ dose.
+Runs 1-2 anchored the sink to γ₀ but mapped it to a per-step retention as
+`γ_step = N·γ₀·(J·dt)`, dropping the Lindblad 2: γ₀ is the framework carrier
+with Re(λ) = −2γ₀·k (a k=1 edge coherence decays e^{−2γ₀t}; `UniversalCarrierClaim`:
+γ₀ = 1/(2·T₂)), so the per-step edge retention is e^{−2·γ_edge·(J·dt)}, not
+e^{−γ_edge·(J·dt)}. Run 2 therefore flew γ_edge = N·γ₀/2 = 0.125, **half** the
+formula dose. The runner's own `recommend_dose` uses gamma_base = 1/T2 (a
+coherence rate = 2γ) and is correct; only the manual γ₀ anchor dropped the 2.
+This is the continuous-vs-Trotter / q-vs-Q factor already on record
+(`gamma_0_marrakesh_calibration`: the same data reads γ_Z = 0.05 continuous or
+0.1 Trotter-modeled; 2γ₀ = 0.1).
+
+**The corrected dose:** γ_edge = N·γ₀ = 0.25 (edge Lindblad rate, the actual
+formula dose), per-step retention r* = e^{−2·N·γ₀·(J·dt)} = e^{−0.25} = 0.778801.
+Solved through the runner's exact frozen-path construction at the run seed (which
+reproduces the Run-2 dose r = 0.882497 bit-for-bit as a control):
+**`--dose-scale 0.378105`** (mean per-step r = 0.778801, γ_step = 0.250000).
+Same instrument, same day-of chain rule (hard-abort armed), same binding null
+bands (φ⃗ = 0, dose-independent: Δ_sel ± 0.0486, Δ_uni ± 0.0462).
+
+**Sim gate at the corrected dose (flight chain, seed 20260705, --quick):** Δ_sel =
++0.150 / +0.238 / +0.302 / +0.266 / +0.217 at t = 1..5, all five CIs excluding 0
+and all far beyond the binding band; Δ_uni +0.191 / +0.252 / +0.286 / +0.315 /
++0.240. The effect PEAKS at t = 3 and declines, where the half-dose Run-2 sim grew
+monotonically to t = 5: doubling the dose moves the peak forward, so the formula
+dose already sits near the exposure turnover.
+
+**Caveat, pre-shot (the sim omits the device's own rate):** the counts-level sim
+carries only the injected sink, not the machine's natural dephasing. On hardware
+the effective edge rate is the injected N·γ₀ PLUS the device γ, so the effective
+dose is HIGHER than the sim and the peak/turnover is expected EARLIER (and the
+late-t washout stronger) than the sim's t = 3. Run 2 already turned over earlier
+on hardware than in its own sim, consistent with this.
+
+**Verdict rule (pre-registered, same as Run 2):** B-dose-CONFIRMED if both Δ legs
+sit beyond the binding band at ≥ 3 of the returned time points AND neither leg is
+significantly negative in the window; else INCONCLUSIVE by the exhaustiveness
+clause. Run 3 flies the actual formula-scaled edge rate (N·γ₀), so it becomes the
+"formula dose" point of the exposure curve; Run 2 stays on record as the half-dose
+point, Run 1 as the ceiling.
+
 ## Traps carried in (campaign ledger + this review)
 
 Stale calibration (same-day `backend.properties()` selection); no error bars in
