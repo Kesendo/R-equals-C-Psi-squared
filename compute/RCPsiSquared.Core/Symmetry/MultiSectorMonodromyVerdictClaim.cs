@@ -203,14 +203,15 @@ public sealed class MultiSectorMonodromyVerdictClaim : Claim
                          "isometry on eigenvalue gaps, §7); Theorem A's D-half is CLOSED at N=5 (gate " +
                          "TwinScalarDHalfTests): twin-scalar at every genuinely-complex-q diabolic, the " +
                          "pure-imaginary-q ones semisimple by Hermiticity. The closed-form mixture is resolved (the " +
-                         "quantized-overlap contraction). BROAD-EXCLUSION CENSUS EVIDENCE (2026-07-04, step 3): the " +
-                         "σ_min shell census finds membership = the diamond at ALL 7 real N=9 seeds (PASS) and both " +
-                         "probed N=11 seeds (PARTIAL: four members + two cores deferred behind the LP64 wall), " +
-                         "shared-λ separation ×4.8e8..×4.6e11; the R-parity ALTERNATION law R·W = (−1)^{p+w}·W·R " +
+                         "quantized-overlap contraction). BROAD-EXCLUSION CENSUS EVIDENCE (2026-07-04..06, step 3): the " +
+                         "σ_min shell census finds membership = the diamond at ALL 7 real N=9 seeds and ALL 9 real " +
+                         "N=11 seeds (PASS witness-assisted; the six blocks the LP64 dense wall deferred resolved by " +
+                         "the sparse σ_min path, Tasks 5-6: sparse-witness members + sparse-invit cores), " +
+                         "shared-λ separation ×3.7e8..×4.6e11 (N=9+N=11 combined); the R-parity ALTERNATION law R·W = (−1)^{p+w}·W·R " +
                          "derived from its first light (SectorShellCensus, gates SHELLCENSUS/SLOW_SHELLCENSUS; " +
                          "the census experiment's shell-census section). STILL OPEN (lives with " +
-                         "SpectatorIntertwinerClaim): the N≥7 certificate compute; the matrix-free σ_min path for " +
-                         "the deferred N=11 blocks and N≥13; the complex loci (step 4).");
+                         "SpectatorIntertwinerClaim): the N≥7 certificate compute; N≥13 (the sparse σ_min path and " +
+                         "the seed census both extend past N=11); the complex loci (step 4).");
         }
     }
 }

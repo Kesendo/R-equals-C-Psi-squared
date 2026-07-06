@@ -68,7 +68,7 @@ public static class ShellCensusCommand
             Console.WriteLine($"  found members:    {Fmt(sum.FoundMembers)}");
             Console.WriteLine($"  expected(probe):  {Fmt(sum.ExpectedProbeable)}");
             if (sum.DeferredMembers.Count > 0)
-                Console.WriteLine($"  DEFERRED members: {Fmt(sum.DeferredMembers)} (LP64 wall; the matrix-free follow-up's work list)");
+                Console.WriteLine($"  DEFERRED members: {Fmt(sum.DeferredMembers)} (LP64 wall; drop --no-sparse to resolve them via the sparse path)");
             if (sum.Ambiguous.Count > 0)
                 Console.WriteLine($"  AMBIGUOUS:        {Fmt(sum.Ambiguous)} (sigma_min within x{opts.AmbiguousBandFactor.ToString(Inv)} of the member cut)");
             if (sum.Unresolved.Count > 0)

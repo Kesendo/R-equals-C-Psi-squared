@@ -602,7 +602,7 @@ public static class OpenArcsRegistry
                 "GaloisMonodromyWitness.TraceToDiabolic, and gmscan --trace [--tq q] [--tsteps n] (gate-first: " +
                 "prints PASS / CONFIRMED). " +
                 "Here is where we continue hand-over-hand.",
-            NextStep: "RESUMING IN ONE LINE (2026-07-04, post step-3 shell census) [symbols: see the TERMS block at " +
+            NextStep: "RESUMING IN ONE LINE (2026-07-06, post N=11 completion; step 3 landed through N=11 via the sparse path) [symbols: see the TERMS block at " +
                 "the END of this header]: STEP 3 OF THE LARGE-N EXCLUSION PROGRAM IS RUN AND LANDED. The instrument " +
                 "(SectorShellCensus + ShiftedSigmaMin + BlockLattice + RealDefectiveSeeds + the general (p,w) R-parity " +
                 "sectors on WeightCoherenceBlock; CLI 'shellcensus'; gates SHELLCENSUS / SLOW_SHELLCENSUS / " +
@@ -610,11 +610,14 @@ public static class OpenArcsRegistry
                 "fundamental-domain strip, window-gated, R-parity split (~1/4 LU cost), seed refined in-parity to " +
                 "pairGap ~1e-6, member cut adaptive at 10*pairGap. VERDICT: N=9 PASS at ALL 7 seeds (membership = the " +
                 "containment diamond; members read the Jordan pseudospectrum depth ~(gap/2)^2 = 3e-14..5.5e-13; " +
-                "nearest non-member 2.5e-4..2.6e-2; separation x4.8e8..x4.6e11); N=11 PARTIAL-clean at 2 seeds (one " +
-                "per parity; 6/10 members probeable, all ~e-13; DEFERRED by name behind the managed-LP64 wall " +
-                "(dim<=46340): members (4,5),(5,6)xlambda_A + (4,6),(5,5)xmu and cores (4,4),(4,7) -- 'cores' " +
-                "here = the diagonal core and its f_Q fold image (4,N-4); the 07-03 journal layer's 'biggest " +
-                "cores' phrase spoke of DIMENSION, a different sense). " +
+                "nearest non-member 2.5e-4..2.6e-2; separation x4.8e8..x4.6e11); N=11 COMPLETE at ALL 9 seeds (both " +
+                "parities; the full 10-member diamond, verdict PASS witness-assisted; the six wall-deferred blocks " +
+                "-- members (4,5),(5,6)xlambda_A + (4,6),(5,5)xmu and non-member cores (4,4),(4,7) -- are resolved " +
+                "by the sparse sigma_min path (Tasks 5-6: sparse-witness carries a member's parity bound from above, " +
+                "sparse-invit estimates a core's sigma_min, a large-margin exclusion, not a certified bound); " +
+                "separation x3.7e8..x1.5e11 (N=11 alone); seeds 1-4 default " +
+                "wall, 5-9 --max-sector-dim 20000 to clear a background-task memory cap on the 2nd ~23GB dense cell, " +
+                "verdicts wall-independent (dense/sparse agree relDiff 0.014 at the Step-0 control). " +
                 "THREE new derived/measured structures: (1) the R-PARITY ALTERNATION LAW R*W = (-1)^{p+w}*W*R (the " +
                 "JW string reflects from the other end, R c_l R = P_Z c_{N-1-l}; P_Z rho P_Z = (-1)^{p+w}) -- every " +
                 "band step flips the carried parity, fold/transpose preserve it, diagonal climbs commute strictly " +
@@ -628,13 +631,14 @@ public static class OpenArcsRegistry
                 "Results: experiments/F89_MULTI_SECTOR_MONODROMY.md (the shell-census section) + " +
                 "simulations/results/sector_shell_census/*.csv; proof open-item 4 updated; F125 updated. " +
                 "NEXT (the program's remaining surface; THIS (a)/(b)/(c) list supersedes every earlier (a)/(b)/(c) " +
-                "numbering in the journal layers below): (a) the MATRIX-FREE sigma_min path (SparseShiftInvertArnoldi " +
-                "exists at Core/BlockSpectrum/SparseShiftInvertArnoldi.cs; the CSR emission of the sector blocks is " +
-                "the piece TO BUILD, docking into Diagnostics/Foundation/SectorShellCensus.cs) for the six deferred " +
-                "N=11 blocks + the remaining " +
-                "7 N=11 seeds (one CLI command each, ~19 min/seed: dotnet run --project compute/RCPsiSquared.Cli -c " +
-                "Release -- shellcensus --n 11 --seed <qStar>; --all-seeds for a full N; seeds listed in " +
-                "RealDefectiveSeeds) + N=13/15; (b) the seed census past N=11 " +
+                "numbering in the journal layers below): (a) DONE 2026-07-06 -- the SPARSE sigma_min path was BUILT " +
+                "as Tasks 5-6 (SparseShiftedSigmaMin, inverse-iteration+LSQR on the CSR sector block, docked into " +
+                "SectorShellCensus's deferred branch as sparse-invit for non-member cores + SectorWitnessTransport " +
+                "as sparse-witness for members) and CLOSED the six deferred N=11 blocks, so N=11 is COMPLETE at all " +
+                "9 seeds (above); REMAINING is N=13/15 (same instrument, one CLI command each: dotnet run --project " +
+                "compute/RCPsiSquared.Cli -c Release -- shellcensus --n 13 --all-seeds --max-sector-dim 20000; seeds " +
+                "listed in RealDefectiveSeeds once the seed census extends) + the complex loci (step 4, certificate " +
+                "territory); (b) the seed census past N=11 " +
                 "(FindRealDefectiveByCountChange; gate RealSeedCensusTests, run: dotnet test " +
                 "compute/RCPsiSquared.Diagnostics.Tests --filter Category=SLOW_SEEDCENSUS; SLOW at N=13). Scope of " +
                 "the DO-NOT: do NOT re-run the count scan to CONFIRM EXISTENCE (the identity below is the theorem, " +
