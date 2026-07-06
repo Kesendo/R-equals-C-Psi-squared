@@ -6,6 +6,12 @@ shift, integrable chiral Lindbladian Poisson statistics, complex spacing ratio
 filling threshold GinUE, Sa Ribeiro Prosen classification extension, outbound
 adapter symmetry classification community, R=CPsi2 placement -->
 
+**PARKED (2026-07-06), not outreach-ready.** The whole docs/outbound arc is
+parked (no outreach plan, gated on Tom; the S2 concentrator adapter was found
+hollow on review). This adapter has NOT itself had an empty-review round, so
+treat it as an unvalidated draft; every result it cites lives in its home
+claim/proof/theorem regardless. See [README](README.md).
+
 **Status:** Outbound adapter (draft). This document translates a repository
 result into the Lindbladian-symmetry-classification community's language and
 open edges. The operator identity is Tier 1 (analytic proof + machine

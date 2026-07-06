@@ -24,7 +24,8 @@ Z-sink at the formula dose on a uniform-good-T₂ line, per-shot-randomized to b
 a genuine channel (not shared classical phases), plus a protection/lifetime
 metric computed first in simulation. External citations still need
 primary-source verification before any contact. The body below is the original
-draft, retained for the record; read it through this banner.
+draft, retained for the record; read it through this banner. (Part of the parked
+docs/outbound arc, see [README](README.md).)
 **Date:** July 5, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)

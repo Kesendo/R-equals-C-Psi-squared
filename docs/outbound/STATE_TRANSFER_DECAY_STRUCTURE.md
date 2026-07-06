@@ -6,6 +6,12 @@ receiver, Wojcik weak sender strong receiver optimum, Bose spin chain quantum wi
 transfer time noise independent, outbound adapter QST community, R=CPsi2 decay
 structure -->
 
+**PARKED (2026-07-06), not outreach-ready.** The whole docs/outbound arc is
+parked (no outreach plan, gated on Tom; the S2 concentrator adapter was found
+hollow on review). This adapter has NOT itself had an empty-review round, so
+treat it as an unvalidated draft; every result it cites lives in its home
+claim/proof/theorem regardless. See [README](README.md).
+
 **Status:** Outbound adapter (draft). This document translates a repository
 result into the quantum-state-transfer community's language and open corner.
 The decay-rate identity and the spectral pairing rest on Tier-1 theorems

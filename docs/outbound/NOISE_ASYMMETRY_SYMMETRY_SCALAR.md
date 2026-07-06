@@ -5,6 +5,13 @@ unital vs non-unital noise certificate, Lindblad symmetry violation scalar, T1 r
 excited state population bias, fluctuating T1 TLS characterization, two-leg inversion
 recovery meeting test, outbound adapter noise spectroscopy community, R=CPsi2 -->
 
+**PARKED (2026-07-06), not outreach-ready.** The whole docs/outbound arc is
+parked (no outreach plan, gated on Tom; the S2 concentrator adapter was found
+hollow on review). This adapter has the strongest anchor of the four (the
+F81/F84 hardware Confirmations, which stay in the registry regardless), but it
+has NOT had a dedicated empty-review round, so it too waits for an actual
+outreach trigger. See [README](README.md).
+
 **Status:** Outbound adapter (draft), the fourth and last of the series. The
 closed form rests on Tier-1 theorems (machine-verified); the golden-rule
 identification in Section 3 is standard weak-coupling theory; the hardware

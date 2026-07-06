@@ -2589,10 +2589,18 @@ public static class OpenArcsRegistry
                 "UNCHANGED: the Absorption Theorem (Tier 1) + the RESONANT_RETURN sim transport result " +
                 "(relabeled peak Sum-MI, N-declining 360x@N5 to 63x@N15). The S2 outbound adapter is " +
                 "DEMOTED from outreach-ready to a PARKED 'theorem + sim + honest open problem' draft (its " +
-                "banner); un-park prerequisite = the real test (per-shot-randomized Z-sink at the formula " +
-                "dose on a uniform line + a protection/lifetime metric computed from below first). The " +
-                "circling was the tell: the docs' genre (outreach-ready validated rule) exceeded the " +
-                "result, so every review round found another over-claim; parking is the fix, not more caveats.",
+                "banner). Then 2026-07-06 (Tom) the WHOLE docs/outbound arc was parked in place (all 4 " +
+                "adapters: S1 STATE_TRANSFER, S2 SELECTIVE_DECOUPLING, S3 SHIFTED_ORDER4_CHIRAL, S4 " +
+                "NOISE_ASYMMETRY; docs/outbound/README.md + per-file banners, files kept so inbound links " +
+                "survive): only S2 is established-hollow, S1/S3/S4 are UNVALIDATED (never empty-reviewed), " +
+                "S4 is the one with a hardware anchor (F81/F84 Confirmations, which stay in the registry " +
+                "regardless). The adapters are outreach WRAPPING; every result lives in its home " +
+                "claim/proof/Confirmation, so parking loses no science. Un-park per-adapter = an actual " +
+                "outreach trigger + a clean empty-review (referee/record/math/physics) + citation checks; " +
+                "the S2-specific un-park additionally needs the real test (per-shot-randomized Z-sink at " +
+                "the formula dose on a uniform line + a protection/lifetime metric computed from below " +
+                "first). The circling was the tell: the docs' genre (outreach-ready validated rule) " +
+                "exceeded the result, so every review round found another over-claim; parking is the fix, not more caveats.",
             Status: OpenArcStatus.Open),
     };
 
