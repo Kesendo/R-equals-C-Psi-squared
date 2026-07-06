@@ -1,4 +1,4 @@
-# IBM Hardware: The Concentrator Profile (Selective DD) Beats Uniform DD at All Five Time Points
+# IBM Hardware: Selective DD Beats Uniform DD at All Five Time Points (Concentrator Mechanism Open)
 
 <!-- Keywords: IBM Torino hardware validation concentrator profile, selective dynamic
 decoupling beats uniform DD, first spatial dephasing profile hardware test,
@@ -57,6 +57,19 @@ outlier: T2(echo) = 5.2 us while neighboring qubits have T2 = 123-244 us.
 This provides a natural concentrator qubit with 51.9x effective contrast
 (T2echo_protected / T2*_concentrator).
 
+**Channel caveat (2026-07-05 review, important):** Q85's short T2echo is
+~93% amplitude damping, not Z-dephasing. With T1 = 2.8 us, 1/(2·T1) = 0.179
+us⁻¹ is 92% of 1/T2echo = 0.192 us⁻¹, so Q85's PURE-dephasing time is
+Tφ ≈ 73 us, only ~2-6x shorter than the interior (Tφ ≈ 170-440 us), not 52x.
+The concentrator selection rule and its Absorption Theorem are proven for
+Z-dephasing only (amplitude damping is the separate F82/F84 object, and DD
+cannot refocus T1). So this natural-sink run does not cleanly test the
+Z-dephasing rule: Q85 is mostly a T1 sink, which makes the gate-cost reading
+(Interpretation A, DD-on-a-T1-limited-qubit hurts) nearly forced and leaves
+the noise-contrast reading (B) largely inapplicable to THIS chain. The
+engineered-sink A-vs-B test used a genuine Z-rotation sink for exactly this
+reason (see [CONCENTRATOR_AB_MECHANISM_TEST](CONCENTRATOR_AB_MECHANISM_TEST.md)).
+
 | Qubit | Role | T1 (us) | T2echo (us) | T2* est (us) |
 |-------|------|---------|-------------|-------------|
 | Q85 | **Concentrator** | 2.8 | **5.2** | ~4 |
@@ -111,11 +124,21 @@ table was promised):** the MI estimator carries a shot-noise bias floor of
 +0.014-0.028 at 4000 shots (measured through this experiment's own
 reconstruction pipeline), and the uniform-DD row above (0.013-0.048) is
 comparable to that floor. The ratios' SIZE is therefore floor-contaminated
-(at t=5 the denominator 0.0131 is at the floor); the robust part is the
-5-of-5 ORDERING. Also recorded there: |+⟩^5 is an exact fixed point of the
+(at t=5 the denominator 0.0131 is at the floor). The 5-of-5 ORDERING is more
+stable than the ratio size, but not floor-independent either: the bias floor is
+state-dependent and does not cancel between the selective and uniform configs
+(different states), so with no error bars this is a suggestive direction, not a
+significance claim. Also recorded there: |+⟩^5 is an exact fixed point of the
 Heisenberg gates, so Sum-MI in this design is a noise-seeded observable (only
 NON-uniform noise creates it), and created MI is a detectability proxy, not
-the concentrator's protection metric. See
+the concentrator's protection metric. And the ordering's SIGN is expected under
+EITHER reading, at least in the mild-contrast regime here: since Sum-MI is
+noise-seeded and selective DD is by construction the MORE non-uniform
+configuration, "selective creates more than uniform" is largely a design
+artifact of which config is more non-uniform (the "more non-uniform → more
+created MI" step is monotone only locally; it turns over at strong dose, as
+Run 1's ceiling shows). So the ordering does not discriminate the concentrator
+mechanism (B) from gate-cost (A) even in principle. See
 [Concentrator A-vs-B Mechanism Test](CONCENTRATOR_AB_MECHANISM_TEST.md), the
 structural-fact section and the reckoning.
 
@@ -190,15 +213,22 @@ Remains item 2).
 
 ### The T2/T2* Effect
 
-The key hardware mechanism: DD refocuses slow noise, pushing T2* toward
+The hardware effect DD exploits: DD refocuses slow noise, pushing T2* toward
 T2(echo). Without DD, qubits remain at their natural T2*. The contrast
 between DD-protected and unprotected qubits comes from this gap:
 
 - Protected (with DD): T2_eff ~ T2(echo) ~ 170-244 us
 - Concentrator (no DD): T2_eff ~ T2* ~ 4 us (Q85 is naturally terrible)
 
-This 40-60x contrast in effective coherence times is the hardware
-realization of the concentrator formula.
+This 40-60x contrast in effective coherence times is the setup the concentrator
+profile prescribes (a noise contrast between protected interior and unprotected
+edge). Two caveats stack on it, both above: (1) this is a T2echo contrast, ~93%
+of which is amplitude damping (T1), NOT the Z-dephasing the rule is proven for
+(Chain Selection channel caveat); the pure-dephasing contrast is only ~2-6x. (2)
+Whether the contrast, rather than the gate-cost of decoupling a bad qubit,
+carries the measured advantage is the open A-vs-B question (see "Does not yet
+show" #1). (The T2* values here are estimated, not device Ramsey measurements;
+the A-vs-B doc discloses the T2echo/2.5 assumption they inherit.)
 
 ### Comparison with Literature
 
@@ -222,11 +252,16 @@ The discovery path was: palindromic eigenstructure -> SVD response matrix
 (gamma_edge = N*gamma_base - (N-1)*epsilon) was derived from the palindromic
 sensitivity structure and predicts 360x improvement at N=5 in simulation.
 
-The hardware experiment does NOT test the formula directly. It tests the
-qualitative prediction: "concentrate noise on one edge, protect the rest."
-The quantitative prediction (360x) assumes perfect noise control (epsilon->0),
-which DD cannot achieve. The hardware result (2-3x) confirms the direction,
-not the magnitude.
+The hardware experiment does NOT test the formula directly, and (2026-07-05
+review) does not confirm its mechanism either. It sets up the qualitative
+picture "concentrate noise on one edge, protect the rest", but the measured
+2-3x selective-vs-uniform ordering does NOT discriminate the concentrator
+mechanism (Reading B) from gate-cost avoidance (Reading A) even in principle
+(see the Results retro-note), and the natural sink Q85 was ~93% amplitude
+damping, outside the Z-dephasing rule's scope (Chain Selection caveat). So the
+run is consistent with the direction; it does not confirm it. The quantitative
+prediction (360x) additionally assumes perfect noise control (epsilon->0),
+which DD cannot achieve.
 
 A direct test of the formula would require controlling individual qubit
 dephasing rates, which IBM hardware does not currently support. The DD
@@ -237,10 +272,12 @@ approximation is the closest available implementation.
 
 **Shows:**
 1. **Selective DD > Uniform DD on real hardware.** 5/5 time points, average
-   2.0x (the ordering is the part the bias-floor caveat does not touch; with
-   no error bars and correlated time points, no formal significance is
-   claimed).
-2. **DD on bad qubits is harmful.** Gate errors on Q85 hurt more than DD helps.
+   2.0x (a point-estimate direction; the bias floor is state-dependent and
+   does not cleanly cancel between configs, and there are no error bars, so no
+   formal significance is claimed).
+2. **DD on bad qubits appears harmful here.** The likely reading is that gate
+   errors on Q85 outweigh DD's benefit (itself a gate-cost, Interpretation-A
+   mechanism); single run, no error bars, so read as directional not established.
 3. **Natural T2 variation is exploitable.** Q85's T2=5us is a feature, not a bug.
 
 **Does not yet show:**
@@ -325,7 +362,9 @@ Echo-aware gamma profiles used:
 | 3.0 | 1.31x | 2.56x | Diverges |
 | 5.0 | 1.33x | 2.87x | Diverges |
 
-At t=1-2 μs the formula matches within 6-13%. At later times the
+At t=1-2 μs the formula's ratio sits within 6-13% of hardware, but per the
+retro-note above this is the residual of a circular one-parameter (J) fit to
+these same ratios, not an independent match. At later times the
 hardware advantage grows beyond the formula prediction because DD
 gates on Q85 (T1 = 2.84 μs, gate time ~ 0.5 μs) introduce T1
 losses that accumulate with each DD cycle. The formula models DD

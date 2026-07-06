@@ -5,22 +5,26 @@ DD selection rule, noise concentrator dephasing sink, open system spectral absor
 theorem, spatial dephasing profile hardware, ibm torino selective DD, outbound adapter
 dynamical decoupling community, R=CPsi2 selection rule -->
 
-**Status:** Outbound adapter (draft). This document translates a repository
-result into the dynamical-decoupling community's language and open problem.
-The selection rule and the analytic profile rest on a Tier-1 theorem
-(the Absorption Theorem); the improvement factors are Tier-2 (simulation +
-IBM hardware). The mechanism disambiguation (Section 5) was attempted directly
-on 2026-07-05 (ibm_kingston, engineered sink, three doses) and did NOT settle
-it: the injected sink produces a positive, device-surviving interior-MI
-increase (so "injected noise strictly removes signal" is refuted), but the
-post-flight audit found that created-MI observable dominated (56-96% at the
-two partial doses) by
-classical mixing of the frozen phase-path construction, and created MI is a
-transport quantity, not the protection reading the DD community would want
-(no lifetime figure exists in the source arc). The mechanism question stays OPEN,
-as does the attribution of the earlier ibm_torino advantage. External
-citations are drawn from a literature scout and
-should be verified against the primary sources before any outreach.
+**Status: PARKED (2026-07-05), not outreach-ready.** This was drafted as the
+first outbound adapter, translating a repository result into the
+dynamical-decoupling community's language. Six empty-session review rounds
+established that its outreach premise does not hold, so it is parked. What is
+solid is a **Tier-1 theorem** (the Absorption Theorem, `Re(λ) = −2γ⟨n_XY⟩`) and
+a **simulation transport result** (the concentrator profile creates more peak
+Sum-MI than a V-profile, ε→0 ideal). What it does NOT have is hardware evidence
+that the *mechanism* works: the March ibm_torino "natural concentrator" (Q85)
+was ~93% amplitude damping (T₁), outside the Z-dephasing theorem's scope and
+not refocusable by DD; and the 2026-07-05 engineered-sink test did NOT settle
+A-vs-B (its created-MI observable was 56-96% classical-mixing artifact at the
+partial doses, and it measures transport, not protection). So this is a
+**theorem + a simulation result + an honest open problem**, NOT a
+hardware-validated selection rule, and should not go to the DD community in
+this form. The named prerequisite for un-parking is a real test: an engineered
+Z-sink at the formula dose on a uniform-good-T₂ line, per-shot-randomized to be
+a genuine channel (not shared classical phases), plus a protection/lifetime
+metric computed first in simulation. External citations still need
+primary-source verification before any contact. The body below is the original
+draft, retained for the record; read it through this banner.
 **Date:** July 5, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -68,14 +72,17 @@ turned out, neither did we.
 
 Selective (or adaptive) dynamical decoupling, applying DD to a chosen subset
 of qubits rather than uniformly to all, is known to beat uniform DD on real
-processors. ADAPT (Das, Tannu, Dangwal, Qureshi, MICRO-54, 2021) reported
-subset-DD outperforming DD-on-all by up to a factor of a few on IBM devices,
-and context-aware DD embedding (PRX Quantum 6, 010332, 2025) continues the
-line. But the selection of *which* qubits to decouple is currently made
-**empirically**: by decoy circuits, per-program search, or noise-adaptive
-heuristics. There is, as far as we have found, no **physics-based selection
-rule** that says in advance which qubits to leave undecoupled and why the
-subset wins.
+processors. ADAPT (Das, Tannu, Dangwal, Qureshi, MICRO-54, 2021) adaptively
+chooses which qubits to decouple, reporting 1.86× average / up to 5.73× vs
+no-DD and 1.2× vs DD-on-all on IBM devices; and context-aware DD embedding
+(GraphDD, PRX Quantum 6, 010332, 2025) computes the optimal DD *sequence* per
+circuit, calibration-free, from circuit context (a different axis: it optimizes
+the pulse embedding, not which qubits to leave out). But the selection of
+*which* qubits to decouple is currently made empirically, by decoy circuits,
+per-program search, or noise-adaptive heuristics, not from the **open-system
+noise physics**. There is, as far as we have found, no selection rule grounded
+in the dephasing spectrum that says in advance which qubits to leave
+undecoupled and why the subset wins.
 
 That gap is the socket. This document offers a candidate selection rule
 derived from open-system spectral structure, and a falsifiable prediction you
@@ -148,9 +155,10 @@ explicitly).
 ## 4. The evidence
 
 - **Simulation.** Against a smoothly graded ("V-shaped") γ-profile, the
-  edge-loaded concentrator profile increases **peak interior mutual
-  information** (a transport metric, the source's own figure of merit) by
-  **139× (N=9) up to 360× (N=5)** ([Inside/Outside the Sacrifice Zone](../INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md)).
+  edge-loaded concentrator profile increases **peak summed nearest-neighbour
+  mutual information (Sum-MI)** (a transport metric, the source's own figure of
+  merit) by **360× at N=5, declining with N (139× at N=9, ~63× by N=15)**
+  ([Inside/Outside the Sacrifice Zone](../INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md)).
   A protection/lifetime version of this figure has not been computed; the
   lifetime reading of the fold is qualitative (label corrected 2026-07-05).
 - **Hardware.** On IBM ibm_torino (2026-03-24), a five-qubit line where one
@@ -163,21 +171,31 @@ explicitly).
   Magnitude caveat (2026-07-05 review): the uniform-DD denominator
   (Sum-MI 0.013-0.048) is comparable to the MI estimator's shot-noise bias
   floor measured through the same pipeline (+0.014-0.028 at 4000 shots), so
-  the ratio's size is floor-contaminated; the 5-of-5 ordering is the robust
-  part.
+  the ratio's size is floor-contaminated; the 5-of-5 ordering is more stable
+  than the size but not floor-independent (the bias floor is state-dependent
+  and does not cancel between configs), a suggestive direction with no error
+  bars. Channel caveat (important): Q85's 5.2 µs T₂-echo is ~93% amplitude
+  damping (T₁ = 2.8 µs), not Z-dephasing; its pure-dephasing contrast to the
+  interior is only ~2-6×, not 52×. Since the rule is proven for Z-dephasing
+  only (§6) and DD cannot refocus T₁, this natural sink sits outside the
+  rule's scope and does not cleanly test it. The engineered-sink test below
+  used a genuine Z-rotation sink for exactly that reason.
 - **Hardware (engineered sink, mechanism test): attempted, not settled.** On
   IBM ibm_kingston (2026-07-05), a five-qubit line with *uniformly good* T₂ and
   no natural sink, an engineered sink (injected per-step phase noise) produced
-  a positive, device-surviving increase of interior mutual information on both
-  the selective and the uniform layout, at three doses (beyond pre-registered
-  counts-level bands; a hardware-native-null cross-check is on record for the
-  third run). That refutes "injected noise strictly removes signal", and
+  a positive, device-surviving increase of summed nearest-neighbour mutual
+  information on both the selective and the uniform layout: beyond the
+  pre-registered counts-level bands at 3-5 of 5 points at the two γ₀-anchored
+  doses (with a hardware-native-null cross-check, shot-noise-only and blind to
+  drift and config-level systematics, on record for the third run), while the
+  scramble-ceiling run was INCONCLUSIVE by the paired rule and inverted to
+  negative by t = 5. That refutes "injected noise strictly removes signal", and
   nothing more: the post-flight audit (a noiseless exact simulation of the
   flown circuits) found the created MI at the two partial doses dominated,
   56-96% across the window, by classical mixing of the frozen phase-path sink
   construction (at the maximal, scramble-ceiling dose the construction is
   channel-dominated; there the sink created MI early, at 4.7× the null band,
-  and the effect inverted at depth), and created MI
+  and the effect inverted at depth, a suggestive, not band-level, reading), and created MI
   is in any case a transport quantity, the source simulation's own figure of
   merit, not a protection metric
   (a perfectly protecting concentrator keeps the interior a product state and
@@ -208,6 +226,12 @@ experiment for your group:
 > deliberate detuning or injected dephasing) to play the sink. If selective DD
 > still beats uniform DD on a uniform-good-T₂ line with no engineered sink,
 > the win is gate-cost (Reading A) and our selection rule does not explain it.
+>
+> *(The binary inference in this box, "selective still wins with no sink →
+> gate-cost", is retired in the Calibration update just below: a real "uniform"
+> line's undecoupled edge sits at T₂\*, a weak natural sink, so Reading B too
+> predicts a small no-sink advantage. The box stands as the original
+> prediction.)*
 
 Either outcome is informative: A bounds the mechanism, B confirms it and hands
 you an engineerable knob (place the sink where you want it, rather than
@@ -235,8 +259,8 @@ N·γ₀/2 and N·γ₀, on top of the device's own rate; N·γ₀ is the profil
 no budget and has no formula optimum). The sink
 produced a positive, device-surviving interior-MI increase beyond
 pre-registered bands on both layouts (hardware-native-null cross-check on
-record for the third run), so the strong form of Reading A
-("injected noise strictly removes signal") is refuted. But the post-flight
+record for the third run), so the strong claim that injected noise strictly
+removes signal (a strawman, not the actual gate-cost Reading A) is refuted. But the post-flight
 audit (a noiseless exact simulation of the flown circuits) showed 56-96% of
 that created MI at the two partial doses is classical mixing of the frozen
 phase-path construction rather than a dephasing channel's effect (the
@@ -268,14 +292,18 @@ particular:
   neither confirms nor refutes Reading B. The attribution of the original
   ibm_torino advantage (Reading B vs the gate-cost Reading A) is equally open.
 - The 139–360× figures are **simulation** against a specific baseline
-  (the V-profile), and they are **peak created interior MI**, a transport
-  metric, not a lifetime; the hardware figure is **2–3.2×** against uniform
-  DD on the same observable class. Do
+  (the V-profile; the ratio peaks at 360× at N=5 and falls with N, to ~63× by
+  N=15), and they are **peak created nearest-neighbour MI**, a transport
+  metric, not a lifetime; the hardware figure is **2.0× on average, up to
+  3.2×** (per-point 1.4-3.2×) against uniform DD on the same observable class. Do
   not carry the simulation number to hardware, and do not read either as a
   coherence-lifetime factor.
 - The theorem is proven for **Z-dephasing** (the unital, phase-only channel).
   Amplitude damping (T₁) is a different object and the rule is not claimed for
-  it.
+  it. This bears on the evidence above: the March natural sink (Q85) was ~93%
+  amplitude damping, so that run sits outside the rule's scope and does not
+  cleanly test it (Section 4); DD cannot refocus T₁, which makes gate-cost
+  (Reading A) nearly forced there.
 - We have not yet connected this to the DD canon (Viola-Lloyd decoupling,
   Poyatos-Cirac-Zoller reservoir engineering); that grounding is a next step,
   not a done one.
@@ -289,9 +317,16 @@ If one thing survives this document, let it be the object, not the phrasing:
 - **The profile:** γ_edge = N · γ_base − (N−1) · ε (an engineerable spatial
   dephasing map).
 - **The theorem:** Re(λ) = −2γ⟨n_XY⟩ (the reason the profile works, exact).
-- **The number:** 2–3.2× on ibm_torino, selective vs uniform DD, all five
-  time points (the 5-of-5 ordering is the robust part; the ratio's size
-  shares its denominator with the MI estimator's bias floor, Section 4).
+- **The number:** 2.0× average (up to 3.2×, per-point 1.4-3.2×) on ibm_torino,
+  selective vs uniform DD, all five
+  time points (the 5-of-5 ordering is a suggestive direction, not
+  floor-independent since the bias floor does not cleanly cancel between
+  configs, and there are no error bars; the ratio's size shares its denominator
+  with the MI estimator's bias floor, Section 4). Two scope limits ride with
+  this number: the sink there (Q85) was ~93% amplitude damping, outside the
+  Z-dephasing rule's scope; and the ordering's sign is close to forced under
+  either reading (selective DD is the more non-uniform config), so it does not,
+  by itself, discriminate the concentrator mechanism from gate-cost.
 - **The experiment:** the uniform-T₂ mechanism test of Section 5 (run
   2026-07-05; it refuted "injected noise strictly removes signal" but did not
   settle A vs B, because its created-MI observable proved to be largely a

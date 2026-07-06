@@ -2392,7 +2392,7 @@ public static class OpenArcsRegistry
                 "subset-DD win' open problem, ADAPT MICRO-54 2021; hands over gamma_edge = N*gamma_base - (N-1)*eps " +
                 "+ the Absorption Theorem + the ibm_torino 2-3.2x hardware contrast; its own honest open item = " +
                 "the A-vs-B mechanism test, gate-error-avoidance vs true noise-contrast, disambiguated by selective " +
-                "DD on a uniform-good-T2 line, unrun). Socket scorecard from the 2026-07-05 scout (PULL n/5): " +
+                "DD on a uniform-good-T2 line; RUN 2026-07-05 and reckoned, A-vs-B still OPEN, see NextStep). Socket scorecard from the 2026-07-05 scout (PULL n/5): " +
                 "S2 DD 4/5 DONE; S1 palindrome -> Lindbladian symmetry classification 4/5 (pure theory; Pi sits in " +
                 "a GAP in the Sa-Ribeiro-Prosen 38-fold per docs/KMS_DETAILED_BALANCE.md, so the adapter leads " +
                 "with the placement statement or with the clean Pi^2 component; the MIRROR_SYMMETRY_PROOF lit " +
@@ -2500,7 +2500,7 @@ public static class OpenArcsRegistry
                 "(ibm_kingston [109,108,107,106,105], job d957dfcql68s73caa4q0): verdict INCONCLUSIVE by the " +
                 "pre-registered rules but STRUCTURED: the engineered sink CREATES interior correlations at early " +
                 "depth in both layouts (Delta +0.228/+0.091 at t=1/2, 4.7x/1.9x the null band, ~the simulated " +
-                "size; transport signature to the FAR pair reproduced on hardware) refuting noise-only-removes-" +
+                "size; a far-pair raw-MI max at t=3 only, within band, the firing depths t=1/2 per-pair mixed and later noted pair-picked) refuting noise-only-removes-" +
                 "signal universally, then INVERTS at depth (t=5 R_boost 0.52), a crossover the gate-error-free " +
                 "sim lacked; R_nosink ~ 1 everywhere (no selective advantage without a sink); named follow-up = " +
                 "the sigma=0.9 dose point + finer t around the crossover; experiments/CONCENTRATOR_AB_MECHANISM_" +
@@ -2515,7 +2515,7 @@ public static class OpenArcsRegistry
                 "findings. (1) FACTOR-2 IN THE DOSE: the manual gamma_0 anchor put the Lindblad carrier " +
                 "gamma_0 = 1/(2T2) (Re lambda = -2*gamma_0*k) in a coherence-rate slot, so run 2 flew " +
                 "gamma_edge = N*gamma_0/2, HALF the formula dose (the runner's recommend_dose was always " +
-                "correct; the documented q-vs-Q twin, gamma_0_marrakesh_calibration). Corrected by the " +
+                "correct; the exact Lindblad rate factor 2*gamma_0 = 1/T2, a coherence rate put in a gamma_0 slot, distinct both from the q=Q/2 J-relabel and from the continuous-vs-Trotter marrakesh factor). Corrected by the " +
                 "re-flown RUN 3 at --dose-scale 0.378105 (r* = e^-0.25, per-step r 0.767-0.788), " +
                 "pre-registered 919116e, fresh chain [50,51,58,71,72], job d95a33sql68s73cad7fg: the rule " +
                 "fires 5/5 both legs; the x2 fix verified 3 ways + the code (SOUND, kept). (2) THE OBSERVABLE " +
@@ -2546,7 +2546,7 @@ public static class OpenArcsRegistry
                 "after run 1's data and never discriminated; the A rule was a strawman measuring " +
                 "detectability): the narrow surviving claim = the engineered sink produces a " +
                 "positive, device-surviving interior-MI increase (beyond bands at early t in run 1 on the " +
-                "channel-equivalent ceiling, across the window in runs 2-3; hardware-native null " +
+                "channel-dominated ceiling, across the window in runs 2-3; hardware-native null " +
                 "2.33*bootstrap-SE on record for run 3), refuting 'injected noise strictly removes signal' " +
                 "universally, largely construction artifact at the partial doses, NOT a mechanism " +
                 "confirmation; the three-dose " +
@@ -2575,7 +2575,24 @@ public static class OpenArcsRegistry
                 "the first lifetime number of the whole arc), (2) any created-MI re-flight needs a " +
                 "per-shot-randomized channel-like " +
                 "sink; neither pre-registered. Also still open: " +
-                "the down-leg non-exponentiality mechanism (TLS vs quasiparticles, out of scope).",
+                "the down-leg non-exponentiality mechanism (TLS vs quasiparticles, out of scope). " +
+                "ARC PARKED 2026-07-05 (Tom's call, 'the experiment says little, we circle'): the honest " +
+                "yield is NEGATIVE + methodological, not a mechanism result. The empty-review cascade " +
+                "(6 rounds: referee/record/math/physics, each finding verified from below) established: " +
+                "(1) the created-MI observable is 56-96% classical-mixing artifact of the frozen K16 sink " +
+                "at partial dose; (2) created MI = TRANSPORT not protection, the 139-360x headline is peak " +
+                "created Sum-MI and the 'protection' label was the arc's own error; (3) the physics lens " +
+                "caught what no earlier lens saw: the March 'natural concentrator' Q85 was ~93% amplitude " +
+                "damping (T1), outside the Z-dephasing theorem's scope and not refocusable by DD, so " +
+                "NEITHER hardware leg tests the mechanism; (4) the one positive survivor ('injected noise " +
+                "does not strictly remove signal') ~ textbook ENAQT + fixpoint-guaranteed. WHAT STANDS " +
+                "UNCHANGED: the Absorption Theorem (Tier 1) + the RESONANT_RETURN sim transport result " +
+                "(relabeled peak Sum-MI, N-declining 360x@N5 to 63x@N15). The S2 outbound adapter is " +
+                "DEMOTED from outreach-ready to a PARKED 'theorem + sim + honest open problem' draft (its " +
+                "banner); un-park prerequisite = the real test (per-shot-randomized Z-sink at the formula " +
+                "dose on a uniform line + a protection/lifetime metric computed from below first). The " +
+                "circling was the tell: the docs' genre (outreach-ready validated rule) exceeded the " +
+                "result, so every review round found another over-claim; parking is the fix, not more caveats.",
             Status: OpenArcStatus.Open),
     };
 
