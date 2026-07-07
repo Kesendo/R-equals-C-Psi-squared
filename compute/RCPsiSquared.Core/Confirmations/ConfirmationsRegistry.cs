@@ -303,7 +303,7 @@ public static class ConfirmationsRegistry
                 "to push Q = J/γ down through Q ≈ 1.5: the revival sits on the equipartition floor (~1/3) for Q ≤ 1.5 and lifts off as Q crosses 1.5 → 2.5 " +
                 "(0.34 → 0.49 → 0.56 → 0.70): a clean overdamped→revival handover at Q ≈ 1.5 on real hardware (the SE walk's critical-damping transition; real, measured). " +
                 "Whether that SE transition is itself a genuine defective EP is under a SEPARATE open review (the coherence-horizon √-EP cluster, inspect --root horizon); not asserted here. " +
-                "The F86a coherence-block 'real-axis EP' this entry formerly cited was retracted 2026-06-21: the full (n,n+1)-coherence block has no eigenvalue coalescence on the real Q axis (genuine non-normality there, large but finite Petermann; the EP is not on the real axis). " +
+                "The F86a coherence-block 'real-axis EP' this entry formerly cited was retracted 2026-06-21 (genuine non-normality near Q_peak, large but finite Petermann); that retraction's 'no real-axis defective EP' was itself corrected 2026-07-07, F89 locates a real-axis defective seed on the full block (PROOF_F86A section Correction). This hardware entry depends on neither reading: it measures the SE-walk overdamped->revival handover, not the block EP. " +
                 "The revival decay envelope is gate-cost-limited (Trotterization, ~9 μs), not T2-limited (~200 μs); only the rate is gate cost, the floor and the onset are physics. " +
                 "This table is the hardware node of EpField (Diagnostics/Foundation/EpField.cs) and the overlay in simulations/ep_transition.py.",
             QubitPath: new[] { 13, 14, 15 }),

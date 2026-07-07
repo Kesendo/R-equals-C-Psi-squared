@@ -423,7 +423,13 @@ an open question.
    The block IS genuinely non-normal there (large but FINITE Petermann),
    exactly the baseline statement; the earlier peak magnitudes, the
    "6× above FRAGILE_BRIDGE", and the 2-4× odd/even asymmetry are
-   dropped as grid artifacts (K swings 2–4× over ΔQ = 1e-3). What
+   dropped as grid artifacts (K swings 2–4× over ΔQ = 1e-3).
+   *(Further corrected 2026-07-07: the "no real-axis EP" conclusion was
+   itself an over-correction; F89 proves the full (1,2) block carries a
+   real-axis defective seed at every odd N, census-defective through N=11,
+   which this coarse-grid sweep missed by a √-EP window ~20-30× narrower
+   than its step. See [PROOF_F86A_EP_MECHANISM](../docs/proofs/PROOF_F86A_EP_MECHANISM.md),
+   the Correction section.)* What
    survives is only the shared algebra (the same-sign-imaginary 2×2,
    AIII chiral, read at two residuals of the F1 palindrome
    `Π · L · Π⁻¹ + L + 2Σγ · I = 0`, Σγ = N·γ₀ vs Σγ = 0); the genuine

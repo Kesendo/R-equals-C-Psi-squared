@@ -383,6 +383,8 @@ non-normal on the real axis (large but FINITE Petermann), the shadow of a nearby
 axis in the complex parameter plane. The genuine defective EPs are the toy 2×2 above and the SEPARATE Σγ = 0
 gain-loss system ([FRAGILE_BRIDGE](../hypotheses/FRAGILE_BRIDGE.md), in the complex γ plane).
 
+*(Further corrected 2026-07-07: the "no real-axis defective EP there" clause was itself an over-correction. F89 proves the full (1,2) block DOES carry a real-axis defective seed at every odd N, census-defective through N=11; the 2026-06-21 grid missed a √-EP window ~20-30× narrower than its step. See [PROOF_F86A_EP_MECHANISM](proofs/PROOF_F86A_EP_MECHANISM.md), the Correction section.)*
+
 And the chip reads the dynamical handover, not a defective pinch: IBM Kingston swept Q and watched a single
 excitation's memory revival stay at the 1/N equipartition floor until Q crossed about Q ≈ 1.5, then lift off,
 the overdamped→revival handover measured on real hardware. Whether that single-excitation transition is
@@ -433,8 +435,9 @@ the 1/N rest. The rotation stilled, the rotation born, and the corridor it opens
   sweep |ψ(α)⟩, the start CΨ(0)=s/3, the crossing threshold s>3/4, the harmonic fraction s²/2, and every
   member sharing the carrier 4γ (the slowing-is-ours reading made plural).
 - (done, see The sixth axis) The exceptional point is built: Q swept across Q_EP=2/g_eff, the toy 2×2's two
-  real channels coalescing defectively at −4γ₀ (the Takt pin, t_peak=1/(4γ₀); the full block has no real-axis
-  coalescence, only genuine non-normality, F86a-retraction), the Rotation angle lifting off
+  real channels coalescing defectively at −4γ₀ (the Takt pin, t_peak=1/(4γ₀); the full block's clean-Q_EP-pinch
+  reading is the toy's, F86a-retraction, though the block DOES carry real-axis defective seeds at F89's scattered
+  q*, corrected 2026-07-07, see [PROOF_F86A_EP_MECHANISM](proofs/PROOF_F86A_EP_MECHANISM.md) §Correction), the Rotation angle lifting off
   (the F95 angle), the eigenvector overlap min(x,1/x)→1, and the IBM Kingston SE handover onset at Q≈1.5. The
   mirror of the interior axis (the rotation born vs stilled), and the entrance to the post-EP flow (the birth canal).
 - Whether the axes nest (a γ-distribution in-between at each fixed bond angle) or are an independent

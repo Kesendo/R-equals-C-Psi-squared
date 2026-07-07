@@ -99,7 +99,7 @@ toy Liouvillian is **defective** (rank 1, a Jordan block: one eigenvector for th
 The toy loses a degree of freedom at that single point , two channels become one, a pinch. (The
 **full** (n, n+1) block does NOT do this on the real Q axis: its eigenvalues stay simple, no
 real-axis coalescence; it is genuinely non-normal there, large but FINITE Petermann, the shadow of a
-nearby EP off the real axis. F86a-retraction, 2026-06-21. The genuine defective EPs are this 2×2 toy
+nearby EP off the real axis. F86a-retraction, 2026-06-21. *(Further corrected 2026-07-07: the "no real-axis coalescence / no real-axis defective EP" reading was itself an over-correction. F89 proves the full (1,2) block carries a real-axis defective seed at every odd N, census-defective through N=11; this scan's coarse grid missed a √-EP window ~20-30× narrower than its step. See [PROOF_F86A_EP_MECHANISM](../docs/proofs/PROOF_F86A_EP_MECHANISM.md), the Correction section.)* The genuine defective EPs are this 2×2 toy
 and the SEPARATE Σγ=0 gain-loss system, [FRAGILE_BRIDGE](../hypotheses/FRAGILE_BRIDGE.md).)
 
 And the pinch reads as a crossing of memory. The clock's two axes are forgetting and remembering:
@@ -128,9 +128,10 @@ the Takt**, the two residuals of the same palindrome Π·L·Π⁻¹ + L + 2Σγ�
 
 - **Σγ = N·γ₀ (local).** The toy 2×2's EP at Q_EP = 2/g_eff. The Takt is running; the mode
   spirals *inward* (decay pinned at −4γ₀k), and the EP is the Rotation hand lifting off. A
-  dissipative resonance peak. (The **full** block-L is genuinely non-normal on the real Q axis but
-  has no real-axis coalescence, there is no real-axis defective EP for the local instance; the
-  genuine EP here is the toy 2×2.)
+  dissipative resonance peak. (The **full** block-L is genuinely non-normal near Q_peak; the clean
+  Q_EP pinch here is the toy 2×2's. *Corrected 2026-07-07: the block's OWN real-axis defective EPs
+  are F89's scattered seeds, the earlier "no real-axis defective EP" was over-broad, see
+  [PROOF_F86A_EP_MECHANISM](../docs/proofs/PROOF_F86A_EP_MECHANISM.md) §Correction.*)
 - **Σγ = 0 (global).** [FRAGILE_BRIDGE](../hypotheses/FRAGILE_BRIDGE.md): a decaying chain bridged
   to an amplifying one, gain cancelling loss. Here Π forces λ ↔ −λ exactly (chiral AIII), the
   eigenvalues sit on the imaginary axis , the Takt is *stopped*, the clock's pure-circle limit

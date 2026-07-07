@@ -52,10 +52,24 @@ namespace RCPsiSquared.Core.F86;
 /// (codim-1 by additivity, <c>reference_nonhermitian_diabolic_codimension</c>), not the rare
 /// S_d-generating defective branch points. The defective/diabolic split is read off the
 /// discriminant's squarefree/square factorization — the same object as the Galois parity split.
-/// This block's OWN real-axis point is NEITHER defective nor diabolic (a non-normal but SIMPLE
-/// eigenvalue, the shadow of an off-axis EP); the defective-vs-diabolic rule (single-particle
-/// coalescence vs frequency-difference coincidence) and the cross-block seam live in
-/// <c>EpCharacterWitness</c> (siblings: <c>CoherenceHorizonClaim</c>, <c>F89Path3OcticEpClaim</c>).</para>
+/// This claim's own real-axis Petermann sweep read a non-normal but SIMPLE eigenvalue at Q_peak
+/// (the shadow of an off-axis EP); the defective-vs-diabolic rule (single-particle coalescence vs
+/// frequency-difference coincidence) and the cross-block seam live in <c>EpCharacterWitness</c>
+/// (siblings: <c>CoherenceHorizonClaim</c>, <c>F89Path3OcticEpClaim</c>).</para>
+///
+/// <para><b>CORRECTED 2026-07-07 (the real-axis point is NOT uniformly simple):</b> the "SIMPLE
+/// eigenvalue at Q_peak" reading above was Q_peak-local and grid-coarse. F89's exact nullity count
+/// (r(0+) - r(inf) = N - 1) proves a real-to-complex transition on this SAME full (1,2) block at every
+/// odd N, and the Kato simple-zero lemma makes it a real-axis DEFECTIVE EP (a Jordan block) at every seed
+/// tested, census-confirmed to N=11 (beta-exotic-scoped to Puiseux p ~ 0.5; only the codim-2 beta-exotic
+/// genericity stays open for all N). Those seeds sit at scattered q* the Petermann sweep's dQ ~ 0.029 grid (121 pts over
+/// [0.5, 4]) never bisected onto: a defective sqrt-EP splits its pair by ~sqrt|q - q*|, visible only
+/// within a window |q - q*| &lt; ~1e-3, some 20-30x narrower than the grid step (shown from below in
+/// <c>F86aSeedMaskingTests</c>: at the N=9 seed q*=0.849011 the pair is a Jordan block, gap ~2.7e-3, but
+/// ~0.35 apart one grid step away). So the block IS defective on the real axis at the seeds; the F89
+/// grid-robust count-change detector, not this Petermann sweep, is the instrument that sees them. What
+/// remains genuinely open is the DISTINCT off-real-axis complex-Q EP structure. See
+/// <c>SeedHolonomyClaim</c>, <c>RealSeedCensusTests</c>, and PROOF_F86A_EP_MECHANISM section Correction.</para>
 ///
 /// <para>Block-independent meta-claim: registered at the F86 KB root for any block, not
 /// just c=2 (similar to <see cref="ChiralAiiiClassification"/>). The witnesses pin the
@@ -146,7 +160,18 @@ public sealed class LocalGlobalEpLink : Claim
         "defective branch points ARE established (F89OcticMonodromyClaim, the squarefree-P₁₀ " +
         "simple-zeros = transpositions generating S₈; its real-axis q_EP≈0.659 is the diabolic " +
         "(3q⁴+q²−1) double-zero). The nearest-diabolic coalescences here are the abundant " +
-        "free-fermion sum-coincidences (codim-1 by additivity), not those rare S_d-generators.";
+        "free-fermion sum-coincidences (codim-1 by additivity), not those rare S_d-generators. " +
+        "FURTHER CORRECTED (2026-07-07): the 'NO real-axis defective EP' conclusion above is " +
+        "superseded. F89's exact nullity count (r(0⁺)−r(∞)=N−1) proves a real-to-complex transition " +
+        "on this full (1,2) block at every odd N, and the Kato simple-zero lemma makes it defective " +
+        "(a Jordan block) at every seed tested, census-confirmed to N=11 (β-exotic-scoped to Puiseux " +
+        "p≈0.5, only the codim-2 β-exotic genericity open for all N). The 2026-06-21 sit-and-" +
+        "characterize scan missed it because a defective √-EP splits its pair by ~√|q−q*|, visible " +
+        "only within |q−q*|≲1e-3, while the scan's ΔQ≈0.029 grid is 20-30× coarser and never sat " +
+        "inside that window (shown from below, F86aSeedMaskingTests). What survives: the grid-" +
+        "artifact call on the Petermann magnitudes; what stays genuinely open is the DISTINCT off-" +
+        "real-axis complex-Q EP. See PROOF_F86A_EP_MECHANISM §Correction, SeedHolonomyClaim, " +
+        "RealSeedCensusTests.";
 
     private LocalGlobalEpLink()
         : base("local–global EP link (F86 ↔ FRAGILE_BRIDGE) — OPEN",
@@ -167,12 +192,15 @@ public sealed class LocalGlobalEpLink : Claim
         "F86 ↔ FRAGILE_BRIDGE: shared EP under AIII chiral algebra";
 
     public override string Summary =>
-        "OpenQuestion (F86a-retraction 2026-06-21): the full Σγ=N·γ₀ block is genuinely " +
-        "non-normal on the real Q axis but has NO eigenvalue coalescence there (eigenvalues " +
-        "simple), the Petermann factor large but finite (artifact-free ‖P‖, magnitudes " +
-        "grid-sensitive and dropped); whether it has an off-axis defective EP at all is OPEN " +
-        "(nearest complex-Q coalescences are diabolic). Firmly-established genuine EPs: the " +
-        "toy 2×2 and the separate Σγ=0 gain-loss system (FRAGILE_BRIDGE, K=403).";
+        "OpenQuestion (F86a-retraction 2026-06-21, CORRECTED 2026-07-07): the full Σγ=N·γ₀ block " +
+        "is genuinely non-normal on the real Q axis, and the Petermann magnitudes were grid-" +
+        "sensitive artifacts (dropped). But the retraction's 'no real-axis defective EP' was " +
+        "itself an over-correction: F89 proves a real-to-complex transition on this (1,2) block at " +
+        "every odd N (nullity count), defective (a Jordan block, Kato) at every seed tested, census " +
+        "to N=11 (β-exotic genericity still open for all N) — which the 2026-06-21 scan's ΔQ≈0.029 " +
+        "grid missed, being 20-30× coarser than the √-EP window ~1e-3 (F86aSeedMaskingTests). What " +
+        "stays OPEN besides that genericity is the DISTINCT off-real-axis complex-Q EP. Genuine EPs still separate: the " +
+        "toy 2×2 and the Σγ=0 gain-loss system (FRAGILE_BRIDGE, K=403).";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
