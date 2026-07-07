@@ -33,8 +33,10 @@ public sealed class SeedHolonomyClaim : Claim
         "experiments/F89_SEED_EXISTENCE_REDUCTION.md establishes this real-axis defective seed (its census to " +
         "N=11, backed by the exact nullity identity, plus the N=5 and N=9 numerics here) + " +
         "experiments/F86_EP_THROUGH_THE_CLOCK.md is cited for the borrowed forgetting-to-remembering reading; " +
-        "note its F86a-retraction denies a real-axis defective EP on this block (the F89 census locates the " +
-        "isolated seed that earlier real-axis scan reported absent; F86 is not yet updated) + companion Numerics/Monodromy.cs " +
+        "note its F86a-retraction denied a real-axis defective EP on this block; the F89 census locates the " +
+        "isolated seed that earlier real-axis scan reported absent, and F86 is now corrected accordingly " +
+        "(PROOF_F86A_EP_MECHANISM.md section Correction, 2026-07-07: the scan missed a √-EP window 20-30× " +
+        "narrower than its grid step) + companion Numerics/Monodromy.cs " +
         "+ resonates with Symmetry/Pi2I4MemoryLoopClaim (NinetyDegreeMirrorMemory) + " +
         "memory project_seed_holonomy_i4_witness")
     { }
