@@ -296,6 +296,17 @@ public static class InspectCommand
         return new QuditPartialPalindromeWitness(d, n, gamma);
     }
 
+    /// <summary>The eigenVECTOR holonomy around the (1,2)-block defective seed (i⁴=1 memory loop): encircle
+    /// the EP q* in the complex plane and recompute the frame-monodromy of the two coalescing eigenvectors
+    /// in the biorthogonal vᵀv gauge. Arg: <c>--N</c> (default 5; the full 50-dim block tracks cleanly).
+    /// <c>--N 9</c> = the living seed studied 2026-07-07 (the full block leaks on odd loops — the per-loop
+    /// span residual makes it visible). Pair with <c>--draw</c> to plot the span residual per loop.</summary>
+    private static IInspectable BuildHolonomyRoot(ArgParser p)
+    {
+        int n = p.OptionalDouble("N") is { } nv ? (int)nv : 5;
+        return new SeedHolonomyWitness(n);
+    }
+
     /// <summary>The zoom-out, the Symphony: one open quantum system, one time evolution, every lens on a
     /// shared timeline, plus the cross-lens events axis. Args (honored like <c>mirror</c>):
     /// <c>--N 2..5</c> (default 3), <c>--J</c> (default 1), <c>--gamma</c> (default 0.1),
@@ -597,6 +608,8 @@ public static class InspectCommand
             _ => new EpCharacterWitness(), RequiresN: false),
         new("f89octic", "the F89 path-3 octic EP-character (live EpCharacter): DIABOLIC (semisimple — eigenvalues coalesce, eigenvectors independent; geo=alg=2, dep≈0), NOT a defective EP. Grid-free root cause: the (3q⁴+q²−1) discriminant factor has even multiplicity 2. The diabolic sibling of the coherence-horizon defective √-EP (--root epcharacter)",
             _ => new F89OcticCharacterWitness(), RequiresN: false),
+        new("holonomy", "the eigenVECTOR holonomy around the (1,2)-block defective seed = the mod-4 memory loop i⁴=1: encircling the EP, the coalescing eigenvector frame (transported in the biorthogonal vᵀv gauge) rotates 90°/loop (M₁ eig ±i), M₂=−I, M₄=+I — the operator NinetyDegreeMirrorMemory at the LIVING seed, the eigenVECTOR-phase companion of the eigenVALUE swap (Numerics/Monodromy). Default N=5 (full block clean, ~1s); --N 9 = the 2026-07-07 living seed (~2 min; the witness auto-selects the R=+1 sector, where the full block leaks). Live vᵀv-gauge frame transport",
+            c => BuildHolonomyRoot(c.Parser), RequiresN: false, HonorsOptionalN: true),
         new("f89galois", "the F89 path-k H_B-mixed Galois groups (k=3..6): Gal(F_d/Q(i)(q)) = S_d for d=8/18/32/53, NON-SOLVABLE ⟹ the decay rates λ_k(q) have no radical closure in q=J/γ. all four paths fully live (block → Berkowitz over Z[i] → isolate F_d by dividing out the reconstructed AT factor, validation triple → Frobenius ⟹ S_d); the AT factor is rebuilt from the rate-confined invariant subspace, never imported (the committed F_d literals are only a test cross-check). The Galois sibling of the EP-character witness (--root f89octic)",
             _ => new F89PathKGaloisWitness(), RequiresN: false),
         new("topowritability", "topology controls the relaxation's Galois writability: the wiring's automorphism group caps the (SE,DE) factor degrees N-independently when it is large (complete K_N → cap 4, radically writable for all N; star K_{1,N−1} → cap 9, a fixed S_9 scramble) and lets them grow when it is small (ring D_N, chain S_2 → S_8/18/32/53). Live: builds the (SE,DE) block, verifies [L,ρ(g)]=0 for Aut(G), and recomputes the cap = the standard-rep multiplicity via the character sum. The classification sibling of --root f89galois",

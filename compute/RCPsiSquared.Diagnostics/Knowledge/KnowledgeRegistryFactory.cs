@@ -315,6 +315,11 @@ public static class KnowledgeRegistryFactory
             // but loses mirror protection (2/d)^N. Single parent QuditProductMirrorCap (line above). Live
             // witness: QuditMirrorProtectionWitness (inspect --root protection). Wired 2026-06-17.
             .RegisterQuditMirrorProtectionScalingClaim()
+            // The eigenvector holonomy around the (1,2)-block defective seed (2026-07-07): the mod-4
+            // memory loop i⁴=1 (M₁ eigenvalues ±i, M₂=−I, M₄=I), the eigenVECTOR-phase companion of the
+            // eigenVALUE swap (Numerics/Monodromy). Leaf claim, no typed parents. Live witness:
+            // SeedHolonomyWitness (inspect --root holonomy). Wired 2026-07-07.
+            .RegisterSeedHolonomy()
             .RegisterF1T1AmplitudeDampingPi2Inheritance()
             .RegisterF5DepolarizingErrorPi2Inheritance()
             .RegisterDickeSuperpositionQuarterPi2Inheritance()
