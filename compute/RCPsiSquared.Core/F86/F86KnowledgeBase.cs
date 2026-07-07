@@ -36,8 +36,9 @@ namespace RCPsiSquared.Core.F86;
 ///   <item><b>Open questions</b>: <see cref="F86OpenQuestions.Standard"/>, the items still
 ///         missing for full Tier-1 promotion, plus <see cref="LocalGlobalEpLink"/> (demoted to
 ///         <see cref="Knowledge.Tier.OpenQuestion"/> by the F86a-retraction 2026-06-21:
-///         genuine non-normality on the real axis but no real-axis EP; whether the full block
-///         has an off-axis defective EP at all is open), followed by the 4-mode insufficiency
+///         genuine non-normality on the real axis; the "no real-axis EP" was corrected 2026-07-07
+///         (F89 locates a real-axis defective seed, PROOF_F86A section Correction), the DISTINCT
+///         off-axis complex-Q question stays open), followed by the 4-mode insufficiency
 ///         note.</item>
 /// </list>
 /// </summary>

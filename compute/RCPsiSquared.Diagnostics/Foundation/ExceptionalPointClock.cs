@@ -13,13 +13,15 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <see cref="C2BareDoubledPtfClosedForm"/> (the K_b resonance). N-free, 2-level: this is the toy
 /// rate-channel reduction (set by g_eff and Q), NOT the full (n,n+1)-coherence block.
 ///
-/// <para><b>Scope (F86a-retraction, 2026-06-21):</b> the defective EP computed here belongs to the toy
-/// 2×2 rate-channel reduction. The full physical (n,n+1)-coherence block of the chain is genuinely
-/// NON-NORMAL on the real Q axis (large but finite Petermann factor) but has NO defective EP there;
-/// its eigenvalues stay simple (nearest-neighbour gap ~0.25–0.35), so there is no real-axis coalescence
-/// to "hit". Do not read this toy EP as the chain block's behaviour on the real axis. See
+/// <para><b>Scope (F86a-retraction, 2026-06-21; corrected 2026-07-07):</b> the clean defective pinch
+/// computed here belongs to the toy 2×2 rate-channel reduction. The full physical (n,n+1)-coherence
+/// block of the chain is genuinely NON-NORMAL near Q_peak (large but finite Petermann factor); do not
+/// read this toy Q_EP pinch as the chain block's behaviour there. The block's OWN real-axis defective
+/// EPs are F89's scattered seeds (the retraction's "no defective EP, eigenvalues simple" was itself an
+/// over-correction, corrected 2026-07-07: a defective √-EP is only visible within a q-window 20-30×
+/// narrower than F86a's grid step, which the scan missed). See
 /// <c>RCPsiSquared.Core.F86.LocalGlobalEpLink</c> (OpenQuestion) and
-/// <c>docs/proofs/PROOF_F86A_EP_MECHANISM.md</c> §Retraction.</para>
+/// <c>docs/proofs/PROOF_F86A_EP_MECHANISM.md</c> §Correction.</para>
 ///
 /// <para>The eigenvector overlap |⟨v₊|v₋⟩| = min(x, 1/x), x = Q/Q_EP: exactly 1 at the toy EP (the two
 /// 2×2 eigenvectors coalesce, defective, a Jordan block, the toy's Petermann sensitivity spiking),

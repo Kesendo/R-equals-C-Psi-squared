@@ -22,8 +22,10 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// passes (5 ≥ 1), so the parent edge survives the demotion.</para>
 ///
 /// <para>The retraction (F86a, 2026-06-21): the full Σγ=N·γ₀ block is genuinely non-normal
-/// on the real Q axis but has NO real-axis EP (eigenvalues simple, Petermann large but
-/// finite); whether it has an off-axis defective EP at all is the OPEN question documented in
+/// on the real Q axis, Petermann large but finite. (The retraction's "no real-axis EP,
+/// eigenvalues simple" was itself corrected 2026-07-07: F89 locates a real-axis defective seed
+/// on this block, see <see cref="LocalGlobalEpLink"/> Summary / PROOF_F86A section Correction.)
+/// The DISTINCT off-axis complex-Q question stays open, documented in
 /// <see cref="LocalGlobalEpLink.PendingDerivationNote"/>. The Schicht-1 wiring keeps the c=2
 /// N=5..8 PetermannSpikeWitness cautionary non-normality table queryable through the registry;
 /// future drift checks against extended-N or extended-c sweeps land here.</para></summary>

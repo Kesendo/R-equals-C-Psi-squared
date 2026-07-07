@@ -55,8 +55,9 @@ public class EpFieldTests
     public void DefectivenessChild_PeaksAtOneAtTheToyEp()
     {
         // The toy 2×2 rate-channel overlap = min(x, 1/x) ≤ 1, reaching ~1 near its EP at Q_EP. This is a
-        // property of the toy reduction (genuinely defective at its EP), NOT of the physical chain block
-        // (non-normal on the real axis, no real-axis defective EP, F86a-retraction; LocalGlobalEpLink).
+        // property of the toy reduction (genuinely defective at its EP), NOT the physical chain block's
+        // behaviour at Q_peak (non-normal there; its own real-axis defective EPs are F89's scattered seeds,
+        // the retraction's "no real-axis defective EP" corrected 2026-07-07; LocalGlobalEpLink).
         var f = new EpField(gamma: 1.0, gEff: 4.0 / 3.0, qLo: 0.3, qHi: 3.0, qPoints: 60);
         var def = Children(f).First(c => c.DisplayName.Contains("defectiveness"));
         var curve = Assert.IsType<InspectablePayload.Curve>(def.Payload);
