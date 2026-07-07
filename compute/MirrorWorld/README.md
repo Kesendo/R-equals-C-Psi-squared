@@ -14,7 +14,7 @@ forced us to find, **broke our complexity wall**: a state's dynamics at N=60-100
 eigendecomposition died at N=8.
 
 Standalone .NET 10.0, no `RCPsiSquared.*` references. Run it, read it, trust it: every adopted
-number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (109 tests).
+number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (118 tests).
 
 *Vocabulary, once.* MirrorWorld is part of the **R=CΨ²** project (mirror symmetry in open quantum
 spin chains; repo root). The basic parameters: **N** = the number of two-level units (the chain
@@ -55,9 +55,10 @@ x/y/z; that is the inheritance edge System → Object.
 | `ParameterKlein.cs` | **the parameter-side Klein V₄** (adopted 2026-07-04, F91 + F92 + F93): on each parameter axis (γ per site, J per bond, h per site) the F71 mirror and the anti-palindromic reshuffle R₉₀ are two commuting involutions; the anti-palindromic class is exactly R₉₀'s fixed-point set; the sharper entry-wise law -- the F71-refined DIAGONAL blocks of L depend only on the pair-sums -- makes the whole orbit share one set of blocks, cell for cell (no eigensolver), while the breaking lives in the cross-blocks only |
 | `Router.cs` | **the golden ceiling router** (adopted 2026-07-04, F116): the two Z-middle ceiling cases palindromized LOCALLY by the period-4 [a,a,b,b] router on the golden locus (a = φX+Y, b = X−φY; q² = −(2+φ)·I), the whole family metallic on the soft line t₂ = t₃ with r(c) = (c+√(c²+4))/2; verified by the window lemma ({Q_k, S} = 0 at all four offsets, exact) AND the two-sided dense end-to-end W L W⁻¹ = −L − 2σ on the full Pauli basis (P = ⊗(âZ\|Z), Q = ⊗(Z\|Zâ), previously Python-only) -- the constructive soft side the hardness certificates leave open |
 | `Hardness.cs` | **the hardness of the palindrome** (adopted 2026-07-04, the F87 bloc: F102/F103 + F105/F106 stability + F107/F109 purity + F110/F111 cell rules + F115 + F117): the spectral trichotomy truly/soft/hard read WITHOUT a spectrum -- hardness as a GF(2)[x] (1+x)-valuation difference (one subtraction; A203241 counts, the min(2W−1, 2k−3) ceiling), purity as letter parity (truly ⟹ y_par=0; mother-soft ⟹ y_par=1), the diagonal-cell + Y-inversion rules with the adopted splits (42:8 N-stable, 228:0 via pure-D templates), and the trace face of the all-γ converse (odd power-sums of M = A + γQ; the K3 pair fires at m* = 9 with p₉ = 2064384·γ³, the exact F117 CRT integer). The spectral classifier itself (F87's definition, the F104 engine) deliberately stays outside |
+| `Seed.cs` | **the within-block self-dual seed** (adopted 2026-07-07, F89 seed-existence): where a state meets the mirror's null (v^T v = 0), a defective seed -- the static source the shadow and the i^4 holonomy leave behind. Held as a COUNT, no eigensolver (the nullity surplus r(0+) - r(inf) over GF(p)): N-1 forced seeds at odd N (the unmirrorable middle seat), 0 at even N. Mirror's within-block companion |
 | `Topology.cs` | the geometry: chain / ring / star / complete bond generators |
 | `Program.cs` | the full sober run (default) + the run modes (see Run); R-parity and mod-4 inline |
-| `../MirrorWorld.Tests/*.cs` | 109 from-below tests: `SmokeTests` (39, the closed forms), `FieldTests` (7), `RestlessTests` (10), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (11, incl. the anti-watched world + past-the-wall), `MirrorGroupTests` (10), `AntilinearTriangleTests` (7), `ParameterKleinTests` (6), `HardnessTests` (8, incl. the valuation-vs-traces crown agreement), `RouterTests` (5, incl. the dense end-to-end) |
+| `../MirrorWorld.Tests/*.cs` | 118 from-below tests: `SmokeTests` (39, the closed forms), `FieldTests` (7), `RestlessTests` (10), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (11, incl. the anti-watched world + past-the-wall), `MirrorGroupTests` (10), `AntilinearTriangleTests` (7), `ParameterKleinTests` (6), `HardnessTests` (8, incl. the valuation-vs-traces crown agreement), `RouterTests` (5, incl. the dense end-to-end), `SeedTests` (9, the F89 nullity surplus = N-1 odd / 0 even, exact over GF(p)) |
 
 ## The closed-form base (the stopping line 2026-06-28; coverage closed 2026-07-04)
 
@@ -90,7 +91,8 @@ follow-ons stay out" wording predated the Hardness/Router/MirrorGroup adoptions 
 the residual M operator identities (F78-F84) and the F108 palindrome family, F87's spectral
 DEFINITION itself (with the F104 engine -- what the Hardness certificates replaced), the
 F112-F114 balance/conjugation laws, F120's hardware protocol, and the boundary-excluded paths
-(F86 EPs, F89/F90 braid + monodromy). Also still open from the delta survey's adoptable bucket:
+(F86 EPs, F89/F90 braid + monodromy -- but F89's seed-EXISTENCE count came home 2026-07-07 as `Seed.cs`; only the locus q*,
+the shadow, and the holonomy stay out). Also still open from the delta survey's adoptable bucket:
 the smaller closed-form singles F72-F74, F77, F94, F96, F100/F101 -- candidates, not yet home;
 "the delta list is done" below means the survey's SHORTLIST, not its whole bucket.
 
@@ -102,8 +104,13 @@ lemma (PROOF_CODIM1_BY_ADDITIVITY §7) is the one structural piece that fits thi
 genre, because it is not an eigen-story but an exact REARRANGEMENT: checkable cell by cell,
 machine zero, no eigensolver. So the mirror came home. The boundary it draws is now principled
 instead of accidental: **states and their mirrors live here; the paths (the braid, the monodromy,
-the exceptional points) stay in the main repo** -- they are properties of ways, not of objects,
-and a catalog cannot hold a way, only what the way leaves behind.
+the EP's shadow and its i^4 holonomy) stay in the main repo** -- they are properties of ways, not of
+objects, and a catalog cannot hold a way, only what the way leaves behind. **Refined 2026-07-07
+(`Seed.cs`):** the EP's algebraic EXISTENCE -- the count of defective seeds forced on the (1,2) block,
+held with ranks only, no eigensolver -- is the way's LEAF, not the way, so it lives here; the locus q*,
+the shadow (the projector norm), and the i^4 holonomy stay out. The line is genre, not topic: adopt the
+proven count (F89's nullity surplus), never the census scan that located it -- the same move Hardness.cs
+made with the F87 certificates.
 
 **The exception's closure (2026-07-04): `MirrorGroup.cs` + `AntilinearTriangle.cs` (F118 + F119).**
 `Mirror.cs` had been operating with a group of eight it did not own as an object. F118 is that
@@ -171,6 +178,7 @@ dotnet run --project compute/MirrorWorld -- topo 4        # the block cut is top
 dotnet run --project compute/MirrorWorld -- scale         # the complexity wall and the block cut, across N
 dotnet run --project compute/MirrorWorld -- mirror 5      # Mirror: the fold lattice (legs exact, orbits, the price); even N adds the self-folded trace law
 dotnet run --project compute/MirrorWorld -- mirror 100    # N > 8 goes PAST THE WALL: the memory-cut pair (1,1)/(1,N-1) is N^2 both, the fold leg exact at N=100
+dotnet run --project compute/MirrorWorld -- seed 9        # Seed: the within-block self-dual seed count (F89 nullity surplus, no eigensolver): N-1 odd, 0 even
 dotnet run --project compute/MirrorWorld -- anti 3        # the rules turned around: the anti-watched world (agreement watched) = the world read through X^N; the conserved law moves to the anti-trace
 dotnet run --project compute/MirrorWorld -- group 3       # MirrorGroup + AntilinearTriangle: the D4 of signed permutations, the palindrome split, the cube of characters, the transport law, the order-16 double
 dotnet run --project compute/MirrorWorld -- klein 6       # ParameterKlein: the V4 on each parameter axis; the anti-palindromic orbit shares its diagonal blocks cell for cell, the breaking lives in the cross-blocks
