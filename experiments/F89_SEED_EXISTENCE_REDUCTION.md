@@ -264,6 +264,70 @@ x = m+1, y = m−2 (m the middle mode) gives 2λ_x + λ_y = −4 sin θ (1 − c
 the verifier's tol = 1e-7 / 1e-9 are safe only to N ≈ 850 / ≈ 3959 (both parities; ample for its
 N ≤ 13, margin ≥ 7 orders). The exact Step-4 argument is what makes D = 0 a theorem; no scan could.
 
+## The β-exotic, sharpened: a count-dropping seed is defective iff s₆ ≠ 0 (open, 2026-07-08)
+
+Pieces 1-3 prove the count drops by exactly N − 1. That a drop happens does not yet say each drop is a
+*defective* exceptional point (an EP2, geometric multiplicity 1) rather than the non-generic
+**β-exotic**: a real-to-complex transition through a formally semisimple, higher-order-degenerate point
+(normal form β(s) = [[0, s], [s², 0]], eigenvalues ±s^{3/2}). Excluding it for all odd N is the last
+item. This section records how far it reduces, and why the natural proof route does not finish it.
+
+**The reduction (sound, and sharper than the discriminant's Galois group).** For any eigenvector r of
+the pencil L(q) = D + qC (D the −2/−6 dephasing diagonal, C = iK the coherent hop, K real symmetric, so
+L is complex-symmetric, Lᵀ = L), from Cr = (1/q)(λ − D)r:
+
+> rᵀCr = (1/q)[(λ + 2)·rᵀr + 4·s₆],   s₆ := Σ_{i on the −6 rung} (r_i)²   (transpose sense).
+
+At a coalescence the coalescing eigenvector is self-orthogonal (rᵀr → 0, the complex-symmetric EP
+signature), so **rᵀCr → (4/q\*)·s₆**. And rᵀCr is exactly the branch-coefficient numerator: for a
+defective coalescence of Jordan size m the local exponent obeys μ^m = rᵀCr / (rᵀr_{m−1}). A
+count-dropping seed is a real-to-complex transition, hence an *odd*-order zero of the relevant real
+discriminant factor. Therefore, at a forced seed,
+
+> **s₆ ≠ 0 ⟺ the zero is simple (order 1) ⟺ a defective EP2** (exponent ½);   s₆ = 0 ⟺ an order-≥3
+> transition = the β-exotic (exponent 3/2).
+
+So the β-exotic exclusion **reduces to: s₆ ≠ 0 at every forced seed, for all odd N.** This is a genuine
+sharpening of the dead discriminant-Galois route (which died because a full symmetric Galois group does
+not force a squarefree discriminant: the group sees which sheets swap, never the ½-vs-3/2 *exponent*).
+The quantity s₆ sees exactly that exponent.
+
+**Caveat (H1), stated honestly.** The step "s₆ = 0 ⟺ β-exotic" assumes the seed has algebraic
+multiplicity exactly 2 (rᵀr₁ ≠ 0, i.e. the m = 2 case of rᵀr_{m−1} above, with r₁ the Jordan
+generalized vector; no 3×3 Jordan). A 3×3 Jordan is also a count-drop of 2 and would make
+s₆ ≠ 0 consistent with a cube-root exotic; the two normal forms differ ((q − q\*)^{3/2}, a 2×2
+statement, versus a cube root, a 3×3 one). Algebraic-multiplicity-2 holds numerically at every seed
+through N = 11 but is not itself proved for all odd N; it rides along with the same open item.
+
+**Numerics (grounding for the identity, not evidence for all N).** At the 17 census seeds N = 5, 7, 9
+the anchored self-orthogonal eigenvector (a Takagi-minimal vᵀv extraction at the refined q\*; a naive
+min-gap finder drifts to the −6-rung edge crossings at λ = −6, which are not self-orthogonal and not the
+seeds) gives s₆ ∈ [0.025, 0.38], bounded away from zero, with rᵀCr = (4/q\*)s₆ holding to 0.5%. This
+confirms the identity and the reduction machinery only; it is the same evidence class as the N ≤ 11
+census and carries no all-N weight on its own.
+
+**Why the natural proof route does not close it.** Splitting the eigen-equation by rung yields transpose
+relations (α = γ = −β, with α = r₂ᵀK₂₂r₂, β = r₂ᵀK₂₆r₆, γ = r₆ᵀK₆₆r₆) and Hermitian relations (the
+positive norms with (λ + 2)‖r₂‖² + (λ + 6)‖r₆‖² = 0, forcing λ ∈ (−6, −2)). These moment relations do
+not force s₆ ≠ 0: an explicit in-class matrix (complex-symmetric and pseudo-Hermitian, two rungs) is a
+clean defective EP2 (geometric multiplicity 1, algebraic 2, rᵀr₁ = 1) with s₂ = s₆ = 0 satisfying all of
+them (K = [[0,2,0,0],[2,0,−4,0],[0,−4,0,−2],[0,0,−2,0]], r = (1, i, 1, −i), at q = 1, λ = −4). Three
+structural reasons: the transpose quantity s₆ is decoupled from every positivity-bearing relation; the
+pseudo-Hermitian relation L†T = TL collapses to (λ\* − λ)r†Tr = 0, vacuous on the real axis; so any real
+proof must re-enter the exact spectral arithmetic of the two closed-form blocks, K₂₂ (the N − 1 paths of
+Piece 1) and K₆₆ = −3H₃ (Piece 3). The precise missing ingredient is a *definiteness*: a coercivity from
+the −3H₃ spectrum, or a sign-rigidity from the path structure, that pins the indefinite, opposite-Krein-
+sign colliding pair off the s₆ = 0 locus. It is unidentified.
+
+**Two ways it can still advance.** An exact *per-N* certificate: the count-drop zeros of the
+discriminant are simple (gcd(disc, disc′) has no root there), computable r-free and exactly over ℚ(i)[q]
+with the FoldResultantCertificate machinery, upgrading "clean through N = 11" to *proved* through
+N = 13/15 with no Galois lemma. Or the all-N prize: identify the definiteness ingredient above.
+
+The reduction was put through three independent empty reviews (a mathematician, a strategy pre-mortem, an
+all-N-validity audit) before landing: the sharpened reduction is their agreed survivor, the
+moment-relation proof route their agreed casualty (the in-class witness above is the concrete kill).
+
 ## Reproduce
 
 ```bash
@@ -280,19 +344,24 @@ multiset inheritance (exact with-multiplicity matching, = the corollary).
 
 **The counting identity r(0⁺) − r(∞) = N − 1 is now a theorem for every odd N** (Pieces 1-3 all
 proved). The existence conclusion, "a real defective seed on the (1,2) block at every odd N", is closed
-modulo exactly one remaining item; this note must not be read as closing the reduction until it falls:
+modulo exactly one remaining item; this note must not be read as closing the existence question until
+it falls:
 
 1. ~~**(N1′)**~~ **CLOSED 2026-07-04 (Piece 3):** n₆ = 3·Z₃ = the fusion-resonance count, by the
    ordering-sector decomposition; the spectral inheritance is now a per-block multiset theorem, and the
    third-quantization route (which this note's first landing had named as the natural tool for the
    then-open Piece 3) turned out unnecessary: the proof is graph combinatorics + one cyclotomic norm
    bound. Two adversarial reviews (exact arithmetic; full-2^N spin rebuild) held it.
-2. **The codim-2 β-exotic (OPEN):** a count-dropping transition is defective unless it is the
-   non-generic order-3 point where the local 2×2 has a nilpotent linear term (β after the normal form
-   β(s) = [[0, s], [s², 0]], eigenvalues ±s^{3/2}: a real-to-complex transition through a formally
-   semisimple point). Ruling this out for all odd N is a codimension-2 genericity statement (the fixed
-   gap 4 and the structurally nonzero inter-rung hop argue against it, but it is unproven); whether
-   this normal form exhausts the non-simple-zero transitions is part of the same open item.
+2. **The codim-2 β-exotic (OPEN, but REDUCED 2026-07-08):** a count-dropping transition is defective
+   unless it is the non-generic order-3 point (the normal form β(s) = [[0, s], [s², 0]], eigenvalues
+   ±s^{3/2}: a real-to-complex transition through a formally semisimple point). This item is now reduced
+   to a single scalar statement, **s₆ ≠ 0 at every forced seed for all odd N** (section "The β-exotic,
+   sharpened" above), a genuine sharpening of the failed discriminant-Galois route. The moment-relation
+   proof route (transpose + Hermitian relations from the rung-split eigen-equation) is proved
+   insufficient by an explicit in-class witness; the remaining need is an unidentified definiteness
+   ingredient from the K₆₆ = −3H₃ spectrum or the N − 1 path structure. Reachable partial: an exact
+   per-N discriminant-transversality certificate (r-free, would prove it through N = 13/15). A
+   subsidiary premise (H1: algebraic multiplicity exactly 2, no 3×3 Jordan) rides the same item.
 
 When the β-exotic closes, the census input becomes a law for all odd N, and the containment diamond
 membership follows at every odd N with no further scan. The counting theorem is typed as

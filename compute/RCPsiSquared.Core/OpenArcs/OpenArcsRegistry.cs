@@ -697,7 +697,29 @@ public static class OpenArcsRegistry
                 "N=5 (not 2), lots of free-fermion structure, no clean irreducibility. REMAINING all-N core = O2b: " +
                 "no ACCIDENTAL coupling-zero beta_eff(q*)=0 at a forced seed; the free-fermion/third-quantization " +
                 "rapidity form of beta_eff is the candidate structure to bound it from zero. Live O2 thread; " +
-                "MacKay 1986 gives the GENERIC-defective verdict and can be cited. TYPED 2026-07-04: " +
+                "MacKay 1986 gives the GENERIC-defective verdict and can be cited. " +
+                "UPDATE 2026-07-08 (O2b RUNG-6 REDUCTION landed to experiments/F89_SEED_EXISTENCE_REDUCTION.md " +
+                "section 'The beta-exotic, sharpened'): O2b REDUCES to one scalar -- s6 != 0 at every forced " +
+                "seed (s6 = the -6-rung transpose-weight of the coalescing eigenvector). Exact identity " +
+                "r^T C r = (1/q)[(lam+2) r^T r + 4 s6], so at the EP (r^T r->0) r^T C r = (4/q*) s6 = the " +
+                "branch-coefficient numerator (mu^m = r^T C r / r^T r_{m-1}); a forced seed is an odd-order disc " +
+                "zero, so s6 != 0 <=> simple zero <=> defective EP2, s6=0 <=> order->=3 beta. GENUINE sharpening " +
+                "of the dead Galois route (s6 sees the 1/2-vs-3/2 exponent Galois cannot). The moment-relation " +
+                "proof route (Approach A: rung-split transpose alpha=gamma=-beta + Hermitian " +
+                "(lam+2)||r2||^2+(lam+6)||r6||^2=0 + Krein T) is DEAD -- 3 empty reviewers + a VERIFIED explicit " +
+                "in-class witness K=[[0,2,0,0],[2,0,-4,0],[0,-4,0,-2],[0,0,-2,0]], r=(1,i,1,-i) at (q=1,lam=-4): " +
+                "a clean defective EP2 (geo1/alg2, r^T r_1=1) with s2=s6=0 satisfying ALL of L1+L2, so the moment " +
+                "relations CANNOT force s6!=0. Three reasons: s6 (transpose) is DECOUPLED from all positivity " +
+                "relations; L^dag T=T L collapses to (lam*-lam) r^dag T r=0, VACUOUS on the real axis; any close " +
+                "must re-enter the exact K22(N-1 paths)/K66=-3H3 spectral arithmetic. Missing piece = an " +
+                "unidentified DEFINITENESS (coercivity from the -3H3 spectrum, or sign-rigidity from the paths) " +
+                "pinning the indefinite (opposite-Krein-sign) colliding pair off s6=0. CAVEAT (H1): the reduction " +
+                "assumes algebraic mult exactly 2 (r^T r_1 != 0, no 3x3 Jordan; numerically true through N=11, " +
+                "unproven all-N). TWO WAYS FORWARD: (1) exact PER-N certificate = gcd(disc, disc') has no root at " +
+                "count-drops, r-free over Q(i)[q] via FoldResultantCertificate.cs, proves it exact through " +
+                "N=13/15 (NOT all-N, no Galois lemma); (2) all-N prize = find the definiteness ingredient. TRAP " +
+                "LOGGED: the 17-seed s6-scout is a typo-guard for the identity ONLY, same evidence class as the " +
+                "N<=11 census, NEVER all-N partial proof. TYPED 2026-07-04: " +
                 "SeedExistenceCountingClaim (Tier1Derived, parents AbsorptionTheorem + ChiralK) + live " +
                 "SeedExistenceCountingWitness, inspect --root seedcount (SVD nullities + combinatorial rho/Z3 + " +
                 "the exact-zero cross-sector/gauge gates + two-sided nonzero controls, odd N <= 9). " +
