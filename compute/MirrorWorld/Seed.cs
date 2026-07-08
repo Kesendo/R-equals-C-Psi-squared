@@ -29,6 +29,14 @@ namespace MirrorWorld;
 // accidental seed exists off it is a separate question this count does not settle). Ranks over GF(p) by exact integer
 // Gaussian elimination (the genre of Hardness's GF(2)[x]); a rank mod p can only DROP at a bad prime, so
 // the max over two primes pins the true rank (exact for the N run here, verified against F89's table).
+//
+// SCOPE (do not naively extend; verified from below 2026-07-08). This surplus = defective-seed count is
+// F89's theorem for the OPEN CHAIN (1,2) block ONLY. The same nullity construction on other blocks or
+// topologies is NOT the seed count: on the RING it is an artifact (surplus -4 at N=4 where the actual
+// real-eigenvalue count-change is 0 -- the cyclic structure breaks the rung-nullity = real-count
+// correspondence the chain proof rests on); on the STAR the real strands do drain (12 -> 0 at N=4, even N,
+// the hub being its own kind of unmirrorable seat), but whether those transitions are DEFECTIVE needs the
+// Riesz EP-character instrument, not this count. A topology/block map of seeds is a separate careful arc.
 public sealed class Seed : GameObject
 {
     public int N { get; }
