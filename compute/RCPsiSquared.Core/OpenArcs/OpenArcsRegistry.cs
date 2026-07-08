@@ -670,7 +670,34 @@ public static class OpenArcsRegistry
                 "beta(s)=[[0,s],[s^2,0]], eigenvalues +-s^{3/2}, a real-to-complex transition through a formally " +
                 "semisimple point). ATTACK ANCHOR for it (no tool exists yet): the Krein reading -- a transition " +
                 "point cannot be semisimple with DEFINITE sign characteristic, so the open case is exactly " +
-                "semisimple-INDEFINITE = the beta shape; start at the doc's Status item 2. TYPED 2026-07-04: " +
+                "semisimple-INDEFINITE = the beta shape; start at the doc's Status item 2. " +
+                "UPDATE 2026-07-08 (scoping round 07-06/07 + A-i attempt; all local-only in " +
+                "ClaudeTasks/BETA_EXOTIC_A_STEP1_STRATEGY.md + " +
+                "docs/superpowers/specs/2026-07-08-codim2-beta-exotic-Ai-transversality-design.md): " +
+                "(context for this UPDATE: the block is the (1,2) coherence pencil L(q)=A+qC defined earlier in " +
+                "this entry -- A the dephasing diagonal, rungs -2/-6; C the coherent hop; EP2 = a defective order-2 " +
+                "exceptional point, geometric mult 1 < algebraic 2; the A-i/O2 taxonomy lives in the strategy doc " +
+                "below.) NUMERICS clean through N=11 -- scoping found NO beta (all defective EP2) at every cached seed " +
+                "N=5,9,11, and N=7 (the previously-UNVETTED gap) closed 2026-07-08: all 6 N=7 seeds are defective " +
+                "EP2 by the EpCharacter compression-geo instrument (mergeCos=1.0, geo 1<alg 2; the -4.996 " +
+                "semisimple crossing near seed -4.9228 is a SEPARATE benign diabolic, mergeCos=0). LESSON: classify " +
+                "seeds with EpCharacter.Characterize (compression geo at the compression's OWN mean eigenvalue) " +
+                "anchored at the cached (q*,lam0), NOT a wide nearest-pair re-anchor (it DRIFTS onto neighbouring " +
+                "semisimple crossings and manufactures false beta). ALL-N PROOF status: the transversality STRUCTURE " +
+                "(every count-drop a SIMPLE zero of disc_Lambda chi <=> defective, Kato) is right, but its proposed " +
+                "all-N mechanism is DEAD -- 'full S_d Galois over Q(q) => discriminant squarefree in q' is FALSE " +
+                "(counterexample verified from below: x^3-3x+(2+t^3), full S_3, disc=-27 t^3 (t^3+4), an order-3 " +
+                "beta-shaped count-drop). The Galois group sees the branch TRANSPOSITION, never the 1/2-vs-3/2 " +
+                "EXPONENT; do NOT retry the Galois route. Correct FRAME = flutter / Hamiltonian-Hopf (van der Meer, " +
+                "MacKay-Saffman): beta = a semisimple 1:1 resonance = the colliding pair DECOUPLED (effective " +
+                "coupling beta_eff(q*)=0); the combined complex-symmetric (L^T=L) + pseudo-Hermitian (L^dag T=T L) " +
+                "rigidity forces the effective 2x2 to [[a,i b],[i b,d]] (a,d,b real), defective <=> b!=0, and the " +
+                "projector-nilpotent ||N(q*)|| IS that b (=3-5 at N=5 seeds, gap-scale ~0 would be beta). O2a (a " +
+                "residual symmetry decouples within an R-parity sector) is DEAD: commutant of {A,C} has dim 19 at " +
+                "N=5 (not 2), lots of free-fermion structure, no clean irreducibility. REMAINING all-N core = O2b: " +
+                "no ACCIDENTAL coupling-zero beta_eff(q*)=0 at a forced seed; the free-fermion/third-quantization " +
+                "rapidity form of beta_eff is the candidate structure to bound it from zero. Live O2 thread; " +
+                "MacKay 1986 gives the GENERIC-defective verdict and can be cited. TYPED 2026-07-04: " +
                 "SeedExistenceCountingClaim (Tier1Derived, parents AbsorptionTheorem + ChiralK) + live " +
                 "SeedExistenceCountingWitness, inspect --root seedcount (SVD nullities + combinatorial rho/Z3 + " +
                 "the exact-zero cross-sector/gauge gates + two-sided nonzero controls, odd N <= 9). " +
