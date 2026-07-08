@@ -99,9 +99,10 @@ public sealed class ClaimRegistryBuilder
                     path: new[] { edge.Parent, edge.Child });
         }
 
-        // Anchor-file existence (best-effort heuristic: any anchor token containing ".md").
-        // Anchor strings often pack multiple references separated by " + " or " / "; we split on
-        // those, take tokens with .md, and check each individual file path.
+        // Anchor-file existence (best-effort heuristic). Anchor strings pack multiple references
+        // separated by " + " / " / " / ", "; we split on those and treat the FIRST word of each
+        // token as a path when that word carries ".md". Prose mentions of a doc (where the ".md"
+        // sits after prose within a token) are skipped, not validated.
         foreach (var (type, claim) in resolved)
         {
             if (string.IsNullOrWhiteSpace(claim.Anchor)) continue;
@@ -112,12 +113,18 @@ public sealed class ClaimRegistryBuilder
                 var token = raw.Trim();
                 if (!token.Contains(".md", StringComparison.Ordinal)) continue;
 
-                // Strip trailing markers before checking: ' ' / '#' / '(' for section
-                // labels, ':' for line-number suffixes like 'docs/X.md:251' used in some
-                // Pi2 claim anchors.
+                // The anchor path is the token's FIRST word; strip a trailing section
+                // label (' ' / '#' / '(') or line-number suffix (':', e.g. 'docs/X.md:251').
                 var cleanedTokenEnd = token.IndexOfAny(new[] { ' ', '#', '(', ':' });
                 var path = cleanedTokenEnd > 0 ? token[..cleanedTokenEnd] : token;
                 if (string.IsNullOrEmpty(path)) continue;
+
+                // The ".md" that made this token a candidate must be in the FIRST word, not
+                // in prose after it. A comma-split can land prose ahead of a parenthetical
+                // reference (e.g. "..., and F86 is now corrected accordingly (PROOF_X.md ...)");
+                // its first word ("and") is not a path. Skip such prose mentions rather than
+                // treat "and" as a missing file, which aborted the whole world-graph walk.
+                if (!path.Contains(".md", StringComparison.Ordinal)) continue;
 
                 // Resolve from repo root when available; fall back to process CWD.
                 var repoRoot = RepoRootLocator.Find();

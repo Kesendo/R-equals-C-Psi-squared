@@ -7,8 +7,9 @@ namespace RCPsiSquared.Runtime.Tests.AnchorAudit;
 /// <summary>Reflection-based anchor audit: walks every <see cref="Claim"/> subclass in
 /// <c>RCPsiSquared.Core</c> and <c>RCPsiSquared.Diagnostics</c>, reads its
 /// <see cref="Claim.Anchor"/>, applies the same tokenisation heuristic the Runtime's
-/// <c>ClaimRegistryBuilder</c> uses (split on " + ", " / ", ", "; take tokens with .md;
-/// strip trailing markers via IndexOfAny(' ', '#', '(', ':')), and asserts each .md path
+/// <c>ClaimRegistryBuilder</c> uses (split on " + ", " / ", ", "; the FIRST word of a token
+/// is the path when it carries ".md"; strip trailing markers via IndexOfAny(' ', '#', '(', ':');
+/// prose mentions where ".md" follows prose are skipped), and asserts each .md path
 /// exists relative to the repo root. Equivalent to running the AnchorFileMissing invariant
 /// against every typed Claim in both production assemblies at once, without registering
 /// them individually.</summary>
@@ -66,6 +67,11 @@ public class CoreAnchorAuditTests
                 var stripIdx = token.IndexOfAny(new[] { ' ', '#', '(', ':' });
                 var path = stripIdx > 0 ? token[..stripIdx] : token;
                 if (string.IsNullOrEmpty(path)) continue;
+
+                // Mirror the builder's guard: the ".md" must be in the FIRST word, not in
+                // prose after it (a comma-split can land prose before a parenthetical doc
+                // reference; that first word is not a path). Skip such prose mentions.
+                if (!path.Contains(".md", StringComparison.Ordinal)) continue;
 
                 var fullPath = Path.Combine(repoRoot, path);
                 if (!File.Exists(fullPath))
