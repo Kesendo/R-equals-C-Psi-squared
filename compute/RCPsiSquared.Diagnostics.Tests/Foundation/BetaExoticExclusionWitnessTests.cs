@@ -41,11 +41,12 @@ public class BetaExoticExclusionWitnessTests
 
     [Fact]
     [Trait("Category", "FOLDRESULTANT")]
-    public void Witness_RefusesAnyOtherN()
+    public void Witness_RefusesEveryUncertifiedN()
     {
-        // n = 7 is the same call at residual degree 53, and has NOT been run: the witness must not
-        // pretend otherwise by silently certifying an N it never computed.
-        Assert.Throws<ArgumentOutOfRangeException>(() => new BetaExoticExclusionWitness(7));
+        // the witness must never certify an N the certificate has not been run at. N = 9 is out of reach
+        // by this route (a 324-dimensional block); N = 3 was never in scope.
+        Assert.Throws<ArgumentOutOfRangeException>(() => new BetaExoticExclusionWitness(9));
         Assert.Throws<ArgumentOutOfRangeException>(() => new BetaExoticExclusionWitness(3));
+        Assert.Equal(new[] { 5, 7 }, BetaExoticExclusionWitness.CertifiedN);
     }
 }

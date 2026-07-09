@@ -308,8 +308,8 @@ generalized vector; no 3×3 Jordan). A 3×3 Jordan is also a count-drop of 2 and
 s₆ ≠ 0 consistent with a cube-root exotic; the two normal forms differ ((q − q\*)^{3/2}, a 2×2
 statement, versus a cube root, a 3×3 one). Algebraic-multiplicity-2 holds numerically at every seed
 through N = 11 but is not itself proved for all odd N; it rides along with the same open item. (At
-N = 5 it is no longer numerical: H1 is a corollary of the certificate below, "The β-exotic is excluded
-at N = 5 only". For all odd N it remains open, with the reduction of this section.)
+N = 5 and N = 7 it is no longer numerical: H1 is a corollary of the certificate below, "The β-exotic
+is excluded at N = 5 and N = 7". For all odd N it remains open, with the reduction of this section.)
 
 **Numerics (grounding for the identity, not evidence for all N).** At the 17 census seeds N = 5, 7, 9
 the anchored self-orthogonal eigenvector (a Takagi-minimal vᵀv extraction at the refined q\*; a naive
@@ -349,10 +349,11 @@ extraction-dependent number; it needs the Takagi-minimal vᵀv anchor, since a n
 to the λ = −6 rung edge). **Only |s₆| ≠ 0, equivalently κ₆ ≠ 0, is the statement.** Do not try to prove
 s₆ > 0.
 
-## The β-exotic is excluded at N = 5 only, both R-parities (2026-07-09)
+## The β-exotic is excluded at N = 5 and N = 7, both R-parities (2026-07-09)
 
 The per-N certificate is taken, and it is cheaper than the grind it was expected to be: it reads a
-**multiplicity**, not a Galois group. It settles N = 5, and only N = 5.
+**multiplicity**, not a Galois group. It settles one chain length at a time, and so far it has
+settled two.
 
 **Three names this section needs, none of them used above.** The spatial reflection R (site i ↦ N+1−i)
 commutes with both A and C, so it splits the block into two invariant sectors, **R-even** and **R-odd**
@@ -390,12 +391,20 @@ which sheets swap; it never sees the ½-versus-3/2 exponent. A multiplicity does
 
 **The certificate.** `FoldResultantCertificate` (built for a different statement, the remainder-R1
 gcd) already computes D(q) = disc_Λ(F_res)(q) mod p by interpolation and splits it into squarefree
-layers. At N = 5 the certified reading is **[56, 26]** (R-odd) and **[56, 32]** (R-even): two layers,
-maximum root multiplicity **2**. The 56 simple roots are the √-branch (defective) loci; the four forced
-real seeds are among them, together with the complex defective loci this note does not track. The
-26 / 32 double roots are *not* identified here: by the table above, an order-2 zero is a diabolic
-crossing, a cubic branch point, or two coincident defective pairs. The theorem does not need to know
-which. It needs only that no layer of multiplicity 3 exists.
+layers. The certified readings, both parities and both chain lengths:
+
+| N | sector | residual degree | layers | deg_q D (bound) | v_q(D) | primes / bound | max multiplicity |
+|---|---|---|---|---|---|---|---|
+| 5 | R-odd | 17 | [56, 26] | 246 (254) | 138 | 139 / 138 | **2** |
+| 5 | R-even | 18 | [56, 32] | 274 (286) | 154 | 156 / 155 | **2** |
+| 7 | R-odd | 52 | [222, 390] | 2508 (2556) | 1506 | 1327 / 1326 | **2** |
+| 7 | R-even | 53 | [228, 420] | 2612 (2672) | 1544 | 1377 / 1376 | **2** |
+
+Two layers everywhere, never a third. The simple roots are the √-branch (defective) loci; the forced
+real seeds are among them, together with the complex defective loci this note does not track. The double
+roots are *not* identified here: by the table above, an order-2 zero is a diabolic crossing, an
+analytic-defective 2×2, a cubic branch point, or two coincident defective pairs. The theorem does not
+need to know which. It needs only that no layer of multiplicity 3 exists.
 
 The lift to an exact statement over ℚ(i) is **one-way**: reduction modulo a prime ideal π_p that does
 not divide lc_q(D) is a degree-preserving ring homomorphism, so a factor (q − α)^m survives and
@@ -406,15 +415,17 @@ collapsed onto q = 0, where it would be stripped away with the q-power). A Hadam
 same device the engine already uses for the resultant's degree, bounds how many of the sampled primes
 can lose the degree, and separately how many can raise the valuation; sampling past that bound certifies
 each of the two true values. It does *not*, by itself, promise that one prime attains both. That prime
-is searched for among the 242 / 256 the run samples anyway, and the certificate **fails closed** if none
-does. At N = 5 the very first certified prime attains both.
+is searched for among the primes the run samples anyway (139 / 156 at N = 5, 1327 / 1377 at N = 7), and
+the certificate **fails closed** if none does. In all four cases the very first sampled prime attains both,
+and a second and an eighth prime reproduce the same layer degrees exactly (the gate
+`TheLayerReading_DoesNotDependOnWhichPrime`), so the verdict does not hang on one reduction.
 
-**What it closes.** The β-exotic is excluded at N = 5 on both R-parity sectors, unconditionally: the
-multiplicity bound is the whole argument, and it needs nothing else.
+**What it closes.** The β-exotic is excluded at N = 5 and at N = 7, on both R-parity sectors,
+unconditionally: the multiplicity bound is the whole argument, and it needs nothing else.
 
 **What it closes as a corollary: H1.** The subsidiary premise H1 (each forced seed has algebraic
-multiplicity exactly 2, no 3×3 Jordan) follows at N = 5, by **elimination, not by counting the order of
-the zero**. Do not run the tempting shortcut "a count-drop changes the discriminant's sign, so the zero
+multiplicity exactly 2, no 3×3 Jordan) follows wherever the certificate runs, by **elimination, not by
+counting the order of the zero**. Do not run the tempting shortcut "a count-drop changes the discriminant's sign, so the zero
 has odd order, so with max multiplicity 2 the order is 1". That step silently assumes exactly one
 conjugate pair is born at q\*; two forced seeds coinciding at one q\* would drop the real count by 4 at
 an order-2, sign-preserving zero, and the shortcut breaks. The argument that holds needs no order parity:
@@ -430,7 +441,13 @@ its locus with any of the ord-2 structures would give ord ≥ 3. So a locus that
 carries EP2s and **nothing else** (one, or two coincident), each a defective 2×2 Jordan block, algebraic
 multiplicity exactly 2. That is H1.
 
-The one thing this does need is that F_res has **real** coefficients, so that "real branch" and
+One thing this needs is that the count-drops live in F_res at all, and not in the AT factor where
+disc_Λ(F_res) is blind. They do, for every N and with no check: an AT strand is q-linear with purely
+imaginary slope, λ = r₀ + iκq, so it is real at every q > 0 when κ = 0 and complex at every q > 0 when
+κ ≠ 0. The AT factor's real count is constant on q > 0. It cannot drop. Every count-drop is a branch
+locus of F_res.
+
+The other thing it needs is that F_res has **real** coefficients, so that "real branch" and
 "conjugate pair" mean anything. Two steps, and the second is the one to watch. At odd N the bipartite
 metric T commutes with the reflection R (the site-sum parity is preserved because 3(N+1) is even), so T
 restricts to each R-parity sector and T L T = L† holds there: **each sector's spectrum is
@@ -440,19 +457,31 @@ F_res, the sector's spectrum with AT's removed, are self-conjugate, and the moni
 steps are checked from below at N = 5 and N = 7; the second rests on the chiral pairing being what fixes
 the AT slopes, which we have not derived in general.
 
-**What it does not close.** Not N = 7, and not by "the same call". `CertifyComplete` proves the
-remainder-R1 gcd as well, and R1's resultant runs against the corner block (p_c+1, p_c+1), whose
-dimension C(N, (N+1)/2+1)² is 25 at N = 5 but **441** at N = 7: deg_q R jumps from 422 to roughly
-53·441 ≈ 23000 interpolation nodes per prime, times the primes the Mignotte lift needs. The β-exclusion
-requires none of that; it reads only D, whose bound is resDeg·(resDeg − 1) ≈ 2756 at N = 7. Reaching
-N = 7 therefore means building a D-only entry point, not re-running this one. This is a per-N
-certificate, not a law. The all-N item, s₆ ≠ 0, stays open, and nothing here bears on it.
+**How N = 7 was reached, and why not by "the same call".** `CertifyComplete` proves the remainder-R1 gcd
+as well, and R1's resultant runs against the corner block (p_c+1, p_c+1), whose dimension
+C(N, (N+1)/2+1)² is 25 at N = 5 but **441** at N = 7: deg_q R jumps from 422 to roughly 53·441 ≈ 23000
+interpolation nodes per prime, times the primes the Mignotte lift needs. A first N = 7 probe ran past 28
+minutes without finishing. The β-exclusion requires none of that; it reads only D, whose bound is
+resDeg·(resDeg − 1) ≈ 2600. So N = 7 runs through a separate entry point, `CertifyDiscMultiplicity`,
+which drops the corner, the resultant and the Mignotte lift (that bound certifies the *gcd*, a statement
+this one does not make). It is pinned where both can run: at N = 5 the two paths agree number for
+number, and the D-only one is about ten times faster. N = 7 then costs 2.4 and 2.7 minutes per parity.
+
+**What it does not close.** Not N = 9: the block there is 324-dimensional, and its exact bivariate
+ℤ[i][q] charpoly is a different engineering problem, not a longer run of this one. And not any N at
+once. This is a per-N certificate, not a law; it retires chain lengths one at a time. The all-N item,
+s₆ ≠ 0, stays open, and nothing here bears on it.
 
 Verified from below at all four N = 5 seeds: each lies wholly in F_res (no AT component), is defective,
-and has splitting exponent 0.500. Gate: `DiscHasNoMultiplicityThreeRoot_ExcludesTheBetaExotic`
-(`dotnet test compute/RCPsiSquared.Diagnostics.Tests -c Release --filter "Category=FOLDRESULTANT"`,
-about 3 s per parity), typed as `BetaExoticExcludedAtN5Claim` with the live witness
-`inspect --root betaexotic`.
+and has splitting exponent 0.500.
+
+Gates. Fast (Categories `FOLDRESULTANT` and `DISCMULT`, seconds):
+`DiscHasNoMultiplicityThreeRoot_ExcludesTheBetaExotic`, the agreement test
+`N5_DiscOnlyPath_ReproducesTheFullCertificate_ExactlyAndFaster`, and the independent-prime falsifier
+`TheLayerReading_DoesNotDependOnWhichPrime`. Slow (Category `SLOW_DISCMULT_N7`, about five minutes):
+`N7_DiscOnlyPath_ExcludesTheBetaExotic` and its two-prime falsifier. Typed as
+`BetaExoticPerNExclusionClaim` with the live witness `inspect --root betaexotic` (N = 5 by default;
+`--N 7` pays the minutes).
 
 ## Reproduce
 
@@ -482,13 +511,12 @@ it falls:
    count-dropping transition is defective unless it is the non-generic order-3 point (the normal form
    β(s) = [[0, s], [s², 0]], eigenvalues ±s^{3/2}: a real-to-complex transition through a formally
    semisimple point).
-   - *At N = 5 it is settled*, unconditionally, by the certified disc-multiplicity reading (section
-     "The β-exotic is excluded at N = 5 only" above): max root multiplicity 2 off q = 0, and a β-exotic
-     would need 3. The subsidiary premise H1 (algebraic multiplicity exactly 2, no 3×3 Jordan)
-     **follows at N = 5 with one checked premise**, via the odd order forced at a count-drop: the
-     argument needs disc_Λ(F_res) real, hence AT real, hence the AT subspace T-invariant, which is
-     checked at N = 5 rather than derived. Cite H1 with that qualifier. N = 7 is the same call at
-     n = 7; it has not been run.
+   - *At N = 5 and N = 7 it is settled*, unconditionally, by the certified disc-multiplicity reading
+     (section "The β-exotic is excluded at N = 5 and N = 7" above): max root multiplicity 2 off q = 0,
+     and a β-exotic would need 3. The subsidiary premise H1 (algebraic multiplicity exactly 2, no 3×3
+     Jordan) **follows there, with one checked premise**: the argument needs disc_Λ(F_res) real, hence
+     AT real, hence the AT subspace T-invariant, which is checked at N = 5 and N = 7 rather than
+     derived. Cite H1 with that qualifier. N = 9 is out of reach by this route.
    - *For all N it is open*, and reduced to a single scalar statement, **s₆ ≠ 0 at every forced seed
      for all odd N** (section "The β-exotic, sharpened" above), a genuine sharpening of the failed
      discriminant-Galois route. The moment-relation proof route (transpose + Hermitian relations from

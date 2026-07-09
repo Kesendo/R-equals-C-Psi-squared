@@ -116,6 +116,233 @@ public static class FoldResultantCertificate
         GaussianInteger composeA, GaussianInteger composeB, int maxPrimes = 5000, Action<string>? log = null)
         => CertifyCore(n, rOdd, tWKet, tWBra, composeA, composeB, maxPrimes, log);
 
+    /// <summary>The certified disc-layer reading ALONE, with no corner block, no resultant and no
+    /// Mignotte lift: the β-exotic exclusion at a chain length where <see cref="CertifyComplete"/> is
+    /// unaffordable. Same statement as that method's MaxDiscMultiplicity, same one-way lift, same
+    /// both-ends layer prime, but it never touches R.
+    ///
+    /// <para>Why a separate entry point (measured, gate Category=BETAN7PROBE): CertifyComplete also
+    /// proves the remainder-R1 gcd, whose resultant runs against the corner block (p_c+1, p_c+1) of
+    /// dimension C(N, (N+1)/2+1)² = 25 at N = 5 but 441 at N = 7. Its exact ℤ[i] charpoly and the
+    /// degree-53 × 441 resultant dominate everything; the β-exclusion needs none of it. What it does
+    /// need at n = 7 costs 357 ms (block charpoly) + 40 ms (divide by AT) per exact evaluation, and
+    /// the discriminant is only ever taken mod p, at O(resDeg²) machine-int ops per node.</para>
+    ///
+    /// <para>The Mignotte/Hadamard PROOF bound is absent on purpose: it certifies the gcd lift, a
+    /// statement this method does not make. What remains is the lc-divisor bound, which certifies
+    /// deg_q D and v_q(D) separately; a prime attaining both is searched for and the report fails
+    /// closed (<c>DiscLayersCertified = false</c>) if none of the sampled primes does.</para></summary>
+    public static DiscMultiplicityReport CertifyDiscMultiplicity(
+        int n, bool rOdd, int maxPrimes = 20000, Action<string>? log = null)
+    {
+        if (n < 5 || n % 2 == 0)
+            throw new ArgumentException("odd n ≥ 5.", nameof(n));
+
+        var (aBlk, cBlk) = BlockPencil(n, rOdd);
+        AssertHoppingSymmetry(cBlk, rOdd ? null : F89PathKSeDeBlock.SymOrbitSizes(n));
+
+        var sectors = F89AtFactorReconstruction.ClearedAtSectors(n - 1, rOdd);
+        int atDeg = 0;
+        foreach (var s in sectors) atDeg += s.KCharpoly.Length - 1;
+        int blockDim = aBlk.GetLength(0);
+        int resDeg = blockDim - atDeg;
+
+        // exact bivariate F_res over Z[i][q]: charpoly of the pencil, divided by the AT factor
+        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        if (fRes.Length - 1 != resDeg)
+            throw new InvalidOperationException($"bivariate residual degree {fRes.Length - 1} ≠ {resDeg}.");
+
+        // cross-check the bivariate layer against the independent D-only per-point path at q0 = 2, 3
+        foreach (int q0 in new[] { 2, 3 })
+            AssertPolyEqual(EvalBivariateAtQ(fRes, q0), ResidualPerPointAt(n, rOdd, q0),
+                $"bivariate F_res at q0={q0}");
+
+        // G2 for D alone: the q → ∞ leading form of F_res fixes m_D and the proven degree bound
+        var (fResLead, lcD) = ResidualLeadingForm(n, rOdd);
+        var (_, mD) = SquarefreeLayers(FromZi(fResLead));
+        if ((mD == 0) != !lcD.Equals(GaussianInteger.Zero))
+            throw new InvalidOperationException("m_D inconsistent with disc_x(f_res).");
+        int dBound = resDeg * (resDeg - 1) - 2 * mD;
+
+        // the lc-divisor bound for D: Hadamard on the Sylvester matrix of (F_res, F_res')
+        BigInteger rowF = BigInteger.Zero;
+        foreach (var coeff in fRes) rowF += HNormQ(coeff);
+        BigInteger rowFp = resDeg * rowF;
+        BigInteger normD = BigInteger.Pow(rowF, Math.Max(resDeg - 1, 0)) * BigInteger.Pow(rowFp, resDeg);
+        int lcDivisorBoundD = (int)(2 * normD.GetBitLength() / 30) + 1;
+
+        const int extra = 24;
+        int samples = dBound + 1 + extra;
+        var perPrime = new List<(int P, int DegD, int VD, int[] DStrip)>();
+        int sampled = 0;
+
+        var clock = System.Diagnostics.Stopwatch.StartNew();
+        long candidate = (1L << 30) + 1;
+        while (candidate % 4 != 1) candidate += 2;
+        for (int tried = 0; tried < maxPrimes && sampled <= lcDivisorBoundD; candidate += 4)
+        {
+            if (!IsPrime(candidate)) continue;
+            tried++;
+            int p = checked((int)candidate);
+            int? root = SqrtMinusOneFast(p);
+            if (root is null) continue;
+
+            var fResP = ReduceBivariate(fRes, p, root.Value);
+            var dSamp = new int[samples];
+            for (int q0 = 0; q0 < samples; q0++)
+            {
+                var fL = EvalBivariateModP(fResP, q0, p);
+                if (DegP(fL) != resDeg || fL[resDeg] != 1)
+                    throw new InvalidOperationException($"reduced residual not monic of degree {resDeg} at q0={q0}.");
+                dSamp[q0] = DiscriminantModP(fL, p);
+            }
+            var dNodes = new int[dBound + 1];
+            Array.Copy(dSamp, dNodes, dBound + 1);
+            var dp = InterpolateAtIntegerNodes(dNodes, p);
+            for (int q0 = dBound + 1; q0 < samples; q0++)
+                if (EvalModP(dp, q0, p) != dSamp[q0])
+                    throw new InvalidOperationException($"D interpolant fails verification at q0={q0} (p={p}).");
+
+            sampled++;
+            int vDp = QValuation(dp);
+            perPrime.Add((p, DegP(dp), vDp, StripQ(dp, vDp)));
+
+            if (log is not null && sampled % 25 == 0)
+                log($"sampled={sampled} (bound {lcDivisorBoundD}), p={p}, {clock.ElapsedMilliseconds} ms");
+        }
+
+        // trueDegD and eD are each certified once sampled > lcDivisorBoundD; a prime attaining BOTH is
+        // then searched for (their union is NOT covered by one bound), and we fail closed if none does.
+        int trueDegD = -1, eD = int.MaxValue;
+        foreach (var s in perPrime)
+        {
+            if (s.DegD > trueDegD) trueDegD = s.DegD;
+            if (s.VD < eD) eD = s.VD;
+        }
+        if (eD == int.MaxValue) eD = -1;
+
+        long layerPrime = 0;
+        int[] layerDegrees = Array.Empty<int>();
+        foreach (var s in perPrime)
+        {
+            if (s.DegD != trueDegD || s.VD != eD) continue;
+            layerPrime = s.P;
+            var layers = FpSquarefreeLayers(s.DStrip, s.P);
+            layerDegrees = new int[layers.Count];
+            for (int k = 0; k < layers.Count; k++) layerDegrees[k] = DegP(layers[k]);
+            break;
+        }
+        bool certified = layerPrime != 0 && sampled > lcDivisorBoundD && trueDegD >= 0;
+
+        return new DiscMultiplicityReport(
+            n, rOdd, blockDim, atDeg, resDeg, mD, dBound,
+            trueDegD, eD, lcDivisorBoundD, layerPrime,
+            layerDegrees, layerDegrees.Length, sampled, certified);
+    }
+
+    /// <summary>The verdict of <see cref="CertifyDiscMultiplicity"/>. <c>MaxDiscMultiplicity ≤ 2</c> with
+    /// <c>DiscLayersCertified</c> is the β-exotic exclusion at that (n, parity): a Puiseux-3/2 point would
+    /// force a disc root of multiplicity ≥ 3 off q = 0.</summary>
+    public sealed record DiscMultiplicityReport(
+        int N, bool ROdd, int BlockDimension, int AtDegree, int ResidualDegree,
+        int InfinityRepeatedD, int DiscriminantDegreeBound,
+        int TrueDiscriminantDegree, int TrueQValuationD, int LcDivisorBoundD,
+        long LayerPrime, int[] DiscLayerDegrees, int MaxDiscMultiplicity,
+        int PrimesSampled, bool DiscLayersCertified);
+
+    /// <summary>Independent falsifier for <see cref="CertifyDiscMultiplicity"/>: read deg_q D, v_q(D) and
+    /// the squarefree layer degrees at the <paramref name="nth"/> sampled split prime (0 = the first, the
+    /// one the certificate uses). A degree, reduction or single-prime-fluke bug in the layer reading shows
+    /// up as a disagreement between two primes; the certificate's soundness argument says every prime that
+    /// attains trueDegD and the minimal v_q(D) must report the same layers.</summary>
+    public static (int DegD, int VD, int[] LayerDegrees) DiscLayersAtNthPrime(int n, bool rOdd, int nth)
+    {
+        if (n < 5 || n % 2 == 0) throw new ArgumentException("odd n ≥ 5.", nameof(n));
+        if (nth < 0) throw new ArgumentOutOfRangeException(nameof(nth));
+
+        var (aBlk, cBlk) = BlockPencil(n, rOdd);
+        var sectors = F89AtFactorReconstruction.ClearedAtSectors(n - 1, rOdd);
+        int atDeg = 0;
+        foreach (var s in sectors) atDeg += s.KCharpoly.Length - 1;
+        int resDeg = aBlk.GetLength(0) - atDeg;
+
+        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        var (fResLead, _) = ResidualLeadingForm(n, rOdd);
+        var (_, mD) = SquarefreeLayers(FromZi(fResLead));
+        int dBound = resDeg * (resDeg - 1) - 2 * mD;
+        int samples = dBound + 1 + 24;
+
+        long candidate = (1L << 30) + 1;
+        while (candidate % 4 != 1) candidate += 2;
+        int seen = 0;
+        for (; ; candidate += 4)
+        {
+            if (!IsPrime(candidate)) continue;
+            int p = checked((int)candidate);
+            int? root = SqrtMinusOneFast(p);
+            if (root is null) continue;
+            if (seen++ < nth) continue;
+
+            var fResP = ReduceBivariate(fRes, p, root.Value);
+            var dSamp = new int[samples];
+            for (int q0 = 0; q0 < samples; q0++)
+                dSamp[q0] = DiscriminantModP(EvalBivariateModP(fResP, q0, p), p);
+            var dNodes = new int[dBound + 1];
+            Array.Copy(dSamp, dNodes, dBound + 1);
+            var dp = InterpolateAtIntegerNodes(dNodes, p);
+            for (int q0 = dBound + 1; q0 < samples; q0++)
+                if (EvalModP(dp, q0, p) != dSamp[q0])
+                    throw new InvalidOperationException($"D interpolant fails verification at q0={q0} (p={p}).");
+
+            int vDp = QValuation(dp);
+            var layers = FpSquarefreeLayers(StripQ(dp, vDp), p);
+            var degs = new int[layers.Count];
+            for (int k = 0; k < layers.Count; k++) degs[k] = DegP(layers[k]);
+            return (DegP(dp), vDp, degs);
+        }
+    }
+
+    /// <summary>The D-only exact per-point residual: block charpoly at q0, divided by the AT factor.
+    /// Independent of the bivariate path, and free of the corner block.</summary>
+    private static GaussianInteger[] ResidualPerPointAt(int n, bool rOdd, int q0)
+    {
+        var blk = rOdd
+            ? F89PathKSeDeBlock.BuildTwoTimesROddBlock(q0, n)
+            : F89PathKSeDeBlock.BuildTwoTimesSymBlock(q0, n);
+        var (res, rem) = GaussianPolynomial.DivMod(GaussianMatrixCharpoly.Characteristic(blk),
+                                                   AtFactorAt(n, rOdd, q0));
+        if (rem.Length != 0)
+            throw new InvalidOperationException($"AT factor does not divide the block charpoly at q0={q0}.");
+        return res;
+    }
+
+    /// <summary>The q → ∞ leading form of F_res and the leading coefficient of its discriminant, with no
+    /// target block built (the D-only half of <see cref="LeadingFormsCore"/>).</summary>
+    private static (GaussianInteger[] ResidualLeadingForm, GaussianInteger DiscriminantLeadingCoeff)
+        ResidualLeadingForm(int n, bool rOdd)
+    {
+        var (_, cBlk) = BlockPencil(n, rOdd);
+        var fFull = GaussianMatrixCharpoly.Characteristic(cBlk);
+        var sectors = F89AtFactorReconstruction.ClearedAtSectors(n - 1, rOdd);
+        var fAt = new[] { GaussianInteger.One };
+        foreach (var s in sectors)
+        {
+            int d = s.KCharpoly.Length - 1;
+            var polyX = new GaussianInteger[d + 1];
+            for (int m = 0; m <= d; m++)
+            {
+                var unit = GaussianInteger.One;
+                for (int e = 0; e < d - m; e++) unit *= GaussianInteger.I;
+                polyX[m] = new GaussianInteger(s.KCharpoly[m], 0) * unit;
+            }
+            fAt = GaussianPolynomial.Multiply(fAt, polyX);
+        }
+        var (fRes, rem) = GaussianPolynomial.DivMod(fFull, fAt);
+        if (rem.Length != 0)
+            throw new InvalidOperationException("the AT leading form does not divide charpoly(C_block).");
+        return (fRes, GaussianPolynomial.Discriminant(fRes));
+    }
+
     /// <summary>The parameterised multi-prime proof engine. Accumulates split primes p ≥ 2³⁰ until their
     /// product exceeds the Mignotte/Hadamard proof bound; every used prime must see gcd(R mod p, D mod p) =
     /// c·q^e (else the report returns early with SharedIsQPowerAtEveryPrime = false: refine, not refute).

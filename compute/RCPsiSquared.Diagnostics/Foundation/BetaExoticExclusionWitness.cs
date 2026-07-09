@@ -4,9 +4,10 @@ using RCPsiSquared.Core.Inspection;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
-/// <summary>The live lab for the β-exotic exclusion at N = 5 (Anchor: <c>BetaExoticExcludedAtN5Claim</c>,
+/// <summary>The live lab for the per-N β-exotic exclusion, certified at N = 5 and N = 7 (Anchor:
+/// <c>BetaExoticPerNExclusionClaim</c>,
 /// <c>inspect --root betaexotic</c>; <c>experiments/F89_SEED_EXISTENCE_REDUCTION.md</c>, section "The
-/// β-exotic is excluded at N = 5 only"). It re-runs the certificate at inspect time, both R-parity
+/// β-exotic is excluded at N = 5 and N = 7"). It re-runs the certificate at inspect time, both R-parity
 /// sectors, and reads one integer off each run: the maximum root multiplicity of the discriminant
 /// D(q) = disc_Λ(F_res)(q) away from q = 0.
 ///
@@ -28,7 +29,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// A witness that reported <c>MaxDiscMultiplicity</c> without it would be reading a diagnostic, not a
 /// proof, which is what the number was before 2026-07-09.</para>
 ///
-/// <para><b>Scope carried from the claim.</b> Per-N, not all-N: this retires N = 5. It does not
+/// <para><b>Scope carried from the claim.</b> Per-N, not all-N: it retires N = 5 and N = 7, one chain
+/// length at a time (N = 9 is out of reach by this route). It does not
 /// exclude a cubic branch point (ord disc = 2, hiding in the multiplicity-2 layer); that is ruled out
 /// at a count-drop by elimination: a cubic point keeps one real branch and one conjugate pair on both
 /// sides of q*, so it cannot change the real count, while an EP2 can. The all-N item (s₆ ≠ 0 at every
@@ -37,27 +39,34 @@ public sealed class BetaExoticExclusionWitness : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
 
-    /// <summary>The only N the certificate has been run at (N = 7 needs a D-only path, unbuilt).</summary>
-    public const int CertifiedN = 5;
+    /// <summary>The chain lengths the certificate has actually been run at. N = 9 is out of reach by this
+    /// route: the block is 324-dimensional and its bivariate ℤ[i][q] charpoly is a different problem.</summary>
+    public static readonly IReadOnlyList<int> CertifiedN = new[] { 5, 7 };
+
+    /// <summary>The default N for <c>inspect</c>: N = 7 is certified but costs ~5 minutes (both parities),
+    /// so it must be asked for explicitly.</summary>
+    public const int DefaultN = 5;
 
     /// <summary>A β-exotic (Puiseux exponent 3/2) forces a disc zero of this order.</summary>
     public const int BetaExoticDiscOrder = 3;
 
     public int N { get; }
 
-    private readonly FoldResultantCertificate.CompleteReport _rEven;
-    private readonly FoldResultantCertificate.CompleteReport _rOdd;
+    private readonly FoldResultantCertificate.DiscMultiplicityReport _rEven;
+    private readonly FoldResultantCertificate.DiscMultiplicityReport _rOdd;
 
-    public BetaExoticExclusionWitness(int n = CertifiedN)
+    public BetaExoticExclusionWitness(int n = DefaultN)
     {
-        if (n != CertifiedN)
+        if (!CertifiedN.Contains(n))
             throw new ArgumentOutOfRangeException(nameof(n),
-                $"the β-exotic certificate has only been run at N = {CertifiedN}; N = 7 needs a D-only " +
-                $"entry point (CertifyComplete also proves the R1 gcd, whose resultant runs against a " +
-                $"corner block of dimension 441 at N = 7), which is not built; got {n}");
+                $"the β-exotic certificate has been run at N ∈ {{{string.Join(", ", CertifiedN)}}} only; " +
+                $"N = 9 is out of reach by this route (a 324-dimensional block, whose bivariate ℤ[i][q] " +
+                $"charpoly is a different engineering problem); got {n}");
         N = n;
-        _rEven = FoldResultantCertificate.CertifyComplete(n, rOdd: false);
-        _rOdd = FoldResultantCertificate.CertifyComplete(n, rOdd: true);
+        // the D-only path: no corner block, no resultant, no Mignotte lift. Pinned against the full R1
+        // certificate at N = 5 (identical layers, deg_q D, v_q(D)), and ~10x faster there.
+        _rEven = FoldResultantCertificate.CertifyDiscMultiplicity(n, rOdd: false);
+        _rOdd = FoldResultantCertificate.CertifyDiscMultiplicity(n, rOdd: true);
     }
 
     /// <summary>True when BOTH parity sectors are certified and carry no disc root of multiplicity ≥ 3.</summary>
@@ -80,13 +89,14 @@ public sealed class BetaExoticExclusionWitness : IInspectable
               $"[{Layers(_rOdd)}] (R-odd, residual degree {_rOdd.ResidualDegree}) and [{Layers(_rEven)}] " +
               $"(R-even, degree {_rEven.ResidualDegree}); the simple roots are the √-branch (defective) loci, and " +
               "the double roots are left unidentified (an order-2 zero may be diabolic, cubic, or two coincident " +
-              "defective pairs; the theorem does not need to know which). Per-N, not a law: N = 7 unrun, and the " +
-              "all-N scalar s₆ ≠ 0 stays open"
+              "defective pairs; the theorem does not need to know which). Per-N, not a law: it retires N = 5 and " +
+              "N = 7 one chain length at a time, N = 9 is out of reach by this route, and the all-N scalar " +
+              "s₆ ≠ 0 stays open"
             : "NOT established at inspect time: the layer prime failed certification, or a root of multiplicity " +
               $"≥ {BetaExoticDiscOrder} appeared. Read the per-parity nodes; a certificate that does not certify " +
               "is a diagnostic, and must not be reported as an exclusion";
 
-    private static string Layers(FoldResultantCertificate.CompleteReport r) =>
+    private static string Layers(FoldResultantCertificate.DiscMultiplicityReport r) =>
         string.Join(", ", r.DiscLayerDegrees);
 
     public IEnumerable<IInspectable> Children
@@ -124,15 +134,16 @@ public sealed class BetaExoticExclusionWitness : IInspectable
                          "the order of the zero: a cubic point keeps one real branch and one conjugate pair on " +
                          "both sides of q*, so it cannot change the real count, while an EP2 can. That needs " +
                          "F_res real (T commutes with the reflection R at odd N, and the AT slopes are chirally " +
-                         "paired; checked at N = 5, the AT step not derived in general). The β-exclusion above " +
+                         "paired; checked at N = 5 and N = 7, the AT step not derived in general). The β-exclusion above " +
                          "needs only the multiplicity bound. And it does not touch the all-N item: the codim-2 " +
                          "β-exotic genericity, reduced to s₆ ≠ 0 at every forced seed, remains open. This is a " +
-                         "per-N certificate. It retires N = 5.",
+                         "per-N certificate. It retires N = 5 and N = 7, one chain length at a time; N = 9 is out of reach " +
+                         "by this route (a 324-dimensional block).",
                 provenance: NodeProvenance.Stored);
         }
     }
 
-    private static InspectableNode ParityNode(string label, FoldResultantCertificate.CompleteReport r) =>
+    private static InspectableNode ParityNode(string label, FoldResultantCertificate.DiscMultiplicityReport r) =>
         new(displayName: $"{label}: max disc multiplicity {r.MaxDiscMultiplicity}, layers [{Layers(r)}], " +
                          $"certified = {r.DiscLayersCertified.ToString(Inv)}",
             summary: $"residual degree {r.ResidualDegree.ToString(Inv)} (block dim " +

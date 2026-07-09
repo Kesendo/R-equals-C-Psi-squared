@@ -746,8 +746,9 @@ public static class OpenArcsRegistry
                 "already samples carry DegD and VD, so NOTHING re-ran. Certified: deg D=246/274, v_q(D)=138/154, " +
                 "bound 138/155, MaxDiscMultiplicity=2, DiscLayersCertified=true. Gate " +
                 "DiscHasNoMultiplicityThreeRoot_ExcludesTheBetaExotic (Category FOLDRESULTANT, ~3 s/parity); " +
-                "typed BetaExoticExcludedAtN5Claim + live witness inspect --root betaexotic. " +
-                "H1 FOLLOWS AT N=5 BY ELIMINATION, not by the order of the zero. DO NOT use the shortcut " +
+                "typed BetaExoticPerNExclusionClaim + live witness inspect --root betaexotic. " +
+                "H1 FOLLOWS WHEREVER THE CERTIFICATE RUNS (N=5, N=7), BY ELIMINATION, not by the order of the " +
+                "zero. DO NOT use the shortcut " +
                 "'count-drop => disc sign change => odd order => (with max-mult 2) order 1': it assumes exactly " +
                 "ONE conjugate pair is born at q*, and two coincident seeds would drop the real count by 4 at an " +
                 "order-2, sign-PRESERVING zero (an empty-review catch). What holds: max-mult 2 already excludes " +
@@ -757,14 +758,55 @@ public static class OpenArcsRegistry
                 "the EP2 changes the real count (the analytic cases keep two real branches; a cubic keeps one " +
                 "real branch + one conjugate pair on both sides). SHARPER: the bound also forbids an EP2 from " +
                 "SHARING its locus with any ord-2 structure (1+2=3), so a count-drop locus carries EP2s and " +
-                "NOTHING else (one, or two coincident): algebraic mult exactly 2. That step " +
+                "NOTHING else (one, or two coincident): algebraic mult exactly 2. The count-drops live in F_res at all " +
+                "for EVERY N with NO check: an AT strand is q-linear with purely imaginary slope " +
+                "lam = r0 + i*kappa*q, real at every q>0 when kappa=0 and complex at every q>0 when kappa!=0, " +
+                "so AT's real count is CONSTANT on q>0 and cannot drop. That step " +
                 "needs F_res REAL: T=diag((-1)^{a0+a1+b0}) (the bipartite sign; T K T=-K since every K entry is a " +
                 "single hop, flipping the site-sum parity) gives T L T = L^dag EXACTLY at every N, and at ODD N " +
                 "T also commutes with the reflection R (3(N+1) even), so T restricts to each R-sector and each " +
                 "sector spectrum is self-conjugate; the AT spectrum is separately self-conjugate (strand slopes " +
                 "chirally +- paired, ChiralKClaim), so F_res's roots are self-conjugate and monic F_res is real. " +
                 "Checked N=5 and N=7; the AT step is not derived in general. The BETA-EXCLUSION itself needs NONE " +
-                "of this -- it is the multiplicity bound alone. DOC CORRECTION made " +
+                "of this -- it is the multiplicity bound alone. "
+                +
+                "N=7 CLOSED THE SAME DAY, both parities, via a SEPARATE D-only entry point "
+                +
+                "FoldResultantCertificate.CertifyDiscMultiplicity: CertifyComplete also proves the R1 gcd, whose "
+                +
+                "resultant runs against the corner block (p_c+1,p_c+1) of dimension C(N,(N+1)/2+1)^2 = 25 at N=5 "
+                +
+                "but 441 at N=7, so deg_q R jumps 422 -> ~53*441 ~ 23000 nodes/prime times the Mignotte primes "
+                +
+                "(a first n=7 probe ran past 28 min without finishing). The D-only path drops the corner, the "
+                +
+                "resultant AND the Mignotte proof bound (that bound certifies the GCD, a statement this one does "
+                +
+                "not make); what remains is the lc-divisor bound. PINNED where both run: at N=5 the two paths "
+                +
+                "agree number for number (layers [56,26]/[56,32], deg_q D 246/274, v_q 138/154) and D-only is ~10x "
+                +
+                "faster (307/446 ms vs 3022/2622 ms). N=7 certified readings: R-odd resDeg 52, layers [222,390], "
+                +
+                "deg_q D 2508 (bound 2556), v_q 1506, 1327 primes vs bound 1326, 2.4 min; R-even resDeg 53, layers "
+                +
+                "[228,420], deg_q D 2612 (bound 2672), v_q 1544, 1377 primes vs bound 1376, 2.7 min. MAX "
+                +
+                "MULTIPLICITY 2 IN ALL FOUR CASES. The verdict is read off ONE prime, so that dependence is separately "
+                +
+                "FALSIFIED: primes #1 and #7 at N=5 and prime #3 at N=7 reproduce the same deg_q D, v_q(D) and "
+                +
+                "layer degrees EXACTLY (gate TheLayerReading_DoesNotDependOnWhichPrime). "
+                +
+                "Gates: DISCMULT (fast, incl. the N=5 agreement test + the falsifier) + "
+                +
+                "SLOW_DISCMULT_N7. N=9 is OUT OF REACH by this route (324-dim block; its exact bivariate Z[i][q] "
+                +
+                "charpoly is a different engineering problem, not a longer run). Claim renamed "
+                +
+                "BetaExoticPerNExclusionClaim (it retires chain lengths one at a time); witness now runs the "
+                +
+                "D-only path, inspect --root betaexotic [--N 7]. DOC CORRECTION made " +
                 "in the same pass: F89_SEED_EXISTENCE_REDUCTION.md credited the self-conjugacy to odd N (the " +
                 "unmirrorable central site); it holds at EVEN N too (N=4,6) -- what odd N buys is the existence of " +
                 "real eigenvalues at all. THREE EMPTY REVIEWS shaped this. The mathematician confirmed the " +
