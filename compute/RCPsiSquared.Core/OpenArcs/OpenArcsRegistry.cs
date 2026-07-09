@@ -825,7 +825,10 @@ public static class OpenArcsRegistry
                 "+ 2 R-odd, so both parity sectors carry seeds and both are certified. SCOPE, stated flatly: this " +
                 "is a PER-N certificate, NOT a law. It retires N=5. N=7 is the same call at n=7 (residual degree " +
                 "53, disc degree ~2756, ~2800 interpolation nodes; the one-way direction needs no height lift) and " +
-                "has NOT been run. The all-N core O2b (s6 != 0 at every forced seed) is UNTOUCHED and remains the " +
+                "had NOT been run at this writing [SUPERSEDED later the same day: N=7 RAN via the D-only " +
+                "CertifyDiscMultiplicity entry point, both parities, 2.4/2.7 min, certified residual degrees " +
+                "52/53 -- see the dated N=7 text in this journal]. The all-N core O2b (s6 != 0 at every forced " +
+                "seed) is UNTOUCHED and remains the " +
                 "open item. TWO TRAPS LOGGED: (i) the SIGN of s6 is NOT gauge-invariant -- the antilinear gauge " +
                 "A = T.conj has two branches (A r = +-r, exchanged by r -> i*r) and s6 flips between them, while " +
                 "the -6-rung Krein index kappa_6 = r^dag T P_-6 r / ||r||^2 does not (the subscript is the RUNG, not the reflection parity R); the doc's 's6 in [0.025,0.38]' records " +
@@ -876,6 +879,50 @@ public static class OpenArcsRegistry
                 "relation needs geom mult 1), so proving it is NOT a standalone beta-exotic exclusion; the direct " +
                 "test is defectiveness itself (1-dim kernel, sigma[-2]=O(1)), which the sweep checks separately. " +
                 "Verifier simulations/o2b_krein_sign_law.py (self-asserting N=5,7; '9' adds N=9). " +
+                "UPDATE 2026-07-09d (three parallel attacks; doc section 'Three attacks on the sign law'; note the " +
+                "09c 'measured sum rule' is upgraded there to a two-line theorem): " +
+                "(1) the Semenoff coercivity is FALSIFIED per unit norm (binding order alpha > |lam+2| > beta flips " +
+                "at 3/11 seeds, e.g. N=5 q*=1.286074 unit-hop; both class blocks of W = |lam+2| + Sigma_even " +
+                "indefinite at every seed); survives as the PROXIMITY form ||lam+2|-alpha| < ||lam+2|-beta| via the " +
+                "exact ratio identity ||x2||^2/||y2||^2 = (beta-|lam+2|)/(|lam+2|-alpha). (2) BRANCH IDENTITY (exact, " +
+                "every simple real band eigenvector): kappa_-2 = sigma*[(lam+6) - q dlam/dq]/4, sigma = v^dag T v/" +
+                "||v||^2; at a sqrt-type seed (mu != 0 <=> s6 != 0 there; mu != 0 is NOT free from H1 -- mu^2 " +
+                "prop s6, demanding it would assume the O2b nonvanishing) the slope diverges, the positive-type " +
+                "branch is slope-bounded by the separating law's free half, so SEPARATING LAW => kappa_-2 >= 0 (isolated seeds; coincident EP2 pairs deferred to the certificate) at " +
+                "every defective seed, STRICT exactly at the sqrt-type seeds (s6 != 0), ALL odd N (modulo H1) -- " +
+                "the SIGN half only, the nonvanishing stays with S6 " +
+                "(at a beta-exotic it yields kappa=0, consistent). Separating law now verified N=5,7,9 " +
+                "(0 violations / 1290+2012+2654 samples; all sweep counts in this block are grid statistics of " +
+                "in-session sweeps, the committed verifier's grids differ); strongest sufficient cell form (STRICTLY STRONGER than " +
+                "the separating law, NOT equivalent -- weighted-deficit region escapes; 0 violations on sweeps): " +
+                "b' >= b => a' >= a with " +
+                "a=||(Kx)_2||^2, b=||(Kx)_6||^2, a'=||(Ky)_2||^2, b'=||(Ky)_6||^2. (3) RATIONAL CERTIFICATE: " +
+                "kappa_-2 = -S6/ST with S6 = tr(P_-6 adj(lam I - L)), ST = tr(T adj(lam I - L)), both INTEGER " +
+                "polynomials in (lam, q^2); S6 != 0 at a count-drop => geom mult 1 AND s6 != 0 (the whole O2b " +
+                "nonvanishing as one polynomial; H1 untouched); sign law <=> S6*ST < 0 on the seed locus (the " +
+                "PRODUCT is convention-independent; individual signs flip between full-block and per-sector " +
+                "adjugates). CAUTION: the S6 = 0 locus CONTAINS all geom-mult >= 2 points (diabolics AND any " +
+                "beta-exotic), so a per-N S6-elimination alone cannot separate them -- the per-N exclusion stays " +
+                "the disc-mult certificate; S6's value is the all-N SHAPE (vertex-deleted char polys of the full " +
+                "pencil L, whose diagonal blocks are the K22-paths and H3). Q-PENCIL equivalent: " +
+                "Q(lam,q) = T(D-lam) + iq TK Hermitian, sign law <=> every T-neutral tangential touching of 0 " +
+                "descends in q (dnu/dq = -(4/q) kappa_-2, 11/11). NEW DEAD ENDS: per-norm mass dominance; band-wide " +
+                "monotonicity sigma*dlam/dq < 0 (452/2310 + 860/3622 violations, no uniform sigma-gap); sign(S6) " +
+                "alone (c flips per seed); S6 strip-definiteness; band-wide J-cone law v^dag(iTK)v < 0 (111/600, " +
+                "166/864, all on T-negative vectors; pointwise = the monotonicity condition); PSLQ SEARCH (46 " +
+                "digits, a search NOT an exclusion; values algebraic by construction): no low-complexity minpoly " +
+                "surfaced for q*^2/lam*/kappa at N=5 seeds (forced/free law again -- certificates must be " +
+                "identical in (lam,q)). TWO NAMED TARGETS remain: " +
+                "prove the separating law (or the stronger b' >= b => a' >= a; either gives the SIGN half -- " +
+                "kappa never negative, strict where s6 != 0 -- at all defective seeds, all odd N, modulo H1), AND " +
+                "prove S6 != 0 at the count-dropping loci (the exclusion AND the strictness; all-N shape, NOT a " +
+                "ready per-N certificate -- see the caution). Only together do they complete kappa_-2 > 0. " +
+                "TAXONOMY REFINED (doc headline updated): s6 != 0 <=> SQRT-TYPE (exponent 1/2); s6 = 0 at a " +
+                "count-drop = the order-3 class, which contains BOTH the semisimple beta-exotic AND the defective " +
+                "exponent-3/2 twin (geom mult 1, H1-compatible); both die per-N by the disc-mult bound. " +
+                "COMMITTED VERIFIER " +
+                "for the whole section: simulations/o2b_three_attacks_audit.py (self-asserting N=5 + N=7 kernels; " +
+                "'7' adds the N=7 seed sweep, 'b7'/'b9' the N=7/N=9 bands). " +
                 "TYPED 2026-07-04: " +
                 "SeedExistenceCountingClaim (Tier1Derived, parents AbsorptionTheorem + ChiralK) + live " +
                 "SeedExistenceCountingWitness, inspect --root seedcount (SVD nullities + combinatorial rho/Z3 + " +
