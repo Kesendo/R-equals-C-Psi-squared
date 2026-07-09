@@ -849,9 +849,14 @@ public static class OpenArcsRegistry
                 "all 19), with ZERO semisimple transitions (numerical corroboration, not a proof, of the N=5,7 " +
                 "beta-exotic exclusion). The extraction cleared trap ii plus two more: reject any coalescence with v^dag T v != 0 " +
                 "(a stray near-real crossing, NOT a beta-exotic), and split by R-parity at N>=9 to isolate the born " +
-                "pair from the dense complex thicket. STILL A CONJECTURE (three chain lengths are not a law); it " +
-                "names the missing definiteness and gives a from-below mechanism (seeds born from ker(K22), which " +
-                "sits in class E of the -2 rung, N<=7 numeric), but proving kappa_-2 > 0 for all odd N stays open. " +
+                "pair from the dense complex thicket. STILL A CONJECTURE (three chain lengths are not a law). " +
+                "UPDATE 2026-07-09b: the named from-below mechanism (seeds born from ker(K22) in class E of the -2 " +
+                "rung) is INCOMPLETE -- it fits the BORN seeds (x_-2 overlaps ker(K22) ~0.90-0.95) but NOT the " +
+                "re-entrant complex->real seeds (overlap 0.10 at N=5 q*=5.61, 0.14 at N=7 q*=11.36, unit-hop axis), " +
+                "where kappa_-2 > 0 holds anyway; ker-inheritance is ruled out as the complete cause. Two sharpenings: " +
+                "kappa_-2 > 0 is EP-FREE (it holds for BOTH individual colliding real branches, not just the isotropic " +
+                "merge), so the target is now the plain weight inequality 'class-E |v|^2-weight on the -2 rung exceeds " +
+                "class-O weight' for the real band eigenvectors (lam in (-6,-2)). Proving it for all odd N stays open. " +
                 "NOTE (do not over-read): kappa_-2 > 0 bears only on the DEFECTIVE seeds (the kappa<->s6 gauge " +
                 "relation needs geom mult 1), so proving it is NOT a standalone beta-exotic exclusion; the direct " +
                 "test is defectiveness itself (1-dim kernel, sigma[-2]=O(1)), which the sweep checks separately. " +

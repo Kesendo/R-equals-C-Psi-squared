@@ -291,7 +291,8 @@ L is complex-symmetric, Lᵀ = L), from Cr = (1/q)(λ − D)r:
 
 At a coalescence the coalescing eigenvector is self-orthogonal (rᵀr → 0, the complex-symmetric EP
 signature), so **rᵀCr → (4/q\*)·s₆**. And rᵀCr is exactly the branch-coefficient numerator: for a
-defective coalescence of Jordan size m the local exponent obeys μ^m = rᵀCr / (rᵀr_{m−1}). An
+defective coalescence of Jordan size m the branch coefficient μ (the splitting is ∼ μ·(q − q\*)^{1/m})
+obeys μ^m = rᵀCr / (rᵀr_{m−1}). An
 *isolated* count-dropping seed (a drop of exactly 2) is a real-to-complex transition, hence an
 *odd*-order zero of the relevant real discriminant factor (two seeds coinciding at one q\* would drop
 the count by 4 at an even-order zero; that case is handled separately in the certificate section).
@@ -323,7 +324,8 @@ it remains open, alongside the reduction of this section.)
 **Numerics (grounding for the identity, not evidence for all N).** At the 17 census seeds N = 5, 7, 9
 the anchored self-orthogonal eigenvector (a Takagi-minimal vᵀv extraction at the refined q\*; a naive
 min-gap finder drifts to the −6-rung edge crossings at λ = −6, which are not self-orthogonal and not the
-seeds) gives s₆ ∈ [0.025, 0.38], bounded away from zero, with rᵀCr = (4/q\*)s₆ holding to 0.5%. This
+seeds) gives |s₆| ∈ [0.025, 0.38] (magnitudes; the sign of s₆ is a gauge convention, see the trap at the
+end of this section), bounded away from zero, with rᵀCr = (4/q\*)s₆ holding to 0.5%. This
 confirms the identity and the reduction machinery only; it is the same evidence class as the N ≤ 11
 census and carries no all-N weight on its own.
 
@@ -331,8 +333,12 @@ census and carries no all-N weight on its own.
 relations (α = γ = −β, with α = r₂ᵀK₂₂r₂, β = r₂ᵀK₂₆r₆, γ = r₆ᵀK₆₆r₆) and Hermitian relations (the
 positive norms with (λ + 2)‖r₂‖² + (λ + 6)‖r₆‖² = 0, forcing λ ∈ (−6, −2)). These moment relations do
 not force s₆ ≠ 0: an explicit in-class matrix (complex-symmetric and pseudo-Hermitian, two rungs) is a
-clean defective EP2 (geometric multiplicity 1, algebraic 2, rᵀr₁ = 1) with s₂ = s₆ = 0 satisfying all of
-them (K = [[0,2,0,0],[2,0,−4,0],[0,−4,0,−2],[0,0,−2,0]], r = (1, i, 1, −i), at q = 1, λ = −4). Three
+clean defective 2×2 (geometric multiplicity 1, algebraic 2, rᵀr₁ = 1) with s₂ = s₆ = 0 satisfying all of
+them (K = [[0,2,0,0],[2,0,−4,0],[0,−4,0,−2],[0,0,−2,0]], r = (1, i, 1, −i), at q = 1, λ = −4). It is an
+*analytic-defective* 2×2 in the certificate section's sense, not the exponent-½ EP2 of the reduction:
+s₆ = 0 forces rᵀCr = 0, so μ² = 0 and its two branches do not √-split; such a point keeps two real
+branches, does not drop the count, and is thereby barred from a forced seed, which is exactly why its
+s₆ = 0 is consistent with the count-dropping biconditional above. Three
 structural reasons: the transpose quantity s₆ is decoupled from every positivity-bearing relation; the
 pseudo-Hermitian relation L†T = TL collapses to (λ\* − λ)r†Tr = 0, vacuous on the real axis; so any real
 proof must re-enter the exact spectral arithmetic of the two closed-form blocks, K₂₂ (the N − 1 paths of
@@ -369,14 +375,38 @@ forced net (N − 1)/2 pairs at each (2, 3, 4 pairs; 4, 7, 8 coalescences counti
 complex→real ones), κ₋₂ ≳ 0.025 (minimum 0.0253) across all 19, and the sweep finds **zero**
 semisimple (2-dim-kernel) transitions, corroborating (numerically, not a proof) the β-exotic
 exclusion at N = 5, 7 by a route orthogonal to the disc-multiplicity certificate. Verifier:
-`simulations/o2b_krein_sign_law.py` (self-asserting at N = 5, 7; `9` adds N = 9).
+`simulations/o2b_krein_sign_law.py` (self-asserting at N = 5, 7 with no argument; pass `5 7 9` to
+include N = 9, or a bare `9` to run N = 9 alone).
 
-The mechanism, from below and still a heuristic: the N − 1 forced seeds are born from ker(K₂₂), which
-Piece 1's path decomposition places (numerically, N ≤ 7) entirely in the majority class E of the −2
-rung; the seed eigenvector inherits that E-dominance on the −2 rung, whence κ₋₂ > 0. Turning
-"inherits" into the strict inequality "class-E |v|²-weight on the −2 rung exceeds class-O weight at
-the finite-q seed" (a weight inequality, not the state-count inequality +(N − 1), which does not
-imply it) is the coercivity the mechanism needs.
+**The gauge geometry, made explicit (2026-07-09).** The antilinear gauge conj(r) = T r puts the real
+and imaginary parts of the coalescing vector on opposite classes. Write r = x + i y with x, y real;
+conj(r) = T r reads x − i y = T x + i T y, hence **T x = x and T y = −y**: x is supported entirely on
+class E (the +1 eigenspace of T) and y entirely on class O. Every E/O cross term then vanishes on the
+disjoint supports, so rᵀr = ‖x‖² − ‖y‖² and
+
+> κ₋₂ = (‖P₋₂ x‖² − ‖P₋₂ y‖²) / (‖x‖² + ‖y‖²),   with ‖x‖² = ‖y‖² forced by rᵀr = 0.
+
+So the sign law κ₋₂ > 0 is exactly: the class-E real part carries more −2-rung weight than the class-O
+imaginary part. This is the weight inequality below, now in closed geometric form (and κ₋₂ + κ₋₆ = 0
+is just ‖x‖² = ‖y‖²).
+
+**The mechanism, from below, and where the named candidate breaks (2026-07-09).** The candidate above
+(the seed eigenvector "inherits" E-dominance on the −2 rung from ker(K₂₂) ⊂ class E) explains the
+*births* but not the whole law. Measured seed by seed, the −2-rung part of x overlaps ker(K₂₂) heavily
+at the born seeds (≈ 0.90–0.95 of its weight at three of the four N = 5 seeds) but only weakly at the
+*re-entrant* complex→real seeds (0.10 at the N = 5 seed q\* = 5.61, 0.14 at the N = 7 seed q\* = 11.36;
+these q\* are on the unit-hop axis of the sweep, twice the octic q\* used in the trap at the end of this
+section), where κ₋₂ > 0 holds nonetheless. So ker-proximity is not the universal cause: a re-entrant seed
+satisfies the law with its −2-part mostly outside the kernel. Two facts sharpen the target. First,
+κ₋₂ > 0 is **not an EP-only statement**: both individual real branches that collide at a seed already
+have κ₋₂ > 0 (with opposite total Krein signs r†Tr, as the pseudo-Hermitian collision requires), so
+the merged isotropic vector inherits κ₋₂ > 0 from an ordinary eigenvector-weight fact that holds off
+the exceptional point. Second, that fact is the coercivity still missing: **class-E |v|²-weight on the
+−2 rung exceeds class-O weight** for the real band eigenvectors with λ ∈ (−6, −2), a weight inequality
+(not the state-count inequality +(N − 1), which does not imply it). Its proof is unidentified;
+ker-inheritance is now known to be an incomplete route to it. (The gauge geometry is an identity, not a
+measurement; the ker-overlap and branch-Krein numbers are from the same class of anchored sweep as the
+committed `simulations/o2b_krein_sign_law.py`, which asserts κ₋₂ > 0 at every forced seed at N = 5, 7, 9.)
 
 **What proving the sign law would, and would not, do.** It bears only on the *defective* seeds: the
 identity κ₋₆ = c·s₆/‖v‖² holds where the eigenspace is one-dimensional, so κ₋₂ > 0 is the
@@ -388,7 +418,8 @@ it numerically at every forced seed at N = 5, 7, 9 (zero semisimple points). So 
 signed sharpening* of the s₆ ≠ 0 reading at the defective seeds, plus a from-below mechanism candidate
 for why they sit off s₆ = 0, not a standalone O2b closer. Three chain lengths confirm the law; they do
 not prove it (the arc's standing rule). What is new is that the missing definiteness now has a name, a
-gauge-invariant form, and a from-below mechanism to attack.
+gauge-invariant form, and a sharper (EP-free, weight-inequality) target to attack, with the first
+from-below candidate (ker-inheritance) ruled out as its complete cause.
 
 **Two ways it can still advance.** An exact *per-N* certificate (now taken, at N = 5 and N = 7: next
 section), or the all-N prize: prove the class-imbalance sign law, i.e. the definiteness ingredient
