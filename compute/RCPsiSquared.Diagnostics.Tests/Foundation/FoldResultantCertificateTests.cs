@@ -128,6 +128,48 @@ public sealed class FoldResultantCertificateTests
         Assert.True(report.Complete, "the prime product did not reach the proof bound");
     }
 
+    /// <summary>The β-exotic exclusion at N=5 (ClaudeTasks/BETA_EXOTIC_DISC_MULTIPLICITY_CERTIFICATE.md).
+    /// A branch locus with Puiseux exponent 3/2 (the β-exotic, normal form [[0,s],[s²,0]], eigenvalues
+    /// ±s^{3/2}) forces ord_{q*} disc_Λ(F_res) ≥ 3, because every other colliding pair contributes a
+    /// NON-NEGATIVE order. So "disc has no root of multiplicity ≥ 3 off q = 0" excludes the β-exotic
+    /// outright — strictly weaker than squarefreeness (the diabolic loci are genuine double roots and
+    /// must survive), which is why the dead discriminant-Galois route is not needed here.
+    ///
+    /// <para>The lift is ONE-WAY: reduction mod a prime ideal π_p ∤ lc_q(D) is a degree-preserving
+    /// homomorphism, so a factor (q − α)^m survives and distinct roots can only MERGE. Hence
+    /// max-mult(D mod p) ≥ max-mult(D), and reading multiplicity 2 at ONE certified prime proves
+    /// max-mult(D) ≤ 2 exactly over ℚ(i). The prime must be certified at BOTH ends of the q-line:
+    /// attaining trueDegD (no root escaped to ∞) and attaining the minimal v_q(D) (no nonzero root
+    /// collapsed onto 0 and got stripped with the q-power). Both are certified exactly as trueDegR is,
+    /// by sampling more split primes than can divide lc_q(D) or the coefficient of q^e.</para></summary>
+    [Theory]
+    [Trait("Category", "FOLDRESULTANT")]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void DiscHasNoMultiplicityThreeRoot_ExcludesTheBetaExotic(bool rOdd)
+    {
+        var report = FoldResultantCertificate.CertifyComplete(N, rOdd);
+        PrintReport(report);
+
+        Assert.True(report.DiscLayersCertified,
+            $"the layer prime must attain trueDegD and the minimal v_q(D), with more than " +
+            $"{report.LcDivisorBoundD} sampled primes (had {report.PrimesSampled})");
+        Assert.True(report.TrueDiscriminantDegree <= report.DiscriminantDegreeBound,
+            $"certified deg D = {report.TrueDiscriminantDegree} exceeds the proven bound {report.DiscriminantDegreeBound}");
+        Assert.True(report.TrueQValuationD >= 0 && report.TrueQValuationD < report.TrueDiscriminantDegree,
+            "the certified q-valuation of D must be a proper prefix of its degree");
+
+        // the payload: no root of multiplicity >= 3 off q = 0
+        Assert.True(report.MaxDiscMultiplicity <= 2,
+            $"disc_Λ(F_res) has a root of multiplicity {report.MaxDiscMultiplicity} ≥ 3 off q = 0: " +
+            $"a β-exotic (Puiseux exponent 3/2) is NOT excluded at N={N}, rOdd={rOdd}");
+
+        // the mult-1 layer must be non-empty: the forced seeds are defective EP2 (exponent 1/2) and
+        // live there. An empty mult-1 layer would mean the reading lost them.
+        Assert.True(report.DiscLayerDegrees.Length >= 1 && report.DiscLayerDegrees[0] > 0,
+            "the multiplicity-1 layer (the √-branch / defective loci) must be non-empty");
+    }
+
     [Fact]
     [Trait("Category", "FOLDRESULTANT")]
     public void TargetLoci_GroundTheCertificate_FoldStaysClearOfTheCorner()
@@ -211,6 +253,8 @@ public sealed class FoldResultantCertificateTests
                        $"deg D = {r.DiscriminantDegree} (proven bound {r.DiscriminantDegreeBound})");
         _out.WriteLine($"  q-valuations: v_q(R) = {r.QValuationR}, v_q(D) = {r.QValuationD}");
         _out.WriteLine($"  disc layers (mult 1, 2, …): [{string.Join(", ", r.DiscLayerDegrees)}], layer-gcds with R: [{string.Join(", ", r.LayerGcdDegrees)}]");
+        _out.WriteLine($"  CERTIFIED disc: deg = {r.TrueDiscriminantDegree}, v_q = {r.TrueQValuationD}, layer prime {r.LayerPrime} " +
+                       $"(lc-divisor bound for D: {r.LcDivisorBoundD}); max multiplicity = {r.MaxDiscMultiplicity}, certified = {r.DiscLayersCertified}");
         _out.WriteLine($"  primes: {r.PrimesUsed} used ({r.PrimesSkipped} skipped), sampled {r.PrimesSampled} > lc-divisor bound {r.LcDivisorBound} " +
                        $"(the degree certificate), {r.FirstPrime}…{r.LastPrime}; " +
                        $"prime product {r.PrimeProductDigits} digits vs proof bound {r.ProofBoundDigits} digits");

@@ -50,10 +50,29 @@ namespace RCPsiSquared.Core.F89PathK;
 /// the sub-leading coefficients vanish identically and H = lc·q^e EXACTLY. This is a COMPLETE proof, not
 /// a heuristic: no common root of R and D exists off q = 0.</para>
 ///
-/// <para>DIAGNOSTICS kept in the report (first prime): the discriminant's squarefree layers, the N=5
-/// image of the N=4 disc structure disc = q²⁴·(diabolic)²·P_20 (experiments/F89_BRANCH_LOCUS_PALINDROME.md):
-/// the multiplicity-1 layer carries the √-branch (defective) loci, the multiplicity-2 layer the squared
-/// diabolic factor, and R shares nothing with either (the layer gcds are reported).</para>
+/// <para>THE CERTIFIED DISC-LAYER READING (the β-exotic exclusion; landed 2026-07-09 after three empty
+/// reviews; spec in ClaudeTasks/BETA_EXOTIC_DISC_MULTIPLICITY_CERTIFICATE.md). The report carries D's
+/// squarefree layer degrees, the N=5 image of the N=4 disc structure disc = q²⁴·(diabolic)²·P_20
+/// (experiments/F89_BRANCH_LOCUS_PALINDROME.md): the multiplicity-1 layer carries the √-branch (defective)
+/// loci, the multiplicity-2 layer the squared diabolic factor, and R shares nothing with either (the layer
+/// gcds are reported). Beyond diagnostics, MaxDiscMultiplicity is a PROOF once DiscLayersCertified holds:
+/// a branch locus with Puiseux exponent 3/2 (the β-exotic, normal form [[0,s],[s²,0]], eigenvalues ±s^{3/2})
+/// forces ord_{q*} disc_Λ(F_res) ≥ 3, because every other colliding pair contributes NON-NEGATIVE order; so
+/// MaxDiscMultiplicity ≤ 2 excludes the β-exotic at every branch locus q ≠ 0 of that block and parity.
+/// Deliberately weaker than squarefreeness: the diabolic loci are genuine DOUBLE roots and must survive.
+/// This is why the discriminant-Galois route (dead: a full Galois group sees which sheets swap, never the
+/// ½-vs-3/2 exponent) is not needed. THE LIFT is one-way: reduction mod π_p ∤ lc_q(D) is a degree-preserving
+/// homomorphism, so a factor (q − α)^m survives and distinct roots can only MERGE, giving
+/// max-mult(D mod p) ≥ max-mult(D). The layer prime is therefore certified at BOTH ends of the q-line: it
+/// attains TrueDiscriminantDegree (no root escaped to q = ∞) and TrueQValuationD (no nonzero root collapsed
+/// onto q = 0, where StripQ would have discarded it with the q-power), both certified by the same
+/// Hadamard/lc-divisor device as trueDegR, against LcDivisorBoundD. DiscriminantDegree and QValuationD are
+/// reported AT the layer prime. Companion fact: the AT subspace is q-independent and invariant for every q,
+/// so D and K each preserve it and (both being Hermitian) also its orthogonal complement — AT ⊕ F_res is
+/// genuinely block-DIAGONAL, no Jordan chain crosses the seam, and disc_Λ(F_res) misses no defect. What this
+/// does NOT exclude: a cubic branch point (3×3 Jordan) has ord disc = 2 and hides in the multiplicity-2
+/// layer; at a count-drop it is ruled out separately by parity (an even-order zero gives no sign change, so
+/// it cannot flip two reals into a conjugate pair).</para>
 ///
 /// <para>Run: <c>dotnet test "compute/RCPsiSquared.Diagnostics.Tests" --filter "Category=FOLDRESULTANT"
 /// --logger "console;verbosity=detailed"</c> (FoldResultantCertificateTests).</para></summary>
@@ -76,7 +95,9 @@ public static class FoldResultantCertificate
         int PrimesUsed, int PrimesSkipped, int PrimesSampled, int LcDivisorBound,
         long FirstPrime, long LastPrime,
         int ProofBoundDigits, int PrimeProductDigits,
-        bool SharedIsQPowerAtEveryPrime, bool Complete);
+        bool SharedIsQPowerAtEveryPrime, bool Complete,
+        int TrueDiscriminantDegree, int TrueQValuationD, int LcDivisorBoundD,
+        long LayerPrime, int MaxDiscMultiplicity, bool DiscLayersCertified);
 
     /// <summary>Runs the complete multi-prime fold-resultant proof for R1: the (1,2)-family residual of the
     /// N-site chain (R-even sym / R-odd 2-cycle sector) against the corner (p_c+1, p_c+1), fold-composed
@@ -156,6 +177,20 @@ public static class FoldResultantCertificate
         BigInteger heightH = BigInteger.Pow(2, rBound + 16) * normR;    // Mignotte 2^deg·M(R), with slack
         BigInteger proofBound = 4 * heightH * heightH;                  // Gaussian norm: N(c) ≤ 2·|c|²
 
+        // ---- the same Hadamard device for D, so the DISC's degree and q-valuation are certified too ----
+        // D = disc_Λ(F_res) = Res_Λ(F_res, ∂_Λ F_res) (F_res is monic in Λ). Its Sylvester matrix has
+        // resDeg−1 rows of F_res coefficients and resDeg rows of ∂_Λ F_res coefficients, so Hadamard gives
+        // ‖D‖ ≤ rowF^{resDeg−1} · rowFp^{resDeg} with rowFp ≤ resDeg·rowF. A sampled prime ideal π_p can
+        // lose deg_q(D) only if π_p | lc_q(D), and can raise v_q(D) only if π_p divides the coefficient of
+        // q^{v_q(D)}; both coefficients have 1-norm ≤ normD, the ideals lie over distinct rational primes
+        // p ≥ 2³⁰, so at most 2·log₂(normD)/30 sampled primes can do either. Sampling more than that forces
+        // trueDegD = max_p deg(D mod p) = deg_q D and eD = min_p v_q(D mod p) = v_q(D), EXACTLY. The layer
+        // reading is then taken at a prime attaining BOTH — the only prime at which "max multiplicity mod p"
+        // bounds the true max multiplicity from above (no root escaped to ∞, none collapsed onto q = 0).
+        BigInteger rowFp = resDeg * rowF;
+        BigInteger normD = BigInteger.Pow(rowF, Math.Max(resDeg - 1, 0)) * BigInteger.Pow(rowFp, resDeg);
+        int lcDivisorBoundD = (int)(2 * normD.GetBitLength() / 30) + 1;
+
         // ---- the multi-prime loop ----
         const int extra = 24;
         int samples = Math.Max(rBound, dBound) + 1 + extra;     // dBound can exceed rBound for small targets
@@ -180,7 +215,9 @@ public static class FoldResultantCertificate
         var clock = System.Diagnostics.Stopwatch.StartNew();
         long candidate = (1L << 30) + 1;
         while (candidate % 4 != 1) candidate += 2;
-        for (int tried = 0; tried < maxPrimes && !(primeProduct > proofBound && sampled > lcDivisorBound); candidate += 4)
+        for (int tried = 0; tried < maxPrimes
+                            && !(primeProduct > proofBound && sampled > lcDivisorBound && sampled > lcDivisorBoundD);
+             candidate += 4)
         {
             if (!IsPrime(candidate)) continue;
             tried++;
@@ -250,7 +287,6 @@ public static class FoldResultantCertificate
         int used = 0;
         long firstPrime = 0, lastPrime = 0;
         int degRpFirst = -1, degDpFirst = -1, vR = -1, vD = -1;
-        int[] layerDegrees = Array.Empty<int>(), layerGcdDegrees = Array.Empty<int>();
         foreach (var s in perPrime)
         {
             if (s.DegR != trueDegR) { skipped++; continue; }        // divided lc_q(R): demoted
@@ -258,19 +294,44 @@ public static class FoldResultantCertificate
             {
                 firstPrime = s.P;
                 degRpFirst = s.DegR; degDpFirst = s.DegD; vR = s.VR; vD = s.VD;
-                var layers = FpSquarefreeLayers(s.DStrip, s.P);     // diagnostics: the disc's layer structure
-                layerDegrees = new int[layers.Count];
-                layerGcdDegrees = new int[layers.Count];
-                for (int k = 0; k < layers.Count; k++)
-                {
-                    layerDegrees[k] = DegP(layers[k]);
-                    layerGcdDegrees[k] = DegP(GcdModP(s.RStrip, layers[k], s.P));
-                }
             }
             if (!s.SharedOk) { sharedIsQPower = false; lastPrime = s.P; continue; }
             used++;
             lastPrime = s.P;
         }
+
+        // ---- the CERTIFIED disc-layer reading (the β-exotic exclusion; see the class docstring) ----
+        // trueDegD and eD are certified over ALL sampled primes (an R-demoted prime is still a perfectly
+        // good reduction for D). The layer prime must attain BOTH: deg D preserved (no root escaped to ∞)
+        // and v_q(D) minimal (no nonzero root collapsed onto q = 0 and got stripped with the q-power).
+        int trueDegD = -1, eD = int.MaxValue;
+        foreach (var s in perPrime)
+        {
+            if (s.DegD > trueDegD) trueDegD = s.DegD;
+            if (s.VD < eD) eD = s.VD;
+        }
+        if (eD == int.MaxValue) eD = -1;
+
+        long layerPrime = 0;
+        int[] layerDegrees = Array.Empty<int>(), layerGcdDegrees = Array.Empty<int>();
+        foreach (var s in perPrime)
+        {
+            if (s.DegD != trueDegD || s.VD != eD) continue;
+            layerPrime = s.P;
+            var layers = FpSquarefreeLayers(s.DStrip, s.P);
+            layerDegrees = new int[layers.Count];
+            layerGcdDegrees = new int[layers.Count];
+            for (int k = 0; k < layers.Count; k++)
+            {
+                layerDegrees[k] = DegP(layers[k]);
+                layerGcdDegrees[k] = DegP(GcdModP(s.RStrip, layers[k], s.P));
+            }
+            break;
+        }
+        // The layer prime's own report fields must be the certified ones, so the test can compare.
+        if (layerPrime != 0) { degDpFirst = trueDegD; vD = eD; }
+        bool discLayersCertified = layerPrime != 0 && sampled > lcDivisorBoundD && trueDegD >= 0;
+        int maxDiscMultiplicity = layerDegrees.Length;
 
         // trueDegR ≥ 0 is load-bearing (2026-07-03 adversarial review): R ≡ 0 (all rp zero, trueDegR = −1)
         // voids both the lc-divisor count (lc undefined) and the Mignotte lift (H ~ D, unbounded by R's
@@ -284,7 +345,8 @@ public static class FoldResultantCertificate
             vR, vD, layerDegrees, layerGcdDegrees,
             used, skipped, sampled, lcDivisorBound, firstPrime, lastPrime,
             proofBound.ToString().Length, primeProduct.ToString().Length,
-            sharedIsQPower, complete);
+            sharedIsQPower, complete,
+            trueDegD, eD, lcDivisorBoundD, layerPrime, maxDiscMultiplicity, discLayersCertified);
     }
 
     /// <summary>Diagnostic: the true deg_q(R) vs the analytic upper bound rBound for a given target block and
