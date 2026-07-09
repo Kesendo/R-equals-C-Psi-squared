@@ -853,10 +853,25 @@ public static class OpenArcsRegistry
                 "UPDATE 2026-07-09b: the named from-below mechanism (seeds born from ker(K22) in class E of the -2 " +
                 "rung) is INCOMPLETE -- it fits the BORN seeds (x_-2 overlaps ker(K22) ~0.90-0.95) but NOT the " +
                 "re-entrant complex->real seeds (overlap 0.10 at N=5 q*=5.61, 0.14 at N=7 q*=11.36, unit-hop axis), " +
-                "where kappa_-2 > 0 holds anyway; ker-inheritance is ruled out as the complete cause. Two sharpenings: " +
-                "kappa_-2 > 0 is EP-FREE (it holds for BOTH individual colliding real branches, not just the isotropic " +
-                "merge), so the target is now the plain weight inequality 'class-E |v|^2-weight on the -2 rung exceeds " +
-                "class-O weight' for the real band eigenvectors (lam in (-6,-2)). Proving it for all odd N stays open. " +
+                "where kappa_-2 > 0 holds anyway; ker-inheritance is ruled out as the complete cause. UPDATE 2026-07-09c " +
+                "(five-discipline lens sweep, borrowing-a-discipline): the band-wide reading is FALSE, the target is " +
+                "sharpened + made EP-free. FALSIFIED: 'class-E weight > class-O on the -2 rung for the real band " +
+                "eigenvectors (lam in (-6,-2))' -- kappa_-2 < 0 on ~20-40% of band eigenvectors (concentrated at band " +
+                "center, drifting lower at larger N, small tail near lam=-6); " +
+                "a pure bipartite hop has kappa=0 on all nonzero-energy modes (Lieb/chiral theorem: Bw=eu, B^T u=ew => " +
+                "||u||=||w||), so K alone cannot polarize, which is why the count imbalance +(N-1) does not imply the " +
+                "weight inequality and why ker-inheritance was incomplete. WHAT SURVIVES (verified exactly): the " +
+                "SEPARATING LAW kappa_-2 < 0 => v^dag T v < 0 (0 exceptions over 5110 band vectors N=5,7); its " +
+                "contrapositive is the FREE HALF -- positive-type band vectors (v^dag T v >= 0) have kappa_-2 >= 0, so " +
+                "the positive-type Krein-colliding branch has kappa_-2 >= 0 automatically (strict positivity there is " +
+                "NOT free) and the content collapses onto the NEGATIVE-type " +
+                "branch (its Krein-negativity confined to the -6 rung). CLOSED SEED FORM (from the A-gauge + the measured " +
+                "sum rule ||P2 x||^2/||x||^2 + ||P2 y||^2/||y||^2 = (lam+6)/2): kappa_-2 = ||P2 x||^2/||x||^2 - (lam+6)/4 " +
+                "= q x^T K y / (2||v||^2), so the sign law is ONE real-symmetric inequality f2 := ||P2 x||^2/||x||^2 > " +
+                "(lam+6)/4 on the real self-consistent eigenproblem [D - q^2 K (lam-D)^-1 K] x = lam x. MECHANISM: a " +
+                "Semenoff sublattice mass from integrating out the -6 rung (the chiral-breaking even-in-K66 part of the " +
+                "self-energy), leading sign a Lieb majority-to-majority edge bias +4(N-1) > 0 (measured +16/+24/+32 at " +
+                "N=5/7/9). Proving f2 > (lam+6)/4 for all odd N via the closed K66 = -3 H3 spectrum stays open. " +
                 "NOTE (do not over-read): kappa_-2 > 0 bears only on the DEFECTIVE seeds (the kappa<->s6 gauge " +
                 "relation needs geom mult 1), so proving it is NOT a standalone beta-exotic exclusion; the direct " +
                 "test is defectiveness itself (1-dim kernel, sigma[-2]=O(1)), which the sweep checks separately. " +
