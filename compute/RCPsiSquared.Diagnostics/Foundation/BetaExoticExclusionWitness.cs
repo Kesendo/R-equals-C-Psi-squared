@@ -37,7 +37,7 @@ public sealed class BetaExoticExclusionWitness : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
 
-    /// <summary>The only N the certificate has been run at (n = 7 is the same call, unrun).</summary>
+    /// <summary>The only N the certificate has been run at (N = 7 needs a D-only path, unbuilt).</summary>
     public const int CertifiedN = 5;
 
     /// <summary>A β-exotic (Puiseux exponent 3/2) forces a disc zero of this order.</summary>
@@ -52,8 +52,9 @@ public sealed class BetaExoticExclusionWitness : IInspectable
     {
         if (n != CertifiedN)
             throw new ArgumentOutOfRangeException(nameof(n),
-                $"the β-exotic certificate has only been run at N = {CertifiedN} (n = 7 is the same call at " +
-                $"residual degree 53, not yet run); got {n}");
+                $"the β-exotic certificate has only been run at N = {CertifiedN}; N = 7 needs a D-only " +
+                $"entry point (CertifyComplete also proves the R1 gcd, whose resultant runs against a " +
+                $"corner block of dimension 441 at N = 7), which is not built; got {n}");
         N = n;
         _rEven = FoldResultantCertificate.CertifyComplete(n, rOdd: false);
         _rOdd = FoldResultantCertificate.CertifyComplete(n, rOdd: true);

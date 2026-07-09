@@ -42,10 +42,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// it. What holds without any order parity: maximum multiplicity 2 already excludes the β-exotic
 /// (ord 3), every Jordan block of size ≥ 4 (ord ≥ 3), and every semisimple degeneracy of three or more
 /// branches (ord ≥ 3). What remains at a branch locus is a defective EP2 (ord 1), a diabolic crossing
-/// (ord 2), a cubic branch point (ord 2), or a coincidence of these; and of that list ONLY the EP2
-/// changes the real-eigenvalue count (a diabolic keeps two analytic real branches, a cubic keeps one
-/// real branch and one conjugate pair on both sides). So a count-drop can only be carried by defective
-/// 2×2 Jordan blocks.</para>
+/// (ord 2), an analytic-defective 2×2 (ord 2, e.g. [[0,1],[0,s]]), a cubic branch point (ord 2), or a
+/// coincidence of these; and of that list ONLY the EP2 changes the real-eigenvalue count (the analytic
+/// cases keep two real branches, a cubic keeps one real branch and one conjugate pair on both sides).
+/// The bound also forbids an EP2 from SHARING its locus with any ord-2 structure, since 1 + 2 = 3. So a
+/// locus carrying a count-drop carries EP2s and nothing else (one, or two coincident), each a defective
+/// 2×2 Jordan block.</para>
 ///
 /// <para>That step needs F_res to have REAL coefficients. At odd N the bipartite sign
 /// T = diag((−1)^{a₀+a₁+b₀}) satisfies T K T = −K exactly (every entry of K is a single hop, which
@@ -58,7 +60,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <b>The β-exclusion itself needs none of this</b>: it is the multiplicity bound alone.</para>
 ///
 /// <para><b>Scope, stated flatly.</b> This is a PER-N certificate, not a law. It retires N = 5.
-/// N = 7 is the same call at n = 7 (residual degree 53) and has not been run. The all-N item, the
+/// N = 7 is NOT the same call: CertifyComplete also proves the R1 gcd, whose resultant runs against a
+/// corner block of dimension 441 at N = 7 (25 at N = 5). Reaching N = 7 needs a D-only entry point.
+/// It has not been built. The all-N item, the
 /// codim-2 β-exotic genericity, reduced to the single scalar s₆ ≠ 0 at every forced seed, is
 /// UNTOUCHED by this claim and remains open; see the parent claim's scope note and the doc's Status
 /// item 2. The reading covers the branch loci of F_res only, which is sufficient because the AT
@@ -136,18 +140,31 @@ public sealed class BetaExoticExcludedAtN5Claim : Claim
                          "survives and distinct roots can only merge, so max-mult(D mod p) ≥ max-mult(D). One " +
                          "certified prime proves the bound exactly over ℚ(i). The layer prime must attain the true " +
                          "deg_q D (no root escaped to q = ∞) AND the true q-valuation (no nonzero root collapsed " +
-                         "onto q = 0, where the q-power strip would discard it), both certified by the same " +
-                         "Hadamard/lc-divisor device the engine uses for deg_q R.");
-            yield return new InspectableNode("H1 falls with it (algebraic multiplicity exactly 2)",
-                summary: "T = diag((−1)^{a₀+a₁+b₀}), the bipartite sign of the hop graph, satisfies T K T = −K " +
-                         "exactly (every K entry is a single hop, which flips the site-sum parity) and T D T = D, " +
-                         "so T L(q) T = L(q)† is a similarity and the spectrum is self-conjugate at EVERY N. The " +
-                         "discriminant is real, a count-drop flips its sign, so the zero has odd order; with max " +
-                         "multiplicity 2 the order is 1, and Kato makes a simple zero a 2×2 Jordan block. A cubic " +
-                         "branch point has even order 2 and cannot be a count-drop at all.");
+                         "onto q = 0, where the q-power strip would discard it). A Hadamard bound certifies each " +
+                         "of those two true values separately, one bound per statement and not one for their " +
+                         "union; a prime attaining BOTH is searched for, and the certificate fails closed if none " +
+                         "of the sampled primes does.");
+            yield return new InspectableNode("H1 at N = 5 (algebraic multiplicity exactly 2), by elimination",
+                summary: "DO NOT argue this by the order of the zero. The shortcut 'a count-drop flips the sign of " +
+                         "the real discriminant, so the zero has odd order, so with max multiplicity 2 the order " +
+                         "is 1' assumes exactly ONE conjugate pair is born at q*: two forced seeds coinciding " +
+                         "there would drop the real count by 4 at an order-2, sign-PRESERVING zero. What holds " +
+                         "instead: max multiplicity 2 excludes the β-exotic (ord 3), every Jordan block of size " +
+                         "≥ 4 (ord ≥ 3), and every semisimple degeneracy of three or more branches (ord ≥ 3). It " +
+                         "also forbids an EP2 from sharing its locus with a diabolic crossing or a cubic branch " +
+                         "point, since 1 + 2 = 3. So a locus carrying a count-drop carries EP2s and nothing else " +
+                         "(one, or two coincident), each a defective 2×2 Jordan block: algebraic multiplicity " +
+                         "exactly 2. This needs F_res real: T = diag((−1)^{a₀+a₁+b₀}), the bipartite sign of the " +
+                         "hop graph, gives T K T = −K and T A T = A, so T L(q) T = L(q)† is a similarity; at odd N " +
+                         "T commutes with the reflection R, so each R-sector's spectrum is self-conjugate, and the " +
+                         "AT spectrum is separately self-conjugate (chirally paired slopes). The AT step is " +
+                         "checked at N = 5 and N = 7, not derived.");
             yield return new InspectableNode("the scope boundary (what stays open)",
-                summary: "a PER-N certificate, not a law: it retires N = 5. N = 7 is the same call at n = 7 " +
-                         "(residual degree 53, disc degree ≈ 2756) and has not been run. The all-N core, the " +
+                summary: "a PER-N certificate, not a law: it retires N = 5. N = 7 is NOT the same call: " +
+                         "CertifyComplete also proves the R1 gcd, whose resultant runs against a corner " +
+                         "block of dimension 441 at N = 7 (25 at N = 5), so deg_q R would be ≈ 23000 " +
+                         "nodes per prime. The β-exclusion needs only D (bound ≈ 2756), so N = 7 needs a " +
+                         "D-only entry point, not yet built. The all-N core, the " +
                          "codim-2 β-exotic genericity, reduced to the single scalar s₆ ≠ 0 at every forced seed, " +
                          "is untouched. Two traps recorded with it: the SIGN of s₆ is not gauge-invariant (the " +
                          "antilinear gauge has two branches, exchanged by r ↦ i·r), so never try to prove s₆ > 0; " +

@@ -752,10 +752,12 @@ public static class OpenArcsRegistry
                 "ONE conjugate pair is born at q*, and two coincident seeds would drop the real count by 4 at an " +
                 "order-2, sign-PRESERVING zero (an empty-review catch). What holds: max-mult 2 already excludes " +
                 "the beta (ord 3), every Jordan block of size >= 4 (ord >= 3), and every semisimple degeneracy of " +
-                ">= 3 branches; what remains at a locus is EP2 (ord 1), diabolic (ord 2), cubic branch point " +
-                "(ord 2), or a coincidence, and of those ONLY the EP2 changes the real count (a diabolic keeps " +
-                "two analytic real branches; a cubic keeps one real branch + one conjugate pair on both sides). " +
-                "So a count-drop is carried by defective 2x2 Jordan blocks: algebraic mult exactly 2. That step " +
+                ">= 3 branches; what remains at a locus is EP2 (ord 1), diabolic (ord 2), analytic-defective 2x2 " +
+                "(ord 2, e.g. [[0,1],[0,s]]), cubic branch point (ord 2), or a coincidence, and of those ONLY " +
+                "the EP2 changes the real count (the analytic cases keep two real branches; a cubic keeps one " +
+                "real branch + one conjugate pair on both sides). SHARPER: the bound also forbids an EP2 from " +
+                "SHARING its locus with any ord-2 structure (1+2=3), so a count-drop locus carries EP2s and " +
+                "NOTHING else (one, or two coincident): algebraic mult exactly 2. That step " +
                 "needs F_res REAL: T=diag((-1)^{a0+a1+b0}) (the bipartite sign; T K T=-K since every K entry is a " +
                 "single hop, flipping the site-sum parity) gives T L T = L^dag EXACTLY at every N, and at ODD N " +
                 "T also commutes with the reflection R (3(N+1) even), so T restricts to each R-sector and each " +

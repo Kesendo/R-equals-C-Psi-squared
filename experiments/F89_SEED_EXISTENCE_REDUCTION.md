@@ -421,11 +421,14 @@ an order-2, sign-preserving zero, and the shortcut breaks. The argument that hol
 
 Maximum multiplicity 2 already excludes the β-exotic (ord 3), every Jordan block of size ≥ 4 (ord ≥ 3),
 and every semisimple degeneracy of three or more branches (ord ≥ 3). What can still sit at a branch
-locus is a defective EP2 (ord 1), a diabolic crossing (ord 2), a cubic branch point (ord 2), or a
-coincidence of these. Of that list, **only the EP2 changes the real-eigenvalue count**: a diabolic
-crossing keeps two analytic real branches, and a cubic branch point keeps one real branch and one
-conjugate pair on both sides of q\*. So a count-drop can only be carried by defective 2×2 Jordan blocks.
-That is H1.
+locus is a defective EP2 (ord 1), a diabolic crossing (ord 2), an analytic-defective 2×2 (ord 2: a
+Jordan block whose two branches stay analytic, as in [[0,1],[0,s]]), a cubic branch point (ord 2), or a
+coincidence of these. Of that list, **only the EP2 changes the real-eigenvalue count**: the two analytic
+cases keep two real branches, and a cubic branch point keeps one real branch and one conjugate pair on
+both sides of q\*. Better still, the bound forbids the coincidences that would muddy this: an EP2 sharing
+its locus with any of the ord-2 structures would give ord ≥ 3. So a locus that carries a count-drop
+carries EP2s and **nothing else** (one, or two coincident), each a defective 2×2 Jordan block, algebraic
+multiplicity exactly 2. That is H1.
 
 The one thing this does need is that F_res has **real** coefficients, so that "real branch" and
 "conjugate pair" mean anything. Two steps, and the second is the one to watch. At odd N the bipartite
@@ -437,9 +440,13 @@ F_res, the sector's spectrum with AT's removed, are self-conjugate, and the moni
 steps are checked from below at N = 5 and N = 7; the second rests on the chiral pairing being what fixes
 the AT slopes, which we have not derived in general.
 
-**What it does not close.** N = 7 is the same call at n = 7 (residual degree 53); beyond that the exact
-bivariate layer grows. This is a per-N certificate, not a law. The all-N item, s₆ ≠ 0, stays open, and
-nothing here bears on it.
+**What it does not close.** Not N = 7, and not by "the same call". `CertifyComplete` proves the
+remainder-R1 gcd as well, and R1's resultant runs against the corner block (p_c+1, p_c+1), whose
+dimension C(N, (N+1)/2+1)² is 25 at N = 5 but **441** at N = 7: deg_q R jumps from 422 to roughly
+53·441 ≈ 23000 interpolation nodes per prime, times the primes the Mignotte lift needs. The β-exclusion
+requires none of that; it reads only D, whose bound is resDeg·(resDeg − 1) ≈ 2756 at N = 7. Reaching
+N = 7 therefore means building a D-only entry point, not re-running this one. This is a per-N
+certificate, not a law. The all-N item, s₆ ≠ 0, stays open, and nothing here bears on it.
 
 Verified from below at all four N = 5 seeds: each lies wholly in F_res (no AT component), is defective,
 and has splitting exponent 0.500. Gate: `DiscHasNoMultiplicityThreeRoot_ExcludesTheBetaExotic`
