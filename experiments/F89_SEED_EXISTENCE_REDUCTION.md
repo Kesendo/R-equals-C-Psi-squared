@@ -46,7 +46,8 @@ number of vertices carries a zero mode; on an even number it does not), modulo o
 The containment corollary of [PROOF_CODIM1_BY_ADDITIVITY](../docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md)
 transports and folds a seed across the whole diamond, but it takes the seed's *existence* as given:
 **a real defective exceptional point must exist on the (1,2) block at each odd N.** Until now that
-input was supplied by census, the PT-break count scan (PT = parity-time: it counts jumps in the number
+input was supplied by the **census** (this arc's brute-force numerical sweep of the q-axis for seeds), the
+PT-break count scan (PT = parity-time: it counts jumps in the number
 of real eigenvalues of the self-conjugate spectrum), checked to N = 11 (the table in
 [F89_PATH_K_DIABOLIC.md](F89_PATH_K_DIABOLIC.md); the counts 4/6/7/9 at N = 5/7/9/11 are individual
 seed LOCI found in the scan window [0.2, 3] (octic-q units; ×2 on this note's axis, see the pin
@@ -358,8 +359,9 @@ settled two.
 **Three names this section needs, none of them used above.** The spatial reflection R (site i ↦ N+1−i)
 commutes with both A and C, so it splits the block into two invariant sectors, **R-even** and **R-odd**
 (dimensions 26 and 24 at N = 5). Within each sector the characteristic polynomial factors as
-χ = **AT** · **F_res**: the **AT factor** collects the rate-confined strands (their eigenvalues run
-q-linearly, λ = r₀ + iκq; they are the Absorption-Theorem-locked modes of
+χ = **AT** · **F_res**: the **AT factor** (AT = Absorption Theorem) collects the rate-confined strands,
+whose eigenvalues run q-linearly, λ = r₀ + iκq, with the decay rate locked to one value of the dephasing
+diagonal; they are the Absorption-Theorem-locked modes of
 [F89_PATH_K_DIABOLIC.md](F89_PATH_K_DIABOLIC.md)), and **F_res**, the *residual* factor, carries
 everything else, degree 18 (R-even) and 17 (R-odd) at N = 5. Λ denotes the spectral variable of these
 polynomials, λ an individual eigenvalue branch. Discarding AT loses nothing, for a reason worth stating
@@ -379,7 +381,9 @@ of disc_Λ(F_res) reads the Puiseux exponent of the branches that meet there:
 | cubic branch point (3×3 Jordan) | three sheets, exponent ⅓ | 2 |
 | **the β-exotic** | λ± = ±s^{3/2} | **3** |
 
-A 2-cycle with exponent e gives (λ₁ − λ₂)² ~ (q − q\*)^{2e}, so e = ½ ⟹ 1 and e = 3/2 ⟹ 3. Every
+A 2-cycle with exponent e gives (λ₁ − λ₂)² ~ (q − q\*)^{2e}, so e = ½ ⟹ 1 and e = 3/2 ⟹ 3. The cubic
+row is the Kato count of the Lemma above, not this formula: a k-cycle branch point makes the discriminant
+vanish to order k − 1, so a 3-cycle gives 2. Every
 *other* colliding pair at the same q\* contributes a **non-negative** order, so a coincidental extra
 collision can only raise the total (3 + 1, 3 + 2), never mask it. Hence:
 
@@ -448,7 +452,10 @@ imaginary slope, λ = r₀ + iκq, so it is real at every q > 0 when κ = 0 and 
 locus of F_res.
 
 The other thing it needs is that F_res has **real** coefficients, so that "real branch" and
-"conjugate pair" mean anything. Two steps, and the second is the one to watch. At odd N the bipartite
+"conjugate pair" mean anything. Two steps, and the second is the one to watch. The first sharpens the
+pencil section's statement, and the two versions are easy to confuse: **whole-block** self-conjugacy
+holds at every N, but F_res's roots come from a single R-parity sector, so what is needed is **per-sector**
+self-conjugacy. That is what odd N buys. At odd N the bipartite
 metric T commutes with the reflection R (the site-sum parity is preserved because 3(N+1) is even), so T
 restricts to each R-parity sector and T L T = L† holds there: **each sector's spectrum is
 self-conjugate**. The AT spectrum inside that sector is separately self-conjugate, because the AT strand
