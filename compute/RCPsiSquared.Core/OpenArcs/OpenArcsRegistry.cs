@@ -841,8 +841,21 @@ public static class OpenArcsRegistry
                 "|E|-|O| = +(N-1) = nullity(K22), with ker(K22) entirely in the majority class E (each of Piece " +
                 "1's N-1 paths of N vertices has BOTH endpoints in E); rung -6 has |E|-|O| = -3(N-1)/2. The same " +
                 "N-1 counts the seeds, the nullity, and the rung-2 class imbalance -- this IS the 'N-1-path sign " +
-                "structure' the strategy doc's next-step (b) asks for. The conjecture " +
-                "'sign(kappa_rung) = sign(class imbalance)' is UNTESTED, not refuted (see trap ii). " +
+                "structure' the strategy doc's next-step (b) asks for. UPDATE 2026-07-09: the conjecture " +
+                "'sign(kappa_rung) = sign(class imbalance)' (equivalently kappa_-2 > 0, the ONE gauge-invariant " +
+                "statement, since kappa_-2 + kappa_-6 = v^dag T v / ||v||^2 = 0 at a seed) was UNTESTED; it is now " +
+                "TESTED PROPERLY and HOLDS at every forced defective seed at N=5,7,9, both parities, exhaustively " +
+                "(net pairs = (N-1)/2 at each; 4/7/8 coalescences counting re-entrant ones; kappa_-2 >= 0.025 over " +
+                "all 19), with ZERO semisimple transitions (numerical corroboration, not a proof, of the N=5,7 " +
+                "beta-exotic exclusion). The extraction cleared trap ii plus two more: reject any coalescence with v^dag T v != 0 " +
+                "(a stray near-real crossing, NOT a beta-exotic), and split by R-parity at N>=9 to isolate the born " +
+                "pair from the dense complex thicket. STILL A CONJECTURE (three chain lengths are not a law); it " +
+                "names the missing definiteness and gives a from-below mechanism (seeds born from ker(K22), which " +
+                "sits in class E of the -2 rung, N<=7 numeric), but proving kappa_-2 > 0 for all odd N stays open. " +
+                "NOTE (do not over-read): kappa_-2 > 0 bears only on the DEFECTIVE seeds (the kappa<->s6 gauge " +
+                "relation needs geom mult 1), so proving it is NOT a standalone beta-exotic exclusion; the direct " +
+                "test is defectiveness itself (1-dim kernel, sigma[-2]=O(1)), which the sweep checks separately. " +
+                "Verifier simulations/o2b_krein_sign_law.py (self-asserting N=5,7; '9' adds N=9). " +
                 "TYPED 2026-07-04: " +
                 "SeedExistenceCountingClaim (Tier1Derived, parents AbsorptionTheorem + ChiralK) + live " +
                 "SeedExistenceCountingWitness, inspect --root seedcount (SVD nullities + combinatorial rho/Z3 + " +

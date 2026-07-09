@@ -291,12 +291,14 @@ L is complex-symmetric, Lᵀ = L), from Cr = (1/q)(λ − D)r:
 
 At a coalescence the coalescing eigenvector is self-orthogonal (rᵀr → 0, the complex-symmetric EP
 signature), so **rᵀCr → (4/q\*)·s₆**. And rᵀCr is exactly the branch-coefficient numerator: for a
-defective coalescence of Jordan size m the local exponent obeys μ^m = rᵀCr / (rᵀr_{m−1}). A
-count-dropping seed is a real-to-complex transition, hence an *odd*-order zero of the relevant real
-discriminant factor. Therefore, at a forced seed,
+defective coalescence of Jordan size m the local exponent obeys μ^m = rᵀCr / (rᵀr_{m−1}). An
+*isolated* count-dropping seed (a drop of exactly 2) is a real-to-complex transition, hence an
+*odd*-order zero of the relevant real discriminant factor (two seeds coinciding at one q\* would drop
+the count by 4 at an even-order zero; that case is handled separately in the certificate section).
+Therefore, at an isolated forced seed, and under H1 below (algebraic multiplicity exactly 2),
 
 > **s₆ ≠ 0 ⟺ the zero is simple (order 1) ⟺ a defective EP2** (exponent ½);   s₆ = 0 ⟺ an order-≥3
-> transition = the β-exotic (exponent 3/2).
+> transition, the β-exotic (exponent 3/2, or higher).
 
 So the β-exotic exclusion **reduces to: s₆ ≠ 0 at every forced seed, for all odd N.** This is a genuine
 sharpening of the dead discriminant-Galois route (which died because a full symmetric Galois group does
@@ -304,13 +306,19 @@ not force a squarefree discriminant: the group sees which sheets swap, never the
 The quantity s₆ sees exactly that exponent.
 
 **Caveat (H1), stated honestly.** The step "s₆ = 0 ⟺ β-exotic" assumes the seed has algebraic
-multiplicity exactly 2 (rᵀr₁ ≠ 0, i.e. the m = 2 case of rᵀr_{m−1} above, with r₁ the Jordan
-generalized vector; no 3×3 Jordan). A 3×3 Jordan is also a count-drop of 2 and would make
-s₆ ≠ 0 consistent with a cube-root exotic; the two normal forms differ ((q − q\*)^{3/2}, a 2×2
-statement, versus a cube root, a 3×3 one). Algebraic-multiplicity-2 holds numerically at every seed
-through N = 11 but is not itself proved for all odd N; it rides along with the same open item. (At
-N = 5 and N = 7 it is no longer numerical: H1 is a corollary of the certificate below, "The β-exotic
-is excluded at N = 5 and N = 7". For all odd N it remains open, with the reduction of this section.)
+multiplicity exactly 2 (rᵀr₁ ≠ 0, the m = 2 case of rᵀr_{m−1} above, with r₁ the Jordan generalized
+vector; no Jordan block of size ≥ 3). The count-dropping structure H1 must rule out is a **Jordan
+block of size ≥ 4** (disc order ≥ 3, so caught by the same multiplicity bound as the β-exotic); the
+smallest, a 4×4 (exponent ¼), drops the count 2 real → 0 and is nonetheless not a defective EP2. (Even
+Jordan sizes drop the count, odd sizes ≥ 5 do not; H1 excludes all sizes ≥ 3 regardless.) A 3×3 Jordan
+is *not* such a confounder:
+it is a cubic branch point (exponent ⅓, disc order 2, one real branch and one conjugate pair on both
+sides of q\*), so it does not drop the real count and cannot be a forced seed at all (see the
+multiplicity table in the certificate section below). Algebraic-multiplicity-2 holds numerically at
+every seed through N = 11 but is not itself proved for all odd N; it is a premise separate from
+s₆ ≠ 0, and the sign law bears only on the latter. (At N = 5 and N = 7 H1 is no longer numerical: it
+is a corollary of the certificate below, "The β-exotic is excluded at N = 5 and N = 7". For all odd N
+it remains open, alongside the reduction of this section.)
 
 **Numerics (grounding for the identity, not evidence for all N).** At the 17 census seeds N = 5, 7, 9
 the anchored self-orthogonal eigenvector (a Takagi-minimal vᵀv extraction at the refined q\*; a naive
@@ -332,8 +340,59 @@ Piece 1) and K₆₆ = −3H₃ (Piece 3). The precise missing ingredient is a *
 the −3H₃ spectrum, or a sign-rigidity from the path structure, that pins the indefinite, opposite-Krein-
 sign colliding pair off the s₆ = 0 locus. It is unidentified.
 
-**Two ways it can still advance.** An exact *per-N* certificate (now taken, at N = 5: next section), or
-the all-N prize: identify the definiteness ingredient above.
+**A named candidate for that ingredient: the class-imbalance sign law (2026-07-09).** The
+"sign-rigidity from the path structure" just called unidentified now has a concrete, gauge-invariant
+candidate. Split each rung by the bipartite sign into class **E** (T = +1) and class **O** (T = −1);
+the rung's **class imbalance** |E_rung| − |O_rung| is (computed exactly at each N) **+(N − 1)** on the
+−2 rung, equal to nullity(K₂₂), and **−3(N − 1)/2** on the −6 rung. The conjecture is that the
+gauge-invariant Krein index tracks that imbalance,
+
+> **sign(κ_rung) = sign(|E_rung| − |O_rung|) at every forced seed,**  i.e. κ₋₂ > 0 and κ₋₆ < 0.
+
+Because κ₋₂ + κ₋₆ = v†Tv/‖v‖² = 0 at a defective seed (the antilinear gauge again, valid where the
+eigenspace is one-dimensional so that 𝒜v = c·v fixes conj(v) = c·Tv), the two signs are one
+statement, and at such a seed κ₋₂ > 0 is the *signed* form of s₆ ≠ 0: κ₋₆ < 0 ⟹ κ₋₆ ≠ 0, and the
+same gauge gives |κ₋₆| = |s₆|/‖v‖², so κ₋₆ ≠ 0 ⟺ s₆ ≠ 0 *there*. The sign is strictly stronger than
+that nonvanishing, stated in the *gauge-invariant* κ (sidestepping the dead "s₆ > 0", whose sign is a
+branch convention). What this does, and does not, say about the β-exotic globally is spelled out
+below; it is not a standalone exclusion.
+
+Tested properly, it holds. The extraction is the whole difficulty, and it has four traps, not the two
+above: a min-gap finder drifts onto the diabolic real crossings; |vᵀv| ≈ 0 certifies nothing on its
+own; a stray near-real crossing masquerades as a seed unless one also demands v†Tv ≈ 0 (a genuine
+seed is an 𝒜-eigenvector, so this must hold); and at N ≥ 9 the seed sits in a dense complex thicket.
+Locating every real↔complex transition as a change in the complex-pair count (which diabolic
+crossings do not cause), gating on the eigenvalue gap **and** the 1-dim-kernel signature
+σ₂(L − λ\*I) = O(1) **and** v†Tv/‖v‖² < 10⁻⁵, and splitting by R-parity to thin the thicket, the law
+holds at **every** defective coalescence at **N = 5, 7, 9**, both parities: the count matches the
+forced net (N − 1)/2 pairs at each (2, 3, 4 pairs; 4, 7, 8 coalescences counting the re-entrant
+complex→real ones), κ₋₂ ≳ 0.025 (minimum 0.0253) across all 19, and the sweep finds **zero**
+semisimple (2-dim-kernel) transitions, corroborating (numerically, not a proof) the β-exotic
+exclusion at N = 5, 7 by a route orthogonal to the disc-multiplicity certificate. Verifier:
+`simulations/o2b_krein_sign_law.py` (self-asserting at N = 5, 7; `9` adds N = 9).
+
+The mechanism, from below and still a heuristic: the N − 1 forced seeds are born from ker(K₂₂), which
+Piece 1's path decomposition places (numerically, N ≤ 7) entirely in the majority class E of the −2
+rung; the seed eigenvector inherits that E-dominance on the −2 rung, whence κ₋₂ > 0. Turning
+"inherits" into the strict inequality "class-E |v|²-weight on the −2 rung exceeds class-O weight at
+the finite-q seed" (a weight inequality, not the state-count inequality +(N − 1), which does not
+imply it) is the coercivity the mechanism needs.
+
+**What proving the sign law would, and would not, do.** It bears only on the *defective* seeds: the
+identity κ₋₆ = c·s₆/‖v‖² holds where the eigenspace is one-dimensional, so κ₋₂ > 0 is the
+gauge-invariant, signed reading of s₆ ≠ 0 *there*. It does **not** by itself exclude the β-exotic: at
+a (hypothetical) β-exotic the eigenspace is two-dimensional, κ₋₂ is not the gauge-linked quantity, and
+κ₋₂ > 0 would not certify s₆ ≠ 0. The direct β-exotic test is the defectiveness itself, geometric
+multiplicity 1 (disc order 1, the 1-dim-kernel signature σ₂ = O(1)), and the same sweep corroborates
+it numerically at every forced seed at N = 5, 7, 9 (zero semisimple points). So the sign law is a *gauge-invariant,
+signed sharpening* of the s₆ ≠ 0 reading at the defective seeds, plus a from-below mechanism candidate
+for why they sit off s₆ = 0, not a standalone O2b closer. Three chain lengths confirm the law; they do
+not prove it (the arc's standing rule). What is new is that the missing definiteness now has a name, a
+gauge-invariant form, and a from-below mechanism to attack.
+
+**Two ways it can still advance.** An exact *per-N* certificate (now taken, at N = 5 and N = 7: next
+section), or the all-N prize: prove the class-imbalance sign law, i.e. the definiteness ingredient
+just named.
 
 The reduction was put through three independent empty reviews (a mathematician, a strategy pre-mortem, an
 all-N-validity audit) before landing: the sharpened reduction is their agreed survivor, the
@@ -493,10 +552,12 @@ Gates. Fast (Categories `FOLDRESULTANT` and `DISCMULT`, seconds):
 ## Reproduce
 
 ```bash
-python simulations/seed_existence_nullity_check.py
+python simulations/seed_existence_nullity_check.py     # the counting theorem (existence side)
+python simulations/o2b_krein_sign_law.py               # the class-imbalance sign law, N = 5, 7 (add 9)
 ```
 
-Self-validating: it asserts (F1) the surplus (N − 1)·[N odd] exactly (N = 3..13, both parities),
+`seed_existence_nullity_check.py` is self-validating: it asserts (F1) the surplus (N − 1)·[N odd]
+exactly (N = 3..13, both parities),
 (N2) the (N − 1)-paths-of-N decomposition (= Piece 1), (FF) nullity(C) = the fusion-resonance count
 = n₆ (= Piece 2), (N1P) the ordering-sector decomposition, the −H₃ gauge identity, spec(K₆) =
 3×(−triple sums), n₆ = 3·Z₃ with D = 0 (= Piece 3, the ledger's (N1′)), and (SI) the per-block
@@ -514,22 +575,31 @@ it falls:
    third-quantization route (which this note's first landing had named as the natural tool for the
    then-open Piece 3) turned out unnecessary: the proof is graph combinatorics + one cyclotomic norm
    bound. Two adversarial reviews (exact arithmetic; full-2^N spin rebuild) held it.
-2. **The codim-2 β-exotic (OPEN for all N; CLOSED EXACTLY at N = 5, both parities, 2026-07-09):** a
-   count-dropping transition is defective unless it is the non-generic order-3 point (the normal form
-   β(s) = [[0, s], [s², 0]], eigenvalues ±s^{3/2}: a real-to-complex transition through a formally
-   semisimple point).
+2. **The codim-2 β-exotic (OPEN for all N; CLOSED EXACTLY at N = 5 and N = 7, both parities,
+   2026-07-09):** a count-dropping transition is defective unless it is the non-generic order-3 point
+   (the normal form β(s) = [[0, s], [s², 0]], eigenvalues ±s^{3/2}: a real-to-complex transition
+   through a formally semisimple point).
    - *At N = 5 and N = 7 it is settled*, unconditionally, by the certified disc-multiplicity reading
      (section "The β-exotic is excluded at N = 5 and N = 7" above): max root multiplicity 2 off q = 0,
-     and a β-exotic would need 3. The subsidiary premise H1 (algebraic multiplicity exactly 2, no 3×3
-     Jordan) **follows there, with one checked premise**: the argument needs disc_Λ(F_res) real, hence
+     and a β-exotic would need 3. The subsidiary premise H1 (algebraic multiplicity exactly 2, no
+     Jordan block of size ≥ 3) **follows there, with one checked premise**: the argument needs
+     disc_Λ(F_res) real, hence
      AT real, hence the AT subspace T-invariant, which is checked at N = 5 and N = 7 rather than
      derived. Cite H1 with that qualifier. N = 9 is out of reach by this route.
-   - *For all N it is open*, and reduced to a single scalar statement, **s₆ ≠ 0 at every forced seed
-     for all odd N** (section "The β-exotic, sharpened" above), a genuine sharpening of the failed
-     discriminant-Galois route. The moment-relation proof route (transpose + Hermitian relations from
-     the rung-split eigen-equation) is proved insufficient by an explicit in-class witness; the
-     remaining need is an unidentified definiteness ingredient from the K₆₆ = −3H₃ spectrum or the
-     N − 1 path structure.
+   - *For all N it is open*, and reduced to the scalar statement **s₆ ≠ 0 at every forced seed for all
+     odd N** (section "The β-exotic, sharpened" above), which excludes the β-exotic only under the
+     separate premise H1 (algebraic multiplicity exactly 2, only numerical for N ≥ 9). It is a genuine
+     sharpening of the failed discriminant-Galois route. The moment-relation proof route (transpose +
+     Hermitian relations from the rung-split eigen-equation) is proved insufficient by an explicit
+     in-class witness. The remaining need, a definiteness ingredient from the K₆₆ = −3H₃ spectrum or
+     the N − 1 path structure, now has a **named candidate**: the class-imbalance sign law
+     sign(κ_rung) = sign(|E_rung| − |O_rung|), equivalently κ₋₂ > 0, which holds at every defective
+     coalescence at N = 5, 7, 9 (both parities; verifier `simulations/o2b_krein_sign_law.py`) but is
+     not proved. It is the gauge-invariant, signed reading of s₆ ≠ 0 at the *defective* seeds (the
+     gauge relation κ₋₆ = c·s₆/‖v‖² holds only at geometric multiplicity 1), and a from-below
+     mechanism candidate, not a standalone β-exotic exclusion: that still needs the defectiveness
+     (geometric multiplicity 1) itself, which the certificate supplies at N = 5, 7 and the σ₂ sweep
+     corroborates numerically at N = 5, 7, 9.
 
 When the β-exotic closes **for all odd N**, the census input becomes a law for all odd N, and the
 containment diamond membership follows at every odd N with no further scan. Per-N certificates, however
