@@ -69,9 +69,16 @@ one-excitation bra) of the XY chain under uniform Z-dephasing:
 - **C** = −i(H₂ ⊗ I − I ⊗ H₁), the coherent XY hop (H₁, H₂ the one- and two-excitation hopping matrices);
   C is anti-Hermitian, C = i·K with K = −(H₂ ⊗ I − I ⊗ H₁) plainly real symmetric in this basis, so K
   has real spectrum.
-- At odd N the spectrum of L(q) is self-conjugate for every real q (the unmirrorable central site;
-  `DiabolicReflectionParityWitness`), so the characteristic polynomial χ(Λ, q) is real in the spectral
-  variable Λ and the eigenvalues are real or in complex-conjugate pairs.
+- The spectrum of L(q) is self-conjugate for every real q, so the characteristic polynomial χ(Λ, q) is
+  real in the spectral variable Λ and the eigenvalues are real or in complex-conjugate pairs. The reason
+  is the **bipartite sign of the hop graph**, T = diag((−1)^{a₀+a₁+b₀}) on |{a₀,a₁}⟩⟨{b₀}|: every entry
+  of K is a single nearest-neighbour hop, which flips the site-sum parity, so T K T = −K exactly, while
+  the diagonal A commutes with T. Hence T L(q) T = A − qC = L(q)†, and T is a diagonal involution, so
+  this is a *similarity*: spec L = spec L† = conj(spec L). This holds at **every** N, even N included.
+  (What odd N buys is not the self-conjugacy but the existence of real eigenvalues at all: at N = 4 and
+  N = 6 the real count is zero, matching n₂ = 0 below. An earlier version of this note credited the
+  self-conjugacy to the unmirrorable central site; the site governs the reflection parity
+  `DiabolicReflectionParityWitness`, not this.)
 
 Count the real eigenvalues at the two ends of the q-axis (exact SVD nullities, not eigenvalue thresholds,
 which mis-read the tail at large q):
@@ -139,7 +146,10 @@ path is a tree, so its signed adjacency gauges to the unsigned path P_N (a diago
 whose nullity is 1 iff N is odd. Hence nullity(P₋₂ C P₋₂) = (N − 1)·[N odd] = N − 1 for odd N (and 0
 for even N). Each fiber-path has exactly N vertices, and a path carries a zero mode iff its VERTEX
 count is odd: **the seed-forcing kernel is nonempty precisely because N is odd**, the combinatorial
-face of the same unmirrorable central site that gives the odd-N self-conjugacy. (For even N the kernel
+face of the same unmirrorable central site that gives the odd-N *real* eigenvalues. (The self-conjugacy
+itself is not an odd-N property: it holds at every N, by the bipartite metric of the pencil section
+above. What the central site buys is that the self-conjugate spectrum actually *has* real members to
+lose.) (For even N the kernel
 is empty, consistent with the census's even-N null result: no real seeds.)
 
 ## Piece 2: r(∞) is the free-fermion fusion-resonance count (Tier 1 derived)
@@ -297,7 +307,9 @@ multiplicity exactly 2 (rᵀr₁ ≠ 0, i.e. the m = 2 case of rᵀr_{m−1} abo
 generalized vector; no 3×3 Jordan). A 3×3 Jordan is also a count-drop of 2 and would make
 s₆ ≠ 0 consistent with a cube-root exotic; the two normal forms differ ((q − q\*)^{3/2}, a 2×2
 statement, versus a cube root, a 3×3 one). Algebraic-multiplicity-2 holds numerically at every seed
-through N = 11 but is not itself proved for all odd N; it rides along with the same open item.
+through N = 11 but is not itself proved for all odd N; it rides along with the same open item. (At
+N = 5 it is no longer numerical: H1 is a corollary of the certificate below, "The β-exotic is excluded
+at N = 5 only". For all odd N it remains open, with the reduction of this section.)
 
 **Numerics (grounding for the identity, not evidence for all N).** At the 17 census seeds N = 5, 7, 9
 the anchored self-orthogonal eigenvector (a Takagi-minimal vᵀv extraction at the refined q\*; a naive
@@ -319,14 +331,121 @@ Piece 1) and K₆₆ = −3H₃ (Piece 3). The precise missing ingredient is a *
 the −3H₃ spectrum, or a sign-rigidity from the path structure, that pins the indefinite, opposite-Krein-
 sign colliding pair off the s₆ = 0 locus. It is unidentified.
 
-**Two ways it can still advance.** An exact *per-N* certificate: the count-drop zeros of the
-discriminant are simple (gcd(disc, disc′) has no root there), computable r-free and exactly over ℚ(i)[q]
-with the FoldResultantCertificate machinery, upgrading "clean through N = 11" to *proved* through
-N = 13/15 with no Galois lemma. Or the all-N prize: identify the definiteness ingredient above.
+**Two ways it can still advance.** An exact *per-N* certificate (now taken, at N = 5: next section), or
+the all-N prize: identify the definiteness ingredient above.
 
 The reduction was put through three independent empty reviews (a mathematician, a strategy pre-mortem, an
 all-N-validity audit) before landing: the sharpened reduction is their agreed survivor, the
 moment-relation proof route their agreed casualty (the in-class witness above is the concrete kill).
+
+**One trap, from the numerics above.** The sign of s₆ is **not** gauge-invariant. The colliding
+eigenvector is fixed only up to scale, and the antilinear symmetry 𝒜 = T∘conj (T the metric of the
+pencil section) has two branches, 𝒜r = ±r, exchanged by r ↦ i·r; s₆ flips sign between them. The Krein
+index of the −6 rung, κ₆ := r†T P₋₆ r / ‖r‖² (P₋₆ the rung projector; the subscript is the *rung*, not
+the reflection parity R), does not: it is unchanged by any rescaling r ↦ c·r. So "s₆ ∈ [0.025, 0.38]"
+records the *magnitudes*, and the interval's positivity is a convention of the extraction, not content:
+the same physical mode at the N = 5 seed q\* = 0.643037 gives s₆ = −0.140184 in the other branch (an
+extraction-dependent number; it needs the Takagi-minimal vᵀv anchor, since a naive min-gap finder drifts
+to the λ = −6 rung edge). **Only |s₆| ≠ 0, equivalently κ₆ ≠ 0, is the statement.** Do not try to prove
+s₆ > 0.
+
+## The β-exotic is excluded at N = 5 only, both R-parities (2026-07-09)
+
+The per-N certificate is taken, and it is cheaper than the grind it was expected to be: it reads a
+**multiplicity**, not a Galois group. It settles N = 5, and only N = 5.
+
+**Three names this section needs, none of them used above.** The spatial reflection R (site i ↦ N+1−i)
+commutes with both A and C, so it splits the block into two invariant sectors, **R-even** and **R-odd**
+(dimensions 26 and 24 at N = 5). Within each sector the characteristic polynomial factors as
+χ = **AT** · **F_res**: the **AT factor** collects the rate-confined strands (their eigenvalues run
+q-linearly, λ = r₀ + iκq; they are the Absorption-Theorem-locked modes of
+[F89_PATH_K_DIABOLIC.md](F89_PATH_K_DIABOLIC.md)), and **F_res**, the *residual* factor, carries
+everything else, degree 18 (R-even) and 17 (R-odd) at N = 5. Λ denotes the spectral variable of these
+polynomials, λ an individual eigenvalue branch. Discarding AT loses nothing, for a reason worth stating
+once: the AT subspace is *q-independent* and invariant for every q, so A and K each preserve it, and
+each being Hermitian preserves its orthogonal complement too. The splitting is therefore
+block-**diagonal**, not merely block-triangular, so no Jordan chain can run across the seam between AT
+and F_res where disc_Λ(F_res) would fail to see it. (Verified from below at N = 5: all four forced
+seeds lie wholly in F_res, two in each R-parity sector.)
+
+**What the discriminant's multiplicity knows.** At a branch locus q\* of F_res, the order of vanishing
+of disc_Λ(F_res) reads the Puiseux exponent of the branches that meet there:
+
+| local structure at q\* | branches | ord_{q\*} disc |
+|---|---|---|
+| defective EP2 (the seeds) | λ± = λ₀ ± c·(q − q\*)^{1/2} | 1 |
+| diabolic (semisimple) crossing | analytic, cross transversally | 2 |
+| cubic branch point (3×3 Jordan) | three sheets, exponent ⅓ | 2 |
+| **the β-exotic** | λ± = ±s^{3/2} | **3** |
+
+A 2-cycle with exponent e gives (λ₁ − λ₂)² ~ (q − q\*)^{2e}, so e = ½ ⟹ 1 and e = 3/2 ⟹ 3. Every
+*other* colliding pair at the same q\* contributes a **non-negative** order, so a coincidental extra
+collision can only raise the total (3 + 1, 3 + 2), never mask it. Hence:
+
+> **disc_Λ(F_res) has no root of multiplicity ≥ 3 off q = 0  ⟹  no β-exotic on that block.**
+
+This is deliberately weaker than squarefreeness: the diabolic loci are genuine *double* roots and must
+survive. That weakness is exactly why the dead Galois route is not needed here. A Galois group sees
+which sheets swap; it never sees the ½-versus-3/2 exponent. A multiplicity does.
+
+**The certificate.** `FoldResultantCertificate` (built for a different statement, the remainder-R1
+gcd) already computes D(q) = disc_Λ(F_res)(q) mod p by interpolation and splits it into squarefree
+layers. At N = 5 the certified reading is **[56, 26]** (R-odd) and **[56, 32]** (R-even): two layers,
+maximum root multiplicity **2**. The 56 simple roots are the √-branch (defective) loci; the four forced
+real seeds are among them, together with the complex defective loci this note does not track. The
+26 / 32 double roots are *not* identified here: by the table above, an order-2 zero is a diabolic
+crossing, a cubic branch point, or two coincident defective pairs. The theorem does not need to know
+which. It needs only that no layer of multiplicity 3 exists.
+
+The lift to an exact statement over ℚ(i) is **one-way**: reduction modulo a prime ideal π_p that does
+not divide lc_q(D) is a degree-preserving ring homomorphism, so a factor (q − α)^m survives and
+distinct roots can only *merge*. Therefore max-mult(D mod p) ≥ max-mult(D), and reading multiplicity 2
+at a single certified prime proves max-mult(D) ≤ 2 exactly. The prime must be good at **both ends of the
+q-axis**: attaining the true deg_q D (no root escaped to q = ∞) and the true q-valuation (no nonzero root
+collapsed onto q = 0, where it would be stripped away with the q-power). A Hadamard bound on ‖D‖, the
+same device the engine already uses for the resultant's degree, bounds how many of the sampled primes
+can lose the degree, and separately how many can raise the valuation; sampling past that bound certifies
+each of the two true values. It does *not*, by itself, promise that one prime attains both. That prime
+is searched for among the 242 / 256 the run samples anyway, and the certificate **fails closed** if none
+does. At N = 5 the very first certified prime attains both.
+
+**What it closes.** The β-exotic is excluded at N = 5 on both R-parity sectors, unconditionally: the
+multiplicity bound is the whole argument, and it needs nothing else.
+
+**What it closes as a corollary: H1.** The subsidiary premise H1 (each forced seed has algebraic
+multiplicity exactly 2, no 3×3 Jordan) follows at N = 5, by **elimination, not by counting the order of
+the zero**. Do not run the tempting shortcut "a count-drop changes the discriminant's sign, so the zero
+has odd order, so with max multiplicity 2 the order is 1". That step silently assumes exactly one
+conjugate pair is born at q\*; two forced seeds coinciding at one q\* would drop the real count by 4 at
+an order-2, sign-preserving zero, and the shortcut breaks. The argument that holds needs no order parity:
+
+Maximum multiplicity 2 already excludes the β-exotic (ord 3), every Jordan block of size ≥ 4 (ord ≥ 3),
+and every semisimple degeneracy of three or more branches (ord ≥ 3). What can still sit at a branch
+locus is a defective EP2 (ord 1), a diabolic crossing (ord 2), a cubic branch point (ord 2), or a
+coincidence of these. Of that list, **only the EP2 changes the real-eigenvalue count**: a diabolic
+crossing keeps two analytic real branches, and a cubic branch point keeps one real branch and one
+conjugate pair on both sides of q\*. So a count-drop can only be carried by defective 2×2 Jordan blocks.
+That is H1.
+
+The one thing this does need is that F_res has **real** coefficients, so that "real branch" and
+"conjugate pair" mean anything. Two steps, and the second is the one to watch. At odd N the bipartite
+metric T commutes with the reflection R (the site-sum parity is preserved because 3(N+1) is even), so T
+restricts to each R-parity sector and T L T = L† holds there: **each sector's spectrum is
+self-conjugate**. The AT spectrum inside that sector is separately self-conjugate, because the AT strand
+slopes κ come in ± pairs (the chiral pairing λ_{N+1−k} = −λ_k, `ChiralKClaim`). Hence the roots of
+F_res, the sector's spectrum with AT's removed, are self-conjugate, and the monic F_res is real. Both
+steps are checked from below at N = 5 and N = 7; the second rests on the chiral pairing being what fixes
+the AT slopes, which we have not derived in general.
+
+**What it does not close.** N = 7 is the same call at n = 7 (residual degree 53); beyond that the exact
+bivariate layer grows. This is a per-N certificate, not a law. The all-N item, s₆ ≠ 0, stays open, and
+nothing here bears on it.
+
+Verified from below at all four N = 5 seeds: each lies wholly in F_res (no AT component), is defective,
+and has splitting exponent 0.500. Gate: `DiscHasNoMultiplicityThreeRoot_ExcludesTheBetaExotic`
+(`dotnet test compute/RCPsiSquared.Diagnostics.Tests -c Release --filter "Category=FOLDRESULTANT"`,
+about 3 s per parity), typed as `BetaExoticExcludedAtN5Claim` with the live witness
+`inspect --root betaexotic`.
 
 ## Reproduce
 
@@ -352,18 +471,26 @@ it falls:
    third-quantization route (which this note's first landing had named as the natural tool for the
    then-open Piece 3) turned out unnecessary: the proof is graph combinatorics + one cyclotomic norm
    bound. Two adversarial reviews (exact arithmetic; full-2^N spin rebuild) held it.
-2. **The codim-2 β-exotic (OPEN, but REDUCED 2026-07-08):** a count-dropping transition is defective
-   unless it is the non-generic order-3 point (the normal form β(s) = [[0, s], [s², 0]], eigenvalues
-   ±s^{3/2}: a real-to-complex transition through a formally semisimple point). This item is now reduced
-   to a single scalar statement, **s₆ ≠ 0 at every forced seed for all odd N** (section "The β-exotic,
-   sharpened" above), a genuine sharpening of the failed discriminant-Galois route. The moment-relation
-   proof route (transpose + Hermitian relations from the rung-split eigen-equation) is proved
-   insufficient by an explicit in-class witness; the remaining need is an unidentified definiteness
-   ingredient from the K₆₆ = −3H₃ spectrum or the N − 1 path structure. Reachable partial: an exact
-   per-N discriminant-transversality certificate (r-free, would prove it through N = 13/15). A
-   subsidiary premise (H1: algebraic multiplicity exactly 2, no 3×3 Jordan) rides the same item.
+2. **The codim-2 β-exotic (OPEN for all N; CLOSED EXACTLY at N = 5, both parities, 2026-07-09):** a
+   count-dropping transition is defective unless it is the non-generic order-3 point (the normal form
+   β(s) = [[0, s], [s², 0]], eigenvalues ±s^{3/2}: a real-to-complex transition through a formally
+   semisimple point).
+   - *At N = 5 it is settled*, unconditionally, by the certified disc-multiplicity reading (section
+     "The β-exotic is excluded at N = 5 only" above): max root multiplicity 2 off q = 0, and a β-exotic
+     would need 3. The subsidiary premise H1 (algebraic multiplicity exactly 2, no 3×3 Jordan)
+     **follows at N = 5 with one checked premise**, via the odd order forced at a count-drop: the
+     argument needs disc_Λ(F_res) real, hence AT real, hence the AT subspace T-invariant, which is
+     checked at N = 5 rather than derived. Cite H1 with that qualifier. N = 7 is the same call at
+     n = 7; it has not been run.
+   - *For all N it is open*, and reduced to a single scalar statement, **s₆ ≠ 0 at every forced seed
+     for all odd N** (section "The β-exotic, sharpened" above), a genuine sharpening of the failed
+     discriminant-Galois route. The moment-relation proof route (transpose + Hermitian relations from
+     the rung-split eigen-equation) is proved insufficient by an explicit in-class witness; the
+     remaining need is an unidentified definiteness ingredient from the K₆₆ = −3H₃ spectrum or the
+     N − 1 path structure.
 
-When the β-exotic closes, the census input becomes a law for all odd N, and the containment diamond
-membership follows at every odd N with no further scan. The counting theorem is typed as
+When the β-exotic closes **for all odd N**, the census input becomes a law for all odd N, and the
+containment diamond membership follows at every odd N with no further scan. Per-N certificates, however
+many, do not do that: they retire N's one at a time. The counting theorem is typed as
 `SeedExistenceCountingClaim` (Tier1Derived) with the live witness `inspect --root seedcount`;
 spec(K₆) = 3 × (−spec(H₃)) is a registry-grade closed form.

@@ -68,7 +68,7 @@ namespace RCPsiSquared.Core.F89PathK;
 /// onto q = 0, where StripQ would have discarded it with the q-power), both certified by the same
 /// Hadamard/lc-divisor device as trueDegR, against LcDivisorBoundD. DiscriminantDegree and QValuationD are
 /// reported AT the layer prime. Companion fact: the AT subspace is q-independent and invariant for every q,
-/// so D and K each preserve it and (both being Hermitian) also its orthogonal complement — AT ⊕ F_res is
+/// so D and K each preserve it and (both being Hermitian) also its orthogonal complement: AT ⊕ F_res is
 /// genuinely block-DIAGONAL, no Jordan chain crosses the seam, and disc_Λ(F_res) misses no defect. What this
 /// does NOT exclude: a cubic branch point (3×3 Jordan) has ord disc = 2 and hides in the multiplicity-2
 /// layer; at a count-drop it is ruled out separately by parity (an even-order zero gives no sign change, so
@@ -183,10 +183,14 @@ public static class FoldResultantCertificate
         // ‖D‖ ≤ rowF^{resDeg−1} · rowFp^{resDeg} with rowFp ≤ resDeg·rowF. A sampled prime ideal π_p can
         // lose deg_q(D) only if π_p | lc_q(D), and can raise v_q(D) only if π_p divides the coefficient of
         // q^{v_q(D)}; both coefficients have 1-norm ≤ normD, the ideals lie over distinct rational primes
-        // p ≥ 2³⁰, so at most 2·log₂(normD)/30 sampled primes can do either. Sampling more than that forces
-        // trueDegD = max_p deg(D mod p) = deg_q D and eD = min_p v_q(D mod p) = v_q(D), EXACTLY. The layer
-        // reading is then taken at a prime attaining BOTH — the only prime at which "max multiplicity mod p"
-        // bounds the true max multiplicity from above (no root escaped to ∞, none collapsed onto q = 0).
+        // p ≥ 2³⁰, so at most lcDivisorBoundD sampled primes can lose the degree, and (separately) at most
+        // lcDivisorBoundD can raise the valuation. Sampling past that bound therefore certifies EACH of
+        // trueDegD = max_p deg(D mod p) = deg_q D and eD = min_p v_q(D mod p) = v_q(D): one bound per
+        // statement, NOT one bound for their union. A prime good at BOTH ends is then not guaranteed a
+        // priori by this count; it is SEARCHED for below and the report fails closed (layerPrime = 0,
+        // DiscLayersCertified = false) if none of the sampled primes attains both. Only at such a prime
+        // does "max multiplicity mod p" bound the true max multiplicity from above (no root escaped to ∞,
+        // none collapsed onto q = 0 and got stripped with the q-power).
         BigInteger rowFp = resDeg * rowF;
         BigInteger normD = BigInteger.Pow(rowF, Math.Max(resDeg - 1, 0)) * BigInteger.Pow(rowFp, resDeg);
         int lcDivisorBoundD = (int)(2 * normD.GetBitLength() / 30) + 1;

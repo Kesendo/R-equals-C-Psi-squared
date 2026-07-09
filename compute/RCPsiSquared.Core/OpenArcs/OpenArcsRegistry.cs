@@ -670,7 +670,9 @@ public static class OpenArcsRegistry
                 "beta(s)=[[0,s],[s^2,0]], eigenvalues +-s^{3/2}, a real-to-complex transition through a formally " +
                 "semisimple point). ATTACK ANCHOR for it (no tool exists yet): the Krein reading -- a transition " +
                 "point cannot be semisimple with DEFINITE sign characteristic, so the open case is exactly " +
-                "semisimple-INDEFINITE = the beta shape; start at the doc's Status item 2. " +
+                "semisimple-INDEFINITE = the beta shape; start at the doc's Status item 2. (SCOPE REFRESH " +
+                "2026-07-09: 'no tool exists yet' is now false AT N=5 -- the certified disc-multiplicity gate " +
+                "below settles N=5, both parities. It remains true for the all-N genericity statement.) " +
                 "UPDATE 2026-07-08 (scoping round 07-06/07 + A-i attempt; all local-only in " +
                 "ClaudeTasks/BETA_EXOTIC_A_STEP1_STRATEGY.md + " +
                 "docs/superpowers/specs/2026-07-08-codim2-beta-exotic-Ai-transversality-design.md): " +
@@ -719,7 +721,85 @@ public static class OpenArcsRegistry
                 "count-drops, r-free over Q(i)[q] via FoldResultantCertificate.cs, proves it exact through " +
                 "N=13/15 (NOT all-N, no Galois lemma); (2) all-N prize = find the definiteness ingredient. TRAP " +
                 "LOGGED: the 17-seed s6-scout is a typo-guard for the identity ONLY, same evidence class as the " +
-                "N<=11 census, NEVER all-N partial proof. TYPED 2026-07-04: " +
+                "N<=11 census, NEVER all-N partial proof. " +
+                "UPDATE 2026-07-09 (WAY (1) TAKEN AT N=5; commit fdcfefd + the typing commit): the beta-exotic is " +
+                "EXCLUDED EXACTLY at N=5, BOTH R-parities, over Q(i). Not via gcd(disc,disc') but via the " +
+                "DISC-MULTIPLICITY reading, which is cheaper and needs no r: ord_{q*} disc_Lambda(F_res) reads the " +
+                "Puiseux exponent (defective EP2 -> 1; diabolic -> 2; cubic branch point / 3x3 Jordan -> 2; the " +
+                "beta-exotic, exponent 3/2 -> 3), and every OTHER colliding pair at q* contributes NON-NEGATIVE " +
+                "order, so a coincident collision can only RAISE the total (3+1, 3+2), never mask it. Hence 'no " +
+                "root of multiplicity >=3 off q=0' EXCLUDES the beta outright -- deliberately weaker than " +
+                "squarefreeness (the diabolic loci are genuine DOUBLE roots and must survive), which is exactly " +
+                "why the dead Galois route is unnecessary: a multiplicity sees the 1/2-vs-3/2 exponent, a Galois " +
+                "group never does. FoldResultantCertificate ALREADY interpolated D(q)=disc_Lambda(F_res)(q) and " +
+                "squarefree-split it, as an unvalidated DIAGNOSTIC at one prime chosen for R's degree; the reading " +
+                "is [56,26] (R-odd) / [56,32] (R-even) -- two layers, max multiplicity 2. THE LIFT is one-way: " +
+                "reduction mod pi_p not dividing lc_q(D) is a degree-preserving homomorphism, so (q-alpha)^m " +
+                "survives and distinct roots can only MERGE => max-mult(D mod p) >= max-mult(D); ONE certified " +
+                "prime proves the bound exactly. WHAT THE COMMIT ADDED is the certification that reading never " +
+                "had: the layer prime must be good at BOTH ends of the q-line -- attain trueDegD (no root escaped " +
+                "to infinity) AND the minimal v_q(D) (no nonzero root collapsed onto 0, where StripQ discards it " +
+                "with the q-power). A new lcDivisorBoundD from the Sylvester matrix of (F_res,F_res'), the same " +
+                "Hadamard/lc-divisor device as trueDegR, certifies EACH of the two true values separately (one " +
+                "bound per statement, NOT one for their union); a prime attaining BOTH is then SEARCHED for and " +
+                "the report FAILS CLOSED if none does. The 242/256 primes each run " +
+                "already samples carry DegD and VD, so NOTHING re-ran. Certified: deg D=246/274, v_q(D)=138/154, " +
+                "bound 138/155, MaxDiscMultiplicity=2, DiscLayersCertified=true. Gate " +
+                "DiscHasNoMultiplicityThreeRoot_ExcludesTheBetaExotic (Category FOLDRESULTANT, ~3 s/parity); " +
+                "typed BetaExoticExcludedAtN5Claim + live witness inspect --root betaexotic. " +
+                "H1 FOLLOWS AT N=5 BY ELIMINATION, not by the order of the zero. DO NOT use the shortcut " +
+                "'count-drop => disc sign change => odd order => (with max-mult 2) order 1': it assumes exactly " +
+                "ONE conjugate pair is born at q*, and two coincident seeds would drop the real count by 4 at an " +
+                "order-2, sign-PRESERVING zero (an empty-review catch). What holds: max-mult 2 already excludes " +
+                "the beta (ord 3), every Jordan block of size >= 4 (ord >= 3), and every semisimple degeneracy of " +
+                ">= 3 branches; what remains at a locus is EP2 (ord 1), diabolic (ord 2), cubic branch point " +
+                "(ord 2), or a coincidence, and of those ONLY the EP2 changes the real count (a diabolic keeps " +
+                "two analytic real branches; a cubic keeps one real branch + one conjugate pair on both sides). " +
+                "So a count-drop is carried by defective 2x2 Jordan blocks: algebraic mult exactly 2. That step " +
+                "needs F_res REAL: T=diag((-1)^{a0+a1+b0}) (the bipartite sign; T K T=-K since every K entry is a " +
+                "single hop, flipping the site-sum parity) gives T L T = L^dag EXACTLY at every N, and at ODD N " +
+                "T also commutes with the reflection R (3(N+1) even), so T restricts to each R-sector and each " +
+                "sector spectrum is self-conjugate; the AT spectrum is separately self-conjugate (strand slopes " +
+                "chirally +- paired, ChiralKClaim), so F_res's roots are self-conjugate and monic F_res is real. " +
+                "Checked N=5 and N=7; the AT step is not derived in general. The BETA-EXCLUSION itself needs NONE " +
+                "of this -- it is the multiplicity bound alone. DOC CORRECTION made " +
+                "in the same pass: F89_SEED_EXISTENCE_REDUCTION.md credited the self-conjugacy to odd N (the " +
+                "unmirrorable central site); it holds at EVEN N too (N=4,6) -- what odd N buys is the existence of " +
+                "real eigenvalues at all. THREE EMPTY REVIEWS shaped this. The mathematician confirmed the " +
+                "exponent table and the lift, killed a proposed fix ('two primes bound the valuation' -- one root " +
+                "can be bad mod both), and found the real hole: F_full=F_res*AT is a charpoly factorization, hence " +
+                "only block-TRIANGULAR, so a Jordan chain could cross the AT/F_res seam invisibly to " +
+                "disc(F_res). IT CLOSES: the AT subspace is q-independent and invariant for EVERY q, so D and K " +
+                "each preserve it; both are Hermitian, so each preserves its orthogonal complement -- genuinely " +
+                "block-DIAGONAL, no seam chain (verified from below: AT exactly K- and D-invariant, atol 1e-9). " +
+                "The skeptic's headline kill was itself WRONG and is recorded because the conflation will tempt " +
+                "again: it read a=d, b=0 in the in-class M=[[a,ib],[ib,d]] as the exotic; that makes M=a*I, " +
+                "SCALAR hence diagonalizable -- a DIABOLIC crossing, ord 2, and with alpha^2 != 4 beta^2 not even " +
+                "a real-to-complex transition, so not a seed at all. The beta-exotic is the sub-case " +
+                "alpha^2 = 4 beta^2, where ord drops to 3. The physics review found no hole: all FOUR N=5 forced " +
+                "seeds sit 100% in F_res (AT-fraction 0.0000), defective, Puiseux exponent 0.500, split 2 R-even " +
+                "+ 2 R-odd, so both parity sectors carry seeds and both are certified. SCOPE, stated flatly: this " +
+                "is a PER-N certificate, NOT a law. It retires N=5. N=7 is the same call at n=7 (residual degree " +
+                "53, disc degree ~2756, ~2800 interpolation nodes; the one-way direction needs no height lift) and " +
+                "has NOT been run. The all-N core O2b (s6 != 0 at every forced seed) is UNTOUCHED and remains the " +
+                "open item. TWO TRAPS LOGGED: (i) the SIGN of s6 is NOT gauge-invariant -- the antilinear gauge " +
+                "A = T.conj has two branches (A r = +-r, exchanged by r -> i*r) and s6 flips between them, while " +
+                "the -6-rung Krein index kappa_6 = r^dag T P_-6 r / ||r||^2 does not (the subscript is the RUNG, not the reflection parity R); the doc's 's6 in [0.025,0.38]' records " +
+                "MAGNITUDES (at the N=5 seed q*=0.643037 the same physical mode gives s6=-0.140184 in the other " +
+                "branch), so NEVER try to prove 's6 > 0'. (ii) |v^T v| ~ 0 CERTIFIES NOTHING: an isotropic vector " +
+                "exists in every 2-dim complex span, so a self-built real-count-drop detector produced three " +
+                "'counterexamples' to a kappa-sign conjecture at eigenvalue gaps 4e-2..9e-2 where nothing was " +
+                "coalescing -- the wide-re-anchor trap in a new dress. Anchor at the cached (q*,lam0) and check " +
+                "the GAP, not the isotropy. NEW STRUCTURE, unused, may feed O2b: in the A-gauge r=x+iy with " +
+                "T x=x, T y=-y (disjoint supports = the two bipartite classes), s_rung = ||x_rung||^2 - ||y_rung||^2, a " +
+                "difference of two POSITIVE class masses, and r^T (D-lam) r = -4 s6, so the beta-exotic <=> " +
+                "span{Re r, Im r} is totally isotropic for D-lam. Exact class counts (N=3,5,7): rung -2 has " +
+                "|E|-|O| = +(N-1) = nullity(K22), with ker(K22) entirely in the majority class E (each of Piece " +
+                "1's N-1 paths of N vertices has BOTH endpoints in E); rung -6 has |E|-|O| = -3(N-1)/2. The same " +
+                "N-1 counts the seeds, the nullity, and the rung-2 class imbalance -- this IS the 'N-1-path sign " +
+                "structure' the strategy doc's next-step (b) asks for. The conjecture " +
+                "'sign(kappa_rung) = sign(class imbalance)' is UNTESTED, not refuted (see trap ii). " +
+                "TYPED 2026-07-04: " +
                 "SeedExistenceCountingClaim (Tier1Derived, parents AbsorptionTheorem + ChiralK) + live " +
                 "SeedExistenceCountingWitness, inspect --root seedcount (SVD nullities + combinatorial rho/Z3 + " +
                 "the exact-zero cross-sector/gauge gates + two-sided nonzero controls, odd N <= 9). " +

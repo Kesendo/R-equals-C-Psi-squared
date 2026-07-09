@@ -383,6 +383,7 @@ public static class KnowledgeRegistryFactory
             // Tier1Derived. The seed-existence CONCLUSION stays open at the codim-2 beta-exotic genericity.
             // Live: inspect --root seedcount; verifier simulations/seed_existence_nullity_check.py.
             .RegisterSeedExistenceCountingClaim()
+            .RegisterBetaExoticExcludedAtN5Claim()
             // The label layer, typed (2026-07-05): the watcher is its letter -- L_P(S) = -2g*n_anti(S,P)*S,
             // one shared eigenbasis with three letter-routed price lists; only the identity is free under
             // every watcher. The exact core of docs/quantum LABELS_TRANSLATED s2 / DEPHASING_TRANSLATED s4;

@@ -757,6 +757,14 @@ public static class InspectCommand
             "(typed: SeedExistenceCountingClaim)",
             c => new SeedExistenceCountingWitness(c.Parser.HasFlag("N") ? c.N : 5),
             RequiresN: false, HonorsOptionalN: true),
+        new("betaexotic", "the β-exotic excluded exactly at N = 5, both R-parities: the certified squarefree-layer " +
+            "reading of disc_Λ(F_res) has maximum root multiplicity 2 off q = 0, and a Puiseux-3/2 point (the " +
+            "β-exotic) would need 3. Re-runs FoldResultantCertificate at inspect time (~3 s per parity) and reads " +
+            "MaxDiscMultiplicity + DiscLayersCertified; the one-way lift needs a prime good at BOTH ends of the " +
+            "q-axis. Per-N, not a law: N = 7 unrun, the all-N scalar s₆ ≠ 0 stays open " +
+            "(typed: BetaExoticExcludedAtN5Claim)",
+            _ => new BetaExoticExclusionWitness(),
+            RequiresN: false),
         new("label", "the label layer, typed: the watcher is its letter - the 4^N Pauli strings are ONE shared " +
             "eigenbasis of all three letter dissipators with three price lists (rate -2g*n_anti(S,P), the " +
             "disagreement with the held letter alone); the letter swap (Klein V4 / basis-S3) relocates which " +
