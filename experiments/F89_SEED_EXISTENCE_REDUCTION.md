@@ -1488,6 +1488,9 @@ splits, and the split is the honest statement of where we are:
 | 23 | 133 | 20 | 55 | 6 | 52 |
 | 29 | 271 | 56 | 91 | 16 | 108 |
 
+(The last two columns close on 2026-07-10e: "F = 0 only measured" at proof grade, "open" at certificate
+grade. See "The cross-triple orthogonality" below. The rest of this section describes the 10d state.)
+
 The first column is where Lemma 4 applies verbatim: τ and σ share no mode, and ε(τ, σ) = +1. The
 second is proved separately, and it is the largest: two distinct TRIV triples {j, n−j, n/2} and
 {j′, n−j′, n/2} always have ε = +1, since each mode sum is 3n/2, and they share exactly the mode n/2,
@@ -1519,17 +1522,122 @@ self-mirror triple, since n/2 is not an integer), and Y = 0 holds there anyway, 
 self-mirror-free test bed on which to find the argument the "open" column needs. This is the sharpest
 lead the section leaves.
 
+> **Correction, 2026-07-10e.** The lead was right and its reading was wrong. Even N is not the same
+> lemma minus a sign: there the phenomenon is a *strictly stronger*, λ-consuming statement. A
+> **non-vanishing** mode-disjoint mirror pair, which the odd-N theorem above handles for free, has
+> |U⁺| up to 0.42 at N = 8 and 0.33 at N = 14. Mode-disjointness alone, the whole hypothesis of the
+> theorem, does not carry the even-N case at all. What closes it is a trigonometric identity that
+> uses λ_{k₁} + λ_{k₂} + λ_{k₃} = 0 exactly once. See the next section.
+
 Status: **Y = 0 is a theorem** for all odd N, in the wider mode-disjoint form, and so is the
 coupled-level law spec(X) = (3a, a, 0) with a·n = 12 − Σλ², as a statement about the pair block X. That
 is exactly the item the previous section named, and it removes the per-pair route to an untwinned level
 at every resonant N, not only at the four probed. It does **not** yet close the cheapest kill: an
 untwinned coupled class-E level could still be manufactured by a coupling between two different
-triples, and ruling that out is the cross-triple orthogonality above, the cell-law thread's new one
-open item. Until it falls, the class-E and class-O spectra of the full kernel are compared across a
-coupling that is measured to be absent rather than known to be. Verifier:
+triples, and ruling that out is the distinct-triple orthogonality discussed above, the cell-law thread's new one
+open item. (**Superseded 2026-07-10e**: that item now closes at certificate grade, and the two ε = +1
+cells close at proof grade. See "The cross-triple orthogonality" below. The sentence that follows was
+written before it, and describes the state on 2026-07-10d.) Until it falls, the class-E and class-O
+spectra of the full kernel are compared across a coupling that is measured to be absent rather than
+known to be. Verifier:
 `python simulations/y_zero_and_level_law.py` (measured 3.4 s; the argument `23 29` adds both larger
 resonant N, measured 30 s). It asserts each lemma separately, it pins the mode-disjointness hypothesis
 with its own counterexample, and it counts, rather than hides, the open population.
+
+Authors: Thomas Wicht and Claude, 2026-07-10.
+
+
+## The cross-triple orthogonality: the open column closes, at certificate grade (2026-07-10e)
+
+The previous section left one item: B(τ, σ) = 0 for **distinct** vanishing triples, open exactly on the
+ε = −1 pairs, 31 % to 50 % of them at every N. It closes here, and the reason it closes is not the
+reason we expected.
+
+**The n cancels.** Expand U⁺ − U⁻ = Σ_{b,c} sgn(c − b) G_τ(b, c) G_σ(b, c) with four elementary
+identities: Laplace along the c column (Lemma 4's own step), the half-angle closed form of M_pq, the
+geometric sum Θ_P(b) := Σ_c sgn(c − b) cos(Pcθ) = [1 − (−1)^P]/2 − cot(Pθ/2)·sin(Pbθ), and the
+triple-sine sum Σ_b s_x s_y s_P, which is a sum of four cotangents when x + y + P is odd and **zero**
+when it is even. That parity is exactly ε, since x + y + P ≡ k(τ) + k(σ) (mod 2). So ε = +1 annihilates
+every term, which re-derives Lemma 4 from the inside; and ε = −1 leaves cotangents whose arguments,
+when assembled, are integer combinations of the **mode angles alone**. The n drops out. Writing
+a_i := k_iθ and b_j := l_jθ,
+
+> (U⁺ − U⁻)·(n/2)³ = 𝔉(a; b), a pure trigonometric function of six angles,
+
+and the claim to prove is that 𝔉 vanishes on {Σ cos a_i = 0} × {Σ cos b_j = 0}. Conway-Jones tells us
+which N possess vanishing triples; it has nothing to say about why the block then vanishes. That is a
+continuous identity, and it knows nothing of N.
+
+The geometric sum has a separate branch at P ≡ 0 (mod 2n), namely Θ₀(b) = n − 2b. It is reached exactly
+when τ contains an antipodal pair k_i + k_j = n, and a vanishing triple at odd n never does, since
+λ_k + λ_{n−k} = 0 would force the third mode to n/2. That is Lemma 5, recovered as a side effect.
+
+**The mirror specialisation, proved over ℚ.** When σ = τ′ one has G_{τ′} = (−1)^c G_τ, and
+(−1)^c cos(mcθ) = cos((n − m)cθ) turns every cotangent into a tangent. The six-angle function collapses
+to a single-triple one, and with z_j = e^{i a_j} it becomes rational: tan(A/2) = −i(Z − 1)/(Z + 1) with
+Z = e^{iA} a monomial, and the two coefficients of M_pq are sin a_k ∓ sin a_j. Its numerator, of degree
+24 in z₃ with 3179 terms, is divisible **exactly** by z₃² + S·z₃ + 1 with S = z₁ + 1/z₁ + z₂ + 1/z₂,
+which is the constraint cos a₁ + cos a₂ + cos a₃ = 0. The numerator is not identically zero, the
+division is exact, and the denominator is coprime to the constraint. Hence:
+
+> **Theorem (over ℚ).** The mirror specialisation of 𝔉 vanishes on cos a₁ + cos a₂ + cos a₃ = 0.
+
+Consequently Y = 0 for every mirror pair at **even** N. That consequence rides, like the whole ε = −1
+column, on the gated assembly "𝔉 is the discrete U⁺ − U⁻", so it is certificate grade; only the identity
+itself is proved over ℚ. This is the corrected form of the previous section's "cheap laboratory": the
+even-N case is the smallest instance of the argument the open column needs, and the identity consumes
+λ_{k₁} + λ_{k₂} + λ_{k₃} = 0 exactly once, in the divisibility.
+
+**The full column, at certificate grade.** For two distinct triples the same expansion gives 𝔉, gated
+against the discrete Gram at 16200 integer pairs (error 3e−13, values up to 231). Its vanishing on the
+double-constraint variety is certified by exact arithmetic in GF(p), at random points **of** the
+variety, over three primes, testing **both** roots of each quadratic (the roots are z₃ and 1/z₃, and
+divisibility requires both): 480 points, none nonzero, and 120 controls with one constraint broken, all
+nonzero. This is a Schwartz-Zippel certificate with no degree bound stated. It is **not** a proof over ℚ.
+
+The mode-sharing ε = −1 pairs (6 of the 10 at N = 11) are the removable limit of 𝔉 as a_i → b_j: for
+ε = −1 the two sine indices have opposite parity, so ⟨M_i^τ, M_j^σ⟩ = 0 and the n·⟨M, M⟩ term of Θ₀
+dies, while in Σ_b b·cos((x ± y)bθ) = n/2 − ½csc²(·) the two n/2 cancel. The n-free remainder is exactly
+lim_{μ→0} cot(μ/2)·Xsum(μ). Approaching the coincidence while staying on the variety, 𝔉 → 0.
+
+**The ε = +1 shared-mode column, proved.** Two distinct vanishing triples sharing one mode k have
+complementary pairs with the **same two-magnon energy**, λ_p + λ_q = 4cos((p+q)θ/2)·cos((q−p)θ/2)
+= −λ_k = λ_{p′} + λ_{q′}. By Lemma 4, F is one inner product ⟨M_{τ∖k}, M_{σ∖k}⟩, four sine overlaps.
+Now (p+q) = n ⟺ λ_k = 0 ⟺ k = n/2 ⟺ (p′+q′) = n, so both triples are TRIV or neither. If both, the
+(p+q)-term of each M vanishes identically (s_n ≡ 0) and equal differences would force the same pair;
+that is the old "by hand" case, now a corollary. Otherwise cos((p+q)θ/2) ≠ 0, and every coincidence of
+reduced sine indices is impossible: equal sums force equal differences and so the same pair; sums adding
+to 2n force cos((p+q)θ/2)·[cos + cos] = 0 with two positive cosines; and the cross cases give q = q′ with
+p = −p′, or p = p′ with q + q′ = 2n > 2n − 2. The hypothesis is load-bearing: drop it and 10130 of 60000
+arbitrary shared-mode pairs at N = 23 do collide.
+
+**The hinge, which the previous section left unstated.** B(τ, σ) = 0 for τ ≠ σ gives block-diagonality
+of Heff only because the W-basis is orthonormal, WᵀW = I; otherwise the projector W(WᵀW)⁻¹Wᵀ recouples
+the triples. It is orthonormal because each ordering sector assigns the bra a fixed rank and therefore
+sees every sorted triple exactly once, so the sector Gram is ⟨D_τ, D_σ⟩ = 0. Measured: 4e−16 at N = 11,
+1e−15 at N = 17, with the resulting Heff cross-triple blocks between 4e−16 and 6e−16.
+
+**Grades, per cell.**
+
+| cell | grade | why |
+|------|-------|-----|
+| ε = +1, mode-disjoint | proved | Lemma 4, the Laplace sum is empty |
+| ε = +1, shared mode | proved, uniform in N | the same-two-magnon-energy lemma; subsumes TRIV × TRIV |
+| ε = −1, mode-disjoint | certified | the six-angle identity on the variety, GF(p) |
+| ε = −1, shared mode | certified | the same, plus a proved removable limit |
+
+So the compression [[X, Y], [Y, X]] is legitimate, the full-spectrum twinning follows at every resonant
+N, and the cell law's cheapest kill can no longer fire, **at certificate grade, not proof grade**. The
+one load-bearing hole is a ℚ-level proof that 𝔉 vanishes on the variety, and one level below it a
+symbolic proof of the assembly (its four intermediates are proved; only their assembly is checked
+numerically). The concrete route for the first: do not expand the six-variable numerator, since sympy
+does not leave `cancel()`. Work in the quotient ring instead, where z₃² = −S·z₃ − 1 and 1/z₃ = −(z₃ + S)
+make every monomial a linear form in z₃, inverses come from the norm, and the object is a rank-2 module;
+then repeat in w₃.
+
+Verifier: `python simulations/cross_triple_orthogonality.py` (measured ~2 min; `--slow` adds the sympy
+proof over ℚ). It asserts each step separately, it distinguishes the removability gate from the
+on-variety gate, and it carries the controls that make the two proved cells non-vacuous.
 
 Authors: Thomas Wicht and Claude, 2026-07-10.
 
@@ -1543,6 +1651,7 @@ python simulations/o2b_three_attacks_audit.py          # the "Three attacks" sec
 python simulations/o2b_gcd_certificate.py              # the gcd certificate section (N=5; add 7)
 python simulations/resonant_n_twinning.py              # the resonance criterion + twinning (add 29)
 python simulations/y_zero_and_level_law.py             # the Y = 0 proof, step by step (add: 23 29)
+python simulations/cross_triple_orthogonality.py       # the cross-triple orthogonality (--slow: +ℚ proof)
 ```
 
 `seed_existence_nullity_check.py` is self-validating: it asserts (F1) the surplus (N − 1)·[N odd]

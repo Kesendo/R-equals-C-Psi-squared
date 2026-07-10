@@ -1031,6 +1031,66 @@ public static class OpenArcsRegistry
                 "list is Thm 6, NOT Thm 5); an independent from-definitions recompute reproduced Z3 (exactly to " +
                 "n=330: the [15|n] bump is single, no 5^2 doubling, no prime-7 analogue), the class splits, the " +
                 "levels (as 1/m, 3/m with m = n/6) and the twin gaps. " +
+                "UPDATE 2026-07-10e (THE CROSS-TRIPLE ORTHOGONALITY CLOSES, AT CERTIFICATE GRADE). " +
+                "SUPERSEDES item (4) of the 2026-07-10d block below, 'the hidden assumption, the new one open " +
+                "item'. Doc section: 'The cross-triple orthogonality: the open column closes, at certificate " +
+                "grade'. Committed verifier simulations/cross_triple_orthogonality.py (~2 min; --slow adds the " +
+                "sympy proof over Q). (1) THE MECHANISM IS THAT n CANCELS. Expanding U+ - U- with four " +
+                "elementary identities (Laplace along the c column; the half-angle closed form of M_pq; the " +
+                "geometric sum Theta_P(b) = [1-(-1)^P]/2 - cot(P th/2) sin(P b th), with the SEPARATE branch " +
+                "Theta_0(b) = n - 2b; and the triple-sine sum sum_b s_x s_y s_P = a sum of four cotangents when " +
+                "x+y+P is ODD, = 0 when EVEN) shows that parity IS eps, since x+y+P = k(tau)+k(sigma) mod 2. So " +
+                "eps=+1 kills every term (Lemma 4, re-derived from inside) and eps=-1 leaves cotangents whose " +
+                "arguments are integer combinations of the MODE ANGLES ALONE. Hence (U+ - U-)*(n/2)^3 = " +
+                "Frak(a;b), a pure trig function of six angles a_i = k_i th, b_j = l_j th, with NO n in it. " +
+                "Conway-Jones says which N have vanishing triples; it says nothing about why the block vanishes, " +
+                "which is a CONTINUOUS identity on {sum cos a = 0} x {sum cos b = 0}. Theta_0's branch is reached " +
+                "iff tau has an antipodal pair, which a vanishing triple at odd n never has (Lemma 5, recovered). " +
+                "(2) THEOREM, PROVED OVER Q: the mirror specialisation (sigma = tau', where G_tau' = (-1)^c " +
+                "G_tau turns every cotangent into a tangent) vanishes on cos a1 + cos a2 + cos a3 = 0. With " +
+                "z_j = exp(i a_j) it is rational; its numerator (degree 24 in z3, 3179 terms) is divisible " +
+                "EXACTLY by z3^2 + S z3 + 1, S = z1+1/z1+z2+1/z2; numerator not identically zero, division " +
+                "exact, denominator coprime to the constraint. CONSEQUENCE: Y = 0 for every mirror pair at " +
+                "EVEN N. (3) CORRECTION TO 10d's 'cheap laboratory' READING: even N is NOT the same lemma minus " +
+                "a sign. There the phenomenon is STRICTLY STRONGER and lambda-consuming: a NON-vanishing " +
+                "mode-disjoint mirror pair, which the odd-N theorem handles for free, has |U+| up to 0.42 (N=8) " +
+                "and 0.33 (N=14). Mode-disjointness alone does not carry even N at all. (4) THE FULL COLUMN, " +
+                "CERTIFIED not PROVED: Frak = 0 on the double-constraint variety is certified by EXACT GF(p) " +
+                "arithmetic at random points OF the variety, three primes, BOTH roots of each quadratic (they " +
+                "are z3 and 1/z3; divisibility needs both): 480 points, 0 nonzero; 120 controls with one " +
+                "constraint broken, all nonzero. Schwartz-Zippel, no degree bound stated. The eps=-1 " +
+                "MODE-SHARING pairs (6 of the 10 at N=11) are the REMOVABLE limit of Frak as a_i -> b_j (for " +
+                "eps=-1 the sine indices have opposite parity, so <M_i,M_j> = 0 and Theta_0's n*<M,M> term dies, " +
+                "while the two n/2 in sum_b b cos((x+-y) b th) = n/2 - csc^2(.)/2 cancel); approaching the " +
+                "coincidence ON the variety, Frak -> 0. (5) THE eps=+1 SHARED-MODE COLUMN IS PROVED, UNIFORM IN " +
+                "N, and SUBSUMES the old TRIVxTRIV 'by hand' case: two distinct vanishing triples sharing mode k " +
+                "have complementary pairs of the SAME two-magnon energy lam_p + lam_q = " +
+                "4 cos((p+q)th/2) cos((q-p)th/2) = -lam_k, and (p+q) = n <=> lam_k = 0 <=> k = n/2 <=> (p'+q') " +
+                "= n, so both are TRIV or neither; every reduced-sine-index coincidence is then impossible. " +
+                "LOAD-BEARING: drop the same-energy hypothesis and 10130 of 60000 arbitrary shared-mode pairs " +
+                "at N=23 DO collide. (6) THE HINGE 10d LEFT UNSTATED: B(tau,sigma)=0 gives block-diagonality of " +
+                "Heff ONLY because W^T W = I (else W (W^T W)^-1 W^T recouples the triples); it holds because " +
+                "each ordering sector sees every sorted triple exactly once. Measured 4e-16 (N=11), 1e-15 " +
+                "(N=17); Heff cross-triple blocks 4e-16 to 6e-16. GRADES PER CELL: eps=+1 disjoint PROVED (Lemma 4); " +
+                "eps=+1 shared PROVED (uniform in N); eps=-1 disjoint CERTIFIED; eps=-1 shared CERTIFIED. So the " +
+                "[[X,Y],[Y,X]] compression is legitimate and the full-spectrum twinning follows AT CERTIFICATE " +
+                "GRADE, NOT PROOF GRADE; the cell law's cheapest kill can no longer fire, at that grade. " +
+                "THE ONE HOLE: a Q-level proof that Frak vanishes on the variety, and one level down a symbolic " +
+                "proof of the assembly (its four intermediates are proved; only their assembly is gated). " +
+                "THE ROUTE: do NOT expand the six-variable numerator (sympy never leaves cancel()); work in the " +
+                "quotient ring, where z3^2 = -S z3 - 1 and 1/z3 = -(z3+S) make every monomial a linear form in " +
+                "z3, inverses come from the norm, and the object is a rank-2 module; then repeat in w3. " +
+                "Reviewed before commit by three fresh sessions: a mathematical referee independently " +
+                "re-derived the triple-sine closed form, the geometric sum with its antipodal exclusion, and " +
+                "the (H) hand-proof (checked to N=81), found the sqrt-branch worry unfounded, and named the " +
+                "'theorem' overclaim; a physics referee reproduced every number, confirmed K = -J H J is the " +
+                "bra-side Jordan-Wigner sign and that Psi's -6 support is Pauli exclusion, and caught the " +
+                "unstated W^T W = I hinge plus the mislabel 'mechanism' for what is an identity; a cold reader " +
+                "found a dozen symbol collisions (F thrice, S twice, D twice, A vs the pencil A, a/b as angles " +
+                "vs sites, the x = z+1 index shift against y_zero_and_level_law.py) and the internal " +
+                "contradiction between 'is a theorem' and 'STILL OWED'. All three converged on the same one " +
+                "word. Two of the three owed items were then UPGRADED rather than downgraded, (G) and (H) " +
+                "having proofs the author had not written down. " +
                 "UPDATE 2026-07-10d (Y = 0 IS A THEOREM, THE LEVEL LAW IS DERIVED, AND A HIDDEN " +
                 "ASSUMPTION SURFACED). SUPERSEDES the 2026-07-10b block above, whose closing line " +
                 "'THE ONE OPEN ITEM LEFT HERE IS SHARP: prove Y = 0' is now discharged; that line is " +
