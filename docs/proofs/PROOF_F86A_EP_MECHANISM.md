@@ -4,9 +4,9 @@
 **Date:** 2026-05-02 (Statement 1); 2026-05-06 (local-vs-global EP connection, since retracted 2026-06-21 → OpenQuestion).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Context:** F86 ("Q_peak chromaticity-specific N-invariant constants") is a Sammelbecken of three structurally distinct theorems. This proof carries **F86a, the EP mechanism**: the 2-level rate-channel exceptional point behind Q_peak in the (n, n+1) popcount coherence blocks of uniform XY chains under Z-dephasing. Split out of the former monolithic `PROOF_F86_QPEAK.md` on 2026-05-14.
-**Hub:** [the Q_peak hub](PROOF_F86_QPEAK.md): three-theorem overview and shared references.
+**Hub:** [the Q-peak hub](PROOF_F86_QPEAK.md): three-theorem overview and shared references.
 **F-entry:** [F86a in the formula registry](../ANALYTICAL_FORMULAS.md).
-**Related:** [F2b](../ANALYTICAL_FORMULAS.md) (OBC sine dispersion), [F74](../ANALYTICAL_FORMULAS.md) (chromaticity); siblings [the universal-shape proof](PROOF_F86B_UNIVERSAL_SHAPE.md), [the g_eff obstruction proof](PROOF_F86B_OBSTRUCTION.md), [the F71-mirror proof](PROOF_F86C_F71_MIRROR.md).
+**Related:** [F2b](../ANALYTICAL_FORMULAS.md) (OBC sine dispersion), [F74](../ANALYTICAL_FORMULAS.md) (chromaticity); siblings [the universal-shape proof](PROOF_F86B_UNIVERSAL_SHAPE.md), [the g-eff obstruction proof](PROOF_F86B_OBSTRUCTION.md), [the F71-mirror proof](PROOF_F86C_F71_MIRROR.md).
 
 ---
 
@@ -125,8 +125,8 @@ for any (c, N, n, bond position), the slowest k=1 EP universally sets the J-deri
 
 ## Pointers
 
-**Hub:** [the Q_peak hub](PROOF_F86_QPEAK.md): three-theorem overview and the shared reference list.
-**Sibling theorems:** [the universal-shape proof](PROOF_F86B_UNIVERSAL_SHAPE.md) (F86b), [the g_eff obstruction proof](PROOF_F86B_OBSTRUCTION.md) (the g_eff obstruction proof), [the F71-mirror proof](PROOF_F86C_F71_MIRROR.md) (F86c).
+**Hub:** [the Q-peak hub](PROOF_F86_QPEAK.md): three-theorem overview and the shared reference list.
+**Sibling theorems:** [the universal-shape proof](PROOF_F86B_UNIVERSAL_SHAPE.md) (F86b), [the g-eff obstruction proof](PROOF_F86B_OBSTRUCTION.md) (the g_eff obstruction proof), [the F71-mirror proof](PROOF_F86C_F71_MIRROR.md) (F86c).
 **Chiral classification anchor:** [the PT-symmetry analysis](../../experiments/PT_SYMMETRY_ANALYSIS.md) (centered L_c is class AIII chiral, NOT Bender-Boettcher PT; Π is linear, classical PT requires anti-linear; "no real-axis EP, Petermann large but finite, nearby EP in the complex plane").
 **Separate genuine EP (Σγ=0):** [The Fragile Bridge](../../hypotheses/FRAGILE_BRIDGE.md) (Hopf bifurcation = chiral symmetry breaking, Petermann K=403 in complex γ plane), a DISTINCT gain-loss system, not a "global instance" of the full block-L.
 **Empirical anchor:** [the three-bands Q-scale experiment](../../experiments/Q_SCALE_THREE_BANDS.md) Result 2 + Revision 2026-04-24.

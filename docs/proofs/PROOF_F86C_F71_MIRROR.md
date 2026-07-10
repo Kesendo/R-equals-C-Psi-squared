@@ -4,9 +4,9 @@
 **Date:** 2026-05-03.
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Context:** F86 ("Q_peak chromaticity-specific N-invariant constants") is a Sammelbecken of three structurally distinct theorems. This proof carries **F86c, the F71 spatial-mirror invariance** of the per-bond Q_peak observable. Split out of the former monolithic `PROOF_F86_QPEAK.md` on 2026-05-14. The F71-mirror lineage has since spawned its own F-numbers: F91/F92/F93 (F71-anti-palindromic spectral invariance under γ / J / h distributions), the parameter-side Pi2-Z₄ generalisations of this theorem.
-**Hub:** [the Q_peak hub](PROOF_F86_QPEAK.md): three-theorem overview and shared references.
+**Hub:** [the Q-peak hub](PROOF_F86_QPEAK.md): three-theorem overview and shared references.
 **F-entry:** [F86c in the formula registry](../ANALYTICAL_FORMULAS.md).
-**Related:** [F71](PROOF_F71.md) (the chain-mirror operator R); siblings [the EP-mechanism proof](PROOF_F86A_EP_MECHANISM.md), [the universal-shape proof](PROOF_F86B_UNIVERSAL_SHAPE.md), [the g_eff obstruction proof](PROOF_F86B_OBSTRUCTION.md); spawned generalisations [F91](PROOF_F91_GAMMA_NINETY_DEGREES.md), [F92](PROOF_F92_BOND_ANTI_PALINDROMIC_J.md), [F93](PROOF_F93_DETUNING_ANTI_PALINDROMIC.md).
+**Related:** [F71](PROOF_F71.md) (the chain-mirror operator R); siblings [the EP-mechanism proof](PROOF_F86A_EP_MECHANISM.md), [the universal-shape proof](PROOF_F86B_UNIVERSAL_SHAPE.md), [the g-eff obstruction proof](PROOF_F86B_OBSTRUCTION.md); spawned generalisations [F91](PROOF_F91_GAMMA_NINETY_DEGREES.md), [F92](PROOF_F92_BOND_ANTI_PALINDROMIC_J.md), [F93](PROOF_F93_DETUNING_ANTI_PALINDROMIC.md).
 
 ---
 
@@ -97,8 +97,8 @@ F86c is the uniform-J Q_peak-observable instance of the F71 spatial mirror; F91/
 
 ## Pointers
 
-**Hub:** [the Q_peak hub](PROOF_F86_QPEAK.md): three-theorem overview and the shared reference list.
-**Sibling theorems:** [the EP-mechanism proof](PROOF_F86A_EP_MECHANISM.md) (F86a), [the universal-shape proof](PROOF_F86B_UNIVERSAL_SHAPE.md) (F86b), [the g_eff obstruction proof](PROOF_F86B_OBSTRUCTION.md) (the g_eff obstruction proof).
+**Hub:** [the Q-peak hub](PROOF_F86_QPEAK.md): three-theorem overview and the shared reference list.
+**Sibling theorems:** [the EP-mechanism proof](PROOF_F86A_EP_MECHANISM.md) (F86a), [the universal-shape proof](PROOF_F86B_UNIVERSAL_SHAPE.md) (F86b), [the g-eff obstruction proof](PROOF_F86B_OBSTRUCTION.md) (the g_eff obstruction proof).
 **Mirror operator:** [F71](PROOF_F71.md) (the chain-mirror operator R and its symmetry algebra).
 **Spawned generalisations:** [F91](PROOF_F91_GAMMA_NINETY_DEGREES.md), [F92](PROOF_F92_BOND_ANTI_PALINDROMIC_J.md), [F93](PROOF_F93_DETUNING_ANTI_PALINDROMIC.md), [F100](PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md).
 **Verification test:** `RCPsiSquared.Core.Tests/F86/F86NewIdeasTests.F71MirrorInvariance_PerBondQPeak_BitExactSymmetricUnderBondMirror`.

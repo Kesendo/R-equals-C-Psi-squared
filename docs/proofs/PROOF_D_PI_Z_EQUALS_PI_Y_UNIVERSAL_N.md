@@ -21,7 +21,7 @@ The diagnostic reading: D-conjugation IS the Z ↔ Y dephase-letter swap on oper
 
 **The motivating question.** The F1 palindrome operators come in three flavours (Π_Z, Π_X, Π_Y for Z-, X-, Y-dephasing). They share a structural skeleton (per-site signed permutation on the (I, X, Z, Y) basis, the bit_b axis grading) but differ in their phase choices. The natural question is whether they are related by a unitary conjugation on operator space, and if so what the conjugating operator is. The Welle 10d audit of the F112 sparse-rep code surfaced an entry-wise correction `(−1)^{n_Y(row) + n_Y(col)}` that the codebase applies implicitly throughout the L_σ-style Pauli-basis pipeline; the question was whether that correction has a structural interpretation.
 
-**The empirical anchor.** [D Π_Z = Π_Y](../../reflections/D_PI_Z_EQUALS_PI_Y.md) recognised that `(−1)^{n_Y(row) + n_Y(col)}` is the entry-wise action of conjugation by the diagonal involution `D = diag((−1)^{n_Y(k)})`, and that this conjugation should map Π_Z ↦ Π_Y on the 4^N Pauli basis. Numerical verification at N = 1, 2, 3, 4 confirmed the identity bit-exact. What was missing was a structural argument that lifts the per-N verification to universal N.
+**The empirical anchor.** [the Z↔Y dephase-letter swap](../../reflections/D_PI_Z_EQUALS_PI_Y.md) recognised that `(−1)^{n_Y(row) + n_Y(col)}` is the entry-wise action of conjugation by the diagonal involution `D = diag((−1)^{n_Y(k)})`, and that this conjugation should map Π_Z ↦ Π_Y on the 4^N Pauli basis. Numerical verification at N = 1, 2, 3, 4 confirmed the identity bit-exact. What was missing was a structural argument that lifts the per-N verification to universal N.
 
 **What this proof closes.** Two-step structural argument:
 

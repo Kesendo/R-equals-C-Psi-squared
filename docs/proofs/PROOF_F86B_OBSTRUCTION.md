@@ -4,7 +4,7 @@
 **Date:** 2026-05-14 (Obstruction Proof and diagnosis); 2026-05-21 (F90-bridge corollary corrected: F89 D_k closed 2026-05-15, the predicted transfer of that closure to g_eff refuted); 2026-07-02 (Item 3 σ_0-scaling stamped: the 2√(2(c−1)) form retracted 2026-05-08, c=2 closed by F86e, only c ≥ 3 open).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Context:** F86 ("Q_peak chromaticity-specific N-invariant constants") is a Sammelbecken of three structurally distinct theorems. This proof carries the **negative result and open frontier of F86b**: the closed-form gap on g_eff/Q_peak. Split out of the former monolithic `PROOF_F86_QPEAK.md` on 2026-05-14. The proven universal-shape result (Statement 2, F86b₂) is the sibling [`PROOF_F86B_UNIVERSAL_SHAPE.md`](PROOF_F86B_UNIVERSAL_SHAPE.md).
-**Hub:** [the Q_peak hub](PROOF_F86_QPEAK.md), three-theorem overview and shared references.
+**Hub:** [the Q-peak hub](PROOF_F86_QPEAK.md), three-theorem overview and shared references.
 **F-entry:** [F86b in the formula registry](../ANALYTICAL_FORMULAS.md).
 **Related:** siblings [the EP-mechanism proof](PROOF_F86A_EP_MECHANISM.md), [the universal-shape proof](PROOF_F86B_UNIVERSAL_SHAPE.md), [the F71-mirror proof](PROOF_F86C_F71_MIRROR.md); [the F90 bridge proof](PROOF_F90_F86C2_BRIDGE.md), [PROOF_F89_PATH_D_CLOSED_FORM](PROOF_F89_PATH_D_CLOSED_FORM.md).
 
@@ -303,7 +303,7 @@ L_eff's mirror axis −4γ₀ encodes).
 
 ## Pointers
 
-**Hub:** [the Q_peak hub](PROOF_F86_QPEAK.md), three-theorem overview and the shared reference list.
+**Hub:** [the Q-peak hub](PROOF_F86_QPEAK.md), three-theorem overview and the shared reference list.
 **Sibling theorems:** [the EP-mechanism proof](PROOF_F86A_EP_MECHANISM.md) (F86a), [the universal-shape proof](PROOF_F86B_UNIVERSAL_SHAPE.md) (the proven universal-shape result), [the F71-mirror proof](PROOF_F86C_F71_MIRROR.md) (F86c).
 **The bridged F89 side:** [PROOF_F89_PATH_D_CLOSED_FORM](PROOF_F89_PATH_D_CLOSED_FORM.md) (D_k closed 2026-05-15; see the F90-bridge corollary above for why that closure does not transfer to g_eff), [the F90 bridge proof](PROOF_F90_F86C2_BRIDGE.md).
 **C# red signal (closed 2026-05-15):** the F89 D_k closed form is now Tier-1-Derived via the Chebyshev pipeline (`simulations/f89_pathk_symbolic_derivation.py`; PROOF_F89_PATH_D_CLOSED_FORM.md "Tier-1-Derived closure"). The "something missing on the route" was the structural derivation itself, now found: F_a eigenvector ansatz + Chebyshev expansion + orbit-polynomial reduction give (P_k, D_k) algebraically; verified bit-exact k=3..32 (k=10..32 tabulated in F89UnifiedFaClosedFormClaim.PathPolynomial). The Vandermonde-extraction floor at k=31, 32 is no longer a structural mystery; it is a numerical-conditioning property of the degree-16 extraction instrument with full closed-form availability via PathPolynomial. The diagnostic test `PredictDenominatorDeviationDiagnosticTests` remains as the conditioning characterisation; the original red-signal verification test `C2FullBlockSigmaAnatomyTests.PredictDenominator_AtKHigherStretch_MatchesExtractedFromAnatomy` is now supplemented by closed-form verification through PathPolynomial.
