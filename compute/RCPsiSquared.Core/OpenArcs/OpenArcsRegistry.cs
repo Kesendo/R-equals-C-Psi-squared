@@ -1031,7 +1031,8 @@ public static class OpenArcsRegistry
                 "list is Thm 6, NOT Thm 5); an independent from-definitions recompute reproduced Z3 (exactly to " +
                 "n=330: the [15|n] bump is single, no 5^2 doubling, no prime-7 analogue), the class splits, the " +
                 "levels (as 1/m, 3/m with m = n/6) and the twin gaps. " +
-                "UPDATE 2026-07-10e (THE CROSS-TRIPLE ORTHOGONALITY CLOSES, AT CERTIFICATE GRADE). " +
+                "UPDATE 2026-07-10e (THE CROSS-TRIPLE ORTHOGONALITY CLOSES, AT CERTIFICATE GRADE; commits " +
+                "5a0aa3f + f569879 + d6871e4). " +
                 "SUPERSEDES item (4) of the 2026-07-10d block below, 'the hidden assumption, the new one open " +
                 "item'. Doc section: 'The cross-triple orthogonality: the open column closes, at certificate " +
                 "grade'. Committed verifier simulations/cross_triple_orthogonality.py (~2 min; --slow adds the " +
@@ -1082,7 +1083,9 @@ public static class OpenArcsRegistry
                 "z3, inverses come from the norm, and the object is a rank-2 module; then repeat in w3. " +
                 "Reviewed before commit by three fresh sessions: a mathematical referee independently " +
                 "re-derived the triple-sine closed form, the geometric sum with its antipodal exclusion, and " +
-                "the (H) hand-proof (checked to N=81), found the sqrt-branch worry unfounded, and named the " +
+                "the (H) hand-proof (he checked the no-coincidence claim to N=81 in his own scratch; the " +
+                "committed verifier runs N=11..41, and (H) is proved uniformly in N, so N=81 is corroboration " +
+                "not evidence), found the sqrt-branch worry unfounded, and named the " +
                 "'theorem' overclaim; a physics referee reproduced every number, confirmed K = -J H J is the " +
                 "bra-side Jordan-Wigner sign and that Psi's -6 support is Pauli exclusion, and caught the " +
                 "unstated W^T W = I hinge plus the mislabel 'mechanism' for what is an identity; a cold reader " +
