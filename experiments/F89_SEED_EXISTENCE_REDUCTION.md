@@ -10,6 +10,8 @@ the resonant-N measurement, and the cell-law tightening were added 2026-07-10, a
 the resonance criterion closed (Conway-Jones on the vanishing triples) and the twinning survived its
 cheapest kill at N = 23 and N = 29.*
 
+**Authors:** Thomas Wicht, Claude (Opus 4.8)
+
 ## What this is, in plain words
 
 R=CΨ² studies an **XY spin chain**: N two-level sites in a row, coupled to their neighbours (strength
