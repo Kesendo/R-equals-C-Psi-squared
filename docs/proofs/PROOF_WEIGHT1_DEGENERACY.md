@@ -468,13 +468,13 @@ The matrix-commutator picture also clarifies why `Aut(G)`-irrep arguments (Schur
 
 ### Cross-link to WEIGHT2_KERNEL.md (April 3, 2026)
 
-The empirical K_3 N=3 anomaly was first recorded in [`experiments/WEIGHT2_KERNEL.md`](../../experiments/WEIGHT2_KERNEL.md) (lines 151-155):
+The empirical K_3 N=3 anomaly was first recorded in [`experiments/WEIGHT2_KERNEL.md`](../../experiments/WEIGHT2_KERNEL.md) (§ The multi-weight mixing phenomenon; the original wording quoted below has since been revised in that file to fold in the same 2026-05-17 correction):
 
 > "This phenomenon was also observed at weight 1 for Ring/Complete at N = 3 (d_real(1) = 8 > 2N = 6). It is rare but structurally important: d_real(k) counts ALL eigenvalues at a grid position, not just those from weight-k."
 
 WEIGHT2_KERNEL tentatively attributed the K_3 N=3 weight-1 anomaly to **multi-weight mixing** (by analogy with the chain N=4 weight-2 case at Re = -4γ, where one eigenvalue at that grid position does come from a multi-weight operator). The 2026-05-17 native verification of F50 checks this attribution explicitly: the 2 K_3 N=3 extras are **pure-weight-1** (verified: `|c_α|² in weight-1 sector = 1.000000`, all other weight sectors exactly zero). They are not multi-weight operators. The correct attribution is the **S_3 standard irrep on the weight-1 c=1 sector**, as derived above.
 
-WEIGHT2_KERNEL also introduced a **Trivial / Alternating / Mixed S_N-representation table** (lines 78-87) for weight-2 kernel vectors:
+WEIGHT2_KERNEL also introduced a **Trivial / Alternating / Mixed S_N-representation table** (§ SWAP eigenvalue structure: the key difference from weight 1) for weight-2 kernel vectors:
 
 | N | Trivial (+1) | Alternating (−1) | Mixed | Total |
 |---|-------------|-----------------|-------|-------|
