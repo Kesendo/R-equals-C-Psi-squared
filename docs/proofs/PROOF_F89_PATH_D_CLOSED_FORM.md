@@ -93,7 +93,7 @@ Computed via the native C# Chebyshev pipeline (`F89PathPolynomialPipeline.Comput
 - **k=47** is the first path requiring BigInteger: D_47 = 4,632,608,768 > int.MaxValue. Beyond this, `ComputePathPolynomialBig(k)` is the only route.
 - **k=300** is the largest k verified in this session: D_300 has 49 decimal digits / 162 bits. Pipeline wall-clock ~3.1 sec, scaling roughly O(k³). Practical reach extends much further (k=500 in ~14s, k=1000 in ~110s).
 
-**What this confirms:** the empirical D_k = odd(k)²·2^E(k) formula, originally fit on 22 data points (k=3..24), holds bit-exact for *every* k we test via the algebraic pipeline, including v₂(k)=3 (k=200) and v₂(k)=2 with large k (k=100, 300). The "deep-2-power bonus" `max(0, v₂(k)−2)` activates at v₂(k) ≥ 3; the k=200 row (v₂=3, E=101 = 99 polynomial + 3 self + 1 bonus) explicitly demonstrates this branch at large k. The formula is no longer an empirical fit but an algebraic identity verified across orders of magnitude in k.
+**What this confirms:** the empirical D_k = odd(k)²·2^E(k) formula, originally fit on 22 data points (k=3..24), holds bit-exact for *every* k we test via the algebraic pipeline, including v₂(k)=3 (k=200) and v₂(k)=2 with large k (k=100, 300). The "deep-2-power bonus" `max(0, v₂(k)−2)` activates at v₂(k) ≥ 3; the k=200 row (v₂=3, E=101 = 97 polynomial + 3 self + 1 bonus) explicitly demonstrates this branch at large k. The formula is no longer an empirical fit but an algebraic identity verified across orders of magnitude in k.
 
 ---
 

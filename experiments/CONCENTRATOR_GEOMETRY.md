@@ -115,7 +115,7 @@ A concentrator profile breaks translational symmetry. The cluster splits: most m
 
 ### Level 2: Structured construction
 
-Before the lens method was found, a structured scan of 17 candidate states (W-subsets, shifted Bell pairs, multi-excitation states, sacrifice-aware variants) identified the principle: suppress amplitude on the concentrator qubit, concentrate on quiet qubits. The heuristic sqrt(gamma_min/gamma_k) gives a 95.6% approximation to the lens state.
+Before the lens method was found, a structured scan of 17 candidate states (W-subsets, shifted Bell pairs, multi-excitation states, concentrator-aware variants) identified the principle: suppress amplitude on the concentrator qubit, concentrate on quiet qubits. The heuristic sqrt(gamma_min/gamma_k) gives a 95.6% approximation to the lens state.
 
 Two-excitation symmetric states fail completely (AUC < 0.09). They couple to a different mode cluster that does not include the protected slow mode.
 

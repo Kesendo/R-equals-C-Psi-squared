@@ -133,7 +133,7 @@ public sealed class MotherSoftYParityOnePurity : Claim, IZ2AxisClaim
             yield return new InspectableNode("Open siblings",
                 summary: "F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10, typed 2026-05-25): hard cells y_par-asymmetric " +
                          "with Y-inversion; completes the y_par-axis F87 trichotomy classification together with F107 (truly) " +
-                         "and F109 (mother soft). Closed-form 42:8/228:0 derivation per Pauli-letter combinatorics open.");
+                         "and F109 (mother soft). Closed-form 42:8/228:0 derivation Tier1Derived via F103 §6+§7 (2026-06-10).");
             yield return new InspectableNode("Cubic3 anchor parent",
                 summary: $"KleinEightCellClaim ({KleinEightParent.Tier.Label()}): the Z₂³ 8-cell decomposition anchor for the y_par axis F109 lives on.");
         }

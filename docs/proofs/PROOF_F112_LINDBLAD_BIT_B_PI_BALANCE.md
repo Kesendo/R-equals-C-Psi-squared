@@ -40,7 +40,7 @@ The non-Hermitian-H case requires a separate argument because Step 5's `L_H^† 
 
 ## Theorem
 
-Let L = -i[H, ·] + Σ_k γ_k · `np.kron(c_k, c_k^*)` be a Lindblad-form Liouvillian on N qubits with Hermitian H, arbitrary γ_k ∈ ℂ, and operators c_k. If each c_k has Pauli-string support entirely within a single Π²-Z parity sector (every Pauli string P in c_k's expansion satisfies bit_b(P) = (#Y(P) + #Z(P)) mod 2 = const), then the `polarity_coordinates_from_L` decomposition of M = Π L Π⁻¹ + L + 2σ·I satisfies
+Let L = -i[H, ·] + Σ_k γ_k · `np.kron(c_k, c_k^*)` be a Lindblad-form Liouvillian on N qubits with Hermitian H, arbitrary γ_k ∈ ℂ, and operators c_k. If each c_k has Pauli-string support entirely within a single Π²-Z parity sector (every Pauli string P in c_k's expansion satisfies bit_b(P) = (#Y(P) + #Z(P)) mod 2 = const), then the `polarity_coordinates_from_L` decomposition of M = Π L Π⁻¹ + L + 2σ_c·I satisfies (σ_c := Σ_k γ_k, the total dephasing rate recentering the F1 palindrome about the origin, matching the `sigma` argument of `polarity_coordinates_from_L`; distinct from the Pauli-string σ used below)
 
     ‖M_plus_half‖² = ‖M_minus_half‖²
 
@@ -133,8 +133,8 @@ By Step 2, `np.kron(c, c^*)` has zero Π²-conj -1 content, hence zero Π-conj +
 
 ### Step 4: M_{+i} and M_{-i} come entirely from the Hamiltonian part L_H
 
-M = Π L Π⁻¹ + L + 2σ·I has four contributions:
-- 2σ·I: Π·I·Π⁻¹ = I (identity is Π-conjugation-fixed), so 2σ·I is in Π-conj +1 eigenspace. No +i or -i content.
+M = Π L Π⁻¹ + L + 2σ_c·I has four contributions:
+- 2σ_c·I: Π·I·Π⁻¹ = I (identity is Π-conjugation-fixed), so 2σ_c·I is in Π-conj +1 eigenspace. No +i or -i content.
 - L_H = -i[H, ·]: contributes to all four eigenspaces in general.
 - Σ_k γ_k `np.kron(c_k, c_k^*)`: per Step 3, no +i or -i content (when each c_k is bit_b-homogeneous).
 - Π·L·Π⁻¹: same structural decomposition under Π conjugation; the Π-fixed identity and Π²-conj +1 dissipator pieces stay in {+1, -1}.

@@ -661,11 +661,12 @@ public static class KnowledgeRegistryFactory
             // BitB-axis F113: closed-form magnitude for the F112 polarity-asymmetry
             // counterexample. Sister to F112 on the same bit_b axis: F112 says
             // "in-scope → asymmetry = 0", F113 gives the exact magnitude
-            // (4^N / 2) · Σ_l ω_l · (γ_T1,l − γ_pump,l) for the out-of-scope
+            // (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l) for the out-of-scope
             // Z-drive × amplitude-damping interference regime. Typed ctor parent:
             // F112 (LindbladBitBPiBalance). Tier1Derived at N=2, 3, 4 (bit-exact
-            // via constructive parameter sweep); Tier1Candidate general N (universal-
-            // N algebraic derivation of the (1/2)·4^N coefficient open). BitBSpecific
+            // via constructive parameter sweep); Tier1Derived general N (universal-
+            // N algebraic derivation of the (1/2)·4^N coefficient in
+            // PROOF_F113_COEFFICIENT_DERIVATION.md). BitBSpecific
             // BitATwin slot (intrinsically about Z-axis single-site drives, no
             // meaningful bit_a analog). PolarityCubeMap's BitBClaims grows by 1.
             .RegisterLindbladBitBPiBreakMagnitude()

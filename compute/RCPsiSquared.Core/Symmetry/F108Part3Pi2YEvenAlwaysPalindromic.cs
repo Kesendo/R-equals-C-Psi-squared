@@ -104,7 +104,7 @@ public sealed class F108Part3Pi2YEvenAlwaysPalindromic : Claim, IZ2AxisClaim
             yield return new InspectableNode("Open siblings",
                 summary: "F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10, typed 2026-05-25): hard cells y_par-asymmetric " +
                          "with Y-inversion; Aspect A closed-form via F108 Part 1+2+3, Aspect B+C empirically anchored " +
-                         "(closed-form 42:8/228:0 derivation open).");
+                         "(closed-form 42:8/228:0 derivation Tier1Derived via F103 §6+§7, 2026-06-10).");
             yield return new InspectableNode("Sibling on shared bit_b axis (F112)",
                 summary: "F112 (LindbladBitBPiBalance, Tier1Derived for Hermitian H, typed 2026-05-26): orthogonal " +
                          "derived theorem on the same F38/F63 bit_b foundation. F108 Part 3 closes spec(L) palindromy " +

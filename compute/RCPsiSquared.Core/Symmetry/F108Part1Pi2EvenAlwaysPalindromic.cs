@@ -36,7 +36,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>IZ2AxisClaim with <see cref="Z2Axis.BitB"/>; BitA twin
 /// <see cref="F108Part2Pi2XEvenAlwaysPalindromic"/> wired as ctor parent (Filled).
-/// Y-dephasing analog (F108 Part 3) remains open. Proof:
+/// Y-dephasing analog covered by F108 Part 3 (closed 2026-05-25). Proof:
 /// <c>docs/proofs/PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md</c>.</para></summary>
 public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
 {
@@ -109,7 +109,7 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
         "and Z-dephasing on every site: Π_5bilinear · L · Π_5bilinear⁻¹ = −L − 2σ·I exactly.";
 
     /// <summary>F87 corollary scoped to Z-dephasing; X-deph covered by F108 Part 2,
-    /// Y-deph open (F108 Part 3).</summary>
+    /// Y-deph covered by F108 Part 3.</summary>
     public string F87Corollary =>
         "Under Z-dephasing: no Π²_Z-even Pauli pair (truly or non-truly) is F87-hard; every such pair has palindromic spec(L).";
 
@@ -155,7 +155,7 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
             yield return new InspectableNode("Open siblings",
                 summary: "F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10, typed 2026-05-25): hard cells y_par-asymmetric " +
                          "with Y-inversion; Aspect A closed-form via F108 Part 1+2+3, Aspect B+C empirically anchored at F103/F105/F106 " +
-                         "(closed-form 42:8/228:0 derivation open per F103 Section 5).");
+                         "(closed-form 42:8/228:0 derivation Tier1Derived via F103 §6 counting rule + §7 bipartite mechanism, 2026-06-10).");
             yield return new InspectableNode("Sibling on shared bit_b axis (F112)",
                 summary: "F112 (LindbladBitBPiBalance, Tier1Derived for Hermitian H, typed 2026-05-26): orthogonal " +
                          "derived theorem on the same F38/F63 bit_b foundation. F108 Part 1 closes spec(L) palindromy " +

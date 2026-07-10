@@ -7,7 +7,7 @@
 **Results:** [chain_selection_test.txt](../simulations/results/chain_selection_test.txt)
 **Data:** [IBM Torino calibration history](../data/ibm_history/ibm_torino_history.csv)
 (24,073 records, 133 qubits, 181 days)
-**Depends on:** [Sacrifice-Zone Mapping](CONCENTRATOR_MAPPING.md),
+**Depends on:** [Concentrator Qubit Mapping](CONCENTRATOR_MAPPING.md),
 [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md),
 [IBM Concentrator](IBM_CONCENTRATOR.md)
 
@@ -34,7 +34,7 @@ a chain with good qubits but no contrast?
 
 ## Setup
 
-Two 5-qubit chains from [Sacrifice-Zone Mapping](CONCENTRATOR_MAPPING.md),
+Two 5-qubit chains from [Concentrator Qubit Mapping](CONCENTRATOR_MAPPING.md),
 using real IBM Torino calibration data (2026-02-10):
 
 ### Chain A (Sacrifice-Top): [80, 8, 79, 53, 85]

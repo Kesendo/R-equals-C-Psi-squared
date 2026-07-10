@@ -78,7 +78,7 @@ The formula is therefore additive in only two channels: single-site Z-drives cro
 ## Sign convention
 
 - Sign(asymmetry) = Sign(ω_l) for each l (verified by reversing ω_l: asymmetry flips sign exact).
-- σ⁺ contributes opposite sign to σ⁻ (asymmetry = (4^N/2) · Σ_l ω_l · γ_T1,l with σ⁻ alone; same magnitude with sign flipped if c = σ⁺ instead).
+- σ⁺ contributes opposite sign to σ⁻ (asymmetry = −(4^N/2) · Σ_l ω_l · γ_T1,l with σ⁻ alone; same magnitude with sign flipped if c = σ⁺ instead).
 
 ## Why X-drive and Y-drive give zero
 

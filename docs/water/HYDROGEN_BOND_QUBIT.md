@@ -221,7 +221,7 @@ quantum system with physical parameters:
 | CΨ = 1/4 crossing | Proton achieves half-transfer coherence |
 | σ(1-σ) = 1/4 | Proton half-transferred: P(L) = P(R) = 0.5 |
 | V-Effect | H-bond coupling creates new frequencies |
-| Sacrifice zone | Protein shell reduces γ at active site (Tier 4 hypothesis, see [Protein as Concentrator](../hypotheses/PROTEIN_AS_CONCENTRATOR.md)) |
+| Concentrator | Protein shell reduces γ at active site (Tier 4 hypothesis, see [Protein as Concentrator](../hypotheses/PROTEIN_AS_CONCENTRATOR.md)) |
 
 ---
 

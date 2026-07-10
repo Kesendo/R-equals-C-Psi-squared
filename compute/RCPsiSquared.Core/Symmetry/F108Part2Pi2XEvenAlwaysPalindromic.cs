@@ -14,7 +14,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Consequence: no Π²_X-even Pauli pair can be F87-hard under X-dephasing.
 /// Closes the X-dephasing branch of F109's Step 5 (mother sector soft = y_par=1
-/// purity), leaving only the Y-dephasing branch (F108 Part 3) open.</para>
+/// purity); the Y-dephasing branch is closed by F108 Part 3 (2026-05-25).</para>
 ///
 /// <para>Derivation chain (see PROOF_F108_PART2):</para>
 /// <list type="number">
@@ -154,7 +154,7 @@ public sealed class F108Part2Pi2XEvenAlwaysPalindromic : Claim, IZ2AxisClaim
             yield return new InspectableNode("Open siblings",
                 summary: "F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10, typed 2026-05-25): hard cells y_par-asymmetric " +
                          "with Y-inversion; Aspect A closed-form via F108 Part 1+2+3, Aspect B+C empirically anchored " +
-                         "(closed-form 42:8/228:0 derivation open).");
+                         "(closed-form 42:8/228:0 derivation Tier1Derived via F103 §6+§7, 2026-06-10).");
             yield return new InspectableNode("Klein-V₄ corollary mechanism (Welle 14, 2026-05-27)",
                 summary: "Part 2 follows from Part 1 by Hilbert-space Hadamard transport: U_op = U_H^⊗N ⊗ (U_H^⊗N)^* " +
                          "maps L_Z(H_1) → L_X(U H_1 U^†) bit-exact; per-letter U_H sends Z↔X, Y→−Y, I→I, which " +

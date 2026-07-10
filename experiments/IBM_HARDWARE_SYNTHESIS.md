@@ -14,7 +14,7 @@ selective DD mutual information gradient, R=CPsi2 hardware proof -->
 - [Calibration history](../data/ibm_history/) (24,073 records, 133 qubits, 181 days)
 - [Run 3 palindrome](IBM_RUN3_PALINDROME.md) (March 18, 2026, Q80)
 - [Run 1 tomography](IBM_QUANTUM_TOMOGRAPHY.md) (February 9, 2026, Q52)
-- [Sacrifice zone](IBM_CONCENTRATOR.md) (March 24, 2026, Q85-Q94)
+- [IBM Concentrator](IBM_CONCENTRATOR.md) (March 24, 2026, Q85-Q94)
 - [Shadow hunt](../data/ibm_shadow_march2026/) (March 9, 2026, Q80+Q102)
 **Depends on:** [WHAT_WE_FOUND](../docs/WHAT_WE_FOUND.md)
 

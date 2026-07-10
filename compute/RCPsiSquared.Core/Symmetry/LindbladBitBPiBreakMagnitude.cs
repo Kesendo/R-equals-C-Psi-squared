@@ -39,9 +39,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// structure.</para>
 ///
 /// <para><b>Hardware fingerprinting</b>: asymmetry measurement directly extracts
-/// Σ_l ω_l · (γ_T1,l − γ_pump,l) when drive parameters are known; becomes a per-site
+/// Σ_l ω_l · (γ_pump,l − γ_T1,l) when drive parameters are known; becomes a per-site
 /// amplitude-damping calibration tool when combined with ω_l knowledge. Welle 2 f95
-/// fit (ω=0.13, γ_T1≈0.001, N=2) gives F113-predicted 16·0.13·0.001 = 2.08e-3,
+/// fit (ω=0.13, γ_T1≈0.001, N=2) gives F113-predicted 16·0.13·(0−0.001) = −2.08e-3,
 /// matching the Kingston hardware-fit value bit-exact (see
 /// <c>experiments/F112_HARDWARE_LENS_KINGSTON.md</c>).</para>
 ///
@@ -117,7 +117,7 @@ public sealed class LindbladBitBPiBreakMagnitude : Claim, IZ2AxisClaim
     public string HardwareApplication =>
         "Inverts to extract per-site σ⁻ T1 rate from measured F112 asymmetry when " +
         "drive ω_l is known. Welle 2 f95 hardware fit (ω=0.13, γ_T1≈0.001, N=2) gives " +
-        "F113-predicted 16·0.13·0.001 = 2.08e-3, matching the Kingston fitted value " +
+        "F113-predicted 16·0.13·(0−0.001) = −2.08e-3, matching the Kingston fitted value " +
         "bit-exact (see experiments/F112_HARDWARE_LENS_KINGSTON.md).";
 
     // ============================================================

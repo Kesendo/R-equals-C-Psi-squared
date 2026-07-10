@@ -173,7 +173,7 @@ quantum, off-diagonal parts). XYI has XY-weight 2. ZZI has XY-weight 0.
 (The same quantity is called `n_XY` in the
 [Absorption Theorem](PROOF_ABSORPTION_THEOREM.md); two notations, one count.)
 
-The Z-dephasing dissipator D is diagonal in the Pauli basis.
+The Z-dephasing dissipator L_D is diagonal in the Pauli basis.
 For a Pauli string σ, the eigenvalue is −2 times the sum of γᵢ over
 all sites i where σ has an X or Y factor (the "XY-weight" contribution).
 

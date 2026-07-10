@@ -3877,7 +3877,7 @@ closures: hard appears only in the diagonal cell.
 
 **Aspect B (Y-inversion):** Within the diagonal hard cell, the dominant y_par
 equals y_par(dephase letter): Z/X-deph dominantly y_par=0, Y-deph dominantly
-y_par=1. At k = N = 4 the dominance is closed-form Tier1Candidate via the
+y_par=1. At k = N = 4 the dominance is closed-form Tier1Derived via the
 sibling Claim F111 (HardCellPureDTemplate, 2026-05-25): every F87-hard pair in
 the diagonal cell contains at least one "pure-D template" (only D and I
 letters), and pure-D templates have y_par = y_par(D) by construction. At k = 3
