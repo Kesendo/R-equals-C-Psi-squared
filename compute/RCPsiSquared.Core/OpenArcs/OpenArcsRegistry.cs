@@ -1027,7 +1027,7 @@ public static class OpenArcsRegistry
                 "partners; that single orthogonality turns the twinning law (hence the cell law's protection at " +
                 "every resonant N) from measurement into theorem. COMMITTED VERIFIER: " +
                 "simulations/resonant_n_twinning.py (exact Z[x]/Phi_2n classification N<=29 + the matrix half to " +
-                "N=23, ~20 s; '29' adds N=29, ~2 min). Reviewed: Conway-Jones read from the primary scan (the " +
+                "N=23, ~15 s; '29' adds N=29, ~90 s). Reviewed: Conway-Jones read from the primary scan (the " +
                 "list is Thm 6, NOT Thm 5); an independent from-definitions recompute reproduced Z3 (exactly to " +
                 "n=330: the [15|n] bump is single, no 5^2 doubling, no prime-7 analogue), the class splits, the " +
                 "levels (as 1/m, 3/m with m = n/6) and the twin gaps. " +

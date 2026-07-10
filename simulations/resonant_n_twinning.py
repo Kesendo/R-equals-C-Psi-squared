@@ -51,7 +51,7 @@ WHY IT MATTERS. F89_SEED_EXISTENCE_REDUCTION.md names an untwinned coupled class
 a resonant N as the cheapest falsification of the cell law. This runs that test at the next
 resonant N = 23 (and, with '29', at the first N where the PENT family appears). Both hold.
 
-  python simulations/resonant_n_twinning.py        # combinatorics N=3..29 + matrices to N=23, ~20 s
+  python simulations/resonant_n_twinning.py        # combinatorics N=3..29 + matrices to N=23, ~15 s
   python simulations/resonant_n_twinning.py 29     # adds N=29 (dim 10962, ~90 s, ~2 GB)
 """
 import sys
