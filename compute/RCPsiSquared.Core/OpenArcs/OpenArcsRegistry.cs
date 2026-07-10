@@ -1032,7 +1032,9 @@ public static class OpenArcsRegistry
                 "n=330: the [15|n] bump is single, no 5^2 doubling, no prime-7 analogue), the class splits, the " +
                 "levels (as 1/m, 3/m with m = n/6) and the twin gaps. " +
                 "UPDATE 2026-07-10d (Y = 0 IS A THEOREM, THE LEVEL LAW IS DERIVED, AND A HIDDEN " +
-                "ASSUMPTION SURFACED). Doc section: 'The twinning is a selection rule, and the level law is " +
+                "ASSUMPTION SURFACED). SUPERSEDES the 2026-07-10b block above, whose closing line " +
+                "'THE ONE OPEN ITEM LEFT HERE IS SHARP: prove Y = 0' is now discharged; that line is " +
+                "history, not a to-do. Doc section: 'The twinning is a selection rule, and the level law is " +
                 "one line'. Committed verifier simulations/y_zero_and_level_law.py (measured 3.4 s; arg '23 29' " +
                 "-> 30 s), which asserts each lemma separately. (1) THEOREM Y = 0, uniform in odd N, no per-N " +
                 "check. Five lemmas: (L1) K26 w_{tau,s}(b,c) = -(-1)^b G_tau(b,c) 1{c in Omega_s}/||D_tau||, " +
