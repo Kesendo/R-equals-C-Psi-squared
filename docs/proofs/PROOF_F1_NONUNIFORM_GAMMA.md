@@ -20,7 +20,7 @@ Let L = L_H + L_D be the Lindbladian with H any 2-bilinear Pauli Hamiltonian and
 
     L_D(ρ) = Σ_l γ_l · (Z_l ρ Z_l − ρ),    {γ_l ≥ 0}_l=1^N arbitrary.
 
-Let Π be the F1 palindrome operator for Z-dephasing (see [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md)) and σ := Σ_l γ_l the total dephasing rate. Define the F1 residual
+Let Π be the F1 palindrome operator for Z-dephasing (see [the Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)) and σ := Σ_l γ_l the total dephasing rate. Define the F1 residual
 
     M := Π · L · Π⁻¹ + L + 2σ · I.
 
@@ -43,7 +43,7 @@ Equivalently, M_D = 0 (not "approximately", not "on average over γ patterns"; b
 - **Pauli letters** (a, b) ∈ {(0,0), (1,0), (0,1), (1,1)} = (I, X, Z, Y), framework Klein-Vierergruppe convention ([`framework/pauli.py`](../../simulations/framework/pauli.py)). `bit_a(α) = 1` iff α ∈ {X, Y} (the "in the light" indicator); `bit_b(α) = 1` iff α ∈ {Y, Z}.
 - **Pauli-string basis on N sites** is the 4^N orthonormal basis {σ_α} with Tr(σ_α^† σ_β) / 2^N = δ_{αβ}. The framework's `palindrome_residual` enforces this via the transform `L_pauli = M_basis^† · L_vec · M_basis / 2^N` in [`framework/lindblad.py`](../../simulations/framework/lindblad.py) line 183.
 - **Z-dephasing dissipator** in the Pauli basis acts as a diagonal multiplier on each σ_α with eigenvalue −2Σ_l γ_l · bit_a(α_l) (each X or Y factor at site l contributes −2γ_l; I or Z at site l contributes 0). This is the per-site additive eigenvalue used throughout the F49 / F1 family.
-- **Π** is the F1 palindrome operator for Z-dephasing, acting per site on Pauli letters as I ↔ X (phase +1), Y ↔ Z (phase +i). On the full Pauli string, Π is the tensor product of the per-site rules with phases multiplied. Π is unitary, order 4; Π² is diagonal with eigenvalue (−1)^Σ_l bit_b(α_l) on σ_α (see [PROOF_F81](PROOF_F81_PI_CONJUGATION_OF_M.md) Step 1).
+- **Π** is the F1 palindrome operator for Z-dephasing, acting per site on Pauli letters as I ↔ X (phase +1), Y ↔ Z (phase +i). On the full Pauli string, Π is the tensor product of the per-site rules with phases multiplied. Π is unitary, order 4; Π² is diagonal with eigenvalue (−1)^Σ_l bit_b(α_l) on σ_α (see [F81](PROOF_F81_PI_CONJUGATION_OF_M.md) Step 1).
 - The σ-shift in F1 is `2σ · I = 2Σ_l γ_l · I_{4^N}`, the same constant scalar across all Pauli strings.
 
 ## Empirical anchor (motivation)
@@ -123,7 +123,7 @@ The H-block residual M_H = Π · L_H · Π⁻¹ + L_H is built entirely from the
 
     ‖M_H‖²_F  =  c_H · F(N, G)
 
-from [PalindromeResidualScalingClaim](../../compute/RCPsiSquared.Core/F1/PalindromeResidualScalingClaim.cs) (anchored at [OPERATOR_RIGIDITY_ACROSS_CUSP](../../experiments/OPERATOR_RIGIDITY_ACROSS_CUSP.md), F(N, chain) = (N−1) · 4^(N−2) for main class) therefore holds verbatim for non-uniform γ, with the same c_H and the same F(N, G). The OpenQuestion's hypothesis (that F(N, G) gains a Σγ_l² factor) is incorrect.    ∎
+from [PalindromeResidualScalingClaim](../../compute/RCPsiSquared.Core/F1/PalindromeResidualScalingClaim.cs) (anchored at [Operator-Level Rigidity Across the Cusp](../../experiments/OPERATOR_RIGIDITY_ACROSS_CUSP.md), F(N, chain) = (N−1) · 4^(N−2) for main class) therefore holds verbatim for non-uniform γ, with the same c_H and the same F(N, G). The OpenQuestion's hypothesis (that F(N, G) gains a Σγ_l² factor) is incorrect.    ∎
 
 ### Step 6: Why the conjecture seemed plausible (negative-result diagnostic)
 
@@ -162,11 +162,11 @@ The Z-dephasing case is the only F1 dissipator where the σ-shift exactly cancel
 
 ### Repository entries
 
-- **F1 palindrome identity** ([`docs/ANALYTICAL_FORMULAS.md` F1](../ANALYTICAL_FORMULAS.md#f1-palindrome-equation-tier-1-proven), [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md)): the underlying Π·L·Π⁻¹ + L + 2σ·I = 0 identity. This proof extends to non-uniform γ by Step 4.
-- **F1 H-block scaling** ([PalindromeResidualScalingClaim](../../compute/RCPsiSquared.Core/F1/PalindromeResidualScalingClaim.cs), [OPERATOR_RIGIDITY_ACROSS_CUSP.md](../../experiments/OPERATOR_RIGIDITY_ACROSS_CUSP.md)): ‖M_H‖²_F = c_H · F(N, G). This proof confirms it is γ-independent.
-- **F1 T1 closed form** ([PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md](PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md), [F1T1ResidualClosedForm](../../compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs)): sibling dissipator-block closed form for T1; demonstrates that T1 DOES carry both Σγ² and (Σγ)² structure, unlike Z-dephasing.
-- **F1 depol closed form** ([PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md](PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md), [F1DepolResidualClosedForm](../../compute/RCPsiSquared.Core/F1/F1DepolResidualClosedForm.cs)): sibling for depol; same conclusion as T1.
-- **F49 cross-term formula** ([`docs/ANALYTICAL_FORMULAS.md` F49](../ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven), [PROOF_CROSS_TERM_FORMULA.md](PROOF_CROSS_TERM_FORMULA.md)): the cross-term `‖{L_H, L_Dc}‖²` does pick up γ_l dependence under non-uniform γ; the closed form is derived in [PROOF_F49_NONUNIFORM_GAMMA_EXTENSION](PROOF_F49_NONUNIFORM_GAMMA_EXTENSION.md) as spectator + bond-asymmetry parts with per-class G(bond, H) = 4·‖L_{ZZ-part}^bond‖². See ["Resolved follow-ups"](#resolved-follow-ups) below for the closure summary.
+- **F1 palindrome identity** ([`docs/ANALYTICAL_FORMULAS.md` F1](../ANALYTICAL_FORMULAS.md#f1-palindrome-equation-tier-1-proven), [the Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)): the underlying Π·L·Π⁻¹ + L + 2σ·I = 0 identity. This proof extends to non-uniform γ by Step 4.
+- **F1 H-block scaling** ([PalindromeResidualScalingClaim](../../compute/RCPsiSquared.Core/F1/PalindromeResidualScalingClaim.cs), [Operator-Level Rigidity Across the Cusp](../../experiments/OPERATOR_RIGIDITY_ACROSS_CUSP.md)): ‖M_H‖²_F = c_H · F(N, G). This proof confirms it is γ-independent.
+- **F1 T1 closed form** ([F1 residual under T1 damping](PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md), [F1T1ResidualClosedForm](../../compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs)): sibling dissipator-block closed form for T1; demonstrates that T1 DOES carry both Σγ² and (Σγ)² structure, unlike Z-dephasing.
+- **F1 depol closed form** ([F1 residual under depolarizing noise](PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md), [F1DepolResidualClosedForm](../../compute/RCPsiSquared.Core/F1/F1DepolResidualClosedForm.cs)): sibling for depol; same conclusion as T1.
+- **F49 cross-term formula** ([`docs/ANALYTICAL_FORMULAS.md` F49](../ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven), [the Cross-Term Formula proof](PROOF_CROSS_TERM_FORMULA.md)): the cross-term `‖{L_H, L_Dc}‖²` does pick up γ_l dependence under non-uniform γ; the closed form is derived in [the F49 non-uniform γ extension](PROOF_F49_NONUNIFORM_GAMMA_EXTENSION.md) as spectator + bond-asymmetry parts with per-class G(bond, H) = 4·‖L_{ZZ-part}^bond‖². See ["Resolved follow-ups"](#resolved-follow-ups) below for the closure summary.
 
 ### Typed claims
 
@@ -185,7 +185,7 @@ The Z-dephasing case is the only F1 dissipator where the σ-shift exactly cancel
 
 The F49 cross-term formula `‖{L_H, L_Dc}‖² = 4γ²·(N−2)·‖L_H‖²` was derived under uniform γ. Numerical exploration at N = 3 with Heisenberg H (XX+YY+ZZ) and non-uniform γ = [0.1, 0.2, 0.3] gave truth `‖{L_H, L_Dc}‖² = 163.84` vs uniform-formula prediction 153.60 (using γ̄ = 0.2): the formula was incomplete under non-uniform γ.
 
-**Closed 2026-05-18 by [PROOF_F49_NONUNIFORM_GAMMA_EXTENSION](PROOF_F49_NONUNIFORM_GAMMA_EXTENSION.md) and typed claim [F49NonUniformCrossTermClaim](../../compute/RCPsiSquared.Core/F1/F49NonUniformCrossTermClaim.cs).** The closed form is
+**Closed 2026-05-18 by [the F49 non-uniform γ extension](PROOF_F49_NONUNIFORM_GAMMA_EXTENSION.md) and typed claim [F49NonUniformCrossTermClaim](../../compute/RCPsiSquared.Core/F1/F49NonUniformCrossTermClaim.cs).** The closed form is
 
     ‖{L_H, L_Dc}‖²_F  =  4 · Σ_b ‖L_H^bond_b‖²_F · Σ_{m ∉ bond_b} γ_m²        (spectator part)
                        +     Σ_b G(bond_b, H) · (γ_{i_b} − γ_{j_b})²            (bond-asymmetry part)

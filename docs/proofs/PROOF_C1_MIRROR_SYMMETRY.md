@@ -3,8 +3,8 @@
 **Date:** 2026-04-20
 **Authors:** Thomas Wicht, Claude
 **Status:** Proven (kinematic, Tier 1)
-**Formula:** F71 in [ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md)
-**Numerical verification:** [OBC_SINE_BASIS_FINDINGS.md](../../review/OBC_SINE_BASIS_FINDINGS.md)
+**Formula:** F71 in [Analytical Formulas](../ANALYTICAL_FORMULAS.md)
+**Numerical verification:** [OBC Sine-Basis Structure](../../review/OBC_SINE_BASIS_FINDINGS.md)
 
 ---
 
@@ -200,7 +200,7 @@ Therefore:
 
 The proof above takes uniform J as a hypothesis (Ingredient 4: \[L_A, R_sup\] = 0 requires uniform coupling). F100 extends it: the mirror identity holds not just for uniform J but for every **palindromic** J (J_b = J_{N−2−b}), however non-uniform the palindromic part is. Uniform is merely the simplest palindromic profile.
 
-For a general non-uniform J the bond-mirror **breaks gracefully, not hard**. Write the mirrored profile F71(J)_b := J_{N−2−b} and split J = J_sym + J_anti into its F71-palindromic and F71-anti-palindromic parts. The R-equivariant version of this proof's apparatus gives c₁(b; J) = c₁(N−2−b; F71(J)), from which the deviation D(b) = c₁(b) − c₁(N−2−b) is an **exactly odd function of J_anti**: D(b; J_sym, −J_anti) = −D(b; J_sym, J_anti). Hence D = 0 for any palindromic J (J_anti = 0), and D is leading-order linear in the bond asymmetry B_b = J_b − J_{N−2−b} otherwise. See [F100 in ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md#f100) and [PROOF_F100_C1_QPEAK_MIRROR_J_PARITY](PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md).
+For a general non-uniform J the bond-mirror **breaks gracefully, not hard**. Write the mirrored profile F71(J)_b := J_{N−2−b} and split J = J_sym + J_anti into its F71-palindromic and F71-anti-palindromic parts. The R-equivariant version of this proof's apparatus gives c₁(b; J) = c₁(N−2−b; F71(J)), from which the deviation D(b) = c₁(b) − c₁(N−2−b) is an **exactly odd function of J_anti**: D(b; J_sym, −J_anti) = −D(b; J_sym, J_anti). Hence D = 0 for any palindromic J (J_anti = 0), and D is leading-order linear in the bond asymmetry B_b = J_b − J_{N−2−b} otherwise. See [F100](../ANALYTICAL_FORMULAS.md#f100) and [the bond-mirror parity proof](PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md).
 
 ## Relation to other results
 

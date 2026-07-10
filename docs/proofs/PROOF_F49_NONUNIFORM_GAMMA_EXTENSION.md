@@ -41,18 +41,18 @@ For canonical H-classes, the ZZ-fraction of `‖L_H^bond_b‖²_F` is determined
 | XY J·(XX+YY)            | **0**                         | no ZZ component; XX, YY both have A = 0 |
 | Soft Π²-odd J·(XY+YX)   | **0**                         | no ZZ component; XY, YX both have A = 0 |
 
-The uniform-γ identity ([F49 / PROOF_CROSS_TERM_FORMULA](PROOF_CROSS_TERM_FORMULA.md))
+The uniform-γ identity ([F49 Cross-Term Formula](PROOF_CROSS_TERM_FORMULA.md))
 
     ‖{L_H, L_Dc}‖²_F  =  4γ² · (N−2) · ‖L_H‖²_F
 
-is recovered as the special case γ_l ≡ γ (the bond-asymmetry part vanishes because γ_i = γ_j on every bond; the spectator part collapses to `4γ² · (N−2) · Σ_b ‖L_H^bond_b‖²_F = 4γ² · (N−2) · ‖L_H‖²_F` by [PROOF_CROSS_TERM_FORMULA Step 4 disjoint-bond-supports lemma](PROOF_CROSS_TERM_FORMULA.md)).
+is recovered as the special case γ_l ≡ γ (the bond-asymmetry part vanishes because γ_i = γ_j on every bond; the spectator part collapses to `4γ² · (N−2) · Σ_b ‖L_H^bond_b‖²_F = 4γ² · (N−2) · ‖L_H‖²_F` by [the Cross-Term Formula proof, Step 4 disjoint-bond-supports lemma](PROOF_CROSS_TERM_FORMULA.md)).
 
 ## Conventions
 
 - **Pauli letters** (a, b) ∈ {(0,0), (1,0), (0,1), (1,1)} = (I, X, Z, Y) following the framework's Klein-Vierergruppe convention ([`framework/pauli.py`](../../simulations/framework/pauli.py)). `bit_a(α) = 1` iff α ∈ {X, Y}; `bit_b(α) = 1` iff α ∈ {Y, Z}.
 - **Pauli-string basis on N sites** is the 4^N orthonormal basis {σ_α} with Tr(σ_α^† σ_β) / 2^N = δ_{αβ}. The Frobenius norm of a 4^N × 4^N superoperator is computed in this orthonormal basis (Hilbert-Schmidt product).
 - **Hamiltonian superoperator** L_H = −i [H, ·] in the Pauli-string basis; per-bond L_H^bond_b = −i [H_b, ·] built on the full N-qubit Pauli-string operator space, including spectator I-tensors. Concretely, `‖L_H^bond_b‖²_F` for a single Heisenberg J = 1 bond equals 384 at N = 3, 1536 at N = 4, 6144 at N = 5 (each step multiplies by 4 because each additional spectator site contributes a factor `tr(I_4) = 4` in the Frobenius-norm tensor calculation; intrinsic local 2-qubit Heisenberg-bond superoperator norm is 96). The closed form here uses this convention throughout, matching `_bond_LH_norm_sq(N, bond, terms)` in [`simulations/f49_nonuniform_gamma_crossterm_verify.py`](../../simulations/f49_nonuniform_gamma_crossterm_verify.py).
-- **Z-dephasing dissipator** in the Pauli basis acts as a diagonal multiplier on each σ_α with eigenvalue `d_α = −2 Σ_l γ_l · bit_a(α_l)`, the per-site weighted variant of the F49 uniform `d_α = γ · (N − 2 · w_XY(α))` ([PROOF_CROSS_TERM_FORMULA Step 1](PROOF_CROSS_TERM_FORMULA.md)). The F1-centered dissipator L_Dc := L_D + σ · I is also diagonal, with eigenvalue `d_α^c := σ − 2 Σ_l γ_l · bit_a(α_l) = Σ_l γ_l · (1 − 2·bit_a(α_l)) = Σ_l γ_l · ε_l(α)` where ε_l(α) := 1 − 2·bit_a(α_l) ∈ {+1, −1}. (Equivalently, ε_l(α) = +1 if α_l ∈ {I, Z} and −1 if α_l ∈ {X, Y}; matches the F49-proof ε notation.)
+- **Z-dephasing dissipator** in the Pauli basis acts as a diagonal multiplier on each σ_α with eigenvalue `d_α = −2 Σ_l γ_l · bit_a(α_l)`, the per-site weighted variant of the F49 uniform `d_α = γ · (N − 2 · w_XY(α))` ([the Cross-Term Formula proof, Step 1](PROOF_CROSS_TERM_FORMULA.md)). The F1-centered dissipator L_Dc := L_D + σ · I is also diagonal, with eigenvalue `d_α^c := σ − 2 Σ_l γ_l · bit_a(α_l) = Σ_l γ_l · (1 − 2·bit_a(α_l)) = Σ_l γ_l · ε_l(α)` where ε_l(α) := 1 − 2·bit_a(α_l) ∈ {+1, −1}. (Equivalently, ε_l(α) = +1 if α_l ∈ {I, Z} and −1 if α_l ∈ {X, Y}; matches the F49-proof ε notation.)
 
 ## Empirical anchor
 
@@ -61,7 +61,7 @@ Phase 1 verification at commit `1c6701c` ([`simulations/f49_nonuniform_gamma_cro
 - **(ii) general-formula gap at all N.** Refuted: gap is 0 to machine precision.
 - **(iii) centering mismatch.** Refuted: F1-centered L_Dc = L_D + σ · I matches the architect's assumed centering, and is the centering that gives the closed form below.
 
-Phase 2 promotes the formula to a typed Tier-1-derived claim [`F49NonUniformCrossTermClaim`](../../compute/RCPsiSquared.Core/F1/F49NonUniformCrossTermClaim.cs) on the `F1KnowledgeBase` and closes the "Open follow-ups" item in [PROOF_F1_NONUNIFORM_GAMMA](PROOF_F1_NONUNIFORM_GAMMA.md).
+Phase 2 promotes the formula to a typed Tier-1-derived claim [`F49NonUniformCrossTermClaim`](../../compute/RCPsiSquared.Core/F1/F49NonUniformCrossTermClaim.cs) on the `F1KnowledgeBase` and closes the "Open follow-ups" item in [the non-uniform γ closure](PROOF_F1_NONUNIFORM_GAMMA.md).
 
 ## Proof
 
@@ -73,13 +73,13 @@ L_Dc is diagonal in the Pauli-string basis: `L_Dc · σ_α = d_α^c · σ_α` wi
                        =  (L_H)_{αβ} · d_β^c  +  d_α^c · (L_H)_{αβ}
                        =  (L_H)_{αβ} · (d_α^c + d_β^c).
 
-(Same as the F49 uniform proof, [Step 5 of PROOF_CROSS_TERM_FORMULA](PROOF_CROSS_TERM_FORMULA.md), with `d_α^c + d_β^c` replacing `2γ · (N − w_a − w_b)`.) Therefore
+(Same as the F49 uniform proof, [Step 5 of the Cross-Term Formula proof](PROOF_CROSS_TERM_FORMULA.md), with `d_α^c + d_β^c` replacing `2γ · (N − w_a − w_b)`.) Therefore
 
     ‖{L_H, L_Dc}‖²_F  =  Σ_{αβ} |(L_H)_{αβ}|² · (d_α^c + d_β^c)².
 
 ### Step 2: Bond-site separation under a single bond's transition
 
-Restrict to a single bond term `H_b` acting on bond sites (i, j) := (i_b, j_b). By [PROOF_CROSS_TERM_FORMULA Lemma 3](PROOF_CROSS_TERM_FORMULA.md), every nonzero Pauli-basis transition of `L_H^bond_b` changes both bond sites and leaves all spectator sites unchanged: α_m = β_m for every m ∉ {i, j}. The per-site signs ε_l decompose accordingly:
+Restrict to a single bond term `H_b` acting on bond sites (i, j) := (i_b, j_b). By [the Cross-Term Formula proof, Lemma 3](PROOF_CROSS_TERM_FORMULA.md), every nonzero Pauli-basis transition of `L_H^bond_b` changes both bond sites and leaves all spectator sites unchanged: α_m = β_m for every m ∉ {i, j}. The per-site signs ε_l decompose accordingly:
 
     d_α^c + d_β^c
        =  Σ_l γ_l · ε_l(α)  +  Σ_l γ_l · ε_l(β)
@@ -92,7 +92,7 @@ Restrict to a single bond term `H_b` acting on bond sites (i, j) := (i_b, j_b). 
 where A := ε_i(α) + ε_i(β) and B := ε_j(α) + ε_j(β). Each of A, B ∈ {−2, 0, +2}.
 
 **Bond-sum rule (Π²-class refinement of F49 Lemma 2):** For every nonzero (L_H^bond_b)_{αβ}, A + B is fixed by the bond Pauli class:
-- ZZ-class bonds (both bond Paulis in {X, Y} or both in {I, Z}, the F49-shadow-balanced class): A + B = 0. This is the bond-sum rule of [PROOF_CROSS_TERM_FORMULA Lemma 2](PROOF_CROSS_TERM_FORMULA.md), now read at the ε-signed level instead of the w_XY-level: w_XY(α) + w_XY(β) = 2 on the bond corresponds to ε_i(α) + ε_i(β) + ε_j(α) + ε_j(β) = (1 − 2w_XY^{ij}(α)) + (1 − 2w_XY^{ij}(β)) = 2 − 2·2 = −2 + 2 = 0. (Equivalent statements.)
+- ZZ-class bonds (both bond Paulis in {X, Y} or both in {I, Z}, the F49-shadow-balanced class): A + B = 0. This is the bond-sum rule of [the Cross-Term Formula proof, Lemma 2](PROOF_CROSS_TERM_FORMULA.md), now read at the ε-signed level instead of the w_XY-level: w_XY(α) + w_XY(β) = 2 on the bond corresponds to ε_i(α) + ε_i(β) + ε_j(α) + ε_j(β) = (1 − 2w_XY^{ij}(α)) + (1 − 2w_XY^{ij}(β)) = 2 − 2·2 = −2 + 2 = 0. (Equivalent statements.)
 - Shadow-crossing bonds (e.g., XZ, YZ) violate the bond-sum rule; this is the F49c case and is outside the scope of the present proof.
 
 For shadow-balanced bonds (the only case we consider here), B = −A. Substituting:
@@ -114,7 +114,7 @@ The cross-term vanishes after summation over α (fixing the bond letters). The s
        =  Σ_{bond letters} |...|²_{bond} · 4A(γ_i−γ_j) · Σ_{spectator letters} Σ_m γ_m · ε_m(α)
        =  0
 
-because Σ_{spectator letters at site m} ε_m(α) = (+1) + (−1) + (−1) + (+1) = 0 (the four Pauli letters I, Z, X, Y at site m give signs +1, +1, −1, −1, summing to zero; same vanishing as the cross-term of [PROOF_CROSS_TERM_FORMULA Lemma 1](PROOF_CROSS_TERM_FORMULA.md)). Hence
+because Σ_{spectator letters at site m} ε_m(α) = (+1) + (−1) + (−1) + (+1) = 0 (the four Pauli letters I, Z, X, Y at site m give signs +1, +1, −1, −1, summing to zero; same vanishing as the cross-term of [the Cross-Term Formula proof, Lemma 1](PROOF_CROSS_TERM_FORMULA.md)). Hence
 
     Σ_{αβ} |(L_H^bond_b)_{αβ}|² · (d_α^c + d_β^c)²
        =  4 · Σ_{αβ} |(L_H^bond_b)_{αβ}|² · (Σ_{m ∉ {i, j}} γ_m · ε_m(α))²
@@ -137,7 +137,7 @@ The cross-spectator term vanishes by independence. The diagonal-spectator term, 
        =  (Σ_{m ∉ {i, j}} γ_m²) · Σ_{αβ} |(L_H^bond_b)_{αβ}|²
        =  ‖L_H^bond_b‖²_F · Σ_{m ∉ {i, j}} γ_m².
 
-(This is the per-site weighted analogue of [PROOF_CROSS_TERM_FORMULA Step 3 "spectator variance = N−2"](PROOF_CROSS_TERM_FORMULA.md). The uniform-γ identity `Σ_m γ² = (N−2)γ²` over spectators is replaced by `Σ_{m ∉ {i, j}} γ_m²`.)
+(This is the per-site weighted analogue of [the Cross-Term Formula proof, Step 3 "spectator variance = N−2"](PROOF_CROSS_TERM_FORMULA.md). The uniform-γ identity `Σ_m γ² = (N−2)γ²` over spectators is replaced by `Σ_{m ∉ {i, j}} γ_m²`.)
 
 Therefore the spectator part of the per-bond cross-term contribution is
 
@@ -174,7 +174,7 @@ For canonical H-classes:
 
 ### Step 6: Multi-bond sum via disjoint-bond-supports lemma
 
-By [PROOF_CROSS_TERM_FORMULA Lemma 3 Corollary](PROOF_CROSS_TERM_FORMULA.md) ("disjoint bond supports"), for any two bonds e, e' (including overlapping bonds that share a site), the Pauli-basis transition supports of L_H^e and L_H^{e'} are disjoint: no (α, β) pair receives nonzero contributions from both bonds. Hence
+By [the Cross-Term Formula proof, Lemma 3 Corollary](PROOF_CROSS_TERM_FORMULA.md) ("disjoint bond supports"), for any two bonds e, e' (including overlapping bonds that share a site), the Pauli-basis transition supports of L_H^e and L_H^{e'} are disjoint: no (α, β) pair receives nonzero contributions from both bonds. Hence
 
     ‖L_H‖²_F   =  Σ_b ‖L_H^bond_b‖²_F
     Σ_{αβ} |(L_H)_{αβ}|² · (d_α^c + d_β^c)²  =  Σ_b Σ_{αβ} |(L_H^bond_b)_{αβ}|² · (d_α^c + d_β^c)².
@@ -232,17 +232,17 @@ The closed form makes `‖{L_H, L_Dc}‖²_F` a quantitative two-piece diagnosti
 
 ### Repository entries
 
-- **F1 palindrome identity** ([`docs/ANALYTICAL_FORMULAS.md` F1](../ANALYTICAL_FORMULAS.md#f1-palindrome-equation-tier-1-proven), [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md)): the parent identity Π·L·Π⁻¹ + L + 2σ·I = 0 whose σ-shift gives L_Dc.
-- **F49 uniform cross-term formula** ([`docs/ANALYTICAL_FORMULAS.md` F49](../ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven), [PROOF_CROSS_TERM_FORMULA.md](PROOF_CROSS_TERM_FORMULA.md)): the uniform-γ parent identity. The present proof is its non-uniform γ extension; Steps 1, 2, 3, 4, 6 use the same bond-sum rule (Lemma 2), spectator-variance reduction (Step 3), and disjoint-bond-supports lemma (Lemma 3 + Corollary).
-- **F1 non-uniform γ H-block closure** ([PROOF_F1_NONUNIFORM_GAMMA.md](PROOF_F1_NONUNIFORM_GAMMA.md)): sibling closure showing the H-block residual scaling factor F(N, G) is γ-independent. The "Open follow-ups" of that proof noted the F49 cross-term gap at non-uniform γ; the present proof closes that follow-up.
-- **F1 T1 block closed form** ([PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md](PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md), [F1T1ResidualClosedForm](../../compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs)): per-Pauli-class dissipator-block closed form; H-block-independent. Parallel to the present proof in that both extract a per-bond / per-site analytic structure from a Pauli-basis tensor calculation.
-- **F1 depol block closed form** ([PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md](PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md), [F1DepolResidualClosedForm](../../compute/RCPsiSquared.Core/F1/F1DepolResidualClosedForm.cs)): another sibling dissipator-block closed form.
-- **F49c shadow-crossing companion** ([`docs/ANALYTICAL_FORMULAS.md` F49c](../ANALYTICAL_FORMULAS.md), [PROOF_CROSS_TERM_CROSSING.md](PROOF_CROSS_TERM_CROSSING.md)): companion formula for the case where bond Pauli pairs violate the bond-sum rule. Non-uniform extension to shadow-crossing couplings is OUT OF SCOPE for the present proof; the theorem above applies only to shadow-balanced couplings (Heisenberg, Ising, XY family).
+- **F1 palindrome identity** ([`docs/ANALYTICAL_FORMULAS.md` F1](../ANALYTICAL_FORMULAS.md#f1-palindrome-equation-tier-1-proven), [the Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)): the parent identity Π·L·Π⁻¹ + L + 2σ·I = 0 whose σ-shift gives L_Dc.
+- **F49 uniform cross-term formula** ([`docs/ANALYTICAL_FORMULAS.md` F49](../ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven), [the Cross-Term Formula proof](PROOF_CROSS_TERM_FORMULA.md)): the uniform-γ parent identity. The present proof is its non-uniform γ extension; Steps 1, 2, 3, 4, 6 use the same bond-sum rule (Lemma 2), spectator-variance reduction (Step 3), and disjoint-bond-supports lemma (Lemma 3 + Corollary).
+- **F1 non-uniform γ H-block closure** ([the non-uniform γ closure](PROOF_F1_NONUNIFORM_GAMMA.md)): sibling closure showing the H-block residual scaling factor F(N, G) is γ-independent. The "Open follow-ups" of that proof noted the F49 cross-term gap at non-uniform γ; the present proof closes that follow-up.
+- **F1 T1 block closed form** ([F1 residual under T1 damping](PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md), [F1T1ResidualClosedForm](../../compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs)): per-Pauli-class dissipator-block closed form; H-block-independent. Parallel to the present proof in that both extract a per-bond / per-site analytic structure from a Pauli-basis tensor calculation.
+- **F1 depol block closed form** ([F1 residual under depolarizing noise](PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md), [F1DepolResidualClosedForm](../../compute/RCPsiSquared.Core/F1/F1DepolResidualClosedForm.cs)): another sibling dissipator-block closed form.
+- **F49c shadow-crossing companion** ([`docs/ANALYTICAL_FORMULAS.md` F49c](../ANALYTICAL_FORMULAS.md), [the Cross-Term Formula for Shadow-Crossing Couplings](PROOF_CROSS_TERM_CROSSING.md)): companion formula for the case where bond Pauli pairs violate the bond-sum rule. Non-uniform extension to shadow-crossing couplings is OUT OF SCOPE for the present proof; the theorem above applies only to shadow-balanced couplings (Heisenberg, Ising, XY family).
 
 ### Typed claims
 
-- [`compute/RCPsiSquared.Core/F1/F49NonUniformCrossTermClaim.cs`](../../compute/RCPsiSquared.Core/F1/F49NonUniformCrossTermClaim.cs): Tier-1-derived typed claim for this closed form, registered on `F1KnowledgeBase`. Closes the "Open follow-ups" item of [PROOF_F1_NONUNIFORM_GAMMA](PROOF_F1_NONUNIFORM_GAMMA.md).
-- [`compute/RCPsiSquared.Core/F1/PalindromeResidualScalingClaim.cs`](../../compute/RCPsiSquared.Core/F1/PalindromeResidualScalingClaim.cs): companion H-block scaling claim, γ-independent (proved by [PROOF_F1_NONUNIFORM_GAMMA](PROOF_F1_NONUNIFORM_GAMMA.md)).
+- [`compute/RCPsiSquared.Core/F1/F49NonUniformCrossTermClaim.cs`](../../compute/RCPsiSquared.Core/F1/F49NonUniformCrossTermClaim.cs): Tier-1-derived typed claim for this closed form, registered on `F1KnowledgeBase`. Closes the "Open follow-ups" item of [the non-uniform γ closure](PROOF_F1_NONUNIFORM_GAMMA.md).
+- [`compute/RCPsiSquared.Core/F1/PalindromeResidualScalingClaim.cs`](../../compute/RCPsiSquared.Core/F1/PalindromeResidualScalingClaim.cs): companion H-block scaling claim, γ-independent (proved by [the non-uniform γ closure](PROOF_F1_NONUNIFORM_GAMMA.md)).
 
 ### Scripts
 

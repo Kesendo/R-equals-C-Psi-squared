@@ -4,13 +4,13 @@
 **Date:** 2026-06-11
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Builds on:**
-- [QUBIT_NECESSITY](../QUBIT_NECESSITY.md): the per-site split d : (d²−d) and the polynomial trunk d² − 2d = 0 that closes only at d = 2 (typed as `QubitNecessityPi2Inheritance`).
-- [PROOF_ABSORPTION_THEOREM](PROOF_ABSORPTION_THEOREM.md): the qubit rate law Re(λ) = −2γ·n_XY = −2γ·Hamming(i, j), the disagreement-count reading the dissipator gives the spectrum.
-- [ON_THE_ONE_DIAGONAL](../../reflections/ON_THE_ONE_DIAGONAL.md): the dissipator IS the recentred disagreement-count diagonal; this proof is that diagonal read one dimension up.
+- [the qubit necessity](../QUBIT_NECESSITY.md): the per-site split d : (d²−d) and the polynomial trunk d² − 2d = 0 that closes only at d = 2 (typed as `QubitNecessityPi2Inheritance`).
+- [Absorption Theorem](PROOF_ABSORPTION_THEOREM.md): the qubit rate law Re(λ) = −2γ·n_XY = −2γ·Hamming(i, j), the disagreement-count reading the dissipator gives the spectrum.
+- [on the one diagonal](../../reflections/ON_THE_ONE_DIAGONAL.md): the dissipator IS the recentred disagreement-count diagonal; this proof is that diagonal read one dimension up.
 
 ## Abstract
 
-The palindromic mirror is exact only for qubits (d = 2); [QUBIT_NECESSITY](../QUBIT_NECESSITY.md) proves this from the per-site balance d = d² − d, i.e. d² − 2d = 0, which closes only at d = 2. For d > 2 the spectrum is not random: N = 2 qutrits were observed to pair 36–52 of 81 eigenvalues, a residual structure no principle captured (OQ-002). This proof captures it. Under full-Cartan dephasing (the complete diagonal Cartan subalgebra as jump operators), the d levels are mutually **equidistant**, so the decay rate of a coherence |i⟩⟨j| is exactly −2γ·Hamming(i, j), the **same rate ladder as the qubit**. What differs is the multiplicity per rung: the number of coherences at Hamming distance k is
+The palindromic mirror is exact only for qubits (d = 2); [the qubit necessity](../QUBIT_NECESSITY.md) proves this from the per-site balance d = d² − d, i.e. d² − 2d = 0, which closes only at d = 2. For d > 2 the spectrum is not random: N = 2 qutrits were observed to pair 36–52 of 81 eigenvalues, a residual structure no principle captured (OQ-002). This proof captures it. Under full-Cartan dephasing (the complete diagonal Cartan subalgebra as jump operators), the d levels are mutually **equidistant**, so the decay rate of a coherence |i⟩⟨j| is exactly −2γ·Hamming(i, j), the **same rate ladder as the qubit**. What differs is the multiplicity per rung: the number of coherences at Hamming distance k is
 
   **c_k = d^N · C(N, k) · (d−1)^k.**
 
@@ -18,7 +18,7 @@ The palindrome reflects rung k against rung N−k. For d = 2 the factor (d−1)^
 
   **paired(d, N) = Σ_k d^N · C(N, k) · (d−1)^{min(k, N−k)},**
 
-which equals d^{2N} (full) iff d = 2. For d = 3, N = 2 it is 54/81; the qutrit fraction erodes with N (66.7%, 66.7%, 51.9% for N = 1, 2, 3); d = 4 gives 50%, 50%, 31.2%. The (d−1) tilt base is exactly the per-site decaying-to-immune ratio (d²−d) : d = (d−1) : 1 from [QUBIT_NECESSITY](../QUBIT_NECESSITY.md), raised to the number of disagreeing sites. The full interacting Liouvillian is richer and is left open in §4.
+which equals d^{2N} (full) iff d = 2. For d = 3, N = 2 it is 54/81; the qutrit fraction erodes with N (66.7%, 66.7%, 51.9% for N = 1, 2, 3); d = 4 gives 50%, 50%, 31.2%. The (d−1) tilt base is exactly the per-site decaying-to-immune ratio (d²−d) : d = (d−1) : 1 from [the qubit necessity](../QUBIT_NECESSITY.md), raised to the number of disagreeing sites. The full interacting Liouvillian is richer and is left open in §4.
 
 ## §1 The equidistant ladder
 
@@ -30,7 +30,7 @@ For the qutrit Cartan {λ₃, λ₈} this evaluates to −2 for every i ≠ j: (
 
   rate(|i⟩⟨j|) = −2γ · #{l : i_l ≠ j_l} = −2γ · Hamming(i, j),
 
-the identical ladder to the qubit's Re(λ) = −2γ·n_XY ([PROOF_ABSORPTION_THEOREM](PROOF_ABSORPTION_THEOREM.md)). The diagonal generators are immune (rate 0); the d² − d off-diagonal generators decay. This is the per-site d : (d²−d) split of [QUBIT_NECESSITY](../QUBIT_NECESSITY.md), now read as a rung of the rate ladder.
+the identical ladder to the qubit's Re(λ) = −2γ·n_XY ([Absorption Theorem](PROOF_ABSORPTION_THEOREM.md)). The diagonal generators are immune (rate 0); the d² − d off-diagonal generators decay. This is the per-site d : (d²−d) split of [the qubit necessity](../QUBIT_NECESSITY.md), now read as a rung of the rate ladder.
 
 ## §2 The multiplicity tilt
 
@@ -54,11 +54,11 @@ This is d^{2N} (everything pairs) iff (d−1)^{min(k,N−k)} = (d−1)^k for all
 
   Σ_{k > N/2} d^N·C(N, k)·[(d−1)^k − (d−1)^{N−k}]
 
-is unpaired. For d = 3, N = 2: c = [9, 36, 36], rung 0 (×9) pairs into rung 2 (×36) leaving 27, rung 1 (×36) self-mirrors; paired = 54, excess = 27. The qutrit fraction erodes with N (66.7%, 66.7%, 51.9%); d = 4 gives 50%, 50%, 31.2%. The d² − 2d = 0 uniqueness of [QUBIT_NECESSITY](../QUBIT_NECESSITY.md) reappears here as the unique fully-paired column of an N-indexed family.
+is unpaired. For d = 3, N = 2: c = [9, 36, 36], rung 0 (×9) pairs into rung 2 (×36) leaving 27, rung 1 (×36) self-mirrors; paired = 54, excess = 27. The qutrit fraction erodes with N (66.7%, 66.7%, 51.9%); d = 4 gives 50%, 50%, 31.2%. The d² − 2d = 0 uniqueness of [the qubit necessity](../QUBIT_NECESSITY.md) reappears here as the unique fully-paired column of an N-indexed family.
 
 ## §4 The interacting spectrum: H degrades the palindrome
 
-The ceiling above is the **dissipator's** palindrome, taken about the physical center −Nγ (the k ↔ N−k reflection, where the qubit palindrome is exact). Adding the Hamiltonian degrades it. The full Liouvillian L = L_H + L_D does not commute, and at **every fixed center H reduces the pairing**: about the physical center −Nγ = −2γ the dissipator's 54 drops to 48; about −3γ (where the two large rungs −2γ and −4γ are equinumerous, the dissipator's own best fit at 72) it drops to 60. There is no center at which adding H helps; the palindrome is fragile under H, the same fragility [QUBIT_NECESSITY](../QUBIT_NECESSITY.md) records for the full qubit mirror at N ≥ 3. (An earlier reading of this work mistook the full L's best-fit 60 at −3γ for "exceeding" the dissipator's 54 at −2γ: that compared two different centers. At equal center, H always reduces the count.)
+The ceiling above is the **dissipator's** palindrome, taken about the physical center −Nγ (the k ↔ N−k reflection, where the qubit palindrome is exact). Adding the Hamiltonian degrades it. The full Liouvillian L = L_H + L_D does not commute, and at **every fixed center H reduces the pairing**: about the physical center −Nγ = −2γ the dissipator's 54 drops to 48; about −3γ (where the two large rungs −2γ and −4γ are equinumerous, the dissipator's own best fit at 72) it drops to 60. There is no center at which adding H helps; the palindrome is fragile under H, the same fragility [the qubit necessity](../QUBIT_NECESSITY.md) records for the full qubit mirror at N ≥ 3. (An earlier reading of this work mistook the full L's best-fit 60 at −3γ for "exceeding" the dissipator's 54 at −2γ: that compared two different centers. At equal center, H always reduces the count.)
 
 What H does carry is a clean **real-part law in the symmetric case**. For the SU(3) Heisenberg the real parts sit exactly on Re(λ) = −2γ⟨Q⟩, where ⟨Q⟩ is the biorthogonal Hamming-distance expectation over each eigenmode (the [Absorption Theorem](PROOF_ABSORPTION_THEOREM.md)'s Rayleigh reading: the real part comes from the self-adjoint dissipator alone). The SU(3) symmetry quantizes ⟨Q⟩ into {0, 1, 1.5, 2} with multiplicities {6, 36, 12, 27}; the new −3γ rung is exactly ⟨Q⟩ = 1.5, a 50/50 mix of Hamming-1 and Hamming-2 coherences. This exactness is a symmetry effect, not a general law: a random Hermitian H breaks it (the real parts spread off the ladder, deviation ≈ 10⁻³).
 
@@ -78,7 +78,7 @@ The sections above count the pairs; this section asks **which operator performs 
 
 *Proof.* The rate ladder is per-site additive, so the intertwining forces each q_l to be a strict class swap: q_l(dark) ⊆ lit and q_l(lit) ⊆ dark, where dark = {|i⟩⟨i|} (d dims, rate 0) and lit (d² − d dims, rate −2γ) per site. (If some q_l(e) mixed the characters, fixing the other sites' letters dark would put the image across two rungs, breaking the intertwining; product coefficients cannot cancel across independent site choices.) Then rank(q_l) = rank(q_l|dark) + rank(q_l|lit) ≤ min(d, d²−d) + min(d, d²−d) = 2d for d ≥ 2, and rank(W) = Π_l rank(q_l) ≤ (2d)^N. ∎
 
-The cap is the full space iff (2d)^N = d^{2N}, i.e. iff **d² − 2d = 0**: the [QUBIT_NECESSITY](../QUBIT_NECESSITY.md) trunk, now as an operator bound (third appearance, after the per-site split and the ceiling column). And the cap is strictly below §3's combinatorial ceiling for every d ≥ 3, N ≥ 2 (at d = 3, N = 2: cap 36 < ceiling 54): since a global, non-product partial isometry reaches the ceiling exactly (greedy rung matching, exact intertwining on its support; verified), **the gap ceiling − (2d)^N is precisely the non-product part of the partial palindrome**. This is the inverse of the [golden-router story](PROOF_CEILING_GOLDEN_ROUTER.md): there the suspected non-locality dissolved because window sums gave per-site maps room the per-term test could not see; here the dissipator is strictly local, the rung count is rigid, and the non-locality is provable.
+The cap is the full space iff (2d)^N = d^{2N}, i.e. iff **d² − 2d = 0**: the [the qubit necessity](../QUBIT_NECESSITY.md) trunk, now as an operator bound (third appearance, after the per-site split and the ceiling column). And the cap is strictly below §3's combinatorial ceiling for every d ≥ 3, N ≥ 2 (at d = 3, N = 2: cap 36 < ceiling 54): since a global, non-product partial isometry reaches the ceiling exactly (greedy rung matching, exact intertwining on its support; verified), **the gap ceiling − (2d)^N is precisely the non-product part of the partial palindrome**. This is the inverse of the [golden-router story](PROOF_CEILING_GOLDEN_ROUTER.md): there the suspected non-locality dissolved because window sums gave per-site maps room the per-term test could not see; here the dissipator is strictly local, the rung count is rigid, and the non-locality is provable.
 
 **The operator attaining the cap is the qubit palindromizer's own formula.** Define, exactly as in [F118](PROOF_PI_FACTORS_AS_R_TIMES_D.md) (Π_Z(ρ) = ρᵀ·X^⊗N),
 

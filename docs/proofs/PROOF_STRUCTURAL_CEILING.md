@@ -112,7 +112,7 @@ More edges → larger degenerate manifold → darker coherence → lower ceiling
 
 ## 6. Relation to the band edge and the Absorption Theorem
 
-The structural ceiling is the Re-side companion of the topology band edge. The band edge `= J·ρ` (`ρ` the adjacency spectral radius) is the Im side: when it is the gap mode the clock reads `ω_mem = J·ρ` at `Re = −2γ` (`g2 = 1`). The ceiling is the regime where a darker `[H,A]=0` coherence undercuts it, dragging the strict gap to `g2 < 1` and the clock to `ω_mem = 0` (overdamped). Both rest on the Absorption Theorem `Re = −2γ⟨n_XY⟩`: the band edge is its `⟨n_XY⟩ = 1` line, the ceiling its darkest commutant value. Nothing here uses the chain gap-dominance proof, so the closed forms were Tier 1 derived independently of it (that proof has since landed, [PROOF_CHAIN_GAP_DOMINANCE](PROOF_CHAIN_GAP_DOMINANCE.md), lifting `TopologyBandEdgeClaim` to Tier 1 derived too).
+The structural ceiling is the Re-side companion of the topology band edge. The band edge `= J·ρ` (`ρ` the adjacency spectral radius) is the Im side: when it is the gap mode the clock reads `ω_mem = J·ρ` at `Re = −2γ` (`g2 = 1`). The ceiling is the regime where a darker `[H,A]=0` coherence undercuts it, dragging the strict gap to `g2 < 1` and the clock to `ω_mem = 0` (overdamped). Both rest on the Absorption Theorem `Re = −2γ⟨n_XY⟩`: the band edge is its `⟨n_XY⟩ = 1` line, the ceiling its darkest commutant value. Nothing here uses the chain gap-dominance proof, so the closed forms were Tier 1 derived independently of it (that proof has since landed, [Chain Gap-Dominance](PROOF_CHAIN_GAP_DOMINANCE.md), lifting `TopologyBandEdgeClaim` to Tier 1 derived too).
 
 ## 7. Corollary: the star has no coherence horizon (the low-Q regime)
 

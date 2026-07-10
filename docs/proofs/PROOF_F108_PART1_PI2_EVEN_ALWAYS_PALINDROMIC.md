@@ -4,11 +4,11 @@
 **Date:** 2026-05-25 (Part 1 direct proof); 2026-05-27 (Klein-V₄ corollaries Parts 2, 3 added).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
-- [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md) (the original F1 palindrome theorem for truly Heisenberg H)
-- [PROOF_F85_KBODY_GENERALIZATION.md](PROOF_F85_KBODY_GENERALIZATION.md) (truly criterion for k-body Pauli terms)
-- [NON_HEISENBERG_PALINDROME](../../experiments/NON_HEISENBERG_PALINDROME.md) (Π-family classification: P1, P4, alternating, continuous per-site, all local)
+- [the Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) (the original F1 palindrome theorem for truly Heisenberg H)
+- [F85 k-body generalization](PROOF_F85_KBODY_GENERALIZATION.md) (truly criterion for k-body Pauli terms)
+- [Palindromic Symmetry Beyond Heisenberg](../../experiments/NON_HEISENBERG_PALINDROME.md) (Π-family classification: P1, P4, alternating, continuous per-site, all local)
 - [`compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs`](../../compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs) (Π_5bilinear builder)
-- [PROOF_F108_KLEIN_V4_EQUIVALENCE.md](PROOF_F108_KLEIN_V4_EQUIVALENCE.md) (Welle 14: F108 Parts 2, 3 as Klein-V₄ corollaries of Part 1; precise mechanism documentation)
+- [F108 Klein-V₄ equivalence](PROOF_F108_KLEIN_V4_EQUIVALENCE.md) (Welle 14: F108 Parts 2, 3 as Klein-V₄ corollaries of Part 1; precise mechanism documentation)
 
 ## Abstract
 
@@ -42,7 +42,7 @@ In the 4×4 label-basis matrix form on {I, X, Y, Z}:
    Z  [ 0   0   i   0 ]
 ```
 
-It is the same I↔X, Y↔Z permutation as the canonical Heisenberg Π (the P1 family of [NON_HEISENBERG_PALINDROME](../../experiments/NON_HEISENBERG_PALINDROME.md)), with two phase flips relative to the canonical choice: the X→I arrow has phase −1 (canonical: +1) and the Z→Y arrow has phase −i (canonical: +i). Both are unit-modulus sign flips against the canonical P1.
+It is the same I↔X, Y↔Z permutation as the canonical Heisenberg Π (the P1 family of [Palindromic Symmetry Beyond Heisenberg](../../experiments/NON_HEISENBERG_PALINDROME.md)), with two phase flips relative to the canonical choice: the X→I arrow has phase −1 (canonical: +1) and the Z→Y arrow has phase −i (canonical: +i). Both are unit-modulus sign flips against the canonical P1.
 
 Key per-site facts:
 

@@ -16,7 +16,7 @@ Combined with the F49 closed form for the H block (proven separately), this give
 
 ## Statement
 
-Let L = L_H + L_Z + L_T1 be the Lindbladian for a 2-bilinear Pauli Hamiltonian H, single-site Z-dephasing with rates {γ_l}, and single-site T1 amplitude damping with rates {γ^{T1}_l}. Let Π be the F1 palindrome operator for Z-dephasing (see [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md)). Define the F1 residual
+Let L = L_H + L_Z + L_T1 be the Lindbladian for a 2-bilinear Pauli Hamiltonian H, single-site Z-dephasing with rates {γ_l}, and single-site T1 amplitude damping with rates {γ^{T1}_l}. Let Π be the F1 palindrome operator for Z-dephasing (see [the Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)). Define the F1 residual
 
     M := Π · L · Π⁻¹ + L + 2 · Σ_l γ_l · I.
 
@@ -42,10 +42,10 @@ Three structural facts follow immediately and are verified to machine precision:
 - **Pauli-string basis on N sites** is the 4^N orthonormal basis {σ_α} with the inner product ⟨σ_α | σ_β⟩ = δ_{αβ}; equivalently `Tr(σ_α^† σ_β) / 2^N = δ_{αβ}`. Operators on operator-space (4^N × 4^N "super-operator" matrices) inherit this orthonormality via the Hilbert-Schmidt product `⟨A, B⟩ = Tr(A^† B)`. The framework's `palindrome_residual` enforces this via the transform `L_pauli = M_basis^† · L_vec · M_basis / 2^N` in [`framework/lindblad.py`](../../simulations/framework/lindblad.py) line 183.
 - **Π** is the F1 palindrome operator for Z-dephasing, acting per site on Pauli letters as
       I ↔ X (phase +1),    Y ↔ Z (phase +i).
-  See [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md) (the "Conjugation Operator Π" section). On the full Pauli string Π is the tensor product of per-site rules with phases multiplied. Π is unitary, order-4: Π² is diagonal with eigenvalue (−1)^{Σ_l bit_b(α_l)} on the string σ_α (see [PROOF_F81](PROOF_F81_PI_CONJUGATION_OF_M.md) Step 1).
+  See [the Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) (the "Conjugation Operator Π" section). On the full Pauli string Π is the tensor product of per-site rules with phases multiplied. Π is unitary, order-4: Π² is diagonal with eigenvalue (−1)^{Σ_l bit_b(α_l)} on the string σ_α (see [F81](PROOF_F81_PI_CONJUGATION_OF_M.md) Step 1).
 - **T1 dissipator** uses the lowering convention σ⁻ = (X + iY)/2 = [[0, 1], [0, 0]] (taking |1⟩ → |0⟩), σ⁺ = (σ⁻)†. The per-site channel is
       D_{T1, l}(ρ) = γ^{T1}_l · [σ⁻_l ρ σ⁺_l − ½ {σ⁺_l σ⁻_l, ρ}].
-  See [`framework/lindblad.py`](../../simulations/framework/lindblad.py) `lindbladian_z_plus_t1`. Same convention as [PROOF_F82](PROOF_F82_T1_DISSIPATOR_CORRECTION.md) Step 3.
+  See [`framework/lindblad.py`](../../simulations/framework/lindblad.py) `lindbladian_z_plus_t1`. Same convention as [F82](PROOF_F82_T1_DISSIPATOR_CORRECTION.md) Step 3.
 
 ## Empirical anchor (motivation, observed 2026-04-29)
 
@@ -59,7 +59,7 @@ with (c_1, c_2) = (3, 4) for σ⁻ amplitude damping, tabulated in the framework
 
 ### Step 1: T1 dissipator's per-site Pauli-basis matrix
 
-In the single-qubit orthonormal Pauli basis (I, X, Y, Z), the T1 dissipator D_{T1, local} is a 4 × 4 matrix with `D_{αβ} = (1/2) Tr(σ_α · D_{T1, local}(σ_β))`. Direct computation (also given in [PROOF_F82](PROOF_F82_T1_DISSIPATOR_CORRECTION.md) Step 3) yields
+In the single-qubit orthonormal Pauli basis (I, X, Y, Z), the T1 dissipator D_{T1, local} is a 4 × 4 matrix with `D_{αβ} = (1/2) Tr(σ_α · D_{T1, local}(σ_β))`. Direct computation (also given in [F82](PROOF_F82_T1_DISSIPATOR_CORRECTION.md) Step 3) yields
 
 |       | I        | X        | Y        | Z        |
 |-------|----------|----------|----------|----------|
@@ -148,13 +148,13 @@ Hence (c_1, c_2) = (3, 4) is derived from `(‖M_l‖²_F − |tr(M_l)|²) = 7 �
 
 ### Step 6: Orthogonality of the T1 block to H and Z blocks
 
-The cross-terms between L_T1 and L_H or L_Z in the residual decomposition vanish: in the Pauli basis L_T1 has its only non-zero Π-asymmetric entry at the (Z, I) site-l slot (Pauli-string transitions from `…I…` to `…Z…` at site l), while L_H supports Pauli-string transitions consistent with two-body commutators (no transitions of weight 0 → 1) and L_Z is diagonal in the Pauli basis and Π²-symmetric (see [PROOF_F81](PROOF_F81_PI_CONJUGATION_OF_M.md) Step 4). The supports are disjoint, so the cross-terms in `Tr(M_T1^† · M_H)`, `Tr(M_T1^† · M_Z)` vanish identically.
+The cross-terms between L_T1 and L_H or L_Z in the residual decomposition vanish: in the Pauli basis L_T1 has its only non-zero Π-asymmetric entry at the (Z, I) site-l slot (Pauli-string transitions from `…I…` to `…Z…` at site l), while L_H supports Pauli-string transitions consistent with two-body commutators (no transitions of weight 0 → 1) and L_Z is diagonal in the Pauli basis and Π²-symmetric (see [F81](PROOF_F81_PI_CONJUGATION_OF_M.md) Step 4). The supports are disjoint, so the cross-terms in `Tr(M_T1^† · M_H)`, `Tr(M_T1^† · M_Z)` vanish identically.
 
-This is the same orthogonality principle that gives F49 / F49b / F49c the additive cross-term structure. See [`docs/ANALYTICAL_FORMULAS.md` F49](../ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven) and [PROOF_F81](PROOF_F81_PI_CONJUGATION_OF_M.md) Step 6 for the formal Pythagorean splits.
+This is the same orthogonality principle that gives F49 / F49b / F49c the additive cross-term structure. See [`docs/ANALYTICAL_FORMULAS.md` F49](../ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven) and [F81](PROOF_F81_PI_CONJUGATION_OF_M.md) Step 6 for the formal Pythagorean splits.
 
 ### Step 7: Connection to F82
 
-[PROOF_F82](PROOF_F82_T1_DISSIPATOR_CORRECTION.md) isolates the **Π²-anti-symmetric** part of L_T1 (the (Z, I) site-l entries in Pauli basis) and computes
+[F82](PROOF_F82_T1_DISSIPATOR_CORRECTION.md) isolates the **Π²-anti-symmetric** part of L_T1 (the (Z, I) site-l entries in Pauli basis) and computes
 
     ‖D_{T1, odd}‖²_F = 4^(N−1) · Σ_l γ²_T1_l.
 
@@ -204,10 +204,10 @@ The closed form makes the F1 T1-block residual a quantitative, **Hamiltonian-ind
 
 ### Repository entries
 
-- **F1 palindrome equation** ([`docs/ANALYTICAL_FORMULAS.md` F1](../ANALYTICAL_FORMULAS.md#f1-palindrome-equation-tier-1-proven), [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md)): the underlying Π·L·Π⁻¹ + L + 2Σγ·I = 0 identity for Z-dephasing.
-- **F49 Frobenius residual scaling** ([`docs/ANALYTICAL_FORMULAS.md` F49](../ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven), [PROOF_CROSS_TERM_FORMULA.md](PROOF_CROSS_TERM_FORMULA.md)): companion closed form for the Hamiltonian block.
-- **F82 T1 dissipator correction** ([`docs/ANALYTICAL_FORMULAS.md` F82](../ANALYTICAL_FORMULAS.md#f82-pi-conjugation-of-m-under-t1-amplitude-damping-tier-1-proven), [PROOF_F82_T1_DISSIPATOR_CORRECTION.md](PROOF_F82_T1_DISSIPATOR_CORRECTION.md)): isolates the Π²-anti-symmetric piece ‖D_{T1, odd}‖_F = √(Σγ²) · 2^(N−1); related but different quantity.
-- **F84 Amplitude damping (thermal)** ([`docs/ANALYTICAL_FORMULAS.md` F84](../ANALYTICAL_FORMULAS.md#f84-pi-conjugation-of-m-under-thermal-amplitude-damping-tier-1-proven), [PROOF_F84_AMPLITUDE_DAMPING.md](PROOF_F84_AMPLITUDE_DAMPING.md)): F82's thermal generalization.
+- **F1 palindrome equation** ([`docs/ANALYTICAL_FORMULAS.md` F1](../ANALYTICAL_FORMULAS.md#f1-palindrome-equation-tier-1-proven), [the Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)): the underlying Π·L·Π⁻¹ + L + 2Σγ·I = 0 identity for Z-dephasing.
+- **F49 Frobenius residual scaling** ([`docs/ANALYTICAL_FORMULAS.md` F49](../ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven), [the Cross-Term Formula proof](PROOF_CROSS_TERM_FORMULA.md)): companion closed form for the Hamiltonian block.
+- **F82 T1 dissipator correction** ([`docs/ANALYTICAL_FORMULAS.md` F82](../ANALYTICAL_FORMULAS.md#f82-pi-conjugation-of-m-under-t1-amplitude-damping-tier-1-proven), [the F82 T1 dissipator correction proof](PROOF_F82_T1_DISSIPATOR_CORRECTION.md)): isolates the Π²-anti-symmetric piece ‖D_{T1, odd}‖_F = √(Σγ²) · 2^(N−1); related but different quantity.
+- **F84 Amplitude damping (thermal)** ([`docs/ANALYTICAL_FORMULAS.md` F84](../ANALYTICAL_FORMULAS.md#f84-pi-conjugation-of-m-under-thermal-amplitude-damping-tier-1-proven), [the F84 amplitude damping proof](PROOF_F84_AMPLITUDE_DAMPING.md)): F82's thermal generalization.
 
 ### Typed claims
 

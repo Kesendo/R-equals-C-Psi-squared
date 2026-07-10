@@ -172,16 +172,16 @@ The Liouvillian L now has TWO independent Z₂ symmetries proven for all N:
 
 | Symmetry | Generator | Pauli operation | Eigenspace dimensions | Reference |
 |----------|-----------|-----------------|----------------------|-----------|
-| bit_a (n_XY parity) | (-1)^{n_XY} | sign by # of X,Y per site | 2^(2N-1) each | [PROOF_PARITY_SELECTION_RULE](PROOF_PARITY_SELECTION_RULE.md) |
+| bit_a (n_XY parity) | (-1)^{n_XY} | sign by # of X,Y per site | 2^(2N-1) each | [Parity Selection Rule](PROOF_PARITY_SELECTION_RULE.md) |
 | bit_b (w_YZ parity) | Π² = X⊗N | sign by # of Y,Z per site | 2^(2N-1) each | This proof |
 
 The two symmetries are independent: bit_a counts X+Y, bit_b counts Y+Z. They share Y but differ on X (bit_a yes, bit_b no) and Z (bit_a no, bit_b yes). The intersection (n_XY parity × w_YZ parity) gives 4 sectors, each of dimension 4^N / 4 = 4^(N-1).
 
-This corresponds to the C² × C² tensor product structure of the single-qubit Pauli space identified in [PRIMORDIAL_QUBIT.md](../../hypotheses/PRIMORDIAL_QUBIT.md) Section 4.1: the per-site Pauli {I, X, Y, Z} decomposes as (a, b) = (dephasing sensitivity, Π²-parity), and L respects the tensor product factorization at the level of its eigenmode structure.
+This corresponds to the C² × C² tensor product structure of the single-qubit Pauli space identified in [The Primordial Qubit](../../hypotheses/PRIMORDIAL_QUBIT.md) Section 4.1: the per-site Pauli {I, X, Y, Z} decomposes as (a, b) = (dephasing sensitivity, Π²-parity), and L respects the tensor product factorization at the level of its eigenmode structure.
 
 ## Why this holds at all N (vs Pythagoras at N=2 only)
 
-A natural question: the Pythagorean decomposition L_c² = L_H² + L_Dc² holds exactly at N=2 but breaks at N≥3 with relative magnitude √((N-2)/(N·4^(N-1))) (see [PROOF_CROSS_TERM_FORMULA](PROOF_CROSS_TERM_FORMULA.md), F49). Both involve Z₂ structure. Why does [L, Π²] = 0 hold for all N while {L_H, L_Dc} = 0 needs N=2?
+A natural question: the Pythagorean decomposition L_c² = L_H² + L_Dc² holds exactly at N=2 but breaks at N≥3 with relative magnitude √((N-2)/(N·4^(N-1))) (see [the Cross-Term Formula](PROOF_CROSS_TERM_FORMULA.md), F49). Both involve Z₂ structure. Why does [L, Π²] = 0 hold for all N while {L_H, L_Dc} = 0 needs N=2?
 
 **The structural distinction is per-term symmetry vs global cancellation.**
 
@@ -220,7 +220,7 @@ The proof uses two facts about Pauli operators:
 1. X² = I (so X-conjugation is involutive)
 2. {X, Y} = {X, Z} = 0 (so X-conjugation flips Y and Z sign)
 
-Both are special to d=2 (qubit). For d=3 (qutrit) and higher, the analog of X is the shift operator, which is NOT involutive, and there is no Pauli-style classification with two binary bits per site. The two Z₂ symmetries (bit_a and bit_b) exist together because d=2 admits a complete two-bit indexing of single-site operators. This connects to [QUBIT_NECESSITY](../QUBIT_NECESSITY.md): the algebraic richness of qubits is exactly what carries the two independent Z₂ structures.
+Both are special to d=2 (qubit). For d=3 (qutrit) and higher, the analog of X is the shift operator, which is NOT involutive, and there is no Pauli-style classification with two binary bits per site. The two Z₂ symmetries (bit_a and bit_b) exist together because d=2 admits a complete two-bit indexing of single-site operators. This connects to [Qubit Necessity](../QUBIT_NECESSITY.md): the algebraic richness of qubits is exactly what carries the two independent Z₂ structures.
 
 In d=2 there are exactly two independent Z₂ classifications of Pauli operators ({I,X} vs {Y,Z} by bit_b, and {I,Z} vs {X,Y} by bit_a). The Liouvillian respects both. No further independent Z₂ symmetry of the Pauli algebra exists, so this is the maximal symmetry decomposition.
 

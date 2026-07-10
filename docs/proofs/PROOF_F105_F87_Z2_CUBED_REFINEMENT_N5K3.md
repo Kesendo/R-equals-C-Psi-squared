@@ -22,7 +22,7 @@ F103 anchored the F87 Z₂³ refinement at N=4 k=3 (294 Z₂³-homogeneous + Y-p
 **Observed outcome: F85-style N-stability is CONFIRMED bit-exactly for the y_par sub-refinement at k=3.** All 5 sub-statement records at N=5 k=3 are identical to F103's frozen records at N=4 k=3 (each record is a structured tuple of scalar counts; "bit-exactly" means every scalar matches). The cubic Z₂³ architecture is N-invariant in its sub-cell structure at this k. F105 tests N-stability only; F106 tests the orthogonal k-stability axis (and finds the k=3 ratios do not all survive at k=4).
 
 Notation (bit_a, bit_b, y_par, Klein cells, Π²) is defined in
-[PROOF_F103](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) Section 1; F105 uses it
+[F103](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) Section 1; F105 uses it
 without redefinition.
 
 ## 2. Method
@@ -148,6 +148,6 @@ Klein           y0  y1  tot    y0  y1  tot    y0  y1  tot
 
 3. **F107+ N=5 k=4.** Dense ~42h batch; out of scope for the current 180 QPU min/year + research compute budget.
 
-4. **Closed-form derivation of the 42:8 split. ANSWERED 2026-05-29.** The diagonal-cell hardness rule in [PROOF_F103](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) §6 derives the 42:8 by counting (all-diagonal pure-D templates give 34 hard pairs in the template's y_par; single-diagonal adjacency gives a symmetric 8 hard + 13 soft), with the Y-inversion forced by the templates carrying y_par=1 under Y-dephasing. The rule reads only the k=3 window's internal structure, hence N-stable; F105's N=5 anchor is exactly its verification (0 mismatches). The atomic sub-rules remain verified-not-yet-palindrome-proven.
+4. **Closed-form derivation of the 42:8 split. ANSWERED 2026-05-29.** The diagonal-cell hardness rule in [F103](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) §6 derives the 42:8 by counting (all-diagonal pure-D templates give 34 hard pairs in the template's y_par; single-diagonal adjacency gives a symmetric 8 hard + 13 soft), with the Y-inversion forced by the templates carrying y_par=1 under Y-dephasing. The rule reads only the k=3 window's internal structure, hence N-stable; F105's N=5 anchor is exactly its verification (0 mismatches). The atomic sub-rules remain verified-not-yet-palindrome-proven.
 
 5. **Hardware confirmation of k≥3 F87.** No k≥3 F87 confirmations exist; all 5 Marrakesh F87 confirmations (palindrome trichotomy, π-protected XIZ/YZZY, Lebensader skeleton/trace, d_zero sector trichotomy, F83 Π²-class signature) are k=2. A k=3 QPU run targeting the diagonal-cell 42:8 prediction remains the natural next hardware probe. F105's N-invariance prediction now adds: pick whichever N is hardware-cheap; the prediction is the same.

@@ -104,6 +104,6 @@ It does NOT say which |ΔN| ≤ 1 contributions are nonzero; those are determine
 
 ## Relation to existing repo results
 
-- **[XOR_SPACE](../../experiments/XOR_SPACE.md):** The N + 1 "center modes" at |n − m| = N (maximal Hamming-distance coherences) are invisible to all site-local observables. GHZ-type states living in those modes cannot be read from per-site measurements, consistent with the "GHZ is an antenna blind spot" observation.
+- **[XOR Space](../../experiments/XOR_SPACE.md):** The N + 1 "center modes" at |n − m| = N (maximal Hamming-distance coherences) are invisible to all site-local observables. GHZ-type states living in those modes cannot be read from per-site measurements, consistent with the "GHZ is an antenna blind spot" observation.
 - **[F61 n_XY parity selection rule](../ANALYTICAL_FORMULAS.md):** a different selection (about Pauli-string XY parity under dephasing). Related but orthogonal.
 - **[Pi-pair closure investigation](../../simulations/results/pi_pair_closure_investigation/FINDINGS.md):** the kinematic |ΔN| ≤ 1 restriction plus Π-pair identity together explain the c₁ patterns observed at N = 3, 5, 6, 7.

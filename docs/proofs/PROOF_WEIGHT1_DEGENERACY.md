@@ -10,7 +10,7 @@ system spectral structure, SU(2) symmetry weight-1, R=CPsi2 commutator kernel --
 **Reviewed:** 2026-07-03 (readability + numbers + em-dash pass: Δ-decomposition formula corrected, header / Step 5 / beyond-chain claims reconciled with the K_3 N=3 Appendix finding)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Statement:** `d_real(Re = −2γ) = 2N` for the isotropic Heisenberg coupling on any connected graph under uniform Z-dephasing. The 2N kernel operators are the symmetric sums `T_c^{(a)} = Σⱼ σ_a^{(j)} ⊗ Z_S(c) ⊗ I_rest` grouped by active type a ∈ {X, Y} and Z-count c ∈ {0, ..., N−1}.
-**Typed claim:** [`F50WeightOneDegeneracyPi2Inheritance.cs`](../../compute/RCPsiSquared.Core/Symmetry/F50WeightOneDegeneracyPi2Inheritance.cs) (Tier 1 derived; both 2s in 2N and 2γ inherit from the Pi2 dyadic ladder's a₀ anchor; F50 entry in [ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md)).
+**Typed claim:** [`F50WeightOneDegeneracyPi2Inheritance.cs`](../../compute/RCPsiSquared.Core/Symmetry/F50WeightOneDegeneracyPi2Inheritance.cs) (Tier 1 derived; both 2s in 2N and 2γ inherit from the Pi2 dyadic ladder's a₀ anchor; F50 entry in [Analytical Formulas](../ANALYTICAL_FORMULAS.md)).
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Degeneracy Palindrome](../../experiments/DEGENERACY_PALINDROME.md),
 [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)
@@ -340,7 +340,7 @@ with 2N modes at w = N−1 (Re = −2(N−1)γ), giving the palindromic edge:
 
 d_real(1) = d_real(N−1) = 2N
 
-This is [Result 2 of DEGENERACY_PALINDROME](../../experiments/DEGENERACY_PALINDROME.md).
+This is [Result 2 of Degeneracy Palindrome](../../experiments/DEGENERACY_PALINDROME.md).
 The present document provides the analytical explanation for the left side;
 the palindrome provides the right side for free.
 

@@ -6,9 +6,9 @@
 **Depends on:**
 - F38 (Π_d² eigenvalue formula; `docs/ANALYTICAL_FORMULAS.md` F38 entry)
 - F63 ([L, Π²] = 0 for Z-dephasing; F63 entry; analogous statements for X- and Y-dephasing follow from F38)
-- [PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) (parent: Hermitian-H 5-step proof for d = Z)
-- [PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) (Welle 11: non-Hermitian H closure for d = Z via two structural lemmas)
-- [PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md) (Welle 12: Klein-V₄ subgroup {I, D, Q_zx, Q_yx} of U(4^N), where Q_yx = ⊗h is the element this proof also writes **H**; with D · Π_Z · D = Π_Y, Q_zx · Π_Z · Q_zx = Π_X, Q_yx · Π_Y · Q_yx = Π_X)
+- [F112 Lindblad Π-balance](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) (parent: Hermitian-H 5-step proof for d = Z)
+- [F112 non-Hermitian extension](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) (Welle 11: non-Hermitian H closure for d = Z via two structural lemmas)
+- [Klein-V₄ dephase-letter swaps on operator space](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md) (Welle 12: Klein-V₄ subgroup {I, D, Q_zx, Q_yx} of U(4^N), where Q_yx = ⊗h is the element this proof also writes **H**; with D · Π_Z · D = Π_Y, Q_zx · Π_Z · Q_zx = Π_X, Q_yx · Π_Y · Q_yx = Π_X)
 - Verifier `simulations/f112_klein_v4_cross_dephase_verify.py` (Welle 13)
 
 ## Abstract
@@ -25,7 +25,7 @@ The diagnostic reading: F112 is one identity, not three. It holds for any of the
 
 ## Introduction
 
-**The motivating question.** [PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) closed the polarity-balance identity for d = Z, the canonical Z-dephasing convention used throughout the codebase. The natural follow-up: does the same identity hold for d = X and d = Y, or is there something Z-specific about the construction? Once the Klein-V₄ swap group on operator space landed in [Welle 12 Task 2](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md), the three identities looked closely related (the V₄ conjugates the palindrome operators into one another). The remaining job was to write down the two routes that establish this rigorously; and, as it turned out, to find that only one of the two swap directions (the Hadamard Q_zx, Z → X) actually transports an identity, while Y must be re-derived directly.
+**The motivating question.** [F112 Lindblad Π-balance](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) closed the polarity-balance identity for d = Z, the canonical Z-dephasing convention used throughout the codebase. The natural follow-up: does the same identity hold for d = X and d = Y, or is there something Z-specific about the construction? Once the Klein-V₄ swap group on operator space landed in [Welle 12 Task 2](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md), the three identities looked closely related (the V₄ conjugates the palindrome operators into one another). The remaining job was to write down the two routes that establish this rigorously; and, as it turned out, to find that only one of the two swap directions (the Hadamard Q_zx, Z → X) actually transports an identity, while Y must be re-derived directly.
 
 **The empirical anchor.** [simulations/f112_klein_v4_cross_dephase_verify.py](../../simulations/f112_klein_v4_cross_dephase_verify.py) verified the F112-X and F112-Y identities at N = 2, 3 with the appropriate axis_d-homogeneous c construction; the asymmetry vanished to ≤ 4.3e-14 for every configuration tested (literally 0.0 for the F112-X-direct and structural-lemma checks; floating-point noise ~1e-14 for the F112-Y and Hadamard routes, which carry the −i Π-phase). The commutator identity additionally holds at N = 4 (Hermitian and non-Hermitian H, checked 2026-06-20). The structural argument lifts the per-N verification to universal N via either route.
 
@@ -61,7 +61,7 @@ Then asymmetry_d(L_d) = 0 bit-exactly for the corresponding d.
 
 **Equivalent compact statement.** Define axis_d := bit_b for d ∈ {Y, Z} and axis_d := bit_a for d = X. Then F112-d holds for any (H, {c_k}) with each c_k axis_d-homogeneous, both Hermitian and non-Hermitian H, universal N.
 
-**Scope (commutator generator only).** As with the non-Hermitian parent ([PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md), corrected 2026-06-20), "non-Hermitian H" here means the **commutator** superoperator −i[H, ·] for an arbitrary matrix H, a structural ‖·‖² identity. It is NOT the physical generator of PT-symmetric / gain-loss / post-selection dynamics, −i(Hρ − ρH†) = −i[A, ρ] + {B, ρ} for H = A + iB; that anticommutator part breaks the balance (asymmetry ≈ 240–1500 at N = 2, 3 for X- and Y-dephasing, mean ≈ 54/200 over random fixed-norm configs; the same boundary the parent documents for Z). The two generators coincide exactly when H is Hermitian.
+**Scope (commutator generator only).** As with the non-Hermitian parent ([F112 non-Hermitian extension](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md), corrected 2026-06-20), "non-Hermitian H" here means the **commutator** superoperator −i[H, ·] for an arbitrary matrix H, a structural ‖·‖² identity. It is NOT the physical generator of PT-symmetric / gain-loss / post-selection dynamics, −i(Hρ − ρH†) = −i[A, ρ] + {B, ρ} for H = A + iB; that anticommutator part breaks the balance (asymmetry ≈ 240–1500 at N = 2, 3 for X- and Y-dephasing, mean ≈ 54/200 over random fixed-norm configs; the same boundary the parent documents for Z). The two generators coincide exactly when H is Hermitian.
 
 ## (b) Asymmetry of hypotheses: why F112-Y uses bit_b but F112-X uses bit_a
 

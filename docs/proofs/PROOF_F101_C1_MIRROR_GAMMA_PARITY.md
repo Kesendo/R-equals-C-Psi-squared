@@ -45,7 +45,7 @@ This is the same orthogonal split that F91 uses on the spectrum side. Note the i
 
 F101 is the complementary face of F91. On the spectrum side, F91 keeps γ_anti **out** of the F71-refined diagonal-block eigenvalue multiset: F91's diagonal-block matrix elements are functions of the F71-pair-sums S_l = γ_l + γ_{N−1−l} = 2·γ_sym[l] alone, so γ_anti is invisible to the diagonal-block spectrum and the breaking it induces lives entirely in the F71-cross-block eigenvectors. F101 is the complement: the c₁ bond-mirror deviation vanishes for palindromic γ and is exactly odd in γ_anti; its parity and zero set are fixed by γ_anti alone (its leading magnitude κ_γ also depends on γ_sym; see the κ_γ section).
 
-c₁(b; γ) is the EQ-018 closure-breaking coefficient at bond b for base dephasing profile γ (see [PROOF_C1_MIRROR_SYMMETRY](PROOF_C1_MIRROR_SYMMETRY.md)). The per-site asymmetry of a site pair is the difference γ_l − γ_{N−1−l} = 2(γ_anti)_l; F101 says D(b) is leading-order linear in that asymmetry.
+c₁(b; γ) is the EQ-018 closure-breaking coefficient at bond b for base dephasing profile γ (see [c₁ mirror symmetry](PROOF_C1_MIRROR_SYMMETRY.md)). The per-site asymmetry of a site pair is the difference γ_l − γ_{N−1−l} = 2(γ_anti)_l; F101 says D(b) is leading-order linear in that asymmetry.
 
 ## Algebraic proof
 
@@ -129,7 +129,7 @@ F101 fixes the *parity* of D(b) exactly: its Taylor series in γ_anti has odd po
 
 with s the amplitude along a fixed anti-palindromic direction, κ_γ is the leading coefficient, equivalently the c₁-gradient ∂c₁/∂γ at the palindromic base γ_sym. This section records why κ_γ admits no closed form.
 
-**The obstruction, by inheritance from c₁.** κ_γ = ∂c₁/∂γ is a derivative of c₁. The closure-breaking coefficient c₁ is the EQ-018 quantity: bilinear in the initial state with a kernel K, and EQ-018 was the dedicated search for K's closed form. It closed only the endpoint bonds (via F73), leaving the interior open: the interior kernel values remain non-closed. Operationally the c₁ the F101 pipeline uses is the LSQ α-rescaling fit on per-site purity ([PROOF_C1_MIRROR_SYMMETRY](PROOF_C1_MIRROR_SYMMETRY.md)), which EQ-018 found is rational rather than bilinear and probe-specific, not a universal kernel entry. Either way, c₁ has no closed form at an interior bond: the bilinear kernel's interior entries are non-closed, and the operational LSQ c₁ is not a closed form at all. A derivative of a non-closed fit is not a closed form. A closed expression for κ_γ in (N, b, γ_sym) would require a closed-form, differentiable expression for c₁(b; γ); none is available. κ_γ can be no more closed than c₁, and c₁ is a fit.
+**The obstruction, by inheritance from c₁.** κ_γ = ∂c₁/∂γ is a derivative of c₁. The closure-breaking coefficient c₁ is the EQ-018 quantity: bilinear in the initial state with a kernel K, and EQ-018 was the dedicated search for K's closed form. It closed only the endpoint bonds (via F73), leaving the interior open: the interior kernel values remain non-closed. Operationally the c₁ the F101 pipeline uses is the LSQ α-rescaling fit on per-site purity ([c₁ mirror symmetry](PROOF_C1_MIRROR_SYMMETRY.md)), which EQ-018 found is rational rather than bilinear and probe-specific, not a universal kernel entry. Either way, c₁ has no closed form at an interior bond: the bilinear kernel's interior entries are non-closed, and the operational LSQ c₁ is not a closed form at all. A derivative of a non-closed fit is not a closed form. A closed expression for κ_γ in (N, b, γ_sym) would require a closed-form, differentiable expression for c₁(b; γ); none is available. κ_γ can be no more closed than c₁, and c₁ is a fit.
 
 **The empirical signature confirms it.** The witness measured κ_γ across N = 3, 4, 5 and four palindromic γ_sym profiles. The relative γ_sym-spread runs 108% / 128% / 76% across the three N: the leading coefficient changes by more than its own magnitude as the palindromic base γ_sym is varied, with no bond-position law and no closed-form N-law (the |κ_γ| envelope grows with N, but the individual coefficients admit no closed expression). That is the signature of a structureless residue, not of a function awaiting its formula.
 
@@ -153,9 +153,9 @@ This is the γ-axis instance of the spectrum/observable twin pairing that F100 a
 ## Anchors
 
 - Typed claim: [`C1MirrorGammaParity.cs`](../../compute/RCPsiSquared.Core/F71/C1MirrorGammaParity.cs).
-- Source proof for the uniform-γ base case: [PROOF_C1_MIRROR_SYMMETRY](PROOF_C1_MIRROR_SYMMETRY.md).
-- Spectrum-side twin (γ-axis): [PROOF_F91_GAMMA_NINETY_DEGREES](PROOF_F91_GAMMA_NINETY_DEGREES.md).
-- J-side observable twin: [PROOF_F100_C1_QPEAK_MIRROR_J_PARITY](PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md).
+- Source proof for the uniform-γ base case: [c₁ mirror symmetry](PROOF_C1_MIRROR_SYMMETRY.md).
+- Spectrum-side twin (γ-axis): [F91 γ 90°](PROOF_F91_GAMMA_NINETY_DEGREES.md).
+- J-side observable twin: [F100 Q-peak mirror J parity](PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md).
 - Empirical witness: [`simulations/f71_nonuniform_gamma_verification.py`](../../simulations/f71_nonuniform_gamma_verification.py).
-- F-entry: [F101 in ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md).
+- F-entry: [F101 in Analytical Formulas](../ANALYTICAL_FORMULAS.md).
 - Inventory: [`docs/SYMMETRY_FAMILY_INVENTORY.md`](../SYMMETRY_FAMILY_INVENTORY.md).

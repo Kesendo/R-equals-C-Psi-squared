@@ -4,11 +4,11 @@
 "time-reversal exclusion / arrow of time" READING is **Tier 3 interpretation** (see the §3 caveat).
 **Date:** April 1, 2026 (reframed 2026-06-22, see §3 caveat)
 **Depends on:**
-- [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md) (Π·L·Π⁻¹ = -L - 2Σγ·I)
-- [INCOMPLETENESS_PROOF.md](INCOMPLETENESS_PROOF.md) (γ from outside)
+- [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) (Π·L·Π⁻¹ = -L - 2Σγ·I)
+- [Incompleteness Proof](INCOMPLETENESS_PROOF.md) (γ from outside)
 - [primordial_qubit_algebra.py](../../simulations/primordial_qubit_algebra.py) (Steps 9-10)
 - [failed_third.py](../../simulations/failed_third.py) (0/16 palindromic pairs)
-- [PROOF_CROSS_TERM_FORMULA.md](PROOF_CROSS_TERM_FORMULA.md) (R(N) = √((N−2)/(N·4^(N−1))))
+- [Cross-Term Formula](PROOF_CROSS_TERM_FORMULA.md) (R(N) = √((N−2)/(N·4^(N−1))))
 **Status:** the orthogonality / Pythagorean-decomposition result is complete and exact.
 **Scope:** the **Frobenius-Pythagorean orthogonality** of the oscillatory (L_H) and cooling
 (L_D+Σγ·I) parts of the Liouvillian: their anti-commutator vanishes exactly at N=2 and is lost
@@ -123,11 +123,11 @@ away from N.
 The cross term is γ-independent. At N=3, the relative orthogonality
 ||{L_H, L_Dc}|| / (||L_H||·||L_Dc||) = 1/√48, following the general
 formula R(N) = √((N-2)/(N·4^(N-1))) proven in
-[PROOF_CROSS_TERM_FORMULA](PROOF_CROSS_TERM_FORMULA.md). The constant
+[Cross-Term Formula](PROOF_CROSS_TERM_FORMULA.md). The constant
 is topology-independent (chain = ring = star = complete) and depends
 only on N.
 
-**Source:** [PROOF_CROSS_TERM_FORMULA](PROOF_CROSS_TERM_FORMULA.md),
+**Source:** [Cross-Term Formula](PROOF_CROSS_TERM_FORMULA.md),
 [primordial_qubit_algebra.py](../../simulations/primordial_qubit_algebra.py) Step 10.
 
 ### Step 5: Reduction to N=2 is impossible (Tier 2)
@@ -144,7 +144,7 @@ reduction. A qubit embedded in a larger system cannot be extracted as an
 Urqubit.
 
 **Source:** [failed_third.py](../../simulations/failed_third.py),
-[INCOMPLETENESS_PROOF.md](INCOMPLETENESS_PROOF.md) Section 2.2.
+[Incompleteness Proof](INCOMPLETENESS_PROOF.md) Section 2.2.
 Result: γ_eff = 0 for all four instability mechanisms, 0/16 palindromic
 pairs at error < 10⁻¹⁵.
 

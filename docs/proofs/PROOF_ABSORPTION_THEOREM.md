@@ -547,7 +547,7 @@ diagonal Q_xx = N − 2w(x). So, exactly (verified to 0):
     L_D = γ·(Q − N·I)        and        M := L + γN·I = L_H + γQ
 
 The shift by the palindrome centre σ = Σγ = Nγ that recentres L into M
-([PROOF_F87_WINDOWED_MONOMIAL_CONVERSE](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §1)
+([the F87 windowed converse](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §1)
 is the shift that moves the absorption ladder's midpoint ⟨n_XY⟩ = N/2 to
 zero. Three pillars stand on this one diagonal, each reading it in its own
 coordinate:

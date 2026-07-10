@@ -6,8 +6,8 @@
 **Depends on:**
 - F38 (Π² = (−1)^{w_b} on Pauli strings; `docs/ANALYTICAL_FORMULAS.md` F38 entry)
 - F63 ([L, Π²] = 0 for Z-dephasing; `docs/ANALYTICAL_FORMULAS.md` F63 entry)
-- [PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) (parent: Hermitian-H Tier 1 derived case; this proof closes the open "Step 5 extension to non-Hermitian H")
-- [F112_NONHERMITIAN_BASIS_ENUMERATION.md](../../experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md) (numerical anchor at N ≤ 5; the per-pair enumeration that motivated the structural proof)
+- [F112 Lindblad Π-balance](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) (parent: Hermitian-H Tier 1 derived case; this proof closes the open "Step 5 extension to non-Hermitian H")
+- [F112 non-Hermitian basis enumeration](../../experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md) (numerical anchor at N ≤ 5; the per-pair enumeration that motivated the structural proof)
 
 ## Abstract
 
@@ -21,9 +21,9 @@ Together: the diagonal entries of the open identity are real because they are sq
 
 ## Introduction
 
-**The motivating question.** [PROOF_F112](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md)'s parent statement covers most standard physical Lindblad systems (any H Hermitian, c bit_b-homogeneous). The Hermitian-H assumption is a real restriction, though: PT-symmetric effective Hamiltonians, gain/loss models, post-selection dynamics, and any L built from an arbitrary c-with-its-conjugate kron channel in principle live outside the parent's typed scope. The empirical anchor (POLARITY_COORDINATES.md Probe 14: 20 non-Hermitian-H configurations, all bit-exact balanced) tested the commutator superoperator −i[H,·] and found the balance holds for non-Hermitian matrices placed there (NOT those systems' physical generator −i(Hρ−ρH†); see the Scope note in the abstract). The structural question: why?
+**The motivating question.** [F112](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md)'s parent statement covers most standard physical Lindblad systems (any H Hermitian, c bit_b-homogeneous). The Hermitian-H assumption is a real restriction, though: PT-symmetric effective Hamiltonians, gain/loss models, post-selection dynamics, and any L built from an arbitrary c-with-its-conjugate kron channel in principle live outside the parent's typed scope. The empirical anchor (POLARITY_COORDINATES.md Probe 14: 20 non-Hermitian-H configurations, all bit-exact balanced) tested the commutator superoperator −i[H,·] and found the balance holds for non-Hermitian matrices placed there (NOT those systems' physical generator −i(Hρ−ρH†); see the Scope note in the abstract). The structural question: why?
 
-**The empirical anchor.** [experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md](../../experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md) sharpened the empirical observation into a per-pair check: enumerate every Pauli-string pair `(σ_α, σ_β)` at chain length `N ≤ 5` and compute `F(σ_α, σ_β)` directly. The result was zero bit-exact across all 559,912 pairs. That pattern was clean enough to type Tier1Derived at N ≤ 5. What was missing was a structural argument lifting the per-pair identity to general N.
+**The empirical anchor.** [F112 non-Hermitian basis enumeration](../../experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md) sharpened the empirical observation into a per-pair check: enumerate every Pauli-string pair `(σ_α, σ_β)` at chain length `N ≤ 5` and compute `F(σ_α, σ_β)` directly. The result was zero bit-exact across all 559,912 pairs. That pattern was clean enough to type Tier1Derived at N ≤ 5. What was missing was a structural argument lifting the per-pair identity to general N.
 
 **What this proof closes.** Three pieces:
 
@@ -53,7 +53,7 @@ Hence F112 extends to non-Hermitian H iff the following identity holds for any H
 
 By bilinearity (L_H is linear in H; the Π-projection is linear; the Frobenius inner product is sesquilinear) and antisymmetry under H_re ↔ H_im exchange, F is determined by its values on a basis of pairs of Hermitian operators. The Hermitian operator space at chain length N is spanned by the 4^N Pauli strings with real coefficients. **F ≡ 0 ⟺ F(σ_α, σ_β) = 0 for every Pauli-string pair (σ_α, σ_β).**
 
-The basis-enumeration anchor of [F112_NONHERMITIAN_BASIS_ENUMERATION.md](../../experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md) closes the per-pair identity by direct computation at N ≤ 5 (559,912 pairs, all Im bit-exact 0). This proof closes the per-pair identity structurally for all N via two lemmas.
+The basis-enumeration anchor of [F112 non-Hermitian basis enumeration](../../experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md) closes the per-pair identity by direct computation at N ≤ 5 (559,912 pairs, all Im bit-exact 0). This proof closes the per-pair identity structurally for all N via two lemmas.
 
 ## (b) BitB-parity restriction
 

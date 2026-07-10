@@ -4,9 +4,9 @@
 **Date:** 2026-05-03.
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Context:** F86 ("Q_peak chromaticity-specific N-invariant constants") is a Sammelbecken of three structurally distinct theorems. This proof carries **F86c, the F71 spatial-mirror invariance** of the per-bond Q_peak observable. Split out of the former monolithic `PROOF_F86_QPEAK.md` on 2026-05-14. The F71-mirror lineage has since spawned its own F-numbers: F91/F92/F93 (F71-anti-palindromic spectral invariance under γ / J / h distributions), the parameter-side Pi2-Z₄ generalisations of this theorem.
-**Hub:** [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md): three-theorem overview and shared references.
-**F-entry:** [F86c in ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md).
-**Related:** [PROOF_F71](PROOF_F71.md) (the chain-mirror operator R); siblings [PROOF_F86A_EP_MECHANISM](PROOF_F86A_EP_MECHANISM.md), [PROOF_F86B_UNIVERSAL_SHAPE](PROOF_F86B_UNIVERSAL_SHAPE.md), [PROOF_F86B_OBSTRUCTION](PROOF_F86B_OBSTRUCTION.md); spawned generalisations [PROOF_F91_GAMMA_NINETY_DEGREES](PROOF_F91_GAMMA_NINETY_DEGREES.md), [PROOF_F92_BOND_ANTI_PALINDROMIC_J](PROOF_F92_BOND_ANTI_PALINDROMIC_J.md), [PROOF_F93_DETUNING_ANTI_PALINDROMIC](PROOF_F93_DETUNING_ANTI_PALINDROMIC.md).
+**Hub:** [the Q_peak hub](PROOF_F86_QPEAK.md): three-theorem overview and shared references.
+**F-entry:** [F86c in the formula registry](../ANALYTICAL_FORMULAS.md).
+**Related:** [F71](PROOF_F71.md) (the chain-mirror operator R); siblings [the EP-mechanism proof](PROOF_F86A_EP_MECHANISM.md), [the universal-shape proof](PROOF_F86B_UNIVERSAL_SHAPE.md), [the g_eff obstruction proof](PROOF_F86B_OBSTRUCTION.md); spawned generalisations [F91](PROOF_F91_GAMMA_NINETY_DEGREES.md), [F92](PROOF_F92_BOND_ANTI_PALINDROMIC_J.md), [F93](PROOF_F93_DETUNING_ANTI_PALINDROMIC.md).
 
 ---
 
@@ -30,7 +30,7 @@ For every bond pair (b, N−2−b) under the F71 chain-mirror pairing,
 
 bit-exactly. Verified at c=2 N=5..7 and c=3 N=5..6, with maximum deviation < 10⁻¹⁰ across all bond pairs. The identity follows from the F71-symmetry of every component of the per-bond observable: L_D (Z-dephasing is F71-symmetric), the spatial-sum kernel S, the Dicke probe, and the bond-flip transform ∂L/∂J_b ↔ ∂L/∂J_{N−2−b}. Hence K_b(Q, t) = K_{N−2−b}(Q, t) as functions of (Q, t), and Q_peak(b) = Q_peak(N−2−b) follows directly.
 
-**Per-F71-orbit substructure** (refines F86b's Endpoint/Interior dichotomy): Interior bonds are *not* uniform within the F71-orbit grouping. At c=2 N=6, the central self-paired bond b=2 gives Q_peak ≈ 1.440 while flanking bonds b=1, b=3 give Q_peak ≈ 1.648, both Interior under the simple dichotomy. The full per-F71-orbit structure is finer-grained: the "Endpoint vs Interior" split is the leading approximation, but mid-chain orbits show further variation. The HWHM_left/Q_peak ratio (F86b, see [PROOF_F86B_UNIVERSAL_SHAPE](PROOF_F86B_UNIVERSAL_SHAPE.md)) is the more class-stable observable; Q_peak position picks up additional per-orbit detail.
+**Per-F71-orbit substructure** (refines F86b's Endpoint/Interior dichotomy): Interior bonds are *not* uniform within the F71-orbit grouping. At c=2 N=6, the central self-paired bond b=2 gives Q_peak ≈ 1.440 while flanking bonds b=1, b=3 give Q_peak ≈ 1.648, both Interior under the simple dichotomy. The full per-F71-orbit structure is finer-grained: the "Endpoint vs Interior" split is the leading approximation, but mid-chain orbits show further variation. The HWHM_left/Q_peak ratio (F86b, see [the universal-shape proof](PROOF_F86B_UNIVERSAL_SHAPE.md)) is the more class-stable observable; Q_peak position picks up additional per-orbit detail.
 
 ---
 
@@ -86,10 +86,10 @@ Three sub-effects visible: (a) F71-pairing identity (Tier 1, Statement 3); (b) *
 
 The F71-mirror lineage outgrew F86 and earned its own F-numbers, the **F71-anti-palindromic spectral-invariance trio** (all Tier 1 derived, 2026-05-12):
 
-- **F91**: F71-anti-palindromic γ spectral invariance (= 90° in γ-space, Pi2-Z₄'s parameter side): the F71-refined diagonal-block eigenvalue multiset is invariant under γ-distributions satisfying the anti-palindromic condition. See [PROOF_F91_GAMMA_NINETY_DEGREES](PROOF_F91_GAMMA_NINETY_DEGREES.md).
-- **F92**: F71-anti-palindromic J spectral invariance (J-side Pi2-Z₄ twin of F91): same invariance under inhomogeneous bond couplings J_b. See [PROOF_F92_BOND_ANTI_PALINDROMIC_J](PROOF_F92_BOND_ANTI_PALINDROMIC_J.md).
-- **F93**: F71-anti-palindromic h spectral invariance (h-detuning Pi2-Z₄ twin of F91/F92): same invariance under per-site longitudinal detuning h_l. See [PROOF_F93_DETUNING_ANTI_PALINDROMIC](PROOF_F93_DETUNING_ANTI_PALINDROMIC.md).
-- **F100**: c₁/Q_peak observable-side graceful-breakdown member: under a non-uniform bond profile J the F71 bond-mirror deviation D(b) = c₁(b) − c₁(N−2−b) (and the analogous ΔQ_peak(b)) is exactly odd in the F71-anti-palindromic component of J, hence zero for palindromic J. F100 extends Statement 3 above (uniform-J Q_peak mirror) to non-uniform J: the spatial mirror breaks gracefully, not hard. It is the observable-side twin of F92's spectrum-side invariance. See [PROOF_F100_C1_QPEAK_MIRROR_J_PARITY](PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md).
+- **F91**: F71-anti-palindromic γ spectral invariance (= 90° in γ-space, Pi2-Z₄'s parameter side): the F71-refined diagonal-block eigenvalue multiset is invariant under γ-distributions satisfying the anti-palindromic condition. See [F91](PROOF_F91_GAMMA_NINETY_DEGREES.md).
+- **F92**: F71-anti-palindromic J spectral invariance (J-side Pi2-Z₄ twin of F91): same invariance under inhomogeneous bond couplings J_b. See [F92](PROOF_F92_BOND_ANTI_PALINDROMIC_J.md).
+- **F93**: F71-anti-palindromic h spectral invariance (h-detuning Pi2-Z₄ twin of F91/F92): same invariance under per-site longitudinal detuning h_l. See [F93](PROOF_F93_DETUNING_ANTI_PALINDROMIC.md).
+- **F100**: c₁/Q_peak observable-side graceful-breakdown member: under a non-uniform bond profile J the F71 bond-mirror deviation D(b) = c₁(b) − c₁(N−2−b) (and the analogous ΔQ_peak(b)) is exactly odd in the F71-anti-palindromic component of J, hence zero for palindromic J. F100 extends Statement 3 above (uniform-J Q_peak mirror) to non-uniform J: the spatial mirror breaks gracefully, not hard. It is the observable-side twin of F92's spectrum-side invariance. See [F100](PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md).
 
 F86c is the uniform-J Q_peak-observable instance of the F71 spatial mirror; F91/F92/F93 are the parameter-side spectral generalisations; F100 is the c₁/Q_peak observable-side graceful-breakdown member for non-uniform J.
 
@@ -97,9 +97,9 @@ F86c is the uniform-J Q_peak-observable instance of the F71 spatial mirror; F91/
 
 ## Pointers
 
-**Hub:** [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md): three-theorem overview and the shared reference list.
-**Sibling theorems:** [PROOF_F86A_EP_MECHANISM](PROOF_F86A_EP_MECHANISM.md) (F86a), [PROOF_F86B_UNIVERSAL_SHAPE](PROOF_F86B_UNIVERSAL_SHAPE.md) (F86b), [PROOF_F86B_OBSTRUCTION](PROOF_F86B_OBSTRUCTION.md) (the g_eff obstruction proof).
-**Mirror operator:** [PROOF_F71](PROOF_F71.md) (the chain-mirror operator R and its symmetry algebra).
-**Spawned generalisations:** [PROOF_F91_GAMMA_NINETY_DEGREES](PROOF_F91_GAMMA_NINETY_DEGREES.md), [PROOF_F92_BOND_ANTI_PALINDROMIC_J](PROOF_F92_BOND_ANTI_PALINDROMIC_J.md), [PROOF_F93_DETUNING_ANTI_PALINDROMIC](PROOF_F93_DETUNING_ANTI_PALINDROMIC.md), [PROOF_F100_C1_QPEAK_MIRROR_J_PARITY](PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md).
+**Hub:** [the Q_peak hub](PROOF_F86_QPEAK.md): three-theorem overview and the shared reference list.
+**Sibling theorems:** [the EP-mechanism proof](PROOF_F86A_EP_MECHANISM.md) (F86a), [the universal-shape proof](PROOF_F86B_UNIVERSAL_SHAPE.md) (F86b), [the g_eff obstruction proof](PROOF_F86B_OBSTRUCTION.md) (the g_eff obstruction proof).
+**Mirror operator:** [F71](PROOF_F71.md) (the chain-mirror operator R and its symmetry algebra).
+**Spawned generalisations:** [F91](PROOF_F91_GAMMA_NINETY_DEGREES.md), [F92](PROOF_F92_BOND_ANTI_PALINDROMIC_J.md), [F93](PROOF_F93_DETUNING_ANTI_PALINDROMIC.md), [F100](PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md).
 **Verification test:** `RCPsiSquared.Core.Tests/F86/F86NewIdeasTests.F71MirrorInvariance_PerBondQPeak_BitExactSymmetricUnderBondMirror`.
 **C# OOP layer:** `F71MirrorInvariance` (with `MaxMirrorDeviation(KCurve)` helper), `PerF71OrbitObservation` (Tier 2 empirical), `F86F71MirrorSymmetryPi2Inheritance` in `compute/RCPsiSquared.Core/F86/`.

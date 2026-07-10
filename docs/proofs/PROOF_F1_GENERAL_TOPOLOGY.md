@@ -30,13 +30,13 @@ where B(G) = number of bonds and D2(G) = Σ_i deg_G(i)² is the second moment of
 - **any connected graph** (chain, ring, star, K_N, K_{a,b}, random Erdős-Rényi, arbitrary tree, etc.);
 - **disconnected graphs** with multiple components (B and D2 sum across components);
 - **weighted edges** with per-bond couplings {J_b}, by the substitution B → Σ_b J²_b / J²_ref (where J_ref is the anchoring coupling for c_H);
-- **uniform AND non-uniform per-site γ_l** (separately closed by [PROOF_F1_NONUNIFORM_GAMMA](PROOF_F1_NONUNIFORM_GAMMA.md): the H-block scaling factor F(N, G) is γ-independent because the dissipator-block residual M_D vanishes per Pauli string).
+- **uniform AND non-uniform per-site γ_l** (separately closed by [the non-uniform γ closure](PROOF_F1_NONUNIFORM_GAMMA.md): the H-block scaling factor F(N, G) is γ-independent because the dissipator-block residual M_D vanishes per Pauli string).
 
 ## Proof
 
 ### Section 1. Bond-disjointness across any graph topology
 
-The substantive analytic content is already established in [PROOF_CROSS_TERM_FORMULA](PROOF_CROSS_TERM_FORMULA.md), specifically Lemma 3 and its Corollary, which together state that for any two bond Hamiltonians H_e and H_e' on a graph G (whether or not e and e' share a vertex), the Pauli-string transition supports of [H_e, ·] and [H_e', ·] are disjoint. The proof there is graph-independent: it depends only on the Pauli algebra of the bond bilinears, not on the underlying connectivity. Consequently the bond-resolved residuals M_e := Π·L_He·Π⁻¹ + L_He + (per-bond σ-share)·I are mutually Frobenius-orthogonal:
+The substantive analytic content is already established in [the Cross-Term Formula proof](PROOF_CROSS_TERM_FORMULA.md), specifically Lemma 3 and its Corollary, which together state that for any two bond Hamiltonians H_e and H_e' on a graph G (whether or not e and e' share a vertex), the Pauli-string transition supports of [H_e, ·] and [H_e', ·] are disjoint. The proof there is graph-independent: it depends only on the Pauli algebra of the bond bilinears, not on the underlying connectivity. Consequently the bond-resolved residuals M_e := Π·L_He·Π⁻¹ + L_He + (per-bond σ-share)·I are mutually Frobenius-orthogonal:
 
     tr(M_e^† · M_e')  =  0    for any e ≠ e' ∈ E(G).
 
@@ -72,7 +72,7 @@ where B_weighted := Σ_b J²_b and c_H is anchored at the reference coupling J_r
 
 ### Section 4. Non-uniform γ
 
-The γ-independence of F(N, G) is the separate result of [PROOF_F1_NONUNIFORM_GAMMA](PROOF_F1_NONUNIFORM_GAMMA.md): the dissipator-block residual M_D = Π·L_D·Π⁻¹ + L_D + 2Σγ·I vanishes per Pauli string for arbitrary per-site γ_l, because the per-site Z-dephasing kernel is proportional to I_4 and the F1 σ-shift 2Σγ·I cancels the sum exactly. Hence ‖M‖²_F = ‖M_H‖²_F and the H-block carries no γ dependence by construction. This combines with Sections 1-3 to give the fully general statement above.
+The γ-independence of F(N, G) is the separate result of [the non-uniform γ closure](PROOF_F1_NONUNIFORM_GAMMA.md): the dissipator-block residual M_D = Π·L_D·Π⁻¹ + L_D + 2Σγ·I vanishes per Pauli string for arbitrary per-site γ_l, because the per-site Z-dephasing kernel is proportional to I_4 and the F1 σ-shift 2Σγ·I cancels the sum exactly. Hence ‖M‖²_F = ‖M_H‖²_F and the H-block carries no γ dependence by construction. This combines with Sections 1-3 to give the fully general statement above.
 
 ## Verification record
 
@@ -116,7 +116,7 @@ Block-decomposition cost picture (same across all four since the joint-popcount 
 
 ### N = 9 chain spot-check (SLOW_N9, verified 2026-05-19 via MklDirect bridge)
 
-The N = 9 Heisenberg chain (8 bonds, J = 1, uniform γ = 0.5, σ = N·γ = 4.5) was reached on 2026-05-19 via the MklDirect bridge in [`LiouvillianBlockSpectrum.ComputeSpectrumPerBlock`](../../compute/RCPsiSquared.Core/BlockSpectrum/LiouvillianBlockSpectrum.cs) (commit `abb2d52`). Full F1 palindromic-pairing identity {λ_k} = {−2σ − λ_k} verified bit-exact across all 262 144 eigenvalues to tolerance 1e-5 (observed max pairing distance ≈ 3.5E-13, max value of `MinReal` exactly −9.0, kernel dimension exactly 10 matching the F4KernelDim Tier1Derived prediction `Π_c(|c|+1) = 9 + 1`, dissipation gap 0.027 276 matching the chain `gap × N² ≈ 2.20` empirical scaling from [F1_DISSIPATION_GAP_PATTERN](../../hypotheses/F1_DISSIPATION_GAP_PATTERN.md) to 0.4 %). Wall time **3 h 24 m** on the 128 GB / 24-core dev machine; effective speedup over the (infeasible) dense N=9 Liouvillian (would be 262 144² × 16 B ≈ **1.1 TB**) is **≈ 645.9×**, exceeding the LiouvillianBlockSpectrum docstring N=8 promise of 515×.
+The N = 9 Heisenberg chain (8 bonds, J = 1, uniform γ = 0.5, σ = N·γ = 4.5) was reached on 2026-05-19 via the MklDirect bridge in [`LiouvillianBlockSpectrum.ComputeSpectrumPerBlock`](../../compute/RCPsiSquared.Core/BlockSpectrum/LiouvillianBlockSpectrum.cs) (commit `abb2d52`). Full F1 palindromic-pairing identity {λ_k} = {−2σ − λ_k} verified bit-exact across all 262 144 eigenvalues to tolerance 1e-5 (observed max pairing distance ≈ 3.5E-13, max value of `MinReal` exactly −9.0, kernel dimension exactly 10 matching the F4KernelDim Tier1Derived prediction `Π_c(|c|+1) = 9 + 1`, dissipation gap 0.027 276 matching the chain `gap × N² ≈ 2.20` empirical scaling from [F1 Dissipation Gap Pattern](../../hypotheses/F1_DISSIPATION_GAP_PATTERN.md) to 0.4 %). Wall time **3 h 24 m** on the 128 GB / 24-core dev machine; effective speedup over the (infeasible) dense N=9 Liouvillian (would be 262 144² × 16 B ≈ **1.1 TB**) is **≈ 645.9×**, exceeding the LiouvillianBlockSpectrum docstring N=8 promise of 515×.
 
 Per-system metric file: [`simulations/results/f1_n8_n9_metrics/chain_N9.json`](../../simulations/results/f1_n8_n9_metrics/) (full `F1SpectrumStatistics.TopologyMetrics` record).
 
@@ -144,7 +144,7 @@ The N = 9 Heisenberg chain (8 bonds, J = 1, uniform γ = 0.5, σ = N·γ = 4.5) 
 - **Block size ≤ 11 585² (≤ 2 GB native):** MathNet's LP64 `block.Evd().EigenValues` runs unchanged. Verified bit-exactly against MklDirect at N=3..5 in [`PerBlockLiouvillianBuilderNativeMemoryParityTests`](../../compute/RCPsiSquared.Core.Tests/BlockSpectrum/PerBlockLiouvillianBuilderNativeMemoryParityTests.cs) (11/11 pass).
 - **Block size > 11 585² (> 2 GB native):** `PerBlockLiouvillianBuilder.BuildBlockZIntoNativeMemory` allocates the block as a column-major `Complex*` via `NativeMemory.AllocZeroed`, then `MklDirect.EigenvaluesOnlyNative` performs the ILP64-aware zgeev directly, bypassing MathNet's LP64 marshaller. Outer DOP is forced to 1 on the MklDirect path to cap peak native-memory footprint (each block holds ~4 GB native).
 
-**The 2026-05-19 N = 9 chain result.** The bridge runs end-to-end on a fresh test process with no parallel dotnet builds (race-condition pitfall documented in the local memory record `feedback_no_parallel_with_long_tests`): wall time **3 h 24 m**, **262 144 eigenvalues**, **0 outlier pairs**, max pairing distance **3.48E-13**, tolerance 1e-5. MinReal = −9.0 exactly (matching the F1 corollary `min Re(λ) = −2σ`), kernel dimension exactly 10 (matching the F4KernelDim Tier1Derived prediction `Π_c(|c|+1) = 10` for the 9-site connected chain), dissipation gap 0.027 276 (matching the empirical chain scaling `gap × N² ≈ 2.20` from [F1_DISSIPATION_GAP_PATTERN](../../hypotheses/F1_DISSIPATION_GAP_PATTERN.md) to 0.4 %).
+**The 2026-05-19 N = 9 chain result.** The bridge runs end-to-end on a fresh test process with no parallel dotnet builds (race-condition pitfall documented in the local memory record `feedback_no_parallel_with_long_tests`): wall time **3 h 24 m**, **262 144 eigenvalues**, **0 outlier pairs**, max pairing distance **3.48E-13**, tolerance 1e-5. MinReal = −9.0 exactly (matching the F1 corollary `min Re(λ) = −2σ`), kernel dimension exactly 10 (matching the F4KernelDim Tier1Derived prediction `Π_c(|c|+1) = 10` for the 9-site connected chain), dissipation gap 0.027 276 (matching the empirical chain scaling `gap × N² ≈ 2.20` from [F1 Dissipation Gap Pattern](../../hypotheses/F1_DISSIPATION_GAP_PATTERN.md) to 0.4 %).
 
 **Effective speedup at N = 9.** The full Liouvillian L_vec at N = 9 would be (4^9)² × 16 B = 262 144² × 16 B ≈ **1.1 TB**, infeasible on any commodity machine without out-of-core methods. The block-spectrum infrastructure with the MklDirect bridge reduces the wall-time cost to ~3.4 h on the 128 GB / 24-core dev machine; the cubic-cost speedup vs naive dense diagonalisation is **≈ 645.9×**, exceeding the LiouvillianBlockSpectrum docstring N=8 promise of 515×.
 
@@ -158,7 +158,7 @@ The N = 9 Heisenberg chain (8 bonds, J = 1, uniform γ = 0.5, σ = N·γ = 4.5) 
 
 ## Closure note
 
-This proof closes the last F1 OpenQuestion. Together with the 2026-05-18 closures of the T1 amplitude-damping closed form ([PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md](PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md)), depolarizing-noise closed form ([PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md](PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md)), and non-uniform γ closure ([PROOF_F1_NONUNIFORM_GAMMA.md](PROOF_F1_NONUNIFORM_GAMMA.md)), the F1 family has **zero open structural questions** as of 2026-05-18: the first time the F1 family's `OpenQuestions` collection is empty.
+This proof closes the last F1 OpenQuestion. Together with the 2026-05-18 closures of the T1 amplitude-damping closed form ([F1 residual under T1 damping](PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md)), depolarizing-noise closed form ([F1 residual under depolarizing noise](PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md)), and non-uniform γ closure ([the non-uniform γ closure](PROOF_F1_NONUNIFORM_GAMMA.md)), the F1 family has **zero open structural questions** as of 2026-05-18: the first time the F1 family's `OpenQuestions` collection is empty.
 
 The numerical verification record extends from N = 2 through N = 9 without exception (the N = 9 chain was crossed 2026-05-19 via the MklDirect bridge described in § Scale frontier above; the next infrastructure frontier is at N = 10 and is memory-pressure × parallelism rather than LP64 marshalling). Both the (B, D2) closed form and the F1 palindromic-pairing identity hold across:
 
@@ -171,10 +171,10 @@ The block-spectrum infrastructure (`JointPopcountSectorBuilder` + `LiouvillianBl
 
 ## Cross-references
 
-- Bond-disjointness (the substantive analytic content): [PROOF_CROSS_TERM_FORMULA](PROOF_CROSS_TERM_FORMULA.md) (Lemma 3 + Corollary).
-- Algebraic origin of (B, D2) prefactors: [OPERATOR_RIGIDITY_ACROSS_CUSP.md](../../experiments/OPERATOR_RIGIDITY_ACROSS_CUSP.md) "Algebraic origin" and "Topology generalisation" sections.
-- γ-independence: [PROOF_F1_NONUNIFORM_GAMMA](PROOF_F1_NONUNIFORM_GAMMA.md).
+- Bond-disjointness (the substantive analytic content): [the Cross-Term Formula proof](PROOF_CROSS_TERM_FORMULA.md) (Lemma 3 + Corollary).
+- Algebraic origin of (B, D2) prefactors: [Operator-Level Rigidity Across the Cusp](../../experiments/OPERATOR_RIGIDITY_ACROSS_CUSP.md) "Algebraic origin" and "Topology generalisation" sections.
+- γ-independence: [the non-uniform γ closure](PROOF_F1_NONUNIFORM_GAMMA.md).
 - Typed claim (verification record): [`F1GeneralTopologyVerifiedClaim`](../../compute/RCPsiSquared.Core/F1/F1GeneralTopologyVerifiedClaim.cs): fields `VerifiedNValues = {5, 6, 7, 8, 9}`, `ScaleUpToN = {5, 6, 7, 8, 9}`, `ScaleFrontierBlockedAtN = 10` with `ScaleFrontierBlockerReason` documenting the memory-pressure × parallelism frontier (the N=9 LP64 frontier was crossed 2026-05-19 via the MklDirect bridge), `NamedGraphsVerified = 23`, and `SpectrumMetricsDataFiles` listing the four N=8 JSON metric files plus `chain_N9.json`.
-- F1 master identity: [F1PalindromeIdentity](../../compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs), [MIRROR_SYMMETRY_PROOF](MIRROR_SYMMETRY_PROOF.md).
+- F1 master identity: [F1PalindromeIdentity](../../compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs), [the Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md).
 - Shared metrics utility: [`F1SpectrumStatistics`](../../compute/RCPsiSquared.Core/F1/F1SpectrumStatistics.cs): TopologyMetrics record covering wall-time profile, pairing-precision histogram, spectrum-structure invariants, block-decomposition cost picture, Hamiltonian + dissipator setup.
 - Block-spectrum infrastructure (the load-bearing computational primitive for N ≥ 7): [`LiouvillianBlockSpectrum`](../../compute/RCPsiSquared.Core/BlockSpectrum/LiouvillianBlockSpectrum.cs), [`JointPopcountSectorBuilder`](../../compute/RCPsiSquared.Core/BlockSpectrum/JointPopcountSectorBuilder.cs), [`JointPopcountSectors`](../../compute/RCPsiSquared.Core/BlockSpectrum/JointPopcountSectors.cs).

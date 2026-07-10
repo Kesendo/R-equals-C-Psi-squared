@@ -24,7 +24,7 @@ $$C_\text{block}(t=0) \;=\; \sum_{(a,b) \in \text{block}} |\rho_{ab}|^2 \;=\; \f
 $$C\Psi_\text{block}(t=0) \;=\; \frac{1}{4} \quad \text{for any } (N, c, n)\text{ with } c \geq 2.$$
 
 The same 1/4 Mandelbrot-cardioid boundary that R=CΨ² instances at the
-single-qubit level (Layer 1, [PROOF_ROADMAP_QUARTER_BOUNDARY](PROOF_ROADMAP_QUARTER_BOUNDARY.md))
+single-qubit level (Layer 1, [Quarter-Boundary Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md))
 and at the 2-qubit subsystem level (Layer 2) **also** instances at every
 coherence-block level from a single combinatorial identity.
 
@@ -233,7 +233,7 @@ layers where 1/4 emerges as its maxval:
 - **Pi2KnowledgeBase: `BilinearApexClaim`** (Tier 1 derived,
   [`Pi2KnowledgeBaseClaims.cs:130`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs)).
   "p·(1−p) is maximised at p = 1/2 universally", anchored on
-  [ORTHOGONALITY_SELECTION_FAMILY:357](../../experiments/ORTHOGONALITY_SELECTION_FAMILY.md).
+  [the Orthogonality-Selection Family](../../experiments/ORTHOGONALITY_SELECTION_FAMILY.md).
   The synthesis claim `HalfAsStructuralFixedPointClaim` then closes 1/2's
   three faces (bridge / horizon / substrate) on this primitive.
 - **Theorem 2 (this proof).** C_block ≤ p_n · p_{n+1} ≤ 1/4 with maximum at
@@ -258,27 +258,27 @@ the deepest instance.
 
 This is consistent with the framework-internal readings that the
 classical/quantum dichotomy is a Lese-Modus, not a world-separation
-([THE_BRIDGE_WAS_ALWAYS_OPEN](../THE_BRIDGE_WAS_ALWAYS_OPEN.md), and the
+([The Bridge Was Always Open](../THE_BRIDGE_WAS_ALWAYS_OPEN.md), and the
 seven-angle synthesis it gathered). 1/4 is a transition value in any
 reading where R = CΨ² applies; what makes it "the transition" rather than
 "a transition at this layer" is the inheritance, not the layer.
 
 ## Cross-references
 
-- [PROOF_ROADMAP_QUARTER_BOUNDARY](PROOF_ROADMAP_QUARTER_BOUNDARY.md):
+- [Quarter-Boundary Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md):
   Layers 1, 2 (single qubit and 2-qubit subsystem) where this proof
   generalises.
-- [PROOF_F95_ANGLE_AT_QUADRATIC_ZERO](PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md):
+- [F95 angle at the quadratic zero](PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md):
   the angle-side closed form of the same quadratic-discriminant-zero
   object that Theorem 2 bounds from the magnitude side. F95 gives
   θ(c) = arctan(√(4c − 1)) for c > 1/4 (the framework specialization at
   b = 1/2); this proof gives C_block ≤ 1/4 with the maximum attained at
   the same threshold. Magnitude/angle pair on one quadratic.
-- [reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER](../../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md):
+- [On How Two Sides Meet at the Quarter](../../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md):
   the geometric reading of "1/4 is half of half" as the polarity-fold
   apex: both ±1/2 sides project to 1/4 under squaring; two distinct
   middles of the polarity pair (arithmetic 0 vs quadratic 1/4).
-- [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md): F86 Statement 1 (Q_EP = 2/g_eff)
+- [F86](PROOF_F86_QPEAK.md): F86 Statement 1 (Q_EP = 2/g_eff)
   and the 4-mode reduction context where the c=2 block was first studied.
 - `compute/RCPsiSquared.Core/F86/BlockCpsiTrajectory.cs`: implementation.
 - `compute/RCPsiSquared.Core/F86/BlockCpsiClosedForm.cs`: closed-form helper.

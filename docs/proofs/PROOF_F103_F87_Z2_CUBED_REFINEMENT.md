@@ -64,7 +64,7 @@ Y → (1,1). F105 and F106 refer back to this notation block.
 characters of three specific mirrors of the Pauli algebra: bit_a is the
 character of conjugation by Z^⊗N, bit_b of conjugation by X^⊗N, and y_par
 of the transpose θ (F118,
-[PROOF_PI_FACTORS_AS_R_TIMES_D §7](PROOF_PI_FACTORS_AS_R_TIMES_D.md)).
+[Π factors as R·D §7](PROOF_PI_FACTORS_AS_R_TIMES_D.md)).
 Unitary conjugations always flip two letter parities at once, so they span
 only the even Klein square; y_par is the antiautomorphism axis, which is
 why it always needed its own tools throughout this refinement family.
@@ -377,7 +377,7 @@ moment route closes the converse after all, with no residual since 2026-06-10 (t
 below). That set-level statement is also derived in §7.5 (the odd cycle obstructs the chiral
 functional that would supply the gain channel's reflection-floor mode, pairing its population
 Perron mode), modulo the first-order reduction itself. See
-[experiments/BIPARTITE_CHIRALITY_DIAGONAL_CELL.md](../../experiments/BIPARTITE_CHIRALITY_DIAGONAL_CELL.md).
+[Bipartite Chirality Diagonal Cell](../../experiments/BIPARTITE_CHIRALITY_DIAGONAL_CELL.md).
 
 ### 7.4 Full support closes the soft direction (the flip-generator count)
 
@@ -550,7 +550,7 @@ perturbation theory and is settled.
 
 **The residual lemma (proven modulo R-deg + R-sign 2026-06-09, sharpened to modulo R-sign alone 2026-06-10, CLOSED with no residual later the same day).** No positive γ is a
 common zero of the Δ_j(γ); equivalently the physical γ is not one of the finitely-many accidental soft
-points. The Phase B two-reflection theorem [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)
+points. The Phase B two-reflection theorem [F87 windowed monomial converse](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)
 discharges this structurally rather than as a resultant/Sturm computation: every γ-coefficient of the
 first nonvanishing odd power-sum p_{m\*}(γ) of the recentred M = A + γQ is non-negative (the
 **Pascal-Gram positivity theorem**, F117: each surviving #Q class is an equal-total sum of squares,
@@ -580,14 +580,14 @@ residual **R-deg** was retired: as formulated ("genuine cycles always lift to de
 refuted at k = 4 by IXXZ+XIXZ (t₃ ≠ 0, m\* = 7, p₇ = 573440·γ, positive) and replaced by the girth
 dichotomy, which is stronger than what R-deg asked for. Then the remaining residual **R-sign** (the first
 surviving class is single and positive, the #Q ≥ 3 analogue of the deg-1 sum of squares) was resolved by
-the **Pascal-Gram positivity theorem** ([PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §5, = F117):
+the **Pascal-Gram positivity theorem** ([F87 windowed monomial converse](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §5, = F117):
 every #Q class at m\* factorizes through d-leg moments and is an equal-total sum of squares or exactly
 zero, with singleness *derived* for deg ≤ 3 by a mod-4 selection rule. Verified bit-exact over the entire
 N = 4 k = 3 Z diagonal cell, the full k = 4 census (20 deg-1 cycles + 172 deg-3 cycles + 228 lifts), the
 N = 5 / N = 6 representatives, and the five Pascal-Gram branch representatives (d = 1, 3, 5, exact).
 This does not weaken §7.3's "verified, not yet proved" framing; it completes it, narrowing the open front
 from a 700-point spot-check to two residuals (2026-06-09), to one (2026-06-10 morning), to none (the same
-day), per [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §4-§5.
+day), per [F87 windowed monomial converse](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §4-§5.
 
 ### 7.7 The obstruction-size law: a GF(2)[x] derivation (2026-06-04)
 
@@ -879,7 +879,7 @@ N-independent), and the ceiling recedes further to the 2 Z-middle cases (XZX+XZY
 YZY+XZY+YZX), and then closes to ZERO (2026-06-10): the continuous-periodic family, once named as the
 explicit open frontier, resolved constructively by the period-4 golden router, a per-site class-swap
 product in the golden frame a = φX+Y, b = X−φY with W L W⁻¹ = −L − 2σ exact at every N ≥ 3
-([PROOF_CEILING_GOLDEN_ROUTER](PROOF_CEILING_GOLDEN_ROUTER.md), F116), and the banked all-Q obstruction
+([ceiling golden router](PROOF_CEILING_GOLDEN_ROUTER.md), F116), and the banked all-Q obstruction
 answered negatively (no obstruction; the uniform and period-2 emptiness are now theorems, and the per-term
 lens misses the router because the cancellation is window-summed, cross-template). Two cases once counted here, XIX+XIY+YIX and YIY+XIY+YIX, are
 in fact LOCAL: a continuous-uniform per-site Q palindromizes them (verified N=3,4,5), it simply routes via
@@ -894,7 +894,7 @@ former (b) colouring-ceiling XX + XZ is now certified by the routing strategy, a
 cases (XZX+XZY+YZX, YZY+XZY+YZX) are pinned in C# by
 `PalindromeSoftCertifierCeilingTests` against the `PauliPairTrichotomy` authority; their NotCertified
 verdict is a per-term-lens coverage gap, not non-locality, per
-[PROOF_CEILING_GOLDEN_ROUTER](PROOF_CEILING_GOLDEN_ROUTER.md); the certifier is
+[ceiling golden router](PROOF_CEILING_GOLDEN_ROUTER.md); the certifier is
 `PalindromeSoftCertifier`, whose `SingleSiteField` strategy certifies the I-heavy pair.)
 
 **The single-site transverse-field lemma (the 4 → 2 step).** The two I-heavy cases IXI+IIY+YII and

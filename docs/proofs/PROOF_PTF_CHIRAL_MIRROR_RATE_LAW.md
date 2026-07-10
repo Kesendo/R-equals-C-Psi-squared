@@ -4,10 +4,10 @@
 **Date:** 2026-06-10
 **Authors:** Thomas Wicht, Claude (Fable 5)
 **Builds on:**
-- [review/EQ014_FINDINGS.md](../../review/EQ014_FINDINGS.md): the EQ-014 audit that retracted the PTF closure law Σ ln α_i = 0 and isolated the mirror law Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k}) as the machine-exact survivor.
-- [reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md](../../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md): named the survivor "PTF's surviving Tier-1 law" and identified K₁ as the symmetry behind it.
-- [hypotheses/PERSPECTIVAL_TIME_FIELD.md](../../hypotheses/PERSPECTIVAL_TIME_FIELD.md): the PTF time-rescaling framing whose per-site fits α_i define the rates f_i.
-- [PROOF_K_PARTNERSHIP.md](PROOF_K_PARTNERSHIP.md) + `compute/RCPsiSquared.Core/Symmetry/ChiralKClaim.cs`: the same sublattice chirality K₁ on the eigenvalue side (spectrum inversion E_{N+1−k} = −E_k; bipartite ⟹ soft). This proof is its eigenvector/dynamics sibling.
+- [the EQ-014 findings](../../review/EQ014_FINDINGS.md): the EQ-014 audit that retracted the PTF closure law Σ ln α_i = 0 and isolated the mirror law Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k}) as the machine-exact survivor.
+- [the Q-axis and the PTF lesson](../../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md): named the survivor "PTF's surviving Tier-1 law" and identified K₁ as the symmetry behind it.
+- [the Perspectival Time Field](../../hypotheses/PERSPECTIVAL_TIME_FIELD.md): the PTF time-rescaling framing whose per-site fits α_i define the rates f_i.
+- [the K-partnership proof](PROOF_K_PARTNERSHIP.md) + `compute/RCPsiSquared.Core/Symmetry/ChiralKClaim.cs`: the same sublattice chirality K₁ on the eigenvalue side (spectrum inversion E_{N+1−k} = −E_k; bipartite ⟹ soft). This proof is its eigenvector/dynamics sibling.
 
 ## Abstract
 
@@ -108,5 +108,5 @@ independent of the F71/F86c spatial bond mirror (a J-defect background separates
 breaks under a site-local Z field, the same scope boundary as §5. A structural bonus from the
 same run: on a c = 1 block K_b vanishes identically for any initial data (the generator is
 e^{−2γt} × unitary there), the structural reason the F86 resonance needs c ≥ 2. Banked in
-[PROOF_F86B_OBSTRUCTION](PROOF_F86B_OBSTRUCTION.md) ("one more surviving symmetry"): g_eff's
+[F86b obstruction](PROOF_F86B_OBSTRUCTION.md) ("one more surviving symmetry"): g_eff's
 irreducible content lives in the half-band of {k, N+1−k} orbits.

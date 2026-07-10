@@ -32,7 +32,7 @@ The proof journey works upward:
 | Layer | Status | Key Result |
 |-------|--------|------------|
 | 1. Qubit (d=2) | PROVEN | Discriminant of R=C(Psi+R)^2 vanishes at CPsi=1/4. Crossing cubic. Mandelbrot identity. |
-| 2. Two qubits | PROVEN for physical noise; general CPTP FALSE | Crossing holds for unital/local/Pauli/AD (fixed point CΨ=0). FALSE for general primitive CPTP: counterexample with entangled fixed point CΨ=0.2935 (see [PROOF_SUBSYSTEM_CROSSING](PROOF_SUBSYSTEM_CROSSING.md), Case C). |
+| 2. Two qubits | PROVEN for physical noise; general CPTP FALSE | Crossing holds for unital/local/Pauli/AD (fixed point CΨ=0). FALSE for general primitive CPTP: counterexample with entangled fixed point CΨ=0.2935 (see [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md), Case C). |
 | 3. N-qubit | PROVEN | Palindromic spectrum all graphs N=2..8 (87,376 eigenvalues). Analytic formula. |
 | 4. Dimension | ANSWERED: d=2 only | Qutrits: 0/81 dissipators palindromic. Discriminant d-independent. CV/hybrid extensions (Conj 4.1/4.2) open. |
 | 5. Channels | PROVEN for physical noise (envelope) | All Pauli + amplitude damping cross. Monotonicity is an ENVELOPE bound for Bell+/local-Markovian; CΨ can oscillate above 1/4 via non-Markovian backflow (not strictly absorbing). |
@@ -164,7 +164,7 @@ CPTP maps:** the primitive, full-rank channel ε(ρ) = (1−p)ρ + p·Tr(ρ)·σ
 σ = 0.95·|Φ⁺⟩⟨Φ⁺| + 0.05·I/4 has an entangled fixed point with CΨ = 0.2935 > 1/4
 and never crosses. The old "300 random maps, max 0.138" is a Ginibre n_kraus=4
 sampling artifact (n_kraus=2 violates ~8.5%). See
-[PROOF_SUBSYSTEM_CROSSING](PROOF_SUBSYSTEM_CROSSING.md), Case C.
+[Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md), Case C.
 
 **Conjecture 2.2 (No Upward Crossing for Entangled Pairs).** An initially entangled pair that has crossed below 1/4 cannot re-cross upward under any Markovian dynamics. ~~(Non-Markovian dynamics with memory effects may temporarily push $C\Psi$ back above 1/4, but this would be a transient revival, not a stable violation.)~~ **CONFIRMED (March 22, 2026).** Non-Markovian dynamics with a structured bath CAN push CΨ back above 1/4 (max revival: 0.3035, 21% above threshold). But revivals are always transient - CΨ eventually returns to 0. The 1/4 boundary is not absorbing but IS a long-term attractor. See [non_markovian_revival.py](../../simulations/non_markovian_revival.py).
 
@@ -174,7 +174,7 @@ sampling artifact (n_kraus=2 violates ~8.5%). See
    Six-part analytical proof: dCΨ/dt < 0 for Bell+ under all Pauli channels
    and amplitude damping. General Envelope Theorem: L₁(t) ≤ M₀e^{-2γt},
    consecutive CΨ maxima decrease via spectral gap argument. Verified for 19
-   initial states (10 Haar-random). See [PROOF_MONOTONICITY_CPSI](PROOF_MONOTONICITY_CPSI.md).
+   initial states (10 Haar-random). See [CΨ Monotonicity](PROOF_MONOTONICITY_CPSI.md).
 2. ~~**Extend to amplitude damping.**~~ **DONE (March 22, 2026).**
    Direct test: K_AD = 0.1029, perfectly monotonic, non-unital fixed point
    (|00⟩) reached. See [amplitude_damping_test.py](../../simulations/amplitude_damping_test.py).
@@ -238,7 +238,7 @@ This hierarchy is a direct consequence of monogamy of entanglement: correlations
    Frobenius convergence + fixed-point CΨ=0 + Lipschitz continuity; N=3,4,5
    physical subsystem pairs cross. FALSE for general primitive CPTP (entangled
    fixed point CΨ=0.2935; the "300 maps" was a sampling artifact). See
-   [PROOF_SUBSYSTEM_CROSSING](PROOF_SUBSYSTEM_CROSSING.md), Case C.
+   [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md), Case C.
 3. ~~**Characterize the palindromic structure.**~~ **PARTIALLY ANSWERED (March 14-21, 2026).**
    The palindromic structure is proven analytically for ALL Heisenberg/XXZ
    systems on ANY graph with local Z-dephasing
@@ -398,7 +398,7 @@ The challenge is the *trajectory*: does $C\Psi(t)$ decrease monotonically, or ca
 3. ~~**Prove Conjecture 5.2 for dephasing.**~~ **PROVEN (March 22, 2026).**
    Full analytical proof for Bell+ under ALL local Markovian channels (Parts 1-5).
    General Envelope Theorem extends to arbitrary initial states (Part 5).
-   Non-Markovian threshold characterized (Part 6). See [PROOF_MONOTONICITY_CPSI](PROOF_MONOTONICITY_CPSI.md).
+   Non-Markovian threshold characterized (Part 6). See [CΨ Monotonicity](PROOF_MONOTONICITY_CPSI.md).
 4. ~~**Attack the non-Markovian case.**~~ **DONE (March 22, 2026).** Swept 48
    configurations (6 J_SB × 4 γ_B × 2 bath states). Worst-case revival:
    CΨ = 0.3035 (J_SB=5.0, γ_B=0.5, bath=|+⟩). The 1/4 boundary is NOT
@@ -547,7 +547,7 @@ In the holographic context, the Ryu-Takayanagi formula relates entanglement entr
 | Layer | Status | Key Gap |
 |-------|--------|---------|
 | 1. Qubit (d=2) | **PROVEN** | Product-power classification complete ([Uniqueness Proof](UNIQUENESS_PROOF.md)) |
-| 2. Two entangled qubits | **PROVEN for physical noise; general CPTP FALSE** | Crossing holds for unital/local/Pauli/AD (fixed point CΨ=0). FALSE for general primitive CPTP: primitive counterexample with entangled fixed point CΨ=0.2935 (the "300 maps, 0 exceptions" was a Ginibre n_kraus=4 sampling artifact). See [PROOF_SUBSYSTEM_CROSSING](PROOF_SUBSYSTEM_CROSSING.md), Case C. |
+| 2. Two entangled qubits | **PROVEN for physical noise; general CPTP FALSE** | Crossing holds for unital/local/Pauli/AD (fixed point CΨ=0). FALSE for general primitive CPTP: primitive counterexample with entangled fixed point CΨ=0.2935 (the "300 maps, 0 exceptions" was a Ginibre n_kraus=4 sampling artifact). See [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md), Case C. |
 | 3. N-qubit systems | **PROVEN + exact formula** | GHZ analytical formula exact (delta < 1e-17). Palindrome proven all graphs, verified to N=11. |
 | 4. Arbitrary dimension | **Answered: d=2 only** | Qutrits break palindrome (d²-2d=0). CΨ=1/4 discriminant is d-independent. |
 | 5. Channel independence | **PROVEN for physical noise (envelope)** | All Pauli + amplitude damping cross 1/4. Monotonicity proven as an ENVELOPE bound for Bell+/local-Markovian (not pointwise; CΨ can oscillate above 1/4 via non-Markov backflow, not strictly absorbing). |
@@ -565,7 +565,7 @@ The fastest route to a publishable "1/4 is the only boundary" result:
    PROVEN for physical noise (unital/local channels: fixed point CΨ=0) via Perron-Frobenius
    convergence + fixed-point CΨ=0 + Lipschitz continuity; N=3,4,5 physical subsystem pairs cross.
    FALSE for general primitive CPTP (entangled fixed point CΨ=0.2935; the "300 random CPTP, max
-   0.138" was a sampling artifact). See [PROOF_SUBSYSTEM_CROSSING](PROOF_SUBSYSTEM_CROSSING.md), Case C.
+   0.138" was a sampling artifact). See [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md), Case C.
 
 ### The Philosophical Position, Restated
 
@@ -615,7 +615,7 @@ looks like from inside.
 Beyond the seven vertical layers, the 1/4 boundary instances at parallel
 readings of the same N-qubit system. The most recent:
 
-- **Coherence-block reading** ([PROOF_BLOCK_CPSI_QUARTER](PROOF_BLOCK_CPSI_QUARTER.md)).
+- **Coherence-block reading** ([Block-CΨ at 1/4](PROOF_BLOCK_CPSI_QUARTER.md)).
   At any (popcount-n, popcount-(n+1)) coherence block of an N-qubit chain at
   chromaticity c ≥ 2, the block-level CΨ has a tight upper bound of 1/4 over
   all pure states with support in the (popcount-n + popcount-(n+1)) sector.

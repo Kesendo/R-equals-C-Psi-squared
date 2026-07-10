@@ -3,7 +3,7 @@
 **Status:** Fully proven (all three steps analytic). Steps 2–3 additionally verified numerically.
 **Date:** April 12, 2026
 **Authors:** Thomas Wicht, Claude (chat)
-**Context:** Identified during Track B of the three-values investigation (chat session 2026-04-12). Recorded here before the companion Track B experiment ([SECTOR_PROJECTION_FORMULA](../../experiments/SECTOR_PROJECTION_FORMULA.md)) wrote it, so the experiment could cite the proof rather than re-derive it.
+**Context:** Identified during Track B of the three-values investigation (chat session 2026-04-12). Recorded here before the companion Track B experiment ([Sector Projection Formula](../../experiments/SECTOR_PROJECTION_FORMULA.md)) wrote it, so the experiment could cite the proof rather than re-derive it.
 
 ---
 
@@ -57,7 +57,7 @@ Let N_op = Σ_k (I − Z_k)/2 be the total-excitation-number operator. Direct co
 
 Therefore dp_w/dt = 0. This holds for all t, in particular p_w(∞) = p_w(0) = Tr(P_w ρ₀). End Step 1.
 
-**Note:** Step 1 is equivalent to the sector conservation theorem proven independently in [CUSP_LENS_CONNECTION.md](../../experiments/CUSP_LENS_CONNECTION.md) and formalized in the [Parity Selection Rule](PROOF_PARITY_SELECTION_RULE.md). It is re-derived here for self-containedness.
+**Note:** Step 1 is equivalent to the sector conservation theorem proven independently in [Cusp-Lens Connection](../../experiments/CUSP_LENS_CONNECTION.md) and formalized in the [Parity Selection Rule](PROOF_PARITY_SELECTION_RULE.md). It is re-derived here for self-containedness.
 
 ### Step 2 (dynamic): within each sector, the unique steady state is maximally mixed
 
@@ -71,7 +71,7 @@ The claim is: restricted to the (w, w) diagonal sector (operators of the form P_
 
 **(a) ∩ (b) = {α · I_w}.** The unique density matrix in this algebra is P_w / d_w. End Step 2.
 
-**Numerical cross-check:** verified for N=3-7 chain, N=4-5 all topologies in [SYMMETRY_CENSUS.md](../../experiments/SYMMETRY_CENSUS.md). Zero exceptions.
+**Numerical cross-check:** verified for N=3-7 chain, N=4-5 all topologies in [Symmetry Census](../../experiments/SYMMETRY_CENSUS.md). Zero exceptions.
 
 ### Step 2b (off-diagonal sectors decay to zero)
 
@@ -99,9 +99,9 @@ End proof.
 
 2. **Asymptotic state is a function of (p_0, ..., p_N) alone.** Two initial states with identical sector populations produce identical asymptotic states, regardless of their coherences or sector-internal structure. The vector (p_0, ..., p_N) is a complete invariant for the purpose of predicting ρ(∞).
 
-3. **"Number of exits used" is the Hilbert-sector support size.** The number of attractors that ρ₀ contributes to is |{w : p_w > 0}|. A product state uses 1, a Bell+ state on two qubits uses 2, a GHZ state uses 2 (w=0 and w=N). The |+⟩⊗N state uses all N+1. Note: [SYMMETRY_CENSUS.md, "Which sectors are reachable"](../../experiments/SYMMETRY_CENSUS.md) counts these as Liouville blocks (w_bra, w_ket); a GHZ state populates 2 Hilbert sectors but 4 Liouville blocks (the two diagonal blocks plus the off-diagonal coherences that decay). Both counts are valid; they describe different objects.
+3. **"Number of exits used" is the Hilbert-sector support size.** The number of attractors that ρ₀ contributes to is |{w : p_w > 0}|. A product state uses 1, a Bell+ state on two qubits uses 2, a GHZ state uses 2 (w=0 and w=N). The |+⟩⊗N state uses all N+1. Note: [Symmetry Census, "Which sectors are reachable"](../../experiments/SYMMETRY_CENSUS.md) counts these as Liouville blocks (w_bra, w_ket); a GHZ state populates 2 Hilbert sectors but 4 Liouville blocks (the two diagonal blocks plus the off-diagonal coherences that decay). Both counts are valid; they describe different objects.
 
-4. **The cusp exit and lens exit are both instances of this theorem.** The lens exit (thermalization within a single excitation sector, see [CONCENTRATOR_GEOMETRY.md](../../experiments/CONCENTRATOR_GEOMETRY.md)) corresponds to initial states with p_1 = 1 (single-excitation sector only). The cusp exit (simultaneous thermalization across multiple sectors, see [CUSP_LENS_CONNECTION.md](../../experiments/CUSP_LENS_CONNECTION.md)) corresponds to initial states with p_w > 0 for two or more w. The "two exits" framing of earlier documents is a special case of the general N+1-exit structure.
+4. **The cusp exit and lens exit are both instances of this theorem.** The lens exit (thermalization within a single excitation sector, see [Concentrator Geometry](../../experiments/CONCENTRATOR_GEOMETRY.md)) corresponds to initial states with p_1 = 1 (single-excitation sector only). The cusp exit (simultaneous thermalization across multiple sectors, see [Cusp-Lens Connection](../../experiments/CUSP_LENS_CONNECTION.md)) corresponds to initial states with p_w > 0 for two or more w. The "two exits" framing of earlier documents is a special case of the general N+1-exit structure.
 
 ---
 
@@ -115,11 +115,11 @@ End proof.
 
 ## References
 
-- [SYMMETRY_CENSUS.md](../../experiments/SYMMETRY_CENSUS.md) ("Asymptotic attractors per sector" and "Topology comparison": numerical verification of Steps 2–3)
-- [CUSP_LENS_CONNECTION.md](../../experiments/CUSP_LENS_CONNECTION.md) (sector conservation theorem, precursor of Step 1)
-- [CONCENTRATOR_GEOMETRY.md](../../experiments/CONCENTRATOR_GEOMETRY.md) (lens exit as p_1 = 1 case)
-- [PROOF_PARITY_SELECTION_RULE.md](PROOF_PARITY_SELECTION_RULE.md) (formal proof of sector conservation, equivalent to Step 1)
+- [Symmetry Census](../../experiments/SYMMETRY_CENSUS.md) ("Asymptotic attractors per sector" and "Topology comparison": numerical verification of Steps 2–3)
+- [Cusp-Lens Connection](../../experiments/CUSP_LENS_CONNECTION.md) (sector conservation theorem, precursor of Step 1)
+- [Concentrator Geometry](../../experiments/CONCENTRATOR_GEOMETRY.md) (lens exit as p_1 = 1 case)
+- [Parity Selection Rule](PROOF_PARITY_SELECTION_RULE.md) (formal proof of sector conservation, equivalent to Step 1)
 
 ---
 
-*Walked into existence by Tom and Claude (chat) on 2026-04-12 during Track B of the three-values investigation. Recorded so the experiment document ([SECTOR_PROJECTION_FORMULA](../../experiments/SECTOR_PROJECTION_FORMULA.md)) could cite it rather than re-prove it.*
+*Walked into existence by Tom and Claude (chat) on 2026-04-12 during Track B of the three-values investigation. Recorded so the experiment document ([Sector Projection Formula](../../experiments/SECTOR_PROJECTION_FORMULA.md)) could cite it rather than re-prove it.*

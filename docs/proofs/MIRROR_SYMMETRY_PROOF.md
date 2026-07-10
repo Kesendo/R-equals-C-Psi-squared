@@ -147,7 +147,7 @@ In other words: Π exchanges what a system *is* with what it *could become*.
 per-site rule, Π² fixes I and X and sends Y → −Y, Z → −Z, so on a Pauli string Π²
 acts as (−1)^{n_Y+n_Z}. That is exactly conjugation by the global X-string
 X⊗N = ⊗_l X_l. This corollary, Π² = X⊗N, is registered as F1² in
-[ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md); X⊗N is the BlockSpectrum builder's
+[Analytical Formulas](../ANALYTICAL_FORMULAS.md); X⊗N is the BlockSpectrum builder's
 sector-pairing shortcut (`XGlobalChargeConjugationPairing`).
 
 **Seen again 2026-06-10:** this Π is not elementary. It factors as Π = R·D,
@@ -157,8 +157,8 @@ carried separately by the two factors: D flips the Hamiltonian part (Step 2)
 while R flips the noise part and carries the entire −2Σγᵢ shift (Step 1).
 The two factors close into a dihedral group of order 8 that contains every
 mirror of the palindrome story; see
-[PROOF_PI_FACTORS_AS_R_TIMES_D](PROOF_PI_FACTORS_AS_R_TIMES_D.md) and F118 in
-[ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md).
+[the mirror group factorization](PROOF_PI_FACTORS_AS_R_TIMES_D.md) and F118 in
+[Analytical Formulas](../ANALYTICAL_FORMULAS.md).
 
 ---
 ## The Proof (3 steps)
@@ -434,7 +434,7 @@ Two placement notes, added 2026-07-05:
   a gap between their Q₋ and P generators. What does fit cleanly is
   the component Π² = X^⊗N, a strong unitary symmetry in their sense.
   The full analysis lives in
-  [KMS_DETAILED_BALANCE.md](../KMS_DETAILED_BALANCE.md) (Π as a
+  [KMS and Detailed Balance](../KMS_DETAILED_BALANCE.md) (Π as a
   shifted anti-similarity of L, outside the standard taxonomy).
 
 - **Long-range XXZ under dephasing ([arXiv:2605.20930](https://arxiv.org/abs/2605.20930),

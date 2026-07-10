@@ -1,12 +1,12 @@
 # PROOF F112: Lindblad Π-Eigenvalue Balance under bit_b Homogeneity
 
-**Status:** Tier 1 derived for Hermitian H (this proof) and for non-Hermitian H (separate proof, [PROOF_F112_NONHERMITIAN_UNIVERSAL_N](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md)). Universal in N.
+**Status:** Tier 1 derived for Hermitian H (this proof) and for non-Hermitian H (separate proof, [F112 non-Hermitian extension](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md)). Universal in N.
 **Date:** 2026-05-26
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
 - F38 (Π² = (-1)^{w_YZ} on Pauli strings; `docs/ANALYTICAL_FORMULAS.md` F38 entry)
 - F63 ([L, Π²] = 0 for Z-dephasing; `docs/ANALYTICAL_FORMULAS.md` F63 entry)
-- F108 Part 1 ([PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md)); shared bit_b Z₂ grading
+- F108 Part 1 ([F108 Part 1](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md)); shared bit_b Z₂ grading
 - `polarity_coordinates_from_L` primitive (`simulations/framework/diagnostics/polarity_coordinates.py`, added 2026-05-25)
 - F87 dissipator-resonance law (orthogonal axis; first observed via `simulations/polarity_probe_f87_connection.py`, derived 2026-06-10 in the dated section below)
 
@@ -22,7 +22,7 @@ The diagnostic upshot is that the polarity-coordinates primitive becomes a preci
 
 ## Introduction
 
-**The motivating question.** [POLARITY_COORDINATES.md](../../reflections/POLARITY_COORDINATES.md) introduced the `polarity_coordinates_from_L` primitive, which decomposes the F1 residual M into three orthogonal Frobenius components: `M_zero` (the F81 M_sym part) on the 0-polarity axis, and `M_plus_half` / `M_minus_half` on the +1/2 and −1/2 polarity axes. An empirical pattern emerged across a 14-probe sweep: for every standard physical Lindblad system constructed (T1, T2, depolarizing, mixed dephase letters, single-site transverse fields), `‖M_plus_half‖² = ‖M_minus_half‖²` held bit-exactly. Outside the construction channel (Probe 6: hand-engineered Π +i eigenmode L), the balance broke. The structural question: what is the exact condition that separates preserved from broken?
+**The motivating question.** [the Polarity Coordinates](../../reflections/POLARITY_COORDINATES.md) introduced the `polarity_coordinates_from_L` primitive, which decomposes the F1 residual M into three orthogonal Frobenius components: `M_zero` (the F81 M_sym part) on the 0-polarity axis, and `M_plus_half` / `M_minus_half` on the +1/2 and −1/2 polarity axes. An empirical pattern emerged across a 14-probe sweep: for every standard physical Lindblad system constructed (T1, T2, depolarizing, mixed dephase letters, single-site transverse fields), `‖M_plus_half‖² = ‖M_minus_half‖²` held bit-exactly. Outside the construction channel (Probe 6: hand-engineered Π +i eigenmode L), the balance broke. The structural question: what is the exact condition that separates preserved from broken?
 
 **The empirical anchor.** Probes 9-14 narrowed the condition to **bit_b-homogeneity of c with Hermitian H**: every collapse operator's Pauli-string support must share a single bit_b parity. Single-Pauli c (T2 = Z, single-site depolarizing components) is trivially bit_b-homogeneous; T1 σ⁻ (with support on both bit_b = 0 and bit_b = 1 components) is bit_b-mixed and sits outside the typed scope.
 
@@ -34,9 +34,9 @@ The diagnostic upshot is that the polarity-coordinates primitive becomes a preci
 4. **M_{±i} from L_H only.** M_{+i} and M_{-i} therefore reduce to `‖M_{±i}‖² = 2 · ‖L_{H,±i}‖²` with L_H = −i[H, ·].
 5. **Anti-Hermitian closure.** For Hermitian H, L_H is anti-Hermitian as a superoperator (Lemma B), and the dagger map sends the Π +i eigenspace bijectively onto Π −i while preserving Frobenius norm (Lemma A). Hence `‖L_{H,+i}‖² = ‖L_{H,-i}‖²`.
 
-The non-Hermitian-H case requires a separate argument because Step 5's `L_H^† = −L_H` fails when H ≠ H^†; that case is closed in [PROOF_F112_NONHERMITIAN_UNIVERSAL_N](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md).
+The non-Hermitian-H case requires a separate argument because Step 5's `L_H^† = −L_H` fails when H ≠ H^†; that case is closed in [F112 non-Hermitian extension](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md).
 
-**Diagnostic consequence.** The `polarity_coordinates_from_L` primitive is the precise witness for "L came from a standard Lindblad channel with bit_b-homogeneous collapse operators and (Hermitian or non-Hermitian) H". Asymmetry = 0 confirms the regime; asymmetry ≠ 0 localises the failure (mixed-bit_b c, or L not in Lindblad form at all). The closed-form magnitude in the canonical break case (Z-drive Hamiltonian + σ⁻ T1) is derived in [PROOF_F113_COEFFICIENT_DERIVATION](PROOF_F113_COEFFICIENT_DERIVATION.md).
+**Diagnostic consequence.** The `polarity_coordinates_from_L` primitive is the precise witness for "L came from a standard Lindblad channel with bit_b-homogeneous collapse operators and (Hermitian or non-Hermitian) H". Asymmetry = 0 confirms the regime; asymmetry ≠ 0 localises the failure (mixed-bit_b c, or L not in Lindblad form at all). The closed-form magnitude in the canonical break case (Z-drive Hamiltonian + σ⁻ T1) is derived in [F113 coefficient derivation](PROOF_F113_COEFFICIENT_DERIVATION.md).
 
 ## Theorem
 
@@ -46,7 +46,7 @@ Let L = -i[H, ·] + Σ_k γ_k · `np.kron(c_k, c_k^*)` be a Lindblad-form Liouvi
 
 bit-exactly (machine precision), for any choice of complex coefficients in each c_k's Pauli expansion.
 
-**Non-Hermitian extension:** the equality also holds for non-Hermitian H, Tier 1 derived universal N (Welle 11, 2026-05-27, structural proof in [PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md)). The rigorous proof of Steps 1-4 in this writeup covers both cases; Step 5 here is the Hermitian-H specialization (dagger + anti-Hermitian L_H), while the non-Hermitian closure is a separate two-lemma argument via Pauli-basis matrix-support disjointness.
+**Non-Hermitian extension:** the equality also holds for non-Hermitian H, Tier 1 derived universal N (Welle 11, 2026-05-27, structural proof in [F112 non-Hermitian extension](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md)). The rigorous proof of Steps 1-4 in this writeup covers both cases; Step 5 here is the Hermitian-H specialization (dagger + anti-Hermitian L_H), while the non-Hermitian closure is a separate two-lemma argument via Pauli-basis matrix-support disjointness.
 
 ## Empirical anchors
 
@@ -190,7 +190,7 @@ Combining Steps 1-5: the balance condition ‖M_plus_half‖² = ‖M_minus_half
 
 ## Non-Hermitian H extension: Tier1Derived universal N (2026-05-27, Welle 11)
 
-The non-Hermitian extension is now closed structurally for all N in [PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md).
+The non-Hermitian extension is now closed structurally for all N in [F112 non-Hermitian extension](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md).
 
 Writing H = H_re + i H_im (Hermitian decomposition with H_re = (H + H^†)/2, H_im = (H − H^†)/(2i) both Hermitian), the equality reduces algebraically to the identity:
 
@@ -203,7 +203,7 @@ Bilinearity (L_H linear in H, Π-projection linear, Frobenius sesquilinear) plus
 
 Both Welle 11 lemmas (N-A and N-B) reduce to per-position checks on the 4^N × 4^N matrix of L_σ that are uniform in N. The proof is N-independent.
 
-**Welle 10 numerical anchor** (preserved as historical empirical validation): the per-pair identity F(σ_α, σ_β) = 0 was verified bit-exact across 559,912 distinct upper-triangular pairs at N = 2, 3, 4, 5 by `simulations/f112_open_identity_basis_enum.py` (Python, Welle 10a) and `compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs` (C#, Welle 10b). All N = 2..4 bit-exact 0; N = 5 < 1e-10. See [F112_NONHERMITIAN_BASIS_ENUMERATION.md](../../experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md).
+**Welle 10 numerical anchor** (preserved as historical empirical validation): the per-pair identity F(σ_α, σ_β) = 0 was verified bit-exact across 559,912 distinct upper-triangular pairs at N = 2, 3, 4, 5 by `simulations/f112_open_identity_basis_enum.py` (Python, Welle 10a) and `compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs` (C#, Welle 10b). All N = 2..4 bit-exact 0; N = 5 < 1e-10. See [F112 non-Hermitian basis enumeration](../../experiments/F112_NONHERMITIAN_BASIS_ENUMERATION.md).
 
 **Welle 11 structural verifier** `simulations/f112_universal_n_proof_verify.py` confirms each step of Lemmas A and B bit-exact at N = 1, 2, 3 (42 BitB-odd strings, 1050 off-diagonal pairs, 4368 all-pair F-values, all 0.000e+00 in numpy double precision).
 
@@ -213,7 +213,7 @@ The F87 connection probe (last entry in the empirical anchor list) left one line
 
 **(a) Scope inclusion.** Every F87 input is an instance of this proof's hypotheses. F87's domain is the commutator of a Hermitian Pauli Hamiltonian plus pure Z-dephasing; each collapse operator Z_l is a single Pauli string, hence trivially bit_b-homogeneous. So the theorem applies verbatim, and the F112 asymmetry is identically zero on F87's entire domain, across all three trichotomy classes (truly, soft, hard). The orthogonality is not a coincidence the probe happened to sample; it is the statement that the two functionals never co-vary because one is identically zero where the other lives. Verified: asymmetry = 0.0 exactly (float zero, not merely small) for truly Heisenberg, soft XXZ+ZXX, the hard pairs XXZ+ZZZ (m\*=5), XXZ+XZX and IXY+XIY (m\*=9), and the Z-drive XY chain, at N = 3 and N = 4.
 
-**(b) Mechanism separation: same involution, different degree.** For H supported on bit_b-odd Pauli strings, X^⊗N-conjugation flips the sign of every term (F H F = −H with F = X^⊗N; this is the driving lemma of [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §2, and it covers the diagonal Klein cell where all F87 pair-hardness lives, F110). There the dagger involution that powers Step 5 coincides with the windowed converse's first reflection, on the windowed converse's recentred object M_rec = L + σ·I:
+**(b) Mechanism separation: same involution, different degree.** For H supported on bit_b-odd Pauli strings, X^⊗N-conjugation flips the sign of every term (F H F = −H with F = X^⊗N; this is the driving lemma of [F87 windowed converse](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §2, and it covers the diagonal Klein cell where all F87 pair-hardness lives, F110). There the dagger involution that powers Step 5 coincides with the windowed converse's first reflection, on the windowed converse's recentred object M_rec = L + σ·I:
 
     M_rec† = 𝓕 M_rec 𝓕,   𝓕 = F ⊗ F = X^⊗N ⊗ X^⊗N.
 
@@ -247,7 +247,7 @@ Hermitian H (this proof, original Welle): five-step proof.
 - Step 4: M_{+i} and M_{-i} come entirely from L_H, with norms 2 · ‖L_{H,±i}‖².
 - Step 5: For Hermitian H, L_H is anti-Hermitian as superoperator (Lemma B), and dagger maps Π +i ↔ Π −i bijectively while preserving Frobenius (Lemma A). Combining gives ‖L_{H,+i}‖² = ‖L_{H,-i}‖².
 
-Non-Hermitian H (Welle 11, 2026-05-27): two-lemma structural proof in [PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md). Reduces the equality to F(H_re, H_im) := Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0, then closes the per-pair identity F(σ_α, σ_β) = 0 structurally via Pauli-basis matrix-support disjointness (Lemmas A and B). Welle 10 numerical anchor at N ≤ 5 (559,912 pairs all bit-exact 0) preserved as historical empirical validation.
+Non-Hermitian H (Welle 11, 2026-05-27): two-lemma structural proof in [F112 non-Hermitian extension](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md). Reduces the equality to F(H_re, H_im) := Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0, then closes the per-pair identity F(σ_α, σ_β) = 0 structurally via Pauli-basis matrix-support disjointness (Lemmas A and B). Welle 10 numerical anchor at N ≤ 5 (559,912 pairs all bit-exact 0) preserved as historical empirical validation.
 
 The theorem is typed as a single Tier1Derived claim in C# Core (`LindbladBitBPiBalance`) covering both H cases universally in N.
 
@@ -267,7 +267,7 @@ Connections:
 
 ## Open
 
-- ~~**Step 5 extension to non-Hermitian H**~~: **CLOSED 2026-05-27 (Welle 11)** in [PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) via the two-lemma structural proof (Lemma N-A: ‖L_{σ,−i}‖² = 4^N for BitB-odd σ; Lemma N-B: ⟨L_{σ_α,−i}, L_{σ_β,−i}⟩ = 0 for σ_α ≠ σ_β both BitB-odd; both via Pauli-basis matrix-support disjointness). F112 non-Hermitian extension is now Tier1Derived universal N.
+- ~~**Step 5 extension to non-Hermitian H**~~: **CLOSED 2026-05-27 (Welle 11)** in [F112 non-Hermitian extension](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) via the two-lemma structural proof (Lemma N-A: ‖L_{σ,−i}‖² = 4^N for BitB-odd σ; Lemma N-B: ⟨L_{σ_α,−i}, L_{σ_β,−i}⟩ = 0 for σ_α ≠ σ_β both BitB-odd; both via Pauli-basis matrix-support disjointness). F112 non-Hermitian extension is now Tier1Derived universal N.
 - ~~**F87 ↔ F112 orthogonality**~~: **CLOSED 2026-06-10** in [The F87 orthogonality, derived](#the-f87-orthogonality-derived-2026-06-10) above: (a) scope inclusion (F87's entire domain satisfies this proof's hypotheses, so the F112 asymmetry is identically zero where F87 lives), (b) mechanism separation (shared dagger involution M_rec† = 𝓕 M_rec 𝓕 on the diagonal cell; F112 reads it at degree 2, F87 hardness at odd degree), (c) the scoped one-way F113 bridge (balance-broken ⟹ F87-hard via the shared moment t₁^(l) = Tr(Z_l H)). Committed verifier `simulations/f112_f87_orthogonality.py`.
 - **C# Core typing**: Tier1Derived for both Hermitian and non-Hermitian H (universal N).
 - **Connection to F104, F105, F106** (F87 Z₂³-cubed refinements at various N, k): potential bridge to the F112 balance via shared bit_b structure.

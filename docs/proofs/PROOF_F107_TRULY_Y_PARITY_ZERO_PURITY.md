@@ -4,10 +4,10 @@
 **Date:** 2026-05-24
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
-- [PROOF_F85_KBODY_GENERALIZATION.md](PROOF_F85_KBODY_GENERALIZATION.md) (k-body truly criterion under Z-dephasing: #Y even AND #Z even, Step 3)
-- [PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md) (X-dephasing Π_X palindrome closure)
-- [PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md) (Y-dephasing Π_Y palindrome closure)
-- [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md) (Π definitions per dephase letter)
+- [F85 k-body generalization](PROOF_F85_KBODY_GENERALIZATION.md) (k-body truly criterion under Z-dephasing: #Y even AND #Z even, Step 3)
+- [F108 Part 2](PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md) (X-dephasing Π_X palindrome closure)
+- [F108 Part 3](PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md) (Y-dephasing Π_Y palindrome closure)
+- [the Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) (Π definitions per dephase letter)
 - [`compute/RCPsiSquared.Core/Symmetry/PiOperator.cs`](../../compute/RCPsiSquared.Core/Symmetry/PiOperator.cs) (per-dephase Π² eigenvalue rules)
 - [`compute/RCPsiSquared.Core/Symmetry/TrulyYParityZeroPurity.cs`](../../compute/RCPsiSquared.Core/Symmetry/TrulyYParityZeroPurity.cs) (`TrulyCriterionHolds`: per-dephase truly criterion encoded in C#)
 
@@ -29,7 +29,7 @@ By extension, for any y_par-homogeneous Pauli pair classified as truly, the pair
 
 ### Step 1: per-dephase truly criterion (F85 + Π letter-cycle transport)
 
-[PROOF_F85](PROOF_F85_KBODY_GENERALIZATION.md) Step 3 establishes the **Z-dephasing** truly criterion structurally: a Pauli term σ_α contributes M = 0 under Z-dephasing iff
+[F85](PROOF_F85_KBODY_GENERALIZATION.md) Step 3 establishes the **Z-dephasing** truly criterion structurally: a Pauli term σ_α contributes M = 0 under Z-dephasing iff
 
     #Y(α) even  AND  #Z(α) even.
 
@@ -103,6 +103,6 @@ Closed 2026-05-25: F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived); 
 
 ## Open
 
-- Closed-form derivation of F110 Aspect C exact ratios. The **42:8 at k=3 is answered** (2026-05-29) by the diagonal-cell hardness rule in [PROOF_F103](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) §6; the **228:0 at k=4** is the sibling case via F111's pure-D template rule. Atomic sub-rules verified-not-yet-palindrome-proven.
+- Closed-form derivation of F110 Aspect C exact ratios. The **42:8 at k=3 is answered** (2026-05-29) by the diagonal-cell hardness rule in [F103](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) §6; the **228:0 at k=4** is the sibling case via F111's pure-D template rule. Atomic sub-rules verified-not-yet-palindrome-proven.
 - k ≥ 5 empirical confirmation of F103/F106 pattern stability beyond N=4.
 - Hardware QPU confirmation at k ≥ 3 (no F87 QPU confirmations exist beyond Marrakesh k=2).

@@ -1,13 +1,13 @@
 # PROOF: the moment-tower pump channel (the device's own damping reads the girth ladder linearly)
 
-**Status:** Tier 1 derived (one-line identities, universal N; verified machine-exact at N = 2, 3). The hardware protocol of §6 **ran on ibm_kingston the same day** (2026-06-11, q149/q13/q9, no entangling gates): the structural law confirmed (double null, row-exact rung-2 identity, girth 2 read from hardware, site tracking, 0.3-5.7% cross-arm reproducibility). The rate layer's first reading (a pump ≤ Γ violation on q13) was corrected within hours by the prep-conditioned re-analysis: the basis-state preparation contains the |0⟩- and |1⟩-branches, so pump and Γ come from the same circuits, the bound holds everywhere in-situ, the margins read the per-qubit thermal population, and the actual finding is minute-scale T1 telegraphing on two of three qubits. The protocol is self-arbitrating. See [experiments/F120_MOMENT_TOWER_KINGSTON.md](../../experiments/F120_MOMENT_TOWER_KINGSTON.md) (the Correction section).
+**Status:** Tier 1 derived (one-line identities, universal N; verified machine-exact at N = 2, 3). The hardware protocol of §6 **ran on ibm_kingston the same day** (2026-06-11, q149/q13/q9, no entangling gates): the structural law confirmed (double null, row-exact rung-2 identity, girth 2 read from hardware, site tracking, 0.3-5.7% cross-arm reproducibility). The rate layer's first reading (a pump ≤ Γ violation on q13) was corrected within hours by the prep-conditioned re-analysis: the basis-state preparation contains the |0⟩- and |1⟩-branches, so pump and Γ come from the same circuits, the bound holds everywhere in-situ, the margins read the per-qubit thermal population, and the actual finding is minute-scale T1 telegraphing on two of three qubits. The protocol is self-arbitrating. See [F120 on hardware](../../experiments/F120_MOMENT_TOWER_KINGSTON.md) (the Correction section).
 **Date:** 2026-06-11
 **Authors:** Thomas Wicht, Claude (Fable 5)
 **Builds on:**
-- [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §4 and [`simulations/f87_girth_dichotomy.py`](../../simulations/f87_girth_dichotomy.py): the moment tower t_j(l) = Tr(Z_l H^j), the girth ℓ, and the dichotomy m\* = 2ℓ + 1 when t_ℓ ≠ 0.
-- [PROOF_F113_COEFFICIENT_DERIVATION](PROOF_F113_COEFFICIENT_DERIVATION.md): the polarity-asymmetry closed form this channel contains as its first rung.
-- [PROOF_F82_T1_DISSIPATOR_CORRECTION](PROOF_F82_T1_DISSIPATOR_CORRECTION.md) and [PROOF_F84_AMPLITUDE_DAMPING](PROOF_F84_AMPLITUDE_DAMPING.md): the pump direction D[σ⁻](I) = +γZ and the net vacuum rate Δγ that weights the channel.
-- F117 in [ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md): the d-leg moment classes, of which this channel reads exactly the d = 1 face.
+- [the F87 windowed converse](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §4 and [`simulations/f87_girth_dichotomy.py`](../../simulations/f87_girth_dichotomy.py): the moment tower t_j(l) = Tr(Z_l H^j), the girth ℓ, and the dichotomy m\* = 2ℓ + 1 when t_ℓ ≠ 0.
+- [F113 coefficient derivation](PROOF_F113_COEFFICIENT_DERIVATION.md): the polarity-asymmetry closed form this channel contains as its first rung.
+- [F82 T1 dissipator correction](PROOF_F82_T1_DISSIPATOR_CORRECTION.md) and [F84 amplitude damping](PROOF_F84_AMPLITUDE_DAMPING.md): the pump direction D[σ⁻](I) = +γZ and the net vacuum rate Δγ that weights the channel.
+- F117 in [the formula registry](../ANALYTICAL_FORMULAS.md): the d-leg moment classes, of which this channel reads exactly the d = 1 face.
 
 ## Abstract
 

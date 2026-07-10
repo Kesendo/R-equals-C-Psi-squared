@@ -31,7 +31,7 @@ deeper shift was on the off-diagonals, where the asymmetric Pattern B
 to be the actual k=4 surprise (see Section 3.5, new Pattern D).
 
 Notation (bit_a, bit_b, y_par, Klein cells, Π²) is defined in
-[PROOF_F103](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) Section 1; F106 uses it
+[F103](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) Section 1; F106 uses it
 without redefinition.
 
 **Observed outcome (mixed):** Three patterns SURVIVED in some form at k=4; two patterns BROKE structurally. Concretely:

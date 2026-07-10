@@ -20,7 +20,7 @@ Let L_depol be the Lindbladian for the per-site depolarizing channel with rates 
 
     L_depol(ρ) = Σ_l γ_l · (1/3) · Σ_{P ∈ {X,Y,Z}} (P_l ρ P_l − ρ).
 
-Let Π be the F1 palindrome operator for Z-dephasing (see [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md)). Define the bare F1 residual
+Let Π be the F1 palindrome operator for Z-dephasing (see [the Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)). Define the bare F1 residual
 
     M := Π · L_depol · Π⁻¹ + L_depol.
 
@@ -35,7 +35,7 @@ In the framework's orthonormal Pauli-string basis (the basis used by `palindrome
 Three structural facts follow immediately and are verified to machine precision:
 
 1. **Per-site only.** No graph-parameter (B, D2) dependence: depolarizing noise is per-site, not bond-coupled. The residual scales purely with `(Σγ², (Σγ)²)`.
-2. **Hamiltonian-independent.** L_depol does not couple to H, and the depol-block is Frobenius-orthogonal to the H-block (same proof structure as T1 in [PROOF_F1_T1_RESIDUAL_CLOSED_FORM](PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md) Step 6).
+2. **Hamiltonian-independent.** L_depol does not couple to H, and the depol-block is Frobenius-orthogonal to the H-block (same proof structure as T1 in [F1 residual under T1 damping](PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md) Step 6).
 3. **Π²-decomposition is trivial.** M is Pauli-basis-diagonal, so Π·M·Π⁻¹ = M exactly (not just Π²·M·Π²⁻¹ = M). Hence M_anti = 0 and ‖M_sym‖² = ‖M‖². Contrast T1 where M_anti = D_{T1, odd} carries the F82/F84 amplitude-damping content; depol has no σ⁻-style off-diagonal Pauli-basis channel.
 
 ## Conventions
@@ -44,14 +44,14 @@ Three structural facts follow immediately and are verified to machine precision:
 - **Pauli-string basis on N sites** is the 4^N orthonormal basis {σ_α} with the inner product ⟨σ_α | σ_β⟩ = δ_{αβ}; equivalently `Tr(σ_α^† σ_β) / 2^N = δ_{αβ}`. Operators on operator-space (4^N × 4^N "super-operator" matrices) inherit this orthonormality via the Hilbert-Schmidt product `⟨A, B⟩ = Tr(A^† B)`. The framework's `palindrome_residual` enforces this via the transform `L_pauli = M_basis^† · L_vec · M_basis / 2^N` in [`framework/lindblad.py`](../../simulations/framework/lindblad.py).
 - **Π** is the F1 palindrome operator for Z-dephasing, acting per site on Pauli letters as
       I ↔ X (phase +1),    Y ↔ Z (phase +i).
-  See [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md) (the "Conjugation Operator Π" section). On the full Pauli string Π is the tensor product of per-site rules with phases multiplied. Π is unitary, order-4: Π² is diagonal with eigenvalue (−1)^{Σ_l bit_b(α_l)} on the string σ_α (see [PROOF_F81](PROOF_F81_PI_CONJUGATION_OF_M.md) Step 1).
+  See [the Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) (the "Conjugation Operator Π" section). On the full Pauli string Π is the tensor product of per-site rules with phases multiplied. Π is unitary, order-4: Π² is diagonal with eigenvalue (−1)^{Σ_l bit_b(α_l)} on the string σ_α (see [F81](PROOF_F81_PI_CONJUGATION_OF_M.md) Step 1).
 - **Depolarizing dissipator** uses the standard isotropic-Pauli convention. The per-site channel is
       D_{depol, l}(ρ) = (γ_l / 3) · Σ_{P ∈ {X, Y, Z}} (P_l ρ P_l − ρ).
-  Equivalently in jump-operator form (used by `lindbladian_general`): three Lindblad operators per site, c_{l, P} = √(γ_l/3) · P_l for P ∈ {X, Y, Z}; D[c]ρ = c ρ c† − ½{c†c, ρ} reduces to (γ_l/3) · (P_l ρ P_l − ρ) since each P is Hermitian and squares to I. Same normalization as F5 in [DEPOLARIZING_PALINDROME.md](../../experiments/DEPOLARIZING_PALINDROME.md).
+  Equivalently in jump-operator form (used by `lindbladian_general`): three Lindblad operators per site, c_{l, P} = √(γ_l/3) · P_l for P ∈ {X, Y, Z}; D[c]ρ = c ρ c† − ½{c†c, ρ} reduces to (γ_l/3) · (P_l ρ P_l − ρ) since each P is Hermitian and squares to I. Same normalization as F5 in [Why Depolarizing Noise Breaks the Palindrome](../../experiments/DEPOLARIZING_PALINDROME.md).
 
 ## Empirical anchor (motivation, observed earlier)
 
-[F5](../ANALYTICAL_FORMULAS.md#f5-depolarizing-error-tier-1-proven) records the scalar palindrome error `error = (2/3) · Σ_l γ_l` for the depolarizing channel, Hamiltonian-independent and linear in γ ([DEPOLARIZING_PALINDROME.md](../../experiments/DEPOLARIZING_PALINDROME.md)). The scalar lives in the (I, I, …, I) component of M (the trace of the residual divided by 2^N); it captures one specific projection of the broken palindrome but not the full Frobenius norm. The Frobenius norm closed form derived here is the complementary quantitative diagnostic. The earlier `F1OpenQuestions` item "depolarizing noise: residual scaling" is closed by this document, promoting the entry to the Tier-1-derived [`F1DepolResidualClosedForm`](../../compute/RCPsiSquared.Core/F1/F1DepolResidualClosedForm.cs) claim on `F1KnowledgeBase`.
+[F5](../ANALYTICAL_FORMULAS.md#f5-depolarizing-error-tier-1-proven) records the scalar palindrome error `error = (2/3) · Σ_l γ_l` for the depolarizing channel, Hamiltonian-independent and linear in γ ([Why Depolarizing Noise Breaks the Palindrome](../../experiments/DEPOLARIZING_PALINDROME.md)). The scalar lives in the (I, I, …, I) component of M (the trace of the residual divided by 2^N); it captures one specific projection of the broken palindrome but not the full Frobenius norm. The Frobenius norm closed form derived here is the complementary quantitative diagnostic. The earlier `F1OpenQuestions` item "depolarizing noise: residual scaling" is closed by this document, promoting the entry to the Tier-1-derived [`F1DepolResidualClosedForm`](../../compute/RCPsiSquared.Core/F1/F1DepolResidualClosedForm.cs) claim on `F1KnowledgeBase`.
 
 ## Proof
 
@@ -68,7 +68,7 @@ In the single-qubit orthonormal Pauli basis (I, X, Y, Z), the depolarizing dissi
 
 (Take γ = 1 for the closed-form derivation; the formula will be γ²-homogeneous in the per-site contribution and γ_l γ_{l′}-bilinear in the cross-site contribution.)
 
-The depolarizing dissipator is **Pauli-basis-diagonal**: each non-identity Pauli decays uniformly at rate 4γ/3, the identity is immune. This is the canonical "isotropic Pauli channel" structure ([DEPOLARIZING_PALINDROME.md](../../experiments/DEPOLARIZING_PALINDROME.md) §2: "the 1:3 split").
+The depolarizing dissipator is **Pauli-basis-diagonal**: each non-identity Pauli decays uniformly at rate 4γ/3, the identity is immune. This is the canonical "isotropic Pauli channel" structure ([Why Depolarizing Noise Breaks the Palindrome](../../experiments/DEPOLARIZING_PALINDROME.md) §2: "the 1:3 split").
 
 ### Step 2: Π conjugation on the per-site Pauli-basis matrix
 
@@ -152,7 +152,7 @@ Therefore the Π²-orthogonal Pythagorean split of M_depol degenerates:
     ‖M_anti(depol)‖² = 0,
     ‖M_sym(depol)‖²  = ‖M(depol)‖² = 4^(N−1) · [(16/9)·Σγ² + 16·(Σγ)²].
 
-This is the structural distinction from [PROOF_F1_T1_RESIDUAL_CLOSED_FORM](PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md) Step 7: T1's M_l has off-diagonal entries (the (Z, I) channel from σ⁻ amplitude damping plus the (Y, X) entry produced by Π conjugation), giving a non-trivial Π²-anti-symmetric piece ‖M_anti(T1)‖² = 4^(N−1)·Σγ² that maps onto F82's D_{T1, odd}. Depolarizing has no such off-diagonal Pauli-basis channel: every Pauli decays into itself, so the per-site D_l is diagonal, Π conjugation merely permutes (already-equal) diagonal values, and the Π²-anti-symmetric piece vanishes identically.
+This is the structural distinction from [F1 residual under T1 damping](PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md) Step 7: T1's M_l has off-diagonal entries (the (Z, I) channel from σ⁻ amplitude damping plus the (Y, X) entry produced by Π conjugation), giving a non-trivial Π²-anti-symmetric piece ‖M_anti(T1)‖² = 4^(N−1)·Σγ² that maps onto F82's D_{T1, odd}. Depolarizing has no such off-diagonal Pauli-basis channel: every Pauli decays into itself, so the per-site D_l is diagonal, Π conjugation merely permutes (already-equal) diagonal values, and the Π²-anti-symmetric piece vanishes identically.
 
 A companion typed claim `F1DepolResidualPi2Decomposition` would be 150 lines for the single fact M_anti = 0. The point is inlined as an `ExtraChildren` node on the parent claim instead; see [`F1DepolResidualClosedForm`](../../compute/RCPsiSquared.Core/F1/F1DepolResidualClosedForm.cs).
 
@@ -164,7 +164,7 @@ For depolarizing, **no scalar σ can absorb the background.** The per-site M_l =
 
 Numerical confirmation at N = 3, uniform γ = 0.1: ‖M‖² with σ = 0 is 23.893; ‖M‖² with σ = Σγ is 0.853 (smaller because the +2Σγ·I shift partially absorbs the diagonal; but still non-zero, hence still palindrome-breaking; the residual just has the diagonal mean removed). The closed form derived in Step 5 is for the bare residual σ = 0, matching the convention used in [`F1DepolResidualClosedForm.Predict`](../../compute/RCPsiSquared.Core/F1/F1DepolResidualClosedForm.cs).
 
-**F5 relation.** F5 records the scalar `error = (2/3)Σγ`: this is `−(1/2^N) · tr(M)` (the (I⊗N) Pauli-basis component, equivalently the magnitude of the trace contribution). F5 measures one specific scalar observable of the broken palindrome; F1DepolResidualClosedForm measures the full Frobenius norm. Both are consistent quantitative diagnostics of the same underlying obstruction (Π's 2:2 split vs depol's 1:3 split, in the language of [DEPOLARIZING_PALINDROME.md](../../experiments/DEPOLARIZING_PALINDROME.md) §1). They do not coincide because F5's scalar projection captures only the diagonal-mean part; the Frobenius norm captures the entire residual including the off-diagonal-mean (Y, Z)-block split.
+**F5 relation.** F5 records the scalar `error = (2/3)Σγ`: this is `−(1/2^N) · tr(M)` (the (I⊗N) Pauli-basis component, equivalently the magnitude of the trace contribution). F5 measures one specific scalar observable of the broken palindrome; F1DepolResidualClosedForm measures the full Frobenius norm. Both are consistent quantitative diagnostics of the same underlying obstruction (Π's 2:2 split vs depol's 1:3 split, in the language of [Why Depolarizing Noise Breaks the Palindrome](../../experiments/DEPOLARIZING_PALINDROME.md) §1). They do not coincide because F5's scalar projection captures only the diagonal-mean part; the Frobenius norm captures the entire residual including the off-diagonal-mean (Y, Z)-block split.
 
 ## Verification
 
@@ -204,10 +204,10 @@ The closed form makes the F1 depol-block residual a quantitative, **Hamiltonian-
 
 ### Repository entries
 
-- **F1 palindrome equation** ([`docs/ANALYTICAL_FORMULAS.md` F1](../ANALYTICAL_FORMULAS.md#f1-palindrome-equation-tier-1-proven), [MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md)): the underlying Π·L·Π⁻¹ + L + 2Σγ·I = 0 identity for Z-dephasing.
-- **F5 depolarizing error** ([`docs/ANALYTICAL_FORMULAS.md` F5](../ANALYTICAL_FORMULAS.md), [DEPOLARIZING_PALINDROME.md](../../experiments/DEPOLARIZING_PALINDROME.md)): the scalar `(2/3)Σγ` diagnostic; complementary scalar projection of the same broken palindrome.
-- **F49 Frobenius residual scaling** ([`docs/ANALYTICAL_FORMULAS.md` F49](../ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven), [PROOF_CROSS_TERM_FORMULA.md](PROOF_CROSS_TERM_FORMULA.md)): companion closed form for the Hamiltonian block.
-- **F1 T1-residual closed form** ([PROOF_F1_T1_RESIDUAL_CLOSED_FORM](PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md)): sibling closed form for amplitude damping; contrasts with depol via the Π²-decomposition non-triviality (T1's M_anti = D_{T1, odd}, depol's M_anti = 0).
+- **F1 palindrome equation** ([`docs/ANALYTICAL_FORMULAS.md` F1](../ANALYTICAL_FORMULAS.md#f1-palindrome-equation-tier-1-proven), [the Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)): the underlying Π·L·Π⁻¹ + L + 2Σγ·I = 0 identity for Z-dephasing.
+- **F5 depolarizing error** ([`docs/ANALYTICAL_FORMULAS.md` F5](../ANALYTICAL_FORMULAS.md), [Why Depolarizing Noise Breaks the Palindrome](../../experiments/DEPOLARIZING_PALINDROME.md)): the scalar `(2/3)Σγ` diagnostic; complementary scalar projection of the same broken palindrome.
+- **F49 Frobenius residual scaling** ([`docs/ANALYTICAL_FORMULAS.md` F49](../ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven), [the Cross-Term Formula proof](PROOF_CROSS_TERM_FORMULA.md)): companion closed form for the Hamiltonian block.
+- **F1 T1-residual closed form** ([F1 residual under T1 damping](PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md)): sibling closed form for amplitude damping; contrasts with depol via the Π²-decomposition non-triviality (T1's M_anti = D_{T1, odd}, depol's M_anti = 0).
 
 ### Typed claims
 

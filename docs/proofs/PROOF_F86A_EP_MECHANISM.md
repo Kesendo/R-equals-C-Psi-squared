@@ -4,9 +4,9 @@
 **Date:** 2026-05-02 (Statement 1); 2026-05-06 (local-vs-global EP connection, since retracted 2026-06-21 → OpenQuestion).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Context:** F86 ("Q_peak chromaticity-specific N-invariant constants") is a Sammelbecken of three structurally distinct theorems. This proof carries **F86a, the EP mechanism**: the 2-level rate-channel exceptional point behind Q_peak in the (n, n+1) popcount coherence blocks of uniform XY chains under Z-dephasing. Split out of the former monolithic `PROOF_F86_QPEAK.md` on 2026-05-14.
-**Hub:** [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md): three-theorem overview and shared references.
-**F-entry:** [F86a in ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md).
-**Related:** [F2b](../ANALYTICAL_FORMULAS.md) (OBC sine dispersion), [F74](../ANALYTICAL_FORMULAS.md) (chromaticity); siblings [PROOF_F86B_UNIVERSAL_SHAPE](PROOF_F86B_UNIVERSAL_SHAPE.md), [PROOF_F86B_OBSTRUCTION](PROOF_F86B_OBSTRUCTION.md), [PROOF_F86C_F71_MIRROR](PROOF_F86C_F71_MIRROR.md).
+**Hub:** [the Q_peak hub](PROOF_F86_QPEAK.md): three-theorem overview and shared references.
+**F-entry:** [F86a in the formula registry](../ANALYTICAL_FORMULAS.md).
+**Related:** [F2b](../ANALYTICAL_FORMULAS.md) (OBC sine dispersion), [F74](../ANALYTICAL_FORMULAS.md) (chromaticity); siblings [the universal-shape proof](PROOF_F86B_UNIVERSAL_SHAPE.md), [the g_eff obstruction proof](PROOF_F86B_OBSTRUCTION.md), [the F71-mirror proof](PROOF_F86C_F71_MIRROR.md).
 
 ---
 
@@ -36,7 +36,7 @@ The "exceptional point **on the real Q axis**" reading of this proof is **retrac
 
 ## Correction to the retraction (2026-07-07): the real-axis defective seed IS there
 
-The retraction's flat "no real-axis defective EP on the full block" is a universal negative, and F89 refutes it. Two statements of different status are worth keeping separate: (i) a real-to-complex transition exists on the (1,2) block at **every odd N**, PROVEN by the exact nullity count r(0⁺) − r(∞) = N − 1 ([F89_SEED_EXISTENCE_REDUCTION](../../experiments/F89_SEED_EXISTENCE_REDUCTION.md), [PROOF_CODIM1_BY_ADDITIVITY](PROOF_CODIM1_BY_ADDITIVITY.md)); (ii) that transition is **defective** (a Jordan block, by the Kato simple-zero lemma) at every seed tested, census-verified through N=11 and β-exotic-scoped to a Puiseux exponent p ≈ 0.5, with only the codim-2 β-exotic genericity still open for all odd N. Either way the retraction's "eigenvalues stay simple, no real-axis defective EP" falls: the seeds are demonstrably defective (the demonstration below, and the census's own artifact-free EpCharacter reading). F86a's c=2 (n=1) block and F89's (1,2) block are the same object (GLOSSARY §q-and-Q: ‖L_F86(J) − L_F89(J/2)‖ = 0).
+The retraction's flat "no real-axis defective EP on the full block" is a universal negative, and F89 refutes it. Two statements of different status are worth keeping separate: (i) a real-to-complex transition exists on the (1,2) block at **every odd N**, PROVEN by the exact nullity count r(0⁺) − r(∞) = N − 1 ([F89_SEED_EXISTENCE_REDUCTION](../../experiments/F89_SEED_EXISTENCE_REDUCTION.md), [the codimension-1 additivity proof](PROOF_CODIM1_BY_ADDITIVITY.md)); (ii) that transition is **defective** (a Jordan block, by the Kato simple-zero lemma) at every seed tested, census-verified through N=11 and β-exotic-scoped to a Puiseux exponent p ≈ 0.5, with only the codim-2 β-exotic genericity still open for all odd N. Either way the retraction's "eigenvalues stay simple, no real-axis defective EP" falls: the seeds are demonstrably defective (the demonstration below, and the census's own artifact-free EpCharacter reading). F86a's c=2 (n=1) block and F89's (1,2) block are the same object (GLOSSARY §q-and-Q: ‖L_F86(J) − L_F89(J/2)‖ = 0).
 
 Why the 2026-06-21 scan missed it, shown from below in `compute/RCPsiSquared.Diagnostics.Tests/Foundation/F86aSeedMaskingTests.cs`: a defective √-EP splits its coalescing pair by ~√|q − q*|, so a "sit at a q and characterize" reader sees the coalescence only inside a window |q − q*| ≲ 1e-3. F86a swept Q on ~121 points over [0.5, 4.0] (ΔQ ≈ 0.029), roughly 20 to 30 times coarser than that window, so its nearest grid point sat ~0.0146 off any seed, where the coalescing pair's gap is already ~0.35, exactly the "nearest-neighbour gap 0.25-0.35" the retraction recorded (the generic off-cusp spacing, not a coalescence). At the seed itself the pair is a genuine Jordan block (EpCharacter: alg = 2, geo = 1, gap ~2.7e-3 at the N=9 seed q*=0.849011), and it reads as two ordinary simple eigenvalues one grid step away. F89 finds it with a grid-robust detector instead: the integer real-root count jumps by 2 across q*, bisected to ~1e-7 ([`PathKMonodromyScout.FindRealDefectiveByCountChange`], gate `RealSeedCensusTests`).
 
@@ -125,9 +125,9 @@ for any (c, N, n, bond position), the slowest k=1 EP universally sets the J-deri
 
 ## Pointers
 
-**Hub:** [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md): three-theorem overview and the shared reference list.
-**Sibling theorems:** [PROOF_F86B_UNIVERSAL_SHAPE](PROOF_F86B_UNIVERSAL_SHAPE.md) (F86b), [PROOF_F86B_OBSTRUCTION](PROOF_F86B_OBSTRUCTION.md) (the g_eff obstruction proof), [PROOF_F86C_F71_MIRROR](PROOF_F86C_F71_MIRROR.md) (F86c).
-**Chiral classification anchor:** [PT_SYMMETRY_ANALYSIS](../../experiments/PT_SYMMETRY_ANALYSIS.md) (centered L_c is class AIII chiral, NOT Bender-Boettcher PT; Π is linear, classical PT requires anti-linear; "no real-axis EP, Petermann large but finite, nearby EP in the complex plane").
-**Separate genuine EP (Σγ=0):** [FRAGILE_BRIDGE](../../hypotheses/FRAGILE_BRIDGE.md) (Hopf bifurcation = chiral symmetry breaking, Petermann K=403 in complex γ plane), a DISTINCT gain-loss system, not a "global instance" of the full block-L.
-**Empirical anchor:** [Q_SCALE_THREE_BANDS](../../experiments/Q_SCALE_THREE_BANDS.md) Result 2 + Revision 2026-04-24.
+**Hub:** [the Q_peak hub](PROOF_F86_QPEAK.md): three-theorem overview and the shared reference list.
+**Sibling theorems:** [the universal-shape proof](PROOF_F86B_UNIVERSAL_SHAPE.md) (F86b), [the g_eff obstruction proof](PROOF_F86B_OBSTRUCTION.md) (the g_eff obstruction proof), [the F71-mirror proof](PROOF_F86C_F71_MIRROR.md) (F86c).
+**Chiral classification anchor:** [the PT-symmetry analysis](../../experiments/PT_SYMMETRY_ANALYSIS.md) (centered L_c is class AIII chiral, NOT Bender-Boettcher PT; Π is linear, classical PT requires anti-linear; "no real-axis EP, Petermann large but finite, nearby EP in the complex plane").
+**Separate genuine EP (Σγ=0):** [The Fragile Bridge](../../hypotheses/FRAGILE_BRIDGE.md) (Hopf bifurcation = chiral symmetry breaking, Petermann K=403 in complex γ plane), a DISTINCT gain-loss system, not a "global instance" of the full block-L.
+**Empirical anchor:** [the three-bands Q-scale experiment](../../experiments/Q_SCALE_THREE_BANDS.md) Result 2 + Revision 2026-04-24.
 **C# OOP layer:** `compute/RCPsiSquared.Core/F86/` carries `TPeakLaw`, `QEpLaw`, `TwoLevelEpModel` (parametrised by k), `LocalGlobalEpLink` (OpenQuestion since the F86a-retraction 2026-06-21; four PetermannSpikeWitness entries retained as a cautionary non-normality record). CLI: `rcpsi inspect --root f86 --with-measured`.

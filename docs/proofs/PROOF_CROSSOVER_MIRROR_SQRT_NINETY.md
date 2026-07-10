@@ -5,7 +5,7 @@
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Depends on:**
 - [Pi Operator Entanglement](../../experiments/PI_OPERATOR_ENTANGLEMENT.md) (the crossover cases XZ+YZ, ZX+ZY are local; the closed-form per-site mirror M).
-- [`NinetyDegreeMirrorMemoryClaim`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) and [PROOF_F80_BLOCH_SIGNWALK](PROOF_F80_BLOCH_SIGNWALK.md) (F80: the 90° / the σ_x↔σ_y rotation, the operator-space face of the angle anchor).
+- [`NinetyDegreeMirrorMemoryClaim`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) and [F80 Bloch sign-walk](PROOF_F80_BLOCH_SIGNWALK.md) (F80: the 90° / the σ_x↔σ_y rotation, the operator-space face of the angle anchor).
 - Verification: [`simulations/crossover_mirror_derivation.py`](../../simulations/crossover_mirror_derivation.py).
 - Reflection: [On the Square Root of the Mirror](../../reflections/ON_THE_SQUARE_ROOT_OF_THE_MIRROR.md).
 
@@ -102,4 +102,4 @@ The same argument applies verbatim to ZX+ZY (the site-swapped partner) and, by l
 - Typed claim: [`CrossoverMirrorSqrtNinetyClaim`](../../compute/RCPsiSquared.Core/Symmetry/CrossoverMirrorSqrtNinetyClaim.cs) (Tier 1 derived), parent [`NinetyDegreeMirrorMemoryClaim`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs).
 - Verification: [`simulations/crossover_mirror_derivation.py`](../../simulations/crossover_mirror_derivation.py) (steps a-d, bit-exact) and [`simulations/crossover_mirror_sqrt_ninety.py`](../../simulations/crossover_mirror_sqrt_ninety.py) (the per-site-map witness).
 - Story: [On the Square Root of the Mirror](../../reflections/ON_THE_SQUARE_ROOT_OF_THE_MIRROR.md).
-- The 90° anchor's other faces: [PROOF_F80_BLOCH_SIGNWALK](PROOF_F80_BLOCH_SIGNWALK.md) (operator/defect), [PROOF_F91_GAMMA_NINETY_DEGREES](PROOF_F91_GAMMA_NINETY_DEGREES.md) (γ-parameter).
+- The 90° anchor's other faces: [F80 Bloch sign-walk](PROOF_F80_BLOCH_SIGNWALK.md) (operator/defect), [F91 γ 90°](PROOF_F91_GAMMA_NINETY_DEGREES.md) (γ-parameter).

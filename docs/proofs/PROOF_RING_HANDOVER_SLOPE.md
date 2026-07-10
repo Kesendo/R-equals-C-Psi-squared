@@ -1,9 +1,9 @@
 # PROOF: the ring double-excitation handover slope is √3/(2π)
 
-**Status:** Tier 1 derived (the asymptotic slope, leading order q → 0 / N → ∞): the (2,2) double-excitation seam's slow mode obeys the resummed coherence-ladder dispersion `λ² + 8γλ + 4J²q²` (CV-confirmed, the SE proof's own discriminator), and the handover (its darkness reaching the band-edge floor `⟨n_XY⟩ = 1`) sits at `Q·q = √3`, so `Q_h = √3/q_min → N·√3/(2π)`, slope `√3/(2π)`. The sibling of [PROOF_COHERENCE_HORIZON_SLOPE](PROOF_COHERENCE_HORIZON_SLOPE.md): same dispersion, but the `darkness = 1` condition (`Q·q = √3`) instead of the EP (`Q·q = 2`). Confirmed numerically N = 6..14 (Q_h·2π/N → √3 monotonically from above) and by the γ-constant-q CV discriminator (CV(8γ) = 0.012/0.019 at N = 12/10, beating the 4γ telegrapher ~10×). Resolves the open piece that kept `CoherenceHorizonClaim` + `SecondClockRegimeClaim` at Tier 1 candidate (the half-filling V-Effect ring seam), and corrects its sector label (it is the 2-excitation doublet, not half-filling).
+**Status:** Tier 1 derived (the asymptotic slope, leading order q → 0 / N → ∞): the (2,2) double-excitation seam's slow mode obeys the resummed coherence-ladder dispersion `λ² + 8γλ + 4J²q²` (CV-confirmed, the SE proof's own discriminator), and the handover (its darkness reaching the band-edge floor `⟨n_XY⟩ = 1`) sits at `Q·q = √3`, so `Q_h = √3/q_min → N·√3/(2π)`, slope `√3/(2π)`. The sibling of [the coherence horizon slope](PROOF_COHERENCE_HORIZON_SLOPE.md): same dispersion, but the `darkness = 1` condition (`Q·q = √3`) instead of the EP (`Q·q = 2`). Confirmed numerically N = 6..14 (Q_h·2π/N → √3 monotonically from above) and by the γ-constant-q CV discriminator (CV(8γ) = 0.012/0.019 at N = 12/10, beating the 4γ telegrapher ~10×). Resolves the open piece that kept `CoherenceHorizonClaim` + `SecondClockRegimeClaim` at Tier 1 candidate (the half-filling V-Effect ring seam), and corrects its sector label (it is the 2-excitation doublet, not half-filling).
 **Date:** 2026-06-20
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
-**Sibling of:** [PROOF_COHERENCE_HORIZON_SLOPE](PROOF_COHERENCE_HORIZON_SLOPE.md) (the single-excitation coherence horizon, slope 2/π chain / 1/π ring) and the parallel ceiling result [the ring g2=1 / commutant 2(N−2)/N, commit b191df3].
+**Sibling of:** [the coherence horizon slope](PROOF_COHERENCE_HORIZON_SLOPE.md) (the single-excitation coherence horizon, slope 2/π chain / 1/π ring) and the parallel ceiling result [the ring g2=1 / commutant 2(N−2)/N, commit b191df3].
 
 ## What this is about
 
@@ -120,7 +120,7 @@ Bethe-ansatz problem.
 
 ## Links
 
-- Sibling proof: [PROOF_COHERENCE_HORIZON_SLOPE](PROOF_COHERENCE_HORIZON_SLOPE.md) (same dispersion, the EP
+- Sibling proof: [the coherence horizon slope](PROOF_COHERENCE_HORIZON_SLOPE.md) (same dispersion, the EP
   condition `Q·q = 2 → N/π`; this proof is its `darkness = 1`, `Q·q = √3` sibling).
 - Parallel ceiling: the ring `g2 = 1` (no high-Q ceiling) and the `(1,1)/(2,2)/(N/2,N/2)` commutant
   `2(N−2)/N → 2` (commit b191df3, `StructuralCeilingWitness` RingNode, `ring_ceiling_commutant_sweep.py`):

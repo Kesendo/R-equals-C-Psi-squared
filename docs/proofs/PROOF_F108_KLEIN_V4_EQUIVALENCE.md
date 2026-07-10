@@ -4,11 +4,11 @@
 **Date:** 2026-05-27 (Welle 14)
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
-- [PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md) (the base claim under Z-dephasing)
-- [PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md) (X-dephasing, BitA twin)
-- [PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md) (Y-dephasing, BitB sibling)
-- [PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md) (Welle 12: Klein-V₄ subgroup {I, D, H, Q_zx} of U(4^N))
-- [PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md](PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md) (Welle 13: Route 1 / Route 2 pattern for F112)
+- [F108 Part 1](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md) (the base claim under Z-dephasing)
+- [F108 Part 2](PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md) (X-dephasing, BitA twin)
+- [F108 Part 3](PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md) (Y-dephasing, BitB sibling)
+- [Klein-V₄ dephase-letter swaps on operator space](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md) (Welle 12: Klein-V₄ subgroup {I, D, H, Q_zx} of U(4^N))
+- [F112 cross-dephase extension](PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md) (Welle 13: Route 1 / Route 2 pattern for F112)
 - Verifier `simulations/f108_klein_v4_equivalence_verify.py` + log `simulations/results/f108_klein_v4_equivalence_verify.txt` (Welle 14)
 
 ## Abstract
@@ -25,7 +25,7 @@ The negative result is what makes this proof worth writing separately. Q_zx tran
 
 ## Introduction
 
-**The motivating question.** F108 Parts 1, 2, 3 gave three independent proofs of the Π_5bilinear palindrome identity, one per dephase letter. After Welle 12 Task 2 established the Klein-V₄ subgroup on operator space ([PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)) and Welle 13 used it to transport F112 across the three dephase letters ([PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4](PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md)), the natural follow-up was: does the same Klein-V₄ transport collapse F108 Parts 1/2/3 into one identity plus two corollaries, or do the Π_5b operators have their own structure that resists transport?
+**The motivating question.** F108 Parts 1, 2, 3 gave three independent proofs of the Π_5bilinear palindrome identity, one per dephase letter. After Welle 12 Task 2 established the Klein-V₄ subgroup on operator space ([Klein-V₄ dephase-letter swaps on operator space](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)) and Welle 13 used it to transport F112 across the three dephase letters ([F112 cross-dephase extension](PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md)), the natural follow-up was: does the same Klein-V₄ transport collapse F108 Parts 1/2/3 into one identity plus two corollaries, or do the Π_5b operators have their own structure that resists transport?
 
 **The empirical anchor.** [simulations/f108_klein_v4_equivalence_verify.py](../../simulations/f108_klein_v4_equivalence_verify.py) tested both directions at N = 1, 2, 3, 4:
 - `D · Π_5b(Z) · D = Π_5b(Y)`: residual = 0 bit-exact at every N.

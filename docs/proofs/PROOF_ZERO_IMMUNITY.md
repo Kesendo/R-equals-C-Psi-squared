@@ -3,7 +3,7 @@
 **Tier:** 1 (analytical proof) + 2 (numerical verification at N=3, N=4 to 10⁻¹⁵ precision).
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Companion:** [V_EFFECT_BOUNDARY_LOCALIZATION](../../experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md) (numerical results), [PROOF_BIT_B_PARITY_SYMMETRY](PROOF_BIT_B_PARITY_SYMMETRY.md) ([L, Π²] = 0 analytically), [ZERO_IS_THE_MIRROR](../../hypotheses/ZERO_IS_THE_MIRROR.md) (Σγ=0 as the unitary ground state)
+**Companion:** [V-Effect Boundary Localization](../../experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md) (numerical results), [Bit-b Parity Symmetry](PROOF_BIT_B_PARITY_SYMMETRY.md) ([L, Π²] = 0 analytically), [Zero Is the Mirror](../../hypotheses/ZERO_IS_THE_MIRROR.md) (Σγ=0 as the unitary ground state)
 **Typed claim:** [`ZeroSectorImmunityClaim`](../../compute/RCPsiSquared.Core/Symmetry/ZeroSectorImmunityClaim.cs) (Tier 1 derived; parents F1PalindromeIdentity + F61 + F63 + AbsorptionTheoremClaim). **Live witness:** `inspect --root zeroimmune` ([`ZeroSectorImmunityWitness`](../../compute/RCPsiSquared.Diagnostics/Foundation/ZeroSectorImmunityWitness.cs)) builds a random parity-violating 2-body H and reads ‖M|(w=0)‖ = ‖M|(w=N)‖ ≈ 0 while ‖M‖ > 0 (added 2026-06-15, closing the typed-layer gap).
 
 ---
@@ -204,7 +204,7 @@ The boundary sectors 0 < w < N are where Hamiltonian-form-specific dynamics live
 
 ## Connection to ZERO_IS_THE_MIRROR
 
-[ZERO_IS_THE_MIRROR](../../hypotheses/ZERO_IS_THE_MIRROR.md) shows that at Σγ = 0, the centered Liouvillian satisfies Π·L·Π⁻¹ = −L exactly, with eigenvalue pairing λ ↔ −λ.
+[Zero Is the Mirror](../../hypotheses/ZERO_IS_THE_MIRROR.md) shows that at Σγ = 0, the centered Liouvillian satisfies Π·L·Π⁻¹ = −L exactly, with eigenvalue pairing λ ↔ −λ.
 
 The current theorem is a refined statement: even at Σγ > 0, the **w=0 portion** of the spectrum lies on the imaginary axis (no decay, palindromic exact). The "zero" of ZERO_IS_THE_MIRROR generalizes from "zero noise" (Σγ = 0) to "zero-weight sector" (w = 0). Both are about the algebra reaching back to a center where dissipation does not bite.
 
@@ -212,9 +212,9 @@ The deeper reading: w=0 is the eternal mirror within the dissipative system. The
 
 ## References
 
-- [V_EFFECT_BOUNDARY_LOCALIZATION](../../experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md): N=3, N=4 numerical verification.
-- [PROOF_BIT_B_PARITY_SYMMETRY](PROOF_BIT_B_PARITY_SYMMETRY.md): [L, Π²] = 0 for all N, all 2-body Hamiltonians.
-- [PROOF_PARITY_SELECTION_RULE](PROOF_PARITY_SELECTION_RULE.md): [L, n_XY-parity] = 0 (bit_a parity is conserved).
-- [ZERO_IS_THE_MIRROR](../../hypotheses/ZERO_IS_THE_MIRROR.md): Σγ=0 as the palindromic ground state.
-- [PRIMORDIAL_QUBIT](../../hypotheses/PRIMORDIAL_QUBIT.md): C²⊗C² parity structure (bit_a, bit_b).
-- [V_EFFECT_PALINDROME](../../experiments/V_EFFECT_PALINDROME.md): the original "14 of 36" empirical V-Effect finding.
+- [V-Effect Boundary Localization](../../experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md): N=3, N=4 numerical verification.
+- [Bit-b Parity Symmetry](PROOF_BIT_B_PARITY_SYMMETRY.md): [L, Π²] = 0 for all N, all 2-body Hamiltonians.
+- [Parity Selection Rule](PROOF_PARITY_SELECTION_RULE.md): [L, n_XY-parity] = 0 (bit_a parity is conserved).
+- [Zero Is the Mirror](../../hypotheses/ZERO_IS_THE_MIRROR.md): Σγ=0 as the palindromic ground state.
+- [Primordial Qubit](../../hypotheses/PRIMORDIAL_QUBIT.md): C²⊗C² parity structure (bit_a, bit_b).
+- [V-Effect Palindrome](../../experiments/V_EFFECT_PALINDROME.md): the original "14 of 36" empirical V-Effect finding.

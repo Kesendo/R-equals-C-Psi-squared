@@ -3,7 +3,7 @@
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude
 **Status:** Proven (algebraic, Tier 1) + numerically verified at N=9
-**Generated formula:** spectral mirror α_k = α_{N+1-k} (F65, "Properties"), receiver-menu folding (F67, [HANDSHAKE_ALGEBRA](../../hypotheses/HANDSHAKE_ALGEBRA.md))
+**Generated formula:** spectral mirror α_k = α_{N+1-k} (F65, "Properties"), receiver-menu folding (F67, [Handshake Algebra](../../hypotheses/HANDSHAKE_ALGEBRA.md))
 **Numerical verification:** [`simulations/pi_partner_identity.py`](../../simulations/pi_partner_identity.py) (2026-04-24)
 
 ---
@@ -256,9 +256,9 @@ Confirms the "Scope" caveat above: on the open chain, the deg-discontinuity at t
 
 ## Relation to other results
 
-- **F1 / [MIRROR_SYMMETRY_PROOF](MIRROR_SYMMETRY_PROOF.md) (Π).** F1's Π is a Pauli-string conjugation operator on the 4ᴺ operator space; it maps total XY-weight w to N − w via the per-site swap I ↔ X, Y ↔ iZ, Z ↔ iY. F1's Π is **not** a Hilbert-space operator and does not act on sites; it acts on observables (operators), not on states. K, by contrast, is a Hilbert-space involution on the 2ᴺ space (or its single-excitation N-dim sector). The two symmetries are independent involutions of distinct objects.
+- **F1 / [the Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) (Π).** F1's Π is a Pauli-string conjugation operator on the 4ᴺ operator space; it maps total XY-weight w to N − w via the per-site swap I ↔ X, Y ↔ iZ, Z ↔ iY. F1's Π is **not** a Hilbert-space operator and does not act on sites; it acts on observables (operators), not on states. K, by contrast, is a Hilbert-space involution on the 2ᴺ space (or its single-excitation N-dim sector). The two symmetries are independent involutions of distinct objects.
 
-- **F71 / [PROOF_C1_MIRROR_SYMMETRY](PROOF_C1_MIRROR_SYMMETRY.md) (R).** F71's R is the *spatial reflection* R |1_ℓ⟩ = |1_{N-1-ℓ}⟩. R fixes each F65 mode up to a phase: R ψ_k = (−1)^{k+1} ψ_k. K, by contrast, **swaps** modes: K ψ_k = ψ_{N+1-k}. R and K are distinct Hilbert-space involutions that happen to coexist on the uniform palindromic chain. R requires uniform J (translation-symmetric reflection); K requires only bipartiteness (much weaker).
+- **F71 / [the c₁ mirror-symmetry proof](PROOF_C1_MIRROR_SYMMETRY.md) (R).** F71's R is the *spatial reflection* R |1_ℓ⟩ = |1_{N-1-ℓ}⟩. R fixes each F65 mode up to a phase: R ψ_k = (−1)^{k+1} ψ_k. K, by contrast, **swaps** modes: K ψ_k = ψ_{N+1-k}. R and K are distinct Hilbert-space involutions that happen to coexist on the uniform palindromic chain. R requires uniform J (translation-symmetric reflection); K requires only bipartiteness (much weaker).
 
 - **F65 (bonding-mode spectrum).** The arithmetic identity α_k = α_{N+1-k} from sin²(kπ/(N+1)) = sin²((N+1-k)π/(N+1)) is the spectral consequence of K. F65 stated this as a property of the closed-form formula; the K theorem identifies it as a structural symmetry of H robust under non-uniform J (where the closed-form sin² no longer applies).
 

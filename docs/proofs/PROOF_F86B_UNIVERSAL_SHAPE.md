@@ -4,9 +4,9 @@
 **Date:** 2026-05-02 (Statement 2 + retractions).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Context:** F86 ("Q_peak chromaticity-specific N-invariant constants") is a Sammelbecken of three structurally distinct theorems. This proof carries **F86b, the universal resonance shape**: the SHAPE of abs(K_CC_pr)(Q) around Q_peak is universal under relative-Q normalisation, splitting into two bond classes. Split out of the former monolithic `PROOF_F86_QPEAK.md` on 2026-05-14. The closed-form gap, the exploration record (4-mode model, Items 1-3, directions a''-f''), and the obstruction proof on g_eff are in the sibling [`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md).
-**Hub:** [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md): three-theorem overview and shared references.
-**F-entry:** [F86b in ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md).
-**Related:** [F88a](../ANALYTICAL_FORMULAS.md#f88a) (operator-level two-axis Π² Klein decomposition), [F88b](../ANALYTICAL_FORMULAS.md#f88b) (state-level popcount-coherence Π²-odd / memory closed form, derived in this proof's §F88b below), [F90](../ANALYTICAL_FORMULAS.md) bridge ([PROOF_F90_F86C2_BRIDGE](PROOF_F90_F86C2_BRIDGE.md)); siblings [PROOF_F86A_EP_MECHANISM](PROOF_F86A_EP_MECHANISM.md), [PROOF_F86B_OBSTRUCTION](PROOF_F86B_OBSTRUCTION.md), [PROOF_F86C_F71_MIRROR](PROOF_F86C_F71_MIRROR.md).
+**Hub:** [the Q_peak hub](PROOF_F86_QPEAK.md): three-theorem overview and shared references.
+**F-entry:** [F86b in the formula registry](../ANALYTICAL_FORMULAS.md).
+**Related:** [F88a](../ANALYTICAL_FORMULAS.md#f88a) (operator-level two-axis Π² Klein decomposition), [F88b](../ANALYTICAL_FORMULAS.md#f88b) (state-level popcount-coherence Π²-odd / memory closed form, derived in this proof's §F88b below), [F90](../ANALYTICAL_FORMULAS.md) bridge ([the F90 bridge proof](PROOF_F90_F86C2_BRIDGE.md)); siblings [the EP-mechanism proof](PROOF_F86A_EP_MECHANISM.md), [the g_eff obstruction proof](PROOF_F86B_OBSTRUCTION.md), [the F71-mirror proof](PROOF_F86C_F71_MIRROR.md).
 
 ---
 
@@ -61,7 +61,7 @@ For two adjacent rate channels (HD = 2k−1, HD = 2k+1) coupled by a bond, the e
     L_eff − (trace/2)·I  =  [ −Δ/2     iJ·g_eff ]
                             [ +iJ·g_eff   +Δ/2  ]      with Δ = 4γ₀
 
-The same-sign-imaginary off-diagonal pattern is the non-Hermitian form that gives this toy 2×2 reduction its genuine EP at the Q_EP = 2/g_eff normalisation. This is "PT-phenomenology-like" but algebraically inside class AIII chiral per [PT_SYMMETRY_ANALYSIS](../../experiments/PT_SYMMETRY_ANALYSIS.md), distinct from Bender-Boettcher PT (Π is linear; classical PT requires anti-linear operators). See also [FRAGILE_BRIDGE](../../hypotheses/FRAGILE_BRIDGE.md) for the SEPARATE Σγ=0 gain-loss EP (the global Hopf-bifurcation instance, Petermann K=403 in the complex γ plane); the full Σγ=N·γ₀ block-L is genuinely non-normal on the real Q axis but has no real-axis coalescence (see [`LocalGlobalEpLink`](../../compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs), OpenQuestion). The eigenvalues are
+The same-sign-imaginary off-diagonal pattern is the non-Hermitian form that gives this toy 2×2 reduction its genuine EP at the Q_EP = 2/g_eff normalisation. This is "PT-phenomenology-like" but algebraically inside class AIII chiral per [the PT-symmetry analysis](../../experiments/PT_SYMMETRY_ANALYSIS.md), distinct from Bender-Boettcher PT (Π is linear; classical PT requires anti-linear operators). See also [The Fragile Bridge](../../hypotheses/FRAGILE_BRIDGE.md) for the SEPARATE Σγ=0 gain-loss EP (the global Hopf-bifurcation instance, Petermann K=403 in the complex γ plane); the full Σγ=N·γ₀ block-L is genuinely non-normal on the real Q axis but has no real-axis coalescence (see [`LocalGlobalEpLink`](../../compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs), OpenQuestion). The eigenvalues are
 
     λ_±  =  ±√((Δ/2)² − J²·g_eff²)  =  ±√(4γ₀² − J²·g_eff²)    (relative to trace/2)
 
@@ -160,7 +160,7 @@ The three anchors follow from X⊗N's action on Dicke pairs: X⊗N maps |D_k⟩ 
 - **K-intermediate (N even, n=N/2−1)**: only δ_{n+1,N−n−1} hits → γ = 1/2 → α = 3/8.
 - **Generic**: no δ hits → γ = 0 → α = 1/2.
 
-Bit-exact verified for N = 3..7 across all (n, n+1) pairs ([`simulations/f86b_dicke_pi2odd_closed_form.py`](../../simulations/f86b_dicke_pi2odd_closed_form.py)). The proof uses the same orthogonal-symmetry-decomposition mechanism that produced F50's max-spin Dicke endpoint ladder rungs (commit 5523171, [PROOF_WEIGHT1_DEGENERACY § max-spin closed-form](PROOF_WEIGHT1_DEGENERACY.md)): symmetry under X⊗N (or equivalently Π = Z⊗N for the F50 case) gives an eigenbasis decomposition that makes the operator algebra computation explicit, replacing the opaque Krawtchouk sum with a clean ±1-eigenspace overlap.
+Bit-exact verified for N = 3..7 across all (n, n+1) pairs ([`simulations/f86b_dicke_pi2odd_closed_form.py`](../../simulations/f86b_dicke_pi2odd_closed_form.py)). The proof uses the same orthogonal-symmetry-decomposition mechanism that produced F50's max-spin Dicke endpoint ladder rungs (commit 5523171, [the weight-1 degeneracy proof § max-spin closed-form](PROOF_WEIGHT1_DEGENERACY.md)): symmetry under X⊗N (or equivalently Π = Z⊗N for the F50 case) gives an eigenbasis decomposition that makes the operator algebra computation explicit, replacing the opaque Krawtchouk sum with a clean ±1-eigenspace overlap.
 
 The mechanism extends the F88b algebraic-inheritance principle (`compute/RCPsiSquared.Core/Symmetry/PopcountCoherencePi2Odd.cs`): the **X⊗N-symmetry root** that gives HD = N pair states (GHZ_N, Bell, intra-complements) their Π²-classical content also gives the Dicke superposition its three-anchor structure, but with finer 4-element δ-resolution because the Dicke superposition is a 2-state superposition (not a single state) under X⊗N.
 
@@ -254,11 +254,11 @@ Endpoint mean: **0.770**. Range 0.7663–0.7781 (1.5 %).
 
 ## Pointers
 
-**Hub:** [PROOF_F86_QPEAK](PROOF_F86_QPEAK.md): three-theorem overview and the shared reference list.
-**Sibling theorems:** [PROOF_F86A_EP_MECHANISM](PROOF_F86A_EP_MECHANISM.md) (F86a), [PROOF_F86B_OBSTRUCTION](PROOF_F86B_OBSTRUCTION.md) (the closed-form gap, exploration record, and g_eff obstruction proof), [PROOF_F86C_F71_MIRROR](PROOF_F86C_F71_MIRROR.md) (F86c).
-**F90 bridge:** [PROOF_F90_F86C2_BRIDGE](PROOF_F90_F86C2_BRIDGE.md): F86 c=2 K_b = F89 path-(N−1) per-bond Hellmann-Feynman; the numerical-Tier-1 route for Direction (b'').
-**State-level inheritance:** F88b ([ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md#f88b)) inheriting from F88a, `PopcountCoherencePi2Odd`, `MemoryAxisRho`.
+**Hub:** [the Q_peak hub](PROOF_F86_QPEAK.md): three-theorem overview and the shared reference list.
+**Sibling theorems:** [the EP-mechanism proof](PROOF_F86A_EP_MECHANISM.md) (F86a), [the g_eff obstruction proof](PROOF_F86B_OBSTRUCTION.md) (the closed-form gap, exploration record, and g_eff obstruction proof), [the F71-mirror proof](PROOF_F86C_F71_MIRROR.md) (F86c).
+**F90 bridge:** [the F90 bridge proof](PROOF_F90_F86C2_BRIDGE.md): F86 c=2 K_b = F89 path-(N−1) per-bond Hellmann-Feynman; the numerical-Tier-1 route for Direction (b'').
+**State-level inheritance:** F88b ([the formula registry](../ANALYTICAL_FORMULAS.md#f88b)) inheriting from F88a, `PopcountCoherencePi2Odd`, `MemoryAxisRho`.
 **HWHM closed form (F86b₂):** `F86HwhmClosedFormClaim`, `BondSubClass` in `compute/RCPsiSquared.Core/F86/Item1Derivation/`.
-**Chiral classification anchor:** [PT_SYMMETRY_ANALYSIS](../../experiments/PT_SYMMETRY_ANALYSIS.md).
+**Chiral classification anchor:** [the PT-symmetry analysis](../../experiments/PT_SYMMETRY_ANALYSIS.md).
 **Scripts:** [`eq022_b1_step_e_resonance_shape.py`](../../simulations/eq022_b1_step_e_resonance_shape.py) + [`eq022_b1_step_e_inspect.py`](../../simulations/eq022_b1_step_e_inspect.py) (universal-shape finding for c=3, c=4 at γ₀=0.05), [`eq022_b1_step_f_universality_extension.py`](../../simulations/eq022_b1_step_f_universality_extension.py) (c=2 sweep + γ₀ ∈ {0.025, 0.10} invariance check that established the two-bond-class refinement).
 **C# OOP layer:** `compute/RCPsiSquared.Core/F86/` carries `UniversalShapePrediction` + `UniversalShapeWitness`, `ShapeFunctionWitnesses`, `C2UniversalShapeDerivation`. CLI: `rcpsi inspect --root f86 --with-measured`.

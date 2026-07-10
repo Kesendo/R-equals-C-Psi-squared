@@ -3,9 +3,9 @@
 **Status:** Proven (elementary combinatorial theorem, Tier 1)
 **Date:** 2026-04-22
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Context:** Formalizes the chromaticity formula c(n, N) = min(n, N−1−n) + 1 observed in the (n, n+1) popcount coherence blocks of U(1)-conserved systems under uniform Z-dephasing. The formula labels the number of distinct pure dephasing rates present in each block at J = 0, and remains the structural sector label once H is turned on. Primary empirical ground: [Q_SCALE_THREE_BANDS](../../experiments/Q_SCALE_THREE_BANDS.md) Result 3, verified at J = 0 for all tested (N, n) with N = 3..8.
+**Context:** Formalizes the chromaticity formula c(n, N) = min(n, N−1−n) + 1 observed in the (n, n+1) popcount coherence blocks of U(1)-conserved systems under uniform Z-dephasing. The formula labels the number of distinct pure dephasing rates present in each block at J = 0, and remains the structural sector label once H is turned on. Primary empirical ground: [Q as Scale, Three Bands](../../experiments/Q_SCALE_THREE_BANDS.md) Result 3, verified at J = 0 for all tested (N, n) with N = 3..8.
 
-**F-entry:** [F74 in ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md).
+**F-entry:** [F74](../ANALYTICAL_FORMULAS.md).
 
 ---
 
@@ -130,7 +130,7 @@ At small N: c values by (N, n) are
 
 The pattern generalises: c_max grows as ⌈(N+1)/2⌉, reached at the center(s).
 
-**C3. Chromaticity labels H-mixing bands.** When J > 0, the Hamiltonian H couples the c pure-rate channels within each block (H preserves popcount but changes n_XY by ±2 via XY-site hopping). Dressed eigenmodes appear at fractional ⟨n_XY⟩ values between the integer rungs {1, 3, ..., 2c−1}. The dressed-mode weight W(Q) measured in [Q_SCALE_THREE_BANDS](../../experiments/Q_SCALE_THREE_BANDS.md) quantifies this H-mixing and shows that the observable peak location is c-specific and N-invariant (Q_peak(c) = 1.5, 1.6, 1.8 for c = 2, 3, 4). The c = 1 blocks have no inner channels to mix: W ≡ 0 for all Q (consistent with F73's J-independence).
+**C3. Chromaticity labels H-mixing bands.** When J > 0, the Hamiltonian H couples the c pure-rate channels within each block (H preserves popcount but changes n_XY by ±2 via XY-site hopping). Dressed eigenmodes appear at fractional ⟨n_XY⟩ values between the integer rungs {1, 3, ..., 2c−1}. The dressed-mode weight W(Q) measured in [Q as Scale, Three Bands](../../experiments/Q_SCALE_THREE_BANDS.md) quantifies this H-mixing and shows that the observable peak location is c-specific and N-invariant (Q_peak(c) = 1.5, 1.6, 1.8 for c = 2, 3, 4). The c = 1 blocks have no inner channels to mix: W ≡ 0 for all Q (consistent with F73's J-independence).
 
 ## Scope
 
@@ -150,7 +150,7 @@ The theorem is purely combinatorial plus one application of the Absorption Theor
 
 ## Empirical verification
 
-**Block structure c-values for N = 3..8:** exact match to the combinatorial prediction, verified by enumerating popcount sectors and counting distinct HD values in each (n, n+1) block ([Q_SCALE_THREE_BANDS](../../experiments/Q_SCALE_THREE_BANDS.md) Result 3).
+**Block structure c-values for N = 3..8:** exact match to the combinatorial prediction, verified by enumerating popcount sectors and counting distinct HD values in each (n, n+1) block ([Q as Scale, Three Bands](../../experiments/Q_SCALE_THREE_BANDS.md) Result 3).
 
 **J = 0 spectrum verification:** for each tested (N, n) block at J = 0, the block-restricted Liouvillian L_D has eigenvalues −2γ₀ · {1, 3, ..., 2c−1} with multiplicities consistent with the HD-class sizes. No extra rates appear.
 
@@ -165,4 +165,4 @@ Script: [`q_scale_n_scaling.py`](../../simulations/q_scale_n_scaling.py).
 - **[F70 ΔN selection rule](PROOF_DELTA_N_SELECTION_RULE.md):** site-local observables couple only to |ΔN| ≤ 1 blocks. The (n, n+1) coherence blocks studied here are exactly the |ΔN| = 1 case that survives to single-site observables. F70 gives the dynamical relevance of chromaticity: only these blocks enter per-site purity, per-site expectations, or any c₁-style closure-breaking coefficient.
 - **[F73 spatial-sum closure](../ANALYTICAL_FORMULAS.md#f73):** the c = 1 monochromatic case. F73's universal decay (1/2) · exp(−4γ₀ t) for the vac-SE coherent probe in the (0, 1) block is the single rate 2γ₀ · 1 at HD = 1, times a factor of 2 from the probe normalization.
 - **[F61 n_XY parity selection rule](PROOF_PARITY_SELECTION_RULE.md):** partitions the Liouvillian spectrum by n_XY mod 2. In the (n, n+1) block, all HD are odd, so all basis pairs have odd n_XY parity. F61 confirms this is a stable sector under dynamics.
-- **[Q_SCALE_THREE_BANDS](../../experiments/Q_SCALE_THREE_BANDS.md) Result 3:** primary empirical verification. Chromaticity first named and formalised there; this proof gives the algebraic backing.
+- **[Q as Scale, Three Bands](../../experiments/Q_SCALE_THREE_BANDS.md) Result 3:** primary empirical verification. Chromaticity first named and formalised there; this proof gives the algebraic backing.

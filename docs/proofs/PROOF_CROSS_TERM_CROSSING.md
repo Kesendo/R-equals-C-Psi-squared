@@ -3,7 +3,7 @@
 **Tier:** 1 (fully analytical)
 **Date:** April 14, 2026
 **Depends on:**
-- [PROOF_CROSS_TERM_FORMULA.md](PROOF_CROSS_TERM_FORMULA.md) (parent proof; Lemmas 1, 3 reused)
+- [Cross-Term Formula](PROOF_CROSS_TERM_FORMULA.md) (parent proof; Lemmas 1, 3 reused)
 - [cross_term_crossing.py](../../simulations/cross_term_crossing.py) (numerical verification)
 **Status:** Proven (all graph topologies, all shadow-crossing couplings)
 **Scope:** Any bond coupling alpha_i beta_j with one Pauli in {X,Y} and
@@ -43,7 +43,7 @@ The only change from the balanced case (N-2) is the replacement N-2 -> N-1.
 ## Proof
 
 Steps 1 (dissipator norm), 4 (disjoint supports), and the final assembly
-are identical to [PROOF_CROSS_TERM_FORMULA](PROOF_CROSS_TERM_FORMULA.md).
+are identical to [Cross-Term Formula](PROOF_CROSS_TERM_FORMULA.md).
 Only Steps 2 and 3 change.
 
 ### Modified Step 2: Bond-site deviation
@@ -131,8 +131,8 @@ QED.
 
 | Component | Location |
 |-----------|----------|
-| Parent proof (balanced) | [PROOF_CROSS_TERM_FORMULA.md](PROOF_CROSS_TERM_FORMULA.md) |
-| Experiment | [experiments/CROSS_TERM_CROSSING.md](../../experiments/CROSS_TERM_CROSSING.md) |
+| Parent proof (balanced) | [Cross-Term Formula](PROOF_CROSS_TERM_FORMULA.md) |
+| Experiment | [Cross-Term Crossing experiment](../../experiments/CROSS_TERM_CROSSING.md) |
 | Verification script | [simulations/cross_term_crossing.py](../../simulations/cross_term_crossing.py) |
 
 ---
