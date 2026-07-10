@@ -45,7 +45,7 @@ block between two triples; X = B(tau,tau), Y = B(tau,tau'); k(tau) := k1+k2+k3 i
       an EMPTY sum when the triples share no mode (D).  For a mirror pair (E) gives
       mode-disjointness and (C) gives eps = +1, so U+ = U- and U+ + U- = F = 0, so both vanish
       and every entry of Y with them.  Uniform in N; no per-N check.
-      What this does NOT use: lam_a + lam_b + lam_c = 0 enters ONLY through (E).  Y = 0 holds
+      What this does NOT use: the vanishing lam_k1 + lam_k2 + lam_k3 = 0 enters ONLY through (E).  Y = 0 holds
       for ANY triple mode-disjoint from its mirror, resonant or not (checked below, together
       with a witness showing the hypothesis is not removable).  The twinning is a
       mode-reflection selection rule, not an arithmetic accident of resonance.
@@ -305,6 +305,8 @@ def check_cross_triple_blocks(N):
     assert worst["mirror"] < TOL, f"(F) N={N}: the mirror block Y is nonzero"
     for k in ("lemma4", "byhand", "measured"):
         assert worst[k] < TOL, f"(J) N={N}: a '{k}' block is nonzero"
+    # the by-hand column is a closed form, not a count: every unordered pair of distinct TRIV triples
+    assert cnt["byhand"] == len(triv) * (len(triv) - 1) // 2 == (N - 1) // 2 * ((N - 1) // 2 - 1) // 2,         f"(J) N={N}: byhand {cnt['byhand']} != C(#TRIV, 2)"
     tot = sum(cnt.values())
     print(f"  N={N:>3} | Y (mirror, PROVED) {worst['mirror']:.1e} | {tot} distinct non-mirror pairs: "
           f"{cnt['lemma4']} by Lemma 4, {cnt['byhand']} by hand (TRIVxTRIV), "

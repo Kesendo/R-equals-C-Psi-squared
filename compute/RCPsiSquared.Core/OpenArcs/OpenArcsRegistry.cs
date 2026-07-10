@@ -1075,7 +1075,7 @@ public static class OpenArcsRegistry
                 "matrix of eta_{tau,0}(b,c) := G_tau(b,c) 1{c>b} over the vanishing triples is DIAGONAL. It is " +
                 "not a symmetry we overlooked: the bipartite sign and the site reflection generate only " +
                 "B(tau,sigma) = B(tau',sigma') and U+ = eps*U-; neither forces U+ = 0. And it must consume " +
-                "lam_a+lam_b+lam_c = 0 (counting: D_tau -> eta_0 lands in C(N,2) dims while there are C(N,3) " +
+                "lam_k1+lam_k2+lam_k3 = 0 (counting: D_tau -> eta_0 lands in C(N,2) dims while there are C(N,3) " +
                 "triples, so the Gram is NOT diagonal for arbitrary triples). " +
                 "(5) THE LEAD: at EVEN N (n odd) every mirror pair has eps = -1, so this proof says nothing, " +
                 "yet Y = 0 holds anyway (N=14, n=15: 3 mirror pairs, no self-mirror since n/2 is not an " +

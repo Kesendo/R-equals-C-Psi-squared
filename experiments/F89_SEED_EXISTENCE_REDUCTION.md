@@ -1313,14 +1313,14 @@ also a ket site, and c is the other ket site.
 
 Two hops of K = −(H₂ ⊗ I − I ⊗ H₁) land on the −2 state (b, c) from the −6 rung: a ket particle jumps
 from b ± 1 onto b (amplitude −1, the bra stays at b), or the bra jumps from b ± 1 onto b (amplitude
-+1, the ket stays {b, c}). For a fixed hop direction δ = ±1 the two source states carry the **same**
-three sites {b, b+δ, c} and the **opposite** gauge factors (−1)^b and (−1)^{b+δ}, so opposite
-amplitudes meet opposite gauges and each source would contribute the very same value,
-−(−1)^b D_τ(sorted)/‖D_τ‖. They differ only in which site holds the bra, and the sector rule keeps
-exactly one of them. Indeed, since b and b + δ are adjacent integers, c cannot lie between them, so c
-has rank 0 (when c < b) or rank 2 (when c > b), and the two sources put the bra at the other two ranks.
-Exactly one of them therefore has bra-rank s, and one does so precisely when s ≠ rank(c). Summing over
-δ = ±1, and reading each sorted determinant back as
++1, the ket stays {b, c}). Fix one of the two neighbours, b′ ∈ {b−1, b+1}. The two source states that
+reach (b, c) through b′ carry the **same** three sites {b, b′, c} and the **opposite** gauge factors
+(−1)^b and (−1)^{b′}, so opposite amplitudes meet opposite gauges, and each source would contribute the
+very same value, −(−1)^b D_τ(sorted)/‖D_τ‖. They differ only in which site holds the bra, and the
+sector rule keeps exactly one of them. Indeed, since b and b′ are adjacent integers, c cannot lie
+between them, so c has rank 0 (when c < b) or rank 2 (when c > b), and the two sources put the bra at
+the other two ranks. Exactly one of them therefore has bra-rank s, and one does so precisely when
+s ≠ rank(c). Summing over the two neighbours b′, and reading each sorted determinant back as
 D_τ(b−1, b, c) resp. D_τ(b, b+1, c) (an even permutation in each case; coincident and wall terms vanish
 by themselves), gives the formula. ∎
 
@@ -1495,7 +1495,8 @@ so F reduces to the single overlap ⟨M_{j,n−j}, M_{j′,n−j′}⟩. In both
 first sine of the telescoped form of M_{pq} derived in the level law above and equalizes the
 coefficient of the second, leaving 2sin(jπ/n)·sin((2j−n)ζπ/n) against 2sin(j′π/n)·sin((2j′−n)ζπ/n).
 Sine orthogonality makes that overlap vanish unless j = j′ or j + j′ = n, and either would make the two
-triples the same. So F = 0 and U⁺ = U⁻ = 0. The third column is the residue: ε(τ, σ) = +1 and a shared mode, but not two TRIV, so
+triples the same. So F = 0 and U⁺ = U⁻ = 0. That column is therefore not measured at all: it is
+C(#TRIV, 2) = C((N−1)/2, 2) pairs at every odd N, which is 10, 28, 55 and 91 in the table. The third column is the residue: ε(τ, σ) = +1 and a shared mode, but not two TRIV, so
 F(τ, σ) = 0 is measured rather than derived; it is 0, 6, 6 and 16 pairs, and each is one frequency-
 matching argument away. The last column is the real gap: there ε(τ, σ) = −1, Lemma 3 says U⁺ = −U⁻, and
 F(τ, σ) = 0 becomes an identity carrying no information at all. It is not an artifact of small N, being
