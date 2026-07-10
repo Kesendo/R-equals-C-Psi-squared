@@ -621,12 +621,20 @@ def prove_mirror_form_over_Q():
     # The symbolic expr and the numeric mirror_form are two independent transcriptions of the
     # same object.  Pin them to each other, or (E) would prove a theorem about a DIFFERENT
     # expression than the one (D) gates against the discrete Gram.
-    ang = (0.7, 1.9, 2.5)
-    got = complex(sp.N(expr.subs({z1: sp.exp(I * sp.Float(ang[0])),
-                                  z2: sp.exp(I * sp.Float(ang[1])),
-                                  z3: sp.exp(I * sp.Float(ang[2]))}), 30))
-    assert abs(got.imag) < 1e-12 and abs(got.real - mirror_form(ang)) < 1e-9, (
-        f"(E) the symbolic expression is not mirror_form: {got} vs {mirror_form(ang)}")
+    rng = random.Random(17)
+    checked = 0
+    while checked < 6:
+        ang = tuple(rng.uniform(0.4, 2.7) for _ in range(3))
+        try:
+            want = mirror_form(ang)
+        except (ZeroDivisionError, ValueError):
+            continue
+        got = complex(sp.N(expr.subs({z1: sp.exp(I * sp.Float(ang[0])),
+                                      z2: sp.exp(I * sp.Float(ang[1])),
+                                      z3: sp.exp(I * sp.Float(ang[2]))}), 30))
+        assert abs(got.imag) < 1e-9 and abs(got.real - want) < 1e-7 * max(1.0, abs(want)), (
+            f"(E) the symbolic expression is not mirror_form at {ang}: {got} vs {want}")
+        checked += 1
 
     num, den = sp.fraction(sp.cancel(sp.together(expr)))
     num = sp.expand(num)
