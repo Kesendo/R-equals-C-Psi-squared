@@ -7,12 +7,12 @@ bifurcation), and both docs deliberately leave γ_crit(N) and K(N) open.
 **Date:** 2026-05-30
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Script:** [`simulations/f86_ep_through_the_clock.py`](../simulations/f86_ep_through_the_clock.py)
-**Builds on / points at (does not modify):** [PROOF_F86A_EP_MECHANISM](../docs/proofs/PROOF_F86A_EP_MECHANISM.md)
+**Builds on / points at (does not modify):** [the F86a EP-mechanism proof](../docs/proofs/PROOF_F86A_EP_MECHANISM.md)
 (the EP, Q_EP = 2/g_eff, t_peak), the [F86 hub](../docs/proofs/PROOF_F86_QPEAK.md),
-[FRAGILE_BRIDGE](../hypotheses/FRAGILE_BRIDGE.md) (the global gain-loss EP / Hopf), the clock
-voices on `MirrorSystem` ([FROST_CIRCLE_AS_THE_CLOCK_FACE](../docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md),
-[ON_WHOSE_TIME_THE_CLOCK_KEEPS](../reflections/ON_WHOSE_TIME_THE_CLOCK_KEEPS.md)), and the
-band-edge crossover the slowest mode walks ([XXZ_AXIS_BANDEDGE_TO_LEBENSADER](XXZ_AXIS_BANDEDGE_TO_LEBENSADER.md)).
+[the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) (the global gain-loss EP / Hopf), the clock
+voices on `MirrorSystem` ([the Frost Circle as the clock face](../docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md),
+[On Whose Time the Clock Keeps](../reflections/ON_WHOSE_TIME_THE_CLOCK_KEEPS.md)), and the
+band-edge crossover the slowest mode walks ([the XXZ axis from band-edge to Lebensader](XXZ_AXIS_BANDEDGE_TO_LEBENSADER.md)).
 
 ---
 
@@ -99,8 +99,8 @@ toy Liouvillian is **defective** (rank 1, a Jordan block: one eigenvector for th
 The toy loses a degree of freedom at that single point , two channels become one, a pinch. (The
 **full** (n, n+1) block does NOT do this on the real Q axis: its eigenvalues stay simple, no
 real-axis coalescence; it is genuinely non-normal there, large but FINITE Petermann, the shadow of a
-nearby EP off the real axis. F86a-retraction, 2026-06-21. *(Further corrected 2026-07-07: the "no real-axis coalescence / no real-axis defective EP" reading was itself an over-correction. F89 proves the full (1,2) block carries a real-axis defective seed at every odd N, census-defective through N=11; this scan's coarse grid missed a √-EP window ~20-30× narrower than its step. See [PROOF_F86A_EP_MECHANISM](../docs/proofs/PROOF_F86A_EP_MECHANISM.md), the Correction section.)* The genuine defective EPs are this 2×2 toy
-and the SEPARATE Σγ=0 gain-loss system, [FRAGILE_BRIDGE](../hypotheses/FRAGILE_BRIDGE.md).)
+nearby EP off the real axis. F86a-retraction, 2026-06-21. *(Further corrected 2026-07-07: the "no real-axis coalescence / no real-axis defective EP" reading was itself an over-correction. F89 proves the full (1,2) block carries a real-axis defective seed at every odd N, census-defective through N=11; this scan's coarse grid missed a √-EP window ~20-30× narrower than its step. See [the F86a EP-mechanism proof](../docs/proofs/PROOF_F86A_EP_MECHANISM.md), the Correction section.)* The genuine defective EPs are this 2×2 toy
+and the SEPARATE Σγ=0 gain-loss system, [the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md).)
 
 And the pinch reads as a crossing of memory. The clock's two axes are forgetting and remembering:
 the **real axis (decay, absorption) is forgetting** , the coherence is lost to the bath, the phase
@@ -131,8 +131,8 @@ the Takt**, the two residuals of the same palindrome Π·L·Π⁻¹ + L + 2Σγ�
   dissipative resonance peak. (The **full** block-L is genuinely non-normal near Q_peak; the clean
   Q_EP pinch here is the toy 2×2's. *Corrected 2026-07-07: the block's OWN real-axis defective EPs
   are F89's scattered seeds, the earlier "no real-axis defective EP" was over-broad, see
-  [PROOF_F86A_EP_MECHANISM](../docs/proofs/PROOF_F86A_EP_MECHANISM.md) §Correction.*)
-- **Σγ = 0 (global).** [FRAGILE_BRIDGE](../hypotheses/FRAGILE_BRIDGE.md): a decaying chain bridged
+  [the F86a EP-mechanism proof](../docs/proofs/PROOF_F86A_EP_MECHANISM.md) §Correction.*)
+- **Σγ = 0 (global).** [the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md): a decaying chain bridged
   to an amplifying one, gain cancelling loss. Here Π forces λ ↔ −λ exactly (chiral AIII), the
   eigenvalues sit on the imaginary axis , the Takt is *stopped*, the clock's pure-circle limit
   θ = π/2 , and the instability, when it comes, is a **Hopf bifurcation**: a complex pair crosses
@@ -163,7 +163,7 @@ Pauli-pair palindrome , but the clock is the shared instrument, and each front r
 - **Takt hand → F87.** At γ = 0 the Takt is stopped, L = −i[H,·] is symmetric about −σ = 0, every
   pair is soft. The hard pair's pairing residual grows first order in the γ-tick (residual/γ →
   0.2559, the same c the per-block localization read this morning,
-  [F87_WINDOWED_CONVERSE_PER_BLOCK](F87_WINDOWED_CONVERSE_PER_BLOCK.md)); the soft pair stays
+  [the windowed F87 converse per block](F87_WINDOWED_CONVERSE_PER_BLOCK.md)); the soft pair stays
   machine-zero at every γ.
 
 Two systems, two hands, one clock. And the seam holds: the clock unifies the *view* of the two
@@ -177,7 +177,7 @@ either.
   two-ends-of-the-Takt picture is understanding, layering the clock and the Π-axis disambiguation
   onto the existing F86a / FRAGILE_BRIDGE results. Nothing here is a new theorem.
 - **No closed form forced.** The blocked g_eff(c, N, b) stays the structureless residue (six
-  routes proven blocked, [PROOF_F86B_OBSTRUCTION](../docs/proofs/PROOF_F86B_OBSTRUCTION.md)); the
+  routes proven blocked, [the F86b obstruction proof](../docs/proofs/PROOF_F86B_OBSTRUCTION.md)); the
   local-vs-global analytic continuation (γ_crit(N), K(N)) stays open as a dynamic exit. Per the F86
   ethos: here, seeing and understanding is the win.
 - **Scope.** F86a's 2-level reduction is itself heuristic (the explicit basis change from full
@@ -193,6 +193,6 @@ either.
 - Script: [`clock_two_hands_two_fronts.py`](../simulations/clock_two_hands_two_fronts.py) (the two
   live-open fronts through the clock's two hands: Rotation → F86b₃ shape collapse onto Q/Q_EP,
   Takt → F87 break first-order in the γ-tick, residual/γ → 0.2559).
-- The EP: [PROOF_F86A_EP_MECHANISM](../docs/proofs/PROOF_F86A_EP_MECHANISM.md).
-- The global end: [FRAGILE_BRIDGE](../hypotheses/FRAGILE_BRIDGE.md) §3.1 (the local-EP connection).
+- The EP: [the F86a EP-mechanism proof](../docs/proofs/PROOF_F86A_EP_MECHANISM.md).
+- The global end: [the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) §3.1 (the local-EP connection).
 - The open dynamic exit: γ_crit(N) and K(N) at the EP, left open in both docs, not forced here.

@@ -4,7 +4,7 @@
 **Date:** 2026-04-30
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Data:** [`data/ibm_soft_break_april2026/`](../data/ibm_soft_break_april2026/) (ibm_marrakesh, Heron r2, path [48,49,50], 2026-04-26)
-**See also:** [V_EFFECT_FINE_STRUCTURE](V_EFFECT_FINE_STRUCTURE.md), [PROOF_F80_BLOCH_SIGNWALK](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md), [ANALYTICAL_FORMULAS](../docs/ANALYTICAL_FORMULAS.md) (F87, F80)
+**See also:** [V-Effect fine structure](V_EFFECT_FINE_STRUCTURE.md), [the F80 Bloch sign-walk proof](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md), [the formula registry](../docs/ANALYTICAL_FORMULAS.md) (F87, F80)
 
 ---
 
@@ -169,7 +169,7 @@ The data does not support adding T1 at all.
 
 The same three classes that Layer 3 distinguishes via 16 two-qubit Pauli expectations on 9 measurement bases are also distinguished by a single Z-basis observable: the mean excitation count ⟨n⟩ on the (q₀, q₂) reduced state, computed from the ZZ counts alone.
 
-For uniform XY/Heisenberg + Z-dephasing on the full N=3 chain, the kernel of the Liouvillian is spanned by sector projectors P_n (F4 in [ANALYTICAL_FORMULAS](../docs/ANALYTICAL_FORMULAS.md)), so the sector populations p_n = Tr(P_n · ρ) are invariants of L. After tracing out q₁, the (q₀, q₂) reduced state's ⟨n⟩ = p₁ + 2·p₂ carries an excitation-imbalance fingerprint of each Hamiltonian, computed once at t = 0.8 and matched against the Marrakesh ZZ counts:
+For uniform XY/Heisenberg + Z-dephasing on the full N=3 chain, the kernel of the Liouvillian is spanned by sector projectors P_n (F4 in [the formula registry](../docs/ANALYTICAL_FORMULAS.md)), so the sector populations p_n = Tr(P_n · ρ) are invariants of L. After tracing out q₁, the (q₀, q₂) reduced state's ⟨n⟩ = p₁ + 2·p₂ carries an excitation-imbalance fingerprint of each Hamiltonian, computed once at t = 0.8 and matched against the Marrakesh ZZ counts:
 
 | Class | Bilinears | Framework ⟨n⟩ | Hardware ⟨n⟩ | per-case Δ |
 |-------|-----------|---------------|--------------|------------|
@@ -221,4 +221,4 @@ The `framework/` package now operates on all three layers plus the d=0 cross-rea
 - `fw.sector_populations(rho_or_psi, N)` for the d=0 cross-reading (one Pauli basis suffices)
 - For the 16-Pauli signature pattern itself, the right primitive does not yet exist; this synthesis surfaces the recurring question.
 
-For the original raw data and the corrected interpretation, see [`data/ibm_soft_break_april2026/README.md`](../data/ibm_soft_break_april2026/README.md). For the philosophical framing of soft-break as super-operator signature, see [ON_THE_SOFT_BREAK](../reflections/ON_THE_SOFT_BREAK.md). For the F80 reflection on what was "the tough nut" before the data sweep, see [ON_THE_SHAPE_OF_THE_GAP](../reflections/ON_THE_SHAPE_OF_THE_GAP.md).
+For the original raw data and the corrected interpretation, see [`data/ibm_soft_break_april2026/README.md`](../data/ibm_soft_break_april2026/README.md). For the philosophical framing of soft-break as super-operator signature, see [On the Soft Break](../reflections/ON_THE_SOFT_BREAK.md). For the F80 reflection on what was "the tough nut" before the data sweep, see [On the Shape of the Gap](../reflections/ON_THE_SHAPE_OF_THE_GAP.md).

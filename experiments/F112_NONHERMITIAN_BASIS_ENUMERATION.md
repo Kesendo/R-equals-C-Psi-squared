@@ -4,7 +4,7 @@
 **Date:** 2026-05-26 (initial enumeration N≤4); 2026-05-26 Welle 10b (extended to N=5); 2026-05-27 Welle 11 (universal-N structural proof); 2026-05-27 Welle 10d (sparse-rep extension to N=6).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Scripts:** Structural proof verifier [`simulations/f112_universal_n_proof_verify.py`](../simulations/f112_universal_n_proof_verify.py) (Welle 11, N=1, 2, 3) + Python enumeration [`simulations/f112_open_identity_basis_enum.py`](../simulations/f112_open_identity_basis_enum.py) (Welle 10a, N=2..5) + C# dense enumeration [`compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs`](../compute/RCPsiSquared.Diagnostics/Polarity/F112NonHermitianBasisEnumeration.cs) (Welle 10b, N=2..5 via SLOW_F112-tagged test; Welle 10d sparse-rep path `SparseLSigma` + `BuildSparseLSigma` + `ProjectSparseOntoPiMinusI` + `FrobeniusInnerSparse` + `EnumerateSparse`, N=2..6 via SLOW_F112_SPARSE-tagged test, parallelized via Parallel.For/ForEach)
-**Connects:** [PROOF_F112_NONHERMITIAN_UNIVERSAL_N](../docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) (the structural proof, this writeup's parent), [PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) (Hermitian-H parent theorem), [F112 ANALYTICAL_FORMULAS entry](../docs/ANALYTICAL_FORMULAS.md), [LindbladBitBPiBalance](../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs)
+**Connects:** [the non-Hermitian universal-N proof](../docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md) (the structural proof, this writeup's parent), [the Lindblad bit-b Π-balance proof](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) (Hermitian-H parent theorem), [F112 registry entry](../docs/ANALYTICAL_FORMULAS.md), [LindbladBitBPiBalance](../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs)
 
 ## The open identity
 
@@ -91,6 +91,6 @@ Runs N=2 + N=3 in under 5 seconds (both pipelines); N=4 in ~25 sec (Python) or ~
 
 ## Related
 
-- [PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md): the parent theorem; this writeup fills the "Step 5 extension to non-Hermitian H" open item listed there.
-- [F112_HARDWARE_LENS_KINGSTON.md](F112_HARDWARE_LENS_KINGSTON.md): hardware-side application of F112 that surfaced the first structural counterexample to the broader empirical envelope (Z-drive + σ⁻ T1). The non-Hermitian extension proven here is orthogonal to that counterexample (the counterexample concerns bit_b-mixed c with Hermitian H, not non-Hermitian H with bit_b-homogeneous c).
+- [the Lindblad bit-b Π-balance proof](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md): the parent theorem; this writeup fills the "Step 5 extension to non-Hermitian H" open item listed there.
+- [F112 hardware lens on Kingston](F112_HARDWARE_LENS_KINGSTON.md): hardware-side application of F112 that surfaced the first structural counterexample to the broader empirical envelope (Z-drive + σ⁻ T1). The non-Hermitian extension proven here is orthogonal to that counterexample (the counterexample concerns bit_b-mixed c with Hermitian H, not non-Hermitian H with bit_b-homogeneous c).
 - [LindbladBitBPiBalance.cs](../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs): the typed Tier1Derived C# Claim; this writeup informs the NonHermitianExtension inspectable.

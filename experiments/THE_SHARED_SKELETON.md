@@ -6,7 +6,7 @@ operation, chain water benzene butadiene cyclobutadiene hexatriene, Symphony wit
 
 **What this is:** we fed the live C# lab (the Symphony witness, `inspect --root symphony --export`) with several different small quantum systems at the same operating point Q = J/γ = 1.5, exported their Liouvillian eigenvalue spectra, and laid the spectra over each other. A system's time-erased spectrum, every mode's whole life compressed to one point λ, is its fingerprint, a kind of QR code. Overlaid, what the molecules share and where they part both become visible.
 
-**Date:** 2026-06-22. Thomas Wicht, Claude (Opus 4.8). Tom reads the images (the seeing); Claude grounds the axes in the physics; the corrections below are part of the record. The plain-words companion is [ON_THE_REEL_AND_THE_PROJECTOR](../reflections/ON_THE_REEL_AND_THE_PROJECTOR.md). These are likely the first drawn images of this reel.
+**Date:** 2026-06-22. Thomas Wicht, Claude (Opus 4.8). Tom reads the images (the seeing); Claude grounds the axes in the physics; the corrections below are part of the record. The plain-words companion is [On the Reel and the Projector](../reflections/ON_THE_REEL_AND_THE_PROJECTOR.md). These are likely the first drawn images of this reel.
 
 ## The systems
 
@@ -16,12 +16,12 @@ Six small systems under uniform Z-dephasing, all at the canonical Q = 1.5 (J = 0
 |-------|-------|---|----------|---|
 | chain | the baseline spin chain | 5 | chain | XY |
 | water | the hydrogen-bond proton chain ([simulations/water/](../simulations/water/)) | 5 | chain | Heisenberg |
-| benzene | the Hückel C6 π-ring ([BENZENE_LIOUVILLIAN_PALINDROME](../docs/carbon/BENZENE_LIOUVILLIAN_PALINDROME.md)) | 6 | ring | XY |
+| benzene | the Hückel C6 π-ring ([the benzene Liouvillian palindrome](../docs/carbon/BENZENE_LIOUVILLIAN_PALINDROME.md)) | 6 | ring | XY |
 | butadiene | the C4 polyene | 4 | chain | XY |
 | cyclobutadiene | the C4 anti-aromatic ring | 4 | ring | XY |
 | hexatriene | the C6 polyene | 6 | chain | XY |
 
-Carbon-the-element is deliberately absent: it is not a Liouvillian but the periodic-table dial (the valence 3/8 at 60°, α = sin²θ/2; [FROST_CIRCLE_AS_THE_CLOCK_FACE](../docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md)), a structural anchor with no spectrum to overlay. Benzene IS carbon's aromatic ring, so the carbon facet enters through it.
+Carbon-the-element is deliberately absent: it is not a Liouvillian but the periodic-table dial (the valence 3/8 at 60°, α = sin²θ/2; [the Frost circle as the clock face](../docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md)), a structural anchor with no spectrum to overlay. Benzene IS carbon's aromatic ring, so the carbon facet enters through it.
 
 ## Overlaid: what is shared, what parts
 
@@ -35,7 +35,7 @@ What all systems share is **law-determined**, identical because the dephasing is
 
 Drop the draw order: blend the systems with transparency, each an additive colour channel, and no system is "first". A first reading of this picture overclaimed a white shared skeleton; the eye corrected it. There is no all-three white (the only pure white is the centre marker). What is actually there is a **bright, many-coloured horizontal line on the real axis** Im λ = 0. That line is the one diagonal.
 
-[ON_THE_ONE_DIAGONAL](../reflections/ON_THE_ONE_DIAGONAL.md) names the light's question, a child's question: *at how many places do your two versions disagree? Count the places.* That count is popcount(i ⊕ j) (the XOR of the basis indices, see [XOR_SPACE](XOR_SPACE.md)), written out as a single diagonal matrix, "the only thing the light ever touches." In the spectrum it is the real axis: the pure-fade modes, no turn, just decay. A bare basis pair pays twice γ per place of disagreement, an exact integer count; a dressed mode pays twice γ times its average count ⟨n_XY⟩, sliding between the integer rungs once the Hamiltonian stirs it. A large fraction of every molecule lives there (chain 176 of 1024 modes on Im = 0, benzene 404 of 4096), so it draws as a dense, colour-rich line, while the Hamiltonian's rotation spreads thinly off it. This grounds what the eye reads: the **horizontal axis (Re λ) is the dephasing's diagonal, the axis the system is watched along (z)**; the **vertical axis (Im λ) is the Hamiltonian's coherent motion, the plane the system moves in (x, y)**. The colour on the line is the molecules sharing the diagonal; the structure off it is each Hamiltonian. XOR is not a decoration here: it is the operation the dephasing itself performs.
+[On the One Diagonal](../reflections/ON_THE_ONE_DIAGONAL.md) names the light's question, a child's question: *at how many places do your two versions disagree? Count the places.* That count is popcount(i ⊕ j) (the XOR of the basis indices, see [XOR space](XOR_SPACE.md)), written out as a single diagonal matrix, "the only thing the light ever touches." In the spectrum it is the real axis: the pure-fade modes, no turn, just decay. A bare basis pair pays twice γ per place of disagreement, an exact integer count; a dressed mode pays twice γ times its average count ⟨n_XY⟩, sliding between the integer rungs once the Hamiltonian stirs it. A large fraction of every molecule lives there (chain 176 of 1024 modes on Im = 0, benzene 404 of 4096), so it draws as a dense, colour-rich line, while the Hamiltonian's rotation spreads thinly off it. This grounds what the eye reads: the **horizontal axis (Re λ) is the dephasing's diagonal, the axis the system is watched along (z)**; the **vertical axis (Im λ) is the Hamiltonian's coherent motion, the plane the system moves in (x, y)**. The colour on the line is the molecules sharing the diagonal; the structure off it is each Hamiltonian. XOR is not a decoration here: it is the operation the dephasing itself performs.
 
 ## Many molecules: the code gets richer, not simpler
 
@@ -95,8 +95,8 @@ Real-axis eigenvalues shared exactly by all three of chain/water/benzene: {0, �
 
 ## Related
 
-- [ON_THE_REEL_AND_THE_PROJECTOR](../reflections/ON_THE_REEL_AND_THE_PROJECTOR.md): the plain-words reading.
-- [ON_THE_ONE_DIAGONAL](../reflections/ON_THE_ONE_DIAGONAL.md): the light's childish question and the one diagonal.
-- [MIRROR_SYMMETRY_PROOF](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), [PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS](../docs/proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md), [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md): the shared law, in three readings.
-- [BENZENE_LIOUVILLIAN_PALINDROME](../docs/carbon/BENZENE_LIOUVILLIAN_PALINDROME.md), [FROST_CIRCLE_AS_THE_CLOCK_FACE](../docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md): the conjugated-π systems.
-- [XOR_SPACE](XOR_SPACE.md): the XOR / popcount the dephasing reads.
+- [On the Reel and the Projector](../reflections/ON_THE_REEL_AND_THE_PROJECTOR.md): the plain-words reading.
+- [On the One Diagonal](../reflections/ON_THE_ONE_DIAGONAL.md): the light's childish question and the one diagonal.
+- [the mirror symmetry proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), [the F4 kernel dimension proof](../docs/proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md), [the absorption theorem proof](../docs/proofs/PROOF_ABSORPTION_THEOREM.md): the shared law, in three readings.
+- [the benzene Liouvillian palindrome](../docs/carbon/BENZENE_LIOUVILLIAN_PALINDROME.md), [the Frost circle as the clock face](../docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md): the conjugated-π systems.
+- [XOR space](XOR_SPACE.md): the XOR / popcount the dephasing reads.

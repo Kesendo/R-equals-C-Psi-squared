@@ -7,7 +7,7 @@ into a genuine hard one, not a tolerance artifact. 2026-06-06.
 N-invariance this qualifies), the soft-certifier
 [`PalindromeSoftCertifier`](../compute/RCPsiSquared.Diagnostics/F87/PalindromeSoftCertifier.cs) (whose
 2-body soundness this confirms one chain length past where it was checked), and
-[PROOF_F103 §7](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) (the two soft mechanisms: the
+[F103 §7](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) (the two soft mechanisms: the
 diagonal chiral K and the hidden-Q routing).
 **Scripts:** [`simulations/f87_softness_n_dependence.py`](../simulations/f87_softness_n_dependence.py)
 (self-validating: builds L, reads the residual ‖M‖ and the maximum spectral pairing-error at N=4,5,6).
@@ -86,7 +86,7 @@ but not the one this note first guessed (corrected 2026-06-10): the Z-middle cas
 Q, neither the uniform nor the alternating families of the
 [Klein routing](TWO_TERM_PALINDROME_KLEIN_ROUTING.md) reach it (the discrete candidates sit off the
 golden locus). Its actual router is the period-4 golden product in the frame a = φX+Y, b = X−φY
-([PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md)), a
+([the ceiling golden-router proof](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md)), a
 soft mechanism distinct from the lit chiral-K colouring and exact at every N ≥ 3, a single window already
 suffices, which is exactly the length-independence seen here. So the soft k≥3 world splits in two: the
 fully-lit cases that are soft only by the grace of a short chain, and the Z-routed cases that are soft

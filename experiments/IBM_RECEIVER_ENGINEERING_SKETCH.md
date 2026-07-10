@@ -5,7 +5,7 @@
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Pipeline:** `D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography` (external)
 **Budget context:** IBM gifted 180 QPU minutes (April 2026 through April 2027), ~15 min/month average. Every run must be planned to preserve reserve.
-**See also:** [RECEIVER_VS_GAMMA_SACRIFICE](RECEIVER_VS_GAMMA_SACRIFICE.md), [IBM_QUANTUM_TOMOGRAPHY](IBM_QUANTUM_TOMOGRAPHY.md), [F75](../docs/ANALYTICAL_FORMULAS.md), [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md)
+**See also:** [Receiver choice beats γ-profile engineering](RECEIVER_VS_GAMMA_SACRIFICE.md), [IBM quantum tomography](IBM_QUANTUM_TOMOGRAPHY.md), [F75](../docs/ANALYTICAL_FORMULAS.md), [primordial gamma as framework constant](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md)
 
 ---
 
@@ -126,7 +126,7 @@ Estimate: signal-to-noise should still be above threshold for MI(0, 4) ≥ 0.3.
 The external pipeline at `D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography` already provides the infrastructure we need:
 
 - **Kingston calibration CSVs**: daily snapshots cached in `ClaudeTasks/IBM_R2_calibrations/ibm_kingston_calibrations_<date>.csv` (latest 2026-04-23). Each CSV has per-qubit T1, T2 (Hahn echo), readout error, SX gate error, SX gate length, and per-edge CZ/RZZ error and gate length. No live-query needed for MVE.
-- **`run_bonding_mode.py`** has a mature `build_kingston_noise_model(cal, path)` that takes a physical qubit path and builds an Aer NoiseModel with per-qubit T1/T2 depolarising + thermal-relaxation channels. The T2 there is the Hahn-echo value from the CSV; for free-induction decoherence we should apply T2* = T2 / 2.5 to 2.7 ([IBM_QUANTUM_TOMOGRAPHY](IBM_QUANTUM_TOMOGRAPHY.md) Run 1). Add a `t2star_factor` argument or override T2 in the noise model.
+- **`run_bonding_mode.py`** has a mature `build_kingston_noise_model(cal, path)` that takes a physical qubit path and builds an Aer NoiseModel with per-qubit T1/T2 depolarising + thermal-relaxation channels. The T2 there is the Hahn-echo value from the CSV; for free-induction decoherence we should apply T2* = T2 / 2.5 to 2.7 ([IBM quantum tomography](IBM_QUANTUM_TOMOGRAPHY.md) Run 1). Add a `t2star_factor` argument or override T2 in the noise model.
 - **`preflight.py`** queries live backend properties (currently hardcoded to ibm_torino) and reports T1, T2, T2* (estimated as T2/2.5), and "crosser" status. Useful to sanity-check Kingston is online, but the cached CSV is sufficient for the MVE.
 - **`run_bonding_mode.py`** also shows the `find_latest_calibration()` pattern, the Aer density-matrix backend wiring, and the Kingston coupling-graph path finder (for mapping our 5-site chain onto 5 adjacent Kingston qubits with the best combined edge fidelity).
 
@@ -158,8 +158,8 @@ Template for new script: copy `run_bonding_mode.py`, strip the R-qubit block (li
 
 ## References
 
-- [RECEIVER_VS_GAMMA_SACRIFICE](RECEIVER_VS_GAMMA_SACRIFICE.md): the simulation findings that motivate this test.
+- [Receiver choice beats γ-profile engineering](RECEIVER_VS_GAMMA_SACRIFICE.md): the simulation findings that motivate this test.
 - [F75](../docs/ANALYTICAL_FORMULAS.md): the analytical MM(0) formula that predicts the MI peak values.
-- [IBM_QUANTUM_TOMOGRAPHY](IBM_QUANTUM_TOMOGRAPHY.md), [IBM_RUN3_PALINDROME](IBM_RUN3_PALINDROME.md): prior Kingston / Torino Heron hardware runs for methodology.
-- [IBM_CONCENTRATOR](IBM_CONCENTRATOR.md): hardware realization of γ-profile engineering via DD; compare against receiver-engineering.
+- [IBM quantum tomography](IBM_QUANTUM_TOMOGRAPHY.md), [the IBM Run 3 palindrome validation](IBM_RUN3_PALINDROME.md): prior Kingston / Torino Heron hardware runs for methodology.
+- [the IBM concentrator run](IBM_CONCENTRATOR.md): hardware realization of γ-profile engineering via DD; compare against receiver-engineering.
 - External pipeline: `D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography\` (Qiskit + Kingston calibration).

@@ -4,7 +4,7 @@
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Pipeline:** `simulations/veffect_weight_immunity.py`
-**See also:** [V_EFFECT_PALINDROME](V_EFFECT_PALINDROME.md), [PROOF_BIT_B_PARITY_SYMMETRY](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md), [PRIMORDIAL_QUBIT](../hypotheses/PRIMORDIAL_QUBIT.md)
+**See also:** [the V-Effect palindrome](V_EFFECT_PALINDROME.md), [the bit-b parity symmetry proof](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md), [the primordial qubit](../hypotheses/PRIMORDIAL_QUBIT.md)
 
 ---
 
@@ -112,8 +112,8 @@ The **break magnitude** (8.0 at N=3, 11.314 ≈ 8√2 and 16.0 = 8·2 at N=4) sc
 
 ## References
 
-- [V_EFFECT_PALINDROME](V_EFFECT_PALINDROME.md): the original numerical finding (14 of 36 mode-pairs break, boundary modes orphan) that this localizes structurally.
-- [PROOF_BIT_B_PARITY_SYMMETRY](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md): the analytical proof [L, Π²] = 0 for any N. This finding strengthens it: not only does Π² commute, but the violation of Π conjugation is strictly localized to boundary sectors.
-- [PRIMORDIAL_QUBIT](../hypotheses/PRIMORDIAL_QUBIT.md): the C²⊗C² parity structure (bit_a, bit_b) that determines which Hamiltonian terms preserve which Z₂.
-- [HIERARCHY_OF_INCOMPLETENESS](../docs/HIERARCHY_OF_INCOMPLETENESS.md): the level-stack picture into which this finding embeds.
+- [the V-Effect palindrome](V_EFFECT_PALINDROME.md): the original numerical finding (14 of 36 mode-pairs break, boundary modes orphan) that this localizes structurally.
+- [the bit-b parity symmetry proof](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md): the analytical proof [L, Π²] = 0 for any N. This finding strengthens it: not only does Π² commute, but the violation of Π conjugation is strictly localized to boundary sectors.
+- [the primordial qubit](../hypotheses/PRIMORDIAL_QUBIT.md): the C²⊗C² parity structure (bit_a, bit_b) that determines which Hamiltonian terms preserve which Z₂.
+- [the hierarchy of incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md): the level-stack picture into which this finding embeds.
 - Simulation: `simulations/veffect_weight_immunity.py`.

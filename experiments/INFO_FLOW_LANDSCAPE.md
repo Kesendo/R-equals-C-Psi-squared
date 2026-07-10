@@ -3,7 +3,7 @@
 **Status:** Tier 1 for raw dC_ij/dJ landscape data (three-N scan, reproducible). Tier 2 for structural interpretations: global-vs-sequential flow, peak-time clustering via Liouvillian mode differences, dynamical-attractor reading of F71.
 **Date:** 2026-04-20 (evening)
 **Authors:** Tom, Claude Opus 4.7 (1M)
-**Relates to:** [ORTHOGONALITY_SELECTION_FAMILY](ORTHOGONALITY_SELECTION_FAMILY.md) (Step 2 of §6.2 plan), [STANDING_WAVE_THEORY](../docs/STANDING_WAVE_THEORY.md), [RELAY_PROTOCOL](RELAY_PROTOCOL.md)
+**Relates to:** [the orthogonality-selection family](ORTHOGONALITY_SELECTION_FAMILY.md) (Step 2 of §6.2 plan), [standing wave theory](../docs/STANDING_WAVE_THEORY.md), [the relay protocol](RELAY_PROTOCOL.md)
 
 ---
 
@@ -82,7 +82,7 @@ This confirms the STANDING_WAVE_THEORY picture in dynamical form: the asymmetric
 
 ## Relation to the Meta-Theorem
 
-The Meta-Theorem from [ORTHOGONALITY_SELECTION_FAMILY](ORTHOGONALITY_SELECTION_FAMILY.md) says: any measurement M projects onto a detector basis; conservation laws + basis diagonality produce blind channels.
+The Meta-Theorem from [the orthogonality-selection family](ORTHOGONALITY_SELECTION_FAMILY.md) says: any measurement M projects onto a detector basis; conservation laws + basis diagonality produce blind channels.
 
 What this scan adds:
 

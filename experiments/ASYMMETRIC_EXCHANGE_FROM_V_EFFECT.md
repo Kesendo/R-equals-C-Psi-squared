@@ -4,7 +4,7 @@
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Pipeline:** `simulations/asymmetric_v_effect.py` (uses `framework.py`)
-**See also:** [EXCHANGE_FROM_V_EFFECT](EXCHANGE_FROM_V_EFFECT.md), [V_EFFECT_BOUNDARY_LOCALIZATION](V_EFFECT_BOUNDARY_LOCALIZATION.md), [PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md)
+**See also:** [Exchange from the V-Effect](EXCHANGE_FROM_V_EFFECT.md), [V-Effect Boundary Localization](V_EFFECT_BOUNDARY_LOCALIZATION.md), [the Zero-Immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md)
 
 ---
 
@@ -97,9 +97,9 @@ The prediction holds across nearly two orders of magnitude in J_A/J_B asymmetry 
 
 ## References
 
-- [EXCHANGE_FROM_V_EFFECT](EXCHANGE_FROM_V_EFFECT.md): symmetric J_A = J_B = J case, the original derivation.
-- [V_EFFECT_BOUNDARY_LOCALIZATION](V_EFFECT_BOUNDARY_LOCALIZATION.md): the algebraic structure of where V-Effect breaks live.
-- [PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md): the (w=0, w=N) palindrome immunity that grounds this whole construction.
-- [HEISENBERG_RELOADED](../hypotheses/HEISENBERG_RELOADED.md): the level-stack picture into which this fits.
+- [Exchange from the V-Effect](EXCHANGE_FROM_V_EFFECT.md): symmetric J_A = J_B = J case, the original derivation.
+- [V-Effect Boundary Localization](V_EFFECT_BOUNDARY_LOCALIZATION.md): the algebraic structure of where V-Effect breaks live.
+- [the Zero-Immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md): the (w=0, w=N) palindrome immunity that grounds this whole construction.
+- [Heisenberg Reloaded](../hypotheses/HEISENBERG_RELOADED.md): the level-stack picture into which this fits.
 - `simulations/framework.py`: framework primitives.
 - `simulations/asymmetric_v_effect.py`: this calculation's pipeline.

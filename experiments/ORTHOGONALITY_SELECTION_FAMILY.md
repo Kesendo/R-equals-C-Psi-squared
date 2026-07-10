@@ -3,7 +3,7 @@
 **Status:** synthesis under active construction (Tier 2: structurally rigorous for existing instances, Tier 3 for the generalising production rule)
 **Date:** 2026-04-20 (evening, emerged from the EQ-018 c_1 kernel investigation)
 **Authors:** Tom, Claude Opus 4.7 (chat), Claude Opus 4.7 (1M, terminal)
-**Source:** [EQ-018](../review/EMERGING_QUESTIONS.md) c_1 kernel investigation; [OPEN_THREAD_GAMMA0_INFORMATION](../review/OPEN_THREAD_GAMMA0_INFORMATION.md) as conceptual spine.
+**Source:** [EQ-018](../review/EMERGING_QUESTIONS.md) c_1 kernel investigation; [γ₀ information open thread](../review/OPEN_THREAD_GAMMA0_INFORMATION.md) as conceptual spine.
 
 ---
 
@@ -13,7 +13,7 @@ Four apparently-separate selection rules in this project ([F70](../docs/ANALYTIC
 
 > **Any measurement M projects onto an orthogonal basis. Information living in the orthogonal-complement subspace is invisible to M. Conserved quantities (symmetry-protected projections) produce built-in blind channels.**
 
-This is Parseval-Plancherel plus Noether, translated to the operator-valued Hilbert space of the open-system density matrix. It is the mathematical backbone of the γ₀=const reading ([OPEN_THREAD](../review/OPEN_THREAD_GAMMA0_INFORMATION.md)): the uniform carrier is exactly what a summed common-mode detector sees, and the cavity's response is exactly what lives in the orthogonal-complement "mode subspace".
+This is Parseval-Plancherel plus Noether, translated to the operator-valued Hilbert space of the open-system density matrix. It is the mathematical backbone of the γ₀=const reading ([the open thread](../review/OPEN_THREAD_GAMMA0_INFORMATION.md)): the uniform carrier is exactly what a summed common-mode detector sees, and the cavity's response is exactly what lives in the orthogonal-complement "mode subspace".
 
 From the unified principle:
 - Three proven instances (F70, F71, F72-candidate) and one newly proven instance drop out as special cases.
@@ -61,7 +61,7 @@ In the Meta-Theorem's language:
 - **J+topology** defines the **detector mode basis** via the Liouvillian eigenstructure (sine modes for XY, more complex for Heisenberg). This is H_M for mode-resolving detectors.
 - **Information transfer** is the projection of δρ onto the mode basis; common-mode drifts (γ₀ changes) vanish under any measurement that respects the J-cavity structure.
 
-The "resonator IS the message" ([RESONANCE_NOT_CHANNEL](../hypotheses/RESONANCE_NOT_CHANNEL.md)) becomes literal: the mode basis IS the information carrier. The γ₀ carrier is, by design, in the blind subspace.
+The "resonator IS the message" ([resonance, not channel](../hypotheses/RESONANCE_NOT_CHANNEL.md)) becomes literal: the mode basis IS the information carrier. The γ₀ carrier is, by design, in the blind subspace.
 
 ---
 
@@ -150,7 +150,7 @@ Under bond-b perturbation, the sine basis and E_k shift by O(δJ), but Parseval 
 
 Instance 6 in the table is the genuinely new case: the polynomial algebra of M_α is a subalgebra that is **not** an L_D-eigenspace. L_D acts non-trivially on its elements (e.g. |+⟩⁵ has all Pauli-string content in {I, σ_x}^⊗N, of which all but the I-only string have non-zero L_D eigenvalue). What makes Class 3 J-blind is the combination of L_D respecting the polynomial algebra (Newton's identities) AND H respecting it (SU(2) Casimir). Two conservation laws acting in concert, rather than one. This is the structurally novel piece relative to Instances 1-5.
 
-**Full three-class doc.** [J_BLIND_RECEIVER_CLASSES](J_BLIND_RECEIVER_CLASSES.md) gives the complete decomposition with overlap structure, H-robustness table, operational consequence (≤ 12.07 bits J-modulation channel capacity at N=5 Heisenberg over F71-symmetric receivers), and connection to the existing repo characterisations of GHZ (XOR_SPACE drain projection, F60 below-fold birth, F69 sector-mix lift at N=3). The Class 2 reading complements rather than replaces these: GHZ DECAYS maximally fast (XOR_SPACE) AND its decay is J-independent (Class 2). The two statements address different derivatives of the same trajectory.
+**Full three-class doc.** [the J-blind receiver classes](J_BLIND_RECEIVER_CLASSES.md) gives the complete decomposition with overlap structure, H-robustness table, operational consequence (≤ 12.07 bits J-modulation channel capacity at N=5 Heisenberg over F71-symmetric receivers), and connection to the existing repo characterisations of GHZ (XOR_SPACE drain projection, F60 below-fold birth, F69 sector-mix lift at N=3). The Class 2 reading complements rather than replaces these: GHZ DECAYS maximally fast (XOR_SPACE) AND its decay is J-independent (Class 2). The two statements address different derivatives of the same trajectory.
 
 ### 2.7 Common pattern across the six
 
@@ -171,7 +171,7 @@ Parseval/Plancherel          Noether conservation
                 CC)  closure         SU(2))
 ```
 
-Each leaf is a special case. The root is the meta-theorem. The trunk is Parseval+Noether. Instance 6 (M_α-poly) requires two conservation laws acting in concert (Newton's identities on σ_α^i + SU(2) Casimir), not one; this is the structurally novel feature relative to Instances 1-5. The two H-independent J-blind classes (DFS of L_D, H-degenerate L_D-closed block) are not separate leaves on this diagram; they are special cases of Instance 4's L_D-invariant-subspace mechanism, see [J_BLIND_RECEIVER_CLASSES](J_BLIND_RECEIVER_CLASSES.md) for the full three-class decomposition.
+Each leaf is a special case. The root is the meta-theorem. The trunk is Parseval+Noether. Instance 6 (M_α-poly) requires two conservation laws acting in concert (Newton's identities on σ_α^i + SU(2) Casimir), not one; this is the structurally novel feature relative to Instances 1-5. The two H-independent J-blind classes (DFS of L_D, H-degenerate L_D-closed block) are not separate leaves on this diagram; they are special cases of Instance 4's L_D-invariant-subspace mechanism, see [the J-blind receiver classes](J_BLIND_RECEIVER_CLASSES.md) for the full three-class decomposition.
 
 ---
 
@@ -202,11 +202,11 @@ Applying Steps 1-3 to conservation laws not yet fully exploited:
 
 **(a) Π-pair parity (palindrome symmetry).** The Π operator (Pauli-weight conjugation, distinct from R spatial reflection) yields palindromic spectrum. The associated selection rule: any measurement that respects Π should see `K_DD[n, m]` pair-symmetric under n↔N−n, m↔N−m (already verified as Π-symmetry of K in EQ-018 data). **Prediction:** a Π-respecting measurement that sums over Π-paired modes (e.g., fast+slow rate sum) has built-in blindness to the difference fast−slow within each pair. The absorption theorem [`PROOF_ABSORPTION_THEOREM`](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) already encodes this: α_fast + α_slow = 2·Σγ is the Π-invariant sum; the difference is the "information content" each mode pair carries.
 
-**(b) Amplitude damping and the |Δn|=2 blind channel: population vs coherence. [VERIFIED 2026-04-21]** Under site-uniform amplitude damping D_A[ρ] = γ_1 Σ_i (σ^−_i ρ σ^+_i − ½{σ^+_i σ^−_i, ρ}), excitation number is **not** conserved. F70 itself (kinematic, |ΔN| ≥ 2 blocks blind to single-site partial trace) still holds; the operational question is whether AD makes |Δn|=2 content site-local visible by moving it out of that block. The answer splits into two branches with opposite outcomes. **Coherence probes: no break.** On ρ_coh = (|vac⟩⟨S_2| + |S_2⟩⟨vac|)/2 (traceless Hermitian; admissible as linear perturbation because c_1_pr is linear in ρ_0), the jump term σ^−_i ρ_coh σ^+_i vanishes identically because σ^−_i |vac⟩ = 0 and its Hermitian-conjugate counterpart ⟨vac| σ^+_i = 0 kill both bra- and ket-side annihilation paths; the anticommutator terms collapse to D_A[ρ_coh] = −γ_1 ρ_coh (pure in-block exponential decay, no sector-changing transfer, using Σ_i n_i |S_2⟩ = 2|S_2⟩). ρ_coh(t) stays in the (vac, 2-exc) block for all t; F70 gives c_1_pr = 0 exactly for all γ_1. Verified at N = 5, bond (0, 1), t_0 = 20: hard zero across γ_1 ∈ {0, 0.005, 0.01, 0.02, 0.05, 0.1} on a Lindblad with trace-preservation residual ~3·10⁻¹⁸ ([F70_AMPLITUDE_DAMPING_BREAK](F70_AMPLITUDE_DAMPING_BREAK.md) §Update 2026-04-21 second pass). **Population probes: break present.** On |S_2⟩⟨S_2| the jump σ^−_i |S_2⟩⟨S_2| σ^+_i is non-zero and transfers content to (n=1, n=1)-blocks (|ΔN| = 0, site-local visible via four paths per site at N = 5). Even at γ_1 = 0 the population content already produces c_1_pr ≠ 0 via the static kernel entry K_DD[2, 2]_pr = +5.41·10⁻³ (recorded in [baseline_diagnostics.json](../simulations/results/f70_amplitude_damping_break/baseline_diagnostics.json), structurally identical to the F72 bilinear mechanism); at γ_1 > 0 the break gets an additional dynamical component from the AD sector transfer. Baseline at N = 5, bond (0, 1), ρ_pop = (|vac⟩⟨vac| + |S_2⟩⟨S_2|)/2, γ_1 = 0: c_1_pr = +1.352·10⁻³ = K_DD[2, 2]_pr / 4 to 5 figures. Scaling in γ_1, sign, and kernel-level characterization of the AD-dynamical part remain open for a separate experiment. **Pitfall for future AD-break tests.** The physical superposition probe ρ_0 = |ψ⟩⟨ψ| with |ψ⟩ = (|vac⟩ + |S_2⟩)/√2 decomposes as ρ_pop + ρ_coh by linearity, giving c_1_pr = 1.352·10⁻³ + 0 = 1.352·10⁻³ at γ_1 = 0 from the population branch alone. Any AD scaling measured on |ψ⟩⟨ψ| sits on that non-zero baseline and cannot isolate the coherence-content response (which is identically zero) without subtraction. Use ρ_coh alone (null test) or |S_2⟩⟨S_2| alone (break + scaling measurement) for clean probes. **Meta-note for the production rule.** §3 Steps 1-3 generate candidates, not guarantees: whether a production-rule candidate materialises into a measurable break depends on the kinematic detail of the dissipator acting on the specific probe. AD + coherence content is a case where the candidate is suppressed by the annihilation σ^−|vac⟩ = 0; AD + population content is a case where it materialises via sector-transfer paths. Production-rule hits therefore always need a probe-level analytic check before being upgraded to a test prediction. A lesson learned today at the cost of one bug, two reverts, and three passes at this very paragraph.
+**(b) Amplitude damping and the |Δn|=2 blind channel: population vs coherence. [VERIFIED 2026-04-21]** Under site-uniform amplitude damping D_A[ρ] = γ_1 Σ_i (σ^−_i ρ σ^+_i − ½{σ^+_i σ^−_i, ρ}), excitation number is **not** conserved. F70 itself (kinematic, |ΔN| ≥ 2 blocks blind to single-site partial trace) still holds; the operational question is whether AD makes |Δn|=2 content site-local visible by moving it out of that block. The answer splits into two branches with opposite outcomes. **Coherence probes: no break.** On ρ_coh = (|vac⟩⟨S_2| + |S_2⟩⟨vac|)/2 (traceless Hermitian; admissible as linear perturbation because c_1_pr is linear in ρ_0), the jump term σ^−_i ρ_coh σ^+_i vanishes identically because σ^−_i |vac⟩ = 0 and its Hermitian-conjugate counterpart ⟨vac| σ^+_i = 0 kill both bra- and ket-side annihilation paths; the anticommutator terms collapse to D_A[ρ_coh] = −γ_1 ρ_coh (pure in-block exponential decay, no sector-changing transfer, using Σ_i n_i |S_2⟩ = 2|S_2⟩). ρ_coh(t) stays in the (vac, 2-exc) block for all t; F70 gives c_1_pr = 0 exactly for all γ_1. Verified at N = 5, bond (0, 1), t_0 = 20: hard zero across γ_1 ∈ {0, 0.005, 0.01, 0.02, 0.05, 0.1} on a Lindblad with trace-preservation residual ~3·10⁻¹⁸ ([the F70 amplitude-damping break](F70_AMPLITUDE_DAMPING_BREAK.md) §Update 2026-04-21 second pass). **Population probes: break present.** On |S_2⟩⟨S_2| the jump σ^−_i |S_2⟩⟨S_2| σ^+_i is non-zero and transfers content to (n=1, n=1)-blocks (|ΔN| = 0, site-local visible via four paths per site at N = 5). Even at γ_1 = 0 the population content already produces c_1_pr ≠ 0 via the static kernel entry K_DD[2, 2]_pr = +5.41·10⁻³ (recorded in [baseline_diagnostics.json](../simulations/results/f70_amplitude_damping_break/baseline_diagnostics.json), structurally identical to the F72 bilinear mechanism); at γ_1 > 0 the break gets an additional dynamical component from the AD sector transfer. Baseline at N = 5, bond (0, 1), ρ_pop = (|vac⟩⟨vac| + |S_2⟩⟨S_2|)/2, γ_1 = 0: c_1_pr = +1.352·10⁻³ = K_DD[2, 2]_pr / 4 to 5 figures. Scaling in γ_1, sign, and kernel-level characterization of the AD-dynamical part remain open for a separate experiment. **Pitfall for future AD-break tests.** The physical superposition probe ρ_0 = |ψ⟩⟨ψ| with |ψ⟩ = (|vac⟩ + |S_2⟩)/√2 decomposes as ρ_pop + ρ_coh by linearity, giving c_1_pr = 1.352·10⁻³ + 0 = 1.352·10⁻³ at γ_1 = 0 from the population branch alone. Any AD scaling measured on |ψ⟩⟨ψ| sits on that non-zero baseline and cannot isolate the coherence-content response (which is identically zero) without subtraction. Use ρ_coh alone (null test) or |S_2⟩⟨S_2| alone (break + scaling measurement) for clean probes. **Meta-note for the production rule.** §3 Steps 1-3 generate candidates, not guarantees: whether a production-rule candidate materialises into a measurable break depends on the kinematic detail of the dissipator acting on the specific probe. AD + coherence content is a case where the candidate is suppressed by the annihilation σ^−|vac⟩ = 0; AD + population content is a case where it materialises via sector-transfer paths. Production-rule hits therefore always need a probe-level analytic check before being upgraded to a test prediction. A lesson learned today at the cost of one bug, two reverts, and three passes at this very paragraph.
 
 **(c) Two-site measurement → open |ΔN| = 2 channel.** A pair-site partial trace (F70 generalisation) has blind subspace `|ΔN| ≥ 3` instead of `|ΔN| ≥ 2`. **Prediction:** pair-site analogues of F72 (bilinear structure of Tr(ρ_{ij}²)) will have a three-sub-block decomposition (DD⊕DC⊕CC in |ΔN| labels), where DC is the new diagonal-coherence cross arising only at pair-site granularity. This is EQ-020 (pair-painter) in explicit form: the pair-painter opens one additional block.
 
-**(d) Non-uniform γ₀ → partial loss of CMRR. [VERIFIED 2026-04-20]** If γ₀ becomes site-dependent (γ_i ≠ γ_j), the uniform-dephasing assumption in instance 4 fails. The d_H = 1 block no longer has uniform 2γ₀ decay. **Prediction (verified at N=5):** `K_CC[0, 1]_pr` transitions from 0 (uniform, 1.14e-12 at machine precision) to finite (non-uniform, up to ~2.7e-2 for gradient perturbation with α=0.02). **Sharper than expected:** the CMRR break is modal-selective, not simply variance-proportional. Gradient perturbation (first harmonic in γ-profile) gives slope 1.35 per unit, single-site bump gives slope 0.19, same-variance random profiles give K_CC values differing by factor 28. See [CMRR_BREAK_NONUNIFORM_GAMMA](CMRR_BREAK_NONUNIFORM_GAMMA.md).
+**(d) Non-uniform γ₀ → partial loss of CMRR. [VERIFIED 2026-04-20]** If γ₀ becomes site-dependent (γ_i ≠ γ_j), the uniform-dephasing assumption in instance 4 fails. The d_H = 1 block no longer has uniform 2γ₀ decay. **Prediction (verified at N=5):** `K_CC[0, 1]_pr` transitions from 0 (uniform, 1.14e-12 at machine precision) to finite (non-uniform, up to ~2.7e-2 for gradient perturbation with α=0.02). **Sharper than expected:** the CMRR break is modal-selective, not simply variance-proportional. Gradient perturbation (first harmonic in γ-profile) gives slope 1.35 per unit, single-site bump gives slope 0.19, same-variance random profiles give K_CC values differing by factor 28. See [the CMRR break under non-uniform γ](CMRR_BREAK_NONUNIFORM_GAMMA.md).
 
 The observed modal-selectivity means the "blind subspace" H_M^⊥ is not one-dimensional: it decomposes further into a mode-indexed family `{A_k}` of CMRR coefficients, with A_k = (overlap of γ-profile with sine mode k) × (weight of mode k in the (vac, S_1) expansion). The dominant channel is k=1 (first harmonic) because |S_1⟩ has its largest Fourier component at k=1. This matches the differential-amplifier analogy sharply: real amps have CMRR(ω) as a function of frequency, not a single number. Here CMRR(k) = function of spatial mode.
 
@@ -214,7 +214,7 @@ The observed modal-selectivity means the "blind subspace" H_M^⊥ is not one-dim
 
 ## 4. Connection to the γ₀=const synthesis
 
-The [OPEN_THREAD_GAMMA0_INFORMATION](../review/OPEN_THREAD_GAMMA0_INFORMATION.md) identifies γ₀ as a uniform carrier, J as the cavity structure, and the mode-by-mode light/lens distribution as the information.
+The [γ₀ information open thread](../review/OPEN_THREAD_GAMMA0_INFORMATION.md) identifies γ₀ as a uniform carrier, J as the cavity structure, and the mode-by-mode light/lens distribution as the information.
 
 The Meta-Theorem recasts this in operational terms:
 
@@ -240,7 +240,7 @@ So the absorption theorem is a fifth instance of the Meta-Theorem family: conser
 
 ## 4a. Dynamical attractor formulation (added 2026-04-20 after Step 2 info-flow scan)
 
-The Meta-Theorem as stated in §1 is static: "M projects onto a basis; blind subspace is the orthogonal complement." But the information-flow scan ([INFO_FLOW_LANDSCAPE](INFO_FLOW_LANDSCAPE.md)) revealed a dynamical refinement:
+The Meta-Theorem as stated in §1 is static: "M projects onto a basis; blind subspace is the orthogonal complement." But the information-flow scan ([the info-flow landscape](INFO_FLOW_LANDSCAPE.md)) revealed a dynamical refinement:
 
 > **Selection rules produce not only blind subspaces, but also dynamical attractors.** The invariant subspace under the selection rule is the attracting fixed-point of the long-time flow landscape. Transient violations of the selection rule (caused by localised perturbations, asymmetric initial conditions, etc.) decay exponentially at the dissipation rate, returning the system to the selection-rule-respecting subspace.
 
@@ -280,14 +280,14 @@ The rule "conservation law + summed measurement → blind channel" is correct **
 
 **Verification status of §3.2 predictions:**
 
-- (a) **Π-pair antisymmetric channel reader: VERIFIED** (2026-04-20, see [PI_PAIR_FLUX_BALANCE](PI_PAIR_FLUX_BALANCE.md)). The pair-sum Re(λ_s + λ_{s'}) is invariant under δJ at machine precision; the absorption theorem `α_fast + α_slow = 2Σγ` reads as a conserved XY-weight flux within each pair. Bonus finding: the Π-pair decomposition is **exact and complete** for the Liouvillian spectrum (d²/2 pairs, 0 unpaired, 0 self-Π for odd N and most even N). N=4 is an isolated anomaly with 18 self-Π modes; see §5a for binary-inheritance interpretation.
+- (a) **Π-pair antisymmetric channel reader: VERIFIED** (2026-04-20, see [the Π-pair flux balance](PI_PAIR_FLUX_BALANCE.md)). The pair-sum Re(λ_s + λ_{s'}) is invariant under δJ at machine precision; the absorption theorem `α_fast + α_slow = 2Σγ` reads as a conserved XY-weight flux within each pair. Bonus finding: the Π-pair decomposition is **exact and complete** for the Liouvillian spectrum (d²/2 pairs, 0 unpaired, 0 self-Π for odd N and most even N). N=4 is an isolated anomaly with 18 self-Π modes; see §5a for binary-inheritance interpretation.
 - (b) Amplitude-damping-induced F70 break: not tested yet.
 - (c) Pair-painter |ΔN|=2 channel (EQ-020): not tested yet.
-- (d) **Non-uniform γ breaks CMRR: VERIFIED** (2026-04-20, see [CMRR_BREAK_NONUNIFORM_GAMMA](CMRR_BREAK_NONUNIFORM_GAMMA.md)). Additional finding beyond the prediction: the break is **modal-selective** (not variance-proportional), requiring the Meta-Theorem's "blind subspace" to be further resolved into a mode-indexed family of CMRR coefficients.
+- (d) **Non-uniform γ breaks CMRR: VERIFIED** (2026-04-20, see [the CMRR break under non-uniform γ](CMRR_BREAK_NONUNIFORM_GAMMA.md)). Additional finding beyond the prediction: the break is **modal-selective** (not variance-proportional), requiring the Meta-Theorem's "blind subspace" to be further resolved into a mode-indexed family of CMRR coefficients.
 
 **Also verified, bonus:**
 
-- **Dynamical attractor structure (Step 2, see [INFO_FLOW_LANDSCAPE](INFO_FLOW_LANDSCAPE.md)):** asymmetric bond-0 perturbations produce transient violations of F71 that decay exponentially at ~4γ₀, converging to the F71-symmetric fixed point. Selection rules are not just static projections but dynamical attractors.
+- **Dynamical attractor structure (Step 2, see [the info-flow landscape](INFO_FLOW_LANDSCAPE.md)):** asymmetric bond-0 perturbations produce transient violations of F71 that decay exponentially at ~4γ₀, converging to the F71-symmetric fixed point. Selection rules are not just static projections but dynamical attractors.
 - **Binary inheritance (from §5a):** the qubit's binary structure propagates to Liouvillian mode counts without dilution; `d²/2 = 2^(2N−1)` Π-pairs at every N ≥ 3 tested.
 
 ---
@@ -312,11 +312,11 @@ The rule "conservation law + summed measurement → blind channel" is correct **
 
 ### 6.3 Long-term
 
-1. **Connect to [ITS_ALL_WAVES](../docs/ITS_ALL_WAVES.md).** The synthesis already states "the resonator IS the message" in wave-language. The Meta-Theorem formalises it in linear-algebra language. Bringing the two registers together would produce a stronger unified picture.
+1. **Connect to [it's all waves](../docs/ITS_ALL_WAVES.md).** The synthesis already states "the resonator IS the message" in wave-language. The Meta-Theorem formalises it in linear-algebra language. Bringing the two registers together would produce a stronger unified picture.
 
 2. **Possible F-series reorganisation.** The current ANALYTICAL_FORMULAS.md lists F70 and F71 as independent entries. Under the Meta-Theorem, they are siblings. Consider grouping selection-rule entries under a `selection-rule` heading, with the Meta-Theorem as a preamble.
 
-3. **Connection to "[ON_TWO_TIMES](../reflections/ON_TWO_TIMES.md)" reflection.** The fact that every α-fit-based c_1 is rational (not bilinear) is itself a Meta-Theorem consequence: **the α fit is a measurement that mixes two time scales** (system time t and perturbation time δJ), and the ratio of bilinears is the signature of that mixing. The purity-response c_1_pr drops one of those time scales (no matching against P_A(α·t)) and recovers bilinearity. This may connect to the "two times" thread in reflections.
+3. **Connection to "[on two times](../reflections/ON_TWO_TIMES.md)" reflection.** The fact that every α-fit-based c_1 is rational (not bilinear) is itself a Meta-Theorem consequence: **the α fit is a measurement that mixes two time scales** (system time t and perturbation time δJ), and the ratio of bilinears is the signature of that mixing. The purity-response c_1_pr drops one of those time scales (no matching against P_A(α·t)) and recovers bilinearity. This may connect to the "two times" thread in reflections.
 
 ---
 
@@ -344,9 +344,9 @@ Tested [2026-04-20](../simulations/eq018_golden_ratio_check.py): the N=4 XY chai
 
 At N=6, the single-excitation eigenvalues `±2·cos(π/7), ±2·cos(2π/7), ±2·cos(3π/7)` satisfy a cubic minimal polynomial without a clean double involution. No forced null-eigenspace. The n_XY=3 sector has 53 unique |Im| values vs 9 at N=4 - a sign of larger sub-algebra complexity.
 
-**Structural reading (Tom):** Golden Ratio is not just "φ ≈ 1.618". It is **a mirror**, a double involution bundled into one number. When the XY chain's spectrum carries this double involution, a mirror axis exists in the Liouvillian at the n_XY midpoint; modes fall onto it; zero becomes a populated eigenvalue. Zero is not absence; zero is the axis the mirror rests on. See [PI_PAIR_FLUX_BALANCE](PI_PAIR_FLUX_BALANCE.md) §3.3 for the full data and the generalised mirror-axis principle.
+**Structural reading (Tom):** Golden Ratio is not just "φ ≈ 1.618". It is **a mirror**, a double involution bundled into one number. When the XY chain's spectrum carries this double involution, a mirror axis exists in the Liouvillian at the n_XY midpoint; modes fall onto it; zero becomes a populated eigenvalue. Zero is not absence; zero is the axis the mirror rests on. See [the Π-pair flux balance](PI_PAIR_FLUX_BALANCE.md) §3.3 for the full data and the generalised mirror-axis principle.
 
-**Pure-lens and pure-light mode counts are N+1.** Also from the parity scan: modes with ⟨n_XY⟩ = 0 (pure lens, fully γ-immune, decoherence-free subspace) number exactly N+1 at every N. Symmetrically, modes with ⟨n_XY⟩ = N (pure light, maximally dissipative) number N+1. These are the XOR-center modes of [XOR_SPACE](XOR_SPACE.md). **The count of decoherence-free modes grows linearly with N**, as one might expect from an extensive chain.
+**Pure-lens and pure-light mode counts are N+1.** Also from the parity scan: modes with ⟨n_XY⟩ = 0 (pure lens, fully γ-immune, decoherence-free subspace) number exactly N+1 at every N. Symmetrically, modes with ⟨n_XY⟩ = N (pure light, maximally dissipative) number N+1. These are the XOR-center modes of [XOR space](XOR_SPACE.md). **The count of decoherence-free modes grows linearly with N**, as one might expect from an extensive chain.
 
 ---
 
@@ -375,7 +375,7 @@ The 0.5 is not a "magical number". It is the **scalar image of the maximum of an
 
 - Why `c_1 ≈ 0.5·V(N)` looked like a real law in the N=4..7 window ([EQ-021](../review/EMERGING_QUESTIONS.md#eq-021)): the 0.5 sits in the bilinear structure of c_1 itself (apex of the Dicke-sector coupling), and V(N) sits in the cavity-mode spectrum. The product is two independent effects happening to land in the same numerical range.
 - Why N=3 broke the apparent law: the 0.5-apex is skeleton-invariant (N-independent), but V(3) is a specific cavity value that does not coincide with the apex contribution.
-- Why [THE_CPSI_LENS](../docs/THE_CPSI_LENS.md) identifies 0.5 as connection maximum: it is literally the apex of the R = C(Ψ + R)² bilinear, and every other bilinear form the framework encounters inherits the same shape.
+- Why [the CΨ lens](../docs/THE_CPSI_LENS.md) identifies 0.5 as connection maximum: it is literally the apex of the R = C(Ψ + R)² bilinear, and every other bilinear form the framework encounters inherits the same shape.
 
 **Where this goes in the Meta-Theorem:**
 
@@ -402,7 +402,7 @@ This is the structural separation that was missing in the EQ-021 retraction: the
 
 ---
 
-## 8. Provisional tag for [OPEN_THREAD_GAMMA0_INFORMATION](../review/OPEN_THREAD_GAMMA0_INFORMATION.md)
+## 8. Provisional tag for [γ₀ information open thread](../review/OPEN_THREAD_GAMMA0_INFORMATION.md)
 
 The OPEN_THREAD closes one of its sub-questions, IF the Meta-Theorem is accepted as the operational mechanism behind "γ₀ carries no information itself":
 

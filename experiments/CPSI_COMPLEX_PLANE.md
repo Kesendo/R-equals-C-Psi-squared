@@ -1,18 +1,18 @@
 # CΨ in the Complex Plane: the 2D Extension of Boundary Navigation
 
 **Status:** Hardware-observed on Kingston (2026-04-16). Formal theoretical extension and deliberate-phase hardware run pending.
-**Depends on:** [BOUNDARY_NAVIGATION](BOUNDARY_NAVIGATION.md), [CRITICAL_SLOWING_AT_THE_CUSP](CRITICAL_SLOWING_AT_THE_CUSP.md), [MANDELBROT_CONNECTION](MANDELBROT_CONNECTION.md)
+**Depends on:** [Boundary Navigation](BOUNDARY_NAVIGATION.md), [Critical Slowing at the Cusp](CRITICAL_SLOWING_AT_THE_CUSP.md), [Mandelbrot Connection](MANDELBROT_CONNECTION.md)
 **Input data:** [`data/ibm_cusp_slowing_april2026/`](../data/ibm_cusp_slowing_april2026/README.md) (ibm_kingston, 2026-04-16)
 **Scripts:** [`cpsi_complex_plane.py`](../simulations/cpsi_complex_plane.py), [`hardware_cpsi_cplane.py`](../simulations/hardware_cpsi_cplane.py)
 **Images:** [`cpsi_complex_plane.png`](../simulations/results/cpsi_complex_plane.png), [`hardware_cpsi_cplane.png`](../simulations/results/hardware_cpsi_cplane.png)
-**Live instrument:** `inspect --root between --axis spiral` (`ComplexCuspSpiralField`), read as the interior axis in 2D in [NAVIGATING_THE_DIMENSIONS](../docs/NAVIGATING_THE_DIMENSIONS.md); figure [`cusp_spiral_2d.py`](../simulations/cusp_spiral_2d.py).
+**Live instrument:** `inspect --root between --axis spiral` (`ComplexCuspSpiralField`), read as the interior axis in 2D in [Navigating the Dimensions](../docs/NAVIGATING_THE_DIMENSIONS.md); figure [`cusp_spiral_2d.py`](../simulations/cusp_spiral_2d.py).
 **A note on the two runs:** this run (April 16) saved full density matrices, so it carries phase and shows the 2D spiral, but with only six delays per pair. The dense point-by-point crossing of ¼ is a separate, real-valued run on the real axis, the [April-26 precision run](../data/ibm_cusp_precision_april2026/README.md) (19 delays). The spiral here is sparse; the dense crossing there has no phase. They are complementary.
 
 ---
 
 ## Abstract
 
-[BOUNDARY_NAVIGATION.md](BOUNDARY_NAVIGATION.md) defines CΨ = Tr(ρ²) · L1/(d−1) as a real scalar and uses θ = arctan(√(4CΨ−1)) as a one-dimensional compass toward the CΨ = 1/4 fold boundary. Every trajectory lives on the real axis of the Mandelbrot c-plane.
+[Boundary Navigation](BOUNDARY_NAVIGATION.md) defines CΨ = Tr(ρ²) · L1/(d−1) as a real scalar and uses θ = arctan(√(4CΨ−1)) as a one-dimensional compass toward the CΨ = 1/4 fold boundary. Every trajectory lives on the real axis of the Mandelbrot c-plane.
 
 This document raises the framework by one dimension. Replacing the L1-norm of off-diagonals with the **signed sum** gives a complex-valued
 
@@ -20,7 +20,7 @@ This document raises the framework by one dimension. Replacing the L1-norm of of
 
 that carries phase information. Under pure Lindblad Z-dephasing the complex CΨ_com decays radially (same as real CΨ). Under dephasing plus a common Z-Hamiltonian (a detuning in the rotating frame), CΨ_com spirals in the c-plane toward the origin, passing the cusp at c = 1/4 under a definite angle determined by the ratio Ω / (4γ).
 
-The hardware data from the 2026-04-16 cusp-slowing run on ibm_kingston already shows this 2D trajectory without any extra experiment: the two Bell⁺ pairs rotate in opposite directions at ~7 kHz and ~4 kHz residual Z-detuning respectively, producing logarithmic spirals. The real-axis picture of [BOUNDARY_NAVIGATION.md](BOUNDARY_NAVIGATION.md) is a projection; the underlying trajectory on any realistic hardware is 2D.
+The hardware data from the 2026-04-16 cusp-slowing run on ibm_kingston already shows this 2D trajectory without any extra experiment: the two Bell⁺ pairs rotate in opposite directions at ~7 kHz and ~4 kHz residual Z-detuning respectively, producing logarithmic spirals. The real-axis picture of [Boundary Navigation](BOUNDARY_NAVIGATION.md) is a projection; the underlying trajectory on any realistic hardware is 2D.
 
 ## Definition: complex CΨ
 
@@ -55,7 +55,7 @@ See [`cpsi_complex_plane.py`](../simulations/cpsi_complex_plane.py). Five Bell�
 | 4 | 0.05 | 1.5 | 0 | 20 | 7.5 | 30 rad ≈ 4.77 turns | tight spiral, clear helical signature |
 | 5 | 0.02 | 0.5 | π/3 | 40 | 6.25 | 20 rad ≈ 3.18 turns | long-lived spiral starting off-axis |
 
-The Mandelbrot cardioid (grey curve) and period-2 bulb are drawn for geometric reference. The cusp at c = 1/4 (red marker) is the 1D fold of [BOUNDARY_NAVIGATION](BOUNDARY_NAVIGATION.md). Trajectories 1 and 2 go through it or beside it; trajectories 3-5 wind AROUND it, showing that the saddle-node geometry is traversed on a helical path in the 2D c-plane.
+The Mandelbrot cardioid (grey curve) and period-2 bulb are drawn for geometric reference. The cusp at c = 1/4 (red marker) is the 1D fold of [Boundary Navigation](BOUNDARY_NAVIGATION.md). Trajectories 1 and 2 go through it or beside it; trajectories 3-5 wind AROUND it, showing that the saddle-node geometry is traversed on a helical path in the 2D c-plane.
 
 The ratio Ω/(4γ) gives the **rotation per e-fold of decay**, in radians. Over `k` e-folds of |CΨ_com| shrinkage, the total phase sweep is k · Ω/(4γ). The total winding on the complete trajectory is Ω · t_max / (2π) full turns, explicit in the Δφ_total column above.
 
@@ -100,7 +100,7 @@ The residual Z-detuning is different in sign and magnitude for the two pairs, pr
 
 ### 1. The fold is not a point, it's a circle
 
-In the original [BOUNDARY_NAVIGATION](BOUNDARY_NAVIGATION.md) framing, the fold is a single point: CΨ = 1/4 on the real axis. In the complex extension, it is a circle: |CΨ_com| = 1/4 in the c-plane. Every direction of approach (every crossing angle) is geometrically distinct. The real-axis crossing is just one specific angle (arg(CΨ_com) = 0 at the moment of magnitude-crossing).
+In the original [Boundary Navigation](BOUNDARY_NAVIGATION.md) framing, the fold is a single point: CΨ = 1/4 on the real axis. In the complex extension, it is a circle: |CΨ_com| = 1/4 in the c-plane. Every direction of approach (every crossing angle) is geometrically distinct. The real-axis crossing is just one specific angle (arg(CΨ_com) = 0 at the moment of magnitude-crossing).
 
 ### 2. A new observable: the crossing angle
 
@@ -165,7 +165,7 @@ Budget: ~7 min QPU (108 circuits). Same session mode, same pre/post calibration 
 
 - **It does not extend the Mandelbrot set** to a true 3D object. The c-plane is still 2D (ℂ). "3D" here is c-plane × time, a fibration picture.
 - **It does not add new physics.** The Lindblad equation is unchanged. The detuning was already in the hardware; we just started plotting the consequence.
-- **It does not replace the 1D [BOUNDARY_NAVIGATION](BOUNDARY_NAVIGATION.md) picture**; the real-axis story is still correct as a projection. It's just incomplete.
+- **It does not replace the 1D [Boundary Navigation](BOUNDARY_NAVIGATION.md) picture**; the real-axis story is still correct as a projection. It's just incomplete.
 
 ## Reproducibility
 

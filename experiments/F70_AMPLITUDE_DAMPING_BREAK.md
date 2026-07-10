@@ -5,7 +5,7 @@
 **Authors:** Thomas Wicht, Claude Opus 4.7 (1M context)
 **Script:** [f70_amplitude_damping_break.py](../simulations/f70_amplitude_damping_break.py)
 **Output:** [f70_amplitude_damping_break/](../simulations/results/f70_amplitude_damping_break/)
-**Prediction source:** [ORTHOGONALITY_SELECTION_FAMILY](ORTHOGONALITY_SELECTION_FAMILY.md) §3.2(b)
+**Prediction source:** [the Orthogonality-Selection Family](ORTHOGONALITY_SELECTION_FAMILY.md) §3.2(b)
 
 ---
 

@@ -6,18 +6,18 @@ flagged as an open curiosity, not a claim.
 **Date:** 2026-05-30
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Script:** [`simulations/xxz_axis_bandedge_lebensader.py`](../simulations/xxz_axis_bandedge_lebensader.py)
-**Builds on:** [ON_THE_ADMIXTURE_AS_LEBENSADER](../reflections/ON_THE_ADMIXTURE_AS_LEBENSADER.md)
-+ [CHAIN_GAP_SECTOR_DIAGNOSTIC](CHAIN_GAP_SECTOR_DIAGNOSTIC.md) (the Lebensader), the clock
-voices on `MirrorSystem` ([FROST_CIRCLE_AS_THE_CLOCK_FACE](../docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md)),
-[HEISENBERG_RELOADED](../hypotheses/HEISENBERG_RELOADED.md) (the both-parity-even {II,XX,YY,ZZ}
-family and its internal axis), [EXCHANGE_FROM_V_EFFECT](EXCHANGE_FROM_V_EFFECT.md) +
-[SINGLET_FISSION_AND_THE_TWO_CLOCKS](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md).
+**Builds on:** [On the Admixture as Lebensader](../reflections/ON_THE_ADMIXTURE_AS_LEBENSADER.md)
++ [the chain-gap sector diagnostic](CHAIN_GAP_SECTOR_DIAGNOSTIC.md) (the Lebensader), the clock
+voices on `MirrorSystem` ([the Frost circle as the clock face](../docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md)),
+[Heisenberg reloaded](../hypotheses/HEISENBERG_RELOADED.md) (the both-parity-even {II,XX,YY,ZZ}
+family and its internal axis), [exchange from the V-Effect](EXCHANGE_FROM_V_EFFECT.md) +
+[singlet fission and the two clocks](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md).
 
 ---
 
 ## The question
 
-[HEISENBERG_RELOADED](../hypotheses/HEISENBERG_RELOADED.md) names {II, XX, YY, ZZ} as the
+[Heisenberg reloaded](../hypotheses/HEISENBERG_RELOADED.md) names {II, XX, YY, ZZ} as the
 unique both-parity-even 2-body coupling, with an internal axis: SU(2) gives Heisenberg, the
 bipartite-axis-only choice gives XXZ. With the clock now built on `MirrorSystem` (a radial
 hand for the decay, an angular hand for the oscillation), we can *walk* that axis and watch
@@ -118,10 +118,10 @@ carotenoid dark / triplet-pair side lives on the Lebensader end, and the V-Effec
 
 - Script: [`simulations/xxz_axis_bandedge_lebensader.py`](../simulations/xxz_axis_bandedge_lebensader.py)
   (reproduces the walk tables, the n_XY composition, and Δ* by bisection).
-- The Lebensader: [ON_THE_ADMIXTURE_AS_LEBENSADER](../reflections/ON_THE_ADMIXTURE_AS_LEBENSADER.md),
-  [CHAIN_GAP_SECTOR_DIAGNOSTIC](CHAIN_GAP_SECTOR_DIAGNOSTIC.md).
-- The clock + the two-clocks: [FROST_CIRCLE_AS_THE_CLOCK_FACE](../docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md),
-  [SINGLET_FISSION_AND_THE_TWO_CLOCKS](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md).
+- The Lebensader: [On the Admixture as Lebensader](../reflections/ON_THE_ADMIXTURE_AS_LEBENSADER.md),
+  [the chain-gap sector diagnostic](CHAIN_GAP_SECTOR_DIAGNOSTIC.md).
+- The clock + the two-clocks: [the Frost circle as the clock face](../docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md),
+  [singlet fission and the two clocks](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md).
 - **Resolved (2026-06-14, the handover-Q unification; arc `xxz_axis_handover`):**
   - **EP or level crossing?** A **level crossing**: the frozen Lebensader (|Im|≈1e-15) meets the
     oscillating band edge (|Im|≈9) and they cross in Re, they do not coalesce. The Δ-handover is the

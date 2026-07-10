@@ -3,7 +3,7 @@
 **Status:** Tier 2. Four structural findings verified at N=5 and N=6 across multiple γ profiles. No closed-form for the cluster's characteristic |Im|(N, J, γ) yet.
 **Date:** 2026-05-23
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Depends on:** [THE_ATMOSPHERE_AND_THE_CANCELLED_FORMULAS](../docs/THE_ATMOSPHERE_AND_THE_CANCELLED_FORMULAS.md), [ON_THE_ADMIXTURE_AS_LEBENSADER](../reflections/ON_THE_ADMIXTURE_AS_LEBENSADER.md), F1 palindrome (master identity), F71 mirror-symmetry under non-uniform J, [PROOF_F80_BLOCH_SIGNWALK](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md)
+**Depends on:** [The Atmosphere and the Cancelled Formulas](../docs/THE_ATMOSPHERE_AND_THE_CANCELLED_FORMULAS.md), [On the Admixture as Lebensader](../reflections/ON_THE_ADMIXTURE_AS_LEBENSADER.md), F1 palindrome (master identity), F71 mirror-symmetry under non-uniform J, [the F80 Bloch sign-walk proof](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md)
 
 **Verification:** WIP scripts in `simulations/_atmosphere_*.py` (~13 files, uncommitted) plus the private notes doc `simulations/_atmosphere_cluster_notes.md`. Headline scripts: `atmosphere_cluster_fine.py` (dip location), `atmosphere_cluster_modes.py` (Pauli sector ID), `atmosphere_cluster_ep.py` (EP refutation), `atmosphere_cluster_continuity.py` (intrinsic-at-uniform tracking), `atmosphere_cluster_modes_at_uniform.py` (Pauli sector at ε=0), `atmosphere_cluster_quantum_numbers_v2.py` (Set-A joint diagonalization), `atmosphere_cluster_300block.py` (sector-restricted block analysis), `atmosphere_cluster_freefermion_check.py` (null result on free-fermion hypothesis).
 
@@ -86,7 +86,7 @@ Anti-palindromic ε-perturbations break R as a symmetry of L. The cluster's subs
 
 ## Connection to the Lebensader hierarchy
 
-[ON_THE_ADMIXTURE_AS_LEBENSADER](../reflections/ON_THE_ADMIXTURE_AS_LEBENSADER.md) articulates five heights of the Lebensader, all at uniform γ:
+[On the Admixture as Lebensader](../reflections/ON_THE_ADMIXTURE_AS_LEBENSADER.md) articulates five heights of the Lebensader, all at uniform γ:
 
 1. State-level (cockpit_panel: skeleton + θ-trace + cusp + chiral + Y-parity)
 2. Single-body F78 (M = Σ M_l, each M_l 4×4 normal with eigenvalues 0, 0, ±2c_l·γ·i)
@@ -115,9 +115,9 @@ The unifying reading: the F1 master identity Π·L·Π⁻¹ + L + 2σ·I = 0 glo
 
 - Cluster headline doc (private notes): `simulations/_atmosphere_cluster_notes.md`
 - WIP scripts (13 files, all `_atmosphere_*` prefix, uncommitted): see Verification block above
-- Lebensader through-line: [ON_THE_ADMIXTURE_AS_LEBENSADER](../reflections/ON_THE_ADMIXTURE_AS_LEBENSADER.md), [`framework/lebensader.py`](../simulations/framework/lebensader.py), F78/F79/F80 in [ANALYTICAL_FORMULAS](../docs/ANALYTICAL_FORMULAS.md)
+- Lebensader through-line: [On the Admixture as Lebensader](../reflections/ON_THE_ADMIXTURE_AS_LEBENSADER.md), [`framework/lebensader.py`](../simulations/framework/lebensader.py), F78/F79/F80 in [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md)
 - Master identity F1 / palindrome: [`compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs`](../compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs)
 - F71 mirror under non-uniform J: typed as F100 ([memory `project_f71_nonuniform_j`](../.claude/projects/D--Entwicklung-Projekte-Privat-R-equals-C-Psi-squared/memory/project_f71_nonuniform_j.md))
-- F80 Bloch sign-walk proof: [PROOF_F80_BLOCH_SIGNWALK](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md)
+- F80 Bloch sign-walk proof: [the F80 Bloch sign-walk proof](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md)
 - Jordan-Wigner / free-fermion infrastructure: `compute/RCPsiSquared.Core/.../XyJordanWignerModes.cs`, `C2BlockJwDecomposition.cs`, `JwDispersionStructure.cs`; Python `framework/diagnostics/f80_bloch_signwalk.py`
 - Related memories: `project_lebensader_through_line`, `project_channel_not_memory`, `project_palindrome_frobenius_scaling`, `project_f86_is_input_catalog`, `project_f86_sub_partition`, `project_q_middle_structure`

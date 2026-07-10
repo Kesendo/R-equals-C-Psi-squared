@@ -16,7 +16,7 @@ selective DD mutual information gradient, R=CPsi2 hardware proof -->
 - [Run 1 tomography](IBM_QUANTUM_TOMOGRAPHY.md) (February 9, 2026, Q52)
 - [IBM Concentrator](IBM_CONCENTRATOR.md) (March 24, 2026, Q85-Q94)
 - [Shadow hunt](../data/ibm_shadow_march2026/) (March 9, 2026, Q80+Q102)
-**Depends on:** [WHAT_WE_FOUND](../docs/WHAT_WE_FOUND.md)
+**Depends on:** [What We Found](../docs/WHAT_WE_FOUND.md)
 
 ---
 

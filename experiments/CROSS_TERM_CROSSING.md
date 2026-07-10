@@ -8,10 +8,10 @@ bond-site variance, R(N) = sqrt((N-1)/(N*4^(N-1))), EQ-012 -->
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Script:** [cross_term_crossing.py](../simulations/cross_term_crossing.py)
 **Output:** [cross_term_crossing/](../simulations/results/cross_term_crossing/)
-**Proof:** [PROOF_CROSS_TERM_CROSSING.md](../docs/proofs/PROOF_CROSS_TERM_CROSSING.md)
+**Proof:** [the cross-term crossing proof](../docs/proofs/PROOF_CROSS_TERM_CROSSING.md)
 **Depends on:**
 - [Cross-Term Formula (balanced)](CROSS_TERM_FORMULA.md) (parent)
-- [PROOF_CROSS_TERM_FORMULA](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md) (proof structure)
+- [the cross-term formula proof](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md) (proof structure)
 **Closes:** EQ-012
 
 ---
@@ -79,7 +79,7 @@ to 1 at large N.
 
 ## The proof (summary)
 
-The proof mirrors [PROOF_CROSS_TERM_FORMULA](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md)
+The proof mirrors [the cross-term formula proof](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md)
 with one modification: the bond-site variance.
 
 For the XZ coupling, all 8 nonzero Pauli-basis transitions have:
@@ -94,7 +94,7 @@ Combined with ||L_Dc||^2 = gamma^2 * 4^N * N (unchanged):
 
     R^2 = 4(N-1) / (N * 4^N) = (N-1) / (N * 4^(N-1))
 
-Full proof in [PROOF_CROSS_TERM_CROSSING.md](../docs/proofs/PROOF_CROSS_TERM_CROSSING.md).
+Full proof in [the cross-term crossing proof](../docs/proofs/PROOF_CROSS_TERM_CROSSING.md).
 
 ---
 

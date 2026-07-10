@@ -32,7 +32,7 @@ light, then mass is in the center.
 
 This document tests that picture. The answer: yes. The surviving mode
 energy is center-localized (ratio 1.3-1.4), consistent with
-[CAVITY_MODE_LOCALIZATION](CAVITY_MODE_LOCALIZATION.md) (r = 0.994).
+[Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) (r = 0.994).
 The entrance pupil is transparent. The focus is dense. The pattern
 matches stars, atoms, and black holes.
 
@@ -40,7 +40,7 @@ matches stars, atoms, and black holes.
 
 ## Result 1: Surviving mode energy is center-localized
 
-If mass = trapped light ([GAMMA_IS_LIGHT](../hypotheses/GAMMA_IS_LIGHT.md)),
+If mass = trapped light ([gamma is light](../hypotheses/GAMMA_IS_LIGHT.md)),
 then the observable for "mass" is the surviving mode energy: the {X,Y}
 coherences still oscillating at late times. These are the standing waves
 that have not yet been absorbed. The fire, not the ash.
@@ -82,7 +82,7 @@ If mass = trapped light, then:
 - Our cavity: entrance pupil at edge, trapped light in center
 
 *Source: [`trapped_light_localization.py`](../simulations/trapped_light_localization.py).
-See also: [CAVITY_MODE_LOCALIZATION](CAVITY_MODE_LOCALIZATION.md) (r = 0.994, March 30)*
+See also: [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) (r = 0.994, March 30)*
 
 ---
 

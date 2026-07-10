@@ -199,7 +199,7 @@ If observed and predicted frequencies match: the triangulation is complete. The 
 
 ---
 
-> **Sections 5-7 below are speculative interpretation (Tier 3+), not algebraic proof. They reflect the project's earlier framing. See [THE_CPSI_LENS](../docs/THE_CPSI_LENS.md) for the current description.**
+> **Sections 5-7 below are speculative interpretation (Tier 3+), not algebraic proof. They reflect the project's earlier framing. See [the CΨ lens](../docs/THE_CPSI_LENS.md) for the current description.**
 
 ## 5. Implications
 

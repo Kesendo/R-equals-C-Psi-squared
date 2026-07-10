@@ -215,7 +215,7 @@ toward slow modes.
 The XOR/palindrome split turned out to explain results across the
 entire project. Here is how it connects:
 
-The **γ as Signal** result ([GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md)) found
+The **γ as Signal** result ([gamma as signal](GAMMA_AS_SIGNAL.md)) found
 that GHZ states are completely blind as antennas for reading dephasing
 profiles (template distance d_min = 0). This is the same physics: GHZ
 projects 100% onto the XOR drain (single symmetric mode), losing all
@@ -225,18 +225,18 @@ phased-array antenna (multiple sensors at different positions, like
 several microphones in a room that together reveal where a sound
 comes from).
 
-The **non-Heisenberg palindrome** ([NON_HEISENBERG_PALINDROME](NON_HEISENBERG_PALINDROME.md))
+The **non-Heisenberg palindrome** ([the non-Heisenberg palindrome](NON_HEISENBERG_PALINDROME.md))
 confirmed that the XOR/palindrome split is universal across all standard
 coupling models. The mixed XY Pauli weight predictor (r > 0.98) holds
 for XY, Ising, XXZ, and DM interactions.
 
-The **relay protocol** ([RELAY_PROTOCOL](RELAY_PROTOCOL.md)) achieves
+The **relay protocol** ([the relay protocol](RELAY_PROTOCOL.md)) achieves
 +83% MI by time-dependent γ switching. In XOR-space terms: the relay
 keeps information in slowly decaying palindromic modes during the
 "quiet" phase and transfers it through the mediator during the "loud"
 phase.
 
-The **single-site ΔN selection rule** ([PROOF_DELTA_N_SELECTION_RULE](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md),
+The **single-site ΔN selection rule** ([the ΔN selection rule proof](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md),
 2026-04-20) complements the XOR-drain picture from the observer side:
 a site-local observable sees only sector-coherence blocks with |ΔN| ≤ 1,
 because Tr_{¬i}(|x⟩⟨y|) = 0 whenever |popcount(x) − popcount(y)| ≥ 2.
@@ -252,7 +252,7 @@ bound. Two distinct facts line up on GHZ: XOR-drain residence (fastest
 decay) and |ΔN| = N sector placement (zero site-local signal at all
 times, not just asymptotically). Every site sees ρ_i = I/2 for a GHZ
 state, independent of time. This is the same physics as GHZ's antenna
-blindness in [GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md) (d_min = 0), now
+blindness in [gamma as signal](GAMMA_AS_SIGNAL.md) (d_min = 0), now
 with the kinematic reason made explicit. A pair-local observable sees
 up to |ΔN| = 2 and still misses most of the drain.
 
@@ -261,12 +261,12 @@ up to |ΔN| = 2 and still misses most of the drain.
 ## Resolved Questions
 
 **Can the XOR drain be slowed?** The error correction analysis
-([ERROR_CORRECTION_PALINDROME](ERROR_CORRECTION_PALINDROME.md)) found
+([the error-correction palindrome](ERROR_CORRECTION_PALINDROME.md)) found
 a three-tier protection hierarchy. The optimal state (90% slow-mode
 weight) avoids the XOR drain entirely.
 
 **Does the split change for non-Heisenberg models?** No. The XOR/palindrome
-split is universal. See [NON_HEISENBERG_PALINDROME](NON_HEISENBERG_PALINDROME.md).
+split is universal. See [the non-Heisenberg palindrome](NON_HEISENBERG_PALINDROME.md).
 
 **Is there a state that maximizes palindromic weight while keeping high
 entanglement?** W states (N ≥ 3) achieve this: 100% palindromic, nonzero

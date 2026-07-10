@@ -3,7 +3,7 @@
 **Status:** Tier 1 candidate (3 structural findings, bit-exact at N=4, 5, 6; closed-form prefactor 0.55·Q²/N² ≈ matches to ~1%). Closes the "which weight sector hosts the slow mode" question from F1_DISSIPATION_GAP_PATTERN.md Q5.
 **Date:** 2026-05-19
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Depends on:** [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), [PROOF_WEIGHT1_DEGENERACY](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) (F50 w=1 floor at 2γ), [F1_DISSIPATION_GAP_PATTERN](../hypotheses/F1_DISSIPATION_GAP_PATTERN.md)
+**Depends on:** [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), [the weight-1 degeneracy proof](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) (F50 w=1 floor at 2γ), [the F1 dissipation-gap pattern](../hypotheses/F1_DISSIPATION_GAP_PATTERN.md)
 
 **Verification:** [`simulations/chain_gap_sector_diagnostic.py`](../simulations/chain_gap_sector_diagnostic.py) (chain N=4, 5, 6 at γ=0.5, J=1, Q=2)
 

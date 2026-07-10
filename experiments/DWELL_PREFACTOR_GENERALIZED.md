@@ -3,9 +3,9 @@
 **Status:** Verified (numerical + analytical, April 6, 2026)
 **Script:** [dwell_prefactor_generalization_v1.py](../simulations/dwell_prefactor_generalization_v1.py)
 **Predecessors:**
-[DWELL_PREFACTOR_FROM_WEIGHTS](DWELL_PREFACTOR_FROM_WEIGHTS.md) (Bell+ special case),
-[CRITICAL_SLOWING_AT_THE_CUSP](CRITICAL_SLOWING_AT_THE_CUSP.md) (dwell-time physics),
-[PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) (Re(λ) = -2γ⟨n_XY⟩)
+[Dwell-Time Prefactor from Weights](DWELL_PREFACTOR_FROM_WEIGHTS.md) (Bell+ special case),
+[Critical Slowing at the Cusp](CRITICAL_SLOWING_AT_THE_CUSP.md) (dwell-time physics),
+[the Absorption Theorem proof](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) (Re(λ) = -2γ⟨n_XY⟩)
 
 ---
 
@@ -83,7 +83,7 @@ For Bell+ under Z-dephasing: W₀ = 1/2, k = 2, so:
 
     (4/2) × (1/2 + W₂)/(1/2 + 3W₂) = (2 + 4W₂)/(1 + 6W₂)
 
-This is the formula from [DWELL_PREFACTOR_FROM_WEIGHTS](DWELL_PREFACTOR_FROM_WEIGHTS.md). The factor 3 in front of W₂ comes from the product rule (2W_k from the dC/dt contribution plus W_k from the C·dΨ/dt contribution), not from d - 1.
+This is the formula from [Dwell-Time Prefactor from Weights](DWELL_PREFACTOR_FROM_WEIGHTS.md). The factor 3 in front of W₂ comes from the product rule (2W_k from the dC/dt contribution plus W_k from the C·dΨ/dt contribution), not from d - 1.
 
 ---
 
@@ -99,7 +99,7 @@ The Lindblad propagator for N = 2 Z-dephasing was built from scratch and applied
 | Prefactor (formula)  | 1.080088                | 1.080088              | PASS   |
 | Prefactor (direct)   | 1.080088                | 1.080097              | PASS   |
 
-All reference values from [DWELL_PREFACTOR_FROM_WEIGHTS](DWELL_PREFACTOR_FROM_WEIGHTS.md) reproduced. The pipeline is clean.
+All reference values from [Dwell-Time Prefactor from Weights](DWELL_PREFACTOR_FROM_WEIGHTS.md) reproduced. The pipeline is clean.
 
 ---
 
@@ -189,16 +189,16 @@ is verified on two states with different stationary weights (W₀ = 1/2 and W₀
 
 **What remains open:**
 - States with k ≠ 2 (e.g., GHZ_2 has k = 2, but hypothetical states at k = 3 or k = 4 would test the 4/k prefactor).
-- States that populate multiple coherent sectors simultaneously (the |+⟩^{⊗2} case from [DWELL_PREFACTOR_FROM_WEIGHTS](DWELL_PREFACTOR_FROM_WEIGHTS.md), where dΨ/dt involves √W₁ and the two-sector assumption breaks down).
+- States that populate multiple coherent sectors simultaneously (the |+⟩^{⊗2} case from [Dwell-Time Prefactor from Weights](DWELL_PREFACTOR_FROM_WEIGHTS.md), where dΨ/dt involves √W₁ and the two-sector assumption breaks down).
 - Odd-weight Pauli content, where the linear Ψ-to-f relation may not hold.
 
 ---
 
 ## References
 
-- [DWELL_PREFACTOR_FROM_WEIGHTS](DWELL_PREFACTOR_FROM_WEIGHTS.md): Bell+ special case, partial success on |+⟩^{⊗2}
-- [CRITICAL_SLOWING_AT_THE_CUSP](CRITICAL_SLOWING_AT_THE_CUSP.md): Dwell-time physics, K = γt scaling
-- [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md): Re(λ) = -2γ⟨n_XY⟩, sector decay rates
+- [Dwell-Time Prefactor from Weights](DWELL_PREFACTOR_FROM_WEIGHTS.md): Bell+ special case, partial success on |+⟩^{⊗2}
+- [Critical Slowing at the Cusp](CRITICAL_SLOWING_AT_THE_CUSP.md): Dwell-time physics, K = γt scaling
+- [the Absorption Theorem proof](../docs/proofs/PROOF_ABSORPTION_THEOREM.md): Re(λ) = -2γ⟨n_XY⟩, sector decay rates
 - Main README Section 6 Rule 1: W-type encoding recommendation
 - [Simulation output](../simulations/results/dwell_prefactor_generalization_v1.txt): Full numerical results
 - [Verification plot](../simulations/results/dwell_prefactor_generalization_v1.png): Four-panel figure of the CΨ trajectories and prefactor agreement

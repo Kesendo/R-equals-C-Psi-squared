@@ -143,7 +143,7 @@ load-bearing story, closure ⟸ U(1), holds.
 **Update 2026-06-10 (the Z-row becomes theorem-grade, and the leak gets a name).** The girth
 ladder wave closed the windowed converse and, in passing, made the Z-field row of the table
 exact: the m = 3 face of the ladder is **cell-free** (the three companion coefficients of
-p₃(γ) = Tr(M³) vanish for every Hermitian H, [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md §4](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)),
+p₃(γ) = Tr(M³) vanish for every Hermitian H, [the F87 windowed-monomial converse proof §4](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)),
 so the mixed-cell chain H = XY + εZ_m breaks the spectral palindrome at **every γ > 0** with the
 closed-form leading coefficient p₃(γ) = 6·4^N·ε²·γ, verified exactly in
 [`simulations/f87_deg1_face_cell_free.py`](../simulations/f87_deg1_face_cell_free.py). What was
@@ -172,7 +172,7 @@ mystery is resolved into EQ-014's known physics.
 
 **Edge 5 result (same day): "rides on U(1)" sharpens to "rides on the complete stationary
 sector manifold, in any frame".** The carrier-seam break list
-([ON_HOW_THE_CARRIER_SHOWS_ITSELF](../reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md), 2026-05-16)
+([On How the Carrier Shows Itself](../reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md), 2026-05-16)
 is retrodicted by one lens ([`simulations/ptf_carrier_seam_retrodiction.py`](../simulations/ptf_carrier_seam_retrodiction.py)):
 the closure holds iff the dynamics retains all N+1 stationary sector projectors, where the count
 is taken in any frame. Three sharpenings of this experiment's own conclusion. (1) The
@@ -199,7 +199,7 @@ guardian is named; the closure itself stays empirical.
 
 ## Cross-references
 
-- [PERSPECTIVAL_TIME_FIELD](../hypotheses/PERSPECTIVAL_TIME_FIELD.md): the closure law, the
+- [Perspectival Time Field](../hypotheses/PERSPECTIVAL_TIME_FIELD.md): the closure law, the
   painter picture, Layer 3.2 protection #1 (U(1)) vs #2 (Π).
 - [F78](../docs/ANALYTICAL_FORMULAS.md), [F38](../docs/ANALYTICAL_FORMULAS.md),
   [F61](../docs/ANALYTICAL_FORMULAS.md), [F4](../docs/ANALYTICAL_FORMULAS.md): the typed pieces

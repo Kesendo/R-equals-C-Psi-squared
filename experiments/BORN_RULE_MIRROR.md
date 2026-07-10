@@ -205,8 +205,8 @@ Decoherence is the clock. The Hamiltonian is the story.
 ## 4.3 The Standing Wave Origin of Ψ²
 
 **Added:** 2026-02-27
-**Tier:** 3, Connects [INTERPRETIVE_FRAMEWORK](../hypotheses/archive/INTERPRETIVE_FRAMEWORK.md) bidirectional bridge to Born rule
-**Depends on:** [INTERPRETIVE_FRAMEWORK.md](../hypotheses/archive/INTERPRETIVE_FRAMEWORK.md) Section 2 (Wave Composition)
+**Tier:** 3, Connects [Interpretive Framework](../hypotheses/archive/INTERPRETIVE_FRAMEWORK.md) bidirectional bridge to Born rule
+**Depends on:** [Interpretive Framework](../hypotheses/archive/INTERPRETIVE_FRAMEWORK.md) Section 2 (Wave Composition)
 
 ### Why the Square?
 
@@ -214,7 +214,7 @@ The Born rule says probability is the *square* of the amplitude. This
 is postulated in standard QM. Within the framework, it follows from
 the bidirectional wave structure.
 
-From [INTERPRETIVE_FRAMEWORK.md](../hypotheses/archive/INTERPRETIVE_FRAMEWORK.md):
+From [Interpretive Framework](../hypotheses/archive/INTERPRETIVE_FRAMEWORK.md):
 
     Ψ = Ψ_past + Ψ_future
 

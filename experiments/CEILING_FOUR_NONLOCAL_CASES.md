@@ -4,7 +4,7 @@
 the 2 → 0 step, the last two route after all)
 **Status:** the routing is constructively verified; the arc is closed at zero. The pair this writeup
 narrowed the ceiling to turned out local on 2026-06-10: the period-4 golden router palindromizes both
-Z-middle cases ([PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md), F116).
+Z-middle cases ([the golden router ceiling proof](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md), F116).
 **Scripts:** [`simulations/ceiling_6to4_verification.py`](../simulations/ceiling_6to4_verification.py)
 (the 6 → 4 step), [`simulations/ceiling_4to2_iheavy_local.py`](../simulations/ceiling_4to2_iheavy_local.py)
 (the 4 → 2 step), [`simulations/ceiling_golden_router.py`](../simulations/ceiling_golden_router.py)
@@ -27,7 +27,7 @@ Z-middle cases ([PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDE
 > they do not), which is precisely what the per-term, uniform-continuous, and discrete-Klein lenses below
 > could not see. The proof, with the exclusion side that vindicates the old evidence (no uniform router, no
 > period-2 router, the Klein candidates locus-excluded, all now theorems), is
-> [PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md); the anchor is
+> [the golden router ceiling proof](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md); the anchor is
 > [`simulations/ceiling_golden_router.py`](../simulations/ceiling_golden_router.py). The sections below keep
 > their historical wording where it reads as dated narrative, with in-place corrections where a sentence
 > asserted the non-locality as a present fact.
@@ -37,7 +37,7 @@ Z-middle cases ([PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDE
 > mean** r(c) = (c + √(c²+4))/2 of c = t₁/t₂ in place of φ, derived for every real c (golden c = 1, silver
 > c = 2, the 45° diagonal at c = 0, where the frame gains an 8-parameter modulus). The isolated-soft-point
 > tilt recorded below tilted the *angle*, which leaves the line; the weights tilt *along* it. See
-> [PROOF_CEILING_GOLDEN_ROUTER §8](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md) and the committed verifier
+> [the golden router ceiling proof §8](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md) and the committed verifier
 > [`simulations/metallic_router_family.py`](../simulations/metallic_router_family.py).
 
 ## The correction: six were really four
@@ -86,7 +86,7 @@ route the first pass missed; the next subsection makes that explicit and correct
 it had picked up. The other two, the Z-middle pair XZX+XZY+YZX and YZY+XZY+YZX, looked like the genuine
 non-local cases: no per-site product Q in any family we could reliably close at the time. (Superseded
 2026-06-10: they admit one after all, the period-4 golden router, outside every family tested here; see
-[PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md).) The
+[the golden router ceiling proof](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md).) The
 uniform-continuous search leaves them bounded away from a palindrome, and the discrete-periodic Klein
 routers miss them too; both exclusions are now theorems. What is interesting is not only that they resist
 these families but how they resist; the obstruction has a clean mechanism, described after the I-heavy
@@ -133,7 +133,7 @@ exactly why it qualifies.
 The Z-middle pair was the last ceiling standing: no per-site product Q in any family we could reliably
 close, and the way it resists those families has a clean mechanism. (Superseded 2026-06-10: a per-site
 product Q does exist, the period-4 golden router of
-[PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md). What this section
+[the golden router ceiling proof](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md). What this section
 establishes remains true of the families it tested, and the mechanism below is real; it is the floor of
 the uniform family, not of all per-site products.)
 
@@ -149,7 +149,7 @@ Z-middle cases pick up an additional Π²-even (real) rotation. The best uniform
 Π²-even sector cleanly, but once it is spent on that, the Π²-odd sector still holds a floor of about
 0.30 that no uniform per-site map can reach. That floor is real for the uniform family, and since
 2026-06-10 provably so (the uniform emptiness is a theorem,
-[PROOF_CEILING_GOLDEN_ROUTER §4](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md)); a site-varying period-4
+[the golden router ceiling proof §4](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md)); a site-varying period-4
 product clears it. The Z in the middle is not a spectator; it loads a second rotation into the residual,
 and a single repeated map cannot turn both at once.
 
@@ -163,7 +163,7 @@ So for the Z-middle pair the uniform-lens conclusion stands as a statement about
 repeated site map does not have the freedom the loaded second rotation needs. The further claim this
 section first drew, that their palindrome exists only as an entangled, non-local Π, fell on 2026-06-10:
 a site-varying per-site product, the period-4 golden router, carries exactly the freedom the uniform map
-lacks ([PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md)).
+lacks ([the golden router ceiling proof](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md)).
 
 ### The obstruction is in the joining, not the part (2026-06-08)
 
@@ -187,7 +187,7 @@ excitation-pairing map, and those are different per-site structures. A product Q
 down the chain; we concluded it can be one of the two routers, not both. That inference died on 2026-06-10:
 a product is one per-site rule, but the rule does not have to serve either half. The period-4 golden router
 serves the sum while routing neither half alone, by cross-template cancellation inside each window
-([PROOF_CEILING_GOLDEN_ROUTER §2](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md)). What the
+([the golden router ceiling proof §2](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md)). What the
 uniform-continuous search witnesses is narrower and still true: across the whole 16-parameter uniform
 family there is no common map, and the residual rests at the ~0.30 floor, the gap between serving one
 router and serving both. This refines the uniform-lens reading above: it is not that one sector resists
@@ -200,7 +200,7 @@ statement about two sets: the per-site Q's that route the Π²-odd half and the 
 neither half alone, but emptiness of the intersection never implied non-locality of the sum. A third
 per-site structure, the period-4 golden router, routes the whole directly, so the inference from
 conflicting per-half routers to a whole-chain-only mirror died, and with it the banked all-Q obstruction:
-there is no obstruction. See [PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md).)
+there is no obstruction. See [the golden router ceiling proof](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md).)
 The shape of the conflict stays plain and true: the Z-middle pair is two individually-routable structures
 whose per-site routers conflict; the mirror they share simply turned out to be a per-site product neither
 half asks for.
@@ -212,7 +212,7 @@ strategies do not see. So the load-bearing result here is the positive one, that
 (The one-sidedness was vindicated on 2026-06-10: the Z-middle NotCertified was indeed a coverage gap, the
 whole routes via the period-4 golden router, and the uniform-continuous floor above bounds only the
 uniform family, now provably, since the uniform emptiness is a theorem in
-[PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md).)
+[the golden router ceiling proof](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md).)
 
 ### The same two sectors, read in Frobenius: F81 and F83 (2026-06-08)
 
@@ -294,7 +294,7 @@ family was the explicit open frontier of the Z-middle non-locality, a visible ed
 (Closed 2026-06-10, and positively: "an optimizer that fails to find a router there has not proven one
 absent" turned out to be the operative sentence of this experiment. The router exists inside exactly this
 named family, at period 4, the golden router of
-[PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md); period 2 is empty, period 3
+[the golden router ceiling proof](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md); period 2 is empty, period 3
 impossible for N ≥ 5, and the uniform floor above all upgraded from optimization evidence to theorems by
 the same identity-column algebra. The frontier discipline is vindicated, in the direction nobody
 expected.)
@@ -306,7 +306,7 @@ Beyond even that frontier sat the harder question we were not attempting here: t
 obstruction, a proof of why the Z-middle floor holds for every Q, of any family, periodic or not. That was
 the banked hard problem; we referenced it without opening it. (Resolved negatively 2026-06-10: there is no
 all-Q obstruction, because there is a Q; the golden router is it. The banked problem dissolves rather than
-closes; see [PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md).) (One tempting certifier shortcut is ruled out
+closes; see [the golden router ceiling proof](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md).) (One tempting certifier shortcut is ruled out
 as a null result, banked from a 2026-06-05 scout since removed: a Pauli string K that GF(2)-anticommutes
 with H exists for hard pairs too, e.g. XYI+YIX admits K = XXX-type strings, so Pauli-string anticommutation
 with H is not a softness criterion; a K with X or Y letters flips A but fixes the dephaser Q, producing
@@ -318,10 +318,10 @@ reliable. (Seen again 2026-06-10: the line was drawn in the right place. The rou
 far side of it, inside the named continuous-periodic family, and the arc completes as 6 → 4 → 2 → 0.)
 
 ## Links
-- The 2 → 0 step (the golden router, F116): [PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md), anchor [`simulations/ceiling_golden_router.py`](../simulations/ceiling_golden_router.py)
-- Mechanism + classification: [PROOF_F103 §7.12](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) (the single-site transverse-field lemma)
+- The 2 → 0 step (the golden router, F116): [the golden router ceiling proof](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md), anchor [`simulations/ceiling_golden_router.py`](../simulations/ceiling_golden_router.py)
+- Mechanism + classification: [the F103 proof §7.12](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) (the single-site transverse-field lemma)
 - The certifier + the Z-middle cases (NotCertified there: a per-term coverage gap, per the golden router proof): `compute/RCPsiSquared.Diagnostics/F87/PalindromeSoftCertifier.cs` (the `SingleSiteField` strategy), `PalindromeSoftCertifierClaim.cs`, `KBodyPalindromeRouting.cs`
 - The 4 → 2 verification: [`simulations/ceiling_4to2_iheavy_local.py`](../simulations/ceiling_4to2_iheavy_local.py)
 - The per-part certifier table: [`simulations/results/ceiling_parts_certify.md`](../simulations/results/ceiling_parts_certify.md)
 - The isolated-soft-point tilt: [`simulations/ceiling_middle_tilt.py`](../simulations/ceiling_middle_tilt.py) (regenerator), [data](../simulations/results/ceiling_middle_tilt.tsv), [figure](../simulations/results/ceiling_middle_tilt.png)
-- Related: [SOFTNESS_IS_N_DEPENDENT](SOFTNESS_IS_N_DEPENDENT.md)
+- Related: [Softness Is N-Dependent](SOFTNESS_IS_N_DEPENDENT.md)

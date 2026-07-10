@@ -4,7 +4,7 @@
 **Machine:** ibm_kingston (Heron r2), qubits q149 / q13 / q9, no two-qubit gates anywhere
 **Jobs:** d8l6c7rqv2lc73863acg (Arm A), d8l6c832d42s73cb16a0 (Arm B), d8l6h03nn5bs738rmrug (T1 arbiter)
 **Data:** [data/ibm_moment_tower_june2026/](../data/ibm_moment_tower_june2026/) (main JSON + arbiter JSON + the calibration snapshot)
-**Theory:** [PROOF_MOMENT_TOWER_PUMP_CHANNEL](../docs/proofs/PROOF_MOMENT_TOWER_PUMP_CHANNEL.md) (F120); pipeline script `run_moment_tower.py` (AIEvolution, imports the repo framework and calls `fw.moment_tower` / `fw.predict_pump_slope` at startup)
+**Theory:** [the moment-tower pump-channel proof](../docs/proofs/PROOF_MOMENT_TOWER_PUMP_CHANNEL.md) (F120); pipeline script `run_moment_tower.py` (AIEvolution, imports the repo framework and calls `fw.moment_tower` / `fw.predict_pump_slope` at startup)
 **Status:** the structural law is confirmed on hardware. The rate layer's first reading ("q13 violates pump ≤ Γ") was **corrected the same day** by the prep-conditioned re-analysis (§ Correction below): in-situ, every qubit satisfies the bound; the real finding is minute-scale T1 telegraphing on q13 and q9, and the discovery that the protocol measures pump and Γ simultaneously, self-arbitrating.
 
 ## What was asked

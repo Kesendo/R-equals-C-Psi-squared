@@ -214,7 +214,7 @@ moving it gradually rather than jumping between configurations.
 ### 1. One boundary at a time
 
 A chain can sustain exactly one clean quantum-classical boundary
-([RESONANT_RETURN](RESONANT_RETURN.md)). Two sacrifice points fragment
+([Resonant Return](RESONANT_RETURN.md)). Two sacrifice points fragment
 the coherent region. The sweep maintains one boundary per stage.
 
 ### 2. The boundary is the information source

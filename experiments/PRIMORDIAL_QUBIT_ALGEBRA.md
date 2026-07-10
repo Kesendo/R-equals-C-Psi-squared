@@ -404,7 +404,7 @@ This is not "some algebra." This is the Clifford algebra Cl(2,0) ≅ H
 a Clifford algebra structure on the Pauli space. Clifford algebras are
 the language of spinors. That the Liouvillian of a dephasing system
 carries a spinor-type structure was not predicted by any of the three
-approaches in [PRIMORDIAL_QUBIT.md](../hypotheses/PRIMORDIAL_QUBIT.md).
+approaches in [the primordial qubit hypothesis](../hypotheses/PRIMORDIAL_QUBIT.md).
 
 ### 2. The leakage is structured
 
@@ -480,7 +480,7 @@ supercharge of the M_{2|2}(C) super-algebra?"**
 **General formula (proven):** the cross-term relative orthogonality
 at any N >= 2 is R(N) = √((N-2)/(N·4^(N-1))), following from the
 identity ||{L_H, L_Dc}||² = 4γ²(N-2)||L_H||². See
-[PROOF_CROSS_TERM_FORMULA](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md).
+[the cross-term formula proof](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md).
 
 Tested immediately after the hints were identified. All results exact
 to machine precision (N=2, γ=0.05).
@@ -761,8 +761,8 @@ The arrow of time is not entropy. The arrow of time is the cross term.
 1. **Topology dependence:** ~~The cross term 1/√48 at N=3 is specific
    to the chain topology.~~ **Closed.** Topology-universal with proven
    formula: R(N) = √((N-2)/(N × 4^(N-1))). Confirmed at N=2-6, all
-   topologies. See [CROSS_TERM_TOPOLOGY](CROSS_TERM_TOPOLOGY.md) and
-   [CROSS_TERM_FORMULA](CROSS_TERM_FORMULA.md) (proof + confirmation).
+   topologies. See [the cross-term topology](CROSS_TERM_TOPOLOGY.md) and
+   [the cross-term formula](CROSS_TERM_FORMULA.md) (proof + confirmation).
 
 2. **N=3 algebra structure:** Does M_{2|2}(C) generalize? The even
    subalgebra at N=3 has dim 32. Its decomposition into simple factors

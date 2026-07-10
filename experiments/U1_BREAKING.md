@@ -7,7 +7,7 @@
 **Data:** `simulations/results/u1_breaking/`
 **Depends on:**
 - [Boundary Straddling V2](CUSP_LENS_CONNECTION.md) (Bell/slow-mode decoupling at ε = 0)
-- [PROOF_ASYMPTOTIC_SECTOR_PROJECTION](../docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md) (sector conservation under U(1))
+- [the asymptotic sector projection proof](../docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md) (sector conservation under U(1))
 
 ---
 

@@ -1,11 +1,11 @@
 # Slow-Mode R-Parity Decomposition: F86 Lives in R-Even, a Parallel R-Odd Channel Awaits a Probe
 
-**Status:** Empirically verified at N = 4, 5, 6 (script `slow_modes_r_parity.py`, dense eigendecomposition of L). Structural connection: R = site-reflection = momentum-reversal on JW Bogoliubov modes (see [MAJORANA_AXIS_MODES](MAJORANA_AXIS_MODES.md) for the operator-space context). R commutes with L for uniform-γ Z-dephasing on the XY chain, so L block-diagonalizes by R-parity at every N.
+**Status:** Empirically verified at N = 4, 5, 6 (script `slow_modes_r_parity.py`, dense eigendecomposition of L). Structural connection: R = site-reflection = momentum-reversal on JW Bogoliubov modes (see [Majorana Axis Modes](MAJORANA_AXIS_MODES.md) for the operator-space context). R commutes with L for uniform-γ Z-dephasing on the XY chain, so L block-diagonalizes by R-parity at every N.
 **Date:** 2026-05-15
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
-- [MAJORANA_AXIS_MODES](MAJORANA_AXIS_MODES.md), the R-parity decomposition at the axis end (Re(λ) = −Nγ₀, fast-decay modes)
-- [PROOF_F86A_EP_MECHANISM](../docs/proofs/PROOF_F86A_EP_MECHANISM.md), [PROOF_F86B_OBSTRUCTION](../docs/proofs/PROOF_F86B_OBSTRUCTION.md), the F86 channel-uniform L_eff construction
+- [Majorana Axis Modes](MAJORANA_AXIS_MODES.md), the R-parity decomposition at the axis end (Re(λ) = −Nγ₀, fast-decay modes)
+- [the F86a EP-mechanism proof](../docs/proofs/PROOF_F86A_EP_MECHANISM.md), [the F86b obstruction proof](../docs/proofs/PROOF_F86B_OBSTRUCTION.md), the F86 channel-uniform L_eff construction
 - Script: [`simulations/slow_modes_r_parity.py`](../simulations/slow_modes_r_parity.py)
 
 ---
@@ -30,7 +30,7 @@ R is the site-reflection l ↔ N−1−l on the spin chain. Its action on operat
 - L_D = γ·Σ_l (σ_z_l ⊗ σ_z_l − I). Each summand is R-symmetric pair-by-pair under l ↔ N−1−l. So [L_D, R_op] = 0.
 - Hence [L, R_op] = 0, and L decomposes into R-even (R_op = +1) and R-odd (R_op = −1) blocks.
 
-Under Jordan-Wigner, R corresponds to momentum-reversal k ↔ N+1−k on the Bogoliubov single-particle modes. The single-particle dispersion ε(k) = 2J·cos(πk/(N+1)) satisfies ε(N+1−k) = −ε(k), so R coincides with particle-hole symmetry in the JW basis (see [MAJORANA_AXIS_MODES](MAJORANA_AXIS_MODES.md)).
+Under Jordan-Wigner, R corresponds to momentum-reversal k ↔ N+1−k on the Bogoliubov single-particle modes. The single-particle dispersion ε(k) = 2J·cos(πk/(N+1)) satisfies ε(N+1−k) = −ε(k), so R coincides with particle-hole symmetry in the JW basis (see [Majorana Axis Modes](MAJORANA_AXIS_MODES.md)).
 
 ---
 
@@ -120,7 +120,7 @@ At N=4, projecting L onto channel-uniform basis {|c_1⟩, |c_3⟩} (R-even by co
     L_eff_channel-uniform = [[ −2γ₀, 0 ],
                               [ 0, −6γ₀ ]]    for all tested Q
 
-The off-diagonal coupling ⟨c_1|L|c_3⟩ is identically zero. This matches F86B's own "Probe subspace" observation in [PROOF_F86B_OBSTRUCTION](../docs/proofs/PROOF_F86B_OBSTRUCTION.md): *"V_b reduces to +i(α/(N−1))·I, pure diagonal, identical across every bond. There is no EP, and no bond-class distinction in this subspace."*
+The off-diagonal coupling ⟨c_1|L|c_3⟩ is identically zero. This matches F86B's own "Probe subspace" observation in [the F86b obstruction proof](../docs/proofs/PROOF_F86B_OBSTRUCTION.md): *"V_b reduces to +i(α/(N−1))·I, pure diagonal, identical across every bond. There is no EP, and no bond-class distinction in this subspace."*
 
 The R-odd channel-uniform-analogue basis (slowest R-odd L-eigenmode at HD=1 and HD=3, computed at small probe Q) gives the same diagonal structure (Re-gap = 0.183, Im-gap grows linearly with Q, no coalescence). So **neither R-even nor R-odd channel-uniform-analog yields an EP in the simplest probe**.
 

@@ -3,8 +3,8 @@
 **Status:** Partial success (April 5, 2026)
 **Script:** [dwell_prefactor_from_weights.py](../simulations/dwell_prefactor_from_weights.py)
 **Predecessors:**
-[BOUNDARY_NAVIGATION](BOUNDARY_NAVIGATION.md) (dwell time),
-[PRIMORDIAL_SUPERALGEBRA_CAVITY](PRIMORDIAL_SUPERALGEBRA_CAVITY.md) (face-swap algebra)
+[Boundary Navigation](BOUNDARY_NAVIGATION.md) (dwell time),
+[Primordial Superalgebra Cavity](PRIMORDIAL_SUPERALGEBRA_CAVITY.md) (face-swap algebra)
 
 ---
 

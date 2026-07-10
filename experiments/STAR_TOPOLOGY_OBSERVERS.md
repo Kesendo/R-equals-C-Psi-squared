@@ -466,7 +466,7 @@ transfer, even after the SA and SB channels have temporarily decohered.
 
 ## 6. Connection to Framework (Legacy Interpretation)
 
-> **This section uses the original philosophical framing. See [THE_CPSI_LENS](../docs/THE_CPSI_LENS.md) for the current description.**
+> **This section uses the original philosophical framing. See [The CΨ Lens](../docs/THE_CPSI_LENS.md) for the current description.**
 
 ### 6.1 "We Are All Mirrors", Quantified
 

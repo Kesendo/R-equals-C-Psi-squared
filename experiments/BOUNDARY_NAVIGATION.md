@@ -277,24 +277,24 @@ see [Mathematical Connections](../docs/MATHEMATICAL_CONNECTIONS.md)).
 This experiment (February 2026) introduced θ as a diagnostic tool. Several
 later results build on it:
 
-The **Theta-Palindrome-Echo** experiment ([THETA_PALINDROME_ECHO](THETA_PALINDROME_ECHO.md))
+The **Theta-Palindrome-Echo** experiment ([Theta-Palindrome-Echo](THETA_PALINDROME_ECHO.md))
 found that θ correlates with channel fidelity (r = 0.87) but not with the
 entanglement echo. The compass measures channel quality, not transfer
 dynamics.
 
-The **CΨ monotonicity proof** ([PROOF_MONOTONICITY_CPSI](../docs/proofs/PROOF_MONOTONICITY_CPSI.md))
+The **CΨ monotonicity proof** ([the CΨ monotonicity proof](../docs/proofs/PROOF_MONOTONICITY_CPSI.md))
 shows analytically that CΨ (and therefore θ) is monotonically decreasing
 for Bell+ under all Markovian channels. The compass always points toward
 the boundary; it never reverses. Under non-Markovian dynamics, transient
 reversals are possible (CΨ up to 0.3035), but the long-term trend is
 always toward θ = 0°.
 
-The **IBM hardware validation** ([IBM_RUN3_PALINDROME](IBM_RUN3_PALINDROME.md))
+The **IBM hardware validation** ([IBM Run 3 palindrome](IBM_RUN3_PALINDROME.md))
 measured the actual crossing at 1.9% deviation. The θ = 0° prediction
 maps to a specific time t* = 15.01 μs for Qubit 80, confirmed at
 t* = 15.29 μs. The compass works on real hardware.
 
-The **two-qubit extension** ([CPSI_COMPLEX_PLANE](CPSI_COMPLEX_PLANE.md),
+The **two-qubit extension** ([CΨ Complex Plane](CPSI_COMPLEX_PLANE.md),
 April 16, 2026) moves the compass from the real axis into the full
 complex c-plane. Replacing the L1 norm of off-diagonals by a signed sum
 gives a complex CΨ_com whose magnitude reduces to the original CΨ but
@@ -307,7 +307,7 @@ rotating frame is perfectly calibrated. The crossing angle arg(CΨ_com) at
 |CΨ_com| = 1/4 is a new observable not discarded by the L1 norm.
 
 The **Primordial Superalgebra** analysis
-([PRIMORDIAL_SUPERALGEBRA_CAVITY](PRIMORDIAL_SUPERALGEBRA_CAVITY.md))
+([Primordial Superalgebra Cavity](PRIMORDIAL_SUPERALGEBRA_CAVITY.md))
 showed that every palindromic mode is one standing wave oscillating between
 two faces: a lens-face ({I,Z}, structure-rich, long-lived) and a light-face
 ({X,Y}, signal-rich, short-lived), with exact inversion fast[k] = slow[N-k].

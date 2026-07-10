@@ -341,7 +341,7 @@ The dwell time measures how long the system remains near the saddle-node bifurca
 The γ-invariance claim was tested on ibm_kingston (Heron r2) with two Bell+ pairs at 2.55× different γ: K_dwell/δ = 0.649 (qubits 124-125, γ = 0.00334/μs) and 0.694 (qubits 14-15, γ = 0.00131/μs). Ratio A/B = 0.94, spread 6.3%. The γ-invariance survives real T1 + T2 noise at the 6% level, dominated by residual Kingston noise heterogeneity rather than shot noise. The absolute prefactor (~0.67) is lower than the pure-Z-dephasing prediction 1.0801 because Kingston T1 amplitude damping steepens the slope at the crossing, reducing t_dwell. The state-specific, noise-channel-specific nature of the prefactor is expected; the γ-invariance itself is the robust claim and it holds.
 
 Data: [data/ibm_cusp_slowing_april2026/](../data/ibm_cusp_slowing_april2026/README.md).
-Writeup: the 2D c-plane extension of this result is in [CPSI_COMPLEX_PLANE](CPSI_COMPLEX_PLANE.md) (the spirals visible in the saved density matrices).
+Writeup: the 2D c-plane extension of this result is in [CΨ in the Complex Plane](CPSI_COMPLEX_PLANE.md) (the spirals visible in the saved density matrices).
 
 ### Precision update (April 26, 2026): point-by-point F25 confirmation, T2-echo gap revealed
 
@@ -437,7 +437,7 @@ The weakness can be reformulated: u is a **conjugation variable** that reveals t
 
 The relationship between cusp dwell and sacrifice geometry protection is explored in [Cusp-Lens Connection](CUSP_LENS_CONNECTION.md). The two phenomena operate in different regions of CΨ-space and protect different things: the cusp protects pair purity near CΨ = 1/4, while the sacrifice lens protects coherence within the single-excitation sector at CΨ ≈ 0.07. They are distinct sheets of the quantum-classical fold, leading to different classical ensembles.
 
-The [n_XY Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) proves that single-excitation states are restricted to even-n_XY Liouvillian modes. This constrains which initial states can reach the cusp: SE states live geometrically below CΨ = 1/4 for N >= 3, and the sector conservation prevents them from crossing into the cusp regime during time evolution.
+The [n-XY Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) proves that single-excitation states are restricted to even-n_XY Liouvillian modes. This constrains which initial states can reach the cusp: SE states live geometrically below CΨ = 1/4 for N >= 3, and the sector conservation prevents them from crossing into the cusp regime during time evolution.
 
 ---
 

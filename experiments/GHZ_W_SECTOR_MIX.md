@@ -21,10 +21,10 @@ three-tangle, CKW, F60, F61, F62, spherical scan artifact, product state -->
 
 **Depends on:**
 - F60 (GHZ_N born below the fold), F62 (CΨ(0) for W_N)
-- F61 (n_XY parity selection rule) via [PROOF_PARITY_SELECTION_RULE](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md)
+- F61 (n_XY parity selection rule) via [the parity-selection-rule proof](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md)
 - Main README Section 6 Rule 1: W-type encoding over GHZ (preparation-vs-evolution asymmetry of F61 is the structural reason F69 is allowed)
 
-**Registry entry:** [F69 in ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md)
+**Registry entry:** [F69](../docs/ANALYTICAL_FORMULAS.md)
 
 ---
 
@@ -287,7 +287,7 @@ All scripts are pure Python (numpy, scipy, sympy), no external dependencies beyo
 
 ## Post-2026-04-27 update: other slice-stationary saddles above the fold
 
-**EQ-016 reframe** ([review/EMERGING_QUESTIONS.md](../review/EMERGING_QUESTIONS.md), commits be73bda + a5bef40): the original 2026-04-17 landscape scan undercounted slice-stationary points. Re-running with explicit binary-Dicke and triple-Dicke slice scans finds many more above-fold saddles at every tested N.
+**EQ-016 reframe** ([Emerging Questions](../review/EMERGING_QUESTIONS.md), commits be73bda + a5bef40): the original 2026-04-17 landscape scan undercounted slice-stationary points. Re-running with explicit binary-Dicke and triple-Dicke slice scans finds many more above-fold saddles at every tested N.
 
 **Binary-Dicke slice maxima above 1/4** (|D_i⟩+|D_j⟩):
 

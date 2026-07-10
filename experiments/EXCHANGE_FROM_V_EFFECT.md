@@ -4,7 +4,7 @@
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Pipeline:** `simulations/level1_emergent_exchange.py`
-**See also:** [V_EFFECT_BOUNDARY_LOCALIZATION](V_EFFECT_BOUNDARY_LOCALIZATION.md), [PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md), [V_EFFECT_PALINDROME](V_EFFECT_PALINDROME.md), [HEISENBERG_RELOADED](../hypotheses/HEISENBERG_RELOADED.md), [SINGLET_FISSION_AND_THE_TWO_CLOCKS](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md) (the carotenoid singlet-fission reading: the both-pairs-triplet state here is the dark 2Ag, and J_eff=(3/8)α²/J is the singlet-fission coupling, 2026-05-30)
+**See also:** [V-Effect boundary localization](V_EFFECT_BOUNDARY_LOCALIZATION.md), [the zero-immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md), [the V-Effect palindrome](V_EFFECT_PALINDROME.md), [Heisenberg Reloaded](../hypotheses/HEISENBERG_RELOADED.md), [Singlet Fission and the Two Clocks](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md) (the carotenoid singlet-fission reading: the both-pairs-triplet state here is the dark 2Ag, and J_eff=(3/8)α²/J is the singlet-fission coupling, 2026-05-30)
 
 ---
 
@@ -139,7 +139,7 @@ This is consistent: our framework is not REPLACING Anderson; it is a different d
 
 **Level 0 (Pauli algebra) → Level 1 (effective two-spin Hamiltonian) deduction**, end-to-end:
 
-1. d²−2d=0 selects d=2 ([QUBIT_NECESSITY](../docs/QUBIT_NECESSITY.md))
+1. d²−2d=0 selects d=2 ([the qubit-necessity argument](../docs/QUBIT_NECESSITY.md))
 2. Pauli algebra σ²_a = I, [σ_a, σ_b] = 2iε_{abc}σ_c forced
 3. (σ_1·σ_2)² = 3I + 2σ_1·σ_2 identity follows
 4. σ_1·σ_2 eigenvalues +1 (triplet, 3-fold) and −3 (singlet, 1-fold) follow
@@ -177,9 +177,9 @@ This is the lückenlose Brücke (gapless bridge) Level 0 → Level 1 that HEISEN
 
 ## References
 
-- [V_EFFECT_BOUNDARY_LOCALIZATION](V_EFFECT_BOUNDARY_LOCALIZATION.md): the Π-block decomposition and where the V-Effect break lives.
-- [PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md): w=0 sector analytical immunity.
-- [HEISENBERG_RELOADED](../hypotheses/HEISENBERG_RELOADED.md): the full Level 0 → Level 1 inheritance picture.
-- [V_EFFECT_PALINDROME](V_EFFECT_PALINDROME.md): the original 14-of-36 V-Effect break finding.
+- [V-Effect boundary localization](V_EFFECT_BOUNDARY_LOCALIZATION.md): the Π-block decomposition and where the V-Effect break lives.
+- [the zero-immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md): w=0 sector analytical immunity.
+- [Heisenberg Reloaded](../hypotheses/HEISENBERG_RELOADED.md): the full Level 0 → Level 1 inheritance picture.
+- [the V-Effect palindrome](V_EFFECT_PALINDROME.md): the original 14-of-36 V-Effect break finding.
 - Anderson, P. W. (1959), "New approach to the theory of superexchange interactions", Phys. Rev. 115, 2.
 - Simulation: `simulations/level1_emergent_exchange.py`.

@@ -8,15 +8,15 @@ splits by support: **at full support (k=N) it closes** , a Mixed+Mixed pair has 
 generators, so it is always bipartite, hence soft (modulo M), which settles F111's blocked
 "Mixed+Mixed = soft" , while the **windowed regime (k<N)** is reduced to a validated first-order statement (the degenerate
 D̂-block set-asymmetry, c=0 ⟺ bipartite, bit-exact; moment route ruled out), the set-level proof
-still open. **[UPDATE: since closed 2026-06-10]** the windowed converse non-bipartite ⟹ hard is now a theorem with no residual, typed `WindowedConverseAllGammaClaim` (Tier1Derived) via the Phase-B two-reflection / Pascal-Gram positivity (F117); see the 2026-06-08 typed split in the body below and [PROOF_F103 §7.3](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md).
+still open. **[UPDATE: since closed 2026-06-10]** the windowed converse non-bipartite ⟹ hard is now a theorem with no residual, typed `WindowedConverseAllGammaClaim` (Tier1Derived) via the Phase-B two-reflection / Pascal-Gram positivity (F117); see the 2026-06-08 typed split in the body below and [the F103 proof §7.3](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md).
 **Date:** 2026-05-30 (top-Status windowed-converse line updated 2026-07-02: since closed, no residual)
 **Regenerate:**
 - [`simulations/f87_42_8_bipartite_fullcell.py`](../simulations/f87_42_8_bipartite_fullcell.py) `[N] [letters]` , k=3 criterion over the whole diagonal cell (default N=4, all letters; pass `5 Z` for the N=5 Z check)
 - [`simulations/f87_k4_bipartite_bridge.py`](../simulations/f87_k4_bipartite_bridge.py) , k=4 criterion + the F111 template cross-check (N=4)
 - [`simulations/f87_bipartite_chiral_witness.py`](../simulations/f87_bipartite_chiral_witness.py) , the three derivation links and the optimal λ↔−λ−2σ pairing residual
 - [`simulations/f87_flip_generators.py`](../simulations/f87_flip_generators.py) , the flip-generator count |S|, full support (|S|≤2) vs windows (|S|≥3), and the GF(2) φ⟺bipartite check
-**Anchors:** [PROOF_F103 §7](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md),
-[PROOF_F111](../docs/proofs/PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md),
+**Anchors:** [the F103 proof §7](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md),
+[the F111 proof](../docs/proofs/PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md),
 [ChiralKClaim](../compute/RCPsiSquared.Core/Symmetry/ChiralKClaim.cs),
 [F87DiagonalCellBipartiteWitness](../compute/RCPsiSquared.Diagnostics/F87/F87DiagonalCellBipartiteWitness.cs).
 
@@ -207,7 +207,7 @@ distance between Spec(L) and Spec(−L−2σ)), finer than any low moment. At lo
   the Phase B and girth-ladder bullets below; resolved 2026-06-10 by Pascal-Gram positivity, F117:
   now Tier1Derived, see the resolution bullet below).
 - **Proven modulo R-deg + R-sign (Phase B, 2026-06-09,
-  [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)):** recentre
+  [the windowed monomial converse proof](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)):** recentre
   the Liouvillian as M = A + γQ; two involutions 𝓕 = F⊗F and R = I⊗F force every surviving odd power-sum word
   to have #A_L, #A_R, #Q all odd, giving the threshold #A ≥ 2ℓ (ℓ the unsigned odd-girth) and a second,
   independent re-proof of bipartite ⟹ soft (no odd word survives). The first nonvanishing odd power-sum closes
@@ -227,7 +227,7 @@ distance between Spec(L) and Spec(−L−2σ)), finer than any low moment. At lo
   IXXZ+XIXZ first), and R-sign's "P_{2ℓ+3,3} > 0" is also k = 3-scoped (the γ³ rung can be silent:
   IIXY+ZXZY fires at γ⁵, p₁₁ = 86507520·γ⁵, positive). The law becomes m\* = 2ℓ + deg with deg odd, and
   the one remaining residual is R-sign in ladder form: the first surviving class is single and positive.
-  See [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)
+  See [the windowed monomial converse proof](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)
   §4-§5 and the battery [`simulations/f87_girth_dichotomy.py`](../simulations/f87_girth_dichotomy.py).
   *Resolved later the same day (2026-06-10): R-sign closed by the Pascal-Gram positivity theorem,
   registry F117, see the next bullet.*
@@ -244,7 +244,7 @@ distance between Spec(L) and Spec(−L−2σ)), finer than any low moment. At lo
   d = 3 (K3 2064384, flux 589824, multi-Z 61440), d = 5 (IIXY+ZXZY, 86507520), plus the cascade forced
   zeros. The windowed converse is now a theorem with **no residual**: `WindowedConverseAllGammaClaim`
   is Tier1Derived, and F110/F111 promote to Tier1Derived. See
-  [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §5
+  [the windowed monomial converse proof](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §5
   and the self-validating verifier
   [`simulations/f87_pascal_gram_positivity.py`](../simulations/f87_pascal_gram_positivity.py).
 - **Retraction (the "flux moment-invisible exception" was a discarded-Im H bug).** An earlier reading treated
@@ -262,8 +262,8 @@ distance between Spec(L) and Spec(−L−2σ)), finer than any low moment. At lo
 
 ## Links
 
-- Criterion and proof: [PROOF_F103 §7](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md)
-- k=4 rule it unifies with: [PROOF_F111](../docs/proofs/PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md)
+- Criterion and proof: [the F103 proof §7](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md)
+- k=4 rule it unifies with: [the F111 proof](../docs/proofs/PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md)
 - The chiral symmetry behind it: [ChiralKClaim](../compute/RCPsiSquared.Core/Symmetry/ChiralKClaim.cs) (AZ class BDI, KHK = −H)
-- The F80 one-sidedness it rests on: [PROOF_F80](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md) (M = ±2i times a Hamiltonian object for Π²-odd cell terms)
+- The F80 one-sidedness it rests on: [the F80 proof](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md) (M = ±2i times a Hamiltonian object for Π²-odd cell terms)
 - Typed witness: [F87DiagonalCellBipartiteWitness](../compute/RCPsiSquared.Diagnostics/F87/F87DiagonalCellBipartiteWitness.cs) (Tier1Derived) + [BipartiteChirality](../compute/RCPsiSquared.Diagnostics/F87/BipartiteChirality.cs) primitive

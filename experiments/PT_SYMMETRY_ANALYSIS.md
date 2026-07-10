@@ -428,7 +428,7 @@ an open question.
    itself an over-correction; F89 proves the full (1,2) block carries a
    real-axis defective seed at every odd N, census-defective through N=11,
    which this coarse-grid sweep missed by a √-EP window ~20-30× narrower
-   than its step. See [PROOF_F86A_EP_MECHANISM](../docs/proofs/PROOF_F86A_EP_MECHANISM.md),
+   than its step. See [the F86a EP mechanism proof](../docs/proofs/PROOF_F86A_EP_MECHANISM.md),
    the Correction section.)* What
    survives is only the shared algebra (the same-sign-imaginary 2×2,
    AIII chiral, read at two residuals of the F1 palindrome

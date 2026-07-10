@@ -96,7 +96,7 @@ past and future. For |++⟩ at the crossing:
 | 2 Tr(ρ_past · ρ_future) | 0.0049 | **1.8%** |
 | Total purity | 0.2700 | 100% |
 
-The 97/3 split from [BORN_RULE_MIRROR](BORN_RULE_MIRROR.md) reappears:
+The 97/3 split from [Born Rule Mirror](BORN_RULE_MIRROR.md) reappears:
 97% past, ~3% from future and interference combined. The interference
 term (1.8%) determines when the purity crosses the fold threshold.
 

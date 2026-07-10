@@ -441,7 +441,7 @@ holds exactly, independently of time or trajectory. But a Lindblad flow
 carries a mode through this face-swap at a finite rate, and near the
 cusp at CΨ = 1/4 that passage has a measurable duration.
 
-[BOUNDARY_NAVIGATION](../experiments/BOUNDARY_NAVIGATION.md) closed the
+[Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) closed the
 critical slowing question with a closed-form dwell-time formula: for
 Bell+ under Z-dephasing, K_dwell = γ·t_dwell = 1.080088·δ, where δ is
 the half-width of a window around the crossing. This is exact to machine
@@ -469,7 +469,7 @@ beyond the sector weights. See
 ### Pair-level structural extensions (April 20, 2026)
 
 Three structural results extending the palindromic light-lens picture
-at the Liouvillian-pair level, from [PI_PAIR_FLUX_BALANCE](PI_PAIR_FLUX_BALANCE.md):
+at the Liouvillian-pair level, from [Π-Pair Flux Balance](PI_PAIR_FLUX_BALANCE.md):
 
 1. **Flux balance.** At N=5, a bond-0 perturbation δJ shifts the Re(λ)
    of each Π-partner pair equally and oppositely, keeping their sum

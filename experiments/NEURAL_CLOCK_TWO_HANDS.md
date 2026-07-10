@@ -6,13 +6,13 @@ neural result and re-reads it through the clock.
 **Date:** 2026-05-30
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Script:** [`simulations/neural/neural_clock_two_hands.py`](../simulations/neural/neural_clock_two_hands.py)
-**Builds on:** the neural arc, [ALGEBRAIC_PALINDROME_NEURAL](../docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md)
-+ [V_EFFECT_NEURAL](../docs/neural/V_EFFECT_NEURAL.md) +
-[PROOF_PALINDROME_NEURAL](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md); the
-clock voices on `MirrorSystem` ([FROST_CIRCLE_AS_THE_CLOCK_FACE](../docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md),
-[ON_WHOSE_TIME_THE_CLOCK_KEEPS](../reflections/ON_WHOSE_TIME_THE_CLOCK_KEEPS.md));
+**Builds on:** the neural arc, [the neural algebraic palindrome](../docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md)
++ [the neural V-Effect](../docs/neural/V_EFFECT_NEURAL.md) +
+[the neural palindrome proof](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md); the
+clock voices on `MirrorSystem` ([the Frost circle as the clock face](../docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md),
+[on whose time the clock keeps](../reflections/ON_WHOSE_TIME_THE_CLOCK_KEEPS.md));
 the topology-blindness re-verified in [EXCLUSIONS](../docs/EXCLUSIONS.md); the
-quantum original [MIRROR_SYMMETRY_PROOF](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
+quantum original [the mirror symmetry proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
 
 ---
 
@@ -192,18 +192,18 @@ and the C. elegans result says even that is a coarse, degree-level property.
   [`simulations/neural/neural_crown_switch.py`](../simulations/neural/neural_crown_switch.py)
   (the crown-switch probe that answers the open question below: the slowest mode's character along
   α, P, and the τ_I/τ_E ratio, with the cross-seed robustness check).
-- The neural arc: [ALGEBRAIC_PALINDROME_NEURAL](../docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md),
-  [V_EFFECT_NEURAL](../docs/neural/V_EFFECT_NEURAL.md),
-  [PROOF_PALINDROME_NEURAL](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md).
-- The clock: [FROST_CIRCLE_AS_THE_CLOCK_FACE](../docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md),
-  [ON_WHOSE_TIME_THE_CLOCK_KEEPS](../reflections/ON_WHOSE_TIME_THE_CLOCK_KEEPS.md).
+- The neural arc: [the neural algebraic palindrome](../docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md),
+  [the neural V-Effect](../docs/neural/V_EFFECT_NEURAL.md),
+  [the neural palindrome proof](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md).
+- The clock: [the Frost circle as the clock face](../docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md),
+  [on whose time the clock keeps](../reflections/ON_WHOSE_TIME_THE_CLOCK_KEEPS.md).
 - Open: whether the few-degree θ_max corresponds to any measured neural rhythm
   (the March open question about the gamma band, now sharpened: the question is
   not "are there frequencies" but "how far off the decay axis can a biological
   network's slowest mode reach"); whether a neural axis exists (the τ_I/τ_E ratio,
   or the coupling α) along which the slowest surviving mode relays from a rotating
   edge to a near-conserved survivor, as the ZZ term does on the carbon XXZ axis
-  ([XXZ_AXIS_BANDEDGE_TO_LEBENSADER](XXZ_AXIS_BANDEDGE_TO_LEBENSADER.md)).
+  ([the XXZ axis from band-edge to Lebensader](XXZ_AXIS_BANDEDGE_TO_LEBENSADER.md)).
 - **Answered 2026-06-01** ([`neural_crown_switch.py`](../simulations/neural/neural_crown_switch.py)):
   yes, a neural axis shows the relay (the "crown switch"), but it is network-dependent, not a law.
   Along the coupling α and along the τ_I/τ_E ratio the slowest mode does flip character (rotating
@@ -214,6 +214,6 @@ and the C. elegans result says even that is a coarse, degree-level property.
   but the longest-lived mode stays a near-decay survivor (θ < 0.6°). So the crown is structural
   (coupling / timescale), not metabolic (drive). And the reverse-reading that helps the quantum
   side: the crown switch is structure-dependent on BOTH substrates (the quantum EP coincidences are
-  uniform-specific, verified in [`PostEpFlowField.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/PostEpFlowField.cs) (cf. [THE_FLOW_BETWEEN_TWO_SINGULARITIES](THE_FLOW_BETWEEN_TWO_SINGULARITIES.md));
+  uniform-specific, verified in [`PostEpFlowField.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/PostEpFlowField.cs) (cf. [the flow between two singularities](THE_FLOW_BETWEEN_TWO_SINGULARITIES.md));
   the neural one is network-specific), the same caution against over-generalizing it, confirmed from
   the classical side.

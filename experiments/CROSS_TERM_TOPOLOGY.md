@@ -19,7 +19,7 @@ Pythagorean breaking, Heisenberg chain ring star complete graph -->
 
 At N=2, the Hamiltonian superoperator L_H and the centered dissipator
 L_Dc = L_D + Sg*I are exactly orthogonal: {L_H, L_Dc} = 0. This is the
-Pythagorean decomposition from [PRIMORDIAL_QUBIT_ALGEBRA](PRIMORDIAL_QUBIT_ALGEBRA.md).
+Pythagorean decomposition from [Primordial Qubit Algebra](PRIMORDIAL_QUBIT_ALGEBRA.md).
 
 At N=3 on a Heisenberg chain, the relative orthogonality
 ||{L_H, L_Dc}|| / (||L_H|| * ||L_Dc||) equals 1/sqrt(48), a
@@ -89,7 +89,7 @@ the non-trivial result.
 
 **Update:** The conjecture originally stated here (1/sqrt(N * 2^(N+1)))
 was refuted at N=5 and replaced by the correct, proven formula. See
-[CROSS_TERM_FORMULA](CROSS_TERM_FORMULA.md) for the proof.
+[Cross-Term Formula](CROSS_TERM_FORMULA.md) for the proof.
 
 | N | rel_ortho^2 | Formula |
 |---|-------------|---------|
@@ -196,7 +196,7 @@ generates transitions with the same w_XY statistics relative to L_Dc.
    chain-specific?") has a definitive negative answer.
 
 3. **The N-scaling formula is proven.** rel_ortho = sqrt((N-2)/(N * 4^(N-1)))
-   (proof in [CROSS_TERM_FORMULA](CROSS_TERM_FORMULA.md)). It gives N=5:
+   (proof in [Cross-Term Formula](CROSS_TERM_FORMULA.md)). It gives N=5:
    sqrt(3/1280) = 0.04841... and N=6: sqrt(1/1536) = 0.02552..., both
    confirmed. (The earlier conjecture 1/sqrt(N * 2^(N+1)) coincides at
    N=3,4 but was refuted at N=5, where it predicts 0.05590; it is also

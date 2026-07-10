@@ -3,13 +3,13 @@
 **Status:** Tier 1 (first-order structural prediction, empirically confirmed at N=5)
 **Date:** 2026-04-20 (evening)
 **Authors:** Tom, Claude Opus 4.7 (1M)
-**Relates to:** [ORTHOGONALITY_SELECTION_FAMILY](ORTHOGONALITY_SELECTION_FAMILY.md) (prediction d), [OPEN_THREAD_GAMMA0_INFORMATION](../review/OPEN_THREAD_GAMMA0_INFORMATION.md)
+**Relates to:** [Orthogonality Selection Family](ORTHOGONALITY_SELECTION_FAMILY.md) (prediction d), [γ₀ information open thread](../review/OPEN_THREAD_GAMMA0_INFORMATION.md)
 
 ---
 
 ## Claim
 
-The Meta-Theorem in [ORTHOGONALITY_SELECTION_FAMILY](ORTHOGONALITY_SELECTION_FAMILY.md) predicts that under **non-uniform γ_i** (site-dependent dephasing rate), the (vac, S_1)-coherence selection rule breaks: the kernel entry `K_CC[0, 1]_pr` transitions from exactly zero to finite. The magnitude and sign depend on which spatial mode of the γ profile is activated.
+The Meta-Theorem in [Orthogonality Selection Family](ORTHOGONALITY_SELECTION_FAMILY.md) predicts that under **non-uniform γ_i** (site-dependent dephasing rate), the (vac, S_1)-coherence selection rule breaks: the kernel entry `K_CC[0, 1]_pr` transitions from exactly zero to finite. The magnitude and sign depend on which spatial mode of the γ profile is activated.
 
 **Verified at N=5, bond 0, t_0 = 20 = 1/γ₀:**
 
@@ -121,7 +121,7 @@ Prediction (d) is confirmed, and the empirical structure is sharper than just "t
 
 3. **The uniform γ-case is a degenerate point** where A_k-coefficients all multiply zero input. Any symmetry-breaking lift uncovers the underlying rich structure.
 
-4. **This matches the [OPEN_THREAD_GAMMA0_INFORMATION](../review/OPEN_THREAD_GAMMA0_INFORMATION.md) picture exactly**: γ-profile modulation is what makes the channel visible; under γ=const the channel exists but is unmodulated. "Alice designs antennas, not signals" (from the γ=const synthesis) means: Alice chooses which spatial mode of γ to activate, and each mode is a channel.
+4. **This matches the [γ₀ information open thread](../review/OPEN_THREAD_GAMMA0_INFORMATION.md) picture exactly**: γ-profile modulation is what makes the channel visible; under γ=const the channel exists but is unmodulated. "Alice designs antennas, not signals" (from the γ=const synthesis) means: Alice chooses which spatial mode of γ to activate, and each mode is a channel.
 
 ---
 

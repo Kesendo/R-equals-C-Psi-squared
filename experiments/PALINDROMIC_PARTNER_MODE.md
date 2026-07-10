@@ -16,12 +16,12 @@ LAPACK degeneracy, XY chain endpoint dephasing -->
 - [bell_pair_partner_mode.txt](../simulations/results/bell_pair_partner_mode.txt)
 
 **Depends on:**
-- F1 (palindrome equation) via [MIRROR_SYMMETRY_PROOF](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
-- [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) (2γ₀ as absorption quantum, Re(λ) = -2γ₀⟨n_XY⟩)
-- [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) (dissipation interval \[0, 2γ₀\], cavity framing)
+- F1 (palindrome equation) via [the mirror symmetry proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
+- [the absorption theorem proof](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) (2γ₀ as absorption quantum, Re(λ) = -2γ₀⟨n_XY⟩)
+- [the primordial γ constant](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) (dissipation interval \[0, 2γ₀\], cavity framing)
 - F43 (sector SFF pairing), F65 (single-excitation spectrum), F66 (pole modes at 0 and 2γ₀), F67 (bonding-mode encoding)
 
-**Registry entry:** [F68 in ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md)
+**Registry entry:** [F68 in the formula registry](../docs/ANALYTICAL_FORMULAS.md)
 
 ---
 

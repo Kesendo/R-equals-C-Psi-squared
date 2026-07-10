@@ -4,7 +4,7 @@
 **Date:** 2026-05-26
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Script:** [`simulations/f113_break_formula_derivation.py`](../simulations/f113_break_formula_derivation.py)
-**Builds on:** F112 ([PROOF_F112](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md), [LindbladBitBPiBalance](../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs)) + the structural counterexample discovered in Welle 2 ([F112_HARDWARE_LENS_KINGSTON.md](F112_HARDWARE_LENS_KINGSTON.md))
+**Builds on:** F112 ([the F112 proof](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md), [LindbladBitBPiBalance](../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs)) + the structural counterexample discovered in Welle 2 ([F112 hardware lens on Kingston](F112_HARDWARE_LENS_KINGSTON.md))
 
 ## Theorem (F113)
 
@@ -121,8 +121,8 @@ Runs in under 30 seconds; produces the multivariate fit + N-scaling + per-site /
 
 ## Related
 
-- [F112 PROOF](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md): parent theorem, F113 lives in F112's "broken empirical envelope" regime.
-- [F112_HARDWARE_LENS_KINGSTON.md](F112_HARDWARE_LENS_KINGSTON.md): hardware discovery of the counterexample; F113 now gives its closed-form magnitude.
+- [the F112 proof](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md): parent theorem, F113 lives in F112's "broken empirical envelope" regime.
+- [F112 hardware lens on Kingston](F112_HARDWARE_LENS_KINGSTON.md): hardware discovery of the counterexample; F113 now gives its closed-form magnitude.
 - [LindbladBitBPiBalance.cs](../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs): F112's typed Claim; F113 informs the empirical-envelope-counterexample story documented in its inspectables.
 - [LindbladBitBPiBalanceWitness.cs](../compute/RCPsiSquared.Diagnostics/Polarity/LindbladBitBPiBalanceWitness.cs): the StandardSet's 5th witness (`Zdrive_with_T1_envelope_BROKEN`) is a specific instance of F113 at ω=0.13, γ_T1=0.001, N=2.
 - F112 (Tier1Derived Hermitian H + bit_b-homog c → asymmetry = 0) and F113 (closed-form for the bit_b-mixed-c break magnitude) together cover the standard-Lindblad-family polarity behavior completely.

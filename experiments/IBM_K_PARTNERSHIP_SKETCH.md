@@ -4,13 +4,13 @@
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Pipeline:** `run_receiver_engineering.py` in the external `ibm_quantum_tomography` pipeline at `D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography\` (extension of Run 1 from 2026-04-24)
-**See also:** [IBM_RECEIVER_ENGINEERING_SKETCH](IBM_RECEIVER_ENGINEERING_SKETCH.md) (Run 1, bonding:2 / alt-z-bits = 2.80×), [`docs/proofs/PROOF_K_PARTNERSHIP.md`](../docs/proofs/PROOF_K_PARTNERSHIP.md), [GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md), [CMRR_BREAK_NONUNIFORM_GAMMA](CMRR_BREAK_NONUNIFORM_GAMMA.md), [F65](../docs/ANALYTICAL_FORMULAS.md), [F67](../docs/ANALYTICAL_FORMULAS.md)
+**See also:** [the receiver-engineering sketch](IBM_RECEIVER_ENGINEERING_SKETCH.md) (Run 1, bonding:2 / alt-z-bits = 2.80×), [`docs/proofs/PROOF_K_PARTNERSHIP.md`](../docs/proofs/PROOF_K_PARTNERSHIP.md), [Noise is not the enemy](GAMMA_AS_SIGNAL.md), [CMRR break under non-uniform γ₀](CMRR_BREAK_NONUNIFORM_GAMMA.md), [F65](../docs/ANALYTICAL_FORMULAS.md), [F67](../docs/ANALYTICAL_FORMULAS.md)
 
 ---
 
 ## What this run tests
 
-Five F67 bonding-mode receivers on the same N=5 hardware path, in one job-set. The K-partnership theorem ([PROOF_K_PARTNERSHIP](../docs/proofs/PROOF_K_PARTNERSHIP.md)) says that for bipartite NN-hopping H with real hopping in the single-excitation sector, bonding:k and bonding:(N+1-k) produce pointwise-identical mirror-pair |·|²-observables. F67's receiver menu of N entries folds to ⌈N/2⌉ classes:
+Five F67 bonding-mode receivers on the same N=5 hardware path, in one job-set. The K-partnership theorem ([the K-partnership proof](../docs/proofs/PROOF_K_PARTNERSHIP.md)) says that for bipartite NN-hopping H with real hopping in the single-excitation sector, bonding:k and bonding:(N+1-k) produce pointwise-identical mirror-pair |·|²-observables. F67's receiver menu of N entries folds to ⌈N/2⌉ classes:
 
 - (bonding:1, bonding:5), (bonding:2, bonding:4), bonding:3 (self-partner) for N=5.
 
@@ -96,9 +96,9 @@ Result file: `data/ibm_k_partnership_april2026/k_partnership_marrakesh_20260425_
 
 ## References
 
-- [IBM_RECEIVER_ENGINEERING_SKETCH](IBM_RECEIVER_ENGINEERING_SKETCH.md): Run 1 (Heisenberg, bonding:2 vs alt-z-bits, 2.80× ratio).
+- [the receiver-engineering sketch](IBM_RECEIVER_ENGINEERING_SKETCH.md): Run 1 (Heisenberg, bonding:2 vs alt-z-bits, 2.80× ratio).
 - [`docs/proofs/PROOF_K_PARTNERSHIP.md`](../docs/proofs/PROOF_K_PARTNERSHIP.md): the formal theorem with four robustness tests.
-- [GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md): γ-profile as readable channel via spatial-sum modes.
-- [CMRR_BREAK_NONUNIFORM_GAMMA](CMRR_BREAK_NONUNIFORM_GAMMA.md): non-uniform γ_l breaks the (vac, S_1)-coherence selection rule, modal-selective.
+- [Noise is not the enemy](GAMMA_AS_SIGNAL.md): γ-profile as readable channel via spatial-sum modes.
+- [CMRR break under non-uniform γ₀](CMRR_BREAK_NONUNIFORM_GAMMA.md): non-uniform γ_l breaks the (vac, S_1)-coherence selection rule, modal-selective.
 - [F65](../docs/ANALYTICAL_FORMULAS.md), [F67](../docs/ANALYTICAL_FORMULAS.md): bonding-mode amplitudes and receiver menu.
 - External pipeline: `D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography\`.

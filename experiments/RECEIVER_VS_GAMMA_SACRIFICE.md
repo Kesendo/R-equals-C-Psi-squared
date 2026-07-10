@@ -3,14 +3,14 @@
 **Tier:** 2 (structural observation from direct numerical comparison at N=5, 7, 9 via C# brecher mode)
 **Date:** 2026-04-23
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Source:** C# brecher scans at N=5, 7, 9 (commits `dbf396a`, `d22c0fe`) compared to [RESONANT_RETURN](RESONANT_RETURN.md) Test 8. The initial Python draft (commit `bf080a3`, `eq024_refinement_shadow_lens_broken.py`) used a coarse t-grid that systematically missed early peaks and has been superseded; see Correction note below.
-**See also:** [J_BLIND_RECEIVER_CLASSES](J_BLIND_RECEIVER_CLASSES.md), [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [BETWEEN_MEASUREMENTS_EVIDENCE](../hypotheses/BETWEEN_MEASUREMENTS_EVIDENCE.md)
+**Source:** C# brecher scans at N=5, 7, 9 (commits `dbf396a`, `d22c0fe`) compared to [Resonant Return](RESONANT_RETURN.md) Test 8. The initial Python draft (commit `bf080a3`, `eq024_refinement_shadow_lens_broken.py`) used a coarse t-grid that systematically missed early peaks and has been superseded; see Correction note below.
+**See also:** [J-Blind Receiver Classes](J_BLIND_RECEIVER_CLASSES.md), [Primordial γ as Framework Constant](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [Between Measurements](../hypotheses/BETWEEN_MEASUREMENTS_EVIDENCE.md)
 
 ---
 
 ## What this document is about
 
-[RESONANT_RETURN](RESONANT_RETURN.md) Test 8 reports a 360× boost in Peak Sum-MI at N=5 when the γ profile is optimized via the sacrifice-zone formula (concentrate all dephasing on one edge qubit, protect the rest). The baseline for that ratio is a V-shape γ profile with |+⟩⁵ initial state, which gives Peak Sum-MI = 0.000639. The optimized profile reaches 0.230. Ratio 0.230 / 0.000639 ≈ 360.
+[Resonant Return](RESONANT_RETURN.md) Test 8 reports a 360× boost in Peak Sum-MI at N=5 when the γ profile is optimized via the sacrifice-zone formula (concentrate all dephasing on one edge qubit, protect the rest). The baseline for that ratio is a V-shape γ profile with |+⟩⁵ initial state, which gives Peak Sum-MI = 0.000639. The optimized profile reaches 0.230. Ratio 0.230 / 0.000639 ≈ 360.
 
 This document re-examines that claim against data from the EQ-024 refinement pass. At the same N=5, under **uniform γ₀ = 0.05 on every site and uniform J = 1 on every bond**, with the initial state |+−+−+⟩, Peak Sum-MI is **2.57** (not 1.32 as first reported, see Correction note below). With moderate J-modulation added (still uniform γ₀), it reaches **3.36**.
 
@@ -41,7 +41,7 @@ The ordering is absolute: receiver choice at uniform γ₀ exceeds γ-Sacrifice-
 
 ## The reframing
 
-The 360× boost in RESONANT_RETURN is a ratio against a specific baseline, and the baseline is low because |+⟩⁵ is a poor MI-transport receiver under Heisenberg dynamics. |+⟩⁵ is a Class 3 J-blind state (see [J_BLIND_RECEIVER_CLASSES](J_BLIND_RECEIVER_CLASSES.md)): all its MI-transport at N=5 has to come from γ breaking the state's intrinsic symmetry, because J-modulation alone does nothing to it. RESONANT_RETURN's formula is exactly the γ profile that breaks that symmetry most effectively. It works, and 360× is the right number for that ratio.
+The 360× boost in RESONANT_RETURN is a ratio against a specific baseline, and the baseline is low because |+⟩⁵ is a poor MI-transport receiver under Heisenberg dynamics. |+⟩⁵ is a Class 3 J-blind state (see [J-Blind Receiver Classes](J_BLIND_RECEIVER_CLASSES.md)): all its MI-transport at N=5 has to come from γ breaking the state's intrinsic symmetry, because J-modulation alone does nothing to it. RESONANT_RETURN's formula is exactly the γ profile that breaks that symmetry most effectively. It works, and 360× is the right number for that ratio.
 
 The operationally meaningful question is not "how much can γ boost MI at |+⟩⁵" but "what is the maximum MI achievable for information transfer". Under that question:
 
@@ -52,7 +52,7 @@ Receiver engineering wins the absolute comparison by **11.5×** at N=5 at unifor
 
 ## Operational consequence for γ₀ = const
 
-Under [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), γ₀ is a framework constant and Alice cannot do γ-profile engineering. The γ-Sacrifice-Zone is not operationally available. This is often presented as a loss: Alice is supposedly giving up a 360× boost.
+Under [Primordial γ as Framework Constant](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), γ₀ is a framework constant and Alice cannot do γ-profile engineering. The γ-Sacrifice-Zone is not operationally available. This is often presented as a loss: Alice is supposedly giving up a 360× boost.
 
 This document's numbers show the loss is illusory. Under γ₀ = const, Alice takes a better initial state and gets higher absolute Peak Sum-MI than γ-profile engineering reaches at the standard initial state. The operational strategy is:
 
@@ -68,7 +68,7 @@ The γ-Sacrifice-Zone, in retrospect, is a pre-γ₀-const workaround for a subo
 
 - Not that RESONANT_RETURN Test 8 is incorrect. The 360× ratio is correct for its setup. The reframing is that the setup's baseline is low and that a different receiver exceeds the ratio's endpoint without γ-engineering.
 - Not that γ-modulation is useless in general. In framings where γ is operationally controllable, γ-modulation remains a valid lever. Under γ₀ = const it is closed off and the comparison becomes unnecessary.
-- Not that hardware-MI performance trivially matches. RESONANT_RETURN's [IBM_CONCENTRATOR](IBM_CONCENTRATOR.md) experiment achieved 2 to 3× on ibm_torino via selective DD, which is a γ-approximation via pulses and is compatible with γ₀ = const. The absolute Peak Sum-MI on real hardware for \|+−+−+⟩-type receivers has not been measured, and is a natural follow-up.
+- Not that hardware-MI performance trivially matches. RESONANT_RETURN's [IBM Concentrator](IBM_CONCENTRATOR.md) experiment achieved 2 to 3× on ibm_torino via selective DD, which is a γ-approximation via pulses and is compatible with γ₀ = const. The absolute Peak Sum-MI on real hardware for \|+−+−+⟩-type receivers has not been measured, and is a natural follow-up.
 
 ## N-scaling via C# brecher mode (commits `dbf396a`, `d22c0fe`)
 
@@ -131,7 +131,7 @@ The two metrics optimise for different things, and the optimal J-profile flips b
 
 ### Comparison to RESONANT_RETURN center-sacrifice
 
-[RESONANT_RETURN](RESONANT_RETURN.md) Test 8 position sweep at \|+⟩^N under non-uniform γ:
+[Resonant Return](RESONANT_RETURN.md) Test 8 position sweep at \|+⟩^N under non-uniform γ:
 
 | N | Center-γ-sacrifice PeakMI(0, N-1) | This work, alt-z-bits uniform J |
 |---|-----------------------------------|---------------------------------|
@@ -311,7 +311,7 @@ Four different optimal states, one hardware setup (uniform γ₀, uniform J, Hei
 
 ### Operational consequence
 
-The F67 eigenmode catalog is Alice's menu. The γ₀ = const framework does not impose a single optimal receiver; it imposes that Alice picks the right F67 mode for her application. The original RESONANT_RETURN V-shape baseline (\|+⟩^N) picks no F67 mode at all (it is a Class 3 state, see [J_BLIND_RECEIVER_CLASSES](J_BLIND_RECEIVER_CLASSES.md)), which is why γ-modulation was needed to compensate.
+The F67 eigenmode catalog is Alice's menu. The γ₀ = const framework does not impose a single optimal receiver; it imposes that Alice picks the right F67 mode for her application. The original RESONANT_RETURN V-shape baseline (\|+⟩^N) picks no F67 mode at all (it is a Class 3 state, see [J-Blind Receiver Classes](J_BLIND_RECEIVER_CLASSES.md)), which is why γ-modulation was needed to compensate.
 
 Under γ₀ = const, with the F67 menu:
 
@@ -327,19 +327,19 @@ Under γ₀ = const, with the F67 menu:
 - **Non-uniform γ₀ is physically ruled out under γ₀ = const.** All γ-Sacrifice numbers are cited as RESONANT_RETURN references, not as operational competitors. Under γ₀ = const they are kinematic curiosities.
 - **Why does receiver-engineering advantage for MI(0, N-1) at alt-z-bits shrink faster with N than for Sum-MI?** At N=7 the Sum-MI lead is 8.5× uniform / 12.3× best J, while MI(0, N-1) lead is only 4.5×. At N=9 it is 7.1× / 10.7× vs 2.8×. The answer for alt-z-bits is that its MI(0, N-1) decays as ~1/N under receiver-engineering while γ-Sacrifice is weaker-scaling. The **bonding:2 receiver (F67 first excited mode) mostly resolves this**: it holds MI(0, N-1) = 1.17 → 0.72 → 0.50 at N=5, 7, 9 (factor 1.6× per 2-N-step rather than alt-z-bits' 1.8×). bonding:2 vs γ-Sacrifice center-mode MI(0, N-1): at N=7 it is 0.723 / 0.109 = **6.6×** and at N=9 it is 0.496 / 0.097 = **5.1×**, larger than the alt-z-bits/γ-Sacrifice MI(0, N-1) ratio (4.5× / 2.8×) and more stable with N. Open: does bonding:2's advantage continue to grow at N=11, 13, 15?
 - **k_opt(N) predict-first via F75 (resolved through N=13).** Static MM(0) from F75 identifies the best k directly from the amplitude multiset, with no propagation. F75 predicts and brecher confirms at N=7 k=4, N=11 k=6, N=13 k=2/4 tied. For single-pair MI(0, N-1) at t=0, F75 gives k_opt = (N+1)/2 with MI_end(0) ~ 4/(N+1). The DYNAMICAL peak MI(0, N-1) over t > 0 shifts optimum smoothly with N: k*= 2 (N=5, 7), 3 (N=9), 4 (N=11, 13). At N=13 the dynamical k=4 (0.349) and k=5 (0.347) are effectively tied; the optimum may move to k=5 at N=15. F75 static-optimum k = (N+1)/2 bounds the dynamical k* from above; F75's 0.93 decay-envelope gives reliable PeakMM prediction across all (N, k). Open: a closed-form for the dynamical k*(N) crossover is still not derived, but the empirical pattern is k*(N) ≈ floor((N+1)/3) giving 2, 2, 3, 4, 4 at N=5, 7, 9, 11, 13, matching within the k=4/k=5 tie at N=13.
-- **Hardware-minimal IBM experiment for end-to-end transport.** F71-symmetric initial state preparation is one gate layer; uniform Heisenberg evolution is 2-3 Trotter steps; readout is just two qubits (site 0 and site N-1). This is substantially cheaper than Sum-MI tomography (which requires all adjacent pairs). A ~100-shot IBM run at N=5 or N=7 would be feasible and give the first hardware datapoint on receiver-engineering. Preferred receiver: bonding:2 (best MI(0, N-1) numerically) or alt-z-bits (simpler state preparation); both work. Orthogonal protocol note: the same J-tuning setup can extract γ₀ itself via [Q_SCALE_THREE_BANDS](Q_SCALE_THREE_BANDS.md), where γ₀ = J*/Q_peak(c) with Q_peak depending on the probe's chromaticity: bi-chromatic probe (simple, c=2) → J*/1.5 (with 10% finite-size uncertainty), deep-chromatic probe (c ≥ 4, more reliable) → J*/1.8 (saturated and N-invariant through N=9). Higher-chromaticity probes have ~3× stronger abs(K) signal, so they are preferred under hardware-fidelity constraints.
+- **Hardware-minimal IBM experiment for end-to-end transport.** F71-symmetric initial state preparation is one gate layer; uniform Heisenberg evolution is 2-3 Trotter steps; readout is just two qubits (site 0 and site N-1). This is substantially cheaper than Sum-MI tomography (which requires all adjacent pairs). A ~100-shot IBM run at N=5 or N=7 would be feasible and give the first hardware datapoint on receiver-engineering. Preferred receiver: bonding:2 (best MI(0, N-1) numerically) or alt-z-bits (simpler state preparation); both work. Orthogonal protocol note: the same J-tuning setup can extract γ₀ itself via [Q as Scale, Three Bands](Q_SCALE_THREE_BANDS.md), where γ₀ = J*/Q_peak(c) with Q_peak depending on the probe's chromaticity: bi-chromatic probe (simple, c=2) → J*/1.5 (with 10% finite-size uncertainty), deep-chromatic probe (c ≥ 4, more reliable) → J*/1.8 (saturated and N-invariant through N=9). Higher-chromaticity probes have ~3× stronger abs(K) signal, so they are preferred under hardware-fidelity constraints.
 
 ## References
 
-- [RESONANT_RETURN](RESONANT_RETURN.md) Test 8: the γ-Sacrifice-Zone formula and 360× baseline
-- [J_BLIND_RECEIVER_CLASSES](J_BLIND_RECEIVER_CLASSES.md): Class 3 blindness of \|+⟩⁵ under Heisenberg, which makes it a poor receiver
-- [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md): the hypothesis that closes γ-profile engineering operationally
-- [BETWEEN_MEASUREMENTS_EVIDENCE](../hypotheses/BETWEEN_MEASUREMENTS_EVIDENCE.md): the structural argument for γ₀ = const this reframing is consistent with
+- [Resonant Return](RESONANT_RETURN.md) Test 8: the γ-Sacrifice-Zone formula and 360× baseline
+- [J-Blind Receiver Classes](J_BLIND_RECEIVER_CLASSES.md): Class 3 blindness of \|+⟩⁵ under Heisenberg, which makes it a poor receiver
+- [Primordial γ as Framework Constant](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md): the hypothesis that closes γ-profile engineering operationally
+- [Between Measurements](../hypotheses/BETWEEN_MEASUREMENTS_EVIDENCE.md): the structural argument for γ₀ = const this reframing is consistent with
 - `simulations/eq024_refinement_shadow_lens_broken.py`: initial Python Brecher-test draft (commit `bf080a3`, coarse t-grid, superseded)
 - `simulations/check_brecher_n5_finegrid.py`: Python fine-grid verification at N=5 (commit `dbf396a`)
 ## Update 2026-04-28: parity prediction (untested, framework primitive added)
 
-The N=5, 7, 9 sweep covers **odd N only**, where the bond-mirror permutation R̄: J_b → J_{N-2-b} on the (N-1)-dim bond-input space splits into balanced k+k blocks. The block-decomposition mechanism (EQ-024 follow-up, [J_BLIND_RECEIVER_CLASSES Update 2026-04-28 N-scaling](J_BLIND_RECEIVER_CLASSES.md)) predicts that **at even N the split becomes unbalanced (k+1, k) due to a self-mirror bond, and the F71-eigenstate capacity advantage inverts**; F71-breaking receivers should win.
+The N=5, 7, 9 sweep covers **odd N only**, where the bond-mirror permutation R̄: J_b → J_{N-2-b} on the (N-1)-dim bond-input space splits into balanced k+k blocks. The block-decomposition mechanism (EQ-024 follow-up, [J-Blind Receiver Classes, Update 2026-04-28 N-scaling](J_BLIND_RECEIVER_CLASSES.md)) predicts that **at even N the split becomes unbalanced (k+1, k) due to a self-mirror bond, and the F71-eigenstate capacity advantage inverts**; F71-breaking receivers should win.
 
 Predicted scaling:
 
@@ -369,7 +369,7 @@ For any candidate receiver state at any N, the framework now returns the parity 
 - `simulations/results/eq024_refinement/brecher_scan_with_mm.txt`: C# scan with Sum-MI, MI(0, N-1), and Mirror-Pair MM tracking (commit `963f2ed`)
 - `simulations/results/eq024_refinement/brecher_bonding_scan.txt`: C# scan of F67 bonding:k receivers (k=1,2,3) at N=5, 7, 9 (commit `0917038`)
 - `simulations/mm_zero_derivation.py`: F75 analytic MM(0) verification script
-- [ANALYTICAL_FORMULAS F65](../docs/ANALYTICAL_FORMULAS.md): the explicit single-excitation eigenmode formula underlying bonding:k (F67 = the optimal-receiver result on those modes)
-- [ANALYTICAL_FORMULAS F75](../docs/ANALYTICAL_FORMULAS.md): mirror-pair MI closed form for single-excitation mirror-symmetric states
-- [IBM_CONCENTRATOR](IBM_CONCENTRATOR.md): hardware realization via selective DD, compatible with γ₀ = const
+- [F65](../docs/ANALYTICAL_FORMULAS.md): the explicit single-excitation eigenmode formula underlying bonding:k (F67 = the optimal-receiver result on those modes)
+- [F75](../docs/ANALYTICAL_FORMULAS.md): mirror-pair MI closed form for single-excitation mirror-symmetric states
+- [IBM Concentrator](IBM_CONCENTRATOR.md): hardware realization via selective DD, compatible with γ₀ = const
 - [Inside and Outside the Sacrifice Zone](../docs/INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md): the inside/outside observer reading of the γ-sacrifice mechanism

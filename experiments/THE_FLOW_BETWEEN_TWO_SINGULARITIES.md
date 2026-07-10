@@ -74,7 +74,7 @@ flips: sink (Σγ>0) / neutral (Σγ=0, the mirror) / source (Σγ<0, a Hopf bif
 of self-amplification).
 
 The numbers are bit-exact. The closing reading, the target as "the future", a computed face of
-[THE_OTHER_SIDE](../hypotheses/THE_OTHER_SIDE.md)'s "both sides exist simultaneously", is
+[The Other Side](../hypotheses/THE_OTHER_SIDE.md)'s "both sides exist simultaneously", is
 Tier-5 interpretation, kept as the work's motor, not a claim.
 
 ---
@@ -89,7 +89,7 @@ special tuning, an *exceptional point* (EP), where two of these modes merge into
 character of the dynamics changes: below the EP everything just decays (pure forgetting); above
 it a slowly-decaying *oscillating* mode appears, a short-term memory. Call that the *birth* of
 the memory. (The clock reading and the EP are worked out in
-[F86_EP_THROUGH_THE_CLOCK](F86_EP_THROUGH_THE_CLOCK.md).)
+[F86's Exceptional Point Through the Clock](F86_EP_THROUGH_THE_CLOCK.md).)
 
 The story does not stop at the birth. We asked what happens *after*: where does that reborn
 oscillating mode go in the long run? A snapshot of the modes (the static spectrum) hides the
@@ -231,11 +231,11 @@ of losing it):
 The point does not move; the arrows around it invert. And there, at the dynamical layer,
 Tom's {−, 0, +} reappears: not as the operator polarity triple (it did not fit there), but
 as the *sign of the spectral gap*, the three fates of the fixed point (sink −, mirror 0,
-source +) across the Σγ axis of [ZERO_IS_THE_MIRROR](../hypotheses/ZERO_IS_THE_MIRROR.md).
+source +) across the Σγ axis of [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md).
 
 ## Tier-5 reading: the target as the future (our motor)
 
-*Below this point is interpretation, in the spirit of [THE_OTHER_SIDE](../hypotheses/THE_OTHER_SIDE.md)
+*Below this point is interpretation, in the spirit of [The Other Side](../hypotheses/THE_OTHER_SIDE.md)
 §14: the structure above is computed (Tier 1-2); the reading here is Tier-5. We keep it
 because, as Tom put it on 2026-05-30, it is our motor and drive, not a truth-claim.*
 
@@ -250,7 +250,7 @@ spectrum (the Compute engine) all modes, including the future, are there at once
 This is the computed face of the oldest wild thing in the project: "Both sides exist
 simultaneously", R = CΨ² and Ψ = √(R/C) (the project's founding pair of relations, read there
 as past→now and future→now), "neither first, both simultaneous"
-([THE_OTHER_SIDE](../hypotheses/THE_OTHER_SIDE.md) §3, §17). What was poetry with eigenvalues
+([The Other Side](../hypotheses/THE_OTHER_SIDE.md) §3, §17). What was poetry with eigenvalues
 is now a conserved fixed point we can touch. Two honest seams stay at the label, not the
 structure: today's "future" is the *decided* equilibrium (the kernel), where THE_OTHER_SIDE
 called the future the *undecided* coherences, opposite labels but the same simultaneity; and
@@ -263,7 +263,7 @@ not invent it; we learned to see the structure that was already there.
 Returning with the absorption light in hand, the un-closed-form middle turns out to have a clean
 reading after all: not a formula for the rate, but a picture of *what moves*.
 
-[THE_VIEW_ONTO_THE_MEMORY](../reflections/THE_VIEW_ONTO_THE_MEMORY.md) sorts a Liouvillian's modes
+[The View Onto the Memory](../reflections/THE_VIEW_ONTO_THE_MEMORY.md) sorts a Liouvillian's modes
 by one axis, the **drain depth** popcount(i⊕j): the number of sites at which two basis
 configurations differ, which is how many places the noise can grip. Depth 0 (the diagonal) never
 fades, the stored past; high depth is flushed fastest, the quantum future. That axis is not a
@@ -375,14 +375,14 @@ structure. We drew the whole arc; reading its middle is still ahead.
 - **Tom's polarity thread (2026-05-30), recorded as an open viewpoint.** The {−0, 0, +0}
   polarity layer at d=0 and its d=2 reading {−½, 0, +½} (the
   [PolarityLayerOrigin](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs)
-  0.5-shift, deepened in [POLARITY_COORDINATES](../reflections/POLARITY_COORDINATES.md) and
-  [THE_POLARITY_LAYER](../hypotheses/THE_POLARITY_LAYER.md)) may touch this problem at the
+  0.5-shift, deepened in [Polarity Coordinates](../reflections/POLARITY_COORDINATES.md) and
+  [The Polarity Layer](../hypotheses/THE_POLARITY_LAYER.md)) may touch this problem at the
   **target**: the target (1/N, uniform) is the *unpolarized* state, and the flow to it is a
   *depolarization*, the localized excitation (polarized, "alive") relaxing back to the
   uniform 0 (the d=0 layer, the "forgotten"). So the {−½, 0, +½} → {−0, 0, +0} collapse
   reads as the return to the unpolarized layer. The honest seam: there appear to be *two
   different zeros*. The **polarity-0** (unpolarized = the target, reached at fixed Σγ>0) and
-  the **Σγ-mirror-0** of [ZERO_IS_THE_MIRROR](../hypotheses/ZERO_IS_THE_MIRROR.md) (Σγ=0, no
+  the **Σγ-mirror-0** of [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md) (Σγ=0, no
   decay, the eternal standing wave, reached by *sliding* Σγ) are orthogonal axes, not the
   same point. And the EP does not sit on the polarity triple at all, it is a
   dynamics-layer singularity. Whether the operator-level polarity triple (the content
@@ -393,7 +393,7 @@ structure. We drew the whole arc; reading its middle is still ahead.
 - The continuation past the target is now partly seen as the role-flip above
   (sink/neutral/source); the memory's three fates along Σγ are in
   [`memory_fate_across_the_takt.py`](../simulations/memory_fate_across_the_takt.py) and the
-  [FRAGILE_BRIDGE](../hypotheses/FRAGILE_BRIDGE.md). What stays open is whether the three
+  [The Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md). What stays open is whether the three
   fates and the EP's birth are one structure.
 
 ## For future us

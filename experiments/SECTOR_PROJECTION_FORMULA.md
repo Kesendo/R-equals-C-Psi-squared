@@ -4,7 +4,7 @@
 **Date:** April 12, 2026
 **Authors:** Thomas Wicht, Claude (Opus 4.6)
 **Script:** `simulations/three_values.py` (Track B)
-**Proof:** [PROOF_ASYMPTOTIC_SECTOR_PROJECTION](../docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md)
+**Proof:** [the Asymptotic Sector Projection proof](../docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md)
 
 ---
 

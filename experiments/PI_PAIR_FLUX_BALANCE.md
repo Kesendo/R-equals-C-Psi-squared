@@ -3,7 +3,7 @@
 **Status:** Tier 1 empirical at N=5 for flux balance (machine precision) and N=3..6 for binary inheritance. Tier 2 for the mirror-axis principle N = 4 (mod 10): algebraically argued via CRT, numerically consistent with all four N in [3, 6] but with only one positive data point (N=4). A positive-case confirmation requires N=14.
 **Date:** 2026-04-20 (evening)
 **Authors:** Tom, Claude Opus 4.7 (1M)
-**Relates to:** [ORTHOGONALITY_SELECTION_FAMILY](ORTHOGONALITY_SELECTION_FAMILY.md) (Step 3 of §6.2), [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), [STANDING_WAVE_THEORY](../docs/STANDING_WAVE_THEORY.md), [XOR_SPACE](XOR_SPACE.md)
+**Relates to:** [the orthogonality-selection family](ORTHOGONALITY_SELECTION_FAMILY.md) (Step 3 of §6.2), [the absorption theorem proof](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), [the standing wave theory](../docs/STANDING_WAVE_THEORY.md), [XOR space](XOR_SPACE.md)
 
 ---
 
@@ -223,7 +223,7 @@ No single pair has both. The "double involution in one pair" is the strict condi
 
 ## 4. Relation to the Meta-Theorem
 
-The Π-pair flux balance adds a fourth instance to the [ORTHOGONALITY_SELECTION_FAMILY](ORTHOGONALITY_SELECTION_FAMILY.md) Meta-Theorem:
+The Π-pair flux balance adds a fourth instance to the [the orthogonality-selection family](ORTHOGONALITY_SELECTION_FAMILY.md) Meta-Theorem:
 
 | Instance | Conservation law | Measurement basis | Blind channel |
 |----------|-------------------|--------------------|----------------|

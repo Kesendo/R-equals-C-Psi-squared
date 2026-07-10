@@ -4,7 +4,7 @@
 **Date:** 2026-04-24
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Closes:** [EQ-015](../review/EMERGING_QUESTIONS.md#eq-015) for uniform-J at N=5 and N=7
-**See also:** [F64](../docs/ANALYTICAL_FORMULAS.md), [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [OPEN_THREAD_GAMMA0_INFORMATION](../review/OPEN_THREAD_GAMMA0_INFORMATION.md)
+**See also:** [F64](../docs/ANALYTICAL_FORMULAS.md), [the primordial-gamma constant](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [the γ₀ information-channel open thread](../review/OPEN_THREAD_GAMMA0_INFORMATION.md)
 
 ---
 
@@ -16,7 +16,7 @@
 
 where a_B is the B-site amplitude of the N-site single-excitation Hamiltonian eigenvector ψ_k. Before 2026-04-24 this was verified at N=3 and N=4 on uniform-J chains only. [EQ-015](../review/EMERGING_QUESTIONS.md#eq-015) flagged the obvious open question: does the formula generalise to non-chain topologies, and to larger N?
 
-If F64 generalises, it gives [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) a graph-independent structural anchor: on any topology, γ₀ never gets diminished by intervening sites; it only gets exposed by the local amplitude. If F64 breaks, we have a sharp falsification target and a new question about which topology features matter.
+If F64 generalises, it gives [the primordial-gamma constant](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) a graph-independent structural anchor: on any topology, γ₀ never gets diminished by intervening sites; it only gets exposed by the local amplitude. If F64 breaks, we have a sharp falsification target and a new question about which topology features matter.
 
 ## What was done
 
@@ -70,17 +70,17 @@ This is an instance of standard degenerate perturbation theory. It was not neede
 
 After the uniform-J topology scan above, the same test was extended to non-uniform J per bond (random J values in [0.5, 1.5]) on all five topologies at N=5 and N=7, three trials per N. In 29 of 30 (topology, Hamiltonian, trial) configurations the worst-site relative error remained below 0.02; the remaining case (star + Heisenberg at N=7, trial 2) sat at 0.068, still well inside the first-order PT envelope. The elevated error in that configuration is consistent with expected second-order PT corrections of magnitude ~(γ · δJ)/J² that grow when δJ is non-zero.
 
-F64 is therefore confirmed across **any graph topology, any uniform or per-bond J assignment**, XX+YY or Heisenberg single-excitation H, any dephased site B, at first-order PT tolerance. The structural backstop for [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) is now complete at γ/J = 0.01 on the tested (N, topology) grid.
+F64 is therefore confirmed across **any graph topology, any uniform or per-bond J assignment**, XX+YY or Heisenberg single-excitation H, any dephased site B, at first-order PT tolerance. The structural backstop for [the primordial-gamma constant](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) is now complete at γ/J = 0.01 on the tested (N, topology) grid.
 
 ## What remains open
 
-- **γ/J ≳ 1 regime, same terrain as Q_SCALE_THREE_BANDS.** F64 is a first-order perturbation result and breaks when γ/J is no longer small. Note that γ/J = 1 is precisely Q = J/γ₀ = 1, which sits in the transition region of [Q_SCALE_THREE_BANDS](Q_SCALE_THREE_BANDS.md): onset at Q ≈ 0.3, peak at Q_peak(c) = 1.5-1.8 depending on chromaticity, plateau at Q ≳ 2. That region is already mapped, just through different observables (W dressed-mode weight, |K_CC_pr| J-response magnitude) rather than F64's |a_B|² eigenmode test. The relationship between the two readings is not yet stated: a unified description of "where F64 degrades + what appears instead" would close the circle, but it is not a fresh open question, only a synthesis waiting to be written.
+- **γ/J ≳ 1 regime, same terrain as Q_SCALE_THREE_BANDS.** F64 is a first-order perturbation result and breaks when γ/J is no longer small. Note that γ/J = 1 is precisely Q = J/γ₀ = 1, which sits in the transition region of [the three algebraic bands of Q](Q_SCALE_THREE_BANDS.md): onset at Q ≈ 0.3, peak at Q_peak(c) = 1.5-1.8 depending on chromaticity, plateau at Q ≳ 2. That region is already mapped, just through different observables (W dressed-mode weight, |K_CC_pr| J-response magnitude) rather than F64's |a_B|² eigenmode test. The relationship between the two readings is not yet stated: a unified description of "where F64 degrades + what appears instead" would close the circle, but it is not a fresh open question, only a synthesis waiting to be written.
 - **N ≥ 9 topology scan.** Not a fundamental question, but would confirm scaling on large examples.
 - **Multi-site dephasing.** F64 is a single-site statement. The multi-site generalisation is a superposition of projectors Σ_k γ_k P_k, which should still follow the same structure but has not been explicitly tested.
 
 ## Why this sits in the tier-upgrade story
 
-Today's [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) upgrade Tier 3 → Tier 2 was driven by the receiver-engineering programme (F65, F67, F75, F76, Kingston Run 1). The topology extension of F64 is a different line of support for the same hypothesis: γ₀ = const predicts a graph-universal exposure formula, and the graph-universal exposure formula is what we see. The two lines are independent evidence that the framework constant reading is the right one.
+Today's [the primordial-gamma constant](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) upgrade Tier 3 → Tier 2 was driven by the receiver-engineering programme (F65, F67, F75, F76, Kingston Run 1). The topology extension of F64 is a different line of support for the same hypothesis: γ₀ = const predicts a graph-universal exposure formula, and the graph-universal exposure formula is what we see. The two lines are independent evidence that the framework constant reading is the right one.
 
 ## Scripts and data
 
@@ -91,6 +91,6 @@ Today's [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) 
 ## References
 
 - [F64](../docs/ANALYTICAL_FORMULAS.md): the formula being tested, now updated with the topology generalisation.
-- [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md): Tier 2 hypothesis that this verifies.
+- [the primordial-gamma constant](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md): Tier 2 hypothesis that this verifies.
 - [F65](../docs/ANALYTICAL_FORMULAS.md): exact single-excitation spectrum on uniform chain (the special chain case of F64 with all a_B analytically known).
-- [OPEN_THREAD_GAMMA0_INFORMATION](../review/OPEN_THREAD_GAMMA0_INFORMATION.md) EQ-015 line: the open question this closes.
+- [the γ₀ information-channel open thread](../review/OPEN_THREAD_GAMMA0_INFORMATION.md) EQ-015 line: the open question this closes.

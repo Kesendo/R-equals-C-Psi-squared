@@ -4,7 +4,7 @@
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Pipeline:** `simulations/veffect_36_combos_via_framework.py` (uses `framework.py`)
-**See also:** [V_EFFECT_PALINDROME](V_EFFECT_PALINDROME.md), [V_EFFECT_BOUNDARY_LOCALIZATION](V_EFFECT_BOUNDARY_LOCALIZATION.md), [PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md)
+**See also:** [the V-Effect palindrome](V_EFFECT_PALINDROME.md), [the V-Effect boundary localization](V_EFFECT_BOUNDARY_LOCALIZATION.md), [the zero-immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md)
 
 ---
 
@@ -101,7 +101,7 @@ The soft-break category corresponds to systems where spectroscopy looks symmetri
 
 ## Cross-reference to PROOF_ZERO_IMMUNITY
 
-[PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md) showed that the (w=0, w=N) extreme sectors of any 2-body Hamiltonian's Liouvillian preserve palindrome exactly. The break, when present, lives in boundary sectors 0 < w < N.
+[the zero-immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md) showed that the (w=0, w=N) extreme sectors of any 2-body Hamiltonian's Liouvillian preserve palindrome exactly. The break, when present, lives in boundary sectors 0 < w < N.
 
 For the 33 OP-broken cases here, the break lives in boundary sectors at N=3 (w=1, w=2). Among these:
 - 14 hard-breaks: the boundary break propagates to off-diagonal eigenvalue structure ⇒ eigenvalue pairing fails.
@@ -135,7 +135,7 @@ The hardware result is slightly STRONGER than the idealized framework predicts. 
 
 **Does not establish:**
 
-- An analytical predictor for which combos are soft vs hard. The structural patterns (matched parities, one-good-term, etc.) are descriptive but not yet derived. **[ANSWERED (2026-06-10): the predictor is the bipartite criterion: *soft ⟺ H's hopping graph is bipartite in the dephasing basis*; bipartite ⟹ soft derived, non-bipartite ⟹ hard is the theorem `WindowedConverseAllGammaClaim` (Tier1Derived, no residual); see [PROOF_F103 §7](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) and [BIPARTITE_CHIRALITY_DIAGONAL_CELL.md](BIPARTITE_CHIRALITY_DIAGONAL_CELL.md).]**
+- An analytical predictor for which combos are soft vs hard. The structural patterns (matched parities, one-good-term, etc.) are descriptive but not yet derived. **[ANSWERED (2026-06-10): the predictor is the bipartite criterion: *soft ⟺ H's hopping graph is bipartite in the dephasing basis*; bipartite ⟹ soft derived, non-bipartite ⟹ hard is the theorem `WindowedConverseAllGammaClaim` (Tier1Derived, no residual); see [the F103 refinement proof §7](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) and [bipartite chirality of the diagonal cell](BIPARTITE_CHIRALITY_DIAGONAL_CELL.md).]**
 - Generalization to N > 3. Framework supports it; not tested here.
 - The full 19 soft-broken cases on hardware. We tested 1 representative each from {3 truly, 19 soft, 14 hard}.
 
@@ -147,8 +147,8 @@ The hardware result is slightly STRONGER than the idealized framework predicts. 
 
 ## References
 
-- [V_EFFECT_PALINDROME](V_EFFECT_PALINDROME.md): the original 14-of-36 result, March 2026.
-- [V_EFFECT_BOUNDARY_LOCALIZATION](V_EFFECT_BOUNDARY_LOCALIZATION.md): structural location of the break (w=1, 2 sectors at N=3).
-- [PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md): analytical proof of (w=0, w=N) extreme-sector immunity.
+- [the V-Effect palindrome](V_EFFECT_PALINDROME.md): the original 14-of-36 result, March 2026.
+- [the V-Effect boundary localization](V_EFFECT_BOUNDARY_LOCALIZATION.md): structural location of the break (w=1, 2 sectors at N=3).
+- [the zero-immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md): analytical proof of (w=0, w=N) extreme-sector immunity.
 - `simulations/framework.py`: framework primitives.
 - `simulations/veffect_36_combos_via_framework.py`: this calculation's pipeline.

@@ -3,7 +3,7 @@
 **Status:** A sharpening of the then-open windowed converse, not a proof. The per-block decomposition
 is analytic (the transpose relation M(−ω) = M(ω)^T) and verified bit-exact at N=4; the localization
 (which block breaks) is read off the same N=4 anchor. At the time of writing the windowed converse
-non-bipartite ⟹ hard stayed open exactly as [PROOF_F103 §7.3](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md)
+non-bipartite ⟹ hard stayed open exactly as [the F103 proof §7.3](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md)
 left it. *Superseded 2026-06-09, closed 2026-06-10:* the converse is now a theorem with no residual
 (R-deg retired by the girth ladder, R-sign resolved by the Pascal-Gram positivity theorem, F117) via the
 [two-reflection monomial theorem](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §5, verifier
@@ -12,11 +12,11 @@ document remains the per-block localization record.
 **Date:** 2026-05-30
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Script:** [`simulations/f87_block_localize.py`](../simulations/f87_block_localize.py)
-**Builds on:** [PROOF_F103 §7.3](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) (the
+**Builds on:** [the F103 proof §7.3](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) (the
 first-order reduction, [`f87_first_order_degenerate.py`](../simulations/f87_first_order_degenerate.py)),
-[BIPARTITE_CHIRALITY_DIAGONAL_CELL](BIPARTITE_CHIRALITY_DIAGONAL_CELL.md) (the criterion + the
-clock's tick), the chiral K ([PROOF_K_PARTNERSHIP](../docs/proofs/PROOF_K_PARTNERSHIP.md)), and
-the F80 one-sidedness M = −2i·(H⊗I) ([PROOF_F80](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md)).
+[the bipartite-chirality diagonal cell](BIPARTITE_CHIRALITY_DIAGONAL_CELL.md) (the criterion + the
+clock's tick), the chiral K ([the K-partnership proof](../docs/proofs/PROOF_K_PARTNERSHIP.md)), and
+the F80 one-sidedness M = −2i·(H⊗I) ([the F80 proof](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md)).
 
 ---
 

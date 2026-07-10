@@ -4,8 +4,8 @@
 **Date:** 2026-05-15
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
-- [PROOF_F80_BLOCH_SIGNWALK](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md), "Majorana bridge" passage and Spec(M) = ±2i·Spec(H) structural identity
-- [PROOF_F86B_OBSTRUCTION](../docs/proofs/PROOF_F86B_OBSTRUCTION.md), "What survives from the N=4 golden-ratio structure" paragraph
+- [the F80 Bloch sign-walk proof](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md), "Majorana bridge" passage and Spec(M) = ±2i·Spec(H) structural identity
+- [the F86b obstruction proof](../docs/proofs/PROOF_F86B_OBSTRUCTION.md), "What survives from the N=4 golden-ratio structure" paragraph
 - Frozen N=4 script: [`simulations/axis_modes_n4.py`](../simulations/axis_modes_n4.py)
 - Parameterized N script: [`simulations/axis_modes.py`](../simulations/axis_modes.py) (run as `python simulations/axis_modes.py 6` for the N=6 witness probe)
 
@@ -126,7 +126,7 @@ This unifies four threads of this session into one geometric picture:
 
 - **F80 Spec(M) = ±2i·Spec(H):** At N=4 Π²-odd, M's nontrivial Im eigenvalues are exactly {±2√5, ±2} (F80 numerical verification). Our axis-modes Im distribution contains both values: ±√5 (R-even-only, 18 modes) maps to the M ±2√5 via the 2i factor, and ±2 (R-even-only, 2 modes) is direct. The richer Im set of the Π²-even XY-summed Hamiltonian (±1, ±φ², ±√5+φ, etc.) reflects its richer many-body spectrum, which is no longer Π-projected.
 - **F86B golden-ratio observation:** Integer combinations of {φ, 1/φ, 1, √5} are concretely identified as Majorana-bilinear sums on the single-particle dispersion {±φ, ±1/φ}.
-- **Slow-mode end of the spectrum (Re(λ) ≈ 0):** the same R-parity decomposition sorts the slow-mode landscape too. The stationary subspace is exclusively R-even at every tested N; the first slow band (Re=−2γ₀) is R-balanced; F86's L_eff lives entirely in R-even, with a parallel R-odd channel invisible to standard F86 probes. See [SLOW_MODE_R_PARITY](SLOW_MODE_R_PARITY.md).
+- **Slow-mode end of the spectrum (Re(λ) ≈ 0):** the same R-parity decomposition sorts the slow-mode landscape too. The stationary subspace is exclusively R-even at every tested N; the first slow band (Re=−2γ₀) is R-balanced; F86's L_eff lives entirely in R-even, with a parallel R-odd channel invisible to standard F86 probes. See [the slow-mode R-parity decomposition](SLOW_MODE_R_PARITY.md).
 
 ---
 
@@ -139,6 +139,6 @@ This unifies four threads of this session into one geometric picture:
 
    The qualitative pattern (Im-cluster decomposition into integer combinations of single-particle dispersion) holds at N=6. The quantitative details (silent-mode count, R-even/R-odd balance, axis-layer protection) do NOT generalize directly from N=4. N=4's specific silent-mode richness appears to be a small-N coincidence tied to the golden-ratio degeneracy structure.
 
-2. **Odd N (N=3, 5): ill-posed as written.** For odd N, n_XY = N/2 is not integer, so there is no exact axis layer at Re(λ) = −Nγ₀ on the absorption grid. The Majorana zero mode at k = (N+1)/2 (which motivated the original question) instead manifests in the V_inter SVD R-parity split at odd N (σ_0⁺ ≠ σ_0⁻ at N=3, 5; σ_0⁺ = σ_0⁻ at N=4, 6), documented in [SLOW_MODE_R_PARITY](SLOW_MODE_R_PARITY.md) "V_inter SVD R-parity decomposition" section. The odd-N structural effect is real and characterised, just not in the axis-layer language.
+2. **Odd N (N=3, 5): ill-posed as written.** For odd N, n_XY = N/2 is not integer, so there is no exact axis layer at Re(λ) = −Nγ₀ on the absorption grid. The Majorana zero mode at k = (N+1)/2 (which motivated the original question) instead manifests in the V_inter SVD R-parity split at odd N (σ_0⁺ ≠ σ_0⁻ at N=3, 5; σ_0⁺ = σ_0⁻ at N=4, 6), documented in [Slow-Mode R-Parity](SLOW_MODE_R_PARITY.md) "V_inter SVD R-parity decomposition" section. The odd-N structural effect is real and characterised, just not in the axis-layer language.
 
 3. **Formal F80 Step 5 (Π action on Bogoliubov modes): still open analytically.** Our R-parity findings empirically demonstrate that R = momentum-reversal on JW Bogoliubov modes is the operator-space realisation of the JW Π conjugation, and the parity-of-N effect (σ_0⁺ ≠ σ_0⁻ at odd N from R-fixed Majorana zero mode) is consistent with the JW spectral structure. A formal proof (Π_op ≡ R block-decomposition equivalence on Bogoliubov-mode operator space) is the remaining analytical task.

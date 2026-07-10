@@ -240,7 +240,7 @@ the conjugation equation sidesteps the eigenvector pairing entirely and is degen
   per-site property throughout.
 
 - **Hidden symmetry Q:** The parity-breaking palindrome-preservers
-  ([THE_OTHER_SIDE](../hypotheses/THE_OTHER_SIDE.md)) carry a hidden Q ≠ Π. For all of them,
+  ([the other side](../hypotheses/THE_OTHER_SIDE.md)) carry a hidden Q ≠ Π. For all of them,
   including XZ+YZ and ZX+ZY, Q is a product operator: a per-site permutation for most, a
   per-site continuous rotation for the crossover pair.
 

@@ -150,13 +150,13 @@ single largest improvement for range.
 
 ## Connection to Later Results
 
-The **γ Control** experiment ([GAMMA_CONTROL](GAMMA_CONTROL.md)) found
+The **γ Control** experiment ([γ Control](GAMMA_CONTROL.md)) found
 that the V-shape dephasing profile (+124% MI) achieves more than the
 relay protocol (+83%) with simpler implementation (static noise shaping
 instead of time-dependent control). The scaling curve here provides the
 baseline against which all optimizations are measured.
 
-The **γ as Signal** result ([GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md))
+The **γ as Signal** result ([γ as Signal](GAMMA_AS_SIGNAL.md))
 reframes the scaling question: the exponential MI decay with N is not
 just a limitation but also determines how many independent "pixels" the
 γ-channel antenna has. More qubits = more SVD modes (independent signal components, from singular value decomposition) = higher channel

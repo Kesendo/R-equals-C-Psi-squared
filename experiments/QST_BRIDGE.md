@@ -162,7 +162,7 @@ regardless of spectral complexity.
 
 ### For the QST community
 
-The palindrome theorem ([MIRROR_SYMMETRY_PROOF](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)) applies to every Heisenberg chain
+The palindrome theorem ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)) applies to every Heisenberg chain
 with Z-dephasing that the QST community studies. They have been optimizing transfer
 protocols without knowing that the decay rate spectrum has an exact symmetry.
 
@@ -231,12 +231,12 @@ That is the contribution: not new physics, but new understanding of existing phy
 
 ## Connection to Later Results
 
-The **Relay Protocol** ([RELAY_PROTOCOL](RELAY_PROTOCOL.md)) applies the 2:1
+The **Relay Protocol** ([Relay Protocol](RELAY_PROTOCOL.md)) applies the 2:1
 coupling ratio found here to an 11-qubit chain with time-dependent γ switching,
 achieving +83% end-to-end MI. The 2:1 ratio is the spatial optimization; the
 relay is the temporal optimization. They are complementary.
 
-The **γ as Signal** result ([GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md)) reframes
+The **γ as Signal** result ([γ as Signal](GAMMA_AS_SIGNAL.md)) reframes
 the entire QST picture: the channel is not just carrying quantum states from
 Alice to Bob. It is simultaneously an antenna reading the external dephasing
 signal. The palindromic mode structure that makes QST analytically tractable

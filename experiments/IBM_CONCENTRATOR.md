@@ -68,7 +68,7 @@ Z-dephasing rule: Q85 is mostly a T1 sink, which makes the gate-cost reading
 (Interpretation A, DD-on-a-T1-limited-qubit hurts) nearly forced and leaves
 the noise-contrast reading (B) largely inapplicable to THIS chain. The
 engineered-sink A-vs-B test used a genuine Z-rotation sink for exactly this
-reason (see [CONCENTRATOR_AB_MECHANISM_TEST](CONCENTRATOR_AB_MECHANISM_TEST.md)).
+reason (see [the concentrator A-vs-B mechanism test](CONCENTRATOR_AB_MECHANISM_TEST.md)).
 
 | Qubit | Role | T1 (us) | T2echo (us) | T2* est (us) |
 |-------|------|---------|-------------|-------------|

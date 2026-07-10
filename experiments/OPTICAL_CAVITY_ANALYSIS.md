@@ -264,7 +264,7 @@ The April framework treated chain Heisenberg + Z-deph. Later work returned and s
 
 - [`F1_DISSIPATION_GAP_PATTERN.md`](../hypotheses/F1_DISSIPATION_GAP_PATTERN.md) (2026-05-18, extended 2026-05-19): cross-topology cross-N gap data. Chain shows clean `gap × N² ≈ 2.20` scaling for N ≥ 4 (5 anchors). Ring and star follow different scaling laws; the gap is a topology-specific structural fingerprint, not a function of bond count alone.
 
-- [`F4KernelDimensionByComponentsClaim`](../compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs) (2026-05-19, Tier 1 derived): kernel-dim factorisation `dim ker L_H(G) = Π_c (|c|+1)` across connected components, extends our `d_real(0) = N+1` from [DEGENERACY_PALINDROME](DEGENERACY_PALINDROME.md) to disconnected graphs.
+- [`F4KernelDimensionByComponentsClaim`](../compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs) (2026-05-19, Tier 1 derived): kernel-dim factorisation `dim ker L_H(G) = Π_c (|c|+1)` across connected components, extends our `d_real(0) = N+1` from [the degeneracy palindrome](DEGENERACY_PALINDROME.md) to disconnected graphs.
 
 The pattern across these continuations: the April cavity picture is the parent framework, and each sharpening adds a topology dimension (star point-focus, ring cyclic, K_4+disjoint disconnected) or a precision dimension (gap scaling, kernel-dim factorisation) without invalidating the original chain-cavity reading. We come back, look closer, and the picture sharpens.
 

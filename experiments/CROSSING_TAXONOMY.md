@@ -247,13 +247,13 @@ provides the structural explanation for why different metrics behave
 differently: the three bridge types may correspond to different
 projections onto the palindromic mode sectors (immune vs decaying).
 
-The **CΨ monotonicity proof** ([PROOF_MONOTONICITY_CPSI](../docs/proofs/PROOF_MONOTONICITY_CPSI.md))
+The **CΨ monotonicity proof** ([CΨ Monotonicity](../docs/proofs/PROOF_MONOTONICITY_CPSI.md))
 analytically confirms that CΨ is monotonically decreasing for Bell+ under
 all local Markovian channels (noise processes where the future depends
 only on the present, not on the past), explaining why Type A and B always cross
 downward and never return.
 
-The **γ as Signal** result ([GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md)) shows
+The **γ as Signal** result ([γ as Signal](GAMMA_AS_SIGNAL.md)) shows
 that the K values (0.033, 0.039, 0.072) are not just crossing constants
 but reflections of how each bridge metric projects onto the palindromic
 mode structure. The full-rank response matrix that makes the γ channel

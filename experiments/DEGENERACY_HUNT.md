@@ -10,7 +10,7 @@
 
 ## Motivation
 
-[SYMMETRY_CENSUS](SYMMETRY_CENSUS.md) flagged max eigenvalue multiplicity = 14 at N=5 uniform chain. The known symmetries (U(1), spin-flip, reflection) predict at most 4× degeneracy (2 from flip × 2 from reflection). The gap between 4 and 14 was unexplained.
+[Symmetry Census](SYMMETRY_CENSUS.md) flagged max eigenvalue multiplicity = 14 at N=5 uniform chain. The known symmetries (U(1), spin-flip, reflection) predict at most 4× degeneracy (2 from flip × 2 from reflection). The gap between 4 and 14 was unexplained.
 
 ---
 

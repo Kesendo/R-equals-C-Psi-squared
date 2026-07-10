@@ -225,18 +225,18 @@ identified "standing wave state" with 22% standing wave weight.
 
 The standing wave analysis connects three parts of the framework:
 
-The **Π as Time Reversal** result ([PI_AS_TIME_REVERSAL](PI_AS_TIME_REVERSAL.md))
+The **Π as Time Reversal** result ([Π as Time Reversal](PI_AS_TIME_REVERSAL.md))
 identified the physical meaning: Π maps populations (immune sector, "past")
 to coherences (decaying sector, "future"). The standing wave is the
 interference between these two sectors. Nodes are the past (decided,
 classical). Antinodes are where past and future meet (oscillating, quantum).
 
-The **XOR Space** result ([XOR_SPACE](XOR_SPACE.md)) explains GHZ's
+The **XOR Space** result ([XOR Space](XOR_SPACE.md)) explains GHZ's
 silence: GHZ projects 100% onto the XOR drain (maximum decay rate, no
 oscillation partner). It has the fastest-decaying modes, not the
 oscillating ones.
 
-The **γ as Signal** result ([GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md)) uses
+The **γ as Signal** result ([γ as Signal](GAMMA_AS_SIGNAL.md)) uses
 the same palindromic mode structure as an antenna. The standing wave
 describes how information oscillates *within* the system. The γ channel
 describes how information enters *from outside*. Both rely on the

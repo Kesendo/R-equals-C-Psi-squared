@@ -5,7 +5,7 @@
 **Authors:** Thomas Wicht, Claude (Opus 4.6)
 **Script:** `simulations/light_dose_response.py`
 **Data:** `simulations/results/light_dose_response/`
-**Supersedes:** [GAMMA_AS_BINDING](GAMMA_AS_BINDING.md) (V1, correct numbers, wrong framing)
+**Supersedes:** [Gamma as binding parameter](GAMMA_AS_BINDING.md) (V1, correct numbers, wrong framing)
 **Depends on:**
 - [EXCLUSIONS](../docs/EXCLUSIONS.md) (Exclusion 2: gamma is external, five internal candidates eliminated)
 - [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md) (chain is a passive optical cavity, 4/5 tests)
@@ -20,7 +20,7 @@
 
 γ is external ([EXCLUSIONS](../docs/EXCLUSIONS.md) Exclusion 2). On IBM hardware, γ is literally light: microwave photons in a physical resonator cause dephasing through photon shot noise (Sears et al., Phys. Rev. B 86, 180504, 2012). The qubit chain is a passive optical cavity (4/5 cavity tests, R² = 0.998 for beam profile).
 
-V1 ([GAMMA_AS_BINDING](GAMMA_AS_BINDING.md)) measured per-sector rates and found 134% deviation from linear scaling. V1's numbers were correct but its framing (γ as neutral "binding parameter") ignored the established status of γ as light. V2 reframes: γ is light, the table is a light-dose response curve, and the question is what mechanism produces the nonlinearity.
+V1 ([Gamma as binding parameter](GAMMA_AS_BINDING.md)) measured per-sector rates and found 134% deviation from linear scaling. V1's numbers were correct but its framing (γ as neutral "binding parameter") ignored the established status of γ as light. V2 reframes: γ is light, the table is a light-dose response curve, and the question is what mechanism produces the nonlinearity.
 
 ---
 
@@ -99,7 +99,7 @@ V1's measurement (134% deviation from linearity) was quantitatively correct. V2 
 - `simulations/light_dose_response.py` (V2 analysis with mode tracking)
 - `simulations/results/light_dose_response/light_dose_results.json` (raw data)
 - `simulations/results/light_dose_response/light_dose_response.png` (plots)
-- [GAMMA_AS_BINDING](GAMMA_AS_BINDING.md) (V1: first measurement, wrong framing)
+- [Gamma as binding parameter](GAMMA_AS_BINDING.md) (V1: first measurement, wrong framing)
 - [EXCLUSIONS](../docs/EXCLUSIONS.md) (gamma is external, Exclusion 2)
 - [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md) (chain is cavity, 4/5 tests)
 

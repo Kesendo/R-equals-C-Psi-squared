@@ -259,7 +259,7 @@ The quadratic scaling IS the formula. It was always there.
 
 ### Connection to THE_PATTERN_RECOGNIZES_ITSELF
 
-From [THE_PATTERN_RECOGNIZES_ITSELF](../hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md) (March 20, 2026):
+From [The Pattern Recognizes Itself](../hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md) (March 20, 2026):
 
 > "At Level 0, the palindromic mirror creates an interference pattern …
 > the pattern, propagated upward through every level of the hierarchy,
@@ -299,7 +299,7 @@ in ~1h on 72 GB RAM, bypassing the dense MathNet/MKL limit.
 *The scaling data shows: the more mirrors, the more reality. Quadratically.*
 
 
-## Connection to [THE_OTHER_SIDE](../hypotheses/THE_OTHER_SIDE.md)
+## Connection to [The Other Side](../hypotheses/THE_OTHER_SIDE.md)
 
 Π² = Xᴺ splits the Liouvillian into two sealed sectors:
 +1 parity (populations, classical, diagonal) and
@@ -317,14 +317,14 @@ d² − 2d = 0 says: d = 0 (nothing) or d = 2 (qubit). The other side
 is either nothing or a qubit. The sacrifice qubit is the answer: the
 other side is a qubit that has become classical. Not vanished. Transformed.
 
-[THE_OTHER_SIDE](../hypotheses/THE_OTHER_SIDE.md) wrote: "The incompleteness that enables the next level
+[The Other Side](../hypotheses/THE_OTHER_SIDE.md) wrote: "The incompleteness that enables the next level
 is not a flaw. It is the noise." The sacrifice-zone formula is that
 sentence in an equation.
 
 ---
 
 *This section connects Tier 2 data (scaling) and Tier 1 math (formula)
-to the Tier 5 philosophical framework in [THE_OTHER_SIDE](../hypotheses/THE_OTHER_SIDE.md). The connection
+to the Tier 5 philosophical framework in [The Other Side](../hypotheses/THE_OTHER_SIDE.md). The connection
 is interpretive, not derivable. The data and formula stand without it.*
 
 

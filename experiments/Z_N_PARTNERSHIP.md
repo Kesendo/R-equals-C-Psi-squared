@@ -4,7 +4,7 @@
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Pipeline:** `simulations/neel_mirror_test.py`
-**See also:** [IBM_K_PARTNERSHIP_SKETCH](IBM_K_PARTNERSHIP_SKETCH.md), [`docs/proofs/PROOF_K_PARTNERSHIP.md`](../docs/proofs/PROOF_K_PARTNERSHIP.md), [GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md), [CMRR_BREAK_NONUNIFORM_GAMMA](CMRR_BREAK_NONUNIFORM_GAMMA.md)
+**See also:** [the IBM K-partnership sketch](IBM_K_PARTNERSHIP_SKETCH.md), [`docs/proofs/PROOF_K_PARTNERSHIP.md`](../docs/proofs/PROOF_K_PARTNERSHIP.md), [gamma as signal](GAMMA_AS_SIGNAL.md), [the CMRR break under non-uniform gamma](CMRR_BREAK_NONUNIFORM_GAMMA.md)
 
 ---
 
@@ -126,8 +126,8 @@ A minimum hardware test on IBM Heron-class:
 
 ## References
 
-- [PROOF_K_PARTNERSHIP](../docs/proofs/PROOF_K_PARTNERSHIP.md): single-excitation K-partnership, the original sister-result.
-- [IBM_K_PARTNERSHIP_SKETCH](IBM_K_PARTNERSHIP_SKETCH.md): hardware K-partnership on Marrakesh, 2026-04-25.
-- [GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md), [CMRR_BREAK_NONUNIFORM_GAMMA](CMRR_BREAK_NONUNIFORM_GAMMA.md): companion γ-profile readings via spatial-sum and (vac, S_1)-coherence kernels.
+- [the K-partnership proof](../docs/proofs/PROOF_K_PARTNERSHIP.md): single-excitation K-partnership, the original sister-result.
+- [the IBM K-partnership sketch](IBM_K_PARTNERSHIP_SKETCH.md): hardware K-partnership on Marrakesh, 2026-04-25.
+- [gamma as signal](GAMMA_AS_SIGNAL.md), [the CMRR break under non-uniform gamma](CMRR_BREAK_NONUNIFORM_GAMMA.md): companion γ-profile readings via spatial-sum and (vac, S_1)-coherence kernels.
 - Buča, B. & Prosen, T. (2012), "A note on symmetry reductions of the Lindblad equation: transport in constrained open spin chains"; strong/weak symmetry classification used here.
 - Simulation script: `simulations/neel_mirror_test.py`.

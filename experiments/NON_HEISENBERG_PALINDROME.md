@@ -254,17 +254,17 @@ requires the balanced split. See [Depolarizing Palindrome](DEPOLARIZING_PALINDRO
 This experiment established the universality of the palindrome across
 Hamiltonian types. Several later results depend on this:
 
-The **γ as Signal** result ([GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md)) uses
+The **γ as Signal** result ([γ as Signal](GAMMA_AS_SIGNAL.md)) uses
 Z-dephasing on a Heisenberg chain. The universality proven here means the
 information channel would work identically on XY, Ising, or XXZ hardware.
 The 15.5-bit channel capacity and the palindromic decoder are not
 Heisenberg-specific.
 
-The **V-Effect** ([V_EFFECT_PALINDROME](V_EFFECT_PALINDROME.md)) studies
+The **V-Effect** ([V-Effect](V_EFFECT_PALINDROME.md)) studies
 what happens when the palindrome breaks. The 14 broken combinations
 identified here are the starting point for that analysis.
 
-The **Incompleteness Proof** ([INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PROOF.md))
+The **Incompleteness Proof** ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md))
 uses the palindrome's existence to argue that noise must come from outside.
 The universality across all standard models strengthens this argument:
 the palindrome is not a special property of Heisenberg systems but a

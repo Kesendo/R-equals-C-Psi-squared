@@ -45,7 +45,7 @@ unassisted witness of directly expressed pairwise entanglement.
 
 > **Update March 14, 2026:** The mirror symmetry discussed here has been
 > proven analytically. Visibility windows relate to palindromic mode pairs
-> under Π. See [MIRROR_SYMMETRY_PROOF.md](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
+> under Π. See [the mirror symmetry proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
 
 ---
 
@@ -237,7 +237,7 @@ The proper time intersection test is at [`simulations/proper_time_intersection_t
 
 - [Localizable Entanglement Benchmark](LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) - CΨ vs LE vs CoA
 - [Star Topology](STAR_TOPOLOGY_OBSERVERS.md) - Three conditions, receiver noise
-- [THE_CPSI_LENS](../docs/THE_CPSI_LENS.md) - Canonical description
+- [the CΨ lens](../docs/THE_CPSI_LENS.md) - Canonical description
 - Verstraete, Popp, Cirac, *Entanglement versus Correlations in Spin Systems* (2004), arXiv:quant-ph/0411123
 - Streltsov, Adesso, Plenio, *Colloquium: Quantum coherence as a resource* (2017), Rev. Mod. Phys. 89, 041003
 - Alsina, Razavi, *Observer dependent entanglement* (2012), arXiv:1210.2223 (note: different phenomenon - relativistic, not noise-rate-dependent)

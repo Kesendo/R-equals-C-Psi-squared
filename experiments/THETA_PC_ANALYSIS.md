@@ -206,5 +206,5 @@ the PC1 and PC2 directions. Candidates: a sector-balance index (PC1)
 and a mixedness measure such as linear entropy (PC2).
 
 This result motivates the cockpit framework
-([COCKPIT_UNIVERSALITY](COCKPIT_UNIVERSALITY.md)): θ is the
+([Decoherence Cockpit](COCKPIT_UNIVERSALITY.md)): θ is the
 altimeter, but you need the full instrument panel.

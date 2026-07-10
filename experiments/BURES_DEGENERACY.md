@@ -152,7 +152,7 @@ sector dominates (weight profile [0.07, 0.24, 0.48, 0.18, 0.03]). This
 is the sector with the massive degeneracy spike d_total(2) = 152.
 
 The even/odd split in correlation strength mirrors the center spike
-pattern from [DEGENERACY_PALINDROME](DEGENERACY_PALINDROME.md): at even
+pattern from [Degeneracy Palindrome](DEGENERACY_PALINDROME.md): at even
 N, the spectral midpoint falls on the grid and concentrates eigenvalues,
 creating a dominant sector that drives both high degeneracy and high QFI
 speed. At odd N, the center is split across two positions, weakening the

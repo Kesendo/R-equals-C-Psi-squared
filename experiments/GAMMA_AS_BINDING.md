@@ -1,6 +1,6 @@
 # Gamma as Binding Parameter: Per-Sector Rate Sensitivity
 
-> **Superseded by [LIGHT_DOSE_RESPONSE](LIGHT_DOSE_RESPONSE.md).** This document (V1) correctly measured per-sector rates and the 134% nonlinearity, but its mechanistic explanation (mode-crossing hypothesis, Zeno language) was disproved by V2. The numbers in the tables below are correct; the "Why" section is not. See V2 for the correct mechanism (eigenvector rotation).
+> **Superseded by [Light Dose Response](LIGHT_DOSE_RESPONSE.md).** This document (V1) correctly measured per-sector rates and the 134% nonlinearity, but its mechanistic explanation (mode-crossing hypothesis, Zeno language) was disproved by V2. The numbers in the tables below are correct; the "Why" section is not. See V2 for the correct mechanism (eigenvector rotation).
 
 **Status:** Superseded. EQ-008 closed via V2.
 **Date:** April 12, 2026
@@ -60,7 +60,7 @@ If rates scaled linearly with α, the ratio rate(α) / (α × rate(1)) would be 
 
 ### Why: eigenvector rotation (corrected in V2)
 
-> **V1 hypothesis (below) was wrong.** V1 proposed mode-crossing as the mechanism. [LIGHT_DOSE_RESPONSE](LIGHT_DOSE_RESPONSE.md) (V2) tracked individual eigenvalue curves and found zero level crossings. The actual mechanism is eigenvector rotation: as α changes, each mode's Pauli content shifts continuously, making Re(λ) = −2α Σ γ_k ⟨1_XY(k)⟩ nonlinear because ⟨1_XY(k)⟩ itself depends on α.
+> **V1 hypothesis (below) was wrong.** V1 proposed mode-crossing as the mechanism. [Light Dose Response](LIGHT_DOSE_RESPONSE.md) (V2) tracked individual eigenvalue curves and found zero level crossings. The actual mechanism is eigenvector rotation: as α changes, each mode's Pauli content shifts continuously, making Re(λ) = −2α Σ γ_k ⟨1_XY(k)⟩ nonlinear because ⟨1_XY(k)⟩ itself depends on α.
 
 ~~The absorption theorem gives Re(λ) = −2 Σ γ_k ⟨1_XY(k)⟩ for each eigenmode. If γ scales by α, each eigenvalue scales by α. This is exact, per mode.~~
 

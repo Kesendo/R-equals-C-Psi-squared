@@ -9,7 +9,7 @@ variance, Heisenberg Z-dephasing universal constant, EQ-011 -->
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Script:** [cross_term_formula_check.py](../simulations/cross_term_formula_check.py)
 **Output:** [cross_term_formula/](../simulations/results/cross_term_formula/)
-**Proof:** [PROOF_CROSS_TERM_FORMULA.md](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md)
+**Proof:** [the cross-term formula proof](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md)
 **Depends on:**
 - [Cross-Term Topology](CROSS_TERM_TOPOLOGY.md) (predecessor; conjecture stated there)
 - [Primordial Qubit Algebra](PRIMORDIAL_QUBIT_ALGEBRA.md) (parent; Pythagorean decomposition)
@@ -19,7 +19,7 @@ variance, Heisenberg Z-dephasing universal constant, EQ-011 -->
 
 ## What this document is about
 
-[CROSS_TERM_TOPOLOGY](CROSS_TERM_TOPOLOGY.md) conjectured that the
+[Cross-Term Topology](CROSS_TERM_TOPOLOGY.md) conjectured that the
 relative orthogonality of the Hamiltonian and centered dissipator follows
 the formula 1/sqrt(N * 2^(N+1)). This conjecture matched at N=3 and N=4
 but was based on only two data points.
@@ -80,7 +80,7 @@ only for N=3 (1 = 1) and N=4 (2 = 2). At N=5: 3 != 4 = 2^2.
 ## Analytical proof
 
 The key identity and its five-step derivation are in
-[PROOF_CROSS_TERM_FORMULA.md](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md).
+[the cross-term formula proof](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md).
 The formula stated there is confirmed numerically below and in the
 preceding sections.
 

@@ -3,7 +3,7 @@
 **Status:** Tier 1 (first-order structural finding, verified numerically across N=4-9; hardware test is future work)
 **Date:** 2026-04-22 (initial commits d026933, 65bed0a; N=7/N=8 extension + numerics correction 61d4dc1); 2026-04-24 (N=9 extension + c=5 saturation, commit 4612468)
 **Authors:** Tom, Claude Code (Opus 4.7, 1M)
-**Relates to:** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [OPEN_THREAD_GAMMA0_INFORMATION](../review/OPEN_THREAD_GAMMA0_INFORMATION.md), EQ-017 (closed inconclusive due to hardware fidelity), EQ-022 (Q-scale three bands), EQ-023 (inner-richness-quench, now refuted), F73 and F74 ([ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md)), [PROOF_CHROMATICITY](../docs/proofs/PROOF_CHROMATICITY.md), [PROOF_DELTA_N_SELECTION_RULE](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md)
+**Relates to:** [Primordial γ as Framework Constant](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [Open Thread: γ₀ and the Information Channel](../review/OPEN_THREAD_GAMMA0_INFORMATION.md), EQ-017 (closed inconclusive due to hardware fidelity), EQ-022 (Q-scale three bands), EQ-023 (inner-richness-quench, now refuted), F73 and F74 ([Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md)), [the chromaticity proof](../docs/proofs/PROOF_CHROMATICITY.md), [the ΔN selection-rule proof](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md)
 
 **Revision history:**
 - 2026-04-22 commit d026933: initial three-band finding at N=4-6.
@@ -37,8 +37,8 @@ One wrinkle, documented in the retraction below: an earlier version of this docu
 
 - **Dicke state** |S_n⟩: equal-amplitude symmetric superposition of all N-qubit basis states with exactly n excitations.
 - **Popcount** of a computational basis state: number of qubits in |1⟩ (Hamming weight).
-- **F73** ([ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md) line ~1570): under any U(1)-preserving H with uniform Z-dephasing, the spatial-sum coherence purity S(t) = Σᵢ 2·|(ρᵢ)_{0,1}|² decays as (1/2)·exp(−4γ₀t) for the vacuum-single-excitation probe. Defines the observable S used throughout.
-- **F71** (bond-mirror symmetry of L): [PROOF_C1_MIRROR_SYMMETRY.md](../docs/proofs/PROOF_C1_MIRROR_SYMMETRY.md).
+- **F73** ([Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md) line ~1570): under any U(1)-preserving H with uniform Z-dephasing, the spatial-sum coherence purity S(t) = Σᵢ 2·|(ρᵢ)_{0,1}|² decays as (1/2)·exp(−4γ₀t) for the vacuum-single-excitation probe. Defines the observable S used throughout.
+- **F71** (bond-mirror symmetry of L): [the c₁ mirror-symmetry proof](../docs/proofs/PROOF_C1_MIRROR_SYMMETRY.md).
 - **Chromaticity c** and **dressed-mode weight W**: defined and motivated by Result 3 and the sketch above.
 
 ---
@@ -147,7 +147,7 @@ Block-structure across N:
 
 **Odd N has a unique c_max block at center.** Even N has two adjacent c_max blocks. This is the algebraic origin of the center-bond dip observed in the N=6 |S_1⟩-c_1 bond profile (in the earlier bond-scan data from `simulations/results/c1_bond_scan_multi_N/`).
 
-**Formalised as [F74](../docs/ANALYTICAL_FORMULAS.md); rigorous combinatorial proof in [PROOF_CHROMATICITY](../docs/proofs/PROOF_CHROMATICITY.md) (2026-04-22).**
+**Formalised as [F74](../docs/ANALYTICAL_FORMULAS.md); rigorous combinatorial proof in [the chromaticity proof](../docs/proofs/PROOF_CHROMATICITY.md) (2026-04-22).**
 
 ---
 

@@ -155,13 +155,13 @@ flow in space.
 
 ## Connection to Later Results
 
-The **γ Control** experiment ([GAMMA_CONTROL](GAMMA_CONTROL.md)) extended
+The **γ Control** experiment ([γ Control](GAMMA_CONTROL.md)) extended
 the relay principle to static γ profiles (V-shape: +124% MI) and dynamical
 decoupling (DD on mediator + receiver: +132% MI). The relay protocol is the
 *time-domain* version; V-shape and DD are *spatial-domain* versions of the
 same idea: shape the noise to match the palindromic mode structure.
 
-The **γ as Signal** result ([GAMMA_AS_SIGNAL](GAMMA_AS_SIGNAL.md)) explains
+The **γ as Signal** result ([γ as Signal](GAMMA_AS_SIGNAL.md)) explains
 *why* noise shaping works at a deeper level: the palindromic mode structure
 creates a full-rank response matrix linking per-site γ to observable mode
 amplitudes. Shaping γ (in time or space) is equivalent to tuning the antenna
@@ -200,7 +200,7 @@ the exceptional point at Q_EP ≈ 1.5–2, the transfer-resonance peak band at
 1.2–1.8, the onset at 0.2–0.35.
 
 **That deep-Q placement is not overshoot; it is the only band where transport
-exists.** This is the part [THE_FLOW_BETWEEN_TWO_SINGULARITIES.md](THE_FLOW_BETWEEN_TWO_SINGULARITIES.md)
+exists.** This is the part [The Flow Between Two Singularities](THE_FLOW_BETWEEN_TWO_SINGULARITIES.md)
 later made plain. Below the rotation onset (small Q) a single excitation just
 diffuses and decays in place, forgetting; it never reaches the far end. Above
 it, the excitation sloshes site to site as a wave that propagates and reflects,
