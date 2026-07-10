@@ -1582,6 +1582,11 @@ division is exact, and the denominator is coprime to the constraint. Hence:
 
 > **Theorem (over ℚ).** The mirror specialisation of 𝔉 vanishes on cos a₁ + cos a₂ + cos a₃ = 0.
 
+"Mirror specialisation" is exact and gated, not a figure of speech: the mirror triple sends k ↦ n − k,
+that is a ↦ π − a, and 𝔉(a; π − a_{4−j}) = ½·(the single-triple tangent form), on 544 pairs to 2e−11.
+So the theorem is about the same six-angle object that (F) certifies, restricted to a
+positive-dimensional subvariety, where it is **proved** rather than certified.
+
 Consequently Y = 0 for every mirror pair at **even** N. That consequence rides, like the whole ε = −1
 column, on the gated assembly "𝔉 is the discrete U⁺ − U⁻", so it is certificate grade; only the identity
 itself is proved over ℚ. This is the corrected form of the previous section's "cheap laboratory": the

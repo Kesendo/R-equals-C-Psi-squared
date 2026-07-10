@@ -111,6 +111,9 @@ WHAT THIS FILE ESTABLISHES, and at what grade.  Every step below is asserted sep
     holds on the whole variety, not merely off a lower-dimensional set.  The symbolic object
     is pinned numerically against `mirror_form`, so what is proved is what (D) gates -- writing
     it twice by hand would otherwise risk proving a theorem about a different expression.
+    And `mirror_form` is pinned to `cross_form`: exactly, cross_form(a; mirror a) =
+    mirror_form(a)/2.  So (E) proves the vanishing of the SAME six-angle object of (F),
+    restricted to the positive-dimensional mirror subvariety b_j = pi - a_{4-j}.
     CONSEQUENCE, riding on the gated (D) assembly: Y = 0 for every mirror pair at EVEN N.
     That consequence is therefore CERTIFICATE grade, not proof grade; only the identity above
     is proved over Q.  It is the handover's cheap lead, closed at that grade.
@@ -509,6 +512,36 @@ def cross_form(ang_tau, ang_sigma):
             mu_p, mu_m = ang_tau[i] + ang_sigma[j], ang_tau[i] - ang_sigma[j]
             tot += ((-1) ** (i + j)) * (_cot(mu_p / 2) * Xs(mu_p) - _cot(mu_m / 2) * Xs(mu_m))
     return 0.5 * tot
+
+
+def check_mirror_specialisation(Ns):
+    """cross_form(a; mirror a) = (1/2) * mirror_form(a), exactly.
+
+    The mirror triple sends k -> n-k, i.e. the angle a -> pi - a.  The factor 1/2 is
+    bookkeeping: cross_form is U+ - U- = 2 U+ (since eps = -1 there), while mirror_form is
+    -4 * sum_{c>b} (-1)^c G^2 * (n/2)^3 = -4 * (-U+) * ... .  This gate is what lets (E),
+    which proves a statement about mirror_form over Q, be read as a statement about
+    cross_form on a positive-dimensional subvariety.  Without it, (E) and (F) would be
+    theorems about two objects nobody had identified.
+    """
+    worst, cnt = 0.0, 0
+    for N in Ns:
+        n, th = N + 1, math.pi / (N + 1)
+        for t in itertools.combinations(range(1, N + 1), 3):
+            tp = mirror(t, n)
+            if set(t) & set(tp):
+                continue                       # cross_form's derivation assumes mode-disjoint
+            a, b = tuple(k * th for k in t), tuple(k * th for k in tp)
+            try:
+                cf, mf = cross_form(a, b), mirror_form(a)
+            except ZeroDivisionError:
+                continue
+            if abs(mf) < 1e-9:
+                continue
+            worst = max(worst, abs(cf - 0.5 * mf) / abs(mf))
+            cnt += 1
+    assert cnt and worst < 1e-9, f"mirror_form is NOT cross_form's mirror specialisation: {worst:.2e}"
+    return cnt, worst
 
 
 def gate_angle_forms(Ns_even, Ns_any):
@@ -970,6 +1003,12 @@ def main():
     n3, w3, n6, w6, big = gate_angle_forms((8, 10, 12, 14), (9, 11, 12, 13))
     print(f"    assembly | mirror_form on {n3} triples, err {w3:.1e}"
           f" | cross_form on {n6} pairs, err {w6:.1e} (values up to {big:.1f}).  n cancels.")
+    nm, wm = check_mirror_specialisation((8, 10, 12, 14))
+    rng = random.Random(5)
+    wt = max(check_transcription(tuple(rng.uniform(0.3, 2.8) for _ in range(3)),
+                                 tuple(rng.uniform(0.3, 2.8) for _ in range(3))) for _ in range(20))
+    print(f"    pins | cross_form(a; mirror a) = mirror_form(a)/2 on {nm} pairs, rel err {wm:.1e}"
+          f" | the z-form equals the angle-form, err {wt:.1e}")
 
     if slow:
         deg, terms = prove_mirror_form_over_Q()

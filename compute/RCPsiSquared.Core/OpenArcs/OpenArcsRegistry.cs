@@ -1051,7 +1051,7 @@ public static class OpenArcsRegistry
                 "z_j = exp(i a_j) it is rational; its numerator (degree 24 in z3, 3179 terms) is divisible " +
                 "EXACTLY by z3^2 + S z3 + 1, S = z1+1/z1+z2+1/z2; numerator not identically zero, division " +
                 "exact, denominator coprime to the constraint. CONSEQUENCE: Y = 0 for every mirror pair at " +
-                "EVEN N. (3) CORRECTION TO 10d's 'cheap laboratory' READING: even N is NOT the same lemma minus " +
+                "EVEN N. The mirror specialisation is EXACT and gated: Frak(a; pi - a_{4-j}) = mirror_form(a)/2 (544 pairs, 2e-11), so (2) proves the SAME six-angle object of (4) on a positive-dimensional subvariety, where it is proved rather than certified. Both hand transcriptions are now ONE implementation with the coefficient field swapped, pinned against the angle form. (3) CORRECTION TO 10d's 'cheap laboratory' READING: even N is NOT the same lemma minus " +
                 "a sign. There the phenomenon is STRICTLY STRONGER and lambda-consuming: a NON-vanishing " +
                 "mode-disjoint mirror pair, which the odd-N theorem handles for free, has |U+| up to 0.42 (N=8) " +
                 "and 0.33 (N=14). Mode-disjointness alone does not carry even N at all. (4) THE FULL COLUMN, " +
