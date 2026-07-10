@@ -101,9 +101,11 @@ public sealed class SeedExistenceCountingClaim : Claim
                          "combinatorics.");
             yield return new InspectableNode("(FF) nullity(C) = ρ, the fusion resonances",
                 summary: "ker C = {ρ: H₂ρ = ρH₁}; in the eigenmode basis C is diagonal on c†_a c†_b c_c with " +
-                         "eigenvalue −i(λ_a+λ_b−λ_c), so nullity(C) = #{λ_a+λ_b = λ_c}: number-theoretic in " +
-                         "the cosines (3, 6, 9, 12, 21, 18 at N = 3..13, the N = 11 jump from the " +
-                         "cos75°+cos45°−cos15° = 0 identity).");
+                         "eigenvalue −i(λ_a+λ_b−λ_c), so nullity(C) = #{λ_a+λ_b = λ_c}: 3, 6, 9, 12, 21, 18 at " +
+                         "N = 3..13, the N = 11 jump from the cos75°+cos45°−cos15° = 0 identity. Closed form " +
+                         "(2026-07-10, via Conway-Jones on vanishing sums of six 2n-th roots of unity, n = N+1 " +
+                         "even): ρ = 3·Z₃ with Z₃ = (N−1)/2 + [3|n]·(n/3−2) + 2·[15|n], so the count is the " +
+                         "baseline 3(N−1)/2 unless 3 | N+1 and N ≥ 11, and the resonant N are 11, 17, 23, 29, …");
             yield return new InspectableNode("(N1′) the ordering-sector theorem: n₆ = 3·Z₃ = ρ",
                 summary: "no passing on the open chain conserves the bra's rank among the three hard-core " +
                          "particles: K₆ = K_L ⊕ K_M ⊕ K_R, each gauge-equivalent via diag((−1)^{z_bra}) to " +

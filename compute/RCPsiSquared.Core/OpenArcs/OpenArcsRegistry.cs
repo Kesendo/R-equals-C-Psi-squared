@@ -987,6 +987,50 @@ public static class OpenArcsRegistry
                 "seed_existence_nullity_check.py docstring corrected. NEW DEAD ENDS (doc list): the E<->O swap " +
                 "of the bilinear signs, pointwise kernel-refuge, uniform share gap, pointwise S-procedure on " +
                 "the quadratic forms, rung-restricted Loewner definiteness. " +
+                "UPDATE 2026-07-10b (THE RESONANCE CRITERION CLOSES; THE CHEAPEST KILL IS RUN AND FAILS). " +
+                "A vanishing triple lam_a+lam_b+lam_c = 0 (lam_k = 2cos(k pi/n), n = N+1 EVEN) is a " +
+                "conjugation-symmetric vanishing sum of six 2n-th roots of unity; Conway-Jones (Acta Arith. 30 " +
+                "(1976) 229-240, Thm 6 = the minimal sums of weight <= 9, unique weight-6 member " +
+                "-a-a^2+b+b^2+b^3+b^4; Thm 7 = the cosine relations) leaves exactly three families: TRIV (three " +
+                "antipodal pairs, count (N-1)/2), ROT3 (two rotated cube-root triples, iff 3|n, count n/3-2), " +
+                "PENT (the minimal weight-6 sum (R5:R3), iff 15|n, count EXACTLY 2, rigid at " +
+                "{n/5,3n/5,2n/3} and its mirror). SO Z3(N) = (N-1)/2 + [3|n](n/3-2) + 2[15|n], " +
+                "nullity(K66) = 3*Z3, and RESONANT <=> 3 | (N+1) and N >= 11: the resonant N are 11, 17, 23, 29, " +
+                "35, ... and THE NEXT AFTER 17 IS 23, NOT 29. (Scope: the counts need n even; for odd n the ROT3 " +
+                "count is 2*floor((n-3)/6). N=5 is not resonant because its ROT3 count degenerates to 0.) " +
+                "This retires the Piece-2 'number-theoretic in the cosines' and the resonant-N section's " +
+                "'combinatorial origin, open'. GRADES: the CRITERION is proved (it needs only ROT3 nonempty <=> " +
+                "3|n and n/3 >= 3); the TRIV count and the PENT count 2 are proved (the latter from the " +
+                "uniqueness of the weight-6 minimal sum); the ROT3 MULTIPLICITY n/3-2 is VERIFIED, NOT DERIVED " +
+                "(exactly for odd N <= 29 committed, to n=330 in review). " +
+                "SELF-MIRROR LEMMA (proved, two lines): a zero triple is fixed by " +
+                "k -> n-k iff it is TRIV; hence extras come in MIRROR PAIRS (count even: 2,4,6,10 at " +
+                "N=11,17,23,29). CLASS-SPLIT (proved, separately, by a mode-function parity argument, NOT by " +
+                "the two-line lemma): u_{n-k}(z) = (-1)^z u_k(z) gives v_tau'(z) = -(-1)^{z1+z2+z3} v_tau(z), so " +
+                "a self-mirror triple's Slater det is supported on ODD site-sum where T = -1 => its 3 kernel " +
+                "dims are all class O, and a mirror pair is swapped by T => 3E+3O. Hence dim_E ker(K66) = " +
+                "3*(#extras)/2 and the baseline purity ker(K66) subset O <=> N not resonant; the measured " +
+                "splits 3E+18O, 6E+30O, 9E+42O, 15E+57O all follow. " +
+                "TWINNING IS AN ORTHOGONALITY: on a mirror pair, ker(K66) is spanned by the gauged Slater dets " +
+                "w_{tau,s} of the two mode triples (orthogonal, since distinct mode triples), T swaps tau<->tau' " +
+                "sector by sector, so Heff = [[X,Y],[Y,X]] with E-block X+Y and O-block X-Y; Y = 0 MEASURED to " +
+                "1e-15 at every mirror pair of N=11,17,23,29 (only N=29 carries a PENT pair; 15|n first at " +
+                "n=30) => the blocks are the SAME matrix X. " +
+                "spec(X) = {high, low, 0}: two coupled E-levels per pair (each exactly twinned) + one uncoupled. " +
+                "LEVEL CLOSED FORM (measured, ratio 3:1, rational while the O-spectrum is generically " +
+                "irrational): (18/n, 6/n) per ROT3 pair, (24/n, 8/n) per PENT pair, multiplicity = #pairs. " +
+                "THE KILL TEST IS RUN: at N=23 (the true next resonant N, dim K66 = 5313) all 6 coupled E-levels " +
+                "twinned to <= 7.8e-16; at N=29 (dim 10962, first N with the PENT family, an independent " +
+                "number-theoretic mechanism) all 10 twinned to <= 4.4e-16. THE CELL LAW SURVIVES ITS CHEAPEST " +
+                "KILL AT N=23 AND N=29; it is NOT thereby proved (twinning stays unproven at every unprobed N). " +
+                "THE ONE OPEN ITEM LEFT HERE IS SHARP: prove Y = 0, i.e. <K26 w_tau, K26 w_tau'> = 0 for mirror " +
+                "partners; that single orthogonality turns the twinning law (hence the cell law's protection at " +
+                "every resonant N) from measurement into theorem. COMMITTED VERIFIER: " +
+                "simulations/resonant_n_twinning.py (exact Z[x]/Phi_2n classification N<=29 + the matrix half to " +
+                "N=23, ~20 s; '29' adds N=29, ~2 min). Reviewed: Conway-Jones read from the primary scan (the " +
+                "list is Thm 6, NOT Thm 5); an independent from-definitions recompute reproduced Z3 (exactly to " +
+                "n=330: the [15|n] bump is single, no 5^2 doubling, no prime-7 analogue), the class splits, the " +
+                "levels (as 1/m, 3/m with m = n/6) and the twin gaps. " +
                 "TYPED 2026-07-04: " +
                 "SeedExistenceCountingClaim (Tier1Derived, parents AbsorptionTheorem + ChiralK) + live " +
                 "SeedExistenceCountingWitness, inspect --root seedcount (SVD nullities + combinatorial rho/Z3 + " +

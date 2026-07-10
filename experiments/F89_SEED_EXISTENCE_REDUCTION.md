@@ -6,7 +6,9 @@
 day, after two adversarial reviews; the q/Q convention pin (this note's knob = twice the census axis)
 added the same day. The β-exotic arc sections (the sharpened reduction, the three attacks, the per-N
 certificate) were added 2026-07-08/09; the gcd certificate (the nonvanishing itself at N = 5 and 7),
-the resonant-N measurement, and the cell-law tightening were added 2026-07-10.*
+the resonant-N measurement, and the cell-law tightening were added 2026-07-10, and later the same day
+the resonance criterion closed (Conway-Jones on the vanishing triples) and the twinning survived its
+cheapest kill at N = 23 and N = 29.*
 
 ## What this is, in plain words
 
@@ -188,7 +190,9 @@ The asymptotically-real Liouvillian modes are exactly the free-fermion fusion re
 two-magnon energy equals a one-magnon energy. The count is number-theoretic in the cosines (extra
 resonances at special angles make it jump: 3, 6, 9, 12, 21, 18 at odd N = 3..13, not a clean 3(N−1)/2,
 the guaranteed baseline: N − 1 trivial pairs {k, m} with the middle mode m = (N+1)/2, plus (N−1)/2
-chiral pairs {a, N+1−a} resonating with c = m).
+chiral pairs {a, N+1−a} resonating with c = m). The jump is no longer just "number-theoretic": the
+section "The resonance criterion, closed" below gives Z₃ in closed form, so the count is exactly
+3(N−1)/2 unless 3 divides N+1 and N ≥ 11, the first such N being 11.
 
 ## The narrative: the wild resonances cancel, the odd-N kernel survives
 
@@ -1138,14 +1142,127 @@ dynamics, and finding the protection mechanism.
 - **Protection and cheapest kill in one.** The twinning law is the cell law's protection at resonant
   N and its sharpest falsification target: at the next resonant N, one coupled class-E level
   of Heff without an exact O-twin would enter the band in the forbidden corner and kill the law at
-  that N. The observed multiplet structure (one E level twinned into a group of O levels per
-  resonant triple) points at the (N1′) three-sector chirality as the combinatorial origin; open.
+  that N. **That test has now been RUN, at N = 23 and N = 29; both hold** (the next section).
 
 Status of this section: measured facts, two independent recomputations (the twinning gaps, the
 kernel splits, the counts, and the q³/1-over-q scalings all reproduced); not yet theorems, except
-where the text says "proved". Per the repo rule, a verifier that outlives its session is a witness
-waiting to be written; if the twinning law becomes load-bearing for an all-N cell-law proof, it gets
-a committed verifier first.
+where the text says "proved". The section below supersedes two readings recorded here: the
+combinatorial origin of the resonance is no longer open, and the multiplet structure is organised by
+mirror PAIRS of triples (3E + 3O each, two coupled E-levels per pair), not "one E level per resonant
+triple".
+
+## The resonance criterion, closed; and the twinning survives its cheapest kill (2026-07-10)
+
+Piece 2 left the fusion-resonance count as "number-theoretic in the cosines", and the resonant-N
+section above left the combinatorial origin of the extra resonances open. Both are now settled, and
+the falsification test the section names has been run.
+
+**The criterion.** Write n = N + 1 (even, since N is odd) and λ_k = 2cos(kπ/n). A vanishing triple
+λ_a + λ_b + λ_c = 0 is, after λ_k = ζ^k + ζ^{−k} with ζ a primitive 2n-th root of unity, a
+conjugation-symmetric **vanishing sum of six 2n-th roots of unity**. Conway and Jones classify those
+(*Trigonometric diophantine equations*, Acta Arith. **30** (1976) 229–240: Theorem 6 lists the minimal
+vanishing sums of weight ≤ 9, whose unique weight-6 member is −α − α² + β + β² + β³ + β⁴ with α, β
+primitive of orders 3 and 5; Theorem 7 lists the rational-angle cosine relations). Exactly three
+families survive, and only the first is available at every N:
+
+| family | root-of-unity shape | exists iff | count |
+|--------|---------------------|-----------|-------|
+| TRIV | three antipodal pairs, R₂ + R₂ + R₂ | always (n even) | (N − 1)/2 |
+| ROT3 | two rotated cube-root triples, R₃ + R₃ | 3 \| n | n/3 − 2 |
+| PENT | the minimal weight-6 sum, (R₅ : R₃) | 15 \| n | exactly 2 |
+
+Here R_p denotes the full set of p-th roots of unity summed to zero (R₂ = an antipodal pair, R₃ = a
+cube-root triple, R₅ = the pentagon), and (R₅ : R₃) is the weight-6 minimal sum above: the pentagon
+with its element 1 replaced by the two primitive sixth roots −α, −α².
+
+> **Z₃(N) = (N − 1)/2 + [3 \| n]·(n/3 − 2) + 2·[15 \| n],  and nullity(K₆₆) = 3·Z₃.**
+>
+> **Resonant ⟺ 3 \| (N + 1) and N ≥ 11.** So the resonant N are 11, 17, 23, 29, 35, …, and the next
+> one after 17 is **23**, not 29.
+
+Read the two lines at their true strengths. The **criterion** is proved: it needs only that the ROT3
+family is nonempty exactly when 3 \| n and n/3 ≥ 3, which the classification gives. The TRIV count is a
+count of the sets {a, n − a, n/2}, and the PENT count of 2 follows from the uniqueness of the weight-6
+minimal sum. The **ROT3 multiplicity n/3 − 2 is verified, not derived**: exactly for all odd N ≤ 29 in
+the committed verifier, and independently to n = 330 in review, by a faster count that is not
+committed (the committed enumeration is per-triple and stops being practical well before that).
+
+The counts need n even: for odd n the ROT3 count is 2⌊(n − 3)/6⌋ instead, which differs when
+n ≡ 3 (mod 6). Odd n never arises here (N is odd), but the formula must not be quoted outside that
+scope. At N = 5 the ROT3 count degenerates to 0, which is why 3 | 6 does not make N = 5 resonant.
+The PENT family is rigid, not a family that grows with n: its two triples are always {n/5, 3n/5, 2n/3}
+and its mirror {n/3, 2n/5, 4n/5}. The formula reproduces every previously measured value
+(3, 6, 9, 12, 21, 18 at N = 3..13, and 36 at N = 17), and is verified exactly, in ℤ[x]/Φ_{2n}(x) with
+no floating point, for all odd N ≤ 29 in the committed verifier (independently to n = 330 in review,
+where the [15 | n] bump is confirmed single: no doubling at 5², no prime-7 analogue, as Theorem 6's
+uniqueness of the weight-6 minimal sum requires).
+
+**Why resonance is exactly the appearance of class E.** (Recall from the "class imbalance" paragraph
+above: T = diag((−1)^{a₀+a₁+b₀}) is the bipartite sign with T K T = −K, class E is T = +1 and class O
+is T = −1; K₂₂, K₂₆, K₆₆ are the rung blocks of K = −(H₂ ⊗ I − I ⊗ H₁).) The involution k ↦ n − k is
+the chirality λ_{n−k} = −λ_k, and T realizes it on the −6 rung. A zero triple is **self-mirror iff it is TRIV**: if
+{a, b, c} = {n − a, n − b, n − c}, the involution on a 3-set has a fixed point n/2 and swaps the other
+two, giving {a, n − a, n/2}; conversely those vanish by chirality. So the extras are never
+self-mirror, they come in **mirror pairs**, and their number is even (2, 4, 6, 10 at N = 11, 17, 23,
+29).
+
+The class of the kernel then follows from the mode functions. With u_k(z) = sin(k(z+1)π/n) one has
+u_{n−k}(z) = (−1)^z u_k(z), so the Slater determinant v_τ of a mode triple obeys
+v_{τ′}(z) = −(−1)^{z₁+z₂+z₃} v_τ(z), the minus sign being the reversal permutation of the three modes.
+If τ is self-mirror then τ′ = τ as a sorted mode set, and the relation forces v_τ to be **supported on
+odd site-sum**, where T acts by −1: its 3 kernel dimensions are all class O. If τ ≠ τ′ the relation
+makes T swap the two 3-dimensional spaces, so the pair splits 3E + 3O. Hence
+
+> dim_E ker(K₆₆) = 3·(#extras)/2,  and the baseline purity **ker(K₆₆) ⊂ class O ⟺ N is not resonant**.
+
+That is the Piece-2 baseline (3(N − 1)/2, pure O) and its breaking, from one lemma rather than from
+measurement. Measured splits 3E + 18O, 6E + 30O, 9E + 42O, 15E + 57O at N = 11, 17, 23, 29 all follow.
+
+**The twinning is an orthogonality.** On a mirror pair, ker(K₆₆) is spanned by the gauged Slater
+determinants w_{τ,s} of the two mode triples (the U = diag((−1)^{z_bra}) gauge and the ordering-sector
+split K₆ = K_L ⊕ K_M ⊕ K_R are Piece 3, Step 1; s indexes the sector). Slater determinants of
+distinct mode triples are orthogonal, and T swaps τ ↔ τ′ sector by sector, so in that orthonormal
+basis Heff := P_ker K₆₂K₂₆ P_ker restricted to the pair reads [[X, Y], [Y, X]], with E-block X + Y and
+O-block X − Y. **Y = 0 is measured to 1e−15** at every mirror pair of N = 11, 17, 23, 29 (both
+families; only N = 29 carries a PENT pair). So the two blocks are the *same matrix* X, and the
+twinning is not a coincidence of eigenvalues but the vanishing of the whole cross block, that is, the
+orthogonality
+
+> ⟨K₂₆ w_{τ,s} , K₂₆ w_{τ′,s′}⟩ = 0  for mirror partners τ, τ′ and **all** sector pairs s, s′.
+
+spec(X) = {high, low, 0}, so each mirror pair yields two coupled class-E levels, each exactly twinned,
+and one uncoupled. The levels are rational and in ratio 3 : 1,
+
+> (high, low) = (18/n, 6/n) on a ROT3 pair,  (24/n, 8/n) on the PENT pair,
+
+with multiplicity = the number of pairs of that family. This reproduces the recorded N = 11 levels
+(3/2 and 1/2 in units q²/4) and gives 1 and 1/3 at N = 17, 3/4 and 1/4 at N = 23, and at N = 29 the
+four ROT3 pairs at 3/5 and 1/5 together with the single PENT pair at 4/5 and 4/15. The class-O
+spectrum is otherwise generically irrational (Pell and Fibonacci denominators appear), which is what
+makes the exact coincidence of the rational E-levels inside it worth a name.
+
+**The kill test, run.** The section above names an untwinned coupled class-E level at a resonant N as
+the cheapest falsification of the cell law. At **N = 23** (the true next resonant N; dim K₆₆ = 5313)
+all 6 coupled E-levels are twinned to ≤ 7.8e−16, and at **N = 29** (dim 10962, the first N carrying
+the PENT family, an independent number-theoretic mechanism) all 10 are twinned to ≤ 4.4e−16. **The
+cell law survives its cheapest kill at N = 23 and N = 29.** It is not thereby proved: the twinning
+stays unproven at every unprobed N, which is what "prove Y = 0" below would close.
+
+Status: the criterion, the self-mirror lemma and the class-split formula are proved (the classification
+is Conway-Jones; the lemma is two lines). The level closed form and Y = 0 are **measured** at
+N = 11, 17, 23, 29 and are not yet theorems. **The one open item this leaves is sharp: prove Y = 0**,
+i.e. that K₂₆ maps the kernel Slater determinants of mirror-partner triples to mutually orthogonal
+vectors, for every sector pair. That single orthogonality upgrades the twinning law, hence the cell
+law's protection at every resonant N, from measurement to theorem. Note this is a different object
+from the "exact-arithmetic twinning decision on the rational Heff" named in the section above: that is
+a per-N certificate (cheap, still not done), whereas Y = 0 is the all-N theorem.
+
+Numerical honesty: the kernel tolerance is not load-bearing. The nullity is pinned to the integer
+3·Z₃ by the exact cyclotomic count, and the spectral gap around ker(K₆₆) is enormous: the kernel edge
+sits at ~4e−15 (N = 11) to ~1.6e−14 (N = 23) while the smallest nonzero eigenvalue is 1.0e−1
+(N = 11), 3.1e−2 (N = 17), 3.1e−3 (N = 23), eleven to thirteen orders of magnitude away. That
+smallest nonzero eigenvalue does fall roughly tenfold per step in N, so a fixed tolerance would need
+revisiting far beyond the N ≤ 29 scope used here.
 
 ## Reproduce
 
@@ -1154,6 +1271,7 @@ python simulations/seed_existence_nullity_check.py     # the counting theorem (e
 python simulations/o2b_krein_sign_law.py               # the class-imbalance sign law, N = 5, 7 (add 9)
 python simulations/o2b_three_attacks_audit.py          # the "Three attacks" section (N=5; also 7/b7/b9)
 python simulations/o2b_gcd_certificate.py              # the gcd certificate section (N=5; add 7)
+python simulations/resonant_n_twinning.py              # the resonance criterion + twinning (add 29)
 ```
 
 `seed_existence_nullity_check.py` is self-validating: it asserts (F1) the surplus (N − 1)·[N odd]
@@ -1241,8 +1359,10 @@ This note must not be read as closing the existence question until the remaining
    case is the demonstrated failure mode of the naive literal reading: at N = 11 four of the
    r(0⁺) = 31 modes leave the axis at third order and four of the r(∞) = 21 never reach it, and
    the literal drop 27 − 17 = 10 = N − 1 survives *by measurement*, balanced by the twinning
-   mechanism (resonant-N section), whose combinatorial origin is open. N = 17's counts were not
-   measured (only its kernel split and twinning gaps).
+   mechanism (resonant-N section). Its combinatorial origin is no longer open (see "The resonance
+   criterion, closed"): the resonant N are exactly those with 3 \| N + 1, N ≥ 11, and the twinning
+   holds at N = 23 and N = 29 as well, though it stays unproven at every unprobed N. N = 17's counts
+   were not measured (only its kernel split and twinning gaps).
 
 When the β-exotic closes **for all odd N**, the census input becomes a law for all odd N, and the
 containment diamond membership follows at every odd N with no further scan. Per-N certificates, however
