@@ -1031,6 +1031,63 @@ public static class OpenArcsRegistry
                 "list is Thm 6, NOT Thm 5); an independent from-definitions recompute reproduced Z3 (exactly to " +
                 "n=330: the [15|n] bump is single, no 5^2 doubling, no prime-7 analogue), the class splits, the " +
                 "levels (as 1/m, 3/m with m = n/6) and the twin gaps. " +
+                "UPDATE 2026-07-10d (Y = 0 IS A THEOREM, THE LEVEL LAW IS DERIVED, AND A HIDDEN " +
+                "ASSUMPTION SURFACED). Doc section: 'The twinning is a selection rule, and the level law is " +
+                "one line'. Committed verifier simulations/y_zero_and_level_law.py (measured 3.4 s; arg '23 29' " +
+                "-> 30 s), which asserts each lemma separately. (1) THEOREM Y = 0, uniform in odd N, no per-N " +
+                "check. Five lemmas: (L1) K26 w_{tau,s}(b,c) = -(-1)^b G_tau(b,c) 1{c in Omega_s}/||D_tau||, " +
+                "G_tau(b,c) := D(b-1,b,c) + D(b,b+1,c), Omega_0={c>b}, Omega_2={c<b}, Omega_1=all; the sector " +
+                "indicator collapses because c has rank 0 or 2, never 1. Hence for ANY two triples " +
+                "B(tau,sigma) = [[U+,U+,0],[U+,U+ + U-,U-],[0,U-,U-]] with U± the sums over {c >< b} of " +
+                "G_tau G_sigma. (L3) the site reflection gives U+ = eps*U-, eps := (-1)^{k(tau)+k(sigma)}, " +
+                "k(tau) := k1+k2+k3. (L4) Laplace along the c column + PLAIN sine orthogonality gives " +
+                "F(tau,sigma) := sum_{b,c} G_tau G_sigma = (n/2) sum_{k_i = l_j} (...), = 0 when the triples " +
+                "share no mode. (L5) a vanishing triple meets its own mirror iff it is self-mirror (= TRIV). " +
+                "A mirror pair is mode-disjoint (L5) and has eps = (-1)^{3n} = +1 (n even), so F = 0 and " +
+                "U+ = U- = 0. THE 'N ODD' ASSUMPTION LIVES ENTIRELY IN THAT ONE SIGN. " +
+                "(2) THE MIRROR IS NOT WHY IT WORKS: the proof needs only mode-disjointness + eps=+1, so " +
+                "Y = 0 for ANY triple mode-disjoint from its mirror, VANISHING OR NOT (39 such non-vanishing " +
+                "mirror pairs at N=11, all ||Y|| <= 5.3e-16). Not removable: tau={5,7,11}, whose mirror {1,5,7} " +
+                "shares two modes, has ||Y|| = 0.456. lam_a+lam_b+lam_c = 0 enters ONLY via L5. Conway-Jones " +
+                "decides WHICH N have extras; it says nothing about why their cross block vanishes. " +
+                "(3) LEVEL LAW DERIVED: spec[[1,1,0],[1,2,1],[0,1,1]] = (3,1,0), so spec(X) = (3a,a,0) for " +
+                "EVERY triple (3:1 ratio + the uncoupled level are structural; the null vector w_0 - w_1 + w_2 " +
+                "is the totally antisymmetric lift Psi_tau, an eigenvector of the FULL hop H = H2 (x) I + I (x) H1, " +
+                "hence with no -2 component). The scalar: ||M_pq||^2 = n(sin^2(p pi/n) + sin^2(q pi/n)) exactly " +
+                "(telescoping + sine orthogonality; the p+q=n branch is harmless), ||D_tau||^2 = (n/2)^3 " +
+                "(Cauchy-Binet), so a = (4/n) sum_{k in tau} sin^2(k pi/n) = (12 - sum lam_k^2)/n. ONE formula, " +
+                "no family split: ROT3 has sum lam^2 = 6 (squaring a rotated cube-root triple gives another " +
+                "one), PENT has 4 (the golden ratio cancels: (phi+1)+(2-phi)+1). Gives (18/n,6/n) and " +
+                "(24/n,8/n), now derived, not measured. " +
+                "(4) THE HIDDEN ASSUMPTION, THE NEW ONE OPEN ITEM: 'Heff restricted to the pair reads " +
+                "[[X,Y],[Y,X]]' silently assumed the pair's 6-dim space is Heff-INVARIANT. The full-spectrum " +
+                "twinning (spec Heff|_E vs spec Heff|_O over the WHOLE kernel, which is what resonant_n_twinning.py " +
+                "measures and what the cheapest kill tests) also needs B(tau,sigma) = 0 for DISTINCT triples, " +
+                "TRIV included. Measured <= 1.3e-15 at N=11,17,23,29; NOT proved everywhere. Populations " +
+                "(distinct non-mirror pairs; by L4 / by hand TRIVxTRIV / F=0 only measured / open): " +
+                "N=11 20 = 0/10/0/10, N=17 64 = 10/28/6/20, N=23 133 = 20/55/6/52, N=29 271 = 56/91/16/108. " +
+                "'By L4' = mode-disjoint AND eps=+1. 'By hand' = two distinct TRIV triples: eps=+1 always " +
+                "(each mode sum is 3n/2), the single shared mode is n/2, both two-mode factors have p+q=n so " +
+                "the telescoped M_pq loses its first sine, and sine orthogonality kills the overlap unless the " +
+                "triples coincide. PROVED. 'F=0 only measured' = eps=+1 with a shared mode but not two TRIV " +
+                "(0/6/6/16 pairs, each one frequency-matching argument away). 'Open' = eps=-1, where L3 makes " +
+                "F=0 an empty identity; 31-50 percent of the pairs at every N. Sharp form: the Gram " +
+                "matrix of eta_{tau,0}(b,c) := G_tau(b,c) 1{c>b} over the vanishing triples is DIAGONAL. It is " +
+                "not a symmetry we overlooked: the bipartite sign and the site reflection generate only " +
+                "B(tau,sigma) = B(tau',sigma') and U+ = eps*U-; neither forces U+ = 0. And it must consume " +
+                "lam_a+lam_b+lam_c = 0 (counting: D_tau -> eta_0 lands in C(N,2) dims while there are C(N,3) " +
+                "triples, so the Gram is NOT diagonal for arbitrary triples). " +
+                "(5) THE LEAD: at EVEN N (n odd) every mirror pair has eps = -1, so this proof says nothing, " +
+                "yet Y = 0 holds anyway (N=14, n=15: 3 mirror pairs, no self-mirror since n/2 is not an " +
+                "integer, ||Y|| <= 3.2e-16). So the eps=-1 obstruction belongs to the PROOF, not the " +
+                "phenomenon, and even N is a smaller, self-mirror-free test bed for the argument the open " +
+                "column needs. SO: the cheapest kill is NOT yet closed (an untwinned coupled E-level could " +
+                "still come from a cross-triple coupling); what IS closed is the per-pair route to one. " +
+                "Reviewed before commit: referee (found the coverage-count overclaim, independently of the " +
+                "author who had just found it; confirmed all five lemmas + the level law), blind " +
+                "from-definitions recompute (confirmed items 1-4; contributed the a*n law is generic and the " +
+                "N=14 datum), cold reader (found SEVEN symbol collisions in the first draft: G, K, T, A, C, " +
+                "v_tau-as-scalar, W_tau), then a second round on the fixed text. " +
                 "TYPED 2026-07-04: " +
                 "SeedExistenceCountingClaim (Tier1Derived, parents AbsorptionTheorem + ChiralK) + live " +
                 "SeedExistenceCountingWitness, inspect --root seedcount (SVD nullities + combinatorial rho/Z3 + " +

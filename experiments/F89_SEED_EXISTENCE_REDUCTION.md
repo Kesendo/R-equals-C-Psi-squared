@@ -1250,14 +1250,18 @@ the PENT family, an independent number-theoretic mechanism) all 10 are twinned t
 cell law survives its cheapest kill at N = 23 and N = 29.** It is not thereby proved: the twinning
 stays unproven at every unprobed N, which is what "prove Y = 0" below would close.
 
-Status: the criterion, the self-mirror lemma and the class-split formula are proved (the classification
-is Conway-Jones; the lemma is two lines). The level closed form and Y = 0 are **measured** at
-N = 11, 17, 23, 29 and are not yet theorems. **The one open item this leaves is sharp: prove Y = 0**,
-i.e. that K₂₆ maps the kernel Slater determinants of mirror-partner triples to mutually orthogonal
-vectors, for every sector pair. That single orthogonality upgrades the twinning law, hence the cell
-law's protection at every resonant N, from measurement to theorem. Note this is a different object
-from the "exact-arithmetic twinning decision on the rational Heff" named in the section above: that is
-a per-N certificate (cheap, still not done), whereas Y = 0 is the all-N theorem.
+Status (as it stood on 2026-07-10; superseded by the next section): the criterion, the self-mirror
+lemma and the class-split formula are proved (the classification is Conway-Jones; the lemma is two
+lines). The level closed form and Y = 0 are **measured** at N = 11, 17, 23, 29 and are not yet
+theorems. **The one open item this leaves is sharp: prove Y = 0**, i.e. that K₂₆ maps the kernel
+Slater determinants of mirror-partner triples to mutually orthogonal vectors, for every sector pair.
+That single orthogonality upgrades the twinning law, hence the cell law's protection at every resonant
+N, from measurement to theorem. Note this is a different object from the "exact-arithmetic twinning
+decision on the rational Heff" named in the section above: that is a per-N certificate (cheap, still
+not done), whereas Y = 0 is the all-N theorem.
+
+> Both of those items are now theorems, and the sentence "restricted to the pair" above turned out to
+> carry an unstated assumption. See the next section.
 
 Numerical honesty: the kernel tolerance is not load-bearing. The nullity is pinned to the integer
 3·Z₃ by the exact cyclotomic count, and the spectral gap around ker(K₆₆) is enormous: the kernel edge
@@ -1265,6 +1269,269 @@ sits at ~4e−15 (N = 11) to ~1.6e−14 (N = 23) while the smallest nonzero eige
 (N = 11), 3.1e−2 (N = 17), 3.1e−3 (N = 23), eleven to thirteen orders of magnitude away. That
 smallest nonzero eigenvalue does fall roughly tenfold per step in N, so a fixed tolerance would need
 revisiting far beyond the N ≤ 29 scope used here.
+
+## The twinning is a selection rule, and the level law is one line (2026-07-10d)
+
+The section above left two things measured: the orthogonality Y = 0, and the closed form of the
+coupled levels. Both fall out of writing down what K₂₆ actually does to a kernel Slater determinant.
+The computation also says what the twinning **is**, and the answer is not what the name suggests. It is
+not an arithmetic accident of the resonance. It is a selection rule of the mode reflection k ↦ n − k,
+turning on two properties that a triple either has or lacks. The Conway-Jones classification of the
+vanishing triples never enters the mechanism, only the bookkeeping of which N have such a triple.
+
+**Notation for this section, so that it can be read on its own.** N is the odd chain length and
+n = N + 1. A mode triple is τ = {k₁ < k₂ < k₃} ⊂ {1, …, N}; its **mirror** is τ′ = {n − k : k ∈ τ}, and
+k(τ) := k₁ + k₂ + k₃ is its **mode sum** (a number, not the hop matrix K). The one-magnon modes are
+u_k(z) = sin(k(z+1)π/n) with energies λ_k = 2cos(kπ/n). The hop is K = −(H₂ ⊗ I − I ⊗ H₁), where H₁
+and H₂ are the one-particle and two-particle hardcore hop matrices of the open chain, acting on the bra
+and on the ket; K₂₆ is its block from the −6 rung to the −2 rung, K₆₂ = K₂₆ᵀ, and
+Heff := P_ker K₆₂K₂₆ P_ker is the effective operator on ker(K₆₆) whose spectrum the twinning is about.
+Finally,
+
+> D_τ(x, y, z) := det[u_{k_i}(·)] evaluated at the three sites x, y, z
+
+is the 3-magnon **Slater determinant**, antisymmetric in its three arguments. Two of its properties do
+real work below and are free: D_τ vanishes when two arguments coincide, and it vanishes on the **walls**
+z = −1 and z = N, because u_k(−1) = u_k(N) = 0. So D_τ needs no boundary bookkeeping anywhere.
+Its norm is fixed once and for all: summing over sorted triples,
+
+> ‖D_τ‖² := Σ_{z₁ < z₂ < z₃} D_τ(z₁, z₂, z₃)² = (n/2)³ for **every** triple of distinct modes,
+
+by sine orthogonality and Cauchy-Binet (the third compound of an orthogonal matrix is orthogonal). In
+particular ‖D_τ‖ = ‖D_{τ′}‖, so w_{τ,s} and w_{τ′,s} are simultaneously unit vectors. Here w_{τ,s} is
+the kernel vector of Piece 3: the lift of D_τ to the −6 rung, restricted to the ordering sector s and
+gauged by (−1)^{z_bra}. Its entry at (ket {a₀, a₁}, bra b) is (−1)^b D_τ(sorted site triple) when b has
+rank s inside that sorted triple, and 0 otherwise. W_τ denotes the 3-column matrix
+[w_{τ,0} | w_{τ,1} | w_{τ,2}]. Finally, a −2 rung state is written (b, c): the bra sits at b, which is
+also a ket site, and c is the other ket site.
+
+**Lemma 1 (what K₂₆ does).** For every mode triple τ and every ordering sector s,
+
+> (K₂₆ w_{τ,s})(b, c) = −(−1)^b · G_τ(b, c) · 1{c ∈ Ω_s} / ‖D_τ‖,  where
+> G_τ(b, c) := D_τ(b−1, b, c) + D_τ(b, b+1, c),
+> and Ω₀ = {c > b}, Ω₂ = {c < b}, Ω₁ = all c ≠ b.
+
+Two hops of K = −(H₂ ⊗ I − I ⊗ H₁) land on the −2 state (b, c) from the −6 rung: a ket particle jumps
+from b ± 1 onto b (amplitude −1, the bra stays at b), or the bra jumps from b ± 1 onto b (amplitude
++1, the ket stays {b, c}). For a fixed hop direction δ = ±1 the two source states carry the **same**
+three sites {b, b+δ, c} and the **opposite** gauge factors (−1)^b and (−1)^{b+δ}, so opposite
+amplitudes meet opposite gauges and each source would contribute the very same value,
+−(−1)^b D_τ(sorted)/‖D_τ‖. They differ only in which site holds the bra, and the sector rule keeps
+exactly one of them. Indeed, since b and b + δ are adjacent integers, c cannot lie between them, so c
+has rank 0 (when c < b) or rank 2 (when c > b), and the two sources put the bra at the other two ranks.
+Exactly one of them therefore has bra-rank s, and one does so precisely when s ≠ rank(c). Summing over
+δ = ±1, and reading each sorted determinant back as
+D_τ(b−1, b, c) resp. D_τ(b, b+1, c) (an even permutation in each case; coincident and wall terms vanish
+by themselves), gives the formula. ∎
+
+Lemma 1 alone already fixes the shape of **every** block. Let σ be a second triple and set
+
+> B(τ, σ) := (K₂₆ W_τ)ᵀ (K₂₆ W_σ),  U^±(τ, σ) := Σ over {c ≷ b} of G_τ(b, c) G_σ(b, c) / (‖D_τ‖ ‖D_σ‖).
+
+The gauge (−1)^b squares away. The six region intersections are Ω₀ ∩ Ω₀ = Ω₀, Ω₂ ∩ Ω₂ = Ω₂,
+Ω₀ ∩ Ω₂ = ∅, Ω₁ ∩ Ω₀ = Ω₀, Ω₁ ∩ Ω₂ = Ω₂ and Ω₁ ∩ Ω₁ = Ω₀ ⊔ Ω₂, so, ordering the sectors s = 0, 1, 2,
+
+> B(τ, σ) = [[U⁺, U⁺, 0], [U⁺, U⁺ + U⁻, U⁻], [0, U⁻, U⁻]].
+
+X is B(τ, τ) and Y is B(τ, τ′). Each is determined by its two numbers U^±. Lemma 3 equates them up to a
+sign, Lemma 4 kills their sum, and that is the whole proof.
+
+**Lemma 2 (the mirror law).** G_{τ′}(b, c) = (−1)^c · G_τ(b, c).
+
+From D_{τ′}(x, y, z) = −(−1)^{x+y+z} D_τ(x, y, z) (the paragraph "The class of the kernel" above, where
+the minus sign is the reversal permutation of the three sorted modes). The point is that G's two
+argument triples, (b−1, b, c) and (b, b+1, c), have the **same** site-sum parity: both are 2b ± 1 + c,
+that is 1 + c modulo 2. So both terms pick up one and the same factor −(−1)^{1+c} = (−1)^c, and it comes
+out of the sum. ∎
+
+Lemma 2 is not needed for the theorem. It is recorded because it says something the theorem does not:
+every entry of Y is the corresponding entry of X with G_τ² reweighted by (−1)^c, so **Y is a scalar
+multiple of X**. Hence the class-E block X + Y and the class-O block X − Y are scalar multiples of one
+matrix, and they coincide exactly when that scalar is zero. (That two-block picture is a compression of
+Heff onto the pair. Whether the pair also spans an invariant subspace of Heff is a separate question,
+and the closing paragraphs of this section show it is the one still open.)
+
+**Lemma 3 (reflection).** The site reflection ρ(z) = N − 1 − z satisfies u_k(ρz) = (−1)^{k+1} u_k(z),
+hence D_τ(ρx, ρy, ρz) = (−1)^{k(τ)+3} D_τ(x, y, z), and, since ρ(b) ∓ 1 = ρ(b ± 1),
+
+> G_τ(ρb, ρc) = (−1)^{k(τ)} G_τ(b, c).
+
+The map (b, c) ↦ (ρb, ρc) is a bijection carrying {c > b} onto {c < b}. Applying it to the sum defining
+U⁺ therefore gives, for **any** two triples,
+
+> U⁺(τ, σ) = ε(τ, σ) · U⁻(τ, σ),  with the **reflection sign** ε(τ, σ) := (−1)^{k(τ) + k(σ)}.
+
+Two consequences, and they are the only places the shape of N matters. Taking σ = τ the sign is +1
+whatever N is, so a := U⁺(τ, τ) = U⁻(τ, τ) and
+
+> **X = a · [[1,1,0],[1,2,1],[0,1,1]] for every triple, at every N.**
+
+Taking σ = τ′ the sign is (−1)^{3n}, because k(τ) + k(τ′) = 3n. That is +1 **exactly when n is even,
+that is, exactly when N is odd.** This one sign is the entire content of the standing "N odd"
+assumption in this proof. ∎
+
+**Lemma 4 (the full-square sum).** Write F(τ, σ) := Σ over all (b, c) ∈ [0, N−1]² of G_τ(b, c) G_σ(b, c),
+and let σ = {l₁ < l₂ < l₃}. Then
+
+> F(τ, σ) = (n/2) · Σ over the index pairs (i, j) with k_i = l_j of (−1)^{i+j} · Σ_b M_i^τ(b) M_j^σ(b).
+
+In particular **F(τ, σ) = 0 whenever τ and σ share no mode.**
+
+Laplace along the third column gives D_τ(x, y, c) = Σ_i (−1)^{i+1} u_{k_i}(c) · m_i^τ(x, y), with m_i^τ
+the 2 × 2 minor on the other two modes of τ, hence G_τ(b, c) = Σ_i (−1)^{i+1} u_{k_i}(c) M_i^τ(b) where
+M_i^τ(b) := m_i^τ(b−1, b) + m_i^τ(b, b+1). Because G_τ(b, b) = 0 the sum F runs over the full square, so
+it factorizes into a c sum times a b sum. The c sum, Σ_{c=0}^{N−1} u_{k_i}(c) u_{l_j}(c), is the overlap
+of two sine modes on the N = n − 1 interior points, which is (n/2)·δ_{k_i, l_j}. That is the whole
+content. ∎
+
+**Lemma 5 (when a triple is mode-disjoint from its mirror).** For a **vanishing** triple, τ ∩ τ′ = ∅ if
+and only if τ is not self-mirror, that is, if and only if τ is not TRIV. Indeed k ∈ τ ∩ τ′ means that k
+and n − k both lie in τ (with k = n/2 meaning n/2 ∈ τ). If k ≠ n/2, then λ_k + λ_{n−k} = 0 by chirality,
+so the third mode has λ = 0, so it is n/2 and τ = {k, n−k, n/2}. If k = n/2, then λ_k = 0 and the other
+two are chirality partners, the same conclusion. Conversely {j, n−j, n/2} does meet its own mirror. ∎
+
+Now put them together for a mirror pair τ ≠ τ′. Its reflection sign is +1 for free, since
+k(τ) + k(τ′) = 3n and n is even. Its two triples are mode-disjoint, by Lemma 5, precisely because an
+extra (a ROT3 or PENT triple, that is, any vanishing triple whose mirror partner is distinct from
+itself) is not self-mirror. So F(τ, τ′) = 0 by Lemma 4, and Lemma 3 splits that zero evenly between the
+two halves: U⁺ = U⁻ = 0, and every entry of Y is one of them.
+
+> **Theorem (Y = 0).** For every mirror pair τ ≠ τ′ of vanishing triples, at every odd N,
+> ⟨K₂₆ w_{τ,s}, K₂₆ w_{τ′,s′}⟩ = 0 for all sector pairs s, s′. Uniform in N; no per-N check.
+
+Two remarks on what the proof consumed, because it is less than the phenomenon suggested.
+
+First, **the mirror is not why it works.** The proof uses only two properties of the partner σ = τ′:
+that it shares no mode with τ, and that ε(τ, σ) = +1. Mirror partners have both for free, the first by
+Lemma 5 and the second by arithmetic. So the theorem is a corollary of a wider statement:
+
+> at odd N, Y = 0 for **any** mode triple that is mode-disjoint from its mirror, vanishing or not.
+
+That is not an idle generalization; it is what makes the hypothesis visible. At N = 11 the 39
+mirror pairs of non-vanishing triples with τ ∩ τ′ = ∅ all have ‖Y‖ ≤ 5.3e−16, while τ = {5, 7, 11},
+whose mirror {1, 5, 7} shares two modes with it, has ‖Y‖ = 0.456. Mode-disjointness is not removable.
+
+Second, **the vanishing condition λ_{k₁} + λ_{k₂} + λ_{k₃} = 0 is barely used.** It enters only through
+Lemma 5, and only to identify "mode-disjoint from its mirror" with "not self-mirror". Conway-Jones
+classifies which triples vanish, hence which N have extras at all; it has nothing to say about why
+their cross block vanishes.
+
+**The level law, from the same computation.** The spectrum of [[1,1,0],[1,2,1],[0,1,1]] is (3, 1, 0),
+so by Lemma 3, spec(X) = (3a, a, 0) for every triple: the ratio 3 : 1 and the uncoupled level are
+structural, not numerical coincidences. The kernel vector is w_{τ,0} − w_{τ,1} + w_{τ,2}, and that
+combination has a name. Undo the Piece-3 sector gauge, the diagonal matrix Θ := diag((−1)^{z_bra})
+(Piece 3 writes it U; here that letter is taken by U^±), under which K = −Θ·H·Θ with
+H := H₂ ⊗ I + I ⊗ H₁ the hop that lets the bra pass freely through the ket. In that frame the
+combination is the totally antisymmetric lift Ψ_τ(a₀, a₁; b) = D_τ(a₀, a₁, b). Antisymmetry makes Ψ_τ
+vanish whenever the bra meets a ket site, so Ψ_τ lives on the −6 rung; and the Laplace expansion of
+Lemma 4, read in the other direction, writes it as Σ_i (−1)^{i+1} m_i^τ ⊗ u_{k_i}, that is, as a
+combination of three eigenvectors of H sharing the one eigenvalue λ_{k₁} + λ_{k₂} + λ_{k₃}. So H Ψ_τ is
+a multiple of Ψ_τ, which has no −2 component, and K₂₆(Θ Ψ_τ) = −Θ·(H Ψ_τ)|₋₂ = 0. The uncoupled level
+is uncoupled because the antisymmetric combination is an eigenvector of the hop **itself**, not merely
+of its −6 compression. On a vanishing triple that eigenvalue is 0 and H annihilates it outright, but
+the level does not need that.
+
+Only the scalar a is left, and it is a two-mode sum. Repeat the Laplace step of Lemma 4 on
+2a·‖D_τ‖² = F(τ, τ), where the c sum is now (n/2)·δ_{ij}, so only i = j survives. Each i names the mode
+pair {p, q} = τ ∖ k_i on which its minor is built, and from here that object is indexed by the pair
+rather than by i, writing M_{pq} for M_i^τ. So
+
+> 2a·‖D_τ‖² = (n/2) · Σ over the three pairs {p, q} ⊂ τ of ‖M_{pq}‖²,  ‖M_{pq}‖² := Σ_b M_{pq}(b)².
+
+Put ζ = b + 1. The telescoping sin(p(ζ−1)π/n) − sin(p(ζ+1)π/n) = −2cos(pζπ/n)·sin(pπ/n) collapses the
+bracket to a two-term sine,
+
+> M_{pq}(ζ) = [sin(qπ/n) − sin(pπ/n)]·sin((p+q)ζπ/n) + [sin(qπ/n) + sin(pπ/n)]·sin((p−q)ζπ/n),
+
+whose square sums by orthogonality over ζ = 1 … n−1. The cross term vanishes; the second square
+contributes n/2; the first contributes n/2 except when p + q = n, where sin((p+q)ζπ/n) ≡ 0, and there
+sin(pπ/n) = sin(qπ/n) kills its coefficient anyway. Both branches give the same answer:
+
+> **‖M_{pq}‖² = n·(sin²(pπ/n) + sin²(qπ/n)).**
+
+Each mode of τ lies in two of the three pairs, so the three ‖M‖² sum to 2n·Σ_{k ∈ τ} sin²(kπ/n).
+Dividing by ‖D_τ‖² = (n/2)³ and using 4sin²(kπ/n) = 4 − λ_k²,
+
+> **a = (4/n)·Σ_{k ∈ τ} sin²(kπ/n) = (12 − Σ_{k ∈ τ} λ_k²)/n,  spec(X) = (3a, a, 0).**
+
+One formula, no family split, and it holds for every triple, vanishing or not. The split appears only
+in Σλ², and there it is two lines of arithmetic. Write ξ := e^{iπ/n}, so that λ_k = ξ^k + ξ^{−k}. For
+**ROT3**, the six roots of unity ξ^{±k₁}, ξ^{±k₂}, ξ^{±k₃} form two rotated cube-root triples, and
+squaring a rotated cube-root triple gives another one, so Σ_k (ξ^{2k} + ξ^{−2k}) = 0 and therefore
+Σλ² = Σ_k (ξ^{2k} + 2 + ξ^{−2k}) = 6. For **PENT**, τ is rigid at {n/5, 3n/5, 2n/3}, so
+(λ₁, λ₂, λ₃) = (φ, 1 − φ, −1) with φ the golden ratio, and Σλ² = (φ + 1) + (2 − φ) + 1 = 4: the golden
+ratio cancels exactly. Its mirror {n/3, 2n/5, 4n/5} gives 4 as well, as it must, since Σλ² is invariant
+under k ↦ n − k. Hence a·n = 6 and 8, that is
+
+> (high, low) = (18/n, 6/n) on a ROT3 pair,  (24/n, 8/n) on the PENT pair,
+
+now derived. The rationality that made the coincidence "worth a name" is simply Σλ² landing on an
+integer, which is what a vanishing sum of roots of unity does to its own square.
+
+**One thing this does not settle, and the doc said otherwise.** The sentence above, "Heff restricted to
+the pair reads [[X, Y], [Y, X]]", is true as a compression but assumes without saying so that the
+pair's 6-dimensional space is Heff-**invariant**. The full-spectrum twinning that
+`resonant_n_twinning.py` measures compares spec(Heff restricted to class E) with spec(Heff restricted
+to class O) over the whole kernel. Choose one representative τ per mirror pair. In the basis
+{w_τ} ∪ {w_{τ′}} ∪ {TRIV}, the class-E and class-O blocks of the pair sector are Heff's
+representative-to-representative block **minus and plus** its representative-to-mirror block. The
+theorem above kills only the diagonal of the second, that is, the entries B(τ, τ′). Its off-diagonal
+entries B(τ, σ′) with σ ≠ τ, and the couplings B(τ, υ) to a TRIV triple υ, remain, and they are exactly
+what a twinned spectrum needs to vanish. They do vanish, to ≤ 1.3e−15 at N = 11, 17, 23, 29, across all
+20, 64, 133 and 271 distinct non-mirror pairs. Most, but not all of them, are proved. The population
+splits, and the split is the honest statement of where we are:
+
+| N | distinct non-mirror pairs | by Lemma 4 | by hand (TRIV × TRIV) | F = 0 only measured | open |
+|---|---|---|---|---|---|
+| 11 | 20 | 0 | 10 | 0 | 10 |
+| 17 | 64 | 10 | 28 | 6 | 20 |
+| 23 | 133 | 20 | 55 | 6 | 52 |
+| 29 | 271 | 56 | 91 | 16 | 108 |
+
+The first column is where Lemma 4 applies verbatim: τ and σ share no mode, and ε(τ, σ) = +1. The
+second is proved separately, and it is the largest: two distinct TRIV triples {j, n−j, n/2} and
+{j′, n−j′, n/2} always have ε = +1, since each mode sum is 3n/2, and they share exactly the mode n/2,
+so F reduces to the single overlap ⟨M_{j,n−j}, M_{j′,n−j′}⟩. In both factors p + q = n, which kills the
+first sine of the telescoped form of M_{pq} derived in the level law above and equalizes the
+coefficient of the second, leaving 2sin(jπ/n)·sin((2j−n)ζπ/n) against 2sin(j′π/n)·sin((2j′−n)ζπ/n).
+Sine orthogonality makes that overlap vanish unless j = j′ or j + j′ = n, and either would make the two
+triples the same. So F = 0 and U⁺ = U⁻ = 0. The third column is the residue: ε(τ, σ) = +1 and a shared mode, but not two TRIV, so
+F(τ, σ) = 0 is measured rather than derived; it is 0, 6, 6 and 16 pairs, and each is one frequency-
+matching argument away. The last column is the real gap: there ε(τ, σ) = −1, Lemma 3 says U⁺ = −U⁻, and
+F(τ, σ) = 0 becomes an identity carrying no information at all. It is not an artifact of small N, being
+between 31 % and 50 % of the pairs throughout, with no sign of shrinking.
+
+Equivalently, and more sharply: the open statement is that the Gram matrix of the vectors
+η_{τ,0}(b, c) := G_τ(b, c)·1{c > b}, indexed by the vanishing triples, is **diagonal**. Y = 0 is exactly
+its (τ, τ′) entry. A counting remark shows the rest cannot be a formality: D_τ ↦ η_{τ,0} lands in C(N,2)
+dimensions while there are C(N,3) triples, so this Gram is emphatically **not** diagonal for arbitrary
+triples, and its diagonality on the kernel must consume λ_{k₁} + λ_{k₂} + λ_{k₃} = 0, which the theorem
+above does not. Note also that the two involutions in play, the bipartite sign and the site reflection,
+generate only the relations B(τ, σ) = B(τ′, σ′) and U⁺ = ε·U⁻; neither forces U⁺ = 0. The missing
+argument is not a symmetry we have overlooked.
+
+**A cheap laboratory for the missing argument.** Take N **even**, so that n is odd. Then
+k(τ) + k(τ′) = 3n is odd, so every mirror pair has ε = −1 and the proof above says nothing at all.
+Vanishing triples still exist for suitable n (at N = 14, n = 15, there are three mirror pairs and no
+self-mirror triple, since n/2 is not an integer), and Y = 0 holds there anyway, to ≤ 3.2e−16. So the
+ε = −1 obstruction is an artifact of this proof and not of the phenomenon, and even N is a smaller,
+self-mirror-free test bed on which to find the argument the "open" column needs. This is the sharpest
+lead the section leaves.
+
+Status: **Y = 0 is a theorem** for all odd N, in the wider mode-disjoint form, and so is the
+coupled-level law spec(X) = (3a, a, 0) with a·n = 12 − Σλ², as a statement about the pair block X. That
+is exactly the item the previous section named, and it removes the per-pair route to an untwinned level
+at every resonant N, not only at the four probed. It does **not** yet close the cheapest kill: an
+untwinned coupled class-E level could still be manufactured by a coupling between two different
+triples, and ruling that out is the cross-triple orthogonality above, the cell-law thread's new one
+open item. Until it falls, the class-E and class-O spectra of the full kernel are compared across a
+coupling that is measured to be absent rather than known to be. Verifier:
+`python simulations/y_zero_and_level_law.py` (measured 3.4 s; the argument `23 29` adds both larger
+resonant N, measured 30 s). It asserts each lemma separately, it pins the mode-disjointness hypothesis
+with its own counterexample, and it counts, rather than hides, the open population.
+
+Authors: Thomas Wicht and Claude, 2026-07-10.
+
 
 ## Reproduce
 
@@ -1274,6 +1541,7 @@ python simulations/o2b_krein_sign_law.py               # the class-imbalance sig
 python simulations/o2b_three_attacks_audit.py          # the "Three attacks" section (N=5; also 7/b7/b9)
 python simulations/o2b_gcd_certificate.py              # the gcd certificate section (N=5; add 7)
 python simulations/resonant_n_twinning.py              # the resonance criterion + twinning (add 29)
+python simulations/y_zero_and_level_law.py             # the Y = 0 proof, step by step (add: 23 29)
 ```
 
 `seed_existence_nullity_check.py` is self-validating: it asserts (F1) the surplus (N − 1)·[N odd]
