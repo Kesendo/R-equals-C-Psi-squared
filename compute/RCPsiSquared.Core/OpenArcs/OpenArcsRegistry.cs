@@ -1048,7 +1048,7 @@ public static class OpenArcsRegistry
                 "(2) THE MIRROR IS NOT WHY IT WORKS: the proof needs only mode-disjointness + eps=+1, so " +
                 "Y = 0 for ANY triple mode-disjoint from its mirror, VANISHING OR NOT (39 such non-vanishing " +
                 "mirror pairs at N=11, all ||Y|| <= 5.3e-16). Not removable: tau={5,7,11}, whose mirror {1,5,7} " +
-                "shares two modes, has ||Y|| = 0.456. lam_a+lam_b+lam_c = 0 enters ONLY via L5. Conway-Jones " +
+                "shares two modes, has ||Y|| = 0.456. lam_k1+lam_k2+lam_k3 = 0 enters ONLY via L5. Conway-Jones " +
                 "decides WHICH N have extras; it says nothing about why their cross block vanishes. " +
                 "(3) LEVEL LAW DERIVED: spec[[1,1,0],[1,2,1],[0,1,1]] = (3,1,0), so spec(X) = (3a,a,0) for " +
                 "EVERY triple (3:1 ratio + the uncoupled level are structural; the null vector w_0 - w_1 + w_2 " +
