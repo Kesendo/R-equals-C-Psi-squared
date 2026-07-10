@@ -14,10 +14,19 @@ octic-book q of the arc's census/seed loci (WeightCoherenceBlock hops -2iq per u
 L here at knob q = the census builder's block at coupling q/2. Every check below is a nullity or
 multiset identity, invariant under jointly rescaling C and q, so no result depends on the choice.
 Canonical statement: docs/GLOSSARY.md, "The coupling ratio q and Q".
-The number of real eigenvalues at small q>0 is r0 = nullity(P2 C P2) + nullity(P6 C P6) (the
-levels with a real, i.e. zero, first-order shift), and at large q it is r_inf = nullity(C)
-(the asymptotically-real modes). A finite-q>0 real<->complex transition (hence, by the
-discriminant-simple-zero lemma, a real defective seed) is forced whenever r0 > r_inf.
+r0 = nullity(P2 C P2) + nullity(P6 C P6) counts the levels with a real (i.e. zero) first-order
+shift at small q>0, and r_inf = nullity(C) the asymptotically-real modes at large q. Both are
+DEFINED as nullities; their reading as literal real-eigenvalue counts is the first-order
+statement, exact at the probed non-resonant N (5, 7, 9) but NOT at resonant N: at N = 11 the
+literal counts are 27 (two kernel pairs leave the axis at third order, |Im| ~ q^3) and 17 (four
+ker-C modes stay at |Im| ~ c/q, asymptotically real but never real), yet the literal drop
+27 - 17 = 10 = N - 1 equals the nullity drop (see F89_SEED_EXISTENCE_REDUCTION.md, resonant-N
+section). A finite-q>0 real<->complex transition (hence, by the discriminant-simple-zero lemma,
+a real defective seed) is forced whenever r0 > r_inf AND the nullity surplus is a literal
+real-count drop (the literal-drop premise: exact at the probed N = 5, 7, 9, measured at N = 11,
+unproven at unprobed N; the doc's Status item 3). The parenthetical "hence a defective seed"
+additionally needs the discriminant zero simple (the genericity item, Status item 2; settled at
+N = 5 and 7 by the certificates there).
 
 This script proves-by-computation the load-bearing facts (N = 3..13, BOTH parities):
   (F1)  r0 - r_inf = (N - 1) * [N odd]   exactly  (the seed-forcing surplus; zero at even N).

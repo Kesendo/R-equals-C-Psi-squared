@@ -923,6 +923,70 @@ public static class OpenArcsRegistry
                 "COMMITTED VERIFIER " +
                 "for the whole section: simulations/o2b_three_attacks_audit.py (self-asserting N=5 + N=7 kernels; " +
                 "'7' adds the N=7 seed sweep, 'b7'/'b9' the N=7/N=9 bands). " +
+                "UPDATE 2026-07-10 (the gcd certificate; doc section 'The gcd certificate' + 'The cell law, " +
+                "tightened' + 'Resonant N, measured'): O2B NONVANISHING PROVEN AT N=5 (exact over Z, " +
+                "unconditional: base polynomials by exact integer Faddeev-LeVerrier in the committed verifier) AND AT N=7 " +
+                "MODULO TWO NAMED THINGS (the mod-p layer identification: a bad-prime " +
+                "merge of two A1 roots is invisible to DISCMULT; finitely many bad primes, all sampled primes " +
+                "agree -- strong evidence, not a Q-proof; PLUS the CRT verification grade of the N=7 base " +
+                "polynomials, which everything at N=7 sits downstream of; the rest good-prime rational), " +
+                "eigensolver-free. " +
+                "Per R-sector over Z[lam, w=q^2]: S6 = strands x ONE irreducible core (strands sign-fixed on the " +
+                "strip, SYMBOL-proved norm-form shape); disc_Lam(F_res) = c * w^v * A1 * A2^2 with A1 (the simple " +
+                "layer) IRREDUCIBLE over Q in both sectors at both N (A2 irreducible exact at N=5, evidence at " +
+                "N=7, unused); gcd(Res_Lam(F_res, S6), A1) = 1 AND the " +
+                "cross-sector gcd(Res_Lam(F_res_s, chi_other), A1_s) = 1 both directions AND the coincident-pair " +
+                "exclusion gcd(disc/w^v, psc1/w^v') = 1 (psc1 = first principal subresultant coeff of " +
+                "(F_res, dF_res/dlam); two double-lam roots at one w0 would force psc0 = psc1 = 0; this leg is " +
+                "free of the LAYER premise at both N, though at N=7 still downstream of the CRT grade) => S6 != 0 on the " +
+                "entire simple layer => every forced count-drop (order >= 3 dead by DISCMULT; non-coincident " +
+                "order-2 classes drop no count; the coincident-EP2 pair dead by the psc1 leg; so all count-drops " +
+                "sit on A1) is a sqrt-type defective EP2 with s6 != 0; H1 " +
+                "FOLLOWS on A1 by the simple-zero lemma. The 09d caution ('{S6=0} contains the diabolics, no " +
+                "separation') is RETIRED: the separation is the layer structure, diabolics on A2, seeds on A1 " +
+                "(N=5 inventory closed EXACTLY in the committed verifier: the 4 real-positive A1 roots ARE the 4 " +
+                "seeds; A2 real-positive roots: " +
+                "E none, O exactly the known diabolic w=5.100831 where S6 vanishes as adj=0 forces, carrying " +
+                "exactly one real double lam). SCOPE OF THE ALL-N RE-BASE: the two uniform hypotheses cover the " +
+                "SIMPLE-LAYER HALF only; the localization half (every count-drop sits on A1) consumed max-mult 2 " +
+                "(DISCMULT, per-N, out of reach at N=9), the psc1 leg, the cross-sector gcd, and F_res reality, " +
+                "all per-N inputs. " +
+                "Adversarially reconfirmed by an independent route (FLV adjugate + flint vs vertex-deleted " +
+                "charpolys + sympy; ZERO discrepancies; N=5 max-mult 2 upgraded to exact over Z). ALL-N RE-BASED " +
+                "to TWO uniform hypotheses: (i) A1 irreducible over Q for every odd N (4/4 data points), " +
+                "(ii) Res_Lam(F_res, S6) != 0 at ONE accessible simple-layer fiber, i.e. S6 != 0 at EVERY branch " +
+                "over it, not merely the defective one (a one-branch evaluation decides nothing: gcd in {1, A1} " +
+                "is a statement about whole fibers; mind: the two N=7 data points of (i) carry the N=7 premises " +
+                "above, the N=5 pair is exact). NUMERICAL TRAP: S6 cancels heavily at seeds (8-18 digits, " +
+                "seed/measure-dependent); pin loci to ~1e-20 (2D " +
+                "Newton, exact Jacobian, dps>=60) or the apparent sign flips. COMMITTED VERIFIER: " +
+                "simulations/o2b_gcd_certificate.py (N=5 default ~10 s; '7' adds N=7 ~3 min; includes the exact " +
+                "N=5 inventory, the psc1 certificate, and the symbolic strand positivity). SIGN-HALF TIGHTENED (in-session, " +
+                "two independent recomputations): cell law = separating law + rung-6 dual (sigma<0 => kappa_-6<0, " +
+                "0 violations 3575/3615/1036); cell law now 0 violations at N=5,7,9,11; sharp constant " +
+                "kappa_-2 >= 2 sigma/(N+1) on positive-type (equality family EXACT RATIONAL: the IN-BAND " +
+                "mixed-rung all-E ker(K) modes " +
+                "at lam = -(6N-2)/(N+1) with (kappa_-2,kappa_-6,sigma) = (2/(N+1),(N-1)/(N+1),1); the pure-rung " +
+                "ker(K) modes sit at the band edges instead); z-form: " +
+                "z=x+y solves the REAL pencil (D+qKT-lam)z=0 and a'-a, b'-b are the FIXED integer forms " +
+                "z^T KTP2K z, z^T KTP6K z; EDGE-BIRTH THEOREM (2nd-order degenerate PT): all real band " +
+                "births at q->0+ come from rung kernels (proved); the ker(K22)-in-E and ker(K66)-cap-O families enter " +
+                "the ALLOWED corner (proved; BOTH kernel-purity conditions are inputs -- ker(K22)-in-E is the " +
+                "endpoints-in-E add-on, asserted at swept N incl. 10E+0O at N=11, 16E+0O at N=17); that no " +
+                "ker(K66)-cap-E birth materializes at resonant N is the " +
+                "MEASURED twinning input (N=11,17; open in general). RESONANT-N PROTECTION " +
+                "(measured at N=11, 17; exact-arithmetic decidable, not done): ker(K66) acquires a class-E part (21 = 3E+18O at N=11; " +
+                "36 = 6E+30O at N=17); coupled E-levels of Heff = P_ker K62 K26 P_ker would enter the FORBIDDEN " +
+                "corner, but each is EXACTLY twinned with an O-level (gaps <= 2.2e-16 at N=11, <= 5e-16 at N=17, " +
+                "solver-ulp) with nonzero third-order " +
+                "coupling => the pair leaves the axis at q^3 instead: TWINNING LAW = the cell law's protection " +
+                "AND its cheapest kill (an untwinned coupled E-level at the next resonant N falsifies it). " +
+                "COUNTING PROSE FIXED: at N=11 the literal real counts are 27 (not 31; q^3 lift of the twinned " +
+                "pairs) and 17 (not 21; four ker-C modes at |Im| ~ c/q never real), drop 27-17 = 10 = N-1 = the " +
+                "nullity drop; theorem untouched (r's are DEFINED as nullities), doc + " +
+                "seed_existence_nullity_check.py docstring corrected. NEW DEAD ENDS (doc list): the E<->O swap " +
+                "of the bilinear signs, pointwise kernel-refuge, uniform share gap, pointwise S-procedure on " +
+                "the quadratic forms, rung-restricted Loewner definiteness. " +
                 "TYPED 2026-07-04: " +
                 "SeedExistenceCountingClaim (Tier1Derived, parents AbsorptionTheorem + ChiralK) + live " +
                 "SeedExistenceCountingWitness, inspect --root seedcount (SVD nullities + combinatorial rho/Z3 + " +

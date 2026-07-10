@@ -5,7 +5,8 @@
 [F89_PATH_K_DIABOLIC.md](F89_PATH_K_DIABOLIC.md). 2026-07-04; Piece 3 ((N1′)) closed later the same
 day, after two adversarial reviews; the q/Q convention pin (this note's knob = twice the census axis)
 added the same day. The β-exotic arc sections (the sharpened reduction, the three attacks, the per-N
-certificate) were added 2026-07-08/09.*
+certificate) were added 2026-07-08/09; the gcd certificate (the nonvanishing itself at N = 5 and 7),
+the resonant-N measurement, and the cell-law tightening were added 2026-07-10.*
 
 ## What this is, in plain words
 
@@ -40,7 +41,10 @@ This note is about that one input. Until now it was supplied by a brute-force nu
 **census**), checked to N = 11. Here it becomes an exact counting identity, and all three of its
 counting pieces are proved (the last, Piece 3, landed the same day after two adversarial reviews). The
 short answer: **a seed is forced for every odd N precisely because N is odd** (a path graph on an odd
-number of vertices carries a zero mode; on an even number it does not), modulo one genericity check.
+number of vertices carries a zero mode; on an even number it does not), modulo one genericity check,
+plus the literal-count reading premise (the nullity identity is a theorem everywhere; that the
+nullity surplus is a *literal* real-count drop is probed exactly at N = 5, 7, 9, measured at
+N = 11, and unproven at every unprobed N, Status item 3).
 
 ## The one input the corollary cannot derive
 
@@ -55,8 +59,9 @@ seed LOCI found in the scan window [0.2, 3] (octic-q units; ×2 on this note's a
 above), a different measure than this note's mode-counting
 surplus N − 1: the coincidence of the two numbers at N = 5/7 is not an identity). A census is a
 lower bound over a window, not a law, and it grows more expensive every N (the N = 11 run took 2 h 31 m).
-This note replaces the census question with an exact identity and proves its counting lemmas; the sole
-remaining gap is the codimension-2 genericity check (see Status). No future session should re-run the
+This note replaces the census question with an exact identity and proves its counting lemmas; the
+remaining gaps are the codimension-2 genericity check and the literal-drop premise (Status items 2
+and 3). No future session should re-run the
 scan to "confirm".
 
 ## The pencil, and two spectral endpoints
@@ -86,7 +91,9 @@ Count the real eigenvalues at the two ends of the q-axis (exact SVD nullities, n
 which mis-read the tail at large q):
 
 - **r(∞) = nullity(C)**, the asymptotically-real modes: at large q, λ ∼ q·(i·κ), κ ∈ spec K, so a mode
-  stays real iff κ = 0, iff it lies in ker C.
+  is *asymptotically* real iff κ = 0, iff it lies in ker C. (Asymptotically is the honest word: at
+  resonant N some ker-C modes approach the axis like |Im λ| ∼ c/q without ever reaching it; see the
+  N = 11 measurement in the resonant-N section below.)
 - **r(0⁺) = nullity(P₋₂ C P₋₂) + nullity(P₋₆ C P₋₆)** (P₋₂, P₋₆ the orthogonal projectors onto the two
   rungs), the modes with a real (that is, zero) first-order shift on each degenerate dephasing level:
   the first-order shifts on a rung are the eigenvalues of the compression of qC = iq·K, purely
@@ -96,7 +103,13 @@ which mis-read the tail at large q):
   theorem about these nullities; its reading as the literal real count on (0, ε) is the standard
   first-order statement, probed directly during the adversarial review round: at N = 5/7/9,
   q = 10⁻³..10⁻¹, the real count equals n₂ + n₆ exactly, with a clean |Im| split between the surviving
-  and the lifted modes.)
+  and the lifted modes. At **resonant** N the literal reading breaks while the nullity identity
+  stands: at N = 11 the measured real count is **27, not r(0⁺) = 31**, at q = 0.05..0.2, because two
+  kernel pairs leave the axis at *third* order in q (|Im| ∝ q³, measured ratio 8.03 per q-doubling),
+  exactly the higher-order lift-off the Status section had flagged as hypothetical; and **17, not
+  r(∞) = 21**, at q = 50..400 (four ker-C modes carry |Im| ≈ 0.118/q and 0.354/q, asymptotically real
+  but never real). The measured literal drop 27 − 17 = 10 = N − 1 equals the nullity drop; the
+  resonant-N section below holds the mechanism.)
 
 ## The identity, and why it forces the seed
 
@@ -114,8 +127,11 @@ N(N−1) + N(N−1)(N−2)/2, the −2 + −6 split):
 | 13 | 1014 | 12 | 18 | 18 | **12** |
 
 **r(0⁺) − r(∞) = N − 1, exactly, for every odd N.** Since N − 1 > 0, the real-eigenvalue count strictly
-drops between small and large q, and the drop happens entirely at finite q > 0 (r(0⁺) is read past the
-q = 0 lift-off). A drop in the real count is a real-to-complex transition; the following lemma turns it
+drops between small and large q: at the probed non-resonant N (5, 7, 9) the nullities are the literal
+counts and the drop is literal; at resonant N = 11 the literal counts are 27 → 17 (each end shifted by
+four, see the parenthesis above) and the drop is again exactly N − 1, measured. The drop happens at
+finite q > 0 (r(0⁺) is read past the q = 0 lift-off). A drop in the real count is a real-to-complex
+transition; the following lemma turns it
 into a seed at a simple discriminant zero (the non-simple case is exactly the genericity item that
 stays open, Status item 2).
 
@@ -649,7 +665,11 @@ per-N use: the locus S₆ = 0 necessarily *contains* every point of geometric mu
 there), i.e. all diabolic crossings **and** any hypothetical β-exotic, so an elimination certificate on
 {F_res = ∂_Λ F_res = S₆ = 0, q real > 0} cannot by itself tell the two apart (F_res, ∂_Λ and the
 R-sectors are defined in the certificate section, next); the honest per-N
-exclusion remains the disc-multiplicity certificate of that next section. What the rational form
+exclusion remains the disc-multiplicity certificate of that next section. **(This caution is
+retired 2026-07-10 per-N: the gcd certificate section further below separates the diabolics onto
+the doubled disc layer A₂ and proves geometric multiplicity 1 directly on the simple layer,
+exactly at N = 5 and modulo two named premises at N = 7; kept here so the paragraph reads as it
+stood when written.)** What the rational form
 adds is the *all-N shape*: one integer polynomial whose nonvanishing at the count-dropping loci is
 O2b, handing the question the vertex-deleted characteristic polynomials of the full pencil L (whose
 diagonal blocks are the closed K₂₂-path and H₃ structures) in place of an eigenvector. A supporting
@@ -693,7 +713,9 @@ the separating law (or its stronger cell form b′ ≥ b ⟹ a′ ≥ a; either 
 never negative, strict wherever s₆ ≠ 0) at all defective seeds, all odd N, modulo H1), and prove
 S₆ ≠ 0 at the count-dropping loci (the O2b nonvanishing itself, which is also what would make the sign
 strict everywhere; mind the per-N caution above: the S₆ = 0 locus contains the diabolics, so this is
-an all-N shape, not a ready per-N certificate). The two are complementary and only together complete
+an all-N shape, not a ready per-N certificate; **that caution is retired 2026-07-10**: the gcd
+certificate section below separates the diabolics onto A₂ and delivers the per-N certificate at
+N = 5 and 7). The two are complementary and only together complete
 κ₋₂ > 0: the first is the sign, the second the exclusion.
 
 ## The β-exotic is excluded at N = 5 and N = 7, both R-parities (2026-07-09)
@@ -851,12 +873,287 @@ Gates. Fast (Categories `FOLDRESULTANT` and `DISCMULT`, seconds):
 `BetaExoticPerNExclusionClaim` with the live witness `inspect --root betaexotic` (N = 5 by default;
 `--N 7` pays the minutes).
 
+## The gcd certificate: the per-N nonvanishing closes, exactly at N = 5 and modulo two premises at N = 7 (2026-07-10)
+
+The disc-multiplicity certificate above bounds an *exponent*: after it, no count-drop at N = 5 or
+N = 7 can be an order-≥3 point. What it never said is the O2b scalar itself, s₆ ≠ 0 at the seeds; a
+multiplicity bound reads the branching, not the weight. That gap closes now, rationally, by one gcd
+per sector. The computation was then adversarially reconfirmed by an independent route (independent
+pencil builders, Faddeev-LeVerrier adjugate recursion in place of vertex-deleted characteristic
+polynomials, a second factorization library; zero discrepancies at N = 5), and extended to N = 7 by
+the mod-p/CRT engine described below.
+
+Everything lives per R-sector over ℤ[λ, w], w = q² (this note's unit-hop axis), with the "Three
+attacks" section's two integer polynomials S₆ = tr(P₋₆·adj(λI − L)) and S_T = tr(T·adj(λI − L)).
+Four facts per sector, at both N (grades per fact and per N in the bookkeeping paragraph below):
+
+1. **S₆ splits as strands × one core.** S₆ = (integer content) · (prefactors) · G with G irreducible
+   over ℚ, and every prefactor either an AT-strand factor or a linear rung factor (λ+2), (λ+6). At
+   N = 5: S₆ᴱ = 4·(w + (λ+2)²)·Gᴱ with Gᴱ of degree (23, 11); S₆ᴼ = 2·(λ+2)(λ+6)·(3w + (λ+2)²)·Gᴼ,
+   Gᴼ of degree (19, 8). At N = 7: S₆ᴱ = 2·(λ+2)(λ+6)²·N₂·N₂′·Gᴱ, Gᴱ of degree (67, 31);
+   S₆ᴼ = N₄·N₄′·Gᴼ, Gᴼ of degree (63, 31) (Nₖ the AT strand factors of that sector). Each prefactor
+   is **sign-fixed on the strip** λ ∈ (−6, −2), w > 0, and provably so by shape: every nonlinear AT
+   factor is a Galois product of ((λ − r₀)² + κ²w) terms with κ real (spectrum of a symmetric
+   restriction of K), strictly positive for w > 0, and the linear factors do not vanish on the open
+   strip. So on the strip, S₆ ≠ 0 ⟺ G ≠ 0: the whole nonvanishing lives in one irreducible bivariate
+   polynomial per sector.
+2. **The discriminant layers, exactly.** disc_Λ(F_res) = c · w^v · A₁ · A₂² per sector (c an integer
+   constant; A₁, A₂ primitive with positive leading coefficient), with **A₁ (the simple layer)
+   irreducible over ℚ** and A₂ irreducible (A₂'s irreducibility exact at N = 5, evidence-grade at
+   N = 7; nothing below uses it), and max multiplicity 2 off w = 0. Degrees
+   in w, slashes in **E/O order** (mind: the DISCMULT table in the certificate section lists R-odd
+   first): at N = 5, A₁ has degree 28 in both sectors (A₂: 16/13, v: 77/69); at N = 7, A₁ has degree
+   114/111 (A₂: 210/195, v: 772/753). The N = 5 computation is exact over ℤ, which upgrades the
+   certificate section's fail-closed mod-p reading of "max multiplicity 2" to an exact equality
+   there; the N = 7 layer degrees reproduce the DISCMULT-certified table after the unit change
+   (that table is in q, this list in w = q², so every degree doubles: 2·114 = 228, 2·210 = 420,
+   2·772 = 1544).
+3. **The gcds.** gcd(Res_Λ(F_res, S₆), A₁) = 1 in both sectors at both N. And, closing a gap the
+   first pass had not addressed: the **cross-sector** certificate gcd(Res_Λ(F_res_s, χ_other), A₁_s) = 1
+   in both directions, at both N (a λ\* shared with the *other* sector's spectrum would give
+   full-block geometric multiplicity 2 despite sector S₆ ≠ 0; it cannot happen on the simple layer).
+4. **No coincident pair.** The one order-2 *count-dropping* configuration the certificate section
+   keeps alive, two coincident √-type EP2s at a single w\* (distinct λ\*, dropping the count by 4),
+   would sit on A₂, where fact 3 says nothing. It is excluded by a subresultant certificate: two
+   double λ-roots at one w₀ force psc₀(w₀) = psc₁(w₀) = 0 (psc₁ the first principal subresultant
+   coefficient of (F_res, ∂_λF_res); psc₀ is the discriminant), and
+   **gcd(disc_Λ(F_res)/w^v, psc₁/w^{v′}) = 1** in both sectors at both N, so no w₀ ≠ 0, real or
+   complex, carries more than one double λ-root. This fact is free of the layer premise even at
+   N = 7 (psc₁ is a fixed integer determinant in F_res's coefficients, so its mod-p reduction
+   commutes unconditionally, and the gcd lifts from a good prime attaining the discriminant's
+   certified degree); at N = 5 the exact inventory says the same
+   thing concretely (A₂'s real positive roots: none in R-even, exactly the known diabolic in R-odd,
+   carrying exactly one real double λ).
+
+The chain from the four facts to the theorem, each link named. F_res is **monic in λ** (checked),
+so the resultant specializes exactly at every w° (no leading-coefficient degeneration):
+Res_Λ(F_res, S₆)(w°) = ∏ᵢ S₆(λᵢ(w°), w°) over the F_res roots. A count-drop is a real double root of
+F_res at w\* > 0. By the certificate section's taxonomy the non-coincident order-2 classes
+(diabolic, analytic-defective 2×2, cubic branch point) drop no count, the coincident-EP2 pair is
+excluded by fact 4, and order ≥ 3 is excluded by fact 2's max multiplicity 2; what remains has
+discriminant order 1. So **every count-drop sits on the simple layer A₁** (and
+w\* ≠ 0, A₁(0) ≠ 0 checked). Fact 3 then forbids Res_Λ(F_res, S₆)(w\*) = 0, hence S₆(λ\*, w\*) ≠ 0,
+hence adj(λ\*I − L) ≠ 0: **sector geometric multiplicity 1**; the cross-sector gcd extends that to
+the full block. At geometric multiplicity 1 the adjugate is rank one, adj = c·rrᵀ with c ≠ 0 in the
+antilinear gauge, so s₆ = S₆/c ≠ 0. That rank-one gauge step is the single non-rational link in the
+chain (standard linear algebra at geometric multiplicity 1; corroborated numerically at all 11
+seeds, where κ₋₂ = −S₆/S_T from the exact polynomials matches the eigenvector-side values to the
+1e−5 gate, printed at six decimals: N = 5: 0.314463, 0.140184, 0.351821, 0.062939; N = 7: 0.090208, 0.238066, 0.184075,
+0.060903, 0.025288, 0.377212, 0.050276; S₆·S_T < 0 at every seed, the sign law's product form).
+And at a simple discriminant zero this note's own lemma gives exactly two branches meeting in a
+square-root point, so algebraic multiplicity 2 (H1) *follows* on A₁ rather than being assumed.
+Hence:
+
+> **At N = 5 and N = 7, both R-parities: every forced count-drop is a √-type defective EP2 with
+> s₆ ≠ 0. The per-N O2b nonvanishing holds there, eigensolver-free: exactly at N = 5, modulo the
+> two named premises at N = 7.**
+
+Grades, in one line: N = 5 unconditional (exact ℤ end to end, base polynomials by exact integer
+Faddeev-LeVerrier, inventory included); N = 7 modulo two named things, the mod-p layer
+identification of the bookkeeping paragraph below (facts 2 and 3 use it; fact 4 does not) and the
+CRT verification grade of the N = 7 base polynomials (everything at N = 7 is downstream of those).
+One refinement to "facts 2 and 3 use it": within fact 2, only the A₁/A₂ *identification* and the
+A₁-irreducibility use the layer premise; the multiplicity bound itself is the DISCMULT one-prime
+proof and stands without it.
+
+Certification bookkeeping, so nothing is over-read. Proved over ℚ outright: the N = 5 facts, exact ℤ
+arithmetic end to end (independently reproduced by a second exact engine during the review round).
+The N = 7 statements carry one **identification premise** that must be named: everything at N = 7 is
+computed mod p, and the identification "the mod-p multiplicity-1 layer = A₁ mod p" can fail at a bad
+prime (a mod-p merge of two A₁ roots moves degree from the simple to the doubled layer while
+preserving the total degree, the valuation, and max multiplicity ≤ 2, so it is invisible to the
+fail-closed DISCMULT logic, whose one-prime proof covers only the multiplicity *bound*). Only
+finitely many primes can be bad (they must divide fixed nonzero resultants/discriminants), and every
+sampled prime reproduces the same layer degrees (the committed verifier asserts 3 independent primes
+per layer/gcd statement and 4-8 for the irreducibility certificates; the in-session runs sampled
+more); but that is
+strong multi-prime evidence with a named finite failure set, not a ℚ-proof. **Modulo that premise**,
+the N = 7 gcds are rational: F_res is monic and p ∤ lc_λ(S₆), so the mod-p reduction of the
+resultant is exact and Gauss's lemma lifts coprimality from one good prime; and the N = 7
+irreducibility certificates (specialization + mod-p degree-partition subset-sum) prove
+irreducibility of the polynomial they were handed, i.e. of A₁ itself under the same premise. The
+S₆-core irreducibility at N = 7 needs no such premise (the core comes from the exact CRT
+polynomial). The finer split Res = c·w^m·A₂²·B with gcd(B, disc) = 1 is exact at N = 5 but
+multi-prime evidence only at N = 7 (finitely many primes never lift divisibility), and nothing above
+uses it. One accounting for the base polynomials, applied everywhere: at N = 5, χ, S₆, S_T are
+computed by exact integer Faddeev-LeVerrier with the node count justified by the degree bound (no
+CRT, no stability stop), so the N = 5 chain is exact ℤ end to end; at N = 7 they are
+CRT-with-stability, verification-grade rather than proof-grade (stability-stopped plus fresh-prime
+extra-node checks; a Hadamard-style coefficient bound would upgrade them and has not been done), and
+every N = 7 statement, including fact 1's core irreducibility and the premise-free-of-layer fact 4,
+is downstream of that grade.
+
+What this hands the all-N question: **the seed-bearing layer does not fragment.** A₁ is irreducible
+over ℚ in both sectors at both N (four data points). If A₁ is irreducible at every odd N, then
+gcd(Res_Λ(F_res, S₆), A₁) is 1 or A₁, so the *resultant's* nonvanishing at one point of the simple
+layer decides all of it: the **simple-layer half** of O2b reduces to (i) A₁-irreducibility for all
+odd N and (ii) Res_Λ(F_res, S₆) ≠ 0 at one accessible w° with A₁(w°) = 0, i.e. S₆ ≠ 0 at **every**
+F_res branch over that one fiber, not merely at the defective one (S₆ could vanish at a spectator
+branch while the seed's s₆ ≠ 0 still holds, so a one-branch evaluation would neither force gcd = 1
+nor would gcd = A₁ falsify O2b). The *localization* half, "every count-drop sits on the simple
+layer", stays per-N: it consumed max multiplicity 2 (DISCMULT, out of reach at N = 9 by the current
+engine), the psc₁ coincident-pair exclusion, the cross-sector gcd, and per-sector reality of F_res,
+none of which the two hypotheses subsume. That two-hypothesis shape for the simple-layer half
+is new; the previous all-N form (the "Three attacks" caution) had no way to separate the diabolics
+inside {S₆ = 0} from the seeds, and here the separation is the layer structure itself: the diabolics
+sit on A₂ (at N = 5, R-even has no real positive A₂ root at all, R-odd exactly one, the known
+diabolic at w = 5.100831, where S₆ does vanish, as adj ≡ 0 forces), the seeds on A₁, and the four
+real positive A₁ roots at N = 5 are exactly the four seeds: the inventory is closed (asserted
+exactly over ℤ by the committed verifier).
+
+One numerical trap, recorded for reuse: S₆'s integer coefficients cancel heavily at seed loci
+(8 to 18 digits, seed- and measure-dependent), so a locus refined only to 1e−8 can flip the
+*apparent* sign of S₆; the seed must be pinned to
+~1e−20 by explicit 2D Newton on (F_res, ∂_λF_res) with the exact Jacobian at ≥ 60 digits before
+reading any polynomial value there. mpmath's `findroot` absolute tolerance is useless at these
+coefficient scales.
+
+Committed verifier: `simulations/o2b_gcd_certificate.py` (self-asserting at N = 5, ~5 s; `7` adds
+N = 7, ~3 min; it recomputes the polynomials, the factorizations, the layers, all three gcd
+families including the psc₁ coincident-pair certificate, the strand positivity symbolically, the
+exact N = 5 disc/inventory over ℤ, and the seed evaluations from scratch; its docstring carries the
+same grade ladder as the bookkeeping paragraph above).
+
+## The cell law, tightened: decomposition, sharp constants, and where the band tightness comes from (2026-07-10)
+
+The "Three attacks" section left the sign half on two band-wide candidates, the separating law and
+the stronger cell form b′ ≥ b ⟹ a′ ≥ a. A dedicated session sharpened both. Notation as there
+(v = x + iy in the gauge conj(v) = Tv, x on class E, y on class O; a = ‖(Kx)₂‖², b = ‖(Kx)₆‖²,
+a′ = ‖(Ky)₂‖², b′ = ‖(Ky)₆‖²); write Δ₂ := ‖x₂‖² − ‖y₂‖² and Δ₆ := ‖x₆‖² − ‖y₆‖², so that
+κ₋₂‖v‖² = Δ₂, κ₋₆‖v‖² = Δ₆ (rung-wise proportionality, exact: (λ+2)x₂ = −q(Ky)₂ and its three
+siblings), and the cell form says the quadrant (Δ₆ ≥ 0, Δ₂ < 0) is empty.
+
+- **The decomposition (proved; here are the four lines).** Cell form ⟺ separating law
+  (σ ≥ 0 ⟹ κ₋₂ ≥ 0) **and** its rung-6 dual (σ < 0 ⟹ κ₋₆ < 0 strictly). Proof, with
+  σ‖v‖² = Δ₂ + Δ₆: (⟸) if Δ₆ ≥ 0 then σ < 0 is excluded by the dual, so σ ≥ 0, so Δ₂ ≥ 0 by the
+  separating law. (⟹) If σ ≥ 0 and Δ₂ < 0 then Δ₆ = σ‖v‖² − Δ₂ > 0, which the cell form forbids
+  alongside Δ₂ < 0; if σ < 0 and Δ₆ ≥ 0 then the cell form gives Δ₂ ≥ 0, so σ‖v‖² ≥ 0,
+  contradiction. ∎ The dual is exactly the "strictly stronger"
+  content; it was tested standalone: 0 violations in 3575/3615/1036 negative-type samples at
+  N = 5/7/9. The cell form itself now stands at **N = 5, 7, 9, 11** (0 violations in 2906, 2218,
+  1172, 894 + an independent 208-sample N = 11 audit; N = 11 is the first *resonant* datum, in the
+  resonant-N section's sense).
+  Practical note for re-runs: the λ = −2 band edge carries pure ker-K modes whose four cells are all
+  ~1e−30; without a 1e−16 floor on the cell norms they read as phantom violations.
+- **Sharp constants with a rational equality family.** On positive-type vectors the separating law
+  tightens to **κ₋₂ ≥ 2σ/(N+1)** (measured minima of κ₋₂/σ: 0.33648, 0.25104, 0.20101 at
+  N = 5, 7, 9 against 1/3, 1/4, 1/5, approached from above as q → ∞); equivalently, on
+  positive-type branches with σ > 0, qλ̇ ≤ λ − λ∞ᴱ (at σ = 0 the κ-form is vacuous while the slope
+  form still constrains; quote the κ-form as the law). The equality family is exact and rational: at
+  q → ∞ the *in-band, mixed-rung* all-class-E ker(K) modes sit at λ∞ᴱ = −(6N−2)/(N+1) with
+  (κ₋₂, κ₋₆, σ) = (2/(N+1), (N−1)/(N+1), 1) exactly, the in-band all-class-O modes at −6(N−1)/(N+1)
+  with (−3/(N+1), −(N−2)/(N+1), −1) (verified rationally at N = 5, 7, 9; the *pure-rung* ker(K)
+  modes sit at the band edges −2 and −6 instead, the same family the first bullet's practical note
+  floors out). The dual's candidate sharpening, **scoped to negative-type vectors (σ < 0):
+  κ₋₆ ≤ σ/3**, a strengthened negativity there (unscoped it is false: on positive type the equality
+  family itself has κ₋₆ = (N−1)/(N+1) > σ/3), has thin positive margins (~1.3e−3 on the densest
+  sweep, growing in N); its extremizers look generic (no closed form surfaced; the forced/free law
+  again).
+- **A fixed-form reformulation, banked for a global attack.** z := x + y satisfies the *real* affine
+  pencil (D + qKT − λ)z = 0, and a′ − a = zᵀ(KTP₂K)z, b′ − b = zᵀ(KTP₆K)z with KTP₂K, KTP₆K fixed
+  integer symmetric matrices: the entire law is two fixed quadratic forms on the null vectors of a
+  one-knob real family. (The pointwise S-procedure on the corresponding forms fails, measured:
+  relaxing the kernel constraint to its quadratic form is too weak, so any operator proof must
+  consume the full kernel structure.)
+- **The moment algebra closes; one scalar is free.** With p₂ := x₂ᵀKy₂, p₆ := x₆ᵀKy₆,
+  c₂₆ := x₂ᵀKy₆, c₆₂ := x₆ᵀKy₂ (all four bilinears of the rung-split eigen-equations), the exact
+  system gives: p₂ and p₆ both lie in the interval [−c₂₆, −c₆₂] (endpoint order −c₂₆ ≤ −c₆₂,
+  forced by λ + 2 < 0), the normalized positions being the
+  shares e₂ := ‖x₂‖²/(‖x₂‖² + ‖y₂‖²) and o₆ := ‖y₆‖²/(‖x₆‖² + ‖y₆‖²), and the cell form forbids
+  exactly p₂ strictly below the midpoint m := −(c₂₆ + c₆₂)/2 while p₆ is at or below it (the p₆ = m
+  boundary, κ₋₆ = 0, is where the rung-6 dual's strictness lives). The dead end xᵀKy ≥ 0 is
+  *exactly* the odds-ratio strengthening ‖x₂‖‖y₆‖ ≥ ‖y₂‖‖x₆‖ (e₂ + o₆ ≥ 1) of the true law, which
+  locates precisely why it failed. The 4×4 moment system has rank 3: one scalar is free, so no
+  moment identity can decide the law; a proof must consume K's internal structure. A new reduction
+  with clean margins: the law follows from [m > 0 ⟹ Δ₂ < 0 ∧ Δ₆ < 0] (an independent measured law,
+  0 violations, margins ≥ 0.02 at N = 5..11) together with the m ≤ 0 core
+  [σ ≥ 0 ⟹ p₂ ≥ m] ∧ [σ < 0 ⟹ p₆ > m], whose margins ~0.002 are strangely N-stable across
+  N = 5..11 (unexplained; the one place the law is nearly tight away from seeds).
+- **Edge-birth theorem (proved, second-order degenerate perturbation theory; the derivation, so the
+  label carries something checkable).** A level leaving the −2 rung has first-order shifts given by
+  the eigenvalues of the compression of qC = iqK to the rung, purely imaginary unless zero (the
+  pencil-section fact), so only rung-kernel modes stay real past q = 0. For ξ ∈ ker(K₂₂) ⊂ E with
+  K₆₂ξ ≠ 0 (the pure ker(K) directions have K₆₂ξ = 0 and stay at the edge λ = −2, never entering
+  the band): x = ξ + O(q²), y₆ = (q/4)K₆₂ξ + O(q³), y₂ = O(q³), λ = −2 − (q²/4)‖K₆₂ξ‖², giving
+  Δ₂ = ‖ξ‖² + O(q²) > 0 and Δ₆ = −(q²/16)‖K₆₂ξ‖² < 0 strictly. For ξ ∈ ker(K₆₆) ∩ O with
+  K₂₆ξ ≠ 0: y = ξ + O(q²), x₂ = (q/4)K₂₆ξ + O(q³), λ = −6 + (q²/4)‖K₂₆ξ‖², giving Δ₂ > 0,
+  Δ₆ = −‖ξ‖² + O(q²) < 0. So every real branch
+  entering the band from an edge at q → 0⁺ comes from a rung-kernel mode (proved), and the two
+  baseline families that actually enter, ξ ∈ ker(K₂₂) with K₆₂ξ ≠ 0 (class E) and ξ ∈ ker(K₆₆) ∩ O
+  with K₂₆ξ ≠ 0, enter with (Δ₂ > 0, Δ₆ < 0)
+  strictly (proved): **at every N where ker(K₆₆) is pure class O and ker(K₂₂) pure class E, all
+  real edge births start in the allowed corner, as a theorem.** Both purity conditions are inputs:
+  a hypothetical ξ ∈ ker(K₂₂) ∩ O would enter with the mirrored signs, i.e. forbidden, so the
+  ker(K₂₂)-in-E localization (the endpoints-in-E add-on, asserted at the swept N, now including
+  10E+0O at N = 11 and 16E+0O at N = 17) carries load here too. A birth from ξ ∈ ker(K₆₆) ∩ E with
+  K₂₆ξ ≠ 0 would enter in the
+  forbidden corner; that no such birth materializes at resonant N is the *measured* twinning input
+  (N = 11, 17; open in general), so there the allowed-corner statement is theorem plus measurement,
+  not theorem. The resonant-N section next holds that piece.
+- **Where the band tightness lives.** The corner (κ₋₂, κ₋₆) → (0, 0) is never approached: the
+  band-wide floor of max(|κ₋₂|, |κ₋₆|) equals the minimal seed value κ₋₂\* = |s₆|/‖r‖² (0.0629 at
+  N = 5, 0.0253 at N = 7, both attained at *entry* seeds), and far from seeds the floor is an order
+  of magnitude higher. So no separate band mechanism binds: the band laws' global tightness IS the
+  seed-local O2b quantity, one more way the sign half and the nonvanishing half are the same flesh.
+- **New dead ends, measured** (join the do-not-retry list): the swap (p₂ < 0 ∧ p₆ < 0 ⟹ σ < 0)
+  is false (359 counterexamples at N = 5); pointwise kernel-refuge (kernel share of x₂ forcing the
+  class-E share ≥ ½) is false (shares 0.003..0.86 on both sides); any uniform gap
+  max(e₂, o₆) ≥ ½ + c dies (sample minimum 0.539 at N = 7, N-decreasing); rung-restricted Loewner
+  definiteness of KTP_rK is absent (mixed inertia).
+
+These are in-session measurements, two independent recomputations where marked; the committed
+verifier for this block's predecessors remains `simulations/o2b_three_attacks_audit.py`, and the
+resonant-N facts below are flagged for a committed witness of their own if they become load-bearing.
+
+## Resonant N, measured: the twinning protection at N = 11 and N = 17 (2026-07-10)
+
+"Resonant" here means what the Piece-2 remark already recorded: nullity(K₆₆) = 3(N−1)/2 and
+ker(K₆₆) ⊂ class O are the *baseline*, and extra fusion resonances break both (this note's own
+Piece-2 table has 21 ≠ 15 at N = 11). What is new is measuring what the resonance does to the
+dynamics, and finding the protection mechanism.
+
+- **The resonant kernel acquires a class-E part.** At N = 11: dim ker(K₆₆) = 21 = 3 (class E) + 18
+  (class O). At N = 17: dim 36 = 6 + 30. (ker(K₂₂) stays pure class E at both, 10E+0O and 16E+0O,
+  measured; the edge-birth theorem consumes that purity too.) Of the class-E directions, those with K₂₆ξ ≠ 0 are the
+  dangerous ones: by the edge-birth theorem above they would enter the band in the forbidden corner
+  and falsify the cell law (at N = 11 there are two, with effective-operator levels exactly 1/2 and
+  3/2 in units q²/4).
+- **The twinning law (measured; the degeneracy is exact-arithmetic decidable on the rational Heff,
+  a cheap upgrade not yet done).** The effective operator Heff := P_ker K₆₂K₂₆ P_ker is
+  exactly class-diagonal (every odd word in K is class-off-diagonal, since TKT = −K holds exactly on
+  the integer matrices). At N = 11 each of the two coupled class-E levels is *exactly* degenerate
+  with a class-O level of Heff (gaps ≤ 2.2e−16), and at N = 17 all four coupled class-E levels are
+  (gaps ≤ 5e−16; the exact bound is solver-dependent at the ulp level, three independent runs agree
+  the degeneracy is exact); in every case the third-order class-off-diagonal coupling between the twins is
+  nonzero. A degenerate E/O pair with nonzero odd-order coupling leaves the real axis at order q³
+  instead of entering the band real: **the cell law is protected exactly where it would break.**
+- **The counting consequences, measured at N = 11.** Real count 27 (not the nullity sum 31) at
+  q = 0.05, 0.1, 0.2, the four missing modes lifting with |Im| ∝ q³ (ratios 8.03, 8.05 per
+  q-doubling, the third-order signature; they are exactly the two twinned pairs). Real count 17 (not
+  nullity(C) = 21) at q = 50..400, four ker-C modes holding |Im| ≈ 0.1179/q and 0.3538/q (each
+  twice), asymptotically real, never real. Literal drop 27 − 17 = 10 = N − 1, equal to the nullity
+  drop; a re-entry event sits between q = 25 (15 real) and q = 50 (17 real). The counting theorem is
+  untouched (r(0⁺), r(∞) are *defined* as nullities, and the theorem is about those); what the
+  measurement retires is the literal-count *reading* at resonant N, and the prose above now says so.
+- **Protection and cheapest kill in one.** The twinning law is the cell law's protection at resonant
+  N and its sharpest falsification target: at the next resonant N, one coupled class-E level
+  of Heff without an exact O-twin would enter the band in the forbidden corner and kill the law at
+  that N. The observed multiplet structure (one E level twinned into a group of O levels per
+  resonant triple) points at the (N1′) three-sector chirality as the combinatorial origin; open.
+
+Status of this section: measured facts, two independent recomputations (the twinning gaps, the
+kernel splits, the counts, and the q³/1-over-q scalings all reproduced); not yet theorems, except
+where the text says "proved". Per the repo rule, a verifier that outlives its session is a witness
+waiting to be written; if the twinning law becomes load-bearing for an all-N cell-law proof, it gets
+a committed verifier first.
+
 ## Reproduce
 
 ```bash
 python simulations/seed_existence_nullity_check.py     # the counting theorem (existence side)
 python simulations/o2b_krein_sign_law.py               # the class-imbalance sign law, N = 5, 7 (add 9)
 python simulations/o2b_three_attacks_audit.py          # the "Three attacks" section (N=5; also 7/b7/b9)
+python simulations/o2b_gcd_certificate.py              # the gcd certificate section (N=5; add 7)
 ```
 
 `seed_existence_nullity_check.py` is self-validating: it asserts (F1) the surplus (N − 1)·[N odd]
@@ -870,11 +1167,13 @@ multiset inheritance (exact with-multiplicity matching, = the corollary).
 
 **The counting identity r(0⁺) − r(∞) = N − 1 is now a theorem for every odd N** (Pieces 1-3 all
 proved). The existence conclusion, "a real defective seed on the (1,2) block at every odd N", is closed
-modulo one remaining item, plus one disclosed reading premise: r(0⁺) is *defined* as the nullity sum,
-and its reading as the literal real count on (0, ε) is the first-order statement of the pencil section,
-probed at N = 5, 7, 9 rather than derived to all orders (a kernel pair leaving the axis at higher order
-in q would absorb part of the surplus at q = 0). This note must not be read as closing the existence
-question until the remaining item falls:
+modulo two remaining items (2 and 3 below): r(0⁺) is *defined* as the nullity sum, and its reading as
+the literal real count on (0, ε) is the first-order statement of the pencil section, probed at
+N = 5, 7, 9. The once-hypothetical failure mode ("a kernel pair leaving the axis at higher order in q
+would absorb part of the surplus at q = 0") is now a measured fact at resonant N = 11 (two pairs, third
+order; literal counts 27 → 17, drop still exactly N − 1; the resonant-N section above), which is why
+the former "disclosed reading premise" is item 3 now.
+This note must not be read as closing the existence question until the remaining items fall:
 
 1. ~~**(N1′)**~~ **CLOSED 2026-07-04 (Piece 3):** n₆ = 3·Z₃ = the fusion-resonance count, by the
    ordering-sector decomposition; the spectral inheritance is now a per-block multiset theorem, and the
@@ -882,7 +1181,7 @@ question until the remaining item falls:
    then-open Piece 3) turned out unnecessary: the proof is graph combinatorics + one cyclotomic norm
    bound. Two adversarial reviews (exact arithmetic; full-2^N spin rebuild) held it.
 2. **The codim-2 β-exotic (OPEN for all N; CLOSED EXACTLY at N = 5 and N = 7, both parities,
-   2026-07-09):** a count-dropping transition is a √-type defective EP2 (exponent ½) unless it is a
+   2026-07-09/10):** a count-dropping transition is a √-type defective EP2 (exponent ½) unless it is a
    non-generic order-≥3 point: the formally semisimple β-exotic (normal form β(s) = [[0, s], [s², 0]],
    eigenvalues ±s^{3/2}), its defective exponent-3/2 twin (geometric multiplicity 1, s₆ = 0), or the
    higher-order relatives (Jordan size ≥ 4, higher odd exponents), all caught by the same bound.
@@ -893,7 +1192,12 @@ question until the remaining item falls:
      real, whose per-sector reality rests on the chiral pairing being what fixes the AT slopes,
      checked at N = 5 and N = 7 rather than derived in general (the certificate section's reality
      paragraph is the canonical wording). Cite H1 with that qualifier. N = 9 is out of reach by this
-     route.
+     route. **2026-07-10, strictly more**: the gcd certificate (its own section above) proves the
+     nonvanishing itself, s₆ ≠ 0 at every forced count-drop
+     (gcd(Res_Λ(F_res, S₆), A₁) = 1 plus the cross-sector gcd): unconditionally at N = 5 (exact ℤ),
+     and at N = 7 modulo the two named things of that section's bookkeeping paragraph (the mod-p
+     layer-identification premise and the CRT verification grade of the base polynomials). So at those N the O2b scalar is not
+     just β-excluded but positively settled: every forced count-drop is a √-type defective EP2.
    - *For all N it is open*, and reduced to the scalar statement **s₆ ≠ 0 at every forced seed for all
      odd N** (section "The β-exotic, sharpened" above; read via the polynomial S₆ = tr(P₋₆·adj(λI−L))
      where the eigenspace could be two-dimensional, since s₆ itself is defined only at geometric
@@ -914,7 +1218,31 @@ question until the remaining item falls:
      law* (giving κ₋₂ ≥ 0 at every defective seed, strict exactly where s₆ ≠ 0), and the nonvanishing
      acquires the integer-polynomial form κ₋₂ = −S₆/S_T with S₆ ≠ 0 ⟹ geometric
      multiplicity 1 ∧ s₆ ≠ 0; the two named targets live there (verifier
-     `simulations/o2b_three_attacks_audit.py`).
+     `simulations/o2b_three_attacks_audit.py`). **2026-07-10 re-base of the all-N shape**: the gcd
+     certificate section replaces the old caution ("{S₆ = 0} contains the diabolics, no separation")
+     with a measured separation, the diabolics on A₂ and the seeds on A₁, and reduces the
+     *simple-layer half* of all-N O2b to
+     two uniform hypotheses: **A₁ irreducible over ℚ for every odd N** (true at N = 5, 7, both
+     sectors) **plus Res_Λ(F_res, S₆) ≠ 0 at one accessible simple-layer fiber** (S₆ ≠ 0 at every
+     branch over it, not merely at the defective one); the localization half (every count-drop on
+     A₁) keeps its per-N inputs (DISCMULT max-mult 2, the psc₁ leg, the cross-sector gcd, F_res
+     reality). The sign half's
+     band-wide targets are tightened in the cell-law section (the separating law with sharp constant
+     κ₋₂ ≥ 2σ/(N+1), its rung-6 dual, the edge-birth theorem, and the twinning protection at
+     resonant N, which is also the cheapest falsification target).
+
+3. **The literal-drop premise (named 2026-07-10; previously "one disclosed reading premise",
+   upgraded to an item by the N = 11 measurement):** the existence conclusion needs the nullity
+   surplus to be a *literal* real-count drop at finite q. That is probed exactly at N = 5, 7, 9 and
+   measured at N = 11, and **unproven at every unprobed N**, non-resonant ones included:
+   first-order theory lifts the nonzero-shift modes rigorously but never shows the kernel modes
+   *stay* real (the N = 11 lesson is exactly that a zero first-order shift permits a q³ lift), and
+   nothing proves that non-resonance excludes a twinning-type mechanism at N ≥ 13. The resonant
+   case is the demonstrated failure mode of the naive literal reading: at N = 11 four of the
+   r(0⁺) = 31 modes leave the axis at third order and four of the r(∞) = 21 never reach it, and
+   the literal drop 27 − 17 = 10 = N − 1 survives *by measurement*, balanced by the twinning
+   mechanism (resonant-N section), whose combinatorial origin is open. N = 17's counts were not
+   measured (only its kernel split and twinning gaps).
 
 When the β-exotic closes **for all odd N**, the census input becomes a law for all odd N, and the
 containment diamond membership follows at every odd N with no further scan. Per-N certificates, however
