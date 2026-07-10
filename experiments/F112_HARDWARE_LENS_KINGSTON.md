@@ -55,7 +55,7 @@ Z_plus_hy                    0.3317       YES         +0.000000e+00       0.0000
 
 Two threads, one structural, one fit-quality:
 
-**Structural (F112 asymmetry).** Every fitted model gives asymmetry = 0 bit-exact, including the two outside-scope cases (`Z + T1` and `Z + T1 + ZZ` with σ⁻ as bit_b-mixed collapse operator). This reproduces the empirical observation from probes 1–14: the standard Lindblad construction channel always produces asymmetry = 0, even for c that fall outside F112's typed Tier1Derived scope. The σ⁻ T1 case sits in F112's Tier1Candidate non-Hermitian-extension envelope; the empirical bit-exactness here is one more instance consistent with the open Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0 identity holding.
+**Structural (F112 asymmetry).** Every fitted model gives asymmetry = 0 bit-exact, including the two outside-scope cases (`Z + T1` and `Z + T1 + ZZ` with σ⁻ as bit_b-mixed collapse operator). This reproduces the empirical observation from probes 1–14: the standard Lindblad construction channel always produces asymmetry = 0, even for c that fall outside F112's typed Tier1Derived scope. The σ⁻ T1 case sits in F112's non-Hermitian-extension envelope; the empirical bit-exactness here is one more instance consistent with the Im⟨L_{H_re,-i}, L_{H_im,-i}⟩ = 0 identity (now Tier1Derived universal-N, PROOF_F112_NONHERMITIAN_UNIVERSAL_N) holding.
 
 **Fit-quality (which model explains the data).** The best-fit model is `Z + h_y` (RMS = 0.332), a 26% improvement over the pure-Z baseline (RMS = 0.450). The fitted transverse field is h_y ≈ -0.00144 per μs, comparable to the T2 dephasing rate γ_z ≈ 0.0021 per μs. The `Z + ZZ` model is intermediate (RMS = 0.406, 10% improvement), with a small fitted ZZ coupling. The two T1-containing models do not improve on pure-Z (Nelder-Mead pushes the σ⁻ rates to ≈ 0); adding T1 does not help fit the data.
 
@@ -121,7 +121,7 @@ The asymmetry magnitude is identical in cases C and E, confirming the Z-deph ter
 
 ### What this sharpens
 
-The probes 1-14 reflection (`reflections/POLARITY_COORDINATES.md`) noted that bit_b-mixed σ⁻ T1 was empirically observed to preserve balance across every probe tested. F112's typed theorem covers only bit_b-homogeneous c; the broader observation was that bit_b-mixed c "happens to" also balance in every tested case. This was the empirical envelope behind the Tier1Candidate non-Hermitian extension scope (although technically the non-Hermitian Candidate concerns non-Hermitian H, not bit_b-mixed c).
+The probes 1-14 reflection (`reflections/POLARITY_COORDINATES.md`) noted that bit_b-mixed σ⁻ T1 was empirically observed to preserve balance across every probe tested. F112's typed theorem covers only bit_b-homogeneous c; the broader observation was that bit_b-mixed c "happens to" also balance in every tested case. This was the empirical envelope behind the non-Hermitian extension scope (although technically the non-Hermitian extension concerns non-Hermitian H, now Tier1Derived universal-N, not bit_b-mixed c, which remains a separate empirical envelope).
 
 The f95 hardware reading is the first structural counterexample to the bit_b-mixed-c-preserves-balance reading. The sharpened statement: bit_b-mixed c preserves balance **only when the Hermitian H is trivial or bit_b-homogeneous through a bilinear (XX, YY, etc.) channel that does not produce cross-bit_b matrix elements jointly with σ⁻**. A single-site bit_b-homogeneous H (omega·Z) DOES produce such cross-bit_b elements via [Z, σ⁻] = -2σ⁻ × bit_b shifts.
 

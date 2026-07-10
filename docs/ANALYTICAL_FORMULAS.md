@@ -4096,7 +4096,7 @@ the per-site additive structure.
 N via [PROOF_F113_COEFFICIENT_DERIVATION](proofs/PROOF_F113_COEFFICIENT_DERIVATION.md).
 The (1/2)·4^N coefficient decomposes structurally as
 4 · 4^(N-1) · (1/2):
-- factor 4: Welle-4 reduction `asymmetry = 4 · Re⟨L_H,+i, L_T1,+i⟩`
+- factor 4: cross-term reduction `asymmetry = 4 · Re⟨L_H,+i, L_T1,+i⟩`
   (from norm² expansion + F112 typed + F112 non-Hermitian extension
   cancellations + cross-term equal-magnitude-opposite-sign relation).
 - factor 4^(N-1): N−1 spectator-site identity factors, each contributing
