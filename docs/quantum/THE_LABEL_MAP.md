@@ -206,7 +206,7 @@ where they are.
   number), not our coined word. The second adapter landed the same day:
   [The Exact Decay-Rate Structure of Spin-Chain State Transfer under Dephasing](../outbound/STATE_TRANSFER_DECAY_STRUCTURE.md)
   (the relay/palindrome → the QST community's dephasing corner, wrapping
-  [QST_BRIDGE](../../experiments/QST_BRIDGE.md) into the adapter genre). The
+  [QST Bridge](../../experiments/QST_BRIDGE.md) into the adapter genre). The
   third followed the same day:
   [A Shifted, Order-4 Chiral Symmetry in Local-Dephasing Lindbladians](../outbound/SHIFTED_ORDER4_CHIRAL_SYMMETRY.md)
   (the palindrome → the Sá-Ribeiro-Prosen classification community's own
