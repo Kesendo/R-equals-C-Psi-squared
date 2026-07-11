@@ -137,7 +137,7 @@ deliberately break the symmetry.
    If this last step hooks you, Story 7 is its full arc.
    The dissipator-diagonal companion (the one diagonal as one of three,
    {Q_X, Q_Y, Q_Z}, one basis-S₃ orbit) is
-   [THE_THREE_DIAGONALS](THE_THREE_DIAGONALS.md).
+   [The Three Diagonals](THE_THREE_DIAGONALS.md).
 
 **After this you know:** The palindrome is real, universal for qubits
 under single-axis dephasing, breaks precisely when the 2:2 split is

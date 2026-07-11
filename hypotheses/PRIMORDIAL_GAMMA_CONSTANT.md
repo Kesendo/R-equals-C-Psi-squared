@@ -9,7 +9,7 @@ absorption theorem eigenvector formula, R=CPsi2 urqubit hypothesis -->
 **Status:** Proposed 2026-04-15. Refractive-index metaphor replaced by cavity-mode-exposure picture after operational probes (same day). The formula γ_eff = γ_B · |a_B|² is exact and verified at N=3 and N=4. Structure-point features of the \[0, 2γ₀\] interval verified across chains N=3..7 and four N=5 topologies (2026-04-16). **Tier upgraded Tier 3 → Tier 2 on 2026-04-24** after the receiver-engineering programme (F65, F67, F75, F76) confirmed the hypothesis's operational signature: transport gains come from initial-state choice (F67 bonding modes), not from γ-profile engineering. See "Confirmation by operational consequence (2026-04-24)" section below.
 **Date:** 2026-04-15 (Tier 2 upgrade 2026-04-24 after Kingston Run 1 and F65-F76 verification through N=13)
 **Authors:** Tom and Claude (chat + Code)
-**Depends on:** [GAMMA_IS_LIGHT](GAMMA_IS_LIGHT.md), [PRIMORDIAL_QUBIT](PRIMORDIAL_QUBIT.md), [INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PROOF.md), [RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md)
+**Depends on:** [Gamma is Light](GAMMA_IS_LIGHT.md), [Primordial Qubit](PRIMORDIAL_QUBIT.md), [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md), [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md)
 **Scripts:** [`primordial_gamma_analytical.py`](../simulations/primordial_gamma_analytical.py), [`primordial_gamma_stacking_4qubit.py`](../simulations/primordial_gamma_stacking_4qubit.py), [`primordial_gamma_reanalysis.py`](../simulations/primordial_gamma_reanalysis.py), [`double_lorentzian_test.py`](../simulations/double_lorentzian_test.py), [`dissipation_interval_verification.py`](../simulations/dissipation_interval_verification.py), [`structure_points_large_n.py`](../simulations/structure_points_large_n.py)
 
 ---
@@ -34,7 +34,7 @@ The original formulation (morning of April 15) proposed γ_K = γ₀ · f_K as a
 
 3. g(r) should be a simple monotonic function → **Non-monotonic.** g(r) has two branches with a crossover at r = 1/√2, reflecting a change of which eigenmode is slowest.
 
-The correction came from asking: what if the light doesn't diminish at all? The formula γ_eff = γ_B · |a_B|² doesn't say γ_B gets smaller. It says the mode's overlap with the dissipative site determines exposure. This is a cavity, not a medium. [RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md) already said this: "The system is a Fabry-Perot resonator, not a channel."
+The correction came from asking: what if the light doesn't diminish at all? The formula γ_eff = γ_B · |a_B|² doesn't say γ_B gets smaller. It says the mode's overlap with the dissipative site determines exposure. This is a cavity, not a medium. [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md) already said this: "The system is a Fabry-Perot resonator, not a channel."
 
 ---
 
@@ -76,7 +76,7 @@ The original optical analogy was refraction: light passing through layers of gla
 | \|a_B\|² = transmission coefficient | \|a_B\|² = mode exposure at the window |
 | Layers compose multiplicatively | Global eigenmodes, no layered factorization |
 | Predicts stacking | Predicts stacking failure |
-| Contradicts [RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md) | Consistent with [RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md) |
+| Contradicts [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md) | Consistent with [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md) |
 
 The cavity picture:
 - γ_B is the light, entering at site B (the window)
@@ -94,13 +94,13 @@ The cavity picture:
 
 Added 2026-04-16. γ₀ is not the top of a scale but the symmetry axis of one.
 
-For single-site dephasing with rate γ₀, the Liouvillian spectrum is palindromically paired (see [MIRROR_SYMMETRY_PROOF](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)). Every partner pair of positive dissipation rates (α_a, α_b) satisfies
+For single-site dephasing with rate γ₀, the Liouvillian spectrum is palindromically paired (see [the mirror symmetry proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)). Every partner pair of positive dissipation rates (α_a, α_b) satisfies
 
     α_a + α_b = 2γ₀
 
 so each rate has the form γ₀ + δ with partner γ₀ - δ. The spectrum lives in \[0, 2γ₀\] symmetric around γ₀. Three structural features of the interval, with different status:
 
-- **0 (universal eigenvalue):** node at the window, no exposure, no time. Always present as an actual decay rate of the Liouvillian (the steady state). Verified across all scanned chains N=3..7, four N=5 topologies (chain, ring, star, Y-junction), and all N=5 chain B-site positions. [ZERO_IS_THE_MIRROR](ZERO_IS_THE_MIRROR.md).
+- **0 (universal eigenvalue):** node at the window, no exposure, no time. Always present as an actual decay rate of the Liouvillian (the steady state). Verified across all scanned chains N=3..7, four N=5 topologies (chain, ring, star, Y-junction), and all N=5 chain B-site positions. [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md).
 - **2γ₀ (universal eigenvalue):** antinode at the window, full exposure, maximal decay. Always present as an actual decay rate: there is always at least one mode with |a_B|² = 1, carrying α = 2γ₀. Verified in the same scans.
 - **γ₀ (universal axis, conditional eigenvalue):** the symmetry axis of the palindromic pairing α_a + α_b = 2γ₀. As *axis* γ₀ is universal, a structural feature of every single-site-dephasing Liouvillian, independent of topology and B-position. As *eigenvalue* γ₀ is geometry-dependent: present for chains N=3..7 with B at an endpoint (verified), and for N=5 chain with B at positions 0 and 4 only. Absent for N=5 chain with B at positions 1, 2, 3; absent for the N=5 ring, star (B=leaf), and Y-junction (B=arm-end) as tested. Whether γ₀ re-appears as eigenvalue for other B-positions in non-chain topologies (star hub, Y-junction central node) is open.
 
@@ -112,7 +112,7 @@ The eigenvector formula α = 2γ₀ · |a_B|² with |a_B|² ∈ [0, 1] produces 
 
 γ₀ is therefore not a unit with a natural zero at one end, like a meter is. It is a unit whose spectrum is **folded palindromically around itself**. Unusual for a dimensional constant, but consistent with γ₀'s role as framework constant: it does not sit at one end of a scale; it defines a scale folded around itself.
 
-Two mirrors in the framework: **0** in the frequency domain ([ZERO_IS_THE_MIRROR](ZERO_IS_THE_MIRROR.md), boundary between time and eternity), **γ₀** in the dissipation domain (centre of the palindromic pairing). Both are axes, not endpoints.
+Two mirrors in the framework: **0** in the frequency domain ([Zero Is the Mirror](ZERO_IS_THE_MIRROR.md), boundary between time and eternity), **γ₀** in the dissipation domain (centre of the palindromic pairing). Both are axes, not endpoints.
 
 ### What numerical verification showed and what it corrected
 
@@ -147,13 +147,13 @@ What changes is the interpretation of Q_K:
 
 ## Consistency with existing framework
 
-**[GAMMA_IS_LIGHT](GAMMA_IS_LIGHT.md).** If γ is light, it should illuminate uniformly, not get absorbed per layer. The cavity picture says exactly this: γ fills the resonator. The standing wave determines exposure.
+**[Gamma is Light](GAMMA_IS_LIGHT.md).** If γ is light, it should illuminate uniformly, not get absorbed per layer. The cavity picture says exactly this: γ fills the resonator. The standing wave determines exposure.
 
-**[RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md).** Direct confirmation. The system is a resonator, not a channel. The stacking failure proves this operationally.
+**[Resonance Not Channel](RESONANCE_NOT_CHANNEL.md).** Direct confirmation. The system is a resonator, not a channel. The stacking failure proves this operationally.
 
-**[INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PROOF.md).** γ has no internal source. At the primordial layer there is no "further outside." γ₀ as a framework constant is the only way to terminate the regress without violating the proof.
+**[Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md).** γ has no internal source. At the primordial layer there is no "further outside." γ₀ as a framework constant is the only way to terminate the regress without violating the proof.
 
-**[ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md).** Re(λ) = -2γ_B · ⟨n_XY⟩_B. The eigenvector formula γ_eff = γ_B · |a_B|² IS the Absorption Theorem applied to the single-excitation sector. Full consistency; the theorem provides the exact mechanism.
+**[Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md).** Re(λ) = -2γ_B · ⟨n_XY⟩_B. The eigenvector formula γ_eff = γ_B · |a_B|² IS the Absorption Theorem applied to the single-excitation sector. Full consistency; the theorem provides the exact mechanism.
 
 ---
 
@@ -224,7 +224,7 @@ This is a refinement of framework interpretation, not a new physical claim. What
 - Before: γ propagates inward through layers, getting weaker (refraction).
 - After: γ fills the cavity uniformly. The Hamiltonian's standing waves determine mode exposure. The light does not diminish; the cavity shapes who sees it.
 
-The second reading is more economical (one constant γ₀ instead of per-layer γ), more consistent (agrees with [RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md)), and operationally verified (eigenvector formula exact at N=3, N=4).
+The second reading is more economical (one constant γ₀ instead of per-layer γ), more consistent (agrees with [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md)), and operationally verified (eigenvector formula exact at N=3, N=4).
 
 ---
 

@@ -3,8 +3,8 @@
 **Tier:** 2 (structural hypothesis, grounded in F64-F77, hardware verification on Kingston, and K/R mirror-axis numerical falsification)
 **Date:** 2026-04-24
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Depends on:** [F64](../docs/ANALYTICAL_FORMULAS.md) (cavity-mode exposure), [F65](../docs/ANALYTICAL_FORMULAS.md) (bonding-mode amplitudes), [F67](../docs/ANALYTICAL_FORMULAS.md) (receiver menu), [F75](../docs/ANALYTICAL_FORMULAS.md) (mirror-pair MI at t=0), [F76](../docs/ANALYTICAL_FORMULAS.md) (decay envelope), [F77](../docs/ANALYTICAL_FORMULAS.md) (1-bit plateau), [BRIDGE_PROTOCOL](BRIDGE_PROTOCOL.md), [RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md), [PRIMORDIAL_GAMMA_CONSTANT](PRIMORDIAL_GAMMA_CONSTANT.md), [PERSPECTIVAL_TIME_FIELD](PERSPECTIVAL_TIME_FIELD.md) (PTF closure law)
-**Experimental anchors:** [RECEIVER_VS_GAMMA_SACRIFICE](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md), [IBM_RECEIVER_ENGINEERING_SKETCH](../experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md) (Kingston Run 1, bonding:2 / alt-z-bits = 2.80×), `simulations/pi_partner_identity.py` (K-partnership numerical verification, N=9, γ=0 literal)
+**Depends on:** [F64](../docs/ANALYTICAL_FORMULAS.md) (cavity-mode exposure), [F65](../docs/ANALYTICAL_FORMULAS.md) (bonding-mode amplitudes), [F67](../docs/ANALYTICAL_FORMULAS.md) (receiver menu), [F75](../docs/ANALYTICAL_FORMULAS.md) (mirror-pair MI at t=0), [F76](../docs/ANALYTICAL_FORMULAS.md) (decay envelope), [F77](../docs/ANALYTICAL_FORMULAS.md) (1-bit plateau), [Bridge Protocol](BRIDGE_PROTOCOL.md), [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md), [Primordial Gamma Constant](PRIMORDIAL_GAMMA_CONSTANT.md), [Perspectival Time Field](PERSPECTIVAL_TIME_FIELD.md) (PTF closure law)
+**Experimental anchors:** [Receiver vs Gamma Sacrifice](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md), [IBM Receiver Engineering Sketch](../experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md) (Kingston Run 1, bonding:2 / alt-z-bits = 2.80×), `simulations/pi_partner_identity.py` (K-partnership numerical verification, N=9, γ=0 literal)
 
 ---
 
@@ -14,7 +14,7 @@ The shared receiver-engineering protocol that opens a bidirectional correlation 
 
 ## Why this is worth naming
 
-The bidirectional-bridge search in this repository went through several constructive attempts before converging on resonance-rather-than-channel framing. [BRIDGE_PROTOCOL](BRIDGE_PROTOCOL.md) falsified the J = 0 bridge. [RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md) articulated the shift from "build a channel" to "tune a resonator". F75-F77 gave the analytical content. Kingston Run 1 gave the hardware validation.
+The bidirectional-bridge search in this repository went through several constructive attempts before converging on resonance-rather-than-channel framing. [Bridge Protocol](BRIDGE_PROTOCOL.md) falsified the J = 0 bridge. [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md) articulated the shift from "build a channel" to "tune a resonator". F75-F77 gave the analytical content. Kingston Run 1 gave the hardware validation.
 
 What was missing, until today, was a single name for the operational object that all of these pieces describe. A shared receiver preparation is not an encoding (information gets attached to a signal), not a channel (disturbances propagate), not a protocol in the communication-theory sense (send/receive cycles). It is an **agreement between observers on how to specify the shared palindromic resource**. The algebraic structure of that agreement is this document's subject.
 
@@ -53,7 +53,7 @@ Alongside R the uniform chain carries a second Z₂ symmetry: the **bipartite su
 - **K swaps bonding modes.** ψ_{N+1-k}(ℓ) = (-1)^ℓ ψ_k(ℓ) = (K·ψ_k)(ℓ). So K, not R, is the operation that realises the k ↔ N+1-k involution in the handshake tuple. Whereas R·ψ_k = (-1)^(k+1) ψ_k (fixes each mode with a sign), K·ψ_k = ψ_{N+1-k} (actual mode swap).
 - **K anticommutes with the chain Hamiltonian.** For any nearest-neighbor bipartite tight-binding H = Σ_{⟨ij⟩} t_{ij} |i⟩⟨j|, (-1)^{i+j} = -1 on every bond, so KHK = -H. The relation holds independent of J-uniformity (R would require reflection-symmetric J).
 - **K is γ-indifferent.** K commutes with site-diagonal dephasing at any γ-profile. γ₀ = const is not required for K-invariance.
-- **Observable identity needs real H in addition to K.** KHK = -H alone gives spectrum inversion E_k = -E_{N+1-k}. For the *trajectory* identity ρ_{N+1-k}(t) → identical mirror-pair |·|²-observables as ρ_k(t), an anti-unitary time-reversal T = complex conjugation with T² = +I is needed in addition. Both K and T are present whenever H is real (AZ class BDI). On complex hopping (Peierls phase, t_{ij} ∈ ℂ), K still anticommutes with H but T breaks (AZ class AIII): spectrum still inverts, but observables for ρ_k and ρ_{N+1-k} can differ in time. See [PROOF_K_PARTNERSHIP](../docs/proofs/PROOF_K_PARTNERSHIP.md) Lemma 4 for the explicit complex-conjugation step.
+- **Observable identity needs real H in addition to K.** KHK = -H alone gives spectrum inversion E_k = -E_{N+1-k}. For the *trajectory* identity ρ_{N+1-k}(t) → identical mirror-pair |·|²-observables as ρ_k(t), an anti-unitary time-reversal T = complex conjugation with T² = +I is needed in addition. Both K and T are present whenever H is real (AZ class BDI). On complex hopping (Peierls phase, t_{ij} ∈ ℂ), K still anticommutes with H but T breaks (AZ class AIII): spectrum still inverts, but observables for ρ_k and ρ_{N+1-k} can differ in time. See [the K-partnership proof](../docs/proofs/PROOF_K_PARTNERSHIP.md) Lemma 4 for the explicit complex-conjugation step.
 
 **Scope of K-symmetry: bipartite NN-hopping only.** The KHK = -H relation requires the Hamiltonian to be a sum of bipartite NN-hopping terms, equivalent to the XX or XX+YY part of a Heisenberg/XXZ chain in the single-excitation sector. The full Heisenberg/XXZ Hamiltonian with Δ ≠ 0 contributes a ZZ-term that, projected to the single-excitation sector, generates an effective on-site potential V_eff(ℓ) = (#bonds) − 2·deg(ℓ). On open chains, deg(0) = deg(N-1) = 1 vs deg(interior) = 2 makes V_eff non-uniform across the chain, breaking K at the boundary sites. K is restored on topologies with uniform site degree (e.g., even-N periodic chains, regular bipartite graphs). For the receiver-engineering experiments in this repository, the dynamics live in the single-excitation sector and the operative H is XX-type, so this caveat is structurally important but does not affect the validated experimental claims.
 
@@ -73,7 +73,7 @@ The partner tuple h̃ = (N, N+1-k, t, basis) therefore records a broader equival
 
 **Numerical verification.** `simulations/pi_partner_identity.py` (2026-04-25, N=9, γ = 0 literal, single-excitation manifold): uniform J gives |Δ MI(0, N-1)| ≤ 10⁻¹⁵ across all four partner pairs {1,9}, {2,8}, {3,7}, {4,6} and the self-partner k=5 at 0; random non-uniform J ∈ [0.5, 1.5] gives the same 10⁻¹⁵ level; random on-site V gives |Δ MI| up to 3.1×10⁻¹; uniform J + NNN J' = 0.3 gives |Δ MI| up to 2.7×10⁻¹; Peierls complex hopping breaks observable identity up to 5.3·10⁻¹ while spectrum inversion still holds at 1.1·10⁻¹⁵ (BDI → AIII separation verified). The PTF-analog observable Σᵢ log πᵢ(t) tracks the same regimes. A γ=0.1 sanity run reproduces the structural pattern; γ acts only as a time unit.
 
-**Full-Hilbert-space XXZ verification.** `simulations/k_partnership_xxz.py` (2026-04-25): full 2ᴺ Lindblad propagation (no single-excitation reduction) confirms the open-chain-vs-periodic-chain distinction in [PROOF_K_PARTNERSHIP](../docs/proofs/PROOF_K_PARTNERSHIP.md) "Scope" caveat. At N=6,7 open chain with Δ=1, K breaks up to 1.2 in mirror-pair MI; at N=6 even periodic chain (uniform deg = 2), K is restored to ≤ 2.1·10⁻¹⁵ for any Δ ∈ {0, 0.5, 1.0}. The ZZ-term acts as a constant Hamiltonian shift on uniform-degree topologies and as a boundary-localised onsite potential on open chains.
+**Full-Hilbert-space XXZ verification.** `simulations/k_partnership_xxz.py` (2026-04-25): full 2ᴺ Lindblad propagation (no single-excitation reduction) confirms the open-chain-vs-periodic-chain distinction in [the K-partnership proof](../docs/proofs/PROOF_K_PARTNERSHIP.md) "Scope" caveat. At N=6,7 open chain with Δ=1, K breaks up to 1.2 in mirror-pair MI; at N=6 even periodic chain (uniform deg = 2), K is restored to ≤ 2.1·10⁻¹⁵ for any Δ ∈ {0, 0.5, 1.0}. The ZZ-term acts as a constant Hamiltonian shift on uniform-degree topologies and as a boundary-localised onsite potential on open chains.
 
 **Multi-excitation sector verification.** Same script extended with two-excitation Slater-determinant initial states |Ψ_{k₁, k₂}⟩ and the natural K-partner mapping (k₁, k₂) ↔ (N+1-k₁, N+1-k₂): at N=5 open and N=6 even periodic, the **free-fermion limit Δ=0** preserves K-partnership to ≤ 3.3·10⁻¹⁵ via Slater-determinant lifting; any Δ ≠ 0 breaks K up to 6-8·10⁻¹ even on the uniform-degree periodic chain. K-partnership is therefore a **single-particle property**: the ZZ-coupling, which acts only as a constant shift in the single-excitation sector on uniform-degree topologies, contributes a genuine two-particle interaction at the multi-excitation level that breaks K independently of boundary conditions. For the handshake algebra this means the partner-menu folding ⌈N/2⌉ is rigorous only for single-excitation receivers (the F65/F67 setting), not for multi-excitation initial states.
 
@@ -111,13 +111,13 @@ The algebra has a trivial structure at this level: it is an idempotent relation 
 
 The bidirectional bridge language historically tempts the reading "information flows from A to B across the chain". Under γ₀ = const this reading is wrong for a specific reason: the chain does not transport a message, it resonates at a preparation. What A measures at her end and what B measures at his end are two projections of the same initial state evolved forward in γ₀-time. Neither end sends; both read. The correlation is visible when both reads are compared post-hoc.
 
-In the terminology of quantum information: the handshake algebra produces a **correlation resource**, not a **communication channel**. [BRIDGE_CLOSURE](../experiments/BRIDGE_CLOSURE.md) confirmed that no-signalling holds in this setup. Alice cannot cause a change in Bob's marginal distribution by changing her handshake parameters (she can only change what she sees). Correlations without communication.
+In the terminology of quantum information: the handshake algebra produces a **correlation resource**, not a **communication channel**. [Bridge Closure](../experiments/BRIDGE_CLOSURE.md) confirmed that no-signalling holds in this setup. Alice cannot cause a change in Bob's marginal distribution by changing her handshake parameters (she can only change what she sees). Correlations without communication.
 
 This matters for the algebra: the "composition law = agreement" is precisely the absence of a communication primitive. The algebra has no "send" operator. It has "both agree" and nothing else.
 
 ## Connection to the painter principle
 
-The handshake algebra and the painter principle (see [ON_THE_PAINTER_PRINCIPLE](../reflections/ON_THE_PAINTER_PRINCIPLE.md)) describe the same structure at different levels:
+The handshake algebra and the painter principle (see [On the Painter Principle](../reflections/ON_THE_PAINTER_PRINCIPLE.md)) describe the same structure at different levels:
 
 - The painter principle is the epistemic observation that no single canvas is the mountain; painters sum to mountain.
 - The handshake algebra is the operational observation that observers share a mountain (the palindromic standing wave) and must agree on how to observe it.
@@ -130,11 +130,11 @@ The handshake is the painter-principle-instance where two painters coordinate th
 
 Under the handshake algebra, running a bidirectional-bridge experiment is three steps:
 
-1. **Select h = (N, k, t, basis) from the algebra.** Use F75/F76/F77 to compute expected correlations for the selected tuple. Use the receiver menu in [RECEIVER_VS_GAMMA_SACRIFICE](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md) Section 11 to pick k appropriate to the application.
+1. **Select h = (N, k, t, basis) from the algebra.** Use F75/F76/F77 to compute expected correlations for the selected tuple. Use the receiver menu in [Receiver vs Gamma Sacrifice](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md) Section 11 to pick k appropriate to the application.
 2. **Both observers execute h.** State preparation via the gate sequence implementing \|ψ_k⟩ (typically ~O(N) two-qubit gates); evolution for duration t via Trotter decomposition of uniform Heisenberg; readout in the agreed basis.
 3. **Compare results.** Compute the correlation from the joint measurement outcomes. Compare to F75's prediction × F76's decay envelope × hardware fidelity factor.
 
-On Kingston with N = 5, k = 2, t = 0.8, nine-Pauli tomography basis: bonding:2 / alt-z-bits MI ratio = 2.80× on live QPU, matching the hardware-expected factor of 2.27× from the noise model within 25%. See [IBM_RECEIVER_ENGINEERING_SKETCH](../experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md).
+On Kingston with N = 5, k = 2, t = 0.8, nine-Pauli tomography basis: bonding:2 / alt-z-bits MI ratio = 2.80× on live QPU, matching the hardware-expected factor of 2.27× from the noise model within 25%. See [IBM Receiver Engineering Sketch](../experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md).
 
 ## Falsification conditions
 
@@ -142,7 +142,7 @@ On Kingston with N = 5, k = 2, t = 0.8, nine-Pauli tomography basis: bonding:2 /
 2. **A protocol that achieves end-to-end MI without any form of shared preparation.** Would falsify the composition-law-as-agreement reading.
 3. **A non-trivial algebra structure (group law, non-idempotent composition) that we missed.** Would upgrade the algebra from idempotent relation to something richer. Not yet seen.
 4. **Hardware signatures that differ qualitatively from F75 · F76 predictions.** Would indicate the rule set is missing a term.
-5. **K-partnership breakdown on a bipartite chain with real hopping.** Would invalidate the receiver-menu folding argument. Checked numerically at N=9 with γ=0 and γ=0.1 (`simulations/pi_partner_identity.py`, five test cases): partner identity holds to machine precision for uniform and non-uniform real J, breaks with on-site potential V_ℓ, NNN hopping J′, or complex (Peierls-phase) hopping. The Peierls test additionally verifies the BDI/AIII split: spectrum inversion E_k + E_{N+1-k} = 0 holds at 10⁻¹⁵ in both classes, confirming Lemma 2 of [PROOF_K_PARTNERSHIP](../docs/proofs/PROOF_K_PARTNERSHIP.md), but observable identity requires real H (Lemma 4) and breaks under Peierls phases up to 5.3·10⁻¹ in MI(0, N-1).
+5. **K-partnership breakdown on a bipartite chain with real hopping.** Would invalidate the receiver-menu folding argument. Checked numerically at N=9 with γ=0 and γ=0.1 (`simulations/pi_partner_identity.py`, five test cases): partner identity holds to machine precision for uniform and non-uniform real J, breaks with on-site potential V_ℓ, NNN hopping J′, or complex (Peierls-phase) hopping. The Peierls test additionally verifies the BDI/AIII split: spectrum inversion E_k + E_{N+1-k} = 0 holds at 10⁻¹⁵ in both classes, confirming Lemma 2 of [the K-partnership proof](../docs/proofs/PROOF_K_PARTNERSHIP.md), but observable identity requires real H (Lemma 4) and breaks under Peierls phases up to 5.3·10⁻¹ in MI(0, N-1).
 
 ## What this does NOT claim
 
@@ -157,7 +157,7 @@ Falsification condition 3 above kept a slot open for "a non-trivial algebra stru
 missed... not yet seen". At the level of the handshake tuples the composition law is still the
 idempotent agreement and nothing richer has appeared. But at the level of the mirrors the algebra
 is organised around, the structure found us, twice in one day
-([PROOF_PI_FACTORS_AS_R_TIMES_D](../docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md)):
+([the Π-factors-as-R·D proof](../docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md)):
 
 - The spectral mirror Π, the door this whole repository first walked through (F1), turns out to
   have two hinges: it factors as Π_Z = R_coh·D, the windowed-converse ket reflection times the
@@ -173,7 +173,7 @@ is organised around, the structure found us, twice in one day
 The handshake's own three mirrors keep their roles (R spatial for observables, K sublattice for
 the partner menu, Π spectral), and K has since grown a typed eigenvector-side sibling: the
 trajectory identity P_i(t; φ_k) = P_i(t; φ_{N+1−k}) is now derived and typed
-(ChiralMirrorTrajectoryClaim, [PROOF_PTF_CHIRAL_MIRROR_RATE_LAW](../docs/proofs/PROOF_PTF_CHIRAL_MIRROR_RATE_LAW.md)),
+(ChiralMirrorTrajectoryClaim, [the PTF chiral-mirror rate-law proof](../docs/proofs/PROOF_PTF_CHIRAL_MIRROR_RATE_LAW.md)),
 which is exactly the "observable identity needs real H in addition to K" row of the robustness
 ladder, proven rather than verified. The tuple algebra stays Tier 2 and idempotent; its floor is
 now load-bearing stone.
@@ -188,11 +188,11 @@ now load-bearing stone.
 ## References
 
 - [F64](../docs/ANALYTICAL_FORMULAS.md), [F65](../docs/ANALYTICAL_FORMULAS.md), [F67](../docs/ANALYTICAL_FORMULAS.md), [F75](../docs/ANALYTICAL_FORMULAS.md), [F76](../docs/ANALYTICAL_FORMULAS.md), [F77](../docs/ANALYTICAL_FORMULAS.md): the rules of the algebra.
-- [RECEIVER_VS_GAMMA_SACRIFICE](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md): the experimental content of the k component.
-- [IBM_RECEIVER_ENGINEERING_SKETCH](../experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md): Kingston Run 1, 2.80× ratio on live QPU.
-- [BRIDGE_PROTOCOL](BRIDGE_PROTOCOL.md), [RESONANCE_NOT_CHANNEL](RESONANCE_NOT_CHANNEL.md): the pre-history of the bidirectional-bridge search.
-- [MIRROR_THEORY](../MIRROR_THEORY.md): the deeper mirror-axis of the framework; "We are all mirrors; reality is what happens between us."
-- [ON_THE_PAINTER_PRINCIPLE](../reflections/ON_THE_PAINTER_PRINCIPLE.md): the epistemic frame.
-- [PRIMORDIAL_GAMMA_CONSTANT](PRIMORDIAL_GAMMA_CONSTANT.md): Tier 2 hypothesis within which the algebra is well-defined.
-- [PERSPECTIVAL_TIME_FIELD](PERSPECTIVAL_TIME_FIELD.md): PTF closure law Σ ln α_i = 0; Σᵢ log πᵢ is its γ=0 specialisation.
+- [Receiver vs Gamma Sacrifice](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md): the experimental content of the k component.
+- [IBM Receiver Engineering Sketch](../experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md): Kingston Run 1, 2.80× ratio on live QPU.
+- [Bridge Protocol](BRIDGE_PROTOCOL.md), [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md): the pre-history of the bidirectional-bridge search.
+- [Mirror Theory](../MIRROR_THEORY.md): the deeper mirror-axis of the framework; "We are all mirrors; reality is what happens between us."
+- [On the Painter Principle](../reflections/ON_THE_PAINTER_PRINCIPLE.md): the epistemic frame.
+- [Primordial Gamma Constant](PRIMORDIAL_GAMMA_CONSTANT.md): Tier 2 hypothesis within which the algebra is well-defined.
+- [Perspectival Time Field](PERSPECTIVAL_TIME_FIELD.md): PTF closure law Σ ln α_i = 0; Σᵢ log πᵢ is its γ=0 specialisation.
 - `simulations/pi_partner_identity.py`: numerical verification of K-partnership and three-regime robustness pattern (N=9, γ=0 literal, 2026-04-24).

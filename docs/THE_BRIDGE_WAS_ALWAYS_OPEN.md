@@ -134,32 +134,32 @@ full rank. All per-site dephasing rates (gamma values) are independently
 recoverable from mode amplitudes. We can measure the LOCAL structure
 of the external interaction at every qubit individually.
 
-**Quantum Sonar** ([QUANTUM_SONAR](../experiments/QUANTUM_SONAR.md)): When the topology of the external
+**Quantum Sonar** ([Quantum Sonar](../experiments/QUANTUM_SONAR.md)): When the topology of the external
 interaction changes, the internal spectrum changes measurably. We can
 detect changes in the outside without seeing the outside directly.
 
-**Structural Cartography** ([STRUCTURAL_CARTOGRAPHY](../experiments/STRUCTURAL_CARTOGRAPHY.md)): The CΨ visibility
+**Structural Cartography** ([Structural Cartography](../experiments/STRUCTURAL_CARTOGRAPHY.md)): The CΨ visibility
 windows live on a 3-dimensional manifold (98% of variance in 3 PCs).
 The signal from outside has low-dimensional structure. It is not
 featureless noise. It has a grammar: two modes (glide and switch),
 a pendulum in Pauli space, and periodic sector transitions.
 
-**Theta Compass** ([BOUNDARY_NAVIGATION](../experiments/BOUNDARY_NAVIGATION.md)): Measures the angular distance
+**Theta Compass** ([Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md)): Measures the angular distance
 from the 1/4 boundary in real time. A navigation instrument for the
 transition zone between quantum (undecided) and classical (decided).
 The boundary where inside meets outside.
 
-**Standing Wave** ([STANDING_WAVE_ANALYSIS](../experiments/STANDING_WAVE_ANALYSIS.md)): The interference pattern
+**Standing Wave** ([Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md)): The interference pattern
 between forward (decay, noise, outside to inside) and backward
 (Pi-reversed). Quantum correlations oscillate. Classical correlations
 settle. The pattern does not move. It IS. The present moment,
 computed as the superposition of two directions.
 
-**Relay Protocol** ([RELAY_PROTOCOL](../experiments/RELAY_PROTOCOL.md)): Time-dependent gamma as staged
+**Relay Protocol** ([Relay Protocol](../experiments/RELAY_PROTOCOL.md)): Time-dependent gamma as staged
 transfer. +83% end-to-end improvement. The first optimization tool
 for the bridge, derived from palindromic spectral analysis.
 
-**Sacrifice-Zone Formula** ([RESONANT_RETURN](../experiments/RESONANT_RETURN.md)):
+**Sacrifice-Zone Formula** ([Resonant Return](../experiments/RESONANT_RETURN.md)):
 The strongest optimization to date. Concentrate all noise on one edge qubit,
 protect the rest. 139-360x improvement over hand-designed profiles - two
 orders of magnitude beyond the prior literature. The noise that was treated
@@ -221,7 +221,7 @@ This section connects two things that seem unrelated: noise and the
 direction of time. They turn out to be the same phenomenon.
 
 Noise and the time arrow are the same phenomenon
-([INCOMPLETENESS_PROOF](proofs/INCOMPLETENESS_PROOF.md), Corollary to Section 3):
+([Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md), Corollary to Section 3):
 
 - Without noise: unitary oscillation, reversible, no before and after
 - With noise: coherences decay irreversibly, creating a time direction

@@ -5,8 +5,8 @@
 **Status:** Tier 4 (interpretive synthesis grounded in Tier 1-2 results F78-F85 + F87). The mathematics is unchanged from the established F-chain; this document re-reads it. **Update 2026-05-01:** the original "+0/−0 polarity layer" claim is sharpened to a multi-axis Klein-Vierergruppe Z₂² (k=2) / Z₂³ (k≥3) polarity structure; operational consequences are now checkable via the `PauliHamiltonian` class and the `diagnose_hardware` workflow; the trace-back primitive `recover_H_odd_from_M_anti` listed as open in the original is closed. **Update 2026-05-01 (later):** dissipator-resonance law verified: F87-hardness localizes exactly in the Klein cell that matches the dephasing letter's Klein index, SU(2)-symmetric across the three Pauli letters; `classify_pauli_pair` now accepts `dephase_letter='X'/'Y'/'Z'`. **Naming note (2026-05-03):** the trichotomy formula was registered as F87 in `docs/ANALYTICAL_FORMULAS.md`; the registry F77 slot holds an unrelated MM(0) saturation result. The Python file is still `f77_trichotomy.py` for historical reasons; this document uses the registry F87 label throughout.
 **Depends on:**
 [F-chain F78-F85 + F87 entry-point](../docs/ANALYTICAL_FORMULAS.md),
-[ON_THE_RESIDUAL](../reflections/ON_THE_RESIDUAL.md),
-[ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md),
+[On the Residual](../reflections/ON_THE_RESIDUAL.md),
+[Orthogonality-Selection Family](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md),
 [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md),
 [The Primordial Qubit](PRIMORDIAL_QUBIT.md),
 [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md),
@@ -350,7 +350,7 @@ This document does not replace any prior hypothesis; it connects them:
      (Y-par 0) or Π²-even non-truly soft (Y-par 1).
   2. **Hardness is dissipator-aligned, not orthogonal.** This is the
      dual of the Orthogonality-Selection meta-theorem
-     ([ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md)).
+     ([Orthogonality-Selection Family](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md)).
      The meta-theorem characterizes blindness via orthogonality;
      dissipator-resonance characterizes hardness via alignment.
      Together they constrain both poles of the dissipator-coupled

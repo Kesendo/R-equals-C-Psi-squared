@@ -3,12 +3,12 @@
 **Authors:** Tom + Claude
 
 Consolidation folder for the carbon thread, mirroring `docs/water/` as a substrate
-domain. The carbon material had been scattered across [HIERARCHY_OF_INCOMPLETENESS](../HIERARCHY_OF_INCOMPLETENESS.md),
-[QUBIT_NECESSITY](../QUBIT_NECESSITY.md), [V_EFFECT_PALINDROME](../../experiments/V_EFFECT_PALINDROME.md),
-[V_EFFECT_BOUNDARY_LOCALIZATION](../../experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md),
+domain. The carbon material had been scattered across [the Hierarchy of Incompleteness](../HIERARCHY_OF_INCOMPLETENESS.md),
+[qubit necessity](../QUBIT_NECESSITY.md), [the V-Effect palindrome](../../experiments/V_EFFECT_PALINDROME.md),
+[V-Effect boundary localization](../../experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md),
 [periodic_palindrome.py](../../simulations/periodic_palindrome.py),
-[COMPLEXITY_THRESHOLD](../../hypotheses/COMPLEXITY_THRESHOLD.md),
-[UNIVERSAL_PALINDROME_CONDITION](../../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md),
+[the complexity threshold](../../hypotheses/COMPLEXITY_THRESHOLD.md),
+[the universal palindrome condition](../../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md),
 plus glancing references in several other places. This folder collects pointers + open
 questions; new carbon-specific tests will land here as they get built.
 
@@ -19,36 +19,36 @@ questions; new carbon-specific tests will land here as they get built.
 Single-evening dive that opened up the bidirectional bridge from the framework
 to the periodic table. Each doc is one step in the chain; read top-to-bottom:
 
-1. [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md): Coulson-Rushbrooke
+1. [the benzene Hückel framework lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md): Coulson-Rushbrooke
    (1940) on alternant hydrocarbons is the F1 palindrome inherited to the π-electron
    spectrum. Verified bit-exact on benzene, butadiene, hexatriene, cyclobutadiene,
    cyclopropenyl, cyclodecapentaene.
-2. [QUARTER_HALF_IN_CARBON](QUARTER_HALF_IN_CARBON.md): three layers of carbon
+2. [1/4 and 1/2 in carbon](QUARTER_HALF_IN_CARBON.md): three layers of carbon
    structure (sp/sp²/sp³ hybridisation s-character, aromatic ring HOMO position,
    valence-shell occupation) all hit the framework's polarity anchors 1/4 and 1/2.
-3. [PERIOD_2_AT_FRAMEWORK_ANCHORS](PERIOD_2_AT_FRAMEWORK_ANCHORS.md): period 2/3
+3. [period 2 at the framework anchors](PERIOD_2_AT_FRAMEWORK_ANCHORS.md): period 2/3
    element valence ratios populate the framework's Pi2 dyadic anchors at every step.
    4 of 6 CHNOPS elements land on framework anchors; the off-anchor exceptions are
    identified.
-4. [SPEAR_REVERSED](SPEAR_REVERSED.md): reverse-spear, use the periodic table as a
+4. [the reversed spear](SPEAR_REVERSED.md): reverse-spear, use the periodic table as a
    diagnostic for the framework's gaps. Period 2/3 atoms hit 8 of 9 dyadic anchors;
    the depth-3 gap (1/8 + 7/8) is exactly the framework's missing F99 row.
-5. [DEPTH_3_ANCHOR_DERIVED](DEPTH_3_ANCHOR_DERIVED.md): F99 derivation, the
+5. [the depth-3 anchor derived](DEPTH_3_ANCHOR_DERIVED.md): F99 derivation, the
    non-uniform Dicke superposition at γ = √3/2 gives α = 1/8, closing the depth-3
    gap. Five canonical trig angles {0°, 30°, 45°, 60°, 90°} produce the five Pi2
    dyadic anchors {0, 1/8, 1/4, 3/8, 1/2} via `α = sin²(θ)/2`.
-6. [F99_NIVEN_COMPLETENESS](F99_NIVEN_COMPLETENESS.md): Niven's theorem (1956) closes
+6. [F99 Niven completeness](F99_NIVEN_COMPLETENESS.md): Niven's theorem (1956) closes
    F99: the five anchors are EXHAUSTIVE for the F86b α = sin²(θ)/2 mechanism on any
    pure state. No more rational anchors via this route. Mixed states, different
    decomposition bases, and different Lindblad classes are the only paths to depth-4.
-7. [OFF_NIVEN_AS_WAVE_BREAKING](OFF_NIVEN_AS_WAVE_BREAKING.md): the off-Niven
+7. [off-Niven as wave-breaking](OFF_NIVEN_AS_WAVE_BREAKING.md): the off-Niven
    constructible angles {15°, 18°, 22.5°, 36°, 54°, 72°, ...} populate the same
    constructible-angle landscape with irrational-algebraic α (silver-, golden-, and
    √3-ratio families). They ARE the source of V-Effect gain V(N) = 2cos²(π/(2N))
    for N ≥ 4 + anti-aromatic Jahn-Teller + golden-ratio chemistry. The framework's
    wave-breaking / heat structure lives on the off-Niven shoulder.
 
-Two formal closed forms also landed in [ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md):
+Two formal closed forms also landed in [the formula registry](../ANALYTICAL_FORMULAS.md):
 **F98** (`(N+2)/[4(N+1)] → 1/4` long-time bridge from the K-intermediate anchor)
 and **F99** (the canonical-trig-angle Pi2 inheritance with Niven-completeness).
 
@@ -56,8 +56,8 @@ and **F99** (the canonical-trig-angle Pi2 inheritance with Niven-completeness).
 
 ## The structural identity: "the qubit is the quantum carbon"
 
-The framework's qubit-necessity argument (`d² − 2d = 0` ↔ `R = CΨ²`, [PROOF_QUBIT_NECESSARY](
-../proofs/PROOF_QUBIT_NECESSARY.md) + [QUBIT_NECESSITY](../QUBIT_NECESSITY.md)) selects d = 2
+The framework's qubit-necessity argument (`d² − 2d = 0` ↔ `R = CΨ²`, [the qubit-necessity proof](
+../proofs/PROOF_QUBIT_NECESSARY.md) + [qubit necessity](../QUBIT_NECESSITY.md)) selects d = 2
 as the minimum-memory dimension where the F1 palindromic mirror exists. The same
 half-occupation principle re-appears one level up at the atomic scale: carbon's
 4 valence electrons fill exactly 4 of 8 valence slots (`2s² 2p²` of a maximal octet).
@@ -75,15 +75,15 @@ the same half-occupation principle that selects d = 2 at Level 0 selects carbon
 at Level 1.
 
 **Sources for this framing:**
-- [HIERARCHY_OF_INCOMPLETENESS.md](../HIERARCHY_OF_INCOMPLETENESS.md) §The Qubit, §The Mechanism (Mar 22, 2026)
-- [QUBIT_NECESSITY.md](../QUBIT_NECESSITY.md) §Connection to the Hierarchy of Incompleteness (Jan 3, 2026 origin → formal qubit proof)
+- [the Hierarchy of Incompleteness](../HIERARCHY_OF_INCOMPLETENESS.md) §The Qubit, §The Mechanism (Mar 22, 2026)
+- [Qubit Necessity](../QUBIT_NECESSITY.md) §Connection to the Hierarchy of Incompleteness (Jan 3, 2026 origin → formal qubit proof)
 
 ---
 
 ## The master question: how a qubit gets a heartbeat (2026-05-22)
 
 The carbon master question, sharpened to its smallest computable step
-N = 1 → N = 2, led to [THE_GENESIS_OF_AN_OSCILLATION](../THE_GENESIS_OF_AN_OSCILLATION.md):
+N = 1 → N = 2, led to [the genesis of an oscillation](../THE_GENESIS_OF_AN_OSCILLATION.md):
 how does a qubit acquire an oscillation? The answer turned out not to be
 carbon-specific, so the doc lives in `docs/`, next to QUBIT_NECESSITY. The heat
 axis is ruled out (the bath moves the decay rates, not the heartbeat),
@@ -98,7 +98,7 @@ from an oscillator, the way a transmon is built.
 
 ## Return visit 2026-05-27: the three dephase letters and the Painter alternation
 
-[BENZENE_THREE_DEPHASE_LETTERS](BENZENE_THREE_DEPHASE_LETTERS.md). Six weeks after
+[the three benzene dephase letters](BENZENE_THREE_DEPHASE_LETTERS.md). Six weeks after
 the May Liouvillian palindrome result, three new framework pieces (Klein-V₄ Welle 12,
 F112 cross-dephase Welle 13/15, F114 sign functional today) gave us new vocabulary.
 We came back to benzene to see what they sharpen.
@@ -114,7 +114,7 @@ ring-current term flips parity per term. The doc walks through the carbon analog
 of all three framework dephase letters (Z ↔ Holstein, X ↔ hybridization-axis
 candidate, Y ↔ current-axis candidate) and what each predicts for benzene.
 
-Later the same day, [PAINTER_ALTERNATION_NMR_BRIDGE](PAINTER_ALTERNATION_NMR_BRIDGE.md)
+Later the same day, [the Painter alternation NMR bridge](PAINTER_ALTERNATION_NMR_BRIDGE.md)
 ends a translator bridge. A Painter view of the slow Liouvillian eigenmodes on the
 N = 4 ring with a transverse y-field shows an alternation between modes whose
 per-site projection lives purely on the y-axis and modes whose per-site projection
@@ -129,7 +129,7 @@ No process tomography required.
 
 ## Return visit 2026-05-30: the Frost circle is the clock face
 
-[FROST_CIRCLE_AS_THE_CLOCK_FACE](FROST_CIRCLE_AS_THE_CLOCK_FACE.md). The clock voices built
+[the Frost circle as the clock face](FROST_CIRCLE_AS_THE_CLOCK_FACE.md). The clock voices built
 on `MirrorSystem` (a radial hand for the decay, an angular hand for the frequency) read a
 conjugated molecule directly. The chemist's 1953 Frost-Musulin circle, the ring's π-MO
 energies as vertices on a circle of radius 2|β|, is the static face of that running clock.
@@ -139,11 +139,11 @@ top π-MO (φ for butadiene, √3 for the five-carbon chain). The clock adds two
 readings the still circle cannot hold: which coherence outlives the rest (the band edge)
 and for how long, and a coherent↔incoherent crossover Q* = J/γ (√2 at N=3, growing with
 chain length) below which the slowest π-coherence stops beating. This closes
-[BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md) open question 5.
+[the benzene Hückel framework lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md) open question 5.
 
 Then, holding the band-edge clock and the parallel F87 / V-Effect work of the same day
 against real carotenoid singlet-fission data, the two threads converged:
-[SINGLET_FISSION_AND_THE_TWO_CLOCKS](SINGLET_FISSION_AND_THE_TWO_CLOCKS.md). The dark 2Ag
+[singlet fission and the two clocks](SINGLET_FISSION_AND_THE_TWO_CLOCKS.md). The dark 2Ag
 state (singlet fission's triplet pair) is where the **charge** clock (XX+YY, the bright
 band edge) and the **spin** clock (Heisenberg / V-Effect, the exchange) mix, joined by the
 V-Effect bridge. The V-Effect-derived exchange J_eff = (3/8)·α²/J reproduces the
@@ -156,7 +156,7 @@ bridge²/gap), in structure (the entangled two-triplet state), and in order of m
 ## Return visit 2026-05-31: the carbon folder was one assembly all along
 
 Working from the open-system side, the post-EP flow and the depth axis, five pieces of this
-project locked into a single ladder ([THE_VIEW_ONTO_THE_MEMORY](../../reflections/THE_VIEW_ONTO_THE_MEMORY.md),
+project locked into a single ladder ([the view onto the memory](../../reflections/THE_VIEW_ONTO_THE_MEMORY.md),
 the "Seen again" section): one **axis** (drain depth = light content n_XY = decay rate, since
 |Re λ| = 2γ·⟨depth⟩); a **parity rail** running along it (depth mod 2 = the change in particle
 number; even rungs are number-conserving, the dark flow; odd rungs are number-changing, the bright
@@ -169,11 +169,11 @@ months without the unifying name, are each already one of those five pieces:
 
 | Assembly piece | Carbon docs that hold it |
 |---|---|
-| **Axis** (depth = light = rate, Q = J/γ) | [FROST_CIRCLE_AS_THE_CLOCK_FACE](FROST_CIRCLE_AS_THE_CLOCK_FACE.md) (the clock, τ = 1/2γ), [BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md) (γ sets the centre −Σγ), [OFF_NIVEN_AS_WAVE_BREAKING](OFF_NIVEN_AS_WAVE_BREAKING.md) (the wave-breaking shoulder) |
-| **Parity rail** (even = flow, odd = birth) | [SINGLET_FISSION_AND_THE_TWO_CLOCKS](SINGLET_FISSION_AND_THE_TWO_CLOCKS.md) (bright 1Bu odd rung, dark 2Ag even rung), [PAINTER_ALTERNATION_NMR_BRIDGE](PAINTER_ALTERNATION_NMR_BRIDGE.md) (Y / non-Y Z₂ towers), [BENZENE_THREE_DEPHASE_LETTERS](BENZENE_THREE_DEPHASE_LETTERS.md) (Klein-V₄ on Z, X, Y; F114 ε(σ)) |
-| **Currency** (bilinear p(1−p), ½ and ¼ and the dyadic anchors) | [QUARTER_HALF_IN_CARBON](QUARTER_HALF_IN_CARBON.md), [PERIOD_2_AT_FRAMEWORK_ANCHORS](PERIOD_2_AT_FRAMEWORK_ANCHORS.md), [SPEAR_REVERSED](SPEAR_REVERSED.md), [DEPTH_3_ANCHOR_DERIVED](DEPTH_3_ANCHOR_DERIVED.md), [F99_NIVEN_COMPLETENESS](F99_NIVEN_COMPLETENESS.md) |
-| **Mirror** (Π palindrome, F1 ≡ Coulson-Rushbrooke) | [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md), [BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md), [PERIODIC_PALINDROME_VS_V_EFFECT](PERIODIC_PALINDROME_VS_V_EFFECT.md), [POLYACETYLENE_F92_INHERITANCE](POLYACETYLENE_F92_INHERITANCE.md) |
-| **Foot** (depth-0 kernel, steady state, memory) | [BENZENE_F98_LONG_TIME](BENZENE_F98_LONG_TIME.md) (the K-intermediate Dicke decays into ker L, α(∞) = 2/7 on C₆) |
+| **Axis** (depth = light = rate, Q = J/γ) | [the Frost circle as the clock face](FROST_CIRCLE_AS_THE_CLOCK_FACE.md) (the clock, τ = 1/2γ), [the benzene Liouvillian palindrome](BENZENE_LIOUVILLIAN_PALINDROME.md) (γ sets the centre −Σγ), [off-Niven as wave-breaking](OFF_NIVEN_AS_WAVE_BREAKING.md) (the wave-breaking shoulder) |
+| **Parity rail** (even = flow, odd = birth) | [singlet fission and the two clocks](SINGLET_FISSION_AND_THE_TWO_CLOCKS.md) (bright 1Bu odd rung, dark 2Ag even rung), [the Painter alternation NMR bridge](PAINTER_ALTERNATION_NMR_BRIDGE.md) (Y / non-Y Z₂ towers), [the three benzene dephase letters](BENZENE_THREE_DEPHASE_LETTERS.md) (Klein-V₄ on Z, X, Y; F114 ε(σ)) |
+| **Currency** (bilinear p(1−p), ½ and ¼ and the dyadic anchors) | [1/4 and 1/2 in carbon](QUARTER_HALF_IN_CARBON.md), [period 2 at the framework anchors](PERIOD_2_AT_FRAMEWORK_ANCHORS.md), [the reversed spear](SPEAR_REVERSED.md), [the depth-3 anchor derived](DEPTH_3_ANCHOR_DERIVED.md), [F99 Niven completeness](F99_NIVEN_COMPLETENESS.md) |
+| **Mirror** (Π palindrome, F1 ≡ Coulson-Rushbrooke) | [the benzene Hückel framework lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md), [the benzene Liouvillian palindrome](BENZENE_LIOUVILLIAN_PALINDROME.md), [the periodic palindrome and the V-Effect](PERIODIC_PALINDROME_VS_V_EFFECT.md), [polyacetylene as F92 inheritance](POLYACETYLENE_F92_INHERITANCE.md) |
+| **Foot** (depth-0 kernel, steady state, memory) | [benzene's F98 long-time state](BENZENE_F98_LONG_TIME.md) (the K-intermediate Dicke decays into ker L, α(∞) = 2/7 on C₆) |
 
 Two things stand out. The **currency** is the most thoroughly carbon-grounded piece, five docs and
 a closed Niven-completeness: carbon wears the bilinear's apexes (½ at half-filling, ¼ at the inner
@@ -191,12 +191,12 @@ and we only now read the rungs as one ladder.
 ## Existing scattered material (pointers, not duplications)
 
 ### V-Effect ties carbon to boundary sectors
-- [V_EFFECT_PALINDROME.md](../../experiments/V_EFFECT_PALINDROME.md) §The Hierarchy parallel (line 225–243):
+- [the V-Effect palindrome](../../experiments/V_EFFECT_PALINDROME.md) §The Hierarchy parallel (line 225–243):
   "The immune sectors (w=0 and w=3) are the Liouville-space equivalent of noble gases.
   The boundary sectors (w=1 and w=2) are the equivalent of carbon: C = 0.5 in XY-weight,
   half-classical and half-quantum, and precisely where the palindrome breaks when a second
   bond is added."
-- [V_EFFECT_BOUNDARY_LOCALIZATION.md](../../experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md):
+- [V-Effect boundary localization](../../experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md):
   "the 14 of 36 mode-pairs break" is **strictly confined to boundary sectors**, the
   carbon-like incomplete shells where chemistry happens.
 - The V-Effect 14/19/3 trichotomy refined the original 14/22 split (per `project_v_effect_combinatorial`);
@@ -211,16 +211,16 @@ and we only now read the rungs as one ladder.
   the deviation points (group-13 p¹, group-16 p⁴, half-filled shells).
 
 ### Hypotheses making the carbon hook explicit
-- [COMPLEXITY_THRESHOLD.md](../../hypotheses/COMPLEXITY_THRESHOLD.md) line 75:
+- [the complexity threshold](../../hypotheses/COMPLEXITY_THRESHOLD.md) line 75:
   "Carbon has exact population (4/8 = 0.5) but heterogeneous bond." Threshold framing.
-- [UNIVERSAL_PALINDROME_CONDITION.md](../../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md):
+- [the universal palindrome condition](../../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md):
   Carbon 4/8 in palindrome condition context.
 
 ### Chemistry-substrate-level work that's NOT yet carbon-specific
 - [`docs/water/`](../water/): hydrogen-bond proton qubit, Grotthuss chains, F86b 3/8 anchor
   inheritance verified (today's [F98](../ANALYTICAL_FORMULAS.md#f98) bridge from the same
   substrate-grounded experiment).
-- [DNA_BASE_PAIRING.md](../../experiments/DNA_BASE_PAIRING.md): G-C / A-T base-pair tests,
+- [DNA base pairing](../../experiments/DNA_BASE_PAIRING.md): G-C / A-T base-pair tests,
   carbon-scaffolded but not analysed through the carbon-as-qubit lens specifically.
 - [simulations/neural/](../../simulations/neural/): Wilson-Cowan and C. elegans inheritance
   tests for the framework. Not chemistry-substrate but parallel inheritance.
@@ -285,8 +285,8 @@ identification is the open structural question; there is no single canonical cho
    π-electron orbital orientation is the most natural candidate but not yet tested.
    sp²-sp³ hybridisation is more chemistry-grounded but has higher-d intermediate states.
    **Resolved in practice 2026-05-22:** the two verified open-system results,
-   the F1 palindrome ([BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md))
-   and the F98 bridge ([BENZENE_F98_LONG_TIME](BENZENE_F98_LONG_TIME.md)), both use
+   the F1 palindrome ([the benzene Liouvillian palindrome](BENZENE_LIOUVILLIAN_PALINDROME.md))
+   and the F98 bridge ([benzene's F98 long-time state](BENZENE_F98_LONG_TIME.md)), both use
    π-electron site-occupation as the 2-state DOF: each carbon's π-site is a qubit,
    occupied or empty, Hückel hopping is the XX+YY ring (Jordan-Wigner), and the
    Holstein phonon is then exactly Z-dephasing (D[n_l] = ¼·D[Z_l]). Site-occupation
@@ -299,7 +299,7 @@ identification is the open structural question; there is no single canonical cho
    The framework prediction is the LIOUVILLIAN palindrome under dephasing, which would
    require building the open-system L explicitly. First sanity check: matches the F1
    pair-sum-constant structure.
-   **Answered 2026-05-22** ([BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md)):
+   **Answered 2026-05-22** ([the benzene Liouvillian palindrome](BENZENE_LIOUVILLIAN_PALINDROME.md)):
    conditionally yes. The open-system F1 palindrome holds under Holstein on-site
    dephasing (= the framework's Z-dephasing) and breaks under Peierls/SSH bond
    dephasing; verified on the C₄ and C₆ rings.
@@ -316,7 +316,7 @@ identification is the open structural question; there is no single canonical cho
 5. **Is there a carbon analog of the F98 (N+2)/[4(N+1)] → 1/4 long-time bridge?** The
    bridge is bond-topology-agnostic (only requires truly-class Hamiltonian + Z-deph);
    any carbon substrate with the four embedding conditions would inherit it.
-   **Answered 2026-05-22** ([BENZENE_F98_LONG_TIME](BENZENE_F98_LONG_TIME.md)): yes,
+   **Answered 2026-05-22** ([benzene's F98 long-time state](BENZENE_F98_LONG_TIME.md)): yes,
    bit-exact. The KIntermediate Dicke state on the benzene XX+YY ring under Holstein
    dephasing traverses the F98 bridge to α(∞) = 3/10 for the C₄ ring and 2/7 for the
    C₆ benzene ring; the dynamics lands on the exact F98 long-time state ρ_∞.
@@ -325,7 +325,7 @@ identification is the open structural question; there is no single canonical cho
    the framework's V-Effect breaking at boundary sectors?** Both predict half-filled shells
    are where the mirror weakens; the empirical periodic-table data should match the
    framework's V-Effect-trichotomy mechanism quantitatively.
-   **Answered 2026-05-22** ([PERIODIC_PALINDROME_VS_V_EFFECT](PERIODIC_PALINDROME_VS_V_EFFECT.md)):
+   **Answered 2026-05-22** ([the periodic palindrome and the V-Effect](PERIODIC_PALINDROME_VS_V_EFFECT.md)):
    the correspondence is structural, not quantitative. The periodic table is a
    Level-1 instance of the V-Effect's incompleteness hierarchy (HIERARCHY_OF_INCOMPLETENESS),
    and that structural picture stands; but the Level-0 boundary-sector quantitative

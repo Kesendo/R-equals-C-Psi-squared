@@ -5,9 +5,9 @@ two-layer Lindblad, non-Markovian rebound reduced dynamics, three eigenvalue
 classes 3 10 3, absorption theorem inheritance, R=CPsi2 nested mirror notes -->
 
 **Status:** Working notes that led to other results. The findings worth keeping
-have moved to [PRIMORDIAL_QUBIT.md](PRIMORDIAL_QUBIT.md) (Sections 4, 7, 8, 9),
-[PROOF_BIT_B_PARITY_SYMMETRY.md](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md),
-and [ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md) entries F38, F61, F63.
+have moved to [Primordial Qubit](PRIMORDIAL_QUBIT.md) (Sections 4, 7, 8, 9),
+[the bit-b parity symmetry proof](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md),
+and [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md) entries F38, F61, F63.
 This document is kept as the trail.
 **Date:** 2026-04-14 to 2026-04-15
 **Authors:** Tom and Claude (chat)
@@ -61,10 +61,10 @@ Two more pieces fell into place when we pulled the same thread.
 
 **Two Z₂ symmetries together explain 3+10+3.** The Liouvillian commutes with two independent Z₂ operators, both proven for all N:
 
-- bit_a = n_XY parity ([F61](../docs/ANALYTICAL_FORMULAS.md#f61-n_xy-parity-selection-rule-tier-1-proven-verified-64-configs-n2-6), [PROOF_PARITY_SELECTION_RULE](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md))
-- bit_b = w_YZ parity ([F63](../docs/ANALYTICAL_FORMULAS.md#f63-w_yz-parity-symmetry-l-pi2--0-tier-1-proven-analytically-verified-n2-5), [PROOF_BIT_B_PARITY_SYMMETRY](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md))
+- bit_a = n_XY parity ([F61](../docs/ANALYTICAL_FORMULAS.md#f61-n_xy-parity-selection-rule-tier-1-proven-verified-64-configs-n2-6), [the parity selection rule proof](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md))
+- bit_b = w_YZ parity ([F63](../docs/ANALYTICAL_FORMULAS.md#f63-w_yz-parity-symmetry-l-pi2--0-tier-1-proven-analytically-verified-n2-5), [the bit-b parity symmetry proof](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md))
 
-Together they decompose the 16 modes at N=2 into 4 sectors. The 3+10+3 class count splits across Π²-parity as (2+4+2) in the even sector and (1+6+1) in the odd sector. The fastest oscillation Im ≈ ±2.0 lives **exclusively** in the odd sector; the even sector contains only Im ≈ ±1.0. The even sector is the standing-wave / cavity sector (contains II, ZZ, XX, YY, Bell+); the odd sector is the cross-correlation / transport sector (contains XY, XZ, YX, ZX). See [PRIMORDIAL_QUBIT Section 9](PRIMORDIAL_QUBIT.md#9-operational-test-from-the-inside-april-15-2026) for the full decomposition table and N-scaling through N=5.
+Together they decompose the 16 modes at N=2 into 4 sectors. The 3+10+3 class count splits across Π²-parity as (2+4+2) in the even sector and (1+6+1) in the odd sector. The fastest oscillation Im ≈ ±2.0 lives **exclusively** in the odd sector; the even sector contains only Im ≈ ±1.0. The even sector is the standing-wave / cavity sector (contains II, ZZ, XX, YY, Bell+); the odd sector is the cross-correlation / transport sector (contains XY, XZ, YX, ZX). See [Primordial Qubit Section 9](PRIMORDIAL_QUBIT.md#9-operational-test-from-the-inside-april-15-2026) for the full decomposition table and N-scaling through N=5.
 
 ---
 
@@ -76,7 +76,7 @@ Together they decompose the 16 modes at N=2 into 4 sectors. The 3+10+3 class cou
 
 **Properties: no, not directly.** The Inside-Outside Correspondence probes (commits `cfa2a9f` through `17c48b4`) showed every measurable quantity from inside depends on the dimensionless ratio Q = J/γ_B only, not on J or γ_B separately. The inner observer can detect that an outer layer exists; it cannot extract the outer layer's γ value or J value independently. Backward inference works for the existence of structure, not for its absolute parameters.
 
-This is consistent with [INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PROOF.md): noise has no internally accessible origin, and now we know the operational sharpening: even what one might hope to *infer* about the noise (its rate) collapses to the ratio Q from inside.
+This is consistent with [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md): noise has no internally accessible origin, and now we know the operational sharpening: even what one might hope to *infer* about the noise (its rate) collapses to the ratio Q from inside.
 
 ---
 
@@ -84,8 +84,8 @@ This is consistent with [INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PRO
 
 | Thread | Continued in |
 |---|---|
-| Algebraic embedding (3+10+3 from absorption theorem) | [PRIMORDIAL_QUBIT.md](PRIMORDIAL_QUBIT.md) Section 4 |
-| Q = J/γ as only inside observable | [PRIMORDIAL_QUBIT.md](PRIMORDIAL_QUBIT.md) Section 9 |
-| Two Z₂ symmetries proven for all N | [PROOF_BIT_B_PARITY_SYMMETRY.md](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md), F63 |
-| C²×C² sector decomposition, even=cavity, odd=transport | [PRIMORDIAL_QUBIT.md](PRIMORDIAL_QUBIT.md) Section 9 |
-| TFD route blocked, primordial qubit stance refined | [PRIMORDIAL_QUBIT.md](PRIMORDIAL_QUBIT.md) Sections 7-8 |
+| Algebraic embedding (3+10+3 from absorption theorem) | [Primordial Qubit](PRIMORDIAL_QUBIT.md) Section 4 |
+| Q = J/γ as only inside observable | [Primordial Qubit](PRIMORDIAL_QUBIT.md) Section 9 |
+| Two Z₂ symmetries proven for all N | [the bit-b parity symmetry proof](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md), F63 |
+| C²×C² sector decomposition, even=cavity, odd=transport | [Primordial Qubit](PRIMORDIAL_QUBIT.md) Section 9 |
+| TFD route blocked, primordial qubit stance refined | [Primordial Qubit](PRIMORDIAL_QUBIT.md) Sections 7-8 |

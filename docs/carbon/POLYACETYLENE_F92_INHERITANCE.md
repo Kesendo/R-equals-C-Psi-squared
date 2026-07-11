@@ -2,8 +2,8 @@
 
 **Date:** 2026-05-27
 **Authors:** Tom + Claude
-**Status:** Tier 2 candidate. Framework predictions are tight and follow directly from F92 / F100 / F101 ([PROOF_F92_BOND_ANTI_PALINDROMIC_J](../proofs/PROOF_F92_BOND_ANTI_PALINDROMIC_J.md), [PROOF_F100](../proofs/PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md), [PROOF_F101](../proofs/PROOF_F101_C1_MIRROR_GAMMA_PARITY.md), all Tier 1 derived). Numerical verification on the open-system SSH chain is the deferred next pass.
-**Continues:** [BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md) (Holstein/Peierls fork), [BENZENE_THREE_DEPHASE_LETTERS](BENZENE_THREE_DEPHASE_LETTERS.md) (the Klein-V₄ return visit).
+**Status:** Tier 2 candidate. Framework predictions are tight and follow directly from F92 / F100 / F101 ([the F92 bond anti-palindromic-J proof](../proofs/PROOF_F92_BOND_ANTI_PALINDROMIC_J.md), [the F100 proof](../proofs/PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md), [the F101 proof](../proofs/PROOF_F101_C1_MIRROR_GAMMA_PARITY.md), all Tier 1 derived). Numerical verification on the open-system SSH chain is the deferred next pass.
+**Continues:** [the benzene Liouvillian palindrome](BENZENE_LIOUVILLIAN_PALINDROME.md) (Holstein/Peierls fork), [the three benzene dephase letters](BENZENE_THREE_DEPHASE_LETTERS.md) (the Klein-V₄ return visit).
 **Reads alongside:** [README](README.md) Open Question 4 (graphene K-point) and the candidate doc list.
 
 ---
@@ -48,7 +48,7 @@ For the rest of this document we focus on **odd-length SSH chains**, where the a
 
 ## F92 prediction: the diagonal-block spectrum sees only J_sym = J
 
-F92 ([PROOF_F92_BOND_ANTI_PALINDROMIC_J](../proofs/PROOF_F92_BOND_ANTI_PALINDROMIC_J.md)) says: for any open-system Liouvillian built from an XY-class Hamiltonian with bond couplings J_b and uniform Z-dephasing, the diagonal-block eigenvalues depend only on the F71-palindromic part of J. The anti-palindromic part is invisible to the spectrum.
+F92 ([the F92 bond anti-palindromic-J proof](../proofs/PROOF_F92_BOND_ANTI_PALINDROMIC_J.md)) says: for any open-system Liouvillian built from an XY-class Hamiltonian with bond couplings J_b and uniform Z-dephasing, the diagonal-block eigenvalues depend only on the F71-palindromic part of J. The anti-palindromic part is invisible to the spectrum.
 
 Applied to odd-length SSH chains: δ enters entirely in J_anti, so the F71-refined diagonal-block spectrum of the SSH Liouvillian under Z-dephasing is identical for any δ at fixed J. The diagonal-block (F71-compressed) eigenvalues on the (n, n+1) coherence blocks of a 5-site or 7-site SSH chain are the same as for a uniform chain with bond coupling J, regardless of how strong the alternation is. (Caveat, per F92's corrected scope: once δ ≠ 0 breaks the F71 mirror, those compressed-block eigenvalues are a basis-relative layer, NOT L's physical decay rates; the full-L spectrum does move with δ; the genuine δ-independent structure is the joint-popcount sectors.)
 
@@ -60,7 +60,7 @@ The framework prediction is testable directly: build the open-system Liouvillian
 
 ## F100 / F101 prediction: bond-mirror observables are exactly odd in δ
 
-F100 ([PROOF_F100](../proofs/PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md)) gives the complementary statement on the observable side. The closure-breaking coefficient c₁ and the F86c per-bond Q_peak observable both have bond-mirror deviations D(b) = c₁(b) − c₁(N−2−b) that are exactly odd functions of J_anti at fixed J_sym.
+F100 ([the F100 proof](../proofs/PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md)) gives the complementary statement on the observable side. The closure-breaking coefficient c₁ and the F86c per-bond Q_peak observable both have bond-mirror deviations D(b) = c₁(b) − c₁(N−2−b) that are exactly odd functions of J_anti at fixed J_sym.
 
 For SSH on an odd-length chain: δ is exactly J_anti, so the bond-mirror deviation D(b) is exactly odd in δ. At δ = 0 the deviation vanishes (the chain is uniform); as δ grows, D(b) grows linearly in δ to leading order, with no quadratic or higher even-power admixture. The bond-mirror observable becomes a clean linear readout of the SSH alternation amplitude.
 
@@ -114,10 +114,10 @@ A note on the even-length case. SSH on even-length chains is a sibling question 
 
 ## Anchors and cross-refs
 
-- F92 (Tier 1 derived, the spectrum-side anti-palindromic-J invariance): [PROOF_F92_BOND_ANTI_PALINDROMIC_J](../proofs/PROOF_F92_BOND_ANTI_PALINDROMIC_J.md)
-- F100 (Tier 1 derived, the observable-side oddness): [PROOF_F100_C1_QPEAK_MIRROR_J_PARITY](../proofs/PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md)
-- F101 (Tier 1 derived, the γ-axis sibling): [PROOF_F101_C1_MIRROR_GAMMA_PARITY](../proofs/PROOF_F101_C1_MIRROR_GAMMA_PARITY.md)
-- F71 (the chain mirror operator R: site i ↔ N − 1 − i, bond b ↔ N − 2 − b): documented in the F-formula registry, [F71 in ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md), and inherited as the structural anchor of F86c / F91 / F92 / F100 / F101.
-- Benzene parent: [BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md) (Holstein passes, Peierls breaks F1; the chain version of Peierls is SSH)
-- Three dephase letters: [BENZENE_THREE_DEPHASE_LETTERS](BENZENE_THREE_DEPHASE_LETTERS.md) (today's Klein-V₄ return visit, sibling thread)
+- F92 (Tier 1 derived, the spectrum-side anti-palindromic-J invariance): [the F92 bond anti-palindromic-J proof](../proofs/PROOF_F92_BOND_ANTI_PALINDROMIC_J.md)
+- F100 (Tier 1 derived, the observable-side oddness): [the F100 c₁/Q-peak mirror J-parity proof](../proofs/PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md)
+- F101 (Tier 1 derived, the γ-axis sibling): [the F101 c₁ mirror γ-parity proof](../proofs/PROOF_F101_C1_MIRROR_GAMMA_PARITY.md)
+- F71 (the chain mirror operator R: site i ↔ N − 1 − i, bond b ↔ N − 2 − b): documented in the F-formula registry, [F71 in the formula registry](../ANALYTICAL_FORMULAS.md), and inherited as the structural anchor of F86c / F91 / F92 / F100 / F101.
+- Benzene parent: [the benzene Liouvillian palindrome](BENZENE_LIOUVILLIAN_PALINDROME.md) (Holstein passes, Peierls breaks F1; the chain version of Peierls is SSH)
+- Three dephase letters: [the three benzene dephase letters](BENZENE_THREE_DEPHASE_LETTERS.md) (today's Klein-V₄ return visit, sibling thread)
 - The candidate-doc list: [README](README.md) §What this folder will accumulate (POLYACETYLENE_F92_INHERITANCE was Tier-2 entry there).

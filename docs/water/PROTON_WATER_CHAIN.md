@@ -171,20 +171,20 @@ Same geometric mode selection as qubit chains
 modes with weight on the noisy site; modes localized elsewhere survive.
 
 **Mechanism reading (sharpened from
-[CAVITY_MODE_LOCALIZATION](../../experiments/CAVITY_MODE_LOCALIZATION.md),
+[Cavity Mode Localization](../../experiments/CAVITY_MODE_LOCALIZATION.md),
 2026-03-30, parallel qubit-chain track).** The sacrifice zone protects
 **cavity modes, not qubits**: Liouvillian eigenmode profiles are
 γ-profile-invariant (geometric standing waves sin(πkj/N)); the γ-profile
 only selects which of the fixed modes survive longest. Edge sacrifice
 exploits a pre-existing geometric structure rather than creating
 protection. r = 0.994 sacrifice-weight ↔ decay-rate correlation at N=5;
-formula F11 in [ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md).
+formula F11 in [Analytical Formulas](../ANALYTICAL_FORMULAS.md).
 
 **Operational update (2026-04-23, 22 days after this doc).**
 Under uniform γ₀ and uniform J, smart initial-state choice
 (F67 bonding mode k=2, or |+−+−+⟩, or |01010⟩) beats the γ-Sacrifice-Zone
 profile by factor 11.5× on Sum-MI at N=5: receiver-engineering >
-γ-engineering. See [RECEIVER_VS_GAMMA_SACRIFICE](../../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md).
+γ-engineering. See [Receiver vs γ-Sacrifice](../../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md).
 The water-chain Sacrifice Zone numbers above are still valid for the
 fixed-receiver setup tested here, but the broader operational lesson is
 that γ-profile engineering is one of several routes; receiver choice on
@@ -217,7 +217,7 @@ count, same mechanism. The substrate contributes parameter values
 
 **Status:** Tier 2 substrate-witness for F86 EP-rotation universality. Addendum, 2026-05-04.
 **Script:** [`simulations/water/proton_chain_ep_resonance.py`](../../simulations/water/proton_chain_ep_resonance.py)
-**Cross-references:** [PROOF_F86_QPEAK.md](../proofs/PROOF_F86_QPEAK.md), F86 entry in [ANALYTICAL_FORMULAS.md](../ANALYTICAL_FORMULAS.md), [reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md](../../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md).
+**Cross-references:** [the F86 Q-peak proof](../proofs/PROOF_F86_QPEAK.md), F86 entry in [Analytical Formulas](../ANALYTICAL_FORMULAS.md), [On the Q-Axis and the PTF Lesson](../../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md).
 
 The five results above are static-algebraic (palindrome match, V-Effect, sacrifice zone, thermal, water-vs-DNA). The framework's dynamic EP-rotation universality prediction
 K(Q) / |K|_max = f(Q / Q_peak)
@@ -225,7 +225,7 @@ within bond class (Tier-1-candidate, established on framework chains and IBM Tor
 
 The observable K_CC_pr is the per-bond J-derivative
 K_b(Q, t) = 2 · Re ⟨ρ(t) | S_kernel | ∂ρ/∂J_b⟩
-with ρ₀ the Dicke probe in the (n, n+1) block, S_kernel the spatial-sum coherence kernel, computed via the Duhamel formula on the block-restricted Liouvillian; see [`simulations/framework/coherence_block.py`](../../simulations/framework/coherence_block.py) and [PROOF_F86_QPEAK](../proofs/PROOF_F86_QPEAK.md) Statement 2. Per-bond Q-scan, dQ = 0.025, γ₀ = 0.05:
+with ρ₀ the Dicke probe in the (n, n+1) block, S_kernel the spatial-sum coherence kernel, computed via the Duhamel formula on the block-restricted Liouvillian; see [`simulations/framework/coherence_block.py`](../../simulations/framework/coherence_block.py) and [the F86 Q-peak proof](../proofs/PROOF_F86_QPEAK.md) Statement 2. Per-bond Q-scan, dQ = 0.025, γ₀ = 0.05:
 
 | Bond class | Q_peak (water) | HWHM-/Q* (water) | Framework prediction | Δ |
 |------------|----------------|------------------|----------------------|---|

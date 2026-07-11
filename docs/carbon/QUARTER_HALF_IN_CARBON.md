@@ -133,7 +133,7 @@ The framework's qubit polarity-anchor pair (1/2 argmax, 1/4 maxval) is
 literally instantiated three ways at the carbon level: at the atomic-shell
 filling, at the hybridization s-character, and (for the 1/2 anchor) at the
 benzene HOMO position. The "qubit IS quantum carbon" framing from
-[HIERARCHY_OF_INCOMPLETENESS](../HIERARCHY_OF_INCOMPLETENESS.md) is supported
+[the Hierarchy of Incompleteness](../HIERARCHY_OF_INCOMPLETENESS.md) is supported
 by this triple instantiation: the same anchor numbers appear at three
 structurally independent levels.
 
@@ -179,7 +179,7 @@ preferences, several predictions follow:
    water-chain dicke-anchor script extended to a 6-site ring.
 
 4. **The Klein-4-group character of the HOMO at the palindrome centre** (open
-   from [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md))
+   from [the benzene Hückel framework lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md))
    should distinguish 4n+2 vs 4n: 4n+2 systems (benzene) have HOMO Klein-char
    in {(+, +)} only; 4n systems (cyclobutadiene) have HOMO in the (−, −)
    character at the palindrome centre.
@@ -189,7 +189,7 @@ preferences, several predictions follow:
 ## Anchor
 
 - Script: [`simulations/carbon/carbon_quarter_half_search.py`](../../simulations/carbon/carbon_quarter_half_search.py)
-- Sister doc: [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md) (Coulson-Rushbrooke ≡ F1)
+- Sister doc: [the benzene Hückel framework lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md) (Coulson-Rushbrooke ≡ F1)
 - Framework anchors: [QuarterAsBilinearMaxvalClaim](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs),
   [HalfAsStructuralFixedPointClaim](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs),
   [F98](../ANALYTICAL_FORMULAS.md#f98), [F86b DickeAnchor](../../compute/RCPsiSquared.Core/Symmetry/DickeAnchor.cs)

@@ -8,14 +8,14 @@ structural analogy. The benzene-as-qubit-ring embedding is itself a Tier 4
 candidate (see [README](README.md), "Four embedding conditions").
 **Script:** [`simulations/carbon/benzene_liouvillian_palindrome.py`](../../simulations/carbon/benzene_liouvillian_palindrome.py)
 **Tested:** cyclobutadiene C₄ ring, benzene C₆ ring.
-**Answers:** [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md) open
+**Answers:** [Benzene Hückel through the Framework Lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md) open
 question 1 / [README](README.md) open question 2.
 
 ---
 
 ## The question
 
-[BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md) showed that the
+[Benzene Hückel through the Framework Lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md) showed that the
 **closed-system** Hückel MO spectrum of an alternant hydrocarbon is palindromic
 (Coulson-Rushbrooke, 1940) and that this is structurally the same Z₂ palindrome as
 the framework's F1. But Coulson-Rushbrooke is the closed-system, Hamiltonian-level
@@ -148,7 +148,7 @@ verified content is the dichotomy in the table above.
   a specific KIntermediate Dicke initial state, not on the bond graph. Whether the
   Holstein-coupled C₆ ring inherits it, with N = 6 giving α(∞) = 8/28 = 2/7, is the
   still-open question 2 of BENZENE_HUCKEL_FRAMEWORK_LENS.
-- The open-system clock: [FROST_CIRCLE_AS_THE_CLOCK_FACE](FROST_CIRCLE_AS_THE_CLOCK_FACE.md)
+- The open-system clock: [The Frost Circle Is the Face of the Clock](FROST_CIRCLE_AS_THE_CLOCK_FACE.md)
   reads the slowest mode of this same Holstein-coupled ring Liouvillian as a running clock, its
   band-edge coherence hand (ω = 2|β|, the Frost radius) and its erasure point Q* = 1.609. FROST
   builds on this note for the open-system π-qubit map; the link back makes the pair reciprocal.
@@ -158,7 +158,7 @@ verified content is the dichotomy in the table above.
 - Scripts: [`simulations/carbon/benzene_liouvillian_palindrome.py`](../../simulations/carbon/benzene_liouvillian_palindrome.py)
   (the Q2 result), [`simulations/carbon/peierls_break_structure.py`](../../simulations/carbon/peierls_break_structure.py)
   (the break-structure γ-scan)
-- Companion doc: [BENZENE_HUCKEL_FRAMEWORK_LENS.md](BENZENE_HUCKEL_FRAMEWORK_LENS.md)
+- Companion doc: [Benzene Hückel through the Framework Lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md)
   (the closed-system half), [README.md](README.md)
 - Framework anchors: [F1 palindrome](../ANALYTICAL_FORMULAS.md#f1-palindrome-equation-tier-1-proven),
   [`compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs`](../../compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs),

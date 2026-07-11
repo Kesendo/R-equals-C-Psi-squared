@@ -416,7 +416,7 @@ standard free energy formalism breaks down. But the role is the same:
 (classical) and most fragile (quantum) modes.
 
 **Update (April 2026):** The entropy production analysis
-([ENTROPY_PRODUCTION](../experiments/ENTROPY_PRODUCTION.md)) confirms:
+([Entropy Production](../experiments/ENTROPY_PRODUCTION.md)) confirms:
 the "thermodynamic distance" interpretation is ALGEBRAIC, not
 thermodynamic. The Crooks-like identity ln(d_fast/d_slow) =
 2 artanh(Δd/(2Σγ)) gives β_eff ≈ 1/Σγ, but this follows directly

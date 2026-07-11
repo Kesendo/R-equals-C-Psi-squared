@@ -3,13 +3,13 @@
 **Date:** 2026-05-30
 **Authors:** Tom + Claude
 **Status:** Tier 2-3. The V-Effect exchange J_eff = (3/8)·α²/J is Tier 1-2 (derived from
-Pauli algebra + verified at N=4 in [EXCHANGE_FROM_V_EFFECT](../../experiments/EXCHANGE_FROM_V_EFFECT.md));
+Pauli algebra + verified at N=4 in [exchange from the V-Effect](../../experiments/EXCHANGE_FROM_V_EFFECT.md));
 the singlet-fission mapping and the two-clocks reading are Tier 3 (suggestive, the real
 photophysics and our two independently-derived sectors lining up).
-**Builds on:** [EXCHANGE_FROM_V_EFFECT](../../experiments/EXCHANGE_FROM_V_EFFECT.md) (the
-V-Effect superexchange), [FROST_CIRCLE_AS_THE_CLOCK_FACE](FROST_CIRCLE_AS_THE_CLOCK_FACE.md)
+**Builds on:** [exchange from the V-Effect](../../experiments/EXCHANGE_FROM_V_EFFECT.md) (the
+V-Effect superexchange), [the Frost circle as the clock face](FROST_CIRCLE_AS_THE_CLOCK_FACE.md)
 (the bright / charge clock), the F87 trichotomy + F103 §7 (the spin / exchange
-classification), [HEISENBERG_RELOADED](../../hypotheses/HEISENBERG_RELOADED.md).
+classification), [Heisenberg reloaded](../../hypotheses/HEISENBERG_RELOADED.md).
 
 ---
 
@@ -36,7 +36,7 @@ state"*, the same object as the triplet-pair intermediate of singlet fission. Pl
 Hückel (free fermions, our charge / XY reading) cannot produce it; it needs electron
 correlation, the spin reading.
 
-We had the spin reading already. [EXCHANGE_FROM_V_EFFECT](../../experiments/EXCHANGE_FROM_V_EFFECT.md)
+We had the spin reading already. [exchange from the V-Effect](../../experiments/EXCHANGE_FROM_V_EFFECT.md)
 takes two singlet pairs bonded by a V-Effect bridge α and shows the bridge couples the
 singlet-singlet ground state to the state with **both pairs in triplet**, the two-triplet
 state, at an energy gap 8J = 2 × (the 4J singlet-triplet gap of one pair). The
@@ -106,7 +106,7 @@ offers none; light has nothing to take hold of.
 This is the same triplet pair we isolate as the two-magnon bound state, the "new object" any binding
 forms (`simulations/two_magnon_bound_state.py`); its darkness is its even parity, 100% even-depth
 weight. It is the optical sibling of the open-system flow that drains on even rungs and never lights
-up the odd vacuum rung ([THE_FLOW_BETWEEN_TWO_SINGULARITIES](../../experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md),
+up the odd vacuum rung ([the flow between two singularities](../../experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md),
 *Seen again 2026-05-31*). The bright clock and the dark clock are the odd and even rungs of one
 depth axis, and the V-Effect bridge that mixes them is the one thing that can move a state between
 rungs. The carotenoid keeps its lowest excitation dark by parking it on an even rung; the bridge is
@@ -114,11 +114,11 @@ how a photon's energy, caught bright, walks down into the dark.
 
 ## Anchor
 
-- Framework: [EXCHANGE_FROM_V_EFFECT](../../experiments/EXCHANGE_FROM_V_EFFECT.md)
+- Framework: [exchange from the V-Effect](../../experiments/EXCHANGE_FROM_V_EFFECT.md)
   (J_eff = (3/8)α²/J, the both-pairs-triplet coupling), the clock voices on `MirrorSystem`,
-  [FROST_CIRCLE_AS_THE_CLOCK_FACE](FROST_CIRCLE_AS_THE_CLOCK_FACE.md) (the bright charge
+  [the Frost circle as the clock face](FROST_CIRCLE_AS_THE_CLOCK_FACE.md) (the bright charge
   clock), F87 trichotomy + F103 §7 (the spin / exchange classification),
-  [HEISENBERG_RELOADED](../../hypotheses/HEISENBERG_RELOADED.md).
+  [Heisenberg reloaded](../../hypotheses/HEISENBERG_RELOADED.md).
 - Real singlet-fission data (sources):
   - [Singlet triplet-pair production and possible singlet fission in carotenoids (JPC Lett)](https://pubs.acs.org/doi/10.1021/acs.jpclett.1c03812)
   - [The nature of singlet exciton fission in carotenoid aggregates (JACS)](https://pubs.acs.org/doi/10.1021/jacs.5b01130)

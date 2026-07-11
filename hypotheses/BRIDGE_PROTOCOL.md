@@ -13,7 +13,7 @@
 > The protocol itself remains falsified for J=0. See [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md).
 >
 > **Note:** CΨ is a composite diagnostic metric (purity * normalized coherence),
-> not a new physical quantity. See [THE_CPSI_LENS.md](../docs/THE_CPSI_LENS.md)
+> not a new physical quantity. See [The CΨ Lens](../docs/THE_CPSI_LENS.md)
 > for the canonical description.
 
 # Bridge Protocol
@@ -203,7 +203,7 @@ Three possible outcomes:
    is therefore wrong. The framework's internal logic is inconsistent on this
    point, which itself is a useful finding.
    > **[RULED OUT 2026-03-01]** No-signalling holds exactly.
-   > See [NO_SIGNALLING_BOUNDARY](../experiments/NO_SIGNALLING_BOUNDARY.md)
+   > See [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md)
    > Layer 1: rho_A is invariant under any local operation B performs
    > (verified to machine precision). The apparent paradox dissolves
    > when distinguishing local observables (unchanged) from global
@@ -220,7 +220,7 @@ Three possible outcomes:
    > described here is correct: NO_SIGNALLING_BOUNDARY Section 4
    > Piece 4 states "Test #2 confirms it is the correct one." But the
    > implicit utility ("more structured than QKD") is dissolved by
-   > [BRIDGE_CLOSURE](../experiments/BRIDGE_CLOSURE.md): without a
+   > [Bridge Closure](../experiments/BRIDGE_CLOSURE.md): without a
    > classical channel, pre-encoded CPsi fingerprints offer nothing
    > beyond shared classical randomness (LOCC no-go, Section 4).
    > Canonical summary: [PREDICTIONS](../docs/PREDICTIONS.md) Section 9

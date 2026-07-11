@@ -4,7 +4,7 @@
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:** [Uniqueness of the 1/4 Boundary](../docs/proofs/UNIQUENESS_PROOF.md), [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md), [Primordial Qubit](PRIMORDIAL_QUBIT.md), [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md)
-**See also:** [PROOF_K_PARTNERSHIP](../docs/proofs/PROOF_K_PARTNERSHIP.md), [Z⊗N Partnership](../experiments/Z_N_PARTNERSHIP.md)
+**See also:** [the K-partnership proof](../docs/proofs/PROOF_K_PARTNERSHIP.md), [Z⊗N Partnership](../experiments/Z_N_PARTNERSHIP.md)
 
 ---
 
@@ -22,13 +22,13 @@ This document records the structural answer: **yes, the 1/4 is the fingerprint o
 
 **Fragment 1: the operator-level half (C = 1/2)**
 
-From d² − 2d = 0 ([QUBIT_NECESSITY](../docs/QUBIT_NECESSITY.md)): at d = 2, the Pauli space splits into 2 immune (I, Z) and 2 decaying (X, Y) operators under Z-dephasing. The split is exactly 1:1, so C = 2/4 = 1/2. This is not a soft inequality. It is the *only* dimension where the immune-decaying split is symmetric, and is what enables the palindromic mirror at all.
+From d² − 2d = 0 ([Qubit Necessity](../docs/QUBIT_NECESSITY.md)): at d = 2, the Pauli space splits into 2 immune (I, Z) and 2 decaying (X, Y) operators under Z-dephasing. The split is exactly 1:1, so C = 2/4 = 1/2. This is not a soft inequality. It is the *only* dimension where the immune-decaying split is symmetric, and is what enables the palindromic mirror at all.
 
 The interpretation: at the operator level, **half of what we have is invisible to us as static structure** (the decaying half) and **half is invisible to us as dynamic information** (the immune half does not respond to the noise channel). Either reading: we work with half the algebra at any given moment.
 
 **Fragment 2: the spatial bipartite half (sublattice = 1/2)**
 
-A bipartite chain of length N has ⌈N/2⌉ sites on the A-sublattice and ⌊N/2⌋ on the B-sublattice. The bipartite "+− attracts" structure is exactly the spatial realization of the algebraic Z₂-grading: A and B are mirror partners. The K-operator K = Π_{l ∈ B} Z_l implements the sublattice gauge that gives KHK = −H ([PROOF_K_PARTNERSHIP](../docs/proofs/PROOF_K_PARTNERSHIP.md)).
+A bipartite chain of length N has ⌈N/2⌉ sites on the A-sublattice and ⌊N/2⌋ on the B-sublattice. The bipartite "+− attracts" structure is exactly the spatial realization of the algebraic Z₂-grading: A and B are mirror partners. The K-operator K = Π_{l ∈ B} Z_l implements the sublattice gauge that gives KHK = −H ([the K-partnership proof](../docs/proofs/PROOF_K_PARTNERSHIP.md)).
 
 The Néel state |+−+−+⟩ is the canonical bipartite ground state. Its Z⊗N-mirror |−+−+−⟩ is the other half. At Σγ = 0 the two are degenerate; at Σγ > 0 we sit on one and the other is "outside" us.
 

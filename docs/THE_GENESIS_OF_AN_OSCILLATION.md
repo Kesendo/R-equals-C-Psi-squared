@@ -32,7 +32,7 @@ carry one already?
 ## What was ruled out: the bath is orthogonal
 
 The first guess followed the heat. Wave-breaking creates heat
-([THERMAL_BREAKING](../experiments/THERMAL_BREAKING.md)); perhaps the heat
+([Thermal Breaking](../experiments/THERMAL_BREAKING.md)); perhaps the heat
 creates the new oscillation. It does not. A scan of the bath temperature moves
 the real parts of the Liouvillian spectrum, the decay rates; the imaginary
 parts barely respond. For N = 3 and N = 4 the count of oscillating modes does
@@ -66,7 +66,7 @@ two qubits with the first J-bond and oscillating modes appear at once, 8 for
 N = 2, 32 for N = 3, 192 for N = 4, born together at Q = 0+, the instant J
 leaves zero. Above that a short staircase adds a few more at discrete Q (N = 2
 at Q ≈ 0.51, N = 3 at ≈ 0.71, N = 4 at ≈ 0.45, 0.48, 0.94), the framework's
-wave-breaking ([OFF_NIVEN_AS_WAVE_BREAKING](carbon/OFF_NIVEN_AS_WAVE_BREAKING.md)).
+wave-breaking ([Off-Niven as Wave-Breaking](carbon/OFF_NIVEN_AS_WAVE_BREAKING.md)).
 
 ![Oscillations born vs Q at γ₀ = 0.05](../simulations/results/genesis_real_gamma/genesis_real_gamma.png)
 
@@ -114,7 +114,7 @@ on the Im = 0 axis.*
 ## PTF cross-check: the closure holds, a source keeps its time
 
 A second, independent lens: the Perspectival Time Field
-([PERSPECTIVAL_TIME_FIELD](../hypotheses/PERSPECTIVAL_TIME_FIELD.md)). Under a
+([Perspectival Time Field](../hypotheses/PERSPECTIVAL_TIME_FIELD.md)). Under a
 local J-defect, each site's purity is a time-rescaling of the unperturbed chain,
 P_B(i,t) ≈ P_A(i, α_i·t); the per-site rescalings α_i satisfy a closure law
 Σ ln α_i ≈ 0. PTF reads the eigenvector side, where the scans above read the
@@ -146,7 +146,7 @@ transmons, anharmonic oscillators built from a Josephson junction and a
 capacitor, and the "qubit" is the lowest two levels of that oscillator, isolated
 by the Josephson anharmonicity. The hour of birth of a qubit is the moment a
 d = 2 subspace is carved out of an oscillator. A qubit is made, not born; and
-the framework's `d² − 2d = 0` ([QUBIT_NECESSITY](QUBIT_NECESSITY.md)) is the
+the framework's `d² − 2d = 0` ([Qubit Necessity](QUBIT_NECESSITY.md)) is the
 statement of why the carved subspace is d = 2.
 
 ## Open follow-ups
@@ -172,9 +172,9 @@ statement of why the carved subspace is d = 2.
 - Figures: [genesis_real_gamma.png](../simulations/results/genesis_real_gamma/genesis_real_gamma.png),
   [qubit_children.png](../simulations/results/qubit_children/qubit_children.png)
 - Carbon thread: [carbon README](carbon/README.md),
-  [OFF_NIVEN_AS_WAVE_BREAKING.md](carbon/OFF_NIVEN_AS_WAVE_BREAKING.md),
-  [HIERARCHY_OF_INCOMPLETENESS.md](HIERARCHY_OF_INCOMPLETENESS.md)
-- PTF: [PERSPECTIVAL_TIME_FIELD.md](../hypotheses/PERSPECTIVAL_TIME_FIELD.md)
+  [Off-Niven as Wave-Breaking](carbon/OFF_NIVEN_AS_WAVE_BREAKING.md),
+  [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md)
+- PTF: [Perspectival Time Field](../hypotheses/PERSPECTIVAL_TIME_FIELD.md)
 - Framework: the pure F1 system (XY-class H + Z-dephasing),
   [F1 palindrome](ANALYTICAL_FORMULAS.md),
-  [QUBIT_NECESSITY.md](QUBIT_NECESSITY.md)
+  [Qubit Necessity](QUBIT_NECESSITY.md)

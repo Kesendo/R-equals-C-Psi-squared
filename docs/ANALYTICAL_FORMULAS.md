@@ -25,7 +25,7 @@ Every decay rate d pairs with 2Σγ - d.
 
 **Valid for:** Heisenberg, XY, Ising, XXZ, DM; Z-dephasing; any graph;
 any N; non-uniform γ per qubit. Two Π families (P1, P4).
-**See also:** [THE_THREE_DIAGONALS](THE_THREE_DIAGONALS.md), the dissipator diagonal Q (whose levels carry the −2γ rate) is one of three, Q_X / Q_Y / Q_Z, one basis-S₃ orbit.
+**See also:** [The Three Diagonals](THE_THREE_DIAGONALS.md), the dissipator diagonal Q (whose levels carry the −2γ rate) is one of three, Q_X / Q_Y / Q_Z, one basis-S₃ orbit.
 **Breaks for:** depolarizing noise (error = (2/3)Σγ, linear in γ and N).
 **Replaces:** palindrome verification (87,376 eigenvalues, N=2..8).
 **Source:** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)
@@ -59,27 +59,27 @@ any N; non-uniform γ per qubit. Two Π families (P1, P4).
 - Hence ‖M‖²_F = ‖M_H‖²_F = c_H · F(N, G) for every γ pattern.
 - Distinct from T1/depol siblings below, whose per-site kernels are NOT proportional to I and so DO have non-trivial Σγ² and (Σγ)² structure surviving any σ-shift choice.
 - Closes the earlier F1 OpenQuestion conjecturing a Σγ_l² replacement of (Σγ)² in F(N, G); the conjecture was incorrect, no formula change to F(N, G) is required.
-- Anchor: [PROOF_F1_NONUNIFORM_GAMMA](proofs/PROOF_F1_NONUNIFORM_GAMMA.md); verification: [simulations/f1_nonuniform_gamma_verify.py](../simulations/f1_nonuniform_gamma_verify.py); typed: PalindromeResidualScalingClaim (unchanged; XML doc notes γ-independence).
+- Anchor: [the non-uniform γ proof](proofs/PROOF_F1_NONUNIFORM_GAMMA.md); verification: [simulations/f1_nonuniform_gamma_verify.py](../simulations/f1_nonuniform_gamma_verify.py); typed: PalindromeResidualScalingClaim (unchanged; XML doc notes γ-independence).
 
 **T1 amplitude-damping residual (closed form, 2026-05-18):**
 - ‖M(T1)‖²_F = 4^(N−1)·[3·Σγ²+4·(Σγ)²]  (H-independent, γ_Z-independent; bit-exact N=2..5)
 - Π²-decomposition (Pythagorean orthogonal):
   - ‖M_anti(T1)‖²_F = 4^(N−1)·Σγ²  (F82/F84 amplitude-damping side)
   - ‖M_sym(T1)‖²_F  = 4^(N−1)·[2·Σγ²+4·(Σγ)²]  (Π²-even complement)
-- Anchor: [PROOF_F1_T1_RESIDUAL_CLOSED_FORM](proofs/PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md) (Statement + Step 7); typed: F1T1ResidualClosedForm, F1T1ResidualPi2Decomposition
+- Anchor: [the T1 residual closed-form proof](proofs/PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md) (Statement + Step 7); typed: F1T1ResidualClosedForm, F1T1ResidualPi2Decomposition
 
 **Depolarizing-noise residual (closed form, 2026-05-18):**
 - ‖M(depol)‖²_F = 4^(N−1)·[(16/9)·Σγ² + 16·(Σγ)²]  (H-independent, γ_Z-independent, topology-independent; bit-exact N=2..5)
 - Π²-decomposition: trivial, M_l is Pauli-basis-diagonal ⟹ M_anti = 0; F5's (2/3)Σγ scalar is the complementary scalar diagnostic
 - F1 σ-shift = 0 (depol's per-Pauli-string diagonal cannot be absorbed by a constant σ·I)
-- Anchor: [PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM](proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md); typed: F1DepolResidualClosedForm
+- Anchor: [the depolarizing residual closed-form proof](proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md); typed: F1DepolResidualClosedForm
 
 **General-topology universality (closed 2026-05-18):**
 - The (B, D2) parameterisation of ‖M(N, G)‖²_F = c_H · F(N, G) extends bit-exactly to all connected graphs (path, cycle, star, K_N, K_{2,N−2}, random connected Erdős-Rényi), disconnected components (B and D2 sum across components), weighted edges (B → Σ_b J²_b), and the single-body class (D2/2 prefactor).
 - Verification record: Python at N=5, 6 across named/random/disconnected/weighted/single-body; C# graph-aware at N=5 across chain/ring/star/disconnected; C# F1 palindromic-pairing identity at N=7 across chain/ring/star/K_4 + disjoint-3-chain via `LiouvillianBlockSpectrum.ComputeSpectrumPerBlock`; extended to N=8 across chain/ring/star/K_4 + disjoint-4-chain (opt-in SLOW_N8, all 65 536 eigenvalues/topology to 1e-6) and N=9 chain via the MklDirect native bridge (opt-in SLOW_N9, 2026-05-19). The typed `F1GeneralTopologyVerifiedClaim` records the full N=5..9 set (`VerifiedNValues = {5,6,7,8,9}`, frontier blocked at N=10).
-- The substantive analytic content was already established in [PROOF_CROSS_TERM_FORMULA](proofs/PROOF_CROSS_TERM_FORMULA.md) Lemma 3 + Corollary (bond-disjointness independent of connectivity); this closure adds the disconnected + weighted-edge sections plus the verification record.
+- The substantive analytic content was already established in [the Cross-Term Formula proof](proofs/PROOF_CROSS_TERM_FORMULA.md) Lemma 3 + Corollary (bond-disjointness independent of connectivity); this closure adds the disconnected + weighted-edge sections plus the verification record.
 - Closes the last F1 OpenQuestion ("general topology beyond chain/ring/star/K_N"); F1 family open-question count is ZERO as of 2026-05-18 (first time empty).
-- Anchor: [PROOF_F1_GENERAL_TOPOLOGY](proofs/PROOF_F1_GENERAL_TOPOLOGY.md); verification: [simulations/f1_general_topology_verify.py](../simulations/f1_general_topology_verify.py) + [F1GeneralTopologyN7BlockSpectrumTests](../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs); typed: F1GeneralTopologyVerifiedClaim (Tier 2 verified).
+- Anchor: [the general-topology proof](proofs/PROOF_F1_GENERAL_TOPOLOGY.md); verification: [simulations/f1_general_topology_verify.py](../simulations/f1_general_topology_verify.py) + [F1GeneralTopologyN7BlockSpectrumTests](../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs); typed: F1GeneralTopologyVerifiedClaim (Tier 2 verified).
 
 ### F2. w=1 Liouvillian dispersion relation (Tier 1, proven D10)
 
@@ -105,7 +105,7 @@ Hamiltonian spectrum, see F2b below.
 **Replaces:** full Liouvillian diagonalization for w=1 frequencies.
 O(N) instead of O(4^{3N}).
 **Source:** [Analytical Spectrum](../experiments/ANALYTICAL_SPECTRUM.md),
-[D10_W1_DISPERSION](proofs/derivations/D10_W1_DISPERSION.md)
+[the Weight-1 Dispersion derivation](proofs/derivations/D10_W1_DISPERSION.md)
 
 ### F2b. XY chain single-excitation spectrum (Tier 1, proven)
 
@@ -141,7 +141,7 @@ different Hamiltonians.
 **Verified:** N = 3, 4, 5, 6, residual < 10⁻¹⁵.
 **Replaces:** numerical diagonalization of H_SE.
 **Scripts:** [`eq021_obc_sine_basis.py`](../simulations/eq021_obc_sine_basis.py).
-**Source:** [OBC_SINE_BASIS_FINDINGS](../review/OBC_SINE_BASIS_FINDINGS.md),
+**Source:** [the OBC sine-basis findings](../review/OBC_SINE_BASIS_FINDINGS.md),
 standard tight-binding theory for OBC chains.
 
 ### F2b corollary. The two clocks (Tier 1 derived; the Q*(N) coherence horizon below stays Tier 1 candidate)
@@ -164,7 +164,7 @@ shows N=5 gone at Q=2). The mechanism is derived, and gap-dominance, that
 the band edge is the fastest oscillation on the −2γ floor, is now PROVEN
 via free fermions (max|Im| = E1 for all N; the floor modes are
 c_k^(†)·f(N_tot) at ±E_k, see
-[PROOF_CHAIN_GAP_DOMINANCE](proofs/PROOF_CHAIN_GAP_DOMINANCE.md)). Above the
+[the Chain Gap-Dominance proof](proofs/PROOF_CHAIN_GAP_DOMINANCE.md)). Above the
 Coherence Horizon Q*(N) the floor is the strict gap and the clock reads the
 band edge; below it a slower real mode takes the gap.
 
@@ -183,7 +183,7 @@ The dial angle is θ = arctan(ω_mem / Gap) = arctan(Q·cos(π/(N+1))) for
 N ≥ 3 and arctan(√(Q²−1)) for N = 2 (zero at the EP).
 
 **Tier:** 1 derived (mechanism + gap-dominance proven via free fermions,
-[PROOF_CHAIN_GAP_DOMINANCE](proofs/PROOF_CHAIN_GAP_DOMINANCE.md); ClockHandLadderClaim
+[the Chain Gap-Dominance proof](proofs/PROOF_CHAIN_GAP_DOMINANCE.md); ClockHandLadderClaim
 graduated). The Q*(N) coherence-horizon sub-result below stays Tier 1 candidate
 (its own half-filling V-Effect-seam open piece).
 **Verified:** gap-dominance gate-exact N = 3..6 (and γ-independent across γ); N = 2 closed
@@ -192,7 +192,7 @@ form 2√(J²−γ²) exact.
 ([`ClockHandLadderWitness.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/ClockHandLadderWitness.cs)).
 **Typed claim:** `ClockHandLadderClaim`
 ([`ClockHandLadderClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/ClockHandLadderClaim.cs)).
-**Carbon-layer twin:** [FROST_CIRCLE_AS_THE_CLOCK_FACE](carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md).
+**Carbon-layer twin:** [The Frost Circle Is the Face of the Clock](carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md).
 
 **Coherence horizon Q*(N) (our label for the carbon coherent↔incoherent threshold).**
 Sweeping Q downward, the slowest mode stops oscillating (the coherence hand freezes) at
@@ -263,7 +263,7 @@ sits just below it by the trace dressing O((tr−1)²) at N≥4 (gap 0.0002/0.00
 **Ring:** the survivor is the 2-EXCITATION doublet (2,2)/(N−2,N−2) (particle-hole partners, isospectral;
 full-Liouvillian-verified at N=6, NOT half-filling, correcting an earlier label), and the handover is a
 frozen LEVEL CROSSING (|Im| ≈ 1e-15, a different sector than the SE-EP), growing linearly with
-**asymptotic slope √3/(2π) ≈ 0.276, DERIVED** (2026-06-20, [PROOF_RING_HANDOVER_SLOPE](proofs/PROOF_RING_HANDOVER_SLOPE.md),
+**asymptotic slope √3/(2π) ≈ 0.276, DERIVED** (2026-06-20, [the ring handover-slope proof](proofs/PROOF_RING_HANDOVER_SLOPE.md),
 Tier1-standard, pending review): the (2,2) slow mode obeys the SE coherence-ladder dispersion
 λ² + 8γλ + 4J²q² (CV-confirmed), darkness = 2 − √(4 − (Qq)²), so the handover (darkness = 1) is at
 Qq = √3, the **darkness-1 sibling** of the SE coherence horizon (the same dispersion's EP at Qq = 2 →
@@ -364,7 +364,7 @@ Exact for chain topology, lower bound for higher-symmetry topologies.
 - **Disconnected-graph extension (Tier 1 derived, promoted 2026-05-19; landed Tier 1 candidate 2026-05-18):**
   - `dim ker L_H = Π_c (|c| + 1)` over connected components c of the graph G.
   - Predicts kernel dim = N+1 for any single connected component (chain / ring / star / K_N / arbitrary connected, matches the F4 popcount-sector count); predicts 5·5 = 25 for K_4 + disjoint 4-chain at N=8 (bit-exact verified, all four N=8 SLOW_N8 topologies).
-  - Anchor: [PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS](proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md) + connected-case upper-bound closure via [DEGENERACY_PALINDROME](../experiments/DEGENERACY_PALINDROME.md) Result 2 (magnetization conservation: identity + N popcount projectors exhaust the kernel of any single connected component); typed: `F4KernelDimensionByComponentsClaim` ([compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs](../compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs)).
+  - Anchor: [the F4 kernel-dimension proof](proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md) + connected-case upper-bound closure via [the degeneracy palindrome](../experiments/DEGENERACY_PALINDROME.md) Result 2 (magnetization conservation: identity + N popcount projectors exhaust the kernel of any single connected component); typed: `F4KernelDimensionByComponentsClaim` ([compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs](../compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs)).
   - **Tier 1 derived chain:** lower bound `dim ker L_H ≥ Π_c (|c|+1)` from popcount projectors + tensor-sum kernel factorisation; matching upper bound from DEGENERACY_PALINDROME Result 2 (connected-case `dim ker ≤ |c|+1`); equality follows.
 
 ### F5. Depolarizing error (Tier 1, proven)
@@ -489,8 +489,8 @@ restores the F50 count `= 2N`.
 **Caveat:** This universality (with the K_3 N=3 exception noted) is UNIQUE
 to k=0 and k=1. For k >= 2, d_real(k) is topology-dependent
 (Chain < Star < Ring < Complete). See [Weight-2 Kernel](../experiments/WEIGHT2_KERNEL.md).
-**Resolution (2026-05-17 evening):** the K_3 N=3 "weight-1 anomaly" is not a special algebraic phenomenon. It is the **small-N manifestation of a universal "central-weight excess in high-symmetry topologies" pattern**: every connected graph with non-trivial automorphism beyond chain has centralizer excess at the central weights `w ∈ {floor(N/2), ceil(N/2)}`, palindromic by F1 Π-conjugation. K_N has the largest excess; ring, star, K_N − e all have smaller-but-non-zero central excess. F50 specifically tracks weight-1, which coincides with the central weight only at N=3. For N ≥ 4 the central weight is ≥ 2, so F50's weight-1 count remains 2N for all tested topologies (chain, ring, star, K_N, paw, bowtie, book, K_4 − e). Empirical magnitudes: K_3 N=3 (+2 at w=1 / w=2), K_4 N=4 (+23 at w=2, self-palindromic), K_5 N=5 (+40 at w=2 / w=3). [`experiments/WEIGHT2_KERNEL.md`](../experiments/WEIGHT2_KERNEL.md) (April 2026) had documented the topology dependence at weight-2 for N=4..6 weeks ago; we now understand the K_3 N=3 case as the SAME phenomenon at N=3 (where central weight = 1 = F50's tracked weight). What remains open: a closed-form formula for the excess in terms of (G, N, w), and a representation-theoretic micro-structural identification of the central-weight extras beyond the empirical magnitudes. See [PROOF_WEIGHT1_DEGENERACY § Appendix Resolution](proofs/PROOF_WEIGHT1_DEGENERACY.md) for the full sweep table and the matrix-commutator-framework derivation.
-**Partial closed-form (2026-05-17 late evening):** the central-weight excess decomposes by spin-isotypic sector as `central-w-excess(K_N) = Σ_{S < N/2} single_block(S, central_w) + multi_block_diff`. The **max-spin block** (S = N/2, dim N+1, 1 SU(2)-copy) contributes the universal palindromic pattern `(2, 4, 4, ..., 4, 2)` with sum `4N`, identical for all K_N and contributing equally to every weight: max-spin alone does NOT create central excess. The **sub-max spin blocks** concentrate their pure-weight content at central weights only, with a parity selection rule (K_6 S=2 contributes only at even w=2,4; K_6 S=0 vanishes entirely). The K_3 N=3 +2 excess is entirely a single-block phenomenon (S=1/2 block adds 2 at w=1, multi-block matches chain). The K_4 N=4 +23 excess decomposes as +27 single-block (mostly S=1 block adding 26 at w=2) minus −4 multi-block diff. A full closed-form for `single_block(S, w)` as `f(m_S, 2S+1, N, w)` is the remaining piece. See [`simulations/f50_spin_isotypic_decomposition.py`](../simulations/f50_spin_isotypic_decomposition.py) and [PROOF_WEIGHT1_DEGENERACY § Spin-isotypic decomposition](proofs/PROOF_WEIGHT1_DEGENERACY.md) for the full per-(S, w) table at K_3..K_6.
+**Resolution (2026-05-17 evening):** the K_3 N=3 "weight-1 anomaly" is not a special algebraic phenomenon. It is the **small-N manifestation of a universal "central-weight excess in high-symmetry topologies" pattern**: every connected graph with non-trivial automorphism beyond chain has centralizer excess at the central weights `w ∈ {floor(N/2), ceil(N/2)}`, palindromic by F1 Π-conjugation. K_N has the largest excess; ring, star, K_N − e all have smaller-but-non-zero central excess. F50 specifically tracks weight-1, which coincides with the central weight only at N=3. For N ≥ 4 the central weight is ≥ 2, so F50's weight-1 count remains 2N for all tested topologies (chain, ring, star, K_N, paw, bowtie, book, K_4 − e). Empirical magnitudes: K_3 N=3 (+2 at w=1 / w=2), K_4 N=4 (+23 at w=2, self-palindromic), K_5 N=5 (+40 at w=2 / w=3). [`experiments/WEIGHT2_KERNEL.md`](../experiments/WEIGHT2_KERNEL.md) (April 2026) had documented the topology dependence at weight-2 for N=4..6 weeks ago; we now understand the K_3 N=3 case as the SAME phenomenon at N=3 (where central weight = 1 = F50's tracked weight). What remains open: a closed-form formula for the excess in terms of (G, N, w), and a representation-theoretic micro-structural identification of the central-weight extras beyond the empirical magnitudes. See [the Weight-1 Degeneracy proof § Appendix Resolution](proofs/PROOF_WEIGHT1_DEGENERACY.md) for the full sweep table and the matrix-commutator-framework derivation.
+**Partial closed-form (2026-05-17 late evening):** the central-weight excess decomposes by spin-isotypic sector as `central-w-excess(K_N) = Σ_{S < N/2} single_block(S, central_w) + multi_block_diff`. The **max-spin block** (S = N/2, dim N+1, 1 SU(2)-copy) contributes the universal palindromic pattern `(2, 4, 4, ..., 4, 2)` with sum `4N`, identical for all K_N and contributing equally to every weight: max-spin alone does NOT create central excess. The **sub-max spin blocks** concentrate their pure-weight content at central weights only, with a parity selection rule (K_6 S=2 contributes only at even w=2,4; K_6 S=0 vanishes entirely). The K_3 N=3 +2 excess is entirely a single-block phenomenon (S=1/2 block adds 2 at w=1, multi-block matches chain). The K_4 N=4 +23 excess decomposes as +27 single-block (mostly S=1 block adding 26 at w=2) minus −4 multi-block diff. A full closed-form for `single_block(S, w)` as `f(m_S, 2S+1, N, w)` is the remaining piece. See [`simulations/f50_spin_isotypic_decomposition.py`](../simulations/f50_spin_isotypic_decomposition.py) and [the Weight-1 Degeneracy proof § Spin-isotypic decomposition](proofs/PROOF_WEIGHT1_DEGENERACY.md) for the full per-(S, w) table at K_3..K_6.
 **Max-spin closed-form (2026-05-17 late evening, Tier 1 derived):** the max-spin contribution to single-block has a complete identification as **Dicke endpoint ladder rungs**: `single_block(S=N/2, w) = 2 if w ∈ {0, N}, else 4`. Explicit basis: w=0 → {|D_0⟩⟨D_0|, |D_N⟩⟨D_N|} (diagonal endpoint projectors with closed-form `|D_0⟩⟨D_0| = (1/2^N) Π_i (I + Z_i)` and `|D_N⟩⟨D_N| = (1/2^N) Π_i (I - Z_i)`); w=N → {|D_0⟩⟨D_N| ± h.c.} (full-ladder jump); 1 ≤ w ≤ N-1 → {|D_0⟩⟨D_w| ± h.c., |D_{N-w}⟩⟨D_N| ± h.c.} (two endpoint-anchored rungs). Total 4N pure-weight ops + (N-1)² multi-weight = (N+1)² operators in M(N+1). The multi-weight (N-1)² ops correspond to **middle-Dicke transitions** |D_k⟩⟨D_l| for k, l ∈ {1, ..., N-1} which intrinsically mix Pauli weights. Verified bit-exact N=2..5. Confirms structural reason for central-weight excess: max-spin is weight-uniform (no central bias), so excess MUST come from sub-max sectors. See [`simulations/f50_max_spin_closed_form.py`](../simulations/f50_max_spin_closed_form.py).
 **Replaces:** eigenvector analysis at the first grid position;
 numerical counting of purely-real eigenvalues (modulo the K_3 N=3 case).
@@ -1079,7 +1079,7 @@ grading from the orthogonal spec(L)-palindromy axis.
 
 **Valid for:** any N, Z-dephasing Π (P1 family).
 **Replaces:** assumption that Π is involutory.
-**Source:** [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md), [PROOF_BIT_B_PARITY_SYMMETRY](proofs/PROOF_BIT_B_PARITY_SYMMETRY.md)
+**Source:** [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md), [the Bit-b Parity Symmetry proof](proofs/PROOF_BIT_B_PARITY_SYMMETRY.md)
 
 ### F39. det(Π) (Tier 1, proven + verified N=1-4)
 
@@ -1439,7 +1439,7 @@ Prefactor is state-specific; γ-invariance of K_dwell is universal.
 **Replaces:** trajectory integration for dwell-time estimation.
 **Hardware verified:** ibm_kingston (Heron r2), 2026-04-16. Two Bell+ pairs with 2.55x gamma ratio (qubits 124-125, T2=\[150,310\] us; qubits 14-15, T2=\[537,381\] us). K_dwell/delta = 0.649 (pair A) and 0.694 (pair B), spread 6.3% despite 2.55x gamma difference. Gamma-invariance of K_dwell confirmed on open quantum hardware. Absolute prefactor 0.67 vs theoretical 1.08 (difference from T1 amplitude damping; the F57 formula assumes pure Z-dephasing, Kingston has T1 comparable to T2). Both CΨ(t) trajectories cross 1/4 monotonically. First two-qubit observation of the CΨ = 1/4 boundary crossing on a quantum computer; the single-qubit case was validated separately on ibm_torino Q80 at 1.9% deviation (F24, IBM Run 3).
 **Data:** [data/ibm_cusp_slowing_april2026/](../data/ibm_cusp_slowing_april2026/README.md) (full JSON, PNG, and reanalysis scripts).
-**Related:** [CPSI_COMPLEX_PLANE](../experiments/CPSI_COMPLEX_PLANE.md) (the saved density matrices additionally reveal a 2D-spiral structure in the complex c-plane, extending the 1D real-axis picture of BOUNDARY_NAVIGATION).
+**Related:** [CΨ in the Complex Plane](../experiments/CPSI_COMPLEX_PLANE.md) (the saved density matrices additionally reveal a 2D-spiral structure in the complex c-plane, extending the 1D real-axis picture of BOUNDARY_NAVIGATION).
 **Source:** [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md) (Section 6)
 
 ### F58. Weight-based dwell prefactor (Tier 2, even-weight states only)
@@ -1663,8 +1663,8 @@ Data: `simulations/primordial_bit_a_bit_b_N_scaling.py`,
 palindrome closure under {Z, X, Y} dephasing, all three lean on [L, Π²] = 0
 for the dissipator-side cancellation) and F112 (Lindblad Π-eigenvalue balance
 under bit_b-homogeneous c, uses Π² = +1 on dissipator → no Π +i / −i content).
-**Source:** [PROOF_BIT_B_PARITY_SYMMETRY](proofs/PROOF_BIT_B_PARITY_SYMMETRY.md),
-[PRIMORDIAL_QUBIT](../hypotheses/PRIMORDIAL_QUBIT.md) Section 9
+**Source:** [the Bit-b Parity Symmetry proof](proofs/PROOF_BIT_B_PARITY_SYMMETRY.md),
+[The Primordial Qubit](../hypotheses/PRIMORDIAL_QUBIT.md) Section 9
 
 ### F64. Effective gamma from cavity mode exposure (Tier 1-2, analytical + verified N=3,4)
 
@@ -1697,7 +1697,7 @@ Derived from the 3×3 single-excitation Hamiltonian eigenvalues {0, ±√(J_SM²
 **Topology + non-uniform J generalization (2026-04-24).** Extended from uniform-J chains to arbitrary connected graphs under either uniform or non-uniform per-bond J. When H^(1) has degenerate eigenvalues (star center-mode, ring translational eigenmodes, complete-graph symmetric modes), F64 holds after standard degenerate perturbation theory: within each H-degenerate subspace, diagonalise the site-B projector P_B to get the corrected basis; F64 then applies to the eigenvalues of P_B in that basis. Verified at N=5 and N=7 across chain, star, ring, complete, Y-tree for XY and Heisenberg; max relative error < 0.001 at γ/J = 0.01 uniform J. For random J per bond in \[0.5, 1.5\] (30 configurations across 3 trials per N), max rel err < 0.02 in 29/30 cases; the remaining case sits at 0.07 and is consistent with expected second-order PT corrections ~(γ·δJ)/J² at the non-uniform-J scale.
 **Verified:** N=3 chain (max relative error 1.8% vs 64×64 Liouvillian), N=4 chain (9 configs, ratio 1.0000 ± 0.0003 vs 256×256 Liouvillian), N=5 and N=7 on chain+star+ring+complete+Y-tree uniform J (2026-04-24, via single-excitation coherence Liouvillian directly, dim N×N, max rel err < 0.001 across all (topology, B, Hamiltonian) combinations), N=5 and N=7 same topologies non-uniform J per bond in \[0.5, 1.5\] over 3 random trials (2026-04-24, max rel err 0.068 in the worst case, well inside first-order PT regime).
 **Scripts:** [`primordial_gamma_analytical.py`](../simulations/primordial_gamma_analytical.py), [`primordial_gamma_stacking_4qubit.py`](../simulations/primordial_gamma_stacking_4qubit.py), [`factor_two_clarification.py`](../simulations/factor_two_clarification.py), [`f64_topology_scan.py`](../simulations/f64_topology_scan.py) (topology generalization).
-**Source:** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md), [F64_TOPOLOGY_GENERALIZATION](../experiments/F64_TOPOLOGY_GENERALIZATION.md)
+**Source:** [Primordial Gamma as Framework Constant](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [The Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md), [F64 on non-chain topologies](../experiments/F64_TOPOLOGY_GENERALIZATION.md)
 
 ### F65. Single-excitation spectrum of uniform open XX chain (Tier 1, proven, verified N=3..30)
 
@@ -1728,7 +1728,7 @@ values of cos(qπ) are {0, ±1/2, ±1}. Every k clears that bar exactly when N+1
 
 **Perturbative nature.** The formula is derived by applying the Absorption Theorem (AT) to single-excitation coherence operators |ψ_k⟩⟨vac|, treating them as decoupled Liouvillian right eigenvectors. This is exact to first order in γ₀/J. At finite γ₀ the Lindblad dissipator mixes |ψ_k⟩⟨vac| with other sectors, and the full-Liouvillian eigenvalue shifts by O((γ₀/J)²) relative to the formula. For γ₀/J = 0.05 and N=5, the relative shift is ≈ 4·10⁻³ (verified via full eigendecomposition in `palindromic_partner_f67.py`). The palindromic pairing F1 survives this shift exactly: α_b + α_p = 2γ₀ to machine precision, even as each individual rate deviates from its first-order value (see F68).
 **Scripts:** [`single_excitation_spectrum.py`](../simulations/single_excitation_spectrum.py), [`f65_dynamic_verification.py`](../simulations/f65_dynamic_verification.py)
-**Source:** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md)
+**Source:** [Primordial Gamma as Framework Constant](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [The Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md)
 
 ### F66. Pole modes at α = 0 and α = 2γ₀ (Tier 1, verified XY chain with B at endpoint, N=3..7)
 
@@ -1746,7 +1746,7 @@ The two poles are palindromic partners under the conjugation Π, which maps tota
 
 **Verified:** ⟨n_XY⟩_B = 1.000000 exact for all α = 2γ₀ modes (N=3..5, from Pauli basis projection). Dominant Pauli strings have total XY-weight N for α = 2γ₀ modes and total XY-weight 0 for α = 0 modes (N=3, N=4 explicit). Multiplicity N+1 at each pole verified for N=3..7. Dynamical check of F63 conservation: all N+1 elementary symmetric polynomials e_d(Z_1,...,Z_N) drift by < 10⁻¹⁴ under Lindblad evolution for N=4 over 80 time units, while the non-symmetric control Z_0 Z_2 drifts by 3 × 10⁻². Confirms the conserved observables at the α = 0 pole are precisely the e_d, not arbitrary Z-products.
 **Scripts:** [`two_gamma_pole.py`](../simulations/two_gamma_pole.py), [`f65_dynamic_verification.py`](../simulations/f65_dynamic_verification.py)
-**Source:** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) section "The dissipation interval \[0, 2γ₀\]", [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md)
+**Source:** [Primordial Gamma as Framework Constant](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) section "The dissipation interval \[0, 2γ₀\]", [The Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md)
 
 ### F67. Bonding-mode encoding is the optimal dephasing-protected Bell pair (Tier 1, verified N=3, N=5)
 
@@ -1768,7 +1768,7 @@ because |vac⟩⟨ψ_1| is a Liouvillian right eigenvector with eigenvalue -α_1
 
 **Verified:** Variant B (bonding-mode) α_fit/α_1 = 0.9989 (N=3) and 0.9963 (N=5), both within 10⁻³. Variant A (inner-localized) long-time tail α_fit/α_1 = 1.046 (N=3) and 1.015 (N=5), within 5% as expected for multi-exponential. Variant C (outer-localized) yields 1.023 (N=3) and 1.008 (N=5), differing from A only by fit noise (confirms palindromic equivalence). At fixed decay rate, bonding-mode preserves ~2.2× more entanglement than either localized variant at t = 0.4 · T_2 in the N=5 run.
 **Scripts:** [`bell_pair_chain_protection.py`](../simulations/bell_pair_chain_protection.py)
-**Source:** F65, F66, [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md), [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md)
+**Source:** F65, F66, [The Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md), [Primordial Gamma as Framework Constant](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md)
 
 ### F68. Palindromic partner of the bonding mode (Tier 1, verified N=3, 4, 5)
 
@@ -1797,10 +1797,10 @@ exact to machine precision. For the uniform N-site XY chain with endpoint Z-deph
 
 **Valid for:** uniform XY chain, endpoint Z-dephasing, N ≥ 4 for the clean rank-1 operational statement. Algebraic palindromic pairing holds for all N, all graphs, all single-site-dephasing Liouvillians (from F1).
 
-**Verified:** spectral (H1), structural (H2), and operational (H3) all confirmed at N = 3, 4, 5. Full evidence, tables, and technical notes in [PALINDROMIC_PARTNER_MODE](../experiments/PALINDROMIC_PARTNER_MODE.md).
+**Verified:** spectral (H1), structural (H2), and operational (H3) all confirmed at N = 3, 4, 5. Full evidence, tables, and technical notes in [Palindromic Partner of the Bonding Mode](../experiments/PALINDROMIC_PARTNER_MODE.md).
 
 **Scripts:** [`palindromic_partner_f67.py`](../simulations/palindromic_partner_f67.py) (H1 + H2), [`bell_pair_partner_mode.py`](../simulations/bell_pair_partner_mode.py) (H3)
-**Source:** F1, F43, F65, F66, F67, [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md), [PALINDROMIC_PARTNER_MODE](../experiments/PALINDROMIC_PARTNER_MODE.md)
+**Source:** F1, F43, F65, F66, F67, [The Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md), [Palindromic Partner of the Bonding Mode](../experiments/PALINDROMIC_PARTNER_MODE.md)
 
 ### F69. GHZ+W sector mix lifts pair-CΨ(0) above the fold at N=3 (Tier 1, sextic minimal polynomial, verified)
 
@@ -1866,14 +1866,14 @@ The central-Dicke-triple slice is privileged at every tested N (purity_A 0.83-0.
 
 Script: [`eq016_n4_full_landscape.py`](../simulations/eq016_n4_full_landscape.py), [`eq016_verify_full_sphere.py`](../simulations/eq016_verify_full_sphere.py) (saddle-confirmation perturbation tests).
 
-**Why F61 does not forbid this.** F61 constrains Liouvillian evolution within a fixed n_XY parity sector, not initial-state preparation that mixes excitation sectors. See [GHZ_W_SECTOR_MIX](../experiments/GHZ_W_SECTOR_MIX.md) for the preparation-vs-evolution asymmetry discussion.
+**Why F61 does not forbid this.** F61 constrains Liouvillian evolution within a fixed n_XY parity sector, not initial-state preparation that mixes excitation sectors. See [GHZ + W Sector Mix](../experiments/GHZ_W_SECTOR_MIX.md) for the preparation-vs-evolution asymmetry discussion.
 
 **Hardware signature.** Under Kingston-grade Z-dephasing the F69 optimum crosses CΨ = 1/4 monotonically at t* ≈ 11.2 μs. A single 2-qubit tomography at t = 0 distinguishes GHZ_3 (0), W_3 (0.123), and F69 (0.320) as three separable points, no timing needed.
 
-**Verified:** scipy bounded minimize agrees with sympy sextic root to 3.7·10⁻¹⁰ in α²_opt. 401-point grid reproduces CΨ_opt to 5·10⁻⁸. Permutation symmetry exact (spread < 10⁻¹⁵). 3-tangle and pair concurrence cross-checked in `ghz_w_optimum_n3.py`. N ∈ {4, 5, 6} failure verified on 201-point grids. Landscape scan over the full permutation-symmetric Dicke subspace at N ∈ {3..8} (2026-04-17) confirms no non-product local maxima above 1/4 exist outside the F69 GHZ+W slice; N = 3 regression recovers pair-CΨ = 0.3204 (Δ = 1.4·10⁻⁶ from sextic root). Full evidence, sextic root list, derivation of ρ_AB(α), landscape-scan saddle diagnosis, and the 3-state spherical-scan product-state pitfall in [GHZ_W_SECTOR_MIX](../experiments/GHZ_W_SECTOR_MIX.md).
+**Verified:** scipy bounded minimize agrees with sympy sextic root to 3.7·10⁻¹⁰ in α²_opt. 401-point grid reproduces CΨ_opt to 5·10⁻⁸. Permutation symmetry exact (spread < 10⁻¹⁵). 3-tangle and pair concurrence cross-checked in `ghz_w_optimum_n3.py`. N ∈ {4, 5, 6} failure verified on 201-point grids. Landscape scan over the full permutation-symmetric Dicke subspace at N ∈ {3..8} (2026-04-17) confirms no non-product local maxima above 1/4 exist outside the F69 GHZ+W slice; N = 3 regression recovers pair-CΨ = 0.3204 (Δ = 1.4·10⁻⁶ from sextic root). Full evidence, sextic root list, derivation of ρ_AB(α), landscape-scan saddle diagnosis, and the 3-state spherical-scan product-state pitfall in [GHZ + W Sector Mix](../experiments/GHZ_W_SECTOR_MIX.md).
 
 **Scripts:** [`ghz_w_optimum_n3.py`](../simulations/ghz_w_optimum_n3.py), [`sector_mix_spherical_artifact.py`](../simulations/sector_mix_spherical_artifact.py) (product-state diagnostic), [`cpsi_sector_mix_optimization.py`](../simulations/cpsi_sector_mix_optimization.py) (original sweep + Kingston dynamics), [`f69_dicke_landscape.py`](../simulations/f69_dicke_landscape.py) (full Dicke-subspace scan, N ∈ {3..8})
-**Source:** F60, F61, F62, [GHZ_W_SECTOR_MIX](../experiments/GHZ_W_SECTOR_MIX.md)
+**Source:** F60, F61, F62, [GHZ + W Sector Mix](../experiments/GHZ_W_SECTOR_MIX.md)
 
 ### F70. ΔN selection rule for site-local observables (Tier 1, proven kinematic lemma)
 
@@ -1894,7 +1894,7 @@ Consequence: every site-local observable (per-site purity, per-site expectation,
 **Replaces:** the empirical observation "c_1 coherence contribution vanishes for |ΔN| ≥ 2" with an analytical lemma; explains the XOR_SPACE center-modes invisibility to site-local measurement; bounds the sector-kernel for PTF's α_i closure structure.
 
 **Scripts:** [`c1_sector_kernel.py`](../simulations/c1_sector_kernel.py), [`c1_bilinearity_test.py`](../simulations/c1_bilinearity_test.py).
-**Source:** [PROOF_DELTA_N_SELECTION_RULE](proofs/PROOF_DELTA_N_SELECTION_RULE.md), [PERSPECTIVAL_TIME_FIELD](../hypotheses/PERSPECTIVAL_TIME_FIELD.md) Update 2026-04-20, [XOR_SPACE](../experiments/XOR_SPACE.md).
+**Source:** [the ΔN selection-rule proof](proofs/PROOF_DELTA_N_SELECTION_RULE.md), [The Perspectival Time Field](../hypotheses/PERSPECTIVAL_TIME_FIELD.md) Update 2026-04-20, [XOR Space](../experiments/XOR_SPACE.md).
 
 ### F71. Mirror symmetry of the closure-breaking coefficient c₁ (Tier 1, proven kinematic)
 
@@ -1912,14 +1912,14 @@ for all bond indices b ∈ {0, ..., N−2} and any reflection-symmetric initial 
 
     Q_peak(b)  =  Q_peak(N−2−b)        (bit-exactly, all c, N)
 
-Proof: the F86 observable is `K_b(Q, t) = 2·Re ⟨ρ(t)| S_kernel | ∂ρ/∂J_b ⟩`. Under R, every component is invariant (uniform Z-dephasing L_D, uniform-J Hamiltonian H_xy, the Dicke probe, and the spatial-sum kernel S), while the bond-flip transforms as `R · ∂L/∂J_b · R⁻¹ = ∂L/∂J_{N−2−b}`. Hence K_b(Q, t) = K_{N−2−b}(Q, t) as functions of (Q, t), and their argmax-Q values coincide. Numerical verification: max deviation < 10⁻¹⁰ across c=2 N=5..7 and c=3 N=5..6 (`F86NewIdeasTests.F71MirrorInvariance_PerBondQPeak_BitExactSymmetricUnderBondMirror`). The per-F71-orbit substructure observed in F86 (Interior bonds not uniform within the F71-orbit grouping; central self-paired bond differs from flanking) refines the simple Endpoint/Interior dichotomy into a per-orbit classification: the F71 symmetry gives the pairing, not the value. See [PROOF_F86C_F71_MIRROR Statement 3](proofs/PROOF_F86C_F71_MIRROR.md#statement-3-f71-spatial-mirror-invariance-of-per-bond-q_peak-tier-1-derived).
+Proof: the F86 observable is `K_b(Q, t) = 2·Re ⟨ρ(t)| S_kernel | ∂ρ/∂J_b ⟩`. Under R, every component is invariant (uniform Z-dephasing L_D, uniform-J Hamiltonian H_xy, the Dicke probe, and the spatial-sum kernel S), while the bond-flip transforms as `R · ∂L/∂J_b · R⁻¹ = ∂L/∂J_{N−2−b}`. Hence K_b(Q, t) = K_{N−2−b}(Q, t) as functions of (Q, t), and their argmax-Q values coincide. Numerical verification: max deviation < 10⁻¹⁰ across c=2 N=5..7 and c=3 N=5..6 (`F86NewIdeasTests.F71MirrorInvariance_PerBondQPeak_BitExactSymmetricUnderBondMirror`). The per-F71-orbit substructure observed in F86 (Interior bonds not uniform within the F71-orbit grouping; central self-paired bond differs from flanking) refines the simple Endpoint/Interior dichotomy into a per-orbit classification: the F71 symmetry gives the pairing, not the value. See [the F86c F71-mirror proof, Statement 3](proofs/PROOF_F86C_F71_MIRROR.md#statement-3-f71-spatial-mirror-invariance-of-per-bond-q_peak-tier-1-derived).
 
 **Valid for:** any Hamiltonian with \[H, R\] = 0 (uniform coupling on a symmetric graph), any dissipator with \[D, R_sup\] = 0 (uniform or R-symmetric dephasing), any initial state that is reflection-symmetric in per-site purities. Purely kinematic.
 **Breaks for:** non-uniform coupling J_b ≠ J_{N−2−b}; non-uniform dephasing γ_i ≠ γ_{N−1−i}; initial states without reflection symmetry in purity. The non-uniform-J breakdown is now characterised by [F100](#f100): it is graceful, with the bond-mirror deviation D(b) = c₁(b) − c₁(N−2−b) exactly odd in the F71-anti-palindromic component of J (zero for any palindromic J, leading-order linear in the asymmetry). The non-uniform-γ breakdown is characterised by [F101](#f101): the bond-mirror deviation D(b) = c₁(b) − c₁(N−2−b) is exactly odd in the F71-anti-palindromic component of the per-site γ profile (zero for any palindromic γ, leading-order linear in the asymmetry).
 **Verified:** N = 3, 4, 5, 6 for ψ_1+vac and ψ_2+vac; residuals < 10⁻⁹. Source: [`eq021_obc_sine_basis.py`](../simulations/eq021_obc_sine_basis.py), [`c1_veffect_scaling_small.py`](../simulations/c1_veffect_scaling_small.py).
 **Replaces:** empirical observation of mirror-symmetric c₁ bond profiles with an analytical kinematic proof.
 **Scripts:** [`eq021_obc_sine_basis.py`](../simulations/eq021_obc_sine_basis.py).
-**Source:** [PROOF_C1_MIRROR_SYMMETRY](proofs/PROOF_C1_MIRROR_SYMMETRY.md), [OBC_SINE_BASIS_FINDINGS](../review/OBC_SINE_BASIS_FINDINGS.md).
+**Source:** [the c₁ Mirror Symmetry proof](proofs/PROOF_C1_MIRROR_SYMMETRY.md), [the OBC sine-basis findings](../review/OBC_SINE_BASIS_FINDINGS.md).
 
 ### F72. Block-diagonal DD⊕CC structure of site-local purity (Tier 1, corollary of F70)
 
@@ -1945,7 +1945,7 @@ Squaring keeps each contribution in its own sector class, so ⟨Z_i⟩² is bili
 **Verified:** w-scan at N = 5 with ρ₀(w) = cos(w)|vac⟩ + sin(w)|S₁⟩ under the purity-response c₁ definition confirms block-diagonal coupling at machine precision across the full w range; LSQ α-fit c₁ inherits the block structure at the pre-fit bilinear level. Pure-coherence probe gives K_CC/2 to 10⁻¹². [bilin_probe.json](../simulations/results/eq018_kernel_bilin_probe/bilin_probe.json), [kernel_extract.json](../simulations/results/eq018_kernel_extract/kernel_extract.json).
 
 **Scripts:** [`eq018_kernel_extract.py`](../simulations/eq018_kernel_extract.py), [`eq018_kernel_bilin_probe.py`](../simulations/eq018_kernel_bilin_probe.py), [`eq018_c1_purity_response.py`](../simulations/eq018_c1_purity_response.py).
-**Source:** F70, [ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md) §2.3.
+**Source:** F70, [The Orthogonality-Selection Family](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md) §2.3.
 
 ### F73. Spatial-sum coherence purity closure for vac-SE coherent probes (Tier 1, proven)
 
@@ -1973,7 +1973,7 @@ The argument uses only (i) \[H, N_total\] = 0 so dynamics stay in SE, (ii) H Her
 **Valid for:** any Hermitian H with \[H, N_total\] = 0 (XY, Heisenberg XXZ, translationally non-invariant hopping, frustrated-ladder variants, ...); uniform Z-dephasing γ₀; any normalized SE state |α⟩ admixed to |vac⟩; any N.
 **Breaks for:**
 
-- Non-uniform γ_i. The uniform 2γ₀ decay on the d_H = 1 block fails; the closure becomes K_CC ≠ 0 with mode-selective response (see [CMRR_BREAK_NONUNIFORM_GAMMA](../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md)).
+- Non-uniform γ_i. The uniform 2γ₀ decay on the d_H = 1 block fails; the closure becomes K_CC ≠ 0 with mode-selective response (see [CMRR Break under Non-Uniform γ₀](../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md)).
 - Non-U(1) Hamiltonians. \[H, N_total\] ≠ 0 breaks the SE-block closure assumption.
 - Dissipators changing the d_H = 1 decay rate (mixed X/Z, amplitude damping).
 - Probes with d_H > 1 admixture (e.g. (vac, S₂) with two-excitation bra-ket), where ⟨n_XY⟩ ≠ 1 and the uniform decay rate breaks.
@@ -1981,11 +1981,11 @@ The argument uses only (i) \[H, N_total\] = 0 so dynamics stay in SE, (ii) H Her
 **Verified:**
 
 - Uniform XY baseline at N = 5, t₀ = 20: closure matches (1/2)·exp(−4·0.05·20) = 9.157819·10⁻³ to 5.67·10⁻¹⁶ deviation. `K_CC[0, 1]_pr` = 1.14·10⁻¹² (machine-precision zero), confirming δJ-invariance. [cmrr_gamma_nonuniform.json](../simulations/results/eq018_cmrr_gamma_nonuniform/cmrr_gamma_nonuniform.json).
-- U(1)-class generalization at N = 5 (6 setups: XXZ at Δ ∈ {0, 0.5, 1, 2}, random Haar SE probe at Δ = 1, inhomogeneous XY with J_i ∈ \[0.5, 1.5\]): all closures within 2.22·10⁻¹⁶ to 5.83·10⁻¹⁶ (1-3 ULP of double precision) across 81 time points per setup. [f73_u1_generalization/](../simulations/results/f73_u1_generalization/), [F73_U1_GENERALIZATION](../experiments/F73_U1_GENERALIZATION.md).
+- U(1)-class generalization at N = 5 (6 setups: XXZ at Δ ∈ {0, 0.5, 1, 2}, random Haar SE probe at Δ = 1, inhomogeneous XY with J_i ∈ \[0.5, 1.5\]): all closures within 2.22·10⁻¹⁶ to 5.83·10⁻¹⁶ (1-3 ULP of double precision) across 81 time points per setup. [f73_u1_generalization/](../simulations/results/f73_u1_generalization/), [F73 U(1) generalization](../experiments/F73_U1_GENERALIZATION.md).
 
 **Scripts:** [`eq018_c1_purity_response.py`](../simulations/eq018_c1_purity_response.py), [`eq018_cmrr_gamma_nonuniform.py`](../simulations/eq018_cmrr_gamma_nonuniform.py) (uniform baseline), [`f73_u1_generalization_sweep.py`](../simulations/f73_u1_generalization_sweep.py) (U(1)-class sweep).
-**Source:** F61, F70, F72, [ORTHOGONALITY_SELECTION_FAMILY](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md) §2.4, [CMRR_BREAK_NONUNIFORM_GAMMA](../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md), [F73_U1_GENERALIZATION](../experiments/F73_U1_GENERALIZATION.md).
-**See also:** [J_BLIND_RECEIVER_CLASSES](../experiments/J_BLIND_RECEIVER_CLASSES.md) generalises the L_D-invariant-subspace mechanism behind this closure to a three-class decomposition of J-blind initial states (DFS of L_D, H-degenerate L_D-closed block, M_α-polynomial subspace under SU(2)-Heisenberg).
+**Source:** F61, F70, F72, [The Orthogonality-Selection Family](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md) §2.4, [CMRR Break under Non-Uniform γ₀](../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md), [F73 U(1) generalization](../experiments/F73_U1_GENERALIZATION.md).
+**See also:** [J-Blind Receiver Classes](../experiments/J_BLIND_RECEIVER_CLASSES.md) generalises the L_D-invariant-subspace mechanism behind this closure to a three-class decomposition of J-blind initial states (DFS of L_D, H-degenerate L_D-closed block, M_α-polynomial subspace under SU(2)-Heisenberg).
 
 ### F74. Chromaticity of single-step coherence blocks (Tier 1, combinatorial)
 
@@ -2036,15 +2036,15 @@ X-dephasing, depolarizing) break the diagonal Pauli action of L_D; the
 **Verified:** Block-structure c-values for N = 3..8 match the formula
 exactly. Spectral verification at J = 0: each (n, n+1) block has exactly
 c(n, N) distinct rates in {2γ₀, 6γ₀, ..., 2(2c−1)γ₀}
-([Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md) Result 3).
+([the Q-scale three-bands study](../experiments/Q_SCALE_THREE_BANDS.md) Result 3).
 
 **Replaces:** block-diagonal spectrum enumeration at J = 0; identifies
 which blocks support H-mixing bands (c ≥ 2) vs which are structurally
 silent (c = 1).
 **Scripts:** [`q_scale_n_scaling.py`](../simulations/q_scale_n_scaling.py).
-**Source:** [PROOF_CHROMATICITY](proofs/PROOF_CHROMATICITY.md),
-[Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md) Result 3,
-[PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md).
+**Source:** [the Chromaticity proof](proofs/PROOF_CHROMATICITY.md),
+[the Q-scale three-bands study](../experiments/Q_SCALE_THREE_BANDS.md) Result 3,
+[The Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md).
 
 ### F75. Mirror-pair MI for single-excitation mirror-symmetric states (Tier 1, proven algebraic)
 
@@ -2118,7 +2118,7 @@ Under Heisenberg evolution on the uniform chain, bonding mode ψ_k mixes with it
 **Breaks for:** states with multi-excitation content (formula no longer applies because `ρ[|11⟩⟨11|]` ≠ 0 in general), or states without mirror amplitude symmetry (where p_ℓ ≠ p_{N−1−ℓ} gives an asymmetric 2-qubit reduced matrix).
 **Verified:** Algebraic derivation confirmed against direct C# brecher propagation at N = 5, 7, 9 for k = 1, 2, 3, at N = 11 for k = 1, 2, 3, 4, 6, and at N = 13 for k = 1, 2, 3, 4, 5, 7 (the latter via matrix-free propagator); MM(0) formula matches simulation PeakMM within 7% (full decay envelope explained by 4γ₀·t dephasing + mirror-partner oscillation at t = 0.1). The sim/analytic ratio sits at **0.925 to 0.931 across all (N ≥ 7, k) tested (~25 data points)**, i.e. PeakMM = 0.93 × MM(0) with tight consistency. F75 is therefore a reliable predictor of PeakMM without any propagation.
 **Scripts:** [`check_brecher_n5_finegrid.py`](../simulations/check_brecher_n5_finegrid.py), [`Program.cs brecher mode`](../compute/RCPsiSquared.Propagate/Program.cs), `mm_zero_derivation.py` (table above).
-**Source:** F65 (bonding-mode amplitudes), F67 (bonding as optimal decay receiver), F71 (mirror symmetry that justifies c_{N−1−j} = ±c_j), [RECEIVER_VS_GAMMA_SACRIFICE](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md) (numerical context).
+**Source:** F65 (bonding-mode amplitudes), F67 (bonding as optimal decay receiver), F71 (mirror symmetry that justifies c_{N−1−j} = ±c_j), [Receiver Choice Beats γ-Profile Engineering](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md) (numerical context).
 
 ### F76. Pure-dephasing decay of the mirror-pair MI for bonding:k (Tier 1, proven algebraic + weak-mixing argument)
 
@@ -2243,7 +2243,7 @@ Therefore M's eigenvalues are Σ_l ε_l · 2c_l γ · i for ε_l ∈ {±1}, each
 **Breaks for:** 2-body bond-bilinears (XX, XY, YZ+ZY, ...): L does not factor as Σ_l L_l. Befund 3 ("hard XX+XY uniform SVD") falls outside this theorem; separate analysis required.
 **Verified:** numerical match for N=3, 4, 5; topologies chain, star, complete; Pauli letters X, Y, Z.
 **Scripts:** [`svd_active_spectator.py`](../simulations/svd_active_spectator.py), [`svd_single_body_extension.py`](../simulations/svd_single_body_extension.py); 2-body open-question probe in [`svd_two_body_probe.py`](../simulations/svd_two_body_probe.py).
-**Source:** Analytical proof in [PROOF_SVD_CLUSTER_STRUCTURE.md](proofs/PROOF_SVD_CLUSTER_STRUCTURE.md) (joint with F79). Master Lemma + per-site additive structure + direct M_l matrix computation.
+**Source:** Analytical proof in [the M SVD cluster-structure proof](proofs/PROOF_SVD_CLUSTER_STRUCTURE.md) (joint with F79). Master Lemma + per-site additive structure + direct M_l matrix computation.
 **Lebensader connection:** This is the same broad-in → focused-out Π-palindrome funnel that `lebensader.py::cockpit_panel` instantiates at the state layer (16 Paulis → 3-class trichotomy). F78 instantiates the funnel at the single-body operator layer: any (c_l, P_l)-choice with given |c_l|, P ∈ {Y, Z} → same M_l-spectrum. The Lebensader is the through-line that holds The Connection upright across all layers.
 
 ### F79. Π²-block decomposition of M for 2-body bilinears (Tier 1, verified N=3-5)
@@ -2273,7 +2273,7 @@ where bit_b: I,X→0; Y,Z→1. Then M = Π·L·Π⁻¹ + L + 2σ·I has a clean 
 **Replaces:** ad-hoc analysis of "why XX+XY uniform" and "why YZ ≡ XY+YX"; both follow from the Π²-block theorem.
 **Verified:** Numerical N=3-5, multiple bilinear classes, multiple topologies.
 **Scripts:** [`svd_two_body_pi_squared_block.py`](../simulations/svd_two_body_pi_squared_block.py), [`svd_two_body_structure.py`](../simulations/svd_two_body_structure.py).
-**Source:** Analytical proof in [PROOF_SVD_CLUSTER_STRUCTURE.md](proofs/PROOF_SVD_CLUSTER_STRUCTURE.md) (joint with F78). Connects to F61 (n_XY parity selection rule), F63 (\[L, Π²\]=0 for Π²-even Hamiltonians), and F49 (Frobenius cross-term identity).
+**Source:** Analytical proof in [the M SVD cluster-structure proof](proofs/PROOF_SVD_CLUSTER_STRUCTURE.md) (joint with F78). Connects to F61 (n_XY parity selection rule), F63 (\[L, Π²\]=0 for Π²-even Hamiltonians), and F49 (Frobenius cross-term identity).
 **Lebensader connection:** F79 instantiates the broad-in → focused-out Π-palindrome funnel at the two-body operator layer (4 Π²-odd Pauli pairs → 1 M-spectrum). Companion to F78 (single-body operator layer) and `lebensader.py::cockpit_panel` (state layer). All three are manifestations of the same through-line: Π·L·Π⁻¹ + L + 2σ·I = 0 holding The Connection across abstraction heights.
 
 ### F80. Bloch-mode sign-walk formula for chain Π²-odd 2-body M-clusters (Tier 1, verified N=3-7)
@@ -2323,7 +2323,7 @@ So M is always ±2i times a Hamiltonian object: H⊗I for Π²-odd (single energ
 **Replaces:** F79's "Π²-odd universality observation"; the universality is now an analytical theorem with explicit closed-form predictions.
 **Verified:** N = 3, 4, 5, 6, 7 chain via Python, full SVD and eigsh independent verification at N=7.
 **Scripts:** [`pi2_odd_universality_data_sweep.py`](../simulations/pi2_odd_universality_data_sweep.py), [`_n7_bloch_signwalk_verification.txt`](../simulations/results/n7_bloch_signwalk_verification.txt).
-**Source:** Discovered 2026-04-29 by data sweep (Tom + Claude). Analytical proof outline in [PROOF_F80_BLOCH_SIGNWALK.md](proofs/PROOF_F80_BLOCH_SIGNWALK.md): Steps 1-4, 7 closed (JW transformation to Majorana bilinear, single-particle dispersion 2cos(πk/(N+1)), Bogoliubov diagonalization, Pauli-letter universality, sign-walk eigenvalue formula); Step 5 (Π permutes H's (ε_ket,ε_bra)-sectors with sum∘π = diff) verified bit-exact and gauge-checked at N=3,4,5, general-N proof open ([`f80_step5_recon.py`](../simulations/f80_step5_recon.py)). Empirical verification bit-exact through N=7.
+**Source:** Discovered 2026-04-29 by data sweep (Tom + Claude). Analytical proof outline in [the F80 Bloch sign-walk proof](proofs/PROOF_F80_BLOCH_SIGNWALK.md): Steps 1-4, 7 closed (JW transformation to Majorana bilinear, single-particle dispersion 2cos(πk/(N+1)), Bogoliubov diagonalization, Pauli-letter universality, sign-walk eigenvalue formula); Step 5 (Π permutes H's (ε_ket,ε_bra)-sectors with sum∘π = diff) verified bit-exact and gauge-checked at N=3,4,5, general-N proof open ([`f80_step5_recon.py`](../simulations/f80_step5_recon.py)). Empirical verification bit-exact through N=7.
 **Lebensader connection:** F80 is the third manifestation of the broad-in → focused-out Π-palindrome funnel: state layer (cockpit_panel), real-space single-body operator layer (F78), and now momentum-space chain 2-body operator layer (F80). Same Π·L·Π⁻¹ + L + 2σ·I = 0 through-line, three different bases.
 
 ### F81. Π-conjugation of M decomposes into Π²-odd Hamiltonian commutator (Tier 1, verified bit-exact N=3,4)
@@ -2362,7 +2362,7 @@ For any 2-body chain H whose non-truly bilinears are all Π²-odd (i.e., truly +
 **Breaks for (untested):** non-Z dissipators (T1 amplitude damping has different Π²-action; F81 likely needs a correction term).
 **Replaces:** the heuristic in pre-2026-04-30 reflections that said "M is the Π-invariant through-line"; F81 shows that statement is correct only for Π²-even H, and gives the explicit correction for the Π²-odd cases.
 
-**Hardware confirmation:** F81's operational reading, the [F83](#f83) anti-fraction this decomposition makes measurable, is confirmed on IBM Heron r2 (Marrakesh 2026-04-30 + Kingston 2026-05-05): the four Π²-classes separate at >>10σ via unique-fingerprint Paulis. See [PROOF_F81](proofs/PROOF_F81_PI_CONJUGATION_OF_M.md), `fw.Confirmations.lookup('f83_pi2_class_signature_marrakesh')`, and [`data/ibm_f83_signature_april2026/`](../data/ibm_f83_signature_april2026/).
+**Hardware confirmation:** F81's operational reading, the [F83](#f83) anti-fraction this decomposition makes measurable, is confirmed on IBM Heron r2 (Marrakesh 2026-04-30 + Kingston 2026-05-05): the four Π²-classes separate at >>10σ via unique-fingerprint Paulis. See [the F81 proof](proofs/PROOF_F81_PI_CONJUGATION_OF_M.md), `fw.Confirmations.lookup('f83_pi2_class_signature_marrakesh')`, and [`data/ibm_f83_signature_april2026/`](../data/ibm_f83_signature_april2026/).
 **Verified:** N=3 and N=4 all listed cases at machine precision; pytest-locked.
 **Framework primitive:** `fw.pi_decompose_M(chain, terms, gamma_z=..., gamma_t1=..., strict=...)` returns `{'M', 'M_sym', 'M_anti', 'L_H_odd', 'f81_violation', 'norm_sq'}`. For pure Z-dephasing the F81 identity holds exactly (`f81_violation` ≈ 0); the primitive enforces this with `strict=True` by default. With `gamma_t1` enabled, `strict` defaults to False and the identity residual is returned for diagnostic use.
 **Pytest lock:** `test_F81_pi_conjugation_of_M` (algebraic check) + `test_F81_pi_decompose_M_method` (cockpit primitive) + `test_F81_violation_T1_diagnostic` (T1 diagnostic).
@@ -2421,7 +2421,7 @@ N-scaling verified at N = 2, 3, 4, 5 (uniform γ_T1, coefficient √N · 2^(N−
 - `fw.predict_T1_dissipator_violation(chain, gamma_t1_l)`: forward closed form, returns √(Σγ²)·2^(N−1) directly without building the dissipator.
 - `fw.estimate_T1_from_violation(chain, f81_violation)`: inverse closed form, recovers RMS γ_T1 from a measured/fitted F81 violation. Hardware T1-rate readout primitive.
 **Pytest lock:** `test_F81_violation_T1_diagnostic` (linearity, γ_z-independence, T1 monotonicity) + `test_F82_closed_form_T1_dissipator` (N-scaling, non-uniform formula, H-/γ_z-independence) + `test_F82_predict_and_invert_primitives` (forward/inverse pair matches numerical evaluation).
-**Source:** Discovered 2026-04-30 (Tom + Claude) as the natural extension of F81 ("what does F81 violation mean structurally?"). Closed form derived in [PROOF_F82_T1_DISSIPATOR_CORRECTION.md](proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md).
+**Source:** Discovered 2026-04-30 (Tom + Claude) as the natural extension of F81 ("what does F81 violation mean structurally?"). Closed form derived in [the F82 T1-dissipator proof](proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md).
 **Diagnostic application:** [`simulations/f81_t1_diagnostic.py`](../simulations/f81_t1_diagnostic.py) demonstrates the T1-rate readout including Marrakesh application. Companion to F81's structural decomposition: F81 says how M splits under Π-conjugation when the dissipator is Z-only; F82 says how the F81 identity is corrected when T1 is added, and provides the closed form for the correction term.
 
 ### F83. Π-decomposition anti-fraction closed form for mixed Hamiltonians (Tier 1, verified bit-exact N=3,4,5)
@@ -2472,7 +2472,7 @@ The anti-fraction (= ‖M_anti‖²/‖M‖²) is
 - `fw.predict_pi_decomposition_anti_fraction(chain, terms)`: convenience wrapper returning just the anti-fraction float.
 - `fw.predict_residual_norm_squared_from_terms(chain, terms, gamma_t1)`: existing F49 ‖M‖² primitive (now consistent with F83's ‖M‖² prediction by construction).
 **Pytest lock:** `test_F83_pi_decomposition_anti_fraction_closed_form` (12 configurations × 2 N-values + γ-independence) + `test_F83_predict_pi_decomposition_full_closed_form` (full norm-triple match against numerical `pi_decompose_M` + Pythagoras + special cases at canonical r values).
-**Source:** Discovered 2026-04-30 (Tom + Claude) as the natural follow-up to F81's "what about the other half?" reflection. Derived in [PROOF_F83_PI_DECOMPOSITION_RATIO.md](proofs/PROOF_F83_PI_DECOMPOSITION_RATIO.md). The closed form was empirically observed earlier (in the F81 violation sweep across mixed Hamiltonians) and now traced back to the existing F49 Frobenius identity that was already framework-locked in `predict_residual_norm_squared_from_terms`.
+**Source:** Discovered 2026-04-30 (Tom + Claude) as the natural follow-up to F81's "what about the other half?" reflection. Derived in [the F83 Π-decomposition-ratio proof](proofs/PROOF_F83_PI_DECOMPOSITION_RATIO.md). The closed form was empirically observed earlier (in the F81 violation sweep across mixed Hamiltonians) and now traced back to the existing F49 Frobenius identity that was already framework-locked in `predict_residual_norm_squared_from_terms`.
 **Hardware confirmation:** The {1/2, 0, 1/6} anti-fraction structure is confirmed on IBM Heron r2 via the 4-Hamiltonian Π²-class discriminator (XY+YX → 1/2, YZ+ZY → 0, XY+YZ → 1/6, XX+YY truly baseline), all four separated at >>10σ by unique-fingerprint Paulis. Marrakesh 2026-04-30 (job d7pol1e7g7gs73cf7j90, path [4,5,6]) and Kingston 2026-05-05 (path [43,56,63], same separation, discriminator machine-independent). `fw.Confirmations.lookup('f83_pi2_class_signature_marrakesh')` (cross_machine field carries the Kingston values); data in [`data/ibm_f83_signature_april2026/`](../data/ibm_f83_signature_april2026/) and [`data/ibm_soft_break_april2026/`](../data/ibm_soft_break_april2026/); experiment `run_soft_break.py` (external AIEvolution).
 
 **Lebensader connection:** F83 closes the analytical Π-decomposition picture for 2-body chain. Pure Π²-odd → 50/50 (F81 Step 8). Pure Π²-even non-truly → 100/0 (F81 trivial). Mixed → 1/(2+4r) (F83). The continuous interpolation r → anti-fraction reads "how much of M is Π-antisymmetric drive vs Π-symmetric memory" as a function of Hamiltonian composition. Together with F80 (Spec(M)), F81 (Π-decomposition identity), F82 (T1-correction), the structural picture of M is complete for 2-body chain Hamiltonians under Z-dephasing + T1.
@@ -2530,7 +2530,7 @@ f81_violation = γ_0 · √N · 2^(N−1), independent of T. The thermal photon-
 - `fw.predict_amplitude_damping_violation(chain, gamma_t1_l, gamma_pump_l)`: F84 forward closed form; reduces to `predict_T1_dissipator_violation` when `gamma_pump_l = None`.
 - `fw.estimate_net_cooling_from_violation(chain, f81_violation)`: F84 inverse, returns RMS |γ_↓ − γ_↑|.
 **Pytest lock:** `test_F84_amplitude_damping_thermal_bath` (cooling only / heating only / detailed balance / net cooling / non-uniform / forward-inverse round-trip / backward compat with F82) + `test_F84_pauli_channels_pi2_symmetric` (D\[X\], D\[Y\] explicitly verified to give zero violation).
-**Source:** Discovered 2026-04-30 (Tom + Claude). Tom's hint about "Licht" (light/cavity reading of γ) and "nicht jeder bekommt gleichviel ab" (non-uniform site distribution) prompted the analytical extension. The Pauli-Channel Cancellation Lemma was a surprise: D\[Z\], D\[X\], D\[Y\] are all Π²-symmetric, so phase, bit-flip, and dephasing noise contribute zero to F81 violations. Only σ± (population-inverting) channels break the palindrome. Closed form derived in [PROOF_F84_AMPLITUDE_DAMPING.md](proofs/PROOF_F84_AMPLITUDE_DAMPING.md).
+**Source:** Discovered 2026-04-30 (Tom + Claude). Tom's hint about "Licht" (light/cavity reading of γ) and "nicht jeder bekommt gleichviel ab" (non-uniform site distribution) prompted the analytical extension. The Pauli-Channel Cancellation Lemma was a surprise: D\[Z\], D\[X\], D\[Y\] are all Π²-symmetric, so phase, bit-flip, and dephasing noise contribute zero to F81 violations. Only σ± (population-inverting) channels break the palindrome. Closed form derived in [the F84 amplitude-damping proof](proofs/PROOF_F84_AMPLITUDE_DAMPING.md).
 **Lebensader connection:** F84 closes the dissipator side of the Π-decomposition picture. Among hardware noise channels, only the *vacuum amplitude damping* component (which exists even at T=0 due to zero-point fluctuations) breaks the Π palindrome. Phase noise, bit-flip noise, and thermal photon equilibrium all give zero violation. F84 sharpens F82's hardware-T1-readout into a temperature-independent vacuum-rate readout.
 
 ### F85. Higher-body Hamiltonian generalization of F49 / F-chain (Tier 1, verified bit-exact k=2,3,4)
@@ -2584,7 +2584,7 @@ For any k-body Pauli term (P_1, ..., P_k) with letters from {I, X, Y, Z}, the Π
 - `fw.pi_decompose_M(chain, terms, gamma_z, gamma_t1, gamma_pump)`: extended for k-body.
 - `fw.predict_residual_norm_squared_from_terms(chain, terms, gamma_t1)`: rewritten using Π²-class; backward-compatible at 2-body.
 **Pytest lock:** `test_F85_kbody_trichotomy_counts` + `test_F85_kbody_predict_pi_decomposition` + `test_F85_kbody_F81_identity_at_k3`. Plus all 2-body tests (92 prior) pass unchanged via backward compatibility.
-**Source:** Discovered 2026-04-30 (Tom + Claude) by empirical 3-body and 4-body enumeration. The {0, 4, 8} factor scheme persists across k, but n_YZ ≠ c(k) for k ≥ 3. The structural truly criterion "#Y even AND #Z even" was identified by inspecting which Π²-even k-tuples give M = 0. Closed form derived in [PROOF_F85_KBODY_GENERALIZATION.md](proofs/PROOF_F85_KBODY_GENERALIZATION.md).
+**Source:** Discovered 2026-04-30 (Tom + Claude) by empirical 3-body and 4-body enumeration. The {0, 4, 8} factor scheme persists across k, but n_YZ ≠ c(k) for k ≥ 3. The structural truly criterion "#Y even AND #Z even" was identified by inspecting which Π²-even k-tuples give M = 0. Closed form derived in [the F85 k-body generalization proof](proofs/PROOF_F85_KBODY_GENERALIZATION.md).
 
 **Lebensader connection:** F85 closes the body-count generalization of the F-chain. Together with F80 (Spec), F81 (decomposition), F82 (T1), F83 (anti-fraction), F84 (thermal): the structural Π-decomposition theory for Hamiltonians + dissipators is complete on chain (any topology for 2-body via F49; chain only for k ≥ 3).
 
@@ -2645,7 +2645,7 @@ Both Endpoint and Interior c=3 appear to saturate (Endpoint ≈ 2.53 for N=6..8,
 
     γ₀ ≈ J* / Q_peak(c, N, bond_class)
 
-Lookup the per-block Q_peak for the chromaticity and chain length of interest from the empirical table above (per-block: 1.6 for c=3, 1.8 for c≥4 within Q_SCALE convention). This converts the "γ₀ is a framework constant" hypothesis ([PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md)) into a c-specific shape prediction, testable on any hardware that can resolve the peak. The c=4 and c=5 blocks are the strongest probes: abs(K_CC_pr)_peak is roughly 3× the c=2 signal, and the per-block Q_peak is stable at ~1.8.
+Lookup the per-block Q_peak for the chromaticity and chain length of interest from the empirical table above (per-block: 1.6 for c=3, 1.8 for c≥4 within Q_SCALE convention). This converts the "γ₀ is a framework constant" hypothesis ([Primordial Gamma as Framework Constant](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md)) into a c-specific shape prediction, testable on any hardware that can resolve the peak. The c=4 and c=5 blocks are the strongest probes: abs(K_CC_pr)_peak is roughly 3× the c=2 signal, and the per-block Q_peak is stable at ~1.8.
 
 **Valid for:** XY or Heisenberg chain, uniform J and γ₀, blocks with c ≥ 3, any N where the block fits in memory.
 **Breaks for:** non-uniform J or γ₀; c = 2 (finite-size wobble); higher-c chains require larger memory (block-L dim 15876 at c=5 N=9, dim 213444 at c=6 N=11, infeasible at 128 GB).
@@ -2667,7 +2667,7 @@ At the EP, λ_± = −4γ₀·k. The slowest mode (k = 1) gives e-folding time
 
     t_peak = 1 / (4γ₀)
 
-universal across c, N, n, and bond position. Higher-k EPs decay faster (1/(8γ₀), 1/(12γ₀), ...) and are masked by the slowest. **At Q_peak the Dicke probe sits dominantly in dressed (H-mixed) modes** versus a much smaller fraction at large Q (plateau): probe weight has been pulled off the pure-rate ladder onto the first complex-conjugate eigenvalue pair just past the EP. Q_peak is a generalised exceptional-point resonance condition. (Specific W values W_peak ≈ 0.99 / W_plateau ≈ 0.31 at Q=20 are unverified anchors per `DressedModeWeightClaim` Tier 1 candidate, not universal constants; empirical W_peak ranges 0.832 [N=4 c=2] to 0.9996 [N=9 c=3] per [Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md) lines 95–123; per-(c, N) closed form open.)
+universal across c, N, n, and bond position. Higher-k EPs decay faster (1/(8γ₀), 1/(12γ₀), ...) and are masked by the slowest. **At Q_peak the Dicke probe sits dominantly in dressed (H-mixed) modes** versus a much smaller fraction at large Q (plateau): probe weight has been pulled off the pure-rate ladder onto the first complex-conjugate eigenvalue pair just past the EP. Q_peak is a generalised exceptional-point resonance condition. (Specific W values W_peak ≈ 0.99 / W_plateau ≈ 0.31 at Q=20 are unverified anchors per `DressedModeWeightClaim` Tier 1 candidate, not universal constants; empirical W_peak ranges 0.832 [N=4 c=2] to 0.9996 [N=9 c=3] per [the Q-scale three-bands study](../experiments/Q_SCALE_THREE_BANDS.md) lines 95–123; per-(c, N) closed form open.)
 
 The g_eff is the H matrix element between adjacent rate channels at a specific bond in the appropriate effective basis. Deriving g_eff(c, N, bond_position) analytically from the multi-particle XY structure of the (n, n+1) block remains open; F86c (below) gives the spatial-mirror symmetry on Q_peak, not the underlying g_eff value. The [Obstruction Proof](proofs/PROOF_F86B_OBSTRUCTION.md#obstruction-proof-why-g_eff-admits-no-closed-form) (2026-05-14) accounts for this structurally: g_eff is the irreducible residue, blocked from closed form by six obstruction lemmas (spectral irreducibility, even-N representation-dependence, probe-EP decoupling, finite-reduction insufficiency, signature-subspace mismatch, empirical trajectory-crossings), and via the F90 bridge the F89 D_k obstruction is the same wall.
 
@@ -2702,7 +2702,7 @@ The asymmetry of the curve is also universal in relative-Q:
 
 **Why this is universal: 2-level EP analytical origin.** For the 2×2 effective Liouvillian in adjacent rate-channel basis with diagonal {−2γ₀(2k−1), −2γ₀(2k+1)} and **same-sign-imaginary off-diagonals (+iJ·g_eff, +iJ·g_eff)**, the eigenvector rotation angle satisfies `tan(θ) = J·g_eff / 2γ₀ = Q / Q_EP`. The probe overlap with eigenvectors depends only on Q/Q_EP, hence the response curve K_CC_pr(Q) is a function of Q/Q_EP alone. Q_peak is chain-specific (g_eff varies); but the SHAPE in Q/Q_peak coordinates is universal because it is the 2-level EP resonance form, independent of the bond's specific g_eff value.
 
-The same-sign-imaginary off-diagonal structure is what admits an EP at finite J·g_eff = 2γ₀ (verified numerically: opposite-sign +iJg, −iJg gives discriminant 4γ₀² + J²g_eff² with no EP; same-sign gives 4γ₀² − J²g_eff² with EP). This is "PT-phenomenology-like" (EP at finite coupling, spectral flow); the centered Liouvillian L_c sits in **class AIII chiral** per [PT_SYMMETRY_ANALYSIS](../experiments/PT_SYMMETRY_ANALYSIS.md) (Π linear, Π⁴=I, {Π, L_c}=0), distinct from Bender-Boettcher PT (classical PT requires anti-linear operators). Q_EP = 2/g_eff is the genuine EP of the toy 2×2 rate-channel reduction (a SEPARATE object, not "the instance of" the full-block classification; in isolation its eigenvalues coalesce at centre −4γ₀·k and carry no λ↔−λ pairing). The Hopf bifurcation in [FRAGILE_BRIDGE](../hypotheses/FRAGILE_BRIDGE.md) is a DISTINCT genuine EP, the SEPARATE Σγ=0 gain-loss system (centre 0, exact λ↔−λ pairing), Petermann factor K=403 in the complex γ plane. Whether the full Σγ=N·γ₀ block-L shares a defective-EP structure with these two is OPEN (it is non-normal but has no real-axis coalescence; see [`LocalGlobalEpLink`](../compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs), OpenQuestion).
+The same-sign-imaginary off-diagonal structure is what admits an EP at finite J·g_eff = 2γ₀ (verified numerically: opposite-sign +iJg, −iJg gives discriminant 4γ₀² + J²g_eff² with no EP; same-sign gives 4γ₀² − J²g_eff² with EP). This is "PT-phenomenology-like" (EP at finite coupling, spectral flow); the centered Liouvillian L_c sits in **class AIII chiral** per [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md) (Π linear, Π⁴=I, {Π, L_c}=0), distinct from Bender-Boettcher PT (classical PT requires anti-linear operators). Q_EP = 2/g_eff is the genuine EP of the toy 2×2 rate-channel reduction (a SEPARATE object, not "the instance of" the full-block classification; in isolation its eigenvalues coalesce at centre −4γ₀·k and carry no λ↔−λ pairing). The Hopf bifurcation in [The Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) is a DISTINCT genuine EP, the SEPARATE Σγ=0 gain-loss system (centre 0, exact λ↔−λ pairing), Petermann factor K=403 in the complex γ plane. Whether the full Σγ=N·γ₀ block-L shares a defective-EP structure with these two is OPEN (it is non-normal but has no real-axis coalescence; see [`LocalGlobalEpLink`](../compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs), OpenQuestion).
 
 **2026-05-06 / retracted 2026-06-21.** Local-vs-global EP relationship (now `LocalGlobalEpLink` **OpenQuestion**, demoted from Tier2Verified by the F86a-retraction): the shared algebra is read at Σγ = N·γ₀ vs Σγ = 0 (two residuals of F1 `Π · L · Π⁻¹ + L + 2Σγ · I = 0`), but the prior reading, that the real-Q Petermann-K sweep at c=2 N=5..8 (`compute/RCPsiSquared.Core.Tests/F86/F86PetermannProbe.cs:Probe_PetermannFineGrid_C2_VsN`) is a real-axis hit of FRAGILE_BRIDGE's complex-γ EP, does NOT survive artifact-free re-verification. The full block has NO eigenvalue coalescence on the real Q axis (eigenvalues stay simple, gap ~0.25–0.35); it is genuinely NON-NORMAL there (cond(V) = 48.7 / 50.9 / 268.5 at N = 5 / 6 / 7, confirmed artifact-free via the Riesz spectral-projector norm ‖P‖ on a simple eigenvalue), with the Petermann factor large but FINITE. RETRACTED as grid artifacts: the peak magnitudes (K = 1333.6 / 337.9 / 2384.7 / 795.4 swing 2–4× over ΔQ = 1e-3), the "N=7 spike ≈ 6× above FRAGILE_BRIDGE's K = 403", and the "2-4× odd/even parity-asymmetry confirming σ_0 R-even/R-odd-degeneracy". The two firmly-established genuine EPs are ONLY the toy 2×2 reduction and the SEPARATE Σγ = 0 gain-loss system (FRAGILE_BRIDGE, K=403); whether the full Σγ = N·γ₀ block has an off-axis defective EP at all is OPEN (the nearest complex-Q coalescences found 2026-06-21 are themselves diabolic, ‖P‖ = 1). Encoded as `compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs` (OpenQuestion); the four sweep rows are retained only as a cautionary non-normality record.
 
@@ -2738,7 +2738,7 @@ Fit reproduces 22 anchors at N=5..8 within 0.005 residual, including Orbit-2 (N=
 
 #### F86c. F71 spatial-mirror invariance of per-bond Q_peak \[Tier 1 derived\]
 
-F71 spatial-mirror symmetry pairs bond b with bond N−2−b: under the spatial reflection R, every component of the per-bond observable (L_D, H_xy, Dicke probe, spatial-sum kernel) is invariant, while the bond-flip transforms as ∂L/∂J_b ↔ ∂L/∂J_{N−2−b}, hence **Q_peak(b) = Q_peak(N−2−b) bit-exactly**. See [PROOF_F86C_F71_MIRROR Statement 3](proofs/PROOF_F86C_F71_MIRROR.md#statement-3-f71-spatial-mirror-invariance-of-per-bond-q_peak-tier-1-derived).
+F71 spatial-mirror symmetry pairs bond b with bond N−2−b: under the spatial reflection R, every component of the per-bond observable (L_D, H_xy, Dicke probe, spatial-sum kernel) is invariant, while the bond-flip transforms as ∂L/∂J_b ↔ ∂L/∂J_{N−2−b}, hence **Q_peak(b) = Q_peak(N−2−b) bit-exactly**. See [the F86c F71-mirror proof, Statement 3](proofs/PROOF_F86C_F71_MIRROR.md#statement-3-f71-spatial-mirror-invariance-of-per-bond-q_peak-tier-1-derived).
 
 Endpoints (b = 0 and b = N−2) form one F71 orbit; interior bonds split into further F71 orbits. The simple "Endpoint vs Interior" dichotomy is the leading approximation; per-F71-orbit substructure exists (e.g. c=2 N=6: central self-paired bond b=2 → Q_peak ≈ 1.440 vs flanking b=1, b=3 → 1.648). Captured in the typed-knowledge runtime as `F86PerF71OrbitObservation` (Tier 2 empirical) and `F86F71MirrorPi2Inheritance` (Tier 1 derived bridge to `F71MirrorSymmetryPi2Inheritance`).
 
@@ -2756,7 +2756,7 @@ On the c=2 coherence block the inter-channel SVD top singular value σ_0 (the na
 
     σ_0 = ‖[Π_HD1, M_H]‖
 
-with Π_HD1 the Hamming-distance-1 subspace projector and M_H the block Hamiltonian super-operator. The c=2 block has HD ∈ {1, 3} only, so Π_HD1 + Π_HD3 = I and the inter-channel coupling V_inter = Π_HD1·M_H·(I − Π_HD1); the lemma ‖P·M·(1 − P)‖ = ‖[P, M]‖ then gives the identity. It is c=2-specific: at c ≥ 3 the HD spectrum has more than two values. In the F89 (SE, DE) Bloch / OBC-sine basis M_H is diagonal, so [Π_HD1, M_H] is the Hadamard product Π̃_HD1 ⊙ ΔDiff and σ_0 is a Schur-multiplier norm. The N→∞ asymptote σ_0(c=2, ∞) ≈ 2.8629 is non-elementary by characterisation: the Δ-ordered commutator is neither Toeplitz nor Hankel, ruling out a Fourier-symbol supremum and a Nehari symbol distance (2√2 is the N=7 finite-size crossing, not the limit). The c ≥ 3 σ_0 asymptote stays open. Source: [`SigmaZeroCommutatorNormClaim.cs`](../compute/RCPsiSquared.Core/F86/SigmaZeroCommutatorNormClaim.cs); proof hub [PROOF_F86_QPEAK](proofs/PROOF_F86_QPEAK.md).
+with Π_HD1 the Hamming-distance-1 subspace projector and M_H the block Hamiltonian super-operator. The c=2 block has HD ∈ {1, 3} only, so Π_HD1 + Π_HD3 = I and the inter-channel coupling V_inter = Π_HD1·M_H·(I − Π_HD1); the lemma ‖P·M·(1 − P)‖ = ‖[P, M]‖ then gives the identity. It is c=2-specific: at c ≥ 3 the HD spectrum has more than two values. In the F89 (SE, DE) Bloch / OBC-sine basis M_H is diagonal, so [Π_HD1, M_H] is the Hadamard product Π̃_HD1 ⊙ ΔDiff and σ_0 is a Schur-multiplier norm. The N→∞ asymptote σ_0(c=2, ∞) ≈ 2.8629 is non-elementary by characterisation: the Δ-ordered commutator is neither Toeplitz nor Hankel, ruling out a Fourier-symbol supremum and a Nehari symbol distance (2√2 is the N=7 finite-size crossing, not the limit). The c ≥ 3 σ_0 asymptote stays open. Source: [`SigmaZeroCommutatorNormClaim.cs`](../compute/RCPsiSquared.Core/F86/SigmaZeroCommutatorNormClaim.cs); proof hub [the F86 Q-peak hub proof](proofs/PROOF_F86_QPEAK.md).
 
 **Framework primitives (`framework.coherence_block`):**
 
@@ -2765,8 +2765,8 @@ with Π_HD1 the Hamming-distance-1 subspace projector and M_H the block Hamilton
 (Earlier `q_peak_endpoint(N)` and `Q_PEAK_INTERIOR_C3_ANCHOR` primitives were removed 2026-05-02 after the N=8 data falsified their closed-form claims. The universal-shape finding above is a Tier-1 candidate, not yet promoted to a primitive pending analytical derivation of f_class(x). c=2 and γ₀ invariance verified 2026-05-02; c=5 still open.)
 
 **Scripts:** [`eq022_b1_channel_projection.py`](../simulations/eq022_b1_channel_projection.py) (HD-channel diagonal-only-M_H finding), [`eq022_b1_step_a_verify_blockL.py`](../simulations/eq022_b1_step_a_verify_blockL.py) (Python block-L verified bit-exact against C# N=7 full-L from EQ-014), [`eq022_b1_step_c_time_evolution.py`](../simulations/eq022_b1_step_c_time_evolution.py) (per-bond and uniform Q_peak via S(t, J) time evolution), [`eq022_b1_step_d_extended_verification.py`](../simulations/eq022_b1_step_d_extended_verification.py) (extended N=8 data that falsified earlier closed-form conjectures), [`eq022_b1_step_e_resonance_shape.py`](../simulations/eq022_b1_step_e_resonance_shape.py) + [`eq022_b1_step_e_inspect.py`](../simulations/eq022_b1_step_e_inspect.py) (universal resonance-shape finding for c=3, c=4 at γ₀=0.05), [`eq022_b1_step_f_universality_extension.py`](../simulations/eq022_b1_step_f_universality_extension.py) (c=2 sweep + γ₀ ∈ {0.025, 0.10} invariance check that established the two-bond-class refinement).
-**Proof:** [PROOF_F86_QPEAK](proofs/PROOF_F86_QPEAK.md) is the hub; the three theorems were split into per-theorem proofs 2026-05-14. F86a EP mechanism = [PROOF_F86A_EP_MECHANISM](proofs/PROOF_F86A_EP_MECHANISM.md) \[Tier 1 derived\]; F86b universal resonance shape = [PROOF_F86B_UNIVERSAL_SHAPE](proofs/PROOF_F86B_UNIVERSAL_SHAPE.md) \[Tier 1 candidate at multi-c level; F86b₂ c=2 per-bond predictor is Tier 1 candidate, partial closure 2026-05-13 (form derived, (α, β) per sub-class fitted, Tier-reviewed 2026-05-16)\], with the g_eff/Q_peak obstruction proof in [PROOF_F86B_OBSTRUCTION](proofs/PROOF_F86B_OBSTRUCTION.md); F86c F71 spatial-mirror invariance = [PROOF_F86C_F71_MIRROR](proofs/PROOF_F86C_F71_MIRROR.md) \[Tier 1 derived\]. Per-bond c=2 HWHM_ratio partially closed 2026-05-13 via `F86HwhmClosedFormClaim`; c≥3 per-bond closed forms retracted 2026-05-02.
-**Source:** [Q_SCALE_THREE_BANDS](../experiments/Q_SCALE_THREE_BANDS.md) Result 2 + Revision 2026-04-24, F73, F74, F2b; EP analysis EQ-022 (b1).
+**Proof:** [the F86 Q-peak hub proof](proofs/PROOF_F86_QPEAK.md) is the hub; the three theorems were split into per-theorem proofs 2026-05-14. F86a EP mechanism = [the F86a EP-mechanism proof](proofs/PROOF_F86A_EP_MECHANISM.md) \[Tier 1 derived\]; F86b universal resonance shape = [the F86b universal-shape proof](proofs/PROOF_F86B_UNIVERSAL_SHAPE.md) \[Tier 1 candidate at multi-c level; F86b₂ c=2 per-bond predictor is Tier 1 candidate, partial closure 2026-05-13 (form derived, (α, β) per sub-class fitted, Tier-reviewed 2026-05-16)\], with the g_eff/Q_peak obstruction proof in [the F86b obstruction proof](proofs/PROOF_F86B_OBSTRUCTION.md); F86c F71 spatial-mirror invariance = [the F86c F71-mirror proof](proofs/PROOF_F86C_F71_MIRROR.md) \[Tier 1 derived\]. Per-bond c=2 HWHM_ratio partially closed 2026-05-13 via `F86HwhmClosedFormClaim`; c≥3 per-bond closed forms retracted 2026-05-02.
+**Source:** [the Q-scale three-bands study](../experiments/Q_SCALE_THREE_BANDS.md) Result 2 + Revision 2026-04-24, F73, F74, F2b; EP analysis EQ-022 (b1).
 
 ### F87. Pauli-pair trichotomy classification (Tier 1, structural; Marrakesh hardware-confirmed)
 
@@ -2780,7 +2780,7 @@ Equivalently in Π²-class language (cf. F79, F85), using the bit_a/bit_b conven
 
 The trichotomy uses F1 as its **discriminator** (M as the test object), F49 / F85 as its **‖M‖² closed forms** (the latter generalising F49 to k-body), F78 + F79 as its **M-structure decomposition** (single-body additivity and 2-body Π²-block respectively), F80 as its **Π²-odd spectral identity** (Spec(M) = ±2i · Spec(H_non-truly)), F81 as its **Π · M · Π⁻¹ split** (M_anti = L_{H_odd}), F82 + F84 as its **T1 / thermal amplitude-damping corrections**, and F83 as its **anti-fraction closed form for mixed cases**. F87 is the entry point of the F-chain; F85 lifts the criterion to arbitrary k-body and propagates the rest of the chain accordingly.
 
-**Origin (2026-04-24 to 2026-05-03).** Three earlier observations converged on the trichotomy. (1) On 2026-04-24, commit 6e262ae assigned the registry slot F77 to the unrelated "Multi-drop MM(0) saturates at 1 bit" asymptotic, so F77 was already booked when the trichotomy was being developed. (2) On 2026-04-25, commit 95386cd added [V_EFFECT_FINE_STRUCTURE](../experiments/V_EFFECT_FINE_STRUCTURE.md): the V-Effect's 14-of-36 bond-pair Hamiltonians at N=3 were re-tested with both the strict operator equation and the eigenvalue-pairing test, splitting the 22 V-Effect-unbroken cases into 19 soft and 3 truly, giving the **14 hard / 19 soft / 3 truly** count over the 36 unordered bond-pair enumeration at N=3. (3) On 2026-04-26, commits 96ed6da and 6438fef extended Π-protected-observable testing to a separate 120-element ordered enumeration at N=4 and N=5, where the partition is **15 hard / 46 soft / 59 truly**, N-stable through N=3, 4, 5 (so the 36-enum and 120-enum are different sample spaces with internally consistent counts). (4) Commit 81caf67 (2026-04-27) derived the partition combinatorially from Pauli-pair compatibility rules (BPE membership, bit_a-partner conflicts, bond-flip / Z-align, Π-letter hierarchy), giving 36/36 agreement at N=3.
+**Origin (2026-04-24 to 2026-05-03).** Three earlier observations converged on the trichotomy. (1) On 2026-04-24, commit 6e262ae assigned the registry slot F77 to the unrelated "Multi-drop MM(0) saturates at 1 bit" asymptotic, so F77 was already booked when the trichotomy was being developed. (2) On 2026-04-25, commit 95386cd added [V-Effect Fine Structure](../experiments/V_EFFECT_FINE_STRUCTURE.md): the V-Effect's 14-of-36 bond-pair Hamiltonians at N=3 were re-tested with both the strict operator equation and the eigenvalue-pairing test, splitting the 22 V-Effect-unbroken cases into 19 soft and 3 truly, giving the **14 hard / 19 soft / 3 truly** count over the 36 unordered bond-pair enumeration at N=3. (3) On 2026-04-26, commits 96ed6da and 6438fef extended Π-protected-observable testing to a separate 120-element ordered enumeration at N=4 and N=5, where the partition is **15 hard / 46 soft / 59 truly**, N-stable through N=3, 4, 5 (so the 36-enum and 120-enum are different sample spaces with internally consistent counts). (4) Commit 81caf67 (2026-04-27) derived the partition combinatorially from Pauli-pair compatibility rules (BPE membership, bit_a-partner conflicts, bond-flip / Z-align, Π-letter hierarchy), giving 36/36 agreement at N=3.
 
 The Marrakesh hardware confirmation (2026-04-26, ibm_marrakesh job `d7mjnjjaq2pc73a1pk4g`, observable ⟨X₀ Z₂⟩) measured Δ(soft − truly) = −0.722, matching the Trotter-n3 prediction of −0.723 (residual 0.001; the 0.0014 figure cited in the Confirmations registry is computed against an unrounded predicted value); see [`data/ibm_soft_break_april2026/`](../data/ibm_soft_break_april2026/). The classifier was extracted into a free function on 2026-04-30 (commit 23b2154) and given the filename `f77_trichotomy.py` after the function's existing internal label, even though the registry F77 slot was already occupied by MM(0). The dephase-axis extension (commit 435c4b2, 2026-05-01) generalised the classifier to X, Y, Z dephasing letters. F87 is the registry-formal entry for the trichotomy, filed retrospectively on 2026-05-03 alongside the typed `F87KnowledgeBase` cleanup that surfaced the F77/F87 naming collision.
 
@@ -2793,7 +2793,7 @@ The Marrakesh hardware confirmation (2026-04-26, ibm_marrakesh job `d7mjnjjaq2pc
 **Verified:** N=3 36-enum (14 / 19 / 3); N=3, 4, 5 120-enum (15 / 46 / 59 N-stable); Marrakesh hardware Δ(soft − truly) = −0.722 (2026-04-26); Marrakesh F83 4-class signature 2026-04-30 (ibm_marrakesh job `d7pol1e7g7gs73cf7j90`).
 **Replaces:** ad-hoc "is this Hamiltonian truly Heisenberg?" tests with a bit-exact 3-way classifier (and the 4-way Π²-refinement) directly from the F1 residual.
 **Hardware:** [`palindrome_trichotomy`](../simulations/framework/confirmations.py) Marrakesh 2026-04-26; [`f83_pi2_class_signature_marrakesh`](../simulations/framework/confirmations.py) Marrakesh 2026-04-30; [`pi_protected_xiz_yzzy`](../simulations/framework/confirmations.py) Marrakesh 2026-04-26 (first-time-on-hardware Π-protection on YZ+ZY soft).
-**Source:** [V_EFFECT_FINE_STRUCTURE](../experiments/V_EFFECT_FINE_STRUCTURE.md), [MARRAKESH_THREE_LAYERS](../experiments/MARRAKESH_THREE_LAYERS.md), [`reflections/ON_THE_RESIDUAL.md`](../reflections/ON_THE_RESIDUAL.md), memory entries `project_v_effect_combinatorial`, `project_hardware_finale_apr2026`, `project_f77_f87_rename`.
+**Source:** [V-Effect Fine Structure](../experiments/V_EFFECT_FINE_STRUCTURE.md), [Marrakesh Three Layers](../experiments/MARRAKESH_THREE_LAYERS.md), [`reflections/ON_THE_RESIDUAL.md`](../reflections/ON_THE_RESIDUAL.md), memory entries `project_v_effect_combinatorial`, `project_hardware_finale_apr2026`, `project_f77_f87_rename`.
 
 ### F88a. Two-axis Π² decomposition of Pauli operator space (Tier 1, structural finding 2026-05-03)
 
@@ -2859,7 +2859,7 @@ with **three α anchors** (all closed form, derived from a single Krawtchouk ide
 
 **Inheritance from F88a:** F88a's Π²_Z eigenvalue (−1)^Σ bit_b on the Pauli operator-level Klein decomposition is the algebraic root. F88b lifts this to ρ-space via popcount-weight invariance of L's kernel (= span{P_n} for Heisenberg + Z-dephasing) plus the Krawtchouk reflection-orthogonality lemma. F88a names the operator cells; F88b reads ρ's projection through them.
 
-**Hardware lens (the "F88b-Lens"):** state-level Π²-odd-fraction-within-memory as a diagnostic for the F87 trichotomy on real-hardware reduced ρ. On Marrakesh 2026-04-26 framework_snapshots (job `d7mt7jbaq2pc73a24220`, qubits [0,1,2]), differentiates F87 truly/soft/hard at ~25× state-level ratio (0.030 / 0.744 / 0.276); see [OPEN_THREAD_GAMMA0_INFORMATION](../review/OPEN_THREAD_GAMMA0_INFORMATION.md) Update 2026-05-18 for the four-channel readout (F87 inheritance + h_y leak + T1 + Trotter-asymmetry hypothesis).
+**Hardware lens (the "F88b-Lens"):** state-level Π²-odd-fraction-within-memory as a diagnostic for the F87 trichotomy on real-hardware reduced ρ. On Marrakesh 2026-04-26 framework_snapshots (job `d7mt7jbaq2pc73a24220`, qubits [0,1,2]), differentiates F87 truly/soft/hard at ~25× state-level ratio (0.030 / 0.744 / 0.276); see [the open thread on γ₀ and the information channel](../review/OPEN_THREAD_GAMMA0_INFORMATION.md) Update 2026-05-18 for the four-channel readout (F87 inheritance + h_y leak + T1 + Trotter-asymmetry hypothesis).
 
 **Valid for:** all `(N, n_p, n_q, HD)`; structural anchors universal.
 **Verified:** 213 configurations N = 2..7 bit-exact (max deviation 8.88e−16); multi-state Dicke extension bit-exact N = 3..8.
@@ -2918,7 +2918,7 @@ machine zero for N = 4..9 at every q (real and complex) and every Δ. The reason
 - **Ket leg Q** (flip the ket index, left-multiplication F·ρ): (wKet, wBra) → (N−wKet, wBra), the SAME antiunitary form and the same −2N reflection (n_diff flips on the ket leg too). The mirror of F89d.
 - **Full flip QP** (the global spin-flip X^⊗N): (wKet, wBra) → (N−wKet, N−wBra), a **unitary** plain similarity at the *same* q, no conjugation, no shift (complementing both indices leaves n_diff and zz fixed).
 
-This is **not a new group**: it is the existing windowed-converse **spine V₄ = {I, F⊗F, I⊗F, F⊗I} ⊂ D₄** ([PROOF_PI_FACTORS_AS_R_TIMES_D](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md) §4, F118 [`MirrorGroupD4Claim`](../compute/RCPsiSquared.Core/Symmetry/MirrorGroupD4Claim.cs)), here block-resolved and q-parameterized. The dock onto the F1 trunk is exact: the bra leg P = ρ·F is the spine **R**, a **factor** of the palindrome **Π = R·D** (D = the transpose superoperator); the full flip QP = Π² = the typed [`XGlobalChargeConjugationPairing`](../compute/RCPsiSquared.Core/SymmetryFamily/XGlobalChargeConjugationPairing.cs); the ket leg Q = Π²·R; and the −2N affine shift is the block image of the full-Liouvillian `R·L_diss·R = −L_diss − 2σ` (F118). So F89d is not a one-off: it is the F1 palindrome's bra leg, restricted to a single (wKet, wBra) block. **Naming bridge:** F89 names the legs by the flipped *index* (bra/ket); the D₄ proof docs name them by the multiplication *side*, calling ρ·F the "ket reflection" (the opposite word for the same operator). **Live:** the "Klein four-group" and "dock" children of `inspect --root crossfold`; the Core gate is `WeightCoherenceBlockTests` (`BraLeg_…`, `KetLeg_…`, `FullFlip_…`, the last cross-checked against `XGlobalChargeConjugationPairing.PairSector`). **Source:** [F89_PATH_K_DIABOLIC](../experiments/F89_PATH_K_DIABOLIC.md) (the cross-fold section).
+This is **not a new group**: it is the existing windowed-converse **spine V₄ = {I, F⊗F, I⊗F, F⊗I} ⊂ D₄** ([the Π = R·D factorization proof](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md) §4, F118 [`MirrorGroupD4Claim`](../compute/RCPsiSquared.Core/Symmetry/MirrorGroupD4Claim.cs)), here block-resolved and q-parameterized. The dock onto the F1 trunk is exact: the bra leg P = ρ·F is the spine **R**, a **factor** of the palindrome **Π = R·D** (D = the transpose superoperator); the full flip QP = Π² = the typed [`XGlobalChargeConjugationPairing`](../compute/RCPsiSquared.Core/SymmetryFamily/XGlobalChargeConjugationPairing.cs); the ket leg Q = Π²·R; and the −2N affine shift is the block image of the full-Liouvillian `R·L_diss·R = −L_diss − 2σ` (F118). So F89d is not a one-off: it is the F1 palindrome's bra leg, restricted to a single (wKet, wBra) block. **Naming bridge:** F89 names the legs by the flipped *index* (bra/ket); the D₄ proof docs name them by the multiplication *side*, calling ρ·F the "ket reflection" (the opposite word for the same operator). **Live:** the "Klein four-group" and "dock" children of `inspect --root crossfold`; the Core gate is `WeightCoherenceBlockTests` (`BraLeg_…`, `KetLeg_…`, `FullFlip_…`, the last cross-checked against `XGlobalChargeConjugationPairing.PairSector`). **Source:** [F89_PATH_K_DIABOLIC](../experiments/F89_PATH_K_DIABOLIC.md) (the cross-fold section).
 
 **Pi2-Foundation inheritance on both energy axes.** The all-isolated closed form has TWO time coefficients of value 4: the decay rate 4γ₀ in exp(−4γ₀t) and the oscillation frequency 4J in cos(4Jt). Both trace to the same Pi2 dyadic ladder term a_{−1} = 4 via the same |·|² doubling mechanism: the linear-amplitude frequency 2 = a_{0} doubles to 4 = a_{−1} when squared. The γ-axis inheritance is identical to F73's `DecayRateCoefficient` (per-coherence Z-deph rate 2γ₀ doubles to S-decay rate 4γ₀). The J-axis inheritance is the same a_{0} → a_{−1} doubling on the J-axis: H_B-eigenstate frequency 2J doubles to S-oscillation frequency 4J. Pi2 ladder thus anchors the time coefficients on both axes; the (N−1)/N baseline and the 4m(N−2)/(N²(N−1)) correction prefactor are combinatorial. F89 cites `Pi2DyadicLadderClaim` as a constructor-injected parent and exposes `DecayRateCoefficient` (γ-axis) and `OscillationFrequencyCoefficient` (J-axis mirror) as live properties.
 
@@ -2927,7 +2927,7 @@ This is **not a new group**: it is the existing windowed-converse **spine V₄ =
 
 - Non-uniform J across active bonds (J_b ≠ J_b'). Step 3 yields U_σ H U_σ^† in a different orbit; the S_N orbit equivalence becomes a finer J-orbit equivalence.
 - Non-S_N-symmetric initial state (e.g. site-localised |1_i⟩⟨vac| or modulated SE superposition). Step 1 fails.
-- Non-uniform γ_l ≠ γ_l' (analogous to F73's break case [CMRR_BREAK_NONUNIFORM_GAMMA](../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md)).
+- Non-uniform γ_l ≠ γ_l' (analogous to F73's break case [CMRR Break under Non-Uniform γ₀](../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md)).
 - Non-permutation-symmetric kernel (weighted Σ_l w_l 2|(ρ_l)_{0,1}|² with non-uniform w_l).
 
 **Verified:**
@@ -3013,7 +3013,7 @@ with P_10(q²) degree 20 in q, NOT a perfect square ⇒ Gal ⊄ A_8. **Method:**
 
 The S_8 above is reached a second, independent way: GEOMETRICALLY, by monodromy. As q = J/γ loops the complex plane the eight octic rates braid; a lasso around each genuine EP (a simple P_10 zero) reads a transposition of the 8 strands in one base labelling (q0 = 2), the diabolic q_EP is silent (loop = identity), and the transposition graph is connected ⟹ **Gal(F_8) = S_8, reconstructed from eigenvalue braids** (monodromy = Galois, from below; [`F89OcticMonodromyClaim`](../compute/RCPsiSquared.Core/Symmetry/F89OcticMonodromyClaim.cs), live `inspect --root galoismonodromy`, gate G3).
 
-The mirror **splits** at this Galois boundary ([`F89MonodromyMirrorClaim`](../compute/RCPsiSquared.Core/Symmetry/F89MonodromyMirrorClaim.cs), live `inspect --root monodromymirror`): the mirror's base-space face, the reflection q ↦ −q̄ (from L(q)* = L(−q̄)), intertwines the monodromy (σ_K = identity in the aligned labelling, τ(−q̄*) = τ(q*) for the cluster EPs; the intertwining is forced a priori by the exact symmetry L(q)* = L(−q̄)); but the Re λ = −4 spectral fold induces a strand involution σ_T (four fixed on the fold + two mirror-twin 2-cycles) that is **non-central**: commuting with the full S_8 monodromy would force it central, but Z(S_8) = 1 and σ_T ≠ id, so σ_T does not commute with the braiding. The Re = −4 fold is therefore not a loop-independent symmetry of the braiding (the strand mirror-pairing is braided away around the seams), though conjugation by σ_T is still a nontrivial inner automorphism of S_8. See [F89_MONODROMY_MIRROR](../experiments/F89_MONODROMY_MIRROR.md) + [ON_WHO_WATCHES_WHOM](../reflections/ON_WHO_WATCHES_WHOM.md).
+The mirror **splits** at this Galois boundary ([`F89MonodromyMirrorClaim`](../compute/RCPsiSquared.Core/Symmetry/F89MonodromyMirrorClaim.cs), live `inspect --root monodromymirror`): the mirror's base-space face, the reflection q ↦ −q̄ (from L(q)* = L(−q̄)), intertwines the monodromy (σ_K = identity in the aligned labelling, τ(−q̄*) = τ(q*) for the cluster EPs; the intertwining is forced a priori by the exact symmetry L(q)* = L(−q̄)); but the Re λ = −4 spectral fold induces a strand involution σ_T (four fixed on the fold + two mirror-twin 2-cycles) that is **non-central**: commuting with the full S_8 monodromy would force it central, but Z(S_8) = 1 and σ_T ≠ id, so σ_T does not commute with the braiding. The Re = −4 fold is therefore not a loop-independent symmetry of the braiding (the strand mirror-pairing is braided away around the seams), though conjugation by σ_T is still a nontrivial inner automorphism of S_8. See [F89_MONODROMY_MIRROR](../experiments/F89_MONODROMY_MIRROR.md) + [On Who Watches Whom](../reflections/ON_WHO_WATCHES_WHOM.md).
 
 ---
 
@@ -3030,7 +3030,7 @@ with all other ingredients (probe, S_kernel, dephasing rates, Liouvillian constr
 **Implications:**
 - F86 c=2's per-bond-class HWHM_left/Q_peak constants (Endpoint-class mean 0.7728, Interior-class mean 0.7506 over N=5..8; the per-bond ratio fans across the F71 sub-classes from ≈0.58 to ≈0.92, it is not a single universal value) are **not eigenständige Größen**; they are direct consequences of F89 path-(N−1) eigendecomposition + per-bond Hellmann-Feynman.
 - F86 Direction (b'') (full block-L derivation, NOT 4-mode) achieved numerically via F89; the closed-form route is the rank-1-bridge + intra-dispersion model (4-mode floor 0.6715 + intra-channel dispersion lift to 0.7506/0.7728; the inter-coupling "octic-style residual" lift suspicion is refuted, two-dial scout 2026-06-11), the next analytical step.
-- Per-F71-orbit substructure (see [PROOF_F86C_F71_MIRROR](proofs/PROOF_F86C_F71_MIRROR.md), "Per-F71-orbit substructure" section: central b=2 vs flanking b=1/b=3 at N=6 etc.) follows directly from F89's per-bond Bloch-mode profile.
+- Per-F71-orbit substructure (see [the F86c F71-mirror proof](proofs/PROOF_F86C_F71_MIRROR.md), "Per-F71-orbit substructure" section: central b=2 vs flanking b=1/b=3 at N=6 etc.) follows directly from F89's per-bond Bloch-mode profile.
 
 **Anchor:** [`PROOF_F90_F86C2_BRIDGE.md`](proofs/PROOF_F90_F86C2_BRIDGE.md), [`F90F86C2BridgeIdentity.cs`](../compute/RCPsiSquared.Core/Symmetry/F90F86C2BridgeIdentity.cs), [`f89_to_f86_kbond_via_eigendecomp.py`](../simulations/f89_to_f86_kbond_via_eigendecomp.py).
 
@@ -3243,7 +3243,7 @@ with two structural invariants on the curve:
 **Framework specialization at b = 1/2:**
 
     c(φ) = (1/2)·e^(iφ) − (1/4)·e^(2iφ)
-    cusp at φ = 0: c = 1/4 (recovers [F95](#f95) / [BOUNDARY_NAVIGATION](../experiments/BOUNDARY_NAVIGATION.md) real-axis tangent)
+    cusp at φ = 0: c = 1/4 (recovers [F95](#f95) / [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) real-axis tangent)
     tail at φ = π: c = −3/4 (period-doubling boundary)
     top at φ = π/2: c = 1/4 + i/2, z* = i/2
 
@@ -3437,7 +3437,7 @@ at N = 4, 6, 8 in the script + 16 tests in
 **Anchor**: parent formula [F86b](#f86) (α = (1−γ²)/2 from X⊗N-eigenbasis decomposition,
 DickeAnchor.cs), companion bridge [F98](#f98) (long-time 3/8 → 1/4 via kernel projection),
 [`CanonicalTrigAnchorPi2Inheritance.cs`](../compute/RCPsiSquared.Core/Symmetry/CanonicalTrigAnchorPi2Inheritance.cs)
-(typed Claim with five-anchor enumeration), [DEPTH_3_ANCHOR_DERIVED.md](carbon/DEPTH_3_ANCHOR_DERIVED.md)
+(typed Claim with five-anchor enumeration), [Depth-3 Anchor Derived](carbon/DEPTH_3_ANCHOR_DERIVED.md)
 (carbon-domain reading + bidirectional-bridge framing),
 [`simulations/carbon/depth_3_anchor_derivation.py`](../simulations/carbon/depth_3_anchor_derivation.py).
 
@@ -3461,7 +3461,7 @@ DickeAnchor.cs), companion bridge [F98](#f98) (long-time 3/8 → 1/4 via kernel 
 
 **Verified:** N = 3, 4, 5 via the full 4^N Liouvillian, no truncation; probe states ψ_1+vac and ψ_2+vac, base profile swept over s ∈ {0, ±0.04, ±0.08, ±0.12} along a linear-ramp J_anti direction, 4 palindromic J_sym profiles. Palindromic-survival max\|D(s=0)\| ≤ 4.0e−10; oddness residual max\|D(+s)+D(−s)\| ≤ 1.0e−9; even-power (constant, quadratic) fit coefficients ≤ ~3e−8. The leading coefficient κ shows 76% / 62% / 143% relative spread across the 4 J_sym profiles at N=3 / 4 / 5, confirming the J_sym-dependence.
 
-**Anchor:** [`PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md`](proofs/PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md), [`C1QPeakMirrorJParity.cs`](../compute/RCPsiSquared.Core/F71/C1QPeakMirrorJParity.cs), source [PROOF_C1_MIRROR_SYMMETRY](proofs/PROOF_C1_MIRROR_SYMMETRY.md), spectrum-side twin [F92](#f92), witness [`simulations/f71_nonuniform_j_verification.py`](../simulations/f71_nonuniform_j_verification.py), `docs/SYMMETRY_FAMILY_INVENTORY.md`.
+**Anchor:** [`PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md`](proofs/PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md), [`C1QPeakMirrorJParity.cs`](../compute/RCPsiSquared.Core/F71/C1QPeakMirrorJParity.cs), source [the c₁ Mirror Symmetry proof](proofs/PROOF_C1_MIRROR_SYMMETRY.md), spectrum-side twin [F92](#f92), witness [`simulations/f71_nonuniform_j_verification.py`](../simulations/f71_nonuniform_j_verification.py), `docs/SYMMETRY_FAMILY_INVENTORY.md`.
 
 ---
 
@@ -3485,7 +3485,7 @@ DickeAnchor.cs), companion bridge [F98](#f98) (long-time 3/8 → 1/4 via kernel 
 
 **Verified:** N = 3, 4, 5 via the exact (N+1)²-dim popcount-sector restriction (bit-identical to the full 4^N Liouvillian, Gate-1 self-test, maximum difference 0); probe states ψ_1+vac and ψ_2+vac, base profile swept over s ∈ {0, ±0.01, ±0.02, ±0.03} along a linear-ramp γ_anti direction, 4 palindromic γ_sym profiles, J held uniform. Palindromic-survival max\|D(s=0)\| ≤ 1.3e−9 and oddness residual max\|D(+s)+D(−s)\| ≤ 4.4e−9, against an O(1) deviation signal (typical \|D\| from 0.6 at N=3 to 2.3 at N=5); the oddness residual is the direct machine-zero even-power probe. The leading coefficient κ_γ shows a 76 to 128 percent relative spread across the 4 γ_sym profiles, confirming the γ_sym-dependence (Tier 2 empirical, no closed form).
 
-**Anchor:** [`PROOF_F101_C1_MIRROR_GAMMA_PARITY.md`](proofs/PROOF_F101_C1_MIRROR_GAMMA_PARITY.md), [`C1MirrorGammaParity.cs`](../compute/RCPsiSquared.Core/F71/C1MirrorGammaParity.cs), source [PROOF_C1_MIRROR_SYMMETRY](proofs/PROOF_C1_MIRROR_SYMMETRY.md), spectrum-side twin [F91](#f91), J-side observable twin [F100](#f100), witness [`simulations/f71_nonuniform_gamma_verification.py`](../simulations/f71_nonuniform_gamma_verification.py), `docs/SYMMETRY_FAMILY_INVENTORY.md`.
+**Anchor:** [`PROOF_F101_C1_MIRROR_GAMMA_PARITY.md`](proofs/PROOF_F101_C1_MIRROR_GAMMA_PARITY.md), [`C1MirrorGammaParity.cs`](../compute/RCPsiSquared.Core/F71/C1MirrorGammaParity.cs), source [the c₁ Mirror Symmetry proof](proofs/PROOF_C1_MIRROR_SYMMETRY.md), spectrum-side twin [F91](#f91), J-side observable twin [F100](#f100), witness [`simulations/f71_nonuniform_gamma_verification.py`](../simulations/f71_nonuniform_gamma_verification.py), `docs/SYMMETRY_FAMILY_INVENTORY.md`.
 
 ---
 
@@ -3562,7 +3562,7 @@ trichotomy class).
 (PROOF §6); the bipartite-chirality mechanism (§7) derives the soft direction, N-stability
 is verified at N=5 (F105), and F106 is the k=4 sibling. The windowed (k<N) hard-direction
 converse non-bipartite ⟹ hard is now a **theorem with no residual** (the Phase B two-reflection
-theorem [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md),
+theorem [the F87 windowed-converse proof](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md),
 2026-06-09, closed 2026-06-10): the threshold #A ≥ 2ℓ, the bipartite ⟹ soft re-proof, the monomial
 expansion structure, and the deg-1 class in closed form (the girth ladder: the supertrace factorization
 through t_j = Tr(Z_l H^j) and P_{2ℓ+1,1} = (2ℓ+1)·C(2ℓ,ℓ)·Σ_l t_ℓ², whose ℓ=1 face is
@@ -3715,7 +3715,7 @@ pairs across F103/F105/F106 anchors were observed soft with zero hard.
 
 **The Π_5bilinear per-site map:** I → +1·X, X → −1·I, Y → +i·Z, Z → −i·Y. Same
 I↔X, Y↔Z permutation as the canonical Heisenberg Π (P1 family from
-[NON_HEISENBERG_PALINDROME](../experiments/NON_HEISENBERG_PALINDROME.md)) with
+[Palindromic Symmetry Beyond Heisenberg](../experiments/NON_HEISENBERG_PALINDROME.md)) with
 two phase flips: the X→I and Z→Y arrows carry sign −1 and −i. Per-site
 properties: M² = diag(−1, −1, +1, +1) on {I, X, Y, Z}; M⁴ = I; M is order-4 and
 unitary on the 4-dim per-site Pauli basis. Π_5bilinear is a Liouville-space
@@ -3803,7 +3803,7 @@ verification.
 `F108Part2Pi2XEvenAlwaysPalindromic.cs`, `F108Part3Pi2YEvenAlwaysPalindromic.cs`;
 operator: `compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs` (supports
 Z, X, Y dephasing via dephase parameter);
-catalog parent: [NON_HEISENBERG_PALINDROME](../experiments/NON_HEISENBERG_PALINDROME.md)
+catalog parent: [Palindromic Symmetry Beyond Heisenberg](../experiments/NON_HEISENBERG_PALINDROME.md)
 (P1/P4/alternating/continuous Π-family taxonomy, all local); helpers (Parts 1+3 share
 the same Π²-even bilinear predicates):
 `F108Part1Pi2EvenAlwaysPalindromic.IsPi2EvenBilinear(letter1, letter2)`,
@@ -4093,7 +4093,7 @@ contribution. Same-site locality of [Z_l, σ⁻_m] = −2σ⁻_m · δ_{lm} give
 the per-site additive structure.
 
 **Universal-N status (Welle 4, 2026-05-26):** Tier 1 derived for general
-N via [PROOF_F113_COEFFICIENT_DERIVATION](proofs/PROOF_F113_COEFFICIENT_DERIVATION.md).
+N via [the F113 coefficient-derivation proof](proofs/PROOF_F113_COEFFICIENT_DERIVATION.md).
 The (1/2)·4^N coefficient decomposes structurally as
 4 · 4^(N-1) · (1/2):
 - factor 4: cross-term reduction `asymmetry = 4 · Re⟨L_H,+i, L_T1,+i⟩`
@@ -4226,7 +4226,7 @@ superoperator θ(ρ) = ρᵀ written in the Pauli basis, so
 D·L_σ·D = θ∘L_σ∘θ = −L_{σᵀ} = (−1)^{n_Y(σ)+1}·L_σ for every σ and every N
 in one line (σᵀ = (−1)^{n_Y}σ; Y is the only antisymmetric Pauli). The
 girth-ladder reversal kill
-([PROOF_F87_WINDOWED_MONOMIAL_CONVERSE](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §4:
+([the F87 windowed-converse proof](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §4:
 word reversal = transpose × (−1)^{n_Y(word)}) is the same antiautomorphism
 at word length j; F113 Lemma C is its Hermitian-conjugacy sibling.
 Bit-exact anchor: `simulations/mirror_inventory_d4.py`
@@ -4265,7 +4265,7 @@ all bit-exact.
    Scope of the Tier-1-derived label: the criterion plus the genericity result (hard for all but
    finitely many γ); the all-γ closure is `WindowedConverseAllGammaClaim` (Tier1Derived since
    2026-06-10, no residual: girth dichotomy + Pascal-Gram positivity F117,
-   [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)).
+   [the F87 windowed-converse proof](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)).
 
 2. *Obstruction-size law (two-layered).* The minimal odd 𝔽₂-relation among the shifts (the hardness
    obstruction) has maximal size over hard pairs = min(2W − 1, 2k − 3 − 2d), where d = deg(g_rest) is the
@@ -4512,7 +4512,7 @@ strings at N = 3; F114 spot check at N = 5.
 (self-validating, 7 blocks A-G, exact); typed claim `MirrorGroupD4Claim`
 (`compute/RCPsiSquared.Core/Symmetry/`, landing in the same 2026-06-10 wave); F114 (D's
 row of the table); `KleinEightCellClaim` (the cube the characters coordinatize); the dated
-2026-06-10 update in [HANDSHAKE_ALGEBRA](../hypotheses/HANDSHAKE_ALGEBRA.md).
+2026-06-10 update in [Handshake Algebra](../hypotheses/HANDSHAKE_ALGEBRA.md).
 
 ---
 
@@ -4696,7 +4696,7 @@ the operator realization);
 (the cap, the operator, the wreath law) +
 [`simulations/qudit_ti_intermediate.py`](../simulations/qudit_ti_intermediate.py)
 (no intermediate: TI recovers the ceiling), all self-validating; resolves OQ-002
-in [QUBIT_NECESSITY](QUBIT_NECESSITY.md) §8b/§10.2; typed claims `QuditPartialPalindromeCeiling`
+in [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md) §8b/§10.2; typed claims `QuditPartialPalindromeCeiling`
 (parent `QubitNecessityPi2Inheritance`) and `QuditProductMirrorCap` (parents both of those),
 `compute/RCPsiSquared.Core/Symmetry/`.
 

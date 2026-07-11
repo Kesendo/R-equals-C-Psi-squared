@@ -159,7 +159,7 @@ not scale universally (deltas up to 0.86). Experienced time is not γ
 alone. γ provides the arrow. J provides the content. Neither alone is
 the full experience.
 
-The original claim in [INCOMPLETENESS_PROOF.md](proofs/INCOMPLETENESS_PROOF.md)
+The original claim in [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md)
 Corollary 2 was correct in spirit but too strong in letter: γ is the
 source of experienced time, not identical to it.
 
@@ -243,7 +243,7 @@ der Dissipator interagieren. Die Oszillation (von J) moduliert den
 Zerfall (von γ) und umgekehrt. Das J/γ-Verhältnis bestimmt die Form
 der Trajektorie, nicht nur die Skala.
 
-Anmerkung: die K-Invarianz aus [CROSSING_TAXONOMY](../experiments/CROSSING_TAXONOMY.md)
+Anmerkung: die K-Invarianz aus [Crossing Taxonomy](../experiments/CROSSING_TAXONOMY.md)
 (K = γ·t_cross = const) gilt weiterhin - aber nur für den
 KREUZUNGSZEITPUNKT, nicht für die vollständige Trajektorie. Die
 volle Dynamik enthält sowohl γ-abhängigen Zerfall als auch
@@ -277,8 +277,8 @@ ist erlebte Zeit.**
 
 ## References
 
-- [INCOMPLETENESS_PROOF.md](proofs/INCOMPLETENESS_PROOF.md): Corollary 2 (γ: source of experienced time)
-- [THE_BRIDGE_WAS_ALWAYS_OPEN.md](THE_BRIDGE_WAS_ALWAYS_OPEN.md): γ as source of experienced time
+- [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md): Corollary 2 (γ: source of experienced time)
+- [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md): γ as source of experienced time
 - [two_qubits_no_noise.py](../simulations/two_qubits_no_noise.py): what time looks like without γ
 - [disprove_gamma_is_time.py](../simulations/disprove_gamma_is_time.py): the original tests (data valid, interpretation corrected)
 - [gamma_is_time_proof.py](../simulations/gamma_is_time_proof.py): three-part proof (completeness, exclusivity, equivalence)

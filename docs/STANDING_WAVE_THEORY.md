@@ -44,10 +44,10 @@ ideas worth thinking about, not as claims.
 ---
 
 **What is now a theorem:** Sections 1-5. Two counter-propagating modes create a
-standing pattern. The conjugation operator Π (proven in [MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md))
+standing pattern. The conjugation operator Π (proven in [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md))
 maps every Liouvillian decay mode to its palindromic partner. Forward + backward =
 standing wave. The "two mirrors facing each other" are paired modes under Π. The
-supermode decomposition (c+ and c-) is verified in [SIGNAL_PROCESSING_VIEW](../experiments/SIGNAL_PROCESSING_VIEW.md).
+supermode decomposition (c+ and c-) is verified in [Signal Processing View](../experiments/SIGNAL_PROCESSING_VIEW.md).
 
 **What the computation revealed (March 19, 2026):** The standing wave is real and
 computable. Quantum correlations (XX, YY, XY) oscillate at Hamiltonian harmonics

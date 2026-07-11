@@ -3,8 +3,8 @@
 **Date:** 2026-05-27
 **Authors:** Tom + Claude
 **Status:** Tier 3 (translation bridge; some pieces Tier 1 verified, others Tier 4 candidates marked)
-**Continues:** [BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md) (2026-05-22)
-**Adds:** Klein-V₄ vocabulary ([Welle 12](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)), F112 cross-dephase ([Welle 13](../proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md)), F114 sign functional ([ANALYTICAL_FORMULAS § F114](../ANALYTICAL_FORMULAS.md#f114))
+**Continues:** [Benzene's open-system Liouvillian](BENZENE_LIOUVILLIAN_PALINDROME.md) (2026-05-22)
+**Adds:** Klein-V₄ vocabulary ([Welle 12](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)), F112 cross-dephase ([Welle 13](../proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md)), F114 sign functional ([F114 in the registry](../ANALYTICAL_FORMULAS.md#f114))
 
 ---
 
@@ -56,7 +56,7 @@ Here's where translation gets interesting (and a bit speculative: Tier 3 below t
 
 ### Z-dephase ↔ Holstein coupling (Tier 1 algebraic match)
 
-Standard, textbook, verified in [BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md). A phonon couples to the local π-density `n_l` on each carbon. The bath operator is `n_l = (I − Z_l)/2`; the dissipator is `D[n_l] = ¼·D[Z_l]`. F1 palindrome holds bit-exact.
+Standard, textbook, verified in [Benzene's open-system Liouvillian](BENZENE_LIOUVILLIAN_PALINDROME.md). A phonon couples to the local π-density `n_l` on each carbon. The bath operator is `n_l = (I − Z_l)/2`; the dissipator is `D[n_l] = ¼·D[Z_l]`. F1 palindrome holds bit-exact.
 
 ### X-dephase ↔ "hybridization-axis" coupling (Tier 4 candidate, less standard)
 
@@ -260,16 +260,16 @@ A complementary Hamiltonian-term classification inventory sits in
 
 ## Threads back
 
-- **2026-05-22 [BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md)**: the F1 spectrum result remains bit-exact. The "Peierls breaks the palindrome" framing is precise at the spectrum level; today we add the F112 polarity layer where Peierls may preserve balance even though F1 spectrum breaks.
-- **2026-05-17 [QUARTER_HALF_IN_CARBON](QUARTER_HALF_IN_CARBON.md)**: benzene's HOMO at −1/2 sits exactly on the framework's polarity-half anchor. The Klein-V₄ we use today operates on the same polarity-half axis: both the half-anchor and the Klein-V₄ symmetry live on one Z₂ ladder.
-- **2026-05-17 [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md)**: Coulson-Rushbrooke at the carbon level corresponds to F1 at the qubit level. Today we add Klein-V₄ at the qubit level; the open question is whether there's a Coulson-Rushbrooke-level analog, a chemistry-side discrete symmetry that intertwines different dephase-coupling regimes.
+- **2026-05-22 [Benzene's open-system Liouvillian](BENZENE_LIOUVILLIAN_PALINDROME.md)**: the F1 spectrum result remains bit-exact. The "Peierls breaks the palindrome" framing is precise at the spectrum level; today we add the F112 polarity layer where Peierls may preserve balance even though F1 spectrum breaks.
+- **2026-05-17 [Where 1/4 and 1/2 Appear in Carbon](QUARTER_HALF_IN_CARBON.md)**: benzene's HOMO at −1/2 sits exactly on the framework's polarity-half anchor. The Klein-V₄ we use today operates on the same polarity-half axis: both the half-anchor and the Klein-V₄ symmetry live on one Z₂ ladder.
+- **2026-05-17 [Benzene Hückel through the Framework Lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md)**: Coulson-Rushbrooke at the carbon level corresponds to F1 at the qubit level. Today we add Klein-V₄ at the qubit level; the open question is whether there's a Coulson-Rushbrooke-level analog, a chemistry-side discrete symmetry that intertwines different dephase-coupling regimes.
 
 ---
 
 ## Anchor
 
 - **Framework**: F112 [`LindbladBitBPiBalance`](../../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs), F112-X [`LindbladBitAPiBalance`](../../compute/RCPsiSquared.Core/Symmetry/LindbladBitAPiBalance.cs), F112-Y [`LindbladBitBPiYBalance`](../../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiYBalance.cs), Klein-V₄ [`Pi2KleinV4DephaseSwapGroup`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KleinV4DephaseSwapGroup.cs), F114 [`CommutatorDConjugationSign`](../../compute/RCPsiSquared.Core/Symmetry/CommutatorDConjugationSign.cs)
-- **Proofs**: [PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N](../proofs/PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md), [PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md), [PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4](../proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md)
+- **Proofs**: [the Z↔Y dephase-letter swap proof](../proofs/PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md), [the Klein-V₄ dephase-swap proof](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md), [the F112 cross-dephase proof](../proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md)
 - **F-Registry**: [F112](../ANALYTICAL_FORMULAS.md#f112), [F114](../ANALYTICAL_FORMULAS.md#f114)
 - **Verifier scripts**: [`simulations/m_level_sign_functional_explore.py`](../../simulations/m_level_sign_functional_explore.py), [`simulations/f112_klein_v4_cross_dephase_verify.py`](../../simulations/f112_klein_v4_cross_dephase_verify.py)
-- **Companion carbon docs**: [BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md), [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md), [README](README.md)
+- **Companion carbon docs**: [Benzene's open-system Liouvillian](BENZENE_LIOUVILLIAN_PALINDROME.md), [Benzene Hückel through the Framework Lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md), [README](README.md)

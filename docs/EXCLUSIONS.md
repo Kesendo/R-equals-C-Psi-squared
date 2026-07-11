@@ -34,7 +34,7 @@ non-trivial solution is d = 2 (the qubit).
 **Verification:** Qutrits (d=3, the three-level analogue of qubits) tested against 236 dephasing dissipators:
 0/236 palindromic. The equation d² - 2d = 9 - 6 = 3, not zero.
 
-**Operational handle (2026-05-01):** The d=0 substrate is now directly readable via `fw.stationary_modes(chain)` (the kernel of the Liouvillian L), `fw.d_zero_decomposition(rho, chain)` (substrate/decohering split of any state), and `fw.sector_populations(rho_or_psi, N)` (the natural d=0 observables p_n = Tr(P_n · ρ), measurable on hardware via Z-basis tomography alone). For uniform XY/Heisenberg + Z-dephasing the kernel has dimension N+1, spanned by the F4 sector projectors P_n in the {I, Z}^N Pauli sublattice (see [F4 in ANALYTICAL_FORMULAS](ANALYTICAL_FORMULAS.md)).
+**Operational handle (2026-05-01):** The d=0 substrate is now directly readable via `fw.stationary_modes(chain)` (the kernel of the Liouvillian L), `fw.d_zero_decomposition(rho, chain)` (substrate/decohering split of any state), and `fw.sector_populations(rho_or_psi, N)` (the natural d=0 observables p_n = Tr(P_n · ρ), measurable on hardware via Z-basis tomography alone). For uniform XY/Heisenberg + Z-dephasing the kernel has dimension N+1, spanned by the F4 sector projectors P_n in the {I, Z}^N Pauli sublattice (see [F4 in Analytical Formulas](ANALYTICAL_FORMULAS.md)).
 
 **Proof:** [Qubit Necessity](QUBIT_NECESSITY.md),
 [The Mirror That Looked Non-Local](../hypotheses/THE_BOOT_SCRIPT.md) Section 5.
@@ -162,7 +162,7 @@ with the Hamiltonian, combined: Π L Π⁻¹ = -L - 2Σγ I.
 **Hardware:** Confirmed on IBM Torino at 1.9% deviation
 ([IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)).
 
-**Cross-domain evidence (2026-05-01):** The same pair-sum-constant signature predicted by F1 appears empirically in the periodic table of the elements. First ionization energies across periods 2-6 give CoV 0.07-0.10 with p ≤ 0.06 in every period and p < 10⁻⁴ for period 6 (32 elements, including the f-block). Pauling electronegativities (periods 2-5, CoV 0.01-0.11) and Allen electronegativities (periods 2-3, CoV 0.008-0.010) extend the signal: coupling-derived properties show systematically tighter palindrome than single-atom properties on the same period. Three independent property scales, five periods, the same statistical signature. The cross-domain transport from quantum F1 to atomic shell Hamiltonians is empirical, not derived. See [`simulations/periodic_palindrome.py`](../simulations/periodic_palindrome.py) and §3 of [MATHEMATICAL_CONNECTIONS](MATHEMATICAL_CONNECTIONS.md).
+**Cross-domain evidence (2026-05-01):** The same pair-sum-constant signature predicted by F1 appears empirically in the periodic table of the elements. First ionization energies across periods 2-6 give CoV 0.07-0.10 with p ≤ 0.06 in every period and p < 10⁻⁴ for period 6 (32 elements, including the f-block). Pauling electronegativities (periods 2-5, CoV 0.01-0.11) and Allen electronegativities (periods 2-3, CoV 0.008-0.010) extend the signal: coupling-derived properties show systematically tighter palindrome than single-atom properties on the same period. Three independent property scales, five periods, the same statistical signature. The cross-domain transport from quantum F1 to atomic shell Hamiltonians is empirical, not derived. See [`simulations/periodic_palindrome.py`](../simulations/periodic_palindrome.py) and §3 of [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md).
 
 **Ruled out:**
 - "The symmetry is approximate and breaks at some scale": it is
@@ -252,7 +252,7 @@ Markovian backflow through J-coupling to a coherent reservoir.
 
 **Verification:** The algebraic identity Ψ(ρ_d0) = 0 for the kernel projection is exact for uniform XY/Heisenberg + Z-dephasing, verified numerically by `test_psi_vanishes_on_d_zero_substrate` in [`simulations/framework/tests/diagnostics/test_d_zero.py`](../simulations/framework/tests/diagnostics/test_d_zero.py). Any state's coherence (Ψ) vanishes on its d=0 projection by construction; both d=0 and d=2 are diagonal-vs-off-diagonal entries of the same Hilbert-space density matrix.
 
-**Proof:** Structural identity documented in [reflections/ON_WHAT_THE_FORMULA_KNEW](../reflections/ON_WHAT_THE_FORMULA_KNEW.md) (R=CΨ² and d²−2d=0 as one quadratic family). The motto "Reality is what happens between us / mirrors / sectors" reads at the operator level: sectors P_n are static, the d=2 off-diagonal content between them is dynamic. The canonical poetic form is in [reflections/TRANSMISSION](../reflections/TRANSMISSION.md) ("We are all mirrors. Reality is what happens between us").
+**Proof:** Structural identity documented in [On What the Formula Already Knew](../reflections/ON_WHAT_THE_FORMULA_KNEW.md) (R=CΨ² and d²−2d=0 as one quadratic family). The motto "Reality is what happens between us / mirrors / sectors" reads at the operator level: sectors P_n are static, the d=2 off-diagonal content between them is dynamic. The canonical poetic form is in [reflections/TRANSMISSION](../reflections/TRANSMISSION.md) ("We are all mirrors. Reality is what happens between us").
 
 **Ruled out:**
 - "There is a quantum world somewhere separate from the classical world we inhabit": the framework's structures are operator-space distinctions, not world-separations

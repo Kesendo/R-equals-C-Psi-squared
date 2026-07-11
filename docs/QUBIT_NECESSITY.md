@@ -347,7 +347,7 @@ and adding H degrades it at every fixed center (54→48 about −Nγ): the palin
 is fragile under H, not improved by it. For the symmetric SU(3) Heisenberg the
 interacting real parts follow the Absorption Theorem Re(λ)=−2γ⟨Q⟩, but the
 interacting count is H-dependent with no H-independent closed form. See
-[PROOF_QUDIT_PARTIAL_PALINDROME](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md) §4.
+[the Qudit Partial Palindrome proof](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md) §4.
 
 ### 8c. Composition failure at large N
 
@@ -415,7 +415,7 @@ following questions remain genuinely open:
    exclusivity extend to these?
 
 2. **Partial palindrome theory:** RESOLVED 2026-06-11 (F121,
-   [PROOF_QUDIT_PARTIAL_PALINDROME](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md)).
+   [the Qudit Partial Palindrome proof](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md)).
    The dissipator's partial pairing is the symmetric overlap of the
    disagreement-count multiplicity c_k = d^N·C(N,k)·(d−1)^k under k↔N−k:
    paired = Σ_k d^N·C(N,k)·(d−1)^min(k,N−k), full iff d=2, 54/81 at d=3,N=2.

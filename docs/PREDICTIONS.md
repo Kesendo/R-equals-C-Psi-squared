@@ -45,7 +45,7 @@ falsification criterion, and a link to its source experiment.
 
 **Supporting evidence:** 24,073 historical calibration records (181 days, 133 qubits) validate the theory curve C_min(r). 10.1% of snapshots below crossing threshold, 84% of qubits cross at least once, 12 qubits cross almost every day.
 
-**The Absorption Theorem** Re(λ) = −2γ⟨n_XY⟩ (the last row above) is Tier-1 **proven** ([PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md)) and verified on 1,342 modes (CV = 0); the 1.03 ratio is its IBM confirmation. It also falsifies the old "E = mγ²" guess: the decay law is **linear** in γ, not quadratic (see [Falsified Predictions](#8b-falsified-predictions) below).
+**The Absorption Theorem** Re(λ) = −2γ⟨n_XY⟩ (the last row above) is Tier-1 **proven** ([the Absorption Theorem proof](proofs/PROOF_ABSORPTION_THEOREM.md)) and verified on 1,342 modes (CV = 0); the 1.03 ratio is its IBM confirmation. It also falsifies the old "E = mγ²" guess: the decay law is **linear** in γ, not quadratic (see [Falsified Predictions](#8b-falsified-predictions) below).
 
 **For the current, authoritative list of hardware-confirmed predictions, see the Confirmations registry** (`fw.Confirmations` / [ConfirmationsRegistry.cs](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs)): 20 entries as of 2026-06 (ibm_torino + ibm_marrakesh + ibm_kingston, spanning the 2026-02 Torino calibration runs through the June F-arc: palindrome trichotomy, F25 cusp trajectory, F57 K_dwell γ-invariance, F83/F95, block-CΨ saturation, and more). Section 1 here details the earliest Torino set; as of 2026-06-18 those Torino runs are themselves registered, so the registry is the single live record (no longer disjoint from §1).
 
@@ -138,7 +138,7 @@ consistent with qubit-specific frequency offsets (detuning), not a universal bou
 property. H3 (boundary structure) is not supported. See FIXED_POINT_SHADOW.md for
 full analysis.
 
-**Resolved (April 2026):** [FIXED_POINT_SHADOW](../experiments/FIXED_POINT_SHADOW.md)'s
+**Resolved (April 2026):** [Fixed Point Shadow](../experiments/FIXED_POINT_SHADOW.md)'s
 April retrodiction settles the cause: the shadow is qubit-specific frequency **detuning**
 (an uncompensated Z-type offset), not a boundary property; an explicit detuning model beats
 standard Lindblad ~4× on Q80. So **H3 (boundary structure) stays not-supported, H2 (TLS) is
@@ -241,7 +241,7 @@ These claims may be correct. They may also be artifacts of the agent's training 
 | Prediction | Why falsified | Correct result | Source |
 |------------|---------------|----------------|--------|
 | Crossing taxonomy is noise-dependent | It is noise-**independent**: Type A/B/C identical under σ_x, σ_y, σ_z | See §2 "crossing taxonomy noise-robust" | [Noise Robustness](../experiments/NOISE_ROBUSTNESS.md) |
-| E = mγ² (decay energy quadratic in γ) | The decay law is **linear** in γ, not quadratic | Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩ (linear; verified on 1,342 modes, CV = 0; IBM ratio 1.03) | [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md) |
+| E = mγ² (decay energy quadratic in γ) | The decay law is **linear** in γ, not quadratic | Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩ (linear; verified on 1,342 modes, CV = 0; IBM ratio 1.03) | [the Absorption Theorem proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
 
 ---
 

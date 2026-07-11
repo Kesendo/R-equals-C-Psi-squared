@@ -102,7 +102,7 @@ specificity not.
 Calling Purity "consciousness" is a philosophical choice. The mathematics
 works regardless of naming. The framework cannot prove this mapping and
 does not claim to. The consciousness interpretation has been retired from
-the technical core (see [THE_CPSI_LENS](THE_CPSI_LENS.md)).
+the technical core (see [The CΨ Lens](THE_CPSI_LENS.md)).
 
 *In plain language:* the letter C in the formula originally stood for
 "consciousness." That was a philosophical interpretation, not a physics

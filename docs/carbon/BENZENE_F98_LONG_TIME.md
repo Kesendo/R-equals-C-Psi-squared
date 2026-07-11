@@ -8,7 +8,7 @@ benzene-as-qubit-ring embedding is itself a Tier 4 candidate (see [README](READM
 "Four embedding conditions").
 **Script:** [`simulations/carbon/benzene_f98_long_time.py`](../../simulations/carbon/benzene_f98_long_time.py)
 **Tested:** cyclobutadiene C₄ ring, benzene C₆ ring.
-**Answers:** [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md) open
+**Answers:** [Benzene Hückel through the Framework Lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md) open
 question 2 / [README](README.md) open question 5.
 
 ---
@@ -29,7 +29,7 @@ F98 was derived for any connected graph, the bond topology dropping out because
 the t → ∞ limit projects onto ker L (F4), and verified bit-exact for N = 4..16 on
 the Heisenberg chain ([`proton_chain_dicke_anchor.py`](../../simulations/water/proton_chain_dicke_anchor.py)).
 
-[BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md) settled the F1
+[Benzene's open-system Liouvillian](BENZENE_LIOUVILLIAN_PALINDROME.md) settled the F1
 palindrome on benzene's open-system Liouvillian. Question 5 asks the long-time
 question: does benzene's KIntermediate Dicke state traverse the F98 bridge?
 
@@ -112,7 +112,7 @@ derived on.
   BENZENE_LIOUVILLIAN_PALINDROME, "The structure of the Peierls break"); the F98
   bridge holds only under Holstein dephasing, and its fate under a mixed
   Holstein + Peierls bath is untested.
-- The clock's V-Effect seam: [FROST_CIRCLE_AS_THE_CLOCK_FACE](FROST_CIRCLE_AS_THE_CLOCK_FACE.md)
+- The clock's V-Effect seam: [The Frost Circle Is the Face of the Clock](FROST_CIRCLE_AS_THE_CLOCK_FACE.md)
   finds that for benzene (even N, half-filled) the mode that overtakes the band-edge coherence below
   the crossover Q* lives in the double-excitation filling sector, the same half-filled region this
   note's KIntermediate Dicke state (|D₂⟩+|D₃⟩) and its long-time ρ_∞ inhabit. The F98 long-time bridge
@@ -122,7 +122,7 @@ derived on.
 ## Anchor
 
 - Script: [`simulations/carbon/benzene_f98_long_time.py`](../../simulations/carbon/benzene_f98_long_time.py)
-- Companion doc: [BENZENE_LIOUVILLIAN_PALINDROME.md](BENZENE_LIOUVILLIAN_PALINDROME.md)
+- Companion doc: [Benzene's open-system Liouvillian](BENZENE_LIOUVILLIAN_PALINDROME.md)
   (the F1 palindrome on the same benzene model), [README.md](README.md)
 - Framework anchors: F98 long-time bridge, F86b Dicke anchor, F4 kernel
   decomposition, all in [`docs/ANALYTICAL_FORMULAS.md`](../ANALYTICAL_FORMULAS.md);

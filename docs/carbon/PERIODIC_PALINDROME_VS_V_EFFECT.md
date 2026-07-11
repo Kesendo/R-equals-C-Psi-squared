@@ -5,19 +5,19 @@
 **Status:** Tier 1 computational result inside a Tier 5 hierarchy framing. The
 periodic table is a Level-1 instance of the V-Effect's incompleteness hierarchy;
 that structural correspondence is established by
-[HIERARCHY_OF_INCOMPLETENESS](../HIERARCHY_OF_INCOMPLETENESS.md) and is not in
+[the Hierarchy of Incompleteness](../HIERARCHY_OF_INCOMPLETENESS.md) and is not in
 question here. What this doc tests, and reports negative, is the narrower claim
 that the Level-0 V-Effect's quantitative boundary-sector mechanism transfers to
 the periodic-palindrome deviations.
 **Script:** [`simulations/periodic_palindrome_veffect.py`](../../simulations/periodic_palindrome_veffect.py)
 **Answers:** [README](README.md) open question 6.
-**See also:** [PERIODIC_PALINDROME_HARDENED](PERIODIC_PALINDROME_HARDENED.md): a hardened sign-flip-null gate shows the palindrome's *presence* (not just its deviations) is mostly smoothness; what survives the ramp leans anti-F1 at the light elements and significantly-but-ambiguously F1-respecting at the heavy ones.
+**See also:** [the hardened periodic palindrome](PERIODIC_PALINDROME_HARDENED.md): a hardened sign-flip-null gate shows the palindrome's *presence* (not just its deviations) is mostly smoothness; what survives the ramp leans anti-F1 at the light elements and significantly-but-ambiguously F1-respecting at the heavy ones.
 
 ---
 
 ## The question
 
-[HIERARCHY_OF_INCOMPLETENESS](../HIERARCHY_OF_INCOMPLETENESS.md) sets out the
+[The Hierarchy of Incompleteness](../HIERARCHY_OF_INCOMPLETENESS.md) sets out the
 incompleteness hierarchy: complete systems (completeness C = 1, full shells) are
 dead ends; half-full systems (C ≈ 0.5) are where structure forms. The V-Effect is
 that hierarchy in action at Level 0. Coupling two palindromic qubit-pairs breaks
@@ -106,7 +106,7 @@ happens", not the Level-0 break re-surfacing.
   (per-pair deviation analysis), built on
   [`simulations/periodic_palindrome.py`](../../simulations/periodic_palindrome.py)
   (the palindrome test itself)
-- Hierarchy framing: [HIERARCHY_OF_INCOMPLETENESS](../HIERARCHY_OF_INCOMPLETENESS.md)
-- The Level-0 V-Effect: [V_EFFECT_BOUNDARY_LOCALIZATION](../../experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md),
-  [V_EFFECT_PALINDROME](../../experiments/V_EFFECT_PALINDROME.md)
+- Hierarchy framing: [the Hierarchy of Incompleteness](../HIERARCHY_OF_INCOMPLETENESS.md)
+- The Level-0 V-Effect: [V-Effect boundary localization](../../experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md),
+  [the V-Effect palindrome](../../experiments/V_EFFECT_PALINDROME.md)
 - Parent: [README.md](README.md)

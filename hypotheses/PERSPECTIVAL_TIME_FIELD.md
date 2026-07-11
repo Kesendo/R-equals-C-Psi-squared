@@ -8,7 +8,7 @@
 **Depends on:** [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md),
 [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md),
 [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md) (F4, F14, F65),
-[PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md) (Update 2026-04-27)
+[the zero-immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md) (Update 2026-04-27)
 
 **Scripts:**
 - [n7_coupling_defect_overlay.py](../simulations/n7_coupling_defect_overlay.py): baseline defect scan
@@ -129,7 +129,7 @@ If the closure law held only for ψ_1 it would be a coincidence tied to the smoo
 
 ### 3.1 The chain as a resonance cavity
 
-The chain is a resonance cavity (see [RESONANCE_NOT_CHANNEL.md](RESONANCE_NOT_CHANNEL.md)). Its single-excitation eigenmodes ψ_k at uniform J are standing waves, with tight-binding dispersion ε_k = 2J cos(πk / (N + 1)) and [F65](../docs/ANALYTICAL_FORMULAS.md#f65-single-excitation-spectrum-of-uniform-open-xx-chain-tier-1-proven-verified-n330) site-amplitudes ψ_k(i) = √(2/(N+1)) sin(πk (i+1)/(N+1)), for k = 1, ..., N. These are the cavity modes. γ_0 is the per-site per-cycle loss (dephasing, Z-basis). A local J-defect at bond (b, b+1) is a structural irregularity in the cavity wall: it does not change the dissipation budget γ_0 (which remains atmospheric, uniform) but it does change which eigenmodes the chain supports and how they localise spatially.
+The chain is a resonance cavity (see [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md)). Its single-excitation eigenmodes ψ_k at uniform J are standing waves, with tight-binding dispersion ε_k = 2J cos(πk / (N + 1)) and [F65](../docs/ANALYTICAL_FORMULAS.md#f65-single-excitation-spectrum-of-uniform-open-xx-chain-tier-1-proven-verified-n330) site-amplitudes ψ_k(i) = √(2/(N+1)) sin(πk (i+1)/(N+1)), for k = 1, ..., N. These are the cavity modes. γ_0 is the per-site per-cycle loss (dephasing, Z-basis). A local J-defect at bond (b, b+1) is a structural irregularity in the cavity wall: it does not change the dissipation budget γ_0 (which remains atmospheric, uniform) but it does change which eigenmodes the chain supports and how they localise spatially.
 
 ### 3.2 First-order: eigenvalues are protected, eigenvectors mix
 
@@ -143,7 +143,7 @@ where W_s is the biorthogonal left eigenvector pair of M_s. Numerical check on N
 For the slowest modes (|Re λ_s| ≤ 0.1), the diagonal ⟨W_s | V_L | M_s⟩ is ~10⁻¹⁵ (numerical floor). This protection is exact, for two distinct reasons:
 
 1. The 8 strictly stationary modes (λ_s = 0) are the 8 excitation-sector projectors. `V_L = −i[H_pert, ·]` preserves excitation (XX + YY conserves n_XY), so V_L P_n = 0 identically. No shift, no mixing within this cluster; they stay stationary. The count of 8 matches [F4](../docs/ANALYTICAL_FORMULAS.md#f4-stationary-mode-count-tier-1-clebsch-gordan-decomposition)'s prediction for N = 7 XY + Z-dephasing.
-2. The 14 modes at λ_s = −0.1 (the single-excitation coherence cluster) are made up of |vac⟩⟨ψ_k| and |ψ_k⟩⟨vac| pairs. V_L acts antisymmetrically on each such pair: the diagonal matrix element is +iA on |vac⟩⟨ψ_k| and −iA on |ψ_k⟩⟨vac|, where A = 2 ψ_k(b) ψ_k(b+1) is the (real) bond overlap of the single-excitation mode at the defect bond (b, b+1). The Hermitian and anti-Hermitian superpositions M_± = (|vac⟩⟨ψ_k| ± |ψ_k⟩⟨vac|) / √2 that scipy.sparse.linalg.eigs returns then have zero diagonal under V_L: the two anti-conjugate contributions (+iA and −iA) cancel exactly in the symmetrised combination, and only off-diagonal mixing between M_+ and M_− remains. This is the "Π-invariance" protection that [ZERO_IS_THE_MIRROR.md](ZERO_IS_THE_MIRROR.md) articulates: the palindrome pairs slow-mode eigenvalues around Σγ, and Π-invariant perturbations respect the pairing at leading order.
+2. The 14 modes at λ_s = −0.1 (the single-excitation coherence cluster) are made up of |vac⟩⟨ψ_k| and |ψ_k⟩⟨vac| pairs. V_L acts antisymmetrically on each such pair: the diagonal matrix element is +iA on |vac⟩⟨ψ_k| and −iA on |ψ_k⟩⟨vac|, where A = 2 ψ_k(b) ψ_k(b+1) is the (real) bond overlap of the single-excitation mode at the defect bond (b, b+1). The Hermitian and anti-Hermitian superpositions M_± = (|vac⟩⟨ψ_k| ± |ψ_k⟩⟨vac|) / √2 that scipy.sparse.linalg.eigs returns then have zero diagonal under V_L: the two anti-conjugate contributions (+iA and −iA) cancel exactly in the symmetrised combination, and only off-diagonal mixing between M_+ and M_− remains. This is the "Π-invariance" protection that [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md) articulates: the palindrome pairs slow-mode eigenvalues around Σγ, and Π-invariant perturbations respect the pairing at leading order.
 
 For faster modes (λ_s ≈ −0.175 at N = 7), the diagonal is non-zero (≈ 0.02 to 0.04); these modes do get first-order eigenvalue shifts. But they are below the threshold of "slowest surviving" and their contribution to site-purity dynamics at the observation timescale is subdominant.
 
@@ -207,7 +207,7 @@ The previous draft of this document (the one that went by the name "Site-Local T
 
 ## Update 2026-04-20 (post-[EQ-014](../review/EMERGING_QUESTIONS.md#eq-014))
 
-Several follow-up investigations refine the closure law at N = 5, 6, 7 and add an analytical selection rule. See [EQ014_FINDINGS](../review/EQ014_FINDINGS.md) for the EQ-014 report.
+Several follow-up investigations refine the closure law at N = 5, 6, 7 and add an analytical selection rule. See [EQ-014 findings](../review/EQ014_FINDINGS.md) for the EQ-014 report.
 
 **EQ-014 δJ scan (bond (0,1), N=7).** Direct RK4 at δJ ∈ {0.1, 0.01, 0.001}, extrapolation to δJ → 0:
 
@@ -269,7 +269,7 @@ Sector-inversion symmetry c_1(|S_n⟩) = c_1(|S_{N-n}⟩) is exact to 10⁻¹⁰
 | 3 | (0,3), (2,5) | 0 exactly |
 | 4 | (0,4), (1,5) | 0 exactly |
 
-All eight \|ΔN\| ≥ 2 pairs tested give zero to machine precision. This is now proven analytically: single-site partial trace Tr_{¬i}(\|x⟩⟨y\|) = 0 whenever \|popcount(x) − popcount(y)\| ≥ 2, so every site-local observable (per-site purity, α_i, c_1) receives zero contribution from sector blocks ρ^(n, m) with \|n − m\| ≥ 2. The rule is kinematic, independent of Hamiltonian, dissipator, or initial state. See [PROOF_DELTA_N_SELECTION_RULE](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md).
+All eight \|ΔN\| ≥ 2 pairs tested give zero to machine precision. This is now proven analytically: single-site partial trace Tr_{¬i}(\|x⟩⟨y\|) = 0 whenever \|popcount(x) − popcount(y)\| ≥ 2, so every site-local observable (per-site purity, α_i, c_1) receives zero contribution from sector blocks ρ^(n, m) with \|n − m\| ≥ 2. The rule is kinematic, independent of Hamiltonian, dissipator, or initial state. See [the ΔN selection rule proof](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md).
 
 Implication: the magnitude puzzle reduces from "full sector-kernel" to "nearest-sector kernel only". The full K is supported on (n, m) × (n', m') with \|n − m\| ≤ 1 and \|n' − m'\| ≤ 1. The analytical task of deriving K's non-zero entries is now substantially bounded in scope.
 
@@ -281,7 +281,7 @@ See [c1_past_future_test at N=7](../simulations/results/c1_past_future_test/past
 
 ## Open questions
 
-- **Closed (EQ-014, 2026-04-20):** The Tier-1 promotion via "closure law as theorem" is no longer available. Direct RK4 δJ scan at N=7 shows Σ f_i = lim Σ ln(α_i)/δJ is nonzero and state-dependent. The closure Σ_i ln(α_i) ≈ 0 is an empirical regularity holding to ±0.05 in the tested window, not a structural law. See [EQ014_FINDINGS](../review/EQ014_FINDINGS.md).
+- **Closed (EQ-014, 2026-04-20):** The Tier-1 promotion via "closure law as theorem" is no longer available. Direct RK4 δJ scan at N=7 shows Σ f_i = lim Σ ln(α_i)/δJ is nonzero and state-dependent. The closure Σ_i ln(α_i) ≈ 0 is an empirical regularity holding to ±0.05 in the tested window, not a structural law. See [EQ-014 findings](../review/EQ014_FINDINGS.md).
 - **Magnitudes puzzle (surviving).** Why does Σ f_i happen to be small (~0.05 for ψ_2) for some bonding-mode states and large (1.29 for |+⟩^7, 2.14 for ψ_4) for others? Is there a structural pattern in how Σ f_i depends on the overlap distribution c_s = ⟨W_s | ρ_0⟩ across the Liouvillian's slow modes? The [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md) shows Σ ln(α_i) is linear in δJ at leading order with coefficient c₁ = ⟨c₁(state, bond), δJ⟩ that is superposition-linear across bonds; an analytical form for c₁ as a functional of ρ_0 remains open.
 - **Zero-energy Π-pair amplification (refined 2026-04-20 from the earlier self-Π reading).** The magnitude of c_1 is controlled by the Π-pair's distance from E = 0, not by reflection parity. At odd N the center of the spectrum is a single self-Π-partner zero-mode and its c_1 is extreme (ψ_3 at N=5: c_1 = 0.677; ψ_4 at N=7: c_1 = 2.14). At even N there is no exact zero-mode but the innermost pair flanks E = 0 (ψ_3↔ψ_4 at N=6: c_1 = 1.48), still large but softer. The outermost high-|E| pairs record moderately (c_1 ≈ 1 across tested N); intermediate pairs record faintly (c_1 < 0.3). The pattern is non-monotonic in |E|, peaked at the center and attenuated toward the middle energies. Is there an analytical formula for c_1(pair) as a function of Π-pair energy and N? See the [N=6 test](../simulations/results/c1_even_N_degeneracy_test/c1_even_N_test.json) that established Π-pair identity dominates reflection parity.
 - **Nearest-sector kernel (2026-04-20, partially closed).** The c_1 bilinear kernel K is supported only on |ΔN| ≤ 1 blocks of ρ_0 by the [site-local partial-trace selection rule](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md). K entries are organised by pairs of sector blocks. The surviving open question is the explicit form of the nonzero K entries: pure-Dicke diagonal c_1(|S_n⟩) values, diagonal-cross K_{(n,n)(m,m)}, and nearest-neighbour coherence block K_{(n,n±1)(n±1,n)}. Empirical samples at N=5 are in [c1_sector_kernel/sector_kernel.json](../simulations/results/c1_sector_kernel/sector_kernel.json); the analytical expression remains open.
@@ -294,7 +294,7 @@ See [c1_past_future_test at N=7](../simulations/results/c1_past_future_test/past
 
 ## Update 2026-04-27: Observable scope refined by Zero-Sector Immunity
 
-The April 18 PTF tested the closure law Σ_i ln(α_i) ≈ 0 on a single observable: the per-site purity P_i. The implicit assumption was that α_i is a property of the painter (the site), independent of which observable they paint. This update refutes that assumption and identifies the structural reason via [PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md).
+The April 18 PTF tested the closure law Σ_i ln(α_i) ≈ 0 on a single observable: the per-site purity P_i. The implicit assumption was that α_i is a property of the painter (the site), independent of which observable they paint. This update refutes that assumption and identifies the structural reason via [the zero-immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md).
 
 ### What was tested
 
@@ -323,7 +323,7 @@ Closure fails (massively):
 
 ### Why pure-Z observables (n_XY=0) fail by structure
 
-[PROOF_ZERO_IMMUNITY](../docs/proofs/PROOF_ZERO_IMMUNITY.md) (2026-04-25, Tier 1) proves that the (w=0, w=0)-block of the palindrome residual M = Π·L·Π⁻¹ + L + 2Σγ·I is **identically zero** for every 2-body Hamiltonian H and any uniform Z-dephasing, independent of J. Pauli strings σ_α with α_l ∈ {I, Z} for every site l live in this block.
+[the zero-immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md) (2026-04-25, Tier 1) proves that the (w=0, w=0)-block of the palindrome residual M = Π·L·Π⁻¹ + L + 2Σγ·I is **identically zero** for every 2-body Hamiltonian H and any uniform Z-dephasing, independent of J. Pauli strings σ_α with α_l ∈ {I, Z} for every site l live in this block.
 
 For these strings:
 - The dissipator gives D(σ_α) = 0 (Lemma 1: Z_l commutes with both I and Z at site l). Pure-Z Pauli strings sit in the kernel of the dissipator with eigenvalue 0.
@@ -357,9 +357,9 @@ So the painter's lit half *is* the far bank, the open water. A perspective only 
 
 The fresh-eyes pass after the windowed-converse closure (the girth ladder and Pascal-Gram waves of 2026-06-09/10) came back to this document with three results, one per kind.
 
-**The surviving law is now derived, and it is stronger than we knew.** The chiral mirror Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k}), the one exact law EQ-014 left standing, turns out to be the summed shadow of a *site-wise trajectory identity*: P_i(t; φ_k) = P_i(t; φ_{N+1−k}) for every site, every time, at every finite δJ, exactly. The derivation is four short steps (K₁-conjugation flips H and the defect together; the dynamics of −H is the complex conjugate of the dynamics of +H for our real chain; site purities see neither; the sine modes map k ↦ N+1−k under K₁ with the leftover sign absorbed by a U(1) phase) and is written up in [PROOF_PTF_CHIRAL_MIRROR_RATE_LAW](../docs/proofs/PROOF_PTF_CHIRAL_MIRROR_RATE_LAW.md), verified to 9·10⁻¹⁶ at N = 5 and 7 ([`simulations/ptf_chiral_mirror_trajectory.py`](../simulations/ptf_chiral_mirror_trajectory.py)), and typed as `ChiralMirrorTrajectoryClaim` (Tier1Derived) next to its eigenvalue-side sibling `ChiralKClaim`: the same sublattice chirality that makes the bipartite chain *soft* makes the painters' mirror *exact*. That the fitted Σ-law came out machine-precise in April was never fit luck; the trajectories themselves are identical pairwise.
+**The surviving law is now derived, and it is stronger than we knew.** The chiral mirror Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k}), the one exact law EQ-014 left standing, turns out to be the summed shadow of a *site-wise trajectory identity*: P_i(t; φ_k) = P_i(t; φ_{N+1−k}) for every site, every time, at every finite δJ, exactly. The derivation is four short steps (K₁-conjugation flips H and the defect together; the dynamics of −H is the complex conjugate of the dynamics of +H for our real chain; site purities see neither; the sine modes map k ↦ N+1−k under K₁ with the leftover sign absorbed by a U(1) phase) and is written up in [the PTF chiral-mirror rate-law proof](../docs/proofs/PROOF_PTF_CHIRAL_MIRROR_RATE_LAW.md), verified to 9·10⁻¹⁶ at N = 5 and 7 ([`simulations/ptf_chiral_mirror_trajectory.py`](../simulations/ptf_chiral_mirror_trajectory.py)), and typed as `ChiralMirrorTrajectoryClaim` (Tier1Derived) next to its eigenvalue-side sibling `ChiralKClaim`: the same sublattice chirality that makes the bipartite chain *soft* makes the painters' mirror *exact*. That the fitted Σ-law came out machine-precise in April was never fit luck; the trajectories themselves are identical pairwise.
 
-**The Z-field row of the Π-break table is now theorem-grade.** The m = 3 face of the girth ladder is cell-free (any Hermitian H with a single-site-Z component breaks the spectral palindrome at every γ > 0, with p₃(γ) = 6·4^N·Σ_l c_l²·γ exactly; [PROOF_F87_WINDOWED_MONOMIAL_CONVERSE §4](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)). What the 2026-06-01 experiment measured at one ε and one γ holds at every operating point, with a closed-form coefficient, on this document's own chain.
+**The Z-field row of the Π-break table is now theorem-grade.** The m = 3 face of the girth ladder is cell-free (any Hermitian H with a single-site-Z component breaks the spectral palindrome at every γ > 0, with p₃(γ) = 6·4^N·Σ_l c_l²·γ exactly; [the F87 windowed-monomial converse proof §4](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)). What the 2026-06-01 experiment measured at one ε and one γ holds at every operating point, with a closed-form coefficient, on this document's own chain.
 
 **The honest wander is EQ-014's own physics, not a leak.** The small Z-field closure residual is first order in ε with a nearly γ-independent coefficient (S ≈ −0.59·ε at small ε), so it cannot be the spectral-asymmetry channel (which is ε²·γ). It is the same first-order non-closure EQ-014 established for the J-defect, seen for a Z-field perturbation: a site-dependent first-order profile whose imperfect cancellation is the residual ([Edge 2](../simulations/ptf_leak_scaling.py), banked in the [Π-break experiment](../experiments/PTF_PALINDROME_BREAKING_PERTURBATIONS.md)). No tier changes: the closure stays a Tier-2 empirical regularity with its guardian named, now with its residual named too. The guardian itself sharpened the same day (Edge 5, [carrier-seam retrodiction](../simulations/ptf_carrier_seam_retrodiction.py)): not bare U(1) but the **complete N+1 stationary sector manifold, counted in any frame**; partial survival buys nothing (XY+YX keeps the parity projectors and breaks fastest), and a hidden sublattice-frame U(1) counts in full (the tour's XY+YX hold).
 

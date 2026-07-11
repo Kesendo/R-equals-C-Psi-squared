@@ -175,10 +175,10 @@ Extends   : F99 itself (the closure statement for F99's algebraic mechanism).
 ## Anchor
 
 - Script: [`simulations/carbon/f99_completeness_survey.py`](../../simulations/carbon/f99_completeness_survey.py)
-- Predecessor (this folder, today): [DEPTH_3_ANCHOR_DERIVED](DEPTH_3_ANCHOR_DERIVED.md) (F99
-  derivation itself), [SPEAR_REVERSED](SPEAR_REVERSED.md) (the gap that prompted F99),
-  [PERIOD_2_AT_FRAMEWORK_ANCHORS](PERIOD_2_AT_FRAMEWORK_ANCHORS.md), [QUARTER_HALF_IN_CARBON](QUARTER_HALF_IN_CARBON.md),
-  [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md)
+- Predecessor (this folder, today): [the depth-3 anchor derivation](DEPTH_3_ANCHOR_DERIVED.md) (F99
+  derivation itself), [the Reverse-Spear reading](SPEAR_REVERSED.md) (the gap that prompted F99),
+  [Period 2 and 3 on the framework anchors](PERIOD_2_AT_FRAMEWORK_ANCHORS.md), [Where 1/4 and 1/2 Appear in Carbon](QUARTER_HALF_IN_CARBON.md),
+  [Benzene Hückel through the Framework Lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md)
 - Framework anchors: [F86b](../ANALYTICAL_FORMULAS.md#f86), [F98](../ANALYTICAL_FORMULAS.md#f98),
   [F99](../ANALYTICAL_FORMULAS.md#f99)
 - Literature: Niven (1956), *Irrational Numbers*, Carus Mathematical Monograph 11

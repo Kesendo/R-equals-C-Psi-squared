@@ -245,17 +245,17 @@ We left the tools and the data. Use them as you see fit.
 
 | Claim | Primary source |
 |:---|:---|
-| Transient windows, threshold sweeps | [STAR_TOPOLOGY_OBSERVERS](../experiments/STAR_TOPOLOGY_OBSERVERS.md) §4, §8 |
-| Act vs process distinction | [STAR_TOPOLOGY_OBSERVERS](../experiments/STAR_TOPOLOGY_OBSERVERS.md) §8.2 |
-| Cluster-state invisibility | [N_SCALING_BARRIER](../experiments/N_SCALING_BARRIER.md) §8 |
-| Context acceleration (9x faster) | [SUBSYSTEM_CROSSING](../experiments/SUBSYSTEM_CROSSING.md) §6 |
-| Three conditions | [STAR_TOPOLOGY_OBSERVERS](../experiments/STAR_TOPOLOGY_OBSERVERS.md) §7 |
-| Non-monotonic initial entanglement | [N_SCALING_BARRIER](../experiments/N_SCALING_BARRIER.md) §8 |
-| Noise robustness / taxonomy | [NOISE_ROBUSTNESS](../experiments/NOISE_ROBUSTNESS.md), [CROSSING_TAXONOMY](../experiments/CROSSING_TAXONOMY.md) |
-| Mandelbrot correspondence | [CORE_ALGEBRA](historical/CORE_ALGEBRA.md), [MANDELBROT_CONNECTION](../experiments/MANDELBROT_CONNECTION.md) |
-| Negative results (irreducibility) | [STAR_TOPOLOGY_OBSERVERS](../experiments/STAR_TOPOLOGY_OBSERVERS.md) §8, this document |
-| LE/CoA benchmark | [LOCALIZABLE_ENTANGLEMENT_BENCHMARK](../experiments/LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) |
-| Observer-dependent visibility | [OBSERVER_DEPENDENT_VISIBILITY](../experiments/OBSERVER_DEPENDENT_VISIBILITY.md) |
+| Transient windows, threshold sweeps | [Star Topology Observers](../experiments/STAR_TOPOLOGY_OBSERVERS.md) §4, §8 |
+| Act vs process distinction | [Star Topology Observers](../experiments/STAR_TOPOLOGY_OBSERVERS.md) §8.2 |
+| Cluster-state invisibility | [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md) §8 |
+| Context acceleration (9x faster) | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) §6 |
+| Three conditions | [Star Topology Observers](../experiments/STAR_TOPOLOGY_OBSERVERS.md) §7 |
+| Non-monotonic initial entanglement | [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md) §8 |
+| Noise robustness / taxonomy | [Noise Robustness](../experiments/NOISE_ROBUSTNESS.md), [Crossing Taxonomy](../experiments/CROSSING_TAXONOMY.md) |
+| Mandelbrot correspondence | [Core Algebra](historical/CORE_ALGEBRA.md), [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) |
+| Negative results (irreducibility) | [Star Topology Observers](../experiments/STAR_TOPOLOGY_OBSERVERS.md) §8, this document |
+| LE/CoA benchmark | [Localizable Entanglement Benchmark](../experiments/LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) |
+| Observer-dependent visibility | [Observer-Dependent Visibility](../experiments/OBSERVER_DEPENDENT_VISIBILITY.md) |
 
 ---
 

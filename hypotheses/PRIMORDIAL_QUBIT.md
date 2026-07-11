@@ -335,7 +335,7 @@ temperature?
 | Canonical choice of A with physical meaning | **Identified** (April 15, 2026): the C2xC2 factorization gives bit_a (n_XY, Absorption) and bit_b (w_YZ, Pi^2-parity) as the two natural axes. Section 9. |
 | Noise IS the other side (not from outside) | **Hypothesis**, operationally unfalsifiable from inside (Section 9: only Q=J/gamma measurable) |
 | Pi related to Tomita-Takesaki modular conjugation | **Falsified** (Pi linear, J anti-linear; [Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) Phase 3) |
-| Z2-grading forces doubling of ambient algebra | **Confirmed in two senses** (April 15, 2026): (1) M_{2\|2}(C) super-algebra is real and forced ([Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) Phase 2); (2) [L, Pi^2] = 0 **proven analytically for all N** ([PROOF_BIT_B_PARITY_SYMMETRY](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md)), L respects the Z2-grading on its eigenmodes (Section 9) |
+| Z2-grading forces doubling of ambient algebra | **Confirmed in two senses** (April 15, 2026): (1) M_{2\|2}(C) super-algebra is real and forced ([Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) Phase 2); (2) [L, Pi^2] = 0 **proven analytically for all N** ([the bit-b parity symmetry proof](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md)), L respects the Z2-grading on its eigenmodes (Section 9) |
 | L_c as modular Hamiltonian (TFD construction) | **Blocked** (QDB violation = 1.0, maximal; L_c = antisym + sym, no metric reconciles; [`primordial_qubit_kms_test.py`](../simulations/primordial_qubit_kms_test.py)) |
 | {L_H, L_D+Σγ} = 0 (oscillation ⊥ cooling) | **Confirmed at N=2**, fails at N≥3 (~2%); [Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) Phase 4 |
 | Time reversal at N > 2 | **Excluded** ([Time Irreversibility Exclusion](../docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md)) |
@@ -350,7 +350,7 @@ Approach 1 (algebra) has been computed (April 1, 2026; extended April 15, 2026).
 - V_{+1} is NOT a subalgebra (Z₄ too fine)
 - {L_H, L_D + Σγ} = 0 at N=2 (Pythagorean theorem, exact)
 - Breaks at N≥3 (cross term ~2%, γ-independent)
-- **April 15, 2026:** [L, Π²] = 0 **proven analytically for all N** ([PROOF_BIT_B_PARITY_SYMMETRY](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md)), verified numerically at N=2-5. The C²⊗C² factors (bit a = n_XY, bit b = w_YZ-parity) are simultaneous good quantum numbers of every Liouvillian eigenmode at all N. See Section 9.
+- **April 15, 2026:** [L, Π²] = 0 **proven analytically for all N** ([the bit-b parity symmetry proof](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md)), verified numerically at N=2-5. The C²⊗C² factors (bit a = n_XY, bit b = w_YZ-parity) are simultaneous good quantum numbers of every Liouvillian eigenmode at all N. See Section 9.
 
 Approach 2 (GNS/Tomita-Takesaki) is **ruled out**: Π is linear,
 J is anti-linear, no unitary connects them (impossibility proof).
@@ -424,7 +424,7 @@ The two tensor factors of C2xC2 are not just an algebraic curiosity from Section
 
 ### N-scaling: [L, Pi^2] = 0 is universal (April 15, 2026)
 
-**Analytical proof:** [PROOF_BIT_B_PARITY_SYMMETRY](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md). Six-line core argument: Heisenberg coupling XX+YY (and XXX) is bond-wise X-symmetric (each Y or Z appears with even total power per term, signs cancel). Z-dephasing dissipator is quadratic in Z (Z·ρ·Z), the two minus signs from U·Z·U = -Z cancel. Identity normalization is trivially invariant. Holds for any N, any J, any subset of sites carrying gamma. Breaks for single-site Y/Z terms in H (no second factor to cancel sign).
+**Analytical proof:** [the bit-b parity symmetry proof](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md). Six-line core argument: Heisenberg coupling XX+YY (and XXX) is bond-wise X-symmetric (each Y or Z appears with even total power per term, signs cancel). Z-dephasing dissipator is quadratic in Z (Z·ρ·Z), the two minus signs from U·Z·U = -Z cancel. Identity normalization is trivially invariant. Holds for any N, any J, any subset of sites carrying gamma. Breaks for single-site Y/Z terms in H (no second factor to cancel sign).
 
 **Numerical verification:** [`simulations/primordial_bit_a_bit_b_N_scaling.py`](../simulations/primordial_bit_a_bit_b_N_scaling.py).
 
@@ -439,13 +439,13 @@ Per-sector mode counts (conserved + mirror + correlation):
 | 4 | 256 | 3+122+3 | 2+124+2 |
 | 5 | 1024 | 3+506+3 | 3+506+3 |
 
-The C2xC2 sector decomposition is therefore universal (all N), not N=2-specific. Together with the already-proven [Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) for bit_a, the Liouvillian has TWO independent Z2 symmetries proven for all N. This is the maximal symmetry decomposition admitted by the Pauli algebra of d=2 (no third independent Z2 classification exists per [QUBIT_NECESSITY](../docs/QUBIT_NECESSITY.md)).
+The C2xC2 sector decomposition is therefore universal (all N), not N=2-specific. Together with the already-proven [Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) for bit_a, the Liouvillian has TWO independent Z2 symmetries proven for all N. This is the maximal symmetry decomposition admitted by the Pauli algebra of d=2 (no third independent Z2 classification exists per [Qubit Necessity](../docs/QUBIT_NECESSITY.md)).
 
 ### Framework correspondence: even = cavity, odd = transport
 
 The two w_YZ-parity sectors map to existing framework structures (connection identified April 15, 2026):
 
-**Even sector (w_YZ-parity = 0):** {II, IX, XI, XX, YY, YZ, ZY, ZZ} at N=2. Contains ZZ (universal node, [STANDING_WAVE_ANALYSIS](../experiments/STANDING_WAVE_ANALYSIS.md)), XX/YY (antinodes). Bell+ = (II + ZZ + XX - YY)/4 lives entirely here. Oscillation frequencies Im ≈ ±1.0 only. This is the **cavity sector**: standing waves between the mirrors.
+**Even sector (w_YZ-parity = 0):** {II, IX, XI, XX, YY, YZ, ZY, ZZ} at N=2. Contains ZZ (universal node, [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md)), XX/YY (antinodes). Bell+ = (II + ZZ + XX - YY)/4 lives entirely here. Oscillation frequencies Im ≈ ±1.0 only. This is the **cavity sector**: standing waves between the mirrors.
 
 **Odd sector (w_YZ-parity = 1):** {IY, IZ, XY, XZ, YI, YX, ZI, ZX} at N=2. Contains cross-correlations (XY, XZ, YX, ZX) and single-site coherences. Oscillation frequencies Im ≈ ±1.0 AND ±2.0 (fastest frequency exclusive to this sector). This is the **transport sector**: modes that break S ↔ B exchange symmetry.
 

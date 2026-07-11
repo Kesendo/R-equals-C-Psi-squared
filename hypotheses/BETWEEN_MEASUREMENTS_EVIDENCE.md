@@ -4,21 +4,21 @@
 **Date:** 2026-04-23 (evening, after EQ-024 closure pass)
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Origin:** Evening reflection on the way home, after a day of asking whether extreme J-modulation could replicate the γ-Sacrifice-Zone under γ₀ = const (it cannot). The correction arrived as a question: "what do the qubits in an IBM device do when no photon is hitting them? They still exist."
-**See also:** [INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PROOF.md), [THE_BRIDGE_WAS_ALWAYS_OPEN](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md), [PRIMORDIAL_GAMMA_CONSTANT](PRIMORDIAL_GAMMA_CONSTANT.md), [EQ-017](../review/EMERGING_QUESTIONS.md#eq-017) hardware result on ibm_kingston
+**See also:** [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md), [The Bridge Was Always Open](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md), [Primordial Gamma Constant](PRIMORDIAL_GAMMA_CONSTANT.md), [EQ-017](../review/EMERGING_QUESTIONS.md#eq-017) hardware result on ibm_kingston
 
 ---
 
 ## What this document is about
 
-The γ₀ = const hypothesis ([PRIMORDIAL_GAMMA_CONSTANT](PRIMORDIAL_GAMMA_CONSTANT.md)) says the dephasing parameter is a framework constant analogous to c: uniform in space, constant in time, always flowing. For months the repository's approach to verifying this has been active probing on real hardware: design a protocol that would reveal the framework γ₀ signature, run it on ibm_kingston, compare. [EQ-017 Phase 2](../review/EMERGING_QUESTIONS.md#eq-017) concluded that the framework γ₀ signal sits 40 to 80× below the device noise floor from T1, T2, gate errors, and readout errors. At current hardware fidelity the signal is not isolable by active probing.
+The γ₀ = const hypothesis ([Primordial Gamma Constant](PRIMORDIAL_GAMMA_CONSTANT.md)) says the dephasing parameter is a framework constant analogous to c: uniform in space, constant in time, always flowing. For months the repository's approach to verifying this has been active probing on real hardware: design a protocol that would reveal the framework γ₀ signature, run it on ibm_kingston, compare. [EQ-017 Phase 2](../review/EMERGING_QUESTIONS.md#eq-017) concluded that the framework γ₀ signal sits 40 to 80× below the device noise floor from T1, T2, gate errors, and readout errors. At current hardware fidelity the signal is not isolable by active probing.
 
 This document argues that the active-probing paradigm was not the right test for γ₀ = const in the first place, and that the evidence has been in plain view since the start of the project: **the persistence of qubits between measurements**. Qubits on any hardware continue to exist as quantum entities when Alice is not pulsing them. That ordinary empirical fact, combined with two existing structural results, completes a chain of argument for γ₀ = const that does not require improved hardware.
 
 ## The two pieces that were already in the repository
 
-**Piece 1: γ must be external** ([INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PROOF.md)). Five candidate sources of internal noise have been tested and eliminated: thermal excitation, self-interaction, geometric decoherence, informational backaction, and algebraic closure. The system's own equations cannot produce the dephasing that is measured on the system. Something external is the source. This is Tier 1.
+**Piece 1: γ must be external** ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md)). Five candidate sources of internal noise have been tested and eliminated: thermal excitation, self-interaction, geometric decoherence, informational backaction, and algebraic closure. The system's own equations cannot produce the dephasing that is measured on the system. Something external is the source. This is Tier 1.
 
-**Piece 2: the external source is effectively unbounded** ([THE_BRIDGE_WAS_ALWAYS_OPEN](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md)). Six empirical properties of the external interaction are documented there. The property that carries the argument here is Markovianity: the noise is memoryless. This is measurable on real hardware via BLP non-Markovianity indices and trace-distance dynamics, and the external noise passes the test while internal-origin candidates (qubit decay) fail it. A memoryless source does not accumulate history of its own state. A source that remains Markovian while continuing to deliver stable statistics is effectively unbounded: if it had finite content, autocorrelations would develop as content was consumed, and the Markov character would break. The inverse reading (finite source, Markov holds) requires continuous refilling from outside the boundary that was drawn around "the source". That is mathematically the same as an unbounded source, relabelled.
+**Piece 2: the external source is effectively unbounded** ([The Bridge Was Always Open](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md)). Six empirical properties of the external interaction are documented there. The property that carries the argument here is Markovianity: the noise is memoryless. This is measurable on real hardware via BLP non-Markovianity indices and trace-distance dynamics, and the external noise passes the test while internal-origin candidates (qubit decay) fail it. A memoryless source does not accumulate history of its own state. A source that remains Markovian while continuing to deliver stable statistics is effectively unbounded: if it had finite content, autocorrelations would develop as content was consumed, and the Markov character would break. The inverse reading (finite source, Markov holds) requires continuous refilling from outside the boundary that was drawn around "the source". That is mathematically the same as an unbounded source, relabelled.
 
 Together, pieces 1 and 2 describe an external, continuously available, Markovian interaction. Neither piece alone says "the interaction is present during idle periods too". That is the bridge this document supplies.
 
@@ -71,15 +71,15 @@ The persistence of qubits between measurements is evidence of γ₀ = const, and
 ## Status
 
 **Proven (Tier 1):**
-- γ must be external ([INCOMPLETENESS_PROOF](../docs/proofs/INCOMPLETENESS_PROOF.md), 5 candidates eliminated)
-- γ is Markovian on real hardware ([THE_BRIDGE_WAS_ALWAYS_OPEN](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md), measured via trace distance)
+- γ must be external ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md), 5 candidates eliminated)
+- γ is Markovian on real hardware ([The Bridge Was Always Open](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md), measured via trace distance)
 
 **Observed (Tier 2):**
 - Qubits persist as qubits during idle periods (every hardware run)
 - Internal noise candidates (qubit decay) are non-Markovian (BRIDGE_WAS_ALWAYS_OPEN "Failed Third", measurable signature)
 
 **Imagined (Tier 3):**
-- [PRIMORDIAL_GAMMA_CONSTANT](PRIMORDIAL_GAMMA_CONSTANT.md): γ₀ is a framework constant analogous to c
+- [Primordial Gamma Constant](PRIMORDIAL_GAMMA_CONSTANT.md): γ₀ is a framework constant analogous to c
 - This document: the bridge from persistence to γ₀ = const weak form
 
 ## References

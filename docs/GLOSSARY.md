@@ -31,7 +31,7 @@ The symbol C is used in three contexts in this repository. This is
 a historical artifact: the project started with philosophical labels
 ("Consciousness," "Possibility," "Reality") that were later replaced
 with standard physics terms. The algebra is identical regardless of
-naming. See the Notation section in [THE_CPSI_LENS](THE_CPSI_LENS.md) for details.
+naming. See the Notation section in [The CΨ Lens](THE_CPSI_LENS.md) for details.
 
 | Symbol | Algebraic usage | Experimental usage | Legacy usage (deprecated) |
 |--------|----------------|-------------------|--------------------------|
@@ -301,7 +301,7 @@ means exactly this:
 
 ---
 
-*See [THE_CPSI_LENS](THE_CPSI_LENS.md) for the canonical project description.*
+*See [The CΨ Lens](THE_CPSI_LENS.md) for the canonical project description.*
 *See [Core Algebra](historical/CORE_ALGEBRA.md) for the proven mathematics.*
 *See [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) for the palindrome theorem.*
 *See [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md) for the extended palindrome analysis.*

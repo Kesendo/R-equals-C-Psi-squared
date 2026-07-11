@@ -125,7 +125,7 @@ applied to the benzene/cyclobutadiene MO-basis Liouvillians; open follow-up.
 ## Open questions (this folder, next sessions)
 
 1. **Does the benzene-on-vibrational-bath Liouvillian satisfy F1 bit-exactly?**
-   **Answered 2026-05-22** ([BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md)):
+   **Answered 2026-05-22** ([Benzene's open-system Liouvillian](BENZENE_LIOUVILLIAN_PALINDROME.md)):
    conditionally yes. Under Holstein on-site dephasing (phonon coupled to the
    π-density, which equals the framework's Z-dephasing since D[n_l] = ¼·D[Z_l]) the
    open-system F1 palindrome holds, verified on the C₄ and C₆ rings; under
@@ -137,7 +137,7 @@ applied to the benzene/cyclobutadiene MO-basis Liouvillians; open follow-up.
    topology drops out. If benzene's Liouvillian inherits the same truly-class
    structure (which it should, since Hückel ring is alternant), F98 should hold with N = 6
    giving α(∞) = 8/28 = 2/7.
-   **Answered 2026-05-22** ([BENZENE_F98_LONG_TIME](BENZENE_F98_LONG_TIME.md)): yes,
+   **Answered 2026-05-22** ([Benzene and the F98 Long-Time Bridge](BENZENE_F98_LONG_TIME.md)): yes,
    bit-exact. The KIntermediate Dicke state on the benzene XX+YY ring under Holstein
    dephasing reaches α(∞) = 2/7 at N = 6 (and 3/10 for the C₄ ring), confirmed as
    the exact t → ∞ limit via projection onto ker L.
@@ -157,7 +157,7 @@ applied to the benzene/cyclobutadiene MO-basis Liouvillians; open follow-up.
    of inscribed N-gon vertices on a circle of radius 2β at centre α. The framework's
    `XyJordanWignerModes` uses the same cos(πk/(N+1)) dispersion at chain BC.
    Frost-cyclic and framework-OBC are two BC choices on the same algebraic structure.
-   **Answered 2026-05-30** ([FROST_CIRCLE_AS_THE_CLOCK_FACE](FROST_CIRCLE_AS_THE_CLOCK_FACE.md)):
+   **Answered 2026-05-30** ([The Frost Circle Is the Face of the Clock](FROST_CIRCLE_AS_THE_CLOCK_FACE.md)):
    one circle at two depths. The static Frost circle is the closed-system snapshot; the
    open-system clock runs it, adding what the still picture cannot hold, the band-edge
    π-coherence lifetime τ = 1/(2γ) and a coherent↔incoherent crossover Q* = J/γ (√2 at

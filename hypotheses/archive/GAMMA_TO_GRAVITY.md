@@ -52,7 +52,7 @@ What makes this case special: Π reverses both simultaneously, and removing
 γ from the Lindbladian removes all irreversibility (and therefore all time
 direction) from the dynamics.
 **Source:** [Incompleteness Proof](../../docs/proofs/INCOMPLETENESS_PROOF.md), Corollary 2;
-[GAMMA_TIME_DISTINCTION](../../docs/GAMMA_TIME_DISTINCTION.md), Part 3
+[Gamma Time Distinction](../../docs/GAMMA_TIME_DISTINCTION.md), Part 3
 
 ### Step 5: CΨ = 1/4 is the unique threshold.
 The discriminant 1 - 4CΨ vanishes only at 1/4. All standard Markovian

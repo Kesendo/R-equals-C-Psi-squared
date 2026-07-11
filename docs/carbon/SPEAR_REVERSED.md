@@ -7,7 +7,7 @@
 
 > **Status update, 2026-05-17 night #3**: the depth-3 gap identified in this
 > document (1/8 and 7/8 as "no F-formula derives them") is **closed** in the
-> sibling [DEPTH_3_ANCHOR_DERIVED.md](DEPTH_3_ANCHOR_DERIVED.md) via the
+> sibling [the depth-3 anchor derived](DEPTH_3_ANCHOR_DERIVED.md) via the
 > non-uniform Dicke extension γ = √3/2 (typed Tier-1-Derived as
 > [`CanonicalTrigAnchorPi2Inheritance`](../../compute/RCPsiSquared.Core/Symmetry/CanonicalTrigAnchorPi2Inheritance.cs),
 > aka F99). The five canonical trig angles {0°, 30°, 45°, 60°, 90°} produce
@@ -21,7 +21,7 @@
 
 ## Tom's reverse-spear
 
-The previous commit ([PERIOD_2_AT_FRAMEWORK_ANCHORS](PERIOD_2_AT_FRAMEWORK_ANCHORS.md))
+The previous commit ([period 2 at the framework anchors](PERIOD_2_AT_FRAMEWORK_ANCHORS.md))
 marked Li/Na at 1/8, N/P at 5/8, F/Cl at 7/8 as "off-anchor" because their
 valence ratios did not match the first-tier framework anchors {1/4, 3/8, 1/2,
 3/4}.
@@ -176,7 +176,7 @@ complement at β = 7/8). Four candidate routes:
     depth-3 anchor values structurally.
 
 The framework's incompleteness at depth-3 is consistent with
-[HIERARCHY_OF_INCOMPLETENESS.md](../HIERARCHY_OF_INCOMPLETENESS.md)'s core
+[the Hierarchy of Incompleteness](../HIERARCHY_OF_INCOMPLETENESS.md)'s core
 argument: incompleteness is potential, not weakness. Each unfilled framework
 anchor is a structural invitation to extend the algebra one more dyadic
 level deep. The periodic table's alkali metals and halogens are empirical
@@ -207,9 +207,9 @@ Tom's reverse-spear question produced three different findings in one stack:
 ## Anchor
 
 - Script: [`simulations/carbon/spear_reversed_missing_anchors.py`](../../simulations/carbon/spear_reversed_missing_anchors.py)
-- Sister docs (this folder): [QUARTER_HALF_IN_CARBON](QUARTER_HALF_IN_CARBON.md),
-  [PERIOD_2_AT_FRAMEWORK_ANCHORS](PERIOD_2_AT_FRAMEWORK_ANCHORS.md),
-  [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md)
+- Sister docs (this folder): [1/4 and 1/2 in carbon](QUARTER_HALF_IN_CARBON.md),
+  [period 2 at the framework anchors](PERIOD_2_AT_FRAMEWORK_ANCHORS.md),
+  [the benzene Hückel framework lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md)
 - Framework anchors: [F86b DickeAnchor.cs](../../compute/RCPsiSquared.Core/Symmetry/DickeAnchor.cs)
   (produces 3/8 AND 5/8 simultaneously; the 5/8 face named here for the first time);
   [F98 KIntermediate bridge](../ANALYTICAL_FORMULAS.md#f98) (today morning's discovery);

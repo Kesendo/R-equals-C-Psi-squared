@@ -373,7 +373,7 @@ that is time reversal is the only half still working.
 
 **"The question is what happens when you leave zero" became the working frame of a
 theorem.** The F87 windowed converse
-([PROOF_F87_WINDOWED_MONOMIAL_CONVERSE](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md))
+([the F87 windowed monomial converse](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md))
 recentres the Liouvillian by exactly this document's shift, M = L + Σγ·I, and asks the
 March question operator-style: is spec(M) symmetric about zero? The odd power-sums
 p_m(γ) = Tr(M^m) measure precisely the failure to be the mirror this document named, and

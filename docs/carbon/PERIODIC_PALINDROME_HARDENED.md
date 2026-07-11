@@ -6,7 +6,7 @@
 periodic palindrome reported by
 [`simulations/periodic_palindrome.py`](../../simulations/periodic_palindrome.py). It
 qualifies that script's shuffle-null "p < 10⁻⁴" significance and complements
-[PERIODIC_PALINDROME_VS_V_EFFECT](PERIODIC_PALINDROME_VS_V_EFFECT.md).
+[The Periodic Palindrome and the V-Effect](PERIODIC_PALINDROME_VS_V_EFFECT.md).
 **Script:** [`simulations/periodic_palindrome_gate.py`](../../simulations/periodic_palindrome_gate.py)
 
 ---
@@ -89,9 +89,9 @@ it shows the periodic table cannot, at this resolution, do either.
 
 A real element-anchor for the framework needs a prediction a smooth ramp **cannot
 fake**: the particle-hole-*odd* parity of the survivor mode against measured spectra
-(see [SURVIVOR_FLIP_AND_REFLECTION_ODD](../../experiments/SURVIVOR_FLIP_AND_REFLECTION_ODD.md)),
+(see [The Survivor is Spin-Flip-Odd and Reflection-Odd](../../experiments/SURVIVOR_FLIP_AND_REFLECTION_ODD.md)),
 the Π-vs-fermionic-particle-hole operator identity (the open analytical seam in
-[MAJORANA_AXIS_MODES](../../experiments/MAJORANA_AXIS_MODES.md)), or the T2 anisotropy
+[the Majorana axis-modes lens](../../experiments/MAJORANA_AXIS_MODES.md)), or the T2 anisotropy
 of [`carbon_painter_t2_anisotropy.py`](../../simulations/carbon_painter_t2_anisotropy.py).
 Those are where F1 claims something non-trivial that the elements could genuinely
 confirm or deny.
@@ -100,7 +100,7 @@ confirm or deny.
 
 - Script: [`simulations/periodic_palindrome_gate.py`](../../simulations/periodic_palindrome_gate.py),
   built on [`simulations/periodic_palindrome.py`](../../simulations/periodic_palindrome.py).
-- Complements [PERIODIC_PALINDROME_VS_V_EFFECT](PERIODIC_PALINDROME_VS_V_EFFECT.md): that
+- Complements [The Periodic Palindrome and the V-Effect](PERIODIC_PALINDROME_VS_V_EFFECT.md): that
   doc showed the *deviations* are textbook anomalies (the mechanism does not transfer);
   this one adds that even the *presence* of the palindrome is mostly smoothness, and
   what survives the ramp is mixed.

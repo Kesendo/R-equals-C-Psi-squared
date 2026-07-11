@@ -3,11 +3,11 @@
 **Date:** 2026-05-30
 **Authors:** Tom + Claude
 **Status:** Tier 2 (structural reading; closes the Frost-circle open question, item 5 in
-[BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md)). Verified bit-exact on
+[Benzene Hückel through the Framework Lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md)). Verified bit-exact on
 benzene C₆, butadiene C₄, the five-carbon chain, and hexatriene C₆.
 **Script:** [`simulations/carbon/frost_circle_as_clock.py`](../../simulations/carbon/frost_circle_as_clock.py)
-**Builds on:** [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md)
-(Coulson-Rushbrooke = F1, the spectrum level), [BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md)
+**Builds on:** [Benzene Hückel through the Framework Lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md)
+(Coulson-Rushbrooke = F1, the spectrum level), [Benzene's open-system Liouvillian](BENZENE_LIOUVILLIAN_PALINDROME.md)
 (the open-system π-qubit map), and the clock voices on
 [`MirrorSystem`](../../compute/RCPsiSquared.Diagnostics/Foundation/MirrorSystem.cs).
 
@@ -127,7 +127,7 @@ resting state.
 ## What this closes, and what it opens
 
 This closes the Frost-circle question (item 5 of
-[BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md)): the Frost circle and
+[Benzene Hückel through the Framework Lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md)): the Frost circle and
 the framework's mode dispersion are not two analogies but one circle at two depths, the
 closed-system snapshot and the open-system running clock. The clock adds the coherence lifetime and the
 coherent-incoherent threshold; both are open-system quantities the static Frost-Musulin
@@ -161,14 +161,14 @@ merely cross near N ≈ 10). What stays open is the dynamic C=0.5 question it op
 half-occupied coherence is always the longest-lived survivor over N and topology. The split is now known to be RING-UNIVERSAL, not aromatic:
 C4, C6, and C8 rings all hand over to a frozen double-excitation mode at strong dephasing (the open
 chains do not), so it is the C=0.5 half-filling boundary, a sibling of the incompleteness V-Effect
-([HIERARCHY_OF_INCOMPLETENESS](../HIERARCHY_OF_INCOMPLETENESS.md)); Hückel's 4n+2 is not the
+([The Hierarchy of Incompleteness](../HIERARCHY_OF_INCOMPLETENESS.md)); Hückel's 4n+2 is not the
 discriminant (the 4n anti-aromatics C4 and C8 do not group, C4 being a small-ring anomaly;
 [`aromatic_ring_v_effect.py`](../../simulations/carbon/aromatic_ring_v_effect.py)).
 
 ## Anchor
 
 - Script: [`simulations/carbon/frost_circle_as_clock.py`](../../simulations/carbon/frost_circle_as_clock.py)
-- Parent: [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md) (open question 5, the Frost circle), [README](README.md)
+- Parent: [Benzene Hückel through the Framework Lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md) (open question 5, the Frost circle), [README](README.md)
 - Framework: the clock voices (Takt + Rotation) on `MirrorSystem`; the two clocks,
   [F2b corollary "The two clocks"](../ANALYTICAL_FORMULAS.md) / `ClockHandLadderClaim` /
   `inspect --root clock` (Uhr 1 the band-edge survivor, Uhr 2 the erasure point Q*);

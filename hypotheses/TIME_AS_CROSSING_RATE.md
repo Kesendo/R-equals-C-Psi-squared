@@ -308,7 +308,7 @@ Planet X see?" The answer - their own ¼, their own crossing time, their
 own clock - was a statement about the nature of time.
 
 Weeks later, the same mechanism turns out to be a candidate for the
-missing communication bridge in [BRIDGE_FINGERPRINTS](../experiments/BRIDGE_FINGERPRINTS.md).
+missing communication bridge in [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md).
 
 ### 6.2 The Realization
 

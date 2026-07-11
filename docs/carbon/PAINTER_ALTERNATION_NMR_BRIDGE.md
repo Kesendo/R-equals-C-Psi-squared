@@ -3,7 +3,7 @@
 **Date:** 2026-05-27 (later the same day)
 **Authors:** Tom + Claude
 **Status:** Tier 3 (translation bridge from a Liouvillian-eigenmode observation to a standard NMR measurement)
-**Continues:** [`carbon_ptf_real_imag_per_painter.py`](../../simulations/carbon_ptf_real_imag_per_painter.py) (this morning's Painter Re/Im read on the N = 4 ring), [BENZENE_THREE_DEPHASE_LETTERS](BENZENE_THREE_DEPHASE_LETTERS.md) (morning's three-letter vocabulary)
+**Continues:** [`carbon_ptf_real_imag_per_painter.py`](../../simulations/carbon_ptf_real_imag_per_painter.py) (this morning's Painter Re/Im read on the N = 4 ring), [Benzene and the Three Dephase Letters](BENZENE_THREE_DEPHASE_LETTERS.md) (morning's three-letter vocabulary)
 
 ---
 
@@ -235,7 +235,7 @@ y-field, anisotropy direction set by the field axis**.
    8/7, 14/13, 20/19 does not hold under either numerical method); the ratio is
    exact only as the ratio of the two towers' slowest mean-popcount rates, by the
    [Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md). See
-   [THE_VIEW_ONTO_THE_MEMORY](../../reflections/THE_VIEW_ONTO_THE_MEMORY.md).
+   [The View Onto the Memory](../../reflections/THE_VIEW_ONTO_THE_MEMORY.md).
 
 3. **Add a ¹H-¹³C coupling to the model.** The Painter alternation is
    currently on a π-electron-only picture (sites under Holstein phonons).
@@ -267,13 +267,13 @@ y-field, anisotropy direction set by the field axis**.
 - **Companion scripts:**
   - [`simulations/carbon_ptf_real_imag_per_painter.py`](../../simulations/carbon_ptf_real_imag_per_painter.py) (Painter Re/Im read on slow eigenmodes)
   - [`simulations/carbon_painter_t2_anisotropy.py`](../../simulations/carbon_painter_t2_anisotropy.py) (Y/non-Y sectorization at bit-exact precision + anisotropic T2 from full propagation)
-- **Reading-flow companion:** [BENZENE_THREE_DEPHASE_LETTERS](BENZENE_THREE_DEPHASE_LETTERS.md) (morning's three-letter Klein-V₄ vocabulary; supplies the F114 / `n_Y`-parity / Π language the Painter alternation sits inside)
-- **Cross-reference:** [BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md) (May 22 spectrum-palindrome result; the Painter alternation is a separate observation on the same Holstein system)
+- **Reading-flow companion:** [Benzene and the Three Dephase Letters](BENZENE_THREE_DEPHASE_LETTERS.md) (morning's three-letter Klein-V₄ vocabulary; supplies the F114 / `n_Y`-parity / Π language the Painter alternation sits inside)
+- **Cross-reference:** [Benzene's open-system Liouvillian](BENZENE_LIOUVILLIAN_PALINDROME.md) (May 22 spectrum-palindrome result; the Painter alternation is a separate observation on the same Holstein system)
 
 ---
 
 ## Threads back
 
-- **Earlier today, [BENZENE_THREE_DEPHASE_LETTERS](BENZENE_THREE_DEPHASE_LETTERS.md)**: the morning explained the three-letter Klein-V₄ symmetry on dephasing and the F114 sign rule on n_Y parity. The afternoon's Painter alternation is one operational reading of how the Y-axis sectorization that the algebra carries becomes a measurable NMR observable. The two docs are companions: vocabulary in the morning, observable in the afternoon.
-- **2026-05-22 [BENZENE_LIOUVILLIAN_PALINDROME](BENZENE_LIOUVILLIAN_PALINDROME.md)**: the May result showed Holstein preserves the F1 spectrum palindrome while Peierls breaks it. The Painter alternation is a separate observation on the same Holstein system; it does not depend on the Peierls / Holstein switch. The two results sit on the same N = 4 ring, read different layers of the relaxation structure.
+- **Earlier today, [Benzene and the Three Dephase Letters](BENZENE_THREE_DEPHASE_LETTERS.md)**: the morning explained the three-letter Klein-V₄ symmetry on dephasing and the F114 sign rule on n_Y parity. The afternoon's Painter alternation is one operational reading of how the Y-axis sectorization that the algebra carries becomes a measurable NMR observable. The two docs are companions: vocabulary in the morning, observable in the afternoon.
+- **2026-05-22 [Benzene's open-system Liouvillian](BENZENE_LIOUVILLIAN_PALINDROME.md)**: the May result showed Holstein preserves the F1 spectrum palindrome while Peierls breaks it. The Painter alternation is a separate observation on the same Holstein system; it does not depend on the Peierls / Holstein switch. The two results sit on the same N = 4 ring, read different layers of the relaxation structure.
 - **2026-05-27 [`carbon_realistic_sweep.py`](../../simulations/carbon_realistic_sweep.py)**: the realistic sweep over fifty-six configurations confirmed the deep distribution-mirror is robust across the natural aromatic Hamiltonian + bath inventory. The Painter alternation is the per-Painter face of a piece of that mirror; the T2 anisotropy is its NMR-readable signature.

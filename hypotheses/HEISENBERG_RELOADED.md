@@ -3,8 +3,8 @@
 **Status:** Sketch / synthesis (Tier 4-5). Draft assembled 2026-04-25 from the combined picture of PRIMORDIAL_QUBIT + ZERO_IS_THE_MIRROR + HIERARCHY_OF_INCOMPLETENESS + V-Effect + WE_ARE_THE_FRAGMENT. Not yet expanded to full-document length.
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Depends on:** [PRIMORDIAL_QUBIT](PRIMORDIAL_QUBIT.md), [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md), [HIERARCHY_OF_INCOMPLETENESS](../docs/HIERARCHY_OF_INCOMPLETENESS.md), [WE_ARE_THE_FRAGMENT](WE_ARE_THE_FRAGMENT.md), [QUBIT_NECESSITY](../docs/QUBIT_NECESSITY.md), [PROOF_BIT_B_PARITY_SYMMETRY](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md), [ZERO_IS_THE_MIRROR](ZERO_IS_THE_MIRROR.md)
-**See also:** [PROOF_K_PARTNERSHIP](../docs/proofs/PROOF_K_PARTNERSHIP.md), [Z_N_PARTNERSHIP](../experiments/Z_N_PARTNERSHIP.md)
+**Depends on:** [Primordial Qubit](PRIMORDIAL_QUBIT.md), [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md), [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md), [We Are the Fragment](WE_ARE_THE_FRAGMENT.md), [Qubit Necessity](../docs/QUBIT_NECESSITY.md), [the bit-b parity symmetry proof](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md), [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md)
+**See also:** [the K-partnership proof](../docs/proofs/PROOF_K_PARTNERSHIP.md), [Z⊗N Partnership](../experiments/Z_N_PARTNERSHIP.md)
 **Cockpit operationalization (2026-04-28+):** the bit_a/bit_b parity structure invoked here is now testable end-to-end in `simulations/framework/` (lean refactor 2026-04-28). The "both-parity-even Intersection {II, XX, YY, ZZ}" is the algebraic identity of the V-Effect "truly-unbroken" sector (3 of 36 Hamiltonians), accessible via `fw.classify_pauli_pair(chain, [(a,b),(c,d)])`. Π², Z⊗N, Y-parity are all available as diagnostics (`chain.zn_mirror_diagnostic`, `chain.cockpit_panel`, see five-symmetries overview). The hypothesis sketch and the operational layer are complementary, not hierarchical.
 
 ---
@@ -44,7 +44,7 @@ The textbook narrative starts at Level 1 (two electrons on atoms) and derives He
 
 The R = CΨ² framework places it ONE level lower:
 
-- **Level 0** (qubit): d² − 2d = 0 forces d = 2 ([QUBIT_NECESSITY](../docs/QUBIT_NECESSITY.md)). The Pauli algebra of d = 2 has a C²⊗C² tensor product structure (PRIMORDIAL_QUBIT) with two independent Z₂ parities.
+- **Level 0** (qubit): d² − 2d = 0 forces d = 2 ([Qubit Necessity](../docs/QUBIT_NECESSITY.md)). The Pauli algebra of d = 2 has a C²⊗C² tensor product structure (PRIMORDIAL_QUBIT) with two independent Z₂ parities.
 - **Level 1** (atom): inherits the Level-0 algebra through the V-Effect transition. The atomic exchange interaction recovers the form J σ_1 · σ_2 because the underlying algebra was already there.
 
 The physical exchange-derivation is correct, but it is downstream of the math, not upstream. Atoms are not where Heisenberg begins; they are where Level 0 first reappears in macroscopic matter.
@@ -95,13 +95,13 @@ What is *forbidden* by the same selection:
 
 Any of these added to H produces [L, Π²] ≠ 0 or [L, n_XY-parity] ≠ 0, breaking the C²⊗C² doubling. The Heisenberg/XXZ family is exactly the set of Hamiltonians that preserves the doubling.
 
-[PROOF_BIT_B_PARITY_SYMMETRY](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md) makes the analytic statement: [L, Π²] = 0 for any N, any J, any subset of sites carrying γ. The proof is six lines. The Heisenberg form is what makes the proof work.
+[the bit-b parity symmetry proof](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md) makes the analytic statement: [L, Π²] = 0 for any N, any J, any subset of sites carrying γ. The proof is six lines. The Heisenberg form is what makes the proof work.
 
 ## §4. The V-Effect bridge between levels
 
 The Heisenberg form is fixed at Level 0. But the *coupling strength* J at Level 1 is not. Where does J come from? From the **V-Effect transition** between levels.
 
-The V-Effect ([V_EFFECT_PALINDROME](../experiments/V_EFFECT_PALINDROME.md)):
+The V-Effect ([V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md)):
 
 - Take two pairs of qubits, each pair palindromic.
 - Connect through a shared element.
@@ -140,7 +140,7 @@ The math is our witness that the inheritance works. Direct observation of the br
 
 ## §5. Why everything works: C = 0.5 as universal pass-through
 
-The hierarchy ([HIERARCHY_OF_INCOMPLETENESS](../docs/HIERARCHY_OF_INCOMPLETENESS.md)) describes a pattern: each level builds from the incompleteness of the level below. The completeness fraction C = 0.5 (half-full) is the universal building-block ratio.
+The hierarchy ([Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md)) describes a pattern: each level builds from the incompleteness of the level below. The completeness fraction C = 0.5 (half-full) is the universal building-block ratio.
 
 | Level | C = 1 (closed, dead end) | C = 0.5 (half, open) |
 |-------|--------------------------|---------------------|
@@ -164,12 +164,12 @@ Specific data points:
 
 | Run | What was measured | What it shows about Level 0 |
 |-----|-------------------|------------------------------|
-| Kingston Heron r2 (2026-04-24, [IBM_RECEIVER_ENGINEERING_SKETCH](../experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md)) | bonding:2 / alt-z-bits = 2.80× | Receiver-engineering F65-F76 reads bonding-mode amplitudes directly |
-| Marrakesh Heron r2 (2026-04-25, [IBM_K_PARTNERSHIP_SKETCH](../experiments/IBM_K_PARTNERSHIP_SKETCH.md)) | K-partnership Δ/mean 15-46% on hardware vs 0.02-0.25% on Aer | Bipartite K-symmetry preserved on noisy hardware; gap = γ-profile asymmetry |
+| Kingston Heron r2 (2026-04-24, [IBM Receiver Engineering Sketch](../experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md)) | bonding:2 / alt-z-bits = 2.80× | Receiver-engineering F65-F76 reads bonding-mode amplitudes directly |
+| Marrakesh Heron r2 (2026-04-25, [IBM K-Partnership Sketch](../experiments/IBM_K_PARTNERSHIP_SKETCH.md)) | K-partnership Δ/mean 15-46% on hardware vs 0.02-0.25% on Aer | Bipartite K-symmetry preserved on noisy hardware; gap = γ-profile asymmetry |
 | Bell+ tomography (multi-run, F57 anchor) | K_dwell = 1.0801 universal | Direct Level-0 invariant on 2-qubit pure state |
-| IBM Run 3 ([IBM_RUN3_PALINDROME](../experiments/IBM_RUN3_PALINDROME.md)) | CΨ crosses 1/4 at 1.9% error | The 1/4 fold (UNIQUENESS_PROOF, Level 0) directly visible on hardware |
-| 24,073 calibration records ([IBM_HARDWARE_SYNTHESIS](../experiments/IBM_HARDWARE_SYNTHESIS.md)) | r* threshold at 0.000014 precision | Statistical signature of palindromic structure across calibration history |
-| Inside-Outside ([PRIMORDIAL_QUBIT](PRIMORDIAL_QUBIT.md) Sec 9) | Only Q = J/γ measurable, not J or γ alone | Inside observer cannot separate the two readings of the doubling |
+| IBM Run 3 ([IBM Run 3 Palindrome](../experiments/IBM_RUN3_PALINDROME.md)) | CΨ crosses 1/4 at 1.9% error | The 1/4 fold (UNIQUENESS_PROOF, Level 0) directly visible on hardware |
+| 24,073 calibration records ([IBM Hardware Synthesis](../experiments/IBM_HARDWARE_SYNTHESIS.md)) | r* threshold at 0.000014 precision | Statistical signature of palindromic structure across calibration history |
+| Inside-Outside ([Primordial Qubit](PRIMORDIAL_QUBIT.md) Sec 9) | Only Q = J/γ measurable, not J or γ alone | Inside observer cannot separate the two readings of the doubling |
 
 **Reading:** the agreement between Aer (pure algebra) and hardware (algebra + γ-profile noise) at the Level-0 invariants tells us that the algebra propagates through Level 1+ without distortion. Discrepancies show up exactly where they should: in the magnitude of γ-profile asymmetry (which is Level 1 specific), not in the form of the palindrome (which is Level 0 universal).
 
@@ -179,7 +179,7 @@ This section requires a deeper review of the existing IBM data with the Level-0-
 
 **For interpretation of magnetism:**
 
-The "+−" alternation of antiferromagnetism is not an emergent property of many electrons. It is the spatial realization of the bipartite Z₂-grading at Level 0, made macroscopic through inheritance. Néel order is the Level-4 echo of the K-symmetry at Level 0 ([PROOF_K_PARTNERSHIP](../docs/proofs/PROOF_K_PARTNERSHIP.md)).
+The "+−" alternation of antiferromagnetism is not an emergent property of many electrons. It is the spatial realization of the bipartite Z₂-grading at Level 0, made macroscopic through inheritance. Néel order is the Level-4 echo of the K-symmetry at Level 0 ([the K-partnership proof](../docs/proofs/PROOF_K_PARTNERSHIP.md)).
 
 **For interpretation of chemistry:**
 
@@ -191,7 +191,7 @@ When we run tomography on IBM transmons, we are not "simulating quantum mechanic
 
 **For the inverse direction:**
 
-Anything that breaks the C²⊗C² doubling on Level 0 (single transverse field, single Z-detuning, etc.) breaks Level 1+ at corresponding points. The Z⊗N-Partnership ([Z_N_PARTNERSHIP](../experiments/Z_N_PARTNERSHIP.md)) shows this directly: a single X-field at Level 0 imprints on the multi-qubit Néel-mirror at Level 1 (multi-excitation sector). Hardware-level calibration drifts that produce single-X errors should leave a Z⊗N-break signature, the Level-1 echo of a Level-0 violation.
+Anything that breaks the C²⊗C² doubling on Level 0 (single transverse field, single Z-detuning, etc.) breaks Level 1+ at corresponding points. The Z⊗N-Partnership ([Z⊗N Partnership](../experiments/Z_N_PARTNERSHIP.md)) shows this directly: a single X-field at Level 0 imprints on the multi-qubit Néel-mirror at Level 1 (multi-excitation sector). Hardware-level calibration drifts that produce single-X errors should leave a Z⊗N-break signature, the Level-1 echo of a Level-0 violation.
 
 ## §8. What is open
 
@@ -201,7 +201,7 @@ Anything that breaks the C²⊗C² doubling on Level 0 (single transverse field,
 
 - **Inside-Outside operational consequences.** From inside Level 0 we measure only Q = J/γ. Whether this is *purely* a Level 0 fact or also a constraint on Level 1+ derivations is open.
 
-- **Other half-occupied building blocks.** Carbon at Level 1 (4/8). Hydrogen-bond proton (qubit at Level 1, see [HYDROGEN_BOND_QUBIT](../docs/water/HYDROGEN_BOND_QUBIT.md)). Manganese, iron group, others at intermediate levels. The C = 0.5 universal: tested at Levels 0 and 1, asserted at Levels 2-4, not yet computed.
+- **Other half-occupied building blocks.** Carbon at Level 1 (4/8). Hydrogen-bond proton (qubit at Level 1, see [Hydrogen Bond Qubit](../docs/water/HYDROGEN_BOND_QUBIT.md)). Manganese, iron group, others at intermediate levels. The C = 0.5 universal: tested at Levels 0 and 1, asserted at Levels 2-4, not yet computed.
 
 - **Symmetry between Level 0 → 1 and Level n → n+1.** Is V-Effect the same mechanism at every level transition, or does it specialize? Open.
 
@@ -223,7 +223,7 @@ and an angular frequency hand), two of this sketch's open threads moved.
 **We walked the both-parity-even axis (§3).** The {II, XX, YY, ZZ} family, with its
 SU(2)→Heisenberg / bipartite-axis→XXZ internal axis, is now something the clock can
 traverse. Dialing H = J(XX+YY) + Δ·ZZ under Z-dephasing
-([XXZ_AXIS_BANDEDGE_TO_LEBENSADER](../experiments/XXZ_AXIS_BANDEDGE_TO_LEBENSADER.md)), the
+([XXZ Axis Bandedge to Lebensader](../experiments/XXZ_AXIS_BANDEDGE_TO_LEBENSADER.md)), the
 slowest surviving mode hands the baton at a handover Δ*: below it the bright band-edge
 coherence (the charge / XY end, fast-beating, decay 2γ); above it the **Lebensader** (the
 spin / Ising end, I/Z-dominated with a small magnon admixture, non-rotating, sub-2γ). The
@@ -234,7 +234,7 @@ spin, with the Heisenberg / SU(2) point sitting between them on the band-edge si
 levels had never been looked at, only witnessed by the algebra. The carbon detour of the
 same day held its child, EXCHANGE_FROM_V_EFFECT's J_eff = (3/8)·α²/J, against real carotenoid
 singlet-fission data
-([SINGLET_FISSION_AND_THE_TWO_CLOCKS](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md)):
+([Singlet Fission and the Two Clocks](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md)):
 the established superexchange-via-charge-transfer singlet-fission coupling has exactly that
 Anderson bridge²/gap form, the dark 2Ag state is the V-Effect "both-pairs-triplet", and the
 order of magnitude (~10 meV) lands. Indirect, with the carbon embedding still Tier 4, but it

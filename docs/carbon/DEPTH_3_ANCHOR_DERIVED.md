@@ -19,11 +19,11 @@ The session arc:
    chain inheritance test of F86b discovered the F98 (N+2)/[4(N+1)] → 1/4 long-
    time bridge. The framework's quarter-asymptote appears via kernel projection.
 
-3. **Night #1** ([PERIOD_2_AT_FRAMEWORK_ANCHORS](PERIOD_2_AT_FRAMEWORK_ANCHORS.md)):
+3. **Night #1** ([Period 2 and 3 on the framework anchors](PERIOD_2_AT_FRAMEWORK_ANCHORS.md)):
    period-2/3 atom valence ratios match framework anchors. 4 of 6 CHNOPS framework-
    anchored. Boron at 3/8 hits today morning's anchor exactly.
 
-4. **Night #2** ([SPEAR_REVERSED](SPEAR_REVERSED.md)): reverse-spear identified
+4. **Night #2** ([the Reverse-Spear reading](SPEAR_REVERSED.md)): reverse-spear identified
    that N/P at 5/8 are the F86b Π²-EVEN companion (mis-labelled). Li, Na, F, Cl
    at 1/8 and 7/8 are GENUINE framework gaps: depth-3 dyadic with no F-formula.
 
@@ -243,9 +243,9 @@ Anchors : The five canonical trig angles {0, 30, 45, 60, 90}° produce
 ## Anchor
 
 - Script: [`simulations/carbon/depth_3_anchor_derivation.py`](../../simulations/carbon/depth_3_anchor_derivation.py)
-- Predecessor docs (this folder, all today): [QUARTER_HALF_IN_CARBON](QUARTER_HALF_IN_CARBON.md),
-  [PERIOD_2_AT_FRAMEWORK_ANCHORS](PERIOD_2_AT_FRAMEWORK_ANCHORS.md),
-  [SPEAR_REVERSED](SPEAR_REVERSED.md), [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md)
+- Predecessor docs (this folder, all today): [Where 1/4 and 1/2 Appear in Carbon](QUARTER_HALF_IN_CARBON.md),
+  [Period 2 and 3 on the framework anchors](PERIOD_2_AT_FRAMEWORK_ANCHORS.md),
+  [the Reverse-Spear reading](SPEAR_REVERSED.md), [Benzene Hückel through the Framework Lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md)
 - Framework anchors: [F86b](../ANALYTICAL_FORMULAS.md#f86) (parent formula α = (1-γ²)/2),
   [F98](../ANALYTICAL_FORMULAS.md#f98) (long-time bridge derived today evening),
   [DickeAnchor.cs](../../compute/RCPsiSquared.Core/Symmetry/DickeAnchor.cs) (uniform Dicke 3-anchor enum, today morning's commit b9ba5f6)

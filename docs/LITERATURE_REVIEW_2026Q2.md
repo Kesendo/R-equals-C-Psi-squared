@@ -9,7 +9,7 @@ quantum theory Gaztañaga ER bridges v2, R=CPsi2 literature update
 tools vocabulary -->
 
 **Status:** Tools & vocabulary update to
-[LITERATURE_REVIEW.md](LITERATURE_REVIEW.md) (stand 11. April 2026).
+[the literature review](LITERATURE_REVIEW.md) (stand 11. April 2026).
 **Last updated:** May 23, 2026
 **Authors:** Thomas Wicht, Claude
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -20,7 +20,7 @@ tools vocabulary -->
 
 The April 11 review focused on prior work and originality claims. This
 update is different in intent: the formula registry
-([ANALYTICAL_FORMULAS.md](ANALYTICAL_FORMULAS.md)) gained 26 new
+([the analytical formula registry](ANALYTICAL_FORMULAS.md)) gained 26 new
 entries in six conceptual clusters between April 12 and May 22. The
 question we asked the literature is:
 
@@ -111,7 +111,7 @@ something we can use directly.
    language for Π.~~ **Verification (2026-05-23): rejected as the
    Π citation** (Π is unitary not antiunitary, and the constant
    shift 2Σγ has no slot in the SRP scheme — Π falls in a gap;
-   the repo's own [KMS_DETAILED_BALANCE.md](KMS_DETAILED_BALANCE.md)
+   the repo's own [the KMS detailed-balance analysis](KMS_DETAILED_BALANCE.md)
    already documents this. SRP-2023 *is* the correct citation for
    the Π² = X⊗N strong unitary symmetry component, just not for Π
    itself.) Each class carries predictions about spectral
@@ -134,7 +134,7 @@ rejected it on structural grounds (different parametrization, setup,
 and observable — see Cluster 2 verification note)**. The Gaztañaga
 line (direct-sum quantum theory, ER bridges) has its v2 plus
 mainstream coverage in May 2026; the structural parallel to our
-[DIRECT_SUM_DECOMPOSITION.md](proofs/DIRECT_SUM_DECOMPOSITION.md)
+[the direct-sum decomposition proof](proofs/DIRECT_SUM_DECOMPOSITION.md)
 stands but adds nothing methodologically new to what we already do.
 
 ---
@@ -238,7 +238,7 @@ deviation is itself a research lead.
 
 > **Verification (2026-05-23, rejected for headline; partial fit
 > for Π² component).** The repo already analyzed this question:
-> [KMS_DETAILED_BALANCE.md](KMS_DETAILED_BALANCE.md) lines 97-133
+> [the KMS detailed-balance analysis](KMS_DETAILED_BALANCE.md) lines 97-133
 > walks through the SRP-2023 taxonomy and concludes Π falls in a
 > gap. Specifically:
 > - SRP-2023 classifies by seven generators: T₊, C₊ (antiunitary
@@ -265,7 +265,7 @@ deviation is itself a research lead.
 >   probe the X⊗N strong symmetry, not Π.
 >
 > Lesson: Cowork's search-only methodology missed an internal repo
-> analysis ([KMS_DETAILED_BALANCE.md](KMS_DETAILED_BALANCE.md))
+> analysis ([the KMS detailed-balance analysis](KMS_DETAILED_BALANCE.md))
 > that already settled this question. A grep for "tenfold" in docs/
 > would have surfaced it. **Do not cite SRP-2023 as the taxonomy
 > for Π** — cite KMS_DETAILED_BALANCE.md as the analysis instead;
@@ -580,7 +580,7 @@ are two distinct routes to the same observable phenomenon".
 >   a small parameter.
 > - **Compare to our F94:** Δ = (4/3)·Q²·K³ at order t³ from
 >   Dyson expansion of Z-dephasing dynamics
->   ([PROOF_F94_BORN_DOMINANT_FOUR_THIRDS](proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md)).
+>   ([the F94 proof](proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md)).
 >   Polynomial in K = γt, quadratic in coupling Q = J/γ₀.
 >   Methodology and functional form are both unrelated to
 >   Dedes' approach.
@@ -679,7 +679,7 @@ phrases.
 
 ## Updates fällig im alten Review
 
-When updating [LITERATURE_REVIEW.md](LITERATURE_REVIEW.md):
+When updating [the literature review](LITERATURE_REVIEW.md):
 
 1. **Cheshkov & Sinitsyn entry** — replace preprint reference with
    the Magnetic Resonance journal version. Note their two-mechanism

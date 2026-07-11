@@ -49,8 +49,8 @@ Three readings the compactness data is consistent with:
 
 - Anchor data: `simulations/results/f1_n8_n9_metrics/star_N{3..6}_python.json` + `star_N8.json` (`MaxImag`, `DistinctBinnedEigenvalueCount`); same fields in the chain/ring/K_4+disjoint sister files for contrast.
 - **Sharpening of Reading 1 (the MaxImag = σ saturation):** [`STAR_CONFOCAL_LIMIT.md`](../experiments/STAR_CONFOCAL_LIMIT.md) (Tier 1 candidate, 2026-05-19): full cross-N table + SU(2)/Schur-Weyl derivation + connection to OPTICAL_CAVITY_ANALYSIS point-focus limit.
-- Sister Tier 3 reading from the same sweep: [F1_DISSIPATION_GAP_PATTERN](F1_DISSIPATION_GAP_PATTERN.md) (extended 2026-05-19 with cross-topology cross-N gap × N² ≈ 2.20 finding for chain).
+- Sister Tier 3 reading from the same sweep: [F1 Dissipation Gap Pattern](F1_DISSIPATION_GAP_PATTERN.md) (extended 2026-05-19 with cross-topology cross-N gap × N² ≈ 2.20 finding for chain).
 - Companion typed claim from the same sweep (closed form that promoted to Tier 1 derived): [F4KernelDimensionByComponentsClaim](../compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs).
-- Parent framework that today's findings sharpen: [OPTICAL_CAVITY_ANALYSIS](../experiments/OPTICAL_CAVITY_ANALYSIS.md) (April 2026, the Fabry-Perot resonator structure of qubit chain + Z-deph).
+- Parent framework that today's findings sharpen: [Optical Cavity Analysis](../experiments/OPTICAL_CAVITY_ANALYSIS.md) (April 2026, the Fabry-Perot resonator structure of qubit chain + Z-deph).
 - F1 verification record that produced the data: [F1GeneralTopologyVerifiedClaim](../compute/RCPsiSquared.Core/F1/F1GeneralTopologyVerifiedClaim.cs).
 - Related: F1 palindrome identity [F1PalindromeIdentity](../compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs) (the spectrum is palindromic around Re = −σ; the ±N/2 imaginary cap is orthogonal to the F1 identity's reflection axis, so the two readings live in different parts of the spectrum and could be checked independently).

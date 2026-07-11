@@ -392,7 +392,7 @@ quadratic 1/4 (fold, ceiling) stays 1/4 at any dimension because it is about the
 dimension; the polarity 1/d² is the face that changes, but it diverges from the framework's 1/4 at
 d ≠ 2, and the qubit necessity (d² − 2d = 0) keeps the framework itself at d=2. The currency is the
 quadratic 1/4; the 1/d² is the polarity coincidence. See
-[QUARTER_HALF_IN_CARBON](../docs/carbon/QUARTER_HALF_IN_CARBON.md) for the currency anchors.
+[Quarter and Half in Carbon](../docs/carbon/QUARTER_HALF_IN_CARBON.md) for the currency anchors.
 
 ---
 

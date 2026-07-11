@@ -173,8 +173,8 @@ groups**: H/C/O/S as the functional reactive centres.
 ## Anchor
 
 - Script: [`simulations/carbon/period_2_at_framework_anchors.py`](../../simulations/carbon/period_2_at_framework_anchors.py)
-- Sibling docs: [QUARTER_HALF_IN_CARBON](QUARTER_HALF_IN_CARBON.md) (carbon-specific 1/2 + 1/4 layers),
-  [BENZENE_HUCKEL_FRAMEWORK_LENS](BENZENE_HUCKEL_FRAMEWORK_LENS.md) (Coulson-Rushbrooke ≡ F1)
+- Sibling docs: [1/4 and 1/2 in carbon](QUARTER_HALF_IN_CARBON.md) (carbon-specific 1/2 + 1/4 layers),
+  [the benzene Hückel framework lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md) (Coulson-Rushbrooke ≡ F1)
 - Framework anchors: [F98](../ANALYTICAL_FORMULAS.md#f98) (today's KIntermediate bridge),
   [DickeAnchor.cs](../../compute/RCPsiSquared.Core/Symmetry/DickeAnchor.cs) (today's 3/8 derivation),
   [Pi2KnowledgeBaseClaims.cs](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs)
