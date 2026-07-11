@@ -420,7 +420,11 @@ approximation is the closest available implementation.
    ratios read higher, not lower.
 2. **A vs B test (April 9):** Selective DD on a UNIFORM-T2 chain. If it still
    wins, it's the contrast (concentrator). If not, it's gate-error avoidance.
-   **RUN 2026-07-05, still open** (three pre-registered runs, engineered sink;
+   **The engineered-sink successor flew 2026-07-11:** [the concentrator
+   reload](IBM_CONCENTRATOR_RELOADED.md) measured the site-resolved
+   Absorption pricing as a lifetime contrast (A-sign confirmed ≈ 5.8σ,
+   magnitude marginally off-prediction, leakage null-consistent; its RECORD
+   carries the honest full story). **RUN 2026-07-05, still open** (three pre-registered runs, engineered sink;
    the post-flight audit found the created-MI observable 56-96% construction
    artifact at the two partial doses (channel-dominated at the ceiling) and
    a transport quantity rather than a protection metric, so A vs B is not
