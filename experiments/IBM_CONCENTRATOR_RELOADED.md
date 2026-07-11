@@ -86,7 +86,7 @@ step plus a transport-dressing excess (+47% at these settings; scouting
 −0.0735/step total, superseded by 7a; the excess makes the effective rate
 FASTER, and it leans on the two deepest grid points: without depths 6 and 8
 the contrast is −0.054 and the excess only +8%, so 7a must confirm the deep
-points survive the device background — A-sign is robust to their loss, the
+points survive the device background; A-sign is robust to their loss, the
 power and the +47% are not). The theorem content this run tests
 is the site-resolved CONTRAST (the on-payload dose prices the coherence,
 the far dose prices ≈ 0); the magnitude is recorded as the effective rate
@@ -296,7 +296,7 @@ gate outputs `concentrator_reloaded_gate_{simulate,null,aer,certify}.txt`
 beside it):** the two pre-commit reviews (runner code; records audit)
 found and fixed: the hardware path originally persisted NO counts and had
 no counts→verdict reduction (a paid flight would have been un-analyzable
-locally — built now: raw counts per (arm, depth, basis, binding) + CAL +
+locally; built now: raw counts per (arm, depth, basis, binding) + CAL +
 T1/T2* written into the hardware JSON with fault-tolerant partials, and
 `--analyze` runs the full pinned reduction, CAL inversion on pooled counts
 → pooled coherence → paired ratio → hierarchical bootstrap with the Arm-0
@@ -322,7 +322,7 @@ artifact on the payload observable: STRUCTURAL (M → ∞) component exactly
 0.000%, systematic Rician 0.58% < 10%; the certificate now PRINTS the full
 decomposition itself: single-realization slope gap 0.0208 (28.3% of the
 channel slope), seed scatter 12.6%, SE 15.1%, combined
-√(scatter² + SE²) = 19.7% — the "double-counting" figure, artifact-backed,
+√(scatter² + SE²) = 19.7%, the "double-counting" figure, artifact-backed,
 recorded as an interpretive decomposition, not a gate number; the
 single-realization gap shrinks with M (0.0208 → 0.0032 → 0.0010 at
 M = 256/1024/4096). Runner invariants asserted in code: exactly one sink
@@ -338,11 +338,11 @@ pre-registration):** the repo's own continuous-Lindblad engine
 independently gives slope(MP) − slope(E) = **−0.073618/step** at N = 5
 (pinned by `ConcentratorTests`, the live witness); the gap to the flown
 Trotter value (−0.073249) is −0.000369 = 0.5%, inside the O((J·dt)²)
-bound — the discretization error between the flown circuit and its
+bound: the discretization error between the flown circuit and its
 continuous Lindblad limit, quantified. ZZ moves the
 contrast by only 0.15% (the common-mode cancellation, measured). Past the
 N = 8 wall: at N = 9 the contrast persists at −0.073941/step and the
-far-sink leakage vanishes (distance 4) — the site contrast is N-robust
+far-sink leakage vanishes (distance 4): the site contrast is N-robust
 and the far arm's null-consistency reading strengthens with N, as the
 Absorption Theorem predicts. The J-convention trap (C# hopping = 2× the
 unit-Pauli XY coefficient) was established from the code and pinned by
